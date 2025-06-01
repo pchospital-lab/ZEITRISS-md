@@ -1,4 +1,17 @@
+---
+title: Toolkit: KI-Spielleitung in **ZEITRISS 4.0**
+version: 4.0
+tags: [systems]
+---
 # Toolkit: KI-Spielleitung in **ZEITRISS 4.0**
+## Inhalt
+- Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
+- Typische Sprachmuster und Satzvorlagen für Spielsituationen
+- Tipps zur Dramaturgie (Spannung, Cliffhanger, Pausen, Pacing)
+- Umgang mit freien Spieleraktionen und -entscheidungen
+- HUD-Overlay und Codex-Ausgaben aus Sicht der KI nutzen
+- Einbindung des Regelwerks in den Spielfluss
+
 
 *Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle einer
 ***Simulationskontrollinstanz*** der ***ITI*** im ZEITRISS-Universum. Es liefert

@@ -1,4 +1,17 @@
+---
+title: Psi-Fähigkeiten im ZEITRISS 4.0 – Regel- und Atmosphärenmodul
+version: 4.0
+tags: [systems]
+---
 # Psi-Fähigkeiten im ZEITRISS 4.0 – Regel- und Atmosphärenmodul
+## Inhalt
+- Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
+- Überblick: Realistische Psi-Fähigkeiten
+- Integration in die Spielwelt: historische Wurzeln & Kontroversen
+- Spielmechaniken: Anwendung und Begrenzung von Psi-Kräften
+- Entwicklung von Psi im Levelsystem
+- Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
+
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 

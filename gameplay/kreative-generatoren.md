@@ -1,4 +1,18 @@
+---
+title: ZEITRISS 4.0 – Modul 6 (Teil 2): **Kreative Generatoren**
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS 4.0 – Modul 6 (Teil 2): **Kreative Generatoren**
+## Inhalt
+- Random-Epochen-Generator: Wann und wo?
+- NSC-Generator: Begegnungen im Zeitstrom
+- Missions-Generator: Kleine Aufträge und Dilemmata
+- Temporale Anomalien-Generator: Kuriositäten der Zeit
+- Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
+- Artefakt-Generator: Objekte mit Geschichte
+- Kulturfragmente-Generator: Farbe für die Epochen
+
 
 Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen – vor allem nicht
 im offenen Sandkasten-Spiel. Hier kommen **kreative Generatoren** ins Spiel: strukturierte

@@ -1,4 +1,16 @@
+---
+title: ZEITRISS 4.0 – Explodierende Würfel, HUD-Alerts & cineastische Schlachten
+version: 4.0
+tags: [core]
+---
 # ZEITRISS 4.0 – Explodierende Würfel, HUD-Alerts & cineastische Schlachten
+## Inhalt
+- Würfelmechanik: Explodierende 6 & W10-Variante
+- HUD-Management: Ereignis-Alerts & Info-Triage
+- Attributs-Skalierung: Heldenwürfel & Endgame-Balance
+- Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
+- Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
+
 
 *Mit letzter Kraft erhebt sich Chrononaut Leon aus dem Trümmerfeld, während um ihn eine epische
 Schlacht tobt. Sein HUD überschlägt sich mit Warnmeldungen – ***Vitalstatus kritisch: 10%***,
