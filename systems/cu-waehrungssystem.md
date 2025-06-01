@@ -1,4 +1,19 @@
+---
+title: ZEITRISS 4.0 – Modul 5: Chrono Units – Das zeitübergreifende Währungssystem
+version: 4.0
+tags: [systems]
+---
 # ZEITRISS 4.0 – Modul 5: Chrono Units – Das zeitübergreifende Währungssystem
+## Inhalt
+- Chrono Units verdienen: Missionen und Funde
+- Einkaufsmöglichkeiten: Was kann man für CUs erwerben?
+- Zugriffsrechte und Verfügbarkeit
+- Fraktionen und temporale Handelspartner
+- Schattenökonomie: Graumärkte und Schwarzmärkte
+- Wert und Stabilität: Angebot, Nachfrage und Zeitmanipulation
+- Balancing und Endgame-Ökonomie
+- Immersion und erzählerische Vermittlung
+
 
 **Einführung:** In den geheimnisvollen Hallen des Instituts für Temporale Intervention (ITI) gilt
 eine besondere Devise: **Zeit ist Geld** – und zwar wortwörtlich. Um Agenten auf ihren Reisen durch
