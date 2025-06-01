@@ -1,7 +1,3 @@
-Perfekt, ich mache jetzt mit ZEITRISS 4.0 Modul 2 weiter – dem überarbeiteten Speicher- und Fortsetzungssystem. Ich achte dabei weiterhin auf hohe Qualität, logische Konsistenz und darauf, dass Sora als optionaler Bestandteil behandelt wird, nicht als verpflichtendes Element.
-
-Ich melde mich bald mit der überarbeiteten Version dieses Moduls.
-
 # ZEITRISS 4.0 – Modul 2: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Einführung und Zielsetzung
