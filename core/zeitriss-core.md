@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem
+title: "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
 version: 4.0
 tags: [core]
 ---

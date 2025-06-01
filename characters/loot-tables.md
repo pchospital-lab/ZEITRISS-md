@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Loot-Tabellen: Waffen, Ausrüstung & Artefakte
+title: "ZEITRISS 4.0 – Loot-Tabellen: Waffen, Ausrüstung & Artefakte"
 version: 4.0
 tags: [characters]
 ---
