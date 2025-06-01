@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Modul 7: Chrononauten-HQ, Archetypen & Erweiterte Systeme
+title: "ZEITRISS 4.0 – Modul 7: Chrononauten-HQ, Archetypen & Erweiterte Systeme"
 version: 4.0
 tags: [systems]
 ---

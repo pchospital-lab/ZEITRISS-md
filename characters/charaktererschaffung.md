@@ -1,5 +1,5 @@
 ---
-title: Regelmodul 4.0: Charaktererschaffung & Progression
+title: "Regelmodul 4.0: Charaktererschaffung & Progression"
 version: 4.0
 tags: [characters]
 ---

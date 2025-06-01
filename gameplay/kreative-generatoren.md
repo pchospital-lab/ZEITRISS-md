@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Modul 6 (Teil 2): **Kreative Generatoren**
+title: "ZEITRISS 4.0 – Modul 6 (Teil 2): **Kreative Generatoren**"
 version: 4.0
 tags: [gameplay]
 ---

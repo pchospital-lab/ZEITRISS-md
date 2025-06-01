@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Beispielkampagne Montauk
+title: "ZEITRISS 4.0 – Beispielkampagne Montauk"
 version: 4.0
 tags: [gameplay]
 ---
