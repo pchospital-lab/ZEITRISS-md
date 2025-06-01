@@ -1,4 +1,18 @@
+---
+title: ZEITRISS 4.0 – Modul 7 (Teil 2): Erweiterte Systeme & Cinematisches HUD
+version: 4.0
+tags: [characters]
+---
 # ZEITRISS 4.0 – Modul 7 (Teil 2): Erweiterte Systeme & Cinematisches HUD
+## Inhalt
+- Zustände und Statuseffekte
+- Heilung & Erholung – klassisch, filmisch, high-tech
+- Initiative-Systeme: klassisch, cineastisch oder szenisch
+- Stress, Paradox und mentale Belastungen
+- Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
+- Besonderheiten im Zeitstrom: Unterbrechungen, Reaktionen & freie Aktionen
+- Cinematisches HUD-Overlay: Immersives Interface im Spiel
+
 
 In **Teil 2** der überarbeiteten Modul 7-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
 ZEITRISS-Spiel noch vielseitiger und filmischer machen. Von **Zuständen** wie Verwundungen oder

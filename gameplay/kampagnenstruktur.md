@@ -1,4 +1,18 @@
+---
+title: ZEITRISS 4.0 – Regel- und Inspirationsmodul für langfristige Kampagnen
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS 4.0 – Regel- und Inspirationsmodul für langfristige Kampagnen
+## Inhalt
+- Einführung
+- Kampagnenplanung im ZEITRISS-Stil
+- HQ-Verwaltung und Ausbau
+- Beziehungen zu NSCs, Fraktionen und Mitagenten
+- Mechaniken für langfristige Entwicklungen
+- Erzählpausen, Freizeit und Alltag im HQ
+- Fazit
+
 
 ## Einführung
 

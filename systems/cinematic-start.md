@@ -1,4 +1,17 @@
+---
+title: ZEITRISS 4.0 – Modul 3: Cineastischer Einstieg ins erste Abenteuer
+version: 4.0
+tags: [systems]
+---
 # ZEITRISS 4.0 – Modul 3: Cineastischer Einstieg ins erste Abenteuer
+## Inhalt
+- Einleitung: Ein flexibler, filmreifer Auftakt
+- Filmische Techniken für einen epischen Start
+- Anpassung an Gruppe, Epoche und Tonalität
+- Varianten für den Beginn des ersten Abenteuers
+- Mögliche Einstiegsmissionen (Skizzen)
+- Fazit: Bühne frei für euer ZEITRISS-Abenteuer
+
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
 ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,

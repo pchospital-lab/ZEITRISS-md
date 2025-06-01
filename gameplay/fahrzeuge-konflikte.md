@@ -1,4 +1,13 @@
+---
+title: ZEITRISS 4.0 – Modul 6: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS 4.0 – Modul 6: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+## Inhalt
+- Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
+- Konfliktsystem: Cineastische Konflikte jenseits des Klassikers
+
 
 **Einleitung:** Willkommen zu **Modul 6** von ZEITRISS 4.0! Dieses erweiterte Kapitel stattet euer
 Zeitreise-Abenteuer mit neuen Werkzeugen aus und macht das Spiel noch freier, filmischer und

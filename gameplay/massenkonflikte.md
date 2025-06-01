@@ -1,4 +1,17 @@
+---
+title: ZEITRISS 4.0 – Fahrzeuge, Verfolgungsjagden & Massenkonflikte
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS 4.0 – Fahrzeuge, Verfolgungsjagden & Massenkonflikte
+## Inhalt
+- Fahrzeugarten in verschiedenen Zeitaltern
+- Fahrzeugsteuerung, Manöver & Verfolgungsjagden
+- Reit- und Flugsequenzen (Tiere & Maschinen)
+- Massenkonflikte & Schlachten
+- KI-Integration: Codex & HUD als taktische Helfer
+- Tabellen & Beispielwerte
+
 
 *Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
 Geländewagen aus der Zukunft. Gleichzeitig erzittert in der Ferne ein Schlachtfeld: Mittelalterliche

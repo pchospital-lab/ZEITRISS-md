@@ -1,4 +1,17 @@
+---
+title: Regelmodul 4.0: Charaktererschaffung & Progression
+version: 4.0
+tags: [characters]
+---
 # Regelmodul 4.0: Charaktererschaffung & Progression
+## Inhalt
+- Schritt-für-Schritt zur Charaktererschaffung
+- Start-Archetypen (Beispielcharaktere)
+- Levelsystem und Erfahrungsfortschritt
+- Rufsystem (Ansehen bei Fraktionen & ITI)
+- Zugang zu Ausrüstung & Cyberware (HQ-Phase)
+- Team-Zusammenstellung & Rollenverteilung (optional)
+
 
 **Einleitung:** In *ZEITRISS 4.0* erschaffst du einen *Chrononauten*-Charakter, der als Zeitreise-
 Agent im Dienst des ITI (Institut für Temporale Interventionen) Missionen quer durch die Epochen

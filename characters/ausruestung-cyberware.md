@@ -1,4 +1,19 @@
+---
+title: ZEITRISS 4.0 – Modul X: Erweiterte Charakterausstattung & Spezialisierung
+version: 4.0
+tags: [characters]
+---
 # ZEITRISS 4.0 – Modul X: Erweiterte Charakterausstattung & Spezialisierung
+## Inhalt
+- Einleitung
+- Waffen: Arsenal der Zeitalter
+- Panzerung & Schutzsysteme
+- Ausrüstung & Gadgets
+- Cyberware-Implantate
+- Bioware-Verbesserungen
+- Psi-Fähigkeiten (Optional)
+- Talente & Spezialisierungen
+
 
 ## Einleitung
 

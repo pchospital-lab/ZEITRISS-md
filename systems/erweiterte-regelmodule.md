@@ -1,4 +1,12 @@
+---
+title: ZEITRISS 4.0 – Modul 7: Chrononauten-HQ, Archetypen & Erweiterte Systeme
+version: 4.0
+tags: [systems]
+---
 # ZEITRISS 4.0 – Modul 7: Chrononauten-HQ, Archetypen & Erweiterte Systeme
+## Inhalt
+- HQ-Spielphasen: Leben zwischen den Missionen
+
 
 *Im Halbdunkel des Hauptquartiers.* Gerade aus einer Mission zurückgekehrt, streift das
 Chrononauten-Team durch metallene Korridore, die Schritte sanft gedämpft vom surrenden Teppichboden.

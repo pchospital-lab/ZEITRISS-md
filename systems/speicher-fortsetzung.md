@@ -1,4 +1,20 @@
+---
+title: ZEITRISS 4.0 – Modul 2: Speicher- und Fortsetzungssystem (überarbeitet)
+version: 4.0
+tags: [systems]
+---
 # ZEITRISS 4.0 – Modul 2: Speicher- und Fortsetzungssystem (überarbeitet)
+## Inhalt
+- Einführung und Zielsetzung
+- Einzelspieler-Speicherstände – Bewährte Logik beibehalten
+- Gruppen-Spielstände – Neue Unterstützung für Teams
+- Zeitlinien-Tracker und Paradoxon-Index
+- Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
+- Umgang mit fehlerhaften oder abweichenden Speicherständen
+- Spielleitung bleibt in-world (Immersion der Spielleitung)
+- Praxis-Beispiele für Speicherblöcke (Solo & Gruppe)
+- Fazit
+
 
 ## Einführung und Zielsetzung
 

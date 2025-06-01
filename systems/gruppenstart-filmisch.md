@@ -1,4 +1,18 @@
+---
+title: ZEITRISS 4.0 – Filmischer Gruppenstart (Modul 4)
+version: 4.0
+tags: [systems]
+---
 # ZEITRISS 4.0 – Filmischer Gruppenstart (Modul 4)
+## Inhalt
+- Einleitung: Cineastischer Auftakt für das Abenteuer
+- Strukturelle Varianten des Gruppenstarts
+- Filmische Stilmittel für den Gruppenstart
+- Wechselnde Gruppen und dynamische Besetzung
+- Dramaturgie und Gruppendynamik: Tipps für die Inszenierung
+- Konkrete Starttypen und Konstellationen
+- Fazit: Der Auftakt inszeniert das Zusammenfinden
+
 
 ## Einleitung: Cineastischer Auftakt für das Abenteuer
 
