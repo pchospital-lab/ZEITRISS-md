@@ -1,7 +1,3 @@
-Perfekt, ich mache jetzt mit ZEITRISS 4.0 Modul 2 weiter – dem überarbeiteten Speicher- und Fortsetzungssystem. Ich achte dabei weiterhin auf hohe Qualität, logische Konsistenz und darauf, dass Sora als optionaler Bestandteil behandelt wird, nicht als verpflichtendes Element.
-
-Ich melde mich bald mit der überarbeiteten Version dieses Moduls.
-
 # ZEITRISS 4.0 – Modul 2: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Einführung und Zielsetzung
@@ -258,7 +254,7 @@ Ein zentrales Anliegen bei ZEITRISS ist es, technische Vorgänge wie das **Laden
 - **Synchronisierungs-Hinweis:** Das Codex-Archiv (oder welches Ingame-System auch immer das Speichern/Laden repräsentiert) kann erwähnen, dass **mehrere Datensätze synchronisiert** werden. Z.B.: *„ITI-Codex-Archiv synchronisiert Einsatzdaten aller Teammitglieder…“* oder *„Mehrere Chrononauten-Profile werden aus dem Stasis-Archiv abgerufen.“*.
 - **Erweiterte Rückblende/Briefing:** Beim Laden bietet sich eine kurze Zusammenfassung der letzten Ereignisse **aus Sicht aller Gruppenmitglieder** an. Statt nur die Erinnerungen eines Charakters aufzufrischen, kann my GPT hervorheben, was **jeder** zuletzt erlebt hat – und was sie jeweils in der Zeitlinie bewirkt haben. *Beispiel:* *„Alex erinnert sich daran, wie er den Ausgang der Schlacht von Aquitanien 1356 zugunsten der Franzosen veränderte, während Mia noch die Bilder des viktorianischen London vor Augen hat, wo sie Jack the Ripper das Handwerk legte. Gemeinsam betreten sie nun den Einsatzbesprechungsraum…“*. So fühlt sich jeder Spieler abgeholt und an die Vorgeschichte seines Charakters erinnert, inklusive der Auswirkungen ihrer Taten auf die Geschichte.
 - **Individuelles Déjà-vu/Logbuch:** Jeder Charakter kann ein kurzes Déjà-vu oder einen Logbucheintrag im Codex erhalten, der seine **individuelle Vorgeschichte** bestätigt, bevor die neue gemeinsame Mission beginnt. Das unterstreicht die Kontinuität: Was A und B zuvor getrennt erlebt haben, bringen sie nun als Erfahrungsschatz zusammen.
-- **Optionale cineastische Zusammenfassung (Sora):** Für eine besonders filmreife Rückblende besteht als **optionale Erweiterung** die Möglichkeit, eine cineastische Zusammenfassung der bisherigen Ereignisse einzuspielen. Auf das Kommando *„Film ab!“* könnte die KI-Spielleitung – unterstützt durch ein Tool wie **OpenAI Sora** (Video-KI) – die letzten Missionen in Form eines kurzen „Holoclip-Trailers“ zusammenfassen. Ingame würden die Agenten beispielsweise ein projiziertes Video im Briefingraum sehen, das ihre vergangenen Abenteuer filmisch nacherzählt. *(Diese Funktion bereichert die Immersion zusätzlich, ist aber kein erforderlicher Bestandteil des Speichermechanismus und bleibt daher optional.)*
+- **Optionale cineastische Zusammenfassung:** Wer eine filmische Rückblende wünscht, kann die in [„Film ab!“ mit Sora](../optional/sora_video.md) beschriebene Funktion nutzen.
 
 Entscheidend ist, dass die **Immersion gewahrt** bleibt: Für die Charaktere (und Spieler) soll es sich so anfühlen, als kämen sie nach einer Zwischenphase oder aus dem Zeitstrom wieder zusammen ins Geschehen. Die Spielwelt-Logik (z.B. Cryo-Stase zwischen Missionen, Zeitreise-Transit oder der ITI-Briefingraum) erklärt das Zusammenführen der Gruppe, **ohne jemals von Savegames oder technischen Details zu sprechen**.
 
