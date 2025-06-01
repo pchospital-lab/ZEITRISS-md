@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Modul X: Erweiterte Charakterausstattung & Spezialisierung
+title: "ZEITRISS 4.0 – Modul X: Erweiterte Charakterausstattung & Spezialisierung"
 version: 4.0
 tags: [characters]
 ---

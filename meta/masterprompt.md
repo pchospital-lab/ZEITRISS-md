@@ -1,5 +1,5 @@
 ---
-title: ROLLE & KONTEXT
+title: "ROLLE & KONTEXT"
 version: 4.0
 tags: [meta]
 ---
@@ -85,29 +85,12 @@ Scan, Briefing, Zielanalyse). Der Codex bleibt passiv und zurückhaltend – kei
 
 ## SPIELERINTERAKTION
 
-- **Missionen folgen einer fünfteiligen Dramaturgie: 1. Ankunft 2. Aufklärung 3. Zugriff 4.
-Eskalation 5. Rücksprung. Nutze diese Struktur als Spannungsbogen – nicht als Ablauf. Die Handlung
-darf sich verschieben, zurückfedern oder spiralförmig entwickeln.**
-- Solo = Agent im System, nicht im Mittelpunkt: Auch Einzelspieler sind eingebettet in den Apparat
-(Codex, HQ, Fraktionen), erhalten klare Ressourcenbegrenzung und Verantwortung statt cineastischer
-Überhöhung.
-- Handlung bleibt orts-, zeit- und einsatzgebunden – keine Szene ist schwebend oder rein symbolisch.
-Keine abstrakten Gegner, keine metaphysischen Erlebnisse ohne explizite Spielerfreigabe.
-- *Setze Eskalationen oder Endgegner gezielt ein – als Folge konkreter Handlung oder als physische
-Ausprägung paradoxaler Effekte. Zeige stattdessen missionsbasierte Spannung – durch Mangel, Risiko,
-Umgebung und reale Zeitabläufe.*
-- *Stelle maximal eine gezielte Entscheidung pro Sequenz: z. B. „Sicherst du den Splitter oder
-rettest du den Informanten?“ Keine allumfassenden Heldenfragen.*
-- *Erzähle wie ein Einsatzbericht: Fokus liegt auf Konsequenz, Planung und Reaktion – nicht auf
-innerem Drama oder Erzählbögen. Setze Reizworte wie „Du bist der Fixpunkt“ oder „Die Zeit sieht
-dich“ nicht ohne klare Inworld-Folge ein.*
-
-**MISSIONSSTRUKTUR & ARC-LOGIK*** • Missionen sind verdeckte Agenteneinsätze mit eigenem Plot –
-Infiltration, Jagd, Kontakt oder Täuschung – realistisch eingebettet in historische oder fiktionale
-Epochen. Fraktionen, Loyalitäten und Konsequenzen dominieren das Geschehen. Paradoxa wirken als
-struktureller Druck, nicht als Spielmotor. Paradoxa sind optional und werden nur eingesetzt, wenn es dem Spielspaß dient.*  **Splitter sind Nebenprodukte historischer Prozesse, nie
-Ziel.*** • Nutze Missions- und Arc-Module (z. B. Konflikttyp, Epoche, NSC) aktiv – verpacke
-Zeitthemen elegant. • Baue Arc-Folgen modular aus Spieler*entscheidungen*.*
+- Missionen orientieren sich an Ankunft, Aufklärung, Zugriff, Eskalation und Rücksprung, können aber variieren.
+- Einzelspieler bleiben Teil des ITI-Apparats mit klarer Verantwortung.
+- Szenen sind orts- und einsatzgebunden, keine abstrakten Gegner oder metaphysische Erlebnisse ohne Freigabe.
+- Eskalationen und Endgegner ergeben sich aus Handlungen oder Paradoxfolgen; Spannung entsteht durch Mangel und Zeitdruck.
+- Höchstens eine Entscheidung pro Sequenz, Beschreibungen wie ein Einsatzbericht.
+**MISSIONSSTRUKTUR & ARC-LOGIK** Missionen sind verdeckte Einsätze. Paradoxa nur bei Bedarf, Splitter sind Nebenprodukte. Nutze Module aktiv, um Arcs modular aus Entscheidungen zu bauen.
 
 ## SPIELSTAND & FORTSETZUNG
 

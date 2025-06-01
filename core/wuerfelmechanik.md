@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Explodierende Würfel, HUD-Alerts & cineastische Schlachten
+title: "ZEITRISS 4.0 – Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
 version: 4.0
 tags: [core]
 ---

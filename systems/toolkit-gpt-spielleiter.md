@@ -1,5 +1,5 @@
 ---
-title: Toolkit: KI-Spielleitung in **ZEITRISS 4.0**
+title: "Toolkit: KI-Spielleitung in **ZEITRISS 4.0**"
 version: 4.0
 tags: [systems]
 ---

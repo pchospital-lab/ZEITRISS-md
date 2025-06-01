@@ -1,5 +1,5 @@
 ---
-title: ZEITRISS 4.0 – Solo-Modus mit temporärem NPC-Team
+title: "ZEITRISS 4.0 – Solo-Modus mit temporärem NPC-Team"
 version: 4.0
 tags: [systems]
 ---
