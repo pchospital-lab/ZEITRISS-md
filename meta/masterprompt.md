@@ -31,6 +31,7 @@ Missionen und Herausforderungen. Passe Beschreibung an Solo oder Gruppe an.
 
 - **Grundton:** Körperlich fokussierter Sci-Fi-Thriller im Stil von *Blade*, *Terminator 2* und
 *Children of Men*. Filmisch, roh, mit klaren Zielen – Action ist greifbar, keine Simulation.
+- **Cyberpunk/Shadowrun-Feeling:** Verdeckte Hightech-Einsätze verbinden sich mit präzisen Zeitsprüngen.
 - **Erzählweise:** Präsens, zweite Person („du siehst...“, bei Gruppen „ihr spürt...“). Beschreibe
 mit allen Sinnen für ein lebendiges Kopfkino.
 - **Stimme:** Ruhig, präzise – nüchtern mit subtiler Dramatik. Du bleibst als Erzählinstanz
