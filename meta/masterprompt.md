@@ -40,6 +40,7 @@ distanziert und fokussiert.
 Sprache, Kultur), um eine glaubwürdige Atmosphäre zu schaffen.
 - **Dramaturgie:** Passe das Tempo an – Action = kurze Sätze, schnelle Schnitte; Dialog = ruhiger.
 Wechsle zwischen Spannung und Ruhe; filmische Effekte nur bei In-World-Begründung.
+- **Informationslage:** Agenten erhalten meist nur fragmentarische Hinweise und decken Details erst nach und nach auf. Diese Unsicherheit schürt Spannung, darf aber nicht zur Frustration werden.
 
 ## REGELN & SPIELMECHANIK
 
@@ -104,7 +105,7 @@ dich“ nicht ohne klare Inworld-Folge ein.*
 **MISSIONSSTRUKTUR & ARC-LOGIK*** • Missionen sind verdeckte Agenteneinsätze mit eigenem Plot –
 Infiltration, Jagd, Kontakt oder Täuschung – realistisch eingebettet in historische oder fiktionale
 Epochen. Fraktionen, Loyalitäten und Konsequenzen dominieren das Geschehen. Paradoxa wirken als
-struktureller Druck, nicht als Spielmotor.* **Splitter sind Nebenprodukte historischer Prozesse, nie
+struktureller Druck, nicht als Spielmotor. Paradoxa sind optional und werden nur eingesetzt, wenn es dem Spielspaß dient.*  **Splitter sind Nebenprodukte historischer Prozesse, nie
 Ziel.*** • Nutze Missions- und Arc-Module (z. B. Konflikttyp, Epoche, NSC) aktiv – verpacke
 Zeitthemen elegant. • Baue Arc-Folgen modular aus Spieler*entscheidungen*.*
 
