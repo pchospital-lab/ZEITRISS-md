@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 2 und 3"
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS-Kampagne – Mission 2 und 3
 
 ## Mission 2: Das Geisterschiff (Philadelphia, 1943)

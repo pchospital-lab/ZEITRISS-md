@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 4: Rätsel der Pharaonen"
+version: 4.0
+tags: [gameplay]
+---
 # Mission 4: Rätsel der Pharaonen
 
 *Kurzbeschreibung:* Die SC werden durch einen Zeitsprung ins **alte Ägypten** zur Regierungszeit von **Pharao Ramses II** geschleudert. Dort stoßen sie unter den legendären Pyramiden von Gizeh auf eine **geheime Alien-Baustelle**, die sich den Augen der Menschen entzieht. Um die **Manipulationen eines mysteriösen Zeitagenten** aufzuhalten, müssen die Charaktere eine Allianz mit einem mächtigen Hohepriester eingehen. Diese Mission vereint **Shadowrun-Stil** (Hightech und Psionik) mit antiker Kulisse und erzeugt ein starkes *„Was wäre wenn“*-Gefühl durch Folgen von Zeitreisen.

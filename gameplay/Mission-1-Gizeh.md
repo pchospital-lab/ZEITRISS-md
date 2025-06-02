@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 1: Das Geheimnis unter Gizeh"
+version: 4.0
+tags: [gameplay]
+---
 # ZEITRISS – Im Schatten des Montauk-Projekts
 
 ## Kampagnenüberblick
