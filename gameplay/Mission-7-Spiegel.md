@@ -3,10 +3,6 @@ title: "ZEITRISS 4.0 – Mission 7: Der zerbrochene Spiegel"
 version: 4.0
 tags: [gameplay]
 ---
-Perfekt – Mission 7 wird sich ganz auf klassische Cyberpunk-Elemente konzentrieren: Megakonzerne, 
-digitale Untergrundnetzwerke, Psionik statt Magie, Hacker, Street-Level-Kämpfe in Neonstädten. 
-Ich arbeite sie jetzt aus und stelle sie Dir danach zur Durchsicht bereit.
-
 # Der zerbrochene Spiegel – Mission 7
 
 *Nach ihren Zeitreisen kehren die Runner in eine futuristische Megastadt im Jahr 2077 zurück – 
