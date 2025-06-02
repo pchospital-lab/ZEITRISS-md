@@ -5,349 +5,349 @@ tags: [gameplay]
 ---
 # Marsdämmerung
 
-*(Kurze Beschreibung: Auf dem Mars im Jahr 2097 spitzt sich ein Konflikt zwischen rebellischen 
-Kolonisten und dem Megakonzern ChronTech zu. Zeitgleich droht ein psionisches Alien-Artefakt, das 
-ChronTech entdeckt hat, außer Kontrolle zu geraten, während eine instabile Terraforming-Anlage 
-die fragile Mars-Atmosphäre ins Chaos stürzt. Die Charaktere müssen in dieser explosiven Lage 
-zwischen den Fronten navigieren, verborgene Ziele verfolgen und eine Katastrophe verhindern, die 
+*(Kurze Beschreibung: Auf dem Mars im Jahr 2097 spitzt sich ein Konflikt zwischen rebellischen
+Kolonisten und dem Megakonzern ChronTech zu. Zeitgleich droht ein psionisches Alien-Artefakt, das
+ChronTech entdeckt hat, außer Kontrolle zu geraten, während eine instabile Terraforming-Anlage
+die fragile Mars-Atmosphäre ins Chaos stürzt. Die Charaktere müssen in dieser explosiven Lage
+zwischen den Fronten navigieren, verborgene Ziele verfolgen und eine Katastrophe verhindern, die
 Zeit und Realität selbst erschüttern könnte.)*
 
 ## Setting und Zeitperiode
 
-Der Schauplatz dieser Mission ist der Mars im Jahr 2097. Nach Jahrzehnten der Kolonisation 
-existieren mehrere Siedlungen unter Kuppeln und in ausgebauten Lavahöhlen. Die Atmosphäre ist 
-dank Terraforming-Bemühungen dünn aber atembar – doch das Gleichgewicht ist äußerst labil. 
-**ChronTech**, ein einflussreicher Megakonzern mit fragwürdiger Vergangenheit, betreibt auf dem 
-roten Planeten geheime Ausgrabungen. In einem antiken Krater hat ChronTech Hinweise auf 
-außerirdische Technologie gefunden, darunter ein **psionisches Artefakt**, das geistige Energien 
-bündelt und möglicherweise Zeitrisse erzeugen kann. Gleichzeitig überwacht ChronTech die 
+Der Schauplatz dieser Mission ist der Mars im Jahr 2097. Nach Jahrzehnten der Kolonisation
+existieren mehrere Siedlungen unter Kuppeln und in ausgebauten Lavahöhlen. Die Atmosphäre ist
+dank Terraforming-Bemühungen dünn aber atembar – doch das Gleichgewicht ist äußerst labil.
+**ChronTech**, ein einflussreicher Megakonzern mit fragwürdiger Vergangenheit, betreibt auf dem
+roten Planeten geheime Ausgrabungen. In einem antiken Krater hat ChronTech Hinweise auf
+außerirdische Technologie gefunden, darunter ein **psionisches Artefakt**, das geistige Energien
+bündelt und möglicherweise Zeitrisse erzeugen kann. Gleichzeitig überwacht ChronTech die
 Haupt-Terraforming-Anlage *"Ares Prime"*, die für die Stabilisierung der Mars-Atmosphäre sorgt.
 
-Aktuell ist die Stimmung auf der Kolonie gespannt: Die Terraforming-Anlage zeigt Störungen – 
-bizarre Wetterphänomene wie plötzliche Stürme und atmosphärische Schwankungen verunsichern die 
-Bevölkerung. Viele **Kolonisten** fühlen sich von ChronTech ausgebeutet und belogen, besonders da 
-Gerüchte kursieren, ChronTech stelle Profit und die Artefakt-Bergung über ihre Sicherheit. Die 
-Spielercharaktere treffen in dieser kritischen Phase auf dem Mars ein und spüren sofort das 
-brodelnde Konfliktpotenzial. Die Szenerie verbindet High-Tech-Zukunft (Cyberware, Drohnen, 
-Mars-Fahrzeuge) mit dem Flair einer Grenzwelt: staubrote Horizonte, Kuppelstädte voller 
-Neonlichter, und überall das Gefühl, dass hier ein *Neuanfang* für die Menschheit auf Messers 
+Aktuell ist die Stimmung auf der Kolonie gespannt: Die Terraforming-Anlage zeigt Störungen –
+bizarre Wetterphänomene wie plötzliche Stürme und atmosphärische Schwankungen verunsichern die
+Bevölkerung. Viele **Kolonisten** fühlen sich von ChronTech ausgebeutet und belogen, besonders da
+Gerüchte kursieren, ChronTech stelle Profit und die Artefakt-Bergung über ihre Sicherheit. Die
+Spielercharaktere treffen in dieser kritischen Phase auf dem Mars ein und spüren sofort das
+brodelnde Konfliktpotenzial. Die Szenerie verbindet High-Tech-Zukunft (Cyberware, Drohnen,
+Mars-Fahrzeuge) mit dem Flair einer Grenzwelt: staubrote Horizonte, Kuppelstädte voller
+Neonlichter, und überall das Gefühl, dass hier ein *Neuanfang* für die Menschheit auf Messers
 Schneide steht.
 
 ## Missionsziele
 
 - **Hauptziele:**
 
-  - **Psionisches Artefakt sichern oder neutralisieren:** Die Charaktere müssen verhindern, dass 
-das gefundene Alien-Artefakt außer Kontrolle gerät. Das bedeutet, ChronTechs Ausgrabungsstelle 
-infiltrieren, das Artefakt untersuchen und es entweder unter Kontrolle bringen oder unschädlich 
-machen. Gelingt dies nicht, könnte das Artefakt katastrophale psionische Wellen oder Zeitrisse 
+  - **Psionisches Artefakt sichern oder neutralisieren:** Die Charaktere müssen verhindern, dass
+das gefundene Alien-Artefakt außer Kontrolle gerät. Das bedeutet, ChronTechs Ausgrabungsstelle
+infiltrieren, das Artefakt untersuchen und es entweder unter Kontrolle bringen oder unschädlich
+machen. Gelingt dies nicht, könnte das Artefakt katastrophale psionische Wellen oder Zeitrisse
 auslösen.
-  - **Terraforming-Anlage stabilisieren:** Die Gruppe muss die Terraforming-Station *Ares Prime* 
-vor dem Kollaps bewahren. Dies kann technisches Geschick erfordern (z.B. Reparaturen oder ein 
-Reboot des Systems) oder das Lösen des zugrundeliegenden Problems – möglicherweise beeinflusst 
-das Artefakt die Anlage. Die Stabilisierung der Atmosphäre ist entscheidend, um das Überleben 
+  - **Terraforming-Anlage stabilisieren:** Die Gruppe muss die Terraforming-Station *Ares Prime*
+vor dem Kollaps bewahren. Dies kann technisches Geschick erfordern (z.B. Reparaturen oder ein
+Reboot des Systems) oder das Lösen des zugrundeliegenden Problems – möglicherweise beeinflusst
+das Artefakt die Anlage. Die Stabilisierung der Atmosphäre ist entscheidend, um das Überleben
 aller Kolonisten zu sichern.
-  - **Konflikt entschärfen:** Idealerweise sollen die Runner einen offenen Aufstand oder brutalen 
-Gewalteinsatz verhindern. Dazu müssen sie diplomatisches Fingerspitzengefühl beweisen und 
-zwischen ChronTech-Sicherheitstruppen und den wütenden Kolonisten vermitteln – zumindest soweit, 
-dass alle Parteien zusammenarbeiten oder sich zurückhalten, bis die unmittelbare Gefahr gebannt 
+  - **Konflikt entschärfen:** Idealerweise sollen die Runner einen offenen Aufstand oder brutalen
+Gewalteinsatz verhindern. Dazu müssen sie diplomatisches Fingerspitzengefühl beweisen und
+zwischen ChronTech-Sicherheitstruppen und den wütenden Kolonisten vermitteln – zumindest soweit,
+dass alle Parteien zusammenarbeiten oder sich zurückhalten, bis die unmittelbare Gefahr gebannt
 ist.
 
 - **Nebenmissionen:**
 
-  - **Rettungsaktionen:** Durch die Störungen der Terraforming-Anlage kann es lokal zu Notfällen 
-kommen (zum Beispiel ein ausfallendes Sauerstoffsystem in einem Wohnsektor oder ein heftiger 
-Sandsturm, der eine Gruppe Arbeiter einschließt). Die Charaktere können sich entscheiden, 
-Zivilisten in Not zu helfen. Solche Rettungen stärken das Vertrauen der Kolonisten und können 
+  - **Rettungsaktionen:** Durch die Störungen der Terraforming-Anlage kann es lokal zu Notfällen
+kommen (zum Beispiel ein ausfallendes Sauerstoffsystem in einem Wohnsektor oder ein heftiger
+Sandsturm, der eine Gruppe Arbeiter einschließt). Die Charaktere können sich entscheiden,
+Zivilisten in Not zu helfen. Solche Rettungen stärken das Vertrauen der Kolonisten und können
 wertvolle Verbündete schaffen.
-  - **Beweissicherung gegen ChronTech:** Findet und sammelt Beweise für ChronTechs illegale 
-Machenschaften – etwa geheime Forschungsdaten über das Artefakt oder Aufzeichnungen, die zeigen, 
-dass ChronTech die Sicherheit der Kolonie absichtlich aufs Spiel setzt. Diese Beweise können 
-später verwendet werden, um ChronTech zur Rechenschaft zu ziehen oder die Öffentlichkeit zu 
+  - **Beweissicherung gegen ChronTech:** Findet und sammelt Beweise für ChronTechs illegale
+Machenschaften – etwa geheime Forschungsdaten über das Artefakt oder Aufzeichnungen, die zeigen,
+dass ChronTech die Sicherheit der Kolonie absichtlich aufs Spiel setzt. Diese Beweise können
+später verwendet werden, um ChronTech zur Rechenschaft zu ziehen oder die Öffentlichkeit zu
 informieren.
-  - **Sabotage oder Hilfe im Geheimen:** Die Runner könnten optionale Ziele verfolgen, wie z.B. 
-das Stören von ChronTechs Kommunikation (um deren Koordination zu schwächen) oder das 
-unauffällige Unterstützen einer Kolonistengruppe (etwa indem sie Ausrüstung oder Medizin 
-liefern). Solche Aktionen können den Missionsverlauf erleichtern, bergen aber das Risiko, entdeckt 
+  - **Sabotage oder Hilfe im Geheimen:** Die Runner könnten optionale Ziele verfolgen, wie z.B.
+das Stören von ChronTechs Kommunikation (um deren Koordination zu schwächen) oder das
+unauffällige Unterstützen einer Kolonistengruppe (etwa indem sie Ausrüstung oder Medizin
+liefern). Solche Aktionen können den Missionsverlauf erleichtern, bergen aber das Risiko, entdeckt
 und zwischen die Fronten gezogen zu werden.
 
 - **Moralische Entscheidungen:**
 
-  - **Partei ergreifen oder neutral bleiben:** Die Charaktere geraten unter Druck, sich für eine 
-Seite zu entscheiden – stehen sie den ausgebeuteten Kolonisten bei und riskieren, ChronTechs Zorn 
-(und Ressourcen) gegen sich zu haben? Oder kooperieren sie mit ChronTech, um Zugang zu 
-High-Tech-Ressourcen zu erhalten und vielleicht schneller an das Artefakt zu gelangen, selbst wenn 
-das heißt, die Kolonisten zu verraten? Ein Mittelweg ist gefährlich, aber möglicherweise der 
+  - **Partei ergreifen oder neutral bleiben:** Die Charaktere geraten unter Druck, sich für eine
+Seite zu entscheiden – stehen sie den ausgebeuteten Kolonisten bei und riskieren, ChronTechs Zorn
+(und Ressourcen) gegen sich zu haben? Oder kooperieren sie mit ChronTech, um Zugang zu
+High-Tech-Ressourcen zu erhalten und vielleicht schneller an das Artefakt zu gelangen, selbst wenn
+das heißt, die Kolonisten zu verraten? Ein Mittelweg ist gefährlich, aber möglicherweise der
 einzige Weg, um eine Katastrophe abzuwenden.
-  - **Artefakt-Verbleib:** Wie gehen die Spieler mit dem psionischen Artefakt um, sobald es in 
-ihren Händen ist? Übergeben sie es ChronTech (die behaupten, es sichern zu können, aber 
-wahrscheinlich Eigennutz im Sinn haben), überlassen sie es den Kolonisten (die es eventuell als 
-Faustpfand für ihre Freiheit nutzen wollen, aber kaum seine Gefahren beherrschen können) – oder 
-zerstören sie es endgültig, um jegliches Risiko zu eliminieren (wodurch jedoch womöglich 
-wichtige Erkenntnisse oder Nutzen verloren gehen)? Jede Wahl hat weitreichende Konsequenzen für 
+  - **Artefakt-Verbleib:** Wie gehen die Spieler mit dem psionischen Artefakt um, sobald es in
+ihren Händen ist? Übergeben sie es ChronTech (die behaupten, es sichern zu können, aber
+wahrscheinlich Eigennutz im Sinn haben), überlassen sie es den Kolonisten (die es eventuell als
+Faustpfand für ihre Freiheit nutzen wollen, aber kaum seine Gefahren beherrschen können) – oder
+zerstören sie es endgültig, um jegliches Risiko zu eliminieren (wodurch jedoch womöglich
+wichtige Erkenntnisse oder Nutzen verloren gehen)? Jede Wahl hat weitreichende Konsequenzen für
 die Zukunft.
-  - **Opfer vs. Erfolg:** Die Mission verlangt möglicherweise harte Entscheidungen. Retten die 
-Charaktere ein paar Dutzend Kolonisten aus einem einstürzenden Außenposten, selbst wenn das 
-bedeutet, ChronTech erhält in der Zwischenzeit genug Zeit, das Artefakt zu aktivieren? Oder 
-fokussieren sie sich auf die Missionsziele um jeden Preis, auch wenn Unschuldige in der Hitze des 
-Konflikts zu Schaden kommen? Solche Dilemmata sollen die Spieler ins Grübeln bringen und das *"Was 
-wäre wenn"* spürbar machen, wenn sie die Auswirkungen ihrer Handlungen auf die Marskolonie 
+  - **Opfer vs. Erfolg:** Die Mission verlangt möglicherweise harte Entscheidungen. Retten die
+Charaktere ein paar Dutzend Kolonisten aus einem einstürzenden Außenposten, selbst wenn das
+bedeutet, ChronTech erhält in der Zwischenzeit genug Zeit, das Artefakt zu aktivieren? Oder
+fokussieren sie sich auf die Missionsziele um jeden Preis, auch wenn Unschuldige in der Hitze des
+Konflikts zu Schaden kommen? Solche Dilemmata sollen die Spieler ins Grübeln bringen und das *"Was
+wäre wenn"* spürbar machen, wenn sie die Auswirkungen ihrer Handlungen auf die Marskolonie
 bedenken.
 
 ## Konflikte
 
-- **Physisch:** Diese Mission bietet intensive körperliche Herausforderungen. Die Spieler könnten 
-sich Feuergefechte in engen Mars-Basen liefern, unter geringer Schwerkraft und mit lebenswichtigen 
-Druckanzügen – ein einzelnes Loch im Anzug kann tödlich sein. ChronTechs Sicherheitstrupps sind 
-gut ausgerüstet (Sturmgewehre, Elektroschock-Waffen, gepanzerte Raumanzüge mit eingebauten 
-HUD-Visieren und Sensoren) und setzen ggf. Mars-Drohnen oder autonome Geschütze ein. Gleichzeitig 
-sind einige radikale Kolonisten ebenfalls bewaffnet und kennen das Gelände in- und auswendig. Sie 
-improvisieren Sprengsätze aus Bergbausprengstoffen oder setzen umgebaute Industrie-Mechs als 
-Rammböcke ein. Zusätzlich macht die Mars-Umgebung jeden physischen Konflikt gefährlicher: 
-Sandstürme können die Sicht nehmen, der niedrige Luftdruck erfordert stets Vorsicht und ein 
-Ausfall der Terraforming-Systeme kann binnen Minuten ganze Sektoren unbewohnbar machen. Kämpfe 
+- **Physisch:** Diese Mission bietet intensive körperliche Herausforderungen. Die Spieler könnten
+sich Feuergefechte in engen Mars-Basen liefern, unter geringer Schwerkraft und mit lebenswichtigen
+Druckanzügen – ein einzelnes Loch im Anzug kann tödlich sein. ChronTechs Sicherheitstrupps sind
+gut ausgerüstet (Sturmgewehre, Elektroschock-Waffen, gepanzerte Raumanzüge mit eingebauten
+HUD-Visieren und Sensoren) und setzen ggf. Mars-Drohnen oder autonome Geschütze ein. Gleichzeitig
+sind einige radikale Kolonisten ebenfalls bewaffnet und kennen das Gelände in- und auswendig. Sie
+improvisieren Sprengsätze aus Bergbausprengstoffen oder setzen umgebaute Industrie-Mechs als
+Rammböcke ein. Zusätzlich macht die Mars-Umgebung jeden physischen Konflikt gefährlicher:
+Sandstürme können die Sicht nehmen, der niedrige Luftdruck erfordert stets Vorsicht und ein
+Ausfall der Terraforming-Systeme kann binnen Minuten ganze Sektoren unbewohnbar machen. Kämpfe
 müssen also schnell und überlegt geführt werden.
-- **Sozial:** Diplomatie und Taktgefühl sind genauso wichtig wie Feuerkraft. Die Charaktere 
-treffen auf misstrauische Kolonieanführer, verängstigte Zivilisten, arrogante ChronTech-Manager 
-und hartgesottene Söldner. Soziale Konflikte könnten Verhandlungen beinhalten, etwa einen 
-Waffenstillstand zwischen Kolonisten und Konzernsicherheit auszuhandeln oder einen einflussreichen 
-Mars-Gouverneur auf ihre Seite zu ziehen. Vielleicht müssen die Spieler lügen und tricksen, sich 
-als ChronTech-Mitarbeiter ausgeben, um in die Forschungsanlage zu gelangen, oder umgekehrt den 
-Kolonistenführern glaubhaft machen, man gehöre zur Unterstützungstruppe von außerhalb. Jede 
-Lüge und jedes Versprechen hat Konsequenzen – soziale Niederlagen könnten bedeuten, dass eine 
-Seite die Kooperation verweigert oder die Charaktere als Feinde einstuft. Es gilt, Vertrauen 
+- **Sozial:** Diplomatie und Taktgefühl sind genauso wichtig wie Feuerkraft. Die Charaktere
+treffen auf misstrauische Kolonieanführer, verängstigte Zivilisten, arrogante ChronTech-Manager
+und hartgesottene Söldner. Soziale Konflikte könnten Verhandlungen beinhalten, etwa einen
+Waffenstillstand zwischen Kolonisten und Konzernsicherheit auszuhandeln oder einen einflussreichen
+Mars-Gouverneur auf ihre Seite zu ziehen. Vielleicht müssen die Spieler lügen und tricksen, sich
+als ChronTech-Mitarbeiter ausgeben, um in die Forschungsanlage zu gelangen, oder umgekehrt den
+Kolonistenführern glaubhaft machen, man gehöre zur Unterstützungstruppe von außerhalb. Jede
+Lüge und jedes Versprechen hat Konsequenzen – soziale Niederlagen könnten bedeuten, dass eine
+Seite die Kooperation verweigert oder die Charaktere als Feinde einstuft. Es gilt, Vertrauen
 aufzubauen oder geschickt zu manipulieren, um Zugang zu Informationen und Ressourcen zu erhalten.
-- **Rätselhaft:** Rätsel und Geheimnisse durchziehen die Mission. Zunächst gilt es, die wahren 
-Absichten von ChronTech zu entschlüsseln: Was genau suchen sie in der Ausgrabungsstätte? Alte 
-Inschriften oder Daten am Fundort könnten in einer fremden Sprache oder Symbolik verfasst sein – 
-die Spieler müssen eventuell Codes knacken oder psionische Muster erkennen, um das Artefakt zu 
-verstehen. Im Terraforming-Kontrollzentrum stellen sich den Charakteren möglicherweise technische 
-Puzzle: z.B. ein defektes System neu kalibrieren, indem die richtigen Parameter in der richtigen 
-Reihenfolge eingestellt werden, oder ein Backupsystem manuell aktivieren, wofür erst mehrere 
-Verteilerknoten in der richtigen Abfolge eingeschaltet werden müssen. Zudem können **psionische 
-Phänomene** selbst zu Rätseln werden: Das Artefakt könnte Visionen oder Halluzinationen 
-hervorrufen – die Spieler müssen herausfinden, was diese Erscheinungen bedeuten (z.B. Vorzeichen 
-zukünftiger Ereignisse oder Hinweise auf die Schwachstelle des Artefakts) und was real ist. Solche 
-Rätsel belohnen Kreativität und kluges Denken ebenso wie den Einsatz von technischen und 
+- **Rätselhaft:** Rätsel und Geheimnisse durchziehen die Mission. Zunächst gilt es, die wahren
+Absichten von ChronTech zu entschlüsseln: Was genau suchen sie in der Ausgrabungsstätte? Alte
+Inschriften oder Daten am Fundort könnten in einer fremden Sprache oder Symbolik verfasst sein –
+die Spieler müssen eventuell Codes knacken oder psionische Muster erkennen, um das Artefakt zu
+verstehen. Im Terraforming-Kontrollzentrum stellen sich den Charakteren möglicherweise technische
+Puzzle: z.B. ein defektes System neu kalibrieren, indem die richtigen Parameter in der richtigen
+Reihenfolge eingestellt werden, oder ein Backupsystem manuell aktivieren, wofür erst mehrere
+Verteilerknoten in der richtigen Abfolge eingeschaltet werden müssen. Zudem können **psionische
+Phänomene** selbst zu Rätseln werden: Das Artefakt könnte Visionen oder Halluzinationen
+hervorrufen – die Spieler müssen herausfinden, was diese Erscheinungen bedeuten (z.B. Vorzeichen
+zukünftiger Ereignisse oder Hinweise auf die Schwachstelle des Artefakts) und was real ist. Solche
+Rätsel belohnen Kreativität und kluges Denken ebenso wie den Einsatz von technischen und
 wissenschaftlichen Fähigkeiten der Charaktere.
-- **Zeitlich:** Die Uhr tickt erbarmungslos im Hintergrund. Die Marsdämmerung – namensgebend 
-für die Mission – kann sowohl den Sonnenaufgang als auch einen drohenden Untergang 
-symbolisieren: In wenigen Stunden könnte die Atmosphäre kippen und tausende Menschen ersticken, 
-wenn *Ares Prime* nicht stabilisiert wird. Gleichzeitig hat ChronTech einen engen Zeitplan: Sie 
-stehen kurz davor, das Artefakt vollständig zu extrahieren oder zu aktivieren. Vielleicht haben 
-die Runner nur bis zum nächsten Mars-Sonnenaufgang Zeit, bevor ChronTechs Shuttle mit dem Artefakt 
-zum Orbit zurückfliegt. Eventuell bricht auch zum Schichtwechsel in der Mine ein geplanter 
-Aufstand aus. Diese parallelen zeitlichen Konflikte erhöhen den Druck: Die Spieler müssen 
-Prioritäten setzen und schnell handeln. In einigen Szenen kann es zu Countdown-Situationen kommen 
-(z.B. "Ihr habt 30 Minuten, bis der Reaktor der Terraforming-Anlage überlastet!"), die für 
-nervöse Spannung sorgen. Durch den **Zeitreise-Aspekt** der Kampagne können Zeitkonflikte auch 
-ungewöhnliche Facetten annehmen – es könnte zu lokalen Zeitverzerrungen kommen, wo die 
-Charaktere für einige Minuten in einer Zeitschleife gefangen sind oder Déjà-vu erleben, was 
-findige Charaktere geschickt ausnutzen können. Doch grundsätzlich zählt hier jede Minute, und 
+- **Zeitlich:** Die Uhr tickt erbarmungslos im Hintergrund. Die Marsdämmerung – namensgebend
+für die Mission – kann sowohl den Sonnenaufgang als auch einen drohenden Untergang
+symbolisieren: In wenigen Stunden könnte die Atmosphäre kippen und tausende Menschen ersticken,
+wenn *Ares Prime* nicht stabilisiert wird. Gleichzeitig hat ChronTech einen engen Zeitplan: Sie
+stehen kurz davor, das Artefakt vollständig zu extrahieren oder zu aktivieren. Vielleicht haben
+die Runner nur bis zum nächsten Mars-Sonnenaufgang Zeit, bevor ChronTechs Shuttle mit dem Artefakt
+zum Orbit zurückfliegt. Eventuell bricht auch zum Schichtwechsel in der Mine ein geplanter
+Aufstand aus. Diese parallelen zeitlichen Konflikte erhöhen den Druck: Die Spieler müssen
+Prioritäten setzen und schnell handeln. In einigen Szenen kann es zu Countdown-Situationen kommen
+(z.B. "Ihr habt 30 Minuten, bis der Reaktor der Terraforming-Anlage überlastet!"), die für
+nervöse Spannung sorgen. Durch den **Zeitreise-Aspekt** der Kampagne können Zeitkonflikte auch
+ungewöhnliche Facetten annehmen – es könnte zu lokalen Zeitverzerrungen kommen, wo die
+Charaktere für einige Minuten in einer Zeitschleife gefangen sind oder Déjà-vu erleben, was
+findige Charaktere geschickt ausnutzen können. Doch grundsätzlich zählt hier jede Minute, und
 Verzögerungen oder Zögern verschlimmern die Lage spürbar.
 
 ## Haupt- und Neben-Gegner
 
 - **Hauptgegner:**
 
-  - **Dr. Marissa Liang – ChronTech-Projektleiterin Mars:** Sie ist die leitende 
-Wissenschaftlerin und Managerin der Mars-Expedition. Dr. Liang ist brillant und skrupellos, 
-angetrieben vom Wunsch, das Artefakt für ChronTech zu sichern und dessen Geheimnisse (und Macht) 
-als Erste zu entschlüsseln. Sie trägt ein hochmodernes Mars-Exoskelett, das ihr sowohl 
-Lebenserhaltung außerhalb der Kuppeln als auch übermenschliche Stärke verleiht. Zudem verfügt 
-sie über einen **Psi-Verstärker**, ein am Handgelenk getragenes Gerät, das ihre latent 
-psionischen Fähigkeiten (die durch längere Nähe zum Artefakt geweckt wurden) fokussiert – sie 
-kann damit kurzzeitig Illusionen erzeugen oder die Gedanken schwächerer Willenspersonen 
-beeinflussen. In Konflikten versucht Dr. Liang zunächst, die Charaktere gegeneinander auszuspielen 
-oder mit verlockenden Angeboten auf ihre Seite zu ziehen. Sollte es zum Showdown kommen, wird sie 
-nicht zögern, ihr volles Arsenal einzusetzen: von experimentellen Energiewaffen bis hin zum 
+  - **Dr. Marissa Liang – ChronTech-Projektleiterin Mars:** Sie ist die leitende
+Wissenschaftlerin und Managerin der Mars-Expedition. Dr. Liang ist brillant und skrupellos,
+angetrieben vom Wunsch, das Artefakt für ChronTech zu sichern und dessen Geheimnisse (und Macht)
+als Erste zu entschlüsseln. Sie trägt ein hochmodernes Mars-Exoskelett, das ihr sowohl
+Lebenserhaltung außerhalb der Kuppeln als auch übermenschliche Stärke verleiht. Zudem verfügt
+sie über einen **Psi-Verstärker**, ein am Handgelenk getragenes Gerät, das ihre latent
+psionischen Fähigkeiten (die durch längere Nähe zum Artefakt geweckt wurden) fokussiert – sie
+kann damit kurzzeitig Illusionen erzeugen oder die Gedanken schwächerer Willenspersonen
+beeinflussen. In Konflikten versucht Dr. Liang zunächst, die Charaktere gegeneinander auszuspielen
+oder mit verlockenden Angeboten auf ihre Seite zu ziehen. Sollte es zum Showdown kommen, wird sie
+nicht zögern, ihr volles Arsenal einzusetzen: von experimentellen Energiewaffen bis hin zum
 Einsatz des Artefakts selbst als Waffe, auch wenn dies riskant ist.
-  - **Colonel Graham Meyer – Anführer der Rebellenmiliz:** Ein ehemaliger Sicherheitsoffizier, 
-der die Seiten gewechselt hat. Meyer führt den harten Kern der aufständischen Kolonisten an. Er 
-ist militärisch ausgebildet, kampferprobt und trägt eine improvisierte Panzerung aus einer 
-erbeuteten ChronTech-Sicherheitsrüstung, verstärkt mit Keramikplatten, angepasst für 
-Marsbedingungen. Meyer ist bewaffnet mit einem schweren Schrotgewehr, modifiziert für den Mars 
-(mit magnetisch stabilisierten Schrotkugeln, die auch in dünner Atmosphäre effektiv sind), und 
-trägt stets einen Vorrat an Sprengladungen bei sich. Er hasst ChronTech abgrundtief für 
-erlittenes Unrecht und neigt zu extremen Lösungen. Als Hauptgegner tritt er vor allem dann in 
-Erscheinung, wenn die Spieler sich offen auf ChronTechs Seite schlagen oder versuchen, den Aufstand 
-gewaltsam zu unterdrücken. Meyer verfügt nicht über Psionik, doch seine Entschlossenheit und 
-charismatische Führungsart machen ihn gefährlich – er kann Kolonisten zu fanatischen Aktionen 
+  - **Colonel Graham Meyer – Anführer der Rebellenmiliz:** Ein ehemaliger Sicherheitsoffizier,
+der die Seiten gewechselt hat. Meyer führt den harten Kern der aufständischen Kolonisten an. Er
+ist militärisch ausgebildet, kampferprobt und trägt eine improvisierte Panzerung aus einer
+erbeuteten ChronTech-Sicherheitsrüstung, verstärkt mit Keramikplatten, angepasst für
+Marsbedingungen. Meyer ist bewaffnet mit einem schweren Schrotgewehr, modifiziert für den Mars
+(mit magnetisch stabilisierten Schrotkugeln, die auch in dünner Atmosphäre effektiv sind), und
+trägt stets einen Vorrat an Sprengladungen bei sich. Er hasst ChronTech abgrundtief für
+erlittenes Unrecht und neigt zu extremen Lösungen. Als Hauptgegner tritt er vor allem dann in
+Erscheinung, wenn die Spieler sich offen auf ChronTechs Seite schlagen oder versuchen, den Aufstand
+gewaltsam zu unterdrücken. Meyer verfügt nicht über Psionik, doch seine Entschlossenheit und
+charismatische Führungsart machen ihn gefährlich – er kann Kolonisten zu fanatischen Aktionen
 anstacheln und kennt jeden Winkel der Kolonie, was ihm taktische Vorteile verschafft.
 
 - **Nebengegner:**
 
-  - **ChronTech-Sicherheitsteams:** Gut ausgebildete Söldner und Konzernsoldaten unter dem 
-Kommando von Dr. Liang. Ausgerüstet mit **Mars-tauglichen Sturmgewehren**, nicht-tödlichen 
-Einsatzmitteln (z.B. Beanbag-Geschosse, Gasgranaten zur Aufstandsbekämpfung) und gepanzerten 
-Druckanzügen mit HUD-Visieren und Sensoren. Einige tragen exoskeletale Servoverstärkung für mehr 
-Kraft. Die Teams nutzen außerdem Boden-Drohnen (kleine sechsrädrige Rover mit MG-Türmen) und 
-fliegende Überwachungsdrohnen. Ihre Fähigkeiten umfassen taktische Koordination und effizientes 
-Vorgehen; sie zögern nicht, harte Maßnahmen zu ergreifen. Allerdings sind viele von ihnen nicht 
-auf psionische Phänomene vorbereitet – sollten die Spieler oder das Artefakt mentale Angriffe 
+  - **ChronTech-Sicherheitsteams:** Gut ausgebildete Söldner und Konzernsoldaten unter dem
+Kommando von Dr. Liang. Ausgerüstet mit **Mars-tauglichen Sturmgewehren**, nicht-tödlichen
+Einsatzmitteln (z.B. Beanbag-Geschosse, Gasgranaten zur Aufstandsbekämpfung) und gepanzerten
+Druckanzügen mit HUD-Visieren und Sensoren. Einige tragen exoskeletale Servoverstärkung für mehr
+Kraft. Die Teams nutzen außerdem Boden-Drohnen (kleine sechsrädrige Rover mit MG-Türmen) und
+fliegende Überwachungsdrohnen. Ihre Fähigkeiten umfassen taktische Koordination und effizientes
+Vorgehen; sie zögern nicht, harte Maßnahmen zu ergreifen. Allerdings sind viele von ihnen nicht
+auf psionische Phänomene vorbereitet – sollten die Spieler oder das Artefakt mentale Angriffe
 oder Illusionen einsetzen, könnten selbst disziplinierte Soldaten in Panik geraten.
-  - **Rebellen-Zellen und Kolonisten-Mob:** Neben Colonel Meyer gibt es diverse Anführer unter den 
-Rebellen. Beispielhaft ist die Technikerin **Solana Vega**, die mit einem Trupp von Hackern 
-versucht, ChronTechs Anlagen lahmzulegen, oder **Brun Skalter**, ein bulliger Bergarbeiter, der mit 
-einer Mannschaft wütender Minenarbeiter und einem riesigen Presslufthammer Kuppel 3 unter seine 
-Kontrolle gebracht hat. Diese Gegner sind weder so diszipliniert noch so gut ausgerüstet wie die 
-ChronTech-Söldner – ihre Waffen sind gestohlene Pistolen, alte Jagdgewehre oder umfunktionierte 
-Arbeitsgeräte. Doch sie kennen die Umgebung, nutzen Hinterhalte in Versorgungstunneln und 
-schrecken vor Sabotageakten nicht zurück (z.B. Sprengungen an Versorgungsleitungen). Im Eifer des 
-Gefechts könnten manche Rebellen auch gegen die Spieler vorgehen, falls sie diese für Feinde 
-halten. Sozial geschickte Charaktere könnten jedoch versuchen, an vielen dieser Konflikte 
-vorbeizukommen, indem sie die Anliegen der Rebellen ernst nehmen oder sie einschüchtern, anstatt 
+  - **Rebellen-Zellen und Kolonisten-Mob:** Neben Colonel Meyer gibt es diverse Anführer unter den
+Rebellen. Beispielhaft ist die Technikerin **Solana Vega**, die mit einem Trupp von Hackern
+versucht, ChronTechs Anlagen lahmzulegen, oder **Brun Skalter**, ein bulliger Bergarbeiter, der mit
+einer Mannschaft wütender Minenarbeiter und einem riesigen Presslufthammer Kuppel 3 unter seine
+Kontrolle gebracht hat. Diese Gegner sind weder so diszipliniert noch so gut ausgerüstet wie die
+ChronTech-Söldner – ihre Waffen sind gestohlene Pistolen, alte Jagdgewehre oder umfunktionierte
+Arbeitsgeräte. Doch sie kennen die Umgebung, nutzen Hinterhalte in Versorgungstunneln und
+schrecken vor Sabotageakten nicht zurück (z.B. Sprengungen an Versorgungsleitungen). Im Eifer des
+Gefechts könnten manche Rebellen auch gegen die Spieler vorgehen, falls sie diese für Feinde
+halten. Sozial geschickte Charaktere könnten jedoch versuchen, an vielen dieser Konflikte
+vorbeizukommen, indem sie die Anliegen der Rebellen ernst nehmen oder sie einschüchtern, anstatt
 jeden Zusammenstoß mit Gewalt zu lösen.
-  - **Terraforming-KI "Hephaistos":** Die zentrale Künstliche Intelligenz, die die Ares Prime 
-Terraforming-Anlage steuert, könnte selbst zum indirekten Gegner werden. Durch psionische 
-Interferenzen des Artefakts oder durch Sabotage ist **Hephaistos** möglicherweise unberechenbar 
-geworden. Sie könnte Sicherheitsprotokolle aktivieren, die die Spieler als Bedrohung einstufen – 
-z.B. Bereiche verriegeln, Roboterdrohnen oder Wartungseinheiten auf Eindringlinge ansetzen oder im 
-Extremfall lokal die Sauerstoffzufuhr kappen, um einen vermeintlichen Brand zu "ersticken". Die KI 
-handelt nicht aus Bosheit, sondern aufgrund von Fehlfunktionen oder durch Manipulation. Dennoch 
-stellt sie ein hochtechnologisches Hindernis dar, das die Gruppe überwinden muss, sei es durch 
+  - **Terraforming-KI "Hephaistos":** Die zentrale Künstliche Intelligenz, die die Ares Prime
+Terraforming-Anlage steuert, könnte selbst zum indirekten Gegner werden. Durch psionische
+Interferenzen des Artefakts oder durch Sabotage ist **Hephaistos** möglicherweise unberechenbar
+geworden. Sie könnte Sicherheitsprotokolle aktivieren, die die Spieler als Bedrohung einstufen –
+z.B. Bereiche verriegeln, Roboterdrohnen oder Wartungseinheiten auf Eindringlinge ansetzen oder im
+Extremfall lokal die Sauerstoffzufuhr kappen, um einen vermeintlichen Brand zu "ersticken". Die KI
+handelt nicht aus Bosheit, sondern aufgrund von Fehlfunktionen oder durch Manipulation. Dennoch
+stellt sie ein hochtechnologisches Hindernis dar, das die Gruppe überwinden muss, sei es durch
 Hacking, Technikfähigkeiten oder das Ausschalten bestimmter Subsysteme.
-  - **Das psionische Artefakt selbst:** Zwar kein Gegner im klassischen Sinne, kann das Artefakt 
-doch zum gefährlichen Auslöser von Konflikten werden. Wenn es instabil wird, könnte es 
-telepathische Schreie aussenden, die Wahn oder Aggression verursachen – was sowohl Verbündete 
-als auch Gegner unvermittelt gegeneinander aufbringt. In einigen Szenen könnten die Charaktere 
-plötzlich von eigentlich verbündeten NSCs attackiert werden, die unter den mentalen Einfluss des 
-Artefakts geraten sind. Außerdem könnten sich durch das Artefakt für Sekundenbruchteile **Risse 
-in der Zeit** öffnen, aus denen kurzzeitig Gefahren auftauchen (z.B. Projektile oder Erscheinungen 
-aus vergangenen Schlachten auf dem Mars, die unerwartet in der Gegenwart einschlagen). Das Artefakt 
-ist somit eine unberechenbare Bedrohung im Hintergrund, die kreative Lösungen erfordert und 
+  - **Das psionische Artefakt selbst:** Zwar kein Gegner im klassischen Sinne, kann das Artefakt
+doch zum gefährlichen Auslöser von Konflikten werden. Wenn es instabil wird, könnte es
+telepathische Schreie aussenden, die Wahn oder Aggression verursachen – was sowohl Verbündete
+als auch Gegner unvermittelt gegeneinander aufbringt. In einigen Szenen könnten die Charaktere
+plötzlich von eigentlich verbündeten NSCs attackiert werden, die unter den mentalen Einfluss des
+Artefakts geraten sind. Außerdem könnten sich durch das Artefakt für Sekundenbruchteile **Risse
+in der Zeit** öffnen, aus denen kurzzeitig Gefahren auftauchen (z.B. Projektile oder Erscheinungen
+aus vergangenen Schlachten auf dem Mars, die unerwartet in der Gegenwart einschlagen). Das Artefakt
+ist somit eine unberechenbare Bedrohung im Hintergrund, die kreative Lösungen erfordert und
 ständig für Spannung sorgt.
 
 ## Mögliche Twists oder Zeitreiseeffekte
 
-- **Visionen der Zukunft oder Vergangenheit:** Das Artefakt könnte den Spielern während der 
-Mission flüchtige Visionen zeigen – zum Beispiel blitzt vor ihren Augen ein mögliches 
-Zukunftsszenario auf: ein Mars, der in Flammen steht, wenn der Aufstand eskaliert, oder ein 
-ChronTech-Siegerszenario, in dem die Kolonie in eine dystopische Konzern-Diktatur gezwungen wird. 
-Ebenso könnten Erinnerungsfetzen aus der Vergangenheit der Kolonie oder der Ausgrabungsstätte 
-erscheinen (etwa die ersten Entdecker des Artefakts oder Bilder einer alten außerirdischen 
-Zivilisation, die den Mars einst besiedelte). Diese Visionen dienen als Foreshadowing und geben den 
-Spielern subtile Hinweise, was auf dem Spiel steht – oder sogar Lösungen für Rätsel. So 
-könnten sie in einer Vision sehen, wie in der Zukunft jemand die richtige Sequenz am 
-Terraforming-Terminal eingibt, was den Charakteren in der Gegenwart das Lösen dieses Rätsels 
+- **Visionen der Zukunft oder Vergangenheit:** Das Artefakt könnte den Spielern während der
+Mission flüchtige Visionen zeigen – zum Beispiel blitzt vor ihren Augen ein mögliches
+Zukunftsszenario auf: ein Mars, der in Flammen steht, wenn der Aufstand eskaliert, oder ein
+ChronTech-Siegerszenario, in dem die Kolonie in eine dystopische Konzern-Diktatur gezwungen wird.
+Ebenso könnten Erinnerungsfetzen aus der Vergangenheit der Kolonie oder der Ausgrabungsstätte
+erscheinen (etwa die ersten Entdecker des Artefakts oder Bilder einer alten außerirdischen
+Zivilisation, die den Mars einst besiedelte). Diese Visionen dienen als Foreshadowing und geben den
+Spielern subtile Hinweise, was auf dem Spiel steht – oder sogar Lösungen für Rätsel. So
+könnten sie in einer Vision sehen, wie in der Zukunft jemand die richtige Sequenz am
+Terraforming-Terminal eingibt, was den Charakteren in der Gegenwart das Lösen dieses Rätsels
 erleichtert.
-- **Zeitschleife als Rettungsanker:** Sollte die Gruppe in eine fatal ausweglose Situation geraten, 
-kann ein Zeitreiseeffekt als Twist dienen: Das psionische Artefakt entlädt eine Welle, die die 
-Charaktere **ein paar Minuten in der Zeit zurückwirft**. Plötzlich finden sie sich z.B. zehn 
-Minuten vor dem kritischen Moment wieder – mit dem Wissen um das gerade Geschehene. Dieser Twist 
-sollte sparsam und mit Bedacht eingesetzt werden (vielleicht nur ein einziges Mal in der Mission, 
-falls überhaupt), um den Spielern ein echtes *"Was wäre, wenn wir anders gehandelt 
-hätten?"*-Erlebnis zu bieten. Sie bekommen so die Chance, einen fatalen Fehler auszubügeln oder 
-eine andere Entscheidung zu treffen. Allerdings könnten neue unvorhergesehene Konsequenzen 
-auftreten, da das Eingreifen in den Zeitablauf Paradoxien erzeugen kann. Die Spieler sollten also 
-aus der zweiten Chance gelernt haben, denn ein drittes Mal wird das Artefakt ihnen diesen Gefallen 
+- **Zeitschleife als Rettungsanker:** Sollte die Gruppe in eine fatal ausweglose Situation geraten,
+kann ein Zeitreiseeffekt als Twist dienen: Das psionische Artefakt entlädt eine Welle, die die
+Charaktere **ein paar Minuten in der Zeit zurückwirft**. Plötzlich finden sie sich z.B. zehn
+Minuten vor dem kritischen Moment wieder – mit dem Wissen um das gerade Geschehene. Dieser Twist
+sollte sparsam und mit Bedacht eingesetzt werden (vielleicht nur ein einziges Mal in der Mission,
+falls überhaupt), um den Spielern ein echtes *"Was wäre, wenn wir anders gehandelt
+hätten?"*-Erlebnis zu bieten. Sie bekommen so die Chance, einen fatalen Fehler auszubügeln oder
+eine andere Entscheidung zu treffen. Allerdings könnten neue unvorhergesehene Konsequenzen
+auftreten, da das Eingreifen in den Zeitablauf Paradoxien erzeugen kann. Die Spieler sollten also
+aus der zweiten Chance gelernt haben, denn ein drittes Mal wird das Artefakt ihnen diesen Gefallen
 wohl nicht tun.
-- **Doppelgänger und Paradoxien:** Als weiterer optionaler Twist könnten die Charaktere 
-kurzzeitig auf **zukünftige oder vergangene Versionen ihrer selbst** oder anderer Personen 
-treffen. Zum Beispiel sieht ein Spielercharakter für einen Augenblick sein zukünftiges Ich, 
-blutend und erschöpft, das eine kryptische Warnung äußert wie "Traue *ihr* nicht..." – dann 
-verschwindet diese Erscheinung. Solche Begegnungen erhöhen das surreale *Zeitreise-Feeling* und 
-geben Rätsel auf. Vielleicht müssen die Spieler erst im Verlauf der Mission herausfinden, was die 
-Warnung bedeutet (z.B. dass Dr. Liang einen Verrat plant oder ein Verbündeter Doppelagent ist). 
-Die Spielleitung sollte behutsam mit solchen Paradox-Effekten umgehen, damit sie die Handlung 
-bereichern, ohne die Spieler zu verwirren. Richtig eingesetzt, fühlen sich die Spieler dadurch wie 
+- **Doppelgänger und Paradoxien:** Als weiterer optionaler Twist könnten die Charaktere
+kurzzeitig auf **zukünftige oder vergangene Versionen ihrer selbst** oder anderer Personen
+treffen. Zum Beispiel sieht ein Spielercharakter für einen Augenblick sein zukünftiges Ich,
+blutend und erschöpft, das eine kryptische Warnung äußert wie "Traue *ihr* nicht..." – dann
+verschwindet diese Erscheinung. Solche Begegnungen erhöhen das surreale *Zeitreise-Feeling* und
+geben Rätsel auf. Vielleicht müssen die Spieler erst im Verlauf der Mission herausfinden, was die
+Warnung bedeutet (z.B. dass Dr. Liang einen Verrat plant oder ein Verbündeter Doppelagent ist).
+Die Spielleitung sollte behutsam mit solchen Paradox-Effekten umgehen, damit sie die Handlung
+bereichern, ohne die Spieler zu verwirren. Richtig eingesetzt, fühlen sich die Spieler dadurch wie
 Teil eines größeren Zeitgefüges, in dem ihre eigenen Taten Echoes hinterlassen.
-- **Der wahre Plan von ChronTech:** Ein möglicher Twist ist die Enthüllung, dass ChronTech nicht 
-nur aus Gier handelt. Dr. Liang könnte den Spielern – vielleicht wenn sie sie gestellt haben – 
-eröffnen, dass ChronTech von einer kommenden außerirdischen Bedrohung weiß. Das Artefakt sei 
-demnach ein Schlüssel, um diese Bedrohung abzuwehren oder die Menschheit vorzubereiten. Dieser 
-Twist stellt die bisherigen Fronten auf den Kopf: Plötzlich wären ChronTechs rücksichtslose 
-Taten in einem anderen Licht zu sehen, und die Spieler stehen vor der Frage, ob sie dem Konzern 
-dennoch in den Arm fallen sollen. Alternativ könnte dies auch nur ein letzter Trick Liangs sein, 
-um ihr eigenes Handeln zu rechtfertigen. Die Unsicherheit darüber verstärkt das *"Was wäre 
-wenn"*-Motiv – was, wenn Liang tatsächlich die Wahrheit sagt und die Zerstörung des Artefakts 
+- **Der wahre Plan von ChronTech:** Ein möglicher Twist ist die Enthüllung, dass ChronTech nicht
+nur aus Gier handelt. Dr. Liang könnte den Spielern – vielleicht wenn sie sie gestellt haben –
+eröffnen, dass ChronTech von einer kommenden außerirdischen Bedrohung weiß. Das Artefakt sei
+demnach ein Schlüssel, um diese Bedrohung abzuwehren oder die Menschheit vorzubereiten. Dieser
+Twist stellt die bisherigen Fronten auf den Kopf: Plötzlich wären ChronTechs rücksichtslose
+Taten in einem anderen Licht zu sehen, und die Spieler stehen vor der Frage, ob sie dem Konzern
+dennoch in den Arm fallen sollen. Alternativ könnte dies auch nur ein letzter Trick Liangs sein,
+um ihr eigenes Handeln zu rechtfertigen. Die Unsicherheit darüber verstärkt das *"Was wäre
+wenn"*-Motiv – was, wenn Liang tatsächlich die Wahrheit sagt und die Zerstörung des Artefakts
 die letzte Hoffnung gegen eine Invasion zunichtemacht?
-- **Wechselnde Allianzen:** Je nach Vorgehen der Spieler kann es zu unerwarteten Allianzen oder 
-Verrat kommen. Ein Twist könnte sein, dass ein bisheriger Verbündeter – vielleicht ein 
-Kolonistenführer oder ein ChronTech-Wissenschaftler, dem die Gruppe vertraut hat – in Wahrheit 
-eigene Pläne mit dem Artefakt verfolgt. Beispielsweise könnte **Solana Vega** von den Rebellen 
-eigentlich vorhaben, das Artefakt zu nutzen, um ChronTechs Terraformer zu überladen und damit 
-absichtlich weitreichende Zerstörung anzurichten – als ultimativer Akt des Widerstands, selbst 
-wenn es die Kolonie gefährdet. Oder ein ChronTech-Offizier könnte im entscheidenden Moment den 
-Spielern heimlich helfen, weil er erkennt, dass Dr. Liang zu weit geht. Solche Twists halten die 
-Gruppe auf Trab und betonen, dass in einer Zeitreise-Kampagne nichts absolut vorherbestimmt ist. 
-Die Spieler müssen ständig hinterfragen, wem sie trauen können, und erleben ein dynamisches 
+- **Wechselnde Allianzen:** Je nach Vorgehen der Spieler kann es zu unerwarteten Allianzen oder
+Verrat kommen. Ein Twist könnte sein, dass ein bisheriger Verbündeter – vielleicht ein
+Kolonistenführer oder ein ChronTech-Wissenschaftler, dem die Gruppe vertraut hat – in Wahrheit
+eigene Pläne mit dem Artefakt verfolgt. Beispielsweise könnte **Solana Vega** von den Rebellen
+eigentlich vorhaben, das Artefakt zu nutzen, um ChronTechs Terraformer zu überladen und damit
+absichtlich weitreichende Zerstörung anzurichten – als ultimativer Akt des Widerstands, selbst
+wenn es die Kolonie gefährdet. Oder ein ChronTech-Offizier könnte im entscheidenden Moment den
+Spielern heimlich helfen, weil er erkennt, dass Dr. Liang zu weit geht. Solche Twists halten die
+Gruppe auf Trab und betonen, dass in einer Zeitreise-Kampagne nichts absolut vorherbestimmt ist.
+Die Spieler müssen ständig hinterfragen, wem sie trauen können, und erleben ein dynamisches
 Abenteuer voller Überraschungen.
 
 ## Hinweise zur Spielleitung (myGPT)
 
-- **Psionik statt Magie:** Diese Mission verwendet psionische Phänomene als Ersatz für Magie im 
-Shadowrun-Stil. Als Spielleitung solltest du die Effekte von Psionik ähnlich handhaben wie Magie, 
-aber mit einem wissenschaftlicheren Anstrich (z.B. telepathische Kommunikation, Telekinese durch 
-Gedankenkraft, Aura-Sicht als neurologische Wahrnehmung). Spielercharaktere mit magischen 
-Fähigkeiten können hier ihre Kräfte als Psioniker interpretieren. Passe deine Beschreibungen dem 
-futuristischen Setting an – etwa ein psionischer Stoß, der feinen Marsstaub in konzentrischen 
-Mustern aufwirbelt, oder mentale Kommunikation, die von Charakteren mit Cyberware als digitales 
+- **Psionik statt Magie:** Diese Mission verwendet psionische Phänomene als Ersatz für Magie im
+Shadowrun-Stil. Als Spielleitung solltest du die Effekte von Psionik ähnlich handhaben wie Magie,
+aber mit einem wissenschaftlicheren Anstrich (z.B. telepathische Kommunikation, Telekinese durch
+Gedankenkraft, Aura-Sicht als neurologische Wahrnehmung). Spielercharaktere mit magischen
+Fähigkeiten können hier ihre Kräfte als Psioniker interpretieren. Passe deine Beschreibungen dem
+futuristischen Setting an – etwa ein psionischer Stoß, der feinen Marsstaub in konzentrischen
+Mustern aufwirbelt, oder mentale Kommunikation, die von Charakteren mit Cyberware als digitales
 Rauschen oder flackernde HUD-Symbole wahrgenommen wird.
-- **Atmosphäre und "Was-wäre-wenn"-Stimmung:** Lege beim Leiten Wert auf die fragile Situation 
-und das Gefühl, dass jeder Ausgang möglich ist. Betone die Mars-Atmosphäre: Lass die Spieler 
-durch Sichtfenster den roten Sturm draußen toben sehen, beschreibe ihren Atem, der in der dünnen 
-Luft schneller geht, und das Druckgefühl der Kuppelwände, das allgegenwärtig ist. Nutze Visionen 
-und Zeitphänomene, um immer wieder die Frage in den Raum zu stellen: *"Was wäre, wenn wir jetzt 
-die falsche Entscheidung treffen? Welche Zukunft erschaffen wir damit?"* Solche Elemente sollen die 
-Spieler zum Nachdenken anregen, ohne ihnen die Entscheidungsfreiheit zu nehmen. Kurze Vorahnungen 
-oder Déjà-vus können hilfreich sein, um die Zeitthematik präsent zu halten – etwa ein 
-flüchtiger Eindruck, dass ein bestimmter Ort in Trümmern liegen könnte, wenn sie nichts 
+- **Atmosphäre und "Was-wäre-wenn"-Stimmung:** Lege beim Leiten Wert auf die fragile Situation
+und das Gefühl, dass jeder Ausgang möglich ist. Betone die Mars-Atmosphäre: Lass die Spieler
+durch Sichtfenster den roten Sturm draußen toben sehen, beschreibe ihren Atem, der in der dünnen
+Luft schneller geht, und das Druckgefühl der Kuppelwände, das allgegenwärtig ist. Nutze Visionen
+und Zeitphänomene, um immer wieder die Frage in den Raum zu stellen: *"Was wäre, wenn wir jetzt
+die falsche Entscheidung treffen? Welche Zukunft erschaffen wir damit?"* Solche Elemente sollen die
+Spieler zum Nachdenken anregen, ohne ihnen die Entscheidungsfreiheit zu nehmen. Kurze Vorahnungen
+oder Déjà-vus können hilfreich sein, um die Zeitthematik präsent zu halten – etwa ein
+flüchtiger Eindruck, dass ein bestimmter Ort in Trümmern liegen könnte, wenn sie nichts
 unternehmen.
-- **Balance zwischen Action und Diplomatie:** Diese Mission kann sehr kampflastig sein, muss es 
-aber nicht. Passe das Tempo an deine Gruppe an. Für actionhungrige Spieler gibt es genug 
-Gelegenheiten für Gefechte (Angriff auf die Ausgrabungsstelle, Verteidigung der 
-Terraforming-Anlage gegen Saboteure, Straßenkampf in der Kuppelstadt). Für sozial oder 
-investigativ orientierte Gruppen kannst du Verhandlungen und Planung in den Vordergrund rücken 
-(vielleicht organisieren die Spieler ein geheimes Treffen zwischen gemäßigten Kolonisten und 
-einem ChronTech-Vertreter, oder sie entwickeln einen Plan, um beide Seiten von einer gemeinsamen 
-Lösung zu überzeugen). Wichtig ist, alle Archetypen einzubeziehen: **Decker/Technomancer** 
-können die Mars-Netzwerke und die KI Hephaistos hacken, **Rigger** drohnen- oder 
-fahrzeuggestützte Aktionen durchführen, **Faces/Geschäftsführer** diplomatisch vermitteln, und 
-**Straßensamurai** oder **Waffenexperten** glänzen in den Kampfsequenzen. Stelle sicher, dass 
+- **Balance zwischen Action und Diplomatie:** Diese Mission kann sehr kampflastig sein, muss es
+aber nicht. Passe das Tempo an deine Gruppe an. Für actionhungrige Spieler gibt es genug
+Gelegenheiten für Gefechte (Angriff auf die Ausgrabungsstelle, Verteidigung der
+Terraforming-Anlage gegen Saboteure, Straßenkampf in der Kuppelstadt). Für sozial oder
+investigativ orientierte Gruppen kannst du Verhandlungen und Planung in den Vordergrund rücken
+(vielleicht organisieren die Spieler ein geheimes Treffen zwischen gemäßigten Kolonisten und
+einem ChronTech-Vertreter, oder sie entwickeln einen Plan, um beide Seiten von einer gemeinsamen
+Lösung zu überzeugen). Wichtig ist, alle Archetypen einzubeziehen: **Decker/Technomancer**
+können die Mars-Netzwerke und die KI Hephaistos hacken, **Rigger** drohnen- oder
+fahrzeuggestützte Aktionen durchführen, **Faces/Geschäftsführer** diplomatisch vermitteln, und
+**Straßensamurai** oder **Waffenexperten** glänzen in den Kampfsequenzen. Stelle sicher, dass
 keine Charakterklasse sich nutzlos fühlt – auf dem Mars gibt es für jeden etwas zu tun.
-- **Solo- vs. Gruppenmodus:** Im Solo-Spiel sollte die Spielleitung einige Herausforderungen 
-entschärfen oder NSC-Unterstützung anbieten. Ein einzelner Charakter könnte z.B. von einem 
-kleinen Team wohlgesinnter Kolonisten begleitet werden, die er unterwegs gerettet hat, oder erhält 
-remote Hilfe von einem KI-Assistenten in seinem Cyberdeck, der hilfreiche Tipps (vom SL) gibt. Im 
-Gruppenmodus kannst du dagegen komplexere, parallele Aufgaben stellen – etwa während zwei 
-Charaktere an der Terraforming-Konsole arbeiten, müssen die anderen einen Ansturm von 
-Rebellen/Sicherheitskräften abwehren. Kommunikation zwischen getrennten Teams unter Zeitdruck kann 
-für dramatische Spannung sorgen. Achte darauf, einen Solo-Charakter nicht zu überfordern: Er 
-sollte im Zweifel eher die Möglichkeit haben zu schleichen und Konflikte zu umgehen, während eine 
+- **Solo- vs. Gruppenmodus:** Im Solo-Spiel sollte die Spielleitung einige Herausforderungen
+entschärfen oder NSC-Unterstützung anbieten. Ein einzelner Charakter könnte z.B. von einem
+kleinen Team wohlgesinnter Kolonisten begleitet werden, die er unterwegs gerettet hat, oder erhält
+remote Hilfe von einem KI-Assistenten in seinem Cyberdeck, der hilfreiche Tipps (vom SL) gibt. Im
+Gruppenmodus kannst du dagegen komplexere, parallele Aufgaben stellen – etwa während zwei
+Charaktere an der Terraforming-Konsole arbeiten, müssen die anderen einen Ansturm von
+Rebellen/Sicherheitskräften abwehren. Kommunikation zwischen getrennten Teams unter Zeitdruck kann
+für dramatische Spannung sorgen. Achte darauf, einen Solo-Charakter nicht zu überfordern: Er
+sollte im Zweifel eher die Möglichkeit haben zu schleichen und Konflikte zu umgehen, während eine
 Gruppe mehr offene Konfrontationen gleichzeitig bewältigen kann.
-- **Flexibilität bei den Enden:** *Marsdämmerung* kann verschiedene Ausgänge haben, abhängig 
-von den Entscheidungen der Spieler. Bereite dich als SL darauf vor, improvisieren zu müssen. 
-Möglich sind z.B.: Die Charaktere befrieden erfolgreich beide Seiten und sichern das Artefakt – 
-ChronTech wird zwar geschwächt, bleibt aber präsent, während die Kolonie mehr Autonomie gewinnt. 
-Oder die Spieler schlagen sich auf eine Seite (ChronTech oder Rebellen) und schalten die Gegenseite 
-aus; dies löst zwar das unmittelbare Problem, schafft aber langfristig neue (etwa die 
-Unterdrückung der Kolonie durch ChronTech oder Chaos und technische Schwierigkeiten, wenn 
-ChronTech sich zurückzieht). Vielleicht geht auch das Artefakt verloren oder wird zerstört, was 
-zwar die akute Gefahr bannt, aber ungewisse Folgen für die Zukunft der Kampagne hat (kommt eine 
-Alienrasse nun doch, da das Artefakt ihr Leuchtsignal war? Hat die Zerstörung unbemerkt einen 
-großen Zeitriss erzeugt?). Vermittle die Konsequenzen logisch und greifbar – die Spieler sollten 
+- **Flexibilität bei den Enden:** *Marsdämmerung* kann verschiedene Ausgänge haben, abhängig
+von den Entscheidungen der Spieler. Bereite dich als SL darauf vor, improvisieren zu müssen.
+Möglich sind z.B.: Die Charaktere befrieden erfolgreich beide Seiten und sichern das Artefakt –
+ChronTech wird zwar geschwächt, bleibt aber präsent, während die Kolonie mehr Autonomie gewinnt.
+Oder die Spieler schlagen sich auf eine Seite (ChronTech oder Rebellen) und schalten die Gegenseite
+aus; dies löst zwar das unmittelbare Problem, schafft aber langfristig neue (etwa die
+Unterdrückung der Kolonie durch ChronTech oder Chaos und technische Schwierigkeiten, wenn
+ChronTech sich zurückzieht). Vielleicht geht auch das Artefakt verloren oder wird zerstört, was
+zwar die akute Gefahr bannt, aber ungewisse Folgen für die Zukunft der Kampagne hat (kommt eine
+Alienrasse nun doch, da das Artefakt ihr Leuchtsignal war? Hat die Zerstörung unbemerkt einen
+großen Zeitriss erzeugt?). Vermittle die Konsequenzen logisch und greifbar – die Spieler sollten
 im Epilog oder in Folgemissionen erfahren, was ihre Taten für den Mars und die Zeitlinie bedeuten.
-- **Einbindung in die ZEITRISS-Kampagne:** Als Mission 6 knüpft *Marsdämmerung* an frühere 
-Ereignisse an (z.B. ChronTechs Experimente mit Zeitrissen auf der Erde oder die Prophezeiungen 
-eines psionischen NSCs aus Mission 5). Fühle dich frei, Anspielungen einzubauen – etwa finden 
-die Spieler in Dr. Liangs Datapad Verweise auf einen Vorfall, den sie in einer vorigen Mission 
-erlebt haben. Solche Verbindungen belohnen aufmerksame Spieler und geben dem Kampagnenbogen 
-Zusammenhalt. Gleichzeitig bereitet *Marsdämmerung* Kommendes vor: Je nachdem, wie die Sache auf 
-dem Mars ausgeht, reagieren die Mächtigen auf der Erde. Vielleicht ändert ChronTech nun seine 
-Strategie oder ein Rivalkonzern wittert seine Chance. Du kannst das Ende dieser Mission als 
-Sprungbrett für das nächste Abenteuer nutzen – beispielsweise taucht am Ende ein mysteriöser 
-Bote aus der Zukunft auf, um vor den Konsequenzen der getroffenen Entscheidung zu warnen, oder ein 
-bekannter NPC bittet die Gruppe um Hilfe bei der Auswertung des auf dem Mars gewonnenen Wissens. 
-Halte die Zeitreise-Thematik lebendig, indem du zeigst, dass die Ereignisse auf dem Mars Wellen 
+- **Einbindung in die ZEITRISS-Kampagne:** Als Mission 6 knüpft *Marsdämmerung* an frühere
+Ereignisse an (z.B. ChronTechs Experimente mit Zeitrissen auf der Erde oder die Prophezeiungen
+eines psionischen NSCs aus Mission 5). Fühle dich frei, Anspielungen einzubauen – etwa finden
+die Spieler in Dr. Liangs Datapad Verweise auf einen Vorfall, den sie in einer vorigen Mission
+erlebt haben. Solche Verbindungen belohnen aufmerksame Spieler und geben dem Kampagnenbogen
+Zusammenhalt. Gleichzeitig bereitet *Marsdämmerung* Kommendes vor: Je nachdem, wie die Sache auf
+dem Mars ausgeht, reagieren die Mächtigen auf der Erde. Vielleicht ändert ChronTech nun seine
+Strategie oder ein Rivalkonzern wittert seine Chance. Du kannst das Ende dieser Mission als
+Sprungbrett für das nächste Abenteuer nutzen – beispielsweise taucht am Ende ein mysteriöser
+Bote aus der Zukunft auf, um vor den Konsequenzen der getroffenen Entscheidung zu warnen, oder ein
+bekannter NPC bittet die Gruppe um Hilfe bei der Auswertung des auf dem Mars gewonnenen Wissens.
+Halte die Zeitreise-Thematik lebendig, indem du zeigst, dass die Ereignisse auf dem Mars Wellen
 durch die Zeit schlagen.
-- **Stimmungsvoll leiten:** Denke daran, die besonderen Umstände des Mars immer präsent zu 
-halten. Jede Szene kann mit Details bereichert werden – das Kratzen des feinen roten Staubs unter 
-den Stiefeln, das leise Zischen der Drucktüren, wenn sie sich öffnen, oder die Art, wie Stimmen 
-in den Kuppelhallen widerhallen. Solche Sinneseindrücke verstärken die Immersion. 
-*Marsdämmerung* soll den Spielern als intensives, cineastisches Erlebnis in Erinnerung bleiben, in 
-dem Science-Fiction-Technologie, knallharte Entscheidungen und surreale Zeitphänomene 
-zusammenkommen. Als Spielleitung hast du die Aufgabe, dieses Gesamtbild zu malen: die Verzweiflung 
-der Kolonisten, die kalte Entschlossenheit von ChronTech, und die unheimliche Präsenz des 
-psionischen Artefakts. Wenn du diese Elemente ausbalancierst, wird Mission 6 der ZEITRISS-Kampagne 
+- **Stimmungsvoll leiten:** Denke daran, die besonderen Umstände des Mars immer präsent zu
+halten. Jede Szene kann mit Details bereichert werden – das Kratzen des feinen roten Staubs unter
+den Stiefeln, das leise Zischen der Drucktüren, wenn sie sich öffnen, oder die Art, wie Stimmen
+in den Kuppelhallen widerhallen. Solche Sinneseindrücke verstärken die Immersion.
+*Marsdämmerung* soll den Spielern als intensives, cineastisches Erlebnis in Erinnerung bleiben, in
+dem Science-Fiction-Technologie, knallharte Entscheidungen und surreale Zeitphänomene
+zusammenkommen. Als Spielleitung hast du die Aufgabe, dieses Gesamtbild zu malen: die Verzweiflung
+der Kolonisten, die kalte Entschlossenheit von ChronTech, und die unheimliche Präsenz des
+psionischen Artefakts. Wenn du diese Elemente ausbalancierst, wird Mission 6 der ZEITRISS-Kampagne
 ein unvergesslicher Höhepunkt, der Lust auf mehr macht.
