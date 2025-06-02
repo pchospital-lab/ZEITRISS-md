@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 6: Marsdämmerung"
+version: 4.0
+tags: [gameplay]
+---
 # Marsdämmerung
 
 *(Kurze Beschreibung: Auf dem Mars im Jahr 2097 spitzt sich ein Konflikt zwischen rebellischen Kolonisten und dem Megakonzern ChronTech zu. Zeitgleich droht ein psionisches Alien-Artefakt, das ChronTech entdeckt hat, außer Kontrolle zu geraten, während eine instabile Terraforming-Anlage die fragile Mars-Atmosphäre ins Chaos stürzt. Die Charaktere müssen in dieser explosiven Lage zwischen den Fronten navigieren, verborgene Ziele verfolgen und eine Katastrophe verhindern, die Zeit und Realität selbst erschüttern könnte.)*

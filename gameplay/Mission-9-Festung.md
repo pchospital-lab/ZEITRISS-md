@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 9: Die letzte Festung"
+version: 4.0
+tags: [gameplay]
+---
 # Mission 9: Die letzte Festung
 
 *Die Runner kehren aus dem Zeitstrom in eine düstere, veränderte Gegenwart des Jahres 2043 zurück. ChronTech beherrscht als totalitärer Konzern die Welt und hält Kairo unter Kriegsrecht. Drohnen ziehen ihre Suchlichter über abgeriegelte Straßen, psionische Scanner durchleuchten jeden Bürger auf abweichende Gedanken. Inmitten dieser Hightech-Dystopie schmieden verstreute Widerstandszellen einen letzten Plan. Die Cheops-Pyramide – jetzt ein hermetisch gesicherter Konzernkomplex – ist zum Symbol von ChronTechs Macht geworden. Die Runner müssen die “letzte Festung” stürmen, um den Zugang zum verborgenen Alien-Stützpunkt unter Gizeh zurückzuerobern und das Finale der ZEITRISS-Kampagne vorzubereiten.*

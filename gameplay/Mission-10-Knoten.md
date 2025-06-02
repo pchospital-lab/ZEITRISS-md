@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 10: Schicksalsknoten"
+version: 4.0
+tags: [gameplay]
+---
 # Schicksalsknoten (Mission 10)
 
 **Kurzbeschreibung:** Im finalen Kapitel der ZEITRISS-Kampagne dringen die Runner erneut in die verborgene außerirdische Anlage unter der Cheops-Pyramide ein. Dort, am Knotenpunkt der Zeitlinien, entfesselt Alexander Cross seinen letzten Plan: Er hat den *Chronovisor* – eine Alien-Technologie zur Zeitmanipulation – gehackt, um eine neue Zeitordnung zu erschaffen, in der ChronTech ewig herrscht. Vergangenheit, Gegenwart und Zukunft beginnen in einem psionischen Sturm zu verschwimmen, während die Runner sich ihren Weg zum Kern der Anlage bahnen. Das Schicksal der Welt **und** aller Zeitlinien steht auf dem Spiel, als es zum finalen Showdown gegen Cross kommt.

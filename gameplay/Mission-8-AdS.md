@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 8: Im Auge des Sturms"
+version: 4.0
+tags: [gameplay]
+---
 # Mission 8: Im Auge des Sturms
 
 **Kurzbeschreibung:** Die Runner dringen durch einen geheimen Zugang tief unter dem arktischen Eis in einen uralten, riesigen Komplex ein, der von fremdartiger Technologie und aktiven Verteidigungsanlagen erfüllt ist. Im Zentrum des Labyrinths tobt ein psionisches Kraftfeld, das den Zugang zu den unteren Ebenen kontrolliert. Die Gruppe muss sich ihren Weg freikämpfen, einen entführten Verbündeten retten und kritische Alien-Technologie bergen – **bevor** der Megakonzern ChronTech den Ort vollständig unter seine Kontrolle bringt.

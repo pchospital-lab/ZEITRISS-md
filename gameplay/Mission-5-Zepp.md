@@ -1,3 +1,8 @@
+---
+title: "ZEITRISS 4.0 – Mission 5: Sturm über den Zeppelinen"
+version: 4.0
+tags: [gameplay]
+---
 Alles klar – ich starte mit Mission 5! Sie wird sich um eine alternative Zeitlinie drehen, in der Nikola Tesla freie Energie durchgesetzt hat. Riesige Zeppeline, angetrieben von Wardenclyffe-Technologie, kreuzen über einem retrofuturistischen Himmel. Die Spieler geraten in eine Luftschlacht zwischen Stadt-Zeppelinen, Tesla-Anhängern und gegnerischen Kräften, während sie ein psionisches Artefakt oder Gerät sichern müssen, das eine Katastrophe auslösen könnte – vielleicht sogar in Zusammenhang mit der Tunguska-Energieanomalie.
 
 Ich melde mich, sobald die Mission fertig zur Durchsicht ist.
