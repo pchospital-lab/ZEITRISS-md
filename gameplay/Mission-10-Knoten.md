@@ -5,12 +5,12 @@ tags: [gameplay]
 ---
 # Schicksalsknoten (Mission 10)
 
-**Kurzbeschreibung:** Im finalen Kapitel der ZEITRISS-Kampagne dringen die Runner erneut in die
+**Kurzbeschreibung:** Im finalen Kapitel der ZEITRISS-Kampagne dringen die Agenten erneut in die
 verborgene außerirdische Anlage unter der Cheops-Pyramide ein. Dort, am Knotenpunkt der
 Zeitlinien, entfesselt Alexander Cross seinen letzten Plan: Er hat den *Chronovisor* – eine
 Alien-Technologie zur Zeitmanipulation – gehackt, um eine neue Zeitordnung zu erschaffen, in der
 ChronTech ewig herrscht. Vergangenheit, Gegenwart und Zukunft beginnen in einem psionischen Sturm
-zu verschwimmen, während die Runner sich ihren Weg zum Kern der Anlage bahnen. Das Schicksal der
+zu verschwimmen, während die Agenten sich ihren Weg zum Kern der Anlage bahnen. Das Schicksal der
 Welt **und** aller Zeitlinien steht auf dem Spiel, als es zum finalen Showdown gegen Cross kommt.
 
 ## Setting und Zeitperiode
@@ -29,21 +29,21 @@ brandneue Metallgänge, dann wieder wie frisch ausgehobene Tunnel im Bau, oder s
 antiken Grabkammern mit Pharaoneninschriften. Diese Überlagerungen sind spürbar, aber temporär,
 und erzeugen eine unheimliche Atmosphäre, ohne völlig unlogisch zu wirken (die **Konvergenz der
 Zeitlinien** ist am Ort des Chronovisors am stärksten). Die **Stimmung**: düster, elektrisierend
-und episch – die Luft knistert vor temporaler Energie, und die Runner spüren, dass dies ein Ort
+und episch – die Luft knistert vor temporaler Energie, und die Agenten spüren, dass dies ein Ort
 jenseits aller normalen Realitäten ist.
 
 ## Missionsziele
 
-- **Hauptziel:** *Stoppt Alexander Cross und verhindert den Kollaps der Zeit.* Die Runner müssen
+- **Hauptziel:** *Stoppt Alexander Cross und verhindert den Kollaps der Zeit.* Die Agenten müssen
 bis zum zentralen Kontrollraum vordringen, wo der **Chronovisor** installiert ist, und Cross’
 Versuch vereiteln, die Zeitlinien neu zu ordnen. Dazu gehört vermutlich, den Chronovisor zu
 deaktivieren oder zurückzusetzen und Cross auszuschalten – entweder durch Kampf oder andere
 Mittel. Wichtig ist, dass die ursprüngliche Zeitlinie stabilisiert wird oder eine bewusste neue
-Zeitlinie nach Wunsch der Runner entsteht, anstatt Cross’ dystopischer Vision.
+Zeitlinie nach Wunsch der Agenten entsteht, anstatt Cross’ dystopischer Vision.
 
 - **Nebenmissionen:**
 
-  - *Daten und Wissen sichern:* In der Anlage können die Runner wertvolle Daten über die
+  - *Daten und Wissen sichern:* In der Anlage können die Agenten wertvolle Daten über die
 Alien-Technologie oder ChronTechs Forschung finden. Optional können sie Alien-Artefakte bergen
 oder Informationen herunterladen, die Aufschluss über die Natur des Chronovisors geben (z.B.
 Pläne, Schwachstellen oder Hinweise auf andere Zeitrisse). Diese Informationen könnten im Epilog
@@ -51,10 +51,10 @@ nützlich sein, um die Welt nach dem Finale neu aufzubauen oder um zukünftige B
 einzuschätzen.
   - *Alliierte retten oder unterstützen:* Möglicherweise befinden sich verbündete NPCs (z.B. ein
 Wissenschaftler, den ChronTech entführt hat, oder ein früherer Auftraggeber) in der Anlage. Die
-Runner können entscheiden, sie zu befreien, bevor alles im Chaos versinkt. Dies würde emotionale
+Agenten können entscheiden, sie zu befreien, bevor alles im Chaos versinkt. Dies würde emotionale
 Tiefe hinzufügen (vielleicht ist einer der Gefangenen ein Charakter aus früheren Missionen, was
 der Entscheidung Dringlichkeit verleiht).
-  - *Optionale Sabotage:* Zusätzlich zum Chronovisor könnten die Runner auch Cross’ Ressourcen
+  - *Optionale Sabotage:* Zusätzlich zum Chronovisor könnten die Agenten auch Cross’ Ressourcen
 schwächen – z.B. eine temporale Energiequelle überladen, Cross’ Notfluchtweg blockieren oder
 die KI-Waffensysteme der Anlage auf **seine** Truppen umlenken. Solche Aktionen sind optional,
 können aber den Endkampf erleichtern oder die Erfolgschancen erhöhen.
@@ -62,7 +62,7 @@ können aber den Endkampf erleichtern oder die Erfolgschancen erhöhen.
 - **Moralische Entscheidungen:** Ein zentrales Element dieser Mission sind folgenschwere
 Entscheidungen:
 
-  - **Umgang mit dem Chronovisor:** Zerstören die Runner das Gerät, um jegliches
+  - **Umgang mit dem Chronovisor:** Zerstören die Agenten das Gerät, um jegliches
 Zeitmanipulationsrisiko auszuschalten? Oder nutzen sie es selbst, um eine **bessere Realität** zu
 schaffen (z.B. vergangene Tragödien ungeschehen machen) – wissend, dass jede Änderung
 unabsehbare Konsequenzen haben kann? Vielleicht entscheiden sie sich auch, die Technologie zu
@@ -71,12 +71,12 @@ anderen Zukunft.
   - **Schicksal von Alexander Cross:** Töten sie Cross im Kampf – ein tyrannischer Architekt des
 Leids, dessen Tod logisch scheint? Oder bringen sie ihn lebend zur Rechenschaft (was schwierig
 wird, da er bis zuletzt kämpfen wird)? Gibt es gar die Möglichkeit, ihn in letzter Sekunde zur
-Einsicht zu bringen? Cross könnte im Angesicht der Niederlage anbieten, gemeinsam mit den Runnern
-die Zeit zu ändern, z.B. persönliche Verluste der Runner rückgängig zu machen, im Tausch
+Einsicht zu bringen? Cross könnte im Angesicht der Niederlage anbieten, gemeinsam mit den Agenten
+die Zeit zu ändern, z.B. persönliche Verluste der Agenten rückgängig zu machen, im Tausch
 dafür, ihn leben zu lassen. Gehen die Spieler darauf ein oder lehnen sie ab?
   - **Opfer für das größere Wohl:** Sollte die Stabilisierung der Zeit nur gelingen, wenn ein
 enormes Opfer gebracht wird (z.B. muss jemand im Chronovisor bleiben oder in einer Zeitschleife
-gefangen werden, um das Gefüge zu stabilisieren), müssen die Runner entscheiden, wer oder was
+gefangen werden, um das Gefüge zu stabilisieren), müssen die Agenten entscheiden, wer oder was
 geopfert wird. Lassen sie ggf. einen NPC (oder sogar einen **Spielercharakter**, falls
 dramaturgisch gewünscht und mit dem Spieler abgesprochen) zurück, um alle anderen zu retten?
 Diese Entscheidung hat emotionale Tragweite und symbolisiert den *Schicksalsknoten*: einen Moment,
@@ -85,7 +85,7 @@ der die Zukunft aller bestimmt.
 ## Konflikte
 
 - **Physisch:** Die Anlage ist schwer bewacht und verändert sich stetig durch temporale
-Instabilitäten. Die Runner kämpfen gegen **automatisierte Alien-Sicherheitssysteme**: z.B.
+Instabilitäten. Die Agenten kämpfen gegen **automatisierte Alien-Sicherheitssysteme**: z.B.
 schwebende Drohnen mit Energiewaffen, mechanische Tentakel-Arme, die aus Wänden schnellen, und
 Geschütztürme, die phasenweise auftauchen. Auch **ChronTech-Söldner** könnten anwesend sein –
 sofern Cross eine Einsatztruppe mitgebracht hat, stellen diese Elite-Kämpfer mit
@@ -93,43 +93,43 @@ High-Tech-Ausrüstung die letzte Verteidigungslinie dar. Räume können sich ver
 Kämpfe toben: Deckungen verschwinden plötzlich oder *erscheinen*, wenn eine vergangene Epoche
 kurz hereinbricht (z.B. ragt für ein paar Runden ein antiker Säulenstumpf aus dem Boden, der
 Kugeln abfängt). Im Endkampf gegen Alexander Cross selbst ist physische Kampfkraft essenziell –
-Cross nutzt ggf. einen mächtigen Alien-Exosuit oder psionische Energiefelder, sodass die Runner
+Cross nutzt ggf. einen mächtigen Alien-Exosuit oder psionische Energiefelder, sodass die Agenten
 all ihre Kampffertigkeiten bündeln müssen, um ihn zu überwinden.
 - **Sozial:** Obwohl der Fokus dieser Mission auf Action und Überleben liegt, gibt es
 sozial-dramatische Konflikte: *Dialoge mit dem Feind* – Cross könnte während des Endkampfs
-über Lautsprecher oder in Person zu den Runnern sprechen, ihnen Visionen seiner zukünftigen
+über Lautsprecher oder in Person zu den Agenten sprechen, ihnen Visionen seiner zukünftigen
 perfekten Welt zeigen und versuchen, sie zu verunsichern oder zu überzeugen. Auch die KI der
 Anlage könnte eine Persönlichkeit zeigen: vielleicht spricht eine uralte Alien-Stimme in den
-Köpfen der Runner oder via Hologramm, warnt sie vor dem, was sie tun, oder stellt Rätsel (siehe
-nächster Punkt). **Verbündete**: Wenn die Runner auf gefangene Alliierte stoßen, können
+Köpfen der Agenten oder via Hologramm, warnt sie vor dem, was sie tun, oder stellt Rätsel (siehe
+nächster Punkt). **Verbündete**: Wenn die Agenten auf gefangene Alliierte stoßen, können
 emotionale Gespräche stattfinden (z.B. ein alter Mentor, der an Cross’ Plan zweifelt und
 wichtige Hinweise gibt). Außerdem müssen die Spieler untereinander Diskussionen führen – etwa
 wenn es Meinungsverschiedenheiten gibt, ob man den Chronovisor nutzen sollte. Solche sozialen
 Konflikte sollten ausgespielt werden, um die **emotionale Gewichtung** der Entscheidungen fühlbar
 zu machen.
 - **Rätselhaft:** Die außerirdische Anlage enthält **Rätsel und technische Herausforderungen**.
-Beispielsweise könnten die Runner Zugangs-Codes oder Glyphen-Sequenzen entschlüsseln müssen, um
+Beispielsweise könnten die Agenten Zugangs-Codes oder Glyphen-Sequenzen entschlüsseln müssen, um
 versiegelte Türen zu öffnen. Ein Bereich könnte nur betretbar sein, wenn gewisse
 **Zeitschalter** gleichzeitig betätigt werden – etwa müssen zwei Ereignisse *gleichzeitig in
-verschiedener Zeit* stattfinden (z.B. ein Runner löst in einem temporär in die Vergangenheit
+verschiedener Zeit* stattfinden (z.B. ein Agenten löst in einem temporär in die Vergangenheit
 versetzten Raum einen Mechanismus aus, während ein anderer im Gegenwartsraum etwas aktiviert).
 Rätsel können auch sein: das **Navigieren durch Zeitschleifen** – etwa wiederholt sich ein
-bestimmter Gang immer wieder, bis die Runner ein Muster erkennen (z.B. eine Hieroglyphe drücken
+bestimmter Gang immer wieder, bis die Agenten ein Muster erkennen (z.B. eine Hieroglyphe drücken
 oder eine psionische Energiequelle stören), um den Loop zu brechen. Diese Rätsel fordern
 Kreativität und machen die Zeitphänomene erlebbar, ohne die Spieler zu frustrieren. Tipps oder
 Visionen (vielleicht durch die Psi-Energie des Ortes) können Hinweise geben, wenn sie
 steckenbleiben.
 - **Zeitlich:** Die Zeit selbst ist der größte Gegner hier. **Temporale Instabilitäten**
-verursachen z.B. Zeitsprünge: Ein Runner könnte plötzlich Visionen seiner eigenen Vergangenheit
+verursachen z.B. Zeitsprünge: Ein Agenten könnte plötzlich Visionen seiner eigenen Vergangenheit
 erleben (was ihn für eine Runde handlungsunfähig oder abgelenkt macht), oder kleine
 **Zeitblasen** versetzen Teile des Raums für Sekundenbruchteile in andere Epochen (eine antike
-Falle aktiviert sich, dann verschwindet sie wieder; ein Ausrüstungsgegenstand der Runner altert
+Falle aktiviert sich, dann verschwindet sie wieder; ein Ausrüstungsgegenstand der Agenten altert
 rapide oder wird verjüngt). Es kann **Countdown-Situationen** geben – etwa muss der Chronovisor
 innerhalb einer bestimmten Zeit deaktiviert werden, bevor er irreversibel alle Zeitlinien
 umschreibt. Dieser Zeitdruck erhöht die Intensität. Auch paradoxale Effekte sind möglich: z.B.
-taucht ein Gegner, den die Runner bereits besiegt hatten, plötzlich nochmals auf – ein
+taucht ein Gegner, den die Agenten bereits besiegt hatten, plötzlich nochmals auf – ein
 *Zeitschatten* aus einer anderen Linie, der verwirrt ist und entweder bekämpft oder vielleicht
-durch geschicktes Handeln aufgelöst werden kann. Die Runner müssen flexibel reagieren, denn
+durch geschicktes Handeln aufgelöst werden kann. Die Agenten müssen flexibel reagieren, denn
 normale Strategien werden durch die Zeitverzerrungen erschwert. Wichtig ist, dem Zeit-Chaos gerade
 genug Raum zu geben, um Spannung zu erzeugen, ohne die Spieler vollends zu verwirren: Sie sollen
 die Dramatik spüren, aber noch handlungsfähig bleiben.
@@ -146,26 +146,26 @@ Alien-Entität fusioniert. In letzterem Fall levitiert Cross möglicherweise, se
 unnatürlich, und Gegenstände bewegen sich telekinetisch um ihn herum. **Fähigkeiten:** Geniales
 Hacker- und Taktiker-Mindset, beherrscht die Anlagekontrollen (er kann z.B. per Gesten temporäre
 Schilde aktivieren oder Fallen auslösen), und im Kampf nutzt er entweder hochmoderne Waffen (z.B.
-eine Pistole, die *Zeitrisse* verschießt, wodurch getroffene Runner in Zeitlupe verfallen) oder
-psionische Angriffe (Gedankenschockwellen, Illusionen aus den Ängsten der Runner).
+eine Pistole, die *Zeitrisse* verschießt, wodurch getroffene Agenten in Zeitlupe verfallen) oder
+psionische Angriffe (Gedankenschockwellen, Illusionen aus den Ängsten der Agenten).
 **Verstärkung:** Sollte der Kampf zu leicht geraten, kann Cross mithilfe des Chronovisors
 *Zeit-Echos* von sich selbst aus parallelen Zeitlinien beschwören – kurzlebige Duplikate, die
 einzelne Aktionen für ihn ausführen (z.B. einen zusätzlichen Schuss abgeben oder einen Zauber
 wirken), was die Gruppe taktisch fordert. Seine ultimative **Agenda** im Kampf: Er versucht,
-Zeitportale zu öffnen, um die Neuschaffung der Zeitlinie einzuleiten, während er die Runner
+Zeitportale zu öffnen, um die Neuschaffung der Zeitlinie einzuleiten, während er die Agenten
 aufhält.
 
 - **KI-Wächter der Anlage:** Die uralte Künstliche Intelligenz, die diese Alien-Basis steuert,
 könnte entweder von Cross umprogrammiert worden sein **oder** gegen alle Eindringlinge vorgehen
 (also auch gegen Cross, aber der hat vielleicht zeitweise Kontrolle). Als Gegner manifestiert sie
 sich durch **kontrollierte Systeme**: Roboterarme, Laserfallen, autonome Drohnen, die in den
-Gängen patrouillieren. Sie hat Sensoren überall; die Runner können das Gefühl haben, ständig
+Gängen patrouillieren. Sie hat Sensoren überall; die Agenten können das Gefühl haben, ständig
 beobachtet zu werden. **Besondere Fähigkeit:** In einem zentralen Knotenraum könnte sich die KI
 als Hologramm zeigen – vielleicht in Form eines schwebenden Symbols oder einer gestaltlosen
-Stimme aus allen Richtungen. Sie könnte Rätsel stellen oder die Runner in Endlosschleifen locken.
+Stimme aus allen Richtungen. Sie könnte Rätsel stellen oder die Agenten in Endlosschleifen locken.
 Wenn die KI nicht völlig unter Cross’ Kontrolle steht, könnte sie in kritischen Momenten
 unberechenbar sein – mal verschließt sie einen Weg, mal öffnet sie überraschend eine
-alternative Route (vielleicht reagiert sie auf *Wer* gerade die Oberhand hat). Die Runner können
+alternative Route (vielleicht reagiert sie auf *Wer* gerade die Oberhand hat). Die Agenten können
 überlegen, ob sie die KI hacken/überzeugen, auf ihre Seite zu wechseln (sozialer/technischer
 Konflikt), was Kampfhilfen geben würde (z.B. lässt die KI einige Drohnen gegen Cross wenden).
 
@@ -175,14 +175,14 @@ gebaut – ihre Sicherheitsmaßnahmen sind teils physisch, teils energetisch/psi
   - *Automatisierte Drohnen:* Schwebende Sphären oder spinnenartige Roboter, die mit Energiewaffen
 oder Schocknetzen ausgerüstet sind. Einige können **Tarnfelder** aktivieren und in Wänden
 verborgen lauern, bis ein Lebewesen vorbeikommt. Andere projizieren kleine Zeitfelder, die einen
-Runner für ein paar Sekunden in Stasis halten können (was gefährlich ist, wenn z.B. ein Kampf
+Agenten für ein paar Sekunden in Stasis halten können (was gefährlich ist, wenn z.B. ein Kampf
 tobt).
   - *Verteidigungstürme:* Aus dem Boden oder der Decke fahren bei Alarm schlanke Türme aus, die
 Laserstrahlen oder Railgun-ähnliche Geschosse abfeuern. Sie haben Alien-Kristalle als
 Energiequelle, was sie unempfindlich gegen konventionelle Elektronik-Störungen macht – aber
-vielleicht reagieren sie auf **psionische Kräfte** (falls die Runner Psioniker oder Magier im Team
+vielleicht reagieren sie auf **psionische Kräfte** (falls die Agenten Psioniker oder Magier im Team
 haben, könnten sie diese Energie umleiten).
-  - *Temporal-Fallen:* Z.B. Felder, die bei Durchquerung einen Zeiteffekt auslösen – ein Runner
+  - *Temporal-Fallen:* Z.B. Felder, die bei Durchquerung einen Zeiteffekt auslösen – ein Agenten
 könnte plötzlich altern (mit temporären negativen Effekten) oder verjüngt werden (was evtl.
 Erinnerungsverlust oder Kontrollverlust bedeuten könnte, wenn er gedanklich kurz wieder ein Kind
 ist). Andere Fallen teleportieren Eindringlinge ein paar Minuten zurück an den Anfang des
@@ -191,17 +191,17 @@ Mechanismen sind eher Rätsel/Hazard als klassische Gegner, aber gehören zur
 Sicherheitsarchitektur.
 
 - **Zeit-Phänomene (Neben-Gegner/Umgebungsgefahr):** Durch den destabilisierten Chronovisor treten
-Erscheinungen auf, die zwar nicht *intendierte* Gegner sind, aber den Runnern gefährlich werden:
+Erscheinungen auf, die zwar nicht *intendierte* Gegner sind, aber den Agenten gefährlich werden:
 
   - *Zeitfragmente:* Kurz auftauchende Geisterbilder aus anderen Zeiten – z.B. ein phantasmaler
-**Wächter aus der Pharaonenzeit** erscheint und schwingt eine Axt nach den Runnern, bevor er
+**Wächter aus der Pharaonenzeit** erscheint und schwingt eine Axt nach den Agenten, bevor er
 wieder verschwindet; oder Schatten zukünftiger Soldaten mit modernen Gewehren flackern auf und
 schießen einen Salve, ehe sie verblassen. Diese Fragmente sind oft nicht vollständig real (ihre
 Angriffe könnten abgeschwächt sein oder nur mentale Illusionen, die trotzdem Schaden verursachen,
-wenn die Runner es glauben). Sie dienen dazu, die Atmosphäre bedrohlich und surreal zu halten.
-  - *Paradoxe Doppelgänger:* In seltenen Fällen könnten die Runner sich selbst oder
+wenn die Agenten es glauben). Sie dienen dazu, die Atmosphäre bedrohlich und surreal zu halten.
+  - *Paradoxe Doppelgänger:* In seltenen Fällen könnten die Agenten sich selbst oder
 Teammitglieder als Echo sehen – z.B. huscht am Ende eines Ganges plötzlich **eine Silhouette,
-die aussieht wie einer der Runner**, vorbei. Jagten sie ihr nach, finden sie vielleicht nur Leere
+die aussieht wie einer der Agenten**, vorbei. Jagten sie ihr nach, finden sie vielleicht nur Leere
 – oder sie laufen Gefahr, ihrem eigenen Paradox zu begegnen (was z.B. psychischen Schaden
 verursachen könnte). Diese Doppelgänger könnten im Finale auch Alexander Cross betreffen
 (Illusionen mehrerer Cross erscheinen, unklar wer real ist, bis man sie verwundet). Solche
@@ -213,26 +213,26 @@ Knotenpunkten.
 
 - **Der Chronovisor hat ein Eigenleben:** Eine überraschende Wendung kann sein, dass die
 Alien-Technologie teilweise bewusst oder von einem uralten Willen durchdrungen ist. Beispielsweise
-könnten die Runner im Finale feststellen, dass **nicht nur Cross** das Geschehen lenkt – der
+könnten die Agenten im Finale feststellen, dass **nicht nur Cross** das Geschehen lenkt – der
 Chronovisor selbst (oder ein Alien-Geist darin) will eine bestimmte Zukunft herbeiführen. Das
-Gerät könnte z.B. versuchen, einen der Runner zu *ködern*: es zeigt Visionen einer idealen Welt,
+Gerät könnte z.B. versuchen, einen der Agenten zu *ködern*: es zeigt Visionen einer idealen Welt,
 in der persönliche Wünsche wahr sind, um sie zu verleiten, die Maschine zu aktivieren. Dieser
 Twist stellt die Frage, ob die Gefahr wirklich gebannt ist, nur weil Cross besiegt wird – oder ob
-die Runner dem Chronovisor selbst Einhalt gebieten müssen (eventuell indem sie es zerstören oder
+die Agenten dem Chronovisor selbst Einhalt gebieten müssen (eventuell indem sie es zerstören oder
 neu konfigurieren).
 
 - **Vergangene Entscheidungen holen die Spieler ein:** Da dies der Abschluss der Kampagne ist,
-können frühere Taten der Runner in Form von Zeitlinien-Echos zurückkehren. Eine mögliche
+können frühere Taten der Agenten in Form von Zeitlinien-Echos zurückkehren. Eine mögliche
 Überraschung: In einem kritischen Moment erscheint eine Figur aus einer anderen Zeitlinie – z.B.
 ein Verbündeter, der in einer früheren Mission gestorben ist, taucht kurz als lebendige Variante
-auf und hilft (oder verwirrt die Runner); oder ein Gegner, den sie verschonten, tritt aus einem
+auf und hilft (oder verwirrt die Agenten); oder ein Gegner, den sie verschonten, tritt aus einem
 Portal und unterstützt *doch noch Cross*, weil in jener alternativen Zukunft Cross ihn auf seine
 Seite zog. Diese Twists belohnen oder bestrafen die Gruppe symbolisch für vorherige Entscheidungen
 und geben dem Finale zusätzlich emotionale Tiefe.
 
 - **Finale Zeitliniengabelung:** Nachdem Cross besiegt ist, kommt es zur
 **Schicksalsentscheidung**: Vielleicht gerät der Chronovisor außer Kontrolle – die Zeitlinien
-beginnen zu zerfasern. Die Runner haben nur Sekunden, um zu handeln. Hier kann ein Twist sein, dass
+beginnen zu zerfasern. Die Agenten haben nur Sekunden, um zu handeln. Hier kann ein Twist sein, dass
 **jede Option** konkrete Folgen zeigt: z.B. ein Portal öffnet sich und zeigt die Welt, wenn sie
 den Chronovisor jetzt zerstören (vielleicht Chaos, aber *ihr* aktuelles Ich existiert weiter); ein
 anderes Portal zeigt eine Utopie, die sie schaffen könnten, wenn sie das Gerät neu programmieren
@@ -241,20 +241,20 @@ opfern müssten). Solche Visionen zwingen die Spieler, sich schnell festzulegen.
 könnte **eine überraschende Konsequenz** eintreten:
 
   - Zerstörung des Chronovisors schließt die Risse, aber möglicherweise **bleibt ein Riss**
-offen, der einen der Runner oder Cross in eine andere Zeit saugt – ein Aufhänger für weitere
+offen, der einen der Agenten oder Cross in eine andere Zeit saugt – ein Aufhänger für weitere
 Abenteuer (z.B. der Charakter strandet in der Vergangenheit oder Zukunft).
   - Nutzung des Chronovisors erschafft tatsächlich eine neue Realität: Die Mission endet mit
 einer Art *Soft-Reboot* der Spielwelt. Überraschend könnte sein, dass einzelne Details anders
-sind (die Spielleitung kann beschreiben, wie die Runner langsam merken, dass Dinge verschoben
+sind (die Spielleitung kann beschreiben, wie die Agenten langsam merken, dass Dinge verschoben
 wurden – z.B. existiert ChronTech in der neuen Welt gar nicht, aber auch manche Verbündete oder
-Errungenschaften der Runner fehlen). Dies erlaubt eine spannende **Nachbesprechung**: Die Spieler
+Errungenschaften der Agenten fehlen). Dies erlaubt eine spannende **Nachbesprechung**: Die Spieler
 haben gewonnen, aber in welcher Welt?
 
 - **Cross’ letzter Trumpf:** Selbst nach einer Niederlage könnte Cross einen letzten Twist
 bereithalten. Beispielsweise hat er ein **Implantat** oder einen Fluchtplan in petto: Wenn er
 stirbt, initiiert sein Cyberimplantat eine **Zeitbombe** – nicht im explosiven Sinn, sondern eine
 Vorrichtung, die einen lokalen Zeitriss auslöst, der die gesamte Anlage (und alle darin) in ein
-anderes Zeitalter schleudert. Die Runner müssten dann schnell reagieren (vielleicht den Riss mit
+anderes Zeitalter schleudert. Die Agenten müssten dann schnell reagieren (vielleicht den Riss mit
 dem Chronovisor kontrollieren oder ihren Fluchtweg ändern). Alternativ: Cross hat irgendwo in der
 Anlage einen **Clone** oder eine jüngere Version von sich aus einer anderen Zeitlinie versteckt,
 die im Fall seines Scheiterns erwacht. Diese jüngere Version könnte entkommen, sodass die
@@ -263,9 +263,9 @@ entkommt – möglicherweise für eine künftige Kampagne).
 
 - **Kosmisches Paradox-Ende (vorsichtig einsetzen):** Für besonders mystische Ausrichtungen kann
 eine Überraschung sein, dass die **Aliens selbst erscheinen** – z.B. in Form von Projektionen
-– sobald der Chronovisor gestört wird. Sie könnten den Runnern danken oder drohen, je nachdem
+– sobald der Chronovisor gestört wird. Sie könnten den Agenten danken oder drohen, je nachdem
 wie die Menschen mit ihrer Technologie umgegangen sind. Extrem wäre ein Ende, in dem die Aliens
-die ganze Anlage (inklusive Runner und Cross) in eine übergeordnete Zeitebene ziehen, um über das
+die ganze Anlage (inklusive Agenten und Cross) in eine übergeordnete Zeitebene ziehen, um über das
 Schicksal der Beteiligten zu entscheiden – ein sehr surrealer Epilog, der aber nur passen sollte,
 wenn die Spielrunde solche Mind-Twist-Enden mag. Für die meisten Gruppen dürfte es befriedigender
 sein, wenn *die Spieler* durch ihre Entscheidungen die Realität formen.
@@ -315,7 +315,7 @@ Fall bringt, oder welche letzten Worte Cross hat).
 einen Epilog. Beschreibe, wie die Zeitlinien sich stabilisieren oder wie die neue Realität
 aussieht. Je nach Entscheidung der Spieler kann dieser Epilog offen oder detailreich sein.
 **Beispiel:** Wenn der Chronovisor zerstört wurde, erzähle vom Kollaps der Anlage: Trümmer
-fallen, doch die Runner entkommen ins Mondlicht vor der Pyramide, während hinter ihnen der Zugang
+fallen, doch die Agenten entkommen ins Mondlicht vor der Pyramide, während hinter ihnen der Zugang
 in einem letzten grellen Blitz verschwindet – die Zeit hat sich beruhigt; vielleicht spüren sie,
 dass etwas anders ist (oder genau gleich, was auch erschreckend sein kann nach all dem). Wenn sie
 die Zeit umgeschrieben haben, schildere sanft die Unterschiede: Sie treten aus der Pyramide und

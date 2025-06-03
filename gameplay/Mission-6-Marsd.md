@@ -47,7 +47,7 @@ vor dem Kollaps bewahren. Dies kann technisches Geschick erfordern (z.B. Reparat
 Reboot des Systems) oder das Lösen des zugrundeliegenden Problems – möglicherweise beeinflusst
 das Artefakt die Anlage. Die Stabilisierung der Atmosphäre ist entscheidend, um das Überleben
 aller Kolonisten zu sichern.
-  - **Konflikt entschärfen:** Idealerweise sollen die Runner einen offenen Aufstand oder brutalen
+  - **Konflikt entschärfen:** Idealerweise sollen die Agenten einen offenen Aufstand oder brutalen
 Gewalteinsatz verhindern. Dazu müssen sie diplomatisches Fingerspitzengefühl beweisen und
 zwischen ChronTech-Sicherheitstruppen und den wütenden Kolonisten vermitteln – zumindest soweit,
 dass alle Parteien zusammenarbeiten oder sich zurückhalten, bis die unmittelbare Gefahr gebannt
@@ -65,7 +65,7 @@ Machenschaften – etwa geheime Forschungsdaten über das Artefakt oder Aufzeich
 dass ChronTech die Sicherheit der Kolonie absichtlich aufs Spiel setzt. Diese Beweise können
 später verwendet werden, um ChronTech zur Rechenschaft zu ziehen oder die Öffentlichkeit zu
 informieren.
-  - **Sabotage oder Hilfe im Geheimen:** Die Runner könnten optionale Ziele verfolgen, wie z.B.
+  - **Sabotage oder Hilfe im Geheimen:** Die Agenten könnten optionale Ziele verfolgen, wie z.B.
 das Stören von ChronTechs Kommunikation (um deren Koordination zu schwächen) oder das
 unauffällige Unterstützen einer Kolonistengruppe (etwa indem sie Ausrüstung oder Medizin
 liefern). Solche Aktionen können den Missionsverlauf erleichtern, bergen aber das Risiko, entdeckt
@@ -135,7 +135,7 @@ für die Mission – kann sowohl den Sonnenaufgang als auch einen drohenden Unte
 symbolisieren: In wenigen Stunden könnte die Atmosphäre kippen und tausende Menschen ersticken,
 wenn *Ares Prime* nicht stabilisiert wird. Gleichzeitig hat ChronTech einen engen Zeitplan: Sie
 stehen kurz davor, das Artefakt vollständig zu extrahieren oder zu aktivieren. Vielleicht haben
-die Runner nur bis zum nächsten Mars-Sonnenaufgang Zeit, bevor ChronTechs Shuttle mit dem Artefakt
+die Agenten nur bis zum nächsten Mars-Sonnenaufgang Zeit, bevor ChronTechs Shuttle mit dem Artefakt
 zum Orbit zurückfliegt. Eventuell bricht auch zum Schichtwechsel in der Mine ein geplanter
 Aufstand aus. Diese parallelen zeitlichen Konflikte erhöhen den Druck: Die Spieler müssen
 Prioritäten setzen und schnell handeln. In einigen Szenen kann es zu Countdown-Situationen kommen
@@ -279,8 +279,8 @@ Abenteuer voller Überraschungen.
 - **Psionik statt Magie:** Diese Mission verwendet psionische Phänomene als Ersatz für Magie im
 Shadowrun-Stil. Als Spielleitung solltest du die Effekte von Psionik ähnlich handhaben wie Magie,
 aber mit einem wissenschaftlicheren Anstrich (z.B. telepathische Kommunikation, Telekinese durch
-Gedankenkraft, Aura-Sicht als neurologische Wahrnehmung). Spielercharaktere mit magischen
-Fähigkeiten können hier ihre Kräfte als Psioniker interpretieren. Passe deine Beschreibungen dem
+Gedankenkraft, Aura-Sicht als neurologische Wahrnehmung). Spielercharaktere, die in anderen Settings
+magische Fähigkeiten besitzen, können hier ihre Kräfte als Psioniker interpretieren. Passe deine Beschreibungen dem
 futuristischen Setting an – etwa ein psionischer Stoß, der feinen Marsstaub in konzentrischen
 Mustern aufwirbelt, oder mentale Kommunikation, die von Charakteren mit Cyberware als digitales
 Rauschen oder flackernde HUD-Symbole wahrgenommen wird.

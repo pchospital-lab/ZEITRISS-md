@@ -287,7 +287,7 @@ Bestandteile zerfallen. Bis dahin jedoch ist es ein Alptraum, der Legenden von �
 “Monstern” erklären könnte.
 2. **Zeitwächter-Golem:** In einer uralten Tempelruine ruht eine steinerne Statue… bis
 *Eindringlinge mit Zeitreise-Geräten* kommen und sie erwecken. Dieser Golem wurde einst von einem
-Tempelorden mittels Chrono-Magie belebt, um heilige Stätten vor temporalen Dieben zu schützen.
+Tempelorden mittels Chrono-Technik belebt, um heilige Stätten vor temporalen Dieben zu schützen.
 *Fähigkeiten:* Er absorbiert Energie von Zeitgadgets – ein Chrono-Stabilisator-Schuss würde ihn
 z. B. **stärken** statt schwächen! Er ist nahezu unzerstörbar, solange der Zauber anhält.
 *Schwäche:* Irgendwo im Tempel gibt es ein Ritual oder einen Glyphenstein als Energiequelle. Finden
@@ -328,7 +328,7 @@ als Herzstück einer Horror-Mission. *Schwäche:* Nur mit einem besonderen Artef
 Synchronisation mehrerer Zeitgeräte kann man ihn bannen – z. B. müssten an fünf Punkten gleichzeitig
 Zeitanker gesetzt werden, um den Riss zu schließen und ihn zurück in die Zeitschlucht zu schicken.
 Das ist eine epische Aufgabe, die echtes Teamwork und cleveres Vorgehen verlangt. Ihn im klassischen
-Sinne zu “besiegen” (umzuhauen) ist kaum möglich – hier müssen Köpfchen und die **Magie der Zeit**
+Sinne zu “besiegen” (umzuhauen) ist kaum möglich – hier müssen Köpfchen und das **Mysterium der Zeit**
 ran.
 6. **Zeit-Egel:** Zunächst unsichtbar, heftet sich dieser **parasitische Zeitwesen** an
 nichtsahnende Chrononauten und saugt unbemerkt deren temporale Energie ab. *Symptome:* Die
@@ -409,7 +409,7 @@ Mit solchen Artefakten könnt ihr tolle Plots entwerfen. Gerade wenn Spieler fre
 lieben sie es, **seltsame Gegenstände** zu sammeln und deren Zweck herauszufinden. Vielleicht
 entfaltet ein Artefakt erst im Finale seine volle Macht – oder es bringt einfach Flair in den
 Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das alle paar Stunden ein
-Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen “magischen
+Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen “mysteriösen
 Gegenstände” zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
 
 ## Kulturfragmente-Generator: Farbe für die Epochen

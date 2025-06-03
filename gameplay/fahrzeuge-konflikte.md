@@ -87,7 +87,7 @@ ständige Vorsicht geboten ist, um nicht doch die Maskierung zu verlieren!)
 *Beispiele:* Hover-Cars, Antigrav-Gleiter, schwebende Monorails, Raumgleiter aus Cyberpunk- Städten.
 *Eigenschaften:* Unglaubliche Geschwindigkeit, Flughöhe und Traglast, oft mit Tarnvorrichtungen oder
 Autopiloten ausgestattet. **Nachteil:** Extrem energiefressend und in früheren Epochen praktisch
-unmöglich zu warten. Futuristische Vehikel wirken überall vor ihrer Zeit wie Wunder oder Magie.
+unmöglich zu warten. Futuristische Vehikel wirken überall vor ihrer Zeit wie Wunder oder PSI-Phänomene.
 (Szene: Im Jahr 2100 liefern sich Agenten eine Hover-Car- Verfolgungsjagd über neonbeleuchtete
 Häuserschluchten. Sie schießen zwischen Monorail-Schienen hindurch und nutzen Antigrav-Technik für
 waghalsige Manöver. Doch als sie anschließend mit demselben Gleiter in einer Barockstadt von 1700
@@ -329,7 +329,7 @@ Konflikt tobt.
 
 **Mechanik:** Teilt eine gewaltige Schlacht oder Revolte in **Schlüsselaktionen** auf, die von den
 Helden ausgeführt werden können. Jede dieser Aktionen wird wie eine eigene Szene ausgespielt (mit
-den normalen Regeln für Kampf, Soziales, Magie/Technik etc.). Für jede Aktion gibt es ein klares
+den normalen Regeln für Kampf, Soziales, Psi/Technik etc.). Für jede Aktion gibt es ein klares
 Ziel; gelingt es, erhält die Seite der Helden einen **Punkt** bzw. Vorteil. Scheitern die Helden bei
 einer Aktion, erhält ggf. die Gegenseite einen Punkt, *oder* es geht ein möglicher Vorteil verloren.
 Am Ende werden die Punkte verglichen, um den Gesamtausgang zu bestimmen.

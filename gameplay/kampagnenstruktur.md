@@ -461,7 +461,7 @@ dramatischen Höhepunkte wirken intensiver, wenn es zwischendurch Leerlauf und R
 Spieler schätzen ihre Charaktere mehr, wenn sie sie auch mal von einer anderen, alltäglichen Seite
 zeigen konnten. Im ZEITRISS-Kontext verstärken solche Pausen das Flair, weil sie die außerzeitliche
 Natur des HQ betonen: Während draußen Jahrzehnte in Sekunden verrinnen, sitzen drinnen Freunde
-beisammen und spielen Karten, als gäbe es kein Morgen – ein kleiner **magischer Realismus** im
+beisammen und spielen Karten, als gäbe es kein Morgen – ein kleiner **surrealer Realismus** im
 Herzen des Sci-Fi-Abenteuers.
 
 ## Fazit
