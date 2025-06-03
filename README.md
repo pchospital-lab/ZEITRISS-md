@@ -5,7 +5,7 @@ Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textba
 ## Struktur
 - **core/** – Grundregeln und Würfelsystem
 - **characters/** – Charaktererschaffung, Zustände und Ausrüstung
-- **gameplay/** – Kampagnenstruktur, Konflikte, kreative Generatoren sowie Missionsbeschreibungen (Mission 1–10)
+- **gameplay/** – Kampagnenstruktur, Konflikte, kreative Generatoren, Kampagnenuebersicht und alle Missionsbeschreibungen in `missionen.md`
 - **systems/** – Erweiterte Systeme wie HQ, PSI, Speichermechanik
 - **meta/** – Masterprompt und Leitfaden für GPT-Spielleitungen
 
