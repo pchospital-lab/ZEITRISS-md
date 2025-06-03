@@ -5,7 +5,7 @@ tags: [gameplay]
 ---
 # Der zerbrochene Spiegel – Mission 7
 
-*Nach ihren Zeitreisen kehren die Runner in eine futuristische Megastadt im Jahr 2077 zurück –
+*Nach ihren Zeitreisen kehren die Agenten in eine futuristische Megastadt im Jahr 2077 zurück –
 doch ihre Heimat ist nur noch ein verzerrtes Spiegelbild der Welt, die sie einst kannten.
 Allgegenwärtige Drohnen, neonflackernde Bildschirme und implantierte IDs formen ein totalitäres
 Überwachungsnetz, während Megakonzerne wie ChronTech im Geheimen an der ultimativen
@@ -21,7 +21,7 @@ smogverhangenen Himmel ziehen.*
 
 Die Mission spielt im Jahr **2077** in einer gewaltigen **Cyberpunk-Megapolis** auf der Erde. Die
 Stadt ist ein Moloch aus glitzernden Konzern-Arkologien und heruntergekommenen Untergrundvierteln.
-Seit den letzten Abenteuern der Runner hat sich ihre Heimat dramatisch verändert: **ChronTech**
+Seit den letzten Abenteuern der Agenten hat sich ihre Heimat dramatisch verändert: **ChronTech**
 – ein Megakonzern mit dubiosen Zeitmanipulations-Projekten – hat die Gunst der Stunde genutzt,
 um hinter den Kulissen die Macht an sich zu reißen. Regierung und Polizei sind entweder korrupt
 oder stehen unter direktem Einfluss der Konzerne. Überall hängen Kameras, und Bewohner tragen
@@ -44,7 +44,7 @@ psionisch Begabten formieren eine **digitale Rebellion** gegen die Übermacht de
 **Atmosphäre** der Stadt ist düster und angespannt – überall spürt man die unsichtbare Hand
 der Kontrolle, aber auch die flackernde Hoffnung des Widerstands.
 
-Die **Runner** – wieder in ihrer Gegenwart angelangt – erleben einen Kulturschock: Ihre einst
+Die **Agenten** – wieder in ihrer Gegenwart angelangt – erleben einen Kulturschock: Ihre einst
 vertraute Umgebung wirkt fremd und beunruhigend verändert, als blickten sie in einen
 **zerbrochenen Spiegel**. Ohne auf paradox anmutende persönliche Erinnerungslücken einzugehen,
 stellt sich für sie vor allem die Frage: *Was ist hier passiert?* Offenbar hat ChronTech durch
@@ -58,7 +58,7 @@ die in dieser Welt die Rolle von Magie ersetzt.
 
 **Hauptziele:**
 
-- **Stadtweites Überwachungsnetz sabotieren:** Die Runner müssen das neue **Kontrollnetzwerk**
+- **Stadtweites Überwachungsnetz sabotieren:** Die Agenten müssen das neue **Kontrollnetzwerk**
 der Stadt außer Gefecht setzen. Dieses System, ein Joint-Venture von ChronTech mit städtischen
 Behörden, verknüpft fliegende Drohnen, allgegenwärtige Kameras und die Implantat-IDs aller
 Bürger zu einem allsehenden Überwacher. Ziel der Charaktere ist es, zentrale Knotenpunkte dieses
@@ -71,16 +71,16 @@ wichtigste Werkzeug zur totalen Überwachung.
 namens **Neurofunk**, das psionische Signale über das städtische Netzwerk oder über
 Neuro-Implantate der Bevölkerung senden kann, um Emotionen und Verhalten der Massen zu
 manipulieren. Dieses Projekt läuft geheim in einem Forschungslabor oder an einem Sendeturm. Die
-Runner müssen Beweise über diese Technologie sammeln *und* die laufenden Experimente unterbinden.
+Agenten müssen Beweise über diese Technologie sammeln *und* die laufenden Experimente unterbinden.
 Konkret könnte dies bedeuten, einen Neurofunk-Sendemast oder einen Prototyp-Sender zu zerstören,
-der kurz davor steht, stadtweiten Betrieb aufzunehmen. Gelingt es den Runnern, die psionische
+der kurz davor steht, stadtweiten Betrieb aufzunehmen. Gelingt es den Agenten, die psionische
 **Gedankenkontrolle** zu stoppen, bewahren sie die Bevölkerung davor, zu willenlosen Marionetten
 von ChronTech zu werden. *(Anmerkung: ChronTechs Neurofunk basiert auf der realen Idee, Gehirne
 über bestimmte Frequenzen oder Ultraschallwellen zu beeinflussen – etwas, das im 21. Jahrhundert
 noch spekulativ und experimentell war, nun aber von ChronTech zur grausamen Perfektion gebracht
 wurde.)*
 - **Überleben und Entkommen:** Wie immer in der Schattenwelt gilt: Der Auftrag ist nur so viel
-wert, wie das Leben der Runner. Nach der Sabotage müssen sie der Vergeltung von ChronTech und den
+wert, wie das Leben der Agenten. Nach der Sabotage müssen sie der Vergeltung von ChronTech und den
 Behörden entgehen. Ein sauberes Entkommen aus den Hochsicherheitszonen – idealerweise mit
 gewonnenen **Informationen** und minimalem Kollateralschaden – ist ein implizites Hauptziel. Die
 Charaktere sollen am Ende nicht nur das Netzwerk lahmgelegt haben, sondern auch **Beweise** für
@@ -90,51 +90,51 @@ Umtriebe oder weitere Missionen) vorzubereiten.
 **Nebenmissionen:**
 
 - **Verbündete mobilisieren:** Im Untergrund der Stadt existieren Gruppen, die ebenfalls gegen die
-neue Ordnung ankämpfen. Die Runner können Allianzen schließen – etwa mit einer
+neue Ordnung ankämpfen. Die Agenten können Allianzen schließen – etwa mit einer
 **Hacktivistengruppe** (z.B. *“WireMinds”* genannt) oder einem Netzwerk von psionisch Begabten,
 die sich der Kontrolle entziehen wollen. Eine Nebenmission könnte sein, einen Kontaktmann dieser
 Gruppierung zu finden und zu überzeugen, Unterstützung zu leisten (z.B. mit Ausrüstung,
 Insider-Informationen über das Netzwerk oder einem sicheren Unterschlupf). Diese Allianz
 erleichtert die Hauptmission, birgt aber auch Risiken, falls die Verbündeten eigene Agenden
 verfolgen.
-- **Informationen extrahieren:** Zusätzlich zur Zerstörung des Netzwerks sollen die Runner
+- **Informationen extrahieren:** Zusätzlich zur Zerstörung des Netzwerks sollen die Agenten
 **Daten stehlen**, um ChronTech bloßzustellen. In einem Nebenziel könnten sie in ChronTechs
 Datenbanken nach belastenden Beweisen suchen – etwa Protokolle über illegale Menschenversuche
 mit Psionik oder geheime Abhörlisten prominenter Bürger. Diese Daten könnten später publik
 gemacht oder an rivalisierende Institutionen übergeben werden. Das Hacken dieser Datenknoten ist
-anspruchsvoll, bringt den Runnern aber einen erheblichen Wissensvorsprung und potenzielle Hebel
+anspruchsvoll, bringt den Agenten aber einen erheblichen Wissensvorsprung und potenzielle Hebel
 gegen ChronTech.
 - **Schlüsselperson befreien oder rekrutieren:** ChronTech hält möglicherweise eine
 **Schlüsselfigur** gefangen – z.B. den Entwickler des Neurofunk-Projekts, der vom eigenen
 Gewissen geplagt wird, oder einen Untergrund-Psioniker, der als *Batterie* für den
 Massensenderversuch missbraucht wird. Eine Nebenmission kann darin bestehen, diese Person aus einem
-Labor oder Gefängnistrakt zu befreien. Gelingt dies, gewinnen die Runner wertvolle Informationen
+Labor oder Gefängnistrakt zu befreien. Gelingt dies, gewinnen die Agenten wertvolle Informationen
 aus erster Hand und einen potentiellen Mitstreiter. Allerdings erhöht eine Rettungsaktion auch das
 Risiko, entdeckt zu werden, und kostet Zeit.
 - **Spezialausrüstung sichern:** Um gegen hochgerüstete Drohnen und psionische Effekte
-anzukommen, könnten die Runner optionale Vorbereitungsziele verfolgen. Etwa das Organisieren eines
+anzukommen, könnten die Agenten optionale Vorbereitungsziele verfolgen. Etwa das Organisieren eines
 **EMP-Geräts** oder einer Blackout-Bombe, um Elektronik lahmzulegen, oder den Diebstahl eines
 **Prototyp-Tarnanzugs** aus einem anderen Forschungslabor, um ungesehen in die gesicherten Bereiche
 zu gelangen. Diese Zwischenziele bieten kreative Lösungswege und belohnen Planung im Voraus.
 - **Störaktion in Gang-Gebiet:** Das Kontrollnetz soll auch in den Randbezirken eingeführt
 werden, wo bisher Anarchie herrschte. Eine Nebenmission könnte die Sabotage eines
 Überwachungsknotens in einem Gang-Territorium sein – z.B. einen Funkmast in den Ruinen der
-Vorstadt –, bevor er aktiviert wird. Dabei müssen die Runner entweder mit der lokalen **Gang**
+Vorstadt –, bevor er aktiviert wird. Dabei müssen die Agenten entweder mit der lokalen **Gang**
 (die ebenfalls kein Interesse an Überwachung in ihrem Viertel hat) verhandeln oder sich den Weg
 dorthin freikämpfen. Erfolg würde bedeuten, dass zumindest ein Distrikt der Stadt vom Auge des
 Systems befreit bleibt und den Bewohnern dort neue Hoffnung gibt.
 
 **Moralische Entscheidungen:**
 
-- **Zerstören vs. Übernehmen:** Die Runner stehen vor der Wahl, das Überwachungsnetz entweder
+- **Zerstören vs. Übernehmen:** Die Agenten stehen vor der Wahl, das Überwachungsnetz entweder
 **vollständig zu zerstören** oder es vielleicht **umzuprogrammieren und zu übernehmen**. Eine
 völlige Zerstörung bedeutet Chaos in der Stadt – kurzfristig könnten Kriminelle die
-Gelegenheit nutzen, aber die Bürger gewönnen ihre Privatsphäre zurück. Übernehmen die Runner
+Gelegenheit nutzen, aber die Bürger gewönnen ihre Privatsphäre zurück. Übernehmen die Agenten
 jedoch die Kontrolle, könnten sie das System *für* die Bevölkerung nutzen (z.B. um gezielt nur
 korrupte Stellen zu überwachen) – allerdings würden sie sich damit selbst zu Richtern über die
 Stadt erheben, was moralisch fragwürdig ist. Welche Variante wählen sie, und können sie mit den
 Konsequenzen leben?
-- **Einsatz der Neurofunk-Technologie:** Ein besonderes Dilemma bietet sich an, wenn die Runner die
+- **Einsatz der Neurofunk-Technologie:** Ein besonderes Dilemma bietet sich an, wenn die Agenten die
 Neurofunk-Anlage unter ihre Kontrolle bringen. Sie könnten in Versuchung geraten, **die psionische
 Senderanlage selbst zu nutzen**, um die Massen etwa vor ChronTech zu *warnen* oder sie gegen die
 Unterdrücker aufzuwiegeln. Dies könnte kurzfristig helfen, birgt aber die Gefahr, genau das zu
@@ -142,18 +142,18 @@ tun, was ChronTech plante – nämlich Menschen ihren freien Willen zu nehmen, w
 anderer Absicht. Entscheiden sie sich, diese Büchse der Pandora zu öffnen, oder vernichten sie
 die Technologie, um Missbrauch – auch durch sich selbst – auszuschließen?
 - **Kooperation mit einem rivalisierenden Konzern:** Möglicherweise bietet ein **Rivalenkonzern**
-(oder eine einflussreiche Untergrundfigur) den Runnern Hilfe an, um ChronTech zu sabotieren –
+(oder eine einflussreiche Untergrundfigur) den Agenten Hilfe an, um ChronTech zu sabotieren –
 allerdings erwartet diese Partei im Gegenzug einen Gefallen oder Zugang zum Kontrollnetz. Nehmen
-die Runner diese Hilfe an, wird ihre Mission einfacher (z.B. durch Insider-Informationen oder
+die Agenten diese Hilfe an, wird ihre Mission einfacher (z.B. durch Insider-Informationen oder
 Ausrüstung), aber sie stärken damit einen anderen Megakonzern, der kaum moralischer sein dürfte.
 Lehnen sie ab, müssen sie mit knapperen Ressourcen agieren, behalten aber ihre Unabhängigkeit.
 Dies ist eine Entscheidung zwischen Pest und Cholera – Verbünden sie sich mit dem *kleineren
 Übel*, um das *größere Übel* zu bekämpfen, oder schlagen sie alle Angebote aus und riskieren,
 auf sich allein gestellt zu scheitern?
-- **Kollateralschäden und Unschuldige:** Während des Einsatzes werden die Runner mit Situationen
+- **Kollateralschäden und Unschuldige:** Während des Einsatzes werden die Agenten mit Situationen
 konfrontiert, in denen Unbeteiligte zu Schaden kommen könnten. Zum Beispiel könnten ChronTechs
 psionische Signale unkontrollierte **Riot-Effekte** auf Zivilisten haben oder das Abschalten des
-Verkehrsüberwachungsnetzes könnte zu Unfällen führen. Die Runner müssen moralisch abwägen,
+Verkehrsüberwachungsnetzes könnte zu Unfällen führen. Die Agenten müssen moralisch abwägen,
 wie weit sie für das große Ziel gehen. Retten sie z.B. eine Gruppe beeinflusster Zivilisten aus
 einem brennenden Sektor – und verzögern dadurch ihre Mission –, oder priorisieren sie das
 Missionsziel und riskieren Opfer unter den Unschuldigen? Solche Entscheidungen sollten spürbare
@@ -163,49 +163,49 @@ schnelleres Vorgehen mit dem Preis von Schuldgefühlen oder öffentlicher Empör
 ## Konflikte
 
 - **Physische Konflikte:** In dieser Mission sind Kampf- und Actionsequenzen nahezu unvermeidlich.
-Die Runner brechen in Hochsicherheitsanlagen ein, durchqueren überwachte Straßenzüge und legen
+Die Agenten brechen in Hochsicherheitsanlagen ein, durchqueren überwachte Straßenzüge und legen
 sich mit schwer bewaffneten Gegnern an. **Feuergefechte** mit ChronTechs Sicherheitsteams gehören
 ebenso dazu wie brutale **Straßenschlägereien** mit Gangs, wenn Verhandlungen scheitern. Dabei
 kommen modernste Waffen und Implantate zum Einsatz: Gegner feuern mit Sturmgewehren, Schrotflinten
 oder sogar Gauss-Kanonen, unterstützt von automatischen Geschütztürmen und mechanischen
 Kampf-Drohnen. Eine mögliche Actionszene ist z.B. eine **Verfolgungsjagd über den Dächern** der
-Megastadt – Drohnen und Elite-Einsatzkräfte heften sich an die Fersen der Runner, während diese
+Megastadt – Drohnen und Elite-Einsatzkräfte heften sich an die Fersen der Agenten, während diese
 von einem beleuchteten Dach zum nächsten springen und Kugeln in der neongetränkten Nacht an ihnen
 vorbeizischen. Auch ein **Showdown im Server-Hub** des Kontrollnetzwerks ist denkbar: eng
-beleuchtete Gänge mit Lasersensoren, wo die Runner sich Deckung suchen, während Alarmlichter rot
+beleuchtete Gänge mit Lasersensoren, wo die Agenten sich Deckung suchen, während Alarmlichter rot
 blinken und sie Welle um Welle von Sicherheitskräften abwehren müssen. Körperliche Konflikte
 fordern hier taktisches Geschick – frontal stürmen ist oft weniger erfolgreich als Schleichen,
 Fallen stellen und gezielte Angriffe auf Schlüsselziele (z.B. den Drohnensteuerungsraum, um
 Unterstützung der Gegner abzuschalten).
 - **Soziale Konflikte:** Nicht jeder Kampf wird mit Kugeln entschieden – viele Hürden lassen
-sich sozial oder durch clevere Interaktion überwinden. Die Runner könnten auf einen **korrupten
+sich sozial oder durch clevere Interaktion überwinden. Die Agenten könnten auf einen **korrupten
 Beamten** stoßen, der Zugangscodes zum Netzwerk hat; es gilt, ihn durch Überreden, Bestechen oder
 Einschüchterung zur Kooperation zu bewegen. Ebenso könnte ein Treffen mit der Anführerin einer
-Untergrundgruppe stattfinden, bei dem die Runner **Verhandlungsgeschick** beweisen müssen, um ein
+Untergrundgruppe stattfinden, bei dem die Agenten **Verhandlungsgeschick** beweisen müssen, um ein
 Bündnis zu schmieden. Dabei stehen Misstrauen und gegenseitige Ziele im Raum – ein falsches
 Wort, und der Deal platzt oder kippt in Verrat. Auch innerhalb des Teams könnten soziale
 Spannungen aus früheren Missionen hochkochen: Vertrauen sie einem angebotenen Deal mit dem
 Rivalenkonzern? Jeder Charakter kann eine Meinung haben, was zu intensiven **Diskussionen** und
 Rollenspiel-Momenten führt. Rätselhaft kann zudem das Entlarven von **Doppelagenten** sein –
-ChronTech könnte z.B. einen Spitzel im Untergrund haben, der die Runner in eine Falle locken will.
+ChronTech könnte z.B. einen Spitzel im Untergrund haben, der die Agenten in eine Falle locken will.
 Die Spieler müssen soziale Hinweise (Lügen, Widersprüche, Verhalten) erkennen, um solche
 Intrigen aufzudecken. Insgesamt verlangen die sozialen Konflikte den Spielern Empathie, Cleverness
 und manchmal Skrupellosigkeit ab, um die richtigen Verbündeten zu finden und die falschen Freunde
 zu entlarven.
 - **Rätselhafte Konflikte:** Neben Kampf und Diplomatie gibt es knifflige **Challenges**, die
 Verstand und Kreativität erfordern. Das **Hacking** des Kontrollnetzwerks ist beispielsweise als
-mehrstufiges Rätsel angelegt: Die Runner müssen erst an Zugangscodes gelangen (vielleicht
+mehrstufiges Rätsel angelegt: Die Agenten müssen erst an Zugangscodes gelangen (vielleicht
 versteckt in einem **virtuellen Daten-Puzzle** oder einem mehrstufigen Firewall-System), dann in
 einem engen Zeitfenster mehrere Terminals synchron hacken. Hier können Minispiele oder logische
 Rätsel eingebaut werden, etwa das **Entschlüsseln eines implantierten Codes** aus einem
 erbeuteten Chip oder das Lösen eines Zahlensequenz-Rätsels, um an einen Passcode zu kommen.
-Weitere rätselhafte Elemente: Die Runner suchen nach dem geheimen **Neurofunk-Sendemast** in der
+Weitere rätselhafte Elemente: Die Agenten suchen nach dem geheimen **Neurofunk-Sendemast** in der
 Stadt – hierfür müssen sie Indizien sammeln, z.B. ungewöhnliche Verhaltensmuster in
 verschiedenen Stadtteilen analysieren oder Frequenz-Scanner einsetzen. Das Abenteuer kann Hinweise
 in Form von **Augmented-Reality-Graffiti** geben, die ein Hacker-Künstler als Schnitzeljagd
 hinterlassen hat. Vielleicht ist im Logo von ChronTech ein verstecktes Symbol oder Code, den es zu
 entschlüsseln gilt, um einen Zugangspunkt zu finden. **Umgebungsrätsel** kommen ebenfalls vor: In
-einem verlassenen U-Bahn-Tunnel, durch den die Runner vordringen, müssen sie z.B. einen
+einem verlassenen U-Bahn-Tunnel, durch den die Agenten vordringen, müssen sie z.B. einen
 Stromgenerator neu verkabeln (in der richtigen Reihenfolge), um die Lichter einzuschalten oder
 Türen zu öffnen – während sie von der Zeit oder lauernden Feinden gedrängt werden. Solche
 Puzzles bremsen das Tempo angenehm und geben auch nicht-kampforientierten Charakteren Momente zum
@@ -213,16 +213,16 @@ Glänzen.
 - **Zeitliche Konflikte:** Die Uhr tickt in *Der zerbrochene Spiegel*. ChronTech steht kurz davor,
 sein Kontrollnetz **offiziell in Betrieb** zu nehmen – vielleicht im Rahmen einer pompösen
 Präsentation oder eines politischen Gipfeltreffens in 48 Stunden. Dieses Deadliner-Element erzeugt
-stetigen **Zeitdruck**: Die Runner können es sich nicht leisten, zu zögern oder lange zu rasten.
+stetigen **Zeitdruck**: Die Agenten können es sich nicht leisten, zu zögern oder lange zu rasten.
 Jede Nebenmission oder Planänderung kostet wertvolle Zeit und kann dazu führen, dass das Netzwerk
 teilweise schon aktiv wird (was ihre Infiltration erschwert, da die Überwachung mit jeder Stunde
-dichter wird). Bestimmte Situationen sind explizit als Countdown gestaltet: Etwa müssen die Runner
+dichter wird). Bestimmte Situationen sind explizit als Countdown gestaltet: Etwa müssen die Agenten
 aus dem Kontrollzentrum entkommen, **bevor** ein automatischer Sicherheits-Lockdown greift, der
 nach 10 Minuten alle Ausgänge verriegelt. Oder sie haben nur wenige Runden Zeit, eine
 **Sprengladung** anzubringen und sich in Sicherheit zu bringen, bevor die Explosion losgeht. Ein
 weiteres zeitliches Element ist die drohende **Neurofunk-Übertragung**: ChronTech plant
 möglicherweise um Mitternacht eine flächendeckende Aussendung psionischer Signale – falls die
-Runner bis dahin nicht erfolgreich sabotiert haben, könnte ein ganzer Stadtteil in einen
+Agenten bis dahin nicht erfolgreich sabotiert haben, könnte ein ganzer Stadtteil in einen
 willenlosen tranceartigen Zustand verfallen. Diese drohende Katastrophe erzeugt dramatische
 Spannung. Die Spielleitung sollte die knappe Zeit immer wieder betonen (z.B. durch eingespielte
 News-Feeds: "*Noch 1 Stunde bis zur Aktivierung des CitizenSec-Systems…*"), damit die Spieler die
@@ -247,22 +247,22 @@ Sicherheitskräfte koordiniert und gnadenlos – sie scheuen nicht davor zurück
 Öffentlichkeit Gewalt zu zeigen, da sie glauben, durch das Überwachungsnetz jeden Zwischenfall
 vertuschen zu können. Ihre Präsenz ist vor allem rund um das Kontrollzentrum und die
 Neurofunk-Labore stark. Im Showdown könnte der **Chef der Sicherheit**, ein abgebrühter
-Ex-Militär mit kybernetischem Arm und taktischem Geschick, persönlich gegen die Runner antreten.
+Ex-Militär mit kybernetischem Arm und taktischem Geschick, persönlich gegen die Agenten antreten.
 - **Psionische Agenten (ChronTech Psi-Ops):** Eine besondere Bedrohung geht von ChronTechs
 **Psionik-Spezialisten** aus – Personen, die über mentale Fähigkeiten verfügen und von
 ChronTech entweder rekrutiert oder geschaffen wurden. Diese Antagonisten ersetzen im
 Shadowrun-ähnlichen Stil die Rolle von Magiern oder Schamanen. Ein Hauptgegner könnte z.B.
 **“Project Mirage”**, der leitende Psioniker hinter Neurofunk, sein: Er/Sie besitzt starke
-telepathische Fähigkeiten, kann vielleicht kurze Zeit die Gedanken einzelner Runner manipulieren
+telepathische Fähigkeiten, kann vielleicht kurze Zeit die Gedanken einzelner Agenten manipulieren
 oder Illusionen erzeugen. Im Kampf agiert ein Psioniker eher indirekt – z.B. indem er die
-Wahrnehmung der Runner verzerrt (Halluzinationen von zusätzlichen Gegnern, Blendung durch mentale
-Trugbilder) oder einen der Runner zeitweise unter gedankliche Kontrolle bringt. Auch
-psychokinetische Kräfte sind denkbar: Ein Telekinet könnte Deckungen verrücken oder den Runnern
+Wahrnehmung der Agenten verzerrt (Halluzinationen von zusätzlichen Gegnern, Blendung durch mentale
+Trugbilder) oder einen der Agenten zeitweise unter gedankliche Kontrolle bringt. Auch
+psychokinetische Kräfte sind denkbar: Ein Telekinet könnte Deckungen verrücken oder den Agenten
 Waffen aus den Händen reißen. Dieser Gegnertyp ist gefährlich, weil er unberechenbar ist und
 konventionelle Verteidigung (Panzerung, Deckung) teilweise umgeht. Allerdings sind Psioniker oft
-physisch verletzlich – mit genug Gegenwehr können die Runner sie ausschalten. Dramatisch könnte
+physisch verletzlich – mit genug Gegenwehr können die Agenten sie ausschalten. Dramatisch könnte
 ein **Duell der Willenskraft** inszeniert werden: Der psionische Agent versucht, einen wichtigen
-NPC oder sogar einen Spielercharakter psionisch zu versklaven, während die anderen Runner ihn
+NPC oder sogar einen Spielercharakter psionisch zu versklaven, während die anderen Agenten ihn
 davon abbringen müssen (durch Unterbrechen der Konzentration oder spezielle Abschirmgeräte). Als
 Ausrüstung tragen Psi-Agenten oft **Neuroverstärker** (z.B. Headbands mit EEG-Sensoren) und
 führen kleine Geräte mit, die psionische Energie fokussieren oder messen.
@@ -279,53 +279,53 @@ Drohnenschwärmen** die Privatsphäre auslöscht – ChronTech hat das Konzept v
 Darüber hinaus gibt es **Automatik-Geschütztürme** in sensiblen Bereichen, bewaffnete Fahrzeuge
 oder robotische Polizeieinheiten auf dem Boden, die als Gegner auftauchen. Diese Systeme haben
 keinen Selbsterhaltungstrieb – sie stürzen sich erbarmungslos in Gefechte. Allerdings können
-clevere Runner sie hacken oder mit starken elektromagnetischen Impulsen temporär deaktivieren. Ein
+clevere Agenten sie hacken oder mit starken elektromagnetischen Impulsen temporär deaktivieren. Ein
 Highlight-Gegner könnte ein großflächiger **Überwachungs-Zeppelin** sein, der hoch oben schwebt
 und ein Gebiet lückenlos beobachtet, mit der Fähigkeit, Verstärkung (Drohnen oder
-Sicherheitskräfte) punktgenau zu dirigieren. Die Runner könnten gezwungen sein, dieses Auge am
+Sicherheitskräfte) punktgenau zu dirigieren. Die Agenten könnten gezwungen sein, dieses Auge am
 Himmel auszuschalten, um ungesehen vordringen zu können.
 - **Rivalen und dritte Parteien:** Neben ChronTech könnten auch andere Fraktionen zur Gefahr
 werden. Ein **Rivalenkonzern** (vielleicht **OmniVision Inc.** oder **BioSoft Global**) will
 ChronTechs Vormachtstellung brechen und hat eigene Agenten in die Stadt entsandt. Diese sind keine
-Freunde der Runner – auch wenn Ziele teils übereinstimmen, würden sie die Runner aus dem Weg
+Freunde der Agenten – auch wenn Ziele teils übereinstimmen, würden sie die Agenten aus dem Weg
 räumen, um selbst den Ruhm oder die Kontrolle über das Netzwerk zu erlangen. Ihre Teams bestehen
-aus Profi-Runnern oder Auftragskillern mit ähnlicher Ausrüstung wie ChronTechs Kräfte, aber
+aus Profi-Agenten oder Auftragskillern mit ähnlicher Ausrüstung wie ChronTechs Kräfte, aber
 vielleicht einem anderen Tech-Fokus (z.B. Tarnanzüge, die optisch nahezu unsichtbar machen, oder
 Killer-Drohnen mit experimentellen Waffen). Ein Rivalenteam könnte immer wieder als **Schatten**
 auftauchen – mal voraus sein, mal in Konkurrenz um Ressourcen stehen – bis es zu einem
 entscheidenden Konflikt kommt, wer den finalen Schlag gegen ChronTech ausführt. Ebenso denkbar
 ist, dass eine brutale **Straßengang** (z.B. die *Chrome Skulls*) unvermittelt zum Gegner wird,
-falls die Runner in ihrem Gebiet operieren und die Gang sich bedroht fühlt. Diese Ganger sind im
+falls die Agenten in ihrem Gebiet operieren und die Gang sich bedroht fühlt. Diese Ganger sind im
 Vergleich zwar schlechter ausgestattet (selbstgebastelte Cyberware, Schrotflinten, Macheten,
 Motorradbandenstil), aber sie kennen ihr Territorium und könnten in großer Zahl auftreten. Für
-die Runner heißt das: Sie müssen aufpassen, nicht zwischen die Fronten zu geraten – ein
+die Agenten heißt das: Sie müssen aufpassen, nicht zwischen die Fronten zu geraten – ein
 Feuergefecht mit Gang *und* Konzernsicherheitskräften gleichzeitig kann verheerend sein.
 
 **Nebengegner:**
 
 - **Städtische Polizei & Behörden:** Zwar hängt die Polizei am Tropf der Konzerne, dennoch
 könnten **einfachere Polizisten** oder SWAT-Teams in manchen Szenen auftauchen – etwa als erste
-Reaktion auf Explosionen oder wenn die Runner öffentliche Unruhen auslösen. Diese Einheiten sind
+Reaktion auf Explosionen oder wenn die Agenten öffentliche Unruhen auslösen. Diese Einheiten sind
 nominell dazu da, *Ordnung* zu halten, könnten aber ebenso gut von ChronTech befehligt werden. Sie
 sind nicht so hochgerüstet wie Konzernsöldner, aber tragen ballistische Westen, konventionelle
 Schusswaffen und nicht-tödliche Waffen (Tränengas, Tasergeschosse). Einige Polizisten mögen
-moralische Zweifel haben, die die Runner ausnutzen können (z.B. zögern, auf Zivilisten zu
-schießen, wenn die Runner einen Massenprotest entfachen). Allerdings: Sollten die Runner
+moralische Zweifel haben, die die Agenten ausnutzen können (z.B. zögern, auf Zivilisten zu
+schießen, wenn die Agenten einen Massenprotest entfachen). Allerdings: Sollten die Agenten
 Polizisten attackieren, riskieren sie erhöhte öffentliche Aufmerksamkeit und weitere Eskalation.
 - **Untergrund-Charaktere:** Interessanterweise können auch potenzielle **Verbündete**
-kurzfristig zu Nebengegnern werden, je nach Spielernavigation. Falls die Runner z.B. das Vertrauen
+kurzfristig zu Nebengegnern werden, je nach Spielernavigation. Falls die Agenten z.B. das Vertrauen
 eines Hacker-Kollektivs missbrauchen oder eine Abmachung mit einer Gang brechen, könnten diese
-Gruppen gegen sie wenden. Ein ehemals wohlgesonnener Kontaktmann könnte versuchen, die Runner zu
+Gruppen gegen sie wenden. Ein ehemals wohlgesonnener Kontaktmann könnte versuchen, die Agenten zu
 verraten, wenn er glaubt, damit sein eigenes Überleben zu sichern. Dies eröffnet dynamische
 Konflikte, wo aus Freund plötzlich Feind wird – allerdings sind solche Gegner meist weniger
-stark als ChronTechs Profis, was eher moralische Komplikationen darstellt (*Müssen die Runner
+stark als ChronTechs Profis, was eher moralische Komplikationen darstellt (*Müssen die Agenten
 ehemalige Allierte bekämpfen oder finden sie einen Ausweg?*).
 - **Umgebungsgefahren:** Die Stadt selbst kann zum Feind werden – das könnte man ebenfalls unter
 “Nebengegner” fassen. Beispielsweise ein **fehlgeschlagenes Experiment** von ChronTech: kleine
 **Nano-Schwärme** oder defekte Sicherheitsdrohnen, die unberechenbar agieren und alles in ihrem
 Umfeld attackieren. Oder eine **KI im Netzwerk**, die auf die Sabotage reagiert und versucht, die
-Runner in einem bestimmten Areal einzuschließen, indem sie Türen verriegelt, Lüftungsgas
-freisetzt, etc. Diese Gefahren sind unpersönlich, aber genau so tödlich. Die Runner können sie
+Agenten in einem bestimmten Areal einzuschließen, indem sie Türen verriegelt, Lüftungsgas
+freisetzt, etc. Diese Gefahren sind unpersönlich, aber genau so tödlich. Die Agenten können sie
 oft nicht “bekämpfen” im klassischen Sinn, sondern müssen sie überlisten (z.B. ein Glitch in
 der KI provozieren oder den Nano-Schwarm in ein Magnetfeld locken). Solche Elemente unterstreichen
 die allgegenwärtige Bedrohung durch Technologie und sorgen für abwechslungsreiche Gegner jenseits
@@ -334,28 +334,28 @@ von Mensch und Drohne.
 ## Mögliche Twists
 
 - **Doppelte Intrige:** Was, wenn die ganze Mission Teil eines größeren Plans von ChronTech ist?
-Ein Twist könnte sein, dass ChronTech bewusst zulässt, dass die Runner Teile des Netzwerks
+Ein Twist könnte sein, dass ChronTech bewusst zulässt, dass die Agenten Teile des Netzwerks
 sabotieren. Vielleicht wollte der Konzern einen **Vorwand** schaffen, um noch drakonischere
-Maßnahmen einzuführen. Nachdem die Runner scheinbar Erfolg hatten, enthüllt ChronTech in den
+Maßnahmen einzuführen. Nachdem die Agenten scheinbar Erfolg hatten, enthüllt ChronTech in den
 Nachrichten einen “Terroranschlag auf die städtische Sicherheit” und nutzt die Panik, um das
 Kriegsrecht auszurufen oder ein noch strengeres System (eine 2. Generation des Netzwerks) zu
-implementieren. Die Runner merken zu spät, dass sie manipuliert wurden. Dies stellt ihre Erfolge
+implementieren. Die Agenten merken zu spät, dass sie manipuliert wurden. Dies stellt ihre Erfolge
 infrage und eröffnet eine neue Ebene: Können sie der Öffentlichkeit die Wahrheit liefern, bevor
 ChronTechs Propaganda greift? (Der Spielleiter sollte so einen Twist nur einbauen, wenn er/sie
 sicher ist, dass die Spieler damit umgehen können – es ist ein harter Schlag, aber auch ein
 Antrieb für weitere Abenteuer, um ChronTech endgültig zu stürzen.)
-- **Verrat im Untergrund:** Ein verbündeter NPC, dem die Runner vertraut haben, entpuppt sich als
+- **Verrat im Untergrund:** Ein verbündeter NPC, dem die Agenten vertraut haben, entpuppt sich als
 **Doppelagent**. Beispielsweise der charismatische Anführer der Hacktivisten oder ein Informant
 innerhalb ChronTechs könnte die ganze Zeit für den Gegner gearbeitet haben. Im dramatischsten
-Moment – vielleicht wenn die Runner Zugang zum Herz des Netzwerks erhalten – kippt dieser
-Verbündete die Lage: Er verriegelt Türen, sabotiert den Plan der Runner oder bedroht eine
-geliebte NPC-Kontaktperson. Die Runner stehen nun vor der Überraschung, nicht nur gegen ChronTech,
+Moment – vielleicht wenn die Agenten Zugang zum Herz des Netzwerks erhalten – kippt dieser
+Verbündete die Lage: Er verriegelt Türen, sabotiert den Plan der Agenten oder bedroht eine
+geliebte NPC-Kontaktperson. Die Agenten stehen nun vor der Überraschung, nicht nur gegen ChronTech,
 sondern auch gegen *verräterische “Freunde”* kämpfen zu müssen. Dieser Twist erhöht die
 emotionale Fallhöhe und lässt die Spieler an ihrer Vertrauenswahl zweifeln. Wichtig ist, dezente
 Hinweise auf den möglichen Verrat vorher zu streuen (damit es im Rückblick Sinn ergibt), z.B.
 ungewöhnliches Verhalten oder Lecks, die man sich nicht erklären konnte.
 - **Notfall-Plan B:** ChronTech hat natürlich Backup-Systeme. Ein spannender Twist: Nachdem die
-Runner das Hauptziel zerstört haben, stellen sie fest, dass ein **Backup-Kontrollknoten**
+Agenten das Hauptziel zerstört haben, stellen sie fest, dass ein **Backup-Kontrollknoten**
 automatisch anspringt – vielleicht ein versteckter Satellit oder ein zweites Rechenzentrum am
 anderen Ende der Stadt. Plötzlich läuft die Zeit erneut: Die Sabotage war erst die Hälfte der
 Miete, nun müssen sie improvisiert den zweiten Knoten lahmlegen, bevor alles umsonst war. Dieser
@@ -363,26 +363,26 @@ Twist kann in den Epilog der Mission führen oder sogar die Bühne für Mission 
 die Spieler den neuen Hinweis erst verfolgen müssen. Alternativ könnte die psionische
 Neurofunk-Anlage beim Abschalten unerwartete Folgen haben: Z.B. entweicht eine **psionische Welle**
 unkontrolliert, die in der ganzen Stadt kurze Halluzinationen oder Aggressionsschübe auslöst. Die
-Runner haben zwar ChronTechs geplanten *kontrollierten* Einsatz verhindert, aber einen
+Agenten haben zwar ChronTechs geplanten *kontrollierten* Einsatz verhindert, aber einen
 unkontrollierten Effekt verursacht. Sie müssen nun schnell Schadensbegrenzung betreiben – etwa
 die Bevölkerung warnen oder ein Gegenmittel aktivieren – während ChronTech versucht, ihnen dies
 in die Schuhe zu schieben.
-- **Rivalen schlagen zu:** Falls ein rivalisierender Konzern oder ein drittes Runner-Team in der
+- **Rivalen schlagen zu:** Falls ein rivalisierender Konzern oder ein drittes Agenten-Team in der
 Mission etabliert wurde, könnte der Twist sein, dass **diese Rivalen im entscheidenden Moment
-auftauchen** und den Lohn der Mühe einstreichen wollen. Beispielsweise deaktivieren die Runner
+auftauchen** und den Lohn der Mühe einstreichen wollen. Beispielsweise deaktivieren die Agenten
 gerade das Netzwerk, als ein Spezialeinsatzteam von OmniVision den Raum stürmt. Ein Dreikampf
-entsteht: Runner vs. ChronTech-Restkräfte vs. Rivalen. In diesem Chaos müssen die Spieler
+entsteht: Agenten vs. ChronTech-Restkräfte vs. Rivalen. In diesem Chaos müssen die Spieler
 improvisieren – vielleicht können sie die Gegner gegeneinander ausspielen oder sich kurzfristig
 verbergen, bis die anderen sich geschwächt haben. Dieser Twist belohnt Teams, die auf solche
 Unwägbarkeiten vorbereitet sind (z.B. Fluchtplan, versteckte Ausrüstung). Ebenso kann er
-moralische Entscheidungen beeinflussen: Lassen die Runner die Rivalen vielleicht das schmutzige
+moralische Entscheidungen beeinflussen: Lassen die Agenten die Rivalen vielleicht das schmutzige
 Werk erledigen und fliehen, auch wenn OmniVision dann die Kontrolle übernimmt? Oder stellen sie
 sich nun gegen **alle** Konzerne zugleich?
 - **Enthüllung eines Zeitrisks:** Obwohl keine Paradoxa direkt thematisiert werden sollen, kann
-subtile **Zeitreise-Intrige** dennoch als Twist angedeutet werden. Vielleicht finden die Runner in
+subtile **Zeitreise-Intrige** dennoch als Twist angedeutet werden. Vielleicht finden die Agenten in
 ChronTechs Labor Hinweise, dass das Unternehmen mittels Zeitreisen genau diese Situation
 orchestriert hat – z.B. Aufzeichnungen zukünftiger Ereignisse oder sogar eine Notiz, die *von
-einem der Runner selbst* aus einer möglichen Zukunft stammt, um vor etwas zu warnen (diese könnte
+einem der Agenten selbst* aus einer möglichen Zukunft stammt, um vor etwas zu warnen (diese könnte
 vage formuliert sein, um nicht die Erinnerung zu verändern, aber eine Gänsehaut erzeugen). Dies
 wäre ein sanfter Verweis auf das Zeitreise-Thema der Kampagne, ohne konkrete Paradoxen
 auszuspielen. Es könnte das Misstrauen säen, dass ChronTech immer einen Schritt voraus ist.
@@ -417,7 +417,7 @@ Rahmen bleiben, da sie das **Cyberpunk meets Psionics**-Thema hervorheben.
 **Überwachung & Vorsicht:** Mache der Gruppe deutlich, dass offene Gewalt Konsequenzen hat. Dank
 des stadtweiten Netzwerks kann ein einzelner falscher Schritt – z.B. ein erschossener Wachmann
 auf offener Straße oder ein unverschlüsselter Funkspruch – in Minuten zu Verstärkung führen.
-Spiele diese Kette von Ursache und Wirkung aus: Wenn die Runner unvorsichtig sind, lass eine
+Spiele diese Kette von Ursache und Wirkung aus: Wenn die Agenten unvorsichtig sind, lass eine
 **Alarmstufe** hochgehen (vielleicht staffelst du es: erst lokale Drohnen, dann Konzern-Team, dann
 Elite-Einheit). Dies fördert spannungsreiches Schleichen und Planen. Allerdings sollst du die
 Spieler nicht völlig lähmen – gib ihnen auch Erfolgserlebnisse, wenn sie clever agieren. Zum
@@ -450,7 +450,7 @@ einer der geretteten NPCs verschwindet und mit den Daten untertaucht, anstatt gl
 Mission auf den Kopf zu stellen.
 
 **Flexibilität & Spielerideen:** In einer offenen Cyberpunk-Welt gibt es oft unerwartete
-Lösungswege. Sei bereit, spontan zu reagieren. Vielleicht wollen die Runner das Überwachungsnetz
+Lösungswege. Sei bereit, spontan zu reagieren. Vielleicht wollen die Agenten das Überwachungsnetz
 gar nicht sprengen, sondern **umprogrammieren**, um ChronTech eine Falle zu stellen – lass sie
 diesen Plan versuchen und sorge dafür, dass die Herausforderungen entsprechend angepasst werden
 (vielleicht erfordert das mehr Hacking und weniger Sprengstoff). Oder die Gruppe entscheidet sich,
@@ -469,7 +469,7 @@ Zukunft genutzt** hat (Gerüchte besagen z.B., ChronTech habe durch Zeitmanipula
 politische Entscheidungen beeinflusst), aber lass keine Diskussion über alternative Erinnerungen
 zu. Die Charaktere behalten ihre Erinnerungen und Identitäten aus Sicht der Spieler – das ist
 wichtig, um Verwirrung zu vermeiden. Sollte jemand nach *“Warum erinnern wir uns nicht
-anders?”* fragen, kannst du pseudo-wissenschaftlich erklären, dass die Runner durch ihre
+anders?”* fragen, kannst du pseudo-wissenschaftlich erklären, dass die Agenten durch ihre
 Zeitreisen eine Art **temporale Immunität** besitzen, die sie vor solchen Effekten schützt. Aber
 betone, dass dies nicht im Mittelpunkt steht. Der Fokus liegt jetzt auf der Mission *hier und
 jetzt*. Die Vergangenheit können sie (vorerst) nicht ändern, aber die Zukunft ihrer Stadt sehr
@@ -487,5 +487,5 @@ Brainchips und Drohnen sind 2077 bittere Realität geworden – solche Details k
 in Nachrichten oder NPC-Dialogen einfließen lassen, um die Welt glaubwürdig und tiefgründig zu
 gestalten. Am Ende soll die Spielrunde das Gefühl haben, einen kleinen Funken Hoffnung in der
 Dunkelheit entfacht zu haben – auch wenn der Spiegel der Realität zerbrochen ist, können die
-Runner vielleicht aus den Scherben etwas Neues aufbauen. Viel Erfolg und Spaß beim Leiten dieser
+Agenten vielleicht aus den Scherben etwas Neues aufbauen. Viel Erfolg und Spaß beim Leiten dieser
 Mission!
