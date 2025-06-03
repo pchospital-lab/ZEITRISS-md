@@ -801,3 +801,8 @@ Mit diesen Missionen 2 und 3 erleben die Spieler eine mitreißende Zeitreise-Kam
 Shadowrun-Stil: von den nebligen Decks der USS Eldridge zum neonbeleuchteten Horror der
 Montauk-Basis. Beide Abschnitte greifen nahtlos ineinander und bereiten den Boden für weitere
 Abenteuer rund um die ZEITRISS-Verschwörung. Viel Erfolg und spannendes Spielleiten!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Logbücher und Protokolle der USS Eldridge enthüllen Details zu Project MON.
+- **Masterplan-Nutzen:** Die Daten bestätigen, dass Cross frühe Zeitportale nutzte und nach weiteren Artefakten sucht.
+- **Foreshadow:** Ein Analyse-Diagramm verweist auf ein "Ausweichlabor Delta" in der Mojave-Wüste.

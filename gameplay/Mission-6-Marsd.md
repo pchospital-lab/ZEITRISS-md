@@ -351,3 +351,8 @@ zusammenkommen. Als Spielleitung hast du die Aufgabe, dieses Gesamtbild zu malen
 der Kolonisten, die kalte Entschlossenheit von ChronTech, und die unheimliche Präsenz des
 psionischen Artefakts. Wenn du diese Elemente ausbalancierst, wird Mission 6 der ZEITRISS-Kampagne
 ein unvergesslicher Höhepunkt, der Lust auf mehr macht.
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Auf dem Mars findet die Gruppe ein psionisches Artefakt, das mit der Maske resoniert.
+- **Masterplan-Nutzen:** Cross sendet eine holografische Warnung und droht, die Kolonie zu opfern, um sein Ziel zu erreichen.
+- **Foreshadow:** In Dr. Liangs Datapad taucht ein Hinweis auf eine verzerrte "Spiegelstadt" des Jahres 2077 auf.

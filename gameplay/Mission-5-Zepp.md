@@ -273,3 +273,8 @@ Spielleiter die einzigartige Atmosphäre dieser alternativen Zeitlinie betonst u
 auch Rätsel und moralische Dilemmata bietest, erzeugst du ein unvergessliches Szenario – ganz im
 Geist von Shadowrun, aber mit einem frischen, psionisch-technologischen Twist. Viel Spaß bei der
 Durchführung dieser Mission!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Nicolas Whites Logbuch verrät koordinaten zum nächsten Artefakt.
+- **Masterplan-Nutzen:** Cross will das Logbuch nutzen, um seine Mars-Operation voranzutreiben.
+- **Foreshadow:** Am Ende der Luftschlacht verfärbt sich der Himmel blutrot und deutet auf den staubigen Mars.

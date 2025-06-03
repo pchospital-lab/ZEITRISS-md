@@ -406,3 +406,8 @@ nächtliche, vom Rauch verhüllte Silhouette der Pyramide schauen, wissend, dass
 Unmögliche geschafft haben… zumindest fürs Erste. Denn nun wartet das große Finale in den
 Tiefen der Alienbasis, und “Die letzte Festung” war erst der Anfang vom Ende. Viel Erfolg und
 spannendes Spiel!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Die Artefakte verketten sich zu einem aktivierten Schl\303\274ssel.
+- **Masterplan-Nutzen:** Cross erscheint in einer letzten Projektion und warnt, dass nur er den Knoten beherrschen kann.
+- **Foreshadow:** Ein gefangener Techniker murmelt Koordinaten, die genau in die unterirdische Anlage weisen.

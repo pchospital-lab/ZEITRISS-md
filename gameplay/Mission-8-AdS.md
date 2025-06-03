@@ -226,3 +226,8 @@ Tipp, oder die KI gewährt ihnen bei erneutem Kontakt einen Vorteil. Mach deutli
 im „Auge des Sturms“ über das unmittelbare Überleben hinaus Auswirkungen auf die Welt von
 ZEITRISS haben – so fühlen sich die Spielerentscheidungen bedeutungsvoll und die Kampagne bleibt
 lebendig.
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Die kombinierte Energie der Artefakte oeffnet kurz eine Vision der verschluesselten Festung.
+- **Masterplan-Nutzen:** Cross versucht, White als Katalysator zu benutzen und sendet drohende Funksprueche.
+- **Foreshadow:** Zwischen den Explosionen zeichnet sich auf den Monitoren eine Karte des Schwarzwalds ab, Ziel der naechsten Etappe.
