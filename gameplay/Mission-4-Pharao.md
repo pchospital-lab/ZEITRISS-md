@@ -313,3 +313,8 @@ sehen: Ein kurzer Epilog, in dem z.B. Bakenkhonsu den SC dankt und verspricht, i
 verborgenen Papyrus festzuhalten (den in der Gegenwart vielleicht ein Archäologe finden wird),
 gibt einen schönen Abschluss. So verlassen alle Beteiligten zufrieden das *Rätsel der Pharaonen*
 und fiebern dem nächsten Abenteuer in der ZEITRISS-Kampagne entgegen.
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Die Maske des Hohepriesters pulsiert kurz, als sie die Datendisks aus Mission 1 berühren.
+- **Masterplan-Nutzen:** Cross sendet ein verschlüsseltes "AC-alpha"-Audiolog, das seinen nächsten Zug ankündigt.
+- **Foreshadow:** Ein Fragment im Audiolog zeigt die Silhouette eines gewaltigen Luftschiffs.
