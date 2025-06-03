@@ -408,6 +408,6 @@ Tiefen der Alienbasis, und “Die letzte Festung” war erst der Anfang vom Ende
 spannendes Spiel!
 
 ### Resonanz & Foreshadowing
-- **Beute/Offenbarung:** Die Artefakte verketten sich zu einem aktivierten Schl\303\274ssel.
+- **Beute/Offenbarung:** Die Artefakte verketten sich zu einem aktivierten Schlüssel.
 - **Masterplan-Nutzen:** Cross erscheint in einer letzten Projektion und warnt, dass nur er den Knoten beherrschen kann.
 - **Foreshadow:** Ein gefangener Techniker murmelt Koordinaten, die genau in die unterirdische Anlage weisen.
