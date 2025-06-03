@@ -1072,7 +1072,7 @@ Verschnaufpausen im Spielverlauf, damit die Spannungskurve atmen kann – gerade
 Action- oder Horrorszenen ein paar Minuten Charakter-Dialog oder Ermittlung schieben, dann nächste
 Spitze vorbereiten. So bleiben die Spieler involviert und erschöpfen nicht mental zu früh.
 
-Mit diesen Missionen 2 und 3 erleben die Spieler eine mitreißende Zeitreise-Kampagne im
+Mit den Missionen 2 und 3 erleben die Spieler eine mitreißende Zeitreise-Kampagne im
 Shadowrun-Stil: von den nebligen Decks der USS Eldridge zum neonbeleuchteten Horror der
 Montauk-Basis. Beide Abschnitte greifen nahtlos ineinander und bereiten den Boden für weitere
 Abenteuer rund um die ZEITRISS-Verschwörung. Viel Erfolg und spannendes Spielleiten!
