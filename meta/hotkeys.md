@@ -15,6 +15,7 @@ Im Spiel können einfache Textbefehle ins Chatfenster eingegeben werden, um Code
 - `m` oder `map` – blendet die Umgebung bzw. eine Kurzbeschreibung des aktuellen Ortes ein.
 - `o` oder `options` – listet alle verfügbaren Kurzbefehle im HUD auf.
 - `i` oder `inventory` – zeigt das Inventar und aktuell ausgerüstete Gegenstände.
+- `q` oder `questlog` – öffnet eine Übersicht aller aktiven und erledigten Aufträge.
 - `hud` oder `codex` – ruft eine Statusübersicht mit Lebenspunkten, Paradoxwarnungen usw. auf.
 - `h` oder `help` – gibt eine knappe Spielhilfe und verweist auf diese Liste.
 
