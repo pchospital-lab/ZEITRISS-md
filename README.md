@@ -29,4 +29,6 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein 
 
 Diese Befehle können frei eingegeben werden und dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 
+Eine Übersicht hilfreicher HUD-Kurzbefehle wie `c`, `s`, `m` oder `options` findest du in [meta/hotkeys.md](meta/hotkeys.md).
+
 Die Inhalte stehen für private kreative Nutzung bereit. Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
