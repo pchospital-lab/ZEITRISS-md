@@ -427,3 +427,8 @@ Neugier, was unter Gizeh verborgen liegt, bis zur schockierenden Reise in die Ve
 **Immersion, Spannung und ein Hauch Mysterium** – damit eröffnest Du den Reigen der zehn
 Missionen und lässt Deine Spieler gespannt auf das blicken, was als Nächstes kommt. Viel Erfolg
 beim Leiten dieses ersten Kapitels!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Die Agenten sichern Datendisks aus der Alien-Anlage mit Koordinaten zum Chronovisor.
+- **Masterplan-Nutzen:** Alexander Cross sammelt diese Daten für seine Artefakt-Matrix.
+- **Foreshadow:** Zwischen den Dateien findet sich eine unscheinbare Sat-Aufnahme der Montauk-Basis.

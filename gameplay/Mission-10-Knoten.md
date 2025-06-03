@@ -337,3 +337,8 @@ nächsten Geschichten beeinflussen (vielleicht Technologien, die man nun rücken
 dafür, dass die Spieler das Gefühl haben, ein würdiges Ende für die ZEITRISS-Kampagne erlebt zu
 haben – eins, das zugleich Abschied von dieser Geschichte nimmt und Türen öffnet für Neues.
 Viel Erfolg beim Leiten dieses epischen Finales!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** Alle Artefakte formen den Chronovisor und stabilisieren den Zeitknoten.
+- **Masterplan-Nutzen:** Cross versucht, die Singularitaet zu meistern, doch seine Kontrolle bricht zusammen.
+- **Foreshadow:** In der Stille nach dem Finale leuchtet kurz das Mandala erneut auf und deutet an, dass noch weitere Risse existieren.

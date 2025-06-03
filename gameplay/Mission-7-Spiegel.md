@@ -489,3 +489,8 @@ gestalten. Am Ende soll die Spielrunde das Gefühl haben, einen kleinen Funken H
 Dunkelheit entfacht zu haben – auch wenn der Spiegel der Realität zerbrochen ist, können die
 Agenten vielleicht aus den Scherben etwas Neues aufbauen. Viel Erfolg und Spaß beim Leiten dieser
 Mission!
+
+### Resonanz & Foreshadowing
+- **Beute/Offenbarung:** In der Spiegelstadt erscheint den Agenten kurz ein holografisches Schluessel-Mandala, das alle Artefakte vernetzt.
+- **Masterplan-Nutzen:** Dieses Muster laesst die Gruppe verstehen, wie Cross' Artefakt-Matrix funktioniert.
+- **Foreshadow:** Ein zerstoerter Strassenmonitor flackert und zeigt Koordinaten in den Schwarzwald.
