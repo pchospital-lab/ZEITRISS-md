@@ -10,3 +10,12 @@ Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textba
 - **meta/** – Masterprompt und Leitfaden für GPT-Spielleitungen
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
+
+## Beispielworkflow
+1. Wähle ein Modul aus den Unterordnern, z.B. `core` oder `gameplay`.
+2. Sieh dir den YAML-Header an, um Titel und Version zu prüfen.
+3. Nutze das Dokument `meta/masterprompt.md` als Grundlage für eine KI-Spielleitung.
+4. Lade die Markdown-Dateien nacheinander in dein KI-Tool oder lies sie für dein eigenes Abenteuer.
+5. Eigene Missionen kannst du im Ordner `gameplay/missionen.md` ergänzen.
+
+Die Inhalte stehen für private kreative Nutzung bereit. Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
