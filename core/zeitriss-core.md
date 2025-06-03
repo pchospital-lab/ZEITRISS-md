@@ -615,6 +615,44 @@ Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine
 
 ### ITI-Hauptquartier (HQ) in der Nullzeit
 
+### Nullzeit-Sprungfenster & ITI-Hub
+
+Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – öffnet **zunächst** einen kurzen Korridor in die **Nullzeit**. Dieser Zwischenraum fungiert als fester Puffer zwischen zwei Epochen und verknüpft alle Risse mit dem ITI-Hauptquartier.
+
+**Ablauf & Optionen**
+
+1. **Ankunft im Korridor**  
+   - Typischer „Zeit-Luftzug“, während sich der Korridor stabilisiert.  
+   - Ein leuchtender HQ-Marker weist den Weg ins Institut.
+
+2. **Entscheidungspunkt**  
+   - **HQ-Stopp (Downtime):**  
+     - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.  
+     - Danach wählen die Spieler einen von **zwei Sprungpfaden**:  
+       1. **Pfad fortsetzen** – sie kehren in *denselben* Riss zurück und setzen die laufende Mission fort.  
+       2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest **(neue Mission / Kampagne)**.  
+         - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.  
+         - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**; ein Zurückkehren ist nicht möglich.  
+         - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
+
+   - **Direkt weiterspringen (ohne HQ-Stop)**  
+     - Der Korridor transportiert die Gruppe ohne Unterbrechung zum zuletzt gewählten Zielzeit­punkt.  
+     - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
+
+3. **Notfall-Rückholung**  
+   - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben Wahlmöglichkeiten wie oben.
+
+**Design-Notiz (für Programmierer)**  
+- Implementiere einen **Trigger „on Zeitsprung“**, der das Nullzeit-Menü lädt.  
+- Verknüpfe Downtime-Funktionen (Shop, Skill-Upgrades, Save-System) mit diesem Menü.  
+- Bei **Pfad fortsetzen**: unverändert zurück in den bestehenden Missions-Context.  
+- Bei **Neuen Pfad wählen**:  
+  - Archiviere den alten Missions-Context als *abgeschlossen* (read-only).  
+  - Öffne einen neuen Riss; initialisiere ein neues Missions-Manifest.  
+  - Kennzeichne die vorherige Zeitlinie als „versiegelt“ – keine weiteren Änderungen zulässig.
+
+Damit ist eindeutig geregelt, dass ein Wechsel des Sprungpfads den alten Verlauf final abschließt und die Gruppe in einen neuen Kampagnenstrang führt.
+
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
 Temporale Intervention (ITI)** ist ihre Heimatbasis, und zahlreiche andere Kräfte wirken – teils
