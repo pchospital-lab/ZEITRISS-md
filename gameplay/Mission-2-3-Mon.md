@@ -333,7 +333,7 @@ sich nach dem Übergang von Mission 2 nun in einer unterirdischen Anlage unter 
 wieder. Es handelt sich um einen streng geheimen Forschungskomplex der US-Regierung, versteckt
 unter dem alten Radarstützpunkt an der Ostspitze von Long Island, New York. Die Zeitperiode ist
 das frühe **Cyberpunk-Zeitalter** der 80er – es gibt bereits Computertechnik (wenn auch primitiv
-aus Sicht von Shadowrunnern), Überwachungskameras, Neonröhrenbeleuchtung und
+aus Sicht erfahrener Agenten), Überwachungskameras, Neonröhrenbeleuchtung und
 Cold-War-Mentalität. Oberirdisch steht der markante **Radar-Turm** (AN/FPS-35), der zum Teil des
 Experiments gehört: Das gewaltige Radar sendet psionische Signale aus. Unterirdisch erstrecken
 sich Laborkomplexe, Zellen und Generatorräume. Die Stimmung ist beklemmend: Es ist nachts (um

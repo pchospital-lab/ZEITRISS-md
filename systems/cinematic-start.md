@@ -203,7 +203,7 @@ aber wir bringen euch alles bei“).
 - **Charakter-Herkünfte einbeziehen:** Ein großer Reiz des Zeitreise-Themas ist es,
 **unterschiedliche Epochen aufeinander treffen** zu lassen. Nutzt das auch in der Einstiegsszene.
 Wenn die Gruppe gemischt aus verschiedenen Zeiten stammt, könnt ihr kleine **Kulturkollisionen**
-einbauen: Vielleicht wundert sich der Ritter über die „magischen“ Hologramme im HQ, während der
+einbauen: Vielleicht wundert sich der Ritter über die seltsamen Hologramme im HQ, während der
 Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit Tastaturen gearbeitet
 wurde. Solche Momente lockern die Stimmung und verankern gleich die Vielfalt der Hintergründe. Fragt
 die Spieler\*innen, was man ihren Charakteren ansieht – Kleidung, Sprache, Accessoires – und spielt
@@ -581,7 +581,7 @@ Einsatz draußen in der Zeit. Im Training könnte Commander Renier die Szene beg
 kommentieren, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
 - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
 MacGuffin tauschen, je nach Geschmack. **Historische Variante:** Der gestohlene Gegenstand ist kein
-Sci-Fi-Resonator, sondern z.B. ein **magisches Artefakt** oder ein moderner Revolver, der im
+Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
 Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
 plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
 ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf

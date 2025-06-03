@@ -5,12 +5,12 @@ tags: [gameplay]
 ---
 # Mission 9: Die letzte Festung
 
-*Die Runner kehren aus dem Zeitstrom in eine düstere, veränderte Gegenwart des Jahres 2043
+*Die Agenten kehren aus dem Zeitstrom in eine düstere, veränderte Gegenwart des Jahres 2043
 zurück. ChronTech beherrscht als totalitärer Konzern die Welt und hält Kairo unter Kriegsrecht.
 Drohnen ziehen ihre Suchlichter über abgeriegelte Straßen, psionische Scanner durchleuchten jeden
 Bürger auf abweichende Gedanken. Inmitten dieser Hightech-Dystopie schmieden verstreute
 Widerstandszellen einen letzten Plan. Die Cheops-Pyramide – jetzt ein hermetisch gesicherter
-Konzernkomplex – ist zum Symbol von ChronTechs Macht geworden. Die Runner müssen die “letzte
+Konzernkomplex – ist zum Symbol von ChronTechs Macht geworden. Die Agenten müssen die “letzte
 Festung” stürmen, um den Zugang zum verborgenen Alien-Stützpunkt unter Gizeh zurückzuerobern
 und das Finale der ZEITRISS-Kampagne vorzubereiten.*
 
@@ -23,9 +23,9 @@ gepanzerte Truppentransporter rollen durch verlassene Viertel, und an jeder Stra
 propagandistische Holoprojektionen des Konzerns. **Kriegsrecht** prägt den Alltag: nächtliche
 Ausgangssperren, Kontrollpunkte mit schwer bewaffneten Konzernsoldaten und psionische Sensoren, die
 in der Menge nach regierungsfeindlichen Gedanken oder temporal “Anormalen” (wie den
-zurückgekehrten Runnern) suchen.
+zurückgekehrten Agenten) suchen.
 
-**Veränderte Gegenwart:** Diese Zeitlinie wurde von ChronTech manipuliert. Was die Runner aus
+**Veränderte Gegenwart:** Diese Zeitlinie wurde von ChronTech manipuliert. Was die Agenten aus
 ihrer ursprünglichen Zeit kannten, existiert so nicht mehr. Einige vertraute Personen könnten nun
 andere Schicksale haben – Verbündete aus früheren Missionen sind eventuell im Untergrund
 verschwunden oder arbeiten gezwungenermaßen für ChronTech. Technologisch hat der Konzern seine
@@ -33,7 +33,7 @@ Dominanz ausgebaut: Energiezäune, Gedankenleser und Cyber-Überwachung definier
 Gleichzeitig lebt im Verborgenen **der Widerstand** weiter. Unter der Stadt, in alten Katakomben
 und in verlassenen Wohnblocks, organisieren sich Guerilla-Kämpfer, Hacker und Psi-Begabte gegen
 die übermächtige Konzernarmee. Die Stimmung ist angespannt und hoffnungsvoll zugleich – die
-Rückkehr der Runner könnte das Zünglein an der Waage sein, um ChronTech einen entscheidenden
+Rückkehr der Agenten könnte das Zünglein an der Waage sein, um ChronTech einen entscheidenden
 Schlag zu versetzen.
 
 **Schauplatz Gizeh:** Die berühmte Cheops-Pyramide und das Plateau von Gizeh wurden von ChronTech
@@ -45,13 +45,13 @@ der Zugang zur geheimnisvollen Alienbasis unter der Pyramide. Das Gebiet wirkt w
 futuristische Festung inmitten antiker Monumente: Patrouillierende Kampfpanzer zwischen den
 Pyramiden, Hightech-Fassaden und Tarnnetze, die das Areal für Satelliten unsichtbar machen. Hier
 soll der finale Plan des Konzerns zur Kontrolle der Zeitlinie seinen Ausgangspunkt haben – und
-genau hier setzen die Runner an.
+genau hier setzen die Agenten an.
 
 ## Missionsziele
 
 **Hauptziele:**
 
-- **Infiltration und Sturm des Gizeh-Komplexes:** Die Runner müssen einen Weg finden, in den
+- **Infiltration und Sturm des Gizeh-Komplexes:** Die Agenten müssen einen Weg finden, in den
 hermetisch abgeriegelten ChronTech-Komplex vorzudringen. Das Ziel ist, die **Kontrolle über den
 Zugang zur Alienbasis unter der Cheops-Pyramide** zu erlangen. Dazu gehört, die äußeren
 Verteidigungsringe zu durchbrechen, ins Innere des Pyramidenkomplexes vorzudringen und den
@@ -59,7 +59,7 @@ zentralen Kontrollraum oder Gate zum unterirdischen Stützpunkt zu sichern.
 - **Schwächung von ChronTechs Herrschaft:** Durch diese Aktion sollen ChronTechs Kräfte in
 Ägypten entscheidend geschwächt werden. Das Ausschalten eines wichtigen **Konzernführers oder
 KI-Systems** vor Ort könnte die Kairoer Sicherheits-Infrastruktur ins Wanken bringen. Zusätzlich
-sollen die Runner kritische Einrichtungen sabotieren (z.B. die psionischen Störsender oder
+sollen die Agenten kritische Einrichtungen sabotieren (z.B. die psionischen Störsender oder
 Drohnenkontrollzentralen), um der Bevölkerung und dem Widerstand wieder Handlungsspielraum zu
 geben.
 
@@ -70,11 +70,11 @@ der Mission sichern. Nebenaufgaben könnten sein, **Waffen- und Ausrüstungsdepo
 Widerstands zu erreichen, um zusätzliche Feuerkraft zu erhalten, oder gefangene
 Widerstandsmitglieder aus ChronTech-Gefängnissen in der Stadt zu befreien. Solche Aktionen
 stärken nicht nur die Allianz, sondern können auch Ablenkungen erzeugen, die den
-Infiltrationsplan der Runner erleichtern (z.B. ein koordiniertes Aufstands-Manöver in einem
+Infiltrationsplan der Agenten erleichtern (z.B. ein koordiniertes Aufstands-Manöver in einem
 anderen Stadtteil, um Truppen vom Pyramidenkomplex abzuziehen).
 - **Datensicherung und Informationsbeschaffung:** In den ChronTech-Forschungslaboren am
 Gizeh-Standort lagern vermutlich wichtige Daten über die Alienbasis und ChronTechs
-Zeitmanipulations-Technologie. Als Nebenmission können die Runner versuchen, **Datenserver** zu
+Zeitmanipulations-Technologie. Als Nebenmission können die Agenten versuchen, **Datenserver** zu
 hacken oder Prototyp-Geräte zu stehlen. Diese Informationen könnten im Finale der Kampagne
 nützlich sein oder Beweise für ChronTechs Verbrechen liefern, um global Unterstützung gegen den
 Konzern zu mobilisieren.
@@ -87,19 +87,19 @@ erheblich, bergen jedoch Risiken und erfordern geschicktes Vorgehen.
 
 **Moralische Entscheidungen:**
 
-- **Opfer für das große Ganze:** Die Runner stehen vor der Frage, inwieweit sie bereit sind,
+- **Opfer für das große Ganze:** Die Agenten stehen vor der Frage, inwieweit sie bereit sind,
 **zivile Opfer** oder Verluste innerhalb des Widerstands in Kauf zu nehmen. Beispielsweise könnte
 ein Plan vorsehen, einen von ChronTech kontrollierten Stadtgenerator zu überladen, um in einem
 Distrikt den Strom ausfallen zu lassen – was aber ein Krankenhaus lahmlegt. Die Gruppe muss
 entscheiden, ob das taktische Ziel den menschlichen Preis wert ist, oder ob sie einen anderen,
 riskanteren Weg ohne Kollateralschaden suchen.
 - **Verbündete oder Verräter?:** In einer paranoiden Umgebung voller psionischer Überwachung
-wissen die Runner nie genau, wem sie trauen können. Sie könnten vor der Wahl stehen, einem
+wissen die Agenten nie genau, wem sie trauen können. Sie könnten vor der Wahl stehen, einem
 **Informanten** (vielleicht ein ehemaliger Freund aus der ursprünglichen Zeitlinie, der nun als
 ChronTech-Offizier auftritt) zu vertrauen, um ins Innere der Festung zu gelangen. Vertrauen sie ihm
 und riskieren eine Falle, oder weisen sie sein Angebot zurück und verpassen vielleicht eine
 entscheidende Hilfe? Solche Entscheidungen beeinflussen den Missionsverlauf erheblich.
-- **Rache vs. Vernunft:** Einige Runner haben persönliche Rechnungen mit ChronTech offen, gerade
+- **Rache vs. Vernunft:** Einige Agenten haben persönliche Rechnungen mit ChronTech offen, gerade
 nach dem Anblick dieser veränderten Welt. Es kann Situationen geben, in denen sich Chancen zur
 **Rache** ergeben – etwa den Verantwortlichen der Zeitlinien-Manipulation direkt auszuschalten
 – was aber eventuell die Hauptmission gefährdet. Die Spieler müssen abwägen, ob sie ihrer
@@ -110,25 +110,25 @@ führen.
 ## Konflikte
 
 **Physische Konflikte:** Die Mission ist geprägt von heftigen Kämpfen und actiongeladenen
-Auseinandersetzungen. Die Runner sehen sich **hochmodernen ChronTech-Einheiten** gegenüber: schwer
+Auseinandersetzungen. Die Agenten sehen sich **hochmodernen ChronTech-Einheiten** gegenüber: schwer
 bewaffnete Konzernsoldaten in Kampfpanzerungen, Schwärme von Angriffs- und Überwachungsdrohnen
 sowie fest installierte Geschütztürme entlang der Zufahrten zum Pyramidenkomplex.
 Straßenblockaden, Schutzwälle und Energiefelder erfordern kreative Lösungen – sei es
 explosives Vorgehen oder das Umgehen über Dächer und Tunnel. Der Sturm auf die Festung selbst
 kulminiert wahrscheinlich in einem großen Gefecht: z.B. ein **Feuergefecht im Schatten der
-Cheops-Pyramide**, wo die Runner Deckung zwischen futuristischen Barrikaden und antiken Steinen
+Cheops-Pyramide**, wo die Agenten Deckung zwischen futuristischen Barrikaden und antiken Steinen
 suchen. Auch Nahkämpfe in engen Korridoren innerhalb der Pyramidenanlage sind möglich, wenn
-Sicherheitstrupps die Runner stellen. Physische Konflikte können mehrstufig sein (Erst
+Sicherheitstrupps die Agenten stellen. Physische Konflikte können mehrstufig sein (Erst
 Scharmützel an Außenposten, dann heftiger Widerstand im Inneren), sodass die Gruppe ihre
 Ressourcen und Taktiken gut einteilen muss.
 
 **Soziale Konflikte:** Trotz der kampforientierten Rahmenhandlung spielen zwischenmenschliche
-Interaktionen eine wichtige Rolle. Die Runner müssen **Widerstandsgruppen koordinieren** und deren
+Interaktionen eine wichtige Rolle. Die Agenten müssen **Widerstandsgruppen koordinieren** und deren
 Vertrauen gewinnen. Einige Zellen könnten rivalisieren oder unterschiedliche Ideologien verfolgen
-– die Runner agieren als Vermittler, um eine geeinte Front zu formen. Es kann vorkommen, dass die
+– die Agenten agieren als Vermittler, um eine geeinte Front zu formen. Es kann vorkommen, dass die
 Helden erst einen charismatischen lokalen Anführer überzeugen müssen, sich ihrem Plan
 anzuschließen, was Diplomatie und Einfühlungsvermögen erfordert. Auf der anderen Seite könnte
-auch **Täuschung** gefragt sein: Beispielsweise soziale Infiltration, indem sich ein Runner als
+auch **Täuschung** gefragt sein: Beispielsweise soziale Infiltration, indem sich ein Agenten als
 ChronTech-Offizier oder -Angestellter ausgibt, um an Zugangscodes zu kommen oder an Wachen vorbei
 in die Anlage zu gelangen. Hier gilt es, Lügen glaubhaft zu verkaufen und Argwohn zu zerstreuen
 – vielleicht mittels gefälschter Identitätschips oder mit Unterstützung eines psionischen
@@ -141,32 +141,32 @@ werden wie der Feind.
 Sicherheitssystemen gespickt, die es zu überlisten gilt – das ist wie ein Puzzle für die
 Tech-Experten der Gruppe. Beispiele: das **Entschlüsseln** eines mehrstufigen Zugangscodes zur
 Deaktivierung der Kraftfeld-Kuppel; das Umgehen eines psionischen Sicherheitsnetzwerks, das Alarm
-schlägt, wenn unregistrierte Gedankenmuster detektiert werden (evtl. müssen die Runner kreativ
+schlägt, wenn unregistrierte Gedankenmuster detektiert werden (evtl. müssen die Agenten kreativ
 einen Weg finden, ihre Gedanken zu verschleiern, z.B. durch Drogen, Meditation oder
 psi-Technologie). In den Tiefen der Pyramide könnten antike Fallen oder Alien-Rätsel existieren,
 die ChronTech noch nicht entschärft hat – etwa verborgene Kammern mit hieroglyphischen
 Schaltmechanismen, die in richtiger Reihenfolge aktiviert werden müssen, um Türen zu öffnen.
-Auch strategische Planungsrätsel gehören hierher: Die Runner müssen **Pläne schmieden**, z.B.
+Auch strategische Planungsrätsel gehören hierher: Die Agenten müssen **Pläne schmieden**, z.B.
 welche Reihenfolge von Sabotageaktionen am sinnvollsten ist, um die Verteidigung des Komplexes
 auszuschalten, ohne Alarm auszulösen. Zeitgleich eingehende Ziele (Kommunikation kappen *und*
 Psisensoren stören) erfordern kluge Aufgabenteilung innerhalb der Gruppe. Diese Art von Konflikten
 belohnt kluges Denken, Planung und das clevere Einsetzen von Spezialfähigkeiten (Hacken, Technik,
-magische/psionische Kräfte).
+psionische Kräfte).
 
 **Zeitliche Konflikte:** Da es um Zeitmanipulation geht, dürfen Konflikte mit der **Zeit** selbst
 nicht fehlen. Zum einen herrscht enormer **Zeitdruck**: Sobald der Plan in Gang gesetzt wird (etwa
 eine erste Explosion oder ein Hack, der Alarm auslöst), läuft ein Countdown, bis ChronTech
-massive Verstärkung schickt oder gar zu temporalen Gegenmaßnahmen greift. Die Runner müssen
+massive Verstärkung schickt oder gar zu temporalen Gegenmaßnahmen greift. Die Agenten müssen
 schnell und koordiniert handeln – z.B. in Echtzeit entscheiden, ob sie ein Ziel noch angreifen
 oder lieber den Rückzug antreten, bevor sie eingekesselt werden. Denkbar ist auch eine Szene, in
-der ChronTech einen **Zeitmanipulations-Apparat** einsetzt: Plötzlich könnten die Runner sich in
+der ChronTech einen **Zeitmanipulations-Apparat** einsetzt: Plötzlich könnten die Agenten sich in
 einer veränderten Fluss der Zeit wiederfinden (Bullet-Time-Sequenzen, eingefrorene oder
 beschleunigte Umgebungen), was sie vor ungewöhnliche Herausforderungen stellt. Beispielsweise
 könnten Türen sich “zur falschen Zeit” öffnen oder Gegner tauchen scheinbar aus dem Nichts
-auf, weil sie zeitverschoben an einen Ort gelangen. Die Runner müssen hier kühlen Kopf bewahren
+auf, weil sie zeitverschoben an einen Ort gelangen. Die Agenten müssen hier kühlen Kopf bewahren
 und eventuell ihre eigenen temporalen Erfahrungen nutzen, um aus der Falle zu entkommen. Auch
 deadlines gehören hierher: Vielleicht steht ein **Orbitalschlag** oder ein großflächiger
-Psi-Einsatz von ChronTech unmittelbar bevor, falls die Runner nicht rechtzeitig Erfolg haben –
+Psi-Einsatz von ChronTech unmittelbar bevor, falls die Agenten nicht rechtzeitig Erfolg haben –
 was ständigen Druck erzeugt. Die Spielleitung kann mit solchen zeitlichen Elementen Spannung
 aufbauen, indem sie einen drohenden Event ankündigt (“In 10 In-Game-Minuten erreicht ein
 VTOL-Team voller Feindsoldaten euer Gebiet…”). Dadurch müssen die Spieler Prioritäten setzen
@@ -201,7 +201,7 @@ Gefahrensignalen, um Chaos zu stiften). Einer der Hauptgegner könnte eine mäch
 namens **Amina el-Taher** sein, die im Pyramidenkomplex die psionische Überwachung koordiniert.
 Sie ist in der Lage, ein psionisches Netzwerk aufzubauen – alle Wachen in ihrer Nähe sind mental
 miteinander verknüpft, wodurch Alarmmeldungen augenblicklich geteilt werden. Um sie auszuschalten,
-müssen die Runner kreativ vorgehen (vielleicht muss man sie isolieren oder mit einem speziellen
+müssen die Agenten kreativ vorgehen (vielleicht muss man sie isolieren oder mit einem speziellen
 Psi-Dämpfungsgerät schwächen, bevor ein Angriff Sinn hat). Als Ausrüstung tragen Psi-Agenten
 oft **Gedankenschild-Implantate**, die sie vor mentalen Gegenangriffen schützen, und sie führen
 kleine Geräte mit, die **psionische Blitze** abgeben können (eine Art taserartiger Psi-Schock
@@ -217,15 +217,15 @@ Deckungsfeuer, etc.). Zusätzlich hat ChronTech überall **Drohnen** im Einsatz:
 
 - **Luftdrohnen:** Kleine quadcopter-artige Überwachungsdrohnen mit Suchscheinwerfern und Kameras,
 teils bewaffnet mit leichten MGs oder Taser-Geschützen. Sie melden Eindringlinge schnell an die
-Zentrale, daher stellen sie ein prioritäres Ziel für Hacker oder Scharfschützen der Runner dar.
+Zentrale, daher stellen sie ein prioritäres Ziel für Hacker oder Scharfschützen der Agenten dar.
 - **Bodendrohnen:** Autonome Fahrzeuge auf Ketten oder Spinnenbeinen, ausgerüstet mit schweren
 Waffen (z.B. ein Drohnen-Panzer mit Raketenbewaffnung oder einer Schrotflinten-Turret für enge
 Gänge). Einige sind auch **Psi-Hunde**: robotische Hundedrohnen mit biotechnologisch
 aufgerüsteten echten Spürnasen oder Psi-Sensoren, die verborgene Menschen oder veränderte
 Biochemie aufspüren können.
-  Die Runner werden oft entscheiden müssen, ob sie direkte Konfrontation suchen oder versuchen,
+  Die Agenten werden oft entscheiden müssen, ob sie direkte Konfrontation suchen oder versuchen,
 Sicherheitsroutinen zu umgehen – denn ein offener Kampf mit unbegrenztem Nachschub an Drohnen und
-Soldaten wäre selbst für erfahrene Runner zu viel. Daher gehören Taktiken wie Hinterhalte legen,
+Soldaten wäre selbst für erfahrene Agenten zu viel. Daher gehören Taktiken wie Hinterhalte legen,
 Nadelstiche setzen und schnelles Untertauchen zu den wichtigsten Maßnahmen im Umgang mit diesen
 “Alltags”-Gegnern.
 
@@ -241,31 +241,31 @@ anbringen) zu knacken ist. Schließlich darf man die **Alien-Technologie** nicht
 ChronTech hat womöglich einige Geräte aus der unterirdischen Anlage geborgen und zweckentfremdet.
 So könnten in der Pyramidenfestung **Außerirdische Verteidigungsdrohnen** patrouillieren – z.B.
 schwebende Sphären, die mit Plasmakugeln schießen oder Energiefelder projizieren, welche irdische
-Technologien stören. Diese sind besonders gefährlich, da die Runner wenig über ihre Fähigkeiten
+Technologien stören. Diese sind besonders gefährlich, da die Agenten wenig über ihre Fähigkeiten
 wissen. Sie dienen als Erinnerung, dass unter der Oberfläche noch etwas Unbekanntes lauert.
 
 **Neben-Gegner oder Hindernisse:** In einer belagerten Stadt kann auch die Umgebung selbst zum
 Gegner werden. **Angst und Chaos in der Bevölkerung** könnten für unvorhergesehene Ereignisse
-sorgen (z.B. ein panischer Mob, der ausbricht, wenn Kämpfe im Viertel toben – die Runner
+sorgen (z.B. ein panischer Mob, der ausbricht, wenn Kämpfe im Viertel toben – die Agenten
 könnten in so eine Menschenmenge geraten, was schwer zu kontrollieren ist). Ebenso könnten
 **neutral gesinnte Akteure** Schwierigkeiten bereiten: etwa lokale Gangster oder Milizen, die die
-Gunst der Stunde nutzen, um eigene Agenden durchzuziehen, und dann mit den Runnern um Ressourcen in
+Gunst der Stunde nutzen, um eigene Agenden durchzuziehen, und dann mit den Agenten um Ressourcen in
 Konflikt geraten. Denkbar ist auch, dass in den Gassen Kairo’s **Schwarzmarkt-Händler**
-operieren, die wertvolle Ausrüstung anbieten, aber die Runner in einen Hinterhalt locken, um
+operieren, die wertvolle Ausrüstung anbieten, aber die Agenten in einen Hinterhalt locken, um
 Profit aus ChronTechs Kopfgeld zu schlagen. Schließlich ist **die Zeitlinie selbst** ein
 versteckter Gegner – sollte ChronTech merken, dass sie verlieren, könnten sie versuchen, mit
 einem letzten Zeit-Ritual kleinere **Paradox-Effekte** auszulösen (z.B. plötzliche
-Déjà-vu-Schleifen an manchen Orten, oder bestimmte Handlungen der Runner ungeschehen machen). Die
+Déjà-vu-Schleifen an manchen Orten, oder bestimmte Handlungen der Agenten ungeschehen machen). Die
 Spielleitung kann solche Elemente einsetzen, um den Druck zu erhöhen oder eine überraschende
 Wendung einzubauen.
 
 ## Mögliche Twists und Überraschungen
 
-- **Die Falle des Zeitdiktators:** Es ist möglich, dass ChronTech die Rückkehr der Runner aus dem
+- **Die Falle des Zeitdiktators:** Es ist möglich, dass ChronTech die Rückkehr der Agenten aus dem
 Zeitstrom **vorhergesehen** hat. Vielleicht hat General Nazari oder die psionische Agentin Amina
 Visionen oder Informationen über Zeitreisende erhalten. In diesem Twist stellt sich heraus, dass
-der scheinbar von den Runnern mühsam erarbeitete Geheimplan bereits kompromittiert ist.
-Beispielsweise könnten die Runner im entscheidenden Moment feststellen, dass ein vertrauter
+der scheinbar von den Agenten mühsam erarbeitete Geheimplan bereits kompromittiert ist.
+Beispielsweise könnten die Agenten im entscheidenden Moment feststellen, dass ein vertrauter
 Widerstandsverbündeter ein **Doppelagent** von ChronTech ist, der all ihre Schritte berichtet hat.
 Statt einer Überraschungsattacke laufen die Helden Gefahr, selbst in einen Hinterhalt zu geraten.
 Dieses Szenario zwingt sie, schnell umzudisponieren – vielleicht improvisieren sie einen neuen
@@ -273,13 +273,13 @@ Angriffsweg oder nutzen den falschen Vertrauensbeweis des Maulwurfs gegen ChronT
 Fehlinformationen gegeben haben, was nun die ChronTech-Truppen am falschen Ort suchen lässt).
 - **Temporalparadox & Realitätsschock:** Während des Sturms auf die Festung könnten temporale
 Effekte auftreten. Ein möglicher Twist: **Zeitfragmente** beginnen zu flackern, ausgelöst durch
-instabile Technologie unter der Pyramide. Das könnte dazu führen, dass die Runner plötzlich mit
+instabile Technologie unter der Pyramide. Das könnte dazu führen, dass die Agenten plötzlich mit
 **Momenten aus der Vergangenheit oder Zukunft** konfrontiert werden. Zum Beispiel blinkt für
-einige Sekunden eine alternative Realität auf, in der einer der Runner nie existiert hat – ihre
+einige Sekunden eine alternative Realität auf, in der einer der Agenten nie existiert hat – ihre
 Verbündeten zögern verwirrt, ChronTech-Soldaten reagieren chaotisch auf plötzlich wechselnde
 Befehle. Dieser Realitätsschock kann Unheil wie auch Chancen bergen: In der Verwirrung könnten
 die Helden leichter an manchen Wachen vorbeikommen, andererseits drohen gefährliche **Paradoxa**
-(vielleicht begegnet ein Runner einer anderen Version seiner selbst für einen Augenblick). Die
+(vielleicht begegnet ein Agenten einer anderen Version seiner selbst für einen Augenblick). Die
 Spielleitung kann diese Überraschung nutzen, um die bizarren Effekte der Zeitmanipulation
 hervorzuheben. Wichtig ist, solche Szenen dosiert einzusetzen, um nicht völlig zu verwirren –
 eher als kurzer Höhepunkt oder Hindernis in der finalen Phase des Angriffs.
@@ -289,33 +289,33 @@ aktiviert** wird, sobald die Kämpfe toben. Beispielsweise erspüren die Aliens 
 hinterlassenen KI) die Psionik-Nutzung und die Gewalt und interpretieren dies als Alarmsignal.
 Plötzlich erwachen **verborgene Alien-Verteidigungsmechanismen**: Räume in der Pyramide
 verschieben sich, ein unerklärliches Gravitationsfeld bringt Freund und Feind zu Fall, oder ein
-holografischer **Alien-Wächter** erscheint, der sowohl die Runner als auch ChronTech-Truppen
+holografischer **Alien-Wächter** erscheint, der sowohl die Agenten als auch ChronTech-Truppen
 angreift, um den Stützpunkt zu schützen. Dies zwingt möglicherweise zu kurzfristigen Allianzen
-– vielleicht müssen die Runner und die ChronTech-Soldaten für einen Moment kooperieren, um das
+– vielleicht müssen die Agenten und die ChronTech-Soldaten für einen Moment kooperieren, um das
 Alien-Phänomen zu überstehen, bevor sie ihren eigenen Kampf fortsetzen. Alternativ könnte
-ChronTech planen, eine Alien-Waffe einzusetzen, und die Runner erleben mit Schrecken, wie sich z.B.
+ChronTech planen, eine Alien-Waffe einzusetzen, und die Agenten erleben mit Schrecken, wie sich z.B.
 ein im Komplex stationiertes Gerät auflädt, um einen **psionischen Schockwellenangriff** auf die
 Stadt auszuführen. Dann läge die Überraschung darin, plötzlich ein noch größeres Übel
 abwenden zu müssen als “nur” die Konzernsoldaten – nämlich diese fremde Technologie zu
 entschärfen.
 - **Unerwartete Unterstützung:** Nicht jeder Twist muss negativ sein. Die Spielleitung kann einen
 überraschenden Moment einbauen, in dem **unverhoffte Verbündete** auftauchen. Etwa erscheint im
-letzten Moment eine **zweite Runner-Gruppe oder ein alter Bekannter** der Helden (vielleicht ein
+letzten Moment eine **zweite Agenten-Gruppe oder ein alter Bekannter** der Helden (vielleicht ein
 Verbündeter aus Mission 3, der in dieser Zeitlinie überlebt hat und vom Plan erfuhr). Diese
 zusätzliche Hilfe kann in einer aussichtslos scheinenden Lage das Blatt wenden – zum Beispiel
 indem ein kleines Team von Widerstands-Hackern plötzlich die Drohnen vom Himmel holt, weil sie
 eine Schwachstelle im ChronTech-Netz fanden, oder ein Squad verbündeter Kämpfer mit einem
-improvisierten Panzerfahrzeug durch einen Zaun bricht, um den Runnern den Weg frei zu schießen.
+improvisierten Panzerfahrzeug durch einen Zaun bricht, um den Agenten den Weg frei zu schießen.
 Dieser Twist belohnt vorherige Anstrengungen (etwa wenn die Spieler in einer Nebenmission
 Verbündete mobilisiert haben) und sorgt für einen heroischen Gänsehaut-Moment im entscheidenden
 Kampf. Allerdings kann diese Hilfe auch ihren Preis haben oder begrenzt sein – sie könnten z.B.
-fordern, dass die Runner im Gegenzug einen ihrer Leute lebend aus dem Komplex retten, was
+fordern, dass die Agenten im Gegenzug einen ihrer Leute lebend aus dem Komplex retten, was
 zusätzlichen Druck erzeugt.
-- **Flucht oder Zerstörung?:** Ein möglicher dramatischer Moment ist, wenn die Runner
+- **Flucht oder Zerstörung?:** Ein möglicher dramatischer Moment ist, wenn die Agenten
 feststellen, dass sie das Ziel zwar erreichen können, aber **nicht halten**. Vielleicht ist der
 Komplex so stark befestigt oder mit Sprengsicherungen versehen, dass ein Halten der Stellung
 unmöglich scheint. Als Twist könnte ChronTech drohen, den gesamten Gizeh-Komplex samt Alienbasis
-zu sprengen, falls sie verlieren. Die Runner stünden dann vor der Wahl: Stürmen sie direkt in die
+zu sprengen, falls sie verlieren. Die Agenten stünden dann vor der Wahl: Stürmen sie direkt in die
 Tiefe, um so viel wie möglich zu sichern (Daten/Artefakte) und fliehen dann, bevor alles
 explodiert? Oder versuchen sie, den **Selbstzerstörungsmechanismus** zu entschärfen, was sie aber
 wertvolle Zeit und vielleicht Leben kostet? Dieser Twist sorgt für dramatische Endzeitstimmung –
@@ -364,7 +364,7 @@ erbeutete ChronTech-Waffe nutzen, weil ihre eigene leer ist, etc.).
 
 **Psionik und Technologie einsetzen:** In dieser Mission dürfen die besonderen Elemente der
 Kampagne glänzen. Für Psionik gilt: Lass die Gegner die psionischen Sensoren eindrucksvoll nutzen
-– z.B. beschreibe, wie ein Telepath Offizier im Kontrollpunkt fast die Gedanken der Runner
+– z.B. beschreibe, wie ein Telepath Offizier im Kontrollpunkt fast die Gedanken der Agenten
 erspürt, bis diese es schaffen, ihn auszuschalten. Aber ermuntere auch die **Spieler-Charaktere
 mit Psi-Kräften**, kreativ zu sein: Illusionen können helfen, an Wachen vorbeizukommen (ein
 falscher Befehl im Kopf des Soldaten implantiert), Telekinese kann vielleicht temporär eine Tür
@@ -394,7 +394,7 @@ Die Spieler könnten in Dokumenten erfahren, *was* ChronTech eigentlich mit der 
 oder auf Relikte stoßen, die im Finale gebraucht werden (z.B. einen Schlüsselartefakt,
 Zugangscodes, oder vielleicht die Erkenntnis, dass nur bestimmte Personen die Alienanlage betreten
 können). Solche Informationen kannst du als Belohnung für Nebenmissionen oder gründliches
-Nachforschen geben. Bereite auch vor, was passiert, wenn die Runner *nicht* alle Ziele erreichen:
+Nachforschen geben. Bereite auch vor, was passiert, wenn die Agenten *nicht* alle Ziele erreichen:
 Sollte General Nazari entkommen, könnte er im Finale zurückkehren. Falls die Alienbasis
 beschädigt wurde, wie ändert das den letzten Auftrag? Plane also mehrere Pfade weiter, je nach
 Erfolg oder Misserfolg hier.

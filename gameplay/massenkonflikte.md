@@ -300,8 +300,8 @@ folgt ein Crash (hoffentlich mit Fallschirm oder Rettungssystem, sonst droht gro
 **Kreative Fortbewegungsmittel:** Besonders in Sandbox-Runden denken Spieler ungewöhnlich.
 Vielleicht satteln die Helden in der Kreidezeit tatsächlich einen **Flugsaurier mit Zeit-
 Implantat**, um einen Riesenvogel als Fluchtmittel zu nutzen. Oder sie zähmen Elefanten im alten
-Indien, bauen sich aus verfügbaren Teilen ein Heißluftballon, oder nutzen ein magisches
-Besenartefakt aus einer Hexenzeit. Hier darf der SL ruhig mitmachen und gemeinsam mit den Spielern
+Indien, bauen sich aus verfügbaren Teilen ein Heißluftballon, oder nutzen ein psionisches
+Fluggerät aus einer vergangenen Ära. Hier darf der SL ruhig mitmachen und gemeinsam mit den Spielern
 ausarbeiten, wie man solche exotischen Reittiere/Fluggeräte regeltechnisch handhabt. Im Grunde
 bleiben es Fahrzeuge/Reittiere mit besonderen Eigenschaften – wichtig ist, dass es stimmungsvoll
 inszeniert wird. **Balance-Tipp:** Falls ein exotisches Transportmittel übermächtig scheint (z. B.
@@ -440,7 +440,7 @@ führt er durch Briefings; im Feld liefert er Daten und kann begrenzte Analysen 
 jedoch **kein Orakel**: Das HUD zeigt nur, was technisch erfassbar ist. Beispiel: Der Codex wird
 nicht direkt verraten, ob ein NPC lügt – dafür gibt es keinen Sensor. Hat aber ein Agent einen
 tragbaren Herzschlagdetektor aktiv, könnte das HUD einen erhöhten Puls des Gesprächspartners
-anzeigen, den die Spieler interpretieren müssen. Ebenso entdeckt das HUD nicht magisch Fallen oder
+anzeigen, den die Spieler interpretieren müssen. Ebenso entdeckt das HUD nicht automatisch Fallen oder
 Rätsel-Lösungen, außer die Charaktere haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz:
 **Die KI liefert Kontext und Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Sie ist
 ein Werkzeug, kein Autopilot.
