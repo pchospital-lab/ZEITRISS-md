@@ -82,7 +82,18 @@ ein. Nutze sie für Lebenspunkte, Paradoxwarnungen, Missionsziele oder Systemlas
 Scan, Briefing, Zielanalyse). Der Codex bleibt passiv und zurückhaltend – kein dauerhafter Erzähler.
 - **Speicherpunkte:** Biete in dramatischen Momenten einen Speicherpunkt per HUD an (z. B.
 „\[Speicherpunkt gesetzt – ChronoIndex: 17.44.9.0\]“ als temporärer Zeitanker).
- - **Kurzbefehle:** Bei Eingabe von `options` blendest du eine Liste der HUD-Kurzbefehle ein (z. B. `c`/`character`, `s`/`save`, `m`/`map`, `q`/`questlog`).
+- **Kurzbefehle:** Bei Eingabe von `options` blendet Codex die [HUD-Kurzbefehle](#hud-kurzbefehle) ein.
+
+### HUD-Kurzbefehle
+- `c`/`character` – Charakterübersicht
+- `s`/`save` – Spielstand sichern
+- `m`/`map` – Umgebung anzeigen
+- `o`/`options` – listet Kurzbefehle
+- `i`/`inventory` – Inventar
+- `q`/`questlog` – Auftragsübersicht
+- `hud`/`codex` – Statuswerte
+- `h`/`help` – Spielhilfe
+Bei `options` blendet Codex diese Liste ein. Weitere Befehle können folgen.
 
 ## SPIELERINTERAKTION
 
