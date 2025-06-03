@@ -639,19 +639,10 @@ Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst 
      - Der Korridor transportiert die Gruppe ohne Unterbrechung zum zuletzt gewählten Zielzeit­punkt.  
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
 
-3. **Notfall-Rückholung**  
+3. **Notfall-Rückholung**
    - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben Wahlmöglichkeiten wie oben.
 
-**Design-Notiz (für Programmierer)**  
-- Implementiere einen **Trigger „on Zeitsprung“**, der das Nullzeit-Menü lädt.  
-- Verknüpfe Downtime-Funktionen (Shop, Skill-Upgrades, Save-System) mit diesem Menü.  
-- Bei **Pfad fortsetzen**: unverändert zurück in den bestehenden Missions-Context.  
-- Bei **Neuen Pfad wählen**:  
-  - Archiviere den alten Missions-Context als *abgeschlossen* (read-only).  
-  - Öffne einen neuen Riss; initialisiere ein neues Missions-Manifest.  
-  - Kennzeichne die vorherige Zeitlinie als „versiegelt“ – keine weiteren Änderungen zulässig.
-
-Damit ist eindeutig geregelt, dass ein Wechsel des Sprungpfads den alten Verlauf final abschließt und die Gruppe in einen neuen Kampagnenstrang führt.
+Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort stehen Shop, Skill-Upgrades und das Save-System bereit. Wählen die Spieler **Pfad fortsetzen**, kehren sie unverändert in den bestehenden Missions-Context zurück. Entscheiden sie sich für **Neuen Pfad wählen**, wird der bisherige Missions-Context als *abgeschlossen* archiviert, ein neuer Riss samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
