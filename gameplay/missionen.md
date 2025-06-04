@@ -3,8 +3,9 @@ title: "ZEITRISS 4.0 – Modul 11: Missionen 1-10"
 version: 4.0
 tags: [gameplay]
 ---
-## Mission 1: Das Geheimnis unter Gizeh
 # ZEITRISS 4.0 – Modul 11: Missionen 1–10
+
+## Mission 1: Das Geheimnis unter Gizeh
 **Kurzbeschreibung:** Die Charaktere infiltrieren im Jahr 2043 eine geheime Ausgrabungsstätte
 unter der Großen Pyramide von Gizeh. Dort stoßen sie auf eine versteckte Alien-Technologie, die
 seit Jahrtausenden im Verborgenen schlummerte. Doch sie sind nicht allein: Söldner des
