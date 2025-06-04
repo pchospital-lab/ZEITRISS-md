@@ -621,22 +621,22 @@ Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst 
 
 **Ablauf & Optionen**
 
-1. **Ankunft im Korridor**  
-   - Typischer „Zeit-Luftzug“, während sich der Korridor stabilisiert.  
+1. **Ankunft im Korridor**
+   - Typischer „Zeit-Luftzug“, während sich der Korridor stabilisiert.
    - Ein leuchtender HQ-Marker weist den Weg ins Institut.
 
-2. **Entscheidungspunkt**  
-   - **HQ-Stopp (Downtime):**  
-     - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.  
-     - Danach wählen die Spieler einen von **zwei Sprungpfaden**:  
-       1. **Pfad fortsetzen** – sie kehren in *denselben* Riss zurück und setzen die laufende Mission fort.  
-       2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest **(neue Mission / Kampagne)**.  
-         - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.  
-         - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**; ein Zurückkehren ist nicht möglich.  
+2. **Entscheidungspunkt**
+   - **HQ-Stopp (Downtime):**
+     - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.
+     - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
+       1. **Pfad fortsetzen** – sie kehren in *denselben* Riss zurück und setzen die laufende Mission fort.
+       2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest **(neue Mission / Kampagne)**.
+         - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
+         - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**; ein Zurückkehren ist nicht möglich.
          - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
 
-   - **Direkt weiterspringen (ohne HQ-Stop)**  
-     - Der Korridor transportiert die Gruppe ohne Unterbrechung zum zuletzt gewählten Zielzeit­punkt.  
+   - **Direkt weiterspringen (ohne HQ-Stop)**
+     - Der Korridor transportiert die Gruppe ohne Unterbrechung zum zuletzt gewählten Zielzeit­punkt.
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
 
 3. **Notfall-Rückholung**
