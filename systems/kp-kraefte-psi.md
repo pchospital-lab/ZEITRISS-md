@@ -3,7 +3,7 @@ title: "ZEITRISS 4.0 – Modul 12: Psi-Fähigkeiten"
 version: 4.0
 tags: [systems]
 ---
-# Psi-Fähigkeiten im ZEITRISS 4.0 – Regel- und Atmosphärenmodul
+# ZEITRISS 4.0 – Modul 12: Psi-Fähigkeiten
 ## Inhalt
 - Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 - Überblick: Realistische Psi-Fähigkeiten

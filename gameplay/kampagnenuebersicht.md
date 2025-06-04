@@ -1,9 +1,8 @@
 ---
-title: "ZEITRISS 4.0 – Modul 10: Kampagnenuebersicht"
+title: "ZEITRISS 4.0 – Modul 10: Im Schatten des Montauk-Projekts"
 version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS – Im Schatten des Montauk-Projekts
 # ZEITRISS 4.0 – Modul 10: Im Schatten des Montauk-Projekts
 ## Kampagnenüberblick
 

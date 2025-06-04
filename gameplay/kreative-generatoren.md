@@ -3,7 +3,7 @@ title: "ZEITRISS 4.0 – Modul 8: **Kreative Generatoren**"
 version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS 4.0 – Modul 6 (Teil 2): **Kreative Generatoren**
+# ZEITRISS 4.0 – Modul 8: **Kreative Generatoren**
 ## Inhalt
 - Random-Epochen-Generator: Wann und wo?
 - NSC-Generator: Begegnungen im Zeitstrom
