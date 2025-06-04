@@ -20,7 +20,7 @@ tags: [meta]
   `zeitriss-core.md`, `wuerfelmechanik.md`, `charaktererschaffung.md`, `ausruestung-cyberware.md`, `loot-tables.md`, `zustaende-hud-system.md`,
   `kampagnenstruktur.md`, `fahrzeuge-konflikte.md`, `kreative-generatoren.md`, `massenkonflikte.md`, `kampagnenuebersicht.md`,
   `missionen.md`, `kp-kraefte-psi.md`, `solo-npc-team.md`, `speicher-fortsetzung.md`, `cinematic-start.md`,
-  `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`, `erweiterte-regelmodule.md`, `toolkit-gpt-spielleiter.md`.
+  `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`, `toolkit-gpt-spielleiter.md`.
 - Würfle verdeckt mit W6 (Exploding 6). Optional kommen W10 und Heldenwürfel bei hohen Attributen zum Einsatz.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradox-Level im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert, außer Spieler fordern es explizit an.
