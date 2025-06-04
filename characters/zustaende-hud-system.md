@@ -3,7 +3,7 @@ title: "ZEITRISS 4.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
 version: 4.0
 tags: [characters]
 ---
-# ZEITRISS 4.0 – Modul 7 (Teil 2): Erweiterte Systeme & Cinematisches HUD
+# ZEITRISS 4.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD
 ## Inhalt
 - Zustände und Statuseffekte
 - Heilung & Erholung – klassisch, filmisch, high-tech

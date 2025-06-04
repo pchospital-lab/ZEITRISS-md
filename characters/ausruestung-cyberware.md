@@ -3,7 +3,7 @@ title: "ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisier
 version: 4.0
 tags: [characters]
 ---
-# ZEITRISS 4.0 – Modul X: Erweiterte Charakterausstattung & Spezialisierung
+# ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
 ## Inhalt
 - Einleitung
 - Waffen: Arsenal der Zeitalter
@@ -27,7 +27,7 @@ Ohr meldet sich die KI-Assistentin – Codex – mit ruhiger Stimme: *„Kalibri
 Systeme bereit.“* Der kommende Einsatz führt das Team vom Mittelalter direkt in eine dystopische
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
-*Willkommen in Modul X*, dem Erweiterungsmodul für **ZEITRISS 4.0** mit Fokus auf fortgeschrittener
+*Willkommen in Modul 4*, dem Erweiterungsmodul für **ZEITRISS 4.0** mit Fokus auf fortgeschrittener
 **Charakterausstattung und Spezialisierung**. Dieses Kapitel erweitert das Regelwerk um detaillierte
 Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von historischen Klingen und
 modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der

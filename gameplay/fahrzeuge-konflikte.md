@@ -3,13 +3,13 @@ title: "ZEITRISS 4.0 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generator
 version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS 4.0 – Modul 6: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+# ZEITRISS 4.0 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
 ## Inhalt
 - Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 - Konfliktsystem: Cineastische Konflikte jenseits des Klassikers
 
 
-**Einleitung:** Willkommen zu **Modul 6** von ZEITRISS 4.0! Dieses erweiterte Kapitel stattet euer
+**Einleitung:** Willkommen zu **Modul 7** von ZEITRISS 4.0! Dieses erweiterte Kapitel stattet euer
 Zeitreise-Abenteuer mit neuen Werkzeugen aus und macht das Spiel noch freier, filmischer und
 immersiver. Hier findet ihr Regeln und Inspirationen für Fahrzeuge als temporale Transportmittel,
 ein cineastisches Konfliktsystem jenseits bloßer Kampfregeln und eine *Toolbox* kreativer
@@ -18,7 +18,7 @@ wählt aus, was zu eurer Runde passt. Der Stil des Moduls ist **filmisch und erz
 werden über Szenen, Beispiele und einfache Würfelmechaniken vermittelt, um Spannung fühlbar zu
 machen, ohne das Pen-&-Paper-Flair zu verlieren.
 
-**Was erwartet euch in Modul 6?**
+**Was erwartet euch in Modul 7?**
 
 - **Fahrzeuge & temporale Transportmittel:** Vom ratternden Römerkarren bis zum futuristischen
 Hover-Bike – Fahrzeuge werden als erzählerische Werkzeuge eingeführt. Wir zeigen, wie Fahrzeuge das
@@ -181,7 +181,7 @@ der Geschichte. Setzt Fahrzeuge klug und kreativ ein, dann bereichern sie jedes 
 In ZEITRISS geht es um mehr als nur Prügeleien mit Schwertern oder Schießereien mit Laserkanonen.
 Konflikte können im Verborgenen stattfinden oder auf der gesellschaftlichen Bühne – ein
 wortgewandtes Duell, ein intrigantes Ränkespiel, das Anzetteln einer Revolution oder der Showdown
-mit dem Erzfeind. Das **Konfliktsystem** von Modul 6 erweitert das Regelwerk um Konfliktarten, die
+mit dem Erzfeind. Das **Konfliktsystem** von Modul 7 erweitert das Regelwerk um Konfliktarten, die
 über das übliche Kampfgeschehen hinausgehen, und stellt eine **einheitliche, erzählerische
 Mechanik** für alle Arten von Auseinandersetzungen bereit. Diese Regeln bleiben absichtlich
 **schlank und cineastisch**: Im Vordergrund steht das narrative Ausspielen, unterstützt von leichten
@@ -400,22 +400,5 @@ Eingreifen hat vielen das Leben gerettet. Im Epilog wird erwähnt, dass in diese
 Zeitlinie Paris 1789 als “Stadt der zwei Stürme” bekannt ist: einmal der historische, einmal der,
 der durch mutige Vermittler gezähmt wurde – *die Chrononauten*.
 
-*(Fortsetzung in ***Teil 2***: Kreative Generatoren und ***Teil 3***: Team-Perks ...)*
-
-## Team-Perks (Teil 3)
-
-Team-Perks sind gemeinsame Spezialisierungen, die euer Chrononauten-Trupp nach einigen Missionen erwerben kann. Sie spiegeln taktische Routinen oder besondere Ausrüstung wider, die nur im Zusammenspiel ihren vollen Effekt entfalten.
-
-### Beispielhafte Perks
-
-- **Diplomatenteam** – Erhöht den ersten Eindruck bei neuen Kontakten. Ein Teammitglied darf bei der ersten sozialen Probe einen Bonuswürfel werfen.
-- **Datenverbund** – Eure Ausrüstung bleibt permanent vernetzt. Koordinierte Aktionen erhalten +1 Bonus, solange ihr den Funkkontakt halten könnt.
-- **Kampfverbund** – Eingespielte Kämpfer unterstützen sich blind. Alle Teammitglieder erhalten +1 auf Angriffs- und Verteidigungswürfe, wenn sie im selben Gefecht agieren.
-- **Fahrzeug-Crew** – Auf Reisen oder in Verfolgungsjagden habt ihr euch aufeinander eingespielt. Wer am Steuer sitzt, erhält +2 auf Fahrzeugproben, solange mindestens ein weiteres Crewmitglied unterstützt.
-- **Feldklinik** – Durch medizinisches Training könnt ihr Wunden schneller versorgen. Nach einem Konflikt regeneriert jedes Teammitglied einen zusätzlichen Treffer.
-- **Geistertruppe** – Perfekt abgestimmte Infiltration. Bei gemeinsamen Schleichen- oder Sabotage-Proben würfelt ihr mit Vorteil.
-
-### Anwendung im Spiel
-
-Wählt Team-Perks im HQ, wenn eure Gruppe zusammenwächst. Ein neues Perk kostet in der Regel eine Ressourcengutschrift oder einige Spielsitzungen Training. Ein Team kann mehrere Perks besitzen, sollte aber höchstens einen Bonus gleichzeitig einsetzen können – besprecht mit der SL, welche Effekte sinnvoll kombinierbar sind.
+*(Fortsetzung in ***Teil 2***: Kreative Generatoren ...)*
 
