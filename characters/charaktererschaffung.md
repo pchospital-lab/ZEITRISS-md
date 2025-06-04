@@ -3,7 +3,7 @@ title: "ZEITRISS 4.0 – Modul 3: Charaktererschaffung & Progression"
 version: 4.0
 tags: [characters]
 ---
-# Regelmodul 4.0: Charaktererschaffung & Progression
+# ZEITRISS 4.0 – Modul 3: Charaktererschaffung & Progression
 ## Inhalt
 - Schritt-für-Schritt zur Charaktererschaffung
 - Start-Archetypen (Beispielcharaktere)
@@ -162,7 +162,7 @@ abwandelt. Die Archetypen decken in Kombination alle wichtigen Fertigkeitsbereic
 Teams ab. Im Folgenden werden die sechs Charaktere vorgestellt, jeweils mit Attributen, Talenten,
 Implantaten, Ausrüstung und kurzem Hintergrund. (Jeder Archetyp besitzt außerdem zwei Vorschläge für
 **Team-Spezialisierungen**, welche gruppenweite Boni bieten – diese sog. *Team-Perks* sind im
-[Modul 6 – Team-Perks](../gameplay/fahrzeuge-konflikte.md#team-perks-teil-3) ausführlich beschrieben und werden hier erwähnt, um zu zeigen, welche Rolle im Team der
+[Modul 8 – Team-Perks](team-perks.md) ausführlich beschrieben und werden hier erwähnt, um zu zeigen, welche Rolle im Team der
 Charakter besonders fördern kann.)
 
 ### Historiker-Diplomat – Dr. Elise Weber
@@ -639,7 +639,7 @@ sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, de
 Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
 vorkommen, die jeweils eine andere Spezialisierung glänzen lassen.
 - **Team-Spezialisierungen (Perks):** Sobald ihr einige Missionen als Einheit absolviert habt, könnt
-ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 6 – Team-Perks](../gameplay/fahrzeuge-konflikte.md#team-perks-teil-3)). Diese repräsentieren besondere Taktiken oder
+ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 8 – Team-Perks](team-perks.md)). Diese repräsentieren besondere Taktiken oder
 Routinen, die eure Gruppe gemeinsam gelernt hat. Ihr könnt von Anfang an im Blick haben, wohin eure
 Zusammenarbeit führen soll. Wollt ihr z.B. ein **eingespielter Kampftrupp** sein, bietet sich der
 Perk *Kampfverbund* an, der euch im Gefecht einen Vorteil gibt (s. Nikolais Vorschlag: +1 auf

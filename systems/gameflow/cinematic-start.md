@@ -3,8 +3,7 @@ title: "ZEITRISS 4.0 – Modul 14: Cineastischer Einstieg ins erste Abenteuer"
 version: 4.0
 tags: [systems]
 ---
-# ZEITRISS 4.0 – Modul 3: Cineastischer Einstieg ins erste Abenteuer
-## Inhalt
+# ZEITRISS 4.0 – Modul 14: Cineastischer Einstieg ins erste Abenteuer
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
 - Anpassung an Gruppe, Epoche und Tonalität

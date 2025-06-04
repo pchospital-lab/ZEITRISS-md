@@ -3,8 +3,7 @@ title: "ZEITRISS 4.0 – Modul 16: Chrono Units – Das zeitübergreifende Währ
 version: 4.0
 tags: [systems]
 ---
-# ZEITRISS 4.0 – Modul 5: Chrono Units – Das zeitübergreifende Währungssystem
-## Inhalt
+# ZEITRISS 4.0 – Modul 16: Chrono Units – Das zeitübergreifende Währungssystem
 - Chrono Units verdienen: Missionen und Funde
 - Einkaufsmöglichkeiten: Was kann man für CUs erwerben?
 - Zugriffsrechte und Verfügbarkeit
