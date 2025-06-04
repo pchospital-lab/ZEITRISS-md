@@ -1,5 +1,5 @@
 ---
-title: "ZEITRISS 4.0 – Regel- und Inspirationsmodul für langfristige Kampagnen"
+title: "ZEITRISS 4.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
 version: 4.0
 tags: [gameplay]
 ---
