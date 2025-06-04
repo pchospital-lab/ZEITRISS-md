@@ -1,5 +1,5 @@
 ---
-title: "Psi-Fähigkeiten im ZEITRISS 4.0 – Regel- und Atmosphärenmodul"
+title: "ZEITRISS 4.0 – Modul 12: Psi-Fähigkeiten"
 version: 4.0
 tags: [systems]
 ---
