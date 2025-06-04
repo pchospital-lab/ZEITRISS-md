@@ -3,7 +3,6 @@ title: "ZEITRISS 4.0 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte
 version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS 4.0 – Fahrzeuge, Verfolgungsjagden & Massenkonflikte
 # ZEITRISS 4.0 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte
 - Fahrzeugarten in verschiedenen Zeitaltern
 - Fahrzeugsteuerung, Manöver & Verfolgungsjagden
