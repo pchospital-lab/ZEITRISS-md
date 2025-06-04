@@ -313,6 +313,21 @@ anvertraut. Bei Level 100 hat er sich einen legendären Ruf in der Zeitreise-Gem
 Solche Meilensteine sind optional und narrativ, geben den Spielern aber lohnende Fernziele und das
 Gefühl, Teil einer größeren Organisation zu sein.
 
+Zur Orientierung eine mögliche Staffelung der ersten Stufen:
+
+| Level | EP gesamt | Typischer Vorteil |
+|------:|----------:|------------------|
+| 1 | 0 | Startausrüstung |
+| 2 | 10 | +1 Attribut |
+| 3 | 20 | weiteres +1 Attribut |
+| 4 | 30 | Option auf neues Talent |
+| 5 | 40 | +1 Attribut |
+| 6 | 55 | Zugriff auf bessere Ausrüstung |
+| 7 | 70 | +1 Attribut |
+| 8 | 85 | Talent oder Upgrade |
+| 9 | 100 | +1 Attribut |
+| 10 | 120 | Hochwertiges Gear im ITI |
+
 ### Proben & Würfelmechanik
 
 Standardmäßig nutzt ZEITRISS einen sechsseitigen Würfel (**W6**) für Proben. Führt ein Charakter
