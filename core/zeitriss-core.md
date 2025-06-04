@@ -709,7 +709,8 @@ die KI liefert dann Auszüge mit relevanten Informationen. Der Codex speichert a
 Ergebnisse der Abenteuer: wichtige Ereignisse, Personen, Veränderungen der Zeitlinie und neue
 Erkenntnisse, sodass ein Gedächtnis der Kampagne entsteht.
 - **Trainingsräume & Simulationen:** Übungshallen, Schießstände und sogar holografische
-Simulationskammern, in denen sich die Chrononauten fit halten. Hier kann man Kampftraining
+Simulationskammern, in denen sich die Chrononauten fit halten. Viele Szenarien laufen in
+modernen **Holosuites**, die täuschend echte Umgebungen projizieren. Hier kann man Kampftraining
 absolvieren, den Umgang mit neuen Waffen proben oder Taktiken in virtuellen Szenarien durchspielen.
 Für psionisch begabte Agenten gibt es abgeschirmte Meditationszellen, um ihre temporalen Fähigkeiten
 gefahrlos zu schulen. Oft durchlaufen neue Rekruten im Trainingsbereich auch eine Art **Tutorial-

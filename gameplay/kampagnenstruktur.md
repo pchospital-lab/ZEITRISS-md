@@ -438,6 +438,10 @@ im Schießstand (würfeln, wer bessere Treffer erzielt), ein Schachspiel gegen d
 den Spieler), oder eine gemeinsame Simulation eines historischen Schlachtfelds zu Übungszwecken.
 Diese Szenen haben geringes Risiko, geben aber allen Charakteren Gelegenheit, ihre Fähigkeiten zu
 zeigen oder voneinander zu lernen – ideal für Immersion und Teamgeist.
+- **Holosuite-Simulationen:** Moderne Holosuites lassen riskante Szenarien gefahrlos
+  nachstellen. Die KI-Spielleitung kann hier Trainingsduelle oder Debriefing-
+  Sequenzen anbieten, damit die Agenten Taktiken erproben oder vergangene
+  Missionen analysieren.
 - **Soziale Events im HQ:** Vielleicht gibt es Anlass zu feiern – einen Geburtstag eines
 Teammitglieds aus einer längst vergangenen Epoche, das Jubiläum der Gründung der ZEITRISS-
 Organisation, oder einfach den Erfolg eines abgeschlossenen Arcs. Ein **Fest im HQ** mit dekoriertem
@@ -447,8 +451,12 @@ und es entwickeln sich neue Einblicke. Solche Events können auch dramaturgisch 
 entspannt sich die Lage – bis plötzlich eine Nachricht eintrifft, die die nächste Mission ankündigt,
 oder ein Verräter sich genau diesen Moment aussucht, um zuzuschlagen. Der Kontrast zwischen Feier
 und Gefahr bleibt den Spielern besonders im Gedächtnis.
+- **Mini-Ereignisse & Anomalien:** Manchmal sorgt das HQ selbst für kleine Aufregung.
+  Ein fehlgeschlagenes Experiment kann etwa einen Dodo im Labor materialisieren
+  oder ein Nano-Schwarm entweicht. Solche Vorfälle haben nur geringe Auswirkungen,
+  lockern aber die Downtime auf und bringen Gelegenheit für schnelle Würfelproben.
 - **Intime Charakterepisoden:** Einzelne kurze **Szenen nur mit einem Charakter** können in solchen
-Pausen stattfinden. Etwa ein Agent, der nachts nicht schlafen kann und im leeren Kontrollraum sitzt,
+  Pausen stattfinden. Etwa ein Agent, der nachts nicht schlafen kann und im leeren Kontrollraum sitzt,
 gequält von Zweifeln – bis ein Mentor-NSC hinzukommt und ein aufmunterndes Gespräch beginnt. Solche
 Zwei-Personen-Dialoge sind wie Filmszenen, in denen die Figur Tiefe gewinnt. Die Spielleitung kann
 diese gezielt anbieten („Möchtest du eine Szene spielen, in der dein Charakter X verarbeitet? Ich
