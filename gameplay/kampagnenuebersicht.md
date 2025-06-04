@@ -16,6 +16,14 @@ die Magie und verleiht dem Abenteuer einen erwachsenen, düsteren Science-Fictio
 einige Elemente auf Verschwörungstheorien basieren, erhebt die Kampagne keinen Anspruch auf
 historische Genauigkeit oder Wahrheit (Fiktion, ab 18 Jahren).
 
+### Quickstart
+
+Im Kern handelt es sich bei ZEITRISS um eine düstere Sci-Fi-Kampagne, in der die Charaktere einem zeitreisenden Komplott eines Megakonzerns auf die Spur kommen. Geheimexperimente und außerirdische Technik öffnen Tore zu verschiedenen Epochen, die es zu bereisen gilt.
+
+Als Einstieg empfiehlt sich **Mission 1: Das Geheimnis unter Gizeh**. Die Gruppe infiltriert 2043 eine ChronTech-Ausgrabung unter der Cheops-Pyramide und stößt auf einen aktiven Zeitriss. Von dort aus werden die Helden in unterschiedliche Zeiten katapultiert und geraten zunehmend ins Fadenkreuz von Alexander Cross.
+
+Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details zu Ablauf und Schauplätzen gibt es in [missionen.md](missionen.md).
+
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
 des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit zu
