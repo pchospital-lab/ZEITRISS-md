@@ -400,7 +400,7 @@ Eingreifen hat vielen das Leben gerettet. Im Epilog wird erwähnt, dass in diese
 Zeitlinie Paris 1789 als “Stadt der zwei Stürme” bekannt ist: einmal der historische, einmal der,
 der durch mutige Vermittler gezähmt wurde – *die Chrononauten*.
 
-*(Fortsetzung folgt in ***Teil 2***: Kreative Generatoren …)*
+*(Fortsetzung in ***Teil 2***: Kreative Generatoren und ***Teil 3***: Team-Perks ...)*
 
 ## Team-Perks (Teil 3)
 
@@ -418,3 +418,4 @@ Team-Perks sind gemeinsame Spezialisierungen, die euer Chrononauten-Trupp nach e
 ### Anwendung im Spiel
 
 Wählt Team-Perks im HQ, wenn eure Gruppe zusammenwächst. Ein neues Perk kostet in der Regel eine Ressourcengutschrift oder einige Spielsitzungen Training. Ein Team kann mehrere Perks besitzen, sollte aber höchstens einen Bonus gleichzeitig einsetzen können – besprecht mit der SL, welche Effekte sinnvoll kombinierbar sind.
+
