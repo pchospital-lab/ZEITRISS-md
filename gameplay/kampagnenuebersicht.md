@@ -1,5 +1,5 @@
 ---
-title: "ZEITRISS 4.0 – Kampagnenuebersicht"
+title: "ZEITRISS 4.0 – Modul 10: Kampagnenuebersicht"
 version: 4.0
 tags: [gameplay]
 ---
@@ -18,21 +18,28 @@ historische Genauigkeit oder Wahrheit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 
-Im Kern handelt es sich bei ZEITRISS um eine düstere Sci-Fi-Kampagne, in der die Charaktere einem zeitreisenden Komplott eines Megakonzerns auf die Spur kommen. Geheimexperimente und außerirdische Technik öffnen Tore zu verschiedenen Epochen, die es zu bereisen gilt.
+Im Kern handelt es sich bei ZEITRISS um eine düstere Sci-Fi-Kampagne, in der die Charaktere
+einem zeitreisenden Komplott eines Megakonzerns auf die Spur kommen. Geheimexperimente und
+außerirdische Technik öffnen Tore zu verschiedenen Epochen, die es zu bereisen gilt.
 
-Als Einstieg empfiehlt sich **Mission 1: Das Geheimnis unter Gizeh**. Die Gruppe infiltriert 2043 eine ChronTech-Ausgrabung unter der Cheops-Pyramide und stößt auf einen aktiven Zeitriss. Von dort aus werden die Helden in unterschiedliche Zeiten katapultiert und geraten zunehmend ins Fadenkreuz von Alexander Cross.
+Als Einstieg empfiehlt sich **Mission 1: Das Geheimnis unter Gizeh**. Die Gruppe infiltriert 2043
+eine ChronTech-Ausgrabung unter der Cheops-Pyramide und stößt auf einen aktiven Zeitriss. Von
+dort aus werden die Helden in unterschiedliche Zeiten katapultiert und geraten zunehmend ins
+Fadenkreuz von Alexander Cross.
 
-Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details zu Ablauf und Schauplätzen gibt es in [missionen.md](missionen.md).
+Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis
+die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details
+zu Ablauf und Schauplätzen gibt es in [missionen.md](missionen.md).
 
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
-des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit zu
-ermöglichen – angeblich wurde der Zerstörer **USS ***Eldridge***** in Philadelphia unsichtbar
-gemacht und kurzzeitig durch Raum und Zeit versetzt. Die Montauk-Forschungen der 1980er knüpften
-daran an und umfassten *Zeitreisen*, *Teleportation*, *Gedankenkontrolle* und sogar *Kontakt mit
-außerirdischem Leben*. Unbemerkt von der Öffentlichkeit öffneten diese Experimente ein Tor zu
-etwas, das größer ist als alle zuvor dagewesenen Technologien: ein Riss in der Zeit selbst –
-ein *Zeitriss*, der verschiedene Epochen miteinander verbindet.
+des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit
+zu ermöglichen – angeblich wurde der Zerstörer **USS ***Eldridge***** in Philadelphia
+unsichtbar gemacht und kurzzeitig durch Raum und Zeit versetzt. Die Montauk-Forschungen der
+1980er knüpften daran an und umfassten *Zeitreisen*, *Teleportation*, *Gedankenkontrolle*
+und sogar *Kontakt mit außerirdischem Leben*. Unbemerkt von der Öffentlichkeit öffneten
+diese Experimente ein Tor zu etwas, das größer ist als alle zuvor dagewesenen Technologien:
+ein Riss in der Zeit selbst – ein *Zeitriss*, der verschiedene Epochen miteinander verbindet.
 
 **Zentrales Mysterium:** Im Schatten der Großen Pyramide von Gizeh schlummert ein uraltes
 außerirdisches Geheimnis. Tief unter dem Wüstenboden verbirgt sich ein hochentwickelter Komplex
