@@ -25,7 +25,6 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `missionen.md`
 - `cinematic-start.md`
 - `cu-waehrungssystem.md`
-- `erweiterte-regelmodule.md`
 - `gruppenstart-filmisch.md`
 - `kp-kraefte-psi.md`
 - `solo-npc-team.md`
