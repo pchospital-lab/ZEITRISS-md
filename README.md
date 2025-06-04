@@ -22,18 +22,18 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `massenkonflikte.md`
 - `kampagnenuebersicht.md`
 - `missionen.md`
-- `gameflow/cinematic-start.md`
-- `currency/cu-waehrungssystem.md`
-- `gameflow/gruppenstart-filmisch.md`
+- `cinematic-start.md`
+- `cu-waehrungssystem.md`
+- `gruppenstart-filmisch.md`
 - `kp-kraefte-psi.md`
-- `gameflow/speicher-fortsetzung.md`
+- `speicher-fortsetzung.md`
 - `toolkit-gpt-spielleiter.md`
-- `meta/masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
+- `masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
-1. Öffne `meta/masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
+1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
 2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool, zum Beispiel `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du in `missionen.md` ergänzen.

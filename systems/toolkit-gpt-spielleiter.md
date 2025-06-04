@@ -3,8 +3,7 @@ title: "ZEITRISS 4.0 – Modul 17: Toolkit: KI-Spielleitung"
 version: 4.0
 tags: [systems]
 ---
-# Toolkit: KI-Spielleitung in **ZEITRISS 4.0**
-## Inhalt
+# ZEITRISS 4.0 – Modul 17: Toolkit: KI-Spielleitung
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
 - Tipps zur Dramaturgie (Spannung, Cliffhanger, Pausen, Pacing)
