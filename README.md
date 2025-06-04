@@ -6,7 +6,9 @@ tags: [meta]
 
 # ZEITRISS-md Zeitreise RPG
 
-Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel. Jedes Unterverzeichnis steht für einen Themenbereich und jede Datei enthält ein Regelmodul. Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
+Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel.
+Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
+Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 
 ## Struktur
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen:
@@ -19,6 +21,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `kampagnenstruktur.md`
 - `fahrzeuge-konflikte.md`
 - `kreative-generatoren.md`
+- `team-perks.md`
 - `massenkonflikte.md`
 - `kampagnenuebersicht.md`
 - `missionen.md`
@@ -34,7 +37,8 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 
 ## Beispielworkflow
 1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
-2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool, zum Beispiel `zeitriss-core.md` oder `kampagnenstruktur.md`.
+2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
+   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du in `missionen.md` ergänzen.
 
@@ -51,7 +55,9 @@ GPT koordiniert die Gruppen-Charaktererschaffung und stellt anschließend das Sz
 - **Savegame laden (Gruppe)** – lädt einen vorhandenen Gruppen-Spielstand.
 GPT fordert den Speicher-Code an und führt die Gruppe nach einem Rückblick nahtlos weiter.
 
-Diese Befehle können frei eingegeben werden und dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
+Diese Befehle können frei eingegeben werden.
+Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 
 
-Die Inhalte stehen für private kreative Nutzung bereit. Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
+Die Inhalte stehen für private kreative Nutzung bereit.
+Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
