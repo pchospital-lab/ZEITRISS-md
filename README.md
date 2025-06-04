@@ -3,20 +3,37 @@
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel. Jedes Unterverzeichnis steht für einen Themenbereich und jede Datei enthält ein Regelmodul. Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 
 ## Struktur
-- **core/** – Grundregeln und Würfelsystem
-- **characters/** – Charaktererschaffung, Zustände und Ausrüstung
-- **gameplay/** – Kampagnenstruktur, Konflikte, kreative Generatoren, Kampagnenuebersicht und alle Missionsbeschreibungen in `missionen.md`
-- **systems/** – Erweiterte Systeme wie HQ, PSI, Speichermechanik
-- **meta/** – Masterprompt und Leitfaden für GPT-Spielleitungen
+Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen:
+- `README.md` – Überblick über das Projekt (wird als Regelmodul mitgeladen)
+- `zeitriss-core.md`
+- `wuerfelmechanik.md`
+- `charaktererschaffung.md`
+- `ausruestung-cyberware.md`
+- `loot-tables.md`
+- `zustaende-hud-system.md`
+- `kampagnenstruktur.md`
+- `fahrzeuge-konflikte.md`
+- `kreative-generatoren.md`
+- `massenkonflikte.md`
+- `kampagnenuebersicht.md`
+- `missionen.md`
+- `cinematic-start.md`
+- `cu-waehrungssystem.md`
+- `erweiterte-regelmodule.md`
+- `gruppenstart-filmisch.md`
+- `kp-kraefte-psi.md`
+- `solo-npc-team.md`
+- `speicher-fortsetzung.md`
+- `toolkit-gpt-spielleiter.md`
+- `meta/masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
-1. Wähle ein Modul aus den Unterordnern, z.B. `core` oder `gameplay`.
-2. Sieh dir den YAML-Header an, um Titel und Version zu prüfen.
-3. Nutze das Dokument `meta/masterprompt.md` als Grundlage für eine KI-Spielleitung.
-4. Lade die Markdown-Dateien nacheinander in dein KI-Tool oder lies sie für dein eigenes Abenteuer.
-5. Eigene Missionen kannst du im Ordner `gameplay/missionen.md` ergänzen.
+1. Öffne `meta/masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
+2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool, zum Beispiel `zeitriss-core.md` oder `kampagnenstruktur.md`.
+3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
+4. Eigene Missionen kannst du in `missionen.md` ergänzen.
 
 ## Spielstart
 
@@ -29,6 +46,5 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein 
 
 Diese Befehle können frei eingegeben werden und dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 
- Eine Übersicht hilfreicher HUD-Kurzbefehle wie `c`, `s`, `m`, `q` oder `options` findest du in [meta/masterprompt.md#hud-kurzbefehle](meta/masterprompt.md#hud-kurzbefehle).
 
 Die Inhalte stehen für private kreative Nutzung bereit. Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
