@@ -1,3 +1,9 @@
+---
+title: "ZEITRISS-md Zeitreise RPG"
+version: 4.0
+tags: [meta]
+---
+
 # ZEITRISS-md Zeitreise RPG
 
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel. Jedes Unterverzeichnis steht für einen Themenbereich und jede Datei enthält ein Regelmodul. Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
