@@ -33,6 +33,8 @@ auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Codex/Quarti
 die nötigen Informationen abfragt und dir Optionen bietet. Nachfolgend die einzelnen Schritte im
 Detail:
 
+**Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig dein Konzept klingt – alle neuen Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit **Standardausrüstung**. Eine eindrucksvolle Vorgeschichte verleiht zwar Flair, bringt zu Beginn aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen freigeschaltet.
+
 1. **Konzept & Rollenwahl:** Überlege dir zunächst eine grobe **Charakteridee**. Bist du ein
 kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Hacker oder etwas ganz
 Anderes? Deine Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
