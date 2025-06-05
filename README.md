@@ -31,7 +31,6 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `kp-kraefte-psi.md`
 - `speicher-fortsetzung.md`
 - `toolkit-gpt-spielleiter.md`
-- `no-meta-mode.md`
 - `masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 - `disclaimer_prompt_structure.md` – einmalige Sicherheitshinweise für den Start
 
