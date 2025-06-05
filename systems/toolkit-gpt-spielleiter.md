@@ -168,7 +168,7 @@ und **Weitwinkel** (große Actionszene, viele Dinge passieren gleichzeitig). Var
 Welt: z. B. nach einer Explosion klingeln die Ohren der Figuren und alles geht in Zeitlupe
 (Detailaufnahme), dann normalisiert sich die Wahrnehmung und es geht rasant weiter. **Montage-
 Techniken** kann man ebenfalls einfließen lassen: Parallele Szenen abwechselnd schildern,
-Rückblenden (sparsam einsetzen) oder kurze Vorschau-Visionen bei präkognitiven Elementen. All dies
+Rückblenden (sparsam einsetzen). Vorschau-Visionen entfallen im Hard- Sci-Fi-Modus.
 aber nur, wenn es zum ZEITRISS-Stil passt und die Spieler nicht verwirrt.
 
 ## Umgang mit freien Spieleraktionen und -entscheidungen

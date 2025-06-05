@@ -12,6 +12,9 @@ tags: [systems]
 - Entwicklung von Psi im Levelsystem
 - Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
 
+### Stiloption: Hard Sci-Fi
+In diesem Modus sind Psi-Effekte bodenständig. Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
+Präkognition liefert höchstens kurze taktische Ahnungen. Der Codex gibt keine prophetischen Hinweise.
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 
