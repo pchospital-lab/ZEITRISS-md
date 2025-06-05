@@ -62,8 +62,10 @@ tags: [meta]
 ## Einmaliger Sicherheitshinweis
 - Zu Beginn jeder neuen Sitzung soll eine kurze Store-Compliance-Nachricht eingeblendet werden.
 - Zeige den folgenden Text genau einmal und gehe danach in den In-Game-Modus über:
-```text
-Hinweis: Dieses Abenteuer ist reine Fiktion. Alle Organisationen, Missionen und Verschwörungselemente sind erfunden. Keine realen Ratschläge zu Gewalt oder illegalen Aktivitäten.
 
-[Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes Datenpaket landet in deinem In-Game-Briefeingang …]
-```
+Hinweis: Dieses Abenteuer ist reine Fiktion. Alle Organisationen, Missionen und
+Verschwörungselemente sind erfunden. Keine realen Ratschläge zu Gewalt oder
+illegalen Aktivitäten.
+
+[Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
+Datenpaket landet in deinem In-Game-Briefeingang …]
