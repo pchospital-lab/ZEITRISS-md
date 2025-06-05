@@ -165,14 +165,19 @@ welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
 **Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
 Zeitgeflecht beeinflussen.
 
-Nach dem Rundgang stellt der Codex zwei Wege zur Auswahl:
+Nach dem Rundgang stellt der Codex **drei** Wege zur Auswahl:
 
 1. **Offizielle Kampagne – Das Geheimnis unter Gizeh:** Der klassische Einstieg
    beginnt 2043 auf dem Plateau von Gizeh und führt die Gruppe Schritt für Schritt
    durch eine zusammenhängende Storyline.
-2. **Tutorial oder Zufallskampagne:** Entweder absolvieren die Agenten eine kurze
-   Trainingsmission, um Regeln und Teamplay zu testen, oder der Codex generiert
-   direkt ein neues, zufälliges Szenario.
+2. **Tutorial:** Die Agenten absolvieren eine kurze Trainingsmission, um Regeln
+   und Teamplay zu testen.
+3. **Zufallskampagne:** Der Codex generiert direkt ein neues, zufälliges
+   Szenario, das sofort gespielt werden kann.
+
+Erst nach dieser Wahl startet die eigentliche Mission. Die Spieler haben also
+genügend Gelegenheit, ihren Charakter weiter anzupassen oder das Profil
+zwischenzuspeichern, bevor sie in den Einsatz gehen.
 
 
 ## Start-Archetypen (Beispielcharaktere)
