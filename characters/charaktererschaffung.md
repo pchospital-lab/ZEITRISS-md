@@ -170,8 +170,8 @@ Nach dem Rundgang stellt der Codex **drei** Wege zur Auswahl:
 1. **Offizielle Kampagne – Das Geheimnis unter Gizeh:** Der klassische Einstieg
    beginnt 2043 auf dem Plateau von Gizeh und führt die Gruppe Schritt für Schritt
    durch eine zusammenhängende Storyline.
-2. **Tutorial:** Die Agenten absolvieren eine kurze Trainingsmission, um Regeln
-   und Teamplay zu testen.
+2. **Tutorial:** Die Agenten absolvieren eine kurze Einstiegsmission unter
+   realen Bedingungen, um Regeln und Teamplay direkt anzuwenden.
 3. **Zufallskampagne:** Der Codex generiert direkt ein neues, zufälliges
    Szenario, das sofort gespielt werden kann.
 

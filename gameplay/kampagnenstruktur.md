@@ -140,11 +140,14 @@ oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werksta
 können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeitshuttle, Chrono-Anzug
 etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
 Agenten dank guter Ausrüstung weniger improvisieren müssen.
-- **Trainingshalle:** Ein Bereich für physisches Training, Simulationen und taktische Übungen. Mit
-dem Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten üben oder ihre Werte zwischen
-Einsätzen verbessern. Man kann dies regeltechnisch umsetzen, indem gut trainierte Agenten kleine
-Boni auf Proben erhalten, die in ihrem Trainingsgebiet liegen, oder durch Cinematic- Montagen
-zeigen, wie sie sich auf kommende Gefahren vorbereiten.
+- **Trainingshalle:** Ein Bereich für reales physisches Training und taktische
+Übungen. Holo-Technik wird hier hauptsächlich für Hackübungen eingesetzt, währen­d
+Körper- und Waffen­drills stets unter echten Bedingungen stattfinden. Mit dem
+Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten üben oder ihre
+Werte zwischen Einsätzen verbessern. Man kann dies regeltechnisch umsetzen,
+indem gut trainierte Agenten kleine Boni auf Proben erhalten, die in ihrem
+Trainingsgebiet liegen, oder durch Cinematic-Montagen zeigen, wie sie sich auf
+kommende Gefahren vorbereiten.
 - **Persönliche Quartiere:** Jeder Agent bekommt einen eigenen Raum oder Bereich, der nach und nach
 personalisiert werden kann. Dies steigert die **Identifikation** mit dem HQ – wenn Wände sich mit
 Erinnerungsstücken füllen (Fotos geretteter Personen, Trophäen aus vergangenen Missionen), wird das
@@ -434,13 +437,13 @@ humorvolle oder rührende Momente.
 - **Trainings- und Übungsszenen:** Die Trainingshalle und andere Einrichtungen können für
 freiwillige Übungen genutzt werden. Man könnte kleine **Minispiele** einbauen: z. B. ein Wettkampf
 im Schießstand (würfeln, wer bessere Treffer erzielt), ein Schachspiel gegen den Codex (Rätsel für
-den Spieler), oder eine gemeinsame Simulation eines historischen Schlachtfelds zu Übungszwecken.
+den Spieler), oder ein gemeinsames Übungsszenario auf einem nachgebauten historischen Schlachtfeld.
 Diese Szenen haben geringes Risiko, geben aber allen Charakteren Gelegenheit, ihre Fähigkeiten zu
 zeigen oder voneinander zu lernen – ideal für Immersion und Teamgeist.
-- **Holosuite-Simulationen:** Moderne Holosuites lassen riskante Szenarien gefahrlos
-  nachstellen. Die KI-Spielleitung kann hier Trainingsduelle oder Debriefing-
-  Sequenzen anbieten, damit die Agenten Taktiken erproben oder vergangene
-  Missionen analysieren.
+- **Holosuite-Einheiten:** Moderne Holosuites unterstützen vor allem Hacker- und
+  Datentrainings. Reale Gefechtsübungen finden hingegen auf spezialisierten
+  Trainingsgeländen statt. Die KI-Spielleitung kann Holosuites nutzen, um
+  Debriefing-Sequenzen oder taktische Planungen zu begleiten.
 - **Soziale Events im HQ:** Vielleicht gibt es Anlass zu feiern – einen Geburtstag eines
 Teammitglieds aus einer längst vergangenen Epoche, das Jubiläum der Gründung der ZEITRISS-
 Organisation, oder einfach den Erfolg eines abgeschlossenen Arcs. Ein **Fest im HQ** mit dekoriertem

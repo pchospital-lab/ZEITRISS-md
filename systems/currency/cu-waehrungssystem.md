@@ -162,8 +162,9 @@ Signalverstärker – ließe sich bei genügend Budget arrangieren.
 kommen. Die Agenten können ihre Chrono Units nutzen, um das Leben im HQ etwas gemütlicher zu
 gestalten oder sich selbst etwas zu gönnen. Sei es, das karge Standard-Quartier mit Möbeln und
 Souvenirs aus verschiedenen Epochen zu personalisieren, ein exquisites Dinner in der Nullzeit-
-Kantine zu spendieren oder in der Freizeithalle eine besonders authentische Simulation historischer
-Unterhaltung (z.B. ein römisches Gladiatorenspiel als Training) zu finanzieren. Solche Ausgaben
+Kantine zu spendieren oder in der Freizeithalle eine besonders aufwändig
+nachgestellte historische Unterhaltung (z.B. ein römisches Gladiatorenspiel als
+reales Training) zu finanzieren. Solche Ausgaben
 haben zwar keinen direkten Einfluss auf Missionswerte, erhöhen aber den Spaß und die Immersion. Ein
 Chrononaut, der all seine Prämien für Oldtimer-Autos aus den 1950ern verprasst, ist im Rollenspiel
 *genauso interessant* wie der Kollege, der jeden CU spart.
