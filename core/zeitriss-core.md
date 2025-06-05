@@ -600,13 +600,19 @@ Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine
 
 ### Nullzeit-Sprungfenster & ITI-Hub
 
-Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – öffnet **zunächst** einen kurzen Korridor in die **Nullzeit**. Dieser Zwischenraum fungiert als fester Puffer zwischen zwei Epochen und verknüpft alle Risse mit dem ITI-Hauptquartier.
+Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – reißt
+einen gleißenden Spalt in die Gegenwart und öffnet **zunächst** einen Korridor
+zur **Nullzeit**. In diesem flirrenden Tunnel dröhnt ein kurzer Luftstoß, während
+leuchtende Markierungen den Weg ins ITI-Hauptquartier weisen. Der Zwischenraum
+fungiert als fester Puffer zwischen zwei Epochen und verknüpft alle Risse mit dem
+HQ.
 
 **Ablauf & Optionen**
 
 1. **Ankunft im Korridor**
-   - Typischer „Zeit-Luftzug“, während sich der Korridor stabilisiert.
-   - Ein leuchtender HQ-Marker weist den Weg ins Institut.
+   - Ein kurzer Sog wirbelt Staub auf, während der Tunnel seine Wände aus Licht
+     formt.
+   - Ein pulsierender HQ-Marker schwebt voraus und zeigt den Weg ins Institut.
 
 2. **Entscheidungspunkt**
    - **HQ-Stopp (Downtime):**
