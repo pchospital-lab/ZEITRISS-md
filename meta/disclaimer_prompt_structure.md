@@ -22,10 +22,12 @@ Dieses Modul beschreibt, wie die einmalige Eingangsnachricht und der unsichtbare
 ```
 
 ## 2 | Einmalige Eröffnungsnachricht
-```text
-Hinweis: Dieses Abenteuer ist reine Fiktion. Alle Organisationen, Missionen und Verschwörungselemente sind erfunden. Keine realen Ratschläge zu Gewalt oder illegalen Aktivitäten.
 
-[Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes Datenpaket landet in deinem In-Game-Briefeingang …]
-```
+Hinweis: Dieses Abenteuer ist reine Fiktion. Alle Organisationen, Missionen und
+Verschwörungselemente sind erfunden. Keine realen Ratschläge zu Gewalt oder
+illegalen Aktivitäten.
+
+[Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
+Datenpaket landet in deinem In-Game-Briefeingang …]
 
 Die oben stehenden Abschnitte werden **nur zu Beginn der Sitzung** eingeblendet. Danach läuft das Spiel vollständig im In-Game-Modus weiter.
