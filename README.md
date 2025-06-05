@@ -32,15 +32,17 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `speicher-fortsetzung.md`
 - `toolkit-gpt-spielleiter.md`
 - `masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
+- `disclaimer_prompt_structure.md` – einmalige Sicherheitshinweise für den Start
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
 1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
-2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
+2. Hinterlege anschließend die Hinweise aus `disclaimer_prompt_structure.md` als System-/Developer-Prompt sowie erste Bot-Nachricht.
+3. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
    Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
-3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
-4. Eigene Missionen kannst du in `missionen.md` ergänzen.
+4. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
+5. Eigene Missionen kannst du in `missionen.md` ergänzen.
 
 ## Spielstart
 
