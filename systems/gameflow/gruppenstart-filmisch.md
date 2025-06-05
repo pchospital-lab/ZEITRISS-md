@@ -319,8 +319,9 @@ angewiesen sind. Dann schlägt die Stimmung um – aus **Konflikt wird Zusammenh
 befriedigend wirkt.
 - **Gemeinsame erste Bewährungsprobe:** Nichts schweißt so sehr zusammen wie das gemeinsame Meistern
 einer Herausforderung. Plane daher im Anschluss an das Kennenlernen eine **erste Probe** für die
-frische Gruppe – das kann ein kleines Training (wie die simulierte Mission im oben beschriebenen
-Szenario) oder ein kleiner Einsatz sein. Diese Bewährungsprobe sollte so gestaltet sein, dass **alle
+frische Gruppe – das kann ein kleines Training (ähnlich der oben beschriebenen
+Mission, jedoch mit begrenztem Risiko) oder ein kleiner echter Einsatz sein.
+Diese Bewährungsprobe sollte so gestaltet sein, dass **alle
 einen Beitrag leisten** können und idealerweise unterschiedliche Stärken gefordert sind.
 Dramaturgisch erfüllt das mehrere Zwecke: Die Spieler *lernen spielerisch die Regeln und ihre
 Fähigkeiten*, die Charaktere lernen einander im Einsatz kennen, und die Gruppe erfährt direkt, wie
@@ -383,8 +384,8 @@ und dann die „Neulinge“ nach und nach in sein Blickfeld treten. Der Kontrast
 Ledermäntel und Narben neben glänzenden neuen Uniformen und großen Augen voller Staunen.
 **Szenenidee:** Der Mentor könnte die anderen zunächst testen oder ihnen das HQ zeigen (wie ein
 Guide im Film, der die Novizen durch die neue Welt führt). Oder man zeigt, wie die Neulinge den
-Veteranen *beeindrucken*, indem sie frischen Wind und neue Ideen bringen, was man schön in einer
-ersten Missionssimulation herausarbeiten kann („Die Jungen denken unkonventionell, darauf wäre der
+Veteranen *beeindrucken*, indem sie frischen Wind und neue Ideen bringen, was man schön in einem
+ersten Probe-Einsatz herausarbeiten kann („Die Jungen denken unkonventionell, darauf wäre der
 Alte nie gekommen – und genau das rettet den Tag.“). Am Ende dieses Starts steht idealerweise
 **gegenseitiger Respekt**: Die Neulinge lernen von der Erfahrung des Veteranen, während dieser
 erkennt, dass in den „Grünschnäbeln“ mehr steckt, als man glaubt. Dieses Muster ist sehr dankbar,
