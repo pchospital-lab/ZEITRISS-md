@@ -383,10 +383,11 @@ müssen. Beispiel: *New York, 1929 – die Chrononauten jagen einen abtrünnigen
 Dächer, um ein gestohlenes Artefakt zurückzuholen.* Die Spieler wissen anfangs nicht viel Kontext,
 nur dass es wichtig ist. Nachdem die Szene gespielt ist (idealerweise erfolgreich), **schneidet**
 die Handlung vielleicht zurück ins HQ-Büro, wo Renier sagt: *„So ungefähr wird das ablaufen.
-Fragen?“* – Reveal: Das zuvor Gespielte war entweder ein **Simulationstraining** oder ein
-**Vorabausschnitt aus einer späteren Mission**. Alternativ kann die Action-Sequenz auch real die
-erste Mission gewesen sein, und das Kennenlernen im HQ passiert *nach* der Rückkehr (z.B. die Gruppe
-wurde in Notsituation ad hoc losgeschickt und erst nachher formell begrüßt).
+Fragen?“* – Reveal: Das zuvor Gespielte war ein **Probe-Einsatz** unter realen
+Bedingungen oder ein **Vorabausschnitt aus einer späteren Mission**. Alternativ
+kann die Action-Sequenz auch die erste echte Mission gewesen sein, und das
+Kennenlernen im HQ passiert *nach* der Rückkehr (z.B. die Gruppe wurde in einer
+Notsituation ad hoc losgeschickt und erst nachher formell begrüßt).
 
 **Cineastische Tipps:** Hier ist Tempo alles. Wer Option 2 wählt, sollte mit **vollen Effekten**
 starten: laute Geräusche, schnelle Beschreibungen, gerne auch mit Soundtrack-Unterstützung. Greift
@@ -488,12 +489,14 @@ Taschenuhr des einen Charakters… als hätte er sie schon mal gesehen.“ – S
 diese Uhr wird in der Zukunft eine Rolle spielen. Solche Verflechtungen geben dem Einstieg eine
 Mystery-Note.
 
-**Variationen:** Die Flashforward kann auch eine **Simulation** sein, die im HQ durchgeführt wird –
-die Spieler wissen das aber zuerst nicht. So beginnen sie z.B. mitten in einer Mission, alles wirkt
-real, doch als es zum dramatischen Höhepunkt kommt, friert die Szene ein und Renier klatscht in die
-Hände: *„Test beendet – willkommen zurück. Sie fragen sich sicher, was gerade passiert ist…“* Dies
-kombiniert Option 2 (Action) mit Option 4 (Zeittrick). Man kann sogar meta gehen: Eventuell war die
-Vorblende ein mögliches *Scheitern*, das durch eine Zeitreise gerade noch verhindert werden soll –
+**Variationen:** Die Flashforward kann auch als Vision oder aufgezeichnete Szene
+eingesetzt werden. So beginnen die Spieler mitten in einer Mission, alles wirkt
+real, doch als es zum dramatischen Höhepunkt kommt, friert die Szene ein und
+Renier klatscht in die Hände: *„Test beendet – willkommen zurück. Sie fragen sich
+sicher, was gerade passiert ist…“* Dies kombiniert Option 2 (Action) mit Option 4
+(Zeittrick). Man kann sogar meta gehen: Eventuell war die Vorblende ein
+mögliches *Scheitern*, das durch eine Zeitreise gerade noch verhindert werden
+soll –
 also ein **„Was wäre wenn“**. Derlei Kniffe machen den Einstieg sehr spannend, aber achtet darauf,
 die Gruppe danach auch wirklich **abzuholen** und offene Fragen aufzuklären, sonst fühlt es sich
 unfair an. Wenn gut gemacht, erinnern sich Spieler Jahre später an so einen Auftakt.
@@ -574,10 +577,9 @@ entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in eine
 **Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das entwendete Objekt in den Händen der
 Charaktere und die Schurken außer Gefecht sind.
 - **Tonalität:** Diese Mission eignet sich hervorragend für einen **rasanten Action-Einstieg**. Sie
-kann als **Trainingssimulation** im HQ gespielt werden (die Ereignisse sind nicht „echt“, aber
-fühlen sich real an – perfekt, um ohne Risiko das Team einzuspielen), *oder* als echter erster
-Einsatz draußen in der Zeit. Im Training könnte Commander Renier die Szene begleiten und
-kommentieren, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
+kann im HQ als leichtes Trainingsszenario unter echten Bedingungen gespielt werden oder als
+erster regulärer Einsatz draußen in der Zeit. Beim Training begleitet Commander Renier die Szene
+und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
 - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
 MacGuffin tauschen, je nach Geschmack. **Historische Variante:** Der gestohlene Gegenstand ist kein
 Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im

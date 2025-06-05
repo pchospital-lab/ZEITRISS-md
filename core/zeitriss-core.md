@@ -676,14 +676,14 @@ Fraktionen). Zwischen Missionen können die Chrononauten den Codex befragen, um 
 die KI liefert dann Auszüge mit relevanten Informationen. Der Codex speichert auch fortlaufend die
 Ergebnisse der Abenteuer: wichtige Ereignisse, Personen, Veränderungen der Zeitlinie und neue
 Erkenntnisse, sodass ein Gedächtnis der Kampagne entsteht.
-- **Trainingsräume & Simulationen:** Übungshallen, Schießstände und sogar holografische
-Simulationskammern, in denen sich die Chrononauten fit halten. Viele Szenarien laufen in
-modernen **Holosuites**, die täuschend echte Umgebungen projizieren. Hier kann man Kampftraining
-absolvieren, den Umgang mit neuen Waffen proben oder Taktiken in virtuellen Szenarien durchspielen.
-Für psionisch begabte Agenten gibt es abgeschirmte Meditationszellen, um ihre temporalen Fähigkeiten
-gefahrlos zu schulen. Oft durchlaufen neue Rekruten im Trainingsbereich auch eine Art **Tutorial-
-Mission** als Prüfung, bevor es auf echte Einsätze geht – eine simulierte Zeitreise, die ihnen die
-wichtigsten Regeln beibringt, ohne dass Fehltritte echte Folgen hätten.
+- **Trainingsareale & Übungsräume:** Weitläufige Hallen, Schießstände und spezialisierte
+Hologramm-Module stehen bereit, damit die Chrononauten sich unter realen Bedingungen verbessern
+können. Moderne **Holosuites** unterstützen vor allem Hacker-Trainings und taktische
+Planungsübungen, während körperliches Training stets mit echtem Einsatz erfolgt. Für psionisch
+begabte Agenten existieren abgeschirmte Meditationszellen, in denen sie ihre temporalen
+Fähigkeiten gefahrlos vertiefen. Neue Rekruten absolvieren hier häufig eine kurze **Tutorial-
+Mission** – ein echter Probeeinsatz mit begrenztem Risiko, der ihnen die wichtigsten Regeln
+beibringt und zugleich Konsequenzen besitzt.
 - **Werkstätten & Arsenal:** Werkstätten zur Wartung, Reparatur und Anpassung von Ausrüstung sowie
 ein zentrales Arsenal, in dem die Chrononauten ihre Ausrüstung lagern und neue Gegenstände
 beschaffen können. Das ITI hat hierfür eine einheitliche epochenübergreifende Währung eingeführt –
