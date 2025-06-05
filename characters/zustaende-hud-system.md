@@ -489,7 +489,10 @@ Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu
 brechen. Das HUD wird über den **ITI-Codex** gesteuert und kann vom Charakter *nach Bedarf
 aktiviert* oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
-werden:
+werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
+Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
+oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Diese
+Einschränkung sorgt für Spannung und hält die Balance:
 
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für
