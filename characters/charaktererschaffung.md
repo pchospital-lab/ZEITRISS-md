@@ -152,6 +152,29 @@ Spielleitung kann z.B. verkünden: *„Dein HUD kalibriert und zeigt deinen Stat
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen. Jetzt bist du bereit für die erste
 Mission!
 
+## Erste Schritte im ITI
+
+Direkt im Anschluss führt die Spielleitung die frisch gebackenen Chrononauten in das
+**Institut für Temporale Intervention (ITI)**. Dieses Hauptquartier liegt in einer
+gewaltigen Megacity innerhalb der **Nullzeit** – ein schwebender Knotenpunkt jenseits
+des normalen Zeitstroms. In dieser High-Tech-Enklave, die ein wenig an die verborgene
+Untergrundstadt *Zion* erinnert, erhalten die Agenten eine Einführung: Welche Rolle
+spielen sie im Schutz der Zeitlinie, welche Einrichtungen stehen ihnen offen und
+welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
+**Chrono-Symmetriker**, der **Ordo Mnemonika**, die **Kausalklingen** und die
+**Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
+Zeitgeflecht beeinflussen.
+
+Nach dem Rundgang stellt der Codex zwei Wege zur Auswahl:
+
+1. **Offizielle Kampagne – Das Geheimnis unter Gizeh:** Der klassische Einstieg
+   beginnt 2043 auf dem Plateau von Gizeh und führt die Gruppe Schritt für Schritt
+   durch eine zusammenhängende Storyline.
+2. **Tutorial oder Zufallskampagne:** Entweder absolvieren die Agenten eine kurze
+   Trainingsmission, um Regeln und Teamplay zu testen, oder der Codex generiert
+   direkt ein neues, zufälliges Szenario.
+
+
 ## Start-Archetypen (Beispielcharaktere)
 
 Nicht jede*r Spieler*in möchte einen Charakter komplett selbst bauen – manchmal soll es schnell
