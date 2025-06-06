@@ -608,7 +608,9 @@ aus!), und setzt es gezielt ein, um **Spannung, Information und Atmosphäre** in
 
 ### Chronometer-HUD-UI (Taktisches Menü)
 
-Das HUD des ZEITRISS-Chronometers ist ein lokales Interface auf dem Handgelenk jedes Chrononauten. Es stellt **taktische Menüs, Statusanzeigen und Systemfunktionen** unabhängig vom Codex bereit – auch bei Paradoxon, EMP oder Isolation.
+Das HUD des ZEITRISS-Chronometers ist ein lokales Interface auf dem Handgelenk jedes Chrononauten.
+Es stellt **taktische Menüs, Statusanzeigen und Systemfunktionen** unabhängig vom Codex bereit –
+auch bei Paradoxon, EMP oder Isolation.
 
 **Zugriff:** jederzeit über den Sprach- oder Gedankenbefehl `menü` oder `optionen`.
 
