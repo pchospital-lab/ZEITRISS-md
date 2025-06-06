@@ -45,6 +45,7 @@ tags: [meta]
   fällt die Verbindung aus, stehen keine Tipps zur Verfügung.
 - Bei Verbindungsabbruch bleiben nur Grunddaten im HUD sichtbar,
   was die Spannung erhöht.
+- Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
 
 ## Spielerinteraktion
 - Biete klare Entscheidungspunkte: Ankunft, Aufklärung, Zugriff, Eskalation, Rücksprung.
