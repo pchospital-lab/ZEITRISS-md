@@ -25,6 +25,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `massenkonflikte.md`
 - `kampagnenuebersicht.md`
 - `missionen.md`
+- `iti-hq.md`
 - `cinematic-start.md`
 - `cu-waehrungssystem.md`
 - `gruppenstart-filmisch.md`
