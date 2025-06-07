@@ -641,9 +641,10 @@ Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
-Temporale Intervention (ITI)** ist ihre Heimatbasis, und zahlreiche andere Kräfte wirken – teils
-sichtbar, teils im Verborgenen – über die Zeitlinie hinweg. Im Folgenden werden das **HQ des ITI**
-sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben.
+Temporale Intervention (ITI)** dient zu Beginn als Heimatbasis der Agenten, und zahlreiche andere
+Kräfte wirken – teils sichtbar, teils im Verborgenen – über die Zeitlinie hinweg. Im Folgenden
+werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben. Später
+kann die Gruppe sich in Sandbox-Kampagnen jedoch ein eigenes Hauptquartier aufbauen.
 
 Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** – einem Bereich *außerhalb* des
 normalen Zeitstroms, der als sicherer Hafen für Zeitreisende genutzt wird. Von hier aus können die
@@ -652,11 +653,12 @@ sie nach Einsätzen zurück. Innerhalb des HQ gibt es eine lebendige Infrastrukt
 Chrononauten als Zuhause, Trainingslager und Ausrüstungsdepot dient. Wichtige Bereiche des ITI-HQ
 sind unter anderem:
 
-- **Unterkünfte & Quartiere:** Die persönlichen Zimmer oder Wohnbereiche der Agenten. Hier können
-sie sich ausruhen, persönliche Gegenstände lagern und zwischen den Missionen etwas Freizeit
-genießen. Diese Räume bieten Gelegenheit für Charakterszenen – z. B. grübelt ein Chrononaut über ein
-Souvenir der letzten Mission, oder zwei Agenten diskutieren spätabends im Gemeinschaftsraum über
-mysteriöse Zeitphänomene.
+- **Unterkünfte & Quartiere:** Die persönlichen Zimmer oder Wohnbereiche der Agenten.
+  Hier können sie sich ausruhen und persönliche Gegenstände lagern. Dieser Bereich begleitet die
+  Chrononauten unabhängig vom Standort ihres HQs – ob im ITI oder in einer späteren eigenen Basis.
+  Die Quartiere bieten Gelegenheit für Charakterszenen, etwa wenn ein Agent ein Souvenir der letzten
+  Mission betrachtet oder zwei Teammitglieder im Gemeinschaftsraum über mysteriöse Zeitphänomene
+  diskutieren.
 - **Soziale Treffpunkte:** Dazu zählen eine Kantine/Mensa, eine Bar und sogar ein kleines, diskret
 betriebenes Bordell im HQ. Diese Einrichtungen ermöglichen soziale Interaktionen in der Nullzeit: In
 der Kantine tauschen Agenten Geschichten aus vergangenen Epochen aus; an der Bar fließt
