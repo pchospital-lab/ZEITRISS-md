@@ -398,13 +398,14 @@ Risiko. Hier kommt das Konzept der Paradox-Verschiebungen ins Spiel. Jedes Eingr
 schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen. Kleine Änderungen
 (die im großen Gefüge keine Wellen schlagen) erhöhen den Wert nur minimal, aber große Eingriffe
 (z. B. das Überleben einer Person, die ursprünglich sterben sollte) steigern das Paradox deutlich.
-Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: die Welt
-beginnt zu flackern, Déjà-vus plagen die Charaktere, oder es manifestieren sich Zeitkreaturen – würfelt im
-Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradox „aufzufressen“. Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele
-– vielleicht müssen die Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung
-rückgängig machen oder einen Ausgleich in der Timeline schaffen. Gelingt es ihnen, sinkt der
-Paradox-Zähler wieder. Schaffen sie es nicht, kann aus der Paradox-Verschiebung ein dauerhaftes
-Phänomen werden (z. B. ein Riss in der Realität, den man im HQ überwachen und eindämmen muss).
+Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
+beginnt zu flackern, Déjà-vus plagen die Charaktere, oder es manifestieren sich Zeitkreaturen – würfelt
+im Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradox
+„aufzufressen“. Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele. Vielleicht müssen die
+Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung rückgängig machen oder einen
+Ausgleich in der Timeline schaffen. Gelingt es ihnen, sinkt der Paradox-Zähler wieder. Schaffen sie es
+nicht, kann aus der Paradox-Verschiebung ein dauerhaftes Phänomen werden (z. B. ein Riss in der
+Realität, den man im HQ überwachen und eindämmen muss).
 
 Durch diese langfristigen Mechaniken bleibt die Kampagnenwelt im Fluss. Die Spieler sehen direktes
 **Feedback auf ihr Tun**: Ihr Einfluss wächst, ihre Taten formen Geschichte, doch zugleich müssen

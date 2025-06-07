@@ -274,33 +274,126 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
 
 #### Erfahrungspunkte & Stufenaufstieg
 
-* **[Austausch] EP-Kurve:** *Die EP-Anforderungen pro Stufe steigen moderat an*, um hohe Levelbereiche auszudehnen. Beispielsweise bringen anfangs **10 EP** ein Level-Up (Level 2 bei 10 EP, Level 3 bei 20 EP etc.), während für höhere Stufen sukzessive mehr EP nötig sind. Nach Level 10 erhöht sich der EP-Bedarf pro Stufe schrittweise (etwa auf \~15 EP bis Level 50, \~20 EP bis Level 100 usw.), sodass *Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell erreicht wird*. *Nutzen:* Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange spannend bleibt. **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere zu rasch extrem hohe Stufen erreichen, ohne sie jedoch künstlich auszubremsen – *"immer eine nächste Stufe in Reichweite"*. **Storytelling:** Spielleiter können Level-Aufstiege mit größeren Zeitabständen planen, was Raum für ausgedehntere Handlungsbögen lässt, während regelmäßige Fortschritte die Motivation hochhalten.
+* **[Austausch] EP-Kurve:** *Die EP-Anforderungen pro Stufe steigen moderat an*, um hohe
+  Levelbereiche auszudehnen. Beispielsweise bringen anfangs **10 EP** ein Level-Up (Level 2 bei 10
+  EP, Level 3 bei 20 EP etc.), während für höhere Stufen sukzessive mehr EP nötig sind. Nach
+  Level 10 erhöht sich der EP-Bedarf pro Stufe schrittweise (etwa auf \~15 EP bis Level 50,
+  \~20 EP bis Level 100 usw.), sodass *Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell
+  erreicht wird*. *Nutzen:* Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
+  sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange spannend bleibt.
+  **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere zu rasch extrem hohe Stufen
+  erreichen, ohne sie jedoch künstlich auszubremsen – *"immer eine nächste Stufe in Reichweite"*.
+  **Storytelling:** Spielleiter können Level-Aufstiege mit größeren Zeitabständen planen, was Raum
+  für ausgedehntere Handlungsbögen lässt, während regelmäßige Fortschritte die Motivation
+  hochhalten.
 
-* **[Erweiterung] Meilenstein-Stufen:** *Bestimmte Level werden als **Meilensteine*** definiert, an denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und hochwertigerer Ausrüstung), **Level 50** die Zuweisung einer **eigenen kleinen Einsatzzentrale im HQ** und **Level 100** einen **legendären Ruf** in der Zeitreise-Gemeinschaft. Diese Meilensteine sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). *Nutzen:* **Flow:** Klare Meilensteine geben den Spielern greifbare Fernziele – das nächste „große Ziel“ ist nie weit, was die **Langzeitmotivation** stärkt. **Balance:** Die Belohnungen sind überwiegend erzählerisch oder qualitativ (neue Möglichkeiten statt bloßer Zahlensteigerung), um *exponentiellen Machtzuwachs zu vermeiden*. **Storytelling:** Meilensteine verankern die Helden in der Welt – sie erhalten Titel, Verantwortungen oder Privilegien, was ihre wachsende Rolle in der Geschichte widerspiegelt.
+* **[Erweiterung] Meilenstein-Stufen:** *Bestimmte Level werden als **Meilensteine*** definiert, an
+  denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
+  **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
+  hochwertigerer Ausrüstung), **Level 50** die Zuweisung einer **eigenen kleinen Einsatzzentrale im
+  HQ** und **Level 100** einen **legendären Ruf** in der Zeitreise-Gemeinschaft. Diese Meilensteine
+  sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
+  einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). *Nutzen:* **Flow:**
+  Klare Meilensteine geben den Spielern greifbare Fernziele – das nächste „große Ziel“ ist nie weit,
+  was die **Langzeitmotivation** stärkt. **Balance:** Die Belohnungen sind überwiegend erzählerisch
+  oder qualitativ (neue Möglichkeiten statt bloßer Zahlensteigerung), um *exponentiellen
+  Machtzuwachs zu vermeiden*. **Storytelling:** Meilensteine verankern die Helden in der Welt – sie
+  erhalten Titel, Verantwortungen oder Privilegien, was ihre wachsende Rolle in der Geschichte
+  widerspiegelt.
 
 #### Attribut- und Talentsteigerungen
 
-* **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1** erhöht werden. Ein Attributswert von **10** gilt als Obergrenze des menschlich Normalen – darüber hinaus bewegt man sich im *übermenschlichen* Bereich. *Neu:* Um **Power Creep** zu verhindern, werden Werte *über 10* nur noch bei besonderen Gelegenheiten gesteigert (z. B. durch **zwei Stufenaufstiege** investieren oder im Zuge eines **Prestige-Aufstiegs** – siehe unten). Jenseits der 10 sind Steigerungen an **spezielle Upgrades oder Story-Ereignisse** geknüpft, etwa ein erworbenes Implantat oder intensives Training mit einem Mentor. *Nutzen:* **Flow:** Die Charaktere verbessern sich stetig in ihren Kernbereichen, ohne dass jeder Level-Up sofort maximalste Werte erzeugt – die Progression **fühlt sich organisch** an. **Balance:** Die *weiche Attributs-Obergrenze* stellt sicher, dass Helden nicht allein durch Zahlen *zu Göttern mutieren*, sondern zusätzliche Anstrengungen oder Ressourcen aufbringen müssen, um übermenschliche Fähigkeiten zu erlangen. **Storytelling:** Attributsanstiege über 10 können gezielt im Plot verankert werden (z. B. „Durch das Serum X hast du deine Stärke auf 11 erhöht“), was *dramatische Charakterentwicklung* ermöglicht statt bloßer Stat-Erhöhung.
+* **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
+  erhöht werden. Ein Attributswert von **10** gilt als Obergrenze des menschlich Normalen – darüber
+  hinaus bewegt man sich im *übermenschlichen* Bereich. *Neu:* Um **Power Creep** zu verhindern,
+  werden Werte *über 10* nur noch bei besonderen Gelegenheiten gesteigert (z. B. durch **zwei
+  Stufenaufstiege** investieren oder im Zuge eines **Prestige-Aufstiegs** – siehe unten). Jenseits
+  der 10 sind Steigerungen an **spezielle Upgrades oder Story-Ereignisse** geknüpft, etwa ein
+  erworbenes Implantat oder intensives Training mit einem Mentor. *Nutzen:* **Flow:** Die Charaktere
+  verbessern sich stetig in ihren Kernbereichen, ohne dass jeder Level-Up sofort maximalste Werte
+  erzeugt – die Progression **fühlt sich organisch** an. **Balance:** Die *weiche
+  Attributs-Obergrenze* stellt sicher, dass Helden nicht allein durch Zahlen *zu Göttern mutieren*,
+  sondern zusätzliche Anstrengungen oder Ressourcen aufbringen müssen, um übermenschliche
+  Fähigkeiten zu erlangen. **Storytelling:** Attributsanstiege über 10 können gezielt im Plot
+  verankert werden (z. B. „Durch das Serum X hast du deine Stärke auf 11 erhöht“), was *dramatische
+  Charakterentwicklung* ermöglicht statt bloßer Stat-Erhöhung.
 
-* **[Austausch] Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten** zur Spezialisierung. Bisher konnten neue Talente *gelegentlich nach Absprache* freigeschaltet werden – zukünftig erfolgt dies **strukturierter**: *Etwa alle 3–5 Level* (im Schnitt **2 Talente pro 10 Stufen**) darf der Spieler ein neues Talent wählen oder ein bestehendes erweitern, soweit es zur Geschichte passt. Die Tabelle für Level 1–10 zeigt bereits Beispiele (Level 4: Option auf neues Talent; Level 8: weiteres Talent/Upgrade). Dieses Prinzip wird fortgeführt, um regelmäßig frische Fähigkeiten zu integrieren. Zwischen diesen festen Punkten können natürlich weiterhin *improvisierte Talentgewinne* durch besondere Erlebnisse stattfinden (z. B. erlernt ein Charakter nach einem Dschungel-Abenteuer das Talent **„Kräuterkunde"** in-Game). *Nutzen:* **Flow:** Planbare Talent-Freischaltungen geben Spielern **Gestaltungsfreiheit**, ihren Helden stetig vielfältiger zu machen, was den Spielfluss bereichert (neue Tricks kommen ins Repertoire). **Balance:** Durch moderates Verteilen von Talenten bleibt jeder Zugewinn **bedeutsam**, aber kontrolliert – Helden können sich spezialisieren, ohne allzu schnell *alles zu können*. **Storytelling:** Talente sind oft eng mit der Narrative verknüpft (Hintergrund, Missions-Erfahrungen). Das strukturierte System *kombiniert* beides: vorgegebene Fortschrittspunkte *und* Raum für organische, storybasierte Talente. Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
+* **[Austausch] Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
+  zur Spezialisierung. Bisher konnten neue Talente *gelegentlich nach Absprache* freigeschaltet
+  werden – zukünftig erfolgt dies **strukturierter**: *Etwa alle 3–5 Level* (im Schnitt **2 Talente
+  pro 10 Stufen**) darf der Spieler ein neues Talent wählen oder ein bestehendes erweitern, soweit es
+  zur Geschichte passt. Die Tabelle für Level 1–10 zeigt bereits Beispiele (Level 4: Option auf neues
+  Talent; Level 8: weiteres Talent/Upgrade). Dieses Prinzip wird fortgeführt, um regelmäßig frische
+  Fähigkeiten zu integrieren. Zwischen diesen festen Punkten können natürlich weiterhin
+  *improvisierte Talentgewinne* durch besondere Erlebnisse stattfinden (z. B. erlernt ein Charakter nach
+  einem Dschungel-Abenteuer das Talent **„Kräuterkunde"** in-Game). *Nutzen:* **Flow:** Planbare
+  Talent-Freischaltungen geben Spielern **Gestaltungsfreiheit**, ihren Helden stetig vielfältiger zu
+  machen, was den Spielfluss bereichert (neue Tricks kommen ins Repertoire). **Balance:** Durch
+  moderates Verteilen von Talenten bleibt jeder Zugewinn **bedeutsam**, aber kontrolliert – Helden
+  können sich spezialisieren, ohne allzu schnell *alles zu können*. **Storytelling:** Talente sind oft
+  eng mit der Narrative verknüpft (Hintergrund, Missions-Erfahrungen). Das strukturierte System
+  *kombiniert* beides: vorgegebene Fortschrittspunkte *und* Raum für organische, storybasierte Talente.
+  Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
 
-* **[Erweiterung] Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen Limits sinnvoll abzubilden, wird die **Heldenwürfel**-Mechanik eingeführt. Erreicht ein Wert **11 oder mehr**, erhält der Charakter bei Proben auf diesem Attribut **automatisch einen zusätzlichen W6** – er würfelt also **zweimal und nimmt das bessere Ergebnis** (ähnlich einem Vorteilwurf). Dieser *Heldenwürfel* stellt sicher, dass ein Wert über 10 nicht bloß **„+1“** bringt, sondern einen **qualitativen Sprung** darstellt: Übermenschliche Fähigkeitsstufen führen zu spürbar höheren Erfolgschancen, ohne aber die Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiterhin pro Würfel separat, was in seltenen Fällen legendäre Ergebnisse erlaubt.) *Nutzen:* **Flow:** Der Heldenwürfel sorgt dafür, dass Proben mit extrem erfahrenen Charakteren weiterhin **dramatisch** bleiben – anstatt nur statische Boni zu addieren, gibt es spannende Würfelmomente, die das **kinematische** Spielgefühl fördern. **Balance:** Hohe Attribute bieten einen Vorteil, aber keinen automatischen Erfolg – das System *belohnt übermenschliche Werte, ohne sie unfehlbar zu machen*. So bleibt auch für mächtige Helden ein Risiko erhalten, was fair gegenüber niedrigstufigeren Herausforderungen ist. **Storytelling:** Die Heldenwürfel-Mechanik hebt hervor, *wie außergewöhnlich* ein Wert jenseits der 10 ist: In der Erzählung können solche doppelten Würfe als beinahe übernatürliche Glücksmomente oder Meisterleistungen dargestellt werden (z. B. „Dank seiner unerreichten Geschicklichkeit gelingt Alex in letzter Sekunde das Unmögliche…“).
+* **[Erweiterung] Heldenwuerfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
+  Limits sinnvoll abzubilden, fuehren wir die **Heldenwuerfel**-Mechanik ein. Erreicht ein Wert
+  **11 oder mehr**, erhaelt der Charakter bei Proben auf diesem Attribut **automatisch einen
+  zusaetzlichen W6** – er wuerfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
+  *Heldenwuerfel* sorgt dafuer, dass ein Wert ueber 10 nicht bloss **"+1"** bringt, sondern einen
+  **qualitativen Sprung** darstellt. Uebermenschliche Werte erhoehen die Erfolgschancen, ohne die
+  Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiter pro Wuerfel separat und
+  erlaubt selten legendaere Ergebnisse.) **Flow:** Der Heldenwuerfel bringt dramatische Hoehepunkte,
+  ohne dass statische Boni dominieren. **Balance:** Durch die Begrenzung bleibt er ein seltenes
+  Highlight. **Storytelling:** Er unterstreicht, wie aussergewoehnlich Werte jenseits der 10 sind
+  und erlaubt Szenen fast uebernatuerlicher Meisterschaft.
 
 #### Signature-Aktionen (individuelle Heldentricks)
 
-* **[Erweiterung] Signature-Aktionen:** Jeder Charakter kann im Laufe der Karriere **eine einzigartige Spezialaktion** entwickeln – ein **Signature Move**, der ihn legendär macht. Ab einem hohen Level (z. B. **50+**) oder bei entsprechendem Prestige-Rang (siehe unten) definiert der Spieler zusammen mit der SL eine solche Signature-Aktion. Diese kann **nur begrenzt eingesetzt** werden (etwa **einmal pro Mission** oder unter bestimmten Voraussetzungen), hat dafür aber **durchschlagende Wirkung**. Beispiele: Der Scharfschütze entwickelt einen "**Perfekter Schuss**", der einmalig pro Einsatz ein nahezu unmögliches Ziel automatisch trifft. Die Zeitagentin erlernt einen **„Zeitsprung-Impuls“**, der sie für einen Wimpernschlag die Zeit anhalten lässt, um einer tödlichen Falle zu entgehen. Wichtig: Signature-Aktionen sollten *klar umrissen* sein (Regelbonus oder erzählerischer Effekt) und im Einklang mit Welt und Charakterkonzept stehen. Ihre Nutzung kann mit Kosten oder Risiken verbunden sein (z. B. Erschöpfung, hoher **SYS-Verbrauch** oder temporales Paradox-Risiko), sodass sie *dramatische „Trumpfkarten“* bleiben. *Nutzen:* **Flow:** Signature-Aktionen verleihen dem Endgame neue **Höhepunkte** – sie durchbrechen gelegentlich die Routine und erlauben spektakuläre Szenen, ohne das Spiel dauernd zu dominieren. Die Spieler freuen sich auf den Moment, *ihren persönlichen Trumpf* auszuspielen, was Spannung und Abwechslung schafft. **Balance:** Durch die Begrenzung (z.B. 1× pro Mission) bleiben Signature Moves **sondere rare Highlights**; kein Charakter kann damit jede Herausforderung trivial lösen. Die Gegner können ggf. eigene mächtige Manöver haben, sodass die Waage gehalten wird. **Storytelling:** Diese einzigartigen Aktionen **unterstreichen den Stil** jeder Figur – sie werden zu legendären Markenzeichen in der Story (“Niemand außer *Ruby* kann diese Hacker-Attacke durchführen”). Außerdem fühlen sich lange gespielte Charaktere auf hohen Stufen *besonders an*, da sie Dinge tun können, die Anfänger sich nicht mal vorstellen – ideal für episches **Endgame-Narrativ**.
+* **[Erweiterung] Signature-Aktionen:** Jeder Charakter kann im Laufe der Karriere **eine einzigartige
+  Spezialaktion** entwickeln – ein **Signature Move**, der ihn legendär macht. Ab einem hohen Level
+  (z. B. **50+**) oder bei entsprechendem Prestige-Rang definiert der Spieler zusammen mit der SL eine
+  solche Aktion. Sie kann **nur begrenzt eingesetzt** werden, etwa einmal pro Mission, entfaltet dann
+  aber **durchschlagende Wirkung**. Beispiele: Ein Scharfschütze erhält einen "**Perfekten Schuss**",
+  der ein nahezu unmögliches Ziel automatisch trifft. Eine Zeitagentin nutzt einen **„Zeitsprung-
+  Impuls“**, um einen Augenblick die Zeit anzuhalten. Signature-Aktionen sollten klar umrissen sein und
+  zum Charakter passen. Ihre Nutzung geht oft mit Kosten oder Risiken einher (Erschöpfung,
+  **SYS-Verbrauch**, Paradox-Gefahr) und bleibt so eine dramatische *Trumpfkarte*. **Flow:** Sie bringen
+  spektakuläre Höhepunkte, ohne das Spiel dauerhaft zu dominieren. **Balance:** Die Begrenzung (z.B.
+  einmal pro Mission) hält sie zu seltenen Highlights; Gegner können eigene Manöver besitzen, damit die
+  Waage gewahrt bleibt. **Storytelling:** Diese einzigartigen Aktionen unterstreichen den Stil der
+  Figur und schaffen episches Endgame-Narrativ.
 
 #### Team-Perks & Gruppenvorteile
 
-* **[Erweiterung] Team-Perks in der Progression:** Neben individueller Entwicklung führt ZEITRISS optional **Gruppenspezialisierungen (Team-Perks)** ein. Diese gemeinsamen Vorteile spiegeln die eingespielte **Teamdynamik** wider: Nach **3–5 gemeinsamen Missionen** kann ein Chrononauten-Team seinen ersten Team-Perk freischalten. Im Patch integrieren wir Team-Perks als **Meilensteine der Gruppen-Progression**: Weitere Perks können im Kampagnenverlauf nach bedeutenden gemeinsamen Erfolgen oder jedem abgeschlossenen Handlungsbogen gewählt werden. Beispiele für solche Perks sind **„Diplomatenteam“** (+Bonuswürfel auf erste soziale Probe) oder **„Kampfverbund“** (+1 auf Angriffs-/Abwehrwürfe, wenn die Gruppe zusammen kämpft). Ein Team sollte zwar *mehrere Perks ansammeln* dürfen, aber **gleichzeitig nur einen aktiv nutzen** können, um die Balance zu wahren. Die genauen Bedingungen (Automatisch nach X Missionen? Gegen Ressourceneinsatz von Chrono-Units? An einen Ingame-Eid gebunden?) können flexibel gehandhabt werden – wichtig ist, dass die **Kooperation belohnt** wird. *Nutzen:* **Flow:** Team-Perks fördern **gruppenorientiertes Spiel**. Die Gruppe erlebt Fortschritt nicht nur einzeln, sondern auch als **Gemeinschaft**, was den Spielfluss durch mehr Teamwork-Optionen bereichert. **Balance:** Die Perks sind *boni*, keine must-haves, und ersetzen keine individuellen Fähigkeiten, sondern ergänzen sie – dadurch entsteht **horizontale Progression** statt bloß höherer Schadenswerte. Das **gegenseitige Unterstützen** wird belohnt, was Power Creep auf Einzelcharakter-Ebene relativiert. **Storytelling:** Ingame können Team-Perks schön inszeniert werden (z. B. verleiht das ITI dem Team eine **Auszeichnung** für Zusammenarbeit, die sich im Perk manifestiert). Die Chrononauten wachsen zusammen, entwickeln Insider-Taktiken und ein gemeinsames Prestige – sie werden *als Team* zu Legenden, was erzählerisch sehr befriedigend ist.
+* **[Erweiterung] Team-Perks in der Progression:** Neben individueller Entwicklung kann eine Gruppe
+  gemeinsame Spezialisierungen freischalten. Nach 3–5 gemeinsamen Missionen wählt das Team seinen
+  ersten Perk, etwa **„Diplomatenteam“** oder **„Kampfverbund"**. Weitere Perks folgen nach
+  bedeutenden Erfolgen, wobei immer nur einer aktiv ist. Bedingungen und Kosten legt die Spielrunde
+  fest. **Flow:** Team-Perks fördern Zusammenarbeit. **Balance:** Sie ergänzen individuelle
+  Fähigkeiten, ohne sie zu ersetzen. **Storytelling:** Die Chrononauten wachsen zusammen und werden
+  als Team zur Legende.
 
 #### Prestige-Stufen & Legendärer Aufstieg
 
-* **[Erweiterung] Prestige-Stufen:** Um die weite Spanne bis Level 1000 sinnvoll zu gliedern, führen wir **Prestige-Stufen** ein – besondere *Meta-Stufen* alle \~100 Level, die einen **neuen Rang** markieren. Erreicht ein Charakter z. B. Level 100, erlangt er **Prestige I** (Stufe 100+), bei Level 200 Prestige II usw. – diese Werte können an die Kampagne angepasst werden (für manche Runden vielleicht alle 50 Level). Eine Prestige-Stufe bringt **kein Zurücksetzen des Charakters**, wohl aber *exklusive Vorteile*: Etwa **Titel/Rang-Aufstiege** innerhalb des ITI (z. B. *„Temporaler Veteran I“* für Prestige I) verbunden mit **Privilegien** wie erweiterter Ressourcen-Zugang, besondere Ausrüstung oder die Erlaubnis, eigenständig heikle Missionen zu leiten. Auch kann pro Prestige-Stufe ein *Prestige-Perk* gewählt werden – ein mächtiger Vorteil, der über normale Talente hinausgeht. Beispiele: ein einmaliger zusätzlicher **Heldenwürfel** pro Einsatz (der Charakter kann in einer beliebigen Probe einen zweiten Vorteilswurf beanspruchen), eine dauerhafte leichte **Regeneration** von Trefferpunkten, oder ein **psionischer Durchbruch** (eine kleine Psi-Gabe, selbst wenn der Charakter zuvor kein Psi-Nutzer war). Außerdem wird mit Prestige-Aufstieg die **Attributs-Skala erweitert**: Das *weiche Attributslimit* verschiebt sich – z. B. darf ein Prestige-I-Agent seine Attribute nun bis 12 steigern, Prestige II bis 15, sofern es die Erzählung zulässt. *Nutzen:* **Flow:** Prestige-Stufen fungieren als **Kapitelmarker** in der Kampagne. Sie geben erfahrenen Spielern erneut das Gefühl eines Neubeginns auf hohem Niveau – eine frische Motivationsspritze, wenn reguläre Level-Aufstiege alltäglich zu werden drohen. **Balance:** Prestige-Belohnungen sind qualitativ statt quantitativ. Anstatt immer höhere Angriffswerte zu stapeln (was zu Power Creep führt), erhalten Helden *neue Optionen* – das Spiel bleibt herausfordernd, nur die Mittel der Charaktere werden vielfältiger. Durch die schrittweise Anhebung der Attributsgrenze bleibt das **Macht-Niveau kontrolliert**: Kein Charakter hat mit Level 150 bereits alles auf 20 gesteigert; stattdessen öffnen Prestige-Stufen behutsam neue Maxima. **Storytelling:** Prestige-Aufstieg lässt sich großartig inszenieren. Die Charaktere **erlangen Legendenstatus** – etwa indem das ITI sie offiziell zu Elite-Agenten erklärt oder sie im Zeitstrom selbst Spuren hinterlassen haben, die ihresgleichen suchen. Dies bietet reichlich Stoff für neue Plotelemente (Ruhm, Neid, größere Verantwortung, neue Feinde, die gezielt auf die *Legendentruppe* aufmerksam werden usw.).
+* **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, fuehrt ZEITRISS optionale
+  Prestige-Stufen ein – etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhaelt der Chrononaut
+  einen Titel im ITI und darf einen besonderen *Prestige-Perk* waehlen. Beispiele: ein zusaetzlicher
+  Heldenwuerfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
+  Attributslimit geringfuegig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
+  Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden gewinnen
+  Legendenstatus, was neue Plots eroefnnet.
 
 #### Endgame-Inhalte & Langzeit-Herausforderungen
 
-* **[Erweiterung] Endgame-Content:** Damit auch jenseits von Level 100+ keine Ermüdung eintritt, liefert ZEITRISS Endgame-Inhalte, die den **epischen Maßstab** bedienen. Die Missionen können an Komplexität und **Zeitlinien-Auswirkungen** zunehmen: Die Gruppe jagt z.B. einem “großen Bösen” durch verschiedene Epochen nach, kämpft gegen globale Paradox-Risse oder muss eine Katastrophe am **Ende der Zeit** verhindern. Die **Kampagnenstruktur** lässt sich in diesem Stadium zu gewaltigen Handlungsbögen steigern – inklusive Konflikten, die mehrere Zeitalter umspannen. Außerdem können die Spieler jetzt verstärkt die **Welt beeinflussen**: ihr *Ruf* eilt ihnen voraus, sie haben **Einflusszonen** aufgebaut (Regionen/Zeitperioden, in denen sie gut vernetzt sind), und sie sehen die **Konsequenzen** ihrer früheren Entscheidungen (die Spielleitung kann eine Chronik der veränderten Geschichte nutzen, um den Spielern ihr Vermächtnis vor Augen zu führen). Regeltechnisch sollte im Endgame auch der **Wirtschafts- und Ausrüstungsaspekt** ausbalanciert bleiben: Die Chrononauten verfügen nun über viel **Chrono-Units** und Top-Gear, doch das ITI hat Limits – etwa auf maximal verfügbare Technologie und Implantate. Ist eine Ausrüstung *ausgereizt*, bringen weitere CUs keine Machtsteigerung mehr, was übermäßigen Material-Power Creep verhindert. Zudem können in der Story neue Herausforderungen eingeführt werden, die nicht mit Ausrüstung zu lösen sind (z.B. Gegner mit *unerschöpflichen Ressourcen*, politische Dilemmata, moralische Entscheidungen), sodass Geld/Macht allein nicht reicht. Schließlich spielen **Zustände** und **Verletzungen** weiterhin eine Rolle: Selbst hochstufige Helden bleiben verwundbar – ein gezielter Schuss, ein Gift oder ein Zeitvirus kann sie an den Rand des Todes bringen. Das *stufenbasierte Wundensystem* (5 Schweregrade mit Mali) sorgt dafür, dass auch Legenden unter Druck Fehler machen können. *Nutzen:* **Flow:** Endgame-Inhalte halten das Spiel **frisch und fordernd**, indem sie die Perspektive erweitern – von einzelnen Missionen hin zu **epochalen Konflikten**. Die Spieler können ihre mächtigen Charaktere voll ausleben, müssen aber immer neue Probleme kreativ bewältigen (statt nur höherer Zahlenwerte). **Balance:** Horizontale Progression (Story, Ressourcen, Reputation) ersetzt vertikale allein. Die Gegner und Probleme wachsen mit, aber vor allem in Vielfalt statt bloß als *HP-Ballons*. Dadurch bleibt die **Spannungskurve** erhalten – kein „Godmode“ für Spieler, da z.B. Paradoxa oder politische Widerstände sich nicht einfach wegwürfeln lassen. **Storytelling:** Die Kampagne erfährt einen **würdigen Höhepunkt** statt Plateau: Langzeitfolgen werden sichtbar, alte Entscheidungen holen die Gruppe ein, und die Charaktere können echte Veränderungen in der Welt bewirken. Gleichzeitig bieten offene Endgame-Stränge die Möglichkeit, theoretisch *endlos weiterzuspielen* – Level 1000 bleibt ein fernes Symbol für unbegrenzte Weiterentwicklung, während die Welt immer neue Geheimnisse oder Bedrohungen bereithält. Kurz: Das Endgame von ZEITRISS ist nicht das Ende, sondern der Übergang in eine neue Phase voller Mythos, Herausforderung und kreativer Möglichkeiten, die alle bisherigen Errungenschaften der Spieler krönt.
+* **[Erweiterung] Endgame-Content:** Auch jenseits von Level 100 bietet ZEITRISS
+  neue Herausforderungen. Die Missionen erreichen epische Dimensionen, alte
+  Entscheidungen haben weitreichende Folgen und Paradox-Risse bedrohen ganze
+  Epochen. Spieler können ihre Macht ausleben, muessen aber kreative Lösungen
+  finden, da Ausrüstung und Chrono-Units allein nicht genügen. **Flow:** Das Spiel
+  bleibt spannend, weil neue Ziele und Gefahren auftauchen. **Balance:** Fortschritt
+  erfolgt horizontal durch Ressourcen und Einfluss statt nur durch höhere Werte.
+  **Storytelling:** Langzeitfolgen und mythische Bedrohungen verleihen dem
+  Endgame einen würdigen Höhepunkt, eröffnen aber zugleich weitere Abenteuer.
 
 ### Proben & Würfelmechanik
 
@@ -635,9 +728,17 @@ HQ.
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
 
 3. **Notfall-Rückholung**
-   - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben Wahlmöglichkeiten wie oben.
+    - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein
+      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
+      Wahlmöglichkeiten wie oben.
 
-Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort stehen Shop, Skill-Upgrades und das Save-System bereit. Wählen die Spieler **Pfad fortsetzen**, kehren sie unverändert in den bestehenden Missions-Context zurück. Entscheiden sie sich für **Neuen Pfad wählen**, wird der bisherige Missions-Context als *abgeschlossen* archiviert, ein neuer Riss samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
+Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
+stehen Shop, Skill-Upgrades und das Save-System bereit. Wählen die Spieler **Pfad fortsetzen**,
+kehren sie unverändert in den bestehenden Missions-Context zurück. Entscheiden sie sich für **Neuen
+Pfad wählen**, wird der bisherige Missions-Context als *abgeschlossen* archiviert, ein neuer Riss
+samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine
+weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten
+Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
