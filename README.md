@@ -36,7 +36,8 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
-1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen). Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
+1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
+ Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
 2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.

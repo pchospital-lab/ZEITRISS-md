@@ -101,35 +101,32 @@ also ob ein starker Telepath z.B. in der Nullzeit die Gedanken einer Person spü
 anderen Epoche lebt. Solche Fälle wären extrem selten und würden vermutlich spezielle Gerätschaften
 erfordern. Meist bleibt Telepathie auf den selben Zeitrahmen beschränkt.
 - **Hellsehen/Fernwahrnehmung:** Verwandt mit Telepathie ist die **Spontanwahrnehmung** von
-entfernten Orten, Objekten oder Ereignissen. Ein Chrononaut mit dieser Begabung kann sich in Trance
-versetzen und beschreibt dann z.B. einen Raum, in dem er physisch gar nicht anwesend ist – was an
-die realen Remote-Viewing-Experimente erinnert. Im Spiel könnte dies genutzt werden, um einen Blick
-hinter verschlossene Türen oder in ferne Epochen zu werfen, wobei die Informationen vage oder
-symbolhaft ausfallen. Hellsehen erfordert oft Fokussierungs-Hilfen (etwa ein persönlicher
-Gegenstand, auf den man sich konzentriert) und ist fehleranfällig. Die Spielleitung sollte Visionen
-durch Hellsehen rätselhaft schildern – etwa in Form kurzer Sinneseindrücke oder Metaphern, die die
-Spieler interpretieren müssen. So bleibt die Fähigkeit stimmungsvoll und gleitet nicht in allzu
-mächtige Spoiler ab.
+entfernten Orten, Objekten oder Ereignissen. Ein Chrononaut kann sich in Trance versetzen und danach
+einen Raum beschreiben, in dem er physisch gar nicht anwesend ist – vergleichbar mit Remote Viewing.
+Die Informationen bleiben unscharf wie verwackelte Aufnahmen. Hellsehen erfordert häufig
+Fokussierungs-Hilfen (etwa einen persönlichen Gegenstand) und ist fehleranfällig. Die Spielleitung
+liefert daher nur kurze Sinneseindrücke oder Datenfetzen, die die Gruppe selbst deuten muss, damit
+die Fähigkeit nicht zu mächtig wirkt.
 - **Psychometrie:** Die Gabe, durch Berühren eines Objekts dessen „emotionalen Abdruck“ oder
 Vergangenheit zu erspüren. In der *ZEITRISS*-Welt erklärt man sich dieses Phänomen damit, dass
 bedeutende Ereignisse energetische Spuren in Materie hinterlassen – eine Idee, die auch in realen
 Spukberichten oft vorkommt. Ein Psychometrie-begabter Chrononaut hebt etwa einen alten Dolch auf und
-bekommt flüchtige Visionen: Blut auf einer Kriegsflagge, ein Schrei, das Gesicht eines Monarchen –
-Hinweise auf die historische Bedeutung der Waffe. Solche Eindrücke sind nie so konkret wie eine
+bekommt flüchtige Eindrücke: Blut auf einer Kriegsflagge, ein Schrei, das Gesicht eines Monarchen –
+Hinweise auf die historische Bedeutung der Waffe. Solche Wahrnehmungen sind nie so konkret wie eine
 Videoaufnahme; sie vermitteln Stimmungen, Fragmente von Bildern oder Gefühlen. Mechanisch kann die
 SL (Spielleitung) einem erfolgreichen Psychometrie-Einsatz ein oder zwei nützliche Schlagworte oder
 Andeutungen geben, die mit dem Objekt zusammenhängen (z.B. „Verrat“, „Krönung in Aachen“ etc.).
 Diese Fähigkeit eignet sich hervorragend, um Rätsel mit Artefakten anzureichern und die Atmosphäre
 zu verdichten.
-- **Präkognition:** Flüchtige Blicke in die **Zukunft** – meist unkontrolliert in Form von Déjà-vus,
-Träumen oder plötzlichen Visionen. Ein Chrononaut mit Präkognition erhält z.B. kurz vor einer Gefahr
-einen schnellen Sinneseindruck der kommenden Szene: vielleicht ein mentales Standbild, wie ein
+- **Präkognition:** Flüchtige Blicke in die **Zukunft** – meist unkontrolliert in Form kurzer
+Sinneseindrücke oder Déjà-vus. Ein Chrononaut mit dieser Gabe erhält kurz vor einer Gefahr
+einen schnellen Eindruck der kommenden Szene: vielleicht ein mentales Standbild, wie ein
 Kameraschwenk, der einen einstürzenden Dachbalken zeigt, Sekunden bevor es passiert. Diese Vorahnung
-kann ihm einen kleinen Vorsprung verschaffen (im Regelmechanismus etwa einen Initiative- Bonus im
-Kampf). Allerdings sind präkognitive Eindrücke oft mehrdeutig. Im Spiel sollte eine Vision nie die
-vollständige Gewissheit über die Zukunft geben – die *Zeitlinie* ist im Fluss, und was gesehen
-wurde, ist nur **eine Möglichkeit**. Ändern die Spieler ihr Verhalten basierend auf der Vision, kann
-dies die Zukunft schon verändern. Hier lauert auch das Paradox-Risiko (siehe weiter unten): Wer
+kann ihm einen kleinen Vorsprung verschaffen (im Regelmechanismus etwa einen Initiativebonus im
+Kampf). Allerdings bleiben präkognitive Eindrücke mehrdeutig. Im Spiel sollte kein Bild volle
+Gewissheit über die Zukunft geben – die *Zeitlinie* ist im Fluss und liefert nur **eine Möglichkeit**.
+Ändern die Spieler ihr Verhalten basierend auf dieser Eingebung, kann dies die Zukunft schon
+verändern. Hier lauert auch das Paradox-Risiko (siehe weiter unten): Wer
 durch Präkognition Ereignisse verhindert, die „eigentlich“ passieren sollten, erzeugt womöglich
 einen Zeitzweig. Daher behandelt das ITI solche Fähigkeiten mit Vorsicht. Präkognition im Spiel lebt
 von Andeutung: Die SL kann einen kurzen Ausblick schildern, der Unheil ankündigt, ohne gleich alles

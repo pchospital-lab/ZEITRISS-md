@@ -220,12 +220,11 @@ immer wieder dieselbe Szene ablaufen, wie ein gefangenes Hologramm. Die Helden m
 was die Blase verursacht (vielleicht ein liegengebliebenes Zeitgerät oder ein natürliches Phänomen)
 und sie auflösen, ohne die Betroffenen zu traumatisieren, die plötzlich von “gestern auf morgen”
 katapultiert werden.
-2. **Chrono-Phantom:** Die **geisterhafte Erscheinung einer Person** aus der Vergangenheit *oder*
-Zukunft taucht periodisch auf – ein Zeit-Echo. Es warnt vor etwas oder spukt unheilvoll umher. In
-Wahrheit ist es das Echo eines Individuums, das aus der Zeit gerissen wurde. Aufgabe der
-Chrononauten: das Original finden oder das Echo befrieden, bevor es Unheil anrichtet. (Vielleicht
-begegnen sie z. B. dem Phantom eines berühmten Erfinders, der seine gestohlene Zukunftstechnologie
-sucht und deshalb moderne Labors sabotiert.)
+2. **Zeit-Echo:** Eine kurz aufblitzende Projektion einer Person aus einer anderen Epoche. Dieser
+holografische Schatten entsteht durch instabile Chronowellen und warnt vor naher Gefahr. Die
+Chrononauten müssen die Störquelle finden, bevor sie weitere Systeme beeinflusst. Manchmal steckt
+eine Sabotageaktion dahinter, wenn ein Forscher versucht, Aufmerksamkeit auf ein vergessenes
+Projekt zu lenken.
 3. **Anachronismus-Sturm:** Ein **temporaler Sturm** fegt durch ein Gebiet und schleudert Objekte
 sowie Personen aus verschiedenen Zeitaltern durcheinander. Die Helden finden sich in einem surrealen
 Chaos wieder: Römer kämpfen neben Samurai gegen Zukunfts-Androiden, mitten in einem Dorf des 20. Jh.
@@ -233,14 +232,11 @@ Chaos wieder: Römer kämpfen neben Samurai gegen Zukunfts-Androiden, mitten in 
 ihr **Epizentrum stabilisiert** wird – vielleicht muss ein Zeitanker aktiviert oder ein Artefakt
 entfernt werden, das den Sturm nährt. *Spannung pur*, denn mitten im Chaos kann jeder Moment Gefahr
 bringen oder zu unerwarteten Allianzen führen.
-4. **Vorzeichen der Zukunft:** Die Charaktere erleben **Déjà-vus, Visionen** oder hören
-Gesprächsfetzen aus der Zukunft. Nahe der Missionszone scheint ein kommendes Ereignis in die
-Gegenwart zu strahlen. Beispielsweise sehen sie den Schatten eines Gebäudes, das erst in 50 Jahren
-hier stehen wird, oder jemand hat plötzlich Erinnerungen an etwas, das *noch nicht* passiert ist.
-Dieses Phänomen kann warnen (die Helden auf Zukünftiges vorbereiten) *oder* gezielt in die Irre
-führen (vielleicht speist jemand absichtlich falsche Zukunftsbilder ein, um die Agenten zu
-manipulieren). Auf jeden Fall verschwimmt die Grenze zwischen Jetzt und Später – ein unheimliches
-Gefühl für alle Beteiligten.
+4. **Zukunftsresonanz:** Durch starke Zeitverzerrungen erscheinen bruchstückhafte Eindrücke eines
+kommenden Ereignisses – etwa Konturen eines zukünftigen Gebäudes oder Gesprächsfetzen, die nur von
+Sensoren aufgezeichnet werden. Diese Hinweise können warnen oder bewusst manipuliert sein, um die
+Agenten fehlzuleiten. Die Grenze zwischen Jetzt und Bald verschwimmt, doch alles bleibt technisch
+erklärbar.
 5. **Zeitschmiede:** In einem entlegenen Versteck arbeitet eine **maschineartige Vorrichtung**, die
 einen Riss offen hält oder Zeit fragmentiert, um *etwas* herzustellen. Vielleicht versucht jemand,
 **Zeit-Klone** von Personen anzufertigen oder Artefakte aus alternativen Zukünften zu schmieden.
