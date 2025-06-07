@@ -22,7 +22,7 @@ tags: [meta]
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
-- Paradox-Störungen ab Stufe 2 rufen bedrohliche Zeitschimären hervor, die Jagd auf die Agenten machen.
+- Paradox-Störungen ab Stufe 2 rufen Zeitkreaturen aus dem Kreaturen- & Gestalten-Generator hervor.
 
 ## Regeln & Spielmechanik
 - Wende die **ZEITRISS-Regeln** aus den folgenden Markdown-Dateien an und lade sie bei Bedarf:
