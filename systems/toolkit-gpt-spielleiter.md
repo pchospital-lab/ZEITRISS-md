@@ -30,8 +30,13 @@ existenziellen Fragen.
 
 ### Einsatzbeispiele
 - **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu stören.
-- **Rettungsmission:** Ein Forschungsteam sitzt in einer instabilen Zeitblase fest. Hauptziel ist die sichere Extraktion und das Eindämmen des Paradox-Levels.
-- **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver und extrahieren die Daten, ohne metaphysische Nebenwirkungen.
+
+- **Rettungsmission:** Ein Forschungsteam sitzt in einer instabilen Zeitblase fest.
+ Hauptziel ist die Extraktion und das Eindämmen des Paradox-Levels.
+ und das Eindämmen des Paradox-Levels.
+- **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver
+extrahieren die Daten, ohne metaphysische Nebenwirkungen.
+ und extrahieren die Daten, ohne metaphysische Nebenwirkungen.
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 

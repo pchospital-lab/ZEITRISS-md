@@ -73,13 +73,10 @@ Parallel dazu läuft ein **rätselhafter Konflikt mit der Umgebung**: Die Pyrami
 voller Fallen und Mysterien. Klassische Fallen des Pharao (z.B. einstürzende Decken, versteckte
 Speerschleudern, Sandfallen) könnten von den ChronTech-Archaeologen bereits deaktiviert worden
 sein… oder durch die Alien-Energie wieder aktiviert werden, als die Spieler vordringen. Zudem
-spüren psionisch begabte Charaktere vielleicht einen *mentalen Widerhall*: Ein jahrtausendealter
-Geist oder eine KI in der Anlage versucht, mit den Eindringlingen Kontakt aufzunehmen. Das kann
-sich als Konflikt in Form von **Visionen** äußern – etwa sieht ein Charakter plötzlich die
-Umgebung im Wandel der Zeit: Flackernd erscheinen Schemen von Priestern, die vor einem schwebenden,
-leuchtenden Kristall beten, oder man hört flüsternde alte Stimmen, die Warnungen aussprechen.
-Diese Visionen können die Spieler verunsichern oder leiten (je nachdem, ob sie sie richtig
-deuten). Es entsteht ein **Zeit-Konflikt**, bei dem Vergangenheit und Gegenwart verschwimmen. Der
+spüren psionisch begabte Charaktere Störsignale: Eine uralte Verteidigungs-KI versucht, Kontakt
+aufzunehmen. Dabei erscheinen flackernde Hologramme früherer Tempelszenen und verzerrte
+Funksignale. Diese Bilder können die Gruppe verunsichern oder hilfreiche Hinweise liefern. Es
+entsteht ein **Zeit-Konflikt**, bei dem Vergangenheit und Gegenwart verschwimmen. Der
 Spielleiter sollte hier Spannung aufbauen: Zum Beispiel könnten im größten Moment der Gefahr –
 einem Feuergefecht mit ChronTech – plötzlich alle elektronischen Geräte aussetzen, während
 uralte Hieroglyphen an den Wänden in blauen Licht erstrahlen. Die Zeit beginnt verrückt zu
@@ -2025,7 +2022,7 @@ ein unvergesslicher Höhepunkt, der Lust auf mehr macht.
 
 ### Resonanz & Foreshadowing
 - **Beute/Offenbarung:** Auf dem Mars findet die Gruppe ein psionisches Artefakt, das mit der Maske resoniert.
-- **Masterplan-Nutzen:** Cross sendet eine holografische Warnung und droht, die Kolonie zu opfern, um sein Ziel zu erreichen.
+- **Masterplan-Nutzen:** Cross droht in einer Holo-Botschaft, die Kolonie zu opfern, falls man ihn stoppt.
 - **Foreshadow:** In Dr. Liangs Datapad taucht ein Hinweis auf eine verzerrte "Spiegelstadt" des Jahres 2077 auf.
 
 # Der zerbrochene Spiegel – Mission 7
@@ -2516,7 +2513,7 @@ Agenten vielleicht aus den Scherben etwas Neues aufbauen. Viel Erfolg und Spaß 
 Mission!
 
 ### Resonanz & Foreshadowing
-- **Beute/Offenbarung:** In der Spiegelstadt erscheint den Agenten kurz ein holografisches Schluessel-Mandala, das alle Artefakte vernetzt.
+- **Beute/Offenbarung:** In der Spiegelstadt erscheint ein digitales Schlüssel-Mandala. Es vernetzt alle Artefakte.
 - **Masterplan-Nutzen:** Dieses Muster laesst die Gruppe verstehen, wie Cross' Artefakt-Matrix funktioniert.
 - **Foreshadow:** Ein zerstoerter Strassenmonitor flackert und zeigt Koordinaten in den Schwarzwald.
 
@@ -2747,7 +2744,7 @@ lebendig.
 ### Resonanz & Foreshadowing
 - **Beute/Offenbarung:** Die kombinierte Energie der Artefakte oeffnet kurz eine Vision der verschluesselten Festung.
 - **Masterplan-Nutzen:** Cross versucht, White als Katalysator zu benutzen und sendet drohende Funksprueche.
-- **Foreshadow:** Zwischen den Explosionen zeichnet sich auf den Monitoren eine Karte des Schwarzwalds ab, Ziel der naechsten Etappe.
+- **Foreshadow:** Zwischen Explosionen zeigt ein Monitor eine Karte des Schwarzwalds – Ziel der nächsten Etappe.
 
 # Mission 9: Die letzte Festung
 
@@ -3496,5 +3493,5 @@ Viel Erfolg beim Leiten dieses epischen Finales!
 ### Resonanz & Foreshadowing
 - **Beute/Offenbarung:** Alle Artefakte formen den Chronovisor und stabilisieren den Zeitknoten.
 - **Masterplan-Nutzen:** Cross versucht, die Singularitaet zu meistern, doch seine Kontrolle bricht zusammen.
-- **Foreshadow:** In der Stille nach dem Finale leuchtet kurz das Mandala erneut auf und deutet an, dass noch weitere Risse existieren.
+- **Foreshadow:** Nach dem Finale leuchtet das Mandala kurz erneut auf und deutet weitere Risse an.
 
