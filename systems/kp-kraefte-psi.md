@@ -203,7 +203,8 @@ Manche Psioniker konzentrieren sich auf die Beherrschung fremder Gedanken. Diese
    Der eigene Körper fällt in Schlaf und ist wehrlos.
 4. **Prestige:** Auf höchster Stufe ist eine vollständige Übernahme möglich,
    bei der der Psioniker Seite an Seite mit dem übernommenen Körper agiert.
-   Sein eigener Leib bleibt dabei bewusstlos zurück.
+   Er behält die Kontrolle über seinen eigenen Leib und kann beide Körper
+   gleichzeitig steuern.
 
 *Risiken:* Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxbeschwerden
 setzen den regungslosen Körper des Anwenders dem Risiko aus.
