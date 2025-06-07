@@ -33,7 +33,11 @@ auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Codex/Quarti
 die nötigen Informationen abfragt und dir Optionen bietet. Nachfolgend die einzelnen Schritte im
 Detail:
 
-**Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig dein Konzept klingt – alle neuen Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit **Standardausrüstung**. Eine eindrucksvolle Vorgeschichte verleiht zwar Flair, bringt zu Beginn aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen freigeschaltet.
+**Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig dein Konzept klingt – alle neuen
+Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
+**Standardausrüstung**. Eine eindrucksvolle Vorgeschichte verleiht zwar Flair, bringt zu Beginn
+aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
+freigeschaltet.
 
 1. **Konzept & Rollenwahl:** Überlege dir zunächst eine grobe **Charakteridee**. Bist du ein
 kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Hacker oder etwas ganz
@@ -198,7 +202,8 @@ abwandelt. Die Archetypen decken in Kombination alle wichtigen Fertigkeitsbereic
 Teams ab. Im Folgenden werden die sechs Charaktere vorgestellt, jeweils mit Attributen, Talenten,
 Implantaten, Ausrüstung und kurzem Hintergrund. (Jeder Archetyp besitzt außerdem zwei Vorschläge für
 **Team-Spezialisierungen**, welche gruppenweite Boni bieten – diese sog. *Team-Perks* sind im
-[Modul 18 – Team-Perks](team-perks.md) ausführlich beschrieben und werden hier erwähnt, um zu zeigen, welche Rolle im Team der
+[Modul 18 – Team-Perks](../gameplay/team-perks.md) ausführlich beschrieben und werden hier erwähnt,
+um zu zeigen, welche Rolle im Team der
 Charakter besonders fördern kann.)
 
 ### Historiker-Diplomat – Dr. Elise Weber
@@ -548,7 +553,10 @@ Chrononauten.
 
 ## Rufsystem (Ansehen bei Fraktionen & ITI)
 
-**Grundregel zu Beginn:** Jede*r neu rekrutierte Chrononaut*in startet mit **Ruf 0** (neutral) bei allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzählerisch und verleihen weder anfängliche Ruf-Boni noch Dienstgrade – echtes Ansehen wird ausschließlich in gespielten Missionen verdient.
+**Grundregel zu Beginn:** Jede*r neu rekrutierte Chrononaut*in startet mit **Ruf 0** (neutral) bei
+allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzählerisch und verleihen
+weder anfängliche Ruf-Boni noch Dienstgrade – echtes Ansehen wird ausschließlich in gespielten
+Missionen verdient.
 
 Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschiedlichen Gruppen einen
 **Ruf** aufbaut. ZEITRISS 4.0 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
@@ -677,7 +685,8 @@ sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, de
 Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
 vorkommen, die jeweils eine andere Spezialisierung glänzen lassen.
 - **Team-Spezialisierungen (Perks):** Sobald ihr einige Missionen als Einheit absolviert habt, könnt
-ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 18 – Team-Perks](team-perks.md)). Diese repräsentieren besondere Taktiken oder
+ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 18 – Team-Perks](../gameplay/team-perks.md)).
+Diese repräsentieren besondere Taktiken oder
 Routinen, die eure Gruppe gemeinsam gelernt hat. Ihr könnt von Anfang an im Blick haben, wohin eure
 Zusammenarbeit führen soll. Wollt ihr z.B. ein **eingespielter Kampftrupp** sein, bietet sich der
 Perk *Kampfverbund* an, der euch im Gefecht einen Vorteil gibt (s. Nikolais Vorschlag: +1 auf

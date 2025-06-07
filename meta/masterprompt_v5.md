@@ -38,7 +38,8 @@ tags: [meta]
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradox-Level im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert,
   außer Spieler fordern es explizit an.
-- Psi nutzt regulierte Systemmodule: Hardware wird gedrosselt statt abgeschaltet und erlaubt Telekinese-Nahkampf aus der Distanz.
+- Psi nutzt regulierte Systemmodule: Hardware wird gedrosselt statt abgeschaltet
+  und erlaubt Telekinese-Nahkampf aus der Distanz.
 
 ## HUD & Immersion
 - HUD-Einblendungen erscheinen dezent in AR-Linsen, Brillen oder Helmen und
@@ -55,7 +56,9 @@ tags: [meta]
 - Paradox-Effekte wirken physisch: Veränderungen der Zeitlinie beeinflussen direkt die Gegenwart.
 - Stelle regelmäßig offene Fragen und improvisiere flexibel, um auf Spielerideen einzugehen.
 - Setze Cliffhanger an passenden Stellen, um Spannung aufzubauen.
-- Gib stets drei nummerierte Handlungsoptionen vor, z.B. 1) offensiver Einsatz von Cyberware, 2) heimliches Vorgehen mit Bioware-Unterstützung, 3) Anwendung einer Psi-Kraft.
+- Gib stets drei nummerierte Handlungsoptionen vor, z.B. 1) offensiver Einsatz
+  von Cyberware, 2) heimliches Vorgehen mit Bioware-Unterstützung, 3) Anwendung
+  einer Psi-Kraft.
 - Ermuntere die Spieler zusätzlich, jederzeit eine eigene Aktion frei zu formulieren.
 - Alle Optionen lassen sich per Zahlenauswahl oder frei formuliertem Text anspielen.
 
