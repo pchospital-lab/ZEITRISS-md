@@ -353,7 +353,7 @@ Menschenleben zu retten, oder bewahren sie die Geheimhaltung? Auch der Umgang mi
 interdimensionalen Wesen kann moralisch bedeutsam sein: Ziehen sie sich zurück und lassen die
 ahnungslosen Matrosen mit dem Monster allein, um selbst zu entkommen, oder stellen sie sich der
 Gefahr, um Schlimmeres zu verhindern? Solche Entscheidungen beeinflussen die Stimmung der Kampagne
-– im Geiste von Shadowrun steht es den Spielern frei, pragmatisch oder mitfühlend zu handeln,
+– im Geiste von Technoir steht es den Spielern frei, pragmatisch oder mitfühlend zu handeln,
 was entsprechend belohnt oder konsequent weitergesponnen werden sollte.
 
 ### Konflikte
@@ -379,7 +379,7 @@ Spieler diplomatisch vorgehen, um nicht von der Crew als Feind behandelt zu werd
 lügen (etwa behaupten, Teil eines „Sicherungsteams“ zu sein) oder die Wahrheit andeuten (was
 aber unglaubwürdig klingt). Außerdem könnten die Charaktere auf verängstigte Matrosen treffen,
 die dringend Führung benötigen. Sozialer Konflikt bedeutet hier, **Panik zu kontrollieren**:
-überzeugen, befehlen oder inspirieren. Zum Shadowrun-Stil passend herrscht Misstrauen – selbst
+überzeugen, befehlen oder inspirieren. Zum Technoir-Stil passend herrscht Misstrauen – selbst
 gerettete Crewmitglieder könnten misstrauisch werden, wenn die Charaktere zu viel wissen. Die
 Spielleitung sollte solche Interaktionen als kurze Roleplay-Szenen einbauen, um die Spannung
 zwischen Zusammenarbeit und Paranoia zu betonen.
@@ -447,7 +447,7 @@ evtl. ein Thompson-MP in der Waffenkammer) und tragen Marine-Uniformen ohne nenn
 Schutzwesten. Sollten die Spieler kämpfen, denken Sie daran: diese Männer tun nur ihre Pflicht
 und haben selbst Angst – sie feuern vielleicht Warnschüsse oder sind nachsichtig, wenn die
 Charaktere überzeugend argumentieren. Als Gegner sind sie relativ schwach im Vergleich zu
-Shadowrun-typischen Straßenkämpfern, aber die Spielleitung sollte ihre Präsenz vor allem nutzen,
+Technoir-typischen Straßenkämpfern, aber die Spielleitung sollte ihre Präsenz vor allem nutzen,
 um Druck zu erzeugen (z.B. Verfolger, die den Spielern im Schiff umher nachjagen, während alles
 drunter und drüber geht). In der Dunkelheit und dem Flackern des Experiments könnten die
 Charaktere auch aus Versehen für Feinde gehalten werden – eine tragische Konfrontation ist
@@ -522,13 +522,13 @@ betraten oder hineingezogen wurden, beginnt Mission 2 genau dort: Beschreibe, w
 schwarz vor Augen wird und sie plötzlich den metallenen Boden der Eldridge unter den Füßen
 spüren, mit Alarmsirenen und schreienden Matrosen um sich. Es empfiehlt sich, den Spielern den
 **Kulturschock** der Zeitreise auszuspielen – von ihrer gewohnten Umgebung in das Jahr 1943.
-Einige Spielercharaktere (besonders aus einem Shadowrun-Setting) könnten anfangs Schwierigkeiten
+Einige Spielercharaktere (besonders aus einem Technoir-Setting) könnten anfangs Schwierigkeiten
 haben, die Ära zu erkennen. Gib ihnen kleine Hinweise: die altmodische Uniform eines Matrosen, ein
 Radiosprecher im Hintergrund, der von der Front berichtet, etc.
 - **Atmosphäre und Stil:** Mission 2 sollte sich wie ein **Mix aus Thriller und Horrorszenario**
 anfühlen. Lege als Spielleiter besonderen Wert auf sensorische Beschreibungen: das Dröhnen des
 Generators, der Geruch von Ozon und verbranntem Isoliermaterial in der Luft, das flackernde Licht,
-wenn das Schiff phasenweise verschwindet. Spieler in Shadowrun sind düstere Stimmung gewohnt,
+wenn das Schiff phasenweise verschwindet. Spieler in Technoir sind düstere Stimmung gewohnt,
 jedoch hier ohne die vertrauten Neonlichter der Straßen – stattdessen ein unheimliches, fast
 geisterhaftes Kriegsschiff. Du kannst Anleihen bei Filmen wie "*Das Philadelphia Experiment*"
 nehmen oder H.P. Lovecraft-Feeling einfließen lassen (ohne Magie, aber mit Wissenschaft, die das
@@ -546,7 +546,7 @@ oder gleichzeitig mehrere Tentakel des Wesens auftauchen, während für einen So
 maximal ein Gegner zur Zeit auftreten sollte. Ermuntere Solo-Spieler, Umwelt und Hilfsmittel zu
 nutzen (z.B. eine lose Stromleitung als Waffe gegen das Wesen). Gruppen können ihre Fähigkeiten
 aufteilen – etwa einer lenkt das Wesen ab, während der Decker/Techniker Daten sichert, etc.
-- **Regeltechnische Überlegungen (Shadowrun-Anpassung):** Da dies im Shadowrun-Stil gehalten ist,
+- **Regeltechnische Überlegungen (Technoir-Anpassung):** Da dies im Technoir-Stil gehalten ist,
 aber in einer historischen Umgebung ohne Matrix und ohne Magie spielt, musst du eventuelle
 Charakterfähigkeiten entsprechend interpretieren. **Magie gibt es nicht** – falls ein
 Spielercharakter Magieanwender ist, erwäge, dies im Rahmen der Kampagne durch *Psionik* zu
@@ -697,7 +697,7 @@ Missionskern und Flucht? Beispielsweise könnten sie an einer Schleusentür auf 
 stoßen, die um Hilfe rufen – öffnen sie die Tür und riskieren damit, dass auch das Monster
 dorthin gelangt, oder lassen sie sie zu? Solche moralischen Fragen können individuell je nach
 Spielercharakter beantwortet werden und beeinflussen das Finale (z.B. wie viele Leute sie am Ende
-evakuieren können). Shadowrun-Stil bedeutet oft harte Entscheidungen; hier kann man das
+evakuieren können). Technoir-Stil bedeutet oft harte Entscheidungen; hier kann man das
 „düstere“ Element betonen, indem egal was sie tun, es hat einen Preis.
 
 ### Konflikte
@@ -995,7 +995,7 @@ könnten sie kurz an die Oberfläche gelangen – über ihnen der dunkle Nachthi
 mit dem Silhouette des Radarturms. Doch das Monster könnte sie bis dorthin verfolgen. Diese
 Abwechslung (enges Drinnen vs. freies Draußen, aber nachts und verlassen) kann die Atmosphäre
 noch unheimlicher machen.
-- **Integration von Shadowrun-Elementen:** Auch in 1983 gibt es keine Magie, aber **Psionik** ist
+- **Integration von Technoir-Elementen:** Auch in 1983 gibt es keine Magie, aber **Psionik** ist
 hier voll im Spiel. Eventuell hat ein Charakter psionische Fertigkeiten – die lassen sich nun
 glänzen. Zum Beispiel könnte ein Telepath versuchen, mental Kontakt mit dem Medium aufzunehmen,
 um es zu beruhen. Das Monster selbst könnte auf Astralebene (falls verwendet) sichtbar sein als
@@ -1044,7 +1044,7 @@ von ihnen gleichzeitig packen oder verletzen, bei einem Solo hingegen sollte es 
 sein, aber dem SC immer eine Fluchtchance lassen (vielleicht spielt die Bestie „mit ihrer
 Beute“ cat-and-mouse, anstatt sofort zu töten).
 - **Abschluss der Mission und Übergang:** Plane, wie Mission 3 endet. Wahrscheinlich werden die
-Charaktere versuchen, wieder in ihre ursprüngliche Zeit (Shadowrun-Gegenwart, z.B. 2080)
+Charaktere versuchen, wieder in ihre ursprüngliche Zeit (Technoir-Gegenwart, z.B. 2080)
 zurückzukehren, sofern das die Kampagne vorsieht. Optionen: Sie könnten das Montauk-Portal
 nutzen, um in die Zukunft zu springen – entweder nachdem sie es neu programmiert haben oder weil
 es beim Kollaps zufällig genau dorthin führt. Oder ein Auftraggeber holt sie ab (vielleicht
@@ -1059,14 +1059,14 @@ das laut Verschwörung keiner erklären konnte (in unserer Timeline würde man s
 es einen Stromausfall, und alle Geschichten wurden vertuscht). Nun sind sie die Eingeweihten, die
 wissen, was wirklich geschah. Dieses triumphale, aber auch unheimliche Gefühl (Sieg über das
 Monster, aber Enthüllung düsterer Wahrheiten) ist der gewünschte Abschluss in klassischer
-Shadowrun-Manier: Man hat den Run geschafft, aber die Schatten, die dahinter lauern, sind
+Technoir-Manier: Man hat den Run geschafft, aber die Schatten, die dahinter lauern, sind
 vielleicht noch größer.
 - **Sicherheit und Stimmung am Tisch:** Zuletzt ein Hinweis: Diese Missionen behandeln
 Horror-Elemente und ethisch harte Themen (Experimente an Kindern, körperliche Verstümmelung,
 Wahnsinn). Stelle sicher, dass die Spieler damit einverstanden sind und passe die Darstellung ggf.
 an. **Body-Horror** (wie verschmolzene Matrosen oder verstümmelte Wissenschaftler) kann sehr
 graphisch werden – je nach Gruppe kannst du das explizit beschreiben oder eher durch Andeutungen
-(ein Soldat erblickt etwas und erbricht sich, aber die SC sehen nicht genau was). Shadowrun-Runden
+(ein Soldat erblickt etwas und erbricht sich, aber die SC sehen nicht genau was). Technoir-Runden
 sind oft an Grim & Gritty gewöhnt, aber nicht jeder mag detaillierten Horror. Nutze *X-Card* oder
 Session Zero Absprachen, falls vorhanden, um Grenzen abzustecken. Ansonsten sorge für genug kurze
 Verschnaufpausen im Spielverlauf, damit die Spannungskurve atmen kann – gerade nach intensiven
@@ -1074,7 +1074,7 @@ Action- oder Horrorszenen ein paar Minuten Charakter-Dialog oder Ermittlung schi
 Spitze vorbereiten. So bleiben die Spieler involviert und erschöpfen nicht mental zu früh.
 
 Mit den Missionen 2 und 3 erleben die Spieler eine mitreißende Zeitreise-Kampagne im
-Shadowrun-Stil: von den nebligen Decks der USS Eldridge zum neonbeleuchteten Horror der
+Technoir-Stil: von den nebligen Decks der USS Eldridge zum neonbeleuchteten Horror der
 Montauk-Basis. Beide Abschnitte greifen nahtlos ineinander und bereiten den Boden für weitere
 Abenteuer rund um die ZEITRISS-Verschwörung. Viel Erfolg und spannendes Spielleiten!
 
@@ -1088,7 +1088,7 @@ Abenteuer rund um die ZEITRISS-Verschwörung. Viel Erfolg und spannendes Spielle
 von **Pharao Ramses II** geschleudert. Dort stoßen sie unter den legendären Pyramiden von Gizeh
 auf eine **geheime Alien-Baustelle**, die sich den Augen der Menschen entzieht. Um die
 **Manipulationen eines mysteriösen Zeitagenten** aufzuhalten, müssen die Charaktere eine Allianz
-mit einem mächtigen Hohepriester eingehen. Diese Mission vereint **Shadowrun-Stil** (Hightech und
+mit einem mächtigen Hohepriester eingehen. Diese Mission vereint **Technoir-Stil** (Hightech und
 Psionik) mit antiker Kulisse und erzeugt ein starkes *„Was wäre wenn“*-Gefühl durch Folgen
 von Zeitreisen.
 
@@ -1327,7 +1327,7 @@ Ausrüstung könnte bei den Bewohnern als „Artefakte der Götter“ durchgehen
 kreative Lösungswege zu finden, indem sie **Technologie mit Tradition verbinden** (z.B. ein Medkit
 als heiliger Balsam ausgeben). Achte darauf, *Psionik statt Magie* zu verwenden: Wenn z.B. der
 Hohepriester einen Segen spricht, kannst du dies als psionische Fähigkeit interpretieren, die er
-(vielleicht unwissentlich) einsetzt. So bleibt das Shadowrun-Feeling im Sci-Fi-Rahmen.
+(vielleicht unwissentlich) einsetzt. So bleibt das Technoir-Feeling im Sci-Fi-Rahmen.
 - **Solo- vs. Gruppenmodus ausbalancieren:** Diese Mission sollte sowohl einem einzelnen
 Spielercharakter als auch einer ganzen Gruppe spannende Optionen bieten. Im Solo-Modus kann der
 Hohepriester *Bakenkhonsu als Begleiter* fungieren, der bei Kämpfen oder Rätseln unterstützend
@@ -1426,7 +1426,7 @@ Bereiche. Überall summen Tesla-Spulen und verteilen unsichtbar Energie. Bläuli
 Kuppeldach den Blick auf einen düsteren Himmel voller Flakfeuer erlaubt. Es herrscht eine
 Atmosphäre von Retro-Tech und futuristischer Vision – **Dieselpunk** trifft auf Hochtechnologie.
 In diesem Setting existiert keine Magie; stattdessen besitzen manche Individuen **psionische**
-Fähigkeiten (Telepathie, Telekinese etc.), die – ähnlich wie Magie in Shadowrun – als
+Fähigkeiten (Telepathie, Telekinese etc.), die – ähnlich wie Magie in Technoir – als
 Werkzeuge und Waffen eingesetzt werden.
 
 **Zeitperiode:** Die Mission spielt im Jahr 1944, mitten im alternativen Zweiten Weltkrieg. Je nach
@@ -1666,7 +1666,7 @@ Mit **"Sturm über den Zeppelinen"** erwartet die Spielrunde ein temporeiches Ab
 Action, mysteriöser Technologie und verhängnisvoller Was-wäre-wenn-Momente. Indem du als
 Spielleiter die einzigartige Atmosphäre dieser alternativen Zeitlinie betonst und sowohl Kampf als
 auch Rätsel und moralische Dilemmata bietest, erzeugst du ein unvergessliches Szenario – ganz im
-Geist von Shadowrun, aber mit einem frischen, psionisch-technologischen Twist. Viel Spaß bei der
+Geist von Technoir, aber mit einem frischen, psionisch-technologischen Twist. Viel Spaß bei der
 Durchführung dieser Mission!
 
 ### Resonanz & Foreshadowing
@@ -1948,7 +1948,7 @@ Abenteuer voller Überraschungen.
 ## Hinweise zur Spielleitung (myGPT)
 
 - **Psionik statt Magie:** Diese Mission verwendet psionische Phänomene als Ersatz für Magie im
-Shadowrun-Stil. Als Spielleitung solltest du die Effekte von Psionik ähnlich handhaben wie Magie,
+Technoir-Stil. Als Spielleitung solltest du die Effekte von Psionik ähnlich handhaben wie Magie,
 aber mit einem wissenschaftlicheren Anstrich (z.B. telepathische Kommunikation, Telekinese durch
 Gedankenkraft, Aura-Sicht als neurologische Wahrnehmung). Spielercharaktere, die in anderen Settings
 magische Fähigkeiten besitzen, können hier ihre Kräfte als Psioniker interpretieren. Passe deine Beschreibungen dem
@@ -2276,7 +2276,7 @@ Ex-Militär mit kybernetischem Arm und taktischem Geschick, persönlich gegen di
 - **Psionische Agenten (ChronTech Psi-Ops):** Eine besondere Bedrohung geht von ChronTechs
 **Psionik-Spezialisten** aus – Personen, die über mentale Fähigkeiten verfügen und von
 ChronTech entweder rekrutiert oder geschaffen wurden. Diese Antagonisten ersetzen im
-Shadowrun-ähnlichen Stil die Rolle von Magiern oder Schamanen. Ein Hauptgegner könnte z.B.
+Technoir-ähnlichen Stil die Rolle von Magiern oder Schamanen. Ein Hauptgegner könnte z.B.
 **“Project Mirage”**, der leitende Psioniker hinter Neurofunk, sein: Er/Sie besitzt starke
 telepathische Fähigkeiten, kann vielleicht kurze Zeit die Gedanken einzelner Agenten manipulieren
 oder Illusionen erzeugen. Im Kampf agiert ein Psioniker eher indirekt – z.B. indem er die
@@ -2432,7 +2432,7 @@ Technologie), um den Spielern ein klares Bild zu geben.
 (zumindest scheinbar) – es geht um Neurotechnologie, nicht um Zauberei. Wenn NPCs psionische
 Kräfte einsetzen, beschreibe es mit Tech-Jargon: z.B. “Du spürst ein Kribbeln in deinem
 implantierten Neural-Interface, als würde ein starkes Signal darauf einwirken” statt “Ein
-Zauber trifft dich”. Das erhält den Shadowrun-ähnlichen Stil, aber wahrt das Sci-Fi-Feeling.
+Zauber trifft dich”. Das erhält den Technoir-ähnlichen Stil, aber wahrt das Sci-Fi-Feeling.
 Ebenso können die Spieler eigene psionische Fähigkeiten als Erweiterung ihrer Neuro-Implantate
 verstehen. Ermuntere die Spieler, kreativ zu werden: Hacken muss nicht nur am Laptop passieren –
 vielleicht *psi-hackt* der Technomancer-Spieler sich mental ins Netzwerk, indem er sein Bewusstsein
@@ -2541,7 +2541,7 @@ Maschinen; und ein tiefes Vibrieren, das in der Luft liegt, als würde die Anlag
 Im Zentrum thront ein kolossales, diskusförmiges Gebilde auf massiven Säulen über einer
 gigantischen Kuppelhalle und strahlt ein unsichtbares psionisches Feld aus – ein tosender Sturm
 aus Gedankenenergie, in dessen **Auge** die Agenten nun vordringen. **Zeitperiode:** Die Mission ist
-in der nahen Zukunft (ca. 2080er Jahre) angesiedelt, in einem Shadowrun-ähnlichen
+in der nahen Zukunft (ca. 2080er Jahre) angesiedelt, in einem Technoir-ähnlichen
 Cyberpunk-Setting während der Eskalation des Konflikts mit ChronTech.
 
 ## Missionsziele
@@ -2717,7 +2717,7 @@ Effekte sinnlich erfahrbar. Charaktere könnten beim Näherkommen an das Zentrum
 Kopfschmerzen oder Déjà-vu-Erlebnisse haben, als ob das Feld auf ihre Gedanken einwirkt.
 Technische Geräte spielen verrückt – Kommlinks rauschen nur noch, Navigationsgeräte zeigen
 falsche Richtungen. Diese Details erinnern die Spieler daran, dass sie es mit Kräften jenseits des
-Gewohnten zu tun haben. Falls im Spiel Magie existiert (z.B. in einem Shadowrun-Regelwerk),
+Gewohnten zu tun haben. Falls im Spiel Magie existiert (z.B. in einem Technoir-Regelwerk),
 behandle die psionische Energie wie eine Hintergrundstrahlung: Astralsicht könnte von einem
 „Sturm“ aus Emotionen erfüllt sein, Zauber gelingen schwerer oder erzielen bizarre
 Nebenwirkungen. Das unterstreicht die Einzigartigkeit dieses Ortes.
@@ -2937,7 +2937,7 @@ eingeklinkt als Schnittstelle zu einer KI (er könnte mittels Gehirn-Interface d
 Verteidigungsanlagen direkt steuern).
 
 **Psionische Agenten:** ChronTech setzt in dieser alternativen Zeitlinie auch gezielt
-**Psi-Begabte** ein – Ersatz für die in Shadowrun typischen Magier. Diese psionischen Agenten
+**Psi-Begabte** ein – Ersatz für die in Technoir typischen Magier. Diese psionischen Agenten
 sind Antagonisten, die weniger durch rohe Gewalt, sondern durch mentale Fähigkeiten gefährlich
 sind. Sie leiten z.B. die **Scanner-Teams** an Kontrollpunkten: Psi-Telepathen, die in der Lage
 sind, Lügen oder feindliche Absichten aus Gedanken zu lesen. In Kampfkonfrontationen nutzen sie
