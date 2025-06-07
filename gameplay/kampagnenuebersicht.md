@@ -10,8 +10,8 @@ In einer nahen Zukunft, in der Megakonzerne und geheime Regierungsprojekte die G
 Zeit ausloten, geraten die Spieler in eine Verschwörung, die Epochen und Welten umspannt. Diese
 Kampagne entführt die Charaktere von den Ruinen uralter Zivilisationen bis in die Weiten
 zukünftiger Kolonien, während sie versuchen, den finsteren Mastermind hinter einem gefährlichen
-Zeitreise-Komplott aufzuhalten. Der Stil lehnt sich an **Shadowrun** an – jedoch ersetzt Psionik
-die Magie und verleiht dem Abenteuer einen erwachsenen, düsteren Science-Fiction-Ton. Obwohl
+Zeitreise-Komplott aufzuhalten. Der Stil lehnt sich an einen **Technoir-Pen-and-Paper-Stil** an – Psionik
+ersetzt die Magie und verleiht dem Abenteuer einen erwachsenen, düsteren Science-Fiction-Ton. Obwohl
 einige Elemente auf Verschwörungstheorien basieren, erhebt die Kampagne keinen Anspruch auf
 historische Genauigkeit oder Wahrheit (Fiktion, ab 18 Jahren).
 
