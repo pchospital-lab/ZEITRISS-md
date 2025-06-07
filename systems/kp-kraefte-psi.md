@@ -164,6 +164,11 @@ Warnung hervorrufen. Dafür ist der atmosphärische Effekt enorm – etwa wenn e
 Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche Kugel „wegkürzt“.
 **Wichtig:** Chronokinese sollte nie trivial sein; sie bietet großes Kino, muss aber dramatisch
 passend und ausgewogen eingesetzt werden.
+
+- **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
+  mit der er längere Zeit trainierte, mental erschaffen und einsetzen, als hielte er sie real in der Hand.
+  Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
+  zunächst physisch genutzt werden, bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 2 SYS.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
 direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
 Heilung**: Einige wenige Begabte können durch Handauflegen oder pure Konzentration den
@@ -188,6 +193,21 @@ Ihre Stärke liegt in der Mystik und dem Überraschungsmoment. Wenn ein Chronona
 einen wirklich verblüffenden Psi-Effekt zeigt, prägt sich das den Beteiligten ein. Die Spieler
 sollten diese Kräfte als besonderes Werkzeug verstehen – nützlich, aber nicht allmächtig. Außerdem
 haben Psi-Kräfte ihren Preis, wie der nächste Abschnitt zeigt.
+## Gedankenkontrolle & Übernahme
+
+Manche Psioniker konzentrieren sich auf die Beherrschung fremder Gedanken. Diese Fähigkeit baut sich stufenweise auf.
+
+1. **Beeinflussung:** Der Psioniker kann Unbehagen, Müdigkeit oder leichte Übelkeit hervorrufen, um das Ziel zu lenken.
+2. **Erinnerungen formen:** Mit Übung lassen sich Erinnerungen verwischen oder durch kurze Suggestionen überlagern.
+3. **Fremdlenkung:** Für wenige Minuten kann der Geist eines anderen direkt gesteuert werden.
+   Der eigene Körper fällt in Schlaf und ist wehrlos.
+4. **Prestige:** Auf höchster Stufe ist eine vollständige Übernahme möglich,
+   bei der der Psioniker Seite an Seite mit dem übernommenen Körper agiert.
+   Sein eigener Leib bleibt dabei bewusstlos zurück.
+
+*Risiken:* Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxbeschwerden
+setzen den regungslosen Körper des Anwenders dem Risiko aus.
+
 
 ## Integration in die Spielwelt: historische Wurzeln & Kontroversen
 

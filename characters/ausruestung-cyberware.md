@@ -504,6 +504,10 @@ Wichtig ist: **Alle Verbesserungen zehren an der SYS-Kapazität** – ein Agent 
 kaum Raum für Psi und umgekehrt. Die SL sollte zudem thematisch passende Nebenwirkungen einbauen,
 wenn es dramatisch passt (z.B. ein *Reflex-Booster*-Charakter, der in einer ruhigen Wache-Szene
 gegen eine Vase stößt, weil seine Nerven überreagieren).
+*Psi-Abgleich:* Mentale Manifestationen wie Psi-Waffen zählen ebenfalls zur Systemlast.
+Ein reiner Psi-Charakter trägt daher nicht mehr Last als ein Agent mit vielen Implantaten.
+Grundfähigkeiten sind leicht zu erlernen, doch hohe Meisterstufen verlangen intensives Training
+und sorgfältiges SYS-Management.
 
 ## Psi-Fähigkeiten (Optional)
 
@@ -561,6 +565,10 @@ ein paar Sekunden *verlangsamen* – für ihn bewegen sich alle anderen wie in Z
 2 SYS (pro Einsatz, aktive Konzentration). *Effekt:* Im Kampf erhält der Charakter **eine
 zusätzliche Aktion in einer Runde** oder einen großen Bonus auf eine Reaktion (z.B. einem Schuss
 ausweichen, da er ihn kommen sieht). Danach fühlt er sich erschöpft.
+- **Temporaler Waffenimpuls:** Durch kurzzeitiges Anhalten des lokalen Zeitstroms
+  kann der Psioniker einen Schlag oder Schuss setzen und danach die Zeit freigeben.
+  Projektil oder Klinge beschleunigen übernatürlich und verursachen erhöhten Schaden.
+  *Kosten:* 3 SYS, hohe Paradox-Gefahr.
 - **Zeitsinn:** Eine eher passive Gabe – der Chrononaut spürt **Anomalien im Zeitstrom** in seiner
 Umgebung. Z.B. merkt er, wenn in einem Gebäude ein *Zeitreisender aus der falschen Epoche* anwesend
 ist, oder spürt das Nachbeben einer kürzlich erfolgten Zeitmanipulation (wie kalter Schauer).
