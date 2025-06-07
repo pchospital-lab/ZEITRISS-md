@@ -554,8 +554,7 @@ Chrononauten.
 
 **Grundregel zu Beginn:** Jede*r neu rekrutierte Chrononaut*in startet mit **Ruf 0** (neutral) bei
 allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzählerisch und verleihen
-weder anfängliche Ruf-Boni noch Dienstgrade – echtes Ansehen wird ausschließlich in gespielten
-Missionen verdient.
+weder anfängliche Ruf-Boni noch Dienstgrade – echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdient.
 
 Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschiedlichen Gruppen einen
 **Ruf** aufbaut. ZEITRISS 4.0 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
