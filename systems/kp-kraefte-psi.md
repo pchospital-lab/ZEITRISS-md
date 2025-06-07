@@ -142,7 +142,8 @@ ein analoges Türschloss, indem er die Metallstifte minimal bewegt. Auch das Aus
 oder das Stoppen eines kleinen Mechanismus aus der Distanz ist denkbar. Solche Anwendungen erfordern
 hohe Konzentration und gelingen nur mit viel Übung. Bei Stress (etwa im Kampf) ist Telekinese
 äußerst schwierig einzusetzen – eventuell erlaubt die SL einen Versuch, eine einzelne Waffe aus der
-Hand des Gegners zu stoßen oder ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
+Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
+Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der Telekinet eine unsichtbare Waffe.
 Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
 **Elektronik** minimal beeinflussen (Stichwort *Psychokinese*), um Sensoren zu stören oder kurze
 Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
@@ -358,11 +359,11 @@ sie deutlich, sollte unmittelbar eine Konsequenz folgen: Entweder schaltet autom
 ab, um Ressourcen zu sparen (die KI des Anzugs könnte z.B. eine Warnung anzeigen: **“Systemlast
 kritisch – nicht lebensnotwendige Module werden heruntergefahren”**), oder der Psi-Effekt reißt ab
 mit einem schmerzhaften Feedback. Die Charaktere lernen so im Spiel organisch ihre Grenzen kennen.
-Sie können on-the-fly entscheiden, andere Mods zu deaktivieren, um für einen Psi-Effekt *Platz zu
+Sie können on-the-fly entscheiden, andere Mods zu drosseln, um für einen Psi-Effekt *Platz zu
 schaffen*. Beispiel: Ein Chrononaut mit SYS 4, der bereits diverse Cyberware aktiv hat, möchte
 Telekinese nutzen. Seine HUD zeigt an, dass dafür 2 Systemlast-Punkte nötig wären. Er beschließt,
 sein taktisches Visier (1 Punkt) und das Körperstabilisator-Implantat (1 Punkt) temporär
-auszuschalten, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
+herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
 ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setzen.
 
@@ -391,7 +392,8 @@ ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereig
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
-Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Diese Ereignisse können sich langsam
+Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Ab Paradox-Level 2 können sich sogar
+grauenhafte **Zeitschimären** manifestieren, die die Agenten gnadenlos jagen. Diese Ereignisse können sich langsam
 aufbauen. Die SL könnte zunächst subtile Zeichen geben (z.B. flackert das HUD und zeigt
 *„Zeitabweichung +1“* an, oder die Charaktere verspüren einen kurzen Schwindel, als hätte die
 Realität gezittert). Häufen sich solche Effekte, kann es zum **Paradox-Ereignis** kommen: Vielleicht

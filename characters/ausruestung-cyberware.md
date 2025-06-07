@@ -364,8 +364,8 @@ Implantat*. Hat ein Chrononaut z.B. SYS 3, kann er drei größere Implantate tr
 kleinere entsprechend verteilen). Zu viele Modifikationen überfordern Körper und Geist –
 Überschreitung der SYS-Kapazität lässt Implantate Fehlfunktionen zeigen oder zwingt den Körper in
 die Knie. Das ITI-Medical-Team wird solche Überschreitungen gar nicht erst zulassen. Dennoch können
-Charaktere mit mehreren Implantaten entscheiden, einige Systeme vorübergehend **deaktiviert** zu
-lassen, um Kapazität für andere frei zu machen (z.B. Tarnoptik ausschalten, um einen Psi-Boost zu
+Charaktere mit mehreren Implantaten entscheiden, einige Systeme vorübergehend **herunterzuregeln**,
+um Kapazität für andere frei zu machen (z.B. die Tarnoptik drosseln, um einen Psi-Boost zu
 nutzen – siehe Psi später).
 
 Implantate können sowohl bestehende Attribute verbessern als auch völlig neue Fähigkeiten
@@ -485,7 +485,7 @@ aktiv ist, „belegt“ sie entsprechend viele SYS-Punkte. Die Summe aller aktue
 kommt es zur **Überlastung**: der Charakter erleidet mentale und körperliche Zusammenbrüche,
 Implantate fallen aus, vielleicht blutet er sogar aus der Nase und verliert für längere Zeit die
 Fähigkeit, Psi zu nutzen. Praktisch bedeutet das: Will ein Chrononaut mit voller Cyberausstattung
-noch Psi einsetzen, muss er erst andere Systeme deaktivieren oder mit abgeschwächter Kraft arbeiten.
+noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln oder mit abgeschwächter Kraft arbeiten.
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur kurz
 an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren – je
 schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat ggf.
