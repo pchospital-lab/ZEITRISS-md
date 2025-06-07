@@ -330,7 +330,9 @@ Lebenspunkte hinausgehen:
   verrückte Effekte haben – **Déjà-vu-Ereignisse**, Zeitschleifen, plötzlich auftauchende **Zeit-
   Phantome** oder das Verschwinden von Objekten, wenn die Zeit versucht, sich zu reparieren. Im
   schlimmsten Fall (Level 5) könnte ein **Zeitriss** unkontrolliert entstehen, der Teile der
-  Umgebung verschlingt, oder Zeitwesen (Observatoren?) greifen ein, um das Paradox zu „lösen“. Das
+  Umgebung verschlingt, oder Zeitwesen (Observatoren?) greifen ein, um das Paradox zu „lösen“. Bei hohen
+  Paradox-Leveln kann die Spielleitung auch eine Kreatur aus dem Kreaturen- & Gestalten-Generator wählen, um
+  die Bedrohung anschaulich zu machen. Das
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
