@@ -32,8 +32,7 @@ existenziellen Fragen.
 - **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu stören.
 
 - **Rettungsmission:** Ein Forschungsteam sitzt in einer instabilen Zeitblase fest.
-  Die Agenten sollen die Wissenschaftler unauffällig herausholen,
-  während die KI die Instabilität im Hintergrund dämpft.
+  Die Agenten sollen die Wissenschaftler unauffällig herausholen.
 - **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver,
   sichern die Daten und verschwinden spurlos.
 

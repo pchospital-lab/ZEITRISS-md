@@ -121,9 +121,9 @@ Ressourcen und Szenen für Rollenspiel. Um das HQ fühlbar wachsen zu lassen, bi
 
 ### Ausbaustufen und Einrichtungen
 
-Zu Beginn verfügen die Agenten vielleicht nur über eine **Basisversion** des HQ – ein einfaches
-Versteck im Zeitstrom oder eine kleine Station in der Gegenwart. Im Laufe der Kampagne können sie
-durch Erfolge und Ressourcen neue **Einrichtungen ausbauen**. Beispiele für ausbaufähige Bereiche im
+Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
+Im Laufe der Kampagne – besonders in Sandbox-Runden – können sie sich jedoch ein **eigenes HQ** aufbauen.
+Durch Erfolge und Ressourcen können sie neue **Einrichtungen ausbauen**. Beispiele für ausbaufähige Bereiche im
 HQ:
 
 - **Kommandozentrale:** Das Herz des HQ, von wo aus Zeitreisen koordiniert werden. Ausbau ermöglicht
@@ -148,12 +148,12 @@ Werte zwischen Einsätzen verbessern. Man kann dies regeltechnisch umsetzen,
 indem gut trainierte Agenten kleine Boni auf Proben erhalten, die in ihrem
 Trainingsgebiet liegen, oder durch Cinematic-Montagen zeigen, wie sie sich auf
 kommende Gefahren vorbereiten.
-- **Persönliche Quartiere:** Jeder Agent bekommt einen eigenen Raum oder Bereich, der nach und nach
-personalisiert werden kann. Dies steigert die **Identifikation** mit dem HQ – wenn Wände sich mit
-Erinnerungsstücken füllen (Fotos geretteter Personen, Trophäen aus vergangenen Missionen), wird das
-HQ zum Tagebuch der Gruppe. Ausbaustufen könnten hier zusätzlichen Komfort oder Sicherheit bieten,
-z. B. einen privaten Tresor für persönliche Gegenstände oder einen Rückzugsort zur Meditation, was
-im Spiel z. B. Stress abbauen kann.
+- **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
+  personalisiert werden kann. Egal ob ihr im ITI-HQ stationiert seid oder später ein eigenes Hauptquartier
+  betreibt, dieser persönliche Rückzugsort bleibt erhalten. Erinnerungsstücke an vergangene Missionen
+  lassen das HQ zum Tagebuch der Gruppe werden. Ausbaustufen können zusätzlichen Komfort oder Sicherheit
+  bieten, z. B. einen privaten Tresor für persönliche Gegenstände oder einen Ort zur Meditation, was
+  im Spiel beispielsweise Stress abbauen kann.
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
 Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
 Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
