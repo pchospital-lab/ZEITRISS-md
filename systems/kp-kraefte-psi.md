@@ -390,7 +390,7 @@ interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat 
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
 Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Ab Paradox-Level 2 können sich sogar
-grauenhafte **Zeitschimären** manifestieren, die die Agenten gnadenlos jagen. Diese Ereignisse können sich langsam
+zufällige **Zeitkreaturen** aus dem Kreaturen- & Gestalten-Generator manifestieren. Werden sie besiegt und der verursachende Riss geschlossen, sinkt das Paradox-Level um 1. Diese Ereignisse können sich langsam
 aufbauen. Die SL könnte zunächst subtile Zeichen geben (z.B. flackert das HUD und zeigt
 *„Zeitabweichung +1“* an, oder die Charaktere verspüren einen kurzen Schwindel, als hätte die
 Realität gezittert). Häufen sich solche Effekte, kann es zum **Paradox-Ereignis** kommen: Vielleicht
