@@ -260,6 +260,9 @@ zeitmanipulierende Fähigkeiten werden so ohnehin erst möglich, wenn der Charak
 genügend Systemlast **und** Temporale Affinität aufgebaut hat. Diese Mechanik stellt sicher, dass
 Chrononauten zwar zu beeindruckenden Agenten werden können, aber keine allmächtigen Wesen sind, die
 jede Technologie und Fähigkeit zugleich nutzen.
+Auch rein mentale Waffenmanifestationen zählen zur Systemlast und werden wie andere Mods verrechnet.
+Damit konkurriert ein Psi-Spezialist um dieselben Ressourcen wie Cyber- oder Bioware-Experten.
+Grundfähigkeiten sind schnell gelernt, doch höchste Stufen fordern viel Übung und sorgfältiges SYS-Management.
 
 ### Levelaufstieg & Fortschritt
 #### Regelwerk-Patch: Progressionssystem Level 1–1000
