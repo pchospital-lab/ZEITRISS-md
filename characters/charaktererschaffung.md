@@ -165,6 +165,11 @@ welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
 **Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
 Zeitgeflecht beeinflussen.
 
+Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
+persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
+kann die Gruppe in Sandbox-Kampagnen ein eigenes HQ errichten – eure
+persönlichen Bereiche ziehen dann einfach mit.
+
 Am Ende des Rundgangs legt **Commander Renier** drei mögliche Wege vor, wie es
 weitergehen kann:
 
