@@ -23,6 +23,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `kreative-generatoren.md`
 - `team-perks.md`
 - `massenkonflikte.md`
+- `arena-modus.md`
 - `kampagnenuebersicht.md`
 - `missionen.md`
 - `cinematic-start.md`
