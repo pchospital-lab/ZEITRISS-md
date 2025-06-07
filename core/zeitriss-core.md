@@ -700,6 +700,50 @@ Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine
 
 ### ITI-Hauptquartier (HQ) in der Nullzeit
 
+Das **Institut für Temporale Intervention (ITI)** unterhält sein Hauptquartier
+in der sogenannten **Nullzeit**. Dieser zeitlose Schutzraum dient als Heimathafen,
+Trainingszentrum und Sammelpunkt für Chrononauten aus allen Epochen. Von hier
+starten die Missionen, und hierhin kehren die Agenten zurück, ohne dass in der
+Außenwelt Zeit vergeht.
+
+#### Einrichtungen und Bereiche
+- **Quarzatrium:** Portalhalle und Briefingraum in einem. Ankommende Agenten
+  werden von Laserscannern erfasst, während holografische Displays die Zielzeit
+  anzeigen und Commander *Renier* oder die KI **Codex** den Einsatz erläutern.
+- **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
+  Missionen lagern und Raum für Charakterszenen bleibt.
+- **Forschungszentrum & Codex-Archiv:** Bibliothek und Datenspeicher, gepflegt
+  von Archivaren, die das wachsende Wissen über alle Epochen sammeln.
+- **Kliniken & Laboratorien:** Medbay und Werkstatt für Cyber- oder Bioware; hier
+  werden Wunden versorgt und Upgrades durchgeführt.
+- **Trainingsareale:** Schießstände, Kampfarenen und Holosuites für ein sicheres
+  Übungsumfeld.
+- **Werkstätten & Arsenal:** Lager für Ausrüstung und Chrono-Units-Konten (siehe
+  Modul *Chrono Units*).
+- **Zero Time Lounge:** Eine Bar, in der die Zeit minimal verlangsamt ist und ein
+  Roboterarm präzise Cocktails mixt – perfekt zum Austausch unter Agenten.
+
+#### Beschränkter Zugang zu Zukunftstechnologie
+Mächtige Zivilisationen jenseits des Menschen beobachten die Zeitlinien und
+dulden zwar menschliche Einmischung, verweigern aber jede Weitergabe ihres
+Wissens. Das ITI arbeitet deshalb mit rein menschlicher Technik und ist auf die
+Forschungen seines eigenen Personals angewiesen.
+
+#### Alltag im HQ
+Das Hauptquartier fungiert als Sandbox-Hub zwischen Einsätzen. Hier kaufen
+Charaktere Ausrüstung, absolvieren Trainingseinheiten oder plaudern mit anderen
+Agenten. Alle wichtigen Veränderungen am Charakter finden im HQ statt, bevor es
+wieder auf Zeitreise geht.
+
+#### Wichtige Ansprechpartner
+- **Commander Arnaud Renier** – Einsatzleiter und oft erstes Gesicht bei der
+  Ankunft im Quarzatrium.
+- **Archivare des Codex** – betreuen das Wissensarchiv und helfen bei
+  Recherchen.
+- **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
+- **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
+- **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
+
 ### Nullzeit-Sprungfenster & ITI-Hub
 
 Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – reißt
