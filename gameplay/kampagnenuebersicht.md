@@ -28,7 +28,8 @@ werden und geraten rasch ins Fadenkreuz von Alexander Cross.
 
 Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis
 die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details
-zu Ablauf und Schauplätzen gibt es in [missionen.md](missionen.md).
+zu Ablauf und Schauplätzen gibt es im Abschnitt
+[Missions-Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata).
 
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
