@@ -24,6 +24,11 @@ tags: [meta]
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
 - Paradox-Störungen ab Stufe 2 rufen Zeitkreaturen aus dem Kreaturen- & Gestalten-Generator hervor.
 
+## Patch 4.1 – Operation Fixpunkt
+- Standardmissionen betonen Infiltration und passive Zeitintervention.
+- Artefakte tauchen nur auf ausdrücklichen Wunsch der Spieler auf.
+- Neue Missionstypen: Verschwinden, Einflüstern, Verdunkeln, Verhindern, Dokumentieren.
+
 ## Regeln & Spielmechanik
 - Wende die **ZEITRISS-Regeln** aus den folgenden Markdown-Dateien an und lade sie bei Bedarf:
   `zeitriss-core.md`, `wuerfelmechanik.md`, `charaktererschaffung.md`,
