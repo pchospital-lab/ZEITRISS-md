@@ -256,7 +256,7 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   3. Die Helden müssen ein persönliches Opfer bringen, um die Zeit zu heilen.
   4. Eine andere Fraktion kommt ihnen zuvor und dreht den Spieß um.
   5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
-  6. Ein Charakter stellt fest, dass er selbst zum Paradoxon geworden ist.
+  6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler war.
 
 ## Temporale Anomalien-Generator: Kuriositäten der Zeit
 
