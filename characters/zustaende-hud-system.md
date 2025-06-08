@@ -533,8 +533,8 @@ Einschränkung sorgt für Spannung und hält die Balance:
   Position/Primärziel erfüllt“ oder ein **Fragezeichen** bei „vermisst/außer Sicht“).
 - **Missionsziele & Hinweise:** Das Codex-HUD fungiert auch als Missionsassistent. **Aktive
   Missionsziele** (Primär- und Nebenquests) können als Liste oder Texteinblendung erscheinen.
-  Beispiel: *„Primärziel: Sabotiere die Kanonen (noch offen)“*, *„Optional: 2/3 Artefakte
-  gesichert“*. So behält das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte
+   Beispiel: *„Primärziel: Sabotiere die Kanonen (noch offen)“*, *„Optional: Artefakt sichern
+   (falls vorhanden)“*. So behält das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte
   diese Infos sparsam und kontextsensitiv einblenden – etwa nur, **wenn die Spieler danach fragen**
   („Ich schaue aufs HUD, welche Ziele noch offen sind“) oder wenn es die Charaktere brauchen (z.B.
   nach einer langen Diskussion: *„Dein HUD erinnert dich: es bleibt noch das Ziel ‚Daten sichern‘
@@ -567,8 +567,8 @@ Einschränkung sorgt für Spannung und hält die Balance:
   **Codex**, das intelligente Expertensystem des ITI. In-world läuft das oft über Sprachbefehle oder
   Gedankensteuerung. Spieler können also im Spiel sagen: *„Codex, HUD-Übersicht!“* – und die KI-
   Spielleitung (GPT) liefert daraufhin eine **knappe Übersicht** aller relevanten Werte. Beispiel
-  einer solchen Bildschirmlese: *„Vitals 78% (grün) • Paradox-Level 1 • Zeitstabilität 92% •
-  Primärziel: 1/3 erfüllt“*. Das sind keine out-of-character Statuswerte, sondern *die Figur selbst
+   einer solchen Bildschirmlese: *„Vitals 78% (grün) • Paradox-Level 1 • Zeitstabilität 92% •
+   Primärziel: teilweise erfüllt“*. Das sind keine out-of-character Statuswerte, sondern *die Figur selbst
   sieht diese Anzeigen*. Dadurch verschwimmt die Grenze zwischen Spielerinformation und
   Charakterwissen positiv: Der Spieler fragt quasi seinen eigenen Ingame-Computer nach Daten. Der
   **Codex** agiert auch proaktiv: Er kann autonome **Warn-Pop-ups** senden, wenn wichtige Schwellen
