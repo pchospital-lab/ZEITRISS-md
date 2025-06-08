@@ -489,11 +489,16 @@ vollwertig.
    bekannten Generatoren (Rettungsmissionen, historische Schlüsselmomente,
    Kämpfe gegen Zeitkreaturen …).
 3. **Steigender Anspruch:** Nach jeder gelungenen Szene erhöht die KI den
-   Schwierigkeitsgrad. Spätestens alle fünf Szenen erfolgt eine Abrechnung.
-4. **Abrechnung:** CU, Loot, Erfahrungspunkte und Ruf werden gesammelt. Wer
+   Schwierigkeitsgrad. Nach fünf Szenen erscheint ein **Miniboss**, nach zehn
+   Szenen ein **Endboss**.
+4. **Boss-Belohnungen:** Jeder besiegte Endboss gewährt dem gesamten Team einen
+   neuen Perk. Nach 30 Szenen lockt zusätzlich ein legendärer Gegenstand aus dem
+   Generator. Die Gruppe erhält dabei so viele passende Items zur Auswahl, wie
+   Spieler teilnehmen (Solo-Spieler bekommen eine feste Option).
+5. **Abrechnung:** CU, Loot, Erfahrungspunkte und Ruf werden gesammelt. Wer
    aussteigt, erhält seinen aktuellen Stand. Wer weitermacht, riskiert alles für
    einen wachsenden Multiplikator.
-5. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
+6. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
    dahin erworbenen Werte verfallen.
 
 Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
