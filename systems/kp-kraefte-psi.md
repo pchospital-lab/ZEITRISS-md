@@ -14,7 +14,12 @@ tags: [systems]
 
 ### Stiloption: Hard Sci-Fi
 In diesem Modus sind Psi-Effekte bodenständig. Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
+
 Präkognition liefert höchstens kurze taktische Ahnungen. Der Codex gibt keine prophetischen Hinweise.
+
+### Stiloption: Covert-Ops Technoir
+Psi erscheint hier als taktisches Werkzeug. Telepathische Hacks und kurze Telekinese-Schübe unterstützen
+verdeckte Einsätze, alles bleibt düster und hardwarebetont.
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 
@@ -168,7 +173,8 @@ passend und ausgewogen eingesetzt werden.
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte, mental erschaffen und einsetzen, als hielte er sie real in der Hand.
   Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
-  zunächst physisch genutzt werden, bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 2 SYS.
+  zunächst physisch genutzt werden, bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 0 SYS (keine Systemlast).
+  Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
 direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
 Heilung**: Einige wenige Begabte können durch Handauflegen oder pure Konzentration den
@@ -401,12 +407,8 @@ aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B
 Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Codex
 notieren könnte).
 
-**Paradox-Effekte und temporale Konsequenzen:** Da *ZEITRISS* ein Zeitreise-Setting ist, hat der
-Einsatz von Psi mitunter Auswirkungen auf den Zeitstrom. Die Spielmechanik sieht vor, dass bestimmte
-Psi-Aktionen einen **Paradox-Check** erforderlich machen. Das kann die SL abstrakt handhaben (eine
-versteckte Würfelprobe auf „Zeitintegrität“) oder erzählerisch lösen. Prinzipiell gilt: Wenn eine
-Psi-Fähigkeit Ereignisse verändert, die historisch eigentlich feststanden, steigt die Gefahr eines
-**Paradoxons**. Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in einer Stunde
+**Paradox-Effekte und temporale Konsequenzen:** Da *ZEITRISS* ein Zeitreise-Setting ist, kann Psi theoretisch den Zeitstrom stören. Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig – insbesondere bei Chronokinese oder wenn der Ablauf der Geschichte massiv verändert wird. Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen kaum Paradox.
+Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in einer Stunde
 ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereignis). Er
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür

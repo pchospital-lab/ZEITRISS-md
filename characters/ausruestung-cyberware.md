@@ -504,8 +504,8 @@ Wichtig ist: **Alle Verbesserungen zehren an der SYS-Kapazität** – ein Agent 
 kaum Raum für Psi und umgekehrt. Die SL sollte zudem thematisch passende Nebenwirkungen einbauen,
 wenn es dramatisch passt (z.B. ein *Reflex-Booster*-Charakter, der in einer ruhigen Wache-Szene
 gegen eine Vase stößt, weil seine Nerven überreagieren).
-*Psi-Abgleich:* Mentale Manifestationen wie Psi-Waffen zählen ebenfalls zur Systemlast.
-Ein reiner Psi-Charakter trägt daher nicht mehr Last als ein Agent mit vielen Implantaten.
+*Psi-Abgleich:* Kurzzeitig manifestierte Psi-Waffen verursachen **keine** Systemlast.
+Dauerhaft aktive Psi-Kräfte belegen hingegen SYS-Punkte wie andere Implantate.
 Grundfähigkeiten sind leicht zu erlernen, doch hohe Meisterstufen verlangen intensives Training
 und sorgfältiges SYS-Management.
 
