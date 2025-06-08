@@ -7,7 +7,8 @@ tags: [gameplay]
 
 Diese Missionssammlung legt den Schwerpunkt auf reale
 Einsatzorte, heimliche Zugriffsziele und subtile Zeitinterventionen. Artefakte
-tauchen nur als Gerücht oder auf ausdrücklichen Wunsch der Spieler auf. Die
+ tauchen nur selten automatisch auf, vergleichbar mit legendären Funden.
+ Spieler können ihr Auftreten nicht beeinflussen. Die
 Missionen gliedern sich in fünf Kategorien:
 - **Verschwinden** – Zielpersonen heimlich ausschalten oder entführen.
 - **Einflüstern** – Einfluss auf NSCs durch Täuschung oder Manipulation.

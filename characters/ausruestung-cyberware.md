@@ -312,8 +312,12 @@ stimmungsvoll eingesetzt werden.
 - Einbindung in CUs & Missionen
 
 **Einleitung:** Im Verlauf ihrer Zeitreisen stoßen Chrononauten immer wieder auf Gegenstände, die
-nicht zur Standardausrüstung des ITI gehören. Die folgenden Tabellen liefern schnell einsetzbare
-Loot-Ideen. Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um ein passendes Item zu bestimmen.
+nicht zur Standardausrüstung des ITI gehören. Hin und wieder tauchen dabei
+automatisch besonders seltene Artefakte auf – ungefähr wie legendäre Drops in
+Videospielen. Zu Beginn jeder Mission wird automatisch 1W20 gewürfelt: Bei einer 1
+erscheint ein zusätzliches Artefakt. Die folgenden Tabellen liefern schnell
+einsetzbare Loot-Ideen. Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um
+ein passendes Item zu bestimmen.
 CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt oder was ein ähnliches Objekt im HQ kosten
 würde. Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
 
