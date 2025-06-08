@@ -59,6 +59,7 @@ GPT fordert den Speicher-Code an und führt die Gruppe nach einem Rückblick nah
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
+Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir**.
 
 
 Die Inhalte stehen für private kreative Nutzung bereit.
