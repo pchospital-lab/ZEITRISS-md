@@ -47,7 +47,7 @@ besseres Ergebnis zählt) als Vorteil. Zusätzlich geben wir Hinweise, wie SL un
 übermäßigen Attribut-Inflation im Endgame entgegenwirken, um die Balance zu wahren.
 - **Erweitertes Speichersystem:** Save-Dateien (JSON) erhalten ab sofort ein
 **Versionskennzeichen**, um die Kompatibilität mit zukünftigen Regelupdates sicherzustellen. Wir
-zeigen Beispiele, wie **patch-kompatible** Speicherstände aussehen und wie das Spiel mit
+zeigen Beispiele, wie **versionskompatible** Speicherstände aussehen und wie das Spiel mit
 unterschiedlichen Versionen umgeht, damit eure Kampagnen-Logs auch nach Updates nahtlos
 weiterverwendet werden können.
 - **Cineastische Schlachten:** Eine alternative Regelabwicklung für große Konflikte, die
@@ -202,7 +202,7 @@ Vorteile für die Spielpraxis – insbesondere, da ZEITRISS 4.x aktiv weiterentw
 
 **Versionskennung in Save-Dateien:** Ab Version 4.0.3 wird bei jedem Speichervorgang automatisch ein
 **"version"**-Feld in die JSON-Datei geschrieben, z. B. *"version": "4.0.3"*. Bei späteren Modulen
-oder Regelpatches erhöht sich diese Nummer entsprechend (etwa auf *4.1* für ein größeres Modul-
+oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf *4.1* für ein größeres Modul-
 Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
 **automatisch** erkennen, ob der Spielstand aus einer älteren Version stammt. Stimmen
 Hauptversionsnummern überein (z. B. 4.0 zu 4.1), sind die meisten Änderungen **vorwärtskompatibel**
@@ -210,7 +210,7 @@ Hauptversionsnummern überein (z. B. 4.0 zu 4.1), sind die meisten Änderungen
 Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
 das Einfügen neuer Felder mit Standardwerten.
 
-**Beispiel – Patch-kompatibler Spielstand:** *Angenommen, in Version 4.1 wird ein neues Attribut
+**Beispiel – versionskompatibler Spielstand:** *Angenommen, in Version 4.1 wird ein neues Attribut
 ***“Mentalstabilität”*** eingeführt, das in 4.0 noch nicht existiert. Ihr habt einen Kampagnen-
 Spielstand aus Version 4.0.2. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
 anhand *"version": "4.0.2"*, dass ***Mentalstabilität*** fehlt. Beim Konvertieren des Standes auf

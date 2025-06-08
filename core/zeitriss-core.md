@@ -265,7 +265,7 @@ Damit konkurriert ein Psi-Spezialist um dieselben Ressourcen wie Cyber- oder Bio
 Grundfähigkeiten sind schnell gelernt, doch höchste Stufen fordern viel Übung und sorgfältiges SYS-Management.
 
 ### Levelaufstieg & Fortschritt
-#### Regelwerk-Patch: Progressionssystem Level 1–1000
+#### Regelupdate: Progressionssystem Level 1–1000
 
 **Ziel:** Dieses Update überarbeitet das Fortschrittssystem von **ZEITRISS 4.0**,
 um von Level 1 bis 1000 dauerhaft Spielspaß zu gewährleisten –
