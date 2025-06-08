@@ -25,7 +25,8 @@ tags: [meta]
 - Paradox-Störungen ab Stufe 2 rufen Zeitkreaturen aus dem Kreaturen- & Gestalten-Generator hervor.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
-- Artefakte tauchen nur auf ausdrücklichen Wunsch der Spieler auf.
+- Artefakte tauchen sehr selten automatisch auf, ähnlich legendären Drops.
+  Spieler können ihr Auftreten nicht gezielt beeinflussen.
 - Neue Missionstypen: Verschwinden, Einflüstern, Verdunkeln, Verhindern, Dokumentieren.
 
 ## Regeln & Spielmechanik

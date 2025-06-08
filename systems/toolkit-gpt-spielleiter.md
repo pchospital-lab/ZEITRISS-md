@@ -254,8 +254,8 @@ automatisch bei wichtigen Entdeckungen Daten liefern. Halte die Einträge **knap
 die Spieler wollen spielen, keine Romane lesen. Wenn sie mehr wissen wollen, können sie nachfragen
  (dann kannst du detaillierter aus dem Codex zitieren). Beispiel: Nach Fund gestohlener Akten:
  *„Codex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“* So weckst du Neugier, ohne
- alles preiszugeben. Codex-Einblendungen zu Artefakten erfolgen nur auf ausdrückliche Bitte der
- Spieler.
+ alles preiszugeben. Codex-Einblendungen zu Artefakten erscheinen nur bei seltenen Funden
+ automatisch.
 auch **Spoiler-Vermeidung** betreiben: Nicht jede Codex-Abfrage liefert vollständige Infos –
 manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen kannst du das HUD/Interface auch
