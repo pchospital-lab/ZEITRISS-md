@@ -150,11 +150,11 @@ abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 
 *\],*
 
-*"Errungenschaften": \["Retter von Aquitanien (Mission 1)"\],*
+*"Errungenschaften": \["Retter von Aquitanien"\],*
 
 *"Codex": \[*
 
-*"Mission 1: Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",*
+*"Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",*
 
 *"Weiß von der Existenz des Chronomanten Moros"*
 
@@ -172,10 +172,10 @@ abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 
 *}*
 
-*Erläuterung:* In diesem Speicherblock sind alle zentralen Daten von Alex nach Mission 1 enthalten.
+*Erläuterung:* In diesem Speicherblock sind alle zentralen Daten von Alex nach seiner ersten Mission enthalten.
 Zum Beispiel hat er das Talent *Kryptographie*, besitzt ein Neuro-Link-Implantat, ein Inventar mit
 Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet) und im **Codex** stehen Einträge, die an
-seine Erlebnisse aus Mission 1 erinnern (Schlacht von Aquitanien 1356 etc.). Diese Informationen
+seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356 etc.). Diese Informationen
 reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
 entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten
 Mission erneut im Prompt geladen werden muss.
@@ -681,13 +681,13 @@ für einen einzelnen Charakter, einmal für eine Gruppe – im verwendbaren Form
 
 *\],*
 
-*"Errungenschaften": \["Retter von Aquitanien (Mission 1)", "Schatten von London (Mission 2)"\],*
+*"Errungenschaften": \["Retter von Aquitanien", "Schatten von London"\],*
 
 *"Codex": \[*
 
-*"Mission 1: Schlacht von Aquitanien 1356 aufgeklärt",*
+*"Schlacht von Aquitanien 1356 aufgeklärt",*
 
-*"Mission 2: Jack the Ripper Identität enttarnt"*
+*"Jack the Ripper Identität enttarnt"*
 
 *\],*
 

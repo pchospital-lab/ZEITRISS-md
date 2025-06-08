@@ -176,8 +176,8 @@ persönlichen Bereiche ziehen dann einfach mit.
 Am Ende des Rundgangs legt **Commander Renier** drei mögliche Wege vor, wie es
 weitergehen kann:
 
-1. **Offizielle Kampagne – Das Geheimnis unter Gizeh:** Der klassische Einstieg
-   beginnt 2043 auf dem Plateau von Gizeh und führt die Gruppe Schritt für
+1. **Offizielle Kampagne:** Der klassische Einstieg nutzt eine mysteriöse Ausgrabung
+   (z.B. Gizeh 2043) als erstes Einsatzgebiet und führt die Gruppe Schritt für
    Schritt durch eine zusammenhängende Storyline.
 2. **Tutorial-Einsatz:** Eine kurze Mission unter realen Bedingungen, um Regeln
    und Teamplay direkt auszuprobieren.

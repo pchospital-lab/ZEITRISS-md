@@ -620,13 +620,13 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format:
 
 *"Errungenschaften": \[*
 
-*"Retter von Aquitanien (Mission 1)"*
+*"Retter von Aquitanien"*
 
 *\],*
 
 *"Codex": \[*
 
-*"Mission 1: Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",*
+*"Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",*
 
 *"Weiß von der Existenz des Chronomanten Moros"*
 
@@ -651,7 +651,7 @@ Kommunikations-Implantat **Neuro-Link** (belegt 1 Punkt Systemlast) und derzeit 
 Fähigkeiten. Die Moralnote weist ihn als eher altruistisch aus. Unter *Inventar* sieht man die
 Ausrüstung mit Anmerkungen (das Zeitscanner-Tablet funktioniert nur in passenden Epochen).
 *Errungenschaften* und *Codex-Wissen* halten wichtige Story-Ergebnisse fest – hier hat Alex in
-Mission 1 jemanden in Aquitanien gerettet (daher ein entsprechender Titel) und weiß von der Existenz
+einer ersten Mission jemanden in Aquitanien gerettet (daher ein entsprechender Titel) und weiß von der Existenz
 eines Chronomanten namens Moros. Die Statistik zählt einige Errungenschaften auf, hat aber keine
 Auswirkungen auf die Regeln.
 
