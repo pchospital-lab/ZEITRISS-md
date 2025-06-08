@@ -326,13 +326,13 @@ Lebenspunkte hinausgehen:
   beschreiben: *„Euer HUD warnt: Paradox-Level 3 – Zeitstrom destabilisiert sich, in der Luft liegt
   ein Knistern von Unstimmigkeit.“* Die SL sollte Paradox-Level einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
-  Fehler ausbügeln), bevor Level 5 erreicht wird. *Auswirkungen:* Hohe Paradox-Level können
-  verrückte Effekte haben – **Déjà-vu-Ereignisse**, Zeitschleifen, plötzlich auftauchende **Zeit-
-  Phantome** oder das Verschwinden von Objekten, wenn die Zeit versucht, sich zu reparieren. Im
-  schlimmsten Fall (Level 5) könnte ein **Zeitriss** unkontrolliert entstehen, der Teile der
-  Umgebung verschlingt, oder Zeitwesen (Observatoren?) greifen ein, um das Paradox zu „lösen“. Bei hohen
-  Paradox-Leveln kann die Spielleitung auch eine Kreatur aus dem Kreaturen- & Gestalten-Generator wählen, um
-  die Bedrohung anschaulich zu machen. Das
+  Fehler ausbügeln), bevor Level 5 erreicht wird.
+  *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen. Ab **Level 2** flackern erste
+  Anomalien; ab **Level 3** öffnen sich Risse, aus denen Kreaturen aus dem
+  Kreaturen- & Gestalten-Generator hervortreten. **Level 4** bringt horrorartige
+  Manifestationen hervor, die bekämpft werden müssen. Erreicht das Paradox-Level 5,
+  droht ein massiver Zeitriss, der ganze Areale verschlingen kann oder ein hartes
+  Eingreifen der ITI erzwingt. Das
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
