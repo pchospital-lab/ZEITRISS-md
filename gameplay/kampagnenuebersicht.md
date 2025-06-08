@@ -21,10 +21,10 @@ Im Kern handelt es sich bei ZEITRISS um eine düstere Sci-Fi-Kampagne, in der di
 einem zeitreisenden Komplott eines Megakonzerns auf die Spur kommen. Geheimexperimente und
 außerirdische Technik öffnen Tore zu verschiedenen Epochen, die es zu bereisen gilt.
 
-Als Einstieg empfiehlt sich **Mission 1: Das Geheimnis unter Gizeh**. Die Gruppe infiltriert 2043
-eine ChronTech-Ausgrabung unter der Cheops-Pyramide und stößt auf einen aktiven Zeitriss. Von
-dort aus werden die Helden in unterschiedliche Zeiten katapultiert und geraten zunehmend ins
-Fadenkreuz von Alexander Cross.
+Als Einstieg bietet sich ein erster Einsatz an einem geheimnisvollen Ausgrabungsort an
+(etwa Gizeh 2043). Die Gruppe infiltriert dort eine ChronTech-Operation und stößt auf einen
+aktiven Zeitriss. Von diesem Punkt aus können die Helden in verschiedenste Epochen katapultiert
+werden und geraten rasch ins Fadenkreuz von Alexander Cross.
 
 Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis
 die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details
@@ -111,63 +111,9 @@ natürliche Zeitkorrektur bestehen. Dieses Spannungsfeld aus Ursache und Wirkung
 der Story und motiviert die Gruppe, die Pläne des Mastermind zu durchkreuzen, bevor die Timeline
 irreparabel zerbricht.
 
-**Kampagnenstruktur:** Die Kampagne gliedert sich in zehn zusammenhängende Missionen. Jede Mission
-ist als Kapitel ausgearbeitet und versetzt die Spieler in eine andere Zeit und Umgebung, wobei sie
-Stück für Stück das Gesamtausmaß der Verschwörung aufdecken. Im Folgenden eine Übersicht der
-Missionen mit Setting und Kernidee:
-
-1.  **Das Geheimnis unter Gizeh** (Ägypten, 2043) – In den Katakomben der Cheops-Pyramide
-entdecken die Charaktere eine außerirdische Anlage und geraten mit ChronTech-Söldnern aneinander.
-Der erste Sprung durch den Zeitriss steht bevor...
-2.  **Das Geisterschiff** (Philadelphia, 1943) – Die Helden finden sich an Bord der USS
-*Eldridge* wieder, mitten im Philadelphia-Experiment. Sie müssen Informationen über das erste
-Zeitportal sammeln, während um sie herum Matrosen im grünen Nebel verschwinden und Gefahr aus
-einer anderen Dimension droht.
-3.  **Die Bestie von Montauk** (New York, 1983) – In der Montauk-Air-Force-Basis zur Zeit des
-Experiments materialisieren schreckliche Nebenwirkungen der Zeitmanipulation. Die Spieler treffen
-auf Wissenschaftler und Versuchspersonen mit zerrütteten Gedanken und müssen ein entflohenes
-psionisches Monster bändigen, das droht, die Anlage zu zerstören.
-4.  **Rätsel der Pharaonen** (Altes Ägypten, ca. 1300 v. Chr.) – Durch einen Zeitstrudel
-gelangen die Helden in die Epoche Ramses’ II. Sie erkunden die im Bau befindliche Pyramidenanlage
-und begegnen den außerirdischen Architekten im Verborgenen. Ein Bündnis mit einem
-hocherleuchteten Hohepriester könnte entscheidend sein, doch ein zeitfremder Widersacher versucht,
-die Geschichte des Alten Ägypten zu verfälschen.
-5.  **Sturm über den Zeppelinen** (Alternative Zeitlinie, 1944) – In einer alternativen Welt
-dauern die Weltkriege an. Gigantische Kampf-Zeppeline füllen den Himmel, bewaffnet mit
-Tesla-Kanonen und psionischen Störsendern. Die Spieler geraten in eine Luftschlacht über Europa
-und müssen an Bord eines fliegenden Luftschiff-Fortresses einen Sabotageakt durchführen, um diese
-Parallelwelt vor dem Kollaps zu retten.
-6.  **Marsdämmerung** (Marskolonie, 2097) – In der Zukunft haben Menschen den Mars besiedelt,
-doch die Kolonie steht kurz vor einem Aufstand. Die Mission führt die Gruppe zu einer Mars-Basis,
-wo ChronTech heimlich alte Alien-Technologie ausgräbt. Unter dem roten Himmel kämpfen Söldner
-und Mars-Pioniere um die Kontrolle, während ein Terraforming-Projekt außer Kontrolle gerät.
-7.  **Der zerbrochene Spiegel** (Cyberpunk-Megapolis, 2077) – Zurück in einer futuristischen
-Megastadt auf der Erde navigieren die Spieler durch neonbeleuchtete Straßenschluchten. In dieser
-Mission, die im Heimatzeitstrang der Charaktere spielt, haben sich aufgrund der Ereignisse subtile
-Änderungen ergeben (*Butterfly-Effect*). Die Helden müssen einen Attentatsplan auf Alexander
-Cross vereiteln – doch wem können sie trauen, wenn sogar Verbündete alternative Erinnerungen
-haben?
-8.  **Im Auge des Sturms** (Zeit-Risszone, jenseits der Zeit) – Die Gruppe wagt sich in eine
-instabile Zone innerhalb des Zeitstroms, um verlorene Verbündete zu retten. Hier treiben Fragmente
-verschiedener Epochen in einem surrealen Strudel. Vergangene und zukünftige Schlachtfelder
-verschmelzen; die Spieler lösen Rätsel, um aus diesem Limbo zu entkommen, während der Mastermind
-psionisch versucht, sie in der Endlosschleife gefangen zu halten.
-9.  **Die letzte Festung** (Gizeh, 2043 – alternative Gegenwart) – Kurz vor dem Finale kehren
-die Helden ins Jahr 2043 zurück, doch nichts ist mehr wie zuvor. Cross’ Manipulationen haben
-eine *alternative Gegenwart* geschaffen, in der ChronTech ein diktatorisches Regime errichtet hat.
-In den Straßen Kairos liefern sich Widerstandskämpfer und Konzerntruppen Gefechte. Die Spieler
-führen einen entscheidenden Schlag gegen ChronTechs Hauptquartier aus, um den Zugang zur
-Pyramiden-Basis zurückzuerobern.
-10. **Schicksalsknoten** (Unterirdische Alien-Basis, Zeitstrom-Finale) – Im großen Finale
-dringen die Helden erneut in die Tiefen unter Gizeh vor, diesmal ins Herz der Alien-Basis, wo
-Vergangenheit, Gegenwart und Zukunft konvergieren. Alexander Cross entfesselt mit Hilfe der
-*Zeitmaschine* eine gewaltige Singularität, um die Zeitlinie endgültig nach seinem Willen zu
-formen. In einem epischen Showdown müssen die Spieler den Mastermind und seine außerirdischen
-Verbündeten besiegen, den Zeitknoten schließen und entscheiden, welche Realität Bestand haben
-wird.
-
-Diese Übersicht zeigt die enorme Bandbreite der Kampagne. **Jede Mission** ist als eigenständiges
-Abenteuer spielbar, doch erst in der Gesamtschau entfaltet sich die epische Hauptstoryline. Im
-nächsten Schritt folgen detaillierte Ausarbeitungen: Beginnen wir mit Mission 1, **„Das
-Geheimnis unter Gizeh“**, die den Auftakt der Reise bildet.
+**Kampagnenstruktur:** Anstelle einer festen Abfolge von Missionen setzt ZEITRISS auf
+flexible Szenarien. Nutzt den
+[Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata),
+um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt, damit
+myGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
 
