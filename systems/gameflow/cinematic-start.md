@@ -689,7 +689,7 @@ pulsierenden, blauen Riss sehen, der sich unheilvoll ausdehnt. Die Wände wechse
 hin und her. Während der Techniker der Gruppe versucht, den **temporalen Stabilisator** am Riss zu
 installieren, müssen die anderen vielleicht **Zeitschatten** abwehren – z.B. Schemen von Rittern,
 die aus dem Riss treten, weil in einer Parallelrealität an dieser Stelle mal eine Schlacht war. Hier
-kann man kreativ alle möglichen Zeitsplitter einwerfen. Sobald das Gerät aktiviert ist (oder das
+kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen. Sobald das Gerät aktiviert ist (oder das
 Artefakt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
 vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf, als Zeichen, dass alles
 wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
@@ -778,3 +778,5 @@ Die erste Klappe ist gefallen, das Licht des Zeitrisses erlischt – **Action!**
 euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: *„Willkommen im Team…
 und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“* Viel Spaß und Erfolg
 bei eurem **filmreifen Start ins Abenteuer**!
+
+[^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.
