@@ -252,9 +252,10 @@ zu simulieren.
 bereitzustellen, **ohne ins Dozieren zu verfallen**. Der Codex kann auf Anfrage der Spieler oder
 automatisch bei wichtigen Entdeckungen Daten liefern. Halte die Einträge **knapp und relevant** –
 die Spieler wollen spielen, keine Romane lesen. Wenn sie mehr wissen wollen, können sie nachfragen
-(dann kannst du detaillierter aus dem Codex zitieren). Beispiel: Nach Fund eines Artefakts: *„Codex-
-Auszug: Artefakt \#XT79, Ursprung: Unbekannt. Energieprofil: instabil. Weitere Details auf
-Nachfrage.“* So vermittelst du genug, um Neugier zu wecken, ohne alles vorwegzunehmen. Du kannst
+ (dann kannst du detaillierter aus dem Codex zitieren). Beispiel: Nach Fund gestohlener Akten:
+ *„Codex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“* So weckst du Neugier, ohne
+ alles preiszugeben. Codex-Einblendungen zu Artefakten erfolgen nur auf ausdrückliche Bitte der
+ Spieler.
 auch **Spoiler-Vermeidung** betreiben: Nicht jede Codex-Abfrage liefert vollständige Infos –
 manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen kannst du das HUD/Interface auch
