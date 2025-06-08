@@ -152,9 +152,11 @@ gezielt beeinflussen. Die Missionen gliedern sich in fünf Kategorien:
 - **Verhindern** – Anschläge, Putsche oder Deals stoppen.
 - **Dokumentieren** – Geheime Beweise für das ITI sichern.
 
-Weitere konkrete Missionsbeschreibungen wurden entfernt. Nutze stattdessen den
-[Missions-Generator](#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata) aus Modul 8, um
-individuelle Einsätze zu erstellen.
+Frühere Beispielmissionen wurden zugunsten dieses flexiblen Baukastens gestrichen.
+Kombiniert die Tabellen nach Belieben und erstellt eure eigenen Einsätze. Für
+größere Handlungsbögen könnt ihr mehrere Aufträge verbinden oder den
+[Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur) aus Modul 6
+nutzen.
 
 Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 
@@ -222,6 +224,39 @@ Schmetterlingseffekt ein, der den Helden zugutekommt.)
   6. **Neue Erkenntnisse:** Anstatt reicher zu werden, stoßen sie auf einen Hinweis zu einem
 größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
 eines neuen Abenteuers, das auf sie wartet.
+
+## Arc-Generator: Große Missionen
+
+Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
+ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüsselort** und
+**Finale Wendung** und baut darum herum eure große Story.
+
+- **Bedrohung:**
+
+  1. Ein Megakonzern missbraucht Zeittechnologie für eigene Machtziele.
+  2. Fanatische Kultisten wollen eine alternative Zeitlinie herbeiführen.
+  3. Ein außer Kontrolle geratenes Experiment droht die Realität zu zerreißen.
+  4. Ein verstecktes Alienvolk plant, die Menschheit aus der Geschichte zu löschen.
+  5. Ein rivalisierendes Zeitreise-Team sabotiert gezielt die Einsätze der Helden.
+  6. Die Zeit selbst kollabiert in einer Region und verschlingt ganze Epochen.
+
+- **Schlüsselort:**
+
+  1. Geheimlabor in einem unterirdischen Komplex.
+  2. Monumentale Ruinen einer vergangenen Hochkultur.
+  3. Futuristische Metropole jenseits des bekannten Zeitalters.
+  4. Verbotener Tempel, der in mehreren Epochen gleichzeitig existiert.
+  5. Raumstation am Rand eines instabilen Zeittors.
+  6. Verborgenes Hauptquartier der Gegenspieler mitten in der Gegenwart.
+
+- **Finale Wendung:**
+
+  1. Der scheinbare Verbündete entpuppt sich als Drahtzieher der Krise.
+  2. Das Artefakt, das alles retten soll, verursacht erst recht Chaos.
+  3. Die Helden müssen ein persönliches Opfer bringen, um die Zeit zu heilen.
+  4. Eine andere Fraktion kommt ihnen zuvor und dreht den Spieß um.
+  5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
+  6. Ein Charakter stellt fest, dass er selbst zum Paradoxon geworden ist.
 
 ## Temporale Anomalien-Generator: Kuriositäten der Zeit
 
