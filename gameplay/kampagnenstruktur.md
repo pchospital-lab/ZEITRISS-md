@@ -475,6 +475,31 @@ Natur des HQ betonen: Während draußen Jahrzehnte in Sekunden verrinnen, sitzen
 beisammen und spielen Karten, als gäbe es kein Morgen – ein kleiner **surrealer Realismus** im
 Herzen des Sci-Fi-Abenteuers.
 
+## Arena-Modus: Schnellspiel-Simulationen
+
+Die **ITI-Arena** bietet einen optionalen Weg, um kurze Action-Sequenzen
+einzuschieben. Mit Holotechnik werden brenzlige Einsätze simuliert, ohne dass
+Charaktere realen Gefahren ausgesetzt sind – die Belohnungen sind jedoch
+vollwertig.
+
+1. **Start und Fraktionswahl:** Zu Beginn entscheiden die Teilnehmenden, für
+   welche Fraktion sie antreten. Verdiente Rufpunkte zählen wie im realen
+   Einsatz.
+2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Einzelszenen aus den
+   bekannten Generatoren (Rettungsmissionen, historische Schlüsselmomente,
+   Kämpfe gegen Zeitkreaturen …).
+3. **Steigender Anspruch:** Nach jeder gelungenen Szene erhöht die KI den
+   Schwierigkeitsgrad. Spätestens alle fünf Szenen erfolgt eine Abrechnung.
+4. **Abrechnung:** CU, Loot, Erfahrungspunkte und Ruf werden gesammelt. Wer
+   aussteigt, erhält seinen aktuellen Stand. Wer weitermacht, riskiert alles für
+   einen wachsenden Multiplikator.
+5. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
+   dahin erworbenen Werte verfallen.
+
+Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
+sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
+ohne direkt eine Zeitreise zu starten.
+
 ## Fazit
 
 **ZEITRISS 4.0** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
