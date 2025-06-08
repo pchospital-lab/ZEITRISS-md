@@ -24,7 +24,6 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `team-perks.md`
 - `massenkonflikte.md`
 - `kampagnenuebersicht.md`
-- `missionen.md`
 - `cinematic-start.md`
 - `cu-waehrungssystem.md`
 - `gruppenstart-filmisch.md`
@@ -41,7 +40,8 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
-4. Eigene Missionen kannst du in `missionen.md` ergänzen.
+4. Eigene Missionen kannst du mit dem Missions-Generator in
+   `kreative-generatoren.md` erstellen.
 
 ## Spielstart
 
