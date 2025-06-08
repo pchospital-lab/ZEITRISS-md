@@ -24,7 +24,6 @@ tags: [meta]
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
 - Paradox-Störungen ab Stufe 2 rufen Zeitkreaturen aus dem Kreaturen- & Gestalten-Generator hervor.
 
-## Operation Fixpunkt – Version 4.1
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Artefakte tauchen nur auf ausdrücklichen Wunsch der Spieler auf.
 - Neue Missionstypen: Verschwinden, Einflüstern, Verdunkeln, Verhindern, Dokumentieren.

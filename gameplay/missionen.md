@@ -1,12 +1,11 @@
 ---
-title: "ZEITRISS 4.1 – Modul 11: Missionen 1-10"
-version: 4.1
+title: "ZEITRISS 4.0 – Modul 11: Missionen 1-10"
+version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS 4.1 – Modul 11: Missionen 1–10
+# ZEITRISS 4.0 – Modul 11: Missionen 1–10
 
-## Operation Fixpunkt
-Diese Missionssammlung folgt Version 4.1 und legt den Schwerpunkt auf reale
+Diese Missionssammlung legt den Schwerpunkt auf reale
 Einsatzorte, heimliche Zugriffsziele und subtile Zeitinterventionen. Artefakte
 tauchen nur als Gerücht oder auf ausdrücklichen Wunsch der Spieler auf. Die
 Missionen gliedern sich in fünf Kategorien:
