@@ -140,6 +140,22 @@ kurzen Auftrag angehen oder euer GPT improvisiert einen Nebenquest. Der Missions
 schnelle **Missionsideen** mit einem eingebauten Twist oder Dilemma, damit auch kleine Einsätze
 dramatisch und interessant verlaufen.
 
+### Missionstypen
+
+Diese Übersicht fasst die gängigen Einsatzarten zusammen. Der Schwerpunkt liegt auf realen
+Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Artefakte tauchen nur
+selten automatisch auf, vergleichbar mit legendären Funden. Spieler können ihr Auftreten nicht
+gezielt beeinflussen. Die Missionen gliedern sich in fünf Kategorien:
+- **Verschwinden** – Zielpersonen heimlich ausschalten oder entführen.
+- **Einflüstern** – Einfluss auf NSCs durch Täuschung oder Manipulation.
+- **Verdunkeln** – Spuren verwischen und Beweise stehlen.
+- **Verhindern** – Anschläge, Putsche oder Deals stoppen.
+- **Dokumentieren** – Geheime Beweise für das ITI sichern.
+
+Weitere konkrete Missionsbeschreibungen wurden entfernt. Nutze stattdessen den
+[Missions-Generator](#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata) aus Modul 8, um
+individuelle Einsätze zu erstellen.
+
 Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 
 - **Auftrag:**
