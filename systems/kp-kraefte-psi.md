@@ -407,7 +407,10 @@ aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B
 Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Codex
 notieren könnte).
 
-**Paradox-Effekte und temporale Konsequenzen:** Da *ZEITRISS* ein Zeitreise-Setting ist, kann Psi theoretisch den Zeitstrom stören. Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig – insbesondere bei Chronokinese oder wenn der Ablauf der Geschichte massiv verändert wird. Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen kaum Paradox.
+**Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting den Zeitstrom stören.
+Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig – insbesondere bei Chronokinese.
+Er wird fällig, wenn der Ablauf der Geschichte massiv verändert wird.
+Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen kaum Paradox.
 Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in einer Stunde
 ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereignis). Er
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
