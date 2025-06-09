@@ -97,7 +97,7 @@ Leitfaden in Entscheidungsmomenten.
 Wohl anderer über sein eigenes (*altruistisch*) oder ordnet er alles dem Missionsziel unter, koste
 es was es wolle (*pragmatisch*)? Diese Grundhaltung spiegelt sich später im **Moralprofil** des
 Charakters und im **Ruf bei Fraktionen** wider. (Im Spiel wird dieser Ruf messbar in einem Wert von
-etwa –3 bis +3 pro Fraktion/Epoche dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
+etwa **–5** bis **+5** pro Fraktion/Epoche dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
 moralischer Entscheidungen: Ein Idealist wird einen anderen Ruf entwickeln als jemand, der
 kaltblütig Opfer in Kauf nimmt.
 
@@ -304,6 +304,18 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
   Machtzuwachs zu vermeiden*. **Storytelling:** Meilensteine verankern die Helden in der Welt – sie
   erhalten Titel, Verantwortungen oder Privilegien, was ihre wachsende Rolle in der Geschichte
   widerspiegelt.
+
+#### Reputation-Meilensteine
+
+Der Ruf eines Chrononauten wächst mit dessen Erfolgen. In Verbindung mit den oben genannten
+Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
+
+- **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an und
+  gewährt breiteren Zugriff auf Ausrüstung.
+- **Level 50 → Eigenes HQ:** Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Basis und
+  weitreichende Befugnisse.
+- **Level 100 → Legendäre Reputation:** Nur wenige erreichen diesen Status – sie gelten als
+  unantastbare Legenden innerhalb der Zeitreise-Gemeinschaft.
 
 #### Attribut- und Talentsteigerungen
 
