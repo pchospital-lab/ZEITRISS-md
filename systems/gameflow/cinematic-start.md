@@ -469,10 +469,11 @@ schlimm kommt – oder zumindest erfahren, wie es dazu kam. Alternativ kann man 
 auch mit einer **Rückblende** arbeiten: Das Abenteuer startet scheinbar normal (z.B. im HQ), aber im
 Verlauf des Einstiegs merken die Spieler, dass gewisse Dinge unklar sind – am Ende der ersten
 Sitzung kommt ein **großer Twist**, und es stellt sich heraus, dass das, was man bisher erlebte,
-bereits von späteren Ereignissen beeinflusst war. Vielleicht taucht plötzlich ein älteres Ich eines
-Charakters auf und warnt vor einem Fehler, den sie gerade begehen – *und cut, Ende Session 1*.
-Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme wie *12 Monkeys* oder *Looper*)
-und passen zum Genre, sollten aber sparsam eingesetzt werden, um nicht zu verwirren.
+ bereits von späteren Ereignissen beeinflusst war. **In Ausnahmefällen** kann plötzlich
+ ein älteres Ich eines Charakters auftauchen, um vor einem Fehler zu warnen – *und cut,
+ Ende Session 1*. Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme
+ wie *12 Monkeys* oder *Looper*) und sollten daher nur gelegentlich eingesetzt werden,
+ damit sie ihre besondere Wirkung entfalten und die Spieler nicht verwirren.
 
 **Cineastische Tipps:** Eine Flashforward-Eröffnung muss **knallen**: Wählt eine wirklich packende,
 kryptische Szene, die genug Fragen aufwirft. Das Bild dieses Cliffhangers sollte sich ins Gedächtnis
