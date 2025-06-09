@@ -3,6 +3,7 @@ title: "ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastisc
 version: 4.0
 tags: [core]
 ---
+
 # ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
 ## Inhalt
 - Würfelmechanik: Explodierende 6 & W10-Variante
