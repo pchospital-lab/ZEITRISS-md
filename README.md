@@ -28,7 +28,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - `cu-waehrungssystem.md`
 - `gruppenstart-filmisch.md`
 - `kp-kraefte-psi.md`
-- `speicher-fortsetzung.md`
+- `speicher-fortsetzung.md` – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
 - `toolkit-gpt-spielleiter.md`
 - `masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 

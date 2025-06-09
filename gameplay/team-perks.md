@@ -29,7 +29,7 @@ Belohnungen oder intensives Üben im HQ.
  Ein Teammitglied darf bei der ersten sozialen Probe einen Bonuswürfel werfen.
 - **Datenverbund** – Eure Ausrüstung bleibt permanent vernetzt.
  Koordinierte Aktionen erhalten +1 Bonus, solange ihr den Funkkontakt halten könnt.
-- **Kampfverbund** – Eingespielte Kämpfer unterstützen sich blind. Alle 
+- **Kampfverbund** – Eingespielte Kämpfer unterstützen sich blind. Alle
 Teammitglieder erhalten +1 auf Angriffs- und Verteidigungswürfe, wenn sie im selben Gefecht agieren.
 - **Fahrzeug-Crew** – Auf Reisen oder in Verfolgungsjagden habt ihr euch aufeinander eingespielt.
  Wer am Steuer sitzt, erhält +2 auf Fahrzeugproben, solange mindestens ein weiteres Crewmitglied unterstützt.
