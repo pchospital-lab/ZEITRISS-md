@@ -178,9 +178,9 @@ persönlichen Bereiche ziehen dann einfach mit.
 Am Ende des Rundgangs legt **Commander Renier** drei mögliche Wege vor, wie es
 weitergehen kann:
 
-1. **Offizielle Kampagne:** Der klassische Einstieg nutzt eine mysteriöse Ausgrabung
-   (z.B. Gizeh 2043) als erstes Einsatzgebiet und führt die Gruppe Schritt für
-   Schritt durch eine zusammenhängende Storyline.
+1. **Offizielle Kampagne:** Der klassische Einstieg beginnt mit einem Einsatz
+   rund um den Montauk-Vorfall von 1983 oder ein ähnliches Zeitexperiment und
+   führt die Gruppe Schritt für Schritt durch eine zusammenhängende Storyline.
 2. **Tutorial-Einsatz:** Eine kurze Mission unter realen Bedingungen, um Regeln
    und Teamplay direkt auszuprobieren.
 3. **Sondermission:** Eine frisch eingespielte Aufgabe aus dem Archiv, die
