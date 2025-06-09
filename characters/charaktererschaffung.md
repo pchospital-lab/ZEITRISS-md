@@ -562,7 +562,7 @@ weder anfängliche Ruf-Boni noch Dienstgrade –
 
 Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschiedlichen Gruppen einen
 **Ruf** aufbaut. ZEITRISS 4.0 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
-relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–3** und **+3** tracken.
+relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–5** und **+5** tracken.
 Null ist neutral, positive Werte bedeuten Vertrauen/Ansehen, negative Misstrauen oder Feindschaft.
 Eure Handlungen in den Missionen beeinflussen diesen Ruf. Helft ihr z.B. einem Dorf im Mittelalter
 vor Räubern, könnte euer Ruf bei der lokalen Bevölkerung +1 steigen. Betrügt ihr im Wilden Westen
@@ -574,8 +574,8 @@ greifbar, ohne übermäßig komplex zu sein – es soll v.a. Stimmungen und Bezi
 **Wirkung von Ruf:** Ein hoher Rufwert bringt narrative Boni – etwa Hilfsbereitschaft von NSCs,
 Rabatte auf dem Markt oder Zugang zu verschlossenen Bereichen. Negativer Ruf kann Hindernisse
 verursachen – misstrauische Wachen, Verrat, höhere Preise. Die SL entscheidet situativ, wie sich Ruf
-auswirkt. Es gibt keine starren Modifikatoren (obwohl +3 Ruf bei einer Fraktion ggf. einen
-Bonuswürfel auf Überreden rechtfertigt, während –3 vielleicht automatisch Kampf bedeutet). Wichtig
+auswirkt. Es gibt keine starren Modifikatoren (obwohl +5 Ruf bei einer Fraktion ggf. einen
+Bonuswürfel auf Überreden rechtfertigt, während –5 vielleicht automatisch Kampf bedeutet). Wichtig
 ist, dass Ruf **logische Konsequenzen** eurer Aktionen widerspiegelt und das Rollenspiel bereichert.
 Er kann sich im Laufe eines Abenteuers stark ändern, je nachdem, ob ihr eher als edle Retter oder
 rücksichtlose Haudraufs auftretet – ein und dasselbe Team kann in Epoche X gefeiert, in Epoche Y
@@ -603,6 +603,11 @@ besondere Taten steigen: Wenn ihr z.B. eine extrem gefährliche Anomalie bewält
 Schäden, könnte das ITI euch einen Ruhmespunkt geben. Umgekehrt können Versagen (Mission abbrechen
 müssen, grobe Regelverstöße) euren internen Ruf mindern, was ggf. Konsequenzen für die Versorgung
 hat.
+
+Das ITI nutzt dabei dieselbe Skala von **–5** bis **+5**. Bei **Ruf +2** folgt meist eine erste
+Beförderung zum *Feldagenten*, was besseren Zugriff auf Ausrüstung gewährt. Erreichst du **Ruf +4**,
+giltst du als *Elitechrononaut* und wirst für besonders heikle Missionen eingeplant. Das Maximum von
+**+5** ist nur wenigen Legenden vorbehalten und bringt umfassende Privilegien.
 
 ## Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 

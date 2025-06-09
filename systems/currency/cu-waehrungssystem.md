@@ -208,9 +208,10 @@ nicht einfach mit Geld alles überspringen. Das teuerste Item nützt nichts, wen
 der Liste steht – und es später freizuschalten, fühlt sich umso mehr wie ein Fortschritt an.
 - **Reputation & Sonderkonditionen:** Gute **Reputation** im Dienst führt zu Sonderkonditionen. Ein
 Agent, der sich durch Zuverlässigkeit und Heldentaten einen Namen gemacht hat, wird von der ITI-
-Leitung bevorzugt behandelt. Vielleicht erhält er einen dezenten Rabatt auf Standardausrüstung oder
-darf neu eingetroffene Gadgets vor allen anderen begutachten. In Spielbegriffen könnte man sagen:
-5–10 % Preisnachlass hier und da oder *Early Access* zu besonderen Items. In der Geschichte äußert
+Leitung bevorzugt behandelt. Ab **Ruf +3** (Skala **–5** bis **+5**) winken kleine Rabatte auf
+Standardausrüstung; bei **+4** und mehr dürfen Agenten manchmal neu eingetroffene Gadgets als Erste
+begutachten. In Spielbegriffen könnte man sagen: 5–10 % Preisnachlass hier und da oder *Early Access*
+zu besonderen Items. In der Geschichte äußert
 sich das in kleinen Szenen der Wertschätzung. *Beispiel:* Der Quartiermeister zieht den verdienten
 Veteranen vertraulich zur Seite und öffnet eine Kiste mit streng limitierten Gerätschaften. *„Such
 dir etwas aus – das geht aufs Haus. Danke für deine Dienste,“* mag er grummeln. Solche Momente

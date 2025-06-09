@@ -251,6 +251,9 @@ Spieler, wie die Fraktionen sie sehen:
 - **Rufskala:** Beispielsweise könnte man Rufwerte von –5 (Erzfeind) über 0 (neutral) bis +5 (eng
 verbündet) vergeben. Anfangs sind manche Fraktionen den Agenten misstrauisch oder kennen sie gar
 nicht. Mit jedem Arc kann sich das ändern.
+- **Rufänderungen pro Mission:** Kleine Hilfsaktionen sorgen oft für **+1**, während ein
+ entscheidender Dienst **+2** bringen kann. Umgekehrt führen Respektlosigkeiten zu **–1** und ein
+ massiver Verrat schlägt mit **–2** oder mehr zu Buche.
 - **Auswirkungen im Spiel:** Ein hoher Ruf bei einer Fraktion bedeutet, dass diese eher bereit ist,
 zu helfen. Die Agenten könnten auf Ressourcen dieser Gruppe zugreifen, erhalten bevorzugt
 Informationen oder diplomatischen Rückhalt. Bei negativem Ruf hingegen könnten sie auf Gegenwehr
