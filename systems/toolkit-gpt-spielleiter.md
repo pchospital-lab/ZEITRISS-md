@@ -282,7 +282,7 @@ n## Solo-Modus mit temporärem NPC-Team
 Manchmal möchte ein einzelner Spieler die Dynamik eines Teams erleben. Dieses Modul
 beschreibt, wie GPT kurzfristig ein **NPC-Team** zusammenstellt, wenn der Spieler
 "im Solo-Modus" eine Gruppenmission wünscht. Die Regeln für filmische
-Gruppenstarts (siehe *Modul 4 – Filmischer Gruppenstart*) bleiben
+Gruppenstarts (siehe *Modul 15 – Filmischer Gruppenstart*) bleiben
 massgeblich: Die Charaktere werden dramaturgisch eingeführt, sodass der Solo-Agent
 sich sofort eingebunden fühlt. Gleichzeitig orientiert sich der Missionsablauf an
 der Struktur aus den Regelkapiteln zu Kampagnen und Missionen.
@@ -337,7 +337,7 @@ Gruppendynamik zu erleben.
 
 ## Verweise auf Gruppenstart & Missionsstruktur
 
-- **Gruppenstart-Regeln:** Halte dich an die Tipps aus *Modul 4*, um die NSCs
+- **Gruppenstart-Regeln:** Halte dich an die Tipps aus *Modul 15*, um die NSCs
   stilvoll einzuführen.
 - **Speicher- und Fortsetzungssystem:** Bei Bedarf wird das Team wie ein
   Gruppenspeicherstand behandelt. Die Daten verbleiben jedoch im Hintergrund,

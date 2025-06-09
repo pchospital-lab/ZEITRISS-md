@@ -14,7 +14,7 @@ tags: [characters]
 - Cinematisches HUD-Overlay: Immersives Interface im Spiel
 
 
-In **Teil 2** der überarbeiteten Modul 7-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
+In **Teil 2** der überarbeiteten Modul 5-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
 ZEITRISS-Spiel noch vielseitiger und filmischer machen. Von **Zuständen** wie Verwundungen oder
 Erschöpfung über **Heilung & Erholung** in verschiedenen Stilen bis hin zu alternativen
 **Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradox-Belastung** und **mentale
@@ -681,7 +681,7 @@ Dieses Markdown kann direkt als In-Game-Fenster verwendet werden (Textengine, Bo
 sich leicht in HTML oder Terminal-UIs übertragen und dient als referenzierbare Hilfe bzw.
 "Escape-Menü" für Spieler.
 
-**Fazit:** Mit den in Modul 7 (Teil 2) vorgestellten erweiterten Systemen könnt ihr euer ZEITRISS-
+**Fazit:** Mit den in Modul 5 (Teil 2) vorgestellten erweiterten Systemen könnt ihr euer ZEITRISS-
 Spiel feinjustieren. Ob ihr nun Verletzungen detailliert ausspielt, cineastische Heilungen nutzt,
 Initiative dramaturgisch gestaltet oder mit HUD-Einblendungen für kinoreife Momente sorgt – all
 diese Module stehen euch **modular zur Verfügung**. Wählt, was zu eurer Runde passt. Bleibt dem
