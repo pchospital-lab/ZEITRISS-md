@@ -203,7 +203,7 @@ abwandelt. Die Archetypen decken in Kombination alle wichtigen Fertigkeitsbereic
 Teams ab. Im Folgenden werden die sechs Charaktere vorgestellt, jeweils mit Attributen, Talenten,
 Implantaten, Ausrüstung und kurzem Hintergrund. (Jeder Archetyp besitzt außerdem zwei Vorschläge für
 **Team-Spezialisierungen**, welche gruppenweite Boni bieten – diese sog. *Team-Perks* sind im
-[Modul 18 – Team-Perks](../gameplay/team-perks.md) ausführlich beschrieben und werden hier erwähnt,
+[Modul 17 – Team-Perks](../gameplay/team-perks.md) ausführlich beschrieben und werden hier erwähnt,
 um zu zeigen, welche Rolle im Team der
 Charakter besonders fördern kann.)
 
@@ -686,7 +686,7 @@ sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, de
 Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
 vorkommen, die jeweils eine andere Spezialisierung glänzen lassen.
 - **Team-Spezialisierungen (Perks):** Sobald ihr einige Missionen als Einheit absolviert habt, könnt
-ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 18 – Team-Perks](../gameplay/team-perks.md)).
+ihr im HQ auch **Team-Perks** erwerben (siehe [Modul 17 – Team-Perks](../gameplay/team-perks.md)).
 Diese repräsentieren besondere Taktiken oder
 Routinen, die eure Gruppe gemeinsam gelernt hat. Ihr könnt von Anfang an im Blick haben, wohin eure
 Zusammenarbeit führen soll. Wollt ihr z.B. ein **eingespielter Kampftrupp** sein, bietet sich der

@@ -34,7 +34,7 @@ tags: [meta]
   `zeitriss-core.md`, `wuerfelmechanik.md`, `charaktererschaffung.md`,
   `ausruestung-cyberware.md`, `zustaende-hud-system.md`,
   `kampagnenstruktur.md`, `fahrzeuge-konflikte.md`, `kreative-generatoren.md`,
-   `massenkonflikte.md`, `kampagnenuebersicht.md`,
+  `team-perks.md`, `massenkonflikte.md`, `kampagnenuebersicht.md`,
   `kp-kraefte-psi.md`, `speicher-fortsetzung.md`, `cinematic-start.md`,
   `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`,
   `toolkit-gpt-spielleiter.md`.
