@@ -69,9 +69,9 @@ zentrale Element verleiht den Missionen einen mysteriösen „Mindpunk“-Charak
 kreative Lösungswege für die Spieler.
 
 **Zeitreisen und alternative Zeitlinien:** Die Kampagne spielt mit dem Konzept des Zeitflusses und
-beantwortet ständig die Frage „Was wäre, wenn…?“. Durch die Nutzung der
-Pyramiden-Zeitmaschine und instabiler *Zeitrisse* werden die Spieler in verschiedene Epochen
-versetzt. Dabei können **alternative Zeitlinien** entstehen, wenn Eingriffe der Fraktionen
+beantwortet ständig die Frage „Was wäre, wenn…?“. Mithilfe experimenteller Zeitmaschinen und
+instabiler *Zeitrisse* werden die Spieler in verschiedene Epochen versetzt. Dabei können
+**alternative Zeitlinien** entstehen, wenn Eingriffe der Fraktionen
 historische Ereignisse verändern. Die Helden erleben zum Beispiel eine Welt, in der
 fortschrittliche Zeppeline den Himmel beherrschen, oder einen verzweifelten Mars-Außenposten, der
 ohne Unterstützung von der Erde ums Überleben kämpft. Jede Mission präsentiert ein
