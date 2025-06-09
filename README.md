@@ -30,7 +30,8 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 - [cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md)
 - [gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md)
 - [kp-kraefte-psi.md](systems/kp-kraefte-psi.md)
-- [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
+- [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)
+  – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
 - [toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)
 - [masterprompt_v5.md](meta/masterprompt_v5.md) – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 
