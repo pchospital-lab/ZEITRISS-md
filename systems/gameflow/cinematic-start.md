@@ -58,11 +58,11 @@ gemeinsamen Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 14 von ZEITRISS 4.0**, der überarbeiteten und erweiterten Fassung des
+**Willkommen zu Modul 13 von ZEITRISS 4.0**, der überarbeiteten und erweiterten Fassung des
 cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
 Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
 maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
-bietet Modul 14 zahlreiche **Optionen für Einstiege**, die individuell an Gruppe, Epoche und
+bietet Modul 13 zahlreiche **Optionen für Einstiege**, die individuell an Gruppe, Epoche und
 Tonalität angepasst werden können.
 
 Ziel ist es, einen **cineastischen Auftakt** zu ermöglichen – einen Start ins Abenteuer, der sich
@@ -72,7 +72,7 @@ dramatische Action-Sequenz, stimmungsvolle Charaktereinführung oder mysteriöse
 folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg so atmosphärisch wie
 möglich zu gestalten.
 
-Dabei gilt: Jede Spielgruppe ist anders. Modul 14 zeigt, wie man den ersten Abschnitt der Kampagne
+Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten Abschnitt der Kampagne
 flexibel auf **Gruppengröße**, **Spielerzahl**, **Herkunft der Charaktere**, **Epoche des
 Szenarios** und gewünschte **Stimmung** abstimmt. Von einem einzelnen Helden bis zu einem Team aus
 Veteranen, von humorvoll-leichter Tonart bis zum gritty Zeitreise-Thriller – dieser Baukasten hilft
@@ -167,7 +167,7 @@ die Hauptrollen innehaben.
 
 ## Anpassung an Gruppe, Epoche und Tonalität
 
-Jede Spielrunde ist einzigartig – und so sollte auch der Einstieg gestaltet sein. Modul 14 liefert
+Jede Spielrunde ist einzigartig – und so sollte auch der Einstieg gestaltet sein. Modul 13 liefert
 keine Einheitslösung, sondern Anregungen, die **je nach Gruppenzusammensetzung, Setting und
 gewünschter Stimmung** variiert werden können. Hier einige Leitlinien, wie ihr den Baukasten an eure
 Bedürfnisse anpasst:
@@ -299,7 +299,7 @@ die Story hat einen gemeinsamen Grundton.
 
 ### Optionale Erweiterung: Sora und cineastische „Film ab!“-Momente
 
-Modul 14 konzentriert sich auf die **narrative** Inszenierung durch die Spielleitung. Doch es gibt im
+Modul 13 konzentriert sich auf die **narrative** Inszenierung durch die Spielleitung. Doch es gibt im
 ZEITRISS-System auch technische Hilfsmittel, um das Kinoerlebnis zu verstärken. Eines davon –
 optional und nach Gruppenvorliebe – ist die **„Film ab!“-Funktion** der KI-Spielleitung, intern
 bekannt als **Sora**.
@@ -760,7 +760,7 @@ oder übertragenen Sinn), über den noch lange gesprochen wird.
 ## Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
 Euer **cineastischer Einstieg** ist mehr als nur eine Pflichtübung – er ist der Moment, in dem aus
-neugierigen Spielern begeisterte Zeitagenten werden. Mit diesem Modul 14 habt ihr einen ganzen
+neugierigen Spielern begeisterte Zeitagenten werden. Mit diesem Modul 13 habt ihr einen ganzen
 Werkzeugkasten an der Hand, um den Anfang eurer Kampagne so **flexibel, stimmungsvoll und
 mitreißend** wie möglich zu gestalten. Ob ihr die Kamerafahrt durch das HQ wählt, die Truppe direkt
 ins Getümmel schickt oder eine raffinierte Rückblende inszeniert: Sorgt dafür, dass sich alle am
@@ -770,7 +770,7 @@ darin sein.
 Denkt daran, **Atmosphäre** geht vor Perfektion. Malt die Szenen in kräftigen Farben aus, nutzt die
 Sinne, gebt den Spielern Raum für coole Aktionen oder emotionale Momente. Passt den Ablauf spontan
 an ihre Ideen an – die besten filmreifen Szenen entstehen oft ungeplant, wenn Spielleitung und
-Spieler kreativ zusammenspielen. Euer Modul 14 ist bewusst ein Baukasten: Nehmt, was funktioniert,
+Spieler kreativ zusammenspielen. Euer Modul 13 ist bewusst ein Baukasten: Nehmt, was funktioniert,
 und baut eure eigene Vision zusammen. Egal ob bombastisches Spektakel oder leise Gänsehaut, ob
 straff geskriptet oder frei fließend – **Hauptsache, es packt eure Gruppe** und legt den Grundstein
 für viele weitere packende Sessions.
