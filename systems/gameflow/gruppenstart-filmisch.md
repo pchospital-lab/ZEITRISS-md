@@ -16,7 +16,7 @@ tags: [systems]
 ## Einleitung: Cineastischer Auftakt für das Abenteuer
 
 Ein filmischer Gruppenstart ist mehr als nur die erste Szene eines Rollenspielabenteuers – er ist
-ein cineastischer Prolog, der die Spieler mitten ins Geschehen zieht. **ZEITRISS 4.0 Modul 4**
+ein cineastischer Prolog, der die Spieler mitten ins Geschehen zieht. **ZEITRISS 4.0 Modul 15**
 bietet einen flexiblen Baukasten, um diesen Auftakt so mitreißend und atmosphärisch wie einen
 Kinofilm zu gestalten. Von der ersten Sekunde an sollen die Charaktere (und Spieler) spüren, dass
 ihre **Zusammenkunft etwas Besonderes** ist. Ob dramatisch in Szene gesetzte Einzelvorstellungen,
@@ -471,7 +471,7 @@ einen **maßgeschneiderten Auftakt**, der genau für diese Heldenrunde passt.
 
 ## Fazit: Der Auftakt inszeniert das Zusammenfinden
 
-Der **filmische Gruppenstart** in ZEITRISS 4.0 Modul 4 ist eine Einladung, euer Rollenspielabenteuer
+Der **filmische Gruppenstart** in ZEITRISS 4.0 Modul 15 ist eine Einladung, euer Rollenspielabenteuer
 mit der Magie des Kinos zu veredeln. Ob ihr nun eine dramatische Parallelmontage wählt, eine
 emotionale Kennenlernsequenz im HQ, oder die Gruppe Hals über Kopf in die Action stürzt – wichtig
 ist, dass die Einführung *euch und euren Spielern* im Gedächtnis bleibt. Hier wurden zahlreiche
