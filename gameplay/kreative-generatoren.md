@@ -184,8 +184,9 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 und verrät euch vielleicht.
   2. Die **erfolgreiche Erfüllung** des Auftrags **verändert die Geschichte gefährlich** (Dilemma:
 Auftrag ausführen oder scheitern lassen?).
-  3. Ihr trefft auf einen **Doppelgänger aus einer anderen Zeitlinie** – vielleicht euer eigenes
-zukünftiges Ich?
+ 3. *Optional:* Ihr trefft auf einen **Doppelgänger aus einer anderen Zeitlinie** – vielleicht euer
+    eigenes zukünftiges Ich. Solche **Selbstbegegnungen** sollten echte Ausnahmen bleiben und nur
+    sparsam eingesetzt werden, um ihre Wirkung nicht zu verlieren.
   4. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
 ihr, wen lasst ihr im Stich?
   5. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
@@ -199,6 +200,11 @@ Zeitagenten befreien, der in einer durch einen Zeitunfall geschaffenen Pocket-Di
 – einer surrealen Traumwelt. Dort stoßen sie jedoch auf zukünftige Versionen ihrer selbst, die
 warnen: **Wenn ihr ihn befreit, muss sich einer von euch selbst opfern.** Was tun sie? – Schon hat
 man einen intensiven kleinen Plot, der die Gruppe vor ein echtes Dilemma stellt.
+
+Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer Kniff
+und sollten nur sehr selten stattfinden. Oft reicht es, die Agenten an einen
+früheren Einsatzort zurückkehren zu lassen, um dort Hinweise auf ihr zukünftiges
+Handeln zu finden – ohne sich selbst unmittelbar zu treffen.
 
 Ihr könnt natürlich alle Elemente nach Belieben kombinieren. Wichtig ist, dass fast **jeder Auftrag
 mit einem Twist** deutlich interessanter wird. So werden selbst Nebenmissionen zu denkwürdigen
