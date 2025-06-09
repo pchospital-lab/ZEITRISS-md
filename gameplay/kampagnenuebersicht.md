@@ -6,30 +6,21 @@ tags: [gameplay]
 # ZEITRISS 4.0 – Modul 10: Im Schatten des Montauk-Projekts
 ## Kampagnenüberblick
 
-In einer nahen Zukunft, in der Megakonzerne und geheime Regierungsprojekte die Grenzen von Raum und
-Zeit ausloten, geraten die Spieler in eine Verschwörung, die Epochen und Welten umspannt. Diese
-Kampagne entführt die Charaktere von den Ruinen uralter Zivilisationen bis in die Weiten
-zukünftiger Kolonien, während sie versuchen, den finsteren Mastermind hinter einem gefährlichen
-Zeitreise-Komplott aufzuhalten. Der Stil lehnt sich an einen **Technoir-Pen-and-Paper-Stil** an – Psionik
-ersetzt die Magie und verleiht dem Abenteuer einen erwachsenen, düsteren Science-Fiction-Ton. Obwohl
-einige Elemente auf Verschwörungstheorien basieren, erhebt die Kampagne keinen Anspruch auf
-historische Genauigkeit oder Wahrheit (Fiktion, ab 18 Jahren).
+ZEITRISS ist ein düsteres Sci-Fi-Sandbox-Spiel. Megakonzerne und geheime Projekte loten die Grenzen
+von Raum und Zeit aus, während das **Institut für Temporale Intervention (ITI)** versucht, die
+entstandenen Risse zu überwachen. Spieler erkunden verschiedene Epochen, formen ihre eigene
+Zeitlinie und können sich mit oder gegen einflussreiche Fraktionen stellen. Der Stil orientiert sich
+an **Technoir** – Psionik ersetzt Magie und sorgt für eine erwachsene, mysteriöse Atmosphäre. Obwohl
+einige Elemente auf Verschwörungstheorien beruhen, beansprucht das Spiel keinerlei historische
+Genauigkeit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 
-Im Kern handelt es sich bei ZEITRISS um eine düstere Sci-Fi-Kampagne, in der die Charaktere
-einem zeitreisenden Komplott eines Megakonzerns auf die Spur kommen. Geheimexperimente und
-außerirdische Technik öffnen Tore zu verschiedenen Epochen, die es zu bereisen gilt.
-
-Als Einstieg bietet sich ein erster Einsatz an einem geheimnisvollen Ausgrabungsort an
-(etwa Gizeh 2043). Die Gruppe infiltriert dort eine ChronTech-Operation und stößt auf einen
-aktiven Zeitriss. Von diesem Punkt aus können die Helden in verschiedenste Epochen katapultiert
-werden und geraten rasch ins Fadenkreuz von Alexander Cross.
-
-Jeder folgende Auftrag führt die Story weiter und enthüllt neue Aspekte von Cross' Plan, bis
-die Spieler ihm im Finale in der unterirdischen Alien-Basis gegenüberstehen. Weitere Details
-zu Ablauf und Schauplätzen gibt es im Abschnitt
-[Missions-Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata).
+Im Kern starten die Charaktere als frisch rekrutierte Agenten des ITI. Sie untersuchen Anomalien, die
+aus dem Montauk-Vorfall hervorgegangen sind, und reisen durch Zeitrisse in unterschiedlichste Epochen.
+Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
+[Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
+liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
@@ -41,47 +32,27 @@ und sogar *Kontakt mit außerirdischem Leben*. Unbemerkt von der Öffentlichkeit
 diese Experimente ein Tor zu etwas, das größer ist als alle zuvor dagewesenen Technologien:
 ein Riss in der Zeit selbst – ein *Zeitriss*, der verschiedene Epochen miteinander verbindet.
 
-**Zentrales Mysterium:** Im Schatten der Großen Pyramide von Gizeh schlummert ein uraltes
-außerirdisches Geheimnis. Tief unter dem Wüstenboden verbirgt sich ein hochentwickelter Komplex
-– die *„Halle der Aufzeichnungen“* – gefüllt mit zehntausenden Datenträgern in Form von
-Metalldisks mit holografischen Informationen und einer mysteriösen Zeitmaschine (auch
-*Chronovisor* genannt), mit der man Einblicke in Vergangenheit und Zukunft erhalten kann. Diese
-versteckte Alien-Basis unter der Cheops-Pyramide ist der Knotenpunkt des Zeitreise-Netzwerks und
-der Schlüssel, mit dem der unbekannte Drahtzieher im Hintergrund die Geschichte manipulieren will.
-Zahlreiche Fraktionen haben von dem Gerücht um diese Anlage erfahren und verfolgen nun eigene
-Pläne, sie zu finden oder für sich zu nutzen.
+Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des
+**Instituts für Temporale Intervention (ITI)**. Eine internationale Koalition
+gründete das ITI, um solche Paradoxien einzudämmen und künftige Zeitrisse zu
+überwachen.
 
-**Mastermind:** Der übergreifende Antagonist der Kampagne ist **Alexander Cross**, der
-charismatische CEO des Megakonzerns **ChronTech Industries** und ein genialer, aber skrupelloser
-Wissenschaftler. Cross entdeckte Aufzeichnungen des Montauk-Projekts und erlangte durch verbotene
-Experimente selbst psionische Fähigkeiten. Er hat sich im Verborgenen mit einer außerirdischen
-Macht verbündet und strebt danach, mittels der Pyramiden-Technologie den Lauf der Geschichte zu
-seinen Gunsten zu verändern – koste es, was es wolle. Im Verlauf der Kampagne stellt sich
-heraus, dass Cross als Mastermind hinter vielen Ereignissen steckt und letztlich als Endgegner den
-finalen Konflikt mit den Spielern sucht.
 
-**Fraktionen:** Neben Cross und **ChronTech** existieren weitere Gruppierungen mit eigenen Agenden
-– Verbündete oder Gegner der Spieler. Einige wichtige Fraktionen sind:
+### Beispielkampagne: ChronTech-Komplott
 
-- **Projekt ***Phoenix***** – Eine geheime militärische Organisation (hervorgegangen aus den
-Montauk-Veteranen), die versucht, weitere Zeitrisse einzudämmen. Diese Einheit von Zeitwächtern
-will Cross’ Pläne vereiteln, doch ihre Methoden sind kompromisslos. Sie könnten Verbündete der
-Spieler sein, verfolgen jedoch vorrangig ihre eigenen Befehle.
-- **Die ***Grauen***** – Eine Alien-Rasse, die im Verborgenen mit ChronTech kooperiert. Diese
-grauhäutigen, technikaffinen Außerirdischen stellen Cross fortschrittliche Technologien zur
-Verfügung (**Alientechnologie**), um im Gegenzug Einfluss auf die Zeitlinie zu erlangen. Ihre
-Motive sind undurchsichtig – möglicherweise planen sie, die Menschheit durch subtile
-Gedankenkontrolle für ihre Zwecke zu formen.
-- **Der Alte Orden** – Klandestine Kulte und Überreste alter Zivilisationen (z.B. ein Geheimbund
-ägyptischer Nachfahren der Pharaonen), die die Pyramidengeheimnisse seit Jahrtausenden hüten.
-Einige Mitglieder dieses Ordens glauben, dass die Alien-Basis unter Gizeh heilig ist. Sie könnten
-den Spielern helfen, *wenn* man ihr Vertrauen gewinnt – oder die Eindringlinge gnadenlos mit
-psionischen Flüchen und Wächter-Kreaturen verfolgen, um das heilige Wissen zu schützen.
-- **Schattenkonzerne** – Neben ChronTech gibt es andere konzernähnliche Gruppen, die vom
-Zeitreise-Phänomen profitieren wollen. Rivalisierende Megakonzerne (etwa *NovaGen* oder *Aurora
-Global*) schicken Söldnertrupps aus, um Artefakte aus anderen Epochen zu stehlen oder Cross’
-Fortschritt zu sabotieren. Die Spieler könnten zwischen die Fronten eines verdeckten
-Zeit-Technologie-Wettrüstens der Konzerne geraten.
+Eine mögliche Storyline dreht sich um den Megakonzern **ChronTech**. Die Helden infiltrieren zu
+Beginn eine geheime ChronTech-Operation und stoßen dabei auf einen aktiven Zeitriss. Dahinter
+steckt ein charismatischer CEO, der mit außerirdischer Hilfe die Geschichte zu seinen Gunsten
+formen will. Folgende Fraktionen können dabei eine Rolle spielen:
+
+- **Projekt ***Phoenix***** – Eine geheime Militäreinheit aus Montauk-Veteranen, die kompromisslos
+  weitere Zeitrisse eindämmen möchte.
+- **Die ***Grauen***** – Technikaffine Aliens, die ChronTech fortschrittliche Geräte liefern und im
+  Gegenzug Einfluss auf die Zeitlinie fordern.
+- **Der Alte Orden** – Kulte und Nachfahren alter Zivilisationen, die das Pyramidengeheimnis hüten
+  und Eindringlinge mit psionischen Flüchen jagen.
+- **Schattenkonzerne** – Rivalen von ChronTech, die eigene Söldner aussenden, um Artefakte zu
+  stehlen oder ChronTechs Fortschritt zu sabotieren.
 
 **Psionik als Spielfeature:** *Zeitriss* ersetzt klassische Magie durch **Psionik** – die
 mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über paranormale
@@ -109,7 +80,7 @@ schließlich wieder zusammen. Der Spielleiter (myGPT) sollte darauf achten, dass
 Paradoxien begrenzt bleiben – kleinere Änderungen der Vergangenheit führen zu
 „Was-wäre-wenn“-Abenteuern, doch die Hauptrealität der Spieler bleibt durch Korrekturen oder
 natürliche Zeitkorrektur bestehen. Dieses Spannungsfeld aus Ursache und Wirkung erzeugt den Reiz
-der Story und motiviert die Gruppe, die Pläne des Mastermind zu durchkreuzen, bevor die Timeline
+der Story und motiviert die Gruppe, die Pläne ihrer Widersacher zu durchkreuzen, bevor die Timeline
 irreparabel zerbricht.
 
 **Kampagnenstruktur:** Anstelle einer festen Abfolge von Missionen setzt ZEITRISS auf
