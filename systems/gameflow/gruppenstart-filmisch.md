@@ -3,6 +3,7 @@ title: "ZEITRISS 4.0 – Modul 14: Filmischer Gruppenstart"
 version: 4.0
 tags: [systems]
 ---
+
 # ZEITRISS 4.0 – Modul 14: Filmischer Gruppenstart
 - Einleitung: Cineastischer Auftakt für das Abenteuer
 - Strukturelle Varianten des Gruppenstarts

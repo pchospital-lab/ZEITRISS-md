@@ -3,6 +3,7 @@ title: "ZEITRISS 4.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeit
 version: 4.0
 tags: [systems]
 ---
+
 # ZEITRISS 4.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
