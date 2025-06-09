@@ -1,9 +1,9 @@
 ---
-title: "ZEITRISS 4.0 – Modul 17: Toolkit: KI-Spielleitung"
+title: "ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.0
 tags: [systems]
 ---
-# ZEITRISS 4.0 – Modul 17: Toolkit: KI-Spielleitung
+# ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
 - Tipps zur Dramaturgie (Spannung, Cliffhanger, Pausen, Pacing)
@@ -282,7 +282,7 @@ n## Solo-Modus mit temporärem NPC-Team
 Manchmal möchte ein einzelner Spieler die Dynamik eines Teams erleben. Dieses Modul
 beschreibt, wie GPT kurzfristig ein **NPC-Team** zusammenstellt, wenn der Spieler
 "im Solo-Modus" eine Gruppenmission wünscht. Die Regeln für filmische
-Gruppenstarts (siehe *Modul 15 – Filmischer Gruppenstart*) bleiben
+Gruppenstarts (siehe *Modul 14 – Filmischer Gruppenstart*) bleiben
 massgeblich: Die Charaktere werden dramaturgisch eingeführt, sodass der Solo-Agent
 sich sofort eingebunden fühlt. Gleichzeitig orientiert sich der Missionsablauf an
 der Struktur aus den Regelkapiteln zu Kampagnen und Missionen.
@@ -337,7 +337,7 @@ Gruppendynamik zu erleben.
 
 ## Verweise auf Gruppenstart & Missionsstruktur
 
-- **Gruppenstart-Regeln:** Halte dich an die Tipps aus *Modul 15*, um die NSCs
+- **Gruppenstart-Regeln:** Halte dich an die Tipps aus *Modul 14*, um die NSCs
   stilvoll einzuführen.
 - **Speicher- und Fortsetzungssystem:** Bei Bedarf wird das Team wie ein
   Gruppenspeicherstand behandelt. Die Daten verbleiben jedoch im Hintergrund,

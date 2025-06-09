@@ -1,9 +1,9 @@
 ---
-title: "ZEITRISS 4.0 – Modul 18: Team-Perks"
+title: "ZEITRISS 4.0 – Modul 17: Team-Perks"
 version: 4.0
 tags: [gameplay]
 ---
-# ZEITRISS 4.0 – Modul 18: Team-Perks
+# ZEITRISS 4.0 – Modul 17: Team-Perks
 
 Team-Perks sind gemeinsame Spezialisierungen, die euer Chrononauten-Trupp nach einigen Missionen
 erwerben kann. Sie spiegeln taktische Routinen oder besondere Ausrüstung wider, die nur im
