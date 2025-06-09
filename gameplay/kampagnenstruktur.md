@@ -3,6 +3,7 @@ title: "ZEITRISS 4.0 – Modul 6: Regel- und Inspirationsmodul für langfristige
 version: 4.0
 tags: [gameplay]
 ---
+
 # ZEITRISS 4.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
 - Einführung
 - Kampagnenplanung im ZEITRISS-Stil

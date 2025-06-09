@@ -12,25 +12,27 @@ Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematisc
 
 ## Struktur
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen:
-- `README.md` – Überblick über das Projekt (wird als Regelmodul mitgeladen)
-- `zeitriss-core.md`
-- `wuerfelmechanik.md`
-- `charaktererschaffung.md`
-- `ausruestung-cyberware.md`
-- `zustaende-hud-system.md`
-- `kampagnenstruktur.md`
-- `fahrzeuge-konflikte.md`
-- `kreative-generatoren.md`
-- `team-perks.md`
-- `massenkonflikte.md`
-- `kampagnenuebersicht.md`
-- `cinematic-start.md`
-- `cu-waehrungssystem.md`
-- `gruppenstart-filmisch.md`
-- `kp-kraefte-psi.md`
-- `speicher-fortsetzung.md` – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
-- `toolkit-gpt-spielleiter.md`
-- `masterprompt_v5.md` – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
+- [README.md](README.md) – Überblick über das Projekt (wird als Regelmodul mitgeladen)
+- [zeitriss-core.md](core/zeitriss-core.md)
+- [wuerfelmechanik.md](core/wuerfelmechanik.md)
+- [charaktererschaffung.md](characters/charaktererschaffung.md)
+- [ausruestung-cyberware.md](characters/ausruestung-cyberware.md)
+- [cyberware-und-bioware.md](characters/cyberware-und-bioware.md)
+- [psi-talente.md](characters/psi-talente.md)
+- [zustaende-hud-system.md](characters/zustaende-hud-system.md)
+- [kampagnenstruktur.md](gameplay/kampagnenstruktur.md)
+- [fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md)
+- [kreative-generatoren.md](gameplay/kreative-generatoren.md)
+- [team-perks.md](gameplay/team-perks.md)
+- [massenkonflikte.md](gameplay/massenkonflikte.md)
+- [kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md)
+- [cinematic-start.md](systems/gameflow/cinematic-start.md)
+- [cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md)
+- [gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md)
+- [kp-kraefte-psi.md](systems/kp-kraefte-psi.md)
+- [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
+- [toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)
+- [masterprompt_v5.md](meta/masterprompt_v5.md) – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
@@ -64,3 +66,4 @@ Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-O
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
+Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
