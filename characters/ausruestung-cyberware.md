@@ -48,6 +48,8 @@ anpassen. Preise sind in ***CU*** (Chrono-Units, die zeitübergreifende Währung
 Zugang zu High-Tech-Ausrüstung kann vom Rang oder Ruf des Agenten abhängen: Ein frisch rekrutierter
 Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear ausgestattet. Solche
 Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes Ansehen verdienen.*
+Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
+manchmal geheime Depots mit exklusiven Prototypen.
 
 ## Waffen: Arsenal der Zeitalter
 
