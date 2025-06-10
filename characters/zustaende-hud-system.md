@@ -497,6 +497,14 @@ Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-E
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Diese
 Einschränkung sorgt für Spannung und hält die Balance:
 
+Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
+
+```
+[Vitalstatus 20% – kritisch]
+[Paradox-Alarm Stufe 3]
+[Magazin 4/12 | SYS 2/4]
+```
+
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für
   leichte Verletzungen, Rot für kritisch – entsprechend der oben beschriebenen Verwundungsstufen.

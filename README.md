@@ -34,6 +34,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
   – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
 - [toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)
 - [masterprompt_v5.md](meta/masterprompt_v5.md) – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
+- [module-index.md](meta/module-index.md) – Kurzüberblick über alle Module
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
