@@ -251,9 +251,10 @@ Spieler, wie die Fraktionen sie sehen:
 - **Rufskala:** Beispielsweise könnte man Rufwerte von –5 (Erzfeind) über 0 (neutral) bis +5 (eng
 verbündet) vergeben. Anfangs sind manche Fraktionen den Agenten misstrauisch oder kennen sie gar
 nicht. Mit jedem Arc kann sich das ändern.
-- **Rufänderungen pro Mission:** Kleine Hilfsaktionen sorgen oft für **+1**, während ein
- entscheidender Dienst **+2** bringen kann. Umgekehrt führen Respektlosigkeiten zu **–1** und ein
- massiver Verrat schlägt mit **–2** oder mehr zu Buche.
+- **Langsamer Rufzuwachs:** Zu Kampagnenbeginn wählt die Gruppe, bei welcher Fraktion sie
+  Ansehen aufbauen möchte. Erst nach rund **zehn erfolgreich absolvierten Missionen** steigt der
+  Ruf um eine Stufe. Jeder weitere Anstieg benötigt immer mehr Einsätze. Rufverlust tritt nur bei
+  schweren Vertrauensbrüchen auf und geschieht deutlich seltener.
 - **Auswirkungen im Spiel:** Ein hoher Ruf bei einer Fraktion bedeutet, dass diese eher bereit ist,
 zu helfen. Die Agenten könnten auf Ressourcen dieser Gruppe zugreifen, erhalten bevorzugt
 Informationen oder diplomatischen Rückhalt. Bei negativem Ruf hingegen könnten sie auf Gegenwehr
@@ -266,11 +267,10 @@ Eingreifen zugunsten einer Fraktion hat. Das ergibt interessante **Dilemmata**: 
 Agenten die radikalen Methoden einer Zeithüter-Gruppierung, um Schlimmeres zu verhindern, oder
 verbünden sie sich lieber mit einer gemäßigten Fraktion, die aber weniger Macht besitzt? Solche
 Entscheidungen beeinflussen den Fraktionsruf nachhaltig.
-- **Fraktionsquests und Gefallen:** Um den Ruf gezielt zu verändern, können spezielle Missionen oder
-**Gefallen** eingeführt werden. Vielleicht bittet die Untergrundbewegung des Jahres 2099 um Hilfe
-bei einem Sabotageakt – Erfolg erhöht den Ruf bei ihnen stark. Oder die Agenten müssen sich vor
-einem Tribunal des Zeitrates verantworten – ein diplomatisches Geschick und gute Taten als Beweis
-können ihren Stand bei der obersten Instanz retten oder ruinieren.
+- **Fraktionsquests und Gefallen:** Wer schneller aufsteigen will, kann gezielt Aufträge für eine
+  Fraktion erledigen. Solche **Spezialmissionen** zählen wie mehrere normale Einsätze und können
+  sogar sofort eine Stufe verleihen. Umgekehrt drohen bei schwerem Versagen temporäre Abzüge,
+  die sich erst nach vielen weiteren Erfolgen wieder ausgleichen lassen.
 
 Das **Allianzmanagement** wird so zu einem eigenen kleinen Spiel innerhalb der Kampagne. Spieler
 haben das Gefühl, Teil eines größeren Ganzen zu sein, und ihre Taten strahlen über einzelne
