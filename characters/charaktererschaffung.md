@@ -564,12 +564,15 @@ Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschie
 **Ruf** aufbaut. ZEITRISS 4.0 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
 relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–5** und **+5** tracken.
 Null ist neutral, positive Werte bedeuten Vertrauen/Ansehen, negative Misstrauen oder Feindschaft.
-Eure Handlungen in den Missionen beeinflussen diesen Ruf. Helft ihr z.B. einem Dorf im Mittelalter
-vor Räubern, könnte euer Ruf bei der lokalen Bevölkerung +1 steigen. Betrügt ihr im Wilden Westen
-den Sheriff, sinkt euer Ruf bei Gesetzeshütern dieser Epoche vielleicht auf –1. Die genauen
-Kategorien legt die SL nach Bedarf fest und notiert sie (z.B. *„Paris 1880: Ruf +2 (wohlbekannt als
-Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses System macht die **Auswirkungen eurer Taten**
-greifbar, ohne übermäßig komplex zu sein – es soll v.a. Stimmungen und Beziehungen abbilden.
+Zu Beginn einer Kampagne könnt ihr euch entscheiden, bei welcher Fraktion ihr langfristig
+Ansehen aufbauen wollt. Anschließend sammelt ihr über viele Einsätze hinweg langsam
+Rufpunkte. Erst nach etwa **zehn erfolgreich abgeschlossenen Missionen** steigt euer Wert um
+eine Stufe. Für jede weitere Stufe sind zunehmend mehr Missionen nötig, sodass echter
+Rufgewinn Monate oder gar Jahre ingame dauern kann. Rufverlust tritt dagegen nur bei
+gravierenden Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B.
+*„Paris 1880: Ruf +2 (wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses
+System macht die **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um
+Stimmungen und Beziehungen abzubilden.
 
 **Wirkung von Ruf:** Ein hoher Rufwert bringt narrative Boni – etwa Hilfsbereitschaft von NSCs,
 Rabatte auf dem Markt oder Zugang zu verschlossenen Bereichen. Negativer Ruf kann Hindernisse
