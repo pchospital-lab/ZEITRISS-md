@@ -12,6 +12,11 @@ tags: [systems]
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
+## Ablauf zu Beginn
+Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
+Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarzatrium.
+Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
+
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
 ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,
