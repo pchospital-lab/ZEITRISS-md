@@ -11,30 +11,31 @@ Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält e
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 
 ## Struktur
-Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen:
-- [README.md](README.md) – Überblick über das Projekt (wird als Regelmodul mitgeladen)
-- [zeitriss-core.md](core/zeitriss-core.md)
-- [wuerfelmechanik.md](core/wuerfelmechanik.md)
-- [charaktererschaffung.md](characters/charaktererschaffung.md)
-- [ausruestung-cyberware.md](characters/ausruestung-cyberware.md)
-- [cyberware-und-bioware.md](characters/cyberware-und-bioware.md)
-- [psi-talente.md](characters/psi-talente.md)
-- [zustaende-hud-system.md](characters/zustaende-hud-system.md)
-- [kampagnenstruktur.md](gameplay/kampagnenstruktur.md)
-- [fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md)
-- [kreative-generatoren.md](gameplay/kreative-generatoren.md)
-- [team-perks.md](gameplay/team-perks.md)
-- [massenkonflikte.md](gameplay/massenkonflikte.md)
-- [kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md)
-- [cinematic-start.md](systems/gameflow/cinematic-start.md)
-- [cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md)
-- [gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md)
-- [kp-kraefte-psi.md](systems/kp-kraefte-psi.md)
-- [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)
-  – beschreibt den Zeitlinien-Tracker und Paradoxon-Index
-- [toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)
-- [masterprompt_v5.md](meta/masterprompt_v5.md) – Masterprompt (Inhalt ins Anweisungsfenster kopieren, max. 8k Zeichen)
-- [module-index.md](meta/module-index.md) – Kurzüberblick über alle Module
+Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen. Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
+
+| Datei | Inhalt |
+|-------|-------|
+| [README.md](README.md) | Überblick über Projekt und Workflow |
+| [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
+| [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
+| [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
+| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
+| [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
+| [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau & ITI-HQ |
+| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
+| [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
+| [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen & NSCs |
+| [gameplay/team-perks.md](gameplay/team-perks.md) | Team-Boni |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
+| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
+| [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
+| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher- und Fortsetzungssystem (Zeitlinien-Tracker & Paradoxon-Index) |
+| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
+| [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
+| [meta/masterprompt_v5.md](meta/masterprompt_v5.md) | Masterprompt für das KI-Tool |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
