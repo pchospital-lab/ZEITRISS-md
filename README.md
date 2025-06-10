@@ -11,7 +11,8 @@ Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält e
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 
 ## Struktur
-Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen. Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
+Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
+Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 
 | Datei | Inhalt |
 |-------|-------|
@@ -31,7 +32,7 @@ Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das K
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
-| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher- und Fortsetzungssystem (Zeitlinien-Tracker & Paradoxon-Index) |
+| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
