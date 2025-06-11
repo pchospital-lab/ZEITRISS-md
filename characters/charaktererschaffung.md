@@ -174,7 +174,7 @@ Bereits hier entscheiden die Spieler, ob sie den Erhalt der Hauptzeitlinie unter
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
-erweitert ihr den eigenen Fraktionskomplex innerhalb der Nullzeit; ein Stützpunkt außerhalb des ITI ist nicht vorgesehen. Eure persönlichen Bereiche ziehen beim Ausbau einfach mit.
+kauft ihr euch zusätzliche Zugangs-**Stufen** innerhalb des Fraktionskomplexes des ITI; ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen. Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
 Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
 Wunden versorgt und der nächste Auftrag vorbereitet – die Heimkehr ist also ein
 regelmäßiges, aber freiwilliges Element des Spielablaufs.
