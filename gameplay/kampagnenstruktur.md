@@ -120,6 +120,11 @@ Angelpunkt der Geschichte**. Ein ausgebautes HQ verleiht den Spielercharakteren 
 Ressourcen und Szenen für Rollenspiel. Um das HQ fühlbar wachsen zu lassen, bietet dieses Modul ein
 **Ausbau- und Verwaltungssystem**:
 
+Nach jedem Auftrag bietet die Spielleitung an, ins sichere ITI-Hauptquartier zurückzukehren. Dort
+finden Debriefing, Heilung und Planung der nächsten Schritte statt. Diese Rückkehr ist fester
+Bestandteil des Spielrhythmus, bleibt aber freiwillig: Wer sofort weiterspringen will, kann das
+tun.
+
 ### Ausbaustufen und Einrichtungen
 
 Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.

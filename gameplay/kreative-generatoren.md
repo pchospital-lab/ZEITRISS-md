@@ -9,7 +9,7 @@ tags: [gameplay]
 - Random-Epochen-Generator: Wann und wo?
 - NSC-Generator: Begegnungen im Zeitstrom
 - Missions-Generator: Kleine Aufträge und Dilemmata
-- Temporale Anomalien-Generator: Kuriositäten der Zeit
+- Historische Wendepunkte-Generator: Auslöser und Folgen
 - Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
@@ -275,61 +275,39 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
   6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler war.
 
-## Temporale Anomalien-Generator: Kuriositäten der Zeit
+## Historische Wendepunkte-Generator: Auslöser und Folgen
 
-Zeitreisen gehen selten glatt vonstatten – immer wieder kommt es zu **Anomalien**, seltsamen
-Phänomenen durch Risse, Paradoxien oder Zeitexperimente. Dieser Generator bietet bizarre Ideen, um
-eine Mission zu würzen oder sogar als zentrales Rätsel aufzubauen. Würfelt oder wählt eine Anomalie,
-die eure Szene aufmischt:
+Manchmal führt schon eine kleine Handlung dazu, dass ein bekanntes Ereignis
+überhaupt erst stattfindet. Dieser Generator liefert Ansätze, wie die Chrononauten
+unfreiwillig einen historischen Moment auslösen oder verhindern. Wählt eine
+Kombination aus **Ereignis**, **Aktion** und **Konsequenz**:
 
-1. **Zeitblase:** Ein kleines Gebiet – vielleicht ein Dorf oder ein Gebäudeflügel – ist **in der
-Zeit eingefroren** oder wiederholt **diesen selben Moment in Endlosschleife**. Außenstehende sehen
-immer wieder dieselbe Szene ablaufen, wie ein gefangenes Hologramm. Die Helden müssen herausfinden,
-was die Blase verursacht (vielleicht ein liegengebliebenes Zeitgerät oder ein natürliches Phänomen)
-und sie auflösen, ohne die Betroffenen zu traumatisieren, die plötzlich von “gestern auf morgen”
-katapultiert werden.
-2. **Zeit-Echo:** Eine kurz aufblitzende Projektion einer Person aus einer anderen Epoche. Dieser
-holografische Schatten entsteht durch instabile Chronowellen und warnt vor naher Gefahr. Die
-Chrononauten müssen die Störquelle finden, bevor sie weitere Systeme beeinflusst. Manchmal steckt
-eine Sabotageaktion dahinter, wenn ein Forscher versucht, Aufmerksamkeit auf ein vergessenes
-Projekt zu lenken.
-3. **Anachronismus-Sturm:** Ein **temporaler Sturm** fegt durch ein Gebiet und schleudert Objekte
-sowie Personen aus verschiedenen Zeitaltern durcheinander. Die Helden finden sich in einem surrealen
-Chaos wieder: Römer kämpfen neben Samurai gegen Zukunfts-Androiden, mitten in einem Dorf des 20. Jh.
-– alle gleichermaßen verwirrt. Die Zeit “entlädt” sich chaotisch. Die Anomalie legt sich erst, wenn
-ihr **Epizentrum stabilisiert** wird – vielleicht muss ein Zeitanker aktiviert oder ein Artefakt
-entfernt werden, das den Sturm nährt. *Spannung pur*, denn mitten im Chaos kann jeder Moment Gefahr
-bringen oder zu unerwarteten Allianzen führen.
-4. **Zukunftsresonanz:** Durch starke Zeitverzerrungen erscheinen bruchstückhafte Eindrücke eines
-kommenden Ereignisses – etwa Konturen eines zukünftigen Gebäudes oder Gesprächsfetzen, die nur von
-Sensoren aufgezeichnet werden. Diese Hinweise können warnen oder bewusst manipuliert sein, um die
-Agenten fehlzuleiten. Die Grenze zwischen Jetzt und Bald verschwimmt, doch alles bleibt technisch
-erklärbar.
-5. **Zeitschmiede:** In einem entlegenen Versteck arbeitet eine **maschineartige Vorrichtung**, die
-einen Riss offen hält oder Zeit fragmentiert, um *etwas* herzustellen. Vielleicht versucht jemand,
-**Zeit-Klone** von Personen anzufertigen oder Artefakte aus alternativen Zukünften zu schmieden.
-Symptome in der Umgebung: Uhren laufen rückwärts, Wunden heilen sofort, dafür altern andere Objekte
-rasant. Die Chrononauten müssen diese “Schmiede” finden. Zerstören sie sie, um den natürlichen Fluss
-der Zeit wiederherzustellen? Oder nutzen sie das Phänomen kontrolliert – was sofort **moralische
-Fragen** aufwirft (darf man die Macht über die Zeit einfach so ausnutzen?).
-6. **Paradoxon-Loop:** Die Gruppe merkt allmählich, dass sie **in einer Zeitschleife gefangen** ist.
-Ereignisse wiederholen sich, Entscheidungen führen scheinbar immer wieder zum gleichen Ausgangspunkt
-– vielleicht mit kleinen Variationen. Offenbar hat eine ihrer Handlungen einen Selbstwiderspruch
-erzeugt (Großvaterparadoxon o. Ä.). Nur durch einen Meta-Schritt kommen sie heraus – etwas, das
-normalerweise tabu ist, hier aber notwendig sein könnte (z. B. eine zuvor getroffene Entscheidung
-rückgängig machen oder einen von ihnen temporär aus der Existenz nehmen). GPT kann dies als Mystery
-inszenieren: Erst bemerken die Spieler nur zufällige Wiederholungen, nach und nach entwirren sie die
-Schleife. Der Ausbruch aus dem Loop kann sehr dramatisch sein, wenn ein Opfer gebracht werden muss –
-aber am Ende ist die Zeit geheilt und läuft wieder vorwärts.
+1. **Ereignis:**
+   1. Ein großes Unglück steht kurz bevor (z. B. eine Explosion oder ein Absturz).
+   2. Ein gefeierter Durchbruch der Wissenschaft soll präsentiert werden.
+   3. Eine wichtige Krönung oder Wahl entscheidet über den Lauf der Geschichte.
+   4. Eine Revolution brodelt und sucht nur noch den Funken zur Entzündung.
+   5. Ein visionärer Künstler ringt um die Fertigstellung seines Werkes.
+   6. Ein geheimer Pakt zwischen Mächten soll unterzeichnet werden.
+2. **Aktion der Agenten:**
+   1. Sie bewahren eine Schlüsselfigur vor einem Attentat.
+   2. Sie stehlen oder zerstören ein entscheidendes Dokument.
+   3. Sie überzeugen einen Protagonisten, doch noch aufzutreten.
+   4. Sie lenken einen Rivalen ab, wodurch eine Idee ungestört reifen kann.
+   5. Sie decken eine Intrige auf und bringen sie an die Öffentlichkeit.
+   6. Sie sabotieren ein Transportmittel oder ersetzen es unbemerkt.
+3. **Konsequenz:**
+   1. Das historische Ereignis findet nur dank ihres Eingreifens statt.
+   2. Der Verlauf verändert sich subtil und führt zu einem bekannten Ergebnis.
+   3. Ihr Eingreifen verhindert die Katastrophe – eine andere tritt an ihre Stelle.
+   4. Eine Nebenfigur wird berühmt und beeinflusst später die Zeitlinie.
+   5. Die Öffentlichkeit erfährt nichts; nur der Codex notiert die Veränderung.
+   6. Eine Fraktion nutzt das Resultat heimlich für ihre eigenen Ziele.
 
-Temporale Anomalien sind das **Salz in der ZEITRISS-Suppe**. Sie erinnern alle daran, wie fragil und
-bizarr das Gefüge der Zeit sein kann. Die SL (Spielleitung) sollte solche Anomalien dosiert
-einsetzen, um je nach Stimmung Grusel, Staunen oder Dringlichkeit ins Spiel zu bringen. Wichtig:
-Wenn Anomalien auftreten, gebt den Spielern genug Hinweise, damit sie verstehen können, **was** vor
-sich geht und – vor allem – dass sie **etwas tun können**, um es zu lösen oder wenigstens zu
-überleben. Nichts ist frustrierender als ein Phänomen, dem man völlig ausgeliefert ist; ZEITRISS
-setzt aber auf Empowerment – eure Helden *können* die Zeit reparieren… man muss nur herausfinden
-wie!
+Mit diesem Baukasten entstehen Missionen, bei denen die Agenten scheinbar nur
+eine Kleinigkeit erledigen. Erst im Nachhinein erkennen sie, dass ihr Handeln den
+geschichtlichen Wendepunkt überhaupt ermöglicht hat – oder dass sie ihn, ohne es
+zu wollen, verhindert haben.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 
