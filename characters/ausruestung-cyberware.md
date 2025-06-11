@@ -91,7 +91,7 @@ Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Konzentriert
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
 futuristischen Strahlenwaffen. **Historische Fernkampfwaffen** wie Bögen und Armbrüste arbeiten
-lautlos und epochegerecht, sind aber langsamer in der Handhabung. **Moderne Schusswaffen**
+lautlos und epochengerecht, sind aber langsamer in der Handhabung. **Moderne Schusswaffen**
 (Pistolen, Gewehre) liefern zuverlässige Feuerkraft; ihr Knall kann jedoch ungewollte Aufmerksamkeit
 erregen. **Zukünftige Waffen** nutzen Energietechnologie oder raffinierte Munition: Laser schießen
 nahezu geräuschlos und ohne Rückstoß, während z.B. Needler exotische Betäubungsnadeln verschießen.
@@ -312,20 +312,16 @@ stimmungsvoll eingesetzt werden.
 - Seltene Spezialgegenstände
 - Einbindung in CUs & Missionen
 
-**Einleitung:** Im Verlauf ihrer Zeitreisen stoßen Chrononauten immer wieder auf Gegenstände, die
-nicht zur Standardausrüstung des ITI gehören. Hin und wieder tauchen dabei
-automatisch besonders seltene Artefakte auf – ungefähr wie legendäre Drops in
-Videospielen. Zu Beginn jeder Mission wird automatisch 1W20 gewürfelt: Bei einer 1
-erscheint ein zusätzliches Artefakt. Die folgenden Tabellen liefern schnell
-einsetzbare Loot-Ideen. Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um
-ein passendes Item zu bestimmen.
-CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt oder was ein ähnliches Objekt im HQ kosten
-würde. Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
-
-## Zufällige Waffenfunde (1W6)
-1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. *Taucht oft
-   in Missionen rund um Ritter oder Feldzüge auf.*
-2. **Verborgenes Steampunk-Revolver** – Verschachtelte Mechanik, Schaden 3 LP, 6 Schuss. Preis:
+**Einleitung:** Im Verlauf ihrer Zeitreisen stoßen Chrononauten immer wieder auf Gegenstände,
+die nicht zur Standardausrüstung des ITI gehören.
+Artefakte sind dabei äußerst selten – vergleichbar mit legendären Drops in Videospielen.
+Optional kann zu Beginn einer längeren Mission 1W20 gewürfelt werden; nur bei einer 1 tritt ein einzelnes Artefakt auf.
+Mehrere Artefakte pro Einsatz sollten die Ausnahme bleiben.
+Die folgenden Tabellen liefern schnell einsetzbare Loot-Ideen.
+Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um ein passendes Item zu bestimmen.
+CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
+oder was ein ähnliches Objekt im HQ kosten würde.
+Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
    150 CU. *Gut als Überraschungswaffe in einer viktorianischen Spionage-Story.*
 3. **Modernes Sturmgewehr** – Standard 21. Jh., Schaden 4 LP pro Salve. Preis: 200 CU. *Häufiger
    Loot auf Militärschauplätzen moderner Einsätze.*
