@@ -572,3 +572,30 @@ Startpunkt für Zeitinterventionen, Spionage oder Sabotage.
 Die KI kann diese Hotspots nutzen, um automatisch Missionen zu generieren. Sie
 wählt einen Ort, definiert dortige Konflikte und verknüpft sie mit den
 Zielen der Fraktionen.
+
+## Zukunfts- und Sci-Fi-Hotspots
+
+Auch Gerüchte und Internet-Mythen bieten reichlich Stoff für spannende Missionen.
+Die folgende Liste greift populäre Spekulationen auf, die sich besonders für
+gruselige oder abgedrehte Einsätze eignen:
+
+1. **Mars – Gesicht von Cydonia:** Der vermeintliche Felshügel soll der Eingang
+   zu einer gewaltigen unterirdischen Basis sein, angeblich von frühen
+   Menschen erbaut.
+2. **Phobos – Der Basilisk:** Auf dem Marsmond ragt eine bizarre Formation, die
+   wie ein riesiger Basilisk wirkt. Manche glauben an einen alienartigen Turm,
+   größer als der Turm zu Babel.
+3. **Rückseite des Mondes – Versteckte Mona Lisa:** In einem abgestürzten
+   Raumschiff soll sich ein perfektes Gemälde befinden, angeblich von
+   Außerirdischen erschaffen.
+4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren sollen Spuren
+   komplexer Organismen existieren; Verschwörungstheorien sprechen von einer
+   vergessenen Kolonie.
+5. **Antarktis – Versiegelte Anlagen:** Tief unter dem Eis verbergen sich
+   angeblich Reste einer Hochtechnologie-Zivilisation – vielleicht von
+   Zeitreisenden oder Atlantiern.
+6. **Area 51 – Das aktive Zeitportal:** Flüstereien im Netz berichten von
+   Experimenten, die dort Zugänge in Vergangenheit und Zukunft öffnen.
+
+Die KI kann diese Hotspots nutzen, um spektakuläre Sci-Fi-Plots zu entwerfen
+oder sie mit realen Schauplätzen zu verknüpfen.
