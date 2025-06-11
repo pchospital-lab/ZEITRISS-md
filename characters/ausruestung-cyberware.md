@@ -322,7 +322,11 @@ Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um ein passendes Item zu b
 CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
 oder was ein ähnliches Objekt im HQ kosten würde.
 Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
-   150 CU. *Gut als Überraschungswaffe in einer viktorianischen Spionage-Story.*
+## Zufällige Waffenfunde (1W6)
+1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. *Taucht oft
+   in Missionen rund um Ritter oder Feldzüge auf.*
+2. **Verborgenes Steampunk-Revolver** – Verschachtelte Mechanik, Schaden 3 LP, 6 Schuss. Preis: 150 CU.
+   *Gut als Überraschungswaffe in einer viktorianischen Spionage-Story.*
 3. **Modernes Sturmgewehr** – Standard 21. Jh., Schaden 4 LP pro Salve. Preis: 200 CU. *Häufiger
    Loot auf Militärschauplätzen moderner Einsätze.*
 4. **Energie-Lanze** – Prototyp aus dem 23. Jh., Schaden 5 LP, zehrt am SYS-Wert beim Nutzen. Preis:
