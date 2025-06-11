@@ -42,8 +42,12 @@ tags: [meta]
 - Würfle verdeckt mit W6 (Exploding 6).
   Optional kommen W10 und Heldenwürfel bei hohen Attributen zum Einsatz.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradox-Level im Hintergrund.
-- Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert,
-  außer Spieler fordern es explizit an.
+- Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
+  sie treten nur auf, wenn Spieler sie ausdrücklich wünschen.
+- **Selbstbegegnungen** (Echo-Ich, genetische Doppelgänger, Zukunftskinder,
+  alternative Ichs) gehören nicht zu Standardmissionen und erscheinen weder bei
+  hohem Paradox-Level noch als Überraschungseffekt. Sie sind ausschließlich auf
+  expliziten Wunsch der Spieler erlaubt und sollten dann sehr sparsam bleiben.
 - Psi nutzt regulierte Systemmodule: Hardware wird gedrosselt statt abgeschaltet
   und erlaubt Telekinese-Nahkampf aus der Distanz.
 
