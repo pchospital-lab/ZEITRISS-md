@@ -174,6 +174,9 @@ Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
 kann die Gruppe in Sandbox-Kampagnen ein eigenes HQ errichten – eure
 persönlichen Bereiche ziehen dann einfach mit.
+Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
+Wunden versorgt und der nächste Auftrag vorbereitet – die Heimkehr ist also ein
+regelmäßiges, aber freiwilliges Element des Spielablaufs.
 
 Am Ende des Rundgangs legt **Commander Renier** drei mögliche Wege vor, wie es
 weitergehen kann:
