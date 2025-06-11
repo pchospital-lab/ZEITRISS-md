@@ -30,6 +30,9 @@ ein paar Schlagworten einen ganzen Kosmos an Ideen entfesselt. GPT kann aus dies
 detaillierte Beschreibungen, NSC-Porträts oder Plothooks entwickeln. Also nutzt sie, um euer
 ZEITRISS-Abenteuer bunt und lebendig zu halten!
 
+*Hinweis zu Visionen:* Träume oder innere Eingebungen sind **optional** und werden nur eingebaut,
+wenn die Spielrunde es ausdrücklich wünscht.
+
 ## Random-Epochen-Generator: Wann und wo?
 
 ZEITRISS-Missionen können prinzipiell in jeder Epoche der echten oder fiktiven Geschichte spielen.
@@ -113,7 +116,7 @@ Wählt oder würfelt je eine Option aus jeder Kategorie:
 
 - **Besonderheit/Geheimnis:**
 
-  1. Kennt die Zukunft (behauptet es zumindest – z. B. in Träumen)
+  1. Kennt die Zukunft (behauptet es zumindest – optional über Träume)
   2. Ist selbst ein Zeitreisender incognito
   3. Hat einen unerwarteten Alliierten (z. B. ein zahmes Zeitwesen)
   4. Stammt aus einer alternativen Zeitlinie mit abweichendem Wissen
@@ -131,7 +134,7 @@ denkwürdige Begegnung!
 Ihr könnt diesen NSC-Generator auch nutzen, um **bekannte historische Figuren mit einem Twist** zu
 versehen. Was, wenn Napoleon (Rolle: Herrscher) plötzlich eine schelmische Ader hat (Persönlichkeit:
 humorvoll) und insgeheim von einem verlorenen Verwandten in der Zukunft träumt (Besonderheit:
-behauptet, Visionen der Zukunft zu kennen)? Schon wird aus der bekannten Figur ein einzigartiger
+behauptet optional, Visionen der Zukunft zu kennen)? Schon wird aus der bekannten Figur ein einzigartiger
 Charakter für eure Story!
 
 ## Missions-Generator: Kleine Aufträge und Dilemmata
@@ -435,7 +438,7 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
   2. Unzerstörbar durch normale Mittel
   3. Lebendig (hat einen eigenen Willen oder eine KI)
   4. Verändert seine Form je nach Epoche
-  5. Sendet Visionen oder Träume an den Besitzer
+  5. Optional: Sendet Visionen oder Träume an den Besitzer
   6. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
 
 - **Herkunft/Historie:**
@@ -462,7 +465,7 @@ Punkt und Dilemma!
 lebendige Waffe, die einst einer berühmten Person gehörte. Heraus kommt vielleicht **“Alexander der
 Große’s sprechendes Schwert”**, dem man eine eigene Persönlichkeit nachsagt – tatsächlich verbirgt
 sich darin eine KI aus der Zukunft in Form eines Schwertes, die Alexander fand und für göttliche
-Eingebung hielt. Das Schwert berät den Träger im Kampf (z. B. durch Visionen oder Telepathie) und
+Eingebung hielt. Das Schwert berät den Träger im Kampf (optional durch Visionen oder Telepathie) und
 hat eigene Ziele – vielleicht *will* es, dass man es zu einem bestimmten Zeitpunkt in der Zukunft
 trägt, um dort etwas zu bewirken.
 
@@ -546,3 +549,26 @@ können sie so manch unnötigen Konflikt vermeiden oder Sympathien gewinnen. Vie
 einem lokalen Fest mit und gewinnen dadurch Verbündete – oder sie nutzen einen Aberglauben gezielt
 für sich (*“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!”*). Diese kleinen Dinge
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
+
+## Historische Hotspots
+
+Diese Tabelle liefert markante Schauplätze der Menschheitsgeschichte, aus denen
+die KI missionsreife Einsätze ableiten kann. Jeder Eintrag eignet sich als
+Startpunkt für Zeitinterventionen, Spionage oder Sabotage.
+
+1. **Paris 1889 – Weltausstellung:** Eiffelturm im Bau, technische
+   Wunderwerke locken Agenten und Spione an.
+2. **Chicago 1893 – Columbian Exposition:** Konkurrenz um Patente und
+   spektakuläre Demonstrationen.
+3. **Berlin 1936 – Olympische Spiele:** Politische Spannungen, Propaganda und
+   verdeckte Aufrüstung.
+4. **London 1851 – Great Exhibition:** Viktorianische Innovationen, erste
+   globale Handelsnetze.
+5. **New York 1939 – World’s Fair:** Vision einer optimistischen Zukunft,
+   passende Tarnung für geheime Projekte.
+6. **Osaka 1970 – Expo ’70:** Kalter Krieg trifft Popkultur und futuristische
+   Architektur.
+
+Die KI kann diese Hotspots nutzen, um automatisch Missionen zu generieren. Sie
+wählt einen Ort, definiert dortige Konflikte und verknüpft sie mit den
+Zielen der Fraktionen.

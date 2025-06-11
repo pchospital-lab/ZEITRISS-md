@@ -23,6 +23,8 @@ tags: [meta]
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
+- Optional kann der **Mission-Fokus-Modus (ohne Visionen)** aus
+  `toolkit-gpt-spielleiter.md` aktiviert werden.
 - Paradox-Störungen ab Stufe 2 rufen Zeitkreaturen aus dem Kreaturen- & Gestalten-Generator hervor.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
