@@ -588,9 +588,9 @@ gruselige oder abgedrehte Einsätze eignen:
    wie ein riesiger Basilisk wirkt. Manche glauben an einen alienartigen Turm,
    größer als der Turm zu Babel.
 3. **Rückseite des Mondes – Die wahre Madonna:** In einem abgestürzten
-   Raumschiff befindet sich ein nahezu perfektes Gemälde, vielleicht die
-   echte Madonna. Dort ruht ein Wesen, halb Mensch, halb Alien – möglicher
-   Ursprung der Menschheit.
+   Raumschiff ruht ein Wesen, halb Mensch, halb Alien – möglicher Ursprung
+   der Menschheit und die wahre Madonna. Ein nahezu perfektes Gemälde zeigt
+   ihr Bildnis.
 4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren weisen Spuren
    komplexer Organismen auf eine verschollene Kolonie hin.
 5. **Antarktis – Versiegelte Anlagen:** Tief unter dem Eis verbergen sich
