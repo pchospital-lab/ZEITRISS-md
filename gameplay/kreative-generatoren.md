@@ -571,7 +571,9 @@ Startpunkt für Zeitinterventionen, Spionage oder Sabotage.
 
 Die KI kann diese Hotspots nutzen, um automatisch Missionen zu generieren. Sie
 wählt einen Ort, definiert dortige Konflikte und verknüpft sie mit den
-Zielen der Fraktionen.
+Zielen der Fraktionen. Die folgenden Einträge sind nur Beispiele – GPT kann
+jederzeit neue Schauplätze und Aufträge kombinieren, damit jede Runde
+einzigartige Missionen erlebt.
 
 ## Zukunfts- und Sci-Fi-Hotspots
 
@@ -585,17 +587,17 @@ gruselige oder abgedrehte Einsätze eignen:
 2. **Phobos – Der Basilisk:** Auf dem Marsmond ragt eine bizarre Formation, die
    wie ein riesiger Basilisk wirkt. Manche glauben an einen alienartigen Turm,
    größer als der Turm zu Babel.
-3. **Rückseite des Mondes – Versteckte Mona Lisa:** In einem abgestürzten
-   Raumschiff soll sich ein perfektes Gemälde befinden, angeblich von
-   Außerirdischen erschaffen.
-4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren sollen Spuren
-   komplexer Organismen existieren; Verschwörungstheorien sprechen von einer
-   vergessenen Kolonie.
+3. **Rückseite des Mondes – Die wahre Madonna:** In einem abgestürzten
+   Raumschiff befindet sich ein nahezu perfektes Gemälde, vielleicht die
+   echte Madonna. Dort ruht ein Wesen, halb Mensch, halb Alien – möglicher
+   Ursprung der Menschheit.
+4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren weisen Spuren
+   komplexer Organismen auf eine verschollene Kolonie hin.
 5. **Antarktis – Versiegelte Anlagen:** Tief unter dem Eis verbergen sich
    angeblich Reste einer Hochtechnologie-Zivilisation – vielleicht von
    Zeitreisenden oder Atlantiern.
-6. **Area 51 – Das aktive Zeitportal:** Flüstereien im Netz berichten von
-   Experimenten, die dort Zugänge in Vergangenheit und Zukunft öffnen.
+6. **Kapustin Jar – Aktives Zeitportal:** Gerüchte berichten von Experimenten,
+   die dort Zugänge in Vergangenheit und Zukunft öffnen.
 
 Die KI kann diese Hotspots nutzen, um spektakuläre Sci-Fi-Plots zu entwerfen
 oder sie mit realen Schauplätzen zu verknüpfen.
