@@ -826,7 +826,7 @@ der Kantine tauschen Agenten Geschichten aus vergangenen Epochen aus; an der Bar
 synthetischer Whiskey und man spielt Karten mit Kameraden. Wer Trost oder Ablenkung sucht, findet im
 Vergnügungsbereich jemanden zum Reden (oder mehr). Solche Orte machen das HQ zu einem lebendigen
 Schauplatz jenseits der Missionen – die Spielercharaktere können hier in Ruhe mit NSCs interagieren,
-Gerüchte über aktuelle Zeit-Anomalien hören oder einfach die Atmosphäre genießen.
+Gerüchte über neue Einsätze und rätselhafte Vorgänge aufschnappen oder einfach die Atmosphäre genießen.
 - **Missionskontrolle & Briefingraum:** Ein zentraler Saal – oft *Quarzatrium* genannt – in dem sich
 die Portale für Zeitreisen befinden. Hier erhalten die Chrononauten ihre Einsatzbesprechungen vom
 Missionsleiter. Meist führt eine KI-Stimme (möglicherweise identisch mit dem Codex) oder ein
@@ -889,8 +889,11 @@ Welt **jenseits der Missionen** zu erkunden.
 
 Die Welt von ZEITRISS (bzw. die gesamte Zeitlinie) wird von mehreren großen Fraktionen beeinflusst –
 neben dem neutralen ITI, dem die Spielercharaktere angehören. Einige Organisationen operieren offen,
-die meisten aber im Verborgenen über verschiedene Zeitalter hinweg. Hier ein Überblick der
-wichtigsten Gruppen:
+die meisten aber im Verborgenen über verschiedene Zeitalter hinweg. Spieler wählen zu Beginn eine
+Fraktion, für die sie Ruf sammeln, kennen jedoch nur Bruchstücke der langfristigen Pläne. Jede Gruppe
+verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen sollen. Hinweise auf
+diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
+höheren Mitgliedern. Hier ein Überblick der wichtigsten Gruppen:
 
 - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die darauf bedacht sind, das
 Gleichgewicht der Zeit zu erhalten. Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
@@ -899,6 +902,8 @@ Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spi
 sie sowohl Verbündete sein (wenn man ebenfalls behutsam mit der Geschichte umgeht) als auch
 Gegenspieler (falls man zu rücksichtslos in die Zeit eingreift). Ihr Auftauchen ist selten und meist
 von ominösen Warnungen begleitet.
+- Ihr verborgenes Zeitziel bleibt unklar; nur Andeutungen lassen vermuten, dass sie eine
+  mathematische Perfektion der Zeit anstreben.
 - **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen und Ereignisse
 der Zeit sammeln und bewahren wollen. Sie betreiben gigantische Archive außerhalb der normalen Welt
 und sehen sich als Hüter allen Wissens über die Zeitalter hinweg. Ihr Ziel ist es, Erinnerung zu
@@ -908,6 +913,7 @@ vom Ordo Mnemonika wertvolle Informationen erhalten, denn möglicherweise wird d
 teilweise mit ihrem uralten Wissen gefüttert. Allerdings hat auch dieser Orden seine eigene Agenda
 und teilt sein Wissen nur gegen entsprechende Gefälligkeiten. Ihre Mitglieder wirken oft weltfremd
 oder unheimlich wissend.
+- Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Codex.
 - **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**. Sie nennen sich selbst
 die "Klingen der Kausalität", da sie entschlossen sind, jeden "Zeit-Zweig" abzuschneiden, der den
 Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
@@ -917,6 +923,8 @@ Spieler (oder jemand anderes) etwas Dramatisches an der Geschichte verändert, o
 Zeitverbrecher ist am Werk. Man kann eventuell mit ihnen kooperieren, doch ihre Methoden sind
 radikal – im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls auch eine Person), als
 ein Risiko für die Zeitlinie einzugehen.
+- Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
+  "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
 - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult oder Zirkel von
 Zeitveränderern, die überzeugt sind, dass die aktuelle Zeitlinie fragil ist und neu geformt werden
 muss. Ihre Motivation könnte Unsterblichkeit sein, das Herbeiführen einer bestimmten *„perfekten“*
@@ -927,6 +935,8 @@ letztendlich verantwortlich für die mysteriösen Anomalien, denen die Spieler n
 zu bleiben ist Teil ihrer Strategie; ihnen auf die Schliche zu kommen erfordert viele Missionen und
 das Zusammensetzen verstreuter Puzzleteile. Wenn die Spieler diese Gruppe enttarnen, stehen sie vor
 einer gewaltigen Bedrohung für die gesamte Zeitlinie.
+- Ihre wahren Absichten offenbaren sich nur Stück für Stück, etwa wenn die Agenten alte
+  Manifest-Bruchstücke oder fanatische Predigten finden.
 
 Daneben gibt es zahllose **kleinere Fraktionen und Akteure**: lokale Geheimbünde in einzelnen
 Epochen, mächtige Megakonzerne der Zukunft (mit Interesse an Zeitreise-Technologie, um in
@@ -944,21 +954,21 @@ Verbündeten, Rivalen und Feinden, die kommen und gehen.
 ### Kampagnenverlauf & Sandbox
 
 **ZEITRISS** ist als offene Kampagne konzipiert. Zwischen den Missionen im HQ können die Spieler oft
-wählen, welcher Spur sie als nächstes folgen wollen. Das ITI erhält ständig Berichte über Anomalien
-oder Verbrechen in verschiedenen Zeitzonen – den Chrononauten werden möglicherweise mehrere
-**Einsatzmöglichkeiten** präsentiert. Dieses Missionsauswahlsystem gibt den Spielern echte Freiheit
-und ermöglicht es ihnen, den Verlauf der Geschichte mitzubestimmen: Sie steuern mit ihren Interessen
-den Pfad der Geschichte.
+wählen, welcher Spur sie als nächstes folgen wollen. Das ITI erhält ständig Berichte über
+historische Unstimmigkeiten oder Machenschaften in verschiedenen Zeitzonen – den Chrononauten werden
+möglicherweise mehrere **Einsatzmöglichkeiten** präsentiert. Dieses Missionsauswahlsystem gibt den
+Spielern echte Freiheit und ermöglicht es ihnen, den Verlauf der Geschichte mitzubestimmen: Sie
+steuern mit ihren Interessen den Pfad der Geschichte.
 
 Beispielsweise könnten am Ende eines Einsatzes drei Hinweise vorliegen, die zu unterschiedlichen
 Folge-Missionen einladen:
 
-- **Pompeji 79 n. Chr.:** Kurz vor dem Vesuv-Ausbruch wurde eine Person mit modernem Gerät gesichtet
-(möglicher Zeitverbrecher).
-- **Berlin 1961 (Kalter Krieg):** Unerklärliche Stromausfälle treten entlang der Berliner Mauer auf
-(mögliche Zeit-Anomalie).
-- **Neo-Tokyo 2187:** Archivdaten verschwinden aus dem Hauptserver des Ordo Mnemonika (mögliche
-Sabotage durch eine Fraktion).
+- **Pompeji 79 n. Chr.:** Kurz vor dem Vesuv-Ausbruch soll ein Gelehrter gerettet werden. Die Agenten
+  müssen entscheiden, ob sie eingreifen oder den Ablauf bewahren.
+- **Lakehurst 1937:** Ein Forscher plant, an Bord der **Hindenburg** zu gehen. Die Chrononauten sollen
+  ihn unauffällig davon abhalten, damit die historische Tragödie ihren Lauf nimmt.
+- **Neo-Tokyo 2187:** Archivdaten sind entwendet worden. Die Spur führt zu rivalisierenden
+  Chronokartellen, die die Informationen für eigene Ziele nutzen wollen.
 
 Die Gruppe könnte frei wählen, welcher Sache sie nachgehen will. Die übrigen Handlungsstränge lösen
 sich nicht einfach in Luft auf: Vielleicht löst eine andere ITI-Einheit das Problem in Berlin 1961
