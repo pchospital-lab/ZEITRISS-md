@@ -128,8 +128,8 @@ tun.
 ### Ausbaustufen und Einrichtungen
 
 Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
-Im Laufe der Kampagne erweitern sie ihren jeweiligen Fraktionskomplex innerhalb des ITI. Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
-Durch Erfolge und Ressourcen können sie neue **Einrichtungen ausbauen**; jede Erweiterung zählt als Beitrag zur eigenen Fraktion und gewährt persönlichen Zugang zu dem Bereich. Beispiele für ausbaufähige Bereiche im
+Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI. Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
+Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen** und so Zugang zu bereits bestehenden Einrichtungen erhalten oder erweitern; jede Freischaltung zählt als Investition in die eigene Fraktion. Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
 HQ:
 
 - **Kommandozentrale:** Das Herz des HQ, von wo aus Zeitreisen koordiniert werden. Ausbau ermöglicht
