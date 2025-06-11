@@ -185,9 +185,12 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 und verrät euch vielleicht.
   2. Die **erfolgreiche Erfüllung** des Auftrags **verändert die Geschichte gefährlich** (Dilemma:
 Auftrag ausführen oder scheitern lassen?).
- 3. *Optional:* Ihr trefft auf einen **Doppelgänger aus einer anderen Zeitlinie** – vielleicht euer
-    eigenes zukünftiges Ich. Solche **Selbstbegegnungen** sollten echte Ausnahmen bleiben und nur
-    sparsam eingesetzt werden, um ihre Wirkung nicht zu verlieren.
+ 3. *Optional, nur auf ausdrücklichen Spielerwunsch:* Ihr trefft auf einen
+    **Doppelgänger aus einer anderen Zeitlinie** – vielleicht euer eigenes
+    zukünftiges Ich. Solche **Selbstbegegnungen** sind standardmäßig deaktiviert
+    und dürfen ausschließlich mit Zustimmung der Gruppe vorkommen. Selbst dann
+    sollten sie äußerst sparsam eingesetzt werden, um ihre Wirkung nicht zu
+    verlieren.
   4. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
 ihr, wen lasst ihr im Stich?
   5. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
@@ -195,17 +198,21 @@ konkurrierende Zeitreisende entbrennt.
   6. Ein **temporales Phänomen** erschwert alles: Zeitstürme, Anachronismus-Erscheinungen etc.
 treten auf.
 
-**Beispiel:** Auftrag 2 + Schauplatz 5 + Twist 3 ergibt *“Befreit X – in einer Traumzeit-Dimension –
-trefft einen Doppelgänger.”* GPT könnte daraus spinnen: Die Helden sollen einen verschollenen
-Zeitagenten befreien, der in einer durch einen Zeitunfall geschaffenen Pocket-Dimension gefangen ist
-– einer surrealen Traumwelt. Dort stoßen sie jedoch auf zukünftige Versionen ihrer selbst, die
-warnen: **Wenn ihr ihn befreit, muss sich einer von euch selbst opfern.** Was tun sie? – Schon hat
-man einen intensiven kleinen Plot, der die Gruppe vor ein echtes Dilemma stellt.
+**Beispiel (nur falls gewünscht):** Auftrag 2 + Schauplatz 5 + Twist 3 ergibt
+*“Befreit X – aus einer streng bewachten Forschungseinrichtung – trefft einen
+Doppelgänger.”* Die Helden sollen einen verschollenen Zeitagenten aus einem
+Hochsicherheitslabor befreien, das von rivalisierenden Chronokonzernen
+kontrolliert wird. Während des Einsatzes taucht plötzlich eine künftige Version
+eines Gruppenmitglieds auf und warnt: **Wenn ihr ihn befreit, muss sich einer
+von euch selbst opfern.** Diese Szene sollte nur auftreten, wenn die Spieler ein
+solches Motiv ausdrücklich wünschen und dient dann als intensives Dilemma.
 
-Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer Kniff
-und sollten nur sehr selten stattfinden. Oft reicht es, die Agenten an einen
-früheren Einsatzort zurückkehren zu lassen, um dort Hinweise auf ihr zukünftiges
-Handeln zu finden – ohne sich selbst unmittelbar zu treffen.
+Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer
+Kniff, aber kein Standardbestandteil des Spiels. Sie kommen nur zum Einsatz,
+wenn alle Spieler dem ausdrücklich zustimmen, und selbst dann höchstens als
+seltene Ausnahme. Oft genügt es, die Agenten an einen früheren Einsatzort
+zurückkehren zu lassen, um dort Hinweise auf ihr zukünftiges Handeln zu finden –
+ohne sich selbst unmittelbar zu treffen.
 
 Ihr könnt natürlich alle Elemente nach Belieben kombinieren. Wichtig ist, dass fast **jeder Auftrag
 mit einem Twist** deutlich interessanter wird. So werden selbst Nebenmissionen zu denkwürdigen
