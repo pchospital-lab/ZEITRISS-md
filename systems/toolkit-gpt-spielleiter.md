@@ -37,6 +37,13 @@ existenziellen Fragen.
 - **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver,
   sichern die Daten und verschwinden spurlos.
 
+### Mission-Fokus-Modus (ohne Visionen)
+ - Keine Visionen, Eingebungen oder Rückprojektionen auf den Spielercharakter.
+ - Codex meldet nur Fakten; keinerlei persönliche Deutungen.
+ - Alle Effekte werden sichtbar und logisch beschrieben.
+ - Konzentration auf Systeme, Gegner, Fraktionen und Objekte.
+ - Anomalien reagieren niemals direkt auf den Agenten.
+
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
 - **Filmischer, immersiver Erzählstil:** Beschreibe Szenen detailliert in der **Gegenwartsform** und
