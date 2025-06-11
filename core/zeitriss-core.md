@@ -805,7 +805,7 @@ die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren
 Temporale Intervention (ITI)** dient zu Beginn als Heimatbasis der Agenten, und zahlreiche andere
 Kräfte wirken – teils sichtbar, teils im Verborgenen – über die Zeitlinie hinweg. Im Folgenden
 werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben. Später
-kann die Gruppe sich in Sandbox-Kampagnen jedoch ein eigenes Hauptquartier aufbauen.
+erweitert die Gruppe ihren Fraktionskomplex im ITI; ein separates Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
 Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** – einem Bereich *außerhalb* des
 normalen Zeitstroms, der als sicherer Hafen für Zeitreisende genutzt wird. Von hier aus können die
@@ -893,7 +893,13 @@ die meisten aber im Verborgenen über verschiedene Zeitalter hinweg. Spieler wä
 Fraktion, für die sie Ruf sammeln, kennen jedoch nur Bruchstücke der langfristigen Pläne. Jede Gruppe
 verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen sollen. Hinweise auf
 diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
-höheren Mitgliedern. Hier ein Überblick der wichtigsten Gruppen:
+höheren Mitgliedern.
+
+Spieler können sich dabei grundsätzlich auf eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie festlegen. Wer den radikalen Neubau der Geschichte unterstützt – oft im Bund mit der **Zerbrechlichen Ewigkeit** – spielt ohne Paradox-Regel: Zeitabweichungen werden rein erzählerisch behandelt. Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
+
+Im HQ des ITI gilt dennoch absolute Waffenruhe. Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen. Ausbauten des HQ sind Investitionen in diese Fraktionsbereiche; ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
+
+Hier ein Überblick der wichtigsten Gruppen:
 
 - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die darauf bedacht sind, das
 Gleichgewicht der Zeit zu erhalten. Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.

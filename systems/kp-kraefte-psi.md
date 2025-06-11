@@ -411,6 +411,7 @@ notieren könnte).
 **Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting den Zeitstrom stören.
 Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig – insbesondere bei Chronokinese.
 Er wird fällig, wenn der Ablauf der Geschichte massiv verändert wird.
+Spielt eine Gruppe bewusst **contra** zur offiziellen Zeitlinie (etwa im Dienst der Zerbrechlichen Ewigkeit), kann die Paradox-Regel entfallen und Zeitabweichungen werden rein erzählerisch abgehandelt.
 Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen kaum Paradox.
 Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in einer Stunde
 ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereignis). Er
