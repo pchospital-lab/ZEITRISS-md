@@ -61,11 +61,15 @@ es über die normalen Missionsanforderungen hinausgeht. Solche Taten können nar
 Mission in letzter Sekunde rettet – in solchen Fällen „findet“ der Missionsleiter schon mal ein paar
 zusätzliche Chrono Units, um die Leistung anerkennend zu honorieren.
 
-Nach der Rückkehr ins Hauptquartier erfolgt im Debriefing die Abrechnung: Die verdienten CUs werden
-auf die Konten gebucht. Statt abstrakter Zahlen bleibt dieser Moment lebendig im Spiel: Der
-diensthabende Missionsleiter könnte z.B. mit einem anerkennenden Lächeln ein Datenpad überreichen:
-*„Gut gemacht. Jeder von euch erhält 3.000 CU für den erfolgreichen Abschluss dieses Einsatzes.“* So
-wird die Belohnung greifbar und direkt Teil der Geschichte.
+Nach der Rückkehr ins Hauptquartier erfolgt im Debriefing die Abrechnung:
+Die verdienten CUs werden auf die Konten gebucht.
+Statt abstrakter Zahlen bleibt dieser Moment lebendig im Spiel.
+Der diensthabende Missionsleiter könnte z.B. mit einem anerkennenden Lächeln
+ein Datenpad überreichen:
+*„Gut gemacht. Jeder von euch erhält 300 CU für den erfolgreichen Abschluss dieses Einsatzes.“*
+So wird die Belohnung greifbar und direkt Teil der Geschichte.
+Hohe Einmalzahlungen sind selten – die meisten Missionen bringen moderate Beträge,
+um das Wirtschaftssystem spannend zu halten.
 
 ### Wertvolle Funde: Loot konvertieren oder behalten
 
@@ -84,6 +88,8 @@ ITI aufgekauft. Das heißt, die Agenten können **Loot in CUs eintauschen**. Bri
 etwa ein kunstvolles Schmuckstück aus dem 14. Jahrhundert mit, das keinen Zeitverstoß darstellt,
 könnte das ITI-Museum daran interessiert sein. Der Gegenstand wechselt ins Archiv, während dem
 Agenten entsprechende CUs gutgeschrieben werden. Je seltener oder bedeutender der Fund, desto höher
+Die Gutschrift bleibt bewusst moderat und übersteigt selten die Grundprämie einer Mission,
+damit der Fortschritt der Agenten langfristig spannend bleibt.
 die Auszahlung. Genauso werden entfremdete Zukunftsgeräte – z.B. ein Laser aus dem Jahr 2200, den
 man im Mittelalter sichergestellt hat – von den Technikern übernommen; als Dankeschön dafür erhält
 die Gruppe Chrono Units, da sie geholfen hat, einen potenziellen Zeitfrevel aufzudecken.

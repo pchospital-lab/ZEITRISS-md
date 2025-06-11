@@ -20,11 +20,10 @@ erlebt. Dieses Modul liefert dir eine **Schritt-für-Schritt-Anleitung** zur Cha
 erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
-regelleicht gehalten, sodass der Spielfluss im Vordergrund steht. Eine KI-Spielleitung (z.B. GPT, im
-Spiel die ITI-KI „Codex“) unterstützt dabei: Sie integriert das HUD-Overlay deines Agenten als
-stilvolles Interface, das wichtige Daten wie Lebensstatus, Missionsziele und sogar deinen
-Erfahrungsfortschritt anzeigt. So bleiben die Spieler in der Welt, während Regeln dezent im
-Hintergrund wirken.
+regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
+GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
+Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann.
+So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 
 ## Schritt-für-Schritt zur Charaktererschaffung
 
