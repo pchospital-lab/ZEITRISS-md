@@ -915,6 +915,13 @@ Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitgl
 Ausbauten des HQ stellen Freikäufe zusätzlicher Zugangs-**Stufen** zu diesen Fraktionsbereichen dar;
 ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
+Dieser Waffenstillstand hat historische Gründe. Nachdem frühe Zeitreiseprogramme beinahe in
+offenen Konflikten endeten, erklärten die Gründer des ITI die Nullzeit zur neutralen Zone. Keine
+Fraktion darf den Stützpunkt für ideologische Kämpfe missbrauchen. Das Institut stellt lediglich die
+Infrastruktur bereit, überwacht den Einfluss auf den Zeitstrom und greift nur ein, wenn Einsätze eine
+kritische Paradox-Schwelle überschreiten. Aus dieser Abmachung resultiert der neutrale Blick des ITI
+auf pro- wie auch contraorientierte Agenten.
+
 Hier ein Überblick der wichtigsten Gruppen:
 
 - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die darauf bedacht sind, das
