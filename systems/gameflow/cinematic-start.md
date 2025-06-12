@@ -568,6 +568,18 @@ erfordert und idealerweise die Charaktere zusammen schmiedet. Wählt eine der fo
 kombiniert Elemente daraus. Alle enthalten **Optionen zur Anpassung**, damit ihr sie flexibel
 gestalten könnt.
 
+### Ermittler-Start: das Briefing schweigt
+
+Falls ihr das Abenteuer wie einen neuen Fall eines Ermittlerteams aufziehen
+wollt, haltet das erste Briefing bewusst knapp. Gebt nur vage Hinweise – ein
+ungeklärter Vorfall, ein unbestätigter Zeugenbericht – und lasst Fragen offen.
+Ähnlich den frühen *Akte X*-Folgen entdecken die Agenten die Wahrheit erst
+Stück für Stück vor Ort: Zeugen widersprechen sich, Spuren sind bruchstückhaft,
+und jeder Fund öffnet ein neues Puzzleteil. Diese Methode funktioniert im
+Solo‑Spiel ebenso wie in der Gruppe und sorgt dafür, dass sich der Fall langsam
+aufbaut. Der **Arc‑Baukasten** hilft dabei, jeden Hinweis als eigene Episode zu
+nutzen, bis das Gesamtbild klar wird.
+
 ### Missionsidee 1: **Gestohlene Zukunft**
 
 *Hook:* In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
