@@ -902,6 +902,14 @@ Oft geschieht das im Bund mit der **Zerbrechlichen Ewigkeit**.
 Zeitabweichungen werden dann rein erzählerisch behandelt.
 Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
 
+Eine weitere Spielbalance betrifft die **Psionik**: Nur Agenten, die sich
+der Erhaltung der Zeitlinie verschrieben haben, können psionische
+Fähigkeiten entwickeln. Contra-Charaktere bleiben von diesem Pfad
+ausgeschlossen und besitzen stattdessen einen starken natürlichen
+Widerstand gegen Psi-Einflüsse. Ihr Geist wehrt die „Erleuchtung“ des
+Zeitstroms ab, daher wirken telepathische oder mentale Angriffe bei ihnen
+nur eingeschränkt.
+
 **Wichtig:** Pro- und Contra-Agenten bleiben unter sich.
 Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen.
 Mischgruppen sind nicht vorgesehen.

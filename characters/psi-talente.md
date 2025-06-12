@@ -18,6 +18,13 @@ getriggert durch ein einschneidendes temporales Ereignis. Psi-Kräfte können vo
 zu gewissen Formen der **Chronokinese** (Zeitfluss leicht beeinflussen, z.B. kurzfristig
 verlangsamen) reichen. Auch Empathie über die Zeit oder das Aufspüren von Zeitanomalien zählen dazu.
 
+Nur Chrononauten, die den **pro**-Pfad wählen und die Hauptzeitlinie bewahren
+wollen, können Psionik überhaupt entfalten. Wer sich dem **contra**-Ansatz
+verschreibt, bleibt vom Psi-Potential abgeschnitten. Solche Agenten entwickeln
+dafür einen erhöhten Widerstand gegen mentale Einflüsse. Im Setting blockieren
+sie bewusst den „Fluss der Erleuchtung“, weshalb ihr Geist schwerer zu
+manipulieren ist.
+
 Spieltechnisch sind Psi-Fähigkeiten potente Werkzeuge – daher **streng limitiert**. Ihr Einsatz
 erfordert enorme Konzentration und **blockiert einen Teil der Systemlast**, da Körper und Geist
 stark beansprucht werden. **Jede psionische Kraft hat einen SYS-Kostenwert.** Solange eine Fähigkeit
