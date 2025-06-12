@@ -895,7 +895,9 @@ verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen 
 diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
 höheren Mitgliedern.
 
-Spieler können sich dabei grundsätzlich auf eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie festlegen. Wer den radikalen Neubau der Geschichte unterstützt – oft im Bund mit der **Zerbrechlichen Ewigkeit** – spielt ohne Paradox-Regel: Zeitabweichungen werden rein erzählerisch behandelt. Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
+Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie. Wer den radikalen Neubau der Geschichte unterstützt – oft im Bund mit der **Zerbrechlichen Ewigkeit** – spielt ohne Paradox-Regel: Zeitabweichungen werden rein erzählerisch behandelt. Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
+
+**Wichtig:** Pro- und Contra-Agenten bleiben unter sich. Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen – Mischgruppen sind nicht vorgesehen. Ein Wechsel der Fraktion ist nur innerhalb der eigenen Ausrichtung möglich und sollte gut überlegt sein. Wer sich einmal umentscheidet, behält erworbene **Rufwerte** und **Ausbaustufen**, darf diesen Schritt aber höchstens ein einziges Mal vollziehen. Ein Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
 
 Im HQ des ITI gilt dennoch absolute Waffenruhe. Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen. Ausbauten des HQ stellen Freikäufe zusätzlicher Zugangs-**Stufen** zu diesen Fraktionsbereichen dar; ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
