@@ -17,8 +17,8 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 
-Im Kern starten die Charaktere als frisch rekrutierte Agenten des ITI. Sie untersuchen Anomalien, die
-aus dem Montauk-Vorfall hervorgegangen sind, und reisen durch Zeitrisse in unterschiedlichste Epochen.
+Im Kern starten die Charaktere als frisch rekrutierte Agenten des ITI. Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungsoperationen bis zu verdeckter Spionage.
+Temporale Anomalien tauchen dabei eher im Hintergrund auf und sorgen für Spannung, ohne das Missionsziel zu verdrängen.
 Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
@@ -37,19 +37,20 @@ Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des
 **Instituts für Temporale Intervention (ITI)**. Eine internationale Koalition
 gründete das ITI, um solche Paradoxien einzudämmen und künftige Zeitrisse zu
 überwachen.
+Im größeren Kontext existiert eine **Galaktische Föderation** aus insgesamt 56 Alienarten. Diese hochentwickelten Völker beobachten die Erde, haben die Menschheit jedoch nicht aufgenommen. Ihr Kodex untersagt Eingriffe in die Geschichte junger Zivilisationen. Erst wenn eine Spezies aus eigener Kraft ein höheres Bewusstseinsniveau erreicht, wird sie zum Gesprächspartner. Menschen gelten daher bislang als kaum relevant.
+Das **ITI** entstand ausschließlich durch menschliche Initiative und setzt sich aus mehreren Pro- und Contra-Fraktionen zusammen. Ein Rat aus Vertreter*innen dieser Gruppierungen führt das Institut – eher anarchisch als demokratisch. Zu Beginn entscheidet sich jeder Spieler für eine dieser Hauptfraktionen. Bündnisse mit Alienvölkern sind nicht möglich, da die Föderation die Menschheit weitgehend ignoriert.
 
 
 ### Beispielkampagne: ChronTech-Komplott
 
 Eine mögliche Storyline dreht sich um den Megakonzern **ChronTech**. Die Helden infiltrieren zu
 Beginn eine geheime ChronTech-Operation und stoßen dabei auf einen aktiven Zeitriss. Dahinter
-steckt ein charismatischer CEO, der mit außerirdischer Hilfe die Geschichte zu seinen Gunsten
+steckt ein charismatischer CEO, der ohne echte Alienunterstützung die Geschichte zu seinen Gunsten
 formen will. Folgende Fraktionen können dabei eine Rolle spielen:
 
 - **Projekt ***Phoenix***** – Eine geheime Militäreinheit aus Montauk-Veteranen, die kompromisslos
   weitere Zeitrisse eindämmen möchte.
-- **Die ***Grauen***** – Technikaffine Aliens, die ChronTech fortschrittliche Geräte liefern und im
-  Gegenzug Einfluss auf die Zeitlinie fordern.
+- **Die ***Grauen***** – Gerüchte um technikaffine Aliens, die angeblich fortschrittliche Geräte hinterlassen haben. Offiziell zeigt die Föderation keinerlei Interesse an der Menschheit.
 - **Der Alte Orden** – Kulte und Nachfahren alter Zivilisationen, die das Pyramidengeheimnis hüten
   und Eindringlinge mit psionischen Flüchen jagen.
 - **Schattenkonzerne** – Rivalen von ChronTech, die eigene Söldner aussenden, um Artefakte zu
