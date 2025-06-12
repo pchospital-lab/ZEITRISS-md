@@ -17,7 +17,8 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 
-Im Kern starten die Charaktere als frisch rekrutierte Agenten des ITI. Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungsoperationen bis zu verdeckter Spionage.
+Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten.
+Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungen bis zu verdeckter Spionage.
 Temporale Anomalien tauchen dabei eher im Hintergrund auf und sorgen für Spannung, ohne das Missionsziel zu verdrängen.
 Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
@@ -37,8 +38,10 @@ Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des
 **Instituts für Temporale Intervention (ITI)**. Eine internationale Koalition
 gründete das ITI, um solche Paradoxien einzudämmen und künftige Zeitrisse zu
 überwachen.
-Im größeren Kontext existiert eine **Galaktische Föderation** aus insgesamt 56 Alienarten. Diese hochentwickelten Völker beobachten die Erde, haben die Menschheit jedoch nicht aufgenommen. Ihr Kodex untersagt Eingriffe in die Geschichte junger Zivilisationen. Erst wenn eine Spezies aus eigener Kraft ein höheres Bewusstseinsniveau erreicht, wird sie zum Gesprächspartner. Menschen gelten daher bislang als kaum relevant.
-Das **ITI** entstand ausschließlich durch menschliche Initiative und setzt sich aus mehreren Pro- und Contra-Fraktionen zusammen. Ein Rat aus Vertreter*innen dieser Gruppierungen führt das Institut – eher anarchisch als demokratisch. Zu Beginn entscheidet sich jeder Spieler für eine dieser Hauptfraktionen. Bündnisse mit Alienvölkern sind nicht möglich, da die Föderation die Menschheit weitgehend ignoriert.
+Im größeren Kontext existiert eine **Galaktische Föderation** mit 56 Alienarten, die die Erde beobachten.
+Das **ITI** entstand rein durch menschliche Initiative und vereint Pro- sowie Contra-Fraktionen.
+Ein Rat leitet das Institut; Bündnisse mit Aliens sind nicht möglich.
+Erst bei höherem Bewusstsein wird eine Spezies Gesprächspartner; Menschen gelten bislang als unwichtig.
 
 
 ### Beispielkampagne: ChronTech-Komplott
@@ -50,7 +53,7 @@ formen will. Folgende Fraktionen können dabei eine Rolle spielen:
 
 - **Projekt ***Phoenix***** – Eine geheime Militäreinheit aus Montauk-Veteranen, die kompromisslos
   weitere Zeitrisse eindämmen möchte.
-- **Die ***Grauen***** – Gerüchte um technikaffine Aliens, die angeblich fortschrittliche Geräte hinterlassen haben. Offiziell zeigt die Föderation keinerlei Interesse an der Menschheit.
+- **Die *Grauen*** – Technikaffine Aliens, angeblich mit Hinterlassenschaften; die Föderation ignoriert Menschen.
 - **Der Alte Orden** – Kulte und Nachfahren alter Zivilisationen, die das Pyramidengeheimnis hüten
   und Eindringlinge mit psionischen Flüchen jagen.
 - **Schattenkonzerne** – Rivalen von ChronTech, die eigene Söldner aussenden, um Artefakte zu
