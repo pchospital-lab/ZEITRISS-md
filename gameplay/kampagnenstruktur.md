@@ -181,6 +181,8 @@ ausgegebener Ressource einen Ausbaupunkt erhalten, den sie investieren können).
 die Spieler *spüren*, wie ihr HQ wächst: Beschreibt neue Räume filmisch, betont den Stolz und die
 verbesserte Moral der dortigen Crew, und lasst neue spielerische Optionen entstehen.
 
+Einige höhere Ausbaustufen verlangen darüber hinaus einen entsprechenden **Rufwert** bei der gewählten Fraktion. In der Regel öffnen sich sensible Bereiche des Komplexes erst ab etwa **Ruf +2**. Wechselt eine Gruppe innerhalb ihrer Ausrichtung die Fraktion, bleiben freigeschaltete Stufen und angesammelter Ruf erhalten.
+
 ### Ressourcenmanagement
 
 Der HQ-Ausbau geht Hand in Hand mit **Ressourcenverwaltung**. In einer Langzeitkampagne können die

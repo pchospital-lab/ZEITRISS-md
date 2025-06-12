@@ -172,6 +172,8 @@ Zeitgeflecht beeinflussen.
 
 Bereits hier entscheiden die Spieler, ob sie den Erhalt der Hauptzeitlinie unterstützen (**pro**) oder einen kompletten Neubau bevorzugen (**contra**). Wählt die Gruppe die Contra-Variante – oft in Allianz mit der Zerbrechlichen Ewigkeit –, entfällt im Spiel die Paradoxmechanik.
 
+Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen. Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse. Innerhalb der gewählten Ausrichtung darf ein Wechsel der unterstützten Fraktion erfolgen – allerdings nur einmal und mit Bedacht. Bei diesem Schritt bleiben sowohl Rufpunkte als auch bereits freigeschaltete **HQ-Ausbaustufen** erhalten. Ein späterer Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
+
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
 kauft ihr euch zusätzliche Zugangs-**Stufen** innerhalb des Fraktionskomplexes des ITI; ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen. Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
