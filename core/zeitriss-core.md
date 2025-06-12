@@ -27,12 +27,7 @@ spürbar verändern. Die Agenten versuchen dabei meist, die **Integrität der Ge
 und große Widersprüche zu vermeiden, damit über dutzende Missionen hinweg ein konsistentes
 Gesamtbild entsteht.
 
-Alles, was auf den ersten Blick übernatürlich wirkt – ob Erscheinungen, scheinbare Magie
-oder "Wunder" – beruht letztlich auf rationalen Ursachen. Mal steckt
-fortschrittliche Technologie dahinter, mal eine Psi-Begabung oder ein ungewöhnliches
-Zeitphänomen. Die Chrononauten lernen im Verlauf ihrer Einsätze, diese Vorgänge zu
-entlarven, während die zeitgenössische Bevölkerung sie für übernatürliche
-Kräfte hält.
+Alles scheinbar Übernatürliche lässt sich logisch erklären – oft geheime Technik, experimentelle Bio- oder Cyberware oder fokussierte Psi-Trainingseffekte. Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen. Die Chrononauten decken diese Hintergründe auf, während Zeitgenossen sie fälschlich für Wunder halten.
 
 Der Ton des Spiels ist düster-atmosphärisch, mysteriös und historisch stimmig. Man taucht
 vollständig in die jeweilige Zeit ein, löst Rätsel, besteht Abenteuer und erlebt die Welt durch die
@@ -41,8 +36,7 @@ und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 
 *Jeder Chrononaut besitzt ein ***Chronometer-Gerät*** – ein am Handgelenk getragenes Interface, das
 die Zeitsprünge steuert und als persönlicher Codex-Computer dient. Es projiziert ein dezentes AR-
-Display (HUD) ins Sichtfeld des Agenten: Vitalwerte, Missionsziele und Warnungen vor temporalen
-Anomalien sind so jederzeit auf einen Blick sichtbar.*
+Display (HUD) ins Sichtfeld des Agenten: Vitalwerte, Missionsziele und Hinweise auf zeitliche Instabilitäten lassen sich bei Bedarf einblenden.*
 
 ### Tonalität & Immersion
 
