@@ -13,7 +13,7 @@ tags: [gameplay]
 - Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
-- Temporale Anomalien-Generator: Risse im Zeitstrom
+- Temporale Anomalien-Generator (optional): Risse im Zeitstrom
 
 
 Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen – vor allem nicht
@@ -537,7 +537,8 @@ einem lokalen Fest mit und gewinnen dadurch Verbündete – oder sie nutzen eine
 für sich (*“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!”*). Diese kleinen Dinge
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
 
-## Temporale Anomalien-Generator
+## Temporale Anomalien-Generator (optional)
+Dieser Abschnitt ist nur relevant, wenn die Runde gezielt temporale Störungen untersuchen möchte. Für einen Agenten-Thriller sollten solche Effekte sparsam eingesetzt werden.
 
 Zeitreisen gehen selten ohne Nebenwirkungen vonstatten. Jede Sprungsequenz
 belastet das Raumzeit-Kontinuum. Nach **1000** vollzogenen Zeitsprüngen
