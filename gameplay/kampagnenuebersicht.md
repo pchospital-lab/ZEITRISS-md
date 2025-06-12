@@ -19,7 +19,8 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 
 Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten.
 Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungen bis zu verdeckter Spionage.
-Zeitliche Störungen sind selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative Szenen.
+Zeitliche Störungen sind selten und stets rational erklärbar;
+Sie dienen lediglich als Aufhänger für investigative Szenen.
 Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
