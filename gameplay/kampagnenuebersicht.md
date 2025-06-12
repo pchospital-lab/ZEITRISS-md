@@ -38,7 +38,7 @@ Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des
 **Instituts für Temporale Intervention (ITI)**. Eine internationale Koalition
 gründete das ITI, um solche Paradoxien einzudämmen und künftige Zeitrisse zu
 überwachen.
-Im größeren Kontext existiert eine **Galaktische Föderation** mit 56 Alienarten, die die Erde beobachten.
+Im größeren Kontext existiert eine **Galaktische Föderation** mit 56 Alienarten, die die Menschheit beobachten.
 Das **ITI** entstand rein durch menschliche Initiative und vereint Pro- sowie Contra-Fraktionen.
 Ein Rat leitet das Institut; Bündnisse mit Aliens sind nicht möglich.
 Erst bei höherem Bewusstsein wird eine Spezies Gesprächspartner; Menschen gelten bislang als unwichtig.
