@@ -40,12 +40,12 @@ nur ein Wert auf dem Bogen.
 
 | Implantat | Beschreibung | SYS | Kosten (CU) |
 |-----------|--------------|-----|-------------|
-| **Optisches Implantat (Nachtsicht)** | Künstliches Auge mit Restlichtverstärker und Zoom. *Effekt:* bessere Sicht bei Dunkelheit, **Nachtsicht**-Modus; +1 auf Wahrnehmungs-Proben im Dunkeln oder auf weite Distanz. | 1 | 300 |
-| **Kybernetischer Arm** | Mechanischer Arm (High-Tech-Prothese) mit verstärkter Servomotorik. *Effekt:* **Stärke +1** (über menschliches Limit hinaus möglich); unbewaffneter Schaden zählt als „schwer“ dank Kraftverstärkung. | 1 | 400 |
-| **Neuronales Interface** | Implantierter Computerchip im Gehirn, verbunden mit HUD. *Effekt:* direkter Datenzugriff und kabellose Kommunikation; z.B. **+2 auf Hacken/Elektronik** (da Reaktionszeit minimiert) und Zugriff auf eine interne Enzyklopädie (Wissensfragen keine Probe). | 1 | 250 |
-| **Subdermale Panzerplatten** | Dünne, flexible Panzerschichten unter der Haut an Torso/Gliedmaßen. *Effekt:* eingebauter Körperschutz, entspricht ca. **leichter Rüstung**: –1 Schaden pro Treffer, ohne etwas tragen zu müssen. Unauffällig unter der Haut, allerdings medizinisch bei Verletzung auffällig (Metall unter Fleisch). | 1 | 350 |
-| **Notfall-Stimulat** *(Implantat)* | Subkutanes Injektionssystem, das bei Lebensgefahr automatisch Adrenalin & Koagulantien ins Blut pumpt. *Effekt:* **Einmal pro Mission**, wenn die LP auf 0 sinken, fällt der Charakter nicht sofort bewusstlos, sondern bleibt für 1 Runde kampffähig (dann erst Zusammenbruch). Kann entscheidende Sekunden erkaufen. | 1 | 200 |
-| **Servomotoren in Beinen** | Verstärkte Knie- und Beinimplantate. *Effekt:* **+1 auf Athletik** (Sprungweite, Sprintgeschwindigkeit) und höhere Traglast. Der Chrononaut kann außerdem aus dem Stand beeindruckend hoch springen (~2 m). | 1 | 300 |
+| **Nachtsicht-Implantat** | Künstliches Auge mit Verstärker. *Effekt:* Nachtsicht, +1 Wahrnehmung. | 1 | 300 |
+| **Kybernetischer Arm** | Servomotorik-Prothese. *Effekt:* Stärke +1, Schaden ohne Waffe schwer. | 1 | 400 |
+| **Neuronales Interface** | Chip mit HUD. *Effekt:* Datenzugriff, Funkverbindung; +2 Elektronik. | 1 | 250 |
+| **Subdermale Panzerplatten** | Platten unter Haut. *Effekt:* –1 Schaden; auffällig bei Verletzung. | 1 | 350 |
+| **Notfall-Stimulat** *(Implantat)* | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach. | 1 | 200 |
+| **Servomotoren in Beinen** | Bein-Servomotoren. *Effekt:* +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1 | 300 |
 
 *Hinweis:* In Absprache kann die SL auch Implantate mit **höheren SYS-Kosten** zulassen, die dann
 aber erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
@@ -81,12 +81,12 @@ Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod 
 
 | Modifikation | Beschreibung | SYS | Kosten (CU) |
 |--------------|--------------|-----|-------------|
-| **Immun-Booster-Genmod** | Verbesserte Immunabwehr durch genetische Anpassung. *Effekt:* der Charakter erhält **Resistenz gegen Gifte und Krankheiten** – Proben auf Konstitution gegen Gifte/Krankheiten gelingen automatisch oder mit +2 Bonus (je nach Toxizität). Nebenwirkung: leicht erhöhtes Risiko von Autoimmunreaktionen. | 1 | 250 |
-| **Reflexverstärkung** *(Gen-Therapie)* | Eingriff ins Nervensystem zur Beschleunigung der Reflexe. *Effekt:* **+1 Geschicklichkeit (GES)** und leicht erhöhte Grundinitiative. Der Charakter reagiert oft blitzartig. Nebenwirkung: gelegentliches Muskelzucken in Ruhephasen. | 1 | 300 |
-| **Muskelstärkung (Biomod)** | Erhöhte Muskelkraft durch gezielte Genexpression. *Effekt:* **+1 Stärke (STR)** ohne mechanische Prothesen. Die Kraftzuwächse sind subtil verteilt, sodass das Muskelwachstum äußerlich nur leicht erkennbar ist. Nebenwirkung: Appetit und Kalorienbedarf steigen deutlich. | 1 | 300 |
-| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen (mit reflektierender Schicht wie bei nachtaktiven Tieren). *Effekt:* der Charakter kann im Dunkeln sehen (bei minimalem Licht) – **kein Abzug bei Dunkelheit**. Augen leuchten rot/grün auf bei Lichteinfall (kann unheimlich wirken). | 1 | 200 |
-| **Regenerations-Booster** | Aktivierung von „Schläfergenen“, die die Zellregeneration fördern. *Effekt:* **Verdopplung der Heilrate** außerhalb des Kampfes – Wunden heilen in halber Zeit, Narbenbildung minimiert. Nebenwirkung: erhöhter Stoffwechsel, Körpertemperatur leicht erhöht. | 1 | 400 |
-| **Stoffwechselkontrolle** | Hormonelle Anpassungen, um den Stoffwechsel extrem flexibel zu machen. *Effekt:* Der Chrononaut benötigt **weniger Schlaf** (ca. 4 Std. genügen), kann extreme Temperaturen oder Hunger länger ertragen, und Gifte/Alkohol schneller abbauen. Nebenwirkung: der Charakter wirkt manchmal unruhig oder hyperaktiv durch den aktiven Metabolismus. | 1 | 250 |
+| **Immun-Booster-Genmod** | Erhöht Immunabwehr. *Effekt:* Resistenz gegen Gifte. Autoimmunrisiko möglich. | 1 | 250 |
+| **Reflexverstärkung** | Nervensystem-Tuning. *Effekt:* +1 Geschick; schnelle Reaktion; Muskelzucken. | 1 | 300 |
+| **Muskelstärkung** | Genmod für mehr Kraft. *Effekt:* +1 Stärke. Nebenwirkung: großer Appetit. | 1 | 300 |
+| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen. *Effekt:* Nachtsicht. Augen leuchten rot/grün. | 1 | 200 |
+| **Regenerations-Booster** | Beschleunigt Heilung. *Effekt:* Heilrate x2. Nebenwirkung: hoher Stoffwechsel. | 1 | 400 |
+| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken. | 1 | 250 |
 
 *Balance-Hinweis:* Cyberware und Bioware sind im Spiel gleichwertige Alternativen. Oft bevorzugen
 Kämpfer vielleicht robuste Cyberware, während Infiltratoren lieber unauffällige Bioware nehmen.
@@ -94,7 +94,8 @@ Wichtig ist: **Alle Verbesserungen zehren an der SYS-Kapazität** – ein Agent 
 kaum Raum für Psi und umgekehrt. Die SL sollte zudem thematisch passende Nebenwirkungen einbauen,
 wenn es dramatisch passt (z.B. ein *Reflex-Booster*-Charakter, der in einer ruhigen Wache-Szene
 gegen eine Vase stößt, weil seine Nerven überreagieren).
-*Psi-Abgleich:* Kurzzeitig manifestierte Psi-Waffen (maximal eine Kampfrunde lang) verursachen **keine** Systemlast. Alles darüber hinaus zählt als dauerhafte Psi-Kraft und belegt SYS-Punkte wie andere Implantate.
+*Psi-Abgleich:* Kurzzeitig manifestierte Psi-Waffen (maximal eine Kampfrunde lang) verursachen **keine** Systemlast.
+Alles darüber hinaus zählt als dauerhafte Psi-Kraft und belegt SYS-Punkte wie andere Implantate.
 Dauerhaft aktive Psi-Kräfte belegen hingegen SYS-Punkte wie andere Implantate.
 Grundfähigkeiten sind leicht zu erlernen, doch hohe Meisterstufen verlangen intensives Training
 und sorgfältiges SYS-Management.
