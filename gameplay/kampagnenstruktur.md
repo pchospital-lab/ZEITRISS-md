@@ -128,8 +128,12 @@ tun.
 ### Ausbaustufen und Einrichtungen
 
 Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
-Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI. Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
-Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen** und so Zugang zu bereits bestehenden Einrichtungen erhalten oder erweitern; jede Freischaltung zählt als Investition in die eigene Fraktion. Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
+Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI.
+Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
+Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen**.
+So erhalten sie Zugang zu bereits bestehenden Einrichtungen oder erweitern diese.
+Jede Freischaltung gilt als Investition in die eigene Fraktion.
+Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
 HQ:
 
 - **Kommandozentrale:** Das Herz des HQ, von wo aus Zeitreisen koordiniert werden. Ausbau ermöglicht
@@ -146,13 +150,20 @@ oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werksta
 können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeitshuttle, Chrono-Anzug
 etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
 Agenten dank guter Ausrüstung weniger improvisieren müssen.
-- **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung. Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte und Hackübungen simulieren, ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in der Arena kombiniert. Durch den Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten einstudieren oder ihre Werte zwischen Einsätzen steigern. Regeltechnisch bieten gut trainierte Agenten kleine Boni auf passende Proben, oder man zeigt in filmischen Montagen, wie sie sich auf kommende Gefahren vorbereiten.
+- **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
+  Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte und Hackübungen simulieren,
+  ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in
+  der Arena kombiniert. Durch den Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten
+  einstudieren oder ihre Werte zwischen Einsätzen steigern. Regeltechnisch bieten gut trainierte Agenten
+  kleine Boni auf passende Proben, oder man zeigt in filmischen Montagen, wie sie sich auf kommende
+  Gefahren vorbereiten.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
-  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener Stützpunkt außerhalb des ITI ist nicht vorgesehen.
+  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener
+  Stützpunkt außerhalb des ITI ist nicht vorgesehen.
   Dieser persönliche Rückzugsort bleibt erhalten. Erinnerungsstücke an vergangene Missionen
   lassen das HQ zum Tagebuch der Gruppe werden. Ausbaustufen können zusätzlichen Komfort oder Sicherheit
-  bieten, z. B. einen privaten Tresor für persönliche Gegenstände oder einen Ort zur Meditation, was
-  im Spiel beispielsweise Stress abbauen kann.
+  bieten, z. B. einen privaten Tresor für persönliche Gegenstände oder einen Ort zur Meditation,
+  was im Spiel beispielsweise Stress abbauen kann.
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
 Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
 Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
@@ -174,7 +185,10 @@ ausgegebener Ressource einen Ausbaupunkt erhalten, den sie investieren können).
 die Spieler *spüren*, wie ihr HQ wächst: Beschreibt neue Räume filmisch, betont den Stolz und die
 verbesserte Moral der dortigen Crew, und lasst neue spielerische Optionen entstehen.
 
-Einige höhere Ausbaustufen verlangen darüber hinaus einen entsprechenden **Rufwert** bei der gewählten Fraktion. In der Regel öffnen sich sensible Bereiche des Komplexes erst ab etwa **Ruf +2**. Wechselt eine Gruppe innerhalb ihrer Ausrichtung die Fraktion, bleiben freigeschaltete Stufen und angesammelter Ruf erhalten.
+Einige höhere Ausbaustufen verlangen darüber hinaus einen entsprechenden **Rufwert** bei der gewählten Fraktion.
+In der Regel öffnen sich sensible Bereiche des Komplexes erst ab etwa **Ruf +2**.
+Wechselt eine Gruppe innerhalb ihrer Ausrichtung die Fraktion, bleiben freigeschaltete Stufen erhalten.
+Auch angesammelter Ruf geht nicht verloren.
 
 ### Ressourcenmanagement
 
