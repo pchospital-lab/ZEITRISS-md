@@ -289,7 +289,7 @@ des Anreitens), doch ein gezielter Treffer auf das Tier kann Reiter schnell aus 
 **Fluggeräte** (vom Zeppelin bis zum Jetpack) erfordern Pilotieren-Fertigkeiten; **Flugtiere**
 (Drache, Flugsaurier) wiederum eine Mischung aus Reiten und spezieller Bindung ans Wesen. Die
 zusätzliche Dimension bedeutet, dass neben Geschwindigkeit auch **Höhe und Sturzgefahr** eine Rolle
-spielen. Bei **Sturzflug-Manövern** oder Turbulenzen könnten die Insassen Sicherheistproben
+spielen. Bei **Sturzflug-Manövern** oder Turbulenzen könnten die Insassen Sicherheitsproben
 brauchen, um nicht herumgeschleudert zu werden. In Luftkämpfen gelten ähnliche Prinzipien wie beim
 Fahrzeugkampf, ergänzt um Themen wie Höhe gewinnen/verloren (wer oben ist, hat taktischen Vorteil),
 **Strömungen** (Auf- oder Abwinde als Umgebungsfaktoren) und **Absturz**: Ein fliegendes Vehikel,
