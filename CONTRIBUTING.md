@@ -1,3 +1,9 @@
+---
+title: "Contribution Guidelines"
+version: 1.0
+tags: [meta]
+---
+
 # CONTRIBUTING
 
 Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
@@ -8,3 +14,4 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
 
 Vielen Dank für deine Mithilfe!
+

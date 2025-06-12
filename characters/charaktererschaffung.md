@@ -618,7 +618,7 @@ und **Beförderungen**, auch wenn das ITI weniger militärisch, sondern mehr for
 Narrativ könnte der Codex oder ein Vorgesetzter dir nach einigen Missionen eine Beförderung
 aussprechen – in Regeln spiegelt das deinen Level-Up wider. Internes Ansehen kann auch durch
 besondere Taten steigen: Wenn ihr z.B. eine extrem gefährliche Anomalie bewältigt **ohne** Paradox-
-Schäden, könnte das ITI euch einen Ruhmespunkt geben. Umgekehrt können Versagen (Mission abbrechen
+Schäden, könnte das ITI euch einen Rufpunkt geben. Umgekehrt können Versagen (Mission abbrechen
 müssen, grobe Regelverstöße) euren internen Ruf mindern, was ggf. Konsequenzen für die Versorgung
 hat.
 
