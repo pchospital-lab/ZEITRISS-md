@@ -603,9 +603,8 @@ gruselige oder abgedrehte Einsätze eignen:
    wie ein riesiger Basilisk wirkt. Manche glauben an einen alienartigen Turm,
    größer als der Turm zu Babel.
 3. **Rückseite des Mondes – Die wahre Madonna:** In einem abgestürzten
-   Raumschiff ruht ein Wesen, halb Mensch, halb Alien – möglicher Ursprung
-   der Menschheit und die wahre Madonna. Ein nahezu perfektes Gemälde zeigt
-   ihr Bildnis.
+   Raumschiff ruht ein Wesen, halb Mensch, halb Alien. Manche halten es für den
+   Ursprung der Menschheit – eine wahre Madonna.
 4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren weisen Spuren
    komplexer Organismen auf eine verschollene Kolonie hin.
 5. **Antarktis – Versiegelte Anlagen:** Tief unter dem Eis verbergen sich
@@ -616,3 +615,15 @@ gruselige oder abgedrehte Einsätze eignen:
 
 Die KI kann diese Hotspots nutzen, um spektakuläre Sci-Fi-Plots zu entwerfen
 oder sie mit realen Schauplätzen zu verknüpfen.
+
+## Ausgefallene Szenarien
+
+1. **Militärischer Komplex – Tollwutvirus-Zombies:** In einer geheimen Anlage
+   wird ein modifiziertes Tollwutvirus getestet. Ein Ausbruch verwandelt das
+   Personal in rasende Kreaturen. Die Chrononauten sollen die Ursache finden und
+   das Virus eindämmen.
+2. **Mittelalterliche Katakomben – Der falsche Teufel:** In einem abgelegenen
+   Dorf verschwinden Menschen. Unter dem Dorf liegt ein weit verzweigtes
+   Katakombensystem, das angeblich vom Teufel bewohnt wird. Tatsächlich erzeugen
+   dort versteckte Alien-Geräte furchteinflößende Illusionen, während gezüchtete
+   Mutanten ein uraltes Geheimnis bewachen.
