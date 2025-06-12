@@ -538,7 +538,8 @@ für sich (*“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!�
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
 
 ## Temporale Anomalien-Generator (optional)
-Dieser Abschnitt ist nur relevant, wenn die Runde gezielt temporale Störungen untersuchen möchte. Für einen Agenten-Thriller sollten solche Effekte sparsam eingesetzt werden.
+Dieser Abschnitt ist nur relevant, wenn die Runde gezielt temporale Störungen untersuchen möchte.
+Für einen Agenten-Thriller sollten solche Effekte sparsam eingesetzt werden.
 
 Zeitreisen gehen selten ohne Nebenwirkungen vonstatten. Jede Sprungsequenz
 belastet das Raumzeit-Kontinuum. Nach **1000** vollzogenen Zeitsprüngen
