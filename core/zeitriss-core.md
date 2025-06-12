@@ -963,9 +963,9 @@ machtlos, aber sie sind auch nicht allein auf der Bühne: Die Welt fühlt sich l
 Unabhängig davon, ob die Agenten **pro** oder **contra** spielen, belastet
 jeder Zeitsprung den Zeitstrom. Nach **1000** Sprüngen tritt automatisch
 eine **temporale Anomalie** auf. Die Spielleitung würfelt oder wählt einen
-Eintrag aus dem Modul *Temporale Anomalien-Generator*, um das Ereignis zu
-bestimmen. Diese seltenen Störungen erinnern daran, dass jede Reise ihren
-Preis hat.
+Eintrag aus dem Abschnitt *Temporale Anomalien-Generator* im Modul
+*Kreative Generatoren*, um das Ereignis zu bestimmen. Diese seltenen
+Störungen erinnern daran, dass jede Reise ihren Preis hat.
 
 Verbündeten, Rivalen und Feinden, die kommen und gehen.
 
