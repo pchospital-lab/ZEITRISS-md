@@ -78,15 +78,14 @@ Geräusch eines aktivierten Energieschwerts.
 
 **Beispiel-Nahkampfwaffen:**
 
-|  |  |  |  |  | |----|----|----|----|----| | Römischer *Gladius* | Antike | 2 (leicht) | Kurz und
-führig; effektiv in engem Nahkampf, unauffällig historisch | 50 | | Langschwert (zweihändig) |
-Mittelalter | 3 (mittel) | Hohe Durchschlagskraft gegen ungerüstete Ziele; gegen Plattenrüstung
-mäßig effektiv | 80 | | Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen,
-schnelle Stiche oder Würfe im Nahkampf | 40 | | Taktisches Monofil-Katana | 22. Jh. (nahe Zukunft) |
-3 (mittel) | Ultraharte Mono-Klinge, schneidet selbst moderne Panzerung; erfordert Übung | 120 | |
-Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Konzentrierte Plasma-Klinge,
-*ignoriert konventionelle Rüstung* durch Hitze (leuchtet auffällig) | 200 |
 
+| Waffe | Epoche | Schaden | Besonderheit | Kosten (CU) |
+|-------|--------|---------|--------------|-------------|
+| Römischer *Gladius* | Antike | 2 (leicht) | Kurz und führig; effektiv in engem Nahkampf, unauffällig historisch | 50 |
+| Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft gegen ungerüstete Ziele; gegen Plattenrüstung mäßig effektiv | 80 |
+| Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen, schnelle Stiche oder Würfe im Nahkampf | 40 |
+| Taktisches Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Ultraharte Mono-Klinge, schneidet selbst moderne Panzerung; erfordert Übung | 120 |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Konzentrierte Plasma-Klinge, *ignoriert konventionelle Rüstung* durch Hitze (leuchtet auffällig) | 200 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -101,22 +100,16 @@ einige Beispiele:
 
 **Beispiel-Fernkampfwaffen:**
 
-|  |  |  |  |  |  | |----|----|----|----|----|----| | Langbogen | Mittelalter | 2–3 (leicht–mittel)
-| Weit (bis ~100 m) | Lautlos und tödlich auf Distanz, aber langsame Schussfolge; erfordert Kraft
-und Übung | 60 | | Repetierarmbrust | Renaissance | 3 (mittel) | Mittel (~30 m) | Magazin für
-mehrere Bolzen, leiser als Schusswaffen; gute Rüstungsdurchdringung | 100 | | Revolver (.38) |
-20. Jh. (Industrie) | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel, solide Durchschlagskraft;
-Mündungsknall und Rauch verraten die Position | 50 | | Sturmgewehr (AK-Variant) | 21. Jh. (modern) |
-4 (schwer) | Mittel–weit | Vollautomatik oder Einzelschuss umschaltbar; hoher Schaden und
-Durchschlagskraft (laut, benötigt Munition) | 150 | | Needler-Pistole | 22. Jh. (Zukunft) | 1
-(**Betäubung**) | Kurz–mittel | Futuristischer **Betäuber**: verschießt narkotische Mikroprojektile,
-nahezu lautlos; schaltet Gegner unbemerkt aus statt zu töten | 180 | | Laser-Gewehr | 23. Jh.
-(Zukunft) | 4 (schwer) | Weit (Linie) | Strahlenwaffe mit gebündeltem Licht: *durchdringt
-konventionelle Panzerung*, kein Rückstoß; benötigt Energiezellen (keine Ballistik-Spuren) | 250 | |
-Plasmawerfer | 24. Jh. (weitere Zukunft) | 5 (schwer+) | Mittel (~50 m) | Tragbarer Plasmablaster,
-feuert supererhitztes Plasma – verursacht verheerenden Schaden und *Explosionseffekte*; hoher
-Energieverbrauch, gefährlich nahebei | 300 |
 
+| Waffe | Epoche | Schaden | Reichweite | Besonderheit | Kosten (CU) |
+|-------|--------|---------|-----------|--------------|-------------|
+| Langbogen | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos und tödlich auf Distanz, aber langsame Schussfolge; erfordert Kraft und Übung | 60 |
+| Repetierarmbrust | Renaissance | 3 (mittel) | Mittel (~30 m) | Magazin für mehrere Bolzen, leiser als Schusswaffen; gute Rüstungsdurchdringung | 100 |
+| Revolver (.38) | 20. Jh. (Industrie) | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel, solide Durchschlagskraft; Mündungsknall und Rauch verraten die Position | 50 |
+| Sturmgewehr (AK-Variant) | 21. Jh. (modern) | 4 (schwer) | Mittel–weit | Vollautomatik oder Einzelschuss umschaltbar; hoher Schaden und Durchschlagskraft (laut, benötigt Munition) | 150 |
+| Needler-Pistole | 22. Jh. (Zukunft) | 1 (**Betäubung**) | Kurz–mittel | Futuristischer **Betäuber**: verschießt narkotische Mikroprojektile, nahezu lautlos; schaltet Gegner unbemerkt aus statt zu töten | 180 |
+| Laser-Gewehr | 23. Jh. (Zukunft) | 4 (schwer) | Weit (Linie) | Strahlenwaffe mit gebündeltem Licht: *durchdringt konventionelle Panzerung*, kein Rückstoß; benötigt Energiezellen (keine Ballistik-Spuren) | 250 |
+| Plasmawerfer | 24. Jh. (weitere Zukunft) | 5 (schwer+) | Mittel (~50 m) | Tragbarer Plasmablaster, feuert supererhitztes Plasma – verursacht verheerenden Schaden und *Explosionseffekte*; hoher Energieverbrauch, gefährlich nahebei | 300 |
 *(Reichweiten sind grobe Richtwerte für offene Gelände. „Schwer+“ Schaden deutet an, dass meist ein
 einziger Treffer bereits kritische Verwundungen verursacht. Die Spielleitung kann bei solchen
 extremen Waffen zusätzliche Effekte wie ***Durchschlag*** durch Deckung oder ***Kollateralschaden***
@@ -141,21 +134,14 @@ und persönliche Schutzsysteme:
 
 **Beispiel-Schutzkleidung und Rüstungen:**
 
-|  |  |  |  |  | |----|----|----|----|----| | Lederwams | Historisch (Mittelalter) | *Leichter
-Schutz:* –1 Schaden im Nahkampf (gegen Klingen/Schlag) | Schützt kaum gegen Kugeln; in High-Tech-
-Settings auffällig altmodisch | 30 | | Kettenhemd | Historisch | *Mäßiger Schutz:* –1 Schaden (gegen
-Klingen) | Schwer und klirrend (Geschicklichkeits-Proben –1 durch Behinderung); unter Kleidung
-schwer zu verstecken | 60 | | Kugelsichere Weste (Kevlar) | Modern (20./21. Jh.) | *Basis-Schutz:*
-–1 Schaden pro Projektiltreffer | Unter Jacke tragbar, aber gegen Stichwaffen nur bedingt wirksam;
-kann heiß und unbequem werden | 100 | | Taktischer Kampfanzug | Modern (Militär/SWAT) | *Starker
-Schutz:* –2 Schaden, deckt Torso und Gliedmaßen ab | Sehr auffällig (militärischer Look); behindert
-Bewegungen leicht; hohes Gewicht | 180 | | Leichter Nano-Anzug | Zukunft (22. Jh.) | *Adaptiver
-Schutz:* –1 Schaden (gegen alle Schadensarten); tarnt Thermalsignatur | Teuer und empfindlich:
-Selbstreparierende Nano-Struktur, die nach mehreren Treffern ausfallen kann; wirkt futuristisch auf
-Primitiv-Epochen | 220 | | Tragbarer Energie-Schild | Zukunft (tragbares Gadget) | *Energieschild:*
-Absorbiert **insgesamt 5 Schaden** pro Mission (projektierte Schutzaura) | Kann durch EMP
-deaktiviert werden; begrenzte Batterielaufzeit; erzeugt leicht sichtbares Schimmerfeld bei Treffern
-| 250 |
+| Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) |
+|---------|-------|--------|--------------|-------------|
+| Lederwams | Historisch (Mittelalter) | *Leichter Schutz:* –1 Schaden im Nahkampf (gegen Klingen/Schlag) | Schützt kaum gegen Kugeln; in High-Tech-Settings auffällig altmodisch | 30 |
+| Kettenhemd | Historisch | *Mäßiger Schutz:* –1 Schaden (gegen Klingen) | Schwer und klirrend (Geschicklichkeits-Proben –1 durch Behinderung); unter Kleidung schwer zu verstecken | 60 |
+| Kugelsichere Weste (Kevlar) | Modern (20./21. Jh.) | *Basis-Schutz:* –1 Schaden pro Projektiltreffer | Unter Jacke tragbar, aber gegen Stichwaffen nur bedingt wirksam; kann heiß und unbequem werden | 100 |
+| Taktischer Kampfanzug | Modern (Militär/SWAT) | *Starker Schutz:* –2 Schaden, deckt Torso und Gliedmaßen ab | Sehr auffällig (militärischer Look); behindert Bewegungen leicht; hohes Gewicht | 180 |
+| Leichter Nano-Anzug | Zukunft (22. Jh.) | *Adaptiver Schutz:* –1 Schaden (gegen alle Schadensarten); tarnt Thermalsignatur | Teuer und empfindlich: Selbstreparierende Nano-Struktur, die nach mehreren Treffern ausfallen kann; wirkt futuristisch auf Primitiv-Epochen | 220 |
+| Tragbarer Energie-Schild | Zukunft (tragbares Gadget) | *Energieschild:* Absorbiert **insgesamt 5 Schaden** pro Mission (projektierte Schutzaura) | Kann durch EMP deaktiviert werden; begrenzte Batterielaufzeit; erzeugt leicht sichtbares Schimmerfeld bei Treffern | 250 |
 
 *Hinweis:* Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**

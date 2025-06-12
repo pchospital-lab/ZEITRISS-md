@@ -38,24 +38,14 @@ nur ein Wert auf dem Bogen.
 
 **Beispiel-Cyberware-Implantate:**
 
-|  |  |  |  | |----|----|----|----| | **Optisches Implantat (Nachtsicht)** | Künstliches Auge mit
-Restlichtverstärker und Zoom. *Effekt:* bessere Sicht bei Dunkelheit, **Nachtsicht**-Modus; +1 auf
-Wahrnehmungs-Proben im Dunkeln oder auf weite Distanz. | 1 | 300 | | **Kybernetischer Arm** |
-Mechanischer Arm (High-Tech-Prothese) mit verstärkter Servomotorik. *Effekt:* **Stärke +1** (über
-menschliches Limit hinaus möglich); unbewaffneter Schaden zählt als „schwer“ dank Kraftverstärkung.
-| 1 | 400 | | **Neuronales Interface** | Implantierter Computerchip im Gehirn, verbunden mit HUD.
-*Effekt:* direkter Datenzugriff und kabellose Kommunikation; z.B. **+2 auf Hacken/Elektronik** (da
-Reaktionszeit minimiert) und Zugriff auf eine interne Enzyklopädie (Wissensfragen keine Probe). | 1
-| 250 | | **Subdermale Panzerplatten** | Dünne, flexible Panzerschichten unter der Haut an
-Torso/Gliedmaßen. *Effekt:* eingebauter Körperschutz, entspricht ca. **leichter Rüstung**: –1
-Schaden pro Treffer, ohne etwas tragen zu müssen. Unauffällig unter der Haut, allerdings medizinisch
-bei Verletzung auffällig (Metall unter Fleisch). | 1 | 350 | | **Notfall-Stimulat** *(Implantat)* |
-Subkutanes Injektionssystem, das bei Lebensgefahr automatisch Adrenalin & Koagulantien ins Blut
-pumpt. *Effekt:* **Einmal pro Mission**, wenn die LP auf 0 sinken, fällt der Charakter nicht sofort
-bewusstlos, sondern bleibt für 1 Runde kampffähig (dann erst Zusammenbruch). Kann entscheidende
-Sekunden erkaufen. | 1 | 200 | | **Servomotoren in Beinen** | Verstärkte Knie- und Beinimplantate.
-*Effekt:* **+1 auf Athletik** (Sprungweite, Sprintgeschwindigkeit) und höhere Traglast. Der
-Chrononaut kann außerdem aus dem Stand beeindruckend hoch springen (~2 m). | 1 | 300 |
+| Implantat | Beschreibung | SYS | Kosten (CU) |
+|-----------|--------------|-----|-------------|
+| **Optisches Implantat (Nachtsicht)** | Künstliches Auge mit Restlichtverstärker und Zoom. *Effekt:* bessere Sicht bei Dunkelheit, **Nachtsicht**-Modus; +1 auf Wahrnehmungs-Proben im Dunkeln oder auf weite Distanz. | 1 | 300 |
+| **Kybernetischer Arm** | Mechanischer Arm (High-Tech-Prothese) mit verstärkter Servomotorik. *Effekt:* **Stärke +1** (über menschliches Limit hinaus möglich); unbewaffneter Schaden zählt als „schwer“ dank Kraftverstärkung. | 1 | 400 |
+| **Neuronales Interface** | Implantierter Computerchip im Gehirn, verbunden mit HUD. *Effekt:* direkter Datenzugriff und kabellose Kommunikation; z.B. **+2 auf Hacken/Elektronik** (da Reaktionszeit minimiert) und Zugriff auf eine interne Enzyklopädie (Wissensfragen keine Probe). | 1 | 250 |
+| **Subdermale Panzerplatten** | Dünne, flexible Panzerschichten unter der Haut an Torso/Gliedmaßen. *Effekt:* eingebauter Körperschutz, entspricht ca. **leichter Rüstung**: –1 Schaden pro Treffer, ohne etwas tragen zu müssen. Unauffällig unter der Haut, allerdings medizinisch bei Verletzung auffällig (Metall unter Fleisch). | 1 | 350 |
+| **Notfall-Stimulat** *(Implantat)* | Subkutanes Injektionssystem, das bei Lebensgefahr automatisch Adrenalin & Koagulantien ins Blut pumpt. *Effekt:* **Einmal pro Mission**, wenn die LP auf 0 sinken, fällt der Charakter nicht sofort bewusstlos, sondern bleibt für 1 Runde kampffähig (dann erst Zusammenbruch). Kann entscheidende Sekunden erkaufen. | 1 | 200 |
+| **Servomotoren in Beinen** | Verstärkte Knie- und Beinimplantate. *Effekt:* **+1 auf Athletik** (Sprungweite, Sprintgeschwindigkeit) und höhere Traglast. Der Chrononaut kann außerdem aus dem Stand beeindruckend hoch springen (~2 m). | 1 | 300 |
 
 *Hinweis:* In Absprache kann die SL auch Implantate mit **höheren SYS-Kosten** zulassen, die dann
 aber erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
@@ -89,27 +79,14 @@ Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod 
 
 **Beispiel-Bioware-Modifikationen:**
 
-|  |  |  |  | |----|----|----|----| | **Immun-Booster-Genmod** | Verbesserte Immunabwehr durch
-genetische Anpassung. *Effekt:* der Charakter erhält **Resistenz gegen Gifte und Krankheiten** –
-Proben auf Konstitution gegen Gifte/Krankheiten gelingen automatisch oder mit +2 Bonus (je nach
-Toxizität). Nebenwirkung: leicht erhöhtes Risiko von Autoimmunreaktionen. | 1 | 250 | |
-**Reflexverstärkung** *(Gen-Therapie)* | Eingriff ins Nervensystem zur Beschleunigung der Reflexe.
-*Effekt:* **+1 Geschicklichkeit (GES)** und leicht erhöhte Grundinitiative. Der Charakter reagiert
-oft blitzartig. Nebenwirkung: gelegentliches Muskelzucken in Ruhephasen. | 1 | 300 | |
-**Muskelstärkung (Biomod)** | Erhöhte Muskelkraft durch gezielte Genexpression. *Effekt:* **+1
-Stärke (STR)** ohne mechanische Prothesen. Die Kraftzuwächse sind subtil verteilt, sodass das
-Muskelwachstum äußerlich nur leicht erkennbar ist. Nebenwirkung: Appetit und Kalorienbedarf steigen
-deutlich. | 1 | 300 | | **Nachtsicht-Netzhaut** | Genetisch angepasste Augen (mit reflektierender
-Schicht wie bei nachtaktiven Tieren). *Effekt:* der Charakter kann im Dunkeln sehen (bei minimalem
-Licht) – **kein Abzug bei Dunkelheit**. Augen leuchten rot/grün auf bei Lichteinfall (kann
-unheimlich wirken). | 1 | 200 | | **Regenerations-Booster** | Aktivierung von „Schläfergenen“, die
-die Zellregeneration fördern. *Effekt:* **Verdopplung der Heilrate** außerhalb des Kampfes – Wunden
-heilen in halber Zeit, Narbenbildung minimiert. Nebenwirkung: erhöhter Stoffwechsel,
-Körpertemperatur leicht erhöht. | 1 | 400 | | **Stoffwechselkontrolle** | Hormonelle Anpassungen, um
-den Stoffwechsel extrem flexibel zu machen. *Effekt:* Der Chrononaut benötigt **weniger Schlaf**
-(ca. 4 Std. genügen), kann extreme Temperaturen oder Hunger länger ertragen, und Gifte/Alkohol
-schneller abbauen. Nebenwirkung: der Charakter wirkt manchmal unruhig oder hyperaktiv durch den
-aktiven Metabolismus. | 1 | 250 |
+| Modifikation | Beschreibung | SYS | Kosten (CU) |
+|--------------|--------------|-----|-------------|
+| **Immun-Booster-Genmod** | Verbesserte Immunabwehr durch genetische Anpassung. *Effekt:* der Charakter erhält **Resistenz gegen Gifte und Krankheiten** – Proben auf Konstitution gegen Gifte/Krankheiten gelingen automatisch oder mit +2 Bonus (je nach Toxizität). Nebenwirkung: leicht erhöhtes Risiko von Autoimmunreaktionen. | 1 | 250 |
+| **Reflexverstärkung** *(Gen-Therapie)* | Eingriff ins Nervensystem zur Beschleunigung der Reflexe. *Effekt:* **+1 Geschicklichkeit (GES)** und leicht erhöhte Grundinitiative. Der Charakter reagiert oft blitzartig. Nebenwirkung: gelegentliches Muskelzucken in Ruhephasen. | 1 | 300 |
+| **Muskelstärkung (Biomod)** | Erhöhte Muskelkraft durch gezielte Genexpression. *Effekt:* **+1 Stärke (STR)** ohne mechanische Prothesen. Die Kraftzuwächse sind subtil verteilt, sodass das Muskelwachstum äußerlich nur leicht erkennbar ist. Nebenwirkung: Appetit und Kalorienbedarf steigen deutlich. | 1 | 300 |
+| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen (mit reflektierender Schicht wie bei nachtaktiven Tieren). *Effekt:* der Charakter kann im Dunkeln sehen (bei minimalem Licht) – **kein Abzug bei Dunkelheit**. Augen leuchten rot/grün auf bei Lichteinfall (kann unheimlich wirken). | 1 | 200 |
+| **Regenerations-Booster** | Aktivierung von „Schläfergenen“, die die Zellregeneration fördern. *Effekt:* **Verdopplung der Heilrate** außerhalb des Kampfes – Wunden heilen in halber Zeit, Narbenbildung minimiert. Nebenwirkung: erhöhter Stoffwechsel, Körpertemperatur leicht erhöht. | 1 | 400 |
+| **Stoffwechselkontrolle** | Hormonelle Anpassungen, um den Stoffwechsel extrem flexibel zu machen. *Effekt:* Der Chrononaut benötigt **weniger Schlaf** (ca. 4 Std. genügen), kann extreme Temperaturen oder Hunger länger ertragen, und Gifte/Alkohol schneller abbauen. Nebenwirkung: der Charakter wirkt manchmal unruhig oder hyperaktiv durch den aktiven Metabolismus. | 1 | 250 |
 
 *Balance-Hinweis:* Cyberware und Bioware sind im Spiel gleichwertige Alternativen. Oft bevorzugen
 Kämpfer vielleicht robuste Cyberware, während Infiltratoren lieber unauffällige Bioware nehmen.

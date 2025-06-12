@@ -156,7 +156,7 @@ Vorbereitung (Kleidung, Akzent, Make-up) kann der Charakter nahezu jede **Identi
 annehmen**. Gegenüber gewöhnlichen Wachen/Zivilisten benötigt er keine Probe, um nicht aufzufallen;
 nur geübte Beobachter könnten ihn durchschauen (und selbst da +2 SG).
 - **Adrenalinschub** (A): Kurzfristige Mobilisierung letzter Reserven. *Einmal pro Mission* kann der
-Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STÄ und GES** z.B. für
+Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
 1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
 Trümmer hochstemmen, einen superschnellen Feind einholen). Danach tritt Erschöpfung ein: für etwa
 eine Stunde **–1 auf alle Proben**.
