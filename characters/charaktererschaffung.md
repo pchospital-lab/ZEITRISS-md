@@ -590,10 +590,10 @@ Zahlen jederzeit an ihre Kampagne anpassen.
 |---------:|-----------------------------|
 | 0        | Startwert |
 | +1       | 10 |
-| +2       | 25 |
-| +3       | 45 |
-| +4       | 75 |
-| +5       | 115 |
+| +2       | 35 |
+| +3       | 100 |
+| +4       | 200 |
+| +5       | 400 |
 
 Rufgewinn dauert also Monate oder gar Jahre ingame. Rufverlust tritt nur bei gravierenden
 Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. *„Paris 1880: Ruf +2
