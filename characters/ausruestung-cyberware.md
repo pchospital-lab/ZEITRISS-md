@@ -302,6 +302,19 @@ Artefakte sind dabei äußerst selten – vergleichbar mit legendären Drops in 
 Optional kann zu Beginn einer längeren Mission 1W6 gewürfelt werden; nur bei einer 6 tritt ein einzelnes Artefakt auf.
 Mehrere Artefakte pro Einsatz sollten die Ausnahme bleiben. Wer es noch seltener möchte, kann stattdessen auf W10 oder W20 würfeln.
 Die folgenden Tabellen liefern schnell einsetzbare Loot-Ideen.
+### Richtlinien zur Loot-Verteilung
+- **Szenario und Epoche beachten:** Wählt Beute, die zur aktuellen Mission und zum jeweiligen
+  Zeitabschnitt passt. Ein mittelalterliches Langschwert wirkt in der Zukunft ebenso deplatziert
+  wie ein Laser-Gewehr im antiken Rom.
+- **Temporale Gadgets dosiert einsetzen:** Zeitmanipulierende Geräte und Artefakte sollen
+  Highlights bleiben. Nutzt sie nur dann, wenn sie die Handlung stützen oder einen besonderen
+  Aha-Effekt erzeugen.
+- **Wert in CUs und Story einbinden:** Verknüpft seltene Funde mit Missionsfortschritten oder dem
+  CU-System. So bleibt der Fokus auf dem Agenten-Thriller und exotische Ausrüstung wird nicht zum
+  Selbstzweck.
+- **Weniger ist mehr:** Ein einzelnes Spezial-Item genügt oft, um Spannung aufzubauen. Zu viel
+  Zeit-Loot verwässert den Reiz des Szenarios.
+
 Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um ein passendes Item zu bestimmen.
 CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
 oder was ein ähnliches Objekt im HQ kosten würde.
