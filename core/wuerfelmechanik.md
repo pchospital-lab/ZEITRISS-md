@@ -42,7 +42,8 @@ bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder soba
 automatisch Alarm schlägt. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
 Situationen nur wirklich wichtige Daten eingeblendet werden und die Agenten nicht von
 Informationsflut überwältigt werden.
-  In Kampagnen, die bewusst **contra** zur offiziellen Zeitlinie gespielt werden, kann die Paradox-Warnung deaktiviert werden.
+  In Kampagnen, die bewusst **contra** zur offiziellen Zeitlinie gespielt werden,
+  kann die Paradox-Warnung deaktiviert werden.
 - **Attributs-Skalierung & Heldenwürfel:** Neue Regeln für Charaktere mit außergewöhnlichen
 Attributwerten: Ab einem Wert von **11** erhält der Held einen **Heldenwürfel** (zweiter Wurf,
 besseres Ergebnis zählt) als Vorteil. Zusätzlich geben wir Hinweise, wie SL und Spieler einer

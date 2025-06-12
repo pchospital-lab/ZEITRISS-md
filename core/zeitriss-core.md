@@ -804,8 +804,9 @@ Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
 Temporale Intervention (ITI)** dient zu Beginn als Heimatbasis der Agenten, und zahlreiche andere
 Kräfte wirken – teils sichtbar, teils im Verborgenen – über die Zeitlinie hinweg. Im Folgenden
-werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben. Später
-schaltet die Gruppe nach und nach weitere Zugangs-**Stufen** in ihrem Fraktionskomplex im ITI frei; ein separates Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
+werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben.
+Später schaltet die Gruppe nach und nach weitere Zugangs-**Stufen** in ihrem Fraktionskomplex im ITI frei;
+ein separates Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
 Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** – einem Bereich *außerhalb* des
 normalen Zeitstroms, der als sicherer Hafen für Zeitreisende genutzt wird. Von hier aus können die
@@ -895,11 +896,24 @@ verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen 
 diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
 höheren Mitgliedern.
 
-Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie. Wer den radikalen Neubau der Geschichte unterstützt – oft im Bund mit der **Zerbrechlichen Ewigkeit** – spielt ohne Paradox-Regel: Zeitabweichungen werden rein erzählerisch behandelt. Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
+Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie.
+Wer den radikalen Neubau der Geschichte unterstützt, spielt ohne Paradox-Regel.
+Oft geschieht das im Bund mit der **Zerbrechlichen Ewigkeit**.
+Zeitabweichungen werden dann rein erzählerisch behandelt.
+Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
 
-**Wichtig:** Pro- und Contra-Agenten bleiben unter sich. Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen – Mischgruppen sind nicht vorgesehen. Ein Wechsel der Fraktion ist nur innerhalb der eigenen Ausrichtung möglich und sollte gut überlegt sein. Wer sich einmal umentscheidet, behält erworbene **Rufwerte** und **Ausbaustufen**, darf diesen Schritt aber höchstens ein einziges Mal vollziehen. Ein Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
+**Wichtig:** Pro- und Contra-Agenten bleiben unter sich.
+Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen.
+Mischgruppen sind nicht vorgesehen.
+Ein Wechsel der Fraktion ist nur innerhalb der eigenen Ausrichtung möglich und sollte gut überlegt sein.
+Wer sich einmal umentscheidet, behält erworbene **Rufwerte** und **Ausbaustufen**.
+Diesen Schritt darf man jedoch nur ein einziges Mal vollziehen.
+Ein Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
 
-Im HQ des ITI gilt dennoch absolute Waffenruhe. Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen. Ausbauten des HQ stellen Freikäufe zusätzlicher Zugangs-**Stufen** zu diesen Fraktionsbereichen dar; ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
+Im HQ des ITI gilt dennoch absolute Waffenruhe.
+Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen.
+Ausbauten des HQ stellen Freikäufe zusätzlicher Zugangs-**Stufen** zu diesen Fraktionsbereichen dar;
+ein eigenes Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
 Hier ein Überblick der wichtigsten Gruppen:
 

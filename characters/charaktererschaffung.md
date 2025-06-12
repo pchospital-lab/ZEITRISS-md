@@ -170,13 +170,22 @@ welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
 **Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
 Zeitgeflecht beeinflussen.
 
-Bereits hier entscheiden die Spieler, ob sie den Erhalt der Hauptzeitlinie unterstützen (**pro**) oder einen kompletten Neubau bevorzugen (**contra**). Wählt die Gruppe die Contra-Variante – oft in Allianz mit der Zerbrechlichen Ewigkeit –, entfällt im Spiel die Paradoxmechanik.
+Bereits hier entscheiden die Spieler, ob sie den Erhalt der Hauptzeitlinie unterstützen (**pro**).
+Oder bevorzugen sie einen kompletten Neubau (**contra**)?
+Wählt die Gruppe diese Contra-Variante, entfällt die Paradoxmechanik.
+Oft geschieht dies in Allianz mit der Zerbrechlichen Ewigkeit.
 
-Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen. Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse. Innerhalb der gewählten Ausrichtung darf ein Wechsel der unterstützten Fraktion erfolgen – allerdings nur einmal und mit Bedacht. Bei diesem Schritt bleiben sowohl Rufpunkte als auch bereits freigeschaltete **HQ-Ausbaustufen** erhalten. Ein späterer Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
+Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen.
+Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
+Innerhalb der gewählten Ausrichtung ist ein Fraktionswechsel möglich – aber nur einmal und mit Bedacht.
+Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
+Ein späterer Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
-kauft ihr euch zusätzliche Zugangs-**Stufen** innerhalb des Fraktionskomplexes des ITI; ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen. Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
+Später kauft ihr euch zusätzliche Zugangs-**Stufen** im Fraktionskomplex des ITI.
+Ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen.
+Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
 Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
 Wunden versorgt und der nächste Auftrag vorbereitet – die Heimkehr ist also ein
 regelmäßiges, aber freiwilliges Element des Spielablaufs.
@@ -569,7 +578,8 @@ Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschie
 **Ruf** aufbaut. ZEITRISS 4.0 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
 relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–5** und **+5** tracken.
 Null ist neutral, positive Werte bedeuten Vertrauen/Ansehen, negative Misstrauen oder Feindschaft.
-Zu Beginn einer Kampagne wählt ihr, bei welcher Fraktion ihr langfristig Ansehen aufbauen wollt und ob ihr die Hauptzeitlinie erhaltet (pro) oder neu formen wollt (contra).
+Zu Beginn einer Kampagne wählt ihr, bei welcher Fraktion ihr langfristig Ansehen aufbauen wollt.
+Außerdem entscheidet ihr, ob ihr die Hauptzeitlinie erhaltet (**pro**) oder neu formen wollt (**contra**).
 Anschließend sammelt ihr über viele Einsätze hinweg langsam
 Rufpunkte. Erst nach etwa **zehn erfolgreich abgeschlossenen Missionen** steigt euer Wert um
 eine Stufe. Für jede weitere Stufe sind zunehmend mehr Missionen nötig, sodass echter
