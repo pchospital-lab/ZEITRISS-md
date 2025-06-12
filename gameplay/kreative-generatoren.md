@@ -627,3 +627,6 @@ oder sie mit realen Schauplätzen zu verknüpfen.
    Katakombensystem, das angeblich vom Teufel bewohnt wird. Tatsächlich erzeugen
    dort versteckte Alien-Geräte furchteinflößende Illusionen, während gezüchtete
    Mutanten ein uraltes Geheimnis bewachen.
+3. **Altes Schloss – Vampir-Experiment:** Nächtliche Übergriffe plagen ein Dorf. Ein Konzern schuf hier einst
+   eine neue Menschenart, die Blut saugt und sich per Biss verbreitet. Die Chrononauten müssen im Schloss
+   den fanatischen Bluttrinkerzirkel aufspüren und das fehlgeschlagene Experiment beenden.
