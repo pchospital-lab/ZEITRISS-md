@@ -68,10 +68,12 @@ Telekinese entwaffnen. Technologische Hilfsmittel verstärken oder blockieren Ps
 Gedankenhemmer, Psi-Verstärker und neuronale Implantate sind Teil der Spielwelt. In der Kampagne
 begegnen die Helden psionisch begabten Widersachern – vom Montauk-Telepathen, der Emotionen
 manipuliert, bis zum kybernetisch aufgerüsteten Konzern-Assassinen, der Telekinese einsetzt, um
-Kugeln in der Luft aufzuhalten. Die **Regelmechaniken** für Psionik können analog zu Magieregeln
-gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z.B. *Psi-Felder* statt Magieaura). Dieses
-zentrale Element verleiht den Missionen einen mysteriösen „Mindpunk“-Charakter und eröffnet
-kreative Lösungswege für die Spieler.
+ Kugeln in der Luft aufzuhalten. Die **Regelmechaniken** für Psionik können analog zu Magieregeln
+ gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z.B. *Psi-Felder* statt Magieaura). Dieses
+ zentrale Element verleiht den Missionen einen mysteriösen „Mindpunk“-Charakter und eröffnet
+ kreative Lösungswege für die Spieler.
+  Scheinbar magische Phänomene werden damit immer als Technologie, temporale Wirkung oder
+  Psi-Effekt interpretiert (siehe Abschnitt "Grundidee" im README).
 
 **Zeitreisen und alternative Zeitlinien:** Die Kampagne spielt mit dem Konzept des Zeitflusses und
 beantwortet ständig die Frage „Was wäre, wenn…?“. Mithilfe experimenteller Zeitmaschinen und

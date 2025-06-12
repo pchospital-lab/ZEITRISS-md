@@ -34,6 +34,13 @@ ZEITRISS-Abenteuer bunt und lebendig zu halten!
 *Hinweis zu Visionen:* Träume oder innere Eingebungen sind **optional** und werden nur eingebaut,
 wenn die Spielrunde es ausdrücklich wünscht.
 
+Alle Tabellen gehen davon aus, dass scheinbar übernatürliche Ereignisse auf
+Technologie, Psi oder Zeitphänomene zurückführen sind. Ein "Teufel" im
+Mittelalter entpuppt sich möglicherweise als holografischer Schrecken oder als
+Mutant aus einer anderen Epoche. Dieses Motiv zieht sich durch alle
+Generatoreinträge und kann als Faustregel dienen, wenn keine eigene Erklärung
+parat ist.
+
 ## Random-Epochen-Generator: Wann und wo?
 
 ZEITRISS-Missionen können prinzipiell in jeder Epoche der echten oder fiktiven Geschichte spielen.

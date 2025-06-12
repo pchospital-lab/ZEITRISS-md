@@ -17,6 +17,8 @@ getriggert durch ein einschneidendes temporales Ereignis. Psi-Kräfte können vo
 (Gedanken und Gefühle wahrnehmen/übermitteln) über **Präkognition** (vage Vorahnung der Zukunft) bis
 zu gewissen Formen der **Chronokinese** (Zeitfluss leicht beeinflussen, z.B. kurzfristig
 verlangsamen) reichen. Auch Empathie über die Zeit oder das Aufspüren von Zeitanomalien zählen dazu.
+Im Sinne des ZEITRISS-Leitbilds sind diese Fähigkeiten keine Magie im klassischen Sinn, sondern
+lassen sich stets als erweiterte Neurotechnik oder als Reaktion auf temporale Effekte deuten.
 
 Nur Chrononauten, die den **pro**-Pfad wählen und die Hauptzeitlinie bewahren
 wollen, können Psionik überhaupt entfalten. Wer sich dem **contra**-Ansatz
