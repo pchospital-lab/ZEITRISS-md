@@ -11,7 +11,13 @@ Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält e
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 
 ## Grundidee
-**ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller. Zeitreisen sind lediglich ein Werkzeug, um reale Verschwörungen zu untersuchen und bedeutende Ereignisse zu beeinflussen. Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplätzen. Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik, Bio- oder Cyberware oder fokussierte Psi-Techniken. Mystische Paradoxien spielen keine Rolle. Dieses rational geerdete Konzept zieht sich durch sämtliche Regelmodule und dient als gemeinsamer Rahmen.
+**ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
+Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen und bedeutende Ereignisse zu beeinflussen.
+Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplätzen.
+Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik sowie Bio- oder Cyberware.
+Auch fokussierte Psi-Techniken können dahinterstecken.
+Mystische Paradoxien spielen keine Rolle.
+Dieses rational geerdete Konzept zieht sich durch sämtliche Regelmodule und dient als gemeinsamer Rahmen.
 
 ## Struktur
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
