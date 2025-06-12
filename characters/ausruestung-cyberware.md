@@ -110,10 +110,8 @@ einige Beispiele:
 | Needler-Pistole | 22. Jh. (Zukunft) | 1 (**Betäubung**) | Kurz–mittel | Futuristischer **Betäuber**: verschießt narkotische Mikroprojektile, nahezu lautlos; schaltet Gegner unbemerkt aus statt zu töten | 180 |
 | Laser-Gewehr | 23. Jh. (Zukunft) | 4 (schwer) | Weit (Linie) | Strahlenwaffe mit gebündeltem Licht: *durchdringt konventionelle Panzerung*, kein Rückstoß; benötigt Energiezellen (keine Ballistik-Spuren) | 250 |
 | Plasmawerfer | 24. Jh. (weitere Zukunft) | 5 (schwer+) | Mittel (~50 m) | Tragbarer Plasmablaster, feuert supererhitztes Plasma – verursacht verheerenden Schaden und *Explosionseffekte*; hoher Energieverbrauch, gefährlich nahebei | 300 |
-*(Reichweiten sind grobe Richtwerte für offene Gelände. „Schwer+“ Schaden deutet an, dass meist ein
-einziger Treffer bereits kritische Verwundungen verursacht. Die Spielleitung kann bei solchen
-extremen Waffen zusätzliche Effekte wie ***Durchschlag*** durch Deckung oder ***Kollateralschaden***
-in der Umgebung beschreiben.)*
+
+*(Reichweiten sind grobe Richtwerte für offene Gelände. „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht. Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie ***Durchschlag*** durch Deckung oder ***Kollateralschaden*** in der Umgebung beschreiben.)*
 
 ## Panzerung & Schutzsysteme
 
