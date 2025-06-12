@@ -582,12 +582,24 @@ Zu Beginn einer Kampagne wählt ihr, bei welcher Fraktion ihr langfristig Ansehe
 Außerdem entscheidet ihr, ob ihr die Hauptzeitlinie erhaltet (**pro**) oder neu formen wollt (**contra**).
 Anschließend sammelt ihr über viele Einsätze hinweg langsam
 Rufpunkte. Erst nach etwa **zehn erfolgreich abgeschlossenen Missionen** steigt euer Wert um
-eine Stufe. Für jede weitere Stufe sind zunehmend mehr Missionen nötig, sodass echter
-Rufgewinn Monate oder gar Jahre ingame dauern kann. Rufverlust tritt dagegen nur bei
-gravierenden Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B.
-*„Paris 1880: Ruf +2 (wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses
-System macht die **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um
-Stimmungen und Beziehungen abzubilden.
+eine Stufe. Für jede weitere Stufe sind zunehmend mehr Einsätze nötig. Die folgende Tabelle gibt
+Richtwerte an, wie viele Missionserfolge insgesamt sinnvoll sein können. Die Spielleitung darf die
+Zahlen jederzeit an ihre Kampagne anpassen.
+
+| Rufstufe | Missionserfolge gesamt (ca.) |
+|---------:|-----------------------------|
+| 0        | Startwert |
+| +1       | 10 |
+| +2       | 25 |
+| +3       | 45 |
+| +4       | 75 |
+| +5       | 115 |
+
+Rufgewinn dauert also Monate oder gar Jahre ingame. Rufverlust tritt nur bei gravierenden
+Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. *„Paris 1880: Ruf +2
+(wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses System macht die
+**Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und
+Beziehungen abzubilden.
 
 **Wirkung von Ruf:** Ein hoher Rufwert bringt narrative Boni – etwa Hilfsbereitschaft von NSCs,
 Rabatte auf dem Markt oder Zugang zu verschlossenen Bereichen. Negativer Ruf kann Hindernisse
