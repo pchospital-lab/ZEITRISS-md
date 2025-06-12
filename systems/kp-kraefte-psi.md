@@ -13,6 +13,10 @@ tags: [systems]
 - Entwicklung von Psi im Levelsystem
 - Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
 
+Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
+lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
+zurückführen.
+
 ### Stiloption: Hard Sci-Fi
 In diesem Modus sind Psi-Effekte bodenständig. Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 

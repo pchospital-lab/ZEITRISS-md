@@ -27,6 +27,13 @@ spürbar verändern. Die Agenten versuchen dabei meist, die **Integrität der Ge
 und große Widersprüche zu vermeiden, damit über dutzende Missionen hinweg ein konsistentes
 Gesamtbild entsteht.
 
+Alles, was auf den ersten Blick übernatürlich wirkt – ob Erscheinungen, scheinbare Magie
+oder "Wunder" – beruht letztlich auf rationalen Ursachen. Mal steckt
+fortschrittliche Technologie dahinter, mal eine Psi-Begabung oder ein ungewöhnliches
+Zeitphänomen. Die Chrononauten lernen im Verlauf ihrer Einsätze, diese Vorgänge zu
+entlarven, während die zeitgenössische Bevölkerung sie für übernatürliche
+Kräfte hält.
+
 Der Ton des Spiels ist düster-atmosphärisch, mysteriös und historisch stimmig. Man taucht
 vollständig in die jeweilige Zeit ein, löst Rätsel, besteht Abenteuer und erlebt die Welt durch die
 Augen der Charaktere. Gleichzeitig fühlt es sich an wie ein cineastischer Sci-Fi-Thriller – stilvoll
