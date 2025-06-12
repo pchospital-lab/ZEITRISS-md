@@ -146,14 +146,7 @@ oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werksta
 können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeitshuttle, Chrono-Anzug
 etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
 Agenten dank guter Ausrüstung weniger improvisieren müssen.
-- **Trainingshalle:** Ein Bereich für reales physisches Training und taktische
-Übungen. Holo-Technik wird hier hauptsächlich für Hackübungen eingesetzt, währen­d
-Körper- und Waffen­drills stets unter echten Bedingungen stattfinden. Mit dem
-Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten üben oder ihre
-Werte zwischen Einsätzen verbessern. Man kann dies regeltechnisch umsetzen,
-indem gut trainierte Agenten kleine Boni auf Proben erhalten, die in ihrem
-Trainingsgebiet liegen, oder durch Cinematic-Montagen zeigen, wie sie sich auf
-kommende Gefahren vorbereiten.
+- **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung. Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte und Hackübungen simulieren, ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in der Arena kombiniert. Durch den Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten einstudieren oder ihre Werte zwischen Einsätzen steigern. Regeltechnisch bieten gut trainierte Agenten kleine Boni auf passende Proben, oder man zeigt in filmischen Montagen, wie sie sich auf kommende Gefahren vorbereiten.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
   personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener Stützpunkt außerhalb des ITI ist nicht vorgesehen.
   Dieser persönliche Rückzugsort bleibt erhalten. Erinnerungsstücke an vergangene Missionen
