@@ -11,7 +11,7 @@ ZEITRISS ist ein düsteres Sci-Fi-Sandbox-Spiel. Megakonzerne und geheime Projek
 von Raum und Zeit aus, während das **Institut für Temporale Intervention (ITI)** versucht, die
 entstandenen Risse zu überwachen. Spieler erkunden verschiedene Epochen, formen ihre eigene
 Zeitlinie und können sich mit oder gegen einflussreiche Fraktionen stellen. Der Stil orientiert sich
-an **Technoir** – Psionik ersetzt Magie und sorgt für eine erwachsene, mysteriöse Atmosphäre. Obwohl
+an klassischen Agentenfilmen; Psionik ist lediglich ein fokussiertes Training, keine Magie. Obwohl
 einige Elemente auf Verschwörungstheorien beruhen, beansprucht das Spiel keinerlei historische
 Genauigkeit (Fiktion, ab 18 Jahren).
 
@@ -19,7 +19,7 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 
 Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten.
 Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungen bis zu verdeckter Spionage.
-Temporale Anomalien tauchen dabei eher im Hintergrund auf und sorgen für Spannung, ohne das Missionsziel zu verdrängen.
+Zeitliche Störungen sind selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative Szenen.
 Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
@@ -59,8 +59,8 @@ formen will. Folgende Fraktionen können dabei eine Rolle spielen:
 - **Schattenkonzerne** – Rivalen von ChronTech, die eigene Söldner aussenden, um Artefakte zu
   stehlen oder ChronTechs Fortschritt zu sabotieren.
 
-**Psionik als Spielfeature:** *Zeitriss* ersetzt klassische Magie durch **Psionik** – die
-mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über paranormale
+**Psionik als Werkzeug:** *Zeitriss* nutzt fokussierte Gehirntrainings als **Psionik** – die
+mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über besondere
 Fähigkeiten wie Telepathie, Telekinese, präkognitive Visionen oder Gedankenkontrolle. Diese
 Psi-Kräfte sind das Ergebnis genetischer Experimente, intensiven Trainings oder der Einwirkung
 außerirdischer Technologie. So können z.B. begabte Psioniker Gedanken lesen oder Gegner mittels
@@ -70,7 +70,7 @@ begegnen die Helden psionisch begabten Widersachern – vom Montauk-Telepathen, 
 manipuliert, bis zum kybernetisch aufgerüsteten Konzern-Assassinen, der Telekinese einsetzt, um
  Kugeln in der Luft aufzuhalten. Die **Regelmechaniken** für Psionik können analog zu Magieregeln
  gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z.B. *Psi-Felder* statt Magieaura). Dieses
- zentrale Element verleiht den Missionen einen mysteriösen „Mindpunk“-Charakter und eröffnet
+ zentrale Element verleiht den Missionen einen technisch erklärten Vorteil und eröffnet
  kreative Lösungswege für die Spieler.
   Scheinbar magische Phänomene werden damit immer als Technologie, temporale Wirkung oder
   Psi-Effekt interpretiert (siehe Abschnitt "Grundidee" im README).
