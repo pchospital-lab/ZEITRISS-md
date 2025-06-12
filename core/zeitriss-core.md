@@ -115,10 +115,10 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 Objekte heben, Türen eintreten, im Nahkampf zuschlagen oder lange Märsche durchhalten. Ein hoher
 STR-Wert erhöht die Erfolgswahrscheinlichkeit bei solchen Aktionen und steigert den Schaden im
 waffenlosen Nahkampf.
-- **Geschicklichkeit (DEX):** Behändigkeit, Schnelligkeit und Fingerfertigkeit. Wichtig für
-Klettern, Balancieren, Schleichen, Schlösser knacken, Taschendiebstahl oder geschicktes Ausweichen
-im Kampf. DEX beeinflusst auch den Umgang mit Fernkampfwaffen und die Initiative in kämpferischen
-Situationen.
+ - **Geschicklichkeit (GES):** Behändigkeit, Schnelligkeit und Fingerfertigkeit. Wichtig für
+ Klettern, Balancieren, Schleichen, Schlösser knacken, Taschendiebstahl oder geschicktes Ausweichen
+ im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die Initiative in kämpferischen
+ Situationen.
 - **Intelligenz (INT):** Geistige Fähigkeiten wie Logik, Bildung, Erinnerungsvermögen und
 analytisches Denken. Benötigt zum Lösen von Rätseln, Entziffern alter Schriften, Planen komplexer
 Taktiken oder wissenschaftliches Vorgehen. Ein hoher INT-Wert hilft dabei, Hinweise zu verknüpfen
@@ -151,9 +151,9 @@ Allrounder. Im Verlauf der Kampagne können Attribute weiter steigen (siehe **Le
 Fortschritt**), sogar über 10 hinaus, wenn der Chrononaut außergewöhnliche Erfahrungen macht oder
 sich mit Implantaten verbessert.
 
-**Beispiel:** Agent Alex startet mit STR 3, DEX 3, INT 3, CHA 3, TEMP 3, SYS 3. Mit 8 freien
+**Beispiel:** Agent Alex startet mit STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3. Mit 8 freien
 Attributpunkten erhöht der Spieler Geschicklichkeit um +2, Intelligenz um +2, Temporale Affinität um
-+1 und Systemlast um +1. Alex hat nun STR 3, DEX 5, INT 5, CHA 3, TEMP 4, SYS 4 – er ist also
++1 und Systemlast um +1. Alex hat nun STR 3, GES 5, INT 5, CHA 3, TEMP 4, SYS 4 – er ist also
 überdurchschnittlich schlau und gewandt und hat bereits eine gewisse Zeit-Sensibilität, aber nur
 durchschnittliche Körperkraft und Ausstrahlung. Diese Werte fließen in Proben ein: Je höher ein
 Attribut, desto größer die Chance, dass entsprechende Aktionen gelingen; niedrige Werte machen
@@ -221,7 +221,7 @@ man kann sie nicht einfach irgendwo *„im Feld”* einsetzen.
 - **Bioware:** Biotechnologische Verbesserungen des Körpers, meist durch genetische Modifikation
 oder bio-organische Implantate. *Beispiele:* ein optimiertes Immunsystem (Resistenz gegen Gifte und
 Krankheiten), künstliche Muskelfasern (steigern Stärke oder Geschicklichkeit), ein erweitertes
-Nervensystem (schnellere Reflexe, z. B. Bonus auf Initiative/DEX). Bioware ist oft subtiler als
+Nervensystem (schnellere Reflexe, z. B. Bonus auf Initiative/GES). Bioware ist oft subtiler als
 Cyberware – weniger mechanisch sichtbar – und wird vom Körper etwas besser akzeptiert, beansprucht
 aber ebenfalls Systemlast. Auch Bioware-Implantate können nur im ITI-Labor mit entsprechender
 Ausstattung hergestellt und eingebaut werden.
@@ -425,7 +425,7 @@ Die erzielte Summe wird mit dem SG verglichen, um das Ergebnis festzustellen. GP
 Spielleitung) wird das Würfelergebnis **offen** mit den Spielern teilen, um Fairness und Transparenz
 zu gewährleisten. Üblich ist die Notation in eckigen Klammern innerhalb der Erzählung. *Beispiel:*
 
-„Alex springt über die brüchige Brücke… **\[Wurf 4 + DEX 5 = 9 → Misserfolg\]** … das morsche Brett
+„Alex springt über die brüchige Brücke… **\[Wurf 4 + GES 5 = 9 → Misserfolg\]** … das morsche Brett
 bricht und Alex hängt nun an der Kante!“
 
 Hier sieht man, dass der SG vermutlich 10 war und Alex ihn mit 9 knapp nicht erreicht hat. Je höher
@@ -437,9 +437,9 @@ Bonuswirkung. Umgekehrt kann ein knappes Scheitern einen **Teilerfolg mit Konseq
 Der SG orientiert sich an der objektiven Schwierigkeit der Aufgabe:
 
 - **Leicht** (SG ~5): Sehr hohe Erfolgschance, selbst mit geringem Attribut. *Beispiel:* Eine nur
-angelehnte Tür eintreten (STR), oder aus dem Stand an einen niedrigen Ast springen (DEX).
+angelehnte Tür eintreten (STR), oder aus dem Stand an einen niedrigen Ast springen (GES).
 - **Mittel** (SG ~8–9): Gewöhnliche Alltags-Herausforderung oder typische Action-Szene. *Beispiel:*
-Über einen schmalen Graben springen (DEX), oder ein einfaches Bilderrätsel lösen (INT).
+Über einen schmalen Graben springen (GES), oder ein einfaches Bilderrätsel lösen (INT).
 - **Schwierig** (SG ~12): Anspruchsvoll – man braucht schon gutes Können oder etwas Glück.
 *Beispiel:* Einen hitzigen Streit schlichten und beide Parteien überzeugen (CHA), oder eine komplexe
 mechanische Vorrichtung bedienen (INT).
@@ -467,7 +467,7 @@ Besonderheiten. Ob ein Angriff trifft, hängt von einem Vergleich zwischen Angre
 ab:
 
 - Der **Angriffswurf** des Spielers (z. B. 1W6 + entsprechendes Attribut wie STR für Nahkampf oder
-DEX für Fernkampf) wird entweder gegen einen **festen SG** (für einfachere Gegner) oder gegen einen
+GES für Fernkampf) wird entweder gegen einen **festen SG** (für einfachere Gegner) oder gegen einen
 **Verteidigungswurf** des Gegners verglichen.
 - Nicht jeder NSC würfelt zur Verteidigung – unwichtige Gegner haben eventuell einen statischen
 Abwehr-SG, der sich aus ihrer Rüstung oder Deckung ergibt. Wichtige Kontrahenten hingegen würfeln
