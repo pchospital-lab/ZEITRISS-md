@@ -28,6 +28,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen & NSCs |
+| [gameplay/temporale-anomalien-generator.md](gameplay/temporale-anomalien-generator.md) | Zufällige Zeitanomalien |
 | [gameplay/team-perks.md](gameplay/team-perks.md) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
