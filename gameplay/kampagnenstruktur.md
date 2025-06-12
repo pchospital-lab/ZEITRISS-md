@@ -258,33 +258,13 @@ zum Verbündeten wird, weil größere Gefahren drohen.
 ### Fraktionsruf und Allianzmanagement
 
 Neben individuellen NSCs sollten die Agenten auch ihren **Ruf bei verschiedenen Fraktionen**
-aufbauen. Ähnlich wie persönliche Beziehungen kann man für jede wichtige Organisation eine Skala von
-feindselig bis wohlwollend führen. Im Verlauf der Kampagne beeinflussen die Entscheidungen der
-Spieler, wie die Fraktionen sie sehen:
-
-- **Rufskala:** Beispielsweise könnte man Rufwerte von –5 (Erzfeind) über 0 (neutral) bis +5 (eng
-verbündet) vergeben. Anfangs sind manche Fraktionen den Agenten misstrauisch oder kennen sie gar
-nicht. Mit jedem Arc kann sich das ändern.
-- **Langsamer Rufzuwachs:** Zu Kampagnenbeginn wählt die Gruppe, bei welcher Fraktion sie
-  Ansehen aufbauen möchte. Erst nach rund **zehn erfolgreich absolvierten Missionen** steigt der
-  Ruf um eine Stufe. Jeder weitere Anstieg benötigt immer mehr Einsätze. Rufverlust tritt nur bei
-  schweren Vertrauensbrüchen auf und geschieht deutlich seltener.
-- **Auswirkungen im Spiel:** Ein hoher Ruf bei einer Fraktion bedeutet, dass diese eher bereit ist,
-zu helfen. Die Agenten könnten auf Ressourcen dieser Gruppe zugreifen, erhalten bevorzugt
-Informationen oder diplomatischen Rückhalt. Bei negativem Ruf hingegen könnten sie auf Gegenwehr
-stoßen: Einheiten einer Fraktion behindern ihre Mission, verweigern Zugang zu Orten oder
-beeinflussen andere NSCs gegen die Gruppe.
-- **Wechselwirkung der Fraktionen:** Da Fraktionen untereinander auch Beziehungen haben, führt ein
-Bündnis der Spieler mit Gruppe A eventuell zum Missfallen von Gruppe B. Die Spielleitung sollte
-transparent machen (durch Andeutungen, Codex-Einträge oder NSC-Dialoge), welche Konsequenzen ein
-Eingreifen zugunsten einer Fraktion hat. Das ergibt interessante **Dilemmata**: Unterstützen die
-Agenten die radikalen Methoden einer Zeithüter-Gruppierung, um Schlimmeres zu verhindern, oder
-verbünden sie sich lieber mit einer gemäßigten Fraktion, die aber weniger Macht besitzt? Solche
-Entscheidungen beeinflussen den Fraktionsruf nachhaltig.
-- **Fraktionsquests und Gefallen:** Wer schneller aufsteigen will, kann gezielt Aufträge für eine
-  Fraktion erledigen. Solche **Spezialmissionen** zählen wie mehrere normale Einsätze und können
-  sogar sofort eine Stufe verleihen. Umgekehrt drohen bei schwerem Versagen temporäre Abzüge,
-  die sich erst nach vielen weiteren Erfolgen wieder ausgleichen lassen.
+aufbauen. Für jedes Bündnis oder jede Rivalität kann die SL einen Wert von –5 bis +5 notieren.
+Wie viele Missionserfolge zum Aufstieg nötig sind und welche Auswirkungen hohe beziehungsweise
+niedrige Werte haben, wird detailliert im Modul
+[Charaktererschaffung](../characters/charaktererschaffung.md#rufsystem-ansehen-bei-fraktionen--iti)
+beschrieben. Dort findet ihr auch eine grobe Missions-Tabelle. Kurz gesagt steigt der Ruf nur sehr
+langsam, kann aber durch **Fraktionsquests** schneller wachsen. Die SL sollte außerdem aufzeigen,
+wie sich Allianzen und Feindschaften zwischen den Fraktionen gegenseitig beeinflussen.
 
 Das **Allianzmanagement** wird so zu einem eigenen kleinen Spiel innerhalb der Kampagne. Spieler
 haben das Gefühl, Teil eines größeren Ganzen zu sein, und ihre Taten strahlen über einzelne
