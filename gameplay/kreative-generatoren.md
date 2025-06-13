@@ -384,9 +384,9 @@ würfelt einen Eintrag als Missionsstart.
 41. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung. \| Nachphase: Straßen überflutet.
 42. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle. \| Nachphase: Monsunregen schneidet den Rückweg ab.
 43. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt. \| Nachphase: Dachstuhl in Flammen.
-44. **Wuhan 2019 – Virenausbruch** \| Vorphase: Kliniken melden rätselhafte Lungenkrankheit. \| Nachphase: Städte werden abgeriegelt.
+44. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt. \| Nachphase: Steuerung fällt aus, Drohnen stürzen ab.
 45. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle. \| Nachphase: Schockwelle legt Gebäude in Schutt.
-46. **Tokio 2021 – Olympische Spiele** \| Vorphase: Publikum nur eingeschränkt zugelassen. \| Nachphase: Quarantäne nach positivem Test.
+46. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer. \| Nachphase: Fehlfunktion löst gefährliche Zwischenfälle aus.
 47. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen. \| Nachphase: Unerklärliche Stromsenke legt Viertel lahm.
 48. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch. \| Nachphase: Blackout und Versorgungsnotstand.
 49. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß. \| Nachphase: Selbstlernende Drohne entweicht.
