@@ -153,8 +153,18 @@ In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Deine Figur z
 Einsatzanzug an, und im Sichtfeld erscheint eine Zusammenfassung der persönlichen Daten. Die KI-
 Spielleitung kann z.B. verkünden: *„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
 100% (grün); Paradox 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“* – So erfährst du
-die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen. Jetzt bist du bereit für die erste
-Mission!
+die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
+
+6. **Hauptfraktion & Ausrichtung wählen:** Direkt nach dem Profil-Upload legst du im HQ fest,
+   welcher der großen ITI‑Fraktionen du dich vorrangig anschließen möchtest – etwa
+   den **Chrono‑Symmetriker**, dem **Ordo Mnemonika**, den **Kausalklingen** oder der
+   **Zerbrechlichen Ewigkeit**. Gleichzeitig entscheidest du dich für die Haltung
+   **Pro** (Geschichte bewahren) oder **Contra** (bewusst verändern). Der Codex
+   speichert diese Wahl permanent; dein HUD markiert sie farblich (Blau = Pro,
+   Rot = Contra). Ein späterer Wechsel ist nur einmal möglich und sollte gut
+   überlegt sein.
+
+Jetzt bist du bereit für die erste Mission!
 
 ## Erste Schritte im ITI
 
@@ -170,10 +180,11 @@ welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
 **Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
 Zeitgeflecht beeinflussen.
 
-Bereits hier entscheiden die Spieler, ob sie den Erhalt der Hauptzeitlinie unterstützen (**pro**).
-Oder bevorzugen sie einen kompletten Neubau (**contra**)?
-Wählt die Gruppe diese Contra-Variante, entfällt die Paradoxmechanik.
-Oft geschieht dies in Allianz mit der Zerbrechlichen Ewigkeit.
+An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
+darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
+ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Entscheidet
+man sich für die Contra-Variante, entfällt die Paradoxmechanik; oft geschieht das
+in Allianz mit der Zerbrechlichen Ewigkeit.
 
 Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen.
 Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
