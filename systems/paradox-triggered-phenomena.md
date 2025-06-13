@@ -25,10 +25,16 @@ die Wahrscheinlichkeit für außergewöhnliche Effekte.
 
 ## Pro- vs. Contra-Pfade
 
-- **Pro (Psi verfügbar):** Jeder Zeitsprung erhöht PL um 1. Gelungene TEMP-Proben
-dürfen PL einmal pro Mission um 1 senken.
-- **Contra (Psi gesperrt, Widerstand +2):** Paradox-Checks erhalten +2 Resist und
-PL fällt für Encounter um 1. Hochfrequenz-Hacks erhalten jedoch -1.
+Die Zuordnung zu **pro** oder **contra** erfolgt automatisch anhand der
+Fraktion der Agenten. Diese Ausrichtung entscheidet, ob das
+Paradox-Triggered-Phenomena-Framework aktiv ist.
+
+- **Pro (Paradox aktiviert, Psi verfügbar):** Jeder Zeitsprung erhöht das
+  Paradox-Level um 1. Eine bestandene TEMP-Probe kann das Level einmal pro
+  Mission um 1 senken.
+- **Contra (Paradox deaktiviert, Widerstand +2):** Die Paradox-Mechanik wird
+  nicht verwendet. Stattdessen erhalten die Agenten dauerhaft +2 Resist gegen
+  Psi-Einflüsse; Hochfrequenz-Hacks sind um 1 erschwert.
 
 ## Integrationspunkte
 
