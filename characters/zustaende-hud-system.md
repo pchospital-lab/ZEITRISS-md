@@ -342,6 +342,9 @@ Lebenspunkte hinausgehen:
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
   ausgelegt sein, ein Paradox-Level wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
+### Paradox-Triggered Phenomena
+
+Für Gruppen, die Paradoxien stärker betonen wollen, gibt es das optionale Modul **Paradox-Triggered Phenomena**. Es legt fest, welche Effekte bei welcher Stufe auftreten. Zu Beginn jeder Szene kann die SL würfeln, ob ein Phänomen eintritt. Die Warnfarben des HUD orientieren sich daran. Psi-Kräfte können das Level kurz senken, ein Null-Flux-Shield sorgt für Resistenz, erschwert aber High-Tech-Hacks.
 - **Mentale Auswirkungen & Wahnsinn:** Neben akutem Stress und Paradox gibt es längerfristige
   **psychische Belastungen**. Dieses Modul überschneidet sich etwas mit **Trauma**, zielt aber mehr
   auf **Veränderungen im Verhalten oder Geisteszustand** durch die Erfahrungen des Zeitreisens.
