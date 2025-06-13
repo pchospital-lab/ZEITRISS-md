@@ -9,6 +9,7 @@ tags: [gameplay]
 - Random-Epochen-Generator: Wann und wo?
 - NSC-Generator: Begegnungen im Zeitstrom
 - Missions-Generator: Kleine Aufträge und Dilemmata
+- Automatischer Mission Seed: Sofort-Briefing
 - Historische Wendepunkte-Generator: Auslöser und Folgen
 - Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 - Artefakt-Generator: Objekte mit Geschichte
@@ -40,6 +41,21 @@ Mittelalter entpuppt sich möglicherweise als holografischer Schrecken oder als
 Mutant aus einer anderen Epoche. Dieses Motiv zieht sich durch alle
 Generatoreinträge und kann als Faustregel dienen, wenn keine eigene Erklärung
 parat ist.
+
+## Automatischer Mission Seed
+
+Dieses Start-Tool zieht zu Beginn einer Sitzung je einen Eintrag aus drei Listen
+und kombiniert sie zu einem knappen Briefing. GPT würfelt verdeckt und stellt das Ergebnis vor.
+
+```json
+{
+  "generator": {
+    "era": ["Berlin 1961", "Bagdad 1991", "Seoul 2032"],
+    "objective": ["Sabotage einer feindlichen Funkanlage", "Bergung gestohlener Forschung"],
+    "twist": ["Doppelagent sitzt im eigenen Team", "Gegner tarnt sich als Journalisten-Team"]
+  }
+}
+```
 
 ## Random-Epochen-Generator: Wann und wo?
 
