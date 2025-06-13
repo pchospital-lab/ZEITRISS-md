@@ -344,7 +344,13 @@ Lebenspunkte hinausgehen:
   reparieren).
 ### Paradox-Triggered Phenomena
 
-Für Gruppen, die Paradoxien stärker betonen wollen, gibt es das optionale Modul **Paradox-Triggered Phenomena**. Es legt fest, welche Effekte bei welcher Stufe auftreten. Zu Beginn jeder Szene kann die SL würfeln, ob ein Phänomen eintritt. Die Warnfarben des HUD orientieren sich daran. Psi-Kräfte können das Level kurz senken, ein Null-Flux-Shield sorgt für Resistenz, erschwert aber High-Tech-Hacks.
+Bei Fraktionen mit **pro**-Ausrichtung ist dieses Framework Teil der Grundregeln.
+Es definiert, welche Effekte bei steigendem Paradox-Level auftreten. Zu Beginn
+jeder Szene kann die SL würfeln, ob ein Phänomen eintritt. Das HUD warnt mit
+abgestuften Farben. Psi-Kräfte können das Level kurzzeitig senken. Ein
+Null-Flux-Shield verleiht Widerstand, erschwert aber High-Tech-Hacks.
+Fraktionen mit **contra**-Ausrichtung spielen hingegen ohne dieses Modul und
+erhalten +2 Resist gegen Psi-Einflüsse.
 - **Mentale Auswirkungen & Wahnsinn:** Neben akutem Stress und Paradox gibt es längerfristige
   **psychische Belastungen**. Dieses Modul überschneidet sich etwas mit **Trauma**, zielt aber mehr
   auf **Veränderungen im Verhalten oder Geisteszustand** durch die Erfahrungen des Zeitreisens.
