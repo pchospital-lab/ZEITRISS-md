@@ -45,18 +45,19 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
-| [meta/masterprompt_v5.md](meta/masterprompt_v5.md) | Masterprompt für das KI-Tool |
+| [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
-1. Öffne `masterprompt_v5.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
+1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
  Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
 2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator in
    `kreative-generatoren.md` erstellen.
+5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus `kreative-generatoren.md` und erstellt ein Briefing.
 
 ## Spielstart
 
