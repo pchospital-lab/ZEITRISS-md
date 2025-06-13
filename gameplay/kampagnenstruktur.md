@@ -498,6 +498,8 @@ vollwertig.
    einen wachsenden Multiplikator.
 6. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
    dahin erworbenen Werte verfallen.
+7. **Paradox-Reset:** Wer mindestens fünf Missionen hintereinander erfolgreich
+   absolviert und anschließend aussteigt, setzt sein Paradox-Level auf **0**.
 
 Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
 sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
