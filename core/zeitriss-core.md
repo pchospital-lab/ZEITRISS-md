@@ -30,6 +30,8 @@ Gesamtbild entsteht.
 Alles Übernatürliche entpuppt sich als geheime Technik oder experimentelle Bio- und Cyberware.
 Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen.
 Chrononauten decken diese Hintergründe auf, während Zeitgenossen sie fälschlich für Wunder halten.
+### Zeitreisen = Ortswechsel
+Zeitreisen sind nur Transport von A nach B. Die Uhr spielt ausschließlich beim Auftragstiming eine Rolle, etwa bei Treffen um 22:00 Uhr 1943.
 
 Der Ton des Spiels ist düster-atmosphärisch, mysteriös und historisch stimmig. Man taucht
 vollständig in die jeweilige Zeit ein, löst Rätsel, besteht Abenteuer und erlebt die Welt durch die
