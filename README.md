@@ -58,6 +58,8 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 4. Eigene Missionen kannst du mit dem Missions-Generator in
    `kreative-generatoren.md` erstellen.
 5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus `kreative-generatoren.md` und erstellt ein Briefing.
+   Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
+   der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
 
 ## Spielstart
 

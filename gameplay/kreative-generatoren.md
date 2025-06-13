@@ -46,6 +46,10 @@ parat ist.
 
 Dieses Start-Tool zieht zu Beginn einer Sitzung je einen Eintrag aus drei Listen
 und kombiniert sie zu einem knappen Briefing. GPT würfelt verdeckt und stellt das Ergebnis vor.
+Bei der Umsetzung orientiert sich die KI an der **Briefing-Vorlage (Layered)**
+aus dem Toolkit: Zeit & Ort, eine mögliche Abnormalität und die Risikostufe werden
+im ersten Briefing genannt. **Der gezogene Twist bleibt vorerst geheim** und dient
+als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise auftauchen.
 
 ```json
 {
