@@ -326,6 +326,20 @@ kurze Dialogeinleitungen:
 Solche Eigenheiten sorgen für sofortige Wiedererkennung und erleichtern dem
 Solo-Spieler die Interaktion.
 
+### Briefing-Vorlage (Layered)
+
+Eine Einsatzakte liefert zunächst nur Minimalinformationen:
+
+- **Zeit & Ort**
+- **bekannte Abnormalität** (wenn vorhanden)
+- **Risikostufe 0–3**
+
+Weitere Details – Zielpersonen, genaue Aufgaben oder versteckte Gefahren –
+werden erst im Verlauf der Mission über HUD-Nachrichten nachgereicht. Die KI kann
+diese Informationen Stück für Stück einblenden, sobald die Agenten vor Ort neue
+Hinweise entdecken. So bleibt das Briefing schlank und die Spieler decken das
+wahre Problem selbst auf.
+
 ## Integration in Briefings und Missionen
 
 Beim Missionsbriefing stellt GPT die NSCs gemeinsam mit dem Spielercharakter vor

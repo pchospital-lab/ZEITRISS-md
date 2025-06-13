@@ -348,12 +348,12 @@ mit den oben beschriebenen filmischen Techniken ausschmücken:
 **Beschreibung:** Die Charaktere gelangen durch einen Zeitriss ins Nullzeit-HQ und werden dort vom
 ITI begrüßt. Diese Variante ist klassisch, da sie den gemeinsamen **Startpunkt aller Chrononauten**
 markiert. Die Szene aus dem Modul-Einstieg oben ist ein Beispiel dafür: Ankunft im Quarzatrium,
-Begrüßung durch Commander Renier, erste Orientierung. Anschließend kann ein Rundgang durch wichtige
-Bereiche des HQ erfolgen (Unterkünfte, Kantine, Labor, Codex-Archiv, Trainingshalle…), bevor es zur
-ersten Trainingsmission oder direkt zum ersten Einsatz geht. Das HQ dient hier als sicherer **Hub**,
-um die Charaktere ins Setting einzuführen und ihnen Gelegenheit zu geben, Fragen zu stellen und sich
-kennenzulernen. Diese Option eignet sich besonders gut, um eine **neue Gruppe** abzuholen und ins
-Spiel zu geleiten.
+Begrüßung durch Commander Renier, erste Orientierung. Danach startet ein **geführter HQ‑Rundgang**
+(Quarzatrium → Med‑Lab → Chrono‑Portal) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
+und System-Slots. Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
+wichtigsten Bereiche, bevor es zur ersten Trainingsmission oder direkt zum Einsatz geht. Das HQ dient
+hier als sicherer **Hub**, um Fragen zu klären und das Bedienkonzept kennenzulernen. Diese Option
+eignet sich besonders gut, um eine **neue Gruppe** abzuholen und ins Spiel zu geleiten.
 
 **Cineastische Tipps:** Nutzt einen ausführlichen Establishing Shot des HQ (architektonisch
 beeindruckende Halle, schwebende holografische Displays, Wachen und Techniker als Statisten im
