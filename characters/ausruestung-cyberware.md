@@ -111,7 +111,7 @@ einige Beispiele:
 | Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 |
 | Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50m) | Plasmablaster; vernichtet Ziele; hoher Energieverbrauch | 300 |
 
-*(Reichweiten sind grobe Richtwerte für offene Gelände. 
+*(Reichweiten sind grobe Richtwerte für offene Gelände.
 „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
 Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie ***Durchschlag*** durch Deckung
 oder ***Kollateralschaden*** in der Umgebung beschreiben.)*
