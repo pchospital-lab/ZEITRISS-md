@@ -18,6 +18,7 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 ### Quickstart
 
 Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten.
+Das Institut spürt außergewöhnlich starke "Bewusstseine" nach ihrem Ableben im Zeitstrom auf und bietet ihnen als Chrononauten eine zweite Chance, sich zu beweisen.
 Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungen bis zu verdeckter Spionage.
 Zeitliche Störungen sind selten und stets rational erklärbar;
 Sie dienen lediglich als Aufhänger für investigative Szenen.
@@ -48,17 +49,15 @@ Erst bei höherem Bewusstsein wird eine Spezies Gesprächspartner; Menschen gelt
 ### Beispielkampagne: ChronTech-Komplott
 
 Eine mögliche Storyline dreht sich um den Megakonzern **ChronTech**. Die Helden infiltrieren zu
-Beginn eine geheime ChronTech-Operation und stoßen dabei auf einen aktiven Zeitriss. Dahinter
+Beginn eine geheime ChronTech-Operation und stoßen dabei auf einen aktiven Versuch eines dramatischen Eingriffs in den Verlauf der Geschichte. Dahinter
 steckt ein charismatischer CEO, der ohne echte Alienunterstützung die Geschichte zu seinen Gunsten
 formen will. Folgende Fraktionen können dabei eine Rolle spielen:
 
-- **Projekt ***Phoenix***** – Eine geheime Militäreinheit aus Montauk-Veteranen, die kompromisslos
-  weitere Zeitrisse eindämmen möchte.
+- **Projekt ***Phoenix***** – Ein Zirkel ehemaliger Montauk-Veteranen, der rücksichtslose Experimente mit Zeitreisen erneut vorantreibt.
 - **Die *Grauen*** – Technikaffine Aliens, angeblich mit Hinterlassenschaften; die Föderation ignoriert Menschen.
 - **Der Alte Orden** – Kulte und Nachfahren alter Zivilisationen, die das Pyramidengeheimnis hüten
   und Eindringlinge mit psionischen Flüchen jagen.
-- **Schattenkonzerne** – Rivalen von ChronTech, die eigene Söldner aussenden, um Artefakte zu
-  stehlen oder ChronTechs Fortschritt zu sabotieren.
+- **Schattenkonzerne** – Rivalen von ChronTech, die verdeckt Technologie aus allen Epochen an sich reißen wollen.
 
 **Psionik als Werkzeug:** *Zeitriss* nutzt fokussierte Gehirntrainings als **Psionik** – die
 mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über besondere
