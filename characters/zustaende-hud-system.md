@@ -344,35 +344,71 @@ Lebenspunkte hinausgehen:
   reparieren).
 ### Paradox-Triggered Phenomena
 
-Bei Fraktionen mit **pro**-Ausrichtung ist dieses Framework Teil der Grundregeln.
-Es definiert, welche Effekte bei steigendem Paradox-Level auftreten. Zu Beginn
-jeder Szene kann die SL würfeln, ob ein Phänomen eintritt. Das HUD warnt mit
-abgestuften Farben. Psi-Kräfte können das Level kurzzeitig senken. Ein
-Null-Flux-Shield verleiht Widerstand, erschwert aber High-Tech-Hacks.
-Fraktionen mit **contra**-Ausrichtung spielen hingegen ohne dieses Modul und
-erhalten +2 Resist gegen Psi-Einflüsse.
-- **Mentale Auswirkungen & Wahnsinn:** Neben akutem Stress und Paradox gibt es längerfristige
-  **psychische Belastungen**. Dieses Modul überschneidet sich etwas mit **Trauma**, zielt aber mehr
-  auf **Veränderungen im Verhalten oder Geisteszustand** durch die Erfahrungen des Zeitreisens.
-  Denkbar sind **Phobien**, Obsessionen oder leichte **Veränderungen der Persönlichkeit**. Ein
-  Agent, der z.B. mehrfach Zeitsprünge knapp überlebte, könnte eine **latente Furcht vorm Zeittor**
-  entwickeln – anfangs nur als Rollenspiel-Charakterzug, doch wenn es extrem wird, vielleicht als
-  regeltechnischer Malus beim Springen (+1 auf Sprungstress, o.Ä.). Wer entsetzliche Kreaturen
-  außerhalb der Zeit gesehen hat, könnte an **Zweifeln an der Realität** nagen. In Regeln
-  ausgedrückt könnte man ein **Stabilitätsattribut** (analog Sanity in Cthulhu-Systemen) nutzen, das
-  sinkt, je mehr kosmischen Horror man erblickt. ZEITRISS ist vom Ton her zwar eher Action/Drama als
-  Horror, aber falls eure Kampagne düstere zeitlose Schrecken einbindet, kann ein solches
-  Stabilitätskonto reizvoll sein. *Umsetzung:* Man könnte jedem Charakter einen **Mentalwert** (z.B.
-  MUT oder WILLEN) geben und in Extremsituationen eine **Probe** verlangen. Misslingt sie, erhält
-  der Charakter einen **mentalen Makel** (temporär oder dauerhaft). Beispiele: „Zeitparanoia“
-  (ständiges Gefühl, jemand manipuliert die Zeit – Misstrauen gegenüber Veränderungen),
-  „Vergänglichkeitsangst“ (Depression, weil man die Bedeutung von Zeit anders wahrnimmt), oder
-  einfach **Albträume**. Wichtig ist, solche Effekte nur einzusetzen, wenn alle Spaß daran haben,
-  auch mal **düstere Töne** anzuschlagen. Andernfalls bleiben mentale Auswirkungen im erzählerischen
-  Bereich („Dein Charakter wirkt nachdenklicher und nervöser nach diesem Ereignis…“). Die **KI-
-  Spielleitung** kann subtile Hinweise geben – etwa im HQ-Dialog: *„Während du wartest, trommelst du
-  ruhelos mit den Fingern… die Erlebnisse gehen dir nicht aus dem Kopf.“* – so werden mentale
-  Belastungen spürbar, ohne zwingend Zahlen zu bemühen.
+# Paradox-Triggered Phenomena Framework
+
+Dieses Modul verankert die Paradoxon-Stufen als aktiven Motor
+im Spielgeschehen. Je höher das Paradox-Level (PL), desto größer
+die Wahrscheinlichkeit für außergewöhnliche Effekte.
+
+## Paradox-Level Matrix
+
+| PL | Grundchance pro Scene | Phänomen-Stufe | Kurz-Effekt | Beispiel-Hooks |
+| --- | --- | --- | --- | --- |
+| **0** | 0 % | Keine | Normalspiel | – |
+| **1** | 5 % | Ambient | +1 Stress-Tick, leichte Sensorstörungen | „Geister-Echo“ |
+| **2** | 12 % | Minor | Disadvantage auf eine Probe | Kälteschauer, stehende Uhren |
+| **3** | 20 % | Event | Zusätzliches Encounter, Kreatur ≤ GS II | „Shadow Seeker“ |
+| **4** | 35 % | Major | Pflichtkonflikt, +1 Paradox-Tag | „Philadelphia Remainder“ |
+| **5** | 50 % | Critical | Szenenüberschreibung, Boss-Level | „Mothman“ |
+
+*Scene = Investigation- oder Kampfszene usw.*
+
+## Pro- vs. Contra-Pfade
+
+Die Zuordnung zu **pro** oder **contra** erfolgt automatisch anhand der
+Fraktion der Agenten. Diese Ausrichtung entscheidet, ob das
+Paradox-Triggered-Phenomena-Framework aktiv ist.
+
+- **Pro (Paradox aktiviert, Psi verfügbar):** Jeder Zeitsprung erhöht das
+  Paradox-Level um 1. Eine bestandene TEMP-Probe kann das Level einmal pro
+  Mission um 1 senken.
+- **Contra (Paradox deaktiviert, Widerstand +2):** Die Paradox-Mechanik wird
+  nicht verwendet. Stattdessen erhalten die Agenten dauerhaft +2 Resist gegen
+  Psi-Einflüsse; Hochfrequenz-Hacks sind um 1 erschwert.
+
+## Integrationspunkte
+
+1. Globaler Paradox-Counter bei jeder Scene starten:
+   ```pseudo
+   if rand(0,99) < PL_Chance[PL]:
+       triggerPhenomenon(rollTable(PL))
+   ```
+2. `rollTable(PL)` zieht einen Eintrag aus dem Kreaturen-Generator oder ein
+   Environmental-Glitch-Set.
+3. Das HUD verwendet Warnfarben entsprechend PL (Gelb 2–3, Orange 4, Rot 5).
+4. **Psi-Drain:** Jede Manifestation reduziert lokales PL um 1, erhöht Stress um 1.
+5. **Null-Flux-Shield:** Passives Cybermod gibt Resist-Bonus, aber -1 auf High-Tech-Hacks.
+
+## Beispiel-Phänomene
+
+| Stufe | Encounter | Stats-Hit |
+| --- | --- | --- |
+| Ambient | Frost Breath, Sensorrauschen | – |
+| Minor | Residual Soldier (6 HP) | STR 2 / GES 3 |
+| Event | Shadow Seeker (12 HP) | GES 4 / TEMP 4 |
+| Major | Time Blob (25 HP) | STR 5 / SYS 3 |
+| Critical | Mothman (40 HP) | GES 6 / TEMP 6 |
+
+## Abnahme-Checkliste
+
+- Random-Seed-Test: 1000 Scene-Simulationen sollten die Chance-Kurve ±2 % treffen.
+- Psi-Drain darf maximal zweimal pro Mission funktionieren.
+- Null-Flux-Shield blockt 75 % Ambient- und 50 % Minor-Phänomene in Tests.
+- HUD-Warnfarben wechseln korrekt bei PL 2/4/5.
+- Der Generator zieht nur Einträge mit `paranormal=true`.
+
+Dieses Framework macht steigende Paradox-Level fühlbar
+und liefert der SL klare Werte für zufällige Phänomene.
 
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
 
