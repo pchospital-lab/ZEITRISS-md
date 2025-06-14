@@ -85,5 +85,5 @@ Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-O
 
 
 Die Inhalte stehen für private kreative Nutzung bereit.
-Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe LICENSE).
+Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
