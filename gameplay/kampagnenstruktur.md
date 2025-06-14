@@ -80,6 +80,14 @@ Fraktionen verändert haben. Notiert, welche Fraktion an Einfluss gewonnen oder 
 ziehen sich vielleicht zurück oder sinnen auf Rache, während gerettete Gruppierungen künftig als
 Verbündete auftreten. Dadurch entsteht ein lebendiges Geflecht an Beziehungen, das der Kampagne
 Tiefe und Abwechslung verleiht.
+### Preserve-vs-Trigger-Logik
+
+Historische Einsätze laufen stets nach diesem Prinzip ab.
+Beim Briefing erfahren die Agenten nur Zeit und Ort einer Instabilitaet.
+Erst in der Investigation wird klar, welches Ereignis gefaehrdet ist.
+Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
+Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
+Das offizielle Ergebnis bleibt gleich; nur Paradox-Level und Fraktionsruf variieren.
 
 ### Zeitlinien-Verzweigungen
 
