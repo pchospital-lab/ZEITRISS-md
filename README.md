@@ -13,7 +13,10 @@ Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematisc
 ## Grundidee
 **ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
 Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen und bedeutende Ereignisse zu beeinflussen.
-Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplätzen.
+Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
+Jede Mission folgt der Preserve-vs-Trigger-Logik.
+Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig von ihrer Fraktion.
+Erst nach der Investigation wird klar, welches historische Ereignis gesichert oder ausgeloest werden soll.
 Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
 Mystische Paradoxien spielen keine Rolle.
@@ -33,13 +36,12 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik |
-| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau & ITI-HQ |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
 | [gameplay/team-perks.md](gameplay/team-perks.md) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
-| [gameplay/preserve-vs-trigger.md](gameplay/preserve-vs-trigger.md) | Preserve-vs-Trigger-Logik |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |

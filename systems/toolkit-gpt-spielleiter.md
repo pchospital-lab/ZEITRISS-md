@@ -28,6 +28,11 @@ Spiegelparadoxa bleiben deaktiviert, damit sich jede Szene auf taktische
 Planung und technische Herausforderungen konzentriert. Dramatische
 Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
+In historischen Szenarien gilt dabei die Preserve-vs-Trigger-Logik.
+Zu Beginn ist unklar, ob ein Ereignis bewahrt oder ausgeloest werden muss.
+Pro-Spieler treten als Preserver an, Contra-Spieler als Trigger – je nach gewaehlter Fraktion.
+Die Entscheidung wird erst nach der Investigation aufgedeckt.
+Beide Optionen fuehren zum offiziellen Ergebnis, beeinflussen aber Paradox-Wert und Fraktionsruf.
 
 ### Einsatzbeispiele
 - **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu stören.
