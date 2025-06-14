@@ -20,6 +20,10 @@ Genauigkeit (Fiktion, ab 18 Jahren).
 Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten.
 Das Institut spürt außergewöhnlich starke "Bewusstseine" nach ihrem Ableben im
 Zeitstrom auf und bietet ihnen als Chrononauten eine zweite Chance, sich zu beweisen.
+Innerhalb der Spielwelt gilt das Leben lediglich als **aktiver Bewusstseinszustand**.
+Nach dem Tod wechselt ein Wesen in einen **passiven Zustand** und kann das Raumzeitkontinuum nicht mehr beeinflussen.
+Der freie Wille bleibt jedoch bestehen – selbst wenn er im aktiven Leben gebrochen wurde, wird er im Tod wiederhergestellt.
+Sobald ein passives Bewusstsein eine Aufgabe klar erkennt, kann es erneut in den aktiven Zustand eintreten: Es wird wiedergeboren.
 Sie erhalten **handfeste Aufträge** – von Sabotagen über Rettungen bis zu verdeckter Spionage.
 Zeitliche Störungen sind selten und stets rational erklärbar;
 Sie dienen lediglich als Aufhänger für investigative Szenen.
