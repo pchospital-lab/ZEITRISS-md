@@ -718,6 +718,18 @@ Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine
 
 ## Teil 2: Spielwelt & Kampagne
 
+### Raumzeitkonstrukt
+
+In den Datenbanken des ITI wird die **Hauptzeitlinie** als ein zusammenhängendes
+**Raumzeitkonstrukt** beschrieben. Wissenschaftler visualisieren dieses Geflecht
+als pulsierende 4D-Kugel, in der jedes bewusste Wesen einen Knoten bildet –
+ähnlich den Synapsen eines Gehirns. Jede Intervention der Chrononauten verändert
+das Muster sofort und beeinflusst benachbarte Knoten. Aus Sicht des
+Hauptquartiers existiert der Zeitfluss lediglich als Abfolge von
+Koordinatenpaaren, die angesteuert werden können. Das ITI überwacht diese Struktur
+permanent, um Anomalien frühzeitig zu erkennen und die Stabilität der offiziellen
+Zeitlinie zu gewährleisten.
+
 ### ITI-Hauptquartier (HQ) in der Nullzeit
 
 Das **Institut für Temporale Intervention (ITI)** unterhält sein Hauptquartier
