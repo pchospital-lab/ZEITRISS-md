@@ -270,6 +270,44 @@ Schmetterlingseffekt ein, der den Helden zugutekommt.)
 größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
 eines neuen Abenteuers, das auf sie wartet.
 
+## Missionstabellen für den Core- & Rift-Loop
+
+Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
+
+```json
+{
+  "CoreObjectiveTable": [
+    "Sabotage feindlicher Kommunikationsknoten",
+    "Bergung gestohlener Forschung",
+    "Sicherung eines Informanten",
+    "Vernichtung illegaler ChronTech-Prototypen",
+    "Infiltration einer gegnerischen Basis",
+    "Befreiung einer gefangenen Agentin",
+    "Datenraub aus Hochsicherheitsserver",
+    "Unterwanderung einer Historiker-Tagung",
+    "Abfangen einer geheimen Lieferung",
+    "Neutralisierung eines abtrünnigen Chrononauten"
+  ]
+}
+```
+
+```json
+{
+  "RiftSeedTable": [
+    {"d10":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
+    {"d10":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
+    {"d10":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
+    {"d10":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
+    {"d10":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
+    {"d10":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
+    {"d10":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
+    {"d10":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
+    {"d10":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
+    {"d10":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"}
+  ]
+}
+```
+
 ## Arc-Generator: Große Missionen
 
 Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
