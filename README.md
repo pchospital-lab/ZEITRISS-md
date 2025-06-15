@@ -9,6 +9,7 @@ tags: [meta]
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
+Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und `speicher-fortsetzung.md` integriert, inklusive Core- & Rift-Loop, Makros und Missionstabellen.
 
 ## Grundidee
 **ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
@@ -35,7 +36,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik, Paradox-Triggered Phenomena |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
@@ -48,7 +49,6 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Paradox-Triggered Phenomena |
 | [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.

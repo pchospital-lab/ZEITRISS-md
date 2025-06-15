@@ -93,7 +93,7 @@ Das offizielle Ergebnis bleibt gleich; nur Paradox-Level und Fraktionsruf variie
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
 sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
-`RiftSeedTable.json` gewürfelt werden und stets Anomalien enthalten. Steigt der
+`RiftSeedTable (siehe Generator-Modul)` gewürfelt werden und stets Anomalien enthalten. Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
