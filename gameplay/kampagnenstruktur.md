@@ -89,6 +89,17 @@ Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihr
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradox-Level und Fraktionsruf variieren.
 
+### Core- & Rift-Loop
+
+Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
+sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
+`RiftSeedTable.json` gewürfelt werden und stets Anomalien enthalten. Steigt der
+Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
+zurück. Offene Risse landen im Spielstand und lassen sich über das
+**ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
+`launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
+Core-Generator zurückkehren.
+
 ### Zeitlinien-Verzweigungen
 
 ZEITRISS-Kampagnen spielen mit dem Konzept alternativer Geschichtsverläufe. **Zeitlinien-

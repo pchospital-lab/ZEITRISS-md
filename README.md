@@ -48,6 +48,8 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
+| [systems/rift/rift-loop.md](systems/rift/rift-loop.md) | Core- und Rift-Loop-Regeln |
+| [systems/rift/rift-macros.md](systems/rift/rift-macros.md) | Makros für Cluster & Rifts |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Paradox-Triggered Phenomena |
 | [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
 
