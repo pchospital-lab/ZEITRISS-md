@@ -496,6 +496,24 @@ Dennoch bleibt die Technik unsichtbar: Begriffe wie *„Stabilität“* oder *�
 nicht direkt erwähnt – sie manifestieren sich ausschließlich in erzählerischen Effekten oder Ingame-
 Mitteilungen des Codex.
 
+## Cluster-Dashboard und offene Risse
+
+Neben dem Zeitlinien-Tracker speichert das System alle aktiven Rift-Seeds in
+einem Array namens **OpenRifts**. Jeder Eintrag enthält ID, Seed-Namen,
+Schweregrad und eine optionale Deadline. Das Backend-Macro `ClusterCreate()`
+füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
+**ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
+
+```json
+"OpenRifts": [
+  {"ID":"R-71","Seed":"Emerald Kraken","Severity":1,"Deadline":-10}
+]
+```
+
+Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus eine kurze
+Rift-Operation. Nach erfolgreichem Abschluss wird der Datensatz entfernt, bei
+Scheitern erhöht sich der Schweregrad um 1.
+
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
 Ein zentrales Anliegen bei ZEITRISS ist es, technische Vorgänge wie das **Laden eines Spielstands**
