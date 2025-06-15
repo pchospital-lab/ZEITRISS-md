@@ -100,6 +100,38 @@ zurück. Offene Risse landen im Spielstand und lassen sich über das
 `launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
 Core-Generator zurückkehren.
 
+#### Paradox-Subsystem
+
+| Stufe | In-Mission-Effekt | HQ-Effekt |
+|-------|------------------|-----------|
+|0–1|Stabil|–|
+|2|HUD-Flackern|–|
+|3|Audio-Echo|–|
+|4|1 s Zeitstillstand|"Riss-Vorstufe"-Flag|
+|**5**|–|**ClusterCreate()** → 1–2 Seeds; Paradox = 0|
+
+Der Index wird kampagnenweit verfolgt. Bei Stufe 5 entstehen automatisch neue
+Rift-Seeds.
+
+#### Cluster-Erzeugung
+
+```pseudocode
+if paradox_level == 5:
+    num = roll(1,2)
+    cluster = []
+    for i in range(num):
+        cluster.append(roll_from("RiftSeedTable"))
+    save_to_saveblock(cluster)
+    paradox_level = 0
+```
+
+#### Mission-Schema
+
+| Schiene | Generator | Artefakte? | Stil | HUD |
+|---------|-----------|------------|------|-----|
+|**Core-Ops**|Rand-Epochen & CoreObjectiveTable|NEIN|Spionage-Thriller|`[CORE MISSION • …]`|
+|**Rift-Ops**|RiftSeedTable d10|JA|Blockbuster-Anomalie|`[RIFT RESPONSE • …]`|
+
 ### Zeitlinien-Verzweigungen
 
 ZEITRISS-Kampagnen spielen mit dem Konzept alternativer Geschichtsverläufe. **Zeitlinien-
