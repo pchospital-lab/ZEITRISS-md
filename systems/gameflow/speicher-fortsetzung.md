@@ -514,6 +514,13 @@ Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus eine kurze
 Rift-Operation. Nach erfolgreichem Abschluss wird der Datensatz entfernt, bei
 Scheitern erhöht sich der Schweregrad um 1.
 
+### Makros im Überblick
+
+- `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
+- `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
+- `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
+- `scan_artifact()` – Contra-Tool, steigert die Severity um 1.
+
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
 Ein zentrales Anliegen bei ZEITRISS ist es, technische Vorgänge wie das **Laden eines Spielstands**
