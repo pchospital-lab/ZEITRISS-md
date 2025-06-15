@@ -1,0 +1,14 @@
+{
+  "RiftSeedTable": [
+    {"d10":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
+    {"d10":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
+    {"d10":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
+    {"d10":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
+    {"d10":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
+    {"d10":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
+    {"d10":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
+    {"d10":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
+    {"d10":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
+    {"d10":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"}
+  ]
+}
