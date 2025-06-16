@@ -20,8 +20,9 @@ Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig
 Erst nach der Investigation wird klar, welches historische Ereignis gesichert oder ausgeloest werden soll.
 Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
-Mystische Paradoxien spielen keine Rolle.
-Dieses rational geerdete Konzept zieht sich durch sämtliche Regelmodule und dient als gemeinsamer Rahmen.
+Paradox-Effekte werden über einen Index von 0–5 verfolgt. Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein. Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus – es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0. Zeitkreaturen können Teil dieser Risse sein.
+Wer lieber ganz auf solche Erscheinungen verzichtet, kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
+Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 
 ## Struktur
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
@@ -36,7 +37,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik, Paradox-Triggered Phenomena |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik, Paradox-Subsystem |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |

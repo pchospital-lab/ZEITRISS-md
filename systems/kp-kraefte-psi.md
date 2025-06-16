@@ -86,8 +86,8 @@ zukünftiger Technologie entschlüsseln könnten?*
 
 Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antreffen? Im Folgenden eine
 Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind. Diese
-Fähigkeiten manifestieren sich meist dezent – als feine Wahrnehmungen oder begrenzte Einflüsse – und
-folgen intern konsistenten Regeln statt wildem Fantasy-Zauber.
+ Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse – und
+ folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen können bei hohem Paradox-Level auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
 
 - **Intuition („sechster Sinn“):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
 hinausgeht. Charaktere mit starker Intuition erspüren Gefahren oder richtige Entscheidungen, ohne es
@@ -428,8 +428,8 @@ ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereig
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
-Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Ab Paradox-Level 2 können sich sogar
-zufällige **Zeitkreaturen** aus dem Kreaturen- & Gestalten-Generator manifestieren. Werden sie
+ Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Bereits ab Paradox-Level 2
+ können zufällige **Zeitkreaturen** aus dem Kreaturen- & Gestalten-Generator erscheinen. Die optionale **Covert-Ops**-Variante unterdrückt diese Kreaturen. Werden sie
 besiegt und der verursachende Riss geschlossen, sinkt das Paradox-Level um 1. Diese Ereignisse können
 sich langsam
 aufbauen. Die SL könnte zunächst subtile Zeichen geben (z.B. flackert das HUD und zeigt
