@@ -301,7 +301,7 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
 * **[Erweiterung] Meilenstein-Stufen:** *Bestimmte Level werden als **Meilensteine*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
   **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
-  hochwertigerer Ausrüstung), **Level 50** die Zuweisung einer **eigenen kleinen Einsatzzentrale im
+  hochwertigerer Ausrüstung), **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **legendären Ruf** in der Zeitreise-Gemeinschaft. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
   einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). *Nutzen:* **Flow:**
@@ -319,8 +319,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an und
   gewährt breiteren Zugriff auf Ausrüstung.
-- **Level 50 → Eigenes HQ:** Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Basis und
-  weitreichende Befugnisse.
+- **Level 50 → Eigener Fraktionssektor im HQ:** Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale innerhalb ihres Fraktionskomplexes sowie weitreichende Befugnisse – ein spürbarer Höhepunkt im HQ-Ausbau.
 - **Level 100 → Legendäre Reputation:** Nur wenige erreichen diesen Status – sie gelten als
   unantastbare Legenden innerhalb der Zeitreise-Gemeinschaft.
 
@@ -950,6 +949,7 @@ kritische Paradox-Schwelle überschreiten. Aus dieser Abmachung resultiert der n
 auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
+Insgesamt existieren vier dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion – die Zerbrechliche Ewigkeit.
 
 - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen. Ansprechperson im HQ: **Pater Lorian**.
 Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
