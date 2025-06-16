@@ -87,6 +87,7 @@ Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
 Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir**.
+Nach jedem Zeitsprung öffnet sich außerdem ein Nullzeit-Menü für Shop, Skill-Upgrades und das Save-System (siehe Modul "Zustände & HUD").
 ## How to Contribute
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
 

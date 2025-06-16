@@ -654,6 +654,15 @@ auch bei Paradoxon, EMP oder Isolation.
 | `hilfe`      | Listet alle Befehle und HUD-Kommandos auf |
 | `codex [x]`  | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
 
+### Nullzeit-Menü (Zeitsprung)
+Bei jedem Zeitsprung öffnet sich automatisch ein spezielles Nullzeit-Menü. Dort stehen
+- Shop für Ausrüstung und Verbesserungen
+- Skill-Upgrades und Trainingsangebote
+- Save-System für Zwischenspeicher
+- **Pfad fortsetzen** oder **Neuen Pfad wählen** – letzteres archiviert den alten Missions-Context dauerhaft.
+Das Menü ergänzt das taktische HUD und verbindet Zeitsprung, Fortschritt und Speicherfunktionen.
+
+
 ### Erweiterbare Module (Platzhalter)
 
 - 🟥 `warnung` – zeigt [Vitalstatus kritisch], [Paradox-Index +1], [Filter ausgefallen]
