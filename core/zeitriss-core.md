@@ -775,6 +775,21 @@ wieder auf Zeitreise geht.
 - **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
 - **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson (Chrono-Symmetriker: Pater Lorian; Ordo Mnemonika: Archivarin Mira; Kausalklingen: Offizier Vargas; Zerbrechliche Ewigkeit: Agentin Narella).
 
+#### Megacity in der Nullzeit
+
+Das Hauptquartier ist Teil einer schier endlosen Megacity, die sich stufenweise
+um das Zentrum des ITI windet. Zwischen schimmernden Transpariumtürmen flackern
+Werbeflächen aus Zeitaltern, die noch gar nicht existieren. Über den Straßen
+schweben Bahntrassen und Lieferdrohnen, während neutrale Sicherheitsbots darauf
+achten, dass die hier geltende Waffenruhe nie gebrochen wird. Wer zwischen den
+Stationen schlendert, trifft immer wieder dieselben Gesichter – ein kauziger
+Barkeeper in der Zero Time Lounge, quirlige Technikerinnen am Portal oder
+Händler, die seit Anbeginn im zeitlosen Hafen verweilen. Diese NSCs altern nicht
+und bleiben von Ereignissen außerhalb der Nullzeit unberührt, was ihnen den Ruf
+unsterblicher Fixpunkte verleiht. So bietet die Megacity eine konstante Kulisse,
+in der die Chrononauten nach jeder Mission vertraute Anlaufstellen vorfinden,
+ganz gleich, wie sehr sich die Welt draußen verändert.
+
 ### Nullzeit-Sprungfenster & ITI-Hub
 
 Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – reißt
