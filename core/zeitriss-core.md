@@ -319,7 +319,10 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an und
   gewährt breiteren Zugriff auf Ausrüstung.
-- **Level 50 → Eigener Fraktionssektor im HQ:** Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale innerhalb ihres Fraktionskomplexes sowie weitreichende Befugnisse – ein spürbarer Höhepunkt im HQ-Ausbau.
+- **Level 50 → Eigener Fraktionssektor im HQ:**
+  Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
+  innerhalb ihres Fraktionskomplexes.
+  Sie erhalten dadurch weitreichende Befugnisse – ein spürbarer Höhepunkt im HQ-Ausbau.
 - **Level 100 → Legendäre Reputation:** Nur wenige erreichen diesen Status – sie gelten als
   unantastbare Legenden innerhalb der Zeitreise-Gemeinschaft.
 
@@ -767,13 +770,16 @@ Agenten. Alle wichtigen Veränderungen am Charakter finden im HQ statt, bevor es
 wieder auf Zeitreise geht.
 
 #### Wichtige Ansprechpartner
-- **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert und oft erstes Gesicht bei der Ankunft im Quarzatrium ist.
+- **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
+  Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium.
 - **Archivare des Codex** – betreuen das Wissensarchiv und helfen bei
   Recherchen.
 - **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
 - **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
 - **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
-- **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson (Chrono-Symmetriker: Pater Lorian; Ordo Mnemonika: Archivarin Mira; Kausalklingen: Offizier Vargas; Zerbrechliche Ewigkeit: Agentin Narella).
+- **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson.
+  Chrono-Symmetriker: Pater Lorian; Ordo Mnemonika: Archivarin Mira;
+  Kausalklingen: Offizier Vargas; Zerbrechliche Ewigkeit: Agentin Narella.
 
 #### Megacity in der Nullzeit
 
@@ -964,9 +970,11 @@ kritische Paradox-Schwelle überschreiten. Aus dieser Abmachung resultiert der n
 auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
-Insgesamt existieren vier dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion – die Zerbrechliche Ewigkeit.
+Insgesamt existieren vier dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion.
+Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
 
-- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen. Ansprechperson im HQ: **Pater Lorian**.
+- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen.
+  Ansprechperson im HQ: **Pater Lorian**.
 Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
 Wenn jemand durch Zeitreisen diese Ordnung zu sehr stört, schreiten die Chrono-Symmetriker ein. Ihre
 Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spielercharaktere können
@@ -975,7 +983,8 @@ Gegenspieler (falls man zu rücksichtslos in die Zeit eingreift). Ihr Auftauchen
 von ominösen Warnungen begleitet.
 - Ihr verborgenes Zeitziel bleibt unklar; nur Andeutungen lassen vermuten, dass sie eine
   mathematische Perfektion der Zeit anstreben.
-- **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen der Zeit sammeln. Ansprechperson im HQ: **Archivarin Mira**.
+- **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen der Zeit sammeln.
+  Ansprechperson im HQ: **Archivarin Mira**.
 Sie betreiben gigantische Archive außerhalb der normalen Welt
 und sehen sich als Hüter allen Wissens über die Zeitalter hinweg. Ihr Ziel ist es, Erinnerung zu
 bewahren – selbst von Ereignissen oder ganzen Zeitlinien, die ausgelöscht wurden. Meist beobachten
@@ -996,7 +1005,8 @@ radikal – im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls
 ein Risiko für die Zeitlinie einzugehen.
 - Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
   "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
- - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern. Ansprechperson im HQ: **Agentin Narella**.
+ - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern.
+  Ansprechperson im HQ: **Agentin Narella**.
    Die Kultisten vermuten, dass die offizielle Zeitlinie vielleicht erst durch ihre eigenen Eingriffe entstand.
    Ob sie Unsterblichkeit suchen, eine *„perfekte"* Zukunft formen oder reine Anarchie anstreben –
    sie operieren im Verborgenen und stoßen Ereignisse gezielt an, um ein geheimes Muster zu vollenden.
