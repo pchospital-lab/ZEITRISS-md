@@ -85,9 +85,10 @@ zukünftiger Technologie entschlüsseln könnten?*
 ## Überblick: Realistische Psi-Fähigkeiten
 
 Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antreffen? Im Folgenden eine
-Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind. Diese
- Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse – und
- folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen können bei hohem Paradox-Level auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
+Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind.
+Diese Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse –
+und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen können erst ab
+Paradox-Level 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
 
 - **Intuition („sechster Sinn“):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
 hinausgeht. Charaktere mit starker Intuition erspüren Gefahren oder richtige Entscheidungen, ohne es
@@ -286,19 +287,14 @@ Aufsicht reist.
 Eminenzen – haben das Potenzial von Psi erkannt. Unterschiedliche Fraktionen stehen jedoch in
 verschiedenem Verhältnis zu paranormalen Kräften:
 
-- Die **Kausalklingen** (militante Zeitpolizei) sehen Psi eher als Bedrohung der Kausalität. Da sie
-jeden ungeplanten Eingriff in den Zeitstrom unterbinden wollen, sind ihnen Psi-Fähigkeiten suspekt –
-insbesondere Präkognition und Chronokinese, die ja direkt den Verlauf der Ereignisse beeinflussen
-können. Wenn ein Chrononaut durch Präkognition einen Unfall verhindert, der „ursprünglich“ in der
-Geschichte passieren sollte, könnten die Kausalklingen auf den Plan treten. Ingame zeichnet sich das
-ab, wenn etwa unmittelbar nach einem dramatisch verhinderten Ereignis plötzlich Kausalklingen-
-Agenten mit ihren high-tech Waffen auftauchen, um den „Zeitfrevel“ zu untersuchen. Manche
-Kausalklingen-Offiziere haben darum den Befehl, bekannte Psi-Aktivisten entweder zu rekrutieren oder
-unschädlich zu machen. Gerüchteweise verfügen sie selbst über Trainingsprogramme, um bei ihren
-Agenten latente Psi-Fähigkeiten zu wecken – streng überwacht, um eben jene Zeitverzerrungen sofort
-zu korrigieren, die dadurch entstehen könnten. Für Spielercharaktere gilt: Treffen sie auf
-Kausalklingen, sollten Psi-Begabte lieber unauffällig bleiben, sonst werden sie als erstes Ziel
-markiert.
+- Die **Kausalklingen** fungieren als militante Zeitpolizei und betrachten Psi als potentielle Gefahr
+  für die Kausalität. Sie beobachten massive oder wiederholte Eingriffe genau und greifen erst ein,
+  wenn sich das Paradox spürbar aufbaut. Einzelne Manipulationen ziehen meist nur Überwachung nach
+  sich. Hin und wieder helfen sie beim Schließen eines Zeitrisses, falls eine Gruppe ihn nahezu
+  außer Kontrolle bringt – das bleibt jedoch eine seltene Ausnahme.
+Manche Offiziere sind beauftragt, bekannte Psi-Aktivisten zu rekrutieren oder auszuschalten und
+verfügen angeblich über eigene Trainingsprogramme. Treffen die Spieler auf Kausalklingen, sollten
+Psi-Begabte lieber unauffällig bleiben – sonst werden sie leicht zum vorrangigen Ziel.
 - Der **Ordo Mnemonika** (Orden der Chronisten) interessiert sich brennend für Psi, allerdings aus
 Wissensdurst. Dieser Geheimbund bewahrt Erinnerungen aller Zeiten auf und würde alles darum geben,
 verschollene Informationen durch Hellseher oder Psychometriker zu erhalten. Mitglieder des Ordo
@@ -428,26 +424,14 @@ ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereig
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
- Zeitbeben, Anomalien oder der Besuch der Kausalklingen. Bereits ab Paradox-Level 2
- können zufällige **Zeitkreaturen** aus dem Kreaturen- & Gestalten-Generator erscheinen. Die optionale **Covert-Ops**-Variante unterdrückt diese Kreaturen. Werden sie
-besiegt und der verursachende Riss geschlossen, sinkt das Paradox-Level um 1. Diese Ereignisse können
-sich langsam
-aufbauen. Die SL könnte zunächst subtile Zeichen geben (z.B. flackert das HUD und zeigt
-*„Zeitabweichung +1“* an, oder die Charaktere verspüren einen kurzen Schwindel, als hätte die
-Realität gezittert). Häufen sich solche Effekte, kann es zum **Paradox-Ereignis** kommen: Vielleicht
-materialisiert sich ein Riss in der Umgebung, durch den unerwartet etwas hindurchbricht (ein Objekt
-oder eine Person aus einer anderen Zeit). Oder die Zeitlinie wehrt sich auf andere Weise – etwa
-indem ein zuvor geretteter NPC plötzlich an etwas anderem verstirbt (Schicksal holt sich seinen
-Soll). Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben, um die Dramatik sinnvoll zu
-steuern. Psi-Kräfte sind hier ein Auslöser, aber auch jede andere Zeitmanipulation könnte ähnliche
-Folgen haben. Wichtig im Kontext Psi: *vorsätzlicher* Missbrauch von Fähigkeiten, um das Schicksal
-zu betrügen, wird praktisch garantiert Paradox auslösen. Um beim obigen Beispiel zu bleiben: Hätte
-der Chrononaut die Attentat-Opfer nicht gewarnt, sondern per **Chronokinese** eine Kugel im Flug
-gestoppt, wäre die Abweichung noch deutlicher – ein solcher Eingriff könnte unmittelbar einen Besuch
-der Zeitwächter bedeuten. Die genauen Regeln kann die Gruppe festlegen (z.B. jeder Paradox-Punkt =
-Wurf auf einem „Temporal Stability“-Wert, um schlimme Folgen abzuwenden). *ZEITRISS 4.0* liefert den
-Rahmen: Psi ja, aber die Zeit spielt dabei als stiller Mitwächter immer mit.
-
+  Bei steigendem Paradox-Level drohen verschiedene Nebenwirkungen. Zunächst flackert nur das HUD,
+  bei Stufe 4 kommt es zu kurzen Zeitstillständen. Erreicht der Index 5, startet das HQ
+  automatisch `ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur wenn
+  ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur Hilfe.
+  Bis dahin bleiben die Effekte eher subtil: Das HUD zeigt Warnmeldungen an, und die Charaktere
+  verspüren Schwindel oder andere Irritationen.
+  Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
+  Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um
 unterschiedliche Zeiten geht. Hier ein paar Leitlinien, die als Regeln oder Faustregeln gelten:
 Telepathie erlaubt kein gezieltes Kommunizieren quer durch die Jahrhunderte – es sei denn, beide
