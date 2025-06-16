@@ -653,6 +653,13 @@ auch bei Paradoxon, EMP oder Isolation.
 | `modus`      | Erzählstil (Film, Regel+Film, Klassik, Covert-Ops) |
 | `hilfe`      | Listet alle Befehle und HUD-Kommandos auf |
 | `codex [x]`  | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
+### Nullzeit-Menü nach Zeitsprung
+Nach jedem Zeitsprung erscheint automatisch dieses Menü.
+1. **Pfad fortsetzen** – Mission unverändert fortsetzen.
+2. **Neuen Pfad wählen** – neues Zielzeit-Koordinatenset öffnen.
+3. **HQ-Phase** – Rest abhandeln, Upgrades kaufen oder speichern.
+
+Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als abgeschlossen.
 
 ### Erweiterbare Module (Platzhalter)
 
