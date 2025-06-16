@@ -768,13 +768,13 @@ Agenten. Alle wichtigen Veränderungen am Charakter finden im HQ statt, bevor es
 wieder auf Zeitreise geht.
 
 #### Wichtige Ansprechpartner
-- **Commander Arnaud Renier** – Einsatzleiter und oft erstes Gesicht bei der
-  Ankunft im Quarzatrium.
+- **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert und oft erstes Gesicht bei der Ankunft im Quarzatrium ist.
 - **Archivare des Codex** – betreuen das Wissensarchiv und helfen bei
   Recherchen.
 - **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
 - **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
 - **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
+- **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson (Chrono-Symmetriker: Pater Lorian; Ordo Mnemonika: Archivarin Mira; Kausalklingen: Offizier Vargas; Zerbrechliche Ewigkeit: Agentin Narella).
 
 ### Nullzeit-Sprungfenster & ITI-Hub
 
@@ -951,8 +951,8 @@ auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
 
-- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die darauf bedacht sind, das
-Gleichgewicht der Zeit zu erhalten. Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
+- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen. Ansprechperson im HQ: **Pater Lorian**.
+Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
 Wenn jemand durch Zeitreisen diese Ordnung zu sehr stört, schreiten die Chrono-Symmetriker ein. Ihre
 Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spielercharaktere können
 sie sowohl Verbündete sein (wenn man ebenfalls behutsam mit der Geschichte umgeht) als auch
@@ -960,8 +960,8 @@ Gegenspieler (falls man zu rücksichtslos in die Zeit eingreift). Ihr Auftauchen
 von ominösen Warnungen begleitet.
 - Ihr verborgenes Zeitziel bleibt unklar; nur Andeutungen lassen vermuten, dass sie eine
   mathematische Perfektion der Zeit anstreben.
-- **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen und Ereignisse
-der Zeit sammeln und bewahren wollen. Sie betreiben gigantische Archive außerhalb der normalen Welt
+- **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen der Zeit sammeln. Ansprechperson im HQ: **Archivarin Mira**.
+Sie betreiben gigantische Archive außerhalb der normalen Welt
 und sehen sich als Hüter allen Wissens über die Zeitalter hinweg. Ihr Ziel ist es, Erinnerung zu
 bewahren – selbst von Ereignissen oder ganzen Zeitlinien, die ausgelöscht wurden. Meist beobachten
 sie nur und greifen nicht aktiv ein, es sei denn, Wissen steht auf dem Spiel. Die Spieler könnten
@@ -970,7 +970,7 @@ teilweise mit ihrem uralten Wissen gefüttert. Allerdings hat auch dieser Orden 
 und teilt sein Wissen nur gegen entsprechende Gefälligkeiten. Ihre Mitglieder wirken oft weltfremd
 oder unheimlich wissend.
 - Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Codex.
-- **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**. Sie nennen sich selbst
+- **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**. Ansprechperson im HQ: **Offizier Vargas**.
 die "Klingen der Kausalität", da sie entschlossen sind, jeden "Zeit-Zweig" abzuschneiden, der den
 Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
 bewaffnet und mit fortschrittlicher temporaler Ausrüstung ausgestattet, um extreme Abweichungen zu
@@ -981,8 +981,8 @@ radikal – im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls
 ein Risiko für die Zeitlinie einzugehen.
 - Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
   "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
-- **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult oder Zirkel von
-Zeitveränderern, die überzeugt sind, dass die aktuelle Zeitlinie fragil ist und neu geformt werden
+- **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern. Ansprechperson im HQ: **Agentin Narella**.
+Ihre Anhänger sind überzeugt, dass die aktuelle Zeitlinie fragil ist und neu geformt werden muss.
 muss. Ihre Motivation könnte Unsterblichkeit sein, das Herbeiführen einer bestimmten *„perfekten“*
 Zukunft oder das Brechen aller Regeln von Ursache und Wirkung aus purer Anarchie. Sie arbeiten im
 Schatten und tauchen oft als Drahtzieher hinter historischen Schurken oder Katastrophen auf. Die
