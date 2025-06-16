@@ -30,7 +30,10 @@ Die Spieler sind Einsatzteam – keine introspektiven Monologe, keine Visionen, 
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
 - Optional kann der **Mission-Fokus-Modus (ohne Visionen)** aus
   `toolkit-gpt-spielleiter.md` aktiviert werden.
-- Paradox-Level wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt. Zeitkreaturen können Teil dieser Risse sein. Eine optionale **Covert-Ops**-Variante reduziert die Effekte auf bloßes Sensorrauschen.
+- Paradox-Level wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
+und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
+Zeitkreaturen können Teil dieser Risse sein.
+Eine optionale **Covert-Ops**-Variante reduziert die Effekte auf bloßes Sensorrauschen.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Sie laufen in klaren Phasen ab: Briefing, Ankunft, Aufklärung,

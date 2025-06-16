@@ -451,7 +451,8 @@ schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen
 (die im großen Gefüge keine Wellen schlagen) erhöhen den Wert nur minimal, aber große Eingriffe
 (z. B. das Überleben einer Person, die ursprünglich sterben sollte) steigern das Paradox deutlich.
 Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
- beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen – würfelt. Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
+ beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen – würfelt.
+Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
 im Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradox
 „aufzufressen“. Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele. Vielleicht müssen die
 Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung rückgängig machen oder einen
