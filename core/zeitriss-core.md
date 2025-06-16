@@ -916,18 +916,18 @@ diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Be
 höheren Mitgliedern.
 
 Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie.
-Wer den radikalen Neubau der Geschichte unterstützt, spielt ohne Paradox-Regel.
-Oft geschieht das im Bund mit der **Zerbrechlichen Ewigkeit**.
-Zeitabweichungen werden dann rein erzählerisch behandelt.
-Gruppen, die den Erhalt der Hauptzeitlinie anstreben, nutzen weiterhin die Paradoxmechanik.
+Wer den radikalen Neubau der Geschichte bevorzugt, kann die Paradox-Warnungen deaktivieren,
+nutzt das System bei Bedarf jedoch identisch wie Pro-Gruppen. Oft geschieht dieser Ansatz
+im Bund mit der **Zerbrechlichen Ewigkeit**.
+Gruppen, die den Erhalt der Hauptzeitlinie anstreben, belassen die Paradoxmechanik
+standardmäßig aktiv.
 
-Eine weitere Spielbalance betrifft die **Psionik**: Nur Agenten, die sich
-der Erhaltung der Zeitlinie verschrieben haben, können psionische
-Fähigkeiten entwickeln. Contra-Charaktere bleiben von diesem Pfad
-ausgeschlossen und besitzen stattdessen einen starken natürlichen
-Widerstand gegen Psi-Einflüsse. Ihr Geist wehrt die „Erleuchtung“ des
-Zeitstroms ab, daher wirken telepathische oder mentale Angriffe bei ihnen
-nur eingeschränkt.
+Eine weitere Spielbalance betrifft die **Psionik**: Grundsätzlich steht sie allen
+Chrononauten offen. Wer den Contra-Weg wählt, kann Psionik auf eigene Gefahr
+ebenfalls einsetzen oder sie bewusst meiden und stattdessen einen natürlichen
+Widerstand gegen mentale Einflüsse entwickeln. Ihr Geist wehrt die
+„Erleuchtung“ des Zeitstroms dann leichter ab, was telepathische Angriffe
+erschwert.
 
 **Wichtig:** Pro- und Contra-Agenten bleiben unter sich.
 Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen.
@@ -981,18 +981,14 @@ radikal – im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls
 ein Risiko für die Zeitlinie einzugehen.
 - Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
   "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
-- **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern. Ansprechperson im HQ: **Agentin Narella**.
-Ihre Anhänger sind überzeugt, dass die aktuelle Zeitlinie fragil ist und neu geformt werden muss.
-muss. Ihre Motivation könnte Unsterblichkeit sein, das Herbeiführen einer bestimmten *„perfekten“*
-Zukunft oder das Brechen aller Regeln von Ursache und Wirkung aus purer Anarchie. Sie arbeiten im
-Schatten und tauchen oft als Drahtzieher hinter historischen Schurken oder Katastrophen auf. Die
-Zerbrechliche Ewigkeit könnte der unbekannte große Antagonist einer Kampagne sein – möglicherweise
-letztendlich verantwortlich für die mysteriösen Anomalien, denen die Spieler nachjagen. Unentdeckt
-zu bleiben ist Teil ihrer Strategie; ihnen auf die Schliche zu kommen erfordert viele Missionen und
-das Zusammensetzen verstreuter Puzzleteile. Wenn die Spieler diese Gruppe enttarnen, stehen sie vor
-einer gewaltigen Bedrohung für die gesamte Zeitlinie.
-- Ihre wahren Absichten offenbaren sich nur Stück für Stück, etwa wenn die Agenten alte
-  Manifest-Bruchstücke oder fanatische Predigten finden.
+ - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern. Ansprechperson im HQ: **Agentin Narella**.
+   Die Kultisten vermuten, dass die offizielle Zeitlinie vielleicht erst durch ihre eigenen Eingriffe entstand.
+   Ob sie Unsterblichkeit suchen, eine *„perfekte"* Zukunft formen oder reine Anarchie anstreben –
+   sie operieren im Verborgenen und stoßen Ereignisse gezielt an, um ein geheimes Muster zu vollenden.
+   Daher bleibt unklar, ob Katastrophen zufällig geschehen oder von ihnen provoziert wurden.
+   Möglich, dass sie hinter den rätselhaften Anomalien stecken, denen die Chrononauten nachjagen.
+   Ihr Einfluss zeigt sich nur in Fragmenten gefundener Manifeste oder Predigten, weshalb Contra-Agenten
+   oft Sympathien entwickeln, obwohl viele Missionen letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
 
 Daneben gibt es zahllose **kleinere Fraktionen und Akteure**: lokale Geheimbünde in einzelnen
 Epochen, mächtige Megakonzerne der Zukunft (mit Interesse an Zeitreise-Technologie, um in
