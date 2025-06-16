@@ -9,7 +9,8 @@ tags: [meta]
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
-Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und `speicher-fortsetzung.md` integriert, inklusive Core- & Rift-Loop, Makros und Missionstabellen.
+Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
+`speicher-fortsetzung.md` integriert, inklusive Core- & Rift-Loop, Makros und Missionstabellen.
 
 ## Grundidee
 **ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
@@ -20,8 +21,13 @@ Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig
 Erst nach der Investigation wird klar, welches historische Ereignis gesichert oder ausgeloest werden soll.
 Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
-Paradox-Effekte werden über einen Index von 0–5 verfolgt. Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein. Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus – es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0. Zeitkreaturen können Teil dieser Risse sein.
-Wer lieber ganz auf solche Erscheinungen verzichtet, kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
+Paradox-Effekte werden über einen Index von  0–5 verfolgt.
+Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
+Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
+es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
+Zeitkreaturen können Teil dieser Risse sein.
+Wer lieber ganz auf solche Erscheinungen verzichtet,
+kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
 Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 
 ## Struktur
@@ -37,7 +43,8 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik, Paradox-Subsystem |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik,
+Paradox-Subsystem |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
@@ -83,7 +90,8 @@ Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
 Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir**.
-
+## How to Contribute
+Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
