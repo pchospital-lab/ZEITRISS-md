@@ -204,10 +204,13 @@ Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
   Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte und Hackübungen simulieren,
   ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in
-  der Arena kombiniert. Durch den Ausbau der Trainingshalle können die Charaktere neue Fertigkeiten
-  einstudieren oder ihre Werte zwischen Einsätzen steigern. Regeltechnisch bieten gut trainierte Agenten
-  kleine Boni auf passende Proben, oder man zeigt in filmischen Montagen, wie sie sich auf kommende
-  Gefahren vorbereiten.
+  der Arena kombiniert. **Codex** fungiert hier als Moderator und blendet dabei Punktestände und
+  digitale Effekte ein, sodass sich die Übungen wie in einer **Spielhalle der Zukunft** anfühlen.
+  Im Gegensatz zu einer echten Rift bleibt diese Umgebung vollständig unter Kontrolle – ein
+  Kontrast, der die Spannung realer Einsätze noch verstärkt. Durch den Ausbau der Trainingshalle
+  können die Charaktere neue Fertigkeiten einstudieren oder ihre Werte zwischen Einsätzen steigern.
+  Regeltechnisch bieten gut trainierte Agenten kleine Boni auf passende Proben, oder man zeigt in
+  filmischen Montagen, wie sie sich auf kommende Gefahren vorbereiten.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
   personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener
   Stützpunkt außerhalb des ITI ist nicht vorgesehen.
@@ -529,7 +532,10 @@ Herzen des Sci-Fi-Abenteuers.
 Die **ITI-Arena** bietet einen optionalen Weg, um kurze Action-Sequenzen
 einzuschieben. Mit Holotechnik werden brenzlige Einsätze simuliert, ohne dass
 Charaktere realen Gefahren ausgesetzt sind – die Belohnungen sind jedoch
-vollwertig.
+vollwertig. HUD-Einblendungen und ein punktebasiertes Feedback-System verstärken
+den Eindruck einer futuristischen Spielhalle. Im Unterschied zu den chaotischen
+Real-Rifts behält der Codex hier jederzeit die volle Kontrolle und führt als
+Moderator durch jede Runde.
 
 1. **Rift-Start:** Die Teilnehmenden werden unmittelbar in eine virtuelle Rift
    geworfen. Die Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder
