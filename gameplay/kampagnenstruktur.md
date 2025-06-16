@@ -448,7 +448,7 @@ schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen
 (die im großen Gefüge keine Wellen schlagen) erhöhen den Wert nur minimal, aber große Eingriffe
 (z. B. das Überleben einer Person, die ursprünglich sterben sollte) steigern das Paradox deutlich.
 Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
-beginnt zu flackern, Déjà-vus plagen die Charaktere, oder es manifestieren sich Zeitkreaturen – würfelt
+ beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen – würfelt. Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
 im Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradox
 „aufzufressen“. Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele. Vielleicht müssen die
 Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung rückgängig machen oder einen
@@ -536,7 +536,7 @@ vollwertig.
    Einsatz.
 2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Einzelszenen aus den
    bekannten Generatoren (Rettungsmissionen, historische Schlüsselmomente,
-   Kämpfe gegen Zeitkreaturen …).
+  Kämpfe gegen Zeitkreaturen – in der optionalen **Covert-Ops**-Variante entfallen diese Szenen).
 3. **Steigender Anspruch:** Nach jeder gelungenen Szene erhöht die KI den
    Schwierigkeitsgrad. Nach fünf Szenen erscheint ein **Miniboss**, nach zehn
    Szenen ein **Endboss**.
