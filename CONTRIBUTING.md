@@ -12,6 +12,8 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Halte Zeilen möglichst unter 120 Zeichen und verwende UTF-8.
 - Wrappe lange Absätze bei etwa 100 Zeichen.
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
+- Verwende praegnante Commit-Nachrichten im Imperativ.
+- Oeffne Pull Requests stets gegen den `main`-Branch.
 
 Vielen Dank für deine Mithilfe!
 
