@@ -27,9 +27,7 @@ Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
 es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
 Zeitkreaturen können Teil dieser Risse sein.
 Wer lieber ganz auf solche Erscheinungen verzichtet,
-kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
-Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
-
+kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt. Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
 Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
@@ -43,8 +41,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik,
-Paradox-Subsystem |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände & HUD-Mechanik, Paradox-Subsystem |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
