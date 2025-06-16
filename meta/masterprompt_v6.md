@@ -116,7 +116,7 @@ illegalen Aktivitäten.
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
 
--## Automatischer Mission Seed
+## Automatischer Mission Seed
 - Zu Beginn jeder Sitzung zieht der GPT jeweils einen Eintrag aus den Tabellen in
  `kreative-generatoren.md` (Abschnitt "Automatischer Mission Seed")
 und erstellt daraus das Briefing.
