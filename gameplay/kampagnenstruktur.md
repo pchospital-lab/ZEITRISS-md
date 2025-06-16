@@ -531,12 +531,14 @@ einzuschieben. Mit Holotechnik werden brenzlige Einsätze simuliert, ohne dass
 Charaktere realen Gefahren ausgesetzt sind – die Belohnungen sind jedoch
 vollwertig.
 
-1. **Start und Fraktionswahl:** Zu Beginn entscheiden die Teilnehmenden, für
-   welche Fraktion sie antreten. Verdiente Rufpunkte zählen wie im realen
-   Einsatz.
-2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Einzelszenen aus den
-   bekannten Generatoren (Rettungsmissionen, historische Schlüsselmomente,
-  Kämpfe gegen Zeitkreaturen – in der optionalen **Covert-Ops**-Variante entfallen diese Szenen).
+1. **Rift-Start:** Die Teilnehmenden werden unmittelbar in eine virtuelle Rift
+   geworfen. Die Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder
+   Contra spielt. Enthält ein geladener Gruppen-Spielstand beide Seiten, kann
+   ein freiwilliges PvP-Duell ausgetragen werden. Verdiente Rufpunkte zählen wie
+   im realen Einsatz.
+2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Sequenzen innerhalb
+   der virtuellen Rift. Historische Missionen entfallen; stattdessen kämpft die
+   Gruppe gegen simulierte Bedrohungen oder löst kurze Aufgaben.
 3. **Steigender Anspruch:** Nach jeder gelungenen Szene erhöht die KI den
    Schwierigkeitsgrad. Nach fünf Szenen erscheint ein **Miniboss**, nach zehn
    Szenen ein **Endboss**.
@@ -545,8 +547,10 @@ vollwertig.
    Generator. Die Gruppe erhält dabei so viele passende Items zur Auswahl, wie
    Spieler teilnehmen (Solo-Spieler bekommen eine feste Option).
 5. **Abrechnung:** CU, Loot, Erfahrungspunkte und Ruf werden gesammelt. Wer
-   aussteigt, erhält seinen aktuellen Stand. Wer weitermacht, riskiert alles für
-   einen wachsenden Multiplikator.
+   aussteigt, erhält seinen aktuellen Stand. In PvP-Runden entscheidet die Gruppe
+   nach jedem Kampf, ob sie eine Revanche startet oder sich den bisherigen Gewinn
+   auszahlen lässt. Wer weitermacht, riskiert alles für einen wachsenden
+   Multiplikator.
 6. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
    dahin erworbenen Werte verfallen.
 7. **Paradox-Reset:** Wer mindestens fünf Missionen hintereinander erfolgreich
