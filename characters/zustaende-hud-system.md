@@ -344,7 +344,8 @@ Lebenspunkte hinausgehen:
   reparieren).
 ### Paradox-Subsystem
 
-Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur und zeigt, welche Effekte bei welchen Stufen auftreten.
+Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
+und zeigt, welche Effekte bei welchen Stufen auftreten.
 
 | Stufe | In-Mission-Effekt | HQ-Effekt |
 |-------|------------------|-----------|

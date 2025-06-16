@@ -383,105 +383,105 @@ Anomalie abweicht. **Vorphase** beschreibt den Moment knapp vor dem Auslöser,
 **Nachphase** die Lage, sobald die Anomalie sich voll entfaltet. Wählt oder
 würfelt einen Eintrag als Missionsstart.
 
-1. **London 1666 – Großer Brand** \| Vorphase: Funken im Bäckerladen. 
+1. **London 1666 – Großer Brand** \| Vorphase: Funken im Bäckerladen.
 \| Nachphase: Stadt steht in Flammen.
-2. **Boston 1773 – Tea Party** \| Vorphase: Heimliche Treffen in Tavernen. 
+2. **Boston 1773 – Tea Party** \| Vorphase: Heimliche Treffen in Tavernen.
 \| Nachphase: Kisten treiben im Hafen.
-3. **Paris 1789 – Sturm auf die Bastille** \| Vorphase: Gerüchte über Waffenlager. 
+3. **Paris 1789 – Sturm auf die Bastille** \| Vorphase: Gerüchte über Waffenlager.
 \| Nachphase: Aufgebrachte Menge stürmt das Gefängnis.
-4. **Waterloo 1815 – Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder. 
+4. **Waterloo 1815 – Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder.
 \| Nachphase: Truppen brechen panisch.
-5. **New Orleans 1812 – Großer Brand** \| Vorphase: Kerzenstummel fällt um. 
+5. **New Orleans 1812 – Großer Brand** \| Vorphase: Kerzenstummel fällt um.
 \| Nachphase: Viertel lichterloh.
-6. **Berlin 1848 – Märzrevolution** \| Vorphase: Flugblätter im Umlauf. 
+6. **Berlin 1848 – Märzrevolution** \| Vorphase: Flugblätter im Umlauf.
 \| Nachphase: Barrikadenkämpfe.
-7. **Florenz 1867 – Laborunfall** \| Vorphase: Experimente mit Äthergas. 
+7. **Florenz 1867 – Laborunfall** \| Vorphase: Experimente mit Äthergas.
 \| Nachphase: Halle explodiert, Rauchschwaden.
-8. **London 1888 – Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln. 
+8. **London 1888 – Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln.
 \| Nachphase: Spur führt zu einem Zeitreisenden.
-9. **Chicago 1893 – Weltausstellung** \| Vorphase: Besucher strömen herbei. 
+9. **Chicago 1893 – Weltausstellung** \| Vorphase: Besucher strömen herbei.
 \| Nachphase: Stromnetz bricht zusammen.
-10. **Sankt Petersburg 1905 – Blutsonntag** \| Vorphase: Friedlicher Marsch. 
+10. **Sankt Petersburg 1905 – Blutsonntag** \| Vorphase: Friedlicher Marsch.
 \| Nachphase: Soldaten schießen in die Menge.
-11. **San Francisco 1906 – Erdbeben** \| Vorphase: Tiere verhalten sich unruhig. 
+11. **San Francisco 1906 – Erdbeben** \| Vorphase: Tiere verhalten sich unruhig.
 \| Nachphase: Stadtteile versinken in Flammen.
-12. **Sarajevo 1914 – Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich. 
+12. **Sarajevo 1914 – Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich.
 \| Nachphase: Europa steht vor dem Krieg.
-13. **Galizien 1916 – Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab. 
+13. **Galizien 1916 – Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab.
 \| Nachphase: U-Boot taucht Jahre später wieder auf.
-14. **New York 1929 – Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge. 
+14. **New York 1929 – Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge.
 \| Nachphase: Broker geraten in Panik.
-15. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch. 
+15. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
 \| Nachphase: Luftschiff in Flammen.
-16. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken. 
+16. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
 \| Nachphase: Greller Blitz, Messgeräte spielen verrückt.
-17. **Roswell 1947 – Absturz** \| Vorphase: Radarempfang gestört. 
+17. **Roswell 1947 – Absturz** \| Vorphase: Radarempfang gestört.
 \| Nachphase: Militär riegelt die Absturzstelle ab.
-18. **Berlin 1961 – Mauerbau** \| Vorphase: Geheimtreffen der Führung. 
+18. **Berlin 1961 – Mauerbau** \| Vorphase: Geheimtreffen der Führung.
 \| Nachphase: Straßen plötzlich blockiert.
-19. **Dallas 1963 – Kennedy-Attentat** \| Vorphase: Wagenkolonne startet. 
+19. **Dallas 1963 – Kennedy-Attentat** \| Vorphase: Wagenkolonne startet.
 \| Nachphase: Chaos auf der Dealey Plaza.
-20. **Woodstock 1969 – Musikfestival** \| Vorphase: Technikprobleme auf der Bühne. 
+20. **Woodstock 1969 – Musikfestival** \| Vorphase: Technikprobleme auf der Bühne.
 \| Nachphase: Massen strömen unkontrolliert.
-21. **Apollo 13 1970 – Raumflug** \| Vorphase: Routinefunksprüche. 
+21. **Apollo 13 1970 – Raumflug** \| Vorphase: Routinefunksprüche.
 \| Nachphase: Funkspruch „Houston, we’ve had a problem“.
-22. **München 1972 – Olympia** \| Vorphase: Verdächtige sichten das Dorf. 
+22. **München 1972 – Olympia** \| Vorphase: Verdächtige sichten das Dorf.
 \| Nachphase: Geiselnahme und Belagerung.
-23. **Three Mile Island 1979 – Reaktorstörung** \| Vorphase: Ventile melden Fehler. 
+23. **Three Mile Island 1979 – Reaktorstörung** \| Vorphase: Ventile melden Fehler.
 \| Nachphase: Kühlsystem versagt.
-24. **Los Angeles 1984 – Olympisches Finale** \| Vorphase: Kameraübertragung flackert. 
+24. **Los Angeles 1984 – Olympisches Finale** \| Vorphase: Kameraübertragung flackert.
 \| Nachphase: Stromausfall im Stadion.
-25. **Tschernobyl 1986 – Reaktor 4** \| Vorphase: Testlauf ohne Freigabe. 
+25. **Tschernobyl 1986 – Reaktor 4** \| Vorphase: Testlauf ohne Freigabe.
 \| Nachphase: Kernschmelze und Evakuierung.
-26. **Berlin 1989 – Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz. 
+26. **Berlin 1989 – Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz.
 \| Nachphase: Menschenmassen reißen Mauern ein.
-27. **Oslo 1991 – Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert. 
+27. **Oslo 1991 – Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert.
 \| Nachphase: Zeremonie endet im Skandal.
-28. **Tokio 1995 – Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler. 
+28. **Tokio 1995 – Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler.
 \| Nachphase: Giftgasalarm.
-29. **Seattle 1999 – WTO-Proteste** \| Vorphase: Demonstranten sammeln sich. 
+29. **Seattle 1999 – WTO-Proteste** \| Vorphase: Demonstranten sammeln sich.
 \| Nachphase: Straßenschlachten eskalieren.
-30. **New York 2001 – 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab. 
+30. **New York 2001 – 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab.
 \| Nachphase: Türme stürzen ein.
-31. **Bagdad 2003 – Museumsplünderung** \| Vorphase: Chaos nach Einmarsch. 
+31. **Bagdad 2003 – Museumsplünderung** \| Vorphase: Chaos nach Einmarsch.
 \| Nachphase: Artefakte verschwunden.
-32. **Jakarta 2004 – Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus. 
+32. **Jakarta 2004 – Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus.
 \| Nachphase: Küsten verwüstet.
-33. **Berlin 2006 – Stromausfall** \| Vorphase: Netzschwankungen. 
+33. **Berlin 2006 – Stromausfall** \| Vorphase: Netzschwankungen.
 \| Nachphase: U-Bahnen bleiben stehen.
-34. **Peking 2008 – Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien. 
+34. **Peking 2008 – Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien.
 \| Nachphase: Künstlicher Regen setzt ein.
-35. **Haiti 2010 – Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere. 
+35. **Haiti 2010 – Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere.
 \| Nachphase: Hauptstadt in Trümmern.
-36. **Fukushima 2011 – Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv. 
+36. **Fukushima 2011 – Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv.
 \| Nachphase: Strahlungswerte steigen.
-37. **London 2012 – Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren. 
+37. **London 2012 – Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren.
 \| Nachphase: Drohnen spielen verrückt.
-38. **Moskau 2013 – Meteorit** \| Vorphase: Himmelsleuchten. 
+38. **Moskau 2013 – Meteorit** \| Vorphase: Himmelsleuchten.
 \| Nachphase: Druckwelle zerstört Fenster.
-39. **Genf 2015 – Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen. 
+39. **Genf 2015 – Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen.
 \| Nachphase: Zeitfenster blitzt kurz auf.
-40. **Paris 2016 – Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz. 
+40. **Paris 2016 – Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz.
 \| Nachphase: Kostbare Exponate verschwinden.
-41. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung. 
+41. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung.
 \| Nachphase: Straßen überflutet.
-42. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle. 
+42. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle.
 \| Nachphase: Monsunregen schneidet den Rückweg ab.
-43. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt. 
+43. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt.
 \| Nachphase: Dachstuhl in Flammen.
-44. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt. 
+44. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt.
 \| Nachphase: Steuerung fällt aus, Drohnen stürzen ab.
-45. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle. 
+45. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle.
 \| Nachphase: Schockwelle legt Gebäude in Schutt.
-46. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer. 
+46. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer.
 \| Nachphase: Fehlfunktion löst gefährliche Zwischenfälle aus.
-47. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen. 
+47. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen.
 \| Nachphase: Unerklärliche Stromsenke legt Viertel lahm.
-48. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch. 
+48. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch.
 \| Nachphase: Blackout und Versorgungsnotstand.
-49. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß. 
+49. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß.
 \| Nachphase: Selbstlernende Drohne entweicht.
-50. **Kapstadt 2024 – Wasserkrise** \| Vorphase: Reservoirs fast leer. 
+50. **Kapstadt 2024 – Wasserkrise** \| Vorphase: Reservoirs fast leer.
 \| Nachphase: Rationierung eskaliert Unruhen.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
