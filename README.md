@@ -87,6 +87,11 @@ Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
 Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir**.
+Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
+Dort kann die Gruppe den aktuellen Pfad fortsetzen,
+einen neuen Missionspfad wählen oder eine HQ-Phase starten.
+In dieser Phase lassen sich Upgrades kaufen und der Restpunkt abhandeln.
+Erst nach der Auswahl führt das HUD die Kampagne fort – die Mission gilt nach dem Sprung als abgeschlossen.
 ## How to Contribute
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
 
