@@ -20,12 +20,11 @@ verlangsamen) reichen. Auch Empathie über die Zeit oder das Aufspüren von Zeit
 Im Sinne des ZEITRISS-Leitbilds sind diese Fähigkeiten keine Magie im klassischen Sinn, sondern
 lassen sich stets als erweiterte Neurotechnik oder als Reaktion auf temporale Effekte deuten.
 
-Nur Chrononauten, die den **pro**-Pfad wählen und die Hauptzeitlinie bewahren
-wollen, können Psionik überhaupt entfalten. Wer sich dem **contra**-Ansatz
-verschreibt, bleibt vom Psi-Potential abgeschnitten. Solche Agenten entwickeln
-dafür einen erhöhten Widerstand gegen mentale Einflüsse. Im Setting blockieren
-sie bewusst den „Fluss der Erleuchtung“, weshalb ihr Geist schwerer zu
-manipulieren ist.
+Grundsätzlich kann jeder Chrononaut psionische Talente entwickeln. Gruppen, die
+den **contra**-Ansatz verfolgen, dürfen Psionik ebenfalls nutzen oder stattdessen
+einen natürlichen Widerstand gegen mentale Einflüsse wählen. Viele Contra-Agenten
+blockieren bewusst den „Fluss der Erleuchtung“, sodass ihr Geist schwerer zu
+manipulieren ist, verzichten aber nicht zwingend auf Psi-Kräfte.
 
 Spieltechnisch sind Psi-Fähigkeiten potente Werkzeuge – daher **streng limitiert**. Ihr Einsatz
 erfordert enorme Konzentration und **blockiert einen Teil der Systemlast**, da Körper und Geist
