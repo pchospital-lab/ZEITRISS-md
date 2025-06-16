@@ -43,7 +43,8 @@ automatisch Alarm schlägt. Dazu kommen Vorschläge für **Info-Triage**, damit 
 Situationen nur wirklich wichtige Daten eingeblendet werden und die Agenten nicht von
 Informationsflut überwältigt werden.
   In Kampagnen, die bewusst **contra** zur offiziellen Zeitlinie gespielt werden,
-  kann die Paradox-Warnung deaktiviert werden.
+  darf die Paradox-Warnung auf Wunsch deaktiviert werden. Wer sie aktiviert,
+  nutzt das System identisch zu Pro-Gruppen.
 - **Attributs-Skalierung & Heldenwürfel:** Neue Regeln für Charaktere mit außergewöhnlichen
 Attributwerten: Ab einem Wert von **11** erhält der Held einen **Heldenwürfel** (zweiter Wurf,
 besseres Ergebnis zählt) als Vorteil. Zusätzlich geben wir Hinweise, wie SL und Spieler einer

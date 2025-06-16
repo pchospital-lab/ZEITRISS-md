@@ -182,11 +182,12 @@ Zeitgeflecht beeinflussen.
 
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
-ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Entscheidet
-man sich für die Contra-Variante, entfällt die Paradoxmechanik; oft geschieht das
-in Allianz mit der Zerbrechlichen Ewigkeit.
+ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Wählen Spieler
+die Contra-Variante, dürfen sie die Paradoxmechanik auf Wunsch deaktivieren,
+nutzen sie aber bei Bedarf identisch zu Pro-Gruppen – häufig geschieht dieser
+Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
 
-Nach der Wahl eurer Hauptfraktion stellt euch das ITI eine feste Kontaktperson vor: Pater Lorian (Chrono-Symmetriker), Archivarin Mira (Ordo Mnemonika), Offizier Vargas (Kausalklingen) oder Agentin Narella (Zerbrechliche Ewigkeit). Diese Liaisons betreuen euch im HQ und leiten fraktionsspezifische Aufträge weiter. Commander Renier bleibt weiterhin Gesamtkoordinator.
+Nach der Wahl eurer Hauptfraktion stellt euch das ITI eine feste Kontaktperson vor: Pater Lorian (Chrono-Symmetriker), Archivarin Mira (Ordo Mnemonika), Offizier Vargas (Kausalklingen) oder Agentin Narella (Zerbrechliche Ewigkeit). Diese Liaisons betreuen euch im HQ, vermitteln Missionen aus dem gemeinsamen Auftragspool und halten optionale Spezialaufträge ihrer Fraktion bereit. Commander Renier bleibt weiterhin Gesamtkoordinator.
 Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen.
 Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
 Innerhalb der gewählten Ausrichtung ist ein Fraktionswechsel möglich – aber nur einmal und mit Bedacht.
