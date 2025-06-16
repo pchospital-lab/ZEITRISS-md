@@ -33,6 +33,12 @@ Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gru
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
+### Bewusstsein, Absolut und Realität
+
+In ZEITRISS existieren drei Ebenen: das individuelle Bewusstsein, das 2D-Feld reiner Information – das **Absolut** – und die gemeinsame Realität. Das Absolut bildet den Kern des Raumzeitgefüges und enthält passiv ruhende Bewusstseine. Mithilfe des freien Willens kann sich ein Bewusstsein daraus lösen. Je weiter es sich entfernt, desto deutlicher projiziert es seine eigene Realität über das Absolut hinaus, ähnlich einem Projektor, der ein Bild auf eine Leinwand wirft. Mehrere aktive Bewusstseine überlagern sich und schaffen so die Realität, die Menschen in vier Dimensionen erleben. Gelangt ein Bewusstsein in den passiven Zustand, kehrt es in das Absolut zurück und lässt seine Erfahrungen dort einfließen.
+
+Zwischen dieser Ebene reiner Information und den aktiven Bewusstseinen operiert das **ITI**. Es fängt besonders starke Bewusstseine ab und rekrutiert sie als Chrononauten. Dabei nutzt es dieselbe Projektionstechnik, um gezielt Risse in Raum und Zeit zu erzeugen. Die Forscher des ITI können das Absolut jedoch nie direkt beeinflussen und auch den freien Willen eines aktiven Bewusstseins nicht brechen. Veränderungen geschehen nur indirekt über die gemeinsame Realität – erst nach dem Tod und der Rückkehr ins Absolut wirken neue Erkenntnisse dauerhaft. Da menschliche Bewusstseine begrenzt sind, lassen sich höher entwickelte Spezies nicht für das ITI gewinnen, was den menschlichen Blick auf das Universum einschränkt.
+
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
 Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
 des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit
