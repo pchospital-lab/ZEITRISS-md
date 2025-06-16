@@ -328,12 +328,12 @@ Lebenspunkte hinausgehen:
   ein Knistern von Unstimmigkeit.“* Die SL sollte Paradox-Level einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
-  *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen. Ab **Level 2** flackern erste
-  Anomalien; ab **Level 3** öffnen sich Risse, aus denen Kreaturen aus dem
-  Kreaturen- & Gestalten-Generator hervortreten. **Level 4** bringt horrorartige
-  Manifestationen hervor, die bekämpft werden müssen. Erreicht das Paradox-Level 5,
-  droht ein massiver Zeitriss, der ganze Areale verschlingen kann oder ein hartes
-  Eingreifen der ITI erzwingt. Das
+  *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen. Ab **Level 2** flackert das HUD,
+  bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
+  Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
+  Wer einen puristischeren Thriller bevorzugt, kann eine **Covert-Ops-Variante** spielen,
+  bei der solche Risse und Kreaturen nicht auftreten.
+
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
@@ -343,6 +343,8 @@ Lebenspunkte hinausgehen:
   ausgelegt sein, ein Paradox-Level wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
 ### Paradox-Triggered Phenomena
+
+*Optionaler Covert-Ops-Modus:* Beschränkt die Effekte auf leichtes HUD-Flackern und verhindert Risse sowie Zeitkreaturen.
 
 # Paradox-Triggered Phenomena Framework
 
