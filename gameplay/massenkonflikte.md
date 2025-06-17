@@ -440,7 +440,8 @@ führt er durch Briefings; im Feld liefert er Daten und kann begrenzte Analysen 
 jedoch **kein Orakel**: Das HUD zeigt nur, was technisch erfassbar ist. Beispiel: Der Codex wird
 nicht direkt verraten, ob ein NPC lügt – dafür gibt es keinen Sensor. Hat aber ein Agent einen
 tragbaren Herzschlagdetektor aktiv, könnte das HUD einen erhöhten Puls des Gesprächspartners
-anzeigen, den die Spieler interpretieren müssen. Ebenso entdeckt das HUD nicht automatisch Fallen oder
+anzeigen, den die Spieler interpretieren müssen.
+Ebenso entdeckt das HUD nicht automatisch Fallen oder
 Rätsel-Lösungen, außer die Charaktere haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz:
 **Die KI liefert Kontext und Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Sie ist
 ein Werkzeug, kein Autopilot.

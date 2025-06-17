@@ -193,9 +193,11 @@ Offizier Vargas (Kausalklingen) oder Agentin Narella (Zerbrechliche Ewigkeit).
 Diese Liaisons betreuen euch im HQ und vermitteln Missionen aus dem gemeinsamen Auftragspool.
 Sie halten zudem optionale Spezialaufträge ihrer Fraktion bereit.
 Commander Renier bleibt weiterhin Gesamtkoordinator.
-Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung zusammen.
+Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung
+zusammen.
 Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
-Innerhalb der gewählten Ausrichtung ist ein Fraktionswechsel möglich – aber nur einmal und mit Bedacht.
+Innerhalb der gewählten Ausrichtung ist ein Fraktionswechsel möglich – aber nur einmal
+und mit Bedacht.
 Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
 Ein späterer Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
 

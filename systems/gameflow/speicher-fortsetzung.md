@@ -174,8 +174,11 @@ abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 *}*
 
 *Erläuterung:* In diesem Speicherblock sind alle zentralen Daten von Alex nach seiner ersten Mission enthalten.
-Zum Beispiel hat er das Talent *Kryptographie*, besitzt ein Neuro-Link-Implantat, ein Inventar mit
-Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet) und im **Codex** stehen Einträge, die an
+Zum Beispiel hat er das Talent *Kryptographie*, besitzt ein Neuro-Link-Implantat,
+ ein Inventar mit
+
+Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet)
+ und im **Codex** stehen Einträge, die an
 seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356 etc.). Diese Informationen
 reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
 entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten

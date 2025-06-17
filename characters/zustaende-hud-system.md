@@ -328,7 +328,8 @@ Lebenspunkte hinausgehen:
   ein Knistern von Unstimmigkeit.“* Die SL sollte Paradox-Level einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
-  *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen. Ab **Level 2** flackert das HUD,
+  *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen.
+Ab **Level 2** flackert das HUD,
   bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
   Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
   Wer einen puristischeren Thriller bevorzugt, kann eine **Covert-Ops-Variante** spielen,
@@ -355,7 +356,8 @@ und zeigt, welche Effekte bei welchen Stufen auftreten.
 |4|1 s Zeitstillstand|„Riss-Vorstufe“-Flag|
 |**5**|–|**ClusterCreate()** → 1–2 Seeds; Paradox = 0|
 
-*Optional kann eine Covert-Ops-Variante gespielt werden, bei der keine Risse oder Zeitkreaturen erscheinen.*
+*Optional kann eine Covert-Ops-Variante gespielt werden, bei der keine Risse
+oder Zeitkreaturen erscheinen.*
 
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
 

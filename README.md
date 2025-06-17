@@ -6,7 +6,8 @@ tags: [meta]
 
 # ZEITRISS-md Zeitreise RPG
 
-Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**, ein textbasiertes Zeitreise-Rollenspiel.
+Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**,
+ein textbasiertes Zeitreise-Rollenspiel.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
@@ -14,12 +15,15 @@ Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
 
 ## Grundidee
 **ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
-Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen und bedeutende Ereignisse zu beeinflussen.
+Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen
+und bedeutende Ereignisse zu beeinflussen.
 Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
 Jede Mission folgt der Preserve-vs-Trigger-Logik.
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig von ihrer Fraktion.
-Erst nach der Investigation wird klar, welches historische Ereignis gesichert oder ausgeloest werden soll.
-Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik sowie Bio- oder Cyberware.
+Erst nach der Investigation wird klar, welches historische Ereignis gesichert
+oder ausgeloest werden soll.
+Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik
+sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
 Paradox-Effekte werden über einen Index von  0–5 verfolgt.
 Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
@@ -60,20 +64,23 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 ## Beispielworkflow
-1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster deines MyGPT (max. 8k Zeichen).
+1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
+deines MyGPT (max. 8k Zeichen).
  Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
 2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator in
    `kreative-generatoren.md` erstellen.
-5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus `kreative-generatoren.md` und erstellt ein Briefing.
+5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus `kreative-generatoren.md`
+und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
 
 ## Spielstart
 
-Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein Chatfenster (die Icons sind optional):
+Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein Chatfenster
+(die Icons sind optional):
 
 - **Neues Spiel (solo)** – startet ein frisches Abenteuer mit einem einzelnen Chrononauten.
 GPT führt dich durch die Charaktererschaffung und liefert eine kurze Einführung ins ITI.
@@ -92,7 +99,8 @@ Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
 Dort kann die Gruppe den aktuellen Pfad fortsetzen,
 einen neuen Missionspfad wählen oder eine HQ-Phase starten.
 In dieser Phase lassen sich Upgrades kaufen und der Restpunkt abhandeln.
-Erst nach der Auswahl führt das HUD die Kampagne fort – die Mission gilt nach dem Sprung als abgeschlossen.
+Erst nach der Auswahl führt das HUD die Kampagne fort – die Mission gilt
+nach dem Sprung als abgeschlossen.
 ## How to Contribute
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
 

@@ -305,7 +305,8 @@ die Story hat einen gemeinsamen Grundton.
 
 ### Optionale Erweiterung: Sora und cineastische „Film ab!“-Momente
 
-Modul 13 konzentriert sich auf die **narrative** Inszenierung durch die Spielleitung. Doch es gibt im
+Modul 13 konzentriert sich auf die **narrative** Inszenierung durch die Spielleitung.
+Doch es gibt im
 ZEITRISS-System auch technische Hilfsmittel, um das Kinoerlebnis zu verstärken. Eines davon –
 optional und nach Gruppenvorliebe – ist die **„Film ab!“-Funktion** der KI-Spielleitung, intern
 bekannt als **Sora**.
@@ -351,7 +352,8 @@ markiert. Die Szene aus dem Modul-Einstieg oben ist ein Beispiel dafür: Ankunft
 Begrüßung durch Commander Renier, erste Orientierung. Danach startet ein **geführter HQ‑Rundgang**
 (Quarzatrium → Med‑Lab → Chrono‑Portal) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
 und System-Slots. Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
-wichtigsten Bereiche, bevor es zur ersten Trainingsmission oder direkt zum Einsatz geht. Das HQ dient
+wichtigsten Bereiche, bevor es zur ersten Trainingsmission oder direkt zum Einsatz geht.
+Das HQ dient
 hier als sicherer **Hub**, um Fragen zu klären und das Bedienkonzept kennenzulernen. Diese Option
 eignet sich besonders gut, um eine **neue Gruppe** abzuholen und ins Spiel zu geleiten.
 
@@ -708,7 +710,8 @@ pulsierenden, blauen Riss sehen, der sich unheilvoll ausdehnt. Die Wände wechse
 hin und her. Während der Techniker der Gruppe versucht, den **temporalen Stabilisator** am Riss zu
 installieren, müssen die anderen vielleicht **Zeitschatten** abwehren – z.B. Schemen von Rittern,
 die aus dem Riss treten, weil in einer Parallelrealität an dieser Stelle mal eine Schlacht war. Hier
-kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen. Sobald das Gerät aktiviert ist (oder das
+kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen.
+Sobald das Gerät aktiviert ist (oder das
 Artefakt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
 vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf, als Zeichen, dass alles
 wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über

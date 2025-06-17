@@ -202,7 +202,8 @@ können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeits
 etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
 Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
-  Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte und Hackübungen simulieren,
+  Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte
+und Hackübungen simulieren,
   ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in
   der Arena kombiniert. **Codex** fungiert hier als Moderator und blendet dabei Punktestände und
   digitale Effekte ein, sodass sich die Übungen wie in einer **Spielhalle der Zukunft** anfühlen.

@@ -18,12 +18,15 @@ lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
 zurückführen.
 
 ### Stiloption: Hard Sci-Fi
-In diesem Modus sind Psi-Effekte bodenständig. Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
+In diesem Modus sind Psi-Effekte bodenständig.
+Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 
-Präkognition liefert höchstens kurze taktische Ahnungen. Der Codex gibt keine prophetischen Hinweise.
+Präkognition liefert höchstens kurze taktische Ahnungen.
+Der Codex gibt keine prophetischen Hinweise.
 
 ### Stiloption: Covert-Ops Technoir
-Psi erscheint hier als taktisches Werkzeug. Telepathische Hacks und kurze Telekinese-Schübe unterstützen
+Psi erscheint hier als taktisches Werkzeug.
+Telepathische Hacks und kurze Telekinese-Schübe unterstützen
 verdeckte Einsätze, alles bleibt düster und hardwarebetont.
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
@@ -135,7 +138,8 @@ einen schnellen Eindruck der kommenden Szene: vielleicht ein mentales Standbild,
 Kameraschwenk, der einen einstürzenden Dachbalken zeigt, Sekunden bevor es passiert. Diese Vorahnung
 kann ihm einen kleinen Vorsprung verschaffen (im Regelmechanismus etwa einen Initiativebonus im
 Kampf). Allerdings bleiben präkognitive Eindrücke mehrdeutig. Im Spiel sollte kein Bild volle
-Gewissheit über die Zukunft geben – die *Zeitlinie* ist im Fluss und liefert nur **eine Möglichkeit**.
+Gewissheit über die Zukunft geben – die *Zeitlinie* ist im Fluss
+und liefert nur **eine Möglichkeit**.
 Ändern die Spieler ihr Verhalten basierend auf dieser Eingebung, kann dies die Zukunft schon
 verändern. Hier lauert auch das Paradox-Risiko (siehe weiter unten): Wer
 durch Präkognition Ereignisse verhindert, die „eigentlich“ passieren sollten, erzeugt womöglich
@@ -177,9 +181,11 @@ Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche 
 passend und ausgewogen eingesetzt werden.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
-  mit der er längere Zeit trainierte, mental erschaffen und einsetzen, als hielte er sie real in der Hand.
+  mit der er längere Zeit trainierte,
+  mental erschaffen und einsetzen, als hielte er sie real in der Hand.
   Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
-  zunächst physisch genutzt werden, bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 0 SYS (keine Systemlast).
+  zunächst physisch genutzt werden,
+  bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 0 SYS (keine Systemlast).
   Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
 direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
@@ -207,10 +213,13 @@ sollten diese Kräfte als besonderes Werkzeug verstehen – nützlich, aber nich
 haben Psi-Kräfte ihren Preis, wie der nächste Abschnitt zeigt.
 ## Gedankenkontrolle & Übernahme
 
-Manche Psioniker konzentrieren sich auf die Beherrschung fremder Gedanken. Diese Fähigkeit baut sich stufenweise auf.
+Manche Psioniker konzentrieren sich auf die Beherrschung fremder Gedanken.
+Diese Fähigkeit baut sich stufenweise auf.
 
-1. **Beeinflussung:** Der Psioniker kann Unbehagen, Müdigkeit oder leichte Übelkeit hervorrufen, um das Ziel zu lenken.
-2. **Erinnerungen formen:** Mit Übung lassen sich Erinnerungen verwischen oder durch kurze Suggestionen überlagern.
+1. **Beeinflussung:** Der Psioniker kann Unbehagen, Müdigkeit oder leichte Übelkeit hervorrufen,
+   um das Ziel zu lenken.
+2. **Erinnerungen formen:** Mit Übung lassen sich Erinnerungen verwischen
+   oder durch kurze Suggestionen überlagern.
 3. **Fremdlenkung:** Für wenige Minuten kann der Geist eines anderen direkt gesteuert werden.
    Der eigene Körper fällt in Schlaf und ist wehrlos.
 4. **Prestige:** Auf höchster Stufe ist eine vollständige Übernahme möglich,
