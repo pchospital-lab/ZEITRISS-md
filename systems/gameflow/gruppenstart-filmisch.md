@@ -24,6 +24,7 @@ ihre **Zusammenkunft etwas Besonderes** ist. Ob dramatisch in Szene gesetzte Ein
 rasante Schnittmontagen oder packende Team-Momente – dieses Modul hilft der Spielleitung, die Gruppe
 **stilvoll zusammenzuführen** und den Grundstein für eine unvergessliche gemeinsame Geschichte zu
 legen.
+Schon zu Beginn macht das ITI klar, dass die neue Einheit bald handfeste Geschichtsmissionen bewältigen muss. Ihr Handeln kann den Paradoxon-Index erhöhen; erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien, die zusätzlich zur eigentlichen Verschwörung gelöst werden müssen.
 
 Wir präsentieren im Folgenden **strukturelle Varianten**, filmische Stilmittel und bewährte
 **Szenarien für Gruppenstarts**. Dabei wird auch darauf eingegangen, wie wechselnde

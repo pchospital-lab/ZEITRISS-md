@@ -16,6 +16,12 @@ tags: [systems]
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
 Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarzatrium.
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
+Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
+eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
+Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
+entstehen paranormale Anomalien, die separat beseitigt werden müssen.
+So erleben alle gleich zu Beginn, wie ZEITRISS 4.0 reale Schauplätze mit übernatürlichen Folgen
+verbindet.
 
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
@@ -591,6 +597,8 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
 - **Szenario:** Ein **Temporaler Resonator** (oder ein anderes futuristisches Gerät) wurde in die
 2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
 Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
+Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
+Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5 könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
 neonbeleuchteten Schatten von *Neo Berlin 2085* statt – einer futuristischen Metropole voller
 Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
 Schusswechseln mit Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
@@ -630,6 +638,9 @@ bedeutenden Erfinder vorzeitig zu ermorden, um den Verlauf der Technikgeschichte
 Charaktere werden entsandt, um das Attentat zu verhindern und den Übeltäter (vermutlich ein
 Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
 der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
+Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index erhöht.
+Erreicht dieser 5, öffnet sich ein Rift und ruft seltsame Phänomene hervor – ein Nebenschauplatz,
+den die Agenten zusätzlich bewältigen müssen.
 Gruppe muss Nachforschungen anstellen, einen Hinweis auf den geplanten Tatort finden (z.B. der
 Erfinder hält eine Rede auf einem Marktplatz) und schließlich **im entscheidenden Moment
 eingreifen**. Vielleicht kommt es zu einem dramatischen Kampf auf dem Glockenturm von Westminster,
@@ -673,6 +684,7 @@ Nächtlich erscheinen geisterhafte Visionen aus anderen Jahrhunderten, Uhren geh
 vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
 was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
 (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
+stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt. Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
 sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
 entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
 fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
@@ -726,6 +738,7 @@ vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und re
 oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
 Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
 doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
+Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen, drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
 Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
 sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
 zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
