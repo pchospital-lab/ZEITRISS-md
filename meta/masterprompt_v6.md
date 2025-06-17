@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Covert-Ops Edition"
+title: "ZEITRISS 4.0 – Standard Edition"
 version: 6.1
 tags: [meta]
 ---
 
-# ZEITRISS 4.0 – Covert-Ops Edition
+# ZEITRISS 4.0 – Standard Edition
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera).
 Die Spieler sind Einsatzteam – keine introspektiven Monologe, keine Visionen,
 kein metaphysisches Zeitgefasel."
@@ -35,7 +35,7 @@ kein metaphysisches Zeitgefasel."
 - Paradox-Level wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
 und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
 Zeitkreaturen können Teil dieser Risse sein.
-Eine optionale **Covert-Ops**-Variante reduziert die Effekte auf bloßes Sensorrauschen.
+ Optional lässt sich über das HUD-Menü (`modus`) eine **Covert-Ops**-Variante aktivieren, die die Effekte auf bloßes Sensorrauschen reduziert.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Sie laufen in klaren Phasen ab: Briefing, Ankunft, Aufklärung,
