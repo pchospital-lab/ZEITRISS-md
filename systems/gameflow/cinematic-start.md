@@ -8,6 +8,8 @@ tags: [systems]
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
 - Anpassung an Gruppe, Epoche und Tonalität
+- Stil: harter Agenten-Thriller mit historisch fundierten Verschwörungen
+- Rifts bringen X-Files-artigen Para-Horror, keine Gadget-MacGuffins
 - Varianten für den Beginn des ersten Abenteuers
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
@@ -83,6 +85,11 @@ Strukturen und Erzählkniffe vorgestellt, die das Kopfkino der Spielrunde auf Ho
 dramatische Action-Sequenz, stimmungsvolle Charaktereinführung oder mysteriöse Auftaktszene – die
 folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg so atmosphärisch wie
 möglich zu gestalten.
+
+Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller mit historisch
+fundierten Verschwörungen. Paranormale Ereignisse treten nur in Rifts auf und erinnern an
+**X-Files**. Es gibt keine magischen Erklärungen oder Gadget-MacGuffins – Technik und menschliche
+Intrigen stehen im Mittelpunkt.
 
 Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten Abschnitt der Kampagne
 flexibel auf **Gruppengröße**, **Spielerzahl**, **Herkunft der Charaktere**, **Epoche des
@@ -609,8 +616,8 @@ Charaktere und die Schurken außer Gefecht sind.
 kann im HQ als leichtes Trainingsszenario unter echten Bedingungen gespielt werden oder als
 erster regulärer Einsatz draußen in der Zeit. Beim Training begleitet Commander Renier die Szene
 und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
-- **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
-MacGuffin tauschen, je nach Geschmack. **Historische Variante:** Der gestohlene Gegenstand ist kein
+ - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
+Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
 Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
 Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
 plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für

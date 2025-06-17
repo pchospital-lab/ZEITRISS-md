@@ -9,6 +9,8 @@ tags: [systems]
 - Strukturelle Varianten des Gruppenstarts
 - Filmische Stilmittel für den Gruppenstart
 - Wechselnde Gruppen und dynamische Besetzung
+- Stil: harter Agenten-Thriller mit historisch fundierten Verschwörungen
+- Rifts bringen X-Files-artigen Para-Horror, keine Gadget-MacGuffins
 - Dramaturgie und Gruppendynamik: Tipps für die Inszenierung
 - Konkrete Starttypen und Konstellationen
 - Fazit: Der Auftakt inszeniert das Zusammenfinden
@@ -24,6 +26,11 @@ ihre **Zusammenkunft etwas Besonderes** ist. Ob dramatisch in Szene gesetzte Ein
 rasante Schnittmontagen oder packende Team-Momente – dieses Modul hilft der Spielleitung, die Gruppe
 **stilvoll zusammenzuführen** und den Grundstein für eine unvergessliche gemeinsame Geschichte zu
 legen.
+
+Der Gruppenstart spiegelt den Ton von **ZEITRISS** wider: harte Agenten-Thriller
+mit historisch fundierten Verschwörungen. Paranormale Effekte treten nur in
+Rifts auf und erinnern an **X-Files**. Gadget-MacGuffins oder mystische
+Überbauten kommen nicht vor – Technik und Intrigen stehen im Fokus.
 Schon zu Beginn macht das ITI klar, dass die neue Einheit bald handfeste Geschichtsmissionen bewältigen muss. Ihr Handeln kann den Paradoxon-Index erhöhen; erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien, die zusätzlich zur eigentlichen Verschwörung gelöst werden müssen.
 
 Wir präsentieren im Folgenden **strukturelle Varianten**, filmische Stilmittel und bewährte
