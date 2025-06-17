@@ -34,7 +34,8 @@ aktiv ist, „belegt“ sie entsprechend viele SYS-Punkte. Die Summe aller aktue
 kommt es zur **Überlastung**: der Charakter erleidet mentale und körperliche Zusammenbrüche,
 Implantate fallen aus, vielleicht blutet er sogar aus der Nase und verliert für längere Zeit die
 Fähigkeit, Psi zu nutzen. Praktisch bedeutet das: Will ein Chrononaut mit voller Cyberausstattung
-noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln oder mit abgeschwächter Kraft arbeiten.
+noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln
+oder mit abgeschwächter Kraft arbeiten.
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur kurz
 an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren – je
 schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat ggf.

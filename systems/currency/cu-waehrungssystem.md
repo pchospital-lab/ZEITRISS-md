@@ -216,7 +216,8 @@ der Liste steht – und es später freizuschalten, fühlt sich umso mehr wie ein
 Agent, der sich durch Zuverlässigkeit und Heldentaten einen Namen gemacht hat, wird von der ITI-
 Leitung bevorzugt behandelt. Ab **Ruf +3** (Skala **–5** bis **+5**) winken kleine Rabatte auf
 Standardausrüstung; bei **+4** und mehr dürfen Agenten manchmal neu eingetroffene Gadgets als Erste
-begutachten. In Spielbegriffen könnte man sagen: 5–10 % Preisnachlass hier und da oder *Early Access*
+begutachten. In Spielbegriffen könnte man sagen: 5–10 % Preisnachlass hier und da
+oder *Early Access*
 zu besonderen Items. In der Geschichte äußert
 sich das in kleinen Szenen der Wertschätzung. *Beispiel:* Der Quartiermeister zieht den verdienten
 Veteranen vertraulich zur Seite und öffnet eine Kiste mit streng limitierten Gerätschaften. *„Such

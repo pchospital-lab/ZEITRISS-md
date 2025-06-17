@@ -31,7 +31,8 @@ Alles Übernatürliche entpuppt sich als geheime Technik oder experimentelle Bio
 Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen.
 Chrononauten decken diese Hintergründe auf, während Zeitgenossen sie fälschlich für Wunder halten.
 ### Zeitreisen = Ortswechsel
-Zeitreisen sind nur Transport von A nach B. Die Uhr spielt ausschließlich beim Auftragstiming eine Rolle,
+Zeitreisen sind nur Transport von A nach B. Die Uhr spielt ausschließlich beim Auftragstiming
+eine Rolle,
 etwa bei Treffen um 22:00 Uhr 1943.
 
 Der Ton des Spiels ist düster-atmosphärisch, mysteriös und historisch stimmig. Man taucht
@@ -42,7 +43,8 @@ und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 *Jeder Chrononaut besitzt ein ***Chronometer-Gerät*** – ein am Handgelenk getragenes Interface, das
 die Zeitsprünge steuert und als persönlicher Codex-Computer dient. Es projiziert ein dezentes AR-
 Display (HUD) ins Sichtfeld des Agenten.
-Vitalwerte, Missionsziele und Hinweise auf zeitliche Instabilitäten lassen sich bei Bedarf einblenden.*
+Vitalwerte, Missionsziele und Hinweise auf zeitliche Instabilitäten lassen sich
+bei Bedarf einblenden.*
 
 ### Tonalität & Immersion
 
@@ -270,7 +272,8 @@ Chrononauten zwar zu beeindruckenden Agenten werden können, aber keine allmäch
 jede Technologie und Fähigkeit zugleich nutzen.
 Auch rein mentale Waffenmanifestationen zählen zur Systemlast und werden wie andere Mods verrechnet.
 Damit konkurriert ein Psi-Spezialist um dieselben Ressourcen wie Cyber- oder Bioware-Experten.
-Grundfähigkeiten sind schnell gelernt, doch höchste Stufen fordern viel Übung und sorgfältiges SYS-Management.
+Grundfähigkeiten sind schnell gelernt, doch höchste Stufen fordern viel Übung
+und sorgfältiges SYS-Management.
 
 ### Levelaufstieg & Fortschritt
 #### Regelupdate: Progressionssystem Level 1–1000
@@ -301,7 +304,8 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
 * **[Erweiterung] Meilenstein-Stufen:** *Bestimmte Level werden als **Meilensteine*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
   **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
-  hochwertigerer Ausrüstung), **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
+  hochwertigerer Ausrüstung),
+**Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **legendären Ruf** in der Zeitreise-Gemeinschaft. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
   einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). *Nutzen:* **Flow:**

@@ -162,7 +162,8 @@ denkwürdige Begegnung!
 Ihr könnt diesen NSC-Generator auch nutzen, um **bekannte historische Figuren mit einem Twist** zu
 versehen. Was, wenn Napoleon (Rolle: Herrscher) plötzlich eine schelmische Ader hat (Persönlichkeit:
 humorvoll) und insgeheim von einem verlorenen Verwandten in der Zukunft träumt (Besonderheit:
-behauptet optional, Visionen der Zukunft zu kennen)? Schon wird aus der bekannten Figur ein einzigartiger
+behauptet optional, Visionen der Zukunft zu kennen)?
+Schon wird aus der bekannten Figur ein einzigartiger
 Charakter für eure Story!
 
 ## Missions-Generator: Kleine Aufträge und Dilemmata
@@ -339,7 +340,8 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   3. Die Helden müssen ein persönliches Opfer bringen, um die Zeit zu heilen.
   4. Eine andere Fraktion kommt ihnen zuvor und dreht den Spieß um.
   5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
-  6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler war.
+  6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler
+war.
 
 ## Historische Wendepunkte-Generator: Auslöser und Folgen
 

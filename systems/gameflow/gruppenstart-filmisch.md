@@ -472,7 +472,8 @@ einen **maßgeschneiderten Auftakt**, der genau für diese Heldenrunde passt.
 
 ## Fazit: Der Auftakt inszeniert das Zusammenfinden
 
-Der **filmische Gruppenstart** in ZEITRISS 4.0 Modul 14 ist eine Einladung, euer Rollenspielabenteuer
+Der **filmische Gruppenstart** in ZEITRISS 4.0 Modul 14 ist eine Einladung,
+euer Rollenspielabenteuer
 mit der Magie des Kinos zu veredeln. Ob ihr nun eine dramatische Parallelmontage wählt, eine
 emotionale Kennenlernsequenz im HQ, oder die Gruppe Hals über Kopf in die Action stürzt – wichtig
 ist, dass die Einführung *euch und euren Spielern* im Gedächtnis bleibt. Hier wurden zahlreiche

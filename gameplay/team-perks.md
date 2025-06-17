@@ -19,7 +19,8 @@ handelt sich stets um Boni, nicht um eine Pflicht.
 
 Eine Gruppe kann ihren ersten Team-Perk frühestens nach drei bis fünf gemeinsam gemeisterten
 Missionen erhalten. Ob dies automatisch geschieht oder auf Wunsch der Spieler, entscheidet ihr mit
-der SL. Oft ist es stimmungsvoll, das Erreichen an ein Ingame-Ereignis zu knüpfen – eine Auszeichnung
+der SL. Oft ist es stimmungsvoll, das Erreichen an ein Ingame-Ereignis zu knüpfen
+– eine Auszeichnung
 durch das ITI, einen gemeinsam geleisteten Schwur oder einen besonderen Meilenstein. Ebenso kann
 investiert werden: etwa durch Chrono-Units für Ausrüstung oder Training, Verzicht auf individuelle
 Belohnungen oder intensives Üben im HQ.
@@ -33,7 +34,8 @@ Belohnungen oder intensives Üben im HQ.
 - **Kampfverbund** – Eingespielte Kämpfer unterstützen sich blind. Alle
 Teammitglieder erhalten +1 auf Angriffs- und Verteidigungswürfe, wenn sie im selben Gefecht agieren.
 - **Fahrzeug-Crew** – Auf Reisen oder in Verfolgungsjagden habt ihr euch aufeinander eingespielt.
- Wer am Steuer sitzt, erhält +2 auf Fahrzeugproben, solange mindestens ein weiteres Crewmitglied unterstützt.
+ Wer am Steuer sitzt, erhält +2 auf Fahrzeugproben, solange mindestens ein weiteres Crewmitglied
+unterstützt.
 - **Feldklinik** – Durch medizinisches Training könnt ihr Wunden schneller versorgen.
  Nach einem Konflikt regeneriert jedes Teammitglied einen zusätzlichen Treffer.
 - **Geistertruppe** – Perfekt abgestimmte Infiltration.
@@ -41,9 +43,11 @@ Teammitglieder erhalten +1 auf Angriffs- und Verteidigungswürfe, wenn sie im se
 
 ### Anwendung im Spiel
 
-Wählt Team-Perks im HQ, wenn eure Gruppe zusammenwächst. Ein neues Perk kostet in der Regel eine Ressourcengutschrift.
+Wählt Team-Perks im HQ, wenn eure Gruppe zusammenwächst.
+Ein neues Perk kostet in der Regel eine Ressourcengutschrift.
 Oder ihr investiert einige Spielsitzungen Training.
-Ein Team kann mehrere Perks besitzen, sollte aber höchstens einen Bonus gleichzeitig einsetzen können.
+Ein Team kann mehrere Perks besitzen, sollte aber höchstens einen Bonus
+gleichzeitig einsetzen können.
 Besprecht mit der SL, welche Effekte sinnvoll kombinierbar sind.
 ## Ausführliche Gruppen-Spezialisierungen
 
