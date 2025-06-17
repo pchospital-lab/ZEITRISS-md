@@ -88,7 +88,8 @@ ständige Vorsicht geboten ist, um nicht doch die Maskierung zu verlieren!)
 *Beispiele:* Hover-Cars, Antigrav-Gleiter, schwebende Monorails, Raumgleiter aus Cyberpunk- Städten.
 *Eigenschaften:* Unglaubliche Geschwindigkeit, Flughöhe und Traglast, oft mit Tarnvorrichtungen oder
 Autopiloten ausgestattet. **Nachteil:** Extrem energiefressend und in früheren Epochen praktisch
-unmöglich zu warten. Futuristische Vehikel wirken überall vor ihrer Zeit wie Wunder oder PSI-Phänomene.
+unmöglich zu warten. Futuristische Vehikel wirken überall vor ihrer Zeit
+wie Wunder oder PSI-Phänomene.
 (Szene: Im Jahr 2100 liefern sich Agenten eine Hover-Car- Verfolgungsjagd über neonbeleuchtete
 Häuserschluchten. Sie schießen zwischen Monorail-Schienen hindurch und nutzen Antigrav-Technik für
 waghalsige Manöver. Doch als sie anschließend mit demselben Gleiter in einer Barockstadt von 1700

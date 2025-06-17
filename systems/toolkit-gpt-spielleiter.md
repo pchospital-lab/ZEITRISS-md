@@ -35,11 +35,13 @@ Die Entscheidung wird erst nach der Investigation aufgedeckt.
 Beide Optionen fuehren zum offiziellen Ergebnis, beeinflussen aber Paradox-Wert und Fraktionsruf.
 
 ### Einsatzbeispiele
-- **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu stören.
+- **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu
+  stören.
 
 - **Rettungsmission:** Ein Forschungsteam sitzt in einer instabilen Zeitblase fest.
   Die Agenten sollen die Wissenschaftler unauffällig herausholen.
-- **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver,
+ - **Datenraub:** ChronTech entwickelt neue Protokolle. Die Charaktere infiltrieren einen Hochsicherheitsserver,
+  
   sichern die Daten und verschwinden spurlos.
 
 ### Mission-Fokus-Modus (ohne Visionen)
@@ -214,7 +216,8 @@ im Hintergrund gegensteuern. Überlege in jeder freien Situation: *„Welche gr�
 hier am Werk, und was w*ü*rden sie tun?“*. So bleibt die Welt glaubwürdig und reagiert auf die
 Spieler. Führe *Konsequenzen* ein: Wenn die Gruppe etwa ein Zeitartefakt stiehlt, wie reagiert die
 Organisation, der es gehört? Wenn sie einem NPC aus Fraktion X geholfen haben, \u00e4ndert das
-dessen Verhalten später? Diese **Kausalverkettung** verstärkt den Eindruck einer lebendigen Welt. Falls du
+dessen Verhalten später? Diese **Kausalverkettung** verstärkt den Eindruck einer lebendigen Welt.
+Falls du
 spontan Hilfe brauchst, greife auf **Klischees** im Zweifel zurück (die Konzern-Security ist
 effizient und gnadenlos, der Untergrund-Informant will Credits und ist verschlagen etc.), aber
 verleihe ihnen sobald wie möglich eigene Nuancen, damit sie nicht flach bleiben.
