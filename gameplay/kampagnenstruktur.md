@@ -11,6 +11,8 @@ tags: [gameplay]
 - Beziehungen zu NSCs, Fraktionen und Mitagenten
 - Mechaniken für langfristige Entwicklungen
 - Erzählpausen, Freizeit und Alltag im HQ
+- Arena-Modus: Schnellspiel-Simulationen
+- Cronopoli – Endgame-Hub
 - Fazit
 
 
@@ -636,6 +638,242 @@ Moderator durch jede Runde.
 Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
 sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
 ohne direkt eine Zeitreise zu starten.
+
+## Cronopoli – Endgame-Hub
+
+*Implementations-Package für Code, Art & Content*
+
+### 1 | High-Level-Pitch
+
+> **Cronopoli** ist eine **statische Megastruktur** aus einer *möglichen Zukunft, die nie eintreten wird*.
+> Architektur & Straßenzüge bleiben unverändert.
+> **Bewohner, Händler und Begegnungen werden bei jedem Betreten vollständig neu instanziiert** – so wirkt die Stadt stets frisch,
+> ohne dass wir mehr als **eine** Map modellieren müssen.
+> Die ringförmige Stadt schmiegt sich wie ein Wurm um das zentrale ITI-Hauptquartier.
+
+### 2 | Freischalt-Logik
+
+| Flag            | Wert                                        |
+| --------------- | -------------------------------------------- |
+| **Rank-Gate**   | `PLAYER_RANK ≥ 50` *(änderbar in Config)*    |
+| **Key-Item**    | `itm_quant_key` (Erhalt beim Rang-Up 50)     |
+| **Entry-Event** | `evt_enter_cronopoli()` *(wie zuvor, Rank-Check auf 50 anpassen)* |
+
+### 3 | Instanzierungs-Pipeline
+
+```mermaid
+graph TD
+A[Player betreten Zone] --> B[Load static city geometry]
+B --> C[Seed RNG = UTC-Timestamp]
+C --> D[GPT-Stub: getCronopoliPopulation(seed)]
+D --> E[NPC / Vendor Pool in RAM]
+```
+
+#### 3.1 GPT-Stub-Signature
+
+```json
+POST /gpt/getCronopoliPopulation
+{
+  "seed": 1696851200,
+  "player_rank": 52,
+  "flags": ["temporal_ship_unlocked"]
+}
+```
+
+**Response** – Beispiel
+
+```json
+{
+  "vendors": [
+    {
+      "id": "vend_neoark",
+      "type": "Temporal Shipwright",
+      "inventory": ["timesloop_schooner", "chronoglider_mk2"],
+      "greeting": "Sturm der Äonen, Captain?"
+    },
+    ...
+  ],
+  "npcs": [
+    {"id":"npc_oracle", "role":"Rumormonger", "hook":"Seed about 1883 Krakatoa Rift"},
+    ...
+  ]
+}
+```
+
+*→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt.*
+
+### 4 | Content-Richtlinien für dynamische Bevölkerung
+
+| Kategorie          | Mindest-Pool | Beispiele                             | Regel-Notizen           |
+| ------------------ | ------------ | ------------------------------------- | ----------------------- |
+| **Händler**        | 6            | Temp. Shipwright, Antikythera Arch., Dieselpunk Shop | 3–5 Items, 1 Prototyp |
+| **Quest-Giver**    | 3            | Rift Cartographer, Lost-Era Agent, Flux-Smuggler | Seeds, Gerüchte oder Side-Ops |
+| **Atmosphäre NPC** | 10           | Sprawl-Pilger, Android Poet, Retro-Cyber Monk | Kein Handel; nur Flavor |
+| **Event-NPC**      | 1            | Random Duelist, Street-Race Announcer | 10 % Spawn-Chance; Mini-Game |
+
+### 5 | Item- & Service-Matrix in Cronopoli
+
+| Kategorie             | Nutzen                                   | Preis    | Paradox-Risiko             |
+| --------------------- | ---------------------------------------- | -------- | -------------------------- |
+| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | +1 PP bei Erstflug         |
+| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | +1 PP bei öffentl. Nutzung |
+| **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
+| **Shard Exchange**    | 5 Shards → 500 CU                        | —        | 0                          |
+
+*PP = Paradox-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren.*
+
+### 6 | No-Go-Zonen (Style-Compliance)
+
+* **Keine Meta-Reveals** über Realität / Bewusstsein.
+* **Keine Variablen Stadtgeometrie** – Gebäude bleiben identisch, nur Personen wechseln.
+* **Keine Auto-Paradox-Explosion** beim Betreten; Cronopoli ist *zeitverankert*.
+
+### 7 | Cutscene & UI-Flow
+
+1. **Warn-Popup (einmalig)**
+   „Cronopoli entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.“
+   Buttons: *Abbrechen* / *Eintreten*
+2. **5-s Establishing Shot** über ringförmige Skyline → Fade to Player Spawn-Point „Paradox Plaza“.
+3. **UI-Banner**: „Bewohner wechseln mit jedem Besuch – halte Ausschau nach seltenen Händlern!“
+
+*(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)*
+
+### 8 | Dev-Task-Board
+
+| Task                          | Owner     | ETA    |
+| ----------------------------- | --------- | ------ |
+| Static City Map Greybox       | Level Art | 7 Tage |
+| GPT-Stub & RNG-Seed           | Backend   | 5 Tage |
+| Vendor / NPC Scriptables      | Gameplay  | 6 Tage |
+| UI Warn-Popup & Banner        | UX        | 4 Tage |
+| Cutscene Camera Path          | Animator  | 5 Tage |
+| QA Pass (Rank 50 unlock flow) | QA        | 3 Tage |
+
+### 9 | Beispiel-Run (Spieler Rank 53)
+
+1. Spieler klickt „Cronopoli betreten“.
+2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
+3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
+4. Händler „Temporal Shipwright Novara“ bietet **Chronoglider MK II** an.
+5. Spieler kauft Item → +1 Paradox-Punkt erst beim ersten Einsatz außerhalb Cronopoli.
+6. Verlassen → Instanz-Cache gelöscht. Nächster Eintritt ⇒ komplette Neu-Population.
+
+### Cronopoli Static Map Blueprint
+
+*Grundplan einer statischen City-Map für das textbasierte GPT-Spiel*
+
+#### 1 | Macro-Layout (Top-Down)
+
+```
+         ┌──────────────────────────┐
+         │   Ω-Ring Transit Line    │
+┌────────┤────────┐  ▲  ┌───────────┤────────┐
+│ Dock-  │        │  │  │           │ Bazaar │
+│ yard Q │  N     │──┼──│  E        │ Q      │
+│        │        │  │  │           │        │
+└────────┴────────┘  ▼  └───────────┴────────┘
+         │   Central Spire (Chronotorium)     │
+┌────────┬────────┐     ┌───────────┬────────┐
+│ Archive│        │     │           │Sanctuary│
+│  Q     │  S     │     │  W        │   Q     │
+│        │        │     │           │        │
+└────────┴────────┘     └───────────┴────────┘
+```
+*Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch.*
+
+##### Quadranten
+
+| ID  | Name                | Core Function    | Landmark              |
+| --- | ------------------- | ---------------- | --------------------- |
+| Q-N | **Temporal Dockyard** | Schiff-Spawn    | Neo-Ark Slip #01      |
+| Q-E | **Chrono-Bazaar**     | Händlerdrehscheibe | Fractal Canopy Market |
+| Q-S | **Eternal Archive**   | Lore & Quests    | Infinite Staircase    |
+| Q-W | **Aion Sanctuary**    | Ruhezone         | Glass Wave Cathedral  |
+
+#### 2 | Vertikale Ebenen
+
+| Layer        | Höhe   | Zweck                                       | Zugang                |
+| ------------ | ------ | ------------------------------------------- | --------------------- |
+| **Sub-Grid** | -20 m  | Wartungstunnel, optionale Arenen            | Servicelifts, versteckt |
+| **Street**   | 0 m    | Hauptwege, Händlerstände                    | Alle Spieler            |
+| **Ω-Ring**   | +25 m  | Mag-lev Loop zum Schnellreisen              | Rang ≥ 60               |
+| **Sky-Deck** | +130 m | Nur Cutscene (Spitze des Spires)            | Entry-/Exit-Filmsequenz |
+
+#### 3 | Style-Bible
+
+| Element          | Beschreibung                                   |
+| ---------------- | ----------------------------------------------- |
+| **Architektur**  | Weiße Terrazzoflächen mit titanfarbenen Rippen, Art-Déco trifft Möbius. |
+| **Beleuchtung**  | Mischung aus kühlem Türkis und warmen Amber-Akzenten. |
+| **Skybox**       | Statische Nebelwolke mit leichten Zeitpartikeln. |
+| **Ambient SFX**  | Dockyard: dumpfes Maschinenbrummen; Sanctuary: sanfte Glockenklänge. |
+| **Props**        | Holo-Kioske mit Oktagon-Glyphen, Bänke mit integrierter Chrono-Kompass-Rose. |
+
+#### 4 | Spawn- und Navigationspunkte
+
+| Tag          | Koordinaten (x,y,z) | Nutzung                               |
+| ------------ | ------------------ | -------------------------------------- |
+| `SPWN_PLAZA` | 0,0,0              | Standard-Einstieg auf der Paradox Plaza. |
+| `SPWN_DOCK`  | -260,180,0         | Tutorial für Schiffs-Upgrades.          |
+| `SPWN_BAZ`   | 260,180,0          | Händler-Hotspot mit mindestens drei Verkäufern. |
+| `SPWN_ARCH`  | -260,-180,0        | Questgeber-Cluster.                     |
+| `SPWN_SANC`  | 260,-180,0         | Ruhiger Bereich zum Durchatmen.         |
+
+#### 5 | Vendor- und NPC-Sockets
+
+Jedes 10x10-m-Straßenmodul besitzt zwei Sockets zur Platzierung von Händlern oder NPCs.
+
+```
+{
+  "socket_id": "baz_12_B",
+  "type": ["vendor","npc","event"],
+  "level_min": 50,
+  "level_max": 999
+}
+```
+
+Die Engine ersetzt nur Population, keine Geometrie.
+
+#### 6 | Key Assets & Mod-Kit
+
+| Kategorie            | File Prefix    | Poly-Budget | Hinweise               |
+| -------------------  | -------------- | ----------- | ---------------------- |
+| **Building Shells**  | `bld_crono_*`  | 6–9k        | Sechs Wandmodule und drei Dachkappen.  |
+| **Street Kit**       | `str_tile_*`   | 2k          | Gebogene und gerade Segmente.          |
+| **Props**            | `prp_chrono_*` | 0.5–1.5k    | Bänke, Kioske, Holo-Lampen.            |
+| **Spire**            | `ctr_spire`    | 18k         | Ein Hero-Mesh, vereinfachte Kollision. |
+| **Ω-Train**          | `veh_maglev_*` | 4k          | Dreiteiliger Zug, splinebasiert.       |
+
+#### 7 | Cutscene-Pfad
+
+| Waypoint | Aktion                                                     |
+| -------- | ---------------------------------------------------------- |
+| `C0`     | Start 100 m über dem Spire, Kamera neigt 15° nach unten.   |
+| `C1`     | Abstieg auf 60 m, 20° Roll nach rechts, Ω-Ring wird sichtbar. |
+| `C2`     | Kurzer Schwenk über Dockyard-Kräne (2 s).                  |
+| `C3`     | Fahrt zur Paradox Plaza, Ausblendung 8 m über Boden.       |
+*Gesamtlänge 5 s bei 60 fps.*
+
+#### 8 | Performance-Ziele
+
+| Hardware            | FPS-Ziel         | Hinweise                        |
+| ------------------- | ---------------- | ------------------------------- |
+| Mid-spec PC (2060)  | 90 fps Straße    | Instancing, LOD 0–2 bei 25/55/120 m. |
+| Aktuelle Konsolen   | 60 fps           | 30 % weniger Ω-Ring-Publikum.   |
+| Low-end PC          | 45 fps           | Abschalten dynamischer Schatten außerhalb Plaza. |
+
+#### 9 | Build-Roadmap (6 Wochen)
+
+| Woche | Meilenstein                                          |
+| ----- | ---------------------------------------------------- |
+| 1     | Greybox der Map (Street, Ring, Spire).               |
+| 2     | Art-Pass Dockyard & Bazaar, Props im Greybox-Stil.   |
+| 3     | Ω-Ring-Spline, Mag-lev, LOD-0-Assets.                |
+| 4     | Licht & Skybox, Cutscene-Pfad.                       |
+| 5     | Ambience, LOD-1/2, Kollisionen.                      |
+| 6     | GPT-Socket-Test, QA und Performance-Sweep.           |
+
+**Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für das Endgame-Hub Cronopoli.
 
 ## Fazit
 
