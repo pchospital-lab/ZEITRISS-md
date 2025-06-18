@@ -14,6 +14,8 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
 - Verwende praegnante Commit-Nachrichten im Imperativ.
 - Oeffne Pull Requests stets gegen den `main`-Branch.
+- Siehe `systems/runtime-stub-routing-layer.md` für einen optionalen Stub für eine eigene Runtime.
+  Das Spiel funktioniert auch ohne diese Vorlage.
 
 Vielen Dank für deine Mithilfe!
 
