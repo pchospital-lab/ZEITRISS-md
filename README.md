@@ -55,6 +55,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [gameplay/team-perks.md](gameplay/team-perks.md) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [gameplay/cronopoli-living-instance.md](gameplay/cronopoli-living-instance.md) | Dynamische Stadtinstanz |
+| [gameplay/cronopoli-static-map-blueprint.md](gameplay/cronopoli-static-map-blueprint.md) | Cronopoli Static Map |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
