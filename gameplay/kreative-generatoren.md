@@ -309,6 +309,25 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 }
 ```
 
+### Paranormale Rift-Hooks
+
+Rifts können wie unheimliche "Urban Legends" wirken. Die folgende Tabelle liefert
+gruselige Aufhänger für Horror-Missionen. Meist steckt eine rationale Ursache
+hinter der Erscheinung – doch nicht immer.
+
+| d10 | Titel & Hook | Epoche | Ursache (rational) | Action-Pitch |
+| --- | --- | --- | --- | --- |
+| 1 | **"Nightcrawler"** – CCTV-Aufnahme | USA 1995 | Tarnanzug aus Zukunft entflohen | Beweise sichern |
+| 2 | **"Sasquatch im Yukon"** – Bestie greift Trapper an | Kanada 1898 | Gen-Experiment entkam | Fährte verfolgen |
+| 3 | **"Mothman-Sichtung"** – Unheilskunde über Brücke | USA 1966 | Defekte Aufklärungsdrohne | Absturz bergen |
+| 4 | **"Blutorden"** – Opfer blutleer in Ruine | Siebenbürgen 1462 | Nano-Virus aus Zukunft | Kult zerschlagen |
+| 5 | **"Diablos Katakomben"** – Dämonische Schreie | Navarra 1210 | Alien-Illusionsprojektor | Artefakt zerstören |
+| 6 | **"Feuerengel"** – Flammender Cherub | Breslau 1905 | Reaktordrohne notgelandet | Drohne bergen |
+| 7 | **"Totenbrücke"** – Bus erstarrt 15 min | China 2014 | Zeitfeld-Granate explodiert | Zeitfeld neutralisieren |
+| 8 | **"Schrecken Whitehall"** – Löwe springt vom Dach | London 1887 | Alien-Legierung reagiert | Parkourjagd |
+| 9 | **"Night Train 666"** – Geisterzug ohne Lokführer | USA 1952 | Fernsteuer-Chip Beta-Test | Zug entern |
+|10 | **"Emerald Kraken"** – Grüne Tentakel attackieren | Guam 1997 | Tiefsee-Mech defekt | Taucheinsatz |
+
 ## Arc-Generator: Große Missionen
 
 Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
