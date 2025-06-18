@@ -663,10 +663,10 @@ ohne direkt eine Zeitreise zu starten.
 
 ```mermaid
 graph TD
-A[Player betreten Zone] --> B[Load static city geometry]
-B --> C[Seed RNG = UTC-Timestamp]
-C --> D[GPT-Stub: getCronopoliPopulation(seed)]
-D --> E[NPC / Vendor Pool in RAM]
+    A[Player betreten Zone] --> B[Load static city geometry];
+    B --> C[Seed RNG = UTC Timestamp];
+    C --> D["GPT-Stub - getCronopoliPopulation(seed)"];
+    D --> E["NPC / Vendor Pool in RAM"];
 ```
 
 #### 3.1 GPT-Stub-Signature
