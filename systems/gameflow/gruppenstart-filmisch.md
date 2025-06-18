@@ -31,7 +31,10 @@ Der Gruppenstart spiegelt den Ton von **ZEITRISS** wider: harte Agenten-Thriller
 mit historisch fundierten Verschwörungen. Paranormale Effekte treten nur in
 Rifts auf und erinnern an **X-Files**. Gadget-MacGuffins oder mystische
 Überbauten kommen nicht vor – Technik und Intrigen stehen im Fokus.
-Schon zu Beginn macht das ITI klar, dass die neue Einheit bald handfeste Geschichtsmissionen bewältigen muss. Ihr Handeln kann den Paradoxon-Index erhöhen; erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien, die zusätzlich zur eigentlichen Verschwörung gelöst werden müssen.
+Schon zu Beginn macht das ITI klar, dass die neue Einheit bald handfeste Geschichtsmissionen bewältigen muss.
+Ihr Handeln kann den Paradoxon-Index erhöhen;
+erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien,
+die zusätzlich zur eigentlichen Verschwörung gelöst werden müssen.
 
 Wir präsentieren im Folgenden **strukturelle Varianten**, filmische Stilmittel und bewährte
 **Szenarien für Gruppenstarts**. Dabei wird auch darauf eingegangen, wie wechselnde

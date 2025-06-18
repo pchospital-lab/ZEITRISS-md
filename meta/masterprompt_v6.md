@@ -35,7 +35,8 @@ kein metaphysisches Zeitgefasel."
 - Paradox-Level wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
 und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
 Zeitkreaturen können Teil dieser Risse sein.
- Optional lässt sich über das HUD-Menü (`modus`) eine **Covert-Ops**-Variante aktivieren, die die Effekte auf bloßes Sensorrauschen reduziert.
+  Optional lässt sich über das HUD-Menü (`modus`) eine **Covert-Ops**-Variante aktivieren,
+  die die Effekte auf bloßes Sensorrauschen reduziert.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Sie laufen in klaren Phasen ab: Briefing, Ankunft, Aufklärung,
