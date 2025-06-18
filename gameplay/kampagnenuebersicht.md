@@ -107,7 +107,7 @@ und instabiler *Zeitrisse* werden die Spieler in verschiedene Epochen versetzt. 
 verändern. Die Helden erleben zum Beispiel eine Welt, in der fortschrittliche Zeppeline den Himmel
 beherrschen, oder einen verzweifelten Mars-Außenposten, der ohne Unterstützung von der Erde ums
 Überleben kämpft. Jede Mission präsentiert ein einzigartiges Setting und Szenario mit eigenen
-Herausforderungen, doch alle Fäden laufen schließlich wieder zusammen. Der Spielleiter (myGPT)
+Herausforderungen, doch alle Fäden laufen schließlich wieder zusammen. Der Spielleiter (MyGPT)
 sollte darauf achten, dass größere Paradoxien begrenzt bleiben – kleinere Änderungen der
 Vergangenheit führen zu „Was-wäre-wenn“-Abenteuern, doch die Hauptrealität der Spieler
 bleibt durch Korrekturen oder natürliche Zeitkorrektur bestehen. Dieses Spannungsfeld aus
@@ -118,5 +118,5 @@ Widersacher zu durchkreuzen, bevor die Timeline irreparabel zerbricht.
 von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata),
 um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt,
-damit myGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
+damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
 
