@@ -338,7 +338,9 @@ Ab **Level 2** flackert das HUD,
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
-  Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt). Auch hier gilt:
+  Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
+  Behutsames, stilvolles Vorgehen lässt den Index nur langsam steigen, während
+  grobe Aktionen ihn rasch eskalieren lassen. Auch hier gilt:
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
   ausgelegt sein, ein Paradox-Level wieder zu senken (z.B. einen Fehler in der Vergangenheit
