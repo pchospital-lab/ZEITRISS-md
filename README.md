@@ -11,7 +11,8 @@ ein textbasiertes Zeitreise-Rollenspiel.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
-`speicher-fortsetzung.md` integriert, inklusive Core- & Rift-Loop, Makros und Missionstabellen.
+`speicher-fortsetzung.md` integriert. Dort findet sich auch der neue
+**Epoch-Lock & Rift-Loop**, inklusive Makros und Missionstabellen.
 
 ## Grundidee
 **ZEITRISS 4.0** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.

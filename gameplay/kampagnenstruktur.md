@@ -136,6 +136,71 @@ if paradox_level == 5:
 |**Core-Ops**|Rand-Epochen & CoreObjectiveTable|NEIN|Spionage-Thriller|`[CORE MISSION • …]`|
 |**Rift-Ops**|RiftSeedTable d10|JA|Blockbuster-Anomalie|`[RIFT RESPONSE • …]`|
 
+### Epoch-Lock & Rift-Loop
+
+Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 3–5 zusammen-
+hängenden Missionen springt die Handlung weiter. Je höher das Paradox-Level,
+ desto mehr Rifts entstehen und beeinflussen die folgende Episode.
+
+#### Grundablauf
+
+```mermaid
+graph LR
+A[Missionsepisode] -->|Paradox-Punkte| B[Paradox-Level]
+B -->|Level 5| C[HQ-Phase]
+C -->|1–2 neue Rifts| D[Rift-Pool]
+D -->|offene Rifts zählen| E[Schwierigkeitsgrad & CU-Multi]
+E --> A
+```
+
+#### Offene Rifts
+
+In der HQ-Phase entscheidet das Team pro Seed, ob es eindringt und ihn
+versiegelt oder bis später warten will. Jeder offene Rift erhöht die
+Probe-Schwelle und multipliziert die CU-Belohnung:
+
+| Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
+| ------------ | ---------------- | -------------- |
+| 0            | 0                | 1.0            |
+| 1            | +1               | 1.2            |
+| 2            | +2               | 1.4            |
+
+Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
+Ablauf der Geschichte wahrt, generiert weniger Paradox-Punkte; plumpes Vorgehen
+treibt den Zähler schneller hoch.
+
+#### Rift-Side-Ops
+
+Eine Side-Op dauert nur eine Szene. Die Agenten bekämpfen ein Paramonster,
+zerstören seinen Kern und schließen damit den Seed.
+
+```text
+Name / Epoche
+Tier: Minor | Std | Major   HP: W6×Tier   DEF-Schwelle: 4–6
+Signature-Power: <eine>    Weak Spot: <Skill DC>
+Shard-Drop: 1+Tier
+```
+
+##### Mini-Walkthrough London-Arc
+
+| Schritt       | Ereignis                                                                 |
+| ------------- | ------------------------------------------------------------------------ |
+| Mission 1     | Stealth-Einsatz auf der Ausstellung. Paradox erreicht Level 5.          |
+| HQ-Phase      | Zwei Seeds entstehen. Das Team ignoriert sie.                           |
+| Mission 2     | Schwelle +2, CU ×1.4. Härter, doch mehr Loot.                           |
+| HQ-Phase      | Seed „Æther Golem“ wird geschlossen. Ein Seed bleibt offen.             |
+| Mission 3     | Schwelle +1, CU ×1.2. Finale der London-Folgestory.                     |
+| Epilog        | Offener Seed überträgt sich in den nächsten Arc oder eine Epilog-Quest. |
+
+#### Dev-Check-Liste
+
+- Paradox-Tracker 0–5 bleibt bestehen.
+- Bei Level 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
+- Rift-Pool als Array: `seed_id` und `status(open/closed)`.
+- Schwierigkeit = `base_dc + open_seeds`.
+- CU = `base_cu * (1 + open_seeds*0.2)`.
+- Side-Op lädt `paramonster_template` nach `epoch_id`.
+
 ### Zeitlinien-Verzweigungen
 
 ZEITRISS-Kampagnen spielen mit dem Konzept alternativer Geschichtsverläufe. **Zeitlinien-
