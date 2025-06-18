@@ -76,6 +76,10 @@ deines MyGPT (max. 8k Zeichen).
 und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
+6. Für längere Handlungsbögen empfiehlt sich der
+   [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
+   bzw. der
+   [Arc-Generator](gameplay/kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen).
 
 ## Spielstart
 
