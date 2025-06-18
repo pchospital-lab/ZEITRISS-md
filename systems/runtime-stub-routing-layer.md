@@ -1,0 +1,223 @@
+---
+title: "ZEITRISS 4.0 – Runtime Stub & Routing Layer (Text-Edition)"
+version: 4.0
+tags: [systems]
+---
+
+# ZEITRISS 4.0 – Runtime Stub & Routing Layer (Text-Edition)
+
+*Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON-Schemas.*
+
+---
+
+## 1 | TEXT-ROUTER – Raum-IDs & Befehls-Alias-Map
+
+```jsonc
+// router.json
+{
+  "Gatehall": {
+    "aliases": ["gate", "atrium", "hub"],
+    "sub": {
+      "briefing": "Mission-Briefing-Pod"
+    }
+  },
+  "Mission-Briefing-Pod": {
+    "aliases": ["briefing", "pod"],
+    "parent": "Gatehall"
+  },
+  "Research-Wing": {
+    "aliases": ["research", "labs"],
+    "sub": {
+      "lab-alpha": "Lab-Alpha",
+      "workshop": "Workshop-Beta"
+    }
+  },
+  "Lab-Alpha":  { "aliases": ["alpha"],   "parent": "Research-Wing" },
+  "Workshop-Beta": { "aliases": ["beta"], "parent": "Research-Wing" },
+
+  "Operations-Deck": {
+    "aliases": ["ops", "operations"],
+    "sub": {
+      "vault":  "Time-Shard-Vault",
+      "scanner":"Seed-Scanner"
+    }
+  },
+  "Time-Shard-Vault": { "aliases": ["vault"],   "parent":"Operations-Deck" },
+  "Seed-Scanner":     { "aliases": ["scanner"], "parent":"Operations-Deck" },
+
+  "Crew-Quarters": {
+    "aliases": ["crew", "quarters"],
+    "sub": {
+      "common": "Common-Room",
+      "sleep":  "Sleep-Capsules"
+    }
+  },
+  "Common-Room":  { "aliases": ["common"], "parent": "Crew-Quarters" },
+  "Sleep-Capsules":{ "aliases": ["sleep"], "parent": "Crew-Quarters" },
+
+  "Hangar-Axis": {
+    "aliases": ["hangar"],
+    "sub": {
+      "jump":  "Jump-Pads",
+      "maint": "Maintenance-Bay"
+    }
+  },
+  "Jump-Pads":      { "aliases": ["jump"],  "parent":"Hangar-Axis" },
+  "Maintenance-Bay":{ "aliases": ["maint"], "parent":"Hangar-Axis" }
+}
+```
+
+> **Router-Call (pseudo)**
+> `resolveCommand("> go research") ➜ "Research-Wing"`
+
+---
+
+## 2 | GPT-SOCKET-API – `getRoomPopulation`
+
+```typescript
+interface PopulationRequest {
+  seed:          number;       // epoch-secs or cryptographic RNG
+  room_id:       string;       // canonical (e.g. "Research-Wing")
+  player_rank:   number;
+  flags?:        string[];     // optional campaign flags
+}
+
+interface NPC {
+  id:     string;
+  role:   string;
+  quirk?: string;
+  hook?:  string;
+}
+
+interface RoomEvent {
+  id:         string;
+  trigger:    string;   // "on_enter" | "on_command"
+  skill_gate?: { attr:string; dc:number };
+  on_success?: string;  // plain-text description / effect token
+  on_fail?:    string;
+}
+
+interface PopulationResponse {
+  npcs:   NPC[];        // length ≤ slot spec
+  events: RoomEvent[];  // length ≤ slot spec
+}
+```
+
+*HTTP-like stub*
+
+```http
+POST /gpt/getRoomPopulation
+Content-Type: application/json
+{ …PopulationRequest }
+
+200 OK
+{ …PopulationResponse }
+```
+
+> **Call-Site**: bei Raum-Wechsel. Cache Response bis Spieler den Raum verlässt.
+
+---
+
+## 3 | PERSISTENZ – Paradox- & Seed-Stats
+
+```jsonc
+// campaign_state.json   (auto-save nach jeder Aktion)
+{
+  "paradox_level": 3,
+  "paradox_points": 11,
+  "open_seeds": [
+    { "id":"LND‑1851‑SW", "epoch":"Victorian", "status":"open" }
+  ],
+  "player": {
+    "hp": 18,
+    "stress": 4,
+    "rank": 37,
+    "inventory": [...]
+  },
+  "current_room": "Operations-Deck"
+}
+```
+
+*Getter-Helpers (pseudo JS):*
+
+```javascript
+export const getParadox = () => state.paradox_level;
+export const getOpenSeeds = () => state.open_seeds.length;
+export const incrementParadox = (pp = 1) => { ... };
+export const closeSeed = (id) => { ... };
+```
+
+---
+
+## 4 | `Operations-Deck` – Stat-Ausgabe Snippet
+
+```typescript
+function renderOperationsDeck() {
+  const lvl  = getParadox();
+  const open = getOpenSeeds();
+  writeLine(`Open Rifts: ${open}  |  Paradox Level: ${lvl}`);
+  writeLine("> use scanner | > go vault | > go gate");
+}
+```
+
+---
+
+## 5 | SIDE-OP-STARTER – `jump rift-id`
+
+```typescript
+function cmdJump(arg) {                // arg = "LND‑1851‑SW"
+  const seed = state.open_seeds.find(s => s.id === arg);
+  if (!seed) return writeLine("Unknown Rift-ID.");
+  loadParamonsterEncounter(seed);      // → uses Paramonster generator
+  // After victory:
+  closeSeed(seed.id);
+  writeLine("Seed sealed. Paradox pressure eased.");
+  autoSave();
+}
+```
+
+`loadParamonsterEncounter` ruft euren bereits definierten Paramonster-Generator (siehe früheres Kit).
+
+---
+
+## 6 | REST-FUNKTION – Crew-Quarters
+
+```typescript
+function cmdRest() {
+  if (state.current_room !== "Crew-Quarters") {
+    return writeLine("You need to be in Crew-Quarters to rest.");
+  }
+  state.player.hp     = MAX_HP;
+  state.player.stress = 0;
+  autoSave();                         // JSON dump to disk / DB
+  writeLine("You feel refreshed. HP & Stress reset.");
+}
+```
+
+---
+
+## 7 | AUTO-SAVE HELPER
+
+```typescript
+function autoSave() {
+  fs.writeFileSync("campaign_state.json",
+                   JSON.stringify(state, null, 2));
+}
+```
+
+---
+
+### Zusammenfassung der To-Dos für Dev-Integrierung
+
+1. **`router.json`** in euren Command-Parser laden.
+2. **Endpoint / Stub** `getRoomPopulation` implementieren; Aufruf bei Raum-Wechsel.
+3. **State-Objekt** & *autoSave()* global verfügbar machen.
+4. **Commands**
+
+   * `go <alias>` (Navigation)
+   * `look` (Raum-Refresh)
+   * `jump <rift-id>` (Side-Op)
+   * `rest` (Nur in Crew-Quarters)
+5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
+
+---

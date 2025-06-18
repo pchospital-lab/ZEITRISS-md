@@ -523,13 +523,16 @@ Jump-Pad pulsiert violett.
 -- Side-Op startet --
 ```
 
-### Hand-Off-Checklist für Dev-Team
+### Implementierte Dev-Features
 
-* Raum-IDs & Befehle im Text-Router hinterlegen.
-* API für `getRoomPopulation(seed, room_id)` implementieren.
-* Paradox- und Seed-Stats persistent halten.
-* Side-Op-Starter mit `jump rift-ID` verknüpfen.
-* Rest-Funktion in Crew-Quarters umsetzen (HP & Stress-Reset).
+Die folgenden Punkte sind im Modul **Runtime Stub & Routing Layer (Text-Edition)**
+umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
+
+* Text-Router mit Raum-IDs und Aliasen.
+* API-Endpoint `getRoomPopulation`.
+* Persistente Paradox- und Seed-Statistik.
+* Side-Op-Starter über `jump rift-ID`.
+* Ruhen in den Crew-Quarters zum Reset von HP & Stress.
 
 ## Einbindung des Regelwerks in den Spielfluss
 
