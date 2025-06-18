@@ -33,6 +33,9 @@ Struktur**, die sowohl spannende Episoden als auch verzweigende Handlungssträng
 Zentrum stehen **Handlungsbögen (Arcs)**, die wie Staffeln einer Fernsehserie organisiert sind und
 in einzelne **Episoden** unterteilt werden. Jeder Bogen hat ein eigenes Thema oder Missionsziel,
 während sich über die gesamte Kampagne ein roter Faden spannt.
+Inspiration für komplette Arcs liefert der
+[Arc-Generator](kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen)
+im Generator-Modul.
 
 ### Arc-Baukasten und Episodenstruktur
 
@@ -93,7 +96,8 @@ Das offizielle Ergebnis bleibt gleich; nur Paradox-Level und Fraktionsruf variie
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
 sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
-`RiftSeedTable (siehe Generator-Modul)` gewürfelt werden und stets Anomalien enthalten. Steigt der
+[`RiftSeedTable`](kreative-generatoren.md#temporale-anomalien-generator-optional)
+gewürfelt werden und stets Anomalien enthalten. Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via

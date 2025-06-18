@@ -133,3 +133,8 @@ Den gezogenen Twist behält er zunächst geheim und enthüllt ihn erst,
 wenn die Gruppe entsprechende Hinweise findet.
 - Danach fragt er sofort: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 
+Bei längeren Kampagnenideen greift der GPT auf den
+[Arc-Generator](kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen)
+und den [Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
+zurück, um mehrere Missionen zu einem stimmigen Handlungsbogen zu verbinden.
+
