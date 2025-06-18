@@ -605,7 +605,8 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
 2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
 Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
 Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
-Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5 könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
+Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
+könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
 neonbeleuchteten Schatten von *Neo Berlin 2085* statt – einer futuristischen Metropole voller
 Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
 Schusswechseln mit Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
@@ -691,7 +692,8 @@ Nächtlich erscheinen geisterhafte Visionen aus anderen Jahrhunderten, Uhren geh
 vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
 was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
 (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
-stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt. Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
+stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
+Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
 sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
 entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
 fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
@@ -745,7 +747,9 @@ vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und re
 oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
 Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
 doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
-Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen, drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
+Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte
+und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen,
+drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
 Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
 sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
 zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
