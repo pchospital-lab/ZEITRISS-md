@@ -384,6 +384,153 @@ Missionen, gibt jeder Figur eine eigene Stimme und führt sie durch Briefings un
 Einsätze. So entsteht das Gefühl eines vollwertigen Gruppenabenteuers – auch wenn
 nur ein Spieler beteiligt ist.
 
+## ITI-Zentrum – Text-Map & Dynamic-Content Guide
+
+Das folgende Schema eignet sich für textbasiertes Solo- oder Gruppenplay. Es
+skizziert einen kompakten **Hub** mit klarem Navigationskonzept und minimalen
+Raum-Beschreibungen. GPT kann hier unkompliziert NSCs und Ereignisse
+dazugenerieren.
+
+### Strukturelles Konzept
+
+```text
+[ITI-HUB]
+ ├─ [Gatehall]
+ │    ├─ [Mission-Briefing-Pod]
+ │    └↘
+ ├─ [Research-Wing]
+ │    ├─ [Lab-Alpha]
+ │    └─ [Workshop-Beta]
+ ├─ [Operations-Deck]
+ │    ├─ [Time-Shard-Vault]
+ │    └─ [Seed-Scanner]
+ ├─ [Crew-Quarters]
+ │    ├─ [Common-Room]
+ │    └─ [Sleep-Capsules]
+ └─ [Hangar-Axis]
+      ├─ [Jump-Pads]
+      └─ [Maintenance-Bay]
+```
+
+Jeder Knoten lässt sich in wenigen Sätzen beschreiben und bei Bedarf mit
+Subknoten erweitern.
+
+### Navigations-Syntax (GPT-Prompts)
+
+| Spieler-Eingabe        | Bedeutung                                   |
+| ---------------------- | ------------------------------------------- |
+| `> go research`        | Wechselt zu `[Research-Wing]`.              |
+| `> look`               | Zeigt Raum-Text und offene Subknoten.       |
+| `> npc speak Dr. Voss` | Triggert Dialog mit NPC-ID `npc_voss`.      |
+| `> use seed-scanner`   | Führt die Raum-Aktion aus.                  |
+
+### Raum-Template (max. 5 Sätze)
+
+```
+[ROOM-NAME]
+<Atmosphäre-Hook 1 Satz>
+<Inventar / Kontrollpult Kurzbeschreibung>
+<GPT-Sockets: npc[], event[], hint[]>
+<Interaktiver Hauptrahmen>
+```
+
+Beispiel **Gatehall**:
+
+```
+Das Atrium hallt unter hohen Phi-Bögen aus poliertem Carbonglas.
+Grellblaue Leitlichter pulsieren zum Takt des Zentral-Reaktors.
+npc[sgt_keller] patrouilliert, event[routine_alarm] dormant.
+> boarding mission | > talk keller | > access briefing-pod
+```
+
+### Dynamic-Population-Logik
+
+```json
+{
+  "room_id": "Research-Wing",
+  "seed": 1696851500,
+  "sockets": {
+    "npc": 2,
+    "event": 1
+  }
+}
+```
+
+GPT erzeugt dazu zwei kurze NSC-Profile und ein Ereignis für den Raum.
+
+### Standard-Sockets je Raum
+
+| Raum                 | npc | event | special            |
+| -------------------- | --- | ----- | ------------------ |
+| Gatehall             | 1   | 1     | `boarding_control` |
+| Research-Wing        | 2   | 1     | `lab_console`      |
+| Operations-Deck      | 1   | 2     | `seed_scanner`     |
+| Crew-Quarters        | 2   | 0     | `rest`             |
+| Hangar-Axis          | 1   | 1     | `jump_pad`         |
+| Mission-Briefing-Pod | 0   | 1     | `briefing_screen`  |
+
+### HQ-Phase Workflow
+
+1. Rückkehr in die Gatehall.
+2. `> go operations` zeigt Seed-Status und Paradox-Level.
+3. `> use seed-scanner` listet offene Rifts.
+4. `> go hangar` und `> jump rift-ID` starten Side-Ops.
+5. `> rest` in den Crew-Quarters setzt Stress zurück.
+6. `> briefing new-mission` liefert den nächsten Einsatz.
+
+### NPC-Micro-Template
+
+```
+npc_id: npc_voss
+role: Senior Temporal Engineer
+quirk: spricht im 19-Hz-Metronom-Rhythmus
+hook: bietet Upgrade auf Quantum Flashbang (500 CU)
+dialog: "Zeit ist kein Fluss, Agent. Sie ist ein Tresor."
+```
+
+### Event-Micro-Template
+
+```
+event_id: lab_overload
+trigger: Spieler betritt Research-Wing
+skill_gate: Tech 12
+on_fail: +1 Paradox-Punkt, mini-explosion (1 W6 Schaden)
+on_success: 2 Shards Bonus
+```
+
+### Beispiel-Interaktion
+
+```
+> look
+[Gatehall]
+Das Atrium hallt unter hohen Phi-Bögen ...
+Sgt. Keller salutiert knapp.
+> talk keller
+"Kartuschen aufgefüllt, Sir. Aber das Scanner-Deck glüht rot."
+> go operations
+[Operations-Deck]
+Hologramme tanzen über dem Seed-Scanner.
+Open Rifts: 1  |  Paradox Level: 3
+> use seed-scanner
+Rift-ID #LND-1851 »Steam Wraith« – Status: OPEN
+Side-Op? (y/n)
+> y
+"Kurze Warnung: Schwelle +1 bleibt bis Schließung bestehen."
+> go hangar
+[Hangar-Axis]
+Jump-Pad pulsiert violett.
+> jump LND-1851
+-- Side-Op startet --
+```
+
+### Hand-Off-Checklist für Dev-Team
+
+* Raum-IDs & Befehle im Text-Router hinterlegen.
+* API für `getRoomPopulation(seed, room_id)` implementieren.
+* Paradox- und Seed-Stats persistent halten.
+* Side-Op-Starter mit `jump rift-ID` verknüpfen.
+* Rest-Funktion in Crew-Quarters umsetzen (HP & Stress-Reset).
+
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im

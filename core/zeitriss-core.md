@@ -929,6 +929,17 @@ Ungewisse der nächsten Zeitreise geht. Der Aufenthalt im HQ ist freiwillig und 
 übersprungen werden, aber diese *Downtime*-Phase bietet viel Atmosphäre und Charakterspiel, um die
 Welt **jenseits der Missionen** zu erkunden.
 
+#### Textbasiertes ITI-Zentrum
+
+Für digitale Runden kann das HQ als schlanker Text-Hub dargestellt werden. Eine
+kleine Raumkarte mit sechs Hauptknoten (Gatehall, Research-Wing, Operations-Deck,
+Crew-Quarters, Hangar-Axis und der Mission-Briefing-Pod) erlaubt schnelle
+Navigation per Kommandos wie `> go research` oder `> use seed-scanner`. GPT füllt
+die Räume dynamisch mit kurzen NSC-Profilen und Mini-Events. Ein typisches
+Raum-Template umfasst wenige Sätze sowie `npc[]`- und `event[]`-Sockets.
+Ausführliche Hinweise zur Umsetzung finden sich im *Toolkit für die
+KI-Spielleitung*.
+
 ### Wichtige Fraktionen
 
 Die Welt von ZEITRISS (bzw. die gesamte Zeitlinie) wird von mehreren großen Fraktionen beeinflusst –
