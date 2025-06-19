@@ -339,7 +339,8 @@ Ab **Level 2** flackert das HUD,
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
-  Behutsames, stilvolles Vorgehen lässt den Index nur langsam steigen, während
+  **Solange Chrononauten in einer fremden Epoche aktiv sind, steigt der Paradox-Level
+  langsam von selbst.** Behutsames, stilvolles Vorgehen lässt den Index nur langsam steigen, während
   grobe Aktionen ihn rasch eskalieren lassen. Auch hier gilt:
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
