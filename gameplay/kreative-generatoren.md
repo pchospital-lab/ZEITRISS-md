@@ -63,7 +63,9 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
   }
 }
 ```
-Bei Missionsbeginn notiert sich die SL den Twist. In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`, der die Wendung andeutet.
+Bei Missionsbeginn notiert sich die SL den Twist.
+In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`,
+der die Wendung andeutet.
 
 ## Random-Epochen-Generator: Wann und wo?
 

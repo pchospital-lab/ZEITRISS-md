@@ -398,7 +398,8 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 ### Seed-Counter im HUD
 
-Sobald Paradox-Level **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an. Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
+Sobald Paradox-Level **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
+Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
 | ------------ | ---------------- | -------------- |
