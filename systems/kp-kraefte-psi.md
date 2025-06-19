@@ -164,6 +164,13 @@ Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten 
 daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
 Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
 sollten selten und folgenreich sein (siehe Paradox- Effekte).
+
+### Anti-Psi-Gitter
+Einige Einrichtungen verfügen über **Anti-Psi-Gitter** – feinmaschige Metallstreifen
+oder spezielle Feldgeneratoren, die telekinetische Kräfte streuen. Befindet sich ein
+Ziel hinter solch einer Barriere, erhöht sich die Schwelle für Psi-Effekte um +2
+und Nahkampf-Telekinese wirkt nicht durch das Gitter hindurch. Diese Technik ist
+teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
 - **Chronokinese:** Eine besonders exotische Fähigkeit, die direkt mit der Zeit selbst spielt.
 Chronokinetiker können im minimalen Umfang lokale Zeitströme beeinflussen. Zum Beispiel könnte ein
 Chrononaut seinen eigenen Zeitablauf für ein, zwei Sekunden beschleunigen – für Außenstehende bewegt

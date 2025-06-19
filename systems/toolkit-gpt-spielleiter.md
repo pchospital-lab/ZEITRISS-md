@@ -344,6 +344,9 @@ Eine Einsatzakte liefert zunächst nur Minimalinformationen:
 - **Primäre Anomalie**
 - **Kontakt**
 
+*Regel:* Fasse das erste Briefing auf **maximal fünf Kerninfos** zusammen und präsentiere einen
+prägnanten visuellen Hook (z. B. ikonisches Bild oder Symbol). Weitere Details folgen im Einsatz.
+
 Weitere Details – Zielpersonen, genaue Aufgaben oder versteckte Gefahren –
 werden erst im Verlauf der Mission über HUD-Nachrichten oder optionale Codex-Links nachgereicht. Die KI kann
 diese Informationen Stück für Stück einblenden, sobald die Agenten vor Ort neue
