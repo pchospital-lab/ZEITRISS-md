@@ -27,6 +27,9 @@ Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Te
 sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
 Paradox-Effekte werden über einen Index von  0–5 verfolgt.
+Solange Chrononauten in einer fremden Epoche aktiv sind, steigt dieser Index
+langsam durch ihre bloße Anwesenheit – umsichtiges Vorgehen bremst den Anstieg,
+plumpes Handeln beschleunigt ihn.
 Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
 Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
 es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.

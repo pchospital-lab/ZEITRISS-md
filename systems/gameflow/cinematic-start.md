@@ -87,9 +87,10 @@ folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg so atm
 möglich zu gestalten.
 
 Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller mit historisch
-fundierten Verschwörungen. Paranormale Ereignisse treten nur in Rifts auf und erinnern an
-**X-Files**. Es gibt keine magischen Erklärungen oder Gadget-MacGuffins – Technik und menschliche
-Intrigen stehen im Mittelpunkt.
+fundierten Verschwörungen. Bei steigendem Paradoxon-Wert können in jeder Epoche leichte
+Symptome wie Funkflackern oder ein **Kurz-Echo** auftreten. Stärkere paranormale Phänomene
+entstehen jedoch erst in Rifts und erinnern an **X-Files**. Es gibt keine magischen
+Erklärungen oder Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
 
 Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten Abschnitt der Kampagne
 flexibel auf **Gruppengröße**, **Spielerzahl**, **Herkunft der Charaktere**, **Epoche des
