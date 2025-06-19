@@ -90,6 +90,10 @@ der **W10-Ersatz** – sind **optional** und sollten nur eingesetzt werden, wenn
 Runde passen. Sie bieten frischen Wind für erfahrene Runden, ohne das Grundsystem fundamental zu
 verändern.
 
+**Schwellen-Kalibrierung:** Standardproben nutzen einen W6 und gelten bei **4 oder höher** als
+erfolgreich. Für erfahrene Chrononauten mit W10 liegt die Schwelle bei **5+**. Ein
+**Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
+
 **Hinweis:** Durch explodierende Würfel können gerade unwahrscheinliche Aktionen spektakulär
 gelingen. Die Spielleitung sollte dies erzählerisch hervorheben – z. B. durch cineastische
 Beschreibungen, wie ein Charakter mit unglaublichem Glück das Blatt wendet. Gleichzeitig dürfen
@@ -240,6 +244,9 @@ Update einspielt – einfach um auf Nummer sicher zu gehen. Bisherige Erfahrunge
 das versionierte Speichersystem äußerst zuverlässig ist. Somit könnt ihr euch voll und ganz auf das
 inhaltliche Abenteuer konzentrieren, während die Technik im Hintergrund für Kontinuität sorgt.
 
+**Nightly Auto-Save:** Nach jeder Missionsphase legt der Codex automatisch einen Sicherungsstand an.
+So geht selbst bei Unterbrechungen oder spontanen Pausen kein Fortschritt verloren.
+
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
 
 Chrononauten erleben nicht nur Einzelkämpfe und kleine Scharmützel, sondern geraten mitunter mitten
@@ -370,6 +377,14 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | leicht | 4 |
 | mittel | 7 |
 | schwer | 10 |
+
+### Beispielsprünge
+
+| Schwierigkeit | Beispiel |
+| --- | --- |
+| 4 | Sprung über eine kleine Lücke |
+| 7 | Hacken eines gesicherten Terminals |
+| 10 | Deaktivierung eines Zeitbomben-Prototyps |
 
 ### Paradox-Level
 

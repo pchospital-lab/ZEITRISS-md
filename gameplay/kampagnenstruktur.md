@@ -432,6 +432,23 @@ Eine gut entwickelte Teamdynamik erhöht die Immersion enorm: Die Spieler fühle
 echten Agentengruppe. Bei Erfolgserlebnissen feiern sie zusammen, bei Rückschlägen trösten sie sich
 gegenseitig – genau solche Momente machen eine langfristige Kampagne unvergesslich.
 
+### Team-Perks {#team-perks}
+Nach einigen gemeinsamen Missionen kann die Gruppe **Team-Perks** freischalten. Diese Spezialisierungen
+repräsentieren eingespielte Taktiken oder besondere Ausrüstung und werden im HQ erworben.
+
+**Beispielhafte Perks**
+
+- **Diplomatenteam** – verbessert den ersten Eindruck; eine Sozialprobe pro Begegnung erhält Vorteil.
+- **Datenverbund** – dauerhafte Vernetzung, +1 auf koordinierte Aktionen.
+- **Kampfverbund** – +1 auf Angriff und Abwehr, einmal pro Kampf einen Gegner gemeinsam ausschalten.
+- **Fahrzeug-Crew** – +2 auf Fahrzeugwürfe, solange ein Mitglied unterstützt.
+- **Feldklinik** – nach Gefechten regeneriert jeder zusätzlich 1 Treffer.
+- **Geistertruppe** – Vorteil bei Infiltrationen und Sabotage.
+- **Ballistische Optik 2.0** – +1 Erfolg auf Distanz von vorbereiteter Position.
+- **Ricochet Tag** – markiert ein Ziel per Abpraller; der nächste Schuss ignoriert Telekinese-Deckung.
+
+Ein Perk kostet meist Ressourcen oder Training. Aktiv sein sollte immer nur ein Bonus gleichzeitig.
+
 ### Codex-gesteuerte Story-Zwischensequenzen
 
 Ein besonderes Feature im ZEITRISS-Setting ist der **Codex** – eine Art allwissendes Archiv oder KI,

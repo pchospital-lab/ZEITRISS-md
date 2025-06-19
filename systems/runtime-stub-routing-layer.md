@@ -203,6 +203,7 @@ function autoSave() {
   fs.writeFileSync("campaign_state.json",
                    JSON.stringify(state, null, 2));
 }
+// Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
 
 ---

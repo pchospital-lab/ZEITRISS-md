@@ -1,0 +1,12 @@
+{
+  "pools": [
+    {"id": "epoch_pool", "path": "gameplay/kreative-generatoren.md#random-epochen-generator-wann-und-wo"},
+    {"id": "npc_pool", "path": "gameplay/kreative-generatoren.md#nsc-generator-begegnungen-im-zeitstrom"},
+    {"id": "mission_pool", "path": "gameplay/kreative-generatoren.md#missions-generator-kleine-auftr\u00e4ge-und-dilemmata"},
+    {"id": "arc_pool", "path": "gameplay/kreative-generatoren.md#arc-generator-gro\u00dfe-missionen"},
+    {"id": "creature_pool", "path": "gameplay/kreative-generatoren.md#kreaturen--gestalten-generator-begegnungen-der-ungew\u00f6hnlichen-art"},
+    {"id": "artifact_pool", "path": "gameplay/kreative-generatoren.md#artefakt-generator-objekte-mit-geschichte"},
+    {"id": "culture_pool", "path": "gameplay/kreative-generatoren.md#kulturfragmente-generator-farbe-f\u00fcr-die-epochen"},
+    {"id": "anomaly_pool", "path": "gameplay/kreative-generatoren.md#temporale-anomalien-generator-optional-risse-im-zeitstrom"}
+  ]
+}

@@ -52,7 +52,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
-| [gameplay/team-perks.md](gameplay/team-perks.md) | Team-Boni |
+| [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
@@ -61,8 +61,26 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
+| [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
+
+## ZEITRISS in 10 Minuten
+Eine Kurzfassung der wichtigsten Regeln:
+
+1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung. Nach jedem Schritt speichert der Codex automatisch.
+2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+). Exploding 6 bleibt aktiv.
+3. **Heldenwürfel** – Charaktere mit Attribut 11 erhalten pro Szene einen Gratis-Reroll.
+4. **Paradox-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
+5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
+
+### KPI-Cheat-Sheet pro Phase
+| Phase | Fokus | Beispiel-KPI |
+| --- | --- | --- |
+| Briefing | Klarheit & Hook | 5 Kerninfos, 1 Bild |
+| Aufklärung | Hinweise finden | +1 Seed bei Erfolg |
+| Konflikt | Spannung | Exploding 6 nutzen |
+| Auswertung | Konsequenzen | Ruf +1, Ressourcen |
 
 ## Beispielworkflow
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
