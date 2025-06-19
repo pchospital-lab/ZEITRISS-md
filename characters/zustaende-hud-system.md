@@ -347,15 +347,16 @@ Ab **Level 2** flackert das HUD,
   reparieren).
 ### Paradox-Subsystem
 
-Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
-und zeigt, welche Effekte bei welchen Stufen auftreten.
+
+Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur und zeigt, welche Effekte bei welchen Stufen auftreten.
+Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 
 | Stufe | In-Mission-Effekt | HQ-Effekt |
 |-------|------------------|-----------|
 |0–1|Stabil|–|
-|2|HUD-Flackern|–|
-|3|Audio-Echo|–|
-|4|1 s Zeitstillstand|„Riss-Vorstufe“-Flag|
+|2|Funk-Schwankung|–|
+|3|Leuchtende Staubfäden|–|
+|4|Kurz-Echo (1 s Bild-Nachzieher)|„Riss-Vorstufe“-Flag|
 |**5**|–|**ClusterCreate()** → 1–2 Seeds; Paradox = 0|
 
 *Optional kann eine Covert-Ops-Variante gespielt werden, bei der keine Risse

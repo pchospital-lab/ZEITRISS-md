@@ -338,12 +338,14 @@ Solo-Spieler die Interaktion.
 
 Eine Einsatzakte liefert zunächst nur Minimalinformationen:
 
-- **Zeit & Ort**
-- **bekannte Abnormalität** (wenn vorhanden)
-- **Risikostufe 0–3**
+- **Ziel**
+- **Ort + Jahr**
+- **Risikostufe**
+- **Primäre Anomalie**
+- **Kontakt**
 
 Weitere Details – Zielpersonen, genaue Aufgaben oder versteckte Gefahren –
-werden erst im Verlauf der Mission über HUD-Nachrichten nachgereicht. Die KI kann
+werden erst im Verlauf der Mission über HUD-Nachrichten oder optionale Codex-Links nachgereicht. Die KI kann
 diese Informationen Stück für Stück einblenden, sobald die Agenten vor Ort neue
 Hinweise entdecken. So bleibt das Briefing schlank und die Spieler decken das
 wahre Problem selbst auf.
