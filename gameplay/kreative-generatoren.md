@@ -56,10 +56,14 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
   "generator": {
     "era": ["Berlin 1961", "Bagdad 1991", "Seoul 2032"],
     "objective": ["Sabotage einer feindlichen Funkanlage", "Bergung gestohlener Forschung"],
-    "twist": ["Doppelagent sitzt im eigenen Team", "Gegner tarnt sich als Journalisten-Team"]
+    "twist": [
+      {"text": "Doppelagent sitzt im eigenen Team", "foreshadow": "eine Quelle wirkt auffallend loyal"},
+      {"text": "Gegner tarnt sich als Journalisten-Team", "foreshadow": "unbekannte Reporter tauchen immer wieder auf"}
+    ]
   }
 }
 ```
+Bei Missionsbeginn notiert sich die SL den Twist. In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`, der die Wendung andeutet.
 
 ## Random-Epochen-Generator: Wann und wo?
 
