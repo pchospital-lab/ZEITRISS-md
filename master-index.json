@@ -7,6 +7,6 @@
     {"id": "creature_pool", "path": "gameplay/kreative-generatoren.md#kreaturen--gestalten-generator-begegnungen-der-ungew\u00f6hnlichen-art"},
     {"id": "artifact_pool", "path": "gameplay/kreative-generatoren.md#artefakt-generator-objekte-mit-geschichte"},
     {"id": "culture_pool", "path": "gameplay/kreative-generatoren.md#kulturfragmente-generator-farbe-f\u00fcr-die-epochen"},
-    {"id": "anomaly_pool", "path": "gameplay/kreative-generatoren.md#temporale-anomalien-generator-optional-risse-im-zeitstrom"}
+    {"id": "anomaly_pool", "path": "gameplay/kreative-generatoren.md#temporale-anomalien-generator-optional"}
   ]
 }
