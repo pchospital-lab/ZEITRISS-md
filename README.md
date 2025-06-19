@@ -78,7 +78,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 | Phase | Fokus | Beispiel-KPI |
 | --- | --- | --- |
 | Briefing | Klarheit & Hook | 5 Kerninfos, 1 Bild |
-| Aufklärung | Hinweise finden | +1 Seed bei Erfolg |
+| Aufklärung | Hinweise finden | Foreshadow-Hinweis |
 | Konflikt | Spannung | Exploding 6 nutzen |
 | Auswertung | Konsequenzen | Ruf +1, Ressourcen |
 
