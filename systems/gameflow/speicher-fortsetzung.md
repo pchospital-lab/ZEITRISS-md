@@ -29,8 +29,8 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 
 - **Integration eines Zeitlinien-Trackers & Paradoxon-Index:** Jede Veränderung der historischen
 Zeitlinie wird im Speicher protokolliert (mit ID, Epoche, Beschreibung der Abweichung und einem
-Stabilitätswert von 3 bis 0). Sinkt die Stabilität eines Ereignisses auf 0, erhöht sich automatisch
-ein Paradoxon-Wert um +1.
+Stabilitätswert von 3 bis 0). Sinkt die Stabilität eines Ereignisses auf 0, erhöht sich automatisch
+ein Paradoxon-Wert um +1.
 - **Trennung von Einzelspieler- und Gruppen-Spielständen:** Klare Definition, wie Einzelcharakter-
 Speicherstände vs. Gruppenspielstände aufgebaut und gehandhabt werden.
 - **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung eines
@@ -102,7 +102,7 @@ Spielstand liefert nur die nötigsten Zusammenfassungen der Vorgeschichte. So bl
 schlank, und GPT kann die Fortsetzung konsistent gestalten, ohne durch Rauschen alter Dialoge
 verwirrt zu werden.
 
-**Beispiel: JSON-Speicherstand für einen einzelnen Charakter.** Angenommen, Agent Alex hat Mission 1
+**Beispiel: JSON-Speicherstand für einen einzelnen Charakter.** Angenommen, Agent Alex hat Mission 1
 abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 
 *{*
@@ -186,7 +186,7 @@ Mission erneut im Prompt geladen werden muss.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.0 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.0 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 
@@ -349,12 +349,12 @@ neue Mission kann mit dem bekannten Helden beginnen. *(Dieser Ablauf entspricht 
 Fortsetzungsprozess in ZEITRISS.)*
 - **Von Solo zu Gruppe (Charaktere hinzufügen):** Neu ist die Möglichkeit, aus einem laufenden
 Einzelspiel eine Gruppe zu bilden, indem man einen weiteren Charakter hinzulädt. Das geht so: Man
-startet wie üblich mit dem bisherigen Solo-Charakter A (lädt also dessen Save). Anschließend fügt
-man zusätzlich den Speicherblock eines zweiten Charakters B in den Chat ein. GPT erkennt nun, dass
+startet wie üblich mit dem bisherigen Solo-Charakter A (lädt also dessen Save). Anschließend fügt
+man zusätzlich den Speicherblock eines zweiten Charakters B in den Chat ein. GPT erkennt nun, dass
 zwei getrennte Datensätze vorliegen. Daraus resultiert automatisch ein **Gruppen-Spielstand**.
-Charakter B wird als neues Gruppenmitglied hinzugefügt, ohne Charakter A zu entfernen oder zu
+Charakter B wird als neues Gruppenmitglied hinzugefügt, ohne Charakter A zu entfernen oder zu
 überschreiben. In der laufenden Geschichte taucht B dann z.B. als weiterer Agent auf, der sich dem
-Team anschließt. Charakter A behält all seine Daten und bleibt aktiv; Charakter B bringt seine
+Team anschließt. Charakter A behält all seine Daten und bleibt aktiv; Charakter B bringt seine
 eigenen Daten mit. Fortan führt GPT beide Charaktere gemeinsam in einem Gruppenstand weiter.
 *(Wichtig: Die Reihenfolge, in der man zusätzliche Charakter-Saves einfügt, spielt keine große Rolle
 – ob B gleich zu Anfang oder mitten in einer Mission dazukommt: GPT erkennt den neuen Datensatz und
@@ -401,8 +401,8 @@ Gruppe ist – also wird **kein zweiter Alex** hinzugefügt, sondern Alex’ bes
 aktuellen Werten versehen (die ohnehin dem Save entsprechen). Genauso für Mia. Die Gruppe \[Alex,
 Mia\] bleibt bestehen, nur dass nun beide auf dem neuesten Stand sind.
 - **Keine Konflikte durch unterschiedliche Felder:** Charaktere können unterschiedliche Felder oder
-Listen in ihren Daten haben, ohne Probleme zu verursachen. Hat Charakter A z.B. ein Feld *"Psionik":
-\[\]* (weil er keine psionischen Fähigkeiten hat) und Charakter B gar kein Feld *"Psionik"* (weil es
+Listen in ihren Daten haben, ohne Probleme zu verursachen. Hat Charakter A z.B. ein Feld *"Psionik":
+\[\]* (weil er keine psionischen Fähigkeiten hat) und Charakter B gar kein Feld *"Psionik"* (weil es
 für sie nie relevant war), führt das zu keinerlei Konflikt. GPT interpretiert einfach jeden
 Charakterblock für sich. Fehlt ein Feld bei einer Figur, bedeutet das nur, dass diese Figur dazu
 keine Angaben hat – es ist kein globales Problem. Es gibt also keine Fehlermeldung oder Störung,
@@ -413,14 +413,14 @@ gemeinsames *"Gruppeninventar"* oder einen aktuellen *"Missionsstatus"*, die au�
 Charakterobjekte im JSON stehen. Solche Felder gelten dann für die **gesamte Gruppe**. GPT würde sie
 als von allen geteilt interpretieren. *Beispiel:* Man könnte dem Gruppen-JSON ein Feld *"Mission":
 "Paris 1943 – Einsatzbeginn"* auf oberster Ebene hinzufügen. GPT weiß dann, dass alle Charaktere
-sich zu Beginn von Mission X (hier Paris 1943) befinden. Solche globalen Felder sind optional und
+sich zu Beginn von Mission X (hier Paris 1943) befinden. Solche globalen Felder sind optional und
 sollten sparsam verwendet werden, um die Trennung der Charakterdaten klar zu halten.
 - **Charaktere entfernen:** Wenn ein Charakter die Gruppe dauerhaft verlassen soll, kann dies
 einfach dadurch geschehen, dass sein Datenblock im nächsten Speicherstand **weggelassen** wird. GPT
 wird beim Laden merken, dass ein zuvor vorhandener Charaktereintrag nicht mehr vorhanden ist. Die
 Konsequenz in der Spielwelt wäre, dass diese Figur nicht mehr Teil der aktiven Gruppe ist.
 Idealerweise wird dies narrativ untermauert – etwa indem zuvor in der Geschichte erklärt wird,
-**warum** der Charakter die Gruppe verlässt (Ruhestand, eigene Mission, Tod etc.). Beim nächsten
+**warum** der Charakter die Gruppe verlässt (Ruhestand, eigene Mission, Tod etc.). Beim nächsten
 Laden fehlen seine Daten; GPT interpretiert das so, dass nur die verbleibenden Charaktere
 weitermachen. *(Hinweis: Der letzte gespeicherte Stand des entfernten Charakters kann
 selbstverständlich als Einzel-Save separat archiviert werden, falls er später wiederkommt oder solo
@@ -429,16 +429,16 @@ weiterspielt – die Formatkompatibilität macht’s möglich.)*
 Durch diese Regeln können Gruppen dynamisch **wachsen oder schrumpfen**, ohne Chaos im Speicherstand
 zu verursachen.
 
-**Beispiel – Zusammenführung Schritt für Schritt:** Spieler 1 und Spieler 2 haben jeweils einen
-Chrononauten (Charakter A und B) in Solo-Missionen gespielt und Savegames erstellt. Für ein
-gemeinsames Abenteuer laden sie beide Speicherblöcke in den neuen Chat. GPT sieht Charakter A und
-Charakter B – unterschiedliche Namen/IDs, keine Überschneidungen – und formt intern ein Team
-**\[A, B\]**. Anschließend begrüßt der Spielleiter diese neue Gruppe im Spiel (dazu mehr im
-Abschnitt *Immersiver Ladevorgang*). Kommt später Spieler 3 mit Charakter C dazu, fügt man einfach
-dessen Speicherstand hinzu: GPT erkennt C als neu → Gruppe wächst zu **\[A, B, C\]**. Falls hingegen
-Spieler 2 vor der nächsten Mission seinen **aktualisierten** B-Speicher einfügt (z.B. nach einem
-Level-Up), erkennt GPT an B’s ID/Name, dass dieser schon in \[A, B, C\] existiert, und
-**aktualisiert nur B’s Werte**, anstatt einen zweiten B hinzuzufügen. Die Gruppe bleibt konsistent,
+**Beispiel – Zusammenführung Schritt für Schritt:** Spieler 1 und Spieler 2 haben jeweils einen
+Chrononauten (Charakter A und B) in Solo-Missionen gespielt und Savegames erstellt. Für ein
+gemeinsames Abenteuer laden sie beide Speicherblöcke in den neuen Chat. GPT sieht Charakter A und
+Charakter B – unterschiedliche Namen/IDs, keine Überschneidungen – und formt intern ein Team
+**\[A, B\]**. Anschließend begrüßt der Spielleiter diese neue Gruppe im Spiel (dazu mehr im
+Abschnitt *Immersiver Ladevorgang*). Kommt später Spieler 3 mit Charakter C dazu, fügt man einfach
+dessen Speicherstand hinzu: GPT erkennt C als neu → Gruppe wächst zu **\[A, B, C\]**. Falls hingegen
+Spieler 2 vor der nächsten Mission seinen **aktualisierten** B-Speicher einfügt (z.B. nach einem
+Level-Up), erkennt GPT an B’s ID/Name, dass dieser schon in \[A, B, C\] existiert, und
+**aktualisiert nur B’s Werte**, anstatt einen zweiten B hinzuzufügen. Die Gruppe bleibt konsistent,
 niemand wird dupliziert.
 
 ## Zeitlinien-Tracker und Paradoxon-Index
@@ -452,7 +452,7 @@ Jeder solche Eintrag im Spielstand umfasst:
 - **die betroffene Epoche** bzw. den Zeitrahmen des Ereignisses,
 - **eine kurze Beschreibung der Veränderung** (was wurde im ursprünglichen Geschichtsverlauf
 abgewandelt),
-- **einen Stabilitätswert** zwischen **3** und **0**.
+- **einen Stabilitätswert** zwischen **3** und **0**.
 
 Der **Stabilitätswert** gibt an, wie fest die Änderung in der Zeit etabliert ist. *3* bedeutet, dass
 die neue Entwicklung **stabil** in den Geschichtsbüchern verankert ist (kaum Risiko eines
@@ -462,8 +462,8 @@ unterschiedlich große **Instabilitäten**: Vielleicht ist die Änderung noch fr
 oder es bestehen Widersprüche, die sie ins Wanken bringen könnten (Stabilität 1).
 
 Aus diesen Einträgen ergibt sich ein **Paradoxon-Wert**, ein Zähler für kritisch gewordene temporale
-Anomalien. Sobald auch nur ein Zeitlinien-Ereignis den Stabilitätswert 0 erreicht, erhöht sich
-dieser Paradoxon-Wert um +1. Jede vollständige „Entgleisung“ der Zeitlinie wird also registriert.
+Anomalien. Sobald auch nur ein Zeitlinien-Ereignis den Stabilitätswert 0 erreicht, erhöht sich
+dieser Paradoxon-Wert um +1. Jede vollständige „Entgleisung“ der Zeitlinie wird also registriert.
 Dieses Feld kann im Spielstand ebenfalls als eigenes Feld festgehalten werden (z.B. *"Paradoxon":
 1*). Bleibt der Wert 0, ist alles in Ordnung – die Zeit ist stabil. Steigt er an, bedeutet das, dass
 eine oder mehrere gravierende Paradox-Effekte aufgetreten sind.
@@ -475,7 +475,7 @@ NPC im ITI andeuten, dass bestimmte Ereignisse *„noch nicht ganz vom Zeitstrom
 oder dass *„temporale Anomalien im Jahr 1888 detektiert“* wurden. Wenn der Paradoxon-Wert steigt,
 macht sich das vielleicht als unheimliches Flackern in der Umgebung bemerkbar – Déjà-vus, ein kurzes
 Stillstehen der Zeit oder andere subtile Störungen. *(Im Regelwerk werden Paradox-Effekte gestaffelt
-beschrieben: Bei Paradoxon 1 gibt es z.B. leichte Déjà-vus und flackernde Schatten; bei Paradoxon 5
+beschrieben: Bei Paradoxon 1 gibt es z.B. leichte Déjà-vus und flackernde Schatten; bei Paradoxon 5
 käme es zum völligen Realitätsbruch, was eine Notfall-Zeitretraktion nötig macht. Solche extremen
 Fälle sollten die Ausnahme bleiben.)*
 
@@ -483,7 +483,7 @@ Für das Speichersystem bedeutet dies: Jeder neue Spielstand enthält eine fortg
 aller bislang verursachten Zeitänderungen samt aktuellem Stabilitätsgrad. GPT kann anhand dieser
 Liste nachvollziehen, **welche historischen Weichenstellungen** die Gruppe bewirkt hat. Sollte in
 einer zukünftigen Mission erneut an einem bereits veränderten Ereignis „gerüttelt“ werden, kann der
-KI-Spielleiter den Stabilitätswert entsprechend reduzieren und – falls er auf 0 fällt – den
+KI-Spielleiter den Stabilitätswert entsprechend reduzieren und – falls er auf 0 fällt – den
 Paradoxon-Zähler erhöhen. All das geschieht hinter den Kulissen. Die Spieler erleben nur die
 **storyrelevanten Konsequenzen**: Zum Beispiel, dass eine frühere Änderung rückgängig gemacht wurde
 oder dass plötzlich mysteriöse Zeitphänomene auftreten, die das Eingreifen der Chrononauten
@@ -504,7 +504,7 @@ Mitteilungen des Codex.
 Neben dem Zeitlinien-Tracker speichert das System alle aktiven Rift-Seeds in
 einem Array namens **OpenRifts**. Jeder Eintrag enthält ID, Seed-Namen,
 Schweregrad und eine optionale Deadline. Das Backend-Macro `ClusterCreate()`
-füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
+füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 **ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
 
 ```json
@@ -517,16 +517,16 @@ Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus eine
 eigenständige **Rift-Mission**. Deren Probe-Schwelle ergibt sich wie bei einer
 regulären Mission aus `base_dc + open_seeds`. Verlassen die Agenten den Rift,
 wird der Datensatz stets entfernt – gelingt der Einsatz, ist der Seed
-geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
+geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
 die Schwelle entsprechend der verbliebenen Seeds neu berechnet und Loot-Multi
 angepasst.
 
 ### Makros im Überblick
 
-- `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
+- `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
 - `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
 - `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
-- `scan_artifact()` – Contra-Tool, steigert die Severity um 1.
+- `scan_artifact()` – Contra-Tool, steigert die Severity um 1.
 
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
@@ -540,7 +540,7 @@ Lade-Sequenz dies widerspiegeln. Mögliche Anpassungen für den Spielleiter (GPT
 Gruppenrunde:
 
 - **Kollektive Ansprache:** Die Begrüßung oder Aktivierung kann den ganzen Trupp adressieren. Statt
-*„Rückkehrprotokoll für Agent X aktiviert…“* könnte es heißen: *„Rückkehrprotokoll für Agententeam
+*„Rückkehrprotokoll für Agent X aktiviert…“* könnte es heißen: *„Rückkehrprotokoll für Agententeam
 ***Chronos*** aktiviert…“*, sofern ein Gruppenname definiert ist. Liegt kein fester Teamname vor,
 kann GPT die Namen aller geladenen Charaktere aufzählen: *„Rückkehrprotokoll aktiviert für Agent
 Alex und Agent Mia…“*.
@@ -579,8 +579,8 @@ Ein kurzes Beispiel für eine solche Ingame-Lade-Sequenz im Gruppenmodus:
 
 > **Codex-Archiv** – *Datenabruf initialisiert… Rückkehrprotokoll für Agententeam Chronos
 > aktiviert.*
-> *Synchronisiere Profile:* **Alex** – Status: Einsatzbereit (Level 2, zuletzt aktiv in Aquitanien
-> 1356); **Mia** – Status: Einsatzbereit (Level 1, zuletzt aktiv in London 1888).
+> *Synchronisiere Profile:* **Alex** – Status: Einsatzbereit (Level 2, zuletzt aktiv in Aquitanien
+> 1356); **Mia** – Status: Einsatzbereit (Level 1, zuletzt aktiv in London 1888).
 > *Willkommen zurück, Agenten.* Eure Erinnerungen formen sich, als ihr das Briefing-Zimmer betretet…
 
 Durch diese Erzählweise wird das Laden für die Spieler als Teil der Geschichte **erlebbar** – egal
@@ -606,7 +606,7 @@ nicht, folgt eine immersive Rückfrage: *„Agentendaten unvollständig. Benöti
 Level war für Agent Alex zuletzt verzeichnet?“*. Auf diese Weise wird der Spieler (bzw. menschliche
 Spielleiter) auf das Problem hingewiesen – aber in Form eines **Spielwelt-Dialogs**.
 - **Inkonsistente oder unmögliche Werte:** Ähnlich verhält es sich, wenn ein Wert unlogisch
-erscheint (z.B. EP negativ oder ein Inventargegenstand, der doppelt geführt wird). GPT könnte dies
+erscheint (z.B. EP negativ oder ein Inventargegenstand, der doppelt geführt wird). GPT könnte dies
 als Anomalie im Codex-Protokoll melden. *Beispiel:* *„Achtung: Codex-Archiv stellt Diskrepanz in den
 Daten von Agent Alex fest (Erfahrungspunkte = –5). Initiiere Protokoll zur Datenbereinigung.“* Dann
 könnte GPT entweder einen Vorschlag machen (*„Setze EP auf 0.“* oder *„Bitte Missionsleitung um
@@ -738,7 +738,7 @@ für einen einzelnen Charakter, einmal für eine Gruppe – im verwendbaren Form
 
 *Kommentar:* Dies ist ein möglicher Speicherstand von **Alex** nach zwei absolvierten Missionen. Man
 sieht alle relevanten Felder in kompakter Form. GPT könnte beim Laden z.B. sagen: *„Codex-Archiv
-Meldung: Profil von Agent Alex aktualisiert – bereit für Mission 3.“* (natürlich ausgeschmückt im
+Meldung: Profil von Agent Alex aktualisiert – bereit für Mission 3.“* (natürlich ausgeschmückt im
 Codex-Stil), um anzuzeigen, dass Alex’ Daten erfolgreich übernommen wurden und er nun für das
 nächste Abenteuer bereitsteht.
 
@@ -833,10 +833,10 @@ nächste Abenteuer bereitsteht.
 *Kommentar:* Dieses Beispiel zeigt einen Gruppen-Spielstand mit zwei Charakteren. Alex und Mia
 stehen als separate Objekte in der *"Charaktere"*-Liste. Zusätzlich wurden globale Felder
 hinzugefügt: *"Mission"* markiert den gemeinsamen Fortschritt (hier: Beide sind bereit für
-Mission 3, Setting Paris 1943). Das Feld *"Zeitlinie"* protokolliert zwei Veränderungen, die durch
+Mission 3, Setting Paris 1943). Das Feld *"Zeitlinie"* protokolliert zwei Veränderungen, die durch
 die bisherigen Missionen hervorgerufen wurden: Die Schlacht von Aquitanien 1356 wurde durch Alex’
-Eingreifen zugunsten der Franzosen entschieden (**Stabilität 3** – nun fester Teil der neuen
-Geschichte) und die Mordserie von Jack the Ripper in London 1888 wurde beendet (**Stabilität 2** –
+Eingreifen zugunsten der Franzosen entschieden (**Stabilität 3** – nun fester Teil der neuen
+Geschichte) und die Mordserie von Jack the Ripper in London 1888 wurde beendet (**Stabilität 2** –
 es besteht noch eine geringe temporale Anomalie). Der Wert *"Paradoxon": 0* signalisiert, dass
 bislang **kein vollwertiges Paradoxon** eingetreten ist.
 
@@ -851,7 +851,7 @@ oder als ausformulierte Narrative **außerhalb** des JSON.
 
 ## Fazit
 
-Mit diesen Überarbeitungen bietet **ZEITRISS 4.0** ein robustes Speicher- und Fortsetzungssystem,
+Mit diesen Überarbeitungen bietet **ZEITRISS 4.0** ein robustes Speicher- und Fortsetzungssystem,
 das sowohl Einzelspieler- als auch Gruppenrunden nahtlos unterstützt. Die Verwendung eines
 standardisierten JSON-Formats stellt sicher, dass der KI-Spielleiter den Spielfortschritt
 **zuverlässig versteht und weiterführen** kann. Gleichzeitig bleibt die Lösung flexibel – Charaktere

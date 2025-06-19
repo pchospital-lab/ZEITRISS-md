@@ -56,34 +56,34 @@ sollte an die Kampagne angepasst werden.)*
 
 - **Telepathie:** Der Chrononaut kann die Oberflächen-Gedanken oder intensiven Emotionen einer nahe
 stehenden Person erspüren und mit etwas Fokus sogar einfache Botschaften mental übermitteln.
-*Kosten:* 1 SYS pro Ziel. *Mechanik:* erfordert i.d.R. eine **TEMP-Probe** gegen die Willenskraft
+*Kosten:* 1 SYS pro Ziel. *Mechanik:* erfordert i.d.R. eine **TEMP-Probe** gegen die Willenskraft
 des Ziels (falls das Ziel mental resistiert). Bei Erfolg kann der Spielercharakter für ein paar
 Minuten telepathisch kommunizieren oder Informationen lesen. Missbrauch (z.B. tiefer Gedankenraub)
 könnte Nebenwirkungen haben (Kopfschmerz, Abwehr durch Ziel).
 - **Präkognition:** Eine kurze **Vorahnung** gewährt dem Chrononauten einen Blick auf mögliche
 unmittelbare Zukünfte. Das kann ein Deja-vu-Gefühl oder eine klare Vision von ein paar Sekunden der
-Zukunft sein. *Kosten:* 2 SYS (einmalige Aktivierung). *Mechanik:* In der Praxis darf der Spieler
+Zukunft sein. *Kosten:* 2 SYS (einmalige Aktivierung). *Mechanik:* In der Praxis darf der Spieler
 **einmal eine Probe wiederholen** oder die SL gibt einen nützlichen Hinweis/Detail preis, den der
 Charakter „vorausgeahnt“ hat. Diese Fähigkeit sollte sparsam eingesetzt werden (vielleicht 1× pro
 Sitzung), um das Spiel nicht zu dominieren.
 - **Zeit verlangsamen:** Durch extreme Fokussierung kann der Charakter subjektiv den Zeitablauf für
 ein paar Sekunden *verlangsamen* – für ihn bewegen sich alle anderen wie in Zeitlupe. *Kosten:*
-2 SYS (pro Einsatz, aktive Konzentration). *Effekt:* Im Kampf erhält der Charakter **eine
+2 SYS (pro Einsatz, aktive Konzentration). *Effekt:* Im Kampf erhält der Charakter **eine
 zusätzliche Aktion in einer Runde** oder einen großen Bonus auf eine Reaktion (z.B. einem Schuss
 ausweichen, da er ihn kommen sieht). Danach fühlt er sich erschöpft.
 - **Temporaler Waffenimpuls:** Durch kurzzeitiges Anhalten des lokalen Zeitstroms
   kann der Psioniker einen Schlag oder Schuss setzen und danach die Zeit freigeben.
   Projektil oder Klinge beschleunigen übernatürlich und verursachen erhöhten Schaden.
-  *Kosten:* 3 SYS, hohe Paradox-Gefahr.
+  *Kosten:* 3 SYS, hohe Paradox-Gefahr.
 - **Zeitsinn:** Eine eher passive Gabe – der Chrononaut spürt **Anomalien im Zeitstrom** in seiner
 Umgebung. Z.B. merkt er, wenn in einem Gebäude ein *Zeitreisender aus der falschen Epoche* anwesend
 ist, oder spürt das Nachbeben einer kürzlich erfolgten Zeitmanipulation (wie kalter Schauer).
-*Kosten:* 1 SYS (ständig reserviert). *Effekt:* Diese Fähigkeit läuft im Hintergrund; die SL kann
+*Kosten:* 1 SYS (ständig reserviert). *Effekt:* Diese Fähigkeit läuft im Hintergrund; die SL kann
 dem Spieler entsprechend Informationen zuspielen, wenn temporale Phänomene auftreten. Es ist kein
 „Spürsinn für alles“, aber ein nützliches Werkzeug, um Paradoxien aufzudecken.
 - **Psychische Schockwelle:** (*Optional, höhere Stufe*) Der Chrononaut entlädt eine Welle mentaler
-Energie, die auf nahe Gegner wirkt. *Kosten:* 3 SYS. *Effekt:* Alle Personen in einem Radius von
-~5 m werden zurückgestoßen und erleiden einen **Betäubungseffekt** (leichter Schaden oder kurz
+Energie, die auf nahe Gegner wirkt. *Kosten:* 3 SYS. *Effekt:* Alle Personen in einem Radius von
+~5 m werden zurückgestoßen und erleiden einen **Betäubungseffekt** (leichter Schaden oder kurz
 bewusstlos, je nach SL-Entscheid). Diese Kraft erfordert eine Konstitution/TEMP-Probe des Anwenders,
 um nicht selbst umzukippen. Zudem blockiert sie seine Psi für den Rest des Kampfes
 (Überanstrengung).
@@ -108,7 +108,7 @@ konkrete **Vorteile**: Sei es ein Würfelbonus auf passende Proben, eine erlaubt
 sogar automatische Erfolge in bestimmten trivialen Situationen. Ein Charakter mit *Schlösserknacker*
 z.B. könnte einfache Schlösser ohne Probe öffnen dürfen, solange keine Stresssituation vorliegt.
 
-In **ZEITRISS 4.0** unterscheiden wir Talente in **passive** und **aktive**:
+In **ZEITRISS 4.0** unterscheiden wir Talente in **passive** und **aktive**:
 
 - **Passive Talente (P):** Dauerhafte Vorteile oder Boni, die immer wirken, wenn der Anwendungsfall
 kommt. Beispiel: *Waffenmeister* verleiht stets +2 auf Angriffe mit bestimmten Waffen. Diese Talente
@@ -121,7 +121,7 @@ manche eventuell eine Probe, und haben einen starken Effekt mit Abklingzeit.
 
 **Modulare Erweiterungen:** Das Talent-System lässt sich modular ausbauen. GMs können *Talentränge*
 einführen, sodass Talente steigerbar sind (z.B. **Scharfschütze I**: +1 auf Fernkampf,
-**Scharfschütze II**: +2 und Ignorieren von 1 Punkt Deckung). Alternativ können **Kombinationen**
+**Scharfschütze II**: +2 und Ignorieren von 1 Punkt Deckung). Alternativ können **Kombinationen**
 zugelassen werden – etwa erlangt ein Charakter mit *Mechaniker* und *Improvisationsingenieur*
 zusätzliche Synergien beim Bauen von Geräten. Solche Hausregeln sollten klar kommuniziert werden, um
 Fairness zu wahren. Im Basissystem erhält ein Chrononaut zu Beginn je nach Hintergrund **2–3
@@ -130,7 +130,7 @@ dazugewinnen. Die Spielleitung sollte Talente **aktiv in die Geschichte einbinde
 Spieler einen besonderen Skill hat, bekommen sie Gelegenheiten zu glänzen – das fördert die
 Immersion und Belohnung der Spezialisierung.
 
-**Archetypen-Talente (optional):** In Modul 7 wurden beispielhafte Chrononauten-Archetypen
+**Archetypen-Talente (optional):** In Modul 7 wurden beispielhafte Chrononauten-Archetypen
 vorgestellt (z.B. *Temporal-Soldat*, *Zukunfts-Hacker*, *Undercover-Agent*, *Feldmediziner*, etc.).
 Man kann optional jedem Archetyp ein einzigartiges Talent oder *Archetypen-Feature* geben, um ihre
 Rolle zu unterstreichen. Beispielsweise hatte der Temporal-Soldat Nikolai das Talent
@@ -156,7 +156,7 @@ nicht so leicht aus der Fassung. *Effekt:* Wundabzüge durch erlittenen Schaden 
 reduziert (leichte Wunden ignoriert er komplett, mittlere geben nur –1 statt –2 etc.).
 - **Techno-Mancer** (P): Überragendes Technik- und Computerverständnis, speziell mit zukünftiger
 Technologie. Verleiht **+2 auf alle Hacken- und Programmieren-Proben**; selbst altertümliche Systeme
-aus dem 20. Jh. erscheinen dem Charakter simpel.
+aus dem 20. Jh. erscheinen dem Charakter simpel.
 - **Drohnensteuerung** (P): Talent im parallelen Kontrollieren mehrerer Drohnen. Der Charakter kann
 **zwei oder mehr Drohnen gleichzeitig** steuern, einfache Manöver gelingen automatisch, komplexe
 Aktionen erhalten **+2** Bonus. Unerlässlich für High-Tech-Späher.
@@ -166,7 +166,7 @@ annehmen**. Gegenüber gewöhnlichen Wachen/Zivilisten benötigt er keine Probe,
 nur geübte Beobachter könnten ihn durchschauen (und selbst da +2 SG).
 - **Adrenalinschub** (A): Kurzfristige Mobilisierung letzter Reserven. *Einmal pro Mission* kann der
 Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
-1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
+1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
 Trümmer hochstemmen, einen superschnellen Feind einholen). Danach tritt Erschöpfung ein: für etwa
 eine Stunde **–1 auf alle Proben**.
 - **Sprengstoffexperte** (P): Fachkundig in allem was *bumm* macht. Der Charakter kennt sich mit

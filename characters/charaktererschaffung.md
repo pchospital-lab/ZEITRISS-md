@@ -34,7 +34,7 @@ die nötigen Informationen abfragt und dir Optionen bietet. Nachfolgend die einz
 Detail:
 
 **Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig dein Konzept klingt – alle neuen
-Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
+Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
 **Standardausrüstung**. Eine eindrucksvolle Vorgeschichte verleiht zwar Flair, bringt zu Beginn
 aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
 freigeschaltet.
@@ -63,8 +63,8 @@ ggf. einen weniger wichtigen Wert auf 2, um einen zusätzlichen Punkt woanders e
 Kein Startwert sollte normalerweise über **5** liegen oder unter **2** fallen. Die Beispiel-
 Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
 vergleichbarem Power-Niveau starten. *(Beispiel: Der ***Temporal-Soldat*** Nikolai fokussiert auf
-STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die ***Historikerin*** Dr. Weber
-hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)* Nachdem du die Zahlen verteilt hast,
+STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die ***Historikerin*** Dr. Weber
+hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)* Nachdem du die Zahlen verteilt hast,
 kannst du mit der Spielleitung abstimmen, ob das Profil stimmig und ausgeglichen wirkt. Die KI
 könnte an dieser Stelle z.B. kommentieren: *„Codex evaluiert die Eingaben... Die Attributswerte
 liegen im üblichen Bereich für neue Agenten.“*
@@ -151,7 +151,7 @@ Talente, Implantate und Ausrüstung ergeben idealerweise ein konsistentes Bild. 
 ihr noch Kleinigkeiten nach. Anschließend wird der Charakter in den *Codex*-Systemen registriert.
 In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Deine Figur zieht ihren
 Einsatzanzug an, und im Sichtfeld erscheint eine Zusammenfassung der persönlichen Daten. Die KI-
-Spielleitung kann z.B. verkünden: *„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
+Spielleitung kann z.B. verkünden: *„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
 100% (grün); Paradox 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“* – So erfährst du
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
@@ -182,7 +182,7 @@ Zeitgeflecht beeinflussen.
 
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
-ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Wählen Spieler
+ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Wählen Spieler
 die Contra-Variante, dürfen sie die Paradoxmechanik auf Wunsch deaktivieren,
 nutzen sie aber bei Bedarf identisch zu Pro-Gruppen – häufig geschieht dieser
 Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
@@ -257,9 +257,9 @@ Epochen, Kultur und Personen abzurufen), *Diplomatin* (+2 auf Überreden/Verhand
 Situationen; kennt Etikette und kulturelle Feinheiten jeder Epoche). Diese Talente unterstreichen
 ihre Rolle als kommunikatives und wissbegieriges Teammitglied.
 - **Implantate:** *Neuro-Translator* (implantierter Sprachchip im Ohr, ermöglicht das Verstehen und
-Sprechen nahezu jeder Sprache in Echtzeit – ideal für Erstkontakte in fremden Zeiten, Kosten 1 SYS)
-und *Kognitives Enhancement Stufe 1* (kleiner Hirnchip zur Verbesserung des Erinnerungsvermögens, +1
-auf Wissensproben – bereits in obigem INT-Wert berücksichtigt, Kosten 1 SYS). Beide Implantate
+Sprechen nahezu jeder Sprache in Echtzeit – ideal für Erstkontakte in fremden Zeiten, Kosten 1 SYS)
+und *Kognitives Enhancement Stufe 1* (kleiner Hirnchip zur Verbesserung des Erinnerungsvermögens, +1
+auf Wissensproben – bereits in obigem INT-Wert berücksichtigt, Kosten 1 SYS). Beide Implantate
 zusammen belegen 2 von 3 SYS.
 - **Ausrüstung:** Eleganter ITI-Zeitreiseanzug (schicker Hosenanzug-Stil, mit versteckter Panzer-
 Schicht – reduziert physischen Schaden um 1), ein nicht-tödlicher Elektroschocker zur
@@ -297,7 +297,7 @@ sie zur Allround-Technikerin, die jede Maschine zum Tanzen bringt.
 - **Implantate:** *Neuro-Link* (Gehirnimplantat als direkte Schnittstelle zu Computern – ermöglicht
 Gedankensteuerung von Geräten und Hacken ohne physische Eingabe) und *AR-Linse* (augmentierte
 Kontaktlinse im linken Auge, blendet digitale Infos ins Sichtfeld ein – z.B. technische Daten über
-anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 SYS.
+anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 SYS.
 Optional besitzt Mira noch einen *Nano-Firewall-Chip* (implantierte Abwehr gegen feindliche Hacks
 auf ihre Cyberware, würde weitere SYS kosten).
 - **Ausrüstung:** Tragbares Hacker-Kit (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
@@ -342,9 +342,9 @@ bleibt handlungsfähig.
 - **Implantate:** Keine permanenten Implantate – Nikolai lehnt Cyberware weitgehend ab. Allerdings
 trägt er ein subkutanes *Notfall-Stimulanz-Modul* (automatische Adrenalinausschüttung bei kritischen
 Verletzungen). **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde
-kampffähig statt sofort auszufallen; danach kollabiert er. Kosten: 1 SYS. (Dieses Modul hat ihm
+kampffähig statt sofort auszufallen; danach kollabiert er. Kosten: 1 SYS. (Dieses Modul hat ihm
 schon mehrmals das Leben gerettet.)
-- **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
+- **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
 Einzelschuss, Salve, Vollauto; Schaden je nach Modus 3–5, mittlere Reichweite), dazu eine **antike
 Nahkampfwaffe** nach Wahl – oft führt er ein Kampfmesser, aber er besitzt auch ein Schwert aus dem
   13. Jh. (Familienerbstück), das er in Mittelalter-Missionen bei sich trägt. Schusssichere
@@ -352,7 +352,7 @@ Nahkampfwaffe** nach Wahl – oft führt er ein Kampfmesser, aber er besitzt auc
 leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
 das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
 kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Funkgerät (für Epochen
-ab 20. Jh., sonst ein implantiertes Kommunikationsohrstück fürs HQ). Sein Arsenal macht ihn zur
+ab 20. Jh., sonst ein implantiertes Kommunikationsohrstück fürs HQ). Sein Arsenal macht ihn zur
 ersten Wahl, wenn es brenzlig wird.
 - **Hintergrund:** Geboren 1972 in der Sowjetunion, diente Nikolai in den 1980ern bei einer Speznas-
 Spezialeinheit. Er erlebte dort eine mysteriöse Operation – wie sich herausstellte, ein geheimer
@@ -388,7 +388,7 @@ Technische und für Fortbewegungsmittel.
 Geschwindigkeitsanzeige eines Fahrzeugs, Schadensdiagnosen; verleiht +1 auf Fahrzeugkontrolle dank
 optimaler Routen- und Warnhinweise), sowie eine *Nano-Werkzeugkolonie* (winzige Naniten im Unterarm,
 die auf Befehl ein „Werkzeug“ an der Handfläche formen – Sabine hat somit eingebaute Werkzeuge zum
-Schrauben, Löten etc.; erlaubt Reparaturen, ohne extra Tool mitzunehmen, Kosten 1 SYS). Beide
+Schrauben, Löten etc.; erlaubt Reparaturen, ohne extra Tool mitzunehmen, Kosten 1 SYS). Beide
 Implantate zusammen belegen 2 von 4 SYS.
 - **Ausrüstung:** Gefüllte **Werkzeugtasche** (Schraubenschlüssel, Hammer, altmodische und
 futuristische Tools – alles, um im Feld zu improvisieren), ein tragbarer **Allzweck-Scanner**
@@ -435,9 +435,9 @@ vorschlägt). Diese Mischung befähigt ihn, sowohl praktische Medizin als auch t
 Analyse zu beherrschen.
 - **Implantate:** *Chrono-Sensorik-Modul* (kleines Implantat an der Schläfe, detektiert schwache
 temporale Felder – quasi ein eingebauter Paradox-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
-auftreten, gibt Vorwarnung bei steigendem Paradox-Level) – Kosten 1 SYS. Außerdem ein *medizinisches
+auftreten, gibt Vorwarnung bei steigendem Paradox-Level) – Kosten 1 SYS. Außerdem ein *medizinisches
 HUD* als Kontaktlinse, das Vitalwerte von Personen im Blickfeld anzeigt (erleichtert Diagnose, +1
-auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/3 SYS.
+auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/3 SYS.
 - **Ausrüstung:** **Mobiles Medikit** (Spritzen, Verbände, Mini-Defibrillator, Schmerzmittel,
 futuristische Wundheilungs-Sprays – alles Nötige, um Verletzte im Feld zu stabilisieren und
 versorgen), **Analyse-Kit** (tragbares Labor mit Reagenzgläsern, Mini-Mikroskop, Chemie-
@@ -446,7 +446,7 @@ Altersbestimmung von Funden), **Paradox-Messgerät** (handlicher Scanner, der lo
 numerisch erfasst – externe Ergänzung zu seinem Chrono-Implantat, um Werte ans Team zu geben). Als
 persönliches Waffen-Set trägt Julian einen modifizierten **Betäubungs-Pfeilwerfer** (eine kleine
 Armbrust, die beruhigende Pfeile verschießt; er bevorzugt nicht-tödliche Methoden) und einen
-klassischen **Revolver** (Kaliber .38 aus dem 19. Jh., ein Erbstück – nur für den äußersten
+klassischen **Revolver** (Kaliber .38 aus dem 19. Jh., ein Erbstück – nur für den äußersten
 Notfall). Damit kann er sich wehren, bleibt aber dem Prinzip „Heiler, nicht Zerstörer“ treu.
 - **Hintergrund:** Dr. Julian Richter (geb. 2038 in Berlin) war Biochemiker und Arzt in einem
 Forschungsprojekt zur Alterungsumkehr, das unerwartet temporale Effekte tangierte. Das ITI
@@ -484,7 +484,7 @@ prädestiniert für geheime Operationen.
 Tonlage und Klang beliebig zu verstellen – ideal, um andere Personen zu imitieren oder per Funk als
 jemand anders aufzutreten; verleiht +2 auf Täuschungsversuche, die die Stimme betreffen), sowie ein
 internes *Dietrichset in der Fingerkuppe* (kleine ausfahrbare Schlossknacker-Werkzeuge in zwei
-Fingern – er benötigt keine externen Dietriche mehr, um Schlösser zu knacken; Kosten 1 SYS).
+Fingern – er benötigt keine externen Dietriche mehr, um Schlösser zu knacken; Kosten 1 SYS).
 Zusammen beanspruchen diese Mods 2/4 SYS.
 - **Ausrüstung:** **Identitäten-Set** (Sammlung falscher Papiere, Ausweise, Siegelringe etc. aus
 verschiedenen Epochen – so kann Henry sich im Handumdrehen als jemand ausgeben, z.B. als Offizier
@@ -519,7 +519,7 @@ kein selbstgebauter Charakter deutlich stärker oder schwächer gerät.)\*
 ## Levelsystem und Erfahrungsfortschritt
 
 **Erfahrungspunkte & Stufen:** ZEITRISS verwendet ein einfaches Fortschrittssystem ohne
-kleinteiliges XP-Gezähle. Stattdessen steigen Charaktere **stufenweise** (Level 1, 2, 3, …) auf,
+kleinteiliges XP-Gezähle. Stattdessen steigen Charaktere **stufenweise** (Level 1, 2, 3, …) auf,
 meist nachdem sie einige Missionen erfolgreich abgeschlossen haben. Die Spielleitung legt fest, wann
 ein **Level-Up** erfolgt – oft bietet sich der Abschluss einer größeren **Story-Etappe** oder
 Kampagne dafür an. In der Praxis entspricht ungefähr jede **2–3 Missionen** (je nach Umfang) einem
@@ -548,7 +548,7 @@ ist – Kämpfer investieren vielleicht erst in Stärke, Forscher eher in neue S
 das Level, desto *langsamer* sollten Attributssteigerungen stattfinden, um die Balance zu wahren
 (z.B. nicht jedes Level ein Attribut erhöhen, sondern abwechselnd mit Talent freischalten).
 - **Optional/auf höheren Leveln:** Ab bestimmten Meilensteinen könnte die SL auch *beides* erlauben
-(z.B. auf Level 5 gibt es +1 Attr und ein Talent). Dies hängt jedoch vom Power-Niveau der Kampagne
+(z.B. auf Level 5 gibt es +1 Attr und ein Talent). Dies hängt jedoch vom Power-Niveau der Kampagne
 ab. Generell gilt: **Werte über 5 sind außergewöhnlich** – solche Werte sollten selten und erst bei
 sehr erfahrenen Chrononauten vorkommen. Talente kann man dagegen fast unbegrenzt ansammeln, solange
 sie das Konzept erweitern und nicht brechen. Die Archetypen liefern viele Ideen für Talente, sodass
@@ -558,7 +558,7 @@ du später neue auswählen oder eigene kreieren kannst.
 **Verletzungsstufen-System** – das heißt, eure Lebensenergie steigt nicht direkt mit dem Level,
 sondern ihr haltet mehr aus, weil ihr geschickter werdet im Umgang mit Gefahren. Ein hoher STR-Wert
 oder Talente wie *Schmerzresistenz* steigern indirekt die Widerstandskraft. Wenn eure Gruppe lieber
-HP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
+HP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
 standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: **Ruf** (siehe unten),
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
 mitaufsteigt.
@@ -566,12 +566,12 @@ mitaufsteigt.
 **HUD-Anzeige der Erfahrung:** In-Game visualisiert das ITI-HUD euren Fortschritt dezent als Teil
 des Interfaces. So erscheint z.B. neben eurem Namen ein kleines **Rangabzeichen oder Level-Zahl**,
 darunter ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten “Upgrade” ist. Natürlich
-würde euer Charakter nie sagen „Ich hab Level 3 erreicht“ – im Spiel wird das als *Befähigungsindex*
+würde euer Charakter nie sagen „Ich hab Level 3 erreicht“ – im Spiel wird das als *Befähigungsindex*
 oder **Dienstgrad** interpretiert. Erfüllt ihr Missionsziele oder lernt etwas Bedeutsames, “füllt”
 sich der Balken ein Stück. Auf Spieler-Nachfrage kann die KI-Spielleitung auch den genauen Stand
-durchgeben, z.B.: *„Dein HUD zeigt Level 3, 70% bis Level 4“*. So bleiben die Meta-Infos im Rahmen
-der Spielwelt. Eine beispielhafte HUD-Zusammenfassung könnte lauten: *„***HUD-Status*** – Level 3
-(71% bis Level 4); Vital: 100% (grün); Paradox: 1 (leichtes Flimmern); Missionsziele: 2/3 erfüllt;
+durchgeben, z.B.: *„Dein HUD zeigt Level 3, 70% bis Level 4“*. So bleiben die Meta-Infos im Rahmen
+der Spielwelt. Eine beispielhafte HUD-Zusammenfassung könnte lauten: *„***HUD-Status*** – Level 3
+(71% bis Level 4); Vital: 100% (grün); Paradox: 1 (leichtes Flimmern); Missionsziele: 2/3 erfüllt;
 Team: alle im grünen Bereich.“* – daran siehst du auf einen Blick alles Wichtige, ohne aus der Rolle
 zu fallen.
 
@@ -616,8 +616,8 @@ Zahlen jederzeit an ihre Kampagne anpassen.
 | +5       | 400 |
 
 Rufgewinn dauert also Monate oder gar Jahre ingame. Rufverlust tritt nur bei gravierenden
-Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. *„Paris 1880: Ruf +2
-(wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses System macht die
+Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. *„Paris 1880: Ruf +2
+(wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“*). Dieses System macht die
 **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und
 Beziehungen abzubilden.
 
@@ -644,7 +644,7 @@ Tendenzen.)
 **Ruf beim ITI (intern):** Neben dem externen Ansehen bei historischen Fraktionen gibt es den
 **internen Ruf** bzw. Dienstgrad deines Agenten bei der eigenen Organisation, dem ITI. Im Grunde
 spiegelt dies dein **Level** wider – je höher die Stufe, desto mehr Vertrauen und Befugnisse genießt
-du. Ein *Neuling auf Level 1* wird beispielsweise kaum sofort Zugang zu Top-Secret-Geräten oder
+du. Ein *Neuling auf Level 1* wird beispielsweise kaum sofort Zugang zu Top-Secret-Geräten oder
 Prototypen bekommen. Mit steigender Erfahrung und guten Leistungen erwirbst du dir **Rangabzeichen**
 und **Beförderungen**, auch wenn das ITI weniger militärisch, sondern mehr forschungsorientiert ist.
 Narrativ könnte der Codex oder ein Vorgesetzter dir nach einigen Missionen eine Beförderung
@@ -664,17 +664,17 @@ giltst du als *Elitechrononaut* und wirst für besonders heikle Missionen eingep
 Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission erhaltet ihr vom ITI
 typischerweise eine Ressourcengutschrift – sei es in Form von **Credits (CU)** oder logistischen
 Unterstützung. Damit könnt ihr **neue Ausrüstung kaufen, Upgrades vornehmen oder Cyberware
-implantieren lassen**. Modul 5 listet Preise und Verfügbarkeiten vieler Gegenstände. Hier fassen wir
+implantieren lassen**. Modul 5 listet Preise und Verfügbarkeiten vieler Gegenstände. Hier fassen wir
 die wichtigsten Punkte zusammen:
 
 - **Einkauf:** Euer HQ verfügt über eine Ausrüstungskammer und Verbindungen in alle Zeiten. Zwischen
 den Einsätzen könnt ihr **Shoppen** gehen. Jede Epoche hat ihre Waren, aber dank Zeittransit könnt
 ihr vieles ins HQ holen. Der Einkauf läuft über das CU-Konto: von alltäglichen Dingen oder einfachen
-historischen Waffen (zweistellige CUs, z.B. moderner Revolver ~50 CU) bis zu hochwertiger Ausrüstung
-(Körperschutz, seltene Antiquitäten 100–200 CU). Cyberware ist besonders teuer – ein einfaches
-verbessertes Augenimplantat kostet ~300 CU. Informationen haben ebenfalls ihren Preis (detaillierter
-Epochen-Report: ~100 CU; Schwarzmarkt-Info je nach Risiko 30–100 CU). Selbst Luxus im HQ kann man
-kaufen (bessere Unterkunft ~200 CU, spezielle Dienste etc.). Die SL teilt euch mit, was nach einer
+historischen Waffen (zweistellige CUs, z.B. moderner Revolver ~50 CU) bis zu hochwertiger Ausrüstung
+(Körperschutz, seltene Antiquitäten 100–200 CU). Cyberware ist besonders teuer – ein einfaches
+verbessertes Augenimplantat kostet ~300 CU. Informationen haben ebenfalls ihren Preis (detaillierter
+Epochen-Report: ~100 CU; Schwarzmarkt-Info je nach Risiko 30–100 CU). Selbst Luxus im HQ kann man
+kaufen (bessere Unterkunft ~200 CU, spezielle Dienste etc.). Die SL teilt euch mit, was nach einer
 Mission verdient wurde, und ihr dürft es frei ausgeben. Ein Einkauf wird idealerweise **erzählerisch
 ausgespielt** (Handelsszenen im HQ oder per Versorgungsanfrage an das ITI). Die KI-Spielleitung kann
 hier z.B. einen Quartiermeister-Dialog improvisieren.
@@ -736,7 +736,7 @@ dann eben andere Probleme mit roher Gewalt lösen muss). Wichtig ist, dass **all
 sich ihre Figur nützlich fühlt.
 - **Teamleiter und Zusammenhalt:** Überlegt, ob euer Team einen **Anführer** hat oder ob
 Entscheidungen demokratisch getroffen werden. Ein Charakter mit hohem CHA und Diplomatie anbietet
-sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Codex
+sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Codex
 (KI) gibt zwar Missionsziele vor, mischt sich aber nicht in eure interne Hierarchie ein. Im Spiel
 sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, der Sniper snipen, der
 Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**

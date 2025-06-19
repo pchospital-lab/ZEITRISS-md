@@ -100,7 +100,7 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Mission
 sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
 [`RiftSeedTable`](kreative-generatoren.md#temporale-anomalien-generator-optional)
 gewürfelt werden und stets Anomalien enthalten. Steigt der
-Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
+Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
 `launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
@@ -116,7 +116,7 @@ Core-Generator zurückkehren.
 |4|1 s Zeitstillstand|"Riss-Vorstufe"-Flag|
 |**5**|–|**ClusterCreate()** → 1–2 Seeds; Paradox = 0|
 
-Der Index wird kampagnenweit verfolgt. Bei Stufe 5 entstehen automatisch neue
+Der Index wird kampagnenweit verfolgt. Bei Stufe 5 entstehen automatisch neue
 Rift-Seeds.
 
 #### Cluster-Erzeugung
@@ -449,9 +449,9 @@ repräsentieren eingespielte Taktiken oder besondere Ausrüstung und werden im H
 - **Datenverbund** – dauerhafte Vernetzung, +1 auf koordinierte Aktionen.
 - **Kampfverbund** – +1 auf Angriff und Abwehr, einmal pro Kampf einen Gegner gemeinsam ausschalten.
 - **Fahrzeug-Crew** – +2 auf Fahrzeugwürfe, solange ein Mitglied unterstützt.
-- **Feldklinik** – nach Gefechten regeneriert jeder zusätzlich 1 Treffer.
+- **Feldklinik** – nach Gefechten regeneriert jeder zusätzlich 1 Treffer.
 - **Geistertruppe** – Vorteil bei Infiltrationen und Sabotage.
-- **Ballistische Optik 2.0** – +1 Erfolg auf Distanz von vorbereiteter Position.
+- **Ballistische Optik 2.0** – +1 Erfolg auf Distanz von vorbereiteter Position.
 - **Ricochet Tag** – markiert ein Ziel per Abpraller; der nächste Schuss ignoriert Telekinese-Deckung.
 
 Ein Perk kostet meist Ressourcen oder Training. Aktiv sein sollte immer nur ein Bonus gleichzeitig.
@@ -741,7 +741,7 @@ POST /gpt/getCronopoliPopulation
 | Kategorie             | Nutzen                                   | Preis    | Paradox-Risiko             |
 | --------------------- | ---------------------------------------- | -------- | -------------------------- |
 | **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | +1 PP bei Erstflug         |
-| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | +1 PP bei öffentl. Nutzung |
+| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | +1 PP bei öffentl. Nutzung |
 | **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
 | **Shard Exchange**    | 5 Shards → 500 CU                        | —        | 0                          |
 

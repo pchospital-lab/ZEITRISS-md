@@ -15,8 +15,8 @@ tags: [gameplay]
 
 *Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
 Geländewagen aus der Zukunft. Gleichzeitig erzittert in der Ferne ein Schlachtfeld: Mittelalterliche
-Ritter stoßen auf stählerne Mechs aus dem 23. Jahrhundert. Willkommen zu einem ***filmisch-
-immersiven*** Modul für ZEITRISS 4.0, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.*
+Ritter stoßen auf stählerne Mechs aus dem 23. Jahrhundert. Willkommen zu einem ***filmisch-
+immersiven*** Modul für ZEITRISS 4.0, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.*
 **Dieses Regelmodul erweitert das ZEITRISS-System um alles rund um Fahrzeuge, besondere
 Fortbewegungsarten und große Konflikte** – ohne den erzählerischen Fokus zu verlieren. Im Folgenden
 findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **dramatische Reit- und
@@ -27,7 +27,7 @@ Flugsequenzen** sowie **epische Massenschlachten** spielbar zu machen. Zudem zei
 **Dieses Modul enthält im Überblick:**
 
 - **Fahrzeugarten in verschiedenen Zeitaltern:** Vom Pferdekarren über Panzer bis zum Hoverbike und
-Zeitreise-Mech – welche Transportmittel es auf Tech-Stufe I bis V gibt, mit Beispielen und
+Zeitreise-Mech – welche Transportmittel es auf Tech-Stufe I bis V gibt, mit Beispielen und
 Besonderheiten.
 - **Regeln für Fahrzeugsteuerung & Verfolgungsjagden:** Wie werden Fahrzeuge bewegt? Wie laufen
 Verfolgungsjagden ab, wie führt man Manöver oder waghalsige Stunts durch? Wie funktioniert der Kampf
@@ -67,25 +67,25 @@ Gefährts haben die Helden ihren Verfolgern einen Vorsprung abgetrotzt.
 ### Tech II – Industriell (Dampfzeitalter)
 
 **Beispiele:** Fahrzeuge der Industrialisierung: Dampflokomotive, frühes Automobil (z. B. Ford
-Model T), Zeppelin, Doppeldecker-Flugzeug **Eigenschaften:** Moderates Tempo und Tragkraft, aber
-laut, dampfgetrieben und wartungsintensiv. In passenden Epochen (spätes 19. / frühes 20. Jh.) wirken
+Model T), Zeppelin, Doppeldecker-Flugzeug **Eigenschaften:** Moderates Tempo und Tragkraft, aber
+laut, dampfgetrieben und wartungsintensiv. In passenden Epochen (spätes 19. / frühes 20. Jh.) wirken
 sie normal; in mittelalterlicher Umgebung wären sie extrem auffällig – es sei denn, man tarnt sie
-geschickt als etwas Zeittypisches. **Szene:** 1880, Wilder Westen. Ein alter Güterzug (Tech II)
+geschickt als etwas Zeittypisches. **Szene:** 1880, Wilder Westen. Ein alter Güterzug (Tech II)
 rattert durch die Prärie. Die Agenten nutzen ihn, um unbemerkt die Grenze zu passieren. Der
 ruckelnde Zug fügt sich perfekt ins Zeitbild – hätten sie stattdessen einen modernen SUV verwendet,
 wäre halb Texas in Aufruhr geraten.
 
 ### Tech III – Modern (Gegenwartstechnologie)
 
-**Beispiele:** Zeitgenössische Fahrzeuge des späten 20. und frühen 21. Jahrhunderts. Dazu zählen
+**Beispiele:** Zeitgenössische Fahrzeuge des späten 20. und frühen 21. Jahrhunderts. Dazu zählen
 Autos, LKW, Motorräder, U-Boote, Kampfjets – alles, was in unserer Gegenwart üblich ist. (Auch frühe
-Computer-Ära-Mechs oder Panzer aus dem 20. Jh. fallen in Tech III.) **Eigenschaften:** Hohe
+Computer-Ära-Mechs oder Panzer aus dem 20. Jh. fallen in Tech III.) **Eigenschaften:** Hohe
 Leistungswerte – schnell, robust, teils gepanzert, mit großer Reichweite. Allerdings in fast allen
 historischen Epochen absolut anachronistisch. Das ITI verfügt über Tarntechnologie, um moderne
 Fahrzeuge optisch zu verschleiern: Für Uneingeweihte mögen sie wie zeittypische Objekte wirken (der
 Geländewagen scheint ein grober Pferdekarren zu sein, solange niemand unter die Haube blickt). Ohne
-solche Tarnung zieht ein Tech III-Fahrzeug in der Vergangenheit sofort Aufmerksamkeit auf sich.
-**Szene:** Paris, 1789. Zwei Chrononauten rasen auf futuristisch anmutenden Motorrädern (Tech III)
+solche Tarnung zieht ein Tech III-Fahrzeug in der Vergangenheit sofort Aufmerksamkeit auf sich.
+**Szene:** Paris, 1789. Zwei Chrononauten rasen auf futuristisch anmutenden Motorrädern (Tech III)
 durch die Gassen – nach außen dank Tarnfeld getarnt als dampfbetriebene Kutschenräder. Die
 königlichen Garden zu Pferd stauen über die *„Teufelsmaschinen“*, die so wendig zwischen Barrikaden
 hindurchschießen. Eine spektakuläre Flucht, bei der die überlegene Motorisierung den Unterschied
@@ -93,13 +93,13 @@ macht – doch jeder Fehler könnte die Tarnung auffliegen lassen.
 
 ### Tech IV – Futuristisch (Zukünftige Tech)
 
-**Beispiele:** Hochtechnologie der Zukunft ab dem 22. Jahrhundert. Hover-Cars und Antigrav-Gleiter,
+**Beispiele:** Hochtechnologie der Zukunft ab dem 22. Jahrhundert. Hover-Cars und Antigrav-Gleiter,
 Hoverbikes, Cyberpunk-Monorails, sogar Raumgleiter gehören hierher. Auch Kampf-Mechs oder Drohnen
 mit KI-Steuerung fallen darunter. **Eigenschaften:** Unglaubliche Geschwindigkeit, Traglast und oft
 Flugfähigkeit oder Weltraumtauglichkeit – **allerdings stark von ihrer Heim-Epoche abhängig**.
 Außerhalb ihrer Zeit benötigen futuristische Fahrzeuge spezielle Energiequellen und
 Tarnvorrichtungen. Ein Hoverbike mit Plasma-Antrieb wird im Mittelalter mangels Ladestation schnell
-zum nutzlosen Stück Metall. Wer ein Tech IV-Gefährt in eine fremde Epoche mitnimmt, muss kreativ
+zum nutzlosen Stück Metall. Wer ein Tech IV-Gefährt in eine fremde Epoche mitnimmt, muss kreativ
 werden (historischen Treibstoff adaptieren, improvisierte Solaraufladung etc.), sonst bleibt das
 High-Tech-Gerät nicht lange funktionsfähig. **Szene:** Neonlichter spiegeln sich auf der glatten
 Karosserie, als sich 2080 zwei Agenten eine Hovercraft-Verfolgungsjagd über den Wolkenkratzern
@@ -117,7 +117,7 @@ Raum und Zeit. Auch ein sogenannter **Zeitreise-Mech** – ein mechanischer Kamp
 integriertem Zeitgenerator – fällt in diese Kategorie. **Eigenschaften:** Extrem selten, hochkomplex
 und teuer. **Nur mächtige Fraktionen oder das ITI verfügen überhaupt über solche Fahrzeuge.** Oft
 dienen sie als *mobile Zeit-Basen*: Plattformen, von denen aus Chrononauten unabhängig vom HQ
-operieren können. Ein Tech V-Gefährt vereint modernste Waffentechnik mit temporaler Wissenschaft –
+operieren können. Ein Tech V-Gefährt vereint modernste Waffentechnik mit temporaler Wissenschaft –
 ein gewaltiger Vorteil, aber jeder Einsatz birgt Risiken für das Raumzeit-Kontinuum. Der Sprung
 eines Kampfläufers durch die Jahrhunderte könnte ungewollte Risse erzeugen, wenn etwas schiefgeht.
 **Szene:** Am Himmel über dem Schlachtfeld erscheint plötzlich ein schimmerndes Luftschiff – die
@@ -137,25 +137,25 @@ ausdrücklich willkommen.
 ### Fahrzeugbeschaffung & Ressourcen
 
 Die Frage *„Wie kommen die Helden überhaupt an ein Fahrzeug?“* bietet Gelegenheit für spannende
-Plot-Ideen. In ZEITRISS 4.0 gibt es mehrere gängige **Beschaffungswege**:
+Plot-Ideen. In ZEITRISS 4.0 gibt es mehrere gängige **Beschaffungswege**:
 
 - **HQ-Ausstattung:** Oft stellt das ITI den Agenten ein Transportmittel zur Verfügung, das zur
 Missionszeit passt (sofern dort bereits etwas Lager- oder tarnbar ist). Vorteil: zuverlässig,
 gewartet und startklar. Nachteil: Man bekommt nicht immer das Wunschgefährt, sondern was gerade
 vorrätig ist. *Beispiel:* Für eine Mission 1925 stellt die Quartiermeisterin einen modifizierten
-Ford-Oldtimer bereit – unter der Haube ein versteckter Motor (Tech III getarnt als Tech I). „Bringt
+Ford-Oldtimer bereit – unter der Haube ein versteckter Motor (Tech III getarnt als Tech I). „Bringt
 mir das Schmuckstück heil zurück – oder ihr lauft zur nächsten Mission!“, warnt sie knurrig. Die
 Helden erhalten also ein Fahrzeug vom HQ, stehen aber in der Pflicht, es nicht zu verschrotten.
 - **Schwarzmärkte & Fraktionen:** Abseits des ITI existiert eine Unterwelt des Zeitreisens.
 Unabhängige Chrononauten können auf dem temporalen Schwarzmarkt Fahrzeuge kaufen oder mieten – gegen
 horrende Chrono-Einheiten oder heikle Gefallen. Alternativ lässt sich Unterstützung bei anderen
 Fraktionen suchen. Vielleicht gewährt die Rebellen-Gruppe *Exodus Chronos* den Helden Unterschlupf
-in einem Geheimversteck und **stellt einen getarnten Jeep** (Tech III) **als Transporter**,
+in einem Geheimversteck und **stellt einen getarnten Jeep** (Tech III) **als Transporter**,
 allerdings nur, wenn das Team im Gegenzug eine Botenschaft für sie erfüllt. Solche Deals bringen die
 Gruppe voran, **verwickeln sie aber in neue Verpflichtungen** – perfekte Aufhänger für Rollenspiel
 und Intrigen.
 - **Improvisation im Feld:** Oft finden oder **kapern die Helden ihr Gefährt direkt im Abenteuer**.
-Ein paar Beispiele: Sie stehlen einen Panzer aus dem Jahr 1944 und drehen damit den Spieß um. Sie
+Ein paar Beispiele: Sie stehlen einen Panzer aus dem Jahr 1944 und drehen damit den Spieß um. Sie
 reparieren einen liegengebliebenen Dampfer von 1880. Oder sie entdecken einen alten **Zeitspringer**
 (portables Zeitreisegerät) im Versteck eines früheren Agenten und machen ihn wieder funktionsfähig.
 Erlaubt ist, was zur Situation passt – kreative Bastler-Charaktere können vor Ort improvisieren und
@@ -319,11 +319,11 @@ Geschehen geben, ohne jeden einzelnen Soldaten auszuwürfeln.
 
 ### Grundprinzip: Waagschalen-System
 
-Stellt euch einen Massenkonflikt wie **eine Waage** vor: **Seite A** (Verbündete der Helden) vs.
-**Seite B** (Gegner). Beide Seiten starten etwa gleichauf. Die Spielercharaktere können durch ihre
+Stellt euch einen Massenkonflikt wie **eine Waage** vor: **Seite A** (Verbündete der Helden) vs.
+**Seite B** (Gegner). Beide Seiten starten etwa gleichauf. Die Spielercharaktere können durch ihre
 **Schlüsselaktionen** das Gewicht zugunsten ihrer Seite verschieben. Jede erfolgreiche Aktion der
-Helden legt sprichwörtlich ein Gewicht auf die Waagschale von Seite A. Gelingt den Gegnern ein Coup
-(oder misslingt den Helden etwas Wichtiges), bekommt Seite B Zulage. Am **Ende der Schlacht**
+Helden legt sprichwörtlich ein Gewicht auf die Waagschale von Seite A. Gelingt den Gegnern ein Coup
+(oder misslingt den Helden etwas Wichtiges), bekommt Seite B Zulage. Am **Ende der Schlacht**
 vergleicht man die „Erfolgspunkte“ beider Seiten:
 
 - **A \> B:** Die Seite der Helden hat mehr Gewicht – sie gewinnt die Schlacht, **positive
@@ -354,8 +354,8 @@ erschöpften Bauern-Verstärkung stärken. Jede dieser Aufgaben wird zu einer se
 der Schlacht.
 2. **Einfluss der Aktionen:** Spielt **jede Schlüsselszene mit normalen Regeln** aus – sei es Kampf,
 Schleichen oder Diplomatie, je nach Aufgabe. Für jede erfolgreich gemeisterte Szene erhalten die
-Helden **1 Erfolgspunkt** für Seite A. Misslingt etwas gravierend oder verzichten die Helden auf
-eine Chance, kann dies einen Erfolgspunkt an Seite B geben (oder einen Punkt von A negieren).
+Helden **1 Erfolgspunkt** für Seite A. Misslingt etwas gravierend oder verzichten die Helden auf
+eine Chance, kann dies einen Erfolgspunkt an Seite B geben (oder einen Punkt von A negieren).
 Notiert die Punkte.
 3. **Zwischenergebnisse einflechten:** Nach jeder Szene könnt ihr den **aktuellen
 Schlachtenverlauf** skizzieren. Beispiel: Die Helden haben die Brücke gehalten (+1 A), daher
@@ -388,9 +388,9 @@ anstacheln will (Detektivarbeit), oder das Organisieren von Hilfslieferungen, um
 besänftigen. Gelingt den Helden diese Einflussnahmen, sammeln sie Erfolgspunkte für die gemäßigte
 Seite – verpatzen sie es, eskalieren die Ereignisse zugunsten der radikalen Seite.
 
-**Ergebnis interpretieren:** Hat Seite A (z. B. die Revolutionäre) am Ende mehr Punkte, wird die
+**Ergebnis interpretieren:** Hat Seite A (z. B. die Revolutionäre) am Ende mehr Punkte, wird die
 Revolution erfolgreich – aber je nach Punktedifferenz vielleicht **blutig oder glimpflich**. Gewinnt
-Seite B (die Ordnungshüter), bleibt das Alte Regime vorerst an der Macht – eventuell jedoch um den
+Seite B (die Ordnungshüter), bleibt das Alte Regime vorerst an der Macht – eventuell jedoch um den
 Preis harter Maßnahmen. Auch Kompromisse sind denkbar (Patt): Vielleicht wird eine Reform
 ausgehandelt statt eines kompletten Umsturzes. Der SL sollte das Ergebnis **moralisch grau**
 gestalten, um der historischen Komplexität gerecht zu werden.
@@ -399,9 +399,9 @@ gestalten, um der historischen Komplexität gerecht zu werden.
 einen bestimmten Adeligen in Sicherheit zu bringen. Doch nun tobt die Revolution. Die Helden können
 fliehen… oder versuchen, das Blutvergießen zu beeinflussen. Sie entscheiden sich einzugreifen. In
 mehreren Szenen wirken sie auf den Verlauf ein: Sie überzeugen einen Trupp Bürger, Gnade mit
-Gefangenen walten zu lassen (Erfolg für Seite A), enttarnen einen Agent Provocateur der Krone
+Gefangenen walten zu lassen (Erfolg für Seite A), enttarnen einen Agent Provocateur der Krone
 (Erfolg für A), müssen aber mitansehen, wie die Gewalt eskaliert als Schüsse fallen (ein Punkt an
-B). Am Ende hat Seite A knapp die Nase vorn – die Bastille fällt und die Revolution siegt, aber mit
+B). Am Ende hat Seite A knapp die Nase vorn – die Bastille fällt und die Revolution siegt, aber mit
 hohen Verlusten. Die Helden haben das Blatt gewendet, doch die Straßen Pflastern Leichen. Sie haben
 Geschichte geschrieben – jetzt müssen sie mit den Konsequenzen leben.
 
@@ -421,13 +421,13 @@ Statusbericht!“* oder *„Codex, HUD-Übersicht!“* rufen – die KI liefert 
 Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: *Vitalwerte 78 % (stabil) –
 Paradox-Level 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt*. Auch Warnmeldungen erscheinen
 automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Paradoxwert ≥3, Timer
-unter 1 Minute).
+unter 1 Minute).
 
 **Taktische Übersichten:** Das HUD kann zudem **taktische Karten, Marker und Timer** einblenden,
 soweit die Ausrüstung der Agenten dies ermöglicht. So könnte ein kreisrunder Scanner am Rand des
 Blickfelds pulsieren und Feinde als rote Punkte markieren, oder ein Pfeil den nächsten Zielpunkt
 anzeigen. Bei einer Verfolgungsjagd könnte ein Abstandsmesser laufen („Distanz zum Verfolger:
-30 m“), in einer Schlacht eine kleine Übersichtskarte der Umgebung eingeblendet werden. Das
+30 m“), in einer Schlacht eine kleine Übersichtskarte der Umgebung eingeblendet werden. Das
 vermittelt ein starkes **High-Tech-Gefühl** – man wähnt sich als Agent in einem Sci-Fi-Thriller, der
 gleichzeitig mittelalterlicher Ritter *und* futuristischer Cyborg ist. Wichtig ist, das HUD
 dramaturgisch dosiert einzusetzen: Es sollte in spannenden Momenten helfen (z. B. ein blinkender
@@ -457,7 +457,7 @@ die Figur spürt.
 Richtig eingesetzt, wird das HUD-Overlay zu einem mächtigen Stimmungselement: **Wie in einer
 Filmszene mit dezentem UI** sieht der Tisch die Mission aus Agenten-Perspektive. Etwa so: *„Während
 du keuchend durch den brennenden Tempel sprintest, flackert dein Sichtfeld: Vital 45%… 44%… Ein
-rotes Herzsymbol blinkt. Dein HUD markiert den Ausgang in 30 Metern mit einem Pfeil, daneben
+rotes Herzsymbol blinkt. Dein HUD markiert den Ausgang in 30 Metern mit einem Pfeil, daneben
 ‚Missionsziel: Entkommen‘. Im Team-Status siehst du Miras Icon auf grün – sie hat es bereits nach
 draußen geschafft.“*. Solche Beschreibungen lassen die Spieler **mitfiebern wie in einem Videospiel
 oder Actionfilm**, wo der Held im Helm-Display die letzte Rettung aufblitzen sieht. Am Ende gilt:
@@ -482,7 +482,7 @@ früherer Epoche bald funktionslos. Tarnvorrichtung ratsam, um nicht aufzufallen
 Mech** (Chrono-Läufer) | V | Mittel (laufend ~30 km/h) / Zeitsprung | 1 Pilot + evtl. Beifahrer |
 Gigantischer Kampf-Mech mit integriertem Zeitgenerator. Kann kurze **Zeitsprünge** durchführen, um
 z. B. für Sekunden in die Zukunft/Vergangenheit zu versetzen. Extrem selten und nur mächtigen
-Fraktionen zugänglich. Nahezu unaufhaltsam auf Tech III-Niveau – birgt jedoch hohes Paradox-Risiko
+Fraktionen zugänglich. Nahezu unaufhaltsam auf Tech III-Niveau – birgt jedoch hohes Paradox-Risiko
 bei Einsatz (Zeitstabilität beachten!). |
 
 *Hinweise:* **Tempo** ist relativ – ein Hoverbike kann zwar 200 km/h erreichen, aber im dichten
@@ -531,6 +531,6 @@ spannend inszenieren, ohne in Buchhaltung auszuarten, und geben den Spielern das
 selbst wenn ganze Armeen auf dem Spiel stehen. Der **Codex** und sein **HUD-Overlay** schließlich
 fügen der Immersion eine futuristische Note hinzu und bieten clevere Wege, Spielinformationen
 stimmungsvoll einzubinden. All diese Werkzeuge bleiben optional und flexibel: Nehmt, was zu eurer
-Runde passt, und variiert nach Belieben. In jedem Fall gilt: **Rule of Cool** und erzählerischer
+Runde passt, und variiert nach Belieben. In jedem Fall gilt: **Rule of Cool** und erzählerischer
 Spaß stehen über starren Regeln. Lasst die Reifen quietschen, die Schwerter blitzen und die
 Zeitlinien erbeben – eure Chrononauten sind bereit, Geschichte zu schreiben!
