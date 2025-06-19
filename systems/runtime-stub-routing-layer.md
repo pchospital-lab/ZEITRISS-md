@@ -194,6 +194,38 @@ function cmdRest() {
 }
 ```
 
+## 6a | ARENA-SIMULATION – Paradox-Reset-Logik
+
+```typescript
+const ARENA_FEE = 250;               // CU-Kosten pro Start
+// Szenen-Generator laeuft auf eurer lokalen "mygpt"-Instanz.
+function startArena() {
+  if (state.currency < ARENA_FEE) {
+    return writeLine("Not enough CU for Arena run.");
+  }
+  state.currency -= ARENA_FEE;
+  state.arena = { active: true, success: 0 };
+  autoSave();
+  writeLine("Arena initiated. Good luck!");
+}
+
+function arenaSceneWon() {
+  if (state.arena?.active) {
+    state.arena.success++;
+  }
+}
+
+function exitArena() {
+  if (!state.arena?.active) return;
+  if (state.arena.success >= 5) {
+    state.paradox_level = 0;         // Reset nach fünf erfolgreichen Szenen
+  }
+  state.arena = { active: false, success: 0 };
+  autoSave();
+  writeLine("Arena run ended.");
+}
+```
+
 ---
 
 ## 7 | AUTO-SAVE HELPER

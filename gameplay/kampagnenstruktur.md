@@ -634,11 +634,12 @@ den Eindruck einer futuristischen Spielhalle. Im Unterschied zu den chaotischen
 Real-Rifts behält der Codex hier jederzeit die volle Kontrolle und führt als
 Moderator durch jede Runde.
 
-1. **Rift-Start:** Die Teilnehmenden werden unmittelbar in eine virtuelle Rift
-   geworfen. Die Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder
-   Contra spielt. Enthält ein geladener Gruppen-Spielstand beide Seiten, kann
-   ein freiwilliges PvP-Duell ausgetragen werden. Verdiente Rufpunkte zählen wie
-   im realen Einsatz.
+1. **Rift-Start:** Der Eintritt in die Arena kostet eine spürbare Menge **CU**.
+   Die Teilnehmenden werden unmittelbar in eine virtuelle Rift geworfen. Die
+   Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder Contra spielt.
+   Enthält ein geladener Gruppen-Spielstand beide Seiten, kann ein freiwilliges
+   PvP-Duell ausgetragen werden. Verdiente Rufpunkte zählen wie im realen
+   Einsatz.
 2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Sequenzen innerhalb
    der virtuellen Rift. Historische Missionen entfallen; stattdessen kämpft die
    Gruppe gegen simulierte Bedrohungen oder löst kurze Aufgaben.
@@ -656,8 +657,11 @@ Moderator durch jede Runde.
    Multiplikator.
 6. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
    dahin erworbenen Werte verfallen.
-7. **Paradox-Reset:** Wer mindestens fünf Missionen hintereinander erfolgreich
-   absolviert und anschließend aussteigt, setzt sein Paradox-Level auf **0**.
+7. **Paradox-Reset:** Wer mindestens fünf **Szenen** in Folge meistert und
+   anschließend freiwillig aussteigt, setzt sein Paradox-Level einmalig auf
+   **0**. Ein erneuter Reset ist erst nach weiteren fünf Erfolgen möglich.
+8. **Gebühr pro Lauf:** Für jeden neuen Arenadurchgang wird die volle
+   CU-Gebühr erneut fällig.
 
 Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
 sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
