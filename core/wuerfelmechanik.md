@@ -381,6 +381,18 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 4 | Kurz-Echo (1 s Nachzieher) |
 | 5 | ClusterCreate() im HQ |
 
+### Seed-Counter im HUD
+
+Sobald Paradox-Level **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an. Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
+
+| Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
+| ------------ | ---------------- | -------------- |
+| 0 | 0 | 1.0 |
+| 1 | +1 | 1.2 |
+| 2 | +2 | 1.4 |
+
+*Im HUD erscheint z.B. `[Seeds 1 | Para 5]`.*
+
 ### Standard-Ausrüstungsslots
 
 - 1 Hauptwaffe
