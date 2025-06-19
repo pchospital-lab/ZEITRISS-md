@@ -6,11 +6,13 @@ tags: [gameplay]
 
 # ZEITRISS 4.0 – Modul 8: **Kreative Generatoren**
 ## Inhalt
+- Automatischer Mission Seed: Sofort-Briefing
+- Missionstabellen für den Core- & Rift-Loop
+- Missions-Generator: Kleine Aufträge und Dilemmata
+- Arc-Generator: Große Missionen
+- Historische Wendepunkte-Generator: Auslöser und Folgen
 - Random-Epochen-Generator: Wann und wo?
 - NSC-Generator: Begegnungen im Zeitstrom
-- Missions-Generator: Kleine Aufträge und Dilemmata
-- Automatischer Mission Seed: Sofort-Briefing
-- Historische Wendepunkte-Generator: Auslöser und Folgen
 - Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
@@ -66,6 +68,61 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
 Bei Missionsbeginn notiert sich die SL den Twist.
 In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`,
 der die Wendung andeutet.
+
+Die folgenden Tabellen speisen den Core- und Rift-Loop mit Missionszielen.
+## Missionstabellen für den Core- & Rift-Loop
+
+Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
+
+```json
+{
+  "CoreObjectiveTable": [
+    "Sabotage feindlicher Kommunikationsknoten",
+    "Bergung gestohlener Forschung",
+    "Sicherung eines Informanten",
+    "Vernichtung illegaler ChronTech-Prototypen",
+    "Infiltration einer gegnerischen Basis",
+    "Befreiung einer gefangenen Agentin",
+    "Datenraub aus Hochsicherheitsserver",
+    "Unterwanderung einer Historiker-Tagung",
+    "Abfangen einer geheimen Lieferung",
+    "Neutralisierung eines abtrünnigen Chrononauten"
+  ]
+}
+```
+
+```json
+{
+  "RiftSeedTable": [
+    {"d24":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
+    {"d24":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
+    {"d24":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
+    {"d24":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
+    {"d24":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
+    {"d24":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
+    {"d24":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
+    {"d24":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
+    {"d24":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
+    {"d24":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"},
+    {"d24":11, "Seed":"Nightcrawler", "Hook":"CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"},
+    {"d24":12, "Seed":"Sasquatch im Yukon", "Hook":"Bestie greift Trapper an – Fährte verfolgen"},
+    {"d24":13, "Seed":"Mothman-Sichtung", "Hook":"Unheil über Brücke – Absturz bergen"},
+    {"d24":14, "Seed":"Blutorden", "Hook":"Opfer blutleer – Kult zerschlagen"},
+    {"d24":15, "Seed":"Diablos Katakomben", "Hook":"Dämonische Schreie – Artefakt zerstören"},
+    {"d24":16, "Seed":"Feuerengel", "Hook":"Flammender Cherub – Drohne bergen"},
+    {"d24":17, "Seed":"Totenbrücke", "Hook":"Bus erstarrt 15 min – Zeitfeld neutralisieren"},
+    {"d24":18, "Seed":"Schrecken Whitehall", "Hook":"Löwe springt – Parkourjagd"},
+    {"d24":19, "Seed":"Night Train 666 (Paranormal)", "Hook":"Geisterzug – Zug entern"},
+    {"d24":20, "Seed":"Emerald Kraken (Paranormal)", "Hook":"Grüne Tentakel – Taucheinsatz"},
+    {"d24":21, "Seed":"Militärischer Komplex", "Hook":"Tollwutvirus-Zombies eindämmen"},
+    {"d24":22, "Seed":"Mittelalterliche Katakomben", "Hook":"Der falsche Teufel – Illusion enttarnen"},
+    {"d24":23, "Seed":"Altes Schloss", "Hook":"Vampir-Experiment beenden"},
+    {"d24":24, "Seed":"Geheime Tiefsee-Megacity", "Hook":"Ursprung des \"Blob\" stoppen"}
+  ]
+}
+```
+
+
 
 ## Random-Epochen-Generator: Wann und wo?
 
@@ -214,7 +271,7 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
   2. An einem **Königshof** oder Regierungssitz.
   3. In einer **kleinen Ortschaft** oder Wildnis.
   4. In einem **Forschungslabor** oder einer Werkstatt.
-  5. In einer **anderen Dimension oder Traumzeit** (jenseits der normalen Zeit).
+  5. In einer **abgeschirmten Nullzone** fernab der regulären Zeit.
   6. Während eines bedeutenden **historischen Ereignisses** (Krönung, Attentat, Naturkatastrophe…).
 
 - **Twist/Dilemma:**
@@ -277,59 +334,6 @@ Schmetterlingseffekt ein, der den Helden zugutekommt.)
 größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
 eines neuen Abenteuers, das auf sie wartet.
 
-## Missionstabellen für den Core- & Rift-Loop
-
-Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
-
-```json
-{
-  "CoreObjectiveTable": [
-    "Sabotage feindlicher Kommunikationsknoten",
-    "Bergung gestohlener Forschung",
-    "Sicherung eines Informanten",
-    "Vernichtung illegaler ChronTech-Prototypen",
-    "Infiltration einer gegnerischen Basis",
-    "Befreiung einer gefangenen Agentin",
-    "Datenraub aus Hochsicherheitsserver",
-    "Unterwanderung einer Historiker-Tagung",
-    "Abfangen einer geheimen Lieferung",
-    "Neutralisierung eines abtrünnigen Chrononauten"
-  ]
-}
-```
-
-```json
-{
-  "RiftSeedTable": [
-    {"d24":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
-    {"d24":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
-    {"d24":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
-    {"d24":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
-    {"d24":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
-    {"d24":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
-    {"d24":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
-    {"d24":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
-    {"d24":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
-    {"d24":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"},
-    {"d24":11, "Seed":"Nightcrawler", "Hook":"CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"},
-    {"d24":12, "Seed":"Sasquatch im Yukon", "Hook":"Bestie greift Trapper an – Fährte verfolgen"},
-    {"d24":13, "Seed":"Mothman-Sichtung", "Hook":"Unheil über Brücke – Absturz bergen"},
-    {"d24":14, "Seed":"Blutorden", "Hook":"Opfer blutleer – Kult zerschlagen"},
-    {"d24":15, "Seed":"Diablos Katakomben", "Hook":"Dämonische Schreie – Artefakt zerstören"},
-    {"d24":16, "Seed":"Feuerengel", "Hook":"Flammender Cherub – Drohne bergen"},
-    {"d24":17, "Seed":"Totenbrücke", "Hook":"Bus erstarrt 15 min – Zeitfeld neutralisieren"},
-    {"d24":18, "Seed":"Schrecken Whitehall", "Hook":"Löwe springt – Parkourjagd"},
-    {"d24":19, "Seed":"Night Train 666 (Paranormal)", "Hook":"Geisterzug – Zug entern"},
-    {"d24":20, "Seed":"Emerald Kraken (Paranormal)", "Hook":"Grüne Tentakel – Taucheinsatz"},
-    {"d24":21, "Seed":"Militärischer Komplex", "Hook":"Tollwutvirus-Zombies eindämmen"},
-    {"d24":22, "Seed":"Mittelalterliche Katakomben", "Hook":"Der falsche Teufel – Illusion enttarnen"},
-    {"d24":23, "Seed":"Altes Schloss", "Hook":"Vampir-Experiment beenden"},
-    {"d24":24, "Seed":"Geheime Tiefsee-Megacity", "Hook":"Ursprung des \"Blob\" stoppen"}
-  ]
-}
-```
-
-
 ## Arc-Generator: Große Missionen
 
 Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
@@ -343,7 +347,7 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   3. Ein außer Kontrolle geratenes Experiment droht die Realität zu zerreißen.
   4. Ein verstecktes Alienvolk plant, die Menschheit aus der Geschichte zu löschen.
   5. Ein rivalisierendes Zeitreise-Team sabotiert gezielt die Einsätze der Helden.
-  6. Die Zeit selbst kollabiert in einer Region und verschlingt ganze Epochen.
+  6. Ein fehlgeschlagenes Zeitexperiment reißt ganze Regionen aus der Realität.
 
 - **Schlüsselort:**
 
