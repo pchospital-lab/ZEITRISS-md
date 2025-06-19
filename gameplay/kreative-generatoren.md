@@ -301,62 +301,34 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 ```json
 {
   "RiftSeedTable": [
-    {"d10":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
-    {"d10":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
-    {"d10":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
-    {"d10":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
-    {"d10":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
-    {"d10":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
-    {"d10":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
-    {"d10":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
-    {"d10":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
-    {"d10":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"}
+    {"d24":1, "Seed":"Feuerengel von Breslau", "Hook":"Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"},
+    {"d24":2, "Seed":"Totenbrücke Chongqing", "Hook":"Zeitfeld-Bus – Entschärfung im Verkehrsstau"},
+    {"d24":3, "Seed":"Schrecken von Whitehall", "Hook":"Statue springt – Rooftop-Chase, Magnet-Harpoon"},
+    {"d24":4, "Seed":"Night Train 666", "Hook":"Führerloser Güterzug – Boarding & Blackbox"},
+    {"d24":5, "Seed":"Mirage Over Sinai", "Hook":"Phantom-Bomber – Luftkampf, Quellcode hacken"},
+    {"d24":6, "Seed":"Wolfsplage Dacia", "Hook":"Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"},
+    {"d24":7, "Seed":"Project Götterdämmerung", "Hook":"Polar-Laser – Stealth-Sabotage Arctic Station"},
+    {"d24":8, "Seed":"Black Rain Vienna", "Hook":"Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"},
+    {"d24":9, "Seed":"Emerald Kraken", "Hook":"Tiefsee-Mech – Taucheinsatz, EMP-Minen"},
+    {"d24":10, "Seed":"Mars-Log #404", "Hook":"Habitat-Shift – EVA-Mission, Quanten-Key zurück"},
+    {"d24":11, "Seed":"Nightcrawler", "Hook":"CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"},
+    {"d24":12, "Seed":"Sasquatch im Yukon", "Hook":"Bestie greift Trapper an – Fährte verfolgen"},
+    {"d24":13, "Seed":"Mothman-Sichtung", "Hook":"Unheil über Brücke – Absturz bergen"},
+    {"d24":14, "Seed":"Blutorden", "Hook":"Opfer blutleer – Kult zerschlagen"},
+    {"d24":15, "Seed":"Diablos Katakomben", "Hook":"Dämonische Schreie – Artefakt zerstören"},
+    {"d24":16, "Seed":"Feuerengel", "Hook":"Flammender Cherub – Drohne bergen"},
+    {"d24":17, "Seed":"Totenbrücke", "Hook":"Bus erstarrt 15 min – Zeitfeld neutralisieren"},
+    {"d24":18, "Seed":"Schrecken Whitehall", "Hook":"Löwe springt – Parkourjagd"},
+    {"d24":19, "Seed":"Night Train 666 (Paranormal)", "Hook":"Geisterzug – Zug entern"},
+    {"d24":20, "Seed":"Emerald Kraken (Paranormal)", "Hook":"Grüne Tentakel – Taucheinsatz"},
+    {"d24":21, "Seed":"Militärischer Komplex", "Hook":"Tollwutvirus-Zombies eindämmen"},
+    {"d24":22, "Seed":"Mittelalterliche Katakomben", "Hook":"Der falsche Teufel – Illusion enttarnen"},
+    {"d24":23, "Seed":"Altes Schloss", "Hook":"Vampir-Experiment beenden"},
+    {"d24":24, "Seed":"Geheime Tiefsee-Megacity", "Hook":"Ursprung des \"Blob\" stoppen"}
   ]
 }
 ```
 
-### Paranormale Rift-Hooks
-
-Rifts können wie unheimliche "Urban Legends" wirken. Die folgende Tabelle liefert
-gruselige Aufhänger für Horror-Missionen. Meist steckt eine rationale Ursache
-hinter der Erscheinung – doch nicht immer.
-
-| d10 | Titel & Hook | Epoche | Ursache (rational) | Action-Pitch |
-| --- | --- | --- | --- | --- |
-| 1 | **"Nightcrawler"** – CCTV-Aufnahme | USA 1995 | Tarnanzug aus Zukunft entflohen | Beweise sichern |
-| 2 | **"Sasquatch im Yukon"** – Bestie greift Trapper an | Kanada 1898 | Gen-Experiment entkam | Fährte verfolgen |
-| 3 | **"Mothman-Sichtung"** – Unheilskunde über Brücke | USA 1966 | Defekte Aufklärungsdrohne | Absturz bergen |
-| 4 | **"Blutorden"** – Opfer blutleer in Ruine | Siebenbürgen 1462 | Nano-Virus aus Zukunft | Kult zerschlagen |
-| 5 | **"Diablos Katakomben"** – Dämonische Schreie | Navarra 1210 | Alien-Illusionsprojektor | Artefakt zerstören |
-| 6 | **"Feuerengel"** – Flammender Cherub | Breslau 1905 | Reaktordrohne notgelandet | Drohne bergen |
-| 7 | **"Totenbrücke"** – Bus erstarrt 15 min | China 2014 | Zeitfeld-Granate explodiert | Zeitfeld neutralisieren |
-| 8 | **"Schrecken Whitehall"** – Löwe springt vom Dach | London 1887 | Alien-Legierung reagiert | Parkourjagd |
-| 9 | **"Night Train 666"** – Geisterzug ohne Lokführer | USA 1952 | Fernsteuer-Chip Beta-Test | Zug entern |
-|10 | **"Emerald Kraken"** – Grüne Tentakel attackieren | Guam 1997 | Tiefsee-Mech defekt | Taucheinsatz |
-
-### Ausgefallene Rift-Szenarien
-
-1. **Militärischer Komplex – Tollwutvirus-Zombies:** In einer geheimen Anlage
-   wird ein modifiziertes Tollwutvirus getestet. Ein Ausbruch verwandelt das
-   Personal in rasende Kreaturen. Die Chrononauten sollen die Ursache finden und
-   das Virus eindämmen.
-2. **Mittelalterliche Katakomben – Der falsche Teufel:** In einem abgelegenen
-   Dorf verschwinden Menschen. Unter dem Dorf liegt ein weit verzweigtes
-   Katakombensystem, das angeblich vom Teufel bewohnt wird. Tatsächlich erzeugen
-   dort versteckte Alien-Geräte furchteinflößende Illusionen, während gezüchtete
-   Mutanten ein uraltes Geheimnis bewachen.
-3. **Altes Schloss – Vampir-Experiment:** Nächtliche Übergriffe plagen ein Dorf.
-   Ein Konzern schuf hier einst eine neue Menschenart, die Blut saugt und sich
-   per Biss verbreitet. Die Chrononauten müssen im Schloss den fanatischen
-   Bluttrinkerzirkel aufspüren und das fehlgeschlagene Experiment beenden.
-4. **Geheime Tiefsee-Megacity – Ursprung des "Blob":** Die Agenten springen zu
-   dem Zeitpunkt, als das lauteste je registrierte Geräusch aus den Tiefen des
-   Ozeans aufgezeichnet wird. Die Spur führt zu einem verborgenen
-   Terraforming-Projekt namens Second Earth, das von Schattenorganisationen
-   betrieben wird. Dort entdecken sie eine fortgeschrittene Megacity, halb unter
-   einer Kuppel, halb im Meeresboden. Schwarzer Sauerstoff dient als Atemgas,
-   während Schwarze Raucher Energie liefern. Die Atmosphäre ist für Menschen der
-   Oberwelt tödlich.
 
 ## Arc-Generator: Große Missionen
 
