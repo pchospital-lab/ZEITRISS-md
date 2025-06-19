@@ -40,7 +40,9 @@ ZEITRISS-Abenteuer bunt und lebendig zu halten!
 *Hinweis zu Visionen:* Träume oder innere Eingebungen sind **optional** und werden nur eingebaut,
 wenn die Spielrunde es ausdrücklich wünscht.
 
-Alle Tabellen gehen davon aus, dass scheinbar übernatürliche Ereignisse auf Technologie, Psi oder Zeitphänomene zurückführen sind. Ein "Teufel" im Mittelalter entpuppt sich möglicherweise als holografischer Schrecken oder als Mutant aus einer anderen Epoche. Dieses Motiv zieht sich durch alle Generatoreinträge und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
+Alle Tabellen gehen davon aus, dass scheinbar übernatürliche Ereignisse auf Technologie, Psi oder Zeitphänomene zurückführen sind.
+Ein "Teufel" im Mittelalter entpuppt sich möglicherweise als holografischer Schrecken oder als Mutant aus einer anderen Epoche.
+Dieses Motiv zieht sich durch alle Generatoreinträge und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
 
 ### Einsatz der Tabellen durch GPT
 - Sitzungsstart → Automatischer Mission Seed
@@ -545,7 +547,9 @@ Charakter für eure Story!
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 
 
-Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten. Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt. In historischen Arcs stammen diese Kreaturen aus den Legenden ihrer Zeit. Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus – reine Zeitkonstrukte mit genau einem Zeiteffekt.
+Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten. Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt.
+In historischen Arcs stammen diese Kreaturen aus den Legenden ihrer Zeit.
+Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus – reine Zeitkonstrukte mit genau einem Zeiteffekt.
 
 Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block:
 
