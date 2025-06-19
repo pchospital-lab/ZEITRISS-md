@@ -12,8 +12,8 @@ im Körper des Chrononauten integriert werden, um seine Fähigkeiten zu verbesse
 kybernetische Gliedmaßen, Sinnesverstärker, neuronale Chips u.v.m. sein. Cyberware unterliegt
 strengen Regeln im ITI: Operationen finden *nur im HQ* statt, in hochsterilen High-Tech-Kliniken –
 **niemals im Feld**. Jedes Implantat hat einen **Preis in CU** und belegt einen Teil der
-**Systemlast-Kapazität** (Attribut **SYS**) des Charakters. Faustregel: *1 SYS-Punkt ≈ 1 Standard-
-Implantat*. Hat ein Chrononaut z.B. SYS 3, kann er drei größere Implantate tragen (oder mehrere
+**Systemlast-Kapazität** (Attribut **SYS**) des Charakters. Faustregel: *1 SYS-Punkt ≈ 1 Standard-
+Implantat*. Hat ein Chrononaut z.B. SYS 3, kann er drei größere Implantate tragen (oder mehrere
 kleinere entsprechend verteilen). Zu viele Modifikationen überfordern Körper und Geist –
 Überschreitung der SYS-Kapazität lässt Implantate Fehlfunktionen zeigen oder zwingt den Körper in
 die Knie. Das ITI-Medical-Team wird solche Überschreitungen gar nicht erst zulassen. Dennoch können
@@ -48,7 +48,7 @@ nur ein Wert auf dem Bogen.
 | **Servomotoren in Beinen** | Bein-Servomotoren. *Effekt:* +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1 | 300 |
 
 *Hinweis:* In Absprache kann die SL auch Implantate mit **höheren SYS-Kosten** zulassen, die dann
-aber erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
+aber erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
 Stärke **und** –1 erlittenen Schaden gewährt). Solche umfangreichen Mods sollten teuer und nur für
 erfahrene Charaktere verfügbar sein. Zudem gilt: Mehr **Cyberware** bedeutet tendenziell weniger
 Platz für **Bioware** oder **Psionik** – jede Richtung der Verbesserung hat ihren Preis.
@@ -65,7 +65,7 @@ verstärktes Muskelgewebe nicht einfach abschalten. Daher belegen Bioware-Verbes
 **SYS-Kapazität** (analog zu Cyberware). **Systemlast** repräsentiert ja die Belastung von
 Körper/Geist durch Fremdsysteme *und* Psionik. Bioware zählt dazu: Der Körper muss mit den
 veränderten Organen leben, was auf Dauer ebenso an die Substanz geht. In der Regel zählt auch hier
-eine größere Bioware-Mod als 1 SYS. Das ITI beschränkt Bioware-Experimente aus ethischen Gründen –
+eine größere Bioware-Mod als 1 SYS. Das ITI beschränkt Bioware-Experimente aus ethischen Gründen –
 nur getestete Verbesserungen werden den Agenten angeboten, und meist erst nach einigen erfolgreichen
 Missionen, wenn das Vertrauen besteht.
 

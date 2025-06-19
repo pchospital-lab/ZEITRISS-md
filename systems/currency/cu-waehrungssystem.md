@@ -131,7 +131,7 @@ historischen Klingen über moderne Schusswaffen bis hin zu experimentellen Zukun
 verfügbar, was für Missionen gebraucht wird. Ein Agent kann sich beispielsweise mit einer römischen
 *Gladius* für einen Einsatz in der Antike eindecken oder einen energiegeladenen Plasmawerfer für
 einen Abstecher ins Jahr 2300 erwerben. Auch Schutzausrüstung wie mittelalterliche Plattenpanzer
-oder kugelsichere Westen des 21. Jahrhunderts gehören zum Sortiment. Preise sind stets in CUs
+oder kugelsichere Westen des 21. Jahrhunderts gehören zum Sortiment. Preise sind stets in CUs
 angegeben – egal, aus welcher Zeit die Ware stammt. (Eine antike Waffe mag selten sein, aber da das
 ITI darauf Zugriff hat, kostet sie vielleicht nicht mehr als ein modernes Äquivalent.)
 - **Technische Gadgets:** Neben klassischer Bewaffnung gibt es unzählige Geräte und Tools. Temporale
@@ -153,7 +153,7 @@ Körper und Geist aufrüsten, um auf zukünftigen Missionen bessere Chancen zu h
 CUs können die Chrononauten im Codex-Archiv des ITI zusätzliche **Informationen** erkaufen, die über
 das Standard-Briefing hinausgehen. Vielleicht stößt ein Archivar der Gilde *Ordo Mnemonika* gegen
 eine kleine „Spende“ die Archive auf und fördert einen entscheidenden Hinweis zutage – etwa die
-Eigenheiten des französischen Hofes im 17. Jahrhundert oder geheime Schwachstellen eines KI-
+Eigenheiten des französischen Hofes im 17. Jahrhundert oder geheime Schwachstellen eines KI-
 Tyrannen im Jahr 2200. Ebenso können erfahrene Veteranen unter den Agenten konsultiert werden: Gegen
 ein paar CUs erzählt der alte Haudegen in der Bar vielleicht von seinem vorherigen Einsatz in jener
 Epoche und gibt Tipps, die **Gold wert** sind. Sogar gezielte **Bestechungen** fallen unter diese
@@ -179,12 +179,12 @@ Chrononaut, der all seine Prämien für Oldtimer-Autos aus den 1950ern verprasst
 Um das Gesagte greifbarer zu machen, hier eine **Beispiel-Preisliste** mit typischen Angeboten im
 ITI-Hauptquartier:
 
-|  |  |  | |----|----|----| | Standard-Handfeuerwaffe (21. Jh.) | Waffe (modern) | 50 CUs | |
-Römisches Kurzschwert *Gladius* | Waffe (antik) | 50 CUs | | Taktische Kevlar-Weste | Rüstung
-(modern) | 120 CUs | | Leichtes Cyber-Augenimplantat | Implantat | 300 CUs | | Temporaler Riss-
-Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs | | Detaillierter Epoche-Report (Codex-
-Archiv) | Information (Spende) | 100 CUs | | Bestechung eines Informanten (Schwarzmarkt) |
-Information | ~30–100 CUs | | Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
+|  |  |  | |----|----|----| | Standard-Handfeuerwaffe (21. Jh.) | Waffe (modern) | 50 CUs | |
+Römisches Kurzschwert *Gladius* | Waffe (antik) | 50 CUs | | Taktische Kevlar-Weste | Rüstung
+(modern) | 120 CUs | | Leichtes Cyber-Augenimplantat | Implantat | 300 CUs | | Temporaler Riss-
+Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs | | Detaillierter Epoche-Report (Codex-
+Archiv) | Information (Spende) | 100 CUs | | Bestechung eines Informanten (Schwarzmarkt) |
+Information | ~30–100 CUs | | Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
 
 *Hinweis:* Die Kosten für inoffizielle Informationen (z.B. Bestechungen) können je nach Quelle und
 Risiko stark schwanken.
@@ -432,7 +432,7 @@ offen: Darin finden sie in formalem Ton alle wichtigen Infos über Chrono Units,
 Beschaffungsrichtlinien – ganz so, als würden sie ein **echtes Handbuch** studieren.
 
 Maximale Immersion bedeutet auch, dass selbst beim Planen von Ausgaben die Sprache im Universum
-verhaftet bleibt. Man sagt also: *„Der Quartiermeister verlangt 300 CUs für das Implantat“*, nicht
+verhaftet bleibt. Man sagt also: *„Der Quartiermeister verlangt 300 CUs für das Implantat“*, nicht
 *„der Spieler muss 300 Punkte ausgeben“*. Manche Agenten verlassen sich voll und ganz darauf, dass
 das ITI sie ausstattet – sie erhalten ihre Standardausrüstung und Munition automatisch, ohne je
 einen Gedanken an CUs zu verschwenden. Andere Chrononauten hingegen planen akribisch jeden Einsatz

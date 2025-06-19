@@ -20,9 +20,9 @@ Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarza
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
-Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
+Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
 entstehen paranormale Anomalien, die separat beseitigt werden müssen.
-So erleben alle gleich zu Beginn, wie ZEITRISS 4.0 reale Schauplätze mit übernatürlichen Folgen
+So erleben alle gleich zu Beginn, wie ZEITRISS 4.0 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
 
 
@@ -45,7 +45,7 @@ Einsatzleiter des Instituts für Temporale Intervention (ITI), tritt mit entschl
 die Halle. Sein schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick verraten
 militärische Disziplin, doch ein angedeutetes Lächeln in seinen Augen zeigt auch Neugier. Renier
 mustert die Neuankömmlinge – eine **Gruppe von Agenten aus unterschiedlichen Zeiten**: Dort steht
-ein kräftiger Mann in zerbeulter Plattenrüstung, an der getrockneter Schlamm aus dem 13. Jahrhundert
+ein kräftiger Mann in zerbeulter Plattenrüstung, an der getrockneter Schlamm aus dem 13. Jahrhundert
 klebt – ein Ritter, der gerade eben einen mittelalterlichen Kriegsschauplatz verlassen hat. Neben
 ihm blickt eine Frau in einem hochmodernen Nanofaser-Anzug fasziniert auf die antik wirkende Halle –
 eine Technikerin aus dem Jahr 2190, für die diese Umgebung beinahe prähistorisch anmutet. Etwas
@@ -72,7 +72,7 @@ gemeinsamen Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.0**, der überarbeiteten und erweiterten Fassung des
+**Willkommen zu Modul 13 von ZEITRISS 4.0**, der überarbeiteten und erweiterten Fassung des
 cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
 Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
 maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
@@ -114,7 +114,7 @@ mitreißende Serie. Im Rollenspiel lassen sich Kameraeinstellungen, Schnitte und
 durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier sind einige
 **filmreife Techniken**, um eure erste Spielsitzung wie auf der Leinwand erstrahlen zu lassen:
 
-- **In medias res – Mitten ins Geschehen:** Überlegt, ob ihr direkt **mitten in einer
+- **In medias res – Mitten ins Geschehen:** Überlegt, ob ihr direkt **mitten in einer
 actiongeladenen Szene** starten wollt. Ähnlich wie ein Film, der ohne Vorlauf in einer
 Verfolgungsjagd oder einem Gefecht beginnt, kann ein ZEITRISS-Abenteuer die Charaktere unmittelbar
 in Schwierigkeiten werfen. Der Effekt: Die Spieler\*innen sind sofort hellwach, Adrenalin liegt in
@@ -139,7 +139,7 @@ Großaufnahme der zitternden Hand des Agenten, der zum ersten Mal durch den Zeit
 eindringliche Blick einer NPC-Mentorfigur, der die Dringlichkeit der Mission vermittelt. Solche
 „Close-ups“ in der Beschreibung lenken die Aufmerksamkeit und geben der Szene eine persönliche,
 **menschliche Note**. Sie können Emotionen unterstreichen – ein halb verbrannter Familienbrief aus
-dem 17. Jh., den die Heldin aus den Trümmern zieht, sagt oft mehr aus als langes Dozieren über
+dem 17. Jh., den die Heldin aus den Trümmern zieht, sagt oft mehr aus als langes Dozieren über
 Verluste.
 - **Schnitte, Perspektivwechsel und Dramaturgie:** Genauso wie Filme durch Schnitt-Techniken Tempo
 und Spannung steuern, kann auch eine Spielleitung mit **Erzähltakten** spielen. Überlegt, wann ihr
@@ -222,12 +222,12 @@ aber wir bringen euch alles bei“).
 **unterschiedliche Epochen aufeinander treffen** zu lassen. Nutzt das auch in der Einstiegsszene.
 Wenn die Gruppe gemischt aus verschiedenen Zeiten stammt, könnt ihr kleine **Kulturkollisionen**
 einbauen: Vielleicht wundert sich der Ritter über die seltsamen Hologramme im HQ, während der
-Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit Tastaturen gearbeitet
+Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit Tastaturen gearbeitet
 wurde. Solche Momente lockern die Stimmung und verankern gleich die Vielfalt der Hintergründe. Fragt
 die Spieler\*innen, was man ihren Charakteren ansieht – Kleidung, Sprache, Accessoires – und spielt
 darauf als SL mit neugierigen NPC-Reaktionen. So fühlt sich jede Herkunft **wertgeschätzt** und hat
 Einfluss auf die Story. Der erste Auftrag kann ebenfalls darauf Rücksicht nehmen: Hat man z.B. einen
-Mediziner aus dem 1. Weltkrieg in der Gruppe, könnte die erste Mission medizinische Hilfe in einem
+Mediziner aus dem 1. Weltkrieg in der Gruppe, könnte die erste Mission medizinische Hilfe in einem
 Konflikt erfordern, damit dieser Charakter glänzen kann. Ein Einstieg ist dann gelungen, wenn
 **jede/r das Gefühl hat, Teil von etwas Großem** zu sein und die eigenen Fähigkeiten bald wichtig
 werden.
@@ -246,7 +246,7 @@ mit weniger Erklärung auskommen). Die **Start-Epoche** sollte zur geplanten Kam
 ihr vorhabt, viel in der Zukunft zu spielen, kann ein futuristischer Einstieg (z.B. im Jahr 2085
 Neo-Berlin) den Ton setzen. Ist eure Kampagne eher historisch, wählt einen Auftakt in einer
 bekannten historischen Szenerie, damit alle sofort im Flair der Zeit sind (z.B. Viktorianisches
-London, ein Piratenschiff im 17. Jh., das antike Rom zur Zeit Cäsars etc.). Wichtig ist, dass die
+London, ein Piratenschiff im 17. Jh., das antike Rom zur Zeit Cäsars etc.). Wichtig ist, dass die
 **Regeln der Zeitreise** dabei klar bleiben: normalerweise rekrutiert das ITI seine Leute ins HQ und
 **von dort** gehen die Missionen los. Aber als Spielleiter\*in könnt ihr hier kreativ werden –
 solange es plausibel begründet ist (vielleicht war die erste Mission Teil des Auswahlprozesses, oder
@@ -302,7 +302,7 @@ unweigerlich zu einer Verfolgungsjagd oder einem moralischen Dilemma kommt (sieh
 weiter unten). Das ist okay, solange die Spieler das Gefühl haben, trotzdem aktiv beteiligt zu sein.
 Alternativ betont ihr die **Sandbox**-Natur: Gebt ein Startsetting vor und schaut, was die Gruppe
 tut. Tonalität und Freiheit hängen zusammen: Ein freierer Einstieg wirkt oft natürlicher, ein stark
-inszenierter kann dafür filmreife **Schlüsselszenen** hervorbringen. Klärt am besten Session 0 mit
+inszenierter kann dafür filmreife **Schlüsselszenen** hervorbringen. Klärt am besten Session 0 mit
 der Gruppe ab, was sie bevorzugen – manche lieben es, cineastisch „mitgezogen“ zu werden, andere
 wollen alles selbst entscheiden. Findet euren Ton auch in dieser Hinsicht.
 - **Tonalität innerhalb der Gruppe abstimmen:** Gerade bei gemischten Epochen-Teams können die
@@ -327,7 +327,7 @@ bekannt als **Sora**.
 *Sora* kann auf Kommando ganze Szenen oder Missionen **filmisch zusammenfassen**. Stellt es euch wie
 einen In-Game-Trailer oder einen Erinnerungs-Holoclip vor, der wichtige Momente noch einmal in
 rascher Schnittfolge mit dramatischer Musik zeigt. Diese Funktion wurde in späteren Modulen (z.B.
-Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
+Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
 das: Wenn die Spieler\*innen es wünschen, könnte man Sora am Ende des ersten Abenteuers ein **kurzes
 „Recap“** liefern lassen – etwa als holografische Projektion im Briefing-Raum, die zeigt, was die
 Agenten geleistet haben, als wären sie die Helden eines Films. Denkbar wäre sogar, Sora einen
@@ -357,7 +357,7 @@ Es gibt viele Wege, eine Zeitreise-Kampagne zu beginnen. Hier sind einige **Stru
 Einstiegssequenzen, die ihr als Bauformen nutzen oder kombinieren könnt. Jede Variante lässt sich
 mit den oben beschriebenen filmischen Techniken ausschmücken:
 
-### Option 1: **Ankunft im Hauptquartier** (Klassischer Start)
+### Option 1: **Ankunft im Hauptquartier** (Klassischer Start)
 
 **Beschreibung:** Die Charaktere gelangen durch einen Zeitriss ins Nullzeit-HQ und werden dort vom
 ITI begrüßt. Diese Variante ist klassisch, da sie den gemeinsamen **Startpunkt aller Chrononauten**
@@ -378,19 +378,19 @@ besuchten Bereich kann eine eigene **kleine Szene** inszeniert werden – etwa i
 kurzer Dialog mit einem kauzigen Barkeeper aus der Zukunft, im Labor eine Demonstration eines High-
 Tech-Implantats, im Archiv eine Begegnung mit einer mysteriösen Archivarin. So fühlt sich der
 Rundgang wie eine **Montage von Filmszenen** an, die das Spektrum der ZEITRISS-Welt zeigen.
-Abschließen könnte Option 1 z.B. mit einem **Trainings-Szenario** (siehe Missionen unten) oder einem
+Abschließen könnte Option 1 z.B. mit einem **Trainings-Szenario** (siehe Missionen unten) oder einem
 direkten Briefing zur ersten echten Mission.
 
 **Variationen:** Falls bereits bekannt ist, dass alle Charaktere aus der gleichen Epoche kommen
-(z.B. alle aus dem 21. Jh.), könnte man ihren **gemeinsamen Schritt durchs Portal** in einer kurzen
+(z.B. alle aus dem 21. Jh.), könnte man ihren **gemeinsamen Schritt durchs Portal** in einer kurzen
 Vignette schildern – z.B. wie sie gemeinsam rekrutiert wurden. Umgekehrt, bei völlig verschiedenen
-Epochen, kann man **mini-Prologe** voranstellen und im HQ zusammenführen (siehe Option 3). Der
+Epochen, kann man **mini-Prologe** voranstellen und im HQ zusammenführen (siehe Option 3). Der
 klassische HQ-Start lässt sich auch dramatisieren: Man könnte das **Hauptquartier unter Druck**
 setzen – etwa gibt es just zur Ankunft einen Alarm (Zeitlinien-Störung), was den gemächlichen
-Rundgang schlagartig abkürzt und alle in Aktion versetzt. In jedem Fall liefert Option 1 eine
+Rundgang schlagartig abkürzt und alle in Aktion versetzt. In jedem Fall liefert Option 1 eine
 **stabile Basis** und kann nach Belieben gestrafft oder ausgebaut werden.
 
-### Option 2: **Mitten in der Mission** (Action-Start)
+### Option 2: **Mitten in der Mission** (Action-Start)
 
 **Beschreibung:** Diese Variante startet direkt in einer **laufenden Mission** oder brenzligen
 Situation, ohne vorgängiges In-die-Welt-Einführen. Die Charaktere befinden sich z.B. schon **im
@@ -410,7 +410,7 @@ kann die Action-Sequenz auch die erste echte Mission gewesen sein, und das
 Kennenlernen im HQ passiert *nach* der Rückkehr (z.B. die Gruppe wurde in einer
 Notsituation ad hoc losgeschickt und erst nachher formell begrüßt).
 
-**Cineastische Tipps:** Hier ist Tempo alles. Wer Option 2 wählt, sollte mit **vollen Effekten**
+**Cineastische Tipps:** Hier ist Tempo alles. Wer Option 2 wählt, sollte mit **vollen Effekten**
 starten: laute Geräusche, schnelle Beschreibungen, gerne auch mit Soundtrack-Unterstützung. Greift
 tief in die Trickkiste: **Zeitsprünge oder Flashbacks** können stilistisch genutzt werden, um die
 Vorgeschichte häppchenweise nachzureichen. Zum Beispiel, während ein Charakter in Deckung geht,
@@ -422,7 +422,7 @@ euch herum pfeifen die Kugeln – was tut ihr?“). Die Überraschung, **sofort 
 hohe Aufmerksamkeit. Und keine Sorge: Sollten die Spieler am Anfang etwas verloren wirken, klärt
 sich das im Nachhinein auf – das gehört zum Reiz dieser Methode.
 
-**Variationen:** Diese Einstiegsmethode lässt sich mit Option 1 kombinieren: Denkbar ist z.B. ein
+**Variationen:** Diese Einstiegsmethode lässt sich mit Option 1 kombinieren: Denkbar ist z.B. ein
 kurzes, heftiges Prolog-Missionchen (Training oder echte Not-Mission), danach Fade-out und am
 nächsten Tag erfolgt die **reguläre Einführung** im HQ mit mehr Erklärungen. So bekommen die Spieler
 sowohl die Action als auch die Orientierung. Eine andere Variante ist, **jeden Charakter separat in
@@ -431,10 +431,10 @@ individuellen Spezialgebiet gezeigt wird). Dazu könntet ihr für jede\*n einen 
 planen – z.B. der Hacker 2085 ist gerade in einem digitalen Duell mit einer KI, die Archäologin 1920
 kämpft in einer Grabkammer gegen Grabräuber – und *zack*, im entscheidenden Moment öffnet sich
 jeweils ein Zeitportal und zieht sie ins HQ. Dann treffen sie zusammen (im Grunde eine Montage aus
-Option 3 mit Action kombiniert). Dieses Vorgehen ist aufwendig zu leiten, kann aber sehr **filmisch
+Option 3 mit Action kombiniert). Dieses Vorgehen ist aufwendig zu leiten, kann aber sehr **filmisch
 und unvergesslich** sein.
 
-### Option 3: **Individuelle Prologe** (die Gruppe formiert sich)
+### Option 3: **Individuelle Prologe** (die Gruppe formiert sich)
 
 **Beschreibung:** Jeder Charakter bekommt einen **eigenen kleinen Einstieg**, bevor die Gruppe
 zusammengeführt wird. Diese Variante eignet sich hervorragend, um die **Hintergründe der einzelnen
@@ -445,14 +445,14 @@ die Bastille – ein wagemutiger Spion verhindert einen zeitreisenden Saboteur d
 vorzeitig zu ermorden.* Oder: *Mondbasis 2177 – eine Technikerin rettet durch Geistesgegenwart ihre
 Crew vor einem mysteriösen Zeitphänomen.* In jedem Prolog erscheint am Ende ein ITI-Agent oder ein
 Zeitportal, durch das der Held/die Heldin ins HQ eingeladen wird. Sobald alle eingefangen sind, geht
-es über zur gemeinsamen Szene (oft dann Ankunft im HQ, siehe Option 1). Diese **Origin Stories**
+es über zur gemeinsamen Szene (oft dann Ankunft im HQ, siehe Option 1). Diese **Origin Stories**
 bringen viel Flair und bieten reichlich Gesprächsstoff fürs erste Aufeinandertreffen („Ihr habt
 *was* getan? Wie krass!“). Allerdings kosten sie Zeit – man sollte aufpassen, dass es sich nicht
 ewig hinzieht, damit alle Spieler\*innen bei allen Prologen beteiligt bleiben (ggf. können die
 anderen als NSCs oder Gegenspieler mitwirken, um sie einzubinden).
 
 **Cineastische Tipps:** Gestaltet jeden Prolog wie eine eigene **Filmszene mit Genre-Anleihen**,
-passend zum Charakter. Ist jemand ein Wildwest-Sheriff aus dem 19. Jh., darf sein Prolog wie ein
+passend zum Charakter. Ist jemand ein Wildwest-Sheriff aus dem 19. Jh., darf sein Prolog wie ein
 Western-Showdown in staubiger Abendsonne wirken. Ist jemand aus der Renaissance, vielleicht eine
 kunstvolle Intrigenszene an einem Fürstenhof inszenieren – mit barocker Musik im Hintergrund. Achtet
 darauf, **visuell unterscheidbare Kapitel** zu erzeugen: verschiedene Farbstimmungen, Tempi,
@@ -466,16 +466,16 @@ verschiedene Handlungsstränge zusammenlaufen.
 
 **Variationen:** Man muss nicht allen Charakteren einen vollwertigen Prolog geben – je nach
 Spielerzahl wählt man die spannungsreichsten aus. Alternativ kann man die Prologe auch **vor der
-eigentlichen Spielsession** als Briefform oder Solo-Play spielen (z.B. in der Session 0 oder per
+eigentlichen Spielsession** als Briefform oder Solo-Play spielen (z.B. in der Session 0 oder per
 E-Mail/Chat im Vorfeld), und die erste gemeinsame Sitzung startet dann im HQ mit dem Wissen um die
 individuellen Vorgeschichten. Diese Methode fordert einiges an Vorbereitung, liefert aber auch sehr
 **investierte Spieler**, da jede\*r bereits einen Moment hatte, sich zu profilieren. Tonal kann es
 eine Herausforderung sein, wenn die Prologe sehr unterschiedlich sind (z.B. Comedy-Szene vs.
 Tragödie) – hier muss die Spielleitung beim Zusammenführen einen **gemeinsamen Nenner** finden,
-damit der Ton des Hauptabenteuers konsistent wird. Insgesamt ist Option 3 die aufwändigste, aber
+damit der Ton des Hauptabenteuers konsistent wird. Insgesamt ist Option 3 die aufwändigste, aber
 auch persönlichste Art, zu beginnen.
 
-### Option 4: **Vorblende und Rückblende** (Zeitspielereien)
+### Option 4: **Vorblende und Rückblende** (Zeitspielereien)
 
 **Beschreibung:** Diese Variante nutzt die Möglichkeiten des Mediums „Zeit“ voll aus: Man beginnt
 das Abenteuer mit einer **Vorblende (Flashforward)** – einer Szene, die eigentlich in der Zukunft
@@ -483,7 +483,7 @@ das Abenteuer mit einer **Vorblende (Flashforward)** – einer Szene, die eigent
 allererste Szene zeigt einen dramatischen Moment *nach* der ersten Mission – vielleicht hängen die
 Charaktere verzweifelt an einer Klippe, während unter ihnen ein Zeitportal ins Bodenlose reißt, oder
 der Antagonist hält in der Zukunft die letzte Zeitsprung-Energiezelle in Händen und lacht
-diabolisch. *Cut!* Danach blendet ein Titel ein: „24 Stunden zuvor…“ und wir finden uns bei der
+diabolisch. *Cut!* Danach blendet ein Titel ein: „24 Stunden zuvor…“ und wir finden uns bei der
 Missionsbesprechung im HQ wieder, bevor alles begann. Diese Technik erzeugt sofort eine **drückende
 Spannung**, weil alle wissen, worauf es hinauslaufen *könnte*, und wollen verhindern, dass es so
 schlimm kommt – oder zumindest erfahren, wie es dazu kam. Alternativ kann man statt der Vorblende
@@ -492,8 +492,8 @@ Verlauf des Einstiegs merken die Spieler, dass gewisse Dinge unklar sind – am 
 Sitzung kommt ein **großer Twist**, und es stellt sich heraus, dass das, was man bisher erlebte,
  bereits von späteren Ereignissen beeinflusst war. **In Ausnahmefällen** kann plötzlich
  ein älteres Ich eines Charakters auftauchen, um vor einem Fehler zu warnen – *und cut,
- Ende Session 1*. Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme
- wie *12 Monkeys* oder *Looper*) und sollten daher nur gelegentlich eingesetzt werden,
+ Ende Session 1*. Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme
+ wie *12 Monkeys* oder *Looper*) und sollten daher nur gelegentlich eingesetzt werden,
  damit sie ihre besondere Wirkung entfalten und die Spieler nicht verwirren.
 
 **Cineastische Tipps:** Eine Flashforward-Eröffnung muss **knallen**: Wählt eine wirklich packende,
@@ -515,7 +515,7 @@ Mystery-Note.
 eingesetzt werden. So beginnen die Spieler mitten in einer Mission, alles wirkt
 real, doch als es zum dramatischen Höhepunkt kommt, friert die Szene ein und
 Renier klatscht in die Hände: *„Test beendet – willkommen zurück. Sie fragen sich
-sicher, was gerade passiert ist…“* Dies kombiniert Option 2 (Action) mit Option 4
+sicher, was gerade passiert ist…“* Dies kombiniert Option 2 (Action) mit Option 4
 (Zeittrick). Man kann sogar meta gehen: Eventuell war die Vorblende ein
 mögliches *Scheitern*, das durch eine Zeitreise gerade noch verhindert werden
 soll –
@@ -523,10 +523,10 @@ also ein **„Was wäre wenn“**. Derlei Kniffe machen den Einstieg sehr spanne
 die Gruppe danach auch wirklich **abzuholen** und offene Fragen aufzuklären, sonst fühlt es sich
 unfair an. Wenn gut gemacht, erinnern sich Spieler Jahre später an so einen Auftakt.
 
-### Option 5: **Sofortiger Notfall** (Crash-Start im Chaos)
+### Option 5: **Sofortiger Notfall** (Crash-Start im Chaos)
 
 **Beschreibung:** Hier wird die Idylle der Einführung gleich von einem **Konflikt überschattet**. Im
-Gegensatz zu Option 2 (wo man mitten in einer geplanten Mission startet) geht es bei Option 5 darum,
+Gegensatz zu Option 2 (wo man mitten in einer geplanten Mission startet) geht es bei Option 5 darum,
 dass **während der Einführung etwas schiefläuft** – im HQ oder unmittelbar beim Start. Beispiel: Die
 Charaktere kommen gerade im Nullzeit-HQ an, doch plötzlich ertönt **Alarmstufe Rot**. Auf den
 Monitoren flackert eine Warnung: *Zeitlinien-Instabilität detektiert!* Renier bricht die Begrüßung
@@ -536,8 +536,8 @@ ein Zeitrebell) hat sich ins HQ eingeschleust und **greift an**, just während d
 Nun stehen sie mitten in einem Angriff und müssen sich behaupten, obwohl sie kaum wissen, wo vorne
 und hinten ist. Diese Variante taucht die Gruppe *sofort* ins Feuer der Handlung, überspringt viel
 Exposition (die holt man später nach) und schmiedet das Team durch die Krise zusammen. Der
-Unterschied zu Option 2 ist, dass der Notfall **ungeplant** inszeniert wird, quasi als Unterbrechung
-des normalen Ablaufs – während Option 2 von Anfang an direkt in Action startet. Hier bekommt man
+Unterschied zu Option 2 ist, dass der Notfall **ungeplant** inszeniert wird, quasi als Unterbrechung
+des normalen Ablaufs – während Option 2 von Anfang an direkt in Action startet. Hier bekommt man
 erst den Eindruck eines normalen Beginns, der dann jäh kippt.
 
 **Cineastische Tipps:** Ein **harter Kontrast** ist das Mittel der Wahl. Beginnt z.B. ganz friedlich
@@ -595,7 +595,7 @@ Solo‑Spiel ebenso wie in der Gruppe und sorgt dafür, dass sich der Fall langs
 aufbaut. Der **Arc‑Baukasten** hilft dabei, jeden Hinweis als eigene Episode zu
 nutzen, bis das Gesamtbild klar wird.
 
-### Missionsidee 1: **Gestohlene Zukunft**
+### Missionsidee 1: **Gestohlene Zukunft**
 
 *Hook:* In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
 Fall von Zeitverbrechen. Die Chrononauten sollen diese **anachronistische Technologie**
@@ -605,7 +605,7 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
 2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
 Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
 Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
-Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
+Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
 könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
 neonbeleuchteten Schatten von *Neo Berlin 2085* statt – einer futuristischen Metropole voller
 Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
@@ -620,7 +620,7 @@ und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere auton
  - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
 Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
 Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
-Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
+Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
 plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
 ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf
 coole Stunts legen (z.B. ein Charakter springt mit einem **Seil durch ein Zeitportal** hinter dem
@@ -635,7 +635,7 @@ entkommt). Diese Mission endet idealerweise mit dem Triumph der Neulinge und ein
 *„Gut gemacht“* von Renier – ein perfekter Moment, um anschließend im HQ auf die erfolgreiche
 Bergung anzustoßen und in die Kampagne überzuleiten.
 
-### Missionsidee 2: **Bewahrt die Geschichte**
+### Missionsidee 2: **Bewahrt die Geschichte**
 
 *Hook:* Die Agenten müssen ein **historisches Ereignis** vor einer Zeitintervention schützen – oder
 alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
@@ -663,7 +663,7 @@ vielleicht eine moralische Frage: Was, wenn der Erfinder in der Originalzeit ste
 dürften sie ihn retten?). Es muss nicht kampflastig sein; der Höhepunkt kann auch ein **dilemma**
 sein, z.B. ob man den Attentäter tötet oder festnimmt, obwohl das Risiko besteht, dass er entkommt.
 - **Anpassungen:** **Epoche flexibel:** Statt London 1901 könnt ihr jedes prägende Ereignis nehmen.
-Zum Beispiel: **Rom, 44 v. Chr. – Attentat auf Julius Cäsar verhindern oder geschehen lassen?** Das
+Zum Beispiel: **Rom, 44 v. Chr. – Attentat auf Julius Cäsar verhindern oder geschehen lassen?** Das
 wäre ein extremer Fall, weil hier die Spieler eventuell sicherstellen müssten, dass ein *schlechtes*
 Ereignis (Cäsars Ermordung) auch wirklich passiert, um den Zeitablauf nicht zu ändern – das wäre ein
 heftiger moralischer Konflikt gleich zu Beginn. Nur wählen, wenn eure Gruppe sowas mag! **Leichtere
@@ -681,7 +681,7 @@ hatten: Der Erfinder lebt (oder das Ereignis fand regulär statt) und die Zeitli
 zumindest vorerst. Das Gefühl, *„Heute haben wir die Geschichte gerettet“*, gibt einen fantastischen
 Motivationsschub für die Kampagne.
 
-### Missionsidee 3: **Anomalie im Verborgenen**
+### Missionsidee 3: **Anomalie im Verborgenen**
 
 *Hook:* Es wird eine **ungewöhnliche temporale Anomalie** entdeckt – kein klarer Schurke, sondern
 ein **rätselhaftes Phänomen**. Die Chrononauten müssen Nachforschungen anstellen und das Geheimnis
@@ -706,7 +706,7 @@ Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade rechtzei
 ausgewachsenen Paradox heranwächst.
 - **Tonalität:** Diese Mission ist hervorragend für einen **ruhigeren, unheimlichen** Einstieg
 geeignet. Statt voller Action steht **Atmosphäre und Rätsel** im Vordergrund. Man kann leichte
-Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
+Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
 Charaktere etwas **Übernatürlichem** auf der Spur sind, das sich dann wissenschaftlich als
 Zeitphänomen erklärt, trifft genau den Sweet Spot von ZEITRISS zwischen Science-Fiction und Mystery.
 Die Spieler\*innen haben Gelegenheit, ihre Ermittlungsfähigkeiten zu zeigen, und es gibt Raum für
@@ -738,10 +738,10 @@ vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf
 wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
 die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
 
-### Missionsidee 4: **Rettet Agent X**
+### Missionsidee 4: **Rettet Agent X**
 
 *Hook:* Gleich zu Beginn erfahren die Chrononauten, dass einer ihrer **Vorgänger oder Mentor-Figuren
-vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und rettet Agent X!**
+vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und rettet Agent X!**
 
 - **Szenario:** Ein erfahrener ZEITRISS-Agent (vielleicht derjenige, der die Gruppe rekrutiert hat,
 oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
@@ -753,7 +753,7 @@ drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent
 Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
 sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
 zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
-Agent X von feindlichen Zeitreisenden entführt wurde, die ihn verhören, um ITI-Geheimnisse aus ihm
+Agent X von feindlichen Zeitreisenden entführt wurde, die ihn verhören, um ITI-Geheimnisse aus ihm
 herauszupressen. Es entwickelt sich eine **Rettungsaktion**: Die Charaktere infiltrieren den
 königlichen Hof (was für Spaß sorgt, weil sie sich in historischer Kleidung ausstaffieren und mit
 alten Sitten auseinandersetzen müssen) und lokalisieren den Agenten in einem Verlies oder einer
@@ -763,18 +763,18 @@ ins HQ.
 - **Tonalität:** Diese Mission kombiniert **Emotionalität** (ein Verbündeter in Not) mit
 **klassischem Abenteuer**. Sie ist für die Spieler sehr motivierend, weil es nicht nur um einen
 Auftrag, sondern um eine **Person** geht, die man retten will. Der Ton kann heldenhaft und etwas
-dramatisch sein – gerade wenn Agent X vielleicht ein paar weise Worte an die Neulinge richten kann
+dramatisch sein – gerade wenn Agent X vielleicht ein paar weise Worte an die Neulinge richten kann
 nach der Rettung („Ich wusste, dass Renier die Richtigen schickt…“ hust). Es ist fast schon ein
 kleines **ZEITRISS-Heldenepos** in sich. Da Höfe und Historie eine Rolle spielen, sind auch
 politische Intrigen oder diplomatische Lösungen denkbar, nicht nur Kampf. Die Gruppe kann zeigen,
 wie sie zusammenarbeitet, um jemanden lebend herauszubekommen, was auch Vertrauen untereinander
 schafft.
-- **Anpassungen:** **Wer ist Agent X?** – Überlegt, ob ihr einen NPC aus dem Hintergrund nehmt oder
+- **Anpassungen:** **Wer ist Agent X?** – Überlegt, ob ihr einen NPC aus dem Hintergrund nehmt oder
 gar einen ehemaligen Spielercharakter (wenn dies z.B. eine neue Staffel einer laufenden Kampagne
 wäre). Es sollte jemand sein, bei dem die Gruppe emotional investiert ist oder es schnell wird
 (vielleicht durch Renier: „Das ist mein ältester Freund, bitte holt ihn zurück.“). **Epoche
-ändern:** Hof von Maximilian war ein Beispiel; es kann jeder Ort sein. Wilder Westen? Agent X wurde
-in Deadwood 1876 von Gangstern festgehalten. Zukunft? Agent X steckt in einer dystopischen 23.-Jhdt-
+ändern:** Hof von Maximilian war ein Beispiel; es kann jeder Ort sein. Wilder Westen? Agent X wurde
+in Deadwood 1876 von Gangstern festgehalten. Zukunft? Agent X steckt in einer dystopischen 23.-Jhdt-
 Welt fest. Wählt, was euch liegt. **Gefahr skalieren:** Wenn es ein Einsteigerteam ist, sollten die
 Entführer keine völligen Profis sein – vielleicht nur ein paar Söldner angeheuert von einem
 unbekannten Rivalen. Für erfahrenere Spieler könnt ihr eine richtige **Gegenspieler- Fraktion**
@@ -782,16 +782,16 @@ anteasern: z.B. die Mission wird sabotiert von Mitgliedern der *Chronisten* (fik
 Zeitfraktion), sodass hier der Hauptantagonist der Kampagne das erste Mal in Erscheinung tritt.
 - **Höhepunkt:** Die Rettung selbst kann sehr filmisch inszeniert werden. Man stelle sich vor:
 *Nacht, Sturmregen prasselt auf die Zinnen der Burg.* Die Chrononauten haben sich hineingeschlichen,
-schalten Wachen lautlos aus (Stealth-Mission vibes) und erreichen den Turm, wo Agent X gefangen
+schalten Wachen lautlos aus (Stealth-Mission vibes) und erreichen den Turm, wo Agent X gefangen
 gehalten wird. Gerade als sie ihn losbinden, **stellt sich der Anführer der Entführer** ihnen
 entgegen – vielleicht ein finsterer Zeitagent, der ihnen technisch überlegen scheint. Es kommt zu
-einem Kampf im flackernden Fackellicht. Agent X, geschwächt, kann kaum helfen, aber feuert die
+einem Kampf im flackernden Fackellicht. Agent X, geschwächt, kann kaum helfen, aber feuert die
 Gruppe an. Schließlich überwältigen sie den Feind oder zwingen ihn in die Flucht durch einen hastig
 geöffneten Zeitriss. Der **Turm brennt** (weil ein Feuer im Getümmel ausbrach) und beginnt
 einzustürzen – ein letztes Spannungsmoment, wo die Helden mit dem Geretteten im Arm über eine
 einstürzende Brücke rennen, während alles hinter ihnen kollabiert. In letzter Sekunde springen sie
 ins zurückgeholte Portal des ITI und entkommen. *Cut to HQ*: Rauch steigt von ihren Kleidern, alle
-sind verdreckt, aber sie haben Agent X gerettet. Solch ein Kinomoment zum Abschluss des Abenteuers
+sind verdreckt, aber sie haben Agent X gerettet. Solch ein Kinomoment zum Abschluss des Abenteuers
 wäre ein perfekter Übergang, um dann in der nächsten Sitzung z.B. mehr über den Feind zu erfahren
 und in die Kampagne einzusteigen.
 

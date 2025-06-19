@@ -6,7 +6,7 @@ tags: [core]
 
 # ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
 ## Inhalt
-- Würfelmechanik: Explodierende 6 & W10-Variante
+- Würfelmechanik: Explodierende 6 & W10-Variante
 - HUD-Management: Ereignis-Alerts & Info-Triage
 - Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 - Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
@@ -22,7 +22,7 @@ Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Cod
 ungläubig: „Ziel eliminiert – Erfolgschance \< 5%“. Es sind genau solche filmreifen Momente, die
 ZEITRISS zum Leben erwecken.*
 
-Willkommen zu einem weiteren Modul für **ZEITRISS 4.0**, das Feinschliff und neue cineastische
+Willkommen zu einem weiteren Modul für **ZEITRISS 4.0**, das Feinschliff und neue cineastische
 Optionen ins Spiel bringt. Dieses Regelmodul erweitert das System um spannende Verbesserungen in der
 Würfelmechanik, ein dynamisches HUD-Warnsystem, feinere Attributs-Skalierung, ein robustes
 Speichersystem und alternative Regeln für große **Schlachten** – ohne den erzählerischen Fokus zu
@@ -33,12 +33,12 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
 
 **Dieses Modul enthält im Überblick:**
 
-- **Neue Würfelmechaniken:** Einführung der **„Exploding 6“**-Regel für W6-Proben, die bei einer
+- **Neue Würfelmechaniken:** Einführung der **„Exploding 6“**-Regel für W6-Proben, die bei einer
 gewürfelten 6 einen zusätzlichen Wurf gewährt – für unerwartete Spitzenresultate. Außerdem eine
 **optionale** Regelvariante, sämtliche Proben mit W10 statt W6 durchzuführen, um eine feinere
 Granularität und ein breiteres Erfolgsspektrum zu ermöglichen.
 - **HUD-Management & Alerts:** Ein ereignisgesteuertes Warnsystem für das HUD der Chrononauten, das
-bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder sobald *Paradox \> 0*)
+bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder sobald *Paradox \> 0*)
 automatisch Alarm schlägt. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
 Situationen nur wirklich wichtige Daten eingeblendet werden und die Agenten nicht von
 Informationsflut überwältigt werden.
@@ -60,10 +60,10 @@ für jede/n Chrononauten und **heroische Schlüsselwürfe** werden Massenkämpfe
 dargestellt, ohne an Dramatik einzubüßen – ganz im Stil eines mitreißenden Actionfilms, bei dem die
 Heldentaten den Ausschlag geben.
 
-## Würfelmechanik: Explodierende 6 & W10-Variante
+## Würfelmechanik: Explodierende 6 & W10-Variante
 
 Nervenzerfetzende Würfelwürfe gehören zum Kern von ZEITRISS. Um die Spannung jeder Probe noch zu
-steigern, führen wir die Regel **„Exploding 6“** ein – im Deutschen oft schlicht *explodierender
+steigern, führen wir die Regel **„Exploding 6“** ein – im Deutschen oft schlicht *explodierender
 Würfel* genannt. **Immer wenn bei einer W6-Probe eine 6 gewürfelt wird,** wird der W6 **erneut
 geworfen** und das neue Ergebnis zur bisherigen Summe **addiert**. Sollte dabei wieder eine 6
 fallen, wiederholt sich der Vorgang so lange, bis kein Maximum mehr erscheint. Auf diese Weise sind
@@ -71,8 +71,8 @@ theoretisch **Ergebnisse über dem normalen Limit** möglich, was besonders hero
 dramatische Wendungen darstellen kann. Spielerinnen und Spieler erleben einen zusätzlichen
 Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem sicheren Misserfolg kann so doch noch
 ein triumphaler Erfolg werden. *(Beispiel: Nadia muss einen schwierigen Sprung über eine Schlucht
-meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese
-„explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 –
+meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese
+„explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 –
 gerade noch geschafft! Die Gruppe jubelt ob dieses glücklichen Ausgangs.)*
 
 **Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
@@ -82,15 +82,15 @@ Varianz zunehmen. Kleine Unterschiede in Attributen oder Fertigkeiten wirken sic
 weniger stark absolut aus, was Proben **ausgewogener** machen kann. Die SL sollte die
 Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten – in der Regel erfordern
 Aufgaben etwa 4 Punkte höhere Zielwerte, um die höhere durchschnittliche Würfelsumme auszugleichen.
-Die **Exploding**-Regel lässt sich grundsätzlich auch auf einen W10 übertragen (*Exploding 10*, bei
-einer gewürfelten 10 wird erneut geworfen). Allerdings entsteht durch einen W10 alleine schon mehr
+Die **Exploding**-Regel lässt sich grundsätzlich auch auf einen W10 übertragen (*Exploding 10*, bei
+einer gewürfelten 10 wird erneut geworfen). Allerdings entsteht durch einen W10 alleine schon mehr
 Spannungsbreite; ob man zusätzlich explodierende Würfel bei 10 einsetzt, kann die Gruppe nach
-gewünschter Dramaturgie entscheiden. In jedem Fall gilt: Beide Mechanismen – **Explodierende 6** und
+gewünschter Dramaturgie entscheiden. In jedem Fall gilt: Beide Mechanismen – **Explodierende 6** und
 der **W10-Ersatz** – sind **optional** und sollten nur eingesetzt werden, wenn sie zum Stil der
 Runde passen. Sie bieten frischen Wind für erfahrene Runden, ohne das Grundsystem fundamental zu
 verändern.
 
-**Schwellen-Kalibrierung:** Standardproben nutzen einen W6 und gelten bei **4 oder höher** als
+**Schwellen-Kalibrierung:** Standardproben nutzen einen W6 und gelten bei **4 oder höher** als
 erfolgreich. Für erfahrene Chrononauten mit W10 liegt die Schwelle bei **5+**. Ein
 **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
 
@@ -167,7 +167,7 @@ Ergebnisse (vergleichbar mit einem Vorteilwurf). Dieser zusätzliche Wurf – de
 Genialität, Schnelligkeit oder Willenskraft. Die Wahrscheinlichkeit, dass die Probe gelingt, steigt
 dadurch merklich an, sodass ein Wert von 11 gegenüber einem Wert von 10 **nicht nur +1 mehr**
 bedeutet, sondern einen qualitativen Sprung darstellt. Heldenwürfel kommen natürlich **zusätzlich**
-zu allen anderen Modifikatoren zum Einsatz. Sollte auch beim Heldenwürfel die Regel *Exploding 6*
+zu allen anderen Modifikatoren zum Einsatz. Sollte auch beim Heldenwürfel die Regel *Exploding 6*
 aktiv sein, kann selbstverständlich auch dieser explodieren – regeltechnisch wird dann mit beiden
 Würfeln getrennt die Explosions-Regel angewandt, was zu wahrhaft legendären Ergebnissen führen kann,
 aber entsprechend selten ist.
@@ -175,10 +175,10 @@ aber entsprechend selten ist.
 **Beispiel:** *Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 11
 gesteigert – ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
 durch ein sich schließendes Portal zu hechten, darf er zwei W6 werfen. Er erzielt eine 2 und eine 5;
-dank des Heldenwürfels nimmt er die 5 – genug, um es gerade noch hindurch zu schaffen. Hätte er nur
-einen Wurf gehabt, wäre vielleicht nur die 2 gefallen und Carlos gestrandet. In einer späteren Szene
-klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal: Eine 6 und eine 6 –
-beide Würfel explodieren! Im zweiten Anlauf kommen noch eine 4 und eine 3 hinzu, also 6+4 vs. 6+3.
+dank des Heldenwürfels nimmt er die 5 – genug, um es gerade noch hindurch zu schaffen. Hätte er nur
+einen Wurf gehabt, wäre vielleicht nur die 2 gefallen und Carlos gestrandet. In einer späteren Szene
+klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal: Eine 6 und eine 6 –
+beide Würfel explodieren! Im zweiten Anlauf kommen noch eine 4 und eine 3 hinzu, also 6+4 vs. 6+3.
 Carlos’ bester Wurf ist damit eine ***10***, was ihm einen spektakulären Aufstieg über die
 Festungsmauer ermöglicht, als würde ihm das Schicksal selbst einen Schub verleihen.*
 
@@ -208,7 +208,7 @@ Jeder gespeicherte Spielstand (z. B. in Form einer JSON-Datei) erhält künfti
 konvertiert wurde. Dies mag nach einem rein technischen Detail klingen, hat jedoch handfeste
 Vorteile für die Spielpraxis – insbesondere, da ZEITRISS 4.x aktiv weiterentwickelt wird.
 
-**Versionskennung in Save-Dateien:** Ab Version 4.0.3 wird bei jedem Speichervorgang automatisch ein
+**Versionskennung in Save-Dateien:** Ab Version 4.0.3 wird bei jedem Speichervorgang automatisch ein
 **"version"**-Feld in die JSON-Datei geschrieben, z. B. *"version": "4.0.3"*. Bei späteren Modulen
 oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf *4.1* für ein größeres Modul-
 Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
@@ -218,9 +218,9 @@ Hauptversionsnummern überein (z. B. 4.0 zu 4.1), sind die meisten Änderungen
 Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
 das Einfügen neuer Felder mit Standardwerten.
 
-**Beispiel – versionskompatibler Spielstand:** *Angenommen, in Version 4.1 wird ein neues Attribut
+**Beispiel – versionskompatibler Spielstand:** *Angenommen, in Version 4.1 wird ein neues Attribut
 ***“Mentalstabilität”*** eingeführt, das in 4.0 noch nicht existiert. Ihr habt einen Kampagnen-
-Spielstand aus Version 4.0.2. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
+Spielstand aus Version 4.0.2. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
 anhand *"version": "4.0.2"*, dass ***Mentalstabilität*** fehlt. Beim Konvertieren des Standes auf
 4.1 wird automatisch das Feld *"mentalstabilität": 100* (als Start- oder Standardwert) ergänzt. Eure
 Chrononauten erhalten also rückwirkend einen vollen Mentalstabilitätswert, den ihr im Spiel dann
@@ -234,7 +234,7 @@ Bei **größeren Versionssprüngen** (etwa einem Wechsel von 4.x auf 5.0 in fern
 Inkompatibilitäten geben, aber für diesen Fall ist vorgesorgt: Der Codex würde dann beim Laden eine
 Warnung ausgeben und – sofern möglich – ein **Migrationsskript** anbieten, das die wichtigsten Daten
 in die neue Edition überführt. Solche größeren Updates werden natürlich ausführlich dokumentiert.
-Für den Alltag in ZEITRISS 4.0 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
+Für den Alltag in ZEITRISS 4.0 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
 und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speicherstände haben zu
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
@@ -258,12 +258,12 @@ den Held\*innen erlaubt, das Blatt entscheidend zu wenden. Die Devise lautet: **
 mit klarem Fokus auf den Taten der Chrononauten.
 
 **Grundprinzip – Waagschalen-System:** Stellt euch den Verlauf einer Schlacht wie eine Waage mit
-zwei Seiten vor: **Seite A** repräsentiert die Verbündeten der Helden, **Seite B** die Gegenseite.
+zwei Seiten vor: **Seite A** repräsentiert die Verbündeten der Helden, **Seite B** die Gegenseite.
 Beide Seiten beginnen in der Regel ausgeglichen oder gemäß der Story-Vorgabe leicht zugunsten einer
 Seite. Durch ihre **Schlüsselaktionen** können die Spielercharaktere nun das Gewicht zu Gunsten von
 A oder B verschieben. Jede erfolgreiche **Helden-Aktion** legt sprichwörtlich ein Gewicht auf die
-Waagschale von Seite A (Erfolgspunkt für die Heldenseite). Gelingt den Gegnern ein bedeutender Coup
-– oder versäumen die Helden eine wichtige Gelegenheit – erhält Seite B einen Erfolgspunkt (oder ein
+Waagschale von Seite A (Erfolgspunkt für die Heldenseite). Gelingt den Gegnern ein bedeutender Coup
+– oder versäumen die Helden eine wichtige Gelegenheit – erhält Seite B einen Erfolgspunkt (oder ein
 bereits erzielter Punkt für A wird neutralisiert). Am Ende des Konflikts werden die
 **Erfolgspunkte** beider Seiten verglichen:
 
@@ -295,8 +295,8 @@ den feindlichen Anführer im Duell ausschalten oder (c) die Moral der erschöpft
 eine flammende Rede stärken. Jede dieser Aufgaben wird als eigene Szene im Spiel ausgespielt.
 - **Einfluss der Aktionen:** Spielt nun jede dieser Schlüsselszenen mit den normalen Regeln aus –
 sei es im Kampf, durch Schleichen, taktisches Geschick oder Diplomatie, je nach Art der Aufgabe.
-Gelingt den Helden die jeweilige Aktion, erhalten sie **1 Erfolgspunkt** für Seite A. Misslingt
-etwas gravierend oder ignorieren die Helden eine Chance, bekommt Seite B einen Punkt (oder ein
+Gelingt den Helden die jeweilige Aktion, erhalten sie **1 Erfolgspunkt** für Seite A. Misslingt
+etwas gravierend oder ignorieren die Helden eine Chance, bekommt Seite B einen Punkt (oder ein
 bereits erzielter A-Punkt wird wieder abgezogen, wenn das plausibler scheint). Wichtig ist hier ein
 bisschen Fingerspitzengefühl der SL: Nicht jeder kleine Misserfolg der Helden sollte direkt einen
 Punkt für B geben – es geht um *entscheidende* Wendungen.
@@ -356,7 +356,7 @@ Unterdrückung bestehen usw.). So bleibt das Spiel tiefgründig und der **Zeitre
 seinen Paradoxien – wird gekonnt in Szene gesetzt.
 
 Mit diesen Erweiterungen – von explodierenden Würfeln über Heldenwürfel und HUD-Alerts bis hin zu
-cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.0 einen weiteren
+cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.0 einen weiteren
 Feinschliff. Spielrunden können nun noch flexibler entscheiden, welchen **Ton** sie anschlagen
 wollen: Knallhart taktisch, filmisch-überdreht oder eine balancierte Mischung. Alle neuen
 Modulelemente fügen sich nahtlos ins existierende Regelwerk ein. Nutzt diejenigen, die eure Kampagne

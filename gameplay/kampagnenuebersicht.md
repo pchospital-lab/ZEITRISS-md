@@ -12,7 +12,7 @@ die entstandenen Risse überwacht. Spieler erkunden verschiedene Epochen, formen
 Zeitlinie und können sich mit oder gegen einflussreiche Fraktionen stellen. Der Stil lehnt
 sich an klassische Agentenfilme an; Psionik ist lediglich fokussiertes Training und keine
 Magie. Obwohl einige Elemente auf Verschwörungstheorien beruhen, erhebt das Spiel keinerlei
-Anspruch auf historische Genauigkeit (Fiktion, ab 18 Jahren).
+Anspruch auf historische Genauigkeit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 

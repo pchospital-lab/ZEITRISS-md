@@ -156,7 +156,7 @@ gezielt beeinflussen. Die Missionen gliedern sich in fünf Kategorien:
 Frühere Beispielmissionen wurden zugunsten dieses flexiblen Baukastens gestrichen.
 Kombiniert die Tabellen nach Belieben und erstellt eure eigenen Einsätze. Für
 größere Handlungsbögen könnt ihr mehrere Aufträge verbinden oder den
-[Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur) aus Modul 6
+[Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur) aus Modul 6
 nutzen.
 
 Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
@@ -229,7 +229,7 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 ein Geheimnis, das im weiteren Verlauf der Kampagne hilft.
   3. **Ansehen & Verbündete:** Ihr Erfolg verschafft ihnen Ansehen und neue Alliierte – z. B.
 Dankbarkeit einer geretteten Person oder gar einer Fraktion (vielleicht winkt eine Beförderung im
-ITI oder ein Bündnis mit den Zeitrebellen von *Tempus Liber*).
+ITI oder ein Bündnis mit den Zeitrebellen von *Tempus Liber*).
   4. **Technologischer Vorteil:** Als Lohn stellt man ihnen neue Ausrüstung oder experimentelle
 Technik zur Verfügung (etwa ein verbessertes Zeitreise-Gadget oder Unterstützung durch das HQ).
   5. **Stabilisierte Zeit:** Ihr Eingreifen bewahrt den Verlauf der Geschichte und rettet
@@ -447,20 +447,20 @@ dieser Generator einen schnellen Rahmen. Er kombiniert einen **Zeitort** (Epoche
 markanten **Ereignis oder Konflikt**, das dort gerade passiert. Würfelt z. B. 1W6 für einen Zeitort
 **und** 1W6 für ein besonderes Ereignis, oder nutzt eine der folgenden vordefinierten Kombinationen:
 
-1. **Steinzeitliche Wildnis** (ca. 10.000 v.Chr.) – *Setting:* Weite prähistorische Landschaft mit
+1. **Steinzeitliche Wildnis** (ca. 10.000 v.Chr.) – *Setting:* Weite prähistorische Landschaft mit
 Megafauna (Mammutherden, Säbelzahntiger) und nomadischen Stämmen. **Besonderheit:** Ein kleines Dorf
 ist in einer Zeitschleife gefangen: Jeden Morgen geht die Sonne nicht auf. Fackeln brennen ewig,
 Tiere wirken verwirrt. Höhlenmalereien deuten auf einen temporalen Meteor hin, der hier einst
 einschlug. Die Chrononauten müssen das prähistorische Paradox beheben, während misstrauische
 Schamanen und hungrige Bestien ihnen zusetzen.
-2. **Ägyptisches Neues Reich** (1250 v.Chr.) – *Setting:* Glühende Wüstensonne, monumentale Tempel
-und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Artefakt in einer
+2. **Ägyptisches Neues Reich** (1250 v.Chr.) – *Setting:* Glühende Wüstensonne, monumentale Tempel
+und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Artefakt in einer
 Pyramide verehrt, angeblich ein Geschenk der Götter. Tatsächlich stammt es aus der Zukunft und
 strahlt ungewöhnliche Energie ab. Die Agenten müssen entscheiden: Stehlen sie das Artefakt, um die
 Zeitlinie zu schützen – riskieren aber, die lokale Religion zu erschüttern? Oder lassen sie es in
 der Geschichte, mit unbekannten Folgen? Intrigante Hohepriester und ein misstrauischer Wesir machen
 jede Aktion zum Balanceakt.
-3. **Mittelalterliche Hafenstadt** (14. Jh.) – *Setting:* Hansekoggen im Hafen, geschäftiges
+3. **Mittelalterliche Hafenstadt** (14. Jh.) – *Setting:* Hansekoggen im Hafen, geschäftiges
 Markttreiben, Tavernenlärm und abendrötliche Gassen. **Besonderheit:** Gerüchte gehen um von einem
 Geisterschiff, das bei Vollmond im Hafen erscheint und genauso plötzlich verschwindet. Eine
 temporale Erscheinung? Vielleicht ein Zeitschiff aus der Zukunft, das hier festsitzt. Die
@@ -687,7 +687,7 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
   3. Lebendig (hat einen eigenen Willen oder eine KI)
   4. Verändert seine Form je nach Epoche
   5. Optional: Sendet Visionen oder Träume an den Besitzer
-  6. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
+  6. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
 
 - **Herkunft/Historie:**
 
@@ -701,7 +701,7 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 **Beispiel:** Kombination 3-6-4 (*Gerät* + *Zeitmanipulation* + *Paradoxon*) ergibt ein Gerät mit
 einmaliger Zeitfunktion, das durch ein Paradoxon erschaffen wurde. GPT ersinnt vielleicht die
 **“Stundenglas-Bombe”** – ein kleines mit Zahnrädern versehenes Gerät, das aussieht wie ein
-viktorianisches Stundenglas. Seine Eigenschaft: Es kann einmalig **die Zeit um 10 Minuten
+viktorianisches Stundenglas. Seine Eigenschaft: Es kann einmalig **die Zeit um 10 Minuten
 zurückspulen** (in einem begrenzten Umkreis). Dabei entsteht jedoch ein Paradoxon, weil das Gerät
 sich selbst eigentlich nie gebaut haben kann – jedes Mal, wenn es benutzt wird, übergibt es sich
 quasi selbst an die Nutzer in der Vergangenheit. Das Objekt dürfte also gar nicht existieren, doch

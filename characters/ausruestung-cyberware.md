@@ -46,7 +46,7 @@ Bezug** und kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erz�
 geprüft sind. Die SL (Spielleitung) – ob Mensch oder KI – sollte diese an die eigene Kampagne
 anpassen. Preise sind in ***CU*** (Chrono-Units, die zeitübergreifende Währung des ITI) angegeben.
 Zugang zu High-Tech-Ausrüstung kann vom Rang oder Ruf des Agenten abhängen: Ein frisch rekrutierter
-Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear ausgestattet. Solche
+Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear ausgestattet. Solche
 Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes Ansehen verdienen.*
 Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
 manchmal geheime Depots mit exklusiven Prototypen.
@@ -128,7 +128,7 @@ Generatoren**, die hohen Schutz bei maximaler Beweglichkeit versprechen – alle
 Kosten und teils anfällig gegen spezielle Gefahren (etwa EMPs). Oft ist auch eine **Kombination**
 sinnvoll: z.B. moderne ballistische Unterwäsche unter einer historischen Tunika für verdeckten
 Schutz. Wichtig für die Spielmechanik: Rüstung erhöht keinen „Rüstungswert“, sondern **reduziert den
-erlittenen Schaden pro Treffer** um einen bestimmten Wert. Leichte Schutzkleidung mindert oft *1 LP*
+erlittenen Schaden pro Treffer** um einen bestimmten Wert. Leichte Schutzkleidung mindert oft *1 LP*
 Schaden pro Treffer, schwerere Rüstungen mehr. Allerdings bringen Rüstungen auch Nachteile wie
 Gewichtsbelastung oder eingeschränkte Beweglichkeit. Die Tabelle zeigt Beispiele für Schutzkleidung
 und persönliche Schutzsysteme:
@@ -162,8 +162,8 @@ oder Spezialanfertigungen des ITI). Zudem stellen wir **zeittechnologische Gerä
 eröffnen. Beachte, dass Ausrüstung ebenfalls in CUs bezahlt wird; viele **Alltagsgegenstände** oder
 einfache historische Tools sind günstig (oft zwei- oder niedriger dreistelliger CU-Bereich), während
 **hochwertiges Missionsgerät** schnell teuer wird. Ein moderner Revolver oder ein römischer Gladius
-kostet z.B. ~50 CU, eine hochwertige Körperschutz-Weste ~150 CU, und seltene High-Tech-Gadgets oder
-Antiquitäten können 200+ CU erreichen. Die folgende Auflistung bietet einen Überblick.
+kostet z.B. ~50 CU, eine hochwertige Körperschutz-Weste ~150 CU, und seltene High-Tech-Gadgets oder
+Antiquitäten können 200+ CU erreichen. Die folgende Auflistung bietet einen Überblick.
 
 ### Alltags- und Missionsausrüstung
 
@@ -177,26 +177,26 @@ Ausrüstungsgegenstände:
 
 - **Medikit (Erste-Hilfe-Set):** Standard-Notfallausrüstung mit Verbänden, Desinfektionsmittel und
 Schmerzmitteln. Heilt **2W6 LP** außerhalb des Kampfes (einmalig pro Einsatz verwendbar); bei
-sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. *Kosten:* 30 CU.
+sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. *Kosten:* 30 CU.
 - **Kletterausrüstung:** Seile, Haken, ein kompakter mechanischer Seilwerfer und Karabiner.
 Erleichtert Klettern und Abseilen erheblich (Proben +2 oder automatische Erfolge bei einfachen
-Kletterpartien). *Kosten:* 40 CU.
+Kletterpartien). *Kosten:* 40 CU.
 - **Dietrichset & Universalwerkzeug:** Sammlung von Dietrichen, Spannern sowie ein kleines
 multifunktionales Werkzeug (Schraubendreher, Zange, Messer in einem). Ermöglicht das Öffnen von
-Schlössern (üblich +2 auf Mechanik/Technik-Proben dafür) und kleinere Reparaturen. *Kosten:* 20 CU.
-- **Nachtsichtgerät (Starlight-Goggles):** Ein tragbares Nachtsicht-Monokel aus dem späten 20. Jh.
-Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
+Schlössern (üblich +2 auf Mechanik/Technik-Proben dafür) und kleinere Reparaturen. *Kosten:* 20 CU.
+- **Nachtsichtgerät (Starlight-Goggles):** Ein tragbares Nachtsicht-Monokel aus dem späten 20. Jh.
+Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
 erklären (muss versteckt genutzt werden). *Effekt:* ignoriert Dunkelheits-Mali auf Wahrnehmung.
-*Kosten:* 50 CU.
+*Kosten:* 50 CU.
 - **Funkgerät/Kommunikator:** Ein kleines Kommunikationsgerät, angepasst an die Epoche (z.B. als
-Hörmuschel im Ohr ab 20. Jh., oder versteckt in einem Amulett für frühere Zeiten). Hält Kontakt zum
+Hörmuschel im Ohr ab 20. Jh., oder versteckt in einem Amulett für frühere Zeiten). Hält Kontakt zum
 Team über Kurzstrecke oder – falls das **Zeitterminal** verbunden ist – als Link zum HQ über den
-Zeitriss. Reichweite teamintern ca. 5 km; über Zeitriss nur sporadisch und mit Zeitverzögerung.
-*Kosten:* 30 CU.
+Zeitriss. Reichweite teamintern ca. 5 km; über Zeitriss nur sporadisch und mit Zeitverzögerung.
+*Kosten:* 30 CU.
 - **Verkleidungsset:** Wechselkleidung und einfache Maskierungen (Hüte, Perücken, Makeup) passend
 zur Einsatzzeit. Ermöglicht es, Identitäten zu wechseln und unterzutauchen. (In Spielbegriffen
 unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
-*Kosten:* 20–50 CU je nach Umfang.
+*Kosten:* 20–50 CU je nach Umfang.
 
 ### Taktische Gadgets
 
@@ -211,38 +211,38 @@ Paradoxon. Beispiele für taktische Gadgets:
 ausfahrbaren Interface-Steckern und Decoder-Software. Ermöglicht das Hacken von Computersystemen in
 allen Epochen – sei es das Knacken von 80er-Jahre-Terminals oder das Überbrücken von
 Sicherheitssystemen der Zukunft. *Effekt:* gibt +2 auf Hacken/Technik; in den meisten Epochen vor
-dem 21. Jh. praktisch unaufhaltsam, da überlegen. *Kosten:* 150 CU.
+dem 21. Jh. praktisch unaufhaltsam, da überlegen. *Kosten:* 150 CU.
 - **Drohnen (Aufklärer & Helfer):** Kleine, ferngesteuerte Geräte, z.B. fliegende Mini-Drohnen mit
 Kamera oder rollende Spähdrohnen. Sie können Räume auskundschaften, Karten erstellen oder
-Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). *Effekt:* Der
+Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). *Effekt:* Der
 Drohnenoperator (mit entsprechendem Talent wie *Drohnensteuerung*) kann durch die Drohne sehen;
 gewährt einen taktischen Vorteil (+1 auf Initiativen, wenn vor einem Kampf per Drohne
-ausgekundschaftet) und ermöglicht das Umgehen mancher Fallen aus sicherer Distanz. *Kosten:* 100 CU
+ausgekundschaftet) und ermöglicht das Umgehen mancher Fallen aus sicherer Distanz. *Kosten:* 100 CU
 pro Drohne (Standardmodell).
 - **EMP-Granate:** Ein kleines Wurfgerät, das einen **Elektromagnetischen Impuls** abgibt. Lässt in
-einem Radius von ca. 5 m alle elektronischen Geräte ausfallen oder rebooten – von Kameras über
+einem Radius von ca. 5 m alle elektronischen Geräte ausfallen oder rebooten – von Kameras über
 Fahrzeugelektronik bis hin zu Implantaten (Vorsicht Eigengefährdung!). Primitive Technologien
-(vorindustriell) bleiben unbeeinflusst. *Kosten:* 80 CU pro Stück.
+(vorindustriell) bleiben unbeeinflusst. *Kosten:* 80 CU pro Stück.
 - **Sprengsatz (C4-Päckchen mit Timer/Zünder):** Plastiksprengstoff in kompakter Form mit variabler
 Zündoption (Timer oder Fernzünder). Ideal für Türen, Strukturen oder als Ablenkung. *Effekt:*
-Richtet schweren Schaden an (tötet im Umkreis von 2 m praktisch alles Ungepanzerte, beschädigt auch
-Fahrzeuge/Gebäude). Sprengstoffexperten können mehrere Ladungen koordinieren. *Kosten:* 50 CU pro
+Richtet schweren Schaden an (tötet im Umkreis von 2 m praktisch alles Ungepanzerte, beschädigt auch
+Fahrzeuge/Gebäude). Sprengstoffexperten können mehrere Ladungen koordinieren. *Kosten:* 50 CU pro
 Ladung.
 - **“Zeit-Messer” (Temporaler Spalt-Generator):** Ein experimentelles ITI-Gadget in Form eines
 handlichen, wurfklingenartigen Geräts. Auf Knopfdruck erzeugt es für **wenige Sekunden einen Mini-
 Zeitriss** an der Auftreffstelle. Dieser Riss kann z.B. Gitter durchdringen oder Fesseln temporär
 auflösen – ideal, um aus Gefangenschaft zu entkommen oder Barrieren zu umgehen. *Einschränkung:*
 Sehr limitiert (max. 1–2 Nutzungen pro Mission, da die Energiezelle sich dann entlädt und Neuladen
-nur im HQ möglich ist). *Kosten:* 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich).
+nur im HQ möglich ist). *Kosten:* 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich).
 - **Tarnfeld-Generator:** Ein gürtelschnallen- oder armbandgroßes Gerät, das ein lokales **Aktiv-
 Tarnfeld** projiziert. Für bis zu 1 Minute wird der Träger unsichtbar im sichtbaren Lichtspektrum
 (leichter Schimmer bei genauerem Hinsehen, im Infrarot weiterhin erkennbar). Perfekt für
 Infiltration – doch *Achtung:* Bewegung muss langsam erfolgen, schnelle Bewegungen erzeugen eine
-Silhouetten-Unschärfe. *Kosten:* 250 CU (Hochtechnologie, limitiert verfügbar).
+Silhouetten-Unschärfe. *Kosten:* 250 CU (Hochtechnologie, limitiert verfügbar).
 - **Universal-Übersetzer:** Ein kleines KI-Modul mit Ohrstöpsel und Mikrofon, das gesprochene
 Sprachen in Echtzeit übersetzen kann. Unterstützt Dutzende Sprachen aus verschiedenen Epochen (für
 völlig unentdeckte Sprachen evtl. unzureichend). Die Übersetzung erfolgt als leise Stimme im Ohr des
-Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. *Kosten:* 80 CU.
+Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. *Kosten:* 80 CU.
 
 ### Zeit-Technologie: Zeitterminals & Temporale Tools
 
@@ -265,17 +265,17 @@ markieren. Die ITI-Techniker können so den Rückhol-Riss gezielt an diesen Beac
 falls der ursprüngliche Extraktionspunkt unbrauchbar geworden ist. Ein Chrono-Beacon kann außerdem
 kurzfristig einen lokalen Zeitriss stabilisieren (z.B. um ein kleines Objekt in die Nullzeit zu
 schicken). *Verbrauch:* Einmal einsetzbar, dann muss die interne Quarz-Batterie ersetzt werden.
-*Kosten:* 150 CU.
+*Kosten:* 150 CU.
 - **Epochen-Scanner:** Ein tragbares Sensorgerät, das Anomalien im Zeitgefüge aufspürt. Ähnlich
 einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxa, temporale Energie oder unstimmige
 Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
-20 m. Besonders hilfreich, um *Zeitverbrecher* oder fremde Eingriffe zu entdecken. *Kosten:* 120 CU.
+20 m. Besonders hilfreich, um *Zeitverbrecher* oder fremde Eingriffe zu entdecken. *Kosten:* 120 CU.
 - **Paradox-Alarm:** Ein kleines implantierbares oder am Handgelenk tragbares Gerät, das mit dem
 TEMP-Attribut eines Chrononauten gekoppelt ist. Es vibriert oder gibt einen stummen Alarm, wenn
 Handlungen des Teams drohen, einen großen **Zeitparadox** auszulösen. Natürlich ist es keine
 Allwissende Prophezeiung – aber es detektiert z.B. beim Versuch, einen wichtigen historischen Führer
 zu beseitigen, starke Temporalsignaturen, die auf einen Einschnitt in der Zeitlinie hindeuten.
-*Kosten:* 200 CU (geheim, nur an ausgewählte Teams vergeben).
+*Kosten:* 200 CU (geheim, nur an ausgewählte Teams vergeben).
 - **Portal-Notöffner:** Ein experimentelles Gerät, das wie ein Griff mit Abzug aussieht. Im
 absoluten Notfall kann ein Agent damit einen *kleinen, instabilen Zeitriss* zu einer
 voreingestellten Zeit (typisch: Nullzeit HQ, **nur Rückreise**) öffnen. Dieser Riss hält wenige
@@ -324,62 +324,62 @@ CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
 oder was ein ähnliches Objekt im HQ kosten würde.
 Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
 ## Zufällige Waffenfunde (1W6)
-1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. *Taucht oft
+1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. *Taucht oft
    in Missionen rund um Ritter oder Feldzüge auf.*
-2. **Verborgenes Steampunk-Revolver** – Verschachtelte Mechanik, Schaden 3 LP, 6 Schuss. Preis: 150 CU.
+2. **Verborgenes Steampunk-Revolver** – Verschachtelte Mechanik, Schaden 3 LP, 6 Schuss. Preis: 150 CU.
    *Gut als Überraschungswaffe in einer viktorianischen Spionage-Story.*
-3. **Modernes Sturmgewehr** – Standard 21. Jh., Schaden 4 LP pro Salve. Preis: 200 CU. *Häufiger
+3. **Modernes Sturmgewehr** – Standard 21. Jh., Schaden 4 LP pro Salve. Preis: 200 CU. *Häufiger
    Loot auf Militärschauplätzen moderner Einsätze.*
-4. **Energie-Lanze** – Prototyp aus dem 23. Jh., Schaden 5 LP, zehrt am SYS-Wert beim Nutzen. Preis:
-   350 CU. *Ideal für Hightech-Extraktionen in der Zukunft.*
-5. **Schallwerfer** – Nicht-tödliche Distanzwaffe, macht Gegner kampfunfähig (SG gegen
-   Erschütterung). Preis: 250 CU. *Oft Teil von Sicherheitsausrüstung in Forschungskomplexen.*
+4. **Energie-Lanze** – Prototyp aus dem 23. Jh., Schaden 5 LP, zehrt am SYS-Wert beim Nutzen. Preis:
+   350 CU. *Ideal für Hightech-Extraktionen in der Zukunft.*
+5. **Schallwerfer** – Nicht-tödliche Distanzwaffe, macht Gegner kampfunfähig (SG gegen
+   Erschütterung). Preis: 250 CU. *Oft Teil von Sicherheitsausrüstung in Forschungskomplexen.*
 6. **Zeitfragment-Pistole** – Seltenes ITI-Experiment: erzeugt kleine Zeitsprünge beim Treffer.
-   Schaden 3 LP + temporales Risiko. Preis: 500 CU. *Nur bei speziellen Story-Missionen oder als
+   Schaden 3 LP + temporales Risiko. Preis: 500 CU. *Nur bei speziellen Story-Missionen oder als
    besonderes Artefakt einsetzbar.*
 
 ## Nützliche Alltagsausrüstung (1W6)
 1. **Epocheangepasstes Werkzeugset** – Passt sich automatisch an die Zeitepoche an; Bonus +1 auf
-   Reparatur-/Bastelwürfe. Wert: 80 CU.
-2. **Mini-Drohne** – Handliche Aufklärungsdrohne, Reichweite 200 m. Wert: 120 CU. Praktisch für
+   Reparatur-/Bastelwürfe. Wert: 80 CU.
+2. **Mini-Drohne** – Handliche Aufklärungsdrohne, Reichweite 200 m. Wert: 120 CU. Praktisch für
    Kundschaft in weitläufigen Arealen.
-3. **Tarnumhang** – Verändert Farbe nach Umgebung. Gibt +1 auf Heimlichkeitsproben. Wert: 100 CU.
+3. **Tarnumhang** – Verändert Farbe nach Umgebung. Gibt +1 auf Heimlichkeitsproben. Wert: 100 CU.
    Gute Wahl für Infiltrationsmissionen.
-4. **Heilpaket** – Moderne Medpacks inklusive Nanobots, stellen sofort 3 LP wieder her. Kosten:
-   50 CU.
-5. **Allzweckscanner** – Liest chemische Spuren, Strahlung und Energiesignaturen aus. Wert: 140 CU.
+4. **Heilpaket** – Moderne Medpacks inklusive Nanobots, stellen sofort 3 LP wieder her. Kosten:
+   50 CU.
+5. **Allzweckscanner** – Liest chemische Spuren, Strahlung und Energiesignaturen aus. Wert: 140 CU.
    In jeder Ermittlungsmission hilfreich.
 6. **Chrono-Seilwerfer** – Kompaktes Enterhaken-System, haftet an jeder Oberfläche und löst sich auf
-   Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien.
+   Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien.
 
 ## Kuriose Artefakte & Relikte (1W6)
 1. **Kristallschädel** – Strahlt schwache Energie aus. Wer ihn studiert, erhält gelegentlich
-   Visionen vergangener Ereignisse. Bei Sammlern 300 CU wert.
+   Visionen vergangener Ereignisse. Bei Sammlern 300 CU wert.
 2. **Ägyptischer Zeitkompass** – Zeigt nicht Norden, sondern temporale Instabilitäten an. Kann
-   einmal pro Mission einen Paradox-Wert reduzieren. Wert: 400 CU.
-3. **Portativ-Orakel** – Winziges Gerät aus dem 28. Jh. beantwortet einfache Ja/Nein-Fragen mit
-   einer Wahrscheinlichkeit von 70 %. Wert: 350 CU.
+   einmal pro Mission einen Paradox-Wert reduzieren. Wert: 400 CU.
+3. **Portativ-Orakel** – Winziges Gerät aus dem 28. Jh. beantwortet einfache Ja/Nein-Fragen mit
+   einer Wahrscheinlichkeit von 70 %. Wert: 350 CU.
 4. **Verwunschener Spiegel** – Ursprünglich aus dem Barock. Ein Blick hinein zeigt eine mögliche
-   Zukunft. Könnte spielerische Hinweise geben, hat aber Paradox-Gefahr. Wert: 280 CU.
+   Zukunft. Könnte spielerische Hinweise geben, hat aber Paradox-Gefahr. Wert: 280 CU.
 5. **Biotech-Samen** – Organische Kapsel aus einer fernen Zukunft. Wächst in Minuten zu einem
-   provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU.
+   provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU.
 6. **Schriftrolle des Vergessenen Ordens** – Inhalt teilweise unleserlich. Beim Entziffern offenbart
-   sich verborgene Geschichte, was eine Nebenszene auslösen kann. 150 CU Handelswert, unter
+   sich verborgene Geschichte, was eine Nebenszene auslösen kann. 150 CU Handelswert, unter
    Historikern weitaus mehr.
 
 ## Seltene Spezialgegenstände (1W6)
 1. **Psi-Verstärker-Stirnband** – Steigert Psi-Fähigkeiten um +1 (sofern vorhanden). Preis im HQ:
-   500 CU. Nur in fortgeschrittenen Missionen zugänglich.
+   500 CU. Nur in fortgeschrittenen Missionen zugänglich.
 2. **Naniten-Injektion** – Temporärer Boost: +2 auf einen körperlichen Attributswurf, hält wenige
-   Minuten. Preis: 250 CU pro Ampulle.
+   Minuten. Preis: 250 CU pro Ampulle.
 3. **Quantum-Funksender** – Ermöglicht verzögerungsfreie Kommunikation selbst durch Zeitrisse.
-   Preis: 400 CU. Häufig Teil von Rettungsmissionen.
+   Preis: 400 CU. Häufig Teil von Rettungsmissionen.
 4. **Schwerelosigkeits-Generator** – Deaktiviert lokale Schwerkraft in einem kleinen Raum für einige
-   Sekunden. Kosten: 450 CU.
+   Sekunden. Kosten: 450 CU.
 5. **DNA-Tarnchip** – Verändert kurzfristig biologische Merkmale, bietet +2 auf Verkleidungsproben.
-   Preis: 300 CU. Perfekt bei Undercover-Einsätzen.
-6. **Portal-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
-   hält. Oft Teil von Paradox-Notfalleinsätzen. Wert: 600 CU.
+   Preis: 300 CU. Perfekt bei Undercover-Einsätzen.
+6. **Portal-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
+   hält. Oft Teil von Paradox-Notfalleinsätzen. Wert: 600 CU.
 
 ## Einbindung in CUs & Missionen
 - **Wertigkeit:** Jeder Gegenstand hat einen CU-Wert. Im ITI-Hauptquartier können Agenten ihre

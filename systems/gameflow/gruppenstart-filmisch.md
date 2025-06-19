@@ -33,7 +33,7 @@ Rifts auf und erinnern an **X-Files**. Gadget-MacGuffins oder mystische
 Überbauten kommen nicht vor – Technik und Intrigen stehen im Fokus.
 Schon zu Beginn macht das ITI klar, dass die neue Einheit bald handfeste Geschichtsmissionen bewältigen muss.
 Ihr Handeln kann den Paradoxon-Index erhöhen;
-erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien,
+erreicht er Stufe 5, öffnen sich Rifts und erzeugen paranormale Anomalien,
 die zusätzlich zur eigentlichen Verschwörung gelöst werden müssen.
 
 Wir präsentieren im Folgenden **strukturelle Varianten**, filmische Stilmittel und bewährte
@@ -441,7 +441,7 @@ sieht, wie aus Fremden Freunde werden.
 - **Vertraute Gruppe (eingespielt oder mit Vorgeschichte):** Das Gegenteil der zusammengewürfelten
 Fremden – hier beginnt das Spiel mit einer **Gruppe, die bereits Beziehungen hat**. Vielleicht sind
 zwei Charaktere Geschwister, oder alle gehörten vorher derselben Spezialeinheit an. Eventuell hat
-man in Session 0 eine gemeinsame Vorgeschichte definiert. Der Vorteil: Man kann direkt auf ein
+man in Session 0 eine gemeinsame Vorgeschichte definiert. Der Vorteil: Man kann direkt auf ein
 eingespieltes Team setzen, ohne dass Misstrauen unter den Figuren besteht. Filmisch könnte man den
 Start dann wie einen **“Slice of Life”** inszenieren: eine Alltagsszene oder ein harmloser Auftrag,
 bei dem die Vertrautheit sichtbar wird (ähnlich wie beim ruhigen Auftakt mit etabliertem Team oben
