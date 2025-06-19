@@ -664,7 +664,8 @@ ohne direkt eine Zeitreise zu starten.
 
 > **Cronopoli** ist eine **statische Megastruktur** aus einer *möglichen Zukunft, die nie eintreten wird*.
 > Architektur & Straßenzüge bleiben unverändert.
-> **Bewohner, Händler und Begegnungen werden bei jedem Betreten vollständig neu instanziiert** – so wirkt die Stadt stets frisch,
+> **Bewohner, Händler und Begegnungen werden bei jedem Betreten vollständig neu instanziiert** –
+> so wirkt die Stadt stets frisch,
 > ohne dass wir mehr als **eine** Map modellieren müssen.
 > Die ringförmige Stadt schmiegt sich wie ein Wurm um das zentrale ITI-Hauptquartier.
 

@@ -348,7 +348,8 @@ Ab **Level 2** flackert das HUD,
 ### Paradox-Subsystem
 
 
-Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur und zeigt, welche Effekte bei welchen Stufen auftreten.
+Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
+und zeigt, welche Effekte bei welchen Stufen auftreten.
 Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 
 | Stufe | In-Mission-Effekt | HQ-Effekt |
