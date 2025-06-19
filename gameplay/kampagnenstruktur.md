@@ -136,7 +136,7 @@ if paradox_level == 5:
 | Schiene | Generator | Artefakte? | Stil | HUD |
 |---------|-----------|------------|------|-----|
 |**Core-Ops**|Rand-Epochen & CoreObjectiveTable|NEIN|Spionage-Thriller|`[CORE MISSION • …]`|
-|**Rift-Ops**|RiftSeedTable d10|JA|Blockbuster-Anomalie|`[RIFT RESPONSE • …]`|
+|**Rift-Ops**|RiftSeedTable d24|JA|Blockbuster-Anomalie|`[RIFT RESPONSE • …]`|
 
 ### Epoch-Lock & Rift-Loop
 
@@ -159,7 +159,9 @@ E --> A
 
 In der HQ-Phase entscheidet das Team pro Seed, ob es eindringt und ihn
 versiegelt oder bis später warten will. Jeder offene Rift erhöht die
-Probe-Schwelle und multipliziert die CU-Belohnung:
+Probe-Schwelle und multipliziert die CU-Belohnung. Dieser Wert gilt
+für alle Missionen – auch für Rifts – und wird nach jedem entfernten
+Seed neu berechnet:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
 | ------------ | ---------------- | -------------- |
@@ -173,8 +175,13 @@ treibt den Zähler schneller hoch.
 
 #### Rift-Side-Ops
 
-Eine Side-Op dauert nur eine Szene. Die Agenten bekämpfen ein Paramonster,
-zerstören seinen Kern und schließen damit den Seed.
+Eine Rift-Op umfasst eine **vollständige Mission**. Sie folgt dem
+üblichen Ablauf Briefing → Aufklärung → Konflikt → Auswertung.
+Meist bekämpfen die Agenten ein Paramonster, zerstören dessen Kern und
+schließen damit den Seed. Der Schwierigkeitsgrad der Rift-Mission orientiert
+sich an der zum Einsprung offenen Seed-Anzahl. Verlassen die Agenten den Rift,
+schließt sich der Riss automatisch – gelungen oder nicht. Der Seed verschwindet
+aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
 
 ```text
 Name / Epoche
