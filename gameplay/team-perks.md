@@ -40,6 +40,7 @@ unterstützt.
  Nach einem Konflikt regeneriert jedes Teammitglied einen zusätzlichen Treffer.
 - **Geistertruppe** – Perfekt abgestimmte Infiltration.
  Bei gemeinsamen Schleichen- oder Sabotage-Proben würfelt ihr mit Vorteil.
+- **Ballistische Optik 2.0** – +1 Erfolg auf Distanz auf vorbereiteter Position.
 
 ### Anwendung im Spiel
 
@@ -118,6 +119,13 @@ unterstreichen.
 
 **Im Rollenspiel:** Diese Gruppe diskutiert eifrig, notiert Theorien und wird von Wissenschaftlern
 als Kollegen behandelt. Sie erleben öfter Aha-Momente, weil sie sich gegenseitig inspirieren.
+### Ballistische Optik 2.0 – Scharfschützen-Upgrade
+
+**Vorteil:** +1 Erfolg auf Distanz, sofern sich das Team vorher einrichtet.
+
+**Freischalten:** Erprobt in mehreren Gefechten mit Sniper-Unterstützung oder durch Investition in hochwertige Zielsysteme.
+
+**Im Rollenspiel:** Die Gruppe plant Angriffe aus der Deckung und beschreibt coole Long-Range-Shots.
 
 Der SL kann natürlich eigene Team-Perks maßschneidern – etwa Untersee-Spezialisten oder
 Zeitwächter. Wichtig ist, dass Vorteile spürbar, aber nicht spielbrechend sind und immer an die

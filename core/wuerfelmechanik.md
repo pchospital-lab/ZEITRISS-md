@@ -358,3 +358,32 @@ der Codex mit Warnmeldungen das Team vor dem Schlimmsten bewahrt oder die Chrono
 gewaltigen Schlacht Geschichte schreiben – das Wichtigste ist, dass eure ZEITRISS-Runde
 unvergessliche gemeinsame Abenteuer erlebt. In diesem Sinne: *Würfel bereit, HUD kalibriert – und
 Film ab!*
+
+## Cheat-Cards: Kompakte Referenz
+
+Diese Tabellen passen auf eine A6-Karte oder ins HUD.
+
+### Erfolgsschwellen (W6)
+
+| Schwierigkeit | Schwelle |
+| --- | --- |
+| leicht | 4 |
+| mittel | 7 |
+| schwer | 10 |
+
+### Paradox-Level
+
+| Stufe | Effekt |
+| --- | --- |
+| 0–1 | Stabil |
+| 2 | Funk-Schwankung |
+| 3 | Leuchtende Staubfäden |
+| 4 | Kurz-Echo (1 s Nachzieher) |
+| 5 | ClusterCreate() im HQ |
+
+### Standard-Ausrüstungsslots
+
+- 1 Hauptwaffe
+- 1 Zweitwaffe
+- 2 Hilfsgeräte
+- 1 Spezialobjekt
