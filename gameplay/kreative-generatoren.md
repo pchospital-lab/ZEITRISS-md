@@ -334,6 +334,30 @@ hinter der Erscheinung – doch nicht immer.
 | 9 | **"Night Train 666"** – Geisterzug ohne Lokführer | USA 1952 | Fernsteuer-Chip Beta-Test | Zug entern |
 |10 | **"Emerald Kraken"** – Grüne Tentakel attackieren | Guam 1997 | Tiefsee-Mech defekt | Taucheinsatz |
 
+### Ausgefallene Rift-Szenarien
+
+1. **Militärischer Komplex – Tollwutvirus-Zombies:** In einer geheimen Anlage
+   wird ein modifiziertes Tollwutvirus getestet. Ein Ausbruch verwandelt das
+   Personal in rasende Kreaturen. Die Chrononauten sollen die Ursache finden und
+   das Virus eindämmen.
+2. **Mittelalterliche Katakomben – Der falsche Teufel:** In einem abgelegenen
+   Dorf verschwinden Menschen. Unter dem Dorf liegt ein weit verzweigtes
+   Katakombensystem, das angeblich vom Teufel bewohnt wird. Tatsächlich erzeugen
+   dort versteckte Alien-Geräte furchteinflößende Illusionen, während gezüchtete
+   Mutanten ein uraltes Geheimnis bewachen.
+3. **Altes Schloss – Vampir-Experiment:** Nächtliche Übergriffe plagen ein Dorf.
+   Ein Konzern schuf hier einst eine neue Menschenart, die Blut saugt und sich
+   per Biss verbreitet. Die Chrononauten müssen im Schloss den fanatischen
+   Bluttrinkerzirkel aufspüren und das fehlgeschlagene Experiment beenden.
+4. **Geheime Tiefsee-Megacity – Ursprung des "Blob":** Die Agenten springen zu
+   dem Zeitpunkt, als das lauteste je registrierte Geräusch aus den Tiefen des
+   Ozeans aufgezeichnet wird. Die Spur führt zu einem verborgenen
+   Terraforming-Projekt namens Second Earth, das von Schattenorganisationen
+   betrieben wird. Dort entdecken sie eine fortgeschrittene Megacity, halb unter
+   einer Kuppel, halb im Meeresboden. Schwarzer Sauerstoff dient als Atemgas,
+   während Schwarze Raucher Energie liefern. Die Atmosphäre ist für Menschen der
+   Oberwelt tödlich.
+
 ## Arc-Generator: Große Missionen
 
 Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
@@ -416,100 +440,123 @@ würfelt einen Eintrag als Missionsstart.
 \| Nachphase: Kisten treiben im Hafen.
 3. **Paris 1789 – Sturm auf die Bastille** \| Vorphase: Gerüchte über Waffenlager.
 \| Nachphase: Aufgebrachte Menge stürmt das Gefängnis.
-4. **Waterloo 1815 – Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder.
-\| Nachphase: Truppen brechen panisch.
-5. **New Orleans 1812 – Großer Brand** \| Vorphase: Kerzenstummel fällt um.
+4. **New Orleans 1812 – Großer Brand** \| Vorphase: Kerzenstummel fällt um.
 \| Nachphase: Viertel lichterloh.
+5. **Waterloo 1815 – Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder.
+\| Nachphase: Truppen brechen panisch.
 6. **Berlin 1848 – Märzrevolution** \| Vorphase: Flugblätter im Umlauf.
 \| Nachphase: Barrikadenkämpfe.
-7. **Florenz 1867 – Laborunfall** \| Vorphase: Experimente mit Äthergas.
+7. **London 1851 – Great Exhibition** \| Vorphase: Weltneuheiten reisen an.
+\| Nachphase: Rivalen kämpfen um Erfindungen.
+8. **Florenz 1867 – Laborunfall** \| Vorphase: Experimente mit Äthergas.
 \| Nachphase: Halle explodiert, Rauchschwaden.
-8. **London 1888 – Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln.
+9. **London 1888 – Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln.
 \| Nachphase: Spur führt zu einem Zeitreisenden.
-9. **Chicago 1893 – Weltausstellung** \| Vorphase: Besucher strömen herbei.
+10. **Paris 1889 – Weltausstellung** \| Vorphase: Eiffelturm im Bau.
+\| Nachphase: Spione jagen neue Technik.
+11. **Chicago 1893 – Weltausstellung** \| Vorphase: Besucher strömen herbei.
 \| Nachphase: Stromnetz bricht zusammen.
-10. **Sankt Petersburg 1905 – Blutsonntag** \| Vorphase: Friedlicher Marsch.
+12. **Sankt Petersburg 1905 – Blutsonntag** \| Vorphase: Friedlicher Marsch.
 \| Nachphase: Soldaten schießen in die Menge.
-11. **San Francisco 1906 – Erdbeben** \| Vorphase: Tiere verhalten sich unruhig.
+13. **San Francisco 1906 – Erdbeben** \| Vorphase: Tiere verhalten sich unruhig.
 \| Nachphase: Stadtteile versinken in Flammen.
-12. **Sarajevo 1914 – Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich.
+14. **Sarajevo 1914 – Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich.
 \| Nachphase: Europa steht vor dem Krieg.
-13. **Galizien 1916 – Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab.
+15. **Galizien 1916 – Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab.
 \| Nachphase: U-Boot taucht Jahre später wieder auf.
-14. **New York 1929 – Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge.
+16. **New York 1929 – Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge.
 \| Nachphase: Broker geraten in Panik.
-15. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
+17. **Berlin 1936 – Olympische Spiele** \| Vorphase: Propagandashow läuft.
+\| Nachphase: Geheime Aufrüstung fliegt auf.
+18. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
 \| Nachphase: Luftschiff in Flammen.
-16. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
+19. **New York 1939 – World’s Fair** \| Vorphase: Visionen der Zukunft.
+\| Nachphase: Tarnprojekt enttarnt.
+20. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
 \| Nachphase: Greller Blitz, Messgeräte spielen verrückt.
-17. **Roswell 1947 – Absturz** \| Vorphase: Radarempfang gestört.
+21. **Roswell 1947 – Absturz** \| Vorphase: Radarempfang gestört.
 \| Nachphase: Militär riegelt die Absturzstelle ab.
-18. **Berlin 1961 – Mauerbau** \| Vorphase: Geheimtreffen der Führung.
+22. **Berlin 1961 – Mauerbau** \| Vorphase: Geheimtreffen der Führung.
 \| Nachphase: Straßen plötzlich blockiert.
-19. **Dallas 1963 – Kennedy-Attentat** \| Vorphase: Wagenkolonne startet.
+23. **Dallas 1963 – Kennedy-Attentat** \| Vorphase: Wagenkolonne startet.
 \| Nachphase: Chaos auf der Dealey Plaza.
-20. **Woodstock 1969 – Musikfestival** \| Vorphase: Technikprobleme auf der Bühne.
+24. **Woodstock 1969 – Musikfestival** \| Vorphase: Technikprobleme auf der Bühne.
 \| Nachphase: Massen strömen unkontrolliert.
-21. **Apollo 13 1970 – Raumflug** \| Vorphase: Routinefunksprüche.
+25. **Apollo 13 1970 – Raumflug** \| Vorphase: Routinefunksprüche.
 \| Nachphase: Funkspruch „Houston, we’ve had a problem“.
-22. **München 1972 – Olympia** \| Vorphase: Verdächtige sichten das Dorf.
+26. **Osaka 1970 – Expo ’70** \| Vorphase: Kalter Krieg mischt mit.
+\| Nachphase: Futuristische Show gerät außer Kontrolle.
+27. **München 1972 – Olympia** \| Vorphase: Verdächtige sichten das Dorf.
 \| Nachphase: Geiselnahme und Belagerung.
-23. **Three Mile Island 1979 – Reaktorstörung** \| Vorphase: Ventile melden Fehler.
+28. **Three Mile Island 1979 – Reaktorstörung** \| Vorphase: Ventile melden Fehler.
 \| Nachphase: Kühlsystem versagt.
-24. **Los Angeles 1984 – Olympisches Finale** \| Vorphase: Kameraübertragung flackert.
+29. **Los Angeles 1984 – Olympisches Finale** \| Vorphase: Kameraübertragung flackert.
 \| Nachphase: Stromausfall im Stadion.
-25. **Tschernobyl 1986 – Reaktor 4** \| Vorphase: Testlauf ohne Freigabe.
+30. **Tschernobyl 1986 – Reaktor 4** \| Vorphase: Testlauf ohne Freigabe.
 \| Nachphase: Kernschmelze und Evakuierung.
-26. **Berlin 1989 – Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz.
+31. **Berlin 1989 – Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz.
 \| Nachphase: Menschenmassen reißen Mauern ein.
-27. **Oslo 1991 – Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert.
+32. **Oslo 1991 – Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert.
 \| Nachphase: Zeremonie endet im Skandal.
-28. **Tokio 1995 – Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler.
+33. **Tokio 1995 – Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler.
 \| Nachphase: Giftgasalarm.
-29. **Seattle 1999 – WTO-Proteste** \| Vorphase: Demonstranten sammeln sich.
+34. **Seattle 1999 – WTO-Proteste** \| Vorphase: Demonstranten sammeln sich.
 \| Nachphase: Straßenschlachten eskalieren.
-30. **New York 2001 – 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab.
+35. **New York 2001 – 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab.
 \| Nachphase: Türme stürzen ein.
-31. **Bagdad 2003 – Museumsplünderung** \| Vorphase: Chaos nach Einmarsch.
+36. **Bagdad 2003 – Museumsplünderung** \| Vorphase: Chaos nach Einmarsch.
 \| Nachphase: Artefakte verschwunden.
-32. **Jakarta 2004 – Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus.
+37. **Jakarta 2004 – Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus.
 \| Nachphase: Küsten verwüstet.
-33. **Berlin 2006 – Stromausfall** \| Vorphase: Netzschwankungen.
+38. **Berlin 2006 – Stromausfall** \| Vorphase: Netzschwankungen.
 \| Nachphase: U-Bahnen bleiben stehen.
-34. **Peking 2008 – Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien.
+39. **Peking 2008 – Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien.
 \| Nachphase: Künstlicher Regen setzt ein.
-35. **Haiti 2010 – Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere.
+40. **Haiti 2010 – Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere.
 \| Nachphase: Hauptstadt in Trümmern.
-36. **Fukushima 2011 – Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv.
+41. **Fukushima 2011 – Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv.
 \| Nachphase: Strahlungswerte steigen.
-37. **London 2012 – Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren.
+42. **London 2012 – Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren.
 \| Nachphase: Drohnen spielen verrückt.
-38. **Moskau 2013 – Meteorit** \| Vorphase: Himmelsleuchten.
+43. **Moskau 2013 – Meteorit** \| Vorphase: Himmelsleuchten.
 \| Nachphase: Druckwelle zerstört Fenster.
-39. **Genf 2015 – Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen.
+44. **Genf 2015 – Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen.
 \| Nachphase: Zeitfenster blitzt kurz auf.
-40. **Paris 2016 – Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz.
+45. **Paris 2016 – Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz.
 \| Nachphase: Kostbare Exponate verschwinden.
-41. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung.
+46. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung.
 \| Nachphase: Straßen überflutet.
-42. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle.
+47. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle.
 \| Nachphase: Monsunregen schneidet den Rückweg ab.
-43. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt.
+48. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt.
 \| Nachphase: Dachstuhl in Flammen.
-44. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt.
+49. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt.
 \| Nachphase: Steuerung fällt aus, Drohnen stürzen ab.
-45. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle.
+50. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle.
 \| Nachphase: Schockwelle legt Gebäude in Schutt.
-46. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer.
+51. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer.
 \| Nachphase: Fehlfunktion löst gefährliche Zwischenfälle aus.
-47. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen.
+52. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen.
 \| Nachphase: Unerklärliche Stromsenke legt Viertel lahm.
-48. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch.
+53. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch.
 \| Nachphase: Blackout und Versorgungsnotstand.
-49. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß.
+54. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß.
 \| Nachphase: Selbstlernende Drohne entweicht.
-50. **Kapstadt 2024 – Wasserkrise** \| Vorphase: Reservoirs fast leer.
+55. **Kapstadt 2024 – Wasserkrise** \| Vorphase: Reservoirs fast leer.
 \| Nachphase: Rationierung eskaliert Unruhen.
+56. **Mars – Gesicht von Cydonia** \| Vorphase: Rover meldet mysteriöse Struktur.
+\| Nachphase: Basis gerät in Aufruhr.
+57. **Phobos – Der Basilisk** \| Vorphase: Mission entdeckt Turm.
+\| Nachphase: Crew verliert Kontakt.
+58. **Rückseite des Mondes – Die wahre Madonna** \| Vorphase: Crash-Signal wird geortet.
+\| Nachphase: Hybride Kreatur erwacht.
+59. **Saturnmond Titan – Fremdes Leben** \| Vorphase: Sonden liefern seltsame Daten.
+\| Nachphase: Methanmeere brodeln.
+60. **Antarktis – Versiegelte Anlagen** \| Vorphase: Bohrung stößt auf Metall.
+\| Nachphase: Alte Technologie erwacht.
+61. **Kapustin Jar – Aktives Zeitportal** \| Vorphase: Testlauf steht bevor.
+
+\| Nachphase: Portal reißt sich auf.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 
@@ -800,77 +847,3 @@ einen Eintrag, um das Ereignis einzubauen.
 
 Temporale Anomalien sind seltene, aber eindrucksvolle Ereignisse. Setzt sie
 sparsam ein, um Spannung, Staunen oder Dringlichkeit zu erzeugen.
-
-## Historische Hotspots
-
-Diese Tabelle liefert markante Schauplätze der Menschheitsgeschichte, aus denen
-die KI missionsreife Einsätze ableiten kann. Jeder Eintrag eignet sich als
-Startpunkt für Zeitinterventionen, Spionage oder Sabotage.
-
-1. **Paris 1889 – Weltausstellung:** Eiffelturm im Bau, technische
-   Wunderwerke locken Agenten und Spione an.
-2. **Chicago 1893 – Columbian Exposition:** Konkurrenz um Patente und
-   spektakuläre Demonstrationen.
-3. **Berlin 1936 – Olympische Spiele:** Politische Spannungen, Propaganda und
-   verdeckte Aufrüstung.
-4. **London 1851 – Great Exhibition:** Viktorianische Innovationen, erste
-   globale Handelsnetze.
-5. **New York 1939 – World’s Fair:** Vision einer optimistischen Zukunft,
-   passende Tarnung für geheime Projekte.
-6. **Osaka 1970 – Expo ’70:** Kalter Krieg trifft Popkultur und futuristische
-   Architektur.
-
-Die KI kann diese Hotspots nutzen, um automatisch Missionen zu generieren. Sie
-wählt einen Ort, definiert dortige Konflikte und verknüpft sie mit den
-Zielen der Fraktionen. Die folgenden Einträge sind nur Beispiele – GPT kann
-jederzeit neue Schauplätze und Aufträge kombinieren, damit jede Runde
-einzigartige Missionen erlebt.
-
-## Zukunfts- und Sci-Fi-Hotspots
-
-Auch Gerüchte und Internet-Mythen bieten reichlich Stoff für spannende Missionen.
-Die folgende Liste greift populäre Spekulationen auf, die sich besonders für
-gruselige oder abgedrehte Einsätze eignen:
-
-1. **Mars – Gesicht von Cydonia:** Der vermeintliche Felshügel soll der Eingang
-   zu einer gewaltigen unterirdischen Basis sein, angeblich von frühen
-   Menschen erbaut.
-2. **Phobos – Der Basilisk:** Auf dem Marsmond ragt eine bizarre Formation, die
-   wie ein riesiger Basilisk wirkt. Manche glauben an einen alienartigen Turm,
-   größer als der Turm zu Babel.
-3. **Rückseite des Mondes – Die wahre Madonna:** In einem abgestürzten
-   Raumschiff ruht ein Wesen, halb Mensch, halb Alien. Manche halten es für den
-   Ursprung der Menschheit – eine wahre Madonna.
-4. **Saturnmond Titan – Fremdes Leben:** In den Methanmeeren weisen Spuren
-   komplexer Organismen auf eine verschollene Kolonie hin.
-5. **Antarktis – Versiegelte Anlagen:** Tief unter dem Eis verbergen sich
-   angeblich Reste einer Hochtechnologie-Zivilisation – vielleicht von
-   Zeitreisenden oder Atlantiern.
-6. **Kapustin Jar – Aktives Zeitportal:** Gerüchte berichten von Experimenten,
-   die dort Zugänge in Vergangenheit und Zukunft öffnen.
-
-Die KI kann diese Hotspots nutzen, um spektakuläre Sci-Fi-Plots zu entwerfen
-oder sie mit realen Schauplätzen zu verknüpfen.
-
-## Ausgefallene Szenarien
-
-1. **Militärischer Komplex – Tollwutvirus-Zombies:** In einer geheimen Anlage
-   wird ein modifiziertes Tollwutvirus getestet. Ein Ausbruch verwandelt das
-   Personal in rasende Kreaturen. Die Chrononauten sollen die Ursache finden und
-   das Virus eindämmen.
-2. **Mittelalterliche Katakomben – Der falsche Teufel:** In einem abgelegenen
-   Dorf verschwinden Menschen. Unter dem Dorf liegt ein weit verzweigtes
-   Katakombensystem, das angeblich vom Teufel bewohnt wird. Tatsächlich erzeugen
-   dort versteckte Alien-Geräte furchteinflößende Illusionen, während gezüchtete
-   Mutanten ein uraltes Geheimnis bewachen.
-3. **Altes Schloss – Vampir-Experiment:** Nächtliche Übergriffe plagen ein Dorf. Ein Konzern schuf hier einst
-   eine neue Menschenart, die Blut saugt und sich per Biss verbreitet. Die Chrononauten müssen im Schloss
-   den fanatischen Bluttrinkerzirkel aufspüren und das fehlgeschlagene Experiment beenden.
-
-4. **Geheime Tiefsee-Megacity – Ursprung des "Blob":** Die Agenten springen zu dem
-   Zeitpunkt, als das lauteste je registrierte Geräusch aus den Tiefen des Ozeans
-   aufgezeichnet wird. Die Spur führt zu einem verborgenen Terraforming-Projekt
-   namens Second Earth, das von Schattenorganisationen betrieben wird. Dort
-   entdecken sie eine fortgeschrittene Megacity, halb unter einer Kuppel, halb im
-   Meeresboden. Schwarzer Sauerstoff dient als Atemgas, während Schwarze Raucher
-   Energie liefern. Die Atmosphäre ist für Menschen der Oberwelt tödlich.
