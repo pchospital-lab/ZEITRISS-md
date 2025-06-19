@@ -201,7 +201,7 @@ Shard-Drop: 1+Tier
 - Rift-Pool als Array: `seed_id` und `status(open/closed)`.
 - Schwierigkeit = `base_dc + open_seeds`.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
-- Side-Op lädt `paramonster_template` nach `epoch_id`.
+- Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
 
 ### Zeitlinien-Verzweigungen
 

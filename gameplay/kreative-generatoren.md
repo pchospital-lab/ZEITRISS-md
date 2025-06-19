@@ -513,79 +513,112 @@ würfelt einen Eintrag als Missionsstart.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 
-Nicht nur menschliche NSCs (oder Aliens) kreuzen den Weg von Zeitreisenden. Manchmal stoßen sie auf
-**ungewöhnliche Kreaturen oder Gestalten**, sei es durch Anomalien erschaffen oder als Ursprung von
-Legenden, die sich letztlich als Zeitphänomene entpuppen. Dieser Generator liefert inspirierende
-Wesen – ob als Gegner, Verbündete oder mysteriöse Wesenheiten.
 
-Würfelt oder wählt eine Kreatur:
+Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten. Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt. In historischen Arcs stammen diese Kreaturen aus den Legenden ihrer Zeit. Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus – reine Zeitkonstrukte mit genau einem Zeiteffekt.
 
-1. **Zeitschimäre:** Ein Wesen, entstanden durch das Verschmelzen mehrerer Epochen in einem Körper.
-Vorstellbar als Chimäre mit Körperteilen aus unterschiedlichen Zeiten: z. B. der Kopf eines
-Säbelzahntigers, Flügel eines Cyber-Droiden, Rumpf eines Drachen aus der Mythologie. Entstanden
-vielleicht, als ein starker Riss im Zeitgefüge Tiere und Maschinen zusammenriss. *Gefahr:* Die
-Zeitschimäre ist unberechenbar, leidet Schmerzen durch ihre unnatürliche Existenz und greift alles
-an. *Motivation:* Eigentlich nur der Schmerz – instinktiv will sie die Quelle dieser Qual loswerden.
-Wenn die Agenten den Riss schließen, könnte sich das Wesen auflösen oder in seine ursprünglichen
-Bestandteile zerfallen. Bis dahin jedoch ist es ein Alptraum, der Legenden von “Drachen” oder
-“Monstern” erklären könnte.
-2. **Zeitwächter-Golem:** In einer uralten Tempelruine ruht eine steinerne Statue… bis
-*Eindringlinge mit Zeitreise-Geräten* kommen und sie erwecken. Dieser Golem wurde einst von einem
-Tempelorden mittels Chrono-Technik belebt, um heilige Stätten vor temporalen Dieben zu schützen.
-*Fähigkeiten:* Er absorbiert Energie von Zeitgadgets – ein Chrono-Stabilisator-Schuss würde ihn
-z. B. **stärken** statt schwächen! Er ist nahezu unzerstörbar, solange der Zauber anhält.
-*Schwäche:* Irgendwo im Tempel gibt es ein Ritual oder einen Glyphenstein als Energiequelle. Finden
-die Helden diesen und deaktivieren ihn (vielleicht durch uraltes Wissen oder das Lösen eines
-Rätsels), fällt der Golem in seinen Schlaf zurück. *Einsatz:* Als fantastisches Hindernis in einem
-Indiana-Jones-artigen Abenteuer oder als Wächter eines wichtigen Artefakts.
-3. **Chronogeist:** Eine flackernde Silhouette – mal alt, mal jung – huscht in Spiegeln oder am
-Rande des Sichtfelds vorbei. Der Chronogeist ist das, was von einem **verlorenen Zeitreisenden**
-übrig blieb: eine Seele *zwischen* den Zeiten. *Verhalten:* Er folgt den Agenten über mehrere
-Missionen hinweg, erscheint in Reflexionen, flüstert Warnungen oder spottet. *Hintergrund:*
-Vielleicht handelt es sich um einen ehemaligen Kollegen, der im Zeitstrom verloren ging und nun
-eifersüchtig auf die Lebenden ist. *Absichten:* Unklar – der Geist könnte hilfreich sein (warnt vor
-Gefahren, da er die Zukunft kennt) oder böswillig (treibt die Chrononauten in Paranoia und versucht,
-ihr Scheitern herbeizuführen). *Lösung:* Die Gruppe könnte versuchen, ihn zu erlösen (z. B. seinen
-physischen Körper in einer Zeitanomalie finden und befreien) oder einen Weg finden, ihn endgültig zu
-bannen (vielleicht mithilfe eines speziellen „Protonenpakets“ – *Ghostbusters* lässt grüßen). Eine
-solche Handlung kann sehr emotional und eindringlich sein, vor allem wenn der Geist eine persönliche
-Verbindung zu den Helden hat.
-4. **Mechanischer Zeitläufer:** Ein kleines, automatisches Wesen – halb Tier, halb Maschine. Zum
-Beispiel eine metallische Spinne oder ein Uhrwerk-Vogel, geschaffen von einem Zukunfts-Tüftler, aber
-durch einen Unfall in eine frühere Epoche versetzt. *Eigenschaften:* Äußerst flink, intelligent und
-in der Lage, mit Maschinen zu interagieren. In der jeweiligen Epoche kann es massiven Einfluss
-haben: Stellt euch etwa eine Steampunk-Stadt vor, in der plötzlich Maschinen verrückt spielen –
-dahinter steckt dieser kleine Zeitläufer, der sie hackt und zu Streichen anstiftet. *Szenario:* Die
-Chrononauten müssen das Wesen einfangen. Vielleicht finden sie Gefallen daran und behalten es als
-“Maskottchen” (ein lebendes Artefakt!) – aber Vorsicht: Das Teil **lernt** aus jeder Interaktion. Je
-länger es unbehelligt bleibt, desto trickreicher und eigenständiger wird es. Lässt man es zu lange
-frei, entwickelt der vormals putzige Apparat einen eigenen Willen und kann zum ernstzunehmenden
-Gefahrbringer werden, der am Ende womöglich ein ganzes Fabriksystem übernimmt.
-5. **Dämon der Zeitschlucht:** In Legenden mancher Kulturen taucht ein schreckliches Wesen auf, das
-“zwischen den Jahren” haust. Beschrieben als Mischung aus Drache und Kraken, gehüllt in schwarzen
-Nebel, erscheint es dort, **wo zu oft an der Zeit manipuliert wurde**. *Reale Erklärung:* Ein
-Auswuchs des gestörten Zeitkontinuums selbst – quasi die Zeitlinie, die rebelliert und als Monster
-manifestiert. *Fähigkeiten:* Dieser Dämon spürt Zeitreisende auf, kann Portale verschlingen oder
-instabil machen und verzerrt die Realität um sich herum (Halluzinationen, Zeitloops, physikalische
-Anomalien). **Endgegner-Material:** Er eignet sich als ultimativer Antagonist einer Kampagne oder
-als Herzstück einer Horror-Mission. *Schwäche:* Nur mit einem besonderen Artefakt oder der
-Synchronisation mehrerer Zeitgeräte kann man ihn bannen – z. B. müssten an fünf Punkten gleichzeitig
-Zeitanker gesetzt werden, um den Riss zu schließen und ihn zurück in die Zeitschlucht zu schicken.
-Das ist eine epische Aufgabe, die echtes Teamwork und cleveres Vorgehen verlangt. Ihn im klassischen
-Sinne zu “besiegen” (umzuhauen) ist kaum möglich – hier müssen Köpfchen und das **Mysterium der Zeit**
-ran.
-6. **Zeit-Egel:** Zunächst unsichtbar, heftet sich dieser **parasitische Zeitwesen** an
-nichtsahnende Chrononauten und saugt unbemerkt deren temporale Energie ab. *Symptome:* Die
-betroffenen Helden leiden unter plötzlichen Zeitsprüngen oder Zeitverlust – Sekunden verschwinden
-oder wiederholen sich, Erinnerungen verblassen, manche altern oder verjüngen sich für Augenblicke
-ruckartig. Außenstehenden mag es wie ein Fluch erscheinen. In Wahrheit verursacht der Zeit-Egel
-diese Störungen und lässt erst los, wenn er sich sattgefressen hat *oder* wenn man ihn mit
-speziellen Maßnahmen vertreibt. *Herausforderung:* Die Helden müssen erkennen, dass kein Fluch,
-sondern ein **lebendes Wesen** die Ursache ist. Vielleicht entwickeln sie ein modifiziertes Chrono-
-Gadget, um den Parasiten sichtbar zu machen und zu entfernen. Dann stellt sich die Frage:
-**Vernichten** sie den Egel – oder fangen sie ihn ein, um ihn zu studieren (was natürlich Risiken
-birgt)?
+Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block:
 
+1. **Zeitschimäre** – Verschmolzene Tiere und Maschinen aus mehreren Epochen.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Zeitschimäre                         │
+│ Rift-Tier: Standard Rift                   │
+│ HP-Pool: W6 × 2 (Exploding)                │
+│ Defense-Schwelle: 5                        │
+│ Signature Power: Time-Skip Blink           │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Survival 13          │
+│ Tells: Flimmernde Körperteile, wildes Fauchen│
+│ Shard-Drop: 3                              │
+╰────────────────────────────────────────────╯
+```
+Greift alles an, bis der Riss geschlossen ist.
+
+2. **Zeitwächter-Golem** – Chronotechnischer Wächter in alten Tempeln.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Zeitwächter-Golem                    │
+│ Rift-Tier: Standard Rift                   │
+│ HP-Pool: W6 × 2 (Exploding)                │
+│ Defense-Schwelle: 5                        │
+│ Signature Power: Stasis Wall               │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Lore 14              │
+│ Tells: Grollendes Steinechos, leuchtende Glyphen │
+│ Shard-Drop: 3                              │
+╰────────────────────────────────────────────╯
+```
+Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
+
+3. **Chronogeist** – Verlorene Seele zwischen den Zeiten.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Chronogeist                          │
+│ Rift-Tier: Minor Rift                      │
+│ HP-Pool: W6 × 1 (Exploding)                │
+│ Defense-Schwelle: 4                        │
+│ Signature Power: Loop Echo                 │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Empathy 12           │
+│ Tells: Flackernde Silhouette, kaltes Flüstern │
+│ Shard-Drop: 2                              │
+╰────────────────────────────────────────────╯
+```
+Kann erlöst oder endgültig gebannt werden.
+
+4. **Mechanischer Zeitläufer** – Kleines Uhrwerk-Wesen mit eigener Agenda.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Mechanischer Zeitläufer              │
+│ Rift-Tier: Minor Rift                      │
+│ HP-Pool: W6 × 1 (Exploding)                │
+│ Defense-Schwelle: 4                        │
+│ Signature Power: Reverse Flow              │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Tech 12              │
+│ Tells: Surren von Zahnrädern, schnelle Sprünge │
+│ Shard-Drop: 2                              │
+╰────────────────────────────────────────────╯
+```
+Wird schlauer, je länger er unbehelligt bleibt.
+
+5. **Dämon der Zeitschlucht** – Manifestierte Zeitlinie in monströser Form.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Dämon der Zeitschlucht               │
+│ Rift-Tier: Major Rift                      │
+│ HP-Pool: W6 × 3 (Exploding)                │
+│ Defense-Schwelle: 6                        │
+│ Signature Power: Age-Burn Touch            │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Willpower 16         │
+│ Tells: Schwarzer Nebel, verzerrte Realität │
+│ Shard-Drop: 4                              │
+╰────────────────────────────────────────────╯
+```
+Nur mehrere Zeitanker können ihn bannen.
+
+6. **Zeit-Egel** – Parasitärer Räuber, der temporale Energie saugt.
+
+```
+╭─ PARAMONSTER ──────────────────────────────╮
+│ Name: Zeit-Egel                            │
+│ Rift-Tier: Minor Rift                      │
+│ HP-Pool: W6 × 1 (Exploding)                │
+│ Defense-Schwelle: 4                        │
+│ Signature Power: Time-Slow Bubble          │
+│ Power-Steps: Lv1 | Lv2 | Lv3               │
+│ Weak Spot (Skill DC): Medicine 12          │
+│ Tells: Kurze Zeitsprünge der Opfer, blasser Schleim │
+│ Shard-Drop: 2                              │
+╰────────────────────────────────────────────╯
+```
+Nur sichtbar oder entfernbar mit speziellem Gerät.
 Diese Kreaturen (und viele mehr) könnt ihr einbauen, um euren Abenteuern Würze und Mysterium zu
 verleihen. Wichtig ist, sie **sparsam und gezielt** einzusetzen – jede besondere Begegnung soll sich
 einzigartig anfühlen. Die Spieler dürfen ruhig mal ins Grübeln kommen: “Was zum Henker ist *das*!?”
