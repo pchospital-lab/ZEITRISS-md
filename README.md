@@ -26,10 +26,10 @@ oder ausgeloest werden soll.
 Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik
 sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
-Paradox-Effekte werden über einen Index von  0–5 verfolgt.
-Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
-Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
-es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
+Paradox-Effekte werden über einen Index von  0–5 verfolgt.
+Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
+Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
+es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
 Zeitkreaturen können Teil dieser Risse sein.
 Wer lieber ganz auf solche Erscheinungen verzichtet,
 kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
@@ -70,8 +70,8 @@ Eine Kurzfassung der wichtigsten Regeln:
 
 1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung. Nach jedem Schritt speichert der Codex automatisch.
 2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+). Exploding 6 bleibt aktiv.
-3. **Heldenwürfel** – Charaktere mit Attribut 11 erhalten pro Szene einen Gratis-Reroll.
-4. **Paradox-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
+3. **Heldenwürfel** – Charaktere mit Attribut 11 erhalten pro Szene einen Gratis-Reroll.
+4. **Paradox-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
 ### KPI-Cheat-Sheet pro Phase
@@ -79,7 +79,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 | --- | --- | --- |
 | Briefing | Klarheit & Hook | 5 Kerninfos, 1 Bild |
 | Aufklärung | Hinweise finden | Foreshadow-Hinweis |
-| Konflikt | Spannung | Exploding 6 nutzen |
+| Konflikt | Spannung | Exploding 6 nutzen |
 | Auswertung | Konsequenzen | Rufpunkte, Ressourcen |
 
 ## Beispielworkflow

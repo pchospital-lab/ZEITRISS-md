@@ -50,7 +50,7 @@ reproduzierbar sind.
 Trotz der Kontroversen hielt sich das Interesse – befeuert von Berichten und Geheimprojekten. In den
 1970er- und 80er-Jahren untersuchten sowohl westliche als auch östliche Geheimdienste paranormale
 Fähigkeiten für Spionagezwecke. Das bekannteste Beispiel ist das US-Programm *Stargate*, in dem über
-20 Millionen Dollar investiert wurden, um **Remote Viewing** (das „Hellsehen“ ferner Orte)
+20 Millionen Dollar investiert wurden, um **Remote Viewing** (das „Hellsehen“ ferner Orte)
 militärisch nutzbar zu machen. Die Ergebnisse blieben jedoch unbefriedigend: 1995 wurde Stargate
 eingestellt, nachdem eine Auswertung ergab, dass die Hellseher keine verlässlichen
 nachrichtendienstlichen Informationen lieferten. Ähnlich erging es sowjetischen Projekten, die
@@ -192,7 +192,7 @@ passend und ausgewogen eingesetzt werden.
   mental erschaffen und einsetzen, als hielte er sie real in der Hand.
   Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
   zunächst physisch genutzt werden,
-  bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 0 SYS (keine Systemlast).
+  bevor sie als Psi-Waffe verfügbar sind. *Kosten:* 0 SYS (keine Systemlast).
   Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
 direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
@@ -234,7 +234,7 @@ Diese Fähigkeit baut sich stufenweise auf.
    Er behält die Kontrolle über seinen eigenen Leib und kann beide Körper
    gleichzeitig steuern.
 
-*Risiken:* Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxbeschwerden
+*Risiken:* Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxbeschwerden
 setzen den regungslosen Körper des Anwenders dem Risiko aus.
 
 
@@ -249,7 +249,7 @@ real sind. Oder man trifft auf Mitglieder des historischen Hellfire Clubs, Spiri
 viktorianischen Zeitalter oder auf Gerüchte über Hitler’scher Astrologen – alles Anknüpfungspunkte,
 die auf **echte Berichte** beruhen, aber im Spiel subtil anders gedeutet werden können (*Was wäre,
 wenn deren Erfolge auf echter Psi beruhen?*). Zugleich sind auch die realen Skeptiker präsent: Seit
-dem 19. Jh. gibt es Organisationen, die paranormale Behauptungen entlarven wollen. Im 20. Jh.
+dem 19. Jh. gibt es Organisationen, die paranormale Behauptungen entlarven wollen. Im 20. Jh.
 streiten sich wissenschaftliche Institute und Skeptikervereinigungen über jedes angebliche Psi-
 Resultat. Diese Kontroverse spiegelt sich im Spiel wider: **In-Game** gibt es Universitäten und
 Forschungsteams (v.a. ab dem späten 20. und 21. Jahrhundert), die parapsychologische Studien
@@ -402,7 +402,7 @@ ab, um Ressourcen zu sparen (die KI des Anzugs könnte z.B. eine Warnung anzeige
 kritisch – nicht lebensnotwendige Module werden heruntergefahren”**), oder der Psi-Effekt reißt ab
 mit einem schmerzhaften Feedback. Die Charaktere lernen so im Spiel organisch ihre Grenzen kennen.
 Sie können on-the-fly entscheiden, andere Mods zu drosseln, um für einen Psi-Effekt *Platz zu
-schaffen*. Beispiel: Ein Chrononaut mit SYS 4, der bereits diverse Cyberware aktiv hat, möchte
+schaffen*. Beispiel: Ein Chrononaut mit SYS 4, der bereits diverse Cyberware aktiv hat, möchte
 Telekinese nutzen. Seine HUD zeigt an, dass dafür 2 Systemlast-Punkte nötig wären. Er beschließt,
 sein taktisches Visier (1 Punkt) und das Körperstabilisator-Implantat (1 Punkt) temporär
 herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
@@ -440,7 +440,7 @@ interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat 
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
   Bei steigendem Paradox-Level drohen verschiedene Nebenwirkungen. Zunächst flackert nur das HUD,
-  bei Stufe 4 kommt es zu kurzen Zeitstillständen. Erreicht der Index 5, startet das HQ
+  bei Stufe 4 kommt es zu kurzen Zeitstillständen. Erreicht der Index 5, startet das HQ
   automatisch `ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur wenn
   ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur Hilfe.
   Bis dahin bleiben die Effekte eher subtil: Das HUD zeigt Warnmeldungen an, und die Charaktere
@@ -655,7 +655,7 @@ Spieler zum ersten Mal erfolgreich jemanden mental beeinflusst). Sie erzeugen G�
 man manche Psi-Erlebnisse wie kurze Flashbacks oder Flashforwards behandelt. Etwa nach einer
 Mission, in der viel Psi vorkam, könnte die KI eine *Zusammenfassung* in Form eines fiktiven
 Dossiers geben: *„Rückblick: Missionslog 27 – ‚Der stumme Flüsteraar‘. (Wir sehen in monochromen
-Bildern, wie Elena im 17. Jh. heimlich per Telepathie mit einer Hexenprozess-Angeklagten
+Bildern, wie Elena im 17. Jh. heimlich per Telepathie mit einer Hexenprozess-Angeklagten
 kommuniziert…)“* – Solche Nachbereitungen im Codex oder als Erzählerstimme können das Erlebte
 nochmals verstärken.
 

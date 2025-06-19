@@ -15,7 +15,7 @@ tags: [characters]
 - Cinematisches HUD-Overlay: Immersives Interface im Spiel
 
 
-In **Teil 2** der überarbeiteten Modul 5-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
+In **Teil 2** der überarbeiteten Modul 5-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
 ZEITRISS-Spiel noch vielseitiger und filmischer machen. Von **Zuständen** wie Verwundungen oder
 Erschöpfung über **Heilung & Erholung** in verschiedenen Stilen bis hin zu alternativen
 **Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradox-Belastung** und **mentale
@@ -168,7 +168,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
 - **Filmische Heilung:** Im **cineastischen Stil** steht die **Dramaturgie über der Realität**.
   Helden fallen nicht einfach sinnlos um – **dramatische Rettungen** und schnelle Erholungen sind
   möglich, wenn es der Story dient. ZEITRISS unterstützt dies durch das ITI-Notfallprotokoll
-  (automatische Rettung via Zeitriss bei 0 LP) und durch cinematic Tricks: etwa ein **Adrenalin-
+  (automatische Rettung via Zeitriss bei 0 LP) und durch cinematic Tricks: etwa ein **Adrenalin-
   Stoß** in letzter Sekunde, der dem Charakter erlaubt, trotz schwerer Wunde **noch eine finale
   Aktion** durchzuführen (vergleichbar einer Filmszene, wo der Held schwer verletzt den letzten
   Schlag führt). Heilung erfolgt hier oft „zwischen den Szenen“: Nach dem Kampf schneidet man direkt
@@ -214,11 +214,11 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
   - **Heil-Implantate:** Einige Agenten tragen eingebaute Module, die im Notfall *automatisch*
     eingreifen. Beispiel: ein subkutanes Notfall-Stimulanz, das bei lebensgefährlichen Verletzungen
     sofort **Adrenalin und Gerinnungsfaktoren** ausschüttet. Im Spiel kann ein solches Implantat
-    bewirken, dass der Charakter bei 0 LP **nicht sofort ausfällt**, sondern noch für eine bestimmte
+    bewirken, dass der Charakter bei 0 LP **nicht sofort ausfällt**, sondern noch für eine bestimmte
     Zeit weiterkämpfen kann (z.B. für **1 Runde** voller Adrenalin, danach Zusammenbruch). Das
     erhöht die Überlebenschance und passt zum cineastischen Stil. Andere Implantate könnten
     kontinuierliche Heilung bieten (etwa ein Nanobot-Schwarm, der Wundgewebe repariert – pro Runde
-    1 LP Heilung) oder Schmerzunterdrückung (Wundabzüge werden um 1 reduziert, wie ein internes
+    1 LP Heilung) oder Schmerzunterdrückung (Wundabzüge werden um 1 reduziert, wie ein internes
     Schmerzmittel).
   - **Biotech & Nanotechnologie:** **Heil-Naniten** sind winzige Maschinen oder genmodifizierte
     Zellen, die Verletzungen ausbessern. Im Feld könnten spezielle **Nano-Injektoren** gegeben
@@ -232,7 +232,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
     Schmerz dämpfen**. Ein **Medi-Stim** könnte z.B. für eine Szene alle Mali durch Verletzung
     ignorieren lassen, allerdings auf Kosten späterer doppelter Erschöpfung. Solche Resourcen kann
     man als **einmalige Ausrüstung** ins Spiel bringen – vielleicht als Missions-Bonus („Ihr habt
-    2 Medi-Stims, setzt sie weise ein.“). Sie unterstreichen den Sci-Fi-Aspekt der Heilung.
+    2 Medi-Stims, setzt sie weise ein.“). Sie unterstreichen den Sci-Fi-Aspekt der Heilung.
 
 > **Tipp:** Besprecht in Eurer Gruppe, welcher Heilungsansatz bevorzugt wird. Ihr könnt auch
 > mischen: z.B. grundsätzlich filmisch spielen, aber in einem Horror-Szenario temporär den
@@ -301,9 +301,9 @@ Lebenspunkte hinausgehen:
   ein **Stresspunktekonto** einführen, das für einen Charakter (oder sogar das Team) mitläuft.
   *Mechanik:* Jedes besonders belastende Ereignis (z.B. ein knapper Überlebenskampf, der Anblick
   etwas Grausigen, eine schwere Fehlentscheidung) gibt **einen oder mehrere Stresspunkte**. Klettert
-  das Konto über bestimmte Schwellen, treten **Effekte** ein: z.B. bei 5 Punkten erhält der
+  das Konto über bestimmte Schwellen, treten **Effekte** ein: z.B. bei 5 Punkten erhält der
   Charakter den temporären Zustand **„Angespannt“** (-1 auf bestimmte Proben, etwa soziale
-  Interaktionen oder präzises Zielen, da die Nerven flattern). Bei 10 Punkten könnte es einen
+  Interaktionen oder präzises Zielen, da die Nerven flattern). Bei 10 Punkten könnte es einen
   **Kurzzeit-Zusammenbruch** geben – der Charakter gerät in Panik, flieht, verfällt in Starre oder
   ähnliches, je nach Situation. Stress kann in HQ-Phasen durch **Entspannung** abgebaut werden: z.B.
   jeder ruhige Tag senkt das Konto um 1–2 Punkte. Auch **rollenspielerische Maßnahmen** helfen: ein
@@ -316,22 +316,22 @@ Lebenspunkte hinausgehen:
   („Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
   Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradox-Level** verwenden,
-  um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. *Grundidee:* **Level 0**
+  um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. *Grundidee:* **Level 0**
   bedeutet keine Anomalien – alles in Ordnung. Mit jedem Verstoß gegen die Zeitlogik (z.B. wichtige
   historische Ereignisse verändert, direkten Vorfahren begegnet, große Zeitanomalie ausgelöst) kann
-  der Wert steigen: **Level 1–2** sind kleine Fluktuationen (leichte Abweichungen, die sich
-  vielleicht selbst korrigieren), **Level 3–4** sind kritische Instabilitäten (die Epoche beginnt
-  merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
+  der Wert steigen: **Level 1–2** sind kleine Fluktuationen (leichte Abweichungen, die sich
+  vielleicht selbst korrigieren), **Level 3–4** sind kritische Instabilitäten (die Epoche beginnt
+  merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
   Realität könnte reißen oder sich selbst „bereinigen“. Das **HUD** aller Agenten zeigt diesen Wert
   gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität). Im Spiel kann GPT
   beschreiben: *„Euer HUD warnt: Paradox-Level 3 – Zeitstrom destabilisiert sich, in der Luft liegt
   ein Knistern von Unstimmigkeit.“* Die SL sollte Paradox-Level einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
-  Fehler ausbügeln), bevor Level 5 erreicht wird.
+  Fehler ausbügeln), bevor Level 5 erreicht wird.
   *Auswirkungen:* Steigende Werte lassen die Zeit spürbar entgleisen.
 Ab **Level 2** flackert das HUD,
   bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
-  Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
+  Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
   Wer einen puristischeren Thriller bevorzugt, kann eine **Covert-Ops-Variante** spielen,
   bei der solche Risse und Kreaturen nicht auftreten.
 
@@ -372,10 +372,10 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 
 - **Ausdauer (Stamina):** Dieses Modell simuliert **körperliche Erschöpfbarkeit** im Detail. Jede
   anstrengende Aktion (Sprinten, schwere Angriffe, Tragen von Lasten) kostet Ausdauerpunkte. Ein
-  typischer Wert könnte z.B. 100 Punkte pro Charakter sein. Laufen, Kämpfen, Klettern ziehen Punkte
+  typischer Wert könnte z.B. 100 Punkte pro Charakter sein. Laufen, Kämpfen, Klettern ziehen Punkte
   ab, **Rasten oder Stimulanzien** stellen Punkte wieder her. Sinkt die Ausdauer unter bestimmte
   Schwellen (50%, 25%), greift man auf die oben beschriebene **Erschöpfungs-Mechanik** zurück: der
-  Charakter erhält Mali, als wäre er erschöpft. Bei 0 Ausdauer kann der Charakter nicht mehr
+  Charakter erhält Mali, als wäre er erschöpft. Bei 0 Ausdauer kann der Charakter nicht mehr
   vernünftig agieren (völlige Erschöpfung, Zusammenbruch). *Anwendung:* Ausdauerpunkte machen
   Aktionen **bedeutsamer** – man kann nicht endlos rennen oder kämpfen, ohne zu verschnaufen. Im HUD
   ließe sich das als **Ausdauerbalken** darstellen. Dieses Modul passt, wenn eure Gruppe etwas
@@ -388,7 +388,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   fungieren. Jeder Einsatz so einer Fähigkeit kostet Fokus-Punkte. Auch intensive Denkarbeit – z.B.
   das Lösen eines komplexen Zeiträtsels oder das Koordinieren einer großen Schlacht – könnte an
   diesem Vorrat zehren. *Regeneration:* Fokus regeneriert sich durch **Ruhe, Meditation oder
-  Drogen**. Ein Agent könnte z.B. pro Stunde Ruhe 10 Punkte zurückgewinnen, oder durch eine
+  Drogen**. Ein Agent könnte z.B. pro Stunde Ruhe 10 Punkte zurückgewinnen, oder durch eine
   Meditationstechnik auf Knopfdruck einen Schub erhalten. *Im Spiel:* Achtet darauf, dass ein Fokus-
   System nicht die erzählerische Freiheit einschränkt. Es soll besondere **Momente** begrenzen
   (damit z.B. ein Psi-Agent nicht endlos Gedankenkontrolle wirken kann), aber nicht dazu führen,
@@ -399,12 +399,12 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 - **PSI-Energie:** Falls eure ZEITRISS-Kampagne **Psi-Fähigkeiten oder Magie-ähnliche Kräfte**
   beinhaltet (vielleicht durch futuristische Implantate oder besondere Begabungen mancher Agenten),
   könnt ihr spezifisch **PSI-Punkte** einführen. Diese funktionieren analog zum Fokus, sind aber
-  klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 PSI-Punkte ausgeben, um sich
-  50 m weit zu teleportieren, oder ein Telepath 1 Punkt, um Gedanken in einem kurzen Satz zu lesen.
+  klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 PSI-Punkte ausgeben, um sich
+  50 m weit zu teleportieren, oder ein Telepath 1 Punkt, um Gedanken in einem kurzen Satz zu lesen.
   *Balance:* Legt die Kosten und Regeneration gemeinsam fest – vielleicht regenerieren 1–2 PSI-
   Punkte pro Stunde, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
   Psi-Energie eng mit dem Zeitstrom verknüpfen. Vielleicht verursacht der Gebrauch starker Psi-
-  Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene PSI-Punkte steigt der
+  Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene PSI-Punkte steigt der
   Paradox-Level um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
   eindrucksvoll, aber gefährlich. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
   Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
@@ -484,7 +484,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel
 
-Ein Highlight von ZEITRISS 4.0 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
+Ein Highlight von ZEITRISS 4.0 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
 Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere *sehen* wichtige
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu
@@ -510,7 +510,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Spezielle **Zustände** werden durch **Icons** verdeutlicht: Etwa ein Tröpfchen-Symbol bei
   *Blutung*, ein gebrochenes Knochen-Icon bei *Beinverletzung*, ein Totenkopf bei *Vergiftung*. Die
   KI-Spielleitung nutzt diese Anzeige, um **Schaden und Zustand atmosphärisch zu vermitteln**: Statt
-  plump „Du hast nur noch 2 HP“ zu sagen, kann GPT formulieren: *„Dein HUD blinkt Warnsymbole auf –
+  plump „Du hast nur noch 2 HP“ zu sagen, kann GPT formulieren: *„Dein HUD blinkt Warnsymbole auf –
   der Gesundheitsbalken sinkt in den roten Bereich, kritischer Blutverlust!“* Der Spieler begreift
   sofort, wie schlimm es seinem Charakter geht, **in-world** durch die Augen der Figur.
 - **Ausdauer, Fokus & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
@@ -518,7 +518,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   nutzt, könnte das HUD einen **Ausdauerbalken** (für Stamina) unter der HP-Leiste einblenden oder
   eine **Fokus-Anzeige** in Prozent. Temporäre **Status-Effekte** – sei es durch Ausrüstung, Drogen
   oder Zustände – werden ebenfalls visualisiert. Beispiel: Ein Agent injiziert sich einen
-  **Adrenalin-Stim**, der 60 Sekunden wirkt – im HUD startet ein **Countdown-Timer** („Stim aktiv –
+  **Adrenalin-Stim**, der 60 Sekunden wirkt – im HUD startet ein **Countdown-Timer** („Stim aktiv –
   00:59“), der runtertickt. Oder der Charakter hat einen Malus „Bewegung verlangsamt“ (etwa bei
   Beinverletzung) – ein kleines durchgestrichenes Laufsymbol taucht auf. Auf diese Weise verknüpft
   das HUD **Regelzustände mit dem Charaktererleben**: Der Spieler *sieht* vor seinem inneren Auge,
@@ -551,13 +551,13 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
 - **Paradox-Alarm:** Da das **Paradox-Level** so kritisch ist, hat es eine prominente Stelle im HUD.
   Meist als **Skala oder Warnsymbol** dargestellt, ggf. mit Farbe (grün = stabil, gelb =
-  Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
+  Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
   (Symbol für stabilen Zeitstrom). Steigt das Level, wechselt es auf gelb/orange mit einem
-  ⚠️-Symbol; ab Level 4–5 blinkt es rot und gibt akustische Warnungen (*„‼ ZEITSTROM INSTABIL ‼“*).
-  GPT kann diesen Anstieg inszenieren: *„Euer HUD flackert und springt auf Paradox-Level 4 – die
+  ⚠️-Symbol; ab Level 4–5 blinkt es rot und gibt akustische Warnungen (*„‼ ZEITSTROM INSTABIL ‼“*).
+  GPT kann diesen Anstieg inszenieren: *„Euer HUD flackert und springt auf Paradox-Level 4 – die
   Umgebung fühlt sich verzerrt an, als würde ein Film ruckeln…“*. Die Spieler wissen sofort, dass
   Gefahr droht, **innerhalb der Geschichte**. Auch kleinere Paradox-Effekte können gemeldet werden
-  (*„Temporale Fluktuation detektiert“* bei Level 1–2, evtl. begleitet von einem leichten
+  (*„Temporale Fluktuation detektiert“* bei Level 1–2, evtl. begleitet von einem leichten
   Bildstörungen im HUD). Das HUD macht die **Zeitgefährdung** direkt erlebbar.
 - **Ausrüstung & Inventar:** Im persönlichen HUD sind außerdem wichtige **Ausrüstungsgegenstände**
   verzeichnet, vor allem die aktuell ausgerüsteten. Z.B. sieht ein Scharfschütze unten rechts ein
@@ -579,7 +579,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   sieht diese Anzeigen*. Dadurch verschwimmt die Grenze zwischen Spielerinformation und
   Charakterwissen positiv: Der Spieler fragt quasi seinen eigenen Ingame-Computer nach Daten. Der
   **Codex** agiert auch proaktiv: Er kann autonome **Warn-Pop-ups** senden, wenn wichtige Schwellen
-  erreicht werden – z.B. *„⚡ Energie unter 20%“* oder *„⏳ Missions-Timer: 60 Sekunden verbleibend“*,
+  erreicht werden – z.B. *„⚡ Energie unter 20%“* oder *„⏳ Missions-Timer: 60 Sekunden verbleibend“*,
   je nachdem was im Szenario relevant ist. Diese Alarme sollten sparsam eingesetzt werden, damit sie
   dramatisch bleiben. Richtig genutzt, fühlt sich das Interface **lebendig** an, fast so als würde
   man einen Sci-Fi-Film schauen, in dem die Heldensicht mit UI-Elementen dargestellt wird (man denke
@@ -598,7 +598,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 verfolgt von wütenden Kultisten. Der Soldat Nikolai wurde verwundet. GPT könnte die Situation so
 schildern: *„Während du keuchend durch den Rauch rennst, verschwimmt dir die Sicht – Blutverlust und
 Erschöpfung fordern ihren Tribut. Dein HUD flackert Warnungen: Vital 45%… 44%… Oben rechts blinkt
-ein rotes Herz-Icon. Ein Pfeil markiert den Ausgang, 30 Meter voraus, und das Missionsziel
+ein rotes Herz-Icon. Ein Pfeil markiert den Ausgang, 30 Meter voraus, und das Missionsziel
 ***‚Entkommen‘*** leuchtet am Rand deines Sichtfelds. Im Team-Panel steht Miras Avatar bereits auf
 grün mit einem Häkchen – sie hat es nach draußen geschafft.\*\*“* – Hier verstärkt das HUD die
 Hektik und gibt gleichzeitig wichtige Infos: Nikolais Gesundheitsstatus sinkt rapide, der Ausgang
@@ -697,7 +697,7 @@ Dieses Markdown kann direkt als In-Game-Fenster verwendet werden (Textengine, Bo
 sich leicht in HTML oder Terminal-UIs übertragen und dient als referenzierbare Hilfe bzw.
 "Escape-Menü" für Spieler.
 
-**Fazit:** Mit den in Modul 5 (Teil 2) vorgestellten erweiterten Systemen könnt ihr euer ZEITRISS-
+**Fazit:** Mit den in Modul 5 (Teil 2) vorgestellten erweiterten Systemen könnt ihr euer ZEITRISS-
 Spiel feinjustieren. Ob ihr nun Verletzungen detailliert ausspielt, cineastische Heilungen nutzt,
 Initiative dramaturgisch gestaltet oder mit HUD-Einblendungen für kinoreife Momente sorgt – all
 diese Module stehen euch **modular zur Verfügung**. Wählt, was zu eurer Runde passt. Bleibt dem
