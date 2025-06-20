@@ -996,7 +996,7 @@ kritische Paradox-Schwelle überschreiten. Aus dieser Abmachung resultiert der n
 auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
-Insgesamt existieren vier dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion.
+Insgesamt existieren drei dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion.
 Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
 
 - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen.
