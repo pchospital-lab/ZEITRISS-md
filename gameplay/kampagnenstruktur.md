@@ -634,7 +634,7 @@ den Eindruck einer futuristischen Spielhalle. Im Unterschied zu den chaotischen
 Real-Rifts behält der Codex hier jederzeit die volle Kontrolle und führt als
 Moderator durch jede Runde.
 
-1. **Rift-Start:** Der Eintritt in die Arena kostet eine spürbare Menge **CU**.
+1. **Rift-Start:** Der Eintritt in die Arena kostet **250 CU plus 1 % des aktuellen Vermögens**.
    Die Teilnehmenden werden unmittelbar in eine virtuelle Rift geworfen. Die
    Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder Contra spielt.
    Enthält ein geladener Gruppen-Spielstand beide Seiten, kann ein freiwilliges
@@ -660,8 +660,8 @@ Moderator durch jede Runde.
 7. **Paradox-Reset:** Wer mindestens fünf **Szenen** in Folge meistert und
    anschließend freiwillig aussteigt, setzt sein Paradox-Level einmalig auf
    **0**. Ein erneuter Reset ist erst nach weiteren fünf Erfolgen möglich.
-8. **Gebühr pro Lauf:** Für jeden neuen Arenadurchgang wird die volle
-   CU-Gebühr erneut fällig.
+8. **Gebühr pro Lauf:** Bei jedem neuen Arenadurchgang fallen erneut
+   **250 CU + 1 % des Vermögens** an.
 
 Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
 sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
