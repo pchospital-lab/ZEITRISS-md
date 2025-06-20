@@ -89,7 +89,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
 deines MyGPT (max. 8k Zeichen).
  Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade bis zu 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
+2. Lade alle 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
   Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator in
