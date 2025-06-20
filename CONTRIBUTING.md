@@ -18,4 +18,3 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
   Das Spiel funktioniert auch ohne diese Vorlage.
 
 Vielen Dank für deine Mithilfe!
-

@@ -5,6 +5,7 @@ tags: [gameplay]
 ---
 
 # ZEITRISS 4.0 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte
+
 - Fahrzeugarten in verschiedenen Zeitaltern
 - Fahrzeugsteuerung, Manöver & Verfolgungsjagden
 - Reit- und Flugsequenzen (Tiere & Maschinen)
@@ -12,11 +13,10 @@ tags: [gameplay]
 - KI-Integration: Codex & HUD als taktische Helfer
 - Tabellen & Beispielwerte
 
-
-*Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
+\*Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
 Geländewagen aus der Zukunft. Gleichzeitig erzittert in der Ferne ein Schlachtfeld: Mittelalterliche
-Ritter stoßen auf stählerne Mechs aus dem 23. Jahrhundert. Willkommen zu einem ***filmisch-
-immersiven*** Modul für ZEITRISS 4.0, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.*
+Ritter stoßen auf stählerne Mechs aus dem 23. Jahrhundert. Willkommen zu einem **_filmisch-
+immersiven_** Modul für ZEITRISS 4.0, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.\*
 **Dieses Regelmodul erweitert das ZEITRISS-System um alles rund um Fahrzeuge, besondere
 Fortbewegungsarten und große Konflikte** – ohne den erzählerischen Fokus zu verlieren. Im Folgenden
 findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **dramatische Reit- und
@@ -27,26 +27,26 @@ Flugsequenzen** sowie **epische Massenschlachten** spielbar zu machen. Zudem zei
 **Dieses Modul enthält im Überblick:**
 
 - **Fahrzeugarten in verschiedenen Zeitaltern:** Vom Pferdekarren über Panzer bis zum Hoverbike und
-Zeitreise-Mech – welche Transportmittel es auf Tech-Stufe I bis V gibt, mit Beispielen und
-Besonderheiten.
+  Zeitreise-Mech – welche Transportmittel es auf Tech-Stufe I bis V gibt, mit Beispielen und
+  Besonderheiten.
 - **Regeln für Fahrzeugsteuerung & Verfolgungsjagden:** Wie werden Fahrzeuge bewegt? Wie laufen
-Verfolgungsjagden ab, wie führt man Manöver oder waghalsige Stunts durch? Wie funktioniert der Kampf
-mit und auf Fahrzeugen?
+  Verfolgungsjagden ab, wie führt man Manöver oder waghalsige Stunts durch? Wie funktioniert der Kampf
+  mit und auf Fahrzeugen?
 - **Reit- und Flugsequenzen:** Spezielle Mechaniken für das Reiten von Tieren und Steuern von
-Fluggeräten – ob zu Pferd, auf einem Drachen oder im Jet – samt Risiken und Möglichkeiten.
+  Fluggeräten – ob zu Pferd, auf einem Drachen oder im Jet – samt Risiken und Möglichkeiten.
 - **Massenkonflikte & Schlachten:** Strukturierte Regeln, um Gefechte mit ganzen Gruppen, Armeen
-verschiedener Epochen oder Mech-Bataillonen abzubilden, ohne jeden Soldaten einzeln auszuwürfeln.
-Taktische Entscheidungen der Helden beeinflussen dabei den Schlachtausgang.
+  verschiedener Epochen oder Mech-Bataillonen abzubilden, ohne jeden Soldaten einzeln auszuwürfeln.
+  Taktische Entscheidungen der Helden beeinflussen dabei den Schlachtausgang.
 - **KI-Integration (Codex & HUD):** Ideen, wie der **Codex**, das KI-Assistenzsystem des ITI, und
-die HUD-Overlays der Agenten für taktische Übersichten, Einsatzsteuerung und Immersion genutzt
-werden können – von Missionsdaten bis zu Paradox-Warnungen.
+  die HUD-Overlays der Agenten für taktische Übersichten, Einsatzsteuerung und Immersion genutzt
+  werden können – von Missionsdaten bis zu Paradox-Warnungen.
 - **Tabellen und Beispielwerte:** Praktische Übersichten zu Fahrzeugtypen, Konfliktarten und
-beispielhaften Spielwerten, um die neuen Regeln schnell anzuwenden.
+  beispielhaften Spielwerten, um die neuen Regeln schnell anzuwenden.
 
 ## Fahrzeugarten in verschiedenen Zeitaltern
 
-*Ein Chrononaut entkommt auf einem futuristischen Hoverbike seinen Verfolgern – ***filmreife Action
-quer durch die Zeit***.* Fahrzeuge dienen in ZEITRISS nicht nur der Fortbewegung, sondern bereichern
+\*Ein Chrononaut entkommt auf einem futuristischen Hoverbike seinen Verfolgern – **_filmreife Action
+quer durch die Zeit_**.\* Fahrzeuge dienen in ZEITRISS nicht nur der Fortbewegung, sondern bereichern
 die Geschichte um dramatische Szenen und kreative Möglichkeiten. Vom ratternden Römerkarren bis zum
 fliegenden Zeitkreuzer gilt: **Entscheidend ist die coole Szene, nicht die PS-Zahl** – Fahrzeuge
 sind vor allem erzählerische Werkzeuge. Um die Vielfalt abzubilden, teilen wir Fahrzeuge in **Tech-
@@ -87,7 +87,7 @@ Geländewagen scheint ein grober Pferdekarren zu sein, solange niemand unter die
 solche Tarnung zieht ein Tech III-Fahrzeug in der Vergangenheit sofort Aufmerksamkeit auf sich.
 **Szene:** Paris, 1789. Zwei Chrononauten rasen auf futuristisch anmutenden Motorrädern (Tech III)
 durch die Gassen – nach außen dank Tarnfeld getarnt als dampfbetriebene Kutschenräder. Die
-königlichen Garden zu Pferd stauen über die *„Teufelsmaschinen“*, die so wendig zwischen Barrikaden
+königlichen Garden zu Pferd stauen über die _„Teufelsmaschinen“_, die so wendig zwischen Barrikaden
 hindurchschießen. Eine spektakuläre Flucht, bei der die überlegene Motorisierung den Unterschied
 macht – doch jeder Fehler könnte die Tarnung auffliegen lassen.
 
@@ -116,12 +116,12 @@ Zeitkreuzer des ITI oder großer Fraktionen: halb Schiff, halb Maschine, geschaf
 Raum und Zeit. Auch ein sogenannter **Zeitreise-Mech** – ein mechanischer Kampfanzug mit
 integriertem Zeitgenerator – fällt in diese Kategorie. **Eigenschaften:** Extrem selten, hochkomplex
 und teuer. **Nur mächtige Fraktionen oder das ITI verfügen überhaupt über solche Fahrzeuge.** Oft
-dienen sie als *mobile Zeit-Basen*: Plattformen, von denen aus Chrononauten unabhängig vom HQ
+dienen sie als _mobile Zeit-Basen_: Plattformen, von denen aus Chrononauten unabhängig vom HQ
 operieren können. Ein Tech V-Gefährt vereint modernste Waffentechnik mit temporaler Wissenschaft –
 ein gewaltiger Vorteil, aber jeder Einsatz birgt Risiken für das Raumzeit-Kontinuum. Der Sprung
 eines Kampfläufers durch die Jahrhunderte könnte ungewollte Risse erzeugen, wenn etwas schiefgeht.
 **Szene:** Am Himmel über dem Schlachtfeld erscheint plötzlich ein schimmerndes Luftschiff – die
-*Chrono-VII*, ein zeppelinförmiger Zeitkreuzer der Rebellenfraktion *Tempus Liber*. Unter Donnern
+_Chrono-VII_, ein zeppelinförmiger Zeitkreuzer der Rebellenfraktion _Tempus Liber_. Unter Donnern
 reißt es einen leuchtenden Riss in den Wolken und gleitet hindurch, um die bedrängten Helden in
 letzter Sekunde herauszuziehen. Dieses surreale Spektakel – ein fliegendes Schiff, das zwischen
 Epochen auftaucht – verschlägt selbst abgebrühten Chrononauten den Atem. **Temporale Fahrzeuge sind
@@ -136,34 +136,34 @@ ausdrücklich willkommen.
 
 ### Fahrzeugbeschaffung & Ressourcen
 
-Die Frage *„Wie kommen die Helden überhaupt an ein Fahrzeug?“* bietet Gelegenheit für spannende
+Die Frage _„Wie kommen die Helden überhaupt an ein Fahrzeug?“_ bietet Gelegenheit für spannende
 Plot-Ideen. In ZEITRISS 4.0 gibt es mehrere gängige **Beschaffungswege**:
 
 - **HQ-Ausstattung:** Oft stellt das ITI den Agenten ein Transportmittel zur Verfügung, das zur
-Missionszeit passt (sofern dort bereits etwas Lager- oder tarnbar ist). Vorteil: zuverlässig,
-gewartet und startklar. Nachteil: Man bekommt nicht immer das Wunschgefährt, sondern was gerade
-vorrätig ist. *Beispiel:* Für eine Mission 1925 stellt die Quartiermeisterin einen modifizierten
-Ford-Oldtimer bereit – unter der Haube ein versteckter Motor (Tech III getarnt als Tech I). „Bringt
-mir das Schmuckstück heil zurück – oder ihr lauft zur nächsten Mission!“, warnt sie knurrig. Die
-Helden erhalten also ein Fahrzeug vom HQ, stehen aber in der Pflicht, es nicht zu verschrotten.
+  Missionszeit passt (sofern dort bereits etwas Lager- oder tarnbar ist). Vorteil: zuverlässig,
+  gewartet und startklar. Nachteil: Man bekommt nicht immer das Wunschgefährt, sondern was gerade
+  vorrätig ist. _Beispiel:_ Für eine Mission 1925 stellt die Quartiermeisterin einen modifizierten
+  Ford-Oldtimer bereit – unter der Haube ein versteckter Motor (Tech III getarnt als Tech I). „Bringt
+  mir das Schmuckstück heil zurück – oder ihr lauft zur nächsten Mission!“, warnt sie knurrig. Die
+  Helden erhalten also ein Fahrzeug vom HQ, stehen aber in der Pflicht, es nicht zu verschrotten.
 - **Schwarzmärkte & Fraktionen:** Abseits des ITI existiert eine Unterwelt des Zeitreisens.
-Unabhängige Chrononauten können auf dem temporalen Schwarzmarkt Fahrzeuge kaufen oder mieten – gegen
-horrende Chrono-Einheiten oder heikle Gefallen. Alternativ lässt sich Unterstützung bei anderen
-Fraktionen suchen. Vielleicht gewährt die Rebellen-Gruppe *Exodus Chronos* den Helden Unterschlupf
-in einem Geheimversteck und **stellt einen getarnten Jeep** (Tech III) **als Transporter**,
-allerdings nur, wenn das Team im Gegenzug eine Botenschaft für sie erfüllt. Solche Deals bringen die
-Gruppe voran, **verwickeln sie aber in neue Verpflichtungen** – perfekte Aufhänger für Rollenspiel
-und Intrigen.
+  Unabhängige Chrononauten können auf dem temporalen Schwarzmarkt Fahrzeuge kaufen oder mieten – gegen
+  horrende Chrono-Einheiten oder heikle Gefallen. Alternativ lässt sich Unterstützung bei anderen
+  Fraktionen suchen. Vielleicht gewährt die Rebellen-Gruppe _Exodus Chronos_ den Helden Unterschlupf
+  in einem Geheimversteck und **stellt einen getarnten Jeep** (Tech III) **als Transporter**,
+  allerdings nur, wenn das Team im Gegenzug eine Botenschaft für sie erfüllt. Solche Deals bringen die
+  Gruppe voran, **verwickeln sie aber in neue Verpflichtungen** – perfekte Aufhänger für Rollenspiel
+  und Intrigen.
 - **Improvisation im Feld:** Oft finden oder **kapern die Helden ihr Gefährt direkt im Abenteuer**.
-Ein paar Beispiele: Sie stehlen einen Panzer aus dem Jahr 1944 und drehen damit den Spieß um. Sie
-reparieren einen liegengebliebenen Dampfer von 1880. Oder sie entdecken einen alten **Zeitspringer**
-(portables Zeitreisegerät) im Versteck eines früheren Agenten und machen ihn wieder funktionsfähig.
-Erlaubt ist, was zur Situation passt – kreative Bastler-Charaktere können vor Ort improvisieren und
-*aus Schrott ein Fahrzeug zusammenschustern*. Vom aufgemotzten Dampfwagen bis zum gezähmten
-**Flugsaurier mit implantiertem Zeitsender** ist alles denkbar, wenn es die Story hergibt!
-(Spielleiter-Tipp: Belohnt ungewöhnliche Ideen, ein Fahrzeug zu organisieren, das nicht im Missions-
-Briefing stand. Solche Einfälle eröffnen oft neue Wege zum Ziel und machen das Abenteuer
-unberechenbarer.)
+  Ein paar Beispiele: Sie stehlen einen Panzer aus dem Jahr 1944 und drehen damit den Spieß um. Sie
+  reparieren einen liegengebliebenen Dampfer von 1880. Oder sie entdecken einen alten **Zeitspringer**
+  (portables Zeitreisegerät) im Versteck eines früheren Agenten und machen ihn wieder funktionsfähig.
+  Erlaubt ist, was zur Situation passt – kreative Bastler-Charaktere können vor Ort improvisieren und
+  _aus Schrott ein Fahrzeug zusammenschustern_. Vom aufgemotzten Dampfwagen bis zum gezähmten
+  **Flugsaurier mit implantiertem Zeitsender** ist alles denkbar, wenn es die Story hergibt!
+  (Spielleiter-Tipp: Belohnt ungewöhnliche Ideen, ein Fahrzeug zu organisieren, das nicht im Missions-
+  Briefing stand. Solche Einfälle eröffnen oft neue Wege zum Ziel und machen das Abenteuer
+  unberechenbarer.)
 
 **Was, wenn das Fahrzeug zerstört wird?** – In dramatischen Kampagnen kann es passieren, dass ein
 Gefährt verloren geht oder liegenbleibt. Keine Panik: **Auch daraus lässt sich Story machen!**
@@ -233,40 +233,40 @@ Wenn während der Fahrt gekämpft wird – sei es Wagen an Wagen, in der Luft od
 gelten grundsätzlich die normalen Kampfregeln, doch einige Sonderaspekte kommen hinzu:
 
 - **Fahrzeuge als Deckung:** Insassen eines Fahrzeugs genießen meist teilweisen Schutz. Ein Gegner
-muss entscheiden, ob er **das Fahrzeug oder die Besatzung** ins Visier nimmt. Schüsse auf Reifen,
-Motor oder Antrieb können ein Gefährt zum Stoppen bringen; Schüsse durch die Fenster oder Panzerung
-treffen die Passagiere direkt. Ein gut gepanzertes Fahrzeug (z. B. ein Panzer) hat einen
-Rüstungswert, der Schaden absorbiert, bis er durchschlagen wird – bis dahin sitzen die Leute darin
-relativ sicher. Ein offenes Fahrzeug (Motorrad, Streitwagen) bietet kaum Schutz; hier kann der
-Fahrer gezielt angegriffen werden, was die Verfolgungsjagd schnell beendet.
+  muss entscheiden, ob er **das Fahrzeug oder die Besatzung** ins Visier nimmt. Schüsse auf Reifen,
+  Motor oder Antrieb können ein Gefährt zum Stoppen bringen; Schüsse durch die Fenster oder Panzerung
+  treffen die Passagiere direkt. Ein gut gepanzertes Fahrzeug (z. B. ein Panzer) hat einen
+  Rüstungswert, der Schaden absorbiert, bis er durchschlagen wird – bis dahin sitzen die Leute darin
+  relativ sicher. Ein offenes Fahrzeug (Motorrad, Streitwagen) bietet kaum Schutz; hier kann der
+  Fahrer gezielt angegriffen werden, was die Verfolgungsjagd schnell beendet.
 - **Rammen & Kollisionen:** Versucht ein Fahrzeug, ein anderes zu rammen oder abzudrängen,
-vergleichen die Fahrer ihre **Fahrzeugbeherrschung**. Zusätzlich spielt Masse eine Rolle: Bei einem
-**Größenunterschied** (etwa LKW vs. Motorrad) erhält das schwerere Gefährt einen Bonus auf den Wurf.
-Gelingt das Rammen, erleiden beide Fahrzeuge Schaden – das leichtere deutlich mehr. Ein kleineres
-Vehikel könnte komplett zerstört werden, während das größere noch fahrfähig ist (aber ebenfalls
-beschädigt). **Crashs** sollten dramatisch beschrieben werden: splitterndes Holz, kreischendes
-Metall, Funken und Flammen. Die Insassen erleiden meist **Erschütterungsschaden** oder müssen Proben
-ablegen, um sich im Wrack festzuhalten. Solche Szenen können zu Folgeproblemen führen (Fahrzeug
-brennt oder hängt über einem Abgrund…).
+  vergleichen die Fahrer ihre **Fahrzeugbeherrschung**. Zusätzlich spielt Masse eine Rolle: Bei einem
+  **Größenunterschied** (etwa LKW vs. Motorrad) erhält das schwerere Gefährt einen Bonus auf den Wurf.
+  Gelingt das Rammen, erleiden beide Fahrzeuge Schaden – das leichtere deutlich mehr. Ein kleineres
+  Vehikel könnte komplett zerstört werden, während das größere noch fahrfähig ist (aber ebenfalls
+  beschädigt). **Crashs** sollten dramatisch beschrieben werden: splitterndes Holz, kreischendes
+  Metall, Funken und Flammen. Die Insassen erleiden meist **Erschütterungsschaden** oder müssen Proben
+  ablegen, um sich im Wrack festzuhalten. Solche Szenen können zu Folgeproblemen führen (Fahrzeug
+  brennt oder hängt über einem Abgrund…).
 - **Kämpfe auf Fahrzeugen:** Springt ein Held (oder Gegner) von Fahrzeug zu Fahrzeug oder klettert
-während voller Fahrt auf dem eigenen Vehikel herum, werden die Aktionen riskanter. Balance-Proben
-können nötig sein, um nicht abzustürzen, besonders wenn der Fahrer ausweicht. Ein Kampf auf dem Dach
-eines fahrenden Zuges zum Beispiel könnte jede Runde eine Geschicklichkeits-Probe erfordern, um bei
-ruckartigen Bewegungen nicht den Halt zu verlieren. **Deckung** gibt es hier kaum – dafür sieht es
-im Film beeindruckend aus! Spieler sollten solche Aktionen wagen dürfen; belohnt sie mit Cinematic-
-Momenten (der Held hängt einhändig am Helikopter, während er mit der freien Hand den Bösewicht
-schlägt…). Die Regeln dienen hier vor allem dazu, die Gefahr fühlbar zu machen, ohne den Spaß zu
-bremsen.
+  während voller Fahrt auf dem eigenen Vehikel herum, werden die Aktionen riskanter. Balance-Proben
+  können nötig sein, um nicht abzustürzen, besonders wenn der Fahrer ausweicht. Ein Kampf auf dem Dach
+  eines fahrenden Zuges zum Beispiel könnte jede Runde eine Geschicklichkeits-Probe erfordern, um bei
+  ruckartigen Bewegungen nicht den Halt zu verlieren. **Deckung** gibt es hier kaum – dafür sieht es
+  im Film beeindruckend aus! Spieler sollten solche Aktionen wagen dürfen; belohnt sie mit Cinematic-
+  Momenten (der Held hängt einhändig am Helikopter, während er mit der freien Hand den Bösewicht
+  schlägt…). Die Regeln dienen hier vor allem dazu, die Gefahr fühlbar zu machen, ohne den Spaß zu
+  bremsen.
 - **Fahrzeug-Zustand & Reparaturen:** Fahrzeuge können im Verlauf eines Abenteuers Schaden nehmen –
-Kugeln im Chassis, gebrochene Achsen, lecke Treibstofftanks. Der SL sollte Buch führen oder abstrakt
-festhalten, wie angeschlagen ein Fahrzeug ist. Ein mögliches System: **Leichte Beschädigung**
-(kosmetisch, keine Auswirkungen außer Flair), **Schwere Beschädigung** (ein relevantes System fällt
-aus – z. B. keine Bremsen, halbe Geschwindigkeit, oder Malus auf Steuerungswürfe) und
-**Totalschaden** (nicht mehr fahrbereit). Findige Helden können in Ruhepausen Reparaturen versuchen;
-Erfolg bedeutet, eine Stufe des Schadens zu reduzieren. Ersatzteile zu finden, kann Teil des
-Abenteuers sein. Auch hier gilt: **Plot vor Realismus.** Lieber erlaubt man improvisierte Lösungen
-(den Kühler mit Whiskey auffüllen, die Schiffsluke mit einem Brett verrammeln) als das Spiel durch
-Mechanik zu verzögern.
+  Kugeln im Chassis, gebrochene Achsen, lecke Treibstofftanks. Der SL sollte Buch führen oder abstrakt
+  festhalten, wie angeschlagen ein Fahrzeug ist. Ein mögliches System: **Leichte Beschädigung**
+  (kosmetisch, keine Auswirkungen außer Flair), **Schwere Beschädigung** (ein relevantes System fällt
+  aus – z. B. keine Bremsen, halbe Geschwindigkeit, oder Malus auf Steuerungswürfe) und
+  **Totalschaden** (nicht mehr fahrbereit). Findige Helden können in Ruhepausen Reparaturen versuchen;
+  Erfolg bedeutet, eine Stufe des Schadens zu reduzieren. Ersatzteile zu finden, kann Teil des
+  Abenteuers sein. Auch hier gilt: **Plot vor Realismus.** Lieber erlaubt man improvisierte Lösungen
+  (den Kühler mit Whiskey auffüllen, die Schiffsluke mit einem Brett verrammeln) als das Spiel durch
+  Mechanik zu verzögern.
 
 ## Reit- und Flugsequenzen (Tiere & Maschinen)
 
@@ -327,15 +327,15 @@ Helden legt sprichwörtlich ein Gewicht auf die Waagschale von Seite A. Gelingt 
 vergleicht man die „Erfolgspunkte“ beider Seiten:
 
 - **A \> B:** Die Seite der Helden hat mehr Gewicht – sie gewinnt die Schlacht, **positive
-Konsequenzen** treten ein (die Revolution gelingt, der Feind wird zurückgeschlagen, der Frieden wird
-gewahrt).
+  Konsequenzen** treten ein (die Revolution gelingt, der Feind wird zurückgeschlagen, der Frieden wird
+  gewahrt).
 - **A \< B:** Die Gegnerseite wiegt schwerer – trotz aller Mühe setzt sich die feindliche Agenda
-durch. **Negative Folgen** sind unvermeidlich (der Putsch glückt, der Tyrann behält die Macht, die
-Helden müssen fliehen).
+  durch. **Negative Folgen** sind unvermeidlich (der Putsch glückt, der Tyrann behält die Macht, die
+  Helden müssen fliehen).
 - **A = B:** Patt – kein klarer Sieger. Dies kann einen zähen Stellungskrieg darstellen oder einen
-Pyrrhussieg, bei dem zwar der Gegner gestoppt wird, aber zu hohem Preis. Der SL entscheidet nach
-Storybedarf, wer sich zunächst zurückzieht, oder lässt ein Ereignis von außen entscheiden (z. B.
-Eintreffen einer dritten Partei).
+  Pyrrhussieg, bei dem zwar der Gegner gestoppt wird, aber zu hohem Preis. Der SL entscheidet nach
+  Storybedarf, wer sich zunächst zurückzieht, oder lässt ein Ereignis von außen entscheiden (z. B.
+  Eintreffen einer dritten Partei).
 
 Wichtig: **Die Helden steuern durch ihre Taten diese Waage** – sie sind die Zünglein an der Waage,
 auch wenn um sie herum Hunderte kämpfen. Die Schlacht tobt im Hintergrund als spektakuläre Kulisse
@@ -348,31 +348,31 @@ einer Massenschlacht zu sein.
 ### Ablauf einer Massenkampf-Szene
 
 1. **Szene vorbereiten:** Überlegt euch als SL ein Szenario und welche **Schlüsselszenen** die
-Helden darin haben könnten. Beispiele: In der Schlacht von Hastings sollen die Helden (a) eine
-strategische Brücke halten, (b) den feindlichen Anführer im Duell ausschalten, (c) die Moral der
-erschöpften Bauern-Verstärkung stärken. Jede dieser Aufgaben wird zu einer separaten Szene innerhalb
-der Schlacht.
+   Helden darin haben könnten. Beispiele: In der Schlacht von Hastings sollen die Helden (a) eine
+   strategische Brücke halten, (b) den feindlichen Anführer im Duell ausschalten, (c) die Moral der
+   erschöpften Bauern-Verstärkung stärken. Jede dieser Aufgaben wird zu einer separaten Szene innerhalb
+   der Schlacht.
 2. **Einfluss der Aktionen:** Spielt **jede Schlüsselszene mit normalen Regeln** aus – sei es Kampf,
-Schleichen oder Diplomatie, je nach Aufgabe. Für jede erfolgreich gemeisterte Szene erhalten die
-Helden **1 Erfolgspunkt** für Seite A. Misslingt etwas gravierend oder verzichten die Helden auf
-eine Chance, kann dies einen Erfolgspunkt an Seite B geben (oder einen Punkt von A negieren).
-Notiert die Punkte.
+   Schleichen oder Diplomatie, je nach Aufgabe. Für jede erfolgreich gemeisterte Szene erhalten die
+   Helden **1 Erfolgspunkt** für Seite A. Misslingt etwas gravierend oder verzichten die Helden auf
+   eine Chance, kann dies einen Erfolgspunkt an Seite B geben (oder einen Punkt von A negieren).
+   Notiert die Punkte.
 3. **Zwischenergebnisse einflechten:** Nach jeder Szene könnt ihr den **aktuellen
-Schlachtenverlauf** skizzieren. Beispiel: Die Helden haben die Brücke gehalten (+1 A), daher
-gewinnen die Verbündeten Zeit und Terrain. Später scheitern sie jedoch, den gegnerischen Champion
-aufzuhalten (Punkt an B) – prompt kippt das Blatt, die Feinde schöpfen neue Moral. Solche
-Erzählmomente machen klar, wie die Taten der Helden die große Masse beeinflussen.
+   Schlachtenverlauf** skizzieren. Beispiel: Die Helden haben die Brücke gehalten (+1 A), daher
+   gewinnen die Verbündeten Zeit und Terrain. Später scheitern sie jedoch, den gegnerischen Champion
+   aufzuhalten (Punkt an B) – prompt kippt das Blatt, die Feinde schöpfen neue Moral. Solche
+   Erzählmomente machen klar, wie die Taten der Helden die große Masse beeinflussen.
 4. **Finale und Vergleich:** Sobald alle geplanten Schlüsselszenen gespielt sind (oder die Helden
-aus Zeitgründen nicht mehr schaffen), zieht Bilanz. Vergleicht die Punkte auf A- und B-Seite. Daraus
-ergibt sich das **Endergebnis der Schlacht** (siehe oben: Sieg/Niederlage/Patt). Beschreibt
-cineastisch, was geschieht: Haben die Helden genug Impact erreicht, bricht die gegnerische Armee
-möglicherweise panisch auseinander, der Feind ergibt sich oder flieht vom Feld. Wenn nicht, erfüllt
-sich das düsterere Szenario – vielleicht müssen die Helden sich zurückziehen, während der Feind
-triumphiert.
+   aus Zeitgründen nicht mehr schaffen), zieht Bilanz. Vergleicht die Punkte auf A- und B-Seite. Daraus
+   ergibt sich das **Endergebnis der Schlacht** (siehe oben: Sieg/Niederlage/Patt). Beschreibt
+   cineastisch, was geschieht: Haben die Helden genug Impact erreicht, bricht die gegnerische Armee
+   möglicherweise panisch auseinander, der Feind ergibt sich oder flieht vom Feld. Wenn nicht, erfüllt
+   sich das düsterere Szenario – vielleicht müssen die Helden sich zurückziehen, während der Feind
+   triumphiert.
 5. **Nachspiel:** Beleuchtet unbedingt die **Konsequenzen** der Schlacht im Story-Verlauf. Wurde
-eine Revolution niedergeschlagen oder gelang sie? Sitzen nun Verbündete am Thron oder Feinde? Welche
-Verluste sind zu beklagen? Solche Nachwirkungen geben dem Ergebnis Gewicht. Die Helden spüren, dass
-ihre Taten Geschichte geschrieben haben – im Guten oder Schlechten.
+   eine Revolution niedergeschlagen oder gelang sie? Sitzen nun Verbündete am Thron oder Feinde? Welche
+   Verluste sind zu beklagen? Solche Nachwirkungen geben dem Ergebnis Gewicht. Die Helden spüren, dass
+   ihre Taten Geschichte geschrieben haben – im Guten oder Schlechten.
 
 ### Spezialfall: Revolutionen & soziale Umwälzungen
 
@@ -395,7 +395,7 @@ Preis harter Maßnahmen. Auch Kompromisse sind denkbar (Patt): Vielleicht wird e
 ausgehandelt statt eines kompletten Umsturzes. Der SL sollte das Ergebnis **moralisch grau**
 gestalten, um der historischen Komplexität gerecht zu werden.
 
-*Beispiel:* Paris 1789 – der Sturm auf die Bastille. Auftrag der Chrononauten war ursprünglich nur,
+_Beispiel:_ Paris 1789 – der Sturm auf die Bastille. Auftrag der Chrononauten war ursprünglich nur,
 einen bestimmten Adeligen in Sicherheit zu bringen. Doch nun tobt die Revolution. Die Helden können
 fliehen… oder versuchen, das Blutvergießen zu beeinflussen. Sie entscheiden sich einzugreifen. In
 mehreren Szenen wirken sie auf den Verlauf ein: Sie überzeugen einen Trupp Bürger, Gnade mit
@@ -416,10 +416,10 @@ Spiel eine High-Tech-Komponente, die für Atmosphäre **und** spielerische Vorte
 **HUD** ins Sichtfeld einblendet. Darüber werden Vitaldaten, Missionsziele, Zeitreise-Parameter und
 Umgebungsscans angezeigt – quasi ein Sci-Fi-Interface mitten in historischen Kulissen. Alle HUD-
 Daten stammen vom **ITI-Codex**, der zentrale Rechner, der Sensoren und Missionsinfos auswertet und
-relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) *„Codex,
-Statusbericht!“* oder *„Codex, HUD-Übersicht!“* rufen – die KI liefert dann prompt eine knappe
-Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: *Vitalwerte 78 % (stabil) –
-Paradox-Level 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt*. Auch Warnmeldungen erscheinen
+relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) _„Codex,
+Statusbericht!“_ oder _„Codex, HUD-Übersicht!“_ rufen – die KI liefert dann prompt eine knappe
+Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: _Vitalwerte 78 % (stabil) –
+Paradox-Level 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
 automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Paradoxwert ≥3, Timer
 unter 1 Minute).
 
@@ -429,7 +429,7 @@ Blickfelds pulsieren und Feinde als rote Punkte markieren, oder ein Pfeil den n�
 anzeigen. Bei einer Verfolgungsjagd könnte ein Abstandsmesser laufen („Distanz zum Verfolger:
 30 m“), in einer Schlacht eine kleine Übersichtskarte der Umgebung eingeblendet werden. Das
 vermittelt ein starkes **High-Tech-Gefühl** – man wähnt sich als Agent in einem Sci-Fi-Thriller, der
-gleichzeitig mittelalterlicher Ritter *und* futuristischer Cyborg ist. Wichtig ist, das HUD
+gleichzeitig mittelalterlicher Ritter _und_ futuristischer Cyborg ist. Wichtig ist, das HUD
 dramaturgisch dosiert einzusetzen: Es sollte in spannenden Momenten helfen (z. B. ein blinkender
 **Countdown** bei einer tickenden Zeitbombe), aber nicht ständig alle Aufmerksamkeit rauben. Ein
 kurzes Aufleuchten im richtigen Moment – „Warnung: Temporalinstabilität steigt!“ – kann die
@@ -448,18 +448,18 @@ ein Werkzeug, kein Autopilot.
 
 Die Spielleitung (oder GPT als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
 Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: „Wie viele HP habe ich noch?“,
-kann die SL antworten: *„Du fühlst dich schwer angeschlagen – dein HUD zeigt deinen
-Gesundheitsbalken bei ~20 %.“* So bleiben Zahlen greifbar, ohne die Immersion zu brechen. Regelwerte
+kann die SL antworten: _„Du fühlst dich schwer angeschlagen – dein HUD zeigt deinen
+Gesundheitsbalken bei ~20 %.“_ So bleiben Zahlen greifbar, ohne die Immersion zu brechen. Regelwerte
 lassen sich in ITI-Fachbegriffe übertragen (statt „-3 auf Aktionen“ blinkt eben ein roter
-**Statusbalken**). Das verstärkt die Verbindung von Spieler und Charakter: Man *sieht* förmlich, was
+**Statusbalken**). Das verstärkt die Verbindung von Spieler und Charakter: Man _sieht_ förmlich, was
 die Figur spürt.
 
 Richtig eingesetzt, wird das HUD-Overlay zu einem mächtigen Stimmungselement: **Wie in einer
-Filmszene mit dezentem UI** sieht der Tisch die Mission aus Agenten-Perspektive. Etwa so: *„Während
+Filmszene mit dezentem UI** sieht der Tisch die Mission aus Agenten-Perspektive. Etwa so: _„Während
 du keuchend durch den brennenden Tempel sprintest, flackert dein Sichtfeld: Vital 45%… 44%… Ein
 rotes Herzsymbol blinkt. Dein HUD markiert den Ausgang in 30 Metern mit einem Pfeil, daneben
 ‚Missionsziel: Entkommen‘. Im Team-Status siehst du Miras Icon auf grün – sie hat es bereits nach
-draußen geschafft.“*. Solche Beschreibungen lassen die Spieler **mitfiebern wie in einem Videospiel
+draußen geschafft.“_. Solche Beschreibungen lassen die Spieler **mitfiebern wie in einem Videospiel
 oder Actionfilm**, wo der Held im Helm-Display die letzte Rettung aufblitzen sieht. Am Ende gilt:
 Der Codex und das HUD sollen unterstützen und die Cinematic-Qualität erhöhen – sie sind Mittel zum
 Zweck, kein Selbstzweck.
@@ -472,7 +472,7 @@ Gruppe und den gewünschten Detailgrad an.
 
 ### Beispiel-Fahrzeuge & Eigenschaften
 
-|  |  |  |  |  | |----|----|----|----|----| | **Pferdekutsche** (1600) | I | Niedrig (ca. 20 km/h) |
+| | | | | | |----|----|----|----|----| | **Pferdekutsche** (1600) | I | Niedrig (ca. 20 km/h) |
 4 Personen + Gepäck | Unauffällig in vormodernen Epochen; einfache Reparatur (Holz/Metall);
 verletzlich gegenüber modernen Waffen. | | **Panzer** (1944) | III | Mittel (ca. 40 km/h) | 5
 (Besatzung) + Mun. | Starke Panzerung (schwer durchdringbar); laut & auffällig; in Vorzeit extrem
@@ -485,7 +485,7 @@ z. B. für Sekunden in die Zukunft/Vergangenheit zu versetzen. Extrem selten u
 Fraktionen zugänglich. Nahezu unaufhaltsam auf Tech III-Niveau – birgt jedoch hohes Paradox-Risiko
 bei Einsatz (Zeitstabilität beachten!). |
 
-*Hinweise:* **Tempo** ist relativ – ein Hoverbike kann zwar 200 km/h erreichen, aber im dichten
+_Hinweise:_ **Tempo** ist relativ – ein Hoverbike kann zwar 200 km/h erreichen, aber im dichten
 Stadtszenario zählt Wendigkeit mehr als rohe Geschwindigkeit. **Kapazität** umfasst Crew und ggf.
 Passagiere oder Ladung. Die **Besonderheiten** fassen erzählerische Vor- und Nachteile zusammen.
 Werte wie Schaden, Panzerung etc. können je nach Regelsystem zugewiesen werden (z. B. Robustheit
@@ -500,7 +500,7 @@ Die folgende Tabelle gibt Anhaltspunkte, wie ihr **Schlachten unterschiedlicher 
 **Komplexität** handhaben könnt – insbesondere wie viele **Erfolgspunkte** (Schlüsselszenen) etwa
 nötig sind und welche **Erschwernisse** gelten könnten:
 
-|  |  |  |  | |----|----|----|----| | **Kleine Gefechte** (Truppgröße \< 50) | Überfall einer
+| | | | | |----|----|----|----| | **Kleine Gefechte** (Truppgröße \< 50) | Überfall einer
 Banditengruppe, Scharmützel zweier Kommandos | 1–2 pro Seite | Einzelaktionen der Helden
 entscheidend. Kaum Abstriche – jeder Erfolg kippt das Ergebnis. ggf. keine besonderen Erschwernisse;
 Umgebung zählt viel. | | **Mittlere Schlacht** (ca. einige 100) | Dorfverteidigung gegen
@@ -514,7 +514,7 @@ bei Misserfolg gravierender. Codex-HUD kann taktische Übersicht liefern, verrin
 Proben. | | **Epischer Zeitkrieg** (Armeen aus versch. Epochen, \> Zehntausende) |
 „Zeitkrieg“-Szenario: z.B. Römerlegion vs. Zukunfts-Mechs auf kollidierenden Zeitlinien | 8+ pro
 Seite (flexibel) | Chaos der Zeiten erschwert vieles: **Paradox-Effekte** möglich (würfelt pro
-Szene, ob Zeitphänomene auftreten). Helden sollten *sehr* fokussiert vorgehen, um überhaupt Einfluss
+Szene, ob Zeitphänomene auftreten). Helden sollten _sehr_ fokussiert vorgehen, um überhaupt Einfluss
 zu haben. Erfolgsziel hoch ansetzen, aber ggf. in **Theatersequen**z auflösen (die Helden erledigen
 Schlüsselmoment, der Rest wird narrativ entschieden). |
 
