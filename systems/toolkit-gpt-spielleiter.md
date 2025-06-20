@@ -283,7 +283,7 @@ bei Erfolg ein sanftes akustisches Signal oder ein grünes Aufleuchten passieren
 accomplished“). Indem du solche **diegetischen** Mittel nutzt, bleibt alles in-world und verstärkt
 dennoch das Spielerlebnis.
 
-n## Solo-Modus mit temporärem NPC-Team
+## Solo-Modus mit temporärem NPC-Team
 
 ## Inhalt
 - Einleitung
