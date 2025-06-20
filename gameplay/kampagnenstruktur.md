@@ -637,12 +637,11 @@ Showdown-Szene.
    mehrere Spielende an, entscheidet die Mehrheitsfraktion über das Auffüllen.
    Anschließend generiert Codex ein gleichstarkes Gegenteam und versetzt beide
    Gruppen an den Schauplatz.
-4. **Showdown:** Es wird so lange gekämpft, bis das Ziel erfüllt oder vereitelt
-   ist. Nach jedem Erfolg kann eine Revanche gestartet oder die Arena verlassen
-   werden.
-5. **Belohnungen:** Siege bringen CU, Ruf und bei Serien steigende Multiplikatoren.
-   Wer fünf Erfolge in Folge erzielt und danach aussteigt, setzt sein
-   Paradox-Level einmalig auf **0**. Die Startgebühr fällt bei jedem neuen Lauf erneut an.
+4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Nach jedem Duell kann
+   eine Revanche gestartet oder die Arena verlassen werden.
+5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
+   Best-of-Three-Serie gewinnt und danach aussteigt, setzt sein Paradox-Level
+   einmalig auf **0**. Die Startgebühr fällt bei jedem neuen Lauf erneut an.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.

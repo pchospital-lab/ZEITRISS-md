@@ -239,23 +239,29 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
   const scenario = generateArenaScenario();
   const teamA = createTeam(teamSize, players, mode); // füllt mit Fraktionsmitgliedern
   const teamB = createOpposingTeam(teamSize);        // GPT generiert Gegenteam
-  state.arena = { active: true, teamA, teamB, scenario, wins: 0 };
+  state.arena = { active: true, teamA, teamB, scenario, winsA: 0, winsB: 0 };
   autoSave();
   writeLine(`PvP showdown started: ${scenario.description}`);
 }
 
-function arenaMatchWon() {
-  if (state.arena?.active) {
-    state.arena.wins++;
+function arenaMatchWon(playerTeamWon = true) {
+  if (!state.arena?.active) return;
+  if (playerTeamWon) {
+    state.arena.winsA++;
+  } else {
+    state.arena.winsB++;
+  }
+  if (state.arena.winsA >= 2 || state.arena.winsB >= 2) {
+    exitPvPArena();
   }
 }
 
 function exitPvPArena() {
   if (!state.arena?.active) return;
-  if (state.arena.wins >= 5) {
-    state.paradox_level = 0;         // Reset nach fünf Siegen in Folge
+  if (state.arena.winsA > state.arena.winsB) {
+    state.paradox_level = 0;         // Reset nach gewonnener Best-of-Three-Serie
   }
-  state.arena = { active: false, teamA: [], teamB: [], wins: 0 };
+  state.arena = { active: false, teamA: [], teamB: [], winsA: 0, winsB: 0 };
   autoSave();
   writeLine("Arena match ended.");
 }
