@@ -95,10 +95,12 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die **19 Regelmodule** aus `core/`, `characters/`, `gameplay/` und `systems` einzeln in dein KI-Tool.
-   Die Tabelle listet alle Titel.
-   `README.md` und `master-index.json` dienen nur zur Übersicht.
-   Sie können optional mitgeladen werden, um GPT eine bessere Orientierung zu geben.
+2. Lade die **19 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
+   Sie verteilen sich auf 18 Dateien; ein Modul ist als Abschnitt in
+   `gameplay/kampagnenstruktur.md` enthalten.
+   `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
+   `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
+   Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
    Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
    Beispiel: "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
