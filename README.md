@@ -36,7 +36,7 @@ Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
 es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
 Zeitkreaturen können Teil dieser Risse sein.
 Wer lieber ganz auf solche Erscheinungen verzichtet,
-kann eine **Covert-Ops-Variante** spielen, die nur leichte Störungen zulässt.
+kann im [**Covert-Ops-Modus**](#spielmodi) spielen, der nur leichte Störungen zulässt.
 Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 
 ## Struktur
@@ -140,6 +140,22 @@ einen neuen Missionspfad wählen oder eine HQ-Phase starten.
 In dieser Phase lassen sich Upgrades kaufen und der Restpunkt abhandeln.
 Erst nach der Auswahl führt das HUD die Kampagne fort – die Mission gilt
 nach dem Sprung als abgeschlossen.
+
+## Spielmodi {#spielmodi}
+
+Das HUD bietet drei Erzählstile, die sich jederzeit über den Befehl `modus`
+umschalten lassen:
+
+| Modus                    | Kurzbeschreibung                                                                 |
+| ------------------------ | ------------------------------------------------------------------------------- |
+| **Film**                 | Cineastische Heilung und Initiative, dramatischer Flow.                          |
+| **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
+| **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
+
+Contra-orientierte Gruppen können laut
+[Charaktererschaffung](characters/charaktererschaffung.md) und
+[Zeitriss-Core](core/zeitriss-core.md) die Paradoxmechanik vollständig
+ausschalten. Pro-Gruppen behalten sie aktiv.
 
 ## How to Contribute
 
