@@ -5,6 +5,7 @@ tags: [systems]
 ---
 
 # ZEITRISS 4.0 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
 - Anpassung an Gruppe, Epoche und Tonalität
@@ -15,6 +16,7 @@ tags: [systems]
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
 ## Ablauf zu Beginn
+
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
 Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarzatrium.
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
@@ -24,7 +26,6 @@ Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich 
 entstehen paranormale Anomalien, die separat beseitigt werden müssen.
 So erleben alle gleich zu Beginn, wie ZEITRISS 4.0 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
-
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
 ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,
@@ -58,15 +59,15 @@ Codex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film, vo
 Erwartung.
 
 Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den hohen Raum:
-*„Willkommen im Herzen des ITI, Agents.“* Während er spricht, erscheint ein halbtransparentes
+_„Willkommen im Herzen des ITI, Agents.“_ Während er spricht, erscheint ein halbtransparentes
 Interface-Display neben ihm – der Codex projiziert Ankunftsdaten und Profile. Renier fährt fort,
-während sein Blick über die versammelten Zeitreisenden schweift: *„Sie befinden sich nun in der
-***Nullzeit***, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren
+während sein Blick über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
+**_Nullzeit_**, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren
 anders – genau genommen gar nicht. Egal wie lange wir bleiben, für die Außenwelt vergehen nur
 Sekunden. Wir altern nicht und können euch genau an den Moment zurückschicken, aus dem ihr gekommen
-seid. Doch es ist auch gewöhnungsbedürftig: kein Tag, keine Nacht, nur wir und unsere Missionen.“*
-Er lächelt aufmunternd und tritt näher. *„Bevor wir fortfahren, nehmt euch einen Augenblick. Schaut
-euch um, lernt euch kennen.“* Die Charaktere haben Zeit, erste Worte zu wechseln – Blicke voller
+seid. Doch es ist auch gewöhnungsbedürftig: kein Tag, keine Nacht, nur wir und unsere Missionen.“_
+Er lächelt aufmunternd und tritt näher. _„Bevor wir fortfahren, nehmt euch einen Augenblick. Schaut
+euch um, lernt euch kennen.“\* Die Charaktere haben Zeit, erste Worte zu wechseln – Blicke voller
 Neugier, Skepsis, Aufregung werden getauscht. Dieser Moment könnte der Auftakt zu ihrem ersten
 gemeinsamen Abenteuer sein…
 
@@ -116,73 +117,73 @@ durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier s
 **filmreife Techniken**, um eure erste Spielsitzung wie auf der Leinwand erstrahlen zu lassen:
 
 - **In medias res – Mitten ins Geschehen:** Überlegt, ob ihr direkt **mitten in einer
-actiongeladenen Szene** starten wollt. Ähnlich wie ein Film, der ohne Vorlauf in einer
-Verfolgungsjagd oder einem Gefecht beginnt, kann ein ZEITRISS-Abenteuer die Charaktere unmittelbar
-in Schwierigkeiten werfen. Der Effekt: Die Spieler\*innen sind sofort hellwach, Adrenalin liegt in
-der Luft. Beispiel: Die Gruppe findet sich direkt beim **Showdown einer Mission** wieder – etwa
-eingekreist von Schergen eines Zeitverbrechers –, bevor die Handlung dann einen Schritt zurücktritt
-und erklärt, wie es dazu kam. Dieser Auftakt in medias res erzeugt Spannung und wirft Fragen auf,
-die im weiteren Verlauf aufgelöst werden.
+  actiongeladenen Szene** starten wollt. Ähnlich wie ein Film, der ohne Vorlauf in einer
+  Verfolgungsjagd oder einem Gefecht beginnt, kann ein ZEITRISS-Abenteuer die Charaktere unmittelbar
+  in Schwierigkeiten werfen. Der Effekt: Die Spieler\*innen sind sofort hellwach, Adrenalin liegt in
+  der Luft. Beispiel: Die Gruppe findet sich direkt beim **Showdown einer Mission** wieder – etwa
+  eingekreist von Schergen eines Zeitverbrechers –, bevor die Handlung dann einen Schritt zurücktritt
+  und erklärt, wie es dazu kam. Dieser Auftakt in medias res erzeugt Spannung und wirft Fragen auf,
+  die im weiteren Verlauf aufgelöst werden.
 - **Establishing Shot – Atmosphäre etablieren:** Wie im Film kann eine Szene mit einem **weiten
-Kamera-Schwenk** eröffnet werden, um Ort und Stimmung zu etablieren. Im Rollenspiel wird daraus eine
-**bildhafte Beschreibung der Umgebung**. Nehmt euch Zeit, die Szenerie des Einstiegs auszumalen: das
-Panorama einer historischen Stadt bei Sonnenuntergang, das endlose Schwarz der Nullzeit mit
-schwebenden Zeitportal-Fragmenten, oder das dichte Neonleuchten einer futuristischen Megacity im
-Regen. Ein stimmungsvoller **Establishing Shot** zieht alle sofort in die Welt hinein. Details zu
-Licht, Wetter, Geräuschen und Gerüchen schaffen Immersion. Beispiel: *„Die Kamera fährt über das vom
-Mondlicht silbern beschienene London des Jahres 1890. Im Dunst der Gaslaternen glitzert feiner
-Regen, während irgendwo in der Ferne die Turmuhr von Big Ben mit zwölf Schlägen Mitternacht
-verkündet…“* – Schon sind alle im Kopfkino.
+  Kamera-Schwenk** eröffnet werden, um Ort und Stimmung zu etablieren. Im Rollenspiel wird daraus eine
+  **bildhafte Beschreibung der Umgebung**. Nehmt euch Zeit, die Szenerie des Einstiegs auszumalen: das
+  Panorama einer historischen Stadt bei Sonnenuntergang, das endlose Schwarz der Nullzeit mit
+  schwebenden Zeitportal-Fragmenten, oder das dichte Neonleuchten einer futuristischen Megacity im
+  Regen. Ein stimmungsvoller **Establishing Shot** zieht alle sofort in die Welt hinein. Details zu
+  Licht, Wetter, Geräuschen und Gerüchen schaffen Immersion. Beispiel: _„Die Kamera fährt über das vom
+  Mondlicht silbern beschienene London des Jahres 1890. Im Dunst der Gaslaternen glitzert feiner
+  Regen, während irgendwo in der Ferne die Turmuhr von Big Ben mit zwölf Schlägen Mitternacht
+  verkündet…“_ – Schon sind alle im Kopfkino.
 - **Close-ups und Details:** Nach der Totale lohnt es sich, den imaginären Fokus auf **prägnante
-Details** zu richten – wie ein Film, der von der weiten Einstellung in eine Nahaufnahme schneidet.
-Welche **Schlüsselbilder** sollen den Spieler\*innen im Gedächtnis bleiben? Vielleicht eine
-Großaufnahme der zitternden Hand des Agenten, der zum ersten Mal durch den Zeitriss greift. Oder der
-eindringliche Blick einer NPC-Mentorfigur, der die Dringlichkeit der Mission vermittelt. Solche
-„Close-ups“ in der Beschreibung lenken die Aufmerksamkeit und geben der Szene eine persönliche,
-**menschliche Note**. Sie können Emotionen unterstreichen – ein halb verbrannter Familienbrief aus
-dem 17. Jh., den die Heldin aus den Trümmern zieht, sagt oft mehr aus als langes Dozieren über
-Verluste.
+  Details** zu richten – wie ein Film, der von der weiten Einstellung in eine Nahaufnahme schneidet.
+  Welche **Schlüsselbilder** sollen den Spieler\*innen im Gedächtnis bleiben? Vielleicht eine
+  Großaufnahme der zitternden Hand des Agenten, der zum ersten Mal durch den Zeitriss greift. Oder der
+  eindringliche Blick einer NPC-Mentorfigur, der die Dringlichkeit der Mission vermittelt. Solche
+  „Close-ups“ in der Beschreibung lenken die Aufmerksamkeit und geben der Szene eine persönliche,
+  **menschliche Note**. Sie können Emotionen unterstreichen – ein halb verbrannter Familienbrief aus
+  dem 17. Jh., den die Heldin aus den Trümmern zieht, sagt oft mehr aus als langes Dozieren über
+  Verluste.
 - **Schnitte, Perspektivwechsel und Dramaturgie:** Genauso wie Filme durch Schnitt-Techniken Tempo
-und Spannung steuern, kann auch eine Spielleitung mit **Erzähltakten** spielen. Überlegt, wann ihr
-**Szenenwechsel** einbaut: Vielleicht springt die Handlung für einen kurzen Prolog zu einem
-geheimnisvollen Antagonisten, der in einer anderen Epoche an finsteren Plänen schmiedet – ein
-**foreshadowing**, das Neugier weckt. Oder ihr schiebt nach einer Action-Sequenz einen **ruhigen
-Moment** ein, in dem die Charaktere verschnaufen (vergleichbar mit dem „Pacing“ im Film, dem Wechsel
-aus Spannung und Entspannung). Ein gezielter **„Cliffhanger“** am Ende der Einstiegssitzung – ein
-offenes Geheimnis, ein unerwarteter Anruf, ein plötzlich aufleuchtender Alarm im HQ – sorgt dafür,
-dass sich das Erlebnis wie eine spannende Pilotfolge anfühlt und alle gespannt auf die Fortsetzung
-sind.
+  und Spannung steuern, kann auch eine Spielleitung mit **Erzähltakten** spielen. Überlegt, wann ihr
+  **Szenenwechsel** einbaut: Vielleicht springt die Handlung für einen kurzen Prolog zu einem
+  geheimnisvollen Antagonisten, der in einer anderen Epoche an finsteren Plänen schmiedet – ein
+  **foreshadowing**, das Neugier weckt. Oder ihr schiebt nach einer Action-Sequenz einen **ruhigen
+  Moment** ein, in dem die Charaktere verschnaufen (vergleichbar mit dem „Pacing“ im Film, dem Wechsel
+  aus Spannung und Entspannung). Ein gezielter **„Cliffhanger“** am Ende der Einstiegssitzung – ein
+  offenes Geheimnis, ein unerwarteter Anruf, ein plötzlich aufleuchtender Alarm im HQ – sorgt dafür,
+  dass sich das Erlebnis wie eine spannende Pilotfolge anfühlt und alle gespannt auf die Fortsetzung
+  sind.
 - **Musik und Soundeffekte:** Was im Film der Soundtrack übernimmt, kann am Spieltisch durch
-**passende Musik** oder Geräuschkulisse erreicht werden. Untermalt eure Eingangsszene mit
-Hintergrundmusik, die zur Stimmung passt: epische Orchesterklänge für den großen Auftritt, leises
-ambientes Summen für die unheimliche Stille der Nullzeit oder ein treibender elektronischer Beat für
-die Zukunftsmetropole. Auch Soundeffekte – das entfernte Donnern eines Gewitters, Schüsse und
-Explosionen in der Ferne, oder das Ächzen alter Holzdielen – bereichern die Vorstellungskraft. Viele
-Spielleiter\*innen erstellen Playlists für ihre Kampagne. Richtig eingesetzt, **verstärkt Audio**
-die cineastische Wirkung enorm.
+  **passende Musik** oder Geräuschkulisse erreicht werden. Untermalt eure Eingangsszene mit
+  Hintergrundmusik, die zur Stimmung passt: epische Orchesterklänge für den großen Auftritt, leises
+  ambientes Summen für die unheimliche Stille der Nullzeit oder ein treibender elektronischer Beat für
+  die Zukunftsmetropole. Auch Soundeffekte – das entfernte Donnern eines Gewitters, Schüsse und
+  Explosionen in der Ferne, oder das Ächzen alter Holzdielen – bereichern die Vorstellungskraft. Viele
+  Spielleiter\*innen erstellen Playlists für ihre Kampagne. Richtig eingesetzt, **verstärkt Audio**
+  die cineastische Wirkung enorm.
 - **„Kamera“-Bewegungen in der Beschreibung:** Stellt euch beim Vorbereiten der Szene ruhig vor,
-**wo die Kamera wäre**, und beschreibt entsprechend. Beispiel: *„Die ‘Kamera’ fährt langsam an den
-Gesichtern der Neuankömmlinge vorbei, während der Zeitriss hinter ihnen verblasst – Verblüffung und
-Ehrfurcht in ihren Augen.“* Solche Formulierungen kann man auch direkt einfließen lassen (man muss
-das Wort Kamera nicht erwähnen, aber bildlich denken). Man könnte sagen: *„Langsam wandert euer
-Blick die hohen Bücherregale des Codex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo das
-flackernde Licht der Projektoren wie Sternenstaub schwebt…“* – das entspricht einer aufsteigenden
-Kamerafahrt. Oder: *„Wir sehen in einer Nahaufnahme, wie ein Tropfen Blut von Elias’ Stirn auf das
-Kopfsteinpflaster fällt…“* – eine dramatische Zuspitzung. Solche Techniken machen eure Beschreibung
-lebendig und filmisch.
+  **wo die Kamera wäre**, und beschreibt entsprechend. Beispiel: _„Die ‘Kamera’ fährt langsam an den
+  Gesichtern der Neuankömmlinge vorbei, während der Zeitriss hinter ihnen verblasst – Verblüffung und
+  Ehrfurcht in ihren Augen.“_ Solche Formulierungen kann man auch direkt einfließen lassen (man muss
+  das Wort Kamera nicht erwähnen, aber bildlich denken). Man könnte sagen: _„Langsam wandert euer
+  Blick die hohen Bücherregale des Codex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo das
+  flackernde Licht der Projektoren wie Sternenstaub schwebt…“_ – das entspricht einer aufsteigenden
+  Kamerafahrt. Oder: _„Wir sehen in einer Nahaufnahme, wie ein Tropfen Blut von Elias’ Stirn auf das
+  Kopfsteinpflaster fällt…“_ – eine dramatische Zuspitzung. Solche Techniken machen eure Beschreibung
+  lebendig und filmisch.
 - **Zeitlupe und Zeitraffer:** Im Zeitreise-Setting bietet es sich an, auch mit der **Wahrnehmung
-von Zeit** zu spielen. Eine dramatische Szene kann sich gefühlt in Zeitlupe abspielen – beschreibt
-etwa, wie in einem brenzligen Moment **die Zeit für die Charaktere langsamer zu fließen scheint**
-(Herzschlag, Atem, jedes Detail wird plötzlich bewusst, während ein Schuss fällt). Umgekehrt könnt
-ihr bei Montage-artigen Sequenzen Tempo geben: z.B. eine **Trainingsmontage** im HQ, wo in schneller
-Abfolge kurze Eindrücke beschrieben werden – vom Schießstand zum Dojo, von der Theorie- Lektion zum
-Technik-Check – um zu zeigen, wie die Neulinge sich fit machen. Solche **dynamischen Zeitsprünge**
-vermitteln viel Atmosphäre in kurzer Zeit.
+  von Zeit** zu spielen. Eine dramatische Szene kann sich gefühlt in Zeitlupe abspielen – beschreibt
+  etwa, wie in einem brenzligen Moment **die Zeit für die Charaktere langsamer zu fließen scheint**
+  (Herzschlag, Atem, jedes Detail wird plötzlich bewusst, während ein Schuss fällt). Umgekehrt könnt
+  ihr bei Montage-artigen Sequenzen Tempo geben: z.B. eine **Trainingsmontage** im HQ, wo in schneller
+  Abfolge kurze Eindrücke beschrieben werden – vom Schießstand zum Dojo, von der Theorie- Lektion zum
+  Technik-Check – um zu zeigen, wie die Neulinge sich fit machen. Solche **dynamischen Zeitsprünge**
+  vermitteln viel Atmosphäre in kurzer Zeit.
 
-Diese Techniken sind das Handwerkszeug, um eure Spieler*innen direkt zu fesseln. Nutzt sie je nach
-Geschmack und Erfahrung eurer Gruppe. Wichtig ist dabei, ***spielerzentriert*** zu bleiben: Lasst
+Diese Techniken sind das Handwerkszeug, um eure Spieler\*innen direkt zu fesseln. Nutzt sie je nach
+Geschmack und Erfahrung eurer Gruppe. Wichtig ist dabei, **_spielerzentriert_** zu bleiben: Lasst
 den Charakteren Raum, auf die Szenerie zu reagieren, und passt euer „Kamera-Skript“ spontan an ihre
-Handlungen an. So entsteht das Gefühl, gemeinsam einen Film zu „drehen“, in dem die Spieler*innen
+Handlungen an. So entsteht das Gefühl, gemeinsam einen Film zu „drehen“, in dem die Spieler\*innen
 die Hauptrollen innehaben.
 
 ## Anpassung an Gruppe, Epoche und Tonalität
@@ -195,127 +196,127 @@ Bedürfnisse anpasst:
 ### Gruppengröße und Charakterfokus
 
 - **Einzelspieler vs. Gruppe:** Spielt ihr mit **einer einzelnen Hauptfigur**, könnt ihr den
-Einstieg sehr persönlich halten – der/die Charakter*in steht allein im Zentrum der Kamera. In einem
-Solo-Einstieg lohnt es sich, Nebenfiguren (Mentoren wie Commander Renier, KI-Assistenten, Hologramm-
-Begleiter etc.) stärker einzusetzen, damit der/die Spieler*in genug Interaktion hat. Beispielsweise
-könnte ein Alleinreisender vom Commander persönlich herumgeführt werden oder erhält einen **KI-
-Begleiter** an die Seite, der kommentiert (eine Gelegenheit, Lore zu vermitteln). In einer
-**Gruppe** hingegen verlagert sich der Fokus auf das **Zusammenspiel** der Charaktere. Hier darf
-eine Einstiegsszene ruhig Zeit einplanen, dass sich die Figuren untereinander vorstellen oder ihre
-Dynamik finden. Etwa können nach der Ankunft im HQ alle kurz von ihren letzten Erinnerungen
-berichten („Wie seid ihr zum ZEITRISS-Programm gekommen?“) – eine Art **erste Kennenlernrunde in
-Character**. Das fördert sofort den Team-Geist. Bei größeren Gruppen sollte der Einstieg zudem
-**ausgewogen** sein: Achtet als Spielleitung darauf, jeder Figur im Verlauf der Einstiegssequenz
-einen Moment zu gönnen, in dem sie glänzen oder zumindest präsent sein kann (vergleichbar dem
-„Ensemble Cast“ in einem Film, wo jede Figur ihre Einführungsszene hat).
+  Einstieg sehr persönlich halten – der/die Charakter*in steht allein im Zentrum der Kamera. In einem
+  Solo-Einstieg lohnt es sich, Nebenfiguren (Mentoren wie Commander Renier, KI-Assistenten, Hologramm-
+  Begleiter etc.) stärker einzusetzen, damit der/die Spieler*in genug Interaktion hat. Beispielsweise
+  könnte ein Alleinreisender vom Commander persönlich herumgeführt werden oder erhält einen **KI-
+  Begleiter** an die Seite, der kommentiert (eine Gelegenheit, Lore zu vermitteln). In einer
+  **Gruppe** hingegen verlagert sich der Fokus auf das **Zusammenspiel** der Charaktere. Hier darf
+  eine Einstiegsszene ruhig Zeit einplanen, dass sich die Figuren untereinander vorstellen oder ihre
+  Dynamik finden. Etwa können nach der Ankunft im HQ alle kurz von ihren letzten Erinnerungen
+  berichten („Wie seid ihr zum ZEITRISS-Programm gekommen?“) – eine Art **erste Kennenlernrunde in
+  Character**. Das fördert sofort den Team-Geist. Bei größeren Gruppen sollte der Einstieg zudem
+  **ausgewogen** sein: Achtet als Spielleitung darauf, jeder Figur im Verlauf der Einstiegssequenz
+  einen Moment zu gönnen, in dem sie glänzen oder zumindest präsent sein kann (vergleichbar dem
+  „Ensemble Cast“ in einem Film, wo jede Figur ihre Einführungsszene hat).
 - **Veteranen oder Neulinge:** Ist eure Runde mit dem Setting vertraut oder spielen gar **Veteran-
-Charaktere**, könnt ihr den Einführungsteil im HQ knapp halten oder variieren. Erfahrene
-Chrononauten brauchen vielleicht keine lange Orientierungsrede – stattdessen könnte man direkt mit
-einer Einsatzbesprechung oder einem Briefing als Auftaktszene starten. Für **völlig neue Agenten**
-hingegen (und neue Spieler\*innen) ist ein **langsamerer Einstieg** sinnvoll, der das Staunen und
-Entdecken in den Vordergrund rückt. Überlegt also, ob eure Charaktere schon wissen, worauf sie sich
-einlassen, oder ob sie buchstäblich gerade erst durch den Zeitriss *gezogen* wurden und jetzt vor
-diesem überwältigenden neuen Leben stehen. Passt Reniers Tonfall und die Menge an Erklärungen
-entsprechend an: Routiniers werden kameradschaftlich-knapp begrüßt („Willkommen zurück, auf in die
-nächste Runde“), Neulinge eher ausführlich und ermutigend („Keine Sorge, das hier mag viel sein,
-aber wir bringen euch alles bei“).
+  Charaktere**, könnt ihr den Einführungsteil im HQ knapp halten oder variieren. Erfahrene
+  Chrononauten brauchen vielleicht keine lange Orientierungsrede – stattdessen könnte man direkt mit
+  einer Einsatzbesprechung oder einem Briefing als Auftaktszene starten. Für **völlig neue Agenten**
+  hingegen (und neue Spieler\*innen) ist ein **langsamerer Einstieg** sinnvoll, der das Staunen und
+  Entdecken in den Vordergrund rückt. Überlegt also, ob eure Charaktere schon wissen, worauf sie sich
+  einlassen, oder ob sie buchstäblich gerade erst durch den Zeitriss _gezogen_ wurden und jetzt vor
+  diesem überwältigenden neuen Leben stehen. Passt Reniers Tonfall und die Menge an Erklärungen
+  entsprechend an: Routiniers werden kameradschaftlich-knapp begrüßt („Willkommen zurück, auf in die
+  nächste Runde“), Neulinge eher ausführlich und ermutigend („Keine Sorge, das hier mag viel sein,
+  aber wir bringen euch alles bei“).
 - **Charakter-Herkünfte einbeziehen:** Ein großer Reiz des Zeitreise-Themas ist es,
-**unterschiedliche Epochen aufeinander treffen** zu lassen. Nutzt das auch in der Einstiegsszene.
-Wenn die Gruppe gemischt aus verschiedenen Zeiten stammt, könnt ihr kleine **Kulturkollisionen**
-einbauen: Vielleicht wundert sich der Ritter über die seltsamen Hologramme im HQ, während der
-Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit Tastaturen gearbeitet
-wurde. Solche Momente lockern die Stimmung und verankern gleich die Vielfalt der Hintergründe. Fragt
-die Spieler\*innen, was man ihren Charakteren ansieht – Kleidung, Sprache, Accessoires – und spielt
-darauf als SL mit neugierigen NPC-Reaktionen. So fühlt sich jede Herkunft **wertgeschätzt** und hat
-Einfluss auf die Story. Der erste Auftrag kann ebenfalls darauf Rücksicht nehmen: Hat man z.B. einen
-Mediziner aus dem 1. Weltkrieg in der Gruppe, könnte die erste Mission medizinische Hilfe in einem
-Konflikt erfordern, damit dieser Charakter glänzen kann. Ein Einstieg ist dann gelungen, wenn
-**jede/r das Gefühl hat, Teil von etwas Großem** zu sein und die eigenen Fähigkeiten bald wichtig
-werden.
+  **unterschiedliche Epochen aufeinander treffen** zu lassen. Nutzt das auch in der Einstiegsszene.
+  Wenn die Gruppe gemischt aus verschiedenen Zeiten stammt, könnt ihr kleine **Kulturkollisionen**
+  einbauen: Vielleicht wundert sich der Ritter über die seltsamen Hologramme im HQ, während der
+  Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit Tastaturen gearbeitet
+  wurde. Solche Momente lockern die Stimmung und verankern gleich die Vielfalt der Hintergründe. Fragt
+  die Spieler\*innen, was man ihren Charakteren ansieht – Kleidung, Sprache, Accessoires – und spielt
+  darauf als SL mit neugierigen NPC-Reaktionen. So fühlt sich jede Herkunft **wertgeschätzt** und hat
+  Einfluss auf die Story. Der erste Auftrag kann ebenfalls darauf Rücksicht nehmen: Hat man z.B. einen
+  Mediziner aus dem 1. Weltkrieg in der Gruppe, könnte die erste Mission medizinische Hilfe in einem
+  Konflikt erfordern, damit dieser Charakter glänzen kann. Ein Einstieg ist dann gelungen, wenn
+  **jede/r das Gefühl hat, Teil von etwas Großem** zu sein und die eigenen Fähigkeiten bald wichtig
+  werden.
 
 ### Epoche und Setting des Einstiegs
 
 - **Wahl der Start-Epoche:** In ZEITRISS ist **jede Epoche** erreichbar – warum also nicht einmal
-unkonventionell starten? Das klassische Setup ist: Start im Nullzeit-HQ (der *Nexus*, von dem aus
-Missionen beginnen) und dann eine erste Mission in einer bestimmten Zielzeit. Ihr könnt aber
-variieren. Vielleicht beginnt ihr **gar nicht im HQ**, sondern in der Epoche, aus der einer der
-Charaktere stammt – als eine Art *Prolog*. Beispielsweise könnte die allererste Szene zeigen, wie
-ein Agent im Jahr 1989 aus dem brennenden Berlin-Archiv gerettet wird, kurz bevor der Zeitriss ihn
-ins HQ zieht. Oder die Gruppe wird direkt in **ihr erstes Missionsziel** geschickt, ohne das HQ
-vorher gesehen zu haben, und das Kennenlernen erfolgt *im Feld* (für Fortgeschrittene Gruppen, die
-mit weniger Erklärung auskommen). Die **Start-Epoche** sollte zur geplanten Kampagne passen: Wenn
-ihr vorhabt, viel in der Zukunft zu spielen, kann ein futuristischer Einstieg (z.B. im Jahr 2085
-Neo-Berlin) den Ton setzen. Ist eure Kampagne eher historisch, wählt einen Auftakt in einer
-bekannten historischen Szenerie, damit alle sofort im Flair der Zeit sind (z.B. Viktorianisches
-London, ein Piratenschiff im 17. Jh., das antike Rom zur Zeit Cäsars etc.). Wichtig ist, dass die
-**Regeln der Zeitreise** dabei klar bleiben: normalerweise rekrutiert das ITI seine Leute ins HQ und
-**von dort** gehen die Missionen los. Aber als Spielleiter\*in könnt ihr hier kreativ werden –
-solange es plausibel begründet ist (vielleicht war die erste Mission Teil des Auswahlprozesses, oder
-ein Notfall erforderte sofortigen Einsatz, sodass das Briefing ad hoc in der Epoche stattfand). Der
-*Baukasten* erlaubt es, von der Norm abzuweichen, wenn es der Story dient.
+  unkonventionell starten? Das klassische Setup ist: Start im Nullzeit-HQ (der _Nexus_, von dem aus
+  Missionen beginnen) und dann eine erste Mission in einer bestimmten Zielzeit. Ihr könnt aber
+  variieren. Vielleicht beginnt ihr **gar nicht im HQ**, sondern in der Epoche, aus der einer der
+  Charaktere stammt – als eine Art _Prolog_. Beispielsweise könnte die allererste Szene zeigen, wie
+  ein Agent im Jahr 1989 aus dem brennenden Berlin-Archiv gerettet wird, kurz bevor der Zeitriss ihn
+  ins HQ zieht. Oder die Gruppe wird direkt in **ihr erstes Missionsziel** geschickt, ohne das HQ
+  vorher gesehen zu haben, und das Kennenlernen erfolgt _im Feld_ (für Fortgeschrittene Gruppen, die
+  mit weniger Erklärung auskommen). Die **Start-Epoche** sollte zur geplanten Kampagne passen: Wenn
+  ihr vorhabt, viel in der Zukunft zu spielen, kann ein futuristischer Einstieg (z.B. im Jahr 2085
+  Neo-Berlin) den Ton setzen. Ist eure Kampagne eher historisch, wählt einen Auftakt in einer
+  bekannten historischen Szenerie, damit alle sofort im Flair der Zeit sind (z.B. Viktorianisches
+  London, ein Piratenschiff im 17. Jh., das antike Rom zur Zeit Cäsars etc.). Wichtig ist, dass die
+  **Regeln der Zeitreise** dabei klar bleiben: normalerweise rekrutiert das ITI seine Leute ins HQ und
+  **von dort** gehen die Missionen los. Aber als Spielleiter\*in könnt ihr hier kreativ werden –
+  solange es plausibel begründet ist (vielleicht war die erste Mission Teil des Auswahlprozesses, oder
+  ein Notfall erforderte sofortigen Einsatz, sodass das Briefing ad hoc in der Epoche stattfand). Der
+  _Baukasten_ erlaubt es, von der Norm abzuweichen, wenn es der Story dient.
 - **Szene im HQ vs. kein HQ:** Viele Gruppen genießen den **Aha-Moment** bei der Ankunft im
-Nullzeit-Hauptquartier – dieser Ort ist einzigartig und beeindruckend, also ein perfektes Setting
-für einen cineastischen Moment (wie oben in der Beispielszene illustriert). Allerdings muss der
-allererste Spielmoment nicht zwingend dort spielen. Alternativen: Die Charaktere könnten sich
-**schon vor ZEITRISS kennen** (etwa weil das ITI sie in ihrer Zeit beobachtet hat) und werden in
-einer gemeinsamen Vorepisode angeworben, bevor sie den Schritt durchs Portal tun. Oder man spielt,
-wie erwähnt, direkt eine kurze **Vormissions-Sequenz** in der Zielzeit, die abrupt abbricht, um mit
-einem Zeitsprung ins HQ zu wechseln – quasi ein **kalter Sprung** ins Abenteuer und dann zurück zur
-Vorbereitung. Beide Wege haben Vor- und Nachteile: Das HQ als Start gibt der Gruppe einen sicheren
-Raum zum Orientieren; ein Start draußen in der Zeit wirft sie direkt ins Abenteuer und klärt Details
-später. Wählt, was zu eurer Dramaturgie passt.
+  Nullzeit-Hauptquartier – dieser Ort ist einzigartig und beeindruckend, also ein perfektes Setting
+  für einen cineastischen Moment (wie oben in der Beispielszene illustriert). Allerdings muss der
+  allererste Spielmoment nicht zwingend dort spielen. Alternativen: Die Charaktere könnten sich
+  **schon vor ZEITRISS kennen** (etwa weil das ITI sie in ihrer Zeit beobachtet hat) und werden in
+  einer gemeinsamen Vorepisode angeworben, bevor sie den Schritt durchs Portal tun. Oder man spielt,
+  wie erwähnt, direkt eine kurze **Vormissions-Sequenz** in der Zielzeit, die abrupt abbricht, um mit
+  einem Zeitsprung ins HQ zu wechseln – quasi ein **kalter Sprung** ins Abenteuer und dann zurück zur
+  Vorbereitung. Beide Wege haben Vor- und Nachteile: Das HQ als Start gibt der Gruppe einen sicheren
+  Raum zum Orientieren; ein Start draußen in der Zeit wirft sie direkt ins Abenteuer und klärt Details
+  später. Wählt, was zu eurer Dramaturgie passt.
 - **Historisch korrekt vs. Alternate History:** Entscheidet, ob euer Einstieg (und eure Kampagne)
-einen **ernsthaft-historischen Ton** hat oder eher pulpige Alternative History betreibt. Das Setting
-kann entsprechend angepasst werden. Ein cineastischer Einstieg im historischen Setting erfordert
-etwas Recherche für Authentizität – beschreibt zeitgenössische Architektur, Mode, Sprache, um den
-Filmlook eines Epos zu erreichen (*„Paris, 1889: Die Weltausstellung lässt den Nachthimmel
-erstrahlen, während im Schatten des Eiffelturms…“*). Für alternative oder futuristische Settings
-könnt ihr dagegen eurer Fantasie freien Lauf lassen – ein **Sci-Fi Noir** in einem imaginären Neo
-Berlin, ein Steampunk-London, ein postapokalyptisches Ödland mit Zeitanomalien. Wichtig ist, dass
-die Spieler verstehen, **welche Art von Welt** sie betreten. Cinematische Mittel (siehe oben) helfen
-hier: Ein Establishing Shot der Welt, ein paar markante Details, die sofort das Genre signalisieren
-(z.B. schwebende Autos und Neonreklamen für Cyberpunk, Pferdekutschen und Gaslampen für
-viktorianisch etc.). Passt also Setting und Epoche so an, dass sie eure gewünschte Story
-unterstützen und die Spieler\*innen in genau *dieser* Welt Abenteuer erleben möchten.
+  einen **ernsthaft-historischen Ton** hat oder eher pulpige Alternative History betreibt. Das Setting
+  kann entsprechend angepasst werden. Ein cineastischer Einstieg im historischen Setting erfordert
+  etwas Recherche für Authentizität – beschreibt zeitgenössische Architektur, Mode, Sprache, um den
+  Filmlook eines Epos zu erreichen (_„Paris, 1889: Die Weltausstellung lässt den Nachthimmel
+  erstrahlen, während im Schatten des Eiffelturms…“_). Für alternative oder futuristische Settings
+  könnt ihr dagegen eurer Fantasie freien Lauf lassen – ein **Sci-Fi Noir** in einem imaginären Neo
+  Berlin, ein Steampunk-London, ein postapokalyptisches Ödland mit Zeitanomalien. Wichtig ist, dass
+  die Spieler verstehen, **welche Art von Welt** sie betreten. Cinematische Mittel (siehe oben) helfen
+  hier: Ein Establishing Shot der Welt, ein paar markante Details, die sofort das Genre signalisieren
+  (z.B. schwebende Autos und Neonreklamen für Cyberpunk, Pferdekutschen und Gaslampen für
+  viktorianisch etc.). Passt also Setting und Epoche so an, dass sie eure gewünschte Story
+  unterstützen und die Spieler\*innen in genau _dieser_ Welt Abenteuer erleben möchten.
 
 ### Tonalität und Stimmung
 
 - **Hell vs. Düster:** Überlegt euch die **Tonalität** eures Abenteuers von Anfang an und spiegelt
-sie im Einstieg wider. Soll ZEITRISS in eurer Runde eher **leicht, humorvoll und voller pulpiger
-Action** sein – à la Zeitreise-Blockbuster, wo one-liner und waghalsige Stunts dazugehören? Dann
-darf der Einstieg ruhig mit einem Augenzwinkern inszeniert werden: vielleicht landet der erste
-Zeitsprung die Helden mitten in einer überzogenen Verfolgungsjagd auf einem *fliegenden Oldtimer* im
-Jahr 2055, während der Commander trocken durch den Funk kommentiert: *„Willkommen im
-Arbeitsalltag.“* Ist eure Geschichte hingegen als **düsterer Thriller** oder ernstes Drama geplant,
-setzt ihr andere Akzente: Der Einstiegsort wirkt unheimlich oder bedrohlich, die Musik ist
-spannungsvoll, NPCs begegnen den Neuen mit kühler Professionalität statt Scherzen. Ein Beispiel für
-einen dunklen Ton: Die Charaktere kommen im HQ an, doch etwas stimmt nicht – das Licht flackert,
-eine Warnsirene heult in der Ferne und Renier begrüßt sie mit grimmiger Eile, weil ein Notfall in
-der Zeitlinie passiert ist. Sofort entsteht das Gefühl von Dringlichkeit und Gefahr. **Kommuniziert
-den Ton** klar durch die Wortwahl und Bildsprache: Komik entsteht durch unerwartete Kontraste oder
-schräge Situationen, Spannung durch Andeutung von Risiken, Horror durch detaillierte Schilderung des
-Unheimlichen usw. So wissen die Spieler\*innen, worauf sie sich einstellen können.
+  sie im Einstieg wider. Soll ZEITRISS in eurer Runde eher **leicht, humorvoll und voller pulpiger
+  Action** sein – à la Zeitreise-Blockbuster, wo one-liner und waghalsige Stunts dazugehören? Dann
+  darf der Einstieg ruhig mit einem Augenzwinkern inszeniert werden: vielleicht landet der erste
+  Zeitsprung die Helden mitten in einer überzogenen Verfolgungsjagd auf einem _fliegenden Oldtimer_ im
+  Jahr 2055, während der Commander trocken durch den Funk kommentiert: _„Willkommen im
+  Arbeitsalltag.“_ Ist eure Geschichte hingegen als **düsterer Thriller** oder ernstes Drama geplant,
+  setzt ihr andere Akzente: Der Einstiegsort wirkt unheimlich oder bedrohlich, die Musik ist
+  spannungsvoll, NPCs begegnen den Neuen mit kühler Professionalität statt Scherzen. Ein Beispiel für
+  einen dunklen Ton: Die Charaktere kommen im HQ an, doch etwas stimmt nicht – das Licht flackert,
+  eine Warnsirene heult in der Ferne und Renier begrüßt sie mit grimmiger Eile, weil ein Notfall in
+  der Zeitlinie passiert ist. Sofort entsteht das Gefühl von Dringlichkeit und Gefahr. **Kommuniziert
+  den Ton** klar durch die Wortwahl und Bildsprache: Komik entsteht durch unerwartete Kontraste oder
+  schräge Situationen, Spannung durch Andeutung von Risiken, Horror durch detaillierte Schilderung des
+  Unheimlichen usw. So wissen die Spieler\*innen, worauf sie sich einstellen können.
 - **Spielerische Freiheit vs. inszenierte Dramaturgie:** Ein cineastischer Einstieg balanciert
-zwischen **Regie** und **spielerischer Freiheit**. Entscheidet, wie viel ihr *vorskriptet* und wo
-ihr Raum für spontane Aktionen lasst. Wenn der Ton sehr **cinematic-linear** sein soll (ähnlich
-einem geskripteten Prolog in einem Videospiel), könnt ihr wichtige Beats vorab planen – z.B. dass es
-unweigerlich zu einer Verfolgungsjagd oder einem moralischen Dilemma kommt (siehe Missionsskizzen
-weiter unten). Das ist okay, solange die Spieler das Gefühl haben, trotzdem aktiv beteiligt zu sein.
-Alternativ betont ihr die **Sandbox**-Natur: Gebt ein Startsetting vor und schaut, was die Gruppe
-tut. Tonalität und Freiheit hängen zusammen: Ein freierer Einstieg wirkt oft natürlicher, ein stark
-inszenierter kann dafür filmreife **Schlüsselszenen** hervorbringen. Klärt am besten Session 0 mit
-der Gruppe ab, was sie bevorzugen – manche lieben es, cineastisch „mitgezogen“ zu werden, andere
-wollen alles selbst entscheiden. Findet euren Ton auch in dieser Hinsicht.
+  zwischen **Regie** und **spielerischer Freiheit**. Entscheidet, wie viel ihr _vorskriptet_ und wo
+  ihr Raum für spontane Aktionen lasst. Wenn der Ton sehr **cinematic-linear** sein soll (ähnlich
+  einem geskripteten Prolog in einem Videospiel), könnt ihr wichtige Beats vorab planen – z.B. dass es
+  unweigerlich zu einer Verfolgungsjagd oder einem moralischen Dilemma kommt (siehe Missionsskizzen
+  weiter unten). Das ist okay, solange die Spieler das Gefühl haben, trotzdem aktiv beteiligt zu sein.
+  Alternativ betont ihr die **Sandbox**-Natur: Gebt ein Startsetting vor und schaut, was die Gruppe
+  tut. Tonalität und Freiheit hängen zusammen: Ein freierer Einstieg wirkt oft natürlicher, ein stark
+  inszenierter kann dafür filmreife **Schlüsselszenen** hervorbringen. Klärt am besten Session 0 mit
+  der Gruppe ab, was sie bevorzugen – manche lieben es, cineastisch „mitgezogen“ zu werden, andere
+  wollen alles selbst entscheiden. Findet euren Ton auch in dieser Hinsicht.
 - **Tonalität innerhalb der Gruppe abstimmen:** Gerade bei gemischten Epochen-Teams können die
-Charaktere unterschiedliche Töne mitbringen (der naive Zeitwanderer vs. die zynische Agentin aus der
-Zukunft). Das kann reizvoll sein, sollte aber moderiert werden, damit die Einstiegsszene nicht tonal
-zerfasert. Nutzt eine **Meta-Absprache**: Die Gruppe einigt sich z.B. darauf, ob humorvolle
-Kommentare willkommen sind oder ob man die erste Szene todernst spielen will. Nichts hindert euch
-daran, auch im Spiel die Tonalität zum Thema zu machen – Commander Renier könnte etwa mit einem halb
-belustigten, halb ernsten Spruch die Unterschiede kommentieren: *„Wir haben hier Leute aus allen
-Jahrhunderten versammelt – kein Wunder, dass jeder einen anderen Humor hat. Aber ab heute ziehen wir
-an einem Strang.“* So entsteht **Meta-Kohärenz**: Die Figuren dürfen unterschiedlich ticken, aber
-die Story hat einen gemeinsamen Grundton.
+  Charaktere unterschiedliche Töne mitbringen (der naive Zeitwanderer vs. die zynische Agentin aus der
+  Zukunft). Das kann reizvoll sein, sollte aber moderiert werden, damit die Einstiegsszene nicht tonal
+  zerfasert. Nutzt eine **Meta-Absprache**: Die Gruppe einigt sich z.B. darauf, ob humorvolle
+  Kommentare willkommen sind oder ob man die erste Szene todernst spielen will. Nichts hindert euch
+  daran, auch im Spiel die Tonalität zum Thema zu machen – Commander Renier könnte etwa mit einem halb
+  belustigten, halb ernsten Spruch die Unterschiede kommentieren: _„Wir haben hier Leute aus allen
+  Jahrhunderten versammelt – kein Wunder, dass jeder einen anderen Humor hat. Aber ab heute ziehen wir
+  an einem Strang.“_ So entsteht **Meta-Kohärenz**: Die Figuren dürfen unterschiedlich ticken, aber
+  die Story hat einen gemeinsamen Grundton.
 
 ### Optionale Erweiterung: Sora und cineastische „Film ab!“-Momente
 
@@ -325,7 +326,7 @@ ZEITRISS-System auch technische Hilfsmittel, um das Kinoerlebnis zu verstärken.
 optional und nach Gruppenvorliebe – ist die **„Film ab!“-Funktion** der KI-Spielleitung, intern
 bekannt als **Sora**.
 
-*Sora* kann auf Kommando ganze Szenen oder Missionen **filmisch zusammenfassen**. Stellt es euch wie
+_Sora_ kann auf Kommando ganze Szenen oder Missionen **filmisch zusammenfassen**. Stellt es euch wie
 einen In-Game-Trailer oder einen Erinnerungs-Holoclip vor, der wichtige Momente noch einmal in
 rascher Schnittfolge mit dramatischer Musik zeigt. Diese Funktion wurde in späteren Modulen (z.B.
 Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
@@ -346,11 +347,11 @@ Spieler\*innen das Gefühl geben, **Teil eines großen Films** zu sein. Aber auc
 mit guter Erzählung und vielleicht etwas Hintergrundmusik bereits alle nötigen Kino-Gefühle wecken.
 Die Technik ist optional – die **Magie entsteht am Spieltisch**.
 
-*(Hinweis: Die Sora-Videos werden in der Spielrealität als ITI-internes Feature erklärt – quasi die
+_(Hinweis: Die Sora-Videos werden in der Spielrealität als ITI-internes Feature erklärt – quasi die
 KI, die Missionsdaten aufbereitet. Außerhalb der Spielwelt können solche Videos oder narrativen
 Zusammenfassungen von der Spielleitung vorbereitet oder live von einer KI wie ChatGPT erstellt
 werden, um sie den Spielern zu präsentieren. Nutzt diese Möglichkeit nur, wenn sie euren Stil
-bereichert.)*
+bereichert.)_
 
 ## Varianten für den Beginn des ersten Abenteuers
 
@@ -400,15 +401,15 @@ eine dramatische **Rettungsaktion** sein, ein Kampf oder ein gefährlicher Diebs
 fordert das Team heraus. Erst nachdem der erste Adrenalin-Schub überstanden ist, folgt die
 Auflösung, wie es dazu kam (ähnlich wie bei einem Bond-Film, der mit einer actionreichen Mini-
 Mission beginnt, bevor die Hauptgeschichte startet). In ZEITRISS könntet ihr so vorgehen: Beginnt
-*in medias res* in einer Zeitperiode, wo die Agents gerade **etwas Schiefgelaufenes reparieren**
-müssen. Beispiel: *New York, 1929 – die Chrononauten jagen einen abtrünnigen Zeitagenten über die
-Dächer, um ein gestohlenes Artefakt zurückzuholen.* Die Spieler wissen anfangs nicht viel Kontext,
+_in medias res_ in einer Zeitperiode, wo die Agents gerade **etwas Schiefgelaufenes reparieren**
+müssen. Beispiel: _New York, 1929 – die Chrononauten jagen einen abtrünnigen Zeitagenten über die
+Dächer, um ein gestohlenes Artefakt zurückzuholen._ Die Spieler wissen anfangs nicht viel Kontext,
 nur dass es wichtig ist. Nachdem die Szene gespielt ist (idealerweise erfolgreich), **schneidet**
-die Handlung vielleicht zurück ins HQ-Büro, wo Renier sagt: *„So ungefähr wird das ablaufen.
-Fragen?“* – Reveal: Das zuvor Gespielte war ein **Probe-Einsatz** unter realen
+die Handlung vielleicht zurück ins HQ-Büro, wo Renier sagt: _„So ungefähr wird das ablaufen.
+Fragen?“_ – Reveal: Das zuvor Gespielte war ein **Probe-Einsatz** unter realen
 Bedingungen oder ein **Vorabausschnitt aus einer späteren Mission**. Alternativ
 kann die Action-Sequenz auch die erste echte Mission gewesen sein, und das
-Kennenlernen im HQ passiert *nach* der Rückkehr (z.B. die Gruppe wurde in einer
+Kennenlernen im HQ passiert _nach_ der Rückkehr (z.B. die Gruppe wurde in einer
 Notsituation ad hoc losgeschickt und erst nachher formell begrüßt).
 
 **Cineastische Tipps:** Hier ist Tempo alles. Wer Option 2 wählt, sollte mit **vollen Effekten**
@@ -430,7 +431,7 @@ sowohl die Action als auch die Orientierung. Eine andere Variante ist, **jeden C
 Action zu zeigen** (ähnlich wie viele Heist-Movies beginnen, indem jedes Teammitglied bei seinem
 individuellen Spezialgebiet gezeigt wird). Dazu könntet ihr für jede\*n einen Mini-Spotlight-Moment
 planen – z.B. der Hacker 2085 ist gerade in einem digitalen Duell mit einer KI, die Archäologin 1920
-kämpft in einer Grabkammer gegen Grabräuber – und *zack*, im entscheidenden Moment öffnet sich
+kämpft in einer Grabkammer gegen Grabräuber – und _zack_, im entscheidenden Moment öffnet sich
 jeweils ein Zeitportal und zieht sie ins HQ. Dann treffen sie zusammen (im Grunde eine Montage aus
 Option 3 mit Action kombiniert). Dieses Vorgehen ist aufwendig zu leiten, kann aber sehr **filmisch
 und unvergesslich** sein.
@@ -441,14 +442,14 @@ und unvergesslich** sein.
 zusammengeführt wird. Diese Variante eignet sich hervorragend, um die **Hintergründe der einzelnen
 Figuren** auszuleuchten und jedem eine Helden-Cameo zu geben. Man kann es so gestalten, dass
 nacheinander kurze Szenen in den jeweiligen Herkunftszeiten gespielt werden, in denen deutlich wird,
-**warum das ITI gerade diese Person recrutet**. Zum Beispiel: *Paris 1789, kurz vor dem Sturm auf
+**warum das ITI gerade diese Person recrutet**. Zum Beispiel: _Paris 1789, kurz vor dem Sturm auf
 die Bastille – ein wagemutiger Spion verhindert einen zeitreisenden Saboteur daran, Marie Antoinette
-vorzeitig zu ermorden.* Oder: *Mondbasis 2177 – eine Technikerin rettet durch Geistesgegenwart ihre
-Crew vor einem mysteriösen Zeitphänomen.* In jedem Prolog erscheint am Ende ein ITI-Agent oder ein
+vorzeitig zu ermorden._ Oder: _Mondbasis 2177 – eine Technikerin rettet durch Geistesgegenwart ihre
+Crew vor einem mysteriösen Zeitphänomen._ In jedem Prolog erscheint am Ende ein ITI-Agent oder ein
 Zeitportal, durch das der Held/die Heldin ins HQ eingeladen wird. Sobald alle eingefangen sind, geht
 es über zur gemeinsamen Szene (oft dann Ankunft im HQ, siehe Option 1). Diese **Origin Stories**
 bringen viel Flair und bieten reichlich Gesprächsstoff fürs erste Aufeinandertreffen („Ihr habt
-*was* getan? Wie krass!“). Allerdings kosten sie Zeit – man sollte aufpassen, dass es sich nicht
+_was_ getan? Wie krass!“). Allerdings kosten sie Zeit – man sollte aufpassen, dass es sich nicht
 ewig hinzieht, damit alle Spieler\*innen bei allen Prologen beteiligt bleiben (ggf. können die
 anderen als NSCs oder Gegenspieler mitwirken, um sie einzubinden).
 
@@ -481,21 +482,21 @@ auch persönlichste Art, zu beginnen.
 **Beschreibung:** Diese Variante nutzt die Möglichkeiten des Mediums „Zeit“ voll aus: Man beginnt
 das Abenteuer mit einer **Vorblende (Flashforward)** – einer Szene, die eigentlich in der Zukunft
 (innerhalb der Storychronologie) liegt, und springt dann zurück an den Anfang. Beispiel: Die
-allererste Szene zeigt einen dramatischen Moment *nach* der ersten Mission – vielleicht hängen die
+allererste Szene zeigt einen dramatischen Moment _nach_ der ersten Mission – vielleicht hängen die
 Charaktere verzweifelt an einer Klippe, während unter ihnen ein Zeitportal ins Bodenlose reißt, oder
 der Antagonist hält in der Zukunft die letzte Zeitsprung-Energiezelle in Händen und lacht
-diabolisch. *Cut!* Danach blendet ein Titel ein: „24 Stunden zuvor…“ und wir finden uns bei der
+diabolisch. _Cut!_ Danach blendet ein Titel ein: „24 Stunden zuvor…“ und wir finden uns bei der
 Missionsbesprechung im HQ wieder, bevor alles begann. Diese Technik erzeugt sofort eine **drückende
-Spannung**, weil alle wissen, worauf es hinauslaufen *könnte*, und wollen verhindern, dass es so
+Spannung**, weil alle wissen, worauf es hinauslaufen _könnte_, und wollen verhindern, dass es so
 schlimm kommt – oder zumindest erfahren, wie es dazu kam. Alternativ kann man statt der Vorblende
 auch mit einer **Rückblende** arbeiten: Das Abenteuer startet scheinbar normal (z.B. im HQ), aber im
 Verlauf des Einstiegs merken die Spieler, dass gewisse Dinge unklar sind – am Ende der ersten
 Sitzung kommt ein **großer Twist**, und es stellt sich heraus, dass das, was man bisher erlebte,
- bereits von späteren Ereignissen beeinflusst war. **In Ausnahmefällen** kann plötzlich
- ein älteres Ich eines Charakters auftauchen, um vor einem Fehler zu warnen – *und cut,
- Ende Session 1*. Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme
- wie *12 Monkeys* oder *Looper*) und sollten daher nur gelegentlich eingesetzt werden,
- damit sie ihre besondere Wirkung entfalten und die Spieler nicht verwirren.
+bereits von späteren Ereignissen beeinflusst war. **In Ausnahmefällen** kann plötzlich
+ein älteres Ich eines Charakters auftauchen, um vor einem Fehler zu warnen – _und cut,
+Ende Session 1_. Solche Mind-Twists sind sehr filmisch (denken wir an Zeitreise-Filme
+wie _12 Monkeys_ oder _Looper_) und sollten daher nur gelegentlich eingesetzt werden,
+damit sie ihre besondere Wirkung entfalten und die Spieler nicht verwirren.
 
 **Cineastische Tipps:** Eine Flashforward-Eröffnung muss **knallen**: Wählt eine wirklich packende,
 kryptische Szene, die genug Fragen aufwirft. Das Bild dieses Cliffhangers sollte sich ins Gedächtnis
@@ -515,10 +516,10 @@ Mystery-Note.
 **Variationen:** Die Flashforward kann auch als Vision oder aufgezeichnete Szene
 eingesetzt werden. So beginnen die Spieler mitten in einer Mission, alles wirkt
 real, doch als es zum dramatischen Höhepunkt kommt, friert die Szene ein und
-Renier klatscht in die Hände: *„Test beendet – willkommen zurück. Sie fragen sich
-sicher, was gerade passiert ist…“* Dies kombiniert Option 2 (Action) mit Option 4
+Renier klatscht in die Hände: _„Test beendet – willkommen zurück. Sie fragen sich
+sicher, was gerade passiert ist…“_ Dies kombiniert Option 2 (Action) mit Option 4
 (Zeittrick). Man kann sogar meta gehen: Eventuell war die Vorblende ein
-mögliches *Scheitern*, das durch eine Zeitreise gerade noch verhindert werden
+mögliches _Scheitern_, das durch eine Zeitreise gerade noch verhindert werden
 soll –
 also ein **„Was wäre wenn“**. Derlei Kniffe machen den Einstieg sehr spannend, aber achtet darauf,
 die Gruppe danach auch wirklich **abzuholen** und offene Fragen aufzuklären, sonst fühlt es sich
@@ -530,12 +531,12 @@ unfair an. Wenn gut gemacht, erinnern sich Spieler Jahre später an so einen Auf
 Gegensatz zu Option 2 (wo man mitten in einer geplanten Mission startet) geht es bei Option 5 darum,
 dass **während der Einführung etwas schiefläuft** – im HQ oder unmittelbar beim Start. Beispiel: Die
 Charaktere kommen gerade im Nullzeit-HQ an, doch plötzlich ertönt **Alarmstufe Rot**. Auf den
-Monitoren flackert eine Warnung: *Zeitlinien-Instabilität detektiert!* Renier bricht die Begrüßung
+Monitoren flackert eine Warnung: _Zeitlinien-Instabilität detektiert!_ Renier bricht die Begrüßung
 ab und führt die frisch Eingetroffenen im Laufschritt direkt zum Einsatzraum – sie müssen
 **unvermittelt helfen**, eine Katastrophe abzuwenden. Oder: Noch extremer – ein Feind (vielleicht
 ein Zeitrebell) hat sich ins HQ eingeschleust und **greift an**, just während die Neulinge ankommen.
 Nun stehen sie mitten in einem Angriff und müssen sich behaupten, obwohl sie kaum wissen, wo vorne
-und hinten ist. Diese Variante taucht die Gruppe *sofort* ins Feuer der Handlung, überspringt viel
+und hinten ist. Diese Variante taucht die Gruppe _sofort_ ins Feuer der Handlung, überspringt viel
 Exposition (die holt man später nach) und schmiedet das Team durch die Krise zusammen. Der
 Unterschied zu Option 2 ist, dass der Notfall **ungeplant** inszeniert wird, quasi als Unterbrechung
 des normalen Ablaufs – während Option 2 von Anfang an direkt in Action startet. Hier bekommt man
@@ -555,12 +556,12 @@ Katastrophenfilms oder Actionthrillers widerspiegeln.
 
 **Variationen:** Der Notfall muss nicht im HQ sein. Denkbar ist auch, dass **die erste Mission
 sofort ein Notfall** ist – z.B. ein Hilferuf aus der Zeit erreicht das HQ exakt in dem Moment, als
-die Charaktere ankommen. Renier sagt: *„Eigentlich würdet ihr jetzt euer Quartier beziehen – aber
-das muss warten, wir haben einen Zeitbrand zu löschen!“* und ohne Umschweife geht es los. Eine
+die Charaktere ankommen. Renier sagt: _„Eigentlich würdet ihr jetzt euer Quartier beziehen – aber
+das muss warten, wir haben einen Zeitbrand zu löschen!“_ und ohne Umschweife geht es los. Eine
 andere Variante: Der Notfall ist **persönlich** für einen der Charaktere – etwa droht in genau der
-Epoche, aus der ein Charakter stammt, eine akute Gefahr, was diesen emotional packt (z.B. *„Ihr
+Epoche, aus der ein Charakter stammt, eine akute Gefahr, was diesen emotional packt (z.B. _„Ihr
 kommt an und erfahrt: In der Heimatzeit von Agentin X verschwindet gerade die Stadt ihrer Geburt in
-einem Paradox-Wirbel.“*). Das kann gleich Bindung und Motivation erhöhen. Allerdings: Ein so
+einem Paradox-Wirbel.“_). Das kann gleich Bindung und Motivation erhöhen. Allerdings: Ein so
 heftiger Beginn kann überwältigend sein; man sollte sicherstellen, dass nach dem ersten Chaosmoment
 die Gruppe Gelegenheit bekommt, das Erlebte zu verarbeiten – z.B. in einer Nachbesprechung im HQ mit
 Kaffee in der Kantine, wo ihnen erst klar wird, was gerade passiert ist. Dieser **Cooldown** ist
@@ -577,7 +578,7 @@ erste Missionen** an, die als Aufhänger für diese Einstiege dienen können.
 Nun geht es ans Eingemachte: **Worum** soll es im ersten Abenteuer konkret gehen? Anbei findet ihr
 mehrere Missionsideen, die sich als **modularer Start** eignen. Jede Idee ist bewusst lose gehalten
 – ihr könnt sie an eure Epoche, eure Charaktere und eure gewünschte Story anpassen. Denkt daran,
-dass es der *erste* Auftrag der Chrononauten ist (oder ihr Training dafür), also darf er ruhig
+dass es der _erste_ Auftrag der Chrononauten ist (oder ihr Training dafür), also darf er ruhig
 exemplarisch fürs ZEITRISS-Programm sein: Zeitverbrechen verhindern, Anomalien untersuchen,
 Artefakte sichern, Geschichte bewahren. Wichtig ist, dass die Mission **persönlichen Einsatz**
 erfordert und idealerweise die Charaktere zusammen schmiedet. Wählt eine der folgenden Skizzen oder
@@ -589,7 +590,7 @@ gestalten könnt.
 Falls ihr das Abenteuer wie einen neuen Fall eines Ermittlerteams aufziehen
 wollt, haltet das erste Briefing bewusst knapp. Gebt nur vage Hinweise – ein
 ungeklärter Vorfall, ein unbestätigter Zeugenbericht – und lasst Fragen offen.
-Ähnlich den frühen *Akte X*-Folgen entdecken die Agenten die Wahrheit erst
+Ähnlich den frühen _Akte X_-Folgen entdecken die Agenten die Wahrheit erst
 Stück für Stück vor Ort: Zeugen widersprechen sich, Spuren sind bruchstückhaft,
 und jeder Fund öffnet ein neues Puzzleteil. Diese Methode funktioniert im
 Solo‑Spiel ebenso wie in der Gruppe und sorgt dafür, dass sich der Fall langsam
@@ -598,208 +599,208 @@ nutzen, bis das Gesamtbild klar wird.
 
 ### Missionsidee 1: **Gestohlene Zukunft**
 
-*Hook:* In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
+_Hook:_ In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
 Fall von Zeitverbrechen. Die Chrononauten sollen diese **anachronistische Technologie**
 sicherstellen, bevor sie die Zeitlinie destabilisiert.
 
 - **Szenario:** Ein **Temporaler Resonator** (oder ein anderes futuristisches Gerät) wurde in die
-2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
-Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
-Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
-Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
-könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
-neonbeleuchteten Schatten von *Neo Berlin 2085* statt – einer futuristischen Metropole voller
-Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
-Schusswechseln mit Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
-entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in einem actionreichen
-**Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das entwendete Objekt in den Händen der
-Charaktere und die Schurken außer Gefecht sind.
+  2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
+  Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
+  Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
+  Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
+  könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
+  neonbeleuchteten Schatten von _Neo Berlin 2085_ statt – einer futuristischen Metropole voller
+  Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
+  Schusswechseln mit Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
+  entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in einem actionreichen
+  **Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das entwendete Objekt in den Händen der
+  Charaktere und die Schurken außer Gefecht sind.
 - **Tonalität:** Diese Mission eignet sich hervorragend für einen **rasanten Action-Einstieg**. Sie
-kann im HQ als leichtes Trainingsszenario unter echten Bedingungen gespielt werden oder als
-erster regulärer Einsatz draußen in der Zeit. Beim Training begleitet Commander Renier die Szene
-und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
- - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
-Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
-Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
-Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
-plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
-ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf
-coole Stunts legen (z.B. ein Charakter springt mit einem **Seil durch ein Zeitportal** hinter dem
-flüchtenden Feind her). Für einen härteren Ton gestaltet die Bande als echte Bedrohung: bewaffnet,
-organisiert, mit Geiseln vielleicht. **Spieleranzahl:** Mit wenigen Spielern kann ein NSC (wie ein
-erfahrener Agent) als Backup dabei sein; mit vielen Spielern achtet darauf, genug Handlanger für
-alle zum Kämpfen/Verfolgen bereitzustellen.
+  kann im HQ als leichtes Trainingsszenario unter echten Bedingungen gespielt werden oder als
+  erster regulärer Einsatz draußen in der Zeit. Beim Training begleitet Commander Renier die Szene
+  und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
+- **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
+  Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
+  Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
+  Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
+  plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
+  ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf
+  coole Stunts legen (z.B. ein Charakter springt mit einem **Seil durch ein Zeitportal** hinter dem
+  flüchtenden Feind her). Für einen härteren Ton gestaltet die Bande als echte Bedrohung: bewaffnet,
+  organisiert, mit Geiseln vielleicht. **Spieleranzahl:** Mit wenigen Spielern kann ein NSC (wie ein
+  erfahrener Agent) als Backup dabei sein; mit vielen Spielern achtet darauf, genug Handlanger für
+  alle zum Kämpfen/Verfolgen bereitzustellen.
 - **Höhepunkt:** Eine ikonische Szene dieser Mission könnte ein **dramatischer Schuss** sein, der
-den Resonator trifft (oder das Fluchtfahrzeug lahmlegt) – quasi der „Lucky Shot“, der im letzten
-Moment die Flucht des Antagonisten verhindert (wie im Beispiel oben, wo der Resonator-Koffer beinahe
-entkommt). Diese Mission endet idealerweise mit dem Triumph der Neulinge und einem anerkennenden
-*„Gut gemacht“* von Renier – ein perfekter Moment, um anschließend im HQ auf die erfolgreiche
-Bergung anzustoßen und in die Kampagne überzuleiten.
+  den Resonator trifft (oder das Fluchtfahrzeug lahmlegt) – quasi der „Lucky Shot“, der im letzten
+  Moment die Flucht des Antagonisten verhindert (wie im Beispiel oben, wo der Resonator-Koffer beinahe
+  entkommt). Diese Mission endet idealerweise mit dem Triumph der Neulinge und einem anerkennenden
+  _„Gut gemacht“_ von Renier – ein perfekter Moment, um anschließend im HQ auf die erfolgreiche
+  Bergung anzustoßen und in die Kampagne überzuleiten.
 
 ### Missionsidee 2: **Bewahrt die Geschichte**
 
-*Hook:* Die Agenten müssen ein **historisches Ereignis** vor einer Zeitintervention schützen – oder
+_Hook:_ Die Agenten müssen ein **historisches Ereignis** vor einer Zeitintervention schützen – oder
 alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
 **Verantwortungsgefühl** der Chrononauten für den Ablauf der Zeit.
 
 - **Szenario:** Es häufen sich Hinweise, dass im Jahr **1901 in London** jemand versucht, einen
-bedeutenden Erfinder vorzeitig zu ermorden, um den Verlauf der Technikgeschichte zu ändern. Die
-Charaktere werden entsandt, um das Attentat zu verhindern und den Übeltäter (vermutlich ein
-Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
-der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
-Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index erhöht.
-Erreicht dieser 5, öffnet sich ein Rift und ruft seltsame Phänomene hervor – ein Nebenschauplatz,
-den die Agenten zusätzlich bewältigen müssen.
-Gruppe muss Nachforschungen anstellen, einen Hinweis auf den geplanten Tatort finden (z.B. der
-Erfinder hält eine Rede auf einem Marktplatz) und schließlich **im entscheidenden Moment
-eingreifen**. Vielleicht kommt es zu einem dramatischen Kampf auf dem Glockenturm von Westminster,
-während Big Ben Mitternacht schlägt und unten die Menschenmenge in Panik gerät. Die Chrononauten
-dürfen aber nicht zu auffällig agieren, um die Geschichte nicht durch ihre eigene Präsenz zu
-verändern – eine knifflige Gratwanderung.
+  bedeutenden Erfinder vorzeitig zu ermorden, um den Verlauf der Technikgeschichte zu ändern. Die
+  Charaktere werden entsandt, um das Attentat zu verhindern und den Übeltäter (vermutlich ein
+  Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
+  der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
+  Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index erhöht.
+  Erreicht dieser 5, öffnet sich ein Rift und ruft seltsame Phänomene hervor – ein Nebenschauplatz,
+  den die Agenten zusätzlich bewältigen müssen.
+  Gruppe muss Nachforschungen anstellen, einen Hinweis auf den geplanten Tatort finden (z.B. der
+  Erfinder hält eine Rede auf einem Marktplatz) und schließlich **im entscheidenden Moment
+  eingreifen**. Vielleicht kommt es zu einem dramatischen Kampf auf dem Glockenturm von Westminster,
+  während Big Ben Mitternacht schlägt und unten die Menschenmenge in Panik gerät. Die Chrononauten
+  dürfen aber nicht zu auffällig agieren, um die Geschichte nicht durch ihre eigene Präsenz zu
+  verändern – eine knifflige Gratwanderung.
 - **Tonalität:** Diese Mission eignet sich gut für einen **moralisch gewichtigen** Einstieg. Die
-Spieler erfahren unmittelbar die Tragweite ihres Tuns: Schaffen sie es, bleibt die Geschichte
-intakt; versagen sie, könnten unbekannte Konsequenzen drohen. Der Ton kann entsprechend ernst und
-spannend sein, mit Fokus auf **Thriller-Elementen** (Detektivarbeit, ein Wettlauf gegen die Zeit,
-vielleicht eine moralische Frage: Was, wenn der Erfinder in der Originalzeit sterben sollte –
-dürften sie ihn retten?). Es muss nicht kampflastig sein; der Höhepunkt kann auch ein **dilemma**
-sein, z.B. ob man den Attentäter tötet oder festnimmt, obwohl das Risiko besteht, dass er entkommt.
+  Spieler erfahren unmittelbar die Tragweite ihres Tuns: Schaffen sie es, bleibt die Geschichte
+  intakt; versagen sie, könnten unbekannte Konsequenzen drohen. Der Ton kann entsprechend ernst und
+  spannend sein, mit Fokus auf **Thriller-Elementen** (Detektivarbeit, ein Wettlauf gegen die Zeit,
+  vielleicht eine moralische Frage: Was, wenn der Erfinder in der Originalzeit sterben sollte –
+  dürften sie ihn retten?). Es muss nicht kampflastig sein; der Höhepunkt kann auch ein **dilemma**
+  sein, z.B. ob man den Attentäter tötet oder festnimmt, obwohl das Risiko besteht, dass er entkommt.
 - **Anpassungen:** **Epoche flexibel:** Statt London 1901 könnt ihr jedes prägende Ereignis nehmen.
-Zum Beispiel: **Rom, 44 v. Chr. – Attentat auf Julius Cäsar verhindern oder geschehen lassen?** Das
-wäre ein extremer Fall, weil hier die Spieler eventuell sicherstellen müssten, dass ein *schlechtes*
-Ereignis (Cäsars Ermordung) auch wirklich passiert, um den Zeitablauf nicht zu ändern – das wäre ein
-heftiger moralischer Konflikt gleich zu Beginn. Nur wählen, wenn eure Gruppe sowas mag! **Leichtere
-Variante:** Eine **Rettungsmission**: z.B. die Agenten sollen eine berühmte Person aus einem Unglück
-retten, das *nicht* in den Geschichtsbüchern steht (weil es von Zeitverbrechern verursacht wurde).
-Ton wird heroischer, weniger zwiespältig. **Gruppe einbinden:** Hat eine Figur relevante Kenntnisse
-(Historiker, Bodyguard, Polizist aus ähnlicher Zeit), lasst sie glänzen, indem sie z.B. das Layout
-der Stadt kennt oder einschätzt, wo der Attentäter zuschlagen könnte.
+  Zum Beispiel: **Rom, 44 v. Chr. – Attentat auf Julius Cäsar verhindern oder geschehen lassen?** Das
+  wäre ein extremer Fall, weil hier die Spieler eventuell sicherstellen müssten, dass ein _schlechtes_
+  Ereignis (Cäsars Ermordung) auch wirklich passiert, um den Zeitablauf nicht zu ändern – das wäre ein
+  heftiger moralischer Konflikt gleich zu Beginn. Nur wählen, wenn eure Gruppe sowas mag! **Leichtere
+  Variante:** Eine **Rettungsmission**: z.B. die Agenten sollen eine berühmte Person aus einem Unglück
+  retten, das _nicht_ in den Geschichtsbüchern steht (weil es von Zeitverbrechern verursacht wurde).
+  Ton wird heroischer, weniger zwiespältig. **Gruppe einbinden:** Hat eine Figur relevante Kenntnisse
+  (Historiker, Bodyguard, Polizist aus ähnlicher Zeit), lasst sie glänzen, indem sie z.B. das Layout
+  der Stadt kennt oder einschätzt, wo der Attentäter zuschlagen könnte.
 - **Höhepunkt:** Ein denkbarer Showdown ist eine **Konfrontation mit dem Zeit-Attentäter** an einem
-ikonischen Ort. Stellen wir uns vor: Auf einem Dach über dem Kristallpalast der Weltausstellung
-ringt ein Agent mit dem Attentäter, während unten die nichtsahnende Menschenmenge jubelt. Im letzten
-Moment flieht der Bösewicht vielleicht durch einen spontan erzeugten Zeitriss – oder er wird
-gestellt und dem ITI übergeben. In jedem Fall sollten die Charaktere am Ende wissen, ob sie Erfolg
-hatten: Der Erfinder lebt (oder das Ereignis fand regulär statt) und die Zeitlinie ist sicher…
-zumindest vorerst. Das Gefühl, *„Heute haben wir die Geschichte gerettet“*, gibt einen fantastischen
-Motivationsschub für die Kampagne.
+  ikonischen Ort. Stellen wir uns vor: Auf einem Dach über dem Kristallpalast der Weltausstellung
+  ringt ein Agent mit dem Attentäter, während unten die nichtsahnende Menschenmenge jubelt. Im letzten
+  Moment flieht der Bösewicht vielleicht durch einen spontan erzeugten Zeitriss – oder er wird
+  gestellt und dem ITI übergeben. In jedem Fall sollten die Charaktere am Ende wissen, ob sie Erfolg
+  hatten: Der Erfinder lebt (oder das Ereignis fand regulär statt) und die Zeitlinie ist sicher…
+  zumindest vorerst. Das Gefühl, _„Heute haben wir die Geschichte gerettet“_, gibt einen fantastischen
+  Motivationsschub für die Kampagne.
 
 ### Missionsidee 3: **Anomalie im Verborgenen**
 
-*Hook:* Es wird eine **ungewöhnliche temporale Anomalie** entdeckt – kein klarer Schurke, sondern
+_Hook:_ Es wird eine **ungewöhnliche temporale Anomalie** entdeckt – kein klarer Schurke, sondern
 ein **rätselhaftes Phänomen**. Die Chrononauten müssen Nachforschungen anstellen und das Geheimnis
 lüften, bevor die Anomalie außer Kontrolle gerät.
 
 - **Szenario:** In einem abgeschiedenen Dorf (Zeit und Ort nach Wahl) treten **Zeiteffekte** auf:
-Nächtlich erscheinen geisterhafte Visionen aus anderen Jahrhunderten, Uhren gehen rückwärts,
-vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
-was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
-(müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
-stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
-Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
-sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
-entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
-fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
-ging). Im Finale müssen sie in die Tiefe vordringen (etwa in Katakomben oder eine Höhle unter der
-Dorfkirche), um dort den Riss zu stabilisieren oder das Artefakt zu entfernen. Die Umgebung wird
-zunehmend surreal: Zeitschatten aus Vergangenheit und Zukunft flackern und stellen sich ihnen
-eventuell in den Weg (hier können kuriose Begegnungen stattfinden, etwa ein verwirrter Römergeist,
-der plötzlich auftaucht, oder ein kurz aufscheinendes Portal mit Dinos – je nach Stimmung).
-Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade rechtzeitig, bevor sie zu einem
-ausgewachsenen Paradox heranwächst.
+  Nächtlich erscheinen geisterhafte Visionen aus anderen Jahrhunderten, Uhren gehen rückwärts,
+  vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
+  was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
+  (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
+  stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
+  Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
+  sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
+  entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
+  fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
+  ging). Im Finale müssen sie in die Tiefe vordringen (etwa in Katakomben oder eine Höhle unter der
+  Dorfkirche), um dort den Riss zu stabilisieren oder das Artefakt zu entfernen. Die Umgebung wird
+  zunehmend surreal: Zeitschatten aus Vergangenheit und Zukunft flackern und stellen sich ihnen
+  eventuell in den Weg (hier können kuriose Begegnungen stattfinden, etwa ein verwirrter Römergeist,
+  der plötzlich auftaucht, oder ein kurz aufscheinendes Portal mit Dinos – je nach Stimmung).
+  Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade rechtzeitig, bevor sie zu einem
+  ausgewachsenen Paradox heranwächst.
 - **Tonalität:** Diese Mission ist hervorragend für einen **ruhigeren, unheimlichen** Einstieg
-geeignet. Statt voller Action steht **Atmosphäre und Rätsel** im Vordergrund. Man kann leichte
-Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
-Charaktere etwas **Übernatürlichem** auf der Spur sind, das sich dann wissenschaftlich als
-Zeitphänomen erklärt, trifft genau den Sweet Spot von ZEITRISS zwischen Science-Fiction und Mystery.
-Die Spieler\*innen haben Gelegenheit, ihre Ermittlungsfähigkeiten zu zeigen, und es gibt Raum für
-Gruppendiskussionen („Was um alles in der Welt geht hier vor?“). Allerdings sollte im Finale dennoch
-eine **greifbare Herausforderung** stehen – sei es eine Kreatur, die aus dem Riss kommt, oder die
-Schwierigkeit, ein Ritual/eine Maschine zu bedienen, während vielleicht alles einstürzt. So bekommt
-man doch noch etwas Action als Payoff nach dem langsamen Gruselaufbau.
+  geeignet. Statt voller Action steht **Atmosphäre und Rätsel** im Vordergrund. Man kann leichte
+  Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
+  Charaktere etwas **Übernatürlichem** auf der Spur sind, das sich dann wissenschaftlich als
+  Zeitphänomen erklärt, trifft genau den Sweet Spot von ZEITRISS zwischen Science-Fiction und Mystery.
+  Die Spieler\*innen haben Gelegenheit, ihre Ermittlungsfähigkeiten zu zeigen, und es gibt Raum für
+  Gruppendiskussionen („Was um alles in der Welt geht hier vor?“). Allerdings sollte im Finale dennoch
+  eine **greifbare Herausforderung** stehen – sei es eine Kreatur, die aus dem Riss kommt, oder die
+  Schwierigkeit, ein Ritual/eine Maschine zu bedienen, während vielleicht alles einstürzt. So bekommt
+  man doch noch etwas Action als Payoff nach dem langsamen Gruselaufbau.
 - **Anpassungen:** **Settingwahl:** Das Dorf könnte überall sein: ein **mittelalterliches Kloster**
-(mit spukenden Mönchen aus der Zukunft?), ein **Goldgräberstädtchen 1850** in Amerika (Zeitgeist-
-Erscheinungen im Saloon), oder ein **Forschungsstation in der Antarktis 1990**, wo plötzlich
-Substanzen zu Eis aus der Zeit fallen. Wählt, was euch gefällt. **Schwierigkeit:** Wenn eure Gruppe
-neu im Rätseln ist, gebt klare Hinweise (z.B. ein Logbuch eines verstorbenen ITI-Agenten, das sie
-finden, worin er vor dem Kristall warnt). Ist eure Gruppe hingegen knobelfreudig, könnt ihr sie
-selbst Theorie entwickeln lassen. **Charakter-Bezug:** Vielleicht hat einer der Charaktere
-**persönlichen Bezug** – z.B. stammt er aus dem betreffenden Dorf oder hat dort Vorfahren, deren
-Gestalt nun als Zeitgeist auftaucht (emotionaler Moment!). **Antagonist:** Man kann optional einen
-bewussten Antagonisten ergänzen, etwa einen wahnsinnigen Zeitwissenschaftler, der das Phänomen
-absichtlich verursacht hat. Dann wird es mehr zur Jagd auf den Schuldigen. Ohne menschlichen Gegner
-bleibt es mehr „Mensch vs. Natur (der Zeit)“.
+  (mit spukenden Mönchen aus der Zukunft?), ein **Goldgräberstädtchen 1850** in Amerika (Zeitgeist-
+  Erscheinungen im Saloon), oder ein **Forschungsstation in der Antarktis 1990**, wo plötzlich
+  Substanzen zu Eis aus der Zeit fallen. Wählt, was euch gefällt. **Schwierigkeit:** Wenn eure Gruppe
+  neu im Rätseln ist, gebt klare Hinweise (z.B. ein Logbuch eines verstorbenen ITI-Agenten, das sie
+  finden, worin er vor dem Kristall warnt). Ist eure Gruppe hingegen knobelfreudig, könnt ihr sie
+  selbst Theorie entwickeln lassen. **Charakter-Bezug:** Vielleicht hat einer der Charaktere
+  **persönlichen Bezug** – z.B. stammt er aus dem betreffenden Dorf oder hat dort Vorfahren, deren
+  Gestalt nun als Zeitgeist auftaucht (emotionaler Moment!). **Antagonist:** Man kann optional einen
+  bewussten Antagonisten ergänzen, etwa einen wahnsinnigen Zeitwissenschaftler, der das Phänomen
+  absichtlich verursacht hat. Dann wird es mehr zur Jagd auf den Schuldigen. Ohne menschlichen Gegner
+  bleibt es mehr „Mensch vs. Natur (der Zeit)“.
 - **Höhepunkt:** Im Finale könnten die Chrononauten beispielsweise in den Katakomben den
-pulsierenden, blauen Riss sehen, der sich unheilvoll ausdehnt. Die Wände wechseln zwischen Epochen
-hin und her. Während der Techniker der Gruppe versucht, den **temporalen Stabilisator** am Riss zu
-installieren, müssen die anderen vielleicht **Zeitschatten** abwehren – z.B. Schemen von Rittern,
-die aus dem Riss treten, weil in einer Parallelrealität an dieser Stelle mal eine Schlacht war. Hier
-kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen.
-Sobald das Gerät aktiviert ist (oder das
-Artefakt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
-vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf, als Zeichen, dass alles
-wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
-die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
+  pulsierenden, blauen Riss sehen, der sich unheilvoll ausdehnt. Die Wände wechseln zwischen Epochen
+  hin und her. Während der Techniker der Gruppe versucht, den **temporalen Stabilisator** am Riss zu
+  installieren, müssen die anderen vielleicht **Zeitschatten** abwehren – z.B. Schemen von Rittern,
+  die aus dem Riss treten, weil in einer Parallelrealität an dieser Stelle mal eine Schlacht war. Hier
+  kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen.
+  Sobald das Gerät aktiviert ist (oder das
+  Artefakt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
+  vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf, als Zeichen, dass alles
+  wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
+  die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
 
 ### Missionsidee 4: **Rettet Agent X**
 
-*Hook:* Gleich zu Beginn erfahren die Chrononauten, dass einer ihrer **Vorgänger oder Mentor-Figuren
+_Hook:_ Gleich zu Beginn erfahren die Chrononauten, dass einer ihrer **Vorgänger oder Mentor-Figuren
 vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und rettet Agent X!**
 
 - **Szenario:** Ein erfahrener ZEITRISS-Agent (vielleicht derjenige, der die Gruppe rekrutiert hat,
-oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
-Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
-doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
-Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte
-und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen,
-drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
-Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
-sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
-zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
-Agent X von feindlichen Zeitreisenden entführt wurde, die ihn verhören, um ITI-Geheimnisse aus ihm
-herauszupressen. Es entwickelt sich eine **Rettungsaktion**: Die Charaktere infiltrieren den
-königlichen Hof (was für Spaß sorgt, weil sie sich in historischer Kleidung ausstaffieren und mit
-alten Sitten auseinandersetzen müssen) und lokalisieren den Agenten in einem Verlies oder einer
-Festung. Dort kommt es zum Showdown mit den Entführern. Gelingt die Befreiung, bringt das Team den
-verletzten, aber lebenden Agenten zusammen mit wichtigen Informationen, die er gesammelt hat, zurück
-ins HQ.
+  oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
+  Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
+  doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
+  Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte
+  und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen,
+  drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
+  Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
+  sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
+  zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
+  Agent X von feindlichen Zeitreisenden entführt wurde, die ihn verhören, um ITI-Geheimnisse aus ihm
+  herauszupressen. Es entwickelt sich eine **Rettungsaktion**: Die Charaktere infiltrieren den
+  königlichen Hof (was für Spaß sorgt, weil sie sich in historischer Kleidung ausstaffieren und mit
+  alten Sitten auseinandersetzen müssen) und lokalisieren den Agenten in einem Verlies oder einer
+  Festung. Dort kommt es zum Showdown mit den Entführern. Gelingt die Befreiung, bringt das Team den
+  verletzten, aber lebenden Agenten zusammen mit wichtigen Informationen, die er gesammelt hat, zurück
+  ins HQ.
 - **Tonalität:** Diese Mission kombiniert **Emotionalität** (ein Verbündeter in Not) mit
-**klassischem Abenteuer**. Sie ist für die Spieler sehr motivierend, weil es nicht nur um einen
-Auftrag, sondern um eine **Person** geht, die man retten will. Der Ton kann heldenhaft und etwas
-dramatisch sein – gerade wenn Agent X vielleicht ein paar weise Worte an die Neulinge richten kann
-nach der Rettung („Ich wusste, dass Renier die Richtigen schickt…“ hust). Es ist fast schon ein
-kleines **ZEITRISS-Heldenepos** in sich. Da Höfe und Historie eine Rolle spielen, sind auch
-politische Intrigen oder diplomatische Lösungen denkbar, nicht nur Kampf. Die Gruppe kann zeigen,
-wie sie zusammenarbeitet, um jemanden lebend herauszubekommen, was auch Vertrauen untereinander
-schafft.
+  **klassischem Abenteuer**. Sie ist für die Spieler sehr motivierend, weil es nicht nur um einen
+  Auftrag, sondern um eine **Person** geht, die man retten will. Der Ton kann heldenhaft und etwas
+  dramatisch sein – gerade wenn Agent X vielleicht ein paar weise Worte an die Neulinge richten kann
+  nach der Rettung („Ich wusste, dass Renier die Richtigen schickt…“ hust). Es ist fast schon ein
+  kleines **ZEITRISS-Heldenepos** in sich. Da Höfe und Historie eine Rolle spielen, sind auch
+  politische Intrigen oder diplomatische Lösungen denkbar, nicht nur Kampf. Die Gruppe kann zeigen,
+  wie sie zusammenarbeitet, um jemanden lebend herauszubekommen, was auch Vertrauen untereinander
+  schafft.
 - **Anpassungen:** **Wer ist Agent X?** – Überlegt, ob ihr einen NPC aus dem Hintergrund nehmt oder
-gar einen ehemaligen Spielercharakter (wenn dies z.B. eine neue Staffel einer laufenden Kampagne
-wäre). Es sollte jemand sein, bei dem die Gruppe emotional investiert ist oder es schnell wird
-(vielleicht durch Renier: „Das ist mein ältester Freund, bitte holt ihn zurück.“). **Epoche
-ändern:** Hof von Maximilian war ein Beispiel; es kann jeder Ort sein. Wilder Westen? Agent X wurde
-in Deadwood 1876 von Gangstern festgehalten. Zukunft? Agent X steckt in einer dystopischen 23.-Jhdt-
-Welt fest. Wählt, was euch liegt. **Gefahr skalieren:** Wenn es ein Einsteigerteam ist, sollten die
-Entführer keine völligen Profis sein – vielleicht nur ein paar Söldner angeheuert von einem
-unbekannten Rivalen. Für erfahrenere Spieler könnt ihr eine richtige **Gegenspieler- Fraktion**
-anteasern: z.B. die Mission wird sabotiert von Mitgliedern der *Chronisten* (fiktive antagonistische
-Zeitfraktion), sodass hier der Hauptantagonist der Kampagne das erste Mal in Erscheinung tritt.
+  gar einen ehemaligen Spielercharakter (wenn dies z.B. eine neue Staffel einer laufenden Kampagne
+  wäre). Es sollte jemand sein, bei dem die Gruppe emotional investiert ist oder es schnell wird
+  (vielleicht durch Renier: „Das ist mein ältester Freund, bitte holt ihn zurück.“). **Epoche
+  ändern:** Hof von Maximilian war ein Beispiel; es kann jeder Ort sein. Wilder Westen? Agent X wurde
+  in Deadwood 1876 von Gangstern festgehalten. Zukunft? Agent X steckt in einer dystopischen 23.-Jhdt-
+  Welt fest. Wählt, was euch liegt. **Gefahr skalieren:** Wenn es ein Einsteigerteam ist, sollten die
+  Entführer keine völligen Profis sein – vielleicht nur ein paar Söldner angeheuert von einem
+  unbekannten Rivalen. Für erfahrenere Spieler könnt ihr eine richtige **Gegenspieler- Fraktion**
+  anteasern: z.B. die Mission wird sabotiert von Mitgliedern der _Chronisten_ (fiktive antagonistische
+  Zeitfraktion), sodass hier der Hauptantagonist der Kampagne das erste Mal in Erscheinung tritt.
 - **Höhepunkt:** Die Rettung selbst kann sehr filmisch inszeniert werden. Man stelle sich vor:
-*Nacht, Sturmregen prasselt auf die Zinnen der Burg.* Die Chrononauten haben sich hineingeschlichen,
-schalten Wachen lautlos aus (Stealth-Mission vibes) und erreichen den Turm, wo Agent X gefangen
-gehalten wird. Gerade als sie ihn losbinden, **stellt sich der Anführer der Entführer** ihnen
-entgegen – vielleicht ein finsterer Zeitagent, der ihnen technisch überlegen scheint. Es kommt zu
-einem Kampf im flackernden Fackellicht. Agent X, geschwächt, kann kaum helfen, aber feuert die
-Gruppe an. Schließlich überwältigen sie den Feind oder zwingen ihn in die Flucht durch einen hastig
-geöffneten Zeitriss. Der **Turm brennt** (weil ein Feuer im Getümmel ausbrach) und beginnt
-einzustürzen – ein letztes Spannungsmoment, wo die Helden mit dem Geretteten im Arm über eine
-einstürzende Brücke rennen, während alles hinter ihnen kollabiert. In letzter Sekunde springen sie
-ins zurückgeholte Portal des ITI und entkommen. *Cut to HQ*: Rauch steigt von ihren Kleidern, alle
-sind verdreckt, aber sie haben Agent X gerettet. Solch ein Kinomoment zum Abschluss des Abenteuers
-wäre ein perfekter Übergang, um dann in der nächsten Sitzung z.B. mehr über den Feind zu erfahren
-und in die Kampagne einzusteigen.
+  _Nacht, Sturmregen prasselt auf die Zinnen der Burg._ Die Chrononauten haben sich hineingeschlichen,
+  schalten Wachen lautlos aus (Stealth-Mission vibes) und erreichen den Turm, wo Agent X gefangen
+  gehalten wird. Gerade als sie ihn losbinden, **stellt sich der Anführer der Entführer** ihnen
+  entgegen – vielleicht ein finsterer Zeitagent, der ihnen technisch überlegen scheint. Es kommt zu
+  einem Kampf im flackernden Fackellicht. Agent X, geschwächt, kann kaum helfen, aber feuert die
+  Gruppe an. Schließlich überwältigen sie den Feind oder zwingen ihn in die Flucht durch einen hastig
+  geöffneten Zeitriss. Der **Turm brennt** (weil ein Feuer im Getümmel ausbrach) und beginnt
+  einzustürzen – ein letztes Spannungsmoment, wo die Helden mit dem Geretteten im Arm über eine
+  einstürzende Brücke rennen, während alles hinter ihnen kollabiert. In letzter Sekunde springen sie
+  ins zurückgeholte Portal des ITI und entkommen. _Cut to HQ_: Rauch steigt von ihren Kleidern, alle
+  sind verdreckt, aber sie haben Agent X gerettet. Solch ein Kinomoment zum Abschluss des Abenteuers
+  wäre ein perfekter Übergang, um dann in der nächsten Sitzung z.B. mehr über den Feind zu erfahren
+  und in die Kampagne einzusteigen.
 
 Dies sind nur **einige von vielen** möglichen Einstiegsmissionen. Ihr kennt eure Spieler\*innen und
 ihre Vorlieben am besten – fühlt euch frei, Elemente zu mischen oder ganz eigene Ideen zu
 entwickeln. Wichtig für das erste Abenteuer ist, dass es **Neugier weckt, Rollen bietet und das
-Versprechen eurer Kampagne einlöst**. Ein guter Einstieg fühlt sich nach *„großem Kino“* an, lässt
+Versprechen eurer Kampagne einlöst**. Ein guter Einstieg fühlt sich nach _„großem Kino“_ an, lässt
 die Charaktere über sich hinauswachsen und endet idealerweise mit einem **Knall** (im wörtlichen
 oder übertragenen Sinn), über den noch lange gesprochen wird.
 
@@ -822,8 +823,8 @@ straff geskriptet oder frei fließend – **Hauptsache, es packt eure Gruppe** u
 für viele weitere packende Sessions.
 
 Die erste Klappe ist gefallen, das Licht des Zeitrisses erlischt – **Action!** Jetzt liegt es an
-euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: *„Willkommen im Team…
-und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“* Viel Spaß und Erfolg
+euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: _„Willkommen im Team…
+und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“_ Viel Spaß und Erfolg
 bei eurem **filmreifen Start ins Abenteuer**!
 
 [^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.

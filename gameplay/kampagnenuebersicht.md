@@ -23,7 +23,7 @@ das Leben lediglich als **aktiver Bewusstseinszustand**. Nach dem Tod wechselt e
 einen **passiven Zustand** und kann das Raumzeitkontinuum nicht mehr beeinflussen. Der freie
 Wille bleibt jedoch bestehen – selbst wenn er im aktiven Leben gebrochen wurde, wird er im Tod
 wiederhergestellt. Sobald ein passives Bewusstsein eine Aufgabe klar erkennt, kann es erneut in den
-aktiven Zustand eintreten: Es wird wiedergeboren.  Die Agenten erhalten **handfeste Aufträge**
+aktiven Zustand eintreten: Es wird wiedergeboren. Die Agenten erhalten **handfeste Aufträge**
 – von Sabotagen über Rettungen bis hin zu verdeckter Spionage. Zeitliche Störungen sind
 selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative
 Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
@@ -51,14 +51,14 @@ menschliche Bewusstseine begrenzt sind, lassen sich höher entwickelte Spezies n
 ITI gewinnen, was den menschlichen Blick auf das Universum einschränkt.
 
 **Hintergrund:** Verschwörungstheorien wie das Philadelphia-Experiment von 1943 und das
-Montauk-Projekt von 1983 sind in der Welt von *Zeitriss* real. Geheim durchgeführte Experimente
+Montauk-Projekt von 1983 sind in der Welt von _Zeitriss_ real. Geheim durchgeführte Experimente
 des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit zu
-ermöglichen – angeblich wurde der Zerstörer **USS *Eldridge*** in Philadelphia unsichtbar
+ermöglichen – angeblich wurde der Zerstörer **USS _Eldridge_** in Philadelphia unsichtbar
 gemacht und kurzzeitig durch Raum und Zeit versetzt. Die Montauk-Forschungen der 1980er knüpften
-daran an und umfassten *Zeitreisen*, *Teleportation*, *Gedankenkontrolle* und sogar *Kontakt
-mit außerirdischem Leben*. Unbemerkt von der Öffentlichkeit öffneten diese Experimente ein
+daran an und umfassten _Zeitreisen_, _Teleportation_, _Gedankenkontrolle_ und sogar _Kontakt
+mit außerirdischem Leben_. Unbemerkt von der Öffentlichkeit öffneten diese Experimente ein
 Tor zu etwas, das größer ist als alle zuvor dagewesenen Technologien: ein Riss in der Zeit
-selbst – ein *Zeitriss*, der verschiedene Epochen miteinander verbindet.
+selbst – ein _Zeitriss_, der verschiedene Epochen miteinander verbindet.
 
 Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des **Instituts für
 Temporale Intervention (ITI)**. Eine internationale Koalition rief das ITI ins Leben, um solche
@@ -68,7 +68,6 @@ ITI entstand rein durch menschliche Initiative und vereint Pro- sowie Contra-Fra
 leitet das Institut; Bündnisse mit Aliens sind nicht möglich. Erst bei höherem Bewusstsein
 wird eine Spezies Gesprächspartner – Menschen gelten bislang als unwichtig.
 
-
 ### Beispielkampagne: ChronTech-Komplott
 
 Eine mögliche Storyline dreht sich um den Megakonzern **ChronTech**. Die Helden infiltrieren
@@ -77,12 +76,12 @@ Geschichte dramatisch zu verändern. Dahinter steht ein charismatischer CEO, der
 Alienunterstützung die Zeitlinie zu seinen Gunsten formen will. Folgende Fraktionen können
 dabei eine Rolle spielen:
 
-- **Projekt *Phoenix*** – ein Zirkel ehemaliger Montauk-Veteranen, der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
+- **Projekt _Phoenix_** – ein Zirkel ehemaliger Montauk-Veteranen, der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
 - **Die Grauen** – technikaffine Aliens mit rätselhaften Hinterlassenschaften; die Föderation ignoriert die Menschheit.
 - **Der Alte Orden** – Geheimgesellschaften mit Wurzeln in antiken Kulturen, die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** – Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.
 
-**Psionik als Werkzeug:** *Zeitriss* nutzt fokussierte Gehirntrainings als **Psionik** – die
+**Psionik als Werkzeug:** _Zeitriss_ nutzt fokussierte Gehirntrainings als **Psionik** – die
 mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über besondere
 Fähigkeiten wie Telepathie, Telekinese, präkognitive Visionen oder Gedankenkontrolle. Diese
 Psi-Kräfte sind das Ergebnis genetischer Experimente, intensiven Trainings oder der
@@ -92,7 +91,7 @@ Psionik: Gedankenhemmer, Psi-Verstärker und neuronale Implantate sind Teil der 
 der Kampagne begegnen die Helden psionisch begabten Widersachern – vom Montauk-Telepathen,
 der Emotionen manipuliert, bis zum kybernetisch aufgerüsteten Konzern-Assassinen, der Telekinese
 einsetzt, um Kugeln in der Luft aufzuhalten. Die **Regelmechaniken** für Psionik können analog
-zu Magieregeln gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z. B. *Psi-Felder* statt
+zu Magieregeln gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z. B. _Psi-Felder_ statt
 Magieaura). Dieses zentrale Element verleiht den Missionen einen technisch erklärten Vorteil
 und eröffnet kreative Lösungswege für die Spieler. Scheinbar magische Phänomene werden
 damit immer als Technologie, temporale Wirkung oder Psi-Effekt interpretiert (siehe Abschnitt
@@ -100,7 +99,7 @@ damit immer als Technologie, temporale Wirkung oder Psi-Effekt interpretiert (si
 
 **Zeitreisen und alternative Zeitlinien:** Die Kampagne spielt mit dem Konzept des Zeitflusses und
 beantwortet ständig die Frage „Was wäre, wenn…?“. Mithilfe experimenteller Zeitmaschinen
-und instabiler *Zeitrisse* werden die Spieler in verschiedene Epochen versetzt. Dabei können
+und instabiler _Zeitrisse_ werden die Spieler in verschiedene Epochen versetzt. Dabei können
 **alternative Zeitlinien** entstehen, wenn Eingriffe der Fraktionen historische Ereignisse
 verändern. Die Helden erleben zum Beispiel eine Welt, in der fortschrittliche Zeppeline den Himmel
 beherrschen, oder einen verzweifelten Mars-Außenposten, der ohne Unterstützung von der Erde ums
@@ -117,4 +116,3 @@ von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
 [Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata),
 um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt,
 damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
-
