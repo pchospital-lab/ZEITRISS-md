@@ -1,6 +1,6 @@
 ---
 title: "Contribution Guidelines"
-version: 1.0
+version: 1.1
 tags: [meta]
 ---
 
@@ -18,3 +18,17 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
   Das Spiel funktioniert auch ohne diese Vorlage.
 
 Vielen Dank für deine Mithilfe!
+
+## Formatierungshinweise
+
+- Nutze Bindestriche (`-`) als Aufzählungszeichen.
+- Kursivtext wird mit Unterstrichen (`_Text_`) gesetzt, fetter Text mit doppelten Sternchen (`**Text**`).
+- Vermeide Leerzeichen am Zeilenende.
+- Lasse eine Leerzeile zwischen zwei Absätzen.
+
+**Beispiel:**
+
+```
+- Ein Punkt
+_kursiv_ und **fett**
+```
