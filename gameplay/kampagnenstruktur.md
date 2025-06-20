@@ -282,6 +282,8 @@ Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
   Holoprojektoren ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
   Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
+  Im Solo-Modus stammen diese Platzhalter aus deiner gewählten Fraktion. In Mehrspielerpartien
+  wählt Codex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
   **Codex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
   neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
@@ -630,9 +632,11 @@ Showdown-Szene.
    Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
 2. **Szenario-Setup:** Codex zieht einen Ort und ein Ziel aus den Tabellen in
    `kreative-generatoren.md` und beschreibt die Ausgangslage.
-3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten und generiert ein
-   gleichstarkes Gegenteam. Anschließend werden beide Gruppen an den Schauplatz
-   versetzt.
+3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten aus der passenden
+   Fraktion. Im Einzelspiel stammen die Ersatzleute aus deiner Fraktion; treten
+   mehrere Spielende an, entscheidet die Mehrheitsfraktion über das Auffüllen.
+   Anschließend generiert Codex ein gleichstarkes Gegenteam und versetzt beide
+   Gruppen an den Schauplatz.
 4. **Showdown:** Es wird so lange gekämpft, bis das Ziel erfüllt oder vereitelt
    ist. Nach jedem Erfolg kann eine Revanche gestartet oder die Arena verlassen
    werden.
