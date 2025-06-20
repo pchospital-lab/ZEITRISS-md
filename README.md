@@ -148,7 +148,7 @@ umschalten lassen:
 
 | Modus                    | Kurzbeschreibung                                                                 |
 | ------------------------ | ------------------------------------------------------------------------------- |
-| **Film**                 | Cineastische Heilung und Initiative, dramatischer Flow.                          |
+| **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
 
