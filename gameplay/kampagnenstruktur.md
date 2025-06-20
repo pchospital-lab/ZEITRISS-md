@@ -618,25 +618,27 @@ Natur des HQ betonen: Während draußen Jahrzehnte in Sekunden verrinnen, sitzen
 beisammen und spielen Karten, als gäbe es kein Morgen – ein kleiner **surrealer Realismus** im
 Herzen des Sci-Fi-Abenteuers.
 
-## Arena-Modus: PvP-Kämpfe
+## Arena-Modus: PvP-Showdowns
 
-Die **ITI-Arena** dient als Schauplatz für direkte Duelle. Ob Solo 1‑gegen‑1 oder
-Gruppengefechte – die Teamgrößen bleiben stets identisch. Fehlende Plätze
-übernimmt GPT und stellt gleichzeitig das gegnerische Aufgebot. **Codex** führt
-als Moderator durch jede Runde und blendet Punktestände ein.
+Die **ITI-Arena** bietet mehr als einen schlichten Ring. Vor jedem Match wählt
+**Codex** per Missions-Generator ein kurzes **Szenario** – zum Beispiel eine
+Verfolgungsjagd oder die Befreiung einer Geisel. Ein Team versucht, das Ziel auszulösen,
+das andere möchte es verhindern. Gespielt wird direkt die entscheidende
+Showdown-Szene.
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
-   Vermögens**. Vor dem Start wählen die Teilnehmenden ihre gewünschte
-   Teamgröße.
-2. **Matchmaking:** GPT generiert passende Verbündete und Gegner, bis beide
-   Seiten die gleiche Anzahl an Kämpfern haben. Danach beginnt sofort das Gefecht.
-3. **Ablauf:** Gespielt wird, bis ein Team handlungsunfähig ist. Nach jedem Sieg
-   kann eine Revanche gefordert oder die Arena verlassen werden.
-4. **Belohnungen:** Siege bringen CU, Ruf und bei Serien steigende Multiplikatoren.
-   Wer fünf Erfolge in Folge erzielt und anschließend aussteigt, setzt sein
-   Paradox-Level einmalig auf **0**.
-5. **Gebühr pro Lauf:** Bei jedem neuen Arenabesuch fällt die Startgebühr erneut
-   an.
+   Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
+2. **Szenario-Setup:** Codex zieht einen Ort und ein Ziel aus den Tabellen in
+   `kreative-generatoren.md` und beschreibt die Ausgangslage.
+3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten und generiert ein
+   gleichstarkes Gegenteam. Anschließend werden beide Gruppen an den Schauplatz
+   versetzt.
+4. **Showdown:** Es wird so lange gekämpft, bis das Ziel erfüllt oder vereitelt
+   ist. Nach jedem Erfolg kann eine Revanche gestartet oder die Arena verlassen
+   werden.
+5. **Belohnungen:** Siege bringen CU, Ruf und bei Serien steigende Multiplikatoren.
+   Wer fünf Erfolge in Folge erzielt und danach aussteigt, setzt sein
+   Paradox-Level einmalig auf **0**. Die Startgebühr fällt bei jedem neuen Lauf erneut an.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.
