@@ -42,7 +42,7 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle bietet einen Kurzüberblick über alle Module:
+Die folgende Tabelle bietet einen Kurzüberblick über alle **19 Regelmodule** sowie die optionalen Übersichtsdateien:
 
 | Datei                                                                                  | Inhalt                                        |
 | -------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -95,9 +95,12 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die 20 Regelmodule aus `core/`, `characters/`, `gameplay/` und `systems` (siehe Tabelle) einzeln in dein KI-Tool.
-   `README.md` und `master-index.json` dienen nur zur Übersicht und können optional mitgeladen werden, um GPT eine bessere Orientierung zu geben.
-   Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich deshalb am jeweiligen `title` im YAML-Header (z. B. "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem").
+2. Lade die **19 Regelmodule** aus `core/`, `characters/`, `gameplay/` und `systems` einzeln in dein KI-Tool.
+   Die Tabelle listet alle Titel.
+   `README.md` und `master-index.json` dienen nur zur Übersicht.
+   Sie können optional mitgeladen werden, um GPT eine bessere Orientierung zu geben.
+   Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
+   Beispiel: "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
    Suche im Modul **Kreative Generatoren** nach dem Abschnitt
