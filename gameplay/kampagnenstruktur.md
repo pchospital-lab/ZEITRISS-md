@@ -11,7 +11,7 @@ tags: [gameplay]
 - Beziehungen zu NSCs, Fraktionen und Mitagenten
 - Mechaniken für langfristige Entwicklungen
 - Erzählpausen, Freizeit und Alltag im HQ
-- Arena-Modus: Schnellspiel-Simulationen
+- Arena-Modus: PvP-Kämpfe
 - Cronopoli – Endgame-Hub
 - Fazit
 
@@ -279,17 +279,11 @@ oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werksta
 können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeitshuttle, Chrono-Anzug
 etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
 Agenten dank guter Ausrüstung weniger improvisieren müssen.
-- **Trainingshalle & Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
-  Dank hochentwickelter Holotechnik lassen sich dort realitätsnahe Gefechte
-und Hackübungen simulieren,
-  ohne echtes Risiko einzugehen. Körperliches Training, Waffenübungen und taktische Szenarien werden in
-  der Arena kombiniert. **Codex** fungiert hier als Moderator und blendet dabei Punktestände und
-  digitale Effekte ein, sodass sich die Übungen wie in einer **Spielhalle der Zukunft** anfühlen.
-  Im Gegensatz zu einer echten Rift bleibt diese Umgebung vollständig unter Kontrolle – ein
-  Kontrast, der die Spannung realer Einsätze noch verstärkt. Durch den Ausbau der Trainingshalle
-  können die Charaktere neue Fertigkeiten einstudieren oder ihre Werte zwischen Einsätzen steigern.
-  Regeltechnisch bieten gut trainierte Agenten kleine Boni auf passende Proben, oder man zeigt in
-  filmischen Montagen, wie sie sich auf kommende Gefahren vorbereiten.
+- **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
+  Holoprojektoren ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
+  Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
+  **Codex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
+  neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
   personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener
   Stützpunkt außerhalb des ITI ist nicht vorgesehen.
@@ -624,48 +618,28 @@ Natur des HQ betonen: Während draußen Jahrzehnte in Sekunden verrinnen, sitzen
 beisammen und spielen Karten, als gäbe es kein Morgen – ein kleiner **surrealer Realismus** im
 Herzen des Sci-Fi-Abenteuers.
 
-## Arena-Modus: Schnellspiel-Simulationen
+## Arena-Modus: PvP-Kämpfe
 
-Die **ITI-Arena** bietet einen optionalen Weg, um kurze Action-Sequenzen
-einzuschieben. Mit Holotechnik werden brenzlige Einsätze simuliert, ohne dass
-Charaktere realen Gefahren ausgesetzt sind – die Belohnungen sind jedoch
-vollwertig. HUD-Einblendungen und ein punktebasiertes Feedback-System verstärken
-den Eindruck einer futuristischen Spielhalle. Im Unterschied zu den chaotischen
-Real-Rifts behält der Codex hier jederzeit die volle Kontrolle und führt als
-Moderator durch jede Runde.
+Die **ITI-Arena** dient als Schauplatz für direkte Duelle. Ob Solo 1‑gegen‑1 oder
+Gruppengefechte – die Teamgrößen bleiben stets identisch. Fehlende Plätze
+übernimmt GPT und stellt gleichzeitig das gegnerische Aufgebot. **Codex** führt
+als Moderator durch jede Runde und blendet Punktestände ein.
 
-1. **Rift-Start:** Der Eintritt in die Arena kostet **250 CU plus 1 % des aktuellen Vermögens**.
-   Die Teilnehmenden werden unmittelbar in eine virtuelle Rift geworfen. Die
-   Fraktionszugehörigkeit der Charaktere legt fest, wer Pro oder Contra spielt.
-   Enthält ein geladener Gruppen-Spielstand beide Seiten, kann ein freiwilliges
-   PvP-Duell ausgetragen werden. Verdiente Rufpunkte zählen wie im realen
-   Einsatz.
-2. **Szenenfolgen:** Der Codex wirft die Gruppe in schnelle Sequenzen innerhalb
-   der virtuellen Rift. Historische Missionen entfallen; stattdessen kämpft die
-   Gruppe gegen simulierte Bedrohungen oder löst kurze Aufgaben.
-3. **Steigender Anspruch:** Nach jeder gelungenen Szene erhöht die KI den
-   Schwierigkeitsgrad. Nach fünf Szenen erscheint ein **Miniboss**, nach zehn
-   Szenen ein **Endboss**.
-4. **Boss-Belohnungen:** Jeder besiegte Endboss gewährt dem gesamten Team einen
-   neuen Perk. Nach 30 Szenen lockt zusätzlich ein legendärer Gegenstand aus dem
-   Generator. Die Gruppe erhält dabei so viele passende Items zur Auswahl, wie
-   Spieler teilnehmen (Solo-Spieler bekommen eine feste Option).
-5. **Abrechnung:** CU, Loot, Erfahrungspunkte und Ruf werden gesammelt. Wer
-   aussteigt, erhält seinen aktuellen Stand. In PvP-Runden entscheidet die Gruppe
-   nach jedem Kampf, ob sie eine Revanche startet oder sich den bisherigen Gewinn
-   auszahlen lässt. Wer weitermacht, riskiert alles für einen wachsenden
-   Multiplikator.
-6. **Scheitern:** Stirbt eine Figur in der Simulation, endet der Lauf und die bis
-   dahin erworbenen Werte verfallen.
-7. **Paradox-Reset:** Wer mindestens fünf **Szenen** in Folge meistert und
-   anschließend freiwillig aussteigt, setzt sein Paradox-Level einmalig auf
-   **0**. Ein erneuter Reset ist erst nach weiteren fünf Erfolgen möglich.
-8. **Gebühr pro Lauf:** Bei jedem neuen Arenadurchgang fallen erneut
-   **250 CU + 1 % des Vermögens** an.
+1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
+   Vermögens**. Vor dem Start wählen die Teilnehmenden ihre gewünschte
+   Teamgröße.
+2. **Matchmaking:** GPT generiert passende Verbündete und Gegner, bis beide
+   Seiten die gleiche Anzahl an Kämpfern haben. Danach beginnt sofort das Gefecht.
+3. **Ablauf:** Gespielt wird, bis ein Team handlungsunfähig ist. Nach jedem Sieg
+   kann eine Revanche gefordert oder die Arena verlassen werden.
+4. **Belohnungen:** Siege bringen CU, Ruf und bei Serien steigende Multiplikatoren.
+   Wer fünf Erfolge in Folge erzielt und anschließend aussteigt, setzt sein
+   Paradox-Level einmalig auf **0**.
+5. **Gebühr pro Lauf:** Bei jedem neuen Arenabesuch fällt die Startgebühr erneut
+   an.
 
-Die Arena eignet sich, um Ausrüstung zu testen oder zwischendurch Belohnungen zu
-sammeln. Solo oder in der Gruppe lässt sich so der Fortschritt beschleunigen,
-ohne direkt eine Zeitreise zu starten.
+Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
+zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.
 
 ## Cronopoli – Endgame-Hub
 
