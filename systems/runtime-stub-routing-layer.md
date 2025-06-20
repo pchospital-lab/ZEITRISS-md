@@ -197,13 +197,18 @@ function cmdRest() {
 ## 6a | ARENA-SIMULATION – Paradox-Reset-Logik
 
 ```typescript
-const ARENA_FEE = 250;               // CU-Kosten pro Start
+const ARENA_BASE_FEE = 250;          // fixer Grundbetrag
+function getArenaFee() {
+  // 1 % des aktuellen Vermögens als Zusatzgebühr
+  return Math.floor(ARENA_BASE_FEE + state.currency * 0.01);
+}
 // Szenen-Generator laeuft auf eurer lokalen "mygpt"-Instanz.
 function startArena() {
-  if (state.currency < ARENA_FEE) {
+  const fee = getArenaFee();
+  if (state.currency < fee) {
     return writeLine("Not enough CU for Arena run.");
   }
-  state.currency -= ARENA_FEE;
+  state.currency -= fee;
   state.arena = { active: true, success: 0 };
   autoSave();
   writeLine("Arena initiated. Good luck!");
