@@ -333,8 +333,10 @@ Lebenspunkte hinausgehen:
   Ab **Level 2** flackert das HUD,
   bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
   Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
-  Wer einen puristischeren Thriller bevorzugt, kann eine **Covert-Ops-Variante** spielen,
-  bei der solche Risse und Kreaturen nicht auftreten.
+  Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
+  bei dem solche Risse und Kreaturen nicht auftreten.
+  Contra-orientierte Gruppen dürfen laut [Charaktererschaffung](charaktererschaffung.md)
+  und [Zeitriss-Core](../core/zeitriss-core.md) die Paradoxmechanik vollständig deaktivieren.
 
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
@@ -362,7 +364,7 @@ Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
-_Optional kann eine Covert-Ops-Variante gespielt werden, bei der keine Risse
+_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden, bei der keine Risse
 oder Zeitkreaturen erscheinen._
 
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
