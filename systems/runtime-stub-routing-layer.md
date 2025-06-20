@@ -203,17 +203,25 @@ function getArenaFee() {
   return Math.floor(ARENA_BASE_FEE + state.currency * 0.01);
 }
 
+function generateArenaScenario() {
+  // Stub: zieht ein Kurzszenario aus dem Missions-Generator
+  const entry  = pickRandom(missionPool);
+  const place  = pickRandom(epochPool);
+  return { description: `${entry} @ ${place}` };
+}
+
 function startPvPArena(teamSize = 1) {
   const fee = getArenaFee();
   if (state.currency < fee) {
     return writeLine("Not enough CU for Arena match.");
   }
   state.currency -= fee;
+  const scenario = generateArenaScenario();
   const teamA = createTeam(teamSize, "player");
   const teamB = createOpposingTeam(teamSize); // GPT füllt fehlende Slots
-  state.arena = { active: true, teamA, teamB, wins: 0 };
+  state.arena = { active: true, teamA, teamB, scenario, wins: 0 };
   autoSave();
-  writeLine(`PvP match started: ${teamSize} vs ${teamSize}.`);
+  writeLine(`PvP showdown started: ${scenario.description}`);
 }
 
 function arenaMatchWon() {
