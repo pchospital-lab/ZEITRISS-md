@@ -194,7 +194,7 @@ function cmdRest() {
 }
 ```
 
-## 6a | ARENA-SIMULATION – Paradox-Reset-Logik
+## 6a | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
 const ARENA_BASE_FEE = 250;          // fixer Grundbetrag
@@ -202,32 +202,34 @@ function getArenaFee() {
   // 1 % des aktuellen Vermögens als Zusatzgebühr
   return Math.floor(ARENA_BASE_FEE + state.currency * 0.01);
 }
-// Szenen-Generator laeuft auf eurer lokalen "mygpt"-Instanz.
-function startArena() {
+
+function startPvPArena(teamSize = 1) {
   const fee = getArenaFee();
   if (state.currency < fee) {
-    return writeLine("Not enough CU for Arena run.");
+    return writeLine("Not enough CU for Arena match.");
   }
   state.currency -= fee;
-  state.arena = { active: true, success: 0 };
+  const teamA = createTeam(teamSize, "player");
+  const teamB = createOpposingTeam(teamSize); // GPT füllt fehlende Slots
+  state.arena = { active: true, teamA, teamB, wins: 0 };
   autoSave();
-  writeLine("Arena initiated. Good luck!");
+  writeLine(`PvP match started: ${teamSize} vs ${teamSize}.`);
 }
 
-function arenaSceneWon() {
+function arenaMatchWon() {
   if (state.arena?.active) {
-    state.arena.success++;
+    state.arena.wins++;
   }
 }
 
-function exitArena() {
+function exitPvPArena() {
   if (!state.arena?.active) return;
-  if (state.arena.success >= 5) {
-    state.paradox_level = 0;         // Reset nach fünf erfolgreichen Szenen
+  if (state.arena.wins >= 5) {
+    state.paradox_level = 0;         // Reset nach fünf Siegen in Folge
   }
-  state.arena = { active: false, success: 0 };
+  state.arena = { active: false, teamA: [], teamB: [], wins: 0 };
   autoSave();
-  writeLine("Arena run ended.");
+  writeLine("Arena match ended.");
 }
 ```
 
