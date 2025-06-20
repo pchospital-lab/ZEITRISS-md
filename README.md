@@ -89,19 +89,21 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
 deines MyGPT (max. 8k Zeichen).
  Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade alle 20 der oben genannten Markdown-Dateien als Regelmodule in dein KI-Tool.
-  Beispiele sind `zeitriss-core.md` oder `kampagnenstruktur.md`.
+2. Lade die 20 Regelmodule aus `core/`, `characters/`, `gameplay/` und `systems` (siehe Tabelle) einzeln in dein KI-Tool.
+  `README.md` und `master-index.json` dienen nur zur Übersicht und können optional mitgeladen werden, um GPT eine bessere Orientierung zu geben.
+  Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich deshalb am jeweiligen `title` im YAML-Header (z. B. "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem").
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
-4. Eigene Missionen kannst du mit dem Missions-Generator in
-   `kreative-generatoren.md` erstellen.
-5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus `kreative-generatoren.md`
-und erstellt ein Briefing.
+4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
+   Suche im Modul **Kreative Generatoren** nach dem Abschnitt
+   `## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}`.
+5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus dem gleichen Modul (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
 6. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
-   bzw. der
-   [Arc-Generator](gameplay/kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen).
+   bzw. der Abschnitt
+   `## Arc-Generator: Große Missionen {#arc-generator}`
+   im Modul **Kreative Generatoren**.
 
 ## Spielstart
 

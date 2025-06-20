@@ -134,7 +134,7 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 
 
 
-## Missions-Generator: Kleine Aufträge und Dilemmata
+## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}
 
 Nicht jede Session ist ein großes Story-Kapitel – manchmal möchten die Spieler im freien Spiel einen
 kurzen Auftrag angehen oder euer GPT improvisiert einen Nebenquest. Der Missions-Generator liefert
@@ -239,7 +239,7 @@ Schmetterlingseffekt ein, der den Helden zugutekommt.)
 größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
 eines neuen Abenteuers, das auf sie wartet.
 
-## Arc-Generator: Große Missionen
+## Arc-Generator: Große Missionen {#arc-generator}
 
 Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator liefert Anregungen für
 ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüsselort** und
@@ -273,7 +273,7 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler
 war.
 
-## Historische Wendepunkte-Generator: Auslöser und Folgen
+## Historische Wendepunkte-Generator: Auslöser und Folgen {#wendepunkte-generator}
 
 Manchmal führt schon eine kleine Handlung dazu, dass ein bekanntes Ereignis
 überhaupt erst stattfindet. Dieser Generator liefert Ansätze, wie die Chrononauten
@@ -439,7 +439,7 @@ würfelt einen Eintrag als Missionsstart.
 
 \| Nachphase: Portal reißt sich auf.
 
-## Random-Epochen-Generator: Wann und wo?
+## Random-Epochen-Generator: Wann und wo? {#epochen-generator}
 
 ZEITRISS-Missionen können prinzipiell in jeder Epoche der echten oder fiktiven Geschichte spielen.
 Wenn ihr spontan ein neues Setting braucht oder die Spieler unerwartet irgendwo auftauchen, liefert
@@ -493,7 +493,7 @@ dass man sein eigenes Schicksal kennt?
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
 
-## NSC-Generator: Begegnungen im Zeitstrom
+## NSC-Generator: Begegnungen im Zeitstrom {#nsc-generator}
 
 Wenn die Spieler spontan irgendjemanden treffen sollen – sei es Verbündeter, Informant oder
 Hindernis – hilft es ungemein, einen spannenden NSC aus dem Hut zu zaubern. Dieser Generator liefert
@@ -544,7 +544,7 @@ behauptet optional, Visionen der Zukunft zu kennen)?
 Schon wird aus der bekannten Figur ein einzigartiger
 Charakter für eure Story!
 
-## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
+## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
 
 Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten. Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt.
@@ -663,7 +663,7 @@ Respektgebietendes. Gerade in ZEITRISS, wo Mythologie oft einen zeitphänomenale
 können solche Kreaturen dafür sorgen, dass selbst erfahrene Chrononauten nie vergessen: **Die Zeit
 birgt unendliche Überraschungen.**
 
-## Artefakt-Generator: Objekte mit Geschichte
+## Artefakt-Generator: Objekte mit Geschichte {#artefakt-generator}
 
 Zeitreisen führen unweigerlich zu **kuriosen Objekten**, die nicht in ihre Epoche gehören, oder zu
 mächtigen Relikten, welche die Jahre überdauert haben. Wenn ihr spontan einen interessanten
@@ -724,7 +724,7 @@ Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das alle 
 Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen “mysteriösen
 Gegenstände” zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
 
-## Kulturfragmente-Generator: Farbe für die Epochen
+## Kulturfragmente-Generator: Farbe für die Epochen {#kulturfragmente}
 
 Wer durch die Zeit reist, trifft auf fremde **Kulturen, Bräuche und Alltagsdetails**, die eine
 Epoche erst *authentisch* machen. Dieser Generator hilft dabei, schnell ein **Kulturfragment**
@@ -799,7 +799,7 @@ einem lokalen Fest mit und gewinnen dadurch Verbündete – oder sie nutzen eine
 für sich (*“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!”*). Diese kleinen Dinge
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
 
-## Temporale Anomalien-Generator (optional)
+## Temporale Anomalien-Generator (optional) {#anomalien-generator}
 Dieser Abschnitt ist nur relevant, wenn die Runde gezielt temporale Störungen untersuchen möchte.
 Für einen Agenten-Thriller sollten solche Effekte sparsam eingesetzt werden.
 
