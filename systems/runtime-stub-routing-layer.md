@@ -267,6 +267,18 @@ function exitPvPArena() {
 }
 ```
 
+## 6b | MULTIPLAYER-RESET – Gruppenmodus starten
+
+```typescript
+function startGroupMode(players = []) {
+  // Schwierigkeitsgrad angleichen: Paradox-Level & Rifts zurücksetzen
+  state.paradox_level = 0;
+  state.open_seeds = [];
+  autoSave();
+  writeLine(`Group mode initiated for ${players.length} players. Paradox Level reset.`);
+}
+```
+
 ---
 
 ## 7 | AUTO-SAVE HELPER
