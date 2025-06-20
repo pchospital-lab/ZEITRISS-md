@@ -271,6 +271,7 @@ function exitPvPArena() {
 
 ```typescript
 function startGroupMode(players = []) {
+  // Wird nach dem Einlesen mehrerer Savegames aufgerufen.
   // Schwierigkeitsgrad angleichen: Paradox-Level & Rifts zurücksetzen
   state.paradox_level = 0;
   state.open_seeds = [];

@@ -374,6 +374,9 @@ dann Mia lädt oder umgekehrt, spielt inhaltlich keine Rolle – am Ende zählt,
 sieht. Sollte ein Charakter doppelt geladen werden (z.B. jemand fügt versehentlich denselben Save
 zweimal ein), würde GPT dank identischer Daten/ID erkennen, dass es sich um die gleiche Figur
 handelt, und keinen Klon erzeugen.)*
+ Nach dem Zusammenführen der Spielstände setzt GPT den Paradoxon-Index sowie die Liste offener
+ Rifts auf **0**, damit das Team mit einem sauberen Stand beginnen kann. Das optionale
+ `startGroupMode()`-Snippet in `runtime-stub-routing-layer.md` zeigt diesen Reset exemplarisch.
 
 **Zusammengefasst:** Ein einzelner Savegame-Block ergibt einen einzelnen Charakter; mehrere
 Savegame-Blöcke (gleichzeitig oder sukzessive) ergeben die Bildung bzw. Erweiterung einer Gruppe.
