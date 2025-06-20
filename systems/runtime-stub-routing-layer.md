@@ -6,7 +6,7 @@ tags: [systems]
 
 # ZEITRISS 4.0 – Runtime Stub & Routing Layer (Text-Edition)
 
-*Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON-Schemas.*
+_Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON-Schemas._
 
 ---
 
@@ -18,57 +18,56 @@ tags: [systems]
   "Gatehall": {
     "aliases": ["gate", "atrium", "hub"],
     "sub": {
-      "briefing": "Mission-Briefing-Pod"
-    }
+      "briefing": "Mission-Briefing-Pod",
+    },
   },
   "Mission-Briefing-Pod": {
     "aliases": ["briefing", "pod"],
-    "parent": "Gatehall"
+    "parent": "Gatehall",
   },
   "Research-Wing": {
     "aliases": ["research", "labs"],
     "sub": {
       "lab-alpha": "Lab-Alpha",
-      "workshop": "Workshop-Beta"
-    }
+      "workshop": "Workshop-Beta",
+    },
   },
-  "Lab-Alpha":  { "aliases": ["alpha"],   "parent": "Research-Wing" },
+  "Lab-Alpha": { "aliases": ["alpha"], "parent": "Research-Wing" },
   "Workshop-Beta": { "aliases": ["beta"], "parent": "Research-Wing" },
 
   "Operations-Deck": {
     "aliases": ["ops", "operations"],
     "sub": {
-      "vault":  "Time-Shard-Vault",
-      "scanner":"Seed-Scanner"
-    }
+      "vault": "Time-Shard-Vault",
+      "scanner": "Seed-Scanner",
+    },
   },
-  "Time-Shard-Vault": { "aliases": ["vault"],   "parent":"Operations-Deck" },
-  "Seed-Scanner":     { "aliases": ["scanner"], "parent":"Operations-Deck" },
+  "Time-Shard-Vault": { "aliases": ["vault"], "parent": "Operations-Deck" },
+  "Seed-Scanner": { "aliases": ["scanner"], "parent": "Operations-Deck" },
 
   "Crew-Quarters": {
     "aliases": ["crew", "quarters"],
     "sub": {
       "common": "Common-Room",
-      "sleep":  "Sleep-Capsules"
-    }
+      "sleep": "Sleep-Capsules",
+    },
   },
-  "Common-Room":  { "aliases": ["common"], "parent": "Crew-Quarters" },
-  "Sleep-Capsules":{ "aliases": ["sleep"], "parent": "Crew-Quarters" },
+  "Common-Room": { "aliases": ["common"], "parent": "Crew-Quarters" },
+  "Sleep-Capsules": { "aliases": ["sleep"], "parent": "Crew-Quarters" },
 
   "Hangar-Axis": {
     "aliases": ["hangar"],
     "sub": {
-      "jump":  "Jump-Pads",
-      "maint": "Maintenance-Bay"
-    }
+      "jump": "Jump-Pads",
+      "maint": "Maintenance-Bay",
+    },
   },
-  "Jump-Pads":      { "aliases": ["jump"],  "parent":"Hangar-Axis" },
-  "Maintenance-Bay":{ "aliases": ["maint"], "parent":"Hangar-Axis" }
+  "Jump-Pads": { "aliases": ["jump"], "parent": "Hangar-Axis" },
+  "Maintenance-Bay": { "aliases": ["maint"], "parent": "Hangar-Axis" },
 }
 ```
 
-> **Router-Call (pseudo)**
-> `resolveCommand("> go research") ➜ "Research-Wing"`
+> **Router-Call (pseudo)** > `resolveCommand("> go research") ➜ "Research-Wing"`
 
 ---
 
@@ -76,34 +75,34 @@ tags: [systems]
 
 ```typescript
 interface PopulationRequest {
-  seed:          number;       // epoch-secs or cryptographic RNG
-  room_id:       string;       // canonical (e.g. "Research-Wing")
-  player_rank:   number;
-  flags?:        string[];     // optional campaign flags
+  seed: number; // epoch-secs or cryptographic RNG
+  room_id: string; // canonical (e.g. "Research-Wing")
+  player_rank: number;
+  flags?: string[]; // optional campaign flags
 }
 
 interface NPC {
-  id:     string;
-  role:   string;
+  id: string;
+  role: string;
   quirk?: string;
-  hook?:  string;
+  hook?: string;
 }
 
 interface RoomEvent {
-  id:         string;
-  trigger:    string;   // "on_enter" | "on_command"
-  skill_gate?: { attr:string; dc:number };
-  on_success?: string;  // plain-text description / effect token
-  on_fail?:    string;
+  id: string;
+  trigger: string; // "on_enter" | "on_command"
+  skill_gate?: { attr: string; dc: number };
+  on_success?: string; // plain-text description / effect token
+  on_fail?: string;
 }
 
 interface PopulationResponse {
-  npcs:   NPC[];        // length ≤ slot spec
-  events: RoomEvent[];  // length ≤ slot spec
+  npcs: NPC[]; // length ≤ slot spec
+  events: RoomEvent[]; // length ≤ slot spec
 }
 ```
 
-*HTTP-like stub*
+_HTTP-like stub_
 
 ```http
 POST /gpt/getRoomPopulation
@@ -138,7 +137,7 @@ Content-Type: application/json
 }
 ```
 
-*Getter-Helpers (pseudo JS):*
+_Getter-Helpers (pseudo JS):_
 
 ```javascript
 export const getParadox = () => state.paradox_level;
@@ -153,7 +152,7 @@ export const closeSeed = (id) => { ... };
 
 ```typescript
 function renderOperationsDeck() {
-  const lvl  = getParadox();
+  const lvl = getParadox();
   const open = getOpenSeeds();
   writeLine(`Open Rifts: ${open}  |  Paradox Level: ${lvl}`);
   writeLine("> use scanner | > go vault | > go gate");
@@ -165,10 +164,11 @@ function renderOperationsDeck() {
 ## 5 | SIDE-OP-STARTER – `jump rift-id`
 
 ```typescript
-function cmdJump(arg) {                // arg = "LND‑1851‑SW"
-  const seed = state.open_seeds.find(s => s.id === arg);
+function cmdJump(arg) {
+  // arg = "LND‑1851‑SW"
+  const seed = state.open_seeds.find((s) => s.id === arg);
   if (!seed) return writeLine("Unknown Rift-ID.");
-  loadParamonsterEncounter(seed);      // → uses Paramonster generator
+  loadParamonsterEncounter(seed); // → uses Paramonster generator
   // After victory:
   closeSeed(seed.id);
   writeLine("Seed sealed. Paradox pressure eased.");
@@ -187,9 +187,9 @@ function cmdRest() {
   if (state.current_room !== "Crew-Quarters") {
     return writeLine("You need to be in Crew-Quarters to rest.");
   }
-  state.player.hp     = MAX_HP;
+  state.player.hp = MAX_HP;
   state.player.stress = 0;
-  autoSave();                         // JSON dump to disk / DB
+  autoSave(); // JSON dump to disk / DB
   writeLine("You feel refreshed. HP & Stress reset.");
 }
 ```
@@ -197,7 +197,7 @@ function cmdRest() {
 ## 6a | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
-const ARENA_BASE_FEE = 250;          // fixer Grundbetrag
+const ARENA_BASE_FEE = 250; // fixer Grundbetrag
 function getArenaFee() {
   // 1 % des aktuellen Vermögens als Zusatzgebühr
   return Math.floor(ARENA_BASE_FEE + state.currency * 0.01);
@@ -205,8 +205,8 @@ function getArenaFee() {
 
 function generateArenaScenario() {
   // Stub: zieht ein Kurzszenario aus dem Missions-Generator
-  const entry  = pickRandom(missionPool);
-  const place  = pickRandom(epochPool);
+  const entry = pickRandom(missionPool);
+  const place = pickRandom(epochPool);
   return { description: `${entry} @ ${place}` };
 }
 
@@ -222,9 +222,8 @@ function createTeam(size, players, mode = "single") {
   const team = players.slice(0, size);
   const missing = size - team.length;
   if (missing > 0) {
-    const fac = mode === "single"
-      ? players[0].faction
-      : majorityFaction(players);
+    const fac =
+      mode === "single" ? players[0].faction : majorityFaction(players);
     team.push(...createFactionAllies(fac, missing)); // NPC-Generator
   }
   return team;
@@ -238,7 +237,7 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
   state.currency -= fee;
   const scenario = generateArenaScenario();
   const teamA = createTeam(teamSize, players, mode); // füllt mit Fraktionsmitgliedern
-  const teamB = createOpposingTeam(teamSize);        // GPT generiert Gegenteam
+  const teamB = createOpposingTeam(teamSize); // GPT generiert Gegenteam
   state.arena = { active: true, teamA, teamB, scenario, winsA: 0, winsB: 0 };
   autoSave();
   writeLine(`PvP showdown started: ${scenario.description}`);
@@ -259,7 +258,7 @@ function arenaMatchWon(playerTeamWon = true) {
 function exitPvPArena() {
   if (!state.arena?.active) return;
   if (state.arena.winsA > state.arena.winsB) {
-    state.paradox_level = 0;         // Reset nach gewonnener Best-of-Three-Serie
+    state.paradox_level = 0; // Reset nach gewonnener Best-of-Three-Serie
   }
   state.arena = { active: false, teamA: [], teamB: [], winsA: 0, winsB: 0 };
   autoSave();
@@ -276,7 +275,9 @@ function startGroupMode(players = []) {
   state.paradox_level = 0;
   state.open_seeds = [];
   autoSave();
-  writeLine(`Group mode initiated for ${players.length} players. Paradox Level reset.`);
+  writeLine(
+    `Group mode initiated for ${players.length} players. Paradox Level reset.`,
+  );
 }
 ```
 
@@ -286,8 +287,7 @@ function startGroupMode(players = []) {
 
 ```typescript
 function autoSave() {
-  fs.writeFileSync("campaign_state.json",
-                   JSON.stringify(state, null, 2));
+  fs.writeFileSync("campaign_state.json", JSON.stringify(state, null, 2));
 }
 // Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
@@ -298,13 +298,14 @@ function autoSave() {
 
 1. **`router.json`** in euren Command-Parser laden.
 2. **Endpoint / Stub** `getRoomPopulation` implementieren; Aufruf bei Raum-Wechsel.
-3. **State-Objekt** & *autoSave()* global verfügbar machen.
+3. **State-Objekt** & _autoSave()_ global verfügbar machen.
 4. **Commands**
 
-   * `go <alias>` (Navigation)
-   * `look` (Raum-Refresh)
-   * `jump <rift-id>` (Side-Op)
-   * `rest` (Nur in Crew-Quarters)
+   - `go <alias>` (Navigation)
+   - `look` (Raum-Refresh)
+   - `jump <rift-id>` (Side-Op)
+   - `rest` (Nur in Crew-Quarters)
+
 5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 
 ---
