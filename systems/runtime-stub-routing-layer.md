@@ -210,15 +210,35 @@ function generateArenaScenario() {
   return { description: `${entry} @ ${place}` };
 }
 
-function startPvPArena(teamSize = 1) {
+function majorityFaction(players) {
+  const tally = {};
+  for (const p of players) {
+    tally[p.faction] = (tally[p.faction] || 0) + 1;
+  }
+  return Object.entries(tally).sort((a, b) => b[1] - a[1])[0][0];
+}
+
+function createTeam(size, players, mode = "single") {
+  const team = players.slice(0, size);
+  const missing = size - team.length;
+  if (missing > 0) {
+    const fac = mode === "single"
+      ? players[0].faction
+      : majorityFaction(players);
+    team.push(...createFactionAllies(fac, missing)); // NPC-Generator
+  }
+  return team;
+}
+
+function startPvPArena(teamSize = 1, players = [], mode = "single") {
   const fee = getArenaFee();
   if (state.currency < fee) {
     return writeLine("Not enough CU for Arena match.");
   }
   state.currency -= fee;
   const scenario = generateArenaScenario();
-  const teamA = createTeam(teamSize, "player");
-  const teamB = createOpposingTeam(teamSize); // GPT füllt fehlende Slots
+  const teamA = createTeam(teamSize, players, mode); // füllt mit Fraktionsmitgliedern
+  const teamB = createOpposingTeam(teamSize);        // GPT generiert Gegenteam
   state.arena = { active: true, teamA, teamB, scenario, wins: 0 };
   autoSave();
   writeLine(`PvP showdown started: ${scenario.description}`);
