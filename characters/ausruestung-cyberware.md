@@ -245,6 +245,13 @@ Paradoxon. Beispiele für taktische Gadgets:
   völlig unentdeckte Sprachen evtl. unzureichend). Die Übersetzung erfolgt als leise Stimme im Ohr des
   Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. _Kosten:_ 80 CU.
 
+### Ressourcen-Boxen für Munition & Gadgets
+
+Um knappe Ausrüstung übersichtlich zu verwalten, verwendet ZEITRISS drei **Abhak-Boxen** je Item.
+Ein Magazin oder Gadget wird als `[ ] [ ] [ ]` notiert. Nach jedem Einsatz füllt die Spielerin ein Kästchen.
+Sind alle drei belegt, ist das Objekt aufgebraucht und muss nachgeladen oder ersetzt werden.
+So wird Munitionsverschwendung vermieden und taktische Planung gefördert.
+
 ### Zeit-Technologie: Zeitterminals & Temporale Tools
 
 Neben konventioneller Ausrüstung stellen die **Zeitreise-Technologien** die vielleicht wichtigste
