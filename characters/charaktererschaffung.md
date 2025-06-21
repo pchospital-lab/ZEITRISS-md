@@ -129,8 +129,9 @@ freigeschaltet.
     Laser in Form eines Flints). Die SL/Quartiermeister kann hier beraten. Grundsätzlich gilt: **High-
     Tech-Prototypen sind für Neulinge tabu** – das ITI gibt absolute Spitzenausrüstung nur an erfahrene
     Agenten aus. Im Spiel kann das bedeuten, dass gewisse Items (etwa ein Zeitbeschleuniger oder
-    experimentelle Kybernetik) erst ab höherem Level oder Ruf verfügbar sind. - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder
-    CUs) limitieren – z.B. erhält jeder neue Charakter **100 CU** Wert an Gear. Meist reicht aber
+    experimentelle Kybernetik) erst ab höherem Level oder Ruf verfügbar sind.
+    - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
+    Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
     starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug, Kommunikator ins HQ, und
     ein paar **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die keinen
@@ -344,8 +345,8 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   schon mehrmals das Leben gerettet.)
 - **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
   Einzelschuss, Salve, Vollauto; Schaden je nach Modus 3–5, mittlere Reichweite), dazu eine **antike
-  Nahkampfwaffe** nach Wahl – oft führt er ein Kampfmesser, aber er besitzt auch ein Schwert aus dem 13. Jh. (Familienerbstück), das er in Mittelalter-Missionen bei sich trägt. Schusssichere
-  **Körperpanzerung**: taktische Kevlar-Weste (moderner Körperschutz, -1 Schaden von Projektilen) plus
+  Nahkampfwaffe** nach Wahl – meist Kampfmesser, manchmal ein Schwert aus dem 13. Jh. (Familienerbstück).
+  Schusssichere **Körperpanzerung**: taktische Kevlar-Weste (moderner Körperschutz, -1 Schaden von Projektilen) plus
   leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
   das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
   kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Funkgerät (für Epochen

@@ -79,14 +79,14 @@ Geräusch eines aktivierten Energieschwerts.
 
 **Beispiel-Nahkampfwaffen:**
 
-| Waffe                          | Epoche                 | Schaden    | Besonderheit                                                        | Kosten (CU) |
-| ------------------------------ | ---------------------- | ---------- | ------------------------------------------------------------------- | ----------- |
-| Römischer _Gladius_            | Antike                 | 2 (leicht) | Kurz und führig; effektiv in engem Nahkampf, unauffällig historisch | 50          |
-| Langschwert (zweihändig)       | Mittelalter            | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig                  | 80          |
-| Moderner Kampfmesser           | 21. Jh. (modern)       | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe                     | 40          |
-| Monofil-Katana                 | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; erfordert Übung                    | 120         |
-| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft)     | 4 (schwer) | Plasma-Klinge ignoriert Rüstung, leuchtet                           | 200         |
 
+| Waffe | Epoche | Schaden | Besonderheit | Kosten (CU) |
+| --- | --- | --- | --- | --- |
+| Römischer _Gladius_ | Antike | 2 (leicht) | Kurz und führig; effektiv in engem Nahkampf, unauffällig | 50 |
+| Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig | 80 |
+| Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe | 40 |
+| Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; erfordert Übung | 120 |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Plasma-Klinge ignoriert Rüstung, leuchtet | 200 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -101,16 +101,16 @@ einige Beispiele:
 
 **Beispiel-Fernkampfwaffen:**
 
-| Waffe            | Epoche      | Schaden             | Reichweite        | Besonderheit                                                  | Kosten (CU) |
-| ---------------- | ----------- | ------------------- | ----------------- | ------------------------------------------------------------- | ----------- |
-| Langbogen        | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos, tödlich; langsame Schussfolge                        | 60          |
-| Repetierarmbrust | Renaissance | 3 (mittel)          | Mittel (~30 m)    | Magazin für mehrere Bolzen; leise                             | 100         |
-| Revolver         | 20. Jh.     | 3 (mittel)          | Mittel (~30 m)    | Sechs-Schuss-Trommel; solide Durchschlagskraft, laut          | 50          |
-| Sturmgewehr      | 21. Jh.     | 4 (schwer)          | Mittel–weit       | Vollauto; hoher Schaden, laut; Munition nötig                 | 150         |
-| Needler-Pistole  | 22. Jh.     | 1 (**Betäubung**)   | Kurz–mittel       | Betäuber schießt Nadeln, fast lautlos                         | 180         |
-| Laser-Gewehr     | 23. Jh.     | 4 (schwer)          | Weit              | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250         |
-| Plasmawerfer     | 24. Jh.     | 5 (schwer+)         | Mittel (~50m)     | Plasmablaster; vernichtet Ziele; hoher Energieverbrauch       | 300         |
 
+| Waffe | Epoche | Schaden | Reichweite | Besonderheit | Kosten (CU) |
+| --- | --- | --- | --- | --- | --- |
+| Langbogen | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos, tödlich; langsam | 60 |
+| Repetierarmbrust | Renaissance | 3 (mittel) | Mittel (~30 m) | Magazin für mehrere Bolzen; leise | 100 |
+| Revolver | 20. Jh. | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel; solide Durchschlagskraft, laut | 50 |
+| Sturmgewehr | 21. Jh. | 4 (schwer) | Mittel–weit | Vollauto; hoher Schaden, laut; Munition nötig | 150 |
+| Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Betäuber schießt Nadeln, fast lautlos | 180 |
+| Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 |
+| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50m) | Plasmablaster; Ziel vernichten; hoher Energieverbrauch | 300 |
 \*(Reichweiten sind grobe Richtwerte für offene Gelände.
 „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
 Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie **_Durchschlag_** durch Deckung
@@ -135,15 +135,15 @@ und persönliche Schutzsysteme:
 
 **Beispiel-Schutzkleidung und Rüstungen:**
 
-| Rüstung               | Epoche      | Schutz                                      | Besonderheit                               | Kosten (CU) |
-| --------------------- | ----------- | ------------------------------------------- | ------------------------------------------ | ----------- |
-| Lederwams             | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf   | Kaum Kugelschutz, wirkt altmodisch         | 30          |
-| Kettenhemd            | Historisch  | _Mäßiger Schutz:_ –1 Schaden vs Klingen     | Schwer, klirrend, kaum zu verstecken       | 60          |
-| Kevlar-Weste          | Modern      | _Basis-Schutz:_ –1 Projektil                | Unter Jacke tragbar; schwach gegen Klingen | 100         |
-| Taktischer Kampfanzug | Modern      | _Starker Schutz:_ –2 Schaden                | Sehr auffällig, schwer; behindert etwas    | 180         |
-| Leichter Nano-Anzug   | 22. Jh.     | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen                      | 220         |
-| Energie-Schild        | Zukunft     | _Energieschild:_ absorbiert 5 Schaden       | EMP-anfällig; sichtbarer Schimmer          | 250         |
 
+| Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) |
+| --- | --- | --- | --- | --- |
+| Lederwams | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf | Kaum Kugelschutz, wirkt altmodisch | 30 |
+| Kettenhemd | Historisch | _Mäßiger Schutz:_ –1 Schaden vs Klingen | Schwer, klirrend, kaum zu verstecken | 60 |
+| Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gegen Klingen | 100 |
+| Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; behindert etwas | 180 |
+| Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen | 220 |
+| Energie-Schild | Zukunft | _Energieschild:_ absorbiert 5 Schaden | EMP-anfällig; sichtbarer Schimmer | 250 |
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
 mögen +1 auf Parieren im Schwertkampf geben, oder **Helme** reduzieren die Chance auf kritische
