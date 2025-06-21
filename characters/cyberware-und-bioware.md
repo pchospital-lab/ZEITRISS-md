@@ -39,15 +39,15 @@ nur ein Wert auf dem Bogen.
 
 **Beispiel-Cyberware-Implantate:**
 
-| Implantat                          | Beschreibung                                                              | SYS | Kosten (CU) |
-| ---------------------------------- | ------------------------------------------------------------------------- | --- | ----------- |
-| **Nachtsicht-Implantat**           | Künstliches Auge mit Verstärker. _Effekt:_ Nachtsicht, +1 Wahrnehmung.    | 1   | 300         |
-| **Kybernetischer Arm**             | Servomotorik-Prothese. _Effekt:_ Stärke +1, Schaden ohne Waffe schwer.    | 1   | 400         |
-| **Neuronales Interface**           | Chip mit HUD. _Effekt:_ Datenzugriff, Funkverbindung; +2 Elektronik.      | 1   | 250         |
-| **Subdermale Panzerplatten**       | Platten unter Haut. _Effekt:_ –1 Schaden; auffällig bei Verletzung.       | 1   | 350         |
-| **Notfall-Stimulat** _(Implantat)_ | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach.               | 1   | 200         |
-| **Servomotoren in Beinen**         | Bein-Servomotoren. _Effekt:_ +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1   | 300         |
 
+| Implantat | Beschreibung | SYS | Kosten (CU) |
+| --- | --- | --- | --- |
+| **Nachtsicht-Implantat** | Künstliches Auge mit Verstärker. _Effekt:_ Nachtsicht, +1 Wahrnehmung. | 1 | 300 |
+| **Kybernetischer Arm** | Servomotorik-Prothese. _Effekt:_ Stärke +1, Schaden ohne Waffe schwer. | 1 | 400 |
+| **Neuronales Interface** | Chip mit HUD. _Effekt:_ Datenzugriff, Funkverbindung; +2 Elektronik. | 1 | 250 |
+| **Subdermale Panzerplatten** | Platten unter Haut. _Effekt:_ –1 Schaden; auffällig bei Verletzung. | 1 | 350 |
+| **Notfall-Stimulat** _(Implantat)_ | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach. | 1 | 200 |
+| **Servomotoren in Beinen** | Bein-Servomotoren. _Effekt:_ +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1 | 300 |
 _Hinweis:_ In Absprache kann die SL auch Implantate mit **höheren SYS-Kosten** zulassen, die dann
 aber erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
 Stärke **und** –1 erlittenen Schaden gewährt). Solche umfangreichen Mods sollten teuer und nur für
@@ -80,15 +80,15 @@ Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod 
 
 **Beispiel-Bioware-Modifikationen:**
 
-| Modifikation              | Beschreibung                                                                   | SYS | Kosten (CU) |
-| ------------------------- | ------------------------------------------------------------------------------ | --- | ----------- |
-| **Immun-Booster-Genmod**  | Erhöht Immunabwehr. _Effekt:_ Resistenz gegen Gifte. Autoimmunrisiko möglich.  | 1   | 250         |
-| **Reflexverstärkung**     | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken.   | 1   | 300         |
-| **Muskelstärkung**        | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit.      | 1   | 300         |
-| **Nachtsicht-Netzhaut**   | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün.     | 1   | 200         |
-| **Regenerations-Booster** | Beschleunigt Heilung. _Effekt:_ Heilrate x2. Nebenwirkung: hoher Stoffwechsel. | 1   | 400         |
-| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken.      | 1   | 250         |
 
+| Modifikation | Beschreibung | SYS | Kosten (CU) |
+| --- | --- | --- | --- |
+| **Immun-Booster-Genmod** | Resistenz gegen Gifte; mögliches Autoimmunrisiko | 1 | 250 |
+| **Reflexverstärkung** | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken. | 1 | 300 |
+| **Muskelstärkung** | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit. | 1 | 300 |
+| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün. | 1 | 200 |
+| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel | 1 | 400 |
+| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken. | 1 | 250 |
 _Balance-Hinweis:_ Cyberware und Bioware sind im Spiel gleichwertige Alternativen. Oft bevorzugen
 Kämpfer vielleicht robuste Cyberware, während Infiltratoren lieber unauffällige Bioware nehmen.
 Wichtig ist: **Alle Verbesserungen zehren an der SYS-Kapazität** – ein Agent voller Implantate hat

@@ -76,9 +76,11 @@ Geschichte dramatisch zu verändern. Dahinter steht ein charismatischer CEO, der
 Alienunterstützung die Zeitlinie zu seinen Gunsten formen will. Folgende Fraktionen können
 dabei eine Rolle spielen:
 
-- **Projekt _Phoenix_** – ein Zirkel ehemaliger Montauk-Veteranen, der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
+- **Projekt _Phoenix_** – ein Zirkel ehemaliger Montauk-Veteranen,
+  der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
 - **Die Grauen** – technikaffine Aliens mit rätselhaften Hinterlassenschaften; die Föderation ignoriert die Menschheit.
-- **Der Alte Orden** – Geheimgesellschaften mit Wurzeln in antiken Kulturen, die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
+- **Der Alte Orden** – Geheimgesellschaften mit Wurzeln in antiken Kulturen,
+  die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** – Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.
 
 **Psionik als Werkzeug:** _Zeitriss_ nutzt fokussierte Gehirntrainings als **Psionik** – die
