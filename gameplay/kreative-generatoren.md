@@ -658,6 +658,22 @@ behauptet optional, Visionen der Zukunft zu kennen)?
 Schon wird aus der bekannten Figur ein einzigartiger
 Charakter für eure Story!
 
+## Encounter-Pools nach Risikostufe {#encounter-pools}
+
+Um ohne langes Blättern passende Gegner bereitzustellen, gibt es vier Tabellen nach
+Risikostufe. Ein W6-Wurf bestimmt den Pool, ein optionales Twist-Deck liefert
+zusätzliche Komplikationen.
+
+| Stufe | Beispiel-Gegner                     | Twist                          |
+| ---- | ----------------------------------- | ------------------------------ |
+| **S**  | 2–3 einfache Wachposten            | Kurze Ablenkung lenkt sie ab   |
+| **M**  | Sicherheitsteam mit Spürhund       | Gelände bietet Deckung (-1 SG) |
+| **L**  | Elite-Söldner samt Drohne          | Verstärkung nach 2 Runden      |
+| **XL** | Paramilitär und leichter Mech      | Zeitriss droht aufzubrechen    |
+
+Die Twist-Karten können auf laminierten Karten notiert werden – ein schneller
+Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
+
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
 Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten.

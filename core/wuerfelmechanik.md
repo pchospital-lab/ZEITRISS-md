@@ -115,6 +115,19 @@ Optionen:
 - **Variante B:** Beim _Soft Explode_ liefern Zusatzwürfel höchstens 1–3 Punkte.
   So bleiben erzählerische Höhepunkte erhalten, ohne extreme Schadensspitzen.
 
+### Sniper-Alpha-Strike eindämmen
+
+Durch Exploding-Würfel können Fernkampfexperten gelegentlich extremen Schaden verursachen.
+Um dieses "Alpha-Strike"-Phänomen auszugleichen, stehen zwei Optionen zur Wahl:
+
+1. **Gegnerische Reaktion:** Erreicht ein einzelner Treffer **8+ Schaden**, darf die SL
+   sofort eine Reaktionsprobe für das Ziel werfen – etwa "Deckung suchen".
+   Gelingt die Probe, halbiert sich der erlittene Schaden, was filmisch zeigt, wie das Opfer
+   in letzter Sekunde in Deckung springt.
+2. **Limitierte Kill-Shots:** Pro Gefecht zählt nur ein voller Exploding-Bonus für den Scharfschützen.
+   Weitere Explosionswürfe desselben Charakters erhalten **–1** Modifikator, bis die Szene endet.
+   So bleiben spektakuläre Momente möglich, ohne die Balance zu kippen.
+
 **Zielwerte je Missionsphase:** Um Proben konsistent zu halten, empfiehlt sich eine grobe Spanne:
 `Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
 wie riskant ein Schritt ist und verhindern übermäßige Varianz.
