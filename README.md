@@ -42,13 +42,14 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle bietet einen Kurzüberblick über alle **19 Regelmodule** sowie die optionalen Übersichtsdateien:
+Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** sowie die optionalen Übersichtsdateien:
 
 | Datei | Inhalt |
 | --- | --- |
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
+| [core/beispiel-play.md](core/beispiel-play.md) | Zwei-seitiges Beispiel-Play |
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
@@ -96,7 +97,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die **19 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
+2. Lade die **20 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
    Sie verteilen sich auf 18 Dateien; ein Modul ist als Abschnitt in
    `gameplay/kampagnenstruktur.md` enthalten.
    `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
