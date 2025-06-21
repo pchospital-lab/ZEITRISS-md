@@ -334,7 +334,8 @@ Lebenspunkte hinausgehen:
   bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
   Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
-  bei dem solche Risse und Kreaturen nicht auftreten.
+  bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
+  **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird und so ein unterschwelliges Risiko vermittelt.
   Contra-orientierte Gruppen dürfen laut [Charaktererschaffung](charaktererschaffung.md)
   und [Zeitriss-Core](../core/zeitriss-core.md) die Paradoxmechanik vollständig deaktivieren.
 
@@ -496,7 +497,10 @@ brechen. Das HUD wird über den **ITI-Codex** gesteuert und kann vom Charakter _
 aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
 werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
 Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
-oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Diese
+oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
+**Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.
+Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradox); weitere
+Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance:
 
 Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:

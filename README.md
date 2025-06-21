@@ -60,6 +60,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **19 Regelmodule** s
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md)                   | Generatoren für Missionen, NSCs & Anomalien   |
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks)   | Team-Boni                                     |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md)                             | Regeln für Massenkonflikte                    |
+| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht            |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md)             | Cineastischer Einstieg                        |
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart                       |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)   | Speicher-/Fortsetzungssystem                  |
