@@ -107,6 +107,14 @@ es zur Geschichte passt.
 erst ab der **zweiten gewürfelten 6** einsetzen. Der Durchschnitt pro W6 sinkt so von etwa 4,2 auf
 3,9 Augen – Spannung bleibt erhalten, Ausreißer werden seltener.
 
+**Feintuning-Varianten:** Wer Exploding-Würfel noch weiter zügeln will, hat zwei
+Optionen:
+- **Variante A:** Ein W6 explodiert nur, wenn eine natürliche 6 fällt **und** der
+  zugrunde liegende Attributsbonus mindestens +1 beträgt. Das senkt den
+  Mittelwert auf etwa 3,8 Augen.
+- **Variante B:** Beim _Soft Explode_ liefern Zusatzwürfel höchstens 1–3 Punkte.
+  So bleiben erzählerische Höhepunkte erhalten, ohne extreme Schadensspitzen.
+
 **Zielwerte je Missionsphase:** Um Proben konsistent zu halten, empfiehlt sich eine grobe Spanne:
 `Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
 wie riskant ein Schritt ist und verhindern übermäßige Varianz.
