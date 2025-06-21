@@ -39,7 +39,7 @@ Inspiration für komplette Arcs liefert der
 [Arc-Generator](kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen)
 im Generator-Modul.
 
-### Arc-Baukasten und Episodenstruktur
+### Arc-Baukasten und Episodenstruktur {#arc-baukasten-und-episodenstruktur}
 
 Stellt euch jede Kampagne als **Baukasten von Handlungsbögen** vor, aus denen ihr eure Geschichte
 zusammensetzt. Ein Handlungsbogen kann z. B. eine bestimmte Bedrohung oder Epoche fokussieren. Er
