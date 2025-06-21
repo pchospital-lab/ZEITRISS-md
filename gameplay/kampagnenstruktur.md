@@ -714,13 +714,13 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 
 ### 4 | Content-Richtlinien für dynamische Bevölkerung
 
-| Kategorie          | Mindest-Pool | Beispiele                                            | Regel-Notizen                 |
-| ------------------ | ------------ | ---------------------------------------------------- | ----------------------------- |
-| **Händler**        | 6            | Temp. Shipwright, Antikythera Arch., Dieselpunk Shop | 3–5 Items, 1 Prototyp         |
-| **Quest-Giver**    | 3            | Rift Cartographer, Lost-Era Agent, Flux-Smuggler     | Seeds, Gerüchte oder Side-Ops |
-| **Atmosphäre NPC** | 10           | Sprawl-Pilger, Android Poet, Retro-Cyber Monk        | Kein Handel; nur Flavor       |
-| **Event-NPC**      | 1            | Random Duelist, Street-Race Announcer                | 10 % Spawn-Chance; Mini-Game  |
 
+| Kategorie | Mindest-Pool | Beispiele | Regel-Notizen |
+| --- | --- | --- | --- |
+| **Händler** | 6 | Temp. Shipwright, Antikythera Arch., Dieselpunk Shop | 3–5 Items, 1 Prototyp |
+| **Quest-Giver** | 3 | Rift Cartographer, Lost-Era Agent, Flux-Smuggler | Seeds, Gerüchte oder Side-Ops |
+| **Atmosphäre NPC** | 10 | Sprawl-Pilger, Android Poet, Retro-Cyber Monk | Kein Handel; nur Flavor |
+| **Event-NPC** | 1 | Random Duelist, Street-Race Announcer | 10 % Spawn-Chance; Mini-Game |
 ### 5 | Item- & Service-Matrix in Cronopoli
 
 | Kategorie             | Nutzen                                   | Preis    | Paradox-Risiko             |

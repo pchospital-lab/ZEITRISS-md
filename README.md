@@ -44,31 +44,31 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
 Die folgende Tabelle bietet einen Kurzüberblick über alle **19 Regelmodule** sowie die optionalen Übersichtsdateien:
 
-| Datei                                                                                  | Inhalt                                        |
-| -------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [README.md](README.md)                                                                 | Überblick über Projekt und Workflow           |
-| [core/zeitriss-core.md](core/zeitriss-core.md)                                         | Grundregeln und Setting                       |
-| [core/wuerfelmechanik.md](core/wuerfelmechanik.md)                                     | Würfelsystem & Proben                         |
-| [characters/charaktererschaffung.md](characters/charaktererschaffung.md)               | Charaktererschaffung & Progression            |
-| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md)             | Ausrüstung, Waffen & Gadgets                  |
-| [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md)             | Implantate & Bioware                          |
-| [characters/psi-talente.md](characters/psi-talente.md)                                 | Psi-Fähigkeiten                               |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md)               | Zustände, HUD & Paradox                       |
-| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md)                         | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
-| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md)                     | Kampagnenüberblick                            |
-| [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md)                     | Fahrzeuge & Konfliktsystem                    |
-| [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md)                   | Generatoren für Missionen, NSCs & Anomalien   |
-| [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks)   | Team-Boni                                     |
-| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md)                             | Regeln für Massenkonflikte                    |
-| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht            |
-| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md)             | Cineastischer Einstieg                        |
-| [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart                       |
-| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)   | Speicher-/Fortsetzungssystem                  |
-| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md)       | Chrono-Unit-Währungssystem                    |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md)                                 | Details zu Psi-Kräften                        |
-| [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)               | Toolkit für die KI-Spielleitung               |
-| [meta/masterprompt_v6.md](meta/masterprompt_v6.md)                                     | Masterprompt für das KI-Tool                  |
-| [master-index.json](master-index.json)                                                 | Masterliste aller Generator-Pools             |
+| Datei | Inhalt |
+| --- | --- |
+| [README.md](README.md) | Überblick über Projekt und Workflow |
+| [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
+| [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
+| [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
+| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
+| [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
+| [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
+| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
+| [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
+| [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
+| [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
+| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht |
+| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg |
+| [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
+| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
+| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
+| [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
+| [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
+| [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
@@ -108,7 +108,8 @@ Eine Kurzfassung der wichtigsten Regeln:
 4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
    Suche im Modul **Kreative Generatoren** nach dem Abschnitt
    `## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}`.
-5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus dem gleichen Modul (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
+5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus dem gleichen Modul.
+   (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
 6. Für längere Handlungsbögen empfiehlt sich der

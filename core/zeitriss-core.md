@@ -1051,7 +1051,8 @@ Spielern dynamisch entwickeln.
 
 Wichtig ist, dass keine dieser Mächte allmächtig ist – sie alle spielen nach den Regeln der Zeit (so
 verschieden ihre Ziele auch sein mögen). Die Chrononauten der Spieler sind in diesem Geflecht nicht
-machtlos, aber sie sind auch nicht allein auf der Bühne: Die Welt fühlt sich lebendig an, mit Verbündeten, Rivalen und Feinden, die kommen und gehen.
+machtlos, aber sie sind auch nicht allein auf der Bühne:
+Die Welt fühlt sich lebendig an, mit Verbündeten, Rivalen und Feinden, die kommen und gehen.
 
 ### Temporale Anomalien & Sprungrisiko
 
