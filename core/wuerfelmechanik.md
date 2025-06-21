@@ -103,6 +103,14 @@ bleiben, die denkwürdige Szenen schaffen. Wenn Würfelpech umgekehrt dramatisch
 produziert, kann dies ebenso interessant inszeniert werden (Stichwort **kritischer Patzer**), sofern
 es zur Geschichte passt.
 
+**Option zur Mäßigung:** Einige Gruppen möchten den Würfelswing zähmen. Dafür kann die Explosion
+erst ab der **zweiten gewürfelten 6** einsetzen. Der Durchschnitt pro W6 sinkt so von etwa 4,2 auf
+3,9 Augen – Spannung bleibt erhalten, Ausreißer werden seltener.
+
+**Zielwerte je Missionsphase:** Um Proben konsistent zu halten, empfiehlt sich eine grobe Spanne:
+`Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
+wie riskant ein Schritt ist und verhindern übermäßige Varianz.
+
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
 In der high-tech ausgestatteten Welt von ZEITRISS begleiten **HUD-Overlays** und der allgegenwärtige
@@ -418,3 +426,29 @@ ein Seed verschwindet.
 - 1 Zweitwaffe
 - 2 Hilfsgeräte
 - 1 Spezialobjekt
+
+### Quick-Sheet: Psi & Massenkonflikt {#quick-sheet}
+
+Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
+
+**Psi-Effekte auf einen Blick**
+
+- **Telepathie (1 SYS)** – Gedanken lesen oder kurze Botschaften senden.
+  TEMP-Probe gegen die Willenskraft des Ziels.
+- **Präkognition (2 SYS)** – einmalige Vorahnung; erlaubt einen Wurf zu wiederholen
+  oder gewährt einen hilfreichen Hinweis.
+- **Zeit verlangsamen (2 SYS)** – gewährt eine zusätzliche Aktion oder einen
+  deutlichen Bonus auf eine Reaktion; kostet viel Konzentration.
+- **Temporaler Waffenimpuls (3 SYS)** – Angriff nach kurzem Zeitstillstand
+  verursacht erhöhten Schaden und birgt Paradox-Gefahr.
+- **Zeitsinn (passiv)** – spürt Anomalien und Zeitreisende im Umfeld.
+
+**Massenkonflikt-Rundendurchlauf**
+
+1. **Lagecheck** – SL beschreibt Aufstellung und Ziele aller Trupps.
+2. **Initiative** – jede Seite erhält einen Spotlight-Moment pro Runde.
+3. **Aktionen** – Helden setzen Manöver, Psi oder Taktik ein; Gegner reagieren.
+4. **Erfolgspool prüfen** – erzielte Schlüsselszenen zählen als Punkte, die den Ausgang beeinflussen.
+5. **Folgen & Übergang** – nach jedem Durchlauf passen sich Moral, Ressourcen und Gelände an.
+
+_Orientierung:_ Kleine Gefechte brauchen 1–2 Punkte, mittlere Schlachten 3–5, große Konflikte 5+.

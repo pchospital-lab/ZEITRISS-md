@@ -918,6 +918,17 @@ einem lokalen Fest mit und gewinnen dadurch Verbündete – oder sie nutzen eine
 für sich (_“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!”_). Diese kleinen Dinge
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
 
+## Mood-Snippet-Generator {#mood-snippet-generator}
+
+Ein schneller W6-Wurf erzeugt ein stimmungsvolles Detail für die aktuelle Szene:
+
+1. Straßenlärm oder ferne Rufe
+2. Zeittypischer Duft (Gewürze, Rauch, Maschinenöl)
+3. Ein kurzer Musikeinspieler oder Marktschreier
+4. Auffällige Kleidung oder Uniformen im Blickfeld
+5. Ein NPC murmelt ein Sprichwort der Epoche
+6. Plötzlicher Wettereffekt (Regen, Hitze, Schneeschauer)
+
 ## Temporale Anomalien-Generator (optional) {#anomalien-generator}
 
 Dieser Abschnitt ist nur relevant, wenn die Runde gezielt temporale Störungen untersuchen möchte.
