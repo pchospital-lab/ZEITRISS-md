@@ -144,6 +144,7 @@ und persönliche Schutzsysteme:
 | Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; behindert etwas | 180 |
 | Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen | 220 |
 | Energie-Schild | Zukunft | _Energieschild:_ absorbiert 5 Schaden | EMP-anfällig; sichtbarer Schimmer | 250 |
+
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
 mögen +1 auf Parieren im Schwertkampf geben, oder **Helme** reduzieren die Chance auf kritische
