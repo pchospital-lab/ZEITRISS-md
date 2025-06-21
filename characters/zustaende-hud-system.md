@@ -315,6 +315,10 @@ Lebenspunkte hinausgehen:
   dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die Auswirkungen
   beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
   („Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil.
+- **Stress-Regeneration:** Zwischen zwei Szenen hilft ein kurzer Atemzug, um
+  **1 Stresspunkt** abzubauen. Eine fünfminütige Meditation oder vergleichbare
+  Entspannung reduziert **2 Punkte**, eignet sich also besonders für Solo-Runs
+  ohne Team-Backup.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
   Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradox-Level** verwenden,
   um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. _Grundidee:_ **Level 0**
@@ -567,6 +571,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Gefahr droht, **innerhalb der Geschichte**. Auch kleinere Paradox-Effekte können gemeldet werden
   (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
   Bildstörungen im HUD). Das HUD macht die **Zeitgefährdung** direkt erlebbar.
+  Ein dauerhafter 0–5-Balken zeigt dabei das aktuelle Risiko. Ab Stufe **4**
+  färbt sich die Anzeige gelb, bei **5** blinkt sie rot. Nach einem automatischen
+  `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
 - **Ausrüstung & Inventar:** Im persönlichen HUD sind außerdem wichtige **Ausrüstungsgegenstände**
   verzeichnet, vor allem die aktuell ausgerüsteten. Z.B. sieht ein Scharfschütze unten rechts ein
   **Munitionszählwerk** seiner Sniper („Magazin: 5/10“ Kugeln). Oder ein Agent mit einem Gadget

@@ -119,6 +119,11 @@ In **ZEITRISS 4.0** unterscheiden wir Talente in **passive** und **aktive**:
   Aktive Talente erfordern meist die Ansage des Spielers („Ich nutze jetzt meinen Adrenalinschub“),
   manche eventuell eine Probe, und haben einen starken Effekt mit Abklingzeit.
 
+**Quick-Reference:** Für den Spieltisch lohnt sich eine kompakte Übersicht aller
+Talente. Markiere _passive_ Fähigkeiten in Grün und _aktive_ Talente in Rot,
+ergänzt durch ein kleines Cooldown-Icon. So erkennt die SL sofort, ob ein Talent
+ständig wirkt oder erst angesagt werden muss.
+
 **Modulare Erweiterungen:** Das Talent-System lässt sich modular ausbauen. GMs können _Talentränge_
 einführen, sodass Talente steigerbar sind (z.B. **Scharfschütze I**: +1 auf Fernkampf,
 **Scharfschütze II**: +2 und Ignorieren von 1 Punkt Deckung). Alternativ können **Kombinationen**
