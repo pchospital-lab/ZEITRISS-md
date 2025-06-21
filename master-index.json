@@ -11,6 +11,16 @@
       "title": "NSC-Generator: Begegnungen im Zeitstrom"
     },
     {
+      "id": "encounter_pool",
+      "path": "gameplay/kreative-generatoren.md#encounter-pool-listen",
+      "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko"
+    },
+    {
+      "id": "twist_pool",
+      "path": "gameplay/kreative-generatoren.md#twist-seeds",
+      "title": "Twist-Seeds: Dramatische Wendungen"
+    },
+    {
       "id": "mission_pool",
       "path": "gameplay/kreative-generatoren.md#missions-generator",
       "title": "Missions-Generator: Kleine Aufträge und Dilemmata"
