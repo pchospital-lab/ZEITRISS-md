@@ -49,7 +49,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** s
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
-| [core/beispiel-play.md](core/beispiel-play.md) | Zwei-seitiges Beispiel-Play |
+| [core/wuerfelmechanik.md#beispiel-play](core/wuerfelmechanik.md#beispiel-play) | Beispiel-Play: Duo-Infiltration |
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
