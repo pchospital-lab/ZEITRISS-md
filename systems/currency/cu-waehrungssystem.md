@@ -179,12 +179,16 @@ nehmen. Hier ein Überblick der **Waren- und Diensteklassen**, die den Chrononau
 Um das Gesagte greifbarer zu machen, hier eine **Beispiel-Preisliste** mit typischen Angeboten im
 ITI-Hauptquartier:
 
-| | | | |----|----|----| | Standard-Handfeuerwaffe (21. Jh.) | Waffe (modern) | 50 CUs | |
-Römisches Kurzschwert _Gladius_ | Waffe (antik) | 50 CUs | | Taktische Kevlar-Weste | Rüstung
-(modern) | 120 CUs | | Leichtes Cyber-Augenimplantat | Implantat | 300 CUs | | Temporaler Riss-
-Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs | | Detaillierter Epoche-Report (Codex-
-Archiv) | Information (Spende) | 100 CUs | | Bestechung eines Informanten (Schwarzmarkt) |
-Information | ~30–100 CUs | | Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
+| Gegenstand | Kategorie | Kosten (CU) |
+| --- | --- | --- |
+| Standard-Handfeuerwaffe (21. Jh.) | Waffe (modern) | 50 CUs |
+| Römisches Kurzschwert _Gladius_ | Waffe (antik) | 50 CUs |
+| Taktische Kevlar-Weste | Rüstung (modern) | 120 CUs |
+| Leichtes Cyber-Augenimplantat | Implantat | 300 CUs |
+| Temporaler Riss-Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs |
+| Detaillierter Epoche-Report (Codex-Archiv) | Information (Spende) | 100 CUs |
+| Bestechung eines Informanten (Schwarzmarkt) | Information | ~30–100 CUs |
+| Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
 
 _Hinweis:_ Die Kosten für inoffizielle Informationen (z.B. Bestechungen) können je nach Quelle und
 Risiko stark schwanken.
