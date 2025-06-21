@@ -147,8 +147,7 @@ nach dem Sprung als abgeschlossen.
 
 Das HUD bietet drei Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen:
-
-| Modus                    | Kurzbeschreibung                                                                 |
+| Modus                    | Kurzbeschreibung |
 | ------------------------ | ------------------------------------------------------------------------------- |
 | **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
