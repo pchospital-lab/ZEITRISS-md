@@ -73,6 +73,10 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** s
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
+**Hinweis:** Die **20 Regelmodule** liegen in 18 einzelnen Markdown-Dateien.
+Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer Dateien.
+`README.md` und `master-index.json` dienen nur zur Orientierung.
+
 ## ZEITRISS in 10 Minuten
 
 Eine Kurzfassung der wichtigsten Regeln:
