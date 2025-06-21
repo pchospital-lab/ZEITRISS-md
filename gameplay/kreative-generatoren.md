@@ -23,6 +23,8 @@ tags: [gameplay]
 ### Begegnungen & Atmosphäre
 
 - NSC-Generator: Begegnungen im Zeitstrom
+- Encounter-Pool: Schnelle Gegnerlisten nach Risiko
+- Twist-Seeds: Dramatische Wendungen
 - Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
@@ -673,6 +675,71 @@ zusätzliche Komplikationen.
 
 Die Twist-Karten können auf laminierten Karten notiert werden – ein schneller
 Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
+
+### Encounter-Pool-Listen (d6 je Stufe) {#encounter-pool-listen}
+
+```markdown
+# ZEITRISS – Encounter-Pool (S / M / L / XL)
+
+## S – Low Risk  (d6)
+1 | Patrouillen-Duo (Ortspolizei, schlecht ausgerüstet)  
+2 | Zivile Zeugen (Neugierige Arbeiter, wollen helfen)  
+3 | Wachhund + Besitzer (ablenkbar mit Futter)  
+4 | Nostalgiker-Touristen mit Kameradrohne  
+5 | Elektrischer Kurzschluss – Funken + Rauch, kein Feuer  
+6 | Kontrollposten mit veralteter Schlüsselkarte (Hack-Bonus)
+
+## M – Medium Risk  (d6)
+1 | 4-Mann-Sicherheitstrupp (MP5, Bodycams)  
+2 | Drohnenschwarm (3× Quadcopter, IR-Sensor)  
+3 | Code-Lock mit Timelock-Sicherung (2 Min. Cool-down)  
+4 | Zeitversetztes Alarmsystem (20 Sek. Latenz, manipulierbar)  
+5 | Zivilist + Geiselsituation (moralisches Dilemma)  
+6 | Techniker-Team führt Systemwartung durch (bestechlich)
+
+## L – High Risk  (d6)
+1 | Elite-Söldnertrupp (6 Personen, Panzerplatten, Sturmgewehre)  
+2 | EMP-Mikroladung in nervöser Hand – Finger am Abzug  
+3 | Laser-Rasterfeld, automatisch vernetzt mit Geschütznest  
+4 | Psi-Sensitive Wache (Telepath I, spürt feindliche Absicht)  
+5 | Countdown-Sprengsatz (3 Min. bis Detonation)  
+6 | „Black Bag“-Team (Agenten derselben Fraktion -+1 Paradox bei Konflikt)
+
+## XL – Extreme Risk  (d6)
+1 | Schwerkraftanomalie (lokaler 0-G-Kern, gefährdet Infrastruktur)  
+2 | Hunter-Killer-Mech (Höhe 3 m, Gatling + Raketen)  
+3 | Zeitschleifen-Riss – 30-Sek-Loop, verursacht Paradox +2 pro Minute  
+4 | Naniteschwarm (Korrosion jeder Elektronik, Immun gegen Hack)  
+5 | Gegenspieler-Ass im Feld (Signatur-NSC mit Plot-Immunität)  
+6 | Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)
+```
+
+### Twist-Seeds (d20) {#twist-seeds}
+
+```markdown
+# ZEITRISS – Twist-Seeds (d20)
+
+01 | Doppelagent im eigenen Team enttarnt sich in der Klimax.  
+02 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden.  
+03 | Zeitreisende Version des Auftraggebers sendet widersprüchliche Befehle.  
+04 | Schlüsselfigur entpuppt sich als entfernte Verwandte eines Teammitglieds.  
+05 | Artefakt ist lebendig – schwache Bio-Signale, reagiert auf Stress.  
+06 | Geisel möchte nicht gerettet werden, verfolgt eigene Agenda.  
+07 | Feindliche KI bietet Allianz gegen ihren Schöpfer an.  
+08 | Historisches Ereignis findet 24 Stunden früher statt als erwartet.  
+09 | Transportmittel sabotiert – Not-Sprung oder Impro-Flucht nötig.  
+10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft.  
+11 | Wetterphänomen (Superzelle, Sandsturm, Magnetsturm) verkompliziert Einsatz.  
+12 | Gegner besitzt Teilwissen über Zeitreisetech und nutzt es taktisch.  
+13 | Beweisstücke lösen akute Paradox-Spitzen aus (Level +2 bei Kontakt).  
+14 | Einsatzort wird zum Sperrgebiet durch höhergestellte Behörde erklärt.  
+15 | Verborgene Psi-Barriere dämpft Teamfähigkeiten um eine Stufe.  
+16 | Medienleak – Reporter taucht auf und streamt live.  
+17 | Vergessene Nebenfigur aus früherer Mission fordert Bezahlung ein.  
+18 | Missionsziel ist plötzlich hochansteckend (Bio-Hazard-Flag).  
+19 | Ausrüstung beginnt zu altern – jede Stunde 10 % Ausfallchance.  
+20 | „Alles war Ablenkung“: Primärer Antagonist greift HQ simultan an.
+```
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
