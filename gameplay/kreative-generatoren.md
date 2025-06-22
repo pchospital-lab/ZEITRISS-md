@@ -766,6 +766,50 @@ _Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der S
 
 _Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
 
+## Encounter-Paket „Asien im Kalten Krieg" {#asia-coldwar}
+
+Kurze Begegnungen, inspiriert von Spionagekrimis der 1960er Jahre.
+
+### 1 · Grenzposten am 38. Breitengrad
+
+| Merkmal | Wert | Notizen |
+| --- | --- | --- |
+| **Typ** | Infanterie (S) | Soldaten mit Karabinern |
+
+### 2 · Agentin „Jade"
+
+| Attribut | Wert | Fertigkeiten | Ausrüstung |
+| --- | --- | --- | --- |
+| Geist 4 | – | Verkleidung 4, Nahkampf 3 | Mini-Kamera, Giftspritze |
+
+### 3 · Schwarzhändler auf dem Nachtmarkt
+
+| Merkmal | Wert | Notizen |
+| --- | --- | --- |
+| **Typ** | Kontaktperson (M) | Beschafft Alttech gegen Devisen |
+
+## Encounter-Paket „Orbitalstation 2030+" {#orbital-nearfuture}
+
+Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
+
+### 1 · Wartungstrupp EVA
+
+| Merkmal | Wert | Notizen |
+| --- | --- | --- |
+| **Typ** | Techniker (S) | Jetpacks, Reparaturtools |
+
+### 2 · Sicherheitsdrohne
+
+| Merkmal | Wert | Notizen |
+| --- | --- | --- |
+| **Typ** | Drohne (M) | Laserpointer 1W6, Alarm |
+
+### 3 · Schmuggler-Pod
+
+| Merkmal | Wert | Notizen |
+| --- | --- | --- |
+| **Typ** | Transportkapsel (L) | Schleust verbotene Fracht ein |
+
 ### Twist-Seeds (d30) {#twist-seeds}
 
 ```markdown
@@ -1053,6 +1097,10 @@ mächtigen Relikten, welche die Jahre überdauert haben. Wenn ihr spontan einen 
 Gegenstand benötigt – als Loot, Missionsziel oder einfach als atmosphärisches Detail – nutzt diesen
 Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft** und einer
 **Herkunft/Historie**:
+
+*Tipp:* Lasst den Codex bereits eine Sitzung vorher ein **Gerücht** über ein mögliches Artefakt
+streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
+Hinweise.
 
 - **Objektart:**
 

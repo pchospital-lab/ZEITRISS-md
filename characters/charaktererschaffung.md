@@ -23,6 +23,18 @@ Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren 
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
 GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
+
+### Kurz-Checkliste Charaktererstellung
+
+1. Konzeptidee festlegen
+2. Attribute verteilen (Basis 2–5)
+3. Zwei Talente wählen
+4. Startausrüstung notieren
+5. Ruf und Hintergrund skizzieren
+6. Cyber/Bio/Psi (max zwei Bereiche) auswählen
+7. Werte in das HUD übernehmen
+8. Teamrolle festlegen
+9. Erste Mission planen
 Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann.
 So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 

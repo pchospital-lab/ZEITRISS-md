@@ -91,9 +91,26 @@ sollte an die Kampagne angepasst werden.)_
 _Balance-Tipp:_ Psi-Kräfte sollten nie zur „Allzweck-Lösung“ werden. Sie bieten exotische Wege,
 Herausforderungen zu begegnen, doch oft mit Haken: Telepathie hilft vielleicht, an Infos zu kommen,
 kann aber ungenau sein; Zeit verlangsamen kostet viel Energie für einen kurzen Moment Vorteil. **Die
+
 KI-Spielleitung kann Psionik kreativ visualisieren** – z.B. durch surreale Beschreibungen im HUD
 („Herzschlag klingt plötzlich dumpf, Sekunden dehnen sich…“) – aber achte darauf, dass auch Nicht-
 Psi-Charaktere glänzen können und Psi nicht jede Plot-Hürde übergeht.
+
+### Vorberechnete Psi-Drosselstufen {#psi-drossel}
+
+Um den Spielfluss zu beschleunigen, hat jede Kraft drei feste Leistungsstufen. Die
+Systemlast (SYS) ist bereits einkalkuliert – die SL wählt nur noch den passenden
+Output:
+
+| Stufe | SYS-Kosten | Effektbeispiel Telepathie |
+| ----- | ---------- | ------------------------- |
+| **Low**  | 1 | nur Gefühlsregungen spüren |
+| **Medium** | 2 | klarer Gedankenfunk, kurze Sätze |
+| **High** | 3 | tiefer Zugriff, ganze Gespräche |
+
+Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert). Die
+Agenten wissen so sofort, welche Intensität sie aufrufen können, ohne im Gefecht
+nachrechnen zu müssen.
 
 ## Talente & Spezialisierungen
 
