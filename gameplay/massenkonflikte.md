@@ -537,6 +537,10 @@ dominieren. Wichtig ist, dass **jede Stufe herausfordernd aber machbar** bleibt:
 das Gefühl haben, **durch kluges Handeln das Ruder herumreißen** zu können, egal wie groß das Chaos
 um sie ist.
 
+*Per‑5‑Einheiten‑Tracker:* Zählt Truppen in Fünferblöcken und streicht jeweils einen Marker, wenn
+eine Gruppe ausgeschaltet wird. Je 5 verlorene Einheiten reduziert ihr die Erfolgspunkte dieser Seite
+um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhaltung zu betreiben.
+
 **Fazit:** Mit diesen Regeln und Ideen wird euer ZEITRISS-Spiel um eine aufregende Dimension
 reicher. Fahrzeuge jeder Art – ob reitend, rollend oder fliegend – ermöglichen filmreife
 Verfolgungsjagden und dramatische Fluchten. Massenschlachten und Mehrfronten-Konflikte lassen sich

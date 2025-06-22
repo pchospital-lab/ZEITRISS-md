@@ -113,6 +113,8 @@ _"Epoche": "Gegenwart (2025)",_
 
 _"Level": 2,_
 
+_"version_hash": "4.0",_
+
 _"Erfahrung": 15,_
 
 _"Attribute": {_
@@ -511,6 +513,7 @@ füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 **ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
 
 ```json
+"version_hash": "4.0",
 "OpenRifts": [
   {"ID":"R-71","Seed":"Emerald Kraken","Severity":1,"Deadline":-10}
 ]
