@@ -42,7 +42,7 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** sowie die optionalen Übersichtsdateien:
+Die folgende Tabelle bietet einen Kurzüberblick über alle **21 Regelmodule** sowie die optionalen Übersichtsdateien:
 
 | Datei | Inhalt |
 | --- | --- |
@@ -59,6 +59,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** s
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
+| [gameplay/iti-blackfile-delta4.md](gameplay/iti-blackfile-delta4.md) | ITI-Blackfile Δ-4: Paradox Creatures |
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht |
@@ -73,7 +74,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **20 Regelmodule** s
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Die **20 Regelmodule** liegen in 18 einzelnen Markdown-Dateien.
+**Hinweis:** Die **21 Regelmodule** liegen in 19 einzelnen Markdown-Dateien.
 Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer Dateien.
 `README.md` und `master-index.json` dienen nur zur Orientierung.
 
@@ -101,8 +102,8 @@ Eine Kurzfassung der wichtigsten Regeln:
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die **20 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
-   Sie verteilen sich auf 18 Dateien; ein Modul ist als Abschnitt in
+2. Lade die **21 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
+   Sie verteilen sich auf 19 Dateien; ein Modul ist als Abschnitt in
    `gameplay/kampagnenstruktur.md` enthalten.
    `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
