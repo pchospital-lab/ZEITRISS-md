@@ -201,6 +201,8 @@ zu allen anderen Modifikatoren zum Einsatz. Sollte auch beim Heldenwürfel die R
 aktiv sein, kann selbstverständlich auch dieser explodieren – regeltechnisch wird dann mit beiden
 Würfeln getrennt die Explosions-Regel angewandt, was zu wahrhaft legendären Ergebnissen führen kann,
 aber entsprechend selten ist.
+Ab dieser Schwelle blendet das HUD außerdem ein kleines **„[W10 aktiv]“**-Symbol ein, damit Spieler
+sofort sehen, dass auf diesem Attribut nun mit Zehnseitern gewürfelt wird.
 
 **Beispiel:** \*Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 11
 gesteigert – ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
@@ -538,3 +540,14 @@ _Orientierung:_ Kleine Gefechte brauchen 1–2 Punkte, mittlere Schlachten 3–5
 | 2 | +2 | 1.4 |
 
 Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Belohnungen beeinflussen.
+
+### Timeline-Konfliktresistenz {#konfliktresistenz}
+
+| Situation | Modifikator |
+|-----------|-------------|
+| Eigene Epoche, bekannte Abläufe | 0 |
+| Leichte Abweichung in naher Vergangenheit | −1 auf Stabilitätswürfe |
+| Massive Zeitmanipulation oder fremde Ära | −2 auf Stabilitätswürfe |
+
+Nutzt diese Tabelle auf dem Quick-Reference-Sheet, um schnell abzuschätzen, wie anfällig eine Szene
+für Paradox-Effekte ist.

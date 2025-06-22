@@ -44,14 +44,16 @@ im Überblick:
   - **Leicht verletzt:** Oberflächliche Wunden (Schürfwunden, kleine Schnitte, Prellungen).
     **Leichter Schmerz** ist spürbar, Adrenalin hält einen aber auf den Beinen. _System:_ **–1
     Malus** auf feine oder konzentrationsintensive Aktionen (es fällt etwas schwerer, sich 100%ig zu
-    fokussieren), ansonsten **keine großen Einschränkungen**; Bewegung weiterhin normal. _Heilung:_
+    fokussieren), ansonsten **keine großen Einschränkungen**; Bewegung weiterhin normal. Das HUD
+    ergänzt automatisch `Wundmalus -1` in deine nächsten Würfelbefehle. _Heilung:_
     Solche Blessuren heilen oft **binnen Stunden oder weniger Tage** von selbst. Im HQ genügt ein
     Desinfektionsspray, Verband und eine Nacht Ruhe – zum Start der nächsten Mission sind leichte
     Wunden meist **automatisch verheilt**.
   - **Mittel verletzt:** Deutlichere Verletzungen oder starke Prellungen (z.B. tiefer Schnitt,
     klaffende Platzwunde, verstauchter Knöchel). **Schmerz und Ablenkung** nehmen zu. _System:_ **–2
     Malus** auf die meisten Proben, besonders körperliche. Keine Vollleistung mehr: Sprinten ist
-    z.B. nicht möglich, nur noch normales Tempo; auch die Konzentration ist merklich gestört. Der
+    z.B. nicht möglich, nur noch normales Tempo; auch die Konzentration ist merklich gestört. Das HUD
+    fügt `Wundmalus -2` an jede Würfelabfrage an. Der
     Charakter bleibt **funktionsfähig, aber spürbar gehandicapt**. _Heilung:_ Mittlere Wunden
     brauchen **einige Tage Regeneration** oder medizinische Hilfe. Im HQ werden Verletzungen genäht,
     geschient oder mit regenerativen Salben behandelt. Nach **1–2 Tagen** intensiver Behandlung
@@ -65,7 +67,8 @@ im Überblick:
     Aktionen; Fortbewegung nur noch sehr eingeschränkt möglich (max. halbes Tempo, oft nur mit
     Hilfe). Die **Konzentration bricht ein**, nur grundlegende Handlungen wie Abstützen, Kriechen
     oder reines Abwehren sind noch durchführbar – an gezielten Kampf oder komplexe Aktionen ist
-    nicht zu denken. _Heilung:_ Schwere Verletzungen erfordern **intensivmedizinische Betreuung**.
+    kaum zu denken. Das HUD hängt automatisch `Wundmalus -3` an jede Probe an.
+    _Heilung:_ Schwere Verletzungen erfordern **intensivmedizinische Betreuung**.
     **Im Feld wäre ein Agent in diesem Zustand kaum überlebensfähig**, doch hier greift das ITI-
     Notfallprotokoll: **Sinkt ein Chrononaut im Einsatz auf 0 Lebenspunkte**, initiiert das System
     **automatisch einen Zeitriss zur Not-Rückholung**. Der Verwundete wird in Sekundenbruchteilen
@@ -570,7 +573,10 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   unerledigt.“_). Neue Missionshinweise können automatisch aufleuchten, sobald sie anfallen (etwa
   _„❗ Neues Ziel: Fluchtweg finden“_ wenn eine Fluchtsituation eintritt). Das erhöht die Immersion,
   da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
-  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
+-  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
+- **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
+  **„[W10 aktiv]“** neben diesem Wert ein. Das symbolisiert, dass auf diesem Attribut ab sofort ein
+  W10 geworfen wird und der Heldenwürfel zur Verfügung steht.
 - **Paradox-Alarm:** Da der **Paradoxon-Index** so kritisch ist, hat es eine prominente Stelle im HUD.
   Meist als **Skala oder Warnsymbol** dargestellt, ggf. mit Farbe (grün = stabil, gelb =
   Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
