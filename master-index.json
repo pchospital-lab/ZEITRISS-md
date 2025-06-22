@@ -49,6 +49,11 @@
       "id": "anomaly_pool",
       "path": "gameplay/kreative-generatoren.md#anomalien-generator",
       "title": "Temporale Anomalien-Generator (optional)"
+    },
+    {
+      "id": "paracreature_pool",
+      "path": "gameplay/iti-blackfile-delta4.md#para-creature-generator",
+      "title": "Para-Creature-Generator: Urban Myth Edition"
     }
   ]
 }
