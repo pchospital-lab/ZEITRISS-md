@@ -123,8 +123,8 @@ Core-Generator zurückkehren.
   Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht oder als
   Story-MacGuffin behalten werden. Beispiele liefert die Tabelle „Kuriose
   Artefakte & Relikte“ im Generator-Modul.
-- **Kurzmissionen** verschieben die Paradoxon-Schwelle um **+1**, was das Risiko
-  eines vorzeitigen Rifts reduziert.
+- **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
+  zählen erst nach zwei Einsätzen als **+1**.
 
 #### Paradox-Subsystem
 
