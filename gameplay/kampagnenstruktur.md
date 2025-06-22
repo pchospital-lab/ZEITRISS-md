@@ -688,6 +688,11 @@ _Implementations-Package für Code, Art & Content_
 | **Key-Item**    | `itm_quant_key` (Erhalt beim Rang-Up 50)                          |
 | **Entry-Event** | `evt_enter_cronopoli()` _(wie zuvor, Rank-Check auf 50 anpassen)_ |
 
+**Event-Definition `evt_enter_cronopoli()`** – Beim ersten Betreten von Cronopoli
+wird überprüft, ob Rang ≥ 50 und das Key‑Item vorhanden sind. Bei Erfolg löst das
+Event die Warn‑Cutscene aus (siehe Abschnitt 7) und startet anschließend die
+Instanzierungs‑Pipeline.
+
 ### 3 | Instanzierungs-Pipeline
 
 ```mermaid
