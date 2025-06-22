@@ -175,8 +175,9 @@ Beschreibung und ein kleiner Spiel-Bonus als seitenlange Fahrzeugwerte. So bleib
 lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
 ### Schadenswürfel beim Fahrzeugkampf
 
-Beim Fahrzeugschaden explodiert nur der erste Wurf. Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren. So bleibt der Schaden beherrschbar.
-
+Beim Fahrzeugschaden explodiert nur der erste Wurf.
+Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren.
+So bleibt der Schaden beherrschbar.
 _Abschließend_ sollen Fahrzeuge euren ZEITRISS-Abenteuern neue Facetten verleihen:
 **Verfolgungsjagden** werden filmreifer, **Infiltrationen** kreativer, **Reisen** atmosphärischer.
 Und all das, ohne die Charaktere zu überschattet – die **Chrononauten** am Steuer bleiben die Helden

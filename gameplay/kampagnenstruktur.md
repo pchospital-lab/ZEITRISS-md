@@ -481,7 +481,8 @@ Ein Perk kostet meist Ressourcen oder Training. Aktiv sein sollte immer nur ein 
 Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes Template:
 - **NPC Tac-Drone** – Robustheit 1, kleine Schwebdrohne; +1 auf Wahrnehmungs- und Zielerfassungswürfe.
 
-Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**. Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative Hilfe.
+Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
+Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative Hilfe.
 
 
 ### Codex-gesteuerte Story-Zwischensequenzen
