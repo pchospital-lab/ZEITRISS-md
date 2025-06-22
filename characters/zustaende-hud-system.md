@@ -685,6 +685,26 @@ auch bei Paradoxon, EMP oder Isolation.
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
 | `faq [x]`   | Schickt ein Stichwort an den Codex und zeigt eine Kurzantwort      |
 | `codex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
+| `codex suche tags` | Filtert Codex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
+
+### Codex-Suchfilter nach Tags
+
+Die Codex-Datenbank enthält zahlreiche Einträge. Um langes Scrollen zu
+vermeiden, kann `codex suche` nun per **Tag-Filter** eingeschränkt werden.
+Mögliche Kategorien sind **Epoche**, **Technikstufe** und **Gegnertyp**. Ein
+Kommando wie `codex suche epoche:1950-1989 gegner:Konzern` listet nur Einträge
+mit beiden Tags auf.
+
+```jsonc
+// Beispiel für einen Codex-Eintrag mit Tags
+{
+  "titel": "Orbital-Wachdrohne",
+  "tags": ["2080+", "Tech-IV", "Konzern"]
+}
+```
+
+Die Filter arbeiten additiv und funktionieren serverseitig. Ohne Tags zeigt
+`codex suche` wie gewohnt alle Ergebnisse.
 
 ### Nullzeit-Menü nach Zeitsprung
 
