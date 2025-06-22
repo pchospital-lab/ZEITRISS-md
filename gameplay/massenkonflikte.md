@@ -306,8 +306,21 @@ ausarbeiten, wie man solche exotischen Reittiere/Fluggeräte regeltechnisch hand
 bleiben es Fahrzeuge/Reittiere mit besonderen Eigenschaften – wichtig ist, dass es stimmungsvoll
 inszeniert wird. **Balance-Tipp:** Falls ein exotisches Transportmittel übermächtig scheint (z. B.
 ein gezähmter Drache in einer Schlacht), führt Komplikationen ein: Der Drache will eigenwillig einen
-Schatz jagen, das Besenartefakt hat begrenzte Ladung etc. So bleiben auch ausgefallene Lösungen
+​Schatz jagen, das Besenartefakt hat begrenzte Ladung etc. So bleiben auch ausgefallene Lösungen
 spannend und herausfordernd.
+
+### Brückenphase: Infiltration → Massenschlacht
+
+Häufig kippt eine Mission plötzlich vom verdeckten Einsatz in einen offenen Großkonflikt. Damit bestehende Werte nicht verloren gehen, überführt folgende Tabelle individuelle Zustände in Schlachten-Boni:
+
+| Infiltrationswert | Auswirkung in der Schlacht |
+|------------------|----------------------------|
+| Stress           | wird zu Moralmalus        |
+| Deckung          | zählt als Terrainbonus    |
+| Versteckte Wunden| erschweren Befehle (&#x2212;1 auf Kommandos) |
+| Aktives HUD      | liefert +1 Aufklärungspunkt |
+
+So lässt sich nahtlos an einen Massenkampf anschließen, ohne dass die Vorarbeit der Spieler verpufft.
 
 ## Massenkonflikte & Schlachten
 

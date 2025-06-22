@@ -765,10 +765,10 @@ _Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der S
 
 _Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
 
-### Twist-Seeds (d20) {#twist-seeds}
+### Twist-Seeds (d30) {#twist-seeds}
 
 ```markdown
-# ZEITRISS – Twist-Seeds (d20)
+# ZEITRISS – Twist-Seeds (d30)
 
 01 | Doppelagent im eigenen Team enttarnt sich in der Klimax.
 02 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden.
@@ -790,7 +790,21 @@ _Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress
 18 | Missionsziel ist plötzlich hochansteckend (Bio-Hazard-Flag).
 19 | Ausrüstung beginnt zu altern – jede Stunde 10 % Ausfallchance.
 20 | „Alles war Ablenkung“: Primärer Antagonist greift HQ simultan an.
+21 | Kalter-Krieg-Agent verlangt Austausch gefangener Wissenschaftler.
+22 | Spionageausrüstung enthält heimlichen Sender des eigenen Auftraggebers.
+23 | Vermeintlicher Verbündeter entpuppt sich als Zukunfts-Double des Rivalen.
+24 | Alte Funksprüche verweisen auf zweite Zielperson mit eigenem Agenda.
+25 | Zeitanomalie katapultiert Schlüssel-NPC kurzzeitig in Parallelwelt.
+26 | Team entdeckt verdeckte Waffenlieferung an beiden Konfliktparteien.
+27 | Waffentest verursacht EMP, der Chrononauten-Equipment lahmlegt.
+28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf.
+29 | Politischer Abgrund: lokale Fraktion plant Putsch noch während der Mission.
+30 | Rücksprung löst Echo aus – Gegner erhält Vorwissen über Actions.
 ```
+
+_Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
+erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
+Zeitperiode stärker zu betonen.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
