@@ -305,13 +305,13 @@ Fluggerät aus einer vergangenen Ära. Hier darf der SL ruhig mitmachen und geme
 ausarbeiten, wie man solche exotischen Reittiere/Fluggeräte regeltechnisch handhabt. Im Grunde
 bleiben es Fahrzeuge/Reittiere mit besonderen Eigenschaften – wichtig ist, dass es stimmungsvoll
 inszeniert wird. **Balance-Tipp:** Falls ein exotisches Transportmittel übermächtig scheint (z. B.
-ein gezähmter Drache in einer Schlacht), führt Komplikationen ein: Der Drache will eigenwillig einen
-​Schatz jagen, das Besenartefakt hat begrenzte Ladung etc. So bleiben auch ausgefallene Lösungen
-spannend und herausfordernd.
-
+ein gezähmter Drache in einer Schlacht), führt Komplikationen ein: Der Drache will eigenwillig einen Schatz jagen,
+das Besenartefakt hat begrenzte Ladung etc.
+So bleiben auch ausgefallene Lösungen spannend und herausfordernd.
 ### Brückenphase: Infiltration → Massenschlacht
 
-Häufig kippt eine Mission plötzlich vom verdeckten Einsatz in einen offenen Großkonflikt. Damit bestehende Werte nicht verloren gehen, überführt folgende Tabelle individuelle Zustände in Schlachten-Boni:
+Häufig kippt eine Mission plötzlich vom verdeckten Einsatz in einen offenen Großkonflikt.
+Damit bestehende Werte nicht verloren gehen, überführt folgende Tabelle individuelle Zustände in Schlachten-Boni:
 
 | Infiltrationswert | Auswirkung in der Schlacht |
 |------------------|----------------------------|
