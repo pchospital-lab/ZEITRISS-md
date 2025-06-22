@@ -74,7 +74,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **21 Regelmodule** s
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Die **21 Regelmodule** liegen in 19 einzelnen Markdown-Dateien.
+**Hinweis:** Die **21 Regelmodule** liegen in 18 einzelnen Markdown-Dateien.
 Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer Dateien.
 `README.md` und `master-index.json` dienen nur zur Orientierung.
 
@@ -103,8 +103,8 @@ Eine Kurzfassung der wichtigsten Regeln:
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
 2. Lade die **21 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
-   Sie verteilen sich auf 19 Dateien; ein Modul ist als Abschnitt in
-   `gameplay/kampagnenstruktur.md` enthalten.
+   Sie verteilen sich auf 18 Dateien; drei Module sind Abschnitte
+   anderer Dateien.
    `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
