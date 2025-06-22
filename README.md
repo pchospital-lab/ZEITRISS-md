@@ -59,7 +59,7 @@ Die folgende Tabelle bietet einen Kurzüberblick über alle **21 Regelmodule** s
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
-| [gameplay/kreative-generatoren.md#para-creature-generator](gameplay/kreative-generatoren.md#para-creature-generator) | ITI-Blackfile Δ-4: Paradox Creatures |
+| [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | ITI-Blackfile Δ-4: Paradox Creatures |
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht |
