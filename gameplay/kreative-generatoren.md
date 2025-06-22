@@ -715,6 +715,56 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 6 | Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)
 ```
 
+## Encounter-Paket „Postorbitales Zeitalter" {#postorbital-encounters}
+
+Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-System.
+
+### 1 · Orbital-Wachdrohne – Sentry-Klasse
+
+| Merkmal       | Wert                                   | Notizen                        |
+| ------------- | -------------------------------------- | ------------------------------ |
+| **Typ**       | Drohne (S)                             | unbemannt, KI-gestützt         |
+| **Speed**     | 8/16 (Flug)                            | Schwebe-Impulsoren             |
+| **Panzerung** | Titanfaser 3                           | <2 ignoriert, 3–4 halbiert     |
+| **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe –2                   |
+| **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
+| **Systeme**   | Autorepair 1 HP/Runde                  | deaktiv bei EMP                |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Paradoxon +1      |
+| **Rolle**     | Patrouille, Alarmmultiplikator         | verdoppelt "Gefahr im Anflug"  |
+
+### 2 · Konzern-Psychiker – Stufe B (Elite)
+
+| Attribut | Wert | Fertigkeiten                                    | Ausrüstung            |
+| -------- | ---- | ------------------------------------------------ | --------------------- |
+| Körper 3 | –    | Pistolen 3, Nahkampf 2                           | Nanofaser-Suit SR 2   |
+| Geist 4  | –    | Telepathische Überwältigung 4, Precog-Dodge      | Plasmapistole 1W6+1   |
+| Psi-Kern 5 | –  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (−2)      |
+| Stress 12 | –   | kämpft bis HP ≤ −4 (Corporate Loyalty)           | –                     |
+
+### 3 · Zeit-Hacker – Stufe A (Transhuman)
+
+| Attribut | Wert | Fertigkeiten                            | Gear                  |
+| -------- | ---- | --------------------------------------- | --------------------- |
+| Körper 2 | –    | Infowar 5, Athletik 2                   | Inline-Chrono-Tap     |
+| Tech 5   | –    | Chrono-Exploit 5, Sabotage 3            | Smart-Gloves (+2)      |
+| Psi-Rest 2 | –  | **Spezial:** Temporal Backdoor          | –                     |
+| Stress 10 | –   | HP 8                                    |                       |
+
+_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Paradoxon +1 bei Erfolg ≥ 2.
+_Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der Stack auf 0.
+
+### Bonus-Micro-Begegnungen (d12)
+
+1–2 Orbital-Wartungs-Mecha blockieren Zugänge.
+3–4 Schwarzmarktschmuggler im Grav-Van.
+5–6 Exo-Suit-Salvager durchsuchen Wracks.
+7–8 Konzern-San-Team birgt Verwundete.
+9–10 Nano-Schwarm breitet sich in Lüftungen aus.
+11 Defekte Umwelt-KI erzeugt Fehlalarme.
+12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
+
+_Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
+
 ### Twist-Seeds (d20) {#twist-seeds}
 
 ```markdown

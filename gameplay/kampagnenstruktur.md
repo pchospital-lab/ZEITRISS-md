@@ -118,10 +118,13 @@ Core-Generator zurückkehren.
   für alle Einsätze. Ein Seed lässt sich jederzeit via `launch_rift(id)` als
   eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Zu Beginn längerer Missionen kann optional 1W6 gewürfelt
-  werden. Nur bei einer 6 taucht ein Artefakt auf. Diese seltenen Funde dienen
-  als besondere Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht
-  oder als Story-MacGuffin behalten werden. Beispiele liefert die Tabelle
-  „Kuriose Artefakte & Relikte“ im Generator-Modul.
+  werden. In riskanten Gebieten nutzt ihr **1W12 ≤ 1** (≈ 8 %) als Check. Nur bei
+  Erfolg taucht ein Artefakt auf. Diese seltenen Funde dienen als besondere
+  Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht oder als
+  Story-MacGuffin behalten werden. Beispiele liefert die Tabelle „Kuriose
+  Artefakte & Relikte“ im Generator-Modul.
+- **Kurzmissionen** verschieben die Paradoxon-Schwelle um **+1**, was das Risiko
+  eines vorzeitigen Rifts reduziert.
 
 #### Paradox-Subsystem
 
