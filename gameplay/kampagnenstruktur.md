@@ -36,7 +36,7 @@ Zentrum stehen **Handlungsbögen (Arcs)**, die wie Staffeln einer Fernsehserie o
 in einzelne **Episoden** unterteilt werden. Jeder Bogen hat ein eigenes Thema oder Missionsziel,
 während sich über die gesamte Kampagne ein roter Faden spannt.
 Inspiration für komplette Arcs liefert der
-[Arc-Generator](kreative-generatoren.md#arc-generator-gro%C3%9Fe-missionen)
+[Arc-Generator](kreative-generatoren.md#arc-generator)
 im Generator-Modul.
 
 ### Arc-Baukasten und Episodenstruktur {#arc-baukasten-und-episodenstruktur}
