@@ -27,7 +27,7 @@ aktiven Zustand eintreten: Es wird wiedergeboren. Die Agenten erhalten **handfes
 – von Sabotagen über Rettungen bis hin zu verdeckter Spionage. Zeitliche Störungen sind
 selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für investigative
 Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
-[Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata)
+[Missions‑Generator](kreative-generatoren.md#missions-generator)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
 ### Bewusstsein, Absolut und Realität
@@ -115,6 +115,6 @@ Widersacher zu durchkreuzen, bevor die Timeline irreparabel zerbricht.
 
 **Kampagnenstruktur:** Anstelle einer festen Abfolge
 von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
-[Missions‑Generator](kreative-generatoren.md#missions-generator-kleine-auftr%C3%A4ge-und-dilemmata),
+[Missions‑Generator](kreative-generatoren.md#missions-generator),
 um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt,
 damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
