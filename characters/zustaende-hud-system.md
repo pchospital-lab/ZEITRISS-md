@@ -369,7 +369,8 @@ Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
-_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden, bei der keine Risse oder Zeitkreaturen erscheinen.
+_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_
+bei der keine Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**
 
