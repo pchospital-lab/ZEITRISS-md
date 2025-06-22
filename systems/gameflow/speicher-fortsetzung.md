@@ -628,6 +628,9 @@ als Spielleiter damit umgehen sollte, **ohne aus der Rolle zu fallen**:
   Spieler versteht, welche Information benötigt wird, und kann sie mitteilen, ohne dass das Spiel
   seine Immersion verliert.
 
+- **Prüfsumme ergänzen:** Beim Export kann der Codex optional das Feld `checksum` anhängen.
+  Beim Laden vergleicht die Engine diese Prüfsumme und fragt bei Abweichungen, ob unbekannte Felder ignoriert oder repariert werden sollen.
+- **Graveyard-Array:** Zusätzlich zu `charaktere` erlaubt das Format ein `graveyard`-Array für tote oder pensionierte Agenten. So bleiben ihre Daten erhalten, ohne die Slot-Nummern der aktiven Gruppe zu verändern.
 Diese Vorsichtsmaßnahmen stellen sicher, dass selbst bei abweichenden oder beschädigten Savegames
 das Spiel nicht stoppt oder in einen OOC-Modus wechselt. Stattdessen wird das Problem **innerhalb
 der Geschichte** gelöst – das Nullzeit-Log oder der Codex übernehmen solche Korrekturen und

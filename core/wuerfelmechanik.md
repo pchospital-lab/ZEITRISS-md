@@ -504,6 +504,8 @@ Spitzen erzeugen, ohne den Spielfluss zu bremsen.
 ### Quick-Sheet: Psi & Massenkonflikt {#quick-sheet}
 
 Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
+**Dieses Quick-Sheet dient als zentrale Kurzreferenz und lässt sich im HUD über `/help` aufrufen.**
+
 
 **Psi-Effekte auf einen Blick**
 
