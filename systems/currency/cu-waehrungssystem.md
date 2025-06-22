@@ -110,6 +110,15 @@ verbleiben kann**:
   den Wohnquartieren statt und beleben das HQ-Rollenspiel. So entsteht der Eindruck eines echten
   Basars unter Zeitreisenden, fernab von offiziellen Listen.
 
+##### Artefaktrollen im Spiel
+
+Artefakte sind keine Massenware. Zu Beginn einer längeren Mission darf die SL
+optional 1W6 werfen; nur bei einer 6 erscheint ein besonderes Relikt. Solche
+Fundstücke besitzen eigene Effekte – vom einmaligen Paradox-Abbau bis hin zu
+Visionen künftiger Ereignisse. Die Gruppe entscheidet nach der Analyse, ob sie
+das Artefakt im HQ archiviert, in CUs eintauscht oder als seltene Ressource
+behält, um es später im Plot einzusetzen.
+
 Durch diese Mechaniken bleibt der Umgang mit Missionsbeute **dynamisch**. Jeder Gegenstand erzählt
 eine kleine Geschichte: Ein unscheinbares Artefakt aus 800 v. Chr. könnte sich in der Nullzeit als
 begehrte Ressource entpuppen – entweder erhält es einen Platz im Museum oder es ist auf dem
