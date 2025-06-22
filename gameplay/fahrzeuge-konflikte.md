@@ -173,6 +173,9 @@ Ort oder im HQ, um eine Modifikation umzusetzen. Die Vorteile sollten überschau
 kleiner Bonus oder eine neue einmalige Fähigkeit), aber erzählerisch glänzen. Lieber eine coole
 Beschreibung und ein kleiner Spiel-Bonus als seitenlange Fahrzeugwerte. So bleibt das Fahrzeug ein
 lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
+### Schadenswürfel beim Fahrzeugkampf
+
+Beim Fahrzeugschaden explodiert nur der erste Wurf. Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren. So bleibt der Schaden beherrschbar.
 
 _Abschließend_ sollen Fahrzeuge euren ZEITRISS-Abenteuern neue Facetten verleihen:
 **Verfolgungsjagden** werden filmreifer, **Infiltrationen** kreativer, **Reisen** atmosphärischer.

@@ -61,7 +61,7 @@ tags: [meta]
   `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`,
   `toolkit-gpt-spielleiter.md`.
 - Würfle verdeckt mit W6 (Exploding 6).
-  Optional kommen W10 und Heldenwürfel bei hohen Attributen zum Einsatz.
+  Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
   sie treten nur auf, wenn Spieler sie ausdrücklich wünschen.
