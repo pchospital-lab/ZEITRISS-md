@@ -107,6 +107,19 @@ zurück. Offene Risse landen im Spielstand und lassen sich über das
 `launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
 Core-Generator zurückkehren.
 
+#### Kurzübersicht: Missions-Rhythmus und Artefakte
+
+- **Paradoxon-Index 0–5:** Jede Mission sammelt Paradox-Punkte. Bei Stufe 5
+  erzeugt `ClusterCreate()` automatisch 1–2 neue Seeds und setzt den Index auf 0.
+- **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
+  für alle Einsätze. Ein Seed lässt sich jederzeit via `launch_rift(id)` als
+  eigenständige Rift-Op starten.
+- **Artefaktwürfe:** Zu Beginn längerer Missionen kann optional 1W6 gewürfelt
+  werden. Nur bei einer 6 taucht ein Artefakt auf. Diese seltenen Funde dienen
+  als besondere Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht
+  oder als Story-MacGuffin behalten werden. Beispiele liefert die Tabelle
+  „Kuriose Artefakte & Relikte“ im Generator-Modul.
+
 #### Paradox-Subsystem
 
 | Stufe | In-Mission-Effekt  | HQ-Effekt                                    |
