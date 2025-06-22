@@ -428,12 +428,12 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   auf Proben, um Indizien oder rätselhafte Phänomene zu analysieren – z.B. Paradoxon-Spuren
   untersuchen, chemische Analysen durchführen), _Temporallogiker_ (durch Studium der Temporalphysik:
   +1 auf alle TEMP-bezogenen Würfe – z.B. Resistenz gegen Paradox-Effekte oder das Erkennen feinster
-  Zeitstörungen; kann zudem Paradox-Level grob vorhersagen oder senken, indem er Gegenmaßnahmen
+  Zeitstörungen; kann zudem Paradoxon-Index grob vorhersagen oder senken, indem er Gegenmaßnahmen
   vorschlägt). Diese Mischung befähigt ihn, sowohl praktische Medizin als auch theoretische Zeit-
   Analyse zu beherrschen.
 - **Implantate:** _Chrono-Sensorik-Modul_ (kleines Implantat an der Schläfe, detektiert schwache
   temporale Felder – quasi ein eingebauter Paradox-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
-  auftreten, gibt Vorwarnung bei steigendem Paradox-Level) – Kosten 1 SYS. Außerdem ein _medizinisches
+  auftreten, gibt Vorwarnung bei steigendem Paradoxon-Index) – Kosten 1 SYS. Außerdem ein _medizinisches
   HUD_ als Kontaktlinse, das Vitalwerte von Personen im Blickfeld anzeigt (erleichtert Diagnose, +1
   auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/3 SYS.
 - **Ausrüstung:** **Mobiles Medikit** (Spritzen, Verbände, Mini-Defibrillator, Schmerzmittel,

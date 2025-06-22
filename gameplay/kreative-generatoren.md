@@ -60,7 +60,7 @@ Dieses Motiv zieht sich durch alle Generatoreinträge
 und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
 - Sitzungsstart → Automatischer Mission Seed
 - Core-Missionen → `CoreObjectiveTable`
-- Rift-Missionen → `RiftSeedTable` (durch den Paradox-Index erweitert)
+- Rift-Missionen → `RiftSeedTable` (durch den Paradoxon-Index erweitert)
 - Nebenaufträge → Missions-Generator
 - Große Handlungsbögen → Arc-Generator und Historische Wendepunkte
 - Historische Settings → Random-Epochen-Generator
@@ -977,7 +977,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 ### Einsatz-Tips
 
 1. **Epochale Einbettung:** Passe die Technologie-Coverstory an Ort und Jahr an.
-2. **Paradox-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradox-Level interagiert.
+2. **Paradox-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradoxon-Index interagiert.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
 4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
 

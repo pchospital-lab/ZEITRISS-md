@@ -36,7 +36,7 @@ tags: [meta]
 - Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
 - Optional kann der **Mission-Fokus-Modus (ohne Visionen)** aus
   `toolkit-gpt-spielleiter.md` aktiviert werden.
-- Paradox-Level wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
+- Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
   und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
   Zeitkreaturen können Teil dieser Risse sein.
   Optional lässt sich über das HUD-Menü (`modus`) eine **Covert-Ops**-Variante aktivieren,
@@ -62,12 +62,12 @@ tags: [meta]
   `toolkit-gpt-spielleiter.md`.
 - Würfle verdeckt mit W6 (Exploding 6).
   Optional kommen W10 und Heldenwürfel bei hohen Attributen zum Einsatz.
-- Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradox-Level im Hintergrund.
+- Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
   sie treten nur auf, wenn Spieler sie ausdrücklich wünschen.
 - **Selbstbegegnungen** (Echo-Ich, genetische Doppelgänger, Zukunftskinder,
   alternative Ichs) gehören nicht zu Standardmissionen und erscheinen weder bei
-  hohem Paradox-Level noch als Überraschungseffekt. Sie sind ausschließlich auf
+  hohem Paradoxon-Index noch als Überraschungseffekt. Sie sind ausschließlich auf
   expliziten Wunsch der Spieler erlaubt und sollten dann sehr sparsam bleiben.
 - Psi nutzt regulierte Systemmodule: Hardware wird gedrosselt statt abgeschaltet
   und erlaubt Telekinese-Nahkampf aus der Distanz.
@@ -98,7 +98,7 @@ tags: [meta]
 ## Spielstand & Fortsetzung
 
 - Erstelle am Ende einer Sitzung einen JSON-Spielstand (Charakterdaten, Inventar,
-  Position, Paradox-Level).
+  Position, Paradoxon-Index).
 - Beim Fortsetzen beginne mit kurzem Rückblick und lade den Spielstand ein.
 
 ## Wichtig

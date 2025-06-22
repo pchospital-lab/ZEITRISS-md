@@ -16,7 +16,7 @@ tags: [core]
 
 \*Mit letzter Kraft erhebt sich Chrononaut Leon aus dem Trümmerfeld, während um ihn eine epische
 Schlacht tobt. Sein HUD überschlägt sich mit Warnmeldungen – **_Vitalstatus kritisch: 10%_**,
-**_Paradox-Index +1_** –, doch er blendet die Alarme aus. Jetzt zählt nur noch dieser eine
+**_Paradoxon-Index +1_** –, doch er blendet die Alarme aus. Jetzt zählt nur noch dieser eine
 verzweifelte Versuch. Leon schultert die Energie-Lanze eines gefallenen Mech-Piloten, legt an und
 drückt ab. Ein gleißender Strahl zerfetzt die angreifende Zeitanomalie – ein schier unmöglicher
 Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Codex protokolliert
@@ -416,7 +416,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 7             | Hacken eines gesicherten Terminals       |
 | 10            | Deaktivierung eines Zeitbomben-Prototyps |
 
-### Paradox-Level
+### Paradoxon-Index
 
 | Stufe | Effekt                     |
 | ----- | -------------------------- |
@@ -428,7 +428,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 ### Seed-Counter im HUD
 
-Sobald Paradox-Level **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
+Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
@@ -523,3 +523,13 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 5. **Folgen & Übergang** – nach jedem Durchlauf passen sich Moral, Ressourcen und Gelände an.
 
 _Orientierung:_ Kleine Gefechte brauchen 1–2 Punkte, mittlere Schlachten 3–5, große Konflikte 5+.
+
+### Quickref: Rift-Überblick
+
+| Seeds offen | Probe-Schwelle + | CU-Multi |
+|-------------|-----------------|---------|
+| 0 | 0 | 1.0 |
+| 1 | +1 | 1.2 |
+| 2 | +2 | 1.4 |
+
+Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Belohnungen beeinflussen.

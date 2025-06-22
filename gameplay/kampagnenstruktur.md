@@ -93,14 +93,14 @@ Beim Briefing erfahren die Agenten nur Zeit und Ort einer Instabilitaet.
 Erst in der Investigation wird klar, welches Ereignis gefaehrdet ist.
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
-Das offizielle Ergebnis bleibt gleich; nur Paradox-Level und Fraktionsruf variieren.
+Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.
 
 ### Core- & Rift-Loop
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
 sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
 [`RiftSeedTable`](kreative-generatoren.md#temporale-anomalien-generator-optional)
-gewürfelt werden und stets Anomalien enthalten. Steigt der
+gewürfelt werden und stets Anomalien enthalten. Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im [Generator-Modul](kreative-generatoren.md#kreaturen-generator) beschrieben sind. Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
@@ -142,14 +142,14 @@ if paradox_level == 5:
 ### Epoch-Lock & Rift-Loop
 
 Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 3–5 zusammen-
-hängenden Missionen springt die Handlung weiter. Je höher das Paradox-Level,
+hängenden Missionen springt die Handlung weiter. Je höher das Paradoxon-Index,
 desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 
 #### Grundablauf
 
 ```mermaid
 graph LR
-A[Missionsepisode] -->|Paradox-Punkte| B[Paradox-Level]
+A[Missionsepisode] -->|Paradox-Punkte| B[Paradoxon-Index]
 B -->|Level 5| C[HQ-Phase]
 C -->|1–2 neue Rifts| D[Rift-Pool]
 D -->|offene Rifts zählen| E[Schwierigkeitsgrad & CU-Multi]
@@ -642,7 +642,7 @@ Showdown-Szene.
 4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Nach jedem Duell kann
    eine Revanche gestartet oder die Arena verlassen werden.
 5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
-   Best-of-Three-Serie gewinnt und danach aussteigt, setzt sein Paradox-Level
+   Best-of-Three-Serie gewinnt und danach aussteigt, setzt sein Paradoxon-Index
    einmalig auf **0**. Die Startgebühr fällt bei jedem neuen Lauf erneut an.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
