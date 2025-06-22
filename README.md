@@ -93,7 +93,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 - `ClusterCreate()` – erzeugt automatisch neue Seeds, wenn der Paradoxon-Index 5 erreicht.
 - `ClusterDashboard()` – zeigt im HQ den Status aller offenen Rifts.
 - `launch_rift(id)` – startet aus einem Seed eine eigenständige Mission.
-- `scan_artifact()` – identifiziert Artefakte und erhöht dabei die Severity um 1.
+- `scan_artifact()` – identifiziert Artefakte und erhöht dabei die Paradoxon-Index um 1.
 
 
 ### KPI-Cheat-Sheet pro Phase

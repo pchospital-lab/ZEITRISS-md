@@ -1104,8 +1104,70 @@ Mit solchen Artefakten könnt ihr tolle Plots entwerfen. Gerade wenn Spieler fre
 lieben sie es, **seltsame Gegenstände** zu sammeln und deren Zweck herauszufinden. Vielleicht
 entfaltet ein Artefakt erst im Finale seine volle Macht – oder es bringt einfach Flair in den
 Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das alle paar Stunden ein
-Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen “mysteriösen
-Gegenstände” zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
+Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen „mysteriösen“
+Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
+
+### Modul‑Add‑on »Artefakte«
+
+*(kompatibel zu ZEITRISS 4.0, ready‑to‑drop oder als Generator nutzbar)*
+
+#### Fünf einsatzbereite Artefakte
+
+|#|Codename|Form|Hauptwirkung|Nebenwirkung|Beispiel|
+|-|-|-|-|-|-|
+|A-01|Helios-Lens|Messinglinse Ø18cm|2W6 Hitze (R5)|1/6 Flash, Stress+2|Sabotage|
+|A-02|Dirac-Whisper Circuit|Bakelit-Kästchen 1920er|30s Duplex ±5J|Paradox +1|Kontakt|
+|A-03|Sub-Lumen Chalk|12cm Kreide, IR|SR≤3 verbergen (3h)|Mini-Rift bei 0|Fluchtweg|
+|A-04|Phase-Lock Shard|Rubinfragment im Vial|1 Rd phasing|HP-2, Stress+4|Lasergitter|
+|A-05|Echo Capsule|Edelstahlkapsel, Spiegel|Objekt ≤1kg (1Rd)|Zeitstempel auf Original|Double-Device|
+
+_Regel‑Hooks:_ Schadens‑ und Stresswerte folgen dem W6‑Explode‑Raster. Artefakte sind selten:
+höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Paradoxon‑Index um 1.
+
+#### Artefakt‑Generator (D‑Sequenz)
+- **D1 Strukturklasse (W6):** Relikt; Tech-Modul; Bio-Probe; Quantum-Device; Hybrid-Implantat; Daten-Singularität
+- **D2 Ursprungs-Epoche (W8):** Antike; Industriezeit; Orbit-Boom; Kalter Krieg;
+  Digitalfrühphase; Neu-Orbital; Terra-Kolonien; Off-Timeline
+- **D3 Kernfunktion (W12):** Sensorik; Energieimpuls; Materie modifizieren; Bewusstsein speichern; Teleport;
+  Kräfte neutralisieren; Duplikat; Raum verschlüsseln; Daten korrumpieren; Heilen; Illusion; Zeitfenster stauchen
+- **D4 Aktivierung (W6):** Hautkontakt; Pass-Phrase; Chrono-Keycard; Strahlungsimpuls; Druck >2 bar; Neural-Sync
+- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensor-Echo; Blind-Spot; EMP 5m; Grav-Anomalie; Mini-Rift
+- **D6 Sicherheitsstufe (W6):** Kein Schutz; Biometrie-Siegel; Nano-Lock; Quanten-Cipher; Schredder-Fail-Safe
+#### Generator‑Beispiel (One‑Roll‑Complete)
+
+Würfe: 4 / 6 / 12 / 2 / 1 / 5 → **„Tachyon Sleeve MK‑IV“** – biomechanische Unterarm‑Schiene,
+komprimiert Eigenzeit um 50 % für 2 Runden nach Codewort‑Aktivierung. Nutzung erzeugt W6 Stress;
+unerlaubter Zugriff scheitert am Quanten‑Cipher‑Schutz.
+
+#### Einbettung & Balancing‑Hinweise
+
+1. **Fundhäufigkeit:** 8 % Chance in High‑Risk‑Zonen, niemals als Shop‑Loot.
+2. **Paradoxon‑Wechselwirkung:** Jede Nutzung, die die Epoche bricht, provoziert einen
+   Paradoxon‑Check (Ref ≤ 3 → +1).
+3. **Codex‑Tagging:** `artefakte/<epoch>/<funktion>` zur schnellen Filterung.
+4. **Reverse Engineering:** Nur mit Tech ≥ 5 und drei Tagen Spielzeit; 50 % Risiko,
+   den Effekt zu verlieren.
+
+#### Copy‑Paste‑Snippet für den Codex (JSON‑Minimal)
+
+```json
+{
+  "artefakte": [
+    {
+      "id": "A-01",
+      "name": "Helios-Lens",
+      "epoch": "Industriezeit 1912",
+      "form": "Messinglinse",
+      "effect": "2W6 Hitzeimpuls",
+      "drawback": "Radiation Flash, Stress+2",
+      "paradoxon": 0
+    }
+  ]
+}
+```
+
+_Upgrade abgeschlossen – der Generator liefert nahezu unendliche Varianten, während die fünf
+Ready‑Mades sofort einsetzbar sind._
 
 ## Kulturfragmente-Generator: Farbe für die Epochen {#kulturfragmente}
 

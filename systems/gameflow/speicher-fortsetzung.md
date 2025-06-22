@@ -529,7 +529,7 @@ angepasst.
 - `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
 - `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
 - `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
-- `scan_artifact()` – Contra-Tool, steigert die Severity um 1.
+- `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
 
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
