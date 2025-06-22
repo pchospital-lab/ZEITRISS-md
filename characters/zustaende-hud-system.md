@@ -524,6 +524,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für
   leichte Verletzungen, Rot für kritisch – entsprechend der oben beschriebenen Verwundungsstufen.
+  Ab **50 %** löst das HUD einen **gelben Voralarm** aus, bei **25 %** wechselt es auf Rot.
+  Ein zusätzliches Warnsymbol hilft farbblinden Spielern.
   Zusätzlich kann eine **Prozentzahl** die verbleibenden Lebenspunkte anzeigen (z.B. „HP 75%“).
   Spezielle **Zustände** werden durch **Icons** verdeutlicht: Etwa ein Tröpfchen-Symbol bei
   _Blutung_, ein gebrochenes Knochen-Icon bei _Beinverletzung_, ein Totenkopf bei _Vergiftung_. Die
