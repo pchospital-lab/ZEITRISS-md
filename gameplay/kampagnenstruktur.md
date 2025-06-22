@@ -202,6 +202,9 @@ schließen damit den Seed. Der Schwierigkeitsgrad der Rift-Mission orientiert
 sich an der zum Einsprung offenen Seed-Anzahl. Verlassen die Agenten den Rift,
 schließt sich der Riss automatisch – gelungen oder nicht. Der Seed verschwindet
 aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
+Während einer Rift-Op bleibt der Paradoxon-Index unverändert: Weder der
+Einsprung noch die Ereignisse im Riss erhöhen ihn. Die Handlung ist eine
+eigenständige X-Files-Episode, die nur thematisch zur aktuellen Epoche passt.
 
 ```text
 Name / Epoche
@@ -229,6 +232,7 @@ Shard-Drop: 1+Tier
 - Schwierigkeit = `base_dc + open_seeds`.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
 - Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
+- Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
 
 ### Zeitlinien-Verzweigungen
 

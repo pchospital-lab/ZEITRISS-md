@@ -376,7 +376,9 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 
 1. Bei Stufe 2 flackert kurz das HUD und die Funkverbindung rauscht.
 2. Auf Stufe 4 friert die Szene für einen Moment ein, als ob die Zeit stockt.
-3. Bei Stufe 5 öffnet sich sofort ein Rift und ein Paramonster aus Modul 8 tritt hervor.
+3. Bei Stufe 5 markiert das HQ 1–2 Risse auf der Weltkarte. Diese lassen sich
+   erst nach Missionsende vom HQ aus anspringen. Der Sprung selbst löst kein
+   Paradoxon-Level aus.
 
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
 
