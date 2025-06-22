@@ -32,6 +32,7 @@ tags: [gameplay]
 
 ### Optional
 
+- Rätselbibliothek: Kurze Hürdenszenen
 - Temporale Anomalien-Generator: Risse im Zeitstrom
 
 Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen – vor allem nicht
@@ -1191,6 +1192,24 @@ Ein schneller W6-Wurf erzeugt ein stimmungsvolles Detail für die aktuelle Szene
 4. Auffällige Kleidung oder Uniformen im Blickfeld
 5. Ein NPC murmelt ein Sprichwort der Epoche
 6. Plötzlicher Wettereffekt (Regen, Hitze, Schneeschauer)
+
+## Rätselbibliothek: Kurze Hürdenszenen {#raetselbibliothek}
+
+Kurze Ideen für Rätsel- oder Hindernisszenen. Jeder Eintrag trägt ein
+**Schwierigkeits-Tag**: _Easy_ für lockeres Spiel und _Advanced_ für
+knifflige Herausforderungen.
+
+| Nr. | Beschreibung | Tag |
+|----|-------------|-----|
+| 1 | Geheimtür über Schallfrequenz öffnen | Easy |
+| 2 | Mechanisches Schloss mit rotierendem Zahlenring | Easy |
+| 3 | Verschlüsseltes Tagebuch in historischem Dialekt | Advanced |
+| 4 | Laserlabyrinth, das nur bei Schatten sichtbar wird | Advanced |
+| 5 | Bildfragment muss wie ein Puzzle zusammengesetzt werden | Easy |
+| 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | Advanced |
+
+Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
+schnelle Orientierung im Mission-Generator.
 
 ## Temporale Anomalien-Generator (optional) {#anomalien-generator}
 
