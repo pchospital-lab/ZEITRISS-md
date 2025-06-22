@@ -95,7 +95,7 @@ Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antref
 Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind.
 Diese Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse –
 und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen können erst ab
-Paradox-Level 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
+Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
 
 - **Intuition („sechster Sinn“):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
   hinausgeht. Charaktere mit starker Intuition erspüren Gefahren oder richtige Entscheidungen, ohne es
@@ -445,7 +445,7 @@ ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereig
 interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
 wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
 eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
-Bei steigendem Paradox-Level drohen verschiedene Nebenwirkungen. Zunächst flackert nur das HUD,
+Bei steigendem Paradoxon-Index drohen verschiedene Nebenwirkungen. Zunächst flackert nur das HUD,
 bei Stufe 4 kommt es zu kurzen Zeitstillständen. Erreicht der Index 5, startet das HQ
 automatisch `ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur wenn
 ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur Hilfe.
