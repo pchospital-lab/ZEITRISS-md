@@ -480,7 +480,7 @@ GPT erzeugt dazu zwei kurze NSC-Profile und ein Ereignis für den Raum.
 ### HQ-Phase Workflow
 
 1. Rückkehr in die Gatehall.
-2. `> go operations` zeigt Seed-Status und Paradox-Level.
+2. `> go operations` zeigt Seed-Status und Paradoxon-Index.
 3. `> use seed-scanner` listet offene Rifts.
 4. `> go hangar` und `> jump rift-ID` starten Side-Ops.
 5. `> rest` in den Crew-Quarters setzt Stress zurück.
@@ -518,7 +518,7 @@ Sgt. Keller salutiert knapp.
 > go operations
 [Operations-Deck]
 Hologramme tanzen über dem Seed-Scanner.
-Open Rifts: 1  |  Paradox Level: 3
+Open Rifts: 1  |  Paradoxon-Index: 3
 > use seed-scanner
 Rift-ID #LND-1851 »Steam Wraith« – Status: OPEN
 Side-Op? (y/n)

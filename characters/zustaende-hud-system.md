@@ -116,7 +116,7 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
 
 - **Temporale Destabilisierung:** ZEITRISS-Agenten arbeiten mit der Zeit – doch temporale Phänomene
   können auch ihnen zusetzen. **Destabilisierung** bezeichnet einen Zustand, in dem der **Zeitstrom
-  um (oder in) einem Charakter ins Wanken gerät**. Ursachen können hohe Paradox-Level, Zeitreisen
+  um (oder in) einem Charakter ins Wanken gerät**. Ursachen können hohe Paradoxon-Index, Zeitreisen
   ohne ausreichende Schutzmaßnahmen oder temporale Waffen/Implantate sein. Destabilisierte
   Charaktere erleben **Desorientierung, Déjà-vus oder gar Sekundenbruchteile des „Aus-der-Zeit-
   Fallens“**. _Effekt:_ Je nach Schwere erhält der Charakter **Abzüge auf Aktionen** (z.B. –1 bis
@@ -320,7 +320,7 @@ Lebenspunkte hinausgehen:
   Entspannung reduziert **2 Punkte**, eignet sich also besonders für Solo-Runs
   ohne Team-Backup.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
-  Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradox-Level** verwenden,
+  Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradoxon-Index** verwenden,
   um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. _Grundidee:_ **Level 0**
   bedeutet keine Anomalien – alles in Ordnung. Mit jedem Verstoß gegen die Zeitlogik (z.B. wichtige
   historische Ereignisse verändert, direkten Vorfahren begegnet, große Zeitanomalie ausgelöst) kann
@@ -329,8 +329,8 @@ Lebenspunkte hinausgehen:
   merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
   Realität könnte reißen oder sich selbst „bereinigen“. Das **HUD** aller Agenten zeigt diesen Wert
   gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität). Im Spiel kann GPT
-  beschreiben: _„Euer HUD warnt: Paradox-Level 3 – Zeitstrom destabilisiert sich, in der Luft liegt
-  ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradox-Level einsetzen, um **Spannung
+  beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
+  ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
   _Auswirkungen:_ Steigende Werte lassen die Zeit spürbar entgleisen.
@@ -347,12 +347,12 @@ Lebenspunkte hinausgehen:
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
-  **Solange Chrononauten in einer fremden Epoche aktiv sind, steigt der Paradox-Level
+  **Solange Chrononauten in einer fremden Epoche aktiv sind, steigt der Paradoxon-Index
   langsam von selbst.** Behutsames, stilvolles Vorgehen lässt den Index nur langsam steigen, während
   grobe Aktionen ihn rasch eskalieren lassen. Auch hier gilt:
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
-  ausgelegt sein, ein Paradox-Level wieder zu senken (z.B. einen Fehler in der Vergangenheit
+  ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
 
 ### Paradox-Subsystem
@@ -369,8 +369,13 @@ Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
-_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden, bei der keine Risse
-oder Zeitkreaturen erscheinen._
+_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden, bei der keine Risse oder Zeitkreaturen erscheinen.
+
+**Mini-Beispiele**
+
+1. Bei Stufe 2 flackert kurz das HUD und die Funkverbindung rauscht.
+2. Auf Stufe 4 friert die Szene für einen Moment ein, als ob die Zeit stockt.
+3. Bei Stufe 5 öffnet sich sofort ein Rift und ein Paramonster aus Modul 8 tritt hervor.
 
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
 
@@ -414,7 +419,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   Punkte pro Stunde, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
   Psi-Energie eng mit dem Zeitstrom verknüpfen. Vielleicht verursacht der Gebrauch starker Psi-
   Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene PSI-Punkte steigt der
-  Paradox-Level um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
+  Paradoxon-Index um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
   eindrucksvoll, aber gefährlich. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
   Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
 - **Modulare Ressourcen allgemein:** Natürlich könnt ihr auch andere Ressourcen tracken, z.B.
@@ -561,12 +566,12 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   _„❗ Neues Ziel: Fluchtweg finden“_ wenn eine Fluchtsituation eintritt). Das erhöht die Immersion,
   da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
   Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
-- **Paradox-Alarm:** Da das **Paradox-Level** so kritisch ist, hat es eine prominente Stelle im HUD.
+- **Paradox-Alarm:** Da der **Paradoxon-Index** so kritisch ist, hat es eine prominente Stelle im HUD.
   Meist als **Skala oder Warnsymbol** dargestellt, ggf. mit Farbe (grün = stabil, gelb =
   Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
   (Symbol für stabilen Zeitstrom). Steigt das Level, wechselt es auf gelb/orange mit einem
   ⚠️-Symbol; ab Level 4–5 blinkt es rot und gibt akustische Warnungen (_„‼ ZEITSTROM INSTABIL ‼“_).
-  GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradox-Level 4 – die
+  GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradoxon-Index 4 – die
   Umgebung fühlt sich verzerrt an, als würde ein Film ruckeln…“_. Die Spieler wissen sofort, dass
   Gefahr droht, **innerhalb der Geschichte**. Auch kleinere Paradox-Effekte können gemeldet werden
   (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
@@ -589,7 +594,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   **Codex**, das intelligente Expertensystem des ITI. In-world läuft das oft über Sprachbefehle oder
   Gedankensteuerung. Spieler können also im Spiel sagen: _„Codex, HUD-Übersicht!“_ – und die KI-
   Spielleitung (GPT) liefert daraufhin eine **knappe Übersicht** aller relevanten Werte. Beispiel
-  einer solchen Bildschirmlese: _„Vitals 78% (grün) • Paradox-Level 1 • Zeitstabilität 92% •
+  einer solchen Bildschirmlese: _„Vitals 78% (grün) • Paradoxon-Index 1 • Zeitstabilität 92% •
   Primärziel: teilweise erfüllt“_. Das sind keine out-of-character Statuswerte, sondern _die Figur selbst
   sieht diese Anzeigen_. Dadurch verschwimmt die Grenze zwischen Spielerinformation und
   Charakterwissen positiv: Der Spieler fragt quasi seinen eigenen Ingame-Computer nach Daten. Der
@@ -690,7 +695,7 @@ Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als
 
 ### Erweiterbare Module (Platzhalter)
 
-- 🟥 `warnung` – zeigt [Vitalstatus kritisch], [Paradox-Index +1], [Filter ausgefallen]
+- 🟥 `warnung` – zeigt [Vitalstatus kritisch], [Paradoxon-Index +1], [Filter ausgefallen]
 - 🟦 `modulinfo` – zeigt aktuelle Cyberware, Bioware, Drohne, Ausrüstung
 - 🟨 `temporale Umgebung` – z. B. `[Schwerkraftanomalie erkannt]` oder `[Zeitschleife → 14s Delay]`
 - 🟩 `drohnenstatus` – Statusanzeige von VARC oder anderer Begleiteinheit

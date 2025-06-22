@@ -419,7 +419,7 @@ Daten stammen vom **ITI-Codex**, der zentrale Rechner, der Sensoren und Missions
 relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) _„Codex,
 Statusbericht!“_ oder _„Codex, HUD-Übersicht!“_ rufen – die KI liefert dann prompt eine knappe
 Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: _Vitalwerte 78 % (stabil) –
-Paradox-Level 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
+Paradoxon-Index 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
 automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Paradoxwert ≥3, Timer
 unter 1 Minute).
 
