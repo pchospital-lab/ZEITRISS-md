@@ -218,6 +218,18 @@ function majorityFaction(players) {
   return Object.entries(tally).sort((a, b) => b[1] - a[1])[0][0];
 }
 
+function createFactionAllies(factionId, count) {
+  // Hook: eigene NPC-Logik einbinden
+  // Erwartet die Anzahl der Verbündeten und liefert ein Array entsprechender NPCs
+  return [];
+}
+
+function createOpposingTeam(size) {
+  // Hook: generiert das gegnerische Team nach euren Regeln
+  // Erwartet die Teamgröße und gibt ein Array rivalisierender NPCs zurück
+  return [];
+}
+
 function createTeam(size, players, mode = "single") {
   const team = players.slice(0, size);
   const missing = size - team.length;
