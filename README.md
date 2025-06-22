@@ -42,7 +42,8 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle listet die **21 Regelmodule** (18 Dateien und 3 Unterabschnitte). Zusätzlich sind `README.md` und `master-index.json` als Orientierung aufgeführt:
+Die folgende Tabelle listet die **21 Regelmodule** (18 Dateien und 3 Unterabschnitte).
+Zusätzlich sind `README.md` und `master-index.json` als Orientierung aufgeführt:
 
 | Datei | Inhalt |
 | --- | --- |
