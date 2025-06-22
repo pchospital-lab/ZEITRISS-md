@@ -473,6 +473,22 @@ gibt potentielle Gefahren (Überlastung, Paradoxien). Damit fühlt sich Psi-Eins
 Einsatz eines mächtigen Geräts: mal unglaublich nützlich, mal unberechenbar, immer aber mit
 Verantwortung verbunden.
 
+### Rebalance: Psi-Kosten & Cooldown {#psi-rebalance}
+
+Um spamartige Einsatzfolgen zu vermeiden, wird die Kostenspirale auf **3/2/1 PP**
+angehoben. Stärkere Effekte benötigen somit mehr Ressourcen und eine längere
+Erholungsphase.
+
+| Kraftstufe | PP-Kosten | Cooldown (Runden) | Beispiel |
+|-----------|-----------|------------------|----------|
+| Stark     | 3         | 3                | Zeitstopp, fremder Geist wird dominiert |
+| Mittel    | 2         | 2                | Telekinetischer Stoß, Schutzfeld |
+| Gering    | 1         | 1                | Gefühlsimpuls, kurzer Blick in die Zukunft |
+
+Spielgruppen können A/B-Tests fahren: Variante A nutzt obige Werte, Variante B
+verringert den Cooldown um jeweils eine Runde. Nach einigen Sessions lässt sich
+so ermitteln, welche Variante für die Kampagne besser passt.
+
 ## Entwicklung von Psi im Levelsystem
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende

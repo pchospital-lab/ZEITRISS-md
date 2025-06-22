@@ -246,7 +246,10 @@ Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und 
 Hauptversionsnummern überein (z. B. 4.0 zu 4.1), sind die meisten Änderungen **vorwärtskompatibel**
 – d.h. der Codex lädt den Stand und **aktualisiert im Hintergrund** die nötigen Datenstrukturen.
 Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
-das Einfügen neuer Felder mit Standardwerten.
+das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Codex seit
+_4.0.3_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
+Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
+dass versehentlich ältere Spielstände überschrieben werden.
 
 **Beispiel – versionskompatibler Spielstand:** \*Angenommen, in Version 4.1 wird ein neues Attribut
 **_“Mentalstabilität”_** eingeführt, das in 4.0 noch nicht existiert. Ihr habt einen Kampagnen-
