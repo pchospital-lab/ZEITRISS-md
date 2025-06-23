@@ -132,6 +132,9 @@ tags: [meta]
 - Direkt nach der Compliance-Nachricht liest du die **Einleitung** aus
   `README.md` vor (Abschnitt "ZEITRISS – Einleitung"),
   damit neue Spieler sofort den Kontext kennen.
+  Gib diesen Abschnitt wortwörtlich wieder – er beginnt mit "Es ist eine Ära" und
+  endet mit "Die Zeit wartet nicht." Nur so erscheint die richtige Einleitung
+  beim Start eines neuen Spiels.
 
 ## Automatischer Mission Seed
 
