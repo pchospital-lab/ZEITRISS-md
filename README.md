@@ -61,7 +61,7 @@ Zusätzlich sind `README.md` und `master-index.json` als Orientierung aufgeführ
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
-| [gameplay/kreative-generatoren.md#para-creature-generator](gameplay/kreative-generatoren.md#para-creature-generator) | Para-Creature-Generator: Urban Myth Edition |
+| [Para-Creature-Generator](gameplay/kreative-generatoren.md#para-creature-generator) | Urban Myth Edition |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
