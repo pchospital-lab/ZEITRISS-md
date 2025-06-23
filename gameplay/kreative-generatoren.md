@@ -100,6 +100,9 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
 }
 ```
 
+_Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehen.
+Streiche doppelte Seeds oder variiere sie.
+
 Bei Missionsbeginn notiert sich die SL den Twist.
 In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`,
 der die Wendung andeutet.

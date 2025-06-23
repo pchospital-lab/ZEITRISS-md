@@ -163,7 +163,6 @@ nach dem Sprung als abgeschlossen.
 Das HUD bietet drei Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen:
 | Modus                    | Kurzbeschreibung |
-Das Skript [validate_seed_twist.py](tools/validate_seed_twist.py) warnt vor doppelten Twist- und Objective-Einträgen im Missionsgenerator.
 
 | **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
@@ -176,7 +175,9 @@ ausschalten. Pro-Gruppen behalten sie aktiv.
 
 ## Generator-Utilities
 
-Das Skript [validate_seed_twist.py](tools/validate_seed_twist.py) warnt vor doppelten Twist- und Objective-Einträgen im Missionsgenerator.
+Neuer Eintrag? Prüfe kurz, ob der Text bereits in einer anderen Liste steht.
+`objective` und `twist` sollten sich nicht doppeln. Falls du denselben Satz in
+beiden Feldern findest, wähle eine Variante oder streiche ihn.
 
 
 ## How to Contribute
