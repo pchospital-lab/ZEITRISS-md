@@ -176,8 +176,8 @@ der Chrononauten zu beschreiten, tritt durch diese Tür – wissend, dass ein ei
 Schritt ein Schicksal tilgen, ein anderes erschaffen und die Legende eines ganzen
 Zeitalters ungeschehen machen kann.
 
-**W I L L K O M M E N  I M  A G E N T E N – T H R I L L E R  J E N S E I T S  A L L E R  G R E N Z E N –
-W I L L K O M M E N  I N  Z E I T R I S S.  Die Zeit wartet nicht.**
+Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
+Die Zeit wartet nicht.
 
 
 Diese Befehle können frei eingegeben werden.
