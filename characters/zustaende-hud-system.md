@@ -367,8 +367,8 @@ Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
 | Stufe | In-Mission-Effekt               | HQ-Effekt                                    |
 | ----- | ------------------------------- | -------------------------------------------- |
 | 0–1   | Stabil                          | –                                            |
-| 2     | Funk-Schwankung                 | –                                            |
-| 3     | Leuchtende Staubfäden           | –                                            |
+| 2     | HUD-Flackern                    | –                             |
+| 3     | Audio-Echo                      | –                             |
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
@@ -639,6 +639,12 @@ grün mit einem Häkchen – sie hat es nach draußen geschafft.\*\*“\* – Hi
 Hektik und gibt gleichzeitig wichtige Infos: Nikolais Gesundheitsstatus sinkt rapide, der Ausgang
 ist in Reichweite, das Primärziel ist noch offen, und Mira ist bereits sicher. All das erfährt der
 Spieler **diegetisch**, also im Erleben der Figur.
+
+```text
+┌─STATUS────────────────────────┐
+│ HP 12/18 │ Paradox 2 │ Tarnung ✔ │
+└───────────────────────────────┘
+```
 
 Am Ende ist das **HUD-Overlay** ein vielseitiges Werkzeug, um **Regelmechanismen nahtlos ins
 Storytelling** zu integrieren. Richtig dosiert vermittelt es das Gefühl, in einem Film mitzuspielen,
