@@ -164,7 +164,11 @@ eröffnen. Beachte, dass Ausrüstung ebenfalls in CUs bezahlt wird; viele **Allt
 einfache historische Tools sind günstig (oft zwei- oder niedriger dreistelliger CU-Bereich), während
 **hochwertiges Missionsgerät** schnell teuer wird. Ein moderner Revolver oder ein römischer Gladius
 kostet z.B. ~50 CU, eine hochwertige Körperschutz-Weste ~150 CU, und seltene High-Tech-Gadgets oder
-Antiquitäten können 200+ CU erreichen. Die folgende Auflistung bietet einen Überblick.
+Antiquitäten können 200+ CU erreichen. Zwischen diesen Bereichen liegt nun eine
+**Mid-Tier** von **800–1200 CU** für taktische Ausrüstung und fortgeschrittene
+Implantate. Sie ermöglicht spürbare Upgrades, ohne gleich auf riesige
+Fahrzeuganschaffungen sparen zu müssen. Die folgende Auflistung bietet einen
+Überblick.
 
 ### Alltags- und Missionsausrüstung
 

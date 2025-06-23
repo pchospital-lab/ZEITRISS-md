@@ -202,6 +202,11 @@ ITI-Hauptquartier:
 _Hinweis:_ Die Kosten für inoffizielle Informationen (z.B. Bestechungen) können je nach Quelle und
 Risiko stark schwanken.
 
+Spezialisierte Ausrüstung und hochwertige Implantate füllen ein neues
+**Mid-Tier** von **800–1200 CU**. Beispiele sind aufrüstbare Drohneneinheiten
+oder modulare Cyberware, die deutlich besser als Standardware sind, aber noch
+unter den kostspieligen Fahrzeug- oder Artefaktupgrades liegen.
+
 All diese Einkaufsmöglichkeiten tragen dazu bei, dass verdiente CUs wieder ins Spiel zurückfließen
 und den Charakteren greifbare Vorteile oder schlicht Vergnügen verschaffen. **Wichtig:** Selbst die
 beste Ausrüstung will **verdient** sein. Das ITI stellt nie einfach alles uneingeschränkt ins Regal

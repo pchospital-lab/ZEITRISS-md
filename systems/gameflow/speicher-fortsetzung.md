@@ -114,6 +114,11 @@ _"Epoche": "Gegenwart (2025)",_
 _"Level": 2,_
 
 _"version_hash": "4.0",_
+_"arc_dashboard": {_
+_"offene_seeds": [],_
+_"fraktionen": {},_
+_"fragen": []_
+_},_
 
 _"Erfahrung": 15,_
 
@@ -222,6 +227,13 @@ speichern. Ein Gruppen-Spielstand im JSON-Format könnte so aussehen:
 _{_
 
 _"Gruppe": "Team Chronos",_
+
+_"version_hash": "4.0",_
+_"arc_dashboard": {_
+_"offene_seeds": [],_
+_"fraktionen": {},_
+_"fragen": []_
+},_
 
 _"Charaktere": \[_
 
@@ -880,3 +892,15 @@ wird durch das neue Speichersystem zuverlässig gewährleistet. Spieler und Spie
 voll auf das Zeitreise-Abenteuer konzentrieren, im Vertrauen darauf, dass Charakterwerte,
 Errungenschaften und temporale Auswirkungen sicher mit in die Zukunft genommen werden. **Viel Spaß
 in der nächsten Mission!**
+
+## Versions- und Migrationsmatrix
+
+| Version | Hinweis |
+| ------- | ------- |
+| **4.0** | Ausgangsformat, keine Zusatzfelder |
+| **4.1** | `arc_dashboard` und neuer `version_hash` in jedem Save |
+
+Beim Laden eines alten 4.0-Spielstands fügt die SL einfach ein
+`version_hash` von "4.0" hinzu. Die optionalen Felder von 4.1 werden
+ignoriert, bis sie benötigt werden. Weitere Updates können so
+tabellarisch ergänzt werden.

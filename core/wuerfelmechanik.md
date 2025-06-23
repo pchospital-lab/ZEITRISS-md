@@ -83,6 +83,15 @@ Varianz zunehmen. Kleine Unterschiede in Attributen oder Fertigkeiten wirken sic
 weniger stark absolut aus, was Proben **ausgewogener** machen kann. Die SL sollte die
 Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten – in der Regel erfordern
 Aufgaben etwa 4 Punkte höhere Zielwerte, um die höhere durchschnittliche Würfelsumme auszugleichen.
+Faustformel: **SG\_W10 = SG\_W6 + 4**. So bleibt die Erfolgsquote vergleichbar.
+Eine kleine Tabelle dient als Orientierung:
+
+| SG (W6) | SG (W10) |
+| ------ | ------ |
+| 4 | 8 |
+| 5 | 9 |
+| 6 | 10 |
+| 7 | 11 |
 Die **Exploding**-Regel lässt sich grundsätzlich auch auf einen W10 übertragen (_Exploding 10_, bei
 einer gewürfelten 10 wird erneut geworfen). Allerdings entsteht durch einen W10 alleine schon mehr
 Spannungsbreite; ob man zusätzlich explodierende Würfel bei 10 einsetzt, kann die Gruppe nach
