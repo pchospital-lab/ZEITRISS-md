@@ -163,7 +163,8 @@ nach dem Sprung als abgeschlossen.
 Das HUD bietet drei Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen:
 | Modus                    | Kurzbeschreibung |
-| ------------------------ | ------------------------------------------------------------------------------- |
+Das Skript [validate_seed_twist.py](tools/validate_seed_twist.py) warnt vor doppelten Twist- und Objective-Einträgen im Missionsgenerator.
+
 | **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
@@ -172,6 +173,11 @@ Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und
 [Zeitriss-Core](core/zeitriss-core.md) die Paradoxmechanik vollständig
 ausschalten. Pro-Gruppen behalten sie aktiv.
+
+## Generator-Utilities
+
+Das Skript [validate_seed_twist.py](tools/validate_seed_twist.py) warnt vor doppelten Twist- und Objective-Einträgen im Missionsgenerator.
+
 
 ## How to Contribute
 

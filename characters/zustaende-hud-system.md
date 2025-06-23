@@ -514,6 +514,7 @@ werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzlich
 Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
 **Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.
+Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup: [Micro-SRD](../systems/micro_srd.md).
 Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradox); weitere
 Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance:

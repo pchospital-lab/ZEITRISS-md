@@ -301,6 +301,14 @@ function startGroupMode(players = []) {
 function autoSave() {
   fs.writeFileSync("campaign_state.json", JSON.stringify(state, null, 2));
 }
+
+function deltaSave(prevState, newState) {
+  const delta = {};
+  for (const k in newState) {
+    if (prevState[k] !== newState[k]) delta[k] = newState[k];
+  }
+  fs.writeFileSync("campaign_state.delta.json", JSON.stringify(delta, null, 2));
+}
 // Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
 
@@ -319,5 +327,6 @@ function autoSave() {
    - `rest` (Nur in Crew-Quarters)
 
 5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
+6. Wöchentlich einen Full-Snapshot speichern, dazwischen `deltaSave` nutzen.
 
 ---
