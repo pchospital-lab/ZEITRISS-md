@@ -182,7 +182,10 @@ verschwinden, was die verunsichernde Atmosphäre unterstreicht. **Weniger ist of
 Alerts gezielt ein, damit sie die Spieler warnen und ins Geschehen ziehen, anstatt sie mit ständigen
 Pop-ups abzulenken. Richtig eingesetzt, erhöht das HUD-Management die Immersion und gibt den Helden
 das Gefühl, von ihrer Ausrüstung optimal unterstützt zu werden – gerade wenn es brenzlig wird.
-Konfigurierbare HUD-Warnungen verhindern Spam. Eine Einstellung `alertCooldown` (z.B. 1 Runde) in eurer `config.json` sorgt dafür, dass identische Meldungen erst nach Ablauf dieser Zeit erneut erscheinen. Weniger Blinken hält das Thriller-Tempo hoch.
+Konfigurierbare HUD-Warnungen verhindern Spam.
+Eine Einstellung `alertCooldown` (z.B. 1 Runde) in eurer `config.json` sorgt dafür,
+dass identische Meldungen erst nach Ablauf dieser Zeit erneut erscheinen.
+Weniger Blinken hält das Thriller-Tempo hoch.
 
 ## Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 
