@@ -976,6 +976,7 @@ Respektgebietendes. Gerade in ZEITRISS, wo Mythologie oft einen zeitphänomenale
 können solche Kreaturen dafür sorgen, dass selbst erfahrene Chrononauten nie vergessen: **Die Zeit
 birgt unendliche Überraschungen.**
 
+<a id="para-creature-generator"></a>
 ## Para-Creature-Generator: Urban Myth Edition {#para-creature-generator}
 
 Kompaktgenerator samt drei gebrauchsfertigen Fallakten im „X‑Files“-Dossier-Stil.
