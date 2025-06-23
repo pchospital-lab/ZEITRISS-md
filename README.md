@@ -143,14 +143,14 @@ Ausführliche Tabellen stehen in
 
 ## Spielstart
 
-Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein Chatfenster
-(die Icons sind optional):
+Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
+(Icons sind optional):
 
-- **Solo:** Du spielst mit einem einzelnen Chrononauten; GPT führt die NSCs.
-- **Solo mit NPC-Team:** Auf Wunsch stellt GPT ein temporäres Begleitteam bereit.
-- **Gruppe/Multiplayer:** Mehrere reale Spieler laden ihre eigenen Speicherstände
-  oder erstellen gemeinsam neue Charaktere. GPT koordiniert die Szene.
-- **Savegame laden:** Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
+- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
+- **`Spiel starten (npc-team)`** – GPT stellt ein temporäres Begleitteam bereit.
+- **`Spiel starten (gruppe)`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
+  oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
+- **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter.
 
