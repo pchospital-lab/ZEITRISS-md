@@ -415,6 +415,11 @@ herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann e
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
 ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setzen.
 
+**Burst-Slot:** Einmal pro Szene erhält ein Psioniker einen temporären
+SYS-Punkt, um eine Kraft spontan zu zünden. Dieser Bonus verfällt sofort
+nach der Aktion und ermöglicht es, Effekte einzusetzen, ohne zuvor
+Implantate herunterregeln zu müssen.
+
 **Risiko und Misserfolg:** Nicht jeder Psi-Versuch glückt. Was passiert, wenn der Charakter die
 Probe nicht schafft oder seine Konzentration verliert? Hier sollte die SL nicht einfach „nichts
 passiert“ sagen, sondern **komplexe Fehlschläge** anbieten – ganz im Sinne des filmischen Stils.

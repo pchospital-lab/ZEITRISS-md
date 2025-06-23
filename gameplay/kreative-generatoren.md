@@ -130,124 +130,157 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 }
 ```
 
+Jede Rift-Mission erhält nun einen **Difficulty-Tag**. Die Skala reicht
+von ★ (leicht) bis ★★★★★ (tödlich) und hilft, Encounter je nach
+Gruppengröße abzustimmen. Solo-Agenten sollten Rifts mit mehr als
+★★★ nur mit starker Vorbereitung angehen.
+
 ```json
 {
   "RiftSeedTable": [
     {
       "d24": 1,
       "Seed": "Feuerengel von Breslau",
-      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"
+      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung",
+      "Diff": "★★★"
     },
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
-      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau"
+      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau",
+      "Diff": "★★"
     },
     {
       "d24": 3,
       "Seed": "Schrecken von Whitehall",
-      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon"
+      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon",
+      "Diff": "★★★"
     },
     {
       "d24": 4,
       "Seed": "Night Train 666",
-      "Hook": "Führerloser Güterzug – Boarding & Blackbox"
+      "Hook": "Führerloser Güterzug – Boarding & Blackbox",
+      "Diff": "★★★"
     },
     {
       "d24": 5,
       "Seed": "Mirage Over Sinai",
-      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken"
+      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken",
+      "Diff": "★★★★"
     },
     {
       "d24": 6,
       "Seed": "Wolfsplage Dacia",
-      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"
+      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen",
+      "Diff": "★★★"
     },
     {
       "d24": 7,
       "Seed": "Project Götterdämmerung",
-      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station"
+      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station",
+      "Diff": "★★★★"
     },
     {
       "d24": 8,
       "Seed": "Black Rain Vienna",
-      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"
+      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren",
+      "Diff": "★★★"
     },
     {
       "d24": 9,
       "Seed": "Emerald Kraken",
-      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen"
+      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen",
+      "Diff": "★★★"
     },
     {
       "d24": 10,
       "Seed": "Mars-Log #404",
-      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück"
+      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück",
+      "Diff": "★★★★"
     },
     {
       "d24": 11,
       "Seed": "Nightcrawler",
-      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"
+      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam",
+      "Diff": "★★"
     },
     {
       "d24": 12,
       "Seed": "Sasquatch im Yukon",
-      "Hook": "Bestie greift Trapper an – Fährte verfolgen"
+      "Hook": "Bestie greift Trapper an – Fährte verfolgen",
+      "Diff": "★★"
     },
     {
       "d24": 13,
       "Seed": "Mothman-Sichtung",
-      "Hook": "Unheil über Brücke – Absturz bergen"
+      "Hook": "Unheil über Brücke – Absturz bergen",
+      "Diff": "★★"
     },
     {
       "d24": 14,
       "Seed": "Blutorden",
-      "Hook": "Opfer blutleer – Kult zerschlagen"
+      "Hook": "Opfer blutleer – Kult zerschlagen",
+      "Diff": "★★★"
     },
     {
       "d24": 15,
       "Seed": "Diablos Katakomben",
-      "Hook": "Dämonische Schreie – Artefakt zerstören"
+      "Hook": "Dämonische Schreie – Artefakt zerstören",
+      "Diff": "★★★★"
     },
     {
       "d24": 16,
       "Seed": "Feuerengel",
-      "Hook": "Flammender Cherub – Drohne bergen"
+      "Hook": "Flammender Cherub – Drohne bergen",
+      "Diff": "★★★"
     },
     {
       "d24": 17,
       "Seed": "Totenbrücke",
-      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren"
+      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren",
+      "Diff": "★★"
     },
     {
       "d24": 18,
       "Seed": "Schrecken Whitehall",
-      "Hook": "Löwe springt – Parkourjagd"
+      "Hook": "Löwe springt – Parkourjagd",
+      "Diff": "★★"
     },
     {
       "d24": 19,
       "Seed": "Night Train 666 (Paranormal)",
-      "Hook": "Geisterzug – Zug entern"
+      "Hook": "Geisterzug – Zug entern",
+      "Diff": "★★★"
     },
     {
       "d24": 20,
       "Seed": "Emerald Kraken (Paranormal)",
-      "Hook": "Grüne Tentakel – Taucheinsatz"
+      "Hook": "Grüne Tentakel – Taucheinsatz",
+      "Diff": "★★★"
     },
     {
       "d24": 21,
       "Seed": "Militärischer Komplex",
-      "Hook": "Tollwutvirus-Zombies eindämmen"
+      "Hook": "Tollwutvirus-Zombies eindämmen",
+      "Diff": "★★★"
     },
     {
       "d24": 22,
       "Seed": "Mittelalterliche Katakomben",
-      "Hook": "Der falsche Teufel – Illusion enttarnen"
+      "Hook": "Der falsche Teufel – Illusion enttarnen",
+      "Diff": "★★"
     },
-    { "d24": 23, "Seed": "Altes Schloss", "Hook": "Vampir-Experiment beenden" },
+    {
+      "d24": 23,
+      "Seed": "Altes Schloss",
+      "Hook": "Vampir-Experiment beenden",
+      "Diff": "★★★"
+    },
     {
       "d24": 24,
       "Seed": "Geheime Tiefsee-Megacity",
-      "Hook": "Ursprung des \"Blob\" stoppen"
+      "Hook": "Ursprung des \"Blob\" stoppen",
+      "Diff": "★★★★"
     }
   ]
 }
@@ -861,7 +894,11 @@ Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten.
 Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus –
 reine Zeitkonstrukte mit genau einem Zeiteffekt.
 
-Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block:
+Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block.
+Jedes Wesen trägt einen **Schwierigkeitswert** von ★ bis ★★★★★,
+der angibt, wie hart es Solo-Agenten im Vergleich zu Gruppen trifft.
+Faustregel: Pro zusätzlichem Stern sollte das Team mindestens
+einen weiteren Agenten oder starke Ausrüstung aufbieten.
 
 1. **Zeitschimäre** – Verschmolzene Tiere und Maschinen aus mehreren Epochen.
 
@@ -871,6 +908,7 @@ Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block:
 │ Rift-Tier: Standard Rift                   │
 │ HP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
+│ Difficulty: ★★★                           │
 │ Signature Power: Time-Skip Blink           │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Survival 13          │
@@ -889,6 +927,7 @@ Greift alles an, bis der Riss geschlossen ist.
 │ Rift-Tier: Standard Rift                   │
 │ HP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
+│ Difficulty: ★★★                           │
 │ Signature Power: Stasis Wall               │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Lore 14              │
@@ -907,6 +946,7 @@ Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
+│ Difficulty: ★★                            │
 │ Signature Power: Loop Echo                 │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Empathy 12           │
@@ -925,6 +965,7 @@ Kann erlöst oder endgültig gebannt werden.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
+│ Difficulty: ★★                            │
 │ Signature Power: Reverse Flow              │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Tech 12              │
@@ -943,6 +984,7 @@ Wird schlauer, je länger er unbehelligt bleibt.
 │ Rift-Tier: Major Rift                      │
 │ HP-Pool: W6 × 3 (Exploding)                │
 │ Defense-Schwelle: 6                        │
+│ Difficulty: ★★★★★                         │
 │ Signature Power: Age-Burn Touch            │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Willpower 16         │
@@ -961,6 +1003,7 @@ Nur mehrere Zeitanker können ihn bannen.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
+│ Difficulty: ★★                            │
 │ Signature Power: Time-Slow Bubble          │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Medicine 12          │
