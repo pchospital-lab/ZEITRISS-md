@@ -147,6 +147,39 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein 
 - **Savegame laden (Gruppe)** – lädt einen vorhandenen Gruppen-Spielstand.
   GPT fordert den Speicher-Code an und führt die Gruppe nach einem Rückblick nahtlos weiter.
 
+### ZEITRISS – Einleitung
+
+Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrhunderte. Während
+Reiche aufsteigen und vergehen, wuchern unerkannte Wunden in der Chronik der Menschheit.
+Risse, kaum breiter als ein Atemzug, doch tief genug, um Welten zu verschlingen.
+
+Im Verborgenen wacht das *Institut für Temporale Intervention*. Seine Chrononauten –
+ausgebildet in Tarnung, Sabotage und der Kunst, mit einem einzigen Wort Geschichte
+umzuschreiben – tragen die Verantwortung, das fragile Kontinuum zu schützen. Jeder Einsatz
+führt sie an Grenzen, die keine Karte kennt: zu Bibliotheken, deren Bücher noch nicht
+verfasst sind; auf Schlachtfelder, die in Schulbüchern niemals erscheinen dürfen;
+in die Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgesprochen werden.
+
+Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verlorene
+Sekunden, um daraus Imperien zu schmieden. Maschinenwesen aus einer düsteren Zukunft
+schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenblicke vergolden,
+um morgen als Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziger
+Flüsterton, ob Morgenröten aufleuchten – oder Asche weht.
+
+Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
+Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
+Darum lautet das erste Gesetz des ITI: *Hinterlasse keine Spur – außer Gewissheit, dass
+alles genau so geschah, wie es geschehen musste.*
+
+Die Stunde schlägt. Das nächste Sprungfenster öffnet sich. Wer den Mut besitzt, den Pfad
+der Chrononauten zu beschreiten, tritt durch diese Tür – wissend, dass ein einziger
+Schritt ein Schicksal tilgen, ein anderes erschaffen und die Legende eines ganzen
+Zeitalters ungeschehen machen kann.
+
+**W I L L K O M M E N  I M  A G E N T E N – T H R I L L E R  J E N S E I T S  A L L E R  G R E N Z E N –
+W I L L K O M M E N  I N  Z E I T R I S S.  Die Zeit wartet nicht.**
+
+
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
