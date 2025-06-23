@@ -89,6 +89,14 @@ Eine Kurzfassung der wichtigsten Regeln:
 4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
+### Proben & Schwierigkeitsgrad
+
+Bei ungewissen Aktionen legt die Spielleitung einen **Schwierigkeitsgrad (SG)** fest. Faustregeln:
+SG 5 = leicht, SG 8–9 = mittel, SG 12 = schwierig, SG 15+ = sehr schwer.
+Ausführliche Tabellen stehen in
+[core/zeitriss-core.md](core/zeitriss-core.md) und
+[core/wuerfelmechanik.md](core/wuerfelmechanik.md).
+
 ### Wichtige Makros
 
 - `ClusterCreate()` – erzeugt automatisch neue Seeds, wenn der Paradoxon-Index 5 erreicht.
@@ -146,6 +154,14 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Befehle in dein 
   GPT koordiniert die Gruppen-Charaktererschaffung und stellt anschließend das Szenario vor.
 - **Savegame laden (Gruppe)** – lädt einen vorhandenen Gruppen-Spielstand.
   GPT fordert den Speicher-Code an und führt die Gruppe nach einem Rückblick nahtlos weiter.
+
+### Solo- oder Gruppenspiel?
+
+- **Solo:** Du spielst mit einem einzelnen Chrononauten; GPT führt die NSCs.
+- **Solo mit NPC-Team:** Auf Wunsch stellt GPT ein temporäres Begleitteam bereit.
+- **Gruppe/Multiplayer:** Mehrere reale Spieler laden ihre eigenen Speicherstände oder erstellen gemeinsam neue Charaktere. GPT koordiniert die Szene.
+
+Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
 ### ZEITRISS – Einleitung
 
