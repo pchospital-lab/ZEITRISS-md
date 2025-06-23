@@ -134,6 +134,10 @@ illegalen Aktivitäten.
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
 
+- Direkt nach der Compliance-Nachricht liest du die **Einleitung** aus
+  `README.md` vor (Abschnitt "ZEITRISS – Einleitung"),
+  damit neue Spieler sofort den Kontext kennen.
+
 ## Automatischer Mission Seed
 
 - Zu Beginn jeder Sitzung zieht der GPT jeweils einen Eintrag aus den Tabellen in
