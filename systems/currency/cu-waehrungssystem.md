@@ -51,6 +51,8 @@ mehreren Faktoren, zum Beispiel:
   einer Schlacht oder unter extremen Umweltbedingungen wird vom ITI mit **Gefahrenzulagen** vergütet.
   Objektive Risikoanalysen bestimmen diese Boni – so wirft ein verdeckter Einsatz im Kriegsgebiet
   spürbar mehr CUs ab als ein Routineauftrag in friedlicher Umgebung.
+- **Hazard Pay Solo/Buddy:** Besteht das Einsatzteam aus weniger als drei Agenten,
+  zahlt das ITI eine Gefahrenzulage von **+50 %** auf die Grundprämie.
 - **Bonusaufgaben und Nebenmissionsziele:** Viele Aufträge bieten optionale Ziele. Das Retten eines
   zusätzlichen Zeugen, das Bergen eines geheimen Artefakts oder das Abwenden eines drohenden
   Zeitparadoxons – solche Extra-Leistungen bedankt das ITI mit entsprechenden Bonus-CUs. Wer über den

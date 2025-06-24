@@ -135,6 +135,14 @@ von ★ (leicht) bis ★★★★★ (tödlich) und hilft, Encounter je nach
 Gruppengröße abzustimmen. Solo-Agenten sollten Rifts mit mehr als
 ★★★ nur mit starker Vorbereitung angehen.
 
+| Risikostufe | SG-Bonus |
+| ----------- | -------- |
+| ★ | +0 |
+| ★★ | +1 |
+| ★★★ | +2 |
+| ★★★★ | +3 |
+| ★★★★★ | +4 |
+
 ```json
 {
   "RiftSeedTable": [
@@ -242,19 +250,19 @@ Gruppengröße abzustimmen. Solo-Agenten sollten Rifts mit mehr als
     },
     {
       "d24": 18,
-      "Seed": "Schrecken Whitehall",
+      "Seed": "Schrecken von Whitehall – PHANTOM",
       "Hook": "Löwe springt – Parkourjagd",
       "Diff": "★★"
     },
     {
       "d24": 19,
-      "Seed": "Night Train 666 (Paranormal)",
+      "Seed": "Night Train 666 – PHANTOM",
       "Hook": "Geisterzug – Zug entern",
       "Diff": "★★★"
     },
     {
       "d24": 20,
-      "Seed": "Emerald Kraken (Paranormal)",
+      "Seed": "Emerald Kraken – PHANTOM",
       "Hook": "Grüne Tentakel – Taucheinsatz",
       "Diff": "★★★"
     },
