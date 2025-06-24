@@ -160,7 +160,7 @@ Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
 
 ### ZEITRISS – Einleitung
 
-Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrhunderte. Während
+Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrtausende. Während
 Reiche aufsteigen und vergehen, wuchern unerkannte Wunden in der Chronik der Menschheit.
 Risse, kaum breiter als ein Atemzug, doch tief genug, um Welten zu verschlingen.
 
