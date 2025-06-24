@@ -205,9 +205,10 @@ _Hinweis:_ Die Kosten für inoffizielle Informationen (z.B. Bestechungen) könne
 Risiko stark schwanken.
 
 Spezialisierte Ausrüstung und hochwertige Implantate füllen ein neues
-**Mid-Tier** von **800–1200 CU**. Beispiele sind aufrüstbare Drohneneinheiten
+**Mid-Tier** von **1000–1800 CU**. Beispiele sind aufrüstbare Drohneneinheiten
 oder modulare Cyberware, die deutlich besser als Standardware sind, aber noch
-unter den kostspieligen Fahrzeug- oder Artefaktupgrades liegen.
+unter den kostspieligen Fahrzeug- oder Artefaktupgrades liegen. Implantate über
+**2 SYS** verursachen zudem **5 % Wartungskosten pro Mission**.
 
 All diese Einkaufsmöglichkeiten tragen dazu bei, dass verdiente CUs wieder ins Spiel zurückfließen
 und den Charakteren greifbare Vorteile oder schlicht Vergnügen verschaffen. **Wichtig:** Selbst die
