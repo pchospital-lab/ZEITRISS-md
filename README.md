@@ -141,21 +141,6 @@ Ausführliche Tabellen stehen in
    `## Arc-Generator: Große Missionen {#arc-generator}`
    im Modul **Kreative Generatoren**.
 
-## Spielstart
-
-Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
-(Icons sind optional):
-
-- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
-- **`Spiel starten (npc-team)`** – GPT stellt ein temporäres Begleitteam bereit.
-- **`Spiel starten (gruppe)`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
-  oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
-- **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
-  GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
-  Rückblick nahtlos weiter.
-
-Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
-
 ### ZEITRISS – Einleitung
 
 Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrhunderte. Während
@@ -187,6 +172,22 @@ Zeitalters ungeschehen machen kann.
 
 Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
 Die Zeit wartet nicht.
+
+## Spielstart
+
+Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
+(Icons sind optional):
+
+- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
+- **`Spiel starten (npc-team)`** – GPT stellt ein temporäres Begleitteam bereit.
+- **`Spiel starten (gruppe)`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
+  oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
+- **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
+  GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
+  Rückblick nahtlos weiter.
+
+Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
+
 
 
 Diese Befehle können frei eingegeben werden.
