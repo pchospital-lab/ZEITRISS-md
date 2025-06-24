@@ -13,7 +13,7 @@ tags: [gameplay]
 - Mechaniken für langfristige Entwicklungen
 - Erzählpausen, Freizeit und Alltag im HQ
 - Arena-Modus: PvP-Kämpfe
-- Cronopoli – Endgame-Hub
+- Chronopolis – Endgame-Hub
 - Fazit
 
 ## Einführung
@@ -686,13 +686,13 @@ Showdown-Szene.
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.
 
-## Cronopoli – Endgame-Hub
+## Chronopolis – Endgame-Hub
 
 _Implementations-Package für Code, Art & Content_
 
 ### 1 | High-Level-Pitch
 
-> **Cronopoli** ist eine **statische Megastruktur** aus einer _möglichen Zukunft, die nie eintreten wird_.
+> **Chronopolis** ist eine **statische Megastruktur** aus einer _möglichen Zukunft, die nie eintreten wird_.
 > Architektur & Straßenzüge bleiben unverändert.
 > **Bewohner, Händler und Begegnungen werden bei jedem Betreten vollständig neu instanziiert** –
 > so wirkt die Stadt stets frisch,
@@ -705,9 +705,9 @@ _Implementations-Package für Code, Art & Content_
 | --------------- | ----------------------------------------------------------------- |
 | **Rank-Gate**   | `PLAYER_RANK ≥ 50` _(änderbar in Config)_                         |
 | **Key-Item**    | `itm_quant_key` (Erhalt beim Rang-Up 50)                          |
-| **Entry-Event** | `evt_enter_cronopoli()` _(wie zuvor, Rank-Check auf 50 anpassen)_ |
+| **Entry-Event** | `evt_enter_chronopolis()` _(wie zuvor, Rank-Check auf 50 anpassen)_ |
 
-**Event-Definition `evt_enter_cronopoli()`** – Beim ersten Betreten von Cronopoli
+**Event-Definition `evt_enter_chronopolis()`** – Beim ersten Betreten von Chronopolis
 wird überprüft, ob Rang ≥ 50 und das Key‑Item vorhanden sind. Bei Erfolg löst das
 Event die Warn‑Cutscene aus (siehe Abschnitt 7) und startet anschließend die
 Instanzierungs‑Pipeline.
@@ -718,14 +718,14 @@ Instanzierungs‑Pipeline.
 graph TD
     A[Player betreten Zone] --> B[Load static city geometry];
     B --> C[Seed RNG = UTC Timestamp];
-    C --> D["GPT-Stub - getCronopoliPopulation(seed)"];
+    C --> D["GPT-Stub - getChronopolisPopulation(seed)"];
     D --> E["NPC / Vendor Pool in RAM"];
 ```
 
 #### 3.1 GPT-Stub-Signature
 
 ```json
-POST /gpt/getCronopoliPopulation
+POST /gpt/getChronopolisPopulation
 {
   "seed": 1696851200,
   "player_rank": 52,
@@ -764,7 +764,7 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 | **Quest-Giver** | 3 | Rift Cartographer, Lost-Era Agent, Flux-Smuggler | Seeds, Gerüchte oder Side-Ops |
 | **Atmosphäre NPC** | 10 | Sprawl-Pilger, Android Poet, Retro-Cyber Monk | Kein Handel; nur Flavor |
 | **Event-NPC** | 1 | Random Duelist, Street-Race Announcer | 10 % Spawn-Chance; Mini-Game |
-### 5 | Item- & Service-Matrix in Cronopoli
+### 5 | Item- & Service-Matrix in Chronopolis
 
 | Kategorie             | Nutzen                                   | Preis    | Paradox-Risiko             |
 | --------------------- | ---------------------------------------- | -------- | -------------------------- |
@@ -779,12 +779,12 @@ _PP = Paradox-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
 
 - **Keine Meta-Reveals** über Realität / Bewusstsein.
 - **Keine Variablen Stadtgeometrie** – Gebäude bleiben identisch, nur Personen wechseln.
-- **Keine Auto-Paradox-Explosion** beim Betreten; Cronopoli ist _zeitverankert_.
+- **Keine Auto-Paradox-Explosion** beim Betreten; Chronopolis ist _zeitverankert_.
 
 ### 7 | Cutscene & UI-Flow
 
 1. **Warn-Popup (einmalig)**
-   „Cronopoli entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.“
+   „Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.“
    Buttons: _Abbrechen_ / _Eintreten_
 2. **5-s Establishing Shot** über ringförmige Skyline → Fade to Player Spawn-Point „Paradox Plaza“.
 3. **UI-Banner**: „Bewohner wechseln mit jedem Besuch – halte Ausschau nach seltenen Händlern!“
@@ -804,14 +804,14 @@ _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 
 ### 9 | Beispiel-Run (Spieler Rank 53)
 
-1. Spieler klickt „Cronopoli betreten“.
+1. Spieler klickt „Chronopolis betreten“.
 2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
 3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
 4. Händler „Temporal Shipwright Novara“ bietet **Chronoglider MK II** an.
-5. Spieler kauft Item → +1 Paradox-Punkt erst beim ersten Einsatz außerhalb Cronopoli.
+5. Spieler kauft Item → +1 Paradox-Punkt erst beim ersten Einsatz außerhalb Chronopolis.
 6. Verlassen → Instanz-Cache gelöscht. Nächster Eintritt ⇒ komplette Neu-Population.
 
-### Cronopoli Static Map Blueprint
+### Chronopolis Static Map Blueprint
 
 _Grundplan einer statischen City-Map für das textbasierte GPT-Spiel_
 
@@ -928,7 +928,7 @@ _Gesamtlänge 5 s bei 60 fps._
 | 5     | Ambience, LOD-1/2, Kollisionen.                    |
 | 6     | GPT-Socket-Test, QA und Performance-Sweep.         |
 
-**Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für das Endgame-Hub Cronopoli.
+**Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für das Endgame-Hub Chronopolis.
 
 ## Fazit
 
