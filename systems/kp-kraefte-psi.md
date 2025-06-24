@@ -160,7 +160,8 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   äußerst schwierig einzusetzen – eventuell erlaubt die SL einen Versuch, eine einzelne Waffe aus der
   Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
   Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der
-  Telekinet eine unsichtbare Waffe.
+  Telekinet eine unsichtbare Waffe. Dieser Trick kostet **1 SYS**, und Schadenswürfe dieser
+  Psi-Waffe verzichten auf Exploding 6.
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
   **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
   Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
@@ -193,14 +194,15 @@ teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
   **Wichtig:** Chronokinese sollte nie trivial sein; sie bietet großes Kino, muss aber dramatisch
   passend und ausgewogen eingesetzt werden.
   Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
-  Jeder weitere Versuch im selben Encounter erhöht den Paradoxon-Index um **+2**.
+  Ein zweiter Einsatz in derselben Szene ist nur mit sofortiger **Erschöpfung**
+  (–1 auf alle Würfe bis Szenenende) und einem Paradoxon-Anstieg um **+1** möglich.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
   mental erschaffen und einsetzen, als hielte er sie real in der Hand.
   Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
   zunächst physisch genutzt werden,
-  bevor sie als Psi-Waffe verfügbar sind. _Kosten:_ 0 SYS (keine Systemlast).
+  bevor sie als Psi-Waffe verfügbar sind. _Kosten:_ **1 SYS**.
   Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
   direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
