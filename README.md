@@ -168,22 +168,22 @@ Im Verborgenen wacht das *Institut für Temporale Intervention*. Seine Chrononau
 ausgebildet in Tarnung, Sabotage und der Kunst, mit einem einzigen Wort Geschichte
 umzuschreiben – tragen die Verantwortung, das fragile Kontinuum zu schützen. Jeder Einsatz
 führt sie an Grenzen, die keine Karte kennt: zu Bibliotheken, deren Bücher noch nicht
-verfasst sind; auf Schlachtfelder, die in Schulbüchern niemals erscheinen dürfen;
-in die Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgesprochen werden.
+verfasst sind; auf Schlachtfelder, die in Geschichtsbüchern niemals erscheinen dürfen;
+in den Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgesprochen werden.
 
 Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verlorene
 Sekunden, um daraus Imperien zu schmieden. Maschinenwesen aus einer düsteren Zukunft
 schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenblicke vergolden,
-um morgen als Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziger
-Flüsterton, ob Morgenröten aufleuchten – oder Asche weht.
+um morgen als Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
+Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie endet.
 
 Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
 Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
-Darum lautet das erste Gesetz des ITI: *Hinterlasse keine Spur – außer Gewissheit, dass
-alles genau so geschah, wie es geschehen musste.*
+*Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
+geschehen musste.*
 
 Die Stunde schlägt. Das nächste Sprungfenster öffnet sich. Wer den Mut besitzt, den Pfad
-der Chrononauten zu beschreiten, tritt durch diese Tür – wissend, dass ein einziger
+der Chrononauten zu beschreiten, tritt durch dieses Tor – wissend, dass ein einziger
 Schritt ein Schicksal tilgen, ein anderes erschaffen und die Legende eines ganzen
 Zeitalters ungeschehen machen kann.
 
