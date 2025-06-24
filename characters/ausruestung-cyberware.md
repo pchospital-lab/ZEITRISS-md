@@ -260,7 +260,7 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 |  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; 1× +3 Hack-Boost | 0 | 1100 |
 | **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Kurzzeit-Schockfeld; negiert 2 LP/Treffer (3 Ladungen) | 1 | 1000 |
 |  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 |
-| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufklären, detektiert Spreng- und Biospuren bis 50 m | 0 | 800 |
+| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufklären, Spurenscan bis 50 m | 0 | 800 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 |
 | **Med-/Support** | _Nanite Field Med-pack_ | Heilt 2 LP sofort, entfernt „Leicht verletzt“ (1 Ladung) | 0 | 900 |
 |  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 |
@@ -333,7 +333,7 @@ stimmungsvoll eingesetzt werden.
 
 ## Loot-Tabellen: Waffen, Ausrüstung & Artefakte
 
-## Inhalt
+### Tabellenübersicht
 
 - Zufällige Waffenfunde
 - Nützliche Alltagsausrüstung
