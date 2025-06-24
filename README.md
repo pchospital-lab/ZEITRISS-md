@@ -33,7 +33,7 @@ langsam durch ihre bloße Anwesenheit – umsichtiges Vorgehen bremst den Anstie
 plumpes Handeln beschleunigt ihn.
 Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
 Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
-es entstehen 1–2 neue Rift-Seeds und der Zähler springt auf 0.
+es entstehen 1–2 neue Rift-Seeds (maximal zwei) und der Zähler springt auf 0.
 Zeitkreaturen können Teil dieser Risse sein.
 Wer lieber ganz auf solche Erscheinungen verzichtet,
 kann im [**Covert-Ops-Modus**](#spielmodi) spielen, der nur leichte Störungen zulässt.
@@ -115,8 +115,10 @@ Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
 
-Rift-Missionen verwenden einen Difficulty-Tag von ★ (leicht) bis ★★★★★ (tödlich).
-Mehr dazu im Modul [Kreative Generatoren](gameplay/kreative-generatoren.md).
+Rift-Missionen besitzen zusätzlich einen Difficulty-Tag von ★ (leicht) bis ★★★★★
+(tödlich). Diese Sterne sind rein informativ – den SG legt ihr über die
+offenen Seeds selbst fest. Mehr dazu im Modul
+[Kreative Generatoren](gameplay/kreative-generatoren.md).
 
 ### Wichtige Makros
 

@@ -161,7 +161,9 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
   Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der
   Telekinet eine unsichtbare Waffe. Dieser Trick kostet **1 SYS**, und Schadenswürfe dieser
-  Psi-Waffe verzichten auf Exploding 6.
+  Psi-Waffe verzichten auf Exploding 6. Gegen stark gepanzerte Ziele erhöht sich
+  die Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
+  um Missbrauch zu verhindern.
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
   **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
   Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
