@@ -116,7 +116,8 @@ Core-Generator zurückkehren.
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
 - **Paradoxon-Index 0–5:** Jede Mission sammelt Paradox-Punkte. Bei Stufe 5
-  erzeugt `ClusterCreate()` automatisch 1–2 neue Seeds und setzt den Index auf 0.
+  löst `ClusterCreate()` erst am Kampagnenende oder wenn zwei Risse parallel bestehen
+  automatisch 1–2 neue Seeds aus und setzt den Index auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
   für alle Einsätze. Ein Seed lässt sich jederzeit via `launch_rift(id)` als
   eigenständige Rift-Op starten.

@@ -67,14 +67,16 @@ Nervenzerfetzende Würfelwürfe gehören zum Kern von ZEITRISS. Um die Spannung 
 steigern, führen wir die Regel **„Exploding 6“** ein – im Deutschen oft schlicht _explodierender
 Würfel_ genannt. **Immer wenn bei einer W6-Probe eine 6 gewürfelt wird,** wird der W6 **erneut
 geworfen** und das neue Ergebnis zur bisherigen Summe **addiert**. Sollte dabei wieder eine 6
-fallen, wiederholt sich der Vorgang so lange, bis kein Maximum mehr erscheint. Auf diese Weise sind
-theoretisch **Ergebnisse über dem normalen Limit** möglich, was besonders heroische Erfolge oder
-dramatische Wendungen darstellen kann. Spielerinnen und Spieler erleben einen zusätzlichen
-Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem sicheren Misserfolg kann so doch noch
-ein triumphaler Erfolg werden. _(Beispiel: Nadia muss einen schwierigen Sprung über eine Schlucht
-meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese
-„explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 –
-gerade noch geschafft! Die Gruppe jubelt ob dieses glücklichen Ausgangs.)_
+fallen, wiederholt sich der Vorgang so lange, bis kein Maximum mehr erscheint. Damit die Werte nicht
+übermäßig eskalieren, darf **nur der erste Würfel einer Probe** überhaupt explodieren; weitere 6er
+werden normal gezählt. Auf diese Weise sind theoretisch **Ergebnisse über dem normalen Limit**
+möglich, was besonders heroische Erfolge oder dramatische Wendungen darstellen kann. Spielerinnen
+und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem
+sicheren Misserfolg kann so doch noch ein triumphaler Erfolg werden. _(Beispiel: Nadia muss einen
+schwierigen Sprung über eine Schlucht meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens
+eine 10. Sie würfelt eine 6 – diese „explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine
+4. Zusammen ergibt das 6+4=10 – gerade noch geschafft! Die Gruppe jubelt ob dieses glücklichen
+Ausgangs.)_
 
 **Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
 bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Proben. Mit einem W10
@@ -124,7 +126,8 @@ Optionen:
 - **Variante B:** Beim _Soft Explode_ liefern Zusatzwürfel höchstens 1–3 Punkte.
   So bleiben erzählerische Höhepunkte erhalten, ohne extreme Schadensspitzen.
 - **Variante C: Burst-Cap** – Jeder Würfel darf nur **einmal** explodieren. Weitere 6er
-  zählen normal. Empfohlen für PC-geführte Runs, um Würfel-Kaskaden zu verringern.
+  zählen normal. Diese Variante ist nun der **Standard** in ZEITRISS, um extreme
+  Schadensspitzen zu bändigen.
 
 ### Sniper-Alpha-Strike eindämmen
 
