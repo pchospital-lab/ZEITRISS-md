@@ -790,7 +790,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 _Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Paradoxon +1 bei Erfolg ≥ 2.
 _Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der Stack auf 0.
 
-### Bonus-Micro-Begegnungen (d12)
+### Bonus-Micro-Begegnungen (d13)
 
 1–2 Orbital-Wartungs-Mecha blockieren Zugänge.
 3–4 Schwarzmarktschmuggler im Grav-Van.
@@ -799,7 +799,7 @@ _Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der S
 9–10 Nano-Schwarm breitet sich in Lüftungen aus.
 11 Defekte Umwelt-KI erzeugt Fehlalarme.
 12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
-- Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
+13 Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
 
 _Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
 
