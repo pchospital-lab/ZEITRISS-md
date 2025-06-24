@@ -174,7 +174,7 @@ in den Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgespro
 Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verlorene
 Sekunden, um daraus Imperien zu schmieden. Maschinenwesen aus einer düsteren Zukunft
 schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenblicke vergolden,
-um morgen als Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
+um als allherrschende Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
 Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie endet.
 
 Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
