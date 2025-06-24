@@ -105,9 +105,24 @@ Raum für Anpassungen lassen. Sie sollen als Sprungbrett dienen: Spielleitungen 
 aufgreifen oder nach Belieben abwandeln, um einen einzigartigen Start ins **erste echte ZEITRISS-
 Abenteuer** ihrer Gruppe zu schaffen.
 
-Tauchen wir nun ein in die Welt des filmischen Erzählens und schauen wir uns an, mit welchen
-Techniken und Ideen man einen **cineastischen Einstieg** inszenieren kann. Licht aus, **Film ab**
-für euer Zeitreise-Abenteuer!
+
+Tauchen wir nun ein in die Welt des filmischen Erzählens und schauen wir uns an,
+mit welchen Techniken und Ideen man einen **cineastischen Einstieg** inszenieren
+kann. Licht aus, **Film ab** für euer Zeitreise-Abenteuer!
+
+### Mini-Szenarien: Preserve vs Trigger
+
+Zwei kurze Beispielmissionen zeigen Anfängern, wie sich die Fraktionen
+unterscheiden:
+
+- **Preserve-Beispiel:** Die Agenten sollen ein Archivgebäude bewahren. Sie
+  sichern Hinweise, verhindern Brandstiftung und halten sich möglichst im
+  Hintergrund.
+- **Trigger-Beispiel:** Ein rivalisierendes Team soll den Mauerfall vorantreiben.
+  Die Agenten stiften Unruhe, sabotieren Patrouillen und setzen auf Provokation.
+
+Beide Skizzen passen in eine Szene und verdeutlichen den grundlegenden
+Entscheidungsweg: Bewahren oder auslösen.
 
 ## Filmische Techniken für einen epischen Start
 

@@ -101,6 +101,8 @@ Die ersten Schritte in unter zwei Minuten:
    erhält er einen Vorteil.
 5. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 6. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+7. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961). 
 
 ### Proben & Schwierigkeitsgrad
 
@@ -115,10 +117,21 @@ Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
 
-Rift-Missionen besitzen zusätzlich einen Difficulty-Tag von ★ (leicht) bis ★★★★★
-(tödlich). Diese Sterne sind rein informativ – den SG legt ihr über die
-offenen Seeds selbst fest. Mehr dazu im Modul
+Rift-Missionen verwenden Sterne, die direkt den SG-Bonus durch offene Seeds
+anzeigen. Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als
+fünf Seeds können als `★★★★★+` notiert werden. Details stehen im Modul
 [Kreative Generatoren](gameplay/kreative-generatoren.md).
+
+### Difficulty-Star-Konverter
+
+| Sterne    | SG-Zuschlag |
+| --------- | ----------- |
+| ★         | +1          |
+| ★★        | +2          |
+| ★★★       | +3          |
+| ★★★★      | +4          |
+| ★★★★★     | +5          |
+| ★★★★★+    | +6 und mehr |
 
 ### Wichtige Makros
 

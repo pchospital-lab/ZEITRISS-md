@@ -709,6 +709,12 @@ auch bei Paradoxon, EMP oder Isolation.
 | `codex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
 | `codex suche tags` | Filtert Codex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
 
+### SG-Konverter (HUD-Macro)
+
+Der Befehl `sg(★)` rechnet eine Sternbewertung in die zugehörige Schwelle um.
+Beispiel: `sg(★★★)` gibt `3` aus. So lässt sich schnell prüfen, wie stark sich
+offene Seeds auf den SG auswirken.
+
 ### Codex-Suchfilter nach Tags
 
 Die Codex-Datenbank enthält zahlreiche Einträge. Um langes Scrollen zu

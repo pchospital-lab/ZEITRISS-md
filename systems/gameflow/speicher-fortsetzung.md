@@ -341,7 +341,14 @@ hinzukommt. So werden Duplikate vermieden:
   Savegames: Die ID signalisiert GPT, welcher bestehende Gruppencharakter aktualisiert werden muss.
 - **Ohne ID:** Versucht GPT, Charaktere anhand von Name + Epoche o. ä. zu unterscheiden. Das kann in
   vielen Fällen funktionieren, ist aber fehleranfälliger (z.B. könnten zwei Spieler zufällig beide
-  einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
+einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
+
+#### Konfliktfall ohne ID
+
+Treffen zwei Einträge ohne ID aufeinander und stimmen **Name** sowie
+**Epoche** überein, fragt das System nach. Entweder wird eine neue ID vergeben
+oder der vorhandene Datensatz bewusst überschrieben. Auf diese Weise lassen sich
+Duplikate vermeiden, ohne dass IDs zwingend erforderlich sind.
 
 Eine technische UUID als ID ist daher **empfehlenswert** für langfristige, große Kampagnen, aber das
 Feld bleibt optional. Das System funktioniert auch ohne – es verlässt sich dann ganz auf die

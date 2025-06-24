@@ -116,26 +116,24 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 ```json
 {
   "CoreObjectiveTable": [
-    { "Objective": "Sabotage feindlicher Kommunikationsknoten", "Diff": "★★" },
-    { "Objective": "Bergung gestohlener Forschung", "Diff": "★★★" },
-    { "Objective": "Sicherung eines Informanten", "Diff": "★★" },
-    { "Objective": "Vernichtung illegaler ChronTech-Prototypen", "Diff": "★★★" },
-    { "Objective": "Infiltration einer gegnerischen Basis", "Diff": "★★★" },
-    { "Objective": "Befreiung einer gefangenen Agentin", "Diff": "★★★" },
-    { "Objective": "Datenraub aus Hochsicherheitsserver", "Diff": "★★★" },
-    { "Objective": "Unterwanderung einer Historiker-Tagung", "Diff": "★★" },
-    { "Objective": "Abfangen einer geheimen Lieferung", "Diff": "★★" },
-    { "Objective": "Neutralisierung eines abtrünnigen Chrononauten", "Diff": "★★★" }
+    { "Objective": "Sabotage feindlicher Kommunikationsknoten" },
+    { "Objective": "Bergung gestohlener Forschung" },
+    { "Objective": "Sicherung eines Informanten" },
+    { "Objective": "Vernichtung illegaler ChronTech-Prototypen" },
+    { "Objective": "Infiltration einer gegnerischen Basis" },
+    { "Objective": "Befreiung einer gefangenen Agentin" },
+    { "Objective": "Datenraub aus Hochsicherheitsserver" },
+    { "Objective": "Unterwanderung einer Historiker-Tagung" },
+    { "Objective": "Abfangen einer geheimen Lieferung" },
+    { "Objective": "Neutralisierung eines abtrünnigen Chrononauten" }
   ]
 }
 ```
 
-Jede Rift-Mission erhält nun einen **Difficulty-Tag**. Die Skala reicht
-von ★ (leicht) bis ★★★★★ (tödlich). Die Sterne dienen lediglich als
-Orientierung, wie gefährlich ein Riss eingeschätzt wird. Der
-tatsächliche SG ergibt sich aus der Zahl offener Seeds – jeder
-nicht geschlossene Rift steigert die Schwelle um +1. Solo-Agenten sollten
-Rifts mit mehr als ★★★ nur mit starker Vorbereitung angehen.
+Jede Rift-Mission erhält einen **Difficulty-Tag**, der direkt den SG-Bonus durch
+offene Seeds widerspiegelt. Jeder Stern steht für +1 SG. Mehr als fünf Seeds
+können als `★★★★★+` notiert werden. Solo-Agenten sollten Missionen ab
+★★★ nur mit Vorbereitung angehen.
 
 ```json
 {
@@ -801,6 +799,7 @@ _Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der S
 9–10 Nano-Schwarm breitet sich in Lüftungen aus.
 11 Defekte Umwelt-KI erzeugt Fehlalarme.
 12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
+- Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
 
 _Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
 
