@@ -193,7 +193,8 @@ In der HQ-Phase entscheidet das Team pro Seed, ob es eindringt und ihn
 versiegelt oder bis später warten will. Jeder offene Rift erhöht die
 Probe-Schwelle und multipliziert die CU-Belohnung. Dieser Wert gilt
 für alle Missionen – auch für Rifts – und wird nach jedem entfernten
-Seed neu berechnet:
+Seed neu berechnet. Wer Risse absichtlich offen lässt,
+bestimmt den künftigen SG damit selbst:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
 | ------------ | ---------------- | -------------- |
