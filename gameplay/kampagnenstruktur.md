@@ -113,6 +113,11 @@ zurück. Offene Risse landen im Spielstand und lassen sich über das
 `launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
 Core-Generator zurückkehren.
 
+Jeder Seed steht für ein offenes Pararift.
+Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0 und die neuen Seeds landen im Array `OpenRifts`.
+Solange Seeds offen sind, erhöhen sie Schwelle und CU-Belohnung aller Missionen.
+Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
+
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
 - **Paradoxon-Index 0–5:** Jede Mission sammelt Paradox-Punkte. Bei Stufe 5

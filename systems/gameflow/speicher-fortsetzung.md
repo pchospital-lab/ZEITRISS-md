@@ -55,8 +55,7 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 - **Beispiel-Speicherblöcke:** Bereitstellung von kommentierten Beispielen für typische
   Speicherstände (sowohl Solo- als auch Gruppen-Spielstände) im standardisierten Format, die als
   Vorlage dienen können.
-- **Token-Lite-Modus:** Kurzes Missionslog (maximal 15 Einträge) und archivierte Rifts lassen sich
-  bei Bedarf auslagern, um das GPT-Budget zu schonen.
+- **Token-Lite-Modus:** Missionslog mit max. 15 Einträgen. Archivierte Rifts lassen sich auslagern, um Token zu sparen.
 
 Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erläutert.
 
