@@ -116,16 +116,16 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 ```json
 {
   "CoreObjectiveTable": [
-    "Sabotage feindlicher Kommunikationsknoten",
-    "Bergung gestohlener Forschung",
-    "Sicherung eines Informanten",
-    "Vernichtung illegaler ChronTech-Prototypen",
-    "Infiltration einer gegnerischen Basis",
-    "Befreiung einer gefangenen Agentin",
-    "Datenraub aus Hochsicherheitsserver",
-    "Unterwanderung einer Historiker-Tagung",
-    "Abfangen einer geheimen Lieferung",
-    "Neutralisierung eines abtrünnigen Chrononauten"
+    { "Objective": "Sabotage feindlicher Kommunikationsknoten", "Diff": "★★" },
+    { "Objective": "Bergung gestohlener Forschung", "Diff": "★★★" },
+    { "Objective": "Sicherung eines Informanten", "Diff": "★★" },
+    { "Objective": "Vernichtung illegaler ChronTech-Prototypen", "Diff": "★★★" },
+    { "Objective": "Infiltration einer gegnerischen Basis", "Diff": "★★★" },
+    { "Objective": "Befreiung einer gefangenen Agentin", "Diff": "★★★" },
+    { "Objective": "Datenraub aus Hochsicherheitsserver", "Diff": "★★★" },
+    { "Objective": "Unterwanderung einer Historiker-Tagung", "Diff": "★★" },
+    { "Objective": "Abfangen einer geheimen Lieferung", "Diff": "★★" },
+    { "Objective": "Neutralisierung eines abtrünnigen Chrononauten", "Diff": "★★★" }
   ]
 }
 ```

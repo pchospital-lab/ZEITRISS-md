@@ -36,6 +36,10 @@ Implantate fallen aus, vielleicht blutet er sogar aus der Nase und verliert für
 Fähigkeit, Psi zu nutzen. Praktisch bedeutet das: Will ein Chrononaut mit voller Cyberausstattung
 noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln
 oder mit abgeschwächter Kraft arbeiten.
+
+**Charakterbogen-Notiz:** Liste aktive Psi-Kräfte in einer Mini-Tabelle. Übersteigen deren SYS-Kosten
+deinen Wert, blendet das HUD eine Warnung ein und du erleidest **−2** auf alle Proben,
+bis die Last reduziert ist.
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur kurz
 an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren – je
 schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat ggf.
