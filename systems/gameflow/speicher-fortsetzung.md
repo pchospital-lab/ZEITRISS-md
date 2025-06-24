@@ -545,6 +545,7 @@ angepasst.
 - `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
 - `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
 - `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
+- `seed_to_hook(id)` – schlägt drei kurze Story-Hooks zu einem Seed vor.
 
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
