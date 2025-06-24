@@ -97,6 +97,11 @@ Ausführliche Tabellen stehen in
 [core/zeitriss-core.md](core/zeitriss-core.md) und
 [core/wuerfelmechanik.md](core/wuerfelmechanik.md).
 
+Die **Riftstufe** entspricht der Anzahl offener Seeds. Jeder Seed erhöht den
+Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
+2 Seeds = ×1.4 usw.). Details findet ihr unter
+[Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
+
 ### Wichtige Makros
 
 - `ClusterCreate()` – erzeugt automatisch neue Seeds, wenn der Paradoxon-Index 5 erreicht.
