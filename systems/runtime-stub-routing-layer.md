@@ -309,6 +309,15 @@ function deltaSave(prevState, newState) {
   }
   fs.writeFileSync("campaign_state.delta.json", JSON.stringify(delta, null, 2));
 }
+
+function generateId(prefix = "CHR") {
+  const num = Math.floor(Math.random() * 10000)
+    .toString()
+    .padStart(4, "0");
+  return `${prefix}-${num}`;
+}
+// Beim Erstellen eines neuen Charakters ruft das System `generateId()` auf und
+// speichert die ID im Savegame.
 // Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
 

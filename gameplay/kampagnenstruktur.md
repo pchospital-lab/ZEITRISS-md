@@ -237,6 +237,15 @@ Shard-Drop: 1+Tier
 | Mission 3 | Schwelle +1, CU ×1.2. Finale der London-Folgestory.                     |
 | Epilog    | Offener Seed überträgt sich in den nächsten Arc oder eine Epilog-Quest. |
 
+##### Mini-Walkthrough Mauerbau 1961 (★)
+
+| Schritt   | Ereignis |
+| --------- | ------------------------------------------------------------- |
+| Mission 1 | Ankunft in Ost-Berlin. Die Agenten erkunden Schleuserwege. |
+| Mission 2 | Baupläne sichern und Kontaktperson schützen. |
+| Mission 3 | Entscheidung: Übergang bewahren oder Eskalation triggern. |
+| Epilog    | Je nach Wahl verändert sich das politische Klima der Epoche. |
+
 #### Dev-Check-Liste
 
 - Paradox-Tracker 0–5 bleibt bestehen.
