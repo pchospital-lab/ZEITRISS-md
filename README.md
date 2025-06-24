@@ -168,7 +168,7 @@ Im Verborgenen wacht das *Institut für Temporale Intervention*. Seine Chrononau
 ausgebildet in Tarnung, Sabotage und der Kunst, mit einem einzigen Wort Geschichte
 umzuschreiben – tragen die Verantwortung, das fragile Kontinuum zu schützen. Jeder Einsatz
 führt sie an Grenzen, die keine Karte kennt: zu Bibliotheken, deren Bücher noch nicht
-verfasst sind; auf Schlachtfelder, die in Geschichtsbüchern niemals erscheinen dürfen;
+verfasst sind; auf Schlachtfelder, die es niemals geben darf;
 in den Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgesprochen werden.
 
 Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verlorene
