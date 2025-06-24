@@ -131,17 +131,11 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 ```
 
 Jede Rift-Mission erhält nun einen **Difficulty-Tag**. Die Skala reicht
-von ★ (leicht) bis ★★★★★ (tödlich) und hilft, Encounter je nach
-Gruppengröße abzustimmen. Solo-Agenten sollten Rifts mit mehr als
-★★★ nur mit starker Vorbereitung angehen.
-
-| Risikostufe | SG-Bonus |
-| ----------- | -------- |
-| ★ | +0 |
-| ★★ | +1 |
-| ★★★ | +2 |
-| ★★★★ | +3 |
-| ★★★★★ | +4 |
+von ★ (leicht) bis ★★★★★ (tödlich). Die Sterne dienen lediglich als
+Orientierung, wie gefährlich ein Riss eingeschätzt wird. Der
+tatsächliche SG ergibt sich aus der Zahl offener Seeds – jeder
+nicht geschlossene Rift steigert die Schwelle um +1. Solo-Agenten sollten
+Rifts mit mehr als ★★★ nur mit starker Vorbereitung angehen.
 
 ```json
 {
