@@ -31,15 +31,17 @@ Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
 ### Chronopolis & ITI-Struktur
-
-Das Herzstück des Instituts ist die **Metropole Chronopolis**. Hier kreuzen sich
-alle Zeitlinien in einer neutralen Nullzeit. Forschungslabore, Trainingsareale
-und das zentrale **Arc‑Dashboard** bilden den Kern. Ein gewählter Rat aus
-Direktorium, Sicherheit und Forschung koordiniert die Divisionen – Erkundung,
-Analyse und Eingreiftruppen. Jeder Agent besitzt einen Kommunikationsknoten in
-Chronopolis, über den Aufträge, Ausrüstung und Rufpunkte verwaltet werden. Kurze
-Infobriefe lassen sich direkt ins HUD streamen, sodass stets klar ist, welche
+Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Temporale Intervention (ITI)**.
+Forschungslabore, Trainingsareale und das zentrale **Arc‑Dashboard** bilden den ersten Anlaufpunkt
+für neue Chrononauten.
+Die Metropole **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis Stufe 10 verschlossen.
+Dann erhalten die Agenten einen **Stadtschlüssel**, der Zugang zu Händlern und Aufträgen
+in der Stadt gewährt.
+Jeder Agent besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
+verwaltet werden.
+Kurze Infobriefe lassen sich direkt ins HUD streamen, sodass klar ist, welche
 Fraktion Unterstützung bietet.
+Bei höheren Rängen öffnet sich zusätzlich der streng bewachte Kernbereich.
 
 ### Bewusstsein, Absolut und Realität
 
