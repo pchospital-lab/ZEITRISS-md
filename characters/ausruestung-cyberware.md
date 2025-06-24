@@ -249,6 +249,36 @@ Paradoxon. Beispiele für taktische Gadgets:
   völlig unentdeckte Sprachen evtl. unzureichend). Die Übersetzung erfolgt als leise Stimme im Ohr des
   Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. _Kosten:_ 80 CU.
 
+### Taktische Mid-Tier-Module
+
+Diese Preisklasse füllt die Lücke zwischen Standard-Gadgets und Fahrzeug-Upgrades. Die Module sind
+tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
+
+| Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) |
+| --- | --- | --- | --- | --- |
+| **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; einmal Blend-Schutz | 1 | 900 |
+|  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; 1× +3 Hack-Boost | 0 | 1100 |
+| **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Kurzzeit-Schockfeld; negiert 2 LP/Treffer (3 Ladungen) | 1 | 1000 |
+|  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 |
+| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufklären, detektiert Spreng- und Biospuren bis 50 m | 0 | 800 |
+|  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 |
+| **Med-/Support** | _Nanite Field Med-pack_ | Heilt 2 LP sofort, entfernt „Leicht verletzt“ (1 Ladung) | 0 | 900 |
+|  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 |
+
+_SYS nur nötig, wenn das Gerät dauerhaft integriert wird (z. B. Visor als Implantat-Visier). Tragbare
+Module zählen nicht._
+
+**Designrichtlinien**
+
+- **Preisanker:** Doppelte Standard-Cyberware bis etwa ein Viertel eines Basis-Fahrzeug-Upgrades.
+- **Leistungsprofil:** Spürbarer +2-Bonus oder einmaliger Effekt, der Missionen beeinflusst, kein
+  permanentes Attribut-Upgrade.
+- **SYS-Kosten:** Maximal 1 SYS, so bleibt das Gear auch bei niedriger Systemlast interessant.
+- **Lagerort:** ITI-Arsenal „Taktische Erweiterungen“, freigeschaltet ab Ruf +1 oder als
+  Missionsbelohnung.
+- **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
+
+
 ### Ressourcen-Boxen für Munition & Gadgets
 
 Um knappe Ausrüstung übersichtlich zu verwalten, verwendet ZEITRISS drei **Abhak-Boxen** je Item.
