@@ -181,7 +181,7 @@ Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verl
 Sekunden, um daraus Imperien zu schmieden. Maschinenwesen aus einer düsteren Zukunft
 schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenblicke vergolden,
 um als allherrschende Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
-Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie endet.
+Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie enden wird.
 
 Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
 Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
