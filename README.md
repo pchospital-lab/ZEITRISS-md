@@ -114,6 +114,9 @@ Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
 
+Rift-Missionen verwenden einen Difficulty-Tag von ★ (leicht) bis ★★★★★ (tödlich).
+Mehr dazu im Modul [Kreative Generatoren](gameplay/kreative-generatoren.md).
+
 ### Wichtige Makros
 
 - `ClusterCreate()` – erzeugt automatisch neue Seeds, wenn der Paradoxon-Index 5 erreicht.
