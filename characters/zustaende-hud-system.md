@@ -358,9 +358,9 @@ Lebenspunkte hinausgehen:
   ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
 
-  _Verwarnungspuffer:_ Der Index steigt nur, wenn bereits eine **Paradox-Marke** in der Szene
-  existiert – ein erster Verstoß löst also lediglich eine Warnung aus. Außerdem erzeugt
-  `ClusterCreate()` neue Seeds erst am Kampagnenende oder wenn **zwei** Risse gleichzeitig aktiv sind.
+_Verwarnungspuffer:_ Der Index steigt nur, wenn bereits eine **Paradox-Marke** in der Szene
+  existiert – ein erster Verstoß löst also lediglich eine Warnung aus. Erreicht der Index
+  Stufe 5, löst `ClusterCreate()` automatisch 1–2 Seeds aus und setzt den Wert zurück.
 
 ### Paradox-Subsystem
 
