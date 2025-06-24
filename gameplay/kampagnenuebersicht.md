@@ -30,6 +30,17 @@ Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen
 [Missions‑Generator](kreative-generatoren.md#missions-generator)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
+### Chronopolis & ITI-Struktur
+
+Das Herzstück des Instituts ist die **Metropole Chronopolis**. Hier kreuzen sich
+alle Zeitlinien in einer neutralen Nullzeit. Forschungslabore, Trainingsareale
+und das zentrale **Arc‑Dashboard** bilden den Kern. Ein gewählter Rat aus
+Direktorium, Sicherheit und Forschung koordiniert die Divisionen – Erkundung,
+Analyse und Eingreiftruppen. Jeder Agent besitzt einen Kommunikationsknoten in
+Chronopolis, über den Aufträge, Ausrüstung und Rufpunkte verwaltet werden. Kurze
+Infobriefe lassen sich direkt ins HUD streamen, sodass stets klar ist, welche
+Fraktion Unterstützung bietet.
+
 ### Bewusstsein, Absolut und Realität
 
 In ZEITRISS existieren drei Ebenen: das individuelle Bewusstsein, das 2D-Feld reiner Information

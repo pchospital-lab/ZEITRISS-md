@@ -91,6 +91,9 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 Historische Einsätze laufen stets nach diesem Prinzip ab.
 Beim Briefing erfahren die Agenten nur Zeit und Ort einer Instabilitaet.
 Erst in der Investigation wird klar, welches Ereignis gefaehrdet ist.
+Nach etwa der Hälfte der Mission blendet das HUD automatisch einen
+Foreshadow-Marker ein, der andeutet, welche Aktion die Zeitlinie
+stabilisieren würde.
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.

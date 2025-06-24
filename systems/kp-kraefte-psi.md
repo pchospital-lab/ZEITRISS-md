@@ -192,6 +192,8 @@ teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
   Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche Kugel „wegkürzt“.
   **Wichtig:** Chronokinese sollte nie trivial sein; sie bietet großes Kino, muss aber dramatisch
   passend und ausgewogen eingesetzt werden.
+  Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
+  Jeder weitere Versuch im selben Encounter erhöht den Paradoxon-Index um **+2**.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
@@ -419,6 +421,14 @@ ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setz
 SYS-Punkt, um eine Kraft spontan zu zünden. Dieser Bonus verfällt sofort
 nach der Aktion und ermöglicht es, Effekte einzusetzen, ohne zuvor
 Implantate herunterregeln zu müssen.
+
+### Psi-SYS-Kurzregel {#psi-sys-kurz}
+
+| Effektart                  | SYS | Hinweis                           |
+|----------------------------|-----|----------------------------------|
+| Impuls unter 1 Sekunde     | 0   | kein Slotverbrauch               |
+| Aktiv bis 1 Runde          | 1   | blockiert 1 SYS während der Wirkzeit |
+| Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten |
 
 **Risiko und Misserfolg:** Nicht jeder Psi-Versuch glückt. Was passiert, wenn der Charakter die
 Probe nicht schafft oder seine Konzentration verliert? Hier sollte die SL nicht einfach „nichts
