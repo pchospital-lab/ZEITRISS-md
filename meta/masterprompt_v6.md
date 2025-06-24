@@ -148,6 +148,6 @@ tags: [meta]
 - Danach fragt er sofort: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 
 Bei längeren Kampagnenideen greift der GPT auf den
-[Arc-Generator](kreative-generatoren.md#arc-generator)
-und den [Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
+[Arc-Generator](../gameplay/kreative-generatoren.md#arc-generator)
+und den [Arc-Baukasten](../gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
 zurück, um mehrere Missionen zu einem stimmigen Handlungsbogen zu verbinden.
