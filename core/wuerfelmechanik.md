@@ -438,6 +438,10 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 ### Paradoxon-Index
 
+*Siehe auch das*
+*[Paradox-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem)*
+*für eine ausführliche Beschreibung.*
+
 | Stufe | Effekt                     |
 | ----- | -------------------------- |
 | 0–1   | Stabil                     |
@@ -517,6 +521,15 @@ reduziert den Stress um 1 Punkt, wie im Modul
 
 Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie Exploding-Würfel filmische
 Spitzen erzeugen, ohne den Spielfluss zu bremsen.
+
+### Negativ-Beispiel: Risiko-Fail
+
+Manchmal kippt ein Exploding 6 gegen die Agenten. Bei einem nächtlichen Einbruch
+würfelt ein Wachposten eine `6` und darf erneut würfeln. Die Zusatz-
+`5` hebt seinen Gesamtwert auf `11` – deutlich über dem SG der
+Schleichprobe. Der Gegner erhält einen Vorteil, etwa einen freien
+Angriff oder Alarmbereitschaft. So zeigt sich, dass Exploding-Würfel
+beide Seiten begünstigen können.
 
 ### Quick-Sheet: Psi & Massenkonflikt {#quick-sheet}
 

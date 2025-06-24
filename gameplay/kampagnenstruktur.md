@@ -128,6 +128,10 @@ Core-Generator zurückkehren.
 
 #### Paradox-Subsystem
 
+Weitere Details stehen im
+[Paradox-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem).
+Dieses Kapitel fasst die Effekte kurz zusammen:
+
 | Stufe | In-Mission-Effekt  | HQ-Effekt                                    |
 | ----- | ------------------ | -------------------------------------------- |
 | 0–1   | Stabil             | –                                            |

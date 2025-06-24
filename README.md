@@ -89,6 +89,18 @@ Eine Kurzfassung der wichtigsten Regeln:
 4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
+## Quick-Start Cheat Sheet
+
+Die ersten Schritte in unter zwei Minuten:
+
+1. **Mission ziehen** – nutze einen Seed aus dem Generator.
+2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
+3. **Proben** – W6 ab 4, Exploding 6 bleibt aktiv.
+4. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
+   erhält er einen Vorteil.
+5. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
+6. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+
 ### Proben & Schwierigkeitsgrad
 
 Bei ungewissen Aktionen legt die Spielleitung einen **Schwierigkeitsgrad (SG)** fest. Faustregeln:
@@ -226,6 +238,17 @@ ausschalten. Pro-Gruppen behalten sie aktiv.
 Neuer Eintrag? Prüfe kurz, ob der Text bereits in einer anderen Liste steht.
 `objective` und `twist` sollten sich nicht doppeln. Falls du denselben Satz in
 beiden Feldern findest, wähle eine Variante oder streiche ihn.
+
+## Glossar
+
+Kurze Erklärungen wichtiger Abkürzungen:
+
+- **CU** – Chrono-Units, universelle Missionswährung.
+- **HUD** – Head-Up Display im Chronometer.
+- **ITI** – Institut für Temporale Intervention.
+- **Seed-ID** – Kennziffer eines Missions-Seeds.
+- **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.
+
 
 
 ## How to Contribute
