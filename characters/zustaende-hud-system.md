@@ -623,6 +623,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   dramatisch bleiben. Richtig genutzt, fühlt sich das Interface **lebendig** an, fast so als würde
   man einen Sci-Fi-Film schauen, in dem die Heldensicht mit UI-Elementen dargestellt wird (man denke
   an Tony Starks Iron-Man-Helmdisplay, durch das der Zuschauer Infos bekommt).
+- **Codex-Abfrage-Limit:** Eine kostenlose Antwort gibt es nur einmal je **15 Minuten Ingame-Zeit**.
+  Weitere Fragen im selben Zeitraum erhöhen den Stress des Teams um **+1**.
 - **Immersion bewahren:** Das HUD ist ein Werkzeug, kein Selbstzweck. Die KI-Spielleitung sollte
   darauf achten, **Metagame-Informationen ins HUD zu verlegen**, um die Immersion zu stärken. Fragt
   ein Spieler z.B. außerhab der Spielwelt „Wie viele HP hab ich noch?“, kann GPT antworten: _„Du

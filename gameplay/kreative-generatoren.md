@@ -702,7 +702,8 @@ Charakter für eure Story!
 
 Um ohne langes Blättern passende Gegner bereitzustellen, gibt es vier Tabellen nach
 Risikostufe. Ein W6-Wurf bestimmt den Pool, ein optionales Twist-Deck liefert
-zusätzliche Komplikationen.
+zusätzliche Komplikationen. Jeder gezogene Eintrag geht anschließend für drei
+Sitzungen in **Cooldown** und wird erst danach wieder in den Pool gemischt.
 
 | Stufe | Beispiel-Gegner                     | Twist                          |
 | ---- | ----------------------------------- | ------------------------------ |

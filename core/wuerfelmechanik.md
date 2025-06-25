@@ -106,6 +106,13 @@ verändern.
 erfolgreich. Für erfahrene Chrononauten mit W10 liegt die Schwelle bei **5+**. Ein
 **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
 
+| Stufe  | Zielzahl |
+| ------ | -------- |
+| Leicht | 3        |
+| Normal | 5        |
+| Schwer | 7        |
+| Extrem | 9        |
+
 **Hinweis:** Durch explodierende Würfel können gerade unwahrscheinliche Aktionen spektakulär
 gelingen. Die Spielleitung sollte dies erzählerisch hervorheben – z. B. durch cineastische
 Beschreibungen, wie ein Charakter mit unglaublichem Glück das Blatt wendet. Gleichzeitig dürfen

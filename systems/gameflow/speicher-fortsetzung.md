@@ -6,6 +6,20 @@ tags: [systems]
 
 # ZEITRISS 4.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
+## Schlüsselfelder im JSON-Save {#json-schluesselfelder}
+
+| Key           | Bedeutung                                      |
+| ------------- | ---------------------------------------------- |
+| Name          | Charakter- oder Teamname                       |
+| Epoche        | Ursprung oder aktueller Einsatzzeitraum        |
+| Level         | Erfahrungsstufe                                |
+| version_hash  | Regelversion des Spielstands                   |
+| arc_dashboard | Offene Seeds und Missionsfortschritte          |
+
+```json
+{"Name":"Alex","Epoche":"2025","Level":2,"version_hash":"4.0","arc_dashboard":{}}
+```
+
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
