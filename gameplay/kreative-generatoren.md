@@ -104,8 +104,8 @@ _Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehe
 Streiche doppelte Seeds oder variiere sie.
 
 Bei Missionsbeginn notiert sich die SL den Twist.
-In der Phase "Aufklärung" erscheint automatisch ein Hinweis aus dem Feld `foreshadow`,
-der die Wendung andeutet.
+Spätestens in **Phase 3 (Aufklärung)** sollte die Spielleitung einen Hinweis aus
+dem Feld `foreshadow` einbauen, damit die Wendung nicht übersehen wird.
 
 Die folgenden Tabellen speisen den Core- und Rift-Loop mit Missionszielen.
 
@@ -849,40 +849,42 @@ Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
 
 ### Twist-Seeds (d30) {#twist-seeds}
 
-```markdown
-# ZEITRISS – Twist-Seeds (d30)
+Jeder Eintrag besitzt nun zwei Zusatz-Tags:
+`Paradox-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
+`Historischer Fußabdruck` beschreibt die Tragweite.
 
-01 | Doppelagent im eigenen Team enttarnt sich in der Klimax.
-02 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden.
-03 | Zeitreisende Version des Auftraggebers sendet widersprüchliche Befehle.
-04 | Schlüsselfigur entpuppt sich als entfernte Verwandte eines Teammitglieds.
-05 | Artefakt ist lebendig – schwache Bio-Signale, reagiert auf Stress.
-06 | Geisel möchte nicht gerettet werden, verfolgt eigene Agenda.
-07 | Feindliche KI bietet Allianz gegen ihren Schöpfer an.
-08 | Historisches Ereignis findet 24 Stunden früher statt als erwartet.
-09 | Transportmittel sabotiert – Not-Sprung oder Impro-Flucht nötig.
-10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft.
-11 | Wetterphänomen (Superzelle, Sandsturm, Magnetsturm) verkompliziert Einsatz.
-12 | Gegner besitzt Teilwissen über Zeitreisetech und nutzt es taktisch.
-13 | Beweisstücke lösen akute Paradox-Spitzen aus (Level +2 bei Kontakt).
-14 | Einsatzort wird zum Sperrgebiet durch höhergestellte Behörde erklärt.
-15 | Verborgene Psi-Barriere dämpft Teamfähigkeiten um eine Stufe.
-16 | Medienleak – Reporter taucht auf und streamt live.
-17 | Vergessene Nebenfigur aus früherer Mission fordert Bezahlung ein.
-18 | Missionsziel ist plötzlich hochansteckend (Bio-Hazard-Flag).
-19 | Ausrüstung beginnt zu altern – jede Stunde 10 % Ausfallchance.
-20 | „Alles war Ablenkung“: Primärer Antagonist greift HQ simultan an.
-21 | Kalter-Krieg-Agent verlangt Austausch gefangener Wissenschaftler.
-22 | Spionageausrüstung enthält heimlichen Sender des eigenen Auftraggebers.
-23 | Vermeintlicher Verbündeter entpuppt sich als Zukunfts-Double des Rivalen.
-24 | Alte Funksprüche verweisen auf zweite Zielperson mit eigenem Agenda.
-25 | Zeitanomalie katapultiert Schlüssel-NPC kurzzeitig in Parallelwelt.
-26 | Team entdeckt verdeckte Waffenlieferung an beiden Konfliktparteien.
-27 | Waffentest verursacht EMP, der Chrononauten-Equipment lahmlegt.
-28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf.
-29 | Politischer Abgrund: lokale Fraktion plant Putsch noch während der Mission.
-30 | Rücksprung löst Echo aus – Gegner erhält Vorwissen über Actions.
-```
+| Nr. | Twist | Paradox-Stufe | Historischer Fußabdruck |
+|----|-------|---------------|-------------------------|
+| 1 | Doppelagent im eigenen Team enttarnt sich in der Klimax. | 2 | mittel |
+| 2 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden. | 1 | klein |
+| 3 | Zeitreisende Version des Auftraggebers sendet widersprüchliche Befehle. | 2 | mittel |
+| 4 | Schlüsselfigur entpuppt sich als entfernte Verwandte eines Teammitglieds. | 1 | klein |
+| 5 | Artefakt ist lebendig – schwache Bio-Signale, reagiert auf Stress. | 2 | mittel |
+| 6 | Geisel möchte nicht gerettet werden, verfolgt eigene Agenda. | 0 | klein |
+| 7 | Feindliche KI bietet Allianz gegen ihren Schöpfer an. | 1 | mittel |
+| 8 | Historisches Ereignis findet 24 Stunden früher statt als erwartet. | 1 | mittel |
+| 9 | Transportmittel sabotiert – Not-Sprung oder Impro-Flucht nötig. | 1 | klein |
+| 10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft. | 1 | klein |
+| 11 | Wetterphänomen erschwert den Einsatz erheblich. | 1 | klein |
+| 12 | Gegner besitzt Teilwissen über Zeitreisetech und nutzt es taktisch. | 2 | mittel |
+| 13 | Beweisstücke lösen akute Paradox-Spitzen aus. | 3 | groß |
+| 14 | Einsatzort wird zum Sperrgebiet erklärt. | 1 | klein |
+| 15 | Verborgene Psi-Barriere dämpft Teamfähigkeiten. | 2 | mittel |
+| 16 | Medienleak – Reporter streamt live. | 2 | mittel |
+| 17 | Vergessene Nebenfigur fordert Bezahlung ein. | 1 | klein |
+| 18 | Missionsziel wird plötzlich hochansteckend. | 2 | mittel |
+| 19 | Ausrüstung beginnt zu altern – jede Stunde 10 % Ausfallchance. | 2 | mittel |
+| 20 | „Alles war Ablenkung“: Primärer Antagonist greift HQ simultan an. | 3 | groß |
+| 21 | Kalter-Krieg-Agent verlangt Austausch gefangener Wissenschaftler. | 1 | klein |
+| 22 | Spionageausrüstung enthält heimlichen Sender. | 1 | klein |
+| 23 | Verbündeter entpuppt sich als Zukunfts-Double des Rivalen. | 2 | mittel |
+| 24 | Funksprüche verweisen auf zweite Zielperson mit eigenem Agenda. | 1 | klein |
+| 25 | Zeitanomalie katapultiert Schlüssel-NPC kurzzeitig in Parallelwelt. | 2 | mittel |
+| 26 | Team entdeckt verdeckte Waffenlieferung an beide Parteien. | 2 | mittel |
+| 27 | Waffentest verursacht EMP, der Equipment lahmlegt. | 1 | mittel |
+| 28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf. | 1 | mittel |
+| 29 | Politischer Abgrund: lokale Fraktion plant Putsch während der Mission. | 2 | groß |
+| 30 | Rücksprung löst Echo aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
 
 _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
@@ -1353,18 +1355,17 @@ Ein schneller W6-Wurf erzeugt ein stimmungsvolles Detail für die aktuelle Szene
 
 ## Rätselbibliothek: Kurze Hürdenszenen {#raetselbibliothek}
 
-Kurze Ideen für Rätsel- oder Hindernisszenen. Jeder Eintrag trägt ein
-**Schwierigkeits-Tag**: _Easy_ für lockeres Spiel und _Advanced_ für
-knifflige Herausforderungen.
+Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
+⌖ für leicht, ✱ für mittel und ⚠ für schwer.
 
 | Nr. | Beschreibung | Tag |
 |----|-------------|-----|
-| 1 | Geheimtür über Schallfrequenz öffnen | Easy |
-| 2 | Mechanisches Schloss mit rotierendem Zahlenring | Easy |
-| 3 | Verschlüsseltes Tagebuch in historischem Dialekt | Advanced |
-| 4 | Laserlabyrinth, das nur bei Schatten sichtbar wird | Advanced |
-| 5 | Bildfragment muss wie ein Puzzle zusammengesetzt werden | Easy |
-| 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | Advanced |
+| 1 | Geheimtür über Schallfrequenz öffnen | ⌖ |
+| 2 | Mechanisches Schloss mit rotierendem Zahlenring | ⌖ |
+| 3 | Verschlüsseltes Tagebuch in historischem Dialekt | ⚠ |
+| 4 | Laserlabyrinth, das nur bei Schatten sichtbar wird | ⚠ |
+| 5 | Bildfragment muss wie ein Puzzle zusammengesetzt werden | ⌖ |
+| 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | ⚠ |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.
