@@ -258,10 +258,11 @@ Shard-Drop: 1+Tier
 
 #### Adaptive Opposition
 
-Bei Paradoxon 3+ reagieren Antagonisten aktiver. Jeder wichtige Gegner erhält
-einmal pro Mission einen kleinen taktischen Vorteil – etwa einen Drohnen-Sweep
-oder einen vorbereiteten Hinterhalt. Diese Routine verändert den
-Grund-Schwierigkeitsgrad nicht, sorgt aber für glaubwürdig agierende Gegenspieler.
+Steigt der Paradoxon-Index während einer Mission auf 3 oder höher, reagieren
+Antagonisten aktiver. Jeder wichtige Gegner erhält einmalig einen kleinen
+taktischen Vorteil – etwa einen Drohnen-Sweep oder einen vorbereiteten
+Hinterhalt. Diese Routine verändert den Grund-Schwierigkeitsgrad nicht, sorgt
+aber für glaubwürdig agierende Gegenspieler.
 
 ### Zeitlinien-Verzweigungen
 
