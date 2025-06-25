@@ -208,7 +208,8 @@ Ausrüstungsgegenstände:
 Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Technik an:
 
 - Robuste Reisekleidung, passendes Werkzeug (Hammer, Säge, Seil) und Ersatzschuhe.
-- Kartenmaterial der Epoche, Zoomfunktion über HUD‑Linsen statt Fernglas.
+- Karten-Overlay der Epoche direkt im HUD, Zoomfunktion über die Linsen statt
+  Fernglas.
 - Optional ein unauffälliger Bogen oder Armbrust statt Drohne.
 
 ### Taktische Gadgets
