@@ -287,6 +287,17 @@ Zeitlinien-Verzweigungen wird die Kampagne sowohl **spannend und flexibel** als 
 kohärent gehalten. Die Spieler spüren, dass ihre Taten Bedeutung haben, was die Immersion und
 Motivation enorm steigert.
 
+### Schauplatz-Tags
+
+Kennzeichne Missionen mit ein bis zwei kurzen Tags, um zu zeigen, welche
+Fähigkeiten dort glänzen. Beispiele:
+
+| Tag        | Effekt                                                        |
+|-----------|---------------------------------------------------------------|
+| **dicht** | Viele Deckungen, kurze Sicht – Infiltratoren im Vorteil       |
+| **erhöht** | Offene Höhenlagen, ideal für Scharfschützen                  |
+| **überfüllt** | Zivilistenströme erschweren Feuergefechte, fördern Social Play |
+
 ## HQ-Verwaltung und Ausbau
 
 Das **Hauptquartier (HQ)** der Agenten ist in ZEITRISS mehr als nur ein Aufenthaltsort – es wird im

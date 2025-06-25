@@ -525,6 +525,13 @@ reduziert den Stress um 1 Punkt, wie im Modul
 Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie Exploding-Würfel filmische
 Spitzen erzeugen, ohne den Spielfluss zu bremsen.
 
+**Exfiltration-Hürden:**
+- Engpässe sichern und Alarme überwachen.
+- Gegnerische Verstärkung trifft nach `1W6` Runden ein, falls ein Alarm ausgelöst wird.
+- Kommunikationswege kappen oder stören.
+- Spuren verwischen und Daten löschen.
+- Rücksprungsignal setzen: Paradox-Index melden und Koordinaten bestätigen.
+
 ### Negativ-Beispiel: Risiko-Fail
 
 Manchmal kippt ein Exploding 6 gegen die Agenten. Bei einem nächtlichen Einbruch
