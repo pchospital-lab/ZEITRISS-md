@@ -215,6 +215,13 @@ und den Charakteren greifbare Vorteile oder schlicht Vergnügen verschaffen. **W
 beste Ausrüstung will **verdient** sein. Das ITI stellt nie einfach alles uneingeschränkt ins Regal
 – es gibt Beschränkungen, wer wann auf welche Güter zugreifen darf.
 
+### Wartung und Verschleiß
+
+Hochwertige Geräte müssen regelmäßig kalibriert werden. Nach jeweils drei
+Missionen zahlt der Besitzer **10 % des Kaufpreises**, um Funktionstüchtigkeit
+zu gewährleisten. Wird gespart, steigt der SG aller Proben mit dem Item um +1,
+bis die Wartung nachgeholt wird.
+
 ## Zugriffsrechte und Verfügbarkeit
 
 Nicht jeder Gegenstand kann von jedem Agenten zu jeder Zeit erworben werden. Rang, Reputation und

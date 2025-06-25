@@ -213,6 +213,10 @@ _P_ markiert passive, _A_ aktive Talente.
   Fähigkeit** (nach Wahl der SL, passend zur Story) zu nutzen. Diese kostet wie gewohnt SYS und ggf.
   TEMP-Proben. Dieses Talent sollte nur in Kampagnen verwendet werden, die Psionik zulassen, und eng
   mit TEMP-Attribut und SYS-Belastung verknüpft sein, um Balance zu wahren.
+- **Team-Fokus** (A): Kurze Telepathie auf Sichtweite erlaubt lautlose Absprachen im Kampf.
+  _Kosten:_ 1 SYS pro Nutzung. _Effekt:_ alle Verbündeten erhalten +1 auf ihre nächste Aktion.
+- **Intuitives Knacken** (A): Mit feinem Telekinese-Gespür lassen sich Schlösser und Codes
+  erspüren. _Kosten:_ 2 SYS. _Effekt:_ +2 auf Proben zum Öffnen oder Hacken von Sicherungen.
 
 _Zum Abschluss_: Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen Chrononauten
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die

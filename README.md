@@ -102,7 +102,21 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 6. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
 7. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
-   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961). 
+   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
+
+### Probability Cheat Table
+
+| TN | Erfolg W6 | Erfolg W10 |
+|----|----------|-----------|
+| 2  | 83 %     | 90 %      |
+| 3  | 67 %     | 80 %      |
+| 4  | 50 %     | 70 %      |
+| 5  | 33 %     | 60 %      |
+| 6  | 17 %     | 50 %      |
+| 7  | 17 %     | 40 %      |
+| 8  | 14 %     | 30 %      |
+| 9  | 11 %     | 20 %      |
+| 10 | 8 %      | 10 %      |
 
 ### Proben & Schwierigkeitsgrad
 
