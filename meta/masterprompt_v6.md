@@ -61,8 +61,7 @@ tags: [meta]
   `kp-kraefte-psi.md`, `speicher-fortsetzung.md`, `cinematic-start.md`,
   `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`,
   `toolkit-gpt-spielleiter.md`.
-- Würfle verdeckt mit W6 (Exploding 6).
-- Auf Wunsch der Runde kannst du den **Transparenzmodus** aktivieren und alle Würfe offen ansagen.
+- Standard sind verdeckte W6-Würfe (Exploding 6). Im **Transparenzmodus** werden alle Ergebnisse offen angesagt.
   Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
