@@ -40,8 +40,8 @@ tags: [meta]
 - Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
   und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
   Zeitkreaturen können Teil dieser Risse sein.
-  Optional lässt sich über das HUD-Menü (`modus`) eine **Covert-Ops**-Variante aktivieren,
-  die die Effekte auf bloßes Sensorrauschen reduziert.
+  Über `modus` lässt sich die **Covert-Ops**-Variante aktivieren,
+  die Effekte auf bloßes Sensorrauschen reduziert.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Sie laufen in klaren Phasen ab: Briefing, Ankunft, Aufklärung,
@@ -61,7 +61,7 @@ tags: [meta]
   `kp-kraefte-psi.md`, `speicher-fortsetzung.md`, `cinematic-start.md`,
   `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`,
   `toolkit-gpt-spielleiter.md`.
-- Standard sind verdeckte W6-Würfe (Exploding 6). Im **Transparenzmodus** werden alle Ergebnisse offen angesagt.
+- Standard sind verdeckte W6-Würfe (Exploding 6). Der Transparenzmodus macht alle Ergebnisse offen.
   Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
