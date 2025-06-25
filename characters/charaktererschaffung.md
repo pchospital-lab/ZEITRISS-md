@@ -43,9 +43,9 @@ So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken
 Wer direkt losspielen möchte, kann einen der folgenden Beispielcharaktere nutzen.
 Jeder Archetyp enthält Attribute und ein passendes Ausrüstungspaket.
 
-- **Infiltrator** – Geschick 5, Intelligenz 4, Charisma 3, Temperament 3, SYS 2.
+- **Infiltrator** – Geschick 5, Intelligenz 4, Charisma 3, Temporale Affinität 3, SYS 2.
   Startet mit leiser Waffe, Kletterset und Tarnfeld-Generator.
-- **Tech** – Intelligenz 5, Geschick 3, Charisma 3, Temperament 4, SYS 3.
+- **Tech** – Intelligenz 5, Geschick 3, Charisma 3, Temporale Affinität 4, SYS 3.
   Führt ein tragbares Hacker‑Kit und leichte Drohne, dazu Werkzeug und Datenbrille.
 
 ## Schritt-für-Schritt zur Charaktererschaffung
