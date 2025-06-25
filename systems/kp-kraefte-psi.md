@@ -111,13 +111,15 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   Team spürt z.B. die Emotionen eines NPC und merkt, dass dessen Worte nicht mit seinem wahren Gefühl
   übereinstimmen. Oder er fängt bruchstückhaft einen Gedanken auf („Verrat…“ huscht ihm durch den
   Kopf, als er dem Verdächtigen in die Augen sieht). Reichweite und Präzision sind begrenzt: Oft muss
-  direkter Kontakt oder Blickkontakt bestehen, oder der Telepath befindet sich in einem meditativen
-  Zustand. Interessanterweise scheint die Distanz nicht das entscheidende Kriterium zu sein – manche
-  Telepathen berichten, sie könnten vertraute Personen über Tausende Kilometer spüren. In der
-  _ZEITRISS_-Welt wird sogar diskutiert, ob telepathische Eindrücke **zeitunabhängig** sein können,
-  also ob ein starker Telepath z.B. in der Nullzeit die Gedanken einer Person spürt, die in einer
-  anderen Epoche lebt. Solche Fälle wären extrem selten und würden vermutlich spezielle Gerätschaften
-  erfordern. Meist bleibt Telepathie auf den selben Zeitrahmen beschränkt.
+  direkter Kontakt oder Blickkontakt bestehen oder der Telepath befindet sich in einem meditativen
+  Zustand. Als Daumenregel wirkt Telepathie **zuverlässig im Nahbereich** (0–3 m). Jenseits der
+  **Mittelzone** (3–15 m) erhöht sich die Schwelle um +1, darüber hinaus nur noch erzählerisch.
+  Interessanterweise scheint die Distanz nicht das entscheidende Kriterium zu sein – manche Telepathen
+  berichten, sie könnten vertraute Personen über Tausende Kilometer spüren. In der _ZEITRISS_-Welt wird
+  sogar diskutiert, ob telepathische Eindrücke **zeitunabhängig** sein können, also ob ein starker
+  Telepath z.B. in der Nullzeit die Gedanken einer Person spürt, die in einer anderen Epoche lebt.
+  Solche Fälle wären extrem selten und würden vermutlich spezielle Gerätschaften erfordern. Meist bleibt
+  Telepathie auf den selben Zeitrahmen beschränkt.
 - **Hellsehen/Fernwahrnehmung:** Verwandt mit Telepathie ist die **Spontanwahrnehmung** von
   entfernten Orten, Objekten oder Ereignissen. Ein Chrononaut kann sich in Trance versetzen und danach
   einen Raum beschreiben, in dem er physisch gar nicht anwesend ist – vergleichbar mit Remote Viewing.
@@ -155,7 +157,9 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   **klein und lokal**. Beispielsweise könnte ein telekinetisch begabter Chrononaut ein lose auf dem
   Tisch liegendes Dokument schweben lassen, um es aus der Ferne zu sich zu holen, oder er manipuliert
   ein analoges Türschloss, indem er die Metallstifte minimal bewegt. Auch das Auslösen eines Schalters
-  oder das Stoppen eines kleinen Mechanismus aus der Distanz ist denkbar. Solche Anwendungen erfordern
+  oder das Stoppen eines kleinen Mechanismus aus der Distanz ist denkbar. Telekinese funktioniert
+  **sicher im Nahbereich** (0–3 m). In der **Mittelzone** (3–15 m) steigt die Schwelle um +1, alles
+  darüber hinaus gilt als Fernwirkung und ist nur mit SL-Erlaubnis möglich. Solche Anwendungen erfordern
   hohe Konzentration und gelingen nur mit viel Übung. Bei Stress (etwa im Kampf) ist Telekinese
   äußerst schwierig einzusetzen – eventuell erlaubt die SL einen Versuch, eine einzelne Waffe aus der
   Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
@@ -171,6 +175,19 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
   Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
   sollten selten und folgenreich sein (siehe Paradox- Effekte).
+
+### Reichweitenzonen {#reichweitenzonen}
+
+Zur Orientierung gelten drei Distanzbänder für Telepathie und Telekinese:
+
+| Zone   | Entfernung |
+| ------ | ---------- |
+| Nah    | 0–3 m      |
+| Mittel | 3–15 m     |
+| Fern   | 15–50 m    |
+
+Aktionen außerhalb des Fernbereichs sind nur erzählerisch möglich und erhalten mindestens **+1** auf die
+Schwelle.
 
 ### Anti-Psi-Gitter
 
