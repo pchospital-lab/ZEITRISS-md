@@ -260,7 +260,7 @@ umschalten lassen:
 | **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
-| **Transparenz**         | Offene Würfe für volle Nachvollziehbarkeit. Wird über `modus` aktiviert. |
+| **Transparenz**         | Offene Würfe für volle Nachvollziehbarkeit. |
 
 Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und
