@@ -13,7 +13,8 @@
     {
       "id": "encounter_pool",
       "path": "gameplay/kreative-generatoren.md#encounter-pool-listen",
-      "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko"
+      "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko",
+      "fields": ["epoch", "type", "risk"]
     },
     {
       "id": "twist_pool",

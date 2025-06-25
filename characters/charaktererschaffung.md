@@ -38,6 +38,16 @@ GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Ru
 Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann.
 So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 
+### Schnellstart-Archetypen
+
+Wer direkt losspielen möchte, kann einen der folgenden Beispielcharaktere nutzen.
+Jeder Archetyp enthält Attribute und ein passendes Ausrüstungspaket.
+
+- **Infiltrator** – Geschick 5, Intelligenz 4, Charisma 3, Temperament 3, SYS 2.
+  Startet mit leiser Waffe, Kletterset und Tarnfeld-Generator.
+- **Tech** – Intelligenz 5, Geschick 3, Charisma 3, Temperament 4, SYS 3.
+  Führt ein tragbares Hacker‑Kit und leichte Drohne, dazu Werkzeug und Datenbrille.
+
 ## Schritt-für-Schritt zur Charaktererschaffung
 
 **Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in fünf grundlegenden Schritten.
