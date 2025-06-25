@@ -256,6 +256,13 @@ Shard-Drop: 1+Tier
 - Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
 - Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
 
+#### Adaptive Opposition
+
+Bei Paradoxon 3+ reagieren Antagonisten aktiver. Jeder wichtige Gegner erhält
+einmal pro Mission einen kleinen taktischen Vorteil – etwa einen Drohnen-Sweep
+oder einen vorbereiteten Hinterhalt. Diese Routine verändert den
+Grund-Schwierigkeitsgrad nicht, sorgt aber für glaubwürdig agierende Gegenspieler.
+
 ### Zeitlinien-Verzweigungen
 
 ZEITRISS-Kampagnen spielen mit dem Konzept alternativer Geschichtsverläufe. **Zeitlinien-
@@ -623,6 +630,18 @@ Durch diese langfristigen Mechaniken bleibt die Kampagnenwelt im Fluss. Die Spie
 sie mit den Konsequenzen wie Paradox-Effekten umgehen. Diese Balance aus Erfolg und Verantwortung
 sorgt für anhaltende Motivation. Die Kampagne wird so zu einer lebenden Chronik, die sich gemeinsam
 mit den Spielern entfaltet.
+
+### Ressource-Turn im HQ
+
+Zwischen zwei Missionen kann die Gruppe einen kurzen **Ressource-Turn** einlegen.
+Dieser Ablauf dauert nur wenige Minuten Spielzeit und besteht aus drei Schritten:
+
+1. **Stash verwalten** – Gefundene Artefakte oder CUs lagern und Ausrüstung tauschen.
+2. **Stress abbauen** – Kurze Erholungsaktionen wie Training oder Gespräche senken Stress um 1.
+3. **Forschung anstoßen** – Ein Projekt oder Hinweis für die nächste Mission vorbereiten.
+
+Jeder Turn zählt als eine HQ-Runde. Mehrfache Durchläufe sind möglich, doch die
+Zeit verstreicht entsprechend in der Spielwelt.
 
 ## Erzählpausen, Freizeit und Alltag im HQ
 

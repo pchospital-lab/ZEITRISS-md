@@ -248,6 +248,15 @@ gelten grundsätzlich die normalen Kampfregeln, doch einige Sonderaspekte kommen
   Metall, Funken und Flammen. Die Insassen erleiden meist **Erschütterungsschaden** oder müssen Proben
   ablegen, um sich im Wrack festzuhalten. Solche Szenen können zu Folgeproblemen führen (Fahrzeug
   brennt oder hängt über einem Abgrund…).
+
+  | Größe Angreifer | Größe Ziel | Basisschaden |
+  | --------------- | ---------- | ------------ |
+  | Klein           | Groß       | 2W6          |
+  | Gleich          | Gleich     | 1W6          |
+  | Groß            | Klein      | 3W6          |
+
+  _Beispiel:_ Ein Motorrad rammt einen Transporter (Klein vs. Groß) und kassiert
+  2W6 Schaden, während der Transporter nur wenig abgelenkt wird.
 - **Kämpfe auf Fahrzeugen:** Springt ein Held (oder Gegner) von Fahrzeug zu Fahrzeug oder klettert
   während voller Fahrt auf dem eigenen Vehikel herum, werden die Aktionen riskanter. Balance-Proben
   können nötig sein, um nicht abzustürzen, besonders wenn der Fahrer ausweicht. Ein Kampf auf dem Dach

@@ -83,8 +83,10 @@ Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer D
 
 Eine Kurzfassung der wichtigsten Regeln:
 
-1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung. Nach jedem Schritt speichert der Codex automatisch.
-2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+). Exploding 6 gilt nur für den **ersten** Würfel.
+1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung.
+   Nach jedem Schritt speichert der Codex automatisch.
+2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+).
+   Exploding 6 gilt nur für den **ersten** Würfel.
 3. **Heldenwürfel** – Charaktere mit Attribut 11 erhalten pro Szene einen Gratis-Reroll.
 4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate().
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.

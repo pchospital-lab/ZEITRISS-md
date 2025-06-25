@@ -203,6 +203,14 @@ Ausrüstungsgegenstände:
   unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
   _Kosten:_ 20–50 CU je nach Umfang.
 
+#### Low-Tech Starterpack
+
+Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Technik an:
+
+- Robuste Reisekleidung, passendes Werkzeug (Hammer, Säge, Seil) und Ersatzschuhe.
+- Mechanisches Fernglas und Kartenmaterial der Epoche.
+- Optional ein unauffälliger Bogen oder Armbrust statt Drohne.
+
 ### Taktische Gadgets
 
 Hierunter fallen modernste Geräte, oft aus der Zukunft in die Gegenwart der Chrononauten
