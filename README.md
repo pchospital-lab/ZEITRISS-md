@@ -253,13 +253,14 @@ nach dem Sprung als abgeschlossen.
 
 ## Spielmodi {#spielmodi}
 
-Das HUD bietet drei Erzählstile, die sich jederzeit über den Befehl `modus`
+Das HUD bietet vier Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen:
 | Modus                    | Kurzbeschreibung |
 
 | **Film**                 | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
+| **Transparenz**         | Offene Würfe für volle Nachvollziehbarkeit. Wird über `modus` aktiviert. |
 
 Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und
