@@ -97,7 +97,8 @@ Wichtig ist: **Alle Verbesserungen zehren an der SYS-Kapazität** – ein Agent 
 kaum Raum für Psi und umgekehrt. Die SL sollte zudem thematisch passende Nebenwirkungen einbauen,
 wenn es dramatisch passt (z.B. ein _Reflex-Booster_-Charakter, der in einer ruhigen Wache-Szene
 gegen eine Vase stößt, weil seine Nerven überreagieren).
-_Psi-Abgleich:_ Kurzzeitig manifestierte Psi-Waffen (maximal eine Kampfrunde lang) verursachen **1 SYS** und nutzen keine Exploding-Würfel.
+_Psi-Abgleich:_ Kurzzeitig manifestierte Psi-Waffen (maximal eine Kampfrunde lang)
+verursachen **1 SYS** und nutzen keine Exploding-Würfel.
 Alles darüber hinaus zählt als dauerhafte Psi-Kraft und belegt SYS-Punkte wie andere Implantate.
 Dauerhaft aktive Psi-Kräfte belegen hingegen SYS-Punkte wie andere Implantate.
 Grundfähigkeiten sind leicht zu erlernen, doch hohe Meisterstufen verlangen intensives Training

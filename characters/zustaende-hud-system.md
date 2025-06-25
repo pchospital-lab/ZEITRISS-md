@@ -337,8 +337,8 @@ Lebenspunkte hinausgehen:
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
   _Auswirkungen:_ Steigende Werte lassen die Zeit spürbar entgleisen.
-  Ab **Level 2** flackert das HUD,
-  bei **4** friert der Ablauf kurz ein. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
+  Ab **Level 2** flackert das HUD, wodurch Stealth-Proben in dieser Runde **–1** erhalten.
+  Bei **4** friert der Ablauf kurz ein, alle Wahrnehmungsproben **–1** für einen Augenblick. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
   Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
@@ -366,7 +366,7 @@ _Verwarnungspuffer:_ Der Index steigt nur, wenn bereits eine **Paradox-Marke** i
 
 Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
 und zeigt, welche Effekte bei welchen Stufen auftreten.
-Die Stufen 2–4 erzeugen nur stimmige Effekte und keine zusätzlichen Mali.
+Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
 
 | Stufe | In-Mission-Effekt               | HQ-Effekt                                    |
 | ----- | ------------------------------- | -------------------------------------------- |
@@ -381,8 +381,8 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**
 
-1. Bei Stufe 2 flackert kurz das HUD und die Funkverbindung rauscht.
-2. Auf Stufe 4 friert die Szene für einen Moment ein, als ob die Zeit stockt.
+1. Bei Stufe 2 flackert kurz das HUD und die Funkverbindung rauscht (**–1 Stealth**).
+2. Auf Stufe 4 friert die Szene für einen Moment ein, als ob die Zeit stockt (**–1 Wahrnehmung**).
 3. Bei Stufe 5 markiert das HQ 1–2 Risse auf der Weltkarte. Diese lassen sich
    erst nach Missionsende vom HQ aus anspringen. Der Sprung selbst löst kein
    Paradoxon-Level aus.

@@ -717,41 +717,105 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 
 ### Encounter-Pool-Listen (d6 je Stufe) {#encounter-pool-listen}
 
-```markdown
-# ZEITRISS – Encounter-Pool (S / M / L / XL)
+- epoch: "modern"
+  type: "security"
+  risk: "S"
+  text: "Patrouillen-Duo (Ortspolizei, schlecht ausgerüstet)"
+- epoch: "modern"
+  type: "civilian"
+  risk: "S"
+  text: "Zivile Zeugen (Neugierige Arbeiter, wollen helfen)"
+- epoch: "modern"
+  type: "animal"
+  risk: "S"
+  text: "Wachhund + Besitzer (ablenkbar mit Futter)"
+- epoch: "modern"
+  type: "misc"
+  risk: "S"
+  text: "Nostalgiker-Touristen mit Kameradrohne"
+- epoch: "modern"
+  type: "hazard"
+  risk: "S"
+  text: "Elektrischer Kurzschluss – Funken + Rauch, kein Feuer"
+- epoch: "modern"
+  type: "security"
+  risk: "S"
+  text: "Kontrollposten mit veralteter Schlüsselkarte (Hack-Bonus)"
 
-## S – Low Risk  (d6)
-1 | Patrouillen-Duo (Ortspolizei, schlecht ausgerüstet)
-2 | Zivile Zeugen (Neugierige Arbeiter, wollen helfen)
-3 | Wachhund + Besitzer (ablenkbar mit Futter)
-4 | Nostalgiker-Touristen mit Kameradrohne
-5 | Elektrischer Kurzschluss – Funken + Rauch, kein Feuer
-6 | Kontrollposten mit veralteter Schlüsselkarte (Hack-Bonus)
+- epoch: "modern"
+  type: "security"
+  risk: "M"
+  text: "4-Mann-Sicherheitstrupp (MP5, Bodycams)"
+- epoch: "modern"
+  type: "drone"
+  risk: "M"
+  text: "Drohnenschwarm (3× Quadcopter, IR-Sensor)"
+- epoch: "modern"
+  type: "tech"
+  risk: "M"
+  text: "Code-Lock mit Timelock-Sicherung (2 Min. Cool-down)"
+- epoch: "modern"
+  type: "alarm"
+  risk: "M"
+  text: "Zeitversetztes Alarmsystem (20 Sek. Latenz, manipulierbar)"
+- epoch: "modern"
+  type: "civilian"
+  risk: "M"
+  text: "Zivilist + Geiselsituation (moralisches Dilemma)"
+- epoch: "modern"
+  type: "tech"
+  risk: "M"
+  text: "Techniker-Team führt Systemwartung durch (bestechlich)"
 
-## M – Medium Risk  (d6)
-1 | 4-Mann-Sicherheitstrupp (MP5, Bodycams)
-2 | Drohnenschwarm (3× Quadcopter, IR-Sensor)
-3 | Code-Lock mit Timelock-Sicherung (2 Min. Cool-down)
-4 | Zeitversetztes Alarmsystem (20 Sek. Latenz, manipulierbar)
-5 | Zivilist + Geiselsituation (moralisches Dilemma)
-6 | Techniker-Team führt Systemwartung durch (bestechlich)
+- epoch: "modern"
+  type: "military"
+  risk: "L"
+  text: "Elite-Söldnertrupp (6 Personen, Panzerplatten, Sturmgewehre)"
+- epoch: "modern"
+  type: "hazard"
+  risk: "L"
+  text: "EMP-Mikroladung in nervöser Hand – Finger am Abzug"
+- epoch: "modern"
+  type: "tech"
+  risk: "L"
+  text: "Laser-Rasterfeld, automatisch vernetzt mit Geschütznest"
+- epoch: "modern"
+  type: "psi"
+  risk: "L"
+  text: "Psi-Sensitive Wache (Telepath I, spürt feindliche Absicht)"
+- epoch: "modern"
+  type: "explosive"
+  risk: "L"
+  text: "Countdown-Sprengsatz (3 Min. bis Detonation)"
+- epoch: "modern"
+  type: "agents"
+  risk: "L"
+  text: "\u201EBlack Bag\u201C-Team (Agenten derselben Fraktion -+1 Paradox bei Konflikt)"
 
-## L – High Risk  (d6)
-1 | Elite-Söldnertrupp (6 Personen, Panzerplatten, Sturmgewehre)
-2 | EMP-Mikroladung in nervöser Hand – Finger am Abzug
-3 | Laser-Rasterfeld, automatisch vernetzt mit Geschütznest
-4 | Psi-Sensitive Wache (Telepath I, spürt feindliche Absicht)
-5 | Countdown-Sprengsatz (3 Min. bis Detonation)
-6 | „Black Bag“-Team (Agenten derselben Fraktion -+1 Paradox bei Konflikt)
-
-## XL – Extreme Risk  (d6)
-1 | Schwerkraftanomalie (lokaler 0-G-Kern, gefährdet Infrastruktur)
-2 | Hunter-Killer-Mech (Höhe 3 m, Gatling + Raketen)
-3 | Zeitschleifen-Riss – 30-Sek-Loop, verursacht Paradox +2 pro Minute
-4 | Naniteschwarm (Korrosion jeder Elektronik, Immun gegen Hack)
-5 | Gegenspieler-Ass im Feld (Signatur-NSC mit Plot-Immunität)
-6 | Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)
-```
+- epoch: "future"
+  type: "anomaly"
+  risk: "XL"
+  text: "Schwerkraftanomalie (lokaler 0-G-Kern, gefährdet Infrastruktur)"
+- epoch: "future"
+  type: "mech"
+  risk: "XL"
+  text: "Hunter-Killer-Mech (Höhe 3 m, Gatling + Raketen)"
+- epoch: "future"
+  type: "rift"
+  risk: "XL"
+  text: "Zeitschleifen-Riss – 30-Sek-Loop, verursacht Paradox +2 pro Minute"
+- epoch: "future"
+  type: "nanite"
+  risk: "XL"
+  text: "Naniteschwarm (Korrosion jeder Elektronik, Immun gegen Hack)"
+- epoch: "future"
+  type: "boss"
+  risk: "XL"
+  text: "Gegenspieler-Ass im Feld (Signatur-NSC mit Plot-Immunität)"
+- epoch: "future"
+  type: "orbital"
+  risk: "XL"
+  text: "Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)"
 
 ## Encounter-Paket „Postorbitales Zeitalter" {#postorbital-encounters}
 
@@ -1152,6 +1216,14 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 *Tipp:* Lasst den Codex bereits eine Sitzung vorher ein **Gerücht** über ein mögliches Artefakt
 streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
 Hinweise.
+
+### Artefakt-Jagd: Fortschrittsbalken
+
+Jede abgeschlossene Mission erhöht die Chance auf einen legendären Fund um 5 %.
+Im HUD erscheint ein Balken („Gerüchte 20 %“), der diesen Wert anzeigt. Erreicht
+die Anzeige 100 %, ist die nächste Mission automatisch ein Artefakt-Run und der
+Zähler springt auf 0. Rückschläge oder Fehlschläge können den Wert um 10 %
+senken.
 
 - **Objektart:**
 
