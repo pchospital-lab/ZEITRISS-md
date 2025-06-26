@@ -842,4 +842,7 @@ euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: _
 und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“_ Viel Spaß und Erfolg
 bei eurem **filmreifen Start ins Abenteuer**!
 
+Weitere Tipps zur Team-Vorstellung bietet das Modul
+[Filmischer Gruppenstart](gruppenstart-filmisch.md).
+
 [^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.

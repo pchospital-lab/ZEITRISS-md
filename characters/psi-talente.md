@@ -55,6 +55,15 @@ Regung. Danach kann er (in Absprache mit der SL) einen Teil seiner Erfahrung inv
 Talentfähigkeit _Psioniker_ zu erwerben (siehe Talente), was künftige Psi-Nutzung erlaubt. So bleibt
 Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 
+### Beispiel-DCs {#psi-dc}
+
+| Kraft              | SG |
+| ------------------ | -- |
+| Telekinese-Stoß    | 12 |
+| Gedankenlesen      | 9  |
+| Zeit verlangsamen  | 13 |
+| Psi-Schild         | 14 |
+
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
 

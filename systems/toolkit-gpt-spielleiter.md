@@ -549,6 +549,11 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 - Side-Op-Starter über `jump rift-ID`.
 - Ruhen in den Crew-Quarters zum Reset von HP & Stress.
 
+### Meta-Kommandos
+
+- `/stress open` oder `/stress hidden` – zeigt bzw. verbirgt den Stress-Balken.
+- `/echo on` oder `/echo off` – legt fest, ob Chat-Eingaben wiederholt werden.
+
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im
