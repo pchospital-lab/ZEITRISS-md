@@ -129,7 +129,7 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
   ]
 }
 ```
-Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes ⌛ zählt als +1 SG.
+Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes ☆ zählt als +1 SG.
 ```json
 {
   "RiftSeedTable": [
