@@ -130,10 +130,11 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 }
 ```
 
-Jede Rift-Mission erhält einen **Difficulty-Tag**, der direkt den SG-Bonus durch
-offene Seeds widerspiegelt. Jeder Stern steht für +1 SG. Mehr als fünf Seeds
-können als `★★★★★+` notiert werden. Solo-Agenten sollten Missionen ab
-★★★ nur mit Vorbereitung angehen.
+Jede Rift-Mission besitzt einen **Difficulty-Tag** in Sternen (★). Dieser Wert
+ist eine grobe Vorab-Einschätzung und beeinflusst den SG nicht direkt. Der
+tatsächliche SG steigt allein durch offene Seeds. Jedes Stundenglas (⌛)
+entspricht +1 SG. Mehr als fünf Seeds können als `⌛⌛⌛⌛⌛+` notiert werden.
+Solo-Agenten sollten Missionen ab ⌛⌛⌛ nur mit Vorbereitung angehen.
 
 ```json
 {
@@ -963,10 +964,12 @@ Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** a
 reine Zeitkonstrukte mit genau einem Zeiteffekt.
 
 Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block.
-Jedes Wesen trägt einen **Schwierigkeitswert** von ★ bis ★★★★★,
+Jedes Wesen trägt einen **Schwierigkeitswert** von 💀 bis 💀💀💀💀💀,
 der angibt, wie hart es Solo-Agenten im Vergleich zu Gruppen trifft.
-Faustregel: Pro zusätzlichem Stern sollte das Team mindestens
+Faustregel: Pro zusätzlichem Totenkopf sollte das Team mindestens
 einen weiteren Agenten oder starke Ausrüstung aufbieten.
+Die Totenkopf-Skala ist unabhängig von den Stundengläsern der
+Rift-Missionen und erhöht **nicht** den SG.
 
 1. **Zeitschimäre** – Verschmolzene Tiere und Maschinen aus mehreren Epochen.
 
@@ -976,7 +979,7 @@ einen weiteren Agenten oder starke Ausrüstung aufbieten.
 │ Rift-Tier: Standard Rift                   │
 │ HP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
-│ Difficulty: ★★★                           │
+│ Difficulty: 💀💀💀                           │
 │ Signature Power: Time-Skip Blink           │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Survival 13          │
@@ -995,7 +998,7 @@ Greift alles an, bis der Riss geschlossen ist.
 │ Rift-Tier: Standard Rift                   │
 │ HP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
-│ Difficulty: ★★★                           │
+│ Difficulty: 💀💀💀                           │
 │ Signature Power: Stasis Wall               │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Lore 14              │
@@ -1014,7 +1017,7 @@ Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
-│ Difficulty: ★★                            │
+│ Difficulty: 💀💀                            │
 │ Signature Power: Loop Echo                 │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Empathy 12           │
@@ -1033,7 +1036,7 @@ Kann erlöst oder endgültig gebannt werden.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
-│ Difficulty: ★★                            │
+│ Difficulty: 💀💀                            │
 │ Signature Power: Reverse Flow              │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Tech 12              │
@@ -1052,7 +1055,7 @@ Wird schlauer, je länger er unbehelligt bleibt.
 │ Rift-Tier: Major Rift                      │
 │ HP-Pool: W6 × 3 (Exploding)                │
 │ Defense-Schwelle: 6                        │
-│ Difficulty: ★★★★★                         │
+│ Difficulty: 💀💀💀💀💀                         │
 │ Signature Power: Age-Burn Touch            │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Willpower 16         │
@@ -1071,7 +1074,7 @@ Nur mehrere Zeitanker können ihn bannen.
 │ Rift-Tier: Minor Rift                      │
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
-│ Difficulty: ★★                            │
+│ Difficulty: 💀💀                            │
 │ Signature Power: Time-Slow Bubble          │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Medicine 12          │

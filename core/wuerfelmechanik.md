@@ -542,7 +542,7 @@ Spitzen erzeugen, ohne den Spielfluss zu bremsen.
 - Gegnerische Verstärkung trifft nach `1W6` Runden ein, falls ein Alarm ausgelöst wird.
 - Kommunikationswege kappen oder stören.
 - Spuren verwischen und Daten löschen.
-- Rücksprungsignal setzen: Paradox-Index melden und Koordinaten bestätigen.
+- Rücksprungsignal setzen: Paradoxon-Index melden und Koordinaten bestätigen.
 
 ### Negativ-Beispiel: Risiko-Fail
 
