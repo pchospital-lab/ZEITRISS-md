@@ -570,6 +570,15 @@ angepasst.
 - `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
 - `seed_to_hook(id)` – schlägt drei kurze Story-Hooks zu einem Seed vor.
 
+## Auto-Backup bei Paradoxon-Anstieg
+
+Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
+aktuellen Spielstands im Ordner `backups`. Diese Datei trägt einen
+Zeitstempel im Namen, zum Beispiel `save_20240101_1200.json`. Vor dem
+Start einer neuen Sitzung prüft die Engine, ob ein solches Backup
+vorliegt, und stellt es bei Bedarf wieder her. Die Felder `version_hash`
+und optional `checksum` helfen, inkonsistente Sicherungen zu erkennen.
+
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 
 Ein zentrales Anliegen bei ZEITRISS ist es, technische Vorgänge wie das **Laden eines Spielstands**

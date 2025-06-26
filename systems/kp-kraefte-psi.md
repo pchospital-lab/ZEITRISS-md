@@ -547,6 +547,12 @@ Spielgruppen können A/B-Tests fahren: Variante A nutzt obige Werte, Variante B
 verringert den Cooldown um jeweils eine Runde. Nach einigen Sessions lässt sich
 so ermitteln, welche Variante für die Kampagne besser passt.
 
+Jeder offensive Psi-Angriff löst zudem einen _Energie-Drain_ aus: Nach dem
+Schadenswurf verliert der Anwender 1 weiteren PP. Alternativ kann die Gruppe
+einen SYS-Malus von –1 bis Szenenende ansetzen. Ein telekinetischer Stoß
+(2 PP) verursacht so ähnlich viel Schaden wie ein Scharfschützengewehr,
+erschöpft aber deutlich schneller die verfügbaren Punkte.
+
 ### Echo-Variant (optional) {#echo-variant}
 
 Manche Gruppen wünschen gelegentliche Einblicke in metaphysische Ebenen. Diese
