@@ -4,7 +4,8 @@ version: 4.0
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.0 – Modul 10: Im Schatten des Montauk-Projekts ## Kampagnenüberblick
+# ZEITRISS 4.0 – Modul 10: Im Schatten des Montauk-Projekts
+## Kampagnenüberblick
 
 ZEITRISS ist ein düsteres Sci‑Fi‑Sandbox-Spiel. Megakonzerne und geheime Projekte loten
 die Grenzen von Raum und Zeit aus, während das **Institut für Temporale Intervention (ITI)**
