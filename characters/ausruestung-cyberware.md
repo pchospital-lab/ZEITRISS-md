@@ -424,7 +424,8 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
    sich verborgene Geschichte, was eine Nebenszene auslösen kann. 150 CU Handelswert, unter
 Historikern weitaus mehr.
 7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU.
-8. **Runenbesetzter Würfel** – Zeigt frühere Entscheidungen als Projektion. Einmalig +1 auf Geschichtswürfe. Wert: 300 CU.
+8. **Runenbesetzter Würfel** – Zeigt frühere Entscheidungen als Projektion.
+   Einmalig +1 auf Geschichtswürfe. Wert: 300 CU.
 
 ## Seltene Spezialgegenstände (1W6)
 

@@ -88,7 +88,10 @@ Eine Kurzfassung der wichtigsten Regeln:
 2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+).
    Exploding 6 gilt nur für den **ersten** Würfel.
 3. **Heldenwürfel** – Ab Attribut 14 erhalten Charaktere pro Szene einen Gratis-Reroll.
-4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein ClusterCreate(). Jedes Team führt eine eigene Liste und merged sie im HQ.
+4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein
+   ClusterCreate(). Jedes Team führt eine eigene Liste und merged sie im HQ.
+   Ein optionaler **Index-Merge-Schalter** legt fest, ob die Werte im HQ
+   automatisch zusammengeführt werden.
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
 ## Quick-Start Cheat Sheet
