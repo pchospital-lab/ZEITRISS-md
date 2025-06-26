@@ -540,6 +540,16 @@ Szene, ob Zeitphänomene auftreten). Helden sollten _sehr_ fokussiert vorgehen, 
 zu haben. Erfolgsziel hoch ansetzen, aber ggf. in **Theatersequen**z auflösen (die Helden erledigen
 Schlüsselmoment, der Rest wird narrativ entschieden). |
 
+#### Kurzreferenz A5 {#mass-kurz}
+
+| Größe | Erfolgspunkte | Beispiel |
+| ----- | ------------- | -------- |
+| Klein | 1–2 | Dorfskirmish |
+| Mittel | 3–5 | Belagerung |
+| Groß | 5–8 | Feldschlacht |
+| Episch | 8+ | Zeitkrieg |
+
+Diese Kurzform passt auf ein A5-Handout und hält den Überblick knapp.
 Dies sind Richtwerte – der SL passt sie an die konkrete Story an. In einer Revolution etwa sind eher
 soziale Proben gefragt (Propaganda, Diplomatie), während in einer Schlacht Kampf- und Taktikproben
 dominieren. Wichtig ist, dass **jede Stufe herausfordernd aber machbar** bleibt: Die Spieler sollen

@@ -554,6 +554,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 - `/stress open` oder `/stress hidden` – zeigt bzw. verbirgt den Stress-Balken.
 - `/echo on` oder `/echo off` – legt fest, ob Chat-Eingaben wiederholt werden.
 
+- `/reject <grund>` – aktiviert das Ablehnen-Schema: erkläre knapp, warum ein Wunsch nicht umsetzbar ist, und schlage eine Alternative vor.
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im
