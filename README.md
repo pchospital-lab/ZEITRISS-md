@@ -153,9 +153,6 @@ Details stehen im Modul
 Paramonster verwenden Totenkopf-Icons (💀) als eigenen
 Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
-Die Missionsideen in der `RiftSeedTable` tragen zusätzlich Sterne (★),
-die eine **Grundschwierigkeit** angeben. Diese Sterne sind rein zur
-Orientierung gedacht und werden nicht auf den SG addiert.
 
 ### Wichtige Makros
 

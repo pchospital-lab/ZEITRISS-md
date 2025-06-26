@@ -237,7 +237,7 @@ Shard-Drop: 1+Tier
 | Mission 3 | Schwelle +1, CU ×1.2. Finale der London-Folgestory.                     |
 | Epilog    | Offener Seed überträgt sich in den nächsten Arc oder eine Epilog-Quest. |
 
-##### Mini-Walkthrough Mauerbau 1961 (★)
+##### Mini-Walkthrough Mauerbau 1961
 
 | Schritt   | Ereignis |
 | --------- | ------------------------------------------------------------- |
