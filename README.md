@@ -108,6 +108,9 @@ Die ersten Schritte in unter zwei Minuten:
 6. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
 7. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
+8. **Filmischer Einstieg** – das Modul
+   [Cinematic Start](systems/gameflow/cinematic-start.md)
+   beschreibt einen sofort spielbaren Auftakt.
 
 ### Probability Cheat Table
 

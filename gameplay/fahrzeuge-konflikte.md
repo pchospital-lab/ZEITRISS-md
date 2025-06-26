@@ -110,6 +110,14 @@ und Auffälligkeit eines Fahrzeugs in unterschiedlichen Zeiten:
   Ressourcen verdienen. Wer ein solches Schiff besitzt, hält den Schlüssel zur Zeit in der Hand. Aber
   Vorsicht: Der Besitz eines Zeitschiffs macht die Gruppe auch zur begehrten Zielscheibe für Rivalen!
 
+### Zeit-Spezialfahrzeuge (Beispiele)
+
+- **Zeppelin 1910:** Frühes Luftschiff mit nachgerüsteten Chrono-Segeln. Ideal für verdeckte Operationen
+  im Kaiserreich.
+- **Zeitkapsel-U-Boot 1960:** Mini-U-Boot mit kompaktem Sprungkern für verdeckte Hafeninfiltrationen.
+- **Chrono-Bike 2040:** Ein-Mann-Gleiter, der kurze Sprünge aus voller Fahrt erlaubt.
+- **Quanten-Schiff 2210:** High-End Zeitschiff, nahezu geräuschlos und mit Tarnfeld ausgestattet.
+
 **Fahrzeuge im Spiel einsetzen:** Fahrzeuge bereichern das Zeitreise-Abenteuer, aber bringen auch
 praktische Herausforderungen. Die Gruppe sollte überlegen: _Wo parken wir unser Gefährt ungesehen?
 Haben wir genug Treibstoff für die geplante Route?_ Ein Abenteuer kann daraus entstehen, dass
