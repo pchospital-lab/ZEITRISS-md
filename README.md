@@ -198,7 +198,8 @@ fünf Seeds können als `★★★★★+` notiert werden. Details stehen im Mod
 Gruppen können vor Spielbeginn gemeinsame Grenzen festlegen. **Lines** sind
 Inhalte, die komplett ausgespart werden. **Veils** lassen Szenen bei Bedarf
 ausblenden oder „fade to black“ laufen. Notiert eure Vereinbarungen im Codex,
-damit alle denselben Rahmen kennen.
+damit alle denselben Rahmen kennen. Wer keine speziellen Grenzen setzen
+möchte, kann den Abschnitt einfach überspringen.
 
 ### ZEITRISS – Einleitung
 
