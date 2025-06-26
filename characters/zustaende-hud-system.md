@@ -732,8 +732,8 @@ auch bei Paradoxon, EMP oder Isolation.
 
 ### SG-Konverter (HUD-Macro)
 
-Der Befehl `sg(★)` rechnet eine Sternbewertung in die zugehörige Schwelle um.
-Beispiel: `sg(★★★)` gibt `3` aus. So lässt sich schnell prüfen, wie stark sich
+Der Befehl `sg(⌛)` rechnet eine Stundenglas-Bewertung in die zugehörige Schwelle um.
+Beispiel: `sg(⌛⌛⌛)` gibt `3` aus. So lässt sich schnell prüfen, wie stark sich
 offene Seeds auf den SG auswirken.
 
 ### Codex-Suchfilter nach Tags
