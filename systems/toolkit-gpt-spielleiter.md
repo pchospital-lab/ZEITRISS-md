@@ -281,6 +281,9 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   _„Codex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“_ So weckst du Neugier, ohne
   alles preiszugeben. Codex-Einblendungen zu Artefakten erscheinen nur bei seltenen Funden
   automatisch.
+- **Ask→Suggest Toggle:** Manche Gruppen möchten mehr direkte Vorschläge. Der Codex kann per
+  Sprachbefehl in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage kurze Tipps zu
+  nächsten Schritten.
   auch **Spoiler-Vermeidung** betreiben: Nicht jede Codex-Abfrage liefert vollständige Infos –
   manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen kannst du das HUD/Interface auch

@@ -118,6 +118,8 @@ und Auffälligkeit eines Fahrzeugs in unterschiedlichen Zeiten:
 - **Chrono-Bike 2040:** Ein-Mann-Gleiter, der kurze Sprünge aus voller Fahrt erlaubt.
 - **Quanten-Schiff 2210:** High-End Zeitschiff, nahezu geräuschlos und mit Tarnfeld ausgestattet.
 
+- **Panzerzug 1916:** Gepanzerter Zug mit Geschützturm. Ideal für heikle Einsätze in Kriegsgebieten.
+- **Intrusion-Shuttle 2289:** Raumfähre mit Tarnfeld für verdeckte Orbitalsprünge.
 **Fahrzeuge im Spiel einsetzen:** Fahrzeuge bereichern das Zeitreise-Abenteuer, aber bringen auch
 praktische Herausforderungen. Die Gruppe sollte überlegen: _Wo parken wir unser Gefährt ungesehen?
 Haben wir genug Treibstoff für die geplante Route?_ Ein Abenteuer kann daraus entstehen, dass
@@ -186,6 +188,9 @@ lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
 ### Schadenswürfel beim Fahrzeugkampf
 
 Beim Fahrzeugschaden explodiert nur der erste Wurf.
+
+> **Hinweis:** Charaktere mit einem Attributwert von 11 oder mehr verwenden im Nahkampf W10 statt W6 und erhalten wie gewohnt ihren Heldenwürfel.
+
 Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren.
 So bleibt der Schaden beherrschbar.
 _Abschließend_ sollen Fahrzeuge euren ZEITRISS-Abenteuern neue Facetten verleihen:

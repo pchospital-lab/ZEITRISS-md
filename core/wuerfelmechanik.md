@@ -72,7 +72,9 @@ fallen, wiederholt sich der Vorgang so lange, bis kein Maximum mehr erscheint. D
 übermäßig eskalieren, darf **nur der erste Würfel einer Probe** überhaupt explodieren; weitere 6er
 werden normal gezählt. Auf diese Weise sind theoretisch **Ergebnisse über dem normalen Limit**
 möglich, was besonders heroische Erfolge oder dramatische Wendungen darstellen kann. Spielerinnen
-und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem
+und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“.
+
+**Kurzes Beispiel:** Zeigt der erste W6 eine **6**, wirfst du sofort einen zweiten. Fällt erneut **6** und danach **4**, ergibt das zusammen **10** Punkte.
 sicheren Misserfolg kann so doch noch ein triumphaler Erfolg werden. _(Beispiel: Nadia muss einen
 schwierigen Sprung über eine Schlucht meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens
 eine 10. Sie würfelt eine 6 – diese „explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine
