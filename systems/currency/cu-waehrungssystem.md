@@ -35,6 +35,13 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
+> **Kaufkraft-Relation:**
+> | Epoche | Gegenwert für 10 CU |
+> | ------ | ------------------ |
+> | 2025 | etwa 100 EUR |
+> | 1920 | rund 60 Mark |
+> | 1572 | gut 20 Silberstücke |
+
 ## Chrono Units verdienen: Missionen und Funde
 
 Die primäre Quelle von Chrono Units sind erfolgreiche **Missionen** – und auch clevere Verwendung

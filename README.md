@@ -264,7 +264,7 @@ Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gamef
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
-Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir**.
+Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
 Dort kann die Gruppe den aktuellen Pfad fortsetzen,
 einen neuen Missionspfad wählen oder eine HQ-Phase starten.
@@ -282,6 +282,7 @@ umschalten lassen:
 | **Regel+Film/Klassik**   | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
 | **Transparenz**         | Offene Würfe für volle Nachvollziehbarkeit. |
+| **Suggest**             | Codex schlägt auf Wunsch Handlungsoptionen vor. |
 
 Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und

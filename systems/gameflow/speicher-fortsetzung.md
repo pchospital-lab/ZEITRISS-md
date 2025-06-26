@@ -20,6 +20,7 @@ tags: [systems]
 {"Name":"Alex","Epoche":"2025","Level":2,"version_hash":"4.0","arc_dashboard":{}}
 ```
 
+- Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
