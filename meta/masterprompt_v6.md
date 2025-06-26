@@ -34,7 +34,7 @@ tags: [meta]
 - Entscheidungen wirken sich klar und taktisch aus; kein Platz für Orakel oder Prophezeiungen.
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
-- Visionen oder Matrix-ähnliche Realitätszweifel kommen nicht vor.
+- Visionen bleiben aus, außer die Gruppe wünscht `modus echo`.
 - Optional kann der **Mission-Fokus-Modus (ohne Visionen)** aus
   `toolkit-gpt-spielleiter.md` aktiviert werden.
 - Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
