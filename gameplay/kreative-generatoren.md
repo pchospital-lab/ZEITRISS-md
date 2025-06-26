@@ -129,159 +129,129 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
   ]
 }
 ```
-
-Jede Rift-Mission besitzt einen **Difficulty-Tag** in Sternen (★). Dieser Wert
-ist eine grobe Vorab-Einschätzung und beeinflusst den SG nicht direkt. Der
-tatsächliche SG steigt allein durch offene Seeds. Jedes Stundenglas (⌛)
-entspricht +1 SG. Mehr als fünf Seeds können als `⌛⌛⌛⌛⌛+` notiert werden.
-Solo-Agenten sollten Missionen ab ⌛⌛⌛ nur mit Vorbereitung angehen.
-
+Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes ⌛ zählt als +1 SG.
 ```json
 {
   "RiftSeedTable": [
     {
       "d24": 1,
       "Seed": "Feuerengel von Breslau",
-      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung",
-      "Diff": "★★★"
+      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"
     },
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
-      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau",
-      "Diff": "★★"
+      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau"
     },
     {
       "d24": 3,
       "Seed": "Schrecken von Whitehall",
-      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon",
-      "Diff": "★★★"
+      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon"
     },
     {
       "d24": 4,
       "Seed": "Night Train 666",
-      "Hook": "Führerloser Güterzug – Boarding & Blackbox",
-      "Diff": "★★★"
+      "Hook": "Führerloser Güterzug – Boarding & Blackbox"
     },
     {
       "d24": 5,
       "Seed": "Mirage Over Sinai",
-      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken",
-      "Diff": "★★★★"
+      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken"
     },
     {
       "d24": 6,
       "Seed": "Wolfsplage Dacia",
-      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen",
-      "Diff": "★★★"
+      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"
     },
     {
       "d24": 7,
       "Seed": "Project Götterdämmerung",
-      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station",
-      "Diff": "★★★★"
+      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station"
     },
     {
       "d24": 8,
       "Seed": "Black Rain Vienna",
-      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren",
-      "Diff": "★★★"
+      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"
     },
     {
       "d24": 9,
       "Seed": "Emerald Kraken",
-      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen",
-      "Diff": "★★★"
+      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen"
     },
     {
       "d24": 10,
       "Seed": "Mars-Log #404",
-      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück",
-      "Diff": "★★★★"
+      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück"
     },
     {
       "d24": 11,
       "Seed": "Nightcrawler",
-      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam",
-      "Diff": "★★"
+      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"
     },
     {
       "d24": 12,
       "Seed": "Sasquatch im Yukon",
-      "Hook": "Bestie greift Trapper an – Fährte verfolgen",
-      "Diff": "★★"
+      "Hook": "Bestie greift Trapper an – Fährte verfolgen"
     },
     {
       "d24": 13,
       "Seed": "Mothman-Sichtung",
-      "Hook": "Unheil über Brücke – Absturz bergen",
-      "Diff": "★★"
+      "Hook": "Unheil über Brücke – Absturz bergen"
     },
     {
       "d24": 14,
       "Seed": "Blutorden",
-      "Hook": "Opfer blutleer – Kult zerschlagen",
-      "Diff": "★★★"
+      "Hook": "Opfer blutleer – Kult zerschlagen"
     },
     {
       "d24": 15,
       "Seed": "Diablos Katakomben",
-      "Hook": "Dämonische Schreie – Artefakt zerstören",
-      "Diff": "★★★★"
+      "Hook": "Dämonische Schreie – Artefakt zerstören"
     },
     {
       "d24": 16,
       "Seed": "Feuerengel",
-      "Hook": "Flammender Cherub – Drohne bergen",
-      "Diff": "★★★"
+      "Hook": "Flammender Cherub – Drohne bergen"
     },
     {
       "d24": 17,
       "Seed": "Totenbrücke",
-      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren",
-      "Diff": "★★"
+      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren"
     },
     {
       "d24": 18,
       "Seed": "Schrecken von Whitehall – PHANTOM",
-      "Hook": "Löwe springt – Parkourjagd",
-      "Diff": "★★"
+      "Hook": "Löwe springt – Parkourjagd"
     },
     {
       "d24": 19,
       "Seed": "Night Train 666 – PHANTOM",
-      "Hook": "Geisterzug – Zug entern",
-      "Diff": "★★★"
+      "Hook": "Geisterzug – Zug entern"
     },
     {
       "d24": 20,
       "Seed": "Emerald Kraken – PHANTOM",
-      "Hook": "Grüne Tentakel – Taucheinsatz",
-      "Diff": "★★★"
+      "Hook": "Grüne Tentakel – Taucheinsatz"
     },
     {
       "d24": 21,
       "Seed": "Militärischer Komplex",
-      "Hook": "Tollwutvirus-Zombies eindämmen",
-      "Diff": "★★★"
+      "Hook": "Tollwutvirus-Zombies eindämmen"
     },
     {
       "d24": 22,
       "Seed": "Mittelalterliche Katakomben",
-      "Hook": "Der falsche Teufel – Illusion enttarnen",
-      "Diff": "★★"
+      "Hook": "Der falsche Teufel – Illusion enttarnen"
     },
     {
       "d24": 23,
       "Seed": "Altes Schloss",
-      "Hook": "Vampir-Experiment beenden",
-      "Diff": "★★★"
+      "Hook": "Vampir-Experiment beenden"
     },
     {
       "d24": 24,
       "Seed": "Geheime Tiefsee-Megacity",
-      "Hook": "Ursprung des \"Blob\" stoppen",
-      "Diff": "★★★★"
+      "Hook": "Ursprung des \"Blob\" stoppen"
     }
   ]
 }
