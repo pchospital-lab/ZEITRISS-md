@@ -22,6 +22,8 @@ tags: [systems]
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
 - Power-Punkte: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
+_Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
+In `kampagnenstruktur.md` wird `PP` als Paradox-Punkte verwendet.
 
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
@@ -488,27 +490,29 @@ aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B
 Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Codex
 notieren könnte).
 
-**Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting den Zeitstrom stören.
-Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig – insbesondere bei Chronokinese.
-Er wird fällig, wenn der Ablauf der Geschichte massiv verändert wird.
-Spielt eine Gruppe bewusst **contra** zur offiziellen Zeitlinie – etwa im Dienst der Zerbrechlichen Ewigkeit –,
-kann die Paradox-Regel auf Wunsch deaktiviert werden;
-wird sie verwendet, funktioniert sie identisch wie bei Pro-Agenten.
-Psionik steht grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder alternativ ihren natürlichen
-Widerstand gegen mentale Kräfte betonen. Wer den „Pfad der Erleuchtung“ meidet, ist schwerer zu beeinflussen,
-verzichtet aber nicht zwingend auf Psi-Kräfte.
-Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen kaum Paradox.
-Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in einer Stunde
-ein Attentat auf eine wichtige Person erfolgreich ist (historisch belegtes Ereignis). Er
-interveniert telepathisch und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt
-wurde die bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man hierfür
-eine Art „Paradox-Punkt“ vergeben. Ab einer gewissen Anzahl Paradox-Punkte drohen Konsequenzen:
-Bei steigendem Paradoxon-Index drohen verschiedene Nebenwirkungen. Zunächst flackert nur das HUD,
-bei Stufe 4 kommt es zu kurzen Zeitstillständen. Erreicht der Index 5, startet das HQ
-automatisch `ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur wenn
-ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur Hilfe.
-Bis dahin bleiben die Effekte eher subtil: Das HUD zeigt Warnmeldungen an, und die Charaktere
-verspüren Schwindel oder andere Irritationen.
+**Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
+den Zeitstrom stören. Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
+insbesondere bei Chronokinese. Er wird fällig, wenn der Ablauf der Geschichte massiv
+verändert wird. Spielt eine Gruppe bewusst **contra** zur offiziellen Zeitlinie –
+etwa im Dienst der Zerbrechlichen Ewigkeit –, kann die Paradox-Regel auf Wunsch
+deaktiviert werden; wird sie verwendet, funktioniert sie identisch wie bei Pro-Agenten.
+Psionik steht grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder
+alternativ ihren natürlichen Widerstand gegen mentale Kräfte betonen. Wer den
+„Pfad der Erleuchtung" meidet, ist schwerer zu beeinflussen, verzichtet aber nicht
+zwingend auf Psi-Kräfte. Gewöhnliche Anwendungen wie Telepathie oder kurz
+manifestierte Psi-Waffen erzeugen kaum Paradox. Beispiel: Ein Chrononaut sieht in
+einer präkognitiven Vision, dass in einer Stunde ein Attentat auf eine wichtige
+Person erfolgreich ist (historisch belegtes Ereignis). Er interveniert telepathisch
+und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
+bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man
+hierfür eine Art „Paradox-Punkt" vergeben. Ab einer gewissen Anzahl Paradox-Punkte
+drohen Konsequenzen: Bei steigendem Paradoxon-Index drohen verschiedene
+Nebenwirkungen. Zunächst flackert nur das HUD, bei Stufe 4 kommt es zu kurzen
+Zeitstillständen. Erreicht der Index 5, startet das HQ automatisch
+`ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur
+wenn ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur
+Hilfe. Bis dahin bleiben die Effekte eher subtil: Das HUD zeigt Warnmeldungen an,
+und die Charaktere verspüren Schwindel oder andere Irritationen.
 Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
 Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um

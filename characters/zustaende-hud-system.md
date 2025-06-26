@@ -626,6 +626,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Ein dauerhafter 0–5-Balken zeigt dabei das aktuelle Risiko. Ab Stufe **4**
   färbt sich die Anzeige gelb, bei **5** blinkt sie rot. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
+  Bei jedem Anstieg legt das System zudem ein
+  [Auto-Backup](../systems/gameflow/speicher-fortsetzung.md#auto-backup-bei-paradoxon-anstieg) an.
 - **Ausrüstung & Inventar:** Im persönlichen HUD sind außerdem wichtige **Ausrüstungsgegenstände**
   verzeichnet, vor allem die aktuell ausgerüsteten. Z.B. sieht ein Scharfschütze unten rechts ein
   **Munitionszählwerk** seiner Sniper („Magazin: 5/10“ Kugeln). Oder ein Agent mit einem Gadget
