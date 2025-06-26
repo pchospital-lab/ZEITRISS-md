@@ -228,6 +228,17 @@ die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 | 11–13    | W10 |
 | 14+      | W10 + Heldenwürfel |
 
+### Attribut → Ø-Erfolgsrate (SG 7)
+
+| Attribut | Erfolg W6 | Hinweis |
+|---------:|----------:| ------- |
+| 1 | 17 % | Benötigt 6+ |
+| 2 | 33 % | Benötigt 5+ |
+| 3 | 50 % | Benötigt 4+ |
+| 4 | 67 % | Benötigt 3+ |
+| 5 | 83 % | Benötigt 2+ |
+| 6+ | 100 % | Automatischer Erfolg |
+
 Sobald der erste W8 aktiv wird, blendet das HUD **„[W8 aktiv]“** ein; bei einem
 Wert ab 11 erscheint **„[W10 aktiv]“**. Heldenwürfel kommen **zusätzlich** zu allen
 anderen Modifikatoren zum Einsatz und können ebenfalls explodieren. Die

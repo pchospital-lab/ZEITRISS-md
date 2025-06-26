@@ -247,6 +247,19 @@ Erst nach dieser Wahl startet die eigentliche Mission. Die Spieler haben also
 genügend Gelegenheit, ihren Charakter weiter anzupassen oder das Profil
 zwischenzuspeichern, bevor sie in den Einsatz gehen.
 
+### Beispielcharakter für die Tutorialrunde
+
+Der Rekrut **Jonas Richter** dient als Musterfigur, um Neulingen den Ablauf zu
+zeigen:
+
+1. **Attribute:** STR 3, GES 3, INT 3, CHA 2, TEMP 2, SYS 2.
+2. **Talente:** _Soldat_ (+1 auf Waffennutzung), _Erste Hilfe_.
+3. **Ausrüstung:** Standard-Zeitreiseanzug, leichte Pistole, 1 Medkit.
+
+Mit diesen Werten gelingt Jonas bei einem durchschnittlichen SG 7 ungefähr
+jede zweite Probe. Er eignet sich bestens, um die Regeln zu testen, ohne die
+Gruppe zu überfordern.
+
 ## Start-Archetypen (Beispielcharaktere)
 
 Nicht jede*r Spieler*in möchte einen Charakter komplett selbst bauen – manchmal soll es schnell

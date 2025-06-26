@@ -505,3 +505,6 @@ episch und atmosphärisch erstrahlen, als würde er auf einer Leinwand flimmern.
 an euch und euren Spielern, dieses gemeinsame Epos weiterzuschreiben – **gemeinsam in ZEITRISS**,
 bereit, die Zeitlinien dieser Welt zu verändern. Viel Spaß und gutes Gelingen beim Inszenieren eures
 persönlichen filmreifen Gruppenstarts!
+
+Einen blitzschnellen One-Shot-Start liefert das Modul
+[Cinematic Start](cinematic-start.md).

@@ -319,9 +319,10 @@ Lebenspunkte hinausgehen:
   können Stress verringern. Dieses Modul verleiht der Psyche Gewicht: Die Spieler achten dann nicht
   nur auf HP, sondern auch darauf, ihre **Charaktere mal durchatmen zu lassen**. Wichtig ist, dass
   Stress **nicht überstrapaziert** wird – es soll ein zusätzliches Drama-Element sein, kein
-  dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die Auswirkungen
-  beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
-  („Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil.
+dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die Auswirkungen
+beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
+(„Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil. Das HUD besitzt
+einen Toggle `/stress open|hidden`.
 - **Stress-Regeneration:** Zwischen zwei Szenen hilft ein kurzer Atemzug, um
   **1 Stresspunkt** abzubauen. Eine fünfminütige Meditation oder vergleichbare
   Entspannung reduziert **2 Punkte**, eignet sich also besonders für Solo-Runs
