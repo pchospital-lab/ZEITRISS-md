@@ -338,8 +338,12 @@ Lebenspunkte hinausgehen:
   Fehler ausbügeln), bevor Level 5 erreicht wird.
   _Auswirkungen:_ Steigende Werte lassen die Zeit spürbar entgleisen.
   Ab **Level 2** flackert das HUD, wodurch Stealth-Proben in dieser Runde **–1** erhalten.
-  Bei **4** friert der Ablauf kurz ein, alle Wahrnehmungsproben **–1** für einen Augenblick. Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2
-  Rift-Seeds aus und setzt den Wert auf 0. Zeitkreaturen können Teil dieser Risse sein.
+  Ab **3** stört ein leises Rauschen das Funknetz; Uhren springen vereinzelt um Sekunden.
+  Bei **4** friert der Ablauf kurz ein, alle Wahrnehmungsproben **–1** für einen Augenblick.
+  Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2 Rift-Seeds aus und setzt den Wert auf 0.
+  Zeitkreaturen können Teil dieser Risse sein. Siehe
+  [Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator)
+  für Stat- und Schadenswerte.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
   **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird und so ein unterschwelliges Risiko vermittelt.
@@ -558,6 +562,17 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   was Sache ist. GPT kann etwa beschreiben: _„Ein kleines Icon blinkt im Sichtfeld: dein Bein ist
   verletzt, ein Warnsymbol drosselt die Bewegungsanzeige.“_ – Das klingt nach Sci-Fi-Interface,
   deckt sich aber mit dem Malus aus der Regel.
+
+#### HUD-Icons auf einen Blick {#hud-icons}
+
+| Symbol | Bedeutung |
+| ------ | --------- |
+| ❤️ | Lebenspunkte/HP |
+| ⚠️ | Paradoxon-Warnung |
+| 🩸 | Blutung |
+| ☠️ | Vergiftung |
+| ⏱️ | Countdown/Timer |
+| 🛡️ | Abwehr bereit |
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In

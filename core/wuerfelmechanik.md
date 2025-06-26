@@ -47,8 +47,9 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   darf die Paradox-Warnung auf Wunsch deaktiviert werden. Wer sie aktiviert,
   nutzt das System identisch zu Pro-Gruppen.
 - **Attributs-Skalierung & Heldenwürfel:** Neue Regeln für Charaktere mit außergewöhnlichen
-  Attributwerten: Ab einem Wert von **11** erhält der Held einen **Heldenwürfel** (zweiter Wurf,
-  besseres Ergebnis zählt) als Vorteil. Zusätzlich geben wir Hinweise, wie SL und Spieler einer
+  Attributwerten: Ab **8** wird auf W8 umgestellt, ab **11** auf W10. Erst ab
+  **14** erhalten Helden einen **Heldenwürfel** (zweiter Wurf, besseres Ergebnis
+  zählt). Zusätzlich geben wir Hinweise, wie SL und Spieler einer
   übermäßigen Attribut-Inflation im Endgame entgegenwirken, um die Balance zu wahren.
 - **Erweitertes Speichersystem:** Save-Dateien (JSON) erhalten ab sofort ein
   **Versionskennzeichen**, um die Kompatibilität mit zukünftigen Regelupdates sicherzustellen. Wir
@@ -214,26 +215,28 @@ jenseits der menschlichen Spitze erreicht? Hier kommt unsere neue Mechanik ins S
 **Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10** spürbar
 belohnt werden, ohne aber die Spielbalance zu sprengen.
 
-**Heldenwürfel ab Attribut 11:** Erreicht ein Charakter einen Attributswert von **11 oder höher**,
-so erhält er bei Proben, die auf diesem Attribut basieren, automatisch einen **zusätzlichen Würfel**
-als Vorteil. Praktisch wird dann **zweimal gewürfelt**, und es zählt das bessere der beiden
-Ergebnisse (vergleichbar mit einem Vorteilwurf). Dieser zusätzliche Wurf – der sogenannte
-_Heldenwürfel_ – reflektiert die außergewöhnliche Fähigkeit des Charakters: Über-menschliche Stärke,
-Genialität, Schnelligkeit oder Willenskraft. Die Wahrscheinlichkeit, dass die Probe gelingt, steigt
-dadurch merklich an, sodass ein Wert von 11 gegenüber einem Wert von 10 **nicht nur +1 mehr**
-bedeutet, sondern einen qualitativen Sprung darstellt. Heldenwürfel kommen natürlich **zusätzlich**
-zu allen anderen Modifikatoren zum Einsatz. Sollte auch beim Heldenwürfel die Regel _Exploding 6_
-aktiv sein, kann selbstverständlich auch dieser explodieren – regeltechnisch wird dann mit beiden
-Würfeln getrennt die Explosions-Regel angewandt, was zu wahrhaft legendären Ergebnissen führen kann,
-aber entsprechend selten ist.
-Ab dieser Schwelle blendet das HUD außerdem ein kleines **„[W10 aktiv]“**-Symbol ein, damit Spieler
-sofort sehen, dass auf diesem Attribut nun mit Zehnseitern gewürfelt wird.
+**Heldenwürfel ab Attribut 14:** Ab einem Wert von **14** erhält der Charakter bei
+Proben automatisch einen **zusätzlichen Wurf**. Beide Würfel explodieren wie gewohnt,
+das bessere Ergebnis zählt. Diese Mechanik belohnt außergewöhnliche Werte, ohne
+die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 
-**Beispiel:** \*Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 11
+| Attribut | Würfelgröße |
+|---------:|-------------|
+| 1–7      | W6 |
+| 8–10     | W8 |
+| 11–13    | W10 |
+| 14+      | W10 + Heldenwürfel |
+
+Sobald der erste W8 aktiv wird, blendet das HUD **„[W8 aktiv]“** ein; bei einem
+Wert ab 11 erscheint **„[W10 aktiv]“**. Heldenwürfel kommen **zusätzlich** zu allen
+anderen Modifikatoren zum Einsatz und können ebenfalls explodieren. Die
+Wahrscheinlichkeit steigt damit spürbar, ohne dass jede Probe sofort gelingt.
+
+**Beispiel:** \*Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 14
 gesteigert – ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
-durch ein sich schließendes Portal zu hechten, darf er zwei W6 werfen. Er erzielt eine 2 und eine 5;
-dank des Heldenwürfels nimmt er die 5 – genug, um es gerade noch hindurch zu schaffen. Hätte er nur
-einen Wurf gehabt, wäre vielleicht nur die 2 gefallen und Carlos gestrandet. In einer späteren Szene
+durch ein sich schließendes Portal zu hechten, würfelt er mit einem W10 **und** dem Heldenwürfel.
+Er erzielt eine 5 und eine 7; dank des Heldenwürfels nimmt er die 7 – gerade genug, um hindurch zu
+kommen. Hätte er nur den W10 geworfen, wäre vielleicht die 5 geblieben und Carlos gestrandet. In einer späteren Szene
 klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal: Eine 6 und eine 6 –
 beide Würfel explodieren! Im zweiten Anlauf kommen noch eine 4 und eine 3 hinzu, also 6+4 vs. 6+3.
 Carlos’ bester Wurf ist damit eine **_10_**, was ihm einen spektakulären Aufstieg über die
@@ -463,6 +466,8 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 ### Seed-Counter im HUD
 
 Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
+Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
+[Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
