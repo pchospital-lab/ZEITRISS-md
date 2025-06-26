@@ -215,6 +215,7 @@ jenseits der menschlichen Spitze erreicht? Hier kommt unsere neue Mechanik ins S
 **Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10** spürbar
 belohnt werden, ohne aber die Spielbalance zu sprengen.
 
+Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wunsch den W10 frei.
 **Heldenwürfel ab Attribut 14:** Ab einem Wert von **14** erhält der Charakter bei
 Proben automatisch einen **zusätzlichen Wurf**. Beide Würfel explodieren wie gewohnt,
 das bessere Ergebnis zählt. Diese Mechanik belohnt außergewöhnliche Werte, ohne
