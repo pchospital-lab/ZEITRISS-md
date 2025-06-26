@@ -115,6 +115,8 @@ Core-Generator zurückkehren.
 
 Jeder Seed steht für ein offenes Pararift.
 Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0 und die neuen Seeds landen im Array `OpenRifts`.
+Der Reset greift erst nach einer Runde, damit dramatische Szenen ausklingen können.
+Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn im HQ.
 Solange Seeds offen sind, erhöhen sie Schwelle und CU-Belohnung aller Missionen.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 

@@ -437,6 +437,14 @@ sein taktisches Visier (1 Punkt) und das Körperstabilisator-Implantat (1 Punkt)
 herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
 ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setzen.
+### Overload-Stufen im Überblick {#overload}
+
+| Stufe | Effekt |
+| --- | --- |
+| SYS +1 | Überhitzung – Implantat warnt vor Temperaturanstieg |
+| SYS +2 | Zittern – feine Motorik -1, Aktionen erschwert |
+| SYS +3 | Blackout – kurzer Systemausfall, handlungsunfähig |
+
 
 > **Warum drosselt das ITI Psi-Hardware?**
 > Starke neuronale Impulse erzeugen sogenanntes *Quantum-Bleed*. Dieses Phänomen
