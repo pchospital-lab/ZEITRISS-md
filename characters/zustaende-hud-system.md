@@ -351,6 +351,7 @@ Lebenspunkte hinausgehen:
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
   **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird und so ein unterschwelliges Risiko vermittelt.
+Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Rissen warnen.
   Contra-orientierte Gruppen dürfen laut [Charaktererschaffung](charaktererschaffung.md)
   und [Zeitriss-Core](../core/zeitriss-core.md) die Paradoxmechanik vollständig deaktivieren.
 
@@ -525,6 +526,7 @@ aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und 
 werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
 Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
+Bei gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
 **Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.
 Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0–5; bei

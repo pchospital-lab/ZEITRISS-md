@@ -921,6 +921,16 @@ Jeder Eintrag besitzt nun zwei Zusatz-Tags:
 | 28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf. | 1 | mittel |
 | 29 | Politischer Abgrund: lokale Fraktion plant Putsch während der Mission. | 2 | groß |
 | 30 | Rücksprung löst Echo aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
+| 31 | Vertrauter NSC gerät unter Einfluss temporaler Schatten. | 2 | mittel |
+| 32 | Codex-Datenbank zeigt plötzlich kritische Lücken. | 1 | klein |
+| 33 | Zielperson entpuppt sich als Zeitspringer. | 2 | mittel |
+| 34 | Rivalenteam bietet Hilfe gegen Anteil am Fund. | 1 | mittel |
+| 35 | Eine alte Prophezeiung beschreibt exakt diesen Einsatz. | 2 | groß |
+| 36 | Sprungfenster instabil – Rückkehrzeit ungewiss. | 2 | mittel |
+| 37 | Gegner entführt Agenten aus einer nahen Zukunft. | 3 | groß |
+| 38 | Kameras zeigen Aufnahmen aus kommenden Tagen. | 2 | mittel |
+| 39 | Vergrabene Zeitkapsel liefert brisante Gegenbeweise. | 1 | klein |
+| 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
 
 _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
@@ -1412,6 +1422,8 @@ Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
 | 4 | Laserlabyrinth, das nur bei Schatten sichtbar wird | ⚠ |
 | 5 | Bildfragment muss wie ein Puzzle zusammengesetzt werden | ⌖ |
 | 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | ⚠ |
+| 7 | Mehrstufiges Klangrätsel löst geheime Tür | ✱ |
+| 8 | Subtile chemische Reaktion verrät den Code | ✱ |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.
