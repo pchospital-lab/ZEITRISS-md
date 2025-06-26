@@ -133,21 +133,29 @@ Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
 
-Rift-Missionen verwenden Sterne, die direkt den SG-Bonus durch offene Seeds
-anzeigen. Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als
-fünf Seeds können als `★★★★★+` notiert werden. Details stehen im Modul
+Rift-Missionen verwenden nun Stundenglas-Symbole (⌛), die direkt den SG-Bonus
+durch offene Seeds anzeigen. Ein Seed entspricht einem Stundenglas und erhöht
+die Schwelle um +1. Mehr als fünf Seeds können als `⌛⌛⌛⌛⌛+` notiert werden.
+Details stehen im Modul
 [Kreative Generatoren](gameplay/kreative-generatoren.md).
 
-### Difficulty-Star-Konverter
+### Difficulty-Konverter
 
-| Sterne    | SG-Zuschlag |
+| ⌛-Symbole | SG-Zuschlag |
 | --------- | ----------- |
-| ★         | +1          |
-| ★★        | +2          |
-| ★★★       | +3          |
-| ★★★★      | +4          |
-| ★★★★★     | +5          |
-| ★★★★★+    | +6 und mehr |
+| ⌛         | +1          |
+| ⌛⌛        | +2          |
+| ⌛⌛⌛       | +3          |
+| ⌛⌛⌛⌛      | +4          |
+| ⌛⌛⌛⌛⌛     | +5          |
+| ⌛⌛⌛⌛⌛+   | +6 und mehr |
+
+Paramonster verwenden Totenkopf-Icons (💀) als eigenen
+Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
+Kampfpotenzials und verändert **nicht** den SG einer Mission.
+Die Missionsideen in der `RiftSeedTable` tragen zusätzlich Sterne (★),
+die eine **Grundschwierigkeit** angeben. Diese Sterne sind rein zur
+Orientierung gedacht und werden nicht auf den SG addiert.
 
 ### Wichtige Makros
 
