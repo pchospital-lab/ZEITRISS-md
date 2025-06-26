@@ -95,7 +95,7 @@ Eine Kurzfassung der wichtigsten Regeln:
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
 ## Quick-Start Cheat Sheet
-_Eine zweiseitige PDF-Fassung fasst Phasenablauf und Würfelregeln kompakt zusammen._
+_Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
 Die ersten Schritte in unter zwei Minuten:
 
