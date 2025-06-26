@@ -15,6 +15,14 @@ tags: [systems]
 - Entwicklung von Psi im Levelsystem
 - Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
 
+### Cheat-Sheet: Psi-Regeln auf einen Blick {#psi-cheat}
+
+- Effekt unter 1 Sekunde kostet 0 SYS.
+- Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
+- Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
+- Power-Punkte: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
+- Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
+
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
 zurückführen.

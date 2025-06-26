@@ -433,6 +433,7 @@ allesentscheidend sind:
   soll sich lohnen** – nicht nur fürs Abenteuer, sondern auch für die Charakterentwicklung.
 - **Soft Cap durch Story:** Schlussendlich kann das Balancing auch durch die Erzählung erfolgen.
   Vielleicht geraten die Agenten an einen Antagonisten, der über schier unerschöpfliche Mittel verfügt
+- **Hard Cap Option:** Bei Kampagnen mit extrem vielen Einsätzen kann die SL ein Kreditlimit pro Agent festlegen, etwa 250 000 CU. Alles darüber fließt in Fraktionsfonds oder Wartungskosten, um Vermögensinflation zu bremsen.
   – plötzlich sind ihre ersparten 100.000 CUs gar nicht mehr so beeindruckend, weil der Konflikt
   anders gelöst werden muss als durch den Einkauf von noch mehr Ausrüstung. Die Einsicht, dass Geld
   nicht jede Problemlösung kaufen kann, wird dramaturgisch vermittelt. Die Story selbst setzt also ein

@@ -891,6 +891,7 @@ Jeder Eintrag besitzt nun zwei Zusatz-Tags:
 `Paradox-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
 `Historischer Fußabdruck` beschreibt die Tragweite.
 
+Um zu verhindern, dass der Twist-Pool bei langen Kampagnen leerlauft, wandern gezogene Einträge auf einen Ablagestapel. Sobald weniger als fünf Karten im Pool liegen, mischt die SL den Stapel zurück.
 | Nr. | Twist | Paradox-Stufe | Historischer Fußabdruck |
 |----|-------|---------------|-------------------------|
 | 1 | Doppelagent im eigenen Team enttarnt sich in der Klimax. | 2 | mittel |
