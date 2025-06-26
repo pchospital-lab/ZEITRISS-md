@@ -77,6 +77,8 @@ Bei der Umsetzung orientiert sich die KI an der **Briefing-Vorlage (Layered)**
 aus dem Toolkit: Zeit & Ort, eine mögliche Abnormalität und die Risikostufe werden
 im ersten Briefing genannt. **Der gezogene Twist bleibt vorerst geheim** und dient
 als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise auftauchen.
+Ein optionaler **Tonal-Safety-Toggle** filtert extrem düstere oder humorige Seeds
+heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 
 ```json
 {
@@ -1265,7 +1267,7 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 
 *(kompatibel zu ZEITRISS 4.0, ready‑to‑drop oder als Generator nutzbar)*
 
-#### Fünf einsatzbereite Artefakte
+#### Vierzig einsatzbereite Artefakte
 
 |#|Codename|Form|Hauptwirkung|Nebenwirkung|Beispiel|
 |-|-|-|-|-|-|
@@ -1274,6 +1276,41 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 |A-03|Sub-Lumen Chalk|12cm Kreide, IR|SR≤3 verbergen (3h)|Mini-Rift bei 0|Fluchtweg|
 |A-04|Phase-Lock Shard|Rubinfragment im Vial|1 Rd phasing|HP-2, Stress+4|Lasergitter|
 |A-05|Echo Capsule|Edelstahlkapsel, Spiegel|Objekt ≤1kg (1Rd)|Zeitstempel auf Original|Double-Device|
+|A-06|Chrono-Braid|Geflochtene Kupferlitzen|Zeitfenster 2s|Stress +1|Schneller Zugriff|
+|A-07|Phantom Tesser|Glaskugel|Illusion 3m|Paradox +1|Ablenkung|
+|A-08|Neuro-Splicer|Biogel-Kartusche|+1 Tech-Probe|Kurzzeit-Blackout|Modding|
+|A-09|Frost Prism|Kleiner Kristall|Kältefeld R2|Brüchig nach Nutzung|Einfrieren|
+|A-10|Arc Glyph|Runenkachel|Teleport 5m|Paradox +1|Kampfescape|
+|A-11|Grav Spinner|Metallscheibe|Schwerkraftwelle|Ermüdung|Deckung|
+|A-12|Echo Mirror|Taschenspiegel|Kopiert Stimme 10s|Verliert Halt|Impersonation|
+|A-13|Vector Flare|Mini-Leuchtrakete|Signal an Verbündete|Index +1|Notruf|
+|A-14|Ion Loop|Handreif|EMP 3m|Geräte kurzzeitig defekt|Sicherung|
+|A-15|Chrono Gloom|Dunkler Nebel|Sicht -2m|Kältegefühl|Flucht|
+|A-16|Memory Locket|Amulett|1 Szene Erinnerung teilen|Stress +1|Verhör|
+|A-17|Pulse Mine|Scheibe Ø5cm|Betäubung R1|Paradox +1|Sturmangriff|
+|A-18|Shadow Scrip|Pergament|Unsichtbare Tinte|Nur UV-Licht löscht|Spionage|
+|A-19|Phase Token|Chip|Durchlässigkeit 1Rd|HP -1|Wand-Trick|
+|A-20|Nova Shard|Splitter|Lichtblitz R2|Blind für 1Rd|Überfall|
+|A-21|Clarity Vial|Fläschchen|Heilt 1 Stress|Nachwirkung Benommen|Med-Paket|
+|A-22|Static Rod|Kurzstab|Elektrischer Impuls|Selbst Schaden 1|Sabotage|
+|A-23|Warp Nail|Metallstift|Fixiert Objekt im Raum|Paradox +1|Absicherung|
+|A-24|Ghost Net|Drahtgeflecht|Fängt Datenfunksignale|Batterie leer|Lauschangriff|
+|A-25|Storm Coil|Röhre|Wettereffekt klein|Index +1|Ablenkung|
+|A-26|Glass Heart|Kristallampulle|Tarnt Lebenszeichen|Splittergefahr|Infiltration|
+|A-27|Logic Dice|Würfelpaar|+1 Analyse|Paradox +1 bei Pasch|Taktik|
+|A-28|Blink Patch|Aufkleber|Teleport Objekt 1kg|Verliert Haftung|Schmuggel|
+|A-29|Sonic Braid|Schallfaser|Stillefeld R1|Hört selbst schlecht|Heimlichkeit|
+|A-30|Vortex Pin|Anstecknadel|Mini-Wirbel R1|Einmalig nutzbar|Verwirrung|
+|A-31|Flux Band|Armband|Neutralisiert Kräfte 1Rd|Stress +2|Gegnerkontrolle|
+|A-32|Stasis Cube|Würfel 3cm|Objekt einfrieren 1h|Paradox +1|Sicherung|
+|A-33|Spark Veil|Tuch|Tarnung gegen Sensoren|Entzündlich|Flucht|
+|A-34|Mimic Coin|Münze|Kopiert ID-Signatur|Index +1|Betrug|
+|A-35|Hyper Lens|Lupenbrille|Vergrößert Details|Kopfschmerz|Analyse|
+|A-36|Aether Drum|Kleiner Resonator|Lockt Kreaturen|Laut|Ablenkung|
+|A-37|Psi Spike|Stift|+1 Psi-Fokus|Stress +1|Boost|
+|A-38|Grim Oath|Runenstein|Bindet Schwur 1 Szene|Paradox +1|Vertrag|
+|A-39|Rift Chalk|Farbstaub|Markiert Mini-Rift|Kurzzeitige Instabilität|Portal|
+|A-40|Signal Orb|Leuchtkugel|Zeigt Richtung zum Artefakt|Zerbrechlich|Spurensuche|
 
 _Regel‑Hooks:_ Schadens‑ und Stresswerte folgen dem W6‑Explode‑Raster. Artefakte sind selten:
 höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Paradoxon‑Index um 1.
