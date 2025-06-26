@@ -438,6 +438,12 @@ herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann e
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
 ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setzen.
 
+> **Warum drosselt das ITI Psi-Hardware?**
+> Starke neuronale Impulse erzeugen sogenanntes *Quantum-Bleed*. Dieses Phänomen
+> kann den Zeitstrom destabilisieren und verstößt gegen internationale
+> Sicherheitsabkommen. Daher sind offizielle Psi-Module gedrosselt; wer sie
+> überlädt, riskiert Paradox-Schäden und juristische Konsequenzen.
+
 **Burst-Slot:** Einmal pro Szene erhält ein Psioniker einen temporären
 SYS-Punkt, um eine Kraft spontan zu zünden. Dieser Bonus verfällt sofort
 nach der Aktion und ermöglicht es, Effekte einzusetzen, ohne zuvor
@@ -524,6 +530,15 @@ Erholungsphase.
 Spielgruppen können A/B-Tests fahren: Variante A nutzt obige Werte, Variante B
 verringert den Cooldown um jeweils eine Runde. Nach einigen Sessions lässt sich
 so ermitteln, welche Variante für die Kampagne besser passt.
+
+### Echo-Variant (optional) {#echo-variant}
+
+Manche Gruppen wünschen gelegentliche Einblicke in metaphysische Ebenen. Diese
+Regel ist **offen** und nur bei explizitem Spielerwunsch aktiv. Bei hohem Stress
+oder im Kontakt mit starken Paradoxien kann ein Agent ein kurzes Echo seiner
+Zeitlinie sehen. Das Echo dauert nie länger als eine Minute und verleiht keinen
+Bonus, sondern liefert erzählerische Hinweise. Die Spielleitung fragt vorher ab,
+ob solche Szenen willkommen sind; andernfalls bleibt diese Variante deaktiviert.
 
 ## Entwicklung von Psi im Levelsystem
 
