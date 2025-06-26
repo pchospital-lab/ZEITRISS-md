@@ -193,6 +193,13 @@ fünf Seeds können als `★★★★★+` notiert werden. Details stehen im Mod
    `## Arc-Generator: Große Missionen {#arc-generator}`
    im Modul **Kreative Generatoren**.
 
+### Lines & Veils (optional)
+
+Gruppen können vor Spielbeginn gemeinsame Grenzen festlegen. **Lines** sind
+Inhalte, die komplett ausgespart werden. **Veils** lassen Szenen bei Bedarf
+ausblenden oder „fade to black“ laufen. Notiert eure Vereinbarungen im Codex,
+damit alle denselben Rahmen kennen.
+
 ### ZEITRISS – Einleitung
 
 Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrtausende. Während

@@ -53,6 +53,13 @@ sichern die Daten und verschwinden spurlos.
 - Konzentration auf Systeme, Gegner, Fraktionen und Objekte.
 - Anomalien reagieren niemals direkt auf den Agenten.
 
+### Transparenz-Modus Lite (optional) {#transparency-lite}
+
+Einige Gruppen möchten grob wissen, wie knapp ein Erfolg ausfiel. In diesem
+Modus nennt die KI-Spielleitung nur den **Erfolgsabstand** – etwa: _"Du
+schlägst den Wachposten um 2."_ Die Rohwürfel bleiben verdeckt. Wer den
+klassischen Thriller-Stil bevorzugt, ignoriert dieses Feature.
+
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
 - **Filmischer, immersiver Erzählstil:** Beschreibe Szenen detailliert in der **Gegenwartsform** und
