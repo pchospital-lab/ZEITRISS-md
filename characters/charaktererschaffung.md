@@ -22,7 +22,6 @@ erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
-GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
 
 ### Kurz-Checkliste Charaktererstellung
 
@@ -35,8 +34,15 @@ GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Ru
 7. Werte in das HUD übernehmen
 8. Teamrolle festlegen
 9. Erste Mission planen
-Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann.
-So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
+
+> GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde. Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
+
+### Quick-Build für One-Shots
+
+- Verteile je **4 Punkte** auf deine Attribute
+- Wähle zwei Talente aus der Liste
+- Markiere ein Standard-Loadout
+- Lass den Ruf zunächst bei 0
 
 ### Schnellstart-Archetypen
 

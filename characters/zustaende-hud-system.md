@@ -557,6 +557,11 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   plump „Du hast nur noch 2 HP“ zu sagen, kann GPT formulieren: _„Dein HUD blinkt Warnsymbole auf –
   der Gesundheitsbalken sinkt in den roten Bereich, kritischer Blutverlust!“_ Der Spieler begreift
   sofort, wie schlimm es seinem Charakter geht, **in-world** durch die Augen der Figur.
+| HUD-Meldung | Regelbedeutung |
+| ------------ | ---------------- |
+| `[Vitalstatus kritisch]` | Lebenspunkte unter 25 % |
+| `[Paradox-Alarm Stufe 3]` | Paradoxon-Index 3, Warnung aktiv |
+| `[Filter ausgefallen]` | Sichtmodifikator oder Tarnmodul defekt |
 - **Ausdauer, Fokus & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
   **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer- oder Fokus-System
   nutzt, könnte das HUD einen **Ausdauerbalken** (für Stamina) unter der HP-Leiste einblenden oder
@@ -612,6 +617,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
   (Symbol für stabilen Zeitstrom). Steigt das Level, wechselt es auf gelb/orange mit einem
   ⚠️-Symbol; ab Level 4–5 blinkt es rot und gibt akustische Warnungen (_„‼ ZEITSTROM INSTABIL ‼“_).
+  Steigt der Index weiter, pulsiert das Symbol dauerhaft, bis sich der Wert wieder beruhigt.
   GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradoxon-Index 4 – die
   Umgebung fühlt sich verzerrt an, als würde ein Film ruckeln…“_. Die Spieler wissen sofort, dass
   Gefahr droht, **innerhalb der Geschichte**. Auch kleinere Paradox-Effekte können gemeldet werden
