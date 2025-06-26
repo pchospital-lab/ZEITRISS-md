@@ -72,14 +72,17 @@ fallen, wiederholt sich der Vorgang so lange, bis kein Maximum mehr erscheint. D
 übermäßig eskalieren, darf **nur der erste Würfel einer Probe** überhaupt explodieren; weitere 6er
 werden normal gezählt. Auf diese Weise sind theoretisch **Ergebnisse über dem normalen Limit**
 möglich, was besonders heroische Erfolge oder dramatische Wendungen darstellen kann. Spielerinnen
-und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“.
+und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem
+sicheren Misserfolg kann so doch noch ein triumphaler Erfolg werden.
 
-**Kurzes Beispiel:** Zeigt der erste W6 eine **6**, wirfst du sofort einen zweiten. Fällt erneut **6** und danach **4**, ergibt das zusammen **10** Punkte.
-sicheren Misserfolg kann so doch noch ein triumphaler Erfolg werden. _(Beispiel: Nadia muss einen
-schwierigen Sprung über eine Schlucht meistern. Sie hat nur mäßige Werte, bräuchte aber mindestens
-eine 10. Sie würfelt eine 6 – diese „explodiert“, sie darf erneut werfen. Der zweite Wurf zeigt eine
-4. Zusammen ergibt das 6+4=10 – gerade noch geschafft! Die Gruppe jubelt ob dieses glücklichen
-Ausgangs.)_
+**Kurzes Beispiel:** Zeigt der erste W6 eine **6**, wirfst du sofort einen zweiten.
+Fällt dieser **4**, ergibt das **10** Punkte.
+Würfelst du stattdessen noch einmal eine **6**, kommst du auf **12**.
+Damit endet die Explosion – weitere Würfel sind nicht erlaubt, weil nur der erste W6 explodiert.
+_(Beispiel: Nadia muss einen schwierigen Sprung über eine Schlucht meistern. Sie hat nur mäßige Werte,
+bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese „explodiert“, sie darf erneut werfen.
+Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 – gerade noch geschafft! Die Gruppe jubelt
+ob dieses glücklichen Ausgangs.)_
 
 **Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
 bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Proben. Mit einem W10
@@ -250,7 +253,8 @@ Wahrscheinlichkeit steigt damit spürbar, ohne dass jede Probe sofort gelingt.
 gesteigert – ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
 durch ein sich schließendes Portal zu hechten, würfelt er mit einem W10 **und** dem Heldenwürfel.
 Er erzielt eine 5 und eine 7; dank des Heldenwürfels nimmt er die 7 – gerade genug, um hindurch zu
-kommen. Hätte er nur den W10 geworfen, wäre vielleicht die 5 geblieben und Carlos gestrandet. In einer späteren Szene
+kommen. Hätte er nur den W10 geworfen, wäre vielleicht die 5 geblieben und Carlos gestrandet.
+In einer späteren Szene
 klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal: Eine 6 und eine 6 –
 beide Würfel explodieren! Im zweiten Anlauf kommen noch eine 4 und eine 3 hinzu, also 6+4 vs. 6+3.
 Carlos’ bester Wurf ist damit eine **_10_**, was ihm einen spektakulären Aufstieg über die
