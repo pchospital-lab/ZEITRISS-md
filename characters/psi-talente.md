@@ -19,6 +19,8 @@ zu gewissen Formen der **Chronokinese** (Zeitfluss leicht beeinflussen, z.B. kur
 verlangsamen) reichen. Auch Empathie über die Zeit oder das Aufspüren von Zeitanomalien zählen dazu.
 Im Sinne des ZEITRISS-Leitbilds sind diese Fähigkeiten keine Magie im klassischen Sinn, sondern
 lassen sich stets als erweiterte Neurotechnik oder als Reaktion auf temporale Effekte deuten.
+Einen umfassenden Regelkern liefert das Modul
+[Kräfte-Psi](../systems/kp-kraefte-psi.md).
 
 Grundsätzlich kann jeder Chrononaut psionische Talente entwickeln. Gruppen, die
 den **contra**-Ansatz verfolgen, dürfen Psionik ebenfalls nutzen oder stattdessen
@@ -238,4 +240,7 @@ Spielleitung (GPT) steht bereit, um mit dynamischen Beschreibungen all diese Ele
 stimmigen Ganzen zu verweben – sei es durch atmosphärische **HUD-Overlays** oder durch das
 Einbeziehen von Talenten in die Erzählung (\*„Dank deiner Fähigkeit **_Verkleidungskünstler_** nickt
 der Wachposten dir arglos zu, überzeugt du seist der örtliche Baron.“\*). In diesem Sinne: Mögen eure
-Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappnet die Zeit beschützen
+Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappnet die Zeit beschützen.
+
+Eine vollständige Übersicht aller Kräfte bietet das Langzeitmodul
+[Kräfte-Psi](../systems/kp-kraefte-psi.md).
