@@ -397,6 +397,8 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
    erst nach Missionsende vom HQ aus anspringen. Der Sprung selbst löst kein
    Paradoxon-Level aus.
 
+> **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
+
 ## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
 
 Standardmäßig verwaltet ZEITRISS keine kleinteiligen Ressourcen wie Mana oder Ausdauer – der Fokus

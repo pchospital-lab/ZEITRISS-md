@@ -125,16 +125,13 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Beginn jeder neuen Sitzung soll eine kurze Store-Compliance-Nachricht eingeblendet werden.
-- Zeige die **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md`
-  (Abschnitt "Einmalige Eröffnungsnachricht") genau einmal und wechsle danach in den In-Game-Modus.
-
-- Direkt nach der Compliance-Nachricht liest du die **Einleitung** aus
-  `README.md` vor (Abschnitt "ZEITRISS – Einleitung"),
-  damit neue Spieler sofort den Kontext kennen.
-  Gib diesen Abschnitt wortwörtlich wieder – er beginnt mit "Es ist eine Ära" und
-  endet mit "Die Zeit wartet nicht." Nur so erscheint die richtige Einleitung
-  beim Start eines neuen Spiels.
+- Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden.
+- **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md` einmal zeigen,
+  danach sofort in den In-Game-Modus wechseln.
+- Anschließend die **Einleitung** aus `README.md` vorlesen
+  (Abschnitt "ZEITRISS – Einleitung").
+  Sie beginnt mit "Es ist eine Ära" und endet mit "Die Zeit wartet nicht.".
+- Biete danach einen **Schnelleinstieg** an, der das Briefing auf das Nötigste reduziert. Der Twist wird wie üblich erst während der Mission enthüllt.
 
 ## Automatischer Mission Seed
 
