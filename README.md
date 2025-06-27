@@ -42,7 +42,7 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle listet die **21 Regelmodule**. Quickref und andere Unterabschnitte
+Die folgende Tabelle listet alle Regelmodule. Quickref und andere Unterabschnitte
 sind der Übersicht halber aufgeführt.
 `README.md` und `master-index.json` dienen nur zur Orientierung:
 
@@ -51,8 +51,7 @@ sind der Übersicht halber aufgeführt.
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
-| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht |
-| [core/wuerfelmechanik.md#beispiel-play](core/wuerfelmechanik.md#beispiel-play) | Beispiel-Play: Duo-Infiltration |
+| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht 
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
@@ -75,9 +74,11 @@ sind der Übersicht halber aufgeführt.
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Die **21 Regelmodule** verteilen sich auf 18 einzelne Markdown-Dateien.
-Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer Dateien.
-`README.md` und `master-index.json` dienen nur zur Orientierung.
+**Hinweis:** Das Spiel besteht aus **18** Regelmodulen plus `README.md`,
+`master-index.json` und `meta/masterprompt_v6.md` – zusammen also 21 Dateien.
+Zwei Module ("Team-Boni" und "Quickref") sind Abschnitte anderer Dateien.
+Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
+fasst die wichtigsten Effekte zusammen.
 
 ## ZEITRISS in 10 Minuten
 

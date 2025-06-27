@@ -326,6 +326,10 @@ dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die A
 beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
 („Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil. Das HUD besitzt
 einen Toggle `/stress open|hidden`.
+- **Stress-Momente:** Steht das Team unter akutem Zeitdruck (unter 90 Sekunden),
+  blendet das HUD automatisch einen Countdown ein. Scheitert eine Probe,
+  kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder Ressourcen
+  in die Waagschale werfen.
 - **Stress-Regeneration:** Zwischen zwei Szenen hilft ein kurzer Atemzug, um
   **1 Stresspunkt** abzubauen. Eine fünfminütige Meditation oder vergleichbare
   Entspannung reduziert **2 Punkte**, eignet sich also besonders für Solo-Runs
@@ -590,6 +594,18 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | ☠️ | Vergiftung |
 | ⏱️ | Countdown/Timer |
 | 🛡️ | Abwehr bereit |
+
+#### Quickref: Health, Stress & Zustände {#hud-quickref}
+
+| Anzeige | Bedeutung |
+| ------- | --------- |
+| `HP 100%` | Charakter unverletzt |
+| `HP <50%` | Verwundet (−1 auf Aktionen) |
+| `Stress 1–5` | leichte Anspannung |
+| `Stress 6–9` | starke Belastung (−1) |
+| `Stress 10` | Zusammenbruch |
+| 🩸 | Blutung – jede Runde 1 Schaden |
+| ☠️ | Vergiftung – SG +2 auf Proben |
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
