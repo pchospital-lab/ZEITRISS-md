@@ -152,6 +152,9 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
   facettenreicher, sollten aber **sparsam und einfühlsam** eingesetzt werden (das Spiel soll Spaß
   machen, keine Therapie erzwingen).
 
+- **Schock:** Kurzzeitige Lähmung durch Schmerz oder Trauma. _Effekt:_ –2 auf alle
+  mentalen Proben, bis Ruhe oder Erste Hilfe den Zustand lindert.
+
 - **Vergiftung & Toxine:** Einige Waffen oder Fallen wirken über Giftstoffe. _Effekt:_
   Pro Runde 1W6 Schaden oder –1 bis –3 auf Aktionen, abhängig von Potenz.
   Ein erfolgreicher Medikit-Einsatz oder Antidot stoppt die Wirkung.

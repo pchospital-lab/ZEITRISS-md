@@ -279,7 +279,7 @@ Carlos’ bester Wurf ist damit eine **_10_**, was ihm einen spektakulären Aufs
 Festungsmauer ermöglicht, als würde ihm das Schicksal selbst einen Schub verleihen.\*
 
 **Balance im Endgame:** So nützlich Heldenwürfel sind, so vorsichtig sollten Spielleiter mit **zu
-hohen Attributwerten** am Ende einer Kampagne umgehen. Ein Wert von 12 oder 13 (mit Heldenwürfel)
+hohen Attributwerten** am Ende einer Kampagne umgehen. Ein Wert von 11 oder 12 (mit Heldenwürfel)
 macht viele normale Herausforderungen trivial – was einerseits verdienter Ausdruck des Heldentums
 sein kann, andererseits aber die Spannung mindern könnte, wenn die Helden alles zu leicht schaffen.
 Daher empfiehlt es sich, das **Fortschrittstempo** bei Attributen ab einem gewissen Niveau zu
