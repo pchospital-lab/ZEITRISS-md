@@ -172,6 +172,7 @@ Kampfpotenzials und verändert **nicht** den SG einer Mission.
 - `ClusterDashboard()` – zeigt im HQ den Status aller offenen Rifts.
 - `launch_rift(id)` – startet aus einem Seed eine eigenständige Mission.
 - `scan_artifact()` – identifiziert Artefakte und erhöht dabei die Paradoxon-Index um 1.
+- `seed_to_hook(id)` – liefert drei kompakte Hooks zu einem Seed.
 
 
 ### KPI-Cheat-Sheet pro Phase

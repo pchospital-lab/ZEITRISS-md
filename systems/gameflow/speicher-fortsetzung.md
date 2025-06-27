@@ -570,6 +570,15 @@ angepasst.
 - `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
 - `seed_to_hook(id)` – schlägt drei kurze Story-Hooks zu einem Seed vor.
 
+`seed_to_hook(id)` wertet die Seed-Beschreibung aus und liefert drei knappe
+Aufhänger, um eine neue Rift-Mission zu starten. Beispiel:
+
+```json
+seed_to_hook("S1")
+```
+
+ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Echo"]`.
+
 ## Auto-Backup bei Paradoxon-Anstieg
 
 Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
