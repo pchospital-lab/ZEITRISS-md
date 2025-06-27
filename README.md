@@ -97,6 +97,10 @@ Eine Kurzfassung der wichtigsten Regeln:
 ## Quick-Start Cheat Sheet
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
+Wenn du die lange Einführung überspringen möchtest, tippe
+**`Schnelleinstieg`** direkt nach der Eröffnungsnachricht.
+Das Briefing bleibt kurz, den Twist deckt der Codex später auf.
+
 Die ersten Schritte in unter zwei Minuten:
 
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
@@ -306,6 +310,11 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.
 
 
+
+## Playtest Feedback
+
+Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
+Scanne den QR-Code oder besuche [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
 
 ## How to Contribute
 

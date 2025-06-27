@@ -159,6 +159,23 @@ Um dieses "Alpha-Strike"-Phänomen auszugleichen, stehen zwei Optionen zur Wahl:
 `Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
 wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
+### Referenz-Bogen {#reference-sheet}
+
+| SG (W6) | SG (W10) | Schwierigkeitsgrad |
+| ------: | -------: | ------------------ |
+| 4 | 8 | Leicht |
+| 5 | 9 | Normal |
+| 6 | 10 | Schwer |
+| 7 | 11 | Extrem |
+| Attribut | Würfelgröße |
+|---------:|-----------|
+| 1–7 | W6 |
+| 8–10 | W8 |
+| 11–13 | W10 |
+| 14+ | W10 + Heldenwürfel |
+
+Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgrößen schnell nachzuschlagen.
+
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
 In der high-tech ausgestatteten Welt von ZEITRISS begleiten **HUD-Overlays** und der allgegenwärtige
