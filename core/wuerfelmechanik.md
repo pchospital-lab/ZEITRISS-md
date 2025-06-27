@@ -108,16 +108,17 @@ der **W10-Ersatz** – sind **optional** und sollten nur eingesetzt werden, wenn
 Runde passen. Sie bieten frischen Wind für erfahrene Runden, ohne das Grundsystem fundamental zu
 verändern.
 
-**Schwellen-Kalibrierung:** Standardproben nutzen einen W6 und gelten bei **4 oder höher** als
-erfolgreich. Für erfahrene Chrononauten mit W10 liegt die Schwelle bei **5+**. Ein
-**Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
+**Schwellen-Kalibrierung:** Standardproben nutzen einen W6. Ein SG von **5** gilt als
+leichte Herausforderung, **8–9** als mittel, **12** als schwierig und **15+** als
+extrem. Bei Verwendung des optionalen W10 erhöht sich die Zielzahl jeweils um **+4**.
+Ein **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
 
 | Stufe  | Zielzahl |
 | ------ | -------- |
-| Leicht | 3        |
-| Normal | 5        |
-| Schwer | 7        |
-| Extrem | 9        |
+| Leicht | 5        |
+| Mittel | 8–9      |
+| Schwer | 12       |
+| Extrem | 15+      |
 
 **Hinweis:** Durch explodierende Würfel können gerade unwahrscheinliche Aktionen spektakulär
 gelingen. Die Spielleitung sollte dies erzählerisch hervorheben – z. B. durch cineastische
@@ -163,10 +164,10 @@ wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
 | SG (W6) | SG (W10) | Schwierigkeitsgrad |
 | ------: | -------: | ------------------ |
-| 4 | 8 | Leicht |
-| 5 | 9 | Normal |
-| 6 | 10 | Schwer |
-| 7 | 11 | Extrem |
+| 5 | 9 | Leicht |
+| 8–9 | 12–13 | Mittel |
+| 12 | 16 | Schwer |
+| 15+ | 19+ | Extrem |
 | Attribut | Würfelgröße |
 |---------:|-----------|
 | 1–7 | W6 |
