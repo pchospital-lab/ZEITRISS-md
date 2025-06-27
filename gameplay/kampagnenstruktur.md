@@ -299,6 +299,12 @@ Zeitlinien-Verzweigungen wird die Kampagne sowohl **spannend und flexibel** als 
 kohärent gehalten. Die Spieler spüren, dass ihre Taten Bedeutung haben, was die Immersion und
 Motivation enorm steigert.
 
+### Erweiterte Zeitreise-Regeln
+
+#### Selbstbegegnung – „Echo-Ich“
+* Bereits bei bloßer Wahrnehmung des eigenen Echo setzt automatisch ein Notfallrücksprung ein.
+* Zugleich löst die Begegnung **ClusterCreate()** aus, um Realitätsbrüche zu verhindern.
+
 ### Schauplatz-Tags
 
 Kennzeichne Missionen mit ein bis zwei kurzen Tags, um zu zeigen, welche

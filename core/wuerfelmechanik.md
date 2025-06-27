@@ -614,6 +614,19 @@ beide Seiten begünstigen können.
 Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **Dieses Quick-Sheet dient als zentrale Kurzreferenz und lässt sich im HUD über `/help` aufrufen.**
 
+### Quick Reference (1 Seite)
+
+| Situation      | Standard                                                         | High‑Attribut (≥ 11)                                      |
+| -------------- | ---------------------------------------------------------------- | --------------------------------------------------------- |
+| Würfelpool     | 1W6 pro Fertigkeitspunkt + 1W6 bei passendem Attribut ≥ 6        | 1W10 statt des höchsten W6 + **Heldenwürfel** (1×/Szene) |
+| Exploding      | Jede 6 (bzw. 10) zählt als 1 Erfolg + zusätzlicher Wurf          |                                                           |
+| Erfolgsschwellen | 0 Miss, 1–2 Teilerfolg, 3–4 Vollerfolg, 5+ Triumph              |                                                           |
+
+**Paradoxon-Index (PI)** – 0 – 2 = grün ✓, 3 – 4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` + Reset auf 0.  
+**PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
+
+**Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (‑1 Würfel), 6 Reboot → Runde aussetzen & Heat 0
+
 
 **Psi-Effekte auf einen Blick**
 
