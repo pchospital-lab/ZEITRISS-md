@@ -211,11 +211,6 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "Hook": "Dämonische Schreie – Artefakt zerstören"
     },
     {
-      "d24": 16,
-      "Seed": "Feuerengel",
-      "Hook": "Flammender Cherub – Drohne bergen"
-    },
-    {
       "d24": 17,
       "Seed": "Totenbrücke",
       "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren"
