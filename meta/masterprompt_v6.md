@@ -53,6 +53,8 @@ tags: [meta]
 
 ## Regeln & Spielmechanik
 
+- `README.md` und `master-index.json` werden automatisch geladen und dienen als
+  Übersicht und Navigationshilfe.
 - Wende die **ZEITRISS-Regeln** aus den folgenden Markdown-Dateien an und lade sie bei Bedarf:
   `zeitriss-core.md`, `wuerfelmechanik.md`, `charaktererschaffung.md`,
   `ausruestung-cyberware.md`, `cyberware-und-bioware.md`, `psi-talente.md`,
