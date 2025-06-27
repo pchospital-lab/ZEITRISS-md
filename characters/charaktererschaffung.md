@@ -35,7 +35,9 @@ regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
 8. Teamrolle festlegen
 9. Erste Mission planen
 
-> GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde. Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
+- GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
+  Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden
+  kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 
 ### Quick-Build für One-Shots
 

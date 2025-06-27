@@ -42,8 +42,9 @@ Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-Die folgende Tabelle listet die **21 Regelmodule** (18 Dateien und 3 Unterabschnitte).
-Zusätzlich sind `README.md` und `master-index.json` als Orientierung aufgeführt:
+Die folgende Tabelle listet die **21 Regelmodule**. Quickref und andere Unterabschnitte
+sind der Übersicht halber aufgeführt.
+`README.md` und `master-index.json` dienen nur zur Orientierung:
 
 | Datei | Inhalt |
 | --- | --- |
@@ -70,12 +71,11 @@ Zusätzlich sind `README.md` und `master-index.json` als Orientierung aufgeführ
 | [systems/gameflow/gruppenstart-filmisch.md](systems/gameflow/gruppenstart-filmisch.md) | Filmischer Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
-| [meta/masterprompt_v6.md](meta/masterprompt_v6.md) | Masterprompt für das KI-Tool |
 | [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Die **21 Regelmodule** liegen in 18 einzelnen Markdown-Dateien.
+**Hinweis:** Die **21 Regelmodule** verteilen sich auf 18 einzelne Markdown-Dateien.
 Drei Module ("Team-Boni", "Quickref", "Beispiel-Play") sind Abschnitte anderer Dateien.
 `README.md` und `master-index.json` dienen nur zur Orientierung.
 
@@ -188,8 +188,7 @@ Kampfpotenzials und verändert **nicht** den SG einer Mission.
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
 2. Lade die **21 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
-   Sie verteilen sich auf 18 Dateien; drei Module sind Abschnitte
-   anderer Dateien.
+   Sie verteilen sich auf 18 einzelne Markdown-Dateien; drei Module sind Abschnitte anderer Dateien.
    `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
@@ -269,7 +268,8 @@ Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gamef
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
-Im Menü lässt sich über `modus` der Erzählstil wechseln, z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
+Im Menü lässt sich über `modus` der Erzählstil wechseln,
+z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
 Dort kann die Gruppe den aktuellen Pfad fortsetzen,
 einen neuen Missionspfad wählen oder eine HQ-Phase starten.
