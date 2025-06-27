@@ -128,6 +128,15 @@ bleiben, die denkwürdige Szenen schaffen. Wenn Würfelpech umgekehrt dramatisch
 produziert, kann dies ebenso interessant inszeniert werden (Stichwort **kritischer Patzer**), sofern
 es zur Geschichte passt.
 
+### Fail-Forward & Countdown {#fail-forward}
+
+Bei anspruchsvollen Aufgaben kann die Spielleitung statt eines harten
+Misserfolgs einen sanften _Fail-Forward_ anbieten. Die Szene geht weiter, doch
+der Teilerfolg kostet Ressourcen oder erhöht den Paradoxon-Index. So bleibt der
+Handlungsfluss erhalten, ohne Spannung zu verlieren. In Stressmomenten mit
+weniger als 90 Sekunden Ingame-Zeit blendet das HUD automatisch einen
+Countdown-Timer ein, um den Druck sichtbar zu machen.
+
 **Option zur Mäßigung:** Einige Gruppen möchten den Würfelswing zähmen. Dafür kann die Explosion
 erst ab der **zweiten gewürfelten 6** einsetzen. Der Durchschnitt pro W6 sinkt so von etwa 4,2 auf
 3,9 Augen – Spannung bleibt erhalten, Ausreißer werden seltener.
@@ -251,16 +260,17 @@ die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 | 11–13    | W10 |
 | 14+      | W10 + Heldenwürfel |
 
-### Attribut → Ø-Erfolgsrate (SG 7)
+### Attribut → Ø-Erfolgsrate (SG 8)
 
 | Attribut | Erfolg W6 | Hinweis |
 |---------:|----------:| ------- |
-| 1 | 17 % | Benötigt 6+ |
-| 2 | 33 % | Benötigt 5+ |
-| 3 | 50 % | Benötigt 4+ |
-| 4 | 67 % | Benötigt 3+ |
-| 5 | 83 % | Benötigt 2+ |
-| 6+ | 100 % | Automatischer Erfolg |
+| 1 | 0 % | Benötigt 7+ |
+| 2 | 17 % | Benötigt 6 |
+| 3 | 33 % | Benötigt 5+ |
+| 4 | 50 % | Benötigt 4+ |
+| 5 | 67 % | Benötigt 3+ |
+| 6 | 83 % | Benötigt 2+ |
+| 7+ | 100 % | Automatischer Erfolg |
 
 Sobald der erste W8 aktiv wird, blendet das HUD **„[W8 aktiv]“** ein; bei einem
 Wert ab 11 erscheint **„[W10 aktiv]“**. Heldenwürfel kommen **zusätzlich** zu allen
@@ -527,28 +537,32 @@ ein Seed verschwindet.
 
 ## Beispiel-Play: Duo-Infiltration in Ost-Berlin 1961 {#beispiel-play}
 
-Dieses kurze Beispiel orientiert sich am offiziellen Testfeld **Szenario 1**. Zwei Chrononauten –
-ein **Tech**- und ein **Face**-Agent – schleichen in einen Keller, um eine Stasi-Abhörleitung zu
-kappen. Es zeigt Schritt für Schritt, wie die Regeln ineinandergreifen.
+Dieses kurze Beispiel orientiert sich am offiziellen Testfeld **Szenario 1**.
+Zwei Chrononauten – ein **Tech**- und ein **Face**-Agent – schleichen in einen
+Keller, um eine Stasi-Abhörleitung zu kappen. Es zeigt Schritt für Schritt, wie
+die Regeln ineinandergreifen.
 
 ### 1. Aufklärung
 
-Die Agenten sondieren das Gebäude. Ein verdeckter Wurf auf **Wahrnehmung** (blaues Attribut:
-Geschicklichkeit) gegen SG 8 entscheidet, ob sie versteckte Mikrofone entdecken. Der Tech-Agent
-würfelt `5`, nutzt aber seinen Exploding-W6 und erzielt insgesamt `9` – Erfolg.
+Die Agenten sondieren das Gebäude. Ein verdeckter Wurf auf **Wahrnehmung**
+(blaues Attribut: Geschicklichkeit) gegen SG 8 entscheidet, ob sie versteckte
+Mikrofone entdecken. Der Tech-Agent würfelt `5`, nutzt aber seinen Exploding-W6
+und erzielt insgesamt `9` – Erfolg.
 
 ### 2. Zugriff
 
-Mit einem improvisierten Störsender betritt das Duo den Keller. Die SL bittet um je eine Probe auf
-**Technik** (grünes Attribut) und **Täuschen** (gelb). Der Face-Agent würfelt eine natürliche `6`,
-der Zusatzwurf zeigt `3`. Die Summe `9` übertrifft den SG von 7 – die Wachen merken nichts.
+Mit einem improvisierten Störsender betritt das Duo den Keller. Die SL bittet um
+je eine Probe auf **Technik** (grünes Attribut) und **Täuschen** (gelb). Der
+Face-Agent würfelt eine natürliche `6`, der Zusatzwurf zeigt `3`. Die Summe `9`
+übertrifft den SG von 7 – die Wachen merken nichts.
 
 ### 3. Dramatischer Konflikt
 
-Als der Störsender einen Funkschlag auslöst, kommt Hektik auf. Es folgt eine kurze
-Initiative-Runde. Dank der **Quick-Reference** sieht jeder Spieler auf einen Blick, welche Werte und
-Talente gelten. Der Tech-Agent klemmt das Kabel ab, während der Face-Agent die Tür versperrt. Ein
-Wurf auf **Geschicklichkeit** mit Exploding 6 bringt `4 + 4` = `8` Punkte – gerade genug, um die
+Als der Störsender einen Funkschlag auslöst, kommt Hektik auf. Es folgt eine
+kurze Initiative-Runde. Dank der **Quick-Reference** sieht jeder Spieler auf
+einen Blick, welche Werte und Talente gelten. Der Tech-Agent klemmt das Kabel
+ab, während der Face-Agent die Tür versperrt. Ein Wurf auf **Geschicklichkeit**
+mit Exploding 6 bringt `4 + 4` = `8` Punkte – gerade genug, um die
 heranstürmende Sicherheitskraft abzuwehren.
 
 ### Farbcode der Würfeltabelle
@@ -563,24 +577,26 @@ heranstürmende Sicherheitskraft abzuwehren.
 | **Lila** | SYS              |
 
 Die Farben korrespondieren mit den Tabellen im
-[Modul zur Charaktererschaffung](../characters/charaktererschaffung.md) und helfen neuen Gruppen,
-die Proben den richtigen Werten zuzuordnen.
+[Modul zur Charaktererschaffung](../characters/charaktererschaffung.md) und
+helfen neuen Gruppen, die Proben den richtigen Werten zuzuordnen.
 
 ### 4. Exfiltration
 
-Mit gekapptem Kabel ziehen sich beide Agenten zurück. Ein kurzer "Atemzug" zwischen den Szenen
-reduziert den Stress um 1 Punkt, wie im Modul
+Mit gekapptem Kabel ziehen sich beide Agenten zurück. Ein kurzer "Atemzug"
+zwischen den Szenen reduziert den Stress um 1 Punkt, wie im Modul
 [Zustände & HUD](../characters/zustaende-hud-system.md) beschrieben.
 
-Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie Exploding-Würfel filmische
-Spitzen erzeugen, ohne den Spielfluss zu bremsen.
+Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie
+Exploding-Würfel filmische Spitzen erzeugen, ohne den Spielfluss zu bremsen.
 
 **Exfiltration-Hürden:**
 - Engpässe sichern und Alarme überwachen.
-- Gegnerische Verstärkung trifft nach `1W6` Runden ein, falls ein Alarm ausgelöst wird.
+- Gegnerische Verstärkung trifft nach `1W6` Runden ein, falls ein Alarm
+  ausgelöst wird.
 - Kommunikationswege kappen oder stören.
 - Spuren verwischen und Daten löschen.
-- Rücksprungsignal setzen: Paradoxon-Index melden und Koordinaten bestätigen.
+- Rücksprungsignal setzen: Paradoxon-Index melden und Koordinaten
+  bestätigen.
 
 ### Negativ-Beispiel: Risiko-Fail
 
