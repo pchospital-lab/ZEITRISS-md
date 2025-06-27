@@ -189,7 +189,8 @@ lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
 
 Beim Fahrzeugschaden explodiert nur der erste Wurf.
 
-> **Hinweis:** Charaktere mit einem Attributwert von 11 oder mehr verwenden im Nahkampf W10 statt W6 und erhalten wie gewohnt ihren Heldenwürfel.
+> **Hinweis:** Charaktere mit einem Attributwert von 11 oder mehr verwenden im
+> Nahkampf W10 statt W6 und erhalten wie gewohnt ihren Heldenwürfel.
 
 Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren.
 So bleibt der Schaden beherrschbar.

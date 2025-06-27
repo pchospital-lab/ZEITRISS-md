@@ -891,7 +891,9 @@ Jeder Eintrag besitzt nun zwei Zusatz-Tags:
 `Paradox-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
 `Historischer Fußabdruck` beschreibt die Tragweite.
 
-Um zu verhindern, dass der Twist-Pool bei langen Kampagnen leerlauft, wandern gezogene Einträge auf einen Ablagestapel. Sobald weniger als fünf Karten im Pool liegen, mischt die SL den Stapel zurück.
+Um zu verhindern, dass der Twist-Pool bei langen Kampagnen leerlauft, wandern
+gezogene Einträge auf einen Ablagestapel. Sobald weniger als fünf Karten im Pool
+liegen, mischt die SL den Stapel zurück.
 | Nr. | Twist | Paradox-Stufe | Historischer Fußabdruck |
 |----|-------|---------------|-------------------------|
 | 1 | Doppelagent im eigenen Team enttarnt sich in der Klimax. | 2 | mittel |
@@ -1143,46 +1145,46 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 
 > **Epoche:** Industrialisierung (1893, Eifel) | **Risikostufe:** M
 
-* **Mythos:** Schwarzer, schweigsamer Hund soll Nachtwächter zu Tode gehetzt haben.
-* **Realität:** Firma **Krieg & Sohn** testet kobaltimprägnierte **Chem‑Mod‑Raupenhunde** für Grabenschlachten.
-* **Beobachtungen:** Opfer weisen akute Blutarmut (Toxin α‑13) auf.
-* **Paradox‑Risiko:** gering (≤ 1).
-* **STAT‑BLOCK:**
+- **Mythos:** Schwarzer, schweigsamer Hund soll Nachtwächter zu Tode gehetzt haben.
+- **Realität:** Firma **Krieg & Sohn** testet kobaltimprägnierte **Chem‑Mod‑Raupenhunde** für Grabenschlachten.
+- **Beobachtungen:** Opfer weisen akute Blutarmut (Toxin α‑13) auf.
+- **Paradox‑Risiko:** gering (≤ 1).
+- **STAT‑BLOCK:**
 
-  * **Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6 | Armor 1 | HP 8**
-  * *F1 Parcours‑Beißer*: freier Move über Hindernisse, Attacke ignoriert Deckung.
-  * *F2 Schwarzlicht‑Pelz*: unsichtbar für IR/NV‑Optik (−2 Mod auf Entdecken).
+  - **Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6 | Armor 1 | HP 8**
+  - *F1 Parcours‑Beißer*: freier Move über Hindernisse, Attacke ignoriert Deckung.
+  - *F2 Schwarzlicht‑Pelz*: unsichtbar für IR/NV‑Optik (−2 Mod auf Entdecken).
 
 #### B. Mothman – „Projekt Nachtfalke“
 
 > **Epoche:** Kalter Krieg (1967, Point Pleasant, USA) | **Risikostufe:** L
 
-* **Mythos:** Geflügeltes Wesen mit roten Augen warnt vor Brückeneinsturz.
-* **Realität:** US‑Airforce Black‑Op mit Prototyp‑**Stealth‑Wing‑Suit**.
+- **Mythos:** Geflügeltes Wesen mit roten Augen warnt vor Brückeneinsturz.
+- **Realität:** US‑Airforce Black‑Op mit Prototyp‑**Stealth‑Wing‑Suit**.
   Aufklärer filmte Stahlermüdung – Intervention verboten.
-* **Paradox‑Risiko:** mittel (2‑3) bei temporalen Eingriffen.
-* **STAT‑BLOCK:**
+- **Paradox‑Risiko:** mittel (2‑3) bei temporalen Eingriffen.
+- **STAT‑BLOCK:**
 
-  * **Str 4d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6 | Armor 2 | HP 10**
-  * *F1 Schwebe‑Stillstand*: 0 m Schwebeflug → +2 Agi auf Ausweichen.
-  * *F2 Sonic‑Scream‑Baken*: 1/Tag, macht Wache 1 Rd. taub (−2 Agi).
-  * *F3 Omen‑Protokoll*: Bei Sichtung +1 Stress für Zivilisten, SL‑Bonuswürfel.
+  - **Str 4d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6 | Armor 2 | HP 10**
+  - *F1 Schwebe‑Stillstand*: 0 m Schwebeflug → +2 Agi auf Ausweichen.
+  - *F2 Sonic‑Scream‑Baken*: 1/Tag, macht Wache 1 Rd. taub (−2 Agi).
+  - *F3 Omen‑Protokoll*: Bei Sichtung +1 Stress für Zivilisten, SL‑Bonuswürfel.
 
 #### C. Shadow People – „Umbra‑Echo“
 
 > **Epoche:** Near‑Future (2025, Seoul) | **Risikostufe:** XL
 
-* **Mythos:** Dunkle Silhouetten erscheinen im Augenwinkel, verschwinden bei Blickkontakt.
-* **Realität:** Konzern **Limbic Inc.** testet neuronale **Psi‑Induktoren**,
+- **Mythos:** Dunkle Silhouetten erscheinen im Augenwinkel, verschwinden bei Blickkontakt.
+- **Realität:** Konzern **Limbic Inc.** testet neuronale **Psi‑Induktoren**,
    die REM‑Bereiche wecken → kollektive Hypnagoge.
-* **Paradox‑Risiko:** hoch (4‑5) – massenhafter Psi‑Einsatz stört Zeitfeld‑Sensoren.
-* **STAT‑BLOCK:**
+- **Paradox‑Risiko:** hoch (4‑5) – massenhafter Psi‑Einsatz stört Zeitfeld‑Sensoren.
+- **STAT‑BLOCK:**
 
-  * **Str 5d6 | Agi 5d6 | Mind 4d6 | Psi‑Sig 4d6 | Armor 3 | HP 14**
-  * *F1 Flimmer‑Phase*: kann sich als „Nachbild“ 10 m teleport‑ähnlich versetzen.
-  * *F2 Psi‑Drown*: 1/3 Rd. −2 Mind und −1 Reaktions‑Ini für alle Nicht‑Psi.
-  * *F3 Paradox‑Spike*: Bei Treffer explodiert Psi‑Sig auf W6=6 (Paradox +1).
-  * *F4 Schwarm‑Halluzination*: Jeder Witness‑NPC muss Will-Save (Mind 3d6) oder flieht.
+  - **Str 5d6 | Agi 5d6 | Mind 4d6 | Psi‑Sig 4d6 | Armor 3 | HP 14**
+  - *F1 Flimmer‑Phase*: kann sich als „Nachbild“ 10 m teleport‑ähnlich versetzen.
+  - *F2 Psi‑Drown*: 1/3 Rd. −2 Mind und −1 Reaktions‑Ini für alle Nicht‑Psi.
+  - *F3 Paradox‑Spike*: Bei Treffer explodiert Psi‑Sig auf W6=6 (Paradox +1).
+  - *F4 Schwarm‑Halluzination*: Jeder Witness‑NPC muss Will-Save (Mind 3d6) oder flieht.
 
 ### Einsatz-Tips
 
