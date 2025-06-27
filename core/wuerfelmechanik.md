@@ -546,8 +546,9 @@ die Regeln ineinandergreifen.
 
 Die Agenten sondieren das Gebäude. Ein verdeckter Wurf auf **Wahrnehmung**
 (blaues Attribut: Geschicklichkeit) gegen SG 8 entscheidet, ob sie versteckte
-Mikrofone entdecken. Der Tech-Agent würfelt `5`, nutzt aber seinen Exploding-W6
-und erzielt insgesamt `9` – Erfolg.
+Mikrofone entdecken. Der Tech-Agent würfelt eine `6` und darf laut der
+**Exploding 6**‑Regel einen Zusatzwurf ausführen. Dieser zeigt `3`, womit das
+Ergebnis bei `9` liegt – die Wanzen werden entdeckt.
 
 ### 2. Zugriff
 
@@ -561,8 +562,9 @@ Face-Agent würfelt eine natürliche `6`, der Zusatzwurf zeigt `3`. Die Summe `9
 Als der Störsender einen Funkschlag auslöst, kommt Hektik auf. Es folgt eine
 kurze Initiative-Runde. Dank der **Quick-Reference** sieht jeder Spieler auf
 einen Blick, welche Werte und Talente gelten. Der Tech-Agent klemmt das Kabel
-ab, während der Face-Agent die Tür versperrt. Ein Wurf auf **Geschicklichkeit**
-mit Exploding 6 bringt `4 + 4` = `8` Punkte – gerade genug, um die
+ab, während der Face-Agent die Tür versperrt. Sein Wurf auf
+**Geschicklichkeit** zeigt eine `6` und darf deshalb explodieren. Der
+Zusatzwurf ergibt `2`, insgesamt also `8` Punkte – gerade genug, um die
 heranstürmende Sicherheitskraft abzuwehren.
 
 ### Farbcode der Würfeltabelle
