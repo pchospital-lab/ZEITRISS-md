@@ -130,9 +130,7 @@ tags: [meta]
   danach sofort in den In-Game-Modus wechseln.
 - Anschließend die **Einleitung** aus `README.md` vorlesen
   (Abschnitt "ZEITRISS – Einleitung").
-  Sie beginnt mit "Es ist eine Ära" und endet mit "Die Zeit wartet nicht.".
-- Biete danach einen **Schnelleinstieg** an, der das Briefing auf das Nötigste reduziert. Der Twist wird wie üblich erst während der Mission enthüllt.
-
+- Biete danach einen **Schnelleinstieg** an, der das Briefing auf das Nötigste reduziert.
 ## Automatischer Mission Seed
 
 - Zu Beginn jeder Sitzung zieht der GPT jeweils einen Eintrag aus den Tabellen in
