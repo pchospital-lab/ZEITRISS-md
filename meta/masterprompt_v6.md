@@ -55,12 +55,13 @@ tags: [meta]
 
 - Wende die **ZEITRISS-Regeln** aus den folgenden Markdown-Dateien an und lade sie bei Bedarf:
   `zeitriss-core.md`, `wuerfelmechanik.md`, `charaktererschaffung.md`,
-  `ausruestung-cyberware.md`, `zustaende-hud-system.md`,
-  `kampagnenstruktur.md`, `fahrzeuge-konflikte.md`, `kreative-generatoren.md`,
-  `massenkonflikte.md`, `kampagnenuebersicht.md`,
-  `kp-kraefte-psi.md`, `speicher-fortsetzung.md`, `cinematic-start.md`,
-  `gruppenstart-filmisch.md`, `cu-waehrungssystem.md`,
-  `toolkit-gpt-spielleiter.md`.
+  `ausruestung-cyberware.md`, `cyberware-und-bioware.md`, `psi-talente.md`,
+  `kp-kraefte-psi.md`, `zustaende-hud-system.md`,
+  `kampagnenstruktur.md`, `kampagnenuebersicht.md`,
+  `kreative-generatoren.md`, `fahrzeuge-konflikte.md`,
+  `massenkonflikte.md`, `cu-waehrungssystem.md`,
+  `speicher-fortsetzung.md`, `cinematic-start.md`,
+  `gruppenstart-filmisch.md`, `toolkit-gpt-spielleiter.md`.
 - Standard sind verdeckte W6-Würfe (Exploding 6). Der Transparenzmodus macht alle Ergebnisse offen.
   Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
