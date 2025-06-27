@@ -56,6 +56,33 @@ Jeder Archetyp enthält Attribute und ein passendes Ausrüstungspaket.
 - **Tech** – Intelligenz 5, Geschick 3, Charisma 3, Temporale Affinität 4, SYS 3.
   Führt ein tragbares Hacker‑Kit und leichte Drohne, dazu Werkzeug und Datenbrille.
 
+### Einsatzfertige Operatives
+
+1. **"Ghost" – Infiltration Specialist**
+   * Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
+   * Cyberware: Retina‑Filmraster, Fingernagel‑Picks
+   * Unique Gear: Chamäleon‑Overall (Stealth‑Vorteil +1)
+
+2. **"Kernel" – Tech & Drone Handler**
+   * Attribute (2/3/5/3/3/4) | Skills: Hacking 4, Hardware 3
+   * Bioware: Neuro‑Link‑Socket
+   * Unique Gear: Falt‑Nanodrohne *“Pixie”* (Sensor + Mini‑Arm)
+
+3. **"Wildcard" – Face / Social Ops**
+   * Attribute (2/3/3/5/4/2) | Skills: Verhandeln 4, Verkleiden 3
+   * Cyberware: Stimm‑Modulator, Daten‑Tattoos
+   * Unique Gear: Wegwerf‑DNA‑Spray (−1 PI für kurze Verkleidung)
+
+4. **"Ricochet" – Close-Quarters Shooter**
+   * Attribute (5/4/3/2/3/3) | Skills: Schusswaffen 4, Taktik 2
+   * Cyberware: Sub‑Derm‑Kevlar (1 Schaden ignorieren / Szene)
+   * Unique Gear: Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden)
+
+5. **"Focus" – Psi-Assault**
+   * Attribute (3/3/3/2/5/4) | Skills: Psi‑Kraft 4, Meditation 3
+   * Psi‑Modul: Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.)
+   * Unique Gear: Kaltes Gestell (−1 Heat während Tragezeit)
+
 ## Schritt-für-Schritt zur Charaktererschaffung
 
 **Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in fünf grundlegenden Schritten.
