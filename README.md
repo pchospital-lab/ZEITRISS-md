@@ -117,6 +117,7 @@ Die ersten Schritte in unter zwei Minuten:
 8. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
+9. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage. [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
 ### Probability Cheat Table
 
@@ -137,16 +138,6 @@ Die ersten Schritte in unter zwei Minuten:
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.  
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 
-**Mini‑Mission – „Signalfeuer 1410“ (45‑min Demo)**
-*Ort*: Tannenberg, 1410 n. Chr. *Ziel*: Sabotiert ein Ordens‑Signalfeuer, das heimlich mit fremder Chrono‑Technologie bestückt wurde.
-1. *Briefing* (5 Min) 2. *Insertion* – Waldstück bei Nacht 3. *Zugriff* – Holz­befestigung, 3 Wachen
-4. Bei PI = 3 droht Belagerungs­szene; bei 5 tritt „ClusterCreate()“: Feuerteufel‑Rift.
-*Exfil*: Rauchgranate & Sprungcode.
-
-**Start in 60 Sekunden**
-1. Wählt einen Pre‑Gen‑Operative.
-2. Nehmt ein Ausrüstungs­paket (kostenlos).
-3. SL würfelt erste Umweltprobe verdeckt → Los!
 
 ### Proben & Schwierigkeitsgrad
 
