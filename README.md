@@ -297,7 +297,7 @@ nach dem Sprung als abgeschlossen.
 
 ## Spielmodi {#spielmodi}
 
-Das HUD bietet vier Erzählstile, die sich jederzeit über den Befehl `modus`
+Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen:
 | Modus                    | Kurzbeschreibung |
 
@@ -306,6 +306,8 @@ umschalten lassen:
 | **Covert-Ops**           | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen.         |
 | **Transparenz**         | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**             | Codex schlägt auf Wunsch Handlungsoptionen vor. |
+| **Echo**                | Optional Visionen und Vorahnungen im Spiel. |
+| **Mission-Fokus**       | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
 Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und

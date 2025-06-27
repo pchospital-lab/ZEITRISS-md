@@ -34,9 +34,10 @@ tags: [meta]
 - Entscheidungen wirken sich klar und taktisch aus; kein Platz für Orakel oder Prophezeiungen.
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
-- Visionen bleiben aus, außer die Gruppe wünscht `modus echo`.
-- Optional kann der **Mission-Fokus-Modus (ohne Visionen)** aus
-  `toolkit-gpt-spielleiter.md` aktiviert werden.
+- Keine Visionen oder Prophezeiungen im Standardspiel. Über `modus echo` lassen
+  sich Visionen auf Wunsch aktivieren.
+- Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` blendet Visionen
+  konsequent aus und betont klare Einsatzabläufe. Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.
 - Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
   und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
   Zeitkreaturen können Teil dieser Risse sein.
