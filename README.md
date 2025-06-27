@@ -85,7 +85,8 @@ Eine Kurzfassung der wichtigsten Regeln:
 
 1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung.
    Nach jedem Schritt speichert der Codex automatisch.
-2. **Würfel** – Standard sind W6 (Erfolg bei 4+). Profis nutzen W10 (Erfolg ab 5+).
+2. **Würfel** – Standard ist W6. Schwierigkeitsgrade: 5 = leicht, 8–9 = mittel,
+   12 = schwer, 15+ = extrem. Bei W10 erhöht sich der SG um 4.
    Exploding 6 gilt nur für den **ersten** Würfel.
 3. **Heldenwürfel** – Ab Attribut 14 erhalten Charaktere pro Szene einen Gratis-Reroll.
 4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein
@@ -105,7 +106,7 @@ Die ersten Schritte in unter zwei Minuten:
 
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
-3. **Proben** – W6 ab 4; Exploding 6 wirkt nur auf den ersten Würfel.
+3. **Proben** – Wirf 1W6 gegen den SG. Ein W10 erhöht den SG um 4.
 4. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 5. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
