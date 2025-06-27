@@ -250,6 +250,63 @@ Shard-Drop: 1+Tier
 | Mission 3 | Entscheidung: Übergang bewahren oder Eskalation triggern. |
 | Epilog    | Je nach Wahl verändert sich das politische Klima der Epoche. |
 
+##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
+
+*45-Minuten-Demo, Tannenberg/Grunwald*
+
+> **ZEITPUNKT** 15. Juli 1410 – Vorabend der Schlacht von Tannenberg
+> **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
+> **AUFTRAG** Sabotiert einen hölzernen **Signal-Leuchtturm**, dessen Feuerkette Verstärkung anfordert.
+
+###### 1 ▸ Briefing (5 Min)
+
+- Die **Ordensritter** senden bei Gefahr drei Fackelschübe Richtung Marienburg. Mehrere Türme übermitteln das Signal.
+- Ein Zeitagent versteckte Zünd-Booster. Zündet das Feuer trotz Regen, kippt die Schlachtordnung.
+
+###### 2 ▸ Insertion
+
+- **Nacht, leichter Nieselregen.** Absprung in einem Waldstück, 400 m vom Turm.
+- Umgebung: Morastiger Boden (−1 Bewegungs-Pool bei Sprint), dichter Kiefernwald, vereinzelte Patrouillen.
+
+###### 3 ▸ Aufklärung
+
+| Punkt    | Info                                           | Probe                   |
+| -------- | ---------------------------------------------- | ----------------------- |
+| Wache #1 | Ritterknecht mit Hellebarde, patrouilliert Basis (Fackel) | *Schleichen 2+*         |
+| Wache #2 | Bogner auf 1. Absatz, kann Waldkante überblicken         | *Verbergen 3+*          |
+| Booster  | Unter Plattform befestigt; zündet bei Kontakt mit Öl      | *Elektronik/Hacking 2+* |
+
+###### 4 ▸ Zugriff
+
+- **Primär-Option:** Deaktiviert die Booster → Feuer würde im Regen ersticken.
+- **Sekundär-Option:** Signalplanken austauschen oder Öl-Fässer entfernen → +1 Zeitaufwand.
+- **PI-Auslöser**
+  - +1: Eine Wache sieht einen Chrononauten (Zeitzeuge).
+  - +1: Zeittech wird entdeckt (falls zurückgelassen).
+  - PI ≥ 3: Wachtrupp zu Pferd (4 Ritter) erreicht den Turm nach 1 Ingame-Minute.
+  - PI = 5: **ClusterCreate()** – Zeitspalt manifestiert Funkenflut, Turm gerät in Brand.
+
+###### 5 ▸ Exfiltration
+
+- Sobald Booster entfernt oder Feuerholz manipuliert: Rauchgranate → Sprungcode aktivieren.
+- Getarnter Rücksprungpunkt 50 m nördlich – heiße LZ 2 min offen.
+
+###### Erfolgskriterien
+
+| Rang | Bedingung | Auswirkung |
+|-----|-----------|------------|
+| *Triumph*   | Booster entfernt **und** Wachen unalarmiert | Ordenskavallerie bleibt ohne Verstärkung; Front hält. |
+| *Vollerfolg*| Booster entfernt, Alarm ausgelöst     | Schlacht kippt fürs ITI; Patrouillen wachsamer (Folge-SG +1). |
+| *Teilerfolg*| Booster beschädigt / Holz getauscht   | 30 % Chance auf Not-Signal; Timeline instabil (PI +1). |
+| *Misserfolg*| Booster nicht entschärft              | Verstärkung rückt an, Schlacht kippt – Folgeeinsatz nötig. |
+
+> **Tischaufbau**: Skizze reicht (10×10 m). Waldkante, Turm (6 m Gerüst, Leiter innen), zwei Fackeln, Holzlager.
+
+*Start in 60 Sek.*
+1. Wählt Pre-Gen-Operative.
+2. Ein Ausrüstungs-Paket (kostenlos).
+3. SL würfelt Wetterprobe, nennt Sicht & Geräuschpegel. Los!
+
 #### Dev-Check-Liste
 
 - Paradox-Tracker 0–5 bleibt bestehen.
@@ -302,7 +359,7 @@ Motivation enorm steigert.
 ### Erweiterte Zeitreise-Regeln
 
 #### Selbstbegegnung – „Echo-Ich“
-- Ein Agent kann sich selbst nie bewusst gegenübertreten. Mehr als ein Ich zu manifestieren, würde die Realität zerreißen.
+- Ein Agent kann sich nie bewusst selbst begegnen – mehrere Ichs würden die Realität zerreißen.
 - Bereits der Versuch ruft die Kausalklingen auf den Plan und erzwingt einen sofortigen Notfallrücksprung.
 
 ### Schauplatz-Tags
