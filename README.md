@@ -97,6 +97,8 @@ Eine Kurzfassung der wichtigsten Regeln:
 5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
 ## Quick-Start Cheat Sheet
+> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
+> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
 Wenn du die lange Einführung überspringen möchtest, tippe
@@ -132,12 +134,6 @@ Die ersten Schritte in unter zwei Minuten:
 | 8  | 14 %     | 30 %      |
 | 9  | 11 %     | 20 %      |
 | 10 | 8 %      | 10 %      |
-
-### Speedrun Quickstart
-
-> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.  
-> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
-
 
 ### Proben & Schwierigkeitsgrad
 
