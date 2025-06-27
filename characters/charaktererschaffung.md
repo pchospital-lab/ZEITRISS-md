@@ -41,22 +41,15 @@ regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
 
 ### Quick-Build für One-Shots
 
-- Verteile je **4 Punkte** auf deine Attribute
+- Verteile insgesamt **8 Punkte** frei auf deine Attribute
 - Wähle zwei Talente aus der Liste
 - Markiere ein Standard-Loadout
 - Lass den Ruf zunächst bei 0
 
-### Schnellstart-Archetypen
+### Schnellstart-Operatives
 
-Wer direkt losspielen möchte, kann einen der folgenden Beispielcharaktere nutzen.
-Jeder Archetyp enthält Attribute und ein passendes Ausrüstungspaket.
+Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passender Ausrüstung.
 
-- **Infiltrator** – Geschick 5, Intelligenz 4, Charisma 3, Temporale Affinität 3, SYS 2.
-  Startet mit leiser Waffe, Kletterset und Tarnfeld-Generator.
-- **Tech** – Intelligenz 5, Geschick 3, Charisma 3, Temporale Affinität 4, SYS 3.
-  Führt ein tragbares Hacker‑Kit und leichte Drohne, dazu Werkzeug und Datenbrille.
-
-### Einsatzfertige Operatives
 
 1. **"Ghost" – Infiltration Specialist**
    * Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
