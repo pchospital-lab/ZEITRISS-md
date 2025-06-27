@@ -302,8 +302,8 @@ Motivation enorm steigert.
 ### Erweiterte Zeitreise-Regeln
 
 #### Selbstbegegnung – „Echo-Ich“
-* Bereits bei bloßer Wahrnehmung des eigenen Echo setzt automatisch ein Notfallrücksprung ein.
-* Zugleich löst die Begegnung **ClusterCreate()** aus, um Realitätsbrüche zu verhindern.
+- Ein Agent kann sich selbst nie bewusst gegenübertreten. Mehr als ein Ich zu manifestieren, würde die Realität zerreißen.
+- Bereits der Versuch ruft die Kausalklingen auf den Plan und erzwingt einen sofortigen Notfallrücksprung.
 
 ### Schauplatz-Tags
 

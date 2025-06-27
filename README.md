@@ -138,7 +138,7 @@ Die ersten Schritte in unter zwei Minuten:
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 
 **Mini‑Mission – „Signalfeuer 1410“ (45‑min Demo)**
-*Ort*: Tannenberg, 1410 n. Chr. *Ziel*: Deaktiviert einen fremden Zeit‑Transponder, der eure Chrono‑Kommunikation ins Ordenslager lenkt.
+*Ort*: Tannenberg, 1410 n. Chr. *Ziel*: Sabotiert ein Ordens‑Signalfeuer, das heimlich mit fremder Chrono‑Technologie bestückt wurde.
 1. *Briefing* (5 Min) 2. *Insertion* – Waldstück bei Nacht 3. *Zugriff* – Holz­befestigung, 3 Wachen
 4. Bei PI = 3 droht Belagerungs­szene; bei 5 tritt „ClusterCreate()“: Feuerteufel‑Rift.
 *Exfil*: Rauchgranate & Sprungcode.
