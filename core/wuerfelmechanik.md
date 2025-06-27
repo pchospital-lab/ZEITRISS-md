@@ -473,17 +473,19 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 | Schwierigkeit | Schwelle |
 | ------------- | -------- |
-| leicht        | 4        |
-| mittel        | 7        |
-| schwer        | 10       |
+| leicht        | 5        |
+| mittel        | 8–9      |
+| schwer        | 12       |
+| extrem        | 15+      |
 
 ### Beispielsprünge
 
 | Schwierigkeit | Beispiel                                 |
 | ------------- | ---------------------------------------- |
-| 4             | Sprung über eine kleine Lücke            |
-| 7             | Hacken eines gesicherten Terminals       |
-| 10            | Deaktivierung eines Zeitbomben-Prototyps |
+| 5             | Sprung über eine kleine Lücke            |
+| 8–9           | Hacken eines gesicherten Terminals       |
+| 12            | Deaktivierung eines Zeitbomben-Prototyps |
+| 15+           | Absprung von einem abstürzenden Zeppelin |
 
 ### Paradoxon-Index
 
