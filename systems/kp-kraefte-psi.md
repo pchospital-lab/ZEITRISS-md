@@ -557,6 +557,13 @@ einen SYS-Malus von –1 bis Szenenende ansetzen. Ein telekinetischer Stoß
 (2 PP) verursacht so ähnlich viel Schaden wie ein Scharfschützengewehr,
 erschöpft aber deutlich schneller die verfügbaren Punkte.
 
+### Psi-Heat-Track
+
+* Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
+* Heat > 4 → −1 Initiative; Heat = 5 → −1 Würfel auf alle Psi-Proben.
+* Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
+* Heat sinkt um 1 nach 2 Minuten In-Game-Ruhe oder sofort durch Kühl-Gear.
+
 ### Echo-Variant (optional) {#echo-variant}
 
 Manche Gruppen wünschen gelegentliche Einblicke in metaphysische Ebenen. Diese
