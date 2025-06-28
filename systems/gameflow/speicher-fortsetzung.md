@@ -15,6 +15,7 @@ tags: [systems]
 | Level         | Erfahrungsstufe                                |
 | version_hash  | Regelversion des Spielstands                   |
 | arc_dashboard | Offene Seeds und Missionsfortschritte          |
+| field_notes   | Persönliche Memos der Agenten (optional)       |
 
 ```json
 {"Name":"Alex","Epoche":"2025","Level":2,"version_hash":"4.0","arc_dashboard":{}}
@@ -25,6 +26,7 @@ tags: [systems]
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
 - Zeitlinien-Tracker und Paradoxon-Index
+- Optionales Feld `field_notes` für kurze Einsatzmemos
 - Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 - Umgang mit fehlerhaften oder abweichenden Speicherständen
 - Spielleitung bleibt in-world (Immersion der Spielleitung)
@@ -206,6 +208,21 @@ seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356
 reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
 entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten
 Mission erneut im Prompt geladen werden muss.
+
+```json
+"field_notes": [
+  {
+    "agent_id": "ZE-A12",
+    "mission": "Operation Cold Swap",
+    "timestamp": "1958-06-02T14:07Z",
+    "note": "Funkraum mit Ventil-Schalter entdeckt. PZ-2.5 aktiv."
+  }
+]
+```
+
+_Beispiel:_ Dieses optionale Feld sammelt kurze Einsatzmemos und hat keinerlei
+Regelwirkung. Es erleichtert jedoch die Nachverfolgung einzelner
+Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
