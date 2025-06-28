@@ -940,6 +940,11 @@ liegen, mischt die SL den Stapel zurück.
 | 38 | Kameras zeigen Aufnahmen aus kommenden Tagen. | 2 | mittel |
 | 39 | Vergrabene Zeitkapsel liefert brisante Gegenbeweise. | 1 | klein |
 | 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
+| 41 | Mirrored Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
+| 42 | Cold Swap – Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
+| 43 | Echo Broadcast warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
+| 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
+| 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
 
 _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
@@ -1274,7 +1279,7 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 
 *(kompatibel zu ZEITRISS 4.0, ready‑to‑drop oder als Generator nutzbar)*
 
-#### Vierzig einsatzbereite Artefakte
+#### Zweiundvierzig einsatzbereite Artefakte
 
 |#|Codename|Form|Hauptwirkung|Nebenwirkung|Beispiel|
 |-|-|-|-|-|-|
@@ -1318,6 +1323,8 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 |A-38|Grim Oath|Runenstein|Bindet Schwur 1 Szene|Paradox +1|Vertrag|
 |A-39|Rift Chalk|Farbstaub|Markiert Mini-Rift|Kurzzeitige Instabilität|Portal|
 |A-40|Signal Orb|Leuchtkugel|Zeigt Richtung zum Artefakt|Zerbrechlich|Spurensuche|
+|A-41|Echo Relais|Kompaktes Funksystem|5 min Signal in die Vergangenheit|Paradox +1 bei >2 Nutzungen|Abhören|
+|A-42|Chrono Patch|Einweg-Med-Gel|Kritisch-Zustand 60 s verzögert|Verbrauchsgut|Rettung|
 
 _Regel‑Hooks:_ Schadens‑ und Stresswerte folgen dem W6‑Explode‑Raster. Artefakte sind selten:
 höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Paradoxon‑Index um 1.
@@ -1468,6 +1475,7 @@ Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
 | 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | ⚠ |
 | 7 | Mehrstufiges Klangrätsel löst geheime Tür | ✱ |
 | 8 | Subtile chemische Reaktion verrät den Code | ✱ |
+| 9 | Zeitscheiben-Schalter koordiniert drei 5s-Fenster – Soft Fail Alarm 1 | ✱ |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.

@@ -606,6 +606,14 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | `Stress 10` | Zusammenbruch |
 | 🩸 | Blutung – jede Runde 1 Schaden |
 | ☠️ | Vergiftung – SG +2 auf Proben |
+
+#### HUD-Snippets (Kurzmeldungen)
+
+```text
+[Paradox 3/5]  ⏳ Instabilität nimmt zu.
+[Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
+[Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
+```
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
