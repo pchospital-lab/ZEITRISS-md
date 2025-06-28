@@ -119,7 +119,8 @@ Die ersten Schritte in unter zwei Minuten:
 8. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
-9. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage. [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
+9. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
+   [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
 ### Probability Cheat Table
 
