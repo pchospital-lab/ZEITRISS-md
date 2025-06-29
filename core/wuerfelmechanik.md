@@ -188,57 +188,16 @@ Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgr�
 
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
-In der high-tech ausgestatteten Welt von ZEITRISS begleiten **HUD-Overlays** und der allgegenwärtige
-Codex-KI die Chrononauten auf ihren Missionen. Bisher lieferte das HUD kontinuierlich Daten – von
-Vitalwerten über Missionsziele bis hin zu Umweltanalysen. Nun verfeinern wir das System mit einem
-**ereignisgetriggerten Alert-Mechanismus**, der sicherstellt, dass in kritischen Momenten
-**sofortige Warnungen** erfolgen und Unwichtiges ausgeblendet wird.
-
-**Alert-Auslöser definieren:** Bestimmte Zustände lösen fortan automatische **Alarmmeldungen** im
-HUD aus, um die Agenten zu warnen oder ihre Aufmerksamkeit zu fokussieren. Zwei zentrale Beispiele
-im ZEITRISS-System sind: **(1)** Der **Vitalstatus** fällt unter **25 %** – in diesem Fall erscheint
-z. B. ein rotes Aufleuchten des Gesundheitsbalkens, begleitet von einem akustischen Warnsignal und
-dem Hinweis _“Vitalwerte kritisch – medizinische Intervention empfohlen”_. **(2)** Der **Paradox-
-Index** steigt über **0** – das bedeutet, es treten Anomalien oder Zeitstörungen auf. Hier könnte
-der Codex via HUD ein gelbes _“Paradox-Warnung: Temporalinstabilität detektiert”_ einblenden, um das
-Team vorzuwarnen. Natürlich lassen sich auch weitere Alerts definieren: Etwa wenn die **Munition**
-einer wichtigen Waffe zur Neige geht, ein **Teammitglied ausfällt** (Alarm: _“Agent down”_) oder ein
-**Missionszeit-Limit** fast erreicht ist. Die **Spielleitung** und die Gruppe sollten gemeinsam
-festlegen, welche Schwellenwerte und Ereignisse im Rahmen ihrer Kampagne relevant sind. Wichtig ist,
-dass Alerts **nicht inflationär** auftreten, sondern wirklich nur bei _kritischen_ Entwicklungen –
-so behalten sie ihr Gewicht und stören nicht den Spielfluss.
-
-**HUD-Triage & Fokusmodus:** Zeitgleich mit den Alerts führt der Codex einen intelligenten Filter
-ein, um **Informationsflut zu vermeiden**. In hektischen Situationen – etwa im Gefecht oder bei
-einer Verfolgungsjagd – schaltet das HUD automatisch in einen **Fokusmodus**: Unkritische Anzeigen
-(z. B. ausstehende Nebenmissionsziele, Umgebungsdaten ohne unmittelbare Relevanz, stilistische HUD-
-Designelemente) werden temporär ausgeblendet oder dezent zurückgefahren. Stattdessen rücken
-**prioritäre Infos** in den Vordergrund: die Warnmeldungen, Statusanzeigen der Teammitglieder und
-relevante Missionshinweise. Diese **Info-Triage** sorgt dafür, dass die Spielercharaktere (und damit
-die Spielenden) sich auf das Wesentliche konzentrieren können, ähnlich einem Pilotendisplay, das im
-Notfall in den “Cleared Screen”-Modus wechselt. Sobald die Lage sich beruhigt, kehrt das HUD
-automatisch in den Normalmodus zurück und zeigt wieder alle Informationen an.
-
-**Beispiel:** _Agentin Nova befindet sich inmitten eines Feuergefechts. Ihr HUD projiziert zunächst
-allerlei Daten ins Sichtfeld – taktische Karten, Funksprüche, Missionsnebenziele. Als Nova jedoch
-schwer verwundet wird (HP fallen unter 25 %), ändert sich das HUD schlagartig: Fast alle Anzeigen
-verblassen, nur Novas Gesundheitsanzeige blinkt rot und ein Pfeil markiert das nächste Deckungs-
-Versteck. Gleichzeitig ertönt ein Warnton und der Codex meldet: „Vitalwerte kritisch – Evakuierung
-empfohlen.“ Nova schleppt sich in Deckung und verabreicht sich ein Stimpack. Sobald ihre HP wieder
-über dem Gefahrenwert liegen, kehren nach und nach die übrigen HUD-Elemente ins Sichtfeld zurück._
-
-Durch diese Mechaniken bleibt das **HUD-Overlay** ein mächtiges Werkzeug, ohne zur Ablenkung zu
-werden. Die Spielleitung kann diese Features nutzen, um dramaturgisch Akzente zu setzen – z. B.
-indem in einem Horror-Abschnitt plötzlich _alle_ Daten außer einem flackernden Paradox-Alarm
-verschwinden, was die verunsichernde Atmosphäre unterstreicht. **Weniger ist oft mehr:** Setzt
-Alerts gezielt ein, damit sie die Spieler warnen und ins Geschehen ziehen, anstatt sie mit ständigen
-Pop-ups abzulenken. Richtig eingesetzt, erhöht das HUD-Management die Immersion und gibt den Helden
-das Gefühl, von ihrer Ausrüstung optimal unterstützt zu werden – gerade wenn es brenzlig wird.
-Konfigurierbare HUD-Warnungen verhindern Spam.
-Eine Einstellung `alertCooldown` (z.B. 1 Runde) in eurer `config.json` sorgt dafür,
-dass identische Meldungen erst nach Ablauf dieser Zeit erneut erscheinen.
-Weniger Blinken hält das Thriller-Tempo hoch.
-
+In ZEITRISS verschmelzen HUD-Overlay und Codex.
+Das HUD zeigt Warnungen bei <25 % Vitalstatus und jedem Paradox-Index >0.
+Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
+Weitere Details stehen im Modul
+[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+```json
+{
+  "alertCooldown": 1
+}
+```
 ## Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 
 ZEITRISS 4.0 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
