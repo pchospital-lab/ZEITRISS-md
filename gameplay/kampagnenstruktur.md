@@ -592,21 +592,6 @@ Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes 
 Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
 Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative Hilfe.
 
-### Social-Encounter-Pack {#social-encounter-pack}
-
-**SC-06 »Radikale Diplomatie«** – West-Berlin 1985. Das Team soll die
-Informantin »Satie« zum freiwilligen Herausgeben eines Mikrofilms bewegen.
-Drei Verhandlungsstufen erfordern Proben auf Face, Tech oder Infiltration.
-Jede Stufe verlangt ein kleines Zukunftsdetail. Übermäßige Preisgabe
-erzeugt Paradoxon +1. Teil-Erfolg kostet Bestechung, Misserfolg löst Alarm
-aus und verkürzt das Zugriffsfenster.
-
-**SC-07 »Corpo Backdoor«** – Osaka 2072. Compliance-Officer Kaito Morii
-hadert mit Loyalität und Moral. Ein Ethik-Duell (*Face* vs. Morii W8+3)
-sammelt bis zu drei Vertrauenpunkte. Bei voller Punktzahl gewährt er
-temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
-Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
-seine Sorge um die Tochter – Paradoxon +1.
 
 ### Encounter-Pools außerhalb des HQ {#encounter-pools-ausser-hq}
 
@@ -682,6 +667,22 @@ oder logisch ersetzt werden._
 
 4. Füge spontan Twist (TW-0xx) hinzu, falls dramaturgisch sinnvoll.
 ```
+
+#### 6 Social-Encounter-Pack {#social-encounter-pack}
+
+**SC-06 »Radikale Diplomatie«** – West-Berlin 1985. Das Team soll die
+Informantin »Satie« zum freiwilligen Herausgeben eines Mikrofilms bewegen.
+Drei Verhandlungsstufen erfordern Proben auf Face, Tech oder Infiltration.
+Jede Stufe verlangt ein kleines Zukunftsdetail. Übermäßige Preisgabe
+erzeugt Paradoxon +1. Teil-Erfolg kostet Bestechung, Misserfolg löst Alarm
+aus und verkürzt das Zugriffsfenster.
+
+**SC-07 »Corpo Backdoor«** – Osaka 2072. Compliance-Officer Kaito Morii
+hadert mit Loyalität und Moral. Ein Ethik-Duell (*Face* vs. Morii W8+3)
+sammelt bis zu drei Vertrauenpunkte. Bei voller Punktzahl gewährt er
+temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
+Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
+seine Sorge um die Tochter – Paradoxon +1.
 
 ### Codex-gesteuerte Story-Zwischensequenzen
 
