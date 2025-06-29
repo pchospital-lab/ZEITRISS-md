@@ -608,6 +608,81 @@ temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
 Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
 seine Sorge um die Tochter – Paradoxon +1.
 
+### Encounter-Pools außerhalb des HQ {#encounter-pools-ausser-hq}
+
+#### 1 Einsatzkategorien & Nutzung
+
+| Kategorie | Phase | Typischer Einsatz | Wurf-Empfehlung |
+| --------- | ----- | ----------------- | --------------- |
+| **CORE OPS** | Aufklärung → Zugriff → Exfiltration | Standardmissionen (Sabotage, Sicherstellung, Extraction) | 1W12 |
+| **RIFT OPS** | Bei Paradoxon ≥ 2 oder Cluster-Events | Umgang mit Zeitrissen & Anomalien | 1W10 |
+| **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente | Kurze Verschnaufpausen fernab des HQ | 1W8 |
+
+_Regel: Würfle bei Szenenübergang oder dramaturgischer Flaute; Ergebnisse dürfen frei interpretiert
+oder logisch ersetzt werden._
+
+#### 2 CORE OPS-Pool (1W12)
+
+| Wurf | Codex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
+| ---- | -------- | ----------------------- | -------- | -------- | --------- |
+| 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
+| 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
+| 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom an, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
+| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf Artefakt; rivaler Sammler. | Social / Bluff | 8 | 0-1 |
+| 5 | **EC-CORE-005** | *Konvoi-Hinterhalt*: Drohne meldet Routen-Split. | Kampf / Fahrzeug | 12 | 0 |
+| 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin anwesend. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
+| 7 | **EC-CORE-007** | *Flusskanal-Zufahrt 1643*: Tor öffnet nur heute bei Vollmond. | Survival / Timing | 9 | 0 |
+| 8 | **EC-CORE-008** | *Mediensturm*: Presse vor Ort, Kameras an. | Social / Disguise | 10 | +1 falls Zeitfehler live |
+| 9 | **EC-CORE-009** | *Cipher-Server NB-II*: Admin anwesend, kennt Logs. | Tech / Social | 11 | 0 |
+| 10 | **EC-CORE-010** | *U-Bahn-Flucht*: Zielperson springt in Zug, Notbremse deaktiviert. | Chase | 10 | 0 |
+| 11 | **EC-CORE-011** | *Magnetbahn-Deraillieren 2334*: Schiene sabotiert, Chaos. | Infiltration / Repair | 12 | +1 |
+| 12 | **EC-CORE-012** | *Orbital-Relais Beta*: Außenbord-Hatch klemmt, Mikro-Meteoriten. | EVA / Tech | 13 | 0 |
+
+#### 3 RIFT OPS-Pool (1W10)
+
+| Wurf | Codex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
+| ---- | -------- | ----------------------- | -------- | -------- | --------- |
+| 1 | **EC-RIFT-001** | *Echo-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
+| 2 | **EC-RIFT-002** | *Schwerkraft-Flimmern*: Lokal 0.7 g, Equipment-Checks erschwert. | Survival | 9 | +1 |
+| 3 | **EC-RIFT-003** | *Zeitregen*: Regen prasselt rückwärts, Sichtverhältnisse verzerrt. | Stealth / Psi | 10 | +1 |
+| 4 | **EC-RIFT-004** | *Cluster-Market*: Illegaler Handel mit Out-of-Era-Tech. | Social / Tech | 10 | +1-2 bei Käufen |
+| 5 | **EC-RIFT-005** | *Chrono-Fauna*: Raubtier mit Phasen-Sprung-Muster greift Patrouille an. | Kampf | 12 | 0 |
+| 6 | **EC-RIFT-006** | *Looper-Schall*: Geräuschfetzen aus Zukunft warnen vor Wache. | Infiltration | 9 | 0 |
+| 7 | **EC-RIFT-007** | *Parallax-Treppe*: Flur mit drei Offsets; nur einer korrekt. | Rätsel | 11 | +1 je Fehlversuch |
+| 8 | **EC-RIFT-008** | *Cluster-Repair-Droid*: Flickt Riss, fordert "Pfand": Ausrüstung. | Verhandeln | 10 | 0 |
+| 9 | **EC-RIFT-009** | *De-Sync Pulse*: Elektronik rebootet zufällig; Psi-Module glitch. | Tech / Psi | 12 | +1 |
+| 10 | **EC-RIFT-010** | *Rift-Seed-Bloom*: 1‑3 Mini-Rifts; Gegner nach Wahl. | Kampf / Containment | 13 | +2 |
+
+#### 4 FIELD DOWNTIME-Pool (1W8)
+
+| Wurf | Codex-ID | Szene | Nutzen | Hinweis |
+| ---- | -------- | ----- | ------ | ------- |
+| 1 | **EC-FD-001** | Straßen-Garküche Bangkok 1981 – Gerüchte zum Zielort. | Info-Snack (+1 Kontakt) | Paradoxon 0 |
+| 2 | **EC-FD-002** | Nachtzug-Liegewagen – Journalist im Abteil. | Social-Probe, Stress-Abbau | Risiko → Info-Leak |
+| 3 | **EC-FD-003** | Kirchplatz-Flohmarkt Prag 1896 – antikes Gadget könnte Schlüssel sein. | Recherche | |
+| 4 | **EC-FD-004** | Tankstopp Route 66 1955 – Sheriff nähert sich, Nummernschild falsch. | Bluff | |
+| 5 | **EC-FD-005** | Flughafen-Warteschleife 2090 – Drohnenstreik, Flug nur gegen Bestechung. | Ressourcen-Tausch | |
+| 6 | **EC-FD-006** | Regnerische Seitenstraße – kleiner Taschendieb stiehlt Datenstick. | Mini-Chase | |
+| 7 | **EC-FD-007** | Impro-Jazz-Bar Paris 1937 – Saxophonist bietet Hideout gegen Gefallen. | Social | |
+| 8 | **EC-FD-008** | Autonome Werkstatt – Gratis-Repair, aber KI speichert Seriennummern. | Tech | Paradoxon 0 |
+
+#### 5 Mini-Generator »Encounter Composer« (optional)
+
+```
+1. Bestimme Kategorie
+   • Missionphase = CORE
+   • Paradoxon ≥2 = RIFT
+   • Ruhe-/Reiseabschnitt = FIELD
+
+2. Würfle passenden Pool (1W12/1W10/1W8).
+
+3. Modifiziere:
+   • Gefahr +1 bei Nacht oder schlechtem Wetter.
+   • DC –1 bei starker örtlicher Unterstützung.
+
+4. Füge spontan Twist (TW-0xx) hinzu, falls dramaturgisch sinnvoll.
+```
+
 ### Codex-gesteuerte Story-Zwischensequenzen
 
 Ein besonderes Feature im ZEITRISS-Setting ist der **Codex** – eine Art allwissendes Archiv oder KI,
