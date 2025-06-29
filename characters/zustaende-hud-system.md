@@ -743,7 +743,7 @@ auch bei Paradoxon, EMP oder Isolation.
 ║ 2️⃣ HUD             – Vitalstatus, SYS, Filtereffekte ║
 ║ 3️⃣ Log             – Missionsverlauf (chronologisch) ║
 ║ 4️⃣ Save            – Speicherstand erzeugen          ║
-║ 5️⃣ Modus           – Stil: Film/Klassik/Covert-Ops   ║
+║ 5️⃣ Modus           – Stil: siehe README             ║
 ║ 6️⃣ Hilfe           – Übersicht aller Befehle         ║
 ║ 7️⃣ FAQ            – Stichwort an Codex senden        ║
 ║                                                      ║
@@ -764,7 +764,7 @@ auch bei Paradoxon, EMP oder Isolation.
 | `hud`       | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter   |
 | `log`       | Gibt den Missionsverlauf wieder                                    |
 | `save`      | Speichert Spielzustand / Missionsfortschritt                       |
-| `modus`     | Erzählstil (Film, Regel+Film, Klassik, Covert-Ops)                 |
+| `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
 | `faq [x]`   | Schickt ein Stichwort an den Codex und zeigt eine Kurzantwort      |
 | `codex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
