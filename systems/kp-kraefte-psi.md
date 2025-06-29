@@ -42,6 +42,7 @@ Der Codex gibt keine prophetischen Hinweise.
 Psi erscheint hier als taktisches Werkzeug.
 Telepathische Hacks und kurze Telekinese-Schübe unterstützen
 verdeckte Einsätze, alles bleibt düster und hardwarebetont.
+Weitere Spielmodi findest du in [README](../README.md#spielmodi).
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 

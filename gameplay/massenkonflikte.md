@@ -198,36 +198,7 @@ waghalsigen Stunts. Lieber im Erfolgsfall einen tollen Effekt gewähren und im M
 neue Komplikation einführen (statt einfach nur „geht nicht“). So bleibt die Fahrzeugaction spannend
 und unvorhersehbar.
 
-### Verfolgungsjagden dramatisch inszenieren
-
-Kaum etwas sorgt für Adrenalin am Spieltisch wie eine rasante Verfolgungsjagd. Zu Fuß, zu Pferd oder
-mit dem Jetboot – **Motion is Drama!** Damit solche Szenen dynamisch bleiben, wird **nicht jeder
-zurückgelegte Meter ausgewürfelt**. Stattdessen empfiehlt sich eine **vergleichende Probe** zwischen
-Flüchtenden und Verfolgern. Meist würfeln die Fahrer (oder Reiter/Piloten) gegeneinander: z. B. ein
-Wurf der Spieler auf **Fahren** gegen den Wurf der Verfolger. Ein Erfolg der Helden erhöht den
-Abstand, ein Fehlschlag lässt die Verfolger aufholen. Nach **einigen Runden** – je nach Dramaturgie
-2–5 Würfe – steht fest, wie die Jagd ausgeht. Haben die Spieler bis dahin öfter gewonnen, entkommen
-sie spektakulär; häufen die Verfolger mehr Erfolge an, stellen sie die Helden in einem dramatischen
-Showdown.
-
-**Schauplätze & Hindernisse:** Eine Verfolgungsjagd lebt von der Umgebung. **Der Spielleiter sollte
-die Szenerie „mitfahren“ lassen:** enge Gassen, Marktstände, die umgestoßen werden, plötzliche
-Hindernisse und scharfe Kurven verleihen der Szene Farbe. Eine Kutschenjagd führt vielleicht durch
-verwinkelte Altstadtgassen mit klapperndem Hufschlag; eine Hoverbike-Jagd webt zwischen Neon-
-Wolkenkratzern hindurch. Die Fahrer müssen auf Sicht reagieren – jedes Hindernis kann einen neuen
-Wurf bedeuten, oder man integriert es als Zusatz-Herausforderung in den Vergleichswurf. **Kreative
-Ideen** der Spieler, die Verfolger abzuschütteln (z. B. Ölspur legen, Finten fahren, in einen
-überdachten Markt flüchten etc.), sollten situativ Boni verleihen oder den Verfolgern einen Malus
-bescheren. Umgekehrt können auch die Gegner solche Tricks nutzen – das hält die Spieler auf Trab.
-
-**Ausgang der Jagd:** Das Ergebnis einer Verfolgungsjagd sollte sich erzählerisch lohnen. Ein
-**klarer Erfolg** der Helden bedeutet: Sie entkommen (vielleicht mit einem waghalsigen Sprung über
-eine Brücke, während hinter ihnen alles explodiert). Ein **knapper Erfolg** könnte heißen, sie
-setzen sich ab, aber ihr Fahrzeug hat Schaden genommen oder sie mussten die Beladung zurücklassen.
-Ein **Fehlschlag** bedeutet, die Gegner stellen sie – doch auch dann ist die Szene nicht vorbei,
-sondern geht nahtlos in eine Konfrontation oder einen Kampf über. Wichtig ist, dass **alle
-Beteiligten das Tempo spüren**: Die ganze Sequenz soll sich wie eine Szene aus einem Actionfilm
-anfühlen – atemlos, riskant und voller Wendungen.
+**Verfolgungsjagden:** Siehe [Fahrzeuge](fahrzeuge-konflikte.md#verfolgungsjagden-cineastisch-inszenieren).
 
 ### Fahrzeugkampf & Gefechte auf Rädern
 
