@@ -600,7 +600,7 @@ ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Ec
 
 Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
 aktuellen Spielstands im Ordner `backups`. Diese Datei trägt einen
-Zeitstempel im Namen, zum Beispiel `save_20240101_1200.json`. Vor dem
+Zeitstempel im Namen, zum Beispiel `save_fall_of_chrysalis_20250629-1932.json`. Vor dem
 Start einer neuen Sitzung prüft die Engine, ob ein solches Backup
 vorliegt, und stellt es bei Bedarf wieder her. Die Felder `version_hash`
 und optional `checksum` helfen, inkonsistente Sicherungen zu erkennen.

@@ -21,6 +21,7 @@ tags: [systems]
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
 - Power-Punkte: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
+- Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 In `kampagnenstruktur.md` wird `PP` als Paradox-Punkte verwendet.
@@ -180,6 +181,8 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   Psi-Waffe verzichten auf Exploding 6. Gegen stark gepanzerte Ziele erhöht sich
   die Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
   um Missbrauch zu verhindern.
+  Cooldown: Nach Einsatz **1 Runde warten** oder alternativ **+1 SYS** für eine sofortige
+  Folgeaktion zahlen.
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
   **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
   Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in

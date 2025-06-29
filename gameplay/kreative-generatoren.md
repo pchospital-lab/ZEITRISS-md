@@ -105,6 +105,53 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 _Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehen.
 Streiche doppelte Seeds oder variiere sie.
 
+```jsonc
+{
+  "twists": [
+    {
+      "id": "T28",
+      "label": "Uhrwerk-Diplomatie",
+      "effect": "Eine schwelende Waffenruhe zwischen zwei Zeitaltern gerät ins Wanken – das Einsatzteam muss unbeabsichtigte Provokationen verhindern."
+    },
+    {
+      "id": "T29",
+      "label": "Echo-Konklave",
+      "effect": "Ein Parallel-Team aus einer nur minimal abweichenden Zeitlinie versucht, dieselbe Mission abzuschließen – Konkurrenz oder Kooperation?"
+    },
+    {
+      "id": "T30",
+      "label": "Trans-Silicon-Plague",
+      "effect": "Ein Nanovirus springt Epochen; jeder Eingriff könnte es beschleunigen oder auslöschen."
+    },
+    {
+      "id": "T31",
+      "label": "Imperiale Schachfigur",
+      "effect": "Eine Nebenfigur entpuppt sich als unerwartet wichtige historische Schlüsselfigur – Eliminierung tabu, Manipulation riskant."
+    },
+    {
+      "id": "T32",
+      "label": "Kaltes Singularitätstor",
+      "effect": "Ein experimenteller Energiepuls droht, ein Micro-Einstein-Rosen-Tor dauerhaft zu öffnen."
+    },
+    {
+      "id": "T33",
+      "label": "Silencer-Protokoll",
+      "effect": "Das HQ befiehlt Funk-Stille; Team muss ohne Codex-Support improvisieren, bis eine Relay-Station steht."
+    },
+    {
+      "id": "T34",
+      "label": "Orchideen-Schlüssel",
+      "effect": "Ein unscheinbares Artefakt aktiviert versteckte Bio-Sicherungen in hochrangigen Zielpersonen."
+    },
+    {
+      "id": "T35",
+      "label": "Sturm ★ Delta",
+      "effect": "Eine Wetter-Modifikationsanlage im Jahr 19XX löst einen Jahrhundert-Hurrikan aus – Fail-Safe versiegelt."
+    }
+  ]
+}
+```
+
 Bei Missionsbeginn notiert sich die SL den Twist.
 Spätestens in **Phase 3 (Aufklärung)** sollte die Spielleitung einen Hinweis aus
 dem Feld `foreshadow` einbauen, damit die Wendung nicht übersehen wird.
@@ -577,6 +624,12 @@ Wenn ihr spontan ein neues Setting braucht oder die Spieler unerwartet irgendwo 
 dieser Generator einen schnellen Rahmen. Er kombiniert einen **Zeitort** (Epoche/Setting) mit einem
 markanten **Ereignis oder Konflikt**, das dort gerade passiert. Würfelt z. B. 1W6 für einen Zeitort
 **und** 1W6 für ein besonderes Ereignis, oder nutzt eine der folgenden vordefinierten Kombinationen:
+
+_Regel für die Kühlung der Epochengewichte:_
+1. Notiere nach jedem Zufallswurf die gezogene Epoche als `last_epoch`.
+2. Verringere ihr Gewicht in der Tabelle um den **Cooling-Wert** (Standard 0.05), jedoch nie unter 1 %.
+3. Normiere anschließend alle Gewichte, sodass ihre Summe wieder 1 ergibt.
+4. Würfle die nächste Epoche anhand der aktualisierten Wahrscheinlichkeiten.
 
 1. **Steinzeitliche Wildnis** (ca. 10.000 v.Chr.) – _Setting:_ Weite prähistorische Landschaft mit
    Megafauna (Mammutherden, Säbelzahntiger) und nomadischen Stämmen. **Besonderheit:** Ein kleines Dorf
