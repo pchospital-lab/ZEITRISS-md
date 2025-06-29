@@ -42,6 +42,8 @@ Jeder Agent besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung
 verwaltet werden.
 Kurze Infobriefe lassen sich direkt ins HUD streamen, sodass klar ist, welche
 Fraktion Unterstützung bietet.
+Weitere Infos zum HUD liefert das Modul
+[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 Bei höheren Rängen öffnet sich zusätzlich der streng bewachte Kernbereich.
 
 ### Bewusstsein, Absolut und Realität

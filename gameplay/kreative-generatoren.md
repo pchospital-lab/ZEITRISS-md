@@ -1149,6 +1149,8 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 
 > Format lehnt sich an ein klassisches FBI‑X‑Files‑Briefing an.
 > **Zeilen in Klammern** eignen sich als schnelle HUD-Tags.
+> Weiterführende Hinweise finden sich im Modul
+> [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 
 #### A. Black Dog – „Schinderhannes‑Geflüster“
 

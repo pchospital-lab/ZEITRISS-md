@@ -22,6 +22,8 @@ Fortbewegungsarten und große Konflikte** – ohne den erzählerischen Fokus zu 
 findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **dramatische Reit- und
 Flugsequenzen** sowie **epische Massenschlachten** spielbar zu machen. Zudem zeigen wir, wie die
 **KI-Unterstützung des Codex und HUD** euren Chrononauten taktische Vorteile verschafft. Kurzum:
+Siehe hierzu auch das Modul
+[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 **Action wie im Kino**, aber übersichtlich und spielbar am Spieltisch.
 
 **Dieses Modul enthält im Überblick:**
