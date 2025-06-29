@@ -156,6 +156,8 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 
 Der Index wird kampagnenweit verfolgt. Bei Stufe 5 entstehen automatisch neue
 Rift-Seeds.
+Optional kann ein leichter ±1-Jitter aktiv sein, damit die Schwelle nicht exakt
+vorhersehbar bleibt.
 
 #### Cluster-Erzeugung
 

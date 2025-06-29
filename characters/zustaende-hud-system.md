@@ -818,6 +818,9 @@ Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als
 
 ### HUD-Async-Messages
 
+Kurze Meldungen werden asynchron gepusht. Beschränke jede Nachricht auf 48
+Zeichen, damit die Anzeige flüssig bleibt.
+
 ```yaml
 HUD_MESSAGES:
   - id: 0x21
