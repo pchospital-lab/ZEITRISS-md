@@ -32,6 +32,8 @@ regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
 5. Ruf und Hintergrund skizzieren
 6. Cyber/Bio/Psi (max zwei Bereiche) auswählen
 7. Werte in das HUD übernehmen
+   Weitere Hinweise und Symboltabellen findet ihr im Abschnitt
+   [Cinematisches HUD-Overlay](zustaende-hud-system.md#cinematisches-hud-overlay).
 8. Teamrolle festlegen
 9. Erste Mission planen
 

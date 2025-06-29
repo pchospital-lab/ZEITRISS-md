@@ -94,6 +94,8 @@ Erst in der Investigation wird klar, welches Ereignis gefaehrdet ist.
 Nach etwa der Hälfte der Mission blendet das HUD automatisch einen
 Foreshadow-Marker ein, der andeutet, welche Aktion die Zeitlinie
 stabilisieren würde.
+Weitere Informationen zum HUD gibt es im Modul
+[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.

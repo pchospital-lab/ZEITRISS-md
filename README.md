@@ -79,6 +79,8 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 Zwei Module ("Team-Boni" und "Quickref") sind Abschnitte anderer Dateien.
 Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
+Ausführliche Hintergründe liefert das Modul
+[Cinematisches HUD-Overlay](characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 
 ## ZEITRISS in 10 Minuten
 
