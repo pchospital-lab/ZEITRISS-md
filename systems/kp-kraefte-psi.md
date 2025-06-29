@@ -31,11 +31,12 @@ zurückführen.
 
 ### Stiloption: Hard Sci-Fi
 
-In diesem Modus sind Psi-Effekte bodenständig.
+In diesem Grundmodus bleiben Psi-Effekte bodenständig.
 Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 
 Präkognition liefert höchstens kurze taktische Ahnungen.
 Der Codex gibt keine prophetischen Hinweise.
+Weitere Stilmodi findest du in [README](../README.md#spielmodi).
 
 ### Stiloption: Covert-Ops Technoir
 
