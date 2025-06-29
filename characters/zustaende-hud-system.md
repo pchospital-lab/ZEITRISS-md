@@ -784,6 +784,10 @@ Mögliche Kategorien sind **Epoche**, **Technikstufe** und **Gegnertyp**. Ein
 Kommando wie `codex suche epoche:1950-1989 gegner:Konzern` listet nur Einträge
 mit beiden Tags auf.
 
+Füge am Ende jeder achten Codex-Notiz automatisch den Marker `<!--PAGEBREAK-->`
+ein. Der Parser teilt die Ansicht client-seitig und verhindert Scroll-Lag bei
+umfangreichen Einträgen.
+
 ```jsonc
 // Beispiel für einen Codex-Eintrag mit Tags
 {
@@ -811,6 +815,20 @@ Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als
 - 🟦 `modulinfo` – zeigt aktuelle Cyberware, Bioware, Drohne, Ausrüstung
 - 🟨 `temporale Umgebung` – z. B. `[Schwerkraftanomalie erkannt]` oder `[Zeitschleife → 14s Delay]`
 - 🟩 `drohnenstatus` – Statusanzeige von VARC oder anderer Begleiteinheit
+
+### HUD-Async-Messages
+
+```yaml
+HUD_MESSAGES:
+  - id: 0x21
+    txt: "[SENSORRAUSCHEN] Signatur unstet – prüfen"
+  - id: 0x22
+    txt: "[LINK STÖRT] Kom-Sync abgestürzt, Fallback"
+  - id: 0x23
+    txt: "[BLUTWERTE NIEDRIG] Stim-Pack empfohlen"
+  - id: 0x24
+    txt: "[EVAC POINT] Korridor öffnet in 90 Sek"
+```
 
 ### Technischer Hinweis
 
