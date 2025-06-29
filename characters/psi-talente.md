@@ -127,6 +127,23 @@ Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert)
 Agenten wissen so sofort, welche Intensität sie aufrufen können, ohne im Gefecht
 nachrechnen zu müssen.
 
+### Backlash-Tabelle (kritischer Patzer)
+
+| Patzerwert | Effekt |
+|-----------:|--------|
+| 1–3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
+| 4–6 | Disruption: Verlust von KP = doppelte Talentkosten. |
+| 7–9 | Feedback-Schock: 1 Stufe „Verwundet“ (siehe Zustände). |
+| 10 | Rift-Echo: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
+
+### Squad-Scaling-Regel
+
+* **Flächen-Talente** (Aura, Rally, Shield): Kosten × Squad-Größe / 3  
+  *Aufrunden; Minimalkosten = Basis-Talentkosten*
+* **Reichweiten-Talente**: Reichweite ×2 pro zusätzlich versorgter Truppengröße (max. ×4).
+
+> *Beispiel:* Psi „Konzertiertes Feuer“ (Basis 4 KP) bufft ein 9-köpfiges Team → 4 KP × 9/3 = 12 KP.
+
 ## Talente & Spezialisierungen
 
 Charaktere in ZEITRISS definieren sich nicht nur durch Attribute und Ausrüstung, sondern vor allem

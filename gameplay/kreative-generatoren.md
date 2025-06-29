@@ -1269,6 +1269,21 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
 Hinweise.
 
+### Artefakt-Seed-Starter (1W10)
+
+| Wurf | Codename | Jahr / Ort | Primäre Kraft | Nebenwirkung |
+|-----:|----------|-----------|---------------|---------------|
+| 1 | „Ätherglas" | Prag 1889 | Unsichtbarkeit (2 Min.) | Kälte -10 °C |
+| 2 | „Helios-Split" | Delphi -430 | Lichtstrahl 1 kW | Blendung Benutzer |
+| 3 | „Sforza-Würfel" | Mailand 1496 | Local Time-Freeze 5 Sek. | Paradoxon +1 |
+| 4 | „Chorus-Reel" | New York 1941 | Stimmen-Mimikry | Ohrensausen |
+| 5 | „Kalkstein-Rune" | Göbekli Tepe -9020 | Telepathie 100 m | Migräne |
+| 6 | „Jade-Kompass" | Xi’an 221 v. Chr. | Portalsprung 10 m | random scatter 3 m |
+| 7 | „Edison-Spule" | Menlo Park 1877 | EMP Radius 5 m | Gerät defekt |
+| 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer |
+| 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU |
+| 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2 |
+
 ### Artefakt-Jagd: Fortschrittsbalken
 
 Jede abgeschlossene Mission erhöht die Chance auf einen legendären Fund um 5 %.
