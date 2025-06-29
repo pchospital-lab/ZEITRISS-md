@@ -1,24 +1,128 @@
 {
   "modules": [
-    {"slug": "readme", "path": "README.md", "title": "Projektüberblick", "category": "Meta"},
-    {"slug": "core", "path": "core/zeitriss-core.md", "title": "ZEITRISS Core", "category": "Core"},
-    {"slug": "dice", "path": "core/wuerfelmechanik.md", "title": "Würfelmechanik", "category": "Core"},
-    {"slug": "chars", "path": "characters/charaktererschaffung.md", "title": "Charaktererschaffung", "category": "Characters"},
-    {"slug": "cyber-short", "path": "characters/ausruestung-cyberware.md", "title": "Ausrüstung & Cyberware", "category": "Cyber", "variantType": "short"},
-    {"slug": "cyber-full", "path": "characters/cyberware-und-bioware.md", "title": "Cyberware und Bioware", "category": "Cyber", "variantType": "full"},
-    {"slug": "psi-short", "path": "characters/psi-talente.md", "title": "Psi-Talente", "category": "Psi", "variantType": "short"},
-    {"slug": "psi-full", "path": "systems/kp-kraefte-psi.md", "title": "Kräfte-Psi", "category": "Psi", "variantType": "full"},
-    {"slug": "hud", "path": "characters/zustaende-hud-system.md", "title": "Zustände & HUD", "category": "System"},
-    {"slug": "kampagnenstruktur", "path": "gameplay/kampagnenstruktur.md", "title": "Kampagnenstruktur", "category": "Gameplay"},
-    {"slug": "kampagnenuebersicht", "path": "gameplay/kampagnenuebersicht.md", "title": "Kampagnenübersicht", "category": "Gameplay"},
-    {"slug": "generatoren", "path": "gameplay/kreative-generatoren.md", "title": "Kreative Generatoren", "category": "Gameplay"},
-    {"slug": "vehicles", "path": "gameplay/fahrzeuge-konflikte.md", "title": "Fahrzeuge & Konflikte", "category": "Gameplay"},
-    {"slug": "mass", "path": "gameplay/massenkonflikte.md", "title": "Massenkonflikte", "category": "Gameplay"},
-    {"slug": "currency", "path": "systems/currency/cu-waehrungssystem.md", "title": "CU-Währungssystem", "category": "System"},
-    {"slug": "save", "path": "systems/gameflow/speicher-fortsetzung.md", "title": "Speicher/Fortsetzung", "category": "System"},
-    {"slug": "cinematic", "path": "systems/gameflow/cinematic-start.md", "title": "Cinematic Start", "category": "System"},
-    {"slug": "groupstart", "path": "systems/gameflow/gruppenstart-filmisch.md", "title": "Filmischer Gruppenstart", "category": "System"},
-    {"slug": "toolkit", "path": "systems/toolkit-gpt-spielleiter.md", "title": "Toolkit GPT-Spielleiter", "category": "System"}
+    {
+      "slug": "readme",
+      "path": "README.md",
+      "title": "Projektüberblick",
+      "category": "Meta"
+    },
+    {
+      "slug": "core",
+      "path": "core/zeitriss-core.md",
+      "title": "ZEITRISS Core",
+      "category": "Core"
+    },
+    {
+      "slug": "dice",
+      "path": "core/wuerfelmechanik.md",
+      "title": "Würfelmechanik",
+      "category": "Core",
+      "href": "#schwierigkeits-benchmark"
+    },
+    {
+      "slug": "chars",
+      "path": "characters/charaktererschaffung.md",
+      "title": "Charaktererschaffung",
+      "category": "Characters"
+    },
+    {
+      "slug": "cyber-short",
+      "path": "characters/ausruestung-cyberware.md",
+      "title": "Ausrüstung & Cyberware",
+      "category": "Cyber",
+      "variantType": "short"
+    },
+    {
+      "slug": "cyber-full",
+      "path": "characters/cyberware-und-bioware.md",
+      "title": "Cyberware und Bioware",
+      "category": "Cyber",
+      "variantType": "full",
+      "href": "#legalitäts--wartungs-stufen"
+    },
+    {
+      "slug": "psi-short",
+      "path": "characters/psi-talente.md",
+      "title": "Psi-Talente",
+      "category": "Psi",
+      "variantType": "short",
+      "href": "#backlash-tabelle-kritischer-patzer"
+    },
+    {
+      "slug": "psi-full",
+      "path": "systems/kp-kraefte-psi.md",
+      "title": "Kräfte-Psi",
+      "category": "Psi",
+      "variantType": "full"
+    },
+    {
+      "slug": "hud",
+      "path": "characters/zustaende-hud-system.md",
+      "title": "Zustände & HUD",
+      "category": "System"
+    },
+    {
+      "slug": "kampagnenstruktur",
+      "path": "gameplay/kampagnenstruktur.md",
+      "title": "Kampagnenstruktur",
+      "category": "Gameplay"
+    },
+    {
+      "slug": "kampagnenuebersicht",
+      "path": "gameplay/kampagnenuebersicht.md",
+      "title": "Kampagnenübersicht",
+      "category": "Gameplay"
+    },
+    {
+      "slug": "generatoren",
+      "path": "gameplay/kreative-generatoren.md",
+      "title": "Kreative Generatoren",
+      "category": "Gameplay",
+      "href": "#artefakt-seed-starter-1w10"
+    },
+    {
+      "slug": "vehicles",
+      "path": "gameplay/fahrzeuge-konflikte.md",
+      "title": "Fahrzeuge & Konflikte",
+      "category": "Gameplay"
+    },
+    {
+      "slug": "mass",
+      "path": "gameplay/massenkonflikte.md",
+      "title": "Massenkonflikte",
+      "category": "Gameplay",
+      "href": "#rift-kreaturen-stat-blocks"
+    },
+    {
+      "slug": "currency",
+      "path": "systems/currency/cu-waehrungssystem.md",
+      "title": "CU-Währungssystem",
+      "category": "System"
+    },
+    {
+      "slug": "save",
+      "path": "systems/gameflow/speicher-fortsetzung.md",
+      "title": "Speicher/Fortsetzung",
+      "category": "System"
+    },
+    {
+      "slug": "cinematic",
+      "path": "systems/gameflow/cinematic-start.md",
+      "title": "Cinematic Start",
+      "category": "System"
+    },
+    {
+      "slug": "groupstart",
+      "path": "systems/gameflow/gruppenstart-filmisch.md",
+      "title": "Filmischer Gruppenstart",
+      "category": "System"
+    },
+    {
+      "slug": "toolkit",
+      "path": "systems/toolkit-gpt-spielleiter.md",
+      "title": "Toolkit GPT-Spielleiter",
+      "category": "System"
+    }
   ],
   "pools": [
     {
@@ -35,7 +139,11 @@
       "id": "encounter_pool",
       "path": "gameplay/kreative-generatoren.md#encounter-pool-listen",
       "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko",
-      "fields": ["epoch", "type", "risk"]
+      "fields": [
+        "epoch",
+        "type",
+        "risk"
+      ]
     },
     {
       "id": "twist_pool",

@@ -533,6 +533,16 @@ um sie ist.
 eine Gruppe ausgeschaltet wird. Je 5 verlorene Einheiten reduziert ihr die Erfolgspunkte dieser Seite
 um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhaltung zu betreiben.
 
+## Rift-Kreaturen (Stat-Blocks)
+
+| Typ | Kraft Pool | Init | Schaden | Resilienz | Besonderheit |
+|-----|-----------:|-----:|--------:|----------:|--------------|
+| **Shard-Imp** (klein) | 2 | +1 | W6 | 4 | Phase Shift (‑2 Treffer) |
+| **Chrono-Hound** (mittel) | 5 | +2 | W8 | 8 | Time-Scent (spürt Agenten 30 m) |
+| **Paradox Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Paradoxon +1 pro Treffer) |
+
+> **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation (kein Spawn während der aktuellen Mission).
+
 **Fazit:** Mit diesen Regeln und Ideen wird euer ZEITRISS-Spiel um eine aufregende Dimension
 reicher. Fahrzeuge jeder Art – ob reitend, rollend oder fliegend – ermöglichen filmreife
 Verfolgungsjagden und dramatische Fluchten. Massenschlachten und Mehrfronten-Konflikte lassen sich

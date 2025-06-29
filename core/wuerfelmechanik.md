@@ -169,6 +169,17 @@ Um dieses "Alpha-Strike"-Phänomen auszugleichen, stehen zwei Optionen zur Wahl:
 `Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
 wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
+## Schwierigkeits-Benchmark (Tabelle)
+
+| Schwierigkeit | Zielwert | Beschreibung | Beispiele |
+|---------------|---------:|--------------|-----------|
+| Routine       | **3** | Alltag, kaum Risiko | Tür öffnen, triviales Hacken |
+| Standard      | **4** | Typische Einsatzprobe | Schloss knacken, Überwachung umgehen |
+| Anspruchsvoll | **5** | Merkliches Risiko | High-Security Alarm umgehen |
+| Legendär      | **6** | Nur für Profis | Laserfeld im Sprint passieren |
+| Episch        | **7** | Held*innen-Stufe | In 5 Sek. Quantenkern neu kalibrieren |
+| Unmöglich?    | **8+** | Nur mit Boosts | Freier Fall via Telekinese bremsen |
+
 ### Referenz-Bogen {#reference-sheet}
 
 | SG (W6) | SG (W10) | Schwierigkeitsgrad |
@@ -181,8 +192,7 @@ wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 |---------:|-----------|
 | 1–7 | W6 |
 | 8–10 | W8 |
-| 11–13 | W10 |
-| 14+ | W10 + Heldenwürfel |
+| 11+ | W10 + Heldenwürfel |
 
 Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgrößen schnell nachzuschlagen.
 
@@ -207,17 +217,24 @@ jenseits der menschlichen Spitze erreicht? Hier kommt unsere neue Mechanik ins S
 belohnt werden, ohne aber die Spielbalance zu sprengen.
 
 Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wunsch den W10 frei.
-**Heldenwürfel ab Attribut 14:** Ab einem Wert von **14** erhält der Charakter bei
-Proben automatisch einen **zusätzlichen Wurf**. Beide Würfel explodieren wie gewohnt,
-das bessere Ergebnis zählt. Diese Mechanik belohnt außergewöhnliche Werte, ohne
-die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
+
+### Heldenwürfel (ab Attribut 11)
+
+* Würfle **1×W10** für das Attribut **plus** **1 Heldenwürfel** (ebenfalls W10).
+* **Exploding 10er-Regel:** Jeder „10“ wird sofort erneut geworfen und addiert.
+* **Ergebniswertung:** Nimm das **beste einzelne** Resultat der beiden Würfel (keep-highest).
+* **Beispiel:** Agent Nyx hat SCHLEICHEN 11. Wurf: 7 (Attribut-W10) & 10 + 6 = 16 (Heldenwürfel). → Endwert 16 (kritischer Erfolg).
+
+> **Warum keep-highest?**
+> *Additiv* machte den Sprung zu mächtig (Ø +4,5), **keep-highest** hält das Power-Gap bei Ø +2,3.
+
+Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 
 | Attribut | Würfelgröße |
 |---------:|-------------|
 | 1–7      | W6 |
 | 8–10     | W8 |
-| 11–13    | W10 |
-| 14+      | W10 + Heldenwürfel |
+| 11+      | W10 + Heldenwürfel |
 
 ### Attribut → Ø-Erfolgsrate (SG 8)
 

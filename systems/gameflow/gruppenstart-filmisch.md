@@ -508,3 +508,8 @@ persönlichen filmreifen Gruppenstarts!
 
 Einen blitzschnellen One-Shot-Start liefert das Modul
 [Cinematic Start](cinematic-start.md).
+
+### Quick-Start PDF
+
+> Für Con-Runden: Nutze **ZEITRISS_QuickStart_v1.pdf** (2 Seiten, Cheats + vorgefertigte Chars).
+> Download: *tba*.
