@@ -160,7 +160,11 @@ Rift-Seeds.
 #### Cluster-Erzeugung
 
 ```pseudocode
-if paradox_level == 5:
+threshold = 5
+if jitter_on:
+    threshold += random.choice([-1, 0, 1])
+
+if paradox_level >= threshold:
     num = roll(1,2)
     cluster = []
     for i in range(num):
@@ -301,6 +305,17 @@ Shard-Drop: 1+Tier
 | *Vollerfolg*| Booster entfernt, Alarm ausgelöst     | Schlacht kippt fürs ITI; Patrouillen wachsamer (Folge-SG +1). |
 | *Teilerfolg*| Booster beschädigt / Holz getauscht   | 30 % Chance auf Not-Signal; Timeline instabil (PI +1). |
 | *Misserfolg*| Booster nicht entschärft              | Verstärkung rückt an, Schlacht kippt – Folgeeinsatz nötig. |
+
+#### 5a · Extraction-Evac (optional)
+Wenn Zieleinheit oder Beweismittel gesichert sind **und** Gegenseite alarmiert ist,
+führt Phase 5a die taktische Räumung der Hot-Zone durch.
+
+| Schritt | Beispiel |
+|---------|-----------|
+| 1 · Cut-Through | Schneller Pfad via vorbereiteten Sprengsatz |
+| 2 · Suppress | Deckungs-Feuer oder EMP-Jammer |
+| 3 · Load-Up | Paket/Person in Transportmittel sichern |
+| 4 · Jump | Zeit-Exfil oder konventioneller Abzug |
 
 > **Tischaufbau**: Skizze reicht (10×10 m). Waldkante, Turm (6 m Gerüst, Leiter innen), zwei Fackeln, Holzlager.
 
