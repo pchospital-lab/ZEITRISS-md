@@ -287,6 +287,18 @@ Module zählen nicht._
   Missionsbelohnung.
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
 
+## Legalitäts- & Wartungs-Stufen
+
+| Stufe | Marktzugang | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall |
+|------:|-------------|-------------------|---------------------:|--------------------|
+| 0 | zivil / legal | 12 Monate | 5 % Kaufwert | Funktions­verlust |
+| 1 | kontrolliert  | 6 Monate  | 10 % | -1 auf passende Proben |
+| 2 | grau Markt    | 3 Monate  | 15 % | Systemfehler (SL‑Event) |
+| 3 | militärisch   | 2 Monate  | 20 % | Wunde „Verstümmelt“ möglich |
+| 4 | schwarz Markt | 30 Tage   | 30 % | Sofortiger Ausfall + Trauma |
+
+> **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
+
 
 ### Ressourcen-Boxen für Munition & Gadgets
 

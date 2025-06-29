@@ -8,6 +8,12 @@ tags: [meta]
 
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**,
 ein textbasiertes Zeitreise-Rollenspiel.
+> ### TL;DR – ZEITRISS in 5 Punkten
+> 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
+> 2. **Six-Step Missions.** Briefing -> Arrival -> Intel -> Breach -> Exfil -> Return.
+> 3. **Exploding Dice.** W6, ab Attribut 11 W10 + Heldenwürfel.
+> 4. **Paradox Meter.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
+> 5. **Hard Sci-Fi.** Keine Magie; Tech- oder Psi-Erklärung für alles.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und

@@ -37,6 +37,11 @@ Implantats bedeuten. Auch narrativ kann man spüren, wie der neue _Cyberarm_ zun
 oder das Auge überempfindlich auf Licht reagiert. Mit etwas Rollenspiel wird Cyberware so mehr als
 nur ein Wert auf dem Bogen.
 
+## Legalitäts- & Wartungs-Stufen
+
+Siehe [Ausrüstung & Cyberware](ausruestung-cyberware.md#legalitäts--wartungs-stufen) für die vollständige Tabelle.
+> **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
+
 **Beispiel-Cyberware-Implantate:**
 
 

@@ -571,6 +571,16 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 
 - `/reject <grund>` – aktiviert das Ablehnen-Schema. Erkläre knapp,
   warum ein Wunsch nicht umsetzbar ist und schlage eine Alternative vor.
+
+## Quick-Reference-Macro `/qr`
+
+```
+**/qr**
+**Phase?** `brief|arrive|intel|breach|exfil|return`
+**Ammo?** `stress|paradox|hp`
+**Cheat:** Würfel = `/roll Xd6 explode` (Auto-Explode)
+**Tip:** `modus echo` (Visionen an) / `modus focus` (Visionen aus)
+```
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im
