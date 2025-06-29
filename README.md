@@ -173,13 +173,12 @@ Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
-
-- `ClusterCreate()` – erzeugt automatisch neue Seeds, wenn der Paradoxon-Index 5 erreicht.
-- `ClusterDashboard()` – zeigt im HQ den Status aller offenen Rifts.
-- `launch_rift(id)` – startet aus einem Seed eine eigenständige Mission.
-- `scan_artifact()` – identifiziert Artefakte und erhöht dabei die Paradoxon-Index um 1.
-- `seed_to_hook(id)` – liefert drei kompakte Hooks zu einem Seed.
-
+Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
+- `ClusterCreate()`
+- `ClusterDashboard()`
+- `launch_rift(id)`
+- `scan_artifact()`
+- `seed_to_hook(id)`
 
 ### KPI-Cheat-Sheet pro Phase
 
