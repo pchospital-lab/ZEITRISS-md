@@ -12,8 +12,8 @@ ein textbasiertes Zeitreise-Rollenspiel.
 > 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
 > 2. **Six-Step Missions.** Briefing -> Arrival -> Intel -> Breach -> Exfil -> Return.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10 + Heldenwürfel.
-> 4. **Paradox Meter.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
-> 5. **Hard Sci-Fi.** Keine Magie; Tech- oder Psi-Erklärung für alles.
+> 4. **Paradoxon-Index.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
+> 5. **Hard Sci-Fi.** Keine Magie; Psi nutzt Power-Punkte (PP). Zu viel Druck führt zu Burn & Psi-Heat.
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
@@ -33,6 +33,8 @@ oder ausgeloest werden soll.
 Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik
 sowie Bio- oder Cyberware.
 Auch fokussierte Psi-Techniken können dahinterstecken.
+Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
+und treibt die *Psi-Heat* hoch.
 Paradox-Effekte werden über einen Index von 0–5 verfolgt.
 Solange Chrononauten in einer fremden Epoche aktiv sind, steigt dieser Index
 langsam durch ihre bloße Anwesenheit – umsichtiges Vorgehen bremst den Anstieg,
