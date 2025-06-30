@@ -564,9 +564,14 @@ Verantwortung verbunden.
 
 #### Regeneration
 
-* **Nach jedem Kampf** → **+⌊TA ÷ 3⌋ PP**
+* **Nach jedem Kampf** → **PP voll**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
-  > Beispiel (TA 9): Nach einem Gefecht gibt es **+3 PP**.
+  > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TA.
+
+#### Temporal Anchor
+
+TA 3 schenkt **den ersten pro Szene ausgegebenen PP** von Paradoxon-Nebenwirkungen.
+Bei TA 6 gelten die ersten **zwei**, bei TA 9 die ersten **drei** PP als sicher usw.
 
 #### Überziehen („Burn“)
 
@@ -593,7 +598,7 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 
 * Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
 * Heat > 4 → −1 Initiative.
-* Heat = 5 → −1 Würfel auf alle Psi-Proben.
+* Heat ≥ 5 → **SG +2** auf alle Psi-Proben.
 * Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
 * Heat sinkt nach jeder Runde um 1 (gleichzeitig mit PP-Regeneration) oder sofort
   durch Kühl-Gear. Nach dem Kampf springt Heat automatisch auf 0.

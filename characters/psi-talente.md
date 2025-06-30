@@ -146,6 +146,12 @@ nachrechnen zu müssen.
 
 > *Beispiel:* TA 5 bufft bis zu fünf Teammitglieder.
 
+### Resonanz {#resonanz}
+
+_Resonanz_ beschreibt das feine Gespür eines Psi‑Agents für temporale Echos.
+Hohe Werte in **TA** deuten auf eine starke Resonanz hin und erleichtern das
+Wahrnehmen subtiler Anomalien.
+
 ## Talente & Spezialisierungen
 
 Charaktere in ZEITRISS definieren sich nicht nur durch Attribute und Ausrüstung, sondern vor allem
