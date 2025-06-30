@@ -601,7 +601,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
 Siehe auch [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
 
-**Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (‑1 Würfel), 6 Reboot → Runde aussetzen & Heat 0
+**Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben), 6 Reboot → Runde aussetzen & Heat 0
 
 
 **Psi-Effekte auf einen Blick**
