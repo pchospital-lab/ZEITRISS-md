@@ -330,9 +330,9 @@ einen Toggle `/stress open|hidden`.
   Runden), blendet das HUD automatisch einen Countdown ein. Scheitert eine
   Probe, kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder
   Ressourcen in die Waagschale werfen.
-- **Stress-Regeneration:** Nach jeder Kampfrunde ohne Aktionen sinkt Stress um
-  **1 Punkt**. Eine kurze Meditation über eine Runde reduziert **2 Punkte**.
-  Nach dem Kampf wird Stress auf 0 gesetzt, ideal für Solo-Runs ohne Team-Backup.
+- **Stress-Regeneration:** Eine Kampfrunde ohne Aktionen senkt Stress um **1 Punkt**.
+  Eine kurze Meditation über zwei Runden reduziert **2 Punkte**.
+  Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
   Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradoxon-Index** verwenden,
   um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. _Grundidee:_ **Level 0**
