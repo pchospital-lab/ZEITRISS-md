@@ -564,7 +564,7 @@ Verantwortung verbunden.
 
 #### Regeneration
 
-* **Nach jedem Kampf** → **+⌈TA ÷ 4⌉ PP**
+* **Nach jedem Kampf** → **+⌊TA ÷ 3⌋ PP**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel (TA 9): Nach einem Gefecht gibt es **+3 PP**.
 

@@ -117,9 +117,9 @@ und sorgfältiges SYS-Management.
 - **Effekt:** +1 Würfel auf Klettern & Sprünge; Fallschaden halbiert.
 
 #### Neuromimetic-Coating
-- **Slot-Typ:** Nervenverbund  
-- **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft  
-- **Effekt:** Senkt PSI-Kosten für „Mentale Maskierung“ um 1.
+- **Slot-Typ:** Nervenverbund
+- **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft
+- **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](psi-talente.md) um 1.
 
 #### Metabo-Recycler
 - **Slot-Typ:** Organe  
