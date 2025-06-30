@@ -598,7 +598,7 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 
 * Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
 * Heat > 4 → −1 Initiative.
-* Heat ≥ 5 → **SG +2** auf alle Psi-Proben.
+* Heat ≥ 5 → **SG +2** auf alle Proben.
 * Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
 * Heat sinkt nach jeder Runde um 1 (gleichzeitig mit PP-Regeneration) oder sofort
   durch Kühl-Gear. Nach dem Kampf springt Heat automatisch auf 0.
