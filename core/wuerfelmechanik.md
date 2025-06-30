@@ -597,7 +597,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Würfelpool | 1W6 pro Skill + 1W6 ab Attribut ≥ 6 | 1W10 statt des höchsten W6 + **Heldenwürfel** (1×/Szene) |
 | Exploding | Jede 6 bzw. 10 zählt als 1 Erfolg + Extrawurf | |
 | Erfolgsschwellen | 0 Miss, 1–2 Teilerfolg, 3–4 Vollerfolg, 5+ Triumph | |
-**Paradoxon-Index (PI)** – 0 – 2 = grün ✓, 3 – 4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` + Reset auf 0.  
+**Paradoxon-Index (PI)** – 0 – 2 = grün ✓, 3 – 4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` + Reset auf 0.
 **PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
 Siehe auch [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
 
