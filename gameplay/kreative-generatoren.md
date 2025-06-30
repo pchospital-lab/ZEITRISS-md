@@ -1003,6 +1003,16 @@ _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 m
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
 Zeitperiode stärker zu betonen.
 
+## ClusterCreate-Nebenwirkungen {#clustercreate-nebenwirkungen}
+
+Wenn ein Paradoxon-Index von 5 einen `ClusterCreate()` auslöst, können folgende Nebenwirkungen auftreten:
+
+- Kurzfristige Sensor-Ausfälle oder Rauschen im Funknetz.
+ - Spontane Mini-Rifts flackern kurz auf und erzeugen kleine Effekte wie Funkenflug.
+- Erinnerungs-Lücken bei Anwesenden, die wenige Sekunden betreffen.
+
+Diese Liste dient als Inspiration für die SL und kann beliebig erweitert werden.
+
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
 Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten.
