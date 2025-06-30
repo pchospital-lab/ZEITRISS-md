@@ -564,6 +564,8 @@ Verantwortung verbunden.
 
 #### Regeneration
 
+* **Kampfrunde ohne Aktionen:** Regeneriert **1 PP**, wenn eine Willenskraftprobe
+  gegen den aktuellen Heat-Level gelingt.
 * **Nach jedem Kampf** → **PP voll**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TA.
@@ -600,8 +602,9 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 * Heat > 4 → −1 Initiative.
 * Heat ≥ 5 → **SG +4** auf alle Proben.
 * Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
-* Heat sinkt nach jeder Runde um 1 (gleichzeitig mit PP-Regeneration) oder sofort
-  durch Kühl-Gear. Nach dem Kampf springt Heat automatisch auf 0.
+* Heat sinkt um **1**, wenn eine Kampfrunde ohne Aktionen vergeht und eine
+  Willenskraftprobe gegen den aktuellen Heat-Level gelingt. Kühl-Gear kann Heat
+  sofort senken. Nach dem Kampf springt Heat automatisch auf 0.
 
 ### Echo-Variant (optional) {#echo-variant}
 
