@@ -330,7 +330,9 @@ einen Toggle `/stress open|hidden`.
   Runden), blendet das HUD automatisch einen Countdown ein. Scheitert eine
   Probe, kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder
   Ressourcen in die Waagschale werfen.
-- **Stress-Regeneration:** Eine Kampfrunde ohne Aktionen senkt Stress um **1 Punkt**.
+- **Stress-Regeneration:** Eine Kampfrunde ohne Aktionen senkt Stress um **1 Punkt**,
+  sofern eine Willenskraftprobe gegen einen Mindestwurf in Höhe des aktuellen
+  Stresslevels gelingt.
   Eine kurze Meditation über zwei Runden reduziert **2 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
