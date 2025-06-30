@@ -20,11 +20,11 @@ tags: [systems]
 - Effekt unter 1 Sekunde kostet 0 SYS.
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
-- Power-Punkte: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
+- PP-Pool = Temporale Affinität (TA). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
-In `kampagnenstruktur.md` wird `PP` als Paradox-Punkte verwendet.
+`Px` bezeichnet Paradox-Index-Punkte (siehe core).
 
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
@@ -540,27 +540,53 @@ gibt potentielle Gefahren (Überlastung, Paradoxien). Damit fühlt sich Psi-Eins
 Einsatz eines mächtigen Geräts: mal unglaublich nützlich, mal unberechenbar, immer aber mit
 Verantwortung verbunden.
 
-### Rebalance: Psi-Kosten & Cooldown {#psi-rebalance}
+### Power-Punkte = Temporale Affinität {#power-punkte-ta}
 
-Um spamartige Einsatzfolgen zu vermeiden, wird die Kostenspirale auf **3/2/1 PP**
-angehoben. Stärkere Effekte benötigen somit mehr Ressourcen und eine längere
-Erholungsphase.
+| TA‑Wert | PP‑Pool | Stark (3) | Mittel (2) | Gering (1) |
+|:-------:|:-------:|:---------:|:----------:|:----------:|
+| 6 | 6 | 2 | 3 | 6 |
+| 7 | 7 | 2 | 3 | 7 |
+| 8 | 8 | 2 | 4 | 8 |
+| 9 | 9 | 3 | 4 | 9 |
+| 10 | 10 | 3 | 5 | 10 |
+| 11 | 11 | 3 | 5 | 11 |
+| 12 | 12 | 4 | 6 | 12 |
 
-| Kraftstufe | PP-Kosten | Cooldown (Runden) | Beispiel |
-|-----------|-----------|------------------|----------|
-| Stark     | 3         | 3                | Zeitstopp, fremder Geist wird dominiert |
-| Mittel    | 2         | 2                | Telekinetischer Stoß, Schutzfeld |
-| Gering    | 1         | 1                | Gefühlsimpuls, kurzer Blick in die Zukunft |
+*PP‑Pool = TA* — mehr nicht.
 
-Spielgruppen können A/B-Tests fahren: Variante A nutzt obige Werte, Variante B
-verringert den Cooldown um jeweils eine Runde. Nach einigen Sessions lässt sich
-so ermitteln, welche Variante für die Kampagne besser passt.
+#### Cooldown
 
-Jeder offensive Psi-Angriff löst zudem einen _Energie-Drain_ aus: Nach dem
-Schadenswurf verliert der Anwender 1 weiteren PP. Alternativ kann die Gruppe
-einen SYS-Malus von –1 bis Szenenende ansetzen. Ein telekinetischer Stoß
-(2 PP) verursacht so ähnlich viel Schaden wie ein Scharfschützengewehr,
-erschöpft aber deutlich schneller die verfügbaren Punkte.
+| Kraftstufe | PP‑Kosten | Cooldown (Runden) |
+|------------|----------:|------------------:|
+| Stark | 3 | 3 |
+| Mittel | 2 | 2 |
+| Gering | 1 | 1 |
+
+#### Regeneration
+
+* **Nach jedem Kampf** → **+⌈TA ÷ 4⌉ PP**
+* **Lange Ruhe** (Mission beendet) → **PP voll**
+  > Beispiel (TA 9): Nach einem Gefecht gibt es **+3 PP**.
+
+#### Überziehen („Burn“)
+
+Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
+*Preis:* **+1 Px** pro verbranntem PP.
+> Px = Paradox‑Index‑Punkte (siehe core).
+> **Nie** mehr Burn‑PP als TA – die Zeit reißt sonst sofort (SL‑Ereignis).
+
+### Balance-Kurzübersicht
+
+| Typische Rolle | TA | PP | Starke Kräfte pro Mission* |
+| -------------- | -: | -: | --------------------------: |
+| Rookie‑Psi     |  7 |  7 |             2 (plus 1 Burn) |
+| Veteran‑Psi    |  9 |  9 |                           3 |
+| Elite‑Psi      | 11 | 11 |                         3–4 |
+
+\* Annahme: Schnitt 2‑3 Kurze Pausen / Auftrag.
+
+Ergebnis: **Höhere TA gibt linear mehr Juice**, aber Cooldowns deckeln
+Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 
 ### Psi-Heat-Track
 
