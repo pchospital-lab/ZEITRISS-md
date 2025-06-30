@@ -14,6 +14,7 @@ ein textbasiertes Zeitreise-Rollenspiel.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10 + Heldenwürfel.
 > 4. **Paradoxon-Index.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
 > 5. **Hard Sci-Fi.** Keine Magie; Psi nutzt Power-Punkte (PP). Zu viel Druck führt zu Burn & Psi-Heat.
+
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
@@ -59,7 +60,7 @@ sind der Übersicht halber aufgeführt.
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
-| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht 
+| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
