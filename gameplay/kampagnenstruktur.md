@@ -617,7 +617,7 @@ Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative
 
 | Kategorie | Phase | Typischer Einsatz | Wurf-Empfehlung |
 | --------- | ----- | ----------------- | --------------- |
-| **CORE OPS** | Aufklärung → Zugriff → Exfiltration | Standardmissionen (Sabotage, Sicherstellung, Extraction) | 1W12 |
+| **CORE OPS** | Aufklärung → Zugriff → Exfiltration | Standardmissionen (Sabotage, Sicherung, Extraction) | 1W12 |
 | **RIFT OPS** | Bei Paradoxon ≥ 2 oder Cluster-Events | Umgang mit Zeitrissen & Anomalien | 1W10 |
 | **FIELD DOWNTIME** | Reiseabschnitt, Low-Signal-Momente | Kurze Verschnaufpausen fernab des HQ | 1W8 |
 
@@ -630,12 +630,12 @@ oder logisch ersetzt werden._
 | ---- | -------- | ----------------------- | -------- | -------- | --------- |
 | 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
 | 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
-| 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom an, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
+| 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
 | 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf Artefakt; rivaler Sammler. | Social / Bluff | 8 | 0-1 |
 | 5 | **EC-CORE-005** | *Konvoi-Hinterhalt*: Drohne meldet Routen-Split. | Kampf / Fahrzeug | 12 | 0 |
-| 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin anwesend. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
+| 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin da. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
 | 7 | **EC-CORE-007** | *Flusskanal-Zufahrt 1643*: Tor öffnet nur heute bei Vollmond. | Survival / Timing | 9 | 0 |
-| 8 | **EC-CORE-008** | *Mediensturm*: Presse vor Ort, Kameras an. | Social / Disguise | 10 | +1 falls Zeitfehler live |
+| 8 | **EC-CORE-008** | *Mediensturm*: Presse da, Kameras an. | Social / Disguise | 10 | +1 falls Zeitfehler live |
 | 9 | **EC-CORE-009** | *Cipher-Server NB-II*: Admin anwesend, kennt Logs. | Tech / Social | 11 | 0 |
 | 10 | **EC-CORE-010** | *U-Bahn-Flucht*: Zielperson springt in Zug, Notbremse deaktiviert. | Chase | 10 | 0 |
 | 11 | **EC-CORE-011** | *Magnetbahn-Deraillieren 2334*: Schiene sabotiert, Chaos. | Infiltration / Repair | 12 | +1 |
@@ -648,10 +648,10 @@ oder logisch ersetzt werden._
 | 1 | **EC-RIFT-001** | *Echo-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
 | 2 | **EC-RIFT-002** | *Schwerkraft-Flimmern*: Lokal 0.7 g, Equipment-Checks erschwert. | Survival | 9 | +1 |
 | 3 | **EC-RIFT-003** | *Zeitregen*: Regen prasselt rückwärts, Sichtverhältnisse verzerrt. | Stealth / Psi | 10 | +1 |
-| 4 | **EC-RIFT-004** | *Cluster-Market*: Illegaler Handel mit Out-of-Era-Tech. | Social / Tech | 10 | +1-2 bei Käufen |
+| 4 | **EC-RIFT-004** | *Cluster-Market*: Schwarzhandel mit Out-of-Era-Tech. | Social / Tech | 10 | +1-2 bei Käufen |
 | 5 | **EC-RIFT-005** | *Chrono-Fauna*: Raubtier mit Phasen-Sprung-Muster greift Patrouille an. | Kampf | 12 | 0 |
 | 6 | **EC-RIFT-006** | *Looper-Schall*: Geräuschfetzen aus Zukunft warnen vor Wache. | Infiltration | 9 | 0 |
-| 7 | **EC-RIFT-007** | *Parallax-Treppe*: Flur mit drei Offsets; nur einer korrekt. | Rätsel | 11 | +1 je Fehlversuch |
+| 7 | **EC-RIFT-007** | *Parallax-Treppe*: Flur mit drei Offsets; nur einer passt. | Rätsel | 11 | +1 je Fehlversuch |
 | 8 | **EC-RIFT-008** | *Cluster-Repair-Droid*: Flickt Riss, fordert "Pfand": Ausrüstung. | Verhandeln | 10 | 0 |
 | 9 | **EC-RIFT-009** | *De-Sync Pulse*: Elektronik rebootet zufällig; Psi-Module glitch. | Tech / Psi | 12 | +1 |
 | 10 | **EC-RIFT-010** | *Rift-Seed-Bloom*: 1‑3 Mini-Rifts; Gegner nach Wahl. | Kampf / Containment | 13 | +2 |

@@ -112,8 +112,8 @@ und sorgfältiges SYS-Management.
 ### Bioware-Synergien ab Slot-Stufe 3
 
 #### Adaptive-Ligament (Bioware-Upgrade)
-- **Slot-Typ:** Muskulatur  
-- **Voraussetzung:** Bioware 3+, Attribut Beweglichkeit ≥ 10  
+- **Slot-Typ:** Muskulatur
+- **Voraussetzung:** Bioware 3+, Attribut Beweglichkeit ≥ 10
 - **Effekt:** +1 Würfel auf Klettern & Sprünge; Fallschaden halbiert.
 
 #### Neuromimetic-Coating
@@ -122,11 +122,11 @@ und sorgfältiges SYS-Management.
 - **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](psi-talente.md) um 1.
 
 #### Metabo-Recycler
-- **Slot-Typ:** Organe  
-- **Voraussetzung:** Bioware 3+  
+- **Slot-Typ:** Organe
+- **Voraussetzung:** Bioware 3+
 - **Effekt:** Erlaubt zweite Gratis-Erholung (Short Rest) pro 24 h, aber nach dritter Aktivierung –1 Stress-Slot.
 
 #### Osteo-Capacitor
-- **Slot-Typ:** Skelett  
-- **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv  
+- **Slot-Typ:** Skelett
+- **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv
 - **Effekt:** Beim Blocken wird Exploding-6 zweimal geprüft (stackt nicht).
