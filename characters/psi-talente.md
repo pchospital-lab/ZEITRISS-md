@@ -65,6 +65,7 @@ Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 | Gedankenlesen      | 9  |
 | Zeit verlangsamen  | 13 |
 | Psi-Schild         | 14 |
+| Mentale Maskierung | 11 |
 
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
@@ -96,6 +97,8 @@ sollte an die Kampagne angepasst werden.)_
   _Kosten:_ 1 SYS (ständig reserviert). _Effekt:_ Diese Fähigkeit läuft im Hintergrund; die SL kann
   dem Spieler entsprechend Informationen zuspielen, wenn temporale Phänomene auftreten. Es ist kein
   „Spürsinn für alles“, aber ein nützliches Werkzeug, um Paradoxien aufzudecken.
+- **Mentale Maskierung:** Tarnt die Gedankenpräsenz des Anwenders für eine Szene.
+  _Kosten:_ 2 SYS. _Effekt:_ Fremde Telepathie erhält **+2 SG**, solange die Kraft aktiv ist.
 - **Psychische Schockwelle:** (_Optional, höhere Stufe_) Der Chrononaut entlädt eine Welle mentaler
   Energie, die auf nahe Gegner wirkt. _Kosten:_ 3 SYS. _Effekt:_ Alle Personen in einem Radius von
   ~5 m werden zurückgestoßen und erleiden einen **Betäubungseffekt** (leichter Schaden oder kurz

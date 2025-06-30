@@ -441,13 +441,13 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   Willensduelle zwischen Telepath und Zeitgeist).
 - **PSI-Energie:** Falls eure ZEITRISS-Kampagne **Psi-Fähigkeiten oder Magie-ähnliche Kräfte**
   beinhaltet (vielleicht durch futuristische Implantate oder besondere Begabungen mancher Agenten),
-  könnt ihr spezifisch **PSI-Punkte** einführen. Diese funktionieren analog zum Fokus, sind aber
-  klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 PSI-Punkte ausgeben, um sich
+  könnt ihr spezifisch **Power-Punkte (PP)** einführen. Diese funktionieren analog zum Fokus, sind aber
+  klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 Power-Punkte (PP) ausgeben, um sich
   50 m weit zu teleportieren, oder ein Telepath 1 Punkt, um Gedanken in einem kurzen Satz zu lesen.
-  _Balance:_ Legt die Kosten und Regeneration gemeinsam fest – vielleicht regenerieren 1–2 PSI-
+  _Balance:_ Legt die Kosten und Regeneration gemeinsam fest – vielleicht regenerieren 1–2 Power-
   Punkte pro Stunde, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
   Psi-Energie eng mit dem Zeitstrom verknüpfen. Vielleicht verursacht der Gebrauch starker Psi-
-  Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene PSI-Punkte steigt der
+  Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene Power-Punkte (PP) steigt der
   Paradoxon-Index um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
   eindrucksvoll, aber gefährlich. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
   Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
