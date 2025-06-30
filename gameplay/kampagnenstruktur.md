@@ -476,10 +476,9 @@ Der HQ-Ausbau geht Hand in Hand mit **Ressourcenverwaltung**. In einer Langzeitk
 Spieler verschiedene Ressourcen sammeln, die für Upgrades ausgegeben werden müssen. Beispiele im
 ZEITRISS-Kontext:
 
-- **Zeitenergie & Paradox-Materie:** Exotische Ressourcen, die bei Missionen gewonnen werden, z. B.
-  durch das Schließen von Rissen oder Bergen von Artefakten. Diese seltenen Energien könnten nötig
-  sein, um High-Tech-Upgrades im HQ zu betreiben (etwa die Zeitreaktoren in der Kommandozentrale zu
-  verstärken).
+- **Shards:** Spezielle Splitter aus Riss-Operationen oder geborgenen Artefakten.
+  Sie sind die Hauptressource für High-Tech-Upgrades im HQ.
+  Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
 - **Finanzielle Mittel:** Je nach Epoche und Unterstützung durch Gönner (oder durch Plünderung
   aufgegebener Schätze in der Vergangenheit) kann die Organisation der Agenten auch Geld oder
   Handelssachen ansammeln. Diese dienen zum Ausbau von irdischer Infrastruktur – Personal einstellen,

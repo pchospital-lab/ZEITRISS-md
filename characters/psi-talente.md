@@ -138,11 +138,10 @@ nachrechnen zu müssen.
 
 ### Squad-Scaling-Regel
 
-* **Flächen-Talente** (Aura, Rally, Shield): Kosten × ⌈Squad-Größe / 5⌉  
-  *Aufrunden; Minimalkosten = Basis-Talentkosten*
-* **Reichweiten-Talente**: Reichweite ×2 pro zusätzlich versorgter Truppengröße (max. ×4).
+* Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
+* Keine zusätzlichen Kosten – gleich wie beim Einzelbuff.
 
-> *Beispiel:* Psi „Konzertiertes Feuer“ (Basis 4 PP) bufft ein 9-köpfiges Team → 4 PP × ⌈9/5⌉ = 8 PP.
+> *Beispiel:* TA 5 bufft bis zu fünf Teammitglieder.
 
 ## Talente & Spezialisierungen
 

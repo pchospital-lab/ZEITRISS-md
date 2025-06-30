@@ -583,7 +583,7 @@ Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 | Veteran‑Psi    |  9 |  9 |                           3 |
 | Elite‑Psi      | 11 | 11 |                         3–4 |
 
-\* Annahme: Schnitt 2‑3 Kurze Pausen / Auftrag.
+\* Annahme: Kurze Erholung nach jedem Kampf.
 
 Ergebnis: **Höhere TA gibt linear mehr Juice**, aber Cooldowns deckeln
 Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
