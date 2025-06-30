@@ -574,6 +574,7 @@ Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 *Preis:* **+1 Px** pro verbranntem PP.
 > Px = Paradox‑Index‑Punkte (siehe core).
 > **Nie** mehr Burn‑PP als TA – die Zeit reißt sonst sofort (SL‑Ereignis).
+> **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
 
 ### Balance-Kurzübersicht
 
@@ -591,9 +592,11 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 ### Psi-Heat-Track
 
 * Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
-* Heat > 4 → −1 Initiative; Heat = 5 → −1 Würfel auf alle Psi-Proben.
+* Heat > 4 → −1 Initiative.
+* Heat = 5 → −1 Würfel auf alle Psi-Proben.
 * Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
-* Heat sinkt um 1 nach 2 Minuten In-Game-Ruhe oder sofort durch Kühl-Gear.
+* Heat sinkt nach jeder Runde um 1 (gleichzeitig mit PP-Regeneration) oder sofort
+  durch Kühl-Gear. Nach dem Kampf springt Heat automatisch auf 0.
 
 ### Echo-Variant (optional) {#echo-variant}
 

@@ -111,7 +111,7 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
   vergleichbar einer leichten Verletzung. Mehrfache Erschöpfung stapelt sich bis zur völligen
   **Erschöpfung/Ausgebrannt**-Stufe, wo der Charakter eventuell handlungsunfähig wird. _Erholung:_
   Erschöpfung kann durch **Ruhe, Schlaf oder Erholungsphasen** im HQ abgebaut werden. Eine kurze
-  Verschnaufpause im Einsatz (einige Minuten Ruhe, etwas Wasser, ggf. ein Aufputschmittel) kann 1
+  Verschnaufpause im Einsatz (eine Runde ohne Aktionen, etwas Wasser, ggf. ein Aufputschmittel) kann 1
   Stufe mildern. Vollständige Erholung erfolgt in der Regel nach einer **ausgeschlafenen Nacht**
   oder durch medizinische Stimulanzien. Stimulanzien (z.B. Koffein-Injektionen oder futuristische
   Energie-Booster) können kurzfristig Erschöpfung negieren – oft um den Preis eines späteren
@@ -233,7 +233,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
     Schmerzmittel).
   - **Biotech & Nanotechnologie:** **Heil-Naniten** sind winzige Maschinen oder genmodifizierte
     Zellen, die Verletzungen ausbessern. Im Feld könnten spezielle **Nano-Injektoren** gegeben
-    werden, die eine mittelschwere Wunde in Minuten schließen. **Regenerationstanks** im HQ nutzen
+    werden, die eine mittelschwere Wunde in wenigen Runden schließen. **Regenerationstanks** im HQ nutzen
     Biotech, um Gewebe nachwachsen zu lassen – ein Agent könnte z.B. innerhalb eines
     Missionsintervalls einen verlorenen Finger regenerieren. All dies unterliegt der SL-Entscheidung
     und sollte **sparsam** eingesetzt werden (die Zukunftstechnologie ist zwar weit, aber
@@ -326,14 +326,13 @@ dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die A
 beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
 („Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil. Das HUD besitzt
 einen Toggle `/stress open|hidden`.
-- **Stress-Momente:** Steht das Team unter akutem Zeitdruck (unter 90 Sekunden),
-  blendet das HUD automatisch einen Countdown ein. Scheitert eine Probe,
-  kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder Ressourcen
-  in die Waagschale werfen.
-- **Stress-Regeneration:** Zwischen zwei Szenen hilft ein kurzer Atemzug, um
-  **1 Stresspunkt** abzubauen. Eine fünfminütige Meditation oder vergleichbare
-  Entspannung reduziert **2 Punkte**, eignet sich also besonders für Solo-Runs
-  ohne Team-Backup.
+- **Stress-Momente:** Steht das Team unter akutem Zeitdruck (nur noch wenige
+  Runden), blendet das HUD automatisch einen Countdown ein. Scheitert eine
+  Probe, kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder
+  Ressourcen in die Waagschale werfen.
+- **Stress-Regeneration:** Nach jeder Kampfrunde ohne Aktionen sinkt Stress um
+  **1 Punkt**. Eine kurze Meditation über eine Runde reduziert **2 Punkte**.
+  Nach dem Kampf wird Stress auf 0 gesetzt, ideal für Solo-Runs ohne Team-Backup.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
   Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradoxon-Index** verwenden,
   um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. _Grundidee:_ **Level 0**
@@ -690,8 +689,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   dramatisch bleiben. Richtig genutzt, fühlt sich das Interface **lebendig** an, fast so als würde
   man einen Sci-Fi-Film schauen, in dem die Heldensicht mit UI-Elementen dargestellt wird (man denke
   an Tony Starks Iron-Man-Helmdisplay, durch das der Zuschauer Infos bekommt).
-- **Codex-Abfrage-Limit:** Eine kostenlose Antwort gibt es nur einmal je **15 Minuten Ingame-Zeit**.
-  Weitere Fragen im selben Zeitraum erhöhen den Stress des Teams um **+1**.
+- **Codex-Abfrage-Limit:** Eine kostenlose Antwort gibt es nur einmal je Kampfszene.
+  Weitere Fragen in derselben Szene erhöhen den Stress des Teams um **+1**.
 - **Immersion bewahren:** Das HUD ist ein Werkzeug, kein Selbstzweck. Die KI-Spielleitung sollte
   darauf achten, **Metagame-Informationen ins HUD zu verlegen**, um die Immersion zu stärken. Fragt
   ein Spieler z.B. außerhab der Spielwelt „Wie viele HP hab ich noch?“, kann GPT antworten: _„Du
