@@ -451,6 +451,14 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   Paradoxon-Index um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
   eindrucksvoll, aber gefährlich. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
   Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
+
+### [HUD-Meldungen] – Psi
+
+| Trigger | Anzeige |
+|---------|---------|
+| PP ≤ TA ÷ 4 | `[PP LOW]` |
+| PP 0 | `[PP EMPTY]` |
+| Burn aktiv | `[BURN][Px +X]` |
 - **Modulare Ressourcen allgemein:** Natürlich könnt ihr auch andere Ressourcen tracken, z.B.
   **Munition**, **Batterieladung von Geräten**, **Sauerstoffvorrat** in bestimmten Szenarien etc.
   Das HUD prädestiniert sich dafür, solche Infos übersichtlich anzuzeigen (etwa „Munition: 12/30“

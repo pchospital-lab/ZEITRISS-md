@@ -132,17 +132,17 @@ nachrechnen zu müssen.
 | Patzerwert | Effekt |
 |-----------:|--------|
 | 1–3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
-| 4–6 | Disruption: Verlust von KP = doppelte Talentkosten. |
+| 4–6 | Disruption: Verlust von PP = doppelte Talentkosten. |
 | 7–9 | Feedback-Schock: 1 Stufe „Verwundet“ (siehe Zustände). |
 | 10 | Rift-Echo: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
 
 ### Squad-Scaling-Regel
 
-* **Flächen-Talente** (Aura, Rally, Shield): Kosten × Squad-Größe / 3  
+* **Flächen-Talente** (Aura, Rally, Shield): Kosten × ⌈Squad-Größe / 5⌉  
   *Aufrunden; Minimalkosten = Basis-Talentkosten*
 * **Reichweiten-Talente**: Reichweite ×2 pro zusätzlich versorgter Truppengröße (max. ×4).
 
-> *Beispiel:* Psi „Konzertiertes Feuer“ (Basis 4 KP) bufft ein 9-köpfiges Team → 4 KP × 9/3 = 12 KP.
+> *Beispiel:* Psi „Konzertiertes Feuer“ (Basis 4 PP) bufft ein 9-köpfiges Team → 4 PP × ⌈9/5⌉ = 8 PP.
 
 ## Talente & Spezialisierungen
 

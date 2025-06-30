@@ -53,7 +53,8 @@
       "path": "systems/kp-kraefte-psi.md",
       "title": "Kräfte-Psi",
       "category": "Psi",
-      "variantType": "full"
+      "variantType": "full",
+      "href": "#power-punkte-ta"
     },
     {
       "slug": "hud",
