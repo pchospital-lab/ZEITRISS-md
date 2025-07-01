@@ -500,7 +500,7 @@ das Abenteuer mit einer **Vorblende (Flashforward)** – einer Szene, die eigent
 allererste Szene zeigt einen dramatischen Moment _nach_ der ersten Mission – vielleicht hängen die
 Charaktere verzweifelt an einer Klippe, während unter ihnen ein Zeitportal ins Bodenlose reißt, oder
 der Antagonist hält in der Zukunft die letzte Zeitsprung-Energiezelle in Händen und lacht
-diabolisch. _Cut!_ Danach blendet ein Titel ein: „24 Stunden zuvor…“ und wir finden uns bei der
+diabolisch. _Cut!_ Danach blendet ein Titel ein: „ein Tag zuvor…“ und wir finden uns bei der
 Missionsbesprechung im HQ wieder, bevor alles begann. Diese Technik erzeugt sofort eine **drückende
 Spannung**, weil alle wissen, worauf es hinauslaufen _könnte_, und wollen verhindern, dass es so
 schlimm kommt – oder zumindest erfahren, wie es dazu kam. Alternativ kann man statt der Vorblende

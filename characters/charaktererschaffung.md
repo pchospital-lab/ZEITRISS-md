@@ -678,7 +678,7 @@ Zahlen jederzeit an ihre Kampagne anpassen.
 |       +4 | 200                          |
 |       +5 | 400                          |
 
-Rufgewinn dauert also Monate oder gar Jahre ingame. Rufverlust tritt nur bei gravierenden
+Rufgewinn dauert also viele Missionen bzw. mehrere HQ-Phasen ingame. Rufverlust tritt nur bei gravierenden
 Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. _„Paris 1880: Ruf +2
 (wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“_). Dieses System macht die
 **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und

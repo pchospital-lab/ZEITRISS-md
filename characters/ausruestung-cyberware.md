@@ -291,11 +291,11 @@ Module zählen nicht._
 
 | Stufe | Marktzugang | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall |
 |------:|-------------|-------------------|---------------------:|--------------------|
-| 0 | zivil / legal | 12 Monate | 5 % Kaufwert | Funktions­verlust |
-| 1 | kontrolliert  | 6 Monate  | 10 % | -1 auf passende Proben |
-| 2 | grau Markt    | 3 Monate  | 15 % | Systemfehler (SL‑Event) |
-| 3 | militärisch   | 2 Monate  | 20 % | Wunde „Verstümmelt“ möglich |
-| 4 | schwarz Markt | 30 Tage   | 30 % | Sofortiger Ausfall + Trauma |
+| 0 | zivil / legal | alle 10 Missionen | 5 % Kaufwert | Funktions­verlust |
+| 1 | kontrolliert  | alle 5 Missionen  | 10 % | -1 auf passende Proben |
+| 2 | grau Markt    | alle 3 Missionen  | 15 % | Systemfehler (SL‑Event) |
+| 3 | militärisch   | alle 2 Missionen  | 20 % | Wunde „Verstümmelt“ möglich |
+| 4 | schwarz Markt | jede Mission   | 30 % | Sofortiger Ausfall + Trauma |
 
 > **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
 

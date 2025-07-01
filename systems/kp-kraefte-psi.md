@@ -272,7 +272,7 @@ Diese Fähigkeit baut sich stufenweise auf.
    um das Ziel zu lenken.
 2. **Erinnerungen formen:** Mit Übung lassen sich Erinnerungen verwischen
    oder durch kurze Suggestionen überlagern.
-3. **Fremdlenkung:** Für wenige Minuten kann der Geist eines anderen direkt gesteuert werden.
+3. **Fremdlenkung:** Für eine kurze Szene kann der Geist eines anderen direkt gesteuert werden.
    Der eigene Körper fällt in Schlaf und ist wehrlos.
 4. **Prestige:** Auf höchster Stufe ist eine vollständige Übernahme möglich,
    bei der der Psioniker Seite an Seite mit dem übernommenen Körper agiert.
@@ -433,7 +433,7 @@ zu einem Glücksspiel wird.
 Belastung von Chrononauten durch Modifikationen abzubilden. Psi-Fähigkeiten sind hier eingebunden:
 Jede aktiv aufrechterhaltene psionische Kraft „blockiert“ einen Teil der Systemlast-Kapazität des
 Charakters. Das heißt, ähnlich wie ein Cyberimplantat oder ein Exoskelett-Suit, kostet auch z.B. die
-Aufrechterhaltung einer Telepathie-Verbindung für mehrere Minuten einen bestimmten SYS-Wert. Ist die
+Aufrechterhaltung einer Telepathie-Verbindung für eine kurze Szene einen bestimmten SYS-Wert. Ist die
 Summe aller aktiven Mods und Psi-Kräfte größer als der persönliche Systemlast-Wert, gerät der
 Charakter in **Überlastung**. Die Folgen davon sind drastisch: Der Körper und Geist werden
 überbeansprucht, was zu Symptomen wie Schwindel, Migräne, motorischen Aussetzern oder Blackouts
@@ -689,8 +689,7 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
     und bei Missbrauch könnte es zu Bewusstseinsverwirrungen kommen (die SL könnte beschreiben, wie zwei
     Charaktere verwirrt die Gedanken tauschen, wer bin ich?).
   - _Neuro-Drugs:_ Spezielle **Medikamente oder Drogen**, die kurzzeitig Psi-Kräfte pushen.
-    Beispielsweise eine Injektion _“MN-Delta”_, die die Wahrnehmung so steigert, dass in den nächsten 10
-    Minuten jede Intuitionsprobe kritisch erleichtert ist und sogar ein normaler Mensch leichte
+    Beispielsweise eine Injektion _“MN-Delta”_, die die Wahrnehmung so steigert, dass in der nächsten Szene jede Intuitionsprobe kritisch erleichtert ist und sogar ein normaler Mensch leichte
     außersinnliche Wahrnehmung erfährt. Allerdings drohen Nebenwirkungen: Nachwirkung als Erschöpfung,
     Suchtgefahr oder Halluzinationen. Diese Mittel sollten rar und teuer sein (vielleicht als Belohnung
     nach einer Mission erhältlich oder auf dem Schwarzmarkt der Zukunft zu beschaffen). Die Spieler
