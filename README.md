@@ -20,6 +20,8 @@ Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematisc
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
 `speicher-fortsetzung.md` integriert. Dort findet sich auch der neue
 **Epoch-Lock & Rift-Loop**, inklusive Makros und Missionstabellen.
+Ein kompaktes Flow-Chart der sechs Phasen steht in [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mission-chart).
+
 
 ## Grundidee
 

@@ -33,3 +33,10 @@ Vielen Dank für deine Mithilfe!
 - Ein Punkt
 _kursiv_ und **fett**
 ```
+
+
+## HUD- und Regeltext-Stil
+
+- HUD-Informationen (in-world) werden blau markiert: `<span style="color:#6cf">HUD</span>`
+- Regelhinweise (OOC) erscheinen in Orange: `<span style="color:#f93">Regel</span>`
+- Nutze diese Kennzeichnung sparsam, um schnelle Orientierung zu bieten.
