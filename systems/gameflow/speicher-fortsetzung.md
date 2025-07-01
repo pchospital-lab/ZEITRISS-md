@@ -13,12 +13,13 @@ tags: [systems]
 | Name          | Charakter- oder Teamname                       |
 | Epoche        | Ursprung oder aktueller Einsatzzeitraum        |
 | Level         | Erfahrungsstufe                                |
+| zr_version  | Spielsystem-Version                       |
 | version_hash  | Regelversion des Spielstands                   |
 | arc_dashboard | Offene Seeds und Missionsfortschritte          |
 | field_notes   | Persönliche Memos der Agenten (optional)       |
 
 ```json
-{"Name":"Alex","Epoche":"2025","Level":2,"version_hash":"4.0","arc_dashboard":{}}
+{"Name":"Alex","Epoche":"2025","Level":2,"zr_version":"4.0.2","version_hash":"4.0","arc_dashboard":{}}
 ```
 
 - Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
@@ -131,7 +132,8 @@ _"Epoche": "Gegenwart (2025)",_
 
 _"Level": 2,_
 
-_"version_hash": "4.0",_
+_"zr_version": "4.0.2",
+"version_hash": "4.0",_
 _"arc_dashboard": {_
 _"offene_seeds": [],_
 _"fraktionen": {},_
@@ -261,7 +263,8 @@ _{_
 
 _"Gruppe": "Team Chronos",_
 
-_"version_hash": "4.0",_
+_"zr_version": "4.0.2",
+"version_hash": "4.0",_
 _"arc_dashboard": {_
 _"offene_seeds": [],_
 _"fraktionen": {},_
@@ -565,6 +568,7 @@ füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 **ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
 
 ```json
+"zr_version": "4.0.2",
 "version_hash": "4.0",
 "OpenRifts": [
   {"ID":"R-71","Seed":"Emerald Kraken","Severity":1,"Deadline":-10}
