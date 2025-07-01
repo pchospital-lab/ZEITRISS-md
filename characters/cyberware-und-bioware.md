@@ -111,7 +111,8 @@ und sorgfältiges SYS-Management.
 
 ### Bioware-Synergien (ab Bioware 3+)
 
-_Hinweis:_ „Bioware 3+“ bedeutet, dass der Charakter Bioware im Wert von mindestens **3 SYS** installiert hat – also drei belegte Slots.
+_Hinweis:_ „Bioware 3+“ bedeutet, dass der Charakter Bioware im Wert von mindestens **3 SYS** installiert hat –
+also drei belegte Slots.
 
 #### Adaptive-Ligament (Bioware-Upgrade)
 - **Slot-Typ:** Muskulatur

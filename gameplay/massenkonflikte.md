@@ -541,7 +541,8 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 | **Chrono-Hound** (mittel) | 5 | +2 | W8 | 8 | Time-Scent (spürt Agenten 30 m) |
 | **Paradox Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Paradoxon +1 pro Treffer) |
 
-> **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation (kein Spawn während der aktuellen Mission).
+> **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation.
+> Kein Spawn während der aktuellen Mission.
 
 **Fazit:** Mit diesen Regeln und Ideen wird euer ZEITRISS-Spiel um eine aufregende Dimension
 reicher. Fahrzeuge jeder Art – ob reitend, rollend oder fliegend – ermöglichen filmreife
