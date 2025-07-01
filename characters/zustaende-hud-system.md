@@ -12,7 +12,7 @@ tags: [characters]
 - Heilung & Erholung – klassisch, filmisch, high-tech
 - Initiative-Systeme: klassisch, cineastisch oder szenisch
 - Stress, Paradox und mentale Belastungen
-- Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
+- Ressourcenmodelle: Ausdauer & PP-Pool (optional)
 - Besonderheiten im Zeitstrom: Unterbrechungen, Reaktionen & freie Aktionen
 - Cinematisches HUD-Overlay: Immersives Interface im Spiel
 
@@ -22,7 +22,7 @@ Erschöpfung über **Heilung & Erholung** in verschiedenen Stilen bis hin zu alt
 **Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradox-Belastung** und **mentale
 Auswirkungen** – all diese Elemente könnt Ihr modular einsetzen. Abschließend integrieren wir ein
 vollständig spielbares, filmisch-immersives **HUD-Interface**, das der KI-Spielleitung (GPT)
-erlaubt, Informationen wie Lebenspunkte, Fokus/Energie oder Initiative in-world anzuzeigen. Alle
+erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuzeigen. Alle
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
 
@@ -405,7 +405,7 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 
 > **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
 
-## Ressourcenmodelle: Ausdauer, Fokus, PSI-Energie (optional)
+## Ressourcenmodelle: Ausdauer & PP-Pool (optional)
 
 Standardmäßig verwaltet ZEITRISS keine kleinteiligen Ressourcen wie Mana oder Ausdauer – der Fokus
 liegt auf Handlung. Wer aber gern **Ressourcenmanagement** betreibt oder spezielle Kräfte einführen
@@ -423,31 +423,16 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   ließe sich das als **Ausdauerbalken** darstellen. Dieses Modul passt, wenn eure Gruppe etwas
   **Survival-Feeling oder taktische Tiefe** möchte. In einem filmischeren Spiel hingegen ignoriert
   man Ausdauer bewusst, um Helden nicht künstlich zu bremsen.
-- **Fokus/Energie:** Ähnlich der Ausdauer kann man eine **mentale Ressource** einführen, nennen wir
-  sie Fokus, Willenskraft oder Energie. Sie repräsentiert die **geistige Ausdauer und
-  Konzentration** eines Agenten. Speziell wenn **übernatürliche Fähigkeiten** (Psi-Kräfte, besondere
-  Kampftechniken, technomantische Hacks) ins Spiel kommen, könnte Fokus als eine Art **„Mana“**
-  fungieren. Jeder Einsatz so einer Fähigkeit kostet Fokus-Punkte. Auch intensive Denkarbeit – z.B.
-  das Lösen eines komplexen Zeiträtsels oder das Koordinieren einer großen Schlacht – könnte an
-  diesem Vorrat zehren. _Regeneration:_ Fokus regeneriert sich durch **Ruhe, Meditation oder
-  Drogen**. Ein Agent könnte z.B. pro Ruhe-Szene 10 Punkte zurückgewinnen, oder durch eine
-  Meditationstechnik auf Knopfdruck einen Schub erhalten. _Im Spiel:_ Achtet darauf, dass ein Fokus-
-  System nicht die erzählerische Freiheit einschränkt. Es soll besondere **Momente** begrenzen
-  (damit z.B. ein Psi-Agent nicht endlos Gedankenkontrolle wirken kann), aber nicht dazu führen,
-  dass jemand keinen Spaß mehr hat, weil „sein Punktevorrat leer ist“. Im HUD könnte der Fokus als
-  **kleiner blauer Balken** neben der Vitalanzeige erscheinen. Dieses Modul eignet sich für Gruppen
-  mit **Mystik oder Psionik** im Spiel, oder einfach um _Willenskraft_ messbar zu machen (z.B. für
-  Willensduelle zwischen Telepath und Zeitgeist).
-- **PSI-Energie:** Falls eure ZEITRISS-Kampagne **Psi-Fähigkeiten oder Magie-ähnliche Kräfte**
-  beinhaltet (vielleicht durch futuristische Implantate oder besondere Begabungen mancher Agenten),
-  könnt ihr spezifisch **Power-Punkte (PP)** einführen. Diese funktionieren analog zum Fokus, sind aber
-  klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 Power-Punkte (PP) ausgeben, um sich
-  50 m weit zu teleportieren, oder ein Telepath 1 Punkt, um Gedanken in einem kurzen Satz zu lesen.
-  _Balance:_ Legt die Kosten und Regeneration gemeinsam fest – vielleicht regenerieren 1–2 Power-
-  Punkte pro Ruhe-Szene, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
-  Psi-Energie eng mit dem Zeitstrom verknüpfen. Vielleicht verursacht der Gebrauch starker Psi-
-  Kräfte **Paradox-Stress**. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
-  Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
+- **Fokus/Energie (alt):** In früheren Versionen verwaltete man für mentale Kräfte
+  einen separaten Fokusvorrat. Dieses System entfällt. Seine Funktion übernimmt
+  nun der PP-Pool der Psi-Regeln.
+- **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität_
+  gebunden; dein Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
+  Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
+  Kampfrunde kannst du pro **3 TEMP** 1 PP regenerieren, falls eine
+  Willenskraftprobe gegen doppelten Heat gelingt; nach jedem Kampf wird
+  der Pool voll aufgefüllt. Große
+  Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
 
 ### [HUD-Meldungen] – Psi
 
@@ -480,7 +465,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
   Unterbrechungen sind als **dramatisches Mittel** zu verstehen: In Filmen sieht man oft, wie jemand
   im _letzten Augenblick_ noch etwas tut. Im Spiel sollten sie **restriktiv** gehandhabt werden –
   etwa **maximal eine Unterbrechung pro Runde pro Charakter**, nur wenn es **dramatisch passt**.
-  Möglich ist auch, Unterbrechungen an **Ressourcen** zu knüpfen (z.B. verbraucht 1 Fokuspunkt oder
+  Möglich ist auch, Unterbrechungen an **Ressourcen** zu knüpfen (z.B. verbraucht 1 PP oder
   einen besonderen „Reflexmarker“). Das ZEITRISS-Setting bietet sogar techische Rechtfertigungen:
   Vielleicht nutzen einige Agenten **Temporalsinn-Implantate**, die für Sekundenbruchteile in die
   Zukunft spüren lassen, um solche Unterbrechungen durchführen zu können. Wichtig ist, dass
@@ -576,10 +561,10 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | `[Vitalstatus kritisch]` | Lebenspunkte unter 25 % |
 | `[Paradox-Alarm Stufe 3]` | Paradoxon-Index 3, Warnung aktiv |
 | `[Filter ausgefallen]` | Sichtmodifikator oder Tarnmodul defekt |
-- **Ausdauer, Fokus & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
-  **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer- oder Fokus-System
-  nutzt, könnte das HUD einen **Ausdauerbalken** (für Stamina) unter der HP-Leiste einblenden oder
-  eine **Fokus-Anzeige** in Prozent. Temporäre **Status-Effekte** – sei es durch Ausrüstung, Drogen
+- **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
+  **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer-System nutzt oder
+  den PP-Pool sichtbar machen wollt, könnte das HUD einen **Ausdauerbalken** unter der HP-Leiste
+  einblenden oder eine **PP-Anzeige** in Prozent. Temporäre **Status-Effekte** – sei es durch Ausrüstung, Drogen
   oder Zustände – werden ebenfalls visualisiert. Beispiel: Ein Agent injiziert sich einen
   **Adrenalin-Stim**, der 60 Sekunden wirkt – im HUD startet ein **Countdown-Timer** („Stim aktiv –
   00:59“), der runtertickt. Oder der Charakter hat einen Malus „Bewegung verlangsamt“ (etwa bei
