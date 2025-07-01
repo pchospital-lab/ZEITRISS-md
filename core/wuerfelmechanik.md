@@ -223,7 +223,8 @@ Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wu
 * Würfle **1×W10** für das Attribut **plus** **1 Heldenwürfel** (ebenfalls W10).
 * **Exploding 10er-Regel:** Jeder „10“ wird sofort erneut geworfen und addiert.
 * **Ergebniswertung:** Nimm das **beste einzelne** Resultat der beiden Würfel (keep-highest).
-* **Beispiel:** Agent Nyx hat SCHLEICHEN 11. Wurf: 7 (Attribut-W10) & 10 + 6 = 16 (Heldenwürfel). → Endwert 16 (kritischer Erfolg).
+* **Beispiel:** Agent Nyx hat SCHLEICHEN 11.
+  Wurf: 7 (Attribut-W10) & 10 + 6 = 16 (Heldenwürfel) → Endwert 16 (kritischer Erfolg).
 
 > **Warum keep-highest?**
 > *Additiv* machte den Sprung zu mächtig (Ø +4,5), **keep-highest** hält das Power-Gap bei Ø +2,3.
@@ -599,9 +600,12 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Erfolgsschwellen | 0 Miss, 1–2 Teilerfolg, 3–4 Vollerfolg, 5+ Triumph | |
 **Paradoxon-Index (PI)** – 0 – 2 = grün ✓, 3 – 4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` + Reset auf 0.
 **PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
-Siehe auch [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
+Siehe auch
+[ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen)
+für mögliche Folgeszenarien.
 
-**Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben), 6 Reboot → Runde aussetzen & Heat 0
+**Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
+6 Reboot → Runde aussetzen & Heat 0
 
 
 **Psi-Effekte auf einen Blick**

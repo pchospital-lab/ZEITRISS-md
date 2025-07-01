@@ -73,7 +73,9 @@ im Überblick:
     Notfallprotokoll: **Sinkt ein Chrononaut im Einsatz auf 0 Lebenspunkte**, initiiert das System
     **automatisch einen Zeitriss zur Not-Rückholung**. Der Verwundete wird in Sekundenbruchteilen
     ins HQ gezogen, wo ein Ärzteteam bereitsteht, um sein Leben zu retten. Die Mission ist für
-    diesen Agenten damit **beendet**, aber er überlebt stabilisiert. Im HQ folgen dennoch **mehrere HQ-Phasen Genesung** (ggf. im Medi-Tank oder künstlichen Koma). Selbst mit Zukunftsmedizin und
+    diesen Agenten damit **beendet**, aber er überlebt stabilisiert.
+    Im HQ folgen dennoch **mehrere HQ-Phasen Genesung** (ggf. im Medi-Tank oder künstlichen Koma).
+    Selbst mit Zukunftsmedizin und
     Biotech bleibt es eine bedeutende Ausfallzeit – unter Umständen muss der Charakter eine kommende
     Mission aussetzen (in einer langen Kampagne könnte der Spieler in der Zwischenzeit einen
     Ersatzcharakter steuern). **Narben** bleiben fast immer zurück, ob physisch oder psychisch.
@@ -204,8 +206,10 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
     für die Rückholung zu bringen.
   - Im **HQ** steht eine komplette **Klinik** zur Verfügung: Operationssäle, Autodoc-Roboter,
     Genesungs-Scanner und sogar **Regenerationstanks**. Hier können selbst kritisch verletzte
-    Agenten mit modernster Medizin behandelt werden. Das HQ-Personal kann Mali deutlich schneller
-    abbauen als reine Ruhe es erlauben würde. (Für genaue Werte kann die SL entscheiden, z.B.: pro HQ-Phase Behandlung im HQ eine Verletzungsstufe verbessern.) Klinik-Szenen eignen sich auch
+    Agenten mit modernster Medizin behandelt werden.
+    Das HQ-Personal kann Mali deutlich schneller abbauen, als reine Ruhe es erlauben würde.
+    (Für genaue Werte kann die SL entscheiden, z.B.: pro HQ-Phase Behandlung im HQ eine Verletzungsstufe verbessern.)
+    Klinik-Szenen eignen sich auch
     erzählerisch: Man kann das Team zeigen, wie es am Krankenbett plant, oder den Verwundeten im
     Fiebertraum Visionen haben lassen – **dramatische Erholungsszenen** verstärken das filmische
     Flair.

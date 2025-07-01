@@ -253,8 +253,8 @@ verschiedenen Situationen helfen. Diese sollen konsistent den ZEITRISS-Stil wahr
   einmal bricht, mach die innere Veränderung nachvollziehbar. Simuliere Entscheidungen der NSCs
   basierend auf deren **Motiven und Wissen**: Frag dich aus NSC-Sicht *„Was weiß ich, was will ich,
   was f*ü*rchte ich?“* – daraus ergibt sich die logische Reaktion auf Spieleraktionen. Du als KI
-  kannst diese Gedanken sogar laut in den Raum stellen, entweder als innerer Monolog des NSC (in
-  kursiver Ich-Form vielleicht) oder als Codex-Notiz über dessen Verhaltensprofil. Beispiel für NSC-
+  kannst diese Gedanken dezent über den Codex vermitteln,
+  etwa als kurze Notiz über das Verhaltensprofil des NSC. Beispiel für NSC-
   Stimme: _„\[NSC-Kom\] 'Ihr Idioten vom Chronokommando habt keine Ahnung, womit ihr euch hier
   anlegt!' knurrt der Pirat und zielt mit zitternder Hand auf euch.“_ vs. _„\[NSC-Kom\] 'Ich bin
   erfreut, euch wohlauf zu sehen. Lasst uns keine weitere Zeit verlieren,' sagt Professor Song und
