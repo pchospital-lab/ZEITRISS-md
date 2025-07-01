@@ -109,23 +109,27 @@ Dauerhaft aktive Psi-Kräfte belegen hingegen SYS-Punkte wie andere Implantate.
 Grundfähigkeiten sind leicht zu erlernen, doch hohe Meisterstufen verlangen intensives Training
 und sorgfältiges SYS-Management.
 
-### Bioware-Synergien
+### Bioware-Synergien (ab Bioware 3+)
+
+_Hinweis:_ „Bioware 3+“ bedeutet, dass der Charakter Bioware im Wert von mindestens **3 SYS** installiert hat – also drei belegte Slots.
 
 #### Adaptive-Ligament (Bioware-Upgrade)
 - **Slot-Typ:** Muskulatur
-- **Voraussetzung:** Attribut Beweglichkeit ≥ 10
+- **Voraussetzung:** Bioware 3+, Attribut Beweglichkeit ≥ 10
 - **Effekt:** +1 Würfel auf Klettern & Sprünge; Fallschaden halbiert.
 
 #### Neuromimetic-Coating
 - **Slot-Typ:** Nervenverbund
-- **Voraussetzung:** PSI-Fähigkeit verknüpft
+- **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft
 - **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](psi-talente.md) um 1.
 
 #### Metabo-Recycler
 - **Slot-Typ:** Organe
-- **Effekt:** Erlaubt zweite Gratis-Erholung (Short Rest) pro 24 h, aber nach dritter Aktivierung –1 Stress-Slot.
+- **Voraussetzung:** Bioware 3+
+- **Effekt:** Erlaubt eine zweite Gratis-Erholung (Short Rest) pro Mission.
+  Bei Übernutzung schläft der Charakter sofort ein oder kämpft mit extremer Müdigkeit.
 
 #### Osteo-Capacitor
 - **Slot-Typ:** Skelett
-- **Voraussetzung:** Panzerungs-Mod aktiv
+- **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv
 - **Effekt:** Beim Blocken wird Exploding-6 zweimal geprüft (stackt nicht).
