@@ -111,12 +111,14 @@ Streiche doppelte Seeds oder variiere sie.
     {
       "id": "T28",
       "label": "Uhrwerk-Diplomatie",
-      "effect": "Eine schwelende Waffenruhe zwischen zwei Zeitaltern gerät ins Wanken – das Einsatzteam muss unbeabsichtigte Provokationen verhindern."
+      "effect": "Eine schwelende Waffenruhe zwischen zwei Zeitaltern gerät ins Wanken –"
+      "Das Einsatzteam muss unbeabsichtigte Provokationen verhindern."
     },
     {
       "id": "T29",
       "label": "Echo-Konklave",
-      "effect": "Ein Parallel-Team aus einer nur minimal abweichenden Zeitlinie versucht, dieselbe Mission abzuschließen – Konkurrenz oder Kooperation?"
+      "effect": "Ein Parallel-Team aus einer nur minimal abweichenden Zeitlinie versucht,"
+      "dieselbe Mission abzuschließen – Konkurrenz oder Kooperation?"
     },
     {
       "id": "T30",
@@ -126,7 +128,8 @@ Streiche doppelte Seeds oder variiere sie.
     {
       "id": "T31",
       "label": "Imperiale Schachfigur",
-      "effect": "Eine Nebenfigur entpuppt sich als unerwartet wichtige historische Schlüsselfigur – Eliminierung tabu, Manipulation riskant."
+      "effect": "Eine Nebenfigur entpuppt sich als unerwartet wichtige historische Schlüsselfigur –"
+      "Eliminierung tabu, Manipulation riskant."
     },
     {
       "id": "T32",
@@ -146,7 +149,8 @@ Streiche doppelte Seeds oder variiere sie.
     {
       "id": "T35",
       "label": "Sturm ★ Delta",
-      "effect": "Eine Wetter-Modifikationsanlage im Jahr 19XX löst einen Jahrhundert-Hurrikan aus – Fail-Safe versiegelt."
+        "effect": "Eine Wetter-Modifikationsanlage im Jahr 19XX löst einen Jahrhundert-Hurrikan aus –"
+        "Fail-Safe versiegelt."
     }
   ]
 }

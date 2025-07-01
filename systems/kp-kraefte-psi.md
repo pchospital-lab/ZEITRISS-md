@@ -689,8 +689,10 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
     und bei Missbrauch könnte es zu Bewusstseinsverwirrungen kommen (die SL könnte beschreiben, wie zwei
     Charaktere verwirrt die Gedanken tauschen, wer bin ich?).
   - _Neuro-Drugs:_ Spezielle **Medikamente oder Drogen**, die kurzzeitig Psi-Kräfte pushen.
-    Beispielsweise eine Injektion _“MN-Delta”_, die die Wahrnehmung so steigert, dass in der nächsten Szene jede Intuitionsprobe kritisch erleichtert ist und sogar ein normaler Mensch leichte
-    außersinnliche Wahrnehmung erfährt. Allerdings drohen Nebenwirkungen: Nachwirkung als Erschöpfung,
+    Beispielsweise eine Injektion _“MN-Delta”_, die die Wahrnehmung so steigert,
+    dass in der nächsten Szene jede Intuitionsprobe kritisch erleichtert ist und
+    sogar ein normaler Mensch leichte außersinnliche Wahrnehmung erfährt.
+    Allerdings drohen Nebenwirkungen: Nachwirkung als Erschöpfung,
     Suchtgefahr oder Halluzinationen. Diese Mittel sollten rar und teuer sein (vielleicht als Belohnung
     nach einer Mission erhältlich oder auf dem Schwarzmarkt der Zukunft zu beschaffen). Die Spieler
     könnten in kritischen Momenten darauf zurückgreifen, aber es sollte klar sein, dass das keine
