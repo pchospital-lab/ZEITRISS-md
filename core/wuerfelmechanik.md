@@ -148,9 +148,9 @@ Optionen:
   Mittelwert auf etwa 3,8 Augen.
 - **Variante B:** Beim _Soft Explode_ liefern Zusatzwürfel höchstens 1–3 Punkte.
   So bleiben erzählerische Höhepunkte erhalten, ohne extreme Schadensspitzen.
-- **Variante C: Burst-Cap** – Jeder Würfel darf nur **einmal** explodieren. Weitere 6er
-  zählen normal. Diese Variante ist nun der **Standard** in ZEITRISS, um extreme
-  Schadensspitzen zu bändigen.
+- **Variante C: Burst-Cap** – Jeder Würfel darf nur **einmal** explodieren. Weitere 6er zählen normal.
+  Diese Variante ist nun der **Standard** in ZEITRISS, um extreme Schadensspitzen zu bändigen.
+- **Variante D:** Heldenwuerfel duerfen erst eingesetzt werden, wenn ein W6 explodiert ist.
 
 ### Sniper-Alpha-Strike eindämmen
 
@@ -280,6 +280,21 @@ im Endgame ebenfalls mit besonderen Vorteilen oder höheren Werten auftreten, so
 ihrer Macht gefordert bleiben. Kurz gesagt: Der _Heldenwürfel_-Mechanismus gibt den Spielern das
 befriedigende Gefühl echten Heldentums, während durch umsichtiges Balancing die **dramatische
 Spannung** bis zum Schluss erhalten bleibt.
+
+#### Wahrscheinlichkeiten (1–10 W6, Burst-Cap)
+
+| W6 | Ø Summe | ≥ 10 | ≥ 15 | ≥ 20 |
+| --:| ------: | ---:| ---:| ---:|
+| 1 | 4.1 | 8 % | 0 % | 0 % |
+| 2 | 8.2 | 31 % | 8 % | 1 % |
+| 3 | 12.3 | 66 % | 30 % | 8 % |
+| 4 | 16.3 | 91 % | 58 % | 27 % |
+| 5 | 20.4 | 98 % | 82 % | 52 % |
+| 6 | 24.5 | 100 % | 95 % | 74 % |
+| 7 | 28.6 | 100 % | 99 % | 90 % |
+| 8 | 32.7 | 100 % | 100 % | 97 % |
+| 9 | 36.7 | 100 % | 100 % | 99 % |
+| 10 | 40.8 | 100 % | 100 % | 100 % |
 
 ## Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
 

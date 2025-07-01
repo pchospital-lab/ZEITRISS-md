@@ -346,7 +346,9 @@ einen Toggle `/stress open|hidden`.
   vielleicht selbst korrigieren), **Level 3–4** sind kritische Instabilitäten (die Epoche beginnt
   merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
   Realität könnte reißen oder sich selbst „bereinigen“. Das **HUD** aller Agenten zeigt diesen Wert
-  gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität). Im Spiel kann GPT
+  gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität).
+  Seit Version 4.0.2 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
+  Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
   ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
