@@ -610,6 +610,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 [Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```
+<span style="color:#6cf">HUD: Paradox 3/5</span>
+<span style="color:#f93">Regel: bei PI 5 folgt ClusterCreate()</span>
+
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
@@ -834,6 +837,15 @@ HUD_MESSAGES:
 > **Das HUD ist lokal. Es kann nicht gehackt oder gestört werden**, außer durch komplette
 > Zerstörung des Chronometers. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
 > Codex-Backup synchronisiert – wenn verfügbar.
+### Fallback-Briefkarte
+
+Bei HUD-Ausfall hilft eine laminierte Kurzkarte mit:
+- Missionscode und aktuelles Ziel
+- zuletzt gemeldetem Paradoxon-Index
+- Liste offener Seeds und Seed-IDs
+- HQ-Kontakt für Notrufe
+
+Die Karte passt in jede Uniformtasche und wird nach jeder Mission aktualisiert.
 
 ### Anwendung in der Engine / Spielumgebung
 

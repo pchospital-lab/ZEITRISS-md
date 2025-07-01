@@ -809,21 +809,12 @@ in der die Chrononauten nach jeder Mission vertraute Anlaufstellen vorfinden,
 ganz gleich, wie sehr sich die Welt draußen verändert.
 
 ### Nullzeit-Sprungfenster & ITI-Hub
-
-Jeder Zeitsprung – ob freiwillig eingeleitet oder durch Eskalation ausgelöst – reißt
-einen gleißenden Spalt in die Gegenwart und öffnet **zunächst** einen Korridor
-zur **Nullzeit**. In diesem flirrenden Tunnel dröhnt ein kurzer Luftstoß, während
-leuchtende Markierungen den Weg ins ITI-Hauptquartier weisen. Der Zwischenraum
-fungiert als fester Puffer zwischen zwei Epochen und verknüpft alle Risse mit dem
-HQ.
+Jeder Zeitsprung reißt einen gleißenden Spalt auf. Die Agenten machen einen Schritt und befinden sich unmittelbar im Nullzeit-HQ. Ein separates Tunnelgefühl entfällt.
 
 **Ablauf & Optionen**
 
-1. **Ankunft im Korridor**
-
-   - Ein kurzer Sog wirbelt Staub auf, während der Tunnel seine Wände aus Licht
-     formt.
-   - Ein pulsierender HQ-Marker schwebt voraus und zeigt den Weg ins Institut.
+1. **Ankunft im HQ**
+   - Ein kurzer Luftzug begrüßt das Team, während sich der Riss hinter ihnen schließt.
 
 2. **Entscheidungspunkt**
 
@@ -838,9 +829,10 @@ HQ.
        - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
 
    - **Direkt weiterspringen (ohne HQ-Stop)**
-     - Der Korridor transportiert die Gruppe ohne Unterbrechung zum zuletzt gewählten Zielzeit­punkt.
+       - Der Riss führt die Gruppe sofort an den zuletzt gewählten Zielzeitpunkt.
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
 
+       > Wird Paradoxon-Index 5 erreicht, legt das HQ trotzdem 1–2 Seeds an. Sie werden erst nach der Rückkehr im HQ sichtbar.
 3. **Notfall-Rückholung**
    - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein
      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
@@ -1103,6 +1095,7 @@ Natürlich gibt es dennoch oft einen roten Faden und meist einen übergreifenden
 Bedrohung durch die Zerbrechliche Ewigkeit). Dieser Meta-Plot sorgt für Zusammenhang und steigende
 Spannung über viele Missionen hinweg. Aber er soll die Spielerfreiheiten nie einschränken, sondern
 eher als flexibler Hintergrund dienen, der immer wieder Anknüpfungspunkte bietet. Die Spieler können
+
 den Kurs selbst bestimmen – die Kampagnenstruktur passt sich ihrem Tempo und ihren Entscheidungen
 an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaßen spannend geführt
 und frei erkundet werden kann.
