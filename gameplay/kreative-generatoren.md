@@ -960,7 +960,7 @@ liegen, mischt die SL den Stapel zurück.
 | 5 | Artefakt ist lebendig – schwache Bio-Signale, reagiert auf Stress. | 2 | mittel |
 | 6 | Geisel möchte nicht gerettet werden, verfolgt eigene Agenda. | 0 | klein |
 | 7 | Feindliche KI bietet Allianz gegen ihren Schöpfer an. | 1 | mittel |
-| 8 | Historisches Ereignis findet 24 Stunden früher statt als erwartet. | 1 | mittel |
+| 8 | Historisches Ereignis findet eine Szene früher statt als erwartet. | 1 | mittel |
 | 9 | Transportmittel sabotiert – Not-Sprung oder Impro-Flucht nötig. | 1 | klein |
 | 10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft. | 1 | klein |
 | 11 | Wetterphänomen erschwert den Einsatz erheblich. | 1 | klein |
@@ -990,7 +990,7 @@ liegen, mischt die SL den Stapel zurück.
 | 35 | Eine alte Prophezeiung beschreibt exakt diesen Einsatz. | 2 | groß |
 | 36 | Sprungfenster instabil – Rückkehrzeit ungewiss. | 2 | mittel |
 | 37 | Gegner entführt Agenten aus einer nahen Zukunft. | 3 | groß |
-| 38 | Kameras zeigen Aufnahmen aus kommenden Tagen. | 2 | mittel |
+| 38 | Kameras zeigen Aufnahmen aus kommenden Szenen. | 2 | mittel |
 | 39 | Vergrabene Zeitkapsel liefert brisante Gegenbeweise. | 1 | klein |
 | 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
 | 41 | Mirrored Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
@@ -1332,7 +1332,7 @@ senken.
 **Beispiel:** Kombination 3-6-4 (_Gerät_ + _Zeitmanipulation_ + _Paradoxon_) ergibt ein Gerät mit
 einmaliger Zeitfunktion, das durch ein Paradoxon erschaffen wurde. GPT ersinnt vielleicht die
 **“Stundenglas-Bombe”** – ein kleines mit Zahnrädern versehenes Gerät, das aussieht wie ein
-viktorianisches Stundenglas. Seine Eigenschaft: Es kann einmalig **die Zeit um 10 Minuten
+viktorianisches Stundenglas. Seine Eigenschaft: Es kann einmalig **die Zeit um ein paar Kampfrunden
 zurückspulen** (in einem begrenzten Umkreis). Dabei entsteht jedoch ein Paradoxon, weil das Gerät
 sich selbst eigentlich nie gebaut haben kann – jedes Mal, wenn es benutzt wird, übergibt es sich
 quasi selbst an die Nutzer in der Vergangenheit. Das Objekt dürfte also gar nicht existieren, doch
@@ -1351,7 +1351,7 @@ trägt, um dort etwas zu bewirken.
 Mit solchen Artefakten könnt ihr tolle Plots entwerfen. Gerade wenn Spieler freies Spiel genießen,
 lieben sie es, **seltsame Gegenstände** zu sammeln und deren Zweck herauszufinden. Vielleicht
 entfaltet ein Artefakt erst im Finale seine volle Macht – oder es bringt einfach Flair in den
-Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das alle paar Stunden ein
+Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das hin und wieder im Verlauf einer Mission ein
 Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen „mysteriösen“
 Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
 
@@ -1430,7 +1430,7 @@ unerlaubter Zugriff scheitert am Quanten‑Cipher‑Schutz.
 2. **Paradoxon‑Wechselwirkung:** Jede Nutzung, die die Epoche bricht, provoziert einen
    Paradoxon‑Check (Ref ≤ 3 → +1).
 3. **Codex‑Tagging:** `artefakte/<epoch>/<funktion>` zur schnellen Filterung.
-4. **Reverse Engineering:** Nur mit Tech ≥ 5 und drei Tagen Spielzeit; 50 % Risiko,
+4. **Reverse Engineering:** Nur mit Tech ≥ 5 und nach Abschluss von 5 Missionen oder einer Kampagne; 50 % Risiko,
    den Effekt zu verlieren.
 
 #### Copy‑Paste‑Snippet für den Codex (JSON‑Minimal)

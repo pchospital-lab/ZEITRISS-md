@@ -46,7 +46,7 @@ im Überblick:
     Malus** auf feine oder konzentrationsintensive Aktionen (es fällt etwas schwerer, sich 100%ig zu
     fokussieren), ansonsten **keine großen Einschränkungen**; Bewegung weiterhin normal. Das HUD
     ergänzt automatisch `Wundmalus -1` in deine nächsten Würfelbefehle. _Heilung:_
-    Solche Blessuren heilen oft **binnen Stunden oder weniger Tage** von selbst. Im HQ genügt ein
+    Solche Blessuren heilen oft **innerhalb einer Szene oder bis zur nächsten Mission** von selbst. Im HQ genügt ein
     Desinfektionsspray, Verband und eine Nacht Ruhe – zum Start der nächsten Mission sind leichte
     Wunden meist **automatisch verheilt**.
   - **Mittel verletzt:** Deutlichere Verletzungen oder starke Prellungen (z.B. tiefer Schnitt,
@@ -55,12 +55,12 @@ im Überblick:
     z.B. nicht möglich, nur noch normales Tempo; auch die Konzentration ist merklich gestört. Das HUD
     fügt `Wundmalus -2` an jede Würfelabfrage an. Der
     Charakter bleibt **funktionsfähig, aber spürbar gehandicapt**. _Heilung:_ Mittlere Wunden
-    brauchen **einige Tage Regeneration** oder medizinische Hilfe. Im HQ werden Verletzungen genäht,
-    geschient oder mit regenerativen Salben behandelt. Nach **1–2 Tagen** intensiver Behandlung
-    (oder im Medi-Tank) kann der Malus auf –1 gelindert werden; nach **ca. einer Woche** Ruhe ist
+    brauchen **eine HQ-Phase Erholung** oder medizinische Hilfe. Im HQ werden Verletzungen genäht,
+    geschient oder mit regenerativen Salben behandelt. Nach einer HQ-Phase intensiver Behandlung
+    (oder im Medi-Tank) kann der Malus auf –1 gelindert werden; nach einer längeren HQ-Phase Ruhe ist
     der Charakter wieder voll hergestellt. Mit futuristischer Medizin (z.B. Nanodocs als Belohnung
     oder gegen Ressourcen/Kosten) lässt sich die Heilung beschleunigen – mittlere Wunden könnten
-    dann sogar binnen Stunden schließen.
+    dann sogar innerhalb einer Szene schließen.
   - **Schwer verletzt:** Lebensbedrohliche Wunden (tiefe Stich-/Schussverletzungen, starker
     Blutverlust, komplizierte Brüche). Der Charakter steht **kurz vor dem Zusammenbruch**, zittert
     vor Schmerz und Erschöpfung, kämpft ums Bewusstsein. _System:_ **–3 Malus** auf **alle**
@@ -73,8 +73,7 @@ im Überblick:
     Notfallprotokoll: **Sinkt ein Chrononaut im Einsatz auf 0 Lebenspunkte**, initiiert das System
     **automatisch einen Zeitriss zur Not-Rückholung**. Der Verwundete wird in Sekundenbruchteilen
     ins HQ gezogen, wo ein Ärzteteam bereitsteht, um sein Leben zu retten. Die Mission ist für
-    diesen Agenten damit **beendet**, aber er überlebt stabilisiert. Im HQ folgen dennoch **mehrere
-    Wochen Genesung** (ggf. im Medi-Tank oder künstlichen Koma). Selbst mit Zukunftsmedizin und
+    diesen Agenten damit **beendet**, aber er überlebt stabilisiert. Im HQ folgen dennoch **mehrere HQ-Phasen Genesung** (ggf. im Medi-Tank oder künstlichen Koma). Selbst mit Zukunftsmedizin und
     Biotech bleibt es eine bedeutende Ausfallzeit – unter Umständen muss der Charakter eine kommende
     Mission aussetzen (in einer langen Kampagne könnte der Spieler in der Zwischenzeit einen
     Ersatzcharakter steuern). **Narben** bleiben fast immer zurück, ob physisch oder psychisch.
@@ -91,7 +90,7 @@ im Überblick:
     Verwundung**, um bessere Stabilisierungschancen zu haben (natürlich nur, wenn dies kein Paradox
     auslöst). Für die Kampagne heißt das: Der Charakter **überlebt knapp**, ist aber **schwer
     gezeichnet**. Die Genesung dauert sehr lange, und bis zur völligen Einsatzfähigkeit vergehen
-    mitunter **Monate**. **Bleibende Schäden** sind wahrscheinlich (Narben, Verlust von Gliedmaßen
+    mitunter **zahlreiche Missionen**. **Bleibende Schäden** sind wahrscheinlich (Narben, Verlust von Gliedmaßen
     etc., die evtl. durch **Cyberware** ersetzt werden). Solch ein Vorfall sollte als
     einschneidendes dramatisches Ereignis ausgespielt werden – etwa als Anlass für
     Charakterentwicklung (z.B. Angst vor dem nächsten Einsatz, posttraumatische Belastung) oder als
@@ -173,7 +172,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
   wichtig. Spieler müssen Risiken gut abwägen, da **tödliche Konsequenzen** nicht immer durch Wunder
   abgewendet werden. _Spielfokus:_ Dieser Modus eignet sich, wenn Ihr **mehr Herausforderung und
   Survival-Feeling** wollt. Die Spielleitung kann offen kommunizieren, wie lange Heilung dauert
-  (z.B. „Das wird mindestens 5 Tage dauern“), und die HQ-Phase nutzen, um Genesungsszenen
+  (z.B. „Das wird mindestens eine HQ-Phase dauern“), und die HQ-Phase nutzen, um Genesungsszenen
   auszuspielen.
 
 - **Filmische Heilung:** Im **cineastischen Stil** steht die **Dramaturgie über der Realität**.
@@ -206,8 +205,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
   - Im **HQ** steht eine komplette **Klinik** zur Verfügung: Operationssäle, Autodoc-Roboter,
     Genesungs-Scanner und sogar **Regenerationstanks**. Hier können selbst kritisch verletzte
     Agenten mit modernster Medizin behandelt werden. Das HQ-Personal kann Mali deutlich schneller
-    abbauen als reine Ruhe es erlauben würde. (Für genaue Werte kann die SL entscheiden, z.B.: pro
-    Tag Behandlung im HQ eine Verletzungsstufe verbessern.) Klinik-Szenen eignen sich auch
+    abbauen als reine Ruhe es erlauben würde. (Für genaue Werte kann die SL entscheiden, z.B.: pro HQ-Phase Behandlung im HQ eine Verletzungsstufe verbessern.) Klinik-Szenen eignen sich auch
     erzählerisch: Man kann das Team zeigen, wie es am Krankenbett plant, oder den Verwundeten im
     Fiebertraum Visionen haben lassen – **dramatische Erholungsszenen** verstärken das filmische
     Flair.
@@ -317,7 +315,7 @@ Lebenspunkte hinausgehen:
   Interaktionen oder präzises Zielen, da die Nerven flattern). Bei 10 Punkten könnte es einen
   **Kurzzeit-Zusammenbruch** geben – der Charakter gerät in Panik, flieht, verfällt in Starre oder
   ähnliches, je nach Situation. Stress kann in HQ-Phasen durch **Entspannung** abgebaut werden: z.B.
-  jeder ruhige Tag senkt das Konto um 1–2 Punkte. Auch **rollenspielerische Maßnahmen** helfen: ein
+  jede ruhige HQ-Phase setzt das Konto wieder auf **0**. Auch **rollenspielerische Maßnahmen** helfen: ein
   offenes Gespräch mit einem NSC im Freizeitraum, Meditationstraining oder ein Abend in der Bar
   können Stress verringern. Dieses Modul verleiht der Psyche Gewicht: Die Spieler achten dann nicht
   nur auf HP, sondern auch darauf, ihre **Charaktere mal durchatmen zu lassen**. Wichtig ist, dass
@@ -432,7 +430,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   fungieren. Jeder Einsatz so einer Fähigkeit kostet Fokus-Punkte. Auch intensive Denkarbeit – z.B.
   das Lösen eines komplexen Zeiträtsels oder das Koordinieren einer großen Schlacht – könnte an
   diesem Vorrat zehren. _Regeneration:_ Fokus regeneriert sich durch **Ruhe, Meditation oder
-  Drogen**. Ein Agent könnte z.B. pro Stunde Ruhe 10 Punkte zurückgewinnen, oder durch eine
+  Drogen**. Ein Agent könnte z.B. pro Ruhe-Szene 10 Punkte zurückgewinnen, oder durch eine
   Meditationstechnik auf Knopfdruck einen Schub erhalten. _Im Spiel:_ Achtet darauf, dass ein Fokus-
   System nicht die erzählerische Freiheit einschränkt. Es soll besondere **Momente** begrenzen
   (damit z.B. ein Psi-Agent nicht endlos Gedankenkontrolle wirken kann), aber nicht dazu führen,
@@ -446,11 +444,9 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   klar an **Psi-Power** gebunden. Ein Teleporter-Agent könnte z.B. 3 Power-Punkte (PP) ausgeben, um sich
   50 m weit zu teleportieren, oder ein Telepath 1 Punkt, um Gedanken in einem kurzen Satz zu lesen.
   _Balance:_ Legt die Kosten und Regeneration gemeinsam fest – vielleicht regenerieren 1–2 Power-
-  Punkte pro Stunde, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
+  Punkte pro Ruhe-Szene, oder der Agent muss Psi-Akkus im HQ aufladen. **Paradox-Effekt:** Ihr könnt
   Psi-Energie eng mit dem Zeitstrom verknüpfen. Vielleicht verursacht der Gebrauch starker Psi-
-  Kräfte **Paradox-Stress** (eine interessante Twist-Regel: pro 5 ausgegebene Power-Punkte (PP) steigt der
-  Paradoxon-Index um 1, weil die Psi-Kräfte an den Fundamenten der Realität zerren). Das macht Kräfte
-  eindrucksvoll, aber gefährlich. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
+  Kräfte **Paradox-Stress**. HUD-seitig könnte der PSI-Vorrat als **eigenes Icon** (z.B. ein
   Psi-Ω-Symbol mit Zahl) angezeigt werden, damit der Charakter ihn im Blick hat.
 
 ### [HUD-Meldungen] – Psi

@@ -94,7 +94,7 @@ und Auffälligkeit eines Fahrzeugs in unterschiedlichen Zeiten:
   (Szene: Im Jahr 2100 liefern sich Agenten eine Hover-Car- Verfolgungsjagd über neonbeleuchtete
   Häuserschluchten. Sie schießen zwischen Monorail-Schienen hindurch und nutzen Antigrav-Technik für
   waghalsige Manöver. Doch als sie anschließend mit demselben Gleiter in einer Barockstadt von 1700
-  notlanden müssen, schlägt die Stunde der Wahrheit: Nach wenigen Minuten sind die Energiezellen leer,
+  notlanden müssen, schlägt die Stunde der Wahrheit: Nach wenigen Kampfrunden sind die Energiezellen leer,
   der Antigrav fällt aus und das Fahrzeug sinkt trudelnd vom Himmel. High-Tech bietet spektakuläre
   Möglichkeiten – aber wenn sie zur falschen Zeit am falschen Ort eingesetzt wird, kann sie ebenso
   spektakulär versagen.)
