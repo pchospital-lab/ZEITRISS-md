@@ -564,8 +564,8 @@ Verantwortung verbunden.
 
 #### Regeneration
 
-* **Nach jeder Kampfrunde:** Regeneriert **1 PP**, sofern eine Willenskraftprobe
-  gegen den doppelten Heat-Level gelingt.
+* **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**, sofern eine
+  Willenskraftprobe gegen den doppelten Heat-Level gelingt.
 * **Nach jedem Kampf** → **PP voll**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TA.
