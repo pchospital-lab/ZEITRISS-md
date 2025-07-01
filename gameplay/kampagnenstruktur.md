@@ -99,6 +99,16 @@ Weitere Informationen zum HUD gibt es im Modul
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.
+#### Missionsablauf auf einen Blick {#mission-chart}
+```mermaid
+flowchart LR
+    A(Briefing) --> B(Arrival)
+    B --> C(Intel)
+    C --> D(Breach)
+    D --> E(Exfil)
+    E --> F(Return)
+```
+
 
 ### Core- & Rift-Loop
 
@@ -121,6 +131,7 @@ Der Reset greift erst nach einer Runde, damit dramatische Szenen ausklingen kön
 Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn im HQ.
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
 zusammengeführt oder getrennt bleiben.
+
 Solange Seeds offen sind, erhöhen sie Schwelle und CU-Belohnung aller Missionen.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 
