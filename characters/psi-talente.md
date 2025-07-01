@@ -229,8 +229,7 @@ _P_ markiert passive, _A_ aktive Talente.
 - **Adrenalinschub** (A): Kurzfristige Mobilisierung letzter Reserven. _Einmal pro Mission_ kann der
   Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
   1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
-  Trümmer hochstemmen, einen superschnellen Feind einholen). Danach tritt Erschöpfung ein: für etwa
-  eine Stunde **–1 auf alle Proben**.
+  Trümmer hochstemmen, einen superschnellen Feind einholen). Danach tritt Erschöpfung ein: für die nächste Szene **–1 auf alle Proben**.
 - **Sprengstoffexperte** (P): Fachkundig in allem was _bumm_ macht. Der Charakter kennt sich mit
   Bomben, Minen und Chemikalien aus. Er kann Sprengsätze **schneller und sicherer entschärfen oder
   anbringen**. In der Regel benötigt er für Standard-Sprengfallen **keine Probe** (außer Zeitdruck),
