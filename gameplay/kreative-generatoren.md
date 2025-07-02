@@ -139,7 +139,7 @@ Streiche doppelte Seeds oder variiere sie.
     {
       "id": "T33",
       "label": "Silencer-Protokoll",
-      "effect": "Das HQ befiehlt Funk-Stille; Team muss ohne Codex-Support improvisieren, bis eine Relay-Station steht."
+      "effect": "Das HQ befiehlt Funkstille; Team muss ohne Codex-Support improvisieren, bis eine Relaisstation steht."
     },
     {
       "id": "T34",
