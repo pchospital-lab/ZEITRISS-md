@@ -713,6 +713,16 @@ temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
 Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
 seine Sorge um die Tochter – Paradoxon +1.
 
+#### Encounter-Pool Kurzliste {#encounter-pool-worksheet}
+
+| Kategorie | Gegner-Beispiele | Risiko |
+| --------- | ---------------- | ------ |
+| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | SG 9–12 |
+| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | SG 10–13 |
+| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | SG 8–10 |
+
+Diese Tabelle kann ausgedruckt werden und bietet der SL einen schnellen Überblick.
+
 ### Codex-gesteuerte Story-Zwischensequenzen
 
 Ein besonderes Feature im ZEITRISS-Setting ist der **Codex** – eine Art allwissendes Archiv oder KI,

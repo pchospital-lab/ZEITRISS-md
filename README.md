@@ -8,6 +8,7 @@ tags: [meta]
 
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**,
 ein textbasiertes Zeitreise-Rollenspiel.
+Im Spiel entspricht der gespeicherte JSON-Stand einem digitalen Charakterbogen.
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
 > 2. **Six-Step Missions.** Briefing -> Arrival -> Intel -> Breach -> Exfil -> Return.

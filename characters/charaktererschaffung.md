@@ -581,6 +581,10 @@ kein selbstgebauter Charakter deutlich stärker oder schwächer gerät.)\*
 
 ## Levelsystem und Erfahrungsfortschritt
 
+Mit jeder Stufe vergibt das ITI neue Ausrüstungslizenzen oder Befugnisse.
+Nur erfahrene Agenten erhalten Zugriff auf sensibles Gear und heikle
+Zeitsprung-Methoden.
+
 **Erfahrungspunkte & Stufen:** ZEITRISS verwendet ein einfaches Fortschrittssystem ohne
 kleinteiliges XP-Gezähle. Stattdessen steigen Charaktere **stufenweise** (Level 1, 2, 3, …) auf,
 meist nachdem sie einige Missionen erfolgreich abgeschlossen haben. Die Spielleitung legt fest, wann
