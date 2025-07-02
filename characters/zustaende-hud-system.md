@@ -159,6 +159,8 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
 - **Vergiftung & Toxine:** Einige Waffen oder Fallen wirken über Giftstoffe. _Effekt:_
   Pro Runde 1W6 Schaden oder –1 bis –3 auf Aktionen, abhängig von Potenz.
   Ein erfolgreicher Medikit-Einsatz oder Antidot stoppt die Wirkung.
+- **Enttarnt:** Die Tarnung ist aufgeflogen. Stealth-Manöver sind tabu, bis ein
+  Safehouse oder die nächste HQ-Phase erreicht wurde.
 
 ## Heilung & Erholung – klassisch, filmisch, high-tech
 
@@ -401,6 +403,10 @@ Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
+Nach Stufe 5 darf die SL ein ausgelöstes `ClusterCreate()` einmalig bis zum
+nächsten Spannungsabfall **parken**. Vor dem erneuten Reset muss es ausgespielt
+werden.
+
 _Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_
 bei der keine Risse oder Zeitkreaturen erscheinen.
 
@@ -543,7 +549,8 @@ Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt e
 Mali. Mehr Details im Codex.
 Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradox); weitere
 Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
-Einschränkung sorgt für Spannung und hält die Balance:
+Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
+maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
 
 Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 

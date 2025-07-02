@@ -236,6 +236,8 @@ Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wu
 
 > **Warum keep-highest?**
 > *Additiv* machte den Sprung zu mächtig (Ø +4,5), **keep-highest** hält das Power-Gap bei Ø +2,3.
+> **FAQ:** Nur Würfel **gleicher Größe** explodieren mehrfach. Der Heldenwürfel
+> zählt separat und kettet keine zusätzlichen W6.
 
 Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 
@@ -614,13 +616,14 @@ beide Seiten begünstigen können.
 Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **Dieses Quick-Sheet dient als zentrale Kurzreferenz und lässt sich im HUD über `/help` aufrufen.**
 
-### Quick Reference (1 Seite)
+### Quick Reference (2 Seiten)
 
 | Situation | Standard | High‑Attribut (≥ 11) |
 |-----------|----------|----------------------|
-| Würfelpool | 1W6 pro Skill + 1W6 ab Attribut ≥ 6 | 1W10 statt des höchsten W6 + **Heldenwürfel** (1×/Szene) |
-| Exploding | Jede 6 bzw. 10 zählt als 1 Erfolg + Extrawurf | |
-| Erfolgsschwellen | 0 Miss, 1–2 Teilerfolg, 3–4 Vollerfolg, 5+ Triumph | |
+| Würfeltyp | W6 (Attribut 1–7) bzw. W8 (8–10) | W10 **plus Heldenwürfel** |
+| Exploding | Jede 6 bzw. 10 explodiert einmal | |
+| SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ |
+| HUD-Alerts | Max. 6 Wörter pro Einblendung |
 **Paradoxon-Index (PI)** – 0 – 2 = grün ✓, 3 – 4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` + Reset auf 0.
 **PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
 Siehe auch
@@ -673,6 +676,17 @@ Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Be
 
 Nutzt diese Tabelle auf dem Quick-Reference-Sheet, um schnell abzuschätzen, wie anfällig eine Szene
 für Paradox-Effekte ist.
+
+### Rift-Kreaturen auf die Schnelle {#rift-quickbuild}
+
+| Schritt | Vorgehen |
+| ------- | -------- |
+| 1 | Basistier oder NSC-Vorlage wählen |
+| 2 | 1–3 Anomalien hinzufügen (z.B. Zeitsprung, Psi, Mutation) |
+| 3 | **Threat** = 1 + Anzahl der Anomalien (max. 5 💀) |
+
+Mit dieser Kurzformel kann die SL jederzeit eine improvisierte Rift-Kreatur bauen.
+Weitere Details stehen im [Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator).
 
 ### Blind-Ops Cheat Sheet {#blind-ops}
 

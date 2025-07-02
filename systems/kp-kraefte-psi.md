@@ -182,7 +182,10 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   die Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
   um Missbrauch zu verhindern.
   Cooldown: Nach Einsatz **1 Runde warten** oder alternativ **+1 SYS** für eine sofortige
-  Folgeaktion zahlen.
+  Folgeaktion zahlen. Jeder **Psi-Move** verbraucht ein eigenes
+  _Batteriepack_. Die Anzahl der verfügbaren Packs entspricht der
+  **Temporalen Affinität**. Sind sie aufgebraucht, muss der Agent wie
+  bei einer Waffe nachladen.
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
   **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
   Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
