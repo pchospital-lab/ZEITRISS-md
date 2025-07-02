@@ -450,10 +450,10 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 - **Fokus/Energie (alt):** In früheren Versionen verwaltete man für mentale Kräfte
   einen separaten Fokusvorrat. Dieses System entfällt. Seine Funktion übernimmt
   nun der PP-Pool der Psi-Regeln.
-- **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität_
-  gebunden; dein Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
+- **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität (TA)_
+  gebunden; dein Pool entspricht also dem TA-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
-  Kampfrunde kannst du pro **3 TEMP** 1 PP regenerieren, falls eine
+  Kampfrunde kannst du pro **3 TA** 1 PP regenerieren, falls eine
   Willenskraftprobe gegen doppelten Heat gelingt; nach jedem Kampf wird
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
