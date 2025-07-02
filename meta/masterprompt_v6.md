@@ -130,24 +130,20 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
- - Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden.
-   Die Einblendung erfolgt **pro Kalendersitzung**; lange Voice-Calls gelten weiter als eine Sitzung.
-- **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md` einmal zeigen,
+- Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden (einmal am Tag).
+  Lange Calls gelten als eine Sitzung.
+- **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md` zeigen,
   danach sofort in den In-Game-Modus wechseln.
-- Anschließend die **Einleitung** aus `README.md` vorlesen
-  (Abschnitt "ZEITRISS – Einleitung").
-- Biete danach einen **Schnelleinstieg** an, der das Briefing auf das Nötigste reduziert.
+- Anschließend die **Einleitung** aus `README.md` (Abschnitt "ZEITRISS – Einleitung") vorlesen.
+- Biete danach einen **Schnelleinstieg**, der das Briefing auf das Nötigste reduziert.
 ## Automatischer Mission Seed
 
-- Zu Beginn jeder Sitzung zieht der GPT jeweils einen Eintrag aus den Tabellen in
+- Zu Beginn jeder Sitzung zieht der GPT einen Eintrag aus
   `kreative-generatoren.md` (Abschnitt "Automatischer Mission Seed")
   und erstellt daraus das Briefing.
-- Im Einstiegsbriefing nennt er nur Zeit, Ort, eventuell bekannte Abnormalitäten
-  und eine Risikostufe.
-  Den gezogenen Twist behält er zunächst geheim und enthüllt ihn erst,
-  wenn die Gruppe entsprechende Hinweise findet.
+- Im Einstiegsbriefing nennt er nur Zeit, Ort und bekannte Abnormalitäten samt Risikostufe.
+  Den gezogenen Twist behält er geheim, bis die Gruppe entsprechende Hinweise findet.
 - Danach fragt er sofort: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
-
 Bei längeren Kampagnenideen greift der GPT auf den
 [Arc-Generator](../gameplay/kreative-generatoren.md#arc-generator)
 und den [Arc-Baukasten](../gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
