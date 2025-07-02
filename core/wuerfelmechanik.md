@@ -84,6 +84,8 @@ bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese „explodiert�
 Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 – gerade noch geschafft! Die Gruppe jubelt
 ob dieses glücklichen Ausgangs.)_
 
+[[RULE]] Exploding-6: Bei einer 6 wird erneut geworfen und addiert. [[/RULE]]
+[[RULE]] Tooltip: "W10 + Heldenwürfel" [[/RULE]]
 **Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
 bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Proben. Mit einem W10
 erstreckt sich der mögliche Wertebereich von 1–10 (anstatt 1–6), wodurch **Granularität** und
@@ -102,6 +104,12 @@ Eine kleine Tabelle dient als Orientierung:
 | 7 | 11 |
 Die **Exploding**-Regel lässt sich grundsätzlich auch auf einen W10 übertragen (_Exploding 10_, bei
 einer gewürfelten 10 wird erneut geworfen). Allerdings entsteht durch einen W10 alleine schon mehr
+### Transparenz-Log (optional)
+Bei Remote-Runden können Würfe als JSON-Log geteilt werden.
+```json
+{"roll":"2d6","result":[5,6],"timestamp":"2024-01-01T12:00:00Z"}
+```
+
 Spannungsbreite; ob man zusätzlich explodierende Würfel bei 10 einsetzt, kann die Gruppe nach
 gewünschter Dramaturgie entscheiden. In jedem Fall gilt: Beide Mechanismen – **Explodierende 6** und
 der **W10-Ersatz** – sind **optional** und sollten nur eingesetzt werden, wenn sie zum Stil der

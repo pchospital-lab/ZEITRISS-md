@@ -257,6 +257,8 @@ _P_ markiert passive, _A_ aktive Talente.
 _Zum Abschluss_: Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen Chrononauten
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die
 **Spielbalance** erhalten bleibt – kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar
+- **Telekinese + Muskelstärkung:** Kombiniert steigt die Schwierigkeit aller Proben um +1
+  oder die Aktion benötigt eine Cooldown-Runde.
 machen. Jede Stärke kann durch clevere Herausforderungen ausgeglichen werden. Nutzt die **filmische
 Darstellung** aktiv: Lasst z.B. das HUD aufleuchten, wenn ein Charakter seinen Adrenalinschub zündet
 (_Herzpuls und Muskelkraftanzeige steigen im HUD drastisch_), oder beschreibt, wie das

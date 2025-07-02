@@ -64,6 +64,10 @@ Einige Gruppen möchten grob wissen, wie knapp ein Erfolg ausfiel. In diesem
 Modus nennt die KI-Spielleitung nur den **Erfolgsabstand** – etwa: _"Du
 schlägst den Wachposten um 2."_ Die Rohwürfel bleiben verdeckt. Wer den
 klassischen Thriller-Stil bevorzugt, ignoriert dieses Feature.
+Bei Bedarf kann ein kurzes JSON-Log jeden Wurf dokumentieren:
+```json
+{"roll":"1d6","result":4,"ts":"2024-01-01T12:00:00Z"}
+```
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
@@ -568,6 +572,16 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 
 - `/stress open` oder `/stress hidden` – zeigt bzw. verbirgt den Stress-Balken.
 - `/echo on` oder `/echo off` – legt fest, ob Chat-Eingaben wiederholt werden.
+
+### Macro-Sheet Beispiel
+```json
+{
+  "roll(mode)": ["hidden","open"],
+  "active_modes": {"focus": true, "echo": false, "covert": false},
+  "paradox_index": 2,
+  "scene_timer": 37
+}
+```
 
 - `/reject <grund>` – aktiviert das Ablehnen-Schema. Erkläre knapp,
   warum ein Wunsch nicht umsetzbar ist und schlage eine Alternative vor.
