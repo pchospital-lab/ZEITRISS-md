@@ -212,7 +212,7 @@ Ziel hinter solch einer Barriere, erhöht sich die Schwelle für Psi-Effekte um 
 und Nahkampf-Telekinese wirkt nicht durch das Gitter hindurch. Diese Technik ist
 teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
 
-Telekinetische Nahkampf-Attacken scheitern, wenn das Ziel hinter dichter Materie wie Panzerglas oder einer Anti-Psi-Barriere steht.
+Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panzerglas oder Anti-Psi-Barriere steht.
 - **Chronokinese:** Eine besonders exotische Fähigkeit, die direkt mit der Zeit selbst spielt.
   Chronokinetiker können im minimalen Umfang lokale Zeitströme beeinflussen. Zum Beispiel könnte ein
   Chrononaut seinen eigenen Zeitablauf für ein, zwei Sekunden beschleunigen – für Außenstehende bewegt

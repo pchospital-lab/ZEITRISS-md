@@ -809,7 +809,7 @@ in der die Chrononauten nach jeder Mission vertraute Anlaufstellen vorfinden,
 ganz gleich, wie sehr sich die Welt draußen verändert.
 
 ### Nullzeit-Sprungfenster & ITI-Hub
-Jeder Zeitsprung reißt einen gleißenden Spalt auf. Die Agenten machen einen Schritt und befinden sich unmittelbar im Nullzeit-HQ. Ein separates Tunnelgefühl entfällt.
+Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und landen im Nullzeit-HQ, ohne Tunnelgefühl.
 
 **Ablauf & Optionen**
 
@@ -832,7 +832,7 @@ Jeder Zeitsprung reißt einen gleißenden Spalt auf. Die Agenten machen einen Sc
        - Der Riss führt die Gruppe sofort an den zuletzt gewählten Zielzeitpunkt.
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
 
-       > Wird Paradoxon-Index 5 erreicht, legt das HQ trotzdem 1–2 Seeds an. Sie werden erst nach der Rückkehr im HQ sichtbar.
+> Bei Paradoxon-Index 5 legt das HQ trotzdem 1–2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
 3. **Notfall-Rückholung**
    - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein
      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
