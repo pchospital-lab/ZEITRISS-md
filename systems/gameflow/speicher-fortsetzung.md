@@ -74,8 +74,12 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
   Speicherstände (sowohl Solo- als auch Gruppen-Spielstände) im standardisierten Format, die als
   Vorlage dienen können.
 - **Token-Lite-Modus:** Missionslog mit max. 15 Einträgen. Archivierte Rifts lassen sich auslagern, um Token zu sparen.
+- **Archiv-ZIP:** Erledigte Missions-JSON lassen sich gebündelt zippen, um Langzeitkampagnen schlank zu halten.
 
 Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erläutert.
+Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
+Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
+Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
 
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
