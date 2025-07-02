@@ -403,9 +403,9 @@ Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
 | 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
-Nach Stufe 5 darf die SL ein ausgelöstes `ClusterCreate()` einmalig bis zum
-nächsten Spannungsabfall **parken**. Vor dem erneuten Reset muss es ausgespielt
-werden.
+Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und erzeugt 1–2
+Seeds. Diese Seeds liegen auf der Raumzeitkarte und sind erst nach Missionsende
+vom HQ aus erreichbar.
 
 _Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_
 bei der keine Risse oder Zeitkreaturen erscheinen.
