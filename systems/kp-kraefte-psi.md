@@ -39,6 +39,17 @@ Präkognition liefert höchstens kurze taktische Ahnungen.
 Der Codex gibt keine prophetischen Hinweise.
 Weitere Stilmodi findest du in [README](../README.md#spielmodi).
 
+### Psi-Fokuseinheit und Batteriepacks {#psi-gear}
+
+Für kontrollierbare Psi-Anwendungen nutzen Chrononauten eine
+**Psi-Fokuseinheit**. Dieses handliche Gerät – meist als
+Armband oder Stirnband ausgeführt – bündelt neuronale Impulse und
+verhindert, dass rohe Psi-Energie unkontrolliert verpufft. Jede
+Aktivierung verlangt ein _Batteriepack_, das in die Fokuseinheit
+eingeschoben wird. Die Anzahl der mitgeführten Packs orientiert sich an der
+**Temporalen Affinität**. Ohne dieses Gerät bleibt Psi schwach und
+unpräzise.
+
 ### Stiloption: Covert-Ops Technoir
 
 Psi erscheint hier als taktisches Werkzeug.

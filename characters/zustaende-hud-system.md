@@ -407,6 +407,15 @@ Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und erzeugt 1
 Seeds. Diese Seeds liegen auf der Raumzeitkarte und sind erst nach Missionsende
 vom HQ aus erreichbar.
 
+### Raumzeitkarte {#raumzeitkarte}
+
+Die **Raumzeitkarte** ist ein großflächiges Holodisplay im HQ. Sie zeigt
+alle bekannten Epochen als interaktive Knotenpunkte. Neue Seeds erscheinen dort
+automatisch, sobald `ClusterCreate()` aktiv wird. Aus dem HQ können die
+Chrononauten über ihr **ITI-Terminal** direkt ein Sprungziel auf der Karte
+anwählen. Im Einsatz zeigt das Chronometer verkleinerte Auszüge der Karte an,
+um Risse oder Missionsziele zu lokalisieren.
+
 _Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_
 bei der keine Risse oder Zeitkreaturen erscheinen.
 

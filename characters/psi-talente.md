@@ -260,7 +260,9 @@ auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf acht
 - **Telekinese + Muskelstärkung:** Kombiniert steigt die Schwierigkeit aller Proben um +1
   oder die Aktion benötigt eine Cooldown-Runde.
 - **Hardware-Drag (neu):** Jeder Psi-Einsatz verbraucht ein
-  _Batteriepack_. Die Anzahl der verfügbaren Packs entspricht der
+  _Batteriepack_. Diese Packs werden in eine
+  **Psi-Fokuseinheit** eingesetzt, ohne die sich Psi nur schwer
+  kontrollieren lässt. Die Anzahl der verfügbaren Packs entspricht der
   **Temporalen Affinität** des Charakters. Sind alle verbraucht,
   muss wie bei einer Waffe nachgeladen werden.
 machen. Jede Stärke kann durch clevere Herausforderungen ausgeglichen werden. Nutzt die **filmische
