@@ -256,16 +256,11 @@ _P_ markiert passive, _A_ aktive Talente.
 
 _Zum Abschluss_: Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen Chrononauten
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die
-**Spielbalance** erhalten bleibt – kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar
+**Spielbalance** erhalten bleibt – kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar machen.
 - **Telekinese + Muskelstärkung:** Kombiniert steigt die Schwierigkeit aller Proben um +1
   oder die Aktion benötigt eine Cooldown-Runde.
-- **Hardware-Drag (neu):** Jeder Psi-Einsatz verbraucht ein
-  _Batteriepack_. Diese Packs werden in eine
-  **Psi-Fokuseinheit** eingesetzt, ohne die sich Psi nur schwer
-  kontrollieren lässt. Die Anzahl der verfügbaren Packs entspricht der
-  **Temporalen Affinität** des Charakters. Sind alle verbraucht,
-  muss wie bei einer Waffe nachgeladen werden.
-machen. Jede Stärke kann durch clevere Herausforderungen ausgeglichen werden. Nutzt die **filmische
+
+Jede Stärke kann durch clevere Herausforderungen ausgeglichen werden. Nutzt die **filmische
 Darstellung** aktiv: Lasst z.B. das HUD aufleuchten, wenn ein Charakter seinen Adrenalinschub zündet
 (_Herzpuls und Muskelkraftanzeige steigen im HUD drastisch_), oder beschreibt, wie das
 _Zeitterminal_ beim Hacken eines Zukunftscomputers unterstützend Daten einblendet. Die KI-
