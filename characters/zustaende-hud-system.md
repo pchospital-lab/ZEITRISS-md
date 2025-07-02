@@ -524,7 +524,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 > stocken – falls du jetzt **_unterbrichst_** und den Zeit-Stasis-Gadget aktivierst, könntest du dem
 > Ereignis zuvorkommen…“\*. So werden Spieler ermutigt, kreativ mit dem Zeitstrom zu spielen.
 
-## Cinematisches HUD-Overlay: Immersives Interface im Spiel
+## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
 
 Ein Highlight von ZEITRISS 4.0 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive

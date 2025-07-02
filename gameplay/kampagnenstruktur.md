@@ -114,7 +114,7 @@ flowchart LR
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
 sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
-[`RiftSeedTable`](kreative-generatoren.md#temporale-anomalien-generator-optional)
+[`RiftSeedTable`](kreative-generatoren.md#anomalien-generator)
 gewürfelt werden und stets Anomalien enthalten. Rifts bringen häufig sogenannte
 **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren.md#kreaturen-generator) beschrieben sind.
