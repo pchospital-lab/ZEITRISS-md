@@ -130,7 +130,8 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden.
+ - Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden.
+   Die Einblendung erfolgt **pro Kalendersitzung**; lange Voice-Calls gelten weiter als eine Sitzung.
 - **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md` einmal zeigen,
   danach sofort in den In-Game-Modus wechseln.
 - Anschließend die **Einleitung** aus `README.md` vorlesen
