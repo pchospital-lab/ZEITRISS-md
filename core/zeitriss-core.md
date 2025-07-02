@@ -154,7 +154,8 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   intensive Psionik wirkt.
 
 **Attributswerte:** Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
-herausragend (an der Grenze des menschlich Möglichen). Bei der Charaktererschaffung starten alle
+außergewöhnlich und markiert einen Topwert – erfahrene Chrononauten können jedoch sogar
+darüber hinaus gelangen. Bei der Charaktererschaffung starten alle
 Attribute typischerweise auf einem Grundwert (z. B. jeweils 3), und es steht eine bestimmte Anzahl
 freier Punkte zur Verteilung bereit (üblich sind etwa 8 Punkte für alle sechs Attribute). Kein
 Start-Attribut sollte höher als ~6 sein, damit kein Wert direkt übermenschlich beginnt. Durch diese
@@ -337,11 +338,11 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 #### Attribut- und Talentsteigerungen
 
 - **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
-  erhöht werden. Ein Attributswert von **10** gilt als Obergrenze des menschlich Normalen – darüber
-  hinaus bewegt man sich im _übermenschlichen_ Bereich. _Neu:_ Um **Power Creep** zu verhindern,
-  werden Werte _über 10_ nur noch bei besonderen Gelegenheiten gesteigert (z. B. durch **zwei
-  Stufenaufstiege** investieren oder im Zuge eines **Prestige-Aufstiegs** – siehe unten). Jenseits
-  der 10 sind Steigerungen an **spezielle Upgrades oder Story-Ereignisse** geknüpft, etwa ein
+  erhöht werden. Ein Attributswert von **10** stellt bereits ein sehr hohes Niveau dar. Menschliche
+  Spitzenwerte liegen ungefähr bei **12**; alles darüber wirkt klar übermenschlich. _Neu:_ Um **Power Creep**
+  zu verhindern, werden Steigerungen _über 10_ nur noch bei besonderen Gelegenheiten vergeben (z. B.
+  indem man **zwei Stufenaufstiege** investiert oder einen **Prestige-Aufstieg** vollzieht – siehe unten).
+  Solche Werte sind an **spezielle Upgrades oder Story-Ereignisse** geknüpft, etwa ein
   erworbenes Implantat oder intensives Training mit einem Mentor. _Nutzen:_ **Flow:** Die Charaktere
   verbessern sich stetig in ihren Kernbereichen, ohne dass jeder Level-Up sofort maximalste Werte
   erzeugt – die Progression **fühlt sich organisch** an. **Balance:** Die _weiche
