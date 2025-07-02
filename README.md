@@ -15,6 +15,22 @@ ein textbasiertes Zeitreise-Rollenspiel.
 > 4. **Paradoxon-Index.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
 > 5. **Hard Sci-Fi.** Keine Magie; Psi nutzt Power-Punkte (PP). Zu viel Druck führt zu Burn & Psi-Heat.
 
+
+## Quick-Start Zwei-Seiter {#quick-start-zweiseiter}
+
+Im hektischen Chat soll die Spielleitung schnell loslegen können.
+Dieser Abschnitt fasst Wuerfelregel, Missionsablauf
+und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
+
+1. **Phasenstruktur** – Briefing, Arrival, Intel, Breach, Exfil, Return.
+2. **Würfel** – W6 mit *Exploding-6* für den ersten Wurf.
+   Ab Attribut 11 ersetzt ein W10 den W6; bei 14 kommt ein Heldenwürfel als Reroll hinzu.
+3. **Paradoxon-Index** – Wertebereich 0–5. Stufe 5 triggert `ClusterCreate()` und erzeugt bis zu zwei Seeds.
+   Der Index springt anschließend auf 0; offene Seeds erhöhen den SG.
+4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
+    `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
+
+Mehr Details findest du weiter unten im [Quick-Start Cheat Sheet](#quick-start-cheat-sheet).
 Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
 Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
 Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und

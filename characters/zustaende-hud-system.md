@@ -363,7 +363,10 @@ einen Toggle `/stress open|hidden`.
   für Stat- und Schadenswerte.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
-  **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird und so ein unterschwelliges Risiko vermittelt.
+  **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird. Optional lässt sich die Zahl offener Seeds
+  einblenden:
+[[HUD]] [Seeds: 3]  🔄 Paradox 4/5 [[/HUD]]
+  So behält das Team die langfristige Gefahr im Blick.
 Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Rissen warnen.
   Contra-orientierte Gruppen dürfen laut [Charaktererschaffung](charaktererschaffung.md)
   und [Zeitriss-Core](../core/zeitriss-core.md) die Paradoxmechanik vollständig deaktivieren.
@@ -584,8 +587,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 | Symbol | Bedeutung |
 | ------ | --------- |
-| ❤️ | Lebenspunkte/HP |
-| ⚠️ | Paradoxon-Warnung |
+| ❤️ | Vitalstatus |
+| ⚠️ | Stresslevel |
+| 🔄 | Paradoxon-Index |
 | 🩸 | Blutung |
 | ☠️ | Vergiftung |
 | ⏱️ | Countdown/Timer |
@@ -613,6 +617,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 <span style="color:#6cf">HUD: Paradox 3/5</span>
 <span style="color:#f93">Regel: bei PI 5 folgt ClusterCreate()</span>
 
+[[RULE]] ClusterCreate() bei PI 5 [[/RULE]]
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
