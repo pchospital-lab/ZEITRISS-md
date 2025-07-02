@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.0
+version: 4.0.2
 tags: [meta]
 ---
 
@@ -29,15 +29,6 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
    Der Index springt anschließend auf 0; offene Seeds erhöhen den SG.
 4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
     `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
-
-Mehr Details findest du weiter unten im [Quick-Start Cheat Sheet](#quick-start-cheat-sheet).
-Jedes Unterverzeichnis steht für einen Themenbereich, und jede Datei enthält ein Regelmodul.
-Alle Module beginnen nun mit einem YAML-Header, der Titel, Version und thematische Tags enthält.
-Rift-Regeln sind jetzt in `kampagnenstruktur.md`, `kreative-generatoren.md` und
-`speicher-fortsetzung.md` integriert. Dort findet sich auch der neue
-**Epoch-Lock & Rift-Loop**, inklusive Makros und Missionstabellen.
-Ein kompaktes Flow-Chart der sechs Phasen steht in [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mission-chart).
-
 
 ## Grundidee
 
@@ -108,22 +99,6 @@ Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zusta
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
 [Cinematisches HUD-Overlay](characters/zustaende-hud-system.md#cinematisches-hud-overlay).
-
-## ZEITRISS in 10 Minuten
-
-Eine Kurzfassung der wichtigsten Regeln:
-
-1. **Phasenstruktur** – Briefing, Aufklärung, Konflikt, Auswertung.
-   Nach jedem Schritt speichert der Codex automatisch.
-2. **Würfel** – Standard ist W6. Schwierigkeitsgrade: 5 = leicht, 8–9 = mittel,
-   12 = schwer, 15+ = extrem. Bei W10 erhöht sich der SG um 4.
-   Exploding 6 gilt nur für den **ersten** Würfel.
-3. **Heldenwürfel** – Ab Attribut 14 erhalten Charaktere pro Szene einen Gratis-Reroll.
-4. **Paradoxon-Index** – Bei Stufe 2 flackert das HUD, bei 5 erzwingt das HQ ein
-   ClusterCreate(). Jedes Team führt eine eigene Liste und merged sie im HQ.
-   Ein optionaler **Index-Merge-Schalter** legt fest, ob die Werte im HQ
-   automatisch zusammengeführt werden.
-5. **HUD-Kommandos** – `menü` öffnet das taktische HUD, `codex [thema]` liefert Hintergrundinfos.
 
 ## Quick-Start Cheat Sheet
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
