@@ -8,6 +8,12 @@ tags: [meta]
 
 ## 4.0.2
 - Removed redundant lines in README for clarity.
+## 4.0.3
+- Added historical anomaly table and puzzle sets in `kreative-generatoren.md`.
+- Introduced contextual `historical_faction` pool in `master-index.json`.
+## 4.0.4
+- Converted historical anomalies section to YAML blocks.
+- Kürzere Rätsel-Set-Texte und klarere Missionstrennung in README.
 ## 4.0.1
 - Rewrapped long lines in `README.md`, `meta/masterprompt_v6.md` and `core/wuerfelmechanik.md`.
 - Added this changelog file.

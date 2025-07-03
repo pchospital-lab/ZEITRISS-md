@@ -34,6 +34,8 @@ tags: [gameplay]
 
 - Rätselbibliothek: Kurze Hürdenszenen
 - Temporale Anomalien-Generator: Risse im Zeitstrom
+- Rätsel-Sets: Komplette Szenen
+- Historische Anomalien-Generator
 
 Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen – vor allem nicht
 im offenen Sandkasten-Spiel. Hier kommen **kreative Generatoren** ins Spiel: strukturierte
@@ -1617,3 +1619,107 @@ sparsam ein, um Spannung, Staunen oder Dringlichkeit zu erzeugen.
 | 4 | Gravitation lokal −5 %. |
 | 5 | Starker Kupfergeruch. |
 | 6 | Zwei Sekunden absolute Stille. |
+
+## Historische Anomalien-Generator {#anomalie_realhistory}
+
+Dieser Patch liefert konkrete Eingriffe in den Verlauf realer Geschichte.
+Jeder Block lässt sich direkt in den Mission Seed kopieren.
+
+```yaml
+- jahr: 1888
+  ort: London
+  fraktion: Fenian Brotherhood
+  ziel: Stoppt Transfer von Hafen-Patenten an Royal Navy
+  etablierter_verlauf: Royal Navy modernisiert Docks
+  methode: Sabotiert Telegraphenverkehr zwischen Whitehall & Devonport
+  codename: HARBOUR-SILENT
+- jahr: 1894
+  ort: Paris
+  fraktion: Dreyfus-Gegner im Militärkartell
+  ziel: Erzielt Revision des Prozesses, blockiert Reform
+  etablierter_verlauf: Dreyfus wird verurteilt, später rehabilitiert
+  methode: Fälscht Cipher-Funksprüche im Etat-Major
+  codename: JUSTITIA-BEND
+- jahr: 1906
+  ort: Istanbul
+  fraktion: Reformzirkel der Jungtürken
+  ziel: Lässt geheimes Flottenabkommen scheitern
+  etablierter_verlauf: Abkommen 1907 ratifiziert
+  methode: Drosselt Untersee-Kabelverkehr via Saloniki
+  codename: PORTHOLE-ECLIPSE
+- jahr: 1911
+  ort: Agadir
+  fraktion: Deutscher Admiralstab-Hardliner
+  ziel: Erzwingen Besetzung statt Kanonenboot-Kriegsspiel
+  etablierter_verlauf: Panther-Einsatz bleibt demonstrativ
+  methode: Fälscht Handels-Telegramme, löst Marktpanik aus
+  codename: SHADOW-PANTHER
+- jahr: 1914
+  ort: St. Petersburg
+  fraktion: Radikale Baltische Sozialisten
+  ziel: Verzögern Mobilmachungs-Telegramm
+  etablierter_verlauf: Russland mobilisiert zeitgerecht
+  methode: Sabotiert Bahnstrom an Schlüsselstationen
+  codename: CLOCK-FREEZE
+- jahr: 1922
+  ort: Dublin
+  fraktion: Royalist Network
+  ziel: Unterminiert Anglo-Irish Treaty
+  etablierter_verlauf: Vertrag wird unterzeichnet
+  methode: Fängt Funktelegramme ab und ersetzt Passagen
+  codename: EMPIRE-GHOST
+- jahr: 1936
+  ort: Berlin
+  fraktion: KPD-Deckorganisation in der Abwehr
+  ziel: Verhindert Antikomintern-Pakt
+  etablierter_verlauf: Pakt wird geschlossen
+  methode: Stört Kurzwelle-Kreise zwischen Berlin und Tokio
+  codename: RED-FEATHER
+- jahr: 1943
+  ort: Bari
+  fraktion: Waffen-Schmuggler-Consortium
+  ziel: Lässt Senfgas-Katastrophe größer eskalieren
+  etablierter_verlauf: Explosion bleibt lokaler Vorfall
+  methode: Manipuliert Hafen-Lichtsignale
+  codename: YELLOW-TIDE
+- jahr: 1956
+  ort: Kairo
+  fraktion: Nasser-nahe Geheimgruppe
+  ziel: Beschleunigt Nationalisierung des Suezkanals
+  etablierter_verlauf: Krisenbeginn Ende Juli
+  methode: Lanciert gefälschte britische Ultimaten via BBC
+  codename: NILE-ECHO
+- jahr: 1962
+  ort: Havanna
+  fraktion: Hardliner-GRU
+  ziel: Erzwingt direkten Abschussbefehl
+  etablierter_verlauf: Kennedy und Chruschtschow de-eskalieren
+  methode: Überlastet Telefax-Routen, verzögert Abzugsorder
+  codename: CROSSHAIR-CUBA
+- jahr: 1983
+  ort: Moskau
+  fraktion: Rotes Oktagon
+  ziel: Labelt NATO-Übung Able Archer als Angriff
+  etablierter_verlauf: Frühwarnung bleibt Fehlalarm
+  methode: Hackt Serpukhov-15 Datenbus
+  codename: IRON-DAWN
+- jahr: 1989
+  ort: Leipzig
+  fraktion: Stasi-Oberkommando
+  ziel: Hält Grenzöffnungs-Meldung zurück
+  etablierter_verlauf: Günter Schabowski verliest Lockerung
+  methode: Filtert Fernschreiben und ersetzt Formulierungen
+  codename: WALL-HOLD
+```
+
+## Rätsel-Sets {#raetsel_sets}
+
+Vollständige Rätsel für bestimmte Epochen. Die Spalte "Reward" beschreibt den
+vorgesehenen Erfolgsbonus.
+
+| id | jahr | ort | puzzle | solution | reward |
+| -- | ---- | --- | ------ | -------- | ------ |
+| 7  | 1888 | London | Fünf Drähte, drei Enden – Reihenfolge erzeugt Morsecode. | Blau-Grün-Rot-Gelb-Schwarz = "SEAL" | Schaltschrank offen, +1 Info |
+| 8  | 1906 | Istanbul | Numerische Kalligraphie verrät Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress –2 |
+| 9  | 1911 | Agadir | Drei falsche Schiffsrouten ergeben ein Dreieck. | 30°25′N 09°36′W | Feindliches Depot entdeckt |
+| 10 | 1983 | Moskau | XOR-codierte Uhrzeiten auf Lochkarten. | Karte 17 mit Muster 101100 | Countdown gestoppt, Paradoxon –1 |
