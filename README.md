@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.0.2
+version: 4.0.4
 tags: [meta]
 ---
 
@@ -11,6 +11,7 @@ ein textbasiertes Zeitreise-Rollenspiel.
 Im Spiel entspricht der gespeicherte JSON-Stand einem digitalen Charakterbogen.
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
+>    Rift-Ops decken echte Anomalien auf.
 > 2. **Six-Step Missions.** Briefing -> Arrival -> Intel -> Breach -> Exfil -> Return.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10 + Heldenwürfel.
 > 4. **Paradoxon-Index.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
@@ -41,9 +42,9 @@ Jede Mission folgt der Preserve-vs-Trigger-Logik.
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig von ihrer Fraktion.
 Erst nach der Investigation wird klar, welches historische Ereignis gesichert
 oder ausgeloest werden soll.
-Alles scheinbar Übernatürliche erhält eine logische Erklärung – geheime Technik
-sowie Bio- oder Cyberware.
-Auch fokussierte Psi-Techniken können dahinterstecken.
+Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung
+– geheime Technik oder Bio-Cyberware. Bei Rift-Ops können echte Parawesen
+auftreten. Auch fokussierte Psi-Techniken können dahinterstecken.
 Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
 und treibt die *Psi-Heat* hoch.
 Paradox-Effekte werden über einen Index von 0–5 verfolgt.
