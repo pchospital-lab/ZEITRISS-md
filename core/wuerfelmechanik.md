@@ -624,8 +624,8 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
-**Paradoxon‑Index (PI)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
-**PI +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **PI −1:** Spuren verwischen, Konsistenz herstellen
+**Paradoxon‑Index (Px)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
+**Px +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **Px −1:** Spuren verwischen, Konsistenz herstellen
 Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
 
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),

@@ -631,9 +631,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```
 <span style="color:#6cf">HUD: Paradox 3/5</span>
-<span style="color:#f93">Regel: bei PI 5 folgt ClusterCreate()</span>
+<span style="color:#f93">Regel: bei Px 5 folgt ClusterCreate()</span>
 
-[[RULE]] ClusterCreate() bei PI 5 [[/RULE]]
+[[RULE]] ClusterCreate() bei Px 5 [[/RULE]]
 - **Initiative & Team-Status:** Das HUD-Overlay ermöglicht auch einen Überblick über die
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In

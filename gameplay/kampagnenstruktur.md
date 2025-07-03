@@ -305,11 +305,11 @@ Shard-Drop: 1+Tier
 
 - **Primär-Option:** Deaktiviert die Booster → Feuer würde im Regen ersticken.
 - **Sekundär-Option:** Signalplanken austauschen oder Öl-Fässer entfernen → +1 Zeitaufwand.
-- **PI-Auslöser**
+- **Px-Auslöser**
   - +1: Eine Wache sieht einen Chrononauten (Zeitzeuge).
   - +1: Zeittech wird entdeckt (falls zurückgelassen).
-  - PI ≥ 3: Wachtrupp zu Pferd (4 Ritter) erreicht den Turm nach 1 Ingame-Minute.
-  - PI = 5: **ClusterCreate()** – Zeitspalt manifestiert Funkenflut, Turm gerät in Brand.
+  - Px ≥ 3: Wachtrupp zu Pferd (4 Ritter) erreicht den Turm nach 1 Ingame-Minute.
+  - Px = 5: **ClusterCreate()** – Zeitspalt manifestiert Funkenflut, Turm gerät in Brand.
 
 ###### 5 ▸ Exfiltration
 
@@ -322,7 +322,7 @@ Shard-Drop: 1+Tier
 |-----|-----------|------------|
 | *Triumph*   | Booster entfernt **und** Wachen unalarmiert | Ordenskavallerie bleibt ohne Verstärkung; Front hält. |
 | *Vollerfolg*| Booster entfernt, Alarm ausgelöst     | Schlacht kippt fürs ITI; Patrouillen wachsamer (Folge-SG +1). |
-| *Teilerfolg*| Booster beschädigt / Holz getauscht   | 30 % Chance auf Not-Signal; Timeline instabil (PI +1). |
+| *Teilerfolg*| Booster beschädigt / Holz getauscht   | 30 % Chance auf Not-Signal; Timeline instabil (Px +1). |
 | *Misserfolg*| Booster nicht entschärft              | Verstärkung rückt an, Schlacht kippt – Folgeeinsatz nötig. |
 
 #### 5a · Extraction-Evac (optional)
