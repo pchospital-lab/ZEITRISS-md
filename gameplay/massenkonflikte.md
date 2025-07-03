@@ -530,8 +530,29 @@ das Gefühl haben, **durch kluges Handeln das Ruder herumreißen** zu können, e
 um sie ist.
 
 *Per‑5‑Einheiten‑Tracker:* Zählt Truppen in Fünferblöcken und streicht jeweils einen Marker, wenn
-eine Gruppe ausgeschaltet wird. Je 5 verlorene Einheiten reduziert ihr die Erfolgspunkte dieser Seite
+eine Gruppe ausgeschaltet wird. Je 5 verlorene Einheiten reduziert ihr die Erfolgspunkte dieser Seite
 um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhaltung zu betreiben.
+
+#### Kommandopunkte pro Truppenstärke
+
+| Einheiten (≈ Soldaten) | Grund‑KP | Anmerkung |
+|------------------------|---------:|-----------|
+| 1 – 9                  | 0        | Skirmish, nur Taktik‑Würfe |
+| **10 – 19**            | **1 KP** | Standard‑Trupp |
+| 20 – 29                | 2 KP     | Zug |
+| 30 – 39                | 3 KP     | Verstärkter Zug |
+| 40 – 49                | 4 KP     | Kompaniekerne |
+| 50 +                   | 5 KP     | Volle Kompanie / Bataillon |
+
+> **Regeltext:** Ein Befehl kostet 1 KP, sofern nicht anders angegeben. KP werden zu Beginn jeder
+> Gefechts‑Runde neu berechnet. Zusätzliche KP aus Talenten oder Artefakten werden **nach** der
+> Grundberechnung hinzugezählt.
+
+> **Flankierungs‑Kappung**
+> Bei Massenkonflikten darf der Flankierungsbonus **maximal +2 Würfel** betragen – unabhängig davon,
+> wie viele Einheiten an der Umfassung beteiligt sind.
+> *Beispiel:* Drei befreundete Züge flankieren gemeinsam → es würden rechnerisch +3 Würfel anfallen,
+> aber der Bonus wird bei +2 gedeckelt.
 
 ## Rift-Kreaturen (Stat-Blocks)
 

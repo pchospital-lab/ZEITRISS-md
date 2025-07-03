@@ -707,3 +707,17 @@ Kurzanleitung für Missionen ohne funktionierenden Codex oder HUD.
 | `status` | Eigenen Zustand prüfen |
 
 Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleichtern.
+
+### Würfel‑Cheat‑Sheet
+
+| Attribut | Würfel | Besonderheiten |
+|---------:|-------|----------------|
+| 1–7 | 1×W6 | Exploding 6, Burst‑Cap 3 |
+| 8–10 | 1×W8 | 6 explodiert wie gewohnt |
+| 11+ | 1×W10 + Heldenwürfel | Beste Zahl zählt, 10 explodiert |
+
+**Erfolgsschwelle**
+Standardziel 5 (W6). Bei W10 +4 auf die Schwelle.
+
+**Heldenwürfel**
+Einmal pro Szene als zusätzlicher W10. Nur bei Attribut 11+.

@@ -35,12 +35,20 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
-> **Kaufkraft-Relation:**
-> | Epoche | Gegenwert für 10 CU |
-> | ------ | ------------------ |
-> | 2025 | etwa 100 EUR |
-> | 1920 | rund 60 Mark |
-> | 1572 | gut 20 Silberstücke |
+> **Historische Kaufkraft‑Faustregel**
+>
+> 1 Chrono‑Unit (CU) ≈ **20 € (2025‑Äquivalent)**
+
+| Epoche                 | 1 CU entspricht etwa | Beispielkauf |
+|------------------------|---------------------:|--------------|
+| Mittelalter (ca. 1250) | ½ Silber‑Dirham      | Ein gutes Kurzschwert |
+| Renaissance (ca. 1500) | 1 Florin            | 1 Woche Gasthof für 2 Personen |
+| Industrialisierung (ca. 1880) | 2 US‑$/Goldstandard | 1 maßgeschneiderter Anzug |
+| Kalter Krieg (1970)    | 7 US‑$              | Einfache Handfeuerwaffe |
+| Gegenwart (2025)       | 20 €                | Tagesration High‑Tech‑Feldverpflegung |
+| Lunar‑Kolonie (2142)   | 0.04 Luna‑Credit     | 10 Min O2‑Nachfüllung |
+
+*Hinweis:* Für alles jenseits dieser Richtwerte gilt: **Preis (lokal) / 20 ≈ CU**.
 
 ## Chrono Units verdienen: Missionen und Funde
 
