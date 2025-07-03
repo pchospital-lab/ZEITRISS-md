@@ -337,7 +337,7 @@ einen Toggle `/stress open|hidden`.
 - **Stress-Regeneration:** Eine Kampfrunde ohne Aktionen senkt Stress um **1 Punkt**,
   sofern eine Willenskraftprobe gegen einen Mindestwurf in Höhe des aktuellen
   Stresslevels gelingt.
-  Eine kurze Meditation über zwei Runden reduziert **2 Punkte**.
+  Eine kurze Meditation über zwei Runden reduziert **3 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
 - **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
   Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradoxon-Index** verwenden,
