@@ -595,6 +595,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 **Cheat:** Würfel = `/roll Xd6 explode` (Auto-Explode)
 **Tip:** `modus echo` (Visionen an) / `modus focus` (Visionen aus)
 ```
+
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im
