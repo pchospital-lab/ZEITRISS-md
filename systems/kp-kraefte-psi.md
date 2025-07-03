@@ -24,7 +24,7 @@ tags: [systems]
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
-`Px` bezeichnet Paradox-Index-Punkte (siehe core).
+`Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte

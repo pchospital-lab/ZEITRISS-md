@@ -1730,7 +1730,7 @@ vorgesehenen Erfolgsbonus.
 
 | id | jahr | ort | puzzle | solution | reward |
 | -- | ---- | --- | ------ | -------- | ------ |
-| 7  | 1888 | London | Fünf Drähte, drei Enden – Reihenfolge erzeugt Morsecode. | Blau-Grün-Rot-Gelb-Schwarz = "SEAL" | Schaltschrank offen, +1 Info |
-| 8  | 1906 | Istanbul | Numerische Kalligraphie verrät Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress –2 |
+| 7  | 1888 | London | 5 Drähte, 3 Enden -> Morsecode. | B-G-R-G-S = "SEAL" | Schaltschrank offen, +1 Info |
+| 8  | 1906 | Istanbul | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress –2 |
 | 9  | 1911 | Agadir | Drei falsche Schiffsrouten ergeben ein Dreieck. | 30°25′N 09°36′W | Feindliches Depot entdeckt |
-| 10 | 1983 | Moskau | XOR-codierte Uhrzeiten auf Lochkarten. | Karte 17 mit Muster 101100 | Countdown gestoppt, Paradoxon –1 |
+| 10 | 1983 | Moskau | XOR-Lochkarten-Uhrzeiten. | Karte 17 -> 101100 | Countdown gestoppt, Paradoxon –1 |
