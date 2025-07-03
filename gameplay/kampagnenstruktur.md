@@ -116,7 +116,7 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Mission
 setzen auf realistische Agentenaufträge. Welche Epoche betroffen ist, bestimmt
 der [Random-Epochen-Generator](kreative-generatoren.md#epochen-generator). Für
 Szenarien, die bekannte Ereignisse verändern, bietet der
-[Historische&nbsp;Anomalien-Generator](kreative-generatoren.md#anomalie_realhistory)
+[Historische Anomalien-Generator](kreative-generatoren.md#anomalie_realhistory)
 zusätzliche Seeds. Artefakte können auch hier auftauchen, wenn der optionale
 Wurf erfolgreich ist. Rift-Missionen werden aus der
 [`RiftSeedTable`](kreative-generatoren.md#anomalien-generator) bestimmt und
