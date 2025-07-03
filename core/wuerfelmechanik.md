@@ -207,7 +207,7 @@ Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgr�
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
 In ZEITRISS verschmelzen HUD-Overlay und Codex.
-Das HUD zeigt Warnungen bei <25 % Vitalstatus und jedem Paradox-Index >0.
+Das HUD zeigt Warnungen bei <25 % Vitalstatus und jedem Paradoxon-Index >0.
 Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
 Weitere Details stehen im Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).

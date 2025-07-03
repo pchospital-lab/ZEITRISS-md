@@ -1024,7 +1024,7 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 | **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
 | **Shard Exchange**    | 5 Shards → 500 CU                        | —        | 0                          |
 
-_Px = Paradox-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
+_Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
 
 ### 6 | No-Go-Zonen (Style-Compliance)
 
