@@ -1366,9 +1366,20 @@ Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das hin u
 Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen „mysteriösen“
 Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
 
+
 ### Modul‑Add‑on »Artefakte«
 
 *(kompatibel zu ZEITRISS 4.0, ready‑to‑drop oder als Generator nutzbar)*
+
+| Stufe | Nutzenbeispiel | Risiko (Paradoxon‑Index) | Icon‑Label* |
+|------:|----------------|-------------------------|-------------|
+| **A** | Geringfügige Info‑Vorteile | +0 | 📄 |
+| **B** | Temporärer Skillboost (+1 Würfel) | +1 pro Einsatz | 🔹 |
+| **C** | Einmaliger Technologie‑Sprung | +2 sofort | ⚙️ |
+| **D** | Zeit‑Manipulation im Minutenbereich | +4 sofort | ⏳ |
+| **E** | Historische Konstanten ändern | +5 & ClusterCreate‑Check | ☢️ |
+
+\*Die Icon‑Labels entsprechen Unicode‑Emojis; im Layout können eigene Piktogramme verwendet werden.
 
 #### Zweiundvierzig einsatzbereite Artefakte
 
