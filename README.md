@@ -324,6 +324,10 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Seed-ID** – Kennziffer eines Missions-Seeds.
 - **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.
 
+- **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
+- **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
+- **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
+- **Px** – Paradoxon-Index (kampagnenweit). Bei 5 automatischer Cluster-Reset.
 
 
 ## Playtest Feedback
