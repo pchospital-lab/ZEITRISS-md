@@ -420,7 +420,7 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
 6. **Chrono-Seilwerfer** – Kompaktes Enterhaken-System, haftet an jeder Oberfläche und löst sich auf
    Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien.
 
-## Kuriose Artefakte & Relikte (1W8)
+## Kuriose Artefakte & Relikte (1W9)
 
 1. **Kristallschädel** – Strahlt schwache Energie aus. Wer ihn studiert, erhält gelegentlich
    Visionen vergangener Ereignisse. Bei Sammlern 300 CU wert.
@@ -438,6 +438,8 @@ Historikern weitaus mehr.
 7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU.
 8. **Runenbesetzter Würfel** – Zeigt frühere Entscheidungen als Projektion.
    Einmalig +1 auf Geschichtswürfe. Wert: 300 CU.
+9. **Prismatischer Fluxprojektor** – Kurzfristige Fluxhülle (3 s) erlaubt Durchgang oder Schild.
+   Sekundär: UV-Lichtbogen schneidet Stahl in 5 m. Kosten: 1 PP, 2 Heat, 1 Px. 2 Ladungen.
 
 ## Seltene Spezialgegenstände (1W6)
 

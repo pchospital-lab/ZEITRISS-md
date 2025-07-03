@@ -850,6 +850,10 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   type: "orbital"
   risk: "XL"
   text: "Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)"
+- epoch: "1897"
+  type: "security"
+  risk: "M"
+  text: "Osmanische Geheimpolizei: Patrouillen, Mauser C96. Verstärkung ab Heat 3. +1 Gegner je sichtbare Psi-Nutzung"
 
 ## Encounter-Paket „Postorbitales Zeitalter" {#postorbital-encounters}
 
@@ -1002,6 +1006,7 @@ liegen, mischt die SL den Stapel zurück.
 | 43 | Echo Broadcast warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
 | 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
 | 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
+| 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |
 
 _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
@@ -1560,6 +1565,7 @@ Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
 | 7 | Mehrstufiges Klangrätsel löst geheime Tür | ✱ |
 | 8 | Subtile chemische Reaktion verrät den Code | ✱ |
 | 9 | Zeitscheiben-Schalter koordiniert drei 5s-Fenster – Soft Fail Alarm 1 | ✱ |
+| 10 | Karbid-Kryptograph – Kryokammer öffnen via Magnetfeldanalyse, Telekinese oder Überreden | ⚠ |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.
@@ -1601,3 +1607,13 @@ einen Eintrag, um das Ereignis einzubauen.
 
 Temporale Anomalien sind seltene, aber eindrucksvolle Ereignisse. Setzt sie
 sparsam ein, um Spannung, Staunen oder Dringlichkeit zu erzeugen.
+## Minor-Anomalien (d6) {#minor-anomalien}
+
+| Wurf | Effekt (1 min) |
+| ---- | -------------- |
+| 1 | Rostpartikel fliegen rückwärts an Metall. |
+| 2 | Uhrenschläge doppelt so schnell. |
+| 3 | Haare der Agenten stellen sich elektrostatisch auf. |
+| 4 | Gravitation lokal −5 %. |
+| 5 | Starker Kupfergeruch. |
+| 6 | Zwei Sekunden absolute Stille. |
