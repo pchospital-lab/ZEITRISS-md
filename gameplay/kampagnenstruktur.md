@@ -338,6 +338,20 @@ führt Phase 5a die taktische Räumung der Hot-Zone durch.
 
 > **Tischaufbau**: Skizze reicht (10×10 m). Waldkante, Turm (6 m Gerüst, Leiter innen), zwei Fackeln, Holzlager.
 
+##### Kurzabenteuer „Operation GLASLÄUFER“ {#operation-glaslaeufer}
+
+*10-Seiten-Outline, Berlin 1961*
+
+| Phase | Inhalt | Spielmaterial |
+| ----- | --------------------------------------------------------------- | ------------------------ |
+| **Briefing** | West-Alliierten-Funkmast droht Sabotage. Abhörgerät platzieren. | Hand‑out Funkmast-Schema |
+| **Ankunft** | Regen, Checkpoint Charlie, Mauerbau im Gange. | Foto-Moodboard |
+| **Aufklärung** | Patrouillen-Routen, falsche Baupläne, NSC Stasi-Ingenieur. | Mini-Map ½ A4 |
+| **Zugriff** | Schleichen oder Social-Hack im Baucontainer. | Timer 4 Runden |
+| **Eskalation** | Paradoxon‑Index +1 → Zeitsoldaten erscheinen. | Statblock |
+| **Exfiltration** | Dampfer über Spree, Mauer‑Scheinwerfer. | Chase-Referenz |
+| **Rücksprung** | Mission endet, Rücksprung ins HQ. | Debrief‑Bogen |
+
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
 2. Ein Ausrüstungs-Paket (kostenlos).

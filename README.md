@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.0.4
+version: 4.0.5
 tags: [meta]
 ---
 
@@ -128,6 +128,15 @@ Die ersten Schritte in unter zwei Minuten:
 9. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
+### Session-0 Agenda
+
+1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
+2. **Lines/Veils bestätigen** – siehe Safety Sheet.
+3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
+4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
+5. **Paradoxon-Toleranz** – Wie häufig wollt ihr Rifts?
+6. **Regel-Transparenz** – verdeckte vs. offene Würfe klären.
+
 ### Probability Cheat Table
 
 | TN | Erfolg W6 | Erfolg W10 |
@@ -226,6 +235,17 @@ Inhalte, die komplett ausgespart werden. **Veils** lassen Szenen bei Bedarf
 ausblenden oder „fade to black“ laufen. Notiert eure Vereinbarungen im Codex,
 damit alle denselben Rahmen kennen. Wer keine speziellen Grenzen setzen
 möchte, kann den Abschnitt einfach überspringen.
+
+#### Safety Sheet
+
+| Thema | Line (Tabu) | Veil (Off-Screen) |
+|-------|-------------|-------------------|
+| Sexualisierte Gewalt | ✔ | – |
+| Kindesgefährdung | – | ✔ |
+| Body Horror | – | ✔ |
+
+Der SL kann Szenen jederzeit *cutten*. Als Ingame-Begründung dient eine
+Index-Senke im Codex.
 
 ### ZEITRISS – Einleitung
 
@@ -330,11 +350,18 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
 - **Px** – Paradoxon-Index (kampagnenweit). Bei 5 automatischer Cluster-Reset.
 
+| Begriff | Bedeutung |
+| ------- | ------------------------------------------------------------ |
+| **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
+| **ClusterCreate()** | Notfallroutine: Bei Paradoxon 5 erscheinen 1–2 Seeds auf der Weltkarte und der Index springt auf 0. |
+| **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
+
 
 ## Playtest Feedback
 
 Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
 Scanne den QR-Code oder besuche [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
+
 
 ## How to Contribute
 
