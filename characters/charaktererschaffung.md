@@ -66,7 +66,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 3. **"Wildcard" – Face / Social Ops**
    * Attribute (2/3/3/5/4/2) | Skills: Verhandeln 4, Verkleiden 3
    * Cyberware: Stimm‑Modulator, Daten‑Tattoos
-   * Unique Gear: Wegwerf‑DNA‑Spray (−1 PI für kurze Verkleidung)
+    * Unique Gear: Wegwerf‑DNA‑Spray (−1 Px für kurze Verkleidung)
 
 4. **"Ricochet" – Close-Quarters Shooter**
    * Attribute (5/4/3/2/3/3) | Skills: Schusswaffen 4, Taktik 2
