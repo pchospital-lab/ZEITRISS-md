@@ -150,8 +150,19 @@ schafft Distanz (die Helden setzen sich ab, finden eine Abkürzung oder tricksen
 auf). Nach ein paar Würfelrunden sollte klar sein, wie die Jagd endet – in einer **spektakulären
 Flucht** oder einer dramatischen Stelle, an der die Helden eingeholt werden. Wichtig: Die Würfel
 geben den Rahmen vor, aber **beschreibt jede Runde filmisch**. Selbst ein misslungener Wurf kann
-eine coole Szene ergeben („Dein Wagen driftet um die Ecke, fast erwischen dich die Gegner – Funken
-sprühen, als Metall auf Stein kratzt!“). So bleibt das Tempo hoch, ohne in Buchhaltung auszuarten.
+ eine coole Szene ergeben („Dein Wagen driftet um die Ecke, fast erwischen dich die Gegner – Funken
+ sprühen, als Metall auf Stein kratzt!“). So bleibt das Tempo hoch, ohne in Buchhaltung auszuarten.
+
+#### Wendemanöver (Turn‑180° / Immelmann / Slingshot)
+
+| Manövertyp              | Basis‑DC | Modifikatoren |
+|-------------------------|---------:|---------------|
+| Bodengebunden ≤ 120 km/h| **10**   | +3 pro 1 G Zusatzbelastung |
+| Bodengebunden > 120 km/h| 12       | „           “ |
+| Luft/Raum (0 G)         | 8        | +2 pro 10 m/s² Querschub |
+| Orbit‑Fahrzeuge         | 10       | +2 pro 10 m/s² Querschub |
+
+> **Praxis‑Tipp:** Ein Hover‑Jeep (max. 2 G) bei 140 km/h → DC = 12 + (2 × 3) = 18.
 
 ### Modifikationen & Upgrades
 
