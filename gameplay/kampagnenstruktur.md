@@ -113,10 +113,11 @@ flowchart LR
 ### Core- & Rift-Loop
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
-sind realistische Agentenaufträge ohne Artefakte, während Rift-Missionen aus der
-[`RiftSeedTable`](kreative-generatoren.md#anomalien-generator)
-gewürfelt werden und stets Anomalien enthalten. Rifts bringen häufig sogenannte
-**Paramonster** hervor – temporale Wesen, die im
+setzen auf realistische Agentenaufträge. Artefakte können auch hier auftauchen,
+wenn der optionale Wurf erfolgreich ist. Rift-Missionen werden aus der
+[`RiftSeedTable`](kreative-generatoren.md#anomalien-generator) bestimmt und
+enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** hervor
+– temporale Wesen, die im
 [Generator-Modul](kreative-generatoren.md#kreaturen-generator) beschrieben sind.
 Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
@@ -190,8 +191,8 @@ if paradox_level >= threshold:
 
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
 | ------------ | --------------------------------- | ---------- | -------------------- | --------------------- |
-| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | NEIN       | Spionage-Thriller    | `[CORE MISSION • …]`  |
-| **Rift-Ops** | RiftSeedTable d24                 | JA         | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
+| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION • …]`  |
+| **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
 
 ### Epoch-Lock & Rift-Loop
 
@@ -239,8 +240,9 @@ sich an der zum Einsprung offenen Seed-Anzahl. Verlassen die Agenten den Rift,
 schließt sich der Riss automatisch – gelungen oder nicht. Der Seed verschwindet
 aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
 Während einer Rift-Op bleibt der Paradoxon-Index unverändert: Weder der
-Einsprung noch die Ereignisse im Riss erhöhen ihn. Die Handlung ist eine
-eigenständige X-Files-Episode, die nur thematisch zur aktuellen Epoche passt.
+Einsprung noch die Ereignisse im Riss erhöhen ihn. Kontakt mit Artefakten kann
+den Index dennoch steigern. Die Handlung ist eine eigenständige X-Files-Episode,
+die nur thematisch zur aktuellen Epoche passt.
 
 ```text
 Name / Epoche
@@ -346,6 +348,7 @@ führt Phase 5a die taktische Räumung der Hot-Zone durch.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
 - Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
 - Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
+  Artefaktkontakt kann dennoch Punkte auslösen.
 
 #### Adaptive Opposition
 
