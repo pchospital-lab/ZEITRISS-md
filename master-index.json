@@ -190,8 +190,35 @@
       "id": "puzzle_pool",
       "path": "gameplay/kreative-generatoren.md#raetselbibliothek",
       "title": "Rätsel-Pool: Easy & Advanced"
+    },
+    {
+      "id": "puzzle_sets",
+      "path": "gameplay/kreative-generatoren.md#raetsel_sets",
+      "title": "Rätsel-Sets"
+    },
+    {
+      "id": "historical_anomaly_pool",
+      "path": "gameplay/kreative-generatoren.md#anomalie_realhistory",
+      "title": "Historische Anomalien-Generator"
     }
   ],
+  "historical_faction": {
+    "pool": [
+      "Fenian Brotherhood",
+      "Militärkartell Dreyfus-Gegner",
+      "Reformzirkel der Jungtürken",
+      "Deutscher Admiralstab-Hardliner",
+      "Radikale Baltische Sozialisten",
+      "Royalist Network",
+      "Abwehroffiziere der KPD-Deckorganisation",
+      "Waffen-Schmuggler-Consortium",
+      "Nasser-nahe Geheimgruppe",
+      "Hardliner-GRU",
+      "Rotes Oktagon",
+      "Stasi-Oberkommando"
+    ],
+    "weight": "contextual"
+  },
   "encounter_pools": {
     "core_ops": "EC-CORE-001…012",
     "rift_ops": "EC-RIFT-001…010",
