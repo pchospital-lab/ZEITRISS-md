@@ -81,14 +81,14 @@ sind der Übersicht halber aufgeführt.
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
-| [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Generatoren für Missionen & Kampagnen |
-| [gameplay/kreative-generatoren-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NSCs, Begegnungen & Anomalien |
+| [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
+| [kreative-generatoren-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC- & Encounter-Generatoren |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
-| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cineastischer Einstieg mit Gruppenstart-Varianten |
+| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [master-index.json](master-index.json) | Masterliste aller Generator-Pools |

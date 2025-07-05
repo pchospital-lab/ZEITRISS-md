@@ -130,7 +130,7 @@ Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert)
 Agenten wissen so sofort, welche Intensität sie aufrufen können, ohne im Gefecht
 nachrechnen zu müssen.
 
-### Backlash-Tabelle (kritischer Patzer)
+### Backlash-Tabelle (kritischer Patzer) {#backlash-tabelle-kritischer-patzer}
 
 | Patzerwert | Effekt |
 |-----------:|--------|

@@ -177,7 +177,7 @@ Um dieses "Alpha-Strike"-Phänomen auszugleichen, stehen zwei Optionen zur Wahl:
 `Aufklärung 8`, `Zugriff 12`, `Exfiltration 10`. Diese Richtwerte geben Spielern eine Vorstellung,
 wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
-## Schwierigkeits-Benchmark (Tabelle)
+## Schwierigkeits-Benchmark (Tabelle) {#schwierigkeits-benchmark-tabelle}
 
 | Schwierigkeit | Zielwert | Beschreibung | Beispiele |
 |---------------|---------:|--------------|-----------|
@@ -653,10 +653,11 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
-**Paradoxon‑Index (Px)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
-**Px +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **Px −1:** Spuren verwischen, Konsistenz herstellen
-Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
-
+**Paradoxon‑Index (Px)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()`
+und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
+**Px +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **Px −1:** Spuren verwischen, Konsistenz herstellen
+Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md#clustercreate-nebenwirkungen)
+für mögliche Folgeszenarien.
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Heat 0
 

@@ -554,7 +554,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 > *Beispiel:* Drei befreundete Züge flankieren gemeinsam → es würden rechnerisch +3 Würfel anfallen,
 > aber der Bonus wird bei +2 gedeckelt.
 
-## Rift-Kreaturen (Stat-Blocks)
+## Rift-Kreaturen (Stat-Blocks) {#rift-kreaturen-stat-blocks}
 
 | Typ | Kraft Pool | Init | Schaden | Resilienz | Besonderheit |
 |-----|-----------:|-----:|--------:|----------:|--------------|

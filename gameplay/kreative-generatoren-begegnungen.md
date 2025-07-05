@@ -668,7 +668,7 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
 Hinweise.
 
-### Artefakt-Seed-Starter (1W14)
+### Artefakt-Seed-Starter (1W14) {#artefakt-seed-starter-1w14}
 
 | Wurf | Codename | Jahr / Ort | Primäre Kraft | Nebenwirkung |
 |-----:|----------|-----------|---------------|---------------|
