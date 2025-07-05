@@ -176,7 +176,7 @@ function cmdJump(arg) {
 }
 ```
 
-`loadParamonsterEncounter` ruft den Paramonster‑Generator aus `gameplay/kreative-generatoren.md#kreaturen-generator`.
+`loadParamonsterEncounter` ruft den Paramonster‑Generator aus `gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator`.
 
 ---
 

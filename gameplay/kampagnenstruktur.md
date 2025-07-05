@@ -36,7 +36,7 @@ Zentrum stehen **Handlungsbögen (Arcs)**, die wie Staffeln einer Fernsehserie o
 in einzelne **Episoden** unterteilt werden. Jeder Bogen hat ein eigenes Thema oder Missionsziel,
 während sich über die gesamte Kampagne ein roter Faden spannt.
 Inspiration für komplette Arcs liefert der
-[Arc-Generator](kreative-generatoren.md#arc-generator)
+[Arc-Generator](kreative-generatoren-missionen.md#arc-generator)
 im Generator-Modul.
 
 ### Arc-Baukasten und Episodenstruktur {#arc-baukasten-und-episodenstruktur}
@@ -114,15 +114,15 @@ flowchart LR
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
 setzen auf realistische Agentenaufträge. Welche Epoche betroffen ist, bestimmt
-der [Random-Epochen-Generator](kreative-generatoren.md#epochen-generator). Für
+der [Random-Epochen-Generator](kreative-generatoren-missionen.md#epochen-generator). Für
 Szenarien, die bekannte Ereignisse verändern, bietet der
-[Historische Anomalien-Generator](kreative-generatoren.md#anomalie_realhistory)
+[Historische Anomalien-Generator](kreative-generatoren-begegnungen.md#anomalie_realhistory)
 zusätzliche Seeds. Artefakte können auch hier auftauchen, wenn der optionale
 Wurf erfolgreich ist. Rift-Missionen werden aus der
-[`RiftSeedTable`](kreative-generatoren.md#anomalien-generator) bestimmt und
+[`RiftSeedTable`](kreative-generatoren-begegnungen.md#anomalien-generator) bestimmt und
 enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** hervor
 – temporale Wesen, die im
-[Generator-Modul](kreative-generatoren.md#kreaturen-generator) beschrieben sind.
+[Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
@@ -936,7 +936,7 @@ Showdown-Szene.
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
 2. **Szenario-Setup:** Codex zieht einen Ort und ein Ziel aus den Tabellen in
-   `kreative-generatoren.md` und beschreibt die Ausgangslage.
+   `kreative-generatoren-missionen.md` und beschreibt die Ausgangslage.
 3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten aus der passenden
    Fraktion. Im Einzelspiel stammen die Ersatzleute aus deiner Fraktion; treten
    mehrere Spielende an, entscheidet die Mehrheitsfraktion über das Auffüllen.
