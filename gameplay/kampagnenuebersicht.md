@@ -31,6 +31,14 @@ Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen
 [Missions‑Generator](kreative-generatoren.md#missions-generator)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 
+### Safety Tools
+
+Um einen sicheren Spielrahmen zu schaffen, empfiehlt das ITI die Nutzung von
+[Lines & Veils](../README.md#lines-veils-optional), der **X‑Card** sowie einem
+knappen Session‑0‑Bogen. Legt fest, welche Themen tabu sind oder nur angedeutet
+werden. Die X‑Card erlaubt allen, eine Szene sofort zu beenden. Das Formular
+zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
+
 ### Chronopolis & ITI-Struktur
 Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Temporale Intervention (ITI)**.
 Forschungslabore, Trainingsareale und das zentrale **Arc‑Dashboard** bilden den ersten Anlaufpunkt
