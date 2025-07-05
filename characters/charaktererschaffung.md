@@ -835,3 +835,17 @@ Informationen liefert, oder durch den Codex, der Training und Fortschritt in Wor
 Spieler sollt euch ganz auf die Story einlassen können, während das System unsichtbar im Hintergrund
 den Rahmen hält. In diesem Sinne – viel Erfolg bei der Charaktererschaffung und auf dass eure
 Chrononauten mit jeder Mission wachsen und Legenden in der Zeitlinie hinterlassen!
+
+### Pregens {#pregens}
+
+| Name               | Rolle                   | STR/GES/INT/CHA/TEMP/SYS |
+| ------------------ | ----------------------- | ----------------------- |
+| Dr. Elise Weber    | Historikerin/Diplomatin | 2/3/5/5/4/3 |
+| Mira Nguyen        | Zukunfts-Hacker         | 2/4/5/2/3/5 |
+| Nikolai Volkov     | Temporal-Soldat         | 5/4/3/3/3/2 |
+| Sabine Kessler     | Tech-Ingenieurin        | 3/4/4/3/2/4 |
+| Dr. Julian Richter | Wissenschaftler/Medic   | 3/3/5/4/5/3 |
+| Henry Walsh        | Undercover-Spion        | 2/5/4/4/3/4 |
+
+Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
+werden, falls die Gruppe ohne langen Aufbau starten möchte.

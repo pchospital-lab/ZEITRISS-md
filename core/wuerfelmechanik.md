@@ -749,3 +749,15 @@ Standardziel 5 (W6). Bei W10 +4 auf die Schwelle.
 
 **Heldenwürfel**
 Einmal pro Szene als zusätzlicher W10. Nur bei Attribut 11+.
+
+### Druckbare Kurzreferenz (2 Seiten) {#druckreferenz}
+
+1. **Phasenablauf:** Briefing → Arrival → Intel → Breach → Exfil → Return.
+2. **Würfel:** 1W6, ab Attribut 11 1W10 + Heldenwürfel. Jede 6/10 explodiert einmal.
+3. **Paradoxon-Index:** steigt durch Zeitstörungen; bei 5 löst `ClusterCreate()` aus und
+   setzt den Zähler auf 0.
+4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
+   HQ-Phase.
+5. **Kurzbefehle:** `/roll Xd6`, `modus focus`, `launch_rift(id)`, `scan_artifact()`.
+
+Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
