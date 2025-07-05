@@ -600,6 +600,15 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 **Tip:** `modus echo` (Visionen an) / `modus focus` (Visionen aus)
 ```
 
+### Würfelbefehl mit Audit-Trail
+
+`/roll 1d6 e6` → 6 → explode → +5 = 11 (Log-ID #abc123)
+Nur der **erste** W6 einer Probe darf erneut geworfen werden. Weitere 6er zählen ohne Explosion.
+
+Die Log-ID gehört in den Save-Block
+([speicher-fortsetzung.md](gameflow/speicher-fortsetzung.md)),
+damit spätere Runden jeden Wurf nachprüfen können.
+
 ## Einbindung des Regelwerks in den Spielfluss
 
 Auch wenn du eine AI-Spielleitung in-world bist, musst du das **Regelwerk von ZEITRISS** im

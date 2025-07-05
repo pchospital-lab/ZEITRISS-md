@@ -22,6 +22,22 @@ tags: [systems]
 {"Name":"Alex","Epoche":"2025","Level":2,"zr_version":"4.0.2","version_hash":"4.0","arc_dashboard":{}}
 ```
 
+### Kontext-Roll-Up {#roll-up}
+
+- `keep:` Aktiver Auftrag, Paradoxon-Index, offene Hooks, Health
+- `archive:` Erledigte Szenen als 1-Satz-Résumé
+- `drop:` Würfel-History, verbrauchte Items
+
+```json
+{
+  "timestamp":"2025-07-05T18:40Z",
+  "agents":[{"id":"Nova","stress":3,"hp":12}],
+  "mission":{"era":"Berlin 1961","phase":"Aufklärung"},
+  "paradox":2,
+  "log":"#abc123"
+}
+```
+
 - Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
