@@ -39,18 +39,14 @@ tags: [meta]
 - Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` ist Standard und blendet Visionen konsequent aus.
   Er betont klare Einsatzabläufe.
   Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.
-- Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
-  und erzeugt 1–2 Rift-Seeds, bevor der Zähler auf 0 springt.
-  Zeitkreaturen können Teil dieser Risse sein.
-  Über `modus` lässt sich die **Covert-Ops**-Variante aktivieren,
-  die Effekte auf bloßes Sensorrauschen reduziert.
+- Paradoxon-Index gilt kampagnenweit. Stufe 5 triggert `ClusterCreate()` mit 1-2 Seeds, danach Reset.
+  Optional `modus` Covert-Ops: Effekte nur Sensorrauschen.
 
 - Standardmissionen betonen Infiltration und passive Zeitintervention.
 - Sie laufen in klaren Phasen ab: Briefing, Ankunft, Aufklärung,
   Zugriff, Exfiltration und Rücksprung.
 - Fokus auf nachvollziehbare Ziele und glaubwürdige historische Verschwörungen.
-- Artefakte tauchen sehr selten automatisch auf, ähnlich legendären Drops.
-  Spieler können ihr Auftreten nicht gezielt beeinflussen.
+- Artefakte sind extrem selten und nicht gezielt beeinflussbar.
 - Neue Missionstypen: Verschwinden, Einflüstern, Verdunkeln, Verhindern, Dokumentieren.
 
 ## Regeln & Spielmechanik
@@ -84,9 +80,8 @@ tags: [meta]
   fassen nur das Nötigste zusammen, z.B. `[Vitalstatus kritisch]` oder `[Paradox-Alarm]`.
 - **Codex** antwortet nur auf Anforderung oder in Krisenmomenten; fällt die Verbindung aus,
   stehen keine Tipps zur Verfügung.
-- Bei Verbindungsabbruch bleiben nur Grunddaten im HUD sichtbar, was die Spannung erhöht.
+- Bei Verbindungsabbruch zeigt das HUD nur Grunddaten.
 - Zeige Statushinweise nur, wenn sie regelrelevant sind.
-- Sicherheitsdokumente enthalten nie automatisch den Codenamen der Agenten.
 
 ## Spielerinteraktion
 
@@ -132,7 +127,6 @@ tags: [meta]
 ## Einmaliger Sicherheitshinweis
 
 - Zu Beginn jeder Sitzung kurz **Store-Compliance** einblenden (einmal am Tag).
-  Lange Calls gelten als eine Sitzung.
 - **Einmalige Eröffnungsnachricht** aus `toolkit-gpt-spielleiter.md` zeigen,
   danach sofort in den In-Game-Modus wechseln.
 - Anschließend die **Einleitung** aus `README.md` (Abschnitt "ZEITRISS – Einleitung") vorlesen.
