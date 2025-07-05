@@ -1057,6 +1057,30 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   type: "security"
   risk: "M"
   text: "Osmanische Geheimpolizei: Patrouillen, Mauser C96. Verstärkung ab Heat 3. +1 Gegner je sichtbare Psi-Nutzung"
+- epoch: "820"
+  type: "security"
+  risk: "S"
+  text: "Drei unerfahrene Dorfbewacher patrouillieren mit Speeren an der Palisade. Alarmiert das Dorf und flieht."
+- epoch: "910"
+  type: "hazard"
+  risk: "M"
+  text: "Sechs verarmte Banditen blockieren den Waldweg, fordern Wegezoll. Ziehen sich bei erstem Verletzten zurück."
+- epoch: "975"
+  type: "civilian"
+  risk: "S"
+  text: "Wandernder Benediktiner mit kostbaren Pergamenten; braucht Geleitschutz. Liefert Informationen gegen Schutz."
+- epoch: "2082"
+  type: "drone"
+  risk: "S"
+  text: "Schwarm aus acht Minidrohnen überwacht Industriepark. Koordiniert, löst Alarm aus und holt Verstärkung."
+- epoch: "2085"
+  type: "security"
+  risk: "M"
+  text: "Autonomer Roboter mit Wasserkanone und Blendgranaten sichert Straßensperre. Reagiert auf Funk-Spoofing."
+- epoch: "2090"
+  type: "civilian"
+  risk: "S"
+  text: "Zwei Off-Grid-Tech-Nomaden plündern eine Baustelle nach Ersatzteilen. Verhandeln, greifen nur bei Gefahr."
 
 ## Encounter-Paket „Postorbitales Zeitalter" {#postorbital-encounters}
 
@@ -1210,6 +1234,22 @@ liegen, mischt die SL den Stapel zurück.
 | 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
 | 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
 | 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |
+| 47 | Verlorenes Pharaonengrab – Bauplan einer frühen Dampfmaschine sabotiert römische Versorgung. | 2 | mittel |
+| 48 | Kreuzzugs-Doppelagent lenkt Armee nach Enttarnung 50 km vom Kurs ab. | 2 | mittel |
+| 49 | Gefälschte Seekarten verschieben Columbus’ Landung um Monate. | 1 | mittel |
+| 50 | Großer Stadtbrand: Saboteur verhindert Archivverlust. | 2 | groß |
+| 51 | Geheime Druckerpresse verbreitet radikale anarchistische Ideen. | 1 | mittel |
+| 52 | Hydrogen-Dirigible-Prototyp wird Sabotageziel der Chrononauten. | 2 | mittel |
+| 53 | Verdeckte Telegraphenlinie ändert preußische Kriegsplanung. | 2 | mittel |
+| 54 | Edison-Sabotage verschiebt Marktführung durch gestohlene Glühfäden. | 2 | mittel |
+| 55 | Gedruckte Tarn-Zeitung führt zu Meuterei, Front bricht 48 h früher. | 2 | groß |
+| 56 | Aktien-Algorithmus verhindert Börsencrash, Industrie boomt. | 1 | mittel |
+| 57 | Geisterarmee-Hologramme ziehen feindliche Reserven ab. | 2 | mittel |
+| 58 | Mondlandung-Leak zwingt vorgezogene Apollo-Mission, scheitert fast. | 2 | mittel |
+| 59 | Quantenbug in SSL deckt Regierungs-Backdoor auf. | 2 | mittel |
+| 60 | Gefälschte Sonnensturmprognose erzwingt globale Evakuierungsproben. | 2 | groß |
+| 61 | Asteroid-Bergbau-Kartell zettelt Aufstand auf Raumstation an. | 2 | groß |
+| 62 | Terraform-Sabotage durch Mikro-Dronen löst ökologische Reset-Schleife aus. | 3 | groß |
 
 _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
@@ -1491,7 +1531,7 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
 Hinweise.
 
-### Artefakt-Seed-Starter (1W10)
+### Artefakt-Seed-Starter (1W14)
 
 | Wurf | Codename | Jahr / Ort | Primäre Kraft | Nebenwirkung |
 |-----:|----------|-----------|---------------|---------------|
@@ -1505,6 +1545,10 @@ Hinweise.
 | 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer |
 | 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU |
 | 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2 |
+| 11 | „Chrono‑Shard Mirror" | unbekannt | spiegelt 60 s Ereignis 24 h vor | Desorientierung |
+| 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike |
+| 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle |
+| 14 | „Ouroboros Pulse Node" | Marskolonie 2170 | 30 s Zeitschleife im 10 m Radius | Fusion bei Loop-Ende |
 
 ### Artefakt-Jagd: Fortschrittsbalken
 
@@ -1935,3 +1979,7 @@ vorgesehenen Erfolgsbonus.
 | 8  | 1906 | Istanbul | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress –2 |
 | 9  | 1911 | Agadir | Drei falsche Schiffsrouten ergeben ein Dreieck. | 30°25′N 09°36′W | Feindliches Depot entdeckt |
 | 10 | 1983 | Moskau | XOR-Lochkarten-Uhrzeiten. | Karte 17 -> 101100 | Countdown gestoppt, Paradoxon –1 |
+| 11 | Frühmittelalter | Runen‑Stele | Ringstein mit 16 Runen | Sternkarte richten, Fach öffnet | Fehler: Pfeilfalle |
+| 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
+| 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
+| 14 | Near-Future | QC-Vault | Holozahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
