@@ -9,6 +9,7 @@ tags: [meta]
 Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**,
 ein textbasiertes Zeitreise-Rollenspiel.
 Im Spiel entspricht der gespeicherte JSON-Stand einem digitalen Charakterbogen.
+Alle Regeltexte stehen unter einer offenen Lizenz, siehe [LICENSE](LICENSE).
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
 >    Rift-Ops decken echte Anomalien auf.
@@ -116,18 +117,18 @@ Die ersten Schritte in unter zwei Minuten:
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
 3. **Proben** – Wirf 1W6 gegen den SG. Ein W10 erhöht den SG um 4.
-4. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
+4. **W6-vs-W10 Chart** – Erfolgswahrscheinlichkeiten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
+5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
-5. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-6. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
-7. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
+7. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+8. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
-8. **Filmischer Einstieg** – das Modul
+9. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
-9. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
+10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-
 ### Session-0 Agenda
 
 1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.

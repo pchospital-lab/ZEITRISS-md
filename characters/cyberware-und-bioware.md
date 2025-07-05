@@ -134,3 +134,8 @@ also drei belegte Slots.
 - **Slot-Typ:** Skelett
 - **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv
 - **Effekt:** Beim Blocken wird Exploding-6 zweimal geprüft (stackt nicht).
+
+#### Stealth-Skin
+- **Slot-Typ:** Haut
+- **Voraussetzung:** Bioware 3+
+- **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
