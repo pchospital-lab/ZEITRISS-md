@@ -148,3 +148,4 @@ von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
 [Missions‑Generator](kreative-generatoren-missionen.md#missions-generator),
 um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt,
 damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
+*© 2025 pchospital – private use only. See LICENSE.

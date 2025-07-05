@@ -272,3 +272,4 @@ Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappne
 
 Eine vollständige Übersicht aller Kräfte bietet das Langzeitmodul
 [Kräfte-Psi](../systems/kp-kraefte-psi.md).
+*© 2025 pchospital – private use only. See LICENSE.

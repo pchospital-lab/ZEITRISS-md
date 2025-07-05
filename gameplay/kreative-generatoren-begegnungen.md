@@ -1120,3 +1120,4 @@ vorgesehenen Erfolgsbonus.
 | 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
 | 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
 | 14 | Near-Future | QC-Vault | Holozahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
+*© 2025 pchospital – private use only. See LICENSE.

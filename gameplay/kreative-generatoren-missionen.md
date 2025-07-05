@@ -867,3 +867,4 @@ _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austa
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
 
+*© 2025 pchospital – private use only. See LICENSE.
