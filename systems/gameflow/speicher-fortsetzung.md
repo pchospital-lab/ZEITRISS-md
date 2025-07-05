@@ -97,6 +97,19 @@ Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZI
 Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
 Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
 
+### Short Save & Deep Save {#short-deep}
+Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest. Lagert ausführliche Kampagnenstände extern als **Deep Save**.
+
+Sollte ein Save das 8k-Kontextlimit überschreiten, teilt ihn in mehrere Blöcke und ladet sie nacheinander.
+
+```json
+{"mode":"short",
+ "scene":"Bunker-Escape",
+ "hp":12,
+ "stress":3,
+ "hook":"#192-A"}
+```
+
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
 Für **Einzelspieler-Runden** (ein Chrononaut als Spielercharakter) bleibt die bisherige
@@ -144,81 +157,20 @@ verwirrt zu werden.
 **Beispiel: JSON-Speicherstand für einen einzelnen Charakter.** Angenommen, Agent Alex hat Mission 1
 abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
 
-_{_
-
-_"Name": "Alex",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_"Level": 2,_
-
-_"zr_version": "4.0.2",
-"version_hash": "4.0",_
-_"arc_dashboard": {_
-_"offene_seeds": [],_
-_"fraktionen": {},_
-_"fragen": []_
-_},_
-
-_"Erfahrung": 15,_
-
-_"Attribute": {_
-
-_"Stärke": 4,_
-
-_"Geschicklichkeit": 5,_
-
-_"Intelligenz": 5,_
-
-_"Charisma": 3,_
-
-_"Temporale Affinität": 4,_
-
-_"Systemlast": 3_
-
-_},_
-
-_"Talente": \["Pistolenschütze", "Kryptographie"\],_
-
-_"Implantate": \["Neuro-Link (Kommunikationsimplantat, Systemlast 1)"\],_
-
-_"Psionik": \[\],_
-
-_"Moral": "überwiegend altruistisch",_
-
-_"Ruf": "Angesehener Agent im ITI; unbekannt bei externen Fraktionen",_
-
-_"Inventar": \[_
-
-_"Dietrich-Set (+1 auf Schlösser knacken)",_
-
-_"Heiltrank (stellt 5 LP her)",_
-
-_"Zeitscanner-Tablet (funktioniert nur in High-Tech-Umgebungen)"_
-
-_\],_
-
-_"Errungenschaften": \["Retter von Aquitanien"\],_
-
-_"Codex": \[_
-
-_"Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",_
-
-_"Weiß von der Existenz des Chronomanten Moros"_
-
-_\],_
-
-_"Statistik": {_
-
-_"Absolvierte Missionen": 1,_
-
-_"Gelöste Rätsel": 2,_
-
-_"Besiegte Gegner": 3_
-
-_}_
-
-_}_
+_{
+  "Name": "Alex",
+  "Epoche": "Gegenwart (2025)",
+  "Level": 2,
+  "Erfahrung": 15,
+  "zr_version": "4.0.2",
+  "version_hash": "4.0",
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+  "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
+  "Talente": ["Pistolenschütze", "Kryptographie"],
+  "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
+  "Codex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
+  "Errungenschaften": ["Retter von Aquitanien"]
+_}
 
 _Erläuterung:_ In diesem Speicherblock sind alle zentralen Daten von Alex nach seiner ersten Mission enthalten.
 Zum Beispiel hat er das Talent _Kryptographie_, besitzt ein Neuro-Link-Implantat,
@@ -281,49 +233,16 @@ speichern. Ein Gruppen-Spielstand im JSON-Format könnte so aussehen:
 
 _{_
 
-_"Gruppe": "Team Chronos",_
-
-_"zr_version": "4.0.2",
-"version_hash": "4.0",_
-_"arc_dashboard": {_
-_"offene_seeds": [],_
-_"fraktionen": {},_
-_"fragen": []_
-},_
-
-_"Charaktere": \[_
-
-_{_
-
-_"Name": "Alex",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_"Level": 2,_
-
-_"Erfahrung": 15,_
-
-_"...": "..." /\* weitere Felder wie oben für Alex \*/_
-
-_},_
-
-_{_
-
-_"Name": "Mia",_
-
-_"Epoche": "Victorianisches Zeitalter (1888)",_
-
-_"Level": 1,_
-
-_"Erfahrung": 5,_
-
-_"...": "..." /\* weitere Felder wie oben für Mia \*/_
-
-_}_
-
-_\]_
-
-_}_
+{
+  "Gruppe": "Team Chronos",
+  "zr_version": "4.0.2",
+  "version_hash": "4.0",
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+  "Charaktere": [
+    { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
+    { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
+  ]
+}
 
 Hier besteht das Agenten-Team **“Team Chronos”** aus zwei Mitgliedern: Alex und Mia. Jeder Charakter
 wird als separates Objekt mit all seinen Datenfeldern aufgeführt (der Übersicht halber sind oben
@@ -851,128 +770,19 @@ nächste Abenteuer bereitsteht.
 
 **Gruppen-Beispiel** (Team mit _Alex_ und _Mia_, nach Missionsende bereit für den nächsten Einsatz):
 
-_{_
-
-_"Gruppe": "Team Chronos",_
-
-_"Charaktere": \[_
-
-_{_
-
-_"Name": "Alex",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_"Level": 3,_
-
-_"Erfahrung": 28,_
-
-_"Attribute": { "...": "..." },_
-
-_"Talente": \[ ... \],_
-
-_"Inventar": \[ ... \],_
-
-_"Codex": \[ ... \],_
-
-_"...": "..."_
-
-_},_
-
-_{_
-
-_"Name": "Mia",_
-
-_"Epoche": "Victorianisches Zeitalter (1888)",_
-
-_"Level": 2,_
-
-_"Erfahrung": 12,_
-
-_"Attribute": { "...": "..." },_
-
-_"Talente": \[ ... \],_
-
-_"Inventar": \[ ... \],_
-
-_"Codex": \[ ... \],_
-
-_"...": "..."_
-
-_}_
-
-_\],_
-
-_"Mission": "Startbereit für Mission3 – Paris 1943",_
-
-_"Zeitlinie": \[_
-
-_{_
-
-_"ID": "E1",_
-
-_"Epoche": "1356 n.Chr.",_
-
-_"Veränderung": "Schlacht von Aquitanien gerettet (französischer Sieg)",_
-
-_"Stabilität": 3_
-
-_},_
-
-_{_
-
-_"ID": "E2",_
-
-_"Epoche": "1888 n.Chr.",_
-
-_"Veränderung": "Jack the Ripper gefasst und enttarnt",_
-
-_"Stabilität": 2_
-
-_}_
-
-_\],_
-
-_"Paradoxon": 0_
-
-_}_
-
-_Kommentar:_ Dieses Beispiel zeigt einen Gruppen-Spielstand mit zwei Charakteren. Alex und Mia
-stehen als separate Objekte in der _"Charaktere"_-Liste. Zusätzlich wurden globale Felder
-hinzugefügt: _"Mission"_ markiert den gemeinsamen Fortschritt (hier: Beide sind bereit für
-Mission 3, Setting Paris 1943). Das Feld _"Zeitlinie"_ protokolliert zwei Veränderungen, die durch
-die bisherigen Missionen hervorgerufen wurden: Die Schlacht von Aquitanien 1356 wurde durch Alex’
-Eingreifen zugunsten der Franzosen entschieden (**Stabilität 3** – nun fester Teil der neuen
-Geschichte) und die Mordserie von Jack the Ripper in London 1888 wurde beendet (**Stabilität 2** –
-es besteht noch eine geringe temporale Anomalie). Der Wert _"Paradoxon": 0_ signalisiert, dass
-bislang **kein vollwertiges Paradoxon** eingetreten ist.
-
-Beim Laden dieses Spielstands würde GPT im Codex-Narrativ beide Profile verarbeiten und dann
-ankündigen: _„Agententeam Chronos, Einsatz in Paris 1943 beginnt…“_, während subtil mitschwingt,
-welche historischen Änderungen das Team bereits bewirkt hat (durch die Hinweise im Zeitlinien-
-Tracker). Diese JSON-Vorlage ist so formatiert, dass GPT sie leicht erkennen und parsen kann. Man
-kann sie direkt ins Chat-Fenster kopieren oder in einem Dokument speichern. Wichtig ist stets,
-**keine erzählerischen Sätze innerhalb des Code-Blocks** zu verstecken – derartige Beschreibungen
-gehören entweder als eigene Felder (wie die Codex-Einträge oder das Zeitlinien-Protokoll) hinein
-oder als ausformulierte Narrative **außerhalb** des JSON.
-
-## Fazit
-
-Mit diesen Überarbeitungen bietet **ZEITRISS 4.0** ein robustes Speicher- und Fortsetzungssystem,
-das sowohl Einzelspieler- als auch Gruppenrunden nahtlos unterstützt. Die Verwendung eines
-standardisierten JSON-Formats stellt sicher, dass der KI-Spielleiter den Spielfortschritt
-**zuverlässig versteht und weiterführen** kann. Gleichzeitig bleibt die Lösung flexibel – Charaktere
-können zusammengeführt, getrennt, importiert oder exportiert werden, ohne Formatbrüche. Durch die
-konsequente **Einbettung in die Spielwelt** (Codex-Archiv, Rückkehrprotokolle, Zeitlinien-Protokolle
-etc.) und klare Regeln zur Erkennung und Zusammenführung der Daten entsteht für die Spieler ein
-persistentes Erlebnis: Ihre Handlungen und Fortschritte – bis hin zu Veränderungen der Geschichte
-selbst – bleiben über beliebig viele Missionen hinweg erhalten, egal ob sie allein oder im Team
-agieren. Und all das geschieht, **ohne die Immersion zu opfern** – das technische Fundament arbeitet
-dezent im Hintergrund, während die Spieler die Geschichte im Vordergrund genießen.
-
-Langzeitkampagnen mit wechselnden oder wachsenden Gruppen werden so ebenso praktikabel wie
-klassische Solo-Abenteuer. Die **narrative Persistenz** – das Gefühl, dass die Welt sich erinnert –
-wird durch das neue Speichersystem zuverlässig gewährleistet. Spieler und Spielleiter können sich
+{
+  "Gruppe": "Team Chronos",
+  "Charaktere": [
+    { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 3 },
+    { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 2 }
+  ],
+  "Mission": "Startbereit für Mission3 – Paris 1943",
+  "Zeitlinie": [
+    { "ID": "E1", "Epoche": "1356", "Veränderung": "Schlacht von Aquitanien gerettet", "Stabilität": 3 },
+    { "ID": "E2", "Epoche": "1888", "Veränderung": "Jack the Ripper gefasst", "Stabilität": 2 }
+  ],
+  "Paradoxon": 0
+}
 voll auf das Zeitreise-Abenteuer konzentrieren, im Vertrauen darauf, dass Charakterwerte,
 Errungenschaften und temporale Auswirkungen sicher mit in die Zukunft genommen werden. **Viel Spaß
 in der nächsten Mission!**
