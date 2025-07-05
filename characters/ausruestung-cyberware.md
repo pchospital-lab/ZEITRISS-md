@@ -33,9 +33,10 @@ Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von hi
 modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der
 Zeitalter, komplett mit Spielwerten. Schützende Kleidung, Rüstungen und Energiefelder helfen den
 Agenten, in jeder Epoche zu bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und
-Missionsgebrauch, taktische **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**. Darüber
-hinaus führen wir **Cyberware**-Implantate und **Bioware**-Verbesserungen auf, inklusive ihrer
-Spielmechanik, Kosten in Chrono-Einheiten (CU) und Systembelastung (**SYS**). Ein optionales Kapitel
+Missionsgebrauch, taktische **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**. Eine Liste
+typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul
+[Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in Chrono-Einheiten
+(CU) und Systembelastung (**SYS**). Ein optionales Kapitel
 behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit Regeln zu Ressourcen und
 Balance. Schließlich erweitern **Talente & Spezialisierungen** die Charakterentwicklung: neue aktive
 und passive Fähigkeiten, modulare Talent-Upgrades und optionale Archetypen-Talente, um jede Figur
@@ -165,9 +166,9 @@ einfache historische Tools sind günstig (oft zwei- oder niedriger dreistelliger
 **hochwertiges Missionsgerät** schnell teuer wird. Ein moderner Revolver oder ein römischer Gladius
 kostet z.B. ~50 CU, eine hochwertige Körperschutz-Weste ~150 CU, und seltene High-Tech-Gadgets oder
 Antiquitäten können 200+ CU erreichen. Zwischen diesen Bereichen liegt nun eine
-**Mid-Tier** von **800–1200 CU** für taktische Ausrüstung und fortgeschrittene
-Implantate. Sie ermöglicht spürbare Upgrades, ohne gleich auf riesige
-Fahrzeuganschaffungen sparen zu müssen. Die folgende Auflistung bietet einen
+**Mid-Tier** von **800–1200 CU** für taktische Ausrüstung. Beispiele für Implantate sind im Modul
+[Cyberware und Bioware](cyberware-und-bioware.md) gesammelt. Sie ermöglichen spürbare Upgrades, ohne
+gleich auf riesige Fahrzeuganschaffungen sparen zu müssen. Die folgende Auflistung bietet einen
 Überblick.
 
 ### Alltags- und Missionsausrüstung
