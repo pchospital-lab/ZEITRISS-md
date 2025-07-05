@@ -97,6 +97,9 @@ sollte an die Kampagne angepasst werden.)_
   _Kosten:_ 1 SYS (ständig reserviert). _Effekt:_ Diese Fähigkeit läuft im Hintergrund; die SL kann
   dem Spieler entsprechend Informationen zuspielen, wenn temporale Phänomene auftreten. Es ist kein
   „Spürsinn für alles“, aber ein nützliches Werkzeug, um Paradoxien aufzudecken.
+- **Phase-Strike:** Kurzzeitiger Phasenversatz erlaubt einen Nahkampfangriff,
+  der Rüstungen ignoriert. _Kosten:_ 2 SYS. _Siehe:_
+  [Phase-Strike](../systems/kp-kraefte-psi.md#phase-strike).
 - **Mentale Maskierung:** Tarnt die Gedankenpräsenz des Anwenders für eine Szene.
   _Kosten:_ 2 SYS. _Effekt:_ Fremde Telepathie erhält **+2 SG**, solange die Kraft aktiv ist.
 - **Psychische Schockwelle:** (_Optional, höhere Stufe_) Der Chrononaut entlädt eine Welle mentaler
