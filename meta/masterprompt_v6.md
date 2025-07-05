@@ -144,3 +144,4 @@ Bei längeren Kampagnenideen greift der GPT auf den
 [Arc-Generator](../gameplay/kreative-generatoren-missionen.md#arc-generator)
 und den [Arc-Baukasten](../gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
 zurück, um mehrere Missionen zu einem stimmigen Handlungsbogen zu verbinden.
+*© 2025 pchospital – private use only. See LICENSE.

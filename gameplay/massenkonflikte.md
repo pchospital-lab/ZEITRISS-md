@@ -575,3 +575,4 @@ stimmungsvoll einzubinden. All diese Werkzeuge bleiben optional und flexibel: Ne
 Runde passt, und variiert nach Belieben. In jedem Fall gilt: **Rule of Cool** und erzählerischer
 Spaß stehen über starren Regeln. Lasst die Reifen quietschen, die Schwerter blitzen und die
 Zeitlinien erbeben – eure Chrononauten sind bereit, Geschichte zu schreiben!
+*© 2025 pchospital – private use only. See LICENSE.

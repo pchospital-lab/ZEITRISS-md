@@ -338,3 +338,4 @@ function generateId(prefix = "CHR") {
 6. Wöchentlich einen Full-Snapshot speichern, dazwischen `deltaSave` nutzen.
 
 ---
+*© 2025 pchospital – private use only. See LICENSE.

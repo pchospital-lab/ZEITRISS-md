@@ -436,3 +436,4 @@ selbst nur knapp entkommen, um das Unrecht später zu sühnen.
   der durch mutige Vermittler gezähmt wurde – _die Chrononauten_.
 
 \*(Fortsetzung in **_Teil 2_**: Kreative Generatoren ...)\*
+*© 2025 pchospital – private use only. See LICENSE.

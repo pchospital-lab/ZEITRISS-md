@@ -493,3 +493,4 @@ für Glaubwürdigkeit und Spieltiefe sorgt. Ob ein Agent nun auf legalem Wege im
 zwielichtigen Epochen-Bazaren feilscht oder diplomatisch um Fraktionsgunst wirbt – stets bleibt das
 Geschehen spannend, stimmig und Teil der großen Geschichte. Kein trockenes Zahlenspiel, sondern ein
 **lebendiges System**, das die Abenteuer der Chrononauten um aufregende Facetten erweitert.
+*© 2025 pchospital – private use only. See LICENSE.

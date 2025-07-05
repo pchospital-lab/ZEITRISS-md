@@ -1061,3 +1061,4 @@ an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaße
 und frei erkundet werden kann.
 
 **Willkommen bei ZEITRISS 4.0 – deine Reise durch die Zeit beginnt jetzt!**
+*© 2025 pchospital – private use only. See LICENSE.

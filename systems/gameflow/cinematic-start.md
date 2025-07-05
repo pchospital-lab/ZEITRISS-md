@@ -855,3 +855,4 @@ Weitere Tipps zur Team-Vorstellung bietet der Abschnitt
 [Filmischer Gruppenstart](#gruppenstart-varianten).
 
 [^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.
+*© 2025 pchospital – private use only. See LICENSE.
