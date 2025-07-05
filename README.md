@@ -310,7 +310,9 @@ automatisches Backup im Ordner `backups` an – sofern ein Dateisystem verfügba
 ist. Mit dem Befehl `Speichern` erhältst du einen Deep-Save-Block im JSON-Format.
 Solche Blöcke lassen sich zu Gruppen zusammenführen. Tippe `Film ab!`, um eine
 optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
-kopieren lässt. Weitere Details stehen im Modul zum Speichern.
+kopieren lässt. Weitere Details stehen im Modul zum Speichern. Automatisierte
+Backups funktionieren nur mit Dateisystemzugriff; nutzt du lediglich ein
+Chatfenster, musst du den JSON-Save daher selbst kopieren.
 
 
 
