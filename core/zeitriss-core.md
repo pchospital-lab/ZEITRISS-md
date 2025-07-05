@@ -496,51 +496,10 @@ Trifft der Angreifer (d. h. sein Ergebnis ist mindestens so hoch wie das des V
 keine direkte Wirkung – narrativ weicht das Ziel aus, blockt den Schlag ab oder der Schuss geht
 daneben.
 
-**Schaden & Heilung:** Jeder Spielercharakter hat eine gewisse Anzahl **Lebenspunkte (LP)**, die
-seine Gesundheit darstellen. Zu Beginn haben alle z. B. 10 LP als Ausgangswert (das entspricht einem
-durchschnittlich robusten Menschen). Dieser Wert kann mit höheren Leveln oder durch Bioware-
-Implantate steigen. Schaden reduziert die LP, Heilung stellt sie wieder her.
+**Schaden & Heilung:** Jeder Chrononaut startet mit etwa 10 LP.
+Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findest du im Modul
+[Zustaende & HUD](../characters/zustaende-hud-system.md#vitalstatus).
 
-Anstatt für Schaden jedes Mal extra zu würfeln, arbeitet ZEITRISS mit **Schadenskategorien**. Die
-Spielleitung entscheidet je nach Angriff und Situation, wie viel LP ein Treffer ungefähr abzieht,
-orientiert an Richtwerten und der erzählten Härte des Treffers:
-
-- **Leichte Verletzung:** ca. 1–2 LP Schaden (Kratzer, Streifschuss, leichter Schlag, kleiner
-  Sturz).
-- **Mittlere Verletzung:** ca. 3–4 LP Schaden (tieferer Schnitt, Pfeiltreffer, heftiger Schlag, eine
-  ausgelöste kleine Falle).
-- **Schwere Verletzung:** 5+ LP Schaden (Schuss aus einer starken Feuerwaffe, Explosion in
-  unmittelbarer Nähe, Sturz aus großer Höhe, Hieb eines riesigen Tieres oder mechanischen Gegners).
-
-Nach einem erfolgreichen Angriff teilt die Spielleitung mit, wie viel Schaden resultiert, und
-beschreibt die Wunde narrativ. Die obigen Kategorien sind Anhaltspunkte; konkrete Werte können je
-nach Waffe und Kontext variieren. _Beispielsweise_ könnte ein Dolch im Schnitt ~2 LP verursachen
-(leichte bis mittlere Verletzung), ein Langschwert ~3 LP, ein modernes Sturmgewehr ~4 LP pro
-Treffer, eine Plasma-Granate 6+ LP. Rüstung oder Schutzschilde können Schaden reduzieren – das wird
-in der Item-Beschreibung festgelegt (z. B. _„Körperpanzer: reduziert physischen Schaden um 1 LP pro
-Treffer“_).
-
-Sinken die LP eines Charakters auf 0 oder darunter, ist der Charakter **kampfunfähig**. Für
-Spielercharaktere bedeutet das: Er scheidet aus der laufenden Mission aus, wird aber nicht sofort
-sterben. Im Story-Kontext greift in so einem Moment das ITI ein – eine automatische
-**Notrückholung** zieht den schwer verwundeten Agenten augenblicklich durch einen Zeitriss zurück
-ins HQ, um sein Leben zu retten. Dadurch wird verhindert, dass ein Spielercharakter irreversibel
-stirbt, ohne jedoch das Gefühl von Gefahr völlig zu nehmen. Die Mission gilt für diesen Charakter
-dann als gescheitert; eventuell müssen die verbleibenden Mitstreiter ohne ihn weitermachen. Sollte
-die **gesamte Gruppe** auf 0 LP fallen (Total Party Kill), wird die Mission ebenfalls abgebrochen.
-In der Erzählung könnte z. B. beschrieben werden, wie in dem Moment, da alles verloren scheint,
-plötzlich die Zeit um die Charaktere herum einfriert und ein gleißendes Licht sie umgibt – das ITI
-zieht alle Agenten notfallmäßig in die Nullzeit zurück.
-
-In der Praxis heißt das: Ein Scheitern im Kampf führt zu Evakuierung statt endgültigem Tod. Die
-Charaktere überleben (ggf. mit Narben oder Konsequenzen), aber die betreffende Mission ist
-fehlgeschlagen und muss später erneut versucht oder ganz aufgegeben werden. Dieses System sorgt für
-Spannung und echte Gefahr, ohne die Langzeit-Kampagne durch zufälligen Tod eines Hauptcharakters zu
-zerstören. _(Falls es dramaturgisch dennoch passt, kann natürlich auch ein endgültiger Tod Teil der
-Story sein – das liegt dann in der Hand der Spieler und der Erzählung, nicht in der eines einzelnen
-Würfelwurfs.)_
-
-### Speicherstand & Fortsetzung
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere
 Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung (GPT) nicht dauerhaft alle
