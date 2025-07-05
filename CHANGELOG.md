@@ -24,4 +24,8 @@ tags: [meta]
 ## 4.0.5
 - Erweiterte Speicherhinweise und manuelle Backup-Option im README.
 - Diverse Korrekturen an Savegame-Beispielen und Missionstabellen.
+
+## 4.0.6
+- Ergänzt Psi-Sektion "Phase-Strike" mit Anker und Referenz.
+- Kleinere Textpflege in `psi-talente.md`.
 *© 2025 pchospital – private use only. See LICENSE.

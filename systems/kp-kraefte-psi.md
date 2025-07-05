@@ -191,6 +191,13 @@ Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie we
   Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
   sollten selten und folgenreich sein (siehe Paradox- Effekte).
 
+#### Phase-Strike {#phase-strike}
+
+Kurze Phasenverschiebung lässt eine Waffe durch feste Materie greifen. Ein
+Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**. Der
+Effekt kostet **2 SYS** und birgt bei einem Fehlschlag ein Paradox-Risiko von
+**+1**.
+
 ### Reichweitenzonen {#reichweitenzonen}
 
 Zur Orientierung gelten drei Distanzbänder für Telepathie und Telekinese:
