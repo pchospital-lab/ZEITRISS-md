@@ -288,7 +288,7 @@ Module zählen nicht._
   Missionsbelohnung.
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
 
-## Legalitäts- & Wartungs-Stufen
+## Legalitäts- & Wartungs-Stufen {#legalitäts--wartungs-stufen}
 
 | Stufe | Marktzugang | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall |
 |------:|-------------|-------------------|---------------------:|--------------------|
