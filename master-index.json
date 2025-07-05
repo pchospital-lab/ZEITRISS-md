@@ -157,9 +157,14 @@
       "title": "Missions-Generator: Kleine Aufträge und Dilemmata"
     },
     {
+      "id": "mission_pool_everyday_ops",
+      "path": "gameplay/kreative-generatoren.md#mission_pool_everyday_ops",
+      "title": "Mission Pool: Alltagseins\u00e4tze"
+    },
+    {
       "id": "arc_pool",
       "path": "gameplay/kreative-generatoren.md#arc-generator",
-      "title": "Arc-Generator: Große Missionen"
+      "title": "Arc-Generator: Gro\u00dfe Missionen"
     },
     {
       "id": "creature_pool",
