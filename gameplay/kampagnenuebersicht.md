@@ -36,7 +36,9 @@ liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 Um einen sicheren Spielrahmen zu schaffen, empfiehlt das ITI die Nutzung von
 [Lines & Veils](../README.md#lines-veils-optional), der **X‑Card** sowie einem
 knappen Session‑0‑Bogen. Legt fest, welche Themen tabu sind oder nur angedeutet
-werden. Die X‑Card erlaubt allen, eine Szene sofort zu beenden. Das Formular
+werden. Die X‑Card erlaubt allen, eine Szene sofort zu beenden. Im Chat reicht
+ein einfaches **"X"**, worauf der Director pausiert, nachfragt und die Szene bei
+Bedarf anpasst. Das Formular
 zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
 
 ### Chronopolis & ITI-Struktur

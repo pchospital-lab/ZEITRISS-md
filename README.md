@@ -152,6 +152,15 @@ Die ersten Schritte in unter zwei Minuten:
 | 9  | 11 %     | 20 %      |
 | 10 | 8 %      | 10 %      |
 
+### Chat-Shortcodes {#chat-shortcodes}
+
+Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
+
+- `!rules stealth` – zitiert die Passage zu Schleichen.
+- `!gear cyberware` – zeigt Ausrüstung oder Implantate.
+- `!psi heat` – erklärt Psi-Heat und Burn.
+- `!hud status` – listet alle Zustände.
+
 ### Proben & Schwierigkeitsgrad
 
 Bei ungewissen Aktionen legt die Spielleitung einen **Schwierigkeitsgrad (SG)** fest. Faustregeln:
