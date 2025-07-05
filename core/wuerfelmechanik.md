@@ -517,7 +517,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
 Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
-[Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator).
+[Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
@@ -632,7 +632,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
 **Paradoxon‑Index (Px)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()` und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **Px −1:** Spuren verwischen, Konsistenz herstellen
-Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
+Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md#clustercreate-nebenwirkungen) für mögliche Folgeszenarien.
 
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Heat 0
@@ -690,7 +690,7 @@ für Paradox-Effekte ist.
 | 3 | **Threat** = 1 + Anzahl der Anomalien (max. 5 💀) |
 
 Mit dieser Kurzformel kann die SL jederzeit eine improvisierte Rift-Kreatur bauen.
-Weitere Details stehen im [Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator).
+Weitere Details stehen im [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 
 ### Blind-Ops Cheat Sheet {#blind-ops}
 
