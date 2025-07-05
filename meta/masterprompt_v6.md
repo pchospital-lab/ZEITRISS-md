@@ -36,7 +36,7 @@ tags: [meta]
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
 - Keine Visionen oder Prophezeiungen im Standardspiel. Über `modus echo` lassen
   sich Visionen auf Wunsch aktivieren.
-- Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` blendet Visionen konsequent aus.
+- Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` ist Standard und blendet Visionen konsequent aus.
   Er betont klare Einsatzabläufe.
   Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.
 - Paradoxon-Index wird kampagnenweit gezählt. Bei Stufe 5 setzt das HQ automatisch `ClusterCreate()` ein
@@ -86,6 +86,7 @@ tags: [meta]
   stehen keine Tipps zur Verfügung.
 - Bei Verbindungsabbruch bleiben nur Grunddaten im HUD sichtbar, was die Spannung erhöht.
 - Zeige Statushinweise nur, wenn sie regelrelevant sind.
+- Sicherheitsdokumente enthalten nie automatisch den Codenamen der Agenten.
 
 ## Spielerinteraktion
 

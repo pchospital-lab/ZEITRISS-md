@@ -2,6 +2,7 @@
 title: "ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.0
 tags: [systems]
+default_modus: mission-fokus
 ---
 
 # ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung
@@ -57,6 +58,8 @@ sichern die Daten und verschwinden spurlos.
 - Alle Effekte werden sichtbar und logisch beschrieben.
 - Konzentration auf Systeme, Gegner, Fraktionen und Objekte.
 - Anomalien reagieren niemals direkt auf den Agenten.
+
+Dieser Modus ist ab sofort die Standardeinstellung in neuen Sitzungen.
 
 ### Transparenz-Modus Lite (optional) {#transparency-lite}
 
