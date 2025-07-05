@@ -543,7 +543,11 @@ ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Ec
 
 Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
 aktuellen Spielstands im Ordner `backups`. Diese Datei trägt einen
-Zeitstempel im Namen, zum Beispiel `save_fall_of_chrysalis_20250629-1932.json`. Vor dem
+Zeitstempel im Namen, zum Beispiel `save_fall_of_chrysalis_20250629-1932.json`.
+Diese Ordnerstruktur greift nur, wenn ZEITRISS mit Dateizugriff ausgeführt
+wird – etwa über ein lokales Script oder eine dedizierte Plattform. Nutzt ihr
+lediglich ein Chatfenster, müsst ihr die JSON-Sicherung von Hand kopieren.
+Vor dem
 Start einer neuen Sitzung prüft die Engine, ob ein solches Backup
 vorliegt, und stellt es bei Bedarf wieder her. Die Felder `version_hash`
 und optional `checksum` helfen, inkonsistente Sicherungen zu erkennen.
@@ -584,10 +588,10 @@ Gruppenrunde:
   als **optionale Erweiterung** die Möglichkeit, eine cineastische Zusammenfassung der bisherigen
   Ereignisse einzuspielen. Auf das Kommando _„Film ab!“_ könnte die KI-Spielleitung – unterstützt
   durch ein Tool wie **OpenAI Sora** (Video-KI) – die letzten Missionen in Form eines kurzen
-  „Holoclip-Trailers“ zusammenfassen. Ingame würden die Agenten beispielsweise ein projiziertes Video
-  im Briefingraum sehen, das ihre vergangenen Abenteuer filmisch nacherzählt. _(Diese Funktion
-  bereichert die Immersion zusätzlich, ist aber kein erforderlicher Bestandteil des
-  Speichermechanismus und bleibt daher optional.)_
+  „Holoclip-Trailers“ zusammenfassen. Den resultierenden Text könnt ihr in eine Video-KI kopieren.
+  Ingame würden die Agenten beispielsweise ein projiziertes Video im Briefingraum sehen, das ihre
+  vergangenen Abenteuer filmisch nacherzählt. _(Diese Funktion bereichert die Immersion zusätzlich,
+  ist aber kein erforderlicher Bestandteil des Speichermechanismus und bleibt daher optional.)_
 
 Entscheidend ist, dass die **Immersion gewahrt** bleibt: Für die Charaktere (und Spieler) soll es
 sich so anfühlen, als kämen sie nach einer Zwischenphase oder aus dem Zeitstrom wieder zusammen ins

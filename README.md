@@ -304,6 +304,14 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
 
 Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
+Beim Speichern unterscheidet ZEITRISS kurze Zwischenstände (**Short Saves**) und
+ausführliche **Deep Saves**. Steigt der Paradoxon-Index, legt das System ein
+automatisches Backup im Ordner `backups` an – sofern ein Dateisystem verfügbar
+ist. Mit dem Befehl `Speichern` erhältst du einen Deep-Save-Block im JSON-Format.
+Solche Blöcke lassen sich zu Gruppen zusammenführen. Tippe `Film ab!`, um eine
+optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
+kopieren lässt. Weitere Details stehen im Modul zum Speichern.
+
 
 
 Diese Befehle können frei eingegeben werden.
