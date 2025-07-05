@@ -417,53 +417,125 @@ mission_pool_everyday_ops:
   - jahr: 1958
     ort: Mailand
     kernauftrag: Bank Cariplo – Tresorfeld testen
-    preserve: Alarm still deaktivieren, Geld bleibt
-    trigger: Überfall decken – neues Sicherheitsgesetz verzögert
+    preserve: Wachsamkeit ignorieren, Alarm bleibt → Räuber kassieren 614 Mio Lire
+    trigger: ITI legt Alarmschleife und öffnet Korridor → Räuber schaffen Beute
+    outcome: historical_constant
+    parity: true
   - jahr: 1972
     ort: London
     kernauftrag: U-Bahn-Transport – Mikrofiches mit IRA-Finanzdaten
-    preserve: Beschlagnahme → Prozess möglich
-    trigger: Raub → Finanzieller Fluss versiegt
+    preserve: Raub geschehen lassen → Militante entwenden Fiches
+    trigger: ITI klaut Fiches heimlich und gibt sie an MI5 → Fahndung startet
+    outcome: historical_constant
+    parity: true
   - jahr: 1931
     ort: Chicago
     kernauftrag: Capone-Waffenlieferung
-    preserve: Anonym an Polizei leaken
-    trigger: Lieferung unbemerkt durchlotsen
+    preserve: Zustellweg bestätigen → Polizei-Hinweis versandet
+    trigger: ITI eskortiert Lkw und ersetzt Fahrer bei Panne → Lieferung kommt an
+    outcome: historical_constant
+    parity: true
   - jahr: 1985
     ort: Bonn
     kernauftrag: West-Ost-Abhörgerät platzieren
-    preserve: Abhören verhindert Spionageaffäre
-    trigger: Nicht platzieren – Affäre eskaliert
+    preserve: Mikro-Bug planmäßig setzen → Haustechniker findet ihn später
+    trigger: ITI schmuggelt Ersatz-Bug und sabotiert Abschirmung → Skandal bricht aus
+    outcome: historical_constant
+    parity: true
   - jahr: 1961
     ort: Berlin
     kernauftrag: DDR-Fluchthelfer braucht Devisen
-    preserve: Bargeld sichern, Spur verwischen
-    trigger: Auffliegen lassen – Grenzregime verhärten
+    preserve: Bargeld schleusen und Spuren verwischen → Tunnel 57 gelingt
+    trigger: ITI bunkert eigene Devisen → werden „gefunden“, Tunnel gelingt
+    outcome: historical_constant
+    parity: true
   - jahr: 2002
     ort: Tokyo
     kernauftrag: Insider-Trade-Script einspielen
-    preserve: Trade blocken, Markt stabil
-    trigger: Script gleitet durch – Wirtschaftskrise 2003 gemildert
+    preserve: Security-Patch einspielen → Script scheitert lautlos
+    trigger: ITI löst Fehlalarm und nimmt Script in Quarantäne → Scheitert ebenso
+    outcome: historical_constant
+    parity: true
   - jahr: 1929
     ort: New York
     kernauftrag: Crash-Analysen klauen
-    preserve: Bericht an Aufseher – Crash mildern
-    trigger: Bericht zerstören – Crash entfesselt
+    preserve: Paket verlegt sich „zufällig“ → Berichte nie veröffentlicht
+    trigger: ITI vernichtet Dossier → gleiches Datenloch, Crash bleibt
+    outcome: historical_constant
+    parity: true
   - jahr: 1947
     ort: Prag
     kernauftrag: Marshall-Plan-Dokumente
-    preserve: Dokumente schützen
-    trigger: Sack verschwinden lassen – Plan verzögert
+    preserve: Kuriersack sichern → Übergabe an US-Botschaft erfolgt
+    trigger: ITI tauscht Sack nach Raub gegen Duplikat → Original kommt pünktlich an
+    outcome: historical_constant
+    parity: true
   - jahr: 1905
     ort: Paris
     kernauftrag: Röntgen-Apparat-Pläne
-    preserve: Original schützen
-    trigger: Pläne stehlen – Konkurrenz gewinnt Rennen
+    preserve: Schrank bewachen → Diebstahl verhindert
+    trigger: ITI legt Köder-Fälschung → Original bleibt vor Ort
+    outcome: historical_constant
+    parity: true
   - jahr: 1977
     ort: München
     kernauftrag: Gefälschte Monet-Zertifikate
-    preserve: Fälschung entlarven
-    trigger: Echtes Zertifikat kompromittieren
+    preserve: Fälschung entlarven und anonym melden → Skandal bricht aus
+    trigger: ITI tauscht Echtheits-Siegel gegen Kopie → Experten decken Widerspruch auf
+    outcome: historical_constant
+    parity: true
+  - jahr: 1773
+    ort: Boston
+    kernauftrag: Teesteuer-Protest
+    preserve: Kolonisten vor Ort schützen → Boston Tea Party läuft wie bekannt
+    trigger: ITI schmuggelt Zusatzkisten und schürt Wut → Tea Party eskaliert
+    outcome: historical_constant
+    parity: true
+  - jahr: 1889
+    ort: Paris
+    kernauftrag: Eiffelturm-Blitzableiter
+    preserve: Blitzstab korrekt montieren → Massenpanik bleibt aus
+    trigger: Ersatzstab heimlich montieren → Blitz wird dennoch abgeleitet
+    outcome: historical_constant
+    parity: true
+  - jahr: 1994
+    ort: Los Angeles
+    kernauftrag: Northridge-Beben beobachten
+    preserve: Schutzstreben warnen Bauaufsicht → Schaden begrenzt
+    trigger: ITI sprengt Autobahnfuge minimal → Schaden bleibt historisch
+    outcome: historical_constant
+    parity: true
+  - jahr: 64
+    ort: Rom
+    kernauftrag: Großer Brand
+    preserve: Verdächtigen Christenmob aufhalten
+    trigger: ITI legt Öl-Amphoren aus → Feuer bricht trotzdem aus
+    outcome: historical_constant
+    parity: true
+  - jahr: 1946
+    ort: Zürich
+    kernauftrag: Churchill-Rede „Iron Curtain“
+    preserve: Manuskript schützen
+    trigger: Ersatzmanuskript liefern → Rede löst gleichen Effekt aus
+    outcome: historical_constant
+    parity: true
+```
+
+### Generator Guard {#generator-guard}
+
+```text
+# Pseudocode for a simple parity check
+if seed.preserve_outcome != seed.trigger_outcome:
+    raise ParityError("Seed violates ZEITRISS Preserve/Trigger parity.")
+```
+
+```text
+# Basic parity test routine
+for seed in seed_list:
+    result_preserve = run_mission(seed, mode="preserve")
+    result_trigger = run_mission(seed, mode="trigger")
+    assert result_preserve.event_outcome == "historical_constant"
+    assert result_trigger.event_outcome == "historical_constant"
 ```
 
 ## Arc-Generator: Große Missionen {#arc-generator}
