@@ -61,7 +61,7 @@ tags: [meta]
   `kreative-generatoren.md`, `fahrzeuge-konflikte.md`,
   `massenkonflikte.md`, `cu-waehrungssystem.md`,
   `speicher-fortsetzung.md`, `cinematic-start.md`,
-  `gruppenstart-filmisch.md`, `toolkit-gpt-spielleiter.md`.
+  `toolkit-gpt-spielleiter.md`.
 - Standard sind verdeckte W6-Würfe (Exploding 6). Der Transparenzmodus macht alle Ergebnisse offen.
   Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.

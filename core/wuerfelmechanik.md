@@ -616,6 +616,12 @@ beide Seiten begünstigen können.
 Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **Dieses Quick-Sheet dient als zentrale Kurzreferenz und lässt sich im HUD über `/help` aufrufen.**
 
+| Ergebnis | SG-Richtwert | Exploding-Beispiel | PP-Regel |
+|---------|-------------|-------------------|---------|
+| **Fail** | < SG | 4 auf W6 → Misserfolg | – |
+| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TA 1 PP (Willenskraft vs 2×Heat) |
+| **Critical** | ≥ SG + 5 | 10 → 10 → 3 = 23 | PP-Pool voll nach Kampf |
+
 ### Quick Reference (2 Seiten)
 
 | Situation   | Standard                                | High‑Attribut (≥ 11) |

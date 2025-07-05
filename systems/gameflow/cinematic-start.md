@@ -374,6 +374,13 @@ Es gibt viele Wege, eine Zeitreise-Kampagne zu beginnen. Hier sind einige **Stru
 Einstiegssequenzen, die ihr als Bauformen nutzen oder kombinieren könnt. Jede Variante lässt sich
 mit den oben beschriebenen filmischen Techniken ausschmücken:
 
+### Gruppenstart-Varianten
+
+- **Gleichzeitige Zusammenführung** – alle Agenten treffen am selben Ort ein, z.B. im HQ.
+- **Parallelmontage** – getrennte Szenen aus verschiedenen Zeiten laufen auf einen Konvergenzpunkt zu.
+- **Rekrutierungs-Montage** – ein Mentor sammelt das Team Schritt für Schritt ein.
+- **In medias res** – das Abenteuer startet mitten im Einsatz und die Gruppe findet sich unter Druck.
+
 ### Option 1: **Ankunft im Hauptquartier** (Klassischer Start)
 
 **Beschreibung:** Die Charaktere gelangen durch einen Zeitriss ins Nullzeit-HQ und werden dort vom
@@ -842,7 +849,7 @@ euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: _
 und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“_ Viel Spaß und Erfolg
 bei eurem **filmreifen Start ins Abenteuer**!
 
-Weitere Tipps zur Team-Vorstellung bietet das Modul
-[Filmischer Gruppenstart](gruppenstart-filmisch.md).
+Weitere Tipps zur Team-Vorstellung bietet der Abschnitt
+[Filmischer Gruppenstart](#gruppenstart-varianten).
 
 [^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.
