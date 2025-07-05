@@ -98,7 +98,8 @@ Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
 Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
 
 ### Short Save & Deep Save {#short-deep}
-Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest. Lagert ausführliche Kampagnenstände extern als **Deep Save**.
+Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest.
+Lagert ausführliche Kampagnenstände extern als **Deep Save**.
 
 Sollte ein Save das 8k-Kontextlimit überschreiten, teilt ihn in mehrere Blöcke und ladet sie nacheinander.
 
