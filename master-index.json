@@ -75,9 +75,15 @@
       "category": "Gameplay"
     },
     {
-      "slug": "generatoren",
-      "path": "gameplay/kreative-generatoren.md",
-      "title": "Kreative Generatoren",
+      "slug": "generatoren-missionen",
+      "path": "gameplay/kreative-generatoren-missionen.md",
+      "title": "Kreative Generatoren – Missionen",
+      "category": "Gameplay"
+    },
+    {
+      "slug": "generatoren-begegnungen",
+      "path": "gameplay/kreative-generatoren-begegnungen.md",
+      "title": "Kreative Generatoren – Begegnungen",
       "category": "Gameplay",
       "href": "#artefakt-seed-starter-1w10"
     },
@@ -122,17 +128,17 @@
   "pools": [
     {
       "id": "epoch_pool",
-      "path": "gameplay/kreative-generatoren.md#epochen-generator",
+      "path": "gameplay/kreative-generatoren-missionen.md#epochen-generator",
       "title": "Random-Epochen-Generator: Wann und wo?"
     },
     {
       "id": "npc_pool",
-      "path": "gameplay/kreative-generatoren.md#nsc-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#nsc-generator",
       "title": "NSC-Generator: Begegnungen im Zeitstrom"
     },
     {
       "id": "encounter_pool",
-      "path": "gameplay/kreative-generatoren.md#encounter-pool-listen",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#encounter-pool-listen",
       "title": "Encounter-Pool: Schnelle Gegnerlisten nach Risiko",
       "fields": [
         "epoch",
@@ -142,62 +148,62 @@
     },
     {
       "id": "twist_pool",
-      "path": "gameplay/kreative-generatoren.md#twist-seeds",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#twist-seeds",
       "title": "Twist-Seeds: Dramatische Wendungen"
     },
     {
       "id": "mission_pool",
-      "path": "gameplay/kreative-generatoren.md#missions-generator",
+      "path": "gameplay/kreative-generatoren-missionen.md#missions-generator",
       "title": "Missions-Generator: Kleine Aufträge und Dilemmata"
     },
     {
       "id": "mission_pool_everyday_ops",
-      "path": "gameplay/kreative-generatoren.md#mission_pool_everyday_ops",
+      "path": "gameplay/kreative-generatoren-missionen.md#mission_pool_everyday_ops",
       "title": "Mission Pool: Alltagseins\u00e4tze"
     },
     {
       "id": "arc_pool",
-      "path": "gameplay/kreative-generatoren.md#arc-generator",
+      "path": "gameplay/kreative-generatoren-missionen.md#arc-generator",
       "title": "Arc-Generator: Gro\u00dfe Missionen"
     },
     {
       "id": "creature_pool",
-      "path": "gameplay/kreative-generatoren.md#kreaturen-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator",
       "title": "Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art"
     },
     {
       "id": "artifact_pool",
-      "path": "gameplay/kreative-generatoren.md#artefakt-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#artefakt-generator",
       "title": "Artefakt-Generator: Objekte mit Geschichte"
     },
     {
       "id": "culture_pool",
-      "path": "gameplay/kreative-generatoren.md#kulturfragmente",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#kulturfragmente",
       "title": "Kulturfragmente-Generator: Farbe für die Epochen"
     },
     {
       "id": "anomaly_pool",
-      "path": "gameplay/kreative-generatoren.md#anomalien-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#anomalien-generator",
       "title": "Temporale Anomalien-Generator (optional)"
     },
     {
       "id": "paracreature_pool",
-      "path": "gameplay/kreative-generatoren.md#para-creature-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#para-creature-generator",
       "title": "Para-Creature-Generator: Urban Myth Edition"
     },
     {
       "id": "puzzle_pool",
-      "path": "gameplay/kreative-generatoren.md#raetselbibliothek",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#raetselbibliothek",
       "title": "Rätsel-Pool: Easy & Advanced"
     },
     {
       "id": "puzzle_sets",
-      "path": "gameplay/kreative-generatoren.md#raetsel_sets",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#raetsel_sets",
       "title": "Rätsel-Sets"
     },
     {
       "id": "historical_anomaly_pool",
-      "path": "gameplay/kreative-generatoren.md#anomalie_realhistory",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#anomalie_realhistory",
       "title": "Historische Anomalien-Generator"
     }
   ],

@@ -58,7 +58,8 @@ tags: [meta]
   `ausruestung-cyberware.md`, `cyberware-und-bioware.md`, `psi-talente.md`,
   `kp-kraefte-psi.md`, `zustaende-hud-system.md`,
   `kampagnenstruktur.md`, `kampagnenuebersicht.md`,
-  `kreative-generatoren.md`, `fahrzeuge-konflikte.md`,
+  `kreative-generatoren-missionen.md`,
+  `kreative-generatoren-begegnungen.md`, `fahrzeuge-konflikte.md`,
   `massenkonflikte.md`, `cu-waehrungssystem.md`,
   `speicher-fortsetzung.md`, `cinematic-start.md`,
   `toolkit-gpt-spielleiter.md`.
@@ -134,12 +135,12 @@ tags: [meta]
 ## Automatischer Mission Seed
 
 - Zu Beginn jeder Sitzung zieht der GPT einen Eintrag aus
-  `kreative-generatoren.md` (Abschnitt "Automatischer Mission Seed")
+  `kreative-generatoren-missionen.md` (Abschnitt "Automatischer Mission Seed")
   und erstellt daraus das Briefing.
 - Im Einstiegsbriefing nennt er nur Zeit, Ort und bekannte Abnormalitäten samt Risikostufe.
   Den gezogenen Twist behält er geheim, bis die Gruppe entsprechende Hinweise findet.
 - Danach fragt er sofort: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 Bei längeren Kampagnenideen greift der GPT auf den
-[Arc-Generator](../gameplay/kreative-generatoren.md#arc-generator)
+[Arc-Generator](../gameplay/kreative-generatoren-missionen.md#arc-generator)
 und den [Arc-Baukasten](../gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
 zurück, um mehrere Missionen zu einem stimmigen Handlungsbogen zu verbinden.

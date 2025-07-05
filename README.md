@@ -80,8 +80,9 @@ sind der Übersicht halber aufgeführt.
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
-| [gameplay/kreative-generatoren.md](gameplay/kreative-generatoren.md) | Generatoren für Missionen, NSCs & Anomalien |
-| [Para-Creature-Generator](gameplay/kreative-generatoren.md#para-creature-generator) | Urban Myth Edition |
+| [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Generatoren für Missionen & Kampagnen |
+| [gameplay/kreative-generatoren-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NSCs, Begegnungen & Anomalien |
+| [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
@@ -167,7 +168,7 @@ Rift-Missionen verwenden nun weiße Stern-Symbole (☆), die direkt den SG-Bonus
 durch offene Seeds anzeigen. Ein Seed entspricht einem Stern und erhöht
 die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 Details stehen im Modul
-[Kreative Generatoren](gameplay/kreative-generatoren.md).
+[Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
 
 ### Difficulty-Konverter
 

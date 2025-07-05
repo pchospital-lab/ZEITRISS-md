@@ -361,7 +361,7 @@ einen Toggle `/stress open|hidden`.
   Bei **4** friert der Ablauf kurz ein, alle Wahrnehmungsproben **–1** für einen Augenblick.
   Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2 Rift-Seeds aus und setzt den Wert auf 0.
   Zeitkreaturen können Teil dieser Risse sein. Siehe
-  [Kreaturen-Generator](../gameplay/kreative-generatoren.md#kreaturen-generator)
+  [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator)
   für Stat- und Schadenswerte.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
