@@ -360,7 +360,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
 | **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
-| **ClusterCreate()** | Notfallroutine: Bei Paradoxon 5 erscheinen 1–2 Seeds auf der Weltkarte und der Index springt auf 0. |
+| **ClusterCreate()** | Notfallroutine bei Paradoxon 5: 1–2 Seeds spawnen auf der Weltkarte; Index springt auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 
 
