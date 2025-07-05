@@ -475,3 +475,4 @@ Historikern weitaus mehr.
 Diese Tabellen sollen schnelle Inspiration liefern und zeigen, wie Loot, Missionen und das
 CU-System in ZEITRISS 4.0 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
 Chrononauten mit spannenden Funden zu belohnen.
+*© 2025 pchospital – private use only. See LICENSE.

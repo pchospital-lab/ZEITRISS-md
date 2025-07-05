@@ -827,3 +827,4 @@ Fiction-Mystery_, der feine Andeutungen streut und die Spieler staunen lässt, w
 möglich ist. Mit den hier vorgestellten Regeln und Tipps lässt sich Paranormales glaubwürdig in
 Szene setzen – als wäre es wirklich da, verborgen in den Schatten der Zeit, darauf wartend, von
 mutigen Chrononauten entdeckt zu werden.
+*© 2025 pchospital – private use only. See LICENSE.

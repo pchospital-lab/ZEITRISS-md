@@ -849,3 +849,4 @@ Chrononauten mit jeder Mission wachsen und Legenden in der Zeitlinie hinterlasse
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.
+*© 2025 pchospital – private use only. See LICENSE.

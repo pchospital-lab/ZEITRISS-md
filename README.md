@@ -6,17 +6,17 @@ tags: [meta]
 
 # ZEITRISS-md Zeitreise RPG
 
-Dieses Repository enthält die Markdown-Regeln für **ZEITRISS 4.0**,
-ein textbasiertes Zeitreise-Rollenspiel.
-Im Spiel entspricht der gespeicherte JSON-Stand einem digitalen Charakterbogen.
-Alle Regeltexte stehen unter einer offenen Lizenz, siehe [LICENSE](LICENSE).
+**ZEITRISS-md** bietet ein schlankes Regelwerk für schnelle Zeitreise-Missionen.
+Ihr spielt Chrononauten, die Epochen erkunden und Anomalien beseitigen.
+Das System verwendet explodierende Würfel und protokolliert Zustände im
+JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
+[LICENSE](LICENSE).
 > ### TL;DR – ZEITRISS in 5 Punkten
-> 1. **Agents.** Ihr seid Chrononauten, die historische Verschwörungen knacken.
->    Rift-Ops decken echte Anomalien auf.
-> 2. **Six-Step Missions.** Briefing -> Arrival -> Intel -> Breach -> Exfil -> Return.
-> 3. **Exploding Dice.** W6, ab Attribut 11 W10 + Heldenwürfel.
-> 4. **Paradoxon-Index.** Skaliert Risiko & Zeit­kreaturen. Reset bei 5.
-> 5. **Hard Sci-Fi.** Keine Magie; Psi nutzt Power-Punkte (PP). Zu viel Druck führt zu Burn & Psi-Heat.
+> 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
+> 2. **Six-Step Missions.** Briefing → Arrival → Intel → Breach → Exfil → Return.
+> 3. **Exploding Dice.** W6, ab Attribut 11 W10 plus Heldenwürfel.
+> 4. **Paradoxon-Index.** Risiko-Skala; bei 5 öffnet sich 1–2 Pararifts auf der Weltkarte.
+> 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 
 
 ## Quick-Start Zwei-Seiter {#quick-start-zweiseiter}
@@ -397,3 +397,4 @@ Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änder
 Die Inhalte stehen für private kreative Nutzung bereit.
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
+*© 2025 pchospital – private use only. See LICENSE.

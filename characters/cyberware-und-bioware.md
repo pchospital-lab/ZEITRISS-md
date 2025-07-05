@@ -139,3 +139,4 @@ also drei belegte Slots.
 - **Slot-Typ:** Haut
 - **Voraussetzung:** Bioware 3+
 - **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
+*© 2025 pchospital – private use only. See LICENSE.

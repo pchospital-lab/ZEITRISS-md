@@ -802,3 +802,4 @@ Beim Laden eines alten 4.0-Spielstands fügt die SL einfach ein
 `version_hash` von "4.0" hinzu. Die optionalen Felder von 4.1 werden
 ignoriert, bis sie benötigt werden. Weitere Updates können so
 tabellarisch ergänzt werden.
+*© 2025 pchospital – private use only. See LICENSE.
