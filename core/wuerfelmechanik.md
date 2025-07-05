@@ -291,6 +291,21 @@ ihrer Macht gefordert bleiben. Kurz gesagt: Der _Heldenwürfel_-Mechanismus gibt
 befriedigende Gefühl echten Heldentums, während durch umsichtiges Balancing die **dramatische
 Spannung** bis zum Schluss erhalten bleibt.
 
+
+#### W6 vs. W10 – Erfolgswahrscheinlichkeit {#w6-vs-w10}
+
+| TN | Erfolg W6 | Erfolg W10 |
+|----|---------:|----------:|
+| 2  | 83% | 90% |
+| 3  | 67% | 80% |
+| 4  | 50% | 70% |
+| 5  | 33% | 60% |
+| 6  | 17% | 50% |
+| 7  | 17% | 40% |
+| 8  | 14% | 30% |
+| 9  | 11% | 20% |
+| 10 | 8% | 10% |
+
 #### Wahrscheinlichkeiten (1–10 W6, Burst-Cap)
 
 | W6 | Ø Summe | ≥ 10 | ≥ 15 | ≥ 20 |
@@ -305,6 +320,14 @@ Spannung** bis zum Schluss erhalten bleibt.
 | 8 | 32.7 | 100 % | 100 % | 97 % |
 | 9 | 36.7 | 100 % | 100 % | 99 % |
 | 10 | 40.8 | 100 % | 100 % | 100 % |
+### Quick-Fight Walkthrough
+
+1. **Initiative:** Jeder wirft `1W6 + GES` (Boni aus Talenten oder Cyberware addieren); der höchste Wert beginnt.
+2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
+3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
+4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
+5. **HUD:** Das Ziel sieht `[Vitalstatus 70%]` aufblinken.
+
 
 ## Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
 
