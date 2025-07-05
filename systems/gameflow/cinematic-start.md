@@ -347,7 +347,9 @@ rascher Schnittfolge mit dramatischer Musik zeigt. Diese Funktion wurde in spät
 Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
 das: Wenn die Spieler\*innen es wünschen, könnte man Sora am Ende des ersten Abenteuers ein **kurzes
 „Recap“** liefern lassen – etwa als holografische Projektion im Briefing-Raum, die zeigt, was die
-Agenten geleistet haben, als wären sie die Helden eines Films. Denkbar wäre sogar, Sora einen
+Agenten geleistet haben, als wären sie die Helden eines Films. Schreibt nach einer Mission einfach
+`Film ab!`, um diese Zusammenfassung zu erhalten und bei Bedarf in eine Video-KI zu kopieren.
+Denkbar wäre sogar, Sora einen
 **Vorspann** erstellen zu lassen, bevor das Abenteuer beginnt: ein kurzes Video oder eine
 Beschreibung, die alle Charaktere mit Namen, Zeitherkunft und einem dramatischen Bild vorstellt
 (ähnlich einem Serien-Intro).
