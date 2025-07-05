@@ -770,6 +770,7 @@ nächste Abenteuer bereitsteht.
 
 **Gruppen-Beispiel** (Team mit _Alex_ und _Mia_, nach Missionsende bereit für den nächsten Einsatz):
 
+```json
 {
   "Gruppe": "Team Chronos",
   "Charaktere": [
@@ -783,9 +784,7 @@ nächste Abenteuer bereitsteht.
   ],
   "Paradoxon": 0
 }
-voll auf das Zeitreise-Abenteuer konzentrieren, im Vertrauen darauf, dass Charakterwerte,
-Errungenschaften und temporale Auswirkungen sicher mit in die Zukunft genommen werden. **Viel Spaß
-in der nächsten Mission!**
+```
 
 ## Versions- und Migrationsmatrix
 
