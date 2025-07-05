@@ -176,9 +176,8 @@ function cmdJump(arg) {
 }
 ```
 
-`loadParamonsterEncounter` ruft den Paramonster‑Generator aus `gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator`.
-
----
+`loadParamonsterEncounter` ruft den Paramonster-Generator aus
+`gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator`.
 
 ## 6 | REST-FUNKTION – Crew-Quarters
 
