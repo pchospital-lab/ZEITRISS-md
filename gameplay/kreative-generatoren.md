@@ -519,6 +519,92 @@ mission_pool_everyday_ops:
     trigger: Ersatzmanuskript liefern → Rede löst gleichen Effekt aus
     outcome: historical_constant
     parity: true
+  - jahr: "-480"
+    ort: Thermopylai
+    kernauftrag: Persischer Durchbruch – Verräterpfad
+    preserve: Spartanische Posten warnen → Perser umgehen Engpass, Schlacht endet historisch
+    trigger: ITI schenkt Persern Pfadskizze → Durchbruch erfolgt, gleicher Ausgang
+    outcome: historical_constant
+    parity: true
+  - jahr: 1347
+    ort: Hafen Caffa
+    kernauftrag: Pestkatapulte Genua-Flotte
+    preserve: Katapulte nicht stören → Infizierte Ratten gelangen nach Europa
+    trigger: ITI tauscht katapultierte Leichen gegen infizierte Felle → Pest gelangt trotzdem
+    outcome: historical_constant
+    parity: true
+  - jahr: 1492
+    ort: Granada
+    kernauftrag: Übergabe-Schlüssel der Alhambra
+    preserve: Schlüssel bleibt unmanipuliert → Katholische Könige übernehmen Stadt
+    trigger: ITI sorgt für Ersatzschlüssel, falls Original verloren geht → Übergabe findet statt
+    outcome: historical_constant
+    parity: true
+  - jahr: 1605
+    ort: London
+    kernauftrag: Gunpowder Plot
+    preserve: Brief landet bei Lord Monteagle → Keller wird durchsucht, Plot scheitert
+    trigger: ITI legt weiteres verräterisches Schreiben → Suche läuft, Plot scheitert
+    outcome: historical_constant
+    parity: true
+  - jahr: 1812
+    ort: Moskau
+    kernauftrag: Stadtbrand beim Napoleon-Rückzug
+    preserve: Zündler gewähren lassen → Feuer vernichtet Vorräte
+    trigger: ITI verteilt Öl-Tücher → Großbrand bricht trotzdem aus
+    outcome: historical_constant
+    parity: true
+  - jahr: 1912
+    ort: Nordatlantik
+    kernauftrag: Titanic – Funkwarnungen
+    preserve: Funkstille bewahren → Schiff trifft Eisberg und sinkt
+    trigger: ITI stört Funk mit Testsignal → Warnung verpasst, Eisbergkollision
+    outcome: historical_constant
+    parity: true
+  - jahr: 1969
+    ort: Kap Kennedy
+    kernauftrag: Apollo 11 Startcheck
+    preserve: Checkliste unverändert → Start läuft, Mondlandung gelingt
+    trigger: ITI ersetzt defektes Relais, falls ausfällt → Start läuft, Mondlandung gelingt
+    outcome: historical_constant
+    parity: true
+  - jahr: 1989
+    ort: Berlin
+    kernauftrag: Pressekonferenz Schabowski-Notiz
+    preserve: Zettel bleibt → „Sofort, unverzüglich“-Aussage, Mauer fällt
+    trigger: ITI legt saubere Kopie nach Verschwitzen → Gleiches Missverständnis, Mauer fällt
+    outcome: historical_constant
+    parity: true
+  - jahr: 2008
+    ort: New York
+    kernauftrag: Lehman-Insolvenzantrag
+    preserve: Ordner signieren lassen → Bank meldet Insolvenz
+    trigger: ITI findet Ersatznotiz bei Feueralarm → Antrag trotzdem eingereicht
+    outcome: historical_constant
+    parity: true
+  - jahr: 2019
+    ort: Paris
+    kernauftrag: Notre-Dame Brand
+    preserve: Kurzschluss im Dachstuhl nicht verhindern
+    trigger: ITI beschädigt Ersatz-Melder → Feuer wird spät entdeckt
+    outcome: historical_constant
+    parity: true
+  - jahr: 2058
+    ort: Mars – Ares Habitat
+    kernauftrag: Primär-O2-Reaktor-Ausfall
+    preserve: Original Teil rechtzeitig montieren → Kurz-Ausfall, Kolonie überlebt
+    trigger: ITI liefert Ersatz-Steuerchip nach Meteoritentreffer → Gleiches 17-Min-Blackout
+    outcome: historical_constant
+    parity: true
+    future_ops: true
+  - jahr: 2092
+    ort: GEO-Orbit
+    kernauftrag: Erste Raumfahrzeug-Kaskade (Kessler-Event light)
+    preserve: Defekter Panelbolzen lässt Trümmerfeld entstehen
+    trigger: ITI sprengt Mini-Ladung, um Panel abzureißen → Trümmerfeld gleicher Größe
+    outcome: historical_constant
+    parity: true
+    future_ops: true
 ```
 
 ### Generator Guard {#generator-guard}
