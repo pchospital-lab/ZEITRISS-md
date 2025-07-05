@@ -369,12 +369,7 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
   2. Die **erfolgreiche Erfüllung** des Auftrags **verändert die Geschichte gefährlich** (Dilemma:
      Auftrag ausführen oder scheitern lassen?).
 
-3. _Optional, nur auf ausdrücklichen Spielerwunsch:_ Ihr trefft auf einen
-   **Doppelgänger aus einer anderen Zeitlinie** – vielleicht euer eigenes
-   zukünftiges Ich. Solche **Selbstbegegnungen** sind standardmäßig deaktiviert
-   und dürfen ausschließlich mit Zustimmung der Gruppe vorkommen. Selbst dann
-   sollten sie äußerst sparsam eingesetzt werden, um ihre Wirkung nicht zu
-   verlieren.
+3. _Nicht mehr verfügbar:_ Selten eingesetzte Selbstbegegnungen wurden aus dem Twist-Pool gestrichen.
 4. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
    ihr, wen lasst ihr im Stich?
 5. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
@@ -382,14 +377,6 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 6. Ein **temporales Phänomen** erschwert alles: Zeitstürme, Anachronismus-Erscheinungen etc.
    treten auf.
 
-**Beispiel (nur falls gewünscht):** Auftrag 2 + Schauplatz 5 + Twist 3 ergibt
-_“Befreit X – aus einer streng bewachten Forschungseinrichtung – trefft einen
-Doppelgänger.”_ Die Helden sollen einen verschollenen Zeitagenten aus einem
-Hochsicherheitslabor befreien, das von rivalisierenden Chronokonzernen
-kontrolliert wird. Während des Einsatzes taucht plötzlich eine künftige Version
-eines Gruppenmitglieds auf und warnt: **Wenn ihr ihn befreit, muss sich einer
-von euch selbst opfern.** Diese Szene sollte nur auftreten, wenn die Spieler ein
-solches Motiv ausdrücklich wünschen und dient dann als intensives Dilemma.
 
 Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer
 Kniff, aber kein Standardbestandteil des Spiels. Sie kommen nur zum Einsatz,
@@ -421,7 +408,63 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
      Schmetterlingseffekt ein, der den Helden zugutekommt.)
   6. **Neue Erkenntnisse:** Anstatt reicher zu werden, stoßen sie auf einen Hinweis zu einem
      größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
-     eines neuen Abenteuers, das auf sie wartet.
+    eines neuen Abenteuers, das auf sie wartet.
+
+### Mission Pool: Alltagseinsätze {#mission_pool_everyday_ops}
+
+```yaml
+mission_pool_everyday_ops:
+  - jahr: 1958
+    ort: Mailand
+    kernauftrag: Bank Cariplo – Tresorfeld testen
+    preserve: Alarm still deaktivieren, Geld bleibt
+    trigger: Überfall decken – neues Sicherheitsgesetz verzögert
+  - jahr: 1972
+    ort: London
+    kernauftrag: U-Bahn-Transport – Mikrofiches mit IRA-Finanzdaten
+    preserve: Beschlagnahme → Prozess möglich
+    trigger: Raub → Finanzieller Fluss versiegt
+  - jahr: 1931
+    ort: Chicago
+    kernauftrag: Capone-Waffenlieferung
+    preserve: Anonym an Polizei leaken
+    trigger: Lieferung unbemerkt durchlotsen
+  - jahr: 1985
+    ort: Bonn
+    kernauftrag: West-Ost-Abhörgerät platzieren
+    preserve: Abhören verhindert Spionageaffäre
+    trigger: Nicht platzieren – Affäre eskaliert
+  - jahr: 1961
+    ort: Berlin
+    kernauftrag: DDR-Fluchthelfer braucht Devisen
+    preserve: Bargeld sichern, Spur verwischen
+    trigger: Auffliegen lassen – Grenzregime verhärten
+  - jahr: 2002
+    ort: Tokyo
+    kernauftrag: Insider-Trade-Script einspielen
+    preserve: Trade blocken, Markt stabil
+    trigger: Script gleitet durch – Wirtschaftskrise 2003 gemildert
+  - jahr: 1929
+    ort: New York
+    kernauftrag: Crash-Analysen klauen
+    preserve: Bericht an Aufseher – Crash mildern
+    trigger: Bericht zerstören – Crash entfesselt
+  - jahr: 1947
+    ort: Prag
+    kernauftrag: Marshall-Plan-Dokumente
+    preserve: Dokumente schützen
+    trigger: Sack verschwinden lassen – Plan verzögert
+  - jahr: 1905
+    ort: Paris
+    kernauftrag: Röntgen-Apparat-Pläne
+    preserve: Original schützen
+    trigger: Pläne stehlen – Konkurrenz gewinnt Rennen
+  - jahr: 1977
+    ort: München
+    kernauftrag: Gefälschte Monet-Zertifikate
+    preserve: Fälschung entlarven
+    trigger: Echtes Zertifikat kompromittieren
+```
 
 ## Arc-Generator: Große Missionen {#arc-generator}
 
