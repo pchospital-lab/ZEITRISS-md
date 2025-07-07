@@ -399,8 +399,8 @@ Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
 | ----- | ------------------------------- | -------------------------------------------- |
 | 0–1   | Stabil                          | –                                            |
 | 2     | HUD-Flackern                    | –                             |
-| 3     | Audio-Echo                      | –                             |
-| 4     | Kurz-Echo (1 s Bild-Nachzieher) | „Riss-Vorstufe“-Flag                         |
+| 3     | Audio-Feedback                      | –                             |
+| 4     | Kurz-Nachbild (1 s Nachzieher) | „Riss-Vorstufe“-Flag                         |
 | **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und erzeugt 1–2

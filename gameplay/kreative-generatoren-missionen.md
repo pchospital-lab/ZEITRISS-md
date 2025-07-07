@@ -99,7 +99,7 @@ Streiche doppelte Seeds oder variiere sie.
     },
     {
       "id": "T29",
-      "label": "Echo-Konklave",
+      "label": "Parallel-Konklave",
       "effect": "Ein Parallel-Team aus einer nur minimal abweichenden Zeitlinie versucht,"
       "dieselbe Mission abzuschließen – Konkurrenz oder Kooperation?"
     },

@@ -538,7 +538,7 @@ Aufhänger, um eine neue Rift-Mission zu starten. Beispiel:
 seed_to_hook("S1")
 ```
 
-ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Echo"]`.
+ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Resonanz"]`.
 
 ## Auto-Backup bei Paradoxon-Anstieg
 
