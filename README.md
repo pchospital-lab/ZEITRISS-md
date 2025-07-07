@@ -341,10 +341,17 @@ alle weiteren Modi sind optionale Zusätze:
 | **Covert-Ops**  | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
-| **Echo**        | Optional Visionen und Vorahnungen im Spiel. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
 Mission-Fokus wird beim Spielstart automatisch aktiviert.
+```yaml
+phase: Core
+jahr: 1961
+ort: Berlin
+kernauftrag: Beispiel
+```
+Rift Seeds nutzen `phase: Rift`.
+
 
 Contra-orientierte Gruppen können laut
 [Charaktererschaffung](characters/charaktererschaffung.md) und
