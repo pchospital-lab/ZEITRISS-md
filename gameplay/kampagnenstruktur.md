@@ -166,7 +166,7 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 | ----- | ------------------ | -------------------------------------------- |
 | 0–1   | Stabil             | –                                            |
 | 2     | HUD-Flackern       | –                                            |
-| 3     | Audio-Echo         | –                                            |
+| 3     | Audio-Feedback         | –                                            |
 | 4     | 1 s Zeitstillstand | "Riss-Vorstufe"-Flag                         |
 | **5** | –                  | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
@@ -422,7 +422,7 @@ Motivation enorm steigert.
 
 ### Erweiterte Zeitreise-Regeln
 
-#### Selbstbegegnung – „Echo-Ich“
+#### Selbstbegegnung – „Zeit-Double“
 - Ein Agent kann sich nie bewusst selbst begegnen – mehrere Ichs würden die Realität zerreißen.
 - Bereits der Versuch ruft die Kausalklingen auf den Plan und erzwingt einen sofortigen Notfallrücksprung.
 
@@ -690,7 +690,7 @@ oder logisch ersetzt werden._
 
 | Wurf | Codex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
 | ---- | -------- | ----------------------- | -------- | -------- | --------- |
-| 1 | **EC-RIFT-001** | *Echo-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
+| 1 | **EC-RIFT-001** | *Zeit-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
 | 2 | **EC-RIFT-002** | *Schwerkraft-Flimmern*: Lokal 0.7 g, Equipment-Checks erschwert. | Survival | 9 | +1 |
 | 3 | **EC-RIFT-003** | *Zeitregen*: Regen prasselt rückwärts, Sichtverhältnisse verzerrt. | Stealth / Psi | 10 | +1 |
 | 4 | **EC-RIFT-004** | *Cluster-Market*: Schwarzhandel mit Out-of-Era-Tech. | Social / Tech | 10 | +1-2 bei Käufen |

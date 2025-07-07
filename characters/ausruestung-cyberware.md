@@ -429,7 +429,7 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
    einmal pro Mission einen Paradox-Wert reduzieren. Wert: 400 CU.
 3. **Portativ-Orakel** – Winziges Gerät aus dem 28. Jh. beantwortet einfache Ja/Nein-Fragen mit
    einer Wahrscheinlichkeit von 70 %. Wert: 350 CU.
-4. **Verwunschener Spiegel** – Ursprünglich aus dem Barock. Spielt eine vorab aufgezeichnete Bildsequenz ab. Paradox-Gefahr. Wert: 280 CU. {rare_rift}
+4. **Verwunschene Linse** – Ursprünglich aus dem Barock. Spielt eine vorab aufgezeichnete Bildsequenz ab. Paradox-Gefahr. Wert: 280 CU. {rare_rift}
 5. **Biotech-Samen** – Organische Kapsel aus einer fernen Zukunft. Wächst in Minuten zu einem provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU. {rare_rift}
 6. **Schriftrolle des Vergessenen Ordens** – Teilweise unleserlich, enthält verschlüsselte Hinweise. 150 CU Handelswert. {rare_rift}
 7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU. {rare_rift}
