@@ -79,6 +79,13 @@ sollte an die Kampagne angepasst werden.)_
 - **Mentale Maskierung:** Verbirgt Gedankenpräsenz für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie um +2 SG.
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt. _Kosten:_ 3 SYS.
 
+_Balance-Hinweis (Psi):_
+- Psi ist kein Generalschlüssel. Jede Kraft hat klare Kosten / Limits.
+- Beispiel: Telepathie ≙ kurze Info-Abfrage, unpräzise; Zeitverzögerung ≙ hoher Energieverbrauch für Sekunden.
+- Die SL beschreibt Effekte nüchtern im HUD,
+  z.B. "Herzfrequenz steigt" oder "Motion Blur 1.2 s".
+- Nicht-Psi-Agenten brauchen gleichwertige Spotlight-Optionen; keine Plot-Hürde darf nur psionisch lösbar sein.
+
 ### Vorberechnete Psi-Drosselstufen {#psi-drossel}
 
 Um den Spielfluss zu beschleunigen, hat jede Kraft drei feste Leistungsstufen. Die
