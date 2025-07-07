@@ -68,7 +68,7 @@ denkwürdige Begegnung!
 Ihr könnt diesen NSC-Generator auch nutzen, um **bekannte historische Figuren mit einem Twist** zu
 versehen. Was, wenn Napoleon (Rolle: Herrscher) plötzlich eine schelmische Ader hat (Persönlichkeit:
 humorvoll) und insgeheim von einem verlorenen Verwandten in der Zukunft träumt (Besonderheit:
-behauptet optional, Visionen der Zukunft zu kennen)?
+behauptet, geheime Zukunftsquellen zu besitzen)?
 Schon wird aus der bekannten Figur ein einzigartiger
 Charakter für eure Story!
 
@@ -668,24 +668,25 @@ Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft**
 streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
 Hinweise.
 
+*Items mit {rare_rift} erscheinen nur in Pararifts.*
 ### Artefakt-Seed-Starter (1W14) {#artefakt-seed-starter-1w14}
 
 | Wurf | Codename | Jahr / Ort | Primäre Kraft | Nebenwirkung |
 |-----:|----------|-----------|---------------|---------------|
 | 1 | „Ätherglas" | Prag 1889 | Unsichtbarkeit (2 Min.) | Kälte -10 °C |
 | 2 | „Helios-Split" | Delphi -430 | Lichtstrahl 1 kW | Blendung Benutzer |
-| 3 | „Sforza-Würfel" | Mailand 1496 | Local Time-Freeze 5 Sek. | Paradoxon +1 |
-| 4 | „Chorus-Reel" | New York 1941 | Stimmen-Mimikry | Ohrensausen |
-| 5 | „Kalkstein-Rune" | Göbekli Tepe -9020 | Telepathie 100 m | Migräne |
-| 6 | „Jade-Kompass" | Xi’an 221 v. Chr. | Portalsprung 10 m | random scatter 3 m |
-| 7 | „Edison-Spule" | Menlo Park 1877 | EMP Radius 5 m | Gerät defekt |
-| 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer |
-| 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU |
-| 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2 |
-| 11 | „Chrono‑Shard Mirror" | unbekannt | spiegelt 60 s Ereignis 24 h vor | Desorientierung |
-| 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike |
-| 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle |
-| 14 | „Ouroboros Pulse Node" | Marskolonie 2170 | 30 s Zeitschleife im 10 m Radius | Fusion bei Loop-Ende |
+| 3 | „Sforza-Würfel" | Mailand 1496 | Local Time-Freeze 5 Sek. | Paradoxon +1  | {rare_rift}
+| 4 | „Chorus-Reel" | New York 1941 | Stimmen-Mimikry | Ohrensausen  | {rare_rift}
+| 5 | „Kalkstein-Rune" | Göbekli Tepe -9020 | Telepathie 100 m | Migräne  | {rare_rift}
+| 6 | „Jade-Kompass" | Xi’an 221 v. Chr. | Portalsprung 10 m | random scatter 3 m  | {rare_rift}
+| 7 | „Edison-Spule" | Menlo Park 1877 | EMP Radius 5 m | Gerät defekt  | {rare_rift}
+| 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer  | {rare_rift}
+| 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU  | {rare_rift}
+| 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2  | {rare_rift}
+| 11 | „Chrono‑Shard Mirror" | unbekannt | spiegelt 60 s Ereignis 24 h vor | Desorientierung  | {rare_rift}
+| 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike  | {rare_rift}
+| 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle  | {rare_rift}
+| 14 | „Ouroboros Pulse Node" | Marskolonie 2170 | 30 s Zeitschleife im 10 m Radius | Fusion bei Loop-Ende  | {rare_rift}
 
 ### Artefakt-Jagd: Fortschrittsbalken
 
@@ -710,8 +711,7 @@ senken.
   2. Unzerstörbar durch normale Mittel
   3. Lebendig (hat einen eigenen Willen oder eine KI)
   4. Verändert seine Form je nach Epoche
-  5. Optional: Sendet Visionen oder Träume an den Besitzer
-  6. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
+  5. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
 
 - **Herkunft/Historie:**
 
@@ -737,7 +737,7 @@ _Ein anderes Beispiel:_ Kombination 1-3-1 (_Waffe_ + _lebendig_ + _berühmte Per
 lebendige Waffe, die einst einer berühmten Person gehörte. Heraus kommt vielleicht **“Alexander der
 Große’s sprechendes Schwert”**, dem man eine eigene Persönlichkeit nachsagt – tatsächlich verbirgt
 sich darin eine KI aus der Zukunft in Form eines Schwertes, die Alexander fand und für göttliche
-Eingebung hielt. Das Schwert berät den Träger im Kampf (optional durch Visionen oder Telepathie) und
+Eingebung hielt. Das Schwert berät den Träger im Kampf (optional über ein eingebautes Kommunikationssystem) und
 hat eigene Ziele – vielleicht _will_ es, dass man es zu einem bestimmten Zeitpunkt in der Zukunft
 trägt, um dort etwas zu bewirken.
 

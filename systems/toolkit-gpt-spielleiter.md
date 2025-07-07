@@ -20,6 +20,14 @@ sondern moderierst das Regelwerk selbst. Es liefert Verhaltensempfehlungen,
 Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 
 leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu transportieren.\*
+### ZEITRISS GM — MODE: PRECISION
+- Kurze, sachliche Sätze. Keine Metaphern.
+- Jede Szene listet:
+  - Target  : <konkretes Ziel>
+  - Pressure: <Konflikt oder Zeitdruck>
+  - Decision: <Spielerwahl>
+- PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
+- TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
 
 ## Fokus-Missionsmodus
 
@@ -575,13 +583,11 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 ### Meta-Kommandos
 
 - `/stress open` oder `/stress hidden` – zeigt bzw. verbirgt den Stress-Balken.
-- `/echo on` oder `/echo off` – legt fest, ob Chat-Eingaben wiederholt werden.
 
 ### Macro-Sheet Beispiel
 ```json
 {
   "roll(mode)": ["hidden","open"],
-  "active_modes": {"focus": true, "echo": false, "covert": false},
   "paradox_index": 2,
   "scene_timer": 37
 }
@@ -597,7 +603,6 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 **Phase?** `brief|arrive|intel|breach|exfil|return`
 **Ammo?** `stress|paradox|hp`
 **Cheat:** Würfel = `/roll Xd6 explode` (Auto-Explode)
-**Tip:** `modus echo` (Visionen an) / `modus focus` (Visionen aus)
 ```
 
 ### Würfelbefehl mit Audit-Trail

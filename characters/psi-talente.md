@@ -70,45 +70,14 @@ Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
 
-- **Telepathie:** Der Chrononaut kann die Oberflächen-Gedanken oder intensiven Emotionen einer nahe
-  stehenden Person erspüren und mit etwas Fokus sogar einfache Botschaften mental übermitteln.
-  _Kosten:_ 1 SYS pro Ziel. _Mechanik:_ erfordert i.d.R. eine **TEMP-Probe** gegen die Willenskraft
-  des Ziels (falls das Ziel mental resistiert). Bei Erfolg kann der Spielercharakter für ein paar
-  Minuten telepathisch kommunizieren oder Informationen lesen. Missbrauch (z.B. tiefer Gedankenraub)
-  könnte Nebenwirkungen haben (Kopfschmerz, Abwehr durch Ziel).
-- **Präkognition:** Eine kurze **Vorahnung** gewährt dem Chrononauten einen Blick auf mögliche
-  unmittelbare Zukünfte. Das kann ein Deja-vu-Gefühl oder eine klare Vision von ein paar Sekunden der
-  Zukunft sein. _Kosten:_ 2 SYS (einmalige Aktivierung). _Mechanik:_ In der Praxis darf der Spieler
-  **einmal eine Probe wiederholen** oder die SL gibt einen nützlichen Hinweis/Detail preis, den der
-  Charakter „vorausgeahnt“ hat. Diese Fähigkeit sollte sparsam eingesetzt werden (vielleicht 1× pro
-  Sitzung), um das Spiel nicht zu dominieren.
-- **Zeit verlangsamen:** Durch extreme Fokussierung kann der Charakter subjektiv den Zeitablauf für
-  ein paar Sekunden _verlangsamen_ – für ihn bewegen sich alle anderen wie in Zeitlupe. _Kosten:_
-  2 SYS (pro Einsatz, aktive Konzentration). _Effekt:_ Im Kampf erhält der Charakter **eine
-  zusätzliche Aktion in einer Runde** oder einen großen Bonus auf eine Reaktion (z.B. einem Schuss
-  ausweichen, da er ihn kommen sieht). Danach fühlt er sich erschöpft.
-- **Temporaler Waffenimpuls:** Durch kurzzeitiges Anhalten des lokalen Zeitstroms
-  kann der Psioniker einen Schlag oder Schuss setzen und danach die Zeit freigeben.
-  Projektil oder Klinge beschleunigen übernatürlich und verursachen erhöhten Schaden.
-  _Kosten:_ 3 SYS, hohe Paradox-Gefahr.
-- **Zeitsinn:** Eine eher passive Gabe – der Chrononaut spürt **Anomalien im Zeitstrom** in seiner
-  Umgebung. Z.B. merkt er, wenn in einem Gebäude ein _Zeitreisender aus der falschen Epoche_ anwesend
-  ist, oder spürt das Nachbeben einer kürzlich erfolgten Zeitmanipulation (wie kalter Schauer).
-  _Kosten:_ 1 SYS (ständig reserviert). _Effekt:_ Diese Fähigkeit läuft im Hintergrund; die SL kann
-  dem Spieler entsprechend Informationen zuspielen, wenn temporale Phänomene auftreten. Es ist kein
-  „Spürsinn für alles“, aber ein nützliches Werkzeug, um Paradoxien aufzudecken.
-- **Phase-Strike:** Kurzzeitiger Phasenversatz erlaubt einen Nahkampfangriff,
-  der Rüstungen ignoriert. _Kosten:_ 2 SYS. _Siehe:_
-  [Phase-Strike](../systems/kp-kraefte-psi.md#phase-strike).
-- **Mentale Maskierung:** Tarnt die Gedankenpräsenz des Anwenders für eine Szene.
-  _Kosten:_ 2 SYS. _Effekt:_ Fremde Telepathie erhält **+2 SG**, solange die Kraft aktiv ist.
-- **Psychische Schockwelle:** (_Optional, höhere Stufe_) Der Chrononaut entlädt eine Welle mentaler
-  Energie, die auf nahe Gegner wirkt. _Kosten:_ 3 SYS. _Effekt:_ Alle Personen in einem Radius von
-  ~5 m werden zurückgestoßen und erleiden einen **Betäubungseffekt** (leichter Schaden oder kurz
-  bewusstlos, je nach SL-Entscheid). Diese Kraft erfordert eine Konstitution/TEMP-Probe des Anwenders,
-  um nicht selbst umzukippen. Zudem blockiert sie seine Psi für den Rest des Kampfes
-  (Überanstrengung).
-
+- **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels. _Kosten:_ 1 SYS; kurze Botschaften möglich.
+- **Präkognition:** Sekundenkurzer Vorausblick auf drohende Gefahren. _Kosten:_ 2 SYS; erlaubt einmal pro Sitzung eine Probe zu wiederholen.
+- **Zeit verlangsamen:** Kurzzeitige Wahrnehmungsbeschleunigung lässt alles langsamer wirken. _Kosten:_ 2 SYS; gewährt eine Zusatzaktion.
+- **Temporaler Waffenimpuls:** Friert die Umgebung für einen Angriff ein und lässt das Projektil extremschnell treffen. _Kosten:_ 3 SYS.
+- **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden. _Kosten:_ 1 SYS permanent.
+- **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS.
+- **Mentale Maskierung:** Verbirgt Gedankenpräsenz für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie um +2 SG.
+- **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt. _Kosten:_ 3 SYS.
 _Balance-Tipp:_ Psi-Kräfte sollten nie zur „Allzweck-Lösung“ werden. Sie bieten exotische Wege,
 Herausforderungen zu begegnen, doch oft mit Haken: Telepathie hilft vielleicht, an Infos zu kommen,
 kann aber ungenau sein; Zeit verlangsamen kostet viel Energie für einen kurzen Moment Vorteil. **Die

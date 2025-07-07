@@ -798,13 +798,22 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
      Wahlmöglichkeiten wie oben.
 
-Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
+ Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
 stehen Shop, Skill-Upgrades und das Save-System bereit. Wählen die Spieler **Pfad fortsetzen**,
 kehren sie unverändert in den bestehenden Missions-Context zurück. Entscheiden sie sich für **Neuen
 Pfad wählen**, wird der bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss
 samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine
-weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten
-Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
+ weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten
+ Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
+
+### Paradoxon & Pararifts
+
+1. Index startet bei **0**.
+2. **+1** bei riskantem Psi, Artefaktkontakt oder ungeklärtem Fraktionseingriff.
+3. Erreicht der Wert **5**, setzt das HQ sofort **1–2 Rift-Seeds** auf die Weltkarte und der Index springt auf 0.
+4. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
+5. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
+ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles. Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für

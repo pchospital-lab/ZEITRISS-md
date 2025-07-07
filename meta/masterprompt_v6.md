@@ -34,8 +34,7 @@ tags: [meta]
 - Entscheidungen wirken sich klar und taktisch aus; kein Platz für Orakel oder Prophezeiungen.
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
-- Keine Visionen oder Prophezeiungen im Standardspiel. Über `modus echo` lassen
-  sich Visionen auf Wunsch aktivieren.
+- Keine Visionen oder Prophezeiungen im Standardspiel
 - Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` ist Standard und blendet Visionen konsequent aus.
   Er betont klare Einsatzabläufe.
   Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.

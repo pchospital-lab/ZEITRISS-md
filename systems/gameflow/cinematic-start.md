@@ -714,7 +714,7 @@ ein **rätselhaftes Phänomen**. Die Chrononauten müssen Nachforschungen anstel
 lüften, bevor die Anomalie außer Kontrolle gerät.
 
 - **Szenario:** In einem abgeschiedenen Dorf (Zeit und Ort nach Wahl) treten **Zeiteffekte** auf:
-  Nächtlich erscheinen geisterhafte Visionen aus anderen Jahrhunderten, Uhren gehen rückwärts,
+  Nächtlich erscheinen Schattenbilder aus anderen Zeiten, Uhren gehen rückwärts,
   vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
   was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
   (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und

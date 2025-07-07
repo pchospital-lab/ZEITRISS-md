@@ -614,16 +614,6 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
   gegen den doppelten Heat-Level gelingt. Kühl-Gear kann Heat sofort senken.
   Nach dem Kampf springt Heat automatisch auf 0.
 
-### Echo-Variant (optional) {#echo-variant}
-
-Manche Gruppen wünschen gelegentliche Einblicke in metaphysische Ebenen. Diese
-Regel ist **offen** und nur bei explizitem Spielerwunsch aktiv. Bei hohem Stress
-oder im Kontakt mit starken Paradoxien kann ein Agent ein kurzes Echo seiner
-Zeitlinie sehen. Das Echo dauert nie länger als eine Minute und verleiht keinen
-Bonus, sondern liefert erzählerische Hinweise. Die Spielleitung fragt vorher ab,
-ob solche Szenen willkommen sind; andernfalls bleibt diese Variante deaktiviert.
-
-## Entwicklung von Psi im Levelsystem
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende
 Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.0_
@@ -645,7 +635,7 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   Charakter formen – ob breit aufgestellt (viele Basisfähigkeiten) oder spezialisiert (eine Fähigkeit
   meisterhaft). Die SL sollte im Auge behalten, dass hochstufige Psi- Kräfte das Balancing nicht
   sprengen: Talente können etwa Kosten haben (z.B. braucht Präkognition II einen freien Talent-Slot
-  und erhöht den Systemlast-Verbrauch wegen intensiverer Visionen). Insgesamt aber ist es für die
+  und erhöht den Systemlast-Verbrauch wegen höherer Belastung). Insgesamt aber ist es für die
   Spieler motivierend, klare Entwicklungsstufen zu sehen – es macht Psi greifbar und planbar.
 
 - **Spezialtraining und Mentoren:** Nicht alles lässt sich allein durch EP-Verteilung erreichen. In
@@ -738,7 +728,7 @@ auf, flüchtig wie ein Traumfetzen: ‚…Er lügt.…‘."_ Solche Beschreibung
 ohne das Kopfkino zu zerstören. Für den Charakter fühlt es sich vielleicht an wie ein Déjà-vu, ein
 Ziehen im Bauch oder ein plötzliches Geräusch im Kopf. Man kann ruhig kreativ werden: Telepathische
 Kommunikation könnte sich z.B. so anfühlen, als würde man die Stimme des anderen direkt neben sich
-hören, obwohl dessen Lippen sich nicht bewegen. Präkognitive Visionen kann man filmisch darstellen –
+hören, obwohl dessen Lippen sich nicht bewegen. Präkognitive Ahnungen kann man filmisch darstellen –
 eventuell wechselt die Perspektive kurz: _"Für einen Sekundenbruchteil scheint die Zeit
 stillzustehen; vor deinem inneren Auge siehst du den Kronleuchter über euch bedrohlich wackeln… dann
 bist du wieder im Moment."_ Je plastischer die Schilderung, desto besser können die Spieler
@@ -806,7 +796,7 @@ wie sie sich glasig trüben, während er versucht, den Gedanken des Attentäters
 Ton – war er real oder nur in Alex’ Kopf? – legt sich über die Tonspur. Die Welt um ihn scheint kurz
 zu verschwimmen… Dann schießt ein Bild vor seinem inneren Auge empor: die Silhouette des Angreifers
 auf dem Dachfirst."_ Solche Wechsel ins Filmische sollten sparsam für dramatische Höhepunkte
-reserviert bleiben (z.B. erste voll bewusste Vision eines Charakters, oder der Moment, in dem ein
+reserviert bleiben (z.B. erstes klares Vorzeichen eines Charakters, oder der Moment, in dem ein
 Spieler zum ersten Mal erfolgreich jemanden mental beeinflusst). Sie erzeugen Gänsehaut-Momente. Da
 _ZEITRISS_ sogar über eine „Film ab!“-Funktion für Zusammenfassungen verfügt, kann man überlegen, ob
 man manche Psi-Erlebnisse wie kurze Flashbacks oder Flashforwards behandelt. Etwa nach einer
