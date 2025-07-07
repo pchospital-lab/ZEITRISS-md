@@ -255,7 +255,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Stress 10 | –   | HP 8                                    |                       |
 
 _Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Paradoxon +1 bei Erfolg ≥ 2.
-_Temporal Backdoor:_ Bei Echo-Stack 3 entsteht ein Kurz-Rift, dann fällt der Stack auf 0.
+_Temporal Backdoor:_ Bei Signal-Stack 3 entsteht ein Kurz-Rift, dann fällt der Stack auf 0.
 
 ### Bonus-Micro-Begegnungen (d13)
 
@@ -354,7 +354,7 @@ liegen, mischt die SL den Stapel zurück.
 | 27 | Waffentest verursacht EMP, der Equipment lahmlegt. | 1 | mittel |
 | 28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf. | 1 | mittel |
 | 29 | Politischer Abgrund: lokale Fraktion plant Putsch während der Mission. | 2 | groß |
-| 30 | Rücksprung löst Echo aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
+| 30 | Rücksprung löst Resonanz aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
 | 31 | Vertrauter NSC gerät unter Einfluss temporaler Schatten. | 2 | mittel |
 | 32 | Codex-Datenbank zeigt plötzlich kritische Lücken. | 1 | klein |
 | 33 | Zielperson entpuppt sich als Zeitspringer. | 2 | mittel |
@@ -365,9 +365,9 @@ liegen, mischt die SL den Stapel zurück.
 | 38 | Kameras zeigen Aufnahmen aus kommenden Szenen. | 2 | mittel |
 | 39 | Vergrabene Zeitkapsel liefert brisante Gegenbeweise. | 1 | klein |
 | 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
-| 41 | Mirrored Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
+| 41 | Parallel Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
 | 42 | Cold Swap – Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
-| 43 | Echo Broadcast warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
+| 43 | Signal-Broadcast warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
 | 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
 | 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
 | 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |
@@ -464,7 +464,7 @@ Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 │ HP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
 │ Difficulty: 💀💀                            │
-│ Signature Power: Loop Echo                 │
+│ Signature Power: Loop Feedback                 │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Empathy 12           │
 │ Tells: Flackernde Silhouette, kaltes Flüstern │
@@ -575,7 +575,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 11 | Crying Boy Painting – Quantenspeicher im Pigment (Daten‑Vault)
 12 | Goatman – Bio‑Chimäre entlaufenem Labor
 13 | Greys – Nano‑Skin‑Anzüge verzerren Proportionen
-14 | Hitchhiking Ghost – Zeitversetzte Holo‑Echo‑Aufnahme
+14 | Hitchhiking Ghost – Zeitversetzte Holo-Aufnahme
 15 | Lake‑Monster – Schwarm‑U‑Drohnen unter Hüllfeld
 16 | Shapeshifter – adaptive Metamaterial‑Suit
 17 | Spukhaus – Übersprungener EM‑Emitter tft Paradox‑Energie
@@ -633,7 +633,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
   - *F2 Sonic‑Scream‑Baken*: 1/Tag, macht Wache 1 Rd. taub (−2 Agi).
   - *F3 Omen‑Protokoll*: Bei Sichtung +1 Stress für Zivilisten, SL‑Bonuswürfel.
 
-#### C. Shadow People – „Umbra‑Echo“
+#### C. Shadow People – „Umbra-Reflex“
 
 > **Epoche:** Near‑Future (2025, Seoul) | **Risikostufe:** XL
 
@@ -683,7 +683,7 @@ Hinweise.
 | 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer  | {rare_rift}
 | 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU  | {rare_rift}
 | 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2  | {rare_rift}
-| 11 | „Chrono‑Shard Mirror" | unbekannt | spiegelt 60 s Ereignis 24 h vor | Desorientierung  | {rare_rift}
+| 11 | „Chrono‑Shard Panel" | unbekannt | zeigt 60 s Ereignis 24 h vor | Desorientierung  | {rare_rift}
 | 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike  | {rare_rift}
 | 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle  | {rare_rift}
 | 14 | „Ouroboros Pulse Node" | Marskolonie 2170 | 30 s Zeitschleife im 10 m Radius | Fusion bei Loop-Ende  | {rare_rift}
@@ -771,14 +771,14 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 |A-02|Dirac-Whisper Circuit|Bakelit-Kästchen 1920er|30s Duplex ±5J|Paradox +1|Kontakt|
 |A-03|Sub-Lumen Chalk|12cm Kreide, IR|SR≤3 verbergen (3h)|Mini-Rift bei 0|Fluchtweg|
 |A-04|Phase-Lock Shard|Rubinfragment im Vial|1 Rd phasing|HP-2, Stress+4|Lasergitter|
-|A-05|Echo Capsule|Edelstahlkapsel, Spiegel|Objekt ≤1kg (1Rd)|Zeitstempel auf Original|Double-Device|
+|A-05|Reso Capsule|Edelstahlkapsel, Glas|Objekt ≤1kg (1Rd)|Zeitstempel auf Original|Double-Device|
 |A-06|Chrono-Braid|Geflochtene Kupferlitzen|Zeitfenster 2s|Stress +1|Schneller Zugriff|
 |A-07|Phantom Tesser|Glaskugel|Illusion 3m|Paradox +1|Ablenkung|
 |A-08|Neuro-Splicer|Biogel-Kartusche|+1 Tech-Probe|Kurzzeit-Blackout|Modding|
 |A-09|Frost Prism|Kleiner Kristall|Kältefeld R2|Brüchig nach Nutzung|Einfrieren|
 |A-10|Arc Glyph|Runenkachel|Teleport 5m|Paradox +1|Kampfescape|
 |A-11|Grav Spinner|Metallscheibe|Schwerkraftwelle|Ermüdung|Deckung|
-|A-12|Echo Mirror|Taschenspiegel|Kopiert Stimme 10s|Verliert Halt|Impersonation|
+|A-12|Reso Prism|Taschenglas|Kopiert Stimme 10s|Verliert Halt|Impersonation|
 |A-13|Vector Flare|Mini-Leuchtrakete|Signal an Verbündete|Index +1|Notruf|
 |A-14|Ion Loop|Handreif|EMP 3m|Geräte kurzzeitig defekt|Sicherung|
 |A-15|Chrono Gloom|Dunkler Nebel|Sicht -2m|Kältegefühl|Flucht|
@@ -807,7 +807,7 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 |A-38|Grim Oath|Runenstein|Bindet Schwur 1 Szene|Paradox +1|Vertrag|
 |A-39|Rift Chalk|Farbstaub|Markiert Mini-Rift|Kurzzeitige Instabilität|Portal|
 |A-40|Signal Orb|Leuchtkugel|Zeigt Richtung zum Artefakt|Zerbrechlich|Spurensuche|
-|A-41|Echo Relais|Kompaktes Funksystem|5 min Signal in die Vergangenheit|Paradox +1 bei >2 Nutzungen|Abhören|
+|A-41|Signal Relais|Kompaktes Funksystem|5 min Signal in die Vergangenheit|Paradox +1 bei >2 Nutzungen|Abhören|
 |A-42|Chrono Patch|Einweg-Med-Gel|Kritisch-Zustand 60 s verzögert|Verbrauchsgut|Rettung|
 
 _Regel‑Hooks:_ Schadens‑ und Stresswerte folgen dem W6‑Explode‑Raster. Artefakte sind selten:
@@ -820,7 +820,7 @@ höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Parad
 - **D3 Kernfunktion (W12):** Sensorik; Energieimpuls; Materie modifizieren; Bewusstsein speichern; Teleport;
   Kräfte neutralisieren; Duplikat; Raum verschlüsseln; Daten korrumpieren; Heilen; Illusion; Zeitfenster stauchen
 - **D4 Aktivierung (W6):** Hautkontakt; Pass-Phrase; Chrono-Keycard; Strahlungsimpuls; Druck >2 bar; Neural-Sync
-- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensor-Echo; Blind-Spot; EMP 5m; Grav-Anomalie; Mini-Rift
+- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensorschatten; Blind-Spot; EMP 5m; Grav-Anomalie; Mini-Rift
 - **D6 Sicherheitsstufe (W6):** Kein Schutz; Biometrie-Siegel; Nano-Lock; Quanten-Cipher; Schredder-Fail-Safe
 #### Generator‑Beispiel (One‑Roll‑Complete)
 
@@ -982,7 +982,7 @@ einen Eintrag, um das Ereignis einzubauen.
    wiederholt denselben Moment in Endlosschleife. Die Helden müssen die
    Ursache finden und die Betroffenen sanft in den normalen Fluss
    zurückführen.
-2. **Zeit-Echo:** Eine kurz aufblitzende Projektion einer Person aus einer
+2. **Zeit-Resonanz:** Eine kurz aufblitzende Projektion einer Person aus einer
    anderen Epoche warnt vor naher Gefahr. Die Chrononauten suchen die
    Störquelle, bevor sie weitere Systeme beeinflusst.
 3. **Anachronismus-Sturm:** Ein temporaler Sturm wirbelt Personen und
@@ -1019,6 +1019,7 @@ Dieser Patch liefert konkrete Eingriffe in den Verlauf realer Geschichte.
 Jeder Block lässt sich direkt in den Mission Seed kopieren.
 
 ```yaml
+phase: Core
 - jahr: 1888
   ort: London
   fraktion: Fenian Brotherhood

@@ -78,13 +78,6 @@ sollte an die Kampagne angepasst werden.)_
 - **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS.
 - **Mentale Maskierung:** Verbirgt Gedankenpräsenz für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie um +2 SG.
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt. _Kosten:_ 3 SYS.
-_Balance-Tipp:_ Psi-Kräfte sollten nie zur „Allzweck-Lösung“ werden. Sie bieten exotische Wege,
-Herausforderungen zu begegnen, doch oft mit Haken: Telepathie hilft vielleicht, an Infos zu kommen,
-kann aber ungenau sein; Zeit verlangsamen kostet viel Energie für einen kurzen Moment Vorteil. **Die
-
-KI-Spielleitung kann Psionik kreativ visualisieren** – z.B. durch surreale Beschreibungen im HUD
-(„Herzschlag klingt plötzlich dumpf, Sekunden dehnen sich…“) – aber achte darauf, dass auch Nicht-
-Psi-Charaktere glänzen können und Psi nicht jede Plot-Hürde übergeht.
 
 ### Vorberechnete Psi-Drosselstufen {#psi-drossel}
 
@@ -109,7 +102,7 @@ nachrechnen zu müssen.
 | 1–3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
 | 4–6 | Disruption: Verlust von PP = doppelte Talentkosten. |
 | 7–9 | Feedback-Schock: 1 Stufe „Verwundet“ (siehe Zustände). |
-| 10 | Rift-Echo: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
+| 10 | Rift-Feedback: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
 
 ### Squad-Scaling-Regel
 
@@ -120,7 +113,7 @@ nachrechnen zu müssen.
 
 ### Resonanz {#resonanz}
 
-_Resonanz_ beschreibt das feine Gespür eines Psi‑Agents für temporale Echos.
+_Resonanz_ beschreibt das feine Gespür eines Psi‑Agents für temporale Nachbilder.
 Hohe Werte in **TA** deuten auf eine starke Resonanz hin und erleichtern das
 Wahrnehmen subtiler Anomalien.
 

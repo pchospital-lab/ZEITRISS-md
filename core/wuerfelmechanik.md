@@ -533,7 +533,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 0–1   | Stabil                     |
 | 2     | Funk-Schwankung            |
 | 3     | Leuchtende Staubfäden      |
-| 4     | Kurz-Echo (1 s Nachzieher) |
+| 4     | Kurz-Nachbild (1 s Nachzieher) |
 | 5     | ClusterCreate() im HQ      |
 
 ### Seed-Counter im HUD

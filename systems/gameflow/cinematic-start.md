@@ -29,7 +29,7 @@ verbindet.
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
 ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,
-während ein schimmerndes Zeitportal wie ein schwebender Spiegel im Raum hängt. Nacheinander treten
+während ein schimmerndes Zeitportal wie ein schwebende Scheibe im Raum hängt. Nacheinander treten
 die **Chrononauten** hindurch und betreten die **Nullzeit**, jenen neutralen Zwischenraum außerhalb
 aller Epochen. Für einen Herzschlag lang hält alles inne – die Zeit selbst scheint den Atem
 anzuhalten. Dann erwachen die Sinneseindrücke: klinisch reine, unbewegte Luft ohne jeden Windhauch;
@@ -89,7 +89,7 @@ möglich zu gestalten.
 
 Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller mit historisch
 fundierten Verschwörungen. Bei steigendem Paradoxon-Wert können in jeder Epoche leichte
-Symptome wie Funkflackern oder ein **Kurz-Echo** auftreten. Stärkere paranormale Phänomene
+Symptome wie Funkflackern oder ein **Kurz-Nachhall** auftreten. Stärkere paranormale Phänomene
 entstehen jedoch erst in Rifts und erinnern an **X-Files**. Es gibt keine magischen
 Erklärungen oder Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
 

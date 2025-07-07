@@ -65,9 +65,9 @@ tags: [meta]
 - Standard sind verdeckte W6-Würfe (Exploding 6). Der Transparenzmodus macht alle Ergebnisse offen.
   Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
-- Paradox-Anomalien wie Identitäts- oder Spiegel-Paradoxa sind deaktiviert;
+- Paradox-Anomalien wie Identitäts- oder Doppelbild-Paradoxa sind deaktiviert;
   sie treten nur auf, wenn Spieler sie ausdrücklich wünschen.
-- **Selbstbegegnungen** (Echo-Ich, genetische Doppelgänger, Zukunftskinder,
+- **Selbstbegegnungen** (Zeit-Double, genetische Doppelgänger, Zukunftskinder,
   alternative Ichs) gehören nicht zu Standardmissionen und erscheinen weder bei
   hohem Paradoxon-Index noch als Überraschungseffekt. Sie sind ausschließlich auf
   expliziten Wunsch der Spieler erlaubt und sollten dann sehr sparsam bleiben.
