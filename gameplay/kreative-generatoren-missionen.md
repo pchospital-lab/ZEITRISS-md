@@ -35,8 +35,6 @@ ein paar Schlagworten einen ganzen Kosmos an Ideen entfesselt. GPT kann aus dies
 detaillierte Beschreibungen, NSC-Porträts oder Plothooks entwickeln. Also nutzt sie, um euer
 ZEITRISS-Abenteuer bunt und lebendig zu halten!
 
-_Hinweis zu Visionen:_ Träume oder innere Eingebungen sind **optional** und werden nur eingebaut,
-wenn die Spielrunde es ausdrücklich wünscht.
 
 Alle Tabellen gehen davon aus, dass scheinbar übernatürliche Ereignisse
 auf Technologie, Psi oder Zeitphänomene zurückführen sind.
@@ -396,6 +394,7 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 ### Mission Pool: Alltagseinsätze {#mission_pool_everyday_ops}
 
 ```yaml
+phase: Core
 mission_pool_everyday_ops:
   - jahr: 1958
     ort: Mailand
@@ -719,7 +718,7 @@ würfelt einen Eintrag als Missionsstart.
     \| Nachphase: Geheime Aufrüstung fliegt auf.
 18. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
     \| Nachphase: Luftschiff in Flammen.
-19. **New York 1939 – World’s Fair** \| Vorphase: Visionen der Zukunft.
+19. **New York 1939 – World’s Fair** \| Vorphase: Futuristische Vorführungen.
     \| Nachphase: Tarnprojekt enttarnt.
 20. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
     \| Nachphase: Greller Blitz, Messgeräte spielen verrückt.
@@ -866,5 +865,14 @@ _Regel für die Kühlung der Epochengewichte:_
 _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austauschen. Die obigen
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
+### Rift Seeds (automatisch)
+Rifts entstehen bei Paradoxon-Index 5 und werden vom HQ hier notiert. Sie tragen `phase: Rift` und sind keine nummerierten Episoden.
+
+```yaml
+phase: Rift
+jahr: 1889
+ort: Prag
+thema: Beispiel-Rift
+```
 
 *© 2025 pchospital – private use only. See LICENSE.

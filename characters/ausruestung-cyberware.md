@@ -422,25 +422,19 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
    Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien.
 
 ## Kuriose Artefakte & Relikte (1W9)
+<!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
-1. **Kristallschädel** – Strahlt schwache Energie aus. Wer ihn studiert, erhält gelegentlich
-   Visionen vergangener Ereignisse. Bei Sammlern 300 CU wert.
+1. **Kristallschädel** – Strahlt schwache Energie aus. Analysen zeigen verteilte Datenspeicher. Bei Sammlern 300 CU wert. {rare_rift}
 2. **Ägyptischer Zeitkompass** – Zeigt nicht Norden, sondern temporale Instabilitäten an. Kann
    einmal pro Mission einen Paradox-Wert reduzieren. Wert: 400 CU.
 3. **Portativ-Orakel** – Winziges Gerät aus dem 28. Jh. beantwortet einfache Ja/Nein-Fragen mit
    einer Wahrscheinlichkeit von 70 %. Wert: 350 CU.
-4. **Verwunschener Spiegel** – Ursprünglich aus dem Barock. Ein Blick hinein zeigt eine mögliche
-   Zukunft. Könnte spielerische Hinweise geben, hat aber Paradox-Gefahr. Wert: 280 CU.
-5. **Biotech-Samen** – Organische Kapsel aus einer fernen Zukunft. Wächst in Minuten zu einem
-   provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU.
-6. **Schriftrolle des Vergessenen Ordens** – Inhalt teilweise unleserlich. Beim Entziffern offenbart
-   sich verborgene Geschichte, was eine Nebenszene auslösen kann. 150 CU Handelswert, unter
-Historikern weitaus mehr.
-7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU.
-8. **Runenbesetzter Würfel** – Zeigt frühere Entscheidungen als Projektion.
-   Einmalig +1 auf Geschichtswürfe. Wert: 300 CU.
-9. **Prismatischer Fluxprojektor** – Kurzfristige Fluxhülle (3 s) erlaubt Durchgang oder Schild.
-   Sekundär: UV-Lichtbogen schneidet Stahl in 5 m. Kosten: 1 PP, 2 Heat, 1 Px. 2 Ladungen.
+4. **Verwunschener Spiegel** – Ursprünglich aus dem Barock. Spielt eine vorab aufgezeichnete Bildsequenz ab. Paradox-Gefahr. Wert: 280 CU. {rare_rift}
+5. **Biotech-Samen** – Organische Kapsel aus einer fernen Zukunft. Wächst in Minuten zu einem provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU. {rare_rift}
+6. **Schriftrolle des Vergessenen Ordens** – Teilweise unleserlich, enthält verschlüsselte Hinweise. 150 CU Handelswert. {rare_rift}
+7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU. {rare_rift}
+8. **Runenbesetzter Würfel** – Spielt eine gespeicherte Projektion früherer Entscheidungen ab. Einmalig +1 auf Geschichtswürfe. Wert: 300 CU. {rare_rift}
+9. **Prismatischer Fluxprojektor** – Kurzfristige Fluxhülle (3 s) erlaubt Durchgang oder Schild. Sekundär: UV-Lichtbogen schneidet Stahl in 5 m. Kosten: 1 PP, 2 Heat, 1 Px. 2 Ladungen. {rare_rift}
 
 ## Seltene Spezialgegenstände (1W6)
 

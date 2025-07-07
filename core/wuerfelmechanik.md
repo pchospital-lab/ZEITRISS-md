@@ -758,7 +758,7 @@ Einmal pro Szene als zusätzlicher W10. Nur bei Attribut 11+.
    setzt den Zähler auf 0.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
    HQ-Phase.
-5. **Kurzbefehle:** `/roll Xd6`, `modus focus`, `launch_rift(id)`, `scan_artifact()`.
+5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
 *© 2025 pchospital – private use only. See LICENSE.

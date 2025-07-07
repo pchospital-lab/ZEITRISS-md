@@ -198,6 +198,19 @@ if paradox_level >= threshold:
 | **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION • …]`  |
 | **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
 
+### Staffel-Skeleton "Glanzlicht"
+
+| Ep | Phase | Arbeitstitel             | Kernmechanik                                     |
+| -- | ----- | ------------------------ | ------------------------------------------------ |
+| 1  | Core  | Lieferung aus dem Nichts | Phantom-Stahllieferung (Logistik vs. Sabotage)   |
+| 2  | Core  | Planer unter Zeitdruck   | Social-Heist im Baubüro                          |
+| 3  | Core  | Kanal unter dem Palast   | Understreet-Einbruch                             |
+| 4  | Core  | Der Schatten der Zukunft | Verfolgung / Gefecht mit Fremdfraktion           |
+| 5  | Core  | Die Nacht der Bauprobe   | Sicherung oder Einbau letzter Zukunfts-Bauteile  |
+| 6  | Core  | Bauabnahme               | Staffel-Finale: Bewahren vs. Auslösen            |
+
+Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
+
 ### Epoch-Lock & Rift-Loop
 
 Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 3–5 zusammen-
@@ -398,7 +411,7 @@ möglichen Auflösungen planen. Jede Auflösung führt die Kampagne auf einer et
   Sitzung verzweigen lassen. Wählt gezielt die wichtigsten Punkte aus. Nach einer Verzweigung kann man
   die Handlungsfäden später auch wieder zusammenführen, wenn nötig. Das ZEITRISS-Flair erlaubt es,
   dass die Charaktere vielleicht sogar **Auswirkungen ihrer Alternativ-Entscheidung** erleben – etwa
-  durch Visionen oder Berichte im Codex – ohne tatsächlich beide Wege vollständig ausspielen zu
+  durch Berichte im Codex – ohne tatsächlich beide Wege vollständig ausspielen zu
   müssen. Dies erhöht das Bewusstsein der Spieler für die Konsequenzen ihres Tuns, ohne die Kampagne
   unübersichtlich zu machen.
 

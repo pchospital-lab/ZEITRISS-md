@@ -213,7 +213,7 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
     (Für genaue Werte kann die SL entscheiden, z.B.: pro HQ-Phase Behandlung im HQ eine Verletzungsstufe verbessern.)
     Klinik-Szenen eignen sich auch
     erzählerisch: Man kann das Team zeigen, wie es am Krankenbett plant, oder den Verwundeten im
-    Fiebertraum Visionen haben lassen – **dramatische Erholungsszenen** verstärken das filmische
+    Fiebertraum-Szenen haben lassen – **dramatische Erholungsszenen** verstärken das filmische
     Flair.
   - **Medizinisches Personal & Talente:** Einige Chrononauten sind ausgebildete Ärzte oder
     Sanitäter. Solche Charaktere sollten ihre Fähigkeiten nutzen dürfen, um **Heilwürfe**
