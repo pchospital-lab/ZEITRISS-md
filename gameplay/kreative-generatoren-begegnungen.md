@@ -74,6 +74,7 @@ Charakter für eure Story!
 
 ## Encounter-Pools nach Risikostufe {#encounter-pools}
 
+Jeder Eintrag kann mit `tag:` gekennzeichnet werden. Zulässige Werte sind `combat`, `social` und `hazard`.
 Um ohne langes Blättern passende Gegner bereitzustellen, gibt es vier Tabellen nach
 Risikostufe. Ein W6-Wurf bestimmt den Pool, ein optionales Twist-Deck liefert
 zusätzliche Komplikationen. Jeder gezogene Eintrag geht anschließend für drei
@@ -93,10 +94,12 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 
 - epoch: "modern"
   type: "security"
+  tag: combat
   risk: "S"
   text: "Patrouillen-Duo (Ortspolizei, schlecht ausgerüstet)"
 - epoch: "modern"
   type: "civilian"
+  tag: social
   risk: "S"
   text: "Zivile Zeugen (Neugierige Arbeiter, wollen helfen)"
 - epoch: "modern"
@@ -109,6 +112,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   text: "Nostalgiker-Touristen mit Kameradrohne"
 - epoch: "modern"
   type: "hazard"
+  tag: hazard
   risk: "S"
   text: "Elektrischer Kurzschluss – Funken + Rauch, kein Feuer"
 - epoch: "modern"
@@ -134,6 +138,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   text: "Zeitversetztes Alarmsystem (20 Sek. Latenz, manipulierbar)"
 - epoch: "modern"
   type: "civilian"
+  tag: social
   risk: "M"
   text: "Zivilist + Geiselsituation (moralisches Dilemma)"
 - epoch: "modern"
@@ -147,6 +152,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   text: "Elite-Söldnertrupp (6 Personen, Panzerplatten, Sturmgewehre)"
 - epoch: "modern"
   type: "hazard"
+  tag: hazard
   risk: "L"
   text: "EMP-Mikroladung in nervöser Hand – Finger am Abzug"
 - epoch: "modern"
@@ -200,10 +206,12 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   text: "Drei unerfahrene Dorfbewacher patrouillieren mit Speeren an der Palisade. Alarmiert das Dorf und flieht."
 - epoch: "910"
   type: "hazard"
+  tag: hazard
   risk: "M"
   text: "Sechs verarmte Banditen blockieren den Waldweg, fordern Wegezoll. Ziehen sich bei erstem Verletzten zurück."
 - epoch: "975"
   type: "civilian"
+  tag: social
   risk: "S"
   text: "Wandernder Benediktiner mit kostbaren Pergamenten; braucht Geleitschutz. Liefert Informationen gegen Schutz."
 - epoch: "2082"
@@ -216,6 +224,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   text: "Autonomer Roboter mit Wasserkanone und Blendgranaten sichert Straßensperre. Reagiert auf Funk-Spoofing."
 - epoch: "2090"
   type: "civilian"
+  tag: social
   risk: "S"
   text: "Zwei Off-Grid-Tech-Nomaden plündern eine Baustelle nach Ersatzteilen. Verhandeln, greifen nur bei Gefahr."
 

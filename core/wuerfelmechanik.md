@@ -552,6 +552,9 @@ Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multip
 _Im HUD erscheint z.B. `[Seeds 1 | Para 5]`._ Die Schwelle jeder Mission –
 ob Haupteinsatz oder Rift – nutzt diese Werte und sinkt sofort, sobald
 ein Seed verschwindet.
+**Live-Formel:** `probe_sg = grund_sg + (rifts_open * sg_rift_bonus) + situational_mods`
+Der Rift-Bonus greift sofort, wenn ein neuer Riss entsteht.
+
 
 ### Standard-Ausrüstungsslots
 

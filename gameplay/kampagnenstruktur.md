@@ -63,8 +63,15 @@ Durch diese episodische Struktur erhalten die Spieler regelmäßig Erfolgserlebn
 bleibt **übersichtlich gegliedert**, ohne an epischer Gesamterzählung einzubüßen. Der **Arc-
 Baukasten** erlaubt es der Spielleitung außerdem, bei Bedarf flexibel Episoden einzuschieben oder
 Handlungsbögen zu verlängern, falls die Spieler z. B. unerwartete Nebenwege einschlagen.
-
+```yaml
+episode:
+  min_scenes: 3
+  setting_lock: true
+  arc_generator_default: true
+```
 ### Fraktionsdynamik und -Konflikte
+
+
 
 Ein zentrales Element im ZEITRISS-Flair sind mächtige **Fraktionen**, die im Verborgenen über die
 Zeit hinweg agieren. Jede Fraktion – ob verbündete Zeitagenten-Orden, feindliche Chrono-Kartelle

@@ -6,6 +6,13 @@ tags: [gameplay]
 
 # ZEITRISS 4.0 – Modul 8A: **Kreative Generatoren – Missionen**
 
+```yaml
+arc_generator_default: true
+setting_lock: true
+sg_rift_bonus: 1
+```
+
+Schwellenangaben nutzen im Template den Platzhalter `@auto`.
 ## Inhalt
 
 ### Missions-Werkzeuge

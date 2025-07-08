@@ -29,6 +29,7 @@ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu trans
 - PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
 
+- Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 ## Fokus-Missionsmodus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -728,4 +729,5 @@ packendes ZEITRISS-Abenteuer zu entfesseln. Viel Erfolg beim **Zeitreisen** und 
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
+Der Spieler-Output wird durch den Regex-Filter `/Zeitbruch|ClusterCreate|Realität umschreiben/i` geleitet und meldet "Störgrad-Anstieg".
 *© 2025 pchospital – private use only. See LICENSE.

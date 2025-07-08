@@ -1072,3 +1072,28 @@ und frei erkundet werden kann.
 
 **Willkommen bei ZEITRISS 4.0 – deine Reise durch die Zeit beginnt jetzt!**
 *© 2025 pchospital – private use only. See LICENSE.
+
+## Episoden-Ablauf
+
+```markdown
+## Episode <X> – <Titel>
+### Setup (Cold Open)
+*Kamera/Bild, Hook, Einstieg*
+
+| Scene | Typ          | SG   | Kurzinhalt |
+|-------|--------------|------|-----------|
+| S1    | entry        | @auto| …         |
+| S2    | complication | @auto| …         |
+| S3    | climax       | @auto| …         |
+| S4    | exit         | @auto| …         |
+
+**Ziele**  
+- Primär …  
+- Sekundär …  
+- Bonus …
+
+**Belohnung**  EP @auto / CU @auto
+```
+
+*`@auto`* = wird vom Generator zur Laufzeit eingesetzt.
+
