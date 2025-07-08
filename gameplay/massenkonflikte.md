@@ -259,7 +259,7 @@ sich.
 
 **Reiten auf Tieren:** Wer ein Tier reitet (Pferd, Kamel, Dino…), benötigt in der Regel die
 Fertigkeit **Reiten** oder Tierführung. Das Tier hat einen eigenen Willen – in stressigen
-Situationen könnte es eine **Willenskraft-Probe** verlangen, das Tier unter Kontrolle zu halten
+Situationen könnte es eine **Willenskraft-Probe (CHA)** verlangen, das Tier unter Kontrolle zu halten
 (etwa wenn Schüsse fallen und das Pferd scheut). Ansonsten verläuft die Steuerung wie bei
 Fahrzeugen: Galopp, Hindernisse überspringen, enge Wendungen – all das erfordert Proben analog zum
 Fahren. **Ausdauer**: Tiere ermüden, anders als Maschinen. Lange Ritte ohne Pause könnten

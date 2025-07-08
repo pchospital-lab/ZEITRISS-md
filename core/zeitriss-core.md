@@ -135,10 +135,11 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   analytisches Denken. Benötigt zum Lösen von Rätseln, Entziffern alter Schriften, Planen komplexer
   Taktiken oder wissenschaftliches Vorgehen. Ein hoher INT-Wert hilft dabei, Hinweise zu verknüpfen
   und technologische oder historische Probleme zu meistern.
-- **Charisma (CHA):** Soziale Kompetenz, Ausstrahlung und Überzeugungskraft. Eingesetzt, um NSCs zu
-  überreden, zu verhandeln, zu verführen, einzuschüchtern oder allgemein Einfluss auf Personen zu
-  nehmen. Ein charismatischer Charakter knüpft leichter Kontakte und kann das Verhalten von NSCs durch
-  Worte beeinflussen.
+- **Charisma (CHA):** Soziale Kompetenz, Ausstrahlung und Überzeugungskraft. Gleichzeitig steht CHA
+  für Selbstbewusstsein und Willenskraft. Eingesetzt, um NSCs zu überreden, zu verhandeln,
+  zu verführen, einzuschüchtern oder allgemein Einfluss auf Personen zu nehmen. Ein charismatischer
+  Charakter knüpft leichter Kontakte und kann das Verhalten von NSCs durch Worte beeinflussen. CHA ist
+  außerdem das Maß für Psi- und Stressproben.
 - **Temporale Affinität (TEMP):** Die Affinität zur Zeit – Sensibilität für temporale Phänomene und
   Widerstand gegen Zeitmanipulation. Ein Charakter mit hoher TEMP spürt Anomalien oder Veränderungen
   der Zeitlinie als einer der Ersten und ist resistenter gegen negative Zeiteffekte (z. B. Zeitschocks

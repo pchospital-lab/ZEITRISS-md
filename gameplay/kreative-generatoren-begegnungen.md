@@ -513,7 +513,7 @@ Wird schlauer, je länger er unbehelligt bleibt.
 │ Difficulty: 💀💀💀💀💀                         │
 │ Signature Power: Age-Burn Touch            │
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
-│ Weak Spot (Skill DC): Willpower 16         │
+│ Weak Spot (Skill DC): Charisma 16          │
 │ Tells: Schwarzer Nebel, verzerrte Realität │
 │ Shard-Drop: 4                              │
 ╰────────────────────────────────────────────╯

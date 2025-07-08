@@ -106,7 +106,7 @@ freigeschaltet.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
-    Affinität/Willenskraft) und **SYS** (Systemkapazität für Implantate). Zunächst legst du Startwerte
+    Affinität) und **SYS** (Systemkapazität für Implantate). Zunächst legst du Startwerte
     für diese Attribute fest. Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
     Neue Agenten sind in der Regel kompetent, aber keine Übermenschen – extreme Ausprägungen (z.B. 5 in
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Als
@@ -484,7 +484,7 @@ Dr. Richter ist zugleich Feldarzt und wissenschaftliches Gehirn des Teams. Er su
 für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
 
 - **Attribute:** STR 3, GES 3, INT 5, CHA 4, TEMP 5, SYS 3 – Hochgebildet und analytisch stark, mit
-  ausgeprägter Willenskraft und temporaler Sensibilität; empathisch und ausdrucksfähig; körperlich
+  ausgeprägtem Charisma und temporaler Sensibilität; empathisch und ausdrucksfähig; körperlich
   mittelmäßig fit; moderater Implantateinsatz. Seine extrem hohe TEMP-Affinität ist selten und macht
   ihn besonders sensitiv für Zeit-Anomalien.
 - **Talente:** _Arzt der Zeiten_ (umfassende medizinische Kenntnisse von antiker Kräuterheilung bis
