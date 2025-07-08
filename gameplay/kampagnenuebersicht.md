@@ -148,4 +148,9 @@ von Missionen setzt ZEITRISS auf flexible Szenarien. Nutzt den
 [Missions‑Generator](kreative-generatoren-missionen.md#missions-generator),
 um jederzeit neue Einsätze zu erstellen. Die früheren Beispielmissionen wurden entfernt,
 damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung nimmt.
+### Staffel-Übersicht
+
+Alle Episoden mit identischem `setting_id` lassen sich automatisch als Staffel darstellen.
+Der Renderer sammelt sie und erzeugt eine Tabelle mit Episodentiteln in Reihenfolge.
+
 *© 2025 pchospital – private use only. See LICENSE.
