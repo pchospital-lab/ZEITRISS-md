@@ -1082,20 +1082,20 @@ und frei erkundet werden kann.
 
 | Scene | Typ          | SG   | Kurzinhalt |
 |-------|--------------|------|-----------|
-| S1    | entry        | @auto| …         |
-| S2    | complication | @auto| …         |
-| S3    | climax       | @auto| …         |
-| S4    | exit         | @auto| …         |
+| S1    | entry        | {{SG_AUTO}} | …         |
+| S2    | complication | {{SG_AUTO}} | …         |
+| S3    | climax       | {{SG_AUTO}} | …         |
+| S4    | exit         | {{SG_AUTO}} | …         |
 
 **Ziele**
 - Primär …
 - Sekundär …
 - Bonus …
 
-**Belohnung**  EP @auto / CU @auto
+**Belohnung**  EP {{XP_AUTO}} / CU {{CU_AUTO}}
 ```
 
-*`@auto`* = wird vom Generator zur Laufzeit eingesetzt.
+*`{{SG_AUTO}}`, `{{XP_AUTO}}` und `{{CU_AUTO}}`* werden zur Laufzeit eingesetzt.
 
 *© 2025 pchospital – private use only. See LICENSE.
 
