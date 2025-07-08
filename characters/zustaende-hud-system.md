@@ -631,6 +631,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```
 <span style="color:#6cf">HUD: Paradox 3/5</span>
+Beispiel-Button-Bar: `[1] [2] [3] [4] [5]`
+Live-Anzeige: `[Rifts offen x] [+SG +y] [CU-Multi z×]`
+Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()`.
 <span style="color:#f93">Regel: bei Px 5 folgt ClusterCreate()</span>
 
 [[RULE]] ClusterCreate() bei Px 5 [[/RULE]]

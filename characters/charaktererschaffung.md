@@ -729,6 +729,12 @@ giltst du als _Elitechrononaut_ und wirst für besonders heikle Missionen eingep
 ## Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 
 Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission erhaltet ihr vom ITI
+> **Tier-Freischaltung:**  
+> `tier = floor(level / 20)`  
+> Lvl 1–19 → Tier 0  
+> Lvl 20–39 → Tier 1  
+> Lvl 40–59 → Tier 2 …
+
 typischerweise eine Ressourcengutschrift – sei es in Form von **Credits (CU)** oder logistischen
 Unterstützung. Damit könnt ihr **neue Ausrüstung kaufen, Upgrades vornehmen oder Cyberware
 implantieren lassen**. Modul 5 listet Preise und Verfügbarkeiten vieler Gegenstände. Hier fassen wir
