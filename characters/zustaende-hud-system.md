@@ -335,7 +335,7 @@ einen Toggle `/stress open|hidden`.
   Probe, kann die SL einen _Fail-Forward_ zulassen und dafür Paradoxon oder
   Ressourcen in die Waagschale werfen.
 - **Stress-Regeneration:** Eine Kampfrunde ohne Aktionen senkt Stress um **1 Punkt**,
-  sofern eine Willenskraftprobe gegen einen Mindestwurf in Höhe des aktuellen
+  sofern eine Willenskraftprobe (CHA) gegen einen Mindestwurf in Höhe des aktuellen
   Stresslevels gelingt.
   Eine kurze Meditation über zwei Runden reduziert **3 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
@@ -454,7 +454,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   gebunden; dein Pool entspricht also dem TA-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
   Kampfrunde kannst du pro **3 TA** 1 PP regenerieren, falls eine
-  Willenskraftprobe gegen doppelten Heat gelingt; nach jedem Kampf wird
+  Willenskraftprobe (CHA) gegen doppelten Heat gelingt; nach jedem Kampf wird
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
 

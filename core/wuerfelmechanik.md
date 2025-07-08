@@ -601,7 +601,7 @@ heranstürmende Sicherheitskraft abzuwehren.
 | ------- | ---------------- |
 | **Rot** | Stärke           |
 | **Blau** | Geschicklichkeit |
-| **Grün** | Verstand         |
+| **Grün** | Intelligenz      |
 | **Gelb** | Charisma         |
 | **Grau** | TEMP             |
 | **Lila** | SYS              |
@@ -645,7 +645,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Ergebnis | SG-Richtwert | Exploding-Beispiel | PP-Regel |
 |---------|-------------|-------------------|---------|
 | **Fail** | < SG | 4 auf W6 → Misserfolg | – |
-| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TA 1 PP (Willenskraft vs 2×Heat) |
+| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TA 1 PP (CHA als Willenskraft vs 2×Heat) |
 | **Critical** | ≥ SG + 5 | 10 → 10 → 3 = 23 | PP-Pool voll nach Kampf |
 
 ### Quick Reference (2 Seiten)
@@ -668,7 +668,7 @@ für mögliche Folgeszenarien.
 **Psi-Effekte auf einen Blick**
 
 - **Telepathie (1 SYS)** – Gedanken lesen oder kurze Botschaften senden.
-  TEMP-Probe gegen die Willenskraft des Ziels.
+  TEMP-Probe gegen die Willenskraft (CHA) des Ziels.
 - **Präkognition (2 SYS)** – einmalige Vorahnung; erlaubt einen Wurf zu wiederholen
   oder gewährt einen hilfreichen Hinweis.
 - **Zeit verlangsamen (2 SYS)** – gewährt eine zusätzliche Aktion oder einen

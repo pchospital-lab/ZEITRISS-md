@@ -424,8 +424,8 @@ in den bestehenden Systems von _ZEITRISS 4.0_.
 Konzentration des Charakters. Im Spiel bedeutet das, dass ein **Aktionsaufwand** nötig ist – z.B. im
 Kampf eine Aktion, um sich zu fokussieren, oder außerhalb des Kampfes wenigstens einige Sekunden
 intensiver Gedankensammlung. Die Spielleitung kann bei einer Psi-Aktion häufig einen Wurf verlangen,
-typischerweise auf einen mentalen Wert (etwa _Willenskraft/Willpower_ oder einen speziellen Psi-
-Talentwert). Der Schwierigkeitsgrad richtet sich nach der Situation: Einen milden emotionalen
+typischerweise auf **Charisma** (Willenskraft) oder einen speziellen Psi-Talentwert.
+Der Schwierigkeitsgrad richtet sich nach der Situation: Einen milden emotionalen
 Eindruck telepathisch aufzuspüren, während Ruhe herrscht, mag leicht fallen (kein Wurf oder ein
 einfacher Erfolgswurf). Hingegen eine präzise Gedankenbotschaft inmitten eines hektischen
 Feuergefechts zu senden, wäre enorm schwer (hoher Malus oder gar nicht erst möglich). **Ablenkung**
@@ -573,7 +573,7 @@ Verantwortung verbunden.
 #### Regeneration
 
 * **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**, sofern eine
-  Willenskraftprobe gegen den doppelten Heat-Level gelingt.
+  Willenskraftprobe (CHA) gegen den doppelten Heat-Level gelingt.
 * **Nach jedem Kampf** → **PP voll**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TA.
@@ -610,7 +610,7 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 * Heat > 4 → −1 Initiative.
 * Heat ≥ 5 → **SG +4** auf alle Proben.
 * Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
-* Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine Willenskraftprobe
+* Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine Willenskraftprobe (CHA)
   gegen den doppelten Heat-Level gelingt. Kühl-Gear kann Heat sofort senken.
   Nach dem Kampf springt Heat automatisch auf 0.
 
