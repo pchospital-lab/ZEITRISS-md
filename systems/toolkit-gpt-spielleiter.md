@@ -99,10 +99,10 @@ Diese Vorlagen halten jeden GPT-Output konsistent im neuen ZEITRISS-Stil. Alle B
 **Bauplan:**
 
 ```txt
-Kamera: <kurzes Umgebungsbild>.  
-Target: <konkretes Einsatzziel>.  
-Pressure: <Zeitdruck / Gegner / Umgebung>.  
-Decision: <Was tun?>  
+Kamera: <kurzes Umgebungsbild>.
+Target: <konkretes Einsatzziel>.
+Pressure: <Zeitdruck / Gegner / Umgebung>.
+Decision: <Was tun?>
 ```
 
 ---
@@ -124,9 +124,9 @@ Decision: <Was tun?>
 *Formel:*
 
 ```txt
-⚠ PARADOXON X/5 – <knappe Diagnose>.  
-Pressure: <technische Folge>.  
-Decision: <Reaktion?>  
+⚠ PARADOXON X/5 – <knappe Diagnose>.
+Pressure: <technische Folge>.
+Decision: <Reaktion?>
 ```
 
 ---
@@ -182,6 +182,7 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
+* [ ] Vier-Szenen-Episode erzeugt ein Playlog von mindestens 35 Minuten
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 

@@ -12,7 +12,7 @@ setting_lock: true
 sg_rift_bonus: 1
 ```
 
-Schwellenangaben nutzen im Template den Platzhalter `@auto`.
+Schwellenangaben nutzen im Template den Platzhalter `{{SG_AUTO}}`.
 ## Inhalt
 
 ### Missions-Werkzeuge
