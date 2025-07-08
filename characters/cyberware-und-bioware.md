@@ -30,7 +30,7 @@ ist flexibel: Kleinere Boni (~+1 auf Attribute oder +2 auf spezialisierte Proben
 während mächtigere Effekte entsprechend teurer sind und evtl. höhere SYS-Kosten haben. Installation
 und Upgrade von Cyberware bieten tolle Erzählchancen: Beschreibt, wie der Charakter im Med-Tank
 schwebt, robotische Arme an ihm arbeiten und anschließend die Anpassung an das „Upgrade“ Zeit
-braucht. Möglicherweise ist eine **Konstitutions- oder TEMP-Probe** fällig, um zu sehen, wie gut der
+braucht. Möglicherweise ist eine **STR- oder TEMP-Probe** fällig, um zu sehen, wie gut der
 Körper das Implantat annimmt – ein guter Erfolg bedeutet schnelle Genesung, ein Patzer könnte
 temporäre Malusse (z.B. –1 auf körperliche Proben bis zur Eingewöhnung) oder initiales Versagen des
 Implantats bedeuten. Auch narrativ kann man spüren, wie der neue _Cyberarm_ zunächst fremd wirkt
