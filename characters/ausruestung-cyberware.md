@@ -183,26 +183,26 @@ Ausrüstungsgegenstände:
 
 - **Medikit (Erste-Hilfe-Set):** Standard-Notfallausrüstung mit Verbänden, Desinfektionsmittel und
   Schmerzmitteln. Heilt **2W6 LP** außerhalb des Kampfes (einmalig pro Einsatz verwendbar); bei
-  sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. _Kosten:_ 30 CU.
+  sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. _Kosten:_ 30 CU. _(tier: 0)_
 - **Kletterausrüstung:** Seile, Haken, ein kompakter mechanischer Seilwerfer und Karabiner.
   Erleichtert Klettern und Abseilen erheblich (Proben +2 oder automatische Erfolge bei einfachen
-  Kletterpartien). _Kosten:_ 40 CU.
+  Kletterpartien). _Kosten:_ 40 CU. _(tier: 0)_
 - **Dietrichset & Universalwerkzeug:** Sammlung von Dietrichen, Spannern sowie ein kleines
   multifunktionales Werkzeug (Schraubendreher, Zange, Messer in einem). Ermöglicht das Öffnen von
-  Schlössern (üblich +2 auf Mechanik/Technik-Proben dafür) und kleinere Reparaturen. _Kosten:_ 20 CU.
+  Schlössern (üblich +2 auf Mechanik/Technik-Proben dafür) und kleinere Reparaturen. _Kosten:_ 20 CU. _(tier: 0)_
 - **Nachtsichtgerät (Starlight-Goggles):** Ein tragbares Nachtsicht-Monokel aus dem späten 20. Jh.
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
-  _Kosten:_ 50 CU.
+  _Kosten:_ 50 CU. _(tier: 1)_
 - **Funkgerät/Kommunikator:** Ein kleines Kommunikationsgerät, angepasst an die Epoche (z.B. als
   Hörmuschel im Ohr ab 20. Jh., oder versteckt in einem Amulett für frühere Zeiten). Hält Kontakt zum
   Team über Kurzstrecke oder – falls das **Zeitterminal** verbunden ist – als Link zum HQ über den
   Zeitriss. Reichweite teamintern ca. 5 km; über Zeitriss nur sporadisch und mit Zeitverzögerung.
-  _Kosten:_ 30 CU.
+  _Kosten:_ 30 CU. _(tier: 0)_
 - **Verkleidungsset:** Wechselkleidung und einfache Maskierungen (Hüte, Perücken, Makeup) passend
   zur Einsatzzeit. Ermöglicht es, Identitäten zu wechseln und unterzutauchen. (In Spielbegriffen
   unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
-  _Kosten:_ 20–50 CU je nach Umfang.
+  _Kosten:_ 20–50 CU je nach Umfang. _(tier: 0)_
 
 #### Low-Tech Starterpack
 
@@ -226,38 +226,38 @@ Paradoxon. Beispiele für taktische Gadgets:
   ausfahrbaren Interface-Steckern und Decoder-Software. Ermöglicht das Hacken von Computersystemen in
   allen Epochen – sei es das Knacken von 80er-Jahre-Terminals oder das Überbrücken von
   Sicherheitssystemen der Zukunft. _Effekt:_ gibt +2 auf Hacken/Technik; in den meisten Epochen vor
-  dem 21. Jh. praktisch unaufhaltsam, da überlegen. _Kosten:_ 150 CU.
+  dem 21. Jh. praktisch unaufhaltsam, da überlegen. _Kosten:_ 150 CU. _(tier: 1)_
 - **Drohnen (Aufklärer & Helfer):** Kleine, ferngesteuerte Geräte, z.B. fliegende Mini-Drohnen mit
   Kamera oder rollende Spähdrohnen. Sie können Räume auskundschaften, Karten erstellen oder
   Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). _Effekt:_ Der
   Drohnenoperator (mit entsprechendem Talent wie _Drohnensteuerung_) kann durch die Drohne sehen;
   gewährt einen taktischen Vorteil (+1 auf Initiativen, wenn vor einem Kampf per Drohne
   ausgekundschaftet) und ermöglicht das Umgehen mancher Fallen aus sicherer Distanz. _Kosten:_ 100 CU
-  pro Drohne (Standardmodell).
+  pro Drohne (Standardmodell). _(tier: 1)_
 - **EMP-Granate:** Ein kleines Wurfgerät, das einen **Elektromagnetischen Impuls** abgibt. Lässt in
   einem Radius von ca. 5 m alle elektronischen Geräte ausfallen oder rebooten – von Kameras über
   Fahrzeugelektronik bis hin zu Implantaten (Vorsicht Eigengefährdung!). Primitive Technologien
-  (vorindustriell) bleiben unbeeinflusst. _Kosten:_ 80 CU pro Stück.
+  (vorindustriell) bleiben unbeeinflusst. _Kosten:_ 80 CU pro Stück. _(tier: 1)_
 - **Sprengsatz (C4-Päckchen mit Timer/Zünder):** Plastiksprengstoff in kompakter Form mit variabler
   Zündoption (Timer oder Fernzünder). Ideal für Türen, Strukturen oder als Ablenkung. _Effekt:_
   Richtet schweren Schaden an (tötet im Umkreis von 2 m praktisch alles Ungepanzerte, beschädigt auch
   Fahrzeuge/Gebäude). Sprengstoffexperten können mehrere Ladungen koordinieren. _Kosten:_ 50 CU pro
-  Ladung.
+  Ladung. _(tier: 1)_
 - **“Zeit-Messer” (Temporaler Spalt-Generator):** Ein experimentelles ITI-Gadget in Form eines
   handlichen, wurfklingenartigen Geräts. Auf Knopfdruck erzeugt es für **wenige Sekunden einen Mini-
   Zeitriss** an der Auftreffstelle. Dieser Riss kann z.B. Gitter durchdringen oder Fesseln temporär
   auflösen – ideal, um aus Gefangenschaft zu entkommen oder Barrieren zu umgehen. _Einschränkung:_
   Sehr limitiert (max. 1–2 Nutzungen pro Mission, da die Energiezelle sich dann entlädt und Neuladen
-  nur im HQ möglich ist). _Kosten:_ 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich).
+  nur im HQ möglich ist). _Kosten:_ 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich). _(tier: 2)_
 - **Tarnfeld-Generator:** Ein gürtelschnallen- oder armbandgroßes Gerät, das ein lokales **Aktiv-
   Tarnfeld** projiziert. Für bis zu 1 Minute wird der Träger unsichtbar im sichtbaren Lichtspektrum
   (leichter Schimmer bei genauerem Hinsehen, im Infrarot weiterhin erkennbar). Perfekt für
   Infiltration – doch _Achtung:_ Bewegung muss langsam erfolgen, schnelle Bewegungen erzeugen eine
-  Silhouetten-Unschärfe. _Kosten:_ 250 CU (Hochtechnologie, limitiert verfügbar).
+  Silhouetten-Unschärfe. _Kosten:_ 250 CU (Hochtechnologie, limitiert verfügbar). _(tier: 2)_
 - **Universal-Übersetzer:** Ein kleines KI-Modul mit Ohrstöpsel und Mikrofon, das gesprochene
   Sprachen in Echtzeit übersetzen kann. Unterstützt Dutzende Sprachen aus verschiedenen Epochen (für
   völlig unentdeckte Sprachen evtl. unzureichend). Die Übersetzung erfolgt als leise Stimme im Ohr des
-  Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. _Kosten:_ 80 CU.
+  Nutzers. Nicht perfekt, aber ausreichend für grundlegende Verständigung. _Kosten:_ 80 CU. _(tier: 1)_
 
 ### Taktische Mid-Tier-Module
 

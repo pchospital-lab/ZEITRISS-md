@@ -68,6 +68,7 @@ episode:
   min_scenes: 3
   setting_lock: true
   arc_generator_default: true
+  sg_rift_bonus: 1
 ```
 ### Fraktionsdynamik und -Konflikte
 
@@ -758,11 +759,12 @@ seine Sorge um die Tochter – Paradoxon +1.
 
 | Kategorie | Gegner-Beispiele | Risiko |
 | --------- | ---------------- | ------ |
-| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | SG 9–12 |
-| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | SG 10–13 |
-| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | SG 8–10 |
+| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | {{SG_AUTO}} |
+| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | {{SG_AUTO}} |
+| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | {{SG_AUTO}} |
 
 Diese Tabelle kann ausgedruckt werden und bietet der SL einen schnellen Überblick.
+Die genauen SG-Werte setzt das System erst zur Laufzeit anhand offener Rifts ein.
 
 ### Codex-gesteuerte Story-Zwischensequenzen
 

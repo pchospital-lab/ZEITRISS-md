@@ -42,7 +42,7 @@ nur ein Wert auf dem Bogen.
 Siehe [Ausrüstung & Cyberware](ausruestung-cyberware.md#legalitäts--wartungs-stufen) für die vollständige Tabelle.
 > **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
 
-**Beispiel-Cyberware-Implantate:**
+**Beispiel-Cyberware-Implantate** _(mit `tier:`-Spalte)_:
 
 
 | Implantat | Beschreibung | SYS | Kosten (CU) | Tier |
@@ -84,7 +84,7 @@ Immunsystem als Schutz vor Krankheiten. Die _Kehrseite_: Bioware kann unvorherge
 **Nebeneffekte** haben – etwa überschießende Reaktionen des Immunsystems oder hormonelle
 Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod auftreten.
 
-**Beispiel-Bioware-Modifikationen:**
+**Beispiel-Bioware-Modifikationen** _(Tabellenfeld `tier:` vorhanden)_:
 
 
 | Modifikation | Beschreibung | SYS | Kosten (CU) | Tier |
