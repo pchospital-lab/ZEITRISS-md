@@ -814,7 +814,8 @@ samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt�
 4. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
 5. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
 6. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.
-ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles. Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
+ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles.
+Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
@@ -1071,7 +1072,6 @@ an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaße
 und frei erkundet werden kann.
 
 **Willkommen bei ZEITRISS 4.0 – deine Reise durch die Zeit beginnt jetzt!**
-*© 2025 pchospital – private use only. See LICENSE.
 
 ## Episoden-Ablauf
 
@@ -1087,13 +1087,15 @@ und frei erkundet werden kann.
 | S3    | climax       | @auto| …         |
 | S4    | exit         | @auto| …         |
 
-**Ziele**  
-- Primär …  
-- Sekundär …  
+**Ziele**
+- Primär …
+- Sekundär …
 - Bonus …
 
 **Belohnung**  EP @auto / CU @auto
 ```
 
 *`@auto`* = wird vom Generator zur Laufzeit eingesetzt.
+
+*© 2025 pchospital – private use only. See LICENSE.
 
