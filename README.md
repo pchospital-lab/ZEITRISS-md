@@ -14,7 +14,7 @@ JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
 > 2. **Six-Step Missions.** Briefing → Arrival → Intel → Breach → Exfil → Return.
-> 3. **Exploding Dice.** W6, ab Attribut 11 W10 plus Heldenwürfel.
+> 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index.** Risiko-Skala; bei 5 öffnet sich 1–2 Pararifts auf der Weltkarte.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 
@@ -26,8 +26,10 @@ Dieser Abschnitt fasst Wuerfelregel, Missionsablauf
 und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
 
 1. **Phasenstruktur** – Briefing, Arrival, Intel, Breach, Exfil, Return.
-2. **Würfel** – W6 mit *Exploding-6* für den ersten Wurf.
-   Ab Attribut 11 ersetzt ein W10 den W6; bei 14 kommt ein Heldenwürfel als Reroll hinzu.
+2. **Würfel** – W6 mit *Exploding‑6*.
+   Ab Attribut 11 ersetzt ein W10 den W6 (*Exploding‑10*).
+   Addiere ⌊Attribut / 2⌋ sowie Talent‑ und Gear‑Boni.
+   Bei 14 erhältst du einen Heldenwürfel als kostenlosen Reroll.
 3. **Paradoxon-Index** – Wertebereich 0–5. Stufe 5 triggert `ClusterCreate()` und erzeugt bis zu zwei Seeds.
    Der Index springt anschließend auf 0; offene Seeds erhöhen den SG.
 4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
@@ -116,8 +118,8 @@ Die ersten Schritte in unter zwei Minuten:
 
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
-3. **Proben** – Wirf 1W6 gegen den SG. Ein W10 erhöht den SG um 4.
-4. **W6-vs-W10 Chart** – Erfolgswahrscheinlichkeiten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
+3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
+4. **Success Table** – Erfolgsraten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
@@ -140,17 +142,12 @@ Die ersten Schritte in unter zwei Minuten:
 
 ### Probability Cheat Table
 
-| TN | Erfolg W6 | Erfolg W10 |
-|----|----------|-----------|
-| 2  | 83 %     | 90 %      |
-| 3  | 67 %     | 80 %      |
-| 4  | 50 %     | 70 %      |
-| 5  | 33 %     | 60 %      |
-| 6  | 17 %     | 50 %      |
-| 7  | 17 %     | 40 %      |
-| 8  | 14 %     | 30 %      |
-| 9  | 11 %     | 20 %      |
-| 10 | 8 %      | 10 %      |
+| SG | W6 expl. | W10 expl. | Δ (W10–W6) |
+|---:|---------:|----------:|-----------:|
+| 5  | 83 %     | 90 %      | +7 %       |
+| 7  | 67 %     | 77 %      | +10 %      |
+| 8  | 50 %     | 65 %      | +15 %      |
+| 10 | 33 %     | 53 %      | +20 %      |
 
 ### Chat-Shortcodes {#chat-shortcodes}
 

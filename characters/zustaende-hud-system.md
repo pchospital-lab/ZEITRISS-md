@@ -662,8 +662,8 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
 -  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
 - **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
-  **„[W10 aktiv]“** neben diesem Wert ein. Das symbolisiert, dass auf diesem Attribut ab sofort ein
-  W10 geworfen wird und der Heldenwürfel zur Verfügung steht.
+  **„[W10 aktiv]“** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
+  (einmaliger Reroll).
 - **Paradox-Alarm:** Da der **Paradoxon-Index** so kritisch ist, hat es eine prominente Stelle im HUD.
   Meist als **Skala oder Warnsymbol** dargestellt, ggf. mit Farbe (grün = stabil, gelb =
   Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
