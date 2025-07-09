@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.3 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.1.3
+version: 4.1.4
 tags: [systems]
 default_modus: mission-fokus
 ---
@@ -86,7 +86,7 @@ Bei Bedarf kann ein kurzes JSON-Log jeden Wurf dokumentieren:
 
 *(PRECISION Edition – kühl, filmisch, direkt)*
 
-Diese Vorlagen halten jeden GPT-Output konsistent im neuen ZEITRISS-Stil. Alle Beispiele enden mit einer klaren **Decision-Frage**, damit der Spielfluss nie hängen bleibt.
+Diese Vorlagen halten jeden GPT-Output im ZEITRISS-Stil. Alle Beispiele enden mit einer klaren **Decision-Frage**.
 
 ---
 
@@ -195,14 +195,23 @@ Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von Spielerlevel und Missionsart.
 Parameter: `core` oder `rift` und optional ein Budget in CU.
+Gib zusätzlich ein `year` an, wählt ItemForge historische Skins über `altSkin`.
 Die Würfe laufen verdeckt; `!reveal` zeigt sie auf Wunsch.
 Heavy-Gear bleibt bis Level 7 gesperrt, außer bei `force=true`.
 Findet das Macro nichts Passendes, meldet Codex `NONE`.
 Beispielaufrufe:
 ```txt
-!itemforge core 100cu    # T1–T2
-!itemforge rift          # T1–T3 inkl. heavy
+!itemforge core 100cu 1969    # T1–T2, Skin passend zu 1969
+!itemforge rift 2120          # T1–T3 inkl. heavy
 ```
+
+### ParadoxPing() Macro
+Zeigt eine Warnung im HUD, sobald `SceneCounter` über 70 % liegt oder der
+Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
+
+### !seed Command
+Gibt einen zufälligen Mission Seed aus und zeigt sowohl die Preserve-
+als auch Trigger-Formulierung an.
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
@@ -347,6 +356,7 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   ert*ö*nt ein kurzes Doppel-Piepen, als das HUD ein Update erhält.“* Achte darauf, diese Effekte
   nicht zu überfrachten – setze sie gezielt ein, wenn es wirklich relevant ist (z. B. Warnungen,
   Missionsupdates, neue Erkenntnisse).
+
 - **Konsequente Formatierung:** Führe eine einheitliche Art ein, wie HUD und Codex-Ausgaben im Text
   dargestellt werden, damit die Spieler sie sofort erkennen. Zum Beispiel könntest du **HUD-Texte in
   eckige Klammern** setzen oder mit einem speziellen Schlagwort markieren. Der Codex kann in
@@ -750,5 +760,5 @@ packendes ZEITRISS-Abenteuer zu entfesseln. Viel Erfolg beim **Zeitreisen** und 
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
-Der Spieler-Output wird durch den Regex-Filter `/Zeitbruch|ClusterCreate|Realität umschreiben/i` geleitet und meldet "Störgrad-Anstieg".
+Der Spielertext durchläuft Regex `/Zeitbruch|ClusterCreate|Realität umschreiben/i` und meldet "Störgrad-Anstieg".
 *© 2025 pchospital – private use only. See LICENSE.

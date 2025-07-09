@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
-version: 4.1.1
+version: 4.1.4
 tags: [characters]
 ---
 
@@ -87,7 +87,7 @@ Geräusch eines aktivierten Energieschwerts.
 | Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig | 80 | 1 |
 | Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe | 40 | 0 |
 | Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; erfordert Übung | 120 | 2 |
-| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Plasma-Klinge ignoriert Rüstung, leuchtet {heavy} | 200 | 3 |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Ignoriert Rüstung, leuchtet {heavy} | 200 | 3 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -111,7 +111,7 @@ einige Beispiele:
 | Sturmgewehr | 21. Jh. | 4 (schwer) | Mittel–weit | Vollauto; hoher Schaden, laut; Munition nötig | 150 | 1 |
 | Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Betäuber schießt Nadeln, fast lautlos | 180 | 2 |
 | Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
-| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50m) | Plasmablaster; Ziel vernichten; hoher Energieverbrauch {heavy} | 300 | 3 |
+| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50 m) | Vernichtet Ziel; hoher Energieverbrauch {heavy} | 300 | 3 |
 \*(Reichweiten sind grobe Richtwerte für offene Gelände.
 „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
 Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie **_Durchschlag_** durch Deckung
@@ -144,7 +144,7 @@ und persönliche Schutzsysteme:
 | Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gegen Klingen | 100 | 1 |
 | Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; behindert etwas | 180 | 2 |
 | Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen | 220 | 2 |
-| Energie-Schild | Zukunft | _Energieschild:_ absorbiert 5 Schaden {heavy} | EMP-anfällig; sichtbarer Schimmer | 250 | 3 |
+| Energie-Schild | Zukunft | _Energieschild:_ blockt 5 Schaden {heavy} | EMP-anfällig, sichtbarer Schimmer | 250 | 3 |
 
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
@@ -268,9 +268,9 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 | --- | --- | --- | --- | --- | --- | --- |
 | **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; einmal Blend-Schutz | 1 | 900 | 2 |
 |  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
-| **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Kurzzeit-Schockfeld; negiert 2 LP/Treffer (3 Ladungen) | 1 | 1000 | 2 |
+| **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Schockfeld negiert 2 LP/Treffer (3 Lad.) | 1 | 1000 | 2 |
 |  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 | 1 |
-| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufklären, Spurenscan bis 50 m | 0 | 800 | 1 |
+| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl., Spurenscan 50 m | 0 | 800 | 1 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
 | **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
 |  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 | 1 |
@@ -394,66 +394,64 @@ id: weapon_t1
 ## Zufällige Waffenfunde (1W6)
 
 1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. _Taucht oft
-   in Missionen rund um Ritter oder Feldzüge auf._
+   in Missionen rund um Ritter oder Feldzüge auf._ `altSkin: "Römisches Gladius"`
 2. **Verborgenes Steampunk-Revolver** – Verschachtelte Mechanik, Schaden 3 LP, 6 Schuss. Preis: 150 CU.
-   _Gut als Überraschungswaffe in einer viktorianischen Spionage-Story._
+   _Gut als Überraschungswaffe in einer viktorianischen Spionage-Story._ `altSkin: "Kavallerie-Säbel 1870"`
 3. **Modernes Sturmgewehr** – Standard 21. Jh., Schaden 4 LP pro Salve. Preis: 200 CU. _Häufiger
-   Loot auf Militärschauplätzen moderner Einsätze._
-4. **Energie-Lanze** – Prototyp aus dem 23. Jh., Schaden 5 LP, zehrt am SYS-Wert beim Nutzen. Preis:
-   350 CU. _Ideal für Hightech-Extraktionen in der Zukunft._
+   Loot auf Militärschauplätzen moderner Einsätze._ `altSkin: "Muskete 1777"`
+4. **Energie-Lanze** – Prototyp 23. Jh., Schaden 5 LP, zehrt SYS-Wert. Preis:
+   350 CU. _Ideal für Hightech-Extraktionen in der Zukunft._ `altSkin: "Ritterschwert 1460"`
 5. **Schallwerfer** – Nicht-tödliche Distanzwaffe, macht Gegner kampfunfähig (SG gegen
-   Erschütterung). Preis: 250 CU. _Oft Teil von Sicherheitsausrüstung in Forschungskomplexen._
+   Erschütterung). Preis: 250 CU. _Häufig in Forschungskomplexen._ `altSkin: "Streitkolben 1200"`
 6. **Zeitfragment-Pistole** – Seltenes ITI-Experiment: erzeugt kleine Zeitsprünge beim Treffer.
    Schaden 3 LP + temporales Risiko. Preis: 500 CU. _Nur bei speziellen Story-Missionen oder als
-   besonderes Artefakt einsetzbar._
+   besonderes Artefakt einsetzbar._ `altSkin: "Arkebuse 1600"`
 
 id: gear_t1
 ## Nützliche Alltagsausrüstung (1W6)
 
 1. **Epocheangepasstes Werkzeugset** – Passt sich automatisch an die Zeitepoche an; Bonus +1 auf
-   Reparatur-/Bastelwürfe. Wert: 80 CU.
+   Reparatur-/Bastelwürfe. Wert: 80 CU. `altSkin: "Römer-Werkzeug 50 n.Chr."`
 2. **Mini-Drohne** – Handliche Aufklärungsdrohne, Reichweite 200 m. Wert: 120 CU. Praktisch für
-   Kundschaft in weitläufigen Arealen.
+   Kundschaft in weitläufigen Arealen. `altSkin: "Botenvogel 1350"`
 3. **Tarnumhang** – Verändert Farbe nach Umgebung. Gibt +1 auf Heimlichkeitsproben. Wert: 100 CU.
-   Gute Wahl für Infiltrationsmissionen.
+   Gute Wahl für Infiltrationsmissionen. `altSkin: "Kapuzenmantel 1580"`
 4. **Heilpaket** – Moderne Medpacks inklusive Nanobots, stellen sofort 3 LP wieder her. Kosten:
-   50 CU.
+   50 CU. `altSkin: "Kräuterbeutel 1200"`
 5. **Allzweckscanner** – Liest chemische Spuren, Strahlung und Energiesignaturen aus. Wert: 140 CU.
-   In jeder Ermittlungsmission hilfreich.
+   In jeder Ermittlungsmission hilfreich. `altSkin: "Alchemisten-Koffer 1660"`
 6. **Chrono-Seilwerfer** – Kompaktes Enterhaken-System, haftet an jeder Oberfläche und löst sich auf
-   Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien.
+   Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien. `altSkin: "Wurfanker 1800"`
 
 id: artifact_t2
 ## Kuriose Artefakte & Relikte (1W9)
 <!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
-1. **Kristallschädel** – Strahlt schwache Energie aus. Analysen zeigen verteilte Datenspeicher. Bei Sammlern 300 CU wert. {rare_rift}
-2. **Ägyptischer Zeitkompass** – Zeigt nicht Norden, sondern temporale Instabilitäten an. Kann
-   einmal pro Mission einen Paradox-Wert reduzieren. Wert: 400 CU.
-3. **Portativ-Orakel** – Winziges Gerät aus dem 28. Jh. beantwortet einfache Ja/Nein-Fragen mit
-   einer Wahrscheinlichkeit von 70 %. Wert: 350 CU.
-4. **Verwunschene Linse** – Ursprünglich aus dem Barock. Spielt eine vorab aufgezeichnete Bildsequenz ab. Paradox-Gefahr. Wert: 280 CU. {rare_rift}
-5. **Biotech-Samen** – Organische Kapsel aus einer fernen Zukunft. Wächst in Minuten zu einem provisorischen Unterschlupf. 1 Nutzung. Wert: 200 CU. {rare_rift}
-6. **Schriftrolle des Vergessenen Ordens** – Teilweise unleserlich, enthält verschlüsselte Hinweise. 150 CU Handelswert. {rare_rift}
+1. **Kristallschädel** – Schwache Energie, Datenspeicher. 300 CU bei Sammlern. {rare_rift}
+2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission –1 Paradox. 400 CU. `altSkin: "Sonnenuhr 200 v.Chr."`
+3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein. 350 CU. `altSkin: "Bronze-Würfelorakel"`
+4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene. Paradox-Gefahr. 280 CU. {rare_rift}
+5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf (1×). 200 CU. {rare_rift}
+6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, enthält verschlüsselte Hinweise. 150 CU. {rare_rift}
 7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU. {rare_rift}
-8. **Runenbesetzter Würfel** – Spielt eine gespeicherte Projektion früherer Entscheidungen ab. Einmalig +1 auf Geschichtswürfe. Wert: 300 CU. {rare_rift}
-9. **Prismatischer Fluxprojektor** – Kurzfristige Fluxhülle (3 s) erlaubt Durchgang oder Schild. Sekundär: UV-Lichtbogen schneidet Stahl in 5 m. Kosten: 1 PP, 2 Heat, 1 Px. 2 Ladungen. {rare_rift}
+8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab, einmalig +1 auf Geschichtswürfe. 300 CU. {rare_rift}
+9. **Fluxprojektor** – 3s Hülle; UV-Bogen schneidet Stahl (5 m). Kosten: 1 PP, 2 Heat, 1 Px, 2 Lad. {rare_rift}
 
 id: gadget_t3
 ## Seltene Spezialgegenstände (1W6)
 
 1. **Psi-Verstärker-Stirnband** – Steigert Psi-Fähigkeiten um +1 (sofern vorhanden). Preis im HQ:
-   500 CU. Nur in fortgeschrittenen Missionen zugänglich.
+   500 CU. Nur in fortgeschrittenen Missionen zugänglich. `altSkin: "Runen-Tiara 900"`
 2. **Naniten-Injektion** – Temporärer Boost: +2 auf einen körperlichen Attributswurf, hält wenige
-   Minuten. Preis: 250 CU pro Ampulle.
+   Minuten. Preis: 250 CU pro Ampulle. `altSkin: "Elixierfläschchen 1700"`
 3. **Quantum-Funksender** – Ermöglicht verzögerungsfreie Kommunikation selbst durch Zeitrisse.
-   Preis: 400 CU. Häufig Teil von Rettungsmissionen.
+   Preis: 400 CU. Häufig Teil von Rettungsmissionen. `altSkin: "Taubenpost 1915"`
 4. **Schwerelosigkeits-Generator** – Deaktiviert lokale Schwerkraft in einem kleinen Raum für einige
-   Sekunden. Kosten: 450 CU.
+   Sekunden. Kosten: 450 CU. `altSkin: "Ballon-Apparat 1783"`
 5. **DNA-Tarnchip** – Verändert kurzfristig biologische Merkmale, bietet +2 auf Verkleidungsproben.
-   Preis: 300 CU. Perfekt bei Undercover-Einsätzen.
+   Preis: 300 CU. Perfekt bei Undercover-Einsätzen. `altSkin: "Maskenset 1600"`
 6. **Portal-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
-   hält. Oft Teil von Paradox-Notfalleinsätzen. Wert: 600 CU.
+   hält. Oft Teil von Paradox-Notfalleinsätzen. Wert: 600 CU. `altSkin: "Runenstein 500"`
 
 ## Einbindung in CUs & Missionen
 

@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.2 – Modul 3: Charaktererschaffung & Progression"
-version: 4.1.2
+version: 4.1.4
 tags: [characters]
 ---
 

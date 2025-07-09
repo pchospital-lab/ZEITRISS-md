@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.2 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.1.2
+version: 4.1.4
 tags: [gameplay]
 ---
 
@@ -285,6 +285,9 @@ ca. **100–130 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | **A** | Einstieg, erste Spur, kleiner Konflikt |
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
+
+_SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
+Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
 
 ##### Mini-Walkthrough London-Arc

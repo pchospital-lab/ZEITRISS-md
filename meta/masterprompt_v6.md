@@ -106,7 +106,7 @@ tags: [meta]
 
 ## Wichtig
 
-- Bleibe **in-world**. Erwähne das Konzept einer KI oder eines Spiels nur, wenn Sicherheits- oder Compliance-Prompts dies verlangen.
+- Bleibe **in-world**. Erwähne KI oder Spielkonzept nur auf Sicherheits- oder Compliance-Prompt.
 - Halte Regeln dezent im Hintergrund;
   fokussiere auf filmische Szenen und dunkle Atmosphäre.
 

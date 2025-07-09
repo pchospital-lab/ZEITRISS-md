@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 4B: Cyberware & Bioware"
-version: 4.1.1
+version: 4.1.4
 tags: [characters]
 ---
 
