@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.0
+title: "ZEITRISS 4.1.2 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.1.2
 tags: [systems]
 default_modus: mission-fokus
 ---
@@ -30,6 +30,7 @@ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu trans
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
+- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **50** Szenen, Rift-Ops bei **130**.
 ## Fokus-Missionsmodus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -183,6 +184,13 @@ Decision: <Reaktion?>
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
 * [ ] Vier-Szenen-Episode erzeugt ein Playlog von mindestens 35 Minuten
+* [ ] SceneCounter aktualisiert
+
+### SceneCounter Macro
+Nutze `SceneCounter++` nach jeder ausgegebenen Szene.
+Das HUD blendet den Stand als `[SC aktueller/max]` ein.
+Core-Ops spielen mit **30–50** Szenen, Rift-Ops mit **100–130**.
+Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 

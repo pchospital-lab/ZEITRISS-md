@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.0
+title: "ZEITRISS 4.1.2 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
+version: 4.1.2
 tags: [gameplay]
 ---
 
@@ -275,6 +275,17 @@ Tier: Minor | Std | Major   HP: W6×Tier   DEF-Schwelle: 4–6
 Signature-Power: <eine>    Weak Spot: <Skill DC>
 Shard-Drop: 1+Tier
 ```
+
+##### Rift-Op Film-Template {#rift-op-film-template}
+Eine ausgedehnte Rift-Operation spielt sich wie ein Action‑Thriller und nutzt
+ca. **100–130 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
+
+| Akt | Kernbeats |
+| --- | --------- |
+| **A** | Einstieg, erste Spur, kleiner Konflikt |
+| **B** | Nachforschungen, Mid‑Twist, großer Showdown |
+| **C** | Finale, Aufräumen, Exit‑Cliffhanger |
+
 
 ##### Mini-Walkthrough London-Arc
 
