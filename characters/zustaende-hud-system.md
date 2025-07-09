@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
-version: 4.0
+version: 4.1.1
 tags: [characters]
 ---
 
@@ -568,6 +568,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 [Paradox-Alarm Stufe 3]
 [Magazin 4/12 | SYS 2/4]
 ```
+- **HUD-Warnung bei Heavy-Gear:** Sobald aktive Ausrüstung den Wert überschreitet,
+  blinkt `[SYS overload – Heavy]` auf.
 
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für

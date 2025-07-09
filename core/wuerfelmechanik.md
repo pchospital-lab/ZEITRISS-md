@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
-version: 4.0
+version: 4.1.1
 tags: [core]
 ---
 
@@ -314,6 +314,7 @@ Spannung** bis zum Schluss erhalten bleibt.
 2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
+   Kritische Treffer mit Nahkampf-Mods gewähren **+2 DMG** extra.
 5. **HUD:** Das Ziel sieht `[Vitalstatus 70%]` aufblinken.
 
 

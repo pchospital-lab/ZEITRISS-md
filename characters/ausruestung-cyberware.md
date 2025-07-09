@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
-version: 4.0
+version: 4.1.1
 tags: [characters]
 ---
 
@@ -87,7 +87,7 @@ Geräusch eines aktivierten Energieschwerts.
 | Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig | 80 | 1 |
 | Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe | 40 | 0 |
 | Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; erfordert Übung | 120 | 2 |
-| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Plasma-Klinge ignoriert Rüstung, leuchtet | 200 | 3 |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Plasma-Klinge ignoriert Rüstung, leuchtet {heavy} | 200 | 3 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -111,7 +111,7 @@ einige Beispiele:
 | Sturmgewehr | 21. Jh. | 4 (schwer) | Mittel–weit | Vollauto; hoher Schaden, laut; Munition nötig | 150 | 1 |
 | Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Betäuber schießt Nadeln, fast lautlos | 180 | 2 |
 | Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
-| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50m) | Plasmablaster; Ziel vernichten; hoher Energieverbrauch | 300 | 3 |
+| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50m) | Plasmablaster; Ziel vernichten; hoher Energieverbrauch {heavy} | 300 | 3 |
 \*(Reichweiten sind grobe Richtwerte für offene Gelände.
 „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
 Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie **_Durchschlag_** durch Deckung
@@ -144,7 +144,7 @@ und persönliche Schutzsysteme:
 | Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gegen Klingen | 100 | 1 |
 | Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; behindert etwas | 180 | 2 |
 | Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen | 220 | 2 |
-| Energie-Schild | Zukunft | _Energieschild:_ absorbiert 5 Schaden | EMP-anfällig; sichtbarer Schimmer | 250 | 3 |
+| Energie-Schild | Zukunft | _Energieschild:_ absorbiert 5 Schaden {heavy} | EMP-anfällig; sichtbarer Schimmer | 250 | 3 |
 
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
@@ -194,11 +194,9 @@ Ausrüstungsgegenstände:
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
   _Kosten:_ 50 CU. _(tier: 1)_
-- **Funkgerät/Kommunikator:** Ein kleines Kommunikationsgerät, angepasst an die Epoche (z.B. als
-  Hörmuschel im Ohr ab 20. Jh., oder versteckt in einem Amulett für frühere Zeiten). Hält Kontakt zum
-  Team über Kurzstrecke oder – falls das **Zeitterminal** verbunden ist – als Link zum HQ über den
-  Zeitriss. Reichweite teamintern ca. 5 km; über Zeitriss nur sporadisch und mit Zeitverzögerung.
-  _Kosten:_ 30 CU. _(tier: 0)_
+  - **Communicator "Scout Model":** Kurzstreckenfunkgerät (30 m Reichweite) mit 1 Runde Scan‑Delay.
+    Abhören gelingt nur auf Sichtlinie. Für die Verbindung zum HQ ist ein aktives **Zeitterminal** nötig.
+    _Kosten:_ 60 CU. _(tier: 1)_
 - **Verkleidungsset:** Wechselkleidung und einfache Maskierungen (Hüte, Perücken, Makeup) passend
   zur Einsatzzeit. Ermöglicht es, Identitäten zu wechseln und unterzutauchen. (In Spielbegriffen
   unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
@@ -212,6 +210,8 @@ Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Tech
 - Karten-Overlay der Epoche direkt im HUD, Zoomfunktion über die Linsen statt
   Fernglas.
 - Optional ein unauffälliger Bogen oder Armbrust statt Drohne.
+- **Proto-Patch Lockpick** (einfaches Dietrich‑Tool, einmal nutzbar). _Kosten:_ 0 CU. _(tier: 0)_
+- **Proto-Patch Scout-Mic** (Mini-Mikro, 10 m Kabel). _Kosten:_ 10 CU. _(tier: 0)_
 
 ### Taktische Gadgets
 
@@ -267,12 +267,12 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 | Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- | --- | --- |
 | **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; einmal Blend-Schutz | 1 | 900 | 2 |
-|  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; 1× +3 Hack-Boost | 0 | 1100 | 2 |
+|  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
 | **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Kurzzeit-Schockfeld; negiert 2 LP/Treffer (3 Ladungen) | 1 | 1000 | 2 |
 |  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 | 1 |
 | **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufklären, Spurenscan bis 50 m | 0 | 800 | 1 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
-| **Med-/Support** | _Nanite Field Med-pack_ | Heilt 2 LP sofort, entfernt „Leicht verletzt“ (1 Ladung) | 0 | 900 | 1 |
+| **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
 |  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 | 1 |
 
 _SYS nur nötig, wenn das Gerät dauerhaft integriert wird (z. B. Visor als Implantat-Visier). Tragbare

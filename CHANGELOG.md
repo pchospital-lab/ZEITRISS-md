@@ -34,4 +34,9 @@ tags: [meta]
 - W10 explodes on 10; removed SG+4 and W8 step.
 - Heldenwürfel erst ab 14, einmaliger Reroll.
 - Aktualisierte Beispiele, HUD-Hinweise und Vehicle-Note.
+
+## 4.1.1
+- Item Tier pass-balance (Scout Communicator, T2 Perks, heavy gear +1 SYS).
+- Med-Auto-Kit Preis 200 CU, Nahkampf-Mod Kritbonus +2 DMG.
+- Versionstexte auf 4.1.1 aktualisiert.
 *© 2025 pchospital – private use only. See LICENSE.
