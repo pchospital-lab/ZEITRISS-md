@@ -89,8 +89,8 @@ bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Pro
 erstreckt sich der mögliche Wertebereich von 1–10 (anstatt 1–6), wodurch **Granularität** und
 Varianz zunehmen. Kleine Unterschiede in Attributen oder Fertigkeiten wirken sich damit etwas
 weniger stark absolut aus, was Proben **ausgewogener** machen kann. Die SL sollte die
-Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten – in der Regel erfordern
-Aufgaben kommen ohne Modifikator aus. Die Zielzahlen bleiben gleich; das
+Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten.
+In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:
 
 `Endwert = Würfel + ⌊Attribut / 2⌋ + Talent + Gear`.
