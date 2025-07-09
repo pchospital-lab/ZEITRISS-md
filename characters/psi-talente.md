@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 4C: Psi-Fähigkeiten & Talente"
-version: 4.0
+version: 4.1.4
 tags: [characters]
 ---
 
@@ -71,12 +71,12 @@ Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 sollte an die Kampagne angepasst werden.)_
 
 - **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels. _Kosten:_ 1 SYS; kurze Botschaften möglich.
-- **Präkognition:** Sekundenkurzer Vorausblick auf drohende Gefahren. _Kosten:_ 2 SYS; erlaubt einmal pro Sitzung eine Probe zu wiederholen.
-- **Zeit verlangsamen:** Kurzzeitige Wahrnehmungsbeschleunigung lässt alles langsamer wirken. _Kosten:_ 2 SYS; gewährt eine Zusatzaktion.
-- **Temporaler Waffenimpuls:** Friert die Umgebung für einen Angriff ein und lässt das Projektil extremschnell treffen. _Kosten:_ 3 SYS.
+- **Präkognition:** Sekundenkurzer Blick auf drohende Gefahr. _Kosten:_ 2 SYS; einmal pro Sitzung Probe wiederholen.
+- **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig. _Kosten:_ 2 SYS; eine Zusatzaktion.
+- **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell. _Kosten:_ 3 SYS.
 - **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden. _Kosten:_ 1 SYS permanent.
 - **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS.
-- **Mentale Maskierung:** Verbirgt Gedankenpräsenz für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie um +2 SG.
+- **Mentale Maskierung:** Verbirgt Gedanken für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie +2 SG.
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt. _Kosten:_ 3 SYS.
 
 _Balance-Hinweis (Psi):_

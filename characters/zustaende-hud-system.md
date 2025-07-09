@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.2 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
-version: 4.1.2
+version: 4.1.4
 tags: [characters]
 ---
 
@@ -421,11 +421,11 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**
 
-1. Bei Stufe 2 flackert kurz das HUD und die Funkverbindung rauscht (**–1 Stealth**).
-2. Auf Stufe 4 friert die Szene für einen Moment ein, als ob die Zeit stockt (**–1 Wahrnehmung**).
-3. Bei Stufe 5 markiert das HQ 1–2 Risse auf der Weltkarte. Diese lassen sich
-   erst nach Missionsende vom HQ aus anspringen. Der Sprung selbst löst kein
-   Paradoxon-Level aus.
+1. *Mittelalter:* Kurz flackert ein Runensymbol auf (**+1 Stress**).
+2. *Viktorianisch:* Dein Monokel-HUD rauscht, die Optik verzerrt sich (**–1 Geschick**).
+3. *Zweiter Weltkrieg:* Funkgerät knackt, Bild wird körnig (**–1 Stealth**).
+4. *Kalter Krieg:* Ein roter Warnbalken blitzt auf, Geigerzähler tickt (**–1 Initiative**).
+5. *Cyber-Future:* Interface friert ein, Holo-Anzeigen glitchten (**–1 SYS**).
 
 > **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
 

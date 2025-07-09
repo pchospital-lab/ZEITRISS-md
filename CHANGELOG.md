@@ -51,4 +51,10 @@ tags: [meta]
 - Neues Macro `itemforge()` im Toolkit.
 - Loot-Tabellen tragen eindeutige `id:`-Felder.
 - HUD meldet `[HEAVY LOCK]` bei gesperrtem Heavy-Gear.
+
+## 4.1.4 – Era-Pulse Patch
+- Historische Missionsziele mit Preserve- und Trigger-Formulierungen.
+- Rift-Seeds enthalten verdeckte Ursachen.
+- Loot besitzt `altSkin` für epochegerechte Varianten.
+- Neues Macro `ParadoxPing()` und Befehl `!seed` dokumentiert.
 *© 2025 pchospital – private use only. See LICENSE.
