@@ -45,6 +45,7 @@ Siehe [Ausrüstung & Cyberware](ausruestung-cyberware.md#legalitäts--wartungs-s
 
 **Beispiel-Cyberware-Implantate** _(mit `tier:`-Spalte)_:
 
+id: implant_t1
 
 | Implantat | Beschreibung | SYS | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- |
@@ -87,6 +88,7 @@ Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod 
 
 **Beispiel-Bioware-Modifikationen** _(Tabellenfeld `tier:` vorhanden)_:
 
+id: implant_t2
 
 | Modifikation | Beschreibung | SYS | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- |

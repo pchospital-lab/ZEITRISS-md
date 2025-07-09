@@ -56,6 +56,7 @@ Die primäre Quelle von Chrono Units sind erfolgreiche **Missionen** – und auc
 von **Beute** aus verschiedenen Zeitaltern. Wann immer ein Einsatz abgeschlossen wird, honoriert das
 ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie variiert dabei nach
 mehreren Faktoren, zum Beispiel:
+_Budget-Hinweis:_ Standardmissionen rechnen mit **10 × Spielerlevel CU**. Die SL kann den Wert anpassen.
 
 - **Erfüllung der Missionsziele:** Wird das Hauptziel einer Mission erreicht, erhält jeder
   beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die zum
