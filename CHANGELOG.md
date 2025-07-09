@@ -46,4 +46,9 @@ tags: [meta]
 - Erfahrung: 1 Mission = 1 Level (bis Stufe 10).
 - Überarbeitetes Rift-Op-Template im Kampagnenmodul.
 - HUD zeigt `[PAR n/5 | SC x/50 | Time t]` an.
+
+## 4.1.3 – ItemForge Tier-Generator
+- Neues Macro `itemforge()` im Toolkit.
+- Loot-Tabellen tragen eindeutige `id:`-Felder.
+- HUD meldet `[HEAVY LOCK]` bei gesperrtem Heavy-Gear.
 *© 2025 pchospital – private use only. See LICENSE.

@@ -570,6 +570,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 ```
 - **HUD-Warnung bei Heavy-Gear:** Sobald aktive Ausrüstung den Wert überschreitet,
   blinkt `[SYS overload – Heavy]` auf.
+- **HEAVY LOCK Anzeige:** Wird ein {heavy}-Item wegen zu niedriger Stufe blockiert,
+  erscheint `[HEAVY LOCK]`. Erst ab Level 7 darf die SL es freigeben.
 
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für
