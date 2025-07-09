@@ -46,11 +46,9 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   In Kampagnen, die bewusst **contra** zur offiziellen Zeitlinie gespielt werden,
   darf die Paradox-Warnung auf Wunsch deaktiviert werden. Wer sie aktiviert,
   nutzt das System identisch zu Pro-Gruppen.
-- **Attributs-Skalierung & Heldenwürfel:** Neue Regeln für Charaktere mit außergewöhnlichen
-  Attributwerten: Ab **8** wird auf W8 umgestellt, ab **11** auf W10. Erst ab
-  **14** erhalten Helden einen **Heldenwürfel** (zweiter Wurf, besseres Ergebnis
-  zählt). Zusätzlich geben wir Hinweise, wie SL und Spieler einer
-  übermäßigen Attribut-Inflation im Endgame entgegenwirken, um die Balance zu wahren.
+- **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
+  Ab **11** ersetzt ein W10 den W6 (Exploding 10). Erst bei **14** kommt ein Heldenwürfel
+  für einen einmaligen Reroll hinzu. So bleibt jeder Punkt spürbar, ohne die Balance zu kippen.
 - **Erweitertes Speichersystem:** Save-Dateien (JSON) erhalten ab sofort ein
   **Versionskennzeichen**, um die Kompatibilität mit zukünftigen Regelupdates sicherzustellen. Wir
   zeigen Beispiele, wie **versionskompatible** Speicherstände aussehen und wie das Spiel mit
@@ -85,25 +83,21 @@ Der zweite Wurf zeigt eine 4. Zusammen ergibt das 6+4=10 – gerade noch geschaf
 ob dieses glücklichen Ausgangs.)_
 
 [[RULE]] Exploding-6: Bei einer 6 wird erneut geworfen und addiert. [[/RULE]]
-[[RULE]] Tooltip: "W10 + Heldenwürfel" [[/RULE]]
+[[RULE]] Tooltip: "W10 ab 11, Heldenwürfel ab 14" [[/RULE]]
 **Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
 bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Proben. Mit einem W10
 erstreckt sich der mögliche Wertebereich von 1–10 (anstatt 1–6), wodurch **Granularität** und
 Varianz zunehmen. Kleine Unterschiede in Attributen oder Fertigkeiten wirken sich damit etwas
 weniger stark absolut aus, was Proben **ausgewogener** machen kann. Die SL sollte die
 Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten – in der Regel erfordern
-Aufgaben etwa 4 Punkte höhere Zielwerte, um die höhere durchschnittliche Würfelsumme auszugleichen.
-Faustformel: **SG\_W10 = SG\_W6 + 4**. So bleibt die Erfolgsquote vergleichbar.
-Eine kleine Tabelle dient als Orientierung:
+Aufgaben kommen ohne Modifikator aus. Die Zielzahlen bleiben gleich; das
+additive Modell lautet:
 
-| SG (W6) | SG (W10) |
-| ------ | ------ |
-| 4 | 8 |
-| 5 | 9 |
-| 6 | 10 |
-| 7 | 11 |
-Die **Exploding**-Regel lässt sich grundsätzlich auch auf einen W10 übertragen (_Exploding 10_, bei
-einer gewürfelten 10 wird erneut geworfen). Allerdings entsteht durch einen W10 alleine schon mehr
+`Endwert = Würfel + ⌊Attribut / 2⌋ + Talent + Gear`.
+
+W6 explodiert bei 6, W10 bei 10.
+Ein Heldenwürfel (ab 14) gewährt einen einmaligen Reroll.
+Die **Exploding**-Regel lässt sich auf beide Würfel übertragen (_Exploding 6/10_).
 ### Transparenz-Log (optional)
 Bei Remote-Runden können Würfe als JSON-Log geteilt werden.
 ```json
@@ -118,8 +112,7 @@ verändern.
 
 **Schwellen-Kalibrierung:** Standardproben nutzen einen W6. Ein SG von **5** gilt als
 leichte Herausforderung, **8–9** als mittel, **12** als schwierig und **15+** als
-extrem. Bei Verwendung des optionalen W10 erhöht sich die Zielzahl jeweils um **+4**.
-Ein **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll auf eine Probe.
+extrem. Ein **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll.
 
 | Stufe  | Zielzahl |
 | ------ | -------- |
@@ -190,17 +183,16 @@ wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
 ### Referenz-Bogen {#reference-sheet}
 
-| SG (W6) | SG (W10) | Schwierigkeitsgrad |
-| ------: | -------: | ------------------ |
-| 5 | 9 | Leicht |
-| 8–9 | 12–13 | Mittel |
-| 12 | 16 | Schwer |
-| 15+ | 19+ | Extrem |
+| SG  | Würfelgröße | Schwierigkeitsgrad |
+|----:|-------------|-------------------|
+| 5   | W6          | Leicht            |
+| 8–9 | W6/W10      | Mittel            |
+| 12  | W6/W10      | Schwer            |
+| 15+ | W6/W10      | Extrem            |
 | Attribut | Würfelgröße |
-|---------:|-----------|
-| 1–7 | W6 |
-| 8–10 | W8 |
-| 11+ | W10 + Heldenwürfel |
+|---------:|-------------|
+| 1–10     | W6 |
+| 11+      | W10 |
 
 Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgrößen schnell nachzuschlagen.
 
@@ -226,26 +218,23 @@ belohnt werden, ohne aber die Spielbalance zu sprengen.
 
 Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wunsch den W10 frei.
 
-### Heldenwürfel (ab Attribut 11)
+### Heldenwürfel (ab Attribut 14)
 
-* Würfle **1×W10** für das Attribut **plus** **1 Heldenwürfel** (ebenfalls W10).
-* **Exploding 10er-Regel:** Jeder „10“ wird sofort erneut geworfen und addiert.
-* **Ergebniswertung:** Nimm das **beste einzelne** Resultat der beiden Würfel (keep-highest).
-* **Beispiel:** Agent Nyx hat SCHLEICHEN 11.
-  Wurf: 7 (Attribut-W10) & 10 + 6 = 16 (Heldenwürfel) → Endwert 16 (kritischer Erfolg).
+* Ein zusätzlicher W10 darf einmal pro Szene als Reroll verwendet werden.
+* **Exploding 10er-Regel:** Zeigt der Reroll eine 10, wird erneut geworfen.
+* **Beispiel:** Agent Nyx hat SCHLEICHEN 14.
+  Erstwurf: 7 auf dem W10. Er nimmt den Heldenwürfel und erhält eine 10; diese
+  explodiert zu einer 6 → Gesamtergebnis 16.
 
-> **Warum keep-highest?**
-> *Additiv* machte den Sprung zu mächtig (Ø +4,5), **keep-highest** hält das Power-Gap bei Ø +2,3.
-> **FAQ:** Nur Würfel **gleicher Größe** explodieren mehrfach. Der Heldenwürfel
-> zählt separat und kettet keine zusätzlichen W6.
 
 Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
 
 | Attribut | Würfelgröße |
 |---------:|-------------|
-| 1–7      | W6 |
-| 8–10     | W8 |
-| 11+      | W10 + Heldenwürfel |
+| 1–10     | W6 |
+| 11+      | W10 |
+
+Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen einmaligen Reroll pro Szene.
 
 ### Attribut → Ø-Erfolgsrate (SG 8)
 
@@ -259,10 +248,9 @@ Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Z
 | 6 | 83 % | Benötigt 2+ |
 | 7+ | 100 % | Automatischer Erfolg |
 
-Sobald der erste W8 aktiv wird, blendet das HUD **„[W8 aktiv]“** ein; bei einem
-Wert ab 11 erscheint **„[W10 aktiv]“**. Heldenwürfel kommen **zusätzlich** zu allen
-anderen Modifikatoren zum Einsatz und können ebenfalls explodieren. Die
-Wahrscheinlichkeit steigt damit spürbar, ohne dass jede Probe sofort gelingt.
+Sobald ein Attribut den Wert 11 erreicht, blendet das HUD **„[W10 aktiv]“** ein.
+Ab 14 weist es zusätzlich auf den Heldenwürfel hin. Dieser erlaubt einen
+einmaligen Reroll und kann ebenfalls explodieren.
 
 **Beispiel:** \*Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 14
 gesteigert – ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
@@ -276,7 +264,7 @@ Carlos’ bester Wurf ist damit eine **_10_**, was ihm einen spektakulären Aufs
 Festungsmauer ermöglicht, als würde ihm das Schicksal selbst einen Schub verleihen.\*
 
 **Balance im Endgame:** So nützlich Heldenwürfel sind, so vorsichtig sollten Spielleiter mit **zu
-hohen Attributwerten** am Ende einer Kampagne umgehen. Ein Wert von 11 oder 12 (mit Heldenwürfel)
+hohen Attributwerten** am Ende einer Kampagne umgehen. Ein Wert ab 14 (mit Heldenwürfel)
 macht viele normale Herausforderungen trivial – was einerseits verdienter Ausdruck des Heldentums
 sein kann, andererseits aber die Spannung mindern könnte, wenn die Helden alles zu leicht schaffen.
 Daher empfiehlt es sich, das **Fortschrittstempo** bei Attributen ab einem gewissen Niveau zu
@@ -652,7 +640,8 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 
 | Situation   | Standard                                | High‑Attribut (≥ 11) |
 |-----------|----------------------------------------|----------------------|
-| Würfeltyp | W6 (Attribut 1–7) bzw. W8 (8–10)       | W10 **plus Heldenwürfel** |
+| Würfeltyp | W6 (Attribut 1–10)                     | W10 |
+| Bonus     | –                                      | Heldenwürfel ab 14 |
 | Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
@@ -743,20 +732,19 @@ Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleic
 
 | Attribut | Würfel | Besonderheiten |
 |---------:|-------|----------------|
-| 1–7 | 1×W6 | Exploding 6, Burst‑Cap 3 |
-| 8–10 | 1×W8 | 6 explodiert wie gewohnt |
-| 11+ | 1×W10 + Heldenwürfel | Beste Zahl zählt, 10 explodiert |
+| 1–10 | 1×W6 | Exploding 6, Burst‑Cap 3 |
+| 11+  | 1×W10 | 10 explodiert einmal |
 
 **Erfolgsschwelle**
-Standardziel 5 (W6). Bei W10 +4 auf die Schwelle.
+Standardziel 5. Der W10 ändert die Schwelle nicht.
 
 **Heldenwürfel**
-Einmal pro Szene als zusätzlicher W10. Nur bei Attribut 11+.
+Einmal pro Szene als Reroll. Nur bei Attribut 14+.
 
 ### Druckbare Kurzreferenz (2 Seiten) {#druckreferenz}
 
 1. **Phasenablauf:** Briefing → Arrival → Intel → Breach → Exfil → Return.
-2. **Würfel:** 1W6, ab Attribut 11 1W10 + Heldenwürfel. Jede 6/10 explodiert einmal.
+2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
 3. **Paradoxon-Index:** steigt durch Zeitstörungen; bei 5 löst `ClusterCreate()` aus und
    setzt den Zähler auf 0.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der

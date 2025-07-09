@@ -28,4 +28,10 @@ tags: [meta]
 ## 4.0.6
 - Ergänzt Psi-Sektion "Phase-Strike" mit Anker und Referenz.
 - Kleinere Textpflege in `psi-talente.md`.
+
+## 4.1.0
+- Reworked Dice Mechanics to additive model.
+- W10 explodes on 10; removed SG+4 and W8 step.
+- Heldenwürfel erst ab 14, einmaliger Reroll.
+- Aktualisierte Beispiele, HUD-Hinweise und Vehicle-Note.
 *© 2025 pchospital – private use only. See LICENSE.
