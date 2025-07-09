@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.1.2
+version: 4.1.4
 tags: [meta]
 ---
 
@@ -229,6 +229,15 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
+   Beispiel für einen Seed-Eintrag:
+
+```yaml
+- year: 1976
+  place: "Nairobi, Kenia"
+  objective_P: "Schütze Journalist John H. nach Enthüllung über Schmuggelringe"
+  objective_T: "Stelle sicher, dass John H. verschwindet, bevor er drucken kann"
+  twist: "Kontakt ist Doppelagent des MI6"
+```
 6. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
    bzw. der Abschnitt

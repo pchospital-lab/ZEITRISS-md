@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem"
-version: 4.0
+version: 4.1.4
 tags: [systems]
 ---
 

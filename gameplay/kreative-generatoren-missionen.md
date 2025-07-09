@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.2 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.1.2
+version: 4.1.4
 tags: [gameplay]
 ---
 
@@ -70,13 +70,196 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
 Ein optionaler **Tonal-Safety-Toggle** filtert extrem düstere oder humorige Seeds
 heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 
+> **Preserve** (Pro-Fraktion) und **Trigger** (Contra-Fraktion) verfolgen denselben
+> historischen Endzustand. Preserve stabilisiert das bestehende Narrativ, Trigger
+> manipuliert Randbedingungen – Motiv, Schuldiger oder Nebeneffekt –, das Ergebnis
+> bleibt jedoch das in den Geschichtsbüchern. Dadurch entsteht kein Paradox.
+
 ```json
 {
   "generator": {
     "era": ["Berlin 1961", "Bagdad 1991", "Seoul 2032"],
-    "objective": [
-      "Sabotage einer feindlichen Funkanlage",
-      "Bergung gestohlener Forschung"
+    "objectives": [
+      {
+        "year": -44,
+        "place": "Rom",
+        "objective_P": "Halte die Senatoren auf Kurs, damit der Dolchstoß exakt wie überliefert verläuft.",
+        "objective_T": "Fälsche Geständnisse & Beweisstücke, um den Mord Cäsars rivalisierenden Feldherren anzuhängen."
+      },
+      {
+        "year": 1942,
+        "place": "Amsterdam",
+        "objective_P": "Bewahre Anne Franks Tagebuch, ohne ihre Familie vorzeitig zu enttarnen.",
+        "objective_T": "Platziere ablenkende Hinweise, damit das Tagebuch unentdeckt bleibt, bis die Zeit reif ist."
+      },
+      {
+        "year": 1969,
+        "place": "Cape Kennedy",
+        "objective_P": "Garantier den Start von Apollo 11 – alle Systeme nominal.",
+        "objective_T": "Leite Fehlersignale um, damit PR-Stab die Mission trotz Patzern als Erfolg verkauft."
+      },
+      {
+        "year": 1914,
+        "place": "Sarajevo",
+        "objective_P": "Positioniere Princip rechtzeitig, damit das Attentat verläuft wie dokumentiert.",
+        "objective_T": "Sichere Fluchtwege und manipuliere Zeugen, um Ermittlungen auf ein Phantomnetz zu lenken."
+      },
+      {
+        "year": 1947,
+        "place": "Roswell",
+        "objective_P": "Verdecke sämtliche Spuren des Absturzes und liefere ein glaubwürdiges Wetterballon-Narrativ.",
+        "objective_T": "Füttere Medien mit Alien-Gerüchten, damit Verschwörungstheorien die Wahrheit kaschieren."
+      },
+      {
+        "year": 64,
+        "place": "Rom",
+        "objective_P": "Erhalte Neros Schuldzuweisung für den Stadtbrand aufrecht.",
+        "objective_T": "Lenke Ermittler auf Christensekten, um die politische Agenda Neros zu stützen."
+      },
+      {
+        "year": 1871,
+        "place": "Chicago",
+        "objective_P": "Sorge dafür, dass das Große Feuer ausbricht, aber nicht über Block 23 hinaus wütet.",
+        "objective_T": "Sabotiere Löschdepots der Ostseite, um Neubauinvestoren zu begünstigen."
+      },
+      {
+        "year": 1986,
+        "place": "Baikonur",
+        "objective_P": "Lass das Buran-Programm scheitern, wie es geschichtlich tat, ohne externe Sabotagespuren.",
+        "objective_T": "Leite Gelder um, damit das Scheitern auf interne Korruption geschoben wird."
+      },
+      {
+        "year": 1912,
+        "place": "Nordatlantik",
+        "objective_P": "Stelle sicher, dass die Titanic den Eisberg rammt und sinkt.",
+        "objective_T": "Sichere wertvolle Kunstwerke vorher, um sie im Schwarzmarkt zu platzieren."
+      },
+      {
+        "year": 2003,
+        "place": "Bagdad",
+        "objective_P": "Garantiere, dass keine Massenvernichtungswaffen gefunden werden.",
+        "objective_T": "Plaziere falsche Laborspuren, damit Geheimdienste Jahre beschäftigt bleiben."
+      },
+      {
+        "year": 1776,
+        "place": "Philadelphia",
+        "objective_P": "Schirme die Unterzeichnung der Unabhängigkeitserklärung ab.",
+        "objective_T": "Fälsche Randnotizen, um Streit zwischen Bundesstaaten anzuheizen."
+      },
+      {
+        "year": 1963,
+        "place": "Dallas",
+        "objective_P": "Sorge, dass das Kennedy-Attentat genau 3 Schüsse zählt.",
+        "objective_T": "Tauche eine vierte Patronenhülse auf, um Lone-Gunman-Theorie zu zerlegen."
+      },
+      {
+        "year": 79,
+        "place": "Pompeji",
+        "objective_P": "Lass den Vesuv ausbrechen und bedecke die Stadt.",
+        "objective_T": "Evakuiere ausgewählte Artefakte, damit sie im 18. Jh. gefunden werden."
+      },
+      {
+        "year": 1929,
+        "place": "New York",
+        "objective_P": "Halte den Black-Friday-Crash bei −25 %.",
+        "objective_T": "Manipuliere Telegrafen-Ticker, um bestimmte Familiendynastien verlustfrei herauszuhalten."
+      },
+      {
+        "year": 1941,
+        "place": "Pearl Harbor",
+        "objective_P": "Ermögliche den Überraschungsangriff wie überliefert.",
+        "objective_T": "Lenke Bombenstaffel weg von Trockendock 2, damit spätere Reparatur schneller läuft."
+      },
+      {
+        "year": 1865,
+        "place": "Washington",
+        "objective_P": "Lass das Attentat auf Lincoln im Ford-Theatre wie berichtet stattfinden.",
+        "objective_T": "Lege falsche Beweise, die Südstaaten-Generäle als Drahtzieher aussehen lassen."
+      },
+      {
+        "year": 1815,
+        "place": "Waterloo",
+        "objective_P": "Sichere Napoleons Niederlage gegen Wellington.",
+        "objective_T": "Sabotiere französische Nachschublinien, damit die Schlacht kippt wie erwartet."
+      },
+      {
+        "year": 1968,
+        "place": "Memphis",
+        "objective_P": "Erhalte das Attentat auf Martin Luther King.",
+        "objective_T": "Streue Spuren zu einem staatlichen Komplott, um langfristige Unruhe zu säen."
+      },
+      {
+        "year": 1917,
+        "place": "Petrograd",
+        "objective_P": "Lenke Zarentreue ab, damit die Oktoberrevolution Erfolg hat.",
+        "objective_T": "Sabotiere Telegrammwege, um den Umsturz als Volksaufstand wirken zu lassen."
+      },
+      {
+        "year": 1906,
+        "place": "San Francisco",
+        "objective_P": "Lass das Erdbeben die Stadt verwüsten.",
+        "objective_T": "Fälsche Versicherungsakten, damit der Wiederaufbau politisch gelenkt wird."
+      },
+      {
+        "year": 1429,
+        "place": "Orléans",
+        "objective_P": "Führe Jeanne d'Arc zum Sieg und löse die englische Belagerung.",
+        "objective_T": "Verbreite Gerüchte von Hexerei, um ihre spätere Anklage zu rechtfertigen."
+      },
+      {
+        "year": 1804,
+        "place": "Paris",
+        "objective_P": "Sichere Napoleons Krönung zum Kaiser.",
+        "objective_T": "Orchestriere Adelsintrigen, damit seine Machtbasis scheinbar einstimmig ist."
+      },
+      {
+        "year": 1989,
+        "place": "Berlin",
+        "objective_P": "Halte die Öffnung der Mauer am 9. November fest.",
+        "objective_T": "Leake Stasi-Akten, um Repressionsapparate gezielt zu diskreditieren."
+      },
+      {
+        "year": 1666,
+        "place": "London",
+        "objective_P": "Der Große Brand vernichtet vier Fünftel der City.",
+        "objective_T": "Blockiere Feuergassen, damit das Flammenmeer Versicherer ruiniert."
+      },
+      {
+        "year": 1955,
+        "place": "Montgomery",
+        "objective_P": "Richte den Busboykott wie geplant aus.",
+        "objective_T": "Fördere radikale Flugblätter, damit die öffentliche Debatte polarisiert bleibt."
+      },
+      {
+        "year": 1975,
+        "place": "Saigon",
+        "objective_P": "Sichere die Evakuierung der Botschaft vor dem Fall Saigons.",
+        "objective_T": "Manipuliere Listen, damit ausgewählte Informanten zurückgelassen werden."
+      },
+      {
+        "year": 1453,
+        "place": "Konstantinopel",
+        "objective_P": "Überlass die Stadt dem Osmanischen Heer.",
+        "objective_T": "Schleuse byzantinische Schätze außer Landes, um künftige Machtkämpfe anzustacheln."
+      },
+      {
+        "year": 1848,
+        "place": "Seneca Falls",
+        "objective_P": "Lass die Frauenrechtskonvention ihr Manifest veröffentlichen.",
+        "objective_T": "Unterdrücke radikale Passagen, damit konservative Kräfte es dennoch dulden."
+      },
+      {
+        "year": 1215,
+        "place": "Runnymede",
+        "objective_P": "Treibe King John zur Unterzeichnung der Magna Carta.",
+        "objective_T": "Schmuggle Extraklauseln ein, die die Barone gegeneinander ausspielen."
+      },
+      {
+        "year": 1990,
+        "place": "CERN",
+        "objective_P": "Halte den ersten Webserver am Laufen.",
+        "objective_T": "Schiebe den Ruhm auf einen Außenseiter, damit Tim Berners-Lee anonym bleibt."
+      }
     ],
     "twist": [
       {
@@ -164,16 +347,26 @@ Diese Tabellen liefern Zufallsziele für reguläre Operationen und für Risse.
 ```json
 {
   "CoreObjectiveTable": [
-    { "Objective": "Sabotage feindlicher Kommunikationsknoten" },
-    { "Objective": "Bergung gestohlener Forschung" },
-    { "Objective": "Sicherung eines Informanten" },
-    { "Objective": "Vernichtung illegaler ChronTech-Prototypen" },
-    { "Objective": "Infiltration einer gegnerischen Basis" },
-    { "Objective": "Befreiung einer gefangenen Agentin" },
-    { "Objective": "Datenraub aus Hochsicherheitsserver" },
-    { "Objective": "Unterwanderung einer Historiker-Tagung" },
-    { "Objective": "Abfangen einer geheimen Lieferung" },
-    { "Objective": "Neutralisierung eines abtrünnigen Chrononauten" }
+    {
+      "Objective_P": "Sichere feindlichen Kommunikationsknoten für nachträgliche Code-Analyse",
+      "Objective_T": "Leite Traffic um & hinterlasse interne Sabotagespur, damit Gegner sich selbst säubert"
+    },
+    {
+      "Objective_P": "Bergung gestohlener Forschung im Originalzustand",
+      "Objective_T": "Inszeniere Brand, aber extrahiere Mikrofilm zuvor für ITI"
+    },
+    {
+      "Objective_P": "Schütze den Informanten bis zu seinem geplanten Gefängnis-Tod",
+      "Objective_T": "Täusche Suizid, um Namen des Drahtziehers herauszupressen"
+    },
+    {
+      "Objective_P": "Bewahre ChronTech-Prototyp im Archiv für spätere Patente",
+      "Objective_T": "Extrahiere Schaltpläne und ersetze Gehäuse durch funktionslose Attrappe"
+    },
+    {
+      "Objective_P": "Täusche Basisbesatzung, sammle Beweise",
+      "Objective_T": "Sprenge Treibstofflager, um Beweise als \"Zufallsfund\" zu tarnen"
+    }
   ]
 }
 ```
@@ -184,117 +377,140 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     {
       "d24": 1,
       "Seed": "Feuerengel von Breslau",
-      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung"
+      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung",
+      "hiddenCause": "Zeitschatten eines abgestürzten Testflugzeugs"
     },
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
-      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau"
+      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau",
+      "hiddenCause": "verschwundener Tang-Dynastie-Tempel"
     },
     {
       "d24": 3,
       "Seed": "Schrecken von Whitehall",
-      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon"
+      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon",
+      "hiddenCause": "Paradoxe Rückkopplung königlicher Blutlinie"
     },
     {
       "d24": 4,
       "Seed": "Night Train 666",
-      "Hook": "Führerloser Güterzug – Boarding & Blackbox"
+      "Hook": "Führerloser Güterzug – Boarding & Blackbox",
+      "hiddenCause": "Zeitanker einer verunglückten Lok 1912"
     },
     {
       "d24": 5,
       "Seed": "Mirage Over Sinai",
-      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken"
+      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken",
+      "hiddenCause": "verzerrtes Echo eines Wüstentestgeländes"
     },
     {
       "d24": 6,
       "Seed": "Wolfsplage Dacia",
-      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen"
+      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen",
+      "hiddenCause": "Lykan-Virus aus Zukunftslabor"
     },
     {
       "d24": 7,
       "Seed": "Project Götterdämmerung",
-      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station"
+      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station",
+      "hiddenCause": "Nazitek aktiviert unvollständiges Zeitportal"
     },
     {
       "d24": 8,
       "Seed": "Black Rain Vienna",
-      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren"
+      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren",
+      "hiddenCause": "unerkanntes Nanotech der Renaissance"
     },
     {
       "d24": 9,
       "Seed": "Emerald Kraken",
-      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen"
+      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen",
+      "hiddenCause": "versenktes Labor erzeugt Meeresportal"
     },
     {
       "d24": 10,
       "Seed": "Mars-Log #404",
-      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück"
+      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück",
+      "hiddenCause": "gestrandete Kolonie sendet Notsignal durchs Zeitloch"
     },
     {
       "d24": 11,
       "Seed": "Nightcrawler",
-      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam"
+      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam",
+      "hiddenCause": "gestohlene Prototyp-Rüstung aus 2120"
     },
     {
       "d24": 12,
       "Seed": "Sasquatch im Yukon",
-      "Hook": "Bestie greift Trapper an – Fährte verfolgen"
+      "Hook": "Bestie greift Trapper an – Fährte verfolgen",
+      "hiddenCause": "Zeitriss entlässt Mutanten-Bären"
     },
     {
       "d24": 13,
       "Seed": "Mothman-Sichtung",
-      "Hook": "Unheil über Brücke – Absturz bergen"
+      "Hook": "Unheil über Brücke – Absturz bergen",
+      "hiddenCause": "Bote aus paralleler Zukunft warnt vor Brückeneinsturz"
     },
     {
       "d24": 14,
       "Seed": "Blutorden",
-      "Hook": "Opfer blutleer – Kult zerschlagen"
+      "Hook": "Opfer blutleer – Kult zerschlagen",
+      "hiddenCause": "Zeitkult extrahiert Energie für Riss-Stabilisierung"
     },
     {
       "d24": 15,
       "Seed": "Diablos Katakomben",
-      "Hook": "Dämonische Schreie – Artefakt zerstören"
+      "Hook": "Dämonische Schreie – Artefakt zerstören",
+      "hiddenCause": "versiegelter Psi-Kristall bricht wieder auf"
     },
     {
       "d24": 17,
       "Seed": "Totenbrücke",
-      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren"
+      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren",
+      "hiddenCause": "Fehlgeleiteter Chrono-Transmitter unter der Brücke"
     },
     {
       "d24": 18,
       "Seed": "Schrecken von Whitehall – PHANTOM",
-      "Hook": "Löwe springt – Parkourjagd"
+      "Hook": "Löwe springt – Parkourjagd",
+      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem"
     },
     {
       "d24": 19,
       "Seed": "Night Train 666 – PHANTOM",
-      "Hook": "Geisterzug – Zug entern"
+      "Hook": "Geisterzug – Zug entern",
+      "hiddenCause": "verschollener Prototyp mit permanenter Zeitschleife"
     },
     {
       "d24": 20,
       "Seed": "Emerald Kraken – PHANTOM",
-      "Hook": "Grüne Tentakel – Taucheinsatz"
+      "Hook": "Grüne Tentakel – Taucheinsatz",
+      "hiddenCause": "mutierte Tiefsee-Drohnen sammeln Artefakte"
     },
     {
       "d24": 21,
       "Seed": "Militärischer Komplex",
-      "Hook": "Tollwutvirus-Zombies eindämmen"
+      "Hook": "Tollwutvirus-Zombies eindämmen",
+      "hiddenCause": "Biowaffen-Test aus dem Jahr 1954 läuft aus dem Ruder"
     },
     {
       "d24": 22,
       "Seed": "Mittelalterliche Katakomben",
-      "Hook": "Der falsche Teufel – Illusion enttarnen"
+      "Hook": "Der falsche Teufel – Illusion enttarnen",
+      "hiddenCause": "Illusionsprojektor versteckt Forschungsbasis"
     },
     {
       "d24": 23,
       "Seed": "Altes Schloss",
-      "Hook": "Vampir-Experiment beenden"
+      "Hook": "Vampir-Experiment beenden",
+      "hiddenCause": "Zeitreisende Biologen züchten Blutparasiten"
     },
     {
       "d24": 24,
       "Seed": "Geheime Tiefsee-Megacity",
-      "Hook": "Ursprung des \"Blob\" stoppen"
+      "Hook": "Ursprung des \"Blob\" stoppen",
+      "hiddenCause": "abtrünnige KI manipuliert Gen-Pools im Ozean"
     }
   ]
 }
@@ -627,11 +843,23 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
 - **Bedrohung:**
 
   1. Ein Megakonzern missbraucht Zeittechnologie für eigene Machtziele.
+     - epochTag: "2080er MegaCorp-Krise"
+     - historyHook: "nutzt die Wirtschaftskrise 2082 für verdeckte Übernahmen"
   2. Fanatische Kultisten wollen eine alternative Zeitlinie herbeiführen.
+     - epochTag: "mittelalterlicher Aberglaube"
+     - historyHook: "schürt Hexenpanik in Salem 1692"
   3. Ein außer Kontrolle geratenes Experiment droht die Realität zu zerreißen.
+     - epochTag: "2030er Quantenlabors"
+     - historyHook: "verbirgt eine Fehlkalibrierung im CERN 2035"
   4. Ein verstecktes Alienvolk plant, die Menschheit aus der Geschichte zu löschen.
+     - epochTag: "präkolumbisches Südamerika"
+     - historyHook: "manipuliert Inka-Sonnenkulte für Opferrituale"
   5. Ein rivalisierendes Zeitreise-Team sabotiert gezielt die Einsätze der Helden.
+     - epochTag: "kalter Krieg"
+     - historyHook: "tarnt sich als KGB-Sondereinheit 1960"
   6. Ein fehlgeschlagenes Zeitexperiment reißt ganze Regionen aus der Realität.
+     - epochTag: "Cholera-Hysterie 1892 Hamburg"
+     - historyHook: "lockt die Bevölkerung mit Heilversprechen in den Zeitriss"
 
 - **Schlüsselort:**
 
@@ -878,7 +1106,7 @@ _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austa
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
 ### Rift Seeds (automatisch)
-Rifts entstehen bei Paradoxon-Index 5 und werden vom HQ hier notiert. Sie tragen `phase: Rift` und sind keine nummerierten Episoden.
+Rifts erscheinen bei Paradoxon 5. Das HQ notiert sie hier als `phase: Rift` ohne Episodennummer.
 
 ```yaml
 phase: Rift

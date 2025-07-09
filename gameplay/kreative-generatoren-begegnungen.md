@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 8B: Kreative Generatoren – Begegnungen"
-version: 4.0
+version: 4.1.4
 tags: [gameplay]
 ---
 
@@ -695,7 +695,7 @@ Hinweise.
 | 11 | „Chrono‑Shard Panel" | unbekannt | zeigt 60 s Ereignis 24 h vor | Desorientierung  | {rare_rift}
 | 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike  | {rare_rift}
 | 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle  | {rare_rift}
-| 14 | „Ouroboros Pulse Node" | Marskolonie 2170 | 30 s Zeitschleife im 10 m Radius | Fusion bei Loop-Ende  | {rare_rift}
+| 14 | „Ouroboros Pulse Node" | Mars 2170 | 30 s Zeitschleife im 10 m Radius | Fusion am Loop-Ende  | {rare_rift}
 
 ### Artefakt-Jagd: Fortschrittsbalken
 
@@ -829,7 +829,7 @@ höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Parad
 - **D3 Kernfunktion (W12):** Sensorik; Energieimpuls; Materie modifizieren; Bewusstsein speichern; Teleport;
   Kräfte neutralisieren; Duplikat; Raum verschlüsseln; Daten korrumpieren; Heilen; Illusion; Zeitfenster stauchen
 - **D4 Aktivierung (W6):** Hautkontakt; Pass-Phrase; Chrono-Keycard; Strahlungsimpuls; Druck >2 bar; Neural-Sync
-- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensorschatten; Blind-Spot; EMP 5m; Grav-Anomalie; Mini-Rift
+- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensorschatten; Blindspot; EMP 5m; Grav-Anom.; Mini-Rift
 - **D6 Sicherheitsstufe (W6):** Kein Schutz; Biometrie-Siegel; Nano-Lock; Quanten-Cipher; Schredder-Fail-Safe
 #### Generator‑Beispiel (One‑Roll‑Complete)
 
