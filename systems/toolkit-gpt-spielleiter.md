@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.1.2 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.1.2
+title: "ZEITRISS 4.1.3 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.1.3
 tags: [systems]
 default_modus: mission-fokus
 ---
@@ -191,6 +191,18 @@ Nutze `SceneCounter++` nach jeder ausgegebenen Szene.
 Das HUD blendet den Stand als `[SC aktueller/max]` ein.
 Core-Ops spielen mit **30–50** Szenen, Rift-Ops mit **100–130**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
+
+### itemforge() Macro
+Erzeugt automatisches Loot anhand von Spielerlevel und Missionsart.
+Parameter: `core` oder `rift` und optional ein Budget in CU.
+Die Würfe laufen verdeckt; `!reveal` zeigt sie auf Wunsch.
+Heavy-Gear bleibt bis Level 7 gesperrt, außer bei `force=true`.
+Findet das Macro nichts Passendes, meldet Codex `NONE`.
+Beispielaufrufe:
+```txt
+!itemforge core 100cu    # T1–T2
+!itemforge rift          # T1–T3 inkl. heavy
+```
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
