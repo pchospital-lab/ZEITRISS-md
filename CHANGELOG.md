@@ -39,4 +39,11 @@ tags: [meta]
 - Item Tier pass-balance (Scout Communicator, T2 Perks, heavy gear +1 SYS).
 - Med-Auto-Kit Preis 200 CU, Nahkampf-Mod Kritbonus +2 DMG.
 - Versionstexte auf 4.1.1 aktualisiert.
+
+## 4.1.2
+- Neues SceneCounter-System mit HUD-Anzeige.
+- Missionen generieren nun 30–50 Szenen, Rift-Ops 100–130.
+- Erfahrung: 1 Mission = 1 Level (bis Stufe 10).
+- Überarbeitetes Rift-Op-Template im Kampagnenmodul.
+- HUD zeigt `[PAR n/5 | SC x/50 | Time t]` an.
 *© 2025 pchospital – private use only. See LICENSE.
