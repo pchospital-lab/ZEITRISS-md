@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.0 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.0
+title: "ZEITRISS 4.1.2 – Modul 8A: Kreative Generatoren – Missionen"
+version: 4.1.2
 tags: [gameplay]
 ---
 
@@ -91,6 +91,11 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
   }
 }
 ```
+
+Der anschließende Missionsgenerator erstellt eine **Phasenliste** mit
+mindestens **30** Einträgen. Bei langen Einsätzen darf die Liste bis zu
+**50** Szenen umfassen. Nutzt YAML‑Gewichte, um Nebenbeats aufzufüllen
+und so das Ziel zu erreichen.
 
 _Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehen.
 Streiche doppelte Seeds oder variiere sie.

@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.0 – Modul 3: Charaktererschaffung & Progression"
-version: 4.0
+title: "ZEITRISS 4.1.2 – Modul 3: Charaktererschaffung & Progression"
+version: 4.1.2
 tags: [characters]
 ---
 
@@ -585,15 +585,10 @@ Mit jeder Stufe vergibt das ITI neue Ausrüstungslizenzen oder Befugnisse.
 Nur erfahrene Agenten erhalten Zugriff auf sensibles Gear und heikle
 Zeitsprung-Methoden.
 
-**Erfahrungspunkte & Stufen:** ZEITRISS verwendet ein einfaches Fortschrittssystem ohne
-kleinteiliges XP-Gezähle. Stattdessen steigen Charaktere **stufenweise** (Level 1, 2, 3, …) auf,
-meist nachdem sie einige Missionen erfolgreich abgeschlossen haben. Die Spielleitung legt fest, wann
-ein **Level-Up** erfolgt – oft bietet sich der Abschluss einer größeren **Story-Etappe** oder
-Kampagne dafür an. In der Praxis entspricht ungefähr jede **2–3 Missionen** (je nach Umfang) einem
-Stufenaufstieg, sodass sich die Entwicklung organisch anfühlt. Wichtig: Diese Regel ist flexibel und
-dient vor allem der Erzählung. Statt nach Punkten zu fragen, können Spieler im Zweifel die KI-
-Spielleitung einschätzen lassen, wie nah sie dem nächsten Level sind – z.B. durch das HUD angezeigt
-als Fortschrittsbalken.
+**Erfahrungspunkte & Stufen:** Jede abgeschlossene Mission verleiht sofort ein
+**Level-Up** – bis maximal **Stufe 10**. Ab Level 11 erfolgt der Aufstieg nur
+noch nach wichtigen Story-Meilensteinen. So wird garantiert, dass eine
+Standardkampagne mit zehn Missionen alle Agenten auf Level 10 führt.
 
 **Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass dein Agent dazulernt und an Erfahrung
 gewinnt. Anstatt dies abstrakt zu handhaben, bettet ZEITRISS den Fortschritt ins Narrativ ein. Wenn

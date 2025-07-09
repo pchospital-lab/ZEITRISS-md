@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
-version: 4.1.1
+title: "ZEITRISS 4.1.2 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
+version: 4.1.2
 tags: [characters]
 ---
 
@@ -624,6 +624,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | `Stress 10` | Zusammenbruch |
 | 🩸 | Blutung – jede Runde 1 Schaden |
 | ☠️ | Vergiftung – SG +2 auf Proben |
+| `SC n/N` | aktuelle Szene / Budget |
 
 #### HUD-Snippets (Kurzmeldungen)
 
@@ -731,9 +732,9 @@ ist in Reichweite, das Primärziel ist noch offen, und Mira ist bereits sicher. 
 Spieler **diegetisch**, also im Erleben der Figur.
 
 ```text
-┌─STATUS────────────────────────┐
-│ HP 12/18 │ Paradox 2 │ Tarnung ✔ │
-└───────────────────────────────┘
+┌─STATUS────────────────────────────────────┐
+│ HP 12/18 │ PAR 2/5 │ SC 23/50 │ Time 37m │
+└───────────────────────────────────────────┘
 ```
 
 Am Ende ist das **HUD-Overlay** ein vielseitiges Werkzeug, um **Regelmechanismen nahtlos ins
