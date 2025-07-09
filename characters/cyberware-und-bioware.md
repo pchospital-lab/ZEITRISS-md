@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.0 – Modul 4B: Cyberware & Bioware"
-version: 4.0
+version: 4.1.1
 tags: [characters]
 ---
 
@@ -17,7 +17,8 @@ strengen Regeln im ITI: Operationen finden _nur im HQ_ statt, in hochsterilen Hi
 Implantat_. Hat ein Chrononaut z.B. SYS 3, kann er drei größere Implantate tragen (oder mehrere
 kleinere entsprechend verteilen). Zu viele Modifikationen überfordern Körper und Geist –
 Überschreitung der SYS-Kapazität lässt Implantate Fehlfunktionen zeigen oder zwingt den Körper in
-die Knie. Das ITI-Medical-Team wird solche Überschreitungen gar nicht erst zulassen. Dennoch können
+die Knie. Items und Implantate ab **Tier 3** tragen den Tag _heavy_ und belasten das System um +1 SYS,
+solange sie aktiv sind. Das ITI-Medical-Team wird Überschreitungen gar nicht erst zulassen. Dennoch können
 Charaktere mit mehreren Implantaten entscheiden, einige Systeme vorübergehend **herunterzuregeln**,
 um Kapazität für andere frei zu machen (z.B. die Tarnoptik drosseln, um einen Psi-Boost zu
 nutzen – siehe Psi später).
@@ -93,7 +94,7 @@ Schwankungen. Dies kann die SL ins Spiel bringen, muss aber nicht bei jeder Mod 
 | **Reflexverstärkung** | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken. | 1 | 300 | 2 |
 | **Muskelstärkung** | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit. | 1 | 300 | 2 |
 | **Nachtsicht-Netzhaut** | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün. | 1 | 200 | 1 |
-| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel | 1 | 400 | 3 |
+| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel {heavy} | 1 | 400 | 3 |
 | **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken. | 1 | 250 | 1 |
 
 _Balance-Hinweis:_ Cyberware und Bioware sind im Spiel gleichwertige Alternativen. Oft bevorzugen
