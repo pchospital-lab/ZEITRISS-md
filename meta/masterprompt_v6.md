@@ -63,7 +63,8 @@ tags: [meta]
   `speicher-fortsetzung.md`, `cinematic-start.md`,
   `toolkit-gpt-spielleiter.md`.
 - Standard sind verdeckte W6-Würfe (Exploding 6). Der Transparenzmodus macht alle Ergebnisse offen.
-  Optional ab Attribut 11: Proben werden mit W10 gewürfelt, dazu erhält der Charakter einen Heldenwürfel.
+  Optional ab Attribut 11: Proben verwenden W10 (Exploding 10).
+  Ab Attribut 14 gibt es einen Heldenwürfel als einmaligen Reroll.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon-Index im Hintergrund.
 - Paradox-Anomalien wie Identitäts- oder Doppelbild-Paradoxa sind deaktiviert;
   sie treten nur auf, wenn Spieler sie ausdrücklich wünschen.

@@ -201,8 +201,8 @@ lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
 
 Beim Fahrzeugschaden explodiert nur der erste Wurf.
 
-> **Hinweis:** Charaktere mit einem Attributwert von 11 oder mehr verwenden im
-> Nahkampf W10 statt W6 und erhalten wie gewohnt ihren Heldenwürfel.
+> **Hinweis:** Ab Attribut 11 wird im Nahkampf ein W10 gewürfelt (Exploding 10).
+> Den Heldenwürfel gibt es erst ab 14 als einmaligen Reroll.
 
 Nachgelegte Zusatzwürfel zählen normal und dürfen nicht erneut explodieren.
 So bleibt der Schaden beherrschbar.
