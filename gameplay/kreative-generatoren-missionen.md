@@ -13,6 +13,14 @@ sg_rift_bonus: 1
 ```
 
 Schwellenangaben nutzen im Template den Platzhalter `{{SG_AUTO}}`.
+
+Core-Seeds tragen nun optionale Felder zur Arc-Steuerung:
+
+```yaml
+- arc_id: "Chicago1871"
+  arc_step: 1    # 1..10
+  pool: heist_pool
+```
 ## Inhalt
 
 ### Missions-Werkzeuge
@@ -877,8 +885,32 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
   3. Die Helden müssen ein persönliches Opfer bringen, um die Zeit zu heilen.
   4. Eine andere Fraktion kommt ihnen zuvor und dreht den Spieß um.
   5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
-  6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler
-     war.
+6. Die Helden erkennen, dass ihre Mission nur ein Ablenkungsmanöver für einen verborgenen Gegenspieler
+    war.
+
+### Heist Pool {#heist_pool}
+
+```yaml
+heist_pool:
+  - safecrack_demo
+  - tunnel_bypass
+```
+
+### Black-Ops Pool {#black_ops_pool}
+
+```yaml
+black_ops_pool:
+  - night_insertion
+  - asset_wipe
+```
+
+### Future Pool {#future_pool}
+
+```yaml
+future_pool:
+  - zero_g_breach
+  - orbital_hack
+```
 
 ## Historische Wendepunkte-Generator: Auslöser und Folgen {#wendepunkte-generator}
 
@@ -1113,6 +1145,284 @@ phase: Rift
 jahr: 1889
 ort: Prag
 thema: Beispiel-Rift
+```
+
+### Core-Arc Seeds {#core-arc-seeds}
+
+```yaml
+- arc_id: "Chicago1871"
+  arc_step: 1
+  pool: heist_pool
+  title: "Brandstifter-Trupp"
+  pitch: "Legt Nitrobeschleuniger unter Mrs O’Learys Scheune, ohne Zeugen."
+  timeslot: "+0 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 2
+  pool: heist_pool
+  title: "Pumpen-Manipulation"
+  pitch: "Sabotiert die Dampfpumpen der Südseite, damit das Feuer sich ungehindert ausbreitet."
+  timeslot: "+1 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 3
+  pool: heist_pool
+  title: "Raubzug beim Juwelier"
+  pitch: "Stehlt Diamanten im Wert von 200.000 $, während die ersten Unruhen toben."
+  timeslot: "+3 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 4
+  pool: heist_pool
+  title: "Weichen-Heist"
+  pitch: "Leitet den einzigen Wasserzug um, indem ihr den Stellwerksturm übernehmt."
+  timeslot: "+6 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 5
+  pool: heist_pool
+  title: "Pinkerton-Tresorrettung"
+  pitch: "Knackt einen brennenden Tresor voller Erpressungsakten."
+  timeslot: "+9 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 6
+  pool: heist_pool
+  title: "Nitro-Kähne am Fluss"
+  pitch: "Sprengt die Waffenhändler-Kähne, bevor sie in der Nähe von Zivilisten explodieren."
+  timeslot: "+12 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 7
+  pool: heist_pool
+  title: "Schützenduell auf den Dächern"
+  pitch: "Schaltet ein rivalisierendes Schatten-Team aus, das einen Fluchtkorridor deckt."
+  timeslot: "+16 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 8
+  pool: heist_pool
+  title: "Zeppelin-Start"
+  pitch: "Verladet Kunstschätze auf einen geheimen Zeppelin bei Sturm."
+  timeslot: "+20 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 9
+  pool: heist_pool
+  title: "Versicherungsbetrugsfalle"
+  pitch: "Deckt gefälschte Forderungen in einer halb eingestürzten Bank auf."
+  timeslot: "+24 h"
+
+- arc_id: "Chicago1871"
+  arc_step: 10
+  pool: heist_pool
+  title: "Chrono-Safedrop"
+  pitch: "Bergt den zeitcodierten Safe, bevor das Abrisskommando alle Spuren verwischt."
+  timeslot: "+30 h"
+
+- arc_id: "Peking1908"
+  arc_step: 1
+  pool: black_ops_pool
+  title: "Kaiserlicher Goldzug"
+  pitch: "Entert den gepanzerten Geldzug auf der Nordspur."
+  timeslot: "Day-1 Dawn"
+
+- arc_id: "Peking1908"
+  arc_step: 2
+  pool: black_ops_pool
+  title: "Tesla-Boxer-Labor"
+  pitch: "Zerstört eine geheime Coilgun-Anlage unter einem Hutong-Lagerhaus."
+  timeslot: "Day-1 Noon"
+
+- arc_id: "Peking1908"
+  arc_step: 3
+  pool: black_ops_pool
+  title: "Jade-Chronometer"
+  pitch: "Stehlt ein codiertes Relikt aus dem Uhrenturm der Verbotenen Stadt."
+  timeslot: "Day-1 Dusk"
+
+- arc_id: "Peking1908"
+  arc_step: 4
+  pool: black_ops_pool
+  title: "Attentat bei der Oper"
+  pitch: "Verhindert das Attentat auf einen britischen Attaché während einer Pekinger Oper."
+  timeslot: "Day-1 Night"
+
+- arc_id: "Peking1908"
+  arc_step: 5
+  pool: black_ops_pool
+  title: "Lotus-Drogenrazzia"
+  pitch: "Brennt das Drogenlabor eines Warlords auf Stelzen über Abwasserkanälen nieder."
+  timeslot: "Day-2 Dawn"
+
+- arc_id: "Peking1908"
+  arc_step: 6
+  pool: black_ops_pool
+  title: "Fenghuang-Flugtest"
+  pitch: "Testet ein Proto-Ornithopter-Fluchtgerät während eines Sandsturms."
+  timeslot: "Day-2 Noon"
+
+- arc_id: "Peking1908"
+  arc_step: 7
+  pool: black_ops_pool
+  title: "Argus-Ballon-Abgriff"
+  pitch: "Hackt das optische Telegraphenrelais eines Aufklärungsballons."
+  timeslot: "Day-2 Afternoon"
+
+- arc_id: "Peking1908"
+  arc_step: 8
+  pool: black_ops_pool
+  title: "Tunnelspektrenjagd"
+  pitch: "Jagt einen Chronoschmuggler durch halb fertiggestellte Metro-Tunnel."
+  timeslot: "Day-2 Dusk"
+
+- arc_id: "Peking1908"
+  arc_step: 9
+  pool: black_ops_pool
+  title: "Blutschriftrollen-Auktion"
+  pitch: "Tauscht eine verfluchte Schriftrolle auf dem nächtlichen Schwarzmarkt, bevor das Gebot endet."
+  timeslot: "Day-2 Midnight"
+
+- arc_id: "Peking1908"
+  arc_step: 10
+  pool: black_ops_pool
+  title: "Drachentor-Abriegelung"
+  pitch: "Versiegelt die kaiserliche Gruft und hindert ein rivalisierendes Zeitteam am Diebstahl von Relikten."
+  timeslot: "Day-3 Dawn"
+
+- arc_id: "Orbital2220"
+  arc_step: 1
+  pool: future_pool
+  title: "Mondaufzug-Raubzug"
+  pitch: "Kapert eine Lastkabine am Aufzugskabel in 70 km Höhe."
+  timeslot: "T-4 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 2
+  pool: future_pool
+  title: "Massentreiber-Katastrophe"
+  pitch: "Sabotiert die Asteroiden-Schienenkanone vor dem illegalen Abschuss."
+  timeslot: "T-1 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 3
+  pool: future_pool
+  title: "EVA-Luftkampf"
+  pitch: "Besiegt Exoanzug-Söldner in einem schwerelosen Trümmerfeld."
+  timeslot: "T + 2 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 4
+  pool: future_pool
+  title: "Geisel im Grünen Ring"
+  pitch: "Befreit ein Biotech-Gewächshaus, das bei 0,8 G rotiert."
+  timeslot: "T + 5 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 5
+  pool: future_pool
+  title: "Quanten-Börsenhack"
+  pitch: "Schleust einen falschen Algorithmus in ein 0,25‑s-Latenz-Fenster ein."
+  timeslot: "T + 8 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 6
+  pool: future_pool
+  title: "Frachtschleuder-Duell"
+  pitch: "Fechtet in einer rotierenden Trommel, während die Gravitation schwankt."
+  timeslot: "T + 12 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 7
+  pool: future_pool
+  title: "Trümmer-Schrotflinte"
+  pitch: "Manövriert durch die Kessler-Wolke, um einen Überläufer bei 800 m/s zu retten."
+  timeslot: "T + 18 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 8
+  pool: future_pool
+  title: "Fusionskern-Überlastung"
+  pitch: "Haltet einen katastrophalen Ausbruch lange genug auf, um das Habitat zu evakuieren."
+  timeslot: "T + 22 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 9
+  pool: future_pool
+  title: "Geisterknoten-Verfolgung"
+  pitch: "Verfolgt einen rivalen Chrononauten durch ein verlassenes Kommunikationsnetz."
+  timeslot: "T + 26 h"
+
+- arc_id: "Orbital2220"
+  arc_step: 10
+  pool: future_pool
+  title: "Flucht in der Sturzkapsel"
+  pitch: "Stürzt in einer Einsatztkapsel frei zum Pazifik hinab und stört dabei alle Tracker."
+  timeslot: "T + 30 h"
+```
+
+### Rift Seed Catalogue {#rift-seed-catalogue}
+
+```yaml
+- rift_id: "RIFT-NX01"
+  epoch: "Iceland 1615"
+  anomaly: "Kryo-Wyrm"
+  risk: 4
+  paramonster:
+    type: "Wärmeegel-Drache"
+    hp: 18
+    abilities: ["Frost Nova", "Tunnel Ambush"]
+  resolve_requires: "slay_creature"
+
+- rift_id: "RIFT-NX02"
+  epoch: "Nagasaki 1946"
+  anomaly: "Zeit-Echo-Sirene"
+  risk: 5
+  paramonster:
+    type: "Phasen-Banshee"
+    hp: 14
+    abilities: ["Sonic Warp", "Chrono Blink"]
+  resolve_requires: "banish_creature"
+
+- rift_id: "RIFT-NX03"
+  epoch: "Sahara 2028"
+  anomaly: "Glas-Sand-Giganten"
+  risk: 3
+  paramonster:
+    type: "Silikatkoloss"
+    hp: 20
+    abilities: ["Sandstorm Cloak", "Shard Volley"]
+  resolve_requires: "seal_rift_core"
+
+- rift_id: "RIFT-NX04"
+  epoch: "Athens 415 BC"
+  anomaly: "Bronze-Hoplon-Golem"
+  risk: 4
+  paramonster:
+    type: "Lebender Kriegsschild"
+    hp: 16
+    abilities: ["Ricochet Bash", "Molten Core"]
+  resolve_requires: "artifact_retrieval"
+
+- rift_id: "RIFT-NX05"
+  epoch: "Amazonas 1899"
+  anomaly: "Blut-Orchideen-Parasit"
+  risk: 3
+  paramonster:
+    type: "Flora-Symbionten-Schwarm"
+    hp: 12
+    abilities: ["Mind-Spore", "Vine Snare"]
+  resolve_requires: "burn_nest"
+
+- rift_id: "RIFT-NX06"
+  epoch: "Luna Far-Side 2266"
+  anomaly: "Leerenheuler"
+  risk: 5
+  paramonster:
+    type: "Null-G-Raubtier"
+    hp: 22
+    abilities: ["Silent Pounce", "Vacuum Rend"]
+  resolve_requires: "trap_and_jettison"
 ```
 
 *© 2025 pchospital – private use only. See LICENSE.
