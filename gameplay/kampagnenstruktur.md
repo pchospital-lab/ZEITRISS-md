@@ -107,6 +107,7 @@ Weitere Informationen zum HUD gibt es im Modul
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.
+Nach einem Abschluss meldet `resolve_mission()` stets `history_ok:true`.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
@@ -229,7 +230,7 @@ Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
 ### Epoch-Lock & Rift-Loop
 
 Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 3–5 zusammen-
-hängenden Missionen springt die Handlung weiter. Je höher das Paradoxon-Index,
+hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
 desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 
 #### Grundablauf
@@ -261,6 +262,22 @@ bestimmt den künftigen SG damit selbst:
 Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
 Ablauf der Geschichte wahrt, generiert weniger Paradox-Punkte; plumpes Vorgehen
 treibt den Zähler schneller hoch.
+
+### Arc-Lock & Self-Collision Guard {#arc-lock}
+
+Ein **Arc** umfasst genau zehn Core-Missionen desselben historischen Hotspots.
+Die Handlung verläuft in der Regel vorwärts. Ein einzelner Rücksprung pro Arc
+ist erlaubt, darf jedoch keine Selbstbegegnung ermöglichen.
+
+```pseudo
+if last_player_epoch == requested_epoch
+   and abs(Δt) < 6h:
+       redirect_same_slot(+6h)
+```
+
+Das Macro `redirect_same_slot()` verschiebt den Einsatzstart um mindestens sechs
+Stunden. Bewahren und Triggern führen zum gleichen Ergebnis; nur Stil und
+Paradox-Wert variieren.
 
 #### Rift-Side-Ops
 
