@@ -88,6 +88,12 @@
       "href": "#artefakt-seed-starter-1w14"
     },
     {
+      "slug": "rift-catalogue",
+      "path": "gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue",
+      "title": "Rift Seed Catalogue",
+      "category": "Gameplay"
+    },
+    {
       "slug": "vehicles",
       "path": "gameplay/fahrzeuge-konflikte.md",
       "title": "Fahrzeuge & Konflikte",
@@ -165,6 +171,21 @@
       "id": "arc_pool",
       "path": "gameplay/kreative-generatoren-missionen.md#arc-generator",
       "title": "Arc-Generator: Gro\u00dfe Missionen"
+    },
+    {
+      "id": "heist_pool",
+      "path": "gameplay/kreative-generatoren-missionen.md#heist_pool",
+      "title": "Heist Pool"
+    },
+    {
+      "id": "black_ops_pool",
+      "path": "gameplay/kreative-generatoren-missionen.md#black_ops_pool",
+      "title": "Black-Ops Pool"
+    },
+    {
+      "id": "future_pool",
+      "path": "gameplay/kreative-generatoren-missionen.md#future_pool",
+      "title": "Future Pool"
     },
     {
       "id": "creature_pool",

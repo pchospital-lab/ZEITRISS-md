@@ -30,7 +30,9 @@ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu trans
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
+- `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
 - `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **50** Szenen, Rift-Ops bei **130**.
+  Jede Vorlagen-Szene endet automatisch mit diesem Macro.
 ## Fokus-Missionsmodus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -208,6 +210,19 @@ Beispielaufrufe:
 ### ParadoxPing() Macro
 Zeigt eine Warnung im HUD, sobald `SceneCounter` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
+
+### redirect_same_slot() Macro
+
+```pseudo
+if last_player_epoch == requested_epoch and abs(Δt) < 6h:
+    shift_epoch(+6h)
+```
+Verhindert Selbstkollisionen durch einen Sprungversatz.
+
+### Mission Resolution
+
+Nach jedem Einsatz setzt die Engine `history_ok:true`, egal ob Preserver oder
+Trigger-Ergebnis erreicht wird.
 
 ### !seed Command
 Gibt einen zufälligen Mission Seed aus und zeigt sowohl die Preserve-
