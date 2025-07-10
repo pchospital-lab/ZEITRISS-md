@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
+title: "ZEITRISS 4.1.4 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
 version: 4.1.4
 tags: [systems]
 ---
 
-# ZEITRISS 4.0 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+# ZEITRISS 4.1.4 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
 
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.2 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
+title: "ZEITRISS 4.1.4 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
 version: 4.1.4
 tags: [characters]
 ---
 
-# ZEITRISS 4.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD
+# ZEITRISS 4.1.4 – Modul 5: Erweiterte Systeme & Cinematisches HUD
 
 ## Inhalt
 

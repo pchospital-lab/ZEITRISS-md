@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 8B: Kreative Generatoren – Begegnungen"
+title: "ZEITRISS 4.1.4 – Modul 8B: Kreative Generatoren – Begegnungen"
 version: 4.1.4
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.0 – Modul 8B: **Kreative Generatoren – Begegnungen**
+# ZEITRISS 4.1.4 – Modul 8B: **Kreative Generatoren – Begegnungen**
 
 ## Inhalt
 
