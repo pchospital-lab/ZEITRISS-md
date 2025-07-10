@@ -238,9 +238,9 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 ```yaml
 - year: 1976
   place: "Nairobi, Kenia"
-  objective_P: "Schütze Journalist John H. nach Enthüllung über Schmuggelringe"
-  objective_T: "Stelle sicher, dass John H. verschwindet, bevor er drucken kann"
-  twist: "Kontakt ist Doppelagent des MI6"
+  objective_P: "Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse."
+  objective_T: "Erlaube Johns Verschwinden, aber schleuse sein Manuskript anonym in die Presse, damit der Skandal dennoch explodiert."
+  twist: "Euer Kontakt entpuppt sich als MI6-Doppelagent, der beide Ausgänge akzeptiert, solange die Story veröffentlicht wird."
 ```
 6. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
