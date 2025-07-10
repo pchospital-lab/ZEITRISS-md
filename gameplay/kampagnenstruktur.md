@@ -309,6 +309,7 @@ ca. **100–130 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | **A** | Einstieg, erste Spur, kleiner Konflikt |
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
+*`SceneCounter++` nach jeder Szene*
 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
@@ -346,12 +347,14 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
 - Die **Ordensritter** senden bei Gefahr drei Fackelschübe Richtung Marienburg. Mehrere Türme übermitteln das Signal.
 - Ein Zeitagent versteckte Zünd-Booster. Zündet das Feuer trotz Regen, kippt die Schlachtordnung.
+`SceneCounter++`
 
 ###### 2 ▸ Insertion
 
 - **Nacht, leichter Nieselregen.** Absprung in einem Waldstück, 400 m vom Turm.
 - Umgebung: Morastiger Boden (−1 Bewegungs-Pool bei Sprint), dichter Kiefernwald, vereinzelte Patrouillen.
 
+`SceneCounter++`
 ###### 3 ▸ Aufklärung
 
 | Punkt    | Info                                           | Probe                   |
@@ -359,6 +362,7 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 | Wache #1 | Ritterknecht mit Hellebarde, patrouilliert Basis (Fackel) | *Schleichen 2+*         |
 | Wache #2 | Bogner auf 1. Absatz, kann Waldkante überblicken         | *Verbergen 3+*          |
 | Booster  | Unter Plattform befestigt; zündet bei Kontakt mit Öl      | *Elektronik/Hacking 2+* |
+`SceneCounter++`
 
 ###### 4 ▸ Zugriff
 
@@ -369,11 +373,13 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
   - +1: Zeittech wird entdeckt (falls zurückgelassen).
   - Px ≥ 3: Wachtrupp zu Pferd (4 Ritter) erreicht den Turm nach 1 Ingame-Minute.
   - Px = 5: **ClusterCreate()** – Zeitspalt manifestiert Funkenflut, Turm gerät in Brand.
+`SceneCounter++`
 
 ###### 5 ▸ Exfiltration
 
 - Sobald Booster entfernt oder Feuerholz manipuliert: Rauchgranate → Sprungcode aktivieren.
 - Getarnter Rücksprungpunkt 50 m nördlich – heiße LZ 2 min offen.
+`SceneCounter++`
 
 ###### Erfolgskriterien
 
@@ -411,6 +417,7 @@ führt Phase 5a die taktische Räumung der Hot-Zone durch.
 | **Exfiltration** | Dampfer über Spree, Mauer‑Scheinwerfer. | Chase-Referenz |
 | **Rücksprung** | Mission endet, Rücksprung ins HQ. | Debrief‑Bogen |
 
+*`SceneCounter++` nach jeder Phase*
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
 2. Ein Ausrüstungs-Paket (kostenlos).
