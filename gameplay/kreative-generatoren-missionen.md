@@ -1237,78 +1237,78 @@ thema: Beispiel-Rift
   timeslot: "+34 h"
 
 # ─────────────────────────────────────────────────────────────
-# CORE‑ARC 5 – AMAZONAS 2140 “Bio‑Run Verde”
-# Pool: future_pool  – High‑Tech‑Jungle‑Infiltration
+# CORE‑ARC 5 – MARS 2287 “Red Horizon”
+# Pool: future_pool – 10 forward-only Missionen (30–50 Szenen pro Job)
 # ─────────────────────────────────────────────────────────────
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 1
   pool: future_pool
-  title: "Canopy‑Dive"
-  pitch: "Absprung aus Hyperskiff – lautloser Wingsuit‑Einstieg auf 150 m Baumhöhe."
-  timeslot: "T-0 h"
+  title: "Kuppel-Blackout"
+  pitch: "Stelle Notstrom für Ares-7 wieder her, während Thrynn erste Wohnblöcke durchbrechen."
+  timeslot: "T-0 h"          # Alarmminute
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 2
   pool: future_pool
-  title: "Neuro‑Sap Tapping"
-  pitch: "Zapfe Gen‑Harz aus verbotener Orchideenfarm für Antidot."
+  title: "Evakuierungs-Himmelsschacht"
+  pitch: "Eskortiere Forscher Dr. Selim zu Orbital-Ascender, unter Dauerfeuer von Chitin-Spitter."
   timeslot: "+2 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 3
   pool: future_pool
-  title: "Drohnen‑Tarzan"
-  pitch: "Reite Cargo‑Quad‑Drohne, um durch Sturmfront zu navigieren."
-  timeslot: "+5 h"
+  title: "Datenkern-Heist"
+  pitch: "Hacke Forschungs-Mainframe, sichere oder vernichte kontroverse Gen-Logs."
+  timeslot: "+4 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 4
   pool: future_pool
-  title: "Schlangenkern‑Hack"
-  pitch: "Implantiere Malware in Bio‑CPU einer Python‑Wacht‑Droide."
-  timeslot: "+8 h"
+  title: "Perimeter-Lockdown"
+  pitch: "Aktiviere alte Verteidigungs-Sentinel-Bots, um Kuppel-Rand abzuriegeln."
+  timeslot: "+6 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 5
   pool: future_pool
-  title: "Aqua‑Lab Infil"
-  pitch: "Tauche in Fluss‑Laborkapsel, erbeute Med‑Genbank‑Proben."
-  timeslot: "+12 h"
+  title: "Lavatunnel-Abstieg"
+  pitch: "Fahre Cargo-Lift 12 km tief in vergessene Terraformer-Stollen."
+  timeslot: "+9 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 6
   pool: future_pool
-  title: "Biopunk‑Guerilla"
-  pitch: "Überrede Dschungel‑Söldner mittels Psi‑Halluzinogen zur Kooperation."
-  timeslot: "+15 h"
+  title: "Königin-Falle"
+  pitch: "Setze Pheromon-Beacon, um Schwarm in Nebenkaverne zu locken – Sprengfalle vorbereiten."
+  timeslot: "+12 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 7
   pool: future_pool
-  title: "Helix‑Stampede"
-  pitch: "Lenke genmodifizierte Tapir‑Herde in Konzernaußenposten – Chaosfaktor."
-  timeslot: "+18 h"
+  title: "Schattentor Theta"
+  pitch: "Entdecke uralten Megakomplex: Basalt-Portale, humanoide Glyphen, leere Wohnkuppeln."
+  timeslot: "+15 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 8
   pool: future_pool
-  title: "Baumkronen‑Sniper"
-  pitch: "Neutralisiere CEO‑Evac‑VTOL mit Rail‑Flechette aus 200 m Höhe."
-  timeslot: "+21 h"
+  title: "Labor Eos-Zero"
+  pitch: "Enthülle, dass Thrynn Einheits-Genpool-Tests waren – Option: Datensätze stehlen oder löschen."
+  timeslot: "+18 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 9
   pool: future_pool
-  title: "Spiegel‑Spindown"
-  pitch: "Störe Orbit‑Spiegel‑Array, um Tag/Nacht‑Zyklus temporär zu kippen."
-  timeslot: "+24 h"
+  title: "Altar der Larven"
+  pitch: "Boss-Fight gegen Leviathan-Brutbehälter; installiere Plasmabombe oder scanne Biokern."
+  timeslot: "+21 h"
 
-- arc_id: "Amazonas2140"
+- arc_id: "Mars2287"
   arc_step: 10
   pool: future_pool
-  title: "DNA‑Drop‑Evac"
-  pitch: "Extrahiere Sequenz‑Datenträger via Rail‑Gun‑Pod zur Ozean‑Plattform."
-  timeslot: "+28 h"
+  title: "Roter Exodus"
+  pitch: "Sprint zurück zur Oberfläche – Schwarmflut, fallende Drucktore, Start eines Sandorkan-Shuttles."
+  timeslot: "+24 h"
 
 # ─────────────────────────────────────────────────────────────
 # CORE‑ARC 6 – SEIDENSTRASSE 1280 “Wüsten‑Caravan Noir”
