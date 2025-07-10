@@ -293,52 +293,48 @@ Streiche doppelte Seeds oder variiere sie.
 
 ```jsonc
 {
-  "twists": [
-    {
-      "id": "T28",
-      "label": "Uhrwerk-Diplomatie",
-      "effect": "Eine schwelende Waffenruhe zwischen zwei Zeitaltern gerät ins Wanken –"
-      "Das Einsatzteam muss unbeabsichtigte Provokationen verhindern."
-    },
-    {
-      "id": "T29",
-      "label": "Parallel-Konklave",
-      "effect": "Ein Parallel-Team aus einer nur minimal abweichenden Zeitlinie versucht,"
-      "dieselbe Mission abzuschließen – Konkurrenz oder Kooperation?"
-    },
-    {
-      "id": "T30",
-      "label": "Trans-Silicon-Plague",
-      "effect": "Ein Nanovirus springt Epochen; jeder Eingriff könnte es beschleunigen oder auslöschen."
-    },
-    {
-      "id": "T31",
-      "label": "Imperiale Schachfigur",
-      "effect": "Eine Nebenfigur entpuppt sich als unerwartet wichtige historische Schlüsselfigur –"
-      "Eliminierung tabu, Manipulation riskant."
-    },
-    {
-      "id": "T32",
-      "label": "Kaltes Singularitätstor",
-      "effect": "Ein experimenteller Energiepuls droht, ein Micro-Einstein-Rosen-Tor dauerhaft zu öffnen."
-    },
-    {
-      "id": "T33",
-      "label": "Silencer-Protokoll",
-      "effect": "Das HQ befiehlt Funkstille; Team muss ohne Codex-Support improvisieren, bis eine Relaisstation steht."
-    },
-    {
-      "id": "T34",
-      "label": "Orchideen-Schlüssel",
-      "effect": "Ein unscheinbares Artefakt aktiviert versteckte Bio-Sicherungen in hochrangigen Zielpersonen."
-    },
-    {
-      "id": "T35",
-      "label": "Sturm ★ Delta",
-        "effect": "Eine Wetter-Modifikationsanlage im Jahr 19XX löst einen Jahrhundert-Hurrikan aus –"
-        "Fail-Safe versiegelt."
-    }
-  ]
+    "twists": [
+      {
+        "id": "T28",
+        "label": "Schallmauer-Poker",
+        "effect": "Ein Düsenjäger-Testflug droht eure Infiltration zu übertönen – perfekte Tarnung oder Absturztimer?"
+      },
+      {
+        "id": "T29",
+        "label": "Parallel-Konklave",
+        "effect": "Ein Doppelgänger-Team taucht auf – identische Ziele, andere Agenda. Rivalen, Söldner oder Backup von morgen?"
+      },
+      {
+        "id": "T30",
+        "label": "Rabies-X Outbreak",
+        "effect": "Versiegelte Militärbasis, mutiertes Tollwut-Virus. Soldaten wirken wie Zombies – Antiserum oder Flammenwerfer?"
+      },
+      {
+        "id": "T31",
+        "label": "Imperiale Schachfigur",
+        "effect": "Die Nebenfigur wird zum Kronzeugen. Töten tabu, Manipulation kostet Paradox, Schutz macht euch zum Leibwächter."
+      },
+      {
+        "id": "T32",
+        "label": "Kaltes Singularitätstor",
+        "effect": "Ein gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder Zeitzünder?"
+      },
+      {
+        "id": "T33",
+        "label": "Silencer-Protokoll",
+        "effect": "HQ bricht ab, Codex dunkel. Ihr improvisiert eine Funkboje – bis dahin analoges Hacking und totales Risiko."
+      },
+      {
+        "id": "T34",
+        "label": "Orchideen-Schlüssel",
+        "effect": "Keramikblüte triggert Bio-Implantate in VIPs. Richtige Frequenz: Loyalität; falsche: Herzstillstand."
+      },
+      {
+        "id": "T35",
+        "label": "Sturm ★ Delta",
+        "effect": "Wetter-Array von 19XX eskaliert: Jahrhundert-Hurrikan von 0 auf Kategorie 5. Fail-Safe liegt tief im Auge des Sturms."
+      }
+    ]
 }
 ```
 
