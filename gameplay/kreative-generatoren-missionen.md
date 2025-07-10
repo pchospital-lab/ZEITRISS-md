@@ -1162,6 +1162,227 @@ thema: Beispiel-Rift
   title: "Flucht in der Sturzkapsel"
   pitch: "Stürzt in einer Einsatztkapsel frei zum Pazifik hinab und stört dabei alle Tracker."
   timeslot: "T + 30 h"
+# ─────────────────────────────────────────────────────────────
+# CORE‑ARC 4 – BERLIN 1961 “Mauerschatten”
+# Pool: heist_pool  – Spionage‑Heist im Kalten Krieg
+# ─────────────────────────────────────────────────────────────
+- arc_id: "Berlin1961"
+  arc_step: 1
+  pool: heist_pool
+  title: "Stromausfall‑Geister"
+  pitch: "Sabotiere das Umspannwerk Treptow, um die Sektorgrenze in Dunkelheit zu legen."
+  timeslot: "13.08.61 02:30"
+
+- arc_id: "Berlin1961"
+  arc_step: 2
+  pool: heist_pool
+  title: "Tunnel‑Einbruch"
+  pitch: "Sprenge verdeckt einen Abwasser‑Blindschacht als Fluchttunnel‑Zugang."
+  timeslot: "+3 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 3
+  pool: heist_pool
+  title: "Aktenzug ‘Topas’"
+  pitch: "Stehle STASI‑Abschriften westlicher Informanten aus Bezirksamt Mitte."
+  timeslot: "+6 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 4
+  pool: heist_pool
+  title: "Mauer‑Kran‑Kidnapping"
+  pitch: "Entführe einen Grenzkran samt Bauplan – 20 m über Niemandsland."
+  timeslot: "+10 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 5
+  pool: heist_pool
+  title: "Zementsprengung"
+  pitch: "Unterlaufe Vopo‑Patrouille und mische Schwell‑Sprengstoff in Betonmischer."
+  timeslot: "+14 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 6
+  pool: heist_pool
+  title: "Radio‑Funkpirat"
+  pitch: "Kapere eine mobile RIAS‑Antenne und sende Desinfo für 17 Minuten."
+  timeslot: "+18 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 7
+  pool: heist_pool
+  title: "Checkpoint Shadow‑Swap"
+  pitch: "Tausche gefälschte Pass‑Sets unter Scheinwerferlicht von Checkpoint Charlie."
+  timeslot: "+22 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 8
+  pool: heist_pool
+  title: "Gleisbett‑Himmelstürmer"
+  pitch: "Nutze aufgegebene S‑Bahn‑Gleise als Flucht‑Rampe auf britischen Hubschrauber."
+  timeslot: "+26 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 9
+  pool: heist_pool
+  title: "Zwischenlager NVA"
+  pitch: "Befreie westliche Doppelagentin aus improvisierter Turnhallen‑Zelle."
+  timeslot: "+30 h"
+
+- arc_id: "Berlin1961"
+  arc_step: 10
+  pool: heist_pool
+  title: "Vorhang‑Finale"
+  pitch: "Zünde Ablenkungs‑Feuerwerk entlang der Bernauer Straße, um Rückzug zu decken."
+  timeslot: "+34 h"
+
+# ─────────────────────────────────────────────────────────────
+# CORE‑ARC 5 – AMAZONAS 2140 “Bio‑Run Verde”
+# Pool: future_pool  – High‑Tech‑Jungle‑Infiltration
+# ─────────────────────────────────────────────────────────────
+- arc_id: "Amazonas2140"
+  arc_step: 1
+  pool: future_pool
+  title: "Canopy‑Dive"
+  pitch: "Absprung aus Hyperskiff – lautloser Wingsuit‑Einstieg auf 150 m Baumhöhe."
+  timeslot: "T-0 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 2
+  pool: future_pool
+  title: "Neuro‑Sap Tapping"
+  pitch: "Zapfe Gen‑Harz aus verbotener Orchideenfarm für Antidot."
+  timeslot: "+2 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 3
+  pool: future_pool
+  title: "Drohnen‑Tarzan"
+  pitch: "Reite Cargo‑Quad‑Drohne, um durch Sturmfront zu navigieren."
+  timeslot: "+5 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 4
+  pool: future_pool
+  title: "Schlangenkern‑Hack"
+  pitch: "Implantiere Malware in Bio‑CPU einer Python‑Wacht‑Droide."
+  timeslot: "+8 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 5
+  pool: future_pool
+  title: "Aqua‑Lab Infil"
+  pitch: "Tauche in Fluss‑Laborkapsel, erbeute Med‑Genbank‑Proben."
+  timeslot: "+12 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 6
+  pool: future_pool
+  title: "Biopunk‑Guerilla"
+  pitch: "Überrede Dschungel‑Söldner mittels Psi‑Halluzinogen zur Kooperation."
+  timeslot: "+15 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 7
+  pool: future_pool
+  title: "Helix‑Stampede"
+  pitch: "Lenke genmodifizierte Tapir‑Herde in Konzernaußenposten – Chaosfaktor."
+  timeslot: "+18 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 8
+  pool: future_pool
+  title: "Baumkronen‑Sniper"
+  pitch: "Neutralisiere CEO‑Evac‑VTOL mit Rail‑Flechette aus 200 m Höhe."
+  timeslot: "+21 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 9
+  pool: future_pool
+  title: "Spiegel‑Spindown"
+  pitch: "Störe Orbit‑Spiegel‑Array, um Tag/Nacht‑Zyklus temporär zu kippen."
+  timeslot: "+24 h"
+
+- arc_id: "Amazonas2140"
+  arc_step: 10
+  pool: future_pool
+  title: "DNA‑Drop‑Evac"
+  pitch: "Extrahiere Sequenz‑Datenträger via Rail‑Gun‑Pod zur Ozean‑Plattform."
+  timeslot: "+28 h"
+
+# ─────────────────────────────────────────────────────────────
+# CORE‑ARC 6 – SEIDENSTRASSE 1280 “Wüsten‑Caravan Noir”
+# Pool: black_ops_pool  – Mittelalter‑Heist mit Steampunk‑Twist
+# ─────────────────────────────────────────────────────────────
+- arc_id: "Silk1280"
+  arc_step: 1
+  pool: black_ops_pool
+  title: "Karakorum‑Falschfracht"
+  pitch: "Schmuggle dich als Teppichhändler in einen mongolischen Steuerkonvoi."
+  timeslot: "Tag 0 Morgengrauen"
+
+- arc_id: "Silk1280"
+  arc_step: 2
+  pool: black_ops_pool
+  title: "Falke‑im‑Wind"
+  pitch: "Stiehl Code‑Botschaft von Yam‑Boten mittels trainiertem Jagdfalken."
+  timeslot: "+6 h"
+
+- arc_id: "Silk1280"
+  arc_step: 3
+  pool: black_ops_pool
+  title: "Oasen‑Echo"
+  pitch: "Leg toxische Nebelkerzen in Händlerlager, um Wachen auszuschalten."
+  timeslot: "+12 h"
+
+- arc_id: "Silk1280"
+  arc_step: 4
+  pool: black_ops_pool
+  title: "Kupfer‑Automaton"
+  pitch: "Repariere heimlich einen Uhrwerk‑Golem, lasse ihn Tor aufbrechen."
+  timeslot: "+18 h"
+
+- arc_id: "Silk1280"
+  arc_step: 5
+  pool: black_ops_pool
+  title: "Sandsturm‑Abzweig"
+  pitch: "Leite Karawane mittels gefälschtem Sternenkompass in Seitenschlucht."
+  timeslot: "+22 h"
+
+- arc_id: "Silk1280"
+  arc_step: 6
+  pool: black_ops_pool
+  title: "Dschinn‑Gerücht"
+  pitch: "Nutze Holo‑Illusion, um Gerüchte über Wüstengeist zu schüren – Moralbruch."
+  timeslot: "+26 h"
+
+- arc_id: "Silk1280"
+  arc_step: 7
+  pool: black_ops_pool
+  title: "Sattel‑Sprengfalle"
+  pitch: "Platziere Pulverbeutel in Lastkamel‑Sattel, zünde bei Stadttor."
+  timeslot: "+30 h"
+
+- arc_id: "Silk1280"
+  arc_step: 8
+  pool: black_ops_pool
+  title: "Karawanserai‑Schatten"
+  pitch: "Entführe vergifteten Diplomaten zur Wüstenklinik – verdeckte Heilung."
+  timeslot: "+34 h"
+
+- arc_id: "Silk1280"
+  arc_step: 9
+  pool: black_ops_pool
+  title: "Schmelzofen‑Hehler"
+  pitch: "Zwinge Waffenschmiede, geraubtes Gold sofort einzuschmelzen."
+  timeslot: "+38 h"
+
+- arc_id: "Silk1280"
+  arc_step: 10
+  pool: black_ops_pool
+  title: "Kometen‑Signal"
+  pitch: "Projiziere künstlichen Kometen via Ballon‑Spiegel als Zeichen zum Abzug."
+  timeslot: "+42 h"
 ```
 
 ### Rift Seed Catalogue {#rift-seed-catalogue}
