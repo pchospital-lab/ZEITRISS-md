@@ -194,14 +194,12 @@ Ausrüstungsgegenstände:
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
   _Kosten:_ 50 CU. _(tier: 1)_
-  - **Communicator "Scout Model":** Kurzstreckenfunkgerät (30 m Reichweite) mit 1 Runde Scan‑Delay.
-    Abhören gelingt nur auf Sichtlinie. Für die Verbindung zum HQ ist ein aktives **Zeitterminal** nötig.
-    _Kosten:_ 60 CU. _(tier: 1)_
+  - **Codex-Relay-Knoten:** Mobiler Signalverstärker (50 m Radius) stabilisiert HQ-Kommunikation bei
+    Störfeldern. Aufbau 1 Runde. _Kosten:_ 60 CU. _(tier: 1)_
 - **Verkleidungsset:** Wechselkleidung und einfache Maskierungen (Hüte, Perücken, Makeup) passend
   zur Einsatzzeit. Ermöglicht es, Identitäten zu wechseln und unterzutauchen. (In Spielbegriffen
   unterstützt es Verkleidungs-Proben, in manchen Fällen kein Wurf nötig, wenn gut vorbereitet.)
   _Kosten:_ 20–50 CU je nach Umfang. _(tier: 0)_
-
 #### Low-Tech Starterpack
 
 Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Technik an:
