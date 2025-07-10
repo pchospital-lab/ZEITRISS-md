@@ -1,11 +1,11 @@
 ---
-title: "ZEITRISS 4.1.3 – Modul 16: Toolkit: KI-Spielleitung"
+title: "ZEITRISS 4.1.4 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.1.4
 tags: [systems]
 default_modus: mission-fokus
 ---
 
-# ZEITRISS 4.0 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.1.4 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -183,7 +183,7 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Vier-Szenen-Episode erzeugt ein Playlog von mindestens 35 Minuten
+* [ ] Eine komplette Mission nutzt **30–50** Szenen (Core‑Op) bzw. **100–130** bei Rift‑Ops; siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] SceneCounter aktualisiert
 
 ### SceneCounter Macro

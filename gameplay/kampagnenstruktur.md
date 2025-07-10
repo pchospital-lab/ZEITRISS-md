@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.2 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
+title: "ZEITRISS 4.1.4 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
 version: 4.1.4
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
+# ZEITRISS 4.1.4 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
 
 - Einführung
 - Kampagnenplanung im ZEITRISS-Stil
@@ -205,6 +205,13 @@ if paradox_level >= threshold:
 | ------------ | --------------------------------- | ---------- | -------------------- | --------------------- |
 | **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION • …]`  |
 | **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
+
+#### Missionsdauer vs. Soll-Szenen {#missionsdauer}
+
+| Format                | Dauer IRL    | Soll-Szenen        | Beschreibung                                                             |
+| --------------------- | ------------ | ------------------ | ------------------------------------------------------------------------ |
+| **Mission (Core-Op)** | 45–60 min    | **30–50 Szenen**   | „Netflix-Folge“ – knackiger Arc, 1 Cliffhanger, 1 Level-Up               |
+| **Rift-Op (X-File)**  | 110 ± 10 min | **100–130 Szenen** | „Action-Thriller-Film“ – zwei Spannungs-Peaks, Mid-Mission-Twist, Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
 

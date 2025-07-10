@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
+title: "ZEITRISS 4.1.4 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
 version: 4.1.4
 tags: [characters]
 ---
 
-# ZEITRISS 4.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
+# ZEITRISS 4.1.4 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
 
 ## Inhalt
 
