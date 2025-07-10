@@ -36,7 +36,7 @@ tags: [meta]
 - Aktualisierte Beispiele, HUD-Hinweise und Vehicle-Note.
 
 ## 4.1.1
-- Item Tier pass-balance (Scout Communicator, T2 Perks, heavy gear +1 SYS).
+- Item Tier pass-balance (Scout Communicator jetzt Codex-Relay-Knoten, T2 Perks, heavy gear +1 SYS).
 - Med-Auto-Kit Preis 200 CU, Nahkampf-Mod Kritbonus +2 DMG.
 - Versionstexte auf 4.1.1 aktualisiert.
 
