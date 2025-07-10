@@ -374,11 +374,6 @@ Neuer Eintrag? Prüfe kurz, ob der Text bereits in einer anderen Liste steht.
 `objective` und `twist` sollten sich nicht doppeln. Falls du denselben Satz in
 beiden Feldern findest, wähle eine Variante oder streiche ihn.
 
-Empfehlung für Missionsgewichtung:
-- 60 % Seeds aus `mission_pool_everyday_ops`
-- 30 % aus `mission_pool`
-- 10 % aus `arc_pool`
-
 ## Glossar
 
 Kurze Erklärungen wichtiger Abkürzungen:
