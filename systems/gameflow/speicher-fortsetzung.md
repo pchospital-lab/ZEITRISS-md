@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+title: "ZEITRISS 4.1.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
 version: 4.1.4
 tags: [systems]
 ---
 
-# ZEITRISS 4.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.1.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Schlüsselfelder im JSON-Save {#json-schluesselfelder}
 

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Standard Edition"
+title: "ZEITRISS 6.1 – Standard Edition"
 version: 6.1
 tags: [meta]
 ---
 
-# ZEITRISS 4.0 – Standard Edition
+# ZEITRISS 6.1 – Standard Edition
 
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera).
 > Die Spieler sind Einsatzteam – keine introspektiven Monologe, keine Visionen,

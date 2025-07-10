@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
+title: "ZEITRISS 4.1.4 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
 version: 4.1.4
 tags: [core]
 ---
 
-# ZEITRISS 4.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem
+# ZEITRISS 4.1.4 – Modul 1: Immersives Zeitreise-Rollenspielsystem
 
 ## Inhalt
 
@@ -1073,30 +1073,6 @@ an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaße
 und frei erkundet werden kann.
 
 **Willkommen bei ZEITRISS 4.0 – deine Reise durch die Zeit beginnt jetzt!**
-
-## Episoden-Ablauf
-
-```markdown
-## Episode <X> – <Titel>
-### Setup (Cold Open)
-*Kamera/Bild, Hook, Einstieg*
-
-| Scene | Typ          | SG   | Kurzinhalt |
-|-------|--------------|------|-----------|
-| S1    | entry        | {{SG_AUTO}} | …         |
-| S2    | complication | {{SG_AUTO}} | …         |
-| S3    | climax       | {{SG_AUTO}} | …         |
-| S4    | exit         | {{SG_AUTO}} | …         |
-
-**Ziele**
-- Primär …
-- Sekundär …
-- Bonus …
-
-**Belohnung**  EP {{XP_AUTO}} / CU {{CU_AUTO}}
-```
-
-*`{{SG_AUTO}}`, `{{XP_AUTO}}` und `{{CU_AUTO}}`* werden zur Laufzeit eingesetzt.
 
 *© 2025 pchospital – private use only. See LICENSE.
 

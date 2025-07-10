@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
+title: "ZEITRISS 4.1.4 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
 version: 4.1.4
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.0 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+# ZEITRISS 4.1.4 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
 
 ## Inhalt
 

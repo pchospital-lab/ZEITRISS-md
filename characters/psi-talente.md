@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 4C: Psi-Fähigkeiten & Talente"
+title: "ZEITRISS 4.1.4 – Modul 4C: Psi-Fähigkeiten & Talente"
 version: 4.1.4
 tags: [characters]
 ---
 
-# ZEITRISS 4.0 – Modul 4C: Psi-Fähigkeiten & Talente
+# ZEITRISS 4.1.4 – Modul 4C: Psi-Fähigkeiten & Talente
 
 ## Psi-Fähigkeiten (Optional)
 

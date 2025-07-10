@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
+title: "ZEITRISS 4.1.4 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
 version: 4.1.4
 tags: [core]
 ---
 
-# ZEITRISS 4.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
+# ZEITRISS 4.1.4 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
 
 ## Inhalt
 
