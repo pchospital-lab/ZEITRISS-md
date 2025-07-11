@@ -74,6 +74,10 @@ Bei höheren Rängen öffnet sich zusätzlich der streng bewachte Kernbereich.
 
 ### Bewusstsein, Absolut und Realität
 
+_Hinweis:_ Dieses Hintergrundmodell ist optional und beeinflusst die Missionen
+nicht direkt. Greife es nur auf, wenn die Spieler nach einer Erklärung für die
+Nullzeit fragen.
+
 In ZEITRISS existieren drei Ebenen: das individuelle Bewusstsein, das 2D-Feld reiner Information
 – das **Absolut** – und die gemeinsame Realität. Das Absolut bildet den Kern des
 Raumzeitgefüges und beherbergt passiv ruhende Bewusstseine. Mithilfe des freien Willens kann
