@@ -36,7 +36,8 @@ dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Gol
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
 Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**
-(Basiswaffe, Funkgerät, Werkzeug). Zusätzliche Ausrüstung wird klar über
+(Basiswaffe, Werkzeug, integriertes AR-HUD mit Comlink zum Team und zum Codex).
+Zusätzliche Ausrüstung wird klar über
 Chrono Units abgerechnet.
 
 > **Historische Kaufkraft‑Faustregel**
