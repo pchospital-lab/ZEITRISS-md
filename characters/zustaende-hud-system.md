@@ -349,7 +349,7 @@ einen Toggle `/stress open|hidden`.
   merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
   Realität könnte reißen oder sich selbst „bereinigen“. Das **HUD** aller Agenten zeigt diesen Wert
   gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität).
-  Seit Version 4.0.2 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
+  Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
   ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
@@ -447,9 +447,6 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   ließe sich das als **Ausdauerbalken** darstellen. Dieses Modul passt, wenn eure Gruppe etwas
   **Survival-Feeling oder taktische Tiefe** möchte. In einem filmischeren Spiel hingegen ignoriert
   man Ausdauer bewusst, um Helden nicht künstlich zu bremsen.
-- **Fokus/Energie (alt):** In früheren Versionen verwaltete man für mentale Kräfte
-  einen separaten Fokusvorrat. Dieses System entfällt. Seine Funktion übernimmt
-  nun der PP-Pool der Psi-Regeln.
 - **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität (TA)_
   gebunden; dein Pool entspricht also dem TA-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
@@ -541,7 +538,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
 
-Ein Highlight von ZEITRISS 4.0 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
+Ein Highlight von ZEITRISS 4.1.4 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
 Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere _sehen_ wichtige
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu

@@ -137,7 +137,7 @@ konkrete **Vorteile**: Sei es ein Würfelbonus auf passende Proben, eine erlaubt
 sogar automatische Erfolge in bestimmten trivialen Situationen. Ein Charakter mit _Schlösserknacker_
 z.B. könnte einfache Schlösser ohne Probe öffnen dürfen, solange keine Stresssituation vorliegt.
 
-In **ZEITRISS 4.0** unterscheiden wir Talente in **passive** und **aktive**:
+In **ZEITRISS 4.1.4** unterscheiden wir Talente in **passive** und **aktive**:
 
 - **Passive Talente (P):** Dauerhafte Vorteile oder Boni, die immer wirken, wenn der Anwendungsfall
   kommt. Beispiel: _Waffenmeister_ verleiht stets +2 auf Angriffe mit bestimmten Waffen. Diese Talente
