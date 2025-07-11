@@ -185,7 +185,7 @@ freigeschaltet.
     - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
-    starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug, Kommunikator ins HQ, und
+    starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter AR-Linse und Comlink ins HQ,
     ein paar **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die keinen
     großen mechanischen Einfluss haben, aber Flair geben.
 
@@ -414,8 +414,8 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   Schusssichere **Körperpanzerung**: taktische Kevlar-Weste (moderner Körperschutz, -1 Schaden von Projektilen) plus
   leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
   das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
-  kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Funkgerät (für Epochen
-  ab 20. Jh., sonst ein implantiertes Kommunikationsohrstück fürs HQ). Sein Arsenal macht ihn zur
+  kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Comlink zum Team und Codex.
+  Sein Arsenal macht ihn zur
   ersten Wahl, wenn es brenzlig wird.
 - **Hintergrund:** Geboren 1972 in der Sowjetunion, diente Nikolai in den 1980ern bei einer Speznas-
   Spezialeinheit. Er erlebte dort eine mysteriöse Operation – wie sich herausstellte, ein geheimer
