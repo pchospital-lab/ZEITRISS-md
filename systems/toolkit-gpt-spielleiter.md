@@ -185,7 +185,9 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission nutzt **30–50** Szenen (Core‑Op) bzw. **100–130** bei Rift‑Ops; siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
+* [ ] Eine komplette Mission nutzt **30–50** Szenen (Core‑Op)
+* [ ] Bei Rift‑Ops werden **100–130** Szenen empfohlen;
+      siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] SceneCounter aktualisiert
 
 ### SceneCounter Macro
