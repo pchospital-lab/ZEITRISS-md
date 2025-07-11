@@ -6,7 +6,9 @@ tags: [gameplay]
 
 # ZEITRISS 4.1.4 – Modul 8B: **Kreative Generatoren – Begegnungen**
 
-## Inhalt
+## Gameplay-Index
+
+Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung eine Lücke aufweist.
 
 - NSC-Generator: Begegnungen im Zeitstrom
 - Encounter-Pool: Schnelle Gegnerlisten nach Risiko

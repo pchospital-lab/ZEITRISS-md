@@ -6,6 +6,8 @@ tags: [gameplay]
 
 # ZEITRISS 4.1.4 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
 
+## Gameplay-Index
+
 - Einführung
 - Kampagnenplanung im ZEITRISS-Stil
 - HQ-Verwaltung und Ausbau
@@ -15,6 +17,8 @@ tags: [gameplay]
 - Arena-Modus: PvP-Kämpfe
 - Chronopolis – Endgame-Hub
 - Fazit
+
+Diese Modulnummer setzt die Hauptreihe nach einem ausgelassenen siebten Teil fort.
 
 ## Einführung
 
@@ -203,16 +207,16 @@ if paradox_level >= threshold:
 #### Mission-Schema
 
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
-| ------------ | --------------------------------- | ---------- | -------------------- | --------------------- |
+| --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
 | **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION • …]`  |
 | **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
 
-| Format                | Dauer IRL    | Soll-Szenen        | Beschreibung                                                             |
-| --------------------- | ------------ | ------------------ | ------------------------------------------------------------------------ |
-| **Mission (Core-Op)** | 45–60 min    | **30–50 Szenen**   | „Netflix-Folge“ – knackiger Arc, 1 Cliffhanger, 1 Level-Up               |
-| **Rift-Op (X-File)**  | 110 ± 10 min | **100–130 Szenen** | „Action-Thriller-Film“ – zwei Spannungs-Peaks, Mid-Mission-Twist, Finale |
+| Format | Dauer IRL | Soll-Szenen | Beschreibung |
+| --------------------- | ------------ | ------------------ | ------------------------------- |
+| **Mission (Core-Op)** | 45–60 min    | **30–50 Szenen**   | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
+| **Rift-Op (X-File)**  | 110 ± 10 min | **100–130 Szenen** | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
 

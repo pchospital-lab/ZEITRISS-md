@@ -21,7 +21,9 @@ Core-Seeds tragen nun optionale Felder zur Arc-Steuerung:
   arc_step: 1    # 1..10
   pool: heist_pool
 ```
-## Inhalt
+## Gameplay-Index
+
+Dieses Modul 8A knüpft an Modul 6 an; ein geplanter siebter Teil entfiel.
 
 ### Missions-Werkzeuge
 
