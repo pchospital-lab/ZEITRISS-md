@@ -208,8 +208,8 @@ if paradox_level >= threshold:
 
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
 | --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
-| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION • …]`  |
-| **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE • …]` |
+| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION - …]`  |
+| **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
 
@@ -775,15 +775,15 @@ oder logisch ersetzt werden._
 
 ```
 1. Bestimme Kategorie
-   • Missionphase = CORE
-   • Paradoxon ≥2 = RIFT
-   • Ruhe-/Reiseabschnitt = FIELD
+   - Missionphase = CORE
+   - Paradoxon ≥2 = RIFT
+   - Ruhe-/Reiseabschnitt = FIELD
 
 2. Würfle passenden Pool (1W12/1W10/1W8).
 
 3. Modifiziere:
-   • Gefahr +1 bei Nacht oder schlechtem Wetter.
-   • DC –1 bei starker örtlicher Unterstützung.
+   - Gefahr +1 bei Nacht oder schlechtem Wetter.
+   - DC –1 bei starker örtlicher Unterstützung.
 
 4. Füge spontan Twist (TW-0xx) hinzu, falls dramaturgisch sinnvoll.
 ```

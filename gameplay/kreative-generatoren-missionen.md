@@ -103,37 +103,37 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
         "year": -480,
         "place": "Thermopylae",
         "objective_P": "Führe Leonidas’ Nachhut, damit der persische Vormarsch exakt drei Tage gestoppt wird.",
-        "objective_T": "Sabotiere die Felsroute, damit Leonidas’ Opfer zwar fällt, aber als taktischer Rückzug verkauft wird."
+        "objective_T": "Sabotiere die Felsroute, damit Leonidas’ Opfer fällt, jedoch als taktischer Rückzug gilt."
       },
       {
         "year": 1521,
         "place": "Tenochtitlán",
         "objective_P": "Sichere Hernán Cortés’ Brückenköpfe, damit die Stadt wie überliefert fällt.",
-        "objective_T": "Vergifte Wasserkanäle, damit Azteken kapitulieren – der Fall bleibt, doch Ursache wechselt zu Seuche."
+        "objective_T": "Vergifte die Kanäle, damit Azteken aufgeben; Resultat bleibt, doch als Seuche erklärt."
       },
       {
         "year": 1916,
         "place": "Verdun",
         "objective_P": "Garantiere, dass Fort Douaumont nach 96 Stunden fällt.",
-        "objective_T": "Zerstöre Munitions‑Depots, sodass das Fort kampflos aufgeben muss – Ergebnis identisch, Legende anders."
+        "objective_T": "Sprenge Munitionsdepots, damit das Fort kampflos fällt – Ergebnis identisch, Legende anders."
       },
       {
         "year": 1944,
         "place": "Normandie",
         "objective_P": "Erhalte den Erfolg des Ranger‑Angriffs auf Pointe du Hoc.",
-        "objective_T": "Leite deutsche Verstärkung fehl, damit die Klippe unverteidigt bleibt – Sieg bleibt historisch korrekt."
+        "objective_T": "Leite die deutsche Verstärkung fehl, sodass die Klippe unverteidigt bleibt – der Sieg bleibt."
       },
       {
         "year": 1968,
         "place": "Khe Sanh",
         "objective_P": "Halte die US‑Basis unter Dauerbelagerung exakt 77 Tage.",
-        "objective_T": "Inszeniere Munitions‑Engpass, damit der Abzug als gezielte Evakuierung gilt – Kampfergebnis identisch."
+        "objective_T": "Täusche Munitionsmangel vor, damit der Abzug als geplante Evakuierung gilt – Ergebnis bleibt."
       },
       {
         "year": 1986,
         "place": "Tschernobyl",
         "objective_P": "Stütze die offizielle Turbinen‑Teststory für den Reaktor‑GAU.",
-        "objective_T": "Platziere falsche Sensor‑Logs, damit der Abschlussbericht auf Bedienfehler statt Designfehler zeigt."
+        "objective_T": "Fälsche Sensorlogs, sodass der Abschlussbericht Bedienfehler statt Designfehler meldet."
       },
       {
         "year": 2003,
@@ -145,25 +145,25 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
         "year": 2130,
         "place": "Mondbasis Copernicus",
         "objective_P": "Schotte den Helium‑3‑Reaktor rechtzeitig, um Kettenreaktion zu stoppen.",
-        "objective_T": "Leite Reaktor‑Daten um, damit Kontroll‑KI automatisch denselben Stopp einleitet – Basis bleibt intakt."
+        "objective_T": "Leite Reaktordaten um, damit die Kontroll-KI denselben Stopp auslöst – die Basis bleibt intakt."
       },
       {
         "year": 1099,
         "place": "Jerusalem",
         "objective_P": "Öffne das Nordtor kurz, damit der Kreuzzug die Stadt wie überliefert stürmt.",
-        "objective_T": "Sabotiere die Zisternen, damit Durst die Verteidiger zur Kapitulation zwingt – Eroberung bleibt historisch."
+        "objective_T": "Sabotiere die Zisternen, damit Durst die Verteidiger aufgibt – Eroberung bleibt historisch."
       },
       {
         "year": 1631,
         "place": "Magdeburg",
         "objective_P": "Sorge, dass Tillys Truppen die Stadt plündern und niederbrennen.",
-        "objective_T": "Lege Sprengladungen an Pulvertürmen, damit das Feuer hausgemacht wirkt – Zerstörungsgrad unverändert."
+        "objective_T": "Leg Sprengsätze in die Pulvertürme, damit das Feuer hausgemacht wirkt – Schaden bleibt gleich."
       },
       {
         "year": 1805,
         "place": "Trafalgar",
         "objective_P": "Schütze Horatio Nelson bis zu seinem tödlichen Schuss – Sieg der Royal Navy bleibt bestehen.",
-        "objective_T": "Täusche Munitionslager‑Brand vor, damit Nelson dennoch fällt, aber als Deck‑Held stirbt – Outcome identisch."
+        "objective_T": "Täusche ein Lagerfeuer, damit Nelson fällt, aber als Held der Decks stirbt – Ausgang identisch."
       },
       {
         "year": 1918,
@@ -175,37 +175,37 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
         "year": 1945,
         "place": "Berlin",
         "objective_P": "Halte sowjetische Stoßtrupps auf Kurs bis zum Reichstagsbanner.",
-        "objective_T": "Zerstöre SS‑Funkknoten, damit Restverteidiger sich zu früh ergeben – Fall Berlins trotzdem gesichert."
+        "objective_T": "Sprenge SS-Funkknoten, damit Restverteidiger früh kapitulieren – Fall Berlins bleibt gesichert."
       },
       {
         "year": 1950,
         "place": "Chosin‑Reservoir",
         "objective_P": "Ermögliche den Ausbruch der US‑1st Marine Division durch chinesische Linien.",
-        "objective_T": "Sprenge Bergpass‑Minen, damit Chinesen sich zurückziehen – Ausbruch gelingt wie überliefert."
+        "objective_T": "Sprenge die Bergpassminen, damit die Chinesen weichen – der Ausbruch gelingt wie überliefert."
       },
       {
         "year": 1976,
         "place": "Entebbe",
         "objective_P": "Unterstütze israelische Kommandos beim Befreien der Geiseln im Terminal.",
-        "objective_T": "Sabotiere ugandische Panzerbenzinpumpen, damit die Exfil‑C‑130 unerkannt startet."
+        "objective_T": "Sabotiere Ugandas Panzer-Pumpen, damit die Exfil-C-130 unentdeckt startet."
       },
       {
         "year": 1993,
         "place": "Mogadischu",
         "objective_P": "Stütze Ranger‑Perimeter um abgestürzten Blackhawk – 17‑h‑Belagerung bleibt.",
-        "objective_T": "Blockiere Warlord‑Nachschub mit Barrikaden, damit der Abzug dieselbe Opferzahl behält."
+        "objective_T": "Blockiere den Warlord-Nachschub mit Barrikaden, damit der Abzug dieselbe Opferzahl behält."
       },
       {
         "year": 2001,
         "place": "Tora Bora",
         "objective_P": "Halte Nordallianz‑Verbände zurück, sodass Zielperson entkommt wie kolportiert.",
-        "objective_T": "Sprenge Tunnel‑Einbrüche, damit der Rückzug unter Rauch bombardensicher bleibt."
+        "objective_T": "Sprenge die Tunnellöcher, damit der Rückzug unter Rauch bombardensicher bleibt."
       },
       {
         "year": 2058,
         "place": "Vatikan‑Sublevel",
         "objective_P": "Verteidige den Knochendepot‑Tresor gegen Söldnerrazzia; Reliquien bleiben verborgen.",
-        "objective_T": "Leite Söldner durch falsches Kellerlabyrinth, damit sie scheitern – Depot unangetastet."
+        "objective_T": "Führe die Söldner durchs falsche Kellerlabyrinth, damit sie scheitern – Depot bleibt unberührt."
       }
     ],
     "twist": [
@@ -241,37 +241,37 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T29",
         "label": "Parallel-Konklave",
-        "effect": "Ein Doppelgänger-Team taucht auf – identische Ziele, andere Agenda. Rivalen, Söldner oder Backup von morgen?"
+        "effect": "Ein Doppelgänger-Team taucht auf – gleiche Ziele, andere Agenda. Rivalen, Söldner oder Backup???"
       },
       {
         "id": "T30",
         "label": "Rabies-X Outbreak",
-        "effect": "Versiegelte Militärbasis, mutiertes Tollwut-Virus. Soldaten wirken wie Zombies – Antiserum oder Flammenwerfer?"
+        "effect": "Mutierte Tollwut in versiegelter Basis: Soldaten wie Zombies – Antiserum oder Flammenwerfer???"
       },
       {
         "id": "T31",
         "label": "Imperiale Schachfigur",
-        "effect": "Die Nebenfigur wird zum Kronzeugen. Töten tabu, Manipulation kostet Paradox, Schutz macht euch zum Leibwächter."
+        "effect": "Figur wird Kronzeuge. Töten tabu, Manipulation kostet Paradox, Schutz macht euch zu Leibwächtern."
       },
       {
         "id": "T32",
         "label": "Kaltes Singularitätstor",
-        "effect": "Ein gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder Zeitzünder?"
+        "effect": "Gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder tickende Uhr??"
       },
       {
         "id": "T33",
         "label": "Silencer-Protokoll",
-        "effect": "HQ bricht ab, Codex dunkel. Ihr improvisiert eine Funkboje – bis dahin analoges Hacking und totales Risiko."
+        "effect": "HQ bricht ab, Codex schweigt. Ihr baut eine Funkboje – bis dahin analoges Hacking und Risiko."
       },
       {
         "id": "T34",
         "label": "Orchideen-Schlüssel",
-        "effect": "Keramikblüte triggert Bio-Implantate in VIPs. Richtige Frequenz: Loyalität; falsche: Herzstillstand."
+        "effect": "Keramikblüte steuert VIP-Implantate. Richtige Frequenz: Loyalität, falsche: Herzstillstand."
       },
       {
         "id": "T35",
         "label": "Sturm ★ Delta",
-        "effect": "Wetter-Array von 19XX eskaliert: Jahrhundert-Hurrikan von 0 auf Kategorie 5. Fail-Safe liegt tief im Auge des Sturms."
+        "effect": "Wetter-Array von 19XX eskaliert: Hurrikan springt von 0 auf Kategorie 5. Fail-Safe liegt im Auge."
       }
     ]
 }
