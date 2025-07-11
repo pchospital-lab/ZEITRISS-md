@@ -35,6 +35,10 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
+Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**
+(Basiswaffe, Funkgerät, Werkzeug). Zusätzliche Ausrüstung wird klar über
+Chrono Units abgerechnet.
+
 > **Historische Kaufkraft‑Faustregel**
 >
 > 1 Chrono‑Unit (CU) ≈ **20 € (2025‑Äquivalent)**
@@ -49,6 +53,11 @@ aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 | Lunar‑Kolonie (2142)   | 0.04 Luna‑Credit     | 10 Min O2‑Nachfüllung |
 
 *Hinweis:* Für alles jenseits dieser Richtwerte gilt: **Preis (lokal) / 20 ≈ CU**.
+
+**Beispiele für Belohnungen:**
+- **10 CU** – einfache Munition oder ein Tag Unterkunft
+- **20 CU** – Spezialwerkzeug oder mehrere Rationen
+- **50 CU** – moderne Handfeuerwaffe oder hochwertiges Schutzgear
 
 ## Chrono Units verdienen: Missionen und Funde
 
