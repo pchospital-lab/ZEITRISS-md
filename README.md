@@ -87,13 +87,16 @@ sind der Übersicht halber aufgeführt.
 | [kreative-generatoren-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC- & Encounter-Generatoren |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
-| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenüberblick |
+| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
+
+Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf Modul 6 die Teile
+8A und 8B, während Modul 7 als interner Zwischenschritt ausgelassen wurde.
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
@@ -238,9 +241,14 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 ```yaml
 - year: 1976
   place: "Nairobi, Kenia"
-  objective_P: "Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse."
-  objective_T: "Erlaube Johns Verschwinden, aber schleuse sein Manuskript anonym in die Presse, damit der Skandal dennoch explodiert."
-  twist: "Euer Kontakt entpuppt sich als MI6-Doppelagent, der beide Ausgänge akzeptiert, solange die Story veröffentlicht wird."
+  objective_P: >
+    Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse.
+  objective_T: >
+    Erlaube Johns Verschwinden, aber schleuse sein Manuskript anonym in die Presse,
+    damit der Skandal dennoch explodiert.
+  twist: >
+    Euer Kontakt entpuppt sich als MI6-Doppelagent, der beide Ausgänge akzeptiert,
+    solange die Story veröffentlicht wird.
 ```
 6. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
