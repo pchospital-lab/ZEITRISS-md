@@ -762,7 +762,7 @@ Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Parad
 
 ### Modul‑Add‑on »Artefakte«
 
-*(kompatibel zu ZEITRISS 4.0, ready‑to‑drop oder als Generator nutzbar)*
+*(kompatibel zu ZEITRISS 4.1.4, ready‑to‑drop oder als Generator nutzbar)*
 
 | Stufe | Nutzenbeispiel | Risiko (Paradoxon‑Index) | Icon‑Label* |
 |------:|----------------|-------------------------|-------------|

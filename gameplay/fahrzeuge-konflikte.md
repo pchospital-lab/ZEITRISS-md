@@ -11,7 +11,7 @@ tags: [gameplay]
 - Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 - Konfliktsystem: Cineastische Konflikte jenseits des Klassikers
 
-**Einleitung:** Willkommen zu **Modul 7** von ZEITRISS 4.0! Dieses erweiterte Kapitel stattet euer
+**Einleitung:** Willkommen zu **Modul 7** von ZEITRISS 4.1.4! Dieses erweiterte Kapitel stattet euer
 Zeitreise-Abenteuer mit neuen Werkzeugen aus und macht das Spiel noch freier, filmischer und
 immersiver. Hier findet ihr Regeln und Inspirationen für Fahrzeuge als temporale Transportmittel,
 ein cineastisches Konfliktsystem jenseits bloßer Kampfregeln und eine _Toolbox_ kreativer

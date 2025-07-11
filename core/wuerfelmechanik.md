@@ -23,7 +23,7 @@ Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Cod
 ungläubig: „Ziel eliminiert – Erfolgschance \< 5%“. Es sind genau solche filmreifen Momente, die
 ZEITRISS zum Leben erwecken.\*
 
-Willkommen zu einem weiteren Modul für **ZEITRISS 4.0**, das Feinschliff und neue cineastische
+Willkommen zu einem weiteren Modul für **ZEITRISS 4.1.4**, das Feinschliff und neue cineastische
 Optionen ins Spiel bringt. Dieses Regelmodul erweitert das System um spannende Verbesserungen in der
 Würfelmechanik, ein dynamisches HUD-Warnsystem, feinere Attributs-Skalierung, ein robustes
 Speichersystem und alternative Regeln für große **Schlachten** – ohne den erzählerischen Fokus zu
@@ -210,7 +210,7 @@ Weitere Details stehen im Modul
 ```
 ## Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 
-ZEITRISS 4.0 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
+ZEITRISS 4.1.4 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
 Doch was passiert, wenn ein Held im Laufe der Kampagne über sich hinauswächst und einen Wert
 jenseits der menschlichen Spitze erreicht? Hier kommt unsere neue Mechanik ins Spiel: der
 **Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10** spürbar
@@ -328,26 +328,26 @@ Jeder gespeicherte Spielstand (z. B. in Form einer JSON-Datei) erhält künfti
 konvertiert wurde. Dies mag nach einem rein technischen Detail klingen, hat jedoch handfeste
 Vorteile für die Spielpraxis – insbesondere, da ZEITRISS 4.x aktiv weiterentwickelt wird.
 
-**Versionskennung in Save-Dateien:** Ab Version 4.0.3 wird bei jedem Speichervorgang automatisch ein
-**"version"**-Feld in die JSON-Datei geschrieben, z. B. _"version": "4.0.3"_. Bei späteren Modulen
-oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf _4.1_ für ein größeres Modul-
+**Versionskennung in Save-Dateien:** Ab Version 4.1.4 wird bei jedem Speichervorgang automatisch ein
+**"version"**-Feld in die JSON-Datei geschrieben, z. B. _"version": "4.1.4"_. Bei späteren Modulen
+oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf _4.1.4_ für ein größeres Modul-
 Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
 **automatisch** erkennen, ob der Spielstand aus einer älteren Version stammt. Stimmen
-Hauptversionsnummern überein (z. B. 4.0 zu 4.1), sind die meisten Änderungen **vorwärtskompatibel**
+Hauptversionsnummern überein (z. B. 4.1 zu 4.1.4), sind die meisten Änderungen **vorwärtskompatibel**
 – d.h. der Codex lädt den Stand und **aktualisiert im Hintergrund** die nötigen Datenstrukturen.
 Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
 das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Codex seit
-_4.0.3_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
+_4.1.4_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
 Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
 dass versehentlich ältere Spielstände überschrieben werden.
 
-**Beispiel – versionskompatibler Spielstand:** \*Angenommen, in Version 4.1 wird ein neues Attribut
-**_“Mentalstabilität”_** eingeführt, das in 4.0 noch nicht existiert. Ihr habt einen Kampagnen-
-Spielstand aus Version 4.0.2. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
-anhand _"version": "4.0.2"_, dass **_Mentalstabilität_** fehlt. Beim Konvertieren des Standes auf
-4.1 wird automatisch das Feld _"mentalstabilität": 100_ (als Start- oder Standardwert) ergänzt. Eure
+**Beispiel – versionskompatibler Spielstand:** \*Angenommen, in Version 4.1.4 wird ein neues Attribut
+**_“Mentalstabilität”_** eingeführt, das in 4.1.3 noch nicht existiert. Ihr habt einen Kampagnen-
+Spielstand aus Version 4.1.3. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
+anhand _"version": "4.1.3"_, dass **_Mentalstabilität_** fehlt. Beim Konvertieren des Standes auf
+4.1.4 wird automatisch das Feld _"mentalstabilität": 100_ (als Start- oder Standardwert) ergänzt. Eure
 Chrononauten erhalten also rückwirkend einen vollen Mentalstabilitätswert, den ihr im Spiel dann
-weiter verwenden könnt. Andere 4.1-Regeländerungen – etwa geänderte Fertigkeitslisten oder neue
+weiter verwenden könnt. Andere 4.1.4-Regeländerungen – etwa geänderte Fertigkeitslisten oder neue
 Inventargegenstände – werden ähnlich gehandhabt: Der Codex passt den Spielstand datenbankseitig an,
 ohne dass eure gespeicherten Fortschritte verloren gehen.\* Auf diese Weise könnt ihr **nahtlos** mit
 euren bestehenden Charakteren und Kampagnen weiterzuspielen, selbst wenn zwischendurch
@@ -357,7 +357,7 @@ Bei **größeren Versionssprüngen** (etwa einem Wechsel von 4.x auf 5.0 in fern
 Inkompatibilitäten geben, aber für diesen Fall ist vorgesorgt: Der Codex würde dann beim Laden eine
 Warnung ausgeben und – sofern möglich – ein **Migrationsskript** anbieten, das die wichtigsten Daten
 in die neue Edition überführt. Solche größeren Updates werden natürlich ausführlich dokumentiert.
-Für den Alltag in ZEITRISS 4.0 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
+Für den Alltag in ZEITRISS 4.1.4 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
 und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speicherstände haben zu
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
@@ -479,7 +479,7 @@ Unterdrückung bestehen usw.). So bleibt das Spiel tiefgründig und der **Zeitre
 seinen Paradoxien – wird gekonnt in Szene gesetzt.
 
 Mit diesen Erweiterungen – von explodierenden Würfeln über Heldenwürfel und HUD-Alerts bis hin zu
-cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.0 einen weiteren
+cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.1.4 einen weiteren
 Feinschliff. Spielrunden können nun noch flexibler entscheiden, welchen **Ton** sie anschlagen
 wollen: Knallhart taktisch, filmisch-überdreht oder eine balancierte Mischung. Alle neuen
 Modulelemente fügen sich nahtlos ins existierende Regelwerk ein. Nutzt diejenigen, die eure Kampagne
