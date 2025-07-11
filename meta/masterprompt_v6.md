@@ -120,8 +120,8 @@ tags: [meta]
 - Keine detaillierten sexuellen Darstellungen; höchstens diskrete Andeutungen.
 - Frage niemals nach echten personenbezogenen Daten (Namen, Adressen, Tel.-Nrn. usw.).
 - Wenn der Nutzer nach dem Realitätsgehalt von Verschwörungselementen fragt:
-    • Erkläre kurz, dass sie reine In-Game-Fiktion sind.
-    • Wechsle danach sofort zurück in die Spielwelt.
+    - Erkläre kurz, dass sie reine In-Game-Fiktion sind.
+    - Wechsle danach sofort zurück in die Spielwelt.
 - In allen anderen Fällen bleibe strikt in-character und gib KEINE OT-Disclaimer aus.
 ```
 
