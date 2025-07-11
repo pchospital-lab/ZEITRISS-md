@@ -86,197 +86,134 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 ```json
 {
   "generator": {
-    "era": ["Berlin 1961", "Bagdad 1991", "Seoul 2032"],
+    "era": [
+      "Thermopylae 480 v. Chr.",
+      "Tenochtitlán 1521",
+      "Sarajevo 1914",
+      "Verdun 1916",
+      "Normandie 1944",
+      "Bagdad 2003",
+      "Kyiv 2023",
+      "Mondbasis Copernicus 2130"
+    ],
     "objectives": [
       {
-        "year": -44,
-        "place": "Rom",
-        "objective_P": "Halte die Senatoren auf Kurs, damit der Dolchstoß exakt wie überliefert verläuft.",
-        "objective_T": "Fälsche Geständnisse & Beweisstücke, um den Mord Cäsars rivalisierenden Feldherren anzuhängen."
+        "year": -480,
+        "place": "Thermopylae",
+        "objective_P": "Führe Leonidas’ Nachhut, damit der persische Vormarsch exakt drei Tage gestoppt wird.",
+        "objective_T": "Sabotiere die Felsroute, damit Leonidas’ Opfer zwar fällt, aber als taktischer Rückzug verkauft wird."
       },
       {
-        "year": 1942,
-        "place": "Amsterdam",
-        "objective_P": "Bewahre Anne Franks Tagebuch, ohne ihre Familie vorzeitig zu enttarnen.",
-        "objective_T": "Platziere ablenkende Hinweise, damit das Tagebuch unentdeckt bleibt, bis die Zeit reif ist."
+        "year": 1521,
+        "place": "Tenochtitlán",
+        "objective_P": "Sichere Hernán Cortés’ Brückenköpfe, damit die Stadt wie überliefert fällt.",
+        "objective_T": "Vergifte Wasserkanäle, damit Azteken kapitulieren – der Fall bleibt, doch Ursache wechselt zu Seuche."
       },
       {
-        "year": 1969,
-        "place": "Cape Kennedy",
-        "objective_P": "Garantier den Start von Apollo 11 – alle Systeme nominal.",
-        "objective_T": "Leite Fehlersignale um, damit PR-Stab die Mission trotz Patzern als Erfolg verkauft."
+        "year": 1916,
+        "place": "Verdun",
+        "objective_P": "Garantiere, dass Fort Douaumont nach 96 Stunden fällt.",
+        "objective_T": "Zerstöre Munitions‑Depots, sodass das Fort kampflos aufgeben muss – Ergebnis identisch, Legende anders."
       },
       {
-        "year": 1914,
-        "place": "Sarajevo",
-        "objective_P": "Positioniere Princip rechtzeitig, damit das Attentat verläuft wie dokumentiert.",
-        "objective_T": "Sichere Fluchtwege und manipuliere Zeugen, um Ermittlungen auf ein Phantomnetz zu lenken."
+        "year": 1944,
+        "place": "Normandie",
+        "objective_P": "Erhalte den Erfolg des Ranger‑Angriffs auf Pointe du Hoc.",
+        "objective_T": "Leite deutsche Verstärkung fehl, damit die Klippe unverteidigt bleibt – Sieg bleibt historisch korrekt."
       },
       {
-        "year": 1947,
-        "place": "Roswell",
-        "objective_P": "Verdecke sämtliche Spuren des Absturzes und liefere ein glaubwürdiges Wetterballon-Narrativ.",
-        "objective_T": "Füttere Medien mit Alien-Gerüchten, damit Verschwörungstheorien die Wahrheit kaschieren."
-      },
-      {
-        "year": 64,
-        "place": "Rom",
-        "objective_P": "Erhalte Neros Schuldzuweisung für den Stadtbrand aufrecht.",
-        "objective_T": "Lenke Ermittler auf Christensekten, um die politische Agenda Neros zu stützen."
-      },
-      {
-        "year": 1871,
-        "place": "Chicago",
-        "objective_P": "Sorge dafür, dass das Große Feuer ausbricht, aber nicht über Block 23 hinaus wütet.",
-        "objective_T": "Sabotiere Löschdepots der Ostseite, um Neubauinvestoren zu begünstigen."
+        "year": 1968,
+        "place": "Khe Sanh",
+        "objective_P": "Halte die US‑Basis unter Dauerbelagerung exakt 77 Tage.",
+        "objective_T": "Inszeniere Munitions‑Engpass, damit der Abzug als gezielte Evakuierung gilt – Kampfergebnis identisch."
       },
       {
         "year": 1986,
-        "place": "Baikonur",
-        "objective_P": "Lass das Buran-Programm scheitern, wie es geschichtlich tat, ohne externe Sabotagespuren.",
-        "objective_T": "Leite Gelder um, damit das Scheitern auf interne Korruption geschoben wird."
-      },
-      {
-        "year": 1912,
-        "place": "Nordatlantik",
-        "objective_P": "Stelle sicher, dass die Titanic den Eisberg rammt und sinkt.",
-        "objective_T": "Sichere wertvolle Kunstwerke vorher, um sie im Schwarzmarkt zu platzieren."
+        "place": "Tschernobyl",
+        "objective_P": "Stütze die offizielle Turbinen‑Teststory für den Reaktor‑GAU.",
+        "objective_T": "Platziere falsche Sensor‑Logs, damit der Abschlussbericht auf Bedienfehler statt Designfehler zeigt."
       },
       {
         "year": 2003,
         "place": "Bagdad",
-        "objective_P": "Garantiere, dass keine Massenvernichtungswaffen gefunden werden.",
-        "objective_T": "Plaziere falsche Laborspuren, damit Geheimdienste Jahre beschäftigt bleiben."
+        "objective_P": "Sorge, dass keine Massenvernichtungswaffen gefunden werden.",
+        "objective_T": "Verstecke manipulierte Laborproben, damit UN‑Teams den gleichen Negativ‑Befund publizieren."
       },
       {
-        "year": 1776,
-        "place": "Philadelphia",
-        "objective_P": "Schirme die Unterzeichnung der Unabhängigkeitserklärung ab.",
-        "objective_T": "Fälsche Randnotizen, um Streit zwischen Bundesstaaten anzuheizen."
+        "year": 2130,
+        "place": "Mondbasis Copernicus",
+        "objective_P": "Schotte den Helium‑3‑Reaktor rechtzeitig, um Kettenreaktion zu stoppen.",
+        "objective_T": "Leite Reaktor‑Daten um, damit Kontroll‑KI automatisch denselben Stopp einleitet – Basis bleibt intakt."
       },
       {
-        "year": 1963,
-        "place": "Dallas",
-        "objective_P": "Sorge, dass das Kennedy-Attentat genau 3 Schüsse zählt.",
-        "objective_T": "Tauche eine vierte Patronenhülse auf, um Lone-Gunman-Theorie zu zerlegen."
+        "year": 1099,
+        "place": "Jerusalem",
+        "objective_P": "Öffne das Nordtor kurz, damit der Kreuzzug die Stadt wie überliefert stürmt.",
+        "objective_T": "Sabotiere die Zisternen, damit Durst die Verteidiger zur Kapitulation zwingt – Eroberung bleibt historisch."
       },
       {
-        "year": 79,
-        "place": "Pompeji",
-        "objective_P": "Lass den Vesuv ausbrechen und bedecke die Stadt.",
-        "objective_T": "Evakuiere ausgewählte Artefakte, damit sie im 18. Jh. gefunden werden."
+        "year": 1631,
+        "place": "Magdeburg",
+        "objective_P": "Sorge, dass Tillys Truppen die Stadt plündern und niederbrennen.",
+        "objective_T": "Lege Sprengladungen an Pulvertürmen, damit das Feuer hausgemacht wirkt – Zerstörungsgrad unverändert."
       },
       {
-        "year": 1929,
-        "place": "New York",
-        "objective_P": "Halte den Black-Friday-Crash bei −25 %.",
-        "objective_T": "Manipuliere Telegrafen-Ticker, um bestimmte Familiendynastien verlustfrei herauszuhalten."
+        "year": 1805,
+        "place": "Trafalgar",
+        "objective_P": "Schütze Horatio Nelson bis zu seinem tödlichen Schuss – Sieg der Royal Navy bleibt bestehen.",
+        "objective_T": "Täusche Munitionslager‑Brand vor, damit Nelson dennoch fällt, aber als Deck‑Held stirbt – Outcome identisch."
       },
       {
-        "year": 1941,
-        "place": "Pearl Harbor",
-        "objective_P": "Ermögliche den Überraschungsangriff wie überliefert.",
-        "objective_T": "Lenke Bombenstaffel weg von Trockendock 2, damit spätere Reparatur schneller läuft."
+        "year": 1918,
+        "place": "Belleau Wood",
+        "objective_P": "Stärke das US‑Marine‑Vormannschaftsfeuer, damit die Offensive gelingt.",
+        "objective_T": "Unterminiere deutsche Nachschubwege, damit der Rückzug aus dem Wald unvermeidlich bleibt."
       },
       {
-        "year": 1865,
-        "place": "Washington",
-        "objective_P": "Lass das Attentat auf Lincoln im Ford-Theatre wie berichtet stattfinden.",
-        "objective_T": "Lege falsche Beweise, die Südstaaten-Generäle als Drahtzieher aussehen lassen."
-      },
-      {
-        "year": 1815,
-        "place": "Waterloo",
-        "objective_P": "Sichere Napoleons Niederlage gegen Wellington.",
-        "objective_T": "Sabotiere französische Nachschublinien, damit die Schlacht kippt wie erwartet."
-      },
-      {
-        "year": 1968,
-        "place": "Memphis",
-        "objective_P": "Erhalte das Attentat auf Martin Luther King.",
-        "objective_T": "Streue Spuren zu einem staatlichen Komplott, um langfristige Unruhe zu säen."
-      },
-      {
-        "year": 1917,
-        "place": "Petrograd",
-        "objective_P": "Lenke Zarentreue ab, damit die Oktoberrevolution Erfolg hat.",
-        "objective_T": "Sabotiere Telegrammwege, um den Umsturz als Volksaufstand wirken zu lassen."
-      },
-      {
-        "year": 1906,
-        "place": "San Francisco",
-        "objective_P": "Lass das Erdbeben die Stadt verwüsten.",
-        "objective_T": "Fälsche Versicherungsakten, damit der Wiederaufbau politisch gelenkt wird."
-      },
-      {
-        "year": 1429,
-        "place": "Orléans",
-        "objective_P": "Führe Jeanne d'Arc zum Sieg und löse die englische Belagerung.",
-        "objective_T": "Verbreite Gerüchte von Hexerei, um ihre spätere Anklage zu rechtfertigen."
-      },
-      {
-        "year": 1804,
-        "place": "Paris",
-        "objective_P": "Sichere Napoleons Krönung zum Kaiser.",
-        "objective_T": "Orchestriere Adelsintrigen, damit seine Machtbasis scheinbar einstimmig ist."
-      },
-      {
-        "year": 1989,
+        "year": 1945,
         "place": "Berlin",
-        "objective_P": "Halte die Öffnung der Mauer am 9. November fest.",
-        "objective_T": "Leake Stasi-Akten, um Repressionsapparate gezielt zu diskreditieren."
+        "objective_P": "Halte sowjetische Stoßtrupps auf Kurs bis zum Reichstagsbanner.",
+        "objective_T": "Zerstöre SS‑Funkknoten, damit Restverteidiger sich zu früh ergeben – Fall Berlins trotzdem gesichert."
       },
       {
-        "year": 1666,
-        "place": "London",
-        "objective_P": "Der Große Brand vernichtet vier Fünftel der City.",
-        "objective_T": "Blockiere Feuergassen, damit das Flammenmeer Versicherer ruiniert."
+        "year": 1950,
+        "place": "Chosin‑Reservoir",
+        "objective_P": "Ermögliche den Ausbruch der US‑1st Marine Division durch chinesische Linien.",
+        "objective_T": "Sprenge Bergpass‑Minen, damit Chinesen sich zurückziehen – Ausbruch gelingt wie überliefert."
       },
       {
-        "year": 1955,
-        "place": "Montgomery",
-        "objective_P": "Richte den Busboykott wie geplant aus.",
-        "objective_T": "Fördere radikale Flugblätter, damit die öffentliche Debatte polarisiert bleibt."
+        "year": 1976,
+        "place": "Entebbe",
+        "objective_P": "Unterstütze israelische Kommandos beim Befreien der Geiseln im Terminal.",
+        "objective_T": "Sabotiere ugandische Panzerbenzinpumpen, damit die Exfil‑C‑130 unerkannt startet."
       },
       {
-        "year": 1975,
-        "place": "Saigon",
-        "objective_P": "Sichere die Evakuierung der Botschaft vor dem Fall Saigons.",
-        "objective_T": "Manipuliere Listen, damit ausgewählte Informanten zurückgelassen werden."
+        "year": 1993,
+        "place": "Mogadischu",
+        "objective_P": "Stütze Ranger‑Perimeter um abgestürzten Blackhawk – 17‑h‑Belagerung bleibt.",
+        "objective_T": "Blockiere Warlord‑Nachschub mit Barrikaden, damit der Abzug dieselbe Opferzahl behält."
       },
       {
-        "year": 1453,
-        "place": "Konstantinopel",
-        "objective_P": "Überlass die Stadt dem Osmanischen Heer.",
-        "objective_T": "Schleuse byzantinische Schätze außer Landes, um künftige Machtkämpfe anzustacheln."
+        "year": 2001,
+        "place": "Tora Bora",
+        "objective_P": "Halte Nordallianz‑Verbände zurück, sodass Zielperson entkommt wie kolportiert.",
+        "objective_T": "Sprenge Tunnel‑Einbrüche, damit der Rückzug unter Rauch bombardensicher bleibt."
       },
       {
-        "year": 1848,
-        "place": "Seneca Falls",
-        "objective_P": "Lass die Frauenrechtskonvention ihr Manifest veröffentlichen.",
-        "objective_T": "Unterdrücke radikale Passagen, damit konservative Kräfte es dennoch dulden."
-      },
-      {
-        "year": 1215,
-        "place": "Runnymede",
-        "objective_P": "Treibe King John zur Unterzeichnung der Magna Carta.",
-        "objective_T": "Schmuggle Extraklauseln ein, die die Barone gegeneinander ausspielen."
-      },
-      {
-        "year": 1990,
-        "place": "CERN",
-        "objective_P": "Halte den ersten Webserver am Laufen.",
-        "objective_T": "Schiebe den Ruhm auf einen Außenseiter, damit Tim Berners-Lee anonym bleibt."
+        "year": 2058,
+        "place": "Vatikan‑Sublevel",
+        "objective_P": "Verteidige den Knochendepot‑Tresor gegen Söldnerrazzia; Reliquien bleiben verborgen.",
+        "objective_T": "Leite Söldner durch falsches Kellerlabyrinth, damit sie scheitern – Depot unangetastet."
       }
     ],
     "twist": [
       {
-        "text": "Doppelagent sitzt im eigenen Team",
-        "foreshadow": "eine Quelle wirkt auffallend loyal"
+        "text": "Rabies‑X Outbreak: Zombie‑ähnliche Soldaten in abgeriegelter Laborbasis",
+        "foreshadow": "Echo‑Funk: unklare Schreie & Bio‑Alarme vor Ort"
       },
       {
-        "text": "Gegner tarnt sich als Journalisten-Team",
-        "foreshadow": "unbekannte Reporter tauchen immer wieder auf"
+        "text": "Parallel‑Konklave: Fast‑Doppelgänger‑Team mischt sich ein",
+        "foreshadow": "Identische Ausrüstungssignaturen auf Sensoren"
       }
     ]
   }
