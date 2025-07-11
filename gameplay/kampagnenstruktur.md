@@ -111,6 +111,10 @@ Weitere Informationen zum HUD gibt es im Modul
 Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
 Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
 Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.
+Preserve bedeutet, dass die Agenten ein Ereignis stabilisieren und das
+Zeitgefüge festigen. Trigger sorgt dafür, dass die Geschehnisse erst durch ihr
+Eingreifen in Gang kommen. Die SL verrät nie, welche Variante "wirklich"
+vorgesehen war – der Kontrast soll sich nur emotional bemerkbar machen.
 Nach einem Abschluss meldet `resolve_mission()` stets `history_ok:true`.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
@@ -141,7 +145,8 @@ Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
 `launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
-Core-Generator zurückkehren.
+Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
+Einzelmissionen und zählen nicht zur Missionsanzahl eines Arcs.
 
 Jeder Seed steht für ein offenes Pararift.
 Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0 und die neuen Seeds landen im Array `OpenRifts`.
@@ -233,7 +238,7 @@ Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
 
 ### Epoch-Lock & Rift-Loop
 
-Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 3–5 zusammen-
+Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 5–7 zusammen-
 hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
 desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 
@@ -241,12 +246,16 @@ desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 
 ```mermaid
 graph LR
-A[Missionsepisode] -->|Paradox-Punkte| B[Paradoxon-Index]
-B -->|Level 5| C[HQ-Phase]
-C -->|1–2 neue Rifts| D[Rift-Pool]
+A[Missionsepisode] --> C[HQ-Phase]
+C --> B[Paradoxon-Index]
+B -->|Level 5| D[Rift-Pool]
 D -->|offene Rifts zählen| E[Schwierigkeitsgrad & CU-Multi]
 E --> A
 ```
+
+Nach jeder Mission folgt eine **HQ-Phase**. Hier vergibt die SL Belohnungen,
+Level-Aufstiege und verwaltet Ressourcen. Erst danach startet der nächste
+Einsatz.
 
 #### Offene Rifts
 
@@ -269,7 +278,7 @@ treibt den Zähler schneller hoch.
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
-Ein **Arc** umfasst genau zehn Core-Missionen desselben historischen Hotspots.
+Ein **Arc** umfasst in der Regel **5–7 Core-Missionen** desselben historischen Hotspots.
 Die Handlung verläuft in der Regel vorwärts. Ein einzelner Rücksprung pro Arc
 ist erlaubt, darf jedoch keine Selbstbegegnung ermöglichen.
 
@@ -424,7 +433,8 @@ führt Phase 5a die taktische Räumung der Hot-Zone durch.
 *`SceneCounter++` nach jeder Phase*
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
-2. Ein Ausrüstungs-Paket (kostenlos).
+2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet
+   CUs (siehe Modul 15).
 3. SL würfelt Wetterprobe, nennt Sicht & Geräuschpegel. Los!
 
 #### Dev-Check-Liste

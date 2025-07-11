@@ -27,6 +27,8 @@ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu trans
   - Pressure: <Konflikt oder Zeitdruck>
   - Decision: <Spielerwahl>
 - PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
+- Zeige Psi-Optionen nur, wenn der Charakter über eine Psi-Gabe verfügt.
+- Andernfalls bietest du ausschließlich weltliche Handlungswege an.
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
