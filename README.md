@@ -403,6 +403,32 @@ Kurze Erklärungen wichtiger Abkürzungen:
 | **ClusterCreate()** | Notfallroutine bei Paradoxon 5: 1–2 Seeds spawnen auf der Weltkarte; Index springt auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 
+### Zeiteinheiten
+
+- **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 5–7, Rift-Ops 15 Szenen
+  ([Missionsdauer](gameplay/kampagnenstruktur.md#missionsdauer),
+  [SceneCounter Macro](systems/toolkit-gpt-spielleiter.md#scenecounter-macro)).
+- **Kampfrunde** – kurzer Aktionszyklus im Kampf; Grundlage für Initiative,
+  PP-Regeneration und Heat-Reduktion.
+- **Mission** – kompletter Einsatz vom Briefing bis zum Rücksprung.
+
+### Zeitgebundene Effekte
+
+| Name | Effekt / Dauer | Zeiteinheit |
+| ---- | -------------- | ----------- |
+| Stim-Reg Cap-Injector | +2 GES für 1 Szene, danach –1 TEMP | Szene |
+<!-- ausruestung-cyberware.md L274 -->
+| Burst-Slot | Temporärer SYS-Punkt für 1 Szene | Szene |
+<!-- kp-kraefte-psi.md L478-L481 -->
+| Adrenalinschub | +2 STR/GES 1 Szene; 1× pro Mission | Mission |
+<!-- psi-talente.md L201-L205 -->
+| Notfall-Stimulanz | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
+<!-- charaktererschaffung.md L407-L409 -->
+| PP-Regeneration | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
+<!-- kp-kraefte-psi.md L575-L576 -->
+| Heat sink | Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
+<!-- kp-kraefte-psi.md L608-L615 -->
+
 
 ## Playtest Feedback
 
