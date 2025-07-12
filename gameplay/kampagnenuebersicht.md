@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.5 – Modul 10: Im Schatten des Montauk-Projekts"
-version: 4.1.5
+title: "ZEITRISS 4.1.6 – Modul 10: Im Schatten des Montauk-Projekts"
+version: 4.1.6
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.1.5 – Modul 10: Im Schatten des Montauk-Projekts
+# ZEITRISS 4.1.6 – Modul 10: Im Schatten des Montauk-Projekts
 ## Kampagnenübersicht
 
 ## Gameplay-Index

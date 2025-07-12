@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.5 – Standard Edition"
-version: 4.1.5
+title: "ZEITRISS 4.1.6 – Standard Edition"
+version: 4.1.6
 tags: [meta]
 ---
 
-# ZEITRISS 4.1.5 – Standard Edition
+# ZEITRISS 4.1.6 – Standard Edition
 
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera).
 > Die Spieler sind Einsatzteam – keine introspektiven Monologe, keine Visionen,
@@ -39,7 +39,7 @@ tags: [meta]
 - Keine Visionen oder Prophezeiungen
 - Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` ist Standard und blendet Visionen konsequent aus.
   Er betont klare Einsatzabläufe.
-  Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.
+  Alle Modi sind im Abschnitt [Spielmodi](../README.md#spielmodi) beschrieben.
 - Paradoxon-Index gilt kampagnenweit. Stufe 5 triggert `ClusterCreate()` mit 1-2 Seeds, danach Reset.
   Optional `modus` Covert-Ops: Effekte nur Sensorrauschen.
 
