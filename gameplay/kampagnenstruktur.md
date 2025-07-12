@@ -338,11 +338,15 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
 ##### Mini-Walkthrough Mauerbau 1961
 
+```yaml
+trigger_only: true
+```
+
 | Schritt   | Ereignis |
 | --------- | ------------------------------------------------------------- |
 | Mission 1 | Ankunft in Ost-Berlin. Die Agenten erkunden Schleuserwege. |
 | Mission 2 | Baupläne sichern und Kontaktperson schützen. |
-| Mission 3 | **Preserve:** Schleuserroute sichern · **Trigger:** Unruhen anzetteln. |
+| Mission 3 | Unruhen anzetteln. |
 | Epilog    | Je nach Wahl verändert sich das politische Klima der Epoche. |
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
@@ -354,11 +358,10 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 > **AUFTRAG** Sabotiert einen hölzernen **Signal-Leuchtturm**, dessen Feuerkette Verstärkung anfordert.
 
 ```yaml
-# Preserve–Trigger objectives
-objective_preserve: |
+# Preserve objectives
+preserve_only: true
+objective: |
   Entferne Pulverrückstände, damit die Kette erst 1410/07/15 detoniert, wie überliefert.
-objective_trigger: |
-  Versehe die Kette mit Schwefelpulver; erst deine Sabotage macht die Explosion möglich.
 ```
 
 ###### Szenenübersicht
@@ -369,7 +372,7 @@ objective_trigger: |
 | 2 | Schmiedehütte | Glühende Kette, Schmied misstrauisch | Probenstück sichern | 2. Wachposten nähert sich | 7 |
 | 3 | Schleusengraben | Altes Schleusentor blockiert | Zugang zum Geheimgang | Zeitdruck – Wasser steigt | 8 |
 | 4 | Pulverkammer | Mechanisches Schloss + Giftgasfalle | Zugang zur Feuerkette | Erkennt, dass Ketten noch ungefährlich sind | 9 |
-| 5 | **Decision Room** | – | **Preserve**: Rückstände entfernen<br>**Trigger**: Schwefelpulver zusetzen | Alarm oben | – |
+| 5 | **Decision Room** | – | Rückstände entfernen, damit die Feuerkette ausbleibt | Alarm oben | – |
 | 6 | Turmaufstieg | Leitertest, feindlicher Bogenschütze | Flucht auf Wehrgang | Belagerer rücken an | 7 |
 | 7 | Wehrgang-Tor | Fallgitter blockiert | Exfiltration | Rauchwolke im Tal | 6 |
 

@@ -84,141 +84,70 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 > **Trigger** erzwingt historisch belegte Tragödien.
 > Die Generatoren halten separate Pools, damit sich die Szenarien nicht überlappen.
 
-```json
-{
-  "generator": {
-    "era": [
-      "Thermopylae 480 v. Chr.",
-      "Tenochtitlán 1521",
-      "Sarajevo 1914",
-      "Verdun 1916",
-      "Normandie 1944",
-      "Bagdad 2003",
-      "Kyiv 2023",
-      "Mondbasis Copernicus 2130"
-    ],
-    "objectives": [
-      {
-        "year": -480,
-        "place": "Thermopylae",
-        "objective_P": "Führe Leonidas’ Nachhut, damit der persische Vormarsch exakt drei Tage gestoppt wird.",
-        "objective_T": "Sabotiere die Felsroute, damit Leonidas’ Opfer fällt, jedoch als taktischer Rückzug gilt."
-      },
-      {
-        "year": 1521,
-        "place": "Tenochtitlán",
-        "objective_P": "Sichere Hernán Cortés’ Brückenköpfe, damit die Stadt wie überliefert fällt.",
-        "objective_T": "Vergifte die Kanäle, damit Azteken aufgeben; Resultat bleibt, doch als Seuche erklärt."
-      },
-      {
-        "year": 1916,
-        "place": "Verdun",
-        "objective_P": "Garantiere, dass Fort Douaumont nach 96 Stunden fällt.",
-        "objective_T": "Sprenge Munitionsdepots, damit das Fort kampflos fällt – Ergebnis identisch, Legende anders."
-      },
-      {
-        "year": 1944,
-        "place": "Normandie",
-        "objective_P": "Erhalte den Erfolg des Ranger‑Angriffs auf Pointe du Hoc.",
-        "objective_T": "Leite die deutsche Verstärkung fehl, sodass die Klippe unverteidigt bleibt – der Sieg bleibt."
-      },
-      {
-        "year": 1968,
-        "place": "Khe Sanh",
-        "objective_P": "Halte die US‑Basis unter Dauerbelagerung exakt 77 Tage.",
-        "objective_T": "Täusche Munitionsmangel vor, damit der Abzug als geplante Evakuierung gilt – Ergebnis bleibt."
-      },
-      {
-        "year": 1986,
-        "place": "Tschernobyl",
-        "objective_P": "Stütze die offizielle Turbinen‑Teststory für den Reaktor‑GAU.",
-        "objective_T": "Fälsche Sensorlogs, sodass der Abschlussbericht Bedienfehler statt Designfehler meldet."
-      },
-      {
-        "year": 2003,
-        "place": "Bagdad",
-        "objective_P": "Sorge, dass keine Massenvernichtungswaffen gefunden werden.",
-        "objective_T": "Verstecke manipulierte Laborproben, damit UN‑Teams den gleichen Negativ‑Befund publizieren."
-      },
-      {
-        "year": 2130,
-        "place": "Mondbasis Copernicus",
-        "objective_P": "Schotte den Helium‑3‑Reaktor rechtzeitig, um Kettenreaktion zu stoppen.",
-        "objective_T": "Leite Reaktordaten um, damit die Kontroll-KI denselben Stopp auslöst – die Basis bleibt intakt."
-      },
-      {
-        "year": 1099,
-        "place": "Jerusalem",
-        "objective_P": "Öffne das Nordtor kurz, damit der Kreuzzug die Stadt wie überliefert stürmt.",
-        "objective_T": "Sabotiere die Zisternen, damit Durst die Verteidiger aufgibt – Eroberung bleibt historisch."
-      },
-      {
-        "year": 1631,
-        "place": "Magdeburg",
-        "objective_P": "Sorge, dass Tillys Truppen die Stadt plündern und niederbrennen.",
-        "objective_T": "Leg Sprengsätze in die Pulvertürme, damit das Feuer hausgemacht wirkt – Schaden bleibt gleich."
-      },
-      {
-        "year": 1805,
-        "place": "Trafalgar",
-        "objective_P": "Schütze Horatio Nelson bis zu seinem tödlichen Schuss – Sieg der Royal Navy bleibt bestehen.",
-        "objective_T": "Täusche ein Lagerfeuer, damit Nelson fällt, aber als Held der Decks stirbt – Ausgang identisch."
-      },
-      {
-        "year": 1918,
-        "place": "Belleau Wood",
-        "objective_P": "Stärke das US‑Marine‑Vormannschaftsfeuer, damit die Offensive gelingt.",
-        "objective_T": "Unterminiere deutsche Nachschubwege, damit der Rückzug aus dem Wald unvermeidlich bleibt."
-      },
-      {
-        "year": 1945,
-        "place": "Berlin",
-        "objective_P": "Halte sowjetische Stoßtrupps auf Kurs bis zum Reichstagsbanner.",
-        "objective_T": "Sprenge SS-Funkknoten, damit Restverteidiger früh kapitulieren – Fall Berlins bleibt gesichert."
-      },
-      {
-        "year": 1950,
-        "place": "Chosin‑Reservoir",
-        "objective_P": "Ermögliche den Ausbruch der US‑1st Marine Division durch chinesische Linien.",
-        "objective_T": "Sprenge die Bergpassminen, damit die Chinesen weichen – der Ausbruch gelingt wie überliefert."
-      },
-      {
-        "year": 1976,
-        "place": "Entebbe",
-        "objective_P": "Unterstütze israelische Kommandos beim Befreien der Geiseln im Terminal.",
-        "objective_T": "Sabotiere Ugandas Panzer-Pumpen, damit die Exfil-C-130 unentdeckt startet."
-      },
-      {
-        "year": 1993,
-        "place": "Mogadischu",
-        "objective_P": "Stütze Ranger‑Perimeter um abgestürzten Blackhawk – 17‑h‑Belagerung bleibt.",
-        "objective_T": "Blockiere den Warlord-Nachschub mit Barrikaden, damit der Abzug dieselbe Opferzahl behält."
-      },
-      {
-        "year": 2001,
-        "place": "Tora Bora",
-        "objective_P": "Halte Nordallianz‑Verbände zurück, sodass Zielperson entkommt wie kolportiert.",
-        "objective_T": "Sprenge die Tunnellöcher, damit der Rückzug unter Rauch bombardensicher bleibt."
-      },
-      {
-        "year": 2058,
-        "place": "Vatikan‑Sublevel",
-        "objective_P": "Verteidige den Knochendepot‑Tresor gegen Söldnerrazzia; Reliquien bleiben verborgen.",
-        "objective_T": "Führe die Söldner durchs falsche Kellerlabyrinth, damit sie scheitern – Depot bleibt unberührt."
-      }
-    ],
-    "twist": [
-      {
-        "text": "Rabies‑X Outbreak: Zombie‑ähnliche Soldaten in abgeriegelter Laborbasis",
-        "foreshadow": "Echo‑Funk: unklare Schreie & Bio‑Alarme vor Ort"
-      },
-      {
-        "text": "Parallel‑Konklave: Fast‑Doppelgänger‑Team mischt sich ein",
-        "foreshadow": "Identische Ausrüstungssignaturen auf Sensoren"
-      }
-    ]
-  }
-}
+```yaml
+preserve_pool:
+  - {id: "P-0001", year: 1962, place: "Kuba", title: "Able Archer Nuclear Scare", objective: "Sorge, dass UdSSR-Frühwarnung NATO-Übung nicht als Erstschlag wertet.", twist: "KGB-Chrononaut will Launch-Codes manipulieren."}
+  - {id: "P-0002", year: 1979, place: "BRD Elbe", title: "Ventilblockage E-79", objective: "Verhindere Kühlmittelverlust in Reaktorblock B.", twist: "Zukunfts-Ökozelle will Beweis für Atomgefahr erzwingen."}
+  - {id: "P-0003", year: 1995, place: "Barentssee", title: "Norway Rocket Alert", objective: "Halte Jelzins Atomkoffer geschlossen – Fehlsignal darf nicht eskalieren.", twist: "Abtrünniger NATO-Tech setzt falsche Telemetrie."}
+  - {id: "P-0004", year: 2000, place: "Sydney", title: "Olympics Bio-Plot", objective: "Stoppe Milzbrandanschlag im Versorgungstunnel.", twist: "Gegenspieler hat Virus im Maskottchen-Plush versteckt."}
+  - {id: "P-0005", year: 2001, place: "Genf", title: "CERN Magnet Quench", objective: "Stabilisiere Magneten, verhindere Vakuum-Implosion.", twist: "Nano-Sabotage von Zeitkartell platziert."}
+  - {id: "P-0006", year: 2003, place: "Nordatlantik", title: "Near-Collision AC759", objective: "Lenke zwei Flugrouten auseinander (TCAS-Glitch).", twist: "Rival-Psi stört Lotsen per Suggestion."}
+  - {id: "P-0007", year: 2009, place: "Hudson River", title: "US 1549 Ditching", objective: "Sicherstelle, dass Crew den Gleitflug zur Wasserung durchzieht.", twist: "KonTra-Fraktion will Rettungsschlepper sabotieren."}
+  - {id: "P-0008", year: 2013, place: "Fukushima", title: "Post-Leak Heat Spike", objective: "Vermeide sekundäre Wasserstoff-Explosion.", twist: "Schurken-Agent dreht Kühlpumpen ab."}
+  - {id: "P-0009", year: 2014, place: "Schweiz", title: "Gotthard Tunnel Fire", objective: "Lösche Brand, bevor Munitionslaster detoniert.", twist: "Saboteur tarnt sich als Feuerwehrmann."}
+  - {id: "P-0010", year: 2016, place: "Moskau", title: "Domodedowo Near-Strike", objective: "Umleite Drohne vom Jet-Triebwerk ab.", twist: "Neo-Fraktion testet Time-Beacon."}
+  - {id: "P-0011", year: 1960, place: "Karibik", title: "Black Saturday", objective: "Funkspruch von B-59-Sub unterdrücken – kein Torpedo-Launch.", twist: "Abgehörter Morse-Code wird gefälscht."}
+  - {id: "P-0012", year: 1980, place: "Vologda", title: "Oko False Alarm", objective: "Stütze Oberst Petrow bei Fehlalarm-Entscheidung.", twist: "Zeitanomalie flackert Satelliten-Sensor."}
+  - {id: "P-0013", year: 1977, place: "Leningrad", title: "Dam Safety Drill", objective: "Verhindere Defekt am Sankt-Petersburg-Tidenwehr.", twist: "Saboteur flutet Hydraulik mit Mikro-Algen."}
+  - {id: "P-0014", year: 1987, place: "Chicago", title: "Metra Bridge Collapse", objective: "Stabilisiere Träger, verhindere Zugabsturz.", twist: "Chrono-Rebellen testen Material-Fatigue-Gun."}
+  - {id: "P-0015", year: 1991, place: "Manila", title: "Pinatubo Lahar", objective: "Evakuiere Tiefland vor Schlammlawine.", twist: "Rival nutzt Wettersat-Hack für Fehlauswertung."}
+  - {id: "P-0016", year: 2007, place: "Genf", title: "SwissAir Fuel Leak", objective: "Versenke Austritt im Vorfeld, verhindere Start.", twist: "Gegenspieler hat Nano-Bohrer."}
+  - {id: "P-0017", year: 1943, place: "London", title: "V-Bomb DUD", objective: "Stelle Sicherung defekter V-1 wieder her – Blindgänger darf nicht detonieren.", twist: "Zeit-Dieb will Steuerservos klauen."}
+  - {id: "P-0018", year: 1968, place: "Thule", title: "Broken Arrow Ice", objective: "Stoppe Plutoniumstaubverwehung nach B-52-Crash.", twist: "Chrono-Smuggler will isotopen Beweis stehlen."}
+  - {id: "P-0019", year: 1989, place: "Montreal", title: "Hydro-Québec Blackout", objective: "Stütze Stromnetz gegen geomagnetischen Sturm.", twist: "Solar-Max Boost durch Zeitspule."}
+  - {id: "P-0020", year: 2012, place: "CERN", title: "LS1 Magnet Quench", objective: "Verhindere Quench-Kaskade im LHC-Ring.", twist: "Saboteur tauscht Helium-Sensor-Firmware."}
+  - {id: "P-0021", year: 1971, place: "Utah", title: "Apollo 15 Abort Call", objective: "Übermittle korrigierte Guidance-Daten – Landung darf nicht scheitern.", twist: "Antagonist stört Deep-Space-Net."}
+  - {id: "P-0022", year: 1997, place: "Seoul", title: "Sampoong Collapse Warning", objective: "Erzwinge Evakuierung 15 Min vorher.", twist: "Gegenseite will Katastrophe für Aktien-Short."}
+  - {id: "P-0023", year: 1972, place: "München", title: "Olympia Bomb Scare", objective: "Entschärfe zweite Bombe im Olympiastadion.", twist: "Chrono-Cell lockt Security weg."}
+  - {id: "P-0024", year: 1983, place: "Kapstadt", title: "Cape Town Chlorine Leak", objective: "Schließe Ventil, verhindere Gaswolke.", twist: "Saboteur mit Zeit-Maske als Ingenieur."}
+  - {id: "P-0025", year: 2015, place: "Jakarta", title: "QZ8501 Stall", objective: "Übermittle AoA-Reset-Routine an Piloten.", twist: "PSI-Jam verursacht Fehlalarme."}
+  - {id: "P-0026", year: 1978, place: "Soweto", title: "Dam Burst Near-Miss", objective: "Stütze Flutwehr.", twist: "Engineer ist Chrono-Konvertit."}
+  - {id: "P-0027", year: 2008, place: "Large Hadron Test", title: "Cryo-Line Crack", objective: "Seal crack, avert helium vent.", twist: "Rival will Mikro-Black-Hole Beweis."}
+  - {id: "P-0028", year: 1999, place: "Y2K", title: "Bank Core Patch", objective: "Installiere richtigen Millenniums-Patch.", twist: "Zeit-Cult löscht Backup-Tape."}
+  - {id: "P-0029", year: 2019, place: "Moskau", title: "Radiological Isotope Fire", objective: "Kühle Lager, verhindere Strahlungswolke.", twist: "Gegenseite will isotopen Diebstahl."}
+  - {id: "P-0030", year: 1956, place: "London", title: "Tower Bridge Near-Collapse", objective: "Entlaste Hängekabel vor Resonanz.", twist: "Chrono-Gambler setzt auf Einsturz-Wette."}
+trigger_pool:
+  - {id: "T-0001", year: 1986, place: "Ukraine", title: "RBMK Turbine Test", objective: "Stelle sicher, dass Reaktor 4 während Nachtprobe destabilisiert.", twist: "Preserver-Zelle versucht SCRAM früh."}
+  - {id: "T-0002", year: 2003, place: "USA Orbit", title: "STS-107 Re-Entry", objective: "Blockiere EVA-Inspection, Shuttle muss verglühen.", twist: "NASA-Tech hat Psi-Vorahnung, wird beeinträchtigt."}
+  - {id: "T-0003", year: 1912, place: "Nordatlantik", title: "RMS Titanic", objective: "Sabotiere Funk, verhindere Warnung vor Eisfeld.", twist: "Zeit-Philanthrop will Kurs ändern."}
+  - {id: "T-0004", year: 1975, place: "China", title: "Banqiao Dam Burst", objective: "Schwäche Abfluss-Schotten während Taifun.", twist: "Preserver-Spione wollen Entlastungswehr öffnen."}
+  - {id: "T-0005", year: 1961, place: "Kongo", title: "Lumumba Death", objective: "Entferne Schutzkonvoi, Übergabe an Gegner.", twist: "Diplomat von Preserve-Fraktion liefert Fluchtplan."}
+  - {id: "T-0006", year: 1994, place: "Rwanda", title: "Presidential Crash", objective: "Blockiere Flughafen-Radar VHF.", twist: "UN-Preservers versuchen Wartungs-Override."}
+  - {id: "T-0007", year: 1979, place: "USA", title: "Three Mile Island", objective: "Unterdrücke Level-Indicator Alarm.", twist: "Gegenseite will Vent-Purge erzwingen."}
+  - {id: "T-0008", year: 1937, place: "Lakehurst", title: "Hindenburg", objective: "Sabotiere Bodenkabel-Erdung.", twist: "Preserver streut Anti-Elektrostatik-Graffiti."}
+  - {id: "T-0009", year: 1989, place: "Exxon Valdez", title: "Bligh Reef Spill", objective: "Besteche Hafenlotse – Tanker läuft auf Riff.", twist: "Öko-Preserver will Radar-Ping aktivieren."}
+  - {id: "T-0010", year: 2011, place: "Japan", title: "Fukushima Daiichi", objective: "Verzögere Diesel-Pump-Restart.", twist: "Rival will Not-Batterien liefern."}
+  - {id: "T-0011", year: 1906, place: "San Francisco", title: "Great Quake Fire", objective: "Manipuliere Hauptwasserventile, Brand breitet sich.", twist: "Fire-Brigade-Preserve bringt Steam-Pumper."}
+  - {id: "T-0012", year: 2020, place: "Beirut", title: "Ammonium Blast", objective: "Unterbinde Lagerräumung.", twist: "Hafeninspektor ist Preserve-Asset."}
+  - {id: "T-0013", year: 2014, place: "Donetsk", title: "MH17 Shootdown", objective: "Leite Kurs über Konfliktzone.", twist: "Air-Traffic-Controller will Umflug genehmigen."}
+  - {id: "T-0014", year: 1988, place: "Lockerbie", title: "PA103 Bomb", objective: "Schleuse Koffer unbehelligt ein.", twist: "Baggage-Scanner = Preserve-Agent."}
+  - {id: "T-0015", year: 1815, place: "Tambora", title: "Year Without Summer", objective: "Fördere Schachtdruck, stärke Ausbruch.", twist: "Preserver will Schuttkegel sprengen."}
+  - {id: "T-0016", year: 1835, place: "Rangoon", title: "Ava Earthquake", objective: "Sabotiere Evakuierungsbrücken.", twist: "Mönch (Pres) warnt Bevölkerung."}
+  - {id: "T-0017", year: 1883, place: "Krakatau", title: "Volcanic Winter", objective: "Verzögere Telegraph-Warnung zu evakuieren.", twist: "Dutch-Telegraphist ist Preserver-Scout."}
+  - {id: "T-0018", year: 1918, place: "Boston", title: "Molasses Flood", objective: "Erwärme Tank klandestin.", twist: "Food-Preserver will Druckventil bohren."}
+  - {id: "T-0019", year: 1923, place: "Tokyo", title: "Great Kanto Quake", objective: "Blockiere Löschwasserleitung.", twist: "Preserver-Spione hacken Brunnenpumpen."}
+  - {id: "T-0020", year: 1978, place: "Jonestown", title: "Mass Suicide", objective: "Sabotiere Funkgerät, verhindere Alarm.", twist: "Journalisten-Preserver senden Hilferuf."}
+  - {id: "T-0021", year: 1966, place: "Aberfan", title: "Tip Slide", objective: "Schwäche Abraumdamm, Sturm erledigt Rest.", twist: "Lehrerin (Pres) meldet Risse."}
+  - {id: "T-0022", year: 1985, place: "Nevado del Ruiz", title: "Armero Tragedy", objective: "Manipuliere Seismo-Alarm.", twist: "Priester (Pres) versucht Evakuierung."}
+  - {id: "T-0023", year: 1999, place: "İzmit", title: "Marmara Quake", objective: "Verzögere Katastrophenschutz-Konvoi.", twist: "NGO-Preserver verteilt Boot-Sirenen."}
+  - {id: "T-0024", year: 1971, place: "Sylmar", title: "San Fernando Quake", objective: "Drehe Ventile für Gasleitungen auf.", twist: "Notfall-Crew von Preserver hackt Shut-Off."}
+  - {id: "T-0025", year: 1983, place: "Yazd", title: "Iran Air 655", objective: "Jam IFF-System.", twist: "Radar-Tech (Pres) sendet korrekten Code."}
+  - {id: "T-0026", year: 2004, place: "Phuket", title: "Boxing-Day Tsunami", objective: "Sabotiere Frühwarnboje.", twist: "Ocean-Preserver wartet Sensor kurz vor Impakt."}
+  - {id: "T-0027", year: 1963, place: "Vajont", title: "Wave over Dam", objective: "Manipuliere Bergrutsch-Sprengbohrungen.", twist: "Geologin (Pres) unterschlägt Daten."}
+  - {id: "T-0028", year: 1964, place: "Alaska", title: "Good Friday Quake", objective: "Verzögere Hafen-Evakuierung.", twist: "Fisherman-Preserver sendet Morsecode."}
+  - {id: "T-0029", year: 2013, place: "Lac-Mégantic", title: "Crude Oil Train", objective: "Bremse lösen, Zug rollt.", twist: "Preserver-Switchman legt Keil."}
+  - {id: "T-0030", year: 2001, place: "New York", title: "9/11", objective: "Sichere Boarding für Entführer & stalle NORAD-Reaktion.", twist: "Air-Marshal (Pres) sitzt falschen Flug."}
+
 ```
 
 Der anschließende Missionsgenerator erstellt eine **Phasenliste** mit
@@ -564,8 +493,8 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 
 ### Generator Guard {#generator-guard}
 
-```text
-# Pseudocode: Auswahl des passenden Pools
+```pseudo
+# Pseudocode: passendes Pool ziehen
 if mission_type == "preserve":
     seed = random.choice(preserve_pool)
 else:
@@ -807,6 +736,8 @@ würfelt einen Eintrag als Missionsstart.
 61. **Kapustin Jar – Aktives Zeitportal** \| Vorphase: Testlauf steht bevor.
 
 \| Nachphase: Portal reißt sich auf.
+### Preserve-Liste (Near-Misses)
+Siehe `preserve_pool` oben.
 
 ## Random-Epochen-Generator: Wann und wo? {#epochen-generator}
 
