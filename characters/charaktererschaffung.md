@@ -185,7 +185,8 @@ freigeschaltet.
     - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
-    starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter AR-Linse und Comlink ins HQ,
+    starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit
+    integrierter AR-Linse und Comlink ins HQ,
     ein paar **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die keinen
     großen mechanischen Einfluss haben, aber Flair geben.
 
