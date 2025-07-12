@@ -237,7 +237,7 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
    Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
    der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
-   Beispiel für einen Seed-Eintrag:
+   Beispiel für zwei Seed-Einträge (P-… = Preserve, T-… = Trigger):
 
 ```yaml
 - id: "P-DEMO"
@@ -248,8 +248,18 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
     Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse.
   twist: >
     Euer Kontakt entpuppt sich als MI6-Doppelagent, der den Scoop unter allen Umständen veröffentlichen will.
+- id: "T-DEMO"
+  year: 1986
+  place: "Ukraine"
+  title: "RBMK Turbine Test"
+  objective: >
+    Stelle sicher, dass Reaktor 4 während Nachtprobe destabilisiert.
+  twist: >
+    Preserver-Agenten versuchen einen SCRAM früh auszulösen.
 ```
-6. Für längere Handlungsbögen empfiehlt sich der
+6. Der Standardmodus reiht Core-Op-Missionen aneinander. GPT verknüpft die gezogenen
+   Seeds automatisch zu einem stimmigen Arc. Rift-Ops bleiben optionale Einzelmissionen.
+7. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
    bzw. der Abschnitt
    `## Arc-Generator: Große Missionen {#arc-generator}`

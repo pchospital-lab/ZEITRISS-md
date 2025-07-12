@@ -62,4 +62,8 @@ tags: [meta]
 - Einheitliches 5–7-Szenen-Layout für Core-Ops, Rift-Ops auf 15 Szenen festgelegt.
 - Demo-Mission "Feuerkette 1410" an neues Format angepasst.
 - Toolkit enthält `StartScene` und `EndScene` Macros.
+
+## 4.1.6 – Readme Clarifications
+- Seed-Beispiel zeigt nun Preserve- und Trigger-Varianten.
+- Standardmodus betont fortlaufende Core-Ops als Arc.
 *© 2025 pchospital – private use only. See LICENSE.
