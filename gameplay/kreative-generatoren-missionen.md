@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 8A: Kreative Generatoren – Missionen"
+version: 4.1.5
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.1.4 – Modul 8A: **Kreative Generatoren – Missionen**
+# ZEITRISS 4.1.5 – Modul 8A: **Kreative Generatoren – Missionen**
 
 ```yaml
 arc_generator_default: true
@@ -80,10 +80,9 @@ als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise aufta
 Ein optionaler **Tonal-Safety-Toggle** filtert extrem düstere oder humorige Seeds
 heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 
-> **Preserve** (Pro-Fraktion) und **Trigger** (Contra-Fraktion) verfolgen denselben
-> historischen Endzustand. Preserve stabilisiert das bestehende Narrativ, Trigger
-> manipuliert Randbedingungen – Motiv, Schuldiger oder Nebeneffekt –, das Ergebnis
-> bleibt jedoch das in den Geschichtsbüchern. Dadurch entsteht kein Paradox.
+> **Preserve** schützt Beinahe-Katastrophen,
+> **Trigger** erzwingt historisch belegte Tragödien.
+> Die Generatoren halten separate Pools, damit sich die Szenarien nicht überlappen.
 
 ```json
 {
@@ -566,18 +565,11 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 ### Generator Guard {#generator-guard}
 
 ```text
-# Pseudocode for a simple parity check
-if seed.preserve_outcome != seed.trigger_outcome:
-    raise ParityError("Seed violates ZEITRISS Preserve/Trigger parity.")
-```
-
-```text
-# Basic parity test routine
-for seed in seed_list:
-    result_preserve = run_mission(seed, mode="preserve")
-    result_trigger = run_mission(seed, mode="trigger")
-    assert result_preserve.event_outcome == "historical_constant"
-    assert result_trigger.event_outcome == "historical_constant"
+# Pseudocode: Auswahl des passenden Pools
+if mission_type == "preserve":
+    seed = random.choice(preserve_pool)
+else:
+    seed = random.choice(trigger_pool)
 ```
 
 ## Arc-Generator: Große Missionen {#arc-generator}

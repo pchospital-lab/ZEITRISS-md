@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.1.5
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.1.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Schlüsselfelder im JSON-Save {#json-schluesselfelder}
 
@@ -19,7 +19,7 @@ tags: [systems]
 | field_notes   | Persönliche Memos der Agenten (optional)       |
 
 ```json
-{"Name":"Alex","Epoche":"2025","Level":2,"zr_version":"4.1.4","version_hash":"4.1","arc_dashboard":{}}
+{"Name":"Alex","Epoche":"2025","Level":2,"zr_version":"4.1.5","version_hash":"4.1","arc_dashboard":{}}
 ```
 
 ### Kontext-Roll-Up {#roll-up}
@@ -52,7 +52,7 @@ tags: [systems]
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.4** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.5** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -163,7 +163,7 @@ _{
   "Epoche": "Gegenwart (2025)",
   "Level": 2,
   "Erfahrung": 15,
-  "zr_version": "4.1.4",
+  "zr_version": "4.1.5",
   "version_hash": "4.1",
   "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
   "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
@@ -201,7 +201,7 @@ Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.4 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.5 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 
@@ -236,7 +236,7 @@ _{_
 
 {
   "Gruppe": "Team Chronos",
-  "zr_version": "4.1.4",
+  "zr_version": "4.1.5",
   "version_hash": "4.1",
   "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
   "Charaktere": [
@@ -508,7 +508,7 @@ füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 **ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
 
 ```json
-"zr_version": "4.1.4",
+"zr_version": "4.1.5",
 "version_hash": "4.1",
 "OpenRifts": [
   {"ID":"R-71","Seed":"Emerald Kraken","Severity":1,"Deadline":-10}
@@ -796,10 +796,10 @@ nächste Abenteuer bereitsteht.
 | Version | Hinweis |
 | ------- | ------- |
 | **4.1.3** | Ausgangsformat, keine Zusatzfelder |
-| **4.1.4** | `arc_dashboard` und neuer `version_hash` in jedem Save |
+| **4.1.5** | `arc_dashboard` und neuer `version_hash` in jedem Save |
 
 Beim Laden eines alten 4.1.3-Spielstands fügt die SL einfach ein
-`version_hash` von "4.1" hinzu. Die optionalen Felder von 4.1.4 werden
+`version_hash` von "4.1" hinzu. Die optionalen Felder von 4.1.5 werden
 ignoriert, bis sie benötigt werden. Weitere Updates können so
 tabellarisch ergänzt werden.
 Alle Spielertexte laufen vor dem Speichern durch den Regex-Filter `/Zeitbruch|ClusterCreate|Realität umschreiben/i`.
