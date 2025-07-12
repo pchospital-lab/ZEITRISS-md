@@ -131,6 +131,13 @@
       "category": "System"
     },
     {
+      "slug": "walkthrough-london",
+      "path": "gameplay/kampagnenstruktur.md",
+      "title": "Mini-Walkthrough London-Arc",
+      "category": "Gameplay",
+      "href": "#mini-walkthrough-london-arc"
+    },
+    {
       "slug": "walkthrough-mauerbau",
       "path": "gameplay/kampagnenstruktur.md",
       "title": "Mini-Walkthrough Mauerbau 1961",
