@@ -223,8 +223,8 @@ if paradox_level >= threshold:
 
 | Format | Dauer IRL | Soll-Szenen | Beschreibung |
 | --------------------- | ------------ | ------------------ | ------------------------------- |
-| **Mission (Core-Op)** | 45–60 min    | **30–50 Szenen**   | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
-| **Rift-Op (X-File)**  | 110 ± 10 min | **100–130 Szenen** | Action-Thriller – zwei Peaks,<br>Twist und Finale |
+| **Mission (Core-Op)** | 45–60 min    | **5–7 Szenen**     | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
+| **Rift-Op (X-File)**  | 90–120 min   | **15 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
 
@@ -318,7 +318,7 @@ Shard-Drop: 1+Tier
 
 ##### Rift-Op Film-Template {#rift-op-film-template}
 Eine ausgedehnte Rift-Operation spielt sich wie ein Action‑Thriller und nutzt
-ca. **100–130 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
+ca. **15 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 
 | Akt | Kernbeats |
 | --- | --------- |
@@ -348,7 +348,7 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 | --------- | ------------------------------------------------------------- |
 | Mission 1 | Ankunft in Ost-Berlin. Die Agenten erkunden Schleuserwege. |
 | Mission 2 | Baupläne sichern und Kontaktperson schützen. |
-| Mission 3 | Entscheidung: Übergang bewahren oder Eskalation triggern. |
+| Mission 3 | **Preserve:** Schleuserroute sichern · **Trigger:** Unruhen anzetteln. |
 | Epilog    | Je nach Wahl verändert sich das politische Klima der Epoche. |
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
@@ -359,66 +359,27 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 > **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
 > **AUFTRAG** Sabotiert einen hölzernen **Signal-Leuchtturm**, dessen Feuerkette Verstärkung anfordert.
 
-###### 1 ▸ Briefing (5 Min)
+```yaml
+# Preserve–Trigger objectives
+objective_preserve: |
+  Entferne Pulverrückstände, damit die Kette erst 1410/07/15 detoniert, wie überliefert.
+objective_trigger: |
+  Versehe die Kette mit Schwefelpulver; erst deine Sabotage macht die Explosion möglich.
+```
 
-- Die **Ordensritter** senden bei Gefahr drei Fackelschübe Richtung Marienburg. Mehrere Türme übermitteln das Signal.
-- Ein Zeitagent versteckte Zünd-Booster. Zündet das Feuer trotz Regen, kippt die Schlachtordnung.
-`SceneCounter++`
+###### Szenenübersicht
 
-###### 2 ▸ Insertion
+| # | Ort | Konflikt | Ziel | Spur | SG |
+|---|-----------------|----------------------------------|--------------------|----------------------------------|----|
+| 1 | Zeltlager (Nacht) | Patrouille & Hund | In Lager eindringen | Geräusch ferne Hammerschläge | 6 |
+| 2 | Schmiedehütte | Glühende Kette, Schmied misstrauisch | Probenstück sichern | 2. Wachposten nähert sich | 7 |
+| 3 | Schleusengraben | Altes Schleusentor blockiert | Zugang zum Geheimgang | Zeitdruck – Wasser steigt | 8 |
+| 4 | Pulverkammer | Mechanisches Schloss + Giftgasfalle | Zugang zur Feuerkette | Erkennt, dass Ketten noch ungefährlich sind | 9 |
+| 5 | **Decision Room** | – | **Preserve**: Rückstände entfernen<br>**Trigger**: Schwefelpulver zusetzen | Alarm oben | – |
+| 6 | Turmaufstieg | Leitertest, feindlicher Bogenschütze | Flucht auf Wehrgang | Belagerer rücken an | 7 |
+| 7 | Wehrgang-Tor | Fallgitter blockiert | Exfiltration | Rauchwolke im Tal | 6 |
 
-- **Nacht, leichter Nieselregen.** Absprung in einem Waldstück, 400 m vom Turm.
-- Umgebung: Morastiger Boden (−1 Bewegungs-Pool bei Sprint), dichter Kiefernwald, vereinzelte Patrouillen.
-
-`SceneCounter++`
-###### 3 ▸ Aufklärung
-
-| Punkt    | Info                                           | Probe                   |
-| -------- | ---------------------------------------------- | ----------------------- |
-| Wache #1 | Ritterknecht mit Hellebarde, patrouilliert Basis (Fackel) | *Schleichen 2+*         |
-| Wache #2 | Bogner auf 1. Absatz, kann Waldkante überblicken         | *Verbergen 3+*          |
-| Booster  | Unter Plattform befestigt; zündet bei Kontakt mit Öl      | *Elektronik/Hacking 2+* |
-`SceneCounter++`
-
-###### 4 ▸ Zugriff
-
-- **Primär-Option:** Deaktiviert die Booster → Feuer würde im Regen ersticken.
-- **Sekundär-Option:** Signalplanken austauschen oder Öl-Fässer entfernen → +1 Zeitaufwand.
-- **Px-Auslöser**
-  - +1: Eine Wache sieht einen Chrononauten (Zeitzeuge).
-  - +1: Zeittech wird entdeckt (falls zurückgelassen).
-  - Px ≥ 3: Wachtrupp zu Pferd (4 Ritter) erreicht den Turm nach 1 Ingame-Minute.
-  - Px = 5: **ClusterCreate()** – Zeitspalt manifestiert Funkenflut, Turm gerät in Brand.
-`SceneCounter++`
-
-###### 5 ▸ Exfiltration
-
-- Sobald Booster entfernt oder Feuerholz manipuliert: Rauchgranate → Sprungcode aktivieren.
-- Getarnter Rücksprungpunkt 50 m nördlich – heiße LZ 2 min offen.
-`SceneCounter++`
-
-###### Erfolgskriterien
-
-| Rang | Bedingung | Auswirkung |
-|-----|-----------|------------|
-| *Triumph*   | Booster entfernt **und** Wachen unalarmiert | Ordenskavallerie bleibt ohne Verstärkung; Front hält. |
-| *Vollerfolg*| Booster entfernt, Alarm ausgelöst     | Schlacht kippt fürs ITI; Patrouillen wachsamer (Folge-SG +1). |
-| *Teilerfolg*| Booster beschädigt / Holz getauscht   | 30 % Chance auf Not-Signal; Timeline instabil (Px +1). |
-| *Misserfolg*| Booster nicht entschärft              | Verstärkung rückt an, Schlacht kippt – Folgeeinsatz nötig. |
-
-#### 5a · Extraction-Evac (optional)
-Wenn Zieleinheit oder Beweismittel gesichert sind **und** Gegenseite alarmiert ist,
-führt Phase 5a die taktische Räumung der Hot-Zone durch.
-
-| Schritt | Beispiel |
-|---------|-----------|
-| 1 · Cut-Through | Schneller Pfad via vorbereiteten Sprengsatz |
-| 2 · Suppress | Deckungs-Feuer oder EMP-Jammer |
-| 3 · Load-Up | Paket/Person in Transportmittel sichern |
-| 4 · Jump | Zeit-Exfil oder konventioneller Abzug |
-
-> **Tischaufbau**: Skizze reicht (10×10 m). Waldkante, Turm (6 m Gerüst, Leiter innen), zwei Fackeln, Holzlager.
-
+*SceneCounter++ nach Szene 7.*
 ##### Kurzabenteuer „Operation GLASLÄUFER“ {#operation-glaslaeufer}
 
 *10-Seiten-Outline, Berlin 1961*

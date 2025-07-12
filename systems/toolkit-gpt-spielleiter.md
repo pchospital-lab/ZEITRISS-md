@@ -33,7 +33,7 @@ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu trans
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
-- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **50** Szenen, Rift-Ops bei **130**.
+- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **7** Szenen, Rift-Ops bei **15**.
   Jede Vorlagen-Szene endet automatisch mit diesem Macro.
 ## Fokus-Missionsmodus
 
@@ -187,16 +187,35 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission nutzt **30–50** Szenen (Core‑Op)
-* [ ] Bei Rift‑Ops werden **100–130** Szenen empfohlen;
+* [ ] Eine komplette Mission nutzt **5–7** Szenen (Core‑Op)
+* [ ] Bei Rift‑Ops werden **15** Szenen empfohlen;
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] SceneCounter aktualisiert
 
 ### SceneCounter Macro
 Nutze `SceneCounter++` nach jeder ausgegebenen Szene.
 Das HUD blendet den Stand als `[SC aktueller/max]` ein.
-Core-Ops spielen mit **30–50** Szenen, Rift-Ops mit **100–130**.
+Core-Ops spielen mit **5–7** Szenen, Rift-Ops mit **15**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
+
+### StartScene / EndScene Macros
+```md
+<!-- Macro: StartScene -->
+{% macro StartScene(location, conflict, goal, spur, sg) %}
+### Scene {{ SceneCounter }}
+**Location:** {{ location }}  
+**Conflict:** {{ conflict }}  
+**Goal:** {{ goal }}  
+**Spur:** {{ spur }}  
+**Suggested SG:** {{ sg }}
+{% endmacro %}
+
+<!-- Macro: EndScene -->
+{% macro EndScene() %}
+{% set SceneCounter = SceneCounter + 1 %}
+{% endmacro %}
+```
+Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
 
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von Spielerlevel und Missionsart.
