@@ -339,15 +339,28 @@ Gib sie nur preis, wenn die Spieler explizit nachforschen.
 ##### Mini-Walkthrough Mauerbau 1961
 
 ```yaml
-trigger_only: true
+# gameplay/kampagnenstruktur.md – Abschnitt Mini-Walkthrough Mauerbau 1961
+title: "Mini-Walkthrough Mauerbau 1961"
+id: EX-TRIG-1961-BER
+trigger_only: true  # eindeutiger Modus
+version: 4.1.5
 ```
 
-| Schritt   | Ereignis |
-| --------- | ------------------------------------------------------------- |
-| Mission 1 | Ankunft in Ost-Berlin. Die Agenten erkunden Schleuserwege. |
-| Mission 2 | Baupläne sichern und Kontaktperson schützen. |
-| Mission 3 | Unruhen anzetteln. |
-| Epilog    | Je nach Wahl verändert sich das politische Klima der Epoche. |
+| Schritt       | Ereignis & Ziel |
+| ------------- | ---------------------------------------------------------------------- |
+| **Mission 1** | Ankunft in Ost-Berlin · Agenten sondieren Grenzposten & Schleuserwege. |
+| **Mission 2** | Baupläne des "Antifaschistischen Schutzwalls" sichern · Kontaktperson (Stasi-Logistiker) schützen. |
+| **Mission 3** | **Ziel:** Organisiere koordinierte Unruhen, damit SED den Mauerbau überstürzt beschließt. |
+| **Epilog**    | Mauer wird in der Nacht 12./13. August errichtet. Fluchtwege brechen ab, Zeitlinie bleibt unverändert. |
+
+> *Gegenspieler:* "Plenum 89 Humanists" versucht, Bau zu verzögern (Preserve‑Fraktion).
+> *ITI‑Trigger‑Auftrag:* sicherstellen, dass Blockadepläne scheitern.
+
+### Was wurde bereinigt?
+
+1. **Doppelter Schritt 3 entfernt:** Es gibt nur noch die Trigger‑Variante.
+2. **Preserve‑Markierungen gestrichen:** Kein „Schleuserroute sichern“ mehr.
+3. **Epilog umgeschrieben:** Er bestätigt den historischen Ausgang.
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
 

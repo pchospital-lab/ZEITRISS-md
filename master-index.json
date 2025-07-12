@@ -129,6 +129,20 @@
       "path": "systems/toolkit-gpt-spielleiter.md",
       "title": "Toolkit GPT-Spielleiter",
       "category": "System"
+    },
+    {
+      "slug": "walkthrough-mauerbau",
+      "path": "gameplay/kampagnenstruktur.md",
+      "title": "Mini-Walkthrough Mauerbau 1961",
+      "category": "Gameplay",
+      "href": "#mini-walkthrough-mauerbau-1961"
+    },
+    {
+      "slug": "quick-mission-feuerkette",
+      "path": "gameplay/kampagnenstruktur.md",
+      "title": "Quick-Mission Feuerkette 1410",
+      "category": "Gameplay",
+      "href": "#quick-mission-feuerkette-1410"
     }
   ],
   "pools": [
