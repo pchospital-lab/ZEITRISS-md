@@ -351,7 +351,7 @@ version: 4.1.5
 | **Mission 1** | Ankunft in Ost-Berlin · Agenten sondieren Grenzposten & Schleuserwege. |
 | **Mission 2** | Baupläne des "Antifaschistischen Schutzwalls" sichern · Kontaktperson (Stasi-Logistiker) schützen. |
 | **Mission 3** | **Ziel:** Organisiere koordinierte Unruhen, damit SED den Mauerbau überstürzt beschließt. |
-| **Epilog**    | Mauer wird in der Nacht 12./13. August errichtet. Fluchtwege brechen ab, Zeitlinie bleibt unverändert. |
+| **Epilog**    | Mauer wird 12./13. August errichtet.<br>Fluchtwege brechen ab, Zeitlinie bleibt unverändert. |
 
 > *Gegenspieler:* "Plenum 89 Humanists" versucht, Bau zu verzögern (Preserve‑Fraktion).
 > *ITI‑Trigger‑Auftrag:* sicherstellen, dass Blockadepläne scheitern.
@@ -384,7 +384,7 @@ objective: |
 | 1 | Zeltlager (Nacht) | Patrouille & Hund | In Lager eindringen | Geräusch ferne Hammerschläge | 6 |
 | 2 | Schmiedehütte | Glühende Kette, Schmied misstrauisch | Probenstück sichern | 2. Wachposten nähert sich | 7 |
 | 3 | Schleusengraben | Altes Schleusentor blockiert | Zugang zum Geheimgang | Zeitdruck – Wasser steigt | 8 |
-| 4 | Pulverkammer | Mechanisches Schloss + Giftgasfalle | Zugang zur Feuerkette | Erkennt, dass Ketten noch ungefährlich sind | 9 |
+| 4 | Pulverkammer | Schloss + Giftgasfalle | Zugang zur Feuerkette | Merkt: Ketten noch ungefährlich | 9 |
 | 5 | **Decision Room** | – | Rückstände entfernen, damit die Feuerkette ausbleibt | Alarm oben | – |
 | 6 | Turmaufstieg | Leitertest, feindlicher Bogenschütze | Flucht auf Wehrgang | Belagerer rücken an | 7 |
 | 7 | Wehrgang-Tor | Fallgitter blockiert | Exfiltration | Rauchwolke im Tal | 6 |
