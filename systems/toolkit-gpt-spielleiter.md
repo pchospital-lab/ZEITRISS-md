@@ -195,6 +195,16 @@ Das HUD blendet den Stand als `[SC aktueller/max]` ein.
 Core-Ops spielen mit **5–7** Szenen, Rift-Ops mit **15**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
+### StartMission Macro
+Setzt den Szenenzähler zu Beginn einer neuen Mission zurück.
+
+```md
+<!-- Macro: StartMission -->
+{% macro StartMission() %}
+{% set SceneCounter = 1 %}
+{% endmacro %}
+```
+
 ### StartScene / EndScene Macros
 ```md
 <!-- Macro: StartScene -->
