@@ -1,11 +1,11 @@
 ---
-title: "ZEITRISS 4.1.5 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.1.5
+title: "ZEITRISS 4.1.6 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.1.6
 tags: [systems]
 default_modus: mission-fokus
 ---
 
-# ZEITRISS 4.1.5 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.1.6 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -779,7 +779,7 @@ erscheint. Folgende Techniken helfen dabei:
   Konsequenzen. Du als KI vermittelst diese Konsequenzen klar und fair, sodass die Regeln *sp*ür*bar,
   aber unsichtbar* bleiben.
 
-**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.1.5 vereinst die Rolle eines Regisseurs,
+**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.1.6 vereinst die Rolle eines Regisseurs,
 Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Codex** stellst du
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Halte dich an diese

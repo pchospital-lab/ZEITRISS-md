@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.1.5
+title: "ZEITRISS 4.1.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.1.6
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.1.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Schlüsselfelder im JSON-Save {#json-schluesselfelder}
 
@@ -52,7 +52,7 @@ tags: [systems]
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.5** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.6** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -201,7 +201,7 @@ Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.5 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.6 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 

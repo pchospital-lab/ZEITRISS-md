@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
-version: 4.1.5
+title: "ZEITRISS 4.1.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
+version: 4.1.6
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+# ZEITRISS 4.1.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
 
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
@@ -24,7 +24,7 @@ Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrono
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
 Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
 entstehen paranormale Anomalien, die separat beseitigt werden müssen.
-So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.5 reale Schauplätze mit übernatürlichen Folgen
+So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.6 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
@@ -73,7 +73,7 @@ gemeinsamen Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.1.5**, der überarbeiteten und erweiterten Fassung des
+**Willkommen zu Modul 13 von ZEITRISS 4.1.6**, der überarbeiteten und erweiterten Fassung des
 cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
 Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
 maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
