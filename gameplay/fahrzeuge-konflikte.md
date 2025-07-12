@@ -1,17 +1,17 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
+version: 4.1.5
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.1.4 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+# ZEITRISS 4.1.5 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
 
 ## Inhalt
 
 - Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 - Konfliktsystem: Cineastische Konflikte jenseits des Klassikers
 
-**Einleitung:** Willkommen zu **Modul 7** von ZEITRISS 4.1.4! Dieses erweiterte Kapitel stattet euer
+**Einleitung:** Willkommen zu **Modul 7** von ZEITRISS 4.1.5! Dieses erweiterte Kapitel stattet euer
 Zeitreise-Abenteuer mit neuen Werkzeugen aus und macht das Spiel noch freier, filmischer und
 immersiver. Hier findet ihr Regeln und Inspirationen für Fahrzeuge als temporale Transportmittel,
 ein cineastisches Konfliktsystem jenseits bloßer Kampfregeln und eine _Toolbox_ kreativer

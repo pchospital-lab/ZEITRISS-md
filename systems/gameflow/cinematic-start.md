@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
+version: 4.1.5
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.4 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+# ZEITRISS 4.1.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
 
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
@@ -24,7 +24,7 @@ Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrono
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
 Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
 entstehen paranormale Anomalien, die separat beseitigt werden müssen.
-So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.4 reale Schauplätze mit übernatürlichen Folgen
+So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.5 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
@@ -73,7 +73,7 @@ gemeinsamen Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.1.4**, der überarbeiteten und erweiterten Fassung des
+**Willkommen zu Modul 13 von ZEITRISS 4.1.5**, der überarbeiteten und erweiterten Fassung des
 cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
 Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
 maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
@@ -112,8 +112,7 @@ kann. Licht aus, **Film ab** für euer Zeitreise-Abenteuer!
 
 ### Mini-Szenarien: Preserve vs Trigger
 
-Zwei kurze Beispielmissionen zeigen Anfängern, wie sich die Fraktionen
-unterscheiden:
+Zwei kurze Beispielmissionen zeigen den Unterschied der beiden Modi:
 
 - **Preserve-Beispiel:** Die Agenten sollen ein Archivgebäude bewahren. Sie
   sichern Hinweise, verhindern Brandstiftung und halten sich möglichst im
@@ -121,8 +120,8 @@ unterscheiden:
 - **Trigger-Beispiel:** Ein rivalisierendes Team soll den Mauerfall vorantreiben.
   Die Agenten stiften Unruhe, sabotieren Patrouillen und setzen auf Provokation.
 
-Beide Skizzen passen in eine Szene und verdeutlichen den grundlegenden
-Entscheidungsweg: Bewahren oder auslösen.
+Beide Skizzen stammen aus getrennten Pools und verdeutlichen, dass eine Mission
+von Beginn an entweder Preserve oder Trigger ist.
 
 ## Filmische Techniken für einen epischen Start
 

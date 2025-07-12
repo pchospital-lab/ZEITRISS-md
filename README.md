@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.1.4
+version: 4.1.5
 tags: [meta]
 ---
 
@@ -37,14 +37,15 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
 
 ## Grundidee
 
-**ZEITRISS 4.1.4** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.1.5** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
 Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen
 und bedeutende Ereignisse zu beeinflussen.
 Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
-Jede Mission folgt der Preserve-vs-Trigger-Logik.
-Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, jeweils abhaengig von ihrer Fraktion.
-Erst nach der Investigation wird klar, welches historische Ereignis gesichert
-oder ausgeloest werden soll.
+Historische Einsaetze sind klar getrennt in **Preserve-** oder **Trigger-Missionen**.
+Spielende entscheiden sich zu Beginn für eine Fraktion: Pro-Teams erhalten Preserve-Kampagnen,
+Contra-Teams Trigger-Kampagnen.
+Preserve stabilisiert Beinahe-Katastrophen, Trigger stellt dokumentierte Tragödien sicher.
+Eine kurze Übersicht bietet der Abschnitt „Preserve-vs-Trigger-Logik“ im Kampagnenmodul.
 Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung
 – geheime Technik oder Bio-Cyberware. Bei Rift-Ops können echte Parawesen
 auftreten. Auch fokussierte Psi-Techniken können dahinterstecken.
@@ -227,7 +228,7 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
    Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
-   Beispiel: "ZEITRISS 4.1.4 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
+   Beispiel: "ZEITRISS 4.1.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
    Suche im Modul **Kreative Generatoren** nach dem Abschnitt

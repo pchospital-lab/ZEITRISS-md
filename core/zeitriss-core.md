@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
+version: 4.1.5
 tags: [core]
 ---
 
-# ZEITRISS 4.1.4 – Modul 1: Immersives Zeitreise-Rollenspielsystem
+# ZEITRISS 4.1.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem
 
 ## Inhalt
 
@@ -284,7 +284,7 @@ und sorgfältiges SYS-Management.
 
 #### Regelupdate: Progressionssystem Level 1–1000
 
-**Ziel:** Dieses Update überarbeitet das Fortschrittssystem von **ZEITRISS 4.1.4**,
+**Ziel:** Dieses Update überarbeitet das Fortschrittssystem von **ZEITRISS 4.1.5**,
 um von Level 1 bis 1000 dauerhaft Spielspaß zu gewährleisten –
 mit klaren Meilensteinen und horizontalen Erweiterungen.
 Es vermeidet entgleisenden _Power Creep_.
@@ -1072,7 +1072,7 @@ den Kurs selbst bestimmen – die Kampagnenstruktur passt sich ihrem Tempo und i
 an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaßen spannend geführt
 und frei erkundet werden kann.
 
-**Willkommen bei ZEITRISS 4.1.4 – deine Reise durch die Zeit beginnt jetzt!**
+**Willkommen bei ZEITRISS 4.1.5 – deine Reise durch die Zeit beginnt jetzt!**
 
 *© 2025 pchospital – private use only. See LICENSE.
 

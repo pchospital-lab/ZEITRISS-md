@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 4B: Cyberware & Bioware"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 4B: Cyberware & Bioware"
+version: 4.1.5
 tags: [characters]
 ---
 
-# ZEITRISS 4.1.4 – Modul 4B: Cyberware & Bioware
+# ZEITRISS 4.1.5 – Modul 4B: Cyberware & Bioware
 
 ## Cyberware-Implantate
 

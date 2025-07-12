@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
+version: 4.1.5
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.1.4 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
+# ZEITRISS 4.1.5 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
 
 ## Gameplay-Index
 
@@ -22,7 +22,7 @@ Diese Modulnummer setzt die Hauptreihe nach einem ausgelassenen siebten Teil for
 
 ## Einführung
 
-**ZEITRISS 4.1.4** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
+**ZEITRISS 4.1.5** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
 Spieler*innen hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
 Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung eines gemeinsamen
 Hauptquartiers (HQ) und die Pflege von Beziehungen im Verlauf der Kampagne. Alle Elemente sind
@@ -103,22 +103,16 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 ### Preserve-vs-Trigger-Logik
 
-Historische Einsätze laufen stets nach diesem Prinzip ab.
-Beim Briefing erfahren die Agenten nur Zeit und Ort einer Instabilitaet.
-Erst in der Investigation wird klar, welches Ereignis gefaehrdet ist.
-Nach etwa der Hälfte der Mission blendet das HUD automatisch einen
-Foreshadow-Marker ein, der andeutet, welche Aktion die Zeitlinie
-stabilisieren würde.
-Weitere Informationen zum HUD gibt es im Modul
-[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
-Pro-Spieler agieren als Preserver, Contra-Spieler als Trigger, abhaengig von ihrer Fraktion.
-Die Abfolge lautet: Briefing – Investigation – Revelation – Aktion – Aufloesung.
-Das offizielle Ergebnis bleibt gleich; nur Paradoxon-Index und Fraktionsruf variieren.
-Preserve bedeutet, dass die Agenten ein Ereignis stabilisieren und das
-Zeitgefüge festigen. Trigger sorgt dafür, dass die Geschehnisse erst durch ihr
-Eingreifen in Gang kommen. Die SL verrät nie, welche Variante "wirklich"
-vorgesehen war – der Kontrast soll sich nur emotional bemerkbar machen.
-Nach einem Abschluss meldet `resolve_mission()` stets `history_ok:true`.
+Eine Kampagne startet entweder im **Preserve**- oder **Trigger-Modus**.
+Pro-Spielende übernehmen Preserve-Missionen, Contra-Spielende Trigger-Missionen.
+Preserve-Missionen sichern Beinahe-Katastrophen,
+während Trigger-Missionen dokumentierte Tragödien gewährleisten.
+Die Seeds stammen aus getrennten Pools (`preserve_pool` bzw. `trigger_pool`).
+Im Briefing nennt das HUD Zeit und Ort einer Instabilität;
+welches Ereignis betroffen ist, deckt die Investigation auf.
+Zur Auswertung nutzt die KI-Spielleitung je nach Modus
+`history_ok_preserve()` oder `history_ok_trigger()`.
+Eine kurze Zusammenfassung der Abläufe bietet das README.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
@@ -577,7 +571,7 @@ stets im Zentrum der Erzählung und wächst organisch mit der Geschichte mit.
 
 ## Beziehungen zu NSCs, Fraktionen und Mitagenten
 
-Cineastische Kampagnen leben von starken **Charakterbindungen**. In ZEITRISS 4.1.4 sind es nicht nur
+Cineastische Kampagnen leben von starken **Charakterbindungen**. In ZEITRISS 4.1.5 sind es nicht nur
 die Ereignisse der Zeitreise, die fesseln, sondern auch die persönlichen Verbindungen der Agenten zu
 wichtigen Figuren der Welt – seien es **NSCs**, **Fraktionen** oder die eigenen **Mitstreiter**.
 Dieses Modul bietet Ansätze, wie man diese Beziehungen entwickeln und mechanisch wie narrativ
@@ -911,7 +905,7 @@ Zeit verstreicht entsprechend in der Spielwelt.
 
 Nicht jede Minute einer Kampagne muss mit Missionen und Konflikten gefüllt sein. Im Gegenteil:
 **Erzählpausen** – ruhigere Phasen zwischen den großen Einsätzen – verleihen der Geschichte erst die
-richtige Würze. In ZEITRISS 4.1.4 bietet das HQ den perfekten Schauplatz für **Freizeitaktivitäten und
+richtige Würze. In ZEITRISS 4.1.5 bietet das HQ den perfekten Schauplatz für **Freizeitaktivitäten und
 soziale Interaktionen** der Agenten. Solche Momente machen die Welt glaubwürdiger und die Charaktere
 menschlicher. Außerdem erlauben sie es der Runde, mal durchzuatmen, bevor das nächste Zeitportal
 geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
@@ -1242,7 +1236,7 @@ _Gesamtlänge 5 s bei 60 fps._
 
 ## Fazit
 
-**ZEITRISS 4.1.4** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
+**ZEITRISS 4.1.5** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
 um aus einer Kampagne ein filmreifes Epos zu machen. Durch die **Arc-Struktur** mit verzweigten
 Zeitlinien bleibt die Handlung flexibel und doch fokussiert. Das ausbaubare **Hauptquartier**
 verwandelt sich von einer simplen Basis zu einem lebendigen Mittelpunkt, an dem Fortschritt und

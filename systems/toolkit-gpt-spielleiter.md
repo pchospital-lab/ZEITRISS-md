@@ -1,11 +1,11 @@
 ---
-title: "ZEITRISS 4.1.4 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.1.4
+title: "ZEITRISS 4.1.5 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.1.5
 tags: [systems]
 default_modus: mission-fokus
 ---
 
-# ZEITRISS 4.1.4 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.1.5 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -43,12 +43,9 @@ Spiegelparadoxa bleiben deaktiviert, damit sich jede Szene auf taktische
 Planung und technische Herausforderungen konzentriert. Dramatische
 Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
-In historischen Szenarien gilt dabei die Preserve-vs-Trigger-Logik.
-Zu Beginn ist unklar, ob ein Ereignis bewahrt oder ausgeloest werden muss.
-Pro-Spieler treten als Preserver an, Contra-Spieler als Trigger – je nach gewaehlter Fraktion.
-
-Die Entscheidung wird erst nach der Investigation aufgedeckt.
-Beide Optionen fuehren zum offiziellen Ergebnis, beeinflussen aber Paradox-Wert und Fraktionsruf.
+In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem `trigger_pool` stammt.
+Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte Tragödien.
+Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
 
 - **Entscheidungsstruktur:** Biete in normalen Szenen drei nummerierte
   Handlungsoptionen plus Freitext an. Bei komplexen Situationen sind vier bis
@@ -203,10 +200,10 @@ Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 <!-- Macro: StartScene -->
 {% macro StartScene(location, conflict, goal, spur, sg) %}
 ### Scene {{ SceneCounter }}
-**Location:** {{ location }}  
-**Conflict:** {{ conflict }}  
-**Goal:** {{ goal }}  
-**Spur:** {{ spur }}  
+**Location:** {{ location }}
+**Conflict:** {{ conflict }}
+**Goal:** {{ goal }}
+**Spur:** {{ spur }}
 **Suggested SG:** {{ sg }}
 {% endmacro %}
 
@@ -244,12 +241,12 @@ Verhindert Selbstkollisionen durch einen Sprungversatz.
 
 ### Mission Resolution
 
-Nach jedem Einsatz setzt die Engine `history_ok:true`, egal ob Preserver oder
-Trigger-Ergebnis erreicht wird.
+Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
+`history_ok_trigger()` auf. Nur Abweichungen vom vorgesehenen Ausgang
+treiben den Paradoxon-Wert nach oben.
 
 ### !seed Command
-Gibt einen zufälligen Mission Seed aus und zeigt sowohl die Preserve-
-als auch Trigger-Formulierung an.
+Gibt einen zufälligen Mission Seed aus dem passenden Pool aus.
 
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
@@ -772,7 +769,7 @@ erscheint. Folgende Techniken helfen dabei:
   Konsequenzen. Du als KI vermittelst diese Konsequenzen klar und fair, sodass die Regeln *sp*ür*bar,
   aber unsichtbar* bleiben.
 
-**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.1.4 vereinst die Rolle eines Regisseurs,
+**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.1.5 vereinst die Rolle eines Regisseurs,
 Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Codex** stellst du
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Halte dich an diese
