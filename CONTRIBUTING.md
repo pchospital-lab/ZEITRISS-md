@@ -40,4 +40,14 @@ _kursiv_ und **fett**
 - HUD-Informationen (in-world) werden blau markiert: `<span style="color:#6cf">HUD</span>`
 - Regelhinweise (OOC) erscheinen in Orange: `<span style="color:#f93">Regel</span>`
 - Nutze diese Kennzeichnung sparsam, um schnelle Orientierung zu bieten.
+
+## PR-Checkliste
+
+- [ ] Core-Op folgt dem 5–7-Szenen-Rhythmus.
+- [ ] Rift-Op enthält 15 Szenen in drei Akten.
+- [ ] Jede Szene benennt **Conflict, Goal, Spur**.
+- [ ] Preserve- und Trigger-Ziele vorhanden.
+- [ ] HQ-Phase und CU-Abrechnung eingebaut.
+- [ ] Psi-Optionen nur bei passendem Tag.
+- [ ] `SceneCounter` wird via `EndScene()` erhöht.
 *© 2025 pchospital – private use only. See LICENSE.
