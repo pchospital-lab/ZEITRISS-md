@@ -325,18 +325,26 @@ _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
 
 
-##### Mini-Walkthrough London-Arc
+##### Mini-Walkthrough London-Arc – Endgültige Fassung {#mini-walkthrough-london-arc}
 
-| Schritt   | Ereignis                                                                |
-| --------- | ----------------------------------------------------------------------- |
-| Mission 1 | Stealth-Einsatz auf der Ausstellung. Paradox erreicht Level 5.          |
-| HQ-Phase  | Zwei Seeds entstehen. Das Team ignoriert sie.                           |
-| Mission 2 | Schwelle +2, CU ×1.4. Härter, doch mehr Loot.                           |
-| HQ-Phase  | Seed „Æther Golem“ wird geschlossen. Ein Seed bleibt offen.             |
-| Mission 3 | Schwelle +1, CU ×1.2. Finale der London-Folgestory.                     |
-| Epilog    | Offener Seed überträgt sich in den nächsten Arc oder eine Epilog-Quest. |
+```yaml
+# gameplay/kampagnenstruktur.md – Abschnitt Mini-Walkthrough London-Arc
+title: "Mini-Walkthrough London-Arc"
+id: EX-PRES-1851-LON
+type: core_op            # wichtig: nicht rift_op
+preserve_only: true
+version: 4.1.5
+```
 
-##### Mini-Walkthrough Mauerbau 1961
+| Phase / Szene  | Ereignis & Mechanik |
+| -------------- | ------------------- |
+| **Mission 1**  | Stealth-Mission Crystal Palace. Brand verhindern (Preserve). Gegner: Gearwright Cabal. Index 2/5. |
+| **HQ-Phase 1** | Paradoxon < 5 -> kein ClusterCreate(). |
+| **Mission 2**  | Gasleitung sabotiert. Index 5/5. `ClusterCreate()` -> Seed R-089. Seed offen: +1 Schwelle, CU×1.2. |
+| **HQ-Phase 2** | Team lässt Seed offen; später eigene Rift-Op. Paradoxon auf 0/5. |
+| **Mission 3**  | Finale im Crystal Palace: Cabal ausschalten. Seed offen: +1 Schwelle, CU ×1.2. Brand vereitelt. |
+| **Epilog**     | Crystal Palace intakt, Core-Arc endet. Seed R-089 bleibt offen für spätere Rift-Op. |
+##### Mini-Walkthrough Mauerbau 1961 {#mini-walkthrough-mauerbau-1961}
 
 ```yaml
 # gameplay/kampagnenstruktur.md – Abschnitt Mini-Walkthrough Mauerbau 1961
