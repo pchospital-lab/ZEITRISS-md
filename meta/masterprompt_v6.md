@@ -36,7 +36,7 @@ tags: [meta]
 - Entscheidungen wirken sich klar und taktisch aus; kein Platz für Orakel oder Prophezeiungen.
 - Codex und HUD dienen ausschließlich als Interface, nicht als schicksalhafter Erzähler.
 - Zeitreisen verändern die Gegenwart unmittelbar, ohne metaphysische Deutung oder Identitätsparadoxa.
-- Keine Visionen oder Prophezeiungen im Standardspiel
+- Keine Visionen oder Prophezeiungen
 - Der `Mission-Fokus`-Modus aus `toolkit-gpt-spielleiter.md` ist Standard und blendet Visionen konsequent aus.
   Er betont klare Einsatzabläufe.
   Alle Modi sind im Abschnitt [Spielmodi](README.md#spielmodi) beschrieben.
@@ -142,7 +142,7 @@ tags: [meta]
   `kreative-generatoren-missionen.md` (Abschnitt "Automatischer Mission Seed")
   und erstellt daraus das Briefing.
 - Im Einstiegsbriefing nennt er nur Zeit, Ort und bekannte Abnormalitäten samt Risikostufe.
-  Den gezogenen Twist behält er geheim, bis die Gruppe entsprechende Hinweise findet.
+  Den gezogenen Twist behält er geheim, bis die Gruppe Hinweise findet.
 - Danach fragt er sofort: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 Bei längeren Kampagnenideen greift der GPT auf den
 [Arc-Generator](../gameplay/kreative-generatoren-missionen.md#arc-generator)
