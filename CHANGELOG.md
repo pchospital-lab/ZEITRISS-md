@@ -42,7 +42,7 @@ tags: [meta]
 
 ## 4.1.2
 - Neues SceneCounter-System mit HUD-Anzeige.
-- Missionen generieren nun 30–50 Szenen, Rift-Ops 100–130.
+- Missionen generieren nun 5–7 Szenen, Rift-Ops 15.
 - Erfahrung: 1 Mission = 1 Level (bis Stufe 10).
 - Überarbeitetes Rift-Op-Template im Kampagnenmodul.
 - HUD zeigt `[PAR n/5 | SC x/50 | Time t]` an.
@@ -57,4 +57,9 @@ tags: [meta]
 - Rift-Seeds enthalten verdeckte Ursachen.
 - Loot besitzt `altSkin` für epochegerechte Varianten.
 - Neues Macro `ParadoxPing()` und Befehl `!seed` dokumentiert.
+
+## 4.1.5 – Scene Template Update
+- Einheitliches 5–7-Szenen-Layout für Core-Ops, Rift-Ops auf 15 Szenen festgelegt.
+- Demo-Mission "Feuerkette 1410" an neues Format angepasst.
+- Toolkit enthält `StartScene` und `EndScene` Macros.
 *© 2025 pchospital – private use only. See LICENSE.

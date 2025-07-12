@@ -135,8 +135,8 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
-Core-Ops dauern durchschnittlich **45–60 Minuten** und umfassen **30–50 Szenen**.
-Rift-Ops strecken sich über etwa **110 ± 10 Minuten** mit **100–130 Szenen**.
+Core-Ops dauern durchschnittlich **45–60 Minuten** und umfassen **5–7 Szenen**.
+Rift-Ops strecken sich über etwa **90–120 Minuten** mit **15 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 ### Session-0 Agenda
 
