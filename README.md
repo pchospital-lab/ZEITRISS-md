@@ -240,16 +240,14 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    Beispiel für einen Seed-Eintrag:
 
 ```yaml
-- year: 1976
+- id: "P-DEMO"
+  year: 1976
   place: "Nairobi, Kenia"
-  objective_P: >
+  title: "Schmuggel-Enthüllung"
+  objective: >
     Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse.
-  objective_T: >
-    Erlaube Johns Verschwinden, aber schleuse sein Manuskript anonym in die Presse,
-    damit der Skandal dennoch explodiert.
   twist: >
-    Euer Kontakt entpuppt sich als MI6-Doppelagent, der beide Ausgänge akzeptiert,
-    solange die Story veröffentlicht wird.
+    Euer Kontakt entpuppt sich als MI6-Doppelagent, der den Scoop unter allen Umständen veröffentlichen will.
 ```
 6. Für längere Handlungsbögen empfiehlt sich der
    [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
