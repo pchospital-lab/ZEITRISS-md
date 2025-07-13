@@ -372,9 +372,9 @@ alle weiteren Modi sind optionale Zusätze:
 Mission-Fokus wird beim Spielstart automatisch aktiviert.
 ```yaml
 phase: Core
-jahr: 1961
-ort: Berlin
-kernauftrag: Beispiel
+year: 1961
+place: Berlin
+objective: Beispiel
 ```
 Rift Seeds nutzen `phase: Rift`.
 
