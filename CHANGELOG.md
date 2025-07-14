@@ -42,7 +42,7 @@ tags: [meta]
 
 ## 4.1.2
 - Neues SceneCounter-System mit HUD-Anzeige.
-- Missionen generieren nun 5–7 Szenen, Rift-Ops 15.
+- Core-Ops bestehen jetzt aus **12 Szenen**, Rift-Ops aus **14 Szenen**.
 - Erfahrung: 1 Mission = 1 Level (bis Stufe 10).
 - Überarbeitetes Rift-Op-Template im Kampagnenmodul.
 - HUD zeigt `[PAR n/5 | SC x/50 | Time t]` an.
@@ -50,7 +50,7 @@ tags: [meta]
 ## 4.1.3 – ItemForge Tier-Generator
 - Neues Macro `itemforge()` im Toolkit.
 - Loot-Tabellen tragen eindeutige `id:`-Felder.
-- HUD meldet `[HEAVY LOCK]` bei gesperrtem Heavy-Gear.
+- HUD meldet `[HEAVY LOCK]` bei fehlender Lizenz für Heavy-Gear.
 
 ## 4.1.4 – Era-Pulse Patch
 - Historische Missionsziele mit Preserve- und Trigger-Formulierungen.
@@ -59,7 +59,7 @@ tags: [meta]
 - Neues Macro `ParadoxPing()` und Befehl `!seed` dokumentiert.
 
 ## 4.1.5 – Scene Template Update
-- Einheitliches 5–7-Szenen-Layout für Core-Ops, Rift-Ops auf 15 Szenen festgelegt.
+- Standard-Format auf **12 Szenen** (Core) bzw. **14 Szenen** (Rift) festgelegt.
 - Demo-Mission "Feuerkette 1410" an neues Format angepasst.
 - Toolkit enthält `StartScene` und `EndScene` Macros.
 

@@ -575,7 +575,7 @@ trigger_pool:
 
 Der anschließende Missionsgenerator erstellt eine **Phasenliste** mit
 mindestens **30** Einträgen. Bei langen Einsätzen darf die Liste bis zu
-**50** Szenen umfassen. Nutzt YAML‑Gewichte, um Nebenbeats aufzufüllen
+**50** Szenen umfassen. Nutzt YAML‑Gewichte, um Nebenszenen aufzufüllen
 und so das Ziel zu erreichen.
 
 _Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehen.

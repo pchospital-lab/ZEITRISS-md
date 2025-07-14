@@ -15,8 +15,7 @@ Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen. Er ko
   "agent": {
     "name": "Ghost",
     "cu": 450,
-    "licenses": ["T1", "T2"],
-    "gear": ["Chameleon-Suit", "Mini-Hack-Tool"]
+    "licenses": ["T1", "T2"]
   },
   "campaign": {"episode": 4, "scene": 7},
   "paradox_on": false

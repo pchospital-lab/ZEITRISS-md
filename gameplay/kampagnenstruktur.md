@@ -315,7 +315,7 @@ Shard-Drop: 1+Tier
 Eine ausgedehnte Rift-Operation spielt sich wie ein Action‑Thriller und nutzt
 ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 
-| Akt | Kernbeats |
+| Akt | Kernszenen |
 | --- | --------- |
 | **A** | Einstieg, erste Spur, kleiner Konflikt |
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
@@ -373,7 +373,7 @@ version: 4.1.6
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
 
-*45-Minuten-Demo, Tannenberg/Grunwald*
+*45-Minuten-Demo, Tannenberg/Grunwald – kompaktes 7-Szenen-Format zur Einführung*
 
 > **ZEITPUNKT** 15. Juli 1410 – Vorabend der Schlacht von Tannenberg
 > **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
