@@ -33,6 +33,8 @@ Rivalen stammen stets aus externen Machtblöcken.
 - Zeige Psi-Optionen nur, wenn der Charakter über eine Psi-Gabe verfügt.
 - Andernfalls bietest du ausschließlich weltliche Handlungswege an.
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
+  Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
+  erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
@@ -175,8 +177,15 @@ Decision: <Reaktion?>
 
 > **ClusterCreate ausgelöst – Paradoxon reset.**
 > **Neuer Rift-Seed:** *#1889-01 – Kanallegende von Saint-Martin.*
-> Karte aktualisiert.
-> **Decision:** Rift ansteuern oder CoreOp fortsetzen?
+> Karte aktualisiert. Gemäß
+> [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
+> Seed auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
+> und kann erst in der HQ-Phase angewählt werden.
+> Offene Rifts erhöhen sofort SG und Loot-Multiplikator. Ein Team kann ein
+> Seed unbesiegt lassen und die Core-Operation fortsetzen, um später mehr Beute
+> zu holen – muss jedoch mit dem höheren SG weiterarbeiten.
+> **Decision:** Zurück im HQ direkt den Rift spielen oder Seed offen lassen,
+> Ressourcen auffüllen und die Core-Op fortsetzen?
 
 ---
 

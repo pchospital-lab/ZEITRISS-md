@@ -22,8 +22,15 @@ Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarza
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
-Ihr Eingreifen kann den Paradoxon-Index erhöhen; erst bei Stufe 5 öffnen sich Risse und es
-entstehen paranormale Anomalien, die separat beseitigt werden müssen.
+Ihr Eingreifen kann den Paradoxon-Index erhöhen. Bei Stufe 5 löst das HQ laut
+[Zeitriss‑Core – Paradoxon & Pararifts](../core/zeitriss-core.md#paradoxon--pararifts)
+automatisch `ClusterCreate()` aus – ein rein administrativer Vorgang. Auf der
+[Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
+1–2 Rift-Seeds, die erst nach Missionsende erreichbar sind. Sie erhöhen sofort
+den Schwierigkeitsgrad und den Loot-Multiplikator entsprechend der
+Rift-Anzahl. Die Spieler können ein Rift offen lassen und die Core-Operation
+fortsetzen, um später mehr Beute zu machen – müssen dann aber mit dem höheren
+SG leben. In der Szene selbst äußert sich lediglich kurzzeitige Instabilität.
 So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.6 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
 
@@ -630,8 +637,11 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
   2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
   Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
   Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
-  Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index – und bei Stufe 5
-  könnten sich Risse öffnen, die eine zusätzliche Bedrohung darstellen.
+Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index.
+Erreicht dieser Stufe 5, legt das HQ gemäß
+[Zeitriss‑Core](../core/zeitriss-core.md#paradoxon--pararifts) automatisch neue
+Rift-Seeds auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
+an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte.
   neonbeleuchteten Schatten von _Neo Berlin 2085_ statt – einer futuristischen Metropole voller
   Cyberpunk-Flair. In engen Gassen und auf verregneten Dachterrassen kommt es zu Verfolgungsjagden und
   Schusswechseln mit Gangmitgliedern. Schließlich stellt sich den Agenten der skrupellose Bandenchef
@@ -672,8 +682,10 @@ alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
   Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
   der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
   Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index erhöht.
-  Erreicht dieser 5, öffnet sich ein Rift und ruft seltsame Phänomene hervor – ein Nebenschauplatz,
-  den die Agenten zusätzlich bewältigen müssen.
+  Sollte der Wert 5 erreichen, aktiviert das HQ automatisch `ClusterCreate()`.
+  Die resultierenden Seeds landen erst nach dem Einsatz auf der
+  [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
+  während der Mission kommt es lediglich zu kurzen Störimpulsen.
   Gruppe muss Nachforschungen anstellen, einen Hinweis auf den geplanten Tatort finden (z.B. der
   Erfinder hält eine Rede auf einem Marktplatz) und schließlich **im entscheidenden Moment
   eingreifen**. Vielleicht kommt es zu einem dramatischen Kampf auf dem Glockenturm von Westminster,
@@ -718,7 +730,10 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
   (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
   stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
-  Die Risse selbst bilden sich jedoch erst, wenn der Paradoxon-Index durch Eingriffe zu stark ansteigt.
+  Erst wenn der Paradoxon-Index Stufe 5 erreicht, meldet das HQ ein `ClusterCreate()`.
+  Die daraus resultierenden Seeds erscheinen nach der Mission auf der
+  [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
+  vor Ort zeigt sich nur ein Anstieg instabiler Effekte.
   sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
   entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
   fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
@@ -773,8 +788,10 @@ vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und re
   Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
   doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
   Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte
-  und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte er 5 erreichen,
-  drohen Risse und paranormale Erscheinungen – womöglich der Grund, warum Agent X spurlos verschwand.
+  und warnte, dass der Paradoxon-Index bereits gefährlich anstieg. Sollte der Wert
+  jedoch Stufe 5 erreichen, registriert das HQ einen `ClusterCreate()` und legt
+  neue Seeds auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
+  ab – möglicherweise der Grund, warum Agent X spurlos verschwand.
   Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
   sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
   zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
