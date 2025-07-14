@@ -235,10 +235,10 @@ Zeitgeflecht beeinflussen.
 
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
-ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Wählen Spieler
-die Contra-Variante, dürfen sie die Paradoxmechanik auf Wunsch deaktivieren,
-nutzen sie aber bei Bedarf identisch zu Pro-Gruppen – häufig geschieht dieser
-Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
+ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Unabhängig
+von dieser Wahl kann die Gruppe die Paradoxmechanik per `modus paradox off`
+deaktivieren und bei Bedarf identisch wieder einschalten – häufig geschieht
+dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
 
 Nach der Wahl eurer Hauptfraktion stellt euch das ITI eine feste Kontaktperson vor:
 Pater Lorian (Chrono-Symmetriker), Archivarin Mira (Ordo Mnemonika),

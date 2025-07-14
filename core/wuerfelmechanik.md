@@ -43,9 +43,9 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   automatisch Alarm schlägt. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
   Situationen nur wirklich wichtige Daten eingeblendet werden und die Agenten nicht von
   Informationsflut überwältigt werden.
-  In Kampagnen, die bewusst **contra** zur offiziellen Zeitlinie gespielt werden,
-  darf die Paradox-Warnung auf Wunsch deaktiviert werden. Wer sie aktiviert,
-  nutzt das System identisch zu Pro-Gruppen.
+  In jeder Kampagne kann die Paradox-Warnung über `modus paradox off`
+  deaktiviert werden. Wer sie aktiviert,
+  nutzt das System identisch weiter.
 - **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
   Ab **11** ersetzt ein W10 den W6 (Exploding 10). Erst bei **14** kommt ein Heldenwürfel
   für einen einmaligen Reroll hinzu. So bleibt jeder Punkt spürbar, ohne die Balance zu kippen.

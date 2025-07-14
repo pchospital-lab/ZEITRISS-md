@@ -926,11 +926,10 @@ diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Be
 höheren Mitgliedern.
 
 Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie.
-Wer den radikalen Neubau der Geschichte bevorzugt, kann die Paradox-Warnungen deaktivieren,
-nutzt das System bei Bedarf jedoch identisch wie Pro-Gruppen. Oft geschieht dieser Ansatz
-im Bund mit der **Zerbrechlichen Ewigkeit**.
-Gruppen, die den Erhalt der Hauptzeitlinie anstreben, belassen die Paradoxmechanik
-standardmäßig aktiv.
+Unabhängig davon lässt sich die Paradoxmechanik über `modus paradox off` komplett abschalten
+und mit `modus paradox on` wieder aktivieren. Wer den radikalen Neubau der Geschichte
+bevorzugt, nutzt diesen Schalter häufig in Allianz mit der **Zerbrechlichen Ewigkeit**.
+Standardmäßig bleibt die Mechanik aktiv.
 
 Eine weitere Spielbalance betrifft die **Psionik**: Grundsätzlich steht sie allen
 Chrononauten offen. Wer den Contra-Weg wählt, kann Psionik auf eigene Gefahr
