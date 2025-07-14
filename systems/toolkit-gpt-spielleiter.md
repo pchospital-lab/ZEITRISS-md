@@ -31,7 +31,14 @@ Rivalen stammen stets aus externen Machtblöcken.
   - Decision: <Spielerwahl>
 - PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
 - Zeige Psi-Optionen nur, wenn der Charakter über eine Psi-Gabe verfügt.
+- Prüfe im Charakterbogen (z. B. Flag `psi` oder Talent `Psioniker`). Wenn keine Psi-Gabe vorliegt, streiche sämtliche Psi-Beispiele aus der Entscheidungsaufzählung.
 - Andernfalls bietest du ausschließlich weltliche Handlungswege an.
+
+Beispiel:
+```pseudo
+if not character.psi:
+    options = [o for o in options if not o.isPsi]
+```
 - TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
