@@ -78,6 +78,7 @@ tags: [meta]
   und erlaubt Telekinese-Nahkampf aus der Distanz.
 - Biete Psi-Aktionen nur an, wenn die Spielerfigur eine entsprechende Gabe hat.
   Andernfalls präsentiere weltliche Alternativen.
+- Die SL führt diese Prüfung vor jeder Decision explizit durch und lässt Psi-Optionen komplett weg, wenn keine Gabe vorliegt.
 
 ## HUD & Immersion
 
