@@ -370,8 +370,10 @@ einen Toggle `/stress open|hidden`.
 [[HUD]] [Seeds: 3]  🔄 Paradox 4/5 [[/HUD]]
   So behält das Team die langfristige Gefahr im Blick.
 Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Rissen warnen.
-  Contra-orientierte Gruppen dürfen laut [Charaktererschaffung](charaktererschaffung.md)
-  und [Zeitriss-Core](../core/zeitriss-core.md) die Paradoxmechanik vollständig deaktivieren.
+  Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
+  `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
+  **pro** oder **contra** spielt. Mit `modus paradox on` schaltet ihr sie
+  wieder ein.
 
   Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
@@ -385,8 +387,8 @@ Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Ri
   ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
 
-_Verwarnungspuffer:_ Der Index steigt nur, wenn bereits eine **Paradox-Marke** in der Szene
-  existiert – ein erster Verstoß löst also lediglich eine Warnung aus. Erreicht der Index
+_Verwarnungspuffer:_ Der Index steigt nur noch, wenn bereits **zwei Paradox-Marken** in der Szene
+  liegen – die erste setzt lediglich eine Warnung. Erreicht der Index
   Stufe 5, löst `ClusterCreate()` automatisch 1–2 Seeds aus und setzt den Wert zurück.
 
 ### Paradox-Subsystem

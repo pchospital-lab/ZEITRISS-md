@@ -168,8 +168,9 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
   Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht oder als
   Story-MacGuffin behalten werden. Beispiele liefert die Tabelle „Kuriose
   Artefakte & Relikte“ im Generator-Modul.
-- **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
-  zählen erst nach zwei Einsätzen als **+1**.
+ - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
+   zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
+   erhöht sich der Index grundsätzlich nur bei jedem zweiten Verstoß um **+1**.
 
 #### Paradox-Subsystem
 
