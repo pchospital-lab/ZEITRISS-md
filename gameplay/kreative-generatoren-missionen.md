@@ -1519,7 +1519,7 @@ thema: Beispiel-Rift
 
 # ─────────────────────────────────────────────────────────────
 # CORE‑ARC 5 – MARS 2287 “Red Horizon”
-# Pool: future_pool – 10 forward-only Missionen (5–7 Szenen pro Job)
+# Pool: future_pool – 10 forward-only Missionen (12 Szenen pro Job)
 # ─────────────────────────────────────────────────────────────
 - arc_id: "Mars2287"
   arc_step: 1

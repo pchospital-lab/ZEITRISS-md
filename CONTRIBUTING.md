@@ -43,8 +43,8 @@ _kursiv_ und **fett**
 
 ## PR-Checkliste
 
-- [ ] Core-Op folgt dem 5–7-Szenen-Rhythmus.
-- [ ] Rift-Op enthält 15 Szenen in drei Akten.
+- [ ] Core-Op nutzt 12 Szenen.
+- [ ] Rift-Op enthält 14 Szenen in drei Akten.
 - [ ] Jede Szene benennt **Conflict, Goal, Spur**.
 - [ ] Preserve- und Trigger-Ziele vorhanden.
 - [ ] HQ-Phase und CU-Abrechnung eingebaut.

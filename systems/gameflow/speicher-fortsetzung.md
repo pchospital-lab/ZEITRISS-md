@@ -6,44 +6,31 @@ tags: [systems]
 
 # ZEITRISS 4.1.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
-## Schlüsselfelder im JSON-Save {#json-schluesselfelder}
+## Minimaler JSON-Save {#json-schluesselfelder}
 
-| Key           | Bedeutung                                      |
-| ------------- | ---------------------------------------------- |
-| Name          | Charakter- oder Teamname                       |
-| Epoche        | Ursprung oder aktueller Einsatzzeitraum        |
-| Level         | Erfahrungsstufe                                |
-| zr_version  | Spielsystem-Version                       |
-| version_hash  | Regelversion des Spielstands                   |
-| arc_dashboard | Offene Seeds und Missionsfortschritte          |
-| field_notes   | Persönliche Memos der Agenten (optional)       |
-
-```json
-{"Name":"Alex","Epoche":"2025","Level":2,"zr_version":"4.1.5","version_hash":"4.1","arc_dashboard":{}}
-```
-
-### Kontext-Roll-Up {#roll-up}
-
-- `keep:` Aktiver Auftrag, Paradoxon-Index, offene Hooks, Health
-- `archive:` Erledigte Szenen als 1-Satz-Résumé
-- `drop:` Würfel-History, verbrauchte Items
+Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen. Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
 
 ```json
 {
-  "timestamp":"2025-07-05T18:40Z",
-  "agents":[{"id":"Nova","stress":3,"hp":12}],
-  "mission":{"era":"Berlin 1961","phase":"Aufklärung"},
-  "paradox":2,
-  "log":"#abc123"
+  "agent": {
+    "name": "Ghost",
+    "cu": 450,
+    "licenses": ["T1", "T2"],
+    "gear": ["Chameleon-Suit", "Mini-Hack-Tool"]
+  },
+  "campaign": {"episode": 4, "scene": 7},
+  "paradox_on": false
 }
 ```
+
+Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden, sind für den reinen Spielfortschritt jedoch nicht nötig.
 
 - Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
 - Zeitlinien-Tracker und Paradoxon-Index
-- Optionales Feld `field_notes` für kurze Einsatzmemos
+*Optional:* `field_notes` für kurze Einsatzmemos
 - Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 - Umgang mit fehlerhaften oder abweichenden Speicherständen
 - Spielleitung bleibt in-world (Immersion der Spielleitung)
@@ -165,7 +152,7 @@ _{
   "Erfahrung": 15,
   "zr_version": "4.1.5",
   "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},  # optional
   "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
   "Talente": ["Pistolenschütze", "Kryptographie"],
   "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
@@ -238,7 +225,7 @@ _{_
   "Gruppe": "Team Chronos",
   "zr_version": "4.1.5",
   "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},  # optional
   "Charaktere": [
     { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
     { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
@@ -540,7 +527,7 @@ seed_to_hook("S1")
 
 ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Resonanz"]`.
 
-## Auto-Backup bei Paradoxon-Anstieg
+## Optional: Auto-Backup bei Paradoxon-Anstieg
 
 Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
 aktuellen Spielstands im Ordner `backups`. Diese Datei trägt einen
@@ -796,7 +783,7 @@ nächste Abenteuer bereitsteht.
 | Version | Hinweis |
 | ------- | ------- |
 | **4.1.3** | Ausgangsformat, keine Zusatzfelder |
-| **4.1.5** | `arc_dashboard` und neuer `version_hash` in jedem Save |
+| **4.1.5** | optionales `arc_dashboard` und neuer `version_hash` |
 
 Beim Laden eines alten 4.1.3-Spielstands fügt die SL einfach ein
 `version_hash` von "4.1" hinzu. Die optionalen Felder von 4.1.5 werden
