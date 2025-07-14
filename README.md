@@ -385,10 +385,11 @@ objective: Beispiel
 Rift Seeds nutzen `phase: Rift`.
 
 
-Contra-orientierte Gruppen können laut
+Die Paradoxmechanik ist standardmäßig aktiv. Über `modus paradox off` lässt
+sich das Feature jedoch jederzeit deaktivieren und mit `modus paradox on`
+wieder einschalten. Siehe auch
 [Charaktererschaffung](characters/charaktererschaffung.md) und
-[Zeitriss-Core](core/zeitriss-core.md) die Paradoxmechanik vollständig
-ausschalten. Pro-Gruppen behalten sie aktiv.
+[Zeitriss-Core](core/zeitriss-core.md) für weitere Hinweise.
 
 ## Generator-Utilities
 
