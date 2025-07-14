@@ -383,6 +383,8 @@ version: 4.1.6
 preserve_only: true
 objective: |
   Entferne Pulverrückstände, damit die Kette erst 1410/07/15 detoniert, wie überliefert.
+antagonist: "Der Alte Orden"
+antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 ```
 
 ###### Szenenübersicht
