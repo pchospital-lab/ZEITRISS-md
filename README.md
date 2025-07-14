@@ -138,8 +138,8 @@ Die ersten Schritte in unter zwei Minuten:
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
 Rivalen stammen stets aus externen Machtblöcken.
 
-Core-Ops dauern durchschnittlich **45–60 Minuten** und umfassen **5–7 Szenen**.
-Rift-Ops strecken sich über etwa **90–120 Minuten** mit **15 Szenen**.
+Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
+Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 ### Session-0 Agenda
 
@@ -420,7 +420,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 
 ### Zeiteinheiten
 
-- **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 5–7, Rift-Ops 15 Szenen
+ - **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 12, Rift-Ops 14 Szenen
   ([Missionsdauer](gameplay/kampagnenstruktur.md#missionsdauer),
   [SceneCounter Macro](systems/toolkit-gpt-spielleiter.md#scenecounter-macro)).
 - **Kampfrunde** – kurzer Aktionszyklus im Kampf; Grundlage für Initiative,

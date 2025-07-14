@@ -45,7 +45,7 @@ if not character.psi:
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
-- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **7** Szenen, Rift-Ops bei **15**.
+- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **12** Szenen, Rift-Ops bei **14**.
   Jede Vorlagen-Szene endet automatisch mit diesem Macro.
 ## Fokus-Missionsmodus
 
@@ -203,15 +203,15 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission nutzt **5–7** Szenen (Core‑Op)
-* [ ] Bei Rift‑Ops werden **15** Szenen empfohlen;
+* [ ] Eine komplette Mission nutzt **12** Szenen (Core‑Op)
+* [ ] Bei Rift‑Ops werden **14** Szenen empfohlen;
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] SceneCounter aktualisiert
 
 ### SceneCounter Macro
 Nutze `SceneCounter++` nach jeder ausgegebenen Szene.
 Das HUD blendet den Stand als `[SC aktueller/max]` ein.
-Core-Ops spielen mit **5–7** Szenen, Rift-Ops mit **15**.
+Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
