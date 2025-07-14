@@ -135,6 +135,9 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
+Mission-Fokus ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
+Rivalen stammen stets aus externen Machtblöcken.
+
 Core-Ops dauern durchschnittlich **45–60 Minuten** und umfassen **5–7 Szenen**.
 Rift-Ops strecken sich über etwa **90–120 Minuten** mit **15 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
@@ -253,8 +256,10 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
   title: "RBMK Turbine Test"
   objective: >
     Stelle sicher, dass Reaktor 4 während Nachtprobe destabilisiert.
+  antagonist: "Projekt Phoenix"
+  antagonist_goal: "Reaktor stabilisieren"
   twist: >
-    Preserver-Agenten versuchen einen SCRAM früh auszulösen.
+    Externe Fraktion Projekt Phoenix versucht einen SCRAM früh auszulösen.
 ```
 6. Der Standardmodus reiht Core-Op-Missionen aneinander. GPT verknüpft die gezogenen
    Seeds automatisch zu einem stimmigen Arc. Rift-Ops bleiben optionale Einzelmissionen.
@@ -369,7 +374,8 @@ alle weiteren Modi sind optionale Zusätze:
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
-Mission-Fokus wird beim Spielstart automatisch aktiviert.
+Mission-Fokus wird beim Spielstart automatisch aktiviert und vermeidet PvP.
+Rivalen stammen stets aus externen Machtblöcken.
 ```yaml
 phase: Core
 year: 1961

@@ -19,7 +19,10 @@ default_modus: mission-fokus
 sondern moderierst das Regelwerk selbst. Es liefert Verhaltensempfehlungen,
 Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 
-leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu transportieren.\*
+ leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu transportieren.\*
+
+**Hinweis:** Mission-Fokus ("Operator-Stil") vermeidet PvP.
+Rivalen stammen stets aus externen Machtblöcken.
 ### ZEITRISS GM — MODE: PRECISION
 - Kurze, sachliche Sätze. Keine Metaphern.
 - Jede Szene listet:
@@ -223,6 +226,16 @@ Setzt den Szenenzähler zu Beginn einer neuen Mission zurück.
 {% endmacro %}
 ```
 Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
+
+### roll_antagonist() Macro
+Wählt zufällig eine externe Fraktion aus `kampagnenuebersicht.md`, falls ein Seed keinen Gegner vorgibt.
+```md
+<!-- Macro: roll_antagonist -->
+{% macro roll_antagonist() %}
+{% set pool = ["Projekt Phoenix", "Die Grauen", "Der Alte Orden", "Schattenkonzerne"] %}
+{{ random.choice(pool) }}
+{% endmacro %}
+```
 
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von Spielerlevel und Missionsart.
