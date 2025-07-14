@@ -218,8 +218,8 @@ if paradox_level >= threshold:
 
 | Format | Dauer IRL | Soll-Szenen | Beschreibung |
 | --------------------- | ------------ | ------------------ | ------------------------------- |
-| **Mission (Core-Op)** | 45–60 min    | **5–7 Szenen**     | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
-| **Rift-Op (X-File)**  | 90–120 min   | **15 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
+| **Mission (Core-Op)** | 60–75 min    | **12 Szenen**      | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
+| **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
 
@@ -236,7 +236,7 @@ Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
 
 ### Epoch-Lock & Rift-Loop
 
-Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach 5–7 zusammen-
+Zeitriss-Episoden bleiben stets in derselben Epoche. Erst nach rund 10 zusammen-
 hängenden Missionen springt die Handlung weiter. Je höher der Paradoxon-Index,
 desto mehr Rifts entstehen und beeinflussen die folgende Episode.
 
@@ -276,7 +276,7 @@ treibt den Zähler schneller hoch.
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
-Ein **Arc** umfasst in der Regel **5–7 Core-Missionen** desselben historischen Hotspots.
+Ein **Arc** umfasst in der Regel **10 Core-Missionen** desselben historischen Hotspots.
 Die Handlung verläuft in der Regel vorwärts. Ein einzelner Rücksprung pro Arc
 ist erlaubt, darf jedoch keine Selbstbegegnung ermöglichen.
 
@@ -313,7 +313,7 @@ Shard-Drop: 1+Tier
 
 ##### Rift-Op Film-Template {#rift-op-film-template}
 Eine ausgedehnte Rift-Operation spielt sich wie ein Action‑Thriller und nutzt
-ca. **15 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
+ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 
 | Akt | Kernbeats |
 | --- | --------- |
