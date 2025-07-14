@@ -254,11 +254,11 @@ Wählt zufällig eine externe Fraktion aus `kampagnenuebersicht.md`, falls ein S
 ```
 
 ### itemforge() Macro
-Erzeugt automatisches Loot anhand von Spielerlevel und Missionsart.
+Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
 Parameter: `core` oder `rift` und optional ein Budget in CU.
 Gib zusätzlich ein `year` an, wählt ItemForge historische Skins über `altSkin`.
 Die Würfe laufen verdeckt; `!reveal` zeigt sie auf Wunsch.
-Heavy-Gear bleibt bis Level 7 gesperrt, außer bei `force=true`.
+Heavy-Gear setzt die passende Lizenz voraus; `force=true` ignoriert diese Beschränkung.
 Findet das Macro nichts Passendes, meldet Codex `NONE`.
 Beispielaufrufe:
 ```txt
