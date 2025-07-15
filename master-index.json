@@ -152,34 +152,11 @@
       "href": "#quick-mission-feuerkette-1410"
     },
     {
-      "slug": "ep1-oko-false-alarm",
-      "path": "episodes/ep1-oko-false-alarm.md",
-      "title": "Episode 1 – OKO FALSE-ALARM",
-      "category": "Episodes"
-    },
-    {
-      "slug": "ep4-falkenstein-nachtjagd",
-      "path": "episodes/ep4-falkenstein-nachtjagd.md",
-      "title": "Episode 4 – FALKENSTEIN NACHTJAGD",
-      "category": "Episodes"
-    },
-    {
-      "slug": "ep9-titan-drift",
-      "path": "episodes/ep9-titan-drift.md",
-      "title": "Episode 9 – TITAN DRIFT",
-      "category": "Episodes"
-    },
-    {
-      "slug": "rift-mothman-bridge",
-      "path": "rifts/mothman-bridge.md",
-      "title": "Rift – Mothman Bridge",
-      "category": "Rifts"
-    },
-    {
-      "slug": "rift-titan-raptor",
-      "path": "rifts/titan-raptor.md",
-      "title": "Rift – Titan Raptor",
-      "category": "Rifts"
+      "slug": "beispiel-episoden",
+      "path": "gameplay/kampagnenstruktur.md",
+      "title": "Beispiel-Episoden & Rift-Op",
+      "category": "Gameplay",
+      "href": "#beispiel-episoden"
     }
   ],
   "pools": [
