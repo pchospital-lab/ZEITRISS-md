@@ -207,7 +207,8 @@ Kampfpotenzials und verändert **nicht** den SG einer Mission.
 Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
 - `ClusterCreate()`
 - `ClusterDashboard()`
-- `launch_rift(id)`
+- `launch_rift(id)` – startet nach dem aktuellen Core-Arc eine eigenständige
+  Rift-Mission
 - `scan_artifact()`
 - `seed_to_hook(id)`
 - `resolve_rifts(ids)`

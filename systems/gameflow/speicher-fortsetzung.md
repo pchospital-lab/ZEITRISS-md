@@ -503,8 +503,9 @@ füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 ]
 ```
 
-Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus eine
-eigenständige **Rift-Mission**. Deren Probe-Schwelle ergibt sich wie bei einer
+Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus – erst nach
+Abschluss des aktuellen Core-Arcs – eine eigenständige **Rift-Mission**. Deren
+Probe-Schwelle ergibt sich wie bei einer
 regulären Mission aus `base_dc + open_seeds`. Verlassen die Agenten den Rift,
 wird der Datensatz stets entfernt – gelingt der Einsatz, ist der Seed
 geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
