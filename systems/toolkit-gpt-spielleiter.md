@@ -188,12 +188,12 @@ Decision: <Reaktion?>
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
 > Seed auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
-> und kann erst in der HQ-Phase angewählt werden.
+> und darf erst nach Abschluss des aktuellen Core-Arcs gespielt werden.
 > Offene Rifts erhöhen sofort SG und Loot-Multiplikator. Ein Team kann ein
 > Seed unbesiegt lassen und die Core-Operation fortsetzen, um später mehr Beute
 > zu holen – muss jedoch mit dem höheren SG weiterarbeiten.
-> **Decision:** Zurück im HQ direkt den Rift spielen oder Seed offen lassen,
-> Ressourcen auffüllen und die Core-Op fortsetzen?
+> **Decision:** Seed notieren oder ITI-Team losschicken; eigene Rift-Op erst
+> nach dem Arc.
 
 ---
 
