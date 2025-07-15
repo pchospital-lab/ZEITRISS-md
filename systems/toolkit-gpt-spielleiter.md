@@ -45,8 +45,8 @@ if not character.psi:
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
-- `SceneCounter++` nach jeder Szene. Core-Ops stoppen bei **12** Szenen, Rift-Ops bei **14**.
-  Jede Vorlagen-Szene endet automatisch mit diesem Macro.
+- `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
+  Jede Vorlagen-Szene endet automatisch damit.
 ## Fokus-Missionsmodus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -206,40 +206,45 @@ Decision: <Reaktion?>
 * [ ] Eine komplette Mission nutzt **12** Szenen (Core‑Op)
 * [ ] Bei Rift‑Ops werden **14** Szenen empfohlen;
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
-* [ ] SceneCounter aktualisiert
+* [ ] campaign.scene via EndScene() aktualisiert
 
 ### SceneCounter Macro
-Nutze `SceneCounter++` nach jeder ausgegebenen Szene.
-Das HUD blendet den Stand als `[SC aktueller/max]` ein.
+Früher nutzte man `SceneCounter++`. Jetzt erhöht `EndScene()` den Wert in `campaign.scene`.
+Das HUD zeigt `EP xx · SC yy/12`.
 Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
-Setzt den Szenenzähler zu Beginn einer neuen Mission zurück.
+Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 
 ```md
 <!-- Macro: StartMission -->
 {% macro StartMission() %}
-{% set SceneCounter = 1 %}
+{% set campaign.scene = 1 %}
 {% endmacro %}
 ```
 
 ### StartScene / EndScene Macros
 ```md
 <!-- Macro: StartScene -->
-{% macro StartScene(location, conflict, goal, spur, sg) %}
-### Scene {{ SceneCounter }}
-**Location:** {{ location }}
-**Conflict:** {{ conflict }}
-**Goal:** {{ goal }}
-**Spur:** {{ spur }}
-**Suggested SG:** {{ sg }}
-{% endmacro %}
+{% macro StartScene(loc, target, pressure) -%}
+██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/12 ██
+**Kamera:** {{ loc }}
+**Target:** {{ target }}
+**Pressure:** {{ pressure }}
+{%- endmacro %}
 
 <!-- Macro: EndScene -->
-{% macro EndScene() %}
-{% set SceneCounter = SceneCounter + 1 %}
-{% endmacro %}
+{% macro EndScene() -%}
+{% set campaign.scene = campaign.scene + 1 -%}
+██ Scene {{ campaign.scene-1 }} complete – progressing to Scene {{ campaign.scene }} ██
+{%- endmacro %}
+
+<!-- Macro: SceneTarget -->
+{% macro SceneTarget(target, pressure) -%}
+**Target:** {{ target }}
+**Pressure:** {{ pressure }}
+{%- endmacro %}
 ```
 Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
 
@@ -267,7 +272,7 @@ Beispielaufrufe:
 ```
 
 ### ParadoxPing() Macro
-Zeigt eine Warnung im HUD, sobald `SceneCounter` über 70 % liegt oder der
+Zeigt eine Warnung im HUD, sobald `campaign.scene` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
 
 ### redirect_same_slot() Macro
