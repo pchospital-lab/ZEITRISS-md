@@ -274,6 +274,26 @@ Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
 Ablauf der Geschichte wahrt, generiert weniger Paradox-Punkte; plumpes Vorgehen
 treibt den Zähler schneller hoch.
 
+##### Rifts sammeln {#rifts-sammeln}
+
+Seeds können bis zum Ende eines Core-Arcs oder sogar bis nach der Kampagne im
+Pool liegen bleiben. Nach **jeder Mission** folgt jedoch die Pflicht-HQ-Phase,
+in der das Team entscheiden darf: selbst einen Rift angehen, ihn für später
+aufheben oder das ITI-Einsatzkommando losschicken. Letzteres geschieht über
+`resolve_rifts(ids)` und erzeugt sofort einen kurzen Abschlussbericht.
+
+Der Bericht würfelt ein 50/50-Ergebnis aus. Fällt es negativ aus, verliert die
+Gruppe CU in Höhe ihres Spielerlevels (niemals unter 0). Bei einem positiven
+Ergebnis erhalten sie ein Item im Wert von **CU × Spielerlevel**. Offene Seeds
+werden nach jedem Entfernen neu verrechnet, sodass der Schwierigkeitsgrad stets
+aktuell bleibt. Bis zu zwei Seeds dürfen offen bleiben, um sie später selbst als
+Rift-Op zu spielen oder für künftige Plots zu parken.
+
+> **Beispiel** – *Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
+> einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
+> haben wir den Mothman dingfest gemacht; der wird der Zeitlinie keinen Ärger
+> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet dich 3 CU."*
+
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
 Ein **Arc** umfasst in der Regel **10 Core-Missionen** desselben historischen Hotspots.
