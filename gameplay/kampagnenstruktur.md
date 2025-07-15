@@ -141,8 +141,9 @@ Steigt der
 Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
-`launch_rift(id)` zu einer eigenständigen Episode machen und danach zum
-Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
+`launch_rift(id)` erst nach Abschluss des aktuellen Core-Arcs zu einer
+eigenständigen Episode machen und danach zum Core-Generator
+zurückkehren. Diese **Rift-Ops** gelten als filmische
 Einzelmissionen und zählen nicht zur Missionsanzahl eines Arcs.
 
 Jeder Seed steht für ein offenes Pararift.
@@ -160,8 +161,8 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 - **Paradoxon-Index 0–5:** Jede Mission sammelt Paradox-Punkte. Erreicht der Index Stufe 5,
   löst `ClusterCreate()` automatisch 1–2 neue Seeds aus und setzt den Wert auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
-  für alle Einsätze. Ein Seed lässt sich jederzeit via `launch_rift(id)` als
-  eigenständige Rift-Op starten.
+  für alle Einsätze. Ein Seed lässt sich erst nach Abschluss des aktuellen
+  Core-Arcs via `launch_rift(id)` als eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Zu Beginn längerer Missionen kann optional 1W6 gewürfelt
   werden. In riskanten Gebieten nutzt ihr **1W12 ≤ 1** (≈ 8 %) als Check. Nur bei
   Erfolg taucht ein Artefakt auf. Diese seltenen Funde dienen als besondere
