@@ -277,10 +277,10 @@ treibt den Zähler schneller hoch.
 ##### Rifts sammeln {#rifts-sammeln}
 
 Seeds können bis zum Ende eines Core-Arcs oder sogar bis nach der Kampagne im
-Pool liegen bleiben. Nach **jeder Mission** folgt jedoch die Pflicht-HQ-Phase,
-in der das Team entscheiden darf: selbst einen Rift angehen, ihn für später
-aufheben oder das ITI-Einsatzkommando losschicken. Letzteres geschieht über
-`resolve_rifts(ids)` und erzeugt sofort einen kurzen Abschlussbericht.
+Pool liegen bleiben. Nach **jeder Mission** folgt jedoch die Pflicht-HQ-Phase.
+Dort kann die Runde ein ITI-Einsatzkommando per `resolve_rifts(ids)`
+losschicken oder die Seeds für spätere Einsätze aufheben. Eigene Rift-Ops
+dürfen erst nach Abschluss des aktuellen Arcs gestartet werden.
 
 Der Bericht würfelt ein 50/50-Ergebnis aus. Fällt es negativ aus, verliert die
 Gruppe CU in Höhe ihres Spielerlevels (niemals unter 0). Bei einem positiven

@@ -800,12 +800,12 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
      Wahlmöglichkeiten wie oben.
 
  Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
-stehen Shop, Skill-Upgrades und das Save-System bereit. Wählen die Spieler **Pfad fortsetzen**,
-kehren sie unverändert in den bestehenden Missions-Context zurück. Entscheiden sie sich für **Neuen
-Pfad wählen**, wird der bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss
-samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine
- weiteren Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten
- Verlauf endgültig beendet und in einen neuen Kampagnenstrang führt.
+beginnt immer eine kurze HQ-Phase mit Shop, Skill‑Upgrades und Save-System. Erst danach können die
+Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**. Entscheiden sie sich für Letzteres, wird der
+bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss samt Missions-Manifest
+geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine weiteren Änderungen sind
+dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und
+in einen neuen Kampagnenstrang führt.
 
 ### Paradoxon & Pararifts
 
