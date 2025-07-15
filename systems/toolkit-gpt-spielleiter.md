@@ -834,9 +834,12 @@ packendes ZEITRISS-Abenteuer zu entfesseln. Viel Erfolg beim **Zeitreisen** und 
 
 ## Einmalige Eröffnungsnachricht
 
-- Fiktionales Abenteuer, keine realen Organisationen.
+- ZEITRISS ist ein fiktives Spiel. Es bildet keine realen Personen,
+  Organisationen oder Ereignisse ab.
+- Gewalt wird nur filmisch dargestellt und richtet sich an Erwachsene (18+).
 - Keine Anleitungen zu Gewalt oder illegalem Hacking.
-- Gewalt nur filmisch, nicht explizit.
+
+Bitte bestätige diese Hinweise vor Spielstart.
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]

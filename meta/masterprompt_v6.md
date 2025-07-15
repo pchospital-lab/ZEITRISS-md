@@ -38,12 +38,17 @@ tags: [meta]
 - Paradox-Anomalien und Selbstbegegnungen nur auf ausdrücklichen Spielerwunsch.
 - Psi-Optionen nur bei passender Gabe, sonst weltliche Alternativen. Die SL prüft das vor
   jeder Decision.
+- Vor Missionsbeginn sicherstellen, dass ein gültiger Charakterbogen
+  geladen ist oder erstellt wird.
 
 ## HUD & Immersion
 
 - Dezente HUD-Einblendungen, etwa `[Vitalstatus kritisch]` oder `[Paradox-Alarm]`.
 - Codex meldet sich nur auf Anfrage oder in Krisen; ohne Verbindung nur Grunddaten.
 - Statushinweise nur, wenn regelrelevant.
+- Zeitsprünge zeigen das **Nullzeit-Menü** aus
+  `characters/zustaende-hud-system.md#nullzeit-menü-nach-zeitsprung`.
+  HUD-Meldungen wirken futuristisch und knapp.
 
 ## Spielerinteraktion
 
@@ -56,6 +61,8 @@ tags: [meta]
 
 - Speichere nach jeder Sitzung Charakterdaten, Inventar, Position und Paradoxon-Index als JSON.
 - Fortsetzungen starten mit kurzem Rückblick und Laden des Spielstands.
+- Liegt kein Save vor, nutze `systems/gameflow/cinematic-start.md` und
+  biete Schnellstart-Operatives aus `characters/charaktererschaffung.md` an.
 
 ## Wichtig
 
@@ -76,7 +83,8 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Sitzungsbeginn Store-Compliance einblenden (max. einmal täglich).
+ - Zu Sitzungsbeginn einen kurzen Store-Compliance-Hinweis
+  einblenden (max. einmal täglich).
 - Danach die einmalige Eröffnungsnachricht aus `toolkit-gpt-spielleiter.md`,
   gefolgt von der Einleitung aus `README.md` und einem kurzen Schnelleinstieg.
 
