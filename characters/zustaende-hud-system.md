@@ -829,10 +829,10 @@ Die Filter arbeiten additiv und funktionieren serverseitig. Ohne Tags zeigt
 ### Nullzeit-Menü nach Zeitsprung
 
 Nach jedem Zeitsprung erscheint automatisch dieses Menü.
+Zuerst wird eine Pflicht-HQ-Phase abgewickelt – sie lässt sich mit wenigen Klicks erledigen.
 
 1. **Pfad fortsetzen** – Mission unverändert fortsetzen.
 2. **Neuen Pfad wählen** – neues Zielzeit-Koordinatenset öffnen.
-3. **HQ-Phase** – Rest abhandeln, Upgrades kaufen oder speichern.
 
 Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als abgeschlossen.
 

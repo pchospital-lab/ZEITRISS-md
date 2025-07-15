@@ -356,11 +356,11 @@ Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das t
 Im Menü lässt sich über `modus` der Erzählstil wechseln,
 z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
-Dort kann die Gruppe den aktuellen Pfad fortsetzen,
-einen neuen Missionspfad wählen oder eine HQ-Phase starten.
-In dieser Phase lassen sich Upgrades kaufen und der Restpunkt abhandeln.
-Erst nach der Auswahl führt das HUD die Kampagne fort – die Mission gilt
-nach dem Sprung als abgeschlossen.
+Zunächst läuft immer eine kurze HQ-Phase ab, in der Upgrades gekauft
+und der Restpunkt abgehandelt wird. Erst danach kann die Gruppe den
+aktuellen Pfad fortsetzen oder einen neuen Missionspfad wählen.
+Nach der Auswahl führt das HUD die Kampagne fort – der Sprung gilt damit
+als abgeschlossen.
 
 ## Spielmodi {#spielmodi}
 
