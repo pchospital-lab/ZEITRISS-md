@@ -27,13 +27,25 @@ Ohr meldet sich die KI-Assistentin – Codex – mit ruhiger Stimme: _„Kalibri
 Systeme bereit.“_ Der kommende Einsatz führt das Team vom Mittelalter direkt in eine dystopische
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
-_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf fortgeschrittener **Charakterausstattung und Spezialisierung**.
+_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf
+fortgeschrittener **Charakterausstattung und Spezialisierung**.
 
-Dieses Kapitel erweitert das Regelwerk um detaillierte Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von historischen Klingen und modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der Zeitalter, komplett mit Spielwerten.
-Schützende Kleidung, Rüstungen und Energiefelder helfen den Agenten, in jeder Epoche zu bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und Missionsgebrauch, taktische **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**.
-Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul [Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in Chrono-Einheiten (CU) und Systembelastung (**SYS**).
-Ein optionales Kapitel behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit Regeln zu Ressourcen und Balance. Schließlich erweitern **Talente & Spezialisierungen** die Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-Upgrades und optionale Archetypen-Talente, um jede Figur noch einzigartiger zu machen.
-Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinformationen werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
+Dieses Kapitel erweitert das Regelwerk um detaillierte Optionen für Ausrüstungsgegenstände
+und Fähigkeiten der Chrononauten. Von historischen Klingen und modernen Schusswaffen bis hin
+zu futuristischen Energiewaffen – wir bieten ein Arsenal der Zeitalter, komplett mit Spielwerten.
+Schützende Kleidung, Rüstungen und Energiefelder helfen den Agenten, in jeder Epoche zu
+bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und Missionsgebrauch, taktische
+**Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**.
+Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul
+[Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in
+Chrono-Einheiten (CU) und Systembelastung (**SYS**).
+Ein optionales Kapitel behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit
+Regeln zu Ressourcen und Balance. Schließlich erweitern **Talente & Spezialisierungen** die
+Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-Upgrades und
+optionale Archetypen-Talente, um jede Figur noch einzigartiger zu machen.
+Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinformationen
+werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und
+kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
 
 Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
 
