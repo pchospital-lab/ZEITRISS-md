@@ -14,7 +14,9 @@ tags: [meta]
 - Removed redundant lines in README for clarity.
 
 ## 4.0.3
-- Added historical anomaly table and puzzle sets in `kreative-generatoren.md`.
+- Added historical anomaly table and puzzle sets in
+  `gameplay/kreative-generatoren-missionen.md` and
+  `gameplay/kreative-generatoren-begegnungen.md`.
 - Introduced contextual `historical_faction` pool in `master-index.json`.
 
 ## 4.0.4

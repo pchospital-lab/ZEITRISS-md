@@ -31,7 +31,8 @@ Rivalen stammen stets aus externen Machtblöcken.
   - Decision: <Spielerwahl>
 - PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
 - Zeige Psi-Optionen nur, wenn der Charakter über eine Psi-Gabe verfügt.
-- Prüfe im Charakterbogen (z. B. Flag `psi` oder Talent `Psioniker`). Wenn keine Psi-Gabe vorliegt, streiche sämtliche Psi-Beispiele aus der Entscheidungsaufzählung.
+- Prüfe im Charakterbogen (z. B. Flag `psi` oder Talent `Psioniker`).
+  Wenn keine Psi-Gabe vorliegt, streiche sämtliche Psi-Beispiele aus der Entscheidungsaufzählung.
 - Andernfalls bietest du ausschließlich weltliche Handlungswege an.
 
 Beispiel:

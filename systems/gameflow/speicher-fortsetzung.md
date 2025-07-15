@@ -8,7 +8,8 @@ tags: [systems]
 
 ## Minimaler JSON-Save {#json-schluesselfelder}
 
-Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen. Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
+Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen.
+Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
 
 ```json
 {
@@ -22,7 +23,8 @@ Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen. Er ko
 }
 ```
 
-Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden, sind für den reinen Spielfortschritt jedoch nicht nötig.
+Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden,
+sind für den reinen Spielfortschritt jedoch nicht nötig.
 
 - Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
 - Einführung und Zielsetzung
