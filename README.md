@@ -210,6 +210,8 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 - `launch_rift(id)`
 - `scan_artifact()`
 - `seed_to_hook(id)`
+- `resolve_rifts(ids)`
+  – lässt ein ITI-Team Seeds nach einer Mission beseitigen (50/50 Bericht)
 
 ### KPI-Cheat-Sheet pro Phase
 
