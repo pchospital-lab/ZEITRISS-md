@@ -27,23 +27,45 @@ Ohr meldet sich die KI-Assistentin – Codex – mit ruhiger Stimme: _„Kalibri
 Systeme bereit.“_ Der kommende Einsatz führt das Team vom Mittelalter direkt in eine dystopische
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
-_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf fortgeschrittener
-Für eine schnelle Übersicht der Lizenzstufen siehe [gear-tiers.md](gear-tiers.md).
-**Charakterausstattung und Spezialisierung**. Dieses Kapitel erweitert das Regelwerk um detaillierte
-Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von historischen Klingen und
-modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der
-Zeitalter, komplett mit Spielwerten. Schützende Kleidung, Rüstungen und Energiefelder helfen den
-Agenten, in jeder Epoche zu bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und
-Missionsgebrauch, taktische **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**. Eine Liste
-typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul
-[Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in Chrono-Einheiten
-(CU) und Systembelastung (**SYS**). Ein optionales Kapitel
-behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit Regeln zu Ressourcen und
-Balance. Schließlich erweitern **Talente & Spezialisierungen** die Charakterentwicklung: neue aktive
-und passive Fähigkeiten, modulare Talent-Upgrades und optionale Archetypen-Talente, um jede Figur
-noch einzigartiger zu machen. Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil:
-Regelinformationen werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-
-Bezug** und kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
+_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf fortgeschrittener **Charakterausstattung und Spezialisierung**.
+
+Dieses Kapitel erweitert das Regelwerk um detaillierte Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von historischen Klingen und modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der Zeitalter, komplett mit Spielwerten.
+Schützende Kleidung, Rüstungen und Energiefelder helfen den Agenten, in jeder Epoche zu bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und Missionsgebrauch, taktische **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**.
+Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul [Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in Chrono-Einheiten (CU) und Systembelastung (**SYS**).
+Ein optionales Kapitel behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit Regeln zu Ressourcen und Balance. Schließlich erweitern **Talente & Spezialisierungen** die Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-Upgrades und optionale Archetypen-Talente, um jede Figur noch einzigartiger zu machen.
+Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinformationen werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
+
+Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
+
+
+| **Tier 1 – 100 CU** | Effekt |
+| ------------------- | ------------------------------------ |
+| Lockpick-Implantat | +2 Schlösser, leise |
+| Schalldämpfer-Aufsatz | -2 Wach-Alert, nur 3 Schüsse haltbar |
+| Micro-Bug-Pair | 20 m Funk, 30 Min Akku |
+| Rauchgranate Mk I | 1 Szene – Sicht –2 |
+
+| **Tier 2 – 300 CU** | Effekt |
+| ------------------- | ------------------------------------ |
+| Chamäleon-Suit v2 | +1 Sneak in Licht, +2 im Dunkeln |
+| Mini-Drohne "Wisp" | Live-Vid 120 m, Hack-Reichweite 20 m |
+| EMP-Patch | legt 1 elektr. Schloss flach (SG-1) |
+| Netz-Spoofer | fälscht Kamera-Feed 1 Szene |
+
+| **Tier 3 – 600 CU** | Effekt |
+| ------------------- | -------------------------------------- |
+| Plasma-Cutter (Handheld) | öffnet Metalltür in 1 Rnd, laut |
+| Phase-Gürtel β | 1×/Mission: 3 Sek durch Wand (≤ 20 cm) |
+| Nanofiber-Vest | –2 Schaden erste Kugel / Szene |
+| EMP-Granate Pro | Radius 8 m, deaktiviert Drohnen |
+
+| **Tier 4 – 900 CU** | Effekt |
+| ------------------- | ---------------------------------- |
+| Proto-Zeitdetektor | Warnt 1 Szene vor Anachron-Tech |
+| Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag |
+| Void-Blade | ignoriert Rüstung 2, Paradox-safe |
+| Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit |
+
 
 \*\> **_Hinweis:_** Alle Werte und Beispiele in diesem Modul sind Vorschläge, die auf Spielbalance
 geprüft sind. Die SL (Spielleitung) – ob Mensch oder KI – sollte diese an die eigene Kampagne
@@ -53,7 +75,6 @@ Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear aus
 Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes Ansehen verdienen.\*
 Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
 manchmal geheime Depots mit exklusiven Prototypen.
-
 ## Waffen: Arsenal der Zeitalter
 
 Ob Klingen, Kugeln oder Laser – Chrononauten greifen auf ein breites Spektrum an Waffen zurück,

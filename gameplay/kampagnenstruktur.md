@@ -422,6 +422,66 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
    CUs (siehe Modul 15).
 3. SL würfelt Wetterprobe, nennt Sicht & Geräuschpegel. Los!
 
+##### Beispiel-Episoden & Rift-Op {#beispiel-episoden}
+
+**Episode 1 – OKO FALSE-ALARM**
+1. Briefing in Nullzeit-Atrium – Petrow retten, Atomkrieg verhindern.
+2. Moskau-Vorstadt: Schwarzmarkt-Kontakt für Uniform.
+3. LKW-Kontrolle: falsche Papiere überzeugen.
+4. Zaun bei Schneesturm – Laser-Kamera, Wachhund.
+5. Lüftungsschacht voller Frost – leise sägen.
+6. **Twist:** Legionär-Leibwache patrouilliert (anachron).
+7. Funkraum – Sat-Signal stören oder fälschen.
+8. Zentrale – Petrow zweifeln lassen, Raketen-Alarm blinkt.
+9. Alarm ertönt doch: Neandertaler-PMC stürmt Flur.
+10. Schacht-Escape zum Wald.
+11. Verfolgung auf Ural-Truck.
+12. Debrief – 300 CU + Lizenz-Shop.
+
+**Episode 4 – FALKENSTEIN NACHTJAGD**
+1. Briefing – Burggraf verkauft Zukunfts-Tech.
+2. Dorf-Schankstube: Gerücht, Geheimgang entdecken.
+3. Nacht-Wald, Armbrust-Patrouille.
+4. Steinschloss-MG-Nest (anachron) auf Zugbrücke.
+5. Innenhof – mittelalterliche Drohne auf Scheiterhaufen-Podest.
+6. **Twist:** Gladiator mit PKM bewacht Schatzkammer.
+7. Krypta-Tunnel – Kreuzrisse im Mauerwerk explodieren.
+8. Schatzkammer – Daten-Kristall sichern.
+9. Alarm: Burghorn + Scheinwerfer aus 1930.
+10. Dach-Rappelling bei Vollmond-Bluthunden.
+11. Fluss-Flucht im Ruderboot, Verfolgung durch Sturmtruppler.
+12. Debrief – 450 CU.
+
+**Episode 9 – TITAN DRIFT**
+1. Briefing – Kolonisten 99 % tot, Anomalie stoppen.
+2. Dock-Schleuse: Vereiste Panels, Energie 3 %.
+3. Dunkel-Korridor, Leichensäcke treiben.
+4. Reaktor-Core, Alien-Raptoren (zeitversetzt) nagen Kabel.
+5. Sensor-Array – Windung außerhalb Schiffshülle.
+6. **Twist:** Gegenspieler nutzt Zeit-Leuchtboje, Risse im Rumpf.
+7. Kolonisten-Cryo-Deck – Restcrew befreien.
+8. Reaktor neu starten (Schalter-Puzzle).
+9. Schwarm-Horde nähert sich Brücke, Zeitdruck 6 min.
+10. Not-Abkoppeln Brückensektion.
+11. Evac via Shuttleröhre in Orbit-Pod.
+12. Debrief – 700 CU, möglicher T3-Kauf.
+
+**Rift-Op Mothman Bridge**
+1. Briefing – Highway in West Virginia meldet Störsignale.
+2. Anreise bei Sturm, Brückenbauwerk gesperrt.
+3. Local Witness – verängstigter Trucker berichtet von roten Augen.
+4. Drohnen-Scan zeigt Energiespitzen im Nebel.
+5. Spuren sichern am Brückenpfeiler.
+6. **Twist:** Phantom-Passanten tauchen zeitversetzt auf.
+7. Lagerhaus durchsuchen – alte Karten finden.
+8. Mutierte Tiere greifen aus Schatten an.
+9. Tunnel unter der Brücke entdecken.
+10. Paradox-Wellen reißen Mauerstücke weg.
+11. Mothman-Sichtung am Brückenbogen.
+12. Kampf gegen Kultisten, die Portal stabilisieren wollen.
+13. Portal schließen oder abstürzende Brücke riskieren.
+14. Debrief – 800 CU, Paradox sinkt auf 0.
+
 #### Dev-Check-Liste
 
 - Paradox-Tracker 0–5 bleibt bestehen.
