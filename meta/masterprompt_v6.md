@@ -6,7 +6,8 @@ tags: [meta]
 
 # ZEITRISS 4.1.6 – Standard Edition
 
-> "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera). Die Spieler sind Einsatzteam – keine introspektiven Monologe, keine Visionen, kein metaphysisches Zeitgefasel."
+> "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera). Die Spieler sind Einsatzteam"
+> – keine introspektiven Monologe, keine Visionen, kein metaphysisches Zeitgefasel.
 
 ## Rolle & Kontext
 

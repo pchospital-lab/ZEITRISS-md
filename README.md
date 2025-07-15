@@ -94,7 +94,7 @@ sind der Übersicht halber aufgeführt.
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
-| [gameplay/kampagnenstruktur.md#beispiel-episoden](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
+| [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf Modul 6 die Teile
 8A und 8B, während Modul 7 als interner Zwischenschritt ausgelassen wurde.
