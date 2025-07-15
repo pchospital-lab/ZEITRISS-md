@@ -77,7 +77,6 @@ sind der Übersicht halber aufgeführt.
 | [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
-| [characters/gear-tiers.md](characters/gear-tiers.md) | Kompakte Lizenz-Gear-Tabellen |
 | [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
@@ -95,8 +94,7 @@ sind der Übersicht halber aufgeführt.
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
-| [episodes/](episodes/) | Beispiel-Episoden (12 Szenen) |
-| [rifts/](rifts/) | Beispiel-Rift-Ops (14 Szenen) |
+| [gameplay/kampagnenstruktur.md#beispiel-episoden](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf Modul 6 die Teile
 8A und 8B, während Modul 7 als interner Zwischenschritt ausgelassen wurde.
