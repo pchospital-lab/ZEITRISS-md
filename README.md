@@ -336,6 +336,9 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter.
 
+Vor dem ersten Befehl blendet GPT kurz einen Store-Compliance-Hinweis
+ein.
+
 Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
 Beim Speichern unterscheidet ZEITRISS kurze Zwischenstände (**Short Saves**) und
