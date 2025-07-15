@@ -28,6 +28,7 @@ Systeme bereit.“_ Der kommende Einsatz führt das Team vom Mittelalter direkt 
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
 _Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf fortgeschrittener
+Für eine schnelle Übersicht der Lizenzstufen siehe [gear-tiers.md](gear-tiers.md).
 **Charakterausstattung und Spezialisierung**. Dieses Kapitel erweitert das Regelwerk um detaillierte
 Optionen für Ausrüstungsgegenstände und Fähigkeiten der Chrononauten. Von historischen Klingen und
 modernen Schusswaffen bis hin zu futuristischen Energiewaffen – wir bieten ein Arsenal der
