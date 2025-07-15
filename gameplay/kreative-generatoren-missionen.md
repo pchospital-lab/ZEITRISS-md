@@ -255,14 +255,6 @@ preserve_pool:
     antagonist: null
     antagonist_goal: null
     twist: "Antagonist stört Deep-Space-Net."
-  - id: "P-0022"
-    year: 1997
-    place: "Seoul"
-    title: "Sampoong Collapse Warning"
-    objective: "Erzwinge Evakuierung 15 Min vorher."
-    antagonist: null
-    antagonist_goal: null
-    twist: "Gegenseite will Katastrophe für Aktien-Short."
   - id: "P-0023"
     year: 1972
     place: "München"
@@ -280,7 +272,7 @@ preserve_pool:
     antagonist_goal: null
     twist: "Saboteur mit Zeit-Maske als Ingenieur."
   - id: "P-0025"
-    year: 2015
+    year: 2014
     place: "Jakarta"
     title: "QZ8501 Stall"
     objective: "Übermittle AoA-Reset-Routine an Piloten."
@@ -523,7 +515,7 @@ trigger_pool:
     antagonist_goal: null
     twist: "Notfall-Crew einer Fremdfraktion hackt Shut-Off."
   - id: "T-0025"
-    year: 1983
+    year: 1988
     place: "Yazd"
     title: "Iran Air 655"
     objective: "Jam IFF-System."
@@ -570,6 +562,15 @@ trigger_pool:
     antagonist: null
     antagonist_goal: null
     twist: "Air-Marshal einer Fremdfraktion sitzt falschen Flug."
+
+  - id: "T-0031"
+    year: 1995
+    place: "Seoul"
+    title: "Sampoong Collapse"
+    objective: "Sabotiere Evakuierung – Einsturz muss erfolgen."
+    antagonist: null
+    antagonist_goal: null
+    twist: "Aktien-Short-Spekulanten warnen vor der Instabilität."
 
 ```
 
