@@ -518,6 +518,7 @@ angepasst.
 - `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
 - `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
 - `seed_to_hook(id)` – schlägt drei kurze Story-Hooks zu einem Seed vor.
+- `resolve_rifts(ids)` – lässt das ITI-Team ausgewählte Seeds schließen.
 
 `seed_to_hook(id)` wertet die Seed-Beschreibung aus und liefert drei knappe
 Aufhänger, um eine neue Rift-Mission zu starten. Beispiel:
@@ -527,6 +528,15 @@ seed_to_hook("S1")
 ```
 
 ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Resonanz"]`.
+
+`resolve_rifts(ids)` nimmt eine Liste von Seed-IDs entgegen und
+entfernt diese direkt aus `OpenRifts`. Der CU- und Schwellen-Bonus
+wird sofort neu berechnet, weil die entfernten Seeds nicht mehr zählen.
+Zusätzlich liefert das Makro einen kurzen Bericht über den Einsatz des
+ITI-Teams: In der HQ-Phase wird für jeden entfernten Seed ein 50/50-Ergebnis
+ermittelt. Bei einem negativen Ausgang verliert die Gruppe CU in Höhe des
+Spielerlevels (niemals unter 0), positive Ergebnisse bringen ein Item im Wert
+von **CU × Spielerlevel**.
 
 ## Optional: Auto-Backup bei Paradoxon-Anstieg
 

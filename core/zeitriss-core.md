@@ -814,6 +814,8 @@ samt Missions-Manifest geöffnet und die verlassene Zeitlinie als „versiegelt�
 3. Erreicht der Wert **5**, setzt das HQ sofort **1–2 Rift-Seeds** auf die Weltkarte und der Index springt auf 0.
 4. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
 5. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
+  Siehe [Rifts sammeln](../gameplay/kampagnenstruktur.md#rifts-sammeln) für die
+  Verwaltung während der HQ-Phase und am Arc-Ende.
 6. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.
 ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles.
 Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
