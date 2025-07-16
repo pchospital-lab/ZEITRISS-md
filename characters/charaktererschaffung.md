@@ -705,23 +705,14 @@ erklären, basierend auf Beobachtungen und Datenbanken. (Natürlich ist das HUD 
 es liefert nur Infos, die das ITI plausibel hat. Die SL soll es sparsam einsetzen und nur bei klaren
 Tendenzen.)
 
-**Ruf beim ITI (intern):** Neben dem externen Ansehen bei historischen Fraktionen gibt es den
-**internen Ruf** bzw. Dienstgrad deines Agenten bei der eigenen Organisation, dem ITI. Im Grunde
-spiegelt dies dein **Level** wider – je höher die Stufe, desto mehr Vertrauen und Befugnisse genießt
-du. Ein _Neuling auf Level 1_ wird beispielsweise kaum sofort Zugang zu Top-Secret-Geräten oder
-Prototypen bekommen. Mit steigender Erfahrung und guten Leistungen erwirbst du dir **Rangabzeichen**
-und **Beförderungen**, auch wenn das ITI weniger militärisch, sondern mehr forschungsorientiert ist.
-Narrativ könnte der Codex oder ein Vorgesetzter dir nach einigen Missionen eine Beförderung
-aussprechen – in Regeln spiegelt das deinen Level-Up wider. Internes Ansehen kann auch durch
-besondere Taten steigen: Wenn ihr z.B. eine extrem gefährliche Anomalie bewältigt **ohne** Paradox-
-Schäden, könnte das ITI euch einen Rufpunkt geben. Umgekehrt können Versagen (Mission abbrechen
-müssen, grobe Regelverstöße) euren internen Ruf mindern, was ggf. Konsequenzen für die Versorgung
-hat.
-
-Das ITI nutzt dabei dieselbe Skala von **–5** bis **+5**. Bei **Ruf +2** folgt meist eine erste
-Beförderung zum _Feldagenten_, was besseren Zugriff auf Ausrüstung gewährt. Erreichst du **Ruf +4**,
-giltst du als _Elitechrononaut_ und wirst für besonders heikle Missionen eingeplant. Das Maximum von
-**+5** ist nur wenigen Legenden vorbehalten und bringt umfassende Privilegien.
+**Ruf beim ITI (intern):** Deine Beförderungen richten sich nach deinem Ansehen bei den internen
+Fraktionen des Instituts. Dabei gilt: Dein ITI‑Ruf ist immer so hoch wie der beste Rufwert, den du
+aktuell bei einer dieser Gruppen vorweisen kannst – etwa bei den Chrono‑Symmetriker, dem Ordo
+Mnemonika, den Kausalklingen oder der Zerbrechlichen Ewigkeit. Steigt dieser Fraktionsruf, erhöht
+sich automatisch auch dein ITI‑Ruf. Entsprechend nutzt das ITI dieselbe Skala von **–5** bis **+5**
+und die Missionserfolgswerte aus der Ruftabelle. Bei **Ruf +2** folgt für gewöhnlich die Beförderung
+zum _Feldagenten_, ab **+4** giltst du als _Elitechrononaut_. Das absolute Maximum von **+5** bringt
+umfassende Privilegien.
 
 ## Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 
