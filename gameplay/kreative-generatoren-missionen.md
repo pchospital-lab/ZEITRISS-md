@@ -1751,6 +1751,107 @@ thema: Beispiel-Rift
 | Spin-Doctor | Voice-Mod, Fake-Creds, Gel-Ruger | Social-Manipulation, Rückfallebene |
 | Humine | Sensorimplantate, Chitinpanzer | Gruppenunterstützung und Späher |
 
+# ─────────────────────────────────────────────────────────────
+# PRESERVE‑ARC – ABLE ARCHER ’83 Shadowrun / ZEITRISS (v3, nur Urwolf‑Hybrid)
+# Gegnerfraktion: CHRONOTECH Genesis – biogenetischer Zeit‑Megakon
+# ─────────────────────────────────────────────────────────────
+- arc_id: "AbleArcher83"
+  arc_step: 1
+  pool: heist_pool
+  title: "Red Tape"
+  pitch: "NATO–UDSSR Hotline stabilisieren; 3 Neandertaler‑Bruiser und Urwolf‑Tracker sabotieren Glasfaser – Nahkampf im Kabelschacht."
+  timeslot: "1977-03-18"
+
+- arc_id: "AbleArcher83"
+  arc_step: 2
+  pool: heist_pool
+  title: "NORAD 40/15"
+  pitch: "Alarm‑Bug patchen (darf nicht feuern); CT‑NetSec‑Team mit Cyber‑Samurai‑Bodyguard hackt NORAD‑Mainframe – Feuergefecht & Matrix‑Duel."
+  timeslot: "1979-11-09"
+
+- arc_id: "AbleArcher83"
+  arc_step: 3
+  pool: heist_pool
+  title: "SAMURAI Key"
+  pitch: "Samurai Shimada Gorō rekrutieren; Extraction‑Spezialisten und Urwolf zur Fährtensuche – Katana‑Duel im Frachtlift."
+  timeslot: "1980-06-12"
+
+- arc_id: "AbleArcher83"
+  arc_step: 4
+  pool: heist_pool
+  title: "Solar Flare"
+  pitch: "Schutzcode in Satellit laden; CT‑Rigger‑Duo mit Spreng‑Drohnen stört Panel‑Zugriff – Roof‑Gunfight."
+  timeslot: "1981-01-21"
+
+- arc_id: "AbleArcher83"
+  arc_step: 5
+  pool: heist_pool
+  title: "Black Bear"
+  pitch: "Ersatz‑Kosmos‑1382 hochbringen; Neandertaler‑Saboteure überfallen Konvoi, Urwolf spürt Route auf – Truck‑Ambush."
+  timeslot: "1982-02-22"
+
+- arc_id: "AbleArcher83"
+  arc_step: 6
+  pool: heist_pool
+  title: "Able Brief"
+  pitch: "Leak echter Manöverdaten sichern; CT‑Face plus Assault‑Mercs stehlen Diskette – Archiv‑Shootout."
+  timeslot: "1983-11-07 08:00"
+
+- arc_id: "AbleArcher83"
+  arc_step: 7
+  pool: heist_pool
+  title: "Ghost Silos"
+  pitch: "Autorisierung gegen Hack schützen; CT‑Combat‑Team bohrt Datenleitung, Urwolf bewacht Perimeter – Nahkampf am Silo‑Tor."
+  timeslot: "1983-11-07 19:00"
+
+- arc_id: "AbleArcher83"
+  arc_step: 8
+  pool: heist_pool
+  title: "Echo Down"
+  pitch: "Untersee‑Kabel reparieren; Rigger mit Mini‑U‑Boot und Tauch‑Mercs zünden Sprengsatz – Sturm‑Taucher‑Gefechte."
+  timeslot: "1983-11-08 02:00"
+
+- arc_id: "AbleArcher83"
+  arc_step: 9
+  pool: heist_pool
+  title: "Petrov Guard"
+  pitch: "Oberst Petrov beschützen; Kill‑Cell mit Bruiser, Urwolf und Sniper stürmt Wohnung – CQB‑Fight."
+  timeslot: "1983-11-09 16:00"
+
+- arc_id: "AbleArcher83"
+  arc_step: 10
+  pool: heist_pool
+  title: "Blue Silence"
+  pitch: "Sim‑Signal als ‚Übung‘ kennzeichnen; CT‑Elite‑Handler und Heavy‑Merc‑Squad greifen an – finale Mehr­ebenen‑Schlacht (Gorō als Ally)."
+  timeslot: "1983-11-11 00:00"
+
+---
+
+#### Gegner‑Einheiten (kompakt)
+
+| Einheit                     | Kern‑Rolle          | Stichworte\*                    |
+| --------------------------- | ------------------- | ------------------------------- |
+| **Neandertaler‑Bruiser**    | Breacher            | STR 7, Keule W⁶+2, Resilienz    |
+| **Urwolf‑Bluthund**         | Spür‑ & Schock­hund | Geruch +3, Biss W⁶, Furcht‑Aura |
+| **Cyber‑Samurai‑Bodyguard** | Elite‑Melee         | Katana T2, Reflex‑Booster       |
+| **CT‑NetSec‑Hacker**        | Matrix              | Cyberdeck T2, Shock‑Pistol      |
+| **Assault‑Merc**            | Ranged DPS          | MP7‑SD, Ballistik‑Mantel        |
+| **Rigger / Drone‑Op**       | Support             | Mini‑Drohnen (Recon/Spreng)     |
+| **Elite‑Handler** (Finale)  | Commander           | CHA 6, Tact‑Link, Gel‑Ruger     |
+
+*\*Schaden & SG laut ZEITRISS‑Core; Urwolf bleibt einziges Tier‑Hybrid.*
+
+---
+
+### Stil‑Reminder
+
+* **Urwolf** tritt nur 1‑2× pro Mission als Spur‑ oder Schock­einheit auf – Aha‑Effekt bleibt erhalten, kein Overload.
+* Kämpfe bleiben Shadowrun‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle, harte Feuer­gefechte.
+* **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2, einmal pro Szene Riposte‑Konter).
+* **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den Atomkrieg auszulösen.
+
+Damit hast du denselben Able‑Archer‑Preserve‑Bogen, **nur mit dem Urwolf als ikonischem Hybrid**, sonst reine Humanoiden‑Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS‑Shadowrun‑Feeling.
+
 ### Rift Seed Catalogue {#rift-seed-catalogue}
 
 ```yaml
