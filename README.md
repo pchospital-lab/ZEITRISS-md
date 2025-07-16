@@ -114,9 +114,10 @@ Ausführliche Hintergründe liefert das Modul
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
-Wenn du die lange Einführung überspringen möchtest, tippe
-**`Schnelleinstieg`** direkt nach der Eröffnungsnachricht.
-Das Briefing bleibt kurz, den Twist deckt der Codex später auf.
+Nach Compliance-Hinweis und Einleitung fragt das System nach
+_"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
+Wählst du Schnell, tippe **`Schnelleinstieg`** und
+das Briefing bleibt kurz, den Twist deckt der Codex später auf.
 
 Die ersten Schritte in unter zwei Minuten:
 
@@ -323,6 +324,16 @@ Zeitalters ungeschehen machen kann.
 
 Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
 Die Zeit wartet nicht.
+Dein letzter Einsatz endete tödlich. Das ITI zog dein Bewusstsein im letzten Moment aus der Zeit.
+Im HQ erwachst du in einer frischen Bio-Hülle – wahlweise sogar in einem urzeitlichen Homininen-Körper.
+
+Nach Compliance-Hinweis und Einleitung wählst du zwischen
+**klassischem Einstieg** und **Schnelleinstieg**:
+
+- _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper,
+  danach Einführung ins ITI und eine reguläre Mission.
+- _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …),
+  erhalte kurz Pro & Contra und starte direkt in eine kurze Mission.
 
 ## Spielstart
 

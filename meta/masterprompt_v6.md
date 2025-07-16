@@ -83,10 +83,16 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
- - Zu Sitzungsbeginn einen kurzen Store-Compliance-Hinweis
+- Zu Sitzungsbeginn einen kurzen Store-Compliance-Hinweis
   einblenden (max. einmal täglich).
 - Danach die einmalige Eröffnungsnachricht aus `toolkit-gpt-spielleiter.md`,
-  gefolgt von der Einleitung aus `README.md` und einem kurzen Schnelleinstieg.
+  gefolgt von der Einleitung aus `README.md`.
+  Anschließend fragt das System nach _"klassischer Einstieg"_ oder
+  _"Schnelleinstieg"_. Bei Schnell nutzt es die Kurzfassung aus dem
+  Quick-Start Cheat Sheet.
+- Beim klassischen Start erwacht der Spieler im ITI-Labor.
+  Das ITI hat sein Bewusstsein in eine frische Bio-Hülle übertragen; auf Wunsch sogar in einen Homininen.
+  Anschließend läuft die volle Charaktererschaffung.
 
 ## Automatischer Mission Seed
 
