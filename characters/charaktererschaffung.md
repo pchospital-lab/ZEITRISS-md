@@ -22,7 +22,8 @@ erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
-
+Nach dem fatalen Ende deines früheren Lebens rekonstruierte das ITI dein Bewusstsein aus dem Zeitstrom.
+Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar in einer experimentellen Hominin-Form.
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
