@@ -229,10 +229,13 @@ Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 ```md
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, pressure) -%}
+<span style="color:#6cf">HUD</span>
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/12 ██
 **Kamera:** {{ loc }}
 **Target:** {{ target }}
 **Pressure:** {{ pressure }}
+
+---
 {%- endmacro %}
 
 <!-- Macro: EndScene -->
