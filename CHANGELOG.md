@@ -68,4 +68,7 @@ tags: [meta]
 ## 4.1.6 – Readme Clarifications
 - Seed-Beispiel zeigt nun Preserve- und Trigger-Varianten.
 - Standardmodus betont fortlaufende Core-Ops als Arc.
+
+## 4.1.7 – HUD Readability Fix
+- `StartScene`-Macro bricht HUD-Zeile jetzt um, um Scrollen zu vermeiden.
 *© 2025 pchospital – private use only. See LICENSE.
