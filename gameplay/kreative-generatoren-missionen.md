@@ -1665,7 +1665,91 @@ thema: Beispiel-Rift
   title: "Kometen‑Signal"
   pitch: "Projiziere künstlichen Kometen via Ballon‑Spiegel als Zeichen zum Abzug."
   timeslot: "+42 h"
+# ─────────────────────────────────────────────────────────────
+# CORE‑ARC 7 – TSCHERNOBYL 1986 "KAIROS Collapse"
+# Pool: heist_pool – Reaktorunfall sichern
+# ─────────────────────────────────────────────────────────────
+- arc_id: "Chernobyl86"
+  arc_step: 1
+  pool: heist_pool
+  title: "Foundation Crack"
+  pitch: "Prüfbeton sabotieren; Kampf gegen KAIROS-Baupioniere in überfluteter Baugrube."
+  timeslot: "1972-10-01"
+
+- arc_id: "Chernobyl86"
+  arc_step: 2
+  pool: heist_pool
+  title: "Control Logic"
+  pitch: "Fehlerhaften Steuercode einspielen; NetSec-Trupp und Samurai (16. Jh.) mit Bioware greifen an."
+  timeslot: "1975-07-14"
+
+- arc_id: "Chernobyl86"
+  arc_step: 3
+  pool: heist_pool
+  title: "False Green"
+  pitch: "Dosimeterdaten fälschen; Med-Unit jagt verstrahlten Arbeiter durch Rohrlabyrinth."
+  timeslot: "1982-09-09"
+
+- arc_id: "Chernobyl86"
+  arc_step: 4
+  pool: heist_pool
+  title: "Valve Ghost"
+  pitch: "Ersatzdichtung entfernen; Micro-Bot-Attacke im dampfigen Tunnel abwehren."
+  timeslot: "1984-04-27"
+
+- arc_id: "Chernobyl86"
+  arc_step: 5
+  pool: heist_pool
+  title: "Audit Silence"
+  pitch: "Prüfdokumente vernichten; Feuergefecht mit KAIROS-Extraction-Team im Archiv."
+  timeslot: "1985-01-05"
+
+- arc_id: "Chernobyl86"
+  arc_step: 6
+  pool: heist_pool
+  title: "Night-Shift"
+  pitch: "Unerfahrene Crew einschleusen; HR-Spoofer löst Treppenhaus-Schusswechsel aus."
+  timeslot: "1986-04-25 18:00"
+
+- arc_id: "Chernobyl86"
+  arc_step: 7
+  pool: heist_pool
+  title: "Procedure 200/45"
+  pitch: "Checkliste kürzen; Nahkampf am Leitpult gegen KAIROS-Lead-Engineer."
+  timeslot: "1986-04-25 23:10"
+
+- arc_id: "Chernobyl86"
+  arc_step: 8
+  pool: heist_pool
+  title: "Core Burst"
+  pitch: "AZ-5 auslösen; Bioware-Samurai attackiert im rot flackernden Steuerstand."
+  timeslot: "1986-04-26 01:23"
+
+- arc_id: "Chernobyl86"
+  arc_step: 9
+  pool: heist_pool
+  title: "Black Rain"
+  pitch: "Feuerwehr fehlleiten; Sniper-Duo jagt Drohnen zwischen radioaktiven Trümmern."
+  timeslot: "1986-04-26 02:04"
+
+- arc_id: "Chernobyl86"
+  arc_step: 10
+  pool: heist_pool
+  title: "Evidence Chain"
+  pitch: "Bericht auf menschlichen Fehler lenken; Jagd auf Spin-Doctor durch Ministerialgänge."
+  timeslot: "1986-05-02"
 ```
+
+#### KAIROS Dynamics Einsatzprofile
+
+| Rolle | Kern-Loadout | Taktik |
+| ----- | ------------ | ------ |
+| Baupionier | Hydraulik-Hämmer, Ballistikmantel | Nahkampf, Gelände-Kontrolle |
+| Hack-Rigger | Cyberdeck T2, Shock-Pistol | Matrixangriffe, Drohnen-Steuerung |
+| Samurai | Historischer Samurai mit Bioware-Verstärkung | Blitzschnelle Klingenstürme |
+| Sniper | Gauss-Precision Rifle, Chamäleon-Cloak | Fernfeuer, Drohnen-Barrage |
+| Spin-Doctor | Voice-Mod, Fake-Creds, Gel-Ruger | Social-Manipulation, Rückfallebene |
+| Humine | Sensorimplantate, Chitinpanzer | Gruppenunterstützung und Späher |
 
 ### Rift Seed Catalogue {#rift-seed-catalogue}
 
