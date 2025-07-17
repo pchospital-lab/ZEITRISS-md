@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.6 – Modul 4C: Psi-Fähigkeiten & Talente"
-version: 4.1.6
+version: 4.1.7
 tags: [characters]
 ---
 
