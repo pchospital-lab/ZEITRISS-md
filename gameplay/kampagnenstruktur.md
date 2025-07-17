@@ -69,12 +69,14 @@ Baukasten** erlaubt es der Spielleitung außerdem, bei Bedarf flexibel Episoden 
 Handlungsbögen zu verlängern, falls die Spieler z. B. unerwartete Nebenwege einschlagen.
 ```yaml
 episode:
-  min_scenes: 30
-  max_scenes: 50
+  min_scenes: 120
+  max_scenes: 140
   setting_lock: true
   arc_generator_default: true
   sg_rift_bonus: 1
 ```
+Eine Episode fasst rund zehn Missionen derselben Epoche
+mit insgesamt etwa 120 bis 140 Szenen zusammen.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
 
 ### Fraktionsdynamik und -Konflikte
