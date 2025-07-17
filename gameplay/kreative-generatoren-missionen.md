@@ -1752,7 +1752,8 @@ thema: Beispiel-Rift
 | Humine | Sensorimplantate, Chitinpanzer | Gruppenunterstützung und Späher |
 
 # ─────────────────────────────────────────────────────────────
-# PRESERVE‑ARC – ABLE ARCHER ’83 Shadowrun / ZEITRISS (v3, nur Urwolf‑Hybrid)
+# PRESERVE‑ARC – ABLE ARCHER ’83
+# Pool: heist_pool – nukleare Fehldeutung verhindern
 # Gegnerfraktion: CHRONOTECH Genesis – biogenetischer Zeit‑Megakon
 # ─────────────────────────────────────────────────────────────
 - arc_id: "AbleArcher83"
@@ -1846,11 +1847,77 @@ thema: Beispiel-Rift
 ### Stil‑Reminder
 
 * **Urwolf** tritt nur 1‑2× pro Mission als Spur‑ oder Schock­einheit auf – Aha‑Effekt bleibt erhalten, kein Overload.
-* Kämpfe bleiben Shadowrun‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle, harte Feuer­gefechte.
+* Kämpfe bleiben chrompunk‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle, harte Feuer­gefechte.
 * **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2, einmal pro Szene Riposte‑Konter).
 * **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den Atomkrieg auszulösen.
 
-Damit hast du denselben Able‑Archer‑Preserve‑Bogen, **nur mit dem Urwolf als ikonischem Hybrid**, sonst reine Humanoiden‑Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS‑Shadowrun‑Feeling.
+Damit hast du denselben Able‑Archer‑Preserve‑Bogen, **nur mit dem Urwolf als ikonischem Hybrid**, sonst reine Humanoiden‑Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS‑Feeling.
+
+# ─────────────────────────────────────────────────────────────
+# PRESERVE‑ARC – SALAMIS 480 v. Chr.
+# Pool: heist_pool – Seesieg sichern
+# Gegnerfraktion: ARGOS Venture – transtemporaler Megakon
+# ─────────────────────────────────────────────────────────────
+- arc_id: "Salamis480"
+  arc_step: 1
+  pool: heist_pool
+  title: "Dry Dock"
+  pitch: "Brandpfeil-Lieferung sabotieren; ARGOS-Bruiser und Urwolf eskortieren Waffen."
+  timeslot: "480-08-26"
+- arc_id: "Salamis480"
+  arc_step: 2
+  pool: heist_pool
+  title: "Copper Quill"
+  pitch: "Orakelrolle fälschen – Text muss 'Seemauern retten Hellas' lauten; Face und Hack-Monk säen Panik."
+  timeslot: "480-08-27"
+- arc_id: "Salamis480"
+  arc_step: 3
+  pool: heist_pool
+  title: "Phalanx Key"
+  pitch: "Sparta zu 50 Triremen überreden; Silver-Tongue besticht den Rat – Rededuell."
+  timeslot: "480-08-31"
+- arc_id: "Salamis480"
+  arc_step: 4
+  pool: heist_pool
+  title: "Aegis Node"
+  pitch: "Feuerkette bewahren; Rigger mit Kupfer-Ornithopter zündet falsches Signal."
+  timeslot: "480-09-02"
+- arc_id: "Salamis480"
+  arc_step: 5
+  pool: heist_pool
+  title: "Iron Marble"
+  pitch: "Ballista-Vorräte vernichten; ARGOS-Söldner tarnen sich als Bauern – Lagerbrand."
+  timeslot: "480-09-10"
+- arc_id: "Salamis480"
+  arc_step: 6
+  pool: heist_pool
+  title: "Owl Cipher"
+  pitch: "Seekriegs-Kodexe schützen; Bruiser-Team mit Urwolf stürmt die Krypta."
+  timeslot: "480-09-18"
+- arc_id: "Salamis480"
+  arc_step: 7
+  pool: heist_pool
+  title: "Channel Ghost"
+  pitch: "Seil-Boom sabotieren; Combat-Divers legen Minen im Engpass."
+  timeslot: "480-09-20"
+- arc_id: "Salamis480"
+  arc_step: 8
+  pool: heist_pool
+  title: "Red Keel"
+  pitch: "Navigator-Dronen von Xerxes' Flaggschiff entfernen; Samurai Gorō hilft auf Deck."
+  timeslot: "480-09-21"
+- arc_id: "Salamis480"
+  arc_step: 9
+  pool: heist_pool
+  title: "Mist Spear"
+  pitch: "Admiralsflagge sichern; Sniper auf Nebelschiff und Urwolf an der Kette."
+  timeslot: "480-09-22"
+- arc_id: "Salamis480"
+  arc_step: 10
+  pool: heist_pool
+  title: "Azure Break"
+  pitch: "Xerxes' Evakuierung vereiteln; Elite-Handler und Heavy-Mercs decken den König."
+  timeslot: "480-09-22"
 
 ### Rift Seed Catalogue {#rift-seed-catalogue}
 

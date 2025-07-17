@@ -394,6 +394,72 @@ version: 4.1.6
 2. **Preserve‑Markierungen gestrichen:** Kein „Schleuserroute sichern“ mehr.
 3. **Epilog umgeschrieben:** Er bestätigt den historischen Ausgang.
 
+##### Preserve-Arc Salamis 480 v. Chr. {#preserve-arc-salamis-480}
+
+```yaml
+# gameplay/kampagnenstruktur.md – Abschnitt Preserve-Arc Salamis 480 v. Chr.
+title: "Preserve-Arc Salamis 480 v. Chr."
+id: EX-PRES-0480-SAL
+type: core_op
+preserve_only: true
+version: 4.1.6
+```
+
+**Epoche:** Klassisches Griechenland & Perserkriege
+**Beinahe-Katastrophe:** Die vereinte griechische Flotte siegt knapp bei Salamis.
+Wäre Xerxes I. dort erfolgreich gewesen, hätte das Achämeniden-Reich die Ägäis dominiert –
+Demokratie und Philosophie, wie wir sie kennen, wären nie entstanden.
+**Auftrag:** Der griechische Sieg muss erhalten bleiben.
+
+**Gegnerfraktion:** **ARGOS Venture** – ein transtemporaler Hochrisiko-Megakon.
+Die Investoren setzen auf eine „Persische Weltordnung“ und versuchen daher,
+verdeckt einzugreifen. So wollen sie später an einer exklusiven
+Bronze-Silk-Road-Zeitlinie verdienen.
+
+> **Creature-Limit:** einziges Bio-Hybrid bleibt der **Urwolf-Bluthund**
+> (zeitversetzter Riesenwolf). Keine weiteren Tiere.
+> **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
+> Holo-Helme mit Hoplit-Kamm, „Bronze“-Smartguns und Wachstafel-Cyberdecks.
+
+| #  | Datum / Phase 480 v. Chr. | Codename          | Schauplatz             | Preserve‑Primärziel                                                         | **ARGOS‑Gegenaktion / Kampf‑Hook**                                                                                 |
+| -- | ------------------------- | ----------------- | ---------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| 1  | 26. Aug. – Morgengrauen   | **Dry Dock**      | Korinthische Werft     | Verzögere persische Brandpfeil‑Lieferung (Sabotage am Schiffsrumpf).        | 3 ARGOS‑Bruiser + Urwolf eskortieren Waffenladung → Nachtschlacht zwischen Triremen                                |
+| 2  | 27. Aug. Mittag           | **Copper Quill**  | Delphi‑Amphiktyonie    | Fälsche Orakelrolle – sie muss „Seemauern retten Hellas“ lauten.            | ARGOS‑Face & Hack‑Monk wollen Panik‑Prophezeiung verbreiten → Nahkampf im Tempel‑Adyton                            |
+| 3  | 31. Aug.                  | **Phalanx Key**   | Sparta, Gerusia        | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee!).              | ARGOS‑Silver‑Tongue besticht Rat → Rededuell, anschließend Hoplit‑Gunfight in Gerusia‑Hof                          |
+| 4  | 2. Sept.                  | **Aegis Node**    | Ägina‑Signalfeuer      | Bewahr’ Feuerkette – falsches Feuer würde Flottenorden ändern.              | ARGOS‑Drohnen‑Rigger mit Kupfer‑Ornithopter zündet Signalfackel → Felsenklippen‑Duell                              |
+| 5  | 10. Sept.                 | **Iron Marble**   | Piräus‑Lager           | Zerstöre persische Skorpion‑Ballista‑Vorräte.                               | ARGOS‑Merc‑Squad infiltriert als „Bauern“ → Lagerbrand & Kurzfeuer‑Gefechte                                        |
+| 6  | 18. Sept.                 | **Owl Cipher**    | Akropolis‑Krypta       | Schütze geheime Seekriegs‑Kodexe (Taktik von Themistokles).                 | Kill‑Team (Bruiser, Urwolf, Sniper) stürmt Höhle → CQB zwischen Karyatiden‑Gängen                                  |
+| 7  | 20. Sept.                 | **Channel Ghost** | Meerenge von Salamis   | Störe persische Seil‑Boom, die Engpass blockieren soll.                     | ARGOS‑Combat‑Divers legen Minen → Unterwasser‑Fight an Bronze‑Ketten                                               |
+| 8  | 21. Sept. Vor‑Dämmerung   | **Red Keel**      | Persische Vorhut‑Reede | Entferne Navigator‑Dronen (ARGOS‑Tech) von Xerxes’ Flaggschiff.             | Samurai‑Bodyguard + Rigger auf Deck → Stealth‑Katana vs. Smart‑Kopis                                               |
+| 9  | 22. Sept. Schlacht        | **Mist Spear**    | Deck der *Athená Nicé* | Bewahre griech. Admiralsflagge – Signal zum Gegen‑Rammanöver.               | ARGOS‑Sniper auf Nebelschiff, Urwolf an der Kette → Mast‑Kletter‑Schusswechsel                                     |
+| 10 | 22. Sept. Schlachtende    | **Azure Break**   | Xerxes’ Felsenthron    | Verhindere ARGOS‑Evakuierung des Großkönigs – er **muss** Rückzug befehlen. | Elite‑Handler + Heavy‑Merc‑Schildtrupp decken Xerxes I. → Finale Strand‑Schlacht (Hopliten, Samurai‑Gorō als Ally) |
+
+### Gegner‑Roster (kompakt)
+
+| Einheit                   | Loadout                                  | Kern‑Taktik                |
+| ------------------------- | ---------------------------------------- | -------------------------- |
+| **ARGOS‑Bruiser**         | Linothorax‑Kevlar, Smart‑Gladius, Schild | Breach & Schildwall        |
+| **Urwolf‑Bluthund**       | Hybrid‑Tracker                           | Spur, Biss W⁶, Furcht      |
+| **Hack‑Monk**             | Wachstafel‑Deck, Shock‑Stylus            | Matrix‑Scrying, Propaganda |
+| **Silver‑Tongue Face**    | Vox‑Mod, Chameleon‑Himation              | Bestechung, Crowd‑Control  |
+| **Drohnen‑Rigger**        | Kupfer‑Ornithopter, Mini‑Hydra‑Bots      | Luft‑Recon, Sprengungen    |
+| **Samurai‑Bodyguard**     | Katana T2, Reflex‑Boost                  | Elite‑Melee                |
+| **Sniper (Gastraphetes)** | Repetier‑Bolzenwerfer, Optik‑Aug         | Fernfeuer                  |
+| **Heavy‑Merc**            | Hoplon‑Drohnen, Pilum‑Launcher           | Schildwall‑Advance         |
+| **Elite‑Handler**         | Tact‑Link, Gel‑Stab                      | Kommando, Moral‑Boost      |
+
+### Stil‑ und Regel‑Notizen
+
+- **Urwolf** taucht maximal zweimal pro Mission auf (Spür‑ oder Angsteinheit).
+- **Samurai Shimada Gorō** stößt in Mission 8 zum Team – sein Katana schneidet antike Bronze mühelos.
+- **Chrom trifft Antike:** Bronze‑Kupfer‑Optik, aber Smart‑Mechanik; der Repetier‑Gastraphetes spielt sich wie eine Sturm‑Armbrust.
+- **Paradoxon‑Trigger:** nur, wenn ARGOS entscheidend persische Siege erzwingt (flüchtige Persian‑Win‑Branch).
+
+**Arc‑Outcome**
+
+- Erfolg → Griechischer Sieg bleibt, Demokratiepfad stabil, +2 Ruf bei Codex, 600–800 CU Gesamtertrag.
+- Scheitern → „Persische Weltordnung“ → ClusterCreate(), Zeitlinie kollabiert, Kampagne‑Reset empfohlen.
+
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
 
 *45-Minuten-Demo, Tannenberg/Grunwald – kompaktes 7-Szenen-Format zur Einführung*
