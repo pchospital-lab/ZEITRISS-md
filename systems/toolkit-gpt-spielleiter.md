@@ -22,7 +22,8 @@ Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
  leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu transportieren.\*
 
 **Hinweis:** Mission-Fokus ("Operator-Stil") vermeidet PvP.
-Rivalen stammen stets aus externen Machtblöcken.
+Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
+während Rift-Ops die Anomalie ins Zentrum rücken.
 ### ZEITRISS GM — MODE: PRECISION
 - Kurze, sachliche Sätze. Keine Metaphern.
 - Jede Szene listet:
@@ -47,6 +48,7 @@ if not character.psi:
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
 - `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
+  Rufe `StartScene(loc, target, pressure, total=14)` auf, um die 14 Szenen bei Rift-Ops korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
 ## Fokus-Missionsmodus
 
@@ -211,7 +213,7 @@ Decision: <Reaktion?>
 
 ### SceneCounter Macro
 Früher nutzte man `SceneCounter++`. Jetzt erhöht `EndScene()` den Wert in `campaign.scene`.
-Das HUD zeigt `EP xx · SC yy/12`.
+Das HUD zeigt `EP xx · SC yy/<total>` – die Gesamtzahl wird beim Aufruf von `StartScene()` übergeben.
 Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
@@ -227,10 +229,15 @@ Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 
 ### StartScene / EndScene Macros
 ```md
+<!-- Macro: hud_tag -->
+{% macro hud_tag() -%}
+{% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">HUD</span>{% endif %}
+{%- endmacro %}
+
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, pressure) -%}
-<span style="color:#6cf">HUD</span>
-██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/12 ██
+{% macro StartScene(loc, target, pressure, total=12) -%}
+{{ hud_tag() }}
+██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
 **Kamera:** {{ loc }}
 **Target:** {{ target }}
 **Pressure:** {{ pressure }}
