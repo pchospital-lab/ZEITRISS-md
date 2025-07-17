@@ -27,16 +27,17 @@ Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar i
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
-2. Attribute verteilen (Basis 2–5)
-3. Zwei Talente wählen
-4. Startausrüstung notieren
-5. Ruf und Hintergrund skizzieren
-6. Cyber/Bio/Psi (max zwei Bereiche) auswählen
-7. Werte in das HUD übernehmen
+2. Spezies oder Bio-Hülle wählen (Basis-Mensch oder experimentelle Hominin-Form)
+3. Attribute verteilen (Basis 2–5)
+4. Zwei Talente wählen
+5. Startausrüstung notieren
+6. Ruf und Hintergrund skizzieren
+7. Cyber/Bio/Psi (max zwei Bereiche) auswählen
+8. Werte in das HUD übernehmen
    Weitere Hinweise und Symboltabellen findet ihr im Abschnitt
    [Cinematisches HUD-Overlay](zustaende-hud-system.md#cinematisches-hud-overlay).
-8. Teamrolle festlegen
-9. Erste Mission planen
+9. Teamrolle festlegen
+10. Erste Mission planen
 
 - GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
   Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden

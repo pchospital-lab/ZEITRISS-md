@@ -114,6 +114,8 @@ Im Briefing nennt das HUD Zeit und Ort einer Instabilität;
 welches Ereignis betroffen ist, deckt die Investigation auf.
 Zur Auswertung nutzt die KI-Spielleitung je nach Modus
 `history_ok_preserve()` oder `history_ok_trigger()`.
+Pro entspricht Preserve, Contra steht für Trigger – beide Seiten arbeiten letztlich
+am Erhalt einer stabilen Zeitlinie.
 Eine kurze Zusammenfassung der Abläufe bietet das README.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
@@ -580,6 +582,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 - Schwierigkeit = `base_dc + open_seeds`.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
 - Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
+- Bei Rift-Ops die `campaign.scene` bis **14** verfolgen und erst dann abschließen.
 - Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
   Artefaktkontakt kann dennoch Punkte auslösen.
 

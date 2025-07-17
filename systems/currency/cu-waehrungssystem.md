@@ -99,6 +99,14 @@ So wird die Belohnung greifbar und direkt Teil der Geschichte.
 Hohe Einmalzahlungen sind selten – die meisten Missionen bringen moderate Beträge,
 um das Wirtschaftssystem spannend zu halten.
 
+Auch der Erfahrungsfortschritt wird hier festgehalten: In den ersten Stufen
+steigt das Team nach jeder bestandenen Mission um **eine Stufe** auf. Dieser
+zügige Aufstieg gilt bis inklusive Level 10. Danach greift die im
+Regelkern beschriebene **EP-Kurve** – pro Stufe werden allmählich mehr
+Erfahrungspunkte benötigt, sodass Level-Ups etwas seltener werden, ohne den
+Fortschritt zu bremsen. Die Spielleitung weist im Debriefing kurz darauf hin,
+damit die Agenten ihre neuen Werte in der folgenden HQ-Phase eintragen können.
+
 ### Wertvolle Funde: Loot konvertieren oder behalten
 
 Neben den fixen Missionsprämien können findige Agenten auch durch mitgebrachte Objekte zu Chrono

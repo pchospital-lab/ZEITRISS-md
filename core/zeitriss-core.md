@@ -792,6 +792,9 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
    - **Direkt weiterspringen (ohne HQ-Stop)**
        - Der Riss führt die Gruppe sofort an den zuletzt gewählten Zielzeitpunkt.
      - Der bisherige Riss bleibt offen, bis sie ihn verlassen oder einen neuen öffnen.
+      - Rücksprünge gelingen nur während eines kurzen Raumzeitfensters.
+        Verpasst das Team dieses Zeitfenster, muss es auf den nächsten
+        temporalen Peak warten und so lange in der Epoche improvisieren.
 
 > Bei Paradoxon-Index 5 legt das HQ trotzdem 1–2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
 3. **Notfall-Rückholung**
