@@ -41,8 +41,8 @@ Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen
 und bedeutende Ereignisse zu beeinflussen.
 Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
 Historische Einsaetze sind klar getrennt in **Preserve-** oder **Trigger-Missionen**.
-Spielende entscheiden sich zu Beginn für eine Fraktion: Pro-Teams erhalten Preserve-Kampagnen,
-Contra-Teams Trigger-Kampagnen.
+Pro steht dabei für Preserve, Contra für Trigger – beide Varianten stabilisieren die Zeitlinie.
+Spielende entscheiden sich zu Beginn für eine Fraktion und erhalten entsprechend Preserve- oder Trigger-Kampagnen.
 Preserve stabilisiert Beinahe-Katastrophen, Trigger stellt dokumentierte Tragödien sicher.
 Eine kurze Übersicht bietet der Abschnitt „Preserve-vs-Trigger-Logik“ im Kampagnenmodul.
 Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung
@@ -138,7 +138,8 @@ Die ersten Schritte in unter zwei Minuten:
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
-Rivalen stammen stets aus externen Machtblöcken.
+In Core-Ops treten Rivalen aus externen Machtblöcken auf,
+während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 
 Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
 Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
@@ -393,7 +394,8 @@ alle weiteren Modi sind optionale Zusätze:
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
 Mission-Fokus wird beim Spielstart automatisch aktiviert und vermeidet PvP.
-Rivalen stammen stets aus externen Machtblöcken.
+Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
+während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
 phase: Core
 year: 1961
