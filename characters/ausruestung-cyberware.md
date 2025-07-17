@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.6 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
-version: 4.1.6
+version: 4.1.7
 tags: [characters]
 ---
 

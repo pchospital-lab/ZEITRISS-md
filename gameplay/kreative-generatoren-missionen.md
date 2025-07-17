@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.6 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.1.6
+version: 4.1.7
 tags: [gameplay]
 ---
 
@@ -1760,70 +1760,90 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: heist_pool
   title: "Red Tape"
-  pitch: "NATO–UDSSR Hotline stabilisieren; 3 Neandertaler‑Bruiser und Urwolf‑Tracker sabotieren Glasfaser – Nahkampf im Kabelschacht."
+  pitch: >
+  NATO–UDSSR Hotline stabilisieren; 3 Neandertaler‑Bruiser und Urwolf‑Tracker
+  sabotieren Glasfaser – Nahkampf im Kabelschacht.
   timeslot: "1977-03-18"
 
 - arc_id: "AbleArcher83"
   arc_step: 2
   pool: heist_pool
   title: "NORAD 40/15"
-  pitch: "Alarm‑Bug patchen (darf nicht feuern); CT‑NetSec‑Team mit Cyber‑Samurai‑Bodyguard hackt NORAD‑Mainframe – Feuergefecht & Matrix‑Duel."
+  pitch: >
+  Alarm‑Bug patchen (darf nicht feuern); CT‑NetSec‑Team mit Cyber‑Samurai‑Bodyguard
+  hackt NORAD‑Mainframe – Feuergefecht & Matrix‑Duel.
   timeslot: "1979-11-09"
 
 - arc_id: "AbleArcher83"
   arc_step: 3
   pool: heist_pool
   title: "SAMURAI Key"
-  pitch: "Samurai Shimada Gorō rekrutieren; Extraction‑Spezialisten und Urwolf zur Fährtensuche – Katana‑Duel im Frachtlift."
+  pitch: >
+  Samurai Shimada Gorō rekrutieren; Extraction‑Spezialisten und Urwolf zur Fährtensuche
+  – Katana‑Duel im Frachtlift.
   timeslot: "1980-06-12"
 
 - arc_id: "AbleArcher83"
   arc_step: 4
   pool: heist_pool
   title: "Solar Flare"
-  pitch: "Schutzcode in Satellit laden; CT‑Rigger‑Duo mit Spreng‑Drohnen stört Panel‑Zugriff – Roof‑Gunfight."
+  pitch: >
+  Schutzcode in Satellit laden; CT‑Rigger‑Duo mit Spreng‑Drohnen
+  stört Panel‑Zugriff – Roof‑Gunfight.
   timeslot: "1981-01-21"
 
 - arc_id: "AbleArcher83"
   arc_step: 5
   pool: heist_pool
   title: "Black Bear"
-  pitch: "Ersatz‑Kosmos‑1382 hochbringen; Neandertaler‑Saboteure überfallen Konvoi, Urwolf spürt Route auf – Truck‑Ambush."
+  pitch: >
+  Ersatz‑Kosmos‑1382 hochbringen; Neandertaler‑Saboteure überfallen Konvoi, Urwolf spürt Route auf
+  – Truck‑Ambush.
   timeslot: "1982-02-22"
 
 - arc_id: "AbleArcher83"
   arc_step: 6
   pool: heist_pool
   title: "Able Brief"
-  pitch: "Leak echter Manöverdaten sichern; CT‑Face plus Assault‑Mercs stehlen Diskette – Archiv‑Shootout."
+  pitch: >
+  Leak echter Manöverdaten sichern; CT‑Face plus Assault‑Mercs
+  stehlen Diskette – Archiv‑Shootout.
   timeslot: "1983-11-07 08:00"
 
 - arc_id: "AbleArcher83"
   arc_step: 7
   pool: heist_pool
   title: "Ghost Silos"
-  pitch: "Autorisierung gegen Hack schützen; CT‑Combat‑Team bohrt Datenleitung, Urwolf bewacht Perimeter – Nahkampf am Silo‑Tor."
+  pitch: >
+  Autorisierung gegen Hack schützen; CT‑Combat‑Team bohrt Datenleitung, Urwolf bewacht Perimeter
+  – Nahkampf am Silo‑Tor.
   timeslot: "1983-11-07 19:00"
 
 - arc_id: "AbleArcher83"
   arc_step: 8
   pool: heist_pool
   title: "Echo Down"
-  pitch: "Untersee‑Kabel reparieren; Rigger mit Mini‑U‑Boot und Tauch‑Mercs zünden Sprengsatz – Sturm‑Taucher‑Gefechte."
+  pitch: >
+  Untersee‑Kabel reparieren; Rigger mit Mini‑U‑Boot und Tauch‑Mercs
+  zünden Sprengsatz – Sturm‑Taucher‑Gefechte.
   timeslot: "1983-11-08 02:00"
 
 - arc_id: "AbleArcher83"
   arc_step: 9
   pool: heist_pool
   title: "Petrov Guard"
-  pitch: "Oberst Petrov beschützen; Kill‑Cell mit Bruiser, Urwolf und Sniper stürmt Wohnung – CQB‑Fight."
+  pitch: >
+  Oberst Petrov beschützen; Kill‑Cell mit Bruiser, Urwolf und Sniper
+  stürmt Wohnung – CQB‑Fight.
   timeslot: "1983-11-09 16:00"
 
 - arc_id: "AbleArcher83"
   arc_step: 10
   pool: heist_pool
   title: "Blue Silence"
-  pitch: "Sim‑Signal als ‚Übung‘ kennzeichnen; CT‑Elite‑Handler und Heavy‑Merc‑Squad greifen an – finale Mehr­ebenen‑Schlacht (Gorō als Ally)."
+  pitch: >
+  Sim‑Signal als ‘Übung’ kennzeichnen; CT‑Elite‑Handler und Heavy‑Merc‑Squad greifen an
+  – finale Mehr­ebenen‑Schlacht (Gorō als Ally).
   timeslot: "1983-11-11 00:00"
 
 ---
@@ -1851,7 +1871,8 @@ thema: Beispiel-Rift
 * **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2, einmal pro Szene Riposte‑Konter).
 * **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den Atomkrieg auszulösen.
 
-Damit hast du denselben Able‑Archer‑Preserve‑Bogen, **nur mit dem Urwolf als ikonischem Hybrid**, sonst reine Humanoiden‑Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS‑Feeling.
+Damit hast du denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
+sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS-Feeling.
 
 # ─────────────────────────────────────────────────────────────
 # PRESERVE‑ARC – SALAMIS 480 v. Chr.

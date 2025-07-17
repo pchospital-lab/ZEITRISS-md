@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.1.6 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
-version: 4.1.6
+version: 4.1.7
 tags: [core]
 ---
 
