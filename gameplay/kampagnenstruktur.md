@@ -452,7 +452,8 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 
 - **Urwolf** taucht maximal zweimal pro Mission auf (Spür‑ oder Angsteinheit).
 - **Samurai Shimada Gorō** stößt in Mission 8 zum Team – sein Katana schneidet antike Bronze mühelos.
-- **Chrom trifft Antike:** Bronze‑Kupfer‑Optik, aber Smart‑Mechanik; der Repetier‑Gastraphetes spielt sich wie eine Sturm‑Armbrust.
+- **Chrom trifft Antike:** Bronze‑Kupfer‑Optik, aber Smart‑Mechanik; der Repetier‑Gastraphetes
+  spielt sich wie eine Sturm‑Armbrust.
 - **Paradoxon‑Trigger:** nur, wenn ARGOS entscheidend persische Siege erzwingt (flüchtige Persian‑Win‑Branch).
 
 **Arc‑Outcome**
