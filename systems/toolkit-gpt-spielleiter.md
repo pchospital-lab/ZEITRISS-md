@@ -48,6 +48,7 @@ if not character.psi:
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
 - `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
+  Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
   Rufe `StartScene(loc, target, pressure, total=14)` auf, um die 14 Szenen bei Rift-Ops korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
 ## Fokus-Missionsmodus
@@ -87,13 +88,20 @@ sichern die Daten und verschwinden spurlos.
 
 Dieser Modus ist ab sofort die Standardeinstellung in neuen Sitzungen.
 
+### Atmosphäre & Timing {#atmosphaere-timing}
+
+Lass Szenen zu Beginn kurz wirken, bevor du auf schnelle Aktionen umschaltest.
+Beschreibe Geruch, Geräusche und Licht, damit die Spieler ein klares Bild
+erhalten. Baue gelegentlich kleine Atempausen ein – ein Kameraschwenk über die
+Umgebung oder ein Schluck Wasser für die Agenten – um Spannung aufzubauen.
+
 ### Transparenz-Modus Lite (optional) {#transparency-lite}
 
-Einige Gruppen möchten grob wissen, wie knapp ein Erfolg ausfiel. In diesem
-Modus nennt die KI-Spielleitung nur den **Erfolgsabstand** – etwa: _"Du
-schlägst den Wachposten um 2."_ Die Rohwürfel bleiben verdeckt. Wer den
-klassischen Thriller-Stil bevorzugt, ignoriert dieses Feature.
-Bei Bedarf kann ein kurzes JSON-Log jeden Wurf dokumentieren:
+Standardmäßig werden alle Würfelergebnisse offen gezeigt. Wer lieber voll auf
+die Dramaturgie setzt, aktiviert **hidden** per `/roll hidden`. In diesem Modus
+nennt die KI-Spielleitung nur den **Erfolgsabstand** – etwa: _"Du schlägst den
+Wachposten um 2."_ Bei Bedarf kann ein kurzes JSON-Log jeden Wurf
+dokumentieren:
 ```json
 {"roll":"1d6","result":4,"ts":"2024-01-01T12:00:00Z"}
 ```
@@ -231,7 +239,7 @@ Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 ```md
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
-{% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">HUD</span>{% endif %}
+{% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
@@ -249,6 +257,13 @@ Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 {% macro EndScene() -%}
 {% set campaign.scene = campaign.scene + 1 -%}
 ██ Scene {{ campaign.scene-1 }} complete – progressing to Scene {{ campaign.scene }} ██
+{%- endmacro %}
+
+<!-- Macro: EndMission -->
+{% macro EndMission() -%}
+{% set campaign.episode = campaign.episode + 1 -%}
+{% if campaign.level < 10 %}{% set campaign.level = campaign.level + 1 %}{% endif -%}
+██ Mission abgeschlossen – Team-Level {{ campaign.level }} ██
 {%- endmacro %}
 
 <!-- Macro: SceneTarget -->
@@ -438,7 +453,10 @@ einzusetzen, um den Spielern Informationen oder Stimmungsimpulse zu geben. Diese
 Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gestaltet sein:
 
 - **Visueller Stil & Signalwirkung:** Beschreibe HUD-Elemente mit ihren Farben, Symbolen und
-  Effekten. ZEITRISS-HUDs sind vermutlich futuristisch, holografisch und kontextsensitiv. Beispiel:
+  Effekten. ZEITRISS-HUDs sind vermutlich futuristisch, holografisch und kontextsensitiv.
+  Meist projiziert der Codex die Anzeigen direkt ins Sichtfeld –
+  eine leichte Retina-Linse, die nur Agenten sehen.
+  Beispiel:
   _„Ein rot pulsierendes Dreieck-Icon erscheint am rechten oberen Rand eures Sichtfelds.“_ Oder: *„Das
   HUD flimmert kurz, w*ä*hrend neue Daten eingeblendet werden.“* Solche visuellen Hinweise verstärken
   die Immersion und geben den Spielern ein Bild davon, **wie** die Info präsentiert wird (blinkend =
