@@ -593,12 +593,12 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T29",
         "label": "Parallel-Konklave",
-        "effect": "Ein Doppelgänger-Team taucht auf – gleiche Ziele, andere Agenda. Rivalen, Söldner oder Backup???"
+        "effect": "Ein Doppelgänger-Team taucht auf – gleiche Ziele, andere Agenda. Rivalen, Söldner oder Backup?"
       },
       {
         "id": "T30",
         "label": "Rabies-X Outbreak",
-        "effect": "Mutierte Tollwut in versiegelter Basis: Soldaten wie Zombies – Antiserum oder Flammenwerfer???"
+        "effect": "Mutierte Tollwut in versiegelter Basis: Soldaten wie Zombies – Antiserum oder Flammenwerfer?"
       },
       {
         "id": "T31",
@@ -608,7 +608,7 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T32",
         "label": "Kaltes Singularitätstor",
-        "effect": "Gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder tickende Uhr??"
+        "effect": "Gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder tickende Uhr?"
       },
       {
         "id": "T33",
