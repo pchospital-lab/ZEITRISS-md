@@ -744,6 +744,7 @@ wieder auf Zeitreise geht.
 #### Wichtige Ansprechpartner
 
 - **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
+  Sein Bio-Sheath basiert auf Homo sapiens novus.
   Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium.
 - **Archivare des Codex** – betreuen das Wissensarchiv und helfen bei
   Recherchen.
@@ -751,8 +752,10 @@ wieder auf Zeitreise geht.
 - **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
 - **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
 - **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson.
-  Chrono-Symmetriker: Pater Lorian; Ordo Mnemonika: Archivarin Mira;
-  Kausalklingen: Offizier Vargas; Zerbrechliche Ewigkeit: Agentin Narella.
+  Chrono-Symmetriker: Pater Lorian (H. heidelbergensis);
+  Ordo Mnemonika: Archivarin Mira (H. floresiensis);
+  Kausalklingen: Offizier Vargas (H. erectus spät);
+  Zerbrechliche Ewigkeit: Agentin Narella (Denisova-Mensch).
 
 #### Megacity in der Nullzeit
 
