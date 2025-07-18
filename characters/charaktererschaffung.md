@@ -27,7 +27,7 @@ Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar i
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
-2. Spezies oder Bio-Hülle wählen – Basis-Mensch oder experimentelle Hominin-Form.
+2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (N‑Typ/T‑Stufe) oder historischer Hominin.
    Siehe [optionale Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (Basis 2–5)
 4. Zwei Talente wählen
@@ -43,6 +43,69 @@ Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar i
 - GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
   Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden
   kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
+
+### Humane Abstufungen
+
+Im Laufe der Jahrhunderte haben sich neben dem Basismenschen zwei weiterentwickelte Stufen
+etabliert. Sie sind beim ITI wie auch bei gegnerischen Fraktionen vertreten und verleihen
+dem Spiel ein transhumanes Flair.
+
+#### Homo Sapiens Sapiens – Baseline
+
+Keine Modifikatoren. Standardvariante bei der Charaktererschaffung.
+
+#### Homo Sapiens Novus – „N‑Typ“
+
+Frühmoderne Genlinie mit gezielter Hirnoptimierung.
+
+| Attribut | Effekt |
+| --- | --- |
+| STR | −1 |
+| GES | −1 |
+| INT | +1 |
+| CHA | +1 |
+| TEMP | +1 |
+| SYS | −1 |
+
+- Widersteht einfachen Psi‑Tricks (SG −1).
+- Zugriff auf besondere Codex‑Kommandos (nach Freigabe).
+- Körperliche Extrembelastung steigert Stress schneller (+1 bei STR‑Proben).
+- Kompakte Bio-Hülle verringert die verfügbare Systemlast.
+
+#### Homo Sapiens Transitus – „T‑Stufe“
+
+Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
+
+| Attribut | Effekt |
+| --- | --- |
+| STR | −2 |
+| GES | −1 |
+| INT | +2 |
+| CHA | +2 |
+| TEMP | +2 |
+| SYS | −3 |
+
+- Schmerzempfinden stark reduziert, anfällig für EMP und Psi.
+- Kann unbewusst leichte Psi‑Impulse auslösen (Warninstinkt, Stimmverzerrung).
+- Benötigt pro Mission eine Szene zur Neurostabilisierung.
+- Winzige Statur limitiert die Systemlast deutlich.
+
+Chronopolis versammelt Agenten aller drei Stufen. Auch rivalisierende Gruppen
+setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
+
+### Historische Homininen (Bio-Sheaths)
+
+Neben den modernen Sapiens-Stufen experimentiert das ITI mit fossiler DNA.
+Spieler können Neandertaler oder andere Vorfahren als temporäre Hüllen wählen.
+Alle Varianten balancieren ihre Boni und Mali aus.
+
+| Spezies | Attribut-Boni |
+| --- | --- |
+| Homo neanderthalensis | STR +2, INT −1, CHA −1 |
+| Denisova-Mensch | STR +1, TEMP +1, CHA −1, INT −1 |
+| Homo heidelbergensis | STR +1, SYS +1, CHA −1, INT −1 |
+| Homo floresiensis | GES +2, STR −2 |
+| Homo erectus (spät) | GES +1, SYS +1, CHA −1, INT −1 |
 
 ### Quick-Build für One-Shots
 
