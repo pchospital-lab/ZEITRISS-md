@@ -32,6 +32,15 @@ Raum und Zeit, dramatische Entscheidungen mit Folgen für die Geschichte und int
 in einer lebendigen Basis. Im Folgenden werden die einzelnen Bausteine des Moduls ausführlich
 beschrieben.
 
+### Kampagnenhierarchie
+
+Das ZEITRISS-System unterscheidet klar vier Ebenen:
+
+- **Mission** – eine einzelne Operation mit rund zwölf Szenen.
+- **Episode/Fall** – fasst etwa zehn Missionen desselben Settings zusammen.
+- **Arc** – mehrere Episoden bilden einen übergeordneten Handlungsbogen.
+- **Kampagne** – verknüpft mehrere Arcs zu einer fortlaufenden Gesamtstory.
+
 ## Kampagnenplanung im ZEITRISS-Stil
 
 Langanhaltende ZEITRISS-Kampagnen profitieren von einer **durchdachten Planung** und **flexiblen
@@ -223,7 +232,7 @@ if paradox_level >= threshold:
 
 | Format | Dauer IRL | Soll-Szenen | Beschreibung |
 | --------------------- | ------------ | ------------------ | ------------------------------- |
-| **Mission (Core-Op)** | 60–75 min    | **12 Szenen**      | „Netflix-Folge” – Arc,<br> Cliffhanger, Level-Up |
+| **Mission (Core-Op)** | 60–75 min    | **12 Szenen**      | „Netflix-Folge” – Teil einer Episode,<br> Cliffhanger, Level-Up |
 | **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
@@ -307,7 +316,7 @@ Rift-Op zu spielen oder für künftige Plots zu parken.
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
-Ein **Arc** umfasst in der Regel **10 Core-Missionen** desselben historischen Hotspots.
+Ein **Arc** setzt sich aus mehreren Episoden desselben historischen Hotspots zusammen.
 Die Handlung verläuft in der Regel vorwärts. Ein einzelner Rücksprung pro Arc
 ist erlaubt, darf jedoch keine Selbstbegegnung ermöglichen.
 
@@ -521,6 +530,8 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 3. SL würfelt Wetterprobe, nennt Sicht & Geräuschpegel. Los!
 
 ##### Beispiel-Episoden & Rift-Op {#beispiel-episoden}
+
+*Hinweis:* Die folgenden Listen zeigen einzelne Missionen. Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem Fall.
 
 **Episode 1 – OKO FALSE-ALARM**
 1. Briefing in Nullzeit-Atrium – Petrow retten, Atomkrieg verhindern.
