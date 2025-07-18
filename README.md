@@ -36,7 +36,7 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
 
 ## Grundidee
 
-**ZEITRISS 4.1.6** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.1.7** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
 Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen
 und bedeutende Ereignisse zu beeinflussen.
 Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
@@ -245,7 +245,7 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
    Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
-   Beispiel: "ZEITRISS 4.1.6 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
+   Beispiel: "ZEITRISS 4.1.7 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
    Suche im Modul **Kreative Generatoren** nach dem Abschnitt

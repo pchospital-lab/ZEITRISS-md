@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
+title: "ZEITRISS 4.1.7 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
 version: 4.1.7
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+# ZEITRISS 4.1.7 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
 
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
@@ -31,7 +31,7 @@ den Schwierigkeitsgrad und den Loot-Multiplikator entsprechend der
 Rift-Anzahl. Die Spieler können ein Rift offen lassen und die Core-Operation
 fortsetzen, um später mehr Beute zu machen – müssen dann aber mit dem höheren
 SG leben. In der Szene selbst äußert sich lediglich kurzzeitige Instabilität.
-So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.6 reale Schauplätze mit übernatürlichen Folgen
+So erleben alle gleich zu Beginn, wie ZEITRISS 4.1.7 reale Schauplätze mit übernatürlichen Folgen
 verbindet.
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
@@ -80,7 +80,7 @@ gemeinsamen Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.1.6**, der überarbeiteten und erweiterten Fassung des
+**Willkommen zu Modul 13 von ZEITRISS 4.1.7**, der überarbeiteten und erweiterten Fassung des
 cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
 Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
 maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
