@@ -5,4 +5,10 @@ if [ -n "$files" ]; then
         echo 'Error: trailing whitespace detected.' >&2
         exit 1
     fi
+    long_lines=$(grep -nH '.\{121\}' $files)
+    if [ -n "$long_lines" ]; then
+        echo 'Error: lines longer than 120 characters:' >&2
+        echo "$long_lines" >&2
+        exit 1
+    fi
 fi

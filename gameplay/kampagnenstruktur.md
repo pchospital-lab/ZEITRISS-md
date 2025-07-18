@@ -232,7 +232,7 @@ if paradox_level >= threshold:
 
 | Format | Dauer IRL | Soll-Szenen | Beschreibung |
 | --------------------- | ------------ | ------------------ | ------------------------------- |
-| **Mission (Core-Op)** | 60–75 min    | **12 Szenen**      | „Netflix-Folge” – Teil einer Episode,<br> Cliffhanger, Level-Up |
+| **Mission (Core-Op)** | 60–75 min | **12 Szenen** | „Netflix-Folge“ – Cliffhanger, Level-Up |
 | **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
 ### Staffel-Skeleton "Glanzlicht"
@@ -438,18 +438,28 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 > **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
 > Holo-Helme mit Hoplit-Kamm, „Bronze“-Smartguns und Wachstafel-Cyberdecks.
 
-| #  | Datum / Phase 480 v. Chr. | Codename          | Schauplatz             | Preserve‑Primärziel                                                         | **ARGOS‑Gegenaktion / Kampf‑Hook**                                                                                 |
-| -- | ------------------------- | ----------------- | ---------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| 1  | 26. Aug. – Morgengrauen   | **Dry Dock**      | Korinthische Werft     | Verzögere persische Brandpfeil‑Lieferung (Sabotage am Schiffsrumpf).        | 3 ARGOS‑Bruiser + Urwolf eskortieren Waffenladung → Nachtschlacht zwischen Triremen                                |
-| 2  | 27. Aug. Mittag           | **Copper Quill**  | Delphi‑Amphiktyonie    | Fälsche Orakelrolle – sie muss „Seemauern retten Hellas“ lauten.            | ARGOS‑Face & Hack‑Monk wollen Panik‑Prophezeiung verbreiten → Nahkampf im Tempel‑Adyton                            |
-| 3  | 31. Aug.                  | **Phalanx Key**   | Sparta, Gerusia        | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee!).              | ARGOS‑Silver‑Tongue besticht Rat → Rededuell, anschließend Hoplit‑Gunfight in Gerusia‑Hof                          |
-| 4  | 2. Sept.                  | **Aegis Node**    | Ägina‑Signalfeuer      | Bewahr’ Feuerkette – falsches Feuer würde Flottenorden ändern.              | ARGOS‑Drohnen‑Rigger mit Kupfer‑Ornithopter zündet Signalfackel → Felsenklippen‑Duell                              |
-| 5  | 10. Sept.                 | **Iron Marble**   | Piräus‑Lager           | Zerstöre persische Skorpion‑Ballista‑Vorräte.                               | ARGOS‑Merc‑Squad infiltriert als „Bauern“ → Lagerbrand & Kurzfeuer‑Gefechte                                        |
-| 6  | 18. Sept.                 | **Owl Cipher**    | Akropolis‑Krypta       | Schütze geheime Seekriegs‑Kodexe (Taktik von Themistokles).                 | Kill‑Team (Bruiser, Urwolf, Sniper) stürmt Höhle → CQB zwischen Karyatiden‑Gängen                                  |
-| 7  | 20. Sept.                 | **Channel Ghost** | Meerenge von Salamis   | Störe persische Seil‑Boom, die Engpass blockieren soll.                     | ARGOS‑Combat‑Divers legen Minen → Unterwasser‑Fight an Bronze‑Ketten                                               |
-| 8  | 21. Sept. Vor‑Dämmerung   | **Red Keel**      | Persische Vorhut‑Reede | Entferne Navigator‑Dronen (ARGOS‑Tech) von Xerxes’ Flaggschiff.             | Samurai‑Bodyguard + Rigger auf Deck → Stealth‑Katana vs. Smart‑Kopis                                               |
-| 9  | 22. Sept. Schlacht        | **Mist Spear**    | Deck der *Athená Nicé* | Bewahre griech. Admiralsflagge – Signal zum Gegen‑Rammanöver.               | ARGOS‑Sniper auf Nebelschiff, Urwolf an der Kette → Mast‑Kletter‑Schusswechsel                                     |
-| 10 | 22. Sept. Schlachtende    | **Azure Break**   | Xerxes’ Felsenthron    | Verhindere ARGOS‑Evakuierung des Großkönigs – er **muss** Rückzug befehlen. | Elite‑Handler + Heavy‑Merc‑Schildtrupp decken Xerxes I. → Finale Strand‑Schlacht (Hopliten, Samurai‑Gorō als Ally) |
+| # | Datum/Phase 480u202f v.u202f Chr. | Codename | Schauplatz | Preserve | ARGOS-Hook |
+| -- | ---------------------- | -------- | ---------- | -------- | ---------- |
+| 1 | 26. Aug. – Morgengrauen | **Dry Dock** | Korinthische Werft | Brandpfeile sabotieren, Schiffsrumpf beschädigen. |
+|   |   |   |   | 3 Bruiser + Urwolf eskortieren Waffen → Nachtkampf auf Triremen |
+| 2 | 27. Aug. Mittag | **Copper Quill** | Delphi-Amphiktyonie | Orakelrolle fälschen: 'Seemauern retten Hellas.' |
+|   |   |   |   | Face + Hack-Monk säen Panik → Nahkampf im Adyton |
+| 3 | 31. Aug. | **Phalanx Key** | Sparta, Gerusia | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee). |
+|   |   |   |   | Silver-Tongue besticht Rat → Rededuell, dann Hoplit-Gunfight im Hof |
+| 4 | 2. Sept. | **Aegis Node** | Ägina-Signalfeuer | Bewahre Feuerkette – falsches Signal ändert Flottenorden. |
+|   |   |   |   | Drohnen-Rigger zündet Kupfer-Ornithopter-Fackel → Felsenklippen-Duell |
+| 5 | 10. Sept. | **Iron Marble** | Piräus-Lager | Persische Skorpion-Ballista-Vorräte zerstören. |
+|   |   |   |   | Merc-Squad infiltriert als 'Bauern' → Lagerbrand, Kurzfeuergefechte |
+| 6 | 18. Sept. | **Owl Cipher** | Akropolis-Krypta | Geheime Seekriegs-Kodexe von Themistokles sichern. |
+|   |   |   |   | Bruiser, Urwolf, Sniper stürmen Höhle → CQB in Karyatiden-Gängen |
+| 7 | 20. Sept. | **Channel Ghost** | Meerenge von Salamis | Seil-Boom stören, die Engpass blockieren soll. |
+|   |   |   |   | Combat-Divers legen Minen → Unterwasser-Fight an Bronze-Ketten |
+| 8 | 21. Sept. Vor-Dämmerung | **Red Keel** | Vorhut-Reede | ARGOS-Dronen von Xerxes' Flaggschiff entfernen. |
+|   |   |   |   | Samurai-Bodyguard + Rigger → Stealth-Katana vs. Smart-Kopis |
+| 9 | 22. Sept. Schlacht | **Mist Spear** | Deck der Athená Nicé | Admiralsflagge sichern – Signal fürs Gegenrammen. |
+|   |   |   |   | Sniper auf Nebelschiff, Urwolf an Kette → Mastkletter-Schusswechsel |
+| 10 | 22. Sept. Ende | **Azure Break** | Xerxes’ Thron | Xerxes nicht evakuieren – er muss Rückzug befehlen. |
+|    |   |   |   | Elite-Handler + Heavy-Merc-Schilde decken Xerxes → Finale Strand-Schlacht (Samurai Gorō hilft) |
 
 ### Gegner‑Roster (kompakt)
 
@@ -531,7 +541,8 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ##### Beispiel-Episoden & Rift-Op {#beispiel-episoden}
 
-*Hinweis:* Die folgenden Listen zeigen einzelne Missionen. Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem Fall.
+*Hinweis:* Die folgenden Listen zeigen einzelne Missionen.
+Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem Fall.
 
 **Episode 1 – OKO FALSE-ALARM**
 1. Briefing in Nullzeit-Atrium – Petrow retten, Atomkrieg verhindern.
