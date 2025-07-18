@@ -256,9 +256,15 @@ D -->|offene Rifts zählen| E[Schwierigkeitsgrad & CU-Multi]
 E --> A
 ```
 
-Nach jeder Mission folgt eine **HQ-Phase**. Hier vergibt die SL Belohnungen,
-Level-Aufstiege und verwaltet Ressourcen. Erst danach startet der nächste
-Einsatz.
+Nach jeder Mission hält das System in einem kurzen **Nullzeit-Menü** an.
+Dort legt die Runde fest, wie ausführlich die HQ-Phase ablaufen soll.
+Anschließend vergibt die SL Belohnungen und Level-Ups, bevor der
+folgende Einsatz startet. Zur Wahl stehen drei Wege:
+
+1. **HQ manuell erkunden** – Klinikbesuche und Quartierausbau laufen komplett aus.
+2. **Schnell-HQ** – wenige Menüklicks genügen, um Heilung und Einkauf zu erledigen.
+3. **Auto-HQ & Save** – automatische Abwicklung, dann direkt zur nächsten Mission.
+
 
 #### Offene Rifts
 
