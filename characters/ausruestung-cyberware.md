@@ -376,7 +376,9 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   absoluten Notfall kann ein Agent damit einen _kleinen, instabilen Zeitriss_ zu einer
   voreingestellten Zeit (typisch: Nullzeit HQ, **nur Rückreise**) öffnen. Dieser Riss hält wenige
   Sekunden – genug, um hindurchzuspringen. Aufgrund der potenziellen Gefahren (Ortungsrisiko,
-  Zeitbeben) nur mit höchster Vorsicht einzusetzen! _Kosten:_ Nur Missionsausrüstung, nicht käuflich.
+  Zeitbeben) nur mit höchster Vorsicht einzusetzen!
+  _Kosten:_ Nur Missionsausrüstung, nicht käuflich.
+  Nur erfahrene Teams erhalten es kurzfristig; nicht als permanentes Inventar.
 
 _Atmosphärische Einbindung:_ All diese temporalen Tools können im Spiel für spannende Szenen sorgen.
 So könnte etwa das **HUD** des Chrononauten automatisch Epochen-Scanner-Daten einblenden, sobald
