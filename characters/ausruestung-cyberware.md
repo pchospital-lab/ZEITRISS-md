@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.6 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
+title: "ZEITRISS 4.1.7 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
 version: 4.1.7
 tags: [characters]
 ---
 
-# ZEITRISS 4.1.6 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
+# ZEITRISS 4.1.7 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
 
 ## Inhalt
 
@@ -27,7 +27,7 @@ Ohr meldet sich die KI-Assistentin – Codex – mit ruhiger Stimme: _„Kalibri
 Systeme bereit.“_ Der kommende Einsatz führt das Team vom Mittelalter direkt in eine dystopische
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
-_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.6** mit Fokus auf
+_Willkommen in Modul 4_, dem Erweiterungsmodul für **ZEITRISS 4.1.7** mit Fokus auf
 fortgeschrittener **Charakterausstattung und Spezialisierung**.
 
 Dieses Kapitel erweitert das Regelwerk um detaillierte Optionen für Ausrüstungsgegenstände
@@ -506,6 +506,6 @@ Der Befehl `itemforge()` greift auf diese Tabellen zu. Nutzt die IDs wie `weapon
 `!itemforge core 100cu` erzeugt Tier‑1/2-Loot, `!itemforge rift` erlaubt Tier 3.
 
 Diese Tabellen sollen schnelle Inspiration liefern und zeigen, wie Loot, Missionen und das
-CU-System in ZEITRISS 4.1.6 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
+CU-System in ZEITRISS 4.1.7 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
 Chrononauten mit spannenden Funden zu belohnen.
 *© 2025 pchospital – private use only. See LICENSE.

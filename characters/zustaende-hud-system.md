@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.6 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
+title: "ZEITRISS 4.1.7 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
 version: 4.1.7
 tags: [characters]
 ---
 
-# ZEITRISS 4.1.6 – Modul 5: Erweiterte Systeme & Cinematisches HUD
+# ZEITRISS 4.1.7 – Modul 5: Erweiterte Systeme & Cinematisches HUD
 
 ## Inhalt
 
@@ -540,7 +540,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
 
-Ein Highlight von ZEITRISS 4.1.6 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
+Ein Highlight von ZEITRISS 4.1.7 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
 Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere _sehen_ wichtige
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.6 – Modul 3: Charaktererschaffung & Progression"
+title: "ZEITRISS 4.1.7 – Modul 3: Charaktererschaffung & Progression"
 version: 4.1.7
 tags: [characters]
 ---
 
-# ZEITRISS 4.1.6 – Modul 3: Charaktererschaffung & Progression
+# ZEITRISS 4.1.7 – Modul 3: Charaktererschaffung & Progression
 
 ## Inhalt
 
@@ -15,7 +15,7 @@ tags: [characters]
 - Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 - Team-Zusammenstellung & Rollenverteilung (optional)
 
-**Einleitung:** In _ZEITRISS 4.1.6_ erschaffst du einen _Chrononauten_-Charakter, der als Zeitreise-
+**Einleitung:** In _ZEITRISS 4.1.7_ erschaffst du einen _Chrononauten_-Charakter, der als Zeitreise-
 Agent im Dienst des ITI (Institut für Temporale Interventionen) Missionen quer durch die Epochen
 erlebt. Dieses Modul liefert dir eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
 erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
@@ -661,7 +661,7 @@ weder anfängliche Ruf-Boni noch Dienstgrade –
 echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdient.
 
 Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschiedlichen Gruppen einen
-**Ruf** aufbaut. ZEITRISS 4.1.6 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
+**Ruf** aufbaut. ZEITRISS 4.1.7 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
 relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–5** und **+5** tracken.
 Null ist neutral, positive Werte bedeuten Vertrauen/Ansehen, negative Misstrauen oder Feindschaft.
 Zu Beginn einer Kampagne wählt ihr, bei welcher Fraktion ihr langfristig Ansehen aufbauen wollt.
@@ -820,7 +820,7 @@ Teamkomposition**:
   spielen lässt, Mira, die ein Napoleonic-Era-Telegramm abhört, und Julian, der eine mysteriöse
   Krankheit im Jahr 2120 analysiert. Solche Unterschiede machen das Spiel spannend!
 
-Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.1.6 soll ein
+Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.1.7 soll ein
 filmisch-packendes Erlebnis sein, kein Zahlenspiel. Die Zahlen und Werte – von Attributen über
 Talente bis Ruf – sind Werkzeuge, um euren Charakter greifbarer zu machen und fair zu bleiben. Die
 KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch
