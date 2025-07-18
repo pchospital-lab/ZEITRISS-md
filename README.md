@@ -62,6 +62,15 @@ Wer lieber ganz auf solche Erscheinungen verzichtet,
 kann im [**Covert-Ops-Modus**](#spielmodi) spielen, der nur leichte Störungen zulässt.
 Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
 
+## Kampagnenhierarchie
+
+Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begriffe im Überblick:
+
+- **Mission** – einzelner Einsatz von etwa 12 Szenen.
+- **Episode/Fall** – sammelt rund zehn Missionen im gleichen Setting.
+- **Arc** – mehrere Episoden bilden einen Handlungsbogen.
+- **Kampagne** – verknüpft mehrere Arcs zur Gesamtgeschichte.
+
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
