@@ -334,8 +334,9 @@ Zeitalters ungeschehen machen kann.
 
 Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
 Die Zeit wartet nicht.
-Dein letzter Einsatz endete tödlich. Das ITI zog dein Bewusstsein im letzten Moment aus der Zeit.
-Im HQ erwachst du in einer frischen Bio-Hülle – wahlweise sogar in einem urzeitlichen Homininen-Körper.
+Dein letzter Einsatz endete tödlich. Das ITI fischte dein Bewusstsein im letzten Moment aus dem Zeitstrom.
+Du vollendest die Charakterwahl im virtuellen Raum, erst dann erzeugt das HQ deinen neuen Körper –
+auf Wunsch in einer Hominin-Variante – und spielt dein Bewusstsein in diese Bio-Hülle ein.
 
 Nach Compliance-Hinweis und Einleitung wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
