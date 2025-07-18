@@ -28,6 +28,8 @@ tags: [meta]
 - Missionen folgen klaren Phasen: Briefing, Ankunft, Aufklärung, Zugriff, Exfiltration, Rücksprung.
 - Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,
   Verdunkeln, Verhindern, Dokumentieren.
+- Sprich Klartext und verzichte auf schwer verständliches Technobabbel.
+- Übermächtige Items bleiben Ausnahmen; Notfall-Rückholgeräte nur einmalig und für erfahrene Teams.
 
 ## Regeln & Spielmechanik
 
