@@ -162,11 +162,11 @@ körpern. Der Ansatz bleibt reine Sci-Fi ohne Fantasy-Rassen.
 
 | Spezies | Zeitfenster | Key-Traits | Spielrelevanz |
 | --- | --- | --- | --- |
-| **Homo neanderthalensis** | bis ~40 000 v.Chr. | kräftiger Brustkorb | +2 STR, –1 INT |
-| **Denisova-Mensch** | bis ~50 000 v.Chr. | robuste Knochen, kälteresistent | +1 STR, +1 TEMP, –1 CHA |
-| **Homo heidelbergensis** | bis ~200 000 v.Chr. | extreme Ausdauer | +1 STR, +1 SYS, –1 CHA |
+| **Homo neanderthalensis** | bis ~40 000 v.Chr. | kräftiger Brustkorb | +2 STR, –1 INT, –1 CHA |
+| **Denisova-Mensch** | bis ~50 000 v.Chr. | robuste Knochen, kälteresistent | +1 STR, +1 TEMP, –1 CHA, –1 INT |
+| **Homo heidelbergensis** | bis ~200 000 v.Chr. | extreme Ausdauer | +1 STR, +1 SYS, –1 CHA, –1 INT |
 | **Homo floresiensis** | bis ~50 000 v.Chr. | klein und wendig | +2 GES, –2 STR, Vorteil in engen Räumen |
-| **Homo erectus (spät)** | bis ~110 000 v.Chr. | hohe Hitzeresistenz | +1 GES, +1 SYS, –1 CHA |
+| **Homo erectus (spät)** | bis ~110 000 v.Chr. | hohe Hitzeresistenz | +1 GES, +1 SYS, –1 CHA, –1 INT |
 
 ### Balancing-Regeln
 
@@ -180,8 +180,8 @@ körpern. Der Ansatz bleibt reine Sci-Fi ohne Fantasy-Rassen.
 | Archetyp | Attribut-Boni | Kern-Talent | Einsatzfeld |
 | --- | --- | --- | --- |
 | **„Neander-Bruiser“** | +2 STR, –1 INT, –1 CHA | Hammerschlag – Nahkampfschaden +1 | Sturm-Ops |
-| **„Denisovan Scout“** | +1 STR, +1 TEMP, –1 CHA | Frostborn – ignoriert Kälte bis −20 °C | Arktis-Drops |
-| **„Heidel-Endurer“** | +1 STR, +1 SYS, –1 CHA | Marathoner – doppelte Ausdauerlaufzeit | Aufklärung |
+| **„Denisovan Scout“** | +1 STR, +1 TEMP, –1 CHA, –1 INT | Frostborn – ignoriert Kälte bis −20 °C | Arktis-Drops |
+| **„Heidel-Endurer“** | +1 STR, +1 SYS, –1 CHA, –1 INT | Marathoner – doppelte Ausdauerlaufzeit | Aufklärung |
 | **„Flores Shadow“** | +2 GES, –2 STR | Tunnelgeist – +2 Heimlichkeit in engen Räumen | Grabungsmissionen |
-| **„Erectus Nomad“** | +1 GES, +1 SYS, –1 CHA | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops |
+| **„Erectus Nomad“** | +1 GES, +1 SYS, –1 CHA, –1 INT | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops |
 *© 2025 pchospital – private use only. See LICENSE.

@@ -73,6 +73,9 @@ Fraktion Unterstützung bietet.
 Weitere Infos zum HUD liefert das Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 Bei höheren Rängen öffnet sich zusätzlich der streng bewachte Kernbereich.
+Chronopolis beherbergt Sapiens‑Sapiens, N‑Typen, T‑Stufen und historische Homininen.
+Das ITI rekrutiert aus allen Abstufungen und Bio‑Sheaths; auch rivalisierende Gruppen setzen
+auf diese Vielfalt. Sie trägt spürbar zum Agentenflair bei.
 
 ### Bewusstsein, Absolut und Realität
 
