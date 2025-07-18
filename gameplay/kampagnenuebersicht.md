@@ -64,6 +64,8 @@ für neue Chrononauten.
 Die Metropole **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis Stufe 10 verschlossen.
 Dann erhalten die Agenten einen **Stadtschlüssel**, der Zugang zu Händlern und Aufträgen
 in der Stadt gewährt.
+Bei Level 10 überreicht Commander Renier persönlich den Chrononauten den Zugangsschlüssel.
+Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.
 Jeder Agent besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
 verwaltet werden.
 Kurze Infobriefe lassen sich direkt ins HUD streamen, sodass klar ist, welche

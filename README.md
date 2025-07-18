@@ -371,12 +371,17 @@ Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung z
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
 Im Menü lässt sich über `modus` der Erzählstil wechseln,
 z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
-Nach jedem Zeitsprung blendet das System ein **Nullzeit-Menü** ein.
-Zunächst läuft immer eine kurze HQ-Phase ab, in der Upgrades gekauft
-und der Restpunkt abgehandelt wird. Erst danach kann die Gruppe den
-aktuellen Pfad fortsetzen oder einen neuen Missionspfad wählen.
-Nach der Auswahl führt das HUD die Kampagne fort – der Sprung gilt damit
-als abgeschlossen.
+Nach jedem Zeitsprung und nach jeder Mission öffnet sich ein
+**Nullzeit-Menü**. Hier bestimmt die Gruppe, wie ausführlich die
+HQ-Phase ablaufen soll. Zur Wahl stehen drei Optionen:
+
+1. **HQ manuell erkunden** – volle Szenen, Quartierausbau und Klinikbesuche.
+2. **Schnell-HQ** – wenige Klicks für Heilung und Einkauf.
+3. **Auto-HQ & Save** – automatische Abwicklung, dann direkt zur nächsten Mission.
+
+Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
+neuen Missionspfad wählen. Nach der Auswahl führt das HUD die
+Kampagne fort – der Sprung gilt damit als abgeschlossen.
 
 ## Spielmodi {#spielmodi}
 
