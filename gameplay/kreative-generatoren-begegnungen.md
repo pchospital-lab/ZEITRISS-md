@@ -403,6 +403,35 @@ _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 m
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
 Zeitperiode stärker zu betonen.
 
+### Kurzereignisse (d6) {#kurzereignisse}
+
+Spontane Zwischenfälle lockern eine Mission auf. Würfle 1W6 oder nutze das
+Macro `rand_event()`.
+
+| W6 | Zwischenfall |
+| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | **Funkstörung** – Für 1 Szene kein Team- oder Codexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
+| 2 | **Technik-Glitch** – Ein Gadget (nach SL-Wahl) reagiert verzögert oder falsch. Z. B. Scanner zeigt leeren Raum, Zielhilfe zuckt. *Behebbar per Freihandlung.* |
+| 3 | **Wetter kippt** – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, "Heimlichkeit" +1. |
+| 4 | **Zivilkontakt** – Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
+| 5 | **Spur auftaucht** – Mikrofilm, USB, Patronenhülse oder Chip liegt plötzlich offen sichtbar. Wer schnappt zuerst zu? |
+| 6 | **Feindaktivität in Sichtweite** – Ein Sicherungsteam, Drohne oder Gegnertrupp wird früh entdeckt. Vorstoß möglich – oder Umgehung nötig. |
+
+```md
+<!-- Macro: rand_event -->
+{% macro rand_event() -%}
+{% set t = [
+"Funkstörung – Für 1 Szene kein Team- oder Codexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich.",
+"Technik-Glitch – Ein Gadget reagiert verzögert oder falsch. Scanner zeigt leeren Raum, Zielhilfe zuckt.",
+"Wetter kippt – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, Heimlichkeit +1.",
+"Zivilkontakt – Unbeteiligter kommt ins Bild. Klärt sich nicht sofort.",
+"Spur auftaucht – Mikrofilm, USB, Patronenhülse oder Chip liegt offen sichtbar.",
+"Feindaktivität in Sichtweite – Sicherungsteam, Drohne oder Gegnertrupp wird früh entdeckt."
+] %}
+{{ random.choice(t) }}
+{%- endmacro %}
+```
+
 ## ClusterCreate-Nebenwirkungen {#clustercreate-nebenwirkungen}
 
 Wenn ein Paradoxon-Index von 5 einen `ClusterCreate()` auslöst, können folgende Nebenwirkungen auftreten:

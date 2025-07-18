@@ -27,7 +27,8 @@ Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar i
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
-2. Spezies oder Bio-Hülle wählen (Basis-Mensch oder experimentelle Hominin-Form)
+2. Spezies oder Bio-Hülle wählen – Basis-Mensch oder experimentelle Hominin-Form.
+   Siehe [optionale Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (Basis 2–5)
 4. Zwei Talente wählen
 5. Startausrüstung notieren
