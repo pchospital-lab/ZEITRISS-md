@@ -931,6 +931,12 @@ Manchmal soll eine Mission mehr sein als ein kurzer Auftrag. Dieser Generator li
 ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüsselort** und
 **Finale Wendung** und baut darum herum eure große Story.
 
+Ein einzelnes historisches Ereignis lässt sich auch in mehrere Einsätze
+aufteilen. Teilt eine Katastrophe chronologisch auf – zum Beispiel
+Vorbereitungen, erster Angriff, Eskalation und Nachspiel. Jede Etappe bildet
+eine Mission, sodass ein kompletter Arc zehn Szenenfolgen derselben
+Zeitperiode umfasst.
+
 - **Bedrohung:**
 
   1. Ein Megakonzern missbraucht Zeittechnologie für eigene Machtziele.
@@ -1665,10 +1671,13 @@ thema: Beispiel-Rift
   title: "Kometen‑Signal"
   pitch: "Projiziere künstlichen Kometen via Ballon‑Spiegel als Zeichen zum Abzug."
   timeslot: "+42 h"
-# ─────────────────────────────────────────────────────────────
+# —————————————————————————
 # CORE‑ARC 7 – TSCHERNOBYL 1986 "KAIROS Collapse"
 # Pool: heist_pool – Reaktorunfall sichern
-# ─────────────────────────────────────────────────────────────
+# —————————————————————————
+Dieser zehnteilige Preserve-Arc begleitet den Reaktor von frühen
+Bauvorbereitungen über die fatale Nacht bis zur Vertuschung. Jede Mission
+knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 - arc_id: "Chernobyl86"
   arc_step: 1
   pool: heist_pool

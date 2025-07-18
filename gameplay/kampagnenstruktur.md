@@ -989,7 +989,7 @@ So könnt ihr den Codex gezielt einsetzen:
   sich an wie Szenen in einem Film, in denen Hintergrundwissen oder neue Gefahren offenbart werden –
   z. B. eine holografische Aufnahme, in der der Antagonist seinen Plan erläutert (und die Agenten
   heimlich zuhören).
-- **Charaktermomente im Codex:** Der Codex kann auch Erinnerungen oder Simulationen von Charakteren
+ - **Charaktermomente im Codex:** Der Codex kann auch Erinnerungen oder Holo-Rekonstruktionen von Charakteren
   darstellen. Beispielsweise erlebt ein Agent in einer Zwischensequenz einen Traum oder eine Vision,
   die eigentlich vom Codex induziert wird – etwa um vor einem drohenden Paradox zu warnen, erscheinen
   Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
