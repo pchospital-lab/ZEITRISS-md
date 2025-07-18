@@ -22,8 +22,10 @@ erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
-Nach dem fatalen Ende deines früheren Lebens rekonstruierte das ITI dein Bewusstsein aus dem Zeitstrom.
-Du erwachst im HQ in einer frisch gezüchteten Bio-Hülle – auf Wunsch sogar in einer experimentellen Hominin-Form.
+Nach dem fatalen Ende deines früheren Lebens fischte das ITI dein Bewusstsein aus dem Äther.
+Du schließt die Charaktererschaffung in einem virtuellen Raum ab. Erst danach erzeugt das HQ
+eine passende Bio-Hülle – auf Wunsch auch eine experimentelle Hominin-Form – und überträgt
+dein rekonstruiertes Bewusstsein in diesen Körper.
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
@@ -309,6 +311,11 @@ dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
 Nach der Wahl eurer Hauptfraktion stellt euch das ITI eine feste Kontaktperson vor:
 Pater Lorian (Chrono-Symmetriker), Archivarin Mira (Ordo Mnemonika),
 Offizier Vargas (Kausalklingen) oder Agentin Narella (Zerbrechliche Ewigkeit).
+Alle vier besitzen unterschiedliche Hominin-Bio-Sheaths:
+- Pater Lorian – Homo heidelbergensis
+- Archivarin Mira – Homo floresiensis
+- Offizier Vargas – Homo erectus (spät)
+- Agentin Narella – Denisova-Mensch
 Diese Liaisons betreuen euch im HQ und vermitteln Missionen aus dem gemeinsamen Auftragspool.
 Sie halten zudem optionale Spezialaufträge ihrer Fraktion bereit.
 Commander Renier bleibt weiterhin Gesamtkoordinator.
@@ -375,6 +382,8 @@ Charakter besonders fördern kann.)
 
 ### Historiker-Diplomat – Dr. Elise Weber
 
+- **Rasse:** Homo sapiens sapiens
+
 _„Geschichte ist Verhandlung – und ich kenne beides.“_ – Dr. Weber ist eine belesene Historikerin
 und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen verbinden kann.
 
@@ -411,6 +420,8 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   Fettnäpfchen; keine Abzüge durch Fremdheit).
 
 ### Zukunfts-Hacker – Mira Nguyen
+
+- **Rasse:** Denisova-Mensch
 
 _„Kein System ist sicher – besonders nicht, wenn es aus dem letzten Jahrhundert stammt.“_ – Mira
 stammt aus der Zukunft und ist eine Genielektronikerin. Sie hackt Computersysteme aller Epochen
@@ -452,6 +463,8 @@ mühelos und kommandiert Drohnen wie andere Leute Haustiere.
   koordinierte Sabotage, z.B. Ablenkungsmanöver plus Sprengladung).
 
 ### Temporal-Soldat – Nikolai Volkov
+
+- **Rasse:** Homo neanderthalensis
 
 _„Zeit zu kämpfen – egal in welcher Epoche.“_ – Nikolai ist ein kampferprobter Veteran, der jeden
 Zeitreise-Einsatz als Schlacht betrachtet, die es zu gewinnen gilt. Er dient als Beschützer des
@@ -500,6 +513,8 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 
 ### Tech-Ingenieur – Sabine Kessler
 
+- **Rasse:** Homo floresiensis
+
 _„Wenn’s klemmt oder knarzt – ich krieg das schon hin.“_ – Sabine ist die technische Expertin fürs
 Grobe. Sie repariert, modifiziert und bedient jede Maschine, ob Pferdekutsche oder Raumschiff. Und
 wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich.
@@ -545,6 +560,8 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
   zusammenarbeiten; außerdem dauert die Ausrüstung-Instandsetzung nach Missionen nur halb so lange).
 
 ### Wissenschaftler-Medic – Dr. Julian Richter
+
+- **Rasse:** Homo erectus (spät)
 
 _„Die Zeitlinie ist ein Puzzle – lasst es uns zusammensetzen. Und bleibt dabei bitte am Leben.“_ –
 Dr. Richter ist zugleich Feldarzt und wissenschaftliches Gehirn des Teams. Er sucht nach Erklärungen
@@ -592,6 +609,8 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   Wahrnehmungs-Proben, wenn es darum geht, versteckte Hinweise zu entdecken oder Rätsel zu lösen).
 
 ### Undercover-Spion – Henry Walsh
+
+- **Rasse:** Homo sapiens novus
 
 _„Aus den Schatten heraus lässt sich Geschichte am effektivsten verändern.“_ – Henry ist ein Meister
 der Täuschung, Infiltration und lautlosen Eliminierung. Er beschafft Informationen oder schaltet
@@ -894,14 +913,14 @@ Chrononauten mit jeder Mission wachsen und Legenden in der Zeitlinie hinterlasse
 
 ### Pregens {#pregens}
 
-| Name               | Rolle                   | STR/GES/INT/CHA/TEMP/SYS |
-| ------------------ | ----------------------- | ----------------------- |
-| Dr. Elise Weber    | Historikerin/Diplomatin | 2/3/5/5/4/3 |
-| Mira Nguyen        | Zukunfts-Hacker         | 2/4/5/2/3/5 |
-| Nikolai Volkov     | Temporal-Soldat         | 5/4/3/3/3/2 |
-| Sabine Kessler     | Tech-Ingenieurin        | 3/4/4/3/2/4 |
-| Dr. Julian Richter | Wissenschaftler/Medic   | 3/3/5/4/5/3 |
-| Henry Walsh        | Undercover-Spion        | 2/5/4/4/3/4 |
+| Name | Rolle | Rasse | STR/GES/INT/CHA/TEMP/SYS | Rassenmods |
+| --- | --- | --- | --- | --- |
+| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 2/3/5/5/4/3 | keine |
+| Mira Nguyen | Zukunfts-Hacker | Denisova-Mensch | 2/4/5/2/3/5 | STR+1 TEMP+1 CHA−1 INT−1 |
+| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 5/4/3/3/3/2 | STR+2 INT−1 CHA−1 |
+| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 3/4/4/3/2/4 | GES+2 STR−2 |
+| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 3/3/5/4/5/3 | GES+1 SYS+1 CHA−1 INT−1 |
+| Henry Walsh | Undercover-Spion | Homo sapiens novus | 2/5/4/4/3/4 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.
