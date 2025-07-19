@@ -146,7 +146,7 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
-Mission-Fokus ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
+Aktive Interventionserlaubnis ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
 während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 
@@ -155,7 +155,7 @@ Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 ### Session-0 Agenda
 
-1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
+1. **Ton & Modus** – Thriller vs. Stealth-Heist, Aktive Interventionserlaubnis an/aus.
 2. **Lines/Veils bestätigen** – siehe Safety Sheet.
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
@@ -406,9 +406,9 @@ alle weiteren Modi sind optionale Zusätze:
 | **Covert-Ops**  | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
-| **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
+| **Aktive Interventionserlaubnis** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
-Mission-Fokus wird beim Spielstart automatisch aktiviert und vermeidet PvP.
+Aktive Interventionserlaubnis wird beim Spielstart automatisch aktiviert und vermeidet PvP.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml

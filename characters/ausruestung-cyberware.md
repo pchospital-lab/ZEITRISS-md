@@ -491,7 +491,7 @@ id: gadget_t3
 
 - **Wertigkeit:** Jeder Gegenstand hat einen CU-Wert. Im ITI-Hauptquartier können Agenten ihre
   Funde gegen CUs eintauschen oder für einen ähnlichen Preis erwerben.
-- **Missionsverknüpfung:** Viele Items stammen direkt aus bestimmten Missionstypen (z. B.
+- **Missionsverknüpfung:** Viele Items stammen direkt aus bestimmten Interventionsformen (z. B.
   Infiltration, Kampf, Rettung). Mit solchen Fundstücken lässt sich die Belohnung thematisch
   anpassen: Eine Stealth-Mission liefert eher Tarntechnik, während eine Expedition in alte Ruinen
   Artefakte freilegt.
