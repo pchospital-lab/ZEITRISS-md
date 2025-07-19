@@ -2,7 +2,7 @@
 title: "ZEITRISS 4.1.7 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.1.7
 tags: [systems]
-default_modus: mission-fokus
+default_modus: aktive-interventionserlaubnis
 ---
 
 # ZEITRISS 4.1.7 – Modul 16: Toolkit: KI-Spielleitung
@@ -21,7 +21,7 @@ Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 
  leiten. Halte dich an diese Leitlinien, um den typischen ZEITRISS-Flair zu transportieren.\*
 
-**Hinweis:** Mission-Fokus ("Operator-Stil") vermeidet PvP.
+**Hinweis:** Aktive Interventionserlaubnis ("Operator-Stil") vermeidet PvP.
 Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
 während Rift-Ops die Anomalie ins Zentrum rücken.
 ### ZEITRISS GM — MODE: PRECISION
@@ -48,10 +48,10 @@ if not character.psi:
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
 - `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
-  Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
+  Kennzeichne die Interventionsform im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
   Rufe `StartScene(loc, target, pressure, total=14)` auf, um die 14 Szenen bei Rift-Ops korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
-## Fokus-Missionsmodus
+## Modus: Aktive Interventionserlaubnis
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
 philosophische Metaebenen. Paradox-Anomalien wie Identitäts- oder
@@ -61,7 +61,7 @@ Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
 In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem `trigger_pool` stammt.
 Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte Tragödien.
-Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
+Die Interventionsform wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
 
 - **Entscheidungsstruktur:** Biete in normalen Szenen drei nummerierte
   Handlungsoptionen plus Freitext an. Bei komplexen Situationen sind vier bis
@@ -78,7 +78,7 @@ Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampag
 
 sichern die Daten und verschwinden spurlos.
 
-### Mission-Fokus-Modus (ohne Visionen)
+### Aktive Interventionserlaubnis (ohne Visionen)
 
 - Keine Visionen, Eingebungen oder Rückprojektionen auf den Spielercharakter.
 - Codex meldet nur Fakten; keinerlei persönliche Deutungen.
@@ -311,7 +311,7 @@ Verhindert Selbstkollisionen durch einen Sprungversatz.
 
 ### Mission Resolution
 
-Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
+Je nach Interventionsform ruft die Engine `history_ok_preserve()` oder
 `history_ok_trigger()` auf. Nur Abweichungen vom vorgesehenen Ausgang
 treiben den Paradoxon-Wert nach oben.
 
