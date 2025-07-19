@@ -827,18 +827,18 @@ dramatisch und interessant verlaufen.
 | **Tech‑Recon** | Quanten‑Sniffer‑Rig, Drohne „Pixie“, EMP‑Patch ×2, Data‑Spike‑Protokoll | 1 100 CU |
 *SL‑Tipp*: Jede zusätzliche Sonderausrüstung erhöht das Missionsbudget; nicht verwendete CU fließt in Belohnungen.
 
-### Interventionsformen
+### Missionstypen
 
 Diese Übersicht fasst die gängigen Einsatzarten zusammen. Der Schwerpunkt liegt auf realen
 Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Artefakte tauchen nur
 selten automatisch auf, vergleichbar mit legendären Funden. Spieler können ihr Auftreten nicht
-gezielt beeinflussen. Die Interventionsformen gliedern sich in fünf Kategorien:
+gezielt beeinflussen. Die Missionstypen gliedern sich in fünf Kategorien:
 
 - **Verschwinden** – Zielpersonen heimlich ausschalten oder entführen.
 - **Einflüstern** – Einfluss auf NSCs durch Täuschung oder Manipulation.
 - **Verdunkeln** – Spuren verwischen und Beweise stehlen.
-- **Verhindern** – Zielzeitpunkt durchbrechen vor oder während Fremdfraktions-Zugriff.
-- **Dokumentieren** – Beweissicherung gegen Fremdeinfluss.
+- **Verhindern** – Anschläge, Putsche oder Deals stoppen.
+- **Dokumentieren** – Geheime Beweise für das ITI sichern.
 
 Frühere Beispielmissionen wurden zugunsten dieses flexiblen Baukastens gestrichen.
 Kombiniert die Tabellen nach Belieben und erstellt eure eigenen Einsätze. Für
