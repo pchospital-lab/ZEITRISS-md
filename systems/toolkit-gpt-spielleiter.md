@@ -105,6 +105,11 @@ dokumentieren:
 ```json
 {"roll":"1d6","result":4,"ts":"2024-01-01T12:00:00Z"}
 ```
+Wer analog würfeln möchte, nutzt **manual** per `/roll manual`.
+Die KI nennt nur den Würfel, z. B. `1d6` oder `1d10`.
+Ihr würfelt selbst und meldet das Ergebnis.
+Zeigt der Wurf das Maximum, wiederholt ihr ihn,
+damit die Exploding-Regel greift.
 
 ## Typische Sprachmuster & Satzvorlagen
 
@@ -761,7 +766,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 ### Macro-Sheet Beispiel
 ```json
 {
-  "roll(mode)": ["hidden","open"],
+  "roll(mode)": ["hidden","open","manual"],
   "paradox_index": 2,
   "scene_timer": 37
 }

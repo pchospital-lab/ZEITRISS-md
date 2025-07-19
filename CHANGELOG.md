@@ -76,3 +76,7 @@ tags: [meta]
 - Reverted "Interventionsformen" back to "Missionstypen" und integrierte die Begriffszuordnung im README.
 - Klarstellung: Mission-Fokus richtet sich gegen Fremdfraktionen, kein PvP im Standardmodus.
 - Updated Toolkit und Generatoren entsprechend.
+
+## 4.1.9 – Manual Roll Mode
+- Neuer `/roll manual` Schalter für analoges Würfeln.
+- Exploding-Regel greift weiterhin bei 6 bzw. 10.
