@@ -45,9 +45,11 @@ Pro steht dabei für Preserve, Contra für Trigger – beide Varianten stabilisi
 Spielende entscheiden sich zu Beginn für eine Fraktion und erhalten entsprechend Preserve- oder Trigger-Kampagnen.
 Preserve stabilisiert Beinahe-Katastrophen, Trigger stellt dokumentierte Tragödien sicher.
 Eine kurze Übersicht bietet der Abschnitt „Preserve-vs-Trigger-Logik“ im Kampagnenmodul.
-Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung
-– geheime Technik oder Bio-Cyberware. Bei Rift-Ops können echte Parawesen
-auftreten. Auch fokussierte Psi-Techniken können dahinterstecken.
+Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung.
+Dahinter stecken geheime Technik oder Bio-Cyberware.
+Bei Rift-Ops können echte Parawesen auftreten. Auch fokussierte Psi-Techniken können dahinterstecken.
+Der Kernkonflikt: Das ITI verteidigt den bisherigen Verlauf, während Fremdfraktionen die Geschichte umschreiben wollen.
+Jede Mission entscheidet, wer die Chronik kontrolliert.
 Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
 und treibt die *Psi-Heat* hoch.
 Paradox-Effekte werden über einen Index von 0–5 verfolgt.
@@ -146,7 +148,7 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
-Aktive Interventionserlaubnis ist der Standard (oft "Operator-Stil" genannt) und vermeidet PvP.
+Mission-Fokus ist der Standard (oft "Operator-Stil" genannt). Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
 während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 
@@ -155,7 +157,7 @@ Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 ### Session-0 Agenda
 
-1. **Ton & Modus** – Thriller vs. Stealth-Heist, Aktive Interventionserlaubnis an/aus.
+1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
 2. **Lines/Veils bestätigen** – siehe Safety Sheet.
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
@@ -406,9 +408,9 @@ alle weiteren Modi sind optionale Zusätze:
 | **Covert-Ops**  | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
-| **Aktive Interventionserlaubnis** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
+| **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
-Aktive Interventionserlaubnis wird beim Spielstart automatisch aktiviert und vermeidet PvP.
+Mission-Fokus wird beim Spielstart automatisch aktiviert; Gefechte richten sich gegen NSCs, nicht gegeneinander.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
@@ -452,6 +454,18 @@ Kurze Erklärungen wichtiger Abkürzungen:
 | **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
 | **ClusterCreate()** | Notfallroutine bei Paradoxon 5: 1–2 Seeds spawnen auf der Weltkarte; Index springt auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
+
+### Begriffsklärung
+
+Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
+
+| Ursprünglicher Begriff | Interne Bedeutung |
+|-----------------------|-------------------|
+| Missionstyp           | Interventionsform |
+| Zielperson            | Zielperson (gleichbleibend) |
+| Verstärkung           | Automatisch aktivierte Einsatzkräfte |
+| Paradoxon             | Indikator für instabile Realitätsschichten |
+| Codexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
 
 ### Zeiteinheiten
 

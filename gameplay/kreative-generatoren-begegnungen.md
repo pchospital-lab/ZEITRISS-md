@@ -409,13 +409,13 @@ Spontane Zwischenfälle lockern eine Mission auf. Würfle 1W6 oder nutze das
 Macro `rand_event()`.
 
 | W6 | Zwischenfall |
-| -- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| -- | ------------------------------------------- |
 | 1 | **Funkstörung** – Für 1 Szene kein Team- oder Codexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
-| 2 | **Technik-Glitch** – Ein Gadget (nach SL-Wahl) reagiert verzögert oder falsch. Z. B. Scanner zeigt leeren Raum, Zielhilfe zuckt. *Behebbar per Freihandlung.* |
+| 2 | **Technik-Glitch** – Gadget spinnt, z. B. leeres Scanfenster. *Per Freihandlung behebar.* |
 | 3 | **Wetter kippt** – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, "Heimlichkeit" +1. |
 | 4 | **Zivilkontakt** – Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
-| 5 | **Spur auftaucht** – Mikrofilm, USB, Patronenhülse oder Chip liegt plötzlich offen sichtbar. Wer schnappt zuerst zu? |
-| 6 | **Feindaktivität in Sichtweite** – Ein Sicherungsteam, Drohne oder Gegnertrupp wird früh entdeckt. Vorstoß möglich – oder Umgehung nötig. |
+| 5 | **Spur auftaucht** – Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu? |
+| 6 | **Feindaktivität in Sichtweite** – Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen? |
 
 ```md
 <!-- Macro: rand_event -->

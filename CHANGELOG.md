@@ -71,4 +71,8 @@ tags: [meta]
 
 ## 4.1.7 – HUD Readability Fix
 - `StartScene`-Macro bricht HUD-Zeile jetzt um, um Scrollen zu vermeiden.
-*© 2025 pchospital – private use only. See LICENSE.
+
+## 4.1.8 – Terminology Revert
+- Reverted "Interventionsformen" back to "Missionstypen" und integrierte die Begriffszuordnung im README.
+- Klarstellung: Mission-Fokus richtet sich gegen Fremdfraktionen, kein PvP im Standardmodus.
+- Updated Toolkit und Generatoren entsprechend.

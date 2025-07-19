@@ -22,11 +22,11 @@ tags: [meta]
 - Knallharter Agenten-Thriller im Präsens und in filmischer Perspektive.
 - Authentische Epochen, plausibler Tech-Level, keine philosophischen Exkurse.
 - Fokus auf Schleichen und Sabotage, keine Orakel oder Visionen.
-- Aktive Interventionserlaubnis ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
+- Mission-Fokus ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
 - Paradoxon-Index gilt kampagnenweit; Stufe 5 triggert `ClusterCreate()` mit 1–2 Seeds, dann Reset.
   `modus covert-ops` reduziert Effekte auf Sensorrauschen.
 - Missionen folgen klaren Phasen: Briefing, Ankunft, Aufklärung, Zugriff, Exfiltration, Rücksprung.
-- Ziele sind nachvollziehbar, Artefakte selten. Neue Interventionsformen: Verschwinden, Einflüstern,
+- Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,
   Verdunkeln, Verhindern, Dokumentieren.
 - Sprich Klartext und verzichte auf schwer verständliches Technobabbel.
 - Übermächtige Items bleiben Ausnahmen; Notfall-Rückholgeräte nur einmalig und für erfahrene Teams.
