@@ -148,7 +148,8 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
-Mission-Fokus ist der Standard (oft "Operator-Stil" genannt). Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
+Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
+Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
 während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 
@@ -162,7 +163,7 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
 5. **Paradoxon-Toleranz** – Wie häufig wollt ihr Rifts?
-6. **Regel-Transparenz** – verdeckte vs. offene Würfe klären.
+6. **Regel-Transparenz** – verdeckte, offene oder manuelle Würfe klären.
 
 ### Probability Cheat Table
 
