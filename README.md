@@ -142,10 +142,11 @@ Die ersten Schritte in unter zwei Minuten:
 7. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
 8. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
+   Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
 9. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
-10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage.
+10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
