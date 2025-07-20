@@ -36,35 +36,53 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
     `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
 
 ## Grundidee
+**ZEITRISS 4.1.7** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
+und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
+Spurensuche und operativer Einflussnahme**.
 
-**ZEITRISS 4.1.7** versteht sich in erster Linie als historisch inspirierter Agenten-Thriller.
-Zeitreisen sind nur ein Werkzeug, um reale Verschwörungen zu untersuchen
-und bedeutende Ereignisse zu beeinflussen.
-Missionen konzentrieren sich auf Spurensuche, Befragungen und das Infiltrieren von Schauplaetzen.
-Historische Einsaetze sind klar getrennt in **Preserve-** oder **Trigger-Missionen**.
-Pro steht dabei für Preserve, Contra für Trigger – beide Varianten stabilisieren die Zeitlinie.
-Spielende entscheiden sich zu Beginn für eine Fraktion und erhalten entsprechend Preserve- oder Trigger-Kampagnen.
-Preserve stabilisiert Beinahe-Katastrophen, Trigger stellt dokumentierte Tragödien sicher.
-Eine kurze Übersicht bietet der Abschnitt „Preserve-vs-Trigger-Logik“ im Kampagnenmodul.
-Alles scheinbar Übernatürliche erhält in Core-Ops meist eine rationale Erklärung.
-Dahinter stecken geheime Technik oder Bio-Cyberware.
-Bei Rift-Ops können echte Parawesen auftreten. Auch fokussierte Psi-Techniken können dahinterstecken.
-Der Kernkonflikt: Das ITI verteidigt den bisherigen Verlauf, während Fremdfraktionen die Geschichte umschreiben wollen.
-Jede Mission entscheidet, wer die Chronik kontrolliert.
-Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
-und treibt die *Psi-Heat* hoch.
-Der Index notiert temporale Resonanzpunkte.
-Er steigt situativ während einer Mission an, wenn Eingriffe den offiziellen
-Verlauf stabilisieren.
-Niedrige **Temporale Affinität** verlangsamt diesen Aufbau, hohe TA beschleunigt ihn.
-Richtwerte: TEMP 1–3 erreichen etwa alle fünf Missionen einen Punkt,
-TEMP 4–7 grob alle vier, TEMP 8–10 alle drei,
-ab TEMP 11–13 steigt der Index ungefähr alle zwei Missionen,
-und ab 14 praktisch in jeder.
-Erreicht der Wert 5, ortet das HQ dank `ClusterCreate()` bis zu zwei neue Rifts und setzt den Zähler auf 0.
-Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator.
-Im [**Covert-Ops-Modus**](#spielmodi) erscheinen sie nur als dezente Sensorrauschen.
-Dieses Fortschrittssystem bildet den Standardrahmen für alle Regelmodule.
+Historische Einsätze sind strikt getrennt in:
+
+* **Preserve-Missionen** – sichern beinahe entglittene Ereignisse
+* **Trigger-Missionen** – garantieren dokumentierte Tragödien
+
+Spielende wählen zu Beginn eine Fraktion und erhalten Zugriff auf entsprechend
+ausgerichtete Kampagnenpfade.
+
+In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärungen:
+Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.
+In **Rift-Ops** hingegen treten echte Anomalien auf – inklusive Parawesen,
+Artefakten und temporaler Abweichungen.
+
+Der **Kernkonflikt**: Das **ITI** verteidigt den dokumentierten Geschichtsverlauf.
+Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
+**Jede Mission entscheidet, wessen Version von Geschichte sich durchsetzt.**
+
+Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
+Der **Paradoxon-Index** steigt **nur durch erfolgreiche Stabilisierungseinsätze** –
+er misst nicht Fehler, sondern Resonanz.
+Sobald **Paradoxon 5** erreicht ist, erkennt das HQ mittels `ClusterCreate()`
+**1–2 neue Rift-Signaturen** und setzt den Index zurück.
+
+Der **TEMP-Wert (Temporale Affinität)** bestimmt, wie schnell sich dieser Index
+füllt:
+
+* TEMP 1–3: +1 Paradoxonpunkt alle 5 Missionen
+* TEMP 4–7: alle 4 Missionen
+* TEMP 8–10: alle 3 Missionen
+* TEMP 11–13: alle 2 Missionen
+* TEMP 14+: praktisch jede Mission
+
+Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
+fortgeschrittener Fraktionsausrüstung. Spieler können diese Rift-Missionen direkt
+besuchen oder „offen halten“, um spätere Beutezüge zu planen.
+
+**Offene Rifts steigern den Schwierigkeitsgrad und Loot-Multiplikator**
+zukünftiger Missionen. Im **Covert-Ops-Modus** erscheinen sie lediglich als
+subtile Sensorstörungen.
+
+Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
+Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 
 ## Kampagnenhierarchie
 
