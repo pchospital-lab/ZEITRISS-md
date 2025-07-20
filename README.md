@@ -84,27 +84,26 @@ sind der Übersicht halber aufgeführt.
 | --- | --- |
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
-| [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
-| [Quickref](core/wuerfelmechanik.md#quick-sheet) | Psi- & Konflikt-Schnellübersicht
+| [core/wuerfelmechanik.md](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Würfelsystem & Proben |
+| [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Schnellübersicht
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
-| [characters/cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
-| [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
+| [cyberware-und-bioware.md](characters/cyberware-und-bioware.md#legalitäts--wartungs-stufen) | Implantate & Bioware |
+| [characters/psi-talente.md](characters/psi-talente.md#backlash-tabelle-kritischer-patzer) | Psi-Fähigkeiten |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
-| [gameplay/kampagnenstruktur.md#team-perks](gameplay/kampagnenstruktur.md#team-perks) | Team-Boni |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Team-Boni |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
-| [kreative-generatoren-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC- & Encounter-Generatoren |
+| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-seed-starter-1w14) | NPC & Encounter-Gen |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
-| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md#rift-kreaturen-stat-blocks) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md#power-punkte-ta) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
-| [master-index.json](master-index.json) | Masterliste aller Generator-Pools |
 | [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf Modul 6 die Teile

@@ -49,7 +49,7 @@ tags: [meta]
 - Codex meldet sich nur auf Anfrage oder in Krisen; ohne Verbindung nur Grunddaten.
 - Statushinweise nur, wenn regelrelevant.
 - Zeitsprünge zeigen das **Nullzeit-Menü** aus
-  `characters/zustaende-hud-system.md#nullzeit-menü-nach-zeitsprung`.
+  `characters/zustaende-hud-system.md#nullzeit-men%C3%BC-nach-zeitsprung`.
   HUD-Meldungen wirken futuristisch und knapp.
 
 ## Spielerinteraktion
