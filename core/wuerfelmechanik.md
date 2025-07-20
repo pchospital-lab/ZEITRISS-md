@@ -744,7 +744,7 @@ Einmal pro Szene als Reroll. Nur bei Attribut 14+.
 
 ### Druckbare Kurzreferenz (2 Seiten) {#druckreferenz}
 
-1. **Phasenablauf:** Briefing → Arrival → Intel → Breach → Exfil → Return.
+1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
 3. **Paradoxon-Index:** steigt durch Zeitstörungen; bei 5 löst `ClusterCreate()` aus und
    setzt den Zähler auf 0.

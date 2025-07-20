@@ -25,7 +25,7 @@ tags: [meta]
 - Mission-Fokus ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
 - Paradoxon-Index gilt kampagnenweit; Stufe 5 triggert `ClusterCreate()` mit 1–2 Seeds, dann Reset.
   `modus covert-ops` reduziert Effekte auf Sensorrauschen.
-- Missionen folgen klaren Phasen: Briefing, Ankunft, Aufklärung, Zugriff, Exfiltration, Rücksprung.
+- Missionen folgen klaren Phasen: Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
 - Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,
   Verdunkeln, Verhindern, Dokumentieren.
 - Sprich Klartext und verzichte auf schwer verständliches Technobabbel.
