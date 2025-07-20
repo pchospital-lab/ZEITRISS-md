@@ -129,11 +129,11 @@ Eine kurze Zusammenfassung der Abläufe bietet das README.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
-    A(Briefing) --> B(Arrival)
-    B --> C(Intel)
-    C --> D(Breach)
-    D --> E(Exfil)
-    E --> F(Return)
+    A(Briefing) --> B(Infiltration)
+    B --> C(Kontakt/Intel)
+    C --> D(Konflikt)
+    D --> E(Exfiltration)
+    E --> F(Debrief)
 ```
 
 

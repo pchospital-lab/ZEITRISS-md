@@ -51,6 +51,7 @@ if not character.psi:
   Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
   Rufe `StartScene(loc, target, pressure, total=14)` auf, um die 14 Szenen bei Rift-Ops korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
+  Eine Operation sollte frühestens nach Szene 10 enden.
 ## Modus: Mission-Fokus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -219,7 +220,7 @@ Decision: <Reaktion?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission nutzt **12** Szenen (Core‑Op)
+* [ ] Eine komplette Mission umfasst mindestens **10** Szenen (Core‑Op) und mind. **12** Szenen Rift‑Op
 * [ ] Bei Rift‑Ops werden **14** Szenen empfohlen;
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] campaign.scene via EndScene() aktualisiert
