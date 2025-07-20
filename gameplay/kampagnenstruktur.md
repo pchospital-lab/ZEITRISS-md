@@ -407,14 +407,53 @@ preserve_only: true
 version: 4.1.7
 ```
 
-| Phase / Szene  | Ereignis & Mechanik |
-| -------------- | ------------------- |
-| **Mission 1**  | Stealth-Mission Crystal Palace. Brand verhindern (Preserve). Gegner: Gearwright Cabal. Index 2/5. |
-| **HQ-Phase 1** | Paradoxon < 5 -> kein ClusterCreate(). |
-| **Mission 2**  | Gasleitung sabotiert. Index 5/5. `ClusterCreate()` -> Seed R-089. Seed offen: +1 Schwelle, CU×1.2. |
-| **HQ-Phase 2** | Team lässt Seed offen; später eigene Rift-Op. Paradoxon auf 0/5. |
-| **Mission 3**  | Finale im Crystal Palace: Cabal ausschalten. Seed offen: +1 Schwelle, CU ×1.2. Brand vereitelt. |
-| **Epilog**     | Crystal Palace intakt, Core-Arc endet. Seed R-089 bleibt offen für spätere Rift-Op. |
+**Mission 1 – Chrono Heist**
+1. Briefing – Auftrag: Brand im Crystal Palace verhindern.
+2. Infiltration – Lieferkutsche schmuggelt Team aufs Gelände.
+3. Kontakt – Bestechung eines Wachmanns öffnet Seitentor.
+4. Intel – Heizungspläne sichern, Lage der Gasrohre prüfen.
+5. Konflikt – ARGOS-Agent entdeckt Störsender.
+6. Kontakt – Palastarbeiter weist auf Lagertrakt.
+7. Intel – Gasflasche mit Zeitsiegel markieren.
+8. Konflikt – Saboteure legen Brandfalle.
+9. Konflikt – Wache löst Alarm aus, Feuerwerk entzündet sich fast.
+10. Exfiltration – Flucht über Dachrinne in den Park.
+11. Exfiltration – Portal im Kutschenschuppen erreichen.
+12. Debrief – Index 2/5, ARGOS bleibt aktiv.
+
+**HQ-Phase 1** – Paradoxon < 5, kein ClusterCreate().
+
+**Mission 2 – Gasleitung stoppen**
+1. Briefing – Seed R‑089 droht Explosion am Ausstellungstag.
+2. Infiltration – Abwasserkanal führt unter das Gelände.
+3. Kontakt – Arbeiter melden unregelmäßige Lieferung.
+4. Intel – Abhörgerät entdeckt verdächtige Funksprüche.
+5. Konflikt – Gearwrights bewachen Gasverteiler.
+6. Kontakt – Ingenieur bittet um Hilfe beim Abdrehen.
+7. Intel – Code für Ventile entschlüsseln.
+8. Konflikt – Scharfschütze auf Kran hält Team in Schach.
+9. Konflikt – Gasleitung schließen, Gegner stören.
+10. Exfiltration – Rauch zieht auf, Besucherpanik.
+11. Exfiltration – Team springt ins offene Portal.
+12. Debrief – ClusterCreate() löst Seed R‑089, Index 0/5.
+
+**HQ-Phase 2** – Seed bleibt offen; Schwelle +1, CU ×1.2.
+
+**Mission 3 – ARGOS-Venture zerschlagen**
+1. Briefing – Letzte Hinweise auf ARGOS-Führer.
+2. Infiltration – Nachtmarkt um den Palast.
+3. Kontakt – Informant liefert Standortcode.
+4. Intel – Überwachungskarten sichern.
+5. Konflikt – ARGOS-Techniker stört Energieversorgung.
+6. Kontakt – Zivilisten warnen vor Patrouillen.
+7. Intel – Identität des Anführers bestätigt.
+8. Konflikt – Feuergefecht im Maschinenraum.
+9. Konflikt – Saboteur versucht Brand erneut.
+10. Exfiltration – Gefangene sichern, per Kutsche raus.
+11. Exfiltration – Portal aktiviert, Seed bleibt offen.
+12. Debrief – Crystal Palace intakt, Arc abgeschlossen.
+
+**Epilog** – Seed R‑089 weiter offen für spätere Rift-Op.
 ##### Mini-Walkthrough Mauerbau 1961 {#mini-walkthrough-mauerbau-1961}
 
 ```yaml
@@ -425,22 +464,49 @@ trigger_only: true  # eindeutiger Modus
 version: 4.1.7
 ```
 
-| Schritt       | Ereignis & Ziel |
-| ------------- | ---------------------------------------------------------------------- |
-| **Mission 1** | Ankunft in Ost-Berlin · Agenten sondieren Grenzposten & Schleuserwege. |
-| **Mission 2** | Baupläne des "Antifaschistischen Schutzwalls" sichern · Kontaktperson (Stasi-Logistiker) schützen. |
-| **Mission 3** | **Ziel:** Organisiere koordinierte Unruhen, damit SED den Mauerbau überstürzt beschließt. |
-| **Epilog**    | Mauer wird 12./13. August errichtet.<br>Fluchtwege brechen ab, Zeitlinie bleibt unverändert. |
+**Mission 1 – Erste Kontakte**
+1. Briefing – Ost-Berlin wird abgeriegelt, Schleuserwege kartieren.
+2. Infiltration – Kontrollposten beobachten und Umwege testen.
+3. Kontakt – Schleusernetz ansprechen, Papiere besorgen.
+4. Intel – Baupläne des Schutzwalls auftreiben.
+5. Konflikt – Stasi-Patrouille wird misstrauisch.
+6. Kontakt – Überläufer warnt vor Plenum 89.
+7. Intel – Notfunk abhören, Materialtransporte verfolgen.
+8. Konflikt – Kneipenschlägerei lenkt Wachtrupp ab.
+9. Konflikt – Saboteure beschädigen Baufahrzeuge.
+10. Exfiltration – Rückzug über Kanalrohr.
+11. Exfiltration – Portal im Lagerhaus nutzen.
+12. Debrief – Index 1/5, Lage weiter gespannt.
 
-> *Gegenspieler:* "Plenum 89 Humanists" versucht, Bau zu verzögern (Preserve‑Fraktion).
-> *ITI‑Trigger‑Auftrag:* sicherstellen, dass Blockadepläne scheitern.
+**Mission 2 – Pläne sichern**
+1. Briefing – Bauleitung überwacht Materialzugänge.
+2. Infiltration – Archiv im Verwaltungsbau infiltrieren.
+3. Kontakt – Stasi-Logistiker bietet Hilfe gegen Schutzgeld.
+4. Intel – Lieferlisten und Routen kopieren.
+5. Konflikt – Rivalen belauschen heimlich das Gespräch.
+6. Kontakt – Fälscherin liefert offizielle Stempel.
+7. Intel – Routenplan der Baufahrzeuge entschlüsseln.
+8. Konflikt – Zeitsoldaten greifen ein, Index steigt.
+9. Konflikt – Verfolgung über den Alexanderplatz.
+10. Exfiltration – Flussfähre Richtung Westen.
+11. Exfiltration – Portal im U-Bahn-Tunnel erreichen.
+12. Debrief – Seed offen, Index 3/5.
 
-### Was wurde bereinigt?
+**Mission 3 – Aufruhr entfachen**
+1. Briefing – Unruhen sollen Mauerbau erzwingen.
+2. Infiltration – Versammlungen koordinieren.
+3. Kontakt – Oppositionelle Gruppen zusammentrommeln.
+4. Intel – Zeitplan der SED abfangen.
+5. Konflikt – Volkspolizei räumt ersten Platz.
+6. Kontakt – Stasi spioniert Versammlungen aus.
+7. Intel – Funkspruch zum Baubefehl mitschneiden.
+8. Konflikt – Straßenkampf mit Loyalisten.
+9. Konflikt – Demonstration eskaliert vor dem Tor.
+10. Exfiltration – Untertauchen in der Menge.
+11. Exfiltration – Portal unter Bahnhof nutzen.
+12. Debrief – Mauerbau beschleunigt, Zeitlinie stabil.
 
-1. **Doppelter Schritt 3 entfernt:** Es gibt nur noch die Trigger‑Variante.
-2. **Preserve‑Markierungen gestrichen:** Kein „Schleuserroute sichern“ mehr.
-3. **Epilog umgeschrieben:** Er bestätigt den historischen Ausgang.
-
+**Epilog** – Grenzanlagen entstehen 12./13. August, Fluchtwege reißen ab.
 ##### Preserve-Arc Salamis 480 v. Chr. {#preserve-arc-salamis-480}
 
 ```yaml
@@ -520,7 +586,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
 
-*45-Minuten-Demo, Tannenberg/Grunwald – kompaktes 7-Szenen-Format zur Einführung*
+*45-Minuten-Demo, Tannenberg/Grunwald – kompaktes 12-Szenen-Format zur Einführung*
 
 > **ZEITPUNKT** 15. Juli 1410 – Vorabend der Schlacht von Tannenberg
 > **ORT** Hügelkuppe "Witold-Höhe", 2 km südwestlich des Heerlagers der Ordensritter
@@ -537,32 +603,40 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ###### Szenenübersicht
 
+*SceneCounter++ nach Szene 12.*
 | # | Ort | Konflikt | Ziel | Spur | SG |
-|---|-----------------|----------------------------------|--------------------|----------------------------------|----|
-| 1 | Zeltlager (Nacht) | Patrouille & Hund | In Lager eindringen | Geräusch ferne Hammerschläge | 6 |
-| 2 | Schmiedehütte | Glühende Kette, Schmied misstrauisch | Probenstück sichern | 2. Wachposten nähert sich | 7 |
-| 3 | Schleusengraben | Altes Schleusentor blockiert | Zugang zum Geheimgang | Zeitdruck – Wasser steigt | 8 |
-| 4 | Pulverkammer | Schloss + Giftgasfalle | Zugang zur Feuerkette | Merkt: Ketten noch ungefährlich | 9 |
-| 5 | **Decision Room** | – | Rückstände entfernen, damit die Feuerkette ausbleibt | Alarm oben | – |
-| 6 | Turmaufstieg | Leitertest, feindlicher Bogenschütze | Flucht auf Wehrgang | Belagerer rücken an | 7 |
-| 7 | Wehrgang-Tor | Fallgitter blockiert | Exfiltration | Rauchwolke im Tal | 6 |
-
-*SceneCounter++ nach Szene 7.*
+|---|----|---------|-----|-----|----|
+| 1 | Nullzeit-Bunker | Zeitdruck, Lauscher | Einsatzplan schmieden | Orden spioniert | 5 |
+| 2 | Lagerpfad (Nacht) | Wache & Hund | In Lager eindringen | ferne Hammerschläge | 6 |
+| 3 | Schmiedehütte | misstrauischer Schmied | Probenstück sichern | zweiter Wachposten naht | 7 |
+| 4 | Schleusengraben | verschlammtes Tor | Geheimgang finden | Wasser steigt | 8 |
+| 5 | Pulverkammer | Schloss + Giftgasfalle | Zugang zur Feuerkette | Ketten noch ungefährlich | 9 |
+| 6 | Decision Room | Alarm droht | Pulverreste entfernen | Rufe von oben | 9 |
+| 7 | Turmaufstieg | feindlicher Bogenschütze | Auf Wehrgang gelangen | Belagerer rücken an | 7 |
+| 8 | Wehrgang Ost | Patrouille kreuzt | Zündvorrichtung sabotieren | Rauchwolke im Tal | 8 |
+| 9 | Wehrgang West | Kreuzritter rufen Hilfe | Fluchtweg sichern | Kanister mit Öl | 7 |
+| 10 | Hofpassage | Ritter greifen an | Portal erreichen | Pferde scheuen | 8 |
+| 11 | Waldrand | Verfolger abschütteln | Rücksprungpunkt erreichen | Turm brennt nicht | 6 |
+| 12 | Debrief im HQ | – | Bericht abliefern | Orden sucht Täter | – |
 ##### Kurzabenteuer „Operation GLASLÄUFER“ {#operation-glaslaeufer}
 
 *10-Seiten-Outline, Berlin 1961*
 
-| Phase | Inhalt | Spielmaterial |
-| ----- | --------------------------------------------------------------- | ------------------------ |
-| **Briefing** | West-Alliierten-Funkmast droht Sabotage. Abhörgerät platzieren. | Hand‑out Funkmast-Schema |
-| **Ankunft** | Regen, Checkpoint Charlie, Mauerbau im Gange. | Foto-Moodboard |
-| **Aufklärung** | Patrouillen-Routen, falsche Baupläne, NSC Stasi-Ingenieur. | Mini-Map ½ A4 |
-| **Zugriff** | Schleichen oder Social-Hack im Baucontainer. | Timer 4 Runden |
-| **Eskalation** | Paradoxon‑Index +1 → Zeitsoldaten erscheinen. | Statblock |
-| **Exfiltration** | Dampfer über Spree, Mauer‑Scheinwerfer. | Chase-Referenz |
-| **Rücksprung** | Mission endet, Rücksprung ins HQ. | Debrief‑Bogen |
-
-*`SceneCounter++` nach jeder Phase*
+| # | Ort | Konflikt | Ziel | Spur | SG |
+|---|----|---------|-----|-----|----|
+| 1 | HQ-Briefing | straffer Zeitplan | Auftrag besprechen | Funkmast-Foto | 5 |
+| 2 | Checkpoint Charlie | misstrauische Grenzer | Einreise sichern | Baukolonne im Hintergrund | 6 |
+| 3 | Straßenmarkt | neugieriger Informant | Stasi-Ingenieur finden | Gerücht Funkstörung | 6 |
+| 4 | Baucontainer | versteckte Mikrofone | Pläne kopieren | abgenutztes Siegel | 7 |
+| 5 | Funkmast-Basis | Patrouille prüft Ausweise | Zugang zum Mast | Aktentasche voller Skizzen | 8 |
+| 6 | Wartungsgang | Reparaturtrupp taucht auf | Abhörgerät platzieren | Dröhnen setzt ein | 8 |
+| 7 | Versorgungsraum | Zeitsoldaten erscheinen | Kampf vermeiden | Index steigt auf 1 | 9 |
+| 8 | Container-Hack | Alarm ausgelöst | Steuerung sichern | Peilsender piept | 9 |
+| 9 | Flucht zur Spree | Scheinwerfer suchen | Dampfer erreichen | Hund bellt am Kai | 7 |
+| 10 | Dampferdeck | Verfolger feuern | Abfahrt erzwingen | Funkspruch "Ziel flieht" | 8 |
+| 11 | Spree-Ufer | Motorboot jagt | Abstand gewinnen | Wasserpegel steigt | 7 |
+| 12 | HQ-Debrief | – | Einsatz bewerten | Zeitsoldaten aktiv | – |
+*SceneCounter++ nach Szene 12.*
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
 2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet
