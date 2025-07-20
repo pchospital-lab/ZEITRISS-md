@@ -154,7 +154,7 @@ export const closeSeed = (id) => { ... };
 function renderOperationsDeck() {
   const lvl = getParadox();
   const open = getOpenSeeds();
-  writeLine(`Open Rifts: ${open}  |  Paradoxon-Index: ${lvl}`);
+  writeLine(`Open Rifts: ${open}  |  Resonanz-Index: ${lvl}`);
   writeLine("> use scanner | > go vault | > go gate");
 }
 ```

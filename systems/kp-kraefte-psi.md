@@ -517,7 +517,9 @@ einer präkognitiven Vision, dass in einer Stunde ein Attentat auf eine wichtige
 Person erfolgreich ist (historisch belegtes Ereignis). Er interveniert telepathisch
 und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
 bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man
-hierfür eine Art „Paradox-Punkt" vergeben. Jede gelöste Mission bringt einen solchen Punkt.
+hierfür eine Art „Resonanzpunkt" vergeben. Diese Punkte entstehen schrittweise
+während einer Mission, wenn Eingriffe den bekannten Verlauf stärken.
+Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TA beschleunigt ihn.
 Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
 Offene Rifts erhöhen den Schwierigkeitsgrad, gelten aber nicht als Strafe.
 Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von

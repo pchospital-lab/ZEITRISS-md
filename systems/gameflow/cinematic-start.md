@@ -22,7 +22,7 @@ Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarza
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
-Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
+Ihr Eingreifen steigert den Resonanz-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer Vorgang. Auf der
 [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
@@ -637,7 +637,8 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
   2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
   Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
   Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
-Wer bei den Ermittlungen zu stark eingreift, steigert allerdings den Paradoxon-Index.
+Wer bei den Ermittlungen zu stark vom offiziellen Geschichtsverlauf abkommt,
+steigert den Resonanz-Index kaum.
 Erreicht dieser Stufe 5, legt das HQ gemäß
 [Zeitriss‑Core](../core/zeitriss-core.md#paradoxon--pararifts) automatisch neue
 Rift-Seeds auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
@@ -681,7 +682,7 @@ alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
   Charaktere werden entsandt, um das Attentat zu verhindern und den Übeltäter (vermutlich ein
   Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
   der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
-  Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index erhöht.
+  Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Resonanz-Index nicht mehr erhöht.
   Erreicht der Wert 5, macht das HQ per `ClusterCreate()` einen neuen Rift-Zugang sichtbar.
   Die resultierenden Seeds landen erst nach dem Einsatz auf der
   [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
@@ -730,7 +731,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
   (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
   stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
-  Erst wenn der Paradoxon-Index Stufe 5 erreicht, meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed.
+  Erst wenn der Resonanz-Index Stufe 5 erreicht, meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed.
   Dieser erscheint nach der Mission auf der
   [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
   vor Ort zeigt sich nur ein Anstieg instabiler Effekte.
@@ -784,24 +785,23 @@ _Hook:_ Gleich zu Beginn erfahren die Chrononauten, dass einer ihrer **Vorgänge
 vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und rettet Agent X!**
 
 - **Szenario:** Ein erfahrener ZEITRISS-Agent (vielleicht derjenige, der die Gruppe rekrutiert hat,
-  oder ein Freund von Commander Renier) ist während einer Mission **verschollen gegangen**. Die letzte
-  Codex-Ortung zeigt, dass er sich im Jahr **1566 am Hof von König Maximilian** befindet (Beispiel) –
-  doch der Agent meldet sich nicht mehr, vermutlich gefangen oder untergetaucht. Die neuen
-  Berichte deuten darauf hin, dass er dort eine historische Verschwörung untersuchte
-  und warnte, dass der Paradoxon-Index bereits stark anstieg. Erreicht der Wert
-  Stufe 5, registriert das HQ per `ClusterCreate()` neue Seeds auf der
-  [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) –
-  möglicherweise der Grund, warum Agent X spurlos verschwand.
-  Chrononauten werden trotz ihrer Unerfahrenheit entsandt, um ihn zurückzuholen; alle anderen Teams
-  sind gebunden, und Renier vertraut darauf, dass die Frischlinge mit Herzblut bei der Sache sind,
-  zumal vielleicht eine persönliche Bindung besteht. In der Zielzeit müssen sie feststellen, dass
-  Agent X von feindlichen Zeitreisenden entführt wurde, die ihn verhören, um ITI-Geheimnisse aus ihm
-  herauszupressen. Es entwickelt sich eine **Rettungsaktion**: Die Charaktere infiltrieren den
-  königlichen Hof (was für Spaß sorgt, weil sie sich in historischer Kleidung ausstaffieren und mit
-  alten Sitten auseinandersetzen müssen) und lokalisieren den Agenten in einem Verlies oder einer
-  Festung. Dort kommt es zum Showdown mit den Entführern. Gelingt die Befreiung, bringt das Team den
-  verletzten, aber lebenden Agenten zusammen mit wichtigen Informationen, die er gesammelt hat, zurück
-  ins HQ.
+  oder ein Freund von Commander Renier) ist während einer Einzeloperation verschwunden.
+  Die letzte Codex-Ortung deutet darauf hin, dass er sich im Jahr **1566 am Hof von Maximilian II.** befand,
+  mitten in einer politischen Schattenoperation.
+
+  Berichte deuten darauf hin, dass er dabei war, einen starken historischen Eingriff rückgängig zu machen –
+  und dass er den Paradoxon-Index auf **Stufe 5** brachte, durch exakte, gefährliche Korrekturen.
+
+  Laut Protokoll löst dieser Zustand ein `ClusterCreate()` aus: Neue Rift-Signaturen erscheinen auf der
+  Raumzeitkarte – energetisch spürbar für temporale Sensoren, aber unkontrollierbar, wenn niemand sie sichert.
+
+  Seitdem: kein Lebenszeichen.
+
+  Die Theorie: Agent X war zu nah an einem entstehenden Rift und wurde nicht vom Feind entführt,
+  sondern schlicht mitgezogen – vom Riss selbst.
+
+  Die Mission: Das Team soll den letzten bekannten Standpunkt lokalisieren, den entstehenden Rift untersuchen
+  und herausfinden, ob der Agent noch lebt oder ob die Öffnung einmalig und irreversibel war.
 - **Tonalität:** Diese Mission kombiniert **Emotionalität** (ein Verbündeter in Not) mit
   **klassischem Abenteuer**. Sie ist für die Spieler sehr motivierend, weil es nicht nur um einen
   Auftrag, sondern um eine **Person** geht, die man retten will. Der Ton kann heldenhaft und etwas

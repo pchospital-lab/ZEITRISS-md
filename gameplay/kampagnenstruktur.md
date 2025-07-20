@@ -181,7 +181,7 @@ enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** herv
 – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Steigt der
-Paradoxon-Index auf 5, macht `ClusterCreate()` neue Seeds sichtbar und setzt den Wert
+Paradoxon-Index auf 5, `ClusterCreate()` macht 1–2 neue Seeds sichtbar und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
 `launch_rift(id)` erst nach Abschluss des aktuellen Core-Arcs zu einer
@@ -190,7 +190,8 @@ zurückkehren. Diese **Rift-Ops** gelten als filmische
 Einzelmissionen und zählen nicht zur Missionsanzahl eines Arcs.
 
 Jeder Seed steht für ein offenes Pararift.
-Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0 und die neuen Seeds landen im Array `OpenRifts`.
+Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0.
+Die neu sichtbaren Seeds landen anschließend im Array `OpenRifts`.
 Der Reset greift erst nach einer Runde, damit dramatische Szenen ausklingen können.
 Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn im HQ.
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
@@ -201,7 +202,8 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
-- **Paradoxon-Index 0–5:** Jede Mission bringt Paradoxon-Punkte. Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt den Wert auf 0.
+- **Paradoxon-Index 0–5:** Jede Mission bringt Paradoxon-Punkte.
+  Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt den Wert auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
   für alle Einsätze. Ein Seed lässt sich erst nach Abschluss des aktuellen
   Core-Arcs via `launch_rift(id)` als eigenständige Rift-Op starten.
@@ -221,16 +223,16 @@ Weitere Details stehen im
 [Paradox-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem).
 Dieses Kapitel fasst die Effekte kurz zusammen:
 
-| Stufe | In-Mission-Effekt  | HQ-Effekt                                    |
-| ----- | ------------------ | -------------------------------------------- |
-| 0–1   | Stabil             | –                                            |
-| 2     | HUD-Flackern       | –                                            |
-| 3     | Audio-Feedback         | –                                            |
-| 4     | 1 s Zeitstillstand | "Riss-Vorstufe"-Flag                         |
-| **5** | –                  | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
+| Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
+| ----- | --------------------------------------- | -------------------------------------------- |
+| 0–1   | Stabil                                 | –                                            |
+| 2     | einmalig −1 Stress                     | –                                            |
+| 3     | Gruppe heilt 1 HP                      | –                                            |
+| 4     | +2 Initiative auf nächste Handlung     | "Riss-Vorstufe"-Flag                         |
+| **5** | Heat-Reset, 2 PP, Zustände weg          | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
 
-Der Index wird kampagnenweit verfolgt. Bei Stufe 5 entstehen automatisch neue
-Rift-Seeds.
+Der Index wird kampagnenweit verfolgt. Bei Stufe 5 macht `ClusterCreate()` 1–2 neue
+Rift-Seeds sichtbar.
 Optional kann ein leichter ±1-Jitter aktiv sein, damit die Schwelle nicht exakt
 vorhersehbar bleibt.
 
