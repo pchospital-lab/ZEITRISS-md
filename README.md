@@ -29,7 +29,8 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
    Ab Attribut 11 ersetzt ein W10 den W6 (*Exploding‑10*).
    Addiere ⌊Attribut / 2⌋ sowie Talent‑ und Gear‑Boni.
    Bei 14 erhältst du einen Heldenwürfel als kostenlosen Reroll.
-3. **Paradoxon-Index** – Wertebereich 0–5. Nach jeder Mission +1; bei 5 verrät `ClusterCreate()` bis zu zwei Rifts und der Index springt auf 0.
+3. **Paradoxon-Index** – Wertebereich 0–5.
+   Bei 5 verrät `ClusterCreate()` bis zu zwei Rifts und der Index springt auf 0.
    Offene Seeds erhöhen den SG.
 4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
     `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
@@ -53,7 +54,13 @@ Jede Mission entscheidet, wer die Chronik kontrolliert.
 Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
 und treibt die *Psi-Heat* hoch.
 Der Index notiert temporale Resonanzpunkte.
-Jede gelöste Mission erhöht ihn um 1.
+Er steigt situativ während einer Mission an, wenn Eingriffe den offiziellen
+Verlauf stabilisieren.
+Niedrige **Temporale Affinität** verlangsamt diesen Aufbau, hohe TA beschleunigt ihn.
+Richtwerte: TEMP 1–3 erreichen etwa alle fünf Missionen einen Punkt,
+TEMP 4–7 grob alle vier, TEMP 8–10 alle drei,
+ab TEMP 11–13 steigt der Index ungefähr alle zwei Missionen,
+und ab 14 praktisch in jeder.
 Erreicht der Wert 5, ortet das HQ dank `ClusterCreate()` bis zu zwei neue Rifts und setzt den Zähler auf 0.
 Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator.
 Im [**Covert-Ops-Modus**](#spielmodi) erscheinen sie nur als dezente Sensorrauschen.

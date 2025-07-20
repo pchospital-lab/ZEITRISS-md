@@ -339,21 +339,24 @@ einen Toggle `/stress open|hidden`.
   Stresslevels gelingt.
   Eine kurze Meditation über zwei Runden reduziert **3 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
-- **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
-  Jede erfolgreich beendete Mission erhöht ihn um **+1**. Bei **Level 5** enthüllt `ClusterCreate()`
-  bis zu zwei Rifts und setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor. Das
-  **HUD** visualisiert die Resonanz über eine fünfstufige Skala.
+  - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
+    Er steigt situativ während einer Mission. Wenig **Temporale Affinität** füllt ihn nur langsam,
+    hohe TA beschleunigt den Aufbau. Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
+    setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor. Das **HUD** visualisiert
+    die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
   ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
-  _Auswirkungen:_ Steigende Werte lassen die Zeit spürbar entgleisen.
-  Ab **Level 2** flackert das HUD, wodurch Stealth-Proben in dieser Runde **–1** erhalten.
-  Ab **3** stört ein leises Rauschen das Funknetz; Uhren springen vereinzelt um Sekunden.
-  Bei **4** friert der Ablauf kurz ein, alle Wahrnehmungsproben **–1** für einen Augenblick.
-  Erreicht der Index **5**, löst `ClusterCreate()` im HQ 1–2 Rift-Seeds aus und setzt den Wert auf 0.
+  _Auswirkungen:_ Steigende Werte erzeugen kleine positive Resonanzeffekte.
+  Bei **Level 1** verliert die Gruppe einmalig **1 Stresspunkt**.
+  Auf **2** heilt das Team **1 HP**.
+  Bei **3** ist die nächste Probe um **–1 SG** erleichtert.
+  Auf **4** sorgt ein Adrenalinrausch für **+2 Initiative** auf die nächste Kampfhandlung.
+  Bei **5** setzt das HQ sämtliche Heat zurück, spendiert **2 PP** und hebt negative Zustände auf.
+  Anschließend springt der Index auf 0.
   Zeitkreaturen können Teil dieser Risse sein. Siehe
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator)
   für Stat- und Schadenswerte.
@@ -372,8 +375,9 @@ einen Toggle `/stress open|hidden`.
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
   **Solange Chrononauten in einer fremden Epoche aktiv sind, steigt der Paradoxon-Index
-  langsam von selbst.** Behutsames, stilvolles Vorgehen lässt den Index nur langsam steigen, während
-  grobe Aktionen ihn rasch eskalieren lassen. Auch hier gilt:
+  langsam von selbst.** Niedrige **Temporale Affinität** bremst diesen Effekt,
+  hohe TA lässt ihn schneller anwachsen. Behutsames, stilvolles Vorgehen steigert
+  den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen haben. Auch hier gilt:
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
   ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
@@ -387,15 +391,15 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 
 Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
 und zeigt, welche Effekte bei welchen Stufen auftreten.
-Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
+Steigende Resonanz belohnt das Team mit kleinen Boni.
 
 | Stufe | In-Mission-Effekt               | HQ-Effekt                                    |
 | ----- | ------------------------------- | -------------------------------------------- |
 | 0–1   | Stabil                          | –                                            |
-| 2     | HUD-Flackern                    | –                             |
-| 3     | Audio-Feedback                      | –                             |
-| 4     | Kurz-Nachbild (1 s Nachzieher) | „Riss-Vorstufe“-Flag                         |
-| **5** | –                               | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
+| 2     | einmalig −1 Stress                        | – |
+| 3     | Gruppe heilt 1 HP                         | – |
+| 4     | +2 Initiative auf nächste Kampfhandlung     | „Riss-Vorstufe“-Flag |
+| **5** | Heat-Reset, 2 PP, Zustände weg            | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und legt 1–2 neue
 Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Missionsende vom HQ aus
@@ -415,11 +419,11 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**
 
-1. *Mittelalter:* Kurz flackert ein Runensymbol auf (**+1 Stress**).
-2. *Viktorianisch:* Dein Monokel-HUD rauscht, die Optik verzerrt sich (**–1 Geschick**).
-3. *Zweiter Weltkrieg:* Funkgerät knackt, Bild wird körnig (**–1 Stealth**).
-4. *Kalter Krieg:* Ein roter Warnbalken blitzt auf, Geigerzähler tickt (**–1 Initiative**).
-5. *Cyber-Future:* Interface friert ein, Holo-Anzeigen glitchten (**–1 SYS**).
+1. *Mittelalter:* Ein Runensymbol pulsiert – die Gruppe verliert **1 Stress**.
+2. *Viktorianisch:* Dein Monokel-HUD leuchtet kurz und heilt **1 HP**.
+3. *Zweiter Weltkrieg:* Funkgerät surrt, die nächste Probe ist **–1 SG** leichter.
+4. *Kalter Krieg:* Ein Adrenalinrausch verleiht **+2 Initiative**.
+5. *Cyber-Future:* Heat sinkt auf 0 und das Team erhält **2 PP**; negative Zustände lösen sich auf.
 
 > **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
 
