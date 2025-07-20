@@ -15,7 +15,7 @@ JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
 > 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index.** Risiko-Skala; bei 5 öffnet sich 1–2 Pararifts auf der Weltkarte.
+> 4. **Paradoxon-Index.** Fortschrittsanzeige: Stufe 5 verrät 1–2 neue Pararifts.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 
 ## Quick-Start Zwei-Seiter {#quick-start-zweiseiter}
@@ -29,8 +29,8 @@ und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
    Ab Attribut 11 ersetzt ein W10 den W6 (*Exploding‑10*).
    Addiere ⌊Attribut / 2⌋ sowie Talent‑ und Gear‑Boni.
    Bei 14 erhältst du einen Heldenwürfel als kostenlosen Reroll.
-3. **Paradoxon-Index** – Wertebereich 0–5. Stufe 5 triggert `ClusterCreate()` und erzeugt bis zu zwei Seeds.
-   Der Index springt anschließend auf 0; offene Seeds erhöhen den SG.
+3. **Paradoxon-Index** – Wertebereich 0–5. Nach jeder Mission +1; bei 5 verrät `ClusterCreate()` bis zu zwei Rifts und der Index springt auf 0.
+   Offene Seeds erhöhen den SG.
 4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
     `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
 
@@ -52,17 +52,12 @@ Der Kernkonflikt: Das ITI verteidigt den bisherigen Verlauf, während Fremdfrakt
 Jede Mission entscheidet, wer die Chronik kontrolliert.
 Diese Kräfte zapfen **Power-Punkte (PP)** an. Exzessiver Einsatz löst *Burn* aus
 und treibt die *Psi-Heat* hoch.
-Paradox-Effekte werden über einen Index von 0–5 verfolgt.
-Solange Chrononauten in einer fremden Epoche aktiv sind, steigt dieser Index
-langsam durch ihre bloße Anwesenheit – umsichtiges Vorgehen bremst den Anstieg,
-plumpes Handeln beschleunigt ihn.
-Ab Stufe 2 flackert das HUD, bei 4 friert die Zeit kurz ein.
-Erreicht der Index 5, löst das HQ automatisch `ClusterCreate()` aus –
-es entstehen 1–2 neue Rift-Seeds (maximal zwei) und der Zähler springt auf 0. Der Reset greift erst nach einer Runde.
-Zeitkreaturen können Teil dieser Risse sein.
-Wer lieber ganz auf solche Erscheinungen verzichtet,
-kann im [**Covert-Ops-Modus**](#spielmodi) spielen, der nur leichte Störungen zulässt.
-Dieses Paradox-Subsystem bildet den Standardrahmen für alle Regelmodule.
+Der Index notiert temporale Resonanzpunkte.
+Jede gelöste Mission erhöht ihn um 1.
+Erreicht der Wert 5, ortet das HQ dank `ClusterCreate()` bis zu zwei neue Rifts und setzt den Zähler auf 0.
+Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator.
+Im [**Covert-Ops-Modus**](#spielmodi) erscheinen sie nur als dezente Sensorrauschen.
+Dieses Fortschrittssystem bildet den Standardrahmen für alle Regelmodule.
 
 ## Kampagnenhierarchie
 
@@ -162,7 +157,7 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 2. **Lines/Veils bestätigen** – siehe Safety Sheet.
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
-5. **Paradoxon-Toleranz** – Wie häufig wollt ihr Rifts?
+5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
 6. **Regel-Transparenz** – verdeckte, offene oder manuelle Würfe klären.
 
 ### Probability Cheat Table
@@ -448,12 +443,12 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
 - **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
-- **Px** – Paradoxon-Index (kampagnenweit). Bei 5 automatischer Cluster-Reset.
+- **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue Rifts und setzt den Wert auf 0.
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
 | **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
-| **ClusterCreate()** | Notfallroutine bei Paradoxon 5: 1–2 Seeds spawnen auf der Weltkarte; Index springt auf 0. |
+| **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 
 ### Begriffsklärung
@@ -465,7 +460,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | Missionstyp           | Interventionsform |
 | Zielperson            | Zielperson (gleichbleibend) |
 | Verstärkung           | Automatisch aktivierte Einsatzkräfte |
-| Paradoxon             | Indikator für instabile Realitätsschichten |
+| Paradoxon             | Temporale Resonanzanzeige für Rifts |
 | Codexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
 
 ### Zeiteinheiten

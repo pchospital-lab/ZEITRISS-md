@@ -107,8 +107,8 @@ zukünftiger Technologie entschlüsseln könnten?_
 Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antreffen? Im Folgenden eine
 Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind.
 Diese Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse –
-und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen können erst ab
-Paradoxon-Index 5 auftreten; die optionale **Covert-Ops**-Variante lässt sie weg.
+ und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen tauchen erst auf,
+wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Covert-Ops**-Modus bleiben sie verborgen.
 
 - **Intuition („sechster Sinn“):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
   hinausgeht. Charaktere mit starker Intuition erspüren Gefahren oder richtige Entscheidungen, ohne es
@@ -517,14 +517,9 @@ einer präkognitiven Vision, dass in einer Stunde ein Attentat auf eine wichtige
 Person erfolgreich ist (historisch belegtes Ereignis). Er interveniert telepathisch
 und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
 bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man
-hierfür eine Art „Paradox-Punkt" vergeben. Ab einer gewissen Anzahl Paradox-Punkte
-drohen Konsequenzen: Bei steigendem Paradoxon-Index drohen verschiedene
-Nebenwirkungen. Zunächst flackert nur das HUD, bei Stufe 4 kommt es zu kurzen
-Zeitstillständen. Erreicht der Index 5, startet das HQ automatisch
-`ClusterCreate()`. Dann entstehen Risse, die Zeitkreaturen anlocken können. Nur
-wenn ein solcher Riss außer Kontrolle gerät, eilen gelegentlich Kausalklingen zur
-Hilfe. Bis dahin bleiben die Effekte eher subtil: Das HUD zeigt Warnmeldungen an,
-und die Charaktere verspüren Schwindel oder andere Irritationen.
+hierfür eine Art „Paradox-Punkt" vergeben. Jede gelöste Mission bringt einen solchen Punkt.
+Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
+Offene Rifts erhöhen den Schwierigkeitsgrad, gelten aber nicht als Strafe.
 Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
 Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um

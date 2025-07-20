@@ -41,7 +41,7 @@ Beispiel:
 if not character.psi:
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradox (0-5). Bei 5 → Write: "ClusterCreate ausgelöst – Paradoxon reset" und notiere Rift-Seeds.
+- TRACK Paradox (0–5). Bei 5 → "ClusterCreate aktiv" notieren und neue Rift-Seeds festhalten.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
@@ -149,8 +149,8 @@ Decision: <Was tun?>
 ### 3 | Paradoxon-Warnung
 
 > ⚠ **PARADOXON 4/5** – instabile Zugriffsspur erkannt.
-> **Pressure:** Nächster PSI-Einsatz triggert ClusterCreate.
-> **Decision:** Risiko eingehen?
+> **Hinweis:** Nächster PSI-Einsatz kann das Resonanzlevel steigern.
+> **Decision:** Einsatz wagen?
 
 *Formel:*
 
@@ -199,7 +199,7 @@ Decision: <Reaktion?>
 
 ### 8 | Rift-Spawn-Ansage
 
-> **ClusterCreate ausgelöst – Paradoxon reset.**
+> **ClusterCreate aktiv – Resonanz auf Maximum, Index zurückgesetzt.**
 > **Neuer Rift-Seed:** *#1889-01 – Kanallegende von Saint-Martin.*
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
@@ -304,7 +304,7 @@ Beispielaufrufe:
 ```
 
 ### ParadoxPing() Macro
-Zeigt eine Warnung im HUD, sobald `campaign.scene` über 70 % liegt oder der
+Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
 
 ### redirect_same_slot() Macro

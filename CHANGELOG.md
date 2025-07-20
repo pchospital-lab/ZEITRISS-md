@@ -80,3 +80,8 @@ tags: [meta]
 ## 4.1.9 – Manual Roll Mode
 - Neuer `/roll manual` Schalter für analoges Würfeln.
 - Exploding-Regel greift weiterhin bei 6 bzw. 10.
+
+## 4.2.0 – Paradoxon Rework
+- Paradoxon-Index fungiert jetzt als Resonanzanzeige.
+- `ClusterCreate()` enthüllt bei Stufe 5 neue Rift-Seeds.
+- Dokumentation an mehreren Stellen angepasst.
