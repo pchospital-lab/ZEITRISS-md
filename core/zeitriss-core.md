@@ -816,8 +816,8 @@ in einen neuen Kampagnenstrang führt.
 ### Paradoxon & Pararifts
 
 1. Index startet bei **0**.
-2. **+1** bei riskantem Psi, Artefaktkontakt oder ungeklärtem Fraktionseingriff.
-3. Erreicht der Wert **5**, setzt das HQ sofort **1–2 Rift-Seeds** auf die Weltkarte und der Index springt auf 0.
+2. **+1** nach jeder erfolgreich beendeten Mission.
+3. Erreicht der Wert **5**, macht `ClusterCreate()` **1–2 Rift-Seeds** sichtbar und der Index springt auf 0.
 4. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
 5. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
   Siehe [Rifts sammeln](../gameplay/kampagnenstruktur.md#rifts-sammeln) für die
