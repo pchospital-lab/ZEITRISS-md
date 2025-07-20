@@ -137,6 +137,36 @@ flowchart LR
 ```
 
 
+##### Trigger-Beispiel Titanic 1912 {#trigger-beispiel-titanic-1912}
+
+```yaml
+# gameplay/kampagnenstruktur.md – Trigger-Beispiel Titanic
+title: "Trigger-Mission Titanic 1912"
+id: EX-TRIG-1912-TIT
+trigger_only: true
+version: 4.1.7
+```
+
+**Ereignis:** Untergang der Titanic.
+**Hintergrund:** Ein Zeitverbrecher will das Schiff retten, um ein
+Prototyp-Funkgerät zu bergen. Würde die Katastrophe ausbleiben,
+gerät die Technik in militaristische Hände und verschärft kommende
+Kriege.
+
+1. Briefing – Auftrag: Titanic muss wie bekannt untergehen.
+2. Infiltration – Undercover an Bord in Southampton.
+3. Kontakt – Verdächtigen Offizier im Rauchsalon belauschen.
+4. Intel – Merkwürdige Funkbauteile in seinem Gepäck sichern.
+5. Konflikt – Eiswarnungen im Funkraum abfangen.
+6. Konflikt – Störsender installieren, um Hilfe zu verzögern.
+7. Infiltration – Pumpensteuerung sabotieren.
+8. Twist – Saboteur deckt die Agenten auf, kurzer Nahkampf.
+9. Exfiltration – Rettungsboote beobachten, Chaos zulassen.
+10. Konflikt – Gegner versucht weiterhin, Passagiere zu retten.
+11. Exfiltration – Via Portal oder Rettungsboot entkommen.
+12. Debrief – Titanic sinkt, Zeitlinie stabil.
+
+
 ### Core- & Rift-Loop
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
