@@ -23,7 +23,7 @@ tags: [meta]
 - Authentische Epochen, plausibler Tech-Level, keine philosophischen Exkurse.
 - Fokus auf Schleichen und Sabotage, keine Orakel oder Visionen.
 - Mission-Fokus ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
-- Paradoxon-Index gilt kampagnenweit; Stufe 5 triggert `ClusterCreate()` mit 1–2 Seeds, dann Reset.
+- Paradoxon-Index gilt kampagnenweit; Stufe 5 enthüllt durch `ClusterCreate()` 1–2 Rifts und setzt dann auf 0.
   `modus covert-ops` reduziert Effekte auf Sensorrauschen.
 - Missionen folgen klaren Phasen: Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
 - Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,

@@ -339,16 +339,10 @@ einen Toggle `/stress open|hidden`.
   Stresslevels gelingt.
   Eine kurze Meditation über zwei Runden reduziert **3 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
-- **Paradox-Belastung & temporale Stabilität:** ZEITRISS-Agents manipulieren Zeitlinien, was das
-  Risiko von **Paradoxa** mit sich bringt. Das Spielsystem kann einen **Paradoxon-Index** verwenden,
-  um anzuzeigen, wie stark die aktuelle Mission die Zeitstruktur belastet. _Grundidee:_ **Level 0**
-  bedeutet keine Anomalien – alles in Ordnung. Mit jedem Verstoß gegen die Zeitlogik (z.B. wichtige
-  historische Ereignisse verändert, direkten Vorfahren begegnet, große Zeitanomalie ausgelöst) kann
-  der Wert steigen: **Level 1–2** sind kleine Fluktuationen (leichte Abweichungen, die sich
-  vielleicht selbst korrigieren), **Level 3–4** sind kritische Instabilitäten (die Epoche beginnt
-  merklich zu „flimmern“, Zeitphänomene treten auf), **Level 5** bedeutet akute Paradox-Gefahr – die
-  Realität könnte reißen oder sich selbst „bereinigen“. Das **HUD** aller Agenten zeigt diesen Wert
-  gut sichtbar an (etwa als Skala oder Prozentbalken der Zeitstabilität).
+- **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
+  Jede erfolgreich beendete Mission erhöht ihn um **+1**. Bei **Level 5** enthüllt `ClusterCreate()`
+  bis zu zwei Rifts und setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor. Das
+  **HUD** visualisiert die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
@@ -364,12 +358,10 @@ einen Toggle `/stress open|hidden`.
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator)
   für Stat- und Schadenswerte.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
-  bei dem solche Risse und Kreaturen nicht auftreten. In diesem Modus erscheint stattdessen ein dezentes
-  **Tick-Overlay** im HUD, das bei Paradox-Stufe 4 pulsierend rot wird. Optional lässt sich die Zahl offener Seeds
-  einblenden:
+  bei dem Rifts nur als dezentes Sensorrauschen auftreten. Optional zeigt das HUD
+  ab Stufe 4 einen sanften Resonanzpuls an und blendet die Zahl offener Seeds ein:
 [[HUD]] [Seeds: 3]  🔄 Paradox 4/5 [[/HUD]]
-  So behält das Team die langfristige Gefahr im Blick.
-Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Rissen warnen.
+  So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
   Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
   `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
   **pro** oder **contra** spielt. Mit `modus paradox on` schaltet ihr sie
@@ -387,9 +379,9 @@ Optional kann ein Foreshadow-Pulse als sinusförmiges HUD-Signal vor nahenden Ri
   ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
   reparieren).
 
-_Verwarnungspuffer:_ Der Index steigt nur noch, wenn bereits **zwei Paradox-Marken** in der Szene
+_Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken** in der Szene
   liegen – die erste setzt lediglich eine Warnung. Erreicht der Index
-  Stufe 5, löst `ClusterCreate()` automatisch 1–2 Seeds aus und setzt den Wert zurück.
+  Stufe 5, aktiviert `ClusterCreate()` 1–2 Seeds und setzt den Wert zurück.
 
 ### Paradox-Subsystem
 
@@ -403,11 +395,11 @@ Stufe 2 und 4 verursachen leichte, kurzzeitige Mali.
 | 2     | HUD-Flackern                    | –                             |
 | 3     | Audio-Feedback                      | –                             |
 | 4     | Kurz-Nachbild (1 s Nachzieher) | „Riss-Vorstufe“-Flag                         |
-| **5** | –                               | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
+| **5** | –                               | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
 
-Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und erzeugt 1–2
-Seeds. Diese Seeds liegen auf der Raumzeitkarte und sind erst nach Missionsende
-vom HQ aus erreichbar.
+Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und legt 1–2 neue
+Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Missionsende vom HQ aus
+erreichbar.
 
 ### Raumzeitkarte {#raumzeitkarte}
 

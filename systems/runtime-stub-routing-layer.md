@@ -282,12 +282,12 @@ function exitPvPArena() {
 ```typescript
 function startGroupMode(players = []) {
   // Wird nach dem Einlesen mehrerer Savegames aufgerufen.
-  // Schwierigkeitsgrad angleichen: Paradoxon-Index & Rifts zurücksetzen
+  // Schwierigkeitsgrad angleichen: Resonanz-Index und offene Rifts zurücksetzen
   state.paradox_level = 0;
   state.open_seeds = [];
   autoSave();
   writeLine(
-    `Group mode initiated for ${players.length} players. Paradoxon-Index reset.`,
+    `Group mode initiated for ${players.length} players. Resonanz-Index reset.`,
   );
 }
 ```

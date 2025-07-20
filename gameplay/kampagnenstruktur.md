@@ -181,7 +181,7 @@ enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** herv
 – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Steigt der
-Paradoxon-Index auf 5, löst `ClusterCreate()` neue Seeds aus und setzt den Wert
+Paradoxon-Index auf 5, macht `ClusterCreate()` neue Seeds sichtbar und setzt den Wert
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
 `launch_rift(id)` erst nach Abschluss des aktuellen Core-Arcs zu einer
@@ -201,8 +201,7 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
-- **Paradoxon-Index 0–5:** Jede Mission sammelt Paradox-Punkte. Erreicht der Index Stufe 5,
-  löst `ClusterCreate()` automatisch 1–2 neue Seeds aus und setzt den Wert auf 0.
+- **Paradoxon-Index 0–5:** Jede Mission bringt Paradoxon-Punkte. Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt den Wert auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
   für alle Einsätze. Ein Seed lässt sich erst nach Abschluss des aktuellen
   Core-Arcs via `launch_rift(id)` als eigenständige Rift-Op starten.
