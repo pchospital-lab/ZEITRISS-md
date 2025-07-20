@@ -816,13 +816,18 @@ in einen neuen Kampagnenstrang führt.
 ### Paradoxon & Pararifts
 
 1. Index startet bei **0**.
-2. **+1** nach jeder erfolgreich beendeten Mission.
-3. Erreicht der Wert **5**, macht `ClusterCreate()` **1–2 Rift-Seeds** sichtbar und der Index springt auf 0.
-4. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
-5. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
+2. Steigt situativ während einer Mission an, wenn Eingriffe den offiziellen
+   Geschichtsverlauf stabilisieren. Niedrige **Temporale Affinität** bremst
+   diesen Zuwachs, hohe TA beschleunigt ihn.
+3. Richtwert zum Anstieg: TEMP 1–3 bringen meist alle fünf Missionen einen Punkt,
+   TEMP 4–7 etwa alle vier, TEMP 8–10 alle drei,
+   TEMP 11–13 alle zwei und TEMP 14+ praktisch jede Mission.
+4. Erreicht der Wert **5**, macht `ClusterCreate()` **1–2 Rift-Seeds** sichtbar und der Index springt auf 0.
+5. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
+6. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
   Siehe [Rifts sammeln](../gameplay/kampagnenstruktur.md#rifts-sammeln) für die
   Verwaltung während der HQ-Phase und am Arc-Ende.
-6. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.
+7. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.
 ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles.
 Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
 
