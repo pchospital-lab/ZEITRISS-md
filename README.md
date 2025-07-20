@@ -13,7 +13,7 @@ JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
 [LICENSE](LICENSE).
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-> 2. **Six-Step Missions.** Briefing → Arrival → Intel → Breach → Exfil → Return.
+> 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index.** Risiko-Skala; bei 5 öffnet sich 1–2 Pararifts auf der Weltkarte.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
@@ -24,7 +24,7 @@ Im hektischen Chat soll die Spielleitung schnell loslegen können.
 Dieser Abschnitt fasst Wuerfelregel, Missionsablauf
 und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
 
-1. **Phasenstruktur** – Briefing, Arrival, Intel, Breach, Exfil, Return.
+1. **Phasenstruktur** – Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
 2. **Würfel** – W6 mit *Exploding‑6*.
    Ab Attribut 11 ersetzt ein W10 den W6 (*Exploding‑10*).
    Addiere ⌊Attribut / 2⌋ sowie Talent‑ und Gear‑Boni.

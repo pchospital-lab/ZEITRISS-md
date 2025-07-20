@@ -69,6 +69,14 @@ und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
 - Stimmung & Loot → Artefakte und Kulturfragmente
 - Seltene Effekte → Temporale Anomalien
 
+## Missionsstruktur (Taktische Vorlage)
+
+Eine Operation gliedert sich in sechs Phasen:
+Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration und Debrief.
+Rechnet mit 10–14 Szenen, je nach Einsatzart.
+Die Gegenseite agiert mit greifbaren Agenten oder Söldnern.
+Bonusziele wie Festnahmen oder gesicherte Datenträger bringen zusätzliche CU oder Ruf.
+
 ## Automatischer Mission Seed
 
 Dieses Start-Tool zieht zu Beginn einer Sitzung je einen Eintrag aus drei Listen
@@ -697,7 +705,7 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "d24": 5,
       "Seed": "Mirage Over Sinai",
       "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken",
-      "hiddenCause": "verzerrtes Echo eines Wüstentestgeländes"
+      "hiddenCause": "fehlgeschlagener Abschussbefehl im Rahmen des Able-Archer-Manövers"
     },
     {
       "d24": 6,
@@ -1619,7 +1627,7 @@ thema: Beispiel-Rift
 - arc_id: "Silk1280"
   arc_step: 3
   pool: black_ops_pool
-  title: "Oasen‑Echo"
+  title: "Oasen‑Signal"
   pitch: "Leg toxische Nebelkerzen in Händlerlager, um Wachen auszuschalten."
   timeslot: "+12 h"
 
@@ -1831,7 +1839,7 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 - arc_id: "AbleArcher83"
   arc_step: 8
   pool: heist_pool
-  title: "Echo Down"
+  title: "Signal Down"
   pitch: >
   Untersee‑Kabel reparieren; Rigger mit Mini‑U‑Boot und Tauch‑Mercs
   zünden Sprengsatz – Sturm‑Taucher‑Gefechte.
@@ -1964,7 +1972,7 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITR
 
 - rift_id: "RIFT-NX02"
   epoch: "Nagasaki 1946"
-  anomaly: "Zeit-Echo-Sirene"
+  anomaly: "Zeit-Resonanz-Sirene"
   risk: 5
   paramonster:
     type: "Phasen-Banshee"
