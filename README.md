@@ -465,6 +465,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
 - **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue Rifts und setzt den Wert auf 0.
+- **Px Burn** – 1 Punkt verbrennen = ein Reroll für jeden Charakter oder NSC.
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
