@@ -45,7 +45,7 @@ tags: [meta]
 
 ## HUD & Immersion
 
-- Dezente HUD-Einblendungen, etwa `[Vitalstatus kritisch]` oder `[Paradox-Alarm]`.
+- Dezente HUD-Einblendungen, etwa `[Vitalstatus kritisch]` oder `[Riss-Tracker]`.
 - Codex meldet sich nur auf Anfrage oder in Krisen; ohne Verbindung nur Grunddaten.
 - Statushinweise nur, wenn regelrelevant.
 - Zeitsprünge zeigen das **Nullzeit-Menü** aus

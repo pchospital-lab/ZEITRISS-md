@@ -366,12 +366,13 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxa, temporale Energie oder unstimmige
   Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
   20 m. Besonders hilfreich, um _Zeitverbrecher_ oder fremde Eingriffe zu entdecken. _Kosten:_ 120 CU.
-- **Paradox-Alarm:** Ein kleines implantierbares oder am Handgelenk tragbares Gerät, das mit dem
-  TEMP-Attribut eines Chrononauten gekoppelt ist. Es vibriert oder gibt einen stummen Alarm, wenn
-  Handlungen des Teams drohen, einen großen **Zeitparadox** auszulösen. Natürlich ist es keine
-  Allwissende Prophezeiung – aber es detektiert z.B. beim Versuch, einen wichtigen historischen Führer
-  zu beseitigen, starke Temporalsignaturen, die auf einen Einschnitt in der Zeitlinie hindeuten.
-  _Kosten:_ 200 CU (geheim, nur an ausgewählte Teams vergeben).
+  - **Riss-Tracker:** Ein fest implantiertes Bioimplantat, das bei jedem Chrononauten zur
+    Grundausstattung gehört. Es vibriert leicht, wenn starke temporale Resonanz
+    bevorsteht – ein Hinweis, dass bald ein wertvolles Pararift auf der Raumzeitkarte
+    sichtbar werden könnte. Der Riss öffnet sich nicht während der Mission,
+    sondern wird erst vom HQ aus als Seed anwählbar. Natürlich ist es keine allwissende
+    Prophezeiung, doch es erkennt mächtige Temporalsignaturen, etwa wenn historische
+    Schlüsselereignisse berührt werden.
 - **Portal-Notöffner:** Ein experimentelles Gerät, das wie ein Griff mit Abzug aussieht. Im
   absoluten Notfall kann ein Agent damit einen _kleinen, instabilen Zeitriss_ zu einer
   voreingestellten Zeit (typisch: Nullzeit HQ, **nur Rückreise**) öffnen. Dieser Riss hält wenige
@@ -383,7 +384,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 _Atmosphärische Einbindung:_ All diese temporalen Tools können im Spiel für spannende Szenen sorgen.
 So könnte etwa das **HUD** des Chrononauten automatisch Epochen-Scanner-Daten einblenden, sobald
 eine Anomalie detektiert wird (_„HUD-Overlay: Temporal-Flux Detected!“_). Die KI-Spielleitung (GPT)
-kann Hinweise liefern, wenn z.B. ein Paradox-Alarm triggert, indem sie ein ungutes Gefühl oder ein
+kann Hinweise liefern, wenn z.B. ein Riss-Tracker anspringt, indem sie ein gutes Gefühl oder ein
 Flackern im Zeitstrom beschreibt. Solche Elemente verstärken die Immersion, sollten aber sparsam und
 stimmungsvoll eingesetzt werden.
 

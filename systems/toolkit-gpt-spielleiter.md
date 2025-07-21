@@ -148,14 +148,14 @@ Decision: <Was tun?>
 
 ### 3 | Paradoxon-Warnung
 
-> ⚠ **PARADOXON 4/5** – instabile Zugriffsspur erkannt.
+> ⏳ **PARADOXON 4/5** – instabile Zugriffsspur erkannt.
 > **Hinweis:** Nächster PSI-Einsatz kann das Resonanzlevel steigern.
 > **Decision:** Einsatz wagen?
 
 *Formel:*
 
 ```txt
-⚠ PARADOXON X/5 – <knappe Diagnose>.
+⏳ PARADOXON X/5 – <knappe Diagnose>.
 Pressure: <technische Folge>.
 Decision: <Reaktion?>
 ```

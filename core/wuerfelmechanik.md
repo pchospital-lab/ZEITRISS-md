@@ -235,6 +235,7 @@ Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Z
 | 11+      | W10 |
 
 Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen einmaligen Reroll pro Szene.
+- **Px Burn:** 1 Punkt für einen weiteren Reroll (jeder Charakter oder NSC)
 
 ### Attribut → Ø-Erfolgsrate (SG 8)
 
@@ -525,9 +526,13 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 4     | Kurz-Nachbild (1 s Nachzieher) |
 | 5     | ClusterCreate() im HQ      |
 
+Der Index steigt vor allem, wenn ihr Missionen voranbringt oder Anomalien stabilisiert.
+Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
+
 ### Seed-Counter im HUD
 
-Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts an.
+Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts auf
+der Raumzeitkarte an.
 Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
 [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
@@ -646,9 +651,10 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
-**Paradoxon‑Index (Px)** – 0–2 = grün ✓, 3–4 = gelb ⚠, 5 = rot ✖ → `ClusterCreate()`
+**Paradoxon‑Index (Px)** – 0–2 = rot ⏳, 3–4 = gelb ⏳, 5 = grün ⌛ → `ClusterCreate()`
 und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
-**Px +1:** Zeitzeugen, Tech-Leak, Artefaktkontakt | **Px −1:** Spuren verwischen, Konsistenz herstellen
+**Px +0,1–0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
+**Px Burn:** 1 Punkt für einen Reroll (auch NSC)
 Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md#clustercreate-nebenwirkungen)
 für mögliche Folgeszenarien.
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
@@ -746,7 +752,7 @@ Einmal pro Szene als Reroll. Nur bei Attribut 14+.
 
 1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
-3. **Paradoxon-Index:** steigt durch Zeitstörungen; bei 5 löst `ClusterCreate()` aus und
+3. **Paradoxon-Index:** wächst mit Missionsfortschritt oder Stabilisierung; bei 5 löst `ClusterCreate()` aus und
    setzt den Zähler auf 0.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
    HQ-Phase.
