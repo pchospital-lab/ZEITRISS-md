@@ -779,63 +779,27 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
   die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
 
-### Missionsidee 4: **Rettet Agent X**
+### Missionsidee 4: **Agent X ist verschollen**
 
-_Hook:_ Gleich zu Beginn erfahren die Chrononauten, dass einer ihrer **Vorgänger oder Mentor-Figuren
-vermisst** wird – verschollen in der Zeit. Ihre erste Aufgabe: **Findet und rettet Agent X!**
+_Hook:_ Ein Veteran des ITI meldet sich seit mehreren Tagen nicht mehr. Seine
+letzte Archivsignatur stammt aus dem Jahr **1566**, am Hof von
+**Maximilian II.** Die Chrononauten sollen herausfinden, was geschehen ist.
 
-- **Szenario:** Ein erfahrener ZEITRISS-Agent (vielleicht derjenige, der die Gruppe rekrutiert hat,
-  oder ein Freund von Commander Renier) ist während einer Einzeloperation verschwunden.
-  Die letzte Codex-Ortung deutet darauf hin, dass er sich im Jahr **1566 am Hof von Maximilian II.** befand,
-  mitten in einer politischen Schattenoperation.
-
-  Berichte deuten darauf hin, dass er dabei war, einen starken historischen Eingriff rückgängig zu machen –
-  und dass er den Paradoxon-Index auf **Stufe 5** brachte, durch exakte, gefährliche Korrekturen.
-
-  Laut Protokoll löst dieser Zustand ein `ClusterCreate()` aus: Neue Rift-Signaturen erscheinen auf der
-  Raumzeitkarte – energetisch spürbar für temporale Sensoren, aber unkontrollierbar, wenn niemand sie sichert.
-
-  Seitdem: kein Lebenszeichen.
-
-  Die Theorie: Agent X war zu nah an einem entstehenden Rift und wurde nicht vom Feind entführt,
-  sondern schlicht mitgezogen – vom Riss selbst.
-
-  Die Mission: Das Team soll den letzten bekannten Standpunkt lokalisieren, den entstehenden Rift untersuchen
-  und herausfinden, ob der Agent noch lebt oder ob die Öffnung einmalig und irreversibel war.
-- **Tonalität:** Diese Mission kombiniert **Emotionalität** (ein Verbündeter in Not) mit
-  **klassischem Abenteuer**. Sie ist für die Spieler sehr motivierend, weil es nicht nur um einen
-  Auftrag, sondern um eine **Person** geht, die man retten will. Der Ton kann heldenhaft und etwas
-  dramatisch sein – gerade wenn Agent X vielleicht ein paar weise Worte an die Neulinge richten kann
-  nach der Rettung („Ich wusste, dass Renier die Richtigen schickt…“ hust). Es ist fast schon ein
-  kleines **ZEITRISS-Heldenepos** in sich. Da Höfe und Historie eine Rolle spielen, sind auch
-  politische Intrigen oder diplomatische Lösungen denkbar, nicht nur Kampf. Die Gruppe kann zeigen,
-  wie sie zusammenarbeitet, um jemanden lebend herauszubekommen, was auch Vertrauen untereinander
-  schafft.
-- **Anpassungen:** **Wer ist Agent X?** – Überlegt, ob ihr einen NPC aus dem Hintergrund nehmt oder
-  gar einen ehemaligen Spielercharakter (wenn dies z.B. eine neue Staffel einer laufenden Kampagne
-  wäre). Es sollte jemand sein, bei dem die Gruppe emotional investiert ist oder es schnell wird
-  (vielleicht durch Renier: „Das ist mein ältester Freund, bitte holt ihn zurück.“). **Epoche
-  ändern:** Hof von Maximilian war ein Beispiel; es kann jeder Ort sein. Wilder Westen? Agent X wurde
-  in Deadwood 1876 von Gangstern festgehalten. Zukunft? Agent X steckt in einer dystopischen 23.-Jhdt-
-  Welt fest. Wählt, was euch liegt. **Gefahr skalieren:** Wenn es ein Einsteigerteam ist, sollten die
-  Entführer keine völligen Profis sein – vielleicht nur ein paar Söldner angeheuert von einem
-  unbekannten Rivalen. Für erfahrenere Spieler könnt ihr eine richtige **Gegenspieler- Fraktion**
-  anteasern: z.B. die Mission wird sabotiert von Mitgliedern der _Chronisten_ (fiktive antagonistische
-  Zeitfraktion), sodass hier der Hauptantagonist der Kampagne das erste Mal in Erscheinung tritt.
-- **Höhepunkt:** Die Rettung selbst kann sehr filmisch inszeniert werden. Man stelle sich vor:
-  _Nacht, Sturmregen prasselt auf die Zinnen der Burg._ Die Chrononauten haben sich hineingeschlichen,
-  schalten Wachen lautlos aus (Stealth-Mission vibes) und erreichen den Turm, wo Agent X gefangen
-  gehalten wird. Gerade als sie ihn losbinden, **stellt sich der Anführer der Entführer** ihnen
-  entgegen – vielleicht ein finsterer Zeitagent, der ihnen technisch überlegen scheint. Es kommt zu
-  einem Kampf im flackernden Fackellicht. Agent X, geschwächt, kann kaum helfen, aber feuert die
-  Gruppe an. Schließlich überwältigen sie den Feind oder zwingen ihn in die Flucht durch einen hastig
-  geöffneten Zeitriss. Der **Turm brennt** (weil ein Feuer im Getümmel ausbrach) und beginnt
-  einzustürzen – ein letztes Spannungsmoment, wo die Helden mit dem Geretteten im Arm über eine
-  einstürzende Brücke rennen, während alles hinter ihnen kollabiert. In letzter Sekunde springen sie
-  ins zurückgeholte Portal des ITI und entkommen. _Cut to HQ_: Rauch steigt von ihren Kleidern, alle
-  sind verdreckt, aber sie haben Agent X gerettet. Solch ein Kinomoment zum Abschluss des Abenteuers
-  wäre ein perfekter Übergang, um dann in der nächsten Sitzung z.B. mehr über den Feind zu erfahren
-  und in die Kampagne einzusteigen.
+- **Szenario:** Agent X hatte keinen offiziellen Auftrag in dieser Epoche.
+  Codex-Logs deuten darauf hin, dass er ein bereits bestehendes Rift aufspürte
+  und eigenmächtig einen `ClusterCreate()` auslöste, um ein verschlüsseltes
+  Artefakt zu bergen. Danach brach der Kontakt ab.
+- **Core-Op:** Die Spieler rekonstruieren seine Schritte in einer regulären
+  Preserve-Mission. Erst durch gesicherte Codex-Splitter erkennen sie, dass X
+  den Riss bewusst betrat und keine Rückmeldung gab.
+- **Rift-Op:** Nachdem alle Spuren ausgewertet sind, erscheint das bekannte
+  Rift auf der Karte. Im instabilen Nebenraum finden die Chrononauten die
+  Überreste von Agent X, zerrissene Logdaten und ein aktives Paramonster, das
+  seinen Körper halb verschlungen hat.
+- **Tonalität:** Diese Mission zeigt, dass Core- und Rift-Ops normalerweise
+  getrennt ablaufen. Hier führt erst die Ermittlung zum Riss, der das letzte
+  Kapitel der Spur bildet. Der Tod von Agent X verdeutlicht die Gefahr
+  eigenmächtiger Aktionen.
 
 Dies sind nur **einige von vielen** möglichen Einstiegsmissionen. Ihr kennt eure Spieler\*innen und
 ihre Vorlieben am besten – fühlt euch frei, Elemente zu mischen oder ganz eigene Ideen zu
