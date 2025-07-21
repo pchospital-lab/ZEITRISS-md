@@ -387,6 +387,77 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
   liegen – die erste setzt lediglich eine Warnung. Erreicht der Index
   Stufe 5, aktiviert `ClusterCreate()` 1–2 Seeds und setzt den Wert zurück.
 
+### Paradoxon-Statusanzeige [0–5]
+
+> _Resonanzanzeige für Rissverfolgung_
+> _Codex-Modul: `CLSTR:TRACE.MONITOR`_
+
+#### PARADOXON 0/5
+> *"Stille im Strom."*
+> Kein Zugriff. Keine Signaturen.
+> Der temporale Raum ist stabil – aber leer.
+> _(Noch keine Cluster-Annäherung möglich)_
+
+📡 _Codex:_
+> `[Resonanzpegel minimal – keine Risssignaturen im Scanbereich]`
+
+#### PARADOXON 1/5
+> *"Flackern. Wie Erinnerungen an etwas, das nicht geschehen ist."*
+> Erste Resonanzspuren.
+> Unklare Bewegungsmuster im Codex-Raster.
+
+📡 _Codex:_
+> `[Anstieg im TEMP-Feld registriert – Zugriffsstreue noch unzureichend]`
+> `[Aktuelle Interventionsrate: niedrig]`
+
+#### PARADOXON 2/5
+> *"Schatten über der Gegenwart. Manche Missionsorte scheinen… lauter."*
+> Temporale Felder beginnen, Einfluss auf Zielumgebung zu nehmen.
+> Spieler könnten instinktiv fühlen: Hier ist mehr.
+
+📡 _Codex:_
+> `[Temporale Resonanz aktiv – latente Rissaktivität prognostiziert]`
+> `[Empfindlichkeit TEMP > 5 empfohlen]`
+
+#### PARADOXON 3/5
+> *"Datenströme verzerren. Lichtquellen flackern. Manchmal ist die Luft… anders."*
+> Temporale Druckwellen, bereits messbar.
+> Die Welt reagiert auf die Eingriffe der Chrononauten – ohne es zu wissen.
+
+📡 _Codex:_
+> `[Clustervorlauf erreicht – erste Zugriffspfade geometrisch ausgerichtet]`
+> `[Sprungkoeffizient > 0.63]`
+
+#### PARADOXON 4/5
+> *"Der Strom spricht. Etwas versucht, sichtbar zu werden."*
+> Zugriff steht kurz bevor.
+> Artefakt-Raster beginnen sich zu synchronisieren.
+
+📡 _Codex:_
+> `[WARNUNG: Zugriffskorridor in Vorbereitung – ClusterCreate nahe]`
+> `[Rift-Koordinatenpotenzial: hoch]`
+
+#### PARADOXON 5/5 – CLUSTERCREATE
+> *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
+> Du hast genug Resonanz erzeugt.
+> **ClusterCreate aktiviert.**
+> Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
+> nach Missionsende freigeschaltet.
+
+📡 _Codex:_
+> `[Clusterpunkt erreicht – Zugriffspfade gesetzt]`
+> `[Paradoxon-Index zurückgesetzt]`
+> `[Rift α–beta Koordinaten gespeichert – Zugriff nach Mission]`
+
+🎖 Optional:
+> Seeds können fürs HQ notiert und später genutzt werden.
+> Offene Rifts erhöhen Schwierigkeitsgrad und Loot-Multiplikator laut Regelwerk.
+
+### Zusatzregel
+> Jeder Paradoxonpunkt symbolisiert ein Stück temporaler Nähe zu einem instabilen Raum.
+> Der TEMP-Wert bestimmt die Geschwindigkeit,
+> der Erfolg die Richtung –
+> und CLUSTERCREATE den Zugang zur Beute.
 ### Paradox-Subsystem
 
 Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
