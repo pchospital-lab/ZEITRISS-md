@@ -374,10 +374,7 @@ einen Toggle `/stress open|hidden`.
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
-  **Solange Chrononauten in einer fremden Epoche aktiv sind, steigt der Paradoxon-Index
-  langsam von selbst.** Niedrige **Temporale Affinität** bremst diesen Effekt,
-  hohe TA lässt ihn schneller anwachsen. Behutsames, stilvolles Vorgehen steigert
-  den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen haben. Auch hier gilt:
+  Behutsames, stilvolles Vorgehen steigert den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen haben.
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
   ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
@@ -459,7 +456,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 |---------|---------|
 | PP ≤ TA ÷ 4 | `[PP LOW]` |
 | PP 0 | `[PP EMPTY]` |
-| Burn aktiv | `[BURN][Px +X]` |
+| Burn aktiv | `[BURN][Px -X]` |
 - **Modulare Ressourcen allgemein:** Natürlich könnt ihr auch andere Ressourcen tracken, z.B.
   **Munition**, **Batterieladung von Geräten**, **Sauerstoffvorrat** in bestimmten Szenarien etc.
   Das HUD prädestiniert sich dafür, solche Infos übersichtlich anzuzeigen (etwa „Munition: 12/30“
