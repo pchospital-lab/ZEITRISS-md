@@ -470,7 +470,7 @@ Rift-Missionen und erhöht **nicht** den SG.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Survival 13          │
 │ Tells: Flimmernde Körperteile, wildes Fauchen│
-│ Shard-Drop: 3                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 
@@ -489,7 +489,7 @@ Greift alles an, bis der Riss geschlossen ist.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Lore 14              │
 │ Tells: Grollendes Steinechos, leuchtende Glyphen │
-│ Shard-Drop: 3                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 
@@ -508,7 +508,7 @@ Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Empathy 12           │
 │ Tells: Flackernde Silhouette, kaltes Flüstern │
-│ Shard-Drop: 2                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 
@@ -527,7 +527,7 @@ Kann erlöst oder endgültig gebannt werden.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Tech 12              │
 │ Tells: Surren von Zahnrädern, schnelle Sprünge │
-│ Shard-Drop: 2                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 
@@ -546,7 +546,7 @@ Wird schlauer, je länger er unbehelligt bleibt.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Charisma 16          │
 │ Tells: Schwarzer Nebel, verzerrte Realität │
-│ Shard-Drop: 4                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 
@@ -565,7 +565,7 @@ Nur mehrere Zeitanker können ihn bannen.
 │ Power-Steps: Lv1 | Lv2 | Lv3               │
 │ Weak Spot (Skill DC): Medicine 12          │
 │ Tells: Kurze Zeitsprünge der Opfer, blasser Schleim │
-│ Shard-Drop: 2                              │
+│ CU-Bonus: Spielerlevel × 10                │
 ╰────────────────────────────────────────────╯
 ```
 

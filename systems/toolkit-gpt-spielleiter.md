@@ -706,7 +706,7 @@ event_id: lab_overload
 trigger: Spieler betritt Research-Wing
 skill_gate: Tech 12
 on_fail: +1 Paradox-Punkt, mini-explosion (1 W6 Schaden)
-on_success: 2 Shards Bonus
+on_success: 200 CU Bonus
 ```
 
 ### Beispiel-Interaktion
