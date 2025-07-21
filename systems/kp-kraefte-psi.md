@@ -237,7 +237,7 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   passend und ausgewogen eingesetzt werden.
   Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
   Ein zweiter Einsatz in derselben Szene ist nur mit sofortiger **Erschöpfung**
-  (–1 auf alle Würfe bis Szenenende) und einem Paradoxon-Anstieg um **+1** möglich.
+  (–1 auf alle Würfe bis Szenenende) und einem Paradoxon-Verlust um **−1** möglich.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
@@ -582,7 +582,7 @@ Bei TA 6 gelten die ersten **zwei**, bei TA 9 die ersten **drei** PP als sic
 #### Überziehen („Burn“)
 
 Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
-*Preis:* **+1 Px** pro verbranntem PP.
+*Preis:* **−1 Px** pro verbranntem PP.
 > Px = Paradox‑Index‑Punkte (siehe core).
 > **Nie** mehr Burn‑PP als TA – die Zeit reißt sonst sofort (SL‑Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
