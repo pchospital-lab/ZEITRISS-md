@@ -765,7 +765,7 @@ Zahlen jederzeit an ihre Kampagne anpassen.
 
 Rufgewinn dauert also viele Missionen bzw. mehrere HQ-Phasen ingame. Rufverlust tritt nur bei gravierenden
 Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. _„Paris 1880: Ruf +2
-(wohlbekannt als Helden)“, „Templerorden: Ruf –1 (skeptisch)“_). Dieses System macht die
+(anerkannt im ITI)“, „Templerorden: Ruf –1 (skeptisch)“_). Dieses System macht die
 **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und
 Beziehungen abzubilden.
 
@@ -909,7 +909,24 @@ KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-O
 Informationen liefert, oder durch den Codex, der Training und Fortschritt in Worte fasst. Ihr als
 Spieler sollt euch ganz auf die Story einlassen können, während das System unsichtbar im Hintergrund
 den Rahmen hält. In diesem Sinne – viel Erfolg bei der Charaktererschaffung und auf dass eure
-Chrononauten mit jeder Mission wachsen und Legenden in der Zeitlinie hinterlassen!
+Chrononauten mit jeder Mission wachsen, auch wenn nur der Codex ihre Taten vermerkt!
+
+### Agentenprofil & Legacy-Logik {#agentenprofil-legacy}
+
+_Dein Name gehoert nicht der Geschichte – sondern dem Codex._
+
+Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten werden schnell vergessen.
+
+> **Epochen erinnern Ereignisse. Nicht Personen.**
+
+| Ebene | Wirkung deiner Entscheidungen |
+| --- | --- |
+| **Codex** | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
+| **ITI-HQ** | Vergibt Ruf, Ressourcen, Sonderauftraege |
+| **Fraktionen** | Registrieren Agentenprofile, reagieren intern |
+| **Spielercharakter** | Baut Ruf auf und erhaelt Codex-Kommentare |
+
+Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Codex und bei den Fraktionen.
 
 ### Pregens {#pregens}
 

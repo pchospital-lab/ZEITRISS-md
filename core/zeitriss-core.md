@@ -312,15 +312,15 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
   **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
   hochwertigerer Ausrüstung),
   **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
-  HQ** und **Level 100** einen **legendären Ruf** in der Zeitreise-Gemeinschaft. Diese Meilensteine
+  HQ** und **Level 100** einen **Sonderstatus** im ITI. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
   einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). _Nutzen:_ **Flow:**
   Klare Meilensteine geben den Spielern greifbare Fernziele – das nächste „große Ziel“ ist nie weit,
   was die **Langzeitmotivation** stärkt. **Balance:** Die Belohnungen sind überwiegend erzählerisch
   oder qualitativ (neue Möglichkeiten statt bloßer Zahlensteigerung), um _exponentiellen
-  Machtzuwachs zu vermeiden_. **Storytelling:** Meilensteine verankern die Helden in der Welt – sie
-  erhalten Titel, Verantwortungen oder Privilegien, was ihre wachsende Rolle in der Geschichte
-  widerspiegelt.
+  Machtzuwachs zu vermeiden_. **Storytelling:** Meilensteine erweitern ihre Befugnisse im ITI –
+  Chrononauten bleiben dennoch namenlose Werkzeuge, die von den Epochen vergessen werden
+
 
 #### Reputation-Meilensteine
 
@@ -406,7 +406,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   bedeutenden Erfolgen, wobei immer nur einer aktiv ist. Bedingungen und Kosten legt die Spielrunde
   fest. **Flow:** Team-Perks fördern Zusammenarbeit. **Balance:** Sie ergänzen individuelle
   Fähigkeiten, ohne sie zu ersetzen. **Storytelling:** Die Chrononauten wachsen zusammen und werden
-  als Team zur Legende.
+  als Team intern anerkannt – ausserhalb des ITI bleiben sie unbekannt.
 
 #### Prestige-Stufen & Legendärer Aufstieg
 
