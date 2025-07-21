@@ -109,7 +109,7 @@ prägen. Wichtige Aspekte bei der Erstellung eines Charakters sind unter anderem
   Wohl anderer über sein eigenes (_altruistisch_) oder ordnet er alles dem Missionsziel unter, koste
   es was es wolle (_pragmatisch_)? Diese Grundhaltung spiegelt sich später im **Moralprofil** des
   Charakters und im **Ruf bei Fraktionen** wider. (Im Spiel wird dieser Ruf messbar in einem Wert von
-  etwa **–5** bis **+5** pro Fraktion/Epoche dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
+  **–5** bis **+5** je ITI‑Fraktion dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
   moralischer Entscheidungen: Ein Idealist wird einen anderen Ruf entwickeln als jemand, der
   kaltblütig Opfer in Kauf nimmt.
 
