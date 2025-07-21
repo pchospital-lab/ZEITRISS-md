@@ -355,7 +355,7 @@ einen Toggle `/stress open|hidden`.
   Auf **2** heilt das Team **1 HP**.
   Bei **3** ist die nächste Probe um **–1 SG** erleichtert.
   Auf **4** sorgt ein Adrenalinrausch für **+2 Initiative** auf die nächste Kampfhandlung.
-  Bei **5** setzt das HQ sämtliche Heat zurück, spendiert **2 PP** und hebt negative Zustände auf.
+  Bei **5** beruhigt sich der Zeitstrom: Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlst du dich physisch geerdet.
   Anschließend springt der Index auf 0.
   Zeitkreaturen können Teil dieser Risse sein. Siehe
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator)
@@ -396,7 +396,7 @@ Steigende Resonanz belohnt das Team mit kleinen Boni.
 | 2     | einmalig −1 Stress                        | – |
 | 3     | Gruppe heilt 1 HP                         | – |
 | 4     | +2 Initiative auf nächste Kampfhandlung     | „Riss-Vorstufe“-Flag |
-| **5** | Heat-Reset, 2 PP, Zustände weg            | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
+| **5** | Heat 0, 2 PP, Zustände weg (Zeitstrom stabil) | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und legt 1–2 neue
 Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Missionsende vom HQ aus
