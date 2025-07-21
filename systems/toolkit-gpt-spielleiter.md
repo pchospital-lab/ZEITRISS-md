@@ -146,10 +146,10 @@ Decision: <Was tun?>
 
 ---
 
-### 3 | Paradoxon-Warnung
+### 3 | PSI-Warnung
 
 > ⏳ **PARADOXON 4/5** – instabile Zugriffsspur erkannt.
-> **Hinweis:** Nächster PSI-Einsatz kann das Resonanzlevel steigern.
+> **Hinweis:** Nächster PSI-Einsatz setzt das Resonanzlevel auf 0.
 > **Decision:** Einsatz wagen?
 
 *Formel:*

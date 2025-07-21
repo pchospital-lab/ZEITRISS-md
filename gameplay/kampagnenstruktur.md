@@ -1325,12 +1325,12 @@ _Implementations-Package für Code, Art & Content_
 
 | Flag            | Wert                                                              |
 | --------------- | ----------------------------------------------------------------- |
-| **Rank-Gate**   | `PLAYER_RANK ≥ 50` _(änderbar in Config)_                         |
-| **Key-Item**    | `itm_quant_key` (Erhalt beim Rang-Up 50)                          |
-| **Entry-Event** | `evt_enter_chronopolis()` _(wie zuvor, Rank-Check auf 50 anpassen)_ |
+| **ITI-Rank-Gate**   | `PLAYER_RANK ≥ 10` _(änderbar in Config)_                         |
+| **Key-Item**    | `itm_quant_key` (Erhalt beim Rang-Up 10)                          |
+| **Entry-Event** | `evt_enter_chronopolis()` _(wie zuvor, ITI-Rang-Check auf 10 anpassen)_ |
 
 **Event-Definition `evt_enter_chronopolis()`** – Beim ersten Betreten von Chronopolis
-wird überprüft, ob Rang ≥ 50 und das Key‑Item vorhanden sind. Bei Erfolg löst das
+wird überprüft, ob ITI-Rang ≥ 10 und das Key‑Item vorhanden sind. Bei Erfolg löst das
 Event die Warn‑Cutscene aus (siehe Abschnitt 7) und startet anschließend die
 Instanzierungs‑Pipeline.
 
@@ -1422,9 +1422,9 @@ _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 | Vendor / NPC Scriptables      | Gameplay  | 6 Tage |
 | UI Warn-Popup & Banner        | UX        | 4 Tage |
 | Cutscene Camera Path          | Animator  | 5 Tage |
-| QA Pass (Rank 50 unlock flow) | QA        | 3 Tage |
+| QA Pass (Rank 10 unlock flow) | QA        | 3 Tage |
 
-### 9 | Beispiel-Run (Spieler Rank 53)
+### 9 | Beispiel-Run (Spieler ITI-Rang 11)
 
 1. Spieler klickt „Chronopolis betreten“.
 2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
@@ -1472,7 +1472,7 @@ _Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch._
 | ------------ | ------ | -------------------------------- | ----------------------- |
 | **Sub-Grid** | -20 m  | Wartungstunnel, optionale Arenen | Servicelifts, versteckt |
 | **Street**   | 0 m    | Hauptwege, Händlerstände         | Alle Spieler            |
-| **Ω-Ring**   | +25 m  | Mag-lev Loop zum Schnellreisen   | Rang ≥ 60               |
+| **Ω-Ring**   | +25 m  | Mag-lev Loop zum Schnellreisen   | ITI-Rang ≥ 60               |
 | **Sky-Deck** | +130 m | Nur Cutscene (Spitze des Spires) | Entry-/Exit-Filmsequenz |
 
 #### 3 | Style-Bible
@@ -1503,7 +1503,7 @@ Jedes 10x10-m-Straßenmodul besitzt zwei Sockets zur Platzierung von Händlern o
 {
   "socket_id": "baz_12_B",
   "type": ["vendor","npc","event"],
-  "level_min": 50,
+  "level_min": 10,
   "level_max": 999
 }
 ```
