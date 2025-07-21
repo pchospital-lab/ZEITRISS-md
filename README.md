@@ -6,11 +6,15 @@ tags: [meta]
 
 # ZEITRISS-md Zeitreise RPG
 
-**ZEITRISS-md** bietet ein schlankes Regelwerk für schnelle Zeitreise-Missionen.
-Ihr spielt Chrononauten, die Epochen erkunden und Anomalien beseitigen.
-Das System verwendet explodierende Würfel und protokolliert Zustände im
-JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
-[LICENSE](LICENSE).
+**ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil.
+Ihr spielt operative Chrononauten – Agenten des ITI – in taktisch optimierten Biohüllen.
+Bereits zu Beginn entscheidet ihr euch für eine genetische Grundform:
+Entweder Homo sapiens oder ein abgeleiteter Hominin-Typ wie Neandertaler, Denisova oder Atlanter-Vorläufer.
+Diese Wahl prägt eure Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente.
+Eure Hülle ist keine Tarnung – sie ist euer Körper.
+Ihr erkundet historische Epochen und beseitigt Anomalien.
+Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-Charakterbogen.
+Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > ### TL;DR – ZEITRISS in 5 Punkten
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
 > 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
@@ -18,22 +22,6 @@ JSON-Charakterbogen. Alle Texte stehen unter einer offenen Lizenz; siehe
 > 4. **Paradoxon-Index.** Fortschrittsanzeige: Stufe 5 verrät 1–2 neue Pararifts.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 
-## Quick-Start Zwei-Seiter {#quick-start-zweiseiter}
-
-Im hektischen Chat soll die Spielleitung schnell loslegen können.
-Dieser Abschnitt fasst Wuerfelregel, Missionsablauf
-und Paradox-Mechanik auf zwei kompakten Seiten zusammen.
-
-1. **Phasenstruktur** – Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
-2. **Würfel** – W6 mit *Exploding‑6*.
-   Ab Attribut 11 ersetzt ein W10 den W6 (*Exploding‑10*).
-   Addiere ⌊Attribut / 2⌋ sowie Talent‑ und Gear‑Boni.
-   Bei 14 erhältst du einen Heldenwürfel als kostenlosen Reroll.
-3. **Paradoxon-Index** – Wertebereich 0–5.
-   Bei 5 verrät `ClusterCreate()` bis zu zwei Rifts und der Index springt auf 0.
-   Offene Seeds erhöhen den SG.
-4. **Grundzustände** – HUD zeigt Vital, Stress und Paradox als Icons:
-    `[❤️ 100]`, `[⚠️ Stress 3]`, `[🔄 Paradox 2/5]`.
 
 ## Grundidee
 **ZEITRISS 4.1.7** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
@@ -119,7 +107,6 @@ sind der Übersicht halber aufgeführt.
 | [characters/psi-talente.md](characters/psi-talente.md#backlash-tabelle-kritischer-patzer) | Psi-Fähigkeiten |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
-| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Team-Boni |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
 | [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-seed-starter-1w14) | NPC & Encounter-Gen |
@@ -287,24 +274,26 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
    Beispiel für zwei Seed-Einträge (P-… = Preserve, T-… = Trigger):
 
 ```yaml
-- id: "P-DEMO"
-  year: 1976
-  place: "Nairobi, Kenia"
-  title: "Schmuggel-Enthüllung"
+- id: "P-0011"
+  year: 1960
+  place: "Karibik"
+  title: "Black Saturday"
   objective: >
-    Halt John H. am Leben und geleite seine Schmuggel-Enthüllung in die Presse.
+    Funkspruch von B-59-Sub unterdrücken – kein Torpedo-Launch.
+  antagonist: "Huminen-Zelle"
+  antagonist_goal: "U-Boot kapern"
   twist: >
-    Euer Kontakt entpuppt sich als MI6-Doppelagent, der den Scoop unter allen Umständen veröffentlichen will.
-- id: "T-DEMO"
-  year: 1986
-  place: "Ukraine"
-  title: "RBMK Turbine Test"
+    Abgehörter Morse-Code wird gefälscht.
+- id: "T-0008"
+  year: 1937
+  place: "Lakehurst"
+  title: "Hindenburg"
   objective: >
-    Stelle sicher, dass Reaktor 4 während Nachtprobe destabilisiert.
-  antagonist: "Projekt Phoenix"
-  antagonist_goal: "Reaktor stabilisieren"
+    Sabotiere Bodenkabel-Erdung.
+  antagonist: "Huminen-Kommando"
+  antagonist_goal: "Zeppelin für Biotech-Raubzug nutzen"
   twist: >
-    Externe Fraktion Projekt Phoenix versucht einen SCRAM früh auszulösen.
+    Ein Agent einer Fremdfraktion attackiert euch mit einem Elektroschocker.
 ```
 6. Der Standardmodus reiht Core-Op-Missionen aneinander. GPT verknüpft die gezogenen
    Seeds automatisch zu einem stimmigen Arc. Rift-Ops bleiben optionale Einzelmissionen.
@@ -443,9 +432,9 @@ Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
 phase: Core
-year: 1961
-place: Berlin
-objective: Beispiel
+year: 1960
+place: Karibik
+objective: Black Saturday – Huminen-Söldner kapern B-59
 ```
 Rift Seeds nutzen `phase: Rift`.
 
