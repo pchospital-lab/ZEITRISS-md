@@ -61,18 +61,19 @@ zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
 Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Temporale Intervention (ITI)**.
 Forschungslabore, Trainingsareale und das zentrale **Arc‑Dashboard** bilden den ersten Anlaufpunkt
 für neue Chrononauten.
-Die Metropole **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis Stufe 10 verschlossen.
+Die Metropole **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis ITI-Rang 10 verschlossen.
 Dann erhalten die Agenten einen **Stadtschlüssel**, der Zugang zu Händlern und Aufträgen
 in der Stadt gewährt.
-Bei Level 10 überreicht Commander Renier persönlich den Chrononauten den Zugangsschlüssel.
+Bei ITI-Rang 10 überreicht Commander Renier persönlich den Zugangsschlüssel.
 Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.
 Jeder Agent besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
 verwaltet werden.
+Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote nach eurem ITI-Rang und dem aktuellen Ruf.
 Kurze Infobriefe lassen sich direkt ins HUD streamen, sodass klar ist, welche
 Fraktion Unterstützung bietet.
 Weitere Infos zum HUD liefert das Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
-Bei höheren Rängen öffnet sich zusätzlich der streng bewachte Kernbereich.
+Bei höherem ITI-Dienstgrad öffnet sich zusätzlich der streng bewachte Kernbereich.
 Chronopolis beherbergt Sapiens‑Sapiens, N‑Typen, T‑Stufen und historische Homininen.
 Das ITI rekrutiert aus allen Abstufungen und Bio‑Sheaths; auch rivalisierende Gruppen setzen
 auf diese Vielfalt. Sie trägt spürbar zum Agentenflair bei.

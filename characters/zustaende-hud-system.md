@@ -357,6 +357,9 @@ einen Toggle `/stress open|hidden`.
   Auf **4** sorgt ein Adrenalinrausch für **+2 Initiative** auf die nächste Kampfhandlung.
   Bei **5** beruhigt sich der Zeitstrom: Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlst du dich physisch geerdet.
   Anschließend springt der Index auf 0.
+  Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index.
+  Seeds zählen für alle, das Fülltempo richtet sich
+  nach dem höchsten TEMP-Wert im Team.
   Zeitkreaturen können Teil dieser Risse sein. Siehe
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator)
   für Stat- und Schadenswerte.
@@ -670,8 +673,9 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf deiner
   Raumzeitkarte aufblitzen…“_. Die Spieler
   erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradox-Effekte können
-  gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von leichten
-  Bildstörungen im HUD). Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
+  gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
+  Glitzern oder farbigen Schimmern im HUD).
+  Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
   zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige gelb, bei **5** leuchtet
   sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
