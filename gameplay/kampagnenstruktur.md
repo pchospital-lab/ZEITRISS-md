@@ -174,8 +174,9 @@ setzen auf realistische Agentenaufträge. Welche Epoche betroffen ist, bestimmt
 der [Random-Epochen-Generator](kreative-generatoren-missionen.md#epochen-generator). Für
 Szenarien, die bekannte Ereignisse verändern, bietet der
 [Historische Anomalien-Generator](kreative-generatoren-begegnungen.md#anomalie_realhistory)
-zusätzliche Seeds. Artefakte können auch hier auftauchen, wenn der optionale
-Wurf erfolgreich ist. Rift-Missionen werden aus der
+zusätzliche Seeds. Artefakte tauchen ausschließlich in Rifts auf. Core-Ops
+können zwar bedeutende Relikte einbinden, sie gelten jedoch nicht als Artefakte
+im Regelkern. Rift-Missionen werden aus der
 [`RiftSeedTable`](kreative-generatoren-begegnungen.md#anomalien-generator) bestimmt und
 enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** hervor
 – temporale Wesen, die im
@@ -207,12 +208,10 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 - **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
   für alle Einsätze. Ein Seed lässt sich erst nach Abschluss des aktuellen
   Core-Arcs via `launch_rift(id)` als eigenständige Rift-Op starten.
-- **Artefaktwürfe:** Zu Beginn längerer Missionen kann optional 1W6 gewürfelt
-  werden. In riskanten Gebieten nutzt ihr **1W12 ≤ 1** (≈ 8 %) als Check. Nur bei
-  Erfolg taucht ein Artefakt auf. Diese seltenen Funde dienen als besondere
-  Belohnung oder Plot-Hook und können im HQ gegen CUs getauscht oder als
-  Story-MacGuffin behalten werden. Beispiele liefert die Tabelle „Kuriose
-  Artefakte & Relikte“ im Generator-Modul.
+- **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
+  Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks
+  und lassen sich im HQ gegen CUs tauschen oder als MacGuffin aufbewahren.
+  Beispiele liefert die Tabelle „Kuriose Artefakte & Relikte“ im Generator-Modul.
  - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
    zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
    erhöht sich der Index grundsätzlich nur bei jedem zweiten Verstoß um **+1**.
@@ -256,7 +255,7 @@ if paradox_level >= threshold:
 
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
 | --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
-| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | Selten (1W6 = 6) | Spionage-Thriller    | `[CORE MISSION - …]`  |
+| **Core-Ops** | Rand-Epochen & CoreObjectiveTable | – | Spionage-Thriller    | `[CORE MISSION - …]`  |
 | **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
