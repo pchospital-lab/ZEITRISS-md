@@ -333,8 +333,8 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
   Sie erhalten dadurch weitreichende Befugnisse – ein spürbarer Höhepunkt im HQ-Ausbau.
-- **Level 100 → Legendäre Reputation:** Nur wenige erreichen diesen Status – sie gelten als
-  unantastbare Legenden innerhalb der Zeitreise-Gemeinschaft.
+- **Level 100 → Interner Legendenstatus:** Nur wenige erreichen diesen Rang. Im ITI gelten sie als
+  herausragende Koryphäen, bleiben in den Epochen jedoch namenlos.
 
 #### Attribut- und Talentsteigerungen
 
@@ -408,15 +408,15 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   Fähigkeiten, ohne sie zu ersetzen. **Storytelling:** Die Chrononauten wachsen zusammen und werden
   als Team intern anerkannt – ausserhalb des ITI bleiben sie unbekannt.
 
-#### Prestige-Stufen & Legendärer Aufstieg
+#### Prestige-Stufen & Interner Aufstieg
 
 - **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, fuehrt ZEITRISS optionale
   Prestige-Stufen ein – etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhaelt der Chrononaut
   einen Titel im ITI und darf einen besonderen _Prestige-Perk_ waehlen. Beispiele: ein zusaetzlicher
   Heldenwuerfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
   Attributslimit geringfuegig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
-  Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden gewinnen
-  Legendenstatus, was neue Plots eroefnnet.
+  Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden erlangen
+  ITI-weiten Ruf, was interne Plots eroeffnet, bleiben jedoch anonym fuer die Epochen.
 
 #### Endgame-Inhalte & Langzeit-Herausforderungen
 

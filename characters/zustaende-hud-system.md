@@ -557,7 +557,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 ```
 [Vitalstatus 20% – kritisch]
-[Paradox-Alarm Stufe 3]
+[Riss-Tracker Stufe 3]
 [Magazin 4/12 | SYS 2/4]
 ```
 - **HUD-Warnung bei Heavy-Gear:** Sobald aktive Ausrüstung den Wert überschreitet,
@@ -580,7 +580,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | HUD-Meldung | Regelbedeutung |
 | ------------ | ---------------- |
 | `[Vitalstatus kritisch]` | Lebenspunkte unter 25 % |
-| `[Paradox-Alarm Stufe 3]` | Paradoxon-Index 3, Warnung aktiv |
+| `[Riss-Tracker Stufe 3]` | Paradoxon-Index 3, Resonanzmeldung |
 | `[Filter ausgefallen]` | Sichtmodifikator oder Tarnmodul defekt |
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
   **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer-System nutzt oder
@@ -661,19 +661,19 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
 - **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
   **„[W10 aktiv]“** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
   (einmaliger Reroll).
-- **Paradox-Alarm:** Da der **Paradoxon-Index** so kritisch ist, hat es eine prominente Stelle im HUD.
-  Meist als **Skala oder Warnsymbol** dargestellt, ggf. mit Farbe (grün = stabil, gelb =
-  Fluktuation, rot = kritisch). Bei Level 0 könnte z.B. ein grünes Unendlichkeits-Symbol leuchten
-  (Symbol für stabilen Zeitstrom). Steigt das Level, wechselt es auf gelb/orange mit einem
-  ⚠️-Symbol; ab Level 4–5 blinkt es rot und gibt akustische Warnungen (_„‼ ZEITSTROM INSTABIL ‼“_).
-  Steigt der Index weiter, pulsiert das Symbol dauerhaft, bis sich der Wert wieder beruhigt.
-  GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradoxon-Index 4 – die
-  Umgebung fühlt sich verzerrt an, als würde ein Film ruckeln…“_. Die Spieler wissen sofort, dass
-  Gefahr droht, **innerhalb der Geschichte**. Auch kleinere Paradox-Effekte können gemeldet werden
-  (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
-  Bildstörungen im HUD). Das HUD macht die **Zeitgefährdung** direkt erlebbar.
-  Ein dauerhafter 0–5-Balken zeigt dabei das aktuelle Risiko. Ab Stufe **4**
-  färbt sich die Anzeige gelb, bei **5** blinkt sie rot. Nach einem automatischen
+- **Riss-Tracker:** Der **Paradoxon-Index** ist euer Wegweiser zu wertvollen Anomalien und belegt
+  daher eine prominente Stelle im HUD. Er erscheint als **Skala mit Zeit-Symbol**, Farblogik
+  umgekehrt: rot = Start, gelb = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein rotes ⏳.
+  Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5 leuchtet es grün und kündigt
+  den `ClusterCreate()`-Moment an. Steigt der Index weiter, pulsiert das Symbol, bis sich der Wert
+  wieder beruhigt. GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf
+  Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf deiner
+  Raumzeitkarte aufblitzen…“_. Die Spieler
+  erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradox-Effekte können
+  gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von leichten
+  Bildstörungen im HUD). Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
+  zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige gelb, bei **5** leuchtet
+  sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
   Bei jedem Anstieg legt das System zudem ein
   [Auto-Backup](../systems/gameflow/speicher-fortsetzung.md#auto-backup-bei-paradoxon-anstieg) an.
