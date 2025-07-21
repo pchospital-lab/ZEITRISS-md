@@ -4,7 +4,6 @@ version: 4.1.7
 tags: [systems]
 default_modus: mission-fokus
 ---
-
 # ZEITRISS 4.1.7 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
@@ -119,7 +118,6 @@ damit die Exploding-Regel greift.
 Diese Vorlagen halten jeden GPT-Output im ZEITRISS-Stil. Alle Beispiele enden mit einer klaren **Decision-Frage**.
 
 ---
-
 ### 1 | Szene eröffnen
 
 > **Kamera:** Totale auf nächtliches Hafenbecken. Kräne schneiden als Silhouetten in den Nebel.
@@ -137,7 +135,6 @@ Decision: <Was tun?>
 ```
 
 ---
-
 ### 2 | Auf Spieleraktion reagieren
 
 > *Du klemmst den Störsender ans Terminal. Die LED springt auf Grün; die Türverriegelung klickt.*
@@ -145,23 +142,16 @@ Decision: <Was tun?>
 > **Decision:** Weiter hacken oder reingehen?
 
 ---
+### 3 | Paradoxon-Resonanz
+> 🌀 **PARADOXON 4/5** – Zugriffsspur fast vollständig. Temporale Resonanz steht kurz vor dem Ausschlag.
+> **Hinweis:** Erfolgreicher Abschluss dieser Mission könnte ein Rift sichtbar machen.
+> **Codex-Prognose:** ClusterCreate wahrscheinlich bei nächstem stabilisierten Verlauf.
+> **Decision:** Mission normal abschließen – oder Zugriff verzögern, um Cluster gezielt zu triggern?
 
-### 3 | PSI-Warnung
-
-> ⏳ **PARADOXON 4/5** – instabile Zugriffsspur erkannt.
-> **Hinweis:** Nächster PSI-Einsatz setzt das Resonanzlevel auf 0.
-> **Decision:** Einsatz wagen?
-
-*Formel:*
-
-```txt
-⏳ PARADOXON X/5 – <knappe Diagnose>.
-Pressure: <technische Folge>.
-Decision: <Reaktion?>
-```
+*Optional:*
+> *„Der Strom wird lauter. Du bist nah dran."*
 
 ---
-
 ### 4 | PSI-Einsatz
 
 > *Psi-Sprung aktiviert – du bist 6 Meter weiter, lautlos.*
@@ -171,7 +161,6 @@ Decision: <Reaktion?>
 *(immer 1 Satz Aktivierung, 1 Satz Effekt)*
 
 ---
-
 ### 5 | Kampfsequenz
 
 > *Laser zischt. Dein Schuss trifft die Drohne; Funken regnen.*
@@ -181,7 +170,6 @@ Decision: <Reaktion?>
 *Regel:* max. 2 Sätze Wirkung → Pressure → Decision.
 
 ---
-
 ### 6 | HUD-Overlay
 
 > **$SCAN 92 % – Bio-Signatur: Fremdfraktion$**
@@ -189,14 +177,12 @@ Decision: <Reaktion?>
 > **Decision:** Verbarrikadieren oder ausweichen?
 
 ---
-
 ### 7 | Codex-Info (On-Demand)
 
 > *Codex-Eintrag:* „Stahllegierung Typ B-82 erfüllt Traglast > 140 t. Lieferant: Compagnie Dupont.“
 > **Decision:** Daten weiterleiten oder vor Ort verifizieren?
 
 ---
-
 ### 8 | Rift-Spawn-Ansage
 
 > **ClusterCreate aktiv – Resonanz auf Maximum, Index zurückgesetzt.**
@@ -212,7 +198,6 @@ Decision: <Reaktion?>
 > nach dem Arc.
 
 ---
-
 **Checkliste PRECISION**
 
 * [ ] Szene startet mit Kamera + Target + Pressure + Decision
