@@ -305,7 +305,7 @@ Beispielaufrufe:
 
 ### ParadoxPing() Macro
 Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
-Resonanz-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
+Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
 
 ### redirect_same_slot() Macro
 
@@ -319,7 +319,7 @@ Verhindert Selbstkollisionen durch einen Sprungversatz.
 
 Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
 `history_ok_trigger()` auf. Nur Abweichungen vom vorgesehenen Ausgang
-treiben den Paradoxon-Wert nach oben.
+treiben den Paradoxon-Index nach oben.
 
 ### !seed Command
 Gibt einen zufälligen Mission Seed aus dem passenden Pool aus.
@@ -698,7 +698,7 @@ GPT erzeugt dazu zwei kurze NSC-Profile und ein Ereignis für den Raum.
 ### HQ-Phase Workflow
 
 1. Rückkehr in die Gatehall.
-2. `> go operations` zeigt Seed-Status und Resonanz-Index.
+2. `> go operations` zeigt Seed-Status und Paradoxon-Index.
 3. `> use seed-scanner` listet offene Rifts.
 4. `> go hangar` und `> jump rift-ID` starten Side-Ops.
 5. `> rest` in den Crew-Quarters setzt Stress zurück.
@@ -736,7 +736,7 @@ Sgt. Keller salutiert knapp.
 > go operations
 [Operations-Deck]
 Hologramme tanzen über dem Seed-Scanner.
-Open Rifts: 1  |  Resonanz-Index: 3
+Open Rifts: 1  |  Paradoxon-Index: 3
 > use seed-scanner
 Rift-ID #LND-1851 »Steam Wraith« – Status: OPEN
 Side-Op? (y/n)

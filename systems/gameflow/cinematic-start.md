@@ -22,7 +22,7 @@ Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarza
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
-Ihr Eingreifen steigert den Resonanz-Index. Bei Stufe 5 verrät das HQ laut
+Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer Vorgang. Auf der
 [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
@@ -95,7 +95,7 @@ folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg so atm
 möglich zu gestalten.
 
 Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller mit historisch
-fundierten Verschwörungen. Bei steigendem Paradoxon-Wert können in jeder Epoche leichte
+fundierten Verschwörungen. Bei steigendem Paradoxon-Index können in jeder Epoche leichte
 Symptome wie Funkflackern oder ein **Kurz-Nachhall** auftreten. Stärkere paranormale Phänomene
 entstehen jedoch erst in Rifts und erinnern an **X-Files**. Es gibt keine magischen
 Erklärungen oder Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
@@ -638,7 +638,7 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
   Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
   Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
 Wer bei den Ermittlungen zu stark vom offiziellen Geschichtsverlauf abkommt,
-steigert den Resonanz-Index kaum.
+steigert den Paradoxon-Index kaum.
 Erreicht dieser Stufe 5, legt das HQ gemäß
 [Zeitriss‑Core](../core/zeitriss-core.md#paradoxon--pararifts) automatisch neue
 Rift-Seeds auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
@@ -682,7 +682,7 @@ alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
   Charaktere werden entsandt, um das Attentat zu verhindern und den Übeltäter (vermutlich ein
   Zeitreisender aus der Zukunft, der eigene Ziele verfolgt) zu stellen. Die Szene spielt im **Nebel
   der viktorianischen Straßen**: Kutschen rattern über Kopfsteinpflaster, Gaslaternen flackern. Die
-  Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Resonanz-Index nicht mehr erhöht.
+  Mission bringt sie möglicherweise in eine Lage, in der jeder Eingriff den Paradoxon-Index nicht mehr erhöht.
   Erreicht der Wert 5, macht das HQ per `ClusterCreate()` einen neuen Rift-Zugang sichtbar.
   Die resultierenden Seeds landen erst nach dem Einsatz auf der
   [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
@@ -731,7 +731,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
   (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
   stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
-  Erst wenn der Resonanz-Index Stufe 5 erreicht, meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed.
+  Erst wenn der Paradoxon-Index Stufe 5 erreicht, meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed.
   Dieser erscheint nach der Mission auf der
   [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
   vor Ort zeigt sich nur ein Anstieg instabiler Effekte.

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.7 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.1.7
+title: "ZEITRISS 4.1.8 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.1.8
 tags: [systems]
 ---
 
-# ZEITRISS 4.1.7 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.1.8 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## Minimaler JSON-Save {#json-schluesselfelder}
 
@@ -40,7 +40,7 @@ sind für den reinen Spielfortschritt jedoch nicht nötig.
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.7** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.1.8** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -49,10 +49,10 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 
 **Wichtige Schwerpunkte der Überarbeitung sind unter anderem:**
 
-- **Integration eines Zeitlinien-Trackers & Paradoxon-Index:** Jede Veränderung der historischen
-  Zeitlinie wird im Speicher protokolliert (mit ID, Epoche, Beschreibung der Abweichung und einem
-  Stabilitätswert von 3 bis 0). Sinkt die Stabilität eines Ereignisses auf 0, erhöht sich automatisch
-  ein Paradoxon-Wert um +1.
+- **Integration eines Zeitlinien-Trackers & Paradoxon-Index:** Jede Stabilisierung eines
+  historischen Ereignisses wird im Speicher protokolliert (ID, Epoche,
+  Kurzbeschreibung und ein Stabilitätswert von 3 bis 0). Erreicht ein Eintrag den
+  Wert 3, steigt der Paradoxon-Index um +1.
 - **Trennung von Einzelspieler- und Gruppen-Spielständen:** Klare Definition, wie Einzelcharakter-
   Speicherstände vs. Gruppenspielstände aufgebaut und gehandhabt werden.
 - **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung eines
@@ -189,7 +189,7 @@ Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.7 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.1.8 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 
@@ -431,62 +431,52 @@ niemand wird dupliziert.
 
 ## Zeitlinien-Tracker und Paradoxon-Index
 
-Ein zentrales neues Element des Speichersystems ist das **Zeitlinien-Protokoll**, in dem alle
-bedeutenden Veränderungen der historischen Zeitlinie festgehalten werden. Wann immer die Agenten
-durch ihre Missionen den Verlauf der Geschichte beeinflussen, wird dies beim Speichern vermerkt.
-Jeder solche Eintrag im Spielstand umfasst:
+Ein zentrales Element des Speichersystems ist das **Zeitlinien-Protokoll**. Es
+notiert jede Mission, die den Geschichtsverlauf stabilisiert hat. Eintrag für
+Eintrag entsteht so eine Chronik aller korrigierten Ereignisse. Jeder Datensatz
+umfasst:
 
-- **eine eindeutige ID** (z.B. _E1, E2, E3 …_),
-- **die betroffene Epoche** bzw. den Zeitrahmen des Ereignisses,
-- **eine kurze Beschreibung der Veränderung** (was wurde im ursprünglichen Geschichtsverlauf
-  abgewandelt),
-- **einen Stabilitätswert** zwischen **3** und **0**.
+- **eine eindeutige ID** (z.B. _E1_, _E2_ ...)
+- **die betroffene Epoche**
+- **eine Kurzbeschreibung des gesicherten Verlaufs**
+- **einen Stabilitätswert** zwischen **0** und **3**
 
-Der **Stabilitätswert** gibt an, wie fest die Änderung in der Zeit etabliert ist. _3_ bedeutet, dass
-die neue Entwicklung **stabil** in den Geschichtsbüchern verankert ist (kaum Risiko eines
-Paradoxons), während _0_ anzeigt, dass die Veränderung **nicht haltbar** ist – die Zeitlinie „wehrt“
-sich dagegen oder ist im Begriff zu kollabieren. Werte dazwischen (2 oder 1) repräsentieren
-unterschiedlich große **Instabilitäten**: Vielleicht ist die Änderung noch frisch (Stabilität 2)
-oder es bestehen Widersprüche, die sie ins Wanken bringen könnten (Stabilität 1).
+Erreicht ein Ereignis den Wert **3**, gilt es als konsolidiert und der
+**Paradoxon-Index** steigt um **+1**. Der Index misst also, wie stark die
+Chrononauten mit dem Zeitstrom resonieren – er wächst nur durch erfolgreiches
+Ordnen, nicht durch Fehler.
 
-Aus diesen Einträgen ergibt sich ein **Paradoxon-Wert**, ein Zähler für kritisch gewordene temporale
-Anomalien. Sobald auch nur ein Zeitlinien-Ereignis den Stabilitätswert 0 erreicht, erhöht sich
-dieser Paradoxon-Wert um +1. Jede vollständige „Entgleisung“ der Zeitlinie wird also registriert.
-Dieses Feld kann im Spielstand ebenfalls als eigenes Feld festgehalten werden (z.B. _"Paradoxon":
-1_). Bleibt der Wert 0, ist alles in Ordnung – die Zeit ist stabil. Steigt er an, bedeutet das, dass
-eine oder mehrere gravierende Paradox-Effekte aufgetreten sind.
+### Was sich geändert hat
 
-**Wichtig:** Auch dieses System bleibt **narrativ eingebettet**. Die Spieler werden nicht mit Zahlen
-oder Techniksprache über _Stabilität_ oder _Paradoxon-Werte_ konfrontiert. Stattdessen fließt diese
-Information in die Atmosphäre der Spielwelt ein. So könnte etwa das Codex-Archiv oder ein Chronist-
-NPC im ITI andeuten, dass bestimmte Ereignisse _„noch nicht ganz vom Zeitstrom absorbiert“_ sind,
-oder dass _„temporale Anomalien im Jahr 1888 detektiert“_ wurden. Wenn der Paradoxon-Wert steigt,
-macht sich das vielleicht als unheimliches Flackern in der Umgebung bemerkbar – Déjà-vus, ein kurzes
-Stillstehen der Zeit oder andere subtile Störungen. _(Im Regelwerk werden Paradox-Effekte gestaffelt
-beschrieben: Bei Paradoxon 1 gibt es z.B. leichte Déjà-vus und flackernde Schatten; bei Paradoxon 5
-käme es zum völligen Realitätsbruch, was eine Notfall-Zeitretraktion nötig macht. Solche extremen
-Fälle sollten die Ausnahme bleiben.)_
+Früher zählte der Index vor allem Störungen. Seit Version 4.1.8 fungiert er
+als Fortschrittsanzeige. Jede gesicherte Mission bringt die Gruppe dem nächsten
+Pararift einen Schritt näher.
 
-Für das Speichersystem bedeutet dies: Jeder neue Spielstand enthält eine fortgeschriebene Liste
-aller bislang verursachten Zeitänderungen samt aktuellem Stabilitätsgrad. GPT kann anhand dieser
-Liste nachvollziehen, **welche historischen Weichenstellungen** die Gruppe bewirkt hat. Sollte in
-einer zukünftigen Mission erneut an einem bereits veränderten Ereignis „gerüttelt“ werden, kann der
-KI-Spielleiter den Stabilitätswert entsprechend reduzieren und – falls er auf 0 fällt – den
-Paradoxon-Zähler erhöhen. All das geschieht hinter den Kulissen. Die Spieler erleben nur die
-**storyrelevanten Konsequenzen**: Zum Beispiel, dass eine frühere Änderung rückgängig gemacht wurde
-oder dass plötzlich mysteriöse Zeitphänomene auftreten, die das Eingreifen der Chrononauten
-erfordern.
+### TEMP-Wert als Multiplikator
 
-Beim Laden eines Speicherstands können diese Zeitlinien-Einträge auch für **Rückblenden** genutzt
-werden. Die Spielleitung (GPT) erinnert dann nicht nur an persönliche Erlebnisse der Charaktere,
-sondern auch daran, **wie die Geschichte durch sie verändert wurde**. Etwa: _„Alex erinnert sich,
-wie er in der Schlacht von Aquitanien 1356 den Ausgang zugunsten der Franzosen beeinflusste, während
-Mia noch die Bilder des viktorianischen London vor Augen hat, wo sie Jack the Ripper das Handwerk
-legte…“_ Solche Andeutungen verankern die Taten der Spieler fest in der Chronik der Spielwelt.
-Dennoch bleibt die Technik unsichtbar: Begriffe wie _„Stabilität“_ oder _„Paradoxon-Wert“_ werden
-nicht direkt erwähnt – sie manifestieren sich ausschließlich in erzählerischen Effekten oder Ingame-
-Mitteilungen des Codex.
+| TEMP-Wert | Paradoxon +1 alle ... Missionen |
+| --------- | ------------------------------- |
+| 1–3       | 5 Missionen                    |
+| 4–7       | 4 Missionen                    |
+| 8–10      | 3 Missionen                    |
+| 11–13     | 2 Missionen                    |
+| 14+       | nahezu jede Mission            |
 
+Bei Stufe 5 löst `ClusterCreate()` **1–2 neue Rift-Koordinaten** aus und der
+Zähler springt auf 0. Danach beginnt der Kreislauf von vorn.
+
+### Darstellung im Speicherstand
+
+```json
+"paradoxon": 3,
+"riftCoordinates": [
+  { "year": 1871, "region": "Elsass", "risk": "hoch" },
+  { "year": 2029, "region": "Berlin", "risk": "mittel" }
+]
+```
+
+Spieler sehen selten nackte Zahlen. Das System kann die näherkommenden Rifts
+durch Kodex-Hinweise, flackernde Effekte oder kurze Rückblenden spürbar machen.
 ## Cluster-Dashboard und offene Risse
 
 Neben dem Zeitlinien-Tracker speichert das System alle aktiven Rift-Seeds in

@@ -154,7 +154,7 @@ export const closeSeed = (id) => { ... };
 function renderOperationsDeck() {
   const lvl = getParadox();
   const open = getOpenSeeds();
-  writeLine(`Open Rifts: ${open}  |  Resonanz-Index: ${lvl}`);
+  writeLine(`Open Rifts: ${open}  |  Paradoxon-Index: ${lvl}`);
   writeLine("> use scanner | > go vault | > go gate");
 }
 ```
@@ -282,12 +282,12 @@ function exitPvPArena() {
 ```typescript
 function startGroupMode(players = []) {
   // Wird nach dem Einlesen mehrerer Savegames aufgerufen.
-  // Schwierigkeitsgrad angleichen: Resonanz-Index und offene Rifts zurücksetzen
+  // Schwierigkeitsgrad angleichen: Paradoxon-Index und offene Rifts zurücksetzen
   state.paradox_level = 0;
   state.open_seeds = [];
   autoSave();
   writeLine(
-    `Group mode initiated for ${players.length} players. Resonanz-Index reset.`,
+    `Group mode initiated for ${players.length} players. Paradoxon-Index reset.`,
   );
 }
 ```
