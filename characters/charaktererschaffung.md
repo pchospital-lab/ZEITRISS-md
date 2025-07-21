@@ -709,19 +709,18 @@ oder Talente wie _Schmerzresistenz_ steigern indirekt die Widerstandskraft. Wenn
 HP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
 standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: **Ruf** (siehe unten),
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
-mitaufsteigt.
+deinen aktuellen ITI-Rang zeigt.
 
-**HUD-Anzeige der Erfahrung:** In-Game visualisiert das ITI-HUD euren Fortschritt dezent als Teil
-des Interfaces. So erscheint z.B. neben eurem Namen ein kleines **Rangabzeichen oder Level-Zahl**,
-darunter ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten “Upgrade” ist. Natürlich
-würde euer Charakter nie sagen „Ich hab Level 3 erreicht“ – im Spiel wird das als _Befähigungsindex_
-oder **Dienstgrad** interpretiert. Erfüllt ihr Missionsziele oder lernt etwas Bedeutsames, “füllt”
-sich der Balken ein Stück. Auf Spieler-Nachfrage kann die KI-Spielleitung auch den genauen Stand
-durchgeben, z.B.: _„Dein HUD zeigt Level 3, 70% bis Level 4“_. So bleiben die Meta-Infos im Rahmen
-der Spielwelt. Eine beispielhafte HUD-Zusammenfassung könnte lauten: \*„**_HUD-Status_** – Level 3
-(71% bis Level 4); Vital: 100% (grün); Paradox: 1 (leichtes Flimmern); Missionsziele: 2/3 erfüllt;
-Team: alle im grünen Bereich.“\* – daran siehst du auf einen Blick alles Wichtige, ohne aus der Rolle
-zu fallen.
+**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl deine **Level-Zahl** als auch den
+**Befähigungsindex** ein. Letzterer basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
+Unter dem Namen läuft ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten Level ist.
+Dein Charakter würde nie laut verkünden „Ich hab Level 3 erreicht“ – innerhalb der Spielwelt gilt
+nur der Befähigungsindex als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
+exakten Fortschritt nennen, z.B.: _„Dein HUD zeigt Level 3 (70 % bis Level 4) und
+Befähigungsindex +1.“_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
+HUD-Zusammenfassung könnte lauten: \*„**_HUD-Status_** – Rang +1 (Level 3, 71 % bis Level 4); Vital:
+100 % (grün); Paradox: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
+Bereich.“\* – daran siehst du auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen – in der sogenannten **HQ-Phase** – habt ihr
 Gelegenheit, euren Fortschritt auszuspielen. Typische **Downtime-Aktivitäten** sind Training,
@@ -742,17 +741,14 @@ allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzähler
 weder anfängliche Ruf-Boni noch Dienstgrade –
 echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdient.
 
-Zeitreisen bedeuten, dass ihr in verschiedenen Epochen und gegenüber unterschiedlichen Gruppen einen
-**Ruf** aufbaut. ZEITRISS 4.1.7 führt dafür ein unkompliziertes **Reputationssystem** ein: Für jede
-relevante **Fraktion** oder **Epoche** kann die SL einen Rufwert zwischen **–5** und **+5** tracken.
-Null ist neutral, positive Werte bedeuten Vertrauen/Ansehen, negative Misstrauen oder Feindschaft.
-Zu Beginn einer Kampagne wählt ihr, bei welcher Fraktion ihr langfristig Ansehen aufbauen wollt.
-Außerdem entscheidet ihr, ob ihr die Hauptzeitlinie erhaltet (**pro**) oder neu formen wollt (**contra**).
-Anschließend sammelt ihr über viele Einsätze hinweg langsam
-Rufpunkte. Erst nach etwa **zehn erfolgreich abgeschlossenen Missionen** steigt euer Wert um
-eine Stufe. Für jede weitere Stufe sind zunehmend mehr Einsätze nötig. Die folgende Tabelle gibt
-Richtwerte an, wie viele Missionserfolge insgesamt sinnvoll sein können. Die Spielleitung darf die
-Zahlen jederzeit an ihre Kampagne anpassen.
+Im Mittelpunkt steht euer Ruf innerhalb des ITI. Für jede der vier **ITI‑Fraktionen** kann die SL einen
+Rufwert zwischen **–5** und **+5** tracken. Null ist neutral, positive Werte bedeuten Vertrauen, negative
+Misstrauen. Zu Kampagnenbeginn wählt ihr, bei welcher dieser Fraktionen ihr langfristig Ansehen
+aufbauen wollt. Zusätzlich entscheidet ihr, ob ihr die Hauptzeitlinie bewahren (**pro**) oder verändern
+(**contra**) möchtet.
+Anschließend sammelt ihr über viele Einsätze hinweg langsam Rufpunkte. Die nötigen
+Missionserfolge pro Stufe findet ihr in der folgenden Tabelle. Die Werte sind Richtlinien und
+können von der Spielleitung jederzeit angepasst werden.
 
 | Rufstufe | Missionserfolge gesamt (ca.) |
 | -------: | ---------------------------- |
@@ -763,9 +759,9 @@ Zahlen jederzeit an ihre Kampagne anpassen.
 |       +4 | 200                          |
 |       +5 | 400                          |
 
-Rufgewinn dauert also viele Missionen bzw. mehrere HQ-Phasen ingame. Rufverlust tritt nur bei gravierenden
-Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. _„Paris 1880: Ruf +2
-(anerkannt im ITI)“, „Templerorden: Ruf –1 (skeptisch)“_). Dieses System macht die
+Rufgewinn dauert also viele Missionen bzw. mehrere HQ‑Phasen ingame. Rufverlust tritt nur bei gravierenden
+Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. _„Chrono‑Symmetriker: Ruf +2
+(anerkannt)“, „Kausalklingen: Ruf –1 (skeptisch)“_). Dieses System macht die
 **Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und
 Beziehungen abzubilden.
 
@@ -780,8 +776,8 @@ rücksichtlose Haudraufs auftretet – ein und dasselbe Team kann in Epoche X ge
 aber gehasst sein.
 
 **Darstellung im HUD:** Das HUD-Overlay eures Anzugs kann auch **Reputationsinformationen**
-anzeigen, soweit bekannt. Beispielsweise könnte auf Nachfrage im UI stehen: _„Ruf: Epoche 1880 = +2
-(Beliebt), Fraktion Pinkertons = –1 (Misstrauisch)“_. Das ITI-System erfasst also, wie euch wichtige
+anzeigen, soweit bekannt. Beispielsweise könnte auf Nachfrage im UI stehen: _„Ruf: Chrono‑Symmetriker = +2
+(anerkannt), Kausalklingen = –1 (misstrauisch)“_. Das ITI-System erfasst also, wie euch wichtige
 Gruppen sehen. Die KI-Spielleitung kann diese Daten ins Spiel einfließen lassen, etwa: _„Dein HUD
 warnt: Die Dorfbewohner wirken dir gegenüber feindselig (Ruf –2).“_ – was dem Charakter implizit zu
 denken gibt, ohne direkt mit Zahlen um sich zu werfen. In-world kann man das als _„Sozial-Scan“_
