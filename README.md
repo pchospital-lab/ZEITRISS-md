@@ -54,6 +54,13 @@ Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.
 In **Rift-Ops** hingegen treten echte Anomalien auf – inklusive Parawesen,
 Artefakten und temporaler Abweichungen.
 
+**Was ist eine Anomalie?**
+- Ein Seed markiert eine Störung im Zeitfluss.
+- Paranormale Phänomene fühlen sich real an, werden aber über Zeit­effekte erklärt
+  (z.B. Poltergeist → instabile Gravitation).
+- Jeder bewusste Eingriff in die Geschichte gilt ebenfalls als Anomalie.
+Weitere Beispiele liefert der _Temporale Anomalien-Generator_.
+
 Der **Kernkonflikt**: Das **ITI** verteidigt den dokumentierten Geschichtsverlauf.
 Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 **Jede Mission entscheidet, wessen Version von Geschichte sich durchsetzt.**

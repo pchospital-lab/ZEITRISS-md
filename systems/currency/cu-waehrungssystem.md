@@ -150,12 +150,12 @@ verbleiben kann**:
 
 ##### Artefaktrollen im Spiel
 
-Artefakte sind keine Massenware. Zu Beginn einer längeren Mission darf die SL
-optional 1W6 werfen; nur bei einer 6 erscheint ein besonderes Relikt. Solche
-Fundstücke besitzen eigene Effekte – vom einmaligen Paradox-Abbau bis hin zu
-Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie
-das Artefakt im HQ archiviert, in CUs eintauscht oder als seltene Ressource
-behält, um es später im Plot einzusetzen.
+Artefakte sind keine Massenware. In Rift-Ops darf die SL nach dem Sieg über ein
+Paramonster 1W6 würfeln; nur bei einer 6 wird ein besonderes Relikt entdeckt.
+Solche Fundstücke besitzen eigene Effekte – vom einmaligen Paradox-Abbau bis hin
+zu Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie das Artefakt
+im HQ archiviert, in CUs eintauscht oder als seltene Ressource behält, um es
+später im Plot einzusetzen.
 
 Durch diese Mechaniken bleibt der Umgang mit Missionsbeute **dynamisch**. Jeder Gegenstand erzählt
 eine kleine Geschichte: Ein unscheinbares Artefakt aus 800 v. Chr. könnte sich in der Nullzeit als
