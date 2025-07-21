@@ -992,6 +992,17 @@ Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes 
 Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
 Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative Hilfe.
 
+### Nicht-temporale Beobachterinstanzen {#beobachterinstanzen}
+
+Ab Kampagnenstufe 3–5 treten Gruppen auf, die Zeitphaenomene untersuchen, ohne selbst springen zu koennen.
+Sie misstrauen ungewoehnlichen Ereignissen und stoeren mit Ermittlungen.
+
+- **Abwehrstab Tempus (Berlin 1943)** – vermutet Spionage durch nicht registrierte Kraefte
+- **INT-07 Archivdienst (Wien 1976)** – klassifiziert Anomalie-Ereignisse
+- **Emergent Watch (San Diego 2029)** – KI-Netzwerk zur Erkennung von Temporalbruechen
+
+Diese Beobachter helfen den Agenten nicht, sondern erzeugen Reibung, ohne als Fraktion aufzutreten.
+
 
 ### Encounter-Pools außerhalb des HQ {#encounter-pools-ausser-hq}
 
@@ -1145,16 +1156,11 @@ Mechaniken ein, die **langfristige Entwicklungen** abbilden: **Ruf**, **Einfluss
 **historische Auswirkungen** und **Paradox-Verschiebungen**. Diese Konzepte greifen ineinander und
 erzeugen zusammen ein Gefühl fortschreitender Geschichte.
 
-- **Ruf und Ansehen:** Wie oben beim Fraktionsmanagement beschrieben, hat die Gruppe im Laufe der
-  Kampagne die Möglichkeit, Ruf aufzubauen. Dieser Ruf kann auch über Fraktionen hinaus allgemein
-  wirken – z. B. „die Agenten sind bekannt als die Retter der französischen Revolution“ oder
-  „berüchtigt unter Zeitreisenden als jene, die mit Paradoxen spielen“. Die Spielleitung sollte hin
-  und wieder zeigen, wie sich der steigende Ruf äußert: Unbekannte NSCs erkennen die Helden vielleicht
-  anhand von Codex-Einträgen, Verbündete erwähnen ehrfürchtig ihre Taten. Ruf kann als **Wert**
-  geführt werden (z. B. ein Punktesystem oder einfach narrative Einstufungen), und er beeinflusst die
-  Reaktionen der Welt auf die Agenten. Ein hoher allgemeiner Ruf könnte etwa erleichtern,
-  Unterstützung zu erhalten, während ein schlechter Ruf Türen verschließt. Wichtig ist, dass Ruf nicht
-  nur lokal, sondern **zeitübergreifend** gedacht wird – ihre Taten hallen durch die Epochen.
+- **Ruf und Ansehen:** Wie beim Fraktionsmanagement beschrieben, sammelt die Gruppe Ruf innerhalb des ITI-Systems.
+  Die meisten NSCs erkennen sie nicht wieder.
+  Rufwerte spiegeln, wie Codex und verbuendete Fraktionen die Agenten einschaetzen.
+  Hoher Ruf erleichtert interne Ablaeufe; schlechter Ruf erzeugt Misstrauen.
+  Dieser Wert wirkt nur in ITI- und Fraktionskreisen – Epochen vergessen ihre Helfer.
 - **Einflusszonen:** Mit der Zeit wird die Gruppe in bestimmten **Regionen oder Zeiten** einen
   Fußabdruck hinterlassen. Diese Einflusszonen sind Bereiche, in denen die Agenten besonders viel
   bewirkt haben oder Ressourcen aufgebaut haben. Man kann dies wie kleine Reviere behandeln: z. B. hat
@@ -1165,8 +1171,8 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   Missionen in einer Einflusszone stattfinden (z. B. schnellere Informationsbeschaffung, ein Netzwerk
   von Kontakten, Verstecke im Gebiet). Umgekehrt sind Missionen außerhalb des bekannten Einflusses
   riskanter, da die Agenten dort bei Null anfangen. Die Ausbreitung von Einfluss kann eine stille
-  Motivation sein, mehr Orte/Epochen zu besuchen und dort Gutes zu tun – quasi **Helden der
-  Zeitalter** zu werden.
+  Motivation sein, mehr Orte/Epochen zu besuchen und dort Gutes zu tun –
+  dort effektiver zu agieren – Beruehmtheit spielt keine Rolle.
 - **Historische Auswirkungen dokumentieren:** In einer Zeitreise-Kampagne ist es essenziell, die
   **veränderten Geschichtsverläufe** festzuhalten. Das ZEITRISS-Modul empfiehlt, eine **Timeline-
   Chronik** zu führen. Nach jeder größeren Mission sollte die Spielleitung notieren: Was war der
