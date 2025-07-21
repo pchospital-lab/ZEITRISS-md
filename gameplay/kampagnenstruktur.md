@@ -378,7 +378,7 @@ die nur thematisch zur aktuellen Epoche passt.
 Name / Epoche
 Tier: Minor | Std | Major   HP: W6×Tier   DEF-Schwelle: 4–6
 Signature-Power: <eine>    Weak Spot: <Skill DC>
-Shard-Drop: 1+Tier
+CU-Bonus: Spielerlevel × 10
 ```
 
 ##### Rift-Op Film-Template {#rift-op-film-template}
@@ -854,23 +854,22 @@ Auch angesammelter Ruf geht nicht verloren.
 
 ### Ressourcenmanagement
 
-Der HQ-Ausbau geht Hand in Hand mit **Ressourcenverwaltung**. In einer Langzeitkampagne können die
-Spieler verschiedene Ressourcen sammeln, die für Upgrades ausgegeben werden müssen. Beispiele im
-ZEITRISS-Kontext:
+Der HQ-Ausbau geht Hand in Hand mit **Ressourcenverwaltung**. In einer Langzeitkampagne sammeln die
+Spieler vor allem **CU (Chrono‑Units)**, um Upgrades zu bezahlen. Hin und wieder verlangen
+bestimmte Projekte einzigartige Komponenten als Missionsziel.
 
-- **Shards:** Spezielle Splitter aus Riss-Operationen oder geborgenen Artefakten.
-  Sie sind die Hauptressource für High-Tech-Upgrades im HQ.
-  Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
-- **Finanzielle Mittel:** Je nach Epoche und Unterstützung durch Gönner (oder durch Plünderung
-  aufgegebener Schätze in der Vergangenheit) kann die Organisation der Agenten auch Geld oder
-  Handelssachen ansammeln. Diese dienen zum Ausbau von irdischer Infrastruktur – Personal einstellen,
-  Gebäude erweitern, Ausrüstung kaufen.
-- **Personal & Kontakte:** Neue Verbündete oder Experten, die im Laufe der Kampagne dazukommen, kann
-  man ebenfalls als Ressource sehen. Ein brillanter Wissenschaftler NSC im Labor verbessert faktisch
-  dessen Leistungsfähigkeit. Ein Veteran-Agent als Ausbilder steigert die Effekte der Trainingshalle.
-  Solche **personellen Ressourcen** können als Belohnung für bestimmte Missionen vergeben werden
-  („Prof. X schließt sich eurem Team an und leitet nun die temporale Forschung – Laborstufe steigt um
-  1“).
+- **Finanzielle Mittel (CU):** Alle Stufen des HQ und jede Ausrüstung lassen sich ausschließlich mit
+  CUs erwerben. Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
+- **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
+  besonderes Relikt. Artefakte findet man ausschließlich in Rift‑Ops, während Core‑Ops höchstens
+  Bauteile oder historische Relikte liefern. Diese Komponenten werden meist in eigenen Missionen
+  erbeutet.
+- **Personal & Kontakte:** Neue Verbündete oder Experten, die im Laufe der Kampagne dazukommen,
+  kann man ebenfalls als Ressource sehen. Ein brillanter Wissenschaftler NSC im Labor verbessert
+  dessen Leistungsfähigkeit. Ein Veteran-Agent als Ausbilder steigert die Effekte der
+  Trainingshalle. Solche **personellen Ressourcen** können als Belohnung für bestimmte Missionen
+  vergeben werden ("Prof. X schließt sich eurem Team an und leitet nun die temporale Forschung –
+  Laborstufe steigt um 1").
 
 Die Spielleitung sollte den Spielern klare Gelegenheiten geben, Ressourcen zu verdienen – z. B. als
 Missionsbelohnung, durch das Lösen von Nebenquests oder durch Handel mit Fraktionen. Ebenso wichtig:
@@ -1393,7 +1392,6 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 | **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | +1 Px bei Erstflug         |
 | **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | +1 Px bei öffentl. Nutzung |
 | **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
-| **Shard Exchange**    | 5 Shards → 500 CU                        | —        | 0                          |
 
 _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
 
