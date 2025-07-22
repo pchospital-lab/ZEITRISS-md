@@ -71,8 +71,9 @@ füllt:
 * TEMP 14+: praktisch jede Mission
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
-fortgeschrittener Fraktionsausrüstung. Spieler können diese Rift-Missionen direkt
-besuchen oder „offen halten“, um spätere Beutezüge zu planen.
+fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
+Beendigung des aktuellen Core-Arcs – Teams können Seeds „offen halten“, um
+spätere Beutezüge zu planen.
 
 **Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach dem Core-Arc.**
 Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
