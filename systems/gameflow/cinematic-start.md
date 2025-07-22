@@ -779,27 +779,28 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
   die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
 
-### Missionsidee 4: **Agent X ist verschollen**
+### Missionsidee 4: **PHANTOM X**
 
-_Hook:_ Ein Veteran des ITI meldet sich seit mehreren Tagen nicht mehr. Seine
-letzte Archivsignatur stammt aus dem Jahr **1566**, am Hof von
-**Maximilian II.** Die Chrononauten sollen herausfinden, was geschehen ist.
+_Hook:_ Ein Codex-Agent verschwindet spurlos. Seine letzte Spur weist ins Jahr
+**1566**. Die Chrononauten verfolgen ihn durch einen mehrteiligen Arc und
+lernen so die Grundmechaniken.
 
-- **Szenario:** Agent X hatte keinen offiziellen Auftrag in dieser Epoche.
-  Codex-Logs deuten darauf hin, dass er ein bereits bestehendes Rift aufspürte
-  und eigenmächtig einen `ClusterCreate()` auslöste, um ein verschlüsseltes
-  Artefakt zu bergen. Danach brach der Kontakt ab.
-- **Core-Op:** Die Spieler rekonstruieren seine Schritte in einer regulären
-  Preserve-Mission. Erst durch gesicherte Codex-Splitter erkennen sie, dass X
-  den Riss bewusst betrat und keine Rückmeldung gab.
-- **Rift-Op:** Nachdem alle Spuren ausgewertet sind, erscheint das bekannte
-  Rift auf der Karte. Im instabilen Nebenraum finden die Chrononauten die
-  Überreste von Agent X, zerrissene Logdaten und ein aktives Paramonster, das
-  seinen Körper halb verschlungen hat.
-- **Tonalität:** Diese Mission zeigt, dass Core- und Rift-Ops normalerweise
-  getrennt ablaufen. Hier führt erst die Ermittlung zum Riss, der das letzte
-  Kapitel der Spur bildet. Der Tod von Agent X verdeutlicht die Gefahr
-  eigenmächtiger Aktionen.
+- **Core I:** Fünf Kurzmissionen stabilisieren die Epoche. Jeder Erfolg steigert
+  den Paradoxon-Index.
+- **Cluster:** Nach dem ersten Mini-Boss triggert automatisch
+  `ClusterCreate()`. Das Rift **„Aschezeichen“** erscheint.
+- **Rift-Op:** Im Rift wartet **Die Braut**. Agent X ist tot, Spuren verweisen
+  auf einen geheimen Megakon-Komplex.
+- **Core II:** Die Chrononauten infiltrieren das unterirdische Areal und decken
+  den Missbrauch der Sprungapparatur auf.
+- **Finale:** Der **Spindelwächter** setzt nur Nahkampf oder Schusswaffen ein.
+  Kurz tauchen 7000 Spinnen auf – sie ersticken sofort. Aus der Apparatur
+  kommen alpenländische Söldner und Ordenskrieger.
+- **Schluss:** Nach Zerstörung der Apparatur springt der Wächter in letzter
+  Sekunde. Der Arc endet mit Paradoxon-Reset und offener Spur.
+
+_Tonalität:_ Dieser Einstieg erklärt Clusterlogik und Rift-Phasen. Artefakte sind
+Belohnung, aber kein Pflichtschlüssel.
 
 Dies sind nur **einige von vielen** möglichen Einstiegsmissionen. Ihr kennt eure Spieler\*innen und
 ihre Vorlieben am besten – fühlt euch frei, Elemente zu mischen oder ganz eigene Ideen zu
