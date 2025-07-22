@@ -166,6 +166,9 @@ function renderOperationsDeck() {
 ```typescript
 function cmdJump(arg) {
   // arg = "LND‑1851‑SW"
+  if (!state.arc_complete) {
+    return writeLine("Rift access locked until der Arc abgeschlossen ist.");
+  }
   const seed = state.open_seeds.find((s) => s.id === arg);
   if (!seed) return writeLine("Unknown Rift-ID.");
   loadParamonsterEncounter(seed); // → uses Paramonster generator
