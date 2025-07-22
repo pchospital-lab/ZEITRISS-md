@@ -198,16 +198,15 @@ Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn 
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
 zusammengeführt oder getrennt bleiben.
 
-Solange Seeds offen sind, erhöhen sie Schwelle und CU-Belohnung aller Missionen.
+Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach dem Core-Arc.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
 - **Paradoxon-Index 0–5:** Jede Mission bringt Paradoxon-Punkte.
   Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt den Wert auf 0.
-- **Rift-Pool:** Offene Seeds erhöhen die Probe-Schwelle und die CU-Belohnung
-  für alle Einsätze. Ein Seed lässt sich erst nach Abschluss des aktuellen
-  Core-Arcs via `launch_rift(id)` als eigenständige Rift-Op starten.
+- **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Abschluss des Core-Arcs.
+  Ein Seed lässt sich dann via `launch_rift(id)` als eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
   Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks
   und lassen sich im HQ gegen CUs tauschen oder als MacGuffin aufbewahren.
@@ -291,7 +290,7 @@ graph LR
 A[Missionsepisode] --> C[HQ-Phase]
 C --> B[Paradoxon-Index]
 B -->|Level 5| D[Rift-Pool]
-D -->|offene Rifts zählen| E[Schwierigkeitsgrad & CU-Multi]
+D -->|Arc-Ende Bonus| E[Schwierigkeitsgrad & CU-Multi]
 E --> A
 ```
 
@@ -306,13 +305,10 @@ folgende Einsatz startet. Zur Wahl stehen drei Wege:
 
 
 #### Offene Rifts
-
-In der HQ-Phase entscheidet das Team pro Seed, ob es eindringt und ihn
-versiegelt oder bis später warten will. Jeder offene Rift erhöht die
-Probe-Schwelle und multipliziert die CU-Belohnung. Dieser Wert gilt
-für alle Missionen – auch für Rifts – und wird nach jedem entfernten
-Seed neu berechnet. Wer Risse absichtlich offen lässt,
-bestimmt den künftigen SG damit selbst:
+In der HQ-Phase, nach Abschluss des Arcs, entscheidet das Team pro Seed,
+ob es eindringt und ihn versiegelt oder bis später warten will.
+Der Bonus auf Probe-Schwelle und CU-Belohnung durch offene Rifts greift erst nach Beendigung des Core-Arcs.
+Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed entfernt wird.
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
 | ------------ | ---------------- | -------------- |
