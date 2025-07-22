@@ -26,13 +26,10 @@ Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer Vorgang. Auf der
 [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
-1–2 Rift-Seeds, die erst nach Missionsende erreichbar sind. Sie erhöhen sofort
-den Schwierigkeitsgrad und den Loot-Multiplikator entsprechend der
-Rift-Anzahl. Die Spieler können ein Rift offen lassen und die Core-Operation
-fortsetzen, um später mehr Beute zu machen – müssen dann aber mit dem höheren
-SG leben. In der Szene selbst äußert sich lediglich kurzzeitige Instabilität.
-So erleben alle gleich zu Beginn, wie ZEITRISS 4.2.0 reale Schauplätze mit übernatürlichen Folgen
-verbindet.
+1–2 Rift-Seeds, die erst nach Arc-Ende erreichbar sind.
+Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach dem Core-Arc.
+Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen.
+Sie riskieren während des Arcs keinen höheren SG.
 
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
 ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,

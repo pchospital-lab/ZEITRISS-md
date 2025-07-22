@@ -823,8 +823,8 @@ in einen neuen Kampagnenstrang führt.
    TEMP 4–7 etwa alle vier, TEMP 8–10 alle drei,
    TEMP 11–13 alle zwei und TEMP 14+ praktisch jede Mission.
 4. Erreicht der Wert **5**, macht `ClusterCreate()` **1–2 Rift-Seeds** sichtbar und der Index springt auf 0.
-5. **Offene Rifts** erhöhen den Schwierigkeitsgrad um +1 und steigern den CU-Multiplikator.
-6. Wird ein Rift abgeschlossen, entfällt der Bonus; bleibt es offen, gilt er weiter.
+5. **Offene Rifts** erhöhen Schwierigkeitsgrad und CU-Multiplikator erst nach dem Core-Arc.
+6. Wird ein Rift beim Arc-Ende abgeschlossen, sinken die Boni; bleibt es offen, wirken sie ab dann weiter.
   Siehe [Rifts sammeln](../gameplay/kampagnenstruktur.md#rifts-sammeln) für die
   Verwaltung während der HQ-Phase und am Arc-Ende.
 7. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.

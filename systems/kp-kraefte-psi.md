@@ -521,7 +521,7 @@ hierfür eine Art „Resonanzpunkt" vergeben. Diese Punkte entstehen schrittweis
 während einer Mission, wenn Eingriffe den bekannten Verlauf stärken.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TA beschleunigt ihn.
 Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
-Offene Rifts erhöhen den Schwierigkeitsgrad, gelten aber nicht als Strafe.
+Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten nicht als Strafe.
 Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
 Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um
