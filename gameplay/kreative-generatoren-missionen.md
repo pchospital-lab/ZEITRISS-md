@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.7 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.1.7
+title: "ZEITRISS 4.2.0 – Modul 8A: Kreative Generatoren – Missionen"
+version: 4.2.0
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.1.7 – Modul 8A: **Kreative Generatoren – Missionen**
+# ZEITRISS 4.2.0 – Modul 8A: **Kreative Generatoren – Missionen**
 
 ```yaml
 arc_generator_default: true
