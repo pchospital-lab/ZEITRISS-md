@@ -22,6 +22,8 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 4. **Paradoxon-Index.** Fortschrittsanzeige: Stufe 5 verrät 1–2 neue Pararifts.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 
+Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
+
 
 ## Grundidee
 **ZEITRISS 4.2.0** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
@@ -128,6 +130,7 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 **Hinweis:** Das Spiel besteht aus **18** Regelmodulen plus `README.md`,
 `master-index.json` und `meta/masterprompt_v6.md` – zusammen also 21 Dateien.
 Zwei Module ("Team-Boni" und "Quickref") sind Abschnitte anderer Dateien.
+Im `master-index.json` erscheinen **24** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls auflisten.
 Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
