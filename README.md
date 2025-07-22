@@ -74,9 +74,8 @@ Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Spieler können diese Rift-Missionen direkt
 besuchen oder „offen halten“, um spätere Beutezüge zu planen.
 
-**Offene Rifts steigern den Schwierigkeitsgrad und Loot-Multiplikator**
-zukünftiger Missionen. Im **Covert-Ops-Modus** erscheinen sie lediglich als
-subtile Sensorstörungen.
+**Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach dem Core-Arc.**
+Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
 
 Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
 Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
@@ -208,15 +207,12 @@ Ausführliche Tabellen stehen in
 [core/zeitriss-core.md](core/zeitriss-core.md) und
 [core/wuerfelmechanik.md](core/wuerfelmechanik.md).
 
-Die **Riftstufe** entspricht der Anzahl offener Seeds. Jeder Seed erhöht den
-Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1 Seed = ×1.2,
-2 Seeds = ×1.4 usw.). Details findet ihr unter
+Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach dem aktuellen Core-Arc
+erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
+Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
-
-Rift-Missionen verwenden nun weiße Stern-Symbole (☆), die direkt den SG-Bonus
-durch offene Seeds anzeigen. Ein Seed entspricht einem Stern und erhöht
-die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
-Details stehen im Modul
+Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Arc-Ende anzeigen.
+Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 [Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
 
 ### Difficulty-Konverter
