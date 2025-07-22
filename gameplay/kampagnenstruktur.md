@@ -390,7 +390,7 @@ ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | **A** | Einstieg, erste Spur, kleiner Konflikt |
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
-*`SceneCounter++` nach jeder Szene*
+*`EndScene()` nach jeder Szene*
 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
@@ -603,7 +603,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ###### Szenenübersicht
 
-*SceneCounter++ nach Szene 12.*
+*`EndScene()` nach Szene 12.*
 | # | Ort | Konflikt | Ziel | Spur | SG |
 |---|----|---------|-----|-----|----|
 | 1 | Nullzeit-Bunker | Zeitdruck, Lauscher | Einsatzplan schmieden | Orden spioniert | 5 |
@@ -636,7 +636,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 | 10 | Dampferdeck | Verfolger feuern | Abfahrt erzwingen | Funkspruch "Ziel flieht" | 8 |
 | 11 | Spree-Ufer | Motorboot jagt | Abstand gewinnen | Wasserpegel steigt | 7 |
 | 12 | HQ-Debrief | – | Einsatz bewerten | Zeitsoldaten aktiv | – |
-*SceneCounter++ nach Szene 12.*
+*`EndScene()` nach Szene 12.*
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
 2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet
