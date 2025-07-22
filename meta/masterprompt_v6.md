@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.1.7 – Standard Edition"
-version: 4.1.7
+title: "ZEITRISS 4.2.0 – Standard Edition"
+version: 4.2.0
 tags: [meta]
 ---
 
-# ZEITRISS 4.1.7 – Standard Edition
+# ZEITRISS 4.2.0 – Standard Edition
 
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera). Die Spieler sind Einsatzteam"
 > – keine introspektiven Monologe, keine Visionen, kein metaphysisches Zeitgefasel.
