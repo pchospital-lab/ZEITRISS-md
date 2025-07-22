@@ -22,14 +22,14 @@ erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
-Nach dem fatalen Ende deines früheren Lebens fischte das ITI dein Bewusstsein aus dem Äther.
+Nach dem fatalen Ende deines früheren Lebens extrahierte das ITI dein Bewusstsein aus dem Absolut.
 Du schließt die Charaktererschaffung in einem virtuellen Raum ab. Erst danach erzeugt das HQ
 eine passende Bio-Hülle – auf Wunsch auch eine experimentelle Hominin-Form – und überträgt
 dein rekonstruiertes Bewusstsein in diesen Körper.
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
-2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (N‑Typ/T‑Stufe) oder historischer Hominin.
+2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (T‑Stufe/N‑Typ) oder historischer Hominin.
    Siehe [optionale Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (Basis 2–5)
 4. Zwei Talente wählen
@@ -94,6 +94,15 @@ Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
 
 Chronopolis versammelt Agenten aller drei Stufen. Auch rivalisierende Gruppen
 setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
+
+| Spezies            | Boni                                                | Nachteile                        |
+| ------------------ | --------------------------------------------------- | -------------------------------- |
+| **T‑Stufe**        | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS     | EMP-anfällig, Neurostabilisierung nötig |
+| **N‑Typ**          | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS     | Psi-resistent, Stress +1 bei STR |
+| **Standard-Mensch**| Keine Modifikatoren                                | –                                |
+| **Neandertaler**   | +2 STR, −1 INT, −1 CHA                              | Grob, wortkarg                   |
+| **Denisova-Mensch**| +1 STR, +1 TEMP, −1 INT, −1 CHA                     | Zäh, kälteresistent              |
+| **Heidelbergensis**| +1 STR, +1 SYS, −1 INT, −1 CHA                      | Extrem ausdauernd                |
 
 ### Historische Homininen (Bio-Sheaths)
 
