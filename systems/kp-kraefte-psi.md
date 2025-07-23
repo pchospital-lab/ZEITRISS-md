@@ -20,7 +20,7 @@ tags: [systems]
 - Effekt unter 1 Sekunde kostet 0 SYS.
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
-- PP-Pool = Temporale Affinität (TA). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
+- PP-Pool = Temporale Affinität (TEMP). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
@@ -519,7 +519,7 @@ und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
 bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man
 hierfür eine Art „Resonanzpunkt" vergeben. Diese Punkte entstehen schrittweise
 während einer Mission, wenn Eingriffe den bekannten Verlauf stärken.
-Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TA beschleunigt ihn.
+Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
 Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
 Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten nicht als Strafe.
 Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
@@ -544,9 +544,9 @@ gibt potentielle Gefahren (Überlastung, Paradoxien). Damit fühlt sich Psi-Eins
 Einsatz eines mächtigen Geräts: mal unglaublich nützlich, mal unberechenbar, immer aber mit
 Verantwortung verbunden.
 
-### Power-Punkte = Temporale Affinität {#power-punkte-ta}
+### Power-Punkte = Temporale Affinität {#power-punkte-temp}
 
-| TA‑Wert | PP‑Pool | Stark (3) | Mittel (2) | Gering (1) |
+| TEMP‑Wert | PP‑Pool | Stark (3) | Mittel (2) | Gering (1) |
 |:-------:|:-------:|:---------:|:----------:|:----------:|
 | 6 | 6 | 2 | 3 | 6 |
 | 7 | 7 | 2 | 3 | 7 |
@@ -556,7 +556,7 @@ Verantwortung verbunden.
 | 11 | 11 | 3 | 5 | 11 |
 | 12 | 12 | 4 | 6 | 12 |
 
-*PP‑Pool = TA* — mehr nicht.
+*PP‑Pool = TEMP* — mehr nicht.
 
 #### Cooldown
 
@@ -572,24 +572,24 @@ Verantwortung verbunden.
   Willenskraftprobe (CHA) gegen den doppelten Heat-Level gelingt.
 * **Nach jedem Kampf** → **PP voll**
 * **Lange Ruhe** (Mission beendet) → **PP voll**
-  > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TA.
+  > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TEMP.
 
 #### Temporal Anchor
 
-TA 3 schenkt **den ersten pro Szene ausgegebenen PP** von Paradoxon-Nebenwirkungen.
-Bei TA 6 gelten die ersten **zwei**, bei TA 9 die ersten **drei** PP als sicher usw.
+TEMP 3 schenkt **den ersten pro Szene ausgegebenen PP** von Paradoxon-Nebenwirkungen.
+Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als sicher usw.
 
 #### Überziehen („Burn“)
 
-Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
+Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 *Preis:* **−1 Px** pro verbranntem PP.
 > Px = Paradox‑Index‑Punkte (siehe core).
-> **Nie** mehr Burn‑PP als TA – die Zeit reißt sonst sofort (SL‑Ereignis).
+> **Nie** mehr Burn‑PP als TEMP – die Zeit reißt sonst sofort (SL‑Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
 
 ### Balance-Kurzübersicht
 
-| Typische Rolle | TA | PP | Starke Kräfte pro Mission* |
+| Typische Rolle | TEMP | PP | Starke Kräfte pro Mission* |
 | -------------- | -: | -: | --------------------------: |
 | Rookie‑Psi     |  7 |  7 |             2 (plus 1 Burn) |
 | Veteran‑Psi    |  9 |  9 |                           3 |
@@ -597,7 +597,7 @@ Du darfst **bis zu TA PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 
 \* Annahme: Kurze Erholung nach jedem Kampf.
 
-Ergebnis: **Höhere TA gibt linear mehr Juice**, aber Cooldowns deckeln
+Ergebnis: **Höhere TEMP gibt linear mehr Juice**, aber Cooldowns deckeln
 Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
 
 ### Psi-Heat-Track
