@@ -363,7 +363,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   schicken). _Verbrauch:_ Einmal einsetzbar, dann muss die interne Quarz-Batterie ersetzt werden.
   _Kosten:_ 150 CU.
 - **Epochen-Scanner:** Ein tragbares Sensorgerät, das Anomalien im Zeitgefüge aufspürt. Ähnlich
-  einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxa, temporale Energie oder unstimmige
+  einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxien, temporale Energie oder unstimmige
   Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
   20 m. Besonders hilfreich, um _Zeitverbrecher_ oder fremde Eingriffe zu entdecken. _Kosten:_ 120 CU.
   - **Riss-Tracker:** Ein fest implantiertes Bioimplantat, das bei jedem Chrononauten zur

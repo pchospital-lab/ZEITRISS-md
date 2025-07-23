@@ -818,7 +818,7 @@ in einen neuen Kampagnenstrang führt.
 1. Index startet bei **0**.
 2. Steigt situativ während einer Mission an, wenn Eingriffe den offiziellen
    Geschichtsverlauf stabilisieren. Niedrige **Temporale Affinität** bremst
-   diesen Zuwachs, hohe TA beschleunigt ihn.
+   diesen Zuwachs, hohe TEMP beschleunigt ihn.
 3. Richtwert zum Anstieg: TEMP 1–3 bringen meist alle fünf Missionen einen Punkt,
    TEMP 4–7 etwa alle vier, TEMP 8–10 alle drei,
    TEMP 11–13 alle zwei und TEMP 14+ praktisch jede Mission.
