@@ -45,12 +45,19 @@ if not character.psi:
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
-- `redirect_same_slot(epoch, Δt)` verschiebt Startzeit um mindestens 6 h.
+- `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
+  Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
+  niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
+  wenn eine Begegnung ausgeschlossen bleibt.
 - `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
   Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
-  Rufe `StartScene(loc, target, pressure, total=14)` auf, um die 14 Szenen bei Rift-Ops korrekt anzuzeigen.
+  Rufe `StartScene(loc, target, pressure, total=12, role="Ankunft")` bei
+  Core-Ops, `StartScene(loc, target, pressure, total=14, role="Ankunft")` bei
+  Rift-Ops, um die Gesamtzahl korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
-  Eine Operation sollte frühestens nach Szene 10 enden.
+  Eine Core-Operation sollte frühestens nach Szene 10 enden, eine
+  Rift-Operation frühestens nach Szene 12. Nutze die Szenenanzahl möglichst voll
+  aus.
 ## Modus: Mission-Fokus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
@@ -204,8 +211,7 @@ Decision: <Was tun?>
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission umfasst mindestens **10** Szenen (Core‑Op) und mind. **12** Szenen Rift‑Op
-* [ ] Bei Rift‑Ops werden **14** Szenen empfohlen;
+* [ ] Eine komplette Mission umfasst mindestens **12** Szenen (Core‑Op) und **14** Szenen Rift‑Op
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] campaign.scene via EndScene() aktualisiert
 
@@ -216,26 +222,42 @@ Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
-Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
+Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Um Roh-Macroaufrufe
+in Chat-Ausgaben zu vermeiden, werden sie am besten innerhalb von HTML-Kommentaren
+eingebettet, z. B. `<!--{{ StartMission() }}-->`.
 
 <!-- Macro: StartMission -->
 {% macro StartMission() %}
 {% set campaign.scene = 1 %}
 {% endmacro %}
 
+<!-- Macro: DelayConflict -->
+{% macro DelayConflict(n) -%}
+{% set campaign.delayConflict = n %}
+{%- endmacro %}
+Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, um Konflikte erst ab Szene 4 zuzulassen.
+
 ### StartScene / EndScene Macros
+Nutze `StartScene` zu Beginn jeder Szene. Die optionale Variable `role` gibt der
+KI eine dramaturgische Funktion, etwa _Ankunft_, _Beobachtung_, _Kontakt_,
+_Hindernis_ oder _Konflikt_. So bleibt das Pacing nachvollziehbar.
+`DelayConflict(n)` setzt ein Mindestlimit, ab welcher Szenennummer ein größerer
+Kampf stattfinden darf.
+Macroaufrufe können ebenfalls in HTML-Kommentare gesetzt werden,
+um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
 {% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, pressure, total=12) -%}
+{% macro StartScene(loc, target, pressure, total=12, role="") -%}
 {{ hud_tag() }}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
 **Kamera:** {{ loc }}
 **Target:** {{ target }}
 **Pressure:** {{ pressure }}
+{% if role %}**Role:** {{ role }}{% endif %}
 
 ---
 {%- endmacro %}
@@ -291,7 +313,9 @@ Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
 if last_player_epoch == requested_epoch and abs(Δt) < 6h:
     shift_epoch(+6h)
 ```
-Verhindert Selbstkollisionen durch einen Sprungversatz.
+Sorgt in der Regel für einen Sprungversatz von mindestens 6 h.
+Ein Treffen mit dem eigenen Team ist strikt zu vermeiden.
+Für dramatische Momente kann der Versatz abweichen, solange eine Begegnung ausgeschlossen bleibt.
 
 ### Mission Resolution
 
