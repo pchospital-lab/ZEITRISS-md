@@ -500,18 +500,18 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 
 | Name | Effekt / Dauer | Zeiteinheit |
 | ---- | -------------- | ----------- |
-| Stim-Reg Cap-Injector | +2 GES für 1 Szene, danach –1 TEMP | Szene |
-<!-- ausruestung-cyberware.md L274 -->
-| Burst-Slot | Temporärer SYS-Punkt für 1 Szene | Szene |
-<!-- kp-kraefte-psi.md L478-L481 -->
-| Adrenalinschub | +2 STR/GES 1 Szene; 1× pro Mission | Mission |
-<!-- psi-talente.md L201-L205 -->
-| Notfall-Stimulanz | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
-<!-- charaktererschaffung.md L407-L409 -->
-| PP-Regeneration | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
-<!-- kp-kraefte-psi.md L575-L576 -->
-| Heat sink | Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
-<!-- kp-kraefte-psi.md L608-L615 -->
+| [Stim-Reg Cap-Injector][stim-reg] | +2 GES für 1 Szene, danach –1 TEMP | Szene |
+| [Burst-Slot][burst-slot] | Temporärer SYS-Punkt für 1 Szene | Szene |
+| [Adrenalinschub][adrenalinschub] | +2 STR/GES 1 Szene; 1× pro Mission | Mission |
+| [Notfall-Stimulanz][notfall-stimulanz] | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
+| [PP-Regeneration][psi-pp-regeneration] | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
+| [Heat sink][psi-heat-track] | Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
+[stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
+[burst-slot]: systems/kp-kraefte-psi.md#burst-slot
+[adrenalinschub]: characters/psi-talente.md#adrenalinschub
+[notfall-stimulanz]: characters/charaktererschaffung.md#notfall-stimulanz
+[psi-pp-regeneration]: systems/kp-kraefte-psi.md#psi-pp-regeneration
+[psi-heat-track]: systems/kp-kraefte-psi.md#psi-heat-track
 
 
 ## Playtest Feedback
