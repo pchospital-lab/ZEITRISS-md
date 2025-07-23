@@ -22,7 +22,7 @@ tags: [systems]
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
 - PP-Pool = Temporale Affinität (TA). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
-- Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Paradox-Check.
+- Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 
@@ -160,7 +160,7 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cove
   Gewissheit über die Zukunft geben – die _Zeitlinie_ ist im Fluss
   und liefert nur **eine Möglichkeit**.
   Ändern die Spieler ihr Verhalten basierend auf dieser Eingebung, kann dies die Zukunft schon
-  verändern. Hier lauert auch das Paradox-Risiko (siehe weiter unten): Wer
+  verändern. Hier lauert auch das Resonanzrisiko (siehe weiter unten): Wer
   durch Präkognition Ereignisse verhindert, die „eigentlich“ passieren sollten, erzeugt womöglich
   einen Zeitzweig. Daher behandelt das ITI solche Fähigkeiten mit Vorsicht. Präkognition im Spiel lebt
   von Andeutung: Die SL kann einen kurzen Ausblick schildern, der Unheil ankündigt, ohne gleich alles
@@ -194,9 +194,9 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cove
 #### Phase-Strike {#phase-strike}
 
 Kurze Phasenverschiebung lässt eine Waffe durch feste Materie greifen. Ein
-Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**. Der
-Effekt kostet **2 SYS** und birgt bei einem Fehlschlag ein Paradox-Risiko von
-**+1**.
+Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**.
+Der Effekt kostet **2 SYS**. Misslingt der Einsatz, verliert das Team **1 Px**.
+Bei gravierenden Eingriffen springt der Index ohne ClusterCreate auf **0**.
 
 ### Reichweitenzonen {#reichweitenzonen}
 
@@ -237,7 +237,7 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   passend und ausgewogen eingesetzt werden.
   Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
   Ein zweiter Einsatz in derselben Szene ist nur mit sofortiger **Erschöpfung**
-  (–1 auf alle Würfe bis Szenenende) und einem Paradoxon-Verlust um **−1** möglich.
+  (–1 auf alle Würfe bis Szenenende) und einem Resonanzverlust um **−1** möglich.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
@@ -473,7 +473,7 @@ ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setz
 > Starke neuronale Impulse erzeugen sogenanntes *Quantum-Bleed*. Dieses Phänomen
 > kann den Zeitstrom destabilisieren und verstößt gegen internationale
 > Sicherheitsabkommen. Daher sind offizielle Psi-Module gedrosselt; wer sie
-> überlädt, riskiert Paradox-Schäden und juristische Konsequenzen.
+> überlädt, riskiert Resonanzschäden und juristische Konsequenzen.
 
 **Burst-Slot:** Einmal pro Szene erhält ein Psioniker einen temporären
 SYS-Punkt, um eine Kraft spontan zu zünden. Dieser Bonus verfällt sofort
@@ -504,7 +504,7 @@ Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzäh
 notieren könnte).
 
 **Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
-den Zeitstrom stören. Ein Paradox-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
+den Zeitstrom stören. Ein Resonanz-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
 insbesondere bei Chronokinese. Er wird fällig, wenn der Ablauf der Geschichte massiv
 verändert wird. Über `modus paradox off` lässt sich die Paradox-Regel komplett
 deaktivieren; wird sie verwendet, funktioniert sie identisch für Pro- und Contra-Agenten.
