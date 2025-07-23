@@ -16,6 +16,7 @@ Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung ei
 - ClusterCreate-Nebenwirkungen
 - Kreaturen- & Gestalten-Generator
 - Para-Creature-Generator: Urban Myth Edition
+- Boss-Generator: Mini-, Arc- und Rift-Bosse
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
 - Mood-Snippet-Generator
@@ -695,6 +696,88 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 2. **Paradox-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradoxon-Index interagiert.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
 4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
+
+## Boss-Generator: Mini-, Arc- und Rift-Bosse {#boss-generator}
+
+Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Mission 5 auf,
+Arc-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
+
+### boss_template
+
+```yaml
+boss_template:
+  id: string
+  type: miniboss | boss
+  arc_type: core | rift
+  epoch: "‑52 v.Chr."
+  archetype: "Zenturio"
+  faction: "Lokale Prätorianergarde"
+  time_faction: "Rotes Oktagon"
+  sg: 9-15
+  hp: 12-24
+  gear:
+    melee: null
+    ranged: null
+    armor: null
+    special: null
+  abilities:
+    - name: string
+      trigger: string
+      effect: string
+  chrono_trick: null
+  loot:
+    cu: 40
+    relic: null
+```
+
+### core_mini_pool
+
+```yaml
+‑52   : ["Zenturio", "Gallischer Tribun"]
+1410  : ["Deutsch Ordens-Ritter", "Litauischer Hetman"]
+1880  : ["Pinkerton-Scharfschütze", "Meiji-Shinsengumi"]
+1977  : ["KGB-Spionschmuggler", "RAF-Zellenchef"]
+2025  : ["GSG9-Truppführer", "Triaden-Taktiker"]
+```
+
+### core_arc_boss_pool
+
+```yaml
+Rotes_Oktagon:
+  name: "Magister Aurelio"
+  sg: 13
+  hp: 20
+  chrono: "Micro-Jump (1×/Szene)"
+Schattenkonzerne:
+  name: "NEXA-Phaeton Direktorin"
+  sg: 14
+  hp: 22
+  chrono: "Echo-Shield (1 Treffer)"
+Alter_Orden:
+  name: "Prior der Gläsernen Loge"
+  sg: 12
+  hp: 18
+  chrono: null
+```
+
+### rift_boss_pool
+
+Rift-Bosse nutzen den Para-Creature-Generator und die Regeln aus `massenkonflikte.md`.
+
+### Quick-Macro
+
+```pseudo
+function generate_boss(arc_type, mission_number, epoch):
+    if arc_type == "core":
+        if mission_number % 10 == 0:
+            return sample(core_arc_boss_pool)
+        elif mission_number % 5 == 0:
+            return sample(core_mini_pool[epoch])
+    else:
+        if mission_number % 10 == 0:
+            return sample(rift_boss_pool)
+    return null
+```
 
 ## Artefakt-Generator: Objekte mit Geschichte {#artefakt-generator}
 

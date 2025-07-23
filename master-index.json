@@ -88,6 +88,12 @@
       "href": "#artefakt-seed-starter-1w14"
     },
     {
+      "slug": "boss-generator",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#boss-generator",
+      "title": "Boss-Generator",
+      "category": "Gameplay"
+    },
+    {
       "slug": "rift-catalogue",
       "path": "gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue",
       "title": "Rift Seed Catalogue",
@@ -234,6 +240,11 @@
       "id": "paracreature_pool",
       "path": "gameplay/kreative-generatoren-begegnungen.md#para-creature-generator",
       "title": "Para-Creature-Generator: Urban Myth Edition"
+    },
+    {
+      "id": "boss_pool",
+      "path": "gameplay/kreative-generatoren-begegnungen.md#boss-generator",
+      "title": "Boss-Generator"
     },
     {
       "id": "puzzle_pool",
