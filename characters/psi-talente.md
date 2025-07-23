@@ -116,12 +116,12 @@ nachrechnen zu müssen.
 * Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
 * Keine zusätzlichen Kosten – gleich wie beim Einzelbuff.
 
-> *Beispiel:* TA 5 bufft bis zu fünf Teammitglieder.
+> *Beispiel:* TEMP 5 bufft bis zu fünf Teammitglieder.
 
 ### Resonanz {#resonanz}
 
 _Resonanz_ beschreibt das feine Gespür eines Psi‑Agents für temporale Nachbilder.
-Hohe Werte in **TA** deuten auf eine starke Resonanz hin und erleichtern das
+Hohe Werte in **TEMP** deuten auf eine starke Resonanz hin und erleichtern das
 Wahrnehmen subtiler Anomalien.
 
 ## Talente & Spezialisierungen

@@ -115,7 +115,7 @@ sind der Übersicht halber aufgeführt.
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md#rift-kreaturen-stat-blocks) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md#power-punkte-ta) | Details zu Psi-Kräften |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md#power-punkte-temp) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
@@ -341,7 +341,7 @@ schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenbli
 um als allherrschende Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
 Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie enden wird.
 
-Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
+Paradoxien schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
 Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
 *Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
 geschehen musste.*

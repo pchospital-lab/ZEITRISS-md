@@ -21,7 +21,7 @@ ZEITRISS-Spiel noch vielseitiger und filmischer machen. Von **Zuständen** wie V
 Erschöpfung über **Heilung & Erholung** in verschiedenen Stilen bis hin zu alternativen
 **Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradox-Belastung** und **mentale
 Auswirkungen** – all diese Elemente könnt Ihr modular einsetzen. Abschließend integrieren wir ein
-vollständig spielbares, filmisch-immersives **HUD-Interface**, das der KI-Spielleitung (GPT)
+vollständig spielbares, filmisch-immersives **HUD-Overlay**, das der KI-Spielleitung (GPT)
 erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuzeigen. Alle
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
@@ -137,7 +137,7 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
 
 - **Trauma & mentale Nachwirkungen:** Nicht jede Wunde ist sichtbar – die Psyche der Charaktere kann
   durch Erlebnisse **Schaden nehmen**. Nach besonders **schockierenden Ereignissen** (etwa einer
-  knapp überlebten kritischen Verletzung, Begegnungen mit grauenhaften Paradoxa oder dem Verlust
+  knapp überlebten kritischen Verletzung, Begegnungen mit grauenhaften Paradoxien oder dem Verlust
   eines Teammitglieds) kann ein Charakter ein **mentales Trauma** entwickeln. _Effekt:_ Das kann als
   anhaltender **Malus („Traumatisiert“) oder Nachteil** dargestellt werden – z.B. Schlafstörungen,
   Flashbacks oder Angst, die in bestimmten Situationen Abzüge verursacht. Im Spiel könnte ein
@@ -341,7 +341,7 @@ einen Toggle `/stress open|hidden`.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
   - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
     Er steigt situativ während einer Mission. Wenig **Temporale Affinität** füllt ihn nur langsam,
-    hohe TA beschleunigt den Aufbau. Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
+    hohe TEMP beschleunigt den Aufbau. Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
 setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst nach dem Core-Arc. Das **HUD** visualisiert
     die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
@@ -516,10 +516,10 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   ließe sich das als **Ausdauerbalken** darstellen. Dieses Modul passt, wenn eure Gruppe etwas
   **Survival-Feeling oder taktische Tiefe** möchte. In einem filmischeren Spiel hingegen ignoriert
   man Ausdauer bewusst, um Helden nicht künstlich zu bremsen.
-- **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität (TA)_
-  gebunden; dein Pool entspricht also dem TA-Wert. Starke/mittlere/geringe
+- **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität (TEMP)_
+  gebunden; dein Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
-  Kampfrunde kannst du pro **3 TA** 1 PP regenerieren, falls eine
+  Kampfrunde kannst du pro **3 TEMP** 1 PP regenerieren, falls eine
   Willenskraftprobe (CHA) gegen doppelten Heat gelingt; nach jedem Kampf wird
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
@@ -528,7 +528,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 
 | Trigger | Anzeige |
 |---------|---------|
-| PP ≤ TA ÷ 4 | `[PP LOW]` |
+| PP ≤ TEMP ÷ 4 | `[PP LOW]` |
 | PP 0 | `[PP EMPTY]` |
 | Burn aktiv | `[BURN][Px -X]` |
 - **Modulare Ressourcen allgemein:** Natürlich könnt ihr auch andere Ressourcen tracken, z.B.
@@ -614,7 +614,7 @@ Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, 
 brechen. Das HUD wird über den **ITI-Codex** gesteuert und kann vom Charakter _nach Bedarf
 aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
 werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
-Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
+Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradox-Effekte
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
 Bei gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
 **Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.

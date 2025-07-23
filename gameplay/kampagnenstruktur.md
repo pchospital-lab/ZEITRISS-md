@@ -1564,7 +1564,7 @@ verwandelt sich von einer simplen Basis zu einem lebendigen Mittelpunkt, an dem 
 Erinnerungen der Gruppe sichtbar werden. **Beziehungsnetzwerke** zu NSCs, Fraktionen und innerhalb
 des Teams verweben persönliche Geschichten mit der großen Zeitchronik, sodass jeder Sieg und jede
 Niederlage auf mehreren Ebenen Bedeutung trägt. Langfristige **Entwicklungen** wie Ruf,
-Einflussgebiete und Paradox-Mechaniken stellen sicher, dass die Taten der Agenten konsequenzenreich
+Einflussgebiete und die Paradoxmechanik stellen sicher, dass die Taten der Agenten konsequenzenreich
 nachhallen. Und schließlich füllen **Erzählpausen im HQ** die Lücken zwischen den Einsätzen mit
 Leben, Humor und Herz.
 
