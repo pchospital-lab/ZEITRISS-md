@@ -215,6 +215,16 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
    zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
    erhöht sich der Index grundsätzlich nur bei jedem zweiten Verstoß um **+1**.
 
+#### Boss-Rhythmus im Core-Arc
+
+| Mission | Gegnertyp |
+| ------- | --------------------------------------------- |
+| 5       | Mini-Boss der aktuellen Epoche |
+| 10      | Arc-Boss einer Zeitreise-Fraktion |
+| Rift Sz. 10 | Rift-Boss aus dem Para-Pool |
+
+Mini-Bosse nutzen keine Zeittricks. Arc-Bosse dürfen genau einen kurzen Chrono-Effekt einbringen.
+
 #### Paradox-Subsystem
 
 Weitere Details stehen im

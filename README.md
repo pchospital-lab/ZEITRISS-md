@@ -21,6 +21,7 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index.** Fortschrittsanzeige: Stufe 5 verrät 1–2 neue Pararifts.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
+> 6. **Boss-Generator.** Mini- und Arc-Bosse tauchen im 5/10-Rhythmus auf.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
@@ -113,6 +114,7 @@ sind der Übersicht halber aufgeführt.
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
 | [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-seed-starter-1w14) | NPC & Encounter-Gen |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
+| [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md#rift-kreaturen-stat-blocks) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md#power-punkte-temp) | Details zu Psi-Kräften |
