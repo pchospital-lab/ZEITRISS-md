@@ -231,6 +231,16 @@ eingebettet, z. B. `<!--{{ StartMission() }}-->`.
 {% set campaign.scene = 1 %}
 {% endmacro %}
 
+Beispielaufruf im Kampagnenstart:
+
+```pseudo
+if boss := generate_boss("core", campaign.episode, target_epoch):
+    codex.inject(boss.briefing_block)
+```
+
+In Rift-Ops ruft StartScene bei Szene 10 ebenfalls `generate_boss("rift", ...)` auf
+und warnt das Team im HUD.
+
 <!-- Macro: DelayConflict -->
 {% macro DelayConflict(n) -%}
 {% set campaign.delayConflict = n %}
@@ -302,6 +312,24 @@ Beispielaufrufe:
 !itemforge core 100cu 1969    # T1–T2, Skin passend zu 1969
 !itemforge rift 2120          # T1–T3 inkl. heavy
 ```
+
+### generate_boss() Macro
+Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
+Boss-Generators.
+<!-- Macro: generate_boss -->
+{% macro generate_boss(type, mission_number, epoch) %}
+{% if type == "core" %}
+    {% if mission_number % 10 == 0 %}
+        {{ sample('core_arc_boss_pool') }}
+    {% elif mission_number % 5 == 0 %}
+        {{ sample('core_mini_pool'[epoch]) }}
+    {% else %}NONE{% endif %}
+{% else %}
+    {% if mission_number % 10 == 0 %}
+        {{ sample('rift_boss_pool') }}
+    {% else %}NONE{% endif %}
+{% endif %}
+{% endmacro %}
 
 ### ParadoxPing() Macro
 Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
