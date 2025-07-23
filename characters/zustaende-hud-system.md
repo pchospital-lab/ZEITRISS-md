@@ -346,8 +346,8 @@ setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst na
     die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
-  beschreiben: _„Euer HUD warnt: Paradoxon-Index 3 – Zeitstrom destabilisiert sich, in der Luft liegt
-  ein Knistern von Unstimmigkeit.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
+  beschreiben: _„Euer HUD meldet: Paradoxon-Index 3 – Resonanzpegel steigt, erste Risskoordinaten
+  rücken näher.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
   aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
   Fehler ausbügeln), bevor Level 5 erreicht wird.
   _Auswirkungen:_ Steigende Werte erzeugen kleine positive Resonanzeffekte.
@@ -434,7 +434,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 > Artefakt-Raster beginnen sich zu synchronisieren.
 
 📡 _Codex:_
-> `[WARNUNG: Zugriffskorridor in Vorbereitung – ClusterCreate nahe]`
+> `[INFO: Zugriffskorridor im Aufbau – ClusterCreate bald]`
 > `[Rift-Koordinatenpotenzial: hoch]`
 
 #### PARADOXON 5/5 – CLUSTERCREATE
@@ -697,7 +697,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 #### HUD-Snippets (Kurzmeldungen)
 
 ```text
-[Paradox 3/5]  ⏳ Instabilität nimmt zu.
+[Paradox 3/5]  ⏳ Resonanz steigt.
 [Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```

@@ -482,7 +482,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | Missionstyp           | Interventionsform |
 | Zielperson            | Zielperson (gleichbleibend) |
 | Verstärkung           | Automatisch aktivierte Einsatzkräfte |
-| Paradoxon             | Temporale Resonanzanzeige für Rifts |
+| Paradoxon             | Temporale Resonanzanzeige für Rifts – steigt nur bei Erfolgen |
 | Codexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
 
 ### Zeiteinheiten

@@ -801,7 +801,7 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
 
 > Bei Paradoxon-Index 5 legt das HQ trotzdem 1–2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
 3. **Notfall-Rückholung**
-   - Gerät eine Mission in totale Eskalation (TPK, kritischer Paradoxon-Alarm etc.), zieht ein
+   - Gerät eine Mission in totale Eskalation (TPK, kritische Resonanzwarnung etc.), zieht ein
      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
      Wahlmöglichkeiten wie oben.
 

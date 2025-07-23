@@ -38,13 +38,13 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   gewürfelten 6 einen zusätzlichen Wurf gewährt – für unerwartete Spitzenresultate. Außerdem eine
   **optionale** Regelvariante, sämtliche Proben mit W10 statt W6 durchzuführen, um eine feinere
   Granularität und ein breiteres Erfolgsspektrum zu ermöglichen.
-- **HUD-Management & Alerts:** Ein ereignisgesteuertes Warnsystem für das HUD der Chrononauten, das
-  bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder sobald _Paradox \> 0_)
-  automatisch Alarm schlägt. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
-  Situationen nur wirklich wichtige Daten eingeblendet werden und die Agenten nicht von
+- **HUD-Management & Alerts:** Ein ereignisgesteuertes Hinweis-System für das HUD der Chrononauten, das
+  bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder wenn der Paradoxon-Index steigt)
+  automatisch Meldungen einblendet. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
+  Situationen nur wirklich wichtige Daten angezeigt werden und die Agenten nicht von
   Informationsflut überwältigt werden.
-  In jeder Kampagne kann die Paradox-Warnung über `modus paradox off`
-  deaktiviert werden. Wer sie aktiviert,
+  In jeder Kampagne kann der Resonanzhinweis über `modus paradox off`
+  deaktiviert werden. Wer ihn aktiviert,
   nutzt das System identisch weiter.
 - **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
   Ab **11** ersetzt ein W10 den W6 (Exploding 10). Erst bei **14** kommt ein Heldenwürfel
@@ -199,7 +199,7 @@ Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgr�
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
 In ZEITRISS verschmelzen HUD-Overlay und Codex.
-Das HUD zeigt Warnungen bei <25 % Vitalstatus und jedem Paradoxon-Index >0.
+Das HUD blendet Hinweise bei <25 % Vitalstatus ein und sobald der Paradoxon-Index wächst.
 Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
 Weitere Details stehen im Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
@@ -668,7 +668,9 @@ für mögliche Folgeszenarien.
 - **Zeit verlangsamen (2 SYS)** – gewährt eine zusätzliche Aktion oder einen
   deutlichen Bonus auf eine Reaktion; kostet viel Konzentration.
 - **Temporaler Waffenimpuls (3 SYS)** – Angriff nach kurzem Zeitstillstand
-  verursacht erhöhten Schaden und birgt Paradox-Gefahr.
+  verursacht erhöhten Schaden. Misslingt der Einsatz, verliert das Team
+  **1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
+  auf **0**.
 - **Zeitsinn (passiv)** – spürt Anomalien und Zeitreisende im Umfeld.
 
 **Massenkonflikt-Rundendurchlauf**
