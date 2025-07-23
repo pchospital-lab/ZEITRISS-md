@@ -198,6 +198,7 @@ _P_ markiert passive, _A_ aktive Talente.
   Vorbereitung (Kleidung, Akzent, Make-up) kann der Charakter nahezu jede **Identität glaubhaft
   annehmen**. Gegenüber gewöhnlichen Wachen/Zivilisten benötigt er keine Probe, um nicht aufzufallen;
   nur geübte Beobachter könnten ihn durchschauen (und selbst da +2 SG).
+<a id="adrenalinschub"></a>
 - **Adrenalinschub** (A): Kurzfristige Mobilisierung letzter Reserven. _Einmal pro Mission_ kann der
   Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
   1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende

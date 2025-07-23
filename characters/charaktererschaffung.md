@@ -493,6 +493,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   reduziert: leichte Wunden ignoriert er ganz, mittlere nur –1 etc.). Damit steckt er mehr ein und
   bleibt handlungsfähig.
 - **Implantate:** Keine permanenten Implantate – Nikolai lehnt Cyberware weitgehend ab. Allerdings
+<a id="notfall-stimulanz"></a>
   trägt er ein subkutanes _Notfall-Stimulanz-Modul_ (automatische Adrenalinausschüttung bei kritischen
   Verletzungen). **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde
   kampffähig statt sofort auszufallen; danach kollabiert er. Kosten: 1 SYS. (Dieses Modul hat ihm

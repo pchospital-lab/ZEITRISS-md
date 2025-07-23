@@ -475,6 +475,7 @@ ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setz
 > Sicherheitsabkommen. Daher sind offizielle Psi-Module gedrosselt; wer sie
 > überlädt, riskiert Resonanzschäden und juristische Konsequenzen.
 
+<a id="burst-slot"></a>
 **Burst-Slot:** Einmal pro Szene erhält ein Psioniker einen temporären
 SYS-Punkt, um eine Kraft spontan zu zünden. Dieser Bonus verfällt sofort
 nach der Aktion und ermöglicht es, Effekte einzusetzen, ohne zuvor
@@ -566,7 +567,7 @@ Verantwortung verbunden.
 | Mittel | 2 | 2 |
 | Gering | 1 | 1 |
 
-#### Regeneration
+#### Regeneration {#psi-pp-regeneration}
 
 * **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**, sofern eine
   Willenskraftprobe (CHA) gegen den doppelten Heat-Level gelingt.
@@ -598,9 +599,9 @@ Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 \* Annahme: Kurze Erholung nach jedem Kampf.
 
 Ergebnis: **Höhere TEMP gibt linear mehr Juice**, aber Cooldowns deckeln
-Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr.
+Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr (−Px oder Reset je nach Ausreizung).
 
-### Psi-Heat-Track
+### Psi-Heat-Track {#psi-heat-track}
 
 * Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
 * Heat > 4 → −1 Initiative.
