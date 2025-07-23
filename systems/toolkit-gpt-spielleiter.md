@@ -218,15 +218,12 @@ Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 
-```md
 <!-- Macro: StartMission -->
 {% macro StartMission() %}
 {% set campaign.scene = 1 %}
 {% endmacro %}
-```
 
 ### StartScene / EndScene Macros
-```md
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
 {% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
@@ -261,18 +258,15 @@ Setzt `campaign.scene` zu Beginn einer neuen Mission zurück.
 **Target:** {{ target }}
 **Pressure:** {{ pressure }}
 {%- endmacro %}
-```
 Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
 
 ### roll_antagonist() Macro
 Wählt zufällig eine externe Fraktion aus `kampagnenuebersicht.md`, falls ein Seed keinen Gegner vorgibt.
-```md
 <!-- Macro: roll_antagonist -->
 {% macro roll_antagonist() %}
 {% set pool = ["Projekt Phoenix", "Die Grauen", "Der Alte Orden", "Schattenkonzerne"] %}
 {{ random.choice(pool) }}
 {% endmacro %}
-```
 
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
