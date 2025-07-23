@@ -84,6 +84,8 @@ Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erlä
 Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
 Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
 Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
+- Rufe `StartMission()` direkt nach dem Laden auf. Dadurch setzt Codex `campaign.scene`
+  (und optional `campaign.episode`) zurück, bevor die Gruppe den nächsten Auftrag beginnt.
 
 ### Short Save & Deep Save {#short-deep}
 Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest.

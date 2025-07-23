@@ -264,6 +264,15 @@ if paradox_level >= threshold:
 | **Mission (Core-Op)** | 60–75 min | **12 Szenen** | „Netflix-Folge“ – Cliffhanger, Level-Up |
 | **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
+### Cinematic Arc {#cinematic-arc}
+
+Missionen entfalten ihre Wirkung erst durch einen ruhigen Einstieg. Plane zu Beginn
+mindestens zwei Szenen für Ankunft, Beobachtung oder Planung ein, bevor der erste
+große Konflikt losbricht. GPT darf die Länge flexibel erweitern und muss die Handlung
+nicht übereilt vorantreiben. Mehr Szenen bedeuten mehr Raum für Spannung.
+Core-Ops sollen wie Folgen einer Streaming-Serie wirken, Rift-Ops eher wie einzelne
+Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
+
 ### Staffel-Skeleton "Glanzlicht"
 
 | Ep | Phase | Arbeitstitel             | Kernmechanik                                     |
