@@ -17,6 +17,7 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Siehe `systems/runtime-stub-routing-layer.md` für einen optionalen Stub für eine eigene Runtime.
   Das Spiel funktioniert auch ohne diese Vorlage.
 - Optionaler Check: Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
+- Führe vor jedem PR die Tests aus `systems/runtime-stub-routing-layer.md` aus.
 
 Vielen Dank für deine Mithilfe!
 

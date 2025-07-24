@@ -317,7 +317,8 @@ E --> A
 ```
 
 Nach jeder Mission hält das System in einem kurzen **Nullzeit-Menü** an.
-Dort legt die Runde fest, wie ausführlich die HQ-Phase ablaufen soll.
+Dort entscheidet die Runde stets, wie ausführlich die HQ-Phase sein soll.
+Die Optionen *Rest*, *Research*, *Shop* und *Briefing* stehen immer bereit.
 Anschließend vergibt die SL Belohnungen und Level-Ups, bevor der
 folgende Einsatz startet. Zur Wahl stehen drei Wege:
 
@@ -867,6 +868,8 @@ verbesserte Moral der dortigen Crew, und lasst neue spielerische Optionen entste
 
 Einige höhere Ausbaustufen verlangen darüber hinaus einen entsprechenden **Rufwert** bei der gewählten Fraktion.
 In der Regel öffnen sich sensible Bereiche des Komplexes erst ab etwa **Ruf +2**.
+Der Ausrüstungsshop folgt demselben Prinzip: **Ruf 1** gewährt Tier‑1‑Lizenzen,
+**Ruf 2** schaltet Tier 2 frei usw., sobald die Kosten beglichen sind.
 Wechselt eine Gruppe innerhalb ihrer Ausrichtung die Fraktion, bleiben freigeschaltete Stufen erhalten.
 Auch angesammelter Ruf geht nicht verloren.
 

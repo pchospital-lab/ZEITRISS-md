@@ -67,6 +67,8 @@ von **Beute** aus verschiedenen Zeitaltern. Wann immer ein Einsatz abgeschlossen
 ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie variiert dabei nach
 mehreren Faktoren, zum Beispiel:
 _Budget-Hinweis:_ Standardmissionen rechnen mit **10 × Spielerlevel CU**. Die SL kann den Wert anpassen.
+Empfohlen wird eine dynamische Formel, die den Prämienwert an die tatsächlich gespielten Szenen koppelt:
+`Belohnung = Basiswert × (abgeschlossene Szenen / 12)`.
 
 - **Erfüllung der Missionsziele:** Wird das Hauptziel einer Mission erreicht, erhält jeder
   beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die zum
