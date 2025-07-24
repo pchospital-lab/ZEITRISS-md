@@ -94,6 +94,7 @@ In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich
 additive Modell lautet:
 
 `Endwert = Würfel + ⌊Attribut / 2⌋ + Talent + Gear`.
+Talentboni sind nach dem Attributsbonus auf **+5** begrenzt.
 
 W6 explodiert bei 6, W10 bei 10.
 Ein Heldenwürfel (ab 14) gewährt einen einmaligen Reroll.
@@ -521,9 +522,9 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | Stufe | Effekt                     |
 | ----- | -------------------------- |
 | 0–1   | Stabil                     |
-| 2     | Funk-Schwankung            |
-| 3     | Leuchtende Staubfäden      |
-| 4     | Kurz-Nachbild (1 s Nachzieher) |
+| 2     | Resonanzimpuls (−1 Stress) |
+| 3     | Zeitflimmern (Team heilt 1 HP) |
+| 4     | Tempowelle (+2 Initiative auf nächste Aktion) |
 | 5     | ClusterCreate() im HQ      |
 
 Der Index steigt vor allem, wenn ihr Missionen voranbringt oder Anomalien stabilisiert.

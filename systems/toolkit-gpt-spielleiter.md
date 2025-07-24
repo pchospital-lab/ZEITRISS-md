@@ -331,6 +331,32 @@ Boss-Generators.
 {% endif %}
 {% endmacro %}
 
+<!-- Macro: scene_budget_enforcer -->
+{% macro scene_budget_enforcer(total) -%}
+{% if campaign.scene > total %}
+[WARN] Scene {{ campaign.scene }}/{{ total }} overrun
+{% endif %}
+{%- endmacro %}
+
+<!-- Macro: physics_filter -->
+{% macro physics_filter(env_tags) -%}
+{% set filtered = [] %}
+{% for t in env_tags %}
+{% if t not in ["deepwater","vacuum"] %}{% do filtered.append(t) %}{% endif %}
+{% endfor %}
+{{ filtered }}
+{%- endmacro %}
+
+<!-- Macro: option_resolve -->
+{% macro option_resolve(risk, reward) -%}
+{{ hud_tag() }} Risk {{ risk }} vs Reward {{ reward }}
+{% if risk > reward %}Paradox +1{% endif %}
+{%- endmacro %}
+
+<!-- Macro: output_sanitizer -->
+{% macro output_sanitizer(text) -%}
+{{ text.replace('<!--','').replace('-->','') }}
+{%- endmacro %}
 ### ParadoxPing() Macro
 Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
