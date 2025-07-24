@@ -339,6 +339,7 @@ einen Toggle `/stress open|hidden`.
   Stresslevels gelingt.
   Eine kurze Meditation über zwei Runden reduziert **3 Punkte**.
   Stress bleibt nach dem Kampf bestehen und kann nur in Ruhe oder im HQ abgebaut werden.
+- **Stress als Ressource:** 5 Punkte erlauben einen Reroll.
   - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
     Er steigt situativ während einer Mission. Wenig **Temporale Affinität** füllt ihn nur langsam,
     hohe TEMP beschleunigt den Aufbau. Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und

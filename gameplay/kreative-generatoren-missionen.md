@@ -76,6 +76,29 @@ Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration und Debrief.
 Rechnet mit 10–14 Szenen, je nach Einsatzart.
 Die Gegenseite agiert mit greifbaren Agenten oder Söldnern.
 Bonusziele wie Festnahmen oder gesicherte Datenträger bringen zusätzliche CU oder Ruf.
+### 14-Step Mission Template
+| # | Phase | Zweck |
+|---|-------|------|
+| 1 | Briefing | Auftrag erhalten |
+| 2 | Anreise | Sprung oder Reise |
+| 3 | Auftakt | Lage sondieren |
+| 4 | Infiltration | Zugang schaffen |
+| 5 | Kontakt | Info beschaffen |
+| 6 | Vorbereitung | Ausrüstung prüfen |
+| 7 | Konflikt I | erster Gegnerkontakt |
+| 8 | Intel Twist | unerwartete Wendung |
+| 9 | Konflikt II | Haupthindernis |
+|10 | Sicherung | Zielobjekt greifen |
+|11 | Flucht | Exfiltration beginnen |
+|12 | Verfolgung | Gegner setzt nach |
+|13 | Abschluss | Rücksprung |
+|14 | Debrief | Belohnung auszahlen |
+### Mission Economy
+| Ergebnis | CU-Basis |
+|----------|---------|
+| Teil-Erfolg | 300 |
+| Erfolg | 500 |
+| Erfolg + Bonus | 600 |
 
 ## Automatischer Mission Seed
 
