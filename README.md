@@ -380,9 +380,9 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter.
 
-In neuen Chats wirken die Anweisungen oft erst nach 1–2 Nachrichten vollständig.
-
-Vor dem ersten Befehl blendet GPT kurz `StoreCompliance()` ein.
+Vor dem ersten Befehl blendet GPT kurz `StoreCompliance()` ein
+und zeigt anschließend das Startbanner
+`🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
