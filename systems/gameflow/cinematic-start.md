@@ -796,6 +796,9 @@ lernen so die Grundmechaniken.
 - **Schluss:** Nach Zerstörung der Apparatur springt der Wächter in letzter
   Sekunde. Der Arc endet mit Paradoxon-Reset und offener Spur.
 
+_Hinweis:_ Dieser Beispielarc besteht aus zwei Blöcken mit je fünf Missionen
+und bildet somit einen kompakten Zehnmissionsbogen.
+
 _Tonalität:_ Dieser Einstieg erklärt Clusterlogik und Rift-Phasen. Artefakte sind
 Belohnung, aber kein Pflichtschlüssel.
 
