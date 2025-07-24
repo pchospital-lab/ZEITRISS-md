@@ -379,6 +379,7 @@ Der Dispatcher erkennt die Befehle `Spiel starten (...)` und `Spiel laden`. Er r
 ```pseudo
 function startDispatcher(cmd):
     StoreCompliance()
+    ShowStartBanner()
     if cmd == "Spiel laden":
         LoadSave()
         recap()
