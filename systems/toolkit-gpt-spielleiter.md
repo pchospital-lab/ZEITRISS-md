@@ -92,6 +92,12 @@ sichern die Daten und verschwinden spurlos.
 - Alle Effekte werden sichtbar und logisch beschrieben.
 - Konzentration auf Systeme, Gegner, Fraktionen und Objekte.
 - Anomalien reagieren niemals direkt auf den Agenten.
+- Seeds mit `meta_introspection: true` werden ignoriert.
+
+```pseudo
+if mission_mode == "mission-fokus":
+    seeds = [s for s in seeds if not getattr(s, "meta_introspection", False)]
+```
 
 Dieser Modus ist ab sofort die Standardeinstellung in neuen Sitzungen.
 
@@ -262,6 +268,7 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
+{% set campaign.scene_total = total %}
 {{ hud_tag() }}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
 **Kamera:** {{ loc }}
@@ -275,6 +282,7 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
 {% set campaign.scene = campaign.scene + 1 -%}
+{% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 ██ Scene {{ campaign.scene-1 }} complete – progressing to Scene {{ campaign.scene }} ██
 {%- endmacro %}
 
@@ -299,6 +307,11 @@ Wählt zufällig eine externe Fraktion aus `kampagnenuebersicht.md`, falls ein S
 {% set pool = ["Projekt Phoenix", "Die Grauen", "Der Alte Orden", "Schattenkonzerne"] %}
 {{ random.choice(pool) }}
 {% endmacro %}
+
+```pseudo
+if not live_threat and campaign.scene % 3 == 0:
+    roll_antagonist()
+```
 
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
@@ -364,6 +377,9 @@ um HTML-Kommentare zu entfernen:
 text = render_scene()
 return output_sanitizer(text)
 ```
+Dieses Filtering entfernt auch versteckte Macro-Calls wie
+`<!--{{ StartScene(...) }}-->` oder
+`<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
 ### ParadoxPing() Macro
 Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
@@ -805,6 +821,8 @@ GPT erzeugt dazu zwei kurze NSC-Profile und ein Ereignis für den Raum.
 
 ### HQ-Phase Workflow
 
+Nach jeder Mission blendet das System ein kurzes **Nullzeit-Menü** ein.
+Dort wählt das Team: *Rest*, *Research*, *Shop* oder *Briefing*.
 1. Rückkehr in die Gatehall.
 2. `> go operations` zeigt Seed-Status und Paradoxon-Index.
 3. `> use seed-scanner` listet offene Rifts.

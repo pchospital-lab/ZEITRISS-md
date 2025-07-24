@@ -824,7 +824,8 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "d24": 22,
       "Seed": "Mittelalterliche Katakomben",
       "Hook": "Der falsche Teufel – Illusion enttarnen",
-      "hiddenCause": "Illusionsprojektor versteckt Forschungsbasis"
+      "hiddenCause": "Illusionsprojektor versteckt Forschungsbasis",
+      "meta_introspection": true
     },
     {
       "d24": 23,
@@ -1673,6 +1674,7 @@ thema: Beispiel-Rift
   pool: black_ops_pool
   title: "Dschinn‑Gerücht"
   pitch: "Nutze Holo‑Illusion, um Gerüchte über Wüstengeist zu schüren – Moralbruch."
+  meta_introspection: true
   timeslot: "+26 h"
 
 - arc_id: "Silk1280"
