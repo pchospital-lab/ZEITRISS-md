@@ -307,6 +307,7 @@ aufgeteilt in Schritte:
 4. **Flucht** (den Ort rechtzeitig verlassen, bevor alles explodiert oder der Alarm komplett
    ausgelöst wird – _Probe auf Athletik oder Fahrzeugsteuerung_, je nach Fluchtmittel).
 
+Bei `env_pressure = high` ist ein Tiefwasser-Breach ausgeschlossen; der Druck würde jede Einstiegshülle kollabieren.
 Für jeden Schritt würfeln die zuständigen Spieler eine passende Probe. **Jeder Erfolg** bringt das
 Team dem Ziel näher, **jeder Misserfolg** erzeugt eine **Komplikation**: Vielleicht bemerkt eine
 Wache Geräusche, vielleicht läuft ein Zeitlimit schneller ab, oder ein Alarm wird teilweise

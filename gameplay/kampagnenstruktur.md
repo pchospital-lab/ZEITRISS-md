@@ -87,6 +87,9 @@ episode:
 Eine Episode fasst rund zehn Missionen derselben Epoche
 mit insgesamt etwa 120 bis 140 Szenen zusammen.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
+Bei **Session 0** ruft Codex einmalig `arc_seed_make()` auf und speichert Start- und Endpunkte.
+Es erzeugt heimlich einen Zehnmissionsbogen.
+Erst nach Mission 10 offenbart Codex den vollen Zusammenhang.
 
 ### Fraktionsdynamik und -Konflikte
 
