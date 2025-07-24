@@ -51,8 +51,8 @@ if not character.psi:
   wenn eine Begegnung ausgeschlossen bleibt.
 - `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
   Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
-  Rufe `StartScene(loc, target, pressure, total=12, role="Ankunft")` bei
-  Core-Ops, `StartScene(loc, target, pressure, total=14, role="Ankunft")` bei
+  Rufe `StartScene(loc, target, pressure=None, total=12, role="Ankunft")` bei
+  Core-Ops, `StartScene(loc, target, pressure=None, total=14, role="Ankunft")` bei
   Rift-Ops, um die Gesamtzahl korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
   Eine Core-Operation sollte frühestens nach Szene 10 enden, eine
@@ -129,7 +129,7 @@ Diese Vorlagen halten jeden GPT-Output im ZEITRISS-Stil. Alle Beispiele enden mi
 
 > **Kamera:** Totale auf nächtliches Hafenbecken. Kräne schneiden als Silhouetten in den Nebel.
 > **Target:** Container 41 öffnen.
-> **Pressure:** Patrouille in 90 Sek.
+> **Pressure:** Patrouille streift in der Nähe.
 > **Decision:** Vorgehen?
 
 **Bauplan:**
@@ -180,7 +180,7 @@ Decision: <Was tun?>
 ### 6 | HUD-Overlay
 
 > **$SCAN 92 % – Bio-Signatur: Fremdfraktion$**
-> **Pressure:** Kontakt in 30 Sek.
+> **Pressure:** Kontakt rückt näher.
 > **Decision:** Verbarrikadieren oder ausweichen?
 
 ---
@@ -261,12 +261,12 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, pressure, total=12, role="") -%}
+{% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
 {{ hud_tag() }}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
 **Kamera:** {{ loc }}
 **Target:** {{ target }}
-**Pressure:** {{ pressure }}
+{% if pressure %}**Pressure:** {{ pressure }}{% endif %}
 {% if role %}**Role:** {{ role }}{% endif %}
 
 ---
@@ -350,13 +350,20 @@ Boss-Generators.
 <!-- Macro: option_resolve -->
 {% macro option_resolve(risk, reward) -%}
 {{ hud_tag() }} Risk {{ risk }} vs Reward {{ reward }}
-{% if risk > reward %}Paradox +1{% endif %}
+{% if risk < reward %}Paradoxon +1 – Stabilitätsfortschritt{% endif %}
 {%- endmacro %}
 
 <!-- Macro: output_sanitizer -->
 {% macro output_sanitizer(text) -%}
 {{ text.replace('<!--','').replace('-->','') }}
 {%- endmacro %}
+Nutze `output_sanitizer()` am Ende jeder Szenen-Generierung,
+um HTML-Kommentare zu entfernen:
+
+```pseudo
+text = render_scene()
+return output_sanitizer(text)
+```
 ### ParadoxPing() Macro
 Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
 Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
@@ -373,8 +380,21 @@ Für dramatische Momente kann der Versatz abweichen, solange eine Begegnung ausg
 
 ## Start Dispatcher {#start-dispatcher}
 
-Der Dispatcher erkennt die Befehle `Spiel starten (...)` und `Spiel laden`. Er ruft
-`StoreCompliance()` auf (Shop-Hinweis, maximal einmal pro Tag) und verzweigt anschließend in zwei Pfade:
+Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
+
+- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
+- **`Spiel starten (npc-team)`** – Temporäres Begleitteam durch GPT.
+- **`Spiel starten (gruppe)`** – Mehrere reale Spieler, eigene Saves oder neue Charaktere.
+- **`Spiel laden`** – Fortsetzung eines vorhandenen Spielstands.
+
+Vor dem ersten Befehl wird `StoreCompliance()` kurz eingeblendet, danach erscheint das Startbanner.
+
+```pseudo
+StoreCompliance()
+ShowStartBanner()
+```
+
+Anschließend verzweigt das Skript:
 
 ```pseudo
 function startDispatcher(cmd):
@@ -384,16 +404,24 @@ function startDispatcher(cmd):
         LoadSave()
         recap()
         EnableHUD()
+        ContinueMission()
     else:
-        BeginNewGame(cmd)
         EnableHUD()
-        ShowNullzeitMenu()
+        ShowNullzeitMenu()  # kurze HUD-Tour
+        CharacterCreation(cmd)
+        HQPhase()
+        BeginNewGame(cmd)
 ```
+Dies schafft einen kurzen Atemzug, bevor der eigentliche Seed gezogen wird.
 
 `BeginNewGame()` folgt dem Ablauf aus
 [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt
 [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
+
+`Spiel starten` führt zuerst die Charaktererschaffung aus, danach eine kurze HQ-Phase
+und startet dann per `BeginNewGame` in die Mission. `Spiel laden` liest den Save,
+zeigt einen Rückblick und setzt die laufende Mission fort.
 
 ### Mission Resolution
 
