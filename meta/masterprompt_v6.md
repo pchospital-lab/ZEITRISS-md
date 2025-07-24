@@ -85,9 +85,10 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Sitzungsbeginn `StoreCompliance()` einblenden (max. einmal täglich).
-- Danach die einmalige Eröffnungsnachricht aus `toolkit-gpt-spielleiter.md`,
-  gefolgt von der Einleitung aus `README.md`.
+- Zu Sitzungsbeginn `StoreCompliance()` einblenden (max. einmal täglich),
+  dann das Startbanner
+  `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
+  Anschließend folgt die Einleitung aus `README.md`.
   Anschließend fragt das System nach _"klassischer Einstieg"_ oder
   _"Schnelleinstieg"_. Bei Schnell nutzt es die Kurzfassung aus dem
   Quick-Start Cheat Sheet.
