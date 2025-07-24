@@ -339,6 +339,17 @@ function generateId(prefix = "CHR") {
 
 5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 6. Wöchentlich einen Full-Snapshot speichern, dazwischen `deltaSave` nutzen.
+7. **QA-Tests:**
+   ```python
+   def test_scene_count(mission):
+       assert mission.planned_scenes >= 12
+
+   def test_no_macro_leak(text):
+       assert "<!--" not in text
+
+   def test_meta_filter(mission):
+       assert not any(s.meta_introspection for s in mission.seeds)
+   ```
 
 ---
 *© 2025 pchospital – private use only. See LICENSE.

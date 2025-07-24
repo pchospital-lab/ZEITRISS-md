@@ -809,6 +809,10 @@ umfassende Privilegien.
 Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission erhaltet ihr vom ITI
 Höhere **Tier-Stufen** werden über kostenpflichtige **Lizenzen** freigeschaltet.
 Je teurer die Lizenz, desto hochwertiger die verfügbare Ausrüstung.
+Zusätzlich koppelt das ITI den Zugriff an euren **Ruf**:
+- **Ruf 1** erlaubt den Kauf von Tier‑1‑Lizenzen,
+- **Ruf 2** schaltet Tier 2 frei und so weiter.
+Lizenzen müssen dennoch erworben werden, sobald die passende Rufstufe erreicht ist.
 
 typischerweise eine Ressourcengutschrift – sei es in Form von **Credits (CU)** oder logistischen
 Unterstützung. Damit könnt ihr **neue Ausrüstung kaufen, Upgrades vornehmen oder Cyberware

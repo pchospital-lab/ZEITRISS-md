@@ -158,6 +158,7 @@ Die ersten Schritte in unter zwei Minuten:
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 7. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+   Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
 8. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
    Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
