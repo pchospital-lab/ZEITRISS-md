@@ -371,6 +371,29 @@ Sorgt in der Regel für einen Sprungversatz von mindestens 6 h.
 Ein Treffen mit dem eigenen Team ist strikt zu vermeiden.
 Für dramatische Momente kann der Versatz abweichen, solange eine Begegnung ausgeschlossen bleibt.
 
+## Start Dispatcher {#start-dispatcher}
+
+Der Dispatcher erkennt die Befehle `Spiel starten (...)` und `Spiel laden`. Er ruft
+`StoreCompliance()` auf (Shop-Hinweis, maximal einmal pro Tag) und verzweigt anschließend in zwei Pfade:
+
+```pseudo
+function startDispatcher(cmd):
+    StoreCompliance()
+    if cmd == "Spiel laden":
+        LoadSave()
+        recap()
+        EnableHUD()
+    else:
+        BeginNewGame(cmd)
+        EnableHUD()
+        ShowNullzeitMenu()
+```
+
+`BeginNewGame()` folgt dem Ablauf aus
+[`cinematic-start.md`](gameflow/cinematic-start.md).
+`LoadSave()` nutzt
+[`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
+
 ### Mission Resolution
 
 Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
