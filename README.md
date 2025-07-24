@@ -380,8 +380,14 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter.
 
-Vor dem ersten Befehl blendet GPT kurz einen Store-Compliance-Hinweis
-ein.
+In neuen Chats wirken die Anweisungen oft erst nach 1–2 Nachrichten vollständig.
+
+Vor dem ersten Befehl blendet GPT kurz `StoreCompliance()` ein.
+
+- `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
+  ([Cinematic Start](systems/gameflow/cinematic-start.md)).
+- `Spiel laden` → Save einlesen → Rückblick → Mission fortsetzen
+  ([speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)).
 
 Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 

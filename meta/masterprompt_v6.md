@@ -85,8 +85,7 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Sitzungsbeginn einen kurzen Store-Compliance-Hinweis
-  einblenden (max. einmal täglich).
+- Zu Sitzungsbeginn `StoreCompliance()` einblenden (max. einmal täglich).
 - Danach die einmalige Eröffnungsnachricht aus `toolkit-gpt-spielleiter.md`,
   gefolgt von der Einleitung aus `README.md`.
   Anschließend fragt das System nach _"klassischer Einstieg"_ oder
