@@ -46,7 +46,7 @@ und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 \*Jeder Chrononaut besitzt ein **_Chronometer-Gerät_** – ein am Handgelenk getragenes Interface, das
 die Zeitsprünge steuert und als persönlicher Codex-Computer dient. Es projiziert ein dezentes AR-
 Display (HUD) ins Sichtfeld des Agenten.
-Vitalwerte, Missionsziele und Hinweise auf zeitliche Instabilitäten lassen sich
+Vitalwerte, Missionsziele und Hinweise zum Stand der zeitlichen Stabilisierung lassen sich
 bei Bedarf einblenden.\*
 
 ### Tonalität & Immersion
@@ -813,23 +813,33 @@ geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine w
 dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und
 in einen neuen Kampagnenstrang führt.
 
-### Paradoxon & Pararifts
+## Paradoxon-Index (Positive Feedback Gauge)
 
-1. Index startet bei **0**.
-2. Steigt situativ während einer Mission an, wenn Eingriffe den offiziellen
-   Geschichtsverlauf stabilisieren. Niedrige **Temporale Affinität** bremst
-   diesen Zuwachs, hohe TEMP beschleunigt ihn.
-3. Richtwert zum Anstieg: TEMP 1–3 bringen meist alle fünf Missionen einen Punkt,
-   TEMP 4–7 etwa alle vier, TEMP 8–10 alle drei,
-   TEMP 11–13 alle zwei und TEMP 14+ praktisch jede Mission.
-4. Erreicht der Wert **5**, macht `ClusterCreate()` **1–2 Rift-Seeds** sichtbar und der Index springt auf 0.
-5. **Offene Rifts** erhöhen Schwierigkeitsgrad und CU-Multiplikator erst nach dem Core-Arc.
-6. Wird ein Rift beim Arc-Ende abgeschlossen, sinken die Boni; bleibt es offen, wirken sie ab dann weiter.
-  Siehe [Rifts sammeln](../gameplay/kampagnenstruktur.md#rifts-sammeln) für die
-  Verwaltung während der HQ-Phase und am Arc-Ende.
-7. Mission Seeds verwenden ein `phase:`-Feld für `Core` oder `Rift`.
-ClusterCreate ist rein administrativ – innerhalb der CoreOp passiert nichts Visuelles.
-Seltene Artefakte tragen den Tag `{rare_rift}` und erscheinen nur in solchen Missionen.
+Der **Paradoxon-Index** misst nicht, wie instabil die Zeit wird,
+sondern **wie viel Resonanz dein Team bereits aufbaut**. Je höher der Wert,
+desto besser versteht das ITI die laufende Operation – und desto näher
+rückt der Zugriff auf seltene Rift-Ressourcen.
+
+_Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
+**Temporaler Affinität (TEMP)** sammeln langsamer Resonanz, bei hohen
+Werten steigert sich der Index rasant. Als Richtwert gilt:
+TEMP 1–3 erzeugen meist alle fünf Missionen +1, TEMP 4–7 etwa alle vier,
+TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
+
+| Stufe | HUD-Farbe | Bedeutung                       | Effekt                  |
+|-----:|-----------|---------------------------------|-------------------------|
+| 0    | ▢ hellgrau | Leerlauf                       | Keine Resonanz          |
+| 1–2  | ▢ grün    | Basis-Resonanz                  | +10 % Codex-Analyse     |
+| 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf            |
+| **5**| ▢ cyan    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds erscheinen, Index → 0 |
+
+> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD cyan. Das ITI markiert
+> sofort 1–2 neue Rifts auf der Raumzeitkarte. Danach springt der Index auf
+> **0** und der Loop beginnt erneut.
+
+**Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
+Artefakte, High-Tech-Belohnungen und besondere Missions-Hooks zu erhalten.
+Ein niedriger Index ist kein „Safety Score“, sondern verschenktes Potenzial.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
@@ -982,7 +992,7 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spielercharaktere können
   sie sowohl Verbündete sein (wenn man ebenfalls behutsam mit der Geschichte umgeht) als auch
   Gegenspieler (falls man zu rücksichtslos in die Zeit eingreift). Ihr Auftauchen ist selten und meist
-  von ominösen Warnungen begleitet.
+  von Fortschrittsmeldungen begleitet.
 - Ihr verborgenes Zeitziel bleibt unklar; nur Andeutungen lassen vermuten, dass sie eine
   mathematische Perfektion der Zeit anstreben.
 - **Ordo Mnemonika:** Ein Orden von Chronisten und Archivaren, die alle Erinnerungen der Zeit sammeln.

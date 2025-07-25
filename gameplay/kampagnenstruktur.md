@@ -258,7 +258,7 @@ if paradox_level >= threshold:
     num = roll(1,2)
     cluster = []
     for i in range(num):
-        cluster.append(roll_from("RiftSeedTable"))
+        cluster.append(roll_from("RiftSeedTable", focus="external"))
     save_to_saveblock(cluster)
     paradox_level = 0
 ```

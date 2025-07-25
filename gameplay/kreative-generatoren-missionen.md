@@ -800,19 +800,22 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "d24": 18,
       "Seed": "Schrecken von Whitehall – PHANTOM",
       "Hook": "Löwe springt – Parkourjagd",
-      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem"
+      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem",
+      "focus": "mirror"
     },
     {
       "d24": 19,
       "Seed": "Night Train 666 – PHANTOM",
       "Hook": "Geisterzug – Zug entern",
-      "hiddenCause": "verschollener Prototyp mit permanenter Zeitschleife"
+      "hiddenCause": "verschollener Prototyp mit permanenter Zeitschleife",
+      "focus": "mirror"
     },
     {
       "d24": 20,
       "Seed": "Emerald Kraken – PHANTOM",
       "Hook": "Grüne Tentakel – Taucheinsatz",
-      "hiddenCause": "mutierte Tiefsee-Drohnen sammeln Artefakte"
+      "hiddenCause": "mutierte Tiefsee-Drohnen sammeln Artefakte",
+      "focus": "mirror"
     },
     {
       "d24": 21,

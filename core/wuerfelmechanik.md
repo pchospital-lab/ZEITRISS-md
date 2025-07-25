@@ -530,6 +530,11 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 Der Index steigt vor allem, wenn ihr Missionen voranbringt oder Anomalien stabilisiert.
 Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
 
+> **Paradoxon-Pro-Tip:**
+> *Jeder gelöste Hauptauftrag erhöht den Index um +1 bei **TEMP 14+**, entsprechend langsamer bei weniger.*
+> *Scheitert ein Auftrag oder wird abgebrochen, bleibt der Wert stehen.*
+> Riskantere Nebenaufgaben können Rifts schneller freischalten – das Team entscheidet.
+
 ### Seed-Counter im HUD
 
 Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts auf
