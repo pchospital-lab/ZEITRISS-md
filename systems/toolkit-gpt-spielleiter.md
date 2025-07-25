@@ -4,6 +4,7 @@ version: 4.2.0
 tags: [systems]
 default_modus: mission-fokus
 ---
+{% set scene_min = 12 %}
 # ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
@@ -263,7 +264,9 @@ Macroaufrufe können ebenfalls in HTML-Kommentare gesetzt werden,
 um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
-{% if campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
+{% if settings.hud_skin == "future_clean" %}
+<span style="color:#6cf; font-family:OCR;">Codex·HUD</span>
+{% elif campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
@@ -281,6 +284,10 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
+{% if campaign.scene < scene_min %}
+    {{ hud_tag() }} Scene {{ campaign.scene }}/{{ scene_min }} – pacing lock
+    {% return %}
+{% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 ██ Scene {{ campaign.scene-1 }} complete – progressing to Scene {{ campaign.scene }} ██
@@ -289,7 +296,8 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 <!-- Macro: EndMission -->
 {% macro EndMission() -%}
 {% set campaign.episode = campaign.episode + 1 -%}
-{% if campaign.level < 10 %}{% set campaign.level = campaign.level + 1 %}{% endif -%}
+{% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.episode % 2 == 0) %}
+{% set campaign.level = campaign.level + 1 %}{% endif -%}
 ██ Mission abgeschlossen – Team-Level {{ campaign.level }} ██
 {%- endmacro %}
 
@@ -346,6 +354,10 @@ Boss-Generators.
 
 <!-- Macro: scene_budget_enforcer -->
 {% macro scene_budget_enforcer(total) -%}
+{% if campaign.scene < scene_min %}
+[ABORT] Scene {{ campaign.scene }}/{{ scene_min }} underflow
+{% return %}
+{% endif %}
 {% if campaign.scene > total %}
 [WARN] Scene {{ campaign.scene }}/{{ total }} overrun
 {% endif %}
@@ -381,8 +393,15 @@ Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ StartScene(...) }}-->` oder
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
 ### ParadoxPing() Macro
-Zeigt einen Hinweis im HUD, sobald `campaign.scene` über 70 % liegt oder der
-Paradoxon-Index mindestens 3 erreicht. Keine Kopplung an die aktuelle Szene.
+{% macro ParadoxPing() -%}
+{% if campaign.paradox == 5 %}
+  {{ hud_tag() }} Paradoxon MAX – 🎁 Rift-Belohnung auslösen
+  {% set campaign.paradox = 0 %}
+  {{ generate_rift_seeds(1,2) }}
+{% elif campaign.paradox in [3,4] %}
+  {{ hud_tag() }} Paradoxon {{ campaign.paradox }}/5 – Resonanz steigt
+{% endif %}
+{%- endmacro %}
 
 ### redirect_same_slot() Macro
 

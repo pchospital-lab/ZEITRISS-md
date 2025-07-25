@@ -390,6 +390,13 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 
 ### Paradoxon-Statusanzeige [0–5]
 
+### HUD-Banner · Paradoxon
+██ Paradoxon 3/5 – Resonanz stabil · Loot +1 ██
+██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
+
+*Banner erscheint immer am Szenenende. Farben:*
+*green 0–2 · yellow 3–4 · cyan 5*
+
 > _Resonanzanzeige für Rissverfolgung_
 > _Codex-Modul: `CLSTR:TRACE.MONITOR`_
 

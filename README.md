@@ -19,7 +19,7 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
 > 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index.** Fortschrittsanzeige: Stufe 5 verrät 1–2 neue Pararifts.
+> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 öffnet 1–2 Rifts → Index 0.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Generator.** Mini- und Arc-Bosse tauchen im 5/10-Rhythmus auf.
 
@@ -157,15 +157,16 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+7. **Self-Reflection Off** – global flag {"self_reflection": false} für rein externe Handlung.
+8. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
-8. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+9. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
    Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
-9. **Filmischer Einstieg** – das Modul
+10. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
-10. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
+11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
