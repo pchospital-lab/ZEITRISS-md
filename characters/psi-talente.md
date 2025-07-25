@@ -40,7 +40,7 @@ noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln
 oder mit abgeschwächter Kraft arbeiten.
 
 **Charakterbogen-Notiz:** Liste aktive Psi-Kräfte in einer Mini-Tabelle. Übersteigen deren SYS-Kosten
-deinen Wert, blendet das HUD eine Warnung ein und du erleidest **−2** auf alle Proben,
+deinen Wert, blendet das HUD eine Fortschrittsanzeige ein und du erleidest **−2** auf alle Proben,
 bis die Last reduziert ist.
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur kurz
 an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren – je
