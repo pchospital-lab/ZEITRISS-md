@@ -393,6 +393,8 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 ### HUD-Banner · Paradoxon
 ██ Paradoxon 3/5 – Resonanz stabil · Loot +1 ██
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
+[Paradox 3/5 · Resonanz ↑]
+[Paradox 5/5 · ClusterCreate – Rifts sichtbar]
 
 *Banner erscheint immer am Szenenende. Farben:*
 *green 0–2 · yellow 3–4 · cyan 5*
@@ -448,7 +450,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 #### PARADOXON 5/5 – CLUSTERCREATE
 > *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
 > Du hast genug Resonanz erzeugt.
-> **ClusterCreate aktiviert.**
+> **Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Arc-Ende freigeschaltet.
 
@@ -705,7 +707,8 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 #### HUD-Snippets (Kurzmeldungen)
 
 ```text
-[Paradox 3/5]  ⏳ Resonanz steigt.
+[Paradox 3/5 · Resonanz ↑]
+[Paradox 5/5 · ClusterCreate – Rifts sichtbar]
 [Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```
