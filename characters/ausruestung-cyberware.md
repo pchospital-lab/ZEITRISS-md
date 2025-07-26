@@ -402,7 +402,8 @@ stimmungsvoll eingesetzt werden.
 **Einleitung:** Im Verlauf ihrer Zeitreisen stoßen Chrononauten immer wieder auf Gegenstände,
 die nicht zur Standardausrüstung des ITI gehören.
 Artefakte sind dabei äußerst selten – vergleichbar mit legendären Drops in Videospielen.
-Optional kann zu Beginn einer längeren Mission 1W6 gewürfelt werden; nur bei einer 6 tritt ein einzelnes Artefakt auf.
+Optional kann zu Beginn einer längeren **Rift-Mission** (`mission.type == "Rift"`) 1W6 gewürfelt werden;
+nur bei einer 6 tritt ein einzelnes Artefakt auf.
 Mehrere Artefakte pro Einsatz sollten die Ausnahme bleiben.
 Wer es noch seltener möchte, kann stattdessen auf W10 oder W20 würfeln.
 Die folgenden Tabellen liefern schnell einsetzbare Loot-Ideen.

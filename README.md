@@ -82,6 +82,13 @@ Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
 Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
 Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 
+## Loot-Matrix
+
+| Mission  | Standard-Loot                                       | Boss-Loot               | Artefakt     |
+| -------- | --------------------------------------------------- | ----------------------- | ------------ |
+| **Core** | Forschungsergebnisse · Datenchips · Cash · Upgrades | Spezialwaffe / Gear-Mod | ✘            |
+| **Rift** | Relikte · Ermittlungsakten · experimentelle Gear    | Artefakt-Wurf bei Boss  | ✔ (nur hier) |
+
 ## Kampagnenhierarchie
 
 Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begriffe im Überblick:

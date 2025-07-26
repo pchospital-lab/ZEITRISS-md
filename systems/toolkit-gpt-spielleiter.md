@@ -41,7 +41,7 @@ Beispiel:
 if not character.psi:
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradox (0–5). Bei 5 → "ClusterCreate aktiv" notieren und neue Rift-Seeds festhalten.
+- TRACK Paradox (0–5). Bei 5 → "Paradox 5 erreicht – neue Rift-Koordinaten verfügbar" notieren und neue Rift-Seeds festhalten.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
@@ -199,7 +199,7 @@ Decision: <Was tun?>
 ---
 ### 8 | Rift-Spawn-Ansage
 
-> **ClusterCreate aktiv – Resonanz auf Maximum, Index zurückgesetzt.**
+> **Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > **Neuer Rift-Seed:** *#1889-01 – Kanallegende von Saint-Martin.*
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
@@ -248,6 +248,13 @@ if boss := generate_boss("core", campaign.episode, target_epoch):
 In Rift-Ops ruft StartScene bei Szene 10 ebenfalls `generate_boss("rift", ...)` auf
 und warnt das Team im HUD.
 
+### finale_guard() Macro
+Verhindert das Auslösen eines Finales vor Szene 10.
+```pseudo
+if campaign.scene < 10:
+    forbid("finale")
+```
+
 <!-- Macro: DelayConflict -->
 {% macro DelayConflict(n) -%}
 {% set campaign.delayConflict = n %}
@@ -273,6 +280,10 @@ um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
 {% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
 {% set campaign.scene_total = total %}
 {{ hud_tag() }}
+{% if role == "Finale" and campaign.scene < 10 %}
+  {{ hud_tag() }} Finale blockiert – weiter spielen
+  {% return %}
+{% endif %}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
 **Kamera:** {{ loc }}
 **Target:** {{ target }}
@@ -351,6 +362,7 @@ Boss-Generators.
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
+<!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
 
 <!-- Macro: scene_budget_enforcer -->
 {% macro scene_budget_enforcer(total) -%}
@@ -395,11 +407,11 @@ Dieses Filtering entfernt auch versteckte Macro-Calls wie
 ### ParadoxPing() Macro
 {% macro ParadoxPing() -%}
 {% if campaign.paradox == 5 %}
-  {{ hud_tag() }} Paradoxon MAX – 🎁 Rift-Belohnung auslösen
+  {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
   {% set campaign.paradox = 0 %}
   {{ generate_rift_seeds(1,2) }}
 {% elif campaign.paradox in [3,4] %}
-  {{ hud_tag() }} Paradoxon {{ campaign.paradox }}/5 – Resonanz steigt
+  {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
 {% endif %}
 {%- endmacro %}
 
