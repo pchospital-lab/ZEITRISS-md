@@ -41,7 +41,8 @@ Beispiel:
 if not character.psi:
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradox (0–5). Bei 5 → "Paradox 5 erreicht – neue Rift-Koordinaten verfügbar" notieren und neue Rift-Seeds festhalten.
+- TRACK Paradox (0–5). Bei 5 notiert Codex "Paradox 5 erreicht – neue Rift-Koordinaten verfügbar".
+  Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
@@ -424,6 +425,17 @@ if last_player_epoch == requested_epoch and abs(Δt) < 6h:
 Sorgt in der Regel für einen Sprungversatz von mindestens 6 h.
 Ein Treffen mit dem eigenen Team ist strikt zu vermeiden.
 Für dramatische Momente kann der Versatz abweichen, solange eine Begegnung ausgeschlossen bleibt.
+
+### mission_selector() Macro
+
+```pseudo
+if player.faction == "Ordo Mnemonika":
+    include_pools(["Preserve", "Trigger"])
+elif player.faction in ["Chrono-Symmetriker", "Kausalklingen"]:
+    include_pools(["Preserve"])
+else:
+    include_pools(["Trigger"])
+```
 
 <!-- Macro: StoreCompliance -->
 {% macro StoreCompliance() -%}

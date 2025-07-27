@@ -129,7 +129,6 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 
 Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passender Ausrüstung.
 
-
 1. **"Ghost" – Infiltration Specialist**
    * Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
    * Cyberware: Retina‑Filmraster, Fingernagel‑Picks
@@ -285,14 +284,14 @@ Spielleitung kann z.B. verkünden: _„Dein HUD kalibriert und zeigt deinen Stat
 100% (grün); Paradox 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfährst du
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
-6. **Hauptfraktion & Ausrichtung wählen:** Direkt nach dem Profil-Upload legst du im HQ fest,
-   welcher der großen ITI‑Fraktionen du dich vorrangig anschließen möchtest – etwa
-   den **Chrono‑Symmetriker**, dem **Ordo Mnemonika**, den **Kausalklingen** oder der
-   **Zerbrechlichen Ewigkeit**. Gleichzeitig entscheidest du dich für die Haltung
-   **Pro** (Geschichte bewahren) oder **Contra** (bewusst verändern). Der Codex
-   speichert diese Wahl permanent; dein HUD markiert sie farblich (Blau = Pro,
-   Rot = Contra). Ein späterer Wechsel ist nur einmal möglich und sollte gut
-   überlegt sein.
+6. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legst du im HQ fest,
+   welcher der großen ITI‑Fraktionen du dich vorrangig anschließen möchtest –
+   den **Chrono‑Symmetriker** _(Preserve)_, dem **Ordo Mnemonika** _(Neutral – Zugriff auf Preserve
+   und Trigger)_, den **Kausalklingen** _(Preserve)_ oder der **Zerbrechlichen Ewigkeit** _(Trigger)_.
+   Diese Zuordnung bestimmt automatisch, ob du **Pro**, **Contra** oder **Neutral** agierst.
+   Der Codex speichert die Wahl permanent; dein HUD markiert sie farblich (Blau = Preserve,
+   Rot = Trigger, Grau = Neutral). Ein späterer Wechsel ist nur einmal möglich und
+   sollte gut überlegt sein.
 
 Jetzt bist du bereit für die erste Mission!
 
@@ -330,11 +329,11 @@ Sie halten zudem optionale Spezialaufträge ihrer Fraktion bereit.
 Commander Renier bleibt weiterhin Gesamtkoordinator.
 Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung
 zusammen.
-Pro- und Contra-Agenten mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
-Innerhalb der gewählten Ausrichtung ist ein Fraktionswechsel möglich – aber nur einmal
+Agenten unterschiedlicher Haltung mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
+Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich – aber nur einmal
 und mit Bedacht.
 Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
-Ein späterer Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
+Ein späterer Wechsel zwischen Pro, Contra und Neutral ist ausgeschlossen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
@@ -751,11 +750,12 @@ allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzähler
 weder anfängliche Ruf-Boni noch Dienstgrade –
 echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdient.
 
-Im Mittelpunkt steht euer Ruf innerhalb des ITI. Für jede der vier **ITI‑Fraktionen** kann die SL einen
-Rufwert zwischen **–5** und **+5** tracken. Null ist neutral, positive Werte bedeuten Vertrauen, negative
+Im Mittelpunkt steht euer Ruf innerhalb des ITI. Für jede der vier **ITI-Fraktionen** kann die SL einen
+Rufwert zwischen **-5** und **+5** tracken. Null ist neutral, positive Werte bedeuten Vertrauen, negative
 Misstrauen. Zu Kampagnenbeginn wählt ihr, bei welcher dieser Fraktionen ihr langfristig Ansehen
-aufbauen wollt. Zusätzlich entscheidet ihr, ob ihr die Hauptzeitlinie bewahren (**pro**) oder verändern
-(**contra**) möchtet.
+aufbauen wollt. Die Zuordnung bestimmt zugleich eure Haltung: **Chrono-Symmetriker** und **Kausalklingen**
+handeln nach dem Preserve-Ansatz, der **Ordo Mnemonika** bleibt neutral, die **Zerbrechliche Ewigkeit**
+folgt dem Trigger-Prinzip.
 Anschließend sammelt ihr über viele Einsätze hinweg langsam Rufpunkte. Die nötigen
 Missionserfolge pro Stufe findet ihr in der folgenden Tabelle. Die Werte sind Richtlinien und
 können von der Spielleitung jederzeit angepasst werden.
