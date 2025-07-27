@@ -268,8 +268,8 @@ KI eine dramaturgische Funktion, etwa _Ankunft_, _Beobachtung_, _Kontakt_,
 _Hindernis_ oder _Konflikt_. So bleibt das Pacing nachvollziehbar.
 `DelayConflict(n)` setzt ein Mindestlimit, ab welcher Szenennummer ein größerer
 Kampf stattfinden darf.
-Macroaufrufe können ebenfalls in HTML-Kommentare gesetzt werden,
-um sie in der finalen Ausgabe zu verstecken: `<!--{{ StartScene(...) }}-->`.
+Macroaufrufe können bei Bedarf als HTML-Kommentar eingebettet werden
+(siehe Beispiel bei `StartMission`).
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
 {% if settings.hud_skin == "future_clean" %}
