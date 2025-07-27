@@ -89,6 +89,16 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 | **Core** | Forschungsergebnisse · Datenchips · Cash · Upgrades | Spezialwaffe / Gear-Mod | ✘            |
 | **Rift** | Relikte · Ermittlungsakten · experimentelle Gear    | Artefakt-Wurf bei Boss  | ✔ (nur hier) |
 
+## Loot-Quickref
+
+| Mission-Typ | Roll-Macro / Tabelle         | Ergebnis-Typen              |
+|-------------|------------------------------|-----------------------------|
+| Core-Op     | `roll_from("ItemTable")`     | ITEM · UPGRADE · CASH       |
+| Rift-Op†    | `roll_from("ArtifactTable")` | ARTEFAKT (bei 1W6 = 6)      |
+
+† Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
+Relikte zählen als Story-Items und nutzen den normalen Generator.
+
 ## Kampagnenhierarchie
 
 Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begriffe im Überblick:
