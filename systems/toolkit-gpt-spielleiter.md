@@ -392,7 +392,7 @@ Boss-Generators.
 
 <!-- Macro: output_sanitizer -->
 {% macro output_sanitizer(text) -%}
-{{ text.replace('<!--','').replace('-->','') }}
+{{ text.replace('<!--', '').replace('-->', '').replace('{{', '').replace('}}', '') }}
 {%- endmacro %}
 Nutze `output_sanitizer()` am Ende jeder Szenen-Generierung,
 um HTML-Kommentare zu entfernen:
@@ -424,6 +424,12 @@ if last_player_epoch == requested_epoch and abs(Δt) < 6h:
 Sorgt in der Regel für einen Sprungversatz von mindestens 6 h.
 Ein Treffen mit dem eigenen Team ist strikt zu vermeiden.
 Für dramatische Momente kann der Versatz abweichen, solange eine Begegnung ausgeschlossen bleibt.
+
+<!-- Macro: StoreCompliance -->
+{% macro StoreCompliance() -%}
+<span style="color:#f93">Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel.</span>
+<span style="color:#f93">Alle Ereignisse sind fiktiv.</span>
+{%- endmacro %}
 
 ## Start Dispatcher {#start-dispatcher}
 
