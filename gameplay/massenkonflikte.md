@@ -559,7 +559,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 | Typ | Kraft Pool | Init | Schaden | Resilienz | Besonderheit |
 |-----|-----------:|-----:|--------:|----------:|--------------|
 | **Shard-Imp** (klein) | 2 | +1 | W6 | 4 | Phase Shift (‑2 Treffer) |
-| **Chrono-Hound** (mittel) | 5 | +2 | W8 | 8 | Time-Scent (spürt Agenten 30 m) |
+| **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
 | **Paradox Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Paradoxon +1 pro Treffer) |
 
 > **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation.

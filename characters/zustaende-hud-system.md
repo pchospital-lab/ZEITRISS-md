@@ -349,8 +349,8 @@ setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst na
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD meldet: Paradoxon-Index 3 – Resonanzpegel steigt, erste Risskoordinaten
   rücken näher.“_ Die SL sollte Paradoxon-Index einsetzen, um **Spannung
-  aufzubauen**: Vielleicht versucht das Team nun, Korrekturmaßnahmen zu ergreifen (z.B. verursachte
-  Fehler ausbügeln), bevor Level 5 erreicht wird.
+  aufzubauen**: Vielleicht bemüht sich das Team nun um ein **kontrollierteres Vorgehen**,
+  damit Stufe 5 zu einem passenden Zeitpunkt eintritt.
   _Auswirkungen:_ Steigende Werte erzeugen kleine positive Resonanzeffekte.
   Bei **Level 1** verliert die Gruppe einmalig **1 Stresspunkt**.
   Auf **2** heilt das Team **1 HP**.
@@ -381,8 +381,8 @@ setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst na
   Behutsames, stilvolles Vorgehen steigert den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen haben.
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
   sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission darauf
-  ausgelegt sein, ein Paradoxon-Index wieder zu senken (z.B. einen Fehler in der Vergangenheit
-  reparieren).
+  ausgelegt sein, **eine temporale Anomalie zu beheben**
+  (z.B. einen Fehler in der Vergangenheit zu korrigieren).
 
 _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken** in der Szene
   liegen – die erste setzt lediglich eine Warnung. Erreicht der Index
