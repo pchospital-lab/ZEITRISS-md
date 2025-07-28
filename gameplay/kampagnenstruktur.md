@@ -1109,8 +1109,8 @@ erzeugt Paradoxon +1. Teil-Erfolg kostet Bestechung, Misserfolg löst Alarm
 aus und verkürzt das Zugriffsfenster.
 
 **SC-07 »Corpo Backdoor«** – Osaka 2072. Compliance-Officer Kaito Morii
-hadert mit Loyalität und Moral. Ein Ethik-Duell (*Face* vs. Morii W8+3)
-sammelt bis zu drei Vertrauenpunkte. Bei voller Punktzahl gewährt er
+hadert mit Loyalität und Moral. Ein Ethik-Duell (*Face* vs. Morii **W10+2**)
+sammelt bis zu drei Vertrauenspunkte. Bei voller Punktzahl gewährt er
 temporären Netzwerkzugang. Scheitert der Versuch, alarmiert er die
 Sicherheitsabteilung (Stealth DC +3). Optional verrät eine Psi-Empathie-Probe
 seine Sorge um die Tochter – Paradoxon +1.
