@@ -537,8 +537,7 @@ Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario 
 
 ### Seed-Counter im HUD
 
-Sobald Paradoxon-Index **5** erreicht ist, legt das HQ automatisch 1–2 Rifts auf
-der Raumzeitkarte an.
+Sobald Paradoxon-Index **5** erreicht ist, markiert das HQ nach Missionsende 1–2 Rift-Seeds auf der Raumzeitkarte.
 Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
 [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
@@ -698,6 +697,7 @@ _Orientierung:_ Kleine Gefechte brauchen 1–2 Punkte, mittlere Schlachten 3–5
 | 2 | +2 | 1.4 |
 
 Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Belohnungen beeinflussen.
+*Boni gelten erst nach Abschluss des aktuellen Core-Arcs.*
 
 ### Timeline-Konfliktresistenz {#konfliktresistenz}
 
@@ -758,10 +758,10 @@ Einmal pro Szene als Reroll. Nur bei Attribut 14+.
 
 1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
-3. **Paradoxon-Index:** wächst mit Missionsfortschritt oder Stabilisierung; bei 5 löst `ClusterCreate()` aus und
-   setzt den Zähler auf 0.
-4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
-   HQ-Phase.
+3. **Paradoxon-Index:** wächst mit Missionsfortschritt oder Stabilisierung; bei 5 löst `ClusterCreate()` aus.
+   Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Arc-Ende zugänglich.
+4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
+HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
