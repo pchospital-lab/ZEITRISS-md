@@ -800,10 +800,10 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
         temporalen Peak warten und so lange in der Epoche improvisieren.
 
 > Bei Paradoxon-Index 5 legt das HQ trotzdem 1–2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
-3. **Notfall-Rückholung**
-   - Gerät eine Mission in totale Eskalation (TPK, kritische Resonanzwarnung etc.), zieht ein
-     **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
-     Wahlmöglichkeiten wie oben.
+  3. **Notfall-Rückholung**
+     - Gerät eine Mission in totale Eskalation (z.B. Total Party Kill), zieht ein
+      **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
+      Wahlmöglichkeiten wie oben.
 
  Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
 beginnt immer eine kurze HQ-Phase mit Shop, Skill‑Upgrades und Save-System. Erst danach können die
