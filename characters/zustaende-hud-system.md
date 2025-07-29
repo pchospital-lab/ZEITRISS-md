@@ -761,8 +761,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige gelb, bei **5** leuchtet
   sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
-  Bei jedem Anstieg legt das System zudem ein
-  [Auto-Backup](../systems/gameflow/speicher-fortsetzung.md#auto-backup-bei-paradoxon-anstieg) an.
+  Bei jedem Anstieg wird der neue Wert direkt im Codex-Log vermerkt.
 - **Ausrüstung & Inventar:** Im persönlichen HUD sind außerdem wichtige **Ausrüstungsgegenstände**
   verzeichnet, vor allem die aktuell ausgerüsteten. Z.B. sieht ein Scharfschütze unten rechts ein
   **Munitionszählwerk** seiner Sniper („Magazin: 5/10“ Kugeln). Oder ein Agent mit einem Gadget
@@ -943,7 +942,7 @@ HUD_MESSAGES:
 
 > **Das HUD ist lokal. Es kann nicht gehackt oder gestört werden**, außer durch komplette
 > Zerstörung des Chronometers. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
-> Codex-Backup synchronisiert – wenn verfügbar.
+> Codex-Sync durchgeführt – wenn verfügbar.
 ### Fallback-Briefkarte
 
 Bei HUD-Ausfall hilft eine laminierte Kurzkarte mit:
