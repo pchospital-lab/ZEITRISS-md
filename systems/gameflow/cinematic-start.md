@@ -628,14 +628,14 @@ nutzen, bis das Gesamtbild klar wird.
 
 ### Missionsidee 1: **Gestohlene Zukunft**
 
-_Hook:_ In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
+ _Hook:_ In einer Epoche ist Technologie aufgetaucht, die **dort nicht hingehört** – ein klassischer
 Fall von Zeitverbrechen. Die Chrononauten sollen diese **anachronistische Technologie**
 sicherstellen, bevor sie die Zeitlinie destabilisiert.
 
-- **Szenario:** Ein **Temporaler Resonator** (oder ein anderes futuristisches Gerät) wurde in die
-  2080er Jahre geschmuggelt und steht kurz davor, von einer kriminellen Bande verkauft zu werden. Die
-  Agenten haben den Auftrag, den Resonator aufzuspüren und zu bergen. Das Ganze findet z.B. in den
-  Gerüchte besagen, dass ein unbekanntes Syndikat den Resonator durch illegale Zeitreisen hierher geschmuggelt hat.
+- **Szenario:** Gestohlene **Baupläne eines Sprungmoduls** wurden in die 2080er
+  geschmuggelt und sollen an eine Gang verkauft werden. Die Agenten müssen die
+  Datenträger aufspüren und sichern, bevor ein Deal mit einer rivalisierenden
+  Zeitfraktion den gefährlichen Technologiesprung auslöst.
 Wer bei den Ermittlungen zu stark vom offiziellen Geschichtsverlauf abkommt,
 steigert den Paradoxon-Index kaum.
 Erreicht dieser Stufe 5, legt das HQ gemäß
@@ -648,13 +648,13 @@ an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte.
   entgegen, der mit dem Gerät zu fliehen versucht. Die Mission kulminiert in einem actionreichen
   **Showdown** (zu Fuß oder in Fahrzeugen), an dessen Ende das entwendete Objekt in den Händen der
   Charaktere und die Schurken außer Gefecht sind.
-- **Tonalität:** Diese Mission eignet sich hervorragend für einen **rasanten Action-Einstieg**. Sie
-  kann im HQ als leichtes Trainingsszenario unter echten Bedingungen gespielt werden oder als
-  erster regulärer Einsatz draußen in der Zeit. Beim Training begleitet Commander Renier die Szene
-  und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
+- **Tonalität:** Perfekt für einen **rasanten Action-Einstieg**. Die Mission sollte
+  als echter Außeneinsatz gespielt werden. Renier funkt nur sporadisch Unterstützung,
+  während das Team ohne Netz und doppelten Boden agiert. Misslingt der Einsatz,
+  könnten die Pläne in Hände einer Rivalfraktion fallen und die offizielle Geschichte verändern.
 - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
-  Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
-  Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Relikt** oder ein moderner Revolver, der im
+  Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Datenträger enthält
+  keine Baupläne, sondern z.B. ein **mysteriöses Relikt** oder ein moderner Revolver, der im
   Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
   plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
   ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf
@@ -663,9 +663,9 @@ an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte.
   organisiert, mit Geiseln vielleicht. **Spieleranzahl:** Mit wenigen Spielern kann ein NSC (wie ein
   erfahrener Agent) als Backup dabei sein; mit vielen Spielern achtet darauf, genug Handlanger für
   alle zum Kämpfen/Verfolgen bereitzustellen.
-- **Höhepunkt:** Eine ikonische Szene dieser Mission könnte ein **dramatischer Schuss** sein, der
-  den Resonator trifft (oder das Fluchtfahrzeug lahmlegt) – quasi der „Lucky Shot“, der im letzten
-  Moment die Flucht des Antagonisten verhindert (wie im Beispiel oben, wo der Resonator-Koffer beinahe
+  - **Höhepunkt:** Eine ikonische Szene dieser Mission könnte ein **dramatischer Schuss** sein, der
+  die Datenkapsel trifft (oder das Fluchtfahrzeug lahmlegt) – quasi der „Lucky Shot“, der im letzten
+  Moment die Flucht des Antagonisten verhindert (wie im Beispiel oben, wo die Pläne beinahe
   entkommt). Diese Mission endet idealerweise mit dem Triumph der Neulinge und einem anerkennenden
   _„Gut gemacht“_ von Renier – ein perfekter Moment, um anschließend im HQ auf die erfolgreiche
   Bergung anzustoßen und in die Kampagne überzuleiten.
@@ -724,24 +724,22 @@ _Hook:_ Es wird eine **ungewöhnliche temporale Anomalie** entdeckt – kein kla
 ein **rätselhaftes Phänomen**. Die Chrononauten müssen Nachforschungen anstellen und das Geheimnis
 lüften, bevor die Anomalie außer Kontrolle gerät.
 
-- **Szenario:** In einem abgeschiedenen Dorf (Zeit und Ort nach Wahl) treten **Zeiteffekte** auf:
-  Nächtlich erscheinen Schattenbilder aus anderen Zeiten, Uhren gehen rückwärts,
-  vielleicht verschwinden Personen spurlos. Das ITI schickt ein Team, um undercover herauszufinden,
-  was los ist. Die Mission hat den Charakter eines **Mystery-Krimis**: Die Agenten befragen Einwohner
-  (müssen sich eventuell als normale Reisende ausgeben), untersuchen Schauplätze der Phänomene und
-  stoßen auf einen obskuren Kult, der das Zeitphänomen für eigene Ziele nutzt.
+  - **Szenario:** In einem abgelegenen Dorf treten rätselhafte **Zeiteffekte** auf:
+    Uhren laufen rückwärts, Dämonen aus fremden Epochen scheinen auf und Menschen
+    verschwinden. Schon bei der Anreise hört man von seltsamen Maschinenklängen
+    unter der Kirche. Das ITI schickt ein Team undercover, um Spuren zu sichern.
+    Die Ermittlungen deuten bald auf eine defekte **Sprungapparatur** hin, die ein
+    Kult als Tor zur Hölle verehrt.
   Erst wenn der Paradoxon-Index Stufe 5 erreicht, meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed.
   Dieser erscheint nach der Mission auf der
   [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte);
   vor Ort zeigt sich nur ein Anstieg instabiler Effekte.
-  sammeln Hinweise. Nach und nach erkennen sie, dass ein **Zeit-Riss** tief unter der Ortschaft
-  entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
-  fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
-  ging). Im Finale müssen sie in die Tiefe vordringen (etwa in Katakomben oder eine Höhle unter der
-  Dorfkirche), um dort den Riss zu stabilisieren oder das Relikt zu entfernen. Die Umgebung wird
-  zunehmend surreal: Zeitschatten aus Vergangenheit und Zukunft flackern und stellen sich ihnen
-  eventuell in den Weg (hier können kuriose Begegnungen stattfinden, etwa ein verwirrter Römergeist,
-  der plötzlich auftaucht, oder ein kurz aufscheinendes Portal mit Dinos – je nach Stimmung).
+    Nach und nach erkennen sie, dass ein **Zeit-Riss** unter dem Dorf wächst – verursacht von der
+    Apparatur. Eine gegnerische Zeitfraktion hat bemerkt, dass ihr altes Gerät wieder aktiv ist und
+    schickt Trupps hindurch, doch der Defekt entstellt sie. Im Finale müssen die Agenten hinabsteigen
+    und die Maschine abschalten, während fanatische Kultisten und verstörte Zeitsoldaten sie
+    angreifen. Funken aus dem Portal werfen Dämonenschatten an die Wände, was die Szene unheimlich,
+    aber technisch erklärbar macht.
   Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade rechtzeitig, bevor sie zu einem
   ausgewachsenen Paradox heranwächst.
 - **Tonalität:** Diese Mission ist hervorragend für einen **ruhigeren, unheimlichen** Einstieg

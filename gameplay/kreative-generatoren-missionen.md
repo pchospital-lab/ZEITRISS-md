@@ -129,11 +129,11 @@ preserve_pool:
   - id: "P-0002"
     year: 1979
     place: "BRD Elbe"
-    title: "Ventilblockage E-79"
-    objective: "Verhindere Kühlmittelverlust in Reaktorblock B."
+    title: "Brunsbüttel Blockage"
+    objective: "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust."
     antagonist: null
     antagonist_goal: null
-    twist: "Zukunfts-Ökozelle will Beweis für Atomgefahr erzwingen."
+    twist: "Öko-Zeitgruppe sabotiert Ventile, will Katastrophe als Warnsignal."
   - id: "P-0003"
     year: 1995
     place: "Barentssee"
@@ -146,10 +146,10 @@ preserve_pool:
     year: 2000
     place: "Sydney"
     title: "Olympics Bio-Plot"
-    objective: "Stoppe Milzbrandanschlag im Versorgungstunnel."
+    objective: "Stoppe nie geschehenen Milzbrandanschlag bei Olympia 2000."
     antagonist: null
     antagonist_goal: null
-    twist: "Gegenspieler hat Virus im Maskottchen-Plush versteckt."
+    twist: "Zeitreisende Extremisten verstecken Nano-Toxin im Maskottchen-Plush."
   - id: "P-0005"
     year: 2001
     place: "Genf"
@@ -330,10 +330,10 @@ preserve_pool:
     year: 1999
     place: "Y2K"
     title: "Bank Core Patch"
-    objective: "Installiere richtigen Millenniums-Patch."
+    objective: "Installiere Y2K-Patch im Bankrechenzentrum vor Mitternacht."
     antagonist: null
     antagonist_goal: null
-    twist: "Zeit-Cult löscht Backup-Tape."
+    twist: "Zeitkult sabotiert Backups, will weltweiten Finanzcrash auslösen."
   - id: "P-0029"
     year: 2019
     place: "Moskau"
@@ -373,10 +373,10 @@ trigger_pool:
     year: 1912
     place: "Nordatlantik"
     title: "RMS Titanic"
-    objective: "Sabotiere Funk, verhindere Warnung vor Eisfeld."
+    objective: "Sorge, dass Titanic trotz Warnungen Kurs hält und sinkt."
     antagonist: null
     antagonist_goal: null
-    twist: "Zeit-Philanthrop will Kurs ändern."
+    twist: "Zeit-Philanthrop will Unglück verhindern, riskiert Zeitlinie."
   - id: "T-0004"
     year: 1975
     place: "China"
