@@ -702,33 +702,33 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
   "RiftSeedTable": [
     {
       "d24": 1,
-      "Seed": "Feuerengel von Breslau",
-      "Hook": "Reaktor-Drohne im Kohlekraftwerk – Sturm & Sicherung",
-      "hiddenCause": "Zeitschatten eines abgestürzten Testflugzeugs"
+      "Seed": "Schreie im Moor",
+      "Hook": "Klagelaute im Sumpf – Ursprung ermitteln, Fluch brechen",
+      "hiddenCause": "Parawesen: Todesfee (Banshee) warnt mit tödlichen Schreien vor Unheil"
     },
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
       "Hook": "Geisterbus im Zeitfeld – Stau räumen, Showdown auf der Brücke",
-      "hiddenCause": "aus der Zeit gefallener Fahrer mit Chrono-Tech"
+      "hiddenCause": "Parawesen: Untoter Fahrer spukt mit verfluchtem Bus – verursacht Zeitanomalie"
     },
     {
       "d24": 3,
-      "Seed": "Schrecken von Whitehall",
-      "Hook": "Löwe springt – Parkourjagd, Magnet-Harpoon",
-      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem"
+      "Seed": "Skinwalker-Attacke",
+      "Hook": "Formwandler terrorisiert Dorf – Spuren verfolgen, Kreatur stellen",
+      "hiddenCause": "Parawesen: Navajo-Hexer in Tiergestalt (Skinwalker) nimmt Rache an Eindringlingen"
     },
     {
       "d24": 4,
       "Seed": "Night Train 666",
-      "Hook": "Führerloser Güterzug – Boarding & Blackbox",
-      "hiddenCause": "Zeitanker einer verunglückten Lok 1912"
+      "Hook": "Führerloser Geisterzug – aufspringen und Blackbox sichern",
+      "hiddenCause": "Parawesen: Geist des Lokführers von 1912, gebunden an entgleiste Lok (Zeitriss-Effekt)"
     },
     {
       "d24": 5,
-      "Seed": "Mirage Over Sinai",
-      "Hook": "Phantom-Bomber – Luftkampf, Quellcode hacken",
-      "hiddenCause": "fehlgeschlagener Abschussbefehl im Rahmen des Able-Archer-Manövers"
+      "Seed": "Goatman von Maryland",
+      "Hook": "Monster mit Axt terrorisiert Pärchen – Teenager schützen, Bestie fassen",
+      "hiddenCause": "Parawesen: mutierter Hybrid (Goatman) – entkam Labor und sinnt auf blutige Rache"
     },
     {
       "d24": 6,
@@ -738,34 +738,33 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     },
     {
       "d24": 7,
-      "Seed": "Project Götterdämmerung",
-      "Hook": "Polarlicht-Geister – Station sabotieren, Zeitgolem bannen",
-      "hiddenCause": "Nazi-Portal ruft unvollständigen Zeitgolem hervor"
+      "Seed": "Fluch des Wendigo",
+      "Hook": "Wintercamp wird kannibalisch – Ritual aufdecken, Infizierte stoppen",
+      "hiddenCause": "Parawesen: Wendigo-Geist (Kannibalenfluch) entfesselt unstillbaren Hunger in Menschen"
     },
     {
       "d24": 8,
-      "Seed": "Black Rain Vienna",
-      "Hook": "Teufelsregen 1666 – Omen prüfen, Labor infiltrieren",
-      "hiddenCause": "unerkanntes Nanotech der Renaissance"
+      "Seed": "Chupacabra-Angriffe",
+      "Hook": "Farmtiere blutleer aufgefunden – Lockvogel einsetzen, Kreatur erlegen",
+      "hiddenCause": "Parawesen: unbekannter Blutsauger (Chupacabra) – reißt Vieh nachts und versetzt Dorf in Angst"
     },
     {
       "d24": 9,
-      "Seed": "Emerald Kraken",
-      "Hook": "Tiefsee-Mech – Taucheinsatz, EMP-Minen",
-      "hiddenCause": "versenktes Labor erzeugt Meeresportal"
+      "Seed": "Ungeheuer von Loch Ness",
+      "Hook": "Sonar-Sichtung im See – Tauchteam entsenden, Kreatur verfolgen",
+      "hiddenCause": "Parawesen: Plesiosaurier-Monster (Nessie) durch Zeitriss in Gegenwart aufgetaucht"
     },
     {
       "d24": 10,
-      "Seed": "Mars-Colony 2157 – Terraform Sabotage",
-      "Hook": "Megacorp-Agenten manipulieren den Atmosphären-Reaktor – Terraforming retten",
-      "hiddenCause": "Rivalen von ChronTech platzieren Nano-Sabotage, um Kolonisation 20 J. zu verzögern",
-      "phase": "Core"
+      "Seed": "Jersey Devil",
+      "Hook": "Fliegendes Ungeheuer raubt Vieh – Flugbahn analysieren, Nest zerstören",
+      "hiddenCause": "Parawesen: Verfluchte Chimäre (Jersey Devil) – lauert in Wäldern, schlägt nachts auf Farmen zu"
     },
     {
       "d24": 11,
       "Seed": "Nightcrawler",
-      "Hook": "CCTV-Aufnahme – Tarnanzug aus Zukunft entkam",
-      "hiddenCause": "gestohlene Prototyp-Rüstung aus 2120"
+      "Hook": "CCTV-Video zeigt Kreatur – Spurensuche einleiten, Ursprung ermitteln",
+      "hiddenCause": "Parawesen: Fremdartiges Nachtwesen (Nightcrawler) – huscht durch Kamerasicht, Herkunft unbekannt"
     },
     {
       "d24": 12,
@@ -791,11 +790,17 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "Hook": "Dämonische Schreie – Kultstätte schließen",
       "hiddenCause": "versiegelter Psi-Kristall bricht wieder auf"
     },
+      {
+        "d24": 16,
+        "Seed": "Waheela-Rudel",
+        "Hook": "Jäger verschwinden in arktischer Wildnis – Spur aufnehmen, Bestien ausschalten",
+        "hiddenCause": "Parawesen: Urzeitliche Waheela-Wölfe dringen aus Riss – extrem aggressiv"
+      },
     {
       "d24": 17,
-      "Seed": "Totenbrücke",
-      "Hook": "Brückengeist blockiert Fahrspur – Konfrontation erzwingen",
-      "hiddenCause": "aus der Zeit gerissener Busfahrer, an Chrono-Transmitter gebunden"
+      "Seed": "Spring-Heeled Jack",
+      "Hook": "Feuerspuckender Unhold terrorisiert London – über die Dächer hetzen, Opfer schützen",
+      "hiddenCause": "Parawesen: Feuerteufel springt über Dächer und versetzt London in Angst"
     },
       {
         "d24": 18,
@@ -817,22 +822,21 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     },
     {
       "d24": 21,
-      "Seed": "Militärischer Komplex",
-      "Hook": "Tollwutvirus-Zombies eindämmen",
-      "hiddenCause": "Biowaffen-Test aus dem Jahr 1954 läuft aus dem Ruder"
+      "Seed": "Mokele-Mbembe",
+      "Hook": "Monster im Sumpf des Kongo – Expedition sichern, Kreatur einfangen",
+      "hiddenCause": "Parawesen: Relikt-Dinosaurier Mokele-Mbembe aus Zeitriss bedroht Dorf"
     },
     {
       "d24": 22,
-      "Seed": "Mittelalterliche Katakomben",
-      "Hook": "Der falsche Teufel – Illusion enttarnen",
-      "hiddenCause": "Illusionsprojektor versteckt Forschungsbasis",
-      "meta_introspection": true
+      "Seed": "Aswang-Nacht",
+      "Hook": "Schwangere spurlos verschwunden – Dorf patrouillieren, fliegende Hexe stellen",
+      "hiddenCause": "Parawesen: Vampir-Hexe (Aswang) ernährt sich von Ungeborenen im Dorf"
     },
     {
       "d24": 23,
-      "Seed": "Altes Schloss",
-      "Hook": "Vampir-Experiment beenden",
-      "hiddenCause": "Zeitreisende Biologen züchten Blutparasiten"
+      "Seed": "Thunderbird-Sichtung",
+      "Hook": "Kind von Riesenvogel entführt – Nest finden, Kreatur sichern",
+      "hiddenCause": "Parawesen: Donneradler (Thunderbird) entfacht Stürme und entführt Kinder"
     },
     {
       "d24": 24,

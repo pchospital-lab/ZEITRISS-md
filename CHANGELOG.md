@@ -86,3 +86,4 @@ tags: [meta]
 - `ClusterCreate()` enthüllt bei Stufe 5 neue Rift-Seeds.
 - Dokumentation an mehreren Stellen angepasst.
 - Resonanzpunkte verleihen kleine Boni (−1 Stress, Heilung usw.) bei jedem Anstieg.
+- RiftSeed-Tabelle überarbeitet: neue Cryptid-Seeds ergänzt.
