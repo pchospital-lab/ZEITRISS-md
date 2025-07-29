@@ -49,7 +49,7 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
 - **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
   Ab **11** ersetzt ein W10 den W6 (Exploding 10). Erst bei **14** kommt ein Heldenwürfel
   für einen einmaligen Reroll hinzu. So bleibt jeder Punkt spürbar, ohne die Balance zu kippen.
-- **Erweitertes Speichersystem:** Save-Dateien (JSON) erhalten ab sofort ein
+ - **Erweitertes Speichersystem:** Spielstände (JSON-Daten) erhalten ab sofort ein
   **Versionskennzeichen**, um die Kompatibilität mit zukünftigen Regelupdates sicherzustellen. Wir
   zeigen Beispiele, wie **versionskompatible** Speicherstände aussehen und wie das Spiel mit
   unterschiedlichen Versionen umgeht, damit eure Kampagnen-Logs auch nach Updates nahtlos
@@ -325,13 +325,13 @@ Spannung** bis zum Schluss erhalten bleibt.
 ZEITRISS setzt auf eine enge Verzahnung von Regelwerk und technischer Unterstützung durch den Codex
 (die KI-Spielleitung). Damit eure Kampagnenstände auch über Updates hinweg reibungslos
 funktionieren, führen wir ein Update im **Speichersystem** ein: **Versionstagging** für Spielstände.
-Jeder gespeicherte Spielstand (z. B. in Form einer JSON-Datei) erhält künftig einen
+Jeder gespeicherte Spielstand (im JSON-Format) erhält künftig einen
 **Versionskennzeichner**, der angibt, mit welcher Regelwerks-Version er erstellt oder zuletzt
 konvertiert wurde. Dies mag nach einem rein technischen Detail klingen, hat jedoch handfeste
 Vorteile für die Spielpraxis – insbesondere, da ZEITRISS 4.x aktiv weiterentwickelt wird.
 
-**Versionskennung in Save-Dateien:** Ab Version 4.1.4 wird bei jedem Speichervorgang automatisch ein
-**"version"**-Feld in die JSON-Datei geschrieben, z. B. _"version": "4.1.4"_. Bei späteren Modulen
+**Versionskennung im Spielstand:** Ab Version 4.1.4 wird bei jedem Speichervorgang automatisch ein
+**"version"**-Feld in den JSON-Daten geschrieben, z. B. _"version": "4.1.4"_. Bei späteren Modulen
 oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf _4.1.4_ für ein größeres Modul-
 Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
 **automatisch** erkennen, ob der Spielstand aus einer älteren Version stammt. Stimmen
@@ -364,13 +364,8 @@ und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speiche
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
 
-**Tipp:** Es lohnt sich dennoch, **Backups** eurer Spielstände anzulegen, bevor ihr ein größeres
-Update einspielt – einfach um auf Nummer sicher zu gehen. Bisherige Erfahrungen zeigen jedoch, dass
-das versionierte Speichersystem äußerst zuverlässig ist. Somit könnt ihr euch voll und ganz auf das
-inhaltliche Abenteuer konzentrieren, während die Technik im Hintergrund für Kontinuität sorgt.
-
-**Nightly Auto-Save:** Nach jeder Missionsphase legt der Codex automatisch einen Sicherungsstand an.
-So geht selbst bei Unterbrechungen oder spontanen Pausen kein Fortschritt verloren.
+**Nightly Auto-Save:** Nach jeder Missionsphase aktualisiert der Codex automatisch den gespeicherten
+Spielzustand. So geht selbst bei Unterbrechungen oder spontanen Pausen kein Fortschritt verloren.
 
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
 
