@@ -119,13 +119,13 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 ```yaml
 preserve_pool:
   - id: "P-0001"
-    year: 1962
-    place: "Kuba"
+    year: 1983
+    place: "Westeuropa"
     title: "Able Archer Nuclear Scare"
     objective: "Sorge, dass UdSSR-Frühwarnung NATO-Übung nicht als Erstschlag wertet."
     antagonist: null
     antagonist_goal: null
-    twist: "KGB-Chrononaut will Launch-Codes manipulieren."
+    twist: "Ein KGB-Zeitagent will Launch-Codes manipulieren."
   - id: "P-0002"
     year: 1979
     place: "BRD Elbe"
@@ -197,23 +197,23 @@ preserve_pool:
     objective: "Umleite Drohne vom Jet-Triebwerk ab."
     antagonist: null
     antagonist_goal: null
-    twist: "Neo-Fraktion testet Time-Beacon."
+    twist: "Zeitkartell testet einen Time-Beacon, der eine Drohne anzieht."
   - id: "P-0011"
-    year: 1960
+    year: 1962
     place: "Karibik"
     title: "Black Saturday"
     objective: "Funkspruch von B-59-Sub unterdrücken – kein Torpedo-Launch."
     antagonist: null
     antagonist_goal: null
-    twist: "Abgehörter Morse-Code wird gefälscht."
+    twist: "Ein gegnerischer Agent fälscht den abgehörten Morse-Code."
   - id: "P-0012"
-    year: 1980
+    year: 1983
     place: "Vologda"
     title: "Oko False Alarm"
     objective: "Stütze Oberst Petrow bei Fehlalarm-Entscheidung."
     antagonist: null
     antagonist_goal: null
-    twist: "Zeitanomalie flackert Satelliten-Sensor."
+    twist: "Abtrünniger Techniker manipuliert Satellitendaten."
   - id: "P-0013"
     year: 1977
     place: "Leningrad"
@@ -269,7 +269,7 @@ preserve_pool:
     objective: "Stütze Stromnetz gegen geomagnetischen Sturm."
     antagonist: null
     antagonist_goal: null
-    twist: "Solar-Max Boost durch Zeitspule."
+    twist: "Zeitkartell verstärkt den Sonnensturm per Zeitspule."
   - id: "P-0020"
     year: 2012
     place: "CERN"
@@ -1351,70 +1351,70 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: black_ops_pool
   title: "Kaiserlicher Goldzug"
-  pitch: "Entert den gepanzerten Geldzug auf der Nordspur."
+  pitch: "Entert den gepanzerten Geldzug – Zukunftsagenten wollen Qing-Finanzen an Warlords umleiten."
   timeslot: "Day-1 Dawn"
 
 - arc_id: "Peking1908"
   arc_step: 2
   pool: black_ops_pool
   title: "Tesla-Boxer-Labor"
-  pitch: "Zerstört eine geheime Coilgun-Anlage unter einem Hutong-Lagerhaus."
+  pitch: "Zerstört eine geheime Coilgun-Anlage – Chrono-Techniker rüsten Boxer-Rebellen auf."
   timeslot: "Day-1 Noon"
 
 - arc_id: "Peking1908"
   arc_step: 3
   pool: black_ops_pool
   title: "Jade-Chronometer"
-  pitch: "Stehlt ein codiertes Relikt aus dem Uhrenturm der Verbotenen Stadt."
+  pitch: "Stehlt ein codiertes Zeitrelikt aus dem Uhrenturm, das kaiserliche Zeitlinien berechnet."
   timeslot: "Day-1 Dusk"
 
 - arc_id: "Peking1908"
   arc_step: 4
   pool: black_ops_pool
   title: "Attentat bei der Oper"
-  pitch: "Verhindert das Attentat auf einen britischen Attaché während einer Pekinger Oper."
+  pitch: "Verhindert das Attentat auf einen britischen Attaché – Gegner will internationalen Konflikt forcieren."
   timeslot: "Day-1 Night"
 
 - arc_id: "Peking1908"
   arc_step: 5
   pool: black_ops_pool
   title: "Lotus-Drogenrazzia"
-  pitch: "Brennt das Drogenlabor eines Warlords auf Stelzen über Abwasserkanälen nieder."
+  pitch: "Brennt das Drogenlabor eines Warlords nieder; Schmuggelerlöse finanzieren Zeitoperationen."
   timeslot: "Day-2 Dawn"
 
 - arc_id: "Peking1908"
   arc_step: 6
   pool: black_ops_pool
   title: "Fenghuang-Flugtest"
-  pitch: "Testet ein Proto-Ornithopter-Fluchtgerät während eines Sandsturms."
+  pitch: "Testet ein Proto-Ornithopter – geplanter Technologietransfer aus der Zukunft."
   timeslot: "Day-2 Noon"
 
 - arc_id: "Peking1908"
   arc_step: 7
   pool: black_ops_pool
   title: "Argus-Ballon-Abgriff"
-  pitch: "Hackt das optische Telegraphenrelais eines Aufklärungsballons."
+  pitch: "Hackt das optische Telegraphenrelais, um falsche Aufstandsberichte zu senden."
   timeslot: "Day-2 Afternoon"
 
 - arc_id: "Peking1908"
   arc_step: 8
   pool: black_ops_pool
   title: "Tunnelspektrenjagd"
-  pitch: "Jagt einen Chronoschmuggler durch halb fertiggestellte Metro-Tunnel."
+  pitch: "Jagt einen Chronoschmuggler, der Rebellen mit Zukunftstechnik versorgt, durch Metro-Tunnel."
   timeslot: "Day-2 Dusk"
 
 - arc_id: "Peking1908"
   arc_step: 9
   pool: black_ops_pool
   title: "Blutschriftrollen-Auktion"
-  pitch: "Tauscht eine verfluchte Schriftrolle auf dem nächtlichen Schwarzmarkt, bevor das Gebot endet."
+  pitch: "Tauscht ein angeblich verfluchtes Dokument aus – tatsächlich ein zeitgeladenes Schriftstück."
   timeslot: "Day-2 Midnight"
 
 - arc_id: "Peking1908"
   arc_step: 10
   pool: black_ops_pool
   title: "Drachentor-Abriegelung"
-  pitch: "Versiegelt die kaiserliche Gruft und hindert ein rivalisierendes Zeitteam am Diebstahl von Relikten."
+  pitch: "Versiegelt die kaiserliche Gruft, bevor ein rivalisierendes Zeitteam Qing-Relikte manipuliert."
   timeslot: "Day-3 Dawn"
 
 - arc_id: "Orbital2220"
