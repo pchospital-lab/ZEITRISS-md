@@ -19,7 +19,7 @@ tags: [characters]
 In **Teil 2** der überarbeiteten Modul 5-Regeln fokussieren wir uns auf erweiterte Systeme, die Euer
 ZEITRISS-Spiel noch vielseitiger und filmischer machen. Von **Zuständen** wie Verwundungen oder
 Erschöpfung über **Heilung & Erholung** in verschiedenen Stilen bis hin zu alternativen
-**Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradox-Belastung** und **mentale
+**Initiative-Systemen** und optionalen Modulen für **Stress**, **Paradoxon-Resonanz** und **mentale
 Auswirkungen** – all diese Elemente könnt Ihr modular einsetzen. Abschließend integrieren wir ein
 vollständig spielbares, filmisch-immersives **HUD-Overlay**, das der KI-Spielleitung (GPT)
 erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuzeigen. Alle
@@ -120,8 +120,8 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
 
 - **Temporale Destabilisierung:** ZEITRISS-Agenten arbeiten mit der Zeit – doch temporale Phänomene
   können auch ihnen zusetzen. **Destabilisierung** bezeichnet einen Zustand, in dem der **Zeitstrom
-  um (oder in) einem Charakter ins Wanken gerät**. Ursachen können hohe Paradoxon-Index, Zeitreisen
-  ohne ausreichende Schutzmaßnahmen oder temporale Waffen/Implantate sein. Destabilisierte
+  um (oder in) einem Charakter ins Wanken gerät**. Ursachen können ungefilterte temporale Energien,
+  Zeitreisen ohne ausreichende Schutzmaßnahmen oder temporale Waffen/Implantate sein. Destabilisierte
   Charaktere erleben **Desorientierung, Déjà-vus oder gar Sekundenbruchteile des „Aus-der-Zeit-
   Fallens“**. _Effekt:_ Je nach Schwere erhält der Charakter **Abzüge auf Aktionen** (z.B. –1 bis
   –3) und der SL kann beschreiben, wie die Person sporadisch **flimmert oder phasenversetzt**
@@ -374,7 +374,7 @@ setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst na
   **pro** oder **contra** spielt. Mit `modus paradox on` schaltet ihr sie
   wieder ein.
 
-  Modul Paradox-Belastung gibt der Gruppe Feedback, **wie riskant ihr Handeln gerade ist**. Clevere
+  Modul Paradoxon-Resonanz gibt der Gruppe Feedback, **wie viel temporale Resonanz ihr Einsatz erzeugt**. Clevere
   Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
   reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
