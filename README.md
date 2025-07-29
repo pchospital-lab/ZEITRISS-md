@@ -19,7 +19,7 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
 > 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 öffnet 1–2 Rifts → Index 0.
+> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Arc-Ende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Generator.** Mini- und Arc-Bosse tauchen im 5/10-Rhythmus auf.
 
