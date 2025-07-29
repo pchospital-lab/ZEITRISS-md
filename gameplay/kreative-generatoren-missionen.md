@@ -709,14 +709,14 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
-      "Hook": "Zeitfeld-Bus – Entschärfung im Verkehrsstau",
-      "hiddenCause": "verschwundener Tang-Dynastie-Tempel"
+      "Hook": "Geisterbus im Zeitfeld – Stau räumen, Showdown auf der Brücke",
+      "hiddenCause": "aus der Zeit gefallener Fahrer mit Chrono-Tech"
     },
     {
       "d24": 3,
       "Seed": "Schrecken von Whitehall",
-      "Hook": "Statue springt – Rooftop-Chase, Magnet-Harpoon",
-      "hiddenCause": "Paradoxe Rückkopplung königlicher Blutlinie"
+      "Hook": "Löwe springt – Parkourjagd, Magnet-Harpoon",
+      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem"
     },
     {
       "d24": 4,
@@ -739,13 +739,13 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     {
       "d24": 7,
       "Seed": "Project Götterdämmerung",
-      "Hook": "Polar-Laser – Stealth-Sabotage Arctic Station",
-      "hiddenCause": "Nazitek aktiviert unvollständiges Zeitportal"
+      "Hook": "Polarlicht-Geister – Station sabotieren, Zeitgolem bannen",
+      "hiddenCause": "Nazi-Portal ruft unvollständigen Zeitgolem hervor"
     },
     {
       "d24": 8,
       "Seed": "Black Rain Vienna",
-      "Hook": "Nano-Wolke 1666 – Alchemisten-Labor infiltrieren",
+      "Hook": "Teufelsregen 1666 – Omen prüfen, Labor infiltrieren",
       "hiddenCause": "unerkanntes Nanotech der Renaissance"
     },
     {
@@ -756,9 +756,10 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     },
     {
       "d24": 10,
-      "Seed": "Mars-Log #404",
-      "Hook": "Habitat-Shift – EVA-Mission, Quanten-Key zurück",
-      "hiddenCause": "gestrandete Kolonie sendet Notsignal durchs Zeitloch"
+      "Seed": "Mars-Colony 2157 – Terraform Sabotage",
+      "Hook": "Megacorp-Agenten manipulieren den Atmosphären-Reaktor – Terraforming retten",
+      "hiddenCause": "Rivalen von ChronTech platzieren Nano-Sabotage, um Kolonisation 20 J. zu verzögern",
+      "phase": "Core"
     },
     {
       "d24": 11,
@@ -787,35 +788,32 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     {
       "d24": 15,
       "Seed": "Diablos Katakomben",
-      "Hook": "Dämonische Schreie – Artefakt zerstören",
+      "Hook": "Dämonische Schreie – Kultstätte schließen",
       "hiddenCause": "versiegelter Psi-Kristall bricht wieder auf"
     },
     {
       "d24": 17,
       "Seed": "Totenbrücke",
-      "Hook": "Bus erstarrt 15 min – Zeitfeld neutralisieren",
-      "hiddenCause": "Fehlgeleiteter Chrono-Transmitter unter der Brücke"
+      "Hook": "Brückengeist blockiert Fahrspur – Konfrontation erzwingen",
+      "hiddenCause": "aus der Zeit gerissener Busfahrer, an Chrono-Transmitter gebunden"
     },
-    {
-      "d24": 18,
-      "Seed": "Schrecken von Whitehall – PHANTOM",
-      "Hook": "Löwe springt – Parkourjagd",
-      "hiddenCause": "eingeschleuste Androiden testen Tarnsystem",
-      "focus": "mirror"
-    },
-    {
-      "d24": 19,
-      "Seed": "Night Train 666 – PHANTOM",
-      "Hook": "Geisterzug – Zug entern",
-      "hiddenCause": "verschollener Prototyp mit permanenter Zeitschleife",
-      "focus": "mirror"
-    },
-    {
-      "d24": 20,
-      "Seed": "Emerald Kraken – PHANTOM",
-      "Hook": "Grüne Tentakel – Taucheinsatz",
-      "hiddenCause": "mutierte Tiefsee-Drohnen sammeln Artefakte",
-      "focus": "mirror"
+      {
+        "d24": 18,
+        "Seed": "Geister-Galeere",
+        "Hook": "Leuchtende Ruderer sichten – Hafen sperren, Fluch brechen",
+        "hiddenCause": "Parawesen: Quantum-Sirenen hypnotisieren Seeleute – sammeln Lebensenergie"
+      },
+      {
+        "d24": 19,
+        "Seed": "Spiegelkabinett",
+        "Hook": "Doppelgänger im Spiegelkabinett – Besucher verschwinden, Irrgarten sichern",
+        "hiddenCause": "Parawesen: Photonik-Parasiten kopieren Besucher – Spiegelnetz dient als Portal"
+      },
+      {
+        "d24": 20,
+        "Seed": "Phantom-Katakomben",
+        "Hook": "Flüsternde Stimmen unter Paris – Katakomben erkunden, Störsignal orten",
+        "hiddenCause": "Parawesen: Ätherische \"Whisperer\" – Schallfeld erzeugt Massenhalluzinationen"
     },
     {
       "d24": 21,
