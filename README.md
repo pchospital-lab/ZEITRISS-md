@@ -542,7 +542,6 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
 Scanne den QR-Code oder besuche [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
 
-
 ## How to Contribute
 
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
