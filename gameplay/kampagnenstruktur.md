@@ -717,7 +717,7 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 12. Debrief – 700 CU, möglicher T3-Kauf.
 
 **Rift-Op Mothman Bridge**
-1. Briefing – Highway in West Virginia meldet Störsignale.
+1. Briefing – Sturzregen über Virginias Highway; flackernde Lichter und gesperrte Brücken beunruhigen die Polizei.
 2. Anreise bei Sturm, Brückenbauwerk gesperrt.
 3. Local Witness – verängstigter Trucker berichtet von roten Augen.
 4. Drohnen-Scan zeigt Energiespitzen im Nebel.
