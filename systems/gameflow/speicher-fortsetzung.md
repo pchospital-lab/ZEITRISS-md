@@ -23,10 +23,8 @@ Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
 }
 ```
 
-Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden,
-sind für den reinen Spielfortschritt jedoch nicht nötig.
-
-- Automatisches Backup nach jeder Erhöhung des Paradoxon-Index
+- Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden,
+  sind für den reinen Spielfortschritt jedoch nicht nötig.
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
@@ -89,7 +87,7 @@ Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Mission
 
 ### Short Save & Deep Save {#short-deep}
 Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest.
-Lagert ausführliche Kampagnenstände extern als **Deep Save**.
+Ein **Deep Save** umfasst zusätzliche Details, bleibt aber ebenso im Chat-Kontext.
 
 Sollte ein Save das 8k-Kontextlimit überschreiten, teilt ihn in mehrere Blöcke und ladet sie nacheinander.
 
@@ -105,8 +103,8 @@ Sollte ein Save das 8k-Kontextlimit überschreiten, teilt ihn in mehrere Blöcke
 
 Für **Einzelspieler-Runden** (ein Chrononaut als Spielercharakter) bleibt die bisherige
 Speichermechanik im Kern bestehen. Am Ende jeder Mission erzeugt das Spiel einen maschinell lesbaren
-**Speicherblock** – idealerweise als strukturierten JSON-Code im Chat (z.B. in einem Code-Feld) oder
-als separate Datei. Entscheidend ist, dass das Format einheitlich und klar lesbar ist, sowohl für
+**Speicherblock** – idealerweise als strukturierten JSON-Code im Chat (z.B. in einem Code-Feld).
+Entscheidend ist, dass das Format einheitlich und klar lesbar ist, sowohl für
 Menschen als auch für das KI-Modell. Dadurch erkennt GPT zuverlässig, dass es sich um einen
 Spielstand handelt, und kann alle relevanten Daten übernehmen, sobald der Speicherstand in eine neue
 Spielsitzung geladen wird.
@@ -529,18 +527,6 @@ ermittelt. Bei einem negativen Ausgang verliert die Gruppe CU in Höhe des
 Spielerlevels (niemals unter 0), positive Ergebnisse bringen ein Item im Wert
 von **CU × Spielerlevel**.
 
-## Optional: Auto-Backup bei Paradoxon-Anstieg
-
-Sobald sich der Paradoxon-Index erhöht, erstellt das System eine Kopie des
-aktuellen Spielstands im Ordner `backups`. Diese Datei trägt einen
-Zeitstempel im Namen, zum Beispiel `save_fall_of_chrysalis_20250629-1932.json`.
-Diese Ordnerstruktur greift nur, wenn ZEITRISS mit Dateizugriff ausgeführt
-wird – etwa über ein lokales Script oder eine dedizierte Plattform. Nutzt ihr
-lediglich ein Chatfenster, müsst ihr die JSON-Sicherung von Hand kopieren.
-Vor dem
-Start einer neuen Sitzung prüft die Engine, ob ein solches Backup
-vorliegt, und stellt es bei Bedarf wieder her. Die Felder `version_hash`
-und optional `checksum` helfen, inkonsistente Sicherungen zu erkennen.
 
 ## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 

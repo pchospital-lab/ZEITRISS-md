@@ -120,7 +120,7 @@ Content-Type: application/json
 ## 3 | PERSISTENZ – Paradox- & Seed-Stats
 
 ```jsonc
-// campaign_state.json   (auto-save nach jeder Aktion)
+// Spielzustand (JSON) – wird nach jeder Aktion aktualisiert
 {
   "paradox_level": 3,
   "paradox_points": 11,
@@ -301,7 +301,7 @@ function startGroupMode(players = []) {
 
 ```typescript
 function autoSave() {
-  fs.writeFileSync("campaign_state.json", JSON.stringify(state, null, 2));
+  updateCharacterData(state); // Spielzustand persistent gesichert
 }
 
 function deltaSave(prevState, newState) {
@@ -309,7 +309,7 @@ function deltaSave(prevState, newState) {
   for (const k in newState) {
     if (prevState[k] !== newState[k]) delta[k] = newState[k];
   }
-  fs.writeFileSync("campaign_state.delta.json", JSON.stringify(delta, null, 2));
+  updateCharacterData(delta); // nur Änderungen gespeichert
 }
 
 function generateId(prefix = "CHR") {
@@ -319,7 +319,7 @@ function generateId(prefix = "CHR") {
   return `${prefix}-${num}`;
 }
 // Beim Erstellen eines neuen Charakters ruft das System `generateId()` auf und
-// speichert die ID im Savegame.
+// speichert die ID im Spielstand.
 // Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
 

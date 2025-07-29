@@ -411,14 +411,12 @@ und zeigt anschließend das Startbanner
 Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
 Beim Speichern unterscheidet ZEITRISS kurze Zwischenstände (**Short Saves**) und
-ausführliche **Deep Saves**. Steigt der Paradoxon-Index, legt das System ein
-automatisches Backup im Ordner `backups` an – sofern ein Dateisystem verfügbar
-ist. Mit dem Befehl `Speichern` erhältst du einen Deep-Save-Block im JSON-Format.
-Solche Blöcke lassen sich zu Gruppen zusammenführen. Tippe `Film ab!`, um eine
+ausführliche **Deep Saves**. Der Befehl `Speichern` zeigt dir einen aktuellen
+JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Film ab!`, um eine
 optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
-kopieren lässt. Weitere Details stehen im Modul zum Speichern. Automatisierte
-Backups funktionieren nur mit Dateisystemzugriff; nutzt du lediglich ein
-Chatfenster, musst du den JSON-Save daher selbst kopieren.
+kopieren lässt. Weitere Details stehen im Modul zum Speichern. Alle
+Spielstände werden intern im Charakterbogen geführt – separate Sicherungen
+sind nicht erforderlich.
 
 
 
