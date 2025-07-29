@@ -219,7 +219,7 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
   Beispiele liefert die Tabelle „Kuriose Artefakte & Relikte“ im Generator-Modul.
  - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
    zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
-   erhöht sich der Index grundsätzlich nur bei jedem zweiten Verstoß um **+1**.
+   steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
 
 #### Boss-Rhythmus im Core-Arc
 
@@ -888,10 +888,10 @@ bestimmte Projekte einzigartige Komponenten als Missionsziel.
 
 - **Finanzielle Mittel (CU):** Alle Stufen des HQ und jede Ausrüstung lassen sich ausschließlich mit
   CUs erwerben. Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
-- **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
-  besonderes Relikt. Artefakte findet man ausschließlich in Rift‑Ops, während Core‑Ops höchstens
-  Bauteile oder historische Relikte liefern. Diese Komponenten werden meist in eigenen Missionen
-  erbeutet.
+ - **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
+   besonderes Relikt. Artefakte treten nur in Rift‑Einsätzen überhaupt in Erscheinung – und selbst dort
+   äußerst selten, vergleichbar mit legendären Funden. Core‑Ops liefern höchstens Bauteile oder
+   historische Relikte. Diese Komponenten werden meist in eigenen Missionen erbeutet.
 - **Personal & Kontakte:** Neue Verbündete oder Experten, die im Laufe der Kampagne dazukommen,
   kann man ebenfalls als Ressource sehen. Ein brillanter Wissenschaftler NSC im Labor verbessert
   dessen Leistungsfähigkeit. Ein Veteran-Agent als Ausbilder steigert die Effekte der
@@ -1051,11 +1051,11 @@ oder logisch ersetzt werden._
 | 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
 | 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
 | 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
-| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf Artefakt; rivaler Sammler. | Social / Bluff | 8 | 0-1 |
+| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf seltenes Relikt; rivalisierender Sammler. | Social / Bluff | 8 | 0-1 |
 | 5 | **EC-CORE-005** | *Konvoi-Hinterhalt*: Drohne meldet Routen-Split. | Kampf / Fahrzeug | 12 | 0 |
 | 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin da. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
 | 7 | **EC-CORE-007** | *Flusskanal-Zufahrt 1643*: Tor öffnet nur heute bei Vollmond. | Survival / Timing | 9 | 0 |
-| 8 | **EC-CORE-008** | *Mediensturm*: Presse da, Kameras an. | Social / Disguise | 10 | +1 falls Zeitfehler live |
+| 8 | **EC-CORE-008** | *Mediensturm*: Presse da, Kameras an. | Social / Disguise | 10 | -1 (Px) falls temporale Anomalie live übertragen wird |
 | 9 | **EC-CORE-009** | *Cipher-Server NB-II*: Admin anwesend, kennt Logs. | Tech / Social | 11 | 0 |
 | 10 | **EC-CORE-010** | *U-Bahn-Flucht*: Zielperson springt in Zug, Notbremse deaktiviert. | Chase | 10 | 0 |
 | 11 | **EC-CORE-011** | *Magnetbahn-Deraillieren 2334*: Schiene sabotiert, Chaos. | Infiltration / Repair | 12 | +1 |
