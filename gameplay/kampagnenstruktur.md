@@ -105,7 +105,8 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
   historischen Ablauf zu manipulieren, während die Spieler versuchen, das zu verhindern.
 - **Konflikte und Allianzen:** Die Fraktionen interagieren nicht nur mit den Spielercharakteren,
   sondern auch untereinander. Schmiedet Allianzen oder entfacht Konflikte im Hintergrund – etwa könnte
-  eine dritte Partei unvermittelt eingreifen, was zu überraschenden Wendungen führt. Die Agenten
+  eine **feindliche Zeitreise-Fraktion** unvermittelt eingreifen. Diese sogenannte
+  **Fremdfraktion** verfolgt eigene Ziele und kann die Lage völlig umkrempeln. Die Agenten
   könnten vor Entscheidungen gestellt werden, welche Gruppe sie unterstützen, was den Verlauf der
   Geschichte beeinflusst.
 - **Veränderliche Machtverhältnisse:** Am Ende jedes Handlungsbogens sollte sich die Stellung der
@@ -172,17 +173,19 @@ Kriege.
 
 ### Core- & Rift-Loop
 
-Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**. Core-Missionen
-setzen auf realistische Agentenaufträge. Welche Epoche betroffen ist, bestimmt
-der [Random-Epochen-Generator](kreative-generatoren-missionen.md#epochen-generator). Für
-Szenarien, die bekannte Ereignisse verändern, bietet der
-[Historische Anomalien-Generator](kreative-generatoren-begegnungen.md#anomalie_realhistory)
-zusätzliche Seeds. Artefakte tauchen ausschließlich in Rifts auf. Core-Ops
-können zwar bedeutende Relikte einbinden, sie gelten jedoch nicht als Artefakte
-im Regelkern. Rift-Missionen werden aus der
+Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
+
+**Core-Ops** sind historische Spionagemissionen ohne echte Anomalien. Scheinbar
+übernatürliches entpuppt sich meist als Technologie oder Trick, die Gegner sind
+vor allem menschliche Rivalen oder Fraktionen. Bedeutende Relikte können eine
+Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
+
+**Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus der
 [`RiftSeedTable`](kreative-generatoren-begegnungen.md#anomalien-generator) bestimmt und
-enthalten immer Anomalien. Rifts bringen häufig sogenannte **Paramonster** hervor
-– temporale Wesen, die im
+enthalten immer Anomalien wie Parawesen oder Artefakte. Diese Einsätze laufen
+außerhalb des Core-Story-Arcs und zählen nicht zur regulären Missionszahl.
+
+Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Steigt der
 Paradoxon-Index auf 5, `ClusterCreate()` macht 1–2 neue Seeds sichtbar und setzt den Wert
@@ -295,7 +298,11 @@ Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
 | 3  | Core  | Kanal unter dem Palast   | Understreet-Einbruch                             |
 | 4  | Core  | Der Schatten der Zukunft | Verfolgung / Gefecht mit Fremdfraktion           |
 | 5  | Core  | Die Nacht der Bauprobe   | Sicherung oder Einbau letzter Zukunfts-Bauteile  |
-| 6  | Core  | Bauabnahme               | Staffel-Finale: Bewahren vs. Auslösen            |
+| 6  | Core  | Bauabnahme               | Staffel-Finale: Showdown Bewahren vs. Auslösen   |
+
+Im Finale treffen beide Philosophien direkt aufeinander: Die Chrononauten wollen
+das Ereignis bewahren, die gegnerische Fraktion versucht es auszulösen (oder
+umgekehrt, je nach Kampagnenausrichtung).
 
 Rifts spawnen separat zwischen diesen Episoden und werden einzeln gelistet.
 
@@ -1500,7 +1507,7 @@ _Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch._
 | --------------- | ---------------------------------------------------------------------------- |
 | **Architektur** | Weiße Terrazzoflächen mit titanfarbenen Rippen, Art-Déco trifft Möbius.      |
 | **Beleuchtung** | Mischung aus kühlem Türkis und warmen Amber-Akzenten.                        |
-| **Skybox**      | Statische Nebelwolke mit leichten Zeitpartikeln.                             |
+| **Skybox**      | Statische Nebelwolke, leichte Zeitpartikel – harmloses Leuchten der Zeitanker-Technologie. |
 | **Ambient SFX** | Dockyard: dumpfes Maschinenbrummen; Sanctuary: sanfte Glockenklänge.         |
 | **Props**       | Holo-Kioske mit Oktagon-Glyphen, Bänke mit integrierter Chrono-Kompass-Rose. |
 

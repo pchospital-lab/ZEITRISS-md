@@ -55,7 +55,7 @@ klebt – ein Ritter, der gerade eben einen mittelalterlichen Kriegsschauplatz v
 ihm blickt eine Frau in einem hochmodernen Nanofaser-Anzug fasziniert auf die antik wirkende Halle –
 eine Technikerin aus dem Jahr 2190, für die diese Umgebung beinahe prähistorisch anmutet. Etwas
 abseits tastet ein junges Talent in Jeans und Lederjacke vorsichtig nach dem altägyptischen Amulett
-an seinem Hals – ein Historiker aus den 2020ern, der ein **Artefakt** von seiner letzten Mission
+an seinem Hals – ein Historiker aus den 2020ern, der ein **historisches Relikt** von seiner letzten Mission
 mitgebracht hat. Für einen Moment herrscht gespanntes Schweigen: Hier treffen **Menschen
 verschiedener Epochen** zusammen, vereint im Licht des Zeitportals, zum ersten Mal gemeinsam an
 einem Ort jenseits der Zeit. Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
@@ -146,7 +146,8 @@ durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier s
   Kamera-Schwenk** eröffnet werden, um Ort und Stimmung zu etablieren. Im Rollenspiel wird daraus eine
   **bildhafte Beschreibung der Umgebung**. Nehmt euch Zeit, die Szenerie des Einstiegs auszumalen: das
   Panorama einer historischen Stadt bei Sonnenuntergang, das endlose Schwarz der Nullzeit mit
-  schwebenden Zeitportal-Fragmenten, oder das dichte Neonleuchten einer futuristischen Megacity im
+  schwebenden Zeitportal-Fragmenten – flüchtige Lichtreflexe vergangener Sprünge –,
+  oder das dichte Neonleuchten einer futuristischen Megacity im
   Regen. Ein stimmungsvoller **Establishing Shot** zieht alle sofort in die Welt hinein. Details zu
   Licht, Wetter, Geräuschen und Gerüchen schaffen Immersion. Beispiel: _„Die Kamera fährt über das vom
   Mondlicht silbern beschienene London des Jahres 1890. Im Dunst der Gaslaternen glitzert feiner
@@ -430,10 +431,10 @@ Auflösung, wie es dazu kam (ähnlich wie bei einem Bond-Film, der mit einer act
 Mission beginnt, bevor die Hauptgeschichte startet). In ZEITRISS könntet ihr so vorgehen: Beginnt
 _in medias res_ in einer Zeitperiode, wo die Agents gerade **etwas Schiefgelaufenes reparieren**
 müssen. Beispiel: _New York, 1929 – die Chrononauten jagen einen abtrünnigen Zeitagenten über die
-Dächer, um ein gestohlenes Artefakt zurückzuholen._ Die Spieler wissen anfangs nicht viel Kontext,
+Dächer, um ein gestohlenes Relikt zurückzuholen._ Die Spieler wissen anfangs nicht viel Kontext,
 nur dass es wichtig ist. Nachdem die Szene gespielt ist (idealerweise erfolgreich), **schneidet**
 die Handlung vielleicht zurück ins HQ-Büro, wo Renier sagt: _„So ungefähr wird das ablaufen.
-Fragen?“_ – Reveal: Das zuvor Gespielte war ein **Probe-Einsatz** unter realen
+Fragen?“_ – Reveal: Das zuvor Gespielte war ein optionaler **Probe-Einsatz** unter realen
 Bedingungen oder ein **Vorabausschnitt aus einer späteren Mission**. Alternativ
 kann die Action-Sequenz auch die erste echte Mission gewesen sein, und das
 Kennenlernen im HQ passiert _nach_ der Rückkehr (z.B. die Gruppe wurde in einer
@@ -606,8 +607,9 @@ Nun geht es ans Eingemachte: **Worum** soll es im ersten Abenteuer konkret gehen
 mehrere Missionsideen, die sich als **modularer Start** eignen. Jede Idee ist bewusst lose gehalten
 – ihr könnt sie an eure Epoche, eure Charaktere und eure gewünschte Story anpassen. Denkt daran,
 dass es der _erste_ Auftrag der Chrononauten ist (oder ihr Training dafür), also darf er ruhig
-exemplarisch fürs ZEITRISS-Programm sein: Zeitverbrechen verhindern, Anomalien untersuchen,
-Artefakte sichern, Geschichte bewahren. Wichtig ist, dass die Mission **persönlichen Einsatz**
+den besonderen ZEITRISS-Flair einfangen: etwa ein Zeitverbrechen verhindern **oder** eine Anomalie untersuchen,
+zeitfremde Objekte sichern und die Geschichte bewahren. Nicht alle Elemente müssen gleichzeitig vorkommen.
+Wichtig ist, dass die Mission **persönlichen Einsatz**
 erfordert und idealerweise die Charaktere zusammen schmiedet. Wählt eine der folgenden Skizzen oder
 kombiniert Elemente daraus. Alle enthalten **Optionen zur Anpassung**, damit ihr sie flexibel
 gestalten könnt.
@@ -652,7 +654,7 @@ an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte.
   und kommentiert den Ablauf, bei einem realen Einsatz wären die Charaktere autonomer unterwegs.
 - **Anpassungen:** Statt einer futuristischen Gang und High-Tech-Gerät könnt ihr Setting und
   Zielobjekt nach Geschmack anpassen. **Historische Variante:** Der gestohlene Gegenstand ist kein
-  Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Artefakt** oder ein moderner Revolver, der im
+  Sci-Fi-Resonator, sondern z.B. ein **mysteriöses Relikt** oder ein moderner Revolver, der im
   Mittelalter gelandet ist. Die Schurken wären in dem Fall vielleicht eine Räuberbande im 15. Jh., die
   plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch! **Gefahrenniveau:** Für
   ein eher pulpiges Spiel könnt ihr die Gegner relativ leicht besiegbar machen und den Schwerpunkt auf
@@ -736,7 +738,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   entstanden ist – möglicherweise verursacht durch einen lange vergessenen **Zeitapparat** (z.B. ein
   fragmentierter Zeitkristall aus einer früheren Expedition, der hier vor Jahrhunderten verloren
   ging). Im Finale müssen sie in die Tiefe vordringen (etwa in Katakomben oder eine Höhle unter der
-  Dorfkirche), um dort den Riss zu stabilisieren oder das Artefakt zu entfernen. Die Umgebung wird
+  Dorfkirche), um dort den Riss zu stabilisieren oder das Relikt zu entfernen. Die Umgebung wird
   zunehmend surreal: Zeitschatten aus Vergangenheit und Zukunft flackern und stellen sich ihnen
   eventuell in den Weg (hier können kuriose Begegnungen stattfinden, etwa ein verwirrter Römergeist,
   der plötzlich auftaucht, oder ein kurz aufscheinendes Portal mit Dinos – je nach Stimmung).
@@ -771,7 +773,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   die aus dem Riss treten, weil in einer Parallelrealität an dieser Stelle mal eine Schlacht war. Hier
   kann man kreativ alle möglichen Zeitsplitter[^zeitsplitter] einwerfen.
   Sobald das Gerät aktiviert ist (oder das
-  Artefakt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
+  Relikt entfernt/zerstört), kollabiert der Spuk plötzlich: Stille, Dunkelheit. Und dann hört man
   vielleicht – passend cineastisch – das erste Hahnkrähen des Morgens im Dorf, als Zeichen, dass alles
   wieder normal tickt. Das Erfolgserlebnis hier ist eher das Lösen eines Rätsels und der **Sieg über
   die Unordnung**, was einen schönen Kontrast zu reinem Kampf darstellt.
