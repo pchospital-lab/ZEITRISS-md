@@ -831,12 +831,11 @@ TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 | 0    | ▢ hellgrau | Leerlauf                       | Keine Resonanz          |
 | 1–2  | ▢ grün    | Basis-Resonanz                  | +10 % Codex-Analyse     |
 | 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf            |
-| **5**| ▢ cyan    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds erscheinen, Index → 0 |
+| **5**| ▢ cyan    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
 
-> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD cyan. Das ITI markiert
-> sofort 1–2 neue Rifts auf der Raumzeitkarte. Danach springt der Index auf
-> **0** und der Loop beginnt erneut.
-
+> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD cyan.
+> Das ITI merkt nach Missionsende 1–2 Rift-Seeds vor (spielbar nach Arc-Abschluss).
+> Danach springt der Index auf **0** und der Loop beginnt erneut.
 **Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
 Artefakte, High-Tech-Belohnungen und besondere Missions-Hooks zu erhalten.
 Ein niedriger Index ist kein „Safety Score“, sondern verschenktes Potenzial.
