@@ -485,6 +485,10 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **ITI** – Institut für Temporale Intervention.
 - **Seed-ID** – Kennziffer eines Missions-Seeds.
 - **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.
+- **CI** – Continuum Integrity, Stabilität der Hauptzeitlinie.
+- **Rift** – Zeit-Anomalie; löst eine spezielle Rift-Op aus.
+- **Huminen** – Sammelbegriff für alle menschlichen Abstammungslinien, inklusive
+  T- und N-Stufe der Neumenschen.
 
 - **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
 - **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
@@ -497,6 +501,13 @@ Kurze Erklärungen wichtiger Abkürzungen:
 | **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
+
+### Huminen
+
+**Huminen** bezeichnet alle menschlichen Abstammungslinien – vom modernen Homo
+sapiens über T- und N-Stufe der Neumenschen bis zu Neandertalern oder
+spekulativen Atlanten-Vorläufern. Diese Wahl prägt vor allem das Flair eurer
+Chrononauten, ist aber keine eigene Fraktion.
 
 ### Begriffsklärung
 
