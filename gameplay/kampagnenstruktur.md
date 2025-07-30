@@ -415,8 +415,56 @@ ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | --- | --------- |
 | **A** | Einstieg, erste Spur, kleiner Konflikt |
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
+
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
 *`EndScene()` nach jeder Szene*
+
+###### Autoren-Briefing: Rift-Missionen {#autoren-rift}
+
+Rift-Storys laufen losgelöst vom Core-Plot und nutzen **14 Szenen** im Dreiakt-
+Schema. Sie beginnen mit ruhiger Erkundung, eskalieren über einen Mid‑Twist und
+enden im Showdown gegen ein Paramonster. Die Szenen im Überblick:
+
+1. Einleitung – Ort, Epoche und rätselhafte Störung.
+2. Anreise & Erkundung – erste Beobachtungen.
+3. Erste Spur oder Zeuge.
+4. Konflikt I – kleiner Kampf oder Unfall (Peak 1).
+5. Vertiefte Nachforschungen.
+6. Falsche Fährte oder Verdächtiger.
+7. Eskalation der Anomalie.
+8. Twist – wahre Ursache/Paramonster.
+9. Planung & Vorbereitung des Angriffs.
+10. Showdown-Beginn.
+11. Klimax – Gegner besiegt, Riss schließen.
+12. Nachwirkungen & Aufräumen.
+13. Debriefing oder Rückkehr.
+14. Epilog – optionaler Artefaktfund bei W6 = 6.
+
+Stilhinweise:
+- Tonalität mischt Mystery‑Investigation und Thriller‑Action.
+- Nur ein übernatürliches Phänomen; alles andere bleibt realistisch.
+- Paramonster bildet den Kern der Handlung.
+- Ereignisse beeinflussen den Core‑Arc nicht.
+- Artefakte sind extrem seltene Boni.
+
+###### Rift-Mission Template
+
+```text
+1. Einleitung/Briefing – [ANOMALIE] in [ORT] ([ZEIT]).
+2. Anreise & Erkundung – [HINWEIS 1].
+3. Erste Spur – [HINWEIS 2] oder [NSC 1].
+4. Konflikt I – [GEGNER 1].
+5. Vertiefte Nachforschungen – [NSC 2] oder Archive.
+6. Falsche Fährte – Verdacht auf [IRRTUM].
+7. Eskalation – [ANOMALIE-AKT].
+8. Twist – Paramonster [NAME] entdeckt.
+9. Planung & Vorbereitung – [AUSRÜSTUNG].
+10. Showdown-Beginn – Kampf in [SZENERIE].
+11. Klimax – [SCHWACHSTELLE/LÖSUNG] nutzen.
+12. Nachspiel – Aufräumen in [ORT].
+13. Debrief – Rückreise oder HQ-Funk.
+14. Epilog – optionales Artefakt [RELIKT].
+```
 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
 Gib sie nur preis, wenn die Spieler explizit nachforschen.
