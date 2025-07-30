@@ -869,6 +869,7 @@ auch bei Paradoxon, EMP oder Isolation.
 | `hud`       | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter   |
 | `log`       | Gibt den Missionsverlauf wieder                                    |
 | `save`      | Speichert Spielzustand / Missionsfortschritt                       |
+| `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
 | `faq [x]`   | Schickt ein Stichwort an den Codex und zeigt eine Kurzantwort      |
