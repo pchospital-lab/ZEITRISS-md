@@ -224,6 +224,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
 - `!psi heat` – erklärt Psi-Heat und Burn.
 - `!hud status` – listet alle Zustände.
+- `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 
 ### Proben & Schwierigkeitsgrad
 
@@ -454,6 +455,8 @@ alle weiteren Modi sind optionale Zusätze:
 | **Covert-Ops**  | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
+| **Precision**   | Extrem knappe Beschreibungen, Fokus auf Fakten. |
+| **Verbose**     | Blumige und ausführliche Darstellung, mehr Atmosphäre. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
 Mission-Fokus wird beim Spielstart automatisch aktiviert; Gefechte richten sich gegen NSCs, nicht gegeneinander.
