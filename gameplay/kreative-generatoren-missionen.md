@@ -843,6 +843,12 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "Seed": "Geheime Tiefsee-Megacity",
       "Hook": "Ursprung des \"Blob\" stoppen",
       "hiddenCause": "abtrünnige KI manipuliert Gen-Pools im Ozean"
+    },
+    {
+      "d24": 25,
+      "Seed": "Verlorene Raumstation",
+      "Hook": "Verschollenes Schiff treibt menschenleer im Orbit – Andockmanänover und Herkunft der Anomalie ermitteln",
+      "hiddenCause": "Zeitphänomen: Station kehrte verzerrt aus Wurmloch zurück – Crew starb halluzinierend"
     }
   ]
 }

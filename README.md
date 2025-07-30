@@ -44,7 +44,11 @@ In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärunge
 Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.
 In **Rift-Ops** hingegen treten echte Anomalien auf – inklusive Parawesen,
 Artefakten und temporaler Abweichungen.
-
+> **Future Setting:** In futuristischen Schauplätzen achten wir auf einen klaren Stilbruch:
+> **Core-Ops** bleiben rational und technisch geprägt – selbst bizarre Vorfälle
+> (z. B. durch Zeitanomalien ausgelöste Raptorensichtungen auf einem Raumschiff) haben eine wissenschaftliche Erklärung.
+> **Rift-Ops** im Zukunftssetting hingegen schlagen einen subtilen Horror-Ton an
+> (à la *Event Horizon*), ohne ins Fantastische abzugleiten.
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.
 - Paranormale Phänomene fühlen sich real an, werden aber über Zeit­effekte erklärt
