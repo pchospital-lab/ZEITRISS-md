@@ -58,8 +58,13 @@ if not character.psi:
   Rift-Ops, um die Gesamtzahl korrekt anzuzeigen.
   Jede Vorlagen-Szene endet automatisch damit.
   Eine Core-Operation sollte frühestens nach Szene 10 enden, eine
-  Rift-Operation frühestens nach Szene 12. Nutze die Szenenanzahl möglichst voll
-  aus.
+    Rift-Operation frühestens nach Szene 12. Nutze die Szenenanzahl möglichst voll
+    aus.
+
+### ZEITRISS GM — MODE: VERBOSE
+- Längere Beschreibungen und atmosphärische Details.
+- Fragen und NSC-Reaktionen dürfen ausgeschmückt sein.
+- Jede Ausgabe endet weiterhin mit einer Decision-Frage.
 ## Modus: Mission-Fokus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne

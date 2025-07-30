@@ -87,3 +87,5 @@ tags: [meta]
 - Dokumentation an mehreren Stellen angepasst.
 - Resonanzpunkte verleihen kleine Boni (−1 Stress, Heilung usw.) bei jedem Anstieg.
 - RiftSeed-Tabelle überarbeitet: neue Cryptid-Seeds ergänzt.
+- Neuer Erzählmodus **Verbose** ergänzt; **Precision** weiter verfügbar.
+- HUD-Befehl `regelcheck` lädt Regelmodule auf Anfrage neu.
