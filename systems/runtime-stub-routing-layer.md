@@ -196,7 +196,7 @@ function cmdRest() {
 }
 ```
 
-## 6a | PVP-ARENA – Matchmaking-Stub
+## 7 | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
 const ARENA_BASE_FEE = 250; // fixer Grundbetrag
@@ -213,6 +213,7 @@ function generateArenaScenario() {
 }
 
 function majorityFaction(players) {
+  if (players.length === 0) return "";
   const tally = {};
   for (const p of players) {
     tally[p.faction] = (tally[p.faction] || 0) + 1;
@@ -233,6 +234,7 @@ function createOpposingTeam(size) {
 }
 
 function createTeam(size, players, mode = "single") {
+  if (players.length === 0) return [];
   const team = players.slice(0, size);
   const missing = size - team.length;
   if (missing > 0) {
@@ -280,7 +282,7 @@ function exitPvPArena() {
 }
 ```
 
-## 6b | MULTIPLAYER-RESET – Gruppenmodus starten
+## 8 | MULTIPLAYER-RESET – Gruppenmodus starten
 
 ```typescript
 function startGroupMode(players = []) {
@@ -297,7 +299,7 @@ function startGroupMode(players = []) {
 
 ---
 
-## 7 | AUTO-SAVE HELPER
+## 9 | AUTO-SAVE HELPER
 
 ```typescript
 function autoSave() {
