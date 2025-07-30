@@ -130,6 +130,9 @@ Zur Auswertung nutzt die KI-Spielleitung je nach Modus
 Pro entspricht Preserve, Contra steht für Trigger – beide Seiten arbeiten letztlich
 am Erhalt einer stabilen Zeitlinie.
 Eine kurze Zusammenfassung der Abläufe bietet das README.
+> **Hinweis:** In **Trigger-Missionen** stellen die erzwungenen Tragödien stets das **kleinere Übel** dar –
+> ihre Verhinderung würde eine noch schlimmere Katastrophe auslösen. Dieses Framing hält die
+> Entscheidungen der Agenten moralisch nachvollziehbar, obwohl sie historisches Unheil herbeiführen.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
@@ -1099,11 +1102,11 @@ oder logisch ersetzt werden._
 | 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
 | 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
 | 3 | **EC-CORE-003** | *Stromausfall 1999*: Notstrom, Fenster 10 Min. | Tech / Sabotage | 10 | +1 bei Verzögerung |
-| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf seltenes Relikt; rivalisierender Sammler. | Social / Bluff | 8 | 0-1 |
+| 4 | **EC-CORE-004** | *Undercover-Auktion 1928*: Bieten auf Relikt; Rivalen anwesend. | Social / Bluff | 8 | 0-1 |
 | 5 | **EC-CORE-005** | *Konvoi-Hinterhalt*: Drohne meldet Routen-Split. | Kampf / Fahrzeug | 12 | 0 |
 | 6 | **EC-CORE-006** | *Fabrikloft-Labor 2025*: Bio-Schleuse, Chefin da. | Hack / Psi | 10 | +1 bei Psi-Einsatz |
 | 7 | **EC-CORE-007** | *Flusskanal-Zufahrt 1643*: Tor öffnet nur heute bei Vollmond. | Survival / Timing | 9 | 0 |
-| 8 | **EC-CORE-008** | *Mediensturm*: Presse da, Kameras an. | Social / Disguise | 10 | -1 (Px) falls temporale Anomalie live übertragen wird |
+| 8 | **EC-CORE-008** | *Mediensturm*: Kameras rollen. | Social / Disguise | 10 | -1 (Px) bei Live-Übertragung |
 | 9 | **EC-CORE-009** | *Cipher-Server NB-II*: Admin anwesend, kennt Logs. | Tech / Social | 11 | 0 |
 | 10 | **EC-CORE-010** | *U-Bahn-Flucht*: Zielperson springt in Zug, Notbremse deaktiviert. | Chase | 10 | 0 |
 | 11 | **EC-CORE-011** | *Magnetbahn-Deraillieren 2334*: Schiene sabotiert, Chaos. | Infiltration / Repair | 12 | +1 |
