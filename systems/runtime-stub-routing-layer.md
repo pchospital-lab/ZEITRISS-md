@@ -274,7 +274,7 @@ function arenaMatchWon(playerTeamWon = true) {
 function exitPvPArena() {
   if (!state.arena?.active) return;
   if (state.arena.winsA > state.arena.winsB) {
-    state.paradox_level = 0; // Reset nach gewonnener Best-of-Three-Serie
+    state.paradox_level += 1; // Paradoxon-Bonus +1 Px nach gewonnener Best-of-Three-Serie
   }
   state.arena = { active: false, teamA: [], teamB: [], winsA: 0, winsB: 0 };
   autoSave();
