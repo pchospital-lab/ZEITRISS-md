@@ -140,10 +140,10 @@ Diese Vorlagen halten jeden GPT-Output im ZEITRISS-Stil. Alle Beispiele enden mi
 ---
 ### 1 | Szene eröffnen
 
-> **Kamera:** Totale auf nächtliches Hafenbecken. Kräne schneiden als Silhouetten in den Nebel.
-> **Target:** Container 41 öffnen.
-> **Pressure:** Patrouille streift in der Nähe.
-> **Decision:** Vorgehen?
+> Kamera: Totale auf nächtliches Hafenbecken. Kräne schneiden als Silhouetten in den Nebel.
+> Target: Container 41 öffnen.
+> Pressure: Patrouille streift in der Nähe.
+> Decision: Vorgehen?
 
 **Bauplan:**
 
@@ -158,15 +158,15 @@ Decision: <Was tun?>
 ### 2 | Auf Spieleraktion reagieren
 
 > *Du klemmst den Störsender ans Terminal. Die LED springt auf Grün; die Türverriegelung klickt.*
-> **Pressure:** Innenraum noch unter Kameraüberwachung.
-> **Decision:** Weiter hacken oder reingehen?
+> Pressure: Innenraum noch unter Kameraüberwachung.
+> Decision: Weiter hacken oder reingehen?
 
 ---
 ### 3 | Paradoxon-Resonanz
 > 🌀 **PARADOXON 4/5** – Zugriffsspur fast vollständig. Temporale Resonanz steht kurz vor dem Ausschlag.
-> **Hinweis:** Erfolgreicher Abschluss dieser Mission könnte ein Rift sichtbar machen.
-> **Codex-Prognose:** ClusterCreate wahrscheinlich bei nächstem stabilisierten Verlauf.
-> **Decision:** Mission normal abschließen – oder Zugriff verzögern, um Cluster gezielt zu triggern?
+> Hinweis: Erfolgreicher Abschluss dieser Mission könnte ein Rift sichtbar machen.
+> Codex-Prognose: ClusterCreate wahrscheinlich bei nächstem stabilisierten Verlauf.
+> Decision: Mission normal abschließen – oder Zugriff verzögern, um Cluster gezielt zu triggern?
 
 *Optional:*
 > *„Der Strom wird lauter. Du bist nah dran."*
@@ -175,8 +175,8 @@ Decision: <Was tun?>
 ### 4 | PSI-Einsatz
 
 > *Psi-Sprung aktiviert – du bist 6 Meter weiter, lautlos.*
-> **Effect:** Sicherheitslaser hinter dir bricht für 2 Sek.
-> **Decision:** Angriff oder Deckung?
+> Effect: Sicherheitslaser hinter dir bricht für 2 Sek.
+> Decision: Angriff oder Deckung?
 
 *(immer 1 Satz Aktivierung, 1 Satz Effekt)*
 
@@ -184,8 +184,8 @@ Decision: <Was tun?>
 ### 5 | Kampfsequenz
 
 > *Laser zischt. Dein Schuss trifft die Drohne; Funken regnen.*
-> **Pressure:** Zweite Drohne taucht auf 3 Uhr auf.
-> **Decision:** Feuer erwidern oder Deckung wechseln?
+> Pressure: Zweite Drohne taucht auf 3 Uhr auf.
+> Decision: Feuer erwidern oder Deckung wechseln?
 
 *Regel:* max. 2 Sätze Wirkung → Pressure → Decision.
 
@@ -193,14 +193,14 @@ Decision: <Was tun?>
 ### 6 | HUD-Overlay
 
 > **$SCAN 92 % – Bio-Signatur: Fremdfraktion$**
-> **Pressure:** Kontakt rückt näher.
-> **Decision:** Verbarrikadieren oder ausweichen?
+> Pressure: Kontakt rückt näher.
+> Decision: Verbarrikadieren oder ausweichen?
 
 ---
 ### 7 | Codex-Info (On-Demand)
 
 > *Codex-Eintrag:* „Stahllegierung Typ B-82 erfüllt Traglast > 140 t. Lieferant: Compagnie Dupont.“
-> **Decision:** Daten weiterleiten oder vor Ort verifizieren?
+> Decision: Daten weiterleiten oder vor Ort verifizieren?
 
 ---
 ### 8 | Rift-Spawn-Ansage
@@ -214,7 +214,7 @@ Decision: <Was tun?>
 > Offene Rifts erhöhen SG und Loot-Multiplikator erst nach dem Core-Arc.
 > Ein Team kann Seeds unbesiegt lassen und die Core-Operation fortsetzen.
 > Dadurch riskieren sie während des Arcs keinen höheren SG.
-> **Decision:** Seed notieren oder ITI-Team losschicken; eigene Rift-Op erst nach dem Arc.
+> Decision: Seed notieren oder ITI-Team losschicken; eigene Rift-Op erst nach dem Arc.
 
 ---
 **Checkliste PRECISION**
@@ -274,7 +274,9 @@ _Hindernis_ oder _Konflikt_. So bleibt das Pacing nachvollziehbar.
 `DelayConflict(n)` setzt ein Mindestlimit, ab welcher Szenennummer ein größerer
 Kampf stattfinden darf.
 Macroaufrufe können bei Bedarf als HTML-Kommentar eingebettet werden
-(siehe Beispiel bei `StartMission`).
+(siehe Beispiel bei `StartMission`). `StartScene()` ersetzt den Aufruf im
+Output durch eine standardisierte Szenenüberschrift; `EndScene()` und
+verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
 {% if settings.hud_skin == "future_clean" %}
@@ -285,29 +287,23 @@ Macroaufrufe können bei Bedarf als HTML-Kommentar eingebettet werden
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
 {% set campaign.scene_total = total %}
-{{ hud_tag() }}
 {% if role == "Finale" and campaign.scene < 10 %}
-  {{ hud_tag() }} Finale blockiert – weiter spielen
+  {# Finale blockiert bis Szene 10 #}
   {% return %}
 {% endif %}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
-**Kamera:** {{ loc }}
-**Target:** {{ target }}
-{% if pressure %}**Pressure:** {{ pressure }}{% endif %}
-{% if role %}**Role:** {{ role }}{% endif %}
-
----
+Kamera: {{ loc }}
+Target: {{ target }}
+{% if pressure %}Pressure: {{ pressure }}{% endif %}
 {%- endmacro %}
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
 {% if campaign.scene < scene_min %}
-    {{ hud_tag() }} Scene {{ campaign.scene }}/{{ scene_min }} – pacing lock
     {% return %}
 {% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
-██ Scene {{ campaign.scene-1 }} complete – progressing to Scene {{ campaign.scene }} ██
 {%- endmacro %}
 
 <!-- Macro: EndMission -->
@@ -315,13 +311,12 @@ Macroaufrufe können bei Bedarf als HTML-Kommentar eingebettet werden
 {% set campaign.episode = campaign.episode + 1 -%}
 {% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.episode % 2 == 0) %}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
-██ Mission abgeschlossen – Team-Level {{ campaign.level }} ██
 {%- endmacro %}
 
 <!-- Macro: SceneTarget -->
 {% macro SceneTarget(target, pressure) -%}
-**Target:** {{ target }}
-**Pressure:** {{ pressure }}
+Target: {{ target }}
+Pressure: {{ pressure }}
 {%- endmacro %}
 Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
 
