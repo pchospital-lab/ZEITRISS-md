@@ -443,6 +443,8 @@ else:
 <span style="color:#f93">Alle Ereignisse sind fiktiv.</span>
 {%- endmacro %}
 
+Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
+
 ## Start Dispatcher {#start-dispatcher}
 
 Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
