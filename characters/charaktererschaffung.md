@@ -699,16 +699,19 @@ relativ frei fließt).
 **Verbesserungen pro Stufe:** Bei jedem Level-Aufstieg darfst du deinen Charakter **mechanisch
 verbessern**. Üblicherweise bedeutet das:
 
-- **+1 Attributspunkt** (steigere ein Attribut deiner Wahl um _eins_, bis max. 6 beim Menschen
-  möglich) **oder** erlerne **ein neues Talent**. Besprich mit dem SL, was für deine Figur sinnvoller
-  ist – Kämpfer investieren vielleicht erst in Stärke, Forscher eher in neue Spezialtalente. Je höher
-  das Level, desto _langsamer_ sollten Attributssteigerungen stattfinden, um die Balance zu wahren
-  (z.B. nicht jedes Level ein Attribut erhöhen, sondern abwechselnd mit Talent freischalten).
+- **+1 Attributspunkt** (steigere ein Attribut deiner Wahl um _eins_, bis max. 14 möglich; ab 11
+  würfelst du mit einem W10, ab 14 erhältst du zusätzlich einen Heldenwürfel) **oder** erlerne
+  **ein neues Talent**. Besprich mit dem SL, was für deine Figur sinnvoller ist – Kämpfer investieren
+  vielleicht erst in Stärke, Forscher eher in neue Spezialtalente. Je höher das Level, desto _langsamer_
+  sollten Attributssteigerungen stattfinden, um die Balance zu wahren (z.B. nicht jedes Level ein
+  Attribut erhöhen, sondern abwechselnd mit Talent freischalten).
 - **Optional/auf höheren Leveln:** Ab bestimmten Meilensteinen könnte die SL auch _beides_ erlauben
   (z.B. auf Level 5 gibt es +1 Attr und ein Talent). Dies hängt jedoch vom Power-Niveau der Kampagne
-  ab. Generell gilt: **Werte über 5 sind außergewöhnlich** – solche Werte sollten selten und erst bei
-  sehr erfahrenen Chrononauten vorkommen. Talente kann man dagegen fast unbegrenzt ansammeln, solange
-  sie das Konzept erweitern und nicht brechen. Die Archetypen liefern viele Ideen für Talente, sodass
+  ab. Generell gilt: **Werte über 10 sind außergewöhnlich** – ab 11 wechselt der Basiswürfel auf W10
+  und ab 14 kommt der Heldenwürfel ins Spiel. Obwohl der theoretische Höchstwert bei 14 liegt,
+  sollten solche Spitzenwerte selten und erst bei sehr erfahrenen Chrononauten vorkommen. Talente kann
+  man dagegen fast unbegrenzt ansammeln, solange sie das Konzept erweitern und nicht brechen. Die
+  Archetypen liefern viele Ideen für Talente, sodass
   du später neue auswählen oder eigene kreieren kannst.
 
 **Lebensenergie und andere Steigerungen:** ZEITRISS verwendet anstelle klassischer Trefferpunkte ein
