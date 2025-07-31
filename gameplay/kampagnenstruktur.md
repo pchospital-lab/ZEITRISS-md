@@ -1378,10 +1378,18 @@ Showdown-Szene.
    Anschließend generiert Codex ein gleichstarkes Gegenteam und versetzt beide
    Gruppen an den Schauplatz.
 4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Nach jedem Duell kann
-   eine Revanche gestartet oder die Arena verlassen werden.
+   eine Revanche gestartet oder die Arena verlassen werden. Wer nach einem Sieg
+   weiterspielt und die Serie verliert, erhält keinen Bonus.
 5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
-   Best-of-Three-Serie gewinnt und danach aussteigt, setzt sein Paradoxon-Index
-   einmalig auf **0**. Die Startgebühr fällt bei jedem neuen Lauf erneut an.
+   Best-of-Three-Serie gewinnt und danach aussteigt, erhält einmalig **+1 Px**.
+   Die Startgebühr fällt bei jedem neuen Lauf erneut an.
+
+```typescript
+// Paradoxon-Bonus der PvP-Arena
+if (team_wins >= 2 && exit_arena) {
+  group.paradox += 1;
+}
+```
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.

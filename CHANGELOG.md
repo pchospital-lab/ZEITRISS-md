@@ -89,3 +89,4 @@ tags: [meta]
 - RiftSeed-Tabelle überarbeitet: neue Cryptid-Seeds ergänzt.
 - Neuer Erzählmodus **Verbose** ergänzt; **Precision** weiter verfügbar.
 - HUD-Befehl `regelcheck` lädt Regelmodule auf Anfrage neu.
+- PvP-Arena: Best-of-Three-Sieger erhalten +1 Px statt Paradoxon-Reset.
