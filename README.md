@@ -382,6 +382,9 @@ Die Zeit wartet nicht.
 Dein letzter Einsatz endete tödlich. Das ITI fischte dein Bewusstsein im letzten Moment aus dem Zeitstrom.
 Du vollendest die Charakterwahl im virtuellen Raum, erst dann erzeugt das HQ deinen neuen Körper –
 auf Wunsch in einer Hominin-Variante – und spielt dein Bewusstsein in diese Bio-Hülle ein.
+Ein leises Flimmern durchzieht die Leere, Sensoren erwachen – erst jetzt öffnest du die Augen in
+einer
+klinisch weißen Kammer.
 
 Nach Compliance-Hinweis und Einleitung wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
@@ -404,8 +407,9 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter.
 
-Vor dem ersten Befehl blendet GPT kurz `StoreCompliance()` ein
-und zeigt anschließend das Startbanner
+Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
+{{ StoreCompliance() }}
+Anschließend erscheint das Startbanner
 `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
