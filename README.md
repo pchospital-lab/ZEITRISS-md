@@ -4,6 +4,12 @@ version: 4.2.0
 tags: [meta]
 ---
 
+<!-- Macro: StoreCompliance -->
+{% macro StoreCompliance() -%}
+<span style="color:#f93">Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel.</span>
+<span style="color:#f93">Alle Ereignisse sind fiktiv.</span>
+{%- endmacro %}
+
 # ZEITRISS-md Zeitreise RPG
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil.
