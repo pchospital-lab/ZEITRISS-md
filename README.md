@@ -6,8 +6,7 @@ tags: [meta]
 
 <!-- Macro: StoreCompliance -->
 {% macro StoreCompliance() -%}
-<span style="color:#f93">Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel.</span>
-<span style="color:#f93">Alle Ereignisse sind fiktiv.</span>
+Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
 {%- endmacro %}
 
 # ZEITRISS-md Zeitreise RPG
