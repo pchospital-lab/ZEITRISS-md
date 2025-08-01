@@ -1370,16 +1370,17 @@ Showdown-Szene.
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
-2. **Szenario-Setup:** Codex zieht einen Ort und ein Ziel aus den Tabellen in
-   `kreative-generatoren-missionen.md` und beschreibt die Ausgangslage.
+2. **Szenario-Setup:** Codex wählt ein Arenenszenario aus einem kleinen, kuratierten
+   Pool mit ausgewogenem Gelände und beschreibt die Ausgangslage.
 3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten aus der passenden
-   Fraktion. Im Einzelspiel stammen die Ersatzleute aus deiner Fraktion; treten
-   mehrere Spielende an, entscheidet die Mehrheitsfraktion über das Auffüllen.
-   Anschließend generiert Codex ein gleichstarkes Gegenteam und versetzt beide
-   Gruppen an den Schauplatz.
-4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Nach jedem Duell kann
-   eine Revanche gestartet oder die Arena verlassen werden. Wer nach einem Sieg
-   weiterspielt und die Serie verliert, erhält keinen Bonus.
+   Fraktion. Level und Ausrüstung orientieren sich am Durchschnitt der
+   Spielenden. Eine optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder
+   stärker zu skalieren. Anschließend generiert Codex ein gleichwertiges
+   Gegenteam und versetzt beide Gruppen in die Arena.
+4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Ein HUD-Overlay zeigt
+   Punktestand und Rundenfortschritt. Nach jedem Duell kann eine Revanche
+   gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt
+   und die Serie verliert, erhält keinen Bonus.
 5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
    Best-of-Three-Serie gewinnt und danach aussteigt, erhält einmalig **+1 Px**.
    Die Startgebühr fällt bei jedem neuen Lauf erneut an.
@@ -1393,6 +1394,26 @@ if (team_wins >= 2 && exit_arena) {
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.
+
+**Siegbedingungen:** Ein Duell gilt als gewonnen, wenn das gegnerische Team
+kampfunfähig ist oder das Missionsziel erreicht wurde. Verlassen Teilnehmende
+die Arena vorzeitig, verlieren sie die laufende Serie und erhalten nur bis
+dahin verdiente Belohnungen.
+
+Zwischen den Runden werden **LP, Munition und anhaltende Effekte vollständig
+zurückgesetzt**. Die Simulation verursacht keine echten Verletzungen – bei
+0 LP scheidet ein Agent lediglich aus dem Match aus.
+
+Der Begriff **Revanche** beschreibt das Fortsetzen derselben Serie. Ein
+**neuer Lauf** beginnt eine frische Serie mit erneuter Startgebühr.
+
+**Balance-Richtlinien:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
+werden automatisch resistiert. Einmalige Artefakte sind im Arena-Modus
+deaktiviert. Codex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
+vermeiden.
+
+**Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
+Codex moderiert neutral und stellt keine KI-Gegner.
 
 ## Chronopolis – Endgame-Hub
 

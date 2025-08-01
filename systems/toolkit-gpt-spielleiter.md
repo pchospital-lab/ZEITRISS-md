@@ -446,6 +446,86 @@ else:
 
 Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
 
+### Arena Macros
+
+{% set arena_scenarios = [
+  "Offene Wüstenruine",
+  "Labyrinth-Bunker",
+  "Dschungel mit dichter Vegetation",
+  "Urbanes Trümmerfeld",
+  "Symmetrische Trainingsarena"
+] %}
+
+{% set faction_allies = {
+  "Projekt Phoenix": ["Phoenix Scout", "Phoenix Heavy"],
+  "Die Grauen": ["Grey Agent", "Grey Sniper"],
+  "Der Alte Orden": ["Templer", "Reliktjäger"],
+  "Schattenkonzerne": ["Black Ops", "Konzern-Sniper"]
+} %}
+
+<!-- Macro: arena_scenario -->
+{% macro arena_scenario(team_size=1) -%}
+{{ sample(arena_scenarios) }}
+{%- endmacro %}
+
+<!-- Macro: create_faction_allies -->
+{% macro create_faction_allies(faction, count) -%}
+{% set pool = faction_allies.get(faction, []) %}
+{{ random.sample(pool, count) }}
+{%- endmacro %}
+
+<!-- Macro: create_opposing_team -->
+{% macro create_opposing_team(size, allies, difficulty="normal") -%}
+{% set faction = allies[0] if allies else "Projekt Phoenix" %}
+{% set pool = faction_allies.get(faction, []) %}
+{% set team = random.sample(pool, size) %}
+{# Level und Ausrüstung spiegeln; difficulty skaliert Werte #}
+{{ team }}
+{%- endmacro %}
+
+<!-- Macro: show_arena_hud -->
+{% macro show_arena_hud(a, b, r, total=3) -%}
+{{ hud_tag() }} Arena A {{ a }} – B {{ b }} · Runde {{ r }}/{{ total }}
+{%- endmacro %}
+
+<!-- Macro: start_pvp_arena -->
+{% macro start_pvp_arena(team_size, faction, difficulty="normal") -%}
+{% set allies = create_faction_allies(faction, team_size) %}
+{% set opponents = create_opposing_team(team_size, allies, difficulty) %}
+{% set campaign.arena = {"winsA":0, "winsB":0, "scenario":arena_scenario(team_size)} %}
+{{ show_arena_hud(0,0,1) }}
+{%- endmacro %}
+
+<!-- Macro: arena_match_won -->
+{% macro arena_match_won(player_team=true) -%}
+{% if player_team %}
+  {% set campaign.arena.winsA = campaign.arena.winsA + 1 %}
+{% else %}
+  {% set campaign.arena.winsB = campaign.arena.winsB + 1 %}
+{% endif %}
+{% set r = campaign.arena.winsA + campaign.arena.winsB %}
+{% if campaign.arena.winsA >= 2 or campaign.arena.winsB >= 2 %}
+  {{ exit_pvp_arena() }}
+{% else %}
+  {{ show_arena_hud(campaign.arena.winsA, campaign.arena.winsB, r + 1) }}
+{% endif %}
+{%- endmacro %}
+
+<!-- Macro: exit_pvp_arena -->
+{% macro exit_pvp_arena() -%}
+{% if campaign.arena.winsA > campaign.arena.winsB %}
+  {% set campaign.paradox = campaign.paradox + 1 %}
+{% endif %}
+{% set campaign.arena = {"winsA":0, "winsB":0} %}
+{%- endmacro %}
+
+<!-- Macro: start_pvp_duel -->
+{% macro start_pvp_duel(player1, player2, difficulty="normal") -%}
+{{ start_pvp_arena(1, player1.faction, difficulty) }}
+{% set campaign.arena.teamA = [player1] %}
+{% set campaign.arena.teamB = [player2] %}
+{%- endmacro %}
+
 ## Start Dispatcher {#start-dispatcher}
 
 Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
