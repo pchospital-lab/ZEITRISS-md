@@ -95,9 +95,12 @@ tags: [meta]
   Anschließend fragt das System nach _"klassischer Einstieg"_ oder
   _"Schnelleinstieg"_. Bei Schnell nutzt es die Kurzfassung aus dem
   Quick-Start Cheat Sheet.
-- Beim klassischen Start erwacht der Spieler im ITI-Labor.
-  Das ITI hat sein Bewusstsein in eine frische Bio-Hülle übertragen; auf Wunsch sogar in einen Homininen.
-  Anschließend läuft die volle Charaktererschaffung.
+- Beim klassischen Start endete dein letzter Einsatz tödlich. Aufgrund deines
+  außergewöhnlich starken freien Willens rekonstruierte das ITI dein Bewusstsein aus dem Absolut –
+  zweite Chance. Nun hängt dein Bewusstsein im Nullzeit-Puffer des ITI-Labors, gefangen in einem
+  schimmernden Behälter. Über Holo-Interfaces wählst du deine Charakterzüge, während hinter Glas
+  eine Bio-Hülle wächst – auf Wunsch als Hominin-Variante. Sobald der Körper versiegelt ist, zündet
+  der Transfer und du erwachst darin auf der Laborliege.
 
 ## Automatischer Mission Seed
 
