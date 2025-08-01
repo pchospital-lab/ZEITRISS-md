@@ -26,10 +26,21 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Arc-Ende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
-> 6. **Boss-Generator.** Mini- und Arc-Bosse tauchen im 5/10-Rhythmus auf.
+> 6. **Boss-Rhythmus.** In Mission 5 eines Core-Arcs erscheint ein Mini-Boss, in Mission 10 der Arc-Boss.
+>    Rift-Operationen platzieren ihren Boss in Szene 10.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
+### Modulübersicht
+
+| Regelmodul | Muss | Soll | Kann | Kurzinfo / Link |
+|------------|:----:|:----:|:----:|-----------------|
+| [Grundwürfelsystem (W6)](core/wuerfelmechanik.md) | ✅ | | | Kernmechanik – explodierende Würfel |
+| [Paradoxon-Index](core/zeitriss-core.md) | ✅ | | | Kampagnen-Fortschritt |
+| [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Arc-Boss nach Missionsnummern |
+| [Stress-System](characters/zustaende-hud-system.md) | | ✅ | | Für psychische Belastung und Druck |
+| [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für epische Missionen |
+| [Psi-Kräfte / Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
 
 ## Grundidee
 **ZEITRISS 4.2.0** ist in erster Linie ein historisch inspirierter Agenten-Thriller.

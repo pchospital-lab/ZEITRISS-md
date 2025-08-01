@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
 version: 4.2.0
-tags: [gameplay]
+tags: [gameplay, core]
 ---
 
 # ZEITRISS 4.2.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
@@ -225,6 +225,10 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
    steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
 
 #### Boss-Rhythmus im Core-Arc
+
+Der 5/10-Rhythmus zählt **Missionen** innerhalb eines Core-Arcs, nicht Szenen. Erst in der
+fünften Mission tritt ein Mini-Boss auf, in der zehnten der Arc-Boss. Rift-Operationen
+bilden eine Ausnahme: Ihr Boss erscheint in Szene 10.
 
 | Mission | Gegnertyp |
 | ------- | --------------------------------------------- |
