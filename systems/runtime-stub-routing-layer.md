@@ -334,12 +334,23 @@ function generateId(prefix = "CHR") {
 3. **State-Objekt** & _autoSave()_ global verfügbar machen.
 4. **Commands**
 
-   - `go <alias>` (Navigation)
-   - `look` (Raum-Refresh)
-   - `jump <rift-id>` (Side-Op)
-   - `rest` (Nur in Crew-Quarters)
+    - `go <alias>` (Navigation)
+    - `look` (Raum-Refresh)
+    - `jump <rift-id>` (Side-Op)
+    - `rest` (Nur in Crew-Quarters)
+    - `regelreset` (Spieler: Regelmodule neu laden, Warnhinweis)
 
-5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
+    ```typescript
+    if (cmd === "regelreset") {
+      const ok = await confirm("Regelreset lädt alle Module neu. Fortfahren?");
+      if (ok) {
+        loadAllRuleModules();
+        notify("Regeln neu geladen.");
+      }
+    }
+    ```
+
+ 5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 6. Wöchentlich einen Full-Snapshot speichern, dazwischen `deltaSave` nutzen.
 7. **QA-Tests:**
    ```python
