@@ -4,6 +4,7 @@ version: 4.2.0
 tags: [systems]
 default_modus: mission-fokus
 ---
+{% from "../README.md" import StoreCompliance %}
 {% set scene_min = 12 %}
 # ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung
 
@@ -442,12 +443,6 @@ elif player.faction in ["Chrono-Symmetriker", "Kausalklingen"]:
 else:
     include_pools(["Trigger"])
 ```
-
-<!-- Macro: StoreCompliance -->
-{% macro StoreCompliance() -%}
-<span style="color:#f93">Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel.</span>
-<span style="color:#f93">Alle Ereignisse sind fiktiv.</span>
-{%- endmacro %}
 
 Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
 
