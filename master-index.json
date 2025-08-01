@@ -10,14 +10,16 @@
       "slug": "core",
       "path": "core/zeitriss-core.md",
       "title": "ZEITRISS Core",
-      "category": "Core"
+      "category": "Core",
+      "level": "muss"
     },
     {
       "slug": "dice",
       "path": "core/wuerfelmechanik.md",
       "title": "Würfelmechanik",
       "category": "Core",
-      "href": "#schwierigkeits-benchmark-tabelle"
+      "href": "#schwierigkeits-benchmark-tabelle",
+      "level": "muss"
     },
     {
       "slug": "chars",
@@ -54,19 +56,22 @@
       "title": "Kräfte-Psi",
       "category": "Psi",
       "variantType": "full",
-      "href": "#power-punkte-temp"
+      "href": "#power-punkte-temp",
+      "level": "soll"
     },
     {
       "slug": "hud",
       "path": "characters/zustaende-hud-system.md",
       "title": "Zustände & HUD",
-      "category": "System"
+      "category": "System",
+      "level": "soll"
     },
     {
       "slug": "kampagnenstruktur",
       "path": "gameplay/kampagnenstruktur.md",
       "title": "Kampagnenstruktur",
-      "category": "Gameplay"
+      "category": "Gameplay",
+      "level": "muss"
     },
     {
       "slug": "kampagnenuebersicht",
