@@ -388,7 +388,13 @@ Boss-Generators.
 <!-- Macro: option_resolve -->
 {% macro option_resolve(risk, reward) -%}
 {{ hud_tag() }} Risk {{ risk }} vs Reward {{ reward }}
-{% if risk < reward %}Paradoxon +1 – Stabilitätsfortschritt{% endif %}
+{% if reward > risk %}
+Paradoxon +1 – Resonanzanstieg
+{% elif reward < risk %}
+Paradoxon –1 – Resonanzverlust
+{% else %}
+Paradoxon unverändert – Resonanz stagniert
+{% endif %}
 {%- endmacro %}
 
 <!-- Macro: output_sanitizer -->
