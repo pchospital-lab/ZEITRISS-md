@@ -37,6 +37,8 @@ tags: [meta]
 ## Regeln & Spielmechanik
 
 - `README.md` und `master-index.json` bieten Übersicht über alle Regelmodule.
+- `regelcheck modul` lädt ein benanntes Regelmodul neu.
+- `regelreset` lädt alle Regelmodule nach Warnhinweis neu.
 - Lade die ZEITRISS-Regeln bei Bedarf. Standard sind verdeckte W6-Würfe (Exploding 6), ab
   Attribut 11 W10, ab 14 ein Heldenwürfel als Reroll.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon im Hintergrund.

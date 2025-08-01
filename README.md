@@ -167,10 +167,10 @@ Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Das Spiel besteht aus **18** Regelmodulen plus `README.md`,
-`master-index.json` und `meta/masterprompt_v6.md` – zusammen also 21 Dateien.
-Zwei Module ("Team-Boni" und "Quickref") sind Abschnitte anderer Dateien.
-Im `master-index.json` erscheinen **24** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls auflisten.
+**Hinweis:** Das Spiel besteht aus **21** Regelmodulen. Sie verteilen sich auf 18 Markdown-Dateien;
+drei Module ("Team-Boni", "Quickref" und "Boss-Generator") sind Abschnitte anderer Dateien.
+Zusammen mit `README.md`, `master-index.json` und `meta/masterprompt_v6.md` umfasst das Regelwerk 21 Dateien.
+Im `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls auflisten.
 Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
@@ -242,6 +242,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!psi heat` – erklärt Psi-Heat und Burn.
 - `!hud status` – listet alle Zustände.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
+- `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
 
 ### Proben & Schwierigkeitsgrad
 

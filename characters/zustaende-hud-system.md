@@ -871,6 +871,7 @@ auch bei Paradoxon, EMP oder Isolation.
 | `log`       | Gibt den Missionsverlauf wieder                                    |
 | `save`      | Speichert Spielzustand / Missionsfortschritt                       |
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
+| `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
 | `faq [x]`   | Schickt ein Stichwort an den Codex und zeigt eine Kurzantwort      |
