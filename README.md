@@ -379,12 +379,16 @@ Zeitalters ungeschehen machen kann.
 
 Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
 Die Zeit wartet nicht.
-Dein letzter Einsatz endete tödlich. Das ITI fischte dein Bewusstsein im letzten Moment aus dem Zeitstrom.
-Du vollendest die Charakterwahl im virtuellen Raum, erst dann erzeugt das HQ deinen neuen Körper –
-auf Wunsch in einer Hominin-Variante – und spielt dein Bewusstsein in diese Bio-Hülle ein.
-Ein leises Flimmern durchzieht die Leere, Sensoren erwachen – erst jetzt öffnest du die Augen in
-einer
-klinisch weißen Kammer.
+Dein letzter Einsatz endete tödlich. Aufgrund deines außergewöhnlich starken freien Willens
+konnte das ITI dein Bewusstsein aus dem Absolut rekonstruieren – du erhältst eine zweite Chance.
+Jetzt schwebst du im Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
+Bewusstseinsbehälter.
+Holo-Konsolen blenden Erinnerungen ein; hier legst du fest, wer du warst und wer du sein willst.
+Hinter der Panzerverglasung wächst aus Synth-Gel eine neue Bio-Hülle – auf Wunsch in einer
+Hominin-Variante.
+Wenn die Drucktanks verstummen, entlädt sich ein Transferblitz, Sensoren flackern auf und dein
+Bewusstsein fährt in den Körper.
+Erst jetzt öffnest du die Augen in einer klinisch weißen Kammer.
 
 Nach Compliance-Hinweis und Einleitung wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
