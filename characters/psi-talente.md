@@ -67,6 +67,15 @@ Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 | Psi-Schild         | 14 |
 | Mentale Maskierung | 11 |
 
+**Rechenbeispiel:** Agentin Rhea (TEMP 5 → PP 5/5, SYS 4, Heat 0) nutzt _Gedankenlesen_
+(SG 9, Talentstufe 3).
+
+1. `1W6` (4) + TEMP 5 (2) + Talentstufe 3 = **9** → Erfolg.
+2. Wirkung <1 Sekunde, daher **0 SYS**; PP sinken auf **4**.
+3. **Heat +1** → aktuelles Heat 1/6.
+4. Misslingt die Probe bei hohem Heat, kann die Backlash-Tabelle greifen.
+5. Talente oder Ausrüstung (z.B. Neuralverstärker **+1**) addieren sich vor dem Wurf.
+
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
 
