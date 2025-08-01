@@ -342,9 +342,10 @@ einen Toggle `/stress open|hidden`.
 - **Stress als Ressource:** 5 Punkte erlauben einen Reroll.
   - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst die Stärke temporaler Spuren.
     Er steigt situativ während einer Mission. Wenig **Temporale Affinität** füllt ihn nur langsam,
-    hohe TEMP beschleunigt den Aufbau. Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
-setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst nach dem Core-Arc. Das **HUD** visualisiert
-    die Resonanz über eine fünfstufige Skala.
+    hohe TEMP beschleunigt den Aufbau. Scheitern oder massive Paradoxa halten den Wert; in
+      Extremfällen sinkt er um **–1** (Px–1). Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
+      setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst nach dem Core-Arc.
+      Das **HUD** visualisiert die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
   beschreiben: _„Euer HUD meldet: Paradoxon-Index 3 – Resonanzpegel steigt, erste Risskoordinaten

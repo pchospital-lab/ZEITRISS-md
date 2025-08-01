@@ -523,6 +523,9 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 5     | ClusterCreate() im HQ      |
 
 Der Index steigt vor allem, wenn ihr Missionen voranbringt oder Anomalien stabilisiert.
+Scheitert ein Auftrag oder wird abgebrochen, bleibt der Wert stehen.
+Gravierende Fehlentscheidungen oder Paradoxa können den Index in Ausnahmefällen
+um **–1** senken (Px–1).
 Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
 
 > **Paradoxon-Pro-Tip:**
