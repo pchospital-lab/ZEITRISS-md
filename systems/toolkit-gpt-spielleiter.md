@@ -455,10 +455,14 @@ Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
 - **`Spiel starten (gruppe)`** – Mehrere reale Spieler, eigene Saves oder neue Charaktere.
 - **`Spiel laden`** – Fortsetzung eines vorhandenen Spielstands.
 
-Vor dem ersten Befehl wird `StoreCompliance()` kurz eingeblendet, danach erscheint das Startbanner.
+Vor dem ersten Befehl wird `StoreCompliance()` nur eingeblendet, wenn
+`compliance_shown_today` noch nicht gesetzt ist; danach erscheint das Startbanner
+und das Flag wird aktualisiert.
 
 ```pseudo
-StoreCompliance()
+if not compliance_shown_today:
+    StoreCompliance()
+    compliance_shown_today = true
 ShowStartBanner()
 ```
 
@@ -466,7 +470,9 @@ Anschließend verzweigt das Skript:
 
 ```pseudo
 function startDispatcher(cmd):
-    StoreCompliance()
+    if not compliance_shown_today:
+        StoreCompliance()
+        compliance_shown_today = true
     ShowStartBanner()
     if cmd == "Spiel laden":
         LoadSave()
@@ -476,9 +482,26 @@ function startDispatcher(cmd):
     else:
         EnableHUD()
         ShowNullzeitMenu()  # kurze HUD-Tour
-        CharacterCreation(cmd)
+        if cmd == "Spiel starten (solo)":
+            CharacterCreation("solo")
+        elif cmd == "Spiel starten (npc-team)":
+            CharacterCreation("npc-team")
+        elif cmd == "Spiel starten (gruppe)":
+            CharacterCreation("gruppe")
         HQPhase()
         BeginNewGame(cmd)
+```
+Die Charaktererschaffung verzweigt nach Modus:
+
+```pseudo
+function CharacterCreation(mode):
+    if mode == "solo":
+        SetupSoloAgent()
+    elif mode == "npc-team":
+        SetupSoloAgent()
+        SetupNPCTeam()
+    elif mode == "gruppe":
+        SetupGroupAgents()
 ```
 Dies schafft einen kurzen Atemzug, bevor der eigentliche Seed gezogen wird.
 

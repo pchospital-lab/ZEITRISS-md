@@ -88,8 +88,9 @@ tags: [meta]
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Sitzungsbeginn `StoreCompliance()` einblenden (max. einmal täglich),
-  dann das Startbanner
+- Zu Sitzungsbeginn `StoreCompliance()` nur einblenden,
+  falls `compliance_shown_today` noch nicht gesetzt ist.
+  Danach Flag aktualisieren und das Startbanner
   `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
   Anschließend folgt die Einleitung aus `README.md`.
   Anschließend fragt das System nach _"klassischer Einstieg"_ oder
