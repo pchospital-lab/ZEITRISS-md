@@ -369,6 +369,27 @@ einer Massenschlacht zu sein.
    Verluste sind zu beklagen? Solche Nachwirkungen geben dem Ergebnis Gewicht. Die Helden spüren, dass
    ihre Taten Geschichte geschrieben haben – im Guten oder Schlechten.
 
+#### Beispiel: Gefecht um die Brücke
+
+- **Ausgangslage:** Seite A verteidigt eine strategische Brücke, Seite B versucht den Übergang zu
+  erzwingen. Beide Seiten starten bei **0 Erfolgspunkten**.
+- **Schlüsselszene 1 – Sprengladung anbringen (SG 12):** Die Agenten sabotieren die Pfeiler und
+  bestehen die Probe → **+1 A**.
+- **Schlüsselszene 2 – Duell des Anführers (SG 14):** Der gegnerische Offizier setzt zum Sturm an.
+  Die Agenten verlieren das Duell → **+1 B**.
+- **Schlüsselszene 3 – Moral halten (SG 10):** Ein kurzer Funkspruch hebt die Moral der Truppen.
+  Erfolgreiche Probe → **+1 A**.
+- **Endergebnis:** Erfolgspool zeigt **A 2 : B 1** – Seite A hält die Brücke, der Feind zieht sich
+  zurück.
+
+**Typische SGs im Massenkampf**
+
+| Schwierigkeit | SG | Beispiel                           |
+|--------------:|---:|-----------------------------------|
+| Leicht        | 8  | Versorgung sichern                |
+| Mittel        | 12 | Engpass halten                    |
+| Schwer        | 15 | Befestigte Stellung stürmen       |
+
 ### Spezialfall: Revolutionen & soziale Umwälzungen
 
 Nicht jeder Massenkonflikt ist ein militärischer Kampf. **Volksaufstände, Streiks, politische

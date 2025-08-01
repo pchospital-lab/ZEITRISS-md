@@ -26,6 +26,20 @@ tags: [systems, optional]
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 
+#### Beispiel: Telekinetischer Stoß
+
+Agentin Nova (TEMP 6, PP 6/6, SYS 4, Heat 0) stößt einen Gegner fünf Meter zurück.
+SG laut Tabelle: **Telekinese-Stoß 12**.
+Wurf: `1W6` (5) + TEMP 6 (3) + Talentbonus Telekinetischer Stoß (4) = **12** → Erfolg.
+PP sinken auf **4**, Heat steigt auf **1**. Der Stoß ist <1 Sekunde, daher **0 SYS**.
+Cooldown: **2 Runden** (mittlere Kraft).
+
+**Typische SGs**
+
+- **Leicht (SG 9):** kurze Eindrücke oder minimale Bewegung.
+- **Mittel (SG 12):** spürbarer Effekt, z.B. Gegner wegstoßen.
+- **Schwer (SG 15):** massiver Eingriff wie starkes Telekinese-Feld.
+
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
 zurückführen.
