@@ -603,6 +603,14 @@ treiben den Paradoxon-Index nach oben.
 ### !seed Command
 Gibt einen zufälligen Mission Seed aus dem passenden Pool aus.
 
+### `regelreset` Command
+
+- Spieler nutzen den Befehl, um den Regelkontext neu zu laden.
+- Vor Ausführung zeigt die Engine einen Warnhinweis; erst nach Bestätigung werden alle Module neu geladen.
+
+_Beispiel:_ Weicht die KI bei Stress-Regeln ab, tippt ein Spieler `regelreset`. Nach dem Warnhinweis meldet
+das System "Regeln neu geladen".
+
 ## Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 
 - **Filmischer, immersiver Erzählstil:** Beschreibe Szenen detailliert in der **Gegenwartsform** und
