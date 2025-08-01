@@ -90,3 +90,5 @@ tags: [meta]
 - Neuer Erzählmodus **Verbose** ergänzt; **Precision** weiter verfügbar.
 - HUD-Befehl `regelcheck` lädt Regelmodule auf Anfrage neu.
 - PvP-Arena: Best-of-Three-Sieger erhalten +1 Px statt Paradoxon-Reset.
+- Arena-Regeln präzisiert: Szenario-Pool, balanciertes Matchmaking und HUD-Scoreboard.
+- Optionales 1v1-Duell und Balance-Hinweise zu Psi-Kräften und Artefakten.
