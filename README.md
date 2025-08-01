@@ -62,7 +62,8 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
 Der **Paradoxon-Index** steigt **nur durch erfolgreiche Stabilisierungseinsätze** –
-er misst nicht Fehler, sondern Resonanz.
+er misst nicht Fehler, sondern Resonanz. Misslingt eine Mission oder entstehen grobe Paradoxa,
+bleibt der Index stehen oder sinkt in seltenen Fällen um **–1** (Px–1).
 Sobald **Paradoxon 5** erreicht ist, erkennt das HQ mittels `ClusterCreate()`
 **1–2 neue Rift-Signaturen** und setzt den Index zurück.
 
