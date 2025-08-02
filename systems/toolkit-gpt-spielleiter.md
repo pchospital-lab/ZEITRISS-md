@@ -416,31 +416,43 @@ Beispiel:
 {{ text.replace('<!--', '').replace('-->', '').replace('{{', '').replace('}}', '') }}
 {%- endmacro %}
 
-<!-- Macro: tone_filter -->
-{% macro tone_filter(text) -%}
-{% if codex.dev_raw %}
-{{ text }}
-{% else %}
-{% set mapped = {"mask_delta72.chk": "Shadow command file mask delta 72"} %}
-{% set clean = text
-  | regex_replace('/_?[A-Z0-9]{3,}\.[A-Z]{2,3}/', '')
-  | regex_replace('/\b\w+(?:_ID|_CHK|\.cfg|\.dat)\b/', '')
-  | replace('MAC-signature', 'signature')
-  | replace('SYS-flag', 'system load') %}
-{% if clean in mapped %}
-{{ mapped[clean] }}
-{% else %}
-{{ clean|replace('_', ' ')|regex_replace('([a-z])([A-Z])', '\1 \2')|lower }}
-{% endif %}
-{% endif %}
-{%- endmacro %}
+### Tone-Filter-Regelsatz {#tone-filter}
+
+Die KI wendet diesen Regelsatz auf jede Ausgabe an:
+
+- `source` markiert den Ursprung: `HUD`, `CODEX` oder `NPC`.
+- Bei `HUD` und `CODEX` bleibt der Text unverändert.
+- Ist `codex.dev_raw` gesetzt, passiert ebenfalls nichts.
+- Für `NPC`-Dialoge:
+  - Tokens wie `NAME.EXT` mit `EXT` in `CHK`, `DAT`, `CFG`, `TXT` werden zu
+    `uplink file`.
+  - Wörter in VERSALIEN mit mindestens drei Zeichen werden kleingeschrieben,
+    außer sie stehen auf einer Whitelist (`CIA`, `FBI`, `NSA`).
+
+```pseudo
+function tone_filter(text, source):
+    if source == HUD or source == CODEX or dev_raw:
+        return text
+    text = replace_file_tokens(text)    # NAME.EXT -> "uplink file"
+    text = downcase_allcaps(text)       # MAX POWER -> max power
+    return text
+```
+
+Beispiele:
+
+```pseudo
+tone_filter("$SCAN 92 %", HUD) -> "$SCAN 92 %"
+tone_filter("Lade LOGFILE.CFG", NPC) -> "Lade uplink file"
+tone_filter("SPRINGT AUF MAX POWER", NPC) -> "springt auf max power"
+tone_filter("CIA DATABASE", NPC) -> "CIA DATABASE"
+```
 Nutze `output_sanitizer()` gefolgt von `tone_filter()` am Ende jeder
 Szenen-Generierung, um HTML-Kommentare zu entfernen und Systemjargon zu
 glätten:
 
 ```pseudo
 text = render_scene()
-return tone_filter(output_sanitizer(text))
+return tone_filter(output_sanitizer(text), source)
 ```
 Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ StartScene(...) }}-->` oder
