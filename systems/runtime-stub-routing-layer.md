@@ -290,7 +290,7 @@ function startGroupMode(players = []) {
   // Schwierigkeitsgrad angleichen: Paradoxon-Index und offene Rifts zurücksetzen
   state.paradox_level = 0;
   state.open_seeds = [];
-  autoSave();
+  deepSave();
   writeLine(
     `Group mode initiated for ${players.length} players. Paradoxon-Index reset.`,
   );
@@ -299,19 +299,11 @@ function startGroupMode(players = []) {
 
 ---
 
-## 9 | AUTO-SAVE HELPER
+## 9 | DEEP SAVE HELPER
 
 ```typescript
-function autoSave() {
-  updateCharacterData(state); // Spielzustand persistent gesichert
-}
-
-function deltaSave(prevState, newState) {
-  const delta = {};
-  for (const k in newState) {
-    if (prevState[k] !== newState[k]) delta[k] = newState[k];
-  }
-  updateCharacterData(delta); // nur Änderungen gespeichert
+function deepSave() {
+  updateCharacterData(state); // vollständiger Spielzustand gespeichert
 }
 
 function generateId(prefix = "CHR") {
@@ -322,7 +314,7 @@ function generateId(prefix = "CHR") {
 }
 // Beim Erstellen eines neuen Charakters ruft das System `generateId()` auf und
 // speichert die ID im Spielstand.
-// Wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
+// `deepSave()` wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
 ```
 
 ---
@@ -331,7 +323,7 @@ function generateId(prefix = "CHR") {
 
 1. **`router.json`** in euren Command-Parser laden.
 2. **Endpoint / Stub** `getRoomPopulation` implementieren; Aufruf bei Raum-Wechsel.
-3. **State-Objekt** & _autoSave()_ global verfügbar machen.
+3. **State-Objekt** & _deepSave()_ global verfügbar machen.
 4. **Commands**
 
     - `go <alias>` (Navigation)
@@ -351,18 +343,11 @@ function generateId(prefix = "CHR") {
     ```
 
  5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
-6. Wöchentlich einen Full-Snapshot speichern, dazwischen `deltaSave` nutzen.
+6. Nach jeder Phase `deepSave()` aufrufen; es gibt keine Delta-Saves.
 7. **QA-Tests:**
-   ```python
-   def test_scene_count(mission):
-       assert mission.planned_scenes >= 12
-
-   def test_no_macro_leak(text):
-       assert "<!--" not in text
-
-   def test_meta_filter(mission):
-       assert not any(s.meta_introspection for s in mission.seeds)
-   ```
+   - `scene_count`: Mission plant mindestens **12** Szenen.
+   - `no_macro_leak`: Keine Ausgaben enthalten `<!--`.
+   - `meta_filter`: Kein Seed setzt das Flag `meta_introspection`.
 
 ---
 *© 2025 pchospital – private use only. See LICENSE.

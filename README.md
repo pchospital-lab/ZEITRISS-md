@@ -439,15 +439,16 @@ Anschließend erscheint das Startbanner
 - `Spiel laden` → Save einlesen → Rückblick → Mission fortsetzen
   ([speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)).
 
+Wird `Spiel laden` ohne JSON-Block eingegeben, fordert GPT den Spielstand an
+und setzt nicht aus dem Nichts fort.
+
 Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
-Beim Speichern unterscheidet ZEITRISS kurze Zwischenstände (**Short Saves**) und
-ausführliche **Deep Saves**. Der Befehl `Speichern` zeigt dir einen aktuellen
+Der Befehl `Speichern` erzeugt immer einen vollständigen **Deep Save** als
 JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Film ab!`, um eine
 optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
-kopieren lässt. Weitere Details stehen im Modul zum Speichern. Alle
-Spielstände werden intern im Charakterbogen geführt – separate Sicherungen
-sind nicht erforderlich.
+kopieren lässt. Alle Spielstände werden intern im Charakterbogen geführt –
+separate Sicherungen sind nicht erforderlich.
 
 
 

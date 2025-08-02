@@ -85,19 +85,19 @@ Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Mission
 - Rufe `StartMission()` direkt nach dem Laden auf. Dadurch setzt Codex `campaign.scene`
   (und optional `campaign.episode`) zurück, bevor die Gruppe den nächsten Auftrag beginnt.
 
-### Short Save & Deep Save {#short-deep}
-Kurze Zwischenstände halten nur Cliffhanger und wenige Werte fest.
-Ein **Deep Save** umfasst zusätzliche Details, bleibt aber ebenso im Chat-Kontext.
+### Deep Save {#deep-save}
 
-Sollte ein Save das 8k-Kontextlimit überschreiten, teilt ihn in mehrere Blöcke und ladet sie nacheinander.
+`speichern` gibt stets einen vollständigen JSON-Block mit allen relevanten
+Feldern aus. Wird das Kontextlimit überschritten, teile den Block in mehrere
+Codefelder und sende sie nacheinander.
 
-```json
-{"mode":"short",
- "scene":"Bunker-Escape",
- "hp":12,
- "stress":3,
- "hook":"#192-A"}
-```
+**DeepSave(state)**
+
+1. Wandle den gesamten Zustand in einen JSON-Snapshot um.
+2. Gib diesen Snapshot vollständig aus und ersetze damit jeden vorherigen Stand.
+
+Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
+überschreibt den gesamten vorherigen Zustand.
 
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
