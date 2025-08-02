@@ -16,7 +16,7 @@ Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung ei
 - ClusterCreate-Nebenwirkungen
 - Kreaturen- & Gestalten-Generator
 - Para-Creature-Generator: Urban Myth Edition
-- Boss-Generator: Mini-, Arc- und Rift-Bosse
+- Boss-Generator: Mini-, Episoden- und Rift-Bosse
 - Artefakt-Generator: Objekte mit Geschichte
 - Kulturfragmente-Generator: Farbe für die Epochen
 - Mood-Snippet-Generator
@@ -697,10 +697,10 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
 4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
 
-## Boss-Generator: Mini-, Arc- und Rift-Bosse {#boss-generator}
+## Boss-Generator: Mini-, Episoden- und Rift-Bosse {#boss-generator}
 
 Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Mission 5 auf,
-Arc-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
+Episoden-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
 
 ### boss_template
 
