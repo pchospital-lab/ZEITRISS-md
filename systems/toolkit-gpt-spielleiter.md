@@ -535,54 +535,28 @@ Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
 - **`Spiel starten (gruppe)`** – Mehrere reale Spieler, eigene Saves oder neue Charaktere.
 - **`Spiel laden`** – Fortsetzung eines vorhandenen Spielstands.
 
-Vor dem ersten Befehl wird `StoreCompliance()` nur eingeblendet, wenn
-`compliance_shown_today` noch nicht gesetzt ist; danach erscheint das Startbanner
-und das Flag wird aktualisiert.
+Fehlt beim Befehl `Spiel laden` der JSON-Save, fordert GPT ihn an, bevor die
+Fortsetzung beginnt.
 
-```pseudo
-if not compliance_shown_today:
-    StoreCompliance()
-    compliance_shown_today = true
-ShowStartBanner()
-```
+Vor dem ersten Befehl gilt:
 
-Anschließend verzweigt das Skript:
+- `StoreCompliance()` erscheint nur, wenn `compliance_shown_today` noch nicht
+  gesetzt ist. Danach wird das Startbanner angezeigt und das Flag aktualisiert.
 
-```pseudo
-function startDispatcher(cmd):
-    if not compliance_shown_today:
-        StoreCompliance()
-        compliance_shown_today = true
-    ShowStartBanner()
-    if cmd == "Spiel laden":
-        LoadSave()
-        recap()
-        EnableHUD()
-        ContinueMission()
-    else:
-        EnableHUD()
-        ShowNullzeitMenu()  # kurze HUD-Tour
-        if cmd == "Spiel starten (solo)":
-            CharacterCreation("solo")
-        elif cmd == "Spiel starten (npc-team)":
-            CharacterCreation("npc-team")
-        elif cmd == "Spiel starten (gruppe)":
-            CharacterCreation("gruppe")
-        HQPhase()
-        BeginNewGame(cmd)
-```
-Die Charaktererschaffung verzweigt nach Modus:
+Der Dispatcher folgt diesen Regeln:
 
-```pseudo
-function CharacterCreation(mode):
-    if mode == "solo":
-        SetupSoloAgent()
-    elif mode == "npc-team":
-        SetupSoloAgent()
-        SetupNPCTeam()
-    elif mode == "gruppe":
-        SetupGroupAgents()
-```
+- **Spiel laden**
+  - Fehlt der JSON-Save, fordert GPT ihn an und wartet ab.
+  - Liegt ein Save vor, lädt GPT ihn, spielt eine kurze Rückblende,
+    aktiviert das HUD und setzt die Mission fort.
+- **Spiel starten (solo | npc-team | gruppe)**
+  - HUD aktivieren und kurz das `NullzeitMenu()` zeigen.
+  - Danach Charaktererschaffung abhängig vom Modus:
+    - _solo_: `SetupSoloAgent()`
+    - _npc-team_: `SetupSoloAgent()` und `SetupNPCTeam()`
+    - _gruppe_: `SetupGroupAgents()`
+  - Eine HQ-Phase einlegen und schließlich `BeginNewGame` aufrufen.
+
 Dies schafft einen kurzen Atemzug, bevor der eigentliche Seed gezogen wird.
 
 `BeginNewGame()` folgt dem Ablauf aus
