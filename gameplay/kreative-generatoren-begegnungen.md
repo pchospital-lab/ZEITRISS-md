@@ -728,6 +728,13 @@ boss_template:
   loot:
     cu: 40
     relic: null
+    tier2:
+      - item: Adrenalin-Shot
+        cu: 60
+      - item: Holo-Köder
+        cu: 90
+      - item: Nano-Bindepflaster
+        cu: 70
 ```
 
 ### core_mini_pool
