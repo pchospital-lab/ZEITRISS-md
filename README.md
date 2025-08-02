@@ -20,13 +20,13 @@ Eure Hülle ist keine Tarnung – sie ist euer Körper.
 Ihr erkundet historische Epochen und beseitigt Anomalien.
 Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-Charakterbogen.
 Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
-> ### TL;DR – ZEITRISS in 5 Punkten
+> ### TL;DR – ZEITRISS in 6 Punkten
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-> 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (10–14 Szenen).
+> 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief (Core 12 Szenen / Rift 14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Arc-Ende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
-> 6. **Boss-Rhythmus.** In Mission 5 eines Core-Arcs erscheint ein Mini-Boss, in Mission 10 der Arc-Boss.
+> 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
 >    Rift-Operationen platzieren ihren Boss in Szene 10.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
@@ -37,7 +37,7 @@ Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte
 |------------|:----:|:----:|:----:|-----------------|
 | [Grundwürfelsystem (W6)](core/wuerfelmechanik.md) | ✅ | | | Kernmechanik – explodierende Würfel |
 | [Paradoxon-Index](core/zeitriss-core.md) | ✅ | | | Kampagnen-Fortschritt |
-| [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Arc-Boss nach Missionsnummern |
+| [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Episoden-Boss nach Missionsnummern |
 | [Stress-System](characters/zustaende-hud-system.md) | | ✅ | | Für psychische Belastung und Druck |
 | [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für epische Missionen |
 | [Psi-Kräfte / Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
