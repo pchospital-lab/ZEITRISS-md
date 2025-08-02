@@ -73,10 +73,26 @@ und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
 
 Eine Operation gliedert sich in sechs Phasen:
 Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration und Debrief.
-Rechnet mit 10–14 Szenen, je nach Einsatzart.
+Rechnet mit 12 Szenen im Core und 14 Szenen im Rift.
 Die Gegenseite agiert mit greifbaren Agenten oder Söldnern.
 Bonusziele wie Festnahmen oder gesicherte Datenträger bringen zusätzliche CU oder Ruf.
-### 14-Step Mission Template
+### Core 12-Step Mission Template
+| # | Phase | Zweck |
+|---|-------|------|
+| 1 | Briefing | Auftrag erhalten |
+| 2 | Anreise | Sprung oder Reise |
+| 3 | Auftakt | Lage sondieren |
+| 4 | Infiltration | Zugang schaffen |
+| 5 | Kontakt | Info beschaffen |
+| 6 | Konflikt I | erster Gegnerkontakt |
+| 7 | Intel Twist | unerwartete Wendung |
+| 8 | Konflikt II | Haupthindernis |
+| 9 | Sicherung | Zielobjekt greifen |
+|10 | Flucht | Exfiltration beginnen |
+|11 | Rücksprung | Entkommen |
+|12 | Debrief | Belohnung auszahlen |
+
+### Rift 14-Step Mission Template
 | # | Phase | Zweck |
 |---|-------|------|
 | 1 | Briefing | Auftrag erhalten |
