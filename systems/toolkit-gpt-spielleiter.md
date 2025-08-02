@@ -373,7 +373,7 @@ Boss-Generators.
 {% return %}
 {% endif %}
 {% if campaign.scene > total %}
-[WARN] Scene {{ campaign.scene }}/{{ total }} overrun
+<!--GM Scene {{ campaign.scene }}/{{ total }} overrun-->
 {% endif %}
 {%- endmacro %}
 
@@ -387,8 +387,11 @@ Boss-Generators.
 {%- endmacro %}
 
 <!-- Macro: option_resolve -->
-{% macro option_resolve(risk, reward) -%}
+{% macro option_resolve(risk, reward, cause="") -%}
 {{ hud_tag() }} Risk {{ risk }} vs Reward {{ reward }}
+{% if cause %}
+{{ cause }}
+{% endif %}
 {% if reward > risk %}
 Paradoxon +1 – Resonanzanstieg
 {% elif reward < risk %}
@@ -414,12 +417,22 @@ Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
 ### ParadoxPing() Macro
 {% macro ParadoxPing() -%}
-{% if campaign.paradox == 5 %}
-  {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
-  {% set campaign.paradox = 0 %}
-  {{ generate_rift_seeds(1,2) }}
-{% elif campaign.paradox in [3,4] %}
-  {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+{% if campaign.last_px is not defined %}
+  {% set campaign.last_px = 0 %}
+  {% set campaign.last_px_scene = 0 %}
+{% endif %}
+{% if campaign.paradox == campaign.last_px and campaign.scene - campaign.last_px_scene < 2 %}
+{# throttle identical alerts #}
+{% else %}
+  {% if campaign.paradox == 5 %}
+    {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
+    {% set campaign.paradox = 0 %}
+    {{ generate_rift_seeds(1,2) }}
+  {% elif campaign.paradox in [3,4] %}
+    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+  {% endif %}
+  {% set campaign.last_px = campaign.paradox %}
+  {% set campaign.last_px_scene = campaign.scene %}
 {% endif %}
 {%- endmacro %}
 
