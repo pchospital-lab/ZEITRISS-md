@@ -63,6 +63,9 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | Mini-Drohne "Wisp" | Live-Vid 120 m, Hack-Reichweite 20 m |
 | EMP-Patch | legt 1 elektr. Schloss flach (SG-1) |
 | Netz-Spoofer | fälscht Kamera-Feed 1 Szene |
+| Adrenalin-Shot | 1×, +2 Initiative (80 CU) |
+| Holo-Köder | 1 Szene, -2 Wach-Alert (60 CU) |
+| Nano-Bindepflaster | 1 Szene, +1 Rüstung (120 CU) |
 
 | **Tier 3 – 600 CU** | Effekt |
 | ------------------- | -------------------------------------- |
