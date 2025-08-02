@@ -6,6 +6,11 @@ default_modus: mission-fokus
 ---
 {% from "../README.md" import StoreCompliance %}
 {% set scene_min = 12 %}
+{% if codex is not defined %}
+  {% set codex = namespace(dev_raw=false) %}
+{% elif codex.dev_raw is not defined %}
+  {% set codex.dev_raw = false %}
+{% endif %}
 # ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
@@ -373,7 +378,7 @@ Boss-Generators.
 {% return %}
 {% endif %}
 {% if campaign.scene > total %}
-<!--GM Scene {{ campaign.scene }}/{{ total }} overrun-->
+{#GM: Scene overrun {{ campaign.scene }}/{{ total }}#}
 {% endif %}
 {%- endmacro %}
 
@@ -400,41 +405,85 @@ Paradoxon –1 – Resonanzverlust
 Paradoxon unverändert – Resonanz stagniert
 {% endif %}
 {%- endmacro %}
+Beispiel:
+
+```jinja
+{{ option_resolve(2,3,'Eruption path restored – Px +1') }}
+```
 
 <!-- Macro: output_sanitizer -->
 {% macro output_sanitizer(text) -%}
 {{ text.replace('<!--', '').replace('-->', '').replace('{{', '').replace('}}', '') }}
 {%- endmacro %}
-Nutze `output_sanitizer()` am Ende jeder Szenen-Generierung,
-um HTML-Kommentare zu entfernen:
+
+<!-- Macro: tone_filter -->
+{% macro tone_filter(text) -%}
+{% if codex.dev_raw %}
+{{ text }}
+{% else %}
+{% set mapped = {"mask_delta72.chk": "Shadow command file mask delta 72"} %}
+{% set clean = text
+  | regex_replace('/_?[A-Z0-9]{3,}\.[A-Z]{2,3}/', '')
+  | regex_replace('/\b\w+(?:_ID|_CHK|\.cfg|\.dat)\b/', '')
+  | replace('MAC-signature', 'signature')
+  | replace('SYS-flag', 'system load') %}
+{% if clean in mapped %}
+{{ mapped[clean] }}
+{% else %}
+{{ clean|replace('_', ' ')|regex_replace('([a-z])([A-Z])', '\1 \2')|lower }}
+{% endif %}
+{% endif %}
+{%- endmacro %}
+Nutze `output_sanitizer()` gefolgt von `tone_filter()` am Ende jeder
+Szenen-Generierung, um HTML-Kommentare zu entfernen und Systemjargon zu
+glätten:
 
 ```pseudo
 text = render_scene()
-return output_sanitizer(text)
+return tone_filter(output_sanitizer(text))
 ```
 Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ StartScene(...) }}-->` oder
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
+NPC-Dialoge und Codex-Logs passieren `tone_filter()` nach der Umwandlung
+technischer Tags, damit keine Systemtokens im Spieltext bleiben.
 ### ParadoxPing() Macro
 {% macro ParadoxPing() -%}
-{% if campaign.last_px is not defined %}
-  {% set campaign.last_px = 0 %}
-  {% set campaign.last_px_scene = 0 %}
+{% if campaign.lastPx is not defined %}
+  {% set campaign.lastPx = 0 %}
+  {% set campaign.lastPxScene = 0 %}
 {% endif %}
-{% if campaign.paradox == campaign.last_px and campaign.scene - campaign.last_px_scene < 2 %}
-{# throttle identical alerts #}
-{% else %}
+{% if campaign.paradox != campaign.lastPx and campaign.paradox >= 4 %}
   {% if campaign.paradox == 5 %}
     {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
-  {% elif campaign.paradox in [3,4] %}
+    {% set campaign.lastPx = campaign.paradox %}
+  {% else %}
+    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+    {% set campaign.lastPx = campaign.paradox %}
+  {% endif %}
+  {% set campaign.lastPxScene = campaign.scene %}
+{% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 4 %}
+  {% if campaign.paradox == 5 %}
+    {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
+    {% set campaign.paradox = 0 %}
+    {{ generate_rift_seeds(1,2) }}
+    {% set campaign.lastPx = campaign.paradox %}
+  {% else %}
     {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
   {% endif %}
-  {% set campaign.last_px = campaign.paradox %}
-  {% set campaign.last_px_scene = campaign.scene %}
+  {% set campaign.lastPxScene = campaign.scene %}
 {% endif %}
 {%- endmacro %}
+
+```md
+<!-- Test: ParadoxPing throttle -->
+{% set campaign = namespace(paradox=4, scene=1, lastPx=0, lastPxScene=0) %}
+{% for s in range(1,6) %}
+{% set campaign.scene = s %}Szene {{ s }}: {{ ParadoxPing() }}
+{% endfor %}
+```
 
 ### redirect_same_slot() Macro
 
