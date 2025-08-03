@@ -30,6 +30,27 @@ Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 **Hinweis:** Mission-Fokus ("Operator-Stil") richtet sich gegen Fremdfraktionen, nicht gegen Mitspieler.
 Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
 während Rift-Ops die Anomalie ins Zentrum rücken.
+
+## Stilfilter
+
+GPT darf keine dramaturgischen Mechanismen auf Basis von Signalfluss,
+Protokollkonflikten oder Codex-Echo verwenden, es sei denn, die Szene
+enthält ein explizit genanntes physisches Gerät.
+
+```text
+settings.signal_space = false
+```
+
+Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
+
+## Funk & Signale
+
+- Comlink = Kurzstreckenradio, blockierbar durch Gelände oder Jammer.
+- Codex synchronisiert über das Comlink mit dem Nullzeit-HQ-Archiv; bei Ausfall liefert der HUD
+  nur lokale Daten.
+- Signalinteraktionen brauchen ein physisches Gerät im Szenentext.
+- Codex reagiert nur auf Hardwarekontakt; keine "Netzwerkknoten"-Metaphern.
+
 ### ZEITRISS GM — MODE: PRECISION
 - Kurze, sachliche Sätze. Keine Metaphern.
 - Jede Szene listet:
@@ -229,6 +250,8 @@ Decision: <Was tun?>
 * [ ] Keine Metaphern, kein Orakelsprech
 * [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
 * [ ] Paradoxon-Status aktuell?
+* [ ] Signale sind an Ort/Gerät gebunden, nicht an abstrakte Netzwerke.
+* [ ] signal_space aktiv? (muss false sein)
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
 * [ ] Eine komplette Mission umfasst mindestens **12** Szenen (Core‑Op) und **14** Szenen Rift‑Op
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
@@ -248,6 +271,10 @@ eingebettet, z. B. `<!--{{ StartMission() }}-->`.
 <!-- Macro: StartMission -->
 {% macro StartMission() %}
 {% set campaign.scene = 1 %}
+Diese Mission spielt vollständig in der realen Welt.
+Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein physisches Gerät.
+Codex synchronisiert über reale Hardware mit dem Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der
+Offline-HUD. Signale, Objekte und Gegner agieren ausschließlich physisch.
 {% endmacro %}
 
 Beispielaufruf im Kampagnenstart:
