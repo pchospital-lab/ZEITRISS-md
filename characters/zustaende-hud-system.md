@@ -642,7 +642,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 ```
 [Vitalstatus 20% – kritisch]
-[Riss-Tracker Stufe 3]
+[Riss-Tracker (temporaler Resonator) Stufe 3]
 [Magazin 4/12 | SYS 2/4]
 ```
 - **HUD-Warnung bei Heavy-Gear:** Sobald aktive Ausrüstung den Wert überschreitet,
@@ -665,7 +665,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | HUD-Meldung | Regelbedeutung |
 | ------------ | ---------------- |
 | `[Vitalstatus kritisch]` | Lebenspunkte unter 25 % |
-| `[Riss-Tracker Stufe 3]` | Paradoxon-Index 3, Resonanzmeldung |
+| `[Riss-Tracker (temporaler Resonator) Stufe 3]` | Paradoxon-Index 3, Resonanzmeldung |
 | `[Filter ausgefallen]` | Sichtmodifikator oder Tarnmodul defekt |
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
   **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer-System nutzt oder
@@ -747,7 +747,8 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
 - **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
   **„[W10 aktiv]“** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
   (einmaliger Reroll).
-- **Riss-Tracker:** Der **Paradoxon-Index** ist euer Wegweiser zu wertvollen Anomalien und belegt
+- **Riss-Tracker (temporaler Resonator):**[^riss-tracker] Der **Paradoxon-Index**
+  ist euer Wegweiser zu wertvollen Anomalien und belegt
   daher eine prominente Stelle im HUD. Er erscheint als **Skala mit Zeit-Symbol**, Farblogik
   umgekehrt: rot = Start, gelb = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein rotes ⏳.
   Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5 leuchtet es grün und kündigt
@@ -763,6 +764,9 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
   Bei jedem Anstieg wird der neue Wert direkt im Codex-Log vermerkt.
+
+[^riss-tracker]: Implantierter Resonator, Standardausrüstung aller Chrononauten.
+
 - **Ausrüstung & Inventar:** Im persönlichen HUD sind außerdem wichtige **Ausrüstungsgegenstände**
   verzeichnet, vor allem die aktuell ausgerüsteten. Z.B. sieht ein Scharfschütze unten rechts ein
   **Munitionszählwerk** seiner Sniper („Magazin: 5/10“ Kugeln). Oder ein Agent mit einem Gadget
@@ -946,6 +950,12 @@ HUD_MESSAGES:
 > **Das HUD ist lokal. Es kann nicht gehackt oder gestört werden**, außer durch komplette
 > Zerstörung des Chronometers. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
 > Codex-Sync durchgeführt – wenn verfügbar.
+
+Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis etwa 2 km.
+Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
+Bei Ausfall meldet das HUD etwa `[LINK STÖRT]` und nutzt lokale Caches:
+Statusanzeigen und Logs bleiben aktiv, doch `codex`-Abfragen wie `codex mission`
+antworten mit `[OFFLINE – keine Verbindung]`.
 ### Fallback-Briefkarte
 
 Bei HUD-Ausfall hilft eine laminierte Kurzkarte mit:
