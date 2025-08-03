@@ -1216,7 +1216,7 @@ würfelt einen Eintrag als Missionsstart.
     \| Nachphase: Basis gerät in Aufruhr.
 57. **Phobos – Der Basilisk** \| Vorphase: Mission entdeckt Turm.
     \| Nachphase: Crew verliert Kontakt.
-58. **Rückseite des Mondes – Die wahre Madonna** \| Vorphase: Crash-Signal wird geortet.
+58. **Rückseite des Mondes – Die wahre Madonna** \| Vorphase: Crash-Signal eines Notfunksenders wird geortet.
     \| Nachphase: Hybride Kreatur erwacht.
 59. **Saturnmond Titan – Fremdes Leben** \| Vorphase: Sonden liefern seltsame Daten.
     \| Nachphase: Methanmeere brodeln.
@@ -1277,7 +1277,8 @@ _Regel für die Kühlung der Epochengewichte:_
    gelangen.
 6. **Mars-Kolonie** (2097) – _Setting:_ Ein Habitat unter Kuppeln, rote Wüstenlandschaft draußen,
    futuristische Labore. **Besonderheit:** _Erster Kontakt_ – aber nicht mit Aliens, sondern mit
-   Zeitreisenden: Die Mars-Siedler empfangen ein Signal von Menschen… aus dem Jahr 2300. Die
+   Zeitreisenden: Die Mars-Siedler empfangen ein Notrufsignal von einem beschädigten
+   Transceiver aus dem Jahr 2300. Die
    Zukunftsmenschen sind gestrandet und flehen um Hilfe. Die Chrononauten müssen koordinieren, wie man
    diese temporale Notlage löst, ohne dass die fragile Mars-Gesellschaft des Jahres 2097 kollabiert
    (schon allein die Nachricht “die Mission wird aufgegeben werden” könnte Panik auslösen). Eine
@@ -1680,7 +1681,8 @@ thema: Beispiel-Rift
   arc_step: 3
   pool: black_ops_pool
   title: "Oasen‑Signal"
-  pitch: "Leg toxische Nebelkerzen in Händlerlager, um Wachen auszuschalten."
+  pitch: "Leg toxische Nebelkerzen in Händlerlager, um Wachen auszuschalten; defekter
+    Funkmast sendet permanent Notrufe."
   timeslot: "+12 h"
 
 - arc_id: "Silk1280"
@@ -1912,7 +1914,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Blue Silence"
   pitch: >
-  Sim‑Signal als ‘Übung’ kennzeichnen; CT‑Elite‑Handler und Heavy‑Merc‑Squad greifen an
+  Sim‑Signal eines Trainingssenders als ‘Übung’ kennzeichnen; CT‑Elite‑Handler und
+  Heavy‑Merc‑Squad greifen an
   – finale Mehr­ebenen‑Schlacht (Gorō als Ally).
   timeslot: "1983-11-11 00:00"
 
