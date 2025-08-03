@@ -267,7 +267,8 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Stress 10 | –   | HP 8                                    |                       |
 
 _Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Paradoxon +1 bei Erfolg ≥ 2.
-_Temporal Backdoor:_ Bei Signal-Stack 3 entsteht ein Kurz-Rift, dann fällt der Stack auf 0.
+_Temporal Backdoor:_ Bei drei aktiven Beacon-Geräten (Signal-Stack 3) entsteht ein Kurz-Rift,
+dann fällt der Stack auf 0.
 
 ### Bonus-Micro-Begegnungen (d13)
 
@@ -379,7 +380,7 @@ liegen, mischt die SL den Stapel zurück.
 | 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
 | 41 | Parallel Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
 | 42 | Cold Swap – Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
-| 43 | Signal-Broadcast warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
+| 43 | Alarm-Transmitter sendet Signal-Broadcast und warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
 | 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
 | 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
 | 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |

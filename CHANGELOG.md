@@ -92,3 +92,10 @@ tags: [meta]
 - PvP-Arena: Best-of-Three-Sieger erhalten +1 Px statt Paradoxon-Reset.
 - Arena-Regeln präzisiert: Szenario-Pool, balanciertes Matchmaking und HUD-Scoreboard.
 - Optionales 1v1-Duell und Balance-Hinweise zu Psi-Kräften und Artefakten.
+
+## 4.2.1
+- Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
+- `signal_space`-Stilfilter eingeführt; StartMission betont physische Umgebung.
+- Missions- und Begegnungstabellen nennen konkrete Geräte statt abstrakter Signale.
+- `Codex-Relay-Knoten` beschreibt Reichweite und Störquellen.
+- Codex-Verbindung zum Nullzeit-HQ-Archiv als reale Funkstrecke klargestellt.
