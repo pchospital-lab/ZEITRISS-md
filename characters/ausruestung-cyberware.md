@@ -346,7 +346,7 @@ Ein Magazin oder Gadget wird als `[ ] [ ] [ ]` notiert. Nach jedem Einsatz füll
 Sind alle drei belegt, ist das Objekt aufgebraucht und muss nachgeladen oder ersetzt werden.
 So wird Munitionsverschwendung vermieden und taktische Planung gefördert.
 
-### Zeit-Technologie: Zeitterminals & Temporale Tools
+### Zeit-Technologie: Zeitterminals & Temporale Tools {#temporale-tools}
 
 Neben konventioneller Ausrüstung stellen die **Zeitreise-Technologien** die vielleicht wichtigste
 „Ausrüstung“ der Chrononauten dar. Einige dieser Geräte sind fest im HQ installiert (z.B. die großen
@@ -372,7 +372,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxien, temporale Energie oder unstimmige
   Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
   20 m. Besonders hilfreich, um _Zeitverbrecher_ oder fremde Eingriffe zu entdecken. _Kosten:_ 120 CU.
-  - **Riss-Tracker:** Ein fest implantiertes Bioimplantat, das bei jedem Chrononauten zur
+  - **Riss-Tracker (temporaler Resonator):** Ein fest implantiertes Bioimplantat, das bei jedem Chrononauten zur
     Grundausstattung gehört. Es vibriert leicht, wenn starke temporale Resonanz
     bevorsteht – ein Hinweis, dass bald ein wertvolles Pararift auf der Raumzeitkarte
     sichtbar werden könnte. Der Riss öffnet sich nicht während der Mission,
@@ -390,7 +390,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 _Atmosphärische Einbindung:_ All diese temporalen Tools können im Spiel für spannende Szenen sorgen.
 So könnte etwa das **HUD** des Chrononauten automatisch Epochen-Scanner-Daten einblenden, sobald
 eine Anomalie detektiert wird (_„HUD-Overlay: Temporal-Flux Detected!“_). Die KI-Spielleitung (GPT)
-kann Hinweise liefern, wenn z.B. ein Riss-Tracker anspringt, indem sie ein gutes Gefühl oder ein
+kann Hinweise liefern, wenn z.B. ein Riss-Tracker (temporaler Resonator) anspringt, indem sie ein gutes Gefühl oder ein
 Flackern im Zeitstrom beschreibt. Solche Elemente verstärken die Immersion, sollten aber sparsam und
 stimmungsvoll eingesetzt werden.
 
