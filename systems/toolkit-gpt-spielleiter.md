@@ -324,7 +324,19 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
-{% set campaign.scene_total = total %}
+{% call maintain_cooldowns() %}{% endcall %}
+{% if loc == "HQ" %}
+  {% set total = "∞" %}
+  {% set campaign.scene_total = None %}
+{% else %}
+  {% if campaign.scene_total is none %}
+    {% set campaign.scene_total = total %}
+  {% endif %}
+  {% if campaign.scene > campaign.scene_total %}
+    {% set campaign.scene_total = campaign.scene_total + 4 %}
+  {% endif %}
+  {% set total = campaign.scene_total %}
+{% endif %}
 {% if role == "Finale" and campaign.scene < 10 %}
   {# Finale blockiert bis Szene 10 #}
   {% return %}
@@ -333,6 +345,14 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 Kamera: {{ loc }}
 Target: {{ target }}
 {% if pressure %}Pressure: {{ pressure }}{% endif %}
+{%- endmacro %}
+
+{% macro maintain_cooldowns() -%}
+{% for skill, cd in char.cooldowns.items() %}
+  {% if cd > 0 %}
+    {% set char.cooldowns = char.cooldowns.update({skill: cd - 1}) %}
+  {% endif %}
+{% endfor %}
 {%- endmacro %}
 
 <!-- Macro: EndScene -->
@@ -405,6 +425,7 @@ Boss-Generators.
 
 <!-- Macro: scene_budget_enforcer -->
 {% macro scene_budget_enforcer(total) -%}
+{% if total is none %}{% return %}{% endif %}
 {% if campaign.scene < scene_min %}
 [ABORT] Scene {{ campaign.scene }}/{{ scene_min }} underflow
 {% return %}

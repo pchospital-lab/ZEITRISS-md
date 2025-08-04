@@ -151,7 +151,10 @@ auf). Nach ein paar Würfelrunden sollte klar sein, wie die Jagd endet – in ei
 Flucht** oder einer dramatischen Stelle, an der die Helden eingeholt werden. Wichtig: Die Würfel
 geben den Rahmen vor, aber **beschreibt jede Runde filmisch**. Selbst ein misslungener Wurf kann
  eine coole Szene ergeben („Dein Wagen driftet um die Ecke, fast erwischen dich die Gegner – Funken
- sprühen, als Metall auf Stein kratzt!“). So bleibt das Tempo hoch, ohne in Buchhaltung auszuarten.
+  sprühen, als Metall auf Stein kratzt!“). So bleibt das Tempo hoch, ohne in Buchhaltung auszuarten.
+
+> **Speed‑Delta π:** Differenz der Fahrstufen × 2 m pro Szene  
+> (z. B. Stufe 4 vs. 2 → 4 m Abstand pro Szene)
 
 #### Wendemanöver (Turn‑180° / Immelmann / Slingshot)
 
