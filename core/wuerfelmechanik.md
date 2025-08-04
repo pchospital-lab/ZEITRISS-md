@@ -745,7 +745,7 @@ Wiederholte Tech-Lösungen erhöhen die Schwierigkeit späterer Tech-Proben. Die
 Zähler `tech_heat` von 0 bis 3. Nach jeder rein technischen Lösung gilt:
 
 1. `tech_heat` + 1.
-2. Bei `tech_heat >= 3` steigt `tech_sg` um +1, `tech_heat` fällt auf 0 und optional löst
+2. Bei `tech_heat >= 3` steigt `tech_sg` um +1, `tech_heat` fällt auf 0 und einmal pro Szene löst
    `inject_complication()` eine soziale oder physische Hürde aus.
 
 So zwingt das System zu vielfältigen Herangehensweisen und verhindert Terminal-Dominanz.
