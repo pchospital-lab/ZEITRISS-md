@@ -18,6 +18,7 @@ Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung ei
 - Para-Creature-Generator: Urban Myth Edition
 - Boss-Generator: Mini-, Episoden- und Rift-Bosse
 - Artefakt-Generator: Parawesen-Trophies
+- Para-Artefakt-Generator: On-The-Fly (Körperteil × Buff-Matrix)
 - Kulturfragmente-Generator: Farbe für die Epochen
 - Mood-Snippet-Generator
 - Rätselbibliothek: Kurze Hürdenszenen
@@ -818,7 +819,7 @@ auftreten.
 
 ## Artefakt-Generator: Parawesen-Trophies (1W14) {#artefakt-generator}
 
-_Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Relikt gleichzeitig führen._
+_Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Artefakt gleichzeitig führen._
 | 1W14 | Name | Effekt | Risiko / Cooldown |
 |----:|------|--------|-------------------|
 | 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | Blend 1 Sz, Px −1 bei Fehlwurf |
@@ -854,6 +855,12 @@ Macro wird wie bisher in **Rift-Mission Szene 11–13** aufgerufen:
 {% if d6() == 6 %}
     {{ roll_legendary() }}
 {% endif %}
+```
+
+Para-Kreaturen können zusätzliche Artefakte hinterlassen:
+
+```jinja
+{% set artifact = generate_para_artifact(current_creature) %}
 ```
 
 ### JSON-Lookup (Codex-HUD)
@@ -906,6 +913,42 @@ Macro wird wie bisher in **Rift-Mission Szene 11–13** aufgerufen:
   ]
 }
 ```
+
+## Para-Artefakt-On-The-Fly (1W6 Körperteil × Buff-Matrix)
+
+| W6 | Körperteil       | Basiseffekt (vor Matrix) |
+|---:|------------------|--------------------------|
+| 1  | Klaue / Stachel  | +2 DMG Nahkampf          |
+| 2  | Zahn / Horn      | Durchdringung +1         |
+| 3  | Auge / Pupille   | Perception +1            |
+| 4  | Drüse / Beutel   | 1× Spezialladung         |
+| 5  | Chitin / Platte  | Rüstung +1               |
+| 6  | Organ / Kern     | Einmaliger Power-Burst   |
+
+> **Matrix-Aufwertung**: Kombiniere mit Kreatur-`type`.
+> *Beispiel* – **Psi-Raptor (M)** rollt **3 = Auge**  
+> → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
+> Größe M = 2 Nutzungen / Mission.
+
+**Risiko:** jeder Fehlschlag ⇒ Px −1, plus Nebenwirkung laut Tabelle B.
+
+#### Tabelle B – Nebeneffekte (d6)
+
+| d6 | Nebenwirkung              |
+|----|---------------------------|
+| 1  | Stress +1                |
+| 2  | Heat +1                  |
+| 3  | SYS −1 (Selbstschaden)   |
+| 4  | Blend 1 Szene            |
+| 5  | Item zerfällt            |
+| 6  | Gegner erhält +1 INI     |
+
+> Legendary-Limit: 1 Artefakt / Agent (unverändert).
+
+```jinja
+{% set artifact = generate_para_artifact(current_creature) %}
+```
+
 ## Kulturfragmente-Generator: Farbe für die Epochen {#kulturfragmente}
 
 Wer durch die Zeit reist, trifft auf fremde **Kulturen, Bräuche und Alltagsdetails**, die eine

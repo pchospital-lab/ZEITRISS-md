@@ -461,6 +461,43 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {{ hud_tag() }} Artefakt ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
 {%- endmacro %}
 
+### generate_para_artifact() Macro
+Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
+<!-- Macro: generate_para_artifact -->
+{% macro generate_para_artifact(creature) -%}
+  {# Input: creature dict mit .type, .size, .name #}
+  {% set part_roll = d6() %}
+  {% set side_roll = d6() %}
+  {% set part_table = {
+      1:"Klaue",2:"Zahn",3:"Auge",4:"Drüse",5:"Chitinplatte",6:"Kern"} %}
+  {% set base_effect = {
+      1:"+2 DMG melee",2:"ArmorPierce+1",3:"Perception+1",
+      4:"1x Special charge",5:"Armor+1",6:"Power burst"} %}
+  {% set matrix = {
+      "Physisch":{"Auge":"Aim+1","Zahn":"+1 DMG","Klaue":"+2 DMG"},
+      "Psi":{"Auge":"Telepath range×2","Kern":"PP+2"},
+      "Temporal":{"Kern":"MiniJump ±3s","Drüse":"Action+1"},
+      "Elementar":{"Chitinplatte":"Element resist","Drüse":"Element bolt+1"},
+      "Bio-Schwarm":{"Drüse":"Spawn microdrone","Chitinplatte":"Climb 10m"} } %}
+  {% set part = part_table[part_roll] %}
+  {% set effect = base_effect[part_roll] %}
+  {% if matrix[creature.type][part] is defined %}
+      {% set effect = matrix[creature.type][part] %}
+  {% endif %}
+  {% if creature.size == "M" %}
+      {% set effect = effect ~ " (2 uses)" %}
+  {% elif creature.size == "L" %}
+      {% set effect = effect ~ " (passive)" %}
+  {% endif %}
+  {% set side = [
+      "Stress+1","Heat+1","SYS-1","Flashblind",
+      "Item breaks","Enemy +1 INI"][side_roll-1] %}
+  {{ hud_tag() }} Artefakt ‹{{ part }} von {{ creature.name }}› ▶ {{ effect }} (Risk: {{ side }} · Px-1)
+{%- endmacro %}
+
+Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
+nach einem Para-Kreaturen-Drop.
+
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
 Parameter: `core` oder `rift` und optional ein Budget in CU.
