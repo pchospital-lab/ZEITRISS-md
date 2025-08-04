@@ -119,7 +119,7 @@ Geräusch eines aktivierten Energieschwerts.
 
 
 | Waffe | Epoche | Schaden | Besonderheit | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | Römischer _Gladius_ | Antike | 2 (leicht) | Kurz und führig; effektiv in engem Nahkampf, unauffällig | 50 | 0 |
 | Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig | 80 | 1 |
 | Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe | 40 | 0 |
@@ -432,8 +432,7 @@ CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
 oder was ein ähnliches Objekt im HQ kosten würde.
 Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.
 
-id: weapon_t1
-## Zufällige Waffenfunde (1W6)
+## Zufällige Waffenfunde (1W6) {#weapon_t1}
 
 1. **Antikes Kurzschwert** – Mittelalterliche Schmiedekunst, Schaden 2 LP. Preis: 60 CU. _Taucht oft
    in Missionen rund um Ritter oder Feldzüge auf._ `altSkin: "Römisches Gladius"`
@@ -449,8 +448,7 @@ id: weapon_t1
    Schaden 3 LP + temporales Risiko. Preis: 500 CU. _Nur bei speziellen Story-Missionen oder als
    besonderes Artefakt einsetzbar._ `altSkin: "Arkebuse 1600"`
 
-id: gear_t1
-## Nützliche Alltagsausrüstung (1W6)
+## Nützliche Alltagsausrüstung (1W6) {#gear_t1}
 
 1. **Epocheangepasstes Werkzeugset** – Passt sich automatisch an die Zeitepoche an; Bonus +1 auf
    Reparatur-/Bastelwürfe. Wert: 80 CU. `altSkin: "Römer-Werkzeug 50 n.Chr."`
@@ -465,8 +463,7 @@ id: gear_t1
 6. **Chrono-Seilwerfer** – Kompaktes Enterhaken-System, haftet an jeder Oberfläche und löst sich auf
    Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien. `altSkin: "Wurfanker 1800"`
 
-id: artifact_t2
-## Kuriose Artefakte & Relikte (1W9)
+## Kuriose Artefakte & Relikte (1W9) {#artifact_t2}
 <!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
 1. **Kristallschädel** – Schwache Energie, Datenspeicher. 300 CU bei Sammlern. {rare_rift}
@@ -479,8 +476,7 @@ id: artifact_t2
 8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab, einmalig +1 auf Geschichtswürfe. 300 CU. {rare_rift}
 9. **Fluxprojektor** – 3s Hülle; UV-Bogen schneidet Stahl (5 m). Kosten: 1 PP, 2 Heat, 1 Px, 2 Lad. {rare_rift}
 
-id: gadget_t3
-## Seltene Spezialgegenstände (1W6)
+## Seltene Spezialgegenstände (1W6) {#gadget_t3}
 
 1. **Psi-Verstärker-Stirnband** – Steigert Psi-Fähigkeiten um +1 (sofern vorhanden). Preis im HQ:
    500 CU. Nur in fortgeschrittenen Missionen zugänglich. `altSkin: "Runen-Tiara 900"`
