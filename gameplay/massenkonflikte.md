@@ -583,6 +583,12 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 | **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
 | **Paradox Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Paradoxon +1 pro Treffer) |
 
+Für größere Teams skaliert der HP-Pool der Gegner:
+
+```pseudo
+effektive_HP = HP_Pool × ceil(team_size / 2)
+```
+
 > **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation.
 > Kein Spawn während der aktuellen Mission.
 

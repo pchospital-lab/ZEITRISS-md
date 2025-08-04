@@ -192,9 +192,13 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cove
   Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
   Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der
   Telekinet eine unsichtbare Waffe. Dieser Trick kostet **1 SYS**, und Schadenswürfe dieser
-  Psi-Waffe verzichten auf Exploding 6. Gegen stark gepanzerte Ziele erhöht sich
-  die Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
+  Psi-Waffe verzichten auf Exploding 6. Hat das Ziel eine Rüstung mit **SR ≥ 2**, steigt die
+  Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
   um Missbrauch zu verhindern.
+```pseudo
+if attack_type == "TK-Melee" and target.armor >= 2:
+    SG += 1
+```
   Cooldown: Nach Einsatz **1 Runde warten** oder alternativ **+1 SYS** für eine sofortige
   Folgeaktion zahlen.
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
