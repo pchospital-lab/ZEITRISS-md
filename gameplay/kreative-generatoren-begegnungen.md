@@ -778,14 +778,26 @@ Rift-Bosse nutzen den Para-Creature-Generator und die Regeln aus `massenkonflikt
 function generate_boss(arc_type, mission_number, epoch):
     if arc_type == "core":
         if mission_number % 10 == 0:
-            return sample(core_arc_boss_pool)
+            return draw_unique(core_arc_boss_pool, core_arc_cd)
         elif mission_number % 5 == 0:
-            return sample(core_mini_pool[epoch])
+            return draw_unique(core_mini_pool[epoch], core_mini_cd[epoch])
     else:
         if mission_number % 10 == 0:
-            return sample(rift_boss_pool)
+            return draw_unique(rift_boss_pool, rift_boss_cd)
     return null
+
+function draw_unique(pool, cooldown):
+    random.shuffle(pool)
+    boss = pool.pop()
+    cooldown.append(boss)
+    if not pool:
+        pool, cooldown = cooldown, []
+    return boss
 ```
+
+IDs wandern nach dem Ziehen auf eine Cooldown-Liste. Ist der Pool leer, wird die Liste
+neu gemischt und zurückgesetzt, wodurch Wiederholungen erst nach einem vollständigen Durchlauf
+auftreten.
 
 ## Artefakt-Generator: Objekte mit Geschichte {#artefakt-generator}
 

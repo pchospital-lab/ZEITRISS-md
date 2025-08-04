@@ -13,16 +13,20 @@ Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
 
 ```json
 {
+  "id": "CHR-1234",
   "agent": {
     "name": "Ghost",
     "cu": 450,
     "licenses": ["T1", "T2"]
   },
-  "campaign": {"episode": 4, "scene": 7},
+  "campaign": {"episode": 4, "scene": 7, "paradox": 0},
+  "cooldowns": {},
   "paradox_on": false
 }
 ```
 
+- Pflichtfelder: `id`, `campaign.paradox` und `cooldowns`.
+- Fehlt `id`, erzeugt das System beim Laden `hash(name + epoch)`.
 - Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden,
   sind für den reinen Spielfortschritt jedoch nicht nötig.
 - Einführung und Zielsetzung
