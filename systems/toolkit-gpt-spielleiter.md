@@ -331,9 +331,22 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {% macro hud_vocab(key) -%}
 {% set pack = {
   "signal_modified": "Δ-Flux!",
-  "pressure_drop": "Kern schweigt – Stille vor dem Biss."
+  "pressure_drop": "Druck fällt – Kern verstummt.",
+  "line_noise": "Leitung rauscht wie kalter Regen.",
+  "power_restored": "Sicherung schnappt – Strom kehrt zurück.",
+  "unauthorized_signal": "Fremdsignal tastet das Netz ab.",
+  "lock_engaged": "Riegel schlägt zu – Rahmen erzittert.",
+  "lock_released": "Bolzen gleiten – Öffnung frei.",
+  "heartbeat_spike": "Puls springt – Adrenalin flutet.",
+  "system_stable": "System hält – Lage stabil.",
+  "data_corrupt": "Daten zersplittern – Blöcke unlesbar."
 } %}
 {{ pack[key] }}
+{%- endmacro %}
+
+<!-- Macro: noir_soft -->
+{% macro noir_soft(key) -%}
+{{ hud_tag() }} {{ hud_vocab(key) }}
 {%- endmacro %}
 
 <!-- Macro: vehicle_overlay -->
@@ -353,6 +366,8 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, pressure=None, total=12, role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
+{% set campaign.tech_steps = 0 %}
+{% set campaign.complication_done = false %}
 {% if loc == "HQ" %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
@@ -628,6 +643,18 @@ Zeigt ein Banner, wenn ein Erfolg Kosten verursacht.
 <span style="color:#f93">Regel</span> Erfolg mit Kosten: {{ cost }}
 {%- endmacro %}
 
+### TK-Melee() Macro
+Prüft den SR-Wert des Ziels und passt die SG an.
+
+<!-- Macro: TK_Melee -->
+{% macro TK_Melee(attack, target) -%}
+{% set SG = attack.sg %}
+{% if target.armor >= 2 %}
+  {% set SG = SG + 1 %}
+{% endif %}
+{{ SG }}
+{%- endmacro %}
+
 ### tech_solution() Macro
 Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 
@@ -635,6 +662,13 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro tech_solution() -%}
 {% if campaign.tech_heat is not defined %}{% set campaign.tech_heat = 0 %}{% endif %}
 {% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
+{% if campaign.tech_steps is not defined %}{% set campaign.tech_steps = 0 %}{% endif %}
+{% if campaign.complication_done is not defined %}{% set campaign.complication_done = false %}{% endif %}
+{% set campaign.tech_steps = campaign.tech_steps + 1 %}
+{% if not campaign.complication_done %}
+  {{ inject_complication(campaign.tech_steps) }}
+  {% if campaign.tech_steps > 3 %}{% set campaign.complication_done = true %}{% endif %}
+{% endif %}
 {% set campaign.tech_heat = campaign.tech_heat + 1 %}
 {% if campaign.tech_heat >= 3 %}
   {% set campaign.tech_sg = campaign.tech_sg + 1 %}
