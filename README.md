@@ -32,6 +32,14 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
+## Quick-Start Cheat Sheet {#quick-start-cheat-sheet}
+
+- **Charakterwahl:** Entscheidet euch für Homo sapiens oder einen verwandten Hominin-Typ.
+- **Missionsablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
+- **Würfelmechanik:** W6 mit Explosionsregel; ab Attribut 11 nutzt ihr W10.
+- **Paradoxon-Index:** Erfolgreiche Missionen steigern ihn, bei Stufe 5 öffnen sich Rifts.
+- **Ausrüstung:** Startet mit Standardausrüstung, zusätzlicher Loot folgt der Loot-Matrix.
+
 ### Modulübersicht
 
 | Regelmodul | Muss | Soll | Kann | Kurzinfo / Link |
