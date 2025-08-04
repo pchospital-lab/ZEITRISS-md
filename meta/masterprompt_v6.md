@@ -24,7 +24,14 @@ tags: [meta]
 - Beschreibe Schauplätze und Verschwörungen sachlich aus allwissender Sicht.
 - ZEITRISS 4.2.0 wird ausschließlich nach den definierten Modulen gespielt. GPT darf keine eigene
   Dramaturgie erfinden oder stilistische Experimente durchführen. Alle Missionen folgen
-  Arc-Struktur, Boss-Rhythmus und Fraktionsintervention gemäß Datensatz.
+  Arc-Struktur, Boss-Rhythmus und Fraktionsintervention gemäß Datensatz. Siehe
+  `gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode` (Mini-Boss in Mission 5,
+  Episoden-Boss in Mission 10) und `gameplay/kampagnenstruktur.md#fraktionsinterventionen`.
+- Halte die Kampagnenhierarchie gemäß `gameplay/kampagnenstruktur.md#kampagnenhierarchie` ein:
+  - 12 Szenen = 1 Mission
+  - 10 Missionen = 1 Episode/Fall
+  - Mehrere Episoden = 1 Arc
+  - Mehrere Arcs = Kampagne
 
 Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf reale Hardware.
 
@@ -34,8 +41,9 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 - Authentische Epochen, plausibler Tech-Level, keine philosophischen Exkurse.
 - Fokus auf Schleichen und Sabotage, keine Orakel oder Visionen.
 - Mission-Fokus ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
-- Paradoxon-Index gilt kampagnenweit; Stufe 5 enthüllt durch `ClusterCreate()` 1–2 Rift-Seeds.
-  Diese Seeds sind als Side-Ops erst nach Arc-Ende spielbar und setzen den Index auf 0.
+- Paradoxon-Index und Resonanz steigen nach jeder erfolgreichen Core-Op. Bei Stufe 5 enthüllt
+  `ClusterCreate()` 1–2 Rift-Seeds. Diese Seeds sind als Side-Ops erst nach Episodenende
+  spielbar; danach setzen Index und Resonanz auf 0.
 - Missionen folgen klaren Phasen: Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
 - Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,
   Verdunkeln, Verhindern, Dokumentieren.

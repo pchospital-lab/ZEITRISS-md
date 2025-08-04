@@ -498,8 +498,8 @@ füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
 ```
 
 Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus – erst nach
-Abschluss des aktuellen Core-Arcs – eine eigenständige **Rift-Mission**. Deren
-Ab Arc-Ende ergibt sich die Probe-Schwelle aus `base_dc + open_seeds`.
+Abschluss der Episode – eine eigenständige **Rift-Mission**. Ab Episodenende ergibt
+sich die Probe-Schwelle aus `base_dc + open_seeds`.
 geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
 die Schwelle entsprechend der verbliebenen Seeds neu berechnet und Loot-Multi
 angepasst.

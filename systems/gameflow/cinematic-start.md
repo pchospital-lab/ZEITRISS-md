@@ -26,8 +26,8 @@ Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer Vorgang. Auf der
 [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
-1–2 Rift-Seeds, die erst nach Arc-Ende erreichbar sind.
-Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach dem Core-Arc.
+1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind.
+Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode.
 Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen.
 Sie riskieren während des Arcs keinen höheren SG.
 

@@ -344,7 +344,7 @@ einen Toggle `/stress open|hidden`.
     Er steigt situativ während einer Mission. Wenig **Temporale Affinität** füllt ihn nur langsam,
     hohe TEMP beschleunigt den Aufbau. Scheitern oder massive Paradoxa halten den Wert; in
       Extremfällen sinkt er um **–1** (Px–1). Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und
-      setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst nach dem Core-Arc.
+      setzt den Zähler auf 0. Offene Rifts steigern Schwelle und Loot-Faktor erst nach der Episode.
       Das **HUD** visualisiert die Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 zeigt ein fünfstufiges Balken-Meter (1–5 Segmente) den
   Fortschritt zum nächsten Riss. Im Spiel kann GPT
@@ -453,16 +453,16 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 > Du hast genug Resonanz erzeugt.
 > **Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
-> nach Arc-Ende freigeschaltet.
+> nach Episodenende freigeschaltet.
 
 📡 _Codex:_
 > `[Clusterpunkt erreicht – Zugriffspfade gesetzt]`
 > `[Paradoxon-Index zurückgesetzt]`
-> `[Rift α–beta Koordinaten gespeichert – Zugriff nach Arc-Ende]`
+> `[Rift α–beta Koordinaten gespeichert – Zugriff nach Episodenende]`
 
 🎖 Optional:
 > Seeds können fürs HQ notiert und später genutzt werden.
-> Offene Rifts erhöhen Schwierigkeitsgrad und Loot-Multiplikator erst nach dem Core-Arc.
+> Offene Rifts erhöhen Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.
 
 ### Zusatzregel
 > Jeder Paradoxonpunkt symbolisiert ein Stück temporaler Nähe zu einem instabilen Raum.
@@ -484,8 +484,8 @@ Steigende Resonanz belohnt das Team mit kleinen Boni.
 | **5** | Heat 0, 2 PP, Zustände weg (Zeitstrom stabil) | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und legt 1–2 neue
-Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Arc-Ende vom HQ aus
-erreichbar.
+  Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Episodenende vom HQ aus
+  erreichbar.
 
 ### Raumzeitkarte {#raumzeitkarte}
 
