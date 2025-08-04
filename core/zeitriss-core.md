@@ -839,6 +839,8 @@ TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 **Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
 Artefakte, High-Tech-Belohnungen und besondere Missions-Hooks zu erhalten.
 Ein niedriger Index ist kein „Safety Score“, sondern verschenktes Potenzial.
+> **Legendary-Limit:** Ein Agent führt pro Mission nur **ein** aktives Artefakt.
+> Aktivierung = freie Aktion; Fehlbenutzung senkt den Paradoxon-Index um 1.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für

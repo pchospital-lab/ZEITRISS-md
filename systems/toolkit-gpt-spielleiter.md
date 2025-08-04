@@ -6,6 +6,7 @@ default_modus: mission-fokus
 ---
 {% from "../README.md" import StoreCompliance %}
 {% set scene_min = 12 %}
+{% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% if codex is not defined %}
   {% set codex = namespace(dev_raw=false) %}
 {% elif codex.dev_raw is not defined %}
@@ -451,6 +452,15 @@ if not live_threat and campaign.scene % 3 == 0:
     roll_antagonist()
 ```
 
+### roll_legendary() Macro
+Würfelt legendäres Artefakt aus `artifact_pool_v3`.
+<!-- Macro: roll_legendary -->
+{% macro roll_legendary() -%}
+  {%- set r = range(1,15)|random %}
+  {%- set art = artifact_pool_v3[r-1] %}
+  {{ hud_tag() }} Artefakt ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
+{%- endmacro %}
+
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
 Parameter: `core` oder `rift` und optional ein Budget in CU.
@@ -482,6 +492,9 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Episode 5.
 {% endif %}
 {% endmacro %}
 <!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
+{% if campaign.type == "rift" and campaign.scene in [11,12,13] and d6() == 6 %}
+    {{ roll_legendary() }}
+{% endif %}
 
 <!-- Macro: scene_budget_enforcer -->
 {% macro scene_budget_enforcer(total) -%}
