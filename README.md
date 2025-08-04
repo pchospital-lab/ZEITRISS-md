@@ -506,6 +506,11 @@ alle weiteren Modi sind optionale Zusätze:
 | **Verbose**     | Blumige und ausführliche Darstellung, mehr Atmosphäre. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
+Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
+
+`noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
+mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.
+
 Mission-Fokus wird beim Spielstart automatisch aktiviert; Gefechte richten sich gegen NSCs, nicht gegeneinander.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.

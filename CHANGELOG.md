@@ -93,9 +93,11 @@ tags: [meta]
 - Arena-Regeln präzisiert: Szenario-Pool, balanciertes Matchmaking und HUD-Scoreboard.
 - Optionales 1v1-Duell und Balance-Hinweise zu Psi-Kräften und Artefakten.
 
-## 4.2.1
 - Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
 - `signal_space`-Stilfilter eingeführt; StartMission betont physische Umgebung.
 - Missions- und Begegnungstabellen nennen konkrete Geräte statt abstrakter Signale.
 - `Codex-Relay-Knoten` beschreibt Reichweite und Störquellen.
 - Codex-Verbindung zum Nullzeit-HQ-Archiv als reale Funkstrecke klargestellt.
+- `hud_vocab` enthält zusätzliche Noir-Phrasen; Macro `noir_soft()` gibt sie als HUD-Code aus.
+- Neues Macro `TK_Melee()` prüft SR ≥ 2 und erhöht die SG entsprechend.
+- `tech_solution()` triggert `inject_complication()` einmalig nach dem vierten Tech-Schritt.

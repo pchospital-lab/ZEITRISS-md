@@ -20,6 +20,7 @@ tags: [systems, optional]
 - Effekt unter 1 Sekunde kostet 0 SYS.
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
+- Nahkampf-Telekinese nutzt [TK-Melee()](toolkit-gpt-spielleiter.md#tk-melee-macro); SR ≥ 2 erhöht die SG um +1.
 - PP-Pool = Temporale Affinität (TEMP). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
