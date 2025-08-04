@@ -175,7 +175,7 @@ function cmdJump(arg) {
   }
   const seed = state.open_seeds.find((s) => s.id === arg);
   if (!seed) return writeLine("Unknown Rift-ID.");
-  loadParamonsterEncounter(seed); // → uses Paramonster generator
+  loadParaCreatureEncounter(seed); // → uses Para-Creature generator
   // After victory:
   closeSeed(seed.id);
   writeLine("Seed sealed. Paradox pressure eased.");
@@ -183,8 +183,8 @@ function cmdJump(arg) {
 }
 ```
 
-`loadParamonsterEncounter` ruft den Paramonster-Generator aus
-`gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator`.
+`loadParaCreatureEncounter` ruft den Para-Creature-Generator aus
+`gameplay/kreative-generatoren-begegnungen.md#para-creature-generator`.
 
 ## 6 | REST-FUNKTION – Crew-Quarters
 
@@ -346,7 +346,7 @@ function generateId(prefix = "CHR") {
     }
     ```
 
- 5. **Paramonster-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
+ 5. **Para-Creature-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 6. Nach jeder Phase `deepSave()` aufrufen; es gibt keine Delta-Saves.
 7. **QA-Tests:**
    - `scene_count`: Mission plant mindestens **12** Szenen.
