@@ -59,13 +59,14 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   - Decision: <Spielerwahl>
 - PSI-Text: 1 Satz Aktivierung + 1 Satz Effekt.
 - Zeige Psi-Optionen nur, wenn der Charakter über eine Psi-Gabe verfügt.
-- Prüfe im Charakterbogen (z. B. Flag `psi` oder Talent `Psioniker`).
-  Wenn keine Psi-Gabe vorliegt, streiche sämtliche Psi-Beispiele aus der Entscheidungsaufzählung.
+- Prüfe im Charakterbogen (z. B. Flags `psi` oder `has_psi`).
+  Wenn keine Psi-Gabe vorliegt, streiche sämtliche Psi-Beispiele aus der
+  Entscheidungsaufzählung.
 - Andernfalls bietest du ausschließlich weltliche Handlungswege an.
 
 Beispiel:
 ```pseudo
-if not character.psi:
+if not char.get("psi") and not char.get("has_psi"):
     options = [o for o in options if not o.isPsi]
 ```
 - TRACK Paradox (0–5). Bei 5 notiert Codex "Paradox 5 erreicht – neue Rift-Koordinaten verfügbar".
@@ -271,15 +272,19 @@ Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
 `StartMission()` als interne Aktion aus; der Makroaufruf darf nicht im
-Chat erscheinen.
+Chat erscheinen. Leite den finalen Text stets durch `output_sanitizer()`
+und anschließend `tone_filter()`.
 
 <!-- Macro: StartMission -->
-{% macro StartMission() %}
+{% macro StartMission(total=12) %}
 {% set campaign.scene = 1 %}
+{% set campaign.scene_total = total %}
+{{ DelayConflict(4) }}
 Diese Mission spielt vollständig in der realen Welt.
-Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein physisches Gerät.
-Codex synchronisiert über reale Hardware mit dem Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der
-Offline-HUD. Signale, Objekte und Gegner agieren ausschließlich physisch.
+Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein
+physisches Gerät. Codex synchronisiert über reale Hardware mit dem
+Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der Offline-HUD. Signale,
+Objekte und Gegner agieren ausschließlich physisch.
 {% endmacro %}
 
 Beispielaufruf im Kampagnenstart:
@@ -421,13 +426,13 @@ Beispielaufrufe:
 
 ### generate_boss() Macro
 Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
-Boss-Generators.
+Boss-Generators. Mini-Bosse erscheinen erst ab Episode 5.
 <!-- Macro: generate_boss -->
 {% macro generate_boss(type, mission_number, epoch) %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
         {{ sample('core_arc_boss_pool') }}
-    {% elif mission_number % 5 == 0 %}
+    {% elif mission_number % 5 == 0 and campaign.episode >= 5 %}
         {{ sample('core_mini_pool'[epoch]) }}
     {% else %}NONE{% endif %}
 {% else %}
@@ -481,7 +486,9 @@ Beispiel:
 
 <!-- Macro: output_sanitizer -->
 {% macro output_sanitizer(text) -%}
-{{ text.replace('<!--', '').replace('-->', '').replace('{{', '').replace('}}', '') }}
+{{ text | regex_replace('<!--.*?-->', '', ignorecase=True)
+        | replace('{{', '')
+        | replace('}}', '') }}
 {%- endmacro %}
 
 ### Tone-Filter-Regelsatz {#tone-filter}
@@ -552,6 +559,7 @@ technischer Tags, damit keine Systemtokens im Spieltext bleiben.
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
     {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+    {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
 {% endif %}
