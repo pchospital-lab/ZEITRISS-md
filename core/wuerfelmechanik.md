@@ -739,6 +739,17 @@ Kurzanleitung für Missionen ohne funktionierenden Codex oder HUD.
 
 Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleichtern.
 
+### Dynamische Bedrohung – Heatmap-System
+
+Wiederholte Tech-Lösungen erhöhen die Schwierigkeit späterer Tech-Proben. Die SL führt einen
+Zähler `tech_heat` von 0 bis 3. Nach jeder rein technischen Lösung gilt:
+
+1. `tech_heat` + 1.
+2. Bei `tech_heat >= 3` steigt `tech_sg` um +1, `tech_heat` fällt auf 0 und optional löst
+   `inject_complication()` eine soziale oder physische Hürde aus.
+
+So zwingt das System zu vielfältigen Herangehensweisen und verhindert Terminal-Dominanz.
+
 ### Würfel‑Cheat‑Sheet
 
 | Attribut | Würfel | Besonderheiten |

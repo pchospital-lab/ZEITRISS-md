@@ -193,8 +193,8 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cove
   Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der
   Telekinet eine unsichtbare Waffe. Dieser Trick kostet **1 SYS**, und Schadenswürfe dieser
   Psi-Waffe verzichten auf Exploding 6. Hat das Ziel eine Rüstung mit **SR ≥ 2**, steigt die
-  Schwelle um **+1**. Außerdem darf der Angriff pro Szene nur einmal erfolgen,
-  um Missbrauch zu verhindern.
+  Schwelle um **+1** – der Makro `TK-Melee` prüft diese Rüstung automatisch. Außerdem darf der Angriff
+  pro Szene nur einmal erfolgen, um Missbrauch zu verhindern.
 ```pseudo
 if attack_type == "TK-Melee" and target.armor >= 2:
     SG += 1

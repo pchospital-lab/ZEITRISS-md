@@ -405,6 +405,23 @@ _Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 m
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
 Zeitperiode stärker zu betonen.
 
+### Lore-Seed Pool (d12) {#lore-seed-pool}
+
+| W12 | Seed | Tag |
+| --- | ---- | --- |
+| 1 | Hafenarbeiter streiken; Zugang blockiert. | social |
+| 2 | Untergrundkult plant Ritual – Opfer droht. | social |
+| 3 | Flutwelle nähert sich, Evakuierung nötig. | physical |
+| 4 | Adelshof spinnt Intrige gegen Auftraggeber. | social |
+| 5 | Erdrutsch verschüttet Zugangsstraße. | physical |
+| 6 | Bürgeraufstand eskaliert vor Ort. | social |
+| 7 | Giftgasleck in Fabrik erzwingt Schutzmasken. | physical |
+| 8 | Geiseltausch unter Medienaugen. | social |
+| 9 | Orkan legt Kommunikationslinien lahm. | physical |
+| 10 | Saboteure legen Feuer im Lagerhaus. | physical |
+| 11 | Pilgerprozession blockiert die Route. | social |
+| 12 | Korruptes Wachteam verlangt Bestechung. | social |
+
 ### Kurzereignisse (d6) {#kurzereignisse}
 
 Spontane Zwischenfälle lockern eine Mission auf. Würfle 1W6 oder nutze das
