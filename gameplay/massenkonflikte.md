@@ -589,6 +589,12 @@ Für größere Teams skaliert der HP-Pool der Gegner:
 effektive_HP = HP_Pool × ceil(team_size / 2)
 ```
 
+```pseudo
+dmg_pool = base_damage * ceil(team_size / 2)
+```
+
+So verursacht ein Drohnen- oder Minionschwarm spürbar mehr Schaden.
+
 > **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation.
 > Kein Spawn während der aktuellen Mission.
 

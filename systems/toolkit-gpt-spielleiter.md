@@ -368,6 +368,24 @@ Target: {{ target }}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
 {%- endmacro %}
 
+### run_shop_checks Macro
+Prüft Wartungskosten und Lizenzstufen nach einer Mission.
+
+<!-- Macro: run_shop_checks -->
+{% macro run_shop_checks() -%}
+{% call maintenance() %}{% endcall %}
+{% call license_check() %}{% endcall %}
+{%- endmacro %}
+
+### merge_saves Macro
+Verhindert doppelte IDs beim Zusammenführen mehrerer Speicherstände.
+
+<!-- Macro: merge_saves -->
+{% macro merge_saves(a, b) -%}
+if a.id == b.id:
+    {% set b.id = hash(b.name + epoch_now()) %}
+{%- endmacro %}
+
 <!-- Macro: SceneTarget -->
 {% macro SceneTarget(target, pressure) -%}
 Target: {{ target }}
