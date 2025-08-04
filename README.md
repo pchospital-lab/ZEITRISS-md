@@ -22,8 +22,10 @@ Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-C
 Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > ### TL;DR – ZEITRISS in 6 Punkten
 > 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-> 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel →
->    Konflikt → Exfiltration → Debrief (Core 12 Szenen / Rift 14 Szenen).
+> 2. **Mission Phases.** Core-Ops verlaufen wie Episoden:
+>    Briefing → Infiltration → Intel/Konflikt → Exfiltration → Debrief –
+>    insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
+>    Akten mit vierzehn Szenen.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 > 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Episodenende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
