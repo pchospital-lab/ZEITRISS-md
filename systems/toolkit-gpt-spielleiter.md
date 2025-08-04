@@ -265,9 +265,9 @@ Rohtext oder HTML-Kommentar im Chat erscheinen.
 
 ### SceneCounter Macro
 Früher nutzte man `SceneCounter++`. Jetzt erhöht `EndScene()` den Wert in `campaign.scene`.
-Das HUD zeigt `EP xx · SC yy/<total>` – die Gesamtzahl wird beim Aufruf von `StartScene()` übergeben.
-Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
-Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
+Das HUD zeigt `EP xx · SC yy/<total>` – `EP` steht für Episode, `SC` für Szene; die Gesamtzahl
+wird beim Aufruf von `StartScene()` übergeben. Core-Ops spielen mit **12** Szenen, Rift-Ops mit
+**14**. Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe

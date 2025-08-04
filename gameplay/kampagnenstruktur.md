@@ -198,7 +198,8 @@ außerhalb der aktuellen Episode und zählen nicht zur regulären Missionszahl.
 
 Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
-Nach jeder erfolgreichen Core-Op steigt die Resonanz (Paradoxon-Index) um 1.
+Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
+([Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge)).
 Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand und lassen sich über das
 **ClusterDashboard** einsehen. Erst nach Abschluss der Episode kann die Gruppe
@@ -219,7 +220,7 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
-- **Paradoxon-Index/Resonanz 0–5:** Jede erfolgreiche Core-Op erhöht die Resonanz.
+- **Paradoxon-Index/Resonanz 0–5:** Anstieg gemäß TEMP-Progresstabelle.
   Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt beide Werte auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
   Ein Seed lässt sich dann via `launch_rift(id)` als eigenständige Rift-Op starten.

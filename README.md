@@ -552,7 +552,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
-| **Agenten-Level** | Fortschrittswert der Chrononauten; Level-Ups folgen der EP-Kurve im Regelkern. |
+| **Agenten-Level** | Fortschrittswert; Level-Ups folgen der EP-Kurve des Regelkerns (`EP` = Erfahrungspunkte). |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 

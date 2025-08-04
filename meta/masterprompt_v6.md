@@ -41,9 +41,11 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 - Authentische Epochen, plausibler Tech-Level, keine philosophischen Exkurse.
 - Fokus auf Schleichen und Sabotage, keine Orakel oder Visionen.
 - Mission-Fokus ist Standardmodus; weitere Modi stehen im [Spielmodi](../README.md#spielmodi).
-- Paradoxon-Index und Resonanz steigen nach jeder erfolgreichen Core-Op. Bei Stufe 5 enthüllt
-  `ClusterCreate()` 1–2 Rift-Seeds. Diese Seeds sind als Side-Ops erst nach Episodenende
-  spielbar; danach setzen Index und Resonanz auf 0.
+- Paradoxon-Index und Resonanz steigen gemäß TEMP-Progresstabelle im
+  [Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge).
+  Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds. Diese Seeds sind als
+  Side-Ops erst nach Episodenende spielbar; danach setzen Index und Resonanz
+  auf 0.
 - Missionen folgen klaren Phasen: Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration, Debrief.
 - Ziele sind nachvollziehbar, Artefakte selten. Neue Missionstypen: Verschwinden, Einflüstern,
   Verdunkeln, Verhindern, Dokumentieren.
