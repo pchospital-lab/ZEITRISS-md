@@ -327,8 +327,31 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {% elif campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
 {%- endmacro %}
 
+<!-- Macro: hud_vocab -->
+{% macro hud_vocab(key) -%}
+{% set pack = {
+  "signal_modified": "Δ-Flux!",
+  "pressure_drop": "Kern schweigt – Stille vor dem Biss."
+} %}
+{{ pack[key] }}
+{%- endmacro %}
+
+<!-- Macro: vehicle_overlay -->
+{% macro vehicle_overlay(env) -%}
+{% if env == "vehicle" %}
+| Tempo | Stress | Schaden |
+| ----- | ------ | ------- |
+| 0–30 | 0 | 0 |
+| 31–60 | 1 | 1 |
+| 61–90 | 2 | 2 |
+| 91–120 | 3 | 3 |
+| 121–150 | 4 | 4 |
+| 151+ | 5 | Totalschaden |
+{% endif %}
+{%- endmacro %}
+
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, pressure=None, total=12, role="") -%}
+{% macro StartScene(loc, target, pressure=None, total=12, role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
 {% if loc == "HQ" %}
   {% set total = "∞" %}
@@ -350,6 +373,7 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 Kamera: {{ loc }}
 Target: {{ target }}
 {% if pressure %}Pressure: {{ pressure }}{% endif %}
+{{ vehicle_overlay(env) }}
 {%- endmacro %}
 
 {% macro maintain_cooldowns() -%}
@@ -389,6 +413,7 @@ Verhindert doppelte IDs beim Zusammenführen mehrerer Speicherstände.
 {% macro merge_saves(a, b) -%}
 if a.id == b.id:
     {% set b.id = hash(b.name + epoch_now()) %}
+a.cooldowns.update(b.cooldowns)
 {%- endmacro %}
 
 <!-- Macro: SceneTarget -->
@@ -540,25 +565,25 @@ technischer Tags, damit keine Systemtokens im Spieltext bleiben.
   {% set campaign.lastPx = 0 %}
   {% set campaign.lastPxScene = 0 %}
 {% endif %}
-{% if campaign.paradox != campaign.lastPx and campaign.paradox >= 4 %}
+{% if campaign.paradox != campaign.lastPx and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
+    {{ hud_tag() }} Paradox 5 erreicht – {{ hud_vocab('pressure_drop') }} Neue Rift-Koordinaten verfügbar.
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · {{ hud_vocab('signal_modified') }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
-{% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 4 %}
+{% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag() }} Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.
+    {{ hud_tag() }} Paradox 5 erreicht – {{ hud_vocab('pressure_drop') }} Neue Rift-Koordinaten verfügbar.
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · Resonanz ↑
+    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · {{ hud_vocab('signal_modified') }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
@@ -567,11 +592,56 @@ technischer Tags, damit keine Systemtokens im Spieltext bleiben.
 
 ```md
 <!-- Test: ParadoxPing throttle -->
-{% set campaign = namespace(paradox=4, scene=1, lastPx=0, lastPxScene=0) %}
+{% set campaign = namespace(paradox=5, scene=1, lastPx=0, lastPxScene=0) %}
 {% for s in range(1,6) %}
 {% set campaign.scene = s %}Szene {{ s }}: {{ ParadoxPing() }}
 {% endfor %}
 ```
+
+### inject_complication() Macro
+Fügt nach vielen Tech-Schritten eine nicht-technische Hürde ein.
+
+<!-- Macro: inject_complication -->
+{% macro inject_complication(tech_steps) -%}
+{% if tech_steps > 3 %}
+  {% set social = [
+    {"tag": "social", "obstacle": "Geiselverhandlung"},
+    {"tag": "social", "obstacle": "Streik"},
+    {"tag": "social", "obstacle": "Hofintrige"}
+  ] %}
+  {% set physical = [
+    {"tag": "physical", "obstacle": "Verfolgungsjagd"},
+    {"tag": "physical", "obstacle": "Naturgefahr"},
+    {"tag": "physical", "obstacle": "Einsturz"}
+  ] %}
+  {% set pool = social + physical %}
+  {% set comp = pool | random %}
+  {{ hud_tag() }} Komplikation: {{ comp.obstacle }} ({{ comp.tag }})
+{% endif %}
+{%- endmacro %}
+
+### fail_forward() Macro
+Zeigt ein Banner, wenn ein Erfolg Kosten verursacht.
+
+<!-- Macro: fail_forward -->
+{% macro fail_forward(cost) -%}
+<span style="color:#f93">Regel</span> Erfolg mit Kosten: {{ cost }}
+{%- endmacro %}
+
+### tech_solution() Macro
+Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
+
+<!-- Macro: tech_solution -->
+{% macro tech_solution() -%}
+{% if campaign.tech_heat is not defined %}{% set campaign.tech_heat = 0 %}{% endif %}
+{% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
+{% set campaign.tech_heat = campaign.tech_heat + 1 %}
+{% if campaign.tech_heat >= 3 %}
+  {% set campaign.tech_sg = campaign.tech_sg + 1 %}
+  {{ hud_tag() }} Tech-SG +{{ campaign.tech_sg }}
+  {% set campaign.tech_heat = 0 %}
+{% endif %}
+{%- endmacro %}
 
 ### redirect_same_slot() Macro
 
