@@ -17,7 +17,7 @@ Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung ei
 - Kreaturen- & Gestalten-Generator
 - Para-Creature-Generator: Urban Myth Edition
 - Boss-Generator: Mini-, Episoden- und Rift-Bosse
-- Artefakt-Generator: Objekte mit Geschichte
+- Artefakt-Generator: Parawesen-Trophies
 - Kulturfragmente-Generator: Farbe für die Epochen
 - Mood-Snippet-Generator
 - Rätselbibliothek: Kurze Hürdenszenen
@@ -816,208 +816,96 @@ IDs wandern nach dem Ziehen auf eine Cooldown-Liste. Ist der Pool leer, wird die
 neu gemischt und zurückgesetzt, wodurch Wiederholungen erst nach einem vollständigen Durchlauf
 auftreten.
 
-## Artefakt-Generator: Objekte mit Geschichte {#artefakt-generator}
+## Artefakt-Generator: Parawesen-Trophies (1W14) {#artefakt-generator}
 
-Zeitreisen führen unweigerlich zu **kuriosen Objekten**, die nicht in ihre Epoche gehören, oder zu
-mächtigen Relikten, welche die Jahre überdauert haben. Wenn ihr spontan einen interessanten
-Gegenstand benötigt – als Loot, Missionsziel oder einfach als atmosphärisches Detail – nutzt diesen
-Generator. Er kombiniert eine **Objektart** mit einer **besonderen Eigenschaft** und einer
-**Herkunft/Historie**:
+_Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Relikt gleichzeitig führen._
+| 1W14 | Name | Effekt | Risiko / Cooldown |
+|----:|------|--------|-------------------|
+| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | Blend 1 Sz, Px −1 bei Fehlwurf |
+| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | Selbststich SYS −1, Px −1 |
+| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | Bruch → Item weg, Px −1 |
+| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | Erwacht Heat +1, Px −1 |
+| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini −2 | Leck Stress +1, Px −1 |
+| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | Entlädt, Px −1 |
+| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | Fehlversatz Px −1 |
+| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | Puls Heat +1, Px −1 |
+| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | Feuer zerstört, Px −1 |
+|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | Blutkontakt Stress +1, Px −1 |
+|11 | **Temporaler Knochenzahn** | SG −2 auf Fossil-Analysen | Signal-Ping, Px −1 |
+|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | Fehlschuss Ally Blend, Px −1 |
+|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | Löst sich bei Px 4, Px −1 |
+|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | Vision-Flash Stress +1, Px −1 |
 
-*Tipp:* Lasst den Codex bereits eine Sitzung vorher ein **Gerücht** über ein mögliches Artefakt
-streuen. So wird der spätere Fund stimmungsvoll vorbereitet und die Spieler achten stärker auf
-Hinweise.
+> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko senkt _Paradoxon-Index_, nicht erhöht.
 
-*Items mit {rare_rift} erscheinen nur in Pararifts.*
-### Artefakt-Seed-Starter (1W14) {#artefakt-seed-starter-1w14}
+### Makro-Update (Toolkit)
 
-| Wurf | Codename | Jahr / Ort | Primäre Kraft | Nebenwirkung |
-|-----:|----------|-----------|---------------|---------------|
-| 1 | „Ätherglas" | Prag 1889 | Unsichtbarkeit (2 Min.) | Kälte -10 °C |
-| 2 | „Helios-Split" | Delphi -430 | Lichtstrahl 1 kW | Blendung Benutzer |
-| 3 | „Sforza-Würfel" | Mailand 1496 | Local Time-Freeze 5 Sek. | Paradoxon +1  | {rare_rift}
-| 4 | „Chorus-Reel" | New York 1941 | Stimmen-Mimikry | Ohrensausen  | {rare_rift}
-| 5 | „Kalkstein-Rune" | Göbekli Tepe -9020 | Telepathie 100 m | Migräne  | {rare_rift}
-| 6 | „Jade-Kompass" | Xi’an 221 v. Chr. | Portalsprung 10 m | random scatter 3 m  | {rare_rift}
-| 7 | „Edison-Spule" | Menlo Park 1877 | EMP Radius 5 m | Gerät defekt  | {rare_rift}
-| 8 | „Orpheus-Harfe" | Wien 1791 | Emotion Control | Selbst → Trauer  | {rare_rift}
-| 9 | „Fresnel-Linse" | Paris 1848 | Hologram 10 min | Akku 100 CU  | {rare_rift}
-| 10 | „Cronos-Sand" | Alexandria 48 v. Chr. | Rücksprung 1 Tag | Paradoxon +2  | {rare_rift}
-| 11 | „Chrono‑Shard Panel" | unbekannt | zeigt 60 s Ereignis 24 h vor | Desorientierung  | {rare_rift}
-| 12 | „Möbius Coin" | wechselnd | Wahrscheinlichkeitsbeeinflussung 70 % | Entropie‑Spike  | {rare_rift}
-| 13 | „Heisenberg Anchor" | Forschungslab 2035 | fixiert Objektposition 10 min | kinetische Stoßwelle  | {rare_rift}
-| 14 | „Ouroboros Pulse Node" | Mars 2170 | 30 s Zeitschleife im 10 m Radius | Fusion am Loop-Ende  | {rare_rift}
+```jinja
+{% macro roll_legendary() -%}
+  {%- set r = range(1,15)|random %}
+  {%- set art = artifact_pool_v3[r-1] %}
+  {{ hud_tag() }} Artefakt ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
+{%- endmacro %}
+```
 
-### Artefakt-Jagd: Fortschrittsbalken
+Macro wird wie bisher in **Rift-Mission Szene 11–13** aufgerufen:
 
-Jede abgeschlossene Mission erhöht die Chance auf einen legendären Fund um 5 %.
-Im HUD erscheint ein Balken („Gerüchte 20 %“), der diesen Wert anzeigt. Erreicht
-die Anzeige 100 %, ist die nächste Mission automatisch ein Artefakt-Run und der
-Zähler springt auf 0. Rückschläge oder Fehlschläge können den Wert um 10 %
-senken.
+```jinja
+{% if d6() == 6 %}
+    {{ roll_legendary() }}
+{% endif %}
+```
 
-- **Objektart:**
-
-  1. Waffe
-  2. Buch oder Schriftrolle
-  3. Gerät/Technologie
-  4. Schmuckstück
-  5. Alltagsgegenstand
-  6. Substanz oder Trank
-
-- **Besondere Eigenschaft:**
-
-  1. Zeitverschoben (existiert gleichzeitig doppelt in zwei Epochen)
-  2. Unzerstörbar durch normale Mittel
-  3. Lebendig (hat einen eigenen Willen oder eine KI)
-  4. Verändert seine Form je nach Epoche
-  5. Kann einmalig die Zeit **lokal** beeinflussen (z. B. 5 Sekunden zurückdrehen)
-
-- **Herkunft/Historie:**
-
-  1. Stammt von einer berühmten historischen Persönlichkeit (z. B. Excalibur, Teslas Notizbuch)
-  2. Wurde von Aliens in der Antike hinterlassen
-  3. Ein Prototyp aus der Zukunft, der verloren ging
-  4. Durch ein Paradoxon erschaffen (das Objekt dürfte _eigentlich_ nicht existieren)
-  5. Wird in einer Kultur religiös verehrt (als göttliches Relikt missverstanden)
-  6. Wurde von einem Zeitreisenden absichtlich versteckt, um später gefunden zu werden
-
-**Beispiel:** Kombination 3-6-4 (_Gerät_ + _Zeitmanipulation_ + _Paradoxon_) ergibt ein Gerät mit
-einmaliger Zeitfunktion, das durch ein Paradoxon erschaffen wurde. GPT ersinnt vielleicht die
-**“Stundenglas-Bombe”** – ein kleines mit Zahnrädern versehenes Gerät, das aussieht wie ein
-viktorianisches Stundenglas. Seine Eigenschaft: Es kann einmalig **die Zeit um ein paar Kampfrunden
-zurückspulen** (in einem begrenzten Umkreis). Dabei entsteht jedoch ein Paradoxon, weil das Gerät
-sich selbst eigentlich nie gebaut haben kann – jedes Mal, wenn es benutzt wird, übergibt es sich
-quasi selbst an die Nutzer in der Vergangenheit. Das Objekt dürfte also gar nicht existieren, doch
-_da es existiert_, verursacht jeder Einsatz einen kleinen Riss im Zeitgefüge. Die Helden könnten es
-als Notfallplan einsetzen, wissen aber: **Jeder Gebrauch destabilisiert den Zeitstrom** – ein wunder
-Punkt und Dilemma!
-
-_Ein anderes Beispiel:_ Kombination 1-3-1 (_Waffe_ + _lebendig_ + _berühmte Person_) ergibt eine
-lebendige Waffe, die einst einer berühmten Person gehörte. Heraus kommt vielleicht **“Alexander der
-Große’s sprechendes Schwert”**, dem man eine eigene Persönlichkeit nachsagt – tatsächlich verbirgt
-sich darin eine KI aus der Zukunft in Form eines Schwertes, die Alexander fand und für göttliche
-Eingebung hielt. Das Schwert berät den Träger im Kampf (optional über ein eingebautes Kommunikationssystem) und
-hat eigene Ziele – vielleicht _will_ es, dass man es zu einem bestimmten Zeitpunkt in der Zukunft
-trägt, um dort etwas zu bewirken.
-
-Mit solchen Artefakten könnt ihr tolle Plots entwerfen. Gerade wenn Spieler freies Spiel genießen,
-lieben sie es, **seltsame Gegenstände** zu sammeln und deren Zweck herauszufinden. Vielleicht
-entfaltet ein Artefakt erst im Finale seine volle Macht – oder es bringt einfach Flair in den
-Alltag, z. B. ein Stein, der bei Gefahr warm wird, oder ein Amulett, das hin und wieder im Verlauf einer Mission ein
-Flüstern aus der Zukunft von sich gibt. ZEITRISS bietet die Bühne, eure ganz eigenen „mysteriösen“
-Gegenstände zu kreieren – nur dass die Magie hier oft Wissenschaft oder Paradoxie ist.
-
-
-### Modul‑Add‑on »Artefakte«
-
-*(kompatibel zu ZEITRISS 4.1.4, ready‑to‑drop oder als Generator nutzbar)*
-
-| Stufe | Nutzenbeispiel | Risiko (Paradoxon‑Index) | Icon‑Label* |
-|------:|----------------|-------------------------|-------------|
-| **A** | Geringfügige Info‑Vorteile | +0 | 📄 |
-| **B** | Temporärer Skillboost (+1 Würfel) | +1 pro Einsatz | 🔹 |
-| **C** | Einmaliger Technologie‑Sprung | +2 sofort | ⚙️ |
-| **D** | Zeit‑Manipulation im Minutenbereich | +4 sofort | ⏳ |
-| **E** | Historische Konstanten ändern | +5 & ClusterCreate‑Check | ☢️ |
-
-\*Die Icon‑Labels entsprechen Unicode‑Emojis; im Layout können eigene Piktogramme verwendet werden.
-
-#### Zweiundvierzig einsatzbereite Artefakte
-
-|#|Codename|Form|Hauptwirkung|Nebenwirkung|Beispiel|
-|-|-|-|-|-|-|
-|A-01|Helios-Lens|Messinglinse Ø18cm|2W6 Hitze (R5)|1/6 Flash, Stress+2|Sabotage|
-|A-02|Dirac-Whisper Circuit|Bakelit-Kästchen 1920er|30s Duplex ±5J|Paradox +1|Kontakt|
-|A-03|Sub-Lumen Chalk|12cm Kreide, IR|SR≤3 verbergen (3h)|Mini-Rift bei 0|Fluchtweg|
-|A-04|Phase-Lock Shard|Rubinfragment im Vial|1 Rd phasing|HP-2, Stress+4|Lasergitter|
-|A-05|Reso Capsule|Edelstahlkapsel, Glas|Objekt ≤1kg (1Rd)|Zeitstempel auf Original|Double-Device|
-|A-06|Chrono-Braid|Geflochtene Kupferlitzen|Zeitfenster 2s|Stress +1|Schneller Zugriff|
-|A-07|Phantom Tesser|Glaskugel|Illusion 3m|Paradox +1|Ablenkung|
-|A-08|Neuro-Splicer|Biogel-Kartusche|+1 Tech-Probe|Kurzzeit-Blackout|Modding|
-|A-09|Frost Prism|Kleiner Kristall|Kältefeld R2|Brüchig nach Nutzung|Einfrieren|
-|A-10|Arc Glyph|Runenkachel|Teleport 5m|Paradox +1|Kampfescape|
-|A-11|Grav Spinner|Metallscheibe|Schwerkraftwelle|Ermüdung|Deckung|
-|A-12|Reso Prism|Taschenglas|Kopiert Stimme 10s|Verliert Halt|Impersonation|
-|A-13|Vector Flare|Mini-Leuchtrakete|Signal an Verbündete|Index +1|Notruf|
-|A-14|Ion Loop|Handreif|EMP 3m|Geräte kurzzeitig defekt|Sicherung|
-|A-15|Chrono Gloom|Dunkler Nebel|Sicht -2m|Kältegefühl|Flucht|
-|A-16|Memory Locket|Amulett|1 Szene Erinnerung teilen|Stress +1|Verhör|
-|A-17|Pulse Mine|Scheibe Ø5cm|Betäubung R1|Paradox +1|Sturmangriff|
-|A-18|Shadow Scrip|Pergament|Unsichtbare Tinte|Nur UV-Licht löscht|Spionage|
-|A-19|Phase Token|Chip|Durchlässigkeit 1Rd|HP -1|Wand-Trick|
-|A-20|Nova Shard|Splitter|Lichtblitz R2|Blind für 1Rd|Überfall|
-|A-21|Clarity Vial|Fläschchen|Heilt 1 Stress|Nachwirkung Benommen|Med-Paket|
-|A-22|Static Rod|Kurzstab|Elektrischer Impuls|Selbst Schaden 1|Sabotage|
-|A-23|Warp Nail|Metallstift|Fixiert Objekt im Raum|Paradox +1|Absicherung|
-|A-24|Ghost Net|Drahtgeflecht|Fängt Datenfunksignale|Batterie leer|Lauschangriff|
-|A-25|Storm Coil|Röhre|Wettereffekt klein|Index +1|Ablenkung|
-|A-26|Glass Heart|Kristallampulle|Tarnt Lebenszeichen|Splittergefahr|Infiltration|
-|A-27|Logic Dice|Würfelpaar|+1 Analyse|Paradox +1 bei Pasch|Taktik|
-|A-28|Blink Patch|Aufkleber|Teleport Objekt 1kg|Verliert Haftung|Schmuggel|
-|A-29|Sonic Braid|Schallfaser|Stillefeld R1|Hört selbst schlecht|Heimlichkeit|
-|A-30|Vortex Pin|Anstecknadel|Mini-Wirbel R1|Einmalig nutzbar|Verwirrung|
-|A-31|Flux Band|Armband|Neutralisiert Kräfte 1Rd|Stress +2|Gegnerkontrolle|
-|A-32|Stasis Cube|Würfel 3cm|Objekt einfrieren 1h|Paradox +1|Sicherung|
-|A-33|Spark Veil|Tuch|Tarnung gegen Sensoren|Entzündlich|Flucht|
-|A-34|Mimic Coin|Münze|Kopiert ID-Signatur|Index +1|Betrug|
-|A-35|Hyper Lens|Lupenbrille|Vergrößert Details|Kopfschmerz|Analyse|
-|A-36|Aether Drum|Kleiner Resonator|Lockt Kreaturen|Laut|Ablenkung|
-|A-37|Psi Spike|Stift|+1 Psi-Fokus|Stress +1|Boost|
-|A-38|Grim Oath|Runenstein|Bindet Schwur 1 Szene|Paradox +1|Vertrag|
-|A-39|Rift Chalk|Farbstaub|Markiert Mini-Rift|Kurzzeitige Instabilität|Portal|
-|A-40|Signal Orb|Leuchtkugel|Zeigt Richtung zum Artefakt|Zerbrechlich|Spurensuche|
-|A-41|Signal Relais|Kompaktes Funksystem|5 min Signal in die Vergangenheit|Paradox +1 bei >2 Nutzungen|Abhören|
-|A-42|Chrono Patch|Einweg-Med-Gel|Kritisch-Zustand 60 s verzögert|Verbrauchsgut|Rettung|
-
-_Regel‑Hooks:_ Schadens‑ und Stresswerte folgen dem W6‑Explode‑Raster. Artefakte sind selten:
-höchstens ein Item alle drei Missionen. Jeder Artefakt‑Loot erhöht den Paradoxon‑Index um 1.
-
-#### Artefakt‑Generator (D‑Sequenz)
-- **D1 Strukturklasse (W6):** Relikt; Tech-Modul; Bio-Probe; Quantum-Device; Hybrid-Implantat; Daten-Singularität
-- **D2 Ursprungs-Epoche (W8):** Antike; Industriezeit; Orbit-Boom; Kalter Krieg;
-  Digitalfrühphase; Neu-Orbital; Terra-Kolonien; Off-Timeline
-- **D3 Kernfunktion (W12):** Sensorik; Energieimpuls; Materie modifizieren; Bewusstsein speichern; Teleport;
-  Kräfte neutralisieren; Duplikat; Raum verschlüsseln; Daten korrumpieren; Heilen; Illusion; Zeitfenster stauchen
-- **D4 Aktivierung (W6):** Hautkontakt; Pass-Phrase; Chrono-Keycard; Strahlungsimpuls; Druck >2 bar; Neural-Sync
-- **D5 Nebenwirkung (W8):** Stress +W6; HP -2; Paradoxon +1; Sensorschatten; Blindspot; EMP 5m; Grav-Anom.; Mini-Rift
-- **D6 Sicherheitsstufe (W6):** Kein Schutz; Biometrie-Siegel; Nano-Lock; Quanten-Cipher; Schredder-Fail-Safe
-#### Generator‑Beispiel (One‑Roll‑Complete)
-
-Würfe: 4 / 6 / 12 / 2 / 1 / 5 → **„Tachyon Sleeve MK‑IV“** – biomechanische Unterarm‑Schiene,
-komprimiert Eigenzeit um 50 % für 2 Runden nach Codewort‑Aktivierung. Nutzung erzeugt W6 Stress;
-unerlaubter Zugriff scheitert am Quanten‑Cipher‑Schutz.
-
-#### Einbettung & Balancing‑Hinweise
-
-1. **Fundhäufigkeit:** 8 % Chance in High‑Risk‑Zonen, niemals als Shop‑Loot.
-2. **Paradoxon‑Wechselwirkung:** Jede Nutzung, die die Epoche bricht, provoziert einen
-   Paradoxon‑Check (Ref ≤ 3 → +1).
-3. **Codex‑Tagging:** `artefakte/<epoch>/<funktion>` zur schnellen Filterung.
-4. **Reverse Engineering:** Nur mit Tech ≥ 5 und nach Abschluss von 5 Missionen oder einer Kampagne; 50 % Risiko,
-   den Effekt zu verlieren.
-
-#### Copy‑Paste‑Snippet für den Codex (JSON‑Minimal)
+### JSON-Lookup (Codex-HUD)
 
 ```json
 {
-  "artefakte": [
-    {
-      "id": "A-01",
-      "name": "Helios-Lens",
-      "epoch": "Industriezeit 1912",
-      "form": "Messinglinse",
-      "effect": "2W6 Hitzeimpuls",
-      "drawback": "Radiation Flash, Stress+2",
-      "paradoxon": 0
-    }
+  "artifact_pool_v3": [
+    { "id": "A01", "name": "Mothman-Auge",
+      "effect": "NightVision30m; Perception+1",
+      "risk": "Flashblind 1Sz; Px-1 fail" },
+    { "id": "A02", "name": "Rift-Skorpion-Stachel",
+      "effect": "+2DMG; 20% Double-Strike",
+      "risk": "SYS-1 selfhit; Px-1" },
+    { "id": "A03", "name": "Heuschrecken-Exo-Platte",
+      "effect": "Armor+1; Reflex-Dash3m 1/Sz",
+      "risk": "Break → item lost; Px-1" },
+    { "id": "A04", "name": "Nullzeit-Larve",
+      "effect": "Reload all gadgets 1/mission",
+      "risk": "Awakens Heat+1; Px-1" },
+    { "id": "A05", "name": "Ektoplasma-Drüse",
+      "effect": "AoE stun; Foes Init-2",
+      "risk": "Leak Stress+1; Px-1" },
+    { "id": "A06", "name": "Phase-Raptor-Zahnrad",
+      "effect": "Ignore cover 2r; +1DMG melee",
+      "risk": "Discharge → empty; Px-1" },
+    { "id": "A07", "name": "Zeitfalter-Kokon",
+      "effect": "Mini-jump ±5s 1/Sz",
+      "risk": "Misjump Px-1" },
+    { "id": "A08", "name": "Krakenherz-Fragment",
+      "effect": "Bioscan 30m",
+      "risk": "Pulse Heat+1; Px-1" },
+    { "id": "A09", "name": "Bernstein-Rabenflügel",
+      "effect": "Silent move 1Sz; Glide10m",
+      "risk": "Fire destroys; Px-1" },
+    { "id": "A10", "name": "Silberne Lupus-Klaue",
+      "effect": "+1DMG; 15% Double-Strike",
+      "risk": "Blood Stress+1; Px-1" },
+    { "id": "A11", "name": "Temporaler Knochenzahn",
+      "effect": "Fossil scans DC-2",
+      "risk": "Ping risk; Px-1" },
+    { "id": "A12", "name": "Mantis-Oculus",
+      "effect": "Ranged+1 hit; Flash immune",
+      "risk": "Fail → ally flash; Px-1" },
+    { "id": "A13", "name": "Rift-Spinnenseide",
+      "effect": "30m rope 1t; bypass armor",
+      "risk": "Dissolves at Px4; Px-1" },
+    { "id": "A14", "name": "Doppel-Pupille des Nachtvolks",
+      "effect": "Fear & Flash immune",
+      "risk": "Vision flash Stress+1; Px-1" }
   ]
 }
 ```
-
-_Upgrade abgeschlossen – der Generator liefert nahezu unendliche Varianten, während die fünf
-Ready‑Mades sofort einsetzbar sind._
-
 ## Kulturfragmente-Generator: Farbe für die Epochen {#kulturfragmente}
 
 Wer durch die Zeit reist, trifft auf fremde **Kulturen, Bräuche und Alltagsdetails**, die eine

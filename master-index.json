@@ -90,7 +90,7 @@
       "path": "gameplay/kreative-generatoren-begegnungen.md",
       "title": "Kreative Generatoren – Begegnungen",
       "category": "Gameplay",
-      "href": "#artefakt-seed-starter-1w14"
+      "href": "#artefakt-generator"
     },
     {
       "slug": "boss-generator",
@@ -229,7 +229,7 @@
     {
       "id": "artifact_pool",
       "path": "gameplay/kreative-generatoren-begegnungen.md#artefakt-generator",
-      "title": "Artefakt-Generator: Objekte mit Geschichte"
+      "title": "Artefakt-Generator: Parawesen-Trophies"
     },
     {
       "id": "culture_pool",
@@ -265,6 +265,17 @@
       "id": "historical_anomaly_pool",
       "path": "gameplay/kreative-generatoren-begegnungen.md#anomalie_realhistory",
       "title": "Historische Anomalien-Generator"
+    },
+    {
+      "id": "artifact_pool_v3",
+      "path": "master-index.json#artifact_pool_v3",
+      "title": "Legendary Artefakt-Pool v3",
+      "fields": [
+        "id",
+        "name",
+        "effect",
+        "risk"
+      ]
     }
   ],
   "historical_faction": {
@@ -288,5 +299,91 @@
     "core_ops": "EC-CORE-001…012",
     "rift_ops": "EC-RIFT-001…010",
     "field_downtime": "EC-FD-001…008"
-  }
+  },
+  "artifact_pool_v3": [
+    {
+      "id": "A01",
+      "name": "Mothman-Auge",
+      "effect": "NightVision30m; Perception+1",
+      "risk": "Flashblind 1Sz; Px-1 fail"
+    },
+    {
+      "id": "A02",
+      "name": "Rift-Skorpion-Stachel",
+      "effect": "+2DMG; 20% Double-Strike",
+      "risk": "SYS-1 selfhit; Px-1"
+    },
+    {
+      "id": "A03",
+      "name": "Heuschrecken-Exo-Platte",
+      "effect": "Armor+1; Reflex-Dash3m 1/Sz",
+      "risk": "Break → item lost; Px-1"
+    },
+    {
+      "id": "A04",
+      "name": "Nullzeit-Larve",
+      "effect": "Reload all gadgets 1/mission",
+      "risk": "Awakens Heat+1; Px-1"
+    },
+    {
+      "id": "A05",
+      "name": "Ektoplasma-Drüse",
+      "effect": "AoE stun; Foes Init-2",
+      "risk": "Leak Stress+1; Px-1"
+    },
+    {
+      "id": "A06",
+      "name": "Phase-Raptor-Zahnrad",
+      "effect": "Ignore cover 2r; +1DMG melee",
+      "risk": "Discharge → empty; Px-1"
+    },
+    {
+      "id": "A07",
+      "name": "Zeitfalter-Kokon",
+      "effect": "Mini-jump ±5s 1/Sz",
+      "risk": "Misjump Px-1"
+    },
+    {
+      "id": "A08",
+      "name": "Krakenherz-Fragment",
+      "effect": "Bioscan 30m",
+      "risk": "Pulse Heat+1; Px-1"
+    },
+    {
+      "id": "A09",
+      "name": "Bernstein-Rabenflügel",
+      "effect": "Silent move 1Sz; Glide10m",
+      "risk": "Fire destroys; Px-1"
+    },
+    {
+      "id": "A10",
+      "name": "Silberne Lupus-Klaue",
+      "effect": "+1DMG; 15% Double-Strike",
+      "risk": "Blood Stress+1; Px-1"
+    },
+    {
+      "id": "A11",
+      "name": "Temporaler Knochenzahn",
+      "effect": "Fossil scans DC-2",
+      "risk": "Ping risk; Px-1"
+    },
+    {
+      "id": "A12",
+      "name": "Mantis-Oculus",
+      "effect": "Ranged+1 hit; Flash immune",
+      "risk": "Fail → ally flash; Px-1"
+    },
+    {
+      "id": "A13",
+      "name": "Rift-Spinnenseide",
+      "effect": "30m rope 1t; bypass armor",
+      "risk": "Dissolves at Px4; Px-1"
+    },
+    {
+      "id": "A14",
+      "name": "Doppel-Pupille des Nachtvolks",
+      "effect": "Fear & Flash immune",
+      "risk": "Vision flash Stress+1; Px-1"
+    }
+  ]
 }
