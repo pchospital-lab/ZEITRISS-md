@@ -547,9 +547,9 @@ Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multip
 | 2            | +2               | 1.4            |
 
 _Im HUD erscheint z.B. `[Seeds 1 | Para 5]`._ Die Schwelle jeder Mission –
-Die Schwelle jeder Mission nutzt diese Werte ab Arc-Ende und sinkt, sobald ein Seed verschwindet.
+Die Schwelle jeder Mission nutzt diese Werte ab Episodenende und sinkt, sobald ein Seed verschwindet.
 **Live-Formel:** `probe_sg = grund_sg + (rifts_open * sg_rift_bonus) + situational_mods`
-Der Rift-Bonus greift erst nach dem Core-Arc, wenn ein neuer Riss entsteht.
+Der Rift-Bonus greift erst nach der Episode, wenn ein neuer Riss entsteht.
 
 ### Standard-Ausrüstungsslots
 
@@ -695,7 +695,7 @@ _Orientierung:_ Kleine Gefechte brauchen 1–2 Punkte, mittlere Schlachten 3–5
 | 2 | +2 | 1.4 |
 
 Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Belohnungen beeinflussen.
-*Boni gelten erst nach Abschluss des aktuellen Core-Arcs.*
+*Boni gelten erst nach Abschluss der aktuellen Episode.*
 
 ### Timeline-Konfliktresistenz {#konfliktresistenz}
 
@@ -757,7 +757,7 @@ Einmal pro Szene als Reroll. Nur bei Attribut 14+.
 1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
 3. **Paradoxon-Index:** wächst mit Missionsfortschritt oder Stabilisierung; bei 5 löst `ClusterCreate()` aus.
-   Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Arc-Ende zugänglich.
+   Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Episodenende zugänglich.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
 HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.

@@ -25,7 +25,7 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 2. **Mission Phases.** Briefing → Infiltration → Kontakt/Intel →
 >    Konflikt → Exfiltration → Debrief (Core 12 Szenen / Rift 14 Szenen).
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Arc-Ende.
+> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Episodenende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
 >    Rift-Operationen platzieren ihren Boss in Szene 10.
@@ -114,10 +114,10 @@ füllt:
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
-Beendigung des aktuellen Core-Arcs – Teams können Seeds „offen halten“, um
+Beendigung der Episode – Teams können Seeds „offen halten“, um
 spätere Beutezüge zu planen.
 
-**Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach dem Core-Arc.**
+**Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.**
 Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
 
 Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
@@ -272,11 +272,11 @@ Ausführliche Tabellen stehen in
 [core/zeitriss-core.md](core/zeitriss-core.md) und
 [core/wuerfelmechanik.md](core/wuerfelmechanik.md).
 
-Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach dem aktuellen Core-Arc
+Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach der Episode
 erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
 Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
-Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Arc-Ende anzeigen.
+Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Episodenende anzeigen.
 Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 [Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
 
@@ -299,7 +299,7 @@ Kampfpotenzials und verändert **nicht** den SG einer Mission.
 Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
 - `ClusterCreate()`
 - `ClusterDashboard()`
-- `launch_rift(id)` – startet nach dem aktuellen Core-Arc eine eigenständige
+- `launch_rift(id)` – startet nach der Episode eine eigenständige
   Rift-Mission
 - `scan_artifact()`
 - `seed_to_hook(id)`

@@ -116,6 +116,14 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
   Verbündete auftreten. Dadurch entsteht ein lebendiges Geflecht an Beziehungen, das der Kampagne
   Tiefe und Abwechslung verleiht.
 
+### Fraktionsinterventionen {#fraktionsinterventionen}
+
+- Wählt eine **Fremdfraktion** mit eigenem Ziel.
+- Zu Missionsbeginn auf Intervention würfeln (`1–2` ruhig, `3–4` Beobachter, `5–6` aktiver Eingriff).
+- Bei aktivem Eingriff eine Szene markieren, in der die Fraktion Ressourcen blockiert oder einen
+  Vorteil nutzt.
+- Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
+
 ### Preserve-vs-Trigger-Logik
 
 Eine Kampagne startet entweder im **Preserve**- oder **Trigger-Modus**.
@@ -186,18 +194,17 @@ Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 **Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus der
 [`RiftSeedTable`](kreative-generatoren-begegnungen.md#anomalien-generator) bestimmt und
 enthalten immer Anomalien wie Parawesen oder Artefakte. Diese Einsätze laufen
-außerhalb des Core-Story-Arcs und zählen nicht zur regulären Missionszahl.
+außerhalb der aktuellen Episode und zählen nicht zur regulären Missionszahl.
 
 Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
-Steigt der
-Paradoxon-Index auf 5, `ClusterCreate()` macht 1–2 neue Seeds sichtbar und setzt den Wert
+Nach jeder erfolgreichen Core-Op steigt die Resonanz (Paradoxon-Index) um 1.
+Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand und lassen sich über das
-**ClusterDashboard** einsehen. Die Gruppe kann einen Eintrag via
-`launch_rift(id)` erst nach Abschluss des aktuellen Core-Arcs zu einer
-eigenständigen Episode machen und danach zum Core-Generator
-zurückkehren. Diese **Rift-Ops** gelten als filmische
-Einzelmissionen und zählen nicht zur Missionsanzahl eines Arcs.
+**ClusterDashboard** einsehen. Erst nach Abschluss der Episode kann die Gruppe
+einen Eintrag via `launch_rift(id)` als eigenständige Rift-Op starten und danach
+zum Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
+Einzelmissionen und zählen nicht zur Missionsanzahl einer Episode.
 
 Jeder Seed steht für ein offenes Pararift.
 Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0.
@@ -207,14 +214,14 @@ Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn 
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
 zusammengeführt oder getrennt bleiben.
 
-Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach dem Core-Arc.
+Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
-- **Paradoxon-Index 0–5:** Jede Mission bringt Paradoxon-Punkte.
-  Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt den Wert auf 0.
-- **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Abschluss des Core-Arcs.
+- **Paradoxon-Index/Resonanz 0–5:** Jede erfolgreiche Core-Op erhöht die Resonanz.
+  Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt beide Werte auf 0.
+- **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
   Ein Seed lässt sich dann via `launch_rift(id)` als eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
   Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks
@@ -326,7 +333,7 @@ graph LR
 A[Missionsepisode] --> C[HQ-Phase]
 C --> B[Paradoxon-Index]
 B -->|Level 5| D[Rift-Pool]
-D -->|Arc-Ende Bonus| E[Schwierigkeitsgrad & CU-Multi]
+  D -->|Episodenende Bonus| E[Schwierigkeitsgrad & CU-Multi]
 E --> A
 ```
 
@@ -342,9 +349,9 @@ folgende Einsatz startet. Zur Wahl stehen drei Wege:
 
 
 #### Offene Rifts
-In der HQ-Phase, nach Abschluss des Arcs, entscheidet das Team pro Seed,
+In der HQ-Phase, nach Abschluss der Episode, entscheidet das Team pro Seed,
 ob es eindringt und ihn versiegelt oder bis später warten will.
-Der Bonus auf Probe-Schwelle und CU-Belohnung durch offene Rifts greift erst nach Beendigung des Core-Arcs.
+Der Bonus auf Probe-Schwelle und CU-Belohnung durch offene Rifts greift erst nach Beendigung der Episode.
 Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed entfernt wird.
 
 | Offene Seeds | Probe-Schwelle + | CU-Belohnung × |
@@ -359,11 +366,11 @@ treibt den Zähler schneller hoch.
 
 ##### Rifts sammeln {#rifts-sammeln}
 
-Seeds können bis zum Ende eines Core-Arcs oder sogar bis nach der Kampagne im
+Seeds können bis zum Ende einer Episode oder sogar bis nach der Kampagne im
 Pool liegen bleiben. Nach **jeder Mission** folgt jedoch die Pflicht-HQ-Phase.
 Dort kann die Runde ein ITI-Einsatzkommando per `resolve_rifts(ids)`
 losschicken oder die Seeds für spätere Einsätze aufheben. Eigene Rift-Ops
-dürfen erst nach Abschluss des aktuellen Arcs gestartet werden.
+dürfen erst nach Abschluss der aktuellen Episode gestartet werden.
 
 Der Bericht würfelt ein 50/50-Ergebnis aus. Fällt es negativ aus, verliert die
 Gruppe CU in Höhe ihres Spielerlevels (niemals unter 0). Bei einem positiven
