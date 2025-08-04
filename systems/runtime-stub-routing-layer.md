@@ -142,7 +142,11 @@ _Getter-Helpers (pseudo JS):_
 ```javascript
 export const getParadox = () => state.paradox_level;
 export const getOpenSeeds = () => state.open_seeds.length;
-export const incrementParadox = (pp = 1) => { ... };
+export const incrementParadox = (pp = 1) => {
+  state.paradox_level += pp;
+  ParadoxPing();
+  autoSave();
+};
 export const closeSeed = (id) => { ... };
 ```
 

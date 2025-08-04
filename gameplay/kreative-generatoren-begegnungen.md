@@ -775,11 +775,11 @@ Rift-Bosse nutzen den Para-Creature-Generator und die Regeln aus `massenkonflikt
 ### Quick-Macro
 
 ```pseudo
-function generate_boss(arc_type, mission_number, epoch):
+function generate_boss(arc_type, mission_number, epoch, episode):
     if arc_type == "core":
         if mission_number % 10 == 0:
             return draw_unique(core_arc_boss_pool, core_arc_cd)
-        elif mission_number % 5 == 0:
+        elif mission_number % 5 == 0 and episode >= 5:
             return draw_unique(core_mini_pool[epoch], core_mini_cd[epoch])
     else:
         if mission_number % 10 == 0:
