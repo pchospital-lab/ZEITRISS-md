@@ -43,6 +43,13 @@ nur ein Wert auf dem Bogen.
 Siehe [Ausrüstung & Cyberware](ausruestung-cyberware.md#legalitäts--wartungs-stufen) für die vollständige Tabelle.
 > **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
 
+```pseudo
+if item.license > char.licenses.max:
+    deny_purchase()
+```
+
+Implantate mit **SYS > 2** verursachen zusätzlich **5 % Wartungskosten pro Mission**.
+
 **Beispiel-Cyberware-Implantate** _(mit `tier:`-Spalte)_:
 
 id: implant_t1

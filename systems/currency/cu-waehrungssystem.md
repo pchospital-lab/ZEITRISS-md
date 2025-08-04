@@ -160,6 +160,14 @@ zu Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie das Artefakt
 im HQ archiviert, in CUs eintauscht oder als seltene Ressource behält, um es
 später im Plot einzusetzen.
 
+Artefakte aus _Core_-Missionen dürfen nicht verkauft werden. Sie gelten nur als
+Rift-Beute und bringen ausschließlich den dort angegebenen Bonus.
+
+```pseudo
+if loot.type == "Artefakt" and mission.type == "Core":
+    forbid_sale()  # Artefakte nur Rift
+```
+
 Durch diese Mechaniken bleibt der Umgang mit Missionsbeute **dynamisch**. Jeder Gegenstand erzählt
 eine kleine Geschichte: Ein unscheinbares Artefakt aus 800 v. Chr. könnte sich in der Nullzeit als
 begehrte Ressource entpuppen – entweder erhält es einen Platz im Museum oder es ist auf dem
@@ -260,6 +268,14 @@ Hochwertige Geräte müssen regelmäßig kalibriert werden. Nach jeweils drei
 Missionen zahlt der Besitzer **10 % des Kaufpreises**, um Funktionstüchtigkeit
 zu gewährleisten. Wird gespart, steigt der SG aller Proben mit dem Item um +1,
 bis die Wartung nachgeholt wird.
+
+```pseudo
+for item in gear:
+    if item.missions_since_maint >= 3:
+        cu -= 0.1 * item.price
+```
+
+Der Debrief-Makro `run_shop_checks()` zieht diese Wartungskosten automatisch ab.
 
 ## Zugriffsrechte und Verfügbarkeit
 
