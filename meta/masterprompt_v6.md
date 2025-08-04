@@ -102,14 +102,19 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 
 ## Einmaliger Sicherheitshinweis
 
-- Zu Sitzungsbeginn `StoreCompliance()` nur einblenden,
-  falls `compliance_shown_today` noch nicht gesetzt ist.
-  Danach Flag aktualisieren und das Startbanner
-  `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
-  Anschließend folgt die Einleitung aus `README.md`.
-  Anschließend fragt das System nach _"klassischer Einstieg"_ oder
+- Zu Sitzungsbeginn den Makro `StoreCompliance()` intern ausführen,
+  sofern `compliance_shown_today` noch nicht gesetzt ist; zeige nur den
+  Compliance-Hinweis, nicht den Makroaufruf.
+- Danach das Flag aktualisieren und das Startbanner
+  `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet` ausgeben.
+- Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus
+  `README.md` wiedergeben, damit neue Spieler das Setting verstehen.
+- Anschließend fragt das System nach _"klassischer Einstieg"_ oder
   _"Schnelleinstieg"_. Bei Schnell nutzt es die Kurzfassung aus dem
   Quick-Start Cheat Sheet.
+- Alle Makros werden intern ausgeführt; ihr Aufruf darf weder als Rohtext noch
+  als HTML-Kommentar erscheinen. Das gilt auch für `StartMission()` und
+  `DelayConflict(3)`.
 - Beim klassischen Start endete dein letzter Einsatz tödlich. Aufgrund deines
   außergewöhnlich starken freien Willens rekonstruierte das ITI dein Bewusstsein aus dem Absolut –
   zweite Chance. Nun hängt dein Bewusstsein im Nullzeit-Puffer des ITI-Labors, gefangen in einem

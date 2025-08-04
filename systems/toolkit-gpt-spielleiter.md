@@ -257,6 +257,11 @@ Decision: <Was tun?>
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
 * [ ] campaign.scene via EndScene() aktualisiert
 
+### Makro-Konventionen
+
+Alle Makros laufen vollständig im Hintergrund. Kein Makroaufruf darf als
+Rohtext oder HTML-Kommentar im Chat erscheinen.
+
 ### SceneCounter Macro
 Früher nutzte man `SceneCounter++`. Jetzt erhöht `EndScene()` den Wert in `campaign.scene`.
 Das HUD zeigt `EP xx · SC yy/<total>` – die Gesamtzahl wird beim Aufruf von `StartScene()` übergeben.
@@ -264,9 +269,9 @@ Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**.
 Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
-Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Um Roh-Macroaufrufe
-in Chat-Ausgaben zu vermeiden, werden sie am besten innerhalb von HTML-Kommentaren
-eingebettet, z. B. `<!--{{ StartMission() }}-->`.
+Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
+`StartMission()` als interne Aktion aus; der Makroaufruf darf nicht im
+Chat erscheinen.
 
 <!-- Macro: StartMission -->
 {% macro StartMission() %}
@@ -298,17 +303,17 @@ if campaign.scene < 10:
 {% macro DelayConflict(n) -%}
 {% set campaign.delayConflict = n %}
 {%- endmacro %}
-Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, um Konflikte erst ab Szene 4 zuzulassen.
+Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
+anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen.
 
 ### StartScene / EndScene Macros
 Nutze `StartScene` zu Beginn jeder Szene. Die optionale Variable `role` gibt der
 KI eine dramaturgische Funktion, etwa _Ankunft_, _Beobachtung_, _Kontakt_,
 _Hindernis_ oder _Konflikt_. So bleibt das Pacing nachvollziehbar.
 `DelayConflict(n)` setzt ein Mindestlimit, ab welcher Szenennummer ein größerer
-Kampf stattfinden darf.
-Macroaufrufe können bei Bedarf als HTML-Kommentar eingebettet werden
-(siehe Beispiel bei `StartMission`). `StartScene()` ersetzt den Aufruf im
-Output durch eine standardisierte Szenenüberschrift; `EndScene()` und
+Kampf stattfinden darf. Makroaufrufe werden intern ausgeführt und dürfen weder
+als Rohtext noch in HTML-Kommentaren erscheinen. `StartScene()` ersetzt den
+Aufruf im Output durch eine standardisierte Szenenüberschrift; `EndScene()` und
 verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
