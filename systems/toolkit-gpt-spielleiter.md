@@ -350,16 +350,13 @@ Target: {{ target }}
 {% macro maintain_cooldowns() -%}
 {% for skill, cd in char.cooldowns.items() %}
   {% if cd > 0 %}
-    {% set char.cooldowns = char.cooldowns.update({skill: cd - 1}) %}
+    {% do char.cooldowns.update({skill: cd - 1}) %}
   {% endif %}
 {% endfor %}
 {%- endmacro %}
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
-{% if campaign.scene < scene_min %}
-    {% return %}
-{% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 {%- endmacro %}
