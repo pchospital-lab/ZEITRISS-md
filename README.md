@@ -33,13 +33,123 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
 ## Quick-Start Cheat Sheet {#quick-start-cheat-sheet}
+> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
+> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
+_Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
-- **Charakterwahl:** Entscheidet euch für Homo sapiens oder einen verwandten Hominin-Typ.
-- **Missionsablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
-- **Würfelmechanik:** W6 mit Explosionsregel; ab Attribut 11 nutzt ihr W10.
-- **Paradoxon-Index:** Erfolgreiche Missionen steigern ihn, bei Stufe 5 öffnen sich Rifts.
-- **Ausrüstung:** Startet mit Standardausrüstung, zusätzlicher Loot folgt der Loot-Matrix.
+Nach Compliance-Hinweis und Einleitung fragt das System nach
+_"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
+Wählst du Schnell, tippe **`Schnelleinstieg`** und
+das Briefing bleibt kurz, den Twist deckt der Codex später auf.
 
+Die ersten Schritte in unter zwei Minuten:
+
+1. **Mission ziehen** – nutze einen Seed aus dem Generator.
+2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
+3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
+4. **Success Table** – Erfolgsraten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
+5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
+   erhält er einen Vorteil.
+6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
+7. **Self-Reflection Off** – global flag {"self_reflection": false} für rein externe Handlung.
+8. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+   Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
+9. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
+   Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
+10. **Filmischer Einstieg** – das Modul
+   [Cinematic Start](systems/gameflow/cinematic-start.md)
+   beschreibt einen sofort spielbaren Auftakt.
+11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
+   [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
+
+Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
+Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
+In Core-Ops treten Rivalen aus externen Machtblöcken auf,
+während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
+
+Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
+Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
+Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
+### Session-0 Agenda
+
+1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
+2. **Lines/Veils bestätigen** – siehe Safety Sheet.
+3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
+4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
+5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
+6. **Regel-Transparenz** – verdeckte, offene oder manuelle Würfe klären.
+
+### Probability Cheat Table
+
+| SG | W6 expl. | W10 expl. | Δ (W10–W6) |
+|---:|---------:|----------:|-----------:|
+| 5  | 83 %     | 90 %      | +7 %       |
+| 7  | 67 %     | 77 %      | +10 %      |
+| 8  | 50 %     | 65 %      | +15 %      |
+| 10 | 33 %     | 53 %      | +20 %      |
+
+### Chat-Shortcodes {#chat-shortcodes}
+
+Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
+
+- `!rules stealth` – zitiert die Passage zu Schleichen.
+- `!gear cyberware` – zeigt Ausrüstung oder Implantate.
+- `!psi heat` – erklärt Psi-Heat und Burn.
+- `!hud status` – listet alle Zustände.
+- `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
+- `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
+
+### Proben & Schwierigkeitsgrad
+
+Bei ungewissen Aktionen legt die Spielleitung einen **Schwierigkeitsgrad (SG)** fest. Faustregeln:
+SG 5 = leicht, SG 8–9 = mittel, SG 12 = schwierig, SG 15+ = sehr schwer.
+Ausführliche Tabellen stehen in
+[core/zeitriss-core.md](core/zeitriss-core.md) und
+[core/wuerfelmechanik.md](core/wuerfelmechanik.md).
+
+Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach der Episode
+erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
+Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
+[Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
+Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Episodenende anzeigen.
+Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
+[Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
+
+### Difficulty-Konverter
+
+| ☆-Symbole | SG-Zuschlag |
+| --------- | ----------- |
+| ☆         | +1          |
+| ☆☆        | +2          |
+| ☆☆☆       | +3          |
+| ☆☆☆☆      | +4          |
+| ☆☆☆☆☆     | +5          |
+| ☆☆☆☆☆+   | +6 und mehr |
+
+Paramonster verwenden Totenkopf-Icons (💀) als eigenen
+Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
+Kampfpotenzials und verändert **nicht** den SG einer Mission.
+
+### Wichtige Makros
+Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
+- `ClusterCreate()`
+- `ClusterDashboard()`
+- `launch_rift(id)` – startet nach der Episode eine eigenständige
+  Rift-Mission
+- `scan_artifact()`
+- `seed_to_hook(id)`
+- `resolve_rifts(ids)`
+  – lässt ein ITI-Team Seeds nach einer Mission beseitigen (50/50 Bericht)
+
+### KPI-Cheat-Sheet pro Phase
+
+| Phase      | Fokus           | Beispiel-KPI          |
+| ---------- | --------------- | --------------------- |
+| Briefing   | Klarheit & Hook | 5 Kerninfos, 1 Bild   |
+| Aufklärung | Hinweise finden | Foreshadow-Hinweis    |
+| Konflikt   | Spannung        | Exploding 6 nutzen    |
+| Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
 ### Modulübersicht
 
 | Regelmodul | Muss | Soll | Kann | Kurzinfo / Link |
@@ -196,122 +306,6 @@ fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
 [Cinematisches HUD-Overlay](characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 
-## Quick-Start Cheat Sheet
-> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
-> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
-_Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
-
-Nach Compliance-Hinweis und Einleitung fragt das System nach
-_"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
-Wählst du Schnell, tippe **`Schnelleinstieg`** und
-das Briefing bleibt kurz, den Twist deckt der Codex später auf.
-
-Die ersten Schritte in unter zwei Minuten:
-
-1. **Mission ziehen** – nutze einen Seed aus dem Generator.
-2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
-3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
-4. **Success Table** – Erfolgsraten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
-5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
-   erhält er einen Vorteil.
-6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – global flag {"self_reflection": false} für rein externe Handlung.
-8. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
-   Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
-9. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
-   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
-   Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
-10. **Filmischer Einstieg** – das Modul
-   [Cinematic Start](systems/gameflow/cinematic-start.md)
-   beschreibt einen sofort spielbaren Auftakt.
-11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
-   [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-
-Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
-Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
-In Core-Ops treten Rivalen aus externen Machtblöcken auf,
-während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
-
-Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
-Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
-Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
-### Session-0 Agenda
-
-1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
-2. **Lines/Veils bestätigen** – siehe Safety Sheet.
-3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
-4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
-5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
-6. **Regel-Transparenz** – verdeckte, offene oder manuelle Würfe klären.
-
-### Probability Cheat Table
-
-| SG | W6 expl. | W10 expl. | Δ (W10–W6) |
-|---:|---------:|----------:|-----------:|
-| 5  | 83 %     | 90 %      | +7 %       |
-| 7  | 67 %     | 77 %      | +10 %      |
-| 8  | 50 %     | 65 %      | +15 %      |
-| 10 | 33 %     | 53 %      | +20 %      |
-
-### Chat-Shortcodes {#chat-shortcodes}
-
-Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
-
-- `!rules stealth` – zitiert die Passage zu Schleichen.
-- `!gear cyberware` – zeigt Ausrüstung oder Implantate.
-- `!psi heat` – erklärt Psi-Heat und Burn.
-- `!hud status` – listet alle Zustände.
-- `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
-- `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
-
-### Proben & Schwierigkeitsgrad
-
-Bei ungewissen Aktionen legt die Spielleitung einen **Schwierigkeitsgrad (SG)** fest. Faustregeln:
-SG 5 = leicht, SG 8–9 = mittel, SG 12 = schwierig, SG 15+ = sehr schwer.
-Ausführliche Tabellen stehen in
-[core/zeitriss-core.md](core/zeitriss-core.md) und
-[core/wuerfelmechanik.md](core/wuerfelmechanik.md).
-
-Die **Riftstufe** entspricht der Anzahl offener Seeds. Erst nach der Episode
-erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
-Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
-[Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
-Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Episodenende anzeigen.
-Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
-[Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
-
-### Difficulty-Konverter
-
-| ☆-Symbole | SG-Zuschlag |
-| --------- | ----------- |
-| ☆         | +1          |
-| ☆☆        | +2          |
-| ☆☆☆       | +3          |
-| ☆☆☆☆      | +4          |
-| ☆☆☆☆☆     | +5          |
-| ☆☆☆☆☆+   | +6 und mehr |
-
-Paramonster verwenden Totenkopf-Icons (💀) als eigenen
-Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
-Kampfpotenzials und verändert **nicht** den SG einer Mission.
-
-### Wichtige Makros
-Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
-- `ClusterCreate()`
-- `ClusterDashboard()`
-- `launch_rift(id)` – startet nach der Episode eine eigenständige
-  Rift-Mission
-- `scan_artifact()`
-- `seed_to_hook(id)`
-- `resolve_rifts(ids)`
-  – lässt ein ITI-Team Seeds nach einer Mission beseitigen (50/50 Bericht)
-
-### KPI-Cheat-Sheet pro Phase
-
-| Phase      | Fokus           | Beispiel-KPI          |
-| ---------- | --------------- | --------------------- |
-| Briefing   | Klarheit & Hook | 5 Kerninfos, 1 Bild   |
-| Aufklärung | Hinweise finden | Foreshadow-Hinweis    |
 | Konflikt   | Spannung        | Exploding 6 nutzen    |
 | Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
 
