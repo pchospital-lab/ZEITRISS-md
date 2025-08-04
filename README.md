@@ -245,7 +245,7 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 | Mission-Typ | Roll-Macro / Tabelle         | Ergebnis-Typen              |
 |-------------|------------------------------|-----------------------------|
 | Core-Op     | `roll_from("ItemTable")`     | ITEM · UPGRADE · CASH       |
-| Rift-Op†    | `roll_from("ArtifactTable")` | ARTEFAKT (bei 1W6 = 6)      |
+| Rift-Op†    | `roll_legendary()` | ARTEFAKT (bei 1W6 = 6)      |
 
 † Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
 Relikte zählen als Story-Items und nutzen den normalen Generator.
@@ -280,7 +280,7 @@ sind der Übersicht halber aufgeführt.
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
-| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-seed-starter-1w14) | NPC & Encounter-Gen |
+| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-generator) | NPC & Encounter-Gen |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md#rift-kreaturen-stat-blocks) | Regeln für Massenkonflikte |
