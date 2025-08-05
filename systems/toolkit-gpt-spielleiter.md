@@ -276,11 +276,11 @@ Limits folgt ein Cliffhanger oder Cut.
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
 `StartMission()` als interne Aktion aus; der Makroaufruf darf nicht im
-Chat erscheinen. Leite den finalen Text stets durch `output_sanitizer()`
-und anschließend `tone_filter()`.
+Chat erscheinen. Leite den finalen Text stets durch
+`output_sanitizer()` und anschließend `tone_filter()`.
 
 <!-- Macro: StartMission -->
-{% macro StartMission(total=12) %}
+{% macro StartMission(total=12, seed_id=None, objective=None) %}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
 {% else %}
@@ -290,6 +290,8 @@ und anschließend `tone_filter()`.
 {% set campaign.mission_in_episode = ((campaign.mission - 1) % 10) + 1 %}
 {% set campaign.scene = 1 %}
 {% set campaign.scene_total = total %}
+{% set campaign.seed_id = seed_id %}
+{% set campaign.objective = objective %}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
@@ -377,6 +379,22 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {% endif %}
 {%- endmacro %}
 
+<!-- Macro: scene_overlay -->
+{% macro scene_overlay(target, total, pressure=None, env=None) -%}
+{% set ep = campaign.episode|string(format="02") %}
+{% set ms = campaign.mission_in_episode|string(format="02") %}
+{% set sc = campaign.scene|string(format="02") %}
+██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██
+Seed {{ campaign.seed_id }}
+Objective: {{ campaign.objective }}
+Target: {{ target }}
+Paradox: {{ campaign.paradox }}/5
+SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
+HEAT {{ char.heat }}/{{ char.heat_max }}
+{% if pressure %}Pressure: {{ pressure }}{% endif %}
+{{ vehicle_overlay(env) }}
+{%- endmacro %}
+
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, objective=None, seed_id=None, pressure=None,
 total=12, role="", env=None) -%}
@@ -385,6 +403,10 @@ total=12, role="", env=None) -%}
 {% set campaign.complication_done = false %}
 {% if seed_id is not none %}{% set campaign.seed_id = seed_id %}{% endif %}
 {% if objective is not none %}{% set campaign.objective = objective %}{% endif %}
+{% set campaign.sys_prev = char.sys %}
+{% set campaign.pp_prev = char.pp %}
+{% set campaign.heat_prev = char.heat %}
+{% set campaign.psi_logged = false %}
 {% if loc == "HQ" %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
@@ -401,18 +423,10 @@ total=12, role="", env=None) -%}
   {# Finale blockiert bis Szene 10 #}
   {% return %}
 {% endif %}
-{% set ep = campaign.episode|string(format="02") %}
-{% set ms = campaign.mission_in_episode|string(format="02") %}
-{% set sc = campaign.scene|string(format="02") %}
-██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██
-Seed {{ campaign.seed_id }}
-Objective: {{ campaign.objective }}
-Target: {{ target }}
-Paradox: {{ campaign.paradox }}/5
-SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
-HEAT {{ char.heat }}/{{ char.heat_max }}
-{% if pressure %}Pressure: {{ pressure }}{% endif %}
-{{ vehicle_overlay(env) }}
+{{ scene_overlay(target, total, pressure, env) }}
+{% if campaign.scene == 10 and campaign.mission % 5 == 0 %}
+  {{ generate_boss('core', campaign.mission, target) }}
+{% endif %}
 {%- endmacro %}
 
 {% macro maintain_cooldowns() -%}
@@ -426,15 +440,33 @@ HEAT {{ char.heat }}/{{ char.heat_max }}
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
 {% set campaign.scene = campaign.scene + 1 -%}
+{% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
+      char.heat != campaign.heat_prev) and not campaign.psi_logged %}
+  {{ hud_tag() }} Psi-Check: nutze psi_activation()
+{% endif %}
+{% set campaign.sys_prev = char.sys %}
+{% set campaign.pp_prev = char.pp %}
+{% set campaign.heat_prev = char.heat %}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 {%- endmacro %}
 
 <!-- Macro: NextScene -->
 {% macro NextScene(loc, target, objective=None, seed_id=None, pressure=None,
-total=12, role="", env=None) -%}
+total=None, role="", env=None) -%}
+  {% if total is none %}{% set total = campaign.scene_total %}{% endif %}
   {{ EndScene() }}
   {{ StartScene(loc, target, objective, seed_id, pressure=pressure,
   total=total, role=role, env=env) }}
+{%- endmacro %}
+
+### codex_summary() Macro
+Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
+<!-- Macro: codex_summary -->
+{% macro codex_summary(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
+{{ hud_tag() }} Codex: Seeds {{ closed_seed_ids }} geschlossen ·
+Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
+{% if campaign.codex_log %}{{ hud_tag() }} Codex-Log: {{ campaign.codex_log }}{% endif %}
+{% set campaign.codex_log = {} %}
 {%- endmacro %}
 
 ### EndMission Macro
@@ -444,10 +476,8 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 intervention_result=None) -%}
 {% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.mission % 2 == 0) %}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
-{{ hud_tag() }} Codex: Seeds {{ closed_seed_ids }} geschlossen ·
-Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
+{{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
-{% if campaign.codex_log %}{{ hud_tag() }} Codex-Log: {{ campaign.codex_log }}{% endif %}
 {%- endmacro %}
 
 ### run_shop_checks Macro
@@ -490,13 +520,20 @@ if not live_threat and campaign.scene % 3 == 0:
     roll_antagonist()
 ```
 
+### artifact_overlay() Macro
+Standardisiert die HUD-Ausgabe aktiver Artefakte.
+<!-- Macro: artifact_overlay -->
+{% macro artifact_overlay(name, effect, risk) -%}
+{{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ name }}› ▶ {{ effect }} (Risk: {{ risk }})
+{%- endmacro %}
+
 ### roll_legendary() Macro
 Würfelt legendäres Artefakt aus `artifact_pool_v3`.
 <!-- Macro: roll_legendary -->
 {% macro roll_legendary() -%}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
-  {{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
+  {{ artifact_overlay(art.name, art.effect, art.risk) }}
 {%- endmacro %}
 
 ### generate_para_artifact() Macro
@@ -530,7 +567,7 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {% set side = [
       "Stress+1","Heat+1","SYS-1","Flashblind",
       "Item breaks","Enemy +1 INI"][side_roll-1] %}
-  {{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ part }} von {{ creature.name }}› ▶ {{ effect }} (Risk: {{ side }} · Px-1)
+  {{ artifact_overlay(part ~ ' von ' ~ creature.name, effect, side ~ ' · Px-1') }}
 {%- endmacro %}
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
@@ -563,14 +600,14 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool, 0) %}
         {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool = 'core_mini_pool' %}
         {% set boss = sample(core_mini_pool[epoch]) %}
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool, 0) %}
         {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -579,7 +616,7 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool, 0) %}
         {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
@@ -589,6 +626,7 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
   {{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }}] – Kapazität erreicht
   {% return %}
 {% endif %}
+{% set campaign.psi_logged = true %}
 {% set char.sys = char.sys + sys_cost %}
 {% set char.pp = char.pp - pp_cost %}
 {% set char.heat = char.heat + heat_cost %}
@@ -599,6 +637,8 @@ HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
 <!-- Macro: log_intervention -->
 {% macro log_intervention(result) -%}
 {{ hud_tag() }} FR-INTRV: {{ result }}
+{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
+{{ codex_log_npc('fr_intervention', {'result': result}) }}
 {%- endmacro %}
 
 <!-- Macro: codex_log_npc -->

@@ -436,6 +436,10 @@ ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
 *`NextScene()` nach jeder Szene*
 
+Beispielaufruf:
+`StartMission(total=14, seed_id=13, objective="Signal-Leuchtturm sabotieren")`
+initialisiert Szene 1 mit Seed-ID und Zieltext im HUD.
+
 ###### Autoren-Briefing: Rift-Missionen {#autoren-rift}
 
 Rift-Storys laufen losgelöst vom Core-Plot und nutzen **14 Szenen** im Dreiakt-
