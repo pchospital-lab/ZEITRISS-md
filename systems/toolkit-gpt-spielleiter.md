@@ -267,10 +267,11 @@ Rohtext oder HTML-Kommentar im Chat erscheinen.
 
 ### SceneCounter Macro
 Früher nutzte man `SceneCounter++`. Jetzt übernimmt `NextScene()` das Erhöhen
-von `campaign.scene` über das interne `EndScene()`. Das HUD zeigt `EP xx · SC
-yy/<total>` – `EP` steht für Episode, `SC` für Szene; die Gesamtzahl wird beim
-Aufruf von `NextScene()` übergeben. Core-Ops spielen mit **12** Szenen,
-Rift-Ops mit **14**. Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
+von `campaign.scene` über das interne `EndScene()`. Das HUD zeigt `EP xx · MS yy ·
+SC zz/<total>` – `EP` ist die Episode, `MS` die Mission in dieser Episode und
+`SC` die Szene; die Gesamtzahl wird beim Aufruf von `NextScene()` übergeben.
+Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**. Bei Erreichen des
+Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
@@ -280,8 +281,18 @@ und anschließend `tone_filter()`.
 
 <!-- Macro: StartMission -->
 {% macro StartMission(total=12) %}
+{% if campaign.mission is none %}
+  {% set campaign.mission = 1 %}
+{% else %}
+  {% set campaign.mission = campaign.mission + 1 %}
+{% endif %}
+{% set campaign.episode = ((campaign.mission - 1) // 10) + 1 %}
+{% set campaign.mission_in_episode = ((campaign.mission - 1) % 10) + 1 %}
 {% set campaign.scene = 1 %}
 {% set campaign.scene_total = total %}
+{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
+{% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
+{% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {{ DelayConflict(4) }}
 Diese Mission spielt vollständig in der realen Welt.
 Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein
@@ -293,7 +304,7 @@ Objekte und Gegner agieren ausschließlich physisch.
 Beispielaufruf im Kampagnenstart:
 
 ```pseudo
-if boss := generate_boss("core", campaign.episode, target_epoch):
+if boss := generate_boss("core", campaign.mission, target_epoch):
     codex.inject(boss.briefing_block)
 ```
 
@@ -367,11 +378,13 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, objective, seed_id, pressure=None, total=12,
-role="", env=None) -%}
+{% macro StartScene(loc, target, objective=None, seed_id=None, pressure=None,
+total=12, role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
 {% set campaign.tech_steps = 0 %}
 {% set campaign.complication_done = false %}
+{% if seed_id is not none %}{% set campaign.seed_id = seed_id %}{% endif %}
+{% if objective is not none %}{% set campaign.objective = objective %}{% endif %}
 {% if loc == "HQ" %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
@@ -388,10 +401,16 @@ role="", env=None) -%}
   {# Finale blockiert bis Szene 10 #}
   {% return %}
 {% endif %}
-██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
-Seed {{ seed_id }}
-Objective: {{ objective }}
+{% set ep = campaign.episode|string(format="02") %}
+{% set ms = campaign.mission_in_episode|string(format="02") %}
+{% set sc = campaign.scene|string(format="02") %}
+██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██
+Seed {{ campaign.seed_id }}
+Objective: {{ campaign.objective }}
 Target: {{ target }}
+Paradox: {{ campaign.paradox }}/5
+SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
+HEAT {{ char.heat }}/{{ char.heat_max }}
 {% if pressure %}Pressure: {{ pressure }}{% endif %}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
@@ -411,29 +430,24 @@ Target: {{ target }}
 {%- endmacro %}
 
 <!-- Macro: NextScene -->
-{% macro NextScene(loc, target, objective, seed_id, pressure=None, total=12,
-role="", env=None) -%}
+{% macro NextScene(loc, target, objective=None, seed_id=None, pressure=None,
+total=12, role="", env=None) -%}
   {{ EndScene() }}
-  {{ StartScene(loc, target, objective, seed_id, pressure=pressure, total=total,
-  role=role, env=env) }}
-{%- endmacro %}
-
-### log_intervention Macro
-Protokolliert den Abschluss einer Fraktionsintervention.
-<!-- Macro: log_intervention -->
-{% macro log_intervention(status) -%}
-{{ hud_tag() }} FR-INTRV: {{ status }}
+  {{ StartScene(loc, target, objective, seed_id, pressure=pressure,
+  total=total, role=role, env=env) }}
 {%- endmacro %}
 
 ### EndMission Macro
-Schließt eine Mission ab, erhöht Episode und Level und protokolliert Abschlussdaten.
+Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 <!-- Macro: EndMission -->
-{% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
-{% set campaign.episode = campaign.episode + 1 -%}
-{% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.episode % 2 == 0) %}
+{% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0,
+intervention_result=None) -%}
+{% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.mission % 2 == 0) %}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
 {{ hud_tag() }} Codex: Seeds {{ closed_seed_ids }} geschlossen ·
 Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
+{% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
+{% if campaign.codex_log %}{{ hud_tag() }} Codex-Log: {{ campaign.codex_log }}{% endif %}
 {%- endmacro %}
 
 ### run_shop_checks Macro
@@ -537,21 +551,67 @@ Beispielaufrufe:
 
 ### generate_boss() Macro
 Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
-Boss-Generators. Mini-Bosse erscheinen erst ab Episode 5.
+Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
 <!-- Macro: generate_boss -->
 {% macro generate_boss(type, mission_number, epoch) %}
+{% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
+{% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('core_arc_boss_pool') }} [Pool: core_arc_boss_pool]
-    {% elif mission_number % 5 == 0 and campaign.episode >= 5 %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('core_mini_pool'[epoch]) }} [Pool: core_mini_pool]
+        {% set pool = 'core_arc_boss_pool' %}
+        {% set boss = sample(pool) %}
+        {% do campaign.boss_history.append(boss) %}
+        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
+        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
+    {% elif mission_number % 5 == 0 and mission_number >= 5 %}
+        {% set pool = 'core_mini_pool' %}
+        {% set boss = sample(core_mini_pool[epoch]) %}
+        {% do campaign.boss_history.append(boss) %}
+        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
+        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('rift_boss_pool') }} [Pool: rift_boss_pool]
+        {% set pool = 'rift_boss_pool' %}
+        {% set boss = sample(pool) %}
+        {% do campaign.boss_history.append(boss) %}
+        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
+        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ boss }} [Pool: {{ pool }}]
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
+<!-- Macro: psi_activation -->
+{% macro psi_activation(name, sys_cost, pp_cost, heat_cost) -%}
+{% if char.sys + sys_cost > char.sys_max %}
+  {{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }}] – Kapazität erreicht
+  {% return %}
+{% endif %}
+{% set char.sys = char.sys + sys_cost %}
+{% set char.pp = char.pp - pp_cost %}
+{% set char.heat = char.heat + heat_cost %}
+{{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
+HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
+{%- endmacro %}
+
+<!-- Macro: log_intervention -->
+{% macro log_intervention(result) -%}
+{{ hud_tag() }} FR-INTRV: {{ result }}
+{%- endmacro %}
+
+<!-- Macro: codex_log_npc -->
+{% macro codex_log_npc(npc_id, data) -%}
+{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
+{% do campaign.codex_log.update({'npc:' ~ npc_id: data}) %}
+{%- endmacro %}
+
+<!-- Macro: codex_log_artifact -->
+{% macro codex_log_artifact(artifact_id, data) -%}
+{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
+{% do campaign.codex_log.update({'artifact:' ~ artifact_id: data}) %}
+{%- endmacro %}
 <!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
 {% if campaign.type == "rift" and campaign.scene in [11,12,13] and d6() == 6 %}
     {{ roll_legendary() }}
