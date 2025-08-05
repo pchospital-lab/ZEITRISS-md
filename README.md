@@ -65,7 +65,8 @@ Die ersten Schritte in unter zwei Minuten:
 11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 12. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
-    loggt `Codex: Seeds … geschlossen · Cluster +… · Fraktion +…`.
+    ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
+    Cluster +… · Fraktion +…`.
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
@@ -101,6 +102,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
 - `!psi heat` – erklärt Psi-Heat und Burn.
 - `!hud status` – listet alle Zustände.
+- `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
 
