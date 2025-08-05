@@ -424,8 +424,12 @@ total=12, role="", env=None) -%}
   {% return %}
 {% endif %}
 {{ scene_overlay(target, total, pressure, env) }}
-{% if campaign.scene == 10 and campaign.mission % 5 == 0 %}
-  {{ generate_boss('core', campaign.mission, target) }}
+{% if campaign.scene == 10 %}
+  {% if campaign.type == "core" and campaign.mission % 5 == 0 %}
+    {{ generate_boss('core', campaign.mission, target) }}
+  {% elif campaign.type == "rift" %}
+    {{ generate_boss('rift', campaign.scene, target) }}
+  {% endif %}
 {% endif %}
 {%- endmacro %}
 
@@ -600,7 +604,7 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool, 0) %}
         {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
+        {{ hud_tag() }} 💀 ARC-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool = 'core_mini_pool' %}
         {% set boss = sample(core_mini_pool[epoch]) %}
@@ -616,7 +620,7 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool, 0) %}
         {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
+        {{ hud_tag() }} 💀 RIFT-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
