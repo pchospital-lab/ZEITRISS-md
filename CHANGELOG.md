@@ -93,6 +93,9 @@ tags: [meta]
 - Arena-Regeln präzisiert: Szenario-Pool, balanciertes Matchmaking und HUD-Scoreboard.
 - Optionales 1v1-Duell und Balance-Hinweise zu Psi-Kräften und Artefakten.
 - Legendary Artefakt-Pool v3 mit 14 Parawesen-Trophies; Makro `roll_legendary()` und JSON-Lookup.
+- `NextScene` ersetzt manuelle `StartScene`/`EndScene`-Aufrufe,
+  ergänzt `Objective`- und `Seed`-Zeilen, Boss- und Artefaktmeldungen
+  sowie `EndMission`-Codex-Logs.
 
 - Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
 - `signal_space`-Stilfilter eingeführt; StartMission betont physische Umgebung.

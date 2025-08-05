@@ -508,6 +508,12 @@ Implantate herunterregeln zu müssen.
 | Aktiv bis 1 Runde          | 1   | blockiert 1 SYS während der Wirkzeit |
 | Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten |
 
+Beispielausgabe bei einer Aktivierung:
+
+`{{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }}] – {{ kraftname }}`
+
+Jede Psi-Ausgabe nutzt dieses Overlay und prüft vor der Ausführung `char.sys`.
+
 **Risiko und Misserfolg:** Nicht jeder Psi-Versuch glückt. Was passiert, wenn der Charakter die
 Probe nicht schafft oder seine Konzentration verliert? Hier sollte die SL nicht einfach „nichts
 passiert“ sagen, sondern **komplexe Fehlschläge** anbieten – ganz im Sinne des filmischen Stils.

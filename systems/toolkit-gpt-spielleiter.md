@@ -80,15 +80,16 @@ if not char.get("psi") and not char.get("has_psi"):
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
   wenn eine Begegnung ausgeschlossen bleibt.
-- `EndScene()` erhöht `campaign.scene`. Core-Ops nutzen **12** Szenen, Rift-Ops **14**.
-  Kennzeichne den Missionstyp im Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
-  Rufe `StartScene(loc, target, pressure=None, total=12, role="Ankunft")` bei
-  Core-Ops, `StartScene(loc, target, pressure=None, total=14, role="Ankunft")` bei
-  Rift-Ops, um die Gesamtzahl korrekt anzuzeigen.
-  Jede Vorlagen-Szene endet automatisch damit.
-  Eine Core-Operation sollte frühestens nach Szene 10 enden, eine
-    Rift-Operation frühestens nach Szene 12. Nutze die Szenenanzahl möglichst voll
-    aus.
+- `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
+  Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
+  Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
+  Rufe `NextScene(loc, target, objective, seed_id, pressure=None, total=12,
+  role="Ankunft")` bei Core-Ops, `NextScene(loc, target, objective, seed_id,
+  pressure=None, total=14, role="Ankunft")` bei Rift-Ops, um die Gesamtzahl
+  korrekt anzuzeigen.
+  Jede Vorlagen-Szene beginnt damit. Eine Core-Operation sollte frühestens nach
+  Szene 10 enden, eine Rift-Operation frühestens nach Szene 12. Nutze die
+  Szenenanzahl möglichst voll aus.
 
 ### ZEITRISS GM — MODE: VERBOSE
 - Längere Beschreibungen und atmosphärische Details.
@@ -257,7 +258,7 @@ Decision: <Was tun?>
 * [ ] Jede Ausgabe endet mit einer Decision-Frage
 * [ ] Eine komplette Mission umfasst mindestens **12** Szenen (Core‑Op) und **14** Szenen Rift‑Op
       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
-* [ ] campaign.scene via EndScene() aktualisiert
+* [ ] campaign.scene via NextScene() aktualisiert
 
 ### Makro-Konventionen
 
@@ -265,10 +266,11 @@ Alle Makros laufen vollständig im Hintergrund. Kein Makroaufruf darf als
 Rohtext oder HTML-Kommentar im Chat erscheinen.
 
 ### SceneCounter Macro
-Früher nutzte man `SceneCounter++`. Jetzt erhöht `EndScene()` den Wert in `campaign.scene`.
-Das HUD zeigt `EP xx · SC yy/<total>` – `EP` steht für Episode, `SC` für Szene; die Gesamtzahl
-wird beim Aufruf von `StartScene()` übergeben. Core-Ops spielen mit **12** Szenen, Rift-Ops mit
-**14**. Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
+Früher nutzte man `SceneCounter++`. Jetzt übernimmt `NextScene()` das Erhöhen
+von `campaign.scene` über das interne `EndScene()`. Das HUD zeigt `EP xx · SC
+yy/<total>` – `EP` steht für Episode, `SC` für Szene; die Gesamtzahl wird beim
+Aufruf von `NextScene()` übergeben. Core-Ops spielen mit **12** Szenen,
+Rift-Ops mit **14**. Bei Erreichen des Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
@@ -295,8 +297,8 @@ if boss := generate_boss("core", campaign.episode, target_epoch):
     codex.inject(boss.briefing_block)
 ```
 
-In Rift-Ops ruft StartScene bei Szene 10 ebenfalls `generate_boss("rift", ...)` auf
-und warnt das Team im HUD.
+In Rift-Ops ruft `NextScene()` bei Szene 10 ebenfalls
+`generate_boss("rift", ...)` auf und warnt das Team im HUD.
 
 ### finale_guard() Macro
 Verhindert das Auslösen eines Finales vor Szene 10.
@@ -312,15 +314,15 @@ if campaign.scene < 10:
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
 anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen.
 
-### StartScene / EndScene Macros
-Nutze `StartScene` zu Beginn jeder Szene. Die optionale Variable `role` gibt der
+### NextScene Wrapper
+Nutze `NextScene` zu Beginn jeder Szene. Die optionale Variable `role` gibt der
 KI eine dramaturgische Funktion, etwa _Ankunft_, _Beobachtung_, _Kontakt_,
 _Hindernis_ oder _Konflikt_. So bleibt das Pacing nachvollziehbar.
 `DelayConflict(n)` setzt ein Mindestlimit, ab welcher Szenennummer ein größerer
 Kampf stattfinden darf. Makroaufrufe werden intern ausgeführt und dürfen weder
-als Rohtext noch in HTML-Kommentaren erscheinen. `StartScene()` ersetzt den
-Aufruf im Output durch eine standardisierte Szenenüberschrift; `EndScene()` und
-verwandte Makros arbeiten ohne sichtbare Ausgabe.
+als Rohtext noch in HTML-Kommentaren erscheinen. `NextScene()` ruft intern
+`EndScene()` auf und startet anschließend `StartScene()`, damit der HUD-Header
+zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
 {% macro hud_tag() -%}
 {% if settings.hud_skin == "future_clean" %}
@@ -365,7 +367,8 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {%- endmacro %}
 
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, pressure=None, total=12, role="", env=None) -%}
+{% macro StartScene(loc, target, objective, seed_id, pressure=None, total=12,
+role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
 {% set campaign.tech_steps = 0 %}
 {% set campaign.complication_done = false %}
@@ -386,7 +389,8 @@ verwandte Makros arbeiten ohne sichtbare Ausgabe.
   {% return %}
 {% endif %}
 ██ EP {{ campaign.episode|string(format="02") }} · SC {{ campaign.scene|string(format="02") }}/{{ total }} ██
-Kamera: {{ loc }}
+Seed {{ seed_id }}
+Objective: {{ objective }}
 Target: {{ target }}
 {% if pressure %}Pressure: {{ pressure }}{% endif %}
 {{ vehicle_overlay(env) }}
@@ -406,11 +410,30 @@ Target: {{ target }}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 {%- endmacro %}
 
+<!-- Macro: NextScene -->
+{% macro NextScene(loc, target, objective, seed_id, pressure=None, total=12,
+role="", env=None) -%}
+  {{ EndScene() }}
+  {{ StartScene(loc, target, objective, seed_id, pressure=pressure, total=total,
+  role=role, env=env) }}
+{%- endmacro %}
+
+### log_intervention Macro
+Protokolliert den Abschluss einer Fraktionsintervention.
+<!-- Macro: log_intervention -->
+{% macro log_intervention(status) -%}
+{{ hud_tag() }} FR-INTRV: {{ status }}
+{%- endmacro %}
+
+### EndMission Macro
+Schließt eine Mission ab, erhöht Episode und Level und protokolliert Abschlussdaten.
 <!-- Macro: EndMission -->
-{% macro EndMission() -%}
+{% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
 {% set campaign.episode = campaign.episode + 1 -%}
 {% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.episode % 2 == 0) %}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
+{{ hud_tag() }} Codex: Seeds {{ closed_seed_ids }} geschlossen ·
+Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
 {%- endmacro %}
 
 ### run_shop_checks Macro
@@ -437,7 +460,8 @@ a.cooldowns.update(b.cooldowns)
 Target: {{ target }}
 Pressure: {{ pressure }}
 {%- endmacro %}
-Rufe `StartScene` am Szenenbeginn auf und `EndScene()` erst nach erfülltem Ziel.
+Rufe `NextScene` am Szenenbeginn auf; es schließt die vorherige Szene über
+`EndScene()` ab und startet den neuen Abschnitt.
 
 ### roll_antagonist() Macro
 Wählt zufällig eine externe Fraktion aus `kampagnenuebersicht.md`, falls ein Seed keinen Gegner vorgibt.
@@ -458,7 +482,7 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
 {% macro roll_legendary() -%}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
-  {{ hud_tag() }} Artefakt ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
+  {{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
 {%- endmacro %}
 
 ### generate_para_artifact() Macro
@@ -492,7 +516,7 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {% set side = [
       "Stress+1","Heat+1","SYS-1","Flashblind",
       "Item breaks","Enemy +1 INI"][side_roll-1] %}
-  {{ hud_tag() }} Artefakt ‹{{ part }} von {{ creature.name }}› ▶ {{ effect }} (Risk: {{ side }} · Px-1)
+  {{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ part }} von {{ creature.name }}› ▶ {{ effect }} (Risk: {{ side }} · Px-1)
 {%- endmacro %}
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
@@ -518,13 +542,13 @@ Boss-Generators. Mini-Bosse erscheinen erst ab Episode 5.
 {% macro generate_boss(type, mission_number, epoch) %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
-        {{ sample('core_arc_boss_pool') }}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('core_arc_boss_pool') }} [Pool: core_arc_boss_pool]
     {% elif mission_number % 5 == 0 and campaign.episode >= 5 %}
-        {{ sample('core_mini_pool'[epoch]) }}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('core_mini_pool'[epoch]) }} [Pool: core_mini_pool]
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
-        {{ sample('rift_boss_pool') }}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) – {{ sample('rift_boss_pool') }} [Pool: rift_boss_pool]
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
@@ -620,7 +644,7 @@ text = render_scene()
 return tone_filter(output_sanitizer(text), source)
 ```
 Dieses Filtering entfernt auch versteckte Macro-Calls wie
-`<!--{{ StartScene(...) }}-->` oder
+`<!--{{ NextScene(...) }}-->` oder
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
 NPC-Dialoge und Codex-Logs passieren `tone_filter()` nach der Umwandlung
 technischer Tags, damit keine Systemtokens im Spieltext bleiben.
@@ -1053,6 +1077,9 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   _„Codex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“_ So weckst du Neugier, ohne
   alles preiszugeben. Codex-Einblendungen zu Artefakten erscheinen nur bei seltenen Funden
   automatisch.
+- **Codex-Archiv:** Logge neue NPCs und Artefakte mit
+  `codex.log(entry_id, summary)`. Abfragen wie `!codex last mission` geben
+  einen schnellen Überblick.
 - **Ask→Suggest Toggle:** Manche Gruppen möchten mehr direkte Vorschläge. Der Codex kann per
   Sprachbefehl in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage kurze Tipps zu
   nächsten Schritten.
