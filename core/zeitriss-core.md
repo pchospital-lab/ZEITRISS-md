@@ -46,8 +46,10 @@ und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 \*Jeder Chrononaut besitzt ein **_Chronometer-Gerät_** – ein am Handgelenk getragenes Interface, das
 die Zeitsprünge steuert und als persönlicher Codex-Computer dient. Es projiziert ein dezentes AR-
 Display (HUD) ins Sichtfeld des Agenten.
-Vitalwerte, Missionsziele und Hinweise zum Stand der zeitlichen Stabilisierung lassen sich
-bei Bedarf einblenden.\*
+Es zeigt in jeder Szene dauerhaft die aktuelle Seed- oder Cluster-ID an,
+damit das Ziel stets präsent bleibt. Vitalwerte, Missionsziele und
+Hinweise zum Stand der zeitlichen Stabilisierung lassen sich bei Bedarf
+einblenden.\*
 
 ### Tonalität & Immersion
 
