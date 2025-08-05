@@ -926,7 +926,7 @@ Para-Kreaturen können zusätzliche Artefakte hinterlassen:
 | 6  | Organ / Kern     | Einmaliger Power-Burst   |
 
 > **Matrix-Aufwertung**: Kombiniere mit Kreatur-`type`.
-> *Beispiel* – **Psi-Raptor (M)** rollt **3 = Auge**  
+> *Beispiel* – **Psi-Raptor (M)** rollt **3 = Auge**
 > → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
 > Größe M = 2 Nutzungen / Mission.
 
@@ -940,7 +940,7 @@ Para-Kreaturen können zusätzliche Artefakte hinterlassen:
 | 2  | Heat +1                  |
 | 3  | SYS −1 (Selbstschaden)   |
 | 4  | Blend 1 Szene            |
-| 5  | Item zerfällt            |
+| 5  | Item defekt; aufwändige HQ-Werkstattreparatur (relativ teuer) |
 | 6  | Gegner erhält +1 INI     |
 
 > Legendary-Limit: 1 Artefakt / Agent (unverändert).
