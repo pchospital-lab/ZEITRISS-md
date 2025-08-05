@@ -193,8 +193,8 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
 vor allem menschliche Rivalen oder Fraktionen. Bedeutende Relikte können eine
 Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 
-**Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus der
-[`RiftSeedTable`](kreative-generatoren-begegnungen.md#anomalien-generator) bestimmt und
+**Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus dem
+[Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
 enthalten immer Anomalien wie Parawesen oder Artefakte. Diese Einsätze laufen
 außerhalb der aktuellen Episode und zählen nicht zur regulären Missionszahl.
 
