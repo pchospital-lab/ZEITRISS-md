@@ -64,6 +64,8 @@ Die ersten Schritte in unter zwei Minuten:
    beschreibt einen sofort spielbaren Auftakt.
 11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
+12. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
+    loggt `Codex: Seeds … geschlossen · Cluster +… · Fraktion +…`.
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.

@@ -50,5 +50,5 @@ _kursiv_ und **fett**
 - [ ] Preserve- und Trigger-Ziele vorhanden.
 - [ ] HQ-Phase und CU-Abrechnung eingebaut.
 - [ ] Psi-Optionen nur bei passendem Tag.
-- [ ] `SceneCounter` wird via `EndScene()` erhöht.
+- [ ] `SceneCounter` wird via `NextScene()` erhöht.
 *© 2025 pchospital – private use only. See LICENSE.

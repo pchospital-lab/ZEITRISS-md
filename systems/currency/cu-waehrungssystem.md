@@ -107,10 +107,11 @@ steigt das Team nach jeder bestandenen Mission um **eine Stufe** auf. Dieser
 zügige Aufstieg gilt bis inklusive Level 10. Danach greift die im
 Regelkern beschriebene **EP-Kurve** – pro Stufe werden allmählich mehr
 Erfahrungspunkte benötigt, sodass Level-Ups etwas seltener werden, ohne den
-Fortschritt zu bremsen. Nutze nach jeder Mission das Macro `EndMission()`,
-um Episode und Team-Level automatisch zu erhöhen. Die Spielleitung weist im
-Debriefing kurz darauf hin, damit die Agenten ihre neuen Werte in der
-folgenden HQ-Phase eintragen können.
+Fortschritt zu bremsen. Nutze nach jeder Mission das Macro
+`EndMission(closed_seed_ids, cluster_gain, faction_delta)`, um Episode und
+Team-Level automatisch zu erhöhen und den Codex-Log zu erzeugen. Die
+Spielleitung weist im Debriefing kurz darauf hin, damit die Agenten ihre
+neuen Werte in der folgenden HQ-Phase eintragen können.
 
 ### Wertvolle Funde: Loot konvertieren oder behalten
 
