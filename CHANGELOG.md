@@ -105,3 +105,8 @@ tags: [meta]
 - `hud_vocab` enthält zusätzliche Noir-Phrasen; Macro `noir_soft()` gibt sie als HUD-Code aus.
 - Neues Macro `TK_Melee()` prüft SR ≥ 2 und erhöht die SG entsprechend.
 - `tech_solution()` triggert `inject_complication()` einmalig nach dem vierten Tech-Schritt.
+
+- Modulanzahl im README auf 25 und Slug-Liste bereinigt.
+- HUD-Modul in Kategorie "Characters" geführt.
+- Masterprompt nicht mehr im `master-index.json`.
+- Tests im Runtime-Stub als Pflichtschritt klargestellt.

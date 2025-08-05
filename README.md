@@ -303,10 +303,11 @@ Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Das Spiel besteht aus **21** Regelmodulen. Sie verteilen sich auf 18 Markdown-Dateien;
-drei Module ("Team-Boni", "Quickref" und "Boss-Generator") sind Abschnitte anderer Dateien.
-Zusammen mit `README.md`, `master-index.json` und `meta/masterprompt_v6.md` umfasst das Regelwerk 21 Dateien.
-Im `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls auflisten.
+**Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf 18 Markdown-Dateien;
+mehrere Module sind Abschnitte anderer Dateien. Zusammen mit `README.md` und `master-index.json`
+umfasst das Regelwerk **20** Dateien. `meta/masterprompt_v6.md` wird separat per Copy-Paste
+genutzt. Im `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
+Langfassungen desselben Moduls auflisten.
 Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
@@ -320,8 +321,8 @@ Ausführliche Hintergründe liefert das Modul
 1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
    deines MyGPT (max. 8k Zeichen).
    Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die **21 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
-   Sie verteilen sich auf 18 einzelne Markdown-Dateien; drei Module sind Abschnitte anderer Dateien.
+2. Lade die **25 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
+   Sie verteilen sich auf 18 einzelne Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien.
    `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
