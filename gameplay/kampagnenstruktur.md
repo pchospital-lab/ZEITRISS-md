@@ -123,6 +123,8 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 - Bei aktivem Eingriff eine Szene markieren, in der die Fraktion Ressourcen blockiert oder einen
   Vorteil nutzt.
 - Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
+- `{{ hud_tag() }} FR-INTRV: {{ status }}` nach Abschluss der Szene via
+  `log_intervention(status)` ausgeben.
 
 ### Preserve-vs-Trigger-Logik
 
@@ -432,7 +434,7 @@ ca. **14 Szenen**. Sie folgt einem einfachen Dreiakt‑Schema:
 | **B** | Nachforschungen, Mid‑Twist, großer Showdown |
 
 | **C** | Finale, Aufräumen, Exit‑Cliffhanger |
-*`EndScene()` nach jeder Szene*
+*`NextScene()` nach jeder Szene*
 
 ###### Autoren-Briefing: Rift-Missionen {#autoren-rift}
 
@@ -692,7 +694,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 
 ###### Szenenübersicht
 
-*`EndScene()` nach Szene 12.*
+*`NextScene()` nach Szene 12.*
 | # | Ort | Konflikt | Ziel | Spur | SG |
 |---|----|---------|-----|-----|----|
 | 1 | Nullzeit-Bunker | Zeitdruck, Lauscher | Einsatzplan schmieden | Orden spioniert | 5 |
@@ -725,7 +727,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 | 10 | Dampferdeck | Verfolger feuern | Abfahrt erzwingen | Funkspruch "Ziel flieht" | 8 |
 | 11 | Spree-Ufer | Motorboot jagt | Abstand gewinnen | Wasserpegel steigt | 7 |
 | 12 | HQ-Debrief | – | Einsatz bewerten | Zeitsoldaten aktiv | – |
-*`EndScene()` nach Szene 12.*
+*`NextScene()` nach Szene 12.*
 *Start in 60 Sek.*
 1. Wählt Pre-Gen-Operative.
 2. Das ITI stellt ein Standard-Loadout kostenlos bereit; Zusatzgear kostet

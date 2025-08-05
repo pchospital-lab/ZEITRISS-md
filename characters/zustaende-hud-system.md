@@ -638,6 +638,9 @@ Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
 maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
 
+Der Szenenheader zeigt nach der Episoden- und Szenenzeile dauerhaft
+`Seed <id>` als zweite Zeile.
+
 Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 ```
