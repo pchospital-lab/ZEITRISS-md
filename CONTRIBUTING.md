@@ -14,10 +14,10 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
 - Verwende praegnante Commit-Nachrichten im Imperativ.
 - Oeffne Pull Requests stets gegen den `main`-Branch.
-- Siehe `systems/runtime-stub-routing-layer.md` für einen optionalen Stub für eine eigene Runtime.
-  Das Spiel funktioniert auch ohne diese Vorlage.
-- Optionaler Check: Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
-- Führe vor jedem PR die Tests aus `systems/runtime-stub-routing-layer.md` aus.
+- Siehe `systems/runtime-stub-routing-layer.md` für einen Stub für eine eigene Runtime.
+  Dieser Entwicklerschnipsel wird nicht ins Spiel geladen, unterstützt aber lokale Tests.
+- Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
+- Führe die Tests aus `systems/runtime-stub-routing-layer.md` aus.
 
 Vielen Dank für deine Mithilfe!
 
