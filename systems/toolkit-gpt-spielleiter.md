@@ -274,13 +274,17 @@ Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**. Bei Erreichen des
 Limits folgt ein Cliffhanger oder Cut.
 
 ### StartMission Macro
-Setzt `campaign.scene` zu Beginn einer neuen Mission zurück. Führe
-`StartMission()` als interne Aktion aus; der Makroaufruf darf nicht im
-Chat erscheinen. Leite den finalen Text stets durch
-`output_sanitizer()` und anschließend `tone_filter()`.
+Setzt `campaign.scene` zu Beginn einer neuen Mission zurück und legt den
+Missionsmodus fest. Führe `StartMission()` als interne Aktion aus; der
+Makroaufruf darf nicht im Chat erscheinen. Leite den finalen Text stets
+durch `output_sanitizer()` und anschließend `tone_filter()`.
+
+Parameter `type` unterscheidet zwischen Core- und Rift-Operationen und
+wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
+Mission fest und dient der Boss-Generierung.
 
 <!-- Macro: StartMission -->
-{% macro StartMission(total=12, seed_id=None, objective=None) %}
+{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None) %}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
 {% else %}
@@ -292,6 +296,8 @@ Chat erscheinen. Leite den finalen Text stets durch
 {% set campaign.scene_total = total %}
 {% set campaign.seed_id = seed_id %}
 {% set campaign.objective = objective %}
+{% set campaign.type = type %}
+{% set campaign.epoch = epoch %}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
@@ -306,6 +312,7 @@ Objekte und Gegner agieren ausschließlich physisch.
 Beispielaufruf im Kampagnenstart:
 
 ```pseudo
+StartMission(total=12, type="core", epoch=target_epoch)
 if boss := generate_boss("core", campaign.mission, target_epoch):
     codex.inject(boss.briefing_block)
 ```
@@ -426,9 +433,9 @@ total=12, role="", env=None) -%}
 {{ scene_overlay(target, total, pressure, env) }}
 {% if campaign.scene == 10 %}
   {% if campaign.type == "core" and campaign.mission % 5 == 0 %}
-    {{ generate_boss('core', campaign.mission, target) }}
+    {{ generate_boss('core', campaign.mission, campaign.epoch) }}
   {% elif campaign.type == "rift" %}
-    {{ generate_boss('rift', campaign.scene, target) }}
+    {{ generate_boss('rift', campaign.scene, campaign.epoch) }}
   {% endif %}
 {% endif %}
 {%- endmacro %}
@@ -664,10 +671,6 @@ HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
 <!-- Macro: scene_budget_enforcer -->
 {% macro scene_budget_enforcer(total) -%}
 {% if total is none %}{% return %}{% endif %}
-{% if campaign.scene < scene_min %}
-[ABORT] Scene {{ campaign.scene }}/{{ scene_min }} underflow
-{% return %}
-{% endif %}
 {% if campaign.scene > total %}
 {#GM: Scene overrun {{ campaign.scene }}/{{ total }}#}
 {% endif %}
