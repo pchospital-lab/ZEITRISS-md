@@ -12,3 +12,7 @@ if [ -n "$files" ]; then
         exit 1
     fi
 fi
+
+# validate module index
+python3 scripts/validate_index.py || exit 1
+
