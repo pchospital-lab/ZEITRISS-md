@@ -27,7 +27,8 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 >    insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
 >    Akten mit vierzehn Szenen.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Episodenende.
+> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds
+>    (Index 0) – spielbar nach Episodenende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
 >    Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
@@ -120,7 +121,8 @@ erhöht jeder Seed den Schwierigkeitsgrad um +1 und steigert die CU-Belohnung (1
 Seed = ×1.2, 2 Seeds = ×1.4 usw.). Details findet ihr unter
 [Offene Rifts](gameplay/kampagnenstruktur.md#offene-rifts).
 Rift-Missionen verwenden weiße Stern-Symbole (☆), die den SG-Bonus ab Episodenende anzeigen.
-Ein Seed entspricht einem Stern und erhöht die Schwelle um +1. Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
+Ein Seed entspricht einem Stern und erhöht die Schwelle um +1.
+Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 [Kreative Generatoren](gameplay/kreative-generatoren-missionen.md).
 
 ### Difficulty-Konverter
@@ -165,7 +167,7 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 | [Paradoxon-Index](core/zeitriss-core.md) | ✅ | | | Kampagnen-Fortschritt |
 | [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Episoden-Boss nach Missionsnummern |
 | [Stress-System](characters/zustaende-hud-system.md) | | ✅ | | Für psychische Belastung und Druck |
-| [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für epische Missionen |
+| [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für große Missionen |
 | [Psi-Kräfte / Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
 
 ## Standardausrüstung
@@ -199,7 +201,8 @@ In **Rift-Ops** hingegen treten echte Anomalien auf – inklusive Parawesen,
 Artefakten und temporaler Abweichungen.
 > **Future Setting:** In futuristischen Schauplätzen achten wir auf einen klaren Stilbruch:
 > **Core-Ops** bleiben rational und technisch geprägt – selbst bizarre Vorfälle
-> (z. B. durch Zeitanomalien ausgelöste Raptorensichtungen auf einem Raumschiff) haben eine wissenschaftliche Erklärung.
+> (z. B. durch Zeitanomalien ausgelöste Raptorensichtungen auf einem
+> Raumschiff) haben eine wissenschaftliche Erklärung.
 > **Rift-Ops** im Zukunftssetting hingegen schlagen einen subtilen Horror-Ton an
 > (à la *Event Horizon*), ohne ins Fantastische abzugleiten.
 **Was ist eine Anomalie?**
@@ -277,25 +280,25 @@ sind der Übersicht halber aufgeführt.
 | --- | --- |
 | [README.md](README.md) | Überblick über Projekt und Workflow |
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
-| [core/wuerfelmechanik.md](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Würfelsystem & Proben |
-| [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Schnellübersicht
-| [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Progression |
+| [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
+| [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Quickref |
+| [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Fortschritt |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
-| [cyberware-und-bioware.md](characters/cyberware-und-bioware.md#legalitäts--wartungs-stufen) | Implantate & Bioware |
-| [characters/psi-talente.md](characters/psi-talente.md#backlash-tabelle-kritischer-patzer) | Psi-Fähigkeiten |
+| [cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
+| [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
-| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve-vs-Trigger & ITI-HQ |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
-| [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission- & Kampagnen-Generatoren |
-| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md#artefakt-generator) | NPC & Encounter-Gen |
-| [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
-| [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
-| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md#rift-kreaturen-stat-blocks) | Regeln für Massenkonflikte |
+| [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission & Kampagnen-Generatoren |
+| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC & Encounter-Gen |
+| [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md) | Urban Myth Edition |
+| [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md) | Mini-, Arc- und Rift-Bosse |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md#power-punkte-temp) | Details zu Psi-Kräften |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
-| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | Chrono-Unit-Währungssystem |
+| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | CU-Währungssystem |
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
@@ -513,7 +516,8 @@ Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
 mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.
 
-Mission-Fokus wird beim Spielstart automatisch aktiviert; Gefechte richten sich gegen NSCs, nicht gegeneinander.
+Mission-Fokus wird beim Spielstart automatisch aktiviert;
+Gefechte richten sich gegen NSCs, nicht gegeneinander.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
@@ -554,12 +558,13 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
 - **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
-- **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue Rifts und setzt den Wert auf 0.
+- **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue
+  Rifts und setzt den Wert auf 0.
 - **Px Burn** – 1 Punkt verbrennen = ein Reroll für jeden Charakter oder NSC.
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
-| **Agenten-Level** | Fortschrittswert; Level-Ups folgen der EP-Kurve des Regelkerns (`EP` = Erfahrungspunkte). |
+| **Agenten-Level** | Fortschrittswert; Level-Ups folgen der EP-Kurve (`EP` = Erfahrungspunkte). |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
 | **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 
@@ -612,7 +617,8 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 ## Playtest Feedback
 
 Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
-Scanne den QR-Code oder besuche [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
+Scanne den QR-Code oder besuche
+[www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
 
 ## How to Contribute
 

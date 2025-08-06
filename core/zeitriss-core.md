@@ -644,8 +644,9 @@ Kommunikations-Implantat **Neuro-Link** (belegt 1 Punkt Systemlast) und derzeit 
 Fähigkeiten. Die Moralnote weist ihn als eher altruistisch aus. Unter _Inventar_ sieht man die
 Ausrüstung mit Anmerkungen (das Zeitscanner-Tablet funktioniert nur in passenden Epochen).
 _Errungenschaften_ und _Codex-Wissen_ halten wichtige Story-Ergebnisse fest – hier hat Alex in
-einer ersten Mission jemanden in Aquitanien gerettet (daher ein entsprechender Titel) und weiß von der Existenz
-eines Chronomanten namens Moros. Die Statistik zählt einige Errungenschaften auf, hat aber keine
+einer ersten Mission jemanden in Aquitanien gerettet (daher ein entsprechender Titel)
+und weiß von der Existenz eines Chronomanten namens Moros. Die Statistik zählt einige
+Errungenschaften auf, hat aber keine
 Auswirkungen auf die Regeln.
 
 Dieses Format ist kompakt genug, um es direkt im Chat zu verwenden, und zugleich eindeutig für das
@@ -775,7 +776,8 @@ in der die Chrononauten nach jeder Mission vertraute Anlaufstellen vorfinden,
 ganz gleich, wie sehr sich die Welt draußen verändert.
 
 ### Nullzeit-Sprungfenster & ITI-Hub
-Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und landen im Nullzeit-HQ, ohne Tunnelgefühl.
+Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein
+und landen im Nullzeit-HQ, ohne Tunnelgefühl.
 
 **Ablauf & Optionen**
 
@@ -788,10 +790,13 @@ Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein und lan
 
      - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.
      - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
-       1. **Pfad fortsetzen** – sie kehren in _denselben_ Riss zurück und setzen die laufende Mission fort.
-       2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest **(neue Mission / Kampagne)**.
-       - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
-       - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**; ein Zurückkehren ist nicht möglich.
+      1. **Pfad fortsetzen** – sie kehren in _denselben_ Riss zurück und
+         setzen die laufende Mission fort.
+      2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest
+         **(neue Mission / Kampagne)**.
+      - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
+      - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**;
+        ein Zurückkehren ist nicht möglich.
        - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
 
    - **Direkt weiterspringen (ohne HQ-Stop)**
@@ -951,7 +956,8 @@ verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen 
 diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
 höheren Mitgliedern.
 
-Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder **contra** Haltung zur offiziellen Zeitlinie.
+Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder
+**contra** Haltung zur offiziellen Zeitlinie.
 Unabhängig davon lässt sich die Paradoxmechanik über `modus paradox off` komplett abschalten
 und mit `modus paradox on` wieder aktivieren. Wer den radikalen Neubau der Geschichte
 bevorzugt, nutzt diesen Schalter häufig in Allianz mit der **Zerbrechlichen Ewigkeit**.
@@ -988,8 +994,9 @@ Hier ein Überblick der wichtigsten Gruppen:
 Insgesamt existieren drei dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion.
 Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
 
-- **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern", die das Gleichgewicht der Zeit wahren wollen.
-  Ansprechperson im HQ: **Pater Lorian**.
+  - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern",
+    die das Gleichgewicht der Zeit wahren wollen.
+    Ansprechperson im HQ: **Pater Lorian**.
   Sie glauben an eine Art vorbestimmte Symmetrie der Ereignisse.
   Wenn jemand durch Zeitreisen diese Ordnung zu sehr stört, schreiten die Chrono-Symmetriker ein. Ihre
   Agenten tauchen oft unerwartet auf, um paradoxes Handeln zu verhindern. Für Spielercharaktere können
@@ -1009,9 +1016,10 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   und teilt sein Wissen nur gegen entsprechende Gefälligkeiten. Ihre Mitglieder wirken oft weltfremd
   oder unheimlich wissend.
 - Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Codex.
-- **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**. Ansprechperson im HQ: **Offizier Vargas**.
-  die "Klingen der Kausalität", da sie entschlossen sind, jeden "Zeit-Zweig" abzuschneiden, der den
-  Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
+  - **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**.
+    Ansprechperson im HQ: **Offizier Vargas**.
+    Die "Klingen der Kausalität" schneiden jeden "Zeit-Zweig" ab, der den
+    Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
   bewaffnet und mit fortschrittlicher temporaler Ausrüstung ausgestattet, um extreme Abweichungen zu
   korrigieren. Tauchen die Kausalklingen im Spiel auf, bedeutet das meist Ärger: Entweder haben die
   Spieler (oder jemand anderes) etwas Dramatisches an der Geschichte verändert, oder ein gefährlicher
@@ -1027,8 +1035,9 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   sie operieren im Verborgenen und stoßen Ereignisse gezielt an, um ein geheimes Muster zu vollenden.
   Daher bleibt unklar, ob Katastrophen zufällig geschehen oder von ihnen provoziert wurden.
   Möglich, dass sie hinter den rätselhaften Anomalien stecken, denen die Chrononauten nachjagen.
-  Ihr Einfluss zeigt sich nur in Fragmenten gefundener Manifeste oder Predigten, weshalb Contra-Agenten
-  oft Sympathien entwickeln, obwohl viele Missionen letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
+Ihr Einfluss zeigt sich nur in Fragmenten gefundener Manifeste oder Predigten,
+weshalb Contra-Agenten oft Sympathien entwickeln, obwohl viele Missionen
+letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
 
 Daneben gibt es zahllose **kleinere Fraktionen und Akteure**: lokale Geheimbünde in einzelnen
 Epochen, mächtige Megakonzerne der Zukunft (mit Interesse an Zeitreise-Technologie, um in
