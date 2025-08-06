@@ -4,6 +4,35 @@ version: 4.2.0
 tags: [meta]
 ---
 
+## Inhaltsverzeichnis
+1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
+   1. [Session-0 Agenda](#session-0-agenda)
+   2. [Probability Cheat Table](#probability-cheat-table)
+   3. [Chat-Shortcodes](#chat-shortcodes)
+2. [Regelreferenz](#regelreferenz)
+   1. [Proben & Schwierigkeitsgrad](#proben--schwierigkeitsgrad)
+   2. [Difficulty-Konverter](#difficulty-konverter)
+   3. [Wichtige Makros](#wichtige-makros)
+   4. [KPI-Cheat-Sheet pro Phase](#kpi-cheat-sheet-pro-phase)
+   5. [Modulübersicht](#modulübersicht)
+3. [Standardausrüstung](#standardausrüstung)
+4. [Grundidee](#grundidee)
+5. [Loot-Matrix](#loot-matrix)
+6. [Loot-Quickref](#loot-quickref)
+7. [Kampagnenhierarchie](#kampagnenhierarchie)
+8. [Struktur](#struktur)
+9. [Beispielworkflow](#beispielworkflow)
+10. [Spielstart](#spielstart)
+11. [Spielmodi](#spielmodi)
+12. [Generator-Utilities](#generator-utilities)
+13. [Glossar](#glossar)
+    1. [Huminen](#huminen)
+    2. [Begriffsklärung](#begriffsklärung)
+    3. [Zeiteinheiten](#zeiteinheiten)
+    4. [Zeitgebundene Effekte](#zeitgebundene-effekte)
+14. [Playtest Feedback](#playtest-feedback)
+15. [How to Contribute](#how-to-contribute)
+
 <!-- Macro: StoreCompliance -->
 {% macro StoreCompliance() -%}
 Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
@@ -107,6 +136,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
+
+## Regelreferenz
 
 ### Proben & Schwierigkeitsgrad
 
@@ -606,6 +637,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | [Notfall-Stimulanz][notfall-stimulanz] | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
 | [PP-Regeneration][psi-pp-regeneration] | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
 | [Heat sink][psi-heat-track] | Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
+
 [stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot
 [adrenalinschub]: characters/psi-talente.md#adrenalinschub
