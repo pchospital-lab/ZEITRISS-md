@@ -13,7 +13,6 @@ Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung ei
 - NSC-Generator: Begegnungen im Zeitstrom
 - Encounter-Pool: Schnelle Gegnerlisten nach Risiko
 - Encounter-Pakete & Twist-Seeds
-- ClusterCreate-Nebenwirkungen
 - Kreaturen- & Gestalten-Generator
 - Para-Creature-Generator: Urban Myth Edition
 - Boss-Generator: Mini-, Episoden- und Rift-Bosse
@@ -451,16 +450,6 @@ Macro `rand_event()`.
 {{ random.choice(t) }}
 {%- endmacro %}
 ```
-
-## ClusterCreate-Nebenwirkungen {#clustercreate-nebenwirkungen}
-
-Wenn ein Paradoxon-Index von 5 einen `ClusterCreate()` auslöst, können folgende Nebenwirkungen auftreten:
-
-- Kurzfristige Sensor-Ausfälle oder Rauschen im Funknetz.
- - Spontane Mini-Rifts flackern kurz auf und erzeugen kleine Effekte wie Funkenflug.
-- Erinnerungs-Lücken bei Anwesenden, die wenige Sekunden betreffen.
-
-Diese Liste dient als Inspiration für die SL und kann beliebig erweitert werden.
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
 
