@@ -130,6 +130,11 @@ bleiben, die denkwürdige Szenen schaffen. Wenn Würfelpech umgekehrt dramatisch
 produziert, kann dies ebenso interessant inszeniert werden (Stichwort **kritischer Patzer**), sofern
 es zur Geschichte passt.
 
+Exploding-Ketten müssen dabei **sichtbar ausgerufen** werden. Zeige jeden
+Zusatzwurf offen im Chat, etwa
+`[Exploding 6 → 6 → 2 = 14]`, damit die Gruppe den dramatischen Lauf
+mitverfolgen kann.
+
 ### Fail-Forward & Countdown {#fail-forward}
 
 Bei anspruchsvollen Aufgaben kann die Spielleitung statt eines harten

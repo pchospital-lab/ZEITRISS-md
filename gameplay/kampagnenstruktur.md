@@ -204,8 +204,9 @@ Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 ([Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge)).
 Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand und lassen sich über das
-**ClusterDashboard** einsehen. Erst nach Abschluss der Episode kann die Gruppe
-einen Eintrag via `launch_rift(id)` als eigenständige Rift-Op starten und danach
+**ClusterDashboard** einsehen. 🌀 PX 5/5 – ClusterCreate aktiviert · Neue Seeds: #011, #015
+Erst nach Abschluss der Episode kann die Gruppe
+einen Eintrag via `launch_rift(seed_id)` als eigenständige Rift-Op starten und danach
 zum Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
 Einzelmissionen und zählen nicht zur Missionsanzahl einer Episode.
 
@@ -225,7 +226,7 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 - **Paradoxon-Index/Resonanz 0–5:** Anstieg gemäß TEMP-Progresstabelle.
   Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt beide Werte auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
-  Ein Seed lässt sich dann via `launch_rift(id)` als eigenständige Rift-Op starten.
+  Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
   Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks
   und lassen sich im HQ gegen CUs tauschen oder als MacGuffin aufbewahren.
