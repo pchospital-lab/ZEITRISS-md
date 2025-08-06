@@ -149,10 +149,11 @@ einige Beispiele:
 | Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Schießt Nadeln, fast lautlos | 180 | 2 |
 | Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Strahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
 | Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50 m) | Vernichtet Ziel; hoher Energiebedarf {heavy} | 300 | 3 |
-\*(Reichweiten sind grobe Richtwerte für offene Gelände.
-„Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
-Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie **_Durchschlag_** durch Deckung
-oder **_Kollateralschaden_** in der Umgebung beschreiben.)\*
+
+> *Hinweis:* Reichweiten sind grobe Richtwerte für offenes Gelände. „Schwer+“ Schaden deutet an, dass
+> meist ein einziger Treffer bereits kritische Verwundungen verursacht. Die Spielleitung kann bei
+> solchen extremen Waffen zusätzliche Effekte wie _Durchschlag_ durch Deckung oder _Kollateralschaden_
+> in der Umgebung beschreiben.
 
 ## Panzerung & Schutzsysteme
 
@@ -173,9 +174,8 @@ und persönliche Schutzsysteme:
 
 **Beispiel-Schutzkleidung und Rüstungen:**
 
-
-| Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) |
-| --- | --- | --- | --- | --- | --- | --- |
+| Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) | Tier |
+| --- | --- | --- | --- | --- | --- |
 | Lederwams | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf | Kaum Kugelschutz, wirkt altmodisch | 30 | 0 |
 | Kettenhemd | Historisch | _Mäßiger Schutz:_ –1 Schaden vs Klingen | Schwer, klirrend, schwer zu verbergen | 60 | 1 |
 | Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gg. Klingen | 100 | 1 |
@@ -303,7 +303,7 @@ Diese Preisklasse füllt die Lücke zwischen Standard-Gadgets und Fahrzeug-Upgra
 tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 
 | Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) | Tier |
-| --- | --- | --- | --- | --- | --- | --- |
+| --- | --- | --- | --- | --- | --- |
 | **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; 1× Blend-Schutz | 1 | 900 | 2 |
 |  | _Micro-Breach-Drone_ | Lautloser Cutter für Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
 | **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Schockfeld negiert 2 LP/Treffer (3 Lad.) | 1 | 1000 | 2 |
@@ -311,7 +311,6 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 | **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m | 0 | 800 | 1 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
 | **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
-<span id="stim-reg-cap-injector"></span>
 |  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 | 1 |
 
 _SYS nur nötig, wenn das Gerät dauerhaft integriert wird (z. B. Visor als Implantat-Visier). Tragbare
