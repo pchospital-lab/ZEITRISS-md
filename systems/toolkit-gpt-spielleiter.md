@@ -75,6 +75,8 @@ if not char.get("psi") and not char.get("has_psi"):
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
+- Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen bis zum nächsten Anstieg aus, z. B. `[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]`. Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
+- Erreicht der Index Stufe 5, zeige `→ [ClusterCreate()]`, parke die Seeds als `[OpenRifts]` und setze `Px = 0`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
@@ -161,6 +163,10 @@ Ihr würfelt selbst und meldet das Ergebnis.
 Zeigt der Wurf das Maximum, wiederholt ihr ihn,
 damit die Exploding-Regel greift.
 
+Explodierende Sequenzen werden mit `!exploding` oder `[W6*]`
+gekennzeichnet und laut ausgegeben, z. B.
+`[Exploding 6 → 6 → 2 = 14]`.
+
 ## Typische Sprachmuster & Satzvorlagen
 
 *(PRECISION Edition – kühl, filmisch, direkt)*
@@ -218,6 +224,11 @@ Decision: <Was tun?>
 > Decision: Feuer erwidern oder Deckung wechseln?
 
 *Regel:* max. 2 Sätze Wirkung → Pressure → Decision.
+
+Schilder pro Runde kurz **Deckung**, **Bewegungskorridore** und
+**Sichtlinien**. Beispiel: „Containerreihe links bietet Teildeckung;
+Gegner sprintet von 2 Uhr nach 12 Uhr – was tust du?“ Optional
+markiert das HUD aktuelle Schutzpositionen mit `[cover]`.
 
 ---
 ### 6 | HUD-Overlay
@@ -317,6 +328,9 @@ if boss := generate_boss("core", campaign.mission, target_epoch):
     codex.inject(boss.briefing_block)
 ```
 
+Das Toolkit löst `generate_boss()` intern aus, sobald eine Core-Mission
+Nummer 5 oder 10 erreicht oder eine Rift-Op Szene 10 betritt. Die SL muss den
+Makro nicht manuell aufrufen.
 In Rift-Ops ruft `NextScene()` bei Szene 10 ebenfalls
 `generate_boss("rift", ...)` auf und warnt das Team im HUD.
 
@@ -600,6 +614,7 @@ Beispielaufrufe:
 ### generate_boss() Macro
 Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
 Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
+Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 <!-- Macro: generate_boss -->
 {% macro generate_boss(type, mission_number, epoch) %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}

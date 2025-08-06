@@ -30,7 +30,8 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 > 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds (Index 0) – spielbar nach Episodenende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
->    Rift-Operationen platzieren ihren Boss in Szene 10.
+>    Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
+>    `generate_boss()` an diesen Punkten automatisch aus.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
