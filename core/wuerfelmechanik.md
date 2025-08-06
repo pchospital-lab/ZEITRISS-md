@@ -663,9 +663,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 **Paradoxon‑Index (Px)** – 0–2 = rot ⏳, 3–4 = gelb ⏳, 5 = grün ⌛ → `ClusterCreate()`
 und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1–0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
-**Px Burn:** 1 Punkt für einen Reroll (auch NSC)
-Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md)
-für mögliche Folgeszenarien.
+**Px Burn:** 1 Punkt für einen Reroll (auch NSC). Mögliche Nebenwirkungen bestimmt die SL situativ.
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Heat 0
 
