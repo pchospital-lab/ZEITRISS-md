@@ -396,6 +396,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
 [Paradox 3/5 · Resonanz ↑]
 [Paradox 5/5 · ClusterCreate – Rifts sichtbar]
+[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]
 
 *Banner erscheint immer am Szenenende. Farben:*
 *green 0–2 · yellow 3–4 · cyan 5*
