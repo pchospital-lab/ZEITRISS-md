@@ -471,15 +471,15 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
 
 <!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
-1. **Kristallschädel** – Schwache Energie, Datenspeicher. {rare_rift}
+1. **Kristallschädel** – Schwache Energie, Datenspeicher; 1× pro Mission. {rare_rift}
 2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission +1 Paradox. `altSkin: "Sonnenuhr 200 v.Chr."`
-3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein. `altSkin: "Bronze-Würfelorakel"`
-4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene. Paradox-Gefahr. {rare_rift}
-5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf (1×). {rare_rift}
-6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, enthält verschlüsselte Hinweise. {rare_rift}
-7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. {rare_rift}
-8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab, einmalig +1 auf Geschichtswürfe. {rare_rift}
-9. **Fluxprojektor** – 3s Hülle; UV-Bogen schneidet Stahl (5 m). {rare_rift}
+3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein; 1× pro Mission. `altSkin: "Bronze-Würfelorakel"`
+4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene; 1× pro Mission; –1 Px. {rare_rift}
+5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf; 1× pro Mission. {rare_rift}
+6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, verschlüsselte Hinweise; 1× pro Mission. {rare_rift}
+7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht; 1× pro Mission. {rare_rift}
+8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab; 1× pro Mission +1 auf Geschichtswürfe. {rare_rift}
+9. **Fluxprojektor** – 3 s Hülle; UV-Bogen schneidet Stahl (5 m); 1× pro Mission. {rare_rift}
 
 ## Seltene Spezialgegenstände (1W6) {#gadget_t3}
 
