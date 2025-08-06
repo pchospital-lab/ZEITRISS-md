@@ -120,11 +120,11 @@ Geräusch eines aktivierten Energieschwerts.
 
 | Waffe | Epoche | Schaden | Besonderheit | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- | --- |
-| Römischer _Gladius_ | Antike | 2 (leicht) | Kurz und führig; effektiv in engem Nahkampf, unauffällig | 50 | 0 |
-| Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Plattenrüstung mäßig | 80 | 1 |
-| Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Leicht zu verbergen; schnelle Stiche oder Würfe | 40 | 0 |
-| Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; erfordert Übung | 120 | 2 |
-| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Ignoriert Rüstung, leuchtet {heavy} | 200 | 3 |
+| Römischer _Gladius_ | Antike | 2 (leicht) | Kurz, führig; effektiv im Nahkampf, unauffällig | 50 | 0 |
+| Langschwert (zweihändig) | Mittelalter | 3 (mittel) | Hohe Durchschlagskraft; gegen Platte mäßig | 80 | 1 |
+| Moderner Kampfmesser | 21. Jh. (modern) | 2 (leicht) | Versteckbar; schnelle Stiche oder Würfe | 40 | 0 |
+| Monofil-Katana | 22. Jh. (nahe Zukunft) | 3 (mittel) | Mono-Klinge schneidet Panzerung; braucht Übung | 120 | 2 |
+| Energieschwert (Plasma-Klinge) | 23. Jh.+ (Zukunft) | 4 (schwer) | Ignoriert Rüstung; leuchtet {heavy} | 200 | 3 |
 ### Fernkampfwaffen
 
 Fernkampfwaffen bieten Reichweite und hohe Durchschlagskraft – vom Bogen über Schusswaffen bis zu
@@ -144,11 +144,11 @@ einige Beispiele:
 | --- | --- | --- | --- | --- | --- | --- |
 | Langbogen | Mittelalter | 2–3 (leicht–mittel) | Weit (bis ~100 m) | Lautlos, tödlich; langsam | 60 | 0 |
 | Repetierarmbrust | Renaissance | 3 (mittel) | Mittel (~30 m) | Magazin für mehrere Bolzen; leise | 100 | 1 |
-| Revolver | 20. Jh. | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel; solide Durchschlagskraft, laut | 50 | 0 |
+| Revolver | 20. Jh. | 3 (mittel) | Mittel (~30 m) | Sechs-Schuss-Trommel; solide Wirkung, laut | 50 | 0 |
 | Sturmgewehr | 21. Jh. | 4 (schwer) | Mittel–weit | Vollauto; hoher Schaden, laut; Munition nötig | 150 | 1 |
-| Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Betäuber schießt Nadeln, fast lautlos | 180 | 2 |
-| Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Laserstrahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
-| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50 m) | Vernichtet Ziel; hoher Energieverbrauch {heavy} | 300 | 3 |
+| Needler-Pistole | 22. Jh. | 1 (**Betäubung**) | Kurz–mittel | Schießt Nadeln, fast lautlos | 180 | 2 |
+| Laser-Gewehr | 23. Jh. | 4 (schwer) | Weit | Strahl durchdringt Rüstung; kein Rückstoß; Energiezellen | 250 | 2 |
+| Plasmawerfer | 24. Jh. | 5 (schwer+) | Mittel (~50 m) | Vernichtet Ziel; hoher Energiebedarf {heavy} | 300 | 3 |
 \*(Reichweiten sind grobe Richtwerte für offene Gelände.
 „Schwer+“ Schaden deutet an, dass meist ein einziger Treffer bereits kritische Verwundungen verursacht.
 Die Spielleitung kann bei solchen extremen Waffen zusätzliche Effekte wie **_Durchschlag_** durch Deckung
@@ -177,11 +177,11 @@ und persönliche Schutzsysteme:
 | Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) |
 | --- | --- | --- | --- | --- | --- | --- |
 | Lederwams | Mittelalter | _Leichter Schutz:_ –1 Schaden im Nahkampf | Kaum Kugelschutz, wirkt altmodisch | 30 | 0 |
-| Kettenhemd | Historisch | _Mäßiger Schutz:_ –1 Schaden vs Klingen | Schwer, klirrend, kaum zu verstecken | 60 | 1 |
-| Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gegen Klingen | 100 | 1 |
-| Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; behindert etwas | 180 | 2 |
-| Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer, kann ausfallen | 220 | 2 |
-| Energie-Schild | Zukunft | _Energieschild:_ blockt 5 Schaden {heavy} | EMP-anfällig, sichtbarer Schimmer | 250 | 3 |
+| Kettenhemd | Historisch | _Mäßiger Schutz:_ –1 Schaden vs Klingen | Schwer, klirrend, schwer zu verbergen | 60 | 1 |
+| Kevlar-Weste | Modern | _Basis-Schutz:_ –1 Projektil | Unter Jacke tragbar; schwach gg. Klingen | 100 | 1 |
+| Taktischer Kampfanzug | Modern | _Starker Schutz:_ –2 Schaden | Sehr auffällig, schwer; etwas hinderlich | 180 | 2 |
+| Leichter Nano-Anzug | 22. Jh. | _Adaptiver Schutz:_ –1 Schaden; tarnt Wärme | Teuer; kann ausfallen | 220 | 2 |
+| Energie-Schild | Zukunft | _Energieschild:_ blockt 5 Schaden {heavy} | EMP-anfällig; sichtbarer Schimmer | 250 | 3 |
 
 _Hinweis:_ Die Schutzwirkung mehrerer Rüstungsteile ist nicht kumulativ – man verwendet den höchsten
 einzelnen Schutzwert. Allerdings kann die SL situativ Boni/Mali geben: z.B. **Plattenhandschuhe**
@@ -225,8 +225,9 @@ Ausrüstungsgegenstände:
   Erleichtert Klettern und Abseilen erheblich (Proben +2 oder automatische Erfolge bei einfachen
   Kletterpartien). _Kosten:_ 40 CU. _(tier: 0)_
 - **Dietrichset & Universalwerkzeug:** Sammlung von Dietrichen, Spannern sowie ein kleines
-  multifunktionales Werkzeug (Schraubendreher, Zange, Messer in einem). Ermöglicht das Öffnen von
-  Schlössern (üblich +2 auf Mechanik/Technik-Proben dafür) und kleinere Reparaturen. _Kosten:_ 20 CU. _(tier: 0)_
+  multifunktionales Werkzeug (Schraubendreher, Zange, Messer in einem).
+  Ermöglicht das Öffnen von Schlössern (üblich +2 auf Mechanik/Technik-Proben)
+  und kleinere Reparaturen. _Kosten:_ 20 CU. _(tier: 0)_
 - **Nachtsichtgerät (Starlight-Goggles):** Ein tragbares Nachtsicht-Monokel aus dem späten 20. Jh.
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
@@ -303,11 +304,11 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 
 | Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- | --- | --- |
-| **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; einmal Blend-Schutz | 1 | 900 | 2 |
-|  | _Micro-Breach-Drone_ | Lautloser Cutter, öffnet Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
+| **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; 1× Blend-Schutz | 1 | 900 | 2 |
+|  | _Micro-Breach-Drone_ | Lautloser Cutter für Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
 | **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Schockfeld negiert 2 LP/Treffer (3 Lad.) | 1 | 1000 | 2 |
 |  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 | 1 |
-| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl., Spurenscan 50 m | 0 | 800 | 1 |
+| **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m | 0 | 800 | 1 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
 | **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
 <span id="stim-reg-cap-injector"></span>
@@ -372,8 +373,9 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxien, temporale Energie oder unstimmige
   Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
   20 m. Besonders hilfreich, um _Zeitverbrecher_ oder fremde Eingriffe zu entdecken. _Kosten:_ 120 CU.
-  - **Riss-Tracker (temporaler Resonator):** Ein fest implantiertes Bioimplantat, das bei jedem Chrononauten zur
-    Grundausstattung gehört. Es vibriert leicht, wenn starke temporale Resonanz
+  - **Riss-Tracker (temporaler Resonator):** Ein fest implantiertes Bioimplantat,
+    das bei jedem Chrononauten zur Grundausstattung gehört. Es vibriert leicht,
+    wenn starke temporale Resonanz
     bevorsteht – ein Hinweis, dass bald ein wertvolles Pararift auf der Raumzeitkarte
     sichtbar werden könnte. Der Riss öffnet sich nicht während der Mission,
     sondern wird erst vom HQ aus als Seed anwählbar. Natürlich ist es keine allwissende

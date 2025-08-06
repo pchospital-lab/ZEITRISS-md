@@ -12,25 +12,24 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
 
 ## 1 | TEXT-ROUTER – Raum-IDs & Befehls-Alias-Map
 
-```jsonc
-// router.json
+```json
 {
   "Gatehall": {
     "aliases": ["gate", "atrium", "hub"],
     "sub": {
-      "briefing": "Mission-Briefing-Pod",
-    },
+      "briefing": "Mission-Briefing-Pod"
+    }
   },
   "Mission-Briefing-Pod": {
     "aliases": ["briefing", "pod"],
-    "parent": "Gatehall",
+    "parent": "Gatehall"
   },
   "Research-Wing": {
     "aliases": ["research", "labs"],
     "sub": {
       "lab-alpha": "Lab-Alpha",
-      "workshop": "Workshop-Beta",
-    },
+      "workshop": "Workshop-Beta"
+    }
   },
   "Lab-Alpha": { "aliases": ["alpha"], "parent": "Research-Wing" },
   "Workshop-Beta": { "aliases": ["beta"], "parent": "Research-Wing" },
@@ -39,8 +38,8 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
     "aliases": ["ops", "operations"],
     "sub": {
       "vault": "Time-Shard-Vault",
-      "scanner": "Seed-Scanner",
-    },
+      "scanner": "Seed-Scanner"
+    }
   },
   "Time-Shard-Vault": { "aliases": ["vault"], "parent": "Operations-Deck" },
   "Seed-Scanner": { "aliases": ["scanner"], "parent": "Operations-Deck" },
@@ -49,8 +48,8 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
     "aliases": ["crew", "quarters"],
     "sub": {
       "common": "Common-Room",
-      "sleep": "Sleep-Capsules",
-    },
+      "sleep": "Sleep-Capsules"
+    }
   },
   "Common-Room": { "aliases": ["common"], "parent": "Crew-Quarters" },
   "Sleep-Capsules": { "aliases": ["sleep"], "parent": "Crew-Quarters" },
@@ -59,11 +58,11 @@ _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON
     "aliases": ["hangar"],
     "sub": {
       "jump": "Jump-Pads",
-      "maint": "Maintenance-Bay",
-    },
+      "maint": "Maintenance-Bay"
+    }
   },
   "Jump-Pads": { "aliases": ["jump"], "parent": "Hangar-Axis" },
-  "Maintenance-Bay": { "aliases": ["maint"], "parent": "Hangar-Axis" },
+  "Maintenance-Bay": { "aliases": ["maint"], "parent": "Hangar-Axis" }
 }
 ```
 
