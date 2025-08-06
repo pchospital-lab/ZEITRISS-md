@@ -233,7 +233,8 @@ Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wu
   explodiert zu einer 6 → Gesamtergebnis 16.
 
 
-Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen. Zuvor ändern sich nur die Würfelgrößen:
+Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen.
+Zuvor ändern sich nur die Würfelgrößen:
 
 | Attribut | Würfelgröße |
 |---------:|-------------|
@@ -317,7 +318,8 @@ Spannung** bis zum Schluss erhalten bleibt.
 | 10 | 40.8 | 100 % | 100 % | 100 % |
 ### Quick-Fight Walkthrough
 
-1. **Initiative:** Jeder wirft `1W6 + GES` (Boni aus Talenten oder Cyberware addieren); der höchste Wert beginnt.
+1. **Initiative:** Jeder wirft `1W6 + GES` (Boni aus Talenten oder Cyberware addieren);
+   der höchste Wert beginnt.
 2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
@@ -540,7 +542,8 @@ Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario 
 
 ### Seed-Counter im HUD
 
-Sobald Paradoxon-Index **5** erreicht ist, markiert das HQ nach Missionsende 1–2 Rift-Seeds auf der Raumzeitkarte.
+Sobald Paradoxon-Index **5** erreicht ist, markiert das HQ nach Missionsende
+1–2 Rift-Seeds auf der Raumzeitkarte.
 Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
 [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
@@ -661,7 +664,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1–0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
 **Px Burn:** 1 Punkt für einen Reroll (auch NSC)
-Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md#clustercreate-nebenwirkungen)
+Siehe [ClusterCreate-Nebenwirkungen](../gameplay/kreative-generatoren-begegnungen.md)
 für mögliche Folgeszenarien.
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Heat 0
@@ -722,7 +725,8 @@ für Paradox-Effekte ist.
 | 3 | **Threat** = 1 + Anzahl der Anomalien (max. 5 💀) |
 
 Mit dieser Kurzformel kann die SL jederzeit eine improvisierte Rift-Kreatur bauen.
-Weitere Details stehen im [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
+Weitere Details stehen im
+[Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 
 ### Blind-Ops Cheat Sheet {#blind-ops}
 
