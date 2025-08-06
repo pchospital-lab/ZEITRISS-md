@@ -401,7 +401,7 @@ stimmungsvoll eingesetzt werden.
 
 - Zufällige Waffenfunde
 - Nützliche Alltagsausrüstung
-- Kuriose Artefakte & Relikte
+- Kuriose Artefakte
 - Seltene Spezialgegenstände
 - Einbindung in CUs & Missionen
 
@@ -464,18 +464,22 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
 6. **Chrono-Seilwerfer** – Kompaktes Enterhaken-System, haftet an jeder Oberfläche und löst sich auf
    Wunsch wieder. Wert: 90 CU. Typisches Gadget in Kletter-Szenarien. `altSkin: "Wurfanker 1800"`
 
-## Kuriose Artefakte & Relikte (1W9) {#artifact_t2}
+## Kuriose Artefakte (1W9) {#artifact_t2}
+
+Artefakte sind unbezahlbar, dürfen nicht verkauft werden und jede Agentin darf nur ein Artefakt
+gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier eingelagert werden.
+
 <!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
-1. **Kristallschädel** – Schwache Energie, Datenspeicher. 300 CU bei Sammlern. {rare_rift}
-2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission –1 Paradox. 400 CU. `altSkin: "Sonnenuhr 200 v.Chr."`
-3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein. 350 CU. `altSkin: "Bronze-Würfelorakel"`
-4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene. Paradox-Gefahr. 280 CU. {rare_rift}
-5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf (1×). 200 CU. {rare_rift}
-6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, enthält verschlüsselte Hinweise. 150 CU. {rare_rift}
-7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. Wert: 250 CU. {rare_rift}
-8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab, einmalig +1 auf Geschichtswürfe. 300 CU. {rare_rift}
-9. **Fluxprojektor** – 3s Hülle; UV-Bogen schneidet Stahl (5 m). Kosten: 1 PP, 2 Heat, 1 Px, 2 Lad. {rare_rift}
+1. **Kristallschädel** – Schwache Energie, Datenspeicher. {rare_rift}
+2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission +1 Paradox. `altSkin: "Sonnenuhr 200 v.Chr."`
+3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein. `altSkin: "Bronze-Würfelorakel"`
+4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene. Paradox-Gefahr. {rare_rift}
+5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf (1×). {rare_rift}
+6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, enthält verschlüsselte Hinweise. {rare_rift}
+7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht. {rare_rift}
+8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab, einmalig +1 auf Geschichtswürfe. {rare_rift}
+9. **Fluxprojektor** – 3s Hülle; UV-Bogen schneidet Stahl (5 m). {rare_rift}
 
 ## Seltene Spezialgegenstände (1W6) {#gadget_t3}
 
