@@ -87,16 +87,17 @@ episode:
 Eine Episode fasst rund zehn Missionen derselben Epoche
 mit insgesamt etwa 120 bis 140 Szenen zusammen.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
-Bei **Session 0** ruft Codex einmalig `arc_seed_make()` auf und speichert Start- und Endpunkte.
-Es erzeugt heimlich einen Zehnmissionsbogen.
+Bei **Session 0** ruft Codex einmalig `episode_seed_make()` auf und speichert Start- und
+Endpunkte.
+Es erzeugt heimlich eine Episode mit zehn Missionen.
 Erst nach Mission 10 offenbart Codex den vollen Zusammenhang.
 
 ### Generatoren im Kampagnenablauf {#generatoren-kampagne}
 
 Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 
-- **Session 0:** `arc_seed_make()` legt einen Zehnmissionen-Bogen an und fixiert Start-
-  und Endpunkte.
+- **Session 0:** `episode_seed_make()` legt eine Episode mit zehn Missionen an und fixiert
+  Start- und Endpunkte.
 - **Sitzungsstart:** Der **Automatische Mission Seed** bestimmt Zeit, Ort, Anomalie und Risiko.
 - **Core-Ops:** Ziehen Ziele aus `CoreObjectiveTable`.
 - **Rift-Ops:** Nutzen Seeds aus dem „Rift Seed Catalogue"; offene Seeds erscheinen bei
