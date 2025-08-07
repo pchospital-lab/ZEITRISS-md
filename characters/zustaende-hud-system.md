@@ -870,6 +870,15 @@ auch bei Paradoxon, EMP oder Isolation.
 ╚══════════════════════════════════════════════════════╝
 ```
 
+Beim Start oder nach `load` blendet das HUD über dem Menü eine kurze
+Statuszeile ein:
+
+```text
+[Modi aktiv: Mission-Fokus, Transparenz]
+```
+
+So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
+
 ### Systemfunktionen & Befehle
 
 | Befehl      | Wirkung                                                            |
