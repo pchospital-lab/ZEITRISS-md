@@ -368,7 +368,7 @@ einen Toggle `/stress open|hidden`.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem Rifts nur als dezentes Sensorrauschen auftreten. Optional zeigt das HUD
   ab Stufe 4 einen sanften Resonanzpuls an und blendet die Zahl offener Seeds ein:
-[[HUD]] [Seeds: 3]  🔄 Paradox 4/5 [[/HUD]]
+  [HUD: Seeds 3 · 🔄 Paradox 4/5]
   So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
   Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
   `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
@@ -845,7 +845,24 @@ auch bei Paradoxon, EMP oder Isolation.
 
 ### Systemfenster: Taktisches HUD-Menü
 
-```text
+<!-- Macro: hud_menu -->
+{% macro hud_menu() -%}
+{% if settings.ascii_only %}
++------------------------------+
+|  Taktisches HUD-Menue        |
+| Signalquelle: Chronometer    |
+|------------------------------|
+| 1) Optionen  - Aktive Wahl   |
+| 2) HUD       - Vitalstatus   |
+| 3) Log       - Verlauf       |
+| 4) Save      - Speichern     |
+| 5) Modus     - Stil wählen   |
+| 6) Hilfe     - Befehle       |
+| 7) FAQ       - Codex fragen  |
+|------------------------------|
+| Codex-Zugriff: codex [thema] |
++------------------------------+
+{% else %}
 ╔══════════════════════════════════════════════════════╗
 ║                ∎  Taktisches HUD-Menü  ∎             ║
 ║            [Signalquelle: Chronometer lokal]         ║
@@ -868,7 +885,14 @@ auch bei Paradoxon, EMP oder Isolation.
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
 ║ Es ist physisch mit deinem Chronometer gekoppelt.     ║
 ╚══════════════════════════════════════════════════════╝
+{% endif %}
+{%- endmacro %}
+
+```text
+{{ hud_menu() }}
 ```
+
+Setze `settings.ascii_only = true`, um die ASCII-Variante des Menüs zu erzwingen.
 
 Beim Start oder nach `load` blendet das HUD über dem Menü eine kurze
 Statuszeile ein:
