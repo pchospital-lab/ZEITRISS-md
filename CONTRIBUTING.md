@@ -15,9 +15,10 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Verwende praegnante Commit-Nachrichten im Imperativ.
 - Oeffne Pull Requests stets gegen den `main`-Branch.
 - Siehe `systems/runtime-stub-routing-layer.md` für einen Stub für eine eigene Runtime.
-  Dieser Entwicklerschnipsel wird nicht ins Spiel geladen, unterstützt aber lokale Tests.
+  Dieses Dokument ist eine reine Entwicklerübersicht und wird **nicht** vom Spiel geladen;
+  Spielmodule dürfen es nicht einbinden.
 - Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
-- Führe die Tests aus `systems/runtime-stub-routing-layer.md` aus.
+- Führe die dort beschriebenen Tests nur aus, wenn du am Stub arbeitest.
 
 Vielen Dank für deine Mithilfe!
 
