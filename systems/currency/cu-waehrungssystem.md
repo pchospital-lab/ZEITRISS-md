@@ -158,23 +158,18 @@ Artefakte sind keine Massenware. In Rift-Ops darf die SL nach dem Sieg über ein
 Paramonster 1W6 würfeln; nur bei einer 6 wird ein besonderes Relikt entdeckt.
 Solche Fundstücke besitzen eigene Effekte – vom einmaligen Paradox-Abbau bis hin
 zu Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie das Artefakt
-im HQ archiviert, in CUs eintauscht oder als seltene Ressource behält, um es
-später im Plot einzusetzen.
+im HQ archiviert oder als seltene Ressource behält, etwa um es später im Plot
+einzusetzen oder untereinander zu tauschen.
 
-Artefakte aus _Core_-Missionen dürfen nicht verkauft werden. Sie gelten nur als
-Rift-Beute und bringen ausschließlich den dort angegebenen Bonus.
-
-```pseudo
-if loot.type == "Artefakt" and mission.type == "Core":
-    forbid_sale()  # Artefakte nur Rift
-```
+Artefakte stammen ausschließlich aus Rifts und haben keinen CU-Gegenwert.
+Verkäufe an NSCs sind unzulässig.
 
 Durch diese Mechaniken bleibt der Umgang mit Missionsbeute **dynamisch**. Jeder Gegenstand erzählt
 eine kleine Geschichte: Ein unscheinbares Artefakt aus 800 v. Chr. könnte sich in der Nullzeit als
-begehrte Ressource entpuppen – entweder erhält es einen Platz im Museum oder es ist auf dem
-Schwarzmarkt ein Vermögen wert. Umgekehrt kann eine Hightech-Waffe aus der Zukunft, die im
-Mittelalter auftaucht, zum spannenden Plot-Aufhänger werden. Das Wirtschaftssystem greift all diese
-Fäden auf und webt sie ins Narrativ ein, anstatt Loot nur trocken in „Gold“ umzuwandeln.
+begehrte Ressource entpuppen – entweder erhält es einen Platz im Museum oder bleibt als
+persönliches Sammlerstück. Umgekehrt kann eine Hightech-Waffe aus der Zukunft, die im Mittelalter
+auftaucht, zum spannenden Plot-Aufhänger werden. Das Wirtschaftssystem greift all diese Fäden auf
+und webt sie ins Narrativ ein, anstatt Loot nur trocken in „Gold“ umzuwandeln.
 
 ## Einkaufsmöglichkeiten: Was kann man für CUs erwerben?
 
