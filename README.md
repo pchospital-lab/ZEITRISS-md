@@ -521,6 +521,7 @@ Das Feld `modes` speichert alle aktiven Erzählstile und wird beim Laden mit
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
+Clients ohne Unicode setzen `settings.ascii_only = true`, um eine ASCII-Version zu erhalten.
 Im Menü lässt sich über `modus` der Erzählstil wechseln,
 z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jedem Zeitsprung und nach jeder Mission öffnet sich ein

@@ -150,7 +150,7 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 - Bei aktivem Eingriff eine Szene markieren, in der die Fraktion Ressourcen blockiert oder einen
   Vorteil nutzt.
 - Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
-- `{{ hud_tag() }} FR-INTRV: {{ status }}` nach Abschluss der Szene via
+- `{{ hud_tag('FR-INTRV: ' ~ status) }}` nach Abschluss der Szene via
   `log_intervention(status)` ausgeben.
 
 ### Preserve-vs-Trigger-Logik

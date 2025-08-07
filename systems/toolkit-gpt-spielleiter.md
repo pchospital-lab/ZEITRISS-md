@@ -377,10 +377,8 @@ als Rohtext noch in HTML-Kommentaren erscheinen. `NextScene()` ruft intern
 `EndScene()` auf und startet anschließend `StartScene()`, damit der HUD-Header
 zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
-{% macro hud_tag() -%}
-{% if settings.hud_skin == "future_clean" %}
-<span style="color:#6cf; font-family:OCR;">Codex·HUD</span>
-{% elif campaign.hud_plain %}[HUD]{% else %}<span style="color:#6cf">Codex·HUD</span>{% endif %}
+{% macro hud_tag(msg) -%}
+{% if settings.hud_plain %}[HUD: {{ msg }}]{% else %}<span style="color:#6cf">HUD: {{ msg }}</span>{% endif %}
 {%- endmacro %}
 
 <!-- Macro: hud_vocab -->
@@ -402,7 +400,7 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 
 <!-- Macro: noir_soft -->
 {% macro noir_soft(key) -%}
-{{ hud_tag() }} {{ hud_vocab(key) }}
+{{ hud_tag(hud_vocab(key)) }}
 {%- endmacro %}
 
 <!-- Macro: vehicle_overlay -->
@@ -472,10 +470,10 @@ total=12, role="", env=None) -%}
 {% if campaign.scene == 10 %}
   {% if campaign.type == "core" and campaign.mission % 5 == 0 %}
     {{ generate_boss('core', campaign.mission, campaign.epoch) }}
-    {{ hud_tag() }} Boss-Encounter in Szene 10
+    {{ hud_tag('Boss-Encounter in Szene 10') }}
   {% elif campaign.type == "rift" %}
     {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
-    {{ hud_tag() }} Boss-Encounter in Szene 10
+    {{ hud_tag('Boss-Encounter in Szene 10') }}
   {% endif %}
 {% endif %}
 {%- endmacro %}
@@ -497,7 +495,7 @@ total=12, role="", env=None) -%}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
       char.heat != campaign.heat_prev) and not campaign.psi_logged %}
-  {{ hud_tag() }} Psi-Check: nutze psi_activation()
+  {{ hud_tag('Psi-Check: nutze psi_activation()') }}
 {% endif %}
 {% set campaign.sys_prev = char.sys %}
 {% set campaign.pp_prev = char.pp %}
@@ -518,9 +516,9 @@ total=None, role="", env=None) -%}
 Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
 <!-- Macro: codex_summary -->
 {% macro codex_summary(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
-{{ hud_tag() }} Codex: Seeds {{ closed_seed_ids }} geschlossen ·
+{{ hud_tag('Codex: Seeds ' ~ closed_seed_ids ~ ' geschlossen ·') }}
 Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
-{% if campaign.codex_log %}{{ hud_tag() }} Codex-Log: {{ campaign.codex_log }}{% endif %}
+{% if campaign.codex_log %}{{ hud_tag('Codex-Log: ' ~ campaign.codex_log) }}{% endif %}
 {% set campaign.codex_log = {} %}
 {%- endmacro %}
 
@@ -554,7 +552,7 @@ if not live_threat and campaign.scene % 3 == 0:
 Standardisiert die HUD-Ausgabe aktiver Artefakte.
 <!-- Macro: artifact_overlay -->
 {% macro artifact_overlay(name, effect, risk) -%}
-{{ hud_tag() }} [ARTEFAKT: aktiv] ‹{{ name }}› ▶ {{ effect }} (Risk: {{ risk }})
+{{ hud_tag('[ARTEFAKT: aktiv] ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
 {%- endmacro %}
 
 ### roll_legendary() Macro
@@ -615,7 +613,7 @@ Erzeugt eine Para-Kreatur über `#para-creature-generator`.
 <!-- Macro: generate_para_creature -->
 {% macro generate_para_creature(seed) -%}
   {%- set enc = gpull('gameplay/kreative-generatoren-begegnungen.md#para-creature-generator', seed) -%}
-  {% set hud = hud_tag() ~ ' 👾 ' ~ enc.creature.name ~ ' (' ~ enc.creature.type ~ ')' %}
+  {% set hud = hud_tag('👾 ' ~ enc.creature.name ~ ' (' ~ enc.creature.type ~ ')') %}
   {{ {'creature': enc.creature, 'loot': enc.loot, 'hud': hud} }}
 {%- endmacro %}
 
@@ -653,7 +651,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag() }} 💀 ARC-BOSS (T3) → [{{ boss.name }}] [Pool: {{ pool_name }}]
+        {{ hud_tag('💀 ARC-BOSS (T3) → [' ~ boss.name ~ '] [Pool: ' ~ pool_name ~ ']') }}
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool_name = 'core_mini_pool' %}
         {% set pool_data = core_mini_pool[epoch] %}
@@ -662,7 +660,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool_name }}]
+        {{ hud_tag('💀 MINI-BOSS (T3) → [' ~ boss ~ '] [Pool: ' ~ pool_name ~ ']') }}
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -671,14 +669,14 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag() }} 💀 RIFT-BOSS (T3) → [{{ boss_data.creature.name }}] [Pool: {{ pool_name }}]
+        {{ hud_tag('💀 RIFT-BOSS (T3) → [' ~ boss_data.creature.name ~ '] [Pool: ' ~ pool_name ~ ']') }}
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
 <!-- Macro: psi_activation -->
 {% macro psi_activation(name, sys_cost, pp_cost, heat_cost) -%}
 {% if char.sys + sys_cost > char.sys_max %}
-  {{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }}] – Kapazität erreicht
+  {{ hud_tag('[SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ '] – Kapazität erreicht') }}
   {% return %}
 {% endif %}
 {% set campaign.psi_logged = true %}
@@ -686,13 +684,13 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% set char.sys_used = char.sys_used + sys_cost %}
 {% set char.pp = char.pp - pp_cost %}
 {% set char.heat = char.heat + heat_cost %}
-{{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
+{{ hud_tag('[SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~ ' ·') }}
 HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
 {%- endmacro %}
 
 <!-- Macro: log_intervention -->
 {% macro log_intervention(result) -%}
-{{ hud_tag() }} FR-INTRV: {{ result }}
+{{ hud_tag('FR-INTRV: ' ~ result) }}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {{ codex_log_npc('fr_intervention', {'result': result}) }}
 {%- endmacro %}
@@ -732,7 +730,7 @@ HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
 
 <!-- Macro: option_resolve -->
 {% macro option_resolve(risk, reward, cause="") -%}
-{{ hud_tag() }} Risk {{ risk }} vs Reward {{ reward }}
+{{ hud_tag('Risk ' ~ risk ~ ' vs Reward ' ~ reward) }}
 {% if cause %}
 {{ cause }}
 {% endif %}
@@ -752,9 +750,12 @@ Beispiel:
 
 <!-- Macro: output_sanitizer -->
 {% macro output_sanitizer(text) -%}
-{{ text | regex_replace('<!--.*?-->', '', ignorecase=True)
-        | replace('{{', '')
-        | replace('}}', '') }}
+{{ text
+   | regex_replace('<!--\s*Macro:.*?-->', '', ignorecase=True, multiline=True)
+   | regex_replace('(?s){%\s*macro.*?%}.*?{%-?\s*endmacro\s*%}', '', ignorecase=True)
+   | regex_replace('(?s){%.*?%}', '')
+   | replace('{{', '')
+   | replace('}}', '') }}
 {%- endmacro %}
 
 ### Tone-Filter-Regelsatz {#tone-filter}
@@ -811,7 +812,7 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
   {% if campaign.open_seeds is none %}{% set campaign.open_seeds = [] %}{% endif %}
   {% for seed in picks %}
     {% do campaign.open_seeds.append({'id': seed.rift_id, 'epoch': seed.epoch, 'status': 'open'}) %}
-    {{ hud_tag() }} Rift entdeckt: {{ seed.rift_id }} ({{ seed.epoch }})
+    {{ hud_tag('Rift entdeckt: ' ~ seed.rift_id ~ ' (' ~ seed.epoch ~ ')') }}
   {% endfor %}
 {%- endmacro %}
 ### ParadoxPing() Macro
@@ -822,23 +823,23 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
 {% endif %}
 {% if campaign.paradox != campaign.lastPx and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag() }} Paradox 5 erreicht – {{ hud_vocab('pressure_drop') }} Neue Rift-Koordinaten verfügbar.
+    {{ hud_tag('Paradox 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · {{ hud_vocab('signal_modified') }}
+    {{ hud_tag('Paradox ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
 {% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag() }} Paradox 5 erreicht – {{ hud_vocab('pressure_drop') }} Neue Rift-Koordinaten verfügbar.
+    {{ hud_tag('Paradox 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag() }} Paradox {{ campaign.paradox }}/5 · {{ hud_vocab('signal_modified') }}
+    {{ hud_tag('Paradox ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
@@ -871,7 +872,7 @@ Fügt nach vielen Tech-Schritten eine nicht-technische Hürde ein.
   ] %}
   {% set pool = social + physical %}
   {% set comp = pool | random %}
-  {{ hud_tag() }} Komplikation: {{ comp.obstacle }} ({{ comp.tag }})
+  {{ hud_tag('Komplikation: ' ~ comp.obstacle ~ ' (' ~ comp.tag ~ ')') }}
 {% endif %}
 {%- endmacro %}
 
@@ -1112,15 +1113,9 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   nicht zu überfrachten – setze sie gezielt ein, wenn es wirklich relevant ist (z. B. Warnungen,
   Missionsupdates, neue Erkenntnisse).
 
-- **Konsequente Formatierung:** Führe eine einheitliche Art ein, wie HUD und Codex-Ausgaben im Text
-  dargestellt werden, damit die Spieler sie sofort erkennen. Zum Beispiel könntest du **HUD-Texte in
-  eckige Klammern** setzen oder mit einem speziellen Schlagwort markieren. Der Codex kann in
-  **Kursivschrift** oder als Zitat formatiert sein, um ihn von direkter Rede und Beschreibung
-  abzuheben. Wichtig ist die **Ankündigung** im Fließtext: z. B. „Dein HUD zeigt folgende Meldung:“
-  oder „Der Codex-Eintrag lautet:“. Dadurch wissen Spieler sofort, dass jetzt eine Meta-Information
-  aus dem System kommt. Entwickle ggf. ein paar wiederkehrende **Symbole/Piktogramme**: z. B. ⚠ für
-  Warnung, ⏳ für Zeitablauf, 💾 für gespeicherte Daten, etc., um den Flair eines digitalen Interfaces
-  zu simulieren.
+- **Konsequente Formatierung:** HUD-Overlays erscheinen im Stil `[HUD: ...]`, während Wissensausgaben
+  das Präfix `Codex:` verwenden. Durch diese feste Form wissen Spieler sofort, dass Systemmeldungen
+  folgen. Ergänzende Symbole wie ⚠ für Warnung oder ⏳ für Zeitablauf unterstützen die Orientierung.
 - **Informationstiefe steuern:** Nutze den Codex, um Hintergrundinfos oder Regelwissen
   bereitzustellen, **ohne ins Dozieren zu verfallen**. Der Codex kann auf Anfrage der Spieler oder
   automatisch bei wichtigen Entdeckungen Daten liefern. Halte die Einträge **knapp und relevant** –
@@ -1552,7 +1547,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% set campaign.tech_heat = campaign.tech_heat + 1 %}
 {% if campaign.tech_heat >= 3 %}
   {% set campaign.tech_sg = campaign.tech_sg + 1 %}
-  {{ hud_tag() }} Tech-SG +{{ campaign.tech_sg }}
+  {{ hud_tag('Tech-SG +' ~ campaign.tech_sg) }}
   {% set campaign.tech_heat = 0 %}
 {% endif %}
 {%- endmacro %}
@@ -1596,7 +1591,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 
 <!-- Macro: show_arena_hud -->
 {% macro show_arena_hud(a, b, r, total=3) -%}
-{{ hud_tag() }} Arena A {{ a }} – B {{ b }} · Runde {{ r }}/{{ total }}
+{{ hud_tag('Arena A ' ~ a ~ ' – B ' ~ b ~ ' · Runde ' ~ r ~ '/' ~ total) }}
 {%- endmacro %}
 
 <!-- Macro: start_pvp_arena -->

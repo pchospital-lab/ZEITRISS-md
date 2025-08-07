@@ -834,7 +834,7 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 {% macro roll_legendary() -%}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
-  {{ hud_tag() }} Artefakt ‹{{ art.name }}› ▶ {{ art.effect }} (Risk: {{ art.risk }})
+  {{ hud_tag('Artefakt ‹' ~ art.name ~ '› ▶ ' ~ art.effect ~ ' (Risk: ' ~ art.risk ~ ')') }}
 {%- endmacro %}
 ```
 

@@ -510,7 +510,7 @@ Implantate herunterregeln zu müssen.
 
 Beispielausgabe bei einer Aktivierung:
 
-`{{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }}] – {{ kraftname }}`
+`{{ hud_tag('[SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ '] – ' ~ kraftname) }}`
 
 Jede Psi-Ausgabe nutzt dieses Overlay und prüft vor der Ausführung `char.sys`.
 
