@@ -7,6 +7,8 @@ default_modus: mission-fokus
 {% from "../README.md" import StoreCompliance %}
 {% set scene_min = 12 %}
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
+{% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
+{% set core_arc_boss_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_arc_boss_pool') %}
 {% if codex is not defined %}
   {% set codex = namespace(dev_raw=false) %}
 {% elif codex.dev_raw is not defined %}
@@ -286,6 +288,20 @@ SC zz/<total>` – `EP` ist die Episode, `MS` die Mission in dieser Episode und
 `SC` die Szene; die Gesamtzahl wird beim Aufruf von `NextScene()` übergeben.
 Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**. Bei Erreichen des
 Limits folgt ein Cliffhanger oder Cut.
+
+### episode_seed_make() Macro
+Legt zu Kampagnenbeginn zehn Missions-Seeds fest und speichert Start- sowie
+Endpunkt der Episode.
+<!-- Macro: episode_seed_make -->
+{% macro episode_seed_make() -%}
+  {% set preserve = gpull('gameplay/kreative-generatoren-missionen.md#preserve_pool') %}
+  {% set trigger = gpull('gameplay/kreative-generatoren-missionen.md#trigger_pool') %}
+  {% set pool = preserve + trigger %}
+  {% set seeds = random.sample(pool, 10) %}
+  {% set campaign.episode_plan = seeds %}
+  {% set campaign.episode_start = seeds[0].id %}
+  {% set campaign.episode_end = seeds[-1].id %}
+{%- endmacro %}
 
 ### StartMission Macro
 Setzt `campaign.scene` zu Beginn einer neuen Mission zurück und legt den
@@ -661,28 +677,32 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
-        {% set pool = 'core_arc_boss_pool' %}
-        {% set boss = sample(pool) %}
+        {% set pool_name = 'core_arc_boss_pool' %}
+        {% set pool_data = core_arc_boss_pool %}
+        {% set key = pool_data | list | random %}
+        {% set boss = pool_data.pop(key) %}
         {% do campaign.boss_history.append(boss) %}
-        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
-        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 ARC-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
+        {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
+        {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {{ hud_tag() }} 💀 ARC-BOSS (T3) → [{{ boss.name }}] [Pool: {{ pool_name }}]
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
-        {% set pool = 'core_mini_pool' %}
-        {% set boss = sample(core_mini_pool[epoch]) %}
+        {% set pool_name = 'core_mini_pool' %}
+        {% set pool_data = core_mini_pool[epoch] %}
+        {% set boss = pool_data | random %}
+        {% do pool_data.remove(boss) %}
         {% do campaign.boss_history.append(boss) %}
-        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
-        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
+        {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
+        {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {{ hud_tag() }} 💀 MINI-BOSS (T3) → [{{ boss }}] [Pool: {{ pool_name }}]
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
-        {% set pool = 'rift_boss_pool' %}
-        {% set boss = sample(pool) %}
-        {% do campaign.boss_history.append(boss) %}
-        {% set used = campaign.boss_pool_usage.get(pool, 0) %}
-        {% do campaign.boss_pool_usage.update({pool: used + 1}) %}
-        {{ hud_tag() }} 💀 RIFT-BOSS (T3) → [{{ boss }}] [Pool: {{ pool }}]
+        {% set pool_name = 'rift_boss_pool' %}
+        {% set boss_data = generate_para_creature(campaign.seed_id) %}
+        {% do campaign.boss_history.append(boss_data.creature.name) %}
+        {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
+        {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {{ hud_tag() }} 💀 RIFT-BOSS (T3) → [{{ boss_data.creature.name }}] [Pool: {{ pool_name }}]
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
@@ -811,6 +831,20 @@ Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
 NPC-Dialoge und Codex-Logs passieren `tone_filter()` nach der Umwandlung
 technischer Tags, damit keine Systemtokens im Spieltext bleiben.
+### generate_rift_seeds() Macro
+Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
+<!-- Macro: generate_rift_seeds -->
+{% macro generate_rift_seeds(count_min=1, count_max=2) -%}
+  {% set catalogue = gpull('gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue') %}
+  {% set options = [s for s in catalogue if not getattr(s, 'meta_introspection', False)] %}
+  {% set n = range(count_min, count_max + 1)|random %}
+  {% set picks = random.sample(options, n) %}
+  {% if campaign.open_seeds is none %}{% set campaign.open_seeds = [] %}{% endif %}
+  {% for seed in picks %}
+    {% do campaign.open_seeds.append({'id': seed.rift_id, 'epoch': seed.epoch, 'status': 'open'}) %}
+    {{ hud_tag() }} Rift entdeckt: {{ seed.rift_id }} ({{ seed.epoch }})
+  {% endfor %}
+{%- endmacro %}
 ### ParadoxPing() Macro
 {% macro ParadoxPing() -%}
 {% if campaign.lastPx is not defined %}
