@@ -506,6 +506,16 @@ optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
 kopieren lässt. Alle Spielstände werden intern im Charakterbogen geführt –
 separate Sicherungen sind nicht erforderlich.
 
+```json
+{
+  "id": "CHR-1234",
+  "modes": ["mission", "transparenz"]
+}
+```
+
+Das Feld `modes` speichert alle aktiven Erzählstile und wird beim Laden mit
+`modus <name>` reaktiviert.
+
 
 
 Diese Befehle können frei eingegeben werden.

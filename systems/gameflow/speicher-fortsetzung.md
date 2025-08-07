@@ -22,16 +22,22 @@ dort deterministisch gesetzt:
   "cooldowns": {},
   "campaign": {"episode": 4, "scene": 0, "paradox": 0},
   "artifact_log": [],
-  "codex": []
+  "codex": [],
+  "modes": ["mission", "transparenz"]
 }
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
   `campaign.paradox`, `artifact_log` und `codex`.
+- Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
   Basiszustand prüfen kann.
 - GPT darf keine dieser Angaben ableiten oder weglassen.
+
+Beim Laden liest die Spielleitung `modes` aus und ruft für jeden Eintrag
+`modus <name>` auf. So bleiben etwa Mission-Fokus oder Transparenz-Modus nach
+einem Neustart erhalten.
 
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
