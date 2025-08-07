@@ -15,4 +15,5 @@ fi
 
 # validate module index
 python3 scripts/validate_index.py || exit 1
+python3 scripts/lint_hud_codex.py || exit 1
 
