@@ -619,6 +619,25 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
 nach einem Para-Kreaturen-Drop.
 
+### generate_nsc() Macro
+Zieht einen NSC aus `kreative-generatoren-begegnungen.md#nsc-generator`.
+<!-- Macro: generate_nsc -->
+{% macro generate_nsc(role="") -%}
+  {%- set npc = gpull('gameplay/kreative-generatoren-begegnungen.md#nsc-generator', role) -%}
+  {% set hud = hud_tag() ~ ' [NSC] ' ~ npc.name ~ ' – ' ~ npc.role %}
+  {{ codex_log_npc(npc.id, {'role': npc.role, 'hook': npc.hook}) }}
+  {{ {'id': npc.id, 'role': npc.role, 'hook': npc.hook, 'hud': hud} }}
+{%- endmacro %}
+
+### generate_para_creature() Macro
+Erzeugt eine Para-Kreatur über `#para-creature-generator`.
+<!-- Macro: generate_para_creature -->
+{% macro generate_para_creature(seed) -%}
+  {%- set enc = gpull('gameplay/kreative-generatoren-begegnungen.md#para-creature-generator', seed) -%}
+  {% set hud = hud_tag() ~ ' 👾 ' ~ enc.creature.name ~ ' (' ~ enc.creature.type ~ ')' %}
+  {{ {'creature': enc.creature, 'loot': enc.loot, 'hud': hud} }}
+{%- endmacro %}
+
 ### itemforge() Macro
 Erzeugt automatisches Loot anhand von **CU-Budget** und Missionsart.
 Parameter: `core` oder `rift` und optional ein Budget in CU.
