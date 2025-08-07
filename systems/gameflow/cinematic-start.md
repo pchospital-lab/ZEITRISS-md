@@ -45,6 +45,13 @@ sind. In diesem Moment vibrieren die Chronometer am Handgelenk der Agenten – p
 Geräte**, die sich mit dem HQ-Netz synchronisieren und eine Meldung projizieren: *„Willkommen,
 Agent*in. Chrono-Stabilisierung initialisiert…“\*
 
+Noch bevor sich die Halle öffnet, schiebt der Codex eine dezente Hinweiszeile
+ins Sichtfeld:
+
+```text
+[Tipp: `menü` zeigt Optionen und aktive Modi]
+```
+
 Mit einem Zischen gleiten gegenüber dem Portal massive Stahltüren auf. **Commander Arnaud Renier**,
 Einsatzleiter des Instituts für Temporale Intervention (ITI), tritt mit entschlossenem Schritt in
 die Halle. Sein schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick verraten
