@@ -667,6 +667,10 @@ Beispielaufrufe:
 !itemforge rift 2120          # T1–T3 inkl. heavy
 ```
 
+Rift-Missionen generieren mit `itemforge()` regulären Loot wie Core-Einsätze und
+gewähren nach dem Sieg über das Paramonster einen zusätzlichen Artefaktwurf
+(`1W6`, nur bei `6`).
+
 ### generate_boss() Macro
 Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
 Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
