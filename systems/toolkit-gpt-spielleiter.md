@@ -75,7 +75,10 @@ if not char.get("psi") and not char.get("has_psi"):
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
-- Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen bis zum nächsten Anstieg aus, z. B. `[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]`. Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
+- Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen
+  bis zum nächsten Anstieg aus, z. B. `[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2
+  Missionen]`. Ein optionales `px_tracker(temp)`-Makro berechnet die
+  Differenz automatisch.
 - Erreicht der Index Stufe 5, zeige `→ [ClusterCreate()]`, parke die Seeds als `[OpenRifts]` und setze `Px = 0`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
@@ -429,6 +432,8 @@ total=12, role="", env=None) -%}
 {% set campaign.heat_prev = char.heat %}
 {% set campaign.psi_logged = false %}
 {% if loc == "HQ" %}
+  {% do char.cooldowns.clear() %}
+  {% set char.sys_used = char.sys %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
 {% else %}
@@ -448,16 +453,22 @@ total=12, role="", env=None) -%}
 {% if campaign.scene == 10 %}
   {% if campaign.type == "core" and campaign.mission % 5 == 0 %}
     {{ generate_boss('core', campaign.mission, campaign.epoch) }}
+    {{ hud_tag() }} Boss-Encounter in Szene 10
   {% elif campaign.type == "rift" %}
-    {{ generate_boss('rift', campaign.scene, campaign.epoch) }}
+    {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
+    {{ hud_tag() }} Boss-Encounter in Szene 10
   {% endif %}
 {% endif %}
 {%- endmacro %}
 
+<!-- Macro: maintain_cooldowns (reduziert Cooldowns und entfernt abgelaufene Einträge) -->
 {% macro maintain_cooldowns() -%}
-{% for skill, cd in char.cooldowns.items() %}
-  {% if cd > 0 %}
+{% for skill in char.cooldowns.keys() | list %}
+  {% set cd = char.cooldowns[skill] %}
+  {% if cd > 1 %}
     {% do char.cooldowns.update({skill: cd - 1}) %}
+  {% else %}
+    {% do char.cooldowns.pop(skill) %}
   {% endif %}
 {% endfor %}
 {%- endmacro %}
@@ -559,6 +570,9 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
   {{ artifact_overlay(art.name, art.effect, art.risk) }}
+  {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
+  {% if art.name not in char.artifact_log %}{% do char.artifact_log.append(art.name) %}{% endif %}
+  {{ codex_log_artifact(art.name, {'effect': art.effect, 'risk': art.risk}) }}
 {%- endmacro %}
 
 ### generate_para_artifact() Macro
@@ -592,7 +606,11 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {% set side = [
       "Stress+1","Heat+1","SYS-1","Flashblind",
       "Item breaks","Enemy +1 INI"][side_roll-1] %}
-  {{ artifact_overlay(part ~ ' von ' ~ creature.name, effect, side ~ ' · Px-1') }}
+  {% set name = part ~ ' von ' ~ creature.name %}
+  {{ artifact_overlay(name, effect, side ~ ' · Px-1') }}
+  {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
+  {% if name not in char.artifact_log %}{% do char.artifact_log.append(name) %}{% endif %}
+  {{ codex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) }}
 {%- endmacro %}
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
@@ -654,6 +672,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% endif %}
 {% set campaign.psi_logged = true %}
 {% set char.sys = char.sys + sys_cost %}
+{% set char.sys_used = char.sys_used + sys_cost %}
 {% set char.pp = char.pp - pp_cost %}
 {% set char.heat = char.heat + heat_cost %}
 {{ hud_tag() }} [SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·

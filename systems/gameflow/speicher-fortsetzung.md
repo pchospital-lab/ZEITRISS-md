@@ -6,34 +6,34 @@ tags: [systems]
 
 # ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
-## Minimaler JSON-Save {#json-schluesselfelder}
+## HQ-JSON-Save {#json-schluesselfelder}
 
-Ein einzelner JSON-Block reicht aus, um eine Mission später fortzusetzen.
-Er kombiniert Charakterdaten und Fortschritt in kompakter Form:
+Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
+dort deterministisch gesetzt:
 
 ```json
 {
   "id": "CHR-1234",
-  "agent": {
-    "name": "Ghost",
-    "cu": 450,
-    "licenses": ["T1", "T2"]
-  },
-  "campaign": {"episode": 4, "scene": 7, "paradox": 0},
+  "name": "Ghost",
+  "sys": 5,
+  "sys_used": 3,
+  "stress": 1,
+  "heat": 0,
   "cooldowns": {},
-  "paradox_on": false
+  "campaign": {"episode": 4, "scene": 0, "paradox": 0},
+  "artifact_log": [],
+  "codex": []
 }
 ```
 
-- Pflichtfelder: `id`, `campaign.paradox` und `cooldowns`.
-- Fehlt `id`, erzeugt das System beim Laden `hash(name + epoch)`.
-- Optionale Felder wie `arc_dashboard` oder `field_notes` können angehängt werden,
-  sind für den reinen Spielfortschritt jedoch nicht nötig.
+- Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
+  `campaign.paradox`, `artifact_log` und `codex`.
+- GPT darf keine dieser Angaben ableiten oder weglassen.
+
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
 - Zeitlinien-Tracker und Paradoxon-Index
-*Optional:* `field_notes` für kurze Einsatzmemos
 - Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
 - Umgang mit fehlerhaften oder abweichenden Speicherständen
 - Spielleitung bleibt in-world (Immersion der Spielleitung)

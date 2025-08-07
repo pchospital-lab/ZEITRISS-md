@@ -199,7 +199,19 @@ function cmdRest() {
 }
 ```
 
-## 7 | PVP-ARENA – Matchmaking-Stub
+## 7 | SAVE-BEFEHL – HQ-Lock
+
+```typescript
+function cmdSave() {
+  if (state.current_room !== "HQ") {
+    return writeLine("Speichern nur im HQ möglich.");
+  }
+  autoSave();
+  writeLine("Game saved.");
+}
+```
+
+## 8 | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
 const ARENA_BASE_FEE = 250; // fixer Grundbetrag
