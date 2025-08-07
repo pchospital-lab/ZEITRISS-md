@@ -534,31 +534,6 @@ intervention_result=None) -%}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
 {%- endmacro %}
-
-### run_shop_checks Macro
-Prüft Wartungskosten und Lizenzstufen nach einer Mission.
-
-<!-- Macro: run_shop_checks -->
-{% macro run_shop_checks() -%}
-{% call maintenance() %}{% endcall %}
-{% call license_check() %}{% endcall %}
-{%- endmacro %}
-
-### merge_saves Macro
-Verhindert doppelte IDs beim Zusammenführen mehrerer Speicherstände.
-
-<!-- Macro: merge_saves -->
-{% macro merge_saves(a, b) -%}
-if a.id == b.id:
-    {% set b.id = hash(b.name + epoch_now()) %}
-a.cooldowns.update(b.cooldowns)
-{%- endmacro %}
-
-<!-- Macro: SceneTarget -->
-{% macro SceneTarget(target, pressure) -%}
-Target: {{ target }}
-Pressure: {{ pressure }}
-{%- endmacro %}
 Rufe `NextScene` am Szenenbeginn auf; es schließt die vorherige Szene über
 `EndScene()` ab und startet den neuen Abschnitt.
 
@@ -634,16 +609,6 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
 nach einem Para-Kreaturen-Drop.
-
-### generate_nsc() Macro
-Zieht einen NSC aus `kreative-generatoren-begegnungen.md#nsc-generator`.
-<!-- Macro: generate_nsc -->
-{% macro generate_nsc(role="") -%}
-  {%- set npc = gpull('gameplay/kreative-generatoren-begegnungen.md#nsc-generator', role) -%}
-  {% set hud = hud_tag() ~ ' [NSC] ' ~ npc.name ~ ' – ' ~ npc.role %}
-  {{ codex_log_npc(npc.id, {'role': npc.role, 'hook': npc.hook}) }}
-  {{ {'id': npc.id, 'role': npc.role, 'hook': npc.hook, 'hud': hud} }}
-{%- endmacro %}
 
 ### generate_para_creature() Macro
 Erzeugt eine Para-Kreatur über `#para-creature-generator`.
@@ -918,40 +883,6 @@ Zeigt ein Banner, wenn ein Erfolg Kosten verursacht.
 <span style="color:#f93">Regel</span> Erfolg mit Kosten: {{ cost }}
 {%- endmacro %}
 
-### TK-Melee() Macro
-Prüft den SR-Wert des Ziels und passt die SG an.
-
-<!-- Macro: TK_Melee -->
-{% macro TK_Melee(attack, target) -%}
-{% set SG = attack.sg %}
-{% if target.armor >= 2 %}
-  {% set SG = SG + 1 %}
-{% endif %}
-{{ SG }}
-{%- endmacro %}
-
-### tech_solution() Macro
-Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
-
-<!-- Macro: tech_solution -->
-{% macro tech_solution() -%}
-{% if campaign.tech_heat is not defined %}{% set campaign.tech_heat = 0 %}{% endif %}
-{% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
-{% if campaign.tech_steps is not defined %}{% set campaign.tech_steps = 0 %}{% endif %}
-{% if campaign.complication_done is not defined %}{% set campaign.complication_done = false %}{% endif %}
-{% set campaign.tech_steps = campaign.tech_steps + 1 %}
-{% if not campaign.complication_done %}
-  {{ inject_complication(campaign.tech_steps) }}
-  {% if campaign.tech_steps > 3 %}{% set campaign.complication_done = true %}{% endif %}
-{% endif %}
-{% set campaign.tech_heat = campaign.tech_heat + 1 %}
-{% if campaign.tech_heat >= 3 %}
-  {% set campaign.tech_sg = campaign.tech_sg + 1 %}
-  {{ hud_tag() }} Tech-SG +{{ campaign.tech_sg }}
-  {% set campaign.tech_heat = 0 %}
-{% endif %}
-{%- endmacro %}
-
 ### redirect_same_slot() Macro
 
 ```pseudo
@@ -974,86 +905,6 @@ else:
 ```
 
 Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
-
-### Arena Macros
-
-{% set arena_scenarios = [
-  "Offene Wüstenruine",
-  "Labyrinth-Bunker",
-  "Dschungel mit dichter Vegetation",
-  "Urbanes Trümmerfeld",
-  "Symmetrische Trainingsarena"
-] %}
-
-{% set faction_allies = {
-  "Projekt Phoenix": ["Phoenix Scout", "Phoenix Heavy"],
-  "Die Grauen": ["Grey Agent", "Grey Sniper"],
-  "Der Alte Orden": ["Templer", "Reliktjäger"],
-  "Schattenkonzerne": ["Black Ops", "Konzern-Sniper"]
-} %}
-
-<!-- Macro: arena_scenario -->
-{% macro arena_scenario(team_size=1) -%}
-{{ sample(arena_scenarios) }}
-{%- endmacro %}
-
-<!-- Macro: create_faction_allies -->
-{% macro create_faction_allies(faction, count) -%}
-{% set pool = faction_allies.get(faction, []) %}
-{{ random.sample(pool, count) }}
-{%- endmacro %}
-
-<!-- Macro: create_opposing_team -->
-{% macro create_opposing_team(size, allies, difficulty="normal") -%}
-{% set faction = allies[0] if allies else "Projekt Phoenix" %}
-{% set pool = faction_allies.get(faction, []) %}
-{% set team = random.sample(pool, size) %}
-{# Level und Ausrüstung spiegeln; difficulty skaliert Werte #}
-{{ team }}
-{%- endmacro %}
-
-<!-- Macro: show_arena_hud -->
-{% macro show_arena_hud(a, b, r, total=3) -%}
-{{ hud_tag() }} Arena A {{ a }} – B {{ b }} · Runde {{ r }}/{{ total }}
-{%- endmacro %}
-
-<!-- Macro: start_pvp_arena -->
-{% macro start_pvp_arena(team_size, faction, difficulty="normal") -%}
-{% set allies = create_faction_allies(faction, team_size) %}
-{% set opponents = create_opposing_team(team_size, allies, difficulty) %}
-{% set campaign.arena = {"winsA":0, "winsB":0, "scenario":arena_scenario(team_size)} %}
-{{ show_arena_hud(0,0,1) }}
-{%- endmacro %}
-
-<!-- Macro: arena_match_won -->
-{% macro arena_match_won(player_team=true) -%}
-{% if player_team %}
-  {% set campaign.arena.winsA = campaign.arena.winsA + 1 %}
-{% else %}
-  {% set campaign.arena.winsB = campaign.arena.winsB + 1 %}
-{% endif %}
-{% set r = campaign.arena.winsA + campaign.arena.winsB %}
-{% if campaign.arena.winsA >= 2 or campaign.arena.winsB >= 2 %}
-  {{ exit_pvp_arena() }}
-{% else %}
-  {{ show_arena_hud(campaign.arena.winsA, campaign.arena.winsB, r + 1) }}
-{% endif %}
-{%- endmacro %}
-
-<!-- Macro: exit_pvp_arena -->
-{% macro exit_pvp_arena() -%}
-{% if campaign.arena.winsA > campaign.arena.winsB %}
-  {% set campaign.paradox = campaign.paradox + 1 %}
-{% endif %}
-{% set campaign.arena = {"winsA":0, "winsB":0} %}
-{%- endmacro %}
-
-<!-- Macro: start_pvp_duel -->
-{% macro start_pvp_duel(player1, player2, difficulty="normal") -%}
-{{ start_pvp_arena(1, player1.faction, difficulty) }}
-{% set campaign.arena.teamA = [player1] %}
-{% set campaign.arena.teamB = [player2] %}
-{%- endmacro %}
 
 ## Start Dispatcher {#start-dispatcher}
 
@@ -1660,6 +1511,131 @@ sowie erprobte Techniken zur Weltgestaltung helfen dir, als KI-Spielleitung ein 
 packendes ZEITRISS-Abenteuer zu entfesseln. Viel Erfolg beim **Zeitreisen** und Geschichten weben!
 
 *Siehe Sicherheitsblock im Hauptprompt (`meta/masterprompt_v6.md`).*
+
+## Entwurfs-Makros {#entwurfs-makros}
+
+### run_shop_checks Macro
+Prüft Wartungskosten und Lizenzstufen nach einer Mission.
+
+<!-- Macro: run_shop_checks -->
+{% macro run_shop_checks() -%}
+{% call maintenance() %}{% endcall %}
+{% call license_check() %}{% endcall %}
+{%- endmacro %}
+
+### TK-Melee() Macro
+Prüft den SR-Wert des Ziels und passt die SG an.
+
+<!-- Macro: TK_Melee -->
+{% macro TK_Melee(attack, target) -%}
+{% set SG = attack.sg %}
+{% if target.armor >= 2 %}
+  {% set SG = SG + 1 %}
+{% endif %}
+{{ SG }}
+{%- endmacro %}
+
+### tech_solution() Macro
+Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
+
+<!-- Macro: tech_solution -->
+{% macro tech_solution() -%}
+{% if campaign.tech_heat is not defined %}{% set campaign.tech_heat = 0 %}{% endif %}
+{% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
+{% if campaign.tech_steps is not defined %}{% set campaign.tech_steps = 0 %}{% endif %}
+{% if campaign.complication_done is not defined %}{% set campaign.complication_done = false %}{% endif %}
+{% set campaign.tech_steps = campaign.tech_steps + 1 %}
+{% if not campaign.complication_done %}
+  {{ inject_complication(campaign.tech_steps) }}
+  {% if campaign.tech_steps > 3 %}{% set campaign.complication_done = true %}{% endif %}
+{% endif %}
+{% set campaign.tech_heat = campaign.tech_heat + 1 %}
+{% if campaign.tech_heat >= 3 %}
+  {% set campaign.tech_sg = campaign.tech_sg + 1 %}
+  {{ hud_tag() }} Tech-SG +{{ campaign.tech_sg }}
+  {% set campaign.tech_heat = 0 %}
+{% endif %}
+{%- endmacro %}
+
+### Arena-Makros
+
+{% set arena_scenarios = [
+  "Offene Wüstenruine",
+  "Labyrinth-Bunker",
+  "Dschungel mit dichter Vegetation",
+  "Urbanes Trümmerfeld",
+  "Symmetrische Trainingsarena",
+] %}
+
+{% set faction_allies = {
+  "Projekt Phoenix": ["Phoenix Scout", "Phoenix Heavy"],
+  "Die Grauen": ["Grey Agent", "Grey Sniper"],
+  "Der Alte Orden": ["Templer", "Reliktjäger"],
+  "Schattenkonzerne": ["Black Ops", "Konzern-Sniper"],
+} %}
+
+<!-- Macro: arena_scenario -->
+{% macro arena_scenario(team_size=1) -%}
+{{ random.choice(arena_scenarios) }}
+{%- endmacro %}
+
+<!-- Macro: create_faction_allies -->
+{% macro create_faction_allies(faction, count) -%}
+{% set pool = faction_allies.get(faction, []) %}
+{{ random.sample(pool, count) }}
+{%- endmacro %}
+
+<!-- Macro: create_opposing_team -->
+{% macro create_opposing_team(size, allies, difficulty="normal") -%}
+{% set faction = allies[0] if allies else "Projekt Phoenix" %}
+{% set pool = faction_allies.get(faction, []) %}
+{% set team = random.sample(pool, size) %}
+{# Level und Ausrüstung spiegeln; difficulty skaliert Werte #}
+{{ team }}
+{%- endmacro %}
+
+<!-- Macro: show_arena_hud -->
+{% macro show_arena_hud(a, b, r, total=3) -%}
+{{ hud_tag() }} Arena A {{ a }} – B {{ b }} · Runde {{ r }}/{{ total }}
+{%- endmacro %}
+
+<!-- Macro: start_pvp_arena -->
+{% macro start_pvp_arena(team_size, faction, difficulty="normal") -%}
+{% set allies = create_faction_allies(faction, team_size) %}
+{% set opponents = create_opposing_team(team_size, allies, difficulty) %}
+{% set campaign.arena = {"winsA":0, "winsB":0, "scenario":arena_scenario(team_size)} %}
+{{ show_arena_hud(0,0,1) }}
+{%- endmacro %}
+
+<!-- Macro: arena_match_won -->
+{% macro arena_match_won(player_team=true) -%}
+{% if player_team %}
+  {% set campaign.arena.winsA = campaign.arena.winsA + 1 %}
+{% else %}
+  {% set campaign.arena.winsB = campaign.arena.winsB + 1 %}
+{% endif %}
+{% set r = campaign.arena.winsA + campaign.arena.winsB %}
+{% if campaign.arena.winsA >= 2 or campaign.arena.winsB >= 2 %}
+  {{ exit_pvp_arena() }}
+{% else %}
+  {{ show_arena_hud(campaign.arena.winsA, campaign.arena.winsB, r + 1) }}
+{% endif %}
+{%- endmacro %}
+
+<!-- Macro: exit_pvp_arena -->
+{% macro exit_pvp_arena() -%}
+{% if campaign.arena.winsA > campaign.arena.winsB %}
+  {% set campaign.paradox = campaign.paradox + 1 %}
+{% endif %}
+{% set campaign.arena = {"winsA":0, "winsB":0} %}
+{%- endmacro %}
+
+<!-- Macro: start_pvp_duel -->
+{% macro start_pvp_duel(player1, player2, difficulty="normal") -%}
+{{ start_pvp_arena(1, player1.faction, difficulty) }}
+{% set campaign.arena.teamA = [player1] %}
+{% set campaign.arena.teamB = [player2] %}
+{%- endmacro %}
 
 ## Einmalige Eröffnungsnachricht
 
