@@ -255,8 +255,8 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
 - **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
   Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
-  Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks
-  und lassen sich im HQ gegen CUs tauschen oder als MacGuffin aufbewahren.
+  Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks,
+  werden im HQ analysiert und können gesammelt oder unter den Agenten getauscht werden.
   Beispiele liefert die Tabelle „Kuriose Artefakte & Relikte“ im Generator-Modul.
  - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
    zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
