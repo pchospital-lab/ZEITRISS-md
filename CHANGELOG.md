@@ -97,6 +97,13 @@ tags: [meta]
   ergänzt `Objective`- und `Seed`-Zeilen, Boss- und Artefaktmeldungen
   sowie `EndMission`-Codex-Logs.
 
+- Save-Befehl nur noch im HQ; `cmdSave` verhindert Speichern unterwegs.
+- `maintain_cooldowns` räumt Nullwerte auf, HQ-Szenen löschen Rest-Cooldowns
+  und setzen `sys_used` zurück.
+- Psi-Kräfte erhöhen `sys_used`; Artefakt-Makros loggen Funde in `artifact_log`
+  und `codex_log_artifact`.
+- Boss-Generator nutzt bei Rifts die Missionsnummer und meldet Szene 10 klar im HUD.
+
 - Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
 - `signal_space`-Stilfilter eingeführt; StartMission betont physische Umgebung.
 - Missions- und Begegnungstabellen nennen konkrete Geräte statt abstrakter Signale.

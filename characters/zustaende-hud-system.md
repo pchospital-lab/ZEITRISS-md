@@ -877,7 +877,7 @@ auch bei Paradoxon, EMP oder Isolation.
 | `optionen`  | Blendet das obige HUD-Menü kontextsensitiv ein                     |
 | `hud`       | Zeigt aktuelle Werte: Lebenspunkte, SYS-Belastung, aktive Filter   |
 | `log`       | Gibt den Missionsverlauf wieder                                    |
-| `save`      | Speichert Spielzustand / Missionsfortschritt                       |
+| `save`      | Speichert Spielzustand / Missionsfortschritt – nur im HQ           |
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
