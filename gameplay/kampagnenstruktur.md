@@ -1389,13 +1389,15 @@ Showdown-Szene.
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
-2. **Szenario-Setup:** Codex wählt ein Arenenszenario aus einem kleinen, kuratierten
-   Pool mit ausgewogenem Gelände und beschreibt die Ausgangslage.
-3. **Matchmaking:** GPT füllt fehlende Plätze mit Verbündeten aus der passenden
-   Fraktion. Level und Ausrüstung orientieren sich am Durchschnitt der
-   Spielenden. Eine optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder
-   stärker zu skalieren. Anschließend generiert Codex ein gleichwertiges
-   Gegenteam und versetzt beide Gruppen in die Arena.
+2. **Szenario-Setup:** Codex zieht das Arenenszenario aus
+   `kreative-generatoren-missionen.md#missions-generator` und beschreibt die
+   Ausgangslage. Auf Wunsch wählt er eine Kulisse über den
+   `#epochen-generator`.
+3. **Matchmaking:** GPT füllt fehlende Verbündete und Gegenspieler über den
+   NSC-Generator (`kreative-generatoren-begegnungen.md#nsc-generator`). Level
+   und Ausrüstung orientieren sich am Durchschnitt der Spielenden. Eine
+   optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder stärker zu
+   skalieren. Anschließend versetzt Codex beide Gruppen in die Arena.
 4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Ein HUD-Overlay zeigt
    Punktestand und Rundenfortschritt. Nach jedem Duell kann eine Revanche
    gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt

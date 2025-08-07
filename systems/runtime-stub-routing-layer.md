@@ -167,6 +167,18 @@ function renderOperationsDeck() {
 ## 5 | SIDE-OP-STARTER – `jump rift-id`
 
 ```typescript
+function loadParaCreatureEncounter(seed) {
+  const enc = gpull(
+    "gameplay/kreative-generatoren-begegnungen.md#para-creature-generator",
+    seed.id,
+  );
+  state.encounter = { creature: enc.creature, loot: enc.loot };
+  writeLine(`Rift spawns ${enc.creature.name}.`);
+  if (enc.loot) {
+    generate_para_artifact(enc.creature);
+  }
+}
+
 function cmdJump(arg) {
   // arg = "LND‑1851‑SW"
   if (!state.arc_complete) {
@@ -221,10 +233,9 @@ function getArenaFee() {
 }
 
 function generateArenaScenario() {
-  // Stub: zieht ein Kurzszenario aus dem Missions-Generator
-  const entry = pickRandom(missionPool);
-  const place = pickRandom(epochPool);
-  return { description: `${entry} @ ${place}` };
+  const mission = gpull("gameplay/kreative-generatoren-missionen.md#missions-generator");
+  const epoch = gpull("gameplay/kreative-generatoren-missionen.md#epochen-generator");
+  return { description: `${mission} @ ${epoch}` };
 }
 
 function majorityFaction(players) {
@@ -237,15 +248,26 @@ function majorityFaction(players) {
 }
 
 function createFactionAllies(factionId, count) {
-  // Hook: eigene NPC-Logik einbinden
-  // Erwartet die Anzahl der Verbündeten und liefert ein Array entsprechender NPCs
-  return [];
+  const allies = [];
+  for (let i = 0; i < count; i++) {
+    const npc = gpull(
+      "gameplay/kreative-generatoren-begegnungen.md#nsc-generator",
+      { faction: factionId },
+    );
+    allies.push(npc);
+  }
+  return allies;
 }
 
 function createOpposingTeam(size) {
-  // Hook: generiert das gegnerische Team nach euren Regeln
-  // Erwartet die Teamgröße und gibt ein Array rivalisierender NPCs zurück
-  return [];
+  const foes = [];
+  for (let i = 0; i < size; i++) {
+    const npc = gpull(
+      "gameplay/kreative-generatoren-begegnungen.md#nsc-generator",
+    );
+    foes.push(npc);
+  }
+  return foes;
 }
 
 function createTeam(size, players, mode = "single") {

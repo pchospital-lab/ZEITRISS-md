@@ -140,5 +140,9 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 - Danach fragt er: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 - Verwende Arc-Generator, Boss-Logik und Fraktionsstruktur standardmäßig.
   Improvisationen, stilistische Abweichungen oder dramaturgische Eigenlogik durch GPT sind nicht erlaubt.
+- Bei spontanen Begegnungen `kreative-generatoren-begegnungen.md#nsc-generator` ziehen.
+- Bei Rift-Ops `kreative-generatoren-begegnungen.md#para-creature-generator` nutzen,
+  um Encounter zu erzeugen.
+- GPT greift zunächst auf diese Generatoren zurück, bevor es improvisiert.
 
 *© 2025 pchospital – private use only. See LICENSE.*
