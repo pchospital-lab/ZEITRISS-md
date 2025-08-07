@@ -16,8 +16,8 @@ dort deterministisch gesetzt:
   "id": "CHR-1234",
   "name": "Ghost",
   "sys": 5,
-  "sys_used": 3,
-  "stress": 1,
+  "sys_used": 5,
+  "stress": 0,
   "heat": 0,
   "cooldowns": {},
   "campaign": {"episode": 4, "scene": 0, "paradox": 0},
@@ -28,6 +28,9 @@ dort deterministisch gesetzt:
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
   `campaign.paradox`, `artifact_log` und `codex`.
+- Im HQ sind `sys_used`, `stress` und `heat` deterministisch: `sys_used` == `sys`,
+  `stress` = 0, `heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
+  Basiszustand prüfen kann.
 - GPT darf keine dieser Angaben ableiten oder weglassen.
 
 - Einführung und Zielsetzung
