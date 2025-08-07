@@ -434,6 +434,9 @@ total=12, role="", env=None) -%}
 {% if loc == "HQ" %}
   {% do char.cooldowns.clear() %}
   {% set char.sys_used = char.sys %}
+  {% set char.stress = 0 %} {# Stress und Heat werden im HQ komplett abgebaut #}
+  {% set char.heat = 0 %}
+  {% set campaign.heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
 {% else %}
