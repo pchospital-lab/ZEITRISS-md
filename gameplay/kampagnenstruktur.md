@@ -91,6 +91,25 @@ Bei **Session 0** ruft Codex einmalig `arc_seed_make()` auf und speichert Start-
 Es erzeugt heimlich einen Zehnmissionsbogen.
 Erst nach Mission 10 offenbart Codex den vollen Zusammenhang.
 
+### Generatoren im Kampagnenablauf {#generatoren-kampagne}
+
+Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
+
+- **Session 0:** `arc_seed_make()` legt einen Zehnmissionen-Bogen an und fixiert Start-
+  und Endpunkte.
+- **Sitzungsstart:** Der **Automatische Mission Seed** bestimmt Zeit, Ort, Anomalie und Risiko.
+- **Core-Ops:** Ziehen Ziele aus `CoreObjectiveTable`.
+- **Rift-Ops:** Nutzen Seeds aus dem „Rift Seed Catalogue"; offene Seeds erscheinen bei
+  `ClusterCreate()`.
+- **Encounters:**
+  - NSC-Generator und risikobasierte Encounter-Pools füllen Zwischenszenen.
+  - Para-Creature-Generator (Urban Myth Edition) liefert urbane Legenden für historische
+    Rifts.
+  - Kreaturen- & Paramonster-Generator stellt futuristische oder rift-spezifische Bosse
+    bereit.
+- **Bossphase:** Szene 10 ruft `generate_boss()` auf; typischer Showdown gegen ein
+  Paramonster.
+
 ### Fraktionsdynamik und -Konflikte
 
 
