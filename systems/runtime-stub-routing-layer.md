@@ -147,6 +147,21 @@ export const incrementParadox = (pp = 1) => {
   autoSave();
 };
 export const closeSeed = (id) => { ... };
+export function ClusterCreate() {
+  if (state.paradox_level < 5) return;
+  const count = 1 + Math.floor(Math.random() * 2);
+  for (let i = 0; i < count; i++) {
+    state.open_seeds.push({
+      id: `R-${Math.random().toString(36).slice(2,6).toUpperCase()}`,
+      name: "Uncharted Rift",
+      severity: 1 + Math.floor(Math.random() * 3),
+      deadline: Date.now() + 72 * 3600 * 1000,
+    });
+  }
+  state.paradox_level = 0;
+  writeLine(`ClusterCreate spawned ${count} Rift-Seeds.`);
+  autoSave();
+}
 ```
 
 ---
@@ -379,9 +394,11 @@ function generateId(prefix = "CHR") {
     }
     ```
 
- 5. **Para-Creature-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
+5. **Para-Creature-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 6. Nach jeder Phase `deepSave()` aufrufen; es gibt keine Delta-Saves.
-7. **QA-Tests:**
+7. Offene Backend-Hooks: `history_ok_preserve()` und `history_ok_trigger()` sind noch zu
+   implementieren.
+8. **QA-Tests:**
    - `scene_count`: Mission plant mindestens **12** Szenen.
    - `no_macro_leak`: Keine Ausgaben enthalten `<!--`.
    - `meta_filter`: Kein Seed setzt das Flag `meta_introspection`.

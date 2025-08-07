@@ -56,9 +56,9 @@ im Generator-Modul.
 
 Stellt euch jede Kampagne als **Baukasten von Handlungsbögen** vor, aus denen ihr eure Geschichte
 zusammensetzt. Ein Handlungsbogen kann z. B. eine bestimmte Bedrohung oder Epoche fokussieren. Er
-besteht aus mehreren **Episoden** (Spielabenden oder Abenteuern), die in sich geschlossen spannende
-Ereignisse zeigen und gemeinsam den Arc vorantreiben. Für jeden Handlungsbogen können folgende
-Phasen geplant werden:
+umfasst mehrere **Episoden** (Spielabende oder Abenteuer), die in sich geschlossen spannende
+Ereignisse zeigen und gemeinsam den Arc vorantreiben. Die vier Arc‑Phasen erstrecken sich jeweils
+über ein Set von Episoden:
 
 - **Einleitung:** Einführung in das neue Kapitel – z. B. eine mysteriöse Anomalie in der Zeit, erste
   Aufträge und Exposition der Lage.
@@ -71,6 +71,13 @@ Phasen geplant werden:
 - **Übergang:** Nachbereitung der Ereignisse und Überleitung zum nächsten Arc. Hier bieten sich
   **Zwischensequenzen** oder Ruhephasen im HQ an, um die Veränderungen durch den letzten Arc zu
   verarbeiten.
+
+| Arc-Phase               | Typische Episoden | Zweck                     |
+| ----------------------- | ----------------- | ------------------------ |
+| **Einleitung**          | Episoden 1–2      | Setup & Exposition       |
+| **Konflikt & Entwicklung** | Episoden 3–7   | Ermittlungen & Eskalation|
+| **Klimax**              | Episoden 8–9      | Finale Konfrontation     |
+| **Übergang**            | Episode 10        | Abschluss & Ausblick     |
 
 Durch diese episodische Struktur erhalten die Spieler regelmäßig Erfolgserlebnisse und die Kampagne
 bleibt **übersichtlich gegliedert**, ohne an epischer Gesamterzählung einzubüßen. Der **Arc-
