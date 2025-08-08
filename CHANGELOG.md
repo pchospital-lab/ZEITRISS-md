@@ -47,12 +47,12 @@ tags: [meta]
 - Core-Ops bestehen jetzt aus **12 Szenen**, Rift-Ops aus **14 Szenen**.
 - Erfahrung: 1 Mission = 1 Level (bis Stufe 10).
 - Überarbeitetes Rift-Op-Template im Kampagnenmodul.
-- HUD zeigt `[PAR n/5 | SC x/50 | Time t]` an.
+- HUD zeigt `PAR n/5 · SC x/50 · Time t` an.
 
 ## 4.1.3 – ItemForge Tier-Generator
 - Neues Macro `itemforge()` im Toolkit.
 - Loot-Tabellen tragen eindeutige `id:`-Felder.
-- HUD meldet `[HEAVY LOCK]` bei fehlender Lizenz für Heavy-Gear.
+- HUD meldet `HEAVY LOCK` bei fehlender Lizenz für Heavy-Gear.
 
 ## 4.1.4 – Era-Pulse Patch
 - Historische Missionsziele mit Preserve- und Trigger-Formulierungen.
