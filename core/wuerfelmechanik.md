@@ -660,6 +660,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
+
 **Paradoxon‑Index (Px)** – 0–2 = rot ⏳, 3–4 = gelb ⏳, 5 = grün ⌛ → `ClusterCreate()`
 und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1–0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
