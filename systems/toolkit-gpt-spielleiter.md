@@ -169,7 +169,7 @@ damit die Exploding-Regel greift.
 
 Explodierende Sequenzen werden mit `!exploding` oder `[W6*]`
 gekennzeichnet und laut ausgegeben, z. B.
-`[Exploding 6 → 6 → 2 = 14]`.
+`Exploding 6 → 6 → 2 = 14`.
 
 ## Typische Sprachmuster & Satzvorlagen
 
@@ -237,7 +237,7 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 ---
 ### 6 | HUD-Overlay
 
-> **$SCAN 92 % – Bio-Signatur: Fremdfraktion$**
+> **`SCAN: 92 % · Bio-Signatur: Fremdfraktion`**
 > Pressure: Kontakt rückt näher.
 > Decision: Verbarrikadieren oder ausweichen?
 
@@ -403,15 +403,10 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {%- endmacro %}
 
 <!-- Macro: vehicle_overlay -->
-{% macro vehicle_overlay(env) -%}
-{% if env == "vehicle" %}
-{{ hud_tag('Tempo 0–30 · Stress 0 · Schaden 0') }}
-{{ hud_tag('Tempo 31–60 · Stress 1 · Schaden 1') }}
-{{ hud_tag('Tempo 61–90 · Stress 2 · Schaden 2') }}
-{{ hud_tag('Tempo 91–120 · Stress 3 · Schaden 3') }}
-{{ hud_tag('Tempo 121–150 · Stress 4 · Schaden 4') }}
-{{ hud_tag('Tempo 151+ · Stress 5 · Totalschaden') }}
-{% endif %}
+{% macro vehicle_overlay(env, speed='–', stress='–', dmg='–') -%}
+{% if env == "vehicle" -%}
+  {{ hud_tag('Tempo: ' ~ speed ~ ' · Stress: ' ~ stress ~ ' · Schaden: ' ~ dmg) }}
+{%- endif %}
 {%- endmacro %}
 
 <!-- Macro: scene_overlay -->
@@ -518,8 +513,8 @@ total=None, role="", env=None) -%}
 Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
 <!-- Macro: codex_summary -->
 {% macro codex_summary(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
-{{ hud_tag('Codex: Seeds ' ~ closed_seed_ids ~ ' geschlossen ·') }}
-Cluster +{{ cluster_gain }} · Fraktion +{{ faction_delta }}
+{{ hud_tag('Codex: Seeds ' ~ closed_seed_ids ~ ' geschlossen') }}
+{{ hud_tag('Cluster +' ~ cluster_gain ~ ' · Fraktion +' ~ faction_delta) }}
 {% if campaign.codex_log %}{{ hud_tag('Codex-Log: ' ~ campaign.codex_log) }}{% endif %}
 {% set campaign.codex_log = {} %}
 {%- endmacro %}
@@ -554,7 +549,7 @@ if not live_threat and campaign.scene % 3 == 0:
 Standardisiert die HUD-Ausgabe aktiver Artefakte.
 <!-- Macro: artifact_overlay -->
 {% macro artifact_overlay(name, effect, risk) -%}
-{{ hud_tag('ARTEFAKT aktiv ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
+{{ hud_tag('Artefakt aktiv · ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
 {%- endmacro %}
 
 ### roll_legendary() Macro
@@ -790,7 +785,7 @@ function tone_filter(text, source):
 Beispiele:
 
 ```pseudo
-tone_filter("$SCAN 92 %", HUD) -> "$SCAN 92 %"
+tone_filter("`SCAN 92 %`", HUD) -> "`SCAN 92 %`"
 tone_filter("Lade LOGFILE.CFG", NPC) -> "Lade uplink file"
 tone_filter("SPRINGT AUF MAX POWER", NPC) -> "springt auf max power"
 tone_filter("CIA DATABASE", NPC) -> "CIA DATABASE"
