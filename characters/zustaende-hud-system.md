@@ -410,44 +410,44 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 > Der temporale Raum ist stabil – aber leer.
 > _(Noch keine Cluster-Annäherung möglich)_
 
-📡 _Codex:_
-> `[Resonanzpegel minimal – keine Risssignaturen im Scanbereich]`
+_Codex:_
+> `Resonanzpegel minimal – keine Risssignaturen im Scanbereich`
 
 #### PARADOXON 1/5
 > *"Flackern. Wie Erinnerungen an etwas, das nicht geschehen ist."*
 > Erste Resonanzspuren.
 > Unklare Bewegungsmuster im Codex-Raster.
 
-📡 _Codex:_
-> `[Anstieg im TEMP-Feld registriert – Zugriffsstreue noch unzureichend]`
-> `[Aktuelle Interventionsrate: niedrig]`
+_Codex:_
+> `Anstieg im TEMP-Feld registriert – Zugriffsstreue noch unzureichend`
+> `Aktuelle Interventionsrate: niedrig`
 
 #### PARADOXON 2/5
 > *"Schatten über der Gegenwart. Manche Missionsorte scheinen… lauter."*
 > Temporale Felder beginnen, Einfluss auf Zielumgebung zu nehmen.
 > Spieler könnten instinktiv fühlen: Hier ist mehr.
 
-📡 _Codex:_
-> `[Temporale Resonanz aktiv – latente Rissaktivität prognostiziert]`
-> `[Empfindlichkeit TEMP > 5 empfohlen]`
+_Codex:_
+> `Temporale Resonanz aktiv – latente Rissaktivität prognostiziert`
+> `Empfindlichkeit TEMP > 5 empfohlen`
 
 #### PARADOXON 3/5
 > *"Datenströme verzerren. Lichtquellen flackern. Manchmal ist die Luft… anders."*
 > Temporale Druckwellen, bereits messbar.
 > Die Welt reagiert auf die Eingriffe der Chrononauten – ohne es zu wissen.
 
-📡 _Codex:_
-> `[Clustervorlauf erreicht – erste Zugriffspfade geometrisch ausgerichtet]`
-> `[Sprungkoeffizient > 0.63]`
+_Codex:_
+> `Clustervorlauf erreicht – erste Zugriffspfade geometrisch ausgerichtet`
+> `Sprungkoeffizient > 0.63`
 
 #### PARADOXON 4/5
 > *"Der Strom spricht. Etwas versucht, sichtbar zu werden."*
 > Zugriff steht kurz bevor.
 > Artefakt-Raster beginnen sich zu synchronisieren.
 
-📡 _Codex:_
-> `[INFO: Zugriffskorridor im Aufbau – ClusterCreate bald]`
-> `[Rift-Koordinatenpotenzial: hoch]`
+_Codex:_
+> `INFO: Zugriffskorridor im Aufbau – ClusterCreate bald`
+> `Rift-Koordinatenpotenzial: hoch`
 
 #### PARADOXON 5/5 – CLUSTERCREATE
 > *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
@@ -456,10 +456,10 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 > Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Episodenende freigeschaltet.
 
-📡 _Codex:_
-> `[Clusterpunkt erreicht – Zugriffspfade gesetzt]`
+_Codex:_
+> `Clusterpunkt erreicht – Zugriffspfade gesetzt`
 > `Paradoxon-Index zurückgesetzt`
-> `[Rift α–beta Koordinaten gespeichert – Zugriff nach Episodenende]`
+> `Rift α–beta Koordinaten gespeichert – Zugriff nach Episodenende`
 
 🎖 Optional:
 > Seeds können fürs HQ notiert und später genutzt werden.
@@ -540,9 +540,9 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
 
 | Trigger | Anzeige |
 |---------|---------|
-| PP ≤ TEMP ÷ 4 | `[PP LOW]` |
-| PP 0 | `[PP EMPTY]` |
-| Burn aktiv | `[BURN][Px -X]` |
+| PP ≤ TEMP ÷ 4 | `PP LOW` |
+| PP 0 | `PP EMPTY` |
+| Burn aktiv | `BURN` `Px -X` |
 - **Modulare Ressourcen allgemein:** Natürlich könnt ihr auch andere Ressourcen tracken, z.B.
   **Munition**, **Batterieladung von Geräten**, **Sauerstoffvorrat** in bestimmten Szenarien etc.
   Das HUD prädestiniert sich dafür, solche Infos übersichtlich anzuzeigen (etwa „Munition: 12/30“
@@ -866,23 +866,23 @@ auch bei Paradoxon, EMP oder Isolation.
 {% else %}
 ╔══════════════════════════════════════════════════════╗
 ║                ∎  Taktisches HUD-Menü  ∎             ║
-║            [Signalquelle: Chronometer lokal]         ║
+║            `Signalquelle: Chronometer lokal`         ║
 ╠══════════════════════════════════════════════════════╣
-║ 📍 Position: Nullzeit / Mission / Gefecht             ║
-║ 🧠 Codex-Verbindung: [optional / gestört / online]    ║
+║ Position: Nullzeit / Mission / Gefecht               ║
+║ Codex-Verbindung: `optional / gestört / online`      ║
 ╠══════════════════════════════════════════════════════╣
-║ 1️⃣ Optionen        – Aktive Handlungswahl anzeigen   ║
-║ 2️⃣ HUD             – Vitalstatus, SYS, Filtereffekte ║
-║ 3️⃣ Log             – Missionsverlauf (chronologisch) ║
-║ 4️⃣ Save            – Speicherstand erzeugen          ║
-║ 5️⃣ Modus           – Stil: siehe README             ║
-║ 6️⃣ Hilfe           – Übersicht aller Befehle         ║
-║ 7️⃣ FAQ            – Stichwort an Codex senden        ║
+║ 1) Optionen        – Aktive Handlungswahl anzeigen   ║
+║ 2) HUD             – Vitalstatus, SYS, Filtereffekte ║
+║ 3) Log             – Missionsverlauf (chronologisch) ║
+║ 4) Save            – Speicherstand erzeugen          ║
+║ 5) Modus           – Stil: siehe README             ║
+║ 6) Hilfe           – Übersicht aller Befehle         ║
+║ 7) FAQ            – Stichwort an Codex senden        ║
 ║                                                      ║
-║ 🛰️ Codex-Zugriff: `codex [thema]`                     ║
+║ Codex-Zugriff: `codex [thema]`                        ║
 ║ Beispiel: `codex psi`, `codex cyberware`, `codex HQ`  ║
 ╠══════════════════════════════════════════════════════╣
-║ 🔒 Hinweis: Dieses Interface bleibt auch bei Codex-   ║
+║ Hinweis: Dieses Interface bleibt auch bei Codex-      ║
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
 ║ Es ist physisch mit deinem Chronometer gekoppelt.     ║
 ╚══════════════════════════════════════════════════════╝
@@ -898,9 +898,7 @@ Setze `settings.ascii_only = true`, um die ASCII-Variante des Menüs zu erzwinge
 Beim Start oder nach `load` blendet das HUD über dem Menü eine kurze
 Statuszeile ein:
 
-```text
-[Modi aktiv: Mission-Fokus, Transparenz]
-```
+`Modi aktiv: Mission-Fokus, Transparenz`
 
 So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 
@@ -974,13 +972,13 @@ Zeichen, damit die Anzeige flüssig bleibt.
 ```yaml
 HUD_MESSAGES:
   - id: 0x21
-    txt: "[SENSORRAUSCHEN] Signatur unstet – prüfen"
+    txt: "`SENSORRAUSCHEN` Signatur unstet – prüfen"
   - id: 0x22
-    txt: "[LINK STÖRT] Kom-Sync abgestürzt, Fallback"
+    txt: "`LINK STÖRT` Kom-Sync abgestürzt, Fallback"
   - id: 0x23
-    txt: "[BLUTWERTE NIEDRIG] Stim-Pack empfohlen"
+    txt: "`BLUTWERTE NIEDRIG` Stim-Pack empfohlen"
   - id: 0x24
-    txt: "[EVAC POINT] Korridor öffnet in 90 Sek"
+    txt: "`EVAC POINT` Korridor öffnet in 90 Sek"
 ```
 
 ### Technischer Hinweis
@@ -991,9 +989,9 @@ HUD_MESSAGES:
 
 Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis etwa 2 km.
 Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
-Bei Ausfall meldet das HUD etwa `[LINK STÖRT]` und nutzt lokale Caches:
+Bei Ausfall meldet das HUD etwa `LINK STÖRT` und nutzt lokale Caches:
 Statusanzeigen und Logs bleiben aktiv, doch `codex`-Abfragen wie `codex mission`
-antworten mit `[OFFLINE – keine Verbindung]`.
+antworten mit `OFFLINE – keine Verbindung`.
 ### Fallback-Briefkarte
 
 Bei HUD-Ausfall hilft eine laminierte Kurzkarte mit:
