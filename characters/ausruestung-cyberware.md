@@ -311,7 +311,10 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 | **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m | 0 | 800 | 1 |
 |  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
 | **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
-|  | _Stim-Reg Cap-Injector_ | 3 Dosen; +2 GES für 1 Szene, danach –1 TEMP bis Erholung | 0 | 850 | 1 |
+
+#### Stim-Reg Cap-Injector {#stim-reg-cap-injector}
+
+3 Dosen; +2 GES für 1 Szene, danach −1 TEMP bis Erholung
 
 _SYS nur nötig, wenn das Gerät dauerhaft integriert wird (z. B. Visor als Implantat-Visier). Tragbare
 Module zählen nicht._
