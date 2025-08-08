@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-version: 1.0
+version: 4.2.0
 tags: [meta]
 ---
 
