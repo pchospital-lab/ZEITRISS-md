@@ -718,9 +718,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 `Heldenwürfel verfügbar`  🎲  Jetzt einsetzen?
 `Akku Psi-Modul 18 %`  ⚠  Leistung drosseln!
 ```
-<span style="color:#6cf">HUD: Paradoxon 3/5</span>
-Beispiel-Button-Bar: `[1] [2] [3] [4] [5]`
-Live-Anzeige: `[Rifts offen x] [+SG +y] [CU-Multi z×]`
+`Paradoxon 3/5`
+Beispiel-Button-Bar: `1` `2` `3` `4` `5`
+Live-Anzeige: `Rifts offen x` `+SG +y` `CU-Multi z×`
 Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()`.
 <span style="color:#f93">Regel: bei Px 5 folgt ClusterCreate()</span>
 
@@ -750,7 +750,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
 -  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
 - **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
-  **„[W10 aktiv]“** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
+  **`W10 aktiv`** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
   (einmaliger Reroll).
 - **Riss-Tracker (temporaler Resonator):**[^riss-tracker] Der **Paradoxon-Index**
   ist euer Wegweiser zu wertvollen Anomalien und belegt
