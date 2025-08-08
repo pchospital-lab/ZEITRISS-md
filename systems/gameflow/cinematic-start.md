@@ -48,9 +48,7 @@ Agent*in. Chrono-Stabilisierung initialisiert…“\*
 Noch bevor sich die Halle öffnet, schiebt der Codex eine dezente Hinweiszeile
 ins Sichtfeld:
 
-```text
-[Tipp: `menü` zeigt Optionen und aktive Modi]
-```
+`Tipp: menü zeigt Optionen und aktive Modi`
 
 Mit einem Zischen gleiten gegenüber dem Portal massive Stahltüren auf. **Commander Arnaud Renier**,
 Einsatzleiter des Instituts für Temporale Intervention (ITI), tritt mit entschlossenem Schritt in

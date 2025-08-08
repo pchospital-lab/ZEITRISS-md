@@ -78,9 +78,8 @@ if not char.get("psi") and not char.get("has_psi"):
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen
-  bis zum nächsten Anstieg aus, z. B. `[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2
-  Missionen]`. Ein optionales `px_tracker(temp)`-Makro berechnet die
-  Differenz automatisch.
+  bis zum nächsten Anstieg aus, z. B. `Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
+  Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
 - Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `OpenRifts` und setze `Px = 0`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
@@ -616,7 +615,8 @@ Erzeugt eine Para-Kreatur über `#para-creature-generator`.
 <!-- Macro: generate_para_creature -->
 {% macro generate_para_creature(seed) -%}
   {%- set enc = gpull('gameplay/kreative-generatoren-begegnungen.md#para-creature-generator', seed) -%}
-  {% set hud = hud_tag('👾 ' ~ enc.creature.name ~ ' (' ~ enc.creature.type ~ ')') %}
+  {%- set hud_core = hud_tag(enc.creature.name ~ ' (' ~ enc.creature.type ~ ')') -%}
+  {%- set hud = (settings.allow_event_icons and '👾 ' or '') ~ hud_core -%}
   {{ {'creature': enc.creature, 'loot': enc.loot, 'hud': hud} }}
 {%- endmacro %}
 
@@ -654,7 +654,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 ARC-BOSS (T3) → ' ~ boss.name ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~ ' · Pool: ' ~ pool_name) }}
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool_name = 'core_mini_pool' %}
         {% set pool_data = core_mini_pool[epoch] %}
@@ -663,7 +663,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 MINI-BOSS (T3) → ' ~ boss ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('MINI-BOSS (T3) → ' ~ boss ~ ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -672,7 +672,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~ ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
