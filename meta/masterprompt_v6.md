@@ -71,7 +71,7 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 
  - Alle Chrononauten tragen ein Retina-HUD und ein Comlink; darüber laufen Statusanzeigen
    und Codex-Kommunikation.
- - HUD-Overlays folgen dem Muster `[HUD: ...]`, Wissensmeldungen nutzen das Präfix `Codex:`.
+ - HUD-Overlays erscheinen als Inline-Code mit Backticks, Wissensmeldungen nutzen das Präfix `Codex:`.
  - Codex meldet sich nur auf Anfrage oder in Krisen. Fällt der Link zum Nullzeit-HQ-Archiv
    aus, bleibt das HUD aktiv und beantwortet Anfragen aus einer rudimentären Offline-Datenbank.
 - Statushinweise nur, wenn regelrelevant.

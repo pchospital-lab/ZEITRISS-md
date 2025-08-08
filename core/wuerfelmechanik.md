@@ -132,7 +132,7 @@ es zur Geschichte passt.
 
 Exploding-Ketten müssen dabei **sichtbar ausgerufen** werden. Zeige jeden
 Zusatzwurf offen im Chat, etwa
-`[Exploding 6 → 6 → 2 = 14]`, damit die Gruppe den dramatischen Lauf
+`Exploding 6 → 6 → 2 = 14`, damit die Gruppe den dramatischen Lauf
 mitverfolgen kann.
 
 ### Fail-Forward & Countdown {#fail-forward}
@@ -256,7 +256,7 @@ Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen einmaligen Reroll pr
 | 6 | 83 % | Benötigt 2+ |
 | 7+ | 100 % | Automatischer Erfolg |
 
-Sobald ein Attribut den Wert 11 erreicht, blendet das HUD **„[W10 aktiv]“** ein.
+Sobald ein Attribut den Wert 11 erreicht, blendet das HUD **„`W10 aktiv`“** ein.
 Ab 14 weist es zusätzlich auf den Heldenwürfel hin. Dieser erlaubt einen
 einmaligen Reroll und kann ebenfalls explodieren.
 
@@ -324,7 +324,7 @@ Spannung** bis zum Schluss erhalten bleibt.
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
    Kritische Treffer mit Nahkampf-Mods gewähren **+2 DMG** extra.
-5. **HUD:** Das Ziel sieht `[Vitalstatus 70%]` aufblinken.
+5. **HUD:** Das Ziel sieht `Vitalstatus 70%` aufblinken.
 
 
 ## Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
@@ -554,7 +554,7 @@ Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multip
 | 1            | +1               | 1.2            |
 | 2            | +2               | 1.4            |
 
-_Im HUD erscheint z.B. `[Seeds 1 | Para 5]`._ Die Schwelle jeder Mission –
+_Im HUD erscheint z.B. `Seeds 1 · Para 5`._ Die Schwelle jeder Mission –
 Die Schwelle jeder Mission nutzt diese Werte ab Episodenende und sinkt, sobald ein Seed verschwindet.
 **Live-Formel:** `probe_sg = grund_sg + (rifts_open * sg_rift_bonus) + situational_mods`
 Der Rift-Bonus greift erst nach der Episode, wenn ein neuer Riss entsteht.

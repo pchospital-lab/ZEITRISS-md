@@ -81,7 +81,7 @@ if not char.get("psi") and not char.get("has_psi"):
   bis zum nächsten Anstieg aus, z. B. `[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2
   Missionen]`. Ein optionales `px_tracker(temp)`-Makro berechnet die
   Differenz automatisch.
-- Erreicht der Index Stufe 5, zeige `→ [ClusterCreate()]`, parke die Seeds als `[OpenRifts]` und setze `Px = 0`.
+- Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `OpenRifts` und setze `Px = 0`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
@@ -378,7 +378,7 @@ als Rohtext noch in HTML-Kommentaren erscheinen. `NextScene()` ruft intern
 zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
 {% macro hud_tag(msg) -%}
-{% if settings.hud_plain %}[HUD: {{ msg }}]{% else %}<span style="color:#6cf">HUD: {{ msg }}</span>{% endif %}
+`{{ msg }}`
 {%- endmacro %}
 
 <!-- Macro: hud_vocab -->
@@ -406,14 +406,12 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: vehicle_overlay -->
 {% macro vehicle_overlay(env) -%}
 {% if env == "vehicle" %}
-| Tempo | Stress | Schaden |
-| ----- | ------ | ------- |
-| 0–30 | 0 | 0 |
-| 31–60 | 1 | 1 |
-| 61–90 | 2 | 2 |
-| 91–120 | 3 | 3 |
-| 121–150 | 4 | 4 |
-| 151+ | 5 | Totalschaden |
+{{ hud_tag('Tempo 0–30 · Stress 0 · Schaden 0') }}
+{{ hud_tag('Tempo 31–60 · Stress 1 · Schaden 1') }}
+{{ hud_tag('Tempo 61–90 · Stress 2 · Schaden 2') }}
+{{ hud_tag('Tempo 91–120 · Stress 3 · Schaden 3') }}
+{{ hud_tag('Tempo 121–150 · Stress 4 · Schaden 4') }}
+{{ hud_tag('Tempo 151+ · Stress 5 · Totalschaden') }}
 {% endif %}
 {%- endmacro %}
 
@@ -422,14 +420,17 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {% set ep = campaign.episode|string(format="02") %}
 {% set ms = campaign.mission_in_episode|string(format="02") %}
 {% set sc = campaign.scene|string(format="02") %}
-██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██
-Seed {{ campaign.seed_id }}
-Objective: {{ campaign.objective }}
-Target: {{ target }}
-Paradox: {{ campaign.paradox }}/5
-SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp }}/{{ char.pp_max }} ·
-HEAT {{ char.heat }}/{{ char.heat_max }}
-{% if pressure %}Pressure: {{ pressure }}{% endif %}
+██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██ · 🎯 {{ campaign.type|upper }}-MISSION
+Seed {{ campaign.seed_id }} · Objective: {{ campaign.objective }}
+{% if char.pp_max > 0 %}
+{% set psi_line = 'Paradox ' ~ campaign.paradox ~ '/5 · SYS ' ~ char.sys ~ '/' ~ char.sys_max ~
+  ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~
+  ' · HEAT ' ~ char.heat ~ '/' ~ char.heat_max %}
+{{ psi_line }}
+{% else %}
+Paradox {{ campaign.paradox }}/5 · SYS {{ char.sys }}/{{ char.sys_max }} · PP –/– · HEAT 0/0
+{% endif %}
+{% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
 
@@ -554,7 +555,7 @@ if not live_threat and campaign.scene % 3 == 0:
 Standardisiert die HUD-Ausgabe aktiver Artefakte.
 <!-- Macro: artifact_overlay -->
 {% macro artifact_overlay(name, effect, risk) -%}
-{{ hud_tag('[ARTEFAKT: aktiv] ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
+{{ hud_tag('ARTEFAKT aktiv ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
 {%- endmacro %}
 
 ### roll_legendary() Macro
@@ -678,7 +679,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 <!-- Macro: psi_activation -->
 {% macro psi_activation(name, sys_cost, pp_cost, heat_cost) -%}
 {% if char.sys + sys_cost > char.sys_max %}
-  {{ hud_tag('[SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ '] – Kapazität erreicht') }}
+  {{ hud_tag('SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ ' – Kapazität erreicht') }}
   {% return %}
 {% endif %}
 {% set campaign.psi_logged = true %}
@@ -686,8 +687,12 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% set char.sys_used = char.sys_used + sys_cost %}
 {% set char.pp = char.pp - pp_cost %}
 {% set char.heat = char.heat + heat_cost %}
-{{ hud_tag('[SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~ ' ·') }}
-HEAT {{ char.heat }}/{{ char.heat_max }}] – {{ name }}
+{{ hud_tag(
+  'SYS ' ~ char.sys ~ '/' ~ char.sys_max ~
+  ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~
+  ' · HEAT ' ~ char.heat ~ '/' ~ char.heat_max ~
+  ' – ' ~ name
+) }}
 {%- endmacro %}
 
 <!-- Macro: log_intervention -->
@@ -1115,7 +1120,7 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   nicht zu überfrachten – setze sie gezielt ein, wenn es wirklich relevant ist (z. B. Warnungen,
   Missionsupdates, neue Erkenntnisse).
 
-- **Konsequente Formatierung:** HUD-Overlays erscheinen im Stil `[HUD: ...]`, während Wissensausgaben
+- **Konsequente Formatierung:** HUD-Overlays erscheinen als Inline-Code (`` `...` ``), während Wissensausgaben
   das Präfix `Codex:` verwenden. Durch diese feste Form wissen Spieler sofort, dass Systemmeldungen
   folgen. Ergänzende Symbole wie ⚠ für Warnung oder ⏳ für Zeitablauf unterstützen die Orientierung.
 - **Informationstiefe steuern:** Nutze den Codex, um Hintergrundinfos oder Regelwissen

@@ -368,7 +368,7 @@ einen Toggle `/stress open|hidden`.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem Rifts nur als dezentes Sensorrauschen auftreten. Optional zeigt das HUD
   ab Stufe 4 einen sanften Resonanzpuls an und blendet die Zahl offener Seeds ein:
-  [HUD: Seeds 3 · 🔄 Paradoxon 4/5]
+  `Seeds 3 · 🔄 Paradoxon 4/5`
   So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
   Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
   `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
@@ -394,9 +394,9 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 ### HUD-Banner · Paradoxon
 ██ Paradoxon 3/5 – Resonanz stabil · Loot +1 ██
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
-[Paradoxon 3/5 · Resonanz ↑]
-[Paradoxon 5/5 · ClusterCreate – Rifts sichtbar]
-[Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]
+`Paradoxon 3/5 · Resonanz ↑`
+`Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
+`Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`
 
 *Banner erscheint immer am Szenenende. Farben:*
 *rot 0–2 · gelb 3–4 · grün 5*
@@ -458,7 +458,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 
 📡 _Codex:_
 > `[Clusterpunkt erreicht – Zugriffspfade gesetzt]`
-> `[Paradoxon-Index zurückgesetzt]`
+> `Paradoxon-Index zurückgesetzt`
 > `[Rift α–beta Koordinaten gespeichert – Zugriff nach Episodenende]`
 
 🎖 Optional:
@@ -536,7 +536,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
 
-### [HUD-Meldungen] – Psi
+### HUD-Meldungen – Psi
 
 | Trigger | Anzeige |
 |---------|---------|
@@ -645,14 +645,15 @@ Der Szenenheader zeigt nach der Episoden- und Szenenzeile dauerhaft
 Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 ```
-[Vitalstatus 20% – kritisch]
-[Riss-Tracker (temporaler Resonator) Stufe 3]
-[Magazin 4/12 | SYS 2/4]
+`Vitalstatus 20% – kritisch`
+`Riss-Tracker (temporaler Resonator) Stufe 3`
+`Magazin 4/12 · SYS 2/4`
 ```
+
 - **HUD-Warnung bei Heavy-Gear:** Sobald aktive Ausrüstung den Wert überschreitet,
-  blinkt `[SYS overload – Heavy]` auf.
+  blinkt `SYS overload – Heavy` auf.
 - **HEAVY LOCK Anzeige:** Fehlt die passende Lizenz für ein {heavy}-Item,
-  erscheint `[HEAVY LOCK]`.
+  erscheint `HEAVY LOCK`.
 
 - **Vitalstatus (Lebenspunkte & Verwundungen):** Das HUD zeigt die aktuelle **Gesundheit** des
   Charakters meist als farbige **Lebensleiste oder Silhouette**. Grün steht für okay, Gelb für
@@ -668,9 +669,9 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   sofort, wie schlimm es seinem Charakter geht, **in-world** durch die Augen der Figur.
 | HUD-Meldung | Regelbedeutung |
 | ------------ | ---------------- |
-| `[Vitalstatus kritisch]` | Lebenspunkte unter 25 % |
-| `[Riss-Tracker (temporaler Resonator) Stufe 3]` | Paradoxon-Index 3, Resonanzmeldung |
-| `[Filter ausgefallen]` | Sichtmodifikator oder Tarnmodul defekt |
+| `Vitalstatus kritisch` | Lebenspunkte unter 25 % |
+| `Riss-Tracker (temporaler Resonator) Stufe 3` | Paradoxon-Index 3, Resonanzmeldung |
+| `Filter ausgefallen` | Sichtmodifikator oder Tarnmodul defekt |
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
   **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer-System nutzt oder
   den PP-Pool sichtbar machen wollt, könnte das HUD einen **Ausdauerbalken** unter der HP-Leiste
@@ -711,11 +712,11 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 
 #### HUD-Snippets (Kurzmeldungen)
 
-```text
-[Paradoxon 3/5 · Resonanz ↑]
-[Paradoxon 5/5 · ClusterCreate – Rifts sichtbar]
-[Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
-[Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
+```
+`Paradoxon 3/5 · Resonanz ↑`
+`Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
+`Heldenwürfel verfügbar`  🎲  Jetzt einsetzen?
+`Akku Psi-Modul 18 %`  ⚠  Leistung drosseln!
 ```
 <span style="color:#6cf">HUD: Paradoxon 3/5</span>
 Beispiel-Button-Bar: `[1] [2] [3] [4] [5]`
@@ -960,9 +961,9 @@ Erst nach der Wahl setzt das HUD die Kampagne fort – der Sprung gilt damit als
 
 ### Erweiterbare Module (Platzhalter)
 
-- 🟥 `warnung` – zeigt [Vitalstatus kritisch], [Paradoxon-Index +1], [Filter ausgefallen]
+- 🟥 `warnung` – zeigt `Vitalstatus kritisch`, `Paradoxon-Index +1`, `Filter ausgefallen`
 - 🟦 `modulinfo` – zeigt aktuelle Cyberware, Bioware, Drohne, Ausrüstung
-- 🟨 `temporale Umgebung` – z. B. `[Schwerkraftanomalie erkannt]` oder `[Zeitschleife → 14s Delay]`
+- 🟨 `temporale Umgebung` – z. B. `Schwerkraftanomalie erkannt` oder `Zeitschleife → 14s Delay`
 - 🟩 `drohnenstatus` – Statusanzeige von VARC oder anderer Begleiteinheit
 
 ### HUD-Async-Messages
