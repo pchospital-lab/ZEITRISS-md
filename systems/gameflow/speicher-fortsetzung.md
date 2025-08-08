@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
 version: 4.2.0
-tags: [systems]
+tags: [system]
 ---
 
 # ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
