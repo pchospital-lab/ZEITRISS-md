@@ -100,9 +100,9 @@ setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
 | **T‑Stufe**        | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS     | EMP-anfällig, Neurostabilisierung nötig |
 | **N‑Typ**          | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS     | Psi-resistent, Stress +1 bei STR |
 | **Standard-Mensch**| Keine Modifikatoren                                | –                                |
-| **Neandertaler**   | +2 STR, −1 INT, −1 CHA                              | Grob, wortkarg                   |
-| **Denisova-Mensch**| +1 STR, +1 TEMP, −1 INT, −1 CHA                     | Zäh, kälteresistent              |
-| **Heidelbergensis**| +1 STR, +1 SYS, −1 INT, −1 CHA                      | Extrem ausdauernd                |
+
+Weitere Vorfahren siehe Abschnitt
+[Historische Homininen (Bio-Sheaths)](#historische-homininen-bio-sheaths).
 
 ### Historische Homininen (Bio-Sheaths)
 

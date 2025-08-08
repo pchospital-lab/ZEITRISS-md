@@ -433,6 +433,8 @@ HEAT {{ char.heat }}/{{ char.heat_max }}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
 
+### StartScene & EndScene Macros {#startscene--endscene-macros}
+
 <!-- Macro: StartScene -->
 {% macro StartScene(loc, target, objective=None, seed_id=None, pressure=None,
 total=12, role="", env=None) -%}
