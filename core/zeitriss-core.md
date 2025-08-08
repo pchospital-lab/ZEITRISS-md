@@ -820,6 +820,13 @@ geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine w
 dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und
 in einen neuen Kampagnenstrang führt.
 
+## Paradoxon & Pararifts {#paradoxon--pararifts}
+
+Erreicht der **Paradoxon-Index** Stufe 5, notiert das ITI 1–2 neue **Rift-Seeds**.
+Sie erscheinen erst nach der Mission im HQ auf der Raumzeitkarte und
+können später als eigenständige Rift-Operationen gespielt werden.
+Nach dem Seed-Eintrag fällt der Index auf 0 zurück.
+
 ## Paradoxon-Index (Positive Feedback Gauge)
 
 Der **Paradoxon-Index** misst nicht, wie instabil die Zeit wird,
