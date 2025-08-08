@@ -233,7 +233,7 @@ Decision: <Was tun?>
 Schilder pro Runde kurz **Deckung**, **Bewegungskorridore** und
 **Sichtlinien**. Beispiel: „Containerreihe links bietet Teildeckung;
 Gegner sprintet von 2 Uhr nach 12 Uhr – was tust du?“ Optional
-markiert das HUD aktuelle Schutzpositionen mit `[cover]`.
+markiert das HUD aktuelle Schutzpositionen mit `cover`.
 
 ---
 ### 6 | HUD-Overlay
@@ -654,7 +654,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 ARC-BOSS (T3) → [' ~ boss.name ~ '] [Pool: ' ~ pool_name ~ ']') }}
+        {{ hud_tag('💀 ARC-BOSS (T3) → ' ~ boss.name ~ ' · Pool: ' ~ pool_name) }}
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool_name = 'core_mini_pool' %}
         {% set pool_data = core_mini_pool[epoch] %}
@@ -663,7 +663,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 MINI-BOSS (T3) → [' ~ boss ~ '] [Pool: ' ~ pool_name ~ ']') }}
+        {{ hud_tag('💀 MINI-BOSS (T3) → ' ~ boss ~ ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -672,7 +672,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ hud_tag('💀 RIFT-BOSS (T3) → [' ~ boss_data.creature.name ~ '] [Pool: ' ~ pool_name ~ ']') }}
+        {{ hud_tag('💀 RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~ ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
