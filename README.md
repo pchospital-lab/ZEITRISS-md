@@ -203,14 +203,17 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 
 ## Standardausrüstung
 
-Chrononauten starten mit einer einheitlichen Grundausrüstung:
+- Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
-- Retina-HUD mit [HUD-Icons](characters/zustaende-hud-system.md#hud-icons)
+- Retina-HUD; Zustände in Backticks, optionale [Event-Icons](characters/zustaende-hud-system.md#hud-icons)
 - Kurzstrecken-Comlink (≈ 2 km) für Team- und Codex-Sync
 - Riss-Tracker (temporaler Resonator) – warnt vor Resonanz, siehe
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
 - Universelles Werkzeug oder Scanner
+
+HUD-Zustände erscheinen als Backticks; Event-Icons sind optional (Feature-Flag).
+☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
 **ZEITRISS 4.2.0** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
