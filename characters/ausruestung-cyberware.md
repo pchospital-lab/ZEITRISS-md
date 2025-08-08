@@ -50,36 +50,36 @@ kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hin
 Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
 
 
-| **Tier 1 – 100 CU** | Effekt |
-| ------------------- | ------------------------------------ |
-| Lockpick-Implantat | +2 Schlösser, leise |
-| Schalldämpfer-Aufsatz | -2 Wach-Alert, nur 3 Schüsse haltbar |
-| Micro-Bug-Pair | 20 m Funk, 30 Min Akku |
-| Rauchgranate Mk I | 1 Szene – Sicht –2 |
+| Ausrüstung (Tier 1 – ca. 100 CU) | Effekt | Kosten (CU) |
+| --- | --- | --- |
+| Lockpick-Implantat | +2 Schlösser, leise | 100 |
+| Schalldämpfer-Aufsatz | −2 Wach-Alert, nur 3 Schüsse haltbar | 100 |
+| Micro-Bug-Pair | 20 m Funk, 30 Min Akku | 100 |
+| Rauchgranate Mk I | 1 Szene – Sicht –2 | 100 |
 
-| **Tier 2 – 300 CU** | Effekt |
-| ------------------- | ------------------------------------ |
-| Chamäleon-Suit v2 | +1 Sneak in Licht, +2 im Dunkeln |
-| Mini-Drohne "Wisp" | Live-Vid 120 m, Hack-Reichweite 20 m |
-| EMP-Patch | legt 1 elektr. Schloss flach (SG-1) |
-| Netz-Spoofer | fälscht Kamera-Feed 1 Szene |
-| Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) (60 CU) |
-| Holo-Köder | 1‑Szene Decoy; Heimlichkeit +2 (90 CU) |
-| Nano-Bindepflaster | 4 HP sofort; kein Med‑Bay (70 CU) |
+| Ausrüstung (Tier 2 – 60–300 CU) | Effekt | Kosten (CU) |
+| --- | --- | --- |
+| Chamäleon-Suit v2 | +1 Sneak in Licht, +2 im Dunkeln | 300 |
+| Mini-Drohne "Wisp" | Live-Vid 120 m, Hack-Reichweite 20 m | 300 |
+| EMP-Patch | legt 1 elektr. Schloss flach (SG‑1) | 300 |
+| Netz-Spoofer | fälscht Kamera-Feed 1 Szene | 300 |
+| Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) | 60 |
+| Holo-Köder | 1‑Szene Decoy; Heimlichkeit +2 | 90 |
+| Nano-Bindepflaster | 4 HP sofort; kein Med‑Bay | 70 |
 
-| **Tier 3 – 600 CU** | Effekt |
-| ------------------- | -------------------------------------- |
-| Plasma-Cutter (Handheld) | öffnet Metalltür in 1 Rnd, laut |
-| Phase-Gürtel β | 1×/Mission: 3 Sek durch Wand (≤ 20 cm) |
-| Nanofiber-Vest | –2 Schaden erste Kugel / Szene |
-| EMP-Granate Pro | Radius 8 m, deaktiviert Drohnen |
+| Ausrüstung (Tier 3 – ca. 600 CU) | Effekt | Kosten (CU) |
+| --- | --- | --- |
+| Plasma-Cutter (Handheld) | öffnet Metalltür in 1 Rnd, laut | 600 |
+| Phase-Gürtel β | 1×/Mission: 3 Sek durch Wand (≤ 20 cm) | 600 |
+| Nanofiber-Vest | –2 Schaden erste Kugel / Szene | 600 |
+| EMP-Granate Pro | Radius 8 m, deaktiviert Drohnen | 600 |
 
-| **Tier 4 – 900 CU** | Effekt |
-| ------------------- | ---------------------------------- |
-| Proto-Zeitdetektor | Warnt 1 Szene vor Anachron-Tech |
-| Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag |
-| Void-Blade | ignoriert Rüstung 2, Paradox-safe |
-| Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit |
+| Ausrüstung (Tier 4 – ca. 900 CU) | Effekt | Kosten (CU) |
+| --- | --- | --- |
+| Proto-Zeitdetektor | Warnt 1 Szene vor Anachron-Tech | 900 |
+| Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag | 900 |
+| Void-Blade | ignoriert Rüstung 2, Paradox-safe | 900 |
+| Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit | 900 |
 
 
 \*\> **_Hinweis:_** Alle Werte und Beispiele in diesem Modul sind Vorschläge, die auf Spielbalance
