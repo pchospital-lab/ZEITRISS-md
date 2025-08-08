@@ -11,7 +11,7 @@ tags: [characters, optional]
 - Zustände und Statuseffekte
 - Heilung & Erholung – klassisch, filmisch, high-tech
 - Initiative-Systeme: klassisch, cineastisch oder szenisch
-- Stress, Paradox und mentale Belastungen
+- Stress, Paradoxon und mentale Belastungen
 - Ressourcenmodelle: Ausdauer & PP-Pool (optional)
 - Besonderheiten im Zeitstrom: Unterbrechungen, Reaktionen & freie Aktionen
 - Cinematisches HUD-Overlay: Immersives Interface im Spiel
@@ -89,7 +89,7 @@ im Überblick:
     Innerhalb von Augenblicken wird der Sterbende ins HQ gezogen, wo die Ärzte bereits auf ihn
     warten. In besonders brenzligen Fällen dreht das ITI die persönliche Zeit des Charakters sogar
     ein Stück zurück – die Extraktion erfolgt aus einem Moment **Sekunden vor der tödlichen
-    Verwundung**, um bessere Stabilisierungschancen zu haben (natürlich nur, wenn dies kein Paradox
+    Verwundung**, um bessere Stabilisierungschancen zu haben (natürlich nur, wenn dies kein Paradoxon
     auslöst). Für die Kampagne heißt das: Der Charakter **überlebt knapp**, ist aber **schwer
     gezeichnet**. Die Genesung dauert sehr lange, und bis zur völligen Einsatzfähigkeit vergehen
     mitunter **zahlreiche Missionen**. **Bleibende Schäden** sind wahrscheinlich (Narben, Verlust von Gliedmaßen
@@ -305,7 +305,7 @@ je nachdem ob Ihr es taktisch, schnell oder erzählerisch mögt. Drei Varianten 
 > cineastischen Modus vielleicht nur einen dezenten Hinweis, **wer gerade die Oberhand hat** (z.B.
 > „Initiative: Team“ oder ein Icon für den aktuellen Akteur).
 
-## Stress, Paradox und mentale Belastungen
+## Stress, Paradoxon und mentale Belastungen
 
 Neben physischen Bedrohungen können **Stress und Zeitparadoxa** an den Charakteren nagen. Diese
 optionalen Module erlauben es, **mentale und temporale Belastungen** abzubilden, die über bloße
@@ -368,7 +368,7 @@ einen Toggle `/stress open|hidden`.
   Wer einen puristischeren Thriller bevorzugt, kann [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen,
   bei dem Rifts nur als dezentes Sensorrauschen auftreten. Optional zeigt das HUD
   ab Stufe 4 einen sanften Resonanzpuls an und blendet die Zahl offener Seeds ein:
-  [HUD: Seeds 3 · 🔄 Paradox 4/5]
+  [HUD: Seeds 3 · 🔄 Paradoxon 4/5]
   So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
   Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
   `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
@@ -394,12 +394,12 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 ### HUD-Banner · Paradoxon
 ██ Paradoxon 3/5 – Resonanz stabil · Loot +1 ██
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
-[Paradox 3/5 · Resonanz ↑]
-[Paradox 5/5 · ClusterCreate – Rifts sichtbar]
-[Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]
+[Paradoxon 3/5 · Resonanz ↑]
+[Paradoxon 5/5 · ClusterCreate – Rifts sichtbar]
+[Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen]
 
 *Banner erscheint immer am Szenenende. Farben:*
-*green 0–2 · yellow 3–4 · cyan 5*
+*rot 0–2 · gelb 3–4 · grün 5*
 
 > _Resonanzanzeige für Rissverfolgung_
 > _Codex-Modul: `CLSTR:TRACE.MONITOR`_
@@ -452,7 +452,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 #### PARADOXON 5/5 – CLUSTERCREATE
 > *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
 > Du hast genug Resonanz erzeugt.
-> **Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.**
+> **Paradoxon 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Episodenende freigeschaltet.
 
@@ -634,7 +634,7 @@ Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0–5; bei
 Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
 Mali. Mehr Details im Codex.
-Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradox); weitere
+Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradoxon); weitere
 Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
 maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
@@ -712,12 +712,12 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 #### HUD-Snippets (Kurzmeldungen)
 
 ```text
-[Paradox 3/5 · Resonanz ↑]
-[Paradox 5/5 · ClusterCreate – Rifts sichtbar]
+[Paradoxon 3/5 · Resonanz ↑]
+[Paradoxon 5/5 · ClusterCreate – Rifts sichtbar]
 [Heldenwürfel verfügbar]  🎲  Jetzt einsetzen?
 [Akku Psi-Modul 18 %]  ⚠  Leistung drosseln!
 ```
-<span style="color:#6cf">HUD: Paradox 3/5</span>
+<span style="color:#6cf">HUD: Paradoxon 3/5</span>
 Beispiel-Button-Bar: `[1] [2] [3] [4] [5]`
 Live-Anzeige: `[Rifts offen x] [+SG +y] [CU-Multi z×]`
 Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()`.

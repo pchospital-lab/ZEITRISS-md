@@ -835,12 +835,12 @@ TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 
 | Stufe | HUD-Farbe | Bedeutung                       | Effekt                  |
 |-----:|-----------|---------------------------------|-------------------------|
-| 0    | ▢ hellgrau | Leerlauf                       | Keine Resonanz          |
-| 1–2  | ▢ grün    | Basis-Resonanz                  | +10 % Codex-Analyse     |
+| 0    | ▢ rot     | Leerlauf                       | Keine Resonanz          |
+| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Codex-Analyse     |
 | 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf            |
-| **5**| ▢ cyan    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
+| **5**| ▢ grün    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
 
-> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD cyan.
+> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD grün.
 > Das ITI merkt nach Missionsende 1–2 Rift-Seeds vor (spielbar nach Arc-Abschluss).
 > Danach springt der Index auf **0** und der Loop beginnt erneut.
 **Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
