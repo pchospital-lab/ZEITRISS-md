@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 11: Psi-Fähigkeiten"
 version: 4.2.0
-tags: [systems, optional]
+tags: [system, psi, optional]
 ---
 
 # ZEITRISS 4.2.0 – Modul 11: Psi-Fähigkeiten

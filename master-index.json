@@ -3,20 +3,20 @@
     {
       "slug": "readme",
       "path": "README.md",
-      "title": "Projektüberblick",
+      "title": "ZEITRISS-md Zeitreise RPG",
       "category": "Meta"
     },
     {
       "slug": "core",
       "path": "core/zeitriss-core.md",
-      "title": "ZEITRISS Core",
+      "title": "ZEITRISS 4.2.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem",
       "category": "Core",
       "level": "muss"
     },
     {
       "slug": "dice",
       "path": "core/wuerfelmechanik.md",
-      "title": "Würfelmechanik",
+      "title": "ZEITRISS 4.2.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten",
       "category": "Core",
       "href": "#schwierigkeits-benchmark-tabelle",
       "level": "muss"
@@ -24,27 +24,27 @@
     {
       "slug": "chars",
       "path": "characters/charaktererschaffung.md",
-      "title": "Charaktererschaffung",
+      "title": "ZEITRISS 4.2.0 – Modul 3: Charaktererschaffung & Progression",
       "category": "Characters"
     },
     {
       "slug": "cyber-short",
       "path": "characters/ausruestung-cyberware.md",
-      "title": "Ausrüstung & Cyberware",
+      "title": "ZEITRISS 4.2.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung",
       "category": "Cyber",
       "variantType": "short"
     },
     {
       "slug": "cyber-full",
       "path": "characters/cyberware-und-bioware.md",
-      "title": "Cyberware und Bioware",
+      "title": "ZEITRISS 4.2.0 – Modul 4B: Cyberware & Bioware",
       "category": "Cyber",
       "variantType": "full"
     },
     {
       "slug": "psi-short",
       "path": "characters/psi-talente.md",
-      "title": "Psi-Talente",
+      "title": "ZEITRISS 4.2.0 – Modul 4C: Psi-Fähigkeiten & Talente",
       "category": "Psi",
       "variantType": "short",
       "href": "#backlash-tabelle-kritischer-patzer"
@@ -52,7 +52,7 @@
     {
       "slug": "psi-full",
       "path": "systems/kp-kraefte-psi.md",
-      "title": "Kräfte-Psi",
+      "title": "ZEITRISS 4.2.0 – Modul 11: Psi-Fähigkeiten",
       "category": "Psi",
       "variantType": "full",
       "href": "#power-punkte-temp",
@@ -61,33 +61,33 @@
     {
       "slug": "hud",
       "path": "characters/zustaende-hud-system.md",
-      "title": "Zustände & HUD",
+      "title": "ZEITRISS 4.2.0 – Modul 5: Erweiterte Systeme & Cinematisches HUD",
       "category": "Characters",
       "level": "soll"
     },
     {
       "slug": "kampagnenstruktur",
       "path": "gameplay/kampagnenstruktur.md",
-      "title": "Kampagnenstruktur",
+      "title": "ZEITRISS 4.2.0 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen",
       "category": "Gameplay",
       "level": "muss"
     },
     {
       "slug": "kampagnenuebersicht",
       "path": "gameplay/kampagnenuebersicht.md",
-      "title": "Kampagnenübersicht",
+      "title": "ZEITRISS 4.2.0 – Modul 10: Im Schatten des Montauk-Projekts",
       "category": "Gameplay"
     },
     {
       "slug": "generatoren-missionen",
       "path": "gameplay/kreative-generatoren-missionen.md",
-      "title": "Kreative Generatoren – Missionen",
+      "title": "ZEITRISS 4.2.0 – Modul 8A: Kreative Generatoren – Missionen",
       "category": "Gameplay"
     },
     {
       "slug": "generatoren-begegnungen",
       "path": "gameplay/kreative-generatoren-begegnungen.md",
-      "title": "Kreative Generatoren – Begegnungen",
+      "title": "ZEITRISS 4.2.0 – Modul 8B: Kreative Generatoren – Begegnungen",
       "category": "Gameplay",
       "href": "#artefakt-generator"
     },
@@ -106,67 +106,39 @@
     {
       "slug": "vehicles",
       "path": "gameplay/fahrzeuge-konflikte.md",
-      "title": "Fahrzeuge & Konflikte",
+      "title": "ZEITRISS 4.2.0 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren",
       "category": "Gameplay"
     },
     {
       "slug": "mass",
       "path": "gameplay/massenkonflikte.md",
-      "title": "Massenkonflikte",
+      "title": "ZEITRISS 4.2.0 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte",
       "category": "Gameplay",
       "href": "#rift-kreaturen-stat-blocks"
     },
     {
       "slug": "currency",
       "path": "systems/currency/cu-waehrungssystem.md",
-      "title": "CU-Währungssystem",
+      "title": "ZEITRISS 4.2.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem",
       "category": "System"
     },
     {
       "slug": "save",
       "path": "systems/gameflow/speicher-fortsetzung.md",
-      "title": "Speicher/Fortsetzung",
+      "title": "ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)",
       "category": "System"
     },
     {
       "slug": "cinematic",
       "path": "systems/gameflow/cinematic-start.md",
-      "title": "Cinematic Start",
+      "title": "ZEITRISS 4.2.0 – Modul 13: Cineastischer Einstieg ins erste Abenteuer",
       "category": "System"
     },
     {
       "slug": "toolkit",
       "path": "systems/toolkit-gpt-spielleiter.md",
-      "title": "Toolkit GPT-Spielleiter",
+      "title": "ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung",
       "category": "System"
-    },
-    {
-      "slug": "walkthrough-london",
-      "path": "gameplay/kampagnenstruktur.md",
-      "title": "Mini-Walkthrough London-Arc",
-      "category": "Gameplay",
-      "href": "#mini-walkthrough-london-arc"
-    },
-    {
-      "slug": "walkthrough-mauerbau",
-      "path": "gameplay/kampagnenstruktur.md",
-      "title": "Mini-Walkthrough Mauerbau 1961",
-      "category": "Gameplay",
-      "href": "#mini-walkthrough-mauerbau-1961"
-    },
-    {
-      "slug": "quick-mission-feuerkette",
-      "path": "gameplay/kampagnenstruktur.md",
-      "title": "Quick-Mission Feuerkette 1410",
-      "category": "Gameplay",
-      "href": "#quick-mission-feuerkette-1410"
-    },
-    {
-      "slug": "beispiel-episoden",
-      "path": "gameplay/kampagnenstruktur.md",
-      "title": "Beispiel-Episoden & Rift-Op",
-      "category": "Gameplay",
-      "href": "#beispiel-episoden"
     }
   ],
   "pools": [

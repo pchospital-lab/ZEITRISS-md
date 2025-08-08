@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem"
 version: 4.2.0
-tags: [systems]
+tags: [system]
 ---
 
 # ZEITRISS 4.2.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem

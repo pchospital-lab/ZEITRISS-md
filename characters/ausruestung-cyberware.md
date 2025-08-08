@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung"
 version: 4.2.0
-tags: [characters]
+tags: [characters, cyber]
 ---
 
 # ZEITRISS 4.2.0 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung
