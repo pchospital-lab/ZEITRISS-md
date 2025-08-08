@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.2.0
-tags: [systems]
+tags: [system]
 default_modus: mission-fokus
 ---
 {% from "../README.md" import StoreCompliance %}
