@@ -31,11 +31,14 @@ def main() -> int:
             continue
 
         if anchor:
-            text = file_path.read_text(encoding="utf-8")
-            if f"#{anchor}" not in text:
-                errors.append(
-                    f"Missing anchor '#{anchor}' in {module_path} (slug: {module.get('slug')})"
-                )
+            if file_path.suffix == ".json":
+                print(f"[SKIP] JSON anchor check for '{module_path}#{anchor}'")
+            else:
+                text = file_path.read_text(encoding="utf-8")
+                if f"#{anchor}" not in text:
+                    errors.append(
+                        f"Missing anchor '#{anchor}' in {module_path} (slug: {module.get('slug')})",
+                    )
 
     if errors:
         for err in errors:

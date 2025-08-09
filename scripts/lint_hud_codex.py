@@ -5,7 +5,6 @@ Ensures all HUD overlays use the InlineHUD style with backticks.
 """
 import pathlib
 import re
-import sys
 
 pattern = re.compile(r"\[(HUD|INFO|TIP|TIPP|Paradox|PX|PRESSURE|ALERT|Codex)\s*:")
 warn_pattern = re.compile(r"\[[A-Z][A-Za-z0-9_-]{1,12}\s*:")

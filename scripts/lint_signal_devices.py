@@ -5,7 +5,6 @@ Searches Markdown files for forbidden signal terms and ensures a device
 (Comlink, Jammer, Terminal, etc.) is mentioned on the same line.
 """
 import pathlib
-import sys
 
 FORBIDDEN = [
     "Cyberspace",
