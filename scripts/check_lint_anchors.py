@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check that every LINT anchor in markdown is referenced by at least one linter."""
+"""Fail on orphaned LINT: anchors (not covered by any lint script)."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -8,25 +8,35 @@ import re
 
 def main() -> int:
     root = Path(__file__).resolve().parents[1]
-    anchors: dict[str, list[str]] = {}
+
+    allow = set()
+    allow_file = root / ".lint" / "anchors.allow"
+    if allow_file.exists():
+        allow = {
+            ln.strip()
+            for ln in allow_file.read_text(encoding="utf-8").splitlines()
+            if ln.strip()
+        }
+
+    # Alle LINT: Marker aus .md einsammeln
+    repo_anchors = set()
     for p in root.rglob("*.md"):
-        if p.name == "LINT-CATALOG.md" and p.parent.name == "docs":
-            continue
         text = p.read_text(encoding="utf-8")
-        for m in re.finditer(r"LINT:[A-Z0-9_\-]+", text):
-            anchors.setdefault(m.group(0), []).append(str(p.relative_to(root)))
-    used: set[str] = set()
+        repo_anchors |= set(re.findall(r"LINT:[A-Z0-9_\-]+", text))
+
+    # Abdeckung in Lint-Skripten
+    covered = set()
     for p in (root / "scripts").glob("lint_*.py"):
-        used.update(re.findall(r"LINT:[A-Z0-9_\-]+", p.read_text(encoding="utf-8")))
-    ok = True
-    for anchor, files in sorted(anchors.items()):
-        if anchor not in used:
-            for f in files:
-                print(f"[WARN] Orphan LINT anchor {anchor} in {f}")
-            ok = False
-    if ok:
-        print("All LINT anchors are referenced.")
-    return 0
+        t = p.read_text(encoding="utf-8")
+        covered |= set(re.findall(r"LINT:[A-Z0-9_\-]+", t))
+
+    orphans = sorted(a for a in repo_anchors if a not in covered and a not in allow)
+    for a in orphans:
+        print(f"[FAIL] Orphan LINT anchor: {a}")
+
+    ok = len(orphans) == 0
+    print("Summary:", "OK" if ok else f"FAIL ({len(orphans)} orphans)")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":

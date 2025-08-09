@@ -524,7 +524,7 @@ geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
 die Schwelle entsprechend der verbliebenen Seeds neu berechnet und Loot-Multi
 angepasst.
 
-### Makros im Überblick
+### Makros im Überblick {#makros-im-ueberblick}
 
 - `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
 - `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
