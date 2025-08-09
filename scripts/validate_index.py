@@ -7,6 +7,26 @@ import json
 import sys
 from pathlib import Path
 
+
+def resolve_json_anchor(obj: object, frag: str):
+    """Resolve ``frag`` against ``obj`` supporting JSON Pointer and dot paths."""
+    if frag.startswith("/"):
+        cur = obj
+        for seg in frag.strip("/").split("/"):
+            seg = seg.replace("~1", "/").replace("~0", "~")
+            if isinstance(cur, list):
+                cur = cur[int(seg)]
+            else:
+                cur = cur[seg]
+        return cur
+    cur = obj
+    for seg in frag.split("."):
+        if seg.isdigit() and isinstance(cur, list):
+            cur = cur[int(seg)]
+        else:
+            cur = cur[seg]
+    return cur
+
 def main() -> int:
     repo_root = Path(__file__).resolve().parent.parent
     index_path = repo_root / "master-index.json"
@@ -39,9 +59,11 @@ def main() -> int:
                         f"JSON parse error in {module_path}: {exc} (slug: {module.get('slug')})",
                     )
                 else:
-                    if anchor not in json_data:
+                    try:
+                        resolve_json_anchor(json_data, anchor)
+                    except Exception:
                         errors.append(
-                            f"Missing key '{anchor}' in {module_path} (slug: {module.get('slug')})",
+                            f"[FAIL] Missing JSON key: {module_path}#{anchor}",
                         )
             else:
                 text = file_path.read_text(encoding="utf-8")
