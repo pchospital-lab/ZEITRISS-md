@@ -539,6 +539,20 @@ Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
 neuen Missionspfad wählen. Nach der Auswahl führt das HUD die
 Kampagne fort – der Sprung gilt damit als abgeschlossen.
 
+## ITI-HQ & Chronopolis {#hq-chronopolis}
+
+- **ITI-HQ** bleibt das zentrale Hub mit Shop, Clinic, Workshop,
+  Briefing und Fraktionskontakten; hier darf gespeichert werden.
+- **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
+  den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
+  `CITY`, Speichern bleibt blockiert.
+- In Chronopolis sind FR-Kontakte untersagt und Rifts lassen sich dort
+  nicht starten; Seeds und Board-Infos erscheinen weiterhin.
+- HQ-Zutritt ist ITI-Agenten vorbehalten; Gäste benötigen
+  `guest_custody`.
+- Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
+  Preisfaktoren.
+
 ## Spielmodi {#spielmodi}
 
 Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
