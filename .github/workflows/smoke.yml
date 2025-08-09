@@ -9,12 +9,19 @@ jobs:
         with:
           python-version: '3.x'
       - run: bash scripts/smoke.sh | tee smoke.log
-      - run: python3 scripts/generate_lint_catalog.py && git diff --exit-code || true
+      - name: Generate LINT catalog
+        run: python3 scripts/generate_lint_catalog.py
+
+      - name: Show LINT catalog diff (non-blocking)
+        run: git diff -- docs/LINT-CATALOG.md --exit-code || true
+
       - if: always()
+        name: Upload smoke artifacts
         uses: actions/upload-artifact@v4
         with:
           name: smoke-logs
           path: |
             smoke.log
+            docs/LINT-CATALOG.md
             .smoke/**/*
           retention-days: 7
