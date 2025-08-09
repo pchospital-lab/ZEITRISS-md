@@ -458,13 +458,28 @@ Decision: {{ text }}?
 {%- endmacro %}
 <!-- Macro: scene_overlay -->
 {% macro scene_overlay(target, total, pressure=None, env=None) -%}
-{% set ep = campaign.episode|string(format="02") %}
-{% set ms = campaign.mission_in_episode|string(format="02") %}
-{% set sc = campaign.scene|string(format="02") %}
-██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██ · 🎯 {{ campaign.type|upper }}-MISSION
-Seed {{ campaign.seed_id }} · Objective: {{ campaign.objective }}
-Paradox {{ px_bar(campaign.paradox) }} · TEMP {{ char.temp or 4 }} · +1 nach {{ px_eta(char.temp or 4) }}
-· SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp or '–' }}/{{ char.pp_max or '–' }} · HEAT {{ char.heat }}/{{ char.heat_max }}
+{% set ep = campaign.episode %}
+{% set ms = campaign.mission_in_episode %}
+{% set sc = campaign.scene %}
+{% set TYPE = campaign.type|upper %}
+{% set seed = campaign.seed_id %}
+{% set objective = campaign.objective %}
+{# kurzer Quelltext, aber weiterhin EINZEILIGER HUD-Output #}
+{% set segs = [
+  "██ EP " ~ (ep|format("%02d")),
+  " · MS " ~ (ms|format("%02d")),
+  " · SC " ~ (sc|format("%02d")) ~ "/" ~ total,
+  " ██ · 🎯 " ~ TYPE,
+  " · Seed " ~ (seed or "–"),
+  " · Objective: " ~ objective,
+  " · Paradox " ~ px_bar(campaign.paradox),
+  " · TEMP " ~ (char.temp or 4),
+  " · +1 nach " ~ px_eta(char.temp or 4),
+  " · SYS " ~ char.sys ~ "/" ~ char.sys_max,
+  " · PP " ~ (char.pp or "–") ~ "/" ~ (char.pp_max or "–"),
+  " · HEAT " ~ char.heat ~ "/" ~ char.heat_max
+] %}
+`{{ segs|join('') }}`
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
@@ -765,7 +780,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~
+           hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~
+                   ' · Pool: ' ~ pool_name) }}
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool_name = 'core_mini_pool' %}
         {% set pool_data = core_mini_pool[epoch] %}
@@ -774,7 +791,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('MINI-BOSS (T3) → ' ~ boss ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~
+           hud_tag('MINI-BOSS (T3) → ' ~ boss ~
+                   ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -783,7 +802,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~ hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~ ' · Pool: ' ~ pool_name) }}
+        {{ (settings.allow_event_icons and '💀 ' or '') ~
+           hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~
+                   ' · Pool: ' ~ pool_name) }}
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
