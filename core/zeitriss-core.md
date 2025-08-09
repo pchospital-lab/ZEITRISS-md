@@ -372,17 +372,17 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   _kombiniert_ beides: vorgegebene Fortschrittspunkte _und_ Raum für organische, storybasierte Talente.
   Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
 
-- **[Erweiterung] Heldenwuerfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
-  Limits sinnvoll abzubilden, fuehren wir die **Heldenwuerfel**-Mechanik ein. Erreicht ein Wert
-  **11 oder mehr**, erhaelt der Charakter bei Proben auf diesem Attribut **automatisch einen
-  zusaetzlichen W6** – er wuerfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
-  _Heldenwuerfel_ sorgt dafuer, dass ein Wert ueber 10 nicht bloss **"+1"** bringt, sondern einen
-  **qualitativen Sprung** darstellt. Uebermenschliche Werte erhoehen die Erfolgschancen, ohne die
-  Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiter pro Wuerfel separat und
-  erlaubt selten legendaere Ergebnisse.) **Flow:** Der Heldenwuerfel bringt dramatische Hoehepunkte,
+- **[Erweiterung] Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
+  Limits sinnvoll abzubilden, führen wir die **Heldenwürfel**-Mechanik ein. Erreicht ein Wert
+  **11 oder mehr**, erhält der Charakter bei Proben auf diesem Attribut **automatisch einen
+  zusätzlichen W6** – er würfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
+  _Heldenwürfel_ sorgt dafür, dass ein Wert über 10 nicht bloss **"+1"** bringt, sondern einen
+  **qualitativen Sprung** darstellt. Übermenschliche Werte erhöhen die Erfolgschancen, ohne die
+  Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiter pro Würfel separat und
+  erlaubt selten legendäre Ergebnisse.) **Flow:** Der Heldenwürfel bringt dramatische Höhepunkte,
   ohne dass statische Boni dominieren. **Balance:** Durch die Begrenzung bleibt er ein seltenes
-  Highlight. **Storytelling:** Er unterstreicht, wie aussergewoehnlich Werte jenseits der 10 sind
-  und erlaubt Szenen fast uebernatuerlicher Meisterschaft.
+  Highlight. **Storytelling:** Er unterstreicht, wie außergewöhnlich Werte jenseits der 10 sind
+  und erlaubt Szenen fast übernatürlicher Meisterschaft.
 
 #### Signature-Aktionen (individuelle Heldentricks)
 
@@ -412,13 +412,13 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 #### Prestige-Stufen & Interner Aufstieg
 
-- **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, fuehrt ZEITRISS optionale
-  Prestige-Stufen ein – etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhaelt der Chrononaut
-  einen Titel im ITI und darf einen besonderen _Prestige-Perk_ waehlen. Beispiele: ein zusaetzlicher
-  Heldenwuerfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
-  Attributslimit geringfuegig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
-  Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden erlangen
-  ITI-weiten Ruf, was interne Plots eroeffnet, bleiben jedoch anonym fuer die Epochen.
+  - **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
+    Prestige-Stufen ein – etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
+    einen Titel im ITI und darf einen besonderen _Prestige-Perk_ wählen. Beispiele: ein zusätzlicher
+    Heldenwürfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
+    Attributslimit geringfügig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
+    Vorteile bleiben qualitativ und verhindern Power Creep. **Storytelling:** Die Helden erlangen
+    ITI-weiten Ruf, was interne Plots eröffnet, bleiben jedoch anonym für die Epochen.
 
 #### Endgame-Inhalte & Langzeit-Herausforderungen
 

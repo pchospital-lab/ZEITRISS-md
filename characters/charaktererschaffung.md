@@ -30,7 +30,7 @@ dein rekonstruiertes Bewusstsein in diesen Körper.
 
 1. Konzeptidee festlegen
 2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (T‑Stufe/N‑Typ) oder historischer Hominin.
-   Siehe [optionale Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
+   Siehe [Hominin-Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (Basis 2–5)
 4. Zwei Talente wählen
 5. Startausrüstung notieren

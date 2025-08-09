@@ -80,7 +80,7 @@ Die ersten Schritte in unter zwei Minuten:
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
 3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
-4. **Success Table** – Erfolgsraten siehe [Wuerfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
+4. **Success Table** – Erfolgsraten siehe [Würfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
@@ -172,7 +172,7 @@ Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
-Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-Überblick):
+Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick):
 - `ClusterCreate()`
 - `ClusterDashboard()`
 - `launch_rift(id)` – startet nach der Episode eine eigenständige
