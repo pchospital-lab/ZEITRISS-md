@@ -645,6 +645,30 @@ total=None, role="", env=None) -%}
   {% endif %}
 {%- endmacro %}
 
+{# LINT:CHRONO_ABORT #}
+{% macro chrono_abort() -%}
+  {% if chrono and chrono.active %}
+    {{ hud_tag('Chronopolis abgebrochen – zurück ins ITI‑HQ') }}
+    {% set chrono.active = false %}
+    {{ chrono_guards_disable() }}
+    {% set campaign.loc = 'HQ' %}
+    {{ hq_entry_hook() }}
+  {% else %}
+    {{ hud_tag('Chronopolis nicht aktiv – keine Aktion') }}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:CHRONO_RESUME_GUARD #}
+{% macro chrono_resume_guard() -%}
+  {% if campaign.loc == 'CITY' and not (chrono and chrono.active) %}
+    {{ hud_tag('Session‑Resume: CITY ohne aktives Chronopolis – Rückkehr ins HQ') }}
+    {% set campaign.loc = 'HQ' %}
+    {{ hq_entry_hook() }}
+  {% endif %}
+{%- endmacro %}
+
+{{ chrono_resume_guard() }}
+
 {# LINT:CHRONO_GUARDS #}
 {% macro chrono_guards_enable() -%}
   {# HQ‑kritische Systeme aus: Seeds/Paradox/Boss/FR #}

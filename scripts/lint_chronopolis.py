@@ -36,6 +36,15 @@ all_ok &= ok(r"campaign\.loc\s*=\s*'HQ'", "exit_chronopolis resets loc='HQ'")
 all_ok &= ok(r"LINT:CHRONO_KEY_HQ_HOOK", "HQ-entry key hook anchor present")
 all_ok &= ok(r"exit_chronopolis\(\).*campaign\.loc\s*=\s*'HQ'.*hq_entry_hook\(\)",
              "Key auto-grant is called on HQ entry")
+# Anchors vorhanden?
+all_ok &= ok(r"LINT:CHRONO_ABORT", "Chronopolis abort macro present")
+all_ok &= ok(r"LINT:CHRONO_RESUME_GUARD", "Chronopolis resume guard present")
+
+# Wirksamkeit: Abort bringt zurück ins HQ
+all_ok &= ok(r"chrono_abort\(\).*campaign\.loc\s*=\s*'HQ'", "Abort returns location to HQ")
+
+# Hook-Aufruf: Resume-Guard wird irgendwo aufgerufen
+all_ok &= ok(r"chrono_resume_guard\(\)", "Resume guard is invoked in bootstrap/entry")
 
 SV = (ROOT/"systems"/"gameflow"/"speicher-fortsetzung.md")
 if SV.exists():
