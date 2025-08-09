@@ -6,13 +6,12 @@ python3 scripts/lint_chronopolis.py
 python3 scripts/lint_hud_codex.py
 python3 scripts/lint_signal_devices.py
 python3 scripts/validate_index.py
+echo ""
+echo "Manual Chronopolis Gate Smoke (60–90s):"
+echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
+echo " 2) In CITY: fr_contact(...) -> BLOCK; im HQ -> OK"
+echo " 3) chrono_launch_rift in CITY -> BLOCK; im HQ + episode_completed=true -> OK"
+echo " 4) chrono_launch_rift ohne chrono.epoch -> nutzt campaign.epoch (Fallback)"
+echo " 5) In CITY: Save -> BLOCK; im HQ: Save -> OK"
+echo ""
 echo "All smoke checks passed."
-
-# Manual Chronopolis smoke (≈60–90 s):
-# 1. start_chronopolis() ohne Schlüssel → Block "Schlüssel ab Level 10".
-# 2. char.lvl=10; chrono_grant_key_if_lvl10(); start_chronopolis() → ok.
-# 3. In Chronopolis: campaign.loc=='CITY'; Saveversuch → blockiert.
-# 4. exit_chronopolis(); campaign.loc=='HQ'; Save → ok.
-# 5. In Chronopolis: fr_contact(...) und chrono_launch_rift(...) → blockiert.
-# 6. Im HQ mit episode_completed=true: chrono_launch_rift(seed) → startet Rift.
-# 7. hq_admit für Nicht-Agenten blockiert; Gäste mit guest_custody erlaubt.

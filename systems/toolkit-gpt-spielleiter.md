@@ -630,12 +630,18 @@ total=None, role="", env=None) -%}
   {{ chrono_hud('INIT') }}
 {%- endmacro %}
 
+{# LINT:CHRONO_KEY_HQ_HOOK #}
+{% macro hq_entry_hook() -%}
+  {{ chrono_grant_key_if_lvl10() }}
+{%- endmacro %}
+
 {% macro exit_chronopolis() -%}
   {% if chrono and chrono.active %}
     {% set chrono.active = false %}
     {{ hud_tag('Chronopolis verlassen') }}
     {{ chrono_guards_disable() }}
     {% set campaign.loc = 'HQ' %}
+    {{ hq_entry_hook() }}
   {% endif %}
 {%- endmacro %}
 
@@ -680,8 +686,9 @@ total=None, role="", env=None) -%}
   {% if chrono_can_launch_rift() != 'true' %}
     {{ hud_tag('Rift‑Start blockiert – erst im HQ nach Episodenende') }}{% return %}
   {% endif %}
+  {% set ep_use = (chrono and chrono.epoch) or campaign.epoch %}
   {{ hud_tag('Rift‑Koordinate aktiviert: ' ~ seed_id) }}
-  {{ StartMission(total=14, type='rift', seed_id=seed_id, epoch=(chrono and chrono.epoch), objective='Resolve Rift') }}
+  {{ StartMission(total=14, type='rift', seed_id=seed_id, epoch=ep_use, objective='Resolve Rift') }}
 {%- endmacro %}
 
 {# LINT:CHRONO_SERVICES #}
