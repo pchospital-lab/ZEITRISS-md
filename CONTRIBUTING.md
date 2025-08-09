@@ -27,6 +27,11 @@ Vielen Dank für deine Mithilfe!
 - `python3 tools/lint_runtime.py` prüft die Runtime-Guards.
 - `bash scripts/smoke.sh` startet alle Linter gesammelt.
 
+## Windows-Support
+
+Die Skripte erwarten eine POSIX-kompatible Umgebung. Die CI nutzt `ubuntu-latest`.
+Unter Windows führe Tests daher mit Git-Bash oder WSL aus.
+
 ## Formatierungshinweise
 
 - Nutze Bindestriche (`-`) als Aufzählungszeichen.

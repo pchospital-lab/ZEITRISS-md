@@ -9,8 +9,12 @@ jobs:
         with:
           python-version: '3.x'
       - run: bash scripts/smoke.sh | tee smoke.log
-      - uses: actions/upload-artifact@v4
-        if: always()
+      - run: python3 scripts/generate_lint_catalog.py && git diff --exit-code || true
+      - if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: smoke-log
-          path: smoke.log
+          name: smoke-logs
+          path: |
+            smoke.log
+            .smoke/**/*
+          retention-days: 7
