@@ -17,6 +17,8 @@ python3 scripts/lint_chronopolis.py
 python3 scripts/lint_hud_codex.py
 python3 scripts/lint_signal_devices.py
 python3 scripts/validate_index.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
 python3 scripts/check_lint_anchors.py
 
 echo ""

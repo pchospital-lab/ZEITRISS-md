@@ -157,7 +157,7 @@ Optionen:
   So bleiben erzählerische Höhepunkte erhalten, ohne extreme Schadensspitzen.
 - **Variante C: Burst-Cap** – Jeder Würfel darf nur **einmal** explodieren. Weitere 6er zählen normal.
   Diese Variante ist nun der **Standard** in ZEITRISS, um extreme Schadensspitzen zu bändigen.
-- **Variante D:** Heldenwuerfel duerfen erst eingesetzt werden, wenn ein W6 explodiert ist.
+- **Variante D:** Heldenwürfel dürfen erst eingesetzt werden, wenn ein W6 explodiert ist.
 
 ### Sniper-Alpha-Strike eindämmen
 

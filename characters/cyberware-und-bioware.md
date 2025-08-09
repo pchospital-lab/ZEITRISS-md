@@ -150,6 +150,7 @@ also drei belegte Slots.
 - **Voraussetzung:** Bioware 3+
 - **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
 
+<a id="optional-hominin-bio-sheaths"></a>
 ## Optional: Hominin-Bio-Sheaths
 
 Die ITI-Forschung erlaubt es, ein Bewusstsein in eine **polyclonale Bio-Hülle** zu
