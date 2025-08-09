@@ -25,11 +25,19 @@ for tag in [
     "LINT:ARENA_CAMPAIGN_SNAP","LINT:ARENA_ABORT","LINT:ARENA_LOG"
 ]:
     all_ok &= ok(tag, f"{tag} present")
+for tag in [
+  r"LINT:ARENA_TIEBREAK",
+  r"LINT:ARENA_RULE_PENALTY",
+  r"LINT:ARENA_MODE_CONTROL",
+  r"LINT:ARENA_MODE_ELIMINATION",
+]:
+    all_ok &= ok(tag, f"{tag} present")
 all_ok &= ok(r"arena_action\(", "ArenaAction macro exists")
 all_ok &= ok(r"Aktion blockiert – Gerät angeben", "Device requirement text present")
 all_ok &= ok(r"Jammer aktiv", "Jammer action present")
 all_ok &= ok(r"ARENA·", "Arena HUD label present")
 all_ok &= ok(r"`.*ARENA", "HUD overlay is in backticks")
+all_ok &= ok(r"PHASE:", "Arena HUD displays phase tag")
 
 def assert_no_anchor_in_output_context(text, label):
     for i, line in enumerate(text.splitlines(), 1):
