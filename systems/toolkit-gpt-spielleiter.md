@@ -1836,6 +1836,16 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {% endif %}
 {%- endmacro %}
 
+{# LINT:ARENA_RULE_PENALTY #}
+{% macro arena_penalty(team, reason, points=1) -%}
+  {{ hud_tag('Arena‑Penalty ' ~ team ~ ': −' ~ points ~ ' (' ~ reason ~ ')') }}
+  {% set arena.score = {
+    'A': arena.score.A - (points if team=='A' else 0),
+    'B': arena.score.B - (points if team=='B' else 0)
+  } %}
+  {{ arena_hud('PENALTY') }}
+{%- endmacro %}
+
 {# LINT:ARENA_BUDGET #}
 {% macro arena_budget_init(limit=5) -%}
   {% set arena.budget_limit = limit %}
@@ -1843,10 +1853,14 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {{ hud_tag('Loadout‑Budget: ' ~ limit) }}
 {%- endmacro %}
 
-{% macro arena_spend(points) -%}
+{% macro arena_spend(points, team=None) -%}
   {% set arena.budget_used = (arena.budget_used or 0) + points %}
   {% if arena.budget_used > (arena.budget_limit or 5) %}
-    {{ hud_tag('Loadout‑Budget überschritten – Aktion/Item blockiert') }}
+    {% if team %}
+      {{ arena_penalty(team, 'Budget überzogen') }}
+    {% else %}
+      {{ hud_tag('Loadout‑Budget überschritten – Aktion/Item blockiert') }}
+    {% endif %}
     {% return %}
   {% endif %}
 {%- endmacro %}
@@ -1885,10 +1899,35 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {{ arena_hud("OOB") }}
 {%- endmacro %}
 
+{# LINT:ARENA_TIEBREAK #}
+{% macro arena_tiebreak(seconds=45) -%}
+  {% set arena.tiebreak = true %}
+  {% set arena.t_remaining = seconds %}
+  {% set arena.oob_penalty = arena.oob_penalty + 1 %}
+  {{ hud_tag('Tiebreak – erster Stun gewinnt · Limit ' ~ seconds ~ 's') }}
+  {{ arena_hud('TBREAK') }}
+{%- endmacro %}
+
+{# LINT:ARENA_MODE_CONTROL #}
+{% macro arena_mode_control_tick(owner_team, tick=1) -%}
+  {{ hud_tag('Control‑Tick: +' ~ tick ~ ' → ' ~ owner_team) }}
+  {{ arena_score(owner_team, tick) }}
+{%- endmacro %}
+
+{# LINT:ARENA_MODE_ELIMINATION #}
+{% macro arena_elimination_down(team) -%}
+  {{ hud_tag('Elimination: ' ~ team ~ ' down') }}
+  {# Optional: prüft hier Team‑Wipe und ruft arena_match_won(other_team) #}
+{%- endmacro %}
+
 {% macro arena_end_round() -%}
   {{ hud_tag('Runde ' ~ arena.round ~ ' Ende · Score A:' ~ arena.score.A ~
     ' B:' ~ arena.score.B) }}
   {% if arena.round >= arena.rounds_total %}
+    {% if arena.score.A == arena.score.B %}
+      {{ arena_tiebreak(45) }}
+      {% return %}
+    {% endif %}
     {{ exit_pvp_arena() }}
   {% endif %}
 {%- endmacro %}
@@ -1907,7 +1946,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro arena_action(actor, kind, target=None, device=None) -%}
   {% if kind in ['hack','jam'] %}
     {% if not device or device not in ['Comlink','Jammer','Terminal','Kabel','Konsole'] %}
-      {{ hud_tag('Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
+      {{ arena_penalty(actor, 'Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
       {% return %}
     {% endif %}
     {{ comms_check(distance_km=1, jammer=(kind=='jam'), relays=false) }}
@@ -1932,7 +1971,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {# LINT:ARENA_PSI_HINT #}
 {% macro arena_resolve_psi(actor, target) -%}
   {% if arena.psi_policy != 'allowed' %}
-    {{ hud_tag('Psi verboten in dieser Arena') }}
+    {{ arena_penalty(actor, 'Psi verboten') }}
     {% return %}
   {% endif %}
   {{ hud_tag(actor ~ ' (Psi) → Stun ' ~ target ~ ' (Arena-Gitter: +SG, SYS/PP/Heat gelten)') }}
@@ -1958,6 +1997,11 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
     'A': arena.score.A + (points if team=='A' else 0),
     'B': arena.score.B + (points if team=='B' else 0)
   } %}
+  {% if arena.tiebreak %}
+    {{ hud_tag('Tiebreak entschieden → Team ' ~ team ~ ' gewinnt') }}
+    {{ exit_pvp_arena() }}
+    {% return %}
+  {% endif %}
   {{ arena_hud("SCORE") }}
 {%- endmacro %}
 
@@ -1969,6 +2013,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   " · A:" ~ arena.score.A, " · B:" ~ arena.score.B,
   " · OOB " ~ arena.oob_penalty
 ] %}
+{% if phase %}{% set segs = segs + [" · PHASE:" ~ phase] %}{% endif %}
 `{{ segs|join('') }}`
 {%- endmacro %}
 
