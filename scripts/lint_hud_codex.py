@@ -22,7 +22,7 @@ def is_whitelisted(text: str) -> bool:
     return any(w.search(text) for w in whitelist)
 
 
-def main() -> None:
+def main() -> int:
     ok = True
     for path in pathlib.Path('.').rglob('*.md'):
         text = path.read_text(encoding='utf-8')
@@ -41,9 +41,8 @@ def main() -> None:
                 continue
             line = text.count('\n', 0, match.start()) + 1
             print(f"{path}:{line}: dollar wrapper (warn)")
-    if not ok:
-        sys.exit(1)
+    return 0 if ok else 1
 
 
 if __name__ == '__main__':
-    main()
+    raise SystemExit(main())
