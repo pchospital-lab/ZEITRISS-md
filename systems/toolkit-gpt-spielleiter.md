@@ -351,6 +351,7 @@ Mission fest und dient der Boss-Generierung.
 {# Mission-Invarianten #}
 {% if campaign.type == "core" %}
   {% set campaign.scene_total = 12 %}
+  {# LINT:CORE_BOSS_M05_M10 #}
   {% set campaign.boss_allowed = (campaign.mission_in_episode in [5,10]) %}
   {% set campaign.artifact_allowed = false %}
 {% elif campaign.type == "rift" %}
@@ -525,6 +526,7 @@ total=12, role="", env=None) -%}
 {# Boss-Regel #}
 {% if campaign.type == "rift" and campaign.scene == 10 %}
   {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
+  {# LINT:BOSS_SCENE10_RIFT #}
   {{ hud_tag('Boss-Encounter in Szene 10') }}
 {% elif campaign.type == "core" and campaign.scene == 10 and campaign.boss_allowed %}
   {{ generate_boss('core', campaign.mission, campaign.epoch) }}
@@ -651,6 +653,7 @@ Standardisiert die HUD-Ausgabe aktiver Artefakte.
 Würfelt legendäres Artefakt aus `artifact_pool_v3`.
 <!-- Macro: roll_legendary -->
 {% macro roll_legendary() -%}
+  {# LINT:RIFT_ARTIFACT_11_13_D6 #}
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {% if campaign.scene not in [11,12,13] %}{% return %}{% endif %}
   {% if not campaign.boss_defeated %}{% return %}{% endif %}
@@ -712,6 +715,7 @@ nach einem Para-Kreaturen-Drop.
   {% set campaign.paradox = campaign.paradox + 1 %}
   {% if campaign.paradox >= 5 %}
      {% set seeds = ['auto'] %}
+     {# LINT:PX5_SEED_GATE #}
      {{ hud_tag('Paradox 5 erreicht – neue Rift-Koordinaten verfügbar') }}
      {% set campaign.OpenRifts = (campaign.OpenRifts or []) + seeds %}
      {% set campaign.paradox = 0 %}
@@ -829,6 +833,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 
 <!-- Macro: log_intervention -->
 {% macro log_intervention(result) -%}
+  {# LINT:FR_INTERVENTION #}
 {{ hud_tag('FR-INTRV: ' ~ result) }}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {{ codex_log_npc('fr_intervention', {'result': result}) }}

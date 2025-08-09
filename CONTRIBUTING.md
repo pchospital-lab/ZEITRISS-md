@@ -22,6 +22,11 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 
 Vielen Dank für deine Mithilfe!
 
+## Offline-Lint ausführen
+
+- `python3 tools/lint_runtime.py` prüft die Runtime-Guards.
+- `bash scripts/smoke.sh` startet alle Linter gesammelt.
+
 ## Formatierungshinweise
 
 - Nutze Bindestriche (`-`) als Aufzählungszeichen.
