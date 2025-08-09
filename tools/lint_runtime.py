@@ -4,17 +4,15 @@
 from __future__ import annotations
 
 import re
-import sys
 from pathlib import Path
-from typing import List, Pattern
 
 
 def load_text(path: Path) -> str:
     return path.read_text(encoding="utf-8")
 
 
-def req(pattern: str | Pattern[str], text: str, msg: str, fails: List[str]) -> None:
-    pat: Pattern[str] = re.compile(pattern, re.S) if isinstance(pattern, str) else pattern
+def req(pattern: str | re.Pattern[str], text: str, msg: str, fails: list[str]) -> None:
+    pat: re.Pattern[str] = re.compile(pattern, re.S) if isinstance(pattern, str) else pattern
     if not pat.search(text):
         print(f"[FAIL] {msg}")
         fails.append(msg)
@@ -22,12 +20,12 @@ def req(pattern: str | Pattern[str], text: str, msg: str, fails: List[str]) -> N
         print(f"[ OK ] {msg}")
 
 
-def main(argv: List[str] | None = None) -> int:
+def main() -> int:
     root = Path(__file__).resolve().parents[1]
     tk = load_text(root / "systems" / "toolkit-gpt-spielleiter.md")
     sv = load_text(root / "systems" / "gameflow" / "speicher-fortsetzung.md")
 
-    fails: List[str] = []
+    fails: list[str] = []
 
     # Mission-Invarianten & Gates
     req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)
