@@ -32,7 +32,17 @@ def main() -> int:
 
         if anchor:
             if file_path.suffix == ".json":
-                print(f"[SKIP] JSON anchor check for '{module_path}#{anchor}'")
+                try:
+                    json_data = json.loads(file_path.read_text(encoding="utf-8"))
+                except json.JSONDecodeError as exc:
+                    errors.append(
+                        f"JSON parse error in {module_path}: {exc} (slug: {module.get('slug')})",
+                    )
+                else:
+                    if anchor not in json_data:
+                        errors.append(
+                            f"Missing key '{anchor}' in {module_path} (slug: {module.get('slug')})",
+                        )
             else:
                 text = file_path.read_text(encoding="utf-8")
                 if f"#{anchor}" not in text:
