@@ -57,4 +57,14 @@ _kursiv_ und **fett**
 - [ ] HQ-Phase und CU-Abrechnung eingebaut.
 - [ ] Psi-Optionen nur bei passendem Tag.
 - [ ] `SceneCounter` wird via `NextScene()` erhöht.
+## PvP-Arena (HQ-Training)
+
+- Arena läuft im HQ-Kontext; keine Seeds, kein Paradoxon, kein Boss, keine FR-Intervention und keine CU-Belohnung.
+- Runden & Timer: Best-of-N, bei 0 Sudden Death, OOB-Strafe eskaliert.
+- Fairness: Loadout-Budget 5 Punkte, Psi nach Policy, Fahrzeuge optional.
+- Signalpflicht: Hack/Jam nur mit Gerät; 2 km Reichweite, Jammer beachten.
+- Speichern während einer Arena ist blockiert.
+- State-Safety: SYS/PP/Heat/Stress/Cooldowns werden nach dem Match restauriert.
+- Killswitch: `arena_abort()` stellt den Zustand wieder her.
+- Logging: Ergebnis landet im Codex oder HUD.
 *© 2025 pchospital – private use only. See LICENSE.

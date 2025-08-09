@@ -1734,9 +1734,59 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {%- endmacro %}
 
 
+{# LINT:ARENA_SNAPSHOT #}
+{% macro arena_snapshot_state() -%}
+  {% set arena._snap = {
+    'sys': char.sys, 'heat': char.heat, 'stress': char.stress,
+    'pp': char.pp, 'cooldowns': char.cooldowns
+  } %}
+{%- endmacro %}
+
+{# LINT:ARENA_RESTORE #}
+{% macro arena_restore_state() -%}
+  {% if arena._snap %}
+    {% set char.sys = arena._snap.sys %}
+    {% set char.heat = arena._snap.heat %}
+    {% set char.stress = arena._snap.stress %}
+    {% set char.pp = arena._snap.pp %}
+    {% set char.cooldowns = arena._snap.cooldowns %}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:ARENA_BLOCK_SAVE #}
+{% macro save_guard() -%}
+  {% if arena and arena.active %}
+    {{ hud_tag('Speichern blockiert – Arena aktiv') }}
+    {% return %}
+  {% endif %}
+  {{ hq_only_save_guard() }}
+{%- endmacro %}
+
+{# LINT:ARENA_CAMPAIGN_SNAP #}
+{% macro arena_snapshot_campaign() -%}
+  {% set arena._camp = {
+    'seeds_suppressed': campaign.seeds_suppressed,
+    'paradox_frozen': campaign.paradox_frozen,
+    'boss_suppressed': campaign.boss_suppressed,
+    'intervention_suppressed': campaign.intervention_suppressed,
+    'cu_payout': campaign.cu_payout
+  } %}
+{%- endmacro %}
+
+{% macro arena_restore_campaign() -%}
+  {% if arena._camp %}
+    {% set campaign.seeds_suppressed = arena._camp.seeds_suppressed %}
+    {% set campaign.paradox_frozen = arena._camp.paradox_frozen %}
+    {% set campaign.boss_suppressed = arena._camp.boss_suppressed %}
+    {% set campaign.intervention_suppressed = arena._camp.intervention_suppressed %}
+    {% set campaign.cu_payout = arena._camp.cu_payout %}
+  {% endif %}
+{%- endmacro %}
+
 {# LINT:ARENA_MODULE #}
 {# LINT:ARENA_GUARDS #}
 {% macro arena_guards_enable() -%}
+  {{ arena_snapshot_campaign() }}
   {# LINT:ARENA_NO_SEEDS #}
   {% set campaign.seeds_suppressed = true %}
   {# LINT:ARENA_NO_PARADOX #}
@@ -1756,24 +1806,54 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {% set campaign.intervention_suppressed = false %}
 {%- endmacro %}
 
+{# LINT:ARENA_SINGLE_INSTANCE #}
 {% macro start_pvp_arena(mode="duel", map="Holo-Halle A", rounds=3,
   time_limit_s=180, psi_policy="allowed", vehicle_policy="off") -%}
+  {% if arena and arena.active %}
+    {{ hud_tag('Arena bereits aktiv – beende aktuelles Match zuerst') }}
+    {% return %}
+  {% endif %}
+  {{ arena_snapshot_state() }}
   {% set arena = {
     'active': true, 'mode': mode, 'map': map, 'rounds_total': rounds,
     'round': 0, 'time_limit_s': time_limit_s, 'psi_policy': psi_policy,
     'vehicle_policy': vehicle_policy, 'score': {'A':0,'B':0},
     'oob_penalty': 1
   } %}
+  {{ arena_budget_init(5) }}
   {{ arena_guards_enable() }}
   {{ arena_hud("INIT") }}
 {%- endmacro %}
 
 {% macro exit_pvp_arena() -%}
   {% if arena.active %}
-    {% set arena.active = false %}
     {{ hud_tag('Arena Ende · Score A:' ~ arena.score.A ~ ' B:' ~ arena.score.B) }}
+    {{ arena_log_result() }}
+    {{ arena_restore_campaign() }}
+    {{ arena_restore_state() }}
     {{ arena_guards_disable() }}
+    {% set arena = {'active': false} %}
   {% endif %}
+{%- endmacro %}
+
+{# LINT:ARENA_BUDGET #}
+{% macro arena_budget_init(limit=5) -%}
+  {% set arena.budget_limit = limit %}
+  {% set arena.budget_used = 0 %}
+  {{ hud_tag('Loadout‑Budget: ' ~ limit) }}
+{%- endmacro %}
+
+{% macro arena_spend(points) -%}
+  {% set arena.budget_used = (arena.budget_used or 0) + points %}
+  {% if arena.budget_used > (arena.budget_limit or 5) %}
+    {{ hud_tag('Loadout‑Budget überschritten – Aktion/Item blockiert') }}
+    {% return %}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:ARENA_AFK_GUARD #}
+{% macro arena_mark_action() -%}
+  {% set arena.last_action_tick = arena.t_remaining or arena.time_limit_s %}
 {%- endmacro %}
 
 {% macro arena_start_round() -%}
@@ -1783,7 +1863,13 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {%- endmacro %}
 
 {% macro arena_tick(delta_s=10) -%}
-  {% set arena.t_remaining = [arena.t_remaining - delta_s, 0]|max %}
+  {% set prev = arena.t_remaining or arena.time_limit_s %}
+  {% set arena.t_remaining = [prev - delta_s, 0]|max %}
+  {% if (prev - (arena.last_action_tick or prev)) >= 30 %}
+    {{ hud_tag('Inaktivität erkannt – nächste OOB-Strafe +1') }}
+    {% set arena.oob_penalty = arena.oob_penalty + 1 %}
+    {% set arena.last_action_tick = arena.t_remaining %}
+  {% endif %}
   {{ arena_hud("TICK") }}
   {% if arena.t_remaining == 0 %} {{ arena_sudden_death() }} {% endif %}
 {%- endmacro %}
@@ -1817,25 +1903,25 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {%- endmacro %}
 
 {# LINT:ARENA_ACTIONS #}
+{# LINT:ARENA_COMMS_REUSE #}
 {% macro arena_action(actor, kind, target=None, device=None) -%}
-  {% if kind in ['hack','jam'] and (not device or device not in
-    ['Comlink','Jammer','Terminal','Kabel','Konsole']) %}
-    {{ hud_tag('Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
-    {% return %}
+  {% if kind in ['hack','jam'] %}
+    {% if not device or device not in ['Comlink','Jammer','Terminal','Kabel','Konsole'] %}
+      {{ hud_tag('Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
+      {% return %}
+    {% endif %}
+    {{ comms_check(distance_km=1, jammer=(kind=='jam'), relays=false) }}
   {% endif %}
   {% if kind == 'shot' %}
     {{ arena_resolve_shot(actor, target) }}
   {% elif kind == 'psi' %}
-    {% if arena.psi_policy != 'allowed' %}
-      {{ hud_tag('Psi verboten in dieser Arena') }}
-    {% else %}
-      {{ arena_resolve_psi(actor, target) }}
-    {% endif %}
+    {{ arena_resolve_psi(actor, target) }}
   {% elif kind == 'hack' %}
     {{ hud_tag(actor ~ ' hackt ' ~ device ~ ' → kurzzeitige Deckungsstörung') }}
   {% elif kind == 'jam' %}
     {{ hud_tag('Jammer aktiv – Comms gestört (≤2km)') }}
   {% endif %}
+  {{ arena_mark_action() }}
 {%- endmacro %}
 
 {% macro arena_resolve_shot(actor, target) -%}
@@ -1843,13 +1929,28 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {{ arena_apply_stun(target, 1) }}
 {%- endmacro %}
 
+{# LINT:ARENA_PSI_HINT #}
 {% macro arena_resolve_psi(actor, target) -%}
-  {{ hud_tag(actor ~ ' (Psi) → Stun-Impuls auf ' ~ target ~ ' (SYS/PP/Heat gelten)') }}
+  {% if arena.psi_policy != 'allowed' %}
+    {{ hud_tag('Psi verboten in dieser Arena') }}
+    {% return %}
+  {% endif %}
+  {{ hud_tag(actor ~ ' (Psi) → Stun ' ~ target ~ ' (Arena-Gitter: +SG, SYS/PP/Heat gelten)') }}
   {{ arena_apply_stun(target, 1) }}
 {%- endmacro %}
 
 {% macro arena_apply_stun(target, amount) -%}
   {{ hud_tag('Stun ' ~ target ~ ' +' ~ amount) }}
+{%- endmacro %}
+
+{# LINT:ARENA_LOG #}
+{% macro arena_log_result() -%}
+  {% set entry = 'Arena · ' ~ arena.mode ~ ' · A:' ~ arena.score.A ~ ' B:' ~ arena.score.B %}
+  {% if codex_log is defined %}
+    {{ codex_log(entry) }}
+  {% else %}
+    {{ hud_tag('Codex: ' ~ entry) }}
+  {% endif %}
 {%- endmacro %}
 
 {% macro arena_score(team, points=1) -%}
@@ -1869,6 +1970,15 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   " · OOB " ~ arena.oob_penalty
 ] %}
 `{{ segs|join('') }}`
+{%- endmacro %}
+
+{# LINT:ARENA_ABORT #}
+{% macro arena_abort() -%}
+  {{ hud_tag('Arena abgebrochen – Zustand wiederhergestellt') }}
+  {{ arena_restore_state() }}
+  {{ arena_restore_campaign() }}
+  {{ arena_guards_disable() }}
+  {% set arena = {'active': false} %}
 {%- endmacro %}
 
 {% macro arena_match_won(team) -%}
