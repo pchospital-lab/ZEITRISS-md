@@ -18,10 +18,26 @@ all_ok &= ok(r"LINT:ARENA_NO_SEEDS", "Seeds suppressed in arena")
 all_ok &= ok(r"LINT:ARENA_NO_PARADOX", "Paradox frozen in arena")
 all_ok &= ok(r"LINT:ARENA_NO_BOSS", "Boss suppressed in arena")
 all_ok &= ok(r"LINT:ARENA_NO_FR_INTERVENTION", "FR intervention suppressed")
+for tag in [
+    "LINT:ARENA_SNAPSHOT","LINT:ARENA_RESTORE","LINT:ARENA_BLOCK_SAVE",
+    "LINT:ARENA_SINGLE_INSTANCE","LINT:ARENA_AFK_GUARD",
+    "LINT:ARENA_BUDGET","LINT:ARENA_PSI_HINT","LINT:ARENA_COMMS_REUSE",
+    "LINT:ARENA_CAMPAIGN_SNAP","LINT:ARENA_ABORT","LINT:ARENA_LOG"
+]:
+    all_ok &= ok(tag, f"{tag} present")
 all_ok &= ok(r"arena_action\(", "ArenaAction macro exists")
 all_ok &= ok(r"Aktion blockiert – Gerät angeben", "Device requirement text present")
 all_ok &= ok(r"Jammer aktiv", "Jammer action present")
 all_ok &= ok(r"ARENA·", "Arena HUD label present")
 all_ok &= ok(r"`.*ARENA", "HUD overlay is in backticks")
+
+def assert_no_anchor_in_output_context(text, label):
+    for i, line in enumerate(text.splitlines(), 1):
+        if "LINT:" in line and ("`" in line or "hud_tag(" in line):
+            print(f"[FAIL] {label}: LINT anchor leaked at line {i}")
+            return False
+    return True
+
+all_ok &= assert_no_anchor_in_output_context(TK, "toolkit")
 
 raise SystemExit(0 if all_ok else 1)
