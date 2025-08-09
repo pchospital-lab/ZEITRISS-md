@@ -47,6 +47,17 @@ _kursiv_ und **fett**
 ```
 
 
+<a id="schreibweise-umlaute"></a>
+## Schreibweise – Umlaute (kanonisch)
+
+- **Fließtext:** Bitte die deutschen Umlaute **ä/ö/ü/ß** verwenden.
+- **ASCII-Ersatz** (`ae/oe/ue/ss`) ist **nur** in Code, IDs, Dateinamen oder
+  technischen Kontexten erlaubt (z. B. Anker-IDs, Regex, Slugs).
+- **Beispiele (kanonisch im Text):** „Heldenwürfel“, „Würfelmechanik“, „Überblick“.
+- **Qualitätssicherung:** `scripts/lint_umlauts.py` prüft kanonische Schreibweisen.
+  Fehler werden als `[FAIL]` gemeldet. Mapping: `CANON` im Skript.
+- **Tests lokal:** `python3 scripts/lint_umlauts.py` oder `make smoke`.
+
 ## HUD- und Regeltext-Stil
 
 - HUD-Informationen (in-world) werden blau markiert: `<span style="color:#6cf">HUD</span>`

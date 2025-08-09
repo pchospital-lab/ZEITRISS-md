@@ -682,7 +682,7 @@ Scanne den QR-Code oder besuche
 
 ## How to Contribute
 
-Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen.
+Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen; beachte insbesondere die [Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
