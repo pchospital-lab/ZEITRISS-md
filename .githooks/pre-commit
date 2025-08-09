@@ -1,20 +1,21 @@
-#!/bin/sh
-files=$(git diff --cached --name-only --diff-filter=ACM | grep '\.md$')
-if [ -n "$files" ]; then
-    if grep -n "\s$" $files; then
+#!/usr/bin/env bash
+set -euo pipefail
+
+git diff --cached --name-only -z -- '*.md' \
+  | while IFS= read -r -d '' file; do
+    if grep -n "\s$" -- "$file"; then
         echo 'Error: trailing whitespace detected.' >&2
         exit 1
     fi
-    long_lines=$(grep -nH '.\{121\}' $files)
+    long_lines=$(grep -nH '.\{121\}' -- "$file" || true)
     if [ -n "$long_lines" ]; then
         echo 'Error: lines longer than 120 characters:' >&2
         echo "$long_lines" >&2
         exit 1
     fi
-fi
+  done
 
 # validate module index
 python3 scripts/validate_index.py || exit 1
 python3 scripts/lint_hud_codex.py || exit 1
-
 python3 scripts/lint_signal_devices.py || exit 1

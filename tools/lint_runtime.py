@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Runtime lint for ZEITRISS guard rails.
-Offline-only; checks presence of critical strings/macros to prevent regressions."""
+"""Runtime lint for ZEITRISS guard rails; offline-only to prevent regressions."""
+
 from __future__ import annotations
 
 import re
