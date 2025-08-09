@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-import re, sys
+import re
 
 
 def ok(pat: str, msg: str, text: str) -> bool:
@@ -22,7 +22,7 @@ def assert_no_anchor_in_output_context(text: str, label: str) -> bool:
     return True
 
 
-def main(argv: list[str] | None = None) -> int:
+def main() -> int:
     root = Path(__file__).resolve().parents[1]
     tk = (root / "systems" / "toolkit-gpt-spielleiter.md").read_text(encoding="utf-8")
 
