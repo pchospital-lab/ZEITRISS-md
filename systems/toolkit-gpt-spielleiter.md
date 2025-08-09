@@ -601,6 +601,139 @@ total=None, role="", env=None) -%}
   {% endif %}
 {%- endmacro %}
 
+{# LINT:CHRONO_KEY_GATE #}
+{% macro chrono_has_key() -%}
+  {{ 'true' if (char.flags.chronokey or 'Chronopolis‑Schlüssel' in (char.inv or [])) else 'false' }}
+{%- endmacro %}
+
+{% macro chrono_grant_key_if_lvl10() -%}
+  {% if (char.lvl or 1) >= 10 and not char.flags.chronokey %}
+    {% set char.flags.chronokey = true %}
+    {{ hud_tag('Codex: Chronopolis‑Zugang freigeschaltet (Schlüssel erteilt)') }}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:CHRONO_MODULE #}
+{% macro start_chronopolis(district="Agora", ep=None) -%}
+  {% if arena and arena.active %}
+    {{ hud_tag('Chronopolis blockiert – Arena aktiv') }}{% return %}
+  {% endif %}
+  {% if chrono_has_key() != 'true' %}
+    {{ hud_tag('Zugang verweigert – Chronopolis‑Schlüssel ab Level 10 erforderlich') }}{% return %}
+  {% endif %}
+  {% set campaign.loc = 'CITY' %}
+  {% set chrono = {
+    'active': true, 'district': district, 'epoch': ep,
+    'price_mod': 1.0, 'black_mod': 1.3, 'phase': 'INIT'
+  } %}
+  {{ chrono_guards_enable() }}
+  {{ chrono_hud('INIT') }}
+{%- endmacro %}
+
+{% macro exit_chronopolis() -%}
+  {% if chrono and chrono.active %}
+    {% set chrono.active = false %}
+    {{ hud_tag('Chronopolis verlassen') }}
+    {{ chrono_guards_disable() }}
+    {% set campaign.loc = 'HQ' %}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:CHRONO_GUARDS #}
+{% macro chrono_guards_enable() -%}
+  {# HQ‑kritische Systeme aus: Seeds/Paradox/Boss/FR #}
+  {# LINT:CHRONO_NO_SEEDS #}{% set campaign.seeds_suppressed = true %}
+  {# LINT:CHRONO_NO_PARADOX #}{% set campaign.paradox_frozen = true %}
+  {# LINT:CHRONO_NO_BOSS #}{% set campaign.boss_suppressed = true %}
+  {# LINT:CHRONO_NO_FR #}{% set campaign.intervention_suppressed = true %}
+{%- endmacro %}
+
+{% macro chrono_guards_disable() -%}
+  {% set campaign.seeds_suppressed = false %}
+  {% set campaign.paradox_frozen = false %}
+  {% set campaign.boss_suppressed = false %}
+  {% set campaign.intervention_suppressed = false %}
+{%- endmacro %}
+
+{# LINT:HQ_ADMIT_GUARD #}
+{% macro hq_admit(entity) -%}
+  {% if not entity.is_agent and not entity.guest_custody %}
+    {{ hud_tag('HQ‑Zutritt verweigert – nur ITI‑Agenten / Gäste in Gewahrsam') }}
+    {% return %}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:FR_AT_HQ_ONLY #}
+{% macro fr_contact(channel, subject) -%}
+  {% if campaign.loc != 'HQ' %}
+    {{ hud_tag('FR‑Kontakt nur im ITI‑HQ erlaubt') }}{% return %}
+  {% endif %}
+  {{ hud_tag('FR‑Kanal ' ~ channel ~ ' · Thema: ' ~ subject) }}
+{%- endmacro %}
+
+{# LINT:CHRONO_RIFT_GATE #}
+{% macro chrono_can_launch_rift() -%}
+  {{ 'true' if (campaign.loc=='HQ' and campaign.episode_completed) else 'false' }}
+{%- endmacro %}
+
+{% macro chrono_launch_rift(seed_id) -%}
+  {% if chrono_can_launch_rift() != 'true' %}
+    {{ hud_tag('Rift‑Start blockiert – erst im HQ nach Episodenende') }}{% return %}
+  {% endif %}
+  {{ hud_tag('Rift‑Koordinate aktiviert: ' ~ seed_id) }}
+  {{ StartMission(total=14, type='rift', seed_id=seed_id, epoch=(chrono and chrono.epoch), objective='Resolve Rift') }}
+{%- endmacro %}
+
+{# LINT:CHRONO_SERVICES #}
+{% macro chrono_hud(phase="") -%}
+{% set segs = [
+  "CHRONOPOLIS·", chrono.district,
+  " · EP ", (chrono.epoch or "–"),
+  " · PRC×", chrono.price_mod,
+  " · BLK×", chrono.black_mod
+] %}
+{% if phase %}{% set segs = segs + [" · PHASE:", phase] %}{% endif %}
+`{{ segs|join('') }}`
+{%- endmacro %}
+
+{% macro chrono_set_price_mod(base=1.0, black=1.3) -%}
+  {% set chrono.price_mod = base %}{% set chrono.black_mod = black %}
+  {{ chrono_hud('ECON') }}
+{%- endmacro %}
+
+{% macro chrono_shop(listing) -%}
+  {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
+{%- endmacro %}
+
+{% macro chrono_black_market(listing) -%}
+  {{ hud_tag('Black Market: ' ~ listing ~ ' · Preise ×' ~ (chrono.black_mod or 1.3)) }}
+{%- endmacro %}
+
+{% macro chrono_clinic(service, cost_cu) -%}
+  {{ hud_tag('Clinic: ' ~ service ~ ' · Kosten ' ~ cost_cu ~ ' CU') }}
+{%- endmacro %}
+
+{% macro chrono_workshop(action, cost_cu=0) -%}
+  {{ hud_tag('Workshop: ' ~ action ~ (cost_cu and ' · Kosten ' ~ cost_cu ~ ' CU' or '')) }}
+{%- endmacro %}
+
+{% macro chrono_board(mode="preserve") -%}
+  {% set info = (mode=='trigger' and 'kleineres Übel sichern' or 'Kontinuität wahren') %}
+  {{ hud_tag('Briefing‑Board: Modus ' ~ mode ~ ' · ' ~ info) }}
+{%- endmacro %}
+
+{% macro chrono_training_open() -%}
+  {{ hud_tag('Training: PvP‑Arena verfügbar') }}
+{%- endmacro %}
+
+{# LINT:CHRONO_SIGNAL_GUARD #}
+{% macro chrono_terminal(action, device="Terminal") -%}
+  {% if device not in ['Terminal','Kabel','Konsole','Comlink'] %}
+    {{ hud_tag('Aktion blockiert – Gerät angeben (Terminal/Kabel/Comlink)') }}{% return %}
+  {% endif %}
+  {{ hud_tag('Terminal: ' ~ action ~ ' (Signalraum aus)') }}
+{%- endmacro %}
+
 ### codex_summary() Macro
 Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
 <!-- Macro: codex_summary -->
@@ -618,6 +751,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 intervention_result=None) -%}
 {% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.mission % 2 == 0) %}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
+{{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
 {# Episodenende -> Boni für die nächste Episode vormerken #}
