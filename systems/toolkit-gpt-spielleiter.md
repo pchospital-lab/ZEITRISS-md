@@ -1733,48 +1733,156 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {{ team }}
 {%- endmacro %}
 
-<!-- Macro: show_arena_hud -->
-{% macro show_arena_hud(a, b, r, total=3) -%}
-{{ hud_tag('Arena A ' ~ a ~ ' – B ' ~ b ~ ' · Runde ' ~ r ~ '/' ~ total) }}
+
+{# LINT:ARENA_MODULE #}
+{# LINT:ARENA_GUARDS #}
+{% macro arena_guards_enable() -%}
+  {# LINT:ARENA_NO_SEEDS #}
+  {% set campaign.seeds_suppressed = true %}
+  {# LINT:ARENA_NO_PARADOX #}
+  {% set campaign.paradox_frozen = true %}
+  {# LINT:ARENA_NO_BOSS #}
+  {% set campaign.boss_suppressed = true %}
+  {# LINT:ARENA_NO_FR_INTERVENTION #}
+  {% set campaign.intervention_suppressed = true %}
+  {# LINT:ARENA_NO_CU_REWARD #}
+  {% set campaign.cu_payout = 0 %}
 {%- endmacro %}
 
-<!-- Macro: start_pvp_arena -->
-{% macro start_pvp_arena(team_size, faction, difficulty="normal") -%}
-{% set allies = create_faction_allies(faction, team_size) %}
-{% set opponents = create_opposing_team(team_size, allies, difficulty) %}
-{% set campaign.arena = {"winsA":0, "winsB":0, "scenario":arena_scenario(team_size)} %}
-{{ show_arena_hud(0,0,1) }}
+{% macro arena_guards_disable() -%}
+  {% set campaign.seeds_suppressed = false %}
+  {% set campaign.paradox_frozen = false %}
+  {% set campaign.boss_suppressed = false %}
+  {% set campaign.intervention_suppressed = false %}
 {%- endmacro %}
 
-<!-- Macro: arena_match_won -->
-{% macro arena_match_won(player_team=true) -%}
-{% if player_team %}
-  {% set campaign.arena.winsA = campaign.arena.winsA + 1 %}
-{% else %}
-  {% set campaign.arena.winsB = campaign.arena.winsB + 1 %}
-{% endif %}
-{% set r = campaign.arena.winsA + campaign.arena.winsB %}
-{% if campaign.arena.winsA >= 2 or campaign.arena.winsB >= 2 %}
-  {{ exit_pvp_arena() }}
-{% else %}
-  {{ show_arena_hud(campaign.arena.winsA, campaign.arena.winsB, r + 1) }}
-{% endif %}
+{% macro start_pvp_arena(mode="duel", map="Holo-Halle A", rounds=3,
+  time_limit_s=180, psi_policy="allowed", vehicle_policy="off") -%}
+  {% set arena = {
+    'active': true, 'mode': mode, 'map': map, 'rounds_total': rounds,
+    'round': 0, 'time_limit_s': time_limit_s, 'psi_policy': psi_policy,
+    'vehicle_policy': vehicle_policy, 'score': {'A':0,'B':0},
+    'oob_penalty': 1
+  } %}
+  {{ arena_guards_enable() }}
+  {{ arena_hud("INIT") }}
 {%- endmacro %}
 
-<!-- Macro: exit_pvp_arena -->
 {% macro exit_pvp_arena() -%}
-{% if campaign.arena.winsA > campaign.arena.winsB %}
-  {% set campaign.paradox = campaign.paradox + 1 %}
-{% endif %}
-{% set campaign.arena = {"winsA":0, "winsB":0} %}
+  {% if arena.active %}
+    {% set arena.active = false %}
+    {{ hud_tag('Arena Ende · Score A:' ~ arena.score.A ~ ' B:' ~ arena.score.B) }}
+    {{ arena_guards_disable() }}
+  {% endif %}
 {%- endmacro %}
 
-<!-- Macro: start_pvp_duel -->
-{% macro start_pvp_duel(player1, player2, difficulty="normal") -%}
-{{ start_pvp_arena(1, player1.faction, difficulty) }}
-{% set campaign.arena.teamA = [player1] %}
-{% set campaign.arena.teamB = [player2] %}
+{% macro arena_start_round() -%}
+  {% set arena.round = arena.round + 1 %}
+  {% set arena.t_remaining = arena.time_limit_s %}
+  {{ arena_hud("ROUND") }}
 {%- endmacro %}
+
+{% macro arena_tick(delta_s=10) -%}
+  {% set arena.t_remaining = [arena.t_remaining - delta_s, 0]|max %}
+  {{ arena_hud("TICK") }}
+  {% if arena.t_remaining == 0 %} {{ arena_sudden_death() }} {% endif %}
+{%- endmacro %}
+
+{% macro arena_sudden_death() -%}
+  {{ hud_tag('Sudden Death: Zonen schrumpfen, OOB-Schaden +' ~ arena.oob_penalty) }}
+  {% set arena.oob_penalty = arena.oob_penalty + 1 %}
+{%- endmacro %}
+
+{% macro arena_oob(hit_team) -%}
+  {{ hud_tag('Out-of-Bounds: Team ' ~ hit_team ~ ' erhält ' ~ arena.oob_penalty ~ ' Stun') }}
+  {{ arena_apply_stun(hit_team, arena.oob_penalty) }}
+  {{ arena_hud("OOB") }}
+{%- endmacro %}
+
+{% macro arena_end_round() -%}
+  {{ hud_tag('Runde ' ~ arena.round ~ ' Ende · Score A:' ~ arena.score.A ~
+    ' B:' ~ arena.score.B) }}
+  {% if arena.round >= arena.rounds_total %}
+    {{ exit_pvp_arena() }}
+  {% endif %}
+{%- endmacro %}
+
+{# LINT:ARENA_LOADOUT_RULES #}
+{% macro arena_loadout(policy="standard") -%}
+  {% set budget = 5 %}
+  {% set psi_allowed = (arena.psi_policy == "allowed") %}
+  {% set vehicle_allowed = (arena.vehicle_policy == "on") %}
+  {{ hud_tag('Loadout: Budget ' ~ budget ~ ' · Psi ' ~ (psi_allowed and 'ja' or 'nein') ~
+    ' · Fahrzeuge ' ~ (vehicle_allowed and 'ja' or 'nein')) }}
+{%- endmacro %}
+
+{# LINT:ARENA_ACTIONS #}
+{% macro arena_action(actor, kind, target=None, device=None) -%}
+  {% if kind in ['hack','jam'] and (not device or device not in
+    ['Comlink','Jammer','Terminal','Kabel','Konsole']) %}
+    {{ hud_tag('Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
+    {% return %}
+  {% endif %}
+  {% if kind == 'shot' %}
+    {{ arena_resolve_shot(actor, target) }}
+  {% elif kind == 'psi' %}
+    {% if arena.psi_policy != 'allowed' %}
+      {{ hud_tag('Psi verboten in dieser Arena') }}
+    {% else %}
+      {{ arena_resolve_psi(actor, target) }}
+    {% endif %}
+  {% elif kind == 'hack' %}
+    {{ hud_tag(actor ~ ' hackt ' ~ device ~ ' → kurzzeitige Deckungsstörung') }}
+  {% elif kind == 'jam' %}
+    {{ hud_tag('Jammer aktiv – Comms gestört (≤2km)') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro arena_resolve_shot(actor, target) -%}
+  {{ hud_tag(actor ~ ' feuert → ' ~ target ~ ' erhält 1 Stun (Exploding wie Kernregel)') }}
+  {{ arena_apply_stun(target, 1) }}
+{%- endmacro %}
+
+{% macro arena_resolve_psi(actor, target) -%}
+  {{ hud_tag(actor ~ ' (Psi) → Stun-Impuls auf ' ~ target ~ ' (SYS/PP/Heat gelten)') }}
+  {{ arena_apply_stun(target, 1) }}
+{%- endmacro %}
+
+{% macro arena_apply_stun(target, amount) -%}
+  {{ hud_tag('Stun ' ~ target ~ ' +' ~ amount) }}
+{%- endmacro %}
+
+{% macro arena_score(team, points=1) -%}
+  {% set arena.score = {
+    'A': arena.score.A + (points if team=='A' else 0),
+    'B': arena.score.B + (points if team=='B' else 0)
+  } %}
+  {{ arena_hud("SCORE") }}
+{%- endmacro %}
+
+{% macro arena_hud(phase="") -%}
+{% set segs = [
+  "ARENA·" ~ arena.mode|upper, " · Map " ~ arena.map,
+  " · R " ~ arena.round ~ "/" ~ arena.rounds_total,
+  " · T " ~ (arena.t_remaining or arena.time_limit_s) ~ "s",
+  " · A:" ~ arena.score.A, " · B:" ~ arena.score.B,
+  " · OOB " ~ arena.oob_penalty
+] %}
+`{{ segs|join('') }}`
+{%- endmacro %}
+
+{% macro arena_match_won(team) -%}
+  {{ arena_score(team, 1) }}
+  {{ arena_end_round() }}
+{%- endmacro %}
+
+{% macro start_pvp_duel(player1, player2, difficulty="normal") -%}
+  {{ start_pvp_arena("duel") }}
+  {% set arena.teamA = [player1] %}
+  {% set arena.teamB = [player2] %}
+  {{ arena_start_round() }}
+{%- endmacro %}
+
 
 ## Einmalige Eröffnungsnachricht
 
