@@ -327,7 +327,7 @@ Mission fest und dient der Boss-Generierung.
 {%- endmacro %}
 
 <!-- Macro: StartMission -->
-{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None) %}
+{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0) %}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
 {% else %}
@@ -335,11 +335,16 @@ Mission fest und dient der Boss-Generierung.
 {% endif %}
 {% set campaign.episode = ((campaign.mission - 1) // 10) + 1 %}
 {% set campaign.mission_in_episode = ((campaign.mission - 1) % 10) + 1 %}
+{# Episodebeginn: Seed-Gate wieder schließen #}
+{% if campaign.mission_in_episode == 1 %}
+  {% set campaign.episode_completed = false %}
+{% endif %}
 {% set campaign.scene = 1 %}
 {% set campaign.seed_id = seed_id %}
 {% set campaign.objective = objective %}
 {% set campaign.type = type %}
 {% set campaign.epoch = epoch %}
+{{ redirect_same_slot(campaign.epoch, dt_hours) }}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
@@ -405,10 +410,17 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 `{{ msg }}`
 {%- endmacro %}
 
-<!-- Macro: Decision -->
-{% macro Decision(q) -%}
-Decision: {{ q }}?
-{% set campaign.decision_logged = true %}
+{# PRECISION-Markierungsmakros #}
+{% macro SceneHeader(kamera, target, pressure, env=None) -%}
+Kamera: {{ kamera }}.
+Target: {{ target }}.
+Pressure: {{ pressure }}.
+{% set campaign.precision_header_ok = true %}
+{%- endmacro %}
+
+{% macro Decision(text) -%}
+Decision: {{ text }}?
+{% set campaign.precision_decision_ok = true %}
 {%- endmacro %}
 
 <!-- Macro: hud_vocab -->
@@ -471,7 +483,8 @@ total=12, role="", env=None) -%}
 {% set campaign.pp_prev = char.pp %}
 {% set campaign.heat_prev = char.heat %}
 {% set campaign.psi_logged = false %}
-{% set campaign.decision_logged = false %}
+{% set campaign.precision_header_ok = false %}
+{% set campaign.precision_decision_ok = false %}
 {% if loc == "HQ" %}
   {% do char.cooldowns.clear() %}
   {% set char.sys_used = char.sys %}
@@ -518,8 +531,8 @@ total=12, role="", env=None) -%}
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
-{% if not campaign.decision_logged %}
-  {{ hud_tag('Decision fehlt – Szene ohne Frage abgeschlossen') }}
+{% if not campaign.precision_header_ok or not campaign.precision_decision_ok %}
+  {{ hud_tag('PRECISION fehlend – Szene ohne vollständige Header/Decision-Struktur') }}
 {% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
@@ -590,6 +603,11 @@ intervention_result=None) -%}
 {% set campaign.level = campaign.level + 1 %}{% endif -%}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
+{# Episodenende -> Boni für die nächste Episode vormerken #}
+{% if campaign.mission_in_episode == 10 %}
+  {% set campaign.episode_completed = true %}
+  {{ apply_rift_mods_next_episode() }}
+{% endif %}
 {%- endmacro %}
 Rufe `NextScene` am Szenenbeginn auf; es schließt die vorherige Szene über
 `EndScene()` ab und startet den neuen Abschnitt.
@@ -692,6 +710,15 @@ nach einem Para-Kreaturen-Drop.
 {% macro apply_rift_mods_next_episode() -%}
   {% set n = (campaign.OpenRifts or [])|length %}
   {% set campaign.next_episode = {'sg_bonus': n, 'cu_multi': 1.0 + 0.2*n} %}
+{%- endmacro %}
+
+### launch_rift Macro (Gate: nur im HQ & nach Episodenende)
+{% macro launch_rift(id) -%}
+  {% if can_launch_rift() != 'true' %}
+    {{ hud_tag('Rift-Start blockiert – erst nach Episodenende & im HQ') }}
+    {% return %}
+  {% endif %}
+  {{ StartMission(total=14, type='rift', epoch=campaign.epoch, seed_id=id, objective='Resolve Rift') }}
 {%- endmacro %}
 
 ### generate_para_creature() Macro
