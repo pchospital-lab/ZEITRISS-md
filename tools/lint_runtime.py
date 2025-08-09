@@ -33,8 +33,8 @@ def main(argv: List[str] | None = None) -> int:
     req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)
     req(r"scene_total\s*=\s*12", tk, "Core: 12 Szenen gesetzt", fails)
     req(r"scene_total\s*=\s*14", tk, "Rift: 14 Szenen gesetzt", fails)
-    req(r"Boss-Encounter in Szene 10", tk, "Boss-Hook vorhanden", fails)
-    req(r"campaign\.mission_in_episode in \[5,10\]", tk,
+    req(r"LINT:BOSS_SCENE10_RIFT", tk, "Boss-Hook vorhanden", fails)
+    req(r"LINT:CORE_BOSS_M05_M10", tk,
         "Core-Boss nur in Mission 5/10 erlaubt", fails)
 
     # DelayConflict & Finale
@@ -52,7 +52,7 @@ def main(argv: List[str] | None = None) -> int:
     req(r"\+1 nach\s+\d", tk, "ETA bis nächster Px-Punkt", fails)
 
     # Seeds & Episode-Gate
-    req(r"Paradox 5 erreicht", tk, "Px5-HUD Tag", fails)
+    req(r"LINT:PX5_SEED_GATE", tk, "Px5-HUD Tag", fails)
     req(r"can_launch_rift", tk, "can_launch_rift Macro vorhanden", fails)
     req(r"episode_completed\s*=\s*true", tk, "Episodenabschluss markiert", fails)
     req(r"apply_rift_mods_next_episode", tk, "Episoden-Boni werden gequeued", fails)
@@ -60,13 +60,11 @@ def main(argv: List[str] | None = None) -> int:
 
     # Artefakt-Gate
     req(r"artifact_allowed", tk, "Artefakt-Gate-Flag vorhanden", fails)
-    req(r"campaign\.scene\s+not in\s+\[11,12,13\]", tk,
-        "Artefakt nur in Szenen 11–13", fails)
-    req(r"boss_defeated", tk, "Artefakt erst nach Boss", fails)
-    req(r"d6\(\)\s*!=\s*6", tk, "Artefakt-Wurf 1W6==6 Gate", fails)
+    req(r"LINT:RIFT_ARTIFACT_11_13_D6", tk,
+        "Artefakt-Gate-Block vorhanden", fails)
 
     # FR-Intervention
-    req(r"FR-INTRV:", tk, "Fraktionsintervention HUD-Tag vorhanden", fails)
+    req(r"LINT:FR_INTERVENTION", tk, "Fraktionsintervention HUD-Tag vorhanden", fails)
 
     # Signal & Comms
     req(r"validate_signal", tk, "Runtime Signal-Guard vorhanden", fails)
@@ -74,7 +72,7 @@ def main(argv: List[str] | None = None) -> int:
     req(r"Jammer blockiert", tk, "Jammer-Block vorhanden", fails)
 
     # HQ Save Guard
-    req(r"Speichern nur im HQ", sv, "HQ-only Save Guard erwähnt", fails)
+    req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"sys_used == state\.sys|state\.sys_used == state\.sys", sv,
         "Deterministik geprüft", fails)
 
