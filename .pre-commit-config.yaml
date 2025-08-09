@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+    - id: zeitriss-lint-runtime
+      name: ZEITRISS Runtime Lint
+      entry: python3 tools/lint_runtime.py
+      language: system
+      files: ^systems/(toolkit-gpt-spielleiter\.md|gameflow/speicher-fortsetzung\.md)$

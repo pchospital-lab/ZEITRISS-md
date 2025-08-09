@@ -1,0 +1,19 @@
+name: ZEITRISS 4.2.2 Smoke
+on:
+  push:
+    branches: [ "release/4.2.2", "feature/**" ]
+  pull_request:
+    branches: [ "main", "release/**" ]
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run offline runtime lint
+        run: |
+          chmod +x tools/lint_runtime.py
+          python3 tools/lint_runtime.py
