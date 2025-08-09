@@ -112,6 +112,13 @@ existenziellen Fragen.
 In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem `trigger_pool` stammt.
 Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte Tragödien.
 Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
+{% set campaign.mode = campaign.mode or 'preserve' %}
+{% if campaign.mode == 'preserve' %}
+  {% set campaign.seed_source = 'preserve_pool' %}
+{% else %}
+  {% set campaign.seed_source = 'trigger_pool' %}
+  {{ hud_tag('Briefing: kleineres Übel sichern (Trigger).') }}
+{% endif %}
 
 - **Entscheidungsstruktur:** Biete in normalen Szenen drei nummerierte
   Handlungsoptionen plus Freitext an. Bei komplexen Situationen sind vier bis
@@ -312,6 +319,13 @@ Parameter `type` unterscheidet zwischen Core- und Rift-Operationen und
 wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
 Mission fest und dient der Boss-Generierung.
 
+{% macro fr_intervention_roll() -%}
+  {% set r = d6() %}
+  {% set status = 'ruhig' if r<=2 else ('Beobachter' if r<=4 else 'aktiver Eingriff') %}
+  {{ hud_tag('FR-INTRV: ' ~ status) }}
+  {% set campaign.intervention = status %}
+{%- endmacro %}
+
 <!-- Macro: StartMission -->
 {% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None) %}
 {% if campaign.mission is none %}
@@ -322,7 +336,6 @@ Mission fest und dient der Boss-Generierung.
 {% set campaign.episode = ((campaign.mission - 1) // 10) + 1 %}
 {% set campaign.mission_in_episode = ((campaign.mission - 1) % 10) + 1 %}
 {% set campaign.scene = 1 %}
-{% set campaign.scene_total = total %}
 {% set campaign.seed_id = seed_id %}
 {% set campaign.objective = objective %}
 {% set campaign.type = type %}
@@ -330,6 +343,18 @@ Mission fest und dient der Boss-Generierung.
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
+{# Mission-Invarianten #}
+{% if campaign.type == "core" %}
+  {% set campaign.scene_total = 12 %}
+  {% set campaign.boss_allowed = (campaign.mission_in_episode in [5,10]) %}
+  {% set campaign.artifact_allowed = false %}
+{% elif campaign.type == "rift" %}
+  {% set campaign.scene_total = 14 %}
+  {% set campaign.boss_required_scene = 10 %}
+  {% set campaign.artifact_allowed = true %}
+{% endif %}
+{# Fraktionsintervention pro Mission #}
+{{ fr_intervention_roll() }}
 {{ DelayConflict(4) }}
 Diese Mission spielt vollständig in der realen Welt.
 Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein
@@ -380,6 +405,12 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 `{{ msg }}`
 {%- endmacro %}
 
+<!-- Macro: Decision -->
+{% macro Decision(q) -%}
+Decision: {{ q }}?
+{% set campaign.decision_logged = true %}
+{%- endmacro %}
+
 <!-- Macro: hud_vocab -->
 {% macro hud_vocab(key) -%}
 {% set pack = {
@@ -409,6 +440,10 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {%- endif %}
 {%- endmacro %}
 
+{% macro px_bar(px) -%}{{ "▓"*px ~ "░"*(5-px) }}{%- endmacro %}
+{% macro px_eta(temp) -%}
+  {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
+{%- endmacro %}
 <!-- Macro: scene_overlay -->
 {% macro scene_overlay(target, total, pressure=None, env=None) -%}
 {% set ep = campaign.episode|string(format="02") %}
@@ -416,14 +451,8 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 {% set sc = campaign.scene|string(format="02") %}
 ██ EP {{ ep }} · MS {{ ms }} · SC {{ sc }}/{{ total }} ██ · 🎯 {{ campaign.type|upper }}-MISSION
 Seed {{ campaign.seed_id }} · Objective: {{ campaign.objective }}
-{% if char.pp_max > 0 %}
-{% set psi_line = 'Paradox ' ~ campaign.paradox ~ '/5 · SYS ' ~ char.sys ~ '/' ~ char.sys_max ~
-  ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~
-  ' · HEAT ' ~ char.heat ~ '/' ~ char.heat_max %}
-{{ psi_line }}
-{% else %}
-Paradox {{ campaign.paradox }}/5 · SYS {{ char.sys }}/{{ char.sys_max }} · PP –/– · HEAT 0/0
-{% endif %}
+Paradox {{ px_bar(campaign.paradox) }} · TEMP {{ char.temp or 4 }} · +1 nach {{ px_eta(char.temp or 4) }}
+· SYS {{ char.sys }}/{{ char.sys_max }} · PP {{ char.pp or '–' }}/{{ char.pp_max or '–' }} · HEAT {{ char.heat }}/{{ char.heat_max }}
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
@@ -442,6 +471,7 @@ total=12, role="", env=None) -%}
 {% set campaign.pp_prev = char.pp %}
 {% set campaign.heat_prev = char.heat %}
 {% set campaign.psi_logged = false %}
+{% set campaign.decision_logged = false %}
 {% if loc == "HQ" %}
   {% do char.cooldowns.clear() %}
   {% set char.sys_used = char.sys %}
@@ -460,18 +490,17 @@ total=12, role="", env=None) -%}
   {% set total = campaign.scene_total %}
 {% endif %}
 {% if role == "Finale" and campaign.scene < 10 %}
-  {# Finale blockiert bis Szene 10 #}
-  {% return %}
+  {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
+  {% set role = "Konflikt" %}
 {% endif %}
 {{ scene_overlay(target, total, pressure, env) }}
-{% if campaign.scene == 10 %}
-  {% if campaign.type == "core" and campaign.mission % 5 == 0 %}
-    {{ generate_boss('core', campaign.mission, campaign.epoch) }}
-    {{ hud_tag('Boss-Encounter in Szene 10') }}
-  {% elif campaign.type == "rift" %}
-    {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
-    {{ hud_tag('Boss-Encounter in Szene 10') }}
-  {% endif %}
+{# Boss-Regel #}
+{% if campaign.type == "rift" and campaign.scene == 10 %}
+  {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
+  {{ hud_tag('Boss-Encounter in Szene 10') }}
+{% elif campaign.type == "core" and campaign.scene == 10 and campaign.boss_allowed %}
+  {{ generate_boss('core', campaign.mission, campaign.epoch) }}
+  {{ hud_tag('Boss-Encounter in Szene 10 (Core M' ~ campaign.mission_in_episode ~ ')') }}
 {% endif %}
 {%- endmacro %}
 
@@ -489,6 +518,9 @@ total=12, role="", env=None) -%}
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
+{% if not campaign.decision_logged %}
+  {{ hud_tag('Decision fehlt – Szene ohne Frage abgeschlossen') }}
+{% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
       char.heat != campaign.heat_prev) and not campaign.psi_logged %}
@@ -503,10 +535,40 @@ total=12, role="", env=None) -%}
 <!-- Macro: NextScene -->
 {% macro NextScene(loc, target, objective=None, seed_id=None, pressure=None,
 total=None, role="", env=None) -%}
+  {# Konflikte in Szene < delayConflict blocken #}
+  {% if campaign.scene < campaign.delayConflict and role in ["Konflikt","Finale"] %}
+    {{ hud_tag('Konflikt zu früh – DelayConflict(' ~ campaign.delayConflict ~ ') aktiv.') }}
+    {% set role = "Beobachtung" %}
+  {% endif %}
+  {% if role == "Finale" and campaign.scene < 10 %}
+    {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
+    {% set role = "Konflikt" %}
+  {% endif %}
   {% if total is none %}{% set total = campaign.scene_total %}{% endif %}
   {{ EndScene() }}
   {{ StartScene(loc, target, objective, seed_id, pressure=pressure,
   total=total, role=role, env=env) }}
+{%- endmacro %}
+
+### Self-Collision Guard & Comms Checks
+{% macro redirect_same_slot(epoch, dt_hours) -%}
+  {% if campaign.last_epoch == epoch and dt_hours|abs < 6 %}
+    {% set campaign.start_offset = 6 %}
+    {{ hud_tag('Redirect: Start +6h (Self-Collision Guard)') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro comms_check(distance_km=0, jammer=false, relays=false) -%}
+  {% if distance_km > 2 and not relays %}{{ hud_tag('Comms out of range (>2km) – Relais nötig') }}{% endif %}
+  {% if jammer and not relays %}{{ hud_tag('Jammer blockiert – Gegenmaßnahme nötig') }}{% endif %}
+{%- endmacro %}
+
+{% macro validate_signal(text) -%}
+  {% set forbidden = ['Cyberspace','Signalraum','Netzgeist','reiner Signalfluss'] %}
+  {% set devices  = ['Comlink','Jammer','Terminal','Konsole','Kabel','Antenne','Funkgerät','Relais'] %}
+  {% if forbidden|select('in', text)|list and not devices|select('in', text)|list %}
+    {{ hud_tag('Signalaktion ohne Hardware – Gerät angeben (Comlink/Jammer/Terminal/Kabel).') }}
+  {% endif %}
 {%- endmacro %}
 
 ### codex_summary() Macro
@@ -556,6 +618,10 @@ Standardisiert die HUD-Ausgabe aktiver Artefakte.
 Würfelt legendäres Artefakt aus `artifact_pool_v3`.
 <!-- Macro: roll_legendary -->
 {% macro roll_legendary() -%}
+  {% if not campaign.artifact_allowed %}{% return %}{% endif %}
+  {% if campaign.scene not in [11,12,13] %}{% return %}{% endif %}
+  {% if not campaign.boss_defeated %}{% return %}{% endif %}
+  {% if d6() != 6 %}{% return %}{% endif %}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
   {{ artifact_overlay(art.name, art.effect, art.risk) }}
@@ -567,7 +633,9 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
 ### generate_para_artifact() Macro
 Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 <!-- Macro: generate_para_artifact -->
+{# Artefakt-Spawn nur in Rift-Op allowed #}
 {% macro generate_para_artifact(creature) -%}
+  {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {# Input: creature dict mit .type, .size, .name #}
   {% set part_roll = d6() %}
   {% set side_roll = d6() %}
@@ -604,6 +672,27 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
 nach einem Para-Kreaturen-Drop.
+
+### Paradoxon / Rifts (neue Guards)
+
+{% macro on_stabilize_history() -%}
+  {% set campaign.paradox = campaign.paradox + 1 %}
+  {% if campaign.paradox >= 5 %}
+     {% set seeds = ['auto'] %}
+     {{ hud_tag('Paradox 5 erreicht – neue Rift-Koordinaten verfügbar') }}
+     {% set campaign.OpenRifts = (campaign.OpenRifts or []) + seeds %}
+     {% set campaign.paradox = 0 %}
+  {% endif %}
+{%- endmacro %}
+
+{% macro can_launch_rift() -%}
+  {{ 'true' if (campaign.loc == 'HQ' and campaign.episode_completed) else 'false' }}
+{%- endmacro %}
+
+{% macro apply_rift_mods_next_episode() -%}
+  {% set n = (campaign.OpenRifts or [])|length %}
+  {% set campaign.next_episode = {'sg_bonus': n, 'cu_multi': 1.0 + 0.2*n} %}
+{%- endmacro %}
 
 ### generate_para_creature() Macro
 Erzeugt eine Para-Kreatur über `#para-creature-generator`.

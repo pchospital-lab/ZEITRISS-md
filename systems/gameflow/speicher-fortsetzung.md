@@ -7,6 +7,15 @@ tags: [system]
 # ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## HQ-JSON-Save {#json-schluesselfelder}
+> **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
+
+**SaveGuard (Pseudocode)**
+```pseudo
+assert campaign.loc == "HQ", "Speichern nur im HQ."
+assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
+required = ["id","sys","sys_used","stress","heat","cooldowns","campaign.paradox","artifact_log","codex"]
+assert all(k in state for k in required)
+```
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt:
