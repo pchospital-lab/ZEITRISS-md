@@ -10,6 +10,7 @@ tags: [system]
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
 
 **SaveGuard (Pseudocode)**
+{# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert campaign.loc == "HQ", "Speichern nur im HQ."
 assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
