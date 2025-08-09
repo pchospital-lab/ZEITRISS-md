@@ -33,6 +33,19 @@ for tag in [
 all_ok &= ok(r"`.*CHRONOPOLIS", "Chronopolis HUD backticked single-line")
 all_ok &= ok(r"campaign\.loc\s*=\s*'CITY'", "start_chronopolis sets loc='CITY'")
 all_ok &= ok(r"campaign\.loc\s*=\s*'HQ'", "exit_chronopolis resets loc='HQ'")
+all_ok &= ok(r"LINT:CHRONO_KEY_HQ_HOOK", "HQ-entry key hook anchor present")
+all_ok &= ok(r"exit_chronopolis\(\).*campaign\.loc\s*=\s*'HQ'.*hq_entry_hook\(\)",
+             "Key auto-grant is called on HQ entry")
+
+SV = (ROOT/"systems"/"gameflow"/"speicher-fortsetzung.md")
+if SV.exists():
+    sv_text = SV.read_text(encoding="utf-8")
+    if re.search(r"campaign\.loc\s*==\s*['\"]HQ['\"]", sv_text, re.S):
+        print("[ OK ] HQ-only save guard present in save module")
+    else:
+        print("[FAIL] HQ-only save guard missing in save module"); all_ok = False
+else:
+    print("[FAIL] Save module not found for HQ-only check"); all_ok = False
 
 for i, line in enumerate(TK.splitlines(), 1):
     if "LINT:" in line and ("`" in line or "hud_tag(" in line):
