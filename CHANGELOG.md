@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-version: 4.2.0
+version: 4.2.1
 tags: [meta]
 ---
 
@@ -117,3 +117,7 @@ tags: [meta]
 - HUD-Modul in Kategorie "Characters" geführt.
 - Masterprompt nicht mehr im `master-index.json`.
 - Tests im Runtime-Stub als Pflichtschritt klargestellt.
+
+## 4.2.1 – Signal Hardware Linter
+- Added `lint_signal_devices.py` to enforce hardware references for signal actions.
+- Integrated the linter into the pre-commit hook.
