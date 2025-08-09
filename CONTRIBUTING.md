@@ -57,6 +57,16 @@ _kursiv_ und **fett**
 - [ ] HQ-Phase und CU-Abrechnung eingebaut.
 - [ ] Psi-Optionen nur bei passendem Tag.
 - [ ] `SceneCounter` wird via `NextScene()` erhöht.
+## ITI-HQ & Chronopolis
+
+- **ITI-HQ** stellt Shop, Clinic, Workshop, Briefing und Fraktionskontakte
+  bereit und erlaubt Speichern.
+- **Chronopolis** ist eine optionale City ab Level 10, freischaltbar über
+  den "Chronopolis‑Schlüssel". Speichern und FR-Kontakte sind dort
+  blockiert, Rifts lassen sich nicht starten.
+- Zutritt zum HQ nur für ITI-Agenten; Gäste benötigen `guest_custody`.
+- Signalraum bleibt deaktiviert; Aktionen erfordern reale Geräte wie Terminal, Kabel oder Comlink.
+
 ## PvP-Arena (HQ-Training)
 
 - Arena läuft im HQ-Kontext; keine Seeds, kein Paradoxon, kein Boss, keine FR-Intervention und keine CU-Belohnung.
