@@ -20,6 +20,7 @@ python3 scripts/validate_index.py
 python3 scripts/lint_doc_links.py
 python3 scripts/lint_umlauts.py
 python3 scripts/check_lint_anchors.py
+python3 -m unittest -q
 
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"

@@ -4,7 +4,15 @@
 Searches Markdown files for forbidden signal terms and ensures a device
 (Comlink, Jammer, Terminal, etc.) is mentioned on the same line.
 """
-import pathlib
+from pathlib import Path
+
+# Local import works both as script and module
+try:
+    from scripts.lib_repo import repo_root, read_text
+except Exception:  # pragma: no cover
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
 
 FORBIDDEN = [
     "Cyberspace",
@@ -26,9 +34,10 @@ DEVICES = [
 
 
 def main() -> int:
+    root = repo_root(Path(__file__))
     ok = True
-    for path in pathlib.Path('.').rglob('*.md'):
-        for i, line in enumerate(path.read_text(encoding='utf-8').splitlines(), start=1):
+    for path in root.rglob('*.md'):
+        for i, line in enumerate(read_text(path).splitlines(), start=1):
             lowered = line.lower()
             stripped = line.lstrip().lower()
             if stripped.startswith('{% set forbidden') or stripped.startswith('{% set devices'):

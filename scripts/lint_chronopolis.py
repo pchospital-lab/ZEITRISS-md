@@ -5,7 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
-
+# Local import works both as script and module
+try:
+    from scripts.lib_repo import repo_root, read_text
+except Exception:  # pragma: no cover
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
 def ok(pat: str, msg: str, text: str) -> bool:
     if not re.search(pat, text, re.S):
         print(f"[FAIL] {msg}")
@@ -15,8 +21,8 @@ def ok(pat: str, msg: str, text: str) -> bool:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    tk = (root / "systems" / "toolkit-gpt-spielleiter.md").read_text(encoding="utf-8")
+    root = repo_root(Path(__file__))
+    tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
 
     all_ok = True
     for tag in [
@@ -61,7 +67,7 @@ def main() -> int:
 
     sv = root / "systems" / "gameflow" / "speicher-fortsetzung.md"
     if sv.exists():
-        sv_text = sv.read_text(encoding="utf-8")
+        sv_text = read_text(sv)
         if re.search(r"campaign\.loc\s*==\s*['\"]HQ['\"]", sv_text, re.S):
             print("[ OK ] HQ-only save guard present in save module")
         else:

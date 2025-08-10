@@ -1,84 +1,66 @@
 #!/usr/bin/env python3
-"""Validate paths and anchors referenced in master-index.json."""
-
+"""Validate index references and anchors (MD + JSON anchors)."""
 from __future__ import annotations
 
-import json
-import sys
 from pathlib import Path
+import json
 
+try:
+    from scripts.lib_repo import repo_root, read_text
+    from scripts.lib_md import extract_md_anchors
+    from scripts.lib_index import resolve_json_anchor
+except Exception:  # pragma: no cover
+    import sys
+    from pathlib import Path as _P
+    sys.path.insert(0, str(_P(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
+    from lib_md import extract_md_anchors
+    from lib_index import resolve_json_anchor
 
-def resolve_json_anchor(obj: object, frag: str):
-    """Resolve ``frag`` against ``obj`` supporting JSON Pointer and dot paths."""
-    if frag.startswith("/"):
-        cur = obj
-        for seg in frag.strip("/").split("/"):
-            seg = seg.replace("~1", "/").replace("~0", "~")
-            if isinstance(cur, list):
-                cur = cur[int(seg)]
-            else:
-                cur = cur[seg]
-        return cur
-    cur = obj
-    for seg in frag.split("."):
-        if seg.isdigit() and isinstance(cur, list):
-            cur = cur[int(seg)]
-        else:
-            cur = cur[seg]
-    return cur
 
 def main() -> int:
-    repo_root = Path(__file__).resolve().parent.parent
-    index_path = repo_root / "master-index.json"
-    with index_path.open(encoding="utf-8") as f:
-        data = json.load(f)
+    root = repo_root(Path(__file__))
+    idx = json.loads(read_text(root / "master-index.json"))
+    all_ok = True
 
-    errors: list[str] = []
-    modules = data.get("modules", [])
-    for module in modules:
-        module_path = module.get("path", "")
-        anchor = None
-        if "#" in module_path:
-            module_path, anchor = module_path.split("#", 1)
-        if module.get("href"):
-            anchor = module["href"].lstrip("#")
+    for ref in idx.get("modules", []):
+        path = ref.get("path", "")
+        if not path:
+            continue
+        anchor = ""
+        if "#" in path:
+            path, anchor = path.split("#", 1)
+        if ref.get("href"):
+            anchor = ref.get("href", "").lstrip("#")
 
-        file_path = repo_root / module_path
-        if not file_path.is_file():
-            errors.append(
-                f"Missing file: {module_path} (slug: {module.get('slug')})"
-            )
+        file_path = root / path
+        if not file_path.exists():
+            print(f"[FAIL] Missing target file: {path}")
+            all_ok = False
             continue
 
         if anchor:
             if file_path.suffix == ".json":
+                data = json.loads(read_text(file_path))
                 try:
-                    json_data = json.loads(file_path.read_text(encoding="utf-8"))
-                except json.JSONDecodeError as exc:
-                    errors.append(
-                        f"JSON parse error in {module_path}: {exc} (slug: {module.get('slug')})",
-                    )
+                    _ = resolve_json_anchor(data, anchor)
+                except Exception:
+                    print(f"[FAIL] Missing JSON key: {path}#{anchor}")
+                    all_ok = False
                 else:
-                    try:
-                        resolve_json_anchor(json_data, anchor)
-                    except Exception:
-                        errors.append(
-                            f"[FAIL] Missing JSON key: {module_path}#{anchor}",
-                        )
+                    print(f"[ OK ] JSON anchor: {path}#{anchor}")
             else:
-                text = file_path.read_text(encoding="utf-8")
-                if f"#{anchor}" not in text:
-                    errors.append(
-                        f"Missing anchor '#{anchor}' in {module_path} (slug: {module.get('slug')})",
-                    )
+                md = read_text(file_path)
+                anchors = extract_md_anchors(md)
+                if anchor not in anchors:
+                    print(f"[FAIL] Missing MD anchor: {path}#{anchor}")
+                    all_ok = False
+                else:
+                    print(f"[ OK ] MD anchor: {path}#{anchor}")
 
-    if errors:
-        for err in errors:
-            print(err, file=sys.stderr)
-        return 1
-    return 0
+    print("Summary:", "OK" if all_ok else "FAIL")
+    return 0 if all_ok else 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

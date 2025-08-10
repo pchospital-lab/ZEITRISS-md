@@ -26,6 +26,7 @@ Vielen Dank für deine Mithilfe!
 
 - `python3 tools/lint_runtime.py` prüft die Runtime-Guards.
 - `bash scripts/smoke.sh` startet alle Linter gesammelt.
+- Kritische Links verwaltet `.lint/doc_anchors.json`; geprüft durch `scripts/lint_doc_links.py`.
 
 ## Windows-Support
 
