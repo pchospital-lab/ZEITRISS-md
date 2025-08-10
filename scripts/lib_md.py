@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Markdown utilities: front matter strip, anchor extraction & slugify."""
+"""Markdown helpers: strip front matter, slugify headings, extract anchors."""
 from __future__ import annotations
 
 import re
@@ -7,14 +7,16 @@ import re
 _RE_FM = re.compile(r"^---\s*\n.*?\n---\s*(\n|$)", re.S)
 _RE_HTML_ID = re.compile(r'<a\s+id="([^"]+)"', re.I)
 _RE_HEADING = re.compile(r"^(#{1,6})\s+(.*)$", re.M)
-_RE_HEADING_ID = re.compile(r"\s*\{#([^}]+)\}\s*$")
+_RE_HEADING_ID = re.compile(r"^(?P<title>.+?)\s*\{\s*#(?P<id>[-\w]+)\s*\}\s*$")
 
 
 def strip_front_matter(text: str) -> str:
+    """Remove leading YAML front matter (`---` block) from a Markdown string."""
     return _RE_FM.sub("", text, count=1)
 
 
 def slugify(md_heading: str) -> str:
+    """Convert a Markdown heading to a stable, lowercase anchor slug."""
     s = md_heading.strip().lower()
     s = re.sub(r"[^\w\s-]", "", s, flags=re.U)
     s = re.sub(r"\s+", "-", s).strip("-")
@@ -23,13 +25,14 @@ def slugify(md_heading: str) -> str:
 
 
 def extract_md_anchors(text: str) -> set[str]:
+    """Return all anchor IDs: explicit <a id="...">, kramdown {#id}, and slugs."""
     txt = strip_front_matter(text)
-    anchors: set[str] = set()
-    anchors |= set(_RE_HTML_ID.findall(txt))
-    for _, title in _RE_HEADING.findall(txt):
-        m = _RE_HEADING_ID.search(title)
+    anchors: set[str] = set(_RE_HTML_ID.findall(txt))
+    for _, head in _RE_HEADING.findall(txt):
+        m = _RE_HEADING_ID.match(head)
         if m:
-            anchors.add(m.group(1))
+            anchors.add(m.group("id"))
+            anchors.add(slugify(m.group("title")))
         else:
-            anchors.add(slugify(title))
+            anchors.add(slugify(head))
     return anchors

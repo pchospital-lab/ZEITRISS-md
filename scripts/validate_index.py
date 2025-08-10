@@ -5,15 +5,17 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
-from scripts.lib_repo import repo_root, read_text
+from scripts.lib_repo import repo_root, read_text, get_logger
 from scripts.lib_md import extract_md_anchors
 from scripts.lib_index import resolve_json_anchor
+
+log = get_logger("validate_index")
 
 
 def main() -> int:
     root = repo_root(Path(__file__))
     idx = json.loads(read_text(root / "master-index.json"))
-    all_ok = True
+    ok = True
 
     for ref in idx.get("modules", []):
         path = ref.get("path", "")
@@ -27,31 +29,28 @@ def main() -> int:
 
         file_path = root / path
         if not file_path.exists():
-            print(f"[FAIL] Missing target file: {path}")
-            all_ok = False
+            log.error("Missing target file: %s", path)
+            ok = False
             continue
 
         if anchor:
             if file_path.suffix == ".json":
-                data = json.loads(read_text(file_path))
                 try:
-                    _ = resolve_json_anchor(data, anchor)
+                    _ = resolve_json_anchor(json.loads(read_text(file_path)), anchor)
+                    log.info("JSON anchor OK: %s#%s", path, anchor)
                 except Exception:
-                    print(f"[FAIL] Missing JSON key: {path}#{anchor}")
-                    all_ok = False
-                else:
-                    print(f"[ OK ] JSON anchor: {path}#{anchor}")
+                    log.error("Missing JSON key: %s#%s", path, anchor)
+                    ok = False
             else:
-                md = read_text(file_path)
-                anchors = extract_md_anchors(md)
-                if anchor not in anchors:
-                    print(f"[FAIL] Missing MD anchor: {path}#{anchor}")
-                    all_ok = False
+                anchors = extract_md_anchors(read_text(file_path))
+                if anchor in anchors:
+                    log.info("MD anchor OK: %s#%s", path, anchor)
                 else:
-                    print(f"[ OK ] MD anchor: {path}#{anchor}")
+                    log.error("Missing MD anchor: %s#%s", path, anchor)
+                    ok = False
 
-    print("Summary:", "OK" if all_ok else "FAIL")
-    return 0 if all_ok else 1
+    log.log(25, "Summary: %s", "OK" if ok else "FAIL")
+    return 0 if ok else 1
 
 
 if __name__ == "__main__":
