@@ -1,39 +1,56 @@
 #!/usr/bin/env python3
-"""Runtime lint for ZEITRISS guard rails; offline-only to prevent regressions."""
+"""Offline runtime lint for ZEITRISS guard rails."""
 
 from __future__ import annotations
 
 import re
 from pathlib import Path
 
+# Import helpers; rely on PYTHONPATH or fallback to repo root
+try:
+    from scripts.lib_repo import repo_root, read_text, get_logger
+except Exception:  # pragma: no cover - fallback for direct calls
+    import sys
+    _root = Path(__file__).resolve().parents[1]
+    sys.path.insert(0, str(_root))
+    from scripts.lib_repo import repo_root, read_text, get_logger  # type: ignore
 
-def load_text(path: Path) -> str:
-    return path.read_text(encoding="utf-8")
+log = get_logger("lint_runtime")
 
 
 def req(pattern: str | re.Pattern[str], text: str, msg: str, fails: list[str]) -> None:
     pat: re.Pattern[str] = re.compile(pattern, re.S) if isinstance(pattern, str) else pattern
     if not pat.search(text):
-        print(f"[FAIL] {msg}")
+        log.error("[FAIL] %s", msg)
         fails.append(msg)
     else:
-        print(f"[ OK ] {msg}")
+        log.info("[ OK ] %s", msg)
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    tk = load_text(root / "systems" / "toolkit-gpt-spielleiter.md")
-    sv = load_text(root / "systems" / "gameflow" / "speicher-fortsetzung.md")
-
+    root = repo_root(Path(__file__))
     fails: list[str] = []
+
+    try:
+        tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
+    except FileNotFoundError as e:
+        log.error(str(e))
+        fails.append(str(e))
+        tk = ""
+
+    try:
+        sv = read_text(root / "systems" / "gameflow" / "speicher-fortsetzung.md")
+    except FileNotFoundError as e:
+        log.error(str(e))
+        fails.append(str(e))
+        sv = ""
 
     # Mission-Invarianten & Gates
     req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)
     req(r"scene_total\s*=\s*12", tk, "Core: 12 Szenen gesetzt", fails)
     req(r"scene_total\s*=\s*14", tk, "Rift: 14 Szenen gesetzt", fails)
     req(r"LINT:BOSS_SCENE10_RIFT", tk, "Boss-Hook vorhanden", fails)
-    req(r"LINT:CORE_BOSS_M05_M10", tk,
-        "Core-Boss nur in Mission 5/10 erlaubt", fails)
+    req(r"LINT:CORE_BOSS_M05_M10", tk, "Core-Boss nur in Mission 5/10 erlaubt", fails)
 
     # DelayConflict & Finale
     req(r"DelayConflict\(\s*4\s*\)", tk, "DelayConflict(4) aktiv", fails)
@@ -58,8 +75,7 @@ def main() -> int:
 
     # Artefakt-Gate
     req(r"artifact_allowed", tk, "Artefakt-Gate-Flag vorhanden", fails)
-    req(r"LINT:RIFT_ARTIFACT_11_13_D6", tk,
-        "Artefakt-Gate-Block vorhanden", fails)
+    req(r"LINT:RIFT_ARTIFACT_11_13_D6", tk, "Artefakt-Gate-Block vorhanden", fails)
 
     # FR-Intervention
     req(r"LINT:FR_INTERVENTION", tk, "Fraktionsintervention HUD-Tag vorhanden", fails)
@@ -71,19 +87,16 @@ def main() -> int:
 
     # HQ Save Guard
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
-    req(r"sys_used == state\.sys|state\.sys_used == state\.sys", sv,
-        "Deterministik geprüft", fails)
+    req(r"sys_used == state\.sys|state\.sys_used == state\.sys", sv, "Deterministik geprüft", fails)
 
     # Preserve/Trigger Marker
     req(r"campaign\.mode", tk, "Preserve/Trigger-Flag gesetzt", fails)
     req(r"preserve_pool|trigger_pool", tk, "Seed-Pools referenziert", fails)
-    req(r"Briefing:\s*kleineres Übel sichern", tk,
-        "Trigger-Pflichtsatz im Briefing", fails)
+    req(r"Briefing:\s*kleineres Übel sichern", tk, "Trigger-Pflichtsatz im Briefing", fails)
 
-    print("\nSummary:", "OK" if not fails else f"{len(fails)} issue(s)")
+    log.log(25, "Summary: %s", "OK" if not fails else f"FAIL ({len(fails)})")
     return 0 if not fails else 1
 
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

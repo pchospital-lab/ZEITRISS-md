@@ -5,15 +5,17 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
-from scripts.lib_repo import repo_root, read_text
+from scripts.lib_repo import repo_root, read_text, get_logger
 from scripts.lib_md import extract_md_anchors
+
+log = get_logger("lint_doc_links")
 
 
 def main() -> int:
     root = repo_root(Path(__file__))
     cfgp = root / ".lint" / "doc_anchors.json"
     if not cfgp.exists():
-        print("[SKIP] No .lint/doc_anchors.json found")
+        log.info("No .lint/doc_anchors.json found")
         return 0
     cfg = json.loads(read_text(cfgp))
     items = cfg.get("critical", [])
@@ -23,17 +25,18 @@ def main() -> int:
         aid = item["anchor"]
         p = root / rel
         if not p.exists():
-            print(f"[FAIL] Target missing: {rel}")
+            log.error("Target missing: %s", rel)
             ok = False
             continue
         anchors = extract_md_anchors(read_text(p))
         if aid in anchors:
-            print(f"[ OK ] {rel}#{aid}")
+            log.info("Anchor OK: %s#%s", rel, aid)
         else:
-            print(f"[FAIL] Missing anchor: {rel}#{aid}")
+            log.error("Missing anchor: %s#%s", rel, aid)
             ok = False
-    print("Summary:", "OK" if ok else "FAIL")
+    log.log(25, "Summary: %s", "OK" if ok else "FAIL")
     return 0 if ok else 1
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

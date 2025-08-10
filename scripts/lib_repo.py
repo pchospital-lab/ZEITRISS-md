@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Shared helpers for repo-aware scripts (root detection, IO)."""
+"""Repo helpers: root detection, safe text IO, and logging setup."""
 from __future__ import annotations
 
 from pathlib import Path
-import subprocess
+import subprocess, logging, os
 
 
 def repo_root(start: Path | None = None) -> Path:
+    """Return repository root from a starting path, falling back to ../../."""
     base = (start or Path(__file__).resolve())
     root = base.parents[1]
     try:
@@ -16,12 +17,26 @@ def repo_root(start: Path | None = None) -> Path:
             capture_output=True,
             text=True,
         ).stdout.strip()
-        if out:
-            return Path(out)
+        return Path(out) if out else root
     except Exception:
-        pass
-    return root
+        return root
 
 
 def read_text(path: Path) -> str:
-    return Path(path).read_text(encoding="utf-8")
+    """Read UTF-8 text from `path`. Raise FileNotFoundError with full path."""
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Missing file: {p}")
+    return p.read_text(encoding="utf-8")
+
+
+def get_logger(name: str) -> logging.Logger:
+    """Create/get a repo-style logger (level from SMOKE_LOG_LEVEL, default INFO)."""
+    logger = logging.getLogger(name)
+    if not logger.handlers:
+        level = os.getenv("SMOKE_LOG_LEVEL", "INFO").upper()
+        logger.setLevel(getattr(logging, level, logging.INFO))
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
+        logger.addHandler(handler)
+    return logger
