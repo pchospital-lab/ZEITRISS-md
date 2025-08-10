@@ -5,29 +5,35 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
-
+# Local import works both as script and module
+try:
+    from scripts.lib_repo import repo_root, read_text
+except Exception:  # pragma: no cover
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
+    root = repo_root(Path(__file__))
 
     allow = set()
     allow_file = root / ".lint" / "anchors.allow"
     if allow_file.exists():
         allow = {
             ln.strip()
-            for ln in allow_file.read_text(encoding="utf-8").splitlines()
+            for ln in read_text(allow_file).splitlines()
             if ln.strip()
         }
 
     # Alle LINT: Marker aus .md einsammeln
     repo_anchors = set()
     for p in root.rglob("*.md"):
-        text = p.read_text(encoding="utf-8")
+        text = read_text(p)
         repo_anchors |= set(re.findall(r"LINT:[A-Z0-9_\-]+", text))
 
     # Abdeckung in Lint-Skripten
     covered = set()
     for p in (root / "scripts").glob("lint_*.py"):
-        t = p.read_text(encoding="utf-8")
+        t = read_text(p)
         covered |= set(re.findall(r"LINT:[A-Z0-9_\-]+", t))
 
     orphans = sorted(a for a in repo_anchors if a not in covered and a not in allow)

@@ -3,30 +3,42 @@
 from __future__ import annotations
 
 from pathlib import Path
+import json
 
-CRITICAL = [
-    ("characters/cyberware-und-bioware.md", "optional-hominin-bio-sheaths"),
-    ("systems/gameflow/speicher-fortsetzung.md", "makros-im-ueberblick"),
-]
+# Local import works both as script and module
+try:
+    from scripts.lib_repo import repo_root, read_text
+    from scripts.lib_md import extract_md_anchors
+except Exception:  # pragma: no cover
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
+    from lib_md import extract_md_anchors
 
-def has_anchor(text: str, anchor: str) -> bool:
-    return f'id="{anchor}"' in text or f'{{#{anchor}}}' in text
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
+    root = repo_root(Path(__file__))
+    cfgp = root / ".lint" / "doc_anchors.json"
+    if not cfgp.exists():
+        print("[SKIP] No .lint/doc_anchors.json found")
+        return 0
+    cfg = json.loads(read_text(cfgp))
+    items = cfg.get("critical", [])
     ok = True
-    for target, aid in CRITICAL:
-        p = root / target
+    for item in items:
+        rel = item["file"]
+        aid = item["anchor"]
+        p = root / rel
         if not p.exists():
-            print(f"[FAIL] Target not found: {target}")
+            print(f"[FAIL] Target missing: {rel}")
             ok = False
             continue
-        t = p.read_text(encoding="utf-8")
-        if not has_anchor(t, aid):
-            print(f"[FAIL] Missing anchor in {target}: {aid}")
-            ok = False
+        anchors = extract_md_anchors(read_text(p))
+        if aid in anchors:
+            print(f"[ OK ] {rel}#{aid}")
         else:
-            print(f"[ OK ] Anchor present in {target}: {aid}")
+            print(f"[FAIL] Missing anchor: {rel}#{aid}")
+            ok = False
     print("Summary:", "OK" if ok else "FAIL")
     return 0 if ok else 1
 

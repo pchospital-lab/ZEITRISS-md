@@ -8,6 +8,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+      - name: Run unit tests
+        run: python3 -m unittest -q
       - run: bash scripts/smoke.sh | tee smoke.log
       - name: Generate LINT catalog
         run: python3 scripts/generate_lint_catalog.py
