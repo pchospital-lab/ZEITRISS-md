@@ -5,6 +5,13 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
+# Local import works both as script and module
+try:
+    from scripts.lib_repo import repo_root, read_text
+except Exception:  # pragma: no cover - fallback for direct execution
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
+    from lib_repo import repo_root, read_text
 
 def ok(pat: str, msg: str, text: str) -> bool:
     if not re.search(pat, text, re.S):
@@ -23,8 +30,8 @@ def assert_no_anchor_in_output_context(text: str, label: str) -> bool:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    tk = (root / "systems" / "toolkit-gpt-spielleiter.md").read_text(encoding="utf-8")
+    root = repo_root(Path(__file__))
+    tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
 
     all_ok = True
     all_ok &= ok(r"LINT:ARENA_MODULE", "LINT anchors present (ARENA_MODULE)", tk)
