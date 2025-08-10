@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""JSON anchor helpers (pointer and dot-path)."""
+"""JSON anchor helpers: resolve JSON Pointer (#/a/b) and dot-paths (a.b.0.c)."""
 from __future__ import annotations
 
 
 def resolve_json_anchor(obj, frag: str):
+    """Resolve `frag` within `obj`, supporting JSON Pointer and dot paths.
+
+    Raises KeyError/IndexError on missing segments.
+    """
     if frag.startswith("/"):
         cur = obj
         for seg in frag.strip("/").split("/"):

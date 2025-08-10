@@ -10,6 +10,7 @@ fi
 
 echo "Repo root: ${ROOT}"
 cd "${ROOT}"
+export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
 
 python3 tools/lint_runtime.py
 python3 -m scripts.lint_arena
