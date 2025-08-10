@@ -6,13 +6,7 @@ Searches Markdown files for forbidden signal terms and ensures a device
 """
 from pathlib import Path
 
-# Local import works both as script and module
-try:
-    from scripts.lib_repo import repo_root, read_text
-except Exception:  # pragma: no cover
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
-    from lib_repo import repo_root, read_text
+from scripts.lib_repo import repo_root, read_text
 
 FORBIDDEN = [
     "Cyberspace",

@@ -5,13 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 import re
 
-# Local import works both as script and module
-try:
-    from scripts.lib_repo import repo_root, read_text
-except Exception:  # pragma: no cover
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
-    from lib_repo import repo_root, read_text
+from scripts.lib_repo import repo_root, read_text
 def ok(pat: str, msg: str, text: str) -> bool:
     if not re.search(pat, text, re.S):
         print(f"[FAIL] {msg}")

@@ -6,13 +6,7 @@ Ensures all HUD overlays use the InlineHUD style with backticks.
 from pathlib import Path
 import re
 
-# Local import works both as script and module
-try:
-    from scripts.lib_repo import repo_root, read_text
-except Exception:  # pragma: no cover
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
-    from lib_repo import repo_root, read_text
+from scripts.lib_repo import repo_root, read_text
 
 pattern = re.compile(r"\[(HUD|INFO|TIP|TIPP|Paradox|PX|PRESSURE|ALERT|Codex)\s*:")
 warn_pattern = re.compile(r"\[[A-Z][A-Za-z0-9_-]{1,12}\s*:")

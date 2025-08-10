@@ -1,8 +1,51 @@
 repos:
-- repo: local
-  hooks:
-    - id: zeitriss-lint-runtime
-      name: ZEITRISS Runtime Lint
-      entry: python3 tools/lint_runtime.py
-      language: system
-      files: ^systems/(toolkit-gpt-spielleiter\.md|gameflow/speicher-fortsetzung\.md)$
+  - repo: local
+    hooks:
+      - id: lint-doc-links
+        name: lint-doc-links
+        language: system
+        entry: python3 -m scripts.lint_doc_links
+        pass_filenames: false
+
+      - id: lint-umlauts
+        name: lint-umlauts
+        language: system
+        entry: python3 -m scripts.lint_umlauts
+        pass_filenames: false
+
+      - id: validate-index
+        name: validate-index
+        language: system
+        entry: python3 -m scripts.validate_index
+        pass_filenames: false
+
+      - id: lint-arena
+        name: lint-arena
+        language: system
+        entry: python3 -m scripts.lint_arena
+        pass_filenames: false
+
+      - id: lint-chronopolis
+        name: lint-chronopolis
+        language: system
+        entry: python3 -m scripts.lint_chronopolis
+        pass_filenames: false
+
+      - id: check-lint-anchors
+        name: check-lint-anchors
+        language: system
+        entry: python3 -m scripts.check_lint_anchors
+        pass_filenames: false
+
+      - id: test-suite
+        name: test-suite
+        language: system
+        entry: python3 -m unittest -q
+        pass_filenames: false
+
+      - id: zeitriss-lint-runtime
+        name: ZEITRISS Runtime Lint
+        entry: python3 tools/lint_runtime.py
+        language: system
+        files: ^systems/(toolkit-gpt-spielleiter\.md|gameflow/speicher-fortsetzung\.md)$
+
