@@ -5,15 +5,8 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
-# Local import works both as script and module
-try:
-    from scripts.lib_repo import repo_root, read_text
-    from scripts.lib_md import extract_md_anchors
-except Exception:  # pragma: no cover
-    import sys
-    sys.path.insert(0, str(Path(__file__).resolve().parents[0]))
-    from lib_repo import repo_root, read_text
-    from lib_md import extract_md_anchors
+from scripts.lib_repo import repo_root, read_text
+from scripts.lib_md import extract_md_anchors
 
 
 def main() -> int:

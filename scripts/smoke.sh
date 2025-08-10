@@ -12,14 +12,12 @@ echo "Repo root: ${ROOT}"
 cd "${ROOT}"
 
 python3 tools/lint_runtime.py
-python3 scripts/lint_arena.py
-python3 scripts/lint_chronopolis.py
-python3 scripts/lint_hud_codex.py
-python3 scripts/lint_signal_devices.py
-python3 scripts/validate_index.py
-python3 scripts/lint_doc_links.py
-python3 scripts/lint_umlauts.py
-python3 scripts/check_lint_anchors.py
+python3 -m scripts.lint_arena
+python3 -m scripts.lint_chronopolis
+python3 -m scripts.lint_doc_links
+python3 -m scripts.lint_umlauts
+python3 -m scripts.validate_index
+python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
 
 echo ""

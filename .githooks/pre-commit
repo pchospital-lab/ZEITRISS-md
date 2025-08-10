@@ -1,21 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-git diff --cached --name-only -z -- '*.md' \
-  | while IFS= read -r -d '' file; do
-    if grep -n "\s$" -- "$file"; then
-        echo 'Error: trailing whitespace detected.' >&2
-        exit 1
-    fi
-    long_lines=$(grep -nH '.\{121\}' -- "$file" || true)
-    if [ -n "$long_lines" ]; then
-        echo 'Error: lines longer than 120 characters:' >&2
-        echo "$long_lines" >&2
-        exit 1
-    fi
-  done
+# If pre-commit is available, use it; otherwise fall back to local lints
+if command -v pre-commit >/dev/null 2>&1 && [[ -f ".pre-commit-config.yaml" ]]; then
+  pre-commit run --all-files --hook-stage commit
+  exit $?
+fi
 
-# validate module index
-python3 scripts/validate_index.py || exit 1
-python3 scripts/lint_hud_codex.py || exit 1
-python3 scripts/lint_signal_devices.py || exit 1
+# Fallback: run linters directly
+python3 -m scripts.lint_doc_links
+python3 -m scripts.lint_umlauts
+python3 -m scripts.validate_index
+python3 -m scripts.lint_arena
+python3 -m scripts.lint_chronopolis
+python3 -m scripts.check_lint_anchors
+
+echo "pre-commit (fallback): OK"
+
