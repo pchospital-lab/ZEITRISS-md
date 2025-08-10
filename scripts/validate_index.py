@@ -5,17 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 import json
 
-try:
-    from scripts.lib_repo import repo_root, read_text
-    from scripts.lib_md import extract_md_anchors
-    from scripts.lib_index import resolve_json_anchor
-except Exception:  # pragma: no cover
-    import sys
-    from pathlib import Path as _P
-    sys.path.insert(0, str(_P(__file__).resolve().parents[0]))
-    from lib_repo import repo_root, read_text
-    from lib_md import extract_md_anchors
-    from lib_index import resolve_json_anchor
+from scripts.lib_repo import repo_root, read_text
+from scripts.lib_md import extract_md_anchors
+from scripts.lib_index import resolve_json_anchor
 
 
 def main() -> int:
