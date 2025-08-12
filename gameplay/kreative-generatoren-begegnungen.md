@@ -832,6 +832,9 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 
 ```jinja
 {% macro roll_legendary() -%}
+  {% set gate = d6() %}
+  {{ roll_check('1W6', 6, gate, gate == 6, [gate]) }}
+  {% if gate != 6 %}{% return %}{% endif %}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
   {{ hud_tag('Artefakt ‹' ~ art.name ~ '› ▶ ' ~ art.effect ~ ' (Risk: ' ~ art.risk ~ ')') }}
@@ -841,9 +844,7 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 Macro wird wie bisher in **Rift-Mission Szene 11–13** aufgerufen:
 
 ```jinja
-{% if d6() == 6 %}
-    {{ roll_legendary() }}
-{% endif %}
+{{ roll_legendary() }}
 ```
 
 Para-Kreaturen können zusätzliche Artefakte hinterlassen:

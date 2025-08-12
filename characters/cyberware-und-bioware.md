@@ -45,7 +45,7 @@ Siehe [Ausrüstung & Cyberware](ausruestung-cyberware.md#legalitäts--wartungs-s
 
 ```pseudo
 if item.license > char.licenses.max:
-    deny_purchase()
+    deny_purchase(item.name, item.min_rank)
 ```
 
 Implantate mit **SYS > 2** verursachen zusätzlich **5 % Wartungskosten pro Mission**.
