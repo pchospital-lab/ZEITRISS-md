@@ -9,7 +9,7 @@ from pathlib import Path
 # Import helpers; rely on PYTHONPATH or fallback to repo root
 try:
     from scripts.lib_repo import repo_root, read_text, get_logger
-except Exception:  # pragma: no cover - fallback for direct calls
+except ImportError:  # pragma: no cover - fallback for direct calls
     import sys
     _root = Path(__file__).resolve().parents[1]
     sys.path.insert(0, str(_root))

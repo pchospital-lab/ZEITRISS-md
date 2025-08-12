@@ -8,6 +8,8 @@ def resolve_json_anchor(obj, frag: str):
 
     Raises KeyError/IndexError on missing segments.
     """
+    if not frag:
+        return obj
     if frag.startswith("/"):
         cur = obj
         for seg in frag.strip("/").split("/"):
