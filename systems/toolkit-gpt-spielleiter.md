@@ -642,6 +642,10 @@ total=12, role="", env=None) -%}
 {% set campaign.complication_done = false %}
 {% if seed_id is not none %}{% set campaign.seed_id = seed_id %}{% endif %}
 {% if objective is not none %}{% set campaign.objective = objective %}{% endif %}
+{% if campaign.objective is defined and 'Optionaler Sweep' in campaign.objective
+      and '0–2 empfohlen' not in campaign.objective %}
+  {% set campaign.objective = campaign.objective ~ ' (0–2 empfohlen)' %}
+{% endif %}
 {% set campaign.sys_prev = char.sys %}
 {% set campaign.pp_prev = char.pp %}
 {% set campaign.heat_prev = char.heat %}
@@ -668,6 +672,7 @@ total=12, role="", env=None) -%}
     {% else %}
       {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
       {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
+      {{ hud_tag('Stress +' ~ exfil.stress_gain_per_sweep) }}
       {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
         {{ trigger_hot_exfil() }}
       {% endif %}
@@ -1071,6 +1076,9 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 
 {% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[], local_debug=false) -%}
   {{ hud_tag(render_roll_overlay(die_text, sg, total, success, parts)) }}
+  {% if not success and sg is not none and total == sg - 1 %}
+    {{ hud_tag('knapp daneben') }}
+  {% endif %}
   {% if local_debug or ui.dice.debug_rolls %}
 ```json
 {{ render_roll_json(die_text, sg, total, success, raw_rolls, parts) }}
