@@ -180,6 +180,8 @@ freigeschaltet.
     und Talente. (Cineastischer Tipp: Stell dir eine kurze Filmszene vor, die deinen Charakter in Aktion
     zeigt, um sein Wesen zu verdeutlichen.)
 
+    Vor der Attributvergabe prüft `enforce_identity_before_stats(char)`, ob **Konzept**, **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind. Fehlt etwas, blockt das System den nächsten Schritt.
+
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
     Affinität) und **SYS** (Systemkapazität für Implantate). Zunächst legst du Startwerte
@@ -212,7 +214,8 @@ freigeschaltet.
     kann beim Erstellen Vorschläge machen: _„Mira hätte als Hackerin wohl Talente wie Drohnensteuerung
     oder Techno-Mancer im Repertoire. Möchtest du etwas in der Art wählen?“_ – Auf diese Weise
     integriert sich die Charaktererschaffung nahtlos ins Spiel, anstatt eine trockene Zahlenübung zu
-    sein.
+    sein. Psi-spezifische Talente erscheinen nur, wenn das Flag `has_psi` gesetzt ist;
+    `render_psi_option()` zeigt sie mit klaren Stresskosten.
 
 4.  **SYS-Verteilung & Implantate:** Das **SYS-Attribut** repräsentiert, wie viel _Cyberware_ oder
     technische Upgrades dein Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
