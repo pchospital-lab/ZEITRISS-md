@@ -25,7 +25,15 @@ default_modus: mission-fokus
   {% set codex.dev_raw = false %}
 {% endif %}
 {% if ui is not defined %}
-  {% set ui = {'mode_display': 'label', 'suppress_rank_on_narrow': true, 'debug_rolls': false} %}
+  {% set ui = {
+    'mode_display': 'label',
+    'suppress_rank_on_narrow': true,
+    'dice': {'debug_rolls': false}
+  } %}
+{% elif ui.dice is not defined %}
+  {% set ui = ui | combine({'dice': {'debug_rolls': false}}, recursive=true) %}
+{% elif ui.dice.debug_rolls is not defined %}
+  {% set ui.dice = ui.dice | combine({'debug_rolls': false}, recursive=true) %}
 {% endif %}
 {% if fx is not defined %}
 {% set fx = {
@@ -36,7 +44,8 @@ default_modus: mission-fokus
     'show_redirect': true,
     'hud_out_template':
       'Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +{hours}h (Self-Collision Guard)',
-    'hud_in_template': 'Fenster stabil · {ttl} · Return 3…2…1',
+    'hud_in_template_core': 'Fenster stabil · {ttl} · Return 3…2…1',
+    'hud_in_template_rift': 'Resonanzfenster stabil · {ttl} · Return 3…2…1',
     'sensory_out':
       'Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.',
     'sensory_in_stable':
@@ -45,6 +54,10 @@ default_modus: mission-fokus
       'Instabiles Fenster. Bild zerreißt, Zug reißt dich zurück. Schwarzer Cut.'
   }
 } %}
+{% endif %}
+{% if mission_fx is not defined %}{% set mission_fx = {} %}{% endif %}
+{% if ranks is not defined %}
+  {% set ranks = {'order': ['Recruit','Operator I','Operator II','Lead','Specialist','Chief']} %}
 {% endif %}
 
 {% macro set_mode_display(style) -%}
@@ -355,11 +368,14 @@ durch `output_sanitizer()` und anschließend `tone_filter()`.
 
 Parameter `type` unterscheidet zwischen Core- und Rift-Operationen und
 wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
-Mission fest und dient der Boss-Generierung.
+Mission fest und dient der Boss-Generierung. `fx_override` erlaubt
+missionale Anpassungen von `fx.transfer` wie `show_redirect:false` oder
+einem abweichenden `redirect_hours`.
 
 {% macro fr_intervention_roll() -%}
   {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
   {% set r = d6() %}
+  {{ roll_check('1W6', 0, r, true, [r]) }}
   {% set status = 'ruhig' if r<=2 else ('Beobachter' if r<=4 else 'aktiver Eingriff') %}
   {{ hud_tag('FR-INTRV: ' ~ status) }}
   {% set campaign.fr_intervention = status %}
@@ -372,8 +388,16 @@ Mission fest und dient der Boss-Generierung.
   {% endif %}
 {%- endmacro %}
 
+{% macro transfer_cfg() -%}
+  {% set base = fx.transfer %}
+  {% set override = mission_fx.get('transfer', {}) %}
+  {% set cfg = base | combine(override, recursive=true) %}
+  {{ cfg }}
+{%- endmacro %}
+
 {% macro should_show_transfer_enter() -%}
-  {% set opt = fx.transfer.on_mission_enter %}
+  {% set tcfg = transfer_cfg() %}
+  {% set opt = tcfg.on_mission_enter %}
   {{
     opt == 'always'
     or (opt == 'first_session' and campaign.mission == 1)
@@ -382,26 +406,30 @@ Mission fest und dient der Boss-Generierung.
 {%- endmacro %}
 
 {% macro should_show_transfer_exit() -%}
-  {% set opt = fx.transfer.on_mission_exit %}
+  {% set tcfg = transfer_cfg() %}
+  {% set opt = tcfg.on_mission_exit %}
   {{ opt == 'always' or (opt == 'on_exfil_only' and campaign.exfil.active) }}
 {%- endmacro %}
 
 {% macro transfer_out_from_hq(dt_hours=0) -%}
-  {% set hours = dt_hours or fx.transfer.redirect_hours_default %}
-  {% if fx.transfer.show_redirect %}
-    {{ hud_tag(fx.transfer.hud_out_template.format(hours=hours)) }}
+  {% set tcfg = transfer_cfg() %}
+  {% set hours = dt_hours or tcfg.get('redirect_hours', tcfg.redirect_hours_default) %}
+  {% if tcfg.show_redirect %}
+    {{ hud_tag(tcfg.hud_out_template.format(hours=hours)) }}
   {% endif %}
-  {{ fx.transfer.sensory_out }}
+  {{ tcfg.sensory_out }}
 {%- endmacro %}
 
 {% macro transfer_back_to_hq(hot=false) -%}
+  {% set tcfg = transfer_cfg() %}
   {% if not hot %}
     {% set ttl_token = ttl_fmt(campaign.exfil.ttl) if campaign.exfil.active else '08s' %}
-    {{ hud_tag(fx.transfer.hud_in_template.format(ttl=ttl_token)) }}
-    {{ fx.transfer.sensory_in_stable }}
+    {% set tpl = tcfg.hud_in_template_rift if campaign.type == 'rift' else tcfg.hud_in_template_core %}
+    {{ hud_tag(tpl.format(ttl=ttl_token)) }}
+    {{ tcfg.sensory_in_stable }}
   {% else %}
     {{ hud_tag('HOT-Exfil · Fenster instabil') }}
-    {{ fx.transfer.sensory_in_hot }}
+    {{ tcfg.sensory_in_hot }}
   {% endif %}
   {{ cut_to_hq_van() }}
 {%- endmacro %}
@@ -409,7 +437,8 @@ Mission fest und dient der Boss-Generierung.
 {% macro cut_to_hq_van() -%}{%- endmacro %}
 
 <!-- Macro: StartMission -->
-{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0) %}
+{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0, fx_override=None) %}
+{% set mission_fx = fx_override or {} %}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
 {% else %}
@@ -880,17 +909,23 @@ total=None, role="", env=None) -%}
 {%- endmacro %}
 
 {% macro rank_index(rank) -%}
-  {% set order = {'Recruit':0,'Operator I':1,'Operator II':2,'Lead':3,'Specialist':4,'Chief':5} %}
-  {{ order.get(rank, 0) }}
+  {% if rank not in ranks.order %}{% return 0 %}{% endif %}
+  {% for r in ranks.order %}
+    {% if r == rank %}{{ loop.index0 }}{% endif %}
+  {% endfor %}
 {%- endmacro %}
 
 {% macro can_purchase(char_rank, item_rank) -%}
   {{ rank_index(char_rank) >= rank_index(item_rank) }}
 {%- endmacro %}
 
+{% macro deny_purchase(name, req_rank) -%}
+  {{ hud_tag('Kauf gesperrt: ' ~ name ~ ' erfordert Rank ' ~ req_rank) }}
+{%- endmacro %}
+
 {% macro chrono_shop(listing, required_rank=None) -%}
   {% if required_rank and not can_purchase(char.rank, required_rank) %}
-    {{ hud_tag('Shop: Item gesperrt bis Rank ' ~ required_rank) }}
+    {{ hud_tag('🔒 ' ~ listing ~ ' (erfordert Rank: ' ~ required_rank ~ ')') }}
   {% else %}
     {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
   {% endif %}
@@ -986,9 +1021,9 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ {'roll': die_text, 'raw': raw_rolls, 'mods': parts, 'SG': sg, 'total': total, 'success': success} | tojson }}
 {%- endmacro %}
 
-{% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[]) -%}
+{% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[], local_debug=false) -%}
   {{ hud_tag(render_roll_overlay(die_text, sg, total, success, parts)) }}
-  {% if ui.debug_rolls %}
+  {% if local_debug or ui.dice.debug_rolls %}
 ```json
 {{ render_roll_json(die_text, sg, total, success, raw_rolls, parts) }}
 ```
@@ -1046,7 +1081,9 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {% if campaign.scene not in [11,12,13] %}{% return %}{% endif %}
   {% if not campaign.boss_defeated %}{% return %}{% endif %}
-  {% if d6() != 6 %}{% return %}{% endif %}
+  {% set gate = d6() %}
+  {{ roll_check('1W6', 6, gate, gate == 6, [gate]) }}
+  {% if gate != 6 %}{% return %}{% endif %}
   {%- set r = range(1,15)|random %}
   {%- set art = artifact_pool_v3[r-1] %}
   {{ artifact_overlay(art.name, art.effect, art.risk) }}
@@ -1063,7 +1100,9 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {# Input: creature dict mit .type, .size, .name #}
   {% set part_roll = d6() %}
+  {{ roll_check('1W6', 0, part_roll, true, [part_roll]) }}
   {% set side_roll = d6() %}
+  {{ roll_check('1W6', 0, side_roll, true, [side_roll]) }}
   {% set part_table = {
       1:"Klaue",2:"Zahn",3:"Auge",4:"Drüse",5:"Chitinplatte",6:"Kern"} %}
   {% set base_effect = {
@@ -1240,8 +1279,12 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% do campaign.codex_log.update({'artifact:' ~ artifact_id: data}) %}
 {%- endmacro %}
 <!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
-{% if campaign.type == "rift" and campaign.scene in [11,12,13] and d6() == 6 %}
+{% if campaign.type == "rift" and campaign.scene in [11,12,13] %}
+  {% set r = d6() %}
+  {{ roll_check('1W6', 6, r, r == 6, [r]) }}
+  {% if r == 6 %}
     {{ roll_legendary() }}
+  {% endif %}
 {% endif %}
 
 <!-- Macro: scene_budget_enforcer -->
