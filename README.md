@@ -101,14 +101,23 @@ Die ersten Schritte in unter zwei Minuten:
     Cluster +… · Fraktion +…`.
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
-Vor jeder Mission zeigt das HUD den Transfer-Countdown (`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h`).
-Nach dem Primärziel öffnet sich das Exfil-Fenster (TTL/Stress). Beim Abzug zeigt das HUD den Rückkehr-Frame (`Fenster stabil · <TTL> · Return 3…2…1`), danach Schnitt ins HQ, Debrief und Save (HQ-only).
+Vor jeder Mission zeigt das HUD den Transfer-Countdown
+(`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h`).
+Nach dem Primärziel öffnet sich das Exfil-Fenster (TTL/Stress).
+Beim Abzug zeigt das HUD den Rückkehr-Frame
+(`Fenster stabil · <TTL> · Return 3…2…1`), danach Schnitt ins HQ,
+Debrief und Save (HQ-only).
 
-> **Transfer:** Jede Mission startet mit `Nullzeit-Puffer · Transfer 3…2…1`. Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
-> **Nach dem Primärziel:** Exfil-Fenster mit **TTL**. Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**. Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
+> **Transfer:** Jede Mission startet mit `Nullzeit-Puffer · Transfer 3…2…1`.
+> Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
+> **Nach dem Primärziel:** Exfil-Fenster mit **TTL**.
+> Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**.
+> Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
-Der HUD-Header zeigt `Lvl` und `Rank` sowie den Modus. `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`; auf schmalen Zeilen blendet das System den Rank automatisch aus.
+Der HUD-Header zeigt `Lvl` und `Rank` sowie den Modus.
+`ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
+auf schmalen Zeilen blendet das System den Rank automatisch aus.
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
@@ -150,9 +159,15 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 ## Exfil-Fenster & Sweeps
 
-Sobald das **Primärziel** erreicht ist, öffnet sich ein **Exfil-Fenster** mit einer **Ablaufzeit (TTL)**.
-Spielende können nun **optionale Sweep-Szenen** spielen (z. B. Räume nachlooten, Keycards nutzen, Spuren sichern). Jede Sweep-Szene **kostet TTL** und **erhöht den Stress** des ausführenden Agenten.
-Sinkt die TTL auf **0**, erzwingt das System einen **Hot-Exfil** (kurzer, riskanter Abzug). Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
+Sobald das **Primärziel** erreicht ist, öffnet sich ein
+**Exfil-Fenster** mit einer **Ablaufzeit (TTL)**.
+Spielende können nun **optionale Sweep-Szenen** spielen
+(z. B. Räume nachlooten, Keycards nutzen, Spuren sichern).
+Jede Sweep-Szene **kostet TTL** und **erhöht den Stress** des
+ausführenden Agenten.
+Sinkt die TTL auf **0**, erzwingt das System einen
+**Hot-Exfil** (kurzer, riskanter Abzug).
+Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `TTL mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
 
@@ -242,8 +257,8 @@ Spurensuche und operativer Einflussnahme**.
 
 Historische Einsätze sind strikt getrennt in:
 
-* **Preserve-Missionen** – sichern beinahe entglittene Ereignisse
-* **Trigger-Missionen** – garantieren dokumentierte Tragödien
+- **Preserve-Missionen** – sichern beinahe entglittene Ereignisse
+- **Trigger-Missionen** – garantieren dokumentierte Tragödien
 
 Spielende wählen zu Beginn eine Fraktion und erhalten Zugriff auf entsprechend
 ausgerichtete Kampagnenpfade.
@@ -279,11 +294,11 @@ Sobald **Paradoxon 5** erreicht ist, erkennt das HQ mittels `ClusterCreate()`
 Der **TEMP-Wert (Temporale Affinität)** bestimmt, wie schnell sich dieser Index
 füllt:
 
-* TEMP 1–3: +1 Paradoxonpunkt alle 5 Missionen
-* TEMP 4–7: alle 4 Missionen
-* TEMP 8–10: alle 3 Missionen
-* TEMP 11–13: alle 2 Missionen
-* TEMP 14+: praktisch jede Mission
+- TEMP 1–3: +1 Paradoxonpunkt alle 5 Missionen
+- TEMP 4–7: alle 4 Missionen
+- TEMP 8–10: alle 3 Missionen
+- TEMP 11–13: alle 2 Missionen
+- TEMP 14+: praktisch jede Mission
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
@@ -701,9 +716,11 @@ Scanne den QR-Code oder besuche
 
 ## How to Contribute
 
-Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum Einreichen von Änderungen; beachte insbesondere die [Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
+Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum
+Einreichen von Änderungen; beachte insbesondere die
+[Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – private use only. See LICENSE.

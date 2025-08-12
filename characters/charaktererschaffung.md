@@ -130,29 +130,29 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passender Ausrüstung.
 
 1. **"Ghost" – Infiltration Specialist**
-   * Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
-   * Cyberware: Retina‑Filmraster, Fingernagel‑Picks
-   * Unique Gear: Chamäleon‑Overall (Stealth‑Vorteil +1)
+    - Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
+    - Cyberware: Retina‑Filmraster, Fingernagel‑Picks
+    - Unique Gear: Chamäleon‑Overall (Stealth‑Vorteil +1)
 
 2. **"Kernel" – Tech & Drone Handler**
-   * Attribute (2/3/5/3/3/4) | Skills: Hacking 4, Hardware 3
-   * Bioware: Neuro‑Link‑Socket
-   * Unique Gear: Falt‑Nanodrohne *“Pixie”* (Sensor + Mini‑Arm)
+    - Attribute (2/3/5/3/3/4) | Skills: Hacking 4, Hardware 3
+    - Bioware: Neuro‑Link‑Socket
+    - Unique Gear: Falt‑Nanodrohne *“Pixie”* (Sensor + Mini‑Arm)
 
 3. **"Wildcard" – Face / Social Ops**
-   * Attribute (2/3/3/5/4/2) | Skills: Verhandeln 4, Verkleiden 3
-   * Cyberware: Stimm‑Modulator, Daten‑Tattoos
-    * Unique Gear: Wegwerf‑DNA‑Spray (−1 Px für kurze Verkleidung)
+    - Attribute (2/3/3/5/4/2) | Skills: Verhandeln 4, Verkleiden 3
+    - Cyberware: Stimm‑Modulator, Daten‑Tattoos
+      - Unique Gear: Wegwerf‑DNA‑Spray (−1 Px für kurze Verkleidung)
 
 4. **"Ricochet" – Close-Quarters Shooter**
-   * Attribute (5/4/3/2/3/3) | Skills: Schusswaffen 4, Taktik 2
-   * Cyberware: Sub‑Derm‑Kevlar (1 Schaden ignorieren / Szene)
-   * Unique Gear: Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden)
+    - Attribute (5/4/3/2/3/3) | Skills: Schusswaffen 4, Taktik 2
+    - Cyberware: Sub‑Derm‑Kevlar (1 Schaden ignorieren / Szene)
+    - Unique Gear: Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden)
 
 5. **"Focus" – Psi-Assault**
-   * Attribute (3/3/3/2/5/4) | Skills: Psi‑Kraft 4, Meditation 3
-   * Psi‑Modul: Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.)
-   * Unique Gear: Kaltes Gestell (−1 Heat während Tragezeit)
+    - Attribute (3/3/3/2/5/4) | Skills: Psi‑Kraft 4, Meditation 3
+    - Psi‑Modul: Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.)
+    - Unique Gear: Kaltes Gestell (−1 Heat während Tragezeit)
 
 ## Schritt-für-Schritt zur Charaktererschaffung
 
@@ -180,7 +180,10 @@ freigeschaltet.
     und Talente. (Cineastischer Tipp: Stell dir eine kurze Filmszene vor, die deinen Charakter in Aktion
     zeigt, um sein Wesen zu verdeutlichen.)
 
-    Vor der Attributvergabe prüft `enforce_identity_before_stats(char)`, ob **Konzept**, **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind. Fehlt etwas, blockt das System den nächsten Schritt.
+     Vor der Attributvergabe prüft
+     `enforce_identity_before_stats(char)`, ob **Konzept**,
+     **Callsign**, **Name** und **Grundform/Hülle** gesetzt sind.
+     Fehlt etwas, blockt das System den nächsten Schritt.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale

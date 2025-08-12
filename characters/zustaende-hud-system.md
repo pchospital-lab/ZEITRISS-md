@@ -28,10 +28,13 @@ leichtgewichtig** in der Anwendung.
 
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
-`EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective} · TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys}/{sys_max}`.
+`EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
+`· TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys}/{sys_max}`.
 
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
-- Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus, `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies bei Bedarf.
+- Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
+  `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies
+  bei Bedarf.
 
 ## Zustände und Statuseffekte
 
@@ -405,8 +408,8 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 `Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
 `Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`
 
-*Banner erscheint immer am Szenenende. Farben:*
-*rot 0–2 · gelb 3–4 · grün 5*
+- Banner erscheint immer am Szenenende. Farben:
+- rot 0–2 · gelb 3–4 · grün 5
 
 > _Resonanzanzeige für Rissverfolgung_
 > _Codex-Modul: `CLSTR:TRACE.MONITOR`_

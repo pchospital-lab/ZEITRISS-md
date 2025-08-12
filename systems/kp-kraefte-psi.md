@@ -24,7 +24,9 @@ tags: [system, psi, optional]
 - PP-Pool = Temporale Affinität (TEMP). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
-- Psi-Optionen erscheinen nur bei gesetztem `has_psi`; `render_psi_option(name, cost)` zeigt sie mit klaren Stresskosten.
+- Psi-Optionen erscheinen nur bei gesetztem `has_psi`;
+  `render_psi_option(name, cost)` zeigt sie mit klaren
+  Stresskosten.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 
@@ -595,10 +597,11 @@ Verantwortung verbunden.
 
 #### Regeneration {#psi-pp-regeneration}
 
-* **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**, sofern eine
-  Willenskraftprobe (CHA) gegen den doppelten Heat-Level gelingt.
-* **Nach jedem Kampf** → **PP voll**
-* **Lange Ruhe** (Mission beendet) → **PP voll**
+- **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**,
+  sofern eine Willenskraftprobe (CHA) gegen den doppelten
+  Heat-Level gelingt.
+- **Nach jedem Kampf** → **PP voll**
+- **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TEMP.
 
 #### Temporal Anchor
@@ -609,7 +612,7 @@ Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als
 #### Überziehen („Burn“)
 
 Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
-*Preis:* **−1 Px** pro verbranntem PP.
+- Preis: **−1 Px** pro verbranntem PP.
 > Px = Paradox‑Index‑Punkte (siehe core).
 > **Nie** mehr Burn‑PP als TEMP – die Zeit reißt sonst sofort (SL‑Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
@@ -629,11 +632,14 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr (
 
 ### Psi-Heat-Track {#psi-heat-track}
 
-* Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer Talenttext sagt etwas anderes).
-* Heat > 4 → −1 Initiative.
-* Heat ≥ 5 → **SG +4** auf alle Proben.
-* Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde, Heat springt auf 0.
-* Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine Willenskraftprobe (CHA)
+- Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer
+  Talenttext sagt etwas anderes).
+- Heat > 4 → −1 Initiative.
+- Heat ≥ 5 → **SG +4** auf alle Proben.
+- Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
+  Heat springt auf 0.
+- Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine
+  Willenskraftprobe (CHA)
   gegen den doppelten Heat-Level gelingt. Kühl-Gear kann Heat sofort senken.
   Nach dem Kampf springt Heat automatisch auf 0.
 
