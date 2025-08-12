@@ -23,7 +23,8 @@ def repo_root(start: Path | None = None) -> Path:
             text=True,
         ).stdout.strip()
         return Path(out) if out else root
-    except Exception:
+    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+        get_logger("lib_repo").warning("git rev-parse failed: %s", exc)
         return root
 
 
