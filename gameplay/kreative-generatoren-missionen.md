@@ -87,6 +87,8 @@ Standard-Transferwerte:
 - `fx.transfer.redirect_hours_default`: 6
 Diese Werte lassen sich pro Mission unter `mission.fx.transfer` überschreiben.
 Setze `show_redirect: false`, wenn kein Redirect angezeigt werden soll.
+Overrides unter `mission.fx.transfer.*` gelten sowohl beim Transfer-Out zum Missionsstart
+als auch beim Transfer-Back bzw. einer Hot-Exfil.
 ### Core 12-Step Mission Template
 | # | Phase | Zweck |
 |---|-------|------|

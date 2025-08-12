@@ -1078,6 +1078,19 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {% endif %}
 {%- endmacro %}
 
+{% macro label_for(count, sides, exploding=false) -%}
+  {% set star = '*' if exploding else '' %}
+  {{ (count > 1 and count ~ 'W' ~ sides ~ star) or 'W' ~ sides ~ star }}
+{%- endmacro %}
+
+{% macro format_raw_list(raw, max_show=6) -%}
+  {% if raw|length <= max_show %}
+    {{ '[' ~ raw|join(',') ~ ']' }}
+  {% else %}
+    {{ '[' ~ raw[:max_show]|join(',') ~ ',…]' }}
+  {% endif %}
+{%- endmacro %}
+
 {% macro rng_roll(num, sides, exploding=false) -%}
   {% set raw = [] %}
   {% for _ in range(num) %}
@@ -1088,12 +1101,22 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
       {% set raw = raw + [extra] %}
     {% endif %}
   {% endfor %}
-  {% set die_text = num ~ 'W' ~ sides ~ (exploding and '*' or '') %}
+  {% set label = label_for(num, sides, exploding) %}
+  {% if num > 1 %}
+    {% set die_text = label ~ ' ' ~ format_raw_list(raw) %}
+  {% else %}
+    {% set die_text = label %}
+  {% endif %}
   {{ [raw, die_text] }}
 {%- endmacro %}
 
-{% macro skill_check(attr, gear, sg, use_w10=false, local_debug=false) -%}
-  {% set roll = rng_roll(1, 10, true) if use_w10 else rng_roll(1, 6, true) %}
+{% macro die_for_attribute(attr_val) -%}
+  {{ 'W10*' if attr_val >= 11 else 'W6*' }}
+{%- endmacro %}
+
+{% macro skill_check(attr, gear, sg, local_debug=false) -%}
+  {% set die = die_for_attribute(attr) %}
+  {% set roll = rng_roll(1, 10, true) if die == 'W10*' else rng_roll(1, 6, true) %}
   {% set raw = roll[0] %}
   {% set die_text = roll[1] %}
   {% set total = raw|sum + attr + gear %}
@@ -1104,11 +1127,11 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 {%- endmacro %}
 
 {% macro vehicle_check(driver_attr, mod, sg, local_debug=false) -%}
-  {{ skill_check(driver_attr, mod, sg, use_w10=(driver_attr >= 11), local_debug=local_debug) }}
+  {{ skill_check(driver_attr, mod, sg, local_debug=local_debug) }}
 {%- endmacro %}
 
 {% macro mass_conflict_check(cmd_attr, asset_mod, sg, local_debug=false) -%}
-  {{ skill_check(cmd_attr, asset_mod, sg, use_w10=(cmd_attr >= 11), local_debug=local_debug) }}
+  {{ skill_check(cmd_attr, asset_mod, sg, local_debug=local_debug) }}
 {%- endmacro %}
 
 
