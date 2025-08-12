@@ -122,8 +122,8 @@ nachrechnen zu müssen.
 
 ### Squad-Scaling-Regel
 
-* Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
-* Keine zusätzlichen Kosten – gleich wie beim Einzelbuff.
+- Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
+- Keine zusätzlichen Kosten – gleich wie beim Einzelbuff.
 
 > *Beispiel:* TEMP 5 bufft bis zu fünf Teammitglieder.
 

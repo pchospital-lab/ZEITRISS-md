@@ -1,3 +1,9 @@
+---
+title: "LINT Anchor Inventory"
+version: 1.0.0
+tags: [meta, lint]
+---
+
 # LINT Anchor Inventory
 
 List of documented `LINT:` anchors grouped by feature.

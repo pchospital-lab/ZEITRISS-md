@@ -1,3 +1,9 @@
+---
+title: "LINT Anchors"
+version: 1.0.0
+tags: [doc, lint]
+---
+
 # LINT Anchors
 
 - `LINT:ARENA_ABORT` — meta/lint-anchors.md
