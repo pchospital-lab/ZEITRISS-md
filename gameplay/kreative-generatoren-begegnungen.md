@@ -832,11 +832,13 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 
 ```jinja
 {% macro roll_legendary() -%}
-  {% set gate = d6() %}
-  {{ roll_check('1W6', 6, gate, gate == 6, [gate]) }}
+  {% set gate_data = rng_roll(1,6) %}
+  {% set gate = gate_data[0][0] %}
+  {{ roll_check(gate_data[1], 6, gate, gate == 6, gate_data[0]) }}
   {% if gate != 6 %}{% return %}{% endif %}
-  {%- set r = range(1,15)|random %}
-  {%- set art = artifact_pool_v3[r-1] %}
+  {% set pick_data = rng_roll(1,14) %}
+  {% set r = pick_data[0][0] %}
+  {% set art = artifact_pool_v3[r-1] %}
   {{ hud_tag('Artefakt ‹' ~ art.name ~ '› ▶ ' ~ art.effect ~ ' (Risk: ' ~ art.risk ~ ')') }}
 {%- endmacro %}
 ```
