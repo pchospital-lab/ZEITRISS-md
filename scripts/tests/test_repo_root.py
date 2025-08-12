@@ -8,11 +8,11 @@ from scripts.lib_repo import repo_root
 
 
 class TestRepoRoot(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.base = Path(__file__)
-        self.expected = self.base.resolve().parents[1]
+        self.expected = self.base.resolve().parent
 
-    def test_called_process_error_fallback(self):
+    def test_called_process_error_fallback(self) -> None:
         with patch(
             "scripts.lib_repo.subprocess.run",
             side_effect=subprocess.CalledProcessError(1, "git"),
@@ -23,7 +23,7 @@ class TestRepoRoot(unittest.TestCase):
             any("git rev-parse failed" in msg.lower() for msg in cm.output)
         )
 
-    def test_file_not_found_error_fallback(self):
+    def test_file_not_found_error_fallback(self) -> None:
         with patch(
             "scripts.lib_repo.subprocess.run",
             side_effect=FileNotFoundError("git"),
@@ -34,6 +34,11 @@ class TestRepoRoot(unittest.TestCase):
             any("git rev-parse failed" in msg.lower() for msg in cm.output)
         )
 
+    def test_idempotent_root(self) -> None:
+        root = repo_root()
+        self.assertEqual(repo_root(Path(root)), root)
+
 
 if __name__ == "__main__":
     unittest.main()
+
