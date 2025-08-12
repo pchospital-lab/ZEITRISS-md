@@ -100,6 +100,11 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
+**HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
+Vor jeder Mission zeigt das HUD den Transfer-Countdown (`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h`).
+Nach dem Primärziel öffnet sich das Exfil-Fenster (TTL/Stress). Beim Abzug zeigt das HUD den Rückkehr-Frame (`Fenster stabil · <TTL> · Return 3…2…1`), danach Schnitt ins HQ, Debrief und Save (HQ-only).
+
+> **Transfer:** Jede Mission startet mit `Nullzeit-Puffer · Transfer 3…2…1`. Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
 > **Nach dem Primärziel:** Exfil-Fenster mit **TTL**. Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**. Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 

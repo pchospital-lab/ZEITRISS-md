@@ -27,6 +27,9 @@ default_modus: mission-fokus
 {% if ui is not defined %}
   {% set ui = {'mode_display': 'label', 'suppress_rank_on_narrow': true, 'debug_rolls': false} %}
 {% endif %}
+{% if fx is not defined %}
+  {% set fx = {'transfer': {'on_mission_enter': 'always', 'on_mission_exit': 'always', 'redirect_hours_default': 6, 'show_redirect': true, 'hud_out_template': 'Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +{hours}h (Self-Collision Guard)', 'hud_in_template': 'Fenster stabil · {ttl} · Return 3…2…1', 'sensory_out': 'Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.', 'sensory_in_stable': 'Kälte. Leere. Das Umgebungsgeräusch kippt — und reißt ab.', 'sensory_in_hot': 'Instabiles Fenster. Bild zerreißt, Zug reißt dich zurück. Schwarzer Cut.'}} %}
+{% endif %}
 
 {% macro set_mode_display(style) -%}
   {% set ui.mode_display = style %}
@@ -352,6 +355,38 @@ Mission fest und dient der Boss-Generierung.
   {% endif %}
 {%- endmacro %}
 
+{% macro should_show_transfer_enter() -%}
+  {% set opt = fx.transfer.on_mission_enter %}
+  {{ opt == 'always' or (opt == 'first_session' and campaign.mission == 1) or (opt == 'first_episode' and campaign.mission_in_episode == 1) }}
+{%- endmacro %}
+
+{% macro should_show_transfer_exit() -%}
+  {% set opt = fx.transfer.on_mission_exit %}
+  {{ opt == 'always' or (opt == 'on_exfil_only' and campaign.exfil.active) }}
+{%- endmacro %}
+
+{% macro transfer_out_from_hq(dt_hours=0) -%}
+  {% set hours = dt_hours or fx.transfer.redirect_hours_default %}
+  {% if fx.transfer.show_redirect %}
+    {{ hud_tag(fx.transfer.hud_out_template.format(hours=hours)) }}
+  {% endif %}
+  {{ fx.transfer.sensory_out }}
+{%- endmacro %}
+
+{% macro transfer_back_to_hq(hot=false) -%}
+  {% if not hot %}
+    {% set ttl_token = ttl_fmt(campaign.exfil.ttl) if campaign.exfil.active else '08s' %}
+    {{ hud_tag(fx.transfer.hud_in_template.format(ttl=ttl_token)) }}
+    {{ fx.transfer.sensory_in_stable }}
+  {% else %}
+    {{ hud_tag('HOT-Exfil · Fenster instabil') }}
+    {{ fx.transfer.sensory_in_hot }}
+  {% endif %}
+  {{ cut_to_hq_van() }}
+{%- endmacro %}
+
+{% macro cut_to_hq_van() -%}{%- endmacro %}
+
 <!-- Macro: StartMission -->
 {% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0) %}
 {% if campaign.mission is none %}
@@ -371,6 +406,9 @@ Mission fest und dient der Boss-Generierung.
 {% set campaign.type = type %}
 {% set campaign.epoch = epoch %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
+{% if should_show_transfer_enter() %}
+  {{ transfer_out_from_hq(dt_hours) }}
+{% endif %}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
@@ -815,8 +853,21 @@ total=None, role="", env=None) -%}
   {{ chrono_hud('ECON') }}
 {%- endmacro %}
 
-{% macro chrono_shop(listing) -%}
-  {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
+{% macro rank_index(rank) -%}
+  {% set order = {'Recruit':0,'Operator I':1,'Operator II':2,'Lead':3,'Specialist':4,'Chief':5} %}
+  {{ order.get(rank, 0) }}
+{%- endmacro %}
+
+{% macro can_purchase(char_rank, item_rank) -%}
+  {{ rank_index(char_rank) >= rank_index(item_rank) }}
+{%- endmacro %}
+
+{% macro chrono_shop(listing, required_rank=None) -%}
+  {% if required_rank and not can_purchase(char.rank, required_rank) %}
+    {{ hud_tag('Shop: Item gesperrt bis Rank ' ~ required_rank) }}
+  {% else %}
+    {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
+  {% endif %}
 {%- endmacro %}
 
 {% macro chrono_black_market(listing) -%}
@@ -862,15 +913,19 @@ Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
 ### EndMission Macro
 Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 <!-- Macro: EndMission -->
-{% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0,
-intervention_result=None) -%}
+{% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0, intervention_result=None) -%}
+{% set hot = (campaign.exfil.active and campaign.exfil.ttl <= 0) or campaign.exfil.hot %}
+{% if should_show_transfer_exit() %}
+  {{ transfer_back_to_hq(hot=hot) }}
+{% endif %}
+{% set campaign.loc = 'HQ' %}
+{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
 {% if char.lvl < 10 %}
   {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
 {% endif %}
 {{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
-{# Episodenende -> Boni für die nächste Episode vormerken #}
 {% if campaign.mission_in_episode == 10 %}
   {% set campaign.episode_completed = true %}
   {{ apply_rift_mods_next_episode() }}
@@ -893,6 +948,25 @@ intervention_result=None) -%}
     {% do dm.update({k: dice_for(v)}) %}
   {% endfor %}
   {{ dm }}
+{%- endmacro %}
+
+{% macro render_roll_overlay(die_text, sg, total, success, parts=[]) -%}
+  {% set parts_str = parts|join(' ') %}
+  {% set verdict = 'Erfolg' if success else 'Fail' %}
+  {{ die_text ~ ' ' ~ parts_str ~ ' → ' ~ total ~ ' ≥ SG ' ~ sg ~ ' (' ~ verdict ~ ')' }}
+{%- endmacro %}
+
+{% macro render_roll_json(die_text, sg, total, success, raw_rolls=[], parts=[]) -%}
+  {{ {'roll': die_text, 'raw': raw_rolls, 'mods': parts, 'SG': sg, 'total': total, 'success': success} | tojson }}
+{%- endmacro %}
+
+{% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[]) -%}
+  {{ hud_tag(render_roll_overlay(die_text, sg, total, success, parts)) }}
+  {% if ui.debug_rolls %}
+```json
+{{ render_roll_json(die_text, sg, total, success, raw_rolls, parts) }}
+```
+  {% endif %}
 {%- endmacro %}
 
 {% macro enforce_identity_before_stats(char) -%}
