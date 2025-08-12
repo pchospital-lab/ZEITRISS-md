@@ -325,6 +325,21 @@ if paradox_level >= threshold:
 | **Mission (Core-Op)** | 60–75 min | **12 Szenen** | „Netflix-Folge“ – Cliffhanger, Level-Up |
 | **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
+### Post-Op Sweep (optional)
+
+Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Minuten** (Mission kann abweichen).
+
+**Pro Sweep-Szene:**
+
+- `TTL − 2 Minuten`
+- `Stress +1` (beim ausführenden Agenten)
+- Bei Komplikation/Teil-Alarm zusätzlich `Stress +1`.
+
+**TTL ≤ 0 ⇒ Hot-Exfil**: 2–3 kurze, harte Szenen; Misslingen kann **Px–1** bedeuten.
+
+Empfehlung: **0–2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das Risiko.
+**Speichern** bleibt **HQ-exklusiv**.
+
 ### Cinematic Arc {#cinematic-arc}
 
 Missionen entfalten ihre Wirkung erst durch einen ruhigen Einstieg. Plane zu Beginn

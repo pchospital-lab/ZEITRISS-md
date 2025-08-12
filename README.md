@@ -8,30 +8,31 @@ tags: [meta]
 1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
    1. [Session-0 Agenda](#session-0-agenda)
    2. [Probability Cheat Table](#probability-cheat-table)
-   3. [Chat-Shortcodes](#chat-shortcodes)
-2. [Regelreferenz](#regelreferenz)
+3. [Chat-Shortcodes](#chat-shortcodes)
+2. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
+3. [Regelreferenz](#regelreferenz)
    1. [Proben & Schwierigkeitsgrad](#proben--schwierigkeitsgrad)
    2. [Difficulty-Konverter](#difficulty-konverter)
    3. [Wichtige Makros](#wichtige-makros)
    4. [KPI-Cheat-Sheet pro Phase](#kpi-cheat-sheet-pro-phase)
    5. [Modulübersicht](#modulübersicht)
-3. [Standardausrüstung](#standardausrüstung)
-4. [Grundidee](#grundidee)
-5. [Loot-Matrix](#loot-matrix)
-6. [Loot-Quickref](#loot-quickref)
-7. [Kampagnenhierarchie](#kampagnenhierarchie)
-8. [Struktur](#struktur)
-9. [Beispielworkflow](#beispielworkflow)
-10. [Spielstart](#spielstart)
-11. [Spielmodi](#spielmodi)
-12. [Generator-Utilities](#generator-utilities)
-13. [Glossar](#glossar)
+4. [Standardausrüstung](#standardausrüstung)
+5. [Grundidee](#grundidee)
+6. [Loot-Matrix](#loot-matrix)
+7. [Loot-Quickref](#loot-quickref)
+8. [Kampagnenhierarchie](#kampagnenhierarchie)
+9. [Struktur](#struktur)
+10. [Beispielworkflow](#beispielworkflow)
+11. [Spielstart](#spielstart)
+12. [Spielmodi](#spielmodi)
+13. [Generator-Utilities](#generator-utilities)
+14. [Glossar](#glossar)
     1. [Huminen](#huminen)
     2. [Begriffsklärung](#begriffsklärung)
     3. [Zeiteinheiten](#zeiteinheiten)
     4. [Zeitgebundene Effekte](#zeitgebundene-effekte)
-14. [Playtest Feedback](#playtest-feedback)
-15. [How to Contribute](#how-to-contribute)
+15. [Playtest Feedback](#playtest-feedback)
+16. [How to Contribute](#how-to-contribute)
 
 <!-- Macro: StoreCompliance -->
 {% macro StoreCompliance() -%}
@@ -99,6 +100,9 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
+> **Nach dem Primärziel:** Exfil-Fenster mit **TTL**. Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**. Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
+> **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
+
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
@@ -136,6 +140,14 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
+
+## Exfil-Fenster & Sweeps
+
+Sobald das **Primärziel** erreicht ist, öffnet sich ein **Exfil-Fenster** mit einer **Ablaufzeit (TTL)**.
+Spielende können nun **optionale Sweep-Szenen** spielen (z. B. Räume nachlooten, Keycards nutzen, Spuren sichern). Jede Sweep-Szene **kostet TTL** und **erhöht den Stress** des ausführenden Agenten.
+Sinkt die TTL auf **0**, erzwingt das System einen **Hot-Exfil** (kurzer, riskanter Abzug). Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
+**Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
+**HUD** zeigt ab Zielerfüllung `TTL mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
 
 ## Regelreferenz
 
