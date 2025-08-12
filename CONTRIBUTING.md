@@ -19,6 +19,7 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
   Spielmodule dürfen es nicht einbinden.
 - Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
 - Führe die dort beschriebenen Tests nur aus, wenn du am Stub arbeitest.
+- Signalaktionen benötigen ein Gerät (Comlink, Terminal, Kabel oder Relais); ohne Hardware keine Netzinteraktion.
 
 Vielen Dank für deine Mithilfe!
 

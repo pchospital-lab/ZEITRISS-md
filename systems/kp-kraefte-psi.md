@@ -24,6 +24,7 @@ tags: [system, psi, optional]
 - PP-Pool = Temporale Affinität (TEMP). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
+- Psi-Optionen erscheinen nur bei gesetztem `has_psi`; `render_psi_option(name, cost)` zeigt sie mit klaren Stresskosten.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
 

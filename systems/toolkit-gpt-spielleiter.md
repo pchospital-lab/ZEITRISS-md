@@ -24,6 +24,14 @@ default_modus: mission-fokus
 {% elif codex.dev_raw is not defined %}
   {% set codex.dev_raw = false %}
 {% endif %}
+{% if ui is not defined %}
+  {% set ui = {'mode_display': 'label', 'suppress_rank_on_narrow': true, 'debug_rolls': false} %}
+{% endif %}
+
+{% macro set_mode_display(style) -%}
+  {% set ui.mode_display = style %}
+  {{ hud_tag('Mode-Display: ' ~ style) }}
+{%- endmacro %}
 # ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
@@ -99,8 +107,8 @@ if not char.get("psi") and not char.get("has_psi"):
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
   Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
-  Rufe `NextScene(loc, target, objective, seed_id, pressure=None, total=12,
-  role="Ankunft")` bei Core-Ops, `NextScene(loc, target, objective, seed_id,
+  Rufe `NextScene(loc, objective, seed_id, pressure=None, total=12,
+  role="Ankunft")` bei Core-Ops, `NextScene(loc, objective, seed_id,
   pressure=None, total=14, role="Ankunft")` bei Rift-Ops, um die Gesamtzahl
   korrekt anzuzeigen.
   Jede Vorlagen-Szene beginnt damit. Eine Core-Operation sollte frühestens nach
@@ -330,10 +338,18 @@ wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
 Mission fest und dient der Boss-Generierung.
 
 {% macro fr_intervention_roll() -%}
+  {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
   {% set r = d6() %}
   {% set status = 'ruhig' if r<=2 else ('Beobachter' if r<=4 else 'aktiver Eingriff') %}
   {{ hud_tag('FR-INTRV: ' ~ status) }}
-  {% set campaign.intervention = status %}
+  {% set campaign.fr_intervention = status %}
+{%- endmacro %}
+
+{% macro fr_contact_allowed(loc) -%}
+  {% if loc != 'HQ' %}
+    {{ hud_tag('Direkter FR-Kontakt nur im HQ erlaubt') }}
+    {% return %}
+  {% endif %}
 {%- endmacro %}
 
 <!-- Macro: StartMission -->
@@ -490,17 +506,23 @@ Decision: {{ text }}?
   {% endif %}
 {%- endmacro %}
 
-{% macro scene_overlay(target, total, pressure=None, env=None) -%}
+{% macro scene_overlay(total, pressure=None, env=None) -%}
 {% set ep = campaign.episode %}
 {% set ms = campaign.mission_in_episode %}
 {% set sc = campaign.scene %}
 {% set TYPE = campaign.type|upper %}
 {% set objective = campaign.objective %}
+{% set mode_map = {
+  'label': {'core': 'MODE CORE', 'rift': 'MODE RIFT'},
+  'emoji': {'core': '🎯 CORE', 'rift': '✨ RIFT'},
+  'both':  {'core': '🎯 MODE CORE', 'rift': '✨ MODE RIFT'}
+} %}
+{% set mode_token = mode_map.get(ui.mode_display or 'label')[campaign.type] %}
 {% set segs = [
   "EP " ~ (ep|format("%02d")),
   " · MS " ~ (ms|format("%02d")),
   " · SC " ~ (sc|format("%02d")) ~ "/" ~ total,
-  " · MODE " ~ TYPE,
+  " · " ~ mode_token,
   " · Objective: " ~ objective
 ] %}
 {% if campaign.exfil.active %}
@@ -509,7 +531,12 @@ Decision: {{ text }}?
 {% endif %}
 {% do segs.append(" · Px " ~ px_bar(campaign.paradox)) %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
-{% if char.rank is defined %}{% do segs.append(" · Rank " ~ (char.rank or '-')) %}{% endif %}
+{% if char.rank is defined %}
+  {% set line = segs|join('') %}
+  {% if not ui.suppress_rank_on_narrow or line|length < 95 %}
+    {% do segs.append(" · Rank " ~ (char.rank or '-')) %}
+  {% endif %}
+{% endif %}
 {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
 `{{ segs|join('') }}`
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
@@ -519,7 +546,7 @@ Decision: {{ text }}?
 ### StartScene & EndScene Macros {#startscene--endscene-macros}
 
 <!-- Macro: StartScene -->
-{% macro StartScene(loc, target, objective=None, seed_id=None, pressure=None,
+{% macro StartScene(loc, objective=None, seed_id=None, pressure=None,
 total=12, role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
 {% set campaign.tech_steps = 0 %}
@@ -547,10 +574,14 @@ total=12, role="", env=None) -%}
   {% endif %}
   {% set total = campaign.scene_total %}
   {% if campaign.exfil.active %}
-    {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
-    {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
     {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
       {{ trigger_hot_exfil() }}
+    {% else %}
+      {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
+      {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
+      {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
+        {{ trigger_hot_exfil() }}
+      {% endif %}
     {% endif %}
   {% endif %}
 {% endif %}
@@ -558,13 +589,22 @@ total=12, role="", env=None) -%}
   {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
   {% set role = "Konflikt" %}
 {% endif %}
-{{ scene_overlay(target, total, pressure, env) }}
+{{ scene_overlay(total, pressure, env) }}
+{% if (campaign.type == 'core' and campaign.boss_allowed and campaign.scene == 9) or
+      (campaign.type == 'rift' and campaign.scene == 9) %}
+  {{ hud_tag('Foreshadow: akustischer Click des Metronoms') }}
+  {{ hud_tag('Foreshadow: Glassteg mit Servicelift/Fluchtweg') }}
+{% endif %}
 {# Boss-Regel #}
 {% if campaign.type == "rift" and campaign.scene == 10 %}
+  {% set campaign.boss_scene = {'style': 'VERBOSE',
+    'pressure': ['Timer 90s','Verstärkung in 2min','wandernder Scheinwerfer']} %}
   {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
   {# LINT:BOSS_SCENE10_RIFT #}
   {{ hud_tag('Boss-Encounter in Szene 10') }}
 {% elif campaign.type == "core" and campaign.scene == 10 and campaign.boss_allowed %}
+  {% set campaign.boss_scene = {'style': 'VERBOSE',
+    'pressure': ['Timer 90s','Verstärkung in 2min','wandernder Scheinwerfer']} %}
   {{ generate_boss('core', campaign.mission, campaign.epoch) }}
   {{ hud_tag('Boss-Encounter in Szene 10 (Core M' ~ campaign.mission_in_episode ~ ')') }}
 {% endif %}
@@ -599,7 +639,7 @@ total=12, role="", env=None) -%}
 {%- endmacro %}
 
 <!-- Macro: NextScene -->
-{% macro NextScene(loc, target, objective=None, seed_id=None, pressure=None,
+{% macro NextScene(loc, objective=None, seed_id=None, pressure=None,
 total=None, role="", env=None) -%}
   {# Konflikte in Szene < delayConflict blocken #}
   {% if campaign.scene < campaign.delayConflict and role in ["Konflikt","Finale"] %}
@@ -612,7 +652,7 @@ total=None, role="", env=None) -%}
   {% endif %}
   {% if total is none %}{% set total = campaign.scene_total %}{% endif %}
   {{ EndScene() }}
-  {{ StartScene(loc, target, objective, seed_id, pressure=pressure,
+  {{ StartScene(loc, objective, seed_id, pressure=pressure,
   total=total, role=role, env=env) }}
 {%- endmacro %}
 
@@ -624,7 +664,8 @@ total=None, role="", env=None) -%}
   {% endif %}
 {%- endmacro %}
 
-{% macro comms_check(distance_km=0, jammer=false, relays=false) -%}
+{% macro comms_check(distance_km=0, jammer=false, relays=false, text="") -%}
+  {{ validate_signal(text) }}
   {% if distance_km > 2 and not relays %}{{ hud_tag('Comms out of range (>2km) – Relais nötig') }}{% endif %}
   {% if jammer and not relays %}{{ hud_tag('Jammer blockiert – Gegenmaßnahme nötig') }}{% endif %}
 {%- endmacro %}
@@ -633,7 +674,13 @@ total=None, role="", env=None) -%}
   {% set forbidden = ['Cyberspace','Signalraum','Netzgeist','reiner Signalfluss'] %}
   {% set devices  = ['Comlink','Jammer','Terminal','Konsole','Kabel','Antenne','Funkgerät','Relais'] %}
   {% if forbidden|select('in', text)|list and not devices|select('in', text)|list %}
-    {{ hud_tag('Signalaktion ohne Hardware – Gerät angeben (Comlink/Jammer/Terminal/Kabel).') }}
+    {{ hud_tag('Signalaktion ohne Hardware – Gerät wählen: Comlink koppeln, Terminal suchen, Kabel/Relais nutzen oder abbrechen.') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro render_psi_option(name, cost_stress) -%}
+  {% if char.flags.has_psi %}
+    Psi: {{ name }} (Kosten: Stress +{{ cost_stress }})
   {% endif %}
 {%- endmacro %}
 
@@ -809,6 +856,7 @@ Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
 {{ hud_tag('Cluster +' ~ cluster_gain ~ ' · Fraktion +' ~ faction_delta) }}
 {% if campaign.codex_log %}{{ hud_tag('Codex-Log: ' ~ campaign.codex_log) }}{% endif %}
 {% set campaign.codex_log = {} %}
+{{ hud_tag('Resonanz +1') }}
 {%- endmacro %}
 
 ### EndMission Macro
@@ -816,8 +864,9 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 <!-- Macro: EndMission -->
 {% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0,
 intervention_result=None) -%}
-{% if campaign.level < 10 and (campaign.scene >= scene_min or campaign.mission % 2 == 0) %}
-{% set campaign.level = campaign.level + 1 %}{% endif -%}
+{% if char.lvl < 10 %}
+  {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
+{% endif %}
 {{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
@@ -826,6 +875,45 @@ intervention_result=None) -%}
   {% set campaign.episode_completed = true %}
   {{ apply_rift_mods_next_episode() }}
 {% endif %}
+{%- endmacro %}
+
+{% macro dice_for(attr_val) -%}
+  {{ 'W10*' if attr_val >= 11 else 'W6*' }}
+{%- endmacro %}
+
+{% macro on_attribute_change(attr, value) -%}
+  {% if value == 11 %}
+    {{ hud_tag(attr ~ ' 11 → Würfelwechsel: W10 explodierend aktiviert') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro dice_mode_map(char) -%}
+  {% set dm = {} %}
+  {% for k, v in char.attributes.items() %}
+    {% do dm.update({k: dice_for(v)}) %}
+  {% endfor %}
+  {{ dm }}
+{%- endmacro %}
+
+{% macro enforce_identity_before_stats(char) -%}
+  {% set required = ['concept','callsign','name','hull'] %}
+  {% for field in required %}
+    {% if not getattr(char, field, None) %}
+      {{ hud_tag('Bitte zuerst Konzept, Callsign, Name und Hülle festlegen.') }}
+      {% return %}
+    {% endif %}
+  {% endfor %}
+{%- endmacro %}
+
+{% macro on_episode_end(state) -%}
+  {% set state.stars_bonus = state.seeds_open %}
+{%- endmacro %}
+
+{% macro briefing_with_stars(mission) -%}
+  {% if campaign.stars_bonus %}
+    {{ rule_tag('Schwierigkeitszuschlag: ' ~ '☆'*campaign.stars_bonus ~ ' (SG +' ~ campaign.stars_bonus ~ ')') }}
+    {% set mission.sg = mission.sg + campaign.stars_bonus %}
+  {% endif %}
 {%- endmacro %}
 Rufe `NextScene` am Szenenbeginn auf; es schließt die vorherige Szene über
 `EndScene()` ab und startet den neuen Abschnitt.
@@ -1080,9 +1168,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {{ cause }}
 {% endif %}
 {% if reward > risk %}
-Paradoxon +1 – Resonanzanstieg
+Resonanz +1
 {% elif reward < risk %}
-Paradoxon –1 – Resonanzverlust
+Risiko: Resonanzverlust (Px–1)
 {% else %}
 Paradoxon unverändert – Resonanz stagniert
 {% endif %}
@@ -1205,6 +1293,7 @@ Fügt nach vielen Tech-Schritten eine nicht-technische Hürde ein.
 <!-- Macro: inject_complication -->
 {% macro inject_complication(tech_steps) -%}
 {% if tech_steps > 3 %}
+  {{ exfil_complication() }}
   {% set social = [
     {"tag": "social", "obstacle": "Geiselverhandlung"},
     {"tag": "social", "obstacle": "Streik"},
@@ -1961,6 +2050,36 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
     {% return %}
   {% endif %}
   {{ hq_only_save_guard() }}
+{%- endmacro %}
+
+{% macro hq_only_save_guard() -%}
+  {% if campaign.loc != 'HQ' %}
+    {{ hud_tag('Speichern ist ausschließlich im HQ möglich.') }}
+    {% return %}
+  {% endif %}
+{%- endmacro %}
+
+{% macro serialize_progress() -%}
+  {
+    "episode": campaign.episode,
+    "mission": campaign.mission_in_episode,
+    "scene": campaign.scene,
+    "lvl": char.lvl,
+    "rank": char.rank,
+    "dice_mode": dice_mode_map(char),
+    "paradox": {"px": campaign.paradox, "seeds_open": campaign.seeds_open, "stars_next": campaign.stars_bonus},
+    "stress": char.stress,
+    "sys": {"cur": char.sys, "max": char.sys_max},
+    "flags": {"has_psi": char.flags.has_psi}
+  }
+{%- endmacro %}
+
+{% macro cmdSave() -%}
+  {{ save_guard() }}
+  {% if campaign.loc != 'HQ' %}{% return %}{% endif %}
+  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
+  {% set char.stress = 0 %}
+  {{ serialize_progress() }}
 {%- endmacro %}
 
 {# LINT:ARENA_CAMPAIGN_SNAP #}
