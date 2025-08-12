@@ -20,6 +20,9 @@ tags: [system]
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
 Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarzatrium.
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
+Beim Sprung zeigt das HUD stets:
+`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
+Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
 eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
 Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut

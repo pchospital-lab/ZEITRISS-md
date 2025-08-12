@@ -103,6 +103,8 @@ Die ersten Schritte in unter zwei Minuten:
 > **Nach dem Primärziel:** Exfil-Fenster mit **TTL**. Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**. Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
+Der HUD-Header zeigt `Lvl` und `Rank` sowie den Modus. `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`; auf schmalen Zeilen blendet das System den Rank automatisch aus.
+
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
 In Core-Ops treten Rivalen aus externen Machtblöcken auf,
@@ -118,7 +120,7 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
 5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
-6. **Regel-Transparenz** – verdeckte, offene oder manuelle Würfe klären.
+6. **Regel-Transparenz** – Overlay ist Standard; `/debug_rolls` blendet optional das JSON-Log ein.
 
 ### Probability Cheat Table
 

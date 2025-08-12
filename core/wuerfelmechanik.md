@@ -218,9 +218,11 @@ Weitere Details stehen im Modul
 
 ZEITRISS 4.2.0 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
 Doch was passiert, wenn ein Held im Laufe der Kampagne über sich hinauswächst und einen Wert
-jenseits der menschlichen Spitze erreicht? Hier kommt unsere neue Mechanik ins Spiel: der
-**Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10** spürbar
-belohnt werden, ohne aber die Spielbalance zu sprengen.
+jenseits der menschlichen Spitze erreicht? Nach jeder Mission bis Level 10 bietet das System
+automatisch **+1 Attribut** an. Erreicht ein Wert **11**, wechselt der entsprechende Würfel auf
+**W10 explodierend** und das HUD blendet einmalig `W10 aktiv` ein. Hier kommt unsere neue Mechanik
+ins Spiel: der **Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10**
+spürbar belohnt werden, ohne aber die Spielbalance zu sprengen.
 
 Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wunsch den W10 frei.
 
