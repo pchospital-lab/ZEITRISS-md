@@ -9,6 +9,16 @@ default_modus: mission-fokus
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
 {% set core_arc_boss_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_arc_boss_pool') %}
+{% set exfil = exfil or {
+  'enabled': true,
+  'ttl_start_minutes': 8,
+  'ttl_cost_per_sweep_min': 2,
+  'stress_gain_per_sweep': 1,
+  'stress_gain_on_complication': 1,
+  'hot_exfil_on_ttl_zero': true,
+  'px_loss_on_hot_fail': true
+} %}
+{% if campaign.exfil is not defined %}{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}{% endif %}
 {% if codex is not defined %}
   {% set codex = namespace(dev_raw=false) %}
 {% elif codex.dev_raw is not defined %}
@@ -458,28 +468,49 @@ Decision: {{ text }}?
   {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
 {%- endmacro %}
 <!-- Macro: scene_overlay -->
+{% macro ttl_fmt(mins) -%}
+  {{ "%02d:00"|format(mins) }}
+{%- endmacro %}
+
+{% macro open_exfil_window(ttl=None) -%}
+  {% if ttl is none %}{% set ttl = exfil.ttl_start_minutes %}{% endif %}
+  {% set campaign.exfil = {'active': true, 'ttl': ttl, 'hot': false} %}
+  {{ hud_tag('Exfil-Fenster aktiv · TTL ' ~ ttl_fmt(campaign.exfil.ttl)) }}
+{%- endmacro %}
+
+{% macro trigger_hot_exfil() -%}
+  {% set campaign.exfil.hot = true %}
+  {{ hud_tag('Objective: HOT-Exfil') }}
+{%- endmacro %}
+
+{% macro exfil_complication() -%}
+  {% if campaign.exfil.active %}
+    {% set char.stress = (char.stress or 0) + exfil.stress_gain_on_complication %}
+    {{ hud_tag('Stress +' ~ exfil.stress_gain_on_complication ~ ' (Komplikation)') }}
+  {% endif %}
+{%- endmacro %}
+
 {% macro scene_overlay(target, total, pressure=None, env=None) -%}
 {% set ep = campaign.episode %}
 {% set ms = campaign.mission_in_episode %}
 {% set sc = campaign.scene %}
 {% set TYPE = campaign.type|upper %}
-{% set seed = campaign.seed_id %}
 {% set objective = campaign.objective %}
-{# kurzer Quelltext, aber weiterhin EINZEILIGER HUD-Output #}
 {% set segs = [
-  "██ EP " ~ (ep|format("%02d")),
+  "EP " ~ (ep|format("%02d")),
   " · MS " ~ (ms|format("%02d")),
   " · SC " ~ (sc|format("%02d")) ~ "/" ~ total,
-  " ██ · 🎯 " ~ TYPE,
-  " · Seed " ~ (seed or "–"),
-  " · Objective: " ~ objective,
-  " · Paradox " ~ px_bar(campaign.paradox),
-  " · TEMP " ~ (char.temp or 4),
-  " · +1 nach " ~ px_eta(char.temp or 4),
-  " · SYS " ~ char.sys ~ "/" ~ char.sys_max,
-  " · PP " ~ (char.pp or "–") ~ "/" ~ (char.pp_max or "–"),
-  " · HEAT " ~ char.heat ~ "/" ~ char.heat_max
+  " · MODE " ~ TYPE,
+  " · Objective: " ~ objective
 ] %}
+{% if campaign.exfil.active %}
+  {% do segs.append(" · TTL " ~ ttl_fmt(campaign.exfil.ttl)) %}
+  {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
+{% endif %}
+{% do segs.append(" · Px " ~ px_bar(campaign.paradox)) %}
+{% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
+{% if char.rank is defined %}{% do segs.append(" · Rank " ~ (char.rank or '-')) %}{% endif %}
+{% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
 `{{ segs|join('') }}`
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
@@ -509,14 +540,19 @@ total=12, role="", env=None) -%}
   {% set campaign.heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
+  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
 {% else %}
   {% if campaign.scene_total is none %}
     {% set campaign.scene_total = total %}
   {% endif %}
-  {% if campaign.scene > campaign.scene_total %}
-    {% set campaign.scene_total = campaign.scene_total + 4 %}
-  {% endif %}
   {% set total = campaign.scene_total %}
+  {% if campaign.exfil.active %}
+    {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
+    {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
+    {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
+      {{ trigger_hot_exfil() }}
+    {% endif %}
+  {% endif %}
 {% endif %}
 {% if role == "Finale" and campaign.scene < 10 %}
   {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
