@@ -12,9 +12,8 @@ def repo_root(start: Path | None = None) -> Path:
     Falls back to the parent directory even for very shallow paths where two
     parents are not available.
     """
-    base = start or Path(__file__).resolve()
-    parents = base.parents
-    root = parents[1] if len(parents) > 1 else base.parent
+    base = (start or Path(__file__).resolve()).resolve()
+    root = base if base.is_dir() else base.parent
     try:
         out = subprocess.run(
             ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
