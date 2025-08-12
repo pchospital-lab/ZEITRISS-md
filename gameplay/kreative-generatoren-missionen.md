@@ -14,6 +14,10 @@ sg_rift_bonus: 1
 
 Schwellenangaben nutzen im Template den Platzhalter `{{SG_AUTO}}`.
 
+Nach Episodenende berechnet `on_episode_end(state)` aus offenen Seeds einen
+☆-Bonus (`SG` +1 pro Seed). `briefing_with_stars()` zeigt den Zuschlag im
+Regelblock des nächsten Briefings.
+
 Core-Seeds tragen nun optionale Felder zur Arc-Steuerung:
 
 ```yaml

@@ -108,6 +108,10 @@ Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Mission
 - Rufe `StartMission()` direkt nach dem Laden auf. Dadurch setzt Codex `campaign.scene`
   (und optional `campaign.episode`) zurück, bevor die Gruppe den nächsten Auftrag beginnt.
 
+Speichern ist ausschließlich im **HQ** erlaubt. `cmdSave()` setzt dabei das
+Exfil-Fenster zurück, leert Stress und schreibt Level, Rank, Würfelmodus,
+offene Seeds sowie den ☆-Bonus in den JSON-Block.
+
 ### Deep Save {#deep-save}
 
 `speichern` gibt stets einen vollständigen JSON-Block mit allen relevanten

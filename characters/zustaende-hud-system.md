@@ -26,6 +26,13 @@ erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuze
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
 
+### HUD-Header: Modus, Level & Rank {#hud-header}
+Der Standard-Header zeigt:
+`EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective} · TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys}/{sys_max}`.
+
+- `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
+- Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus, `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies bei Bedarf.
+
 ## Zustände und Statuseffekte
 
 Charaktere in ZEITRISS können von verschiedenen **Zuständen** betroffen sein – seien es physische

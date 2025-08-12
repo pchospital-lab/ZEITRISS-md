@@ -116,7 +116,9 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
   - Kreaturen- & Paramonster-Generator stellt futuristische oder rift-spezifische Bosse
     bereit.
 - **Bossphase:** Szene 10 ruft `generate_boss()` auf; typischer Showdown gegen ein
-  Paramonster.
+  Paramonster. Vorher setzt das System zwei Foreshadow-Hinweise (Signatur-Gadget
+  und Fluchtgeometrie). Die Boss-Szene läuft im Stil **VERBOSE** (4–6 Sätze) und
+  drückt mit Elementen wie Timer oder Verstärkung.
 
 ### Fraktionsdynamik und -Konflikte
 
