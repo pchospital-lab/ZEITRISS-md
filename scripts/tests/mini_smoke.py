@@ -44,6 +44,8 @@ def rng_roll(num, sides, exploding=False):
 def roll_check(die_text, sg, total, parts, success, raw_rolls, local_debug=False):
     overlay = f"{die_text} {' '.join(parts)} → {total} ≥ SG {sg} ({'Erfolg' if success else 'Fail'})"
     print(overlay)
+    if not success and sg is not None and total == sg - 1:
+        print('knapp daneben')
     if local_debug:
         print({
             'roll': die_text,
@@ -200,6 +202,7 @@ if __name__ == '__main__':
     skill_check(11, 0, 12, local_debug=True)
     raw, die_text = rng_roll(3, 6, True)
     roll_check(die_text, 0, sum(raw), [], True, raw)
+    roll_check('W6', 5, 4, [], False, [4])
 
     print('\nTransfer:')
     ctx = {
