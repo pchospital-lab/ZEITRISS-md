@@ -168,6 +168,8 @@ ausführenden Agenten.
 Sinkt die TTL auf **0**, erzwingt das System einen
 **Hot-Exfil** (kurzer, riskanter Abzug).
 Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
+**0–2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
+3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `TTL mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
 
