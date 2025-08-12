@@ -374,8 +374,9 @@ einem abweichenden `redirect_hours`.
 
 {% macro fr_intervention_roll() -%}
   {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
-  {% set r = d6() %}
-  {{ roll_check('1W6', 0, r, true, [r]) }}
+  {% set roll = rng_roll(1,6) %}
+  {% set r = roll[0][0] %}
+  {{ roll_check(roll[1], 0, r, true, roll[0]) }}
   {% set status = 'ruhig' if r<=2 else ('Beobachter' if r<=4 else 'aktiver Eingriff') %}
   {{ hud_tag('FR-INTRV: ' ~ status) }}
   {% set campaign.fr_intervention = status %}
@@ -388,15 +389,17 @@ einem abweichenden `redirect_hours`.
   {% endif %}
 {%- endmacro %}
 
-{% macro transfer_cfg() -%}
-  {% set base = fx.transfer %}
-  {% set override = mission_fx.get('transfer', {}) %}
-  {% set cfg = base | combine(override, recursive=true) %}
-  {{ cfg }}
+{% macro deep_merge(base, override) -%}
+  {{ base | combine(override, recursive=true) }}
 {%- endmacro %}
 
-{% macro should_show_transfer_enter() -%}
-  {% set tcfg = transfer_cfg() %}
+{% macro get_transfer_cfg() -%}
+  {% set base = fx.transfer %}
+  {% set override = mission_fx.get('transfer', {}) %}
+  {{ deep_merge(base, override) }}
+{%- endmacro %}
+
+{% macro should_show_transfer_enter(tcfg) -%}
   {% set opt = tcfg.on_mission_enter %}
   {{
     opt == 'always'
@@ -405,31 +408,28 @@ einem abweichenden `redirect_hours`.
   }}
 {%- endmacro %}
 
-{% macro should_show_transfer_exit() -%}
-  {% set tcfg = transfer_cfg() %}
+{% macro should_show_transfer_exit(tcfg) -%}
   {% set opt = tcfg.on_mission_exit %}
   {{ opt == 'always' or (opt == 'on_exfil_only' and campaign.exfil.active) }}
 {%- endmacro %}
 
-{% macro transfer_out_from_hq(dt_hours=0) -%}
-  {% set tcfg = transfer_cfg() %}
-  {% set hours = dt_hours or tcfg.get('redirect_hours', tcfg.redirect_hours_default) %}
+{% macro transfer_out_from_hq(ctx, tcfg) -%}
+  {% set hours = tcfg.get('redirect_hours', tcfg.redirect_hours_default) %}
   {% if tcfg.show_redirect %}
     {{ hud_tag(tcfg.hud_out_template.format(hours=hours)) }}
   {% endif %}
   {{ tcfg.sensory_out }}
 {%- endmacro %}
 
-{% macro transfer_back_to_hq(hot=false) -%}
-  {% set tcfg = transfer_cfg() %}
-  {% if not hot %}
+{% macro transfer_back_to_hq(state, tcfg, hot=false) -%}
+  {% if hot %}
+    {{ hud_tag('HOT-Exfil · Fenster instabil') }}
+    {{ tcfg.sensory_in_hot }}
+  {% else %}
     {% set ttl_token = ttl_fmt(campaign.exfil.ttl) if campaign.exfil.active else '08s' %}
     {% set tpl = tcfg.hud_in_template_rift if campaign.type == 'rift' else tcfg.hud_in_template_core %}
     {{ hud_tag(tpl.format(ttl=ttl_token)) }}
     {{ tcfg.sensory_in_stable }}
-  {% else %}
-    {{ hud_tag('HOT-Exfil · Fenster instabil') }}
-    {{ tcfg.sensory_in_hot }}
   {% endif %}
   {{ cut_to_hq_van() }}
 {%- endmacro %}
@@ -456,8 +456,9 @@ einem abweichenden `redirect_hours`.
 {% set campaign.type = type %}
 {% set campaign.epoch = epoch %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
-{% if should_show_transfer_enter() %}
-  {{ transfer_out_from_hq(dt_hours) }}
+{% set tcfg = get_transfer_cfg() %}
+{% if should_show_transfer_enter(tcfg) %}
+  {{ transfer_out_from_hq(campaign, tcfg) }}
 {% endif %}
 {% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
@@ -909,22 +910,68 @@ total=None, role="", env=None) -%}
 {%- endmacro %}
 
 {% macro rank_index(rank) -%}
-  {% if rank not in ranks.order %}{% return 0 %}{% endif %}
+  {% if rank not in ranks.order %}
+    {{ raise('Unbekannter Rank: ' ~ rank) }}
+  {% endif %}
   {% for r in ranks.order %}
     {% if r == rank %}{{ loop.index0 }}{% endif %}
   {% endfor %}
 {%- endmacro %}
 
-{% macro can_purchase(char_rank, item_rank) -%}
-  {{ rank_index(char_rank) >= rank_index(item_rank) }}
+{% macro validate_catalog_ranks() -%}
+  {% for it in catalog.items %}
+    {% set mr = getattr(it, 'min_rank', None) %}
+    {% if mr and mr not in ranks.order %}
+      {{ raise('Item ' ~ it.id ~ ' verweist auf unbekannten Rank ' ~ mr) }}
+    {% endif %}
+  {% endfor %}
 {%- endmacro %}
 
-{% macro deny_purchase(name, req_rank) -%}
-  {{ hud_tag('Kauf gesperrt: ' ~ name ~ ' erfordert Rank ' ~ req_rank) }}
+{% macro validate_char_rank(char) -%}
+  {{ rank_index(char.rank) }}
+{%- endmacro %}
+
+{% macro boot_validate_ranks(roster) -%}
+  {{ validate_catalog_ranks() }}
+  {% for c in roster %}
+    {{ validate_char_rank(c) }}
+  {% endfor %}
+{%- endmacro %}
+
+{% macro can_purchase(char_rank, item) -%}
+  {% set mr = getattr(item, 'min_rank', None) %}
+  {{ 'true' if not mr or rank_index(char_rank) >= rank_index(mr) else 'false' }}
+{%- endmacro %}
+
+{% macro list_shop_items(char) -%}
+  {% for it in catalog.items %}
+    {% if can_purchase(char.rank, it) == 'true' %}
+      {{ hud_tag(it.name ~ ' · ' ~ it.price ~ ' CU') }}
+    {% else %}
+      {{ hud_tag('🔒 ' ~ it.name ~ ' · ' ~ it.price ~ ' CU (erfordert Rank: ' ~ it.min_rank ~ ')') }}
+    {% endif %}
+  {% endfor %}
+{%- endmacro %}
+
+{% macro deny_purchase(item) -%}
+  {{ hud_tag('Kauf gesperrt: ' ~ item.name ~ ' erfordert Rank ' ~ item.min_rank ~ '.') }}
+  {{ hud_tag('SFX: ui/deny') }}
+{%- endmacro %}
+
+{% macro shop_buy(char, item_id) -%}
+  {% set it = catalog.get(item_id) %}
+  {% if not it %}
+    {{ hud_tag('Unbekannter Artikel.') }}
+  {% elif can_purchase(char.rank, it) == 'false' %}
+    {{ deny_purchase(it) }}
+  {% else %}
+    {{ hud_tag('Gekauft: ' ~ it.name ~ ' (' ~ it.price ~ ' CU)') }}
+    {{ inventory_add(char, it) }}
+  {% endif %}
 {%- endmacro %}
 
 {% macro chrono_shop(listing, required_rank=None) -%}
-  {% if required_rank and not can_purchase(char.rank, required_rank) %}
+  {% if required_rank and not can_purchase(char.rank, {'min_rank': required_rank}) == 'true' %}
     {{ hud_tag('🔒 ' ~ listing ~ ' (erfordert Rank: ' ~ required_rank ~ ')') }}
   {% else %}
     {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
@@ -976,8 +1023,9 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 <!-- Macro: EndMission -->
 {% macro EndMission(closed_seed_ids=[], cluster_gain=0, faction_delta=0, intervention_result=None) -%}
 {% set hot = (campaign.exfil.active and campaign.exfil.ttl <= 0) or campaign.exfil.hot %}
-{% if should_show_transfer_exit() %}
-  {{ transfer_back_to_hq(hot=hot) }}
+{% set tcfg = get_transfer_cfg() %}
+{% if should_show_transfer_exit(tcfg) %}
+  {{ transfer_back_to_hq(campaign, tcfg, hot=hot) }}
 {% endif %}
 {% set campaign.loc = 'HQ' %}
 {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
@@ -1030,6 +1078,40 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {% endif %}
 {%- endmacro %}
 
+{% macro rng_roll(num, sides, exploding=false) -%}
+  {% set raw = [] %}
+  {% for _ in range(num) %}
+    {% set r = range(1, sides + 1)|random %}
+    {% set raw = raw + [r] %}
+    {% if exploding and r == sides %}
+      {% set extra = range(1, sides + 1)|random %}
+      {% set raw = raw + [extra] %}
+    {% endif %}
+  {% endfor %}
+  {% set die_text = num ~ 'W' ~ sides ~ (exploding and '*' or '') %}
+  {{ [raw, die_text] }}
+{%- endmacro %}
+
+{% macro skill_check(attr, gear, sg, use_w10=false, local_debug=false) -%}
+  {% set roll = rng_roll(1, 10, true) if use_w10 else rng_roll(1, 6, true) %}
+  {% set raw = roll[0] %}
+  {% set die_text = roll[1] %}
+  {% set total = raw|sum + attr + gear %}
+  {% set parts = ['+' ~ attr ~ ' ATTR', '+' ~ gear ~ ' Gear'] %}
+  {% set success = total >= sg %}
+  {{ roll_check(die_text, sg, total, success, raw_rolls=raw, parts=parts, local_debug=local_debug) }}
+  {{ success }}
+{%- endmacro %}
+
+{% macro vehicle_check(driver_attr, mod, sg, local_debug=false) -%}
+  {{ skill_check(driver_attr, mod, sg, use_w10=(driver_attr >= 11), local_debug=local_debug) }}
+{%- endmacro %}
+
+{% macro mass_conflict_check(cmd_attr, asset_mod, sg, local_debug=false) -%}
+  {{ skill_check(cmd_attr, asset_mod, sg, use_w10=(cmd_attr >= 11), local_debug=local_debug) }}
+{%- endmacro %}
+
+
 {% macro enforce_identity_before_stats(char) -%}
   {% set required = ['concept','callsign','name','hull'] %}
   {% for field in required %}
@@ -1081,11 +1163,13 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {% if campaign.scene not in [11,12,13] %}{% return %}{% endif %}
   {% if not campaign.boss_defeated %}{% return %}{% endif %}
-  {% set gate = d6() %}
-  {{ roll_check('1W6', 6, gate, gate == 6, [gate]) }}
+  {% set gate_roll = rng_roll(1,6) %}
+  {% set gate = gate_roll[0][0] %}
+  {{ roll_check(gate_roll[1], 6, gate, gate == 6, gate_roll[0]) }}
   {% if gate != 6 %}{% return %}{% endif %}
-  {%- set r = range(1,15)|random %}
-  {%- set art = artifact_pool_v3[r-1] %}
+  {% set pick_roll = rng_roll(1,14) %}
+  {% set r = pick_roll[0][0] %}
+  {% set art = artifact_pool_v3[r-1] %}
   {{ artifact_overlay(art.name, art.effect, art.risk) }}
   {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
   {% if art.name not in char.artifact_log %}{% do char.artifact_log.append(art.name) %}{% endif %}
@@ -1099,10 +1183,12 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 {% macro generate_para_artifact(creature) -%}
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {# Input: creature dict mit .type, .size, .name #}
-  {% set part_roll = d6() %}
-  {{ roll_check('1W6', 0, part_roll, true, [part_roll]) }}
-  {% set side_roll = d6() %}
-  {{ roll_check('1W6', 0, side_roll, true, [side_roll]) }}
+  {% set part_data = rng_roll(1,6) %}
+  {% set part_roll = part_data[0][0] %}
+  {{ roll_check(part_data[1], 0, part_roll, true, part_data[0]) }}
+  {% set side_data = rng_roll(1,6) %}
+  {% set side_roll = side_data[0][0] %}
+  {{ roll_check(side_data[1], 0, side_roll, true, side_data[0]) }}
   {% set part_table = {
       1:"Klaue",2:"Zahn",3:"Auge",4:"Drüse",5:"Chitinplatte",6:"Kern"} %}
   {% set base_effect = {
@@ -1280,8 +1366,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {%- endmacro %}
 <!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
 {% if campaign.type == "rift" and campaign.scene in [11,12,13] %}
-  {% set r = d6() %}
-  {{ roll_check('1W6', 6, r, r == 6, [r]) }}
+  {% set gate_data = rng_roll(1,6) %}
+  {% set r = gate_data[0][0] %}
+  {{ roll_check(gate_data[1], 6, r, r == 6, gate_data[0]) }}
   {% if r == 6 %}
     {{ roll_legendary() }}
   {% endif %}
