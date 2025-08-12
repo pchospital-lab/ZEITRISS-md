@@ -7,9 +7,14 @@ import subprocess, logging, os
 
 
 def repo_root(start: Path | None = None) -> Path:
-    """Return repository root from a starting path, falling back to ../../."""
-    base = (start or Path(__file__).resolve())
-    root = base.parents[1]
+    """Return repository root from a starting path.
+
+    Falls back to the parent directory even for very shallow paths where two
+    parents are not available.
+    """
+    base = start or Path(__file__).resolve()
+    parents = base.parents
+    root = parents[1] if len(parents) > 1 else base.parent
     try:
         out = subprocess.run(
             ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
@@ -23,11 +28,24 @@ def repo_root(start: Path | None = None) -> Path:
 
 
 def read_text(path: Path) -> str:
-    """Read UTF-8 text from `path`. Raise FileNotFoundError with full path."""
+    """Read UTF-8 text from ``path``.
+
+    Raises ``FileNotFoundError`` with the absolute path if the file is missing
+    and wraps ``UnicodeDecodeError`` to include the path when decoding fails.
+    """
     p = Path(path)
     if not p.exists():
         raise FileNotFoundError(f"Missing file: {p}")
-    return p.read_text(encoding="utf-8")
+    try:
+        return p.read_text(encoding="utf-8")
+    except UnicodeDecodeError as exc:
+        raise UnicodeDecodeError(
+            exc.encoding,
+            exc.object,
+            exc.start,
+            exc.end,
+            f"{exc.reason} in file {p}",
+        ) from exc
 
 
 def get_logger(name: str) -> logging.Logger:
