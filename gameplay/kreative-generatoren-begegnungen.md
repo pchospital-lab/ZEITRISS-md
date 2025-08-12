@@ -775,6 +775,12 @@ Alter_Orden:
   chrono: null
 ```
 
+**Drucktypen (Rotation):**
+
+- Schwindende Deckung – Scheinwerfer fährt Schleife, Deckung schmilzt.
+- Wanderndes Sichtfenster – Laserlinien öffnen und schließen Zugänge.
+- Ressourcen-Clamp – SYS-Slots blockiert, SG +1 für Tech-Checks.
+
 ### rift_boss_pool
 
 Rift-Bosse nutzen den Para-Creature-Generator und die Regeln aus `massenkonflikte.md`.

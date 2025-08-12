@@ -9,6 +9,11 @@ default_modus: mission-fokus
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
 {% set core_arc_boss_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_arc_boss_pool') %}
+{% set boss_pressure_pool = [
+  ['Timer 90s','Verstärkung in 2min','schwindende Deckung'],
+  ['Timer 90s','Verstärkung in 2min','wanderndes Sichtfenster'],
+  ['Timer 90s','Verstärkung in 2min','Ressourcen-Clamp']
+] %}
 {% set exfil = exfil or {
   'enabled': true,
   'ttl_start_minutes': 8,
@@ -376,9 +381,12 @@ einem abweichenden `redirect_hours`.
   {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
   {% set roll = rng_roll(1,6) %}
   {% set r = roll[0][0] %}
-  {{ roll_check(roll[1], 0, r, true, roll[0]) }}
+  {{ roll_check(roll[1], 0, r, true, roll[0], important=false) }}
   {% set status = 'ruhig' if r<=2 else ('Beobachter' if r<=4 else 'aktiver Eingriff') %}
   {{ hud_tag('FR-INTRV: ' ~ status) }}
+  {% if status == 'Beobachter' %}
+    {% set campaign.fr_observer_pending = true %}
+  {% endif %}
   {% set campaign.fr_intervention = status %}
 {%- endmacro %}
 
@@ -455,6 +463,8 @@ einem abweichenden `redirect_hours`.
 {% set campaign.objective = objective %}
 {% set campaign.type = type %}
 {% set campaign.epoch = epoch %}
+{% set campaign.fr_observer_pending = false %}
+{% set campaign.fr_observer_note = false %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
 {% set tcfg = get_transfer_cfg() %}
 {% if should_show_transfer_enter(tcfg) %}
@@ -526,6 +536,11 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 `{{ msg }}`
 {%- endmacro %}
 
+<!-- Macro: hud_ping -->
+{% macro hud_ping(msg) -%}
+`<span style="color:#888">· {{ msg }}</span>`
+{%- endmacro %}
+
 {# PRECISION-Markierungsmakros #}
 {% macro SceneHeader(kamera, target, pressure, env=None) -%}
 Kamera: {{ kamera }}.
@@ -591,7 +606,7 @@ Decision: {{ text }}?
 {% macro exfil_complication() -%}
   {% if campaign.exfil.active %}
     {% set char.stress = (char.stress or 0) + exfil.stress_gain_on_complication %}
-    {{ hud_tag('Stress +' ~ exfil.stress_gain_on_complication ~ ' (Komplikation)') }}
+    {{ hud_ping('Stress +' ~ exfil.stress_gain_on_complication ~ ' (Komplikation)') }}
   {% endif %}
 {%- endmacro %}
 
@@ -672,7 +687,7 @@ total=12, role="", env=None) -%}
     {% else %}
       {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
       {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
-      {{ hud_tag('Stress +' ~ exfil.stress_gain_per_sweep) }}
+      {{ hud_ping('Stress +' ~ exfil.stress_gain_per_sweep) }}
       {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
         {{ trigger_hot_exfil() }}
       {% endif %}
@@ -691,14 +706,22 @@ total=12, role="", env=None) -%}
 {% endif %}
 {# Boss-Regel #}
 {% if campaign.type == "rift" and campaign.scene == 10 %}
-  {% set campaign.boss_scene = {'style': 'VERBOSE',
-    'pressure': ['Timer 90s','Verstärkung in 2min','wandernder Scheinwerfer']} %}
+  {% set pressure_choice = boss_pressure_pool|random %}
+  {% if campaign.last_boss_pressure is defined and pressure_choice == campaign.last_boss_pressure %}
+    {% set pressure_choice = (boss_pressure_pool | reject('equalto', campaign.last_boss_pressure) | list | random) %}
+  {% endif %}
+  {% set campaign.last_boss_pressure = pressure_choice %}
+  {% set campaign.boss_scene = {'style': 'VERBOSE','pressure': pressure_choice} %}
   {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
   {# LINT:BOSS_SCENE10_RIFT #}
   {{ hud_tag('Boss-Encounter in Szene 10') }}
 {% elif campaign.type == "core" and campaign.scene == 10 and campaign.boss_allowed %}
-  {% set campaign.boss_scene = {'style': 'VERBOSE',
-    'pressure': ['Timer 90s','Verstärkung in 2min','wandernder Scheinwerfer']} %}
+  {% set pressure_choice = boss_pressure_pool|random %}
+  {% if campaign.last_boss_pressure is defined and pressure_choice == campaign.last_boss_pressure %}
+    {% set pressure_choice = (boss_pressure_pool | reject('equalto', campaign.last_boss_pressure) | list | random) %}
+  {% endif %}
+  {% set campaign.last_boss_pressure = pressure_choice %}
+  {% set campaign.boss_scene = {'style': 'VERBOSE','pressure': pressure_choice} %}
   {{ generate_boss('core', campaign.mission, campaign.epoch) }}
   {{ hud_tag('Boss-Encounter in Szene 10 (Core M' ~ campaign.mission_in_episode ~ ')') }}
 {% endif %}
@@ -1040,6 +1063,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 {{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
+{% if campaign.fr_observer_note %}{{ log_intervention('FR-Echo: SG +1 auf einen Check') }}{% endif %}
 {% if campaign.mission_in_episode == 10 %}
   {% set campaign.episode_completed = true %}
   {{ apply_rift_mods_next_episode() }}
@@ -1074,9 +1098,15 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ {'roll': die_text, 'raw': raw_rolls, 'mods': parts, 'SG': sg, 'total': total, 'success': success} | tojson }}
 {%- endmacro %}
 
-{% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[], local_debug=false) -%}
+{% macro roll_check(die_text, sg, total, success, raw_rolls=[], parts=[], local_debug=false, important=true) -%}
+  {% if campaign.fr_observer_pending and sg is not none %}
+    {% set sg = sg + 1 %}
+    {% set campaign.fr_observer_pending = false %}
+    {% set campaign.fr_observer_note = true %}
+    {% set success = total >= sg %}
+  {% endif %}
   {{ hud_tag(render_roll_overlay(die_text, sg, total, success, parts)) }}
-  {% if not success and sg is not none and total == sg - 1 %}
+  {% if important and not success and sg is not none and total == sg - 1 %}
     {{ hud_tag('knapp daneben') }}
   {% endif %}
   {% if local_debug or ui.dice.debug_rolls %}
@@ -1196,7 +1226,7 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {% if not campaign.boss_defeated %}{% return %}{% endif %}
   {% set gate_roll = rng_roll(1,6) %}
   {% set gate = gate_roll[0][0] %}
-  {{ roll_check(gate_roll[1], 6, gate, gate == 6, gate_roll[0]) }}
+  {{ roll_check(gate_roll[1], 6, gate, gate == 6, gate_roll[0], important=false) }}
   {% if gate != 6 %}{% return %}{% endif %}
   {% set pick_roll = rng_roll(1,14) %}
   {% set r = pick_roll[0][0] %}
@@ -1216,10 +1246,10 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {# Input: creature dict mit .type, .size, .name #}
   {% set part_data = rng_roll(1,6) %}
   {% set part_roll = part_data[0][0] %}
-  {{ roll_check(part_data[1], 0, part_roll, true, part_data[0]) }}
+  {{ roll_check(part_data[1], 0, part_roll, true, part_data[0], important=false) }}
   {% set side_data = rng_roll(1,6) %}
   {% set side_roll = side_data[0][0] %}
-  {{ roll_check(side_data[1], 0, side_roll, true, side_data[0]) }}
+  {{ roll_check(side_data[1], 0, side_roll, true, side_data[0], important=false) }}
   {% set part_table = {
       1:"Klaue",2:"Zahn",3:"Auge",4:"Drüse",5:"Chitinplatte",6:"Kern"} %}
   {% set base_effect = {
@@ -1399,7 +1429,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% if campaign.type == "rift" and campaign.scene in [11,12,13] %}
   {% set gate_data = rng_roll(1,6) %}
   {% set r = gate_data[0][0] %}
-  {{ roll_check(gate_data[1], 6, r, r == 6, gate_data[0]) }}
+  {{ roll_check(gate_data[1], 6, r, r == 6, gate_data[0], important=false) }}
   {% if r == 6 %}
     {{ roll_legendary() }}
   {% endif %}
