@@ -28,7 +28,23 @@ default_modus: mission-fokus
   {% set ui = {'mode_display': 'label', 'suppress_rank_on_narrow': true, 'debug_rolls': false} %}
 {% endif %}
 {% if fx is not defined %}
-  {% set fx = {'transfer': {'on_mission_enter': 'always', 'on_mission_exit': 'always', 'redirect_hours_default': 6, 'show_redirect': true, 'hud_out_template': 'Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +{hours}h (Self-Collision Guard)', 'hud_in_template': 'Fenster stabil · {ttl} · Return 3…2…1', 'sensory_out': 'Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.', 'sensory_in_stable': 'Kälte. Leere. Das Umgebungsgeräusch kippt — und reißt ab.', 'sensory_in_hot': 'Instabiles Fenster. Bild zerreißt, Zug reißt dich zurück. Schwarzer Cut.'}} %}
+{% set fx = {
+  'transfer': {
+    'on_mission_enter': 'always',
+    'on_mission_exit': 'always',
+    'redirect_hours_default': 6,
+    'show_redirect': true,
+    'hud_out_template':
+      'Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +{hours}h (Self-Collision Guard)',
+    'hud_in_template': 'Fenster stabil · {ttl} · Return 3…2…1',
+    'sensory_out':
+      'Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.',
+    'sensory_in_stable':
+      'Kälte. Leere. Das Umgebungsgeräusch kippt — und reißt ab.',
+    'sensory_in_hot':
+      'Instabiles Fenster. Bild zerreißt, Zug reißt dich zurück. Schwarzer Cut.'
+  }
+} %}
 {% endif %}
 
 {% macro set_mode_display(style) -%}
@@ -292,16 +308,17 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 ---
 **Checkliste PRECISION**
 
-* [ ] Szene startet mit Kamera + Target + Pressure + Decision
-* [ ] Keine Metaphern, kein Orakelsprech
-* [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
-* [ ] Paradoxon-Status aktuell?
-* [ ] Signale sind an Ort/Gerät gebunden, nicht an abstrakte Netzwerke.
-* [ ] signal_space aktiv? (muss false sein)
-* [ ] Jede Ausgabe endet mit einer Decision-Frage
-* [ ] Eine komplette Mission umfasst mindestens **12** Szenen (Core‑Op) und **14** Szenen Rift‑Op
-      siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
-* [ ] campaign.scene via NextScene() aktualisiert
+- [ ] Szene startet mit Kamera + Target + Pressure + Decision
+- [ ] Keine Metaphern, kein Orakelsprech
+- [ ] PSI-Text = 1 Satz Aktiv + 1 Satz Effekt
+- [ ] Paradoxon-Status aktuell?
+- [ ] Signale sind an Ort/Gerät gebunden, nicht an abstrakte Netzwerke.
+- [ ] signal_space aktiv? (muss false sein)
+- [ ] Jede Ausgabe endet mit einer Decision-Frage
+- [ ] Eine komplette Mission umfasst mindestens **12** Szenen (Core‑Op)
+       und **14** Szenen Rift‑Op
+       siehe [Missionsdauer-Tabelle](../gameplay/kampagnenstruktur.md#missionsdauer)
+- [ ] campaign.scene via NextScene() aktualisiert
 
 ### Makro-Konventionen
 
@@ -357,7 +374,11 @@ Mission fest und dient der Boss-Generierung.
 
 {% macro should_show_transfer_enter() -%}
   {% set opt = fx.transfer.on_mission_enter %}
-  {{ opt == 'always' or (opt == 'first_session' and campaign.mission == 1) or (opt == 'first_episode' and campaign.mission_in_episode == 1) }}
+  {{
+    opt == 'always'
+    or (opt == 'first_session' and campaign.mission == 1)
+    or (opt == 'first_episode' and campaign.mission_in_episode == 1)
+  }}
 {%- endmacro %}
 
 {% macro should_show_transfer_exit() -%}
@@ -712,7 +733,12 @@ total=None, role="", env=None) -%}
   {% set forbidden = ['Cyberspace','Signalraum','Netzgeist','reiner Signalfluss'] %}
   {% set devices  = ['Comlink','Jammer','Terminal','Konsole','Kabel','Antenne','Funkgerät','Relais'] %}
   {% if forbidden|select('in', text)|list and not devices|select('in', text)|list %}
-    {{ hud_tag('Signalaktion ohne Hardware – Gerät wählen: Comlink koppeln, Terminal suchen, Kabel/Relais nutzen oder abbrechen.') }}
+    {{
+      hud_tag(
+        'Signalaktion ohne Hardware – Gerät wählen: '
+        ~ 'Comlink koppeln, Terminal suchen, Kabel/Relais nutzen oder abbrechen.'
+      )
+    }}
   {% endif %}
 {%- endmacro %}
 
