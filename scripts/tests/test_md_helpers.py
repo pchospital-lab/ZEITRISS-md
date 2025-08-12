@@ -13,6 +13,7 @@ tags: [bar]
 
 MD = """
 <a id="custom-id"></a>
+<a id="Ünicode-ID"></a>
 ## Makros im Überblick
 ### Würfelmechanik & Regeln!
 Text.
@@ -28,16 +29,17 @@ class TestMdHelpers(unittest.TestCase):
         self.assertIn("# Überschrift", out)
 
     def test_slugify(self):
-        self.assertEqual(slugify("Makros im Überblick"), "makros-im-überblick")
-        self.assertEqual(slugify("Würfelmechanik & Regeln!"), "würfelmechanik-regeln")
-        self.assertEqual(slugify("Über  viele   Räume"), "über-viele-räume")
+        self.assertEqual(slugify("Makros im Überblick"), "makros-im-uberblick")
+        self.assertEqual(slugify("Würfelmechanik & Regeln!"), "wurfelmechanik-regeln")
+        self.assertEqual(slugify("Über  viele   Räume"), "uber-viele-raume")
 
     def test_extract_md_anchors(self):
         anchors = extract_md_anchors(MD)
         self.assertIn("custom-id", anchors)
-        self.assertIn("makros-im-überblick", anchors)
-        self.assertIn("würfelmechanik-regeln", anchors)
-        self.assertIn("ähnlich-aber-anders", anchors)
+        self.assertIn("unicode-id", anchors)
+        self.assertIn("makros-im-uberblick", anchors)
+        self.assertIn("wurfelmechanik-regeln", anchors)
+        self.assertIn("ahnlich-aber-anders", anchors)
 
     def test_heading_with_kramdown_id_and_slug(self):
         md = "## Titel mit ID {#custom-id}\n"
@@ -48,7 +50,7 @@ class TestMdHelpers(unittest.TestCase):
     def test_heading_with_punct_and_umlaut(self):
         md = "### Würfelmechanik & Regeln! (v2)\n"
         anchors = extract_md_anchors(md)
-        self.assertIn("würfelmechanik-regeln-v2", anchors)
+        self.assertIn("wurfelmechanik-regeln-v2", anchors)
 
     def test_front_matter_is_ignored(self):
         fm = "---\ntitle: 'Foo'\n---\n## Sichtbar\n"

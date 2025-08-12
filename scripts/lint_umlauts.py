@@ -14,15 +14,33 @@ CANON = {
     "Ueberblick": "Überblick",
 }
 
-CBLOCK = re.compile(r"```.*?```", re.S)
 URL = re.compile(r"https?://\S+")
+
+
+def strip_code_blocks(text: str) -> str:
+    """Remove fenced code blocks (``` or ~~~) from Markdown text."""
+    lines: list[str] = []
+    in_block = False
+    fence = ""
+    for line in text.splitlines():
+        stripped = line.lstrip()
+        if not in_block:
+            if stripped.startswith("```") or stripped.startswith("~~~"):
+                fence = stripped[:3]
+                in_block = True
+            else:
+                lines.append(line)
+        else:
+            if stripped.startswith(fence):
+                in_block = False
+    return "\n".join(lines)
 
 def main() -> int:
     root = repo_root(Path(__file__))
     bad = []
     for p in root.rglob("*.md"):
         text = strip_front_matter(read_text(p))
-        scrub = URL.sub("", CBLOCK.sub("", text))
+        scrub = URL.sub("", strip_code_blocks(text))
         for wrong, right in CANON.items():
             for i, line in enumerate(scrub.splitlines(), 1):
                 if wrong in line:

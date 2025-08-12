@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import unicodedata
 
 _RE_FM = re.compile(r"^---\s*\n.*?\n---\s*(\n|$)", re.S)
 _RE_HTML_ID = re.compile(r'<a\s+id="([^"]+)"', re.I)
@@ -16,22 +17,26 @@ def strip_front_matter(text: str) -> str:
 
 
 def slugify(md_heading: str) -> str:
-    """Convert a Markdown heading to a stable, lowercase anchor slug."""
-    s = md_heading.strip().lower()
-    s = re.sub(r"[^\w\s-]", "", s, flags=re.U)
+    """Convert a Markdown heading to a stable, ASCII-only anchor slug."""
+    s = unicodedata.normalize("NFKD", md_heading)
+    s = s.encode("ascii", "ignore").decode("ascii")
+    s = s.strip().lower()
+    s = re.sub(r"[^\w\s-]", "", s)
     s = re.sub(r"\s+", "-", s).strip("-")
     s = re.sub(r"-{2,}", "-", s)
     return s
 
 
 def extract_md_anchors(text: str) -> set[str]:
-    """Return all anchor IDs: explicit <a id="...">, kramdown {#id}, and slugs."""
+    """Return all anchor IDs: explicit ``<a id="...">``, kramdown ``{#id}``, and slugs."""
     txt = strip_front_matter(text)
-    anchors: set[str] = set(_RE_HTML_ID.findall(txt))
+    anchors: set[str] = set()
+    for html_id in _RE_HTML_ID.findall(txt):
+        anchors.add(slugify(html_id))
     for _, head in _RE_HEADING.findall(txt):
         m = _RE_HEADING_ID.match(head)
         if m:
-            anchors.add(m.group("id"))
+            anchors.add(slugify(m.group("id")))
             anchors.add(slugify(m.group("title")))
         else:
             anchors.add(slugify(head))
