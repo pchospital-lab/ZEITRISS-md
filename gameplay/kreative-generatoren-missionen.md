@@ -80,6 +80,13 @@ Briefing, Infiltration, Kontakt/Intel, Konflikt, Exfiltration und Debrief.
 Rechnet mit 12 Szenen im Core und 14 Szenen im Rift.
 Die Gegenseite agiert mit greifbaren Agenten oder Söldnern.
 Bonusziele wie Festnahmen oder gesicherte Datenträger bringen zusätzliche CU oder Ruf.
+
+Standard-Transferwerte:
+- `fx.transfer.on_mission_enter`: "always"
+- `fx.transfer.on_mission_exit`:  "always"
+- `fx.transfer.redirect_hours_default`: 6
+Diese Werte lassen sich pro Mission unter `mission.fx.transfer` überschreiben.
+Setze `show_redirect: false`, wenn kein Redirect angezeigt werden soll.
 ### Core 12-Step Mission Template
 | # | Phase | Zweck |
 |---|-------|------|
