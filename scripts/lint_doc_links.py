@@ -6,7 +6,7 @@ from pathlib import Path
 import json
 
 from scripts.lib_repo import repo_root, read_text, get_logger
-from scripts.lib_md import extract_md_anchors
+from scripts.lib_md import extract_md_anchors, slugify
 
 log = get_logger("lint_doc_links")
 
@@ -22,7 +22,8 @@ def main() -> int:
     ok = True
     for item in items:
         rel = item["file"]
-        aid = item["anchor"]
+        aid_raw = item["anchor"]
+        aid = slugify(aid_raw)
         p = root / rel
         if not p.exists():
             log.error("Target missing: %s", rel)
@@ -30,9 +31,9 @@ def main() -> int:
             continue
         anchors = extract_md_anchors(read_text(p))
         if aid in anchors:
-            log.info("Anchor OK: %s#%s", rel, aid)
+            log.info("Anchor OK: %s#%s", rel, aid_raw)
         else:
-            log.error("Missing anchor: %s#%s", rel, aid)
+            log.error("Missing anchor: %s#%s", rel, aid_raw)
             ok = False
     log.log(25, "Summary: %s", "OK" if ok else "FAIL")
     return 0 if ok else 1

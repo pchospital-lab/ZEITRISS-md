@@ -25,6 +25,18 @@ class TestJsonAnchor(unittest.TestCase):
     def test_empty_fragment(self):
         self.assertEqual(resolve_json_anchor(DATA, ""), DATA)
 
+    def test_invalid_key_raises(self):
+        with self.assertRaises(KeyError):
+            resolve_json_anchor(DATA, "a.x")
+        with self.assertRaises(KeyError):
+            resolve_json_anchor(DATA, "/a/x")
+
+    def test_invalid_index_raises(self):
+        with self.assertRaises(IndexError):
+            resolve_json_anchor(DATA, "a.b.99.c")
+        with self.assertRaises(IndexError):
+            resolve_json_anchor(DATA, "/a/b/99/c")
+
 
 if __name__ == "__main__":
     unittest.main()
