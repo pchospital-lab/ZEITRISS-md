@@ -708,8 +708,12 @@ total=12, role="", env=None) -%}
   {% set role = "Konflikt" %}
 {% endif %}
 {{ scene_overlay(total, pressure, env) }}
-{% if gm_style == 'verbose' and loc != "HQ" %}
+{% if loc != "HQ" %}
   {{ codex_hint_for_scene(loc) }}
+{% endif %}
+{% set is_solo = ('solo' in (save.modes or [])) or (campaign.team_size|default(1) <= 1) %}
+{% if is_solo and loc != "HQ" %}
+  Codex: Solo-Assist aktiv – „Codex, Details“ liefert Zusatzlage in dieser Szene.
 {% endif %}
 {% if (campaign.type == 'core' and campaign.boss_allowed and campaign.scene == 9) or
       (campaign.type == 'rift' and campaign.scene == 9) %}
