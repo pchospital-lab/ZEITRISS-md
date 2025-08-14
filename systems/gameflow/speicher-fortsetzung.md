@@ -33,7 +33,7 @@ dort deterministisch gesetzt:
   "campaign": {"episode": 4, "scene": 0, "paradox": 0},
   "artifact_log": [],
   "codex": [],
-  "modes": ["mission", "transparenz"]
+  "modes": ["mission", "verbose", "transparenz"]
 }
 ```
 

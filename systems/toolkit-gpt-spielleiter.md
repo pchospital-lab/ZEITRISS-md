@@ -64,6 +64,7 @@ default_modus: mission-fokus
 {% if ranks is not defined %}
   {% set ranks = {'order': ['Recruit','Operator I','Operator II','Lead','Specialist','Chief']} %}
 {% endif %}
+{% set gm_style = gm_style or 'verbose' %}
 
 {% macro set_mode_display(style) -%}
   {% set ui.mode_display = style %}
@@ -543,15 +544,23 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 
 {# PRECISION-Markierungsmakros #}
 {% macro SceneHeader(kamera, target, pressure, env=None) -%}
+{% if gm_style == 'precision' %}
 Kamera: {{ kamera }}.
 Target: {{ target }}.
 Pressure: {{ pressure }}.
 {% set campaign.precision_header_ok = true %}
+{% endif %}
 {%- endmacro %}
 
 {% macro Decision(text) -%}
+{% if gm_style == 'precision' %}
 Decision: {{ text }}?
 {% set campaign.precision_decision_ok = true %}
+{% endif %}
+{%- endmacro %}
+
+{% macro codex_hint_for_scene(loc) -%}
+  Codex: {{ loc }} – Lagecheck aktiv. Infiltrationspfad gemäß Mission-Fokus.
 {%- endmacro %}
 
 <!-- Macro: hud_vocab -->
@@ -699,6 +708,9 @@ total=12, role="", env=None) -%}
   {% set role = "Konflikt" %}
 {% endif %}
 {{ scene_overlay(total, pressure, env) }}
+{% if gm_style == 'verbose' and loc != "HQ" %}
+  {{ codex_hint_for_scene(loc) }}
+{% endif %}
 {% if (campaign.type == 'core' and campaign.boss_allowed and campaign.scene == 9) or
       (campaign.type == 'rift' and campaign.scene == 9) %}
   {{ hud_tag('Foreshadow: akustischer Click des Metronoms') }}
@@ -741,7 +753,7 @@ total=12, role="", env=None) -%}
 
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
-{% if not campaign.precision_header_ok or not campaign.precision_decision_ok %}
+{% if gm_style == 'precision' and (not campaign.precision_header_ok or not campaign.precision_decision_ok) %}
   {{ hud_tag('PRECISION fehlend – Szene ohne vollständige Header/Decision-Struktur') }}
 {% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
