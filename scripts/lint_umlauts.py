@@ -15,6 +15,7 @@ CANON = {
 }
 
 URL = re.compile(r"https?://\S+")
+INLINE_CODE = re.compile(r"`[^`]*`")
 
 
 def strip_code_blocks(text: str) -> str:
@@ -35,12 +36,22 @@ def strip_code_blocks(text: str) -> str:
                 in_block = False
     return "\n".join(lines)
 
+
+def strip_inline_and_indent_code(text: str) -> str:
+    """Remove inline ``code`` spans and 4-space indented blocks."""
+    lines: list[str] = []
+    for line in text.splitlines():
+        if line.startswith("    ") or line.startswith("\t"):
+            continue
+        lines.append(INLINE_CODE.sub("", line))
+    return "\n".join(lines)
+
 def main() -> int:
     root = repo_root(Path(__file__))
     bad = []
     for p in root.rglob("*.md"):
         text = strip_front_matter(read_text(p))
-        scrub = URL.sub("", strip_code_blocks(text))
+        scrub = URL.sub("", strip_inline_and_indent_code(strip_code_blocks(text)))
         for wrong, right in CANON.items():
             for i, line in enumerate(scrub.splitlines(), 1):
                 if wrong in line:
