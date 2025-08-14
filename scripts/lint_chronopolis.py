@@ -6,12 +6,7 @@ from pathlib import Path
 import re
 
 from scripts.lib_repo import repo_root, read_text
-def ok(pat: str, msg: str, text: str) -> bool:
-    if not re.search(pat, text, re.S):
-        print(f"[FAIL] {msg}")
-        return False
-    print(f"[ OK ] {msg}")
-    return True
+from scripts.lib_lint import ok
 
 
 def main() -> int:

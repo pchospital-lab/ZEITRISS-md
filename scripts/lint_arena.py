@@ -3,16 +3,9 @@
 from __future__ import annotations
 
 from pathlib import Path
-import re
 
 from scripts.lib_repo import repo_root, read_text
-
-def ok(pat: str, msg: str, text: str) -> bool:
-    if not re.search(pat, text, re.S):
-        print(f"[FAIL] {msg}")
-        return False
-    print(f"[ OK ] {msg}")
-    return True
+from scripts.lib_lint import ok
 
 
 def assert_no_anchor_in_output_context(text: str, label: str) -> bool:
