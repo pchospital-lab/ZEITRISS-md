@@ -127,7 +127,7 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
   Quick-Start Cheat Sheet.
 - Alle Makros werden intern ausgeführt; ihr Aufruf darf weder als Rohtext noch
   als HTML-Kommentar erscheinen. Das gilt auch für `StartMission()` und
-  `DelayConflict(3)`.
+  `DelayConflict(4)`.
 - Beim klassischen Start endete dein letzter Einsatz tödlich. Aufgrund deines
   außergewöhnlich starken freien Willens rekonstruierte das ITI dein Bewusstsein aus dem Absolut –
   zweite Chance. Nun hängt dein Bewusstsein im Nullzeit-Puffer des ITI-Labors, gefangen in einem
