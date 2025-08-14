@@ -5,6 +5,10 @@ tags: [system]
 default_modus: mission-fokus
 ---
 {% from "../README.md" import StoreCompliance %}
+{% set campaign = campaign or {} %}
+{% if campaign.compliance_shown_today is not defined %}
+  {% set campaign.compliance_shown_today = false %}
+{% endif %}
 {% set scene_min = 12 %}
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
@@ -523,6 +527,14 @@ if campaign.scene < 10:
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
 anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen.
 
+<!-- Macro: ShowComplianceOnce -->
+{% macro ShowComplianceOnce() -%}
+  {% if not campaign.compliance_shown_today %}
+    {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
+    {% set campaign.compliance_shown_today = true %}
+  {% endif %}
+{%- endmacro %}
+
 ### NextScene Wrapper
 Nutze `NextScene` zu Beginn jeder Szene. Die optionale Variable `role` gibt der
 KI eine dramaturgische Funktion, etwa _Ankunft_, _Beobachtung_, _Kontakt_,
@@ -685,6 +697,9 @@ total=12, role="", env=None) -%}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
   {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
+  {% if campaign.scene == 1 %}
+    {{ ShowComplianceOnce() }}
+  {% endif %}
 {% else %}
   {% if campaign.scene_total is none %}
     {% set campaign.scene_total = total %}
