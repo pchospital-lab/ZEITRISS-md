@@ -78,6 +78,7 @@ das Briefing bleibt kurz, den Twist deckt der Codex später auf.
 
 Die ersten Schritte in unter zwei Minuten:
 
+- Standardstil: Cinematic/Verbose mit aktivem Codex. PRECISION optional für Taktikphasen.
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
 3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
@@ -156,6 +157,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
+- `modus verbose` – Filmisch an.
+- `modus precision` – Kurzprotokoll an (nur taktische Abschnitte).
 
 ## Exfil-Fenster & Sweeps
 

@@ -15,6 +15,13 @@ tags: [system]
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
+Der cineastische Einstieg ist **Default** für jede Mission. PRECISION-Kurzheader erscheinen
+nur bei Bedarf in Konflikt- oder Finaleszenen. Das HQ zeigt beim Sprung stets den
+Transfer-Frame; anschließend folgt ein Establishing Shot der Zielrealität.
+
+Hinweis: In jeder Mission mindestens ein Establishing-Absatz, ein Close-up und ein
+Geräusch- oder Geruchsdetail, bevor die Taktik einsetzt.
+
 ## Ablauf zu Beginn
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
