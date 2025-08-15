@@ -10,6 +10,7 @@ tags: [meta]
    1. [Probability Cheat Table](#probability-cheat-table)
 1. [Chat-Shortcodes](#chat-shortcodes)
 1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
+1. [Level & EP-Kurve](#level--ep-kurve)
 1. [Regelreferenz](#regelreferenz)
    1. [Proben & Schwierigkeitsgrad](#proben--schwierigkeitsgrad)
    1. [Difficulty-Konverter](#difficulty-konverter)
@@ -116,7 +117,7 @@ Debrief und Save (HQ-only).
 > Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
-Der HUD-Header zeigt `Lvl` und `Rank` sowie den Modus.
+Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss · Sweeps:n · Stress X · Px · Lvl · SYS`. In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
 auf schmalen Zeilen blendet das System den Rank automatisch aus.
 
@@ -152,6 +153,10 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
+- `!save` – speichert einen Deepsave (nur im HQ).
+- `!load` – lädt den letzten Deepsave.
+- `!autosave hq` – schaltet Auto-Save im HQ.
+- `!gear shop` – zeigt Shop-Tier-Liste.
 - `!psi heat` – erklärt Psi-Heat und Burn.
 - `!hud status` – listet alle Zustände.
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
@@ -176,6 +181,14 @@ Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `TTL mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
 
+## Level & EP-Kurve
+
+- Lvl 1–10: +1 Level pro Mission.
+- Lvl 11–15: 2 Missionen/Level.
+- Lvl 16+: 3 Missionen/Level.
+Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
+Ab Attribut 11 wechselt das Würfelsystem auf W10.
+Siehe [Core-Ops CU-Belohnungen](systems/currency/cu-waehrungssystem.md#core-ops-belohnungen).
 ## Regelreferenz
 
 ### Proben & Schwierigkeitsgrad

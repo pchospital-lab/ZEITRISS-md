@@ -1,4 +1,4 @@
----
+{{ hud_tag(segs|join('')) }}---
 title: "ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.2.0
 tags: [system]
@@ -27,7 +27,7 @@ default_modus: mission-fokus
   'hot_exfil_on_ttl_zero': true,
   'px_loss_on_hot_fail': true
 } %}
-{% if campaign.exfil is not defined %}{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}{% endif %}
+{% if campaign.exfil is not defined %}{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}{% endif %}
 {% if codex is not defined %}
   {% set codex = namespace(dev_raw=false) %}
 {% elif codex.dev_raw is not defined %}
@@ -439,7 +439,7 @@ einem abweichenden `redirect_hours`.
     {{ hud_tag('HOT-Exfil · Fenster instabil') }}
     {{ tcfg.sensory_in_hot }}
   {% else %}
-    {% set ttl_token = ttl_fmt(campaign.exfil.ttl) if campaign.exfil.active else '08s' %}
+    {% set ttl_token = ttl_fmt(campaign.exfil.ttl) if campaign.exfil.active else ttl_fmt(exfil.ttl_start_minutes) %}
     {% set tpl = tcfg.hud_in_template_rift if campaign.type == 'rift' else tcfg.hud_in_template_core %}
     {{ hud_tag(tpl.format(ttl=ttl_token)) }}
     {{ tcfg.sensory_in_stable }}
@@ -521,11 +521,11 @@ if campaign.scene < 10:
 ```
 
 <!-- Macro: DelayConflict -->
-{% macro DelayConflict(n) -%}
+{% macro DelayConflict(n, allow="") -%}
 {% set campaign.delayConflict = n %}
+{% set campaign.delayConflict_allow = allow.split('|') if allow else [] %}
 {%- endmacro %}
-Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
-anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen.
+Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt `DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder Verfolgungen.
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce() -%}
@@ -605,17 +605,24 @@ Decision: {{ text }}?
 {%- endmacro %}
 
 {% macro px_bar(px) -%}{{ "▓"*px ~ "░"*(5-px) }}{%- endmacro %}
+
+{% macro px_tracker(temp) -%}
+  {% set remaining = 5 - (campaign.paradox or 0) %}
+  {{ hud_tag('Paradox: ' ~ px_bar(campaign.paradox) ~ ' · TEMP ' ~ (temp or 0) ~ ' · +1 nach ' ~ remaining ~ ' Missionen') }}
+{%- endmacro %}
 {% macro px_eta(temp) -%}
   {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
 {%- endmacro %}
 <!-- Macro: scene_overlay -->
-{% macro ttl_fmt(mins) -%}
-  {{ "%02d:00"|format(mins) }}
+{% macro ttl_fmt(mins=0, secs=0) -%}
+  {% set mm = "%02d"|format(mins|int) %}
+  {% set ss = "%02d"|format(secs|int) %}
+  {{ mm ~ ':' ~ ss }}
 {%- endmacro %}
 
 {% macro open_exfil_window(ttl=None) -%}
   {% if ttl is none %}{% set ttl = exfil.ttl_start_minutes %}{% endif %}
-  {% set campaign.exfil = {'active': true, 'ttl': ttl, 'hot': false} %}
+  {% set campaign.exfil = {'active': true, 'ttl': ttl, 'hot': false, 'sweeps': 0, 'stress': 0} %}
   {{ hud_tag('Exfil-Fenster aktiv · TTL ' ~ ttl_fmt(campaign.exfil.ttl)) }}
 {%- endmacro %}
 
@@ -652,7 +659,8 @@ Decision: {{ text }}?
 ] %}
 {% if campaign.exfil.active %}
   {% do segs.append(" · TTL " ~ ttl_fmt(campaign.exfil.ttl)) %}
-  {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
+  {% if campaign.exfil.sweeps %}{% do segs.append(" · Sweeps:" ~ campaign.exfil.sweeps) %}{% endif %}
+  {% if campaign.exfil.stress %}{% do segs.append(" · Stress " ~ campaign.exfil.stress) %}{% endif %}
 {% endif %}
 {% do segs.append(" · Px " ~ px_bar(campaign.paradox)) %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
@@ -663,7 +671,8 @@ Decision: {{ text }}?
   {% endif %}
 {% endif %}
 {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
-`{{ segs|join('') }}`
+{% if campaign.scene == 1 and campaign.fr_intervention %}{% do segs.append(" · FR:" ~ campaign.fr_intervention) %}{% endif %}
+{{ hud_tag(segs|join('')) }}
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
 {%- endmacro %}
@@ -696,7 +705,7 @@ total=12, role="", env=None) -%}
   {% set campaign.heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
-  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
+  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
   {% if campaign.scene == 1 %}
     {{ ShowComplianceOnce() }}
   {% endif %}
@@ -710,6 +719,8 @@ total=12, role="", env=None) -%}
       {{ trigger_hot_exfil() }}
     {% else %}
       {% set campaign.exfil.ttl = campaign.exfil.ttl - exfil.ttl_cost_per_sweep_min %}
+      {% set campaign.exfil.sweeps = (campaign.exfil.sweeps or 0) + 1 %}
+      {% set campaign.exfil.stress = (campaign.exfil.stress or 0) + exfil.stress_gain_per_sweep %}
       {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
       {{ hud_ping('Stress +' ~ exfil.stress_gain_per_sweep) }}
       {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
@@ -773,7 +784,7 @@ total=12, role="", env=None) -%}
 <!-- Macro: EndScene -->
 {% macro EndScene() -%}
 {% if gm_style == 'precision' and (not campaign.precision_header_ok or not campaign.precision_decision_ok) %}
-  {{ hud_tag('PRECISION fehlend – Szene ohne vollständige Header/Decision-Struktur') }}
+  {{ hud_tag('PRECISION fehlend: Kamera/Target/Pressure/Decision') }}
 {% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
@@ -790,7 +801,7 @@ total=12, role="", env=None) -%}
 {% macro NextScene(loc, objective=None, seed_id=None, pressure=None,
 total=None, role="", env=None) -%}
   {# Konflikte in Szene < delayConflict blocken #}
-  {% if campaign.scene < campaign.delayConflict and role in ["Konflikt","Finale"] %}
+  {% if campaign.scene < campaign.delayConflict and role in ["Konflikt","Finale"] and (role not in campaign.delayConflict_allow) %}
     {{ hud_tag('Konflikt zu früh – DelayConflict(' ~ campaign.delayConflict ~ ') aktiv.') }}
     {% set role = "Beobachtung" %}
   {% endif %}
@@ -812,10 +823,15 @@ total=None, role="", env=None) -%}
   {% endif %}
 {%- endmacro %}
 
-{% macro comms_check(distance_km=0, jammer=false, relays=false, text="") -%}
-  {{ validate_signal(text) }}
+{% macro comms_check(device, distance_km=0, jammer=false, relays=false, text="") -%}
+  {{ validate_signal(device ~ ' ' ~ text) }}
   {% if distance_km > 2 and not relays %}{{ hud_tag('Comms out of range (>2km) – Relais nötig') }}{% endif %}
   {% if jammer and not relays %}{{ hud_tag('Jammer blockiert – Gegenmaßnahme nötig') }}{% endif %}
+{%- endmacro %}
+
+{% macro radio_tx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
+  {{ comms_check(device, distance_km=range_km, jammer=jammer, relays=relays, text=msg) }}
+  {{ hud_tag(msg) }}
 {%- endmacro %}
 
 {% macro validate_signal(text) -%}
@@ -1087,12 +1103,13 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ transfer_back_to_hq(campaign, tcfg, hot=hot) }}
 {% endif %}
 {% set campaign.loc = 'HQ' %}
-{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
+{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
 {% if char.lvl < 10 %}
   {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
 {% endif %}
 {{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
+{{ px_tracker(char.temp or 0) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
 {% if campaign.fr_observer_note %}{{ log_intervention('FR-Echo: SG +1 auf einen Check') }}{% endif %}
 {% if campaign.mission_in_episode == 10 %}
@@ -2399,7 +2416,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro cmdSave() -%}
   {{ save_guard() }}
   {% if campaign.loc != 'HQ' %}{% return %}{% endif %}
-  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false} %}
+  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
   {% set char.stress = 0 %}
   {{ serialize_progress() }}
 {%- endmacro %}
@@ -2591,7 +2608,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
       {{ arena_penalty(actor, 'Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
       {% return %}
     {% endif %}
-    {{ comms_check(distance_km=1, jammer=(kind=='jam'), relays=false) }}
+    {{ comms_check(device, distance_km=1, jammer=(kind=='jam'), relays=false) }}
   {% endif %}
   {% if kind == 'shot' %}
     {{ arena_resolve_shot(actor, target) }}

@@ -523,3 +523,28 @@ Diese Tabellen sollen schnelle Inspiration liefern und zeigen, wie Loot, Mission
 CU-System in ZEITRISS 4.2.0 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
 Chrononauten mit spannenden Funden zu belohnen.
 *© 2025 pchospital – private use only. See LICENSE.
+
+## Shop-Tiers & Gating
+
+**Tier 1 (Lv 1–5):** Basis-Militärgear, leichte Optiken/Rüstungen
+- Waffenmods: Standard-Optik (+1–2 Präzision), Match-Lauf (+1 DMG/+1 Präzision)
+- Rüstung: Leichte Weste (+1), Low-Vis Tarnmantel
+- Drohnen: Scout (IR/Optik), Reichweiten-Booster
+- Preisrange: 100–300 CU/Modul
+
+**Tier 2 (Lv 6–10):** Fortgeschrittene Systeme
+- Waffen: Präzisionsgewehre (DMG+), Stabilisatoren (kein Bewegungsmalus)
+- Rüstung: Modularer Plattenträger (+2), taktische Helme (HUD-Visier)
+- Drohnen: Spotter-AI mk2 (Auto-Markierung), Multi-Sensor-Suite
+- Cyber/Bio (falls SYS frei): Neural-Reflex (+2 Init), Stabilisierungsgelenke
+- Preisrange: 250–600 CU
+
+**Tier 3 (Lv 11+):** High-End/Prototypen (Fraktionsruf/Rift-Beute)
+- Adaptiv-Tarnung (kurz aktiv), Smart-Optiken (Auto-Range, Wind-Komp)
+- Rüstung: Leichtgewicht-Komposite (+2, ohne Malus), Spezialhelme
+- Drohnen: Kampfdrohne light, ECM-Pods (lokales Jammer-Fenster)
+- Gating:
+  - Level 11+
+  - Fraktionsruf Preserve/Trigger: 3+/6+ Erfolge
+  - Rift-Beute als Blaupause/Prototyp
+- Preisrange: 500–1200+ CU
