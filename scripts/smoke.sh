@@ -21,6 +21,23 @@ python3 -m scripts.validate_index
 python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
 
+# Gear shop tiers deterministic
+node -e "const rt=require('./runtime');console.log(rt.on_command('!gear shop'))" | grep 'Shop-Tiers: T1:true'
+
+# Debrief renders Px and TEMP
+mkdir -p out
+node tools/test_debrief.js > out/debrief.log
+grep -E "Paradox: .* TEMP" out/debrief.log
+
+# FR tag only visible in scene 1
+node tools/test_fr_tag.js 1 > out/scene_01.log
+node tools/test_fr_tag.js 2 > out/scene_02.log
+grep " · FR:" out/scene_01.log
+! grep " · FR:" out/scene_02.log
+
+# Foreshadow guard warns in precision mode
+GM_STYLE=precision node tools/test_foreshadow.js | grep "Foreshadow low"
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
