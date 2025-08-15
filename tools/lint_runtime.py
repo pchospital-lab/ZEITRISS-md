@@ -86,14 +86,18 @@ def main() -> int:
 
     # Signal & Comms
     req(r"validate_signal", tk, "Runtime Signal-Guard vorhanden", fails)
-    req(r"Comms out of range", tk, "Comms-Reichweite Warnung vorhanden", fails)
-    req(r"Jammer blockiert", tk, "Jammer-Block vorhanden", fails)
-    req(r"macro radio_tx[\s\S]*comms_check", tk, "radio_tx nutzt comms_check", fails)
+    req(r"CommsCheck failed: require valid device/range or relay/jammer override.", tk, "Comms einheitliche Fehlermeldung", fails)
+    req(r"macro radio_tx[\s\S]*must_comms", tk, "radio_tx nutzt must_comms", fails)
     req(r"macro radio_rx", tk, "radio_rx Macro vorhanden", fails)
 
     # HQ Save Guard
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
+    req(r"save_version", sv, "save_version im Save-Modul", fails)
+    req(r"migrate_save", sv, "migrate_save vorhanden", fails)
     req(r"sys_used == state\.sys|state\.sys_used == state\.sys", sv, "Deterministik geprüft", fails)
+
+    # Conflict Gate Helper
+    req(r"can_open_conflict", tk, "can_open_conflict Macro vorhanden", fails)
 
     # Preserve/Trigger Marker
     req(r"campaign\.mode", tk, "Preserve/Trigger-Flag gesetzt", fails)
