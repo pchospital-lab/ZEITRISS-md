@@ -164,6 +164,22 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
 - `modus verbose` – Filmisch an.
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte).
+- `!px` – zeigt aktuellen Paradoxon-Stand.
+
+#### Runtime Helper – Kurzreferenz
+
+- **DelayConflict(threshold=4, allow=[])** – Verzögert Konfliktszenen bis zur Szene
+  `threshold`. `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
+- **comms_check(device, range)** – Pflicht vor `radio_tx/rx`: validiert Funkgerät,
+  Leitung, Relais/Jammer-Override und Reichweite.
+- **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
+  (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden.
+
+**Chat-Shortcodes**
+
+- `!helper delay` – erklärt `DelayConflict` kurz.
+- `!helper comms` – erklärt `comms_check` & Gerätevoraussetzungen.
+- `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
 ## Exfil-Fenster & Sweeps
 
