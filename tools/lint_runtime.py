@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import os
 import re
 from pathlib import Path
 
@@ -45,6 +46,8 @@ def main() -> int:
         fails.append(str(e))
         sv = ""
 
+    gm_style = os.getenv("GM_STYLE", "precision")
+
     # Mission-Invarianten & Gates
     req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)
     req(r"scene_total\s*=\s*12", tk, "Core: 12 Szenen gesetzt", fails)
@@ -59,7 +62,8 @@ def main() -> int:
     # PRECISION-Validator
     req(r"SceneHeader\(", tk, "SceneHeader-Macro vorhanden", fails)
     req(r"Decision\(", tk, "Decision-Macro vorhanden", fails)
-    req(r"PRECISION fehlend", tk, "PRECISION-Warnung vorhanden", fails)
+    if gm_style == "precision":
+        req(r"PRECISION fehlend", tk, "PRECISION-Warnung vorhanden", fails)
 
     # Px-HUD
     req(r"Paradox[:\s]+[▓░]{5}", tk, "Px-Balken dargestellt", fails)
@@ -84,6 +88,8 @@ def main() -> int:
     req(r"validate_signal", tk, "Runtime Signal-Guard vorhanden", fails)
     req(r"Comms out of range", tk, "Comms-Reichweite Warnung vorhanden", fails)
     req(r"Jammer blockiert", tk, "Jammer-Block vorhanden", fails)
+    req(r"macro radio_tx[\s\S]*comms_check", tk, "radio_tx nutzt comms_check", fails)
+    req(r"macro radio_rx", tk, "radio_rx Macro vorhanden", fails)
 
     # HQ Save Guard
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
