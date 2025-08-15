@@ -68,7 +68,11 @@ default_modus: mission-fokus
 {% if ranks is not defined %}
   {% set ranks = {'order': ['Recruit','Operator I','Operator II','Lead','Specialist','Chief']} %}
 {% endif %}
-{% set gm_style = gm_style or 'verbose' %}
+{% if env is not defined %}{% set env = {} %}{% endif %}
+{% if state is not defined %}{% set state = {} %}{% endif %}
+{% set gm_style = env.GM_STYLE if env.GM_STYLE is defined and env.GM_STYLE else state.gm_style if state.gm_style is defined else 'verbose' %}
+{% set state.gm_style = gm_style %}
+{% if scene is not defined %}{% set scene = {} %}{% endif %}
 
 {% macro set_mode_display(style) -%}
   {% set ui.mode_display = style %}
@@ -687,6 +691,7 @@ total=12, role="", env=None) -%}
 {% call maintain_cooldowns() %}{% endcall %}
 {% set campaign.tech_steps = 0 %}
 {% set campaign.complication_done = false %}
+{% if scene.foreshadows is not defined %}{% set scene.foreshadows = [] %}{% endif %}
 {% if seed_id is not none %}{% set campaign.seed_id = seed_id %}{% endif %}
 {% if objective is not none %}{% set campaign.objective = objective %}{% endif %}
 {% if campaign.objective is defined and 'Optionaler Sweep' in campaign.objective
@@ -747,6 +752,11 @@ total=12, role="", env=None) -%}
       (campaign.type == 'rift' and campaign.scene == 9) %}
   {{ hud_tag('Foreshadow: akustischer Click des Metronoms') }}
   {{ hud_tag('Foreshadow: Glassteg mit Servicelift/Fluchtweg') }}
+{% endif %}
+{% if campaign.type == 'core' and campaign.scene in [4,9] %}
+  {% do scene.foreshadows.append('auto') %}
+{% elif campaign.type == 'rift' and campaign.scene == 9 %}
+  {% do scene.foreshadows.append('auto') %}
 {% endif %}
 {# Boss-Regel #}
 {% if campaign.type == "rift" and campaign.scene == 10 %}
@@ -851,6 +861,55 @@ total=None, role="", env=None) -%}
         ~ 'Comlink koppeln, Terminal suchen, Kabel/Relais nutzen oder abbrechen.'
       )
     }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro set_mode(arg) -%}
+  {% set new_mode = 'precision' if arg == 'precision' else 'verbose' %}
+  {% set state.gm_style = new_mode %}
+  {% set gm_style = new_mode %}
+  GM_STYLE → {{ new_mode }}
+{%- endmacro %}
+
+{% macro helper_delay() -%}
+DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.
+{%- endmacro %}
+{% macro helper_comms() -%}
+comms_check(device,range): Pflicht vor radio_tx/rx.
+Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
+{%- endmacro %}
+{% macro helper_boss() -%}
+Boss-Foreshadow (Mechanik unverändert): Core – M4 und M9 je 2 Hinweise;
+Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
+{%- endmacro %}
+{% macro show_px() -%}
+  {{ px_tracker(state.temp or 0) }}
+{%- endmacro %}
+{% macro render_shop_tiers(level, faction_rep, rift_blueprints) -%}
+  {% set t2_req = (level|default(1) >= 4) and (faction_rep|default(0) >= 2) %}
+  {% set t3_req = (level|default(1) >= 7) and (rift_blueprints|default(0) > 0) %}
+  {{ hud_tag('T1: Basis-Gear – frei') }}
+  {{ hud_tag('T2: Spezialisiert – ' ~ ('frei' if t2_req else 'gesperrt')) }}
+  {{ hud_tag('T3: Prototypen – ' ~ ('frei' if t3_req else 'gesperrt')) }}
+{%- endmacro %}
+{% macro gear_shop() -%}
+  {{ render_shop_tiers(state.level, state.faction_rep, state.rift_blueprints) }}
+{%- endmacro %}
+{% macro on_command(cmd) -%}
+  {% if cmd == '!helper delay' %}
+    {{ helper_delay() }}
+  {% elif cmd == '!helper comms' %}
+    {{ helper_comms() }}
+  {% elif cmd == '!helper boss' %}
+    {{ helper_boss() }}
+  {% elif cmd == '!px' %}
+    {{ show_px() }}
+  {% elif cmd == '!gear shop' %}
+    {{ gear_shop() }}
+  {% elif cmd == 'modus precision' %}
+    {{ set_mode('precision') }}
+  {% elif cmd == 'modus verbose' %}
+    {{ set_mode('verbose') }}
   {% endif %}
 {%- endmacro %}
 
