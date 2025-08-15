@@ -28,8 +28,15 @@ Verzögert Konfliktszenen bis zur angegebenen Szene. Optional erlaubt eine
 Liste `allow` frühe Überfälle wie `ambush` oder `vehicle_chase`.
 
 ### `comms_check(device, range)`
-Validiert Funkwege. Prüft Gerät, Reichweite sowie Jammer- oder Relais-Situationen
-und warnt bei Verstößen.
+Prüft Gerät und Reichweite. Wird durch `must_comms(opts)` ergänzt.
+
+### `must_comms(opts)`
+Zentraler Guard für Funkverkehr. Wirft `CommsCheck failed: require valid device/range or relay/jammer override.`
+bei ungültigem Gerät oder Reichweite.
+
+### `can_open_conflict(type)`
+Liefert `true`, wenn Konflikte vor `DelayConflict`-Threshold erlaubt sind
+(`ambush`/`vehicle_chase` etc.), sonst `false`.
 
 ### `assert_foreshadow(count=2)`
 Warnung im PRECISION-Stil, falls weniger als `count` Hinweise für spätere

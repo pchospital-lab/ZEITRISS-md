@@ -23,6 +23,38 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 
 Vielen Dank für deine Mithilfe!
 
+## Quellen der Wahrheit zur Laufzeit
+
+- **Runtime-fähig** (wird im Spiel geladen):
+  - `README.md` – Kurzreferenzen, Chat-Shortcodes, Nutzer-HUD-Hinweise
+  - `systems/toolkit-gpt-spielleiter.md` – Makros, Guards, Router, Runtime-Logik
+- **Dev-Doku (wirkt NICHT zur Laufzeit)**:
+  - `doc.md`, `/docs/**` – CI/PR-Review, Linter, Beispiele
+
+Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit stehen.
+
+## GM-Style & Lint
+- `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
+  - `verbose`: filmisch, kein PRECISION-Lint
+  - `precision`: Header/Decision-Pflicht, `assert_foreshadow` warnt
+
+## Pflicht-Invarianten (nicht brechen)
+- Boss-Timing: Core Mission 5 (Mini), Mission 10 (Boss); Rift Szene 10
+- Signalspace: Hardwarepflicht (Comlink/Kabel/Relais/Jammer)
+- HUD: Einheitliche Reihenfolge, TTL `mm:ss`, Exfil: Sweeps & Stress anzeigen
+
+## Tests
+- `python3 tools/lint_runtime.py`
+- `GM_STYLE=verbose python3 tools/lint_runtime.py`
+- `bash scripts/smoke.sh`
+- Optional: `node tools/test_save.js`
+
+## Saves
+- Einziger Typ: Deepsave (HQ-only) – `save_version` pflegen, `migrate_save()` mitführen.
+
+## Chat-Shortcodes (Minimal-Set)
+- `!save`, `!load`, `!hud status`, `!gear shop`, `!helper delay|comms|boss`, `!px`, `modus verbose|precision`
+
 ## Offline-Lint ausführen
 
 - `python3 tools/lint_runtime.py` prüft die Runtime-Guards.
