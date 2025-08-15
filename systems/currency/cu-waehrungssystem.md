@@ -71,6 +71,20 @@ _Budget-Hinweis:_ Standardmissionen rechnen mit **10 × Spielerlevel CU**. Die
 Empfohlen wird eine dynamische Formel, die den Prämienwert an die tatsächlich gespielten Szenen koppelt:
 `Belohnung = Basiswert × (abgeschlossene Szenen / 12)`.
 
+### Core-Ops Belohnungen {#core-ops-belohnungen}
+
+Basisprämie nach Missionsrisiko:
+- Low: 400 CU
+- Mid: 500 CU
+- High: 600 CU
+
+Boni (kumulativ):
+- Ziel lebend gesichert: +150 CU
+- Keine Zivilverluste: +100 CU
+- Gerätesicherung/Beweis: +100–150 CU
+- Alarmfreiheit/Low-Profile: +50–100 CU
+
+
 - **Erfüllung der Missionsziele:** Wird das Hauptziel einer Mission erreicht, erhält jeder
   beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die zum
   Ziel führen, werden honoriert – Einfallsreichtum zahlt sich aus. Scheitert eine Mission vollständig,
