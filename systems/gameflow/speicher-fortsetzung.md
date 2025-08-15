@@ -8,6 +8,8 @@ tags: [system]
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
+> Chat-Befehle: `!save`, `!load`, optional `!autosave hq`.
+> Einziger Save-Typ: Deepsave (HQ-only).
 
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
@@ -807,3 +809,65 @@ ignoriert, bis sie benötigt werden. Weitere Updates können so
 tabellarisch ergänzt werden.
 Alle Spielertexte laufen vor dem Speichern durch den Regex-Filter `/Zeitbruch|ClusterCreate|Realität umschreiben/i`.
 *© 2025 pchospital – private use only. See LICENSE.
+
+## Kanonisches Deepsave-Schema {#deepsave-schema}
+```json
+{
+  "zr_version": "4.2.0",
+  "save_version": 3,
+  "location": "HQ",
+  "campaign": {
+    "episode": 1,
+    "mission_in_episode": 4,
+    "paradoxon_index": 0,
+    "open_rifts": [],
+    "mode": "preserve",
+    "fr_intervention": "ruhig"
+  },
+  "character": {
+    "name": "Dominik K. Nevril",
+    "rank": "Operator I",
+    "level": 5,
+    "attributes": {"STR": 6, "GES": 8, "INT": 5, "CHA": 3, "TEMP": 2, "SYS_max": 4, "SYS_used": 4},
+    "talents": [
+      {"id": "weapon_master_firearms", "tier": 1},
+      {"id": "tactician", "tier": 1},
+      {"id": "precision_killer", "tier": 2},
+      {"id": "precision_chain", "tier": 1}
+    ],
+    "flags": {"has_psi": false, "chronokey": false},
+    "cyber_bio": ["NV_implant", "neural_link", "subdermal_plates", "reflex_boost"],
+    "stress": 0,
+    "heat": 0,
+    "hp": {"current": "ok", "notes": ""}
+  },
+  "team": {
+    "name": "Eislinie",
+    "members": [
+      {"name": "Vega",  "role": "Stealth",   "talents": ["sneak","lockpick"], "gear": ["MP5 SD","chameleon_suit"]},
+      {"name": "Rowan", "role": "Tech",      "talents": ["computers","elec"], "gear": ["scanner","auth_spoofer","laptop"]},
+      {"name": "Holt",  "role": "CQB",       "talents": ["cqb","defender"],   "gear": ["shorty","ballistic_vest","smokes"]}
+    ],
+    "autoscale": true
+  },
+  "loadout": {
+    "primary": {"id":"HK416", "mods":["falcon_eye","match_barrel","ergogrip","suppressor"]},
+    "secondary": {"id":"pistol_9mm", "mods":["suppressor"]},
+    "cqb": {"id":"shorty_12"},
+    "armor": ["ballistic_v_mk5","urban_ghost_coat"],
+    "tools": ["forensic_kit"],
+    "support": ["scout_drone_spotter_ai","drone_signal_amp"]
+  },
+  "economy": {"cu": 850},
+  "logs": {
+    "missions": [
+      "Able Archer Nuclear Scare (1983)",
+      "Saigon Vermittler (1964)",
+      "Chicago Mayor Hit (1931)",
+      "Operation Curtain Call (1942)"
+    ],
+    "blacklab": ["Projekt GROM","Martelli-Kontakte"]
+  },
+  "ui": {"gm_style":"verbose", "mode_display":"label"}
+}
+```
