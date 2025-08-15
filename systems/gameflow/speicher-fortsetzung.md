@@ -128,6 +128,37 @@ Codefelder und sende sie nacheinander.
 Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 überschreibt den gesamten vorherigen Zustand.
 
+```javascript
+function save_deep(state) {
+  if (state.location !== "HQ") {
+    throw new Error("Save denied: HQ-only.");
+  }
+  return JSON.stringify({
+    save_version: 3,
+    zr_version: "4.2.0",
+    ...state
+  });
+}
+
+function load_deep(json) {
+  const data = JSON.parse(json);
+  return hydrate_state(migrate_save(data));
+}
+
+function migrate_save(data) {
+  if (!data.save_version) data.save_version = 1;
+  if (data.save_version === 1) {
+    data.campaign ||= {};
+    data.save_version = 2;
+  }
+  if (data.save_version === 2) {
+    data.ui ||= { gm_style: "verbose" };
+    data.save_version = 3;
+  }
+  return data;
+}
+```
+
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
 Für **Einzelspieler-Runden** (ein Chrononaut als Spielercharakter) bleibt die bisherige

@@ -474,6 +474,8 @@ einem abweichenden `redirect_hours`.
 {% set campaign.epoch = epoch %}
 {% set campaign.fr_observer_pending = false %}
 {% set campaign.fr_observer_note = false %}
+{% set campaign.fr_intervention = none %}
+{% set campaign.exfil = campaign.exfil | combine({'sweeps': 0, 'stress': 0}, recursive=true) %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
 {% set tcfg = get_transfer_cfg() %}
 {% if should_show_transfer_enter(tcfg) %}
@@ -528,6 +530,14 @@ if campaign.scene < 10:
 {% macro DelayConflict(n, allow="") -%}
 {% set campaign.delayConflict = n %}
 {% set campaign.delayConflict_allow = allow.split('|') if allow else [] %}
+{%- endmacro %}
+{% macro can_open_conflict(kind) -%}
+  {% set g = {'threshold': campaign.delayConflict or 4, 'allow': campaign.delayConflict_allow or []} %}
+  {% if campaign.scene >= g.threshold %}
+    {{ true }}
+  {% else %}
+    {{ kind in g.allow }}
+  {% endif %}
 {%- endmacro %}
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt `DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder Verfolgungen.
 
@@ -835,19 +845,27 @@ total=None, role="", env=None) -%}
   {% endif %}
 {%- endmacro %}
 
-{% macro comms_check(device, distance_km=0, jammer=false, relays=false, text="") -%}
-  {{ validate_signal(device ~ ' ' ~ text) }}
-  {% if distance_km > 2 and not relays %}{{ hud_tag('Comms out of range (>2km) – Relais nötig') }}{% endif %}
-  {% if jammer and not relays %}{{ hud_tag('Jammer blockiert – Gegenmaßnahme nötig') }}{% endif %}
+{% macro comms_check(device, range_km=0, jammer=false, relays=false) -%}
+  {% set ok_device = device in ['Comlink','Kabel','Relais','JammerOverride'] %}
+  {% set ok_range = (range_km <= 2 or relays) and (not jammer or relays) %}
+  {{ ok_device and ok_range }}
+{%- endmacro %}
+
+{% macro must_comms(o) -%}
+  {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
+  {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
+  {% if not ok %}
+    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override.') }}
+  {% endif %}
 {%- endmacro %}
 
 {% macro radio_tx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
-  {{ comms_check(device, distance_km=range_km, jammer=jammer, relays=relays, text=msg) }}
+  {{ must_comms({'device':device,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
   {{ hud_tag(msg) }}
 {%- endmacro %}
 
 {% macro radio_rx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
-  {{ comms_check(device, distance_km=range_km, jammer=jammer, relays=relays, text=msg) }}
+  {{ must_comms({'device':device,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
   {{ hud_tag(msg) }}
 {%- endmacro %}
 
@@ -886,11 +904,11 @@ Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
   {{ px_tracker(state.temp or 0) }}
 {%- endmacro %}
 {% macro render_shop_tiers(level, faction_rep, rift_blueprints) -%}
-  {% set t2_req = (level|default(1) >= 4) and (faction_rep|default(0) >= 2) %}
-  {% set t3_req = (level|default(1) >= 7) and (rift_blueprints|default(0) > 0) %}
-  {{ hud_tag('T1: Basis-Gear – frei') }}
-  {{ hud_tag('T2: Spezialisiert – ' ~ ('frei' if t2_req else 'gesperrt')) }}
-  {{ hud_tag('T3: Prototypen – ' ~ ('frei' if t3_req else 'gesperrt')) }}
+  {% set t1 = level|default(1) >= 1 %}
+  {% set t2 = level|default(1) >= 6 %}
+  {% set t3 = (level|default(1) >= 11) and (faction_rep|default(0) >= 3) %}
+  {% set bp = rift_blueprints|default([])|length %}
+  {{ hud_tag('Shop-Tiers: T1:' ~ (t1 and 'true' or 'false') ~ ' T2:' ~ (t2 and 'true' or 'false') ~ ' T3:' ~ (t3 and 'true' or 'false') ~ ' · BP:' ~ bp) }}
 {%- endmacro %}
 {% macro gear_shop() -%}
   {{ render_shop_tiers(state.level, state.faction_rep, state.rift_blueprints) }}
