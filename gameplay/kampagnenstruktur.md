@@ -278,13 +278,14 @@ bilden eine Ausnahme: Ihr Boss erscheint in Szene 10.
 
 Mini-Bosse nutzen keine Zeittricks. Episoden-Bosse dürfen genau einen kurzen Chrono-Effekt einbringen.
 
-#### Boss-Foreshadow Checklist {#boss-foreshadow}
+### Boss-Foreshadow Checklist (Zeitpunkte unverändert) {#boss-foreshadow}
 - Core-Ops:
-  - Mission 4: zwei Foreshadow-Elemente → Mission 5 Mini-Boss
-  - Mission 9: zwei Foreshadow-Elemente → Mission 10 Episoden-Boss
+  - Mission 4: **zwei** Foreshadows (z. B. Signatur-Waffe, Fluchtweg).
+  - Mission 9: **zwei** Foreshadows (z. B. Gegnerdoktrin, Umgebungsrisiko).
 - Rift-Ops:
-  - Szene 9: zwei unterschiedliche Elemente → Szene 10 Boss
-_Timing bleibt unverändert: Core Missionen 5/10, Rift Szene 10._
+  - Szene 9: **zwei** Foreshadows (z. B. Sensor-Anomalie, Boss-Schwächehinweis).
+
+*Hinweis:* Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
 
 
 #### Paradox-Subsystem

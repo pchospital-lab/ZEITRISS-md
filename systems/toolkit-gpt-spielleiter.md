@@ -613,6 +613,14 @@ Decision: {{ text }}?
 {% macro px_eta(temp) -%}
   {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
 {%- endmacro %}
+{% macro assert_foreshadow(count_needed=2) -%}
+  {% if gm_style == 'precision' %}
+    {% set c = scene.foreshadows|length if scene.foreshadows is defined else 0 %}
+    {% if c < count_needed %}
+      {{ hud_tag('Foreshadow low: ' ~ c ~ '/' ~ count_needed) }}
+    {% endif %}
+  {% endif %}
+{%- endmacro %}
 <!-- Macro: scene_overlay -->
 {% macro ttl_fmt(mins=0, secs=0) -%}
   {% set mm = "%02d"|format(mins|int) %}
@@ -664,12 +672,6 @@ Decision: {{ text }}?
 {% endif %}
 {% do segs.append(" · Px " ~ px_bar(campaign.paradox)) %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
-{% if char.rank is defined %}
-  {% set line = segs|join('') %}
-  {% if not ui.suppress_rank_on_narrow or line|length < 95 %}
-    {% do segs.append(" · Rank " ~ (char.rank or '-')) %}
-  {% endif %}
-{% endif %}
 {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
 {% if campaign.scene == 1 and campaign.fr_intervention %}{% do segs.append(" · FR:" ~ campaign.fr_intervention) %}{% endif %}
 {{ hud_tag(segs|join('')) }}
@@ -830,6 +832,11 @@ total=None, role="", env=None) -%}
 {%- endmacro %}
 
 {% macro radio_tx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
+  {{ comms_check(device, distance_km=range_km, jammer=jammer, relays=relays, text=msg) }}
+  {{ hud_tag(msg) }}
+{%- endmacro %}
+
+{% macro radio_rx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
   {{ comms_check(device, distance_km=range_km, jammer=jammer, relays=relays, text=msg) }}
   {{ hud_tag(msg) }}
 {%- endmacro %}
