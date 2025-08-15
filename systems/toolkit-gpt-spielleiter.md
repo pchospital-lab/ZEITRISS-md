@@ -913,6 +913,10 @@ Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
 {% macro gear_shop() -%}
   {{ render_shop_tiers(state.level, state.faction_rep, state.rift_blueprints) }}
 {%- endmacro %}
+{% macro debrief() -%}
+  {{ render_rewards() }}
+  {{ px_tracker(state.temp or 0) }}
+{%- endmacro %}
 {% macro on_command(cmd) -%}
   {% if cmd == '!helper delay' %}
     {{ helper_delay() }}

@@ -129,15 +129,29 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 überschreibt den gesamten vorherigen Zustand.
 
 ```javascript
+function select_state_for_save(state) {
+  return {
+    zr_version: "4.2.0",
+    save_version: 3,
+    created_at: new Date().toISOString(),
+    location: state.location,
+    campaign: state.campaign,
+    character: state.character,
+    team: state.team,
+    loadout: state.loadout,
+    economy: state.economy,
+    logs: state.logs,
+    ui: { gm_style: state.ui?.gm_style ?? "verbose" }
+  };
+}
+
 function save_deep(state) {
   if (state.location !== "HQ") {
     throw new Error("Save denied: HQ-only.");
   }
-  return JSON.stringify({
-    save_version: 3,
-    zr_version: "4.2.0",
-    ...state
-  });
+  const payload = select_state_for_save(state);
+  payload.checksum = sha256(JSON.stringify(payload)); // optional
+  return JSON.stringify(payload);
 }
 
 function load_deep(json) {
@@ -158,6 +172,8 @@ function migrate_save(data) {
   return data;
 }
 ```
+
+`sha256()` dient lediglich der Entwicklungsprüfung; im regulären Spielbetrieb darf die Checksumme entfallen.
 
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
