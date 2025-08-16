@@ -475,6 +475,7 @@ einem abweichenden `redirect_hours`.
 {% set campaign.fr_observer_pending = false %}
 {% set campaign.fr_observer_note = false %}
 {% set campaign.fr_intervention = none %}
+{% set scene = {'index': 0, 'foreshadows': []} %}
 {% set campaign.exfil = campaign.exfil | combine({'sweeps': 0, 'stress': 0}, recursive=true) %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
 {% set tcfg = get_transfer_cfg() %}
@@ -857,8 +858,7 @@ total=None, role="", env=None) -%}
   {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
   {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
   {% if not ok %}
-    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. ' ~
-             'Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.') }}
+    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.') }}
   {% endif %}
 {%- endmacro %}
 
@@ -898,7 +898,7 @@ DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehic
 {% macro helper_comms() -%}
 comms_check(device,range): Pflicht vor radio_tx/rx.
 Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
-Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
+Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 {%- endmacro %}
 {% macro helper_boss() -%}
 Boss-Foreshadow (Mechanik unverändert): Core – M4 und M9 je 2 Hinweise;
