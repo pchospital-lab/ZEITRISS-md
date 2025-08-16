@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.0
+version: 4.2.2
 tags: [meta]
 ---
 
