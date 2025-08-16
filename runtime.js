@@ -19,7 +19,7 @@ function px_bar(px){
 function px_tracker(temp){
   const paradox = 0;
   const remaining = 5 - paradox;
-  return `Px: ${px_bar(paradox)} · TEMP ${temp} · +1 nach ${remaining} Missionen`;
+  return `Px ${px_bar(paradox)} (${paradox}/5) · TEMP ${temp} · +1 nach ${remaining} Missionen`;
 }
 
 function render_rewards(){
@@ -77,7 +77,10 @@ function comms_check(device, range){
 
 function must_comms(o){
   if (!comms_check(o.device, o.range)){
-    throw new Error('CommsCheck failed: require valid device/range or relay/jammer override.');
+    throw new Error(
+      'CommsCheck failed: require valid device/range or relay/jammer override. ' +
+      'Tipp: Gerät=Comlink/Kabel/Relay oder Jammer-Override; Reichweite anpassen.'
+    );
   }
 }
 
@@ -140,6 +143,20 @@ function on_command(cmd){
   }
   if (cmd === '!px'){
     return px_tracker(0);
+  }
+  if (cmd === 'modus precision'){
+    state.ui.gm_style = 'precision';
+    return 'GM_STYLE → precision (persistiert)';
+  }
+  if (cmd === 'modus verbose'){
+    state.ui.gm_style = 'verbose';
+    return 'GM_STYLE → verbose (persistiert)';
+  }
+  if (cmd === '!fr help'){
+    return 'FR-Status:\nruhig · beobachter · aktiv';
+  }
+  if (cmd === '!boss status'){
+    return `Foreshadow ${state.scene.foreshadows}`;
   }
   return '';
 }
