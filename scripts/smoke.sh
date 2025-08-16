@@ -29,6 +29,10 @@ mkdir -p out
 node tools/test_debrief.js > out/debrief.log
 grep -E "Paradox: .* TEMP" out/debrief.log
 
+# HUD TTL mm:ss and Sweeps/Stress
+node tools/test_hud.js > out/hud.log
+grep -E "TTL [0-9]{2}:[0-9]{2}" out/hud.log
+
 # FR tag only visible in scene 1
 node tools/test_fr_tag.js 1 > out/scene_01.log
 node tools/test_fr_tag.js 2 > out/scene_02.log
@@ -37,6 +41,14 @@ grep " · FR:" out/scene_01.log
 
 # Foreshadow guard warns in precision mode
 GM_STYLE=precision node tools/test_foreshadow.js | grep "Foreshadow low"
+
+# CommsCheck message
+node tools/test_comms.js | grep "CommsCheck failed"
+
+# Save whitelist and HQ guard
+node tools/test_save.js | tee out/save.log
+grep "Save denied: HQ-only." out/save.log
+grep "save-ok" out/save.log
 
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
