@@ -137,7 +137,7 @@ function assert_foreshadow(n=2){
 function select_state_for_save(s){
   return {
     save_version: 3,
-    zr_version: '4.2.0',
+    zr_version: '4.2.2',
     location: s.location,
     campaign: s.campaign,
     character: s.character,
