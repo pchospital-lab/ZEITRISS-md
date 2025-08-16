@@ -9,18 +9,27 @@ const state = {
   ui: { gm_style: 'verbose' },
   exfil: null,
   fr_intervention: null,
-  scene: { index: 0, foreshadows: 0 }
+  scene: { index: 0, foreshadows: 0 },
+  comms: { jammed: false, relays: 0, rangeMod: 1.0 }
 };
 
-function px_bar(px){
-  return '▓'.repeat(px) + '░'.repeat(5 - px);
+function clamp(n, min, max){
+  return Math.min(max, Math.max(min, n));
 }
 
-function px_tracker(temp){
-  const paradox = 0;
-  const remaining = 5 - paradox;
-  return `Px ${px_bar(paradox)} (${paradox}/5) · TEMP ${temp} · +1 nach ${remaining} Missionen`;
+function px_bar(n){
+  const total = 5;
+  return '█'.repeat(n) + '░'.repeat(total - n);
 }
+
+function render_px_tracker(temp){
+  const n = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
+  const t = temp ?? (state.character?.attributes?.TEMP ?? 0);
+  const eta = t <= 0 ? 'n/a' : `${Math.max(1, 6 - t)} ops`;
+  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · NEXT +1 in ${eta}`;
+}
+
+const px_tracker = render_px_tracker;
 
 function render_rewards(){
   return 'Rewards rendered';
@@ -40,13 +49,27 @@ function ttl_fmt(min=0, sec=0){
   return `${mm}:${ss}`;
 }
 
-function roll_fr(){
-  return 'ruhig';
+function seeded(seed){
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+function roll_fr(bias = 'normal', seed = null){
+  const r = seed != null ? seeded(seed) : Math.random();
+  let pR = 0.60, pB = 0.25;
+  if (bias === 'hard'){ pR = 0.45; pB = 0.30; }
+  if (bias === 'easy'){ pR = 0.75; pB = 0.20; }
+  return r < pR ? 'ruhig' : (r < pR + pB ? 'beobachter' : 'aktiv');
+}
+
+function jam_now(on = true){
+  state.comms.jammed = !!on;
 }
 
 function StartMission(){
+  state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0 };
-  state.fr_intervention = roll_fr();
+  state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
 }
 
 function scene_overlay(scene){
@@ -71,8 +94,12 @@ function scene_overlay(scene){
 
 function comms_check(device, range){
   const okDev = ['comlink', 'cable', 'relay', 'jammer_override'].includes(device);
-  const okRng = range > 0 && !state.jammed;
-  return okDev && okRng;
+  const jam = !!state.comms?.jammed;
+  const okRng = (range * (state.comms?.rangeMod ?? 1)) > 0;
+  const ok = okDev && okRng && (
+    !jam || device === 'cable' || device === 'jammer_override' || device === 'relay'
+  );
+  return ok;
 }
 
 function must_comms(o){
@@ -134,7 +161,7 @@ function migrate_save(data){
 }
 
 function debrief(st){
-  return `${render_rewards()}\n${px_tracker(st.temp || 0)}`;
+  return `${render_rewards()}\n${render_px_tracker(st.temp || 0)}`;
 }
 
 function on_command(cmd){
@@ -142,7 +169,7 @@ function on_command(cmd){
     return render_shop_tiers(1, 0, []);
   }
   if (cmd === '!px'){
-    return px_tracker(0);
+    return render_px_tracker(0);
   }
   if (cmd === 'modus precision'){
     state.ui.gm_style = 'precision';
@@ -166,6 +193,7 @@ module.exports = {
   on_command,
   debrief,
   render_shop_tiers,
+  render_px_tracker,
   px_tracker,
   StartMission,
   scene_overlay,
@@ -173,5 +201,6 @@ module.exports = {
   radio_rx,
   assert_foreshadow,
   save_deep,
-  migrate_save
+  migrate_save,
+  jam_now
 };
