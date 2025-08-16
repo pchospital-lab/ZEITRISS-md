@@ -109,6 +109,24 @@ function comms_check(device, range){
   return ok;
 }
 
+function codex_link_state(ctx){
+  const c = ctx || state;
+  if (c.location === 'HQ' || c.phase === 'transfer') return 'uplink';
+  const dev = c.comms?.device;
+  const rng = c.comms?.range_m;
+  const jam = c.comms?.jammed;
+  const inBubble = dev === 'comlink' && typeof rng === 'number' && rng <= 2000 && !jam;
+  return inBubble ? 'field_online' : 'field_offline';
+}
+
+function require_uplink(ctx, action){
+  const st = codex_link_state(ctx);
+  if (st === 'uplink' || st === 'field_online') return true;
+  throw new Error(
+    'Codex offline – Relais setzen · Hardline/Terminal nutzen · Comlink koppeln.'
+  );
+}
+
 function must_comms(o){
   if (!comms_check(o.device, o.range)){
     throw new Error(
@@ -119,11 +137,15 @@ function must_comms(o){
 }
 
 function radio_tx(o){
+  const ctx = { ...state, comms: { ...state.comms, device: o.device, range_m: o.range } };
+  require_uplink(ctx, 'radio_tx');
   must_comms(o);
   return 'tx';
 }
 
 function radio_rx(o){
+  const ctx = { ...state, comms: { ...state.comms, device: o.device, range_m: o.range } };
+  require_uplink(ctx, 'radio_rx');
   must_comms(o);
   return 'rx';
 }
@@ -206,6 +228,8 @@ module.exports = {
   scene_overlay,
   radio_tx,
   radio_rx,
+  codex_link_state,
+  require_uplink,
   assert_foreshadow,
   save_deep,
   migrate_save,
