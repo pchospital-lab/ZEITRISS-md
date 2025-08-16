@@ -186,6 +186,20 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
+### Runtime-State (Kurzreferenz)
+
+- `location: "HQ" | "field"`
+- `campaign: { episode, mission_in_episode, paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
+- `character: { name, level, attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_used}, talents:[], ... }`
+- `team: { name, members:[...] }`
+- `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
+- `economy: { cu }`
+- `logs: { missions:[], blacklab:[] }`
+- `ui: { gm_style:"verbose"|"precision" }`
+- `exfil: { sweeps, stress, ttl_min, ttl_sec }`
+- `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
+- `comms: { jammed:boolean, relays:number, rangeMod:number }`
+
 ## Exfil-Fenster & Sweeps
 
 Sobald das **Primärziel** erreicht ist, öffnet sich ein
