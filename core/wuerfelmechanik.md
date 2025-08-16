@@ -228,9 +228,9 @@ Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wu
 
 ### Heldenwürfel (ab Attribut 14)
 
-* Ein zusätzlicher W10 darf einmal pro Szene als Reroll verwendet werden.
-* **Exploding 10er-Regel:** Zeigt der Reroll eine 10, wird erneut geworfen.
-* **Beispiel:** Agent Nyx hat SCHLEICHEN 14.
+- Ein zusätzlicher W10 darf einmal pro Szene als Reroll verwendet werden.
+- **Exploding 10er-Regel:** Zeigt der Reroll eine 10, wird erneut geworfen.
+- **Beispiel:** Agent Nyx hat SCHLEICHEN 14.
   Erstwurf: 7 auf dem W10. Er nimmt den Heldenwürfel und erhält eine 10; diese
   explodiert zu einer 6 → Gesamtergebnis 16.
 

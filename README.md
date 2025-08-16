@@ -117,7 +117,8 @@ Debrief und Save (HQ-only).
 > Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
-Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss · Sweeps:n · Stress X · Px █░░░░ (0/5) · Lvl · SYS`.
+Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss ·
+Sweeps:n · Stress X · Px █░░░░ (0/5) · Lvl · SYS`.
 In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
 auf schmalen Zeilen blendet das System den Rank automatisch aus.

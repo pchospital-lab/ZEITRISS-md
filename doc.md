@@ -50,4 +50,4 @@ DelayConflict(4, ["ambush"]);
 
 ## Changelog
 
-* 2025-08-15: Erste Version, lint-konform.
+- 2025-08-15: Erste Version, lint-konform.

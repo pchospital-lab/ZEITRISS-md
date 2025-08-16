@@ -1946,16 +1946,20 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 | **Rigger / Drone‑Op**       | Support             | Mini‑Drohnen (Recon/Spreng)     |
 | **Elite‑Handler** (Finale)  | Commander           | CHA 6, Tact‑Link, Gel‑Ruger     |
 
-*\*Schaden & SG laut ZEITRISS‑Core; Urwolf bleibt einziges Tier‑Hybrid.*
+- _Schaden & SG laut ZEITRISS‑Core; Urwolf bleibt einziges Tier‑Hybrid._
 
 ---
 
 ### Stil‑Reminder
 
-* **Urwolf** tritt nur 1‑2× pro Mission als Spur‑ oder Schock­einheit auf – Aha‑Effekt bleibt erhalten, kein Overload.
-* Kämpfe bleiben chrompunk‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle, harte Feuer­gefechte.
-* **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2, einmal pro Szene Riposte‑Konter).
-* **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den Atomkrieg auszulösen.
+- **Urwolf** tritt nur 1‑2× pro Mission als Spur‑ oder Schock­einheit auf –
+  Aha‑Effekt bleibt erhalten, kein Overload.
+- Kämpfe bleiben chrompunk‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle,
+  harte Feuer­gefechte.
+- **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2,
+  einmal pro Szene Riposte‑Konter).
+- **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den
+  Atomkrieg auszulösen.
 
 Damit hast du denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
 sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS-Feeling.
