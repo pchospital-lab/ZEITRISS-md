@@ -117,7 +117,8 @@ Debrief und Save (HQ-only).
 > Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
-Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss · Sweeps:n · Stress X · Px · Lvl · SYS`. In Szene 1 hängt `FR:Status` an.
+Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss · Sweeps:n · Stress X · Px █░░░░ (0/5) · Lvl · SYS`.
+In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
 auf schmalen Zeilen blendet das System den Rank automatisch aus.
 
@@ -162,9 +163,11 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
-- `modus verbose` – Filmisch an.
-- `modus precision` – Kurzprotokoll an (nur taktische Abschnitte).
+- `modus verbose` – Filmisch an; Toast `GM_STYLE → verbose (persistiert)`.
+- `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
 - `!px` – zeigt aktuellen Paradoxon-Stand.
+- `!fr help` – zeigt den aktuellen FR-Status.
+- `!boss status` – listet Foreshadow-Zähler.
 
 #### Runtime Helper – Kurzreferenz
 
@@ -172,6 +175,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   `threshold`. `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
 - **comms_check(device, range)** – Pflicht vor `radio_tx/rx`: validiert Funkgerät,
   Leitung, Relais/Jammer-Override und Reichweite.
+  Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden.
 
@@ -179,6 +183,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 - `!helper delay` – erklärt `DelayConflict` kurz.
 - `!helper comms` – erklärt `comms_check` & Gerätevoraussetzungen.
+  Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
 ## Exfil-Fenster & Sweeps

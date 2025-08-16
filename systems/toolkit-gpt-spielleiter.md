@@ -618,11 +618,12 @@ Decision: {{ text }}?
 {%- endif %}
 {%- endmacro %}
 
-{% macro px_bar(px) -%}{{ "▓"*px ~ "░"*(5-px) }}{%- endmacro %}
+{% macro px_bar(px) -%}{{ "█"*px ~ "░"*(5-px) }}{%- endmacro %}
 
 {% macro px_tracker(temp) -%}
-  {% set remaining = 5 - (campaign.paradox or 0) %}
-  {{ hud_tag('Paradox: ' ~ px_bar(campaign.paradox) ~ ' · TEMP ' ~ (temp or 0) ~ ' · +1 nach ' ~ remaining ~ ' Missionen') }}
+  {% set px = campaign.paradox or 0 %}
+  {% set remaining = 5 - px %}
+  {{ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ (temp or 0) ~ ' · +1 nach ' ~ remaining ~ ' Missionen') }}
 {%- endmacro %}
 {% macro px_eta(temp) -%}
   {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
@@ -684,7 +685,7 @@ Decision: {{ text }}?
   {% if campaign.exfil.sweeps %}{% do segs.append(" · Sweeps:" ~ campaign.exfil.sweeps) %}{% endif %}
   {% if campaign.exfil.stress %}{% do segs.append(" · Stress " ~ campaign.exfil.stress) %}{% endif %}
 {% endif %}
-{% do segs.append(" · Px " ~ px_bar(campaign.paradox)) %}
+{% do segs.append(" · Px " ~ px_bar(campaign.paradox) ~ " (" ~ (campaign.paradox or 0) ~ "/5)") %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
 {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
 {% if campaign.scene == 1 and campaign.fr_intervention %}{% do segs.append(" · FR:" ~ campaign.fr_intervention) %}{% endif %}
@@ -855,7 +856,8 @@ total=None, role="", env=None) -%}
   {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
   {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
   {% if not ok %}
-    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override.') }}
+    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. ' ~
+             'Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.') }}
   {% endif %}
 {%- endmacro %}
 
@@ -886,7 +888,7 @@ total=None, role="", env=None) -%}
   {% set new_mode = 'precision' if arg == 'precision' else 'verbose' %}
   {% set state.gm_style = new_mode %}
   {% set gm_style = new_mode %}
-  GM_STYLE → {{ new_mode }}
+  {{ hud_tag('GM_STYLE → ' ~ new_mode ~ ' (persistiert)') }}
 {%- endmacro %}
 
 {% macro helper_delay() -%}
@@ -895,10 +897,17 @@ DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehic
 {% macro helper_comms() -%}
 comms_check(device,range): Pflicht vor radio_tx/rx.
 Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
+Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
 {%- endmacro %}
 {% macro helper_boss() -%}
 Boss-Foreshadow (Mechanik unverändert): Core – M4 und M9 je 2 Hinweise;
 Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
+{%- endmacro %}
+{% macro fr_help() -%}
+FR: ruhig/beobachter/aktiv – wirkt auf Eingriffe in Szene 1.
+{%- endmacro %}
+{% macro boss_status() -%}
+Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {%- endmacro %}
 {% macro show_px() -%}
   {{ px_tracker(state.temp or 0) }}
@@ -928,6 +937,10 @@ Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
     {{ show_px() }}
   {% elif cmd == '!gear shop' %}
     {{ gear_shop() }}
+  {% elif cmd == '!fr help' %}
+    {{ fr_help() }}
+  {% elif cmd == '!boss status' %}
+    {{ boss_status() }}
   {% elif cmd == 'modus precision' %}
     {{ set_mode('precision') }}
   {% elif cmd == 'modus verbose' %}
