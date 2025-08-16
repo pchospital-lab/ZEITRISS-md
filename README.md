@@ -175,7 +175,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   `threshold`. `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
 - **comms_check(device, range)** – Pflicht vor `radio_tx/rx`: validiert Funkgerät,
   Leitung, Relais/Jammer-Override und Reichweite.
-  Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
+  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden.
 
@@ -183,7 +183,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 - `!helper delay` – erklärt `DelayConflict` kurz.
 - `!helper comms` – erklärt `comms_check` & Gerätevoraussetzungen.
-  Tipp: Gerät=Comlink/Kabel/Relais/Jammer-Override prüfen; Reichweite anpassen.
+  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
 ### Runtime-State (Kurzreferenz)
