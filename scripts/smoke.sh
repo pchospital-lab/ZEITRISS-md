@@ -27,11 +27,16 @@ node -e "const rt=require('./runtime');console.log(rt.on_command('!gear shop'))"
 # Debrief renders Px and TEMP
 mkdir -p out
 node tools/test_debrief.js > out/debrief.log
-grep -E "Paradox: .* TEMP" out/debrief.log
+grep -E "Px: .* TEMP" out/debrief.log
 
 # HUD TTL mm:ss and Sweeps/Stress
 node tools/test_hud.js > out/hud.log
 grep -E "TTL [0-9]{2}:[0-9]{2}" out/hud.log
+head -n1 out/hud.log > out/scene_01.log
+tail -n1 out/hud.log > out/scene_02.log
+! grep "Sweeps:" out/scene_01.log
+! grep "Stress " out/scene_01.log
+grep "Sweeps:" out/scene_02.log
 
 # FR tag only visible in scene 1
 node tools/test_fr_tag.js 1 > out/scene_01.log
@@ -44,6 +49,7 @@ GM_STYLE=precision node tools/test_foreshadow.js | grep "Foreshadow low"
 
 # CommsCheck message
 node tools/test_comms.js | grep "CommsCheck failed"
+node tools/test_comms_rx.js | grep 'CommsCheck failed: require valid device/range or relay/jammer override.'
 
 # Save whitelist and HQ guard
 node tools/test_save.js | tee out/save.log
