@@ -70,6 +70,7 @@ function StartMission(){
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0 };
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
+  state.scene = { index: 0, foreshadows: 0 };
 }
 
 function scene_overlay(scene){
@@ -86,6 +87,12 @@ function scene_overlay(scene){
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
     if (state.exfil.stress) h += ` · Stress ${state.exfil.stress}`;
   }
+  const px = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
+  h += ` · Px ${px_bar(px)} (${px}/5)`;
+  const lvl = state.character?.lvl ?? '-';
+  const sysUsed = state.character?.sys_used ?? 0;
+  const sysMax = state.character?.attributes?.SYS_max ?? 0;
+  h += ` · Lvl ${lvl} · SYS ${sysUsed}/${sysMax}`;
   if (s.index === 0 && state.fr_intervention){
     h += ` · FR:${state.fr_intervention}`;
   }
@@ -106,7 +113,7 @@ function must_comms(o){
   if (!comms_check(o.device, o.range)){
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
-      'Tipp: Gerät=Comlink/Kabel/Relay oder Jammer-Override; Reichweite anpassen.'
+      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen.'
     );
   }
 }
