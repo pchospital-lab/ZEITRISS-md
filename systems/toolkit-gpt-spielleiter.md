@@ -681,6 +681,7 @@ Decision: {{ text }}?
   " · Objective: " ~ objective
 ] %}
 {% if campaign.exfil.active %}
+  {% set campaign.exfil.ttl = [campaign.exfil.ttl, 0]|max %}
   {% do segs.append(" · TTL " ~ ttl_fmt(campaign.exfil.ttl)) %}
   {% if campaign.exfil.sweeps %}{% do segs.append(" · Sweeps:" ~ campaign.exfil.sweeps) %}{% endif %}
   {% if campaign.exfil.stress %}{% do segs.append(" · Stress " ~ campaign.exfil.stress) %}{% endif %}
