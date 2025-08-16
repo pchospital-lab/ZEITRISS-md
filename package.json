@@ -1,0 +1,14 @@
+{
+  "name": "zeitriss-runtime-tests",
+  "private": true,
+  "scripts": {
+    "lint:rt": "python3 tools/lint_runtime.py",
+    "smoke": "bash scripts/smoke.sh",
+    "test:save": "node tools/test_save.js",
+    "test:conflict": "node tools/test_conflict.js",
+    "test:hud": "node tools/test_hud.js",
+    "test:debrief": "node tools/test_debrief.js",
+    "test:comms": "node tools/test_comms_rx.js",
+    "test": "npm run lint:rt && npm run smoke && npm run test:save && npm run test:conflict"
+  }
+}
