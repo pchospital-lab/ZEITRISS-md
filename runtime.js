@@ -19,7 +19,7 @@ function px_bar(px){
 function px_tracker(temp){
   const paradox = 0;
   const remaining = 5 - paradox;
-  return `Paradox: ${px_bar(paradox)} · TEMP ${temp} · +1 nach ${remaining} Missionen`;
+  return `Px: ${px_bar(paradox)} · TEMP ${temp} · +1 nach ${remaining} Missionen`;
 }
 
 function render_rewards(){
@@ -56,6 +56,8 @@ function scene_overlay(scene){
   const obj = '?';
   let h = `EP ${ep} · MS ${ms} · SC ${sc}/12 · MODE ${mode} · Objective: ${obj}`;
   if (state.exfil){
+    state.exfil.ttl_min = Math.max(0, state.exfil.ttl_min);
+    state.exfil.ttl_sec = Math.max(0, state.exfil.ttl_sec);
     const ttl = ttl_fmt(state.exfil.ttl_min, state.exfil.ttl_sec);
     h += ` · TTL ${ttl}`;
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
