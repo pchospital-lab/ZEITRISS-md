@@ -86,7 +86,12 @@ def main() -> int:
 
     # Signal & Comms
     req(r"validate_signal", tk, "Runtime Signal-Guard vorhanden", fails)
-    req(r"CommsCheck failed: require valid device/range or relay/jammer override.", tk, "Comms einheitliche Fehlermeldung", fails)
+    req(
+        r"CommsCheck failed: require valid device/range or relay/jammer override.",
+        tk,
+        "Comms einheitliche Fehlermeldung",
+        fails,
+    )
     req(r"macro radio_tx[\s\S]*must_comms", tk, "radio_tx nutzt must_comms", fails)
     req(r"macro radio_rx", tk, "radio_rx Macro vorhanden", fails)
 

@@ -888,12 +888,27 @@ Alle Spielertexte laufen vor dem Speichern durch den Regex-Filter `/Zeitbruch|Cl
     "heat": 0,
     "hp": {"current": "ok", "notes": ""}
   },
-  "team": {
+    "team": {
     "name": "Eislinie",
     "members": [
-      {"name": "Vega",  "role": "Stealth",   "talents": ["sneak","lockpick"], "gear": ["MP5 SD","chameleon_suit"]},
-      {"name": "Rowan", "role": "Tech",      "talents": ["computers","elec"], "gear": ["scanner","auth_spoofer","laptop"]},
-      {"name": "Holt",  "role": "CQB",       "talents": ["cqb","defender"],   "gear": ["shorty","ballistic_vest","smokes"]}
+      {
+        "name": "Vega",
+        "role": "Stealth",
+        "talents": ["sneak", "lockpick"],
+        "gear": ["MP5 SD", "chameleon_suit"]
+      },
+      {
+        "name": "Rowan",
+        "role": "Tech",
+        "talents": ["computers", "elec"],
+        "gear": ["scanner", "auth_spoofer", "laptop"]
+      },
+      {
+        "name": "Holt",
+        "role": "CQB",
+        "talents": ["cqb", "defender"],
+        "gear": ["shorty", "ballistic_vest", "smokes"]
+      }
     ],
     "autoscale": true
   },

@@ -1,9 +1,10 @@
-{{ hud_tag(segs|join('')) }}---
+---
 title: "ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung"
 version: 4.2.0
 tags: [system]
 default_modus: mission-fokus
 ---
+{{ hud_tag(segs|join('')) }}
 {% from "../README.md" import StoreCompliance %}
 {% set campaign = campaign or {} %}
 {% if campaign.compliance_shown_today is not defined %}
@@ -27,7 +28,15 @@ default_modus: mission-fokus
   'hot_exfil_on_ttl_zero': true,
   'px_loss_on_hot_fail': true
 } %}
-{% if campaign.exfil is not defined %}{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}{% endif %}
+{% if campaign.exfil is not defined %}
+  {% set campaign.exfil = {
+    'active': false,
+    'ttl': 0,
+    'hot': false,
+    'sweeps': 0,
+    'stress': 0
+  } %}
+{% endif %}
 {% if codex is not defined %}
   {% set codex = namespace(dev_raw=false) %}
 {% elif codex.dev_raw is not defined %}
@@ -70,7 +79,11 @@ default_modus: mission-fokus
 {% endif %}
 {% if env is not defined %}{% set env = {} %}{% endif %}
 {% if state is not defined %}{% set state = {} %}{% endif %}
-{% set gm_style = env.GM_STYLE if env.GM_STYLE is defined and env.GM_STYLE else state.gm_style if state.gm_style is defined else 'verbose' %}
+{% set gm_style = env.GM_STYLE
+  if env.GM_STYLE is defined and env.GM_STYLE
+  else state.gm_style
+  if state.gm_style is defined
+  else 'verbose' %}
 {% set state.gm_style = gm_style %}
 {% if scene is not defined %}{% set scene = {} %}{% endif %}
 
@@ -540,7 +553,10 @@ if campaign.scene < 10:
     {{ kind in g.allow }}
   {% endif %}
 {%- endmacro %}
-Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt `DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder Verfolgungen.
+Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
+anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt
+`DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder
+Verfolgungen.
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce() -%}
@@ -690,7 +706,9 @@ Decision: {{ text }}?
 {% do segs.append(" · Px " ~ px_bar(campaign.paradox) ~ " (" ~ (campaign.paradox or 0) ~ "/5)") %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
 {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
-{% if campaign.scene == 1 and campaign.fr_intervention %}{% do segs.append(" · FR:" ~ campaign.fr_intervention) %}{% endif %}
+{% if campaign.scene == 1 and campaign.fr_intervention %}
+  {% do segs.append(" · FR:" ~ campaign.fr_intervention) %}
+{% endif %}
 {{ hud_tag(segs|join('')) }}
 {% if pressure %}{{ hud_tag('Pressure: ' ~ pressure) }}{% endif %}
 {{ vehicle_overlay(env) }}
@@ -826,7 +844,9 @@ total=12, role="", env=None) -%}
 {% macro NextScene(loc, objective=None, seed_id=None, pressure=None,
 total=None, role="", env=None) -%}
   {# Konflikte in Szene < delayConflict blocken #}
-  {% if campaign.scene < campaign.delayConflict and role in ["Konflikt","Finale"] and (role not in campaign.delayConflict_allow) %}
+    {% if campaign.scene < campaign.delayConflict
+        and role in ["Konflikt","Finale"]
+        and (role not in campaign.delayConflict_allow) %}
     {{ hud_tag('Konflikt zu früh – DelayConflict(' ~ campaign.delayConflict ~ ') aktiv.') }}
     {% set role = "Beobachtung" %}
   {% endif %}
@@ -858,7 +878,9 @@ total=None, role="", env=None) -%}
   {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
   {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
   {% if not ok %}
-    {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.') }}
+      {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. '
+        ~ 'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override '
+        ~ 'aktivieren; Reichweite anpassen.') }}
   {% endif %}
 {%- endmacro %}
 
@@ -918,7 +940,10 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {% set t2 = level|default(1) >= 6 %}
   {% set t3 = (level|default(1) >= 11) and (faction_rep|default(0) >= 3) %}
   {% set bp = rift_blueprints|default([])|length %}
-  {{ hud_tag('Shop-Tiers: T1:' ~ (t1 and 'true' or 'false') ~ ' T2:' ~ (t2 and 'true' or 'false') ~ ' T3:' ~ (t3 and 'true' or 'false') ~ ' · BP:' ~ bp) }}
+    {{ hud_tag('Shop-Tiers: T1:' ~ (t1 and 'true' or 'false') ~
+      ' T2:' ~ (t2 and 'true' or 'false') ~
+      ' T3:' ~ (t3 and 'true' or 'false') ~
+      ' · BP:' ~ bp) }}
 {%- endmacro %}
 {% macro gear_shop() -%}
   {{ render_shop_tiers(state.level, state.faction_rep, state.rift_blueprints) }}
