@@ -121,3 +121,6 @@ tags: [meta]
 ## 4.2.1 – Signal Hardware Linter
 - Added `lint_signal_devices.py` to enforce hardware references for signal actions.
 - Integrated the linter into the pre-commit hook.
+
+## 4.2.2 – TTL-Anzeige bei 0 begrenzt
+- Szenen-Overlay klemmt die Exfil-TTL auf 0, um negative Werte zu vermeiden.
