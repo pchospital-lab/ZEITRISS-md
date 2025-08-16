@@ -663,7 +663,7 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T31",
         "label": "Imperiale Schachfigur",
-        "effect": "Figur wird Kronzeuge. Töten tabu, Manipulation kostet Paradox, Schutz macht euch zu Leibwächtern."
+        "effect": "Figur wird Kronzeuge. Töten tabu, Manipulation kostet Paradoxon, Schutz macht euch zu Leibwächtern."
       },
       {
         "id": "T32",
@@ -1259,7 +1259,7 @@ _Regel für die Kühlung der Epochengewichte:_
    Megafauna (Mammutherden, Säbelzahntiger) und nomadischen Stämmen. **Besonderheit:** Ein kleines Dorf
    ist in einer Zeitschleife gefangen: Jeden Morgen geht die Sonne nicht auf. Fackeln brennen ewig,
    Tiere wirken verwirrt. Höhlenmalereien deuten auf einen temporalen Meteor hin, der hier einst
-   einschlug. Die Chrononauten müssen das prähistorische Paradox beheben, während misstrauische
+   einschlug. Die Chrononauten müssen das prähistorische Paradoxon beheben, während misstrauische
    Schamanen und hungrige Bestien ihnen zusetzen.
 2. **Ägyptisches Neues Reich** (1250 v.Chr.) – _Setting:_ Glühende Wüstensonne, monumentale Tempel
    und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Artefakt in einer
@@ -1958,8 +1958,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   harte Feuer­gefechte.
 - **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2,
   einmal pro Szene Riposte‑Konter).
-- **Paradoxon** steigt ausschließlich, wenn CT‑Genesis kurz davor ist, den
-  Atomkrieg auszulösen.
+- **Paradoxon** stagniert oder sinkt ausschließlich, wenn CT‑Genesis kurz davor
+  ist, den Atomkrieg auszulösen.
 
 Damit hast du denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
 sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS-Feeling.

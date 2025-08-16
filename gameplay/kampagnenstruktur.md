@@ -260,9 +260,9 @@ Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entspr
   Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks,
   werden im HQ analysiert und können gesammelt oder unter den Agenten getauscht werden.
   Beispiele liefert die Tabelle „Kuriose Artefakte & Relikte“ im Generator-Modul.
- - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
-   zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradox-Subsystem
-   steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
+- **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
+  zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradoxon-Subsystem
+  steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
 
 #### Boss-Rhythmus pro Episode
 
@@ -288,10 +288,10 @@ Mini-Bosse nutzen keine Zeittricks. Episoden-Bosse dürfen genau einen kurzen Ch
 *Hinweis:* Boss erscheint weiterhin Core: **M5/M10**, Rift: **Szene 10**.
 
 
-#### Paradox-Subsystem
+#### Paradoxon-Subsystem
 
 Weitere Details stehen im
-[Paradox-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem).
+[Paradoxon-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem).
 Dieses Kapitel fasst die Effekte kurz zusammen:
 
 | Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
@@ -300,7 +300,7 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 | 2     | einmalig −1 Stress                     | –                                            |
 | 3     | Gruppe heilt 1 HP                      | –                                            |
 | 4     | +2 Initiative auf nächste Handlung     | "Riss-Vorstufe"-Flag                         |
-| **5** | Heat-Reset, 2 PP, Zustände weg          | **ClusterCreate()** → 1–2 Seeds; Paradox = 0 |
+| **5** | Heat-Reset, 2 PP, Zustände weg          | **ClusterCreate()** → 1–2 Seeds; Paradoxon = 0 |
 
 Der Index wird kampagnenweit verfolgt. Bei Stufe 5 macht `ClusterCreate()` 1–2 neue
 Rift-Seeds sichtbar.
@@ -419,8 +419,8 @@ Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed en
 | 2            | +2               | 1.4            |
 
 Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
-Ablauf der Geschichte wahrt, generiert weniger Paradox-Punkte; plumpes Vorgehen
-treibt den Zähler schneller hoch.
+Ablauf der Geschichte wahrt, generiert mehr Paradoxon-Punkte; plumpes Vorgehen
+senkt den Zähler schneller.
 
 ##### Rifts sammeln {#rifts-sammeln}
 
@@ -456,7 +456,7 @@ if last_player_epoch == requested_epoch
 
 Das Macro `redirect_same_slot()` verschiebt den Einsatzstart um mindestens sechs
 Stunden. Bewahren und Triggern führen zum gleichen Ergebnis; nur Stil und
-Paradox-Wert variieren.
+Paradoxon-Wert variieren.
 
 #### Rift-Side-Ops
 
@@ -850,15 +850,15 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 7. Lagerhaus durchsuchen – alte Karten finden.
 8. Mutierte Tiere greifen aus Schatten an.
 9. Tunnel unter der Brücke entdecken.
-10. Paradox-Wellen reißen Mauerstücke weg.
+10. Seismische Stöße reißen Mauerstücke weg.
 11. Mothman-Sichtung am Brückenbogen.
 12. Kampf gegen Kultisten, die Portal stabilisieren wollen.
 13. Portal schließen oder abstürzende Brücke riskieren.
-14. Debrief – 800 CU, Paradox sinkt auf 0.
+14. Debrief – 800 CU, Paradoxon sinkt auf 0.
 
 #### Dev-Check-Liste
 
-- Paradox-Tracker 0–5 bleibt bestehen.
+- Paradoxon-Tracker 0–5 bleibt bestehen.
 - Bei Level 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
 - Rift-Pool als Array: `seed_id` und `status(open/closed)`.
 - Schwierigkeit = `base_dc + open_seeds`.
@@ -953,7 +953,7 @@ HQ:
   und Zugriff auf historische Daten. Mit einer erweiterten Kommandozentrale könnten z. B. neue
   Missionen früher erkannt oder Gefahren in der Timeline prognostiziert werden.
 - **Labor für temporale Forschung:** Hier untersuchen Wissenschaftler\*innen und Agenten
-  zeitverzerrte Artefakte, Paradox-Energien und neue Technologien. Ein Labor-Ausbau erhöht die
+  zeitverzerrte Artefakte, Paradoxon-Energien und neue Technologien. Ein Labor-Ausbau erhöht die
   Chancen, **technologische Upgrades** oder hilfreiche Gadgets zu entwickeln. Im Spiel kann dies
   bedeuten, dass die Gruppe zwischen Missionen neue Ausrüstung freischaltet oder bessere Methoden
   erhält, Anomalien zu analysieren.
@@ -979,7 +979,7 @@ HQ:
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
   Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
   Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
-  Beschwerden** (z. B. Alterungseffekte durch Zeitsprünge oder Paradox-Erkrankungen) hier behandelt
+  Beschwerden** (z. B. Alterungseffekte durch Zeitsprünge oder Paradoxon-Erkrankungen) hier behandelt
   werden, was dem Team erlaubt, nach riskanten Missionen schneller wieder einsatzbereit zu sein.
 - **Archive & Codex:** Eine umfangreiche Bibliothek bzw. Datenbank, in der Wissen aus allen Epochen
   gesammelt wird. Im ZEITRISS-Universum könnte dies der **Codex** sein – eine KI-gestützte Sammlung
@@ -1285,8 +1285,8 @@ So könnt ihr den Codex gezielt einsetzen:
   heimlich zuhören).
  - **Charaktermomente im Codex:** Der Codex kann auch Erinnerungen oder Holo-Rekonstruktionen von Charakteren
   darstellen. Beispielsweise erlebt ein Agent in einer Zwischensequenz einen Traum oder eine Vision,
-  die eigentlich vom Codex induziert wird – etwa um vor einem drohenden Paradox zu warnen, erscheinen
-  Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
+  die eigentlich vom Codex induziert wird – etwa um auf einen bevorstehenden Riss hinzuweisen,
+  erscheinen Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
   Foreshadowing zu betreiben oder moralische Fragen aufzuwerfen, ohne direkt durch NSCs eingreifen zu
   müssen.
 
@@ -1304,7 +1304,7 @@ Tiefe und Abwechslung, ohne den Spielfluss zu stören.
 spürbar werden. Nichts steigert die Immersion mehr, als wenn die Gruppe merkt, dass sie die Welt –
 oder in ZEITRISS gar die Zeit selbst – nachhaltig verändert. Hierfür führt das Modul einige
 Mechaniken ein, die **langfristige Entwicklungen** abbilden: **Ruf**, **Einflusszonen**,
-**historische Auswirkungen** und **Paradox-Verschiebungen**. Diese Konzepte greifen ineinander und
+**historische Auswirkungen** und **Paradoxon-Verschiebungen**. Diese Konzepte greifen ineinander und
 erzeugen zusammen ein Gefühl fortschreitender Geschichte.
 
 - **Ruf und Ansehen:** Wie beim Fraktionsmanagement beschrieben, sammelt die Gruppe Ruf innerhalb des ITI-Systems.
@@ -1336,25 +1336,25 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   alternativen Zukunft auf, der aus der von den Spielern geschaffenen Zeitlinie stammt – konfrontiert
   die Agenten mit den Folgen ihres Handelns. So spürt die Gruppe den **Verantwortungsdruck**, der mit
   der Macht über die Zeit einhergeht.
-- **Paradox-Verschiebungen:** Wenn man an der Zeit selbst manipuliert, bleibt dies nicht ohne
-  Risiko. Hier kommt das Konzept der Paradox-Verschiebungen ins Spiel. Jedes Eingreifen, das der
+- **Paradoxon-Verschiebungen:** Wenn man an der Zeit selbst manipuliert, bleibt dies nicht ohne
+  Risiko. Hier kommt das Konzept der Paradoxon-Verschiebungen ins Spiel. Jedes Eingreifen, das der
   „ursprünglichen“ Geschichte widerspricht, erzeugt eine gewisse **paradoxe Energie**. Das Modul
   schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen. Kleine Änderungen
-  (die im großen Gefüge keine Wellen schlagen) erhöhen den Wert nur minimal, aber große Eingriffe
-  (z. B. das Überleben einer Person, die ursprünglich sterben sollte) steigern das Paradox deutlich.
+  (die im großen Gefüge keine Wellen schlagen) senken den Wert nur minimal, aber große Eingriffe
+  (z. B. das Überleben einer Person, die ursprünglich sterben sollte) senken oder lassen das Paradoxon deutlich stagnieren.
   Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
   beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen – würfelt.
   Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
-  im Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradox
+  im Kreaturen- & Gestalten-Generator eine passende Erscheinung –, die versuchen, das Paradoxon
   „aufzufressen“. Diese Ereignisse sind exzellente Aufhänger für Zwischenspiele. Vielleicht müssen die
   Agenten ein **Paradoxon glätten**, indem sie einen Teil der Änderung rückgängig machen oder einen
-  Ausgleich in der Timeline schaffen. Gelingt es ihnen, sinkt der Paradox-Zähler wieder. Schaffen sie es
-  nicht, kann aus der Paradox-Verschiebung ein dauerhaftes Phänomen werden (z. B. ein Riss in der
+  Ausgleich in der Timeline schaffen. Gelingt es ihnen, sinkt der Paradoxon-Zähler wieder. Schaffen sie es
+  nicht, kann aus der Paradoxon-Verschiebung ein dauerhaftes Phänomen werden (z. B. ein Riss in der
   Realität, den man im HQ überwachen und eindämmen muss).
 
 Durch diese langfristigen Mechaniken bleibt die Kampagnenwelt im Fluss. Die Spieler sehen direktes
 **Feedback auf ihr Tun**: Ihr Einfluss wächst, ihre Taten formen Geschichte, doch zugleich müssen
-sie mit den Konsequenzen wie Paradox-Effekten umgehen. Diese Balance aus Erfolg und Verantwortung
+sie mit den Konsequenzen wie Paradoxon-Effekten umgehen. Diese Balance aus Erfolg und Verantwortung
 sorgt für anhaltende Motivation. Die Kampagne wird so zu einer lebenden Chronik, die sich gemeinsam
 mit den Spielern entfaltet.
 
@@ -1570,10 +1570,10 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 | **Event-NPC** | 1 | Random Duelist, Street-Race Announcer | 10 % Spawn-Chance; Mini-Game |
 ### 5 | Item- & Service-Matrix in Chronopolis
 
-| Kategorie             | Nutzen                                   | Preis    | Paradox-Risiko             |
+| Kategorie             | Nutzen                                   | Preis    | Paradoxon-Risiko           |
 | --------------------- | ---------------------------------------- | -------- | -------------------------- |
-| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | +1 Px bei Erstflug         |
-| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | +1 Px bei öffentl. Nutzung |
+| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | -1 Px bei Erstflug         |
+| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | -1 Px bei öffentl. Nutzung |
 | **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
 
 _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
@@ -1582,14 +1582,14 @@ _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenz
 
 - **Keine Meta-Reveals** über Realität / Bewusstsein.
 - **Keine Variablen Stadtgeometrie** – Gebäude bleiben identisch, nur Personen wechseln.
-- **Keine Auto-Paradox-Explosion** beim Betreten; Chronopolis ist _zeitverankert_.
+- **Keine Auto-Paradoxon-Explosion** beim Betreten; Chronopolis ist _zeitverankert_.
 
 ### 7 | Cutscene & UI-Flow
 
 1. **Warn-Popup (einmalig)**
    „Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.“
    Buttons: _Abbrechen_ / _Eintreten_
-2. **5-s Establishing Shot** über ringförmige Skyline → Fade to Player Spawn-Point „Paradox Plaza“.
+2. **5-s Establishing Shot** über ringförmige Skyline → Fade to Player Spawn-Point „Paradoxon Plaza“.
 3. **UI-Banner**: „Bewohner wechseln mit jedem Besuch – halte Ausschau nach seltenen Händlern!“
 
 _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
@@ -1611,7 +1611,7 @@ _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
 3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
 4. Händler „Temporal Shipwright Novara“ bietet **Chronoglider MK II** an.
-5. Spieler kauft Item → +1 Paradox-Punkt erst beim ersten Einsatz außerhalb Chronopolis.
+5. Spieler kauft Item → -1 Paradoxon-Punkt erst beim ersten Einsatz außerhalb Chronopolis.
 6. Verlassen → Instanz-Cache gelöscht. Nächster Eintritt ⇒ komplette Neu-Population.
 
 ### Chronopolis Static Map Blueprint
@@ -1670,7 +1670,7 @@ _Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch._
 
 | Tag          | Koordinaten (x,y,z) | Nutzung                                         |
 | ------------ | ------------------- | ----------------------------------------------- |
-| `SPWN_PLAZA` | 0,0,0               | Standard-Einstieg auf der Paradox Plaza.        |
+| `SPWN_PLAZA` | 0,0,0               | Standard-Einstieg auf der Paradoxon Plaza.      |
 | `SPWN_DOCK`  | -260,180,0          | Tutorial für Schiffs-Upgrades.                  |
 | `SPWN_BAZ`   | 260,180,0           | Händler-Hotspot mit mindestens drei Verkäufern. |
 | `SPWN_ARCH`  | -260,-180,0         | Questgeber-Cluster.                             |
@@ -1708,7 +1708,7 @@ Die Engine ersetzt nur Population, keine Geometrie.
 | `C0`     | Start 100 m über dem Spire, Kamera neigt 15° nach unten.      |
 | `C1`     | Abstieg auf 60 m, 20° Roll nach rechts, Ω-Ring wird sichtbar. |
 | `C2`     | Kurzer Schwenk über Dockyard-Kräne (2 s).                     |
-| `C3`     | Fahrt zur Paradox Plaza, Ausblendung 8 m über Boden.          |
+| `C3`     | Fahrt zur Paradoxon Plaza, Ausblendung 8 m über Boden.        |
 
 _Gesamtlänge 5 s bei 60 fps._
 
@@ -1742,12 +1742,12 @@ verwandelt sich von einer simplen Basis zu einem lebendigen Mittelpunkt, an dem 
 Erinnerungen der Gruppe sichtbar werden. **Beziehungsnetzwerke** zu NSCs, Fraktionen und innerhalb
 des Teams verweben persönliche Geschichten mit der großen Zeitchronik, sodass jeder Sieg und jede
 Niederlage auf mehreren Ebenen Bedeutung trägt. Langfristige **Entwicklungen** wie Ruf,
-Einflussgebiete und die Paradoxmechanik stellen sicher, dass die Taten der Agenten konsequenzenreich
+Einflussgebiete und die Paradoxonmechanik stellen sicher, dass die Taten der Agenten konsequenzenreich
 nachhallen. Und schließlich füllen **Erzählpausen im HQ** die Lücken zwischen den Einsätzen mit
 Leben, Humor und Herz.
 
 All diese Elemente sind modular – Spielrunden können jene Teile herausgreifen, die zu ihrem Stil
-passen. Wer mehr Action möchte, fokussiert auf Missionen und Paradox-Effekte; wer Drama liebt,
+ passen. Wer mehr Action möchte, fokussiert auf Missionen und Paradoxon-Effekte; wer Drama liebt,
 vertieft Beziehungen und Alltagssequenzen. Die **klare Struktur** hilft der Spielleitung, den
 Überblick zu bewahren, während die Spieler sich im dichten Geflecht der Story verlieren können. So
 entsteht das typische **ZEITRISS-Flair**: eine Kampagne, die sich anfühlt wie eine mitreißende
