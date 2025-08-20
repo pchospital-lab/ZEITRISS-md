@@ -119,8 +119,9 @@ Debrief und Save (HQ-only).
 
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
-- **PSI:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
-- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)`
+- **PSI:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` –
+  Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt nach jedem Konflikt auf 0.
+- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` – führt keinen Heat-Track.
 In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
 In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
