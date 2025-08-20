@@ -345,7 +345,6 @@ Module zählen nicht._
 - **Lagerort:** ITI-Arsenal „Taktische Erweiterungen“, freigeschaltet ab Ruf +1 oder als
   Missionsbelohnung.
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
-- **Stacking:** Bei übermäßigem Gear-Stack kann die SL den SG situativ um **+1** anheben.
 
 ## Legalitäts- & Wartungs-Stufen {#legalitäts--wartungs-stufen}
 
