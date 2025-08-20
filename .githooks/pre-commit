@@ -1,6 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(md|txt)$' || true)
+if [[ -n "$files" ]]; then
+  for f in $files; do
+    iconv -f UTF-8 -t UTF-8 "$f" -o "$f" || { echo "[Hook] $f nicht UTF-8"; exit 1; }
+    python3 - <<'PY' "$f"
+import sys, unicodedata, pathlib
+p = pathlib.Path(sys.argv[1])
+s = p.read_text(encoding="utf-8")
+p.write_text(unicodedata.normalize("NFC", s), encoding="utf-8")
+PY
+  done
+  git add $files
+fi
+
 # If pre-commit is available, use it; otherwise fall back to local lints
 if command -v pre-commit >/dev/null 2>&1 && [[ -f ".pre-commit-config.yaml" ]]; then
   pre-commit run --all-files --hook-stage commit
@@ -16,4 +30,3 @@ python3 -m scripts.lint_chronopolis
 python3 -m scripts.check_lint_anchors
 
 echo "pre-commit (fallback): OK"
-
