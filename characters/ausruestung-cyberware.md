@@ -47,6 +47,15 @@ Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinf
 werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und
 kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
 
+**Item-DSL** (für neue Gegenstände):
+```
+<NAME> · Typ: Gear/Cyber/Bio/Consumable · Kosten: <CU> · SYS: <0/1/2>
+Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
+```
+
+**Guardrails:** Gear ohne SYS; Cyber/Bio mit SYS 1–2; Consumables einmalig,
+kleine PP/Heat-Effekte mit Tradeoff.
+
 Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
 
 
@@ -80,6 +89,14 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag | 900 |
 | Void-Blade | ignoriert Rüstung 2, Paradox-safe | 900 |
 | Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit | 900 |
+
+#### Konforme Beispielausrüstung
+
+`Fokusnetz · Typ: Gear · Kosten: 300 CU · SYS: 0`
+`Effekt: 1×/Szene +1 auf einen Psi-Wurf oder diese Aktion baut 0 Heat · Limit: 1×/Szene · Tradeoff: +1 Stress bei Beschuss`
+
+`Neurotonikum-Ampulle · Typ: Consumable · Kosten: 100 CU · SYS: 0`
+`Effekt: sofort +2 PP · Limit: 1× · Tradeoff: +1 Stress`
 
 
 \*\> **_Hinweis:_** Alle Werte und Beispiele in diesem Modul sind Vorschläge, die auf Spielbalance
@@ -328,6 +345,7 @@ Module zählen nicht._
 - **Lagerort:** ITI-Arsenal „Taktische Erweiterungen“, freigeschaltet ab Ruf +1 oder als
   Missionsbelohnung.
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
+- **Stacking:** Bei übermäßigem Gear-Stack kann die SL den SG situativ um **+1** anheben.
 
 ## Legalitäts- & Wartungs-Stufen {#legalitäts--wartungs-stufen}
 

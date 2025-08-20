@@ -339,15 +339,26 @@ if paradox_level >= threshold:
 
 ### Post-Op Sweep (optional)
 
-Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Minuten** (Mission kann abweichen).
+Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Minuten**.
 
-**Pro Sweep-Szene:**
+**Begriffe:**
 
-- `TTL − 2 Minuten`
-- `Stress +1` (beim ausführenden Agenten)
-- Bei Komplikation/Teil-Alarm zusätzlich `Stress +1`.
+- **IA – Insertion Anchor:** Einstiegspunkt der Mission.
+- **RW – Return Window:** Zeitfenster für den Rücksprung.
 
-**TTL ≤ 0 ⇒ Hot-Exfil**: 2–3 kurze, harte Szenen; Misslingen kann **Px–1** bedeuten.
+**Ablauf:**
+
+1. **Standard-Rücksprung nur vom IA.** Das Team kehrt dorthin zurück und armiert das RW.
+   - **IA kompromittiert?**
+     - **Option A:** IA zurückerobern (kurze Szene; Fail-Forward → Verfolgung/Tradeoff).
+     - **Option B:** Alt-Anchor definieren (1 Szene; Fail-Forward → Zeitverlust/Spuren).
+2. **Sweep vs. RW:** Solange ein Sweep läuft, kann das RW nicht armiert werden.
+   Jede Sweep-Szene kostet `TTL − 2 Min` und `Stress +1` (Ausführender). Nach dem Sweep
+   muss das Team zum IA oder Alt-Anchor und dort das RW arminieren.
+3. **Interruption-Check** bei aktivem Druck (z.B. Patrouille, Sirene). Fail-Forward → Chase oder kleiner Tradeoff.
+4. **Nullzeit-Beat Pflicht:** Vor dem HQ-Cut immer der kurze Transfer-Moment (Kälte, Licht, 3…2…1).
+
+**TTL ≤ 0 ⇒ Hot-Exfil:** 2–3 kurze, harte Szenen; Misslingen kann **Px–1** bedeuten.
 
 Empfehlung: **0–2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das Risiko.
 **Speichern** bleibt **HQ-exklusiv**.
