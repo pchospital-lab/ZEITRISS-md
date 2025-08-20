@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
