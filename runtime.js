@@ -83,16 +83,32 @@ function scene_overlay(scene){
     state.exfil.ttl_min = Math.max(0, state.exfil.ttl_min);
     state.exfil.ttl_sec = Math.max(0, state.exfil.ttl_sec);
     const ttl = ttl_fmt(state.exfil.ttl_min, state.exfil.ttl_sec);
-    h += ` · TTL ${ttl}`;
+    const ancr = state.exfil.anchor || '?';
+    h += ` · ANCR ${ancr} · RW ${ttl}`;
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
     if (state.exfil.stress) h += ` · Stress ${state.exfil.stress}`;
   }
   const px = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
-  h += ` · Px ${px_bar(px)} (${px}/5)`;
   const lvl = state.character?.lvl ?? '-';
   const sysUsed = state.character?.sys_used ?? 0;
   const sysMax = state.character?.attributes?.SYS_max ?? 0;
-  h += ` · Lvl ${lvl} · SYS ${sysUsed}/${sysMax}`;
+  const sysFree = sysMax - sysUsed;
+  const stress = state.character?.stress ?? 0;
+  if (state.character?.psi_flag){
+    const pp = state.character?.pp ?? 0;
+    const ppMax = state.character?.pp_max ?? 0;
+    const heat = state.character?.heat ?? 0;
+    h += ` · PP ${pp}/${ppMax} · Heat ${heat} · SYS ${sysUsed}/${sysMax} (free ${sysFree})`;
+    h += ` · Stress ${stress} · Px ${px_bar(px)} (${px}/5)`;
+  } else {
+    const ammo = state.character?.ammo;
+    const charges = state.character?.charges;
+    if (ammo != null) h += ` · Ammo ${ammo}`;
+    else if (charges != null) h += ` · Charges ${charges}`;
+    if (sysMax > 0) h += ` · SYS ${sysUsed}/${sysMax} (free ${sysFree})`;
+    h += ` · Stress ${stress} · Px ${px_bar(px)} (${px}/5)`;
+  }
+  h += ` · Lvl ${lvl}`;
   if (s.index === 0 && state.fr_intervention){
     h += ` · FR:${state.fr_intervention}`;
   }

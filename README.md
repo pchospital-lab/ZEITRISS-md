@@ -117,8 +117,11 @@ Debrief und Save (HQ-only).
 > Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
-Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective · TTL mm:ss ·
-Sweeps:n · Stress X · Px █░░░░ (0/5) · Lvl · SYS`.
+Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
+klassenabhängige Ressourcen:
+- **PSI:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
+- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)`
+In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
 In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
 auf schmalen Zeilen blendet das System den Rank automatisch aus.
@@ -204,18 +207,19 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 ## Exfil-Fenster & Sweeps
 
 Sobald das **Primärziel** erreicht ist, öffnet sich ein
-**Exfil-Fenster** mit einer **Ablaufzeit (TTL)**.
+**Exfil-Fenster** mit einer **Ablaufzeit (RW)**.
 Spielende können nun **optionale Sweep-Szenen** spielen
 (z. B. Räume nachlooten, Keycards nutzen, Spuren sichern).
-Jede Sweep-Szene **kostet TTL** und **erhöht den Stress** des
-ausführenden Agenten.
-Sinkt die TTL auf **0**, erzwingt das System einen
+Jede Sweep-Szene **kostet RW** und **erhöht den Stress** des
+ausführenden Agenten. Sweep und Rücksprung laufen **nie parallel** –
+das RW muss am **IA** oder einem Alt-Anchor **bewusst armiert** werden.
+Sinkt der RW-Timer auf **0**, erzwingt das System einen
 **Hot-Exfil** (kurzer, riskanter Abzug).
 Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
 **0–2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
-**HUD** zeigt ab Zielerfüllung `TTL mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
+**HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
 
 ## Level & EP-Kurve
 

@@ -632,8 +632,9 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr (
 
 ### Psi-Heat-Track {#psi-heat-track}
 
-- Jede Aktivierung eines Psi-Talents erzeugt **Heat +1** (außer
-  Talenttext sagt etwas anderes).
+- Heat betrifft nur **psi-begabte** Charaktere.
+- In Konfliktszenen baut jede **aktive Psi-Aktion** **Heat +1** auf (außer der Talenttext sagt
+  etwas anderes).
 - Heat > 4 → −1 Initiative.
 - Heat ≥ 5 → **SG +4** auf alle Proben.
 - Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
@@ -641,7 +642,7 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr (
 - Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine
   Willenskraftprobe (CHA)
   gegen den doppelten Heat-Level gelingt. Kühl-Gear kann Heat sofort senken.
-  Nach dem Kampf springt Heat automatisch auf 0.
+  Nach jedem Kampf oder Konfliktblock springt Heat automatisch auf 0.
 
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende
