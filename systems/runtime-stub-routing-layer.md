@@ -1,7 +1,7 @@
 ---
 title: "ZEITRISS 4.2.0 – Runtime Stub & Routing Layer (Text-Edition)"
 version: 4.2.0
-tags: [systems]
+tags: [system]
 ---
 
 # ZEITRISS 4.2.0 – Runtime Stub & Routing Layer (Text-Edition)
