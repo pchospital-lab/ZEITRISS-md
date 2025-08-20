@@ -29,12 +29,19 @@ leichtgewichtig** in der Anwendung.
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
 `EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
-`· TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys}/{sys_max}`.
+`· TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies
   bei Bedarf.
+
+### HUD-Layouts nach Klassen
+
+- **PSI-Chars:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
+- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)`
+- **Exfil-Phase:** `ANCR: Hinterhof · RW: 07:30`
+- **Gemeinsam:** Szene-Ticker `SC x/12` nur an Übergängen, Overcharge als Flag `OC 0/1`.
 
 ## Zustände und Statuseffekte
 
@@ -321,6 +328,11 @@ Neben physischen Bedrohungen können **Stress und Zeitparadoxa** an den Charakte
 optionalen Module erlauben es, **mentale und temporale Belastungen** abzubilden, die über bloße
 Lebenspunkte hinausgehen:
 
+- **Stress-Reset:** Stress betrifft **alle Klassen** und steigt bei Druck oder Fehlschlägen. Im
+  HQ oder der Medbay fällt der Zähler auf **0**; eine kurze Ruhephase senkt ihn um **1**.
+- **PP = TEMP:** Der PP-Pool entspricht der **Temporalen Affinität**. Ruhephasen und Talente wie
+  _Meditation_ oder _Verbesserte Meditation_ regenerieren **1–2 PP**; Gear oder Consumables können
+  situativ **+1–2 PP** gewähren.
 - **Stresspunkte & Druck:** In turbulenten Missionen sammeln sich mitunter **mentaler Druck und
   Anspannung** an – sei es durch ständige Gefahr, Zeitdruck oder persönliche Konflikte. Die SL kann
   ein **Stresspunktekonto** einführen, das für einen Charakter (oder sogar das Team) mitläuft.
@@ -407,7 +419,12 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 `Paradoxon 3/5 · Resonanz ↑`
 `Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
 `Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`
+`Paradoxon −1 · Backlash`
 
+- **Beispielwerte:**
+  - **+1** sauber/leise (Gerät gesichert, diskrete Exfil)
+  - **0** laut, aber ohne gravierende Spuren
+  - **−1** Backlash, grobe Störung, Anker kompromittiert oder Zivilisten gefährdet
 - Banner erscheint immer am Szenenende. Farben:
 - rot 0–2 · gelb 3–4 · grün 5
 

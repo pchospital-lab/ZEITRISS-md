@@ -34,7 +34,9 @@ default_modus: mission-fokus
     'ttl': 0,
     'hot': false,
     'sweeps': 0,
-    'stress': 0
+    'stress': 0,
+    'anchor': '?',
+    'armed': false
   } %}
 {% endif %}
 {% if codex is not defined %}
@@ -660,15 +662,42 @@ Decision: {{ text }}?
   {{ mm ~ ':' ~ ss }}
 {%- endmacro %}
 
-{% macro open_exfil_window(ttl=None) -%}
+{% macro open_exfil_window(ttl=None, anchor='?') -%}
   {% if ttl is none %}{% set ttl = exfil.ttl_start_minutes %}{% endif %}
-  {% set campaign.exfil = {'active': true, 'ttl': ttl, 'hot': false, 'sweeps': 0, 'stress': 0} %}
-  {{ hud_tag('Exfil-Fenster aktiv · TTL ' ~ ttl_fmt(campaign.exfil.ttl)) }}
+  {% set campaign.exfil = {
+    'active': true,
+    'ttl': ttl,
+    'hot': false,
+    'sweeps': 0,
+    'stress': 0,
+    'anchor': anchor,
+    'armed': false
+  } %}
+  {{ hud_tag('Exfil-Fenster aktiv · ANCR ' ~ anchor ~ ' · RW ' ~ ttl_fmt(campaign.exfil.ttl)) }}
 {%- endmacro %}
 
 {% macro trigger_hot_exfil() -%}
   {% set campaign.exfil.hot = true %}
   {{ hud_tag('Objective: HOT-Exfil') }}
+{%- endmacro %}
+
+{% macro arm_return_window(loc) -%}
+  {% if not campaign.exfil.active %}{{ hud_ping('Kein Exfil aktiv') }}
+  {% elif campaign.exfil.armed %}{{ hud_ping('RW bereits armiert') }}
+  {% elif loc != campaign.exfil.anchor and loc != campaign.exfil.alt_anchor %}
+    {{ hud_ping('Falscher Anchor') }}
+  {% else %}
+    {% set campaign.exfil.armed = true %}
+    {{ hud_tag('Return Window armiert') }}
+  {% endif %}
+{%- endmacro %}
+
+{% macro set_alt_anchor(loc) -%}
+  {% if campaign.exfil.active %}{% set campaign.exfil.alt_anchor = loc %}{% endif %}
+{%- endmacro %}
+
+{% macro interruption_check(active) -%}
+  {% if active %}{{ hud_tag('Interruption-Check') }}{% endif %}
 {%- endmacro %}
 
 {% macro exfil_complication() -%}
@@ -699,13 +728,25 @@ Decision: {{ text }}?
 ] %}
 {% if campaign.exfil.active %}
   {% set campaign.exfil.ttl = [campaign.exfil.ttl, 0]|max %}
-  {% do segs.append(" · TTL " ~ ttl_fmt(campaign.exfil.ttl)) %}
+  {% do segs.append(" · ANCR " ~ (campaign.exfil.anchor or '?') ~ " · RW " ~ ttl_fmt(campaign.exfil.ttl)) %}
   {% if campaign.exfil.sweeps %}{% do segs.append(" · Sweeps:" ~ campaign.exfil.sweeps) %}{% endif %}
   {% if campaign.exfil.stress %}{% do segs.append(" · Stress " ~ campaign.exfil.stress) %}{% endif %}
 {% endif %}
-{% do segs.append(" · Px " ~ px_bar(campaign.paradox) ~ " (" ~ (campaign.paradox or 0) ~ "/5)") %}
+{% set px = campaign.paradox or 0 %}
+{% set sys_free = (char.sys_max or 0) - (char.sys or 0) %}
+{% if char.psi_flag %}
+  {% do segs.append(" · PP " ~ char.pp ~ "/" ~ char.pp_max) %}
+  {% do segs.append(" · Heat " ~ char.heat) %}
+  {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max ~ " (free " ~ sys_free ~ ")") %}
+  {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
+  {% do segs.append(" · Px " ~ px_bar(px) ~ " (" ~ px ~ "/5)") %}
+{% else %}
+  {% if char.ammo is defined %}{% do segs.append(" · Ammo " ~ char.ammo) %}{% elif char.charges is defined %}{% do segs.append(" · Charges " ~ char.charges) %}{% endif %}
+  {% if char.sys_max %}{% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max ~ " (free " ~ sys_free ~ ")") %}{% endif %}
+  {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
+  {% do segs.append(" · Px " ~ px_bar(px) ~ " (" ~ px ~ "/5)") %}
+{% endif %}
 {% do segs.append(" · Lvl " ~ (char.lvl or '-')) %}
-{% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max) %}
 {% if campaign.scene == 1 and campaign.fr_intervention %}
   {% do segs.append(" · FR:" ~ campaign.fr_intervention) %}
 {% endif %}
@@ -743,7 +784,7 @@ total=12, role="", env=None) -%}
   {% set campaign.heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
-  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
+  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
   {% if campaign.scene == 1 %}
     {{ ShowComplianceOnce() }}
   {% endif %}
@@ -752,7 +793,7 @@ total=12, role="", env=None) -%}
     {% set campaign.scene_total = total %}
   {% endif %}
   {% set total = campaign.scene_total %}
-  {% if campaign.exfil.active %}
+  {% if campaign.exfil.active and not campaign.exfil.armed %}
     {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
       {{ trigger_hot_exfil() }}
     {% else %}
@@ -761,6 +802,7 @@ total=12, role="", env=None) -%}
       {% set campaign.exfil.stress = (campaign.exfil.stress or 0) + exfil.stress_gain_per_sweep %}
       {% set char.stress = (char.stress or 0) + exfil.stress_gain_per_sweep %}
       {{ hud_ping('Stress +' ~ exfil.stress_gain_per_sweep) }}
+      {{ interruption_check(pressure) }}
       {% if campaign.exfil.ttl <= 0 and exfil.hot_exfil_on_ttl_zero %}
         {{ trigger_hot_exfil() }}
       {% endif %}
@@ -1230,7 +1272,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ transfer_back_to_hq(campaign, tcfg, hot=hot) }}
 {% endif %}
 {% set campaign.loc = 'HQ' %}
-{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
+{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
 {% if char.lvl < 10 %}
   {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
 {% endif %}
@@ -1507,6 +1549,26 @@ Gib zusätzlich ein `year` an, wählt ItemForge historische Skins über `altSkin
 Die Würfe laufen verdeckt; `!reveal` zeigt sie auf Wunsch.
 Heavy-Gear setzt die passende Lizenz voraus; `force=true` ignoriert diese Beschränkung.
 Findet das Macro nichts Passendes, meldet Codex `NONE`.
+
+**Item-DSL:**
+```
+<NAME> · Typ: Gear/Cyber/Bio/Consumable · Kosten: <CU> · SYS: <0/1/2>
+Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
+```
+
+**Guardrails:**
+- **Gear:** kein SYS, kleine Vorteile, Limit 1×/Szene oder 1×/Mission.
+- **Cyber/Bio:** SYS 1–2, moderate permanente Boni/Trigger – keine +2‑„Godbuttons“.
+- **Consumables:** einmalig; +PP/−Heat nur in kleinen Dosen, oft mit kleinem Stress‑Tradeoff.
+- **Heat-Interaktion:** keine globalen „−1 Heat pro Einsatz“-Auren; erlaubt ist 1× pro Konflikt 1 Heat venten oder eine Psi-Aktion ohne Heat (nicht beides).
+- **PP-Boosts:** maximal +1–2 PP, höchstens 2× pro Mission; ggf. +1 Stress.
+
+{% macro validate_item(item) -%}
+  {% if item.typ == 'Gear' and (item.sys or 0) > 0 %}INVALID: Gear ohne SYS{% endif %}
+  {% if item.typ in ['Cyber','Bio'] and (item.sys or 0) not in [1,2] %}INVALID: Cyber/Bio SYS 1–2{% endif %}
+  {% if item.typ == 'Consumable' and item.limit != '1x' %}INVALID: Consumable einmalig{% endif %}
+{%- endmacro %}
+
 Beispielaufrufe:
 ```txt
 !itemforge core 100cu 1969    # T1–T2, Skin passend zu 1969
@@ -2543,7 +2605,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro cmdSave() -%}
   {{ save_guard() }}
   {% if campaign.loc != 'HQ' %}{% return %}{% endif %}
-  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0} %}
+{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
   {% set char.stress = 0 %}
   {{ serialize_progress() }}
 {%- endmacro %}

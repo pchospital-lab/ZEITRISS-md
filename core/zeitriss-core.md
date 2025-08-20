@@ -834,6 +834,10 @@ sondern **wie viel Resonanz dein Team bereits aufbaut**. Je höher der Wert,
 desto besser versteht das ITI die laufende Operation – und desto näher
 rückt der Zugriff auf seltene Rift-Ressourcen.
 
+Spielende wollen den Index **bewusst steigern**, denn jeder Punkt bringt
+neue **Rift-Seeds** in Reichweite. Ein **Paradoxon −1** bremst den
+Fortschritt spürbar.
+
 _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
 **Temporaler Affinität (TEMP)** sammeln langsamer Resonanz, bei hohen
 Werten steigert sich der Index rasant. Als Richtwert gilt:
