@@ -107,8 +107,7 @@ Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erlä
 Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
 Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
 Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
-- Rufe `StartMission()` direkt nach dem Laden auf. Dadurch setzt Codex `campaign.scene`
-  (und optional `campaign.episode`) zurück, bevor die Gruppe den nächsten Auftrag beginnt.
+- Nach dem Laden zwingend `StartMission()` ausführen; Details siehe Abschnitt „Load-Pipeline“.
 
 Speichern ist ausschließlich im **HQ** erlaubt. `cmdSave()` setzt dabei das
 Exfil-Fenster zurück, leert Stress und schreibt Level, Rank, Würfelmodus,
@@ -505,6 +504,49 @@ Spieler 2 vor der nächsten Mission seinen **aktualisierten** B-Speicher einfüg
 Level-Up), erkennt GPT an B’s ID/Name, dass dieser schon in \[A, B, C\] existiert, und
 **aktualisiert nur B’s Werte**, anstatt einen zweiten B hinzuzufügen. Die Gruppe bleibt konsistent,
 niemand wird dupliziert.
+
+## Load-Pipeline (Autoload, Multi-JSON, Gruppen-Merge)
+
+**Ziel:** Saves laden (Solo oder Gruppe), migrieren, im **HQ** fortsetzen und
+`StartMission()` automatisch initialisieren.
+
+### Autoload & Intents
+- Erkennt *automatisch* gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
+  `character`, `Charaktere`, `team` oder `campaign`).
+- Befehle: `!load`, „Spiel laden“, „Spielstand laden“, „Load“. Ohne JSON → Prompt:
+  `Codex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe). "Fertig" startet den Merge.`
+
+### Multi-JSON Collector
+- Akzeptiert mehrere JSON-Blöcke in **einer** oder **mehreren** Nachrichten.
+- Sammelphase endet auf **„Fertig“** – oder bei Autoload sofort, wenn genau **ein** Save erkannt
+  wurde.
+
+### Validierung & Migration
+- Wende `migrate_save()` auf jeden Block an (`save_version` hochsetzen, Defaults ergänzen).
+- **Fortsetzung** erzwingen: `location = "HQ"` (Load-Guard; Speichern bleibt HQ-only).
+
+### Merge-Regeln (Gruppe)
+- Primärschlüssel: `character.id` → Update statt Duplikat.
+- Fallback: `(name, epoche)` → Kollision: `Codex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
+- **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
+- Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
+
+### Recap & Start
+- **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
+  aktive Modi.
+- **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
+- Danach **verbindlich** `StartMission()` aufrufen (erzwingt konsistente Zähler/HUD).
+
+```mermaid
+flowchart TD
+  A[JSON erkannt ODER !load] -->|Multi-JSON| B[Migration]
+  B --> C[Merge (ID, sonst Name+Epoche)]
+  C --> D[Fortsetzung im HQ]
+  D --> E[Recap + Modi anzeigen]
+  E --> F{Einstieg wählen}
+  F -->|Klassisch| G[StartMission() → Briefing]
+  F -->|Schnell| G
+```
 
 ## Zeitlinien-Tracker und Paradoxon-Index
 

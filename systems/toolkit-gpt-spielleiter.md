@@ -401,6 +401,29 @@ Mission fest und dient der Boss-Generierung. `fx_override` erlaubt
 missionale Anpassungen von `fx.transfer` wie `show_redirect:false` oder
 einem abweichenden `redirect_hours`.
 
+### Load → StartMission Enforcement
+
+- Nach einem erfolgreichen **Load** (Solo oder Gruppe) **muss** die SL
+  unmittelbar `StartMission()` auslösen, um `campaign.scene` und HUD zu
+  setzen.
+- Um die README-Einstiegsfrage nicht zu überspringen, darf die SL den
+  Transfer kurz unterdrücken:
+  - `fx_override.transfer.on_mission_enter = "never"`
+  - `fx_override.transfer.show_redirect = false`
+- Nach der Entscheidung werden die Transfer-Defaults reaktiviert und
+  Szene 1 gestartet.
+
+**Beispiel:**
+```python
+StartMission(total=12, type="core",
+             fx_override={"transfer":{"on_mission_enter":"never",
+                                     "show_redirect":False}})
+# Recap & Frage anzeigen …
+
+# bei Antwort:
+# Transfer-Defaults reaktivieren und Szene starten
+```
+
 {% macro fr_intervention_roll() -%}
   {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
   {% set roll = rng_roll(1,6) %}
