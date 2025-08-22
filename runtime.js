@@ -205,11 +205,38 @@ function migrate_save(data){
   return data;
 }
 
+function hydrate_state(data){
+  state.location = data.location || 'HQ';
+  state.campaign = data.campaign || {};
+  state.character = data.character || {};
+  state.team = data.team || {};
+  state.loadout = data.loadout || {};
+  state.economy = data.economy || {};
+  state.logs = data.logs || {};
+  state.ui = { gm_style: data.ui?.gm_style || 'verbose' };
+}
+
+function load_deep(raw){
+  const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
+  const migrated = migrate_save(data);
+  migrated.location = 'HQ';
+  hydrate_state(migrated);
+  StartMission();
+  return 'LOAD OK';
+}
+
 function debrief(st){
   return `${render_rewards()}\n${render_px_tracker(st.temp || 0)}`;
 }
 
 function on_command(cmd){
+  if (cmd.startsWith('!load ')){
+    const json = cmd.slice(6).trim();
+    return load_deep(json);
+  }
+  if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
+    return 'Codex: Poste Speicherstand als JSON.';
+  }
   if (cmd === '!gear shop'){
     return render_shop_tiers(1, 0, []);
   }
@@ -249,5 +276,6 @@ module.exports = {
   assert_foreshadow,
   save_deep,
   migrate_save,
+  load_deep,
   jam_now
 };
