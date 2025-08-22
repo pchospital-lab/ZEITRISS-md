@@ -22,6 +22,15 @@ Dieses Dokument sammelt kurze Hinweise zu häufig genutzten Runtime-Makros.
 Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 `GM_STYLE` auf `precision`, wenn strenge Guards aktiv sein sollen.
 
+## Message Flow: Load-Pipeline
+```mermaid
+flowchart TD
+  U["User Message"] --> J{JSON mit `zr_version`?}
+  J -- ja --> L[load_deep]
+  L --> M[StartMission]
+  J -- nein --> R[anderer Befehl]
+```
+
 ## API / Makros
 ### `DelayConflict(threshold=4, allow=[])`
 Verzögert Konfliktszenen bis zur angegebenen Szene. Optional erlaubt eine
