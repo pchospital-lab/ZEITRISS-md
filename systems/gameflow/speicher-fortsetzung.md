@@ -532,20 +532,25 @@ niemand wird dupliziert.
 - Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
 
 ### Recap & Start
+- **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
+- **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
+  1×.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
-- Danach **verbindlich** `StartMission()` aufrufen (erzwingt konsistente Zähler/HUD).
+  - HQ-Interlude nur als Text; kein `NextScene("HQ")`.
+  - Danach Transfer-HUD einblenden und direkt `NextScene(loc=<Ziel>, role="Ankunft")`.
 
 ```mermaid
 flowchart TD
   A[JSON erkannt ODER !load] -->|Multi-JSON| B[Migration]
   B --> C[Merge (ID, sonst Name+Epoche)]
   C --> D[Fortsetzung im HQ]
-  D --> E[Recap + Modi anzeigen]
-  E --> F{Einstieg wählen}
-  F -->|Klassisch| G[StartMission() → Briefing]
-  F -->|Schnell| G
+  D --> E[StartMission() (Transfer-Defer)]
+  E --> F[ShowComplianceOnce() + Recap]
+  F --> G{Einstieg wählen}
+  G -->|Klassisch| H[Transfer-HUD → NextScene]
+  G -->|Schnell| H
 ```
 
 ## Zeitlinien-Tracker und Paradoxon-Index
