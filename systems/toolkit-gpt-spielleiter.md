@@ -410,8 +410,10 @@ einem abweichenden `redirect_hours`.
   Transfer kurz unterdrücken:
   - `fx_override.transfer.on_mission_enter = "never"`
   - `fx_override.transfer.show_redirect = false`
-- Nach der Entscheidung werden die Transfer-Defaults reaktiviert und
-  Szene 1 gestartet.
+- Nach `StartMission()` einmalig `ShowComplianceOnce()` einblenden,
+  danach `Recap()` und die Einstiegsfrage aus README stellen.
+- HQ-Interlude nur als Text; kein `NextScene("HQ")` erzeugen.
+- Nach der Entscheidung Transfer-Defaults reaktivieren und Szene 1 starten.
 
 **Beispiel:**
 ```pseudo
@@ -424,15 +426,15 @@ StartMission(
   }
 )
 
-# Recap anzeigen + Einstiegsfrage aus README:
-#   "klassischer Einstieg" oder "Schnelleinstieg"
+ShowComplianceOnce()  # nur 1× pro Tag
+Recap()
+choice = Ask("klassischer Einstieg" | "Schnelleinstieg")
 
 if choice == "klassischer Einstieg":
-  emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
-  narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
-else:
-  emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
-  narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
+  narrate('Kurzer HQ-Interlude als Text – kein NextScene("HQ")')
+
+emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
+narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
 
 # Szene 1 starten
 NextScene(loc = <Ziel>, role = "Ankunft")
