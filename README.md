@@ -72,6 +72,8 @@ Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
+Autoload-Hinweis siehe Abschnitt [Chat-Shortcodes](#chat-shortcodes).
+
 Nach Compliance-Hinweis und Einleitung fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
 Wählst du Schnell, tippe **`Schnelleinstieg`** und
@@ -156,6 +158,16 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 ### Chat-Shortcodes {#chat-shortcodes}
 
 Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
+
+**Start/Load (natürliche Befehle & Shortcodes)**
+
+- Spiel starten (solo) – Einzelner Chrononaut; NSCs werden geführt.
+- Spiel starten (npc-team) – Temporäres Begleitteam.
+- Spiel starten (gruppe) – Lobby mit Slots (Laden ODER Erstellen), Ready-Gate.
+- Spiel laden / Spielstand laden / `!load` – Lädt Solo- oder Gruppen-Saves.
+  - Autoload: Enthält eine Nachricht einen gültigen ZEITRISS-Save (`zr_version`),
+    startet die Load-Pipeline ohne zusätzlichen Befehl.
+- Einstiegsfrage nach dem Laden: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
