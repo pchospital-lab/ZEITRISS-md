@@ -414,14 +414,28 @@ einem abweichenden `redirect_hours`.
   Szene 1 gestartet.
 
 **Beispiel:**
-```python
-StartMission(total=12, type="core",
-             fx_override={"transfer":{"on_mission_enter":"never",
-                                     "show_redirect":False}})
-# Recap & Frage anzeigen …
+```pseudo
+# Nach jedem erfolgreichen Load:
+StartMission(
+  total = 12,
+  type  = "core",
+  fx_override = {
+    transfer: { on_mission_enter: "never", show_redirect: false }
+  }
+)
 
-# bei Antwort:
-# Transfer-Defaults reaktivieren und Szene starten
+# Recap anzeigen + Einstiegsfrage aus README:
+#   "klassischer Einstieg" oder "Schnelleinstieg"
+
+if choice == "klassischer Einstieg":
+  emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
+  narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
+else:
+  emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
+  narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
+
+# Szene 1 starten
+NextScene(loc = <Ziel>, role = "Ankunft")
 ```
 
 {% macro fr_intervention_roll() -%}
