@@ -43,13 +43,14 @@ vollständig in die jeweilige Zeit ein, löst Rätsel, besteht Abenteuer und erl
 Augen der Charaktere. Gleichzeitig fühlt es sich an wie ein cineastischer Sci-Fi-Thriller – stilvoll
 und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 
-\*Jeder Chrononaut besitzt ein **_Chronometer-Gerät_** – ein am Handgelenk getragenes Interface, das
-die Zeitsprünge steuert und als persönlicher Codex-Computer dient. Es projiziert ein dezentes AR-
-Display (HUD) ins Sichtfeld des Agenten.
-Es zeigt in jeder Szene dauerhaft die aktuelle Seed- oder Cluster-ID an,
-damit das Ziel stets präsent bleibt. Vitalwerte, Missionsziele und
-Hinweise zum Stand der zeitlichen Stabilisierung lassen sich bei Bedarf
-einblenden.\*
+\*Jeder Chrononaut nutzt eine **AR-Kontaktlinse (Retina-HUD)** und ein
+**Comlink (Ohrstöpsel)**. Beide sind energieautark (Kinetik +
+Körperwärme) und besitzen eigene Mikro-CPUs, sodass HUD und Logging auch
+ohne aktive Codex-Verbindung funktionieren. Die Kontaktlinse projiziert
+Seed- oder Cluster-IDs, Vitalwerte, Missionsziele und Stabilitätshinweise
+direkt ins Sichtfeld. Das Comlink übernimmt die Codex-Synchronisation;
+fällt die Verbindung aus, bleibt das HUD lokal aktiv. **Keine**
+Armbänder oder externen Projektoren.\*
 
 ### Tonalität & Immersion
 

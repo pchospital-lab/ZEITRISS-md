@@ -127,9 +127,12 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 ## Funk & Signale
 
-- Comlink = Kurzstreckenradio, blockierbar durch Gelände oder Jammer.
-- Codex synchronisiert über das Comlink mit dem Nullzeit-HQ-Archiv; bei Ausfall liefert der HUD
-  nur lokale Daten.
+- HUD = **AR-Kontaktlinse** (Retina-HUD), energieautark (Kinetik + Körperwärme),
+  mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Codex-Link.
+- Comlink = **Ohrstöpsel** (≈ 2 km, blockierbar), ebenfalls energieautark,
+  mit Edge-Compute → Codex-Sync läuft über das Comlink.
+- Keine Hand-/Armband-Geräte, keine externen Projektionen, keine
+  Batterien/Ladezyklen.
 - Signalinteraktionen brauchen ein physisches Gerät im Szenentext.
 - Codex reagiert nur auf Hardwarekontakt; keine "Netzwerkknoten"-Metaphern.
 
@@ -2092,7 +2095,7 @@ das System "Regeln neu geladen".
   Stimme: _„\[NSC-Kom\] 'Ihr Idioten vom Chronokommando habt keine Ahnung, womit ihr euch hier
   anlegt!' knurrt der Pirat und zielt mit zitternder Hand auf euch.“_ vs. _„\[NSC-Kom\] 'Ich bin
   erfreut, euch wohlauf zu sehen. Lasst uns keine weitere Zeit verlieren,' sagt Professor Song und
-  justiert mit zitternder Stimme ihr Chronometer.“_ – beide Sätze verraten durch Wortwahl und Ton viel
+  tippt nervös an ihr Comlink.“_ – beide Sätze verraten durch Wortwahl und Ton viel
   über die Figur. Solche Unterschiede machen die Welt **glaubwürdig und lebendig**.
 
 ## HUD-Overlay und Codex-Ausgaben aus Sicht der KI nutzen
