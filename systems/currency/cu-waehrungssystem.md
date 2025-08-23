@@ -35,11 +35,12 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
-Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**
-(Basiswaffe, Werkzeug, integriertes AR-HUD mit Kurzstrecken-Comlink
-(ca. 2 km, störbar durch Gelände) zum Team und zum Codex).
-Zusätzliche Ausrüstung wird klar über
-Chrono Units abgerechnet.
+Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**:
+Basiswaffe, Werkzeug, **AR-Kontaktlinse (Retina-HUD)** und **Comlink
+(Ohrstöpsel, ≈ 2 km)**. Beide Geräte sind energieautark (Kinetik +
+Körperwärme) und besitzen eigene Mikro-CPUs für lokalen Betrieb, falls der
+Codex-Link ausfällt. Zusätzliche Ausrüstung wird klar über Chrono Units
+abgerechnet.
 
 > **Historische Kaufkraft‑Faustregel**
 >

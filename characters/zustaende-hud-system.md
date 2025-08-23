@@ -26,6 +26,13 @@ erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuze
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
 
+> **HUD/Comms – Hardware-Spezifikation**
+> - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
+>   mit on-device Mikro-CPU (Offline-HUD & Logging).
+> - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark, mit eigener Mikro-CPU; übernimmt Codex-Sync.
+> - **Kein** Armband/externes Projektionsgerät, **keine** Batterien/Ladezyklen.
+> - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweiten/Jammer-Risiken.
+
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
 `EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
@@ -521,8 +528,8 @@ Die **Raumzeitkarte** ist ein großflächiges Holodisplay im HQ. Sie zeigt
 alle bekannten Epochen als interaktive Knotenpunkte. Neue Seeds erscheinen dort
 automatisch, sobald `ClusterCreate()` aktiv wird. Aus dem HQ können die
 Chrononauten über ihr **ITI-Terminal** direkt ein Sprungziel auf der Karte
-anwählen. Im Einsatz zeigt das Chronometer verkleinerte Auszüge der Karte an,
-um Risse oder Missionsziele zu lokalisieren.
+anwählen. Im Einsatz blendet die AR-Kontaktlinse verkleinerte Auszüge der
+Karte ein, um Risse oder Missionsziele zu lokalisieren.
 
 _Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_
 bei der keine Risse oder Zeitkreaturen erscheinen.
@@ -863,11 +870,12 @@ _unterstützt_ die Immersion – es soll nicht davon ablenken. Bleibt flexibel: 
 eine Szene mysteriöser wirken soll (vielleicht fällt es bei starken Paradox-Einwirkungen sogar mal
 aus!), und setzt es gezielt ein, um **Spannung, Information und Atmosphäre** in Einklang zu bringen.
 
-### Chronometer-HUD-UI (Taktisches Menü)
+### Kontaktlinsen-HUD-UI (Taktisches Menü)
 
-Das HUD des ZEITRISS-Chronometers ist ein lokales Interface auf dem Handgelenk jedes Chrononauten.
-Es stellt **taktische Menüs, Statusanzeigen und Systemfunktionen** unabhängig vom Codex bereit –
-auch bei Paradoxon, EMP oder Isolation.
+Das HUD der AR-Kontaktlinse ist ein lokales Interface direkt im Auge jedes
+Chrononauten. Es stellt **taktische Menüs, Statusanzeigen und
+Systemfunktionen** unabhängig vom Codex bereit – auch bei Paradoxon, EMP
+oder Isolation.
 
 **Zugriff:** jederzeit über den Sprach- oder Gedankenbefehl `menü` oder `optionen`.
 
@@ -878,7 +886,7 @@ auch bei Paradoxon, EMP oder Isolation.
 {% if settings.ascii_only %}
 +------------------------------+
 |  Taktisches HUD-Menue        |
-| Signalquelle: Chronometer    |
+| Signalquelle: AR-Kontaktlinse |
 |------------------------------|
 | 1) Optionen  - Aktive Wahl   |
 | 2) HUD       - Vitalstatus   |
@@ -893,7 +901,7 @@ auch bei Paradoxon, EMP oder Isolation.
 {% else %}
 ╔══════════════════════════════════════════════════════╗
 ║                ∎  Taktisches HUD-Menü  ∎             ║
-║            `Signalquelle: Chronometer lokal`         ║
+║     `Signalquelle: AR-Kontaktlinse lokal`            ║
 ╠══════════════════════════════════════════════════════╣
 ║ Position: Nullzeit / Mission / Gefecht               ║
 ║ Codex-Verbindung: `optional / gestört / online`      ║
@@ -911,7 +919,7 @@ auch bei Paradoxon, EMP oder Isolation.
 ╠══════════════════════════════════════════════════════╣
 ║ Hinweis: Dieses Interface bleibt auch bei Codex-      ║
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
-║ Es ist physisch mit deinem Chronometer gekoppelt.     ║
+║ Es ist physisch mit deiner AR-Kontaktlinse gekoppelt. ║
 ╚══════════════════════════════════════════════════════╝
 {% endif %}
 {%- endmacro %}
@@ -1013,8 +1021,8 @@ HUD_MESSAGES:
 ### Technischer Hinweis
 
 > **Das HUD ist lokal. Es kann nicht gehackt oder gestört werden**, außer durch komplette
-> Zerstörung des Chronometers. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
-> Codex-Sync durchgeführt – wenn verfügbar.
+> Zerstörung der AR-Kontaktlinse. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
+> Codex-Sync via Comlink durchgeführt – wenn verfügbar.
 
 Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis etwa 2 km.
 Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
