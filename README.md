@@ -310,15 +310,24 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 
 - Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
-- Retina-HUD; Zustände in Backticks, optionale [Event-Icons](characters/zustaende-hud-system.md#hud-icons)
-- Kurzstrecken-Comlink (≈ 2 km) für Team- und Codex-Sync
+- **AR-Kontaktlinse (Retina-HUD):** Energieautark (Kinetik + Körperwärme),
+  integrierte Mikro-CPU für lokales HUD & Logging. Projiziert Informationen
+  direkt ins Sichtfeld und funktioniert auch ohne aktive Codex-Verbindung.
+- **Comlink (Ohrstöpsel, ≈ 2 km):** Kurzstreckenfunk (durch Gelände/Jammer
+  beeinflussbar), ebenfalls energieautark mit eigener Mikro-CPU. Übernimmt die
+  Codex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
 - Riss-Tracker (temporaler Resonator) – warnt vor Resonanz, siehe
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
 - Universelles Werkzeug oder Scanner
 
-HUD-Zustände erscheinen als Backticks; Event-Icons sind optional (Feature-Flag).
-☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
+> **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
+> (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**
+> externen Projektoren. **Keine Batterien oder Ladezyklen** – die Geräte
+> speisen sich aus Bewegung und Körperwärme.
+
+HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
+(Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
 **ZEITRISS 4.2.0** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
@@ -710,7 +719,7 @@ beiden Feldern findest, wähle eine Variante oder streiche ihn.
 Kurze Erklärungen wichtiger Abkürzungen:
 
 - **CU** – Chrono-Units, universelle Missionswährung.
-- **HUD** – Head-Up Display im Chronometer.
+- **HUD** – AR-Kontaktlinse (Retina-HUD).
 - **ITI** – Institut für Temporale Intervention.
 - **Seed-ID** – Kennziffer eines Missions-Seeds.
 - **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.

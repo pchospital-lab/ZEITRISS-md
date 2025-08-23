@@ -51,9 +51,8 @@ holografische Anzeigen, die am Rande des Sichtfelds flüchtige Daten zu Ankunfts
 Vitalwerten und temporalen Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
 Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlicht, scannt sie auf
 Anomalien und signalisiert mit einem sanften Ton, dass alle **sicher in der Nullzeit** angekommen
-sind. In diesem Moment vibrieren die Chronometer am Handgelenk der Agenten – persönliche **Codex-
-Geräte**, die sich mit dem HQ-Netz synchronisieren und eine Meldung projizieren: *„Willkommen,
-Agent*in. Chrono-Stabilisierung initialisiert…“\*
+sind. Ein sanfter Ton erklingt im **Comlink (Ohrstöpsel)**, gleichzeitig fährt die
+**AR-Kontaktlinse** das Overlay hoch: `Willkommen, Agent*in. Codex-Sync aktiv ...`
 
 Noch bevor sich die Halle öffnet, schiebt der Codex eine dezente Hinweiszeile
 ins Sichtfeld:

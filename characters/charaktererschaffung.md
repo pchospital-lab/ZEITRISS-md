@@ -268,7 +268,9 @@ freigeschaltet.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
     starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit
-    integrierter AR-Linse und Kurzstrecken-Comlink (ca. 2 km) ins HQ,
+    integrierter **AR-Kontaktlinse (Retina-HUD)** und **Comlink (Ohrstöpsel,
+    ≈ 2 km)** – beide energieautark, mit eigener Mikro-CPU für den
+    Offline-Betrieb,
     ein paar **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die keinen
     großen mechanischen Einfluss haben, aber Flair geben.
 
@@ -459,7 +461,7 @@ mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 - **Ausrüstung:** Tragbares Hacker-Kit (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
   Quanten-Algorithmen zum superschnellen Codeknacken), eine kleine Aufklärungsdrohne namens
   _„Sperling“_ (handtellergroß, leise fliegend, mit Kamera – Reichweite ~100 m), ein Multi-Tool-
-  Armband (fährt diverse Werkzeuge aus: Schraubendreher, Laserschneider, Lötkolben – ideal für
+  Handschuh (fährt diverse Werkzeuge aus: Schraubendreher, Laserschneider, Lötkolben – ideal für
   Sabotage und Reparaturen). Als Bewaffnung führt Mira eine leichte **Needler-Pistole** aus der
   Zukunft – quasi eine lautlose Betäubungswaffe, die narkotisierende Mikroprojektile verschießt. Ihr
   Stil ist es, Gegner unauffällig auszuschalten statt zu töten.
