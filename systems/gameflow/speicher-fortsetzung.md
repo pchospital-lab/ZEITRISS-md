@@ -553,6 +553,9 @@ flowchart TD
   G -->|Schnell| H
 ```
 
+> **Hinweis:** Beim Laden mappt das System alte Gear-Bezeichnungen automatisch auf neue
+> Namen; Speichern nutzt stets die kanonischen Begriffe.
+
 #### Legacy-Gear-Alias (optional)
 Beim Laden dürfen folgende alte Bezeichnungen automatisch gemappt werden:
 - "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**

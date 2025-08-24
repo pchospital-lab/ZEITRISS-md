@@ -54,7 +54,7 @@ Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlich
 Anomalien und signalisiert mit einem sanften Ton, dass alle **sicher in der Nullzeit** angekommen
 sind. Ein sanfter Ton erklingt im **Comlink (Ohrstöpsel)**, gleichzeitig fährt die
 **AR-Kontaktlinse** das Overlay hoch: `Willkommen, Agent*in. Codex-Sync aktiv ...`
-*(Details zur Hardware: siehe [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)).*
+*(Details zur Hardware: siehe [HUD & Comms – Spezifikation](../../characters/zustaende-hud-system.md#hud-comms-spec)).*
 
 Noch bevor sich die Halle öffnet, schiebt der Codex eine dezente Hinweiszeile
 ins Sichtfeld:
