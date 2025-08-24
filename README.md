@@ -314,7 +314,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   integrierte Mikro-CPU für lokales HUD & Logging. Projiziert Informationen
   direkt ins Sichtfeld und funktioniert auch ohne aktive Codex-Verbindung.
 - **Comlink (Ohrstöpsel, ≈ 2 km):** Kurzstreckenfunk (durch Gelände/Jammer
-  beeinflussbar), ebenfalls energieautark mit eigener Mikro-CPU. Übernimmt die
+  beeinflussbar), ebenfalls energieautark (Kinetik + Körperwärme) mit eigener Mikro-CPU. Übernimmt die
   Codex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
 - Riss-Tracker (temporaler Resonator) – warnt vor Resonanz, siehe
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
@@ -328,6 +328,11 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 > (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**
 > externen Projektoren. **Keine Batterien oder Ladezyklen** – die Geräte
 > speisen sich aus Bewegung und Körperwärme.
+
+#### Mini-FAQ
+- _Muss ich laden?_ → Nein, **keine Batterien**; autark.
+- _Geht HUD ohne Codex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
+- _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken. [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.

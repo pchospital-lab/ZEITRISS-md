@@ -29,9 +29,20 @@ leichtgewichtig** in der Anwendung.
 > **HUD & Comms – Hardware-Spezifikation {#hud-comms-spec}**
 > - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
-> - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark, mit eigener Mikro-CPU; übernimmt Codex-Sync.
+> - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme), mit eigener Mikro-CPU; übernimmt Codex-Sync.
 > - **Kein** Armband/keine externen Projektoren/keine Batterien/Ladezyklen.
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
+
+#### Quick-Diag: HUD/Comms Zustände
+| Code        | Bedeutung                                  | Wirkung (erzählerisch)                 |
+|-------------|--------------------------------------------|----------------------------------------|
+| `HUD:offline`  | Codex-Link weg, Linse läuft lokal          | Nur lokale Overlays/Logs               |
+| `COMMS:static` | Rauschen/Störungen                        | Sprachverständlichkeit ↓               |
+| `COMMS:jam`    | Jammer aktiv                               | Funk blockiert, nur Kabel/Relais hilft |
+| `LENS:scratch` | Kratzer/Schlieren                          | leichte Sichtminderung                 |
+| `EAR:overload` | zu lauter Pegel                            | kurze Taubheit, Verzögerte Reaktion    |
+
+*Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags. Für Funk-Checks nutze `comms_check()`.
 
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
@@ -1024,7 +1035,7 @@ HUD_MESSAGES:
 > Zerstörung der AR-Kontaktlinse. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
 > Codex-Sync via Comlink durchgeführt – wenn verfügbar.
 
-Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis etwa 2 km.
+Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis ≈ 2 km.
 Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
 Bei Ausfall meldet das HUD etwa `LINK STÖRT` und nutzt lokale Caches:
 Statusanzeigen und Logs bleiben aktiv, doch `codex`-Abfragen wie `codex mission`

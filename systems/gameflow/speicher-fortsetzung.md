@@ -553,6 +553,13 @@ flowchart TD
   G -->|Schnell| H
 ```
 
+#### Legacy-Gear-Alias (optional)
+Beim Laden dürfen folgende alte Bezeichnungen automatisch gemappt werden:
+- "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
+- "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
+
+Hinweis: Die Alias-Map betrifft nur Namen; Regeln/Effekte bleiben unverändert. Speichern schreibt immer die neuen Bezeichnungen.
+
 ## Zeitlinien-Tracker und Paradoxon-Index
 
 Ein zentrales Element des Speichersystems ist das **Zeitlinien-Protokoll**. Es
