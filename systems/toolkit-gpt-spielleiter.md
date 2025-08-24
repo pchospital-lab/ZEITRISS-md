@@ -124,18 +124,25 @@ settings.signal_space = false
 ```
 
 Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
+> Vermeide abstrakte Netz-Magie. Jeder Effekt braucht Gerät am Ort: **Kontaktlinse**, **Ohrstöpsel** oder **Kabel/Relais**.
 
 ### Funk & Signale {#funk-signale}
 
 - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
   mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Codex-Link.
 - Comlink = **Ohrstöpsel** (≈ 2 km; blockierbar durch Gelände/Jammer), ebenfalls
-  energieautark, mit Edge-Compute → Codex-Sync läuft über das Comlink.
+  energieautark (Kinetik + Körperwärme), mit Edge-Compute → Codex-Sync läuft über das Comlink.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
 - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
-  und [comms_check](#comms-check).
+  und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
+  für passende Status-Overlays.
+
+```
+Codex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setze **Relais/Kabel** oder nähere dich an.
+HUD bleibt lokal aktiv."
+```
 
 ### ZEITRISS GM — MODE: PRECISION
 - Kurze, sachliche Sätze. Keine Metaphern.
