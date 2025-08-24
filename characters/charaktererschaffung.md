@@ -267,12 +267,16 @@ freigeschaltet.
     - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
-    starten. Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit
-    integrierter **AR-Kontaktlinse (Retina-HUD)** und **Comlink (Ohrstöpsel,
-    ≈ 2 km)** – beide energieautark, mit eigener Mikro-CPU für den
-    Offline-Betrieb,
-    ein paar **persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die keinen
-    großen mechanischen Einfluss haben, aber Flair geben.
+    starten.
+
+### Basis-Kit {#baseline-kit}
+Das ITI stellt zu Beginn die **Standardausrüstung** bereit: siehe
+[README – Standardausrüstung](../README.md#standardausruestung).
+Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter
+**AR-Kontaktlinse (Retina-HUD)** und **Comlink (Ohrstöpsel, ≈ 2 km)** – beide
+energieautark, mit eigener Mikro-CPU für den Offline-Betrieb, ein paar
+**persönlichen Gegenständen** (z.B. Tagebuch, Lieblingsmesser, Foto etc.), die
+keinen großen mechanischen Einfluss haben, aber Flair geben.
 
 _Immersive Note:_ Die KI-Spielleitung kann die Ausrüstungswahl ins Spiel einbinden. Etwa durch eine
 **Briefing-Szene** im Rüstungsdepot: _„Im gedämpften Neonlicht der Waffenkammer legt der

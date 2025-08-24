@@ -125,16 +125,17 @@ settings.signal_space = false
 
 Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
-## Funk & Signale
+### Funk & Signale {#funk-signale}
 
-- HUD = **AR-Kontaktlinse** (Retina-HUD), energieautark (Kinetik + Körperwärme),
+- HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
   mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Codex-Link.
-- Comlink = **Ohrstöpsel** (≈ 2 km, blockierbar), ebenfalls energieautark,
-  mit Edge-Compute → Codex-Sync läuft über das Comlink.
-- Keine Hand-/Armband-Geräte, keine externen Projektionen, keine
-  Batterien/Ladezyklen.
-- Signalinteraktionen brauchen ein physisches Gerät im Szenentext.
-- Codex reagiert nur auf Hardwarekontakt; keine "Netzwerkknoten"-Metaphern.
+- Comlink = **Ohrstöpsel** (≈ 2 km; blockierbar durch Gelände/Jammer), ebenfalls
+  energieautark, mit Edge-Compute → Codex-Sync läuft über das Comlink.
+- **Kein** Armband/keine externen Projektoren/keine Batterien.
+- Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
+  **HUD-Offline-Modus** aktiv.
+- **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
+  und [comms_check](#comms-check).
 
 ### ZEITRISS GM — MODE: PRECISION
 - Kurze, sachliche Sätze. Keine Metaphern.
@@ -951,6 +952,9 @@ total=None, role="", env=None) -%}
     {{ hud_tag('Redirect: Start +6h (Self-Collision Guard)') }}
   {% endif %}
 {%- endmacro %}
+
+#### comms_check {#comms-check}
+*(Makro-Beschreibung bleibt, Linkziel für Querverweise hinzugefügt.)*
 
 {% macro comms_check(device, range_km=0, jammer=false, relays=false) -%}
   {% set ok_device = device in ['Comlink','Kabel','Relais','JammerOverride'] %}

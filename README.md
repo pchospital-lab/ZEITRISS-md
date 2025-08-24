@@ -17,7 +17,7 @@ tags: [meta]
    1. [Wichtige Makros](#wichtige-makros)
    1. [KPI-Cheat-Sheet pro Phase](#kpi-cheat-sheet-pro-phase)
    1. [Modulübersicht](#modulübersicht)
-1. [Standardausrüstung](#standardausrüstung)
+1. [Standardausrüstung](#standardausruestung)
 1. [Grundidee](#grundidee)
 1. [Loot-Matrix](#loot-matrix)
 1. [Loot-Quickref](#loot-quickref)
@@ -306,9 +306,9 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 | [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für große Missionen |
 | [Psi-Kräfte / Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
 
-## Standardausrüstung
+### Standardausrüstung {#standardausruestung}
 
-- Chrononauten starten mit einer einheitlichen Grundausrüstung:
+Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
 - **AR-Kontaktlinse (Retina-HUD):** Energieautark (Kinetik + Körperwärme),
   integrierte Mikro-CPU für lokales HUD & Logging. Projiziert Informationen
@@ -320,6 +320,9 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
 - Universelles Werkzeug oder Scanner
+
+*Details zur Hardware siehe* [HUD & Comms – Spezifikation](characters/zustaende-hud-system.md#hud-comms-spec).
+*HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/zustaende-hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**

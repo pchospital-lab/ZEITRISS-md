@@ -304,7 +304,7 @@ Paradoxon. Beispiele für taktische Gadgets:
   auflösen – ideal, um aus Gefangenschaft zu entkommen oder Barrieren zu umgehen. _Einschränkung:_
   Sehr limitiert (max. 1–2 Nutzungen pro Mission, da die Energiezelle sich dann entlädt und Neuladen
   nur im HQ möglich ist). _Kosten:_ 300 CU (Prototyp, nur auf besondere Bewilligung erhältlich). _(tier: 2)_
-- **Tarnfeld-Generator:** Ein gürtelschnallen- oder armbandgroßes Gerät, das ein lokales **Aktiv-
+- **Tarnfeld-Generator:** Ein gürtelschnallen- oder clipgroßes Gerät, das ein lokales **Aktiv-
   Tarnfeld** projiziert. Für bis zu 1 Minute wird der Träger unsichtbar im sichtbaren Lichtspektrum
   (leichter Schimmer bei genauerem Hinsehen, im Infrarot weiterhin erkennbar). Perfekt für
   Infiltration – doch _Achtung:_ Bewegung muss langsam erfolgen, schnelle Bewegungen erzeugen eine
@@ -373,7 +373,7 @@ Neben konventioneller Ausrüstung stellen die **Zeitreise-Technologien** die vie
 **Portal-Generatoren** im Quarzatrium), andere werden als **tragbare Geräte** mitgeführt, um im Feld
 zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 
-- **Persönliches Zeitterminal (PZT):** Ein tablet- oder armbandähnliches Gerät, das
+- **Persönliches Zeitterminal (PZT):** Ein tablet- oder Clip-Gerät, das
   quantenverschränkte Kommunikation mit dem ITI in der Nullzeit ermöglicht. Darüber können
   Chrononauten verschlüsselte Nachrichten an die Gegenwart senden, kleine Datenmengen übertragen oder
   auf das **Codex**-Archiv zugreifen. Beispielsweise lässt sich ein kompakter Epochen-Report abrufen
