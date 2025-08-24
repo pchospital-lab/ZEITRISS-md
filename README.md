@@ -333,6 +333,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
 - _Geht HUD ohne Codex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
 - _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken. [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
+- _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
@@ -727,7 +728,11 @@ beiden Feldern findest, wähle eine Variante oder streiche ihn.
 Kurze Erklärungen wichtiger Abkürzungen:
 
 - **CU** – Chrono-Units, universelle Missionswährung.
-- **HUD** – AR-Kontaktlinse (Retina-HUD).
+- **Retina-HUD (AR-Kontaktlinse)** – [Standardausrüstung](#standardausruestung) /
+  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#hud-comms-spec).
+- **Comlink (Ohrstöpsel)** – [Standardausrüstung](#standardausruestung) /
+  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#hud-comms-spec) /
+  [`comms_check`](systems/toolkit-gpt-spielleiter.md#comms-check).
 - **ITI** – Institut für Temporale Intervention.
 - **Seed-ID** – Kennziffer eines Missions-Seeds.
 - **Epoch-Lock** – fixiert eine Epoche, bis alle Seeds erledigt sind.
