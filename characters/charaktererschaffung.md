@@ -516,7 +516,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
   das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
   kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Kurzstrecken-Comlink
-  (ca. 2 km, durch Mauern oder Jammer dämpfbar) zum Team und Codex.
+  (≈ 2 km, durch Mauern oder Jammer dämpfbar) zum Team und Codex.
   Sein Arsenal macht ihn zur
   ersten Wahl, wenn es brenzlig wird.
 - **Hintergrund:** Geboren 1972 in der Sowjetunion, diente Nikolai in den 1980ern bei einer Speznas-

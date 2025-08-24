@@ -249,9 +249,10 @@ Ausrüstungsgegenstände:
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
   _Kosten:_ 50 CU. _(tier: 1)_
-- **Codex-Relay-Knoten:** Mobiler Kurzstrecken-Transceiver (typische Reichweite ≈ 2 km,
-  abhängig vom Gelände); Mauern oder Jammer können Funk blockieren. Stabilisiert
-  HQ-Kommunikation, läuft ausschließlich über reale Funktechnik. Aufbau 1 Runde.
+- **Codex-Relay-Knoten:** Mobiler Transceiver, der Reichweiten- oder Jammer-
+  Beschränkungen aufhebt. Comlink-Basisreichweite ≈ 2 km; dieses Relais
+  zählt bei `comms_check()` als `relays = true` und stabilisiert
+  HQ-Kommunikation über reale Funktechnik. Aufbau 1 Runde.
   _Kosten:_ 60 CU. _(tier: 1)_
 - **Comlink-Boostermodul (Ear-Clip).** Kleiner Aufsteck-Relaisclip für das Ohr-Comlink.
   - Zweck: Signalqualität in verbautem Gelände verbessern; als Kurzstrecken-Relais nutzbar.

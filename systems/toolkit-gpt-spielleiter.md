@@ -130,8 +130,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
   mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Codex-Link.
-- Comlink = **Ohrstöpsel** (≈ 2 km; blockierbar durch Gelände/Jammer), ebenfalls
-  energieautark (Kinetik + Körperwärme), mit Edge-Compute → Codex-Sync läuft über das Comlink.
+- **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
+  blockierbar durch Gelände/Jammer; mit Edge-Compute → Codex-Sync läuft über das Comlink.
+- Relais/Kabel heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
@@ -670,7 +671,11 @@ Decision: {{ text }}?
   "lock_released": "Bolzen gleiten – Öffnung frei.",
   "heartbeat_spike": "Puls springt – Adrenalin flutet.",
   "system_stable": "System hält – Lage stabil.",
-  "data_corrupt": "Daten zersplittern – Blöcke unlesbar."
+  "data_corrupt": "Daten zersplittern – Blöcke unlesbar.",
+  "codex_link_lost": "Codex-Link weg – lokale Protokolle aktiv.",
+  "signal_jammed": "Signal bricht – Fremdfeld blockiert.",
+  "lens_damaged": "Linse schrammt – Sicht verwaschen.",
+  "ear_overload": "Pegel schießt hoch – Trommelfell zittert."
 } %}
 {{ pack[key] }}
 {%- endmacro %}
@@ -2859,7 +2864,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {% elif kind == 'hack' %}
     {{ hud_tag(actor ~ ' hackt ' ~ device ~ ' → kurzzeitige Deckungsstörung') }}
   {% elif kind == 'jam' %}
-    {{ hud_tag('Jammer aktiv – Comms gestört (≤2km)') }}
+    {{ hud_tag('Jammer aktiv – Comms gestört (≈ 2 km)') }}
   {% endif %}
   {{ arena_mark_action() }}
 {%- endmacro %}

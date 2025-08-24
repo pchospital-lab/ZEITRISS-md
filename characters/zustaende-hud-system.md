@@ -34,15 +34,15 @@ leichtgewichtig** in der Anwendung.
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 #### Quick-Diag: HUD/Comms Zustände
-| Code        | Bedeutung                                  | Wirkung (erzählerisch)                 |
-|-------------|--------------------------------------------|----------------------------------------|
-| `HUD:offline`  | Codex-Link weg, Linse läuft lokal          | Nur lokale Overlays/Logs               |
-| `COMMS:static` | Rauschen/Störungen                        | Sprachverständlichkeit ↓               |
-| `COMMS:jam`    | Jammer aktiv                               | Funk blockiert, nur Kabel/Relais hilft |
-| `LENS:scratch` | Kratzer/Schlieren                          | leichte Sichtminderung                 |
-| `EAR:overload` | zu lauter Pegel                            | kurze Taubheit, Verzögerte Reaktion    |
+| Code          | HUD-Vocab (Makro)              | Bedeutung                                  | Wirkung (erzählerisch)                 |
+|---------------|-------------------------------|--------------------------------------------|----------------------------------------|
+| `HUD:offline` | `hud_vocab('codex_link_lost')` | Codex-Link weg, Linse läuft lokal          | Nur lokale Overlays/Logs               |
+| `COMMS:static`| `hud_vocab('line_noise')`      | Rauschen/Störungen                        | Sprachverständlichkeit ↓               |
+| `COMMS:jam`   | `hud_vocab('signal_jammed')`   | Jammer aktiv                               | Funk blockiert, nur Kabel/Relais hilft |
+| `LENS:scratch`| `hud_vocab('lens_damaged')`    | Kratzer/Schlieren                          | leichte Sichtminderung                 |
+| `EAR:overload`| `hud_vocab('ear_overload')`    | zu lauter Pegel                            | kurze Taubheit, Verzögerte Reaktion    |
 
-*Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags. Für Funk-Checks nutze `comms_check()`.
+*Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags. Für Funk-Checks nutze `comms_check()`. Vokabeln: siehe [Toolkit](../systems/toolkit-gpt-spielleiter.md#hud_vocab).
 
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
