@@ -26,12 +26,12 @@ erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuze
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
 
-> **HUD/Comms – Hardware-Spezifikation**
+> **HUD & Comms – Hardware-Spezifikation {#hud-comms-spec}**
 > - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
 > - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark, mit eigener Mikro-CPU; übernimmt Codex-Sync.
-> - **Kein** Armband/externes Projektionsgerät, **keine** Batterien/Ladezyklen.
-> - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweiten/Jammer-Risiken.
+> - **Kein** Armband/keine externen Projektoren/keine Batterien/Ladezyklen.
+> - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
