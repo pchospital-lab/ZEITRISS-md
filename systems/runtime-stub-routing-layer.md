@@ -172,7 +172,7 @@ export function ClusterCreate() {
 function renderOperationsDeck() {
   const lvl = getParadox();
   const open = getOpenSeeds();
-  writeLine(`Open Rifts: ${open}  |  Paradoxon-Index: ${lvl}`);
+  writeLine(`Rift-Seeds: ${open}  |  Paradoxon-Index: ${lvl}`);
   writeLine("> use scanner | > go vault | > go gate");
 }
 ```
