@@ -189,6 +189,21 @@ function select_state_for_save(s){
 
 function save_deep(s=state){
   if (s.location !== 'HQ') throw new Error('Save denied: HQ-only.');
+  const c = s.character || {};
+  const a = c.attributes || {};
+  if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
+  if (c.heat !== 0) throw new Error('SaveGuard: heat > 0.');
+  if (a.SYS_used !== a.SYS_max) throw new Error('SaveGuard: SYS mismatch.');
+  const required = [
+    c.id,
+    c.cooldowns,
+    s.campaign?.paradoxon_index,
+    s.logs?.artifact_log,
+    s.logs?.codex
+  ];
+  if (required.some(v => v === undefined)){
+    throw new Error('SaveGuard: missing fields.');
+  }
   return JSON.stringify(select_state_for_save(s));
 }
 
@@ -221,8 +236,33 @@ function load_deep(raw){
   const migrated = migrate_save(data);
   migrated.location = 'HQ';
   hydrate_state(migrated);
+  return { status: 'ok', state };
+}
+
+function startSolo(mode='klassisch'){
+  state.start = { type: 'solo', mode };
+  state.location = 'HQ';
+  state.character = {
+    id: 'CHR-NEW',
+    stress: 0,
+    heat: 0,
+    cooldowns: {},
+    attributes: { SYS_max: 1, SYS_used: 1 }
+  };
   StartMission();
-  return 'LOAD OK';
+  return `solo-${mode}`;
+}
+
+function setupNpcTeam(size=0){
+  state.team = { size };
+}
+
+function startGroup(mode='klassisch'){
+  state.start = { type: 'gruppe', mode };
+  state.location = 'HQ';
+  state.team = { size: 0 };
+  StartMission();
+  return `gruppe-${mode}`;
 }
 
 function debrief(st){
@@ -236,6 +276,21 @@ function on_command(cmd){
   }
   if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
     return 'Codex: Poste Speicherstand als JSON.';
+  }
+  if (cmd.startsWith('spiel starten (solo)')){
+    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    return startSolo(mode);
+  }
+  if (cmd.startsWith('spiel starten (npc-team)')){
+    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    startSolo(mode);
+    setupNpcTeam(2);
+    state.start.type = 'npc-team';
+    return `npc-team-${mode}`;
+  }
+  if (cmd.startsWith('spiel starten (gruppe)')){
+    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    return startGroup(mode);
   }
   if (cmd === '!gear shop'){
     return render_shop_tiers(1, 0, []);
@@ -277,5 +332,8 @@ module.exports = {
   save_deep,
   migrate_save,
   load_deep,
+  startSolo,
+  setupNpcTeam,
+  startGroup,
   jam_now
 };
