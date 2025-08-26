@@ -167,6 +167,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - Spiel laden / Spielstand laden / `!load` – Lädt Solo- oder Gruppen-Saves.
   - Autoload: Enthält eine Nachricht einen gültigen ZEITRISS-Save (`zr_version`),
     startet die Load-Pipeline ohne zusätzlichen Befehl.
+  - Save-Kompatibilität: Lädt, wenn `major.minor` übereinstimmt; Patch-Level wird
+    ignoriert (`ZR_VERSION`).
 - Nach erfolgreichem `Spiel laden` folgt direkt Rückblick → HQ oder Briefing –
   keine Einstiegsfrage.
 
