@@ -162,6 +162,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 ### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
 **Vier Startbefehle (case-insensitive, Klammern Pflicht):**
+- Klammern sind Pflicht: "Spiel starten (solo)" – ohne Klammern wird der Befehl nicht erkannt.
 - `Spiel starten (solo)` – klassisch (Erschaffung → HQ-Intro → Briefing → Szene 1) oder schnell (Rolle + Defaults → sofort Briefing).
 - `Spiel starten (npc-team [0–4])` – klassisch (PC bauen, Teamgröße festlegen) oder schnell (Rolle + Teamgröße → NSCs autogeneriert).
 - `Spiel starten (gruppe)` – klassisch (alle bauen nacheinander) oder schnell (Saves posten, neue nennen nur die Rolle).
@@ -170,14 +171,15 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 **Akzeptierte Zusätze:**
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
 - `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
+- Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 
 **Fehlertexte:**
-- `npc-team 5` → „Teamgröße erlaubt: 0–4.“
-- `gruppe 3` → „Bei *gruppe* keine Zahl angeben (alle erstellen/rollen, oder Saves posten).“
+- `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).“
+- `gruppe 3` → „Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
 - Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+- Mismatch → „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 
@@ -289,7 +291,7 @@ Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
-Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick):
+Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick), den Abschnitt zum [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) und zum [Immersiven Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden):
 - `ClusterCreate()`
 - `ClusterDashboard()`
 - `launch_rift(id)` – startet nach der Episode eine eigenständige
