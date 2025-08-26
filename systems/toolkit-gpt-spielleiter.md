@@ -1133,7 +1133,7 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {% macro chrono_guards_enable() -%}
   {# HQ‑kritische Systeme aus: Seeds/Paradoxon/Boss/FR #}
   {# LINT:CHRONO_NO_SEEDS #}{% set campaign.seeds_suppressed = true %}
-  {# LINT:CHRONO_NO_PARADOX #}{% set campaign.px_frozen = true %}
+  {# LINT:CHRONO_NO_PARADOXON #}{% set campaign.px_frozen = true %}
   {# LINT:CHRONO_NO_BOSS #}{% set campaign.boss_suppressed = true %}
   {# LINT:CHRONO_NO_FR #}{% set campaign.intervention_suppressed = true %}
 {%- endmacro %}

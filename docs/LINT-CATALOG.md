@@ -35,7 +35,7 @@ tags: [doc, lint]
 - `LINT:CHRONO_MODULE` — meta/lint-anchors.md
 - `LINT:CHRONO_NO_BOSS` — meta/lint-anchors.md
 - `LINT:CHRONO_NO_FR` — meta/lint-anchors.md
-- `LINT:CHRONO_NO_PARADOX` — meta/lint-anchors.md
+- `LINT:CHRONO_NO_PARADOXON` — meta/lint-anchors.md
 - `LINT:CHRONO_NO_SEEDS` — meta/lint-anchors.md
 - `LINT:CHRONO_RESUME_GUARD` — meta/lint-anchors.md
 - `LINT:CHRONO_RIFT_GATE` — meta/lint-anchors.md
@@ -81,7 +81,7 @@ tags: [doc, lint]
 - `LINT:CHRONO_MODULE` — systems/toolkit-gpt-spielleiter.md
 - `LINT:CHRONO_NO_BOSS` — systems/toolkit-gpt-spielleiter.md
 - `LINT:CHRONO_NO_FR` — systems/toolkit-gpt-spielleiter.md
-- `LINT:CHRONO_NO_PARADOX` — systems/toolkit-gpt-spielleiter.md
+- `LINT:CHRONO_NO_PARADOXON` — systems/toolkit-gpt-spielleiter.md
 - `LINT:CHRONO_NO_SEEDS` — systems/toolkit-gpt-spielleiter.md
 - `LINT:CHRONO_RESUME_GUARD` — systems/toolkit-gpt-spielleiter.md
 - `LINT:CHRONO_RIFT_GATE` — systems/toolkit-gpt-spielleiter.md

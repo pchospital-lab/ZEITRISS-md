@@ -64,7 +64,7 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 - Lade die ZEITRISS-Regeln bei Bedarf. Standard sind verdeckte W6-Würfe (Exploding 6), ab
   Attribut 11 W10, ab 14 ein Heldenwürfel als Reroll.
 - Verwalte Gesundheitszustände, Stress, Ausrüstung und Paradoxon im Hintergrund.
-- Paradox-Anomalien und Selbstbegegnungen nur auf ausdrücklichen Spielerwunsch.
+- Paradoxon-Anomalien und Selbstbegegnungen nur auf ausdrücklichen Spielerwunsch.
 - Psi-Optionen nur bei passender Gabe, sonst weltliche Alternativen. Die SL prüft das vor
   jeder Decision.
 - Vor Missionsbeginn sicherstellen, dass ein gültiger Charakterbogen
@@ -85,7 +85,7 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
 ## Spielerinteraktion
 
 - Biete klare Entscheidungspunkte und handle Konflikte zügig.
-- Paradox-Effekte wirken physisch und ändern unmittelbar die Gegenwart.
+- Paradoxon-Effekte wirken physisch und ändern unmittelbar die Gegenwart.
 - Stelle regelmäßig offene Fragen, setze Cliffhanger und biete drei nummerierte Optionen,
   zusätzlich freie Aktionen.
 
