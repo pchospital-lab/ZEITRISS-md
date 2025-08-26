@@ -58,7 +58,7 @@ Wählt oder würfelt je eine Option aus jeder Kategorie:
   3. Hat einen unerwarteten Alliierten (z. B. ein zahmes Zeitwesen)
   4. Stammt aus einer alternativen Zeitlinie mit abweichendem Wissen
   5. Trägt ein verbotenes Artefakt bei sich
-  6. Steht unter einem Paradox-Fluch (z. B. altert rückwärts oder vergisst jede Gegenwart sofort,
+  6. Steht unter einem Paradoxon-Fluch (z. B. altert rückwärts oder vergisst jede Gegenwart sofort,
      wenn sie vorbei ist)
 
 **Beispiel:** Wir würfeln 2-5-3: _Gelehrter_ – _fanatisch und unbarmherzig_ – _hat einen
@@ -173,7 +173,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "modern"
   type: "agents"
   risk: "L"
-  text: "\u201EBlack Bag\u201C-Team (Agenten derselben Fraktion -+1 Paradox bei Konflikt)"
+  text: "\u201EBlack Bag\u201C-Team (Agenten derselben Fraktion –1 Px bei Konflikt)"
 
 - epoch: "future"
   type: "anomaly"
@@ -186,7 +186,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "future"
   type: "rift"
   risk: "XL"
-  text: "Zeitschleifen-Riss – 30-Sek-Loop, verursacht Paradox +2 pro Minute"
+  text: "Zeitschleifen-Riss – 30-Sek-Loop, verursacht Px −2 pro Minute"
 - epoch: "future"
   type: "nanite"
   risk: "XL"
@@ -245,7 +245,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe –2                   |
 | **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
 | **Systeme**   | Autorepair 1 HP/Runde                  | deaktiv bei EMP                |
-| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Paradoxon +1      |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Px −1      |
 | **Rolle**     | Patrouille, Alarmmultiplikator         | verdoppelt "Gefahr im Anflug"  |
 
 ### 2 · Konzern-Psychiker – Stufe B (Elite)
@@ -266,7 +266,7 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Psi-Rest 2 | –  | **Spezial:** Temporal Backdoor          | –                     |
 | Stress 10 | –   | HP 8                                    |                       |
 
-_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Paradoxon +1 bei Erfolg ≥ 2.
+_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px −1 bei Erfolg ≥ 2.
 _Temporal Backdoor:_ Bei drei aktiven Beacon-Geräten (Signal-Stack 3) entsteht ein Kurz-Rift,
 dann fällt der Stack auf 0.
 
@@ -330,13 +330,13 @@ Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
 ### Twist-Seeds (d30) {#twist-seeds}
 
 Jeder Eintrag besitzt nun zwei Zusatz-Tags:
-`Paradox-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
+`Paradoxon-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
 `Historischer Fußabdruck` beschreibt die Tragweite.
 
 Um zu verhindern, dass der Twist-Pool bei langen Kampagnen leerlauft, wandern
 gezogene Einträge auf einen Ablagestapel. Sobald weniger als fünf Karten im Pool
 liegen, mischt die SL den Stapel zurück.
-| Nr. | Twist | Paradox-Stufe | Historischer Fußabdruck |
+| Nr. | Twist | Paradoxon-Stufe | Historischer Fußabdruck |
 |----|-------|---------------|-------------------------|
 | 1 | Doppelagent im eigenen Team enttarnt sich in der Klimax. | 2 | mittel |
 | 2 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden. | 1 | klein |
@@ -350,7 +350,7 @@ liegen, mischt die SL den Stapel zurück.
 | 10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft. | 1 | klein |
 | 11 | Wetterphänomen erschwert den Einsatz erheblich. | 1 | klein |
 | 12 | Gegner besitzt Teilwissen über Zeitreisetech und nutzt es taktisch. | 2 | mittel |
-| 13 | Beweisstücke lösen akute Paradox-Spitzen aus. | 3 | groß |
+| 13 | Beweisstücke lösen akute Paradoxon-Spitzen aus. | 3 | groß |
 | 14 | Einsatzort wird zum Sperrgebiet erklärt. | 1 | klein |
 | 15 | Verborgene Psi-Barriere dämpft Teamfähigkeiten. | 2 | mittel |
 | 16 | Medienleak – Reporter streamt live. | 2 | mittel |
@@ -381,7 +381,7 @@ liegen, mischt die SL den Stapel zurück.
 | 41 | Parallel Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
 | 42 | Cold Swap – Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
 | 43 | Alarm-Transmitter sendet Signal-Broadcast und warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
-| 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Paradox +1 bei Fail. | 1 | klein |
+| 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Px −1 bei Fail. | 1 | klein |
 | 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
 | 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |
 | 47 | Verlorenes Pharaonengrab – Bauplan einer frühen Dampfmaschine sabotiert römische Versorgung. | 2 | mittel |
@@ -627,7 +627,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 14 | Hitchhiking Ghost – Zeitversetzte Holo-Aufnahme
 15 | Lake‑Monster – Schwarm‑U‑Drohnen unter Hüllfeld
 16 | Shapeshifter – adaptive Metamaterial‑Suit
-17 | Spukhaus – Übersprungener EM‑Emitter tft Paradox‑Energie
+17 | Spukhaus – Übersprungener EM‑Emitter tft Paradoxon‑Energie
 18 | Schlankes Wesen – Lidar‑Verzerrer + Knochenverlängerungen
 19 | Straßenlaternen‑Summen – HF‑Psi‑Störsender, löst Migräne aus
 20 | Blutfarbenes Mondlicht – Orbitale Linse fokussiert IR‑Spektrum
@@ -644,7 +644,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 
 > **Armor** reduziert Schaden pro Treffer.
 > **HP** ist die Wundschwelle (W = 3 HP).
-> **Psi‑Sig** wird gegen Psi-Detection oder Paradox-Interaktion gewürfelt.
+> **Psi‑Sig** wird gegen Psi-Detection oder Paradoxon-Interaktion gewürfelt.
 
 ### Drei einsatzbereite Fallakten
 
@@ -660,7 +660,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 - **Mythos:** Schwarzer, schweigsamer Hund soll Nachtwächter zu Tode gehetzt haben.
 - **Realität:** Firma **Krieg & Sohn** testet kobaltimprägnierte **Chem‑Mod‑Raupenhunde** für Grabenschlachten.
 - **Beobachtungen:** Opfer weisen akute Blutarmut (Toxin α‑13) auf.
-- **Paradox‑Risiko:** gering (≤ 1).
+- **Paradoxon‑Risiko:** gering (≤ 1).
 - **STAT‑BLOCK:**
 
   - **Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6 | Armor 1 | HP 8**
@@ -674,7 +674,7 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 - **Mythos:** Geflügeltes Wesen mit roten Augen warnt vor Brückeneinsturz.
 - **Realität:** US‑Airforce Black‑Op mit Prototyp‑**Stealth‑Wing‑Suit**.
   Aufklärer filmte Stahlermüdung – Intervention verboten.
-- **Paradox‑Risiko:** mittel (2‑3) bei temporalen Eingriffen.
+- **Paradoxon‑Risiko:** mittel (2‑3) bei temporalen Eingriffen.
 - **STAT‑BLOCK:**
 
   - **Str 4d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6 | Armor 2 | HP 10**
@@ -689,19 +689,19 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 - **Mythos:** Dunkle Silhouetten erscheinen im Augenwinkel, verschwinden bei Blickkontakt.
 - **Realität:** Konzern **Limbic Inc.** testet neuronale **Psi‑Induktoren**,
    die REM‑Bereiche wecken → kollektive Hypnagoge.
-- **Paradox‑Risiko:** hoch (4‑5) – massenhafter Psi‑Einsatz stört Zeitfeld‑Sensoren.
+- **Paradoxon‑Risiko:** hoch (4‑5) – massenhafter Psi‑Einsatz stört Zeitfeld‑Sensoren.
 - **STAT‑BLOCK:**
 
   - **Str 5d6 | Agi 5d6 | Mind 4d6 | Psi‑Sig 4d6 | Armor 3 | HP 14**
   - *F1 Flimmer‑Phase*: kann sich als „Nachbild“ 10 m teleport‑ähnlich versetzen.
   - *F2 Psi‑Drown*: 1/3 Rd. −2 Mind und −1 Reaktions‑Ini für alle Nicht‑Psi.
-  - *F3 Paradox‑Spike*: Bei Treffer explodiert Psi‑Sig auf W6=6 (Paradox +1).
+  - *F3 Paradoxon‑Spike*: Bei Treffer explodiert Psi‑Sig auf W6=6 (Px −1).
   - *F4 Schwarm‑Halluzination*: Jeder Witness‑NPC muss Will-Save (Mind 3d6) oder flieht.
 
 ### Einsatz-Tips
 
 1. **Epochale Einbettung:** Passe die Technologie-Coverstory an Ort und Jahr an.
-2. **Paradox-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradoxon-Index interagiert.
+2. **Paradoxon-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradoxon-Index interagiert.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
 4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
 

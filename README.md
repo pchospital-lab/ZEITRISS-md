@@ -550,7 +550,7 @@ sind der Übersicht halber aufgeführt.
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
 | [cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
 | [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradox |
+| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradoxon |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission & Kampagnen-Generatoren |
@@ -674,7 +674,7 @@ schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenbli
 um als allherrschende Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
 Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie enden wird.
 
-Paradoxien schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
+Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
 Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
 *Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
 geschehen musste.*
@@ -793,7 +793,7 @@ alle weiteren Modi sind optionale Zusätze:
 | **Hard Sci-Fi** | Bodennaher Stil ohne Visionen, nüchterne Technik. |
 | **Film**        | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Klassik**     | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
-| **Covert-Ops**  | Minimale Paradox-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
+| **Covert-Ops**  | Minimale Paradoxon-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
 | **Precision**   | Extrem knappe Beschreibungen, Fokus auf Fakten. |
@@ -818,8 +818,8 @@ objective: Black Saturday – Huminen-Söldner kapern B-59
 Rift Seeds nutzen `phase: Rift`.
 
 
-Die Paradoxmechanik ist standardmäßig aktiv. Über `modus paradox off` lässt
-sich das Feature jedoch jederzeit deaktivieren und mit `modus paradox on`
+Die Paradoxon-Mechanik ist standardmäßig aktiv. Über `modus paradoxon off` lässt
+sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
 wieder einschalten. Siehe auch
 [Charaktererschaffung](characters/charaktererschaffung.md) und
 [Zeitriss-Core](core/zeitriss-core.md) für weitere Hinweise.

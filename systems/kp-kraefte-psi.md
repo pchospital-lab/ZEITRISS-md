@@ -535,7 +535,7 @@ notieren könnte).
 **Paradoxon-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
 den Zeitstrom stören. Ein Resonanz-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
 insbesondere bei Chronokinese. Er wird fällig, wenn der Ablauf der Geschichte massiv
-verändert wird. Über `modus paradox off` lässt sich die Paradoxon-Regel komplett
+verändert wird. Über `modus paradoxon off` lässt sich die Paradoxon-Regel komplett
 deaktivieren; wird sie verwendet, funktioniert sie identisch für Pro- und Contra-Agenten.
 Psionik steht grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder
 alternativ ihren natürlichen Widerstand gegen mentale Kräfte betonen. Wer den

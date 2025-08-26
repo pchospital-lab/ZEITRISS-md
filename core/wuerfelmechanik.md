@@ -43,7 +43,7 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   automatisch Meldungen einblendet. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
   Situationen nur wirklich wichtige Daten angezeigt werden und die Agenten nicht von
   Informationsflut überwältigt werden.
-  In jeder Kampagne kann der Resonanzhinweis über `modus paradox off`
+  In jeder Kampagne kann der Resonanzhinweis über `modus paradoxon off`
   deaktiviert werden. Wer ihn aktiviert,
   nutzt das System identisch weiter.
 - **Attributs-Skalierung & Heldenwürfel:** Attribute verleihen nun einen additiven Bonus.
@@ -482,7 +482,7 @@ Gerade in sozialen Konflikten gibt es nicht immer strahlende Sieger. Die SL soll
 ggf. mit moralischer Vielschichtigkeit darstellen (z. B. bringt ein Sieg der Revolution zwar
 Freiheit, aber auch Chaos; eine Niederlage der Helden bewahrt kurzfristig den Frieden, lässt aber
 Unterdrückung bestehen usw.). So bleibt das Spiel tiefgründig und der **Zeitreise-Aspekt** – mit all
-seinen Paradoxien – wird gekonnt in Szene gesetzt.
+seinen Paradoxa – wird gekonnt in Szene gesetzt.
 
 Mit diesen Erweiterungen – von explodierenden Würfeln über Heldenwürfel und HUD-Alerts bis hin zu
 cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.2.0 einen weiteren
@@ -520,7 +520,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 ### Paradoxon-Index
 
 *Siehe auch das*
-*[Paradox-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem)*
+*[Paradoxon-Subsystem](../characters/zustaende-hud-system.md#paradoxon-subsystem)*
 *für eine ausführliche Beschreibung.*
 
 | Stufe | Effekt                     |
@@ -719,7 +719,7 @@ Diese Tabelle fasst kompakt zusammen, wie offene Risse Schwierigkeitsgrad und Be
 | Massive Zeitmanipulation oder fremde Ära | −2 auf Stabilitätswürfe |
 
 Nutzt diese Tabelle auf dem Quick-Reference-Sheet, um schnell abzuschätzen, wie anfällig eine Szene
-für Paradox-Effekte ist.
+für Paradoxon-Effekte ist.
 
 ### Rift-Kreaturen auf die Schnelle {#rift-quickbuild}
 

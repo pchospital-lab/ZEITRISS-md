@@ -395,7 +395,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   der ein nahezu unmögliches Ziel automatisch trifft. Eine Zeitagentin nutzt einen **„Zeitsprung-
   Impuls“**, um einen Augenblick die Zeit anzuhalten. Signature-Aktionen sollten klar umrissen sein und
   zum Charakter passen. Ihre Nutzung geht oft mit Kosten oder Risiken einher (Erschöpfung,
-  **SYS-Verbrauch**, Paradox-Gefahr) und bleibt so eine dramatische _Trumpfkarte_. **Flow:** Sie bringen
+  **SYS-Verbrauch**, Paradoxon-Gefahr) und bleibt so eine dramatische _Trumpfkarte_. **Flow:** Sie bringen
   spektakuläre Höhepunkte, ohne das Spiel dauerhaft zu dominieren. **Balance:** Die Begrenzung (z.B.
   einmal pro Mission) hält sie zu seltenen Highlights; Gegner können eigene Manöver besitzen, damit die
   Waage gewahrt bleibt. **Storytelling:** Diese einzigartigen Aktionen unterstreichen den Stil der
@@ -425,7 +425,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **[Erweiterung] Endgame-Content:** Auch jenseits von Level 100 bietet ZEITRISS
   neue Herausforderungen. Die Missionen erreichen epische Dimensionen, alte
-  Entscheidungen haben weitreichende Folgen und Paradox-Risse bedrohen ganze
+  Entscheidungen haben weitreichende Folgen und Paradoxon-Risse bedrohen ganze
   Epochen. Spieler können ihre Macht ausleben, muessen aber kreative Lösungen
   finden, da Ausrüstung und Chrono-Units allein nicht genügen. **Flow:** Das Spiel
   bleibt spannend, weil neue Ziele und Gefahren auftauchen. **Balance:** Fortschritt
@@ -970,8 +970,8 @@ höheren Mitgliedern.
 
 Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder
 **contra** Haltung zur offiziellen Zeitlinie.
-Unabhängig davon lässt sich die Paradoxmechanik über `modus paradox off` komplett abschalten
-und mit `modus paradox on` wieder aktivieren. Wer den radikalen Neubau der Geschichte
+Unabhängig davon lässt sich die Paradoxon-Mechanik über `modus paradoxon off` komplett abschalten
+und mit `modus paradoxon on` wieder aktivieren. Wer den radikalen Neubau der Geschichte
 bevorzugt, nutzt diesen Schalter häufig in Allianz mit der **Zerbrechlichen Ewigkeit**.
 Standardmäßig bleibt die Mechanik aktiv.
 
@@ -999,7 +999,7 @@ Dieser Waffenstillstand hat historische Gründe. Nachdem frühe Zeitreiseprogram
 offenen Konflikten endeten, erklärten die Gründer des ITI die Nullzeit zur neutralen Zone. Keine
 Fraktion darf den Stützpunkt für ideologische Kämpfe missbrauchen. Das Institut stellt lediglich die
 Infrastruktur bereit, überwacht den Einfluss auf den Zeitstrom und greift nur ein, wenn Einsätze eine
-kritische Paradox-Schwelle überschreiten. Aus dieser Abmachung resultiert der neutrale Blick des ITI
+kritische Paradoxon-Schwelle überschreiten. Aus dieser Abmachung resultiert der neutrale Blick des ITI
 auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
