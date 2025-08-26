@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-version: 4.2.2
+version: 4.2.1
 tags: [meta]
 ---
 
@@ -118,9 +118,6 @@ tags: [meta]
 - Masterprompt nicht mehr im `master-index.json`.
 - Tests im Runtime-Stub als Pflichtschritt klargestellt.
 
-## 4.2.1 – Signal Hardware Linter
-- Added `lint_signal_devices.py` to enforce hardware references for signal actions.
-- Integrated the linter into the pre-commit hook.
-
-## 4.2.2 – TTL-Anzeige bei 0 begrenzt
-- Szenen-Overlay klemmt die Exfil-TTL auf 0, um negative Werte zu vermeiden.
+## 4.2.1 – Docs & Flow Hardening
+- LLM-Dispatcher dokumentiert und HQ-only Save gehärtet.
+- Paradoxon/Rift-Terminologie vereinheitlicht, Gear-Alias-Map ergänzt.

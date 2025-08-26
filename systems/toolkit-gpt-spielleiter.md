@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.0
+title: "ZEITRISS 4.2.1 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.2.1
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -93,7 +93,7 @@ default_modus: mission-fokus
   {% set ui.mode_display = style %}
   {{ hud_tag('Mode-Display: ' ~ style) }}
 {%- endmacro %}
-# ZEITRISS 4.2.0 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.2.1 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -112,6 +112,9 @@ Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 **Hinweis:** Mission-Fokus ("Operator-Stil") richtet sich gegen Fremdfraktionen, nicht gegen Mitspieler.
 Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
 während Rift-Ops die Anomalie ins Zentrum rücken.
+
+> Begriffe *OpenRifts* und *Paradox* sind veraltet. Nutze stattdessen
+> *Rift-Seeds* und den *Paradoxon-Index (Px).* 
 
 ## Stilfilter
 

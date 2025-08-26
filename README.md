@@ -1,8 +1,11 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.2
+version: 4.2.1
 tags: [meta]
 ---
+
+[![LLM-Ready ✅](https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success)](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
+→ [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) · [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden) · [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 
 ## Inhaltsverzeichnis
 1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
@@ -104,6 +107,13 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
+**Startbefehle im Chat (Klammern Pflicht):**
+- `Spiel starten (solo)` – klassisch: Erschaffung → HQ-Intro → Briefing → Szene 1; schnell: Rolle + Defaults → Briefing.
+- `Spiel starten (npc-team [0–4])` – klassisch: PC bauen + Teamgröße; schnell: Rolle + Teamgröße.
+- `Spiel starten (gruppe)` – klassisch: alle bauen; schnell: Saves posten oder Rolle nennen.
+- `Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing.
+- Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
+
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
 Vor jeder Mission zeigt das HUD den Transfer-Countdown
 (`Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h`).
@@ -188,8 +198,10 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!save` – speichert einen Deepsave (nur im HQ).
 - `!load` – lädt den letzten Deepsave.
 - `!autosave hq` – schaltet Auto-Save im HQ.
+
 - `!gear shop` – zeigt Shop-Tier-Liste.
 - `!psi heat` – erklärt Psi-Heat und Burn.
+
 - `!hud status` – listet alle Zustände.
 - `!reveal artifact` – zeigt Artefakt-Infos im HUD.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
@@ -199,6 +211,14 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - `!px` – zeigt aktuellen Paradoxon-Stand.
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!boss status` – listet Foreshadow-Zähler.
+
+## Mini-FAQ
+
+**Warum nur HQ-Saves?**
+Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht festgeschrieben werden.
+
+**Was bedeutet Px?**
+Der Paradoxon-Index (Px) misst temporale Instabilität; bei Stufe 5 entstehen Seeds und der Zähler setzt zurück.
 
 #### Runtime Helper – Kurzreferenz
 
