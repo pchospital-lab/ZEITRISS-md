@@ -172,7 +172,7 @@ langfristigen Folgen fortgesetzt, anstatt mit einem abrupten Todeswurf.
 
 - **Trauma & mentale Nachwirkungen:** Nicht jede Wunde ist sichtbar – die Psyche der Charaktere kann
   durch Erlebnisse **Schaden nehmen**. Nach besonders **schockierenden Ereignissen** (etwa einer
-  knapp überlebten kritischen Verletzung, Begegnungen mit grauenhaften Paradoxien oder dem Verlust
+  knapp überlebten kritischen Verletzung, Begegnungen mit grauenhaften Paradoxa oder dem Verlust
   eines Teammitglieds) kann ein Charakter ein **mentales Trauma** entwickeln. _Effekt:_ Das kann als
   anhaltender **Malus („Traumatisiert“) oder Nachteil** dargestellt werden – z.B. Schlafstörungen,
   Flashbacks oder Angst, die in bestimmten Situationen Abzüge verursacht. Im Spiel könnte ein
@@ -410,14 +410,14 @@ einen Toggle `/stress open|hidden`.
   ab Stufe 4 einen sanften Resonanzpuls an und blendet die Zahl offener Seeds ein:
   `Seeds 3 · 🔄 Paradoxon 4/5`
   So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
-  Die Paradoxmechanik ist standardmäßig aktiv, kann aber jederzeit mit
+    Die Paradoxon-Mechanik ist standardmäßig aktiv, kann aber jederzeit mit
   `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
   **pro** oder **contra** spielt. Mit `modus paradox on` schaltet ihr sie
   wieder ein.
 
   Modul Paradoxon-Resonanz gibt der Gruppe Feedback, **wie viel temporale Resonanz ihr Einsatz erzeugt**. Clevere
-  Chrononauten haben vielleicht Geräte oder Talente, um Paradoxien zu **erkennen oder zu
-  reduzieren** (z.B. einen tragbaren Paradox-Detektor, der früh Alarm schlägt, oder einen
+    Chrononauten haben vielleicht Geräte oder Talente, um Paradoxa zu **erkennen oder zu
+    reduzieren** (z.B. einen tragbaren Paradoxon-Detektor, der früh Alarm schlägt, oder einen
   Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt).
   Behutsames, stilvolles Vorgehen steigert den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen haben.
   Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen aufpassen,
@@ -515,9 +515,9 @@ _Codex:_
 > Der TEMP-Wert bestimmt die Geschwindigkeit,
 > der Erfolg die Richtung –
 > und CLUSTERCREATE den Zugang zur Beute.
-### Paradox-Subsystem
+### Paradoxon-Subsystem
 
-Das vereinfachte Paradox-Subsystem orientiert sich an der Kampagnenstruktur
+Das vereinfachte Paradoxon-Subsystem orientiert sich an der Kampagnenstruktur
 und zeigt, welche Effekte bei welchen Stufen auftreten.
 Steigende Resonanz belohnt das Team mit kleinen Boni.
 
@@ -671,7 +671,7 @@ Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, 
 brechen. Das HUD wird über den **ITI-Codex** gesteuert und kann vom Charakter _nach Bedarf
 aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
 werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
-Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradox-Effekte
+  Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
 Bei gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
 **Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.
@@ -806,7 +806,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   wieder beruhigt. GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf
   Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf deiner
   Raumzeitkarte aufblitzen…“_. Die Spieler
-  erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradox-Effekte können
+    erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradoxon-Effekte können
   gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
   Glitzern oder farbigen Schimmern im HUD).
   Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
@@ -878,7 +878,7 @@ historischen Abenteuer. Die Spieler sollten ermutigt werden, das HUD aktiv zu nu
 mein HUD“) und die SL kann kreativ damit arbeiten, um Stimmungen zu unterstreichen (flackernde
 Anzeigen bei EMP-Angriff, statisches Rauschen bei Zeitanomalien, etc.). Wichtig bleibt: Das HUD
 _unterstützt_ die Immersion – es soll nicht davon ablenken. Bleibt flexibel: Blendet es aus, wenn
-eine Szene mysteriöser wirken soll (vielleicht fällt es bei starken Paradox-Einwirkungen sogar mal
+  eine Szene mysteriöser wirken soll (vielleicht fällt es bei starken Paradoxon-Einwirkungen sogar mal
 aus!), und setzt es gezielt ein, um **Spannung, Information und Atmosphäre** in Einklang zu bringen.
 
 ### Kontaktlinsen-HUD-UI (Taktisches Menü)

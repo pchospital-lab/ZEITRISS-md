@@ -171,7 +171,7 @@ verbleiben kann**:
 
 Artefakte sind keine Massenware. In Rift-Ops darf die SL nach dem Sieg über ein
 Paramonster 1W6 würfeln; nur bei einer 6 wird ein besonderes Relikt entdeckt.
-Solche Fundstücke besitzen eigene Effekte – vom einmaligen Paradox-Abbau bis hin
+Solche Fundstücke besitzen eigene Effekte – vom einmaligen Paradoxon-Abbau bis hin
 zu Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie das Artefakt
 im HQ archiviert oder als seltene Ressource behält, etwa um es später im Plot
 einzusetzen oder untereinander zu tauschen.

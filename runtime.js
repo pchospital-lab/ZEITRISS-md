@@ -1,6 +1,6 @@
 const { version: ZR_VERSION = '4.2.1' } = require('./package.json');
 
-const state = {
+  const state = {
   location: 'HQ',
   campaign: {},
   character: {},
@@ -17,6 +17,10 @@ const state = {
 
 function clamp(n, min, max){
   return Math.min(max, Math.max(min, n));
+}
+
+function writeLine(msg){
+  console.log(msg);
 }
 
 function px_bar(n){
@@ -219,13 +223,19 @@ function hydrate_state(data){
 
 function load_deep(raw){
   const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
-  const migrated = migrate_save(data);
-  migrated.location = 'HQ';
-  hydrate_state(migrated);
-  const hud = scene_overlay();
-  console.log(hud);
-  return { status: 'ok', state, hud };
-}
+    const migrated = migrate_save(data);
+    migrated.location = 'HQ';
+    hydrate_state(migrated);
+    const ep = state.campaign?.episode ?? 0;
+    const ms = state.campaign?.mission ?? 0;
+    const sc = state.scene?.index ?? 0;
+    const total = state.scene?.total ?? 12;
+    const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
+    const sys = state.character?.attributes?.SYS_max ?? 0;
+    const hud = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · Px ${px} · SYS ${sys}`;
+    writeLine(hud);
+    return { status: 'ok', state, hud };
+  }
 
 function startSolo(mode='klassisch'){
   state.start = { type: 'solo', mode };

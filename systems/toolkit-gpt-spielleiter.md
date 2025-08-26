@@ -113,7 +113,7 @@ Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
 Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
 während Rift-Ops die Anomalie ins Zentrum rücken.
 
-> Begriffe *OpenRifts* und *Paradox* sind veraltet. Nutze stattdessen
+> Begriffe *OpenRifts* und der frühere Terminus sind veraltet. Nutze stattdessen
 > *Rift-Seeds* und den *Paradoxon-Index (Px).* 
 
 ## Stilfilter
@@ -175,7 +175,7 @@ if not char.get("psi") and not char.get("has_psi"):
   bis zum nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
   Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
 - Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `rift_seeds` und setze `Px = 0`.
-- Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
+- Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadoxon()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
@@ -198,7 +198,7 @@ if not char.get("psi") and not char.get("has_psi"):
 ## Modus: Mission-Fokus
 
 Der Standardstil von **ZEITRISS** setzt auf klare Missionsabläufe ohne
-philosophische Metaebenen. Paradox-Anomalien wie Identitäts- oder
+philosophische Metaebenen. Paradoxon-Anomalien wie Identitäts- oder
 Spiegelparadoxa bleiben deaktiviert, damit sich jede Szene auf taktische
 Planung und technische Herausforderungen konzentriert. Dramatische
 Entscheidungen entstehen aus konkreten Handlungen, nicht aus
@@ -1131,7 +1131,7 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 
 {# LINT:CHRONO_GUARDS #}
 {% macro chrono_guards_enable() -%}
-  {# HQ‑kritische Systeme aus: Seeds/Paradox/Boss/FR #}
+  {# HQ‑kritische Systeme aus: Seeds/Paradoxon/Boss/FR #}
   {# LINT:CHRONO_NO_SEEDS #}{% set campaign.seeds_suppressed = true %}
   {# LINT:CHRONO_NO_PARADOX #}{% set campaign.paradox_frozen = true %}
   {# LINT:CHRONO_NO_BOSS #}{% set campaign.boss_suppressed = true %}
@@ -2121,7 +2121,7 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
 - **HUD als Stimmungsinstrument:** Neben harten Informationen kannst du das HUD/Interface auch
   nutzen, um **Stimmung** zu vermitteln. Beispielsweise: Bei Panik oder hohem Stress der Charaktere
   beschreibe, dass **Biosignale** auf dem HUD Amok laufen (Herzschlag-Kurve springt, Alarm
-  „Stresslevel kritisch“). Oder wenn ein Paradox droht, vielleicht flackert das gesamte Sichtfeld,
+  „Stresslevel kritisch“). Oder wenn ein Paradoxon droht, vielleicht flackert das gesamte Sichtfeld,
   Bildartefakte tauchen am Rand auf – das vermittelt die **Instabilität** des Systems. Genauso kann
   bei Erfolg ein sanftes akustisches Signal oder ein grünes Aufleuchten passieren („Objective
   accomplished“). Indem du solche **diegetischen** Mittel nutzt, bleibt alles in-world und verstärkt
@@ -2468,7 +2468,7 @@ erscheint. Folgende Techniken helfen dabei:
   während du im Hintergrund die Regeln einhältst. Das bedeutet: Sage **ja** zu kreativen Ideen und
   finde regelkonforme Wege, sie abzubilden (Notfalls improvisiere einen angemessenen Wurf oder
   Effekt). Sollte eine Idee absolut gegen die Regeln verstoßen oder das Spiel sprengen, lass das
-  **System darauf reagieren** – z. B. mit einem harten **Paradox-Eingriff** oder einer
+  **System darauf reagieren** – z. B. mit einem harten **Paradoxon-Eingriff** oder einer
   Fehlermeldung im System, die dieses Vorgehen verhindert. So kommt die Begrenzung nicht von dir als
   Spielleiter („das Regelwerk verbietet das“), sondern wirkt wie ein Naturgesetz der Spielwelt. Die
   Spieler sollen das Gefühl haben, dass **alles m**ö**glich** ist – nur eben mit entsprechenden

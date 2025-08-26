@@ -605,7 +605,7 @@ das muss warten, wir haben einen Zeitbrand zu löschen!“_ und ohne Umschweife 
 andere Variante: Der Notfall ist **persönlich** für einen der Charaktere – etwa droht in genau der
 Epoche, aus der ein Charakter stammt, eine akute Gefahr, was diesen emotional packt (z.B. _„Ihr
 kommt an und erfahrt: In der Heimatzeit von Agentin X verschwindet gerade die Stadt ihrer Geburt in
-einem Paradox-Wirbel.“_). Das kann gleich Bindung und Motivation erhöhen. Allerdings: Ein so
+einem Paradoxon-Wirbel.“_). Das kann gleich Bindung und Motivation erhöhen. Allerdings: Ein so
 heftiger Beginn kann überwältigend sein; man sollte sicherstellen, dass nach dem ersten Chaosmoment
 die Gruppe Gelegenheit bekommt, das Erlebte zu verarbeiten – z.B. in einer Nachbesprechung im HQ mit
 Kaffee in der Kantine, wo ihnen erst klar wird, was gerade passiert ist. Dieser **Cooldown** ist
@@ -757,7 +757,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
     angreifen. Funken aus dem Portal werfen Dämonenschatten an die Wände, was die Szene unheimlich,
     aber technisch erklärbar macht.
   Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade rechtzeitig, bevor sie zu einem
-  ausgewachsenen Paradox heranwächst.
+  ausgewachsenen Paradoxon heranwächst.
 - **Tonalität:** Diese Mission ist hervorragend für einen **ruhigeren, unheimlichen** Einstieg
   geeignet. Statt voller Action steht **Atmosphäre und Rätsel** im Vordergrund. Man kann leichte
   Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
