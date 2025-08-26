@@ -15,6 +15,14 @@ rt.on_command('spiel starten (GRUPPE) klassisch');
 assert.equal(rt.state.start.type, 'gruppe');
 assert.equal(rt.state.exfil, null);
 
+rt.on_command('spiel starten (gruppe) 3');
+assert.equal(rt.state.start.type, 'gruppe');
+assert.equal(rt.state.team.size, 0);
+
+rt.on_command('spiel starten (npc-team) 9');
+assert.equal(rt.state.start.type, 'gruppe');
+assert.equal(rt.state.team.size, 0);
+
 rt.on_command('begin mission');
 assert.notEqual(rt.state.exfil, null);
 
