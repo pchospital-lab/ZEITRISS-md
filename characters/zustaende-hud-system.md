@@ -411,8 +411,8 @@ einen Toggle `/stress open|hidden`.
   `Seeds 3 · 🔄 Paradoxon 4/5`
   So bleibt die langfristige Orientierung erhalten. Ein Foreshadow-Pulse kann dezent vor nahen Rissen warnen.
     Die Paradoxon-Mechanik ist standardmäßig aktiv, kann aber jederzeit mit
-  `modus paradox off` abgeschaltet werden – unabhängig davon, ob das Team
-  **pro** oder **contra** spielt. Mit `modus paradox on` schaltet ihr sie
+  `modus paradoxon off` abgeschaltet werden – unabhängig davon, ob das Team
+  **pro** oder **contra** spielt. Mit `modus paradoxon on` schaltet ihr sie
   wieder ein.
 
   Modul Paradoxon-Resonanz gibt der Gruppe Feedback, **wie viel temporale Resonanz ihr Einsatz erzeugt**. Clevere

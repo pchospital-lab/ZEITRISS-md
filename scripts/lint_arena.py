@@ -24,7 +24,7 @@ def main() -> int:
     all_ok &= ok(r"LINT:ARENA_MODULE", "LINT anchors present (ARENA_MODULE)", tk)
     all_ok &= ok(r"LINT:ARENA_GUARDS", "Guards anchor present", tk)
     all_ok &= ok(r"LINT:ARENA_NO_SEEDS", "Seeds suppressed in arena", tk)
-    all_ok &= ok(r"LINT:ARENA_NO_PARADOX", "Paradox frozen in arena", tk)
+    all_ok &= ok(r"LINT:ARENA_NO_PARADOXON", "Paradoxon frozen in arena", tk)
     all_ok &= ok(r"LINT:ARENA_NO_BOSS", "Boss suppressed in arena", tk)
     all_ok &= ok(r"LINT:ARENA_NO_FR_INTERVENTION", "FR intervention suppressed", tk)
     for tag in [

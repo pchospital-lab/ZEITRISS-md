@@ -41,7 +41,7 @@ Siehe hierzu auch das Modul
   Taktische Entscheidungen der Helden beeinflussen dabei den Schlachtausgang.
 - **KI-Integration (Codex & HUD):** Ideen, wie der **Codex**, das KI-Assistenzsystem des ITI, und
   die HUD-Overlays der Agenten für taktische Übersichten, Einsatzsteuerung und Immersion genutzt
-  werden können – von Missionsdaten bis zu Paradox-Warnungen.
+  werden können – von Missionsdaten bis zu Paradoxon-Warnungen.
 - **Tabellen und Beispielwerte:** Praktische Übersichten zu Fahrzeugtypen, Konfliktarten und
   beispielhaften Spielwerten, um die neuen Regeln schnell anzuwenden.
 
@@ -435,8 +435,8 @@ Daten stammen vom **ITI-Codex**, der zentrale Rechner, der Sensoren und Missions
 relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) _„Codex,
 Statusbericht!“_ oder _„Codex, HUD-Übersicht!“_ rufen – die KI liefert dann prompt eine knappe
 Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: _Vitalwerte 78 % (stabil) –
-Paradoxon-Index 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
-automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Paradoxwert ≥3, Timer
+Px 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
+automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Px ≥ 3, Timer
 unter 1 Minute).
 
 **Taktische Übersichten:** Das HUD kann zudem **taktische Karten, Marker und Timer** einblenden,
@@ -498,7 +498,7 @@ früherer Epoche bald funktionslos. Tarnvorrichtung ratsam, um nicht aufzufallen
 Mech** (Chrono-Läufer) | V | Mittel (laufend ~30 km/h) / Zeitsprung | 1 Pilot + evtl. Beifahrer |
 Gigantischer Kampf-Mech mit integriertem Zeitgenerator. Kann kurze **Zeitsprünge** durchführen, um
 z. B. für Sekunden in die Zukunft/Vergangenheit zu versetzen. Extrem selten und nur mächtigen
-Fraktionen zugänglich. Nahezu unaufhaltsam auf Tech III-Niveau – birgt jedoch hohes Paradox-Risiko
+Fraktionen zugänglich. Nahezu unaufhaltsam auf Tech III-Niveau – birgt jedoch hohes Paradoxon-Risiko
 bei Einsatz (Zeitstabilität beachten!). |
 
 _Hinweise:_ **Tempo** ist relativ – ein Hoverbike kann zwar 200 km/h erreichen, aber im dichten
@@ -529,7 +529,7 @@ Gettysburg), Belagerung einer Stadt | 5–8 pro Seite | Helden können nur Teila
 bei Misserfolg gravierender. Codex-HUD kann taktische Übersicht liefern, verringert Orientierungs-
 Proben. | | **Epischer Zeitkrieg** (Armeen aus versch. Epochen, \> Zehntausende) |
 „Zeitkrieg“-Szenario: z.B. Römerlegion vs. Zukunfts-Mechs auf kollidierenden Zeitlinien | 8+ pro
-Seite (flexibel) | Chaos der Zeiten erschwert vieles: **Paradox-Effekte** möglich (würfelt pro
+Seite (flexibel) | Chaos der Zeiten erschwert vieles: **Paradoxon-Effekte** möglich (würfelt pro
 Szene, ob Zeitphänomene auftreten). Helden sollten _sehr_ fokussiert vorgehen, um überhaupt Einfluss
 zu haben. Erfolgsziel hoch ansetzen, aber ggf. in **Theatersequen**z auflösen (die Helden erledigen
 Schlüsselmoment, der Rest wird narrativ entschieden). |
@@ -581,7 +581,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 |-----|-----------:|-----:|--------:|----------:|--------------|
 | **Shard-Imp** (klein) | 2 | +1 | W6 | 4 | Phase Shift (‑2 Treffer) |
 | **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
-| **Paradox Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Paradoxon +1 pro Treffer) |
+| **Paradoxon Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Px −1 pro Treffer) |
 
 Für größere Teams skaliert der HP-Pool der Gegner:
 

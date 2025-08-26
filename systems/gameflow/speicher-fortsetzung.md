@@ -18,7 +18,7 @@ assert campaign.loc == "HQ", "Speichern nur im HQ. Missionszustände sind flüch
 assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
 assert not state.get('timer') and not state.get('exfil_active')
 required = ["id","sys","sys_used","stress","heat","cooldowns",
-            "campaign.paradox","artifact_log","codex","economy",
+            "campaign.px","artifact_log","codex","economy",
             "logs","ui"]
 assert all(k in state for k in required)
 ```
@@ -38,7 +38,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "stress": 0,
   "heat": 0,
   "cooldowns": {},
-  "campaign": {"episode": 4, "scene": 0, "paradox": 0},
+  "campaign": {"episode": 4, "scene": 0, "px": 0},
   "artifact_log": [],
   "codex": [],
   "modes": ["mission", "verbose", "transparenz"]
@@ -46,7 +46,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
-  `campaign.paradox`, `artifact_log`, `codex`, `economy`, `logs` und `ui`.
+  `campaign.px`, `artifact_log`, `codex`, `economy`, `logs` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
@@ -117,7 +117,7 @@ Transparenz-Modus nach einem Neustart erhalten.
   "zr_version": "4.2.0",
   "save_version": 3,
   "location": "HQ",
-  "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "paradox": 1 },
+  "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
   "character": {
     "id": "CHR-XXXX",
     "name": "Agent Name",

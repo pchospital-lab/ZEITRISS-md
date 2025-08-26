@@ -19,7 +19,7 @@ tags: [doc, lint]
 - `LINT:ARENA_MODULE` — meta/lint-anchors.md
 - `LINT:ARENA_NO_BOSS` — meta/lint-anchors.md
 - `LINT:ARENA_NO_FR_INTERVENTION` — meta/lint-anchors.md
-- `LINT:ARENA_NO_PARADOX` — meta/lint-anchors.md
+- `LINT:ARENA_NO_PARADOXON` — meta/lint-anchors.md
 - `LINT:ARENA_NO_SEEDS` — meta/lint-anchors.md
 - `LINT:ARENA_PSI_HINT` — meta/lint-anchors.md
 - `LINT:ARENA_RESTORE` — meta/lint-anchors.md
@@ -65,7 +65,7 @@ tags: [doc, lint]
 - `LINT:ARENA_NO_BOSS` — systems/toolkit-gpt-spielleiter.md
 - `LINT:ARENA_NO_CU_REWARD` — systems/toolkit-gpt-spielleiter.md
 - `LINT:ARENA_NO_FR_INTERVENTION` — systems/toolkit-gpt-spielleiter.md
-- `LINT:ARENA_NO_PARADOX` — systems/toolkit-gpt-spielleiter.md
+- `LINT:ARENA_NO_PARADOXON` — systems/toolkit-gpt-spielleiter.md
 - `LINT:ARENA_NO_SEEDS` — systems/toolkit-gpt-spielleiter.md
 - `LINT:ARENA_PSI_HINT` — systems/toolkit-gpt-spielleiter.md
 - `LINT:ARENA_RESTORE` — systems/toolkit-gpt-spielleiter.md
