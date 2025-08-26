@@ -61,8 +61,9 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
 >    insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
 >    Akten mit vierzehn Szenen.
 > 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index** = Fortschrittsanzeige. Stufe 5 entdeckt 1–2 Rift-Seeds
->    (Index 0) – spielbar nach Episodenende.
+> 4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten.
+>    Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px.
+>    Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende.
 > 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 > 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
 >    Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
@@ -288,7 +289,10 @@ Ein manuelles 10-Schritte-Smoke-Set steht in
 Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht festgeschrieben werden.
 
 **Was bedeutet Px?**
-Der Paradoxon-Index (Px) misst temporale Instabilität; bei Stufe 5 entstehen Seeds und der Zähler setzt zurück.
+Der Paradoxon-Index (Px) belohnt saubere Kausalketten.
+Schlampige, laute Aktionen lassen ihn stagnieren.
+–Px gibt es nur bei zivilen Opfern oder zerstörten Kern-Ankern.
+Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds, danach setzt der Zähler auf 0.
 
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
