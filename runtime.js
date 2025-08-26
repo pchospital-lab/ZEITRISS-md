@@ -1,4 +1,4 @@
-const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
+const { version: ZR_VERSION = '4.2.1' } = require('./package.json');
 
 const state = {
   location: 'HQ',
@@ -239,7 +239,9 @@ function load_deep(raw){
   const migrated = migrate_save(data);
   migrated.location = 'HQ';
   hydrate_state(migrated);
-  return { status: 'ok', state };
+  const hud = scene_overlay();
+  console.log(hud);
+  return { status: 'ok', state, hud };
 }
 
 function startSolo(mode='klassisch'){
@@ -285,21 +287,29 @@ function on_command(command){
       return 'Codex: Poste Speicherstand als JSON.';
     }
     let m;
-    if ((m = cmd.match(/^spiel starten \(solo\)/))){
-      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    if ((m = cmd.match(/^spiel starten \(solo\)(?:\s+(schnell|fast|klassisch|classic))?/))){
+      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       return startSolo(mode);
     }
-    if ((m = cmd.match(/^spiel starten\s*\(npc-team\)(?:\s+([0-4]))?(?:\s+(schnell|klassisch))?$/))){
-      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    if ((m = cmd.match(/^spiel starten\s*\(npc-team\)(?:\s+([0-4]))?(?:\s+(schnell|fast|klassisch|classic))?$/))){
+      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       startSolo(mode);
       const size = m[1] ? parseInt(m[1], 10) : 0;
       setupNpcTeam(size);
       state.start.type = 'npc-team';
       return `npc-team-${mode}`;
     }
-    if ((m = cmd.match(/^spiel starten\s*\(gruppe\)(?:\s+(schnell|klassisch))?$/))){
-      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+    if ((m = cmd.match(/^spiel starten\s*\(gruppe\)(?:\s+(schnell|fast|klassisch|classic))?$/))){
+      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       return startGroup(mode);
+    }
+    if (cmd === '!help start'){
+      return [
+        '`Spiel starten (solo)` – klassisch: Erschaffung → HQ-Intro → Briefing → Szene 1; schnell: Rolle + Defaults → Briefing',
+        '`Spiel starten (npc-team [0–4])` – klassisch: PC bauen + Teamgröße; schnell: Rolle + Teamgröße',
+        '`Spiel starten (gruppe)` – klassisch: alle bauen; schnell: Saves posten oder Rolle',
+        '`Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing'
+      ].join('\n');
     }
     if (cmd === 'begin mission'){
       return launch_mission();
