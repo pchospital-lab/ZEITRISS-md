@@ -1,0 +1,30 @@
+name: Content Bug
+description: Fehler in Regeltext, Terminologie oder Chat-Output melden
+labels: [content, bug]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Datei oder Pfad
+      description: Betroffene Datei oder Sektion
+    validations:
+      required: true
+  - type: textarea
+    id: excerpt
+    attributes:
+      label: Auszug
+      description: Kopiere den fehlerhaften Text hier hinein.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Erwartete Formulierung
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Tatsächliche Formulierung
+    validations:
+      required: true

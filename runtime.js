@@ -90,30 +90,13 @@ function scene_overlay(scene){
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
     if (state.exfil.stress) h += ` · Stress ${state.exfil.stress}`;
   }
-  const px = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
-  const lvl = state.character?.lvl ?? '-';
-  const sysUsed = state.character?.sys_used ?? 0;
-  const sysMax = state.character?.attributes?.SYS_max ?? 0;
-  const sysFree = sysMax - sysUsed;
-  const stress = state.character?.stress ?? 0;
-  if (state.character?.psi_flag){
-    const pp = state.character?.pp ?? 0;
-    const ppMax = state.character?.pp_max ?? 0;
-    const heat = state.character?.heat ?? 0;
-    h += ` · PP ${pp}/${ppMax} · Heat ${heat} · SYS ${sysUsed}/${sysMax} (free ${sysFree})`;
-    h += ` · Stress ${stress} · Px ${px_bar(px)} (${px}/5)`;
-  } else {
-    const ammo = state.character?.ammo;
-    const charges = state.character?.charges;
-    if (ammo != null) h += ` · Ammo ${ammo}`;
-    else if (charges != null) h += ` · Charges ${charges}`;
-    if (sysMax > 0) h += ` · SYS ${sysUsed}/${sysMax} (free ${sysFree})`;
-    h += ` · Stress ${stress} · Px ${px_bar(px)} (${px}/5)`;
-  }
-  h += ` · Lvl ${lvl}`;
-  if (s.index === 0 && state.fr_intervention){
-    h += ` · FR:${state.fr_intervention}`;
-  }
+    const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
+    const sys = state.character?.attributes?.SYS_max ?? 0;
+    const lvl = state.character?.lvl ?? '-';
+    h += ` · Px ${px} · SYS ${sys} · Lvl ${lvl}`;
+    if (s.index === 0 && state.fr_intervention){
+      h += ` · FR:${state.fr_intervention}`;
+    }
   return h;
 }
 
@@ -303,14 +286,17 @@ function on_command(command){
       const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       return startGroup(mode);
     }
-    if (cmd === '!help start'){
-      return [
-        '`Spiel starten (solo)` – klassisch: Erschaffung → HQ-Intro → Briefing → Szene 1; schnell: Rolle + Defaults → Briefing',
-        '`Spiel starten (npc-team [0–4])` – klassisch: PC bauen + Teamgröße; schnell: Rolle + Teamgröße',
-        '`Spiel starten (gruppe)` – klassisch: alle bauen; schnell: Saves posten oder Rolle',
-        '`Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing'
-      ].join('\n');
-    }
+      if (cmd === '!help start'){
+        return [
+          'Startbefehle:',
+          '- Spiel starten (solo) [klassisch|schnell]',
+          '- Spiel starten (npc-team [0–4]) [klassisch|schnell]',
+          '- Spiel starten (gruppe) [klassisch|schnell]',
+          '- Spiel laden',
+          'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
+          'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
+        ].join('\n');
+      }
     if (cmd === 'begin mission'){
       return launch_mission();
     }
