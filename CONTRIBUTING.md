@@ -20,6 +20,8 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Aktiviere das Hook `.githooks/pre-commit` per `git config core.hooksPath .githooks`.
 - Führe die dort beschriebenen Tests nur aus, wenn du am Stub arbeitest.
 - Signalaktionen benötigen ein Gerät (Comlink, Terminal, Kabel oder Relais); ohne Hardware keine Netzinteraktion.
+- Melde Terminologie- oder Regeltext-Abweichungen über das Issue-Template
+  [Content Bug](.github/ISSUE_TEMPLATE/content-bug.yml).
 
 Vielen Dank für deine Mithilfe!
 
@@ -48,6 +50,7 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - `GM_STYLE=verbose python3 tools/lint_runtime.py`
 - `bash scripts/smoke.sh`
 - Optional: `node tools/test_save.js`
+- Für Dispatcher-Smoke-Tests siehe [docs/acceptance-smoke.md](docs/acceptance-smoke.md).
 
 ## Saves
 - Einziger Typ: Deepsave (HQ-only) – `save_version` pflegen, `migrate_save()` mitführen.
