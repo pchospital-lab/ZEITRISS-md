@@ -107,12 +107,85 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
-**Startbefehle im Chat (Klammern Pflicht):**
-- `Spiel starten (solo)` – klassisch: Erschaffung → HQ-Intro → Briefing → Szene 1; schnell: Rolle + Defaults → Briefing.
-- `Spiel starten (npc-team [0–4])` – klassisch: PC bauen + Teamgröße; schnell: Rolle + Teamgröße.
-- `Spiel starten (gruppe)` – klassisch: alle bauen; schnell: Saves posten oder Rolle nennen.
-- `Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing.
-- Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
+## Mini-Playbook {#mini-playbook}
+
+**Startbefehle (Klammern Pflicht):**
+
+- `Spiel starten (solo)` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
+- `Spiel starten (npc-team [0–4])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
+- `Spiel starten (gruppe)` – alle bauen · _schnell_: Saves posten oder Rolle nennen
+- `Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing
+
+**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.  
+**Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
+
+**Regeln:**
+
+- **Nur-HQ-Save** – Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
+- **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden. Nächster Save im HQ.
+- **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
+- **Semver-Toleranz** – Laden klappt, solange `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
+
+[Start-Transkripte ↗](docs/start-transcripts.md) · [Acceptance Smoke ↗](docs/acceptance-smoke.md)
+
+Siehe auch:
+- [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
+- [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
+- [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
+- [Start-Transkripte (Kurz)](#start-transkripte)
+- [Acceptance Smoke (Dispatcher)](#acceptance-smoke)
+
+## Start-Transkripte (Kurz) {#start-transkripte}
+
+<details><summary>Solo – Schnelleinstieg (Happy Path)</summary>
+
+**Spieler:**  
+`Spiel starten (solo schnell) – Rolle: Sniper Alleingänger`
+
+**SL (MyGPT):**  
+> **Briefingraum**. Projektionen flackern.  
+> **Codex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`  
+> **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.  
+> **Legende:** ziviler Gutachter.  
+> **Fraktionslage:** ruhig.  
+> —  
+> *Kurzes Briefing* (3 Ziele). *Dann:* „Szene 1 – Zugangspunkt?“
+
+</details>
+
+<details><summary>Gruppe – Schnelleinstieg (gemischt, 2 Saves + 1 Rolle)</summary>
+
+**Spieler:**
+```text
+Spiel starten (gruppe schnell)
+[A] – Save posten
+[B] – Save posten
+[C] – Rolle: Face
+```
+
+**SL (MyGPT):**  
+> **Codex-Archiv – Rückkehrprotokoll aktiviert.**  
+> Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).  
+> Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.  
+> Paradoxon-Index: █░░░░ (0/5).  
+> **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.  
+> „Führung festlegen? (optional)“
+
+</details>
+
+## Acceptance Smoke (Dispatcher) {#acceptance-smoke}
+
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1  
+2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1  
+3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing  
+4. `Spiel starten (npc-team 5)` → Fehlermeldung „Teamgröße 0–4 …“  
+5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing  
+6. `Spiel starten (gruppe 3)` → Fehlermeldung „Bei *gruppe* keine Zahl …“  
+7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Codex-Recap-Overlay** → HQ/Briefing  
+8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“  
+9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“  
+10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
+
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
 Vor jeder Mission zeigt das HUD den Transfer-Countdown
@@ -171,12 +244,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 ### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
-**Vier Startbefehle (case-insensitive, Klammern Pflicht):**
-- Klammern sind Pflicht: "Spiel starten (solo)" – ohne Klammern wird der Befehl nicht erkannt.
-- `Spiel starten (solo)` – klassisch (Erschaffung → HQ-Intro → Briefing → Szene 1) oder schnell (Rolle + Defaults → sofort Briefing).
-- `Spiel starten (npc-team [0–4])` – klassisch (PC bauen, Teamgröße festlegen) oder schnell (Rolle + Teamgröße → NSCs autogeneriert).
-- `Spiel starten (gruppe)` – klassisch (alle bauen nacheinander) oder schnell (Saves posten, neue nennen nur die Rolle).
-- `Spiel laden` – lädt Deepsave ohne Rückfrage „klassisch/schnell“; danach Recap → HQ oder Briefing.
+Siehe [Mini-Playbook](#mini-playbook) für Startbefehle.
 
 **Akzeptierte Zusätze:**
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
@@ -192,6 +260,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 - Mismatch → „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
+Ein manuelles 10-Schritte-Smoke-Set steht in
+[docs/acceptance-smoke.md](docs/acceptance-smoke.md).
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
@@ -219,6 +289,9 @@ Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nich
 
 **Was bedeutet Px?**
 Der Paradoxon-Index (Px) misst temporale Instabilität; bei Stufe 5 entstehen Seeds und der Zähler setzt zurück.
+
+**Warum Klammern Pflicht?**
+Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 
 #### Runtime Helper – Kurzreferenz
 
