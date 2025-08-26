@@ -413,43 +413,21 @@ Mission fest und dient der Boss-Generierung. `fx_override` erlaubt
 missionale Anpassungen von `fx.transfer` wie `show_redirect:false` oder
 einem abweichenden `redirect_hours`.
 
-### Load → StartMission Enforcement
+### Load → HQ-Phase oder Briefing
 
-- Nach einem erfolgreichen **Load** (Solo oder Gruppe) **muss** die SL
-  unmittelbar `StartMission()` auslösen, um `campaign.scene` und HUD zu
-  setzen.
-- Um die README-Einstiegsfrage nicht zu überspringen, darf die SL den
-  Transfer kurz unterdrücken:
-  - `fx_override.transfer.on_mission_enter = "never"`
-  - `fx_override.transfer.show_redirect = false`
-- Nach `StartMission()` einmalig `ShowComplianceOnce()` einblenden,
-  danach `Recap()` und die Einstiegsfrage aus README stellen.
-- HQ-Interlude nur als Text; kein `NextScene("HQ")` erzeugen.
-- Nach der Entscheidung Transfer-Defaults reaktivieren und Szene 1 starten.
+- Nach einem erfolgreichen **Load**:
+  - `ShowComplianceOnce()` bei Bedarf.
+  - `Recap()` abspielen.
+  - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
+  - **Keine** Nachfrage „klassischer Einstieg/Schnelleinstieg“.
 
 **Beispiel:**
 ```pseudo
-# Nach jedem erfolgreichen Load:
-StartMission(
-  total = 12,
-  type  = "core",
-  fx_override = {
-    transfer: { on_mission_enter: "never", show_redirect: false }
-  }
-)
-
-ShowComplianceOnce()  # nur 1× pro Tag
-Recap()
-choice = Ask("klassischer Einstieg" | "Schnelleinstieg")
-
-if choice == "klassischer Einstieg":
-  narrate('Kurzer HQ-Interlude als Text – kein NextScene("HQ")')
-
-emitHUD('Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)')
-narrate('Kältezug. Druck auf den Ohren. Farben kippen. Cut – Zielrealität steht scharf.')
-
-# Szene 1 starten
-NextScene(loc = <Ziel>, role = "Ankunft")
+LoadSave(json):
+  hydrate_state(json)
+  ShowComplianceOnce()
+  Recap()
+  # HQ-Dialog oder Briefing starten
 ```
 
 {% macro fr_intervention_roll() -%}
@@ -1931,10 +1909,16 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 
 Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
 
-- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
-- **`Spiel starten (npc-team)`** – Temporäres Begleitteam durch GPT.
-- **`Spiel starten (gruppe)`** – Mehrere reale Spieler, eigene Saves oder neue Charaktere.
-- **`Spiel laden`** – Fortsetzung eines vorhandenen Spielstands.
+- **`Spiel starten (solo)`** –
+  - _Klassisch_: vollständige Charaktererschaffung.
+  - _Schnell_: Rolle wählen, Defaults bestätigen, direkt ins Briefing.
+- **`Spiel starten (npc-team)`** –
+  - _Klassisch_: eigener Charakter + Teamzusammenstellung.
+  - _Schnell_: Rolle und Teamgröße nennen; NSCs werden generiert.
+- **`Spiel starten (gruppe)`** –
+  - _Klassisch_: alle bauen neue Charaktere.
+  - _Schnell_: bestehende Chars posten, neue nennen nur ihre Rolle; Mischrunden erlaubt.
+- **`Spiel laden`** – Fortsetzung eines Spielstands; Recap → HQ oder Briefing, **keine** Einstiegsfrage.
 
 Fehlt beim Befehl `Spiel laden` der JSON-Save, fordert GPT ihn an, bevor die
 Fortsetzung beginnt.
@@ -1949,7 +1933,8 @@ Der Dispatcher folgt diesen Regeln:
 - **Spiel laden**
   - Fehlt der JSON-Save, fordert GPT ihn an und wartet ab.
   - Liegt ein Save vor, lädt GPT ihn, spielt eine kurze Rückblende,
-    aktiviert das HUD und setzt die Mission fort.
+    platziert die Gruppe im HQ oder startet direkt das Briefing.
+  - Nach erfolgreichem Load **keine** Nachfrage nach Einstiegstyp.
 - **Spiel starten (solo | npc-team | gruppe)**
   - HUD aktivieren und kurz das `NullzeitMenu()` zeigen.
   - Danach Charaktererschaffung abhängig vom Modus:
