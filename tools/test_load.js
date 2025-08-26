@@ -1,5 +1,6 @@
 const rt = require('../runtime');
 const assert = require('assert');
+const pkg = require('../package.json');
 
 const save = {
   save_version: 3,
@@ -22,4 +23,5 @@ const save = {
 const res = rt.load_deep(save);
 assert.equal(res.status, 'ok');
 assert.equal(rt.state.exfil, null);
+assert.equal(rt.ZR_VERSION, pkg.version);
 console.log('load-ok');

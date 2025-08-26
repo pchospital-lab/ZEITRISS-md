@@ -1,3 +1,5 @@
+const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
+
 const state = {
   location: 'HQ',
   campaign: {},
@@ -175,7 +177,7 @@ function assert_foreshadow(n=2){
 function select_state_for_save(s){
   return {
     save_version: 3,
-    zr_version: '4.2.2',
+    zr_version: ZR_VERSION,
     location: s.location,
     campaign: s.campaign,
     character: s.character,
@@ -193,13 +195,14 @@ function save_deep(s=state){
   const a = c.attributes || {};
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
   if (c.heat !== 0) throw new Error('SaveGuard: heat > 0.');
-  if (a.SYS_used !== a.SYS_max) throw new Error('SaveGuard: SYS mismatch.');
+  if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
   const required = [
     c.id,
     c.cooldowns,
     s.campaign?.paradoxon_index,
-    s.logs?.artifact_log,
-    s.logs?.codex
+    s.economy,
+    s.logs,
+    s.ui
   ];
   if (required.some(v => v === undefined)){
     throw new Error('SaveGuard: missing fields.');
@@ -249,8 +252,7 @@ function startSolo(mode='klassisch'){
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   };
-  StartMission();
-  return `solo-${mode}`;
+    return `solo-${mode}`;
 }
 
 function setupNpcTeam(size=0){
@@ -261,40 +263,50 @@ function startGroup(mode='klassisch'){
   state.start = { type: 'gruppe', mode };
   state.location = 'HQ';
   state.team = { size: 0 };
-  StartMission();
   return `gruppe-${mode}`;
+}
+
+function launch_mission(){
+  StartMission();
+  return 'mission-launched';
 }
 
 function debrief(st){
   return `${render_rewards()}\n${render_px_tracker(st.temp || 0)}`;
 }
 
-function on_command(cmd){
-  if (cmd.startsWith('!load ')){
-    const json = cmd.slice(6).trim();
-    return load_deep(json);
-  }
-  if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
-    return 'Codex: Poste Speicherstand als JSON.';
-  }
-  if (cmd.startsWith('spiel starten (solo)')){
-    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
-    return startSolo(mode);
-  }
-  if (cmd.startsWith('spiel starten (npc-team)')){
-    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
-    startSolo(mode);
-    setupNpcTeam(2);
-    state.start.type = 'npc-team';
-    return `npc-team-${mode}`;
-  }
-  if (cmd.startsWith('spiel starten (gruppe)')){
-    const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
-    return startGroup(mode);
-  }
-  if (cmd === '!gear shop'){
-    return render_shop_tiers(1, 0, []);
-  }
+function on_command(command){
+    let cmd = command.toLowerCase().trim();
+    if (cmd.startsWith('!load ')){
+      const json = command.slice(6).trim();
+      return load_deep(json);
+    }
+    if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
+      return 'Codex: Poste Speicherstand als JSON.';
+    }
+    let m;
+    if ((m = cmd.match(/^spiel starten \(solo\)/))){
+      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+      return startSolo(mode);
+    }
+    if ((m = cmd.match(/^spiel starten \(npc-team\)(?:\s+(\d))?/))){
+      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+      startSolo(mode);
+      const size = m[1] ? parseInt(m[1], 10) : 0;
+      setupNpcTeam(size);
+      state.start.type = 'npc-team';
+      return `npc-team-${mode}`;
+    }
+    if ((m = cmd.match(/^spiel starten \(gruppe\)/))){
+      const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
+      return startGroup(mode);
+    }
+    if (cmd === 'begin mission'){
+      return launch_mission();
+    }
+    if (cmd === '!gear shop'){
+      return render_shop_tiers(1, 0, []);
+    }
   if (cmd === '!px'){
     return render_px_tracker(0);
   }
@@ -316,6 +328,7 @@ function on_command(cmd){
 }
 
 module.exports = {
+  ZR_VERSION,
   state,
   on_command,
   debrief,
@@ -335,5 +348,6 @@ module.exports = {
   startSolo,
   setupNpcTeam,
   startGroup,
-  jam_now
+  jam_now,
+  launch_mission
 };
