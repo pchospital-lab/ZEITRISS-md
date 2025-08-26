@@ -163,15 +163,15 @@ Beispiel:
 if not char.get("psi") and not char.get("has_psi"):
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradox (0–5). Bei 5 notiert Codex "Paradox 5 erreicht – neue Rift-Koordinaten verfügbar".
+- TRACK Paradoxon-Index (0–5). Bei 5 notiert Codex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen
-  bis zum nächsten Anstieg aus, z. B. `Paradox: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
+  bis zum nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
   Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
-- Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `OpenRifts` und setze `Px = 0`.
+- Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `rift_seeds` und setze `Px = 0`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadox()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
@@ -348,7 +348,7 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 ---
 ### 8 | Rift-Spawn-Ansage
 
-> **Paradox 5 erreicht – neue Rift-Koordinaten verfügbar.**
+> **Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > **Neuer Rift-Seed:** *#1889-01 – Kanallegende von Saint-Martin.*
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
@@ -1544,8 +1544,8 @@ nach einem Para-Kreaturen-Drop.
   {% if campaign.paradox >= 5 %}
      {% set seeds = ['auto'] %}
      {# LINT:PX5_SEED_GATE #}
-     {{ hud_tag('Paradox 5 erreicht – neue Rift-Koordinaten verfügbar') }}
-     {% set campaign.OpenRifts = (campaign.OpenRifts or []) + seeds %}
+     {{ hud_tag('Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar') }}
+     {% set campaign.rift_seeds = (campaign.rift_seeds or []) + seeds %}
      {% set campaign.paradox = 0 %}
   {% endif %}
 {%- endmacro %}
@@ -1555,7 +1555,7 @@ nach einem Para-Kreaturen-Drop.
 {%- endmacro %}
 
 {% macro apply_rift_mods_next_episode() -%}
-  {% set n = (campaign.OpenRifts or [])|length %}
+  {% set n = (campaign.rift_seeds or [])|length %}
   {% set campaign.next_episode = {'sg_bonus': n, 'cu_multi': 1.0 + 0.2*n} %}
 {%- endmacro %}
 
@@ -1812,31 +1812,31 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
     {{ hud_tag('Rift entdeckt: ' ~ seed.rift_id ~ ' (' ~ seed.epoch ~ ')') }}
   {% endfor %}
 {%- endmacro %}
-### ParadoxPing() Macro
-{% macro ParadoxPing() -%}
+### PxPing() Macro
+{% macro PxPing() -%}
 {% if campaign.lastPx is not defined %}
   {% set campaign.lastPx = 0 %}
   {% set campaign.lastPxScene = 0 %}
 {% endif %}
 {% if campaign.paradox != campaign.lastPx and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag('Paradox 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
+    {{ hud_tag('Paradoxon-Index 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag('Paradox ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
+    {{ hud_tag('Px ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
 {% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 5 %}
   {% if campaign.paradox == 5 %}
-    {{ hud_tag('Paradox 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
+    {{ hud_tag('Paradoxon-Index 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
     {% set campaign.paradox = 0 %}
     {{ generate_rift_seeds(1,2) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% else %}
-    {{ hud_tag('Paradox ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
+    {{ hud_tag('Px ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
     {% set campaign.lastPx = campaign.paradox %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
@@ -1844,10 +1844,10 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
 {%- endmacro %}
 
 ```md
-<!-- Test: ParadoxPing throttle -->
+<!-- Test: PxPing throttle -->
 {% set campaign = namespace(paradox=5, scene=1, lastPx=0, lastPxScene=0) %}
 {% for s in range(1,6) %}
-{% set campaign.scene = s %}Szene {{ s }}: {{ ParadoxPing() }}
+{% set campaign.scene = s %}Szene {{ s }}: {{ PxPing() }}
 {% endfor %}
 ```
 
@@ -2344,7 +2344,7 @@ dialog: "Zeit ist kein Fluss, Agent. Sie ist ein Tresor."
 event_id: lab_overload
 trigger: Spieler betritt Research-Wing
 skill_gate: Tech 12
-on_fail: +1 Paradox-Punkt, mini-explosion (1 W6 Schaden)
+on_fail: +1 Paradoxon-Punkt, mini-explosion (1 W6 Schaden)
 on_success: 200 CU Bonus
 ```
 
@@ -2360,7 +2360,7 @@ Sgt. Keller salutiert knapp.
 > go operations
 [Operations-Deck]
 Hologramme tanzen über dem Seed-Scanner.
-Open Rifts: 1  |  Paradoxon-Index: 3
+Rift-Seeds: 1  |  Paradoxon-Index: 3
 > use seed-scanner
 Rift-ID #LND-1851 »Steam Wraith« – Status: OPEN
 Side-Op? (y/n)
@@ -2380,7 +2380,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 
 - Text-Router mit Raum-IDs und Aliasen.
 - API-Endpoint `getRoomPopulation`.
-- Persistente Paradox- und Seed-Statistik.
+- Persistente Paradoxon- und Seed-Statistik.
 - Side-Op-Starter über `jump rift-ID`.
 - Ruhen in den Crew-Quarters zum Reset von HP & Stress.
 

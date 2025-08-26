@@ -66,7 +66,7 @@ def main() -> int:
         req(r"PRECISION fehlend", tk, "PRECISION-Warnung vorhanden", fails)
 
     # Px-HUD
-    req(r"Paradox[:\s]+[▓░]{5}", tk, "Px-Balken dargestellt", fails)
+    req(r"Px[:\s]+[▓░]{5}", tk, "Px-Balken dargestellt", fails)
     req(r"TEMP", tk, "TEMP im HUD", fails)
     req(r"\+1 nach\s+\d", tk, "ETA bis nächster Px-Punkt", fails)
 

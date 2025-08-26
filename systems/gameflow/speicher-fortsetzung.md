@@ -14,7 +14,7 @@ tags: [system]
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
-assert campaign.loc == "HQ", "Speichern nur im HQ – Missionszustände sind flüchtig."
+assert campaign.loc == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
 assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
 assert not state.get('timer') and not state.get('exfil_active')
 required = ["id","sys","sys_used","stress","heat","cooldowns",
@@ -25,6 +25,9 @@ assert all(k in state for k in required)
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt:
+
+In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
+übergeben werden, nächster Save erst im HQ.
 
 ```json
 {
@@ -55,7 +58,7 @@ dort deterministisch gesetzt:
 - Nach `Spiel laden` folgt eine kurze Rückblende; danach HQ oder direkt Briefing, keine Frage nach Einstiegstyp.
 - HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
 - Semver-Toleranz: Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+- Mismatch → „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
@@ -71,7 +74,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 - `resolve_rifts(ids)` – markiert Seeds als geschlossen und passt Belohnungen an.
 - `seed_to_hook(id)` – liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 
-### Paradoxon-Index & Rift-Seeds (Kernlogik)
+### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
 
 - Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
 - Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus.
@@ -87,19 +90,25 @@ Transparenz-Modus nach einem Neustart erhalten.
 - "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
 - "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
 
-### Immersiver Ladevorgang (In-World-Protokoll)
+### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}
 
 - Kollektive Ansprache im Gruppenmodus („Rückkehrprotokoll für Agententeam …“).
 - Synchronisierungs-Hinweis („Codex synchronisiert Einsatzdaten aller Teammitglieder …“).
 - Kurze Rückblende der letzten Ereignisse aus Sicht der Beteiligten.
 - Individuelle Logbucheinträge sind erlaubt (ein Satz pro Char).
 
+> **Codex-Archiv** – Rückkehrprotokoll aktiviert.
+> Synchronisiere Einsatzdaten: **Alex** (Lvl 3), **Mia** (Lvl 2).
+> Letzte Einsätze konsolidiert. Paradoxon-Index: █░░░░ (1/5).
+> Willkommen im HQ. Befehle? (Briefing, Shop, Training, Speichern)
+
 ### Abweichende oder fehlerhafte Stände (In-World-Behandlung)
 
 - Leichte Formatfehler: als Codex-Anomalie melden und in-world nachfragen.
 - Inkonsistenzen: als Anomalie melden und einen Vorschlag zur Bereinigung anbieten.
 - Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
-- Semver-Mismatch: „Archivversion X.Y, aktiv A.B – Datensatz nicht kompatibel. Patch-Level wird ignoriert.“
+- Semver-Mismatch: „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
+- Ambige Saves: „Codex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil* oder *Teamprofil* geladen werden?“
 
 ### Kanonisches DeepSave-Schema (Kurzfassung)
 

@@ -232,7 +232,7 @@ Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die
 Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 ([Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge)).
 Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
-zurück. Offene Risse landen im Spielstand und lassen sich über das
+zurück. Offene Risse landen im Spielstand als `rift_seeds` und lassen sich über das
 **ClusterDashboard** einsehen. 🌀 PX 5/5 – ClusterCreate aktiviert · Neue Seeds: #011, #015
 Erst nach Abschluss der Episode kann die Gruppe
 einen Eintrag via `launch_rift(seed_id)` als eigenständige Rift-Op starten und danach
@@ -241,7 +241,7 @@ Einzelmissionen und zählen nicht zur Missionsanzahl einer Episode.
 
 Jeder Seed steht für ein offenes Pararift.
 Sobald `ClusterCreate()` aktiv wird, springt der Paradoxon‑Index auf 0.
-Die neu sichtbaren Seeds landen anschließend im Array `OpenRifts`.
+Die neu sichtbaren Seeds landen anschließend im Array `rift_seeds`.
 Der Reset greift erst nach einer Runde, damit dramatische Szenen ausklingen können.
 Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn im HQ.
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
