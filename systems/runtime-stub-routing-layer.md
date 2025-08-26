@@ -116,13 +116,13 @@ Content-Type: application/json
 
 ---
 
-## 3 | PERSISTENZ – Paradox- & Seed-Stats
+## 3 | PERSISTENZ – Paradoxon- & Seed-Stats
 
 ```jsonc
 // Spielzustand (JSON) – wird nach jeder Aktion aktualisiert
 {
-  "paradox_level": 3,
-  "paradox_points": 11,
+  "paradoxon_index": 3,
+  "paradoxon_points": 11,
   "open_seeds": [
     { "id":"LND‑1851‑SW", "epoch":"Victorian", "status":"open" }
   ],
@@ -139,16 +139,16 @@ Content-Type: application/json
 _Getter-Helpers (pseudo JS):_
 
 ```javascript
-export const getParadox = () => state.paradox_level;
+export const getParadoxon = () => state.paradoxon_index;
 export const getOpenSeeds = () => state.open_seeds.length;
-export const incrementParadox = (pp = 1) => {
-  state.paradox_level += pp;
-  ParadoxPing();
+export const incrementParadoxon = (pp = 1) => {
+  state.paradoxon_index += pp;
+  ParadoxonPing();
   autoSave();
 };
 export const closeSeed = (id) => { ... };
 export function ClusterCreate() {
-  if (state.paradox_level < 5) return;
+  if (state.paradoxon_index < 5) return;
   const count = 1 + Math.floor(Math.random() * 2);
   for (let i = 0; i < count; i++) {
     state.open_seeds.push({
@@ -158,7 +158,7 @@ export function ClusterCreate() {
       deadline: Date.now() + 72 * 3600 * 1000,
     });
   }
-  state.paradox_level = 0;
+  state.paradoxon_index = 0;
   writeLine(`ClusterCreate spawned ${count} Rift-Seeds.`);
   autoSave();
 }
@@ -170,7 +170,7 @@ export function ClusterCreate() {
 
 ```typescript
 function renderOperationsDeck() {
-  const lvl = getParadox();
+  const lvl = getParadoxon();
   const open = getOpenSeeds();
   writeLine(`Rift-Seeds: ${open}  |  Paradoxon-Index: ${lvl}`);
   writeLine("> use scanner | > go vault | > go gate");
@@ -204,7 +204,7 @@ function cmdJump(arg) {
   loadParaCreatureEncounter(seed); // → uses Para-Creature generator
   // After victory:
   closeSeed(seed.id);
-  writeLine("Seed sealed. Paradox pressure eased.");
+  writeLine("Seed sealed. Paradoxon pressure eased.");
   autoSave();
 }
 ```
@@ -326,7 +326,7 @@ function arenaMatchWon(playerTeamWon = true) {
 function exitPvPArena() {
   if (!state.arena?.active) return;
   if (state.arena.winsA > state.arena.winsB) {
-    state.paradox_level += 1; // Paradoxon-Bonus +1 Px nach gewonnener Best-of-Three-Serie
+    state.paradoxon_index += 1; // Paradoxon-Bonus +1 Px nach gewonnener Best-of-Three-Serie
   }
   state.arena = { active: false, teamA: [], teamB: [], winsA: 0, winsB: 0 };
   autoSave();
@@ -340,7 +340,7 @@ function exitPvPArena() {
 function startGroupMode(players = []) {
   // Wird nach dem Einlesen mehrerer Savegames aufgerufen.
   // Schwierigkeitsgrad angleichen: Paradoxon-Index und offene Rifts zurücksetzen
-  state.paradox_level = 0;
+  state.paradoxon_index = 0;
   state.open_seeds = [];
   deepSave();
   writeLine(

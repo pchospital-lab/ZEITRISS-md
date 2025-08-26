@@ -211,7 +211,7 @@ if attack_type == "TK-Melee" and target.armor >= 2:
   Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten – im Spiel kann man
   daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
   Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
-  sollten selten und folgenreich sein (siehe Paradox- Effekte).
+  sollten selten und folgenreich sein (siehe Paradoxon-Effekte).
 
 #### Phase-Strike {#phase-strike}
 
@@ -252,7 +252,7 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   Prinzip eine kontrollierte Miniatur-**Zeitriss**-Manipulation ist, was unvorhersehbare
   Nebenwirkungen haben kann. Im Spiel sollte Chronokinese daher sehr restriktiv gehandhabt werden:
   Vielleicht nur als höchste Ausprägung psionischer Macht, die einzelnen erfahrenen NSCs oder den
-  Spielercharakteren auf hohem Level zugänglich ist. Jeder Einsatz könnte unmittelbar eine Paradox-
+  Spielercharakteren auf hohem Level zugänglich ist. Jeder Einsatz könnte unmittelbar eine Paradoxon-
   Warnung hervorrufen. Dafür ist der atmosphärische Effekt enorm – etwa wenn ein Antagonist in einer
   Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche Kugel „wegkürzt“.
   **Wichtig:** Chronokinese sollte nie trivial sein; sie bietet großes Kino, muss aber dramatisch
@@ -309,7 +309,7 @@ Diese Fähigkeit baut sich stufenweise auf.
    Er behält die Kontrolle über seinen eigenen Leib und kann beide Körper
    gleichzeitig steuern.
 
-_Risiken:_ Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxbeschwerden
+_Risiken:_ Diese Kräfte sind sehr fordernd (mindestens 3 SYS), hinterlassen Paradoxon-Beschwerden
 setzen den regungslosen Körper des Anwenders dem Risiko aus.
 
 ## Integration in die Spielwelt: historische Wurzeln & Kontroversen
@@ -379,7 +379,7 @@ verschiedenem Verhältnis zu paranormalen Kräften:
 
 - Die **Kausalklingen** fungieren als militante Zeitpolizei und betrachten Psi als potentielle Gefahr
   für die Kausalität. Sie beobachten massive oder wiederholte Eingriffe genau und greifen erst ein,
-  wenn sich das Paradox spürbar aufbaut. Einzelne Manipulationen ziehen meist nur Überwachung nach
+  wenn sich das Paradoxon spürbar aufbaut. Einzelne Manipulationen ziehen meist nur Überwachung nach
   sich. Hin und wieder helfen sie beim Schließen eines Zeitrisses, falls eine Gruppe ihn nahezu
   außer Kontrolle bringt – das bleibt jedoch eine seltene Ausnahme.
   Manche Offiziere sind beauftragt, bekannte Psi-Aktivisten zu rekrutieren oder auszuschalten und
@@ -532,26 +532,26 @@ aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B
 Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Codex
 notieren könnte).
 
-**Paradox-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
+**Paradoxon-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
 den Zeitstrom stören. Ein Resonanz-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
 insbesondere bei Chronokinese. Er wird fällig, wenn der Ablauf der Geschichte massiv
-verändert wird. Über `modus paradox off` lässt sich die Paradox-Regel komplett
+verändert wird. Über `modus paradox off` lässt sich die Paradoxon-Regel komplett
 deaktivieren; wird sie verwendet, funktioniert sie identisch für Pro- und Contra-Agenten.
 Psionik steht grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder
 alternativ ihren natürlichen Widerstand gegen mentale Kräfte betonen. Wer den
 „Pfad der Erleuchtung" meidet, ist schwerer zu beeinflussen, verzichtet aber nicht
 zwingend auf Psi-Kräfte. Gewöhnliche Anwendungen wie Telepathie oder kurz
-manifestierte Psi-Waffen erzeugen kaum Paradox. Beispiel: Ein Chrononaut sieht in
+manifestierte Psi-Waffen erzeugen kaum Paradoxon. Beispiel: Ein Chrononaut sieht in
 einer präkognitiven Vision, dass in einer Stunde ein Attentat auf eine wichtige
 Person erfolgreich ist (historisch belegtes Ereignis). Er interveniert telepathisch
 und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
-bekannte Geschichte verändert – ein klassisches Paradox. In den Regeln könnte man
+bekannte Geschichte verändert – ein klassisches Paradoxon. In den Regeln könnte man
 hierfür eine Art „Resonanzpunkt" vergeben. Diese Punkte entstehen schrittweise
 während einer Mission, wenn Eingriffe den bekannten Verlauf stärken.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
 Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
 Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten nicht als Strafe.
-Mechanisch sollte Paradox-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
+Mechanisch sollte Paradoxon-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
 Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um
 unterschiedliche Zeiten geht. Hier ein paar Leitlinien, die als Regeln oder Faustregeln gelten:
@@ -569,7 +569,7 @@ Abkürzung fürs Zeitreisen missverstehen darf.
 
 Zusammengefasst sorgen die Spielmechaniken dafür, dass Psi als Fähigkeit **regeltechnisch fair**
 bleibt. Es gibt Kosten (Konzentration, Systemlast), es gibt Unsicherheit (Würfe, Fehlschläge) und es
-gibt potentielle Gefahren (Überlastung, Paradoxien). Damit fühlt sich Psi-Einsatz ähnlich an wie der
+gibt potentielle Gefahren (Überlastung, Paradoxa). Damit fühlt sich Psi-Einsatz ähnlich an wie der
 Einsatz eines mächtigen Geräts: mal unglaublich nützlich, mal unberechenbar, immer aber mit
 Verantwortung verbunden.
 
@@ -613,7 +613,7 @@ Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als
 
 Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 - Preis: **−1 Px** pro verbranntem PP.
-> Px = Paradox‑Index‑Punkte (siehe core).
+> Px = Paradoxon‑Index‑Punkte (siehe core).
 > **Nie** mehr Burn‑PP als TEMP – die Zeit reißt sonst sofort (SL‑Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
 
@@ -628,7 +628,7 @@ Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
 \* Annahme: Kurze Erholung nach jedem Kampf.
 
 Ergebnis: **Höhere TEMP gibt linear mehr Juice**, aber Cooldowns deckeln
-Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradox‑Gefahr (−Px oder Reset je nach Ausreizung).
+Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradoxon-Gefahr (−Px oder Reset je nach Ausreizung).
 
 ### Psi-Heat-Track {#psi-heat-track}
 
@@ -840,8 +840,8 @@ nochmals verstärken.
 vergessen. Die Spieler sollten jederzeit verstehen, welche Auswirkungen ihre Entscheidungen haben.
 Das heißt, die SL-KI sollte ihnen Feedback geben, wenn z.B. Systemlast ein kritisches Level
 erreicht: _„Du spürst ein Flimmern in deinem Neuro-Interface – offenbar gerät dein System an die
-Belastungsgrenze (SYS-Warnung auf 5/5).“_. Oder wenn ein Paradox droht, kann die KI ruhig out-of-
-character anmerken: _„(Achtung: Eure Veränderung könnte ein Paradox erzeugen, das spürt insbesondere
+Belastungsgrenze (SYS-Warnung auf 5/5).“_. Oder wenn ein Paradoxon droht, kann die KI ruhig out-of-
+character anmerken: _„(Achtung: Eure Veränderung könnte ein Paradoxon erzeugen, das spürt insbesondere
 der Psi-aktive Charakter XY.)“_ Vielleicht hat der Psi-Charakter dann sogar eine Meta-Vorahnung, die
 man ihm mitteilt. Ziel ist, dass die Spieler die Konsequenzen ihres Psi-Einsatzes steuern können,
 bevor es zu spät ist. Die KI sollte also das Unsichtbare sichtbar machen, ohne den Schleier der

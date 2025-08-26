@@ -87,7 +87,7 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | --- | --- | --- |
 | Proto-Zeitdetektor | Warnt 1 Szene vor Anachron-Tech | 900 |
 | Psi-Synchron Helm | −1 SG auf Psi, nur mit Psi-Tag | 900 |
-| Void-Blade | ignoriert Rüstung 2, Paradox-safe | 900 |
+| Void-Blade | ignoriert Rüstung 2, Paradoxon-safe | 900 |
 | Chrono-Beacon | Not-Extraction in 1 Rnd → Nullzeit | 900 |
 
 #### Konforme Beispielausrüstung
@@ -112,7 +112,7 @@ manchmal geheime Depots mit exklusiven Prototypen.
 Ob Klingen, Kugeln oder Laser – Chrononauten greifen auf ein breites Spektrum an Waffen zurück,
 angepasst an Epoche und Auftrag. Eine gut ausgewählte Waffe kann den Unterschied zwischen Erfolg und
 Scheitern ausmachen, doch jede Epoche hat ihre Eigenheiten: Mit einem historischen Schwert erregt
-man in der Zukunft Aufsehen, während ein Laser-Gewehr im Mittelalter pures Chaos (und Paradox-
+man in der Zukunft Aufsehen, während ein Laser-Gewehr im Mittelalter pures Chaos (und Paradoxon-
 Gefahr) bedeutet. Oft stellt das ITI sicher, dass Agenten **zeitgerechte Bewaffnung** mitführen –
 oder High-Tech-Gear geschickt tarnen. So gibt es z.B. Schalldämpfer und spezielle Gehäuse, um
 futuristische Waffen in vergangenen Epochen als “normale” Gegenstände erscheinen zu lassen. Im Kampf
@@ -395,7 +395,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
   schicken). _Verbrauch:_ Einmal einsetzbar, dann muss die interne Quarz-Batterie ersetzt werden.
   _Kosten:_ 150 CU.
 - **Epochen-Scanner:** Ein tragbares Sensorgerät, das Anomalien im Zeitgefüge aufspürt. Ähnlich
-  einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxien, temporale Energie oder unstimmige
+  einem Geigerzähler klickt oder leuchtet es auf, wenn Paradoxa, temporale Energie oder unstimmige
   Objekte (z.B. futuristische Technologie in einer antiken Epoche) in der Nähe sind. Reichweite ca.
   20 m. Besonders hilfreich, um _Zeitverbrecher_ oder fremde Eingriffe zu entdecken. _Kosten:_ 120 CU.
   - **Riss-Tracker (temporaler Resonator):** Ein fest implantiertes Bioimplantat,
@@ -498,7 +498,7 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
 <!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
 
 1. **Kristallschädel** – Schwache Energie, Datenspeicher; 1× pro Mission. {rare_rift}
-2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission +1 Paradox. `altSkin: "Sonnenuhr 200 v.Chr."`
+2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission +1 Paradoxon. `altSkin: "Sonnenuhr 200 v.Chr."`
 3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein; 1× pro Mission. `altSkin: "Bronze-Würfelorakel"`
 4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene; 1× pro Mission; –1 Px. {rare_rift}
 5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf; 1× pro Mission. {rare_rift}
@@ -520,7 +520,7 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
 5. **DNA-Tarnchip** – Verändert kurzfristig biologische Merkmale, bietet +2 auf Verkleidungsproben.
    Preis: 300 CU. Perfekt bei Undercover-Einsätzen. `altSkin: "Maskenset 1600"`
 6. **Portal-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
-   hält. Oft Teil von Paradox-Notfalleinsätzen. Wert: 600 CU. `altSkin: "Runenstein 500"`
+   hält. Oft Teil von Paradoxon-Notfalleinsätzen. Wert: 600 CU. `altSkin: "Runenstein 500"`
 
 ## Einbindung in CUs & Missionen
 
