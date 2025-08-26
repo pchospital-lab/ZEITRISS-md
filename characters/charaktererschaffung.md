@@ -254,7 +254,7 @@ freigeschaltet.
     **Sidearm** (Zweitwaffe) sein – viele Charaktere tragen z.B. eine leichte Pistole oder versteckte
     Klinge – sowie ein **Gadget** oder Spezialgerät. Beispielsweise führt Henry (Undercover-Spion) neben
     einer leisen Pistole immer Dietriche, Gifte und ein Safeknacker-Kit mit, während Dr. Richter (Medic)
-    ein Medikit und einen Paradox-Scanner dabeihat. Achte auf Vielfalt: Wenn deine Primärausrüstung
+    ein Medikit und einen Paradoxon-Scanner dabeihat. Achte auf Vielfalt: Wenn deine Primärausrüstung
     kämpferisch ist, wähle als Gadget vielleicht etwas Nicht-Tödliches (Betäubungsmittel, Werkzeug) und
     umgekehrt. - **Epoche und Hintergrund:** Berücksichtige, aus welcher Zeit du kommst und in welche Zeit du
     geschickt wirst. ITI rüstet Agenten mit _zeittypischen_ Gegenständen aus. Eine Agentin aus 1910 hat
@@ -293,7 +293,7 @@ ihr noch Kleinigkeiten nach. Anschließend wird der Charakter in den _Codex_-Sys
 In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Deine Figur zieht ihren
 Einsatzanzug an, und im Sichtfeld erscheint eine Zusammenfassung der persönlichen Daten. Die KI-
 Spielleitung kann z.B. verkünden: _„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
-100% (grün); Paradox 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfährst du
+100% (grün); Paradoxon 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfährst du
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
 6. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legst du im HQ fest,
@@ -324,7 +324,7 @@ Zeitgeflecht beeinflussen.
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
 ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Unabhängig
-von dieser Wahl kann die Gruppe die Paradoxmechanik per `modus paradox off`
+von dieser Wahl kann die Gruppe die Paradoxon-Mechanik per `modus paradox off`
 deaktivieren und bei Bedarf identisch wieder einschalten – häufig geschieht
 dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
 
@@ -598,12 +598,12 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   stabilisieren und kritische Verletzungen behandeln), _Analytiker_ (scharfer Verstand für Muster: +2
   auf Proben, um Indizien oder rätselhafte Phänomene zu analysieren – z.B. Paradoxon-Spuren
   untersuchen, chemische Analysen durchführen), _Temporallogiker_ (durch Studium der Temporalphysik:
-  +1 auf alle TEMP-bezogenen Würfe – z.B. Resistenz gegen Paradox-Effekte oder das Erkennen feinster
+  +1 auf alle TEMP-bezogenen Würfe – z.B. Resistenz gegen Paradoxon-Effekte oder das Erkennen feinster
   Zeitstörungen; kann zudem Paradoxon-Index grob vorhersagen oder senken, indem er Gegenmaßnahmen
   vorschlägt). Diese Mischung befähigt ihn, sowohl praktische Medizin als auch theoretische Zeit-
   Analyse zu beherrschen.
 - **Implantate:** _Chrono-Sensorik-Modul_ (kleines Implantat an der Schläfe, detektiert schwache
-  temporale Felder – quasi ein eingebauter Paradox-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
+  temporale Felder – quasi ein eingebauter Paradoxon-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
   auftreten, gibt Vorwarnung bei steigendem Paradoxon-Index) – Kosten 1 SYS. Außerdem ein _medizinisches
   HUD_ als Kontaktlinse, das Vitalwerte von Personen im Blickfeld anzeigt (erleichtert Diagnose, +1
   auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/3 SYS.
@@ -611,7 +611,7 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   futuristische Wundheilungs-Sprays – alles Nötige, um Verletzte im Feld zu stabilisieren und
   versorgen), **Analyse-Kit** (tragbares Labor mit Reagenzgläsern, Mini-Mikroskop, Chemie-
   Schnelltests und einem Datenbank-Tablet – dient z.B. zur Identifikation von Giften oder
-  Altersbestimmung von Funden), **Paradox-Messgerät** (handlicher Scanner, der lokale Anomalien
+  Altersbestimmung von Funden), **Paradoxon-Messgerät** (handlicher Scanner, der lokale Anomalien
   numerisch erfasst – externe Ergänzung zu seinem Chrono-Implantat, um Werte ans Team zu geben). Als
   persönliches Waffen-Set trägt Julian einen modifizierten **Betäubungs-Pfeilwerfer** (eine kleine
   Armbrust, die beruhigende Pfeile verschießt; er bevorzugt nicht-tödliche Methoden) und einen
@@ -621,7 +621,7 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   Forschungsprojekt zur Alterungsumkehr, das unerwartet temporale Effekte tangierte. Das ITI
   rekrutierte ihn wegen seiner einzigartigen Kombination aus wissenschaftlicher Neugier und ethischem
   Verantwortungsbewusstsein. Im Team übernimmt Julian oft die Rolle des **Beraters**: Er evaluiert
-  Risiken, achtet auf moralische Leitplanken und versucht Paradoxien zu verhindern. Sein hohes TEMP-
+  Risiken, achtet auf moralische Leitplanken und versucht Paradoxa zu verhindern. Sein hohes TEMP-
   Talent lässt ihn manchmal Dinge spüren, die anderen entgehen (Déjà-vus, „Zeitflimmern“ in der Luft
   etc.). Julian führt ein akribisches Einsatztagebuch, aus dem er bei Bedarf Informationen zieht.
 - **Team-Perk-Vorschläge:** _Feldklinik_ (durch Julians Präsenz kann das Team Wunden im Einsatz
@@ -744,7 +744,7 @@ nur der Befähigungsindex als offizieller Dienstgrad. Auf Nachfrage kann die KI-
 exakten Fortschritt nennen, z.B.: _„Dein HUD zeigt Level 3 (70 % bis Level 4) und
 Befähigungsindex +1.“_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
 HUD-Zusammenfassung könnte lauten: \*„**_HUD-Status_** – Rang +1 (Level 3, 71 % bis Level 4); Vital:
-100 % (grün); Paradox: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
+100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
 Bereich.“\* – daran siehst du auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen – in der sogenannten **HQ-Phase** – habt ihr
