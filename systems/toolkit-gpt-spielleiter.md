@@ -1907,52 +1907,30 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 
 ## Start Dispatcher {#start-dispatcher}
 
-Der Dispatcher erkennt vier Befehle und leitet daraus den Spielstart ab:
+### LLM-Start-Dispatcher (ohne externe Runtime)
 
-- **`Spiel starten (solo)`** –
-  - _Klassisch_: vollständige Charaktererschaffung.
-  - _Schnell_: Rolle wählen, Defaults bestätigen, direkt ins Briefing.
-- **`Spiel starten (npc-team)`** –
-  - _Klassisch_: eigener Charakter + Teamzusammenstellung.
-  - _Schnell_: Rolle und Teamgröße nennen; NSCs werden generiert.
-- **`Spiel starten (gruppe)`** –
-  - _Klassisch_: alle bauen neue Charaktere.
-  - _Schnell_: bestehende Chars posten, neue nennen nur ihre Rolle; Mischrunden erlaubt.
-- **`Spiel laden`** – Fortsetzung eines Spielstands; Recap → HQ oder Briefing, **keine** Einstiegsfrage.
+**Parsingregel (case-insensitive, natürliche Sprache):**
+1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
+   - Semver-Prüfung: Save lädt, wenn `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
+   - Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+   - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing. Keine Nachfrage „klassisch/schnell“.
+2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
+   - `klassisch|classic` erwähnt → klassischer Einstieg.
+   - `schnell|fast` erwähnt → Schnelleinstieg.
+   - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
+   - `solo`: nie nach Load fragen.
+   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“
+   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei *gruppe* keine Zahl angeben.“
+   - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
-Fehlt beim Befehl `Spiel laden` der JSON-Save, fordert GPT ihn an, bevor die
-Fortsetzung beginnt.
+**Missionsstart:**
+- Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen.
+- Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header EP·MS·SC/total·Mode·Objective setzen.
 
-Vor dem ersten Befehl gilt:
+**Quick-Hilfe:** `!help start` – gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
 
-- `StoreCompliance()` erscheint nur, wenn `compliance_shown_today` noch nicht
-  gesetzt ist. Danach wird das Startbanner angezeigt und das Flag aktualisiert.
-
-Der Dispatcher folgt diesen Regeln:
-
-- **Spiel laden**
-  - Fehlt der JSON-Save, fordert GPT ihn an und wartet ab.
-  - Liegt ein Save vor, lädt GPT ihn, spielt eine kurze Rückblende,
-    platziert die Gruppe im HQ oder startet direkt das Briefing.
-  - Nach erfolgreichem Load **keine** Nachfrage nach Einstiegstyp.
-- **Spiel starten (solo | npc-team | gruppe)**
-  - HUD aktivieren und kurz das `NullzeitMenu()` zeigen.
-  - Danach Charaktererschaffung abhängig vom Modus:
-    - _solo_: `SetupSoloAgent()`
-    - _npc-team_: `SetupSoloAgent()` und `SetupNPCTeam()`
-    - _gruppe_: `SetupGroupAgents()`
-  - Eine HQ-Phase einlegen und schließlich `BeginNewGame` aufrufen.
-
-Dies schafft einen kurzen Atemzug, bevor der eigentliche Seed gezogen wird.
-
-`BeginNewGame()` folgt dem Ablauf aus
-[`cinematic-start.md`](gameflow/cinematic-start.md).
-`LoadSave()` nutzt
-[`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
-
-`Spiel starten` führt zuerst die Charaktererschaffung aus, danach eine kurze HQ-Phase
-und startet dann per `BeginNewGame` in die Mission. `Spiel laden` liest den Save,
-zeigt einen Rückblick und setzt die laufende Mission fort.
+`BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
+`LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
 
 ### Mission Resolution
 
@@ -2941,5 +2919,4 @@ Bitte bestätige diese Hinweise vor Spielstart.
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
-Der Spielertext durchläuft Regex `/Zeitbruch|ClusterCreate|Realität umschreiben/i` und meldet "Störgrad-Anstieg".
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – private use only. See LICENSE.
