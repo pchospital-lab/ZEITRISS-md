@@ -159,18 +159,27 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 
 Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
-**Start/Load (natürliche Befehle & Shortcodes)**
+### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
-- Spiel starten (solo) – Einzelner Chrononaut; NSCs werden geführt.
-- Spiel starten (npc-team) – Temporäres Begleitteam.
-- Spiel starten (gruppe) – Lobby mit Slots (Laden ODER Erstellen), Ready-Gate.
-- Spiel laden / Spielstand laden / `!load` – Lädt Solo- oder Gruppen-Saves.
-  - Autoload: Enthält eine Nachricht einen gültigen ZEITRISS-Save (`zr_version`),
-    startet die Load-Pipeline ohne zusätzlichen Befehl.
-  - Save-Kompatibilität: Lädt, wenn `major.minor` übereinstimmt; Patch-Level wird
-    ignoriert (`ZR_VERSION`).
-- Nach erfolgreichem `Spiel laden` folgt direkt Rückblick → HQ oder Briefing –
-  keine Einstiegsfrage.
+**Vier Startbefehle (case-insensitive, Klammern Pflicht):**
+- `Spiel starten (solo)` – klassisch (Erschaffung → HQ-Intro → Briefing → Szene 1) oder schnell (Rolle + Defaults → sofort Briefing).
+- `Spiel starten (npc-team [0–4])` – klassisch (PC bauen, Teamgröße festlegen) oder schnell (Rolle + Teamgröße → NSCs autogeneriert).
+- `Spiel starten (gruppe)` – klassisch (alle bauen nacheinander) oder schnell (Saves posten, neue nennen nur die Rolle).
+- `Spiel laden` – lädt Deepsave ohne Rückfrage „klassisch/schnell“; danach Recap → HQ oder Briefing.
+
+**Akzeptierte Zusätze:**
+- Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
+- `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
+
+**Fehlertexte:**
+- `npc-team 5` → „Teamgröße erlaubt: 0–4.“
+- `gruppe 3` → „Bei *gruppe* keine Zahl angeben (alle erstellen/rollen, oder Saves posten).“
+
+**Semver (Save-Laden):**
+- Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
+- Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+
+**Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.

@@ -14,9 +14,12 @@ tags: [system]
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
-assert campaign.loc == "HQ", "Speichern nur im HQ."
+assert campaign.loc == "HQ", "Speichern nur im HQ – Missionszustände sind flüchtig."
 assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
-required = ["id","sys","sys_used","stress","heat","cooldowns","campaign.paradox","artifact_log","codex"]
+assert not state.get('timer') and not state.get('exfil_active')
+required = ["id","sys","sys_used","stress","heat","cooldowns",
+            "campaign.paradox","artifact_log","codex","economy",
+            "logs","ui"]
 assert all(k in state for k in required)
 ```
 
@@ -40,16 +43,99 @@ dort deterministisch gesetzt:
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
-  `campaign.paradox`, `artifact_log` und `codex`.
+  `campaign.paradox`, `artifact_log`, `codex`, `economy`, `logs` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
   Basiszustand prüfen kann.
 - GPT darf keine dieser Angaben ableiten oder weglassen.
 
-Beim Laden liest die Spielleitung `modes` aus und ruft für jeden Eintrag
-`modus <name>` auf. So bleiben etwa Mission-Fokus oder Transparenz-Modus nach
-einem Neustart erhalten.
+**Load-Verhalten**
+
+- Nach `Spiel laden` folgt eine kurze Rückblende; danach HQ oder direkt Briefing, keine Frage nach Einstiegstyp.
+- HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
+- Semver-Toleranz: Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
+- Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+
+Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
+Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
+Transparenz-Modus nach einem Neustart erhalten.
+## Makros im Überblick {#makros-im-ueberblick}
+
+- `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
+- `DelayConflict(4)` – verschiebt Konfliktszenen bis zur vierten Szene.
+- `ShowComplianceOnce()` – blendet den täglichen Compliance-Hinweis ein.
+- `ClusterCreate()` – legt bei Paradoxon 5 neue Rift-Seeds an.
+- `ClusterDashboard()` – zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
+- `launch_rift(id)` – startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
+- `resolve_rifts(ids)` – markiert Seeds als geschlossen und passt Belohnungen an.
+- `seed_to_hook(id)` – liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
+
+### Paradoxon-Index & Rift-Seeds (Kernlogik)
+
+- Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
+- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus.
+- Rift-Seeds sind erst nach Episodenende spielbar.
+- Nach der Rift-Phase setzen Index und Resonanz auf 0.
+
+### Legacy-Kompatibilität (Gear-Alias)
+
+> Hinweis für die Spielleitung: Beim Laden interpretierst du alte oder abweichende Gear-Bezeichnungen still
+> auf die neuen Namen. Speichern nutzt stets die kanonischen Begriffe.
+
+**Alias-Beispiele (erweiterbar):**
+- "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
+- "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
+
+### Immersiver Ladevorgang (In-World-Protokoll)
+
+- Kollektive Ansprache im Gruppenmodus („Rückkehrprotokoll für Agententeam …“).
+- Synchronisierungs-Hinweis („Codex synchronisiert Einsatzdaten aller Teammitglieder …“).
+- Kurze Rückblende der letzten Ereignisse aus Sicht der Beteiligten.
+- Individuelle Logbucheinträge sind erlaubt (ein Satz pro Char).
+
+### Abweichende oder fehlerhafte Stände (In-World-Behandlung)
+
+- Leichte Formatfehler: als Codex-Anomalie melden und in-world nachfragen.
+- Inkonsistenzen: als Anomalie melden und einen Vorschlag zur Bereinigung anbieten.
+- Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
+- Semver-Mismatch: „Archivversion X.Y, aktiv A.B – Datensatz nicht kompatibel. Patch-Level wird ignoriert.“
+
+### Kanonisches DeepSave-Schema (Kurzfassung)
+
+```json
+{
+  "zr_version": "4.2.0",
+  "save_version": 3,
+  "location": "HQ",
+  "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "paradox": 1 },
+  "character": {
+    "id": "CHR-XXXX",
+    "name": "Agent Name",
+    "level": 3,
+    "attributes": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS_max": 4, "SYS_used": 4 },
+    "talents": ["Scharfschütze II", "Soldat I"],
+    "bioware": ["Reflexverstärkung", "Muskelstärkung", "Stealth-Skin", "Adrenalin-Drüse"],
+    "synergy": "Adaptive Ligament",
+    "equipment": {
+      "primary": "Resonanz-Sniper (SD)",
+      "secondary": "Sidearm (SD)",
+      "armor": ["Kevlar", "Helm 360°"],
+      "gadgets": ["Medikit", "Nano-Bindepflaster"]
+    },
+    "ammo": 10,
+    "stress": 0,
+    "heat": 0,
+    "cooldowns": {}
+  },
+  "team": { "name": "NPC-Zelle", "members": [] },
+  "economy": { "cu": 0 },
+  "logs": { "missions": [], "blacklab": [] },
+  "ui": { "gm_style": "verbose" }
+}
+```
+
+> Gruppen-Save analog mit `party.characters[]`. Kein zweites Schema mit anderen Feldnamen.
 
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
@@ -550,443 +636,4 @@ flowchart TD
   E --> F[ShowComplianceOnce() + Recap]
   F --> G{Einstieg wählen}
   G -->|Klassisch| H[Transfer-HUD → NextScene]
-  G -->|Schnell| H
-```
-
-> **Hinweis:** Beim Laden mappt das System alte Gear-Bezeichnungen automatisch auf neue
-> Namen; Speichern nutzt stets die kanonischen Begriffe.
-
-#### Legacy-Gear-Alias (optional)
-Beim Laden dürfen folgende alte Bezeichnungen automatisch gemappt werden:
-- "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
-- "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
-
-Hinweis: Die Alias-Map betrifft nur Namen; Regeln/Effekte bleiben unverändert. Speichern schreibt immer die neuen Bezeichnungen.
-
-## Zeitlinien-Tracker und Paradoxon-Index
-
-Ein zentrales Element des Speichersystems ist das **Zeitlinien-Protokoll**. Es
-notiert jede Mission, die den Geschichtsverlauf stabilisiert hat. Eintrag für
-Eintrag entsteht so eine Chronik aller korrigierten Ereignisse. Jeder Datensatz
-umfasst:
-
-- **eine eindeutige ID** (z.B. _E1_, _E2_ ...)
-- **die betroffene Epoche**
-- **eine Kurzbeschreibung des gesicherten Verlaufs**
-- **einen Stabilitätswert** zwischen **0** und **3**
-
-Erreicht ein Ereignis den Wert **3**, gilt es als konsolidiert und der
-**Paradoxon-Index** steigt um **+1**. Der Index misst also, wie stark die
-Chrononauten mit dem Zeitstrom resonieren – er wächst nur durch erfolgreiches
-Ordnen, nicht durch Fehler.
-
-### Was sich geändert hat
-
-Früher zählte der Index vor allem Störungen. Seit Version 4.1.8 fungiert er
-als Fortschrittsanzeige. Jede gesicherte Mission bringt die Gruppe dem nächsten
-Pararift einen Schritt näher.
-
-### TEMP-Wert als Multiplikator
-
-| TEMP-Wert | Paradoxon +1 alle ... Missionen |
-| --------- | ------------------------------- |
-| 1–3       | 5 Missionen                    |
-| 4–7       | 4 Missionen                    |
-| 8–10      | 3 Missionen                    |
-| 11–13     | 2 Missionen                    |
-| 14+       | nahezu jede Mission            |
-
-Bei Stufe 5 löst `ClusterCreate()` **1–2 neue Rift-Koordinaten** aus und der
-Zähler springt auf 0. Danach beginnt der Kreislauf von vorn.
-
-### Darstellung im Speicherstand
-
-```json
-"paradoxon": 3,
-"riftCoordinates": [
-  { "year": 1871, "region": "Elsass", "risk": "hoch" },
-  { "year": 2029, "region": "Berlin", "risk": "mittel" }
-]
-```
-
-Spieler sehen selten nackte Zahlen. Das System kann die näherkommenden Rifts
-durch Kodex-Hinweise, flackernde Effekte oder kurze Rückblenden spürbar machen.
-## Cluster-Dashboard und offene Risse
-
-Neben dem Zeitlinien-Tracker speichert das System alle aktiven Rift-Seeds in
-einem Array namens **OpenRifts**. Jeder Eintrag enthält ID, Seed-Namen,
-Schweregrad und eine optionale Deadline. Das Backend-Macro `ClusterCreate()`
-füllt dieses Array, sobald der Paradoxon-Index Stufe 5 erreicht. Über das
-**ClusterDashboard** lässt sich der aktuelle Stand abrufen, beispielsweise:
-
-```json
-"zr_version": "4.1.5",
-"version_hash": "4.1",
-"OpenRifts": [
-  {"ID":"R-71","Seed":"Emerald Kraken","Severity":1,"Deadline":-10}
-]
-```
-
-Wählt die Gruppe einen Eintrag per `launch_rift(id)`, startet daraus – erst nach
-Abschluss der Episode – eine eigenständige **Rift-Mission**. Ab Episodenende ergibt
-sich die Probe-Schwelle aus `base_dc + open_seeds`.
-geschlossen; scheitert er, erhöht sich zuvor der Schweregrad um 1. Danach wird
-die Schwelle entsprechend der verbliebenen Seeds neu berechnet und Loot-Multi
-angepasst.
-
-### Makros im Überblick {#makros-im-ueberblick}
-
-- `ClusterCreate()` – legt neue Seeds an, sobald Paradox 5 erreicht ist.
-- `ClusterDashboard()` – zeigt den Inhalt von `OpenRifts` an.
-- `launch_rift(id)` – initiiert eine Einzelmission aus einem Seed.
-- `scan_artifact()` – Contra-Tool, steigert den Paradoxon-Index um 1.
-- `seed_to_hook(id)` – schlägt drei kurze Story-Hooks zu einem Seed vor.
-- `resolve_rifts(ids)` – lässt das ITI-Team ausgewählte Seeds schließen.
-
-`seed_to_hook(id)` wertet die Seed-Beschreibung aus und liefert drei knappe
-Aufhänger, um eine neue Rift-Mission zu starten. Beispiel:
-
-```json
-seed_to_hook("S1")
-```
-
-ergibt etwa `["Signal im Labor", "Zeuge berichtet Anomalie", "Artefakt sendet Resonanz"]`.
-
-`resolve_rifts(ids)` nimmt eine Liste von Seed-IDs entgegen und
-entfernt diese direkt aus `OpenRifts`. Der CU- und Schwellen-Bonus
-wird sofort neu berechnet, weil die entfernten Seeds nicht mehr zählen.
-Zusätzlich liefert das Makro einen kurzen Bericht über den Einsatz des
-ITI-Teams: In der HQ-Phase wird für jeden entfernten Seed ein 50/50-Ergebnis
-ermittelt. Bei einem negativen Ausgang verliert die Gruppe CU in Höhe des
-Spielerlevels (niemals unter 0), positive Ergebnisse bringen ein Item im Wert
-von **CU × Spielerlevel**.
-
-
-## Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
-
-Ein zentrales Anliegen bei ZEITRISS ist es, technische Vorgänge wie das **Laden eines Spielstands**
-erzählerisch stimmig in die Spielwelt einzubetten. Bereits im Solo-Spiel wurde dazu oft das Bild
-eines _Codex-Archivs_ oder _Rückkehrprotokolls_ genutzt, um den Übergang von einer Mission zur
-nächsten zu erklären. _(Beispiel im Einzelspiel: „Codex-Archiv – Rückkehrprotokoll für Agent Alex
-aktiviert… Daten werden abgerufen…“)_ Dieses Prinzip bleibt erhalten und wird für den
-**Gruppenmodus** entsprechend erweitert. Wenn nun mehrere Charaktere geladen werden, sollte die
-Lade-Sequenz dies widerspiegeln. Mögliche Anpassungen für den Spielleiter (GPT) beim Start einer
-Gruppenrunde:
-
-- **Kollektive Ansprache:** Die Begrüßung oder Aktivierung kann den ganzen Trupp adressieren. Statt
-  _„Rückkehrprotokoll für Agent X aktiviert…“_ könnte es heißen: \*„Rückkehrprotokoll für Agententeam
-  **_Chronos_** aktiviert…“_, sofern ein Gruppenname definiert ist. Liegt kein fester Teamname vor,
-  kann GPT die Namen aller geladenen Charaktere aufzählen: _„Rückkehrprotokoll aktiviert für Agent
-  Alex und Agent Mia…“\*.
-- **Synchronisierungs-Hinweis:** Das Codex-Archiv (oder welches Ingame-System auch immer das
-  Speichern/Laden repräsentiert) kann erwähnen, dass **mehrere Datensätze synchronisiert** werden.
-  Z.B.: _„ITI-Codex-Archiv synchronisiert Einsatzdaten aller Teammitglieder…“_ oder _„Mehrere
-  Chrononauten-Profile werden aus dem Stasis-Archiv abgerufen.“_.
-- **Erweiterte Rückblende/Briefing:** Beim Laden bietet sich eine kurze Zusammenfassung der letzten
-  Ereignisse **aus Sicht aller Gruppenmitglieder** an. Statt nur die Erinnerungen eines Charakters
-  aufzufrischen, kann GPT hervorheben, was **jeder** zuletzt erlebt hat – und was sie jeweils in der
-  Zeitlinie bewirkt haben. _Beispiel:_ _„Alex erinnert sich daran, wie er den Ausgang der Schlacht von
-  Aquitanien 1356 zugunsten der Franzosen veränderte, während Mia noch die Bilder des viktorianischen
-  London vor Augen hat, wo sie Jack the Ripper das Handwerk legte. Gemeinsam betreten sie nun den
-  Einsatzbesprechungsraum…“_. So fühlt sich jeder Spieler abgeholt und an die Vorgeschichte seines
-  Charakters erinnert, inklusive der Auswirkungen ihrer Taten auf die Geschichte.
-- **Individuelles Déjà-vu/Logbuch:** Jeder Charakter kann ein kurzes Déjà-vu oder einen
-  Logbucheintrag im Codex erhalten, der seine **individuelle Vorgeschichte** bestätigt, bevor die neue
-  gemeinsame Mission beginnt. Das unterstreicht die Kontinuität: Was A und B zuvor getrennt erlebt
-  haben, bringen sie nun als Erfahrungsschatz zusammen.
-- **Optionale cineastische Zusammenfassung (Sora):** Für eine besonders filmreife Rückblende besteht
-  als **optionale Erweiterung** die Möglichkeit, eine cineastische Zusammenfassung der bisherigen
-  Ereignisse einzuspielen. Auf das Kommando _„Film ab!“_ könnte die KI-Spielleitung – unterstützt
-  durch ein Tool wie **OpenAI Sora** (Video-KI) – die letzten Missionen in Form eines kurzen
-  „Holoclip-Trailers“ zusammenfassen. Den resultierenden Text könnt ihr in eine Video-KI kopieren.
-  Ingame würden die Agenten beispielsweise ein projiziertes Video im Briefingraum sehen, das ihre
-  vergangenen Abenteuer filmisch nacherzählt. _(Diese Funktion bereichert die Immersion zusätzlich,
-  ist aber kein erforderlicher Bestandteil des Speichermechanismus und bleibt daher optional.)_
-
-Entscheidend ist, dass die **Immersion gewahrt** bleibt: Für die Charaktere (und Spieler) soll es
-sich so anfühlen, als kämen sie nach einer Zwischenphase oder aus dem Zeitstrom wieder zusammen ins
-Geschehen. Die Spielwelt-Logik (z.B. Cryo-Stase zwischen Missionen, Zeitreise-Transit oder der ITI-
-Briefingraum) erklärt das Zusammenführen der Gruppe, **ohne jemals von Savegames oder technischen
-Details zu sprechen**.
-
-Ein kurzes Beispiel für eine solche Ingame-Lade-Sequenz im Gruppenmodus:
-
-> **Codex-Archiv** – _Datenabruf initialisiert… Rückkehrprotokoll für Agententeam Chronos
-> aktiviert._ > _Synchronisiere Profile:_ **Alex** – Status: Einsatzbereit (Level 2, zuletzt aktiv in Aquitanien
-> 1356); **Mia** – Status: Einsatzbereit (Level 1, zuletzt aktiv in London 1888).
-> _Willkommen zurück, Agenten._ Eure Erinnerungen formen sich, als ihr das Briefing-Zimmer betretet…
-
-Durch diese Erzählweise wird das Laden für die Spieler als Teil der Geschichte **erlebbar** – egal
-ob ein einzelner Chrononaut oder eine ganze Gruppe aus dem Archiv geholt wird. Das Regelwerk sorgt
-also dafür, dass die technischen Notwendigkeiten (Speicherstände laden) elegant in die **Narrative**
-eingeflochten sind. Der Übergang von Mission zu Mission bleibt atmosphärisch dicht: Solo-Abenteurer
-und Agenten-Teams fühlen gleichermaßen einen konsequenten Story-Zusammenhang.
-
-## Umgang mit fehlerhaften oder abweichenden Speicherständen
-
-In der Praxis kann es vorkommen, dass ein Speicherblock nicht perfekt formatiert ist oder
-Informationen fehlen bzw. unerwartet abweichen – etwa durch manuelle Änderungen,
-Versionsunterschiede des Regelwerks oder Copy&Paste-Fehler. Das neue System gibt Leitlinien, wie GPT
-als Spielleiter damit umgehen sollte, **ohne aus der Rolle zu fallen**:
-
-- **Formatfehler erkennen und auffangen:** Stößt GPT auf einen JSON-Block, der nicht sauber lesbar
-  ist (z.B. fehlende Klammern oder Anführungszeichenfehler), sollte es versuchen, den Fehler intern zu
-  korrigieren oder im Zweifelsfall ingame nachzufragen. Dabei bleibt es in-world: Anstatt eine
-  technische Fehlermeldung wie _„SyntaxError: Unexpected token…“_ auszugeben, würde GPT etwa sagen:
-  _„Codex-Archiv Meldung: Datenfragment unvollständig… versuche Rekonstruktion.“_ Anschließend könnte
-  es die vermutlich gemeinten Daten rekonstruieren (sofern der Fehler geringfügig ist). Gelingt das
-  nicht, folgt eine immersive Rückfrage: _„Agentendaten unvollständig. Benötige Bestätigung: Welcher
-  Level war für Agent Alex zuletzt verzeichnet?“_. Auf diese Weise wird der Spieler (bzw. menschliche
-  Spielleiter) auf das Problem hingewiesen – aber in Form eines **Spielwelt-Dialogs**.
-- **Inkonsistente oder unmögliche Werte:** Ähnlich verhält es sich, wenn ein Wert unlogisch
-  erscheint (z.B. EP negativ oder ein Inventargegenstand, der doppelt geführt wird). GPT könnte dies
-  als Anomalie im Codex-Protokoll melden. _Beispiel:_ _„Achtung: Codex-Archiv stellt Diskrepanz in den
-  Daten von Agent Alex fest (Erfahrungspunkte = –5). Initiiere Protokoll zur Datenbereinigung.“_ Dann
-  könnte GPT entweder einen Vorschlag machen (_„Setze EP auf 0.“_ oder _„Bitte Missionsleitung um
-  Bestätigung der korrekten EP.“_) – natürlich alles im Duktus der Spielwelt.
-- **Unbekannte Felder oder ältere Formatversionen:** Falls ein Savegame zusätzliche Felder enthält,
-  die das neue System nicht kennt (oder umgekehrt ein altes Savegame ein Feld nicht hat), sollte GPT
-  nicht stutzig werden, sondern es stillschweigend ignorieren oder standardmäßig behandeln. Man kann
-  dies z.B. so darstellen, dass das Codex-System die relevanten Daten herausfiltert. Ingame könnte es
-  heißen: _„Archivnotiz: Feld 'PsiLevel' übersprungen (veraltet).“_ – sofern man überhaupt explizit
-  darauf eingehen möchte. Oft reicht es, wenn GPT solche Unterschiede intern toleriert, solange die
-  Kernfelder vorhanden sind.
-- **Nachfragen bei Unklarheiten:** Im Zweifel hat GPT immer die Option, einen NSC (Nicht-Spieler-
-  Charakter) oder das System (z.B. den Codex oder einen ITI-Archivisten) zu nutzen, um Rückfragen zu
-  stellen – ohne die vierte Wand zu brechen. Beispielsweise könnte ein Archiv-Techniker im ITI
-  erscheinen, falls etwas Gravierendes fehlt, und sagen: _„Entschuldigung, Agent, einige eurer
-  Profildaten sind nicht abrufbar. Könnt ihr mir euren aktuellen Rang noch einmal durchgeben?“_. Der
-  Spieler versteht, welche Information benötigt wird, und kann sie mitteilen, ohne dass das Spiel
-  seine Immersion verliert.
-
-- **Prüfsumme ergänzen:** Jeder Export enthält nun verpflichtend das Feld `checksum`.
-  Der Wert berechnet sich als **SHA‑256** über das alphabetisch sortierte JSON.
-  Beim Laden vergleicht die Engine diese Prüfsumme. Stimmt sie nicht,
-  wird der Spielstand abgewiesen.
-- **Graveyard-Array:** Zusätzlich zu `charaktere` erlaubt das Format ein
-`graveyard`-Array für tote oder pensionierte Agenten.
-So bleiben ihre Daten erhalten, ohne die Slot-Nummern der aktiven Gruppe zu verändern.
-Diese Vorsichtsmaßnahmen stellen sicher, dass selbst bei abweichenden oder beschädigten Savegames
-das Spiel nicht stoppt oder in einen OOC-Modus wechselt. Stattdessen wird das Problem **innerhalb
-der Geschichte** gelöst – das Nullzeit-Log oder der Codex übernehmen solche Korrekturen und
-Nachfragen. GPT bleibt derweil im Charakter als Spielleiter-NPC, der diese Ereignisse moderiert.
-
-## Spielleitung bleibt in-world (Immersion der Spielleitung)
-
-Ein wichtiger Grundsatz der Überarbeitung ist, dass die **Spielleitung vollständig in-world
-agiert**. Das bedeutet:
-
-- **Keine direkten Systemerklärungen an die Spieler:** Selbst wenn es um Spielmechanik wie das Laden
-  eines Spielstands, das Speichern oder das Beheben eines Fehlers geht, erfolgt die Kommunikation
-  **auf der Ebene der Spielwelt**. Die KI (GPT) spricht also immer als Teil der Welt – sei es als
-  Erzählerstimme, als Codex-System, als KI des Zeitreise-Instituts (ITI) oder durch andere thematisch
-  passende Kanäle.
-- **Verwendung bestehender Ingame-Konzepte:** ZEITRISS hat mit dem Codex-Archiv oder der Idee der
-  Stasis zwischen den Missionen bereits Ingame-Erklärungen etabliert, die genutzt werden können. Diese
-  werden ausgebaut (z.B. durch **Gruppen-Rückkehrprotokolle**), statt neue, außerhalb der Welt
-  stehende Erklärmodelle einzuführen.
-- **Keine Erwähnung von JSON, Dateien o. ä.:** Weder der Begriff _„Speicherstand“_ noch technische
-  Details wie _„JSON-Block“_ oder _„Datei“_ werden gegenüber den Spielern erwähnt. Für die Charaktere
-  sind es **Erinnerungsdaten**, Protokolle oder Logs, aber niemals ein abstraktes Savegame-Objekt.
-- **Spielleiter als Teil der Geschichte:** Man kann sich GPT als eine allwissende Erzähler-Instanz
-  innerhalb der Welt vorstellen (z.B. den missionsleitenden Offizier im ITI, eine Archiv-KI oder eine
-  Stimme im Kopf der Charaktere). Diese Instanz kann alles kommentieren und kontrollieren, tut dies
-  aber immer im passenden Stil. Selbst Hilfestellungen oder Regelerklärungen können die Form von
-  Notizen im Codex oder Ratschlägen eines Mentors annehmen, statt als trockene Systembeschreibung
-  daherzukommen.
-
-Durch diese strikte **In-World-Perspektive** bleibt die Immersion selbst dann erhalten, wenn
-organisatorische Dinge passieren (ein neuer Spieler kommt dazu, ein Savegame wird geladen, ein
-Fehler muss korrigiert werden). Die Spieler erleben all das als **Teil der Handlung** und nicht als
-störende Unterbrechung.
-
-## Praxis-Beispiele für Speicherblöcke (Solo & Gruppe)
-
-Abschließend sind hier noch einmal Beispiele für typische Speicherstände zusammengefasst – einmal
-für einen einzelnen Charakter, einmal für eine Gruppe – im verwendbaren Format. Diese können als
-**Vorlage** dienen.
-
-**Einzelspieler-Beispiel** (Charakter _“Alex”_ nach zwei Missionen):
-
-_{_
-
-_"Name": "Alex",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_"Level": 3,_
-
-_"Erfahrung": 28,_
-
-_"Attribute": {_
-
-_"Stärke": 5,_
-
-_"Geschicklichkeit": 5,_
-
-_"Intelligenz": 6,_
-
-_"Charisma": 4,_
-
-_"Temporale Affinität": 5,_
-
-_"Systemlast": 3_
-
-_},_
-
-_"Talente": \["Pistolenschütze", "Kryptographie", "Erste Hilfe"\],_
-
-_"Implantate": \["Neuro-Link (Kommunikationsimplantat, Systemlast 1)"\],_
-
-_"Psionik": \[\],_
-
-_"Moral": "überwiegend altruistisch",_
-
-_"Ruf": "Angesehener Agent im ITI; bekannt für Zuverlässigkeit",_
-
-_"Inventar": \[_
-
-_"Zeitkompass",_
-
-_"Medic-Kit",_
-
-_"Zeitscanner-Tablet"_
-
-_\],_
-
-_"Errungenschaften": \["Retter von Aquitanien", "Schatten von London"\],_
-
-_"Codex": \[_
-
-_"Schlacht von Aquitanien 1356 aufgeklärt",_
-
-_"Jack the Ripper Identität enttarnt"_
-
-_\],_
-
-_"Statistik": {_
-
-_"Absolvierte Missionen": 2,_
-
-_"Gelöste Rätsel": 5,_
-
-_"Besiegte Gegner": 4_
-
-_}_
-
-_}_
-
-_Kommentar:_ Dies ist ein möglicher Speicherstand von **Alex** nach zwei absolvierten Missionen. Man
-sieht alle relevanten Felder in kompakter Form. GPT könnte beim Laden z.B. sagen: _„Codex-Archiv
-Meldung: Profil von Agent Alex aktualisiert – bereit für Mission 3.“_ (natürlich ausgeschmückt im
-Codex-Stil), um anzuzeigen, dass Alex’ Daten erfolgreich übernommen wurden und er nun für das
-nächste Abenteuer bereitsteht.
-
-**Gruppen-Beispiel** (Team mit _Alex_ und _Mia_, nach Missionsende bereit für den nächsten Einsatz):
-
-```json
-{
-  "Gruppe": "Team Chronos",
-  "Charaktere": [
-    { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 3 },
-    { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 2 }
-  ],
-  "Mission": "Startbereit für Mission3 – Paris 1943",
-  "Zeitlinie": [
-    { "ID": "E1", "Epoche": "1356", "Veränderung": "Schlacht von Aquitanien gerettet", "Stabilität": 3 },
-    { "ID": "E2", "Epoche": "1888", "Veränderung": "Jack the Ripper gefasst", "Stabilität": 2 }
-  ],
-  "Paradoxon": 0
-}
-```
-
-## Versions- und Migrationsmatrix
-
-| Version | Hinweis |
-| ------- | ------- |
-| **4.1.3** | Ausgangsformat, keine Zusatzfelder |
-| **4.1.5** | optionales `arc_dashboard` und neuer `version_hash` |
-
-Beim Laden eines alten 4.1.3-Spielstands fügt die SL einfach ein
-`version_hash` von "4.1" hinzu. Die optionalen Felder von 4.1.5 werden
-ignoriert, bis sie benötigt werden. Weitere Updates können so
-tabellarisch ergänzt werden.
-Alle Spielertexte laufen vor dem Speichern durch den Regex-Filter `/Zeitbruch|ClusterCreate|Realität umschreiben/i`.
-*© 2025 pchospital – private use only. See LICENSE.
-
-## Kanonisches Deepsave-Schema {#deepsave-schema}
-```json
-{
-  "zr_version": "4.2.0",
-  "save_version": 3,
-  "location": "HQ",
-  "campaign": {
-    "episode": 1,
-    "mission_in_episode": 4,
-    "paradoxon_index": 0,
-    "open_rifts": [],
-    "mode": "preserve",
-    "fr_intervention": "ruhig"
-  },
-  "character": {
-    "name": "Dominik K. Nevril",
-    "rank": "Operator I",
-    "level": 5,
-    "attributes": {"STR": 6, "GES": 8, "INT": 5, "CHA": 3, "TEMP": 2, "SYS_max": 4, "SYS_used": 4},
-    "talents": [
-      {"id": "weapon_master_firearms", "tier": 1},
-      {"id": "tactician", "tier": 1},
-      {"id": "precision_killer", "tier": 2},
-      {"id": "precision_chain", "tier": 1}
-    ],
-    "flags": {"has_psi": false, "chronokey": false},
-    "cyber_bio": ["NV_implant", "neural_link", "subdermal_plates", "reflex_boost"],
-    "stress": 0,
-    "heat": 0,
-    "hp": {"current": "ok", "notes": ""}
-  },
-    "team": {
-    "name": "Eislinie",
-    "members": [
-      {
-        "name": "Vega",
-        "role": "Stealth",
-        "talents": ["sneak", "lockpick"],
-        "gear": ["MP5 SD", "chameleon_suit"]
-      },
-      {
-        "name": "Rowan",
-        "role": "Tech",
-        "talents": ["computers", "elec"],
-        "gear": ["scanner", "auth_spoofer", "laptop"]
-      },
-      {
-        "name": "Holt",
-        "role": "CQB",
-        "talents": ["cqb", "defender"],
-        "gear": ["shorty", "ballistic_vest", "smokes"]
-      }
-    ],
-    "autoscale": true
-  },
-  "loadout": {
-    "primary": {"id":"HK416", "mods":["falcon_eye","match_barrel","ergogrip","suppressor"]},
-    "secondary": {"id":"pistol_9mm", "mods":["suppressor"]},
-    "cqb": {"id":"shorty_12"},
-    "armor": ["ballistic_v_mk5","urban_ghost_coat"],
-    "tools": ["forensic_kit"],
-    "support": ["scout_drone_spotter_ai","drone_signal_amp"]
-  },
-  "economy": {"cu": 850},
-  "logs": {
-    "missions": [
-      "Able Archer Nuclear Scare (1983)",
-      "Saigon Vermittler (1964)",
-      "Chicago Mayor Hit (1931)",
-      "Operation Curtain Call (1942)"
-    ],
-    "blacklab": ["Projekt GROM","Martelli-Kontakte"]
-  },
-  "ui": {"gm_style":"verbose", "mode_display":"label"}
-}
-```
+  G -->|Schnell
