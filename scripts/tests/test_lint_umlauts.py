@@ -2,6 +2,8 @@
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from io import StringIO
+from contextlib import redirect_stdout
 
 from scripts import lint_umlauts
 
@@ -14,7 +16,9 @@ class TestLintUmlauts(unittest.TestCase):
             orig_repo_root = lint_umlauts.repo_root
             try:
                 lint_umlauts.repo_root = lambda start=None: root
-                return lint_umlauts.main()
+                buf = StringIO()
+                with redirect_stdout(buf):
+                    return lint_umlauts.main()
             finally:
                 lint_umlauts.repo_root = orig_repo_root
 
