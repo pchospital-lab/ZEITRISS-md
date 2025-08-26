@@ -4,6 +4,6 @@ version: 1.0.0
 tags: [meta]
 ---
 
-# Überblick {#ueberblick}
+# Überblick {#overview}
 
 Kurzer Überblick über zentrale Projektbestandteile.
