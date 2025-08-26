@@ -676,7 +676,7 @@ Decision: {{ text }}?
 {% macro px_bar(px) -%}{{ "█"*px ~ "░"*(5-px) }}{%- endmacro %}
 
 {% macro px_tracker(temp) -%}
-  {% set px = campaign.paradox or 0 %}
+  {% set px = campaign.px or 0 %}
   {% set remaining = 5 - px %}
   {{ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ (temp or 0) ~ ' · +1 nach ' ~ remaining ~ ' Missionen') }}
 {%- endmacro %}
@@ -768,7 +768,7 @@ Decision: {{ text }}?
   {% if campaign.exfil.sweeps %}{% do segs.append(" · Sweeps:" ~ campaign.exfil.sweeps) %}{% endif %}
   {% if campaign.exfil.stress %}{% do segs.append(" · Stress " ~ campaign.exfil.stress) %}{% endif %}
 {% endif %}
-{% set px = campaign.paradox or 0 %}
+{% set px = campaign.px or 0 %}
 {% set sys_free = (char.sys_max or 0) - (char.sys or 0) %}
 {% if char.psi_flag %}
   {% do segs.append(" · PP " ~ char.pp ~ "/" ~ char.pp_max) %}
@@ -1133,14 +1133,14 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {% macro chrono_guards_enable() -%}
   {# HQ‑kritische Systeme aus: Seeds/Paradoxon/Boss/FR #}
   {# LINT:CHRONO_NO_SEEDS #}{% set campaign.seeds_suppressed = true %}
-  {# LINT:CHRONO_NO_PARADOX #}{% set campaign.paradox_frozen = true %}
+  {# LINT:CHRONO_NO_PARADOX #}{% set campaign.px_frozen = true %}
   {# LINT:CHRONO_NO_BOSS #}{% set campaign.boss_suppressed = true %}
   {# LINT:CHRONO_NO_FR #}{% set campaign.intervention_suppressed = true %}
 {%- endmacro %}
 
 {% macro chrono_guards_disable() -%}
   {% set campaign.seeds_suppressed = false %}
-  {% set campaign.paradox_frozen = false %}
+{% set campaign.px_frozen = false %}
   {% set campaign.boss_suppressed = false %}
   {% set campaign.intervention_suppressed = false %}
 {%- endmacro %}
@@ -1543,13 +1543,13 @@ nach einem Para-Kreaturen-Drop.
 ### Paradoxon / Rifts (neue Guards)
 
 {% macro on_stabilize_history() -%}
-  {% set campaign.paradox = campaign.paradox + 1 %}
-  {% if campaign.paradox >= 5 %}
+  {% set campaign.px = campaign.px + 1 %}
+  {% if campaign.px >= 5 %}
      {% set seeds = ['auto'] %}
      {# LINT:PX5_SEED_GATE #}
      {{ hud_tag('Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar') }}
      {% set campaign.rift_seeds = (campaign.rift_seeds or []) + seeds %}
-     {% set campaign.paradox = 0 %}
+     {% set campaign.px = 0 %}
   {% endif %}
 {%- endmacro %}
 
@@ -1821,26 +1821,26 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
   {% set campaign.lastPx = 0 %}
   {% set campaign.lastPxScene = 0 %}
 {% endif %}
-{% if campaign.paradox != campaign.lastPx and campaign.paradox >= 5 %}
-  {% if campaign.paradox == 5 %}
+{% if campaign.px != campaign.lastPx and campaign.px >= 5 %}
+  {% if campaign.px == 5 %}
     {{ hud_tag('Paradoxon-Index 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
-    {% set campaign.paradox = 0 %}
+    {% set campaign.px = 0 %}
     {{ generate_rift_seeds(1,2) }}
-    {% set campaign.lastPx = campaign.paradox %}
+    {% set campaign.lastPx = campaign.px %}
   {% else %}
-    {{ hud_tag('Px ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
-    {% set campaign.lastPx = campaign.paradox %}
+    {{ hud_tag('Px ' ~ campaign.px ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
+    {% set campaign.lastPx = campaign.px %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
-{% elif campaign.paradox == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.paradox >= 5 %}
-  {% if campaign.paradox == 5 %}
+{% elif campaign.px == campaign.lastPx and campaign.scene - campaign.lastPxScene >= 2 and campaign.px >= 5 %}
+  {% if campaign.px == 5 %}
     {{ hud_tag('Paradoxon-Index 5 erreicht – ' ~ hud_vocab('pressure_drop') ~ ' Neue Rift-Koordinaten verfügbar.') }}
-    {% set campaign.paradox = 0 %}
+    {% set campaign.px = 0 %}
     {{ generate_rift_seeds(1,2) }}
-    {% set campaign.lastPx = campaign.paradox %}
+    {% set campaign.lastPx = campaign.px %}
   {% else %}
-    {{ hud_tag('Px ' ~ campaign.paradox ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
-    {% set campaign.lastPx = campaign.paradox %}
+    {{ hud_tag('Px ' ~ campaign.px ~ '/5 · ' ~ hud_vocab('signal_modified')) }}
+    {% set campaign.lastPx = campaign.px %}
   {% endif %}
   {% set campaign.lastPxScene = campaign.scene %}
 {% endif %}
@@ -1848,7 +1848,7 @@ Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
 
 ```md
 <!-- Test: PxPing throttle -->
-{% set campaign = namespace(paradox=5, scene=1, lastPx=0, lastPxScene=0) %}
+{% set campaign = namespace(px=5, scene=1, lastPx=0, lastPxScene=0) %}
 {% for s in range(1,6) %}
 {% set campaign.scene = s %}Szene {{ s }}: {{ PxPing() }}
 {% endfor %}
@@ -2395,7 +2395,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 ```json
 {
   "roll(mode)": ["hidden","open","manual"],
-  "paradox_index": 2,
+  "px_index": 2,
   "scene_timer": 37
 }
 ```
@@ -2408,7 +2408,7 @@ umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
 ```
 **/qr**
 **Phase?** `brief|arrive|intel|breach|exfil|return`
-**Ammo?** `stress|paradox|hp`
+**Ammo?** `stress|px|hp`
 **Cheat:** Würfel = `/roll Xd6 explode` (Auto-Explode)
 ```
 
@@ -2619,7 +2619,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
     "lvl": char.lvl,
     "rank": char.rank,
     "dice_mode": dice_mode_map(char),
-    "paradox": {"px": campaign.paradox, "seeds_open": campaign.seeds_open, "stars_next": campaign.stars_bonus},
+    "px": {"value": campaign.px, "seeds_open": campaign.seeds_open, "stars_next": campaign.stars_bonus},
     "stress": char.stress,
     "sys": {"cur": char.sys, "max": char.sys_max},
     "flags": {"has_psi": char.flags.has_psi}
@@ -2638,7 +2638,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro arena_snapshot_campaign() -%}
   {% set arena._camp = {
     'seeds_suppressed': campaign.seeds_suppressed,
-    'paradox_frozen': campaign.paradox_frozen,
+    'px_frozen': campaign.px_frozen,
     'boss_suppressed': campaign.boss_suppressed,
     'intervention_suppressed': campaign.intervention_suppressed,
     'cu_payout': campaign.cu_payout
@@ -2648,7 +2648,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro arena_restore_campaign() -%}
   {% if arena._camp %}
     {% set campaign.seeds_suppressed = arena._camp.seeds_suppressed %}
-    {% set campaign.paradox_frozen = arena._camp.paradox_frozen %}
+    {% set campaign.px_frozen = arena._camp.px_frozen %}
     {% set campaign.boss_suppressed = arena._camp.boss_suppressed %}
     {% set campaign.intervention_suppressed = arena._camp.intervention_suppressed %}
     {% set campaign.cu_payout = arena._camp.cu_payout %}
@@ -2661,8 +2661,8 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
   {{ arena_snapshot_campaign() }}
   {# LINT:ARENA_NO_SEEDS #}
   {% set campaign.seeds_suppressed = true %}
-  {# LINT:ARENA_NO_PARADOX #}
-  {% set campaign.paradox_frozen = true %}
+  {# LINT:ARENA_NO_PARADOXON #}
+  {% set campaign.px_frozen = true %}
   {# LINT:ARENA_NO_BOSS #}
   {% set campaign.boss_suppressed = true %}
   {# LINT:ARENA_NO_FR_INTERVENTION #}
@@ -2673,7 +2673,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 
 {% macro arena_guards_disable() -%}
   {% set campaign.seeds_suppressed = false %}
-  {% set campaign.paradox_frozen = false %}
+  {% set campaign.px_frozen = false %}
   {% set campaign.boss_suppressed = false %}
   {% set campaign.intervention_suppressed = false %}
 {%- endmacro %}

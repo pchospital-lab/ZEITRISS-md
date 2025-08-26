@@ -324,7 +324,7 @@ Zeitgeflecht beeinflussen.
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
 ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Unabhängig
-von dieser Wahl kann die Gruppe die Paradoxon-Mechanik per `modus paradox off`
+von dieser Wahl kann die Gruppe die Paradoxon-Mechanik per `modus paradoxon off`
 deaktivieren und bei Bedarf identisch wieder einschalten – häufig geschieht
 dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
 
