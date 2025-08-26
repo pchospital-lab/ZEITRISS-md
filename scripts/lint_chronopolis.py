@@ -19,7 +19,7 @@ def main() -> int:
         r"LINT:CHRONO_MODULE",
         r"LINT:CHRONO_GUARDS",
         r"LINT:CHRONO_NO_SEEDS",
-        r"LINT:CHRONO_NO_PARADOX",
+        r"LINT:CHRONO_NO_PARADOXON",
         r"LINT:CHRONO_NO_BOSS",
         r"LINT:CHRONO_NO_FR",
         r"LINT:CHRONO_SERVICES",

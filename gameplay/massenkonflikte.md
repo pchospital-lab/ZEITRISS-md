@@ -581,7 +581,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhal
 |-----|-----------:|-----:|--------:|----------:|--------------|
 | **Shard-Imp** (klein) | 2 | +1 | W6 | 4 | Phase Shift (‑2 Treffer) |
 | **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
-| **Paradoxon Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (Px −1 pro Treffer) |
+| **Paradoxon Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (RR +2 pro Treffer) |
 
 Für größere Teams skaliert der HP-Pool der Gegner:
 
@@ -597,6 +597,9 @@ So verursacht ein Drohnen- oder Minionschwarm spürbar mehr Schaden.
 
 > **Spawn-Trigger:** Erreicht der Paradoxon-Index 5, meldet das HQ ein neues Rift für die nächste Operation.
 > Kein Spawn während der aktuellen Mission.
+>
+> **Hinweis:** In Boss- oder XL-Szenen bleibt Px eingefroren (Px-Freeze).
+> Der Titan erzeugt Resonanzrauschen statt Px-Verlust.
 
 **Fazit:** Mit diesen Regeln und Ideen wird euer ZEITRISS-Spiel um eine aufregende Dimension
 reicher. Fahrzeuge jeder Art – ob reitend, rollend oder fliegend – ermöglichen filmreife
