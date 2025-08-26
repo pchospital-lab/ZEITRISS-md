@@ -289,7 +289,7 @@ function on_command(command){
       const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
       return startSolo(mode);
     }
-    if ((m = cmd.match(/^spiel starten \(npc-team\)(?:\s+(\d))?/))){
+    if ((m = cmd.match(/^spiel starten\s*\(npc-team\)(?:\s+([0-4]))?(?:\s+(schnell|klassisch))?$/))){
       const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
       startSolo(mode);
       const size = m[1] ? parseInt(m[1], 10) : 0;
@@ -297,7 +297,7 @@ function on_command(command){
       state.start.type = 'npc-team';
       return `npc-team-${mode}`;
     }
-    if ((m = cmd.match(/^spiel starten \(gruppe\)/))){
+    if ((m = cmd.match(/^spiel starten\s*\(gruppe\)(?:\s+(schnell|klassisch))?$/))){
       const mode = cmd.includes('schnell') ? 'schnell' : 'klassisch';
       return startGroup(mode);
     }
