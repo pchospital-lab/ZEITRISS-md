@@ -132,7 +132,7 @@ also drei belegte Slots.
 #### Neuromimetic-Coating
 - **Slot-Typ:** Nervenverbund
 - **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft
-- **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](psi-talente.md) um 1.
+- **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](psi-talente.md#mentale-maskierung) um 1.
 
 #### Metabo-Recycler
 - **Slot-Typ:** Organe
