@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 10: Im Schatten des Montauk-Projekts"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 10: Im Schatten des Montauk-Projekts"
+version: 4.2.2
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.0 – Modul 10: Im Schatten des Montauk-Projekts
+# ZEITRISS 4.2.2 – Modul 10: Im Schatten des Montauk-Projekts
 ## Kampagnenübersicht
 
 ## Gameplay-Index
@@ -175,4 +175,4 @@ damit MyGPT frei improvisieren kann und jede Kampagne eine eigene Entwicklung ni
 Alle Episoden mit identischem `setting_id` lassen sich automatisch als Staffel darstellen.
 Der Renderer sammelt sie und erzeugt eine Tabelle mit Episodentiteln in Reihenfolge.
 
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

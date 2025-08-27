@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem"
+version: 4.2.2
 tags: [system]
 ---
 
-# ZEITRISS 4.2.0 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem
+# ZEITRISS 4.2.2 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem
 
 - Chrono Units verdienen: Missionen und Funde
 - Einkaufsmöglichkeiten: Was kann man für CUs erwerben?
@@ -544,4 +544,4 @@ für Glaubwürdigkeit und Spieltiefe sorgt. Ob ein Agent nun auf legalem Wege im
 zwielichtigen Epochen-Bazaren feilscht oder diplomatisch um Fraktionsgunst wirbt – stets bleibt das
 Geschehen spannend, stimmig und Teil der großen Geschichte. Kein trockenes Zahlenspiel, sondern ein
 **lebendiges System**, das die Abenteuer der Chrononauten um aufregende Facetten erweitert.
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

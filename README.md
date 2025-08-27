@@ -450,7 +450,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
-**ZEITRISS 4.2.0** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.2.2** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
@@ -599,7 +599,7 @@ Ausführliche Hintergründe liefert das Modul
    `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
    Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
    Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
-   Beispiel: "ZEITRISS 4.2.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
+   Beispiel: "ZEITRISS 4.2.2 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
 3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
 4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
    Suche im Modul **Kreative Generatoren** nach dem Abschnitt
@@ -725,7 +725,7 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 {{ StoreCompliance() }}
 Anschließend erscheint das Startbanner
-`🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet`.
+`🟢 ZEITRISS 4.2.2 – Solo-Kampagne gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
@@ -928,4 +928,4 @@ Die Inhalte stehen für private kreative Nutzung bereit.
 ZEITRISS® ist eine beim DPMA eingetragene Wortmarke (Reg.-Nr. 30 2025 215 671).
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
-© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

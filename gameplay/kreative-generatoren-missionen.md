@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 8A: Kreative Generatoren – Missionen"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 8A: Kreative Generatoren – Missionen"
+version: 4.2.2
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.0 – Modul 8A: **Kreative Generatoren – Missionen**
+# ZEITRISS 4.2.2 – Modul 8A: **Kreative Generatoren – Missionen**
 
 ```yaml
 arc_generator_default: true
@@ -2094,4 +2094,4 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITR
   resolve_requires: "trap_and_jettison"
 ```
 
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

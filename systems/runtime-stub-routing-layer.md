@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Runtime Stub & Routing Layer (Text-Edition)"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Runtime Stub & Routing Layer (Text-Edition)"
+version: 4.2.2
 tags: [system]
 ---
 
-# ZEITRISS 4.2.0 – Runtime Stub & Routing Layer (Text-Edition)
+# ZEITRISS 4.2.2 – Runtime Stub & Routing Layer (Text-Edition)
 
 _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON-Schemas._
 
@@ -404,4 +404,4 @@ function generateId(prefix = "CHR") {
    - `meta_filter`: Kein Seed setzt das Flag `meta_introspection`.
 
 ---
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
