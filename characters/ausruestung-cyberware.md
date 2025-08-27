@@ -93,7 +93,8 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 #### Konforme Beispielausrüstung
 
 `Fokusnetz · Typ: Gear · Kosten: 300 CU · SYS: 0`
-`Effekt: 1×/Szene +1 auf einen Psi-Wurf oder diese Aktion baut 0 Heat · Limit: 1×/Szene · Tradeoff: +1 Stress bei Beschuss`
+`Effekt: 1×/Szene +1 auf einen Psi-Wurf oder diese Aktion baut 0 Heat`
+`Limit: 1×/Szene · Tradeoff: +1 Stress bei Beschuss`
 
 `Neurotonikum-Ampulle · Typ: Consumable · Kosten: 100 CU · SYS: 0`
 `Effekt: sofort +2 PP · Limit: 1× · Tradeoff: +1 Stress`

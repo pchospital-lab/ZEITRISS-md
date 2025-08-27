@@ -4,8 +4,11 @@ version: 4.2.2
 tags: [meta]
 ---
 
-[![LLM-Ready ✅](https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success)](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
-→ [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) · [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden) · [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
+[![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
+
+→ [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
+→ [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
+→ [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 
 ## Inhaltsverzeichnis
 1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
@@ -117,7 +120,7 @@ Die ersten Schritte in unter zwei Minuten:
 - `Spiel starten (gruppe)` – alle bauen · _schnell_: Saves posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing
 
-**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.  
+**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.
 **Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
 
 **Regeln:**
@@ -140,16 +143,16 @@ Siehe auch:
 
 <details><summary>Solo – Schnelleinstieg (Happy Path)</summary>
 
-**Spieler:**  
+**Spieler:**
 `Spiel starten (solo schnell) – Rolle: Sniper Alleingänger`
 
-**SL (MyGPT):**  
-> **Briefingraum**. Projektionen flackern.  
-> **Codex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`  
-> **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.  
-> **Legende:** ziviler Gutachter.  
-> **Fraktionslage:** ruhig.  
-> —  
+**SL (MyGPT):**
+> **Briefingraum**. Projektionen flackern.
+> **Codex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
+> **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
+> **Legende:** ziviler Gutachter.
+> **Fraktionslage:** ruhig.
+> —
 > *Kurzes Briefing* (3 Ziele). *Dann:* „Szene 1 – Zugangspunkt?“
 
 </details>
@@ -164,27 +167,27 @@ Spiel starten (gruppe schnell)
 [C] – Rolle: Face
 ```
 
-**SL (MyGPT):**  
-> **Codex-Archiv – Rückkehrprotokoll aktiviert.**  
-> Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).  
-> Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.  
-> Paradoxon-Index: █░░░░ (0/5).  
-> **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.  
+**SL (MyGPT):**
+> **Codex-Archiv – Rückkehrprotokoll aktiviert.**
+> Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
+> Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
+> Paradoxon-Index: █░░░░ (0/5).
+> **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.
 > „Führung festlegen? (optional)“
 
 </details>
 
 ## Acceptance Smoke (Dispatcher) {#acceptance-smoke}
 
-1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1  
-2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1  
-3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing  
-4. `Spiel starten (npc-team 5)` → Fehlermeldung „Teamgröße 0–4 …“  
-5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing  
-6. `Spiel starten (gruppe 3)` → Fehlermeldung „Bei *gruppe* keine Zahl …“  
-7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Codex-Recap-Overlay** → HQ/Briefing  
-8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“  
-9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“  
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
+2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
+4. `Spiel starten (npc-team 5)` → Fehlermeldung „Teamgröße 0–4 …“
+5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
+6. `Spiel starten (gruppe 3)` → Fehlermeldung „Bei *gruppe* keine Zahl …“
+7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Codex-Recap-Overlay** → HQ/Briefing
+8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
+9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
 
 
@@ -388,7 +391,9 @@ Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
-Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick), den Abschnitt zum [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) und zum [Immersiven Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden):
+Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick), den Abschnitt zum
+[Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) und zum
+[Immersiven Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden):
 - `ClusterCreate()`
 - `ClusterDashboard()`
 - `launch_rift(id)` – startet nach der Episode eine eigenständige
@@ -443,7 +448,8 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
 - _Geht HUD ohne Codex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
-- _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken. [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
+- _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken.
+  [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
@@ -910,6 +916,8 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 [notfall-stimulanz]: characters/charaktererschaffung.md#notfall-stimulanz
 [psi-pp-regeneration]: systems/kp-kraefte-psi.md#psi-pp-regeneration
 [psi-heat-track]: systems/kp-kraefte-psi.md#psi-heat-track
+[llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
+[llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
 
 
 ## Playtest Feedback
