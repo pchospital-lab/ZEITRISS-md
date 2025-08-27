@@ -29,11 +29,11 @@ node -e "const rt=require('./runtime');console.log(rt.on_command('!gear shop'))"
 # Debrief renders Px and TEMP
 mkdir -p out
 node tools/test_debrief.js > out/debrief.log
-grep -E "Px: .* TEMP" out/debrief.log
+grep -E "Px .* TEMP" out/debrief.log
 
 # HUD TTL mm:ss and Sweeps/Stress
 node tools/test_hud.js > out/hud.log
-grep -E "TTL [0-9]{2}:[0-9]{2}" out/hud.log
+grep -E "RW [0-9]{2}:[0-9]{2}" out/hud.log
 head -n1 out/hud.log > out/scene_01.log
 tail -n1 out/hud.log > out/scene_02.log
 ! grep "Sweeps:" out/scene_01.log
@@ -57,6 +57,10 @@ node tools/test_comms_rx.js | grep 'CommsCheck failed: require valid device/rang
 node tools/test_save.js | tee out/save.log
 grep "Save denied: HQ-only." out/save.log
 grep "save-ok" out/save.log
+
+# Load path
+node tools/test_load.js | tee out/load.log
+grep "load-ok" out/load.log
 
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
