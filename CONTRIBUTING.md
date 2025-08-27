@@ -50,7 +50,13 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - `GM_STYLE=verbose python3 tools/lint_runtime.py`
 - `bash scripts/smoke.sh`
 - Optional: `node tools/test_save.js`
+- Optional: `node tools/test_load.js`
 - Für Dispatcher-Smoke-Tests siehe [docs/acceptance-smoke.md](docs/acceptance-smoke.md).
+
+### pre-commit Hooks
+
+- Installation: `pip install pre-commit`
+- Ausführung: `pre-commit run --files <datei1> <datei2>`
 
 ## Saves
 - Einziger Typ: Deepsave (HQ-only) – `save_version` pflegen, `migrate_save()` mitführen.

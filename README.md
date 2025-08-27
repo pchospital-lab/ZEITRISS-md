@@ -934,6 +934,7 @@ Scanne den QR-Code oder besuche
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum
 Einreichen von Änderungen; beachte insbesondere die
 [Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
+Für lokale Checks nutze die dort beschriebene `pre-commit`-Integration.
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 ZEITRISS® ist eine beim DPMA eingetragene Wortmarke (Reg.-Nr. 30 2025 215 671).

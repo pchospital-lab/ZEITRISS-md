@@ -115,8 +115,9 @@ Transparenz-Modus nach einem Neustart erhalten.
 ```json
 {
   "zr_version": "4.2.2",
-  "save_version": 3,
+  "save_version": 4,
   "location": "HQ",
+  "phase": "core",
   "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
   "character": {
     "id": "CHR-XXXX",
@@ -226,9 +227,10 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 function select_state_for_save(state) {
   return {
     zr_version: "4.2.2",
-    save_version: 3,
+    save_version: 4,
     created_at: new Date().toISOString(),
     location: state.location,
+    phase: state.phase,
     campaign: state.campaign,
     character: state.character,
     team: state.team,
@@ -262,6 +264,10 @@ function migrate_save(data) {
   if (data.save_version === 2) {
     data.ui ||= { gm_style: "verbose" };
     data.save_version = 3;
+  }
+  if (data.save_version === 3) {
+    data.phase ||= "core";
+    data.save_version = 4;
   }
   return data;
 }
