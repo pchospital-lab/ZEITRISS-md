@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 4B: Cyberware & Bioware"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 4B: Cyberware & Bioware"
+version: 4.2.2
 tags: [characters, cyber]
 ---
 
-# ZEITRISS 4.2.0 – Modul 4B: Cyberware & Bioware
+# ZEITRISS 4.2.2 – Modul 4B: Cyberware & Bioware
 
 ## Cyberware-Implantate
 
@@ -192,4 +192,4 @@ körpern. Der Ansatz bleibt reine Sci-Fi ohne Fantasy-Rassen.
 | **„Heidel-Endurer“** | +1 STR, +1 SYS, –1 CHA, –1 INT | Marathoner – doppelte Ausdauerlaufzeit | Aufklärung |
 | **„Flores Shadow“** | +2 GES, –2 STR | Tunnelgeist – +2 Heimlichkeit in engen Räumen | Grabungsmissionen |
 | **„Erectus Nomad“** | +1 GES, +1 SYS, –1 CHA, –1 INT | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops |
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

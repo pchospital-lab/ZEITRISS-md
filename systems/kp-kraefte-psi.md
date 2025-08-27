@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 11: Psi-Fähigkeiten"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 11: Psi-Fähigkeiten"
+version: 4.2.2
 tags: [system, psi, optional]
 ---
 
-# ZEITRISS 4.2.0 – Modul 11: Psi-Fähigkeiten
+# ZEITRISS 4.2.2 – Modul 11: Psi-Fähigkeiten
 
 ## Inhalt
 
@@ -335,7 +335,7 @@ warum Psi bislang im Verborgenen blieb: Die Effekte waren zu gering und selten, 
 aufzufallen, und viele Ereignisse wurden als Trick oder Zufall abgetan. Erst durch die Arbeit von
 Zukunfts-Institutionen wie dem ITI konnten klare Beweise gesammelt werden.
 
-**Durchbruch und Kontroverse in der Zukunft:** Im Zeitreise-Zeitalter von _ZEITRISS 4.2.0_ – grob die
+**Durchbruch und Kontroverse in der Zukunft:** Im Zeitreise-Zeitalter von _ZEITRISS 4.2.2_ – grob die
 nahe Zukunft unserer Realität – steht Psi immer noch am Rande der offiziellen Wissenschaft. Zwar
 haben Forward-thinkende Institute durch verbessere Messtechnik und KI-gestützte Datenanalyse
 Anomalien nachgewiesen (z.B. stabile Presentiment-Effekte in Versuchsreihen). Auch im geheimen
@@ -440,7 +440,7 @@ erhalten, während dennoch mysteriöse Akzente gesetzt werden.
 
 Damit Psi-Fähigkeiten das Spiel bereichern, ohne es zu dominieren, gibt es klare **Regelmechaniken**
 für ihre Anwendung. Diese Regeln balancieren die Kräfte, bringen Risiko ins Spiel und verankern Psi
-in den bestehenden Systems von _ZEITRISS 4.2.0_.
+in den bestehenden Systems von _ZEITRISS 4.2.2_.
 
 **Aktivierung und Konzentration:** Eine Psi-Fähigkeit einzusetzen erfordert in der Regel bewusste
 Konzentration des Charakters. Im Spiel bedeutet das, dass ein **Aktionsaufwand** nötig ist – z.B. im
@@ -646,7 +646,7 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradoxon-Gefahr (
 
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende
-Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.2.0_
+Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.2.2_
 integriert Psi-Entwicklung in sein Level- und Fortschrittssystem, damit sich psi-begabte
 Chrononauten organisch weiterentwickeln, vergleichbar mit anderen Spezialisierungen (Tech, Kampf,
 etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
@@ -847,11 +847,11 @@ man ihm mitteilt. Ziel ist, dass die Spieler die Konsequenzen ihres Psi-Einsatze
 bevor es zu spät ist. Die KI sollte also das Unsichtbare sichtbar machen, ohne den Schleier der
 Geschichte völlig wegzureißen – ein schmaler Grat.
 
-Abschließend: **Atmosphäre first.** Psi in _ZEITRISS 4.2.0_ entfaltet seine volle Wirkung, wenn die
+Abschließend: **Atmosphäre first.** Psi in _ZEITRISS 4.2.2_ entfaltet seine volle Wirkung, wenn die
 Spieler das Gefühl haben, Teil eines Mysteriums zu sein. Jede mentale Kraft ist ein Schlüssel zu
 etwas Größerem, Unbekannten. Die KI als Spielleitung fungiert hier als Erzähler einer _Science-
 Fiction-Mystery_, der feine Andeutungen streut und die Spieler staunen lässt, was wohl noch alles
 möglich ist. Mit den hier vorgestellten Regeln und Tipps lässt sich Paranormales glaubwürdig in
 Szene setzen – als wäre es wirklich da, verborgen in den Schatten der Zeit, darauf wartend, von
 mutigen Chrononauten entdeckt zu werden.
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

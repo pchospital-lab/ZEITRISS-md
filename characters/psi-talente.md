@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 4C: Psi-Fähigkeiten & Talente"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 4C: Psi-Fähigkeiten & Talente"
+version: 4.2.2
 tags: [characters, psi]
 ---
 
-# ZEITRISS 4.2.0 – Modul 4C: Psi-Fähigkeiten & Talente
+# ZEITRISS 4.2.2 – Modul 4C: Psi-Fähigkeiten & Talente
 
 ## Psi-Fähigkeiten (Optional)
 
@@ -146,7 +146,7 @@ konkrete **Vorteile**: Sei es ein Würfelbonus auf passende Proben, eine erlaubt
 sogar automatische Erfolge in bestimmten trivialen Situationen. Ein Charakter mit _Schlösserknacker_
 z.B. könnte einfache Schlösser ohne Probe öffnen dürfen, solange keine Stresssituation vorliegt.
 
-In **ZEITRISS 4.2.0** unterscheiden wir Talente in **passive** und **aktive**:
+In **ZEITRISS 4.2.2** unterscheiden wir Talente in **passive** und **aktive**:
 
 - **Passive Talente (P):** Dauerhafte Vorteile oder Boni, die immer wirken, wenn der Anwendungsfall
   kommt. Beispiel: _Waffenmeister_ verleiht stets +2 auf Angriffe mit bestimmten Waffen. Diese Talente
@@ -254,4 +254,4 @@ Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappne
 
 Eine vollständige Übersicht aller Kräfte bietet das Langzeitmodul
 [Kräfte-Psi](../systems/kp-kraefte-psi.md).
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

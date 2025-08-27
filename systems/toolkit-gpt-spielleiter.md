@@ -2475,7 +2475,7 @@ erscheint. Folgende Techniken helfen dabei:
   Konsequenzen. Du als KI vermittelst diese Konsequenzen klar und fair, sodass die Regeln *sp*ür*bar,
   aber unsichtbar* bleiben.
 
-**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.2.0 vereinst die Rolle eines Regisseurs,
+**Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.2.2 vereinst die Rolle eines Regisseurs,
 Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Codex** stellst du
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Halte dich an diese
@@ -2922,4 +2922,4 @@ Bitte bestätige diese Hinweise vor Spielstart.
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
-© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
