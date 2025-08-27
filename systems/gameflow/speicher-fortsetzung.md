@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.2
 tags: [system]
 ---
 
-# ZEITRISS 4.2.0 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.2 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
@@ -114,7 +114,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 
 ```json
 {
-  "zr_version": "4.2.0",
+  "zr_version": "4.2.2",
   "save_version": 3,
   "location": "HQ",
   "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
@@ -158,7 +158,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.0** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.2** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -225,7 +225,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 ```javascript
 function select_state_for_save(state) {
   return {
-    zr_version: "4.2.0",
+    zr_version: "4.2.2",
     save_version: 3,
     created_at: new Date().toISOString(),
     location: state.location,
@@ -359,7 +359,7 @@ Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.0 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.2 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 
@@ -646,3 +646,4 @@ flowchart TD
   F --> G{Einstieg wählen}
   G -->|Klassisch| H[Transfer-HUD → NextScene]
   G -->|Schnell
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

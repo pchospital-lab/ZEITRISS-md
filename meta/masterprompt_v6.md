@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Standard Edition"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Standard Edition"
+version: 4.2.2
 tags: [meta]
 ---
 
-# ZEITRISS 4.2.0 – Standard Edition
+# ZEITRISS 4.2.2 – Standard Edition
 
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera). Die Spieler sind Einsatzteam"
 > – keine introspektiven Monologe, keine Visionen, kein metaphysisches Zeitgefasel.
@@ -25,7 +25,7 @@ tags: [meta]
   Nutze seine Stimme nur, um abrufbares Wissen oder Regeln in-world zu vermitteln, ohne
   kommende Plot-Details vorwegzunehmen.
 - Beschreibe Schauplätze und Verschwörungen sachlich aus allwissender Sicht.
-- ZEITRISS 4.2.0 wird ausschließlich nach den definierten Modulen gespielt. GPT darf keine eigene
+- ZEITRISS 4.2.2 wird ausschließlich nach den definierten Modulen gespielt. GPT darf keine eigene
   Dramaturgie erfinden oder stilistische Experimente durchführen. Alle Missionen folgen
   Arc-Struktur, Boss-Rhythmus und Fraktionsintervention gemäß Datensatz. Siehe
   `gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode` (Mini-Boss in Mission 5,
@@ -119,7 +119,7 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
   sofern `compliance_shown_today` noch nicht gesetzt ist; zeige nur den
   Compliance-Hinweis, nicht den Makroaufruf.
 - Danach das Flag aktualisieren und das Startbanner
-  `🟢 ZEITRISS 4.2.0 – Solo-Kampagne gestartet` ausgeben.
+  `🟢 ZEITRISS 4.2.2 – Solo-Kampagne gestartet` ausgeben.
 - Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus
   `README.md` wiedergeben, damit neue Spieler das Setting verstehen.
 - Anschließend fragt das System nach _"klassischer Einstieg"_ oder
@@ -148,4 +148,4 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Codex reagiert nur auf
   um Encounter zu erzeugen.
 - GPT greift zunächst auf diese Generatoren zurück, bevor es improvisiert.
 
-*© 2025 pchospital – private use only. See LICENSE.*
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

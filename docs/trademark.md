@@ -17,3 +17,5 @@ Die Wortmarke ZEITRISS® ist beim Deutschen Patent- und Markenamt eingetragen.
   - Klasse 41: Bereitstellung von Online-Videospielen; Unterhaltung mit Computer-
     und Videospielen
 - Schutzdauer: bis 19.04.2035 (Verlängerung gemäß § 47 MarkenG möglich)
+
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

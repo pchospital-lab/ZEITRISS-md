@@ -130,4 +130,4 @@ _kursiv_ und **fett**
 - State-Safety: SYS/PP/Heat/Stress/Cooldowns werden nach dem Match restauriert.
 - Killswitch: `arena_abort()` stellt den Zustand wieder her.
 - Logging: Ergebnis landet im Codex oder HUD.
-© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

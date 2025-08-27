@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 8B: Kreative Generatoren – Begegnungen"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 8B: Kreative Generatoren – Begegnungen"
+version: 4.2.2
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.0 – Modul 8B: **Kreative Generatoren – Begegnungen**
+# ZEITRISS 4.2.2 – Modul 8B: **Kreative Generatoren – Begegnungen**
 
 ## Gameplay-Index
 
@@ -1210,4 +1210,4 @@ vorgesehenen Erfolgsbonus.
 | 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
 | 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
 | 14 | Near-Future | QC-Vault | Holozahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

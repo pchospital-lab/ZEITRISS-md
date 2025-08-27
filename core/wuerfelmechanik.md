@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
-version: 4.2.0
+title: "ZEITRISS 4.2.2 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten"
+version: 4.2.2
 tags: [core, advanced]
 ---
 
-# ZEITRISS 4.2.0 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
+# ZEITRISS 4.2.2 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten
 
 ## Inhalt
 
@@ -23,7 +23,7 @@ Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Cod
 ungläubig: „Ziel eliminiert – Erfolgschance \< 5%“. Es sind genau solche filmreifen Momente, die
 ZEITRISS zum Leben erwecken.\*
 
-Willkommen zu einem weiteren Modul für **ZEITRISS 4.2.0**, das Feinschliff und neue cineastische
+Willkommen zu einem weiteren Modul für **ZEITRISS 4.2.2**, das Feinschliff und neue cineastische
 Optionen ins Spiel bringt. Dieses Regelmodul erweitert das System um spannende Verbesserungen in der
 Würfelmechanik, ein dynamisches HUD-Warnsystem, feinere Attributs-Skalierung, ein robustes
 Speichersystem und alternative Regeln für große **Schlachten** – ohne den erzählerischen Fokus zu
@@ -216,7 +216,7 @@ Weitere Details stehen im Modul
 ```
 ## Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 
-ZEITRISS 4.2.0 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
+ZEITRISS 4.2.2 zeichnet sich durch ein schlankes Attributssystem (Werte meist im Bereich 1–10) aus.
 Doch was passiert, wenn ein Held im Laufe der Kampagne über sich hinauswächst und einen Wert
 jenseits der menschlichen Spitze erreicht? Nach jeder Mission bis Level 10 bietet das System
 automatisch **+1 Attribut** an. Erreicht ein Wert **11**, wechselt der entsprechende Würfel auf
@@ -368,7 +368,7 @@ Bei **größeren Versionssprüngen** (etwa einem Wechsel von 4.x auf 5.0 in fern
 Inkompatibilitäten geben, aber für diesen Fall ist vorgesorgt: Der Codex würde dann beim Laden eine
 Warnung ausgeben und – sofern möglich – ein **Migrationsskript** anbieten, das die wichtigsten Daten
 in die neue Edition überführt. Solche größeren Updates werden natürlich ausführlich dokumentiert.
-Für den Alltag in ZEITRISS 4.2.0 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
+Für den Alltag in ZEITRISS 4.2.2 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
 und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speicherstände haben zu
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
@@ -485,7 +485,7 @@ Unterdrückung bestehen usw.). So bleibt das Spiel tiefgründig und der **Zeitre
 seinen Paradoxa – wird gekonnt in Szene gesetzt.
 
 Mit diesen Erweiterungen – von explodierenden Würfeln über Heldenwürfel und HUD-Alerts bis hin zu
-cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.2.0 einen weiteren
+cineastischen Schlachten und versionierten Speicherständen – erhält ZEITRISS 4.2.2 einen weiteren
 Feinschliff. Spielrunden können nun noch flexibler entscheiden, welchen **Ton** sie anschlagen
 wollen: Knallhart taktisch, filmisch-überdreht oder eine balancierte Mischung. Alle neuen
 Modulelemente fügen sich nahtlos ins existierende Regelwerk ein. Nutzt diejenigen, die eure Kampagne
@@ -788,4 +788,4 @@ HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
-*© 2025 pchospital – private use only. See LICENSE.
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

@@ -125,3 +125,5 @@ tags: [meta]
 ## 4.2.2 – DPMA Trademark
 - Lizenz auf eingetragene Marke aktualisiert.
 - README und neue Dokumentation zur DPMA-Urkunde.
+
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
