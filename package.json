@@ -1,6 +1,6 @@
 {
   "name": "zeitriss-runtime-tests",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "private": true,
   "scripts": {
     "lint:rt": "python3 tools/lint_runtime.py",

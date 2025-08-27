@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.1
+version: 4.2.2
 tags: [meta]
 ---
 
@@ -925,6 +925,7 @@ Einreichen von Änderungen; beachte insbesondere die
 [Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
 
 Die Inhalte stehen für private kreative Nutzung bereit.
+ZEITRISS® ist eine beim DPMA eingetragene Wortmarke (Reg.-Nr. 30 2025 215 671).
 Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
 © 2025 pchospital – private use only. See LICENSE.

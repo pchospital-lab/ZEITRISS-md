@@ -1,4 +1,4 @@
-const { version: ZR_VERSION = '4.2.1' } = require('./package.json');
+const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
   const state = {
   location: 'HQ',

@@ -7,6 +7,12 @@
       "category": "Meta"
     },
     {
+      "slug": "trademark",
+      "path": "docs/trademark.md",
+      "title": "DPMA-Markeneintragung ZEITRISS",
+      "category": "Meta"
+    },
+    {
       "slug": "core",
       "path": "core/zeitriss-core.md",
       "title": "ZEITRISS 4.2.0 – Modul 1: Immersives Zeitreise-Rollenspielsystem",
