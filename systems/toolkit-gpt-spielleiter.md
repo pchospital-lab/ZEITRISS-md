@@ -114,7 +114,7 @@ Core-Ops arbeiten oft gegen Rivalen aus externen Machtblöcken,
 während Rift-Ops die Anomalie ins Zentrum rücken.
 
 > Begriffe *OpenRifts* und der frühere Terminus sind veraltet. Nutze stattdessen
-> *Rift-Seeds* und den *Paradoxon-Index (Px).* 
+> *Rift-Seeds* und den *Paradoxon-Index (Px).*
 
 ## Stilfilter
 
@@ -127,7 +127,8 @@ settings.signal_space = false
 ```
 
 Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
-> Vermeide abstrakte Netz-Magie. Jeder Effekt braucht Gerät am Ort: **Kontaktlinse**, **Ohrstöpsel** oder **Kabel/Relais**.
+> Vermeide abstrakte Netz-Magie. Jeder Effekt braucht Gerät am Ort:
+> **Kontaktlinse**, **Ohrstöpsel** oder **Kabel/Relais**.
 
 ### Funk & Signale {#funk-signale}
 
@@ -777,8 +778,14 @@ Decision: {{ text }}?
   {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
   {% do segs.append(" · Px " ~ px_bar(px) ~ " (" ~ px ~ "/5)") %}
 {% else %}
-  {% if char.ammo is defined %}{% do segs.append(" · Ammo " ~ char.ammo) %}{% elif char.charges is defined %}{% do segs.append(" · Charges " ~ char.charges) %}{% endif %}
-  {% if char.sys_max %}{% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max ~ " (free " ~ sys_free ~ ")") %}{% endif %}
+  {% if char.ammo is defined %}
+    {% do segs.append(" · Ammo " ~ char.ammo) %}
+  {% elif char.charges is defined %}
+    {% do segs.append(" · Charges " ~ char.charges) %}
+  {% endif %}
+  {% if char.sys_max %}
+    {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max ~ " (free " ~ sys_free ~ ")") %}
+  {% endif %}
   {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
   {% do segs.append(" · Px " ~ px_bar(px) ~ " (" ~ px ~ "/5)") %}
 {% endif %}
@@ -820,7 +827,15 @@ total=12, role="", env=None) -%}
   {% set campaign.heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
-  {% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
+  {% set campaign.exfil = {
+    'active': false,
+    'ttl': 0,
+    'hot': false,
+    'sweeps': 0,
+    'stress': 0,
+    'anchor': '?',
+    'armed': false
+  } %}
   {% if campaign.scene == 1 %}
     {{ ShowComplianceOnce() }}
   {% endif %}
@@ -1311,7 +1326,15 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ transfer_back_to_hq(campaign, tcfg, hot=hot) }}
 {% endif %}
 {% set campaign.loc = 'HQ' %}
-{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
+{% set campaign.exfil = {
+  'active': false,
+  'ttl': 0,
+  'hot': false,
+  'sweeps': 0,
+  'stress': 0,
+  'anchor': '?',
+  'armed': false
+} %}
 {% if char.lvl < 10 %}
   {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
 {% endif %}
@@ -1599,7 +1622,9 @@ Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
 - **Gear:** kein SYS, kleine Vorteile, Limit 1×/Szene oder 1×/Mission.
 - **Cyber/Bio:** SYS 1–2, moderate permanente Boni/Trigger – keine +2‑„Godbuttons“.
 - **Consumables:** einmalig; +PP/−Heat nur in kleinen Dosen, oft mit kleinem Stress‑Tradeoff.
-- **Heat-Interaktion:** keine globalen „−1 Heat pro Einsatz“-Auren; erlaubt ist 1× pro Konflikt 1 Heat venten oder eine Psi-Aktion ohne Heat (nicht beides).
+- **Heat-Interaktion:** keine globalen „−1 Heat pro Einsatz“-Auren;
+  erlaubt ist 1× pro Konflikt 1 Heat venten oder eine Psi-Aktion ohne Heat
+  (nicht beides).
 - **PP-Boosts:** maximal +1–2 PP, höchstens 2× pro Mission; ggf. +1 Stress.
 
 {% macro validate_item(item) -%}
@@ -2629,7 +2654,15 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro cmdSave() -%}
   {{ save_guard() }}
   {% if campaign.loc != 'HQ' %}{% return %}{% endif %}
-{% set campaign.exfil = {'active': false, 'ttl': 0, 'hot': false, 'sweeps': 0, 'stress': 0, 'anchor': '?', 'armed': false} %}
+{% set campaign.exfil = {
+  'active': false,
+  'ttl': 0,
+  'hot': false,
+  'sweeps': 0,
+  'stress': 0,
+  'anchor': '?',
+  'armed': false
+} %}
   {% set char.stress = 0 %}
   {{ serialize_progress() }}
 {%- endmacro %}
