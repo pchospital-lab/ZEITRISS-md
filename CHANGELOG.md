@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-version: 4.2.1
+version: 4.2.2
 tags: [meta]
 ---
 
@@ -121,3 +121,7 @@ tags: [meta]
 ## 4.2.1 – Docs & Flow Hardening
 - LLM-Dispatcher dokumentiert und HQ-only Save gehärtet.
 - Paradoxon/Rift-Terminologie vereinheitlicht, Gear-Alias-Map ergänzt.
+
+## 4.2.2 – DPMA Trademark
+- Lizenz auf eingetragene Marke aktualisiert.
+- README und neue Dokumentation zur DPMA-Urkunde.
