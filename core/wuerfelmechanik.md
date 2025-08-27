@@ -788,4 +788,5 @@ HQ-Phase.
 5. **Kurzbefehle:** `/roll Xd6`, `launch_rift(id)`, `scan_artifact()`.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

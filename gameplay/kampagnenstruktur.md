@@ -1766,4 +1766,5 @@ entsteht das typische **ZEITRISS-Flair**: eine Kampagne, die sich anfühlt wie e
 Zeitreise-Serie zum Selbst-Erleben – voller cineastischer Momente, nachhallender Entscheidungen und
 dem Gefühl, Teil etwas Großem zu sein. Viel Erfolg und vor allem viel Spaß beim Gestalten eurer
 eigenen ZEITRISS-Saga!
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

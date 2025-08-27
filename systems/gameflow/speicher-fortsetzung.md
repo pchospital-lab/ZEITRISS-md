@@ -645,5 +645,6 @@ flowchart TD
   E --> F[ShowComplianceOnce() + Recap]
   F --> G{Einstieg wählen}
   G -->|Klassisch| H[Transfer-HUD → NextScene]
-  G -->|Schnell
+  G -->|Schnell| I[Transfer-HUD → NextScene]
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
