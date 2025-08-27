@@ -85,7 +85,10 @@ sollte an die Kampagne angepasst werden.)_
 - **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell. _Kosten:_ 3 SYS.
 - **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden. _Kosten:_ 1 SYS permanent.
 - **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS.
-- **Mentale Maskierung:** Verbirgt Gedanken für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie +2 SG.
+### Mentale Maskierung {#mentale-maskierung}
+
+Verbirgt Gedanken für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie +2 SG.
+
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt. _Kosten:_ 3 SYS.
 
 _Balance-Hinweis (Psi):_

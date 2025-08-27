@@ -1,7 +1,8 @@
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
-  const state = {
+const state = {
   location: 'HQ',
+  phase: 'core', // mission phase: core, transfer, rift
   campaign: {},
   character: {},
   team: {},
@@ -11,7 +12,7 @@ const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
   ui: { gm_style: 'verbose' },
   exfil: null,
   fr_intervention: null,
-  scene: { index: 0, foreshadows: 0 },
+  scene: { index: 0, foreshadows: 0, total: 12 },
   comms: { jammed: false, relays: 0, rangeMod: 1.0 }
 };
 
@@ -73,18 +74,22 @@ function jam_now(on = true){
 }
 
 function StartMission(){
+  state.phase = 'core';
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0 };
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
-  state.scene = { index: 0, foreshadows: 0 };
+  state.scene = { index: 0, foreshadows: 0, total: 12 };
 }
 
 function scene_overlay(scene){
   const s = scene || state.scene;
-  const ep = 0, ms = 0, sc = 0;
+  const ep = state.campaign?.episode ?? 0;
+  const ms = state.campaign?.mission ?? 0;
+  const sc = s.index ?? 0;
+  const total = state.scene?.total ?? 12;
   const mode = state.ui.gm_style;
-  const obj = '?';
-  let h = `EP ${ep} · MS ${ms} · SC ${sc}/12 · MODE ${mode} · Objective: ${obj}`;
+  const obj = state.campaign?.objective ?? '?';
+  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · MODE ${mode} · Objective: ${obj}`;
   if (state.exfil){
     state.exfil.ttl_min = Math.max(0, state.exfil.ttl_min);
     state.exfil.ttl_sec = Math.max(0, state.exfil.ttl_sec);
@@ -116,6 +121,7 @@ function comms_check(device, range){
 
 function codex_link_state(ctx){
   const c = ctx || state;
+  // phase may be 'core', 'transfer', 'rift', ...
   if (c.location === 'HQ' || c.phase === 'transfer') return 'uplink';
   const dev = c.comms?.device;
   const rng = c.comms?.range_m;
@@ -163,9 +169,10 @@ function assert_foreshadow(n=2){
 
 function select_state_for_save(s){
   return {
-    save_version: 3,
+    save_version: 4,
     zr_version: ZR_VERSION,
     location: s.location,
+    phase: s.phase,
     campaign: s.campaign,
     character: s.character,
     team: s.team,
@@ -207,11 +214,16 @@ function migrate_save(data){
     data.ui ||= { gm_style: 'verbose' };
     data.save_version = 3;
   }
+  if (data.save_version === 3){
+    data.phase ||= 'core';
+    data.save_version = 4;
+  }
   return data;
 }
 
 function hydrate_state(data){
   state.location = data.location || 'HQ';
+  state.phase = data.phase || 'core';
   state.campaign = data.campaign || {};
   state.character = data.character || {};
   state.team = data.team || {};
@@ -223,19 +235,13 @@ function hydrate_state(data){
 
 function load_deep(raw){
   const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
-    const migrated = migrate_save(data);
-    migrated.location = 'HQ';
-    hydrate_state(migrated);
-    const ep = state.campaign?.episode ?? 0;
-    const ms = state.campaign?.mission ?? 0;
-    const sc = state.scene?.index ?? 0;
-    const total = state.scene?.total ?? 12;
-    const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
-    const sys = state.character?.attributes?.SYS_max ?? 0;
-    const hud = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · Px ${px} · SYS ${sys}`;
-    writeLine(hud);
-    return { status: 'ok', state, hud };
-  }
+  const migrated = migrate_save(data);
+  migrated.location = 'HQ';
+  hydrate_state(migrated);
+  const hud = scene_overlay();
+  writeLine(hud);
+  return { status: 'ok', state, hud };
+}
 
 function startSolo(mode='klassisch'){
   state.start = { type: 'solo', mode };
@@ -262,6 +268,7 @@ function startGroup(mode='klassisch'){
 }
 
 function launch_mission(){
+  state.phase = 'transfer';
   StartMission();
   return 'mission-launched';
 }

@@ -827,6 +827,9 @@ objective: Black Saturday – Huminen-Söldner kapern B-59
 ```
 Rift Seeds nutzen `phase: Rift`.
 
+`phase` markiert die Missionsphase: `core` für den Einsatz vor Ort,
+`transfer` für An- und Abreise sowie `rift` für Paradoxon-Sprünge.
+
 
 Die Paradoxon-Mechanik ist standardmäßig aktiv. Über `modus paradoxon off` lässt
 sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
