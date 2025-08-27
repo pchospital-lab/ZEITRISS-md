@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.1 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.1
+title: "ZEITRISS 4.2.2 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.2.2
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -93,7 +93,7 @@ default_modus: mission-fokus
   {% set ui.mode_display = style %}
   {{ hud_tag('Mode-Display: ' ~ style) }}
 {%- endmacro %}
-# ZEITRISS 4.2.1 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.2.2 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
