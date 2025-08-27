@@ -1352,7 +1352,8 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   „ursprünglichen“ Geschichte widerspricht, erzeugt eine gewisse **paradoxe Energie**. Das Modul
   schlägt vor, diese als eine Art Leiste oder Zähler im Hintergrund mitzuführen. Kleine Änderungen
   (die im großen Gefüge keine Wellen schlagen) senken den Wert nur minimal, aber große Eingriffe
-  (z. B. das Überleben einer Person, die ursprünglich sterben sollte) senken oder lassen das Paradoxon deutlich stagnieren.
+  (z. B. das Überleben einer Person, die ursprünglich sterben sollte)
+  senken oder lassen das Paradoxon deutlich stagnieren.
   Wird ein bestimmter Schwellenwert überschritten, können **Temporalstörungen** auftreten: Die Welt
   beginnt zu flackern, Déjà-vus plagen die Charaktere, und es können Zeitkreaturen erscheinen – würfelt.
   Wer solche Phänomene vermeiden möchte, spielt die optionale **Covert-Ops**-Variante ohne Kreaturen
