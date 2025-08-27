@@ -1076,4 +1076,5 @@ diese Module stehen euch **modular zur Verfügung**. Wählt, was zu eurer Runde 
 Atmosphäre. Die Regeln sind da, um _euch_ zu unterstützen, nicht umgekehrt. In diesem Sinne: Viel
 Spaß beim Experimentieren mit Zuständen, Zeit und Technologie – möge euer nächster Einsatz ebenso
 **packend** wie erfolgreich sein!
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
