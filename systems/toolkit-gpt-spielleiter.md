@@ -2955,4 +2955,5 @@ Bitte bestätige diese Hinweise vor Spielstart.
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in deinem In-Game-Briefeingang …]
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

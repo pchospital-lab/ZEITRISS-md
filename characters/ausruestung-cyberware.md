@@ -546,6 +546,7 @@ Der Befehl `itemforge()` greift auf diese Tabellen zu. Nutzt die IDs wie `weapon
 Diese Tabellen sollen schnelle Inspiration liefern und zeigen, wie Loot, Missionen und das
 CU-System in ZEITRISS 4.2.2 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
 Chrononauten mit spannenden Funden zu belohnen.
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
 
 ## Shop-Tiers & Gating
