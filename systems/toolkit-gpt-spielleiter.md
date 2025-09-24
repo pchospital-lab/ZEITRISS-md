@@ -175,7 +175,21 @@ if not char.get("psi") and not char.get("has_psi"):
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen
   bis zum nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
   Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
-- Erreicht der Index Stufe 5, zeige `→ ClusterCreate()`, parke die Seeds als `rift_seeds` und setze `Px = 0`.
+- Die Runtime ruft nach jedem stabilisierten Verlauf `completeMission()` auf.
+  Dadurch erhöht sich der Paradoxon-Index automatisch, sobald genügend
+  Erfolge gesammelt wurden. Der Debrief zeigt diese Systemmeldungen als
+  strukturierte Codex-Ausgabe, z. B.:
+
+  ```text
+  Rewards rendered
+  Px ███░░ (3/5) · TEMP 11 · NEXT +1 in 2 ops
+  Codex: Mission stabilisiert (1/2 für Px+1).
+  ```
+
+- Erreicht der Index Stufe 5, löst die Runtime sofort `ClusterCreate()` aus,
+  setzt `Px = 0` zurück und schreibt die neuen Rift-Seeds nach
+  `campaign.rift_seeds`. Kommentiere das Ereignis im Debrief mit
+  `Codex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadoxon()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
