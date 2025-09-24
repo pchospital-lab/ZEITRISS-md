@@ -1,0 +1,56 @@
+# AGENTS-Richtlinien für ZEITRISS-md
+
+## Zweck dieser Datei
+Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und Entwickler (z. B. Codex, ARXION, ChatGPT). Sie dient als verbindlicher Leitfaden für Beiträge zu diesem Repository. **Sie ist nicht Teil des Runtime-Contents und darf nicht in Spieler:innen-Prompts oder das Spielsystem geladen werden.**
+
+## Geltungsbereich
+* Sprache: Verwende Deutsch in der Ihr-Form. Der Ton ist präzise, filmisch und spannungsreich – angelehnt an den Masterprompt.
+* Umfang: Gilt für alle Dateien in diesem Repository, sofern kein untergeordnetes Verzeichnis eigene Anweisungen definiert.
+* Inhaltliche Trennung: Materialien mit `tags: [meta]`, Dateien im Verzeichnis `docs/` sowie Entwicklungs-Notizen sind reiner Dev-Content. Sie dürfen nicht in In-Game-Texte oder Storymodule eingemischt werden.
+
+## Vorarbeit vor jeder Änderung
+1. Lies die betroffenen Dateien vollständig, insbesondere YAML-Header, Szenenstruktur und bestehende Stilvorgaben.
+2. Prüfe, ob es zu den Dateien bereits Verweise im `master-index.json` oder in Toolkit-Dokumenten gibt. Passe Querverweise bei strukturellen Änderungen an.
+3. Halte dich an die Trennung zwischen Runtime-Content (`core/`, `gameplay/`, `systems/toolkit-*`, `characters/`) und Dev-Dokumentation (`docs/`, `meta/`, Dateien mit `tags: [meta]`).
+
+## Struktur- und Formatregeln
+* **YAML-Header**: Jedes Modul benötigt einen vollständigen YAML-Header mit mindestens `title`, `version` und sinnvollen `tags`. Runtime-Module dürfen maximal eine `#`-H1-Überschrift besitzen. Überschriftenhierarchie sauber aufbauen (`##`, `###`, …).
+* **Szenenaufbau**: Halte alle in `CONTRIBUTING.md` dokumentierten Invarianten ein. Beispiele:
+  * Core-Operationen: 12 Szenen.
+  * Rift-Operationen: 14 Szenen in 3 Akten.
+  * Jede Szene benennt Konflikt, Ziel und Spur (oder analog definierte Pflichtfelder).
+  * Mission 5 benötigt einen Mini-Boss, Mission 10 einen Boss.
+* **Nomenklatur**: Nutze aktuelle Begriffe. Beispiel: `Rift-Seeds` anstelle älterer Namen. Erkläre Fachbegriffe bei Bedarf kurz in Klammern.
+* **Stil**: Kurze, aktive Sätze. Keine Umgangssprache, keine Marketing-Floskeln. Schreibe immersiv und in-world – keine Meta-Kommentare über die KI oder den Entwicklungsprozess.
+* **Verlinkungen**: Kontrolliere interne Links auf korrekte Pfade. Laufzeitmodule dürfen nicht auf Dev-only-Dokumente referenzieren.
+
+## Qualitäts-Checkliste vor dem Commit
+- [ ] YAML-Header vorhanden, aktualisiert und valider YAML-Syntax.
+- [ ] Struktur-Regeln (Szenenzahl, Akte, Boss/Mini-Boss, Pflichtfelder) erfüllt.
+- [ ] Überschriften- und Formatvorgaben eingehalten.
+- [ ] Stilprüfung: Filmische, präzise Sprache, keine Meta-Kommentare, konsequente Ihr-Form.
+- [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`, etc.).
+- [ ] Alle Links funktionsfähig, keine Referenzen auf Dev-only-Dateien in Runtime-Modulen.
+- [ ] Trennung von Runtime-Content und Dev-Content respektiert.
+- [ ] Falls Dateien verschoben/umbenannt wurden: Querverweise (`master-index.json`, Toolkits, README) angepasst.
+
+## Technische Anforderungen
+* Führe alle relevanten Lints und Tests aus. Mindestens:
+  * `make lint`
+  * `make test`
+  * `scripts/smoke.sh`
+* Stelle sicher, dass `pre-commit`-Hooks sauber durchlaufen. Repariere alle gemeldeten Probleme (z. B. Link-Prüfungen oder Markdown-Formatierung).
+* Denke bei Textänderungen an Umlaute in deutscher Schreibweise (ä, ö, ü, ß) und korrekt gesetzte Backticks.
+* Prüfe bei Storymodulen gedanklich die Regeln aus `tools/lint_runtime.py` (z. B. Boss-Positionen, Pflichtfelder). Passe Inhalte an, bevor du Änderungen einreichst.
+
+## Umgang mit KI-Reviews
+* Reiche Diffs zusammen mit dieser `AGENTS.md` an Review-Agents weiter (z. B. ARXION), damit stilistische und strukturelle Kontrollen automatisch erfolgen können.
+* Wenn ein Review-Agent Verstöße meldet, behebe sie vollständig. Hinterlasse erläuternde Kommentare, falls eine Abweichung notwendig und begründet ist.
+
+## Dokumentation von Tests
+Notiere in Commit- oder PR-Beschreibungen alle ausgeführten Befehle samt Ergebnis. Bei Fehlermeldungen beschreibe Ursache und Lösung.
+
+## Abschließende Hinweise
+* Diese Datei ist verbindlich. Aktualisiere sie bei Prozessänderungen zeitnah.
+* Laufzeit-Repositories dürfen nur Content enthalten, der im Toolkit oder in README-Dateien verlinkt ist. Entferne toten Content oder markiere ihn klar als `tags: [meta]`.
+* Bewahre die dramaturgische Konsistenz und die Zeitlinien-Logik des ZEITRISS-Universums. Jede Änderung muss mit bestehenden Modulen harmonieren.
