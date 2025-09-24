@@ -35,7 +35,12 @@ function mission_temp(){
 }
 
 function missions_required(temp){
-  return Math.max(1, 6 - temp);
+  const t = Number.isFinite(temp) ? temp : 0;
+  if (t <= 3) return 5;
+  if (t <= 7) return 4;
+  if (t <= 10) return 3;
+  if (t <= 13) return 2;
+  return 1;
 }
 
 function incrementParadoxon(delta = 1){
@@ -123,8 +128,8 @@ function render_px_tracker(temp){
   const required = missions_required(t);
   const progress = clamp(state.campaign?.missions_since_px ?? 0, 0, required);
   const remaining = Math.max(0, required - progress);
-  const eta = t <= 0 ? 'n/a' : `${remaining} ops`;
-  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · NEXT +1 in ${eta}`;
+  const eta = `${remaining} Mission${remaining === 1 ? '' : 'en'}`;
+  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · ETA +1 in ${eta}`;
 }
 
 const px_tracker = render_px_tracker;
