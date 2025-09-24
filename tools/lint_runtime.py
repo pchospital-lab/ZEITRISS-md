@@ -68,7 +68,7 @@ def main() -> int:
     # Px-HUD
     req(r"Px[:\s]+[▓░]{5}", tk, "Px-Balken dargestellt", fails)
     req(r"TEMP", tk, "TEMP im HUD", fails)
-    req(r"\+1 nach\s+\d", tk, "ETA bis nächster Px-Punkt", fails)
+    req(r"ETA \+1 in\s+\d", tk, "ETA bis nächster Px-Punkt", fails)
 
     # Seeds & Episode-Gate
     req(r"LINT:PX5_SEED_GATE", tk, "Px5-HUD Tag", fails)
