@@ -172,9 +172,10 @@ if not char.get("psi") and not char.get("has_psi"):
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
 
-- Nach jeder Mission gib den Px-Stand inkl. TEMP und verbleibender Missionen
-  bis zum nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`.
-  Ein optionales `px_tracker(temp)`-Makro berechnet die Differenz automatisch.
+- Nach jeder Mission gib den Px-Stand inkl. TEMP und geschätztem ETA bis zum
+  nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · ETA +1 in 2 Missionen`.
+  Ein optionales `px_tracker(temp)`-Makro berechnet diese TEMP-basierte
+  Prognose automatisch.
 - Die Runtime ruft nach jedem stabilisierten Verlauf `completeMission()` auf.
   Dadurch erhöht sich der Paradoxon-Index automatisch, sobald genügend
   Erfolge gesammelt wurden. Der Debrief zeigt diese Systemmeldungen als
@@ -182,7 +183,7 @@ if not char.get("psi") and not char.get("has_psi"):
 
   ```text
   Rewards rendered
-  Px ███░░ (3/5) · TEMP 11 · NEXT +1 in 2 ops
+  Px ███░░ (3/5) · TEMP 11 · ETA +1 in 2 Missionen
   Codex: Mission stabilisiert (1/2 für Px+1).
   ```
 
@@ -692,8 +693,9 @@ Decision: {{ text }}?
 
 {% macro px_tracker(temp) -%}
   {% set px = campaign.px or 0 %}
-  {% set remaining = 5 - px %}
-  {{ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ (temp or 0) ~ ' · +1 nach ' ~ remaining ~ ' Missionen') }}
+  {% set temp_val = temp or 0 %}
+  {% set eta = px_eta(temp_val) %}
+  {{ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · ETA +1 in ' ~ eta ~ ' Missionen') }}
 {%- endmacro %}
 {% macro px_eta(temp) -%}
   {%- if temp<=3 -%}5{%- elif temp<=7 -%}4{%- elif temp<=10 -%}3{%- elif temp<=13 -%}2{%- else -%}1{%- endif -%}
@@ -1043,7 +1045,13 @@ FR: ruhig/beobachter/aktiv – wirkt auf Eingriffe in Szene 1.
 Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {%- endmacro %}
 {% macro show_px() -%}
-  {{ px_tracker(state.temp or 0) }}
+  {% set temp_src = 0 %}
+  {% if state.temp is defined and state.temp is not none %}
+    {% set temp_src = state.temp %}
+  {% elif campaign.temp is defined and campaign.temp is not none %}
+    {% set temp_src = campaign.temp %}
+  {% endif %}
+  {{ px_tracker(temp_src) }}
 {%- endmacro %}
 {% macro render_shop_tiers(level, faction_rep, rift_blueprints) -%}
   {% set t1 = level|default(1) >= 1 %}
@@ -1060,7 +1068,13 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {%- endmacro %}
 {% macro debrief() -%}
   {{ render_rewards() }}
-  {{ px_tracker(state.temp or 0) }}
+  {% set temp_src = 0 %}
+  {% if state.temp is defined and state.temp is not none %}
+    {% set temp_src = state.temp %}
+  {% elif campaign.temp is defined and campaign.temp is not none %}
+    {% set temp_src = campaign.temp %}
+  {% endif %}
+  {{ px_tracker(temp_src) }}
 {%- endmacro %}
 {% macro on_command(cmd) -%}
   {% if cmd == '!helper delay' %}
@@ -1354,7 +1368,15 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 {% endif %}
 {{ chrono_grant_key_if_lvl10() }}
 {{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
-{{ px_tracker(char.temp or 0) }}
+{% set temp_src = 0 %}
+{% if char.temp is defined and char.temp is not none %}
+  {% set temp_src = char.temp %}
+{% elif state.temp is defined and state.temp is not none %}
+  {% set temp_src = state.temp %}
+{% elif campaign.temp is defined and campaign.temp is not none %}
+  {% set temp_src = campaign.temp %}
+{% endif %}
+{{ px_tracker(temp_src) }}
 {% if intervention_result %}{{ log_intervention(intervention_result) }}{% endif %}
 {% if campaign.fr_observer_note %}{{ log_intervention('FR-Echo: SG +1 auf einen Check') }}{% endif %}
 {% if campaign.mission_in_episode == 10 %}
