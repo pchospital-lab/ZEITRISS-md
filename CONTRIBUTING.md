@@ -12,8 +12,8 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 - Halte Zeilen möglichst unter 120 Zeichen und verwende UTF-8.
 - Wrappe lange Absätze bei etwa 100 Zeichen.
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
-- Verwende praegnante Commit-Nachrichten im Imperativ.
-- Oeffne Pull Requests stets gegen den `main`-Branch.
+- Verwende prägnante Commit-Nachrichten im Imperativ.
+- Öffne Pull Requests stets gegen den `main`-Branch.
 - Siehe `systems/runtime-stub-routing-layer.md` für einen Stub für eine eigene Runtime.
   Dieses Dokument ist eine reine Entwicklerübersicht und wird **nicht** vom Spiel geladen;
   Spielmodule dürfen es nicht einbinden.
