@@ -16,6 +16,85 @@ const state = {
   comms: { jammed: false, relays: 0, rangeMod: 1.0 }
 };
 
+function ensure_campaign(){
+  state.campaign ||= {};
+  if (typeof state.campaign.paradoxon_index !== 'number'){
+    const raw = Number(state.campaign.paradoxon_index);
+    state.campaign.paradoxon_index = Number.isFinite(raw) ? raw : 0;
+  }
+  if (typeof state.campaign.missions_since_px !== 'number'){
+    state.campaign.missions_since_px = 0;
+  }
+  if (!Array.isArray(state.campaign.rift_seeds)){
+    state.campaign.rift_seeds = [];
+  }
+}
+
+function mission_temp(){
+  return state.character?.attributes?.TEMP ?? 0;
+}
+
+function missions_required(temp){
+  return Math.max(1, 6 - temp);
+}
+
+function incrementParadoxon(delta = 1){
+  ensure_campaign();
+  const current = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+  const next = clamp(current + delta, 0, 5);
+  state.campaign.paradoxon_index = next;
+  return next;
+}
+
+function ClusterCreate(){
+  ensure_campaign();
+  if ((state.campaign.paradoxon_index ?? 0) < 5) return state.campaign.paradoxon_index;
+  const count = 1 + Math.floor(Math.random() * 2);
+  const seeds = [];
+  for (let i = 0; i < count; i++){
+    const id = `R-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+    seeds.push({
+      id,
+      name: 'Uncharted Rift',
+      severity: 1 + Math.floor(Math.random() * 3),
+      status: 'open'
+    });
+  }
+  state.campaign.rift_seeds = [...state.campaign.rift_seeds, ...seeds];
+  state.campaign.paradoxon_index = 0;
+  state.campaign.missions_since_px = 0;
+  writeLine(`ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`);
+  return state.campaign.paradoxon_index;
+}
+
+function completeMission(summary = {}){
+  ensure_campaign();
+  const events = [];
+  const temp = typeof summary.temp === 'number' ? summary.temp : mission_temp();
+  const required = missions_required(temp);
+  const stabilized = summary.stabilized || summary.success || summary.completed === 'stabilized';
+  if (stabilized){
+    state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
+    const progress = state.campaign.missions_since_px;
+    events.push(`Codex: Mission stabilisiert (${progress}/${required} für Px+1).`);
+    if (progress >= required){
+      state.campaign.missions_since_px = 0;
+      const after = incrementParadoxon(1);
+      events.push(`Codex: Paradoxon-Index steigt auf ${after}/5.`);
+      if (after >= 5){
+        ClusterCreate();
+        events.push('Codex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar.');
+      }
+    }
+  }
+  return {
+    events,
+    required,
+    missions_since_px: state.campaign.missions_since_px ?? 0,
+    paradoxon_index: state.campaign.paradoxon_index ?? 0
+  };
+}
+
 function reset_mission_state(){
   state.exfil = null;
   state.fr_intervention = null;
@@ -38,9 +117,13 @@ function px_bar(n){
 }
 
 function render_px_tracker(temp){
+  ensure_campaign();
   const n = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
-  const t = temp ?? (state.character?.attributes?.TEMP ?? 0);
-  const eta = t <= 0 ? 'n/a' : `${Math.max(1, 6 - t)} ops`;
+  const t = temp ?? mission_temp();
+  const required = missions_required(t);
+  const progress = clamp(state.campaign?.missions_since_px ?? 0, 0, required);
+  const remaining = Math.max(0, required - progress);
+  const eta = t <= 0 ? 'n/a' : `${remaining} ops`;
   return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · NEXT +1 in ${eta}`;
 }
 
@@ -240,6 +323,7 @@ function hydrate_state(data){
   state.logs = data.logs || {};
   state.ui = { gm_style: data.ui?.gm_style || 'verbose' };
   reset_mission_state();
+  ensure_campaign();
 }
 
 function load_deep(raw){
@@ -262,7 +346,8 @@ function startSolo(mode='klassisch'){
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   };
-    return `solo-${mode}`;
+  ensure_campaign();
+  return `solo-${mode}`;
 }
 
 function setupNpcTeam(size=0){
@@ -273,6 +358,7 @@ function startGroup(mode='klassisch'){
   state.start = { type: 'gruppe', mode };
   state.location = 'HQ';
   state.team = { size: 0 };
+  ensure_campaign();
   return `gruppe-${mode}`;
 }
 
@@ -283,7 +369,13 @@ function launch_mission(){
 }
 
 function debrief(st){
-  return `${render_rewards()}\n${render_px_tracker(st.temp || 0)}`;
+  const outcome = st || {};
+  const result = completeMission(outcome);
+  const lines = [render_rewards(), render_px_tracker(outcome.temp || mission_temp())];
+  if (result.events.length){
+    lines.push(result.events.join('\n'));
+  }
+  return lines.join('\n');
 }
 
 function on_command(command){
@@ -359,6 +451,9 @@ module.exports = {
   px_tracker,
   StartMission,
   scene_overlay,
+  completeMission,
+  incrementParadoxon,
+  ClusterCreate,
   radio_tx,
   radio_rx,
   codex_link_state,
