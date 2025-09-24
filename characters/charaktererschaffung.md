@@ -187,13 +187,17 @@ freigeschaltet.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
-    Affinität) und **SYS** (Systemkapazität für Implantate). Zunächst legst du Startwerte
-    für diese Attribute fest. Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
+    Affinität) und **SYS** (Systemkapazität für Implantate). Du startest mit einem Budget von
+    **18 Attributspunkten** (6×3). Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
+    Jede Absenkung unter 3 setzt exakt einen Punkt frei; jede Steigerung verbraucht einen Punkt.
+    Der HUD-Codex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt, wenn ihr überzieht
+    oder Punkte unverteilt lasst.
     Neue Agenten sind in der Regel kompetent, aber keine Übermenschen – extreme Ausprägungen (z.B. 5 in
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Als
     Richtlinie kannst du jedem Attribut zunächst den Durchschnittswert **3** geben und dann einige
     Punkte gemäß deinem Konzept umverteilen: Erhöhe die Schlüsselfähigkeiten deines Charakters und senke
     ggf. einen weniger wichtigen Wert auf 2, um einen zusätzlichen Punkt woanders einsetzen zu können.
+    Achtet darauf, dass die Summe bis zum Abschluss wieder **18** ergibt.
     Kein Startwert sollte normalerweise über **5** liegen oder unter **2** fallen. Die Beispiel-
     Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
