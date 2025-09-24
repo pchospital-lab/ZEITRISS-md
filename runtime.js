@@ -16,6 +16,14 @@ const state = {
   comms: { jammed: false, relays: 0, rangeMod: 1.0 }
 };
 
+function reset_mission_state(){
+  state.exfil = null;
+  state.fr_intervention = null;
+  state.scene = { index: 0, foreshadows: 0, total: 12 };
+  state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
+  state.start = null;
+}
+
 function clamp(n, min, max){
   return Math.min(max, Math.max(min, n));
 }
@@ -231,6 +239,7 @@ function hydrate_state(data){
   state.economy = data.economy || {};
   state.logs = data.logs || {};
   state.ui = { gm_style: data.ui?.gm_style || 'verbose' };
+  reset_mission_state();
 }
 
 function load_deep(raw){
@@ -321,7 +330,7 @@ function on_command(command){
       return render_shop_tiers(1, 0, []);
     }
   if (cmd === '!px'){
-    return render_px_tracker(0);
+    return render_px_tracker();
   }
   if (cmd === 'modus precision'){
     state.ui.gm_style = 'precision';
