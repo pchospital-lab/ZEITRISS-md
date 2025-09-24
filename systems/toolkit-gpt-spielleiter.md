@@ -1353,10 +1353,33 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ 'W10*' if attr_val >= 11 else 'W6*' }}
 {%- endmacro %}
 
+{% macro attribute_budget_status(target=None) -%}
+  {% set char_ref = target if target is not none else char %}
+  {% if not char_ref %}{% return %}{% endif %}
+  {% set budget = 18 %}
+  {% if char_ref.attr_budget is defined and char_ref.attr_budget is not none %}
+    {% set budget = char_ref.attr_budget %}
+  {% endif %}
+  {% set attrs = char_ref.attributes | default({}, true) %}
+  {% set tally = namespace(total=0) %}
+  {% for _, val in attrs.items() %}
+    {% set tally.total = tally.total + (val or 0) %}
+  {% endfor %}
+  {% set delta = budget - tally.total %}
+  {% if delta > 0 %}
+    {{ hud_tag('Attributbudget: ' ~ tally.total ~ '/' ~ budget ~ ' · ' ~ delta ~ ' Punkt(e) verfügbar') }}
+  {% elif delta < 0 %}
+    {{ hud_tag('Attributbudget überzogen: ' ~ tally.total ~ '/' ~ budget ~ ' · Bitte ' ~ (-delta) ~ ' Punkt(e) zurücknehmen.') }}
+  {% else %}
+    {{ hud_tag('Attributbudget ausgeglichen: ' ~ tally.total ~ '/' ~ budget ~ ' · Keine Restpunkte') }}
+  {% endif %}
+{%- endmacro %}
+
 {% macro on_attribute_change(attr, value) -%}
   {% if value == 11 %}
     {{ hud_tag(attr ~ ' 11 → Würfelwechsel: W10 explodierend aktiviert') }}
   {% endif %}
+  {{ attribute_budget_status() }}
 {%- endmacro %}
 
 {% macro dice_mode_map(char) -%}
@@ -1460,6 +1483,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
       {% return %}
     {% endif %}
   {% endfor %}
+  {{ attribute_budget_status(char) }}
 {%- endmacro %}
 
 {% macro on_episode_end(state) -%}
