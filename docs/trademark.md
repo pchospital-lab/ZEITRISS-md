@@ -5,7 +5,8 @@ tags: [meta]
 ---
 
 ## Eingangsbestätigung vom 18.08.2025
-Die Markenstelle meldet Vollzug: Eure Wortmarke **ZEITRISS** ist im Register verankert, das Aktenzeichen 30 2025 215 671.9 führt jede weitere Korrespondenz. Bewahrt dieses Dossier im HQ, damit jede Mission die rechtliche Deckung behält.
+Die Markenstelle meldet Vollzug: Eure Wortmarke **ZEITRISS** ist im Register verankert, das Aktenzeichen 30 2025 215 671.9 führt jede weitere Korrespondenz.
+Bewahrt dieses Dossier im HQ, damit jede Mission die rechtliche Deckung behält.
 
 ### Begleitschreiben
 - Deutsches Patent- und Markenamt, 80297 München
@@ -24,10 +25,14 @@ Die Markenstelle meldet Vollzug: Eure Wortmarke **ZEITRISS** ist im Register ver
 - Status: Marke eingetragen, Widerspruchsfrist läuft (Stand 18.08.2025)
 
 ### Schutzdauer & Verlängerung
-Die Schutzdauer läuft bis **19.04.2035**. Ihr könnt sie jeweils um zehn Jahre verlängern (§ 47 MarkenG). Setzt euch spätesten sechs Monate vor Ablauf einen Alarm im HQ-Kalender.
+Die Schutzdauer läuft bis **19.04.2035**.
+Ihr könnt sie jeweils um zehn Jahre verlängern (§ 47 MarkenG).
+Setzt euch spätestens sechs Monate vor Ablauf einen Alarm im HQ-Kalender.
 
 ### Urkundenvermerk
-Die Urkunde bestätigt die Eintragung der Marke Nr. **30 2025 215 671**. Präsidentin Eva Schewior zeichnet das Dokument. Überprüft bei Bedarf den aktuellen Rechtsstand im [DPMAregister](https://www.dpma.de).
+Die Urkunde bestätigt die Eintragung der Marke Nr. **30 2025 215 671**.
+Präsidentin Eva Schewior zeichnet das Dokument.
+Überprüft bei Bedarf den aktuellen Rechtsstand im [DPMAregister](https://www.dpma.de).
 
 ### Aufgabenliste für das ZEITRISS-HQ
 1. Urkunde und Registerauszug in den gesicherten Markendossier-Ordner laden.
