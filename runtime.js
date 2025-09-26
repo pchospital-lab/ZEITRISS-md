@@ -28,6 +28,9 @@ function ensure_campaign(){
   if (!Array.isArray(state.campaign.rift_seeds)){
     state.campaign.rift_seeds = [];
   }
+  if (!Array.isArray(state.campaign.rift_blueprints)){
+    state.campaign.rift_blueprints = [];
+  }
 }
 
 function mission_temp(){
@@ -141,8 +144,10 @@ function render_rewards(){
 function render_shop_tiers(level=1, faction_rep=0, rift_blueprints=[]){
   const t1 = level >= 1;
   const t2 = level >= 6;
-  const t3 = level >= 11 && faction_rep >= 3;
-  const bp = rift_blueprints.length;
+  const count = Array.isArray(rift_blueprints) ? rift_blueprints.length : (rift_blueprints ? 1 : 0);
+  const hasBlueprint = count > 0;
+  const t3 = level >= 11 && faction_rep >= 3 && hasBlueprint;
+  const bp = count;
   return `Shop-Tiers: T1:${t1 ? 'true' : 'false'} T2:${t2 ? 'true' : 'false'} T3:${t3 ? 'true' : 'false'} · BP:${bp}`;
 }
 
@@ -424,7 +429,11 @@ function on_command(command){
       return launch_mission();
     }
     if (cmd === '!gear shop'){
-      return render_shop_tiers(1, 0, []);
+      ensure_campaign();
+      const lvl = state.character?.lvl ?? 1;
+      const rep = state.campaign?.faction_rep ?? 0;
+      const bp = state.campaign?.rift_blueprints ?? [];
+      return render_shop_tiers(lvl, rep, bp);
     }
   if (cmd === '!px'){
     return render_px_tracker();

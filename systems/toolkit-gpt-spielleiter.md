@@ -1056,12 +1056,13 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {% macro render_shop_tiers(level, faction_rep, rift_blueprints) -%}
   {% set t1 = level|default(1) >= 1 %}
   {% set t2 = level|default(1) >= 6 %}
-  {% set t3 = (level|default(1) >= 11) and (faction_rep|default(0) >= 3) %}
   {% set bp = rift_blueprints|default([])|length %}
-    {{ hud_tag('Shop-Tiers: T1:' ~ (t1 and 'true' or 'false') ~
-      ' T2:' ~ (t2 and 'true' or 'false') ~
-      ' T3:' ~ (t3 and 'true' or 'false') ~
-      ' · BP:' ~ bp) }}
+  {% set has_bp = bp > 0 %}
+  {% set t3 = (level|default(1) >= 11) and (faction_rep|default(0) >= 3) and has_bp %}
+  {{ hud_tag('Shop-Tiers: T1:' ~ (t1 and 'true' or 'false') ~
+    ' T2:' ~ (t2 and 'true' or 'false') ~
+    ' T3:' ~ (t3 and 'true' or 'false') ~
+    ' · BP:' ~ bp) }}
 {%- endmacro %}
 {% macro gear_shop() -%}
   {{ render_shop_tiers(state.level, state.faction_rep, state.rift_blueprints) }}
