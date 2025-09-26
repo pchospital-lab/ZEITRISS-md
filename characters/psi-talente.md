@@ -39,9 +39,9 @@ Fähigkeit, Psi zu nutzen. Praktisch bedeutet das: Will ein Chrononaut mit volle
 noch Psi einsetzen, muss er andere Systeme zunächst herunterregeln
 oder mit abgeschwächter Kraft arbeiten.
 
-**Charakterbogen-Notiz:** Liste aktive Psi-Kräfte in einer Mini-Tabelle. Übersteigen deren SYS-Kosten
-deinen Wert, blendet das HUD eine Fortschrittsanzeige ein und du erleidest **−2** auf alle Proben,
-bis die Last reduziert ist.
+**Charakterbogen-Notiz:** Listet aktive Psi-Kräfte in einer Mini-Tabelle.
+Steigen ihre SYS-Kosten über euren Wert, blendet das HUD eine Fortschrittsanzeige ein.
+Dann erleidet ihr **−2** auf alle Proben, bis die Last reduziert ist.
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur kurz
 an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren – je
 schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat ggf.
@@ -251,8 +251,8 @@ Darstellung** aktiv: Lasst z.B. das HUD aufleuchten, wenn ein Charakter seinen A
 _Zeitterminal_ beim Hacken eines Zukunftscomputers unterstützend Daten einblendet. Die KI-
 Spielleitung (GPT) steht bereit, um mit dynamischen Beschreibungen all diese Elemente zu einem
 stimmigen Ganzen zu verweben – sei es durch atmosphärische **HUD-Overlays** oder durch das
-Einbeziehen von Talenten in die Erzählung (\*„Dank deiner Fähigkeit **_Verkleidungskünstler_** nickt
-der Wachposten dir arglos zu, überzeugt du seist der örtliche Baron.“\*). In diesem Sinne: Mögen eure
+Einbeziehen von Talenten in die Erzählung (\*„Dank eurer Fähigkeit **_Verkleidungskünstler_** nickt
+der Wachposten euch arglos zu, überzeugt, ihr wärt der örtliche Baron.“\*). In diesem Sinne: Mögen eure
 Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappnet die Zeit beschützen.
 
 Eine vollständige Übersicht aller Kräfte bietet das Langzeitmodul

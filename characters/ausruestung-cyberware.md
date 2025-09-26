@@ -36,7 +36,7 @@ zu futuristischen Energiewaffen – wir bieten ein Arsenal der Zeitalter, komple
 Schützende Kleidung, Rüstungen und Energiefelder helfen den Agenten, in jeder Epoche zu
 bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und Missionsgebrauch, taktische
 **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**.
-Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findest du im Modul
+Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findet ihr im Modul
 [Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in
 Chrono-Einheiten (CU) und Systembelastung (**SYS**).
 Ein optionales Kapitel behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit
