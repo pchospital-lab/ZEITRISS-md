@@ -8,6 +8,7 @@ tags: [meta]
 
 > **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und JSON-Charakterbögen.
 > **Markenhinweis:** ZEITRISS® ist eine eingetragene Marke von Florian Michler.
+> **DPMA-Dossier:** Der vollständige Registerauszug liegt im [Markenbriefing](docs/trademark.md); haltet das Aktenzeichen 30 2025 215 671.9 bereit.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
