@@ -24,7 +24,13 @@ python3 -m scripts.check_lint_anchors
 python3 -m unittest -q
 
 # Gear shop tiers deterministic
-node -e "const rt=require('./runtime');console.log(rt.on_command('!gear shop'))" | grep 'Shop-Tiers: T1:true'
+mkdir -p out
+node tools/test_shop.js | tee out/shop.log
+grep 'baseline: Shop-Tiers: T1:true T2:false T3:false · BP:0' out/shop.log
+grep 'tier3-no-blueprint: Shop-Tiers: T1:true T2:true T3:false · BP:0' out/shop.log
+grep 'tier3-with-blueprint: Shop-Tiers: T1:true T2:true T3:true · BP:1' out/shop.log
+grep 'tier3-no-blueprint-cmd: Shop-Tiers: T1:true T2:true T3:false · BP:0' out/shop.log
+grep 'tier3-with-blueprint-cmd: Shop-Tiers: T1:true T2:true T3:true · BP:1' out/shop.log
 
 # Debrief renders Px and TEMP
 mkdir -p out
