@@ -83,7 +83,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 
 ### Legacy-Kompatibilität (Gear-Alias)
 
-> Hinweis für die Spielleitung: Beim Laden interpretierst du alte oder abweichende Gear-Bezeichnungen still
+> Hinweis für die Spielleitung: Beim Laden interpretiert ihr alte oder abweichende Gear-Bezeichnungen still
 > auf die neuen Namen. Speichern nutzt stets die kanonischen Begriffe.
 
 **Alias-Beispiele (erweiterbar):**
@@ -201,8 +201,8 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 
 Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erläutert.
 Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
-Beim Laden laedst du zuerst deinen aktuellen Speicherstand.
-Danach folgt, falls noetig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
+Beim Laden ladet ihr zuerst euren aktuellen Speicherstand.
+Danach folgt, falls nötig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
 - Nach dem Laden zwingend `StartMission()` ausführen; Details siehe Abschnitt „Load-Pipeline“.
 
 Speichern ist ausschließlich im **HQ** erlaubt. `cmdSave()` setzt dabei das

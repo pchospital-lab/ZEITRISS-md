@@ -55,14 +55,14 @@ Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 
 Präkognition liefert höchstens kurze taktische Ahnungen.
 Der Codex gibt keine prophetischen Hinweise.
-Weitere Stilmodi findest du in [README](../README.md#spielmodi).
+Weitere Stilmodi findet ihr in [README](../README.md#spielmodi).
 
 ### Stiloption: Covert-Ops Technoir
 
 Psi erscheint hier als taktisches Werkzeug.
 Telepathische Hacks und kurze Telekinese-Schübe unterstützen
 verdeckte Einsätze, alles bleibt düster und hardwarebetont.
-Weitere Spielmodi findest du in [README](../README.md#spielmodi).
+Weitere Spielmodi findet ihr in [README](../README.md#spielmodi).
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 
@@ -611,11 +611,11 @@ Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als
 
 #### Überziehen („Burn“)
 
-Du darfst **bis zu TEMP PP** zusätzlich ausgeben, sobald dein Pool leer ist.
+Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
 - Preis: **−1 Px** pro verbranntem PP.
 > Px = Paradoxon‑Index‑Punkte (siehe core).
 > **Nie** mehr Burn‑PP als TEMP – die Zeit reißt sonst sofort (SL‑Ereignis).
-> **Psi-Talentstufe** darf nicht höher sein als dein aktueller **TEMP**-Wert.
+> **Psi-Talentstufe** darf nicht höher sein als euer aktueller **TEMP**-Wert.
 
 ### Balance-Kurzübersicht
 
@@ -751,17 +751,17 @@ Spielleitung (hier: die KI, also GPT in der Rolle des SL) große Bedeutung zu. E
 Tipps, wie man Psi im Spiel atmosphärisch in Szene setzt, ohne den immersiven Stil zu brechen:
 
 **Sinnesnahe Beschreibungen:** Psi-Effekte sollten möglichst aus der Perspektive der Charaktere
-erfahrbar sein. Statt außerhalb der Spielwelt zu erklären "_Du bist telepathisch und liest seinen
-Geist._", schildert man die _Wahrnehmung_: _"Während du dem Wachmann in die Augen siehst,
-verschwimmt für einen Moment dein Blick. Ein fremder Gedanke – nicht deiner – blitzt in deinem Geist
+erfahrbar sein. Statt außerhalb der Spielwelt zu erklären "_Ihr seid telepathisch und lest seinen
+Geist._", schildert man die _Wahrnehmung_: _"Während ihr dem Wachmann in die Augen seht,
+verschwimmt für einen Moment euer Blick. Ein fremder Gedanke – nicht eurer – blitzt in eurem Geist
 auf, flüchtig wie ein Traumfetzen: ‚…Er lügt.…‘."_ Solche Beschreibungen machen klar, was passiert,
 ohne das Kopfkino zu zerstören. Für den Charakter fühlt es sich vielleicht an wie ein Déjà-vu, ein
 Ziehen im Bauch oder ein plötzliches Geräusch im Kopf. Man kann ruhig kreativ werden: Telepathische
 Kommunikation könnte sich z.B. so anfühlen, als würde man die Stimme des anderen direkt neben sich
 hören, obwohl dessen Lippen sich nicht bewegen. Präkognitive Ahnungen kann man filmisch darstellen –
 eventuell wechselt die Perspektive kurz: _"Für einen Sekundenbruchteil scheint die Zeit
-stillzustehen; vor deinem inneren Auge siehst du den Kronleuchter über euch bedrohlich wackeln… dann
-bist du wieder im Moment."_ Je plastischer die Schilderung, desto besser können die Spieler
+stillzustehen; vor eurem inneren Auge seht ihr den Kronleuchter über euch bedrohlich wackeln… dann
+seid ihr wieder im Moment."_ Je plastischer die Schilderung, desto besser können die Spieler
 eintauchen. Wichtig ist, dass die Beschreibung immer _unsicher_ oder fragmentarisch bleibt – das
 fördert die subtile Stimmung.
 
@@ -810,8 +810,8 @@ normaler Mensch im Jahr 1800, der Zeuge eines Telekinese-Effekts wird, sollte er
 sich nicht erklären können („Teufelswerk!“ rufen, oder es als Trick abtun). Selbst in der Zukunft
 könnte ein uninformierter NSC skeptisch sein, wenn ein Spielercharakter von Vorahnungen spricht.
 Dieses **Wider(spiel)** der Umwelt hält Psi geerdet. Es kann hilfreich sein, Zweifler in der Gruppe
-der NSCs zu haben, die die Spieler ständig challengen: „Ihr behauptet, du hättest das gewusst bevor
-es passierte? Purer Zufall, wenn du mich fragst.“ – Solche Dialoge, von der KI initiiert, geben den
+der NSCs zu haben, die die Spieler ständig challengen: „Ihr behauptet, ihr hättet das gewusst, bevor
+es passierte? Purer Zufall, wenn ihr mich fragt.“ – Solche Dialoge, von der KI initiiert, geben den
 Spielercharakteren Gelegenheit, ihre Fähigkeiten zu verteidigen oder geheimzuhalten, was zu
 Rollenspiel führt. Ebenso kann man NSCs einführen, die **selbst Psi nutzen**, aber es verbergen. Ein
 Beispiel: Der altgediente ITI-Offizier, der immer genau im richtigen Moment auftaucht, um die Gruppe
@@ -839,7 +839,7 @@ nochmals verstärken.
 **Spielerführung und Fairness:** Bei aller Atmosphäre darf die KI die **Regelaspekte** nicht
 vergessen. Die Spieler sollten jederzeit verstehen, welche Auswirkungen ihre Entscheidungen haben.
 Das heißt, die SL-KI sollte ihnen Feedback geben, wenn z.B. Systemlast ein kritisches Level
-erreicht: _„Du spürst ein Flimmern in deinem Neuro-Interface – offenbar gerät dein System an die
+erreicht: _„Ihr spürt ein Flimmern in eurem Neuro-Interface – offenbar gerät euer System an die
 Belastungsgrenze (SYS-Warnung auf 5/5).“_. Oder wenn ein Paradoxon droht, kann die KI ruhig out-of-
 character anmerken: _„(Achtung: Eure Veränderung könnte ein Paradoxon erzeugen, das spürt insbesondere
 der Psi-aktive Charakter XY.)“_ Vielleicht hat der Psi-Charakter dann sogar eine Meta-Vorahnung, die
