@@ -50,7 +50,7 @@ Dort finden sich Manöver, Upgrades und Massenkampfregeln.
 ### Safety Tools
 
 Um einen sicheren Spielrahmen zu schaffen, empfiehlt das ITI die Nutzung von
-[Lines & Veils](../README.md#lines-veils-optional), der **X‑Card** sowie einem
+[Lines & Veils](../README.md#lines--veils-optional), der **X‑Card** sowie einem
 knappen Session‑0‑Bogen. Legt fest, welche Themen tabu sind oder nur angedeutet
 werden. Die X‑Card erlaubt allen, eine Szene sofort zu beenden. Im Chat reicht
 ein einfaches **"X"**, worauf der Director pausiert, nachfragt und die Szene bei
