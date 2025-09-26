@@ -6,6 +6,9 @@ tags: [meta]
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
+> **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und JSON-Charakterbögen.
+> **Markenhinweis:** ZEITRISS® ist eine eingetragene Marke von Florian Michler.
+
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
 → [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
@@ -46,7 +49,7 @@ tags: [meta]
 Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
 {%- endmacro %}
 
-# ZEITRISS-md Zeitreise RPG
+# ZEITRISS®-md Zeitreise RPG
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil.
 Ihr spielt operative Chrononauten – Agenten des ITI – in taktisch optimierten Biohüllen.
@@ -57,20 +60,22 @@ Eure Hülle ist keine Tarnung – sie ist euer Körper.
 Ihr erkundet historische Epochen und beseitigt Anomalien.
 Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-Charakterbogen.
 Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
-> ### TL;DR – ZEITRISS in 6 Punkten
-> 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-> 2. **Mission Phases.** Core-Ops verlaufen wie Episoden:
->    Briefing → Infiltration → Intel/Konflikt → Exfiltration → Debrief –
->    insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
->    Akten mit vierzehn Szenen.
-> 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-> 4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten.
->    Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px.
->    Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende.
-> 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
-> 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
->    Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
->    `generate_boss()` an diesen Punkten automatisch aus.
+
+## TL;DR – ZEITRISS in 6 Punkten
+
+1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
+2. **Mission Phases.** Core-Ops verlaufen wie Episoden:
+   Briefing → Infiltration → Intel/Konflikt → Exfiltration → Debrief –
+   insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
+   Akten mit vierzehn Szenen.
+3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
+4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten.
+   Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px.
+   Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende.
+5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
+6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
+   Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
+   `generate_boss()` an diesen Punkten automatisch aus.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
 
