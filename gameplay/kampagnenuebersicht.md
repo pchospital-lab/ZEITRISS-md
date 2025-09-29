@@ -16,8 +16,7 @@ tags: [gameplay]
 - Beispielkampagne: ChronTech-Komplott
 - Staffel-Übersicht
 
-Diese Nummerierung knüpft direkt an Modul 8B an. Modul 7 wurde intern ausgelassen,
-weshalb die Reihenfolge Lücken aufweist.
+Diese Nummerierung knüpft direkt an Modul 8B an und folgt auf das inzwischen veröffentlichte Modul 7, sodass die Kampagnenlinie 6 → 7 → 8A/8B → 10 abbildet.
 
 ZEITRISS ist ein düsteres Sci‑Fi‑Sandbox-Spiel. Megakonzerne und geheime Projekte loten
 die Grenzen von Raum und Zeit aus, während das **Institut für Temporale Intervention (ITI)**

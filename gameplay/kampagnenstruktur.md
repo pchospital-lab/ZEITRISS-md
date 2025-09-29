@@ -18,7 +18,7 @@ tags: [gameplay, core]
 - Chronopolis – Endgame-Hub
 - Fazit
 
-Diese Modulnummer setzt die Hauptreihe nach einem ausgelassenen siebten Teil fort.
+Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an Modul 7 (Fahrzeuge, Konfliktsystem & Kreative Generatoren) an.
 
 ## Einführung
 

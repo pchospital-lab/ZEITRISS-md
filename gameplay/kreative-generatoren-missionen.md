@@ -27,7 +27,7 @@ Core-Seeds tragen nun optionale Felder zur Arc-Steuerung:
 ```
 ## Gameplay-Index
 
-Dieses Modul 8A knüpft an Modul 6 an; ein geplanter siebter Teil entfiel.
+Dieses Modul 8A verzahnt die Kampagnenleitfäden aus Modul 6 mit dem nachgereichten Modul 7 und führt direkt in die Generator-Tools.
 
 ### Missions-Werkzeuge
 
