@@ -19,7 +19,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
    Lauf.
 3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *erledigt* – Psi-Heat wird nun explizit geführt (`psi_heat`), Save-Version 5 migriert Altstände automatisch, HUD/Toolkits zeigen Psi-Heat getrennt von Stress & Tech-Heat.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen und Boss-DR automatisieren. Status: *erledigt* – Arena-HUD halbiert Exploding-Overflow automatisch, Boss-Spawn vergibt DR 2/3 inkl. HUD-Hinweis.
-5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht weiter erhöhen, stattdessen qualitative Boni verankern. Status: *offen*.
+5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht weiter erhöhen, stattdessen qualitative Boni verankern. Status: *erledigt* – Core-Regelwerk setzt ab Prestige-Level auf erzählerische Perks und ersetzt den Standard-Attributsbonus durch Legendenpfade.
 6. **Psi vs. Non-Psi balancieren.** Phase-Strike-Kosten in PvP anheben, Anti-Psi-Grundschutz verbreitern. Status: *offen*.
 7. **Tech-Dominanz-Check auf kleine Teams ausweiten.** `tech_heat` früher triggern und Gerätezwang durchsetzen. Status: *offen*.
 8. **Suspend-Snapshot als Komfortfunktion implementieren.** HQ-Save-Pflicht erhalten, aber Session-Pause erlauben. Status: *erledigt* – `!suspend` legt einen 24h-Snapshot an, `!resume` setzt ihn einmalig fort und respektiert den HQ-Deepsave.
@@ -33,7 +33,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *offen*.
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren. Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README dokumentiert das neue Standardverhalten.
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()` für Loot-Erinnerung. Status: *offen*.
-19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis ergänzen. Status: *offen*.
+19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10 und verweist auf Prestige-Aufstiege für höhere Werte.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im HUD. Status: *offen*.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für Druck-Set-Auswahl. Status: *offen*.
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen. Status: *offen*.
