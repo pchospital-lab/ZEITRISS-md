@@ -170,7 +170,7 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – global flag {"self_reflection": false} für rein externe Handlung.
+7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) für rein externe Handlung; `!sf on` stellt es zurück und das HUD zeigt `SF-OFF`, solange der Schutz aktiv ist.
 8. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
 9. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
