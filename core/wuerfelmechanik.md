@@ -159,6 +159,12 @@ Optionen:
   Diese Variante ist nun der **Standard** in ZEITRISS, um extreme Schadensspitzen zu bändigen.
 - **Variante D:** Heldenwürfel dürfen erst eingesetzt werden, wenn ein W6 explodiert ist.
 
+**Arena & Boss-Dämpfer:** PvP-Arena und Bosskämpfe aktivieren zusätzlich einen
+obligatorischen Exploding-Dämpfer. Das Toolkit halbiert Overflow-Werte (Arena)
+und vergibt feste Boss-Schadensreduktionen (Mini-Boss = DR 2, Arc/Rift = DR 3).
+Die HUD-Hinweise greifen automatisch, damit Exploding-Ergebnisse erzählerisch
+wirken, ohne das Balancing zu sprengen.
+
 ### Sniper-Alpha-Strike eindämmen
 
 Durch Exploding-Würfel können Fernkampfexperten gelegentlich extremen Schaden verursachen.
