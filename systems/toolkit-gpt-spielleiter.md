@@ -2652,20 +2652,50 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 
 <!-- Macro: tech_solution -->
 {% macro tech_solution() -%}
+{% if campaign.tech_device_lock is not defined %}{% set campaign.tech_device_lock = false %}{% endif %}
 {% if campaign.tech_heat is not defined %}{% set campaign.tech_heat = 0 %}{% endif %}
 {% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
 {% if campaign.tech_steps is not defined %}{% set campaign.tech_steps = 0 %}{% endif %}
 {% if campaign.complication_done is not defined %}{% set campaign.complication_done = false %}{% endif %}
-{% set campaign.tech_steps = campaign.tech_steps + 1 %}
-{% if not campaign.complication_done %}
-  {{ inject_complication(campaign.tech_steps) }}
-  {% if campaign.tech_steps > 3 %}{% set campaign.complication_done = true %}{% endif %}
+{% set team_size = campaign.team_size|default(4) %}
+{% if team_size <= 1 %}
+  {% set tech_threshold = 1 %}
+{% elif team_size <= 2 %}
+  {% set tech_threshold = 2 %}
+{% else %}
+  {% set tech_threshold = 3 %}
 {% endif %}
-{% set campaign.tech_heat = campaign.tech_heat + 1 %}
-{% if campaign.tech_heat >= 3 %}
-  {% set campaign.tech_sg = campaign.tech_sg + 1 %}
-  {{ hud_tag('Tech-SG +' ~ campaign.tech_sg) }}
-  {% set campaign.tech_heat = 0 %}
+{% if campaign.tech_device_lock %}
+  {{ hud_tag('Gerätezwang aktiv – Field Kit anmelden, bevor weitere Tech-Lösungen greifen.') }}
+{% else %}
+  {% set campaign.tech_steps = campaign.tech_steps + 1 %}
+  {% if not campaign.complication_done %}
+    {{ inject_complication(campaign.tech_steps) }}
+    {% if campaign.tech_steps > 3 %}{% set campaign.complication_done = true %}{% endif %}
+  {% endif %}
+  {% set campaign.tech_heat = campaign.tech_heat + 1 %}
+  {% if campaign.tech_heat >= tech_threshold %}
+    {% set campaign.tech_sg = campaign.tech_sg + 1 %}
+    {{ hud_tag('Tech-SG +' ~ campaign.tech_sg) }}
+    {% set campaign.tech_heat = 0 %}
+    {% if team_size <= 2 %}
+      {% set campaign.tech_device_lock = true %}
+      {{ hud_tag('Gerätezwang aktiv: Field Kit oder Drone verpflichtend einsetzen, um Tech-Lösungen fortzusetzen.') }}
+    {% endif %}
+  {% endif %}
+{% endif %}
+{%- endmacro %}
+
+### confirm_device_slot() Macro
+Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Drone anmeldet.
+
+<!-- Macro: confirm_device_slot -->
+{% macro confirm_device_slot() -%}
+{% if campaign.tech_device_lock %}
+  {% set campaign.tech_device_lock = false %}
+  {{ hud_tag('Gerätezwang bestätigt – Tech-Fenster wieder frei.') }}
+{% else %}
+  {{ hud_tag('Gerätezwang aktuell inaktiv – kein zusätzlicher Field-Kit-Nachweis nötig.') }}
 {% endif %}
 {%- endmacro %}
 
