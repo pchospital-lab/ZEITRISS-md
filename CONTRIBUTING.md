@@ -151,7 +151,7 @@ _kursiv_ und **fett**
 - Fairness: Loadout-Budget 5 Punkte, Psi nach Policy, Fahrzeuge optional.
 - Signalpflicht: Hack/Jam nur mit Gerät; 2 km Reichweite, Jammer beachten.
 - Speichern während einer Arena ist blockiert.
-- State-Safety: SYS/PP/Heat/Stress/Cooldowns werden nach dem Match restauriert.
+- State-Safety: SYS/PP/Psi-Heat/Stress/Cooldowns werden nach dem Match restauriert.
 - Killswitch: `arena_abort()` stellt den Zustand wieder her.
 - Logging: Ergebnis landet im Codex oder HUD.
 

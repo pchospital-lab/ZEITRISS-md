@@ -25,5 +25,7 @@ const res = rt.load_deep(save);
 assert.equal(res.status, 'ok');
 assert.equal(rt.state.exfil, null);
 assert.equal(rt.state.phase, 'core');
+assert.equal(rt.state.character.psi_heat, 0);
+assert.ok(rt.state.character.heat === undefined);
 assert.equal(rt.ZR_VERSION, pkg.version);
 console.log('load-ok');
