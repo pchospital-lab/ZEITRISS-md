@@ -961,6 +961,8 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `log`       | Gibt den Missionsverlauf wieder                                    |
 | `save`      | Speichert Spielzustand / Missionsfortschritt – nur im HQ           |
 | `load`      | Lädt letzten Deepsave – nur im HQ                          |
+| `suspend`   | Legt einen flüchtigen Szenen-Snapshot für eine Pause an              |
+| `resume`    | Setzt den letzten Suspend-Snapshot fort, löscht ihn danach           |
 | `autosave hq` | Schaltet Auto-Save im HQ um                              |
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
