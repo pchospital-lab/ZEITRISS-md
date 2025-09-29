@@ -18,6 +18,12 @@ tags: [meta]
 1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
    1. [Session-0 Agenda](#session-0-agenda)
    1. [Probability Cheat Table](#probability-cheat-table)
+1. [Wissensspeicher & Plattform-Setup](#wissensspeicher--plattform-setup)
+   1. [OpenAI MyGPT & GPT-Store](#openai-mygpt--gpt-store)
+   1. [Proton LUMO](#proton-lumo)
+   1. [Ollama + OpenWebUI](#ollama--openwebui)
+   1. [Sync-Checks & Beispielworkflow](#sync-checks--beispielworkflow)
+1. [Repo-Map](#repo-map)
 1. [Chat-Shortcodes](#chat-shortcodes)
 1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
 1. [Level & EP-Kurve](#level--ep-kurve)
@@ -79,6 +85,68 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
    `generate_boss()` an diesen Punkten automatisch aus.
 
 Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
+
+## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
+
+Die KI-Spielleitung hält euch nur dann auf Kurs, wenn alle Plattformen denselben Wissensspeicher tragen. Ladet immer dieses
+README, den Masterprompt, `master-index.json` sowie alle 18 Regelwerkmodule aus `core/`, `characters/`, `gameplay/` und
+`systems/` – mit einer Ausnahme: `systems/runtime-stub-routing-layer.md` ist ein Dev-Stub und bleibt draußen. Detaillierte
+Operator-Routinen findet ihr in [docs/maintainer-ops.md](docs/maintainer-ops.md); dort protokolliert ihr QA,
+Release-Checks und Tool-Status.
+
+### OpenAI MyGPT & GPT-Store {#openai-mygpt--gpt-store}
+
+1. Erstellt einen Custom GPT **ZEITRISS [ver. 4.2.2]** und fügt den Inhalt aus `meta/masterprompt_v6.md` in das Masterprompt-Feld
+   ein.
+2. Ladet `README.md`, `master-index.json` und alle 18 Module aus `core/`, `characters/`, `gameplay/` sowie `systems/`
+   (ohne `systems/runtime-stub-routing-layer.md`) in den Wissensspeicher. Achtet auf vollständige YAML-Header; Titel und Version
+   dienen als sichtbare Marker für den GPT.
+3. Klont den GPT sofort als **Beta**-Variante. QA, Smoke-Tests und Webtool-Prüfungen laufen ausschließlich dort, bis ihr die
+   Freigabe dokumentiert habt.
+4. Notiert jede Session im QA-Protokoll (`internal/qa/`), insbesondere Autoload-Checks (`Spiel starten ...`) und Save/Load-Blöcke.
+
+### Proton LUMO {#proton-lumo}
+
+1. Startet einen verschlüsselten Chat und ladet `README.md`, `master-index.json`, alle Regelmodule (ohne den Runtime-Stub) sowie
+   `meta/masterprompt_v6.md` via Upload.
+2. Sendet den Masterprompt zusätzlich als erste Chatnachricht, damit der Verlauf beim Neuaufbau nicht verloren geht.
+3. Dokumentiert im QA-Log, welche LUMO-Funktionen ihr genutzt habt (Dateiupload, gespeicherte Nachrichten, Replay).
+4. Achtet darauf, dass Tabellen, JSON-Blöcke und Makros unverändert bleiben – LUMO darf sie nicht kürzen.
+
+### Ollama + OpenWebUI {#ollama--openwebui}
+
+1. Installiert das gewünschte Modell in Ollama und verbindet OpenWebUI mit eurer lokalen Instanz.
+2. Importiert `meta/masterprompt_v6.md`, `README.md`, `master-index.json` sowie sämtliche Module außer dem Runtime-Stub
+   (`systems/runtime-stub-routing-layer.md`) manuell in den lokalen Wissensspeicher.
+3. Führt den kompletten Quest-Flow offline durch; Webzugang bleibt deaktiviert, bis die Integration bereitsteht.
+4. Haltet lokale Anpassungen im Maintainer-Log fest, damit ihr sie bei der nächsten Synchronisation auf MyGPT und LUMO
+   spiegeln könnt.
+
+### Sync-Checks & Beispielworkflow {#sync-checks--beispielworkflow}
+
+- Prüft nach jedem Update, ob alle drei Plattformen denselben Versionsstand tragen (Masterprompt + Module + README).
+- Kontrolliert, dass exakt 18 Regelwerkmodule plus `master-index.json` im Wissensspeicher liegen. Der Runtime-Stub bleibt
+  außerhalb.
+- Nutzt für Schnelltests den Abschnitt [Acceptance Smoke](#acceptance-smoke) und ergänzt eure Erkenntnisse in
+  `docs/maintainer-ops.md`.
+- Ein ausführlicher Schritt-für-Schritt-Ablauf für das Laden der Module steht im Abschnitt
+  [Beispielworkflow](#beispielworkflow); er ergänzt die Plattform-Anweisungen um konkrete Datei-Checks.
+
+## Repo-Map {#repo-map}
+
+```
+ZEITRISS-md/
+├─ README.md                # Laufzeit-Referenz & Plattform-Hinweise
+├─ core/                    # Grundregeln & Zeitriss-Mechaniken (Runtime)
+├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
+├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
+├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime, ohne `runtime-stub-routing-layer.md`)
+├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
+├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte (tags: [meta])
+├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
+├─ internal/qa/             # QA-Protokolle & Plattformnotizen
+└─ master-index.json        # Übersicht aller Module und Slugs
+```
 
 ## Quick-Start Cheat Sheet {#quick-start-cheat-sheet}
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
@@ -602,55 +670,17 @@ Ausführliche Hintergründe liefert das Modul
 
 ## Beispielworkflow
 
-1. Öffne `masterprompt_v6.md` und kopiere den Inhalt in das Anweisungsfenster
-   deines MyGPT (max. 8k Zeichen).
-   Die Datei enthält bereits den einmaligen Sicherheitshinweis für den Spielstart.
-2. Lade die **25 Regelmodule** laut Tabelle einzeln in dein KI-Tool.
-   Sie verteilen sich auf 18 einzelne Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien.
-   `systems/runtime-stub-routing-layer.md` ist nur für Entwickler und kein Regelmodul.
-   `README.md` und `master-index.json` dienen zur Orientierung und können optional mitgeladen werden.
-   Bei einem Limit von 20 Dateien passen alle 18 Moduldateien samt `README.md` und `master-index.json`.
-   Die Dateipfade der Module sind für GPT nicht sichtbar – orientiere dich am `title` im YAML-Header.
-   Beispiel: "ZEITRISS 4.2.2 – Modul 1: Immersives Zeitreise-Rollenspielsystem".
-3. Prüfe in jeder Datei den YAML-Header auf Titel und Version.
-4. Eigene Missionen kannst du mit dem Missions-Generator erstellen.
-   Suche im Modul **Kreative Generatoren** nach dem Abschnitt
-   `## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}`.
-5. Beim Spielstart zieht GPT automatisch einen Mission Seed aus dem gleichen Modul.
-   (Abschnitt `Automatischer Mission Seed`) und erstellt ein Briefing.
-   Dabei folgt es der Layered-Briefing-Vorlage: Zeit, Ort und Risikostufe werden genannt,
-   der gezogene Twist bleibt vorerst verdeckt und wird erst im Verlauf der Mission enthüllt.
-   Beispiel für zwei Seed-Einträge (P-… = Preserve, T-… = Trigger):
-
-```yaml
-- id: "P-0011"
-  year: 1960
-  place: "Karibik"
-  title: "Black Saturday"
-  objective: >
-    Funkspruch von B-59-Sub unterdrücken – kein Torpedo-Launch.
-  antagonist: "Huminen-Zelle"
-  antagonist_goal: "U-Boot kapern"
-  twist: >
-    Abgehörter Morse-Code wird gefälscht.
-- id: "T-0008"
-  year: 1937
-  place: "Lakehurst"
-  title: "Hindenburg"
-  objective: >
-    Sabotiere Bodenkabel-Erdung.
-  antagonist: "Huminen-Kommando"
-  antagonist_goal: "Zeppelin für Biotech-Raubzug nutzen"
-  twist: >
-    Ein Agent einer Fremdfraktion attackiert euch mit einem Elektroschocker.
-```
-6. Der Standardmodus reiht Core-Op-Missionen aneinander. GPT verknüpft die gezogenen
-   Seeds automatisch zu einem stimmigen Arc. Rift-Ops bleiben optionale Einzelmissionen.
-7. Für längere Handlungsbögen empfiehlt sich der
-   [Arc-Baukasten](gameplay/kampagnenstruktur.md#arc-baukasten-und-episodenstruktur)
-   bzw. der Abschnitt
-   `## Arc-Generator: Große Missionen {#arc-generator}`
-   im Modul **Kreative Generatoren**.
+1. Öffnet `meta/masterprompt_v6.md`, kopiert den vollständigen Text in das Anweisungsfenster eurer Zielplattform und sichert den
+   Upload im QA-Log.
+2. Ladet anschließend die **25 Regelmodule** gemäß Tabelle in den Wissensspeicher. Laufzeitrelevante Dateien liegen in
+   `core/`, `characters/`, `gameplay/` und `systems/`; `README.md` sowie `master-index.json` dienen als Navigationsanker.
+3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module mit gültigem Header werden vom GPT
+   sicher erkannt.
+4. Führt den Acceptance-Smoke-Test (Abschnitt [Acceptance Smoke](#acceptance-smoke)) durch und protokolliert Autoload,
+   Save/Load und Fehlermeldungen pro Plattform.
+5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
+   [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) sowie die dort verlinkten
+   Unterkapitel. Diese Module enthalten sämtliche Tabellen, YAML-Beispiele und Briefing-Vorlagen.
 
 ### Lines & Veils (optional)
 

@@ -25,6 +25,14 @@ Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 
 Vielen Dank für deine Mithilfe!
 
+## Vor dem ersten Commit
+
+1. Lest `AGENTS.md` vollständig und bestätigt, dass ihr Stil, Strukturregeln und Testpflichten einhaltet.
+2. Prüft, ob eure Änderungen Runtime-Content oder Dev-Doku betreffen. Haltet die Trennung strikt ein (`tags: [meta]`).
+3. Synchronisiert euch mit den Plattformroutinen in [docs/maintainer-ops.md](docs/maintainer-ops.md); dort steht, welche
+   Uploads, QA-Notizen und Smoke-Checks pro Release nötig sind.
+4. Aktualisiert bei Strukturänderungen `master-index.json`, interne Links und sämtliche Querverweise im README.
+
 ## Quellen der Wahrheit zur Laufzeit
 
 - **Runtime-fähig** (wird im Spiel geladen):
@@ -34,6 +42,14 @@ Vielen Dank für deine Mithilfe!
   - `doc.md`, `/docs/**` – CI/PR-Review, Linter, Beispiele
 
 Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit stehen.
+
+## Wissensspeicher-Workflow
+- MyGPT, Proton LUMO und Ollama/OpenWebUI erhalten stets denselben Stand: `meta/masterprompt_v6.md`, `README.md`,
+  `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` und `systems/` –
+  mit Ausnahme von `systems/runtime-stub-routing-layer.md`.
+- Nutzt den Abschnitt [Wissensspeicher & Plattform-Setup](README.md#wissensspeicher--plattform-setup) als Operative Checkliste.
+- Dokumentiert jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Verzeichnis `internal/qa/`.
+- Für Missions-, Encounter- und Arc-Generatoren verweist ihr den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 
 ## GM-Style & Lint
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
@@ -52,6 +68,8 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - Optional: `node tools/test_save.js`
 - Optional: `node tools/test_load.js`
 - Für Dispatcher-Smoke-Tests siehe [docs/acceptance-smoke.md](docs/acceptance-smoke.md).
+- Plattformweite QA- und Release-Checks dokumentiert ihr laut [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutzt die dort
+  verlinkten Acceptance-Smoke-Listen als Vorlage für eure Reports.
 
 ### pre-commit Hooks
 
