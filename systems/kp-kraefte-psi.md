@@ -217,8 +217,19 @@ if attack_type == "TK-Melee" and target.armor >= 2:
 
 Kurze Phasenverschiebung lässt eine Waffe durch feste Materie greifen. Ein
 Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**.
-Der Effekt kostet **2 SYS**. Misslingt der Einsatz, verliert das Team **1 Px**.
-Bei gravierenden Eingriffen springt der Index ohne ClusterCreate auf **0**.
+Der Effekt kostet **2 SYS** in Story- oder Koop-Szenen. Im Arena-PvP greift
+automatisch die Schutzklausel `arena.phase_strike_tax = +1 SYS`, sodass die
+Kosten dort auf **3 SYS** steigen. Misslingt der Einsatz, verliert das Team
+**1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
+auf **0**.
+
+```typescript
+const phaseStrikeCost = scene.mode === "pvp" ? 3 : 2;
+if (scene.mode === "pvp") {
+  hud.toast("Arena: Phase-Strike belastet +1 SYS");
+}
+psi.spendSYS(actor, phaseStrikeCost);
+```
 
 ### Reichweitenzonen {#reichweitenzonen}
 
@@ -232,6 +243,24 @@ Zur Orientierung gelten drei Distanzbänder für Telepathie und Telekinese:
 
 Aktionen außerhalb des Fernbereichs sind nur erzählerisch möglich und erhalten mindestens **+1** auf die
 Schwelle.
+
+### ITI-Basisprotokoll: Psi-Puffer
+
+Alle ITI-Standardanzüge führen seit Revision 4.2.2 einen **Psi-Puffer** mit –
+ein fein abgestimmtes Interferenzfeld, das fremde Psi-Eingriffe ablenkt. Das
+Toolkit setzt dafür automatisch den Flag `psi_buffer = true`. Der Puffer
+liefert **+2 SG** gegen telepathische Angriffe, `mind_control`-Makros und
+reduziert Phase-Strike-Treffer auf **+0 Schaden**, sofern das Ziel keinen
+eigenen Psi-Fokus besitzt (`target.has_psi === false`).
+
+```python
+if target.psi_buffer and not target.has_psi:
+    attack.damage_bonus = max(0, attack.damage_bonus - 1)
+    sg_modifier += 2
+```
+
+In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
+(`PFIELD`) beschreiben; er lässt sich deaktivieren, kostet aber keine SYS.
 
 ### Anti-Psi-Gitter
 

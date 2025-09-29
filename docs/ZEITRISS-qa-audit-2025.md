@@ -20,7 +20,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *erledigt* – Psi-Heat wird nun explizit geführt (`psi_heat`), Save-Version 5 migriert Altstände automatisch, HUD/Toolkits zeigen Psi-Heat getrennt von Stress & Tech-Heat.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen und Boss-DR automatisieren. Status: *erledigt* – Arena-HUD halbiert Exploding-Overflow automatisch, Boss-Spawn vergibt DR 2/3 inkl. HUD-Hinweis.
 5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht weiter erhöhen, stattdessen qualitative Boni verankern. Status: *erledigt* – Core-Regelwerk setzt ab Prestige-Level auf erzählerische Perks und ersetzt den Standard-Attributsbonus durch Legendenpfade.
-6. **Psi vs. Non-Psi balancieren.** Phase-Strike-Kosten in PvP anheben, Anti-Psi-Grundschutz verbreitern. Status: *offen*.
+6. **Psi vs. Non-Psi balancieren.** Phase-Strike-Kosten in PvP anheben, Anti-Psi-Grundschutz verbreitern. Status: *erledigt* – Arena setzt `phase_strike_tax = +1 SYS`, Kernanzüge tragen `psi_buffer` (+2 SG, neutralisiert Bonus-Schaden).
 7. **Tech-Dominanz-Check auf kleine Teams ausweiten.** `tech_heat` früher triggern und Gerätezwang durchsetzen. Status: *offen*.
 8. **Suspend-Snapshot als Komfortfunktion implementieren.** HQ-Save-Pflicht erhalten, aber Session-Pause erlauben. Status: *erledigt* – `!suspend` legt einen 24h-Snapshot an, `!resume` setzt ihn einmalig fort und respektiert den HQ-Deepsave.
 9. **Exfil-Kommunikation im HUD verstärken.** Auto-Toasts für Arming/Alt-Anchor und RW-Ticks. Status: *offen*.
