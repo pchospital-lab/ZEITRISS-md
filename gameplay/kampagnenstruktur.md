@@ -1449,12 +1449,13 @@ Herzen des Sci-Fi-Abenteuers.
 
 Die **ITI-Arena** bietet mehr als einen schlichten Ring. Vor jedem Match wählt
 **Codex** per Missions-Generator ein kurzes **Szenario** – zum Beispiel eine
-Verfolgungsjagd oder die Befreiung einer Geisel. Ein Team versucht, das Ziel auszulösen,
-das andere möchte es verhindern. Gespielt wird direkt die entscheidende
-Showdown-Szene.
+Verfolgungsjagd oder die Befreiung einer Geisel. Ein Team versucht, das Ziel
+auszulösen, das andere möchte es verhindern. Gespielt wird direkt die
+entscheidende Showdown-Szene.
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
-   Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
+   Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte
+   Teamgröße fest.
 2. **Szenario-Setup:** Codex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die
    Ausgangslage. Auf Wunsch wählt er eine Kulisse über den
@@ -1469,18 +1470,25 @@ Showdown-Szene.
    gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt
    und die Serie verliert, erhält keinen Bonus.
 5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
-   Best-of-Three-Serie gewinnt und danach aussteigt, erhält einmalig **+1 Px**.
-   Die Startgebühr fällt bei jedem neuen Lauf erneut an.
+   Best-of-Three-Serie gewinnt und danach aussteigt, erhält **+1 Px**, sofern die
+   laufende Episode noch keinen Arena-Bonus verbucht hat. Codex markiert den
+   Abschluss mit einem `arena_episode_stamp`. Die Startgebühr fällt bei jedem
+   neuen Lauf erneut an.
 
 ```typescript
-// Paradoxon-Bonus der PvP-Arena
-if (team_wins >= 2 && exit_arena) {
+// Paradoxon-Bonus der PvP-Arena – nur einmal pro Episode
+const episode = campaign.episode ?? "freeplay";
+if (team_wins >= 2 && exit_arena && arena.last_reward_episode !== episode) {
   group.paradox += 1;
+  arena.last_reward_episode = episode;
 }
 ```
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
-zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden.
+zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
+`arena_episode_stamp` hängt im HQ in der Gatehall aus; sobald Codex es setzt,
+weiß die Gruppe, dass für die laufende Episode kein weiterer Px-Bonus mehr
+wartet.
 
 **Siegbedingungen:** Ein Duell gilt als gewonnen, wenn das gegnerische Team
 kampfunfähig ist oder das Missionsziel erreicht wurde. Verlassen Teilnehmende

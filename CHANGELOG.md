@@ -6,6 +6,12 @@ tags: [meta]
 
 # Changelog
 
+## 4.2.2 – Arena-Episodenstempel
+- PvP-Arena vergibt den Px-Bonus nur einmal pro Episode; `arena_episode_stamp`
+  ist in Kampagnenstruktur und Runtime-Stubs dokumentiert.
+- Makefile ergänzt `lint`- und `test`-Targets, damit Standard-Checks direkt über
+  `make` anlaufen.
+
 ## 4.0.1
 - Rewrapped long lines in `README.md`, `meta/masterprompt_v6.md` and `core/wuerfelmechanik.md`.
 - Added this changelog file.

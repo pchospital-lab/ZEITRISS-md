@@ -126,6 +126,13 @@ Content-Type: application/json
   "open_seeds": [
     { "id":"LND‑1851‑SW", "epoch":"Victorian", "status":"open" }
   ],
+  "campaign": { "episode": 3, "mission_in_episode": 7 },
+  "arena": {
+    "active": false,
+    "winsA": 0,
+    "winsB": 0,
+    "last_reward_episode": 2
+  },
   "player": {
     "hp": 18,
     "stress": 4,
@@ -135,6 +142,10 @@ Content-Type: application/json
   "current_room": "Operations-Deck"
 }
 ```
+
+`campaign.episode` spiegelt die aktuelle Missions-Staffel. Der Block `arena`
+merkt sich, ob der Px-Bonus bereits vergeben wurde – `last_reward_episode`
+bewahrt den Episodenstempel, damit kein Team denselben Bonus farmen kann.
 
 _Getter-Helpers (pseudo JS):_
 
@@ -306,7 +317,16 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
   const scenario = generateArenaScenario();
   const teamA = createTeam(teamSize, players, mode); // füllt mit Fraktionsmitgliedern
   const teamB = createOpposingTeam(teamSize); // GPT generiert Gegenteam
-  state.arena = { active: true, teamA, teamB, scenario, winsA: 0, winsB: 0 };
+  const lastReward = state.arena?.last_reward_episode ?? null;
+  state.arena = {
+    active: true,
+    teamA,
+    teamB,
+    scenario,
+    winsA: 0,
+    winsB: 0,
+    last_reward_episode: lastReward,
+  };
   autoSave();
   writeLine(`PvP showdown started: ${scenario.description}`);
 }
@@ -326,9 +346,24 @@ function arenaMatchWon(playerTeamWon = true) {
 function exitPvPArena() {
   if (!state.arena?.active) return;
   if (state.arena.winsA > state.arena.winsB) {
-    state.paradoxon_index += 1; // Paradoxon-Bonus +1 Px nach gewonnener Best-of-Three-Serie
+    const episode = state.campaign?.episode ?? "freeplay";
+    const alreadyRewarded =
+      state.arena.last_reward_episode !== null &&
+      state.arena.last_reward_episode === episode;
+    if (!alreadyRewarded) {
+      state.paradoxon_index += 1; // Px-Bonus nur einmal pro Episode
+      state.arena.last_reward_episode = episode;
+    }
   }
-  state.arena = { active: false, teamA: [], teamB: [], winsA: 0, winsB: 0 };
+  const stamp = state.arena.last_reward_episode ?? null;
+  state.arena = {
+    active: false,
+    teamA: [],
+    teamB: [],
+    winsA: 0,
+    winsB: 0,
+    last_reward_episode: stamp,
+  };
   autoSave();
   writeLine("Arena match ended.");
 }
