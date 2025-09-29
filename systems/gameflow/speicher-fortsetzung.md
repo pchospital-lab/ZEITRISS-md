@@ -8,7 +8,7 @@ tags: [system]
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
-> Chat-Befehle: `!save`, `!load`, optional `!autosave hq`.
+> Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
 **SaveGuard (Pseudocode)**
@@ -63,6 +63,89 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
 Transparenz-Modus nach einem Neustart erhalten.
+
+## Session-Suspend (Temporärer Snapshot) {#session-suspend}
+
+> **Ziel:** Ihr könnt eine laufende Sitzung pausieren, ohne den HQ-Deepsave zu verletzen.
+> `!suspend` schreibt einen flüchtigen Snapshot, `!resume` setzt ihn exakt einmal fort.
+
+Der Suspend-Snapshot friert den laufenden Einsatz für eine Pause ein.
+Er lebt außerhalb der regulären Save-Pipeline und verfällt nach 24 Stunden.
+Der Deepsave im HQ bleibt weiterhin Pflicht, sobald Ihr die Episode wirklich abschließt.
+
+**SuspendGuard (Pseudocode)**
+```pseudo
+assert not state.get('open_roll'), "Suspend nur zwischen Szenen oder nach einem Wurf-Ergebnis."
+assert not state.get('exfil_active'), "Suspend blockiert während laufender Exfiltration."
+snapshot = {
+  "suspend_version": 1,
+  "zr_version": state.get('zr_version'),
+  "created_at": now(),
+  "expires_at": now() + 24h,
+  "volatile": true,
+  "campaign": {
+    "episode": state.campaign.episode,
+    "scene": state.campaign.scene,
+    "phase": state.campaign.phase
+  },
+  "mission": {
+    "id": state.mission.id,
+    "objective": state.mission.objective,
+    "clock": state.mission.clock,
+    "timers": state.mission.timers
+  },
+  "team": {
+    "stress": state.team.stress,
+    "psi_heat": state.team.psi_heat,
+    "status": state.team.status,
+    "cooldowns": state.team.cooldowns
+  },
+  "flags": state.flags.runtime
+}
+write_tmp("suspend/" + state.campaign.id + ".json", snapshot)
+toast("Suspend-Snapshot aktiv. Nutzt !resume, bevor 24h vergehen.")
+state.flags.runtime["suspend_active"] = true
+```
+
+Der Snapshot speichert nur die taktisch relevanten Werte einer Szene.
+Inventar, Shop-Angebote und Episoden-Belohnungen bleiben Teil des HQ-Deepsaves.
+`volatile: true` stellt klar, dass der Snapshot nicht als vollwertiger Save gilt.
+
+**ResumeFlow (Pseudocode)**
+```pseudo
+snapshot = read_tmp("suspend/" + state.campaign.id + ".json")
+assert snapshot, "Kein Suspend-Snapshot gefunden."
+assert now() < snapshot.expires_at, "Suspend-Snapshot abgelaufen. Bitte letzten HQ-Save laden."
+assert snapshot.zr_version.major_minor == state.zr_version.major_minor,
+       "Suspend-Version inkompatibel."
+apply(state.campaign.scene = snapshot.campaign.scene)
+apply(state.campaign.phase = snapshot.campaign.phase)
+apply(state.mission.clock = snapshot.mission.clock)
+apply(state.mission.timers = snapshot.mission.timers)
+apply(state.team.stress = snapshot.team.stress)
+apply(state.team.psi_heat = snapshot.team.psi_heat)
+apply(state.team.status = snapshot.team.status)
+apply(state.team.cooldowns = snapshot.team.cooldowns)
+state.flags.runtime.update(snapshot.flags)
+delete_tmp("suspend/" + state.campaign.id + ".json")
+toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " fort.")
+```
+
+- `!resume` ist nur einmal pro Snapshot erlaubt; der Datensatz wird nach dem Laden gelöscht.
+- Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen gesichert bleiben.
+- Bei Ablauf des Snapshots informiert das HUD: „Suspend-Fenster verstrichen. Bitte HQ-Deepsave laden.“
+
+**HUD-Feedback**
+
+- Nach `!suspend`: Toast `HUD → Session eingefroren · Ablauf <24h`.
+- Nach `!resume`: Overlay `Session fortgesetzt · Szene X/Y`.
+- Nach Ablauf: Benachrichtigung `Suspend verworfen · HQ-Save nötig`.
+
+**Best Practices**
+
+- Nutzt `!suspend`, wenn Ihr mitten im Konflikt aufhören müsst, aber den Flow bewahren wollt.
+- Legt direkt vor einer Pause eine Mini-Rekap an, damit `!resume` den Einstieg filmisch anschließen kann.
+- Verlasst Euch nicht dauerhaft darauf: Der Snapshot ersetzt keinen Story-Fortschritts-Save im HQ.
 ## Makros im Überblick {#makros-im-ueberblick}
 
 - `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
