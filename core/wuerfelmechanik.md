@@ -650,7 +650,7 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Ergebnis | SG-Richtwert | Exploding-Beispiel | PP-Regel |
 |---------|-------------|-------------------|---------|
 | **Fail** | < SG | 4 auf W6 → Misserfolg | – |
-| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TEMP 1 PP (CHA als Willenskraft vs 2×Heat) |
+| **Success** | ≥ SG | 6 explodiert, dann 5 → 11 | pro 3 TEMP 1 PP (CHA als Willenskraft vs 2×Psi-Heat) |
 | **Critical** | ≥ SG + 5 | 10 → 10 → 3 = 23 | PP-Pool voll nach Kampf |
 
 ### Quick Reference (2 Seiten)
@@ -672,7 +672,7 @@ und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1–0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
 **Px Burn:** 1 Punkt für einen Reroll (auch NSC). Mögliche Nebenwirkungen bestimmt die SL situativ.
 **Psi-Heat-Track** – 0 Pristine, 1–2 Warm, 3–4 Hot (−1 Ini), 5 Overload (SG +4 auf alle Proben),
-6 Reboot → Runde aussetzen & Heat 0
+6 Reboot → Runde aussetzen & Psi-Heat 0
 
 
 **Psi-Effekte auf einen Blick**

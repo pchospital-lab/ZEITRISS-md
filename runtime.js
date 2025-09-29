@@ -270,7 +270,7 @@ function assert_foreshadow(n=2){
 
 function select_state_for_save(s){
   return {
-    save_version: 4,
+    save_version: 5,
     zr_version: ZR_VERSION,
     location: s.location,
     phase: s.phase,
@@ -289,7 +289,7 @@ function save_deep(s=state){
   const c = s.character || {};
   const a = c.attributes || {};
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
-  if (c.heat !== 0) throw new Error('SaveGuard: heat > 0.');
+  if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
   if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
   const required = [
     c.id,
@@ -319,6 +319,21 @@ function migrate_save(data){
     data.phase ||= 'core';
     data.save_version = 4;
   }
+  if (data.save_version === 4){
+    const character = data.character ||= {};
+    const carryHeat = character.psi_heat ?? character.heat ?? 0;
+    if (typeof carryHeat !== 'number' || !Number.isFinite(carryHeat)){
+      character.psi_heat = 0;
+    } else {
+      character.psi_heat = carryHeat;
+    }
+    if (character.psi_heat_max === undefined && character.heat_max !== undefined){
+      character.psi_heat_max = character.heat_max;
+    }
+    delete character.heat;
+    delete character.heat_max;
+    data.save_version = 5;
+  }
   return data;
 }
 
@@ -327,6 +342,13 @@ function hydrate_state(data){
   state.phase = data.phase || 'core';
   state.campaign = data.campaign || {};
   state.character = data.character || {};
+  const legacyHeat = state.character.psi_heat ?? state.character.heat ?? 0;
+  state.character.psi_heat = Number.isFinite(legacyHeat) ? legacyHeat : 0;
+  delete state.character.heat;
+  if (state.character.psi_heat_max === undefined && state.character.heat_max !== undefined){
+    state.character.psi_heat_max = state.character.heat_max;
+  }
+  delete state.character.heat_max;
   state.team = data.team || {};
   state.loadout = data.loadout || {};
   state.economy = data.economy || {};
@@ -352,7 +374,7 @@ function startSolo(mode='klassisch'){
   state.character = {
     id: 'CHR-NEW',
     stress: 0,
-    heat: 0,
+    psi_heat: 0,
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   };

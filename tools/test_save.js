@@ -9,7 +9,7 @@ const base = {
   character: {
     id: 'CHR-1',
     stress: 0,
-    heat: 0,
+    psi_heat: 0,
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   },
@@ -22,12 +22,13 @@ const base = {
 
 const json = rt.save_deep(base);
 const data = JSON.parse(json);
-assert.equal(data.save_version, 4);
+assert.equal(data.save_version, 5);
 assert.equal(data.phase, 'core');
 assert.equal(data.zr_version, rt.ZR_VERSION);
 assert.equal(rt.ZR_VERSION, pkg.version);
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
+assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_used: 2 } } }));
 assert.throws(() => rt.save_deep({ ...base, economy: undefined }));
 assert.throws(() => rt.save_deep({ ...base, logs: undefined }));
@@ -40,6 +41,6 @@ try {
 }
 
 const migrated = rt.migrate_save({});
-assert.equal(migrated.save_version, 4);
+assert.equal(migrated.save_version, 5);
 assert.equal(migrated.phase, 'core');
 console.log('save-ok');
