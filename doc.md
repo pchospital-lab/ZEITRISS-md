@@ -49,7 +49,13 @@ Liefert `true`, wenn Konflikte vor `DelayConflict`-Threshold erlaubt sind
 
 ### `assert_foreshadow(count=2)`
 Warnung im PRECISION-Stil, falls weniger als `count` Hinweise für spätere
-Bosskämpfe gesetzt wurden.
+Bosskämpfe gesetzt wurden. Core-Missionen benötigen nun vier Foreshadows,
+Rift-Operationen zwei, um Szene 10 zu erreichen.
+
+### `ForeshadowHint(text, tag='Foreshadow')`
+Registriert einen Foreshadow-Hinweis und sendet einen passenden HUD-Toast.
+Nur Hinweise, die über dieses Makro oder automatische System-Hints gesetzt
+werden, heben den Gate für Szene 10 auf.
 
 ## Beispiele
 ```js
