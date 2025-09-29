@@ -190,6 +190,15 @@ Schaden pro Treffer, schwerere Rüstungen mehr. Allerdings bringen Rüstungen au
 Gewichtsbelastung oder eingeschränkte Beweglichkeit. Die Tabelle zeigt Beispiele für Schutzkleidung
 und persönliche Schutzsysteme:
 
+#### Psi-Abschirmung der Kernanzüge
+
+Der aktuelle ITI-Kernanzug trägt eine schimmernde Faserlage, die als **Psi-Puffer** fungiert. Sobald
+der Einsatz startet, aktiviert Codex automatisch das Feld – im HUD erscheint das Icon `PFIELD`.
+Mechanisch bedeutet das **+2 SG** gegen telepathische Angriffe sowie einen neutralisierten
+Phase-Strike-Bonus gegen Nicht-Psioniker (der zusätzliche +1 Schaden fällt weg). Der Puffer ist
+Standard ab Tier‑1-Rüstung, benötigt keine zusätzlichen SYS-Kosten und kann für infiltrative
+Operationen bewusst deaktiviert werden.
+
 **Beispiel-Schutzkleidung und Rüstungen:**
 
 | Rüstung | Epoche | Schutz | Besonderheit | Kosten (CU) | Tier |
