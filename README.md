@@ -305,7 +305,7 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
 5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
-6. **Regel-Transparenz** – Overlay ist Standard; `/debug_rolls` blendet optional das JSON-Log ein.
+6. **Regel-Transparenz** – Overlay und JSON-Log laufen standardmäßig; `/debug_rolls` blendet das Log bei Bedarf aus.
 
 ### Probability Cheat Table
 
@@ -650,8 +650,7 @@ sind der Übersicht halber aufgeführt.
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
-Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Daher folgen auf Modul 6 die Teile
-8A und 8B, während Modul 7 als interner Zwischenschritt ausgelassen wurde.
+Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6 folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
