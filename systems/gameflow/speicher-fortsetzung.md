@@ -15,9 +15,9 @@ tags: [system]
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert campaign.loc == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
-assert state.sys_used == state.sys and state.stress == 0 and state.heat == 0
+assert state.sys_used == state.sys and state.stress == 0 and state.psi_heat == 0
 assert not state.get('timer') and not state.get('exfil_active')
-required = ["id","sys","sys_used","stress","heat","cooldowns",
+required = ["id","sys","sys_used","stress","psi_heat","cooldowns",
             "campaign.px","artifact_log","codex","economy",
             "logs","ui"]
 assert all(k in state for k in required)
@@ -36,7 +36,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "sys": 5,
   "sys_used": 5,
   "stress": 0,
-  "heat": 0,
+  "psi_heat": 0,
   "cooldowns": {},
   "campaign": {"episode": 4, "scene": 0, "px": 0},
   "artifact_log": [],
@@ -45,11 +45,11 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 }
 ```
 
-- Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `heat`, `cooldowns`,
+- Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `psi_heat`, `cooldowns`,
   `campaign.px`, `artifact_log`, `codex`, `economy`, `logs` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
-- Im HQ sind `sys_used`, `stress` und `heat` deterministisch: `sys_used` == `sys`,
-  `stress` = 0, `heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
+- Im HQ sind `sys_used`, `stress` und `Psi-Heat` deterministisch: `sys_used` == `sys`,
+  `stress` = 0, `psi_heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
   Basiszustand prüfen kann.
 - GPT darf keine dieser Angaben ableiten oder weglassen.
 
@@ -115,7 +115,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 ```json
 {
   "zr_version": "4.2.2",
-  "save_version": 4,
+  "save_version": 5,
   "location": "HQ",
   "phase": "core",
   "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
@@ -135,7 +135,7 @@ Transparenz-Modus nach einem Neustart erhalten.
     },
     "ammo": 10,
     "stress": 0,
-    "heat": 0,
+    "psi_heat": 0,
     "cooldowns": {}
   },
   "team": { "name": "NPC-Zelle", "members": [] },
@@ -227,7 +227,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 function select_state_for_save(state) {
   return {
     zr_version: "4.2.2",
-    save_version: 4,
+    save_version: 5,
     created_at: new Date().toISOString(),
     location: state.location,
     phase: state.phase,
@@ -268,6 +268,17 @@ function migrate_save(data) {
   if (data.save_version === 3) {
     data.phase ||= "core";
     data.save_version = 4;
+  }
+  if (data.save_version === 4) {
+    const character = data.character ||= {};
+    const carryHeat = character.psi_heat ?? character.heat ?? 0;
+    character.psi_heat = Number.isFinite(carryHeat) ? carryHeat : 0;
+    if (character.psi_heat_max === undefined && character.heat_max !== undefined) {
+      character.psi_heat_max = character.heat_max;
+    }
+    delete character.heat;
+    delete character.heat_max;
+    data.save_version = 5;
   }
   return data;
 }

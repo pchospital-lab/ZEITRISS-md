@@ -60,7 +60,7 @@ Der Standard-Header zeigt:
 
 ### HUD-Layouts nach Klassen
 
-- **PSI-Chars:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
+- **PSI-Chars:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)`
 - **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)`
 - **Exfil-Phase:** `ANCR: Hinterhof · RW: 07:30`
 - **Gemeinsam:** Szene-Ticker `SC x/12` nur an Übergängen, Overcharge als Flag `OC 0/1`.
@@ -401,7 +401,7 @@ einen Toggle `/stress open|hidden`.
   Auf **2** heilt das Team **1 HP**.
   Bei **3** ist die nächste Probe um **–1 SG** erleichtert.
   Auf **4** sorgt ein Adrenalinrausch für **+2 Initiative** auf die nächste Kampfhandlung.
-  Bei **5** beruhigt sich der Zeitstrom: Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlst du dich physisch geerdet.
+  Bei **5** beruhigt sich der Zeitstrom: Psi-Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlst du dich physisch geerdet.
   Anschließend springt der Index auf 0.
   Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index.
   Seeds zählen für alle, das Fülltempo richtet sich
@@ -531,7 +531,7 @@ Steigende Resonanz belohnt das Team mit kleinen Boni.
 | 2     | einmalig −1 Stress                        | – |
 | 3     | Gruppe heilt 1 HP                         | – |
 | 4     | +2 Initiative auf nächste Kampfhandlung     | „Riss-Vorstufe“-Flag |
-| **5** | Heat 0, 2 PP, Zustände weg (Zeitstrom stabil) | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
+| **5** | Psi-Heat 0, 2 PP, Zustände weg (Zeitstrom stabil) | **ClusterCreate()** enthüllt 1–2 Rifts, Index = 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon‑Index auf 0 und legt 1–2 neue
   Rift-Seeds auf der Raumzeitkarte ab. Diese sind erst nach Episodenende vom HQ aus
@@ -555,7 +555,7 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 2. *Viktorianisch:* Dein Monokel-HUD leuchtet kurz und heilt **1 HP**.
 3. *Zweiter Weltkrieg:* Funkgerät surrt, die nächste Probe ist **–1 SG** leichter.
 4. *Kalter Krieg:* Ein Adrenalinrausch verleiht **+2 Initiative**.
-5. *Cyber-Future:* Heat sinkt auf 0 und das Team erhält **2 PP**; negative Zustände lösen sich auf.
+5. *Cyber-Future:* Psi-Heat sinkt auf 0 und das Team erhält **2 PP**; negative Zustände lösen sich auf.
 
 > **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
 
@@ -581,7 +581,7 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   gebunden; dein Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
   Kampfrunde kannst du pro **3 TEMP** 1 PP regenerieren, falls eine
-  Willenskraftprobe (CHA) gegen doppelten Heat gelingt; nach jedem Kampf wird
+  Willenskraftprobe (CHA) gegen doppelten Psi-Heat gelingt; nach jedem Kampf wird
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
 

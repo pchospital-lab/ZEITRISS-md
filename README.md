@@ -282,9 +282,9 @@ Debrief und Save (HQ-only).
 
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
-- **PSI:** `PP 6/8 · Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` –
-  Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt nach jedem Konflikt auf 0.
-- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` – führt keinen Heat-Track.
+- **PSI:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` –
+  Psi-Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt nach jedem Konflikt auf 0.
+- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` – führt keinen Psi-Heat-Track.
 In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
 In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
@@ -494,7 +494,7 @@ Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#
 | [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Episoden-Boss nach Missionsnummern |
 | [Stress-System](characters/zustaende-hud-system.md) | | ✅ | | Für psychische Belastung und Druck |
 | [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für große Missionen |
-| [Psi-Kräfte / Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
+| [Psi-Kräfte / Psi-Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
 
 ### Standardausrüstung {#standardausruestung}
 
@@ -897,7 +897,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
   T- und N-Stufe der Neumenschen.
 
 - **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
-- **Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
+- **Psi-Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
 - **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue
   Rifts und setzt den Wert auf 0.
@@ -934,7 +934,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
   ([Missionsdauer](gameplay/kampagnenstruktur.md#missionsdauer),
   [HUD-Macros](systems/toolkit-gpt-spielleiter.md#startscene--endscene-macros)).
 - **Kampfrunde** – kurzer Aktionszyklus im Kampf; Grundlage für Initiative,
-  PP-Regeneration und Heat-Reduktion.
+  PP-Regeneration und Psi-Heat-Reduktion.
 - **Mission** – kompletter Einsatz vom Briefing bis zum Rücksprung.
 
 ### Zeitgebundene Effekte
@@ -946,7 +946,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | [Adrenalinschub][adrenalinschub] | +2 STR/GES 1 Szene; 1× pro Mission | Mission |
 | [Notfall-Stimulanz][notfall-stimulanz] | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
 | [PP-Regeneration][psi-pp-regeneration] | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
-| [Heat sink][psi-heat-track] | Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
+| [Psi-Heat sink][psi-heat-track] | Psi-Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
 
 [stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot

@@ -17,7 +17,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
    Episoden- oder Rufmarker koppeln. Status: *erledigt* – Px-Bonus wird nur noch
    einmal pro Episode vergeben; `arena_episode_stamp` markiert den konsumierten
    Lauf.
-3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *offen*.
+3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *erledigt* – Psi-Heat wird nun explizit geführt (`psi_heat`), Save-Version 5 migriert Altstände automatisch, HUD/Toolkits zeigen Psi-Heat getrennt von Stress & Tech-Heat.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen und Boss-DR automatisieren. Status: *offen*.
 5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht weiter erhöhen, stattdessen qualitative Boni verankern. Status: *offen*.
 6. **Psi vs. Non-Psi balancieren.** Phase-Strike-Kosten in PvP anheben, Anti-Psi-Grundschutz verbreitern. Status: *offen*.

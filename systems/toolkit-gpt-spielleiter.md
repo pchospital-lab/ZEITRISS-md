@@ -789,7 +789,7 @@ Decision: {{ text }}?
 {% set sys_free = (char.sys_max or 0) - (char.sys or 0) %}
 {% if char.psi_flag %}
   {% do segs.append(" · PP " ~ char.pp ~ "/" ~ char.pp_max) %}
-  {% do segs.append(" · Heat " ~ char.heat) %}
+  {% do segs.append(" · Psi-Heat " ~ (char.psi_heat or 0)) %}
   {% do segs.append(" · SYS " ~ char.sys ~ "/" ~ char.sys_max ~ " (free " ~ sys_free ~ ")") %}
   {% do segs.append(" · Stress " ~ (char.stress or 0)) %}
   {% do segs.append(" · Px " ~ px_bar(px) ~ " (" ~ px ~ "/5)") %}
@@ -831,16 +831,16 @@ total=12, role="", env=None) -%}
 {% endif %}
 {% set campaign.sys_prev = char.sys %}
 {% set campaign.pp_prev = char.pp %}
-{% set campaign.heat_prev = char.heat %}
+{% set campaign.psi_heat_prev = char.psi_heat %}
 {% set campaign.psi_logged = false %}
 {% set campaign.precision_header_ok = false %}
 {% set campaign.precision_decision_ok = false %}
 {% if loc == "HQ" %}
   {% do char.cooldowns.clear() %}
   {% set char.sys_used = char.sys %}
-  {% set char.stress = 0 %} {# Stress und Heat werden im HQ komplett abgebaut #}
-  {% set char.heat = 0 %}
-  {% set campaign.heat_prev = 0 %}
+  {% set char.stress = 0 %} {# Stress und Psi-Heat werden im HQ komplett abgebaut #}
+  {% set char.psi_heat = 0 %}
+  {% set campaign.psi_heat_prev = 0 %}
   {% set total = "∞" %}
   {% set campaign.scene_total = None %}
   {% set campaign.exfil = {
@@ -940,12 +940,12 @@ total=12, role="", env=None) -%}
 {% endif %}
 {% set campaign.scene = campaign.scene + 1 -%}
 {% if (char.sys != campaign.sys_prev or char.pp != campaign.pp_prev or
-      char.heat != campaign.heat_prev) and not campaign.psi_logged %}
+      char.psi_heat != campaign.psi_heat_prev) and not campaign.psi_logged %}
   {{ hud_tag('Psi-Check: nutze psi_activation()') }}
 {% endif %}
 {% set campaign.sys_prev = char.sys %}
 {% set campaign.pp_prev = char.pp %}
-{% set campaign.heat_prev = char.heat %}
+{% set campaign.psi_heat_prev = char.psi_heat %}
 {% set _ = scene_budget_enforcer(campaign.scene_total) -%}
 {%- endmacro %}
 
@@ -1612,7 +1612,7 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
       {% set effect = effect ~ " (passive)" %}
   {% endif %}
   {% set side = [
-      "Stress+1","Heat+1","SYS-1","Flashblind",
+      "Stress+1","Psi-Heat+1","SYS-1","Flashblind",
       "Item breaks","Enemy +1 INI"][side_roll-1] %}
   {% set name = part ~ ' von ' ~ creature.name %}
   {{ artifact_overlay(name, effect, side ~ ' · Px-1') }}
@@ -1682,9 +1682,9 @@ Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
 **Guardrails:**
 - **Gear:** kein SYS, kleine Vorteile, Limit 1×/Szene oder 1×/Mission.
 - **Cyber/Bio:** SYS 1–2, moderate permanente Boni/Trigger – keine +2‑„Godbuttons“.
-- **Consumables:** einmalig; +PP/−Heat nur in kleinen Dosen, oft mit kleinem Stress‑Tradeoff.
-- **Heat-Interaktion:** keine globalen „−1 Heat pro Einsatz“-Auren;
-  erlaubt ist 1× pro Konflikt 1 Heat venten oder eine Psi-Aktion ohne Heat
+- **Consumables:** einmalig; +PP/−Psi-Heat nur in kleinen Dosen, oft mit kleinem Stress‑Tradeoff.
+- **Psi-Heat-Interaktion:** keine globalen „−1 Psi-Heat pro Einsatz“-Auren;
+  erlaubt ist 1× pro Konflikt 1 Psi-Heat venten oder eine Psi-Aktion ohne Psi-Heat
   (nicht beides).
 - **PP-Boosts:** maximal +1–2 PP, höchstens 2× pro Mission; ggf. +1 Stress.
 
@@ -1759,11 +1759,11 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% set char.sys = char.sys + sys_cost %}
 {% set char.sys_used = char.sys_used + sys_cost %}
 {% set char.pp = char.pp - pp_cost %}
-{% set char.heat = char.heat + heat_cost %}
+{% set char.psi_heat = (char.psi_heat or 0) + heat_cost %}
 {{ hud_tag(
   'SYS ' ~ char.sys ~ '/' ~ char.sys_max ~
   ' · PP ' ~ char.pp ~ '/' ~ char.pp_max ~
-  ' · HEAT ' ~ char.heat ~ '/' ~ char.heat_max ~
+  ' · Ψ-HEAT ' ~ char.psi_heat ~ '/' ~ (char.psi_heat_max or char.heat_max or 6) ~
   ' – ' ~ name
 ) }}
 {%- endmacro %}
@@ -2665,7 +2665,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {# LINT:ARENA_SNAPSHOT #}
 {% macro arena_snapshot_state() -%}
   {% set arena._snap = {
-    'sys': char.sys, 'heat': char.heat, 'stress': char.stress,
+    'sys': char.sys, 'psi_heat': char.psi_heat, 'stress': char.stress,
     'pp': char.pp, 'cooldowns': char.cooldowns
   } %}
 {%- endmacro %}
@@ -2674,7 +2674,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% macro arena_restore_state() -%}
   {% if arena._snap %}
     {% set char.sys = arena._snap.sys %}
-    {% set char.heat = arena._snap.heat %}
+    {% set char.psi_heat = arena._snap.psi_heat %}
     {% set char.stress = arena._snap.stress %}
     {% set char.pp = arena._snap.pp %}
     {% set char.cooldowns = arena._snap.cooldowns %}
@@ -2940,7 +2940,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
     {{ arena_penalty(actor, 'Psi verboten') }}
     {% return %}
   {% endif %}
-  {{ hud_tag(actor ~ ' (Psi) → Stun ' ~ target ~ ' (Arena-Gitter: +SG, SYS/PP/Heat gelten)') }}
+  {{ hud_tag(actor ~ ' (Psi) → Stun ' ~ target ~ ' (Arena-Gitter: +SG, SYS/PP/Psi-Heat gelten)') }}
   {{ arena_apply_stun(target, 1) }}
 {%- endmacro %}
 

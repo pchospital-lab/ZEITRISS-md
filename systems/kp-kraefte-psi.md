@@ -32,10 +32,10 @@ _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 
 #### Beispiel: Telekinetischer Stoß
 
-Agentin Nova (TEMP 6, PP 6/6, SYS 4, Heat 0) stößt einen Gegner fünf Meter zurück.
+Agentin Nova (TEMP 6, PP 6/6, SYS 4, Psi-Heat 0) stößt einen Gegner fünf Meter zurück.
 SG laut Tabelle: **Telekinese-Stoß 12**.
 Wurf: `1W6` (5) + TEMP 6 (3) + Talentbonus Telekinetischer Stoß (4) = **12** → Erfolg.
-PP sinken auf **4**, Heat steigt auf **1**. Der Stoß ist <1 Sekunde, daher **0 SYS**.
+PP sinken auf **4**, Psi-Heat steigt auf **1**. Der Stoß ist <1 Sekunde, daher **0 SYS**.
 Cooldown: **2 Runden** (mittlere Kraft).
 
 **Typische SGs**
@@ -599,7 +599,7 @@ Verantwortung verbunden.
 
 - **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**,
   sofern eine Willenskraftprobe (CHA) gegen den doppelten
-  Heat-Level gelingt.
+  Psi-Heat-Level gelingt.
 - **Nach jedem Kampf** → **PP voll**
 - **Lange Ruhe** (Mission beendet) → **PP voll**
   > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TEMP.
@@ -632,17 +632,17 @@ Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an Paradoxon-Gefahr (
 
 ### Psi-Heat-Track {#psi-heat-track}
 
-- Heat betrifft nur **psi-begabte** Charaktere.
-- In Konfliktszenen baut jede **aktive Psi-Aktion** **Heat +1** auf (außer der Talenttext sagt
+- Psi-Heat betrifft nur **psi-begabte** Charaktere.
+- In Konfliktszenen baut jede **aktive Psi-Aktion** **Psi-Heat +1** auf (außer der Talenttext sagt
   etwas anderes).
-- Heat > 4 → −1 Initiative.
-- Heat ≥ 5 → **SG +4** auf alle Proben.
-- Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
-  Heat springt auf 0.
-- Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine
+- Psi-Heat > 4 → −1 Initiative.
+- Psi-Heat ≥ 5 → **SG +4** auf alle Proben.
+- Psi-Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
+  Psi-Heat springt auf 0.
+- Psi-Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine
   Willenskraftprobe (CHA)
-  gegen den doppelten Heat-Level gelingt. Kühl-Gear kann Heat sofort senken.
-  Nach jedem Kampf oder Konfliktblock springt Heat automatisch auf 0.
+  gegen den doppelten Psi-Heat-Level gelingt. Kühl-Gear kann Psi-Heat sofort senken.
+  Nach jedem Kampf oder Konfliktblock springt Psi-Heat automatisch auf 0.
 
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende
