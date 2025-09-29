@@ -158,15 +158,16 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   intensive Psionik wirkt.
 
 **Attributswerte:** Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
-außergewöhnlich und markiert einen Topwert – erfahrene Chrononauten können jedoch sogar
-darüber hinaus gelangen. Bei der Charaktererschaffung starten alle
-Attribute typischerweise auf einem Grundwert (z. B. jeweils 3), und es steht eine bestimmte Anzahl
-freier Punkte zur Verteilung bereit (üblich sind etwa 8 Punkte für alle sechs Attribute). Kein
-Start-Attribut sollte höher als ~6 sein, damit kein Wert direkt übermenschlich beginnt. Durch diese
-Verteilung entstehen unterschiedliche Startcharaktere – spezialisierte Experten oder vielseitige
-Allrounder. Im Verlauf der Kampagne können Attribute weiter steigen (siehe **Levelaufstieg &
-Fortschritt**), sogar über 10 hinaus, wenn der Chrononaut außergewöhnliche Erfahrungen macht oder
-sich mit Implantaten verbessert.
+außergewöhnlich und markiert einen Topwert – diese Schwelle bildet das offizielle **Attributs-Cap**
+der Startkampagnen. Bei der Charaktererschaffung starten alle Attribute typischerweise auf einem
+Grundwert (z. B. jeweils 3), und es steht eine bestimmte Anzahl freier Punkte zur Verteilung bereit
+(üblich sind etwa 8 Punkte für alle sechs Attribute). Kein Start-Attribut sollte höher als ~6 sein,
+damit Ihr nicht bereits im Prolog übermenschlich beginnt. Durch diese Verteilung entstehen
+unterschiedliche Startcharaktere – spezialisierte Experten oder vielseitige Allrounder. Werte über 10
+werden erst nach einem **Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet;
+bis dahin bleibt das Cap unverrückbar. Sobald Ihr Prestige erreicht, öffnet Ihr die Tür zu
+qualitativen Perks, die einzelne Attribute punktuell über die Zehn hinausheben und dabei neue
+Erzählhaken auslösen.
 
 **Beispiel:** Agent Alex startet mit STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3. Mit 8 freien
 Attributpunkten erhöht der Spieler Geschicklichkeit um +2, Intelligenz um +2, Temporale Affinität um
@@ -343,18 +344,16 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
   erhöht werden. Ein Attributswert von **10** stellt bereits ein sehr hohes Niveau dar. Menschliche
-  Spitzenwerte liegen ungefähr bei **12**; alles darüber wirkt klar übermenschlich. _Neu:_ Um **Power Creep**
-  zu verhindern, werden Steigerungen _über 10_ nur noch bei besonderen Gelegenheiten vergeben (z. B.
-  indem man **zwei Stufenaufstiege** investiert oder einen **Prestige-Aufstieg** vollzieht – siehe unten).
-  Solche Werte sind an **spezielle Upgrades oder Story-Ereignisse** geknüpft, etwa ein
-  erworbenes Implantat oder intensives Training mit einem Mentor. _Nutzen:_ **Flow:** Die Charaktere
-  verbessern sich stetig in ihren Kernbereichen, ohne dass jeder Level-Up sofort maximalste Werte
-  erzeugt – die Progression **fühlt sich organisch** an. **Balance:** Die _weiche
-  Attributs-Obergrenze_ stellt sicher, dass Helden nicht allein durch Zahlen _zu Göttern mutieren_,
-  sondern zusätzliche Anstrengungen oder Ressourcen aufbringen müssen, um übermenschliche
-  Fähigkeiten zu erlangen. **Storytelling:** Attributsanstiege über 10 können gezielt im Plot
-  verankert werden (z. B. „Durch das Serum X hast du deine Stärke auf 11 erhöht“), was _dramatische
-  Charakterentwicklung_ ermöglicht statt bloßer Stat-Erhöhung.
+  Spitzenwerte liegen ungefähr bei **12**; alles darüber wirkt klar übermenschlich. _Neu:_ Das
+  reguläre Level-Up endet bei **10** – jede weitere Steigerung erfordert einen Prestige-Perk oder ein
+  spezielles Story-Ereignis. Sobald Ihr Prestige freischaltet, erhaltet Ihr anstelle des +1-Pflichtbonus
+  einen **qualitativen Prestige-Perk**: z. B. ein ikonisches Manöver, ein Situationsbonus oder ein
+  begrenzter Attributsschub auf 11–12, der mit einer erzählerischen Konsequenz verknüpft ist. _Nutzen:_
+  **Flow:** Ihr erlebt weiter Fortschritt, doch die neuen Kräfte erzählen eine Szene, statt nur Zahlen
+  aufzublähen. **Balance:** Die _weiche Attributs-Obergrenze_ bleibt intakt, denn Prestige-Perks
+  verlangen bewusste Entscheidungen und halten das Spielfeld zwischen Psi, Tech und blanker Physis
+  fair. **Storytelling:** Prestige-Perks sind gebaute Legendenmomente – die Szene beschreibt, welches
+  Opfer oder welche Offenbarung Euch über die Zehn hinaus trägt.
 
 - **[Austausch] Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
   zur Spezialisierung. Bisher konnten neue Talente _gelegentlich nach Absprache_ freigeschaltet
@@ -384,6 +383,26 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   ohne dass statische Boni dominieren. **Balance:** Durch die Begrenzung bleibt er ein seltenes
   Highlight. **Storytelling:** Er unterstreicht, wie außergewöhnlich Werte jenseits der 10 sind
   und erlaubt Szenen fast übernatürlicher Meisterschaft.
+
+#### Prestige-Perks & Legendenpfade
+
+Sobald Ihr **Prestige-Level** (z. B. 100, 200, 300 …) erreicht, öffnet sich ein Legendenpfad, der
+den Standard-Aufstieg ablöst.
+
+- **Prestige-Trigger:** Der Aufstieg wird im HQ als feierlicher Akt festgehalten – Ihr kehrt ins ITI
+  zurück, absolviert einen Rite-of-Passage und entscheidet Euch für einen Prestige-Pfad. Erst danach
+  dürfen einzelne Attribute erzählerisch auf 11 oder 12 springen.
+- **Perk-Design:** Prestige-Perks liefern qualitative Macht. Beispiele: *Temporal Anchor* (einmal pro
+  Einsatz eine Szene einfrieren), *Aegis der Fraktion* (Euer HQ-Sektor spendet temporäre DR),
+  *Psi-Resonanz* (ein 11er TEMP erlaubt Euch, Zeitflüsse zu spüren und +1W6 auf Vorahnungsproben zu
+  legen). Jeder Perk bindet Euch an Verbündete, Feinde oder Ressourcen.
+- **Mechanik & Balance:** Der Prestige-Pfad ersetzt den Standard-Attributsbonus. Ihr entscheidet aktiv,
+  welcher Perk Eure Rolle schärft. Attribute bleiben dabei innerhalb des Caps, solange kein Prestige-
+  Perk sie freischaltet – so bleibt das Spielfeld zwischen Tech, Psi und roher Kraft ausgewogen.
+
+Prestige-Perks sind bewusst filmisch inszeniert: Ihr spürt in der Szene, wie das Zeitgefüge kurz
+zittert, während das ITI Euren Namen in die Annalen brennt. Diese Momente definieren Eure Chrononauten
+als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Signature-Aktionen (individuelle Heldentricks)
 
