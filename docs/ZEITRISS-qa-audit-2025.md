@@ -12,7 +12,7 @@ Ihr habt den Systemtest zu **ZEITRISS 4.2.2** mit Fokus auf Systemkohärenz, B
 Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere Kernsysteme inkonsistent benannt oder nur teilweise abgesichert sind. Besonders kritisch sind widersprüchliche Modulnummern, farmbare Paradoxon-Belohnungen in der Arena und das uneinheitliche „Heat“-Vokabular, das Spieler:innen wie Tools verwirrt. Ohne Korrektur gefährden diese Punkte die Anschlussfähigkeit von Regelreferenzen, die Progressionsökonomie und das Balancing in Hochstufen-Spielrunden.
 
 ## Maßnahmenkatalog (Priorisiert)
-1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien Modul 7 führen. Status: *offen*.
+1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien Modul 7 führen. Status: *erledigt* – Modul 6, Modul 7, Kampagnenübersicht und README benennen die Sequenz nun konsistent.
 2. **Paradoxon-Farm in der PvP-Arena unterbinden.** Arena-Belohnungssystem an Episoden- oder Rufmarker koppeln. Status: *offen*.
 3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *offen*.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen und Boss-DR automatisieren. Status: *offen*.
@@ -28,7 +28,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *offen*.
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *offen*.
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *offen*.
-17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren. Status: *offen* (Toolkit-Default aktuell `false`).
+17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren. Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README dokumentiert das neue Standardverhalten.
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()` für Loot-Erinnerung. Status: *offen*.
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis ergänzen. Status: *offen*.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im HUD. Status: *offen*.

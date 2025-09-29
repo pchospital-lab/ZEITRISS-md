@@ -48,12 +48,12 @@ default_modus: mission-fokus
   {% set ui = {
     'mode_display': 'label',
     'suppress_rank_on_narrow': true,
-    'dice': {'debug_rolls': false}
+    'dice': {'debug_rolls': true}
   } %}
 {% elif ui.dice is not defined %}
-  {% set ui = ui | combine({'dice': {'debug_rolls': false}}, recursive=true) %}
+  {% set ui = ui | combine({'dice': {'debug_rolls': true}}, recursive=true) %}
 {% elif ui.dice.debug_rolls is not defined %}
-  {% set ui.dice = ui.dice | combine({'debug_rolls': false}, recursive=true) %}
+  {% set ui.dice = ui.dice | combine({'debug_rolls': true}, recursive=true) %}
 {% endif %}
 {% if fx is not defined %}
 {% set fx = {
