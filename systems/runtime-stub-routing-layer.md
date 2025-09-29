@@ -253,9 +253,141 @@ function cmdSave() {
 
 ```typescript
 const ARENA_BASE_FEE = 250; // fixer Grundbetrag
-function getArenaFee() {
-  // 1 % des aktuellen Vermögens als Zusatzgebühr
-  return Math.floor(ARENA_BASE_FEE + state.currency * 0.01);
+const ARENA_FEE_BRACKETS = [
+  { limit: 1000, rate: 0.01 }, // 1 % auf die ersten 1.000 CU
+  { limit: 4000, rate: 0.02 }, // 2 % auf die nächsten 4.000 CU
+  { limit: Infinity, rate: 0.03 }, // 3 % ab 5.000 CU
+];
+
+function getArenaFee(currency = state.currency || 0) {
+  let remaining = Math.max(0, currency);
+  let fee = ARENA_BASE_FEE;
+  for (const bracket of ARENA_FEE_BRACKETS) {
+    if (remaining <= 0) break;
+    const taxable = Math.min(remaining, bracket.limit);
+    fee += taxable * bracket.rate;
+    remaining -= taxable;
+  }
+  return Math.floor(fee);
+}
+
+const ARENA_TIER_RULES = [
+  { tier: 1, minLevel: 1, maxLevel: 5, artifactLimit: 0, procBudget: 3, loadoutBudget: 5 },
+  { tier: 2, minLevel: 6, maxLevel: 10, artifactLimit: 1, procBudget: 4, loadoutBudget: 6 },
+  { tier: 3, minLevel: 11, maxLevel: Infinity, artifactLimit: 1, procBudget: 5, loadoutBudget: 7 },
+];
+
+function resolveArenaTier(players = []) {
+  const highestLevel = players.reduce((lvl, entry) => {
+    const raw = entry?.level ?? entry?.character?.level ?? 1;
+    const level = Number(raw);
+    return Math.max(lvl, Number.isFinite(level) ? level : 1);
+  }, 1);
+  return (
+    ARENA_TIER_RULES.find(
+      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel,
+    ) || ARENA_TIER_RULES[0]
+  );
+}
+
+function cloneLoadout(loadout) {
+  if (!loadout || typeof loadout !== "object") return {};
+  return JSON.parse(JSON.stringify(loadout));
+}
+
+function ensureArray(value) {
+  if (Array.isArray(value)) return value.filter(Boolean);
+  if (value === undefined || value === null || value === "") return [];
+  return [value];
+}
+
+const ARENA_PROC_KEYS = ["support", "tools", "mods", "devices", "gizmos"];
+
+function enforceProcBudget(loadout, limit, auditLog, label) {
+  if (!Number.isFinite(limit) || limit < 0) return loadout;
+  let remaining = limit;
+  for (const key of ARENA_PROC_KEYS) {
+    const items = ensureArray(loadout[key]);
+    if (items.length === 0) continue;
+    const kept = [];
+    for (const item of items) {
+      if (remaining > 0) {
+        kept.push(item);
+        remaining -= 1;
+      } else {
+        auditLog.push(
+          `${label}: Proc-Budget erreicht – '${item}' aus ${key} deaktiviert`,
+        );
+      }
+    }
+    loadout[key] = kept;
+  }
+  return loadout;
+}
+
+const ARENA_ARTIFACT_KEYS = ["artifacts", "artifact", "legendary", "trophies"];
+
+function extractArtifactEntries(loadout) {
+  const entries = [];
+  for (const key of ARENA_ARTIFACT_KEYS) {
+    const value = loadout[key];
+    if (Array.isArray(value)) {
+      value.forEach((entry, index) => {
+        if (entry) entries.push({ key, index, value: entry });
+      });
+    } else if (value) {
+      entries.push({ key, index: null, value });
+    }
+  }
+  // Zusatzcheck: Support-/Tool-Slots, falls Artefakt erwähnt wird
+  for (const key of ARENA_PROC_KEYS) {
+    const arr = ensureArray(loadout[key]);
+    arr.forEach((entry, index) => {
+      if (typeof entry === "string" && /artefakt|artifact/i.test(entry)) {
+        entries.push({ key, index, value: entry, derived: true });
+      }
+    });
+  }
+  return entries;
+}
+
+function enforceArtifactLimit(loadout, limit, auditLog, label) {
+  if (!Number.isFinite(limit) || limit < 0) limit = 0;
+  const entries = extractArtifactEntries(loadout);
+  let kept = 0;
+  for (const entry of entries) {
+    if (kept < limit) {
+      kept += 1;
+      continue;
+    }
+    auditLog.push(
+      `${label}: Artefakt-Limit erreicht – '${entry.value}' entfernt`,
+    );
+    if (entry.index === null) {
+      loadout[entry.key] = Array.isArray(loadout[entry.key]) ? [] : null;
+    } else if (Array.isArray(loadout[entry.key])) {
+      const arr = loadout[entry.key];
+      const idx = arr.indexOf(entry.value);
+      if (idx !== -1) {
+        arr.splice(idx, 1);
+      }
+    }
+  }
+  return loadout;
+}
+
+function applyArenaTierPolicy(players, tierRule) {
+  const audit = [];
+  const sanitisedPlayers = players.map((entry) => {
+    const label = entry?.name || entry?.callsign || "Agent";
+    const clone = { ...entry };
+    const loadout = cloneLoadout(entry?.loadout);
+    enforceArtifactLimit(loadout, tierRule.artifactLimit, audit, label);
+    enforceProcBudget(loadout, tierRule.procBudget, audit, label);
+    clone.loadout = loadout;
+    return clone;
+  });
+  return { tierRule, players: sanitisedPlayers, audit };
 }
 
 function generateArenaScenario() {
@@ -309,13 +441,20 @@ function createTeam(size, players, mode = "single") {
 }
 
 function startPvPArena(teamSize = 1, players = [], mode = "single") {
+  const tierRule = resolveArenaTier(players);
+  const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(
+    players,
+    tierRule,
+  );
   const fee = getArenaFee();
+  const numericCurrency = Number(state.currency);
+  state.currency = Number.isFinite(numericCurrency) ? numericCurrency : 0;
   if (state.currency < fee) {
     return writeLine("Not enough CU for Arena match.");
   }
   state.currency -= fee;
   const scenario = generateArenaScenario();
-  const teamA = createTeam(teamSize, players, mode); // füllt mit Fraktionsmitgliedern
+  const teamA = createTeam(teamSize, sanitisedPlayers, mode); // füllt mit Fraktionsmitgliedern
   const teamB = createOpposingTeam(teamSize); // GPT generiert Gegenteam
   const lastReward = state.arena?.last_reward_episode ?? null;
   state.arena = {
@@ -326,9 +465,20 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
     winsA: 0,
     winsB: 0,
     last_reward_episode: lastReward,
+    tier: tierRule.tier,
+    budget_limit: tierRule.loadoutBudget,
+    proc_budget: tierRule.procBudget,
+    artifact_limit: tierRule.artifactLimit,
+    audit,
+    policy_players: sanitisedPlayers,
   };
   autoSave();
-  writeLine(`PvP showdown started: ${scenario.description}`);
+  writeLine(
+    `PvP showdown started: ${scenario.description} · Tier ${tierRule.tier} (Budget ${tierRule.loadoutBudget}, Proc ${tierRule.procBudget}, Artefakte ${tierRule.artifactLimit})`,
+  );
+  if (audit.length > 0) {
+    writeLine(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`);
+  }
 }
 
 function arenaMatchWon(playerTeamWon = true) {
