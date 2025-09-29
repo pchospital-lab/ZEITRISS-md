@@ -565,7 +565,7 @@ function on_command(command){
       const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       return startGroup(mode);
     }
-    if (cmd === '!help start'){
+    if (cmd === '!help start' || cmd === '/help start'){
         return [
           'Startbefehle:',
           '- Spiel starten (solo) [klassisch|schnell]',
@@ -574,6 +574,26 @@ function on_command(command){
           '- Spiel laden',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
+        ].join('\n');
+      }
+    if (cmd === '!help urban' || cmd === '/help urban'){
+        return [
+          'Urban Quick-Card:',
+          'Deckung: Offen 0 · Teildeckung +1 SG · Volldeckung +2 SG (Peek kostet 1 Aktion).',
+          'Mobile Deckung (Schild/Drohne) +1 SG, zerfällt nach 2 Treffern oder 1 Krit.',
+          'Verfolgungsjagd: Distanzstufen 0–3. Erfolg +1, Stunt (SG +2) → +2 oder Komplikation für Gegner.',
+          'Speed-Delta π = Fahrstufen-Differenz × 2 m pro Szene; Doppel-Fail → Crashbeat & Distanz −2.',
+          'HUD-Tags: COVER · PURSUIT · MOVE – Toasts maximal 6 Wörter, haltet sie filmisch.'
+        ].join('\n');
+      }
+    if (cmd === '!help sg' || cmd === '/help sg'){
+        return [
+          'SG & Exploding Quick-Card:',
+          'Attribute 1–10 → W6 · ab 11 W10 · Heldenwürfel ab 14 (1× Reroll).',
+          'Exploding: jede 6/10 explodiert einmal; Arena/Boss halbieren Overflow automatisch.',
+          'SG-Richtwerte: Leicht 5 · Mittel 8–9 · Schwer 12 · Extrem 15+.',
+          'Phasen-Fokus: Aufklärung 8 · Zugriff 12 · Exfiltration 10 – callt eure Ziele laut.',
+          'Explosionsketten ansagen: z.B. 6→6→3 = 15, damit das HUD den Peak loggt.'
         ].join('\n');
       }
     if (cmd === 'begin mission'){

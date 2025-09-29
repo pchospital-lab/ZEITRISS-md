@@ -29,7 +29,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *offen*.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *offen*.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *offen*.
-15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *offen*.
+15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade, Distanzstufen und HUD-Tags; README verankert die Schnellhilfe.
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *offen*.
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren. Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README dokumentiert das neue Standardverhalten.
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()` für Loot-Erinnerung. Status: *offen*.
@@ -44,7 +44,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren. Status: *offen*.
 28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional nach drei Missionen. Status: *offen*.
 29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons. Status: *offen*.
-30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter `/help sg`. Status: *offen*.
+30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und Exploding-Ansagen filmisch auf einer Zeile zusammen.
 
 ## Nächste Schritte
 1. **Kurzfristig (Sprint 1):** Punkte 1–4 adressieren; sie beeinflussen Referenzierbarkeit, Progression und Balancing unmittelbar.
