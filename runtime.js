@@ -1,5 +1,7 @@
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
+let hudSequence = 0;
+
 const state = {
   location: 'HQ',
   phase: 'core', // mission phase: core, transfer, rift
@@ -15,6 +17,98 @@ const state = {
   scene: { index: 0, foreshadows: 0, total: 12 },
   comms: { jammed: false, relays: 0, rangeMod: 1.0 }
 };
+
+function ensure_logs(){
+  state.logs ||= {};
+  if (!Array.isArray(state.logs.hud)){
+    state.logs.hud = [];
+  }
+  return state.logs.hud;
+}
+
+function hud_toast(message, tag = 'HUD'){
+  const log = ensure_logs();
+  hudSequence = (hudSequence + 1) % 10000;
+  const entry = { id: `hud-${hudSequence.toString().padStart(4, '0')}`, tag, message };
+  log.push(entry);
+  if (log.length > 32){
+    log.splice(0, log.length - 32);
+  }
+  writeLine(`[${tag}] ${message}`);
+  return entry;
+}
+
+function ensure_exfil(){
+  if (!state.exfil){
+    state.exfil = {};
+  }
+  const exfil = state.exfil;
+  if (!Number.isFinite(exfil.sweeps)) exfil.sweeps = 0;
+  if (!Number.isFinite(exfil.stress)) exfil.stress = 0;
+  if (!Number.isFinite(exfil.ttl_min)) exfil.ttl_min = 8;
+  if (!Number.isFinite(exfil.ttl_sec)) exfil.ttl_sec = 0;
+  exfil.active = !!exfil.active;
+  exfil.armed = !!exfil.armed;
+  if (typeof exfil.anchor !== 'string') exfil.anchor = null;
+  if (typeof exfil.alt_anchor !== 'string') exfil.alt_anchor = null;
+  return exfil;
+}
+
+function normalize_anchor(raw){
+  if (!raw) return null;
+  const trimmed = raw.trim();
+  return trimmed.length ? trimmed.toUpperCase() : null;
+}
+
+function exfil_arm(anchor){
+  const exfil = ensure_exfil();
+  exfil.active = true;
+  exfil.armed = true;
+  const resolved = normalize_anchor(anchor) ?? exfil.anchor ?? '?';
+  exfil.anchor = normalize_anchor(resolved) ?? '?';
+  const parts = ['Exfil armiert'];
+  if (exfil.anchor && exfil.anchor !== '?'){
+    parts.push(`ANCR ${exfil.anchor}`);
+  } else {
+    parts.push('ANCR ?');
+  }
+  const message = parts.join(' · ');
+  hud_toast(message);
+  return message;
+}
+
+function exfil_set_alt(anchor){
+  const exfil = ensure_exfil();
+  const resolved = normalize_anchor(anchor);
+  exfil.alt_anchor = resolved;
+  const message = resolved ? `Exfil Alt-Anchor → ${resolved}` : 'Exfil Alt-Anchor entfernt';
+  hud_toast(message);
+  return message;
+}
+
+function parse_rw_token(token){
+  const trimmed = (token || '').trim();
+  if (!trimmed) throw new Error('RW-Angabe fehlt (mm:ss).');
+  const match = trimmed.match(/^(-?\d+)(?::(\d{1,2}))?$/);
+  if (!match) throw new Error('RW-Format ungültig. Erwartet mm:ss.');
+  const min = parseInt(match[1], 10);
+  const sec = match[2] !== undefined ? parseInt(match[2], 10) : 0;
+  if (!Number.isFinite(min) || !Number.isFinite(sec) || sec < 0 || sec >= 60){
+    throw new Error('RW-Format ungültig. Minuten/Sekunden prüfen.');
+  }
+  return { min: Math.max(0, min), sec: Math.max(0, sec) };
+}
+
+function exfil_tick(token){
+  const exfil = ensure_exfil();
+  const { min, sec } = parse_rw_token(token);
+  exfil.ttl_min = min;
+  exfil.ttl_sec = sec;
+  const ttl = ttl_fmt(min, sec);
+  const message = `Exfil Tick · RW ${ttl}`;
+  hud_toast(message);
+  return ttl;
+}
 
 function ensure_campaign(){
   state.campaign ||= {};
@@ -109,6 +203,7 @@ function reset_mission_state(){
   state.scene = { index: 0, foreshadows: 0, total: 12 };
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.start = null;
+  hudSequence = 0;
 }
 
 function clamp(n, min, max){
@@ -177,7 +272,9 @@ function jam_now(on = true){
 function StartMission(){
   state.phase = 'core';
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
-  state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0 };
+  state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0, active: false, armed: false, anchor: null, alt_anchor: null };
+  const hudLog = ensure_logs();
+  hudLog.length = 0;
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: 12 };
 }
@@ -197,6 +294,7 @@ function scene_overlay(scene){
     const ttl = ttl_fmt(state.exfil.ttl_min, state.exfil.ttl_sec);
     const ancr = state.exfil.anchor || '?';
     h += ` · ANCR ${ancr} · RW ${ttl}`;
+    if (state.exfil.alt_anchor) h += ` · ALT ${state.exfil.alt_anchor}`;
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
     if (state.exfil.stress) h += ` · Stress ${state.exfil.stress}`;
   }
@@ -436,7 +534,7 @@ function on_command(command){
       const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
       return startGroup(mode);
     }
-      if (cmd === '!help start'){
+    if (cmd === '!help start'){
         return [
           'Startbefehle:',
           '- Spiel starten (solo) [klassisch|schnell]',
@@ -459,6 +557,23 @@ function on_command(command){
     }
   if (cmd === '!px'){
     return render_px_tracker();
+  }
+  if ((m = cmd.match(/^!exfil\s+arm(?:\s+(.+))?/))){
+    return exfil_arm(m[1]);
+  }
+  if ((m = cmd.match(/^!exfil\s+alt(?:\s+(.+))?/))){
+    return exfil_set_alt(m[1]);
+  }
+  if ((m = cmd.match(/^!exfil\s+(?:tick|rw)\s+(.+)/))){
+    const ttl = exfil_tick(m[1]);
+    return `RW ${ttl}`;
+  }
+  if (cmd === '!exfil status'){
+    const exfil = ensure_exfil();
+    const ttl = ttl_fmt(exfil.ttl_min, exfil.ttl_sec);
+    const armed = exfil.armed ? 'armiert' : 'inaktiv';
+    const alt = exfil.alt_anchor ? ` · ALT ${exfil.alt_anchor}` : '';
+    return `Exfil ${armed} · ANCR ${exfil.anchor || '?'} · RW ${ttl}${alt}`;
   }
   if (cmd === 'modus precision'){
     state.ui.gm_style = 'precision';
