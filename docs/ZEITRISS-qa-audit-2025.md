@@ -36,7 +36,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10 und verweist auf Prestige-Aufstiege für höhere Werte.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im HUD. Status: *offen*.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für Druck-Set-Auswahl. Status: *offen*.
-22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen. Status: *offen*.
+22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen. Status: *erledigt* – Runtime blendet das Badge ein, wenn `self_reflection: false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
 23. **Intro-Guard beim Laden aktivieren.** Einleitung nur bei Erststart zeigen. Status: *offen*.
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren Verzögerung. Status: *offen*.
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *offen*.
