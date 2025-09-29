@@ -723,6 +723,7 @@ boss_template:
   time_faction: "Rotes Oktagon"
   sg: 9-15
   hp: 12-24
+  dr: 2-3
   gear:
     melee: null
     ranged: null
@@ -744,6 +745,10 @@ boss_template:
       - item: Nano-Bindepflaster
         cu: 70
 ```
+
+**Schadensdämpfer:** `dr` steht für die verpflichtende Boss-Schadensreduktion.
+Mini-Bosse starten bei **DR 2**, Arc- und Rift-Bosse bei **DR 3**. Das Toolkit setzt
+den Wert beim Spawn automatisch und loggt ihn im HUD.
 
 ### core_mini_pool
 
