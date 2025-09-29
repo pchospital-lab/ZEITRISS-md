@@ -3030,10 +3030,14 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 
 {# LINT:ARENA_LOADOUT_RULES #}
 {% macro arena_loadout(policy="standard") -%}
-  {% set budget = 5 %}
+  {% set budget = arena.budget_limit or 5 %}
+  {% set proc = arena.proc_budget or budget %}
+  {% set artifact = arena.artifact_limit if arena.artifact_limit is not none else 1 %}
+  {% set tier = arena.tier or 1 %}
   {% set psi_allowed = (arena.psi_policy == "allowed") %}
   {% set vehicle_allowed = (arena.vehicle_policy == "on") %}
-  {{ hud_tag('Loadout: Budget ' ~ budget ~ ' · Psi ' ~ (psi_allowed and 'ja' or 'nein') ~
+  {{ hud_tag('Loadout: Tier ' ~ tier ~ ' · Budget ' ~ budget ~ ' · Proc ' ~ proc ~
+    ' · Artefakte ' ~ artifact ~ ' · Psi ' ~ (psi_allowed and 'ja' or 'nein') ~
     ' · Fahrzeuge ' ~ (vehicle_allowed and 'ja' or 'nein')) }}
 {%- endmacro %}
 
