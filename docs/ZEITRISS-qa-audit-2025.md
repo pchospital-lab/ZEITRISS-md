@@ -25,7 +25,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 8. **Suspend-Snapshot als Komfortfunktion implementieren.** HQ-Save-Pflicht erhalten, aber Session-Pause erlauben. Status: *erledigt* – `!suspend` legt einen 24h-Snapshot an, `!resume` setzt ihn einmalig fort und respektiert den HQ-Deepsave.
 9. **Exfil-Kommunikation im HUD verstärken.** Auto-Toasts für Arming/Alt-Anchor und RW-Ticks. Status: *erledigt* – `!exfil arm/alt/tick/status` triggern automatische HUD-Toasts, aktualisieren Anchor/ALT und spiegeln den Timer im Overlay.
 10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen, Proc-Budget limitieren. Status: *offen*.
-11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise geliefert sind. Status: *offen*.
+11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet den Gate im HUD.
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *offen*.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *offen*.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *offen*.

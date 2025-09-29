@@ -384,7 +384,10 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   Leitung, Relais/Jammer-Override und Reichweite.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
-  (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden.
+  (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
+  Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
+- **ForeshadowHint(text, tag='Foreshadow')** – legt einen Foreshadow-Hinweis samt HUD-Toast an
+  und erhöht den Gate-Zähler. Nutzt das Makro für manuelle Andeutungen vor dem Boss.
 
 **Chat-Shortcodes**
 
