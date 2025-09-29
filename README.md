@@ -433,6 +433,14 @@ Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
 
 Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
 
+### HUD-Schnellhilfe (`/help`)
+
+- `!help start` / `/help start` – Start- und Ladebefehle als knapper Spickzettel.
+- `!help urban` / `/help urban` – Urban Quick-Card: Deckungsgrade, Verfolgungsdistanzen, Toast-Tags.
+- `!help sg` / `/help sg` – SG- & Exploding-Benchmark: Würfelgrößen, Zielwerte, Phasenrichtwerte.
+
+Alle Quick-Cards halten die Toasts auf sechs Wörter begrenzt und liefern filmische Callouts für das HUD.
+
 ## Level & EP-Kurve
 
 - Lvl 1–10: +1 Level pro Mission.
