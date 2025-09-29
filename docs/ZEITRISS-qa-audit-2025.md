@@ -13,7 +13,10 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien Modul 7 führen. Status: *erledigt* – Modul 6, Modul 7, Kampagnenübersicht und README benennen die Sequenz nun konsistent.
-2. **Paradoxon-Farm in der PvP-Arena unterbinden.** Arena-Belohnungssystem an Episoden- oder Rufmarker koppeln. Status: *offen*.
+2. **Paradoxon-Farm in der PvP-Arena unterbinden.** Arena-Belohnungssystem an
+   Episoden- oder Rufmarker koppeln. Status: *erledigt* – Px-Bonus wird nur noch
+   einmal pro Episode vergeben; `arena_episode_stamp` markiert den konsumierten
+   Lauf.
 3. **Heat-Terminologie trennen.** Psi-, Alarm-, Tech- und Stress-Anzeigen klar benennen; Save-Schema migrieren. Status: *offen*.
 4. **Exploding-DMG-Spitzen begrenzen.** Arena/Boss-Dämpfer als Pflicht setzen und Boss-DR automatisieren. Status: *offen*.
 5. **High-Level-Progression auf Prestige-Perks umstellen.** Attribute nicht weiter erhöhen, stattdessen qualitative Boni verankern. Status: *offen*.
