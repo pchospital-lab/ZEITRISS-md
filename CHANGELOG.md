@@ -11,6 +11,8 @@ tags: [meta]
   ist in Kampagnenstruktur und Runtime-Stubs dokumentiert.
 - Makefile ergänzt `lint`- und `test`-Targets, damit Standard-Checks direkt über
   `make` anlaufen.
+- `tech_solution()` staffelt `tech_heat` nach Teamgröße und erzwingt für Solo-
+  und Duo-Teams einen Gerätezwang über `confirm_device_slot()`.
 
 ## 4.0.1
 - Rewrapped long lines in `README.md`, `meta/masterprompt_v6.md` and `core/wuerfelmechanik.md`.

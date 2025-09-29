@@ -761,14 +761,19 @@ Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleic
 
 ### Dynamische Bedrohung – Heatmap-System
 
-Wiederholte Tech-Lösungen erhöhen die Schwierigkeit späterer Tech-Proben. Die SL führt einen
-Zähler `tech_heat` von 0 bis 3. Nach jeder rein technischen Lösung gilt:
+Wiederholte Tech-Lösungen erhöhen die Schwierigkeit späterer Tech-Proben. Der Zähler `tech_heat`
+startet bei 0 und das Limit hängt von der Einsatzgröße ab: Solo = 1, Duo = 2, drei oder mehr
+Agent:innen = 3. Nach jeder rein technischen Lösung gilt:
 
 1. `tech_heat` + 1.
-2. Bei `tech_heat >= 3` steigt `tech_sg` um +1, `tech_heat` fällt auf 0 und einmal pro Szene löst
-   `inject_complication()` eine soziale oder physische Hürde aus.
+2. Erreicht oder überschreitet der Zähler das Limit, steigt `tech_sg` um +1, `tech_heat` fällt auf 0
+   und einmal pro Szene löst `inject_complication()` eine soziale oder physische Hürde aus. Bei
+   Solo- und Duo-Teams aktiviert derselbe Trigger zusätzlich den Gerätezwang: `tech_solution()`
+   sperrt weitere Tech-Moves, bis `confirm_device_slot()` ein Field Kit oder eine Drone als
+   physische Absicherung bestätigt.
 
-So zwingt das System zu vielfältigen Herangehensweisen und verhindert Terminal-Dominanz.
+So zwingt das System zu vielfältigen Herangehensweisen und verhindert Terminal-Dominanz selbst in
+kleinen Einsatzteams.
 
 ### Würfel‑Cheat‑Sheet
 
