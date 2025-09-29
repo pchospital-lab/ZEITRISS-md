@@ -711,6 +711,18 @@ Decision: {{ text }}?
     {% endif %}
   {% endif %}
 {%- endmacro %}
+{% macro register_foreshadow(token) -%}
+  {% if scene.foreshadows is not defined %}{% set scene.foreshadows = [] %}{% endif %}
+  {% if token not in scene.foreshadows %}
+    {% do scene.foreshadows.append(token) %}
+  {% endif %}
+{%- endmacro %}
+{% macro ForeshadowHint(text, tag='Foreshadow') -%}
+  {% set cleaned = text|trim %}
+  {% set token = 'manual:' ~ cleaned|lower|replace(' ', '_') %}
+  {{ register_foreshadow(token) }}
+  {{ hud_tag(tag ~ ': ' ~ cleaned) }}
+{%- endmacro %}
 <!-- Macro: scene_overlay -->
 {% macro ttl_fmt(mins=0, secs=0) -%}
   {% set mm = "%02d"|format(mins|int) %}
@@ -891,16 +903,33 @@ total=12, role="", env=None) -%}
 {% if is_solo and loc != "HQ" %}
   Codex: Solo-Assist aktiv – „Codex, Details“ liefert Zusatzlage in dieser Szene.
 {% endif %}
-{% if (campaign.type == 'core' and campaign.boss_allowed and campaign.scene == 9) or
-      (campaign.type == 'rift' and campaign.scene == 9) %}
-  {{ hud_tag('Foreshadow: akustischer Click des Metronoms') }}
-  {{ hud_tag('Foreshadow: Glassteg mit Servicelift/Fluchtweg') }}
-{% endif %}
-{% if campaign.type == 'core' and campaign.scene in [4,9] %}
-  {% do scene.foreshadows.append('auto') %}
+{% set auto_hints = [] %}
+{% if campaign.type == 'core' and campaign.scene == 4 %}
+  {% set auto_hints = [
+    ('auto:core:4:a', 'Foreshadow: Kaltes Licht pulst über dem Signatur-Gadget des Bosses.'),
+    ('auto:core:4:b', 'Foreshadow: Wartungsdrohne markiert einen verriegelten Notausgang mit Boss-Siegel.')
+  ] %}
+{% elif campaign.type == 'core' and campaign.scene == 9 %}
+  {% set auto_hints = [
+    ('auto:core:9:a', 'Foreshadow: akustischer Click des Metronoms'),
+    ('auto:core:9:b', 'Foreshadow: Glassteg mit Servicelift/Fluchtweg')
+  ] %}
 {% elif campaign.type == 'rift' and campaign.scene == 9 %}
-  {% do scene.foreshadows.append('auto') %}
+  {% set auto_hints = [
+    ('auto:rift:9:a', 'Foreshadow: akustischer Click des Metronoms'),
+    ('auto:rift:9:b', 'Foreshadow: Glassteg mit Servicelift/Fluchtweg')
+  ] %}
 {% endif %}
+{% for hint in auto_hints %}
+  {% set token = hint[0] %}
+  {% set text = hint[1] %}
+  {% if token not in scene.foreshadows %}
+    {{ register_foreshadow(token) }}
+    {% if text %}
+      {{ hud_tag(text) }}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 {# Boss-Regel #}
 {% if campaign.type == "rift" and campaign.scene == 10 %}
   {% set pressure_choice = boss_pressure_pool|random %}
@@ -955,21 +984,45 @@ total=12, role="", env=None) -%}
 <!-- Macro: NextScene -->
 {% macro NextScene(loc, objective=None, seed_id=None, pressure=None,
 total=None, role="", env=None) -%}
-  {# Konflikte in Szene < delayConflict blocken #}
-    {% if campaign.scene < campaign.delayConflict
-        and role in ["Konflikt","Finale"]
-        and (role not in campaign.delayConflict_allow) %}
-    {{ hud_tag('Konflikt zu früh – DelayConflict(' ~ campaign.delayConflict ~ ') aktiv.') }}
-    {% set role = "Beobachtung" %}
-  {% endif %}
-  {% if role == "Finale" and campaign.scene < 10 %}
-    {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
-    {% set role = "Konflikt" %}
-  {% endif %}
   {% if total is none %}{% set total = campaign.scene_total %}{% endif %}
-  {{ EndScene() }}
-  {{ StartScene(loc, objective, seed_id, pressure=pressure,
-  total=total, role=role, env=env) }}
+  {% set foreshadows = scene.foreshadows if scene.foreshadows is defined else [] %}
+  {% set next_scene = campaign.scene + 1 %}
+  {% set core_boss = campaign.type == 'core' and campaign.boss_allowed %}
+  {% set rift_boss = campaign.type == 'rift' %}
+  {% set gate_target = (core_boss or rift_boss) and next_scene == 10 %}
+  {% set required = 0 %}
+  {% if gate_target and core_boss %}
+    {% set required = 4 %}
+  {% elif gate_target and rift_boss %}
+    {% set required = 2 %}
+  {% endif %}
+  {% set have = foreshadows|length %}
+  {% set gate_active = gate_target and have < required %}
+  {% if gate_active %}
+    {{ hud_tag('Boss blockiert – Foreshadow ' ~ have ~ '/' ~ required) }}
+    {% if campaign.type == 'core' %}
+      {{ hud_tag('Fehlende Hinweise: Mission 4 und Mission 9 liefern je zwei Foreshadows vor Szene 10.') }}
+    {% else %}
+      {{ hud_tag('Fehlende Hinweise: Szene 9 muss zwei Foreshadows setzen, bevor Szene 10 öffnet.') }}
+    {% endif %}
+    {{ assert_foreshadow(required) }}
+    {{ hud_tag('Foreshadow-Gate aktiv – Szene ' ~ campaign.scene|format("%02d") ~ ' bleibt offen.') }}
+  {% else %}
+    {# Konflikte in Szene < delayConflict blocken #}
+      {% if campaign.scene < campaign.delayConflict
+          and role in ["Konflikt","Finale"]
+          and (role not in campaign.delayConflict_allow) %}
+      {{ hud_tag('Konflikt zu früh – DelayConflict(' ~ campaign.delayConflict ~ ') aktiv.') }}
+      {% set role = "Beobachtung" %}
+    {% endif %}
+    {% if role == "Finale" and campaign.scene < 10 %}
+      {{ hud_tag('Finale blockiert – erst ab Szene 10 erlaubt') }}
+      {% set role = "Konflikt" %}
+    {% endif %}
+    {{ EndScene() }}
+    {{ StartScene(loc, objective, seed_id, pressure=pressure,
+    total=total, role=role, env=env) }}
+  {% endif %}
 {%- endmacro %}
 
 ### Self-Collision Guard & Comms Checks
@@ -1038,8 +1091,8 @@ Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
 Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 {%- endmacro %}
 {% macro helper_boss() -%}
-Boss-Foreshadow (Mechanik unverändert): Core – M4 und M9 je 2 Hinweise;
-Rift – Szene 9 zwei Hinweise. Boss bleibt Core M5/M10, Rift S10.
+Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
+Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.
 {%- endmacro %}
 {% macro fr_help() -%}
 FR: ruhig/beobachter/aktiv – wirkt auf Eingriffe in Szene 1.
