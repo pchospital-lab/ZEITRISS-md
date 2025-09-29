@@ -26,6 +26,31 @@ function ensure_logs(){
   return state.logs.hud;
 }
 
+function ensure_character(){
+  state.character ||= {};
+  if (state.character.self_reflection === undefined){
+    state.character.self_reflection = true;
+  }
+  return state.character;
+}
+
+function self_reflection_enabled(){
+  const character = ensure_character();
+  return character.self_reflection !== false;
+}
+
+function set_self_reflection(on){
+  const enabled = !!on;
+  const character = ensure_character();
+  character.self_reflection = enabled;
+  const statusTag = enabled ? 'SF-ON' : 'SF-OFF';
+  const message = enabled
+    ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'
+    : 'Self-Reflection deaktiviert – Fokus bleibt extern.';
+  hud_toast(message, statusTag);
+  return { status: statusTag, message };
+}
+
 function hud_toast(message, tag = 'HUD'){
   const log = ensure_logs();
   hudSequence = (hudSequence + 1) % 10000;
@@ -275,6 +300,7 @@ function StartMission(){
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0, active: false, armed: false, anchor: null, alt_anchor: null };
   const hudLog = ensure_logs();
   hudLog.length = 0;
+  ensure_character();
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: 12 };
 }
@@ -304,6 +330,9 @@ function scene_overlay(scene){
     h += ` · Px ${px} · SYS ${sys} · Lvl ${lvl}`;
     if (s.index === 0 && state.fr_intervention){
       h += ` · FR:${state.fr_intervention}`;
+    }
+    if (!self_reflection_enabled()){
+      h += ' · SF-OFF';
     }
   return h;
 }
@@ -440,6 +469,7 @@ function hydrate_state(data){
   state.phase = data.phase || 'core';
   state.campaign = data.campaign || {};
   state.character = data.character || {};
+  ensure_character();
   const legacyHeat = state.character.psi_heat ?? state.character.heat ?? 0;
   state.character.psi_heat = Number.isFinite(legacyHeat) ? legacyHeat : 0;
   delete state.character.heat;
@@ -473,6 +503,7 @@ function startSolo(mode='klassisch'){
     id: 'CHR-NEW',
     stress: 0,
     psi_heat: 0,
+    self_reflection: true,
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   };
@@ -574,6 +605,19 @@ function on_command(command){
     const armed = exfil.armed ? 'armiert' : 'inaktiv';
     const alt = exfil.alt_anchor ? ` · ALT ${exfil.alt_anchor}` : '';
     return `Exfil ${armed} · ANCR ${exfil.anchor || '?'} · RW ${ttl}${alt}`;
+  }
+  if (cmd === '!sf off' || cmd === 'sf off' || cmd === 'self reflection off' || cmd === 'self-reflection off'){
+    const result = set_self_reflection(false);
+    return `${result.status} – introspektive Sequenzen gesperrt.`;
+  }
+  if (cmd === '!sf on' || cmd === 'sf on' || cmd === 'self reflection on' || cmd === 'self-reflection on'){
+    const result = set_self_reflection(true);
+    return `${result.status} – introspektive Sequenzen freigegeben.`;
+  }
+  if (cmd === '!sf' || cmd === '!sf status' || cmd === 'sf status'){
+    return self_reflection_enabled()
+      ? 'SF-ON – introspektive Sequenzen erlaubt.'
+      : 'SF-OFF – Fokus bleibt extern.';
   }
   if (cmd === 'modus precision'){
     state.ui.gm_style = 'precision';
