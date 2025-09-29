@@ -278,6 +278,12 @@ bilden eine Ausnahme: Ihr Boss erscheint in Szene 10.
 
 Mini-Bosse nutzen keine Zeittricks. Episoden-Bosse dürfen genau einen kurzen Chrono-Effekt einbringen.
 
+**Automatischer Boss-DR:** Das Toolkit vergibt beim Spawn jedes Bosses eine
+Pflicht-Schadensreduktion. Mini-Bosse erhalten **DR 2**, Arc- und Rift-Bosse
+**DR 3**. Der HUD-Hinweis „Boss-DR aktiviert – −X Schaden pro Treffer“ erinnert
+euch daran, den Exploding-Overflow konsequent zu kappen. Diese Vorgabe ersetzt
+Hausregeln und verhindert überzogene Burst-Spitzen.
+
 ### Boss-Foreshadow Checklist (Zeitpunkte unverändert) {#boss-foreshadow}
 - Core-Ops:
   - Mission 4: **zwei** Foreshadows (z. B. Signatur-Waffe, Fluchtweg).
@@ -1483,6 +1489,12 @@ if (team_wins >= 2 && exit_arena && arena.last_reward_episode !== episode) {
   arena.last_reward_episode = episode;
 }
 ```
+
+**Pflicht-Dämpfer:** Die Arena setzt automatisch einen **Exploding-Dämpfer**
+ein. Jeder Overflow oberhalb des ersten Würfels wird halbiert (aufgerundet).
+Das Toolkit loggt den Effekt im HUD (`Arena-Dämpfer aktiv – Exploding-Overflow`)
+und nutzt den gekappten Wert für SG-Checks oder erzählerischen Schaden. So
+bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das

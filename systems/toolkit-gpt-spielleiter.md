@@ -10,6 +10,9 @@ default_modus: mission-fokus
 {% if campaign.compliance_shown_today is not defined %}
   {% set campaign.compliance_shown_today = false %}
 {% endif %}
+{% if campaign.boss_dr is not defined %}
+  {% set campaign.boss_dr = 0 %}
+{% endif %}
 {% set scene_min = 12 %}
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
@@ -1496,8 +1499,43 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {% set roll = rng_roll(1, 10, true) if die == 'W10*' else rng_roll(1, 6, true) %}
   {% set raw = roll[0] %}
   {% set die_text = roll[1] %}
-  {% set total = raw|sum + attr + gear %}
+  {% set overflow = 0 %}
+  {% if raw and raw|length > 1 %}
+    {% set overflow = raw|sum - raw[0] %}
+  {% endif %}
+  {% set adjusted_raw_sum = raw|sum %}
+  {% set arena_note = none %}
+  {% set boss_note = none %}
+  {% if overflow > 0 and arena is defined and arena and arena.active and arena.damage_dampener is defined %}
+    {% set reduced_overflow = (overflow + 1) // 2 %}
+    {% if reduced_overflow < overflow %}
+      {% set adjusted_raw_sum = raw[0] + reduced_overflow %}
+      {% set arena_note = 'Arena-Dämpfer aktiv – Exploding-Overflow +' ~ overflow ~ ' → +' ~ reduced_overflow %}
+    {% endif %}
+  {% endif %}
+  {% set total = adjusted_raw_sum + attr + gear %}
+  {% if campaign.boss_dr %}
+    {% set dr = campaign.boss_dr %}
+    {% set base_floor = (raw and raw[0] or 0) + attr + gear %}
+    {% set after_dr = total - dr %}
+    {% if after_dr < base_floor %}
+      {% set after_dr = base_floor %}
+    {% endif %}
+    {% if after_dr < total %}
+      {% set total = after_dr %}
+      {% set blocked = (adjusted_raw_sum + attr + gear) - total %}
+      {% set boss_note = 'Boss-DR −' ~ dr ~ ' → blockt ' ~ blocked %}
+    {% endif %}
+  {% endif %}
   {% set parts = ['+' ~ attr ~ ' ATTR', '+' ~ gear ~ ' Gear'] %}
+  {% if arena_note %}
+    {% set parts = parts + [arena_note] %}
+    {{ hud_tag(arena_note) }}
+  {% endif %}
+  {% if boss_note %}
+    {% set parts = parts + [boss_note] %}
+    {{ hud_tag(boss_note) }}
+  {% endif %}
   {% set success = total >= sg %}
   {{ roll_check(die_text, sg, total, success, raw_rolls=raw, parts=parts, local_debug=local_debug) }}
   {{ success }}
@@ -1712,6 +1750,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% macro generate_boss(type, mission_number, epoch) %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
+{% set campaign.boss_dr = 0 %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
         {% set pool_name = 'core_arc_boss_pool' %}
@@ -1721,9 +1760,11 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {% set campaign.boss_dr = 3 %}
         {{ (settings.allow_event_icons and '💀 ' or '') ~
            hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~
                    ' · Pool: ' ~ pool_name) }}
+        {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
     {% elif mission_number % 5 == 0 and mission_number >= 5 %}
         {% set pool_name = 'core_mini_pool' %}
         {% set pool_data = core_mini_pool[epoch] %}
@@ -1732,9 +1773,11 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {% set campaign.boss_dr = 2 %}
         {{ (settings.allow_event_icons and '💀 ' or '') ~
            hud_tag('MINI-BOSS (T3) → ' ~ boss ~
                    ' · Pool: ' ~ pool_name) }}
+        {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
     {% else %}NONE{% endif %}
 {% else %}
     {% if mission_number % 10 == 0 %}
@@ -1743,9 +1786,11 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
+        {% set campaign.boss_dr = 3 %}
         {{ (settings.allow_event_icons and '💀 ' or '') ~
            hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~
                    ' · Pool: ' ~ pool_name) }}
+        {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
     {% else %}NONE{% endif %}
 {% endif %}
 {% endmacro %}
@@ -2784,10 +2829,12 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
     'active': true, 'mode': mode, 'map': map, 'rounds_total': rounds,
     'round': 0, 'time_limit_s': time_limit_s, 'psi_policy': psi_policy,
     'vehicle_policy': vehicle_policy, 'score': {'A':0,'B':0},
-    'oob_penalty': 1
+    'oob_penalty': 1,
+    'damage_dampener': {'mode': 'overflow_half', 'min_bonus': 1}
   } %}
   {{ arena_budget_init(5) }}
   {{ arena_guards_enable() }}
+  {{ hud_tag('Arena-Dämpfer aktiv – Exploding-Overflow wird halbiert (aufgerundet)') }}
   {{ arena_hud("INIT") }}
 {%- endmacro %}
 
