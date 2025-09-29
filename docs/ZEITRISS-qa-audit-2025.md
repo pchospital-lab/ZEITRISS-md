@@ -24,7 +24,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 7. **Tech-Dominanz-Check auf kleine Teams ausweiten.** `tech_heat` früher triggern und Gerätezwang durchsetzen. Status: *erledigt* – Solo- und Duo-Teams feuern `tech_solution()` nun bei niedrigeren Limits und die Toolkit-Makros sperren Tech-Ketten, bis `confirm_device_slot()` ein Field Kit bestätigt.
 8. **Suspend-Snapshot als Komfortfunktion implementieren.** HQ-Save-Pflicht erhalten, aber Session-Pause erlauben. Status: *erledigt* – `!suspend` legt einen 24h-Snapshot an, `!resume` setzt ihn einmalig fort und respektiert den HQ-Deepsave.
 9. **Exfil-Kommunikation im HUD verstärken.** Auto-Toasts für Arming/Alt-Anchor und RW-Ticks. Status: *erledigt* – `!exfil arm/alt/tick/status` triggern automatische HUD-Toasts, aktualisieren Anchor/ALT und spiegeln den Timer im Overlay.
-10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen, Proc-Budget limitieren. Status: *offen*.
+10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen, Proc-Budget limitieren. Status: *erledigt* – Runtime-Stub erzwingt Tier-Gates, kappt Artefakt-Überhänge und bremst Proc-Ketten mit pro Tier gesetztem Budget.
 11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet den Gate im HUD.
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *offen*.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *offen*.
@@ -41,7 +41,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren Verzögerung. Status: *offen*.
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *offen*.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status: *offen*.
-27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren. Status: *offen*.
+27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren. Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an das HQ-Vermögen.
 28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional nach drei Missionen. Status: *offen*.
 29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons. Status: *offen*.
 30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und Exploding-Ansagen filmisch auf einer Zeile zusammen.
