@@ -401,9 +401,9 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `team: { name, members:[...] }`
 - `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
 - `economy: { cu }`
-- `logs: { missions:[], blacklab:[] }`
+- `logs: { missions:[], blacklab:[], hud:[] }`
 - `ui: { gm_style:"verbose"|"precision" }`
-- `exfil: { sweeps, stress, ttl_min, ttl_sec }`
+- `exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }`
 - `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
 - `comms: { jammed:boolean, relays:number, rangeMod:number }`
 
@@ -423,6 +423,15 @@ Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
+
+### HUD-Shortcuts für Exfiltration
+
+- `!exfil arm [ANCR]` – armiert den Rückweg am aktuellen Anchor und erzeugt einen HUD-Toast.
+- `!exfil alt [ALT-ANCR]` – setzt oder löscht (ohne Parameter) den Alt-Anchor mit sofortigem Toast.
+- `!exfil tick mm:ss` – aktualisiert den RW-Timer und loggt die Restzeit im HUD-Protokoll.
+- `!exfil status` – fasst Anchor, RW und Armierung als Text zusammen.
+
+Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
 
 ## Level & EP-Kurve
 
