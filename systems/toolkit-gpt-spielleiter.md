@@ -13,6 +13,9 @@ default_modus: mission-fokus
 {% if campaign.boss_dr is not defined %}
   {% set campaign.boss_dr = 0 %}
 {% endif %}
+{% if campaign.research_level is not defined %}
+  {% set campaign.research_level = 0 %}
+{% endif %}
 {% set scene_min = 12 %}
 {% set artifact_pool_v3 = load_json('master-index.json')['artifact_pool_v3'] %}
 {% set core_mini_pool = gpull('gameplay/kreative-generatoren-begegnungen.md#core_mini_pool') %}
@@ -1377,9 +1380,16 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {% endif %}
 {%- endmacro %}
 
-{% macro chrono_shop(listing, required_rank=None) -%}
+{% macro chrono_shop(listing, required_rank=None, required_research=None) -%}
+  {% set locks = [] %}
   {% if required_rank and not can_purchase(char.rank, {'min_rank': required_rank}) == 'true' %}
-    {{ hud_tag('🔒 ' ~ listing ~ ' (erfordert Rank: ' ~ required_rank ~ ')') }}
+    {% do locks.append('Rank: ' ~ required_rank) %}
+  {% endif %}
+  {% if required_research is not none and campaign.research_level < required_research %}
+    {% do locks.append('Research: ' ~ required_research) %}
+  {% endif %}
+  {% if locks %}
+    {{ hud_tag('🔒 ' ~ listing ~ ' (' ~ locks|join(' · ') ~ ')') }}
   {% else %}
     {{ hud_tag('Shop: ' ~ listing ~ ' · Preise ×' ~ chrono.price_mod) }}
   {% endif %}

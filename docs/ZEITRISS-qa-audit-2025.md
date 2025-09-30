@@ -27,7 +27,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen, Proc-Budget limitieren. Status: *erledigt* – Runtime-Stub erzwingt Tier-Gates, kappt Artefakt-Überhänge und bremst Proc-Ketten mit pro Tier gesetztem Budget.
 11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet den Gate im HUD.
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *erledigt* – `scripts/lint_mission_generator.py` prüft die Pools und stellt d24-Abdeckung sicher.
-13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *offen*.
+13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *erledigt* – Runtime koppelt das Tagesangebot an Dienstgrad und Research-Level, der Pool rotiert filmisch pro HQ-Zyklus.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *offen*.
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade, Distanzstufen und HUD-Tags; README verankert die Schnellhilfe.
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *offen*.
@@ -42,7 +42,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch, `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status: *offen*.
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren. Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an das HQ-Vermögen.
-28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional nach drei Missionen. Status: *offen*.
+28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional nach drei Missionen. Status: *erledigt* – Episodenabschluss triggert sofortigen Reset; ein konfigurierbarer Drei-Missions-Takt hält die Stadt lebendig.
 29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons. Status: *offen*.
 30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und Exploding-Ansagen filmisch auf einer Zeile zusammen.
 

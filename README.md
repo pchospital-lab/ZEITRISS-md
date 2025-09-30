@@ -849,6 +849,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   `guest_custody`.
 - Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
   Preisfaktoren.
+- Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
 
 ## Spielmodi {#spielmodi}
 

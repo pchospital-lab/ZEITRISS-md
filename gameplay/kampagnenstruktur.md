@@ -1612,6 +1612,12 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 
 _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
 
+#### 5.1 Rotation & Gates
+
+- **Rang & Research:** Jede Zeile vermerkt ein Mindest-Rank-Label sowie ein Research-Level. Das HUD blendet verschlossene Einträge mit 🔒 und der geforderten Stufe ein.
+- **Daily Stamp:** `!chrono stock` würfelt pro Nullzeit-Tag ein filmisches Angebot; ein Reset löscht den Cache und zieht frische Händler auf die Bühne.
+- **City-Tick:** Episodenabschluss triggert automatisch einen Reset. Optional rotiert das Angebot alle drei Missionen (`!chrono tick` → `off` oder `3`).
+
 ### 6 | No-Go-Zonen (Style-Compliance)
 
 - **Keine Meta-Reveals** über Realität / Bewusstsein.
