@@ -457,6 +457,33 @@ LoadSave(json):
   # HQ-Dialog oder Briefing starten
 ```
 
+#### HQ-Moments – Buff-Icons {#hq-moments}
+
+Setzt pro HQ-Phase maximal **einen** dieser Buffs. Markiert das Ergebnis in
+`campaign.hq_moments_used` (Liste) oder `campaign.hq_moment_last` (String),
+damit keine Dopplung entsteht.
+
+| Icon | HUD-Tag (`hud_tag`) | Auslöser im HQ | Wirkung |
+|------|---------------------|----------------|---------|
+| 🎯 **FOCUS** | `HQ:FOCUS · +1 SG Präzision` | Atemsync mit Sora im Trainingsdeck. | Nächste Präzisionsprobe des Teams erhält **+1 SG**. |
+| 🛡️ **BASTION** | `HQ:BASTION · Stress -1` | Commander Renier hält eine Schutzrede. | Entfernt **1 Stress** bei allen Anwesenden. |
+| ⚡ **SPARK** | `HQ:SPARK · SYS +1 (1 Szene)` | Werkstattcrew überlädt die Feldmodule. | Gewährt **+1 freies SYS** für die erste Szene der nächsten Mission. |
+| 💠 **CALM** | `HQ:CALM · Psi-Heat null` | Nullzeit-Lotus aktiviert die Kühlkammern. | Setzt **Psi-Heat auf 0** (einmalig). |
+| 🛰️ **PULSE** | `HQ:PULSE · Comms ok` | Relais-Netz wird neu kalibriert. | Der nächste `comms_check()` gelingt automatisch. |
+
+**Makro-Snippet:**
+
+```jinja
+{% set used = campaign.hq_moments_used | default([], true) %}
+{% if 'FOCUS' not in used %}
+  {{ hud_tag('HQ:FOCUS · +1 SG Präzision') }}
+  {% set campaign.hq_moments_used = used + ['FOCUS'] %}
+{% endif %}
+```
+
+Haltet die Toasts auf **maximal sechs Worte** und gebt sofort an, welcher
+mechanische Effekt greift.
+
 {% macro fr_intervention_roll() -%}
   {% if campaign.fr_intervention is not none %}{% return %}{% endif %}
   {% set roll = rng_roll(1,6) %}
