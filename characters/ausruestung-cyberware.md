@@ -297,7 +297,9 @@ Paradoxon. Beispiele für taktische Gadgets:
   ausfahrbaren Interface-Steckern und Decoder-Software. Ermöglicht das Hacken von Computersystemen in
   allen Epochen – sei es das Knacken von 80er-Jahre-Terminals oder das Überbrücken von
   Sicherheitssystemen der Zukunft. _Effekt:_ gibt +2 auf Hacken/Technik; in den meisten Epochen vor
-  dem 21. Jh. praktisch unaufhaltsam, da überlegen. _Kosten:_ 150 CU. _(tier: 1)_
+  dem 21. Jh. praktisch unaufhaltsam, da überlegen. **Remote-Hacks erfordern `comms_check()`:**
+  Verbinde das Kit mit einem Terminal, Kabel oder dem Ohr-Comlink (Relais) – ohne reale Hardware
+  blockt der Codex die Aktion. _Kosten:_ 150 CU. _(tier: 1)_
 - **Drohnen (Aufklärer & Helfer):** Kleine, ferngesteuerte Geräte, z.B. fliegende Mini-Drohnen mit
   Kamera oder rollende Spähdrohnen. Sie können Räume auskundschaften, Karten erstellen oder
   Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). _Effekt:_ Der
