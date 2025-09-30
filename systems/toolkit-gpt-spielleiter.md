@@ -562,6 +562,20 @@ LoadSave(json):
   {% set campaign.boss_required_scene = 10 %}
   {% set campaign.artifact_allowed = true %}
 {% endif %}
+{% set existing_bonus = getattr(campaign, 'stars_bonus', 0) %}
+{% set next_episode = getattr(campaign, 'next_episode', None) %}
+{% set queued_bonus = next_episode.get('sg_bonus', 0) if next_episode else 0 %}
+{% if queued_bonus %}
+  {% set campaign.stars_bonus = queued_bonus %}
+  {% set campaign.next_episode = next_episode | combine({'sg_bonus': 0}, recursive=true) %}
+{% else %}
+  {% set campaign.stars_bonus = existing_bonus | int %}
+{% endif %}
+{% if not campaign.stars_bonus %}
+  {% set campaign.stars_bonus = 0 %}
+{% endif %}
+{% set campaign.stars_overlay_done = false %}
+{{ star_bonus_overlay() }}
 {# Fraktionsintervention pro Mission #}
 {{ fr_intervention_roll() }}
 {{ DelayConflict(4) }}
@@ -631,6 +645,16 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 <!-- Macro: hud_tag -->
 {% macro hud_tag(msg) -%}
 `{{ msg }}`
+{%- endmacro %}
+
+{% macro star_bonus_overlay() -%}
+  {% set stars = getattr(campaign, 'stars_bonus', 0) | int %}
+  {% if stars %}
+    {% if not getattr(campaign, 'stars_overlay_done', False) %}
+      {{ hud_tag('☆-Feedback: ' ~ '☆'*stars ~ ' · SG +' ~ stars ~ ' aktiv') }}
+      {% set campaign.stars_overlay_done = true %}
+    {% endif %}
+  {% endif %}
 {%- endmacro %}
 
 <!-- Macro: hud_ping -->
@@ -1619,6 +1643,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 {%- endmacro %}
 
 {% macro briefing_with_stars(mission) -%}
+  {{ star_bonus_overlay() }}
   {% if campaign.stars_bonus %}
     {{ rule_tag('Schwierigkeitszuschlag: ' ~ '☆'*campaign.stars_bonus ~ ' (SG +' ~ campaign.stars_bonus ~ ')') }}
     {% set mission.sg = mission.sg + campaign.stars_bonus %}
