@@ -39,7 +39,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen. Status: *erledigt* – Runtime blendet das Badge ein, wenn `self_reflection: false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
 23. **Intro-Guard beim Laden aktivieren.** Einleitung nur bei Erststart zeigen. Status: *offen*.
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren Verzögerung. Status: *offen*.
-25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *offen*.
+25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch, `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status: *offen*.
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren. Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an das HQ-Vermögen.
 28. **Chronopolis-Reset-Rhythmus fixieren.** City-Tick nach Episoden und optional nach drei Missionen. Status: *offen*.
