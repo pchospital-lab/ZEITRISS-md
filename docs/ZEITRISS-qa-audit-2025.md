@@ -26,7 +26,7 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 9. **Exfil-Kommunikation im HUD verstärken.** Auto-Toasts für Arming/Alt-Anchor und RW-Ticks. Status: *erledigt* – `!exfil arm/alt/tick/status` triggern automatische HUD-Toasts, aktualisieren Anchor/ALT und spiegeln den Timer im Overlay.
 10. **Arena-Matchmaking mit Tier-Loadouts absichern.** Artefakt-Spitzen kappen, Proc-Budget limitieren. Status: *erledigt* – Runtime-Stub erzwingt Tier-Gates, kappt Artefakt-Überhänge und bremst Proc-Ketten mit pro Tier gesetztem Budget.
 11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet den Gate im HUD.
-12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *offen*.
+12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch prüfen. Status: *erledigt* – `scripts/lint_mission_generator.py` prüft die Pools und stellt d24-Abdeckung sicher.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *offen*.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *offen*.
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade, Distanzstufen und HUD-Tags; README verankert die Schnellhilfe.
