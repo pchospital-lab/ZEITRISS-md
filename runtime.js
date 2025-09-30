@@ -1,5 +1,27 @@
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
+const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
+
+const CHRONO_CATEGORY_LIMITS = {
+  'Temporal Ships': 1,
+  'Never-Was Gadgets': 3,
+  'Era-Skins': 4
+};
+
+const CHRONO_CATALOG = [
+  { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
+  { id: 'ship_aurora_skiff', name: 'Aurora-Skiff „Helio“', category: 'Temporal Ships', price: 5400, minRank: 'Specialist', minResearch: 3 },
+  { id: 'ship_timesloop_schooner', name: 'Timesloop-Schooner', category: 'Temporal Ships', price: 5200, minRank: 'Lead', minResearch: 3 },
+  { id: 'gadget_quantum_flashbang', name: 'Quantum-Flashbang', category: 'Never-Was Gadgets', price: 500, minRank: 'Operator II', minResearch: 1 },
+  { id: 'gadget_nullgrav_tether', name: 'Null-Grav-Tether', category: 'Never-Was Gadgets', price: 450, minRank: 'Operator I', minResearch: 1 },
+  { id: 'gadget_phase_jump_capsule', name: 'Phase-Jump-Kapsel', category: 'Never-Was Gadgets', price: 750, minRank: 'Lead', minResearch: 2 },
+  { id: 'gadget_echo_distortion_field', name: 'Echo-Distortion-Field', category: 'Never-Was Gadgets', price: 900, minRank: 'Specialist', minResearch: 3 },
+  { id: 'skin_aeon_nomad', name: 'Era-Skin: Æon-Nomadenmantel', category: 'Era-Skins', price: 200, minRank: 'Recruit', minResearch: 0 },
+  { id: 'skin_krakatoa_1883', name: 'Era-Skin: Krakatoa 1883 Survivor', category: 'Era-Skins', price: 200, minRank: 'Operator I', minResearch: 0 },
+  { id: 'skin_neon_cathedral', name: 'Era-Skin: Neon-Cathedral Glimmer', category: 'Era-Skins', price: 220, minRank: 'Lead', minResearch: 1 },
+  { id: 'skin_sable_parallax', name: 'Era-Skin: Sable-Parallax Cloak', category: 'Era-Skins', price: 240, minRank: 'Specialist', minResearch: 2 }
+];
+
 let hudSequence = 0;
 
 const state = {
@@ -30,6 +52,9 @@ function ensure_character(){
   state.character ||= {};
   if (state.character.self_reflection === undefined){
     state.character.self_reflection = true;
+  }
+  if (!state.character.rank){
+    state.character.rank = 'Recruit';
   }
   return state.character;
 }
@@ -150,6 +175,15 @@ function ensure_campaign(){
   if (!Array.isArray(state.campaign.rift_blueprints)){
     state.campaign.rift_blueprints = [];
   }
+  if (typeof state.campaign.research_level !== 'number'){
+    state.campaign.research_level = 0;
+  }
+  if (typeof state.campaign.chronopolis_missions_since_reset !== 'number'){
+    state.campaign.chronopolis_missions_since_reset = 0;
+  }
+  if (typeof state.campaign.chronopolis_tick_modulo !== 'number'){
+    state.campaign.chronopolis_tick_modulo = 3;
+  }
 }
 
 function mission_temp(){
@@ -214,6 +248,12 @@ function completeMission(summary = {}){
       }
     }
   }
+  const chronoReset = chronopolisProgressAfterMission(summary);
+  if (chronoReset === 'episode'){
+    events.push('Codex: Chronopolis-Angebote neu instanziiert – Episode abgeschlossen.');
+  } else if (chronoReset === 'mission-cycle'){
+    events.push('Codex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
+  }
   return {
     events,
     required,
@@ -259,6 +299,165 @@ const px_tracker = render_px_tracker;
 
 function render_rewards(){
   return 'Rewards rendered';
+}
+
+function ensure_economy(){
+  state.economy ||= {};
+  return state.economy;
+}
+
+function ensure_chronopolis(){
+  const economy = ensure_economy();
+  economy.chronopolis ||= {};
+  const chrono = economy.chronopolis;
+  if (!Array.isArray(chrono.stock)) chrono.stock = [];
+  if (typeof chrono.reset_serial !== 'number') chrono.reset_serial = 0;
+  return chrono;
+}
+
+function rankIndex(rank){
+  const idx = RANK_ORDER.indexOf(rank);
+  return idx === -1 ? 0 : idx;
+}
+
+function chrono_research_level(){
+  ensure_campaign();
+  const char = ensure_character();
+  const charResearch = Number.isFinite(char.research_level) ? char.research_level : 0;
+  const campaignResearch = Number.isFinite(state.campaign.research_level) ? state.campaign.research_level : 0;
+  return Math.max(charResearch, campaignResearch);
+}
+
+function hashString(input){
+  let h = 0;
+  for (let i = 0; i < input.length; i += 1){
+    h = Math.imul(31, h) + input.charCodeAt(i) | 0;
+  }
+  return h >>> 0;
+}
+
+function seededRandom(seed){
+  let x = seed | 0;
+  return function rng(){
+    x = (x + 0x6D2B79F5) | 0;
+    let t = Math.imul(x ^ x >>> 15, 1 | x);
+    t ^= t + Math.imul(t ^ t >>> 7, 61 | t);
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+function shuffleWithRng(items, rng){
+  const arr = [...items];
+  for (let i = arr.length - 1; i > 0; i -= 1){
+    const j = Math.floor(rng() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function chronopolis_reset(reason){
+  const chrono = ensure_chronopolis();
+  chrono.stock = [];
+  chrono.day = null;
+  chrono.cache_key = null;
+  chrono.reset_serial = (chrono.reset_serial || 0) + 1;
+  chrono.last_reset_reason = reason;
+  chrono.last_reset_at = new Date().toISOString();
+}
+
+function rollChronopolisStock(){
+  const chrono = ensure_chronopolis();
+  const dayStamp = new Date().toISOString().slice(0, 10);
+  const cacheKey = `${dayStamp}#${chrono.reset_serial || 0}`;
+  if (chrono.cache_key === cacheKey && chrono.stock.length){
+    return chrono;
+  }
+  const rng = seededRandom(hashString(cacheKey));
+  const categories = Object.keys(CHRONO_CATEGORY_LIMITS);
+  const picked = [];
+  categories.forEach((category) => {
+    const options = CHRONO_CATALOG.filter((item) => item.category === category);
+    const limit = CHRONO_CATEGORY_LIMITS[category] || options.length;
+    const pool = shuffleWithRng(options, rng).slice(0, Math.min(limit, options.length));
+    picked.push(...pool);
+  });
+  chrono.stock = picked;
+  chrono.day = dayStamp;
+  chrono.cache_key = cacheKey;
+  return chrono;
+}
+
+function chronopolisStockReport(){
+  const chrono = rollChronopolisStock();
+  const char = ensure_character();
+  const research = chrono_research_level();
+  const rankIdx = rankIndex(char.rank || 'Recruit');
+  const lines = [];
+  lines.push(`Chronopolis · Tagesangebot ${chrono.day}`);
+  const grouped = chrono.stock.reduce((acc, item) => {
+    acc[item.category] ||= [];
+    acc[item.category].push(item);
+    return acc;
+  }, {});
+  Object.keys(grouped).sort().forEach((category) => {
+    lines.push(`— ${category} —`);
+    grouped[category].forEach((item) => {
+      const needRank = rankIndex(item.minRank || 'Recruit');
+      const needResearch = Number.isFinite(item.minResearch) ? item.minResearch : 0;
+      const rankOk = rankIdx >= needRank;
+      const researchOk = research >= needResearch;
+      const locks = [];
+      if (!rankOk) locks.push(`Rank ${item.minRank}`);
+      if (!researchOk) locks.push(`Research ${needResearch}`);
+      if (locks.length){
+        lines.push(`🔒 ${item.name} · ${item.price} CU (${locks.join(' · ')})`);
+      } else {
+        lines.push(`${item.name} · ${item.price} CU`);
+      }
+    });
+  });
+  return lines.join('\n');
+}
+
+function chronopolisTickStatus(){
+  ensure_campaign();
+  const chrono = ensure_chronopolis();
+  const modulo = state.campaign.chronopolis_tick_modulo;
+  const progress = state.campaign.chronopolis_missions_since_reset;
+  const reason = chrono.last_reset_reason || 'init';
+  const when = chrono.last_reset_at || '–';
+  const missionInfo = modulo > 0 ? `alle ${modulo} Missionen` : 'deaktiviert';
+  return `Chronopolis-Tick · Episoden → immer · Missionen → ${missionInfo} · Fortschritt ${progress}/${modulo || '–'} · Letzter Reset ${reason} @ ${when}`;
+}
+
+function chronopolisSetTickModulo(modulo){
+  ensure_campaign();
+  const value = Math.max(0, Math.floor(modulo));
+  state.campaign.chronopolis_tick_modulo = value;
+  state.campaign.chronopolis_missions_since_reset = 0;
+  return value
+    ? `Chronopolis-Tick nach ${value} Missionen aktiviert. Fortschritt zurückgesetzt.`
+    : 'Chronopolis-Tick (Missionen) deaktiviert. Fortschritt zurückgesetzt.';
+}
+
+function chronopolisProgressAfterMission(summary){
+  ensure_campaign();
+  const reason = summary && summary.episode_completed ? 'episode' : null;
+  if (reason){
+    state.campaign.chronopolis_missions_since_reset = 0;
+    chronopolis_reset('episode');
+    return reason;
+  }
+  const modulo = state.campaign.chronopolis_tick_modulo;
+  if (modulo > 0){
+    state.campaign.chronopolis_missions_since_reset = (state.campaign.chronopolis_missions_since_reset || 0) + 1;
+    if (state.campaign.chronopolis_missions_since_reset >= modulo){
+      state.campaign.chronopolis_missions_since_reset = 0;
+      chronopolis_reset('mission-cycle');
+      return 'mission-cycle';
+    }
+  }
+  return null;
 }
 
 function render_shop_tiers(level=1, faction_rep=0, rift_blueprints=[]){
@@ -606,6 +805,22 @@ function on_command(command){
       const bp = state.campaign?.rift_blueprints ?? [];
       return render_shop_tiers(lvl, rep, bp);
     }
+    if (cmd === '!chrono stock'){
+      return chronopolisStockReport();
+    }
+    if (cmd === '!chrono tick'){
+      return chronopolisTickStatus();
+    }
+    if ((m = cmd.match(/^!chrono\s+tick\s+(off|0|[1-9]\d*)$/))){
+      const token = m[1];
+      const value = token === 'off' ? 0 : parseInt(token, 10);
+      return chronopolisSetTickModulo(value);
+    }
+    if (cmd === '!chrono reset'){
+      chronopolis_reset('manual');
+      state.campaign.chronopolis_missions_since_reset = 0;
+      return 'Chronopolis-Reset durchgeführt. Tagesangebot wird bei nächstem Abruf neu geladen.';
+    }
   if (cmd === '!px'){
     return render_px_tracker();
   }
@@ -681,5 +896,7 @@ module.exports = {
   setupNpcTeam,
   startGroup,
   jam_now,
-  launch_mission
+  launch_mission,
+  chronopolisStockReport,
+  chronopolisTickStatus
 };
