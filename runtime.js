@@ -24,6 +24,12 @@ const CHRONO_CATALOG = [
 
 let hudSequence = 0;
 
+const HQ_INTRO_LINES = [
+  'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
+  'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
+  'Commander Renier: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“'
+];
+
 const state = {
   location: 'HQ',
   phase: 'core', // mission phase: core, transfer, rift
@@ -33,7 +39,7 @@ const state = {
   loadout: {},
   economy: {},
   logs: {},
-  ui: { gm_style: 'verbose' },
+  ui: { gm_style: 'verbose', intro_seen: false },
   exfil: null,
   fr_intervention: null,
   scene: { index: 0, foreshadows: 0, total: 12 },
@@ -46,6 +52,17 @@ function ensure_logs(){
     state.logs.hud = [];
   }
   return state.logs.hud;
+}
+
+function ensure_ui(){
+  if (!state.ui || typeof state.ui !== 'object'){
+    state.ui = { gm_style: 'verbose', intro_seen: false };
+  }
+  if (typeof state.ui.gm_style !== 'string'){
+    state.ui.gm_style = 'verbose';
+  }
+  state.ui.intro_seen = !!state.ui.intro_seen;
+  return state.ui;
 }
 
 function ensure_character(){
@@ -86,6 +103,14 @@ function hud_toast(message, tag = 'HUD'){
   }
   writeLine(`[${tag}] ${message}`);
   return entry;
+}
+
+function play_hq_intro(force = false){
+  const ui = ensure_ui();
+  if (ui.intro_seen && !force) return false;
+  writeLine(HQ_INTRO_LINES.join('\n'));
+  ui.intro_seen = true;
+  return true;
 }
 
 function ensure_exfil(){
@@ -510,7 +535,8 @@ function scene_overlay(scene){
   const ms = state.campaign?.mission ?? 0;
   const sc = s.index ?? 0;
   const total = state.scene?.total ?? 12;
-  const mode = state.ui.gm_style;
+  const ui = ensure_ui();
+  const mode = ui.gm_style;
   const obj = state.campaign?.objective ?? '?';
   let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · MODE ${mode} · Objective: ${obj}`;
   if (state.exfil){
@@ -589,14 +615,16 @@ function radio_rx(o){
 }
 
 function assert_foreshadow(n=2){
-  if (state.ui.gm_style !== 'precision') return;
+  const ui = ensure_ui();
+  if (ui.gm_style !== 'precision') return;
   const c = state.scene.foreshadows || 0;
   if (c < n) console.log(`Foreshadow low: ${c}/${n}`);
 }
 
 function select_state_for_save(s){
+  const ui = s.ui || {};
   return {
-    save_version: 5,
+    save_version: 6,
     zr_version: ZR_VERSION,
     location: s.location,
     phase: s.phase,
@@ -606,7 +634,7 @@ function select_state_for_save(s){
     loadout: s.loadout,
     economy: s.economy,
     logs: s.logs,
-    ui: { gm_style: s.ui?.gm_style ?? 'verbose' }
+    ui: { gm_style: ui.gm_style ?? 'verbose', intro_seen: !!ui.intro_seen }
   };
 }
 
@@ -660,6 +688,11 @@ function migrate_save(data){
     delete character.heat_max;
     data.save_version = 5;
   }
+  if (data.save_version === 5){
+    data.ui ||= { gm_style: 'verbose' };
+    data.ui.intro_seen = !!data.ui.intro_seen;
+    data.save_version = 6;
+  }
   return data;
 }
 
@@ -680,7 +713,11 @@ function hydrate_state(data){
   state.loadout = data.loadout || {};
   state.economy = data.economy || {};
   state.logs = data.logs || {};
-  state.ui = { gm_style: data.ui?.gm_style || 'verbose' };
+  state.ui = {
+    gm_style: data.ui?.gm_style || 'verbose',
+    intro_seen: !!(data.ui?.intro_seen)
+  };
+  ensure_ui();
   reset_mission_state();
   ensure_campaign();
 }
@@ -696,6 +733,7 @@ function load_deep(raw){
 }
 
 function startSolo(mode='klassisch'){
+  ensure_ui();
   state.start = { type: 'solo', mode };
   state.location = 'HQ';
   state.character = {
@@ -707,6 +745,7 @@ function startSolo(mode='klassisch'){
     attributes: { SYS_max: 1, SYS_used: 1 }
   };
   ensure_campaign();
+  play_hq_intro();
   return `solo-${mode}`;
 }
 
@@ -715,10 +754,12 @@ function setupNpcTeam(size=0){
 }
 
 function startGroup(mode='klassisch'){
+  ensure_ui();
   state.start = { type: 'gruppe', mode };
   state.location = 'HQ';
   state.team = { size: 0 };
   ensure_campaign();
+  play_hq_intro();
   return `gruppe-${mode}`;
 }
 
@@ -855,11 +896,11 @@ function on_command(command){
       : 'SF-OFF – Fokus bleibt extern.';
   }
   if (cmd === 'modus precision'){
-    state.ui.gm_style = 'precision';
+    ensure_ui().gm_style = 'precision';
     return 'GM_STYLE → precision (persistiert)';
   }
   if (cmd === 'modus verbose'){
-    state.ui.gm_style = 'verbose';
+    ensure_ui().gm_style = 'verbose';
     return 'GM_STYLE → verbose (persistiert)';
   }
   if (cmd === '!fr help'){

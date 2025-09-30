@@ -30,14 +30,14 @@ Die Testreihe bestätigt, dass der aktuelle Build stabil läuft, jedoch mehrere 
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates und Daily Stock versehen. Status: *erledigt* – Runtime koppelt das Tagesangebot an Dienstgrad und Research-Level, der Pool rotiert filmisch pro HQ-Zyklus.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen bereinigen, `comms_check()` erzwingen. Status: *erledigt* – Arena-Makro zwingt `must_comms`, Ausrüstungshinweis verankert Hardwarepflicht.
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade, Distanzstufen und HUD-Tags; README verankert die Schnellhilfe.
-16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *offen*.
+16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen. Status: *erledigt* – Toolkit listet HQ-Buffs als HUD-Icons inkl. Makro-Snippet, Dopplungen werden per Kampagnenflag geblockt.
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren. Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README dokumentiert das neue Standardverhalten.
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()` für Loot-Erinnerung. Status: *offen*.
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10 und verweist auf Prestige-Aufstiege für höhere Werte.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im HUD. Status: *offen*.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für Druck-Set-Auswahl. Status: *offen*.
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen. Status: *erledigt* – Runtime blendet das Badge ein, wenn `self_reflection: false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
-23. **Intro-Guard beim Laden aktivieren.** Einleitung nur bei Erststart zeigen. Status: *offen*.
+23. **Intro-Guard beim Laden aktivieren.** Einleitung nur bei Erststart zeigen. Status: *erledigt* – Runtime speichert `intro_seen` im UI-State und spielt das HQ-Kurzintro nur beim Erststart aus.
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren Verzögerung. Status: *offen*.
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status: *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch, `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status: *offen*.
