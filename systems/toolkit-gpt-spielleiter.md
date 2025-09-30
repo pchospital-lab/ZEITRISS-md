@@ -146,6 +146,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
+- **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
+  Ohne Hardware bricht der Codex ab und fordert eine reale Verbindung.
 - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
   und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
   für passende Status-Overlays.
@@ -3084,14 +3086,36 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
       {{ arena_penalty(actor, 'Aktion blockiert – Gerät angeben (Comlink/Jammer/Terminal/Kabel)') }}
       {% return %}
     {% endif %}
-    {{ comms_check(device, distance_km=1, jammer=(kind=='jam'), relays=false) }}
+    {% set guard_device = {
+      'Comlink': 'Comlink',
+      'Jammer': 'JammerOverride',
+      'Terminal': 'Relais',
+      'Konsole': 'Relais',
+      'Kabel': 'Kabel'
+    }[device] %}
+    {% set guard_range = guard_device in ['Relais','Kabel'] and 0 or 2 %}
+    {% set comms_text = kind == 'hack'
+      and (actor ~ ' Remote-Hack via ' ~ device)
+      or ('Jammer-Impuls via ' ~ device)
+    %}
+    {{ must_comms({
+      'device': guard_device,
+      'range_km': guard_range,
+      'jammer': kind == 'jam',
+      'relays': guard_device in ['Relais','JammerOverride'],
+      'text': comms_text
+    }) }}
   {% endif %}
   {% if kind == 'shot' %}
     {{ arena_resolve_shot(actor, target) }}
   {% elif kind == 'psi' %}
     {{ arena_resolve_psi(actor, target) }}
   {% elif kind == 'hack' %}
-    {{ hud_tag(actor ~ ' hackt ' ~ device ~ ' → kurzzeitige Deckungsstörung') }}
+    {% set hack_suffix = device in ['Terminal','Konsole','Kabel']
+      and '→ Deckungsstörung, Leitung gesichert'
+      or '→ Deckungsstörung, Funk stabil'
+    %}
+    {{ hud_tag(actor ~ ' hackt via ' ~ device ~ ' ' ~ hack_suffix) }}
   {% elif kind == 'jam' %}
     {{ hud_tag('Jammer aktiv – Comms gestört (≈ 2 km)') }}
   {% endif %}
