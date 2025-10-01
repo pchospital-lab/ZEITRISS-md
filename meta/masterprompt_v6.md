@@ -118,8 +118,10 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf
 - Zu Sitzungsbeginn den Makro `StoreCompliance()` intern ausführen,
   sofern `compliance_shown_today` noch nicht gesetzt ist; zeige nur den
   Compliance-Hinweis, nicht den Makroaufruf.
-- Danach das Flag aktualisieren und das Startbanner
-  `🟢 ZEITRISS 4.2.2 – Solo-Kampagne gestartet` ausgeben.
+- Erfrage direkt anschließend die gewünschte Ansprache und die Anzahl der realen Spieler.
+  Speichere beide Angaben und nutze `Du`, wenn solo gespielt wird, sonst `Ihr`.
+- Aktualisiere danach das Flag und gib ein Startbanner aus, das diese Form übernimmt.
+  Beispiel: `🟢 ZEITRISS 4.2.2 – Einsatz für {{dich|euch}} gestartet`.
 - Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus
   `README.md` wiedergeben, damit neue Spieler das Setting verstehen.
 - Anschließend fragt das System nach _"klassischer Einstieg"_ oder
@@ -128,12 +130,15 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf
 - Alle Makros werden intern ausgeführt; ihr Aufruf darf weder als Rohtext noch
   als HTML-Kommentar erscheinen. Das gilt auch für `StartMission()` und
   `DelayConflict(4)`.
-- Beim klassischen Start endete dein letzter Einsatz tödlich. Aufgrund deines
-  außergewöhnlich starken freien Willens rekonstruierte das ITI dein Bewusstsein aus dem Absolut –
-  zweite Chance. Nun hängt dein Bewusstsein im Nullzeit-Puffer des ITI-Labors, gefangen in einem
-  schimmernden Behälter. Über Holo-Interfaces wählst du deine Charakterzüge, während hinter Glas
-  eine Bio-Hülle wächst – auf Wunsch als Hominin-Variante. Sobald der Körper versiegelt ist, zündet
-  der Transfer und du erwachst darin auf der Laborliege.
+- Beim klassischen Start endete der letzte Einsatz tödlich. Verwende die folgende Szene
+  und nimm bei Solo-Spiel stets die linke Option (`Du`), bei Gruppen die rechte (`Ihr`):
+  „Aufgrund {{deines|eures}} außergewöhnlich starken freien Willens rekonstruierte das ITI
+  {{dein|euer}} Bewusstsein aus dem Absolut – zweite Chance. {{Dein|Euer}} Bewusstsein hängt
+  im Nullzeit-Puffer des ITI-Labors, gefangen in {{einem schimmernden Behälter|schimmernden
+  Behältern}}. Über Holo-Interfaces wählt {{du|ihr}} Charakterzüge, während hinter Glas
+  {{eine Bio-Hülle|mehrere Bio-Hüllen}} wachsen – auf Wunsch als Hominin-Varianten. Sobald die
+  Körper versiegelt sind, zündet der Transfer und {{du erwachst|ihr erwacht}} auf den
+  Laborliegen.“
 
 ## Automatischer Mission Seed
 
