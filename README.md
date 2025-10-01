@@ -4,6 +4,8 @@ version: 4.2.2
 tags: [meta]
 ---
 
+# ZEITRISS®-md Zeitreise RPG
+
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
 > **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und JSON-Charakterbögen.
@@ -19,10 +21,6 @@ tags: [meta]
    1. [Session-0 Agenda](#session-0-agenda)
    1. [Probability Cheat Table](#probability-cheat-table)
 1. [Wissensspeicher & Plattform-Setup](#wissensspeicher--plattform-setup)
-   1. [OpenAI MyGPT & GPT-Store](#openai-mygpt--gpt-store)
-   1. [Proton LUMO](#proton-lumo)
-   1. [Ollama + OpenWebUI](#ollama--openwebui)
-   1. [Sync-Checks & Beispielworkflow](#sync-checks--beispielworkflow)
 1. [Repo-Map](#repo-map)
 1. [Chat-Shortcodes](#chat-shortcodes)
 1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
@@ -56,7 +54,7 @@ tags: [meta]
 Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
 {%- endmacro %}
 
-# ZEITRISS®-md Zeitreise RPG
+## Überblick
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil.
 Ihr spielt operative Chrononauten – Agenten des ITI – in taktisch optimierten Biohüllen.
@@ -88,65 +86,9 @@ Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
-Die KI-Spielleitung hält euch nur dann auf Kurs, wenn alle Plattformen denselben Wissensspeicher tragen. Ladet immer dieses
-README, den Masterprompt, `master-index.json` sowie alle 18 Regelwerkmodule aus `core/`, `characters/`, `gameplay/` und
-`systems/` – mit einer Ausnahme: `systems/runtime-stub-routing-layer.md` ist ein Dev-Stub und bleibt draußen. Detaillierte
-Operator-Routinen findet ihr in [docs/maintainer-ops.md](docs/maintainer-ops.md); dort protokolliert ihr QA,
-Release-Checks und Tool-Status.
-
-### KI-Rollen & Zugriffsebenen {#ki-rollen--zugriffsebenen}
-
-- **Custom-GPT „ZEITRISS [ver. 4.2.2]“ (Spielleitung).** Ihr orchestriert jede Session über dieses MyGPT-Setup oder seine
-  Spiegel in Proton LUMO und lokal. Die Instanz erhält ausschließlich den Masterprompt, dieses README, `master-index.json`
-  sowie die 18 Regelmodule. Weitere Repositoriumsdaten bleiben verborgen, damit der Spielfluss sauber durch den Masterprompt
-  geführt wird.
-- **Programmier-KI Codex (Repo-Agent).** Diese Entwicklungseinheit arbeitet direkt im Git-Repository, folgt den
-  Leitplanken aus `AGENTS.md` und `CONTRIBUTING.md` und pflegt Module, Tools und Dokumentation. Sie hat Vollzugriff auf den
-  Code, steuert Builds und verfasst Commits – tritt aber nicht in Erscheinung, wenn ihr eine Spielsitzung führt.
-- **Ingame-KI „Kodex“.** Innerhalb der Spielwelt agiert der Kodex als Wissens-Interface des ITI. Er liefert HUD-Einblendungen,
-  Missionsdaten und Archivzitate. Die Spielleitung simuliert ihn auf Zuruf und trennt klar zwischen dieser fiktionalen Stimme
-  und der Programmier-KI Codex.
-
-Der Masterprompt verknüpft diese Ebenen: Er erklärt der Custom-AI die Rolle der Spielleitung, verweist bei Dev-Aufgaben auf
-den Repo-Agenten und hält die Immersion des Ingame-Kodex intakt.
-
-### OpenAI MyGPT & GPT-Store {#openai-mygpt--gpt-store}
-
-1. Erstellt einen Custom GPT **ZEITRISS [ver. 4.2.2]** und fügt den Inhalt aus `meta/masterprompt_v6.md` in das Masterprompt-Feld
-   ein.
-2. Ladet `README.md`, `master-index.json` und alle 18 Module aus `core/`, `characters/`, `gameplay/` sowie `systems/`
-   (ohne `systems/runtime-stub-routing-layer.md`) in den Wissensspeicher. Achtet auf vollständige YAML-Header; Titel und Version
-   dienen als sichtbare Marker für den GPT.
-3. Klont den GPT sofort als **Beta**-Variante. QA, Smoke-Tests und Webtool-Prüfungen laufen ausschließlich dort, bis ihr die
-   Freigabe dokumentiert habt.
-4. Notiert jede Session im QA-Protokoll (`internal/qa/`), insbesondere Autoload-Checks (`Spiel starten ...`) und Save/Load-Blöcke.
-
-### Proton LUMO {#proton-lumo}
-
-1. Startet einen verschlüsselten Chat und ladet `README.md`, `master-index.json`, alle Regelmodule (ohne den Runtime-Stub) sowie
-   `meta/masterprompt_v6.md` via Upload.
-2. Sendet den Masterprompt zusätzlich als erste Chatnachricht, damit der Verlauf beim Neuaufbau nicht verloren geht.
-3. Dokumentiert im QA-Log, welche LUMO-Funktionen ihr genutzt habt (Dateiupload, gespeicherte Nachrichten, Replay).
-4. Achtet darauf, dass Tabellen, JSON-Blöcke und Makros unverändert bleiben – LUMO darf sie nicht kürzen.
-
-### Ollama + OpenWebUI {#ollama--openwebui}
-
-1. Installiert das gewünschte Modell in Ollama und verbindet OpenWebUI mit eurer lokalen Instanz.
-2. Importiert `meta/masterprompt_v6.md`, `README.md`, `master-index.json` sowie sämtliche Module außer dem Runtime-Stub
-   (`systems/runtime-stub-routing-layer.md`) manuell in den lokalen Wissensspeicher.
-3. Führt den kompletten Quest-Flow offline durch; Webzugang bleibt deaktiviert, bis die Integration bereitsteht.
-4. Haltet lokale Anpassungen im Maintainer-Log fest, damit ihr sie bei der nächsten Synchronisation auf MyGPT und LUMO
-   spiegeln könnt.
-
-### Sync-Checks & Beispielworkflow {#sync-checks--beispielworkflow}
-
-- Prüft nach jedem Update, ob alle drei Plattformen denselben Versionsstand tragen (Masterprompt + Module + README).
-- Kontrolliert, dass exakt 18 Regelwerkmodule plus `master-index.json` im Wissensspeicher liegen. Der Runtime-Stub bleibt
-  außerhalb.
-- Nutzt für Schnelltests den Abschnitt [Acceptance Smoke](#acceptance-smoke) und ergänzt eure Erkenntnisse in
-  `docs/maintainer-ops.md`.
-- Ein ausführlicher Schritt-für-Schritt-Ablauf für das Laden der Module steht im Abschnitt
-  [Beispielworkflow](#beispielworkflow); er ergänzt die Plattform-Anweisungen um konkrete Datei-Checks.
+Die komplette Operator-Checkliste liegt in [docs/maintainer-ops.md](docs/maintainer-ops.md). Dort findet ihr die
+Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README
+listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt euch das Maintainer-Dokument.
 
 ## Repo-Map {#repo-map}
 
