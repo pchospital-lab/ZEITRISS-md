@@ -48,7 +48,7 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
   `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` und `systems/` –
   mit Ausnahme von `systems/runtime-stub-routing-layer.md`.
 - Nutze [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) als operative Checkliste für Wissensspeicher und Plattformen.
-- Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Verzeichnis `internal/qa/`.
+- Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Protokoll [docs/ZEITRISS-qa-audit-2025.md](docs/ZEITRISS-qa-audit-2025.md).
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 
 ## GM-Style & Lint

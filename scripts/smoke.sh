@@ -32,9 +32,11 @@ grep 'tier3-with-blueprint: Shop-Tiers: T1:true T2:true T3:true · BP:1' out/sho
 grep 'tier3-no-blueprint-cmd: Shop-Tiers: T1:true T2:true T3:false · BP:0' out/shop.log
 grep 'tier3-with-blueprint-cmd: Shop-Tiers: T1:true T2:true T3:true · BP:1' out/shop.log
 
-# Debrief renders Px and TEMP
+# Debrief rendert Belohnungen und Px-Tracker
 mkdir -p out
 node tools/test_debrief.js > out/debrief.log
+grep 'Belohnungen · Chrono Units' out/debrief.log
+grep -E 'Resonanz Px [0-5]/5' out/debrief.log
 grep -E "Px .* TEMP" out/debrief.log
 
 # HUD TTL mm:ss and Sweeps/Stress
