@@ -745,6 +745,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | ☠️ | Vergiftung |
 | ⏱️ | Countdown/Timer |
 | 🛡️ | Abwehr bereit |
+| 🌀 | TK-Nahkampf im Cooldown – Eure Linse sperrt telekinetische Schläge, bis der Puls abklingt. |
 
 #### Quickref: Health, Stress & Zustände {#hud-quickref}
 

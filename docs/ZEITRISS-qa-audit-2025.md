@@ -113,7 +113,8 @@ Hochstufen-Spielrunden.
     *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch,
     `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status:
-    *offen*.
+    *erledigt* – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
+    entfernt die Sperre nach der Cooldown-Runde.
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren.
     Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an
     das HQ-Vermögen.
