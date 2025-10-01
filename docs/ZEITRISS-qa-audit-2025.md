@@ -97,7 +97,9 @@ Hochstufen-Spielrunden.
     HUD. Status: *erledigt* – Arena initialisiert nun Großteam-Zyklen, trackt
     Moves und blendet Timer sowie Limit im HUD ein.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für
-    Druck-Set-Auswahl. Status: *offen*.
+    Druck-Set-Auswahl. Status: *erledigt* – Toolkit setzt eine
+    Zweifach-Cooldown-Liste ein, bevor Druck-Sets wieder freigegeben
+    werden.
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen.
     Status: *erledigt* – Runtime blendet das Badge ein, wenn `self_reflection:
     false` aktiv ist; `!sf on/off` steuern das Flag und loggen den Status.
