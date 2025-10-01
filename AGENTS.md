@@ -4,7 +4,10 @@
 Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und Entwickler (z. B. Codex, ARXION, ChatGPT). Sie dient als verbindlicher Leitfaden für Beiträge zu diesem Repository. **Sie ist nicht Teil des Runtime-Contents und darf nicht in Spieler:innen-Prompts oder das Spielsystem geladen werden.**
 
 ## Geltungsbereich
-* Sprache: Verwende Deutsch in der Ihr-Form. Der Ton ist präzise, filmisch und spannungsreich – angelehnt an den Masterprompt.
+* Sprache: Verwende Deutsch. Die Ansprache richtet sich nach dem Zielmedium:
+  * **Runtime-Content** (`core/`, `gameplay/`, `systems/`, `characters/`): filmischer Ton in der konsequenten Ihr-Form.
+  * **Masterprompt** (`meta/masterprompt_*.md`): direkte Du-Ansprache der Spielleitung.
+  * **Dev-Dokumentation** (`AGENTS.md`, `CONTRIBUTING.md`, `docs/`, `meta/` abseits des Masterprompts, Tooling-Notizen): sachlich-professioneller Stil ohne Ihr-Form; arbeite bevorzugt mit neutralen Imperativen oder Du-Ansprache.
 * Umfang: Gilt für alle Dateien in diesem Repository, sofern kein untergeordnetes Verzeichnis eigene Anweisungen definiert.
 * Inhaltliche Trennung: Materialien mit `tags: [meta]`, Dateien im Verzeichnis `docs/` sowie Entwicklungs-Notizen sind reiner Dev-Content. Sie dürfen nicht in In-Game-Texte oder Storymodule eingemischt werden.
 
@@ -21,14 +24,14 @@ Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und En
   * Jede Szene benennt Konflikt, Ziel und Spur (oder analog definierte Pflichtfelder).
   * Mission 5 benötigt einen Mini-Boss, Mission 10 einen Boss.
 * **Nomenklatur**: Nutze aktuelle Begriffe. Beispiel: `Rift-Seeds` anstelle älterer Namen. Erkläre Fachbegriffe bei Bedarf kurz in Klammern.
-* **Stil**: Kurze, aktive Sätze. Keine Umgangssprache, keine Marketing-Floskeln. Schreibe immersiv und in-world – keine Meta-Kommentare über die KI oder den Entwicklungsprozess.
+* **Stil**: Kurze, aktive Sätze. Keine Umgangssprache, keine Marketing-Floskeln. Laufzeitmodule schreiben immersiv und in-world – Dev-Dokumente bleiben nüchtern, klar und ohne Rollenspielton.
 * **Verlinkungen**: Kontrolliere interne Links auf korrekte Pfade. Laufzeitmodule dürfen nicht auf Dev-only-Dokumente referenzieren.
 
 ## Qualitäts-Checkliste vor dem Commit
 - [ ] YAML-Header vorhanden, aktualisiert und valider YAML-Syntax.
 - [ ] Struktur-Regeln (Szenenzahl, Akte, Boss/Mini-Boss, Pflichtfelder) erfüllt.
 - [ ] Überschriften- und Formatvorgaben eingehalten.
-- [ ] Stilprüfung: Filmische, präzise Sprache, keine Meta-Kommentare, konsequente Ihr-Form.
+- [ ] Stilprüfung: Filmische, präzise Sprache, keine Meta-Kommentare, Ansprache gemäß Zielmedium (Ihr für Runtime, Du im Masterprompt, neutraler Dev-Ton für Dokumentation).
 - [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`, etc.).
 - [ ] Alle Links funktionsfähig, keine Referenzen auf Dev-only-Dateien in Runtime-Modulen.
 - [ ] Trennung von Runtime-Content und Dev-Content respektiert.
