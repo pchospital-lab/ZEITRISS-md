@@ -459,8 +459,149 @@ function render_px_tracker(temp){
 
 const px_tracker = render_px_tracker;
 
-function render_rewards(){
-  return 'Rewards rendered';
+function asNumber(value){
+  if (value === null || value === undefined) return null;
+  const num = Number(value);
+  return Number.isFinite(num) ? num : null;
+}
+
+function sumCuFromArray(entries){
+  if (!Array.isArray(entries)) return null;
+  let total = 0;
+  let found = false;
+  entries.forEach((entry) => {
+    if (entry === null || entry === undefined) return;
+    if (typeof entry === 'number'){
+      total += entry;
+      found = true;
+      return;
+    }
+    if (typeof entry !== 'object') return;
+    const label = [entry.currency, entry.type, entry.kind, entry.key]
+      .find((token) => typeof token === 'string' && /cu/i.test(token));
+    if (!label) return;
+    const amount = asNumber(entry.amount ?? entry.value ?? entry.cu ?? entry.credits);
+    if (amount !== null){
+      total += amount;
+      found = true;
+    }
+  });
+  return found ? total : null;
+}
+
+function extractCuReward(outcome){
+  const sources = [
+    outcome,
+    outcome?.reward,
+    outcome?.rewards,
+    outcome?.rewards?.primary,
+    outcome?.currency,
+    outcome?.payout,
+    outcome?.economy,
+    outcome?.economy?.delta,
+    outcome?.economy?.change
+  ];
+  const keys = ['cu_reward', 'chrono_units', 'chronounits', 'chronounit', 'cu', 'credits', 'payout', 'amount', 'value'];
+  for (const source of sources){
+    if (!source) continue;
+    if (Array.isArray(source)){
+      const summed = sumCuFromArray(source);
+      if (summed !== null) return summed;
+      continue;
+    }
+    for (const key of keys){
+      const value = asNumber(source[key]);
+      if (value !== null) return value;
+    }
+    if (typeof source === 'object'){
+      for (const [key, value] of Object.entries(source)){
+        if (typeof value === 'object'){
+          const nested = extractCuReward(value);
+          if (nested !== null) return nested;
+        }
+        if (typeof key === 'string' && /cu/i.test(key)){
+          const asNum = asNumber(value);
+          if (asNum !== null) return asNum;
+        }
+      }
+    }
+  }
+  const fallback = asNumber(state.campaign?.cu_payout);
+  return fallback !== null && fallback > 0 ? fallback : null;
+}
+
+function resolveLevelInfo(outcome){
+  const candidatePairs = [
+    [outcome?.level_before, outcome?.level_after],
+    [outcome?.prev_level, outcome?.new_level],
+    [outcome?.level?.before, outcome?.level?.after],
+    [outcome?.lvl_before, outcome?.lvl_after],
+    [outcome?.level_start, outcome?.level_end]
+  ];
+  let before = null;
+  let after = null;
+  for (const [b, a] of candidatePairs){
+    const nb = asNumber(b);
+    const na = asNumber(a);
+    if (nb !== null && na !== null){
+      before = nb;
+      after = na;
+      break;
+    }
+  }
+  if (after === null){
+    const charLevel = asNumber(state.character?.lvl ?? state.character?.level);
+    if (charLevel !== null){
+      after = charLevel;
+    }
+  }
+  if (before === null && after !== null){
+    const delta = asNumber(outcome?.level_delta ?? outcome?.lvl_delta);
+    if (delta !== null){
+      before = after - delta;
+    }
+  }
+  const leveledUp = (() => {
+    if (before !== null && after !== null) return after > before;
+    if (outcome?.level_up === true) return true;
+    const delta = asNumber(outcome?.level_delta ?? outcome?.lvl_delta);
+    return delta !== null && delta > 0;
+  })();
+  return { before, after, leveledUp };
+}
+
+function render_rewards(outcome = {}, missionResult = {}){
+  ensure_campaign();
+  ensure_character();
+  ensure_economy();
+
+  const segments = [];
+  const cuReward = extractCuReward(outcome);
+  if (cuReward !== null){
+    segments.push(`Chrono Units +${cuReward} CU`);
+  } else {
+    segments.push('Chrono Units n/a');
+  }
+
+  const { before: lvlBefore, after: lvlAfter, leveledUp } = resolveLevelInfo(outcome);
+  if (leveledUp && lvlBefore !== null && lvlAfter !== null){
+    segments.push(`Level-Up ${lvlBefore}→${lvlAfter}`);
+  } else if (lvlAfter !== null){
+    segments.push(`Level ${lvlAfter}`);
+  }
+
+  const px = clamp(asNumber(missionResult?.paradoxon_index) ?? asNumber(state.campaign?.paradoxon_index) ?? 0, 0, 5);
+  const progress = Math.max(0, asNumber(missionResult?.missions_since_px) ?? asNumber(state.campaign?.missions_since_px) ?? 0);
+  const required = Math.max(1, asNumber(missionResult?.required) ?? missions_required(asNumber(outcome?.temp) ?? mission_temp()));
+  const remaining = Math.max(0, required - progress);
+  segments.push(`Resonanz Px ${px}/5 (${remaining}/${required} bis Px+1)`);
+
+  const rank = state.character?.rank || state.character?.callsign;
+  if (rank){
+    segments.push(`Rang ${rank}`);
+  }
+
+  return `Belohnungen · ${segments.join(' · ')}`;
 }
 
 function ensure_economy(){
@@ -1485,7 +1626,7 @@ function launch_mission(){
 function debrief(st){
   const outcome = st || {};
   const result = completeMission(outcome);
-  const lines = [render_rewards(), render_px_tracker(outcome.temp || mission_temp())];
+  const lines = [render_rewards(outcome, result), render_px_tracker(outcome.temp || mission_temp())];
   if (result.events.length){
     lines.push(result.events.join('\n'));
   }
