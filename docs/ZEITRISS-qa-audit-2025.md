@@ -107,7 +107,8 @@ Hochstufen-Spielrunden.
     Status: *erledigt* – Runtime speichert `intro_seen` im UI-State und spielt
     das HQ-Kurzintro nur beim Erststart aus.
 24. **DelayConflict für Heist/Street justieren.** Mission-Tags reduzieren
-    Verzögerung. Status: *offen*.
+    Verzögerung. Status: *erledigt* – `StartMission()` normalisiert Mission-Tags
+    und `DelayConflict` senkt bei `heist`/`street` automatisch die Schwelle.
 25. **Briefing mit ☆-Feedback ausliefern.** Overlay standardisieren. Status:
     *erledigt* – Toolkit zeigt das ☆-HUD beim Missionsstart automatisch,
     `briefing_with_stars()` zieht den SG-Zuschlag konsistent nach.

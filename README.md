@@ -395,7 +395,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 #### Runtime Helper – Kurzreferenz
 
 - **DelayConflict(threshold=4, allow=[])** – Verzögert Konfliktszenen bis zur Szene
-  `threshold`. `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
+  `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
+  (Minimum: Szene 2). `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
 - **comms_check(device, range)** – Pflicht vor `radio_tx/rx`: validiert Funkgerät,
   Leitung, Relais/Jammer-Override und Reichweite.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.

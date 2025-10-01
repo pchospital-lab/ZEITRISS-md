@@ -442,7 +442,10 @@ Parameter `type` unterscheidet zwischen Core- und Rift-Operationen und
 wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
 Mission fest und dient der Boss-Generierung. `fx_override` erlaubt
 missionale Anpassungen von `fx.transfer` wie `show_redirect:false` oder
-einem abweichenden `redirect_hours`.
+einem abweichenden `redirect_hours`. Über `tags` (Liste oder `'|'`-String)
+werden Missions-Tags wie `heist`/`street` gesetzt, die Makros wie
+`DelayConflict` auswerten. Alternativ lässt sich `fx_override={"tags":["heist"]}`
+nutzen.
 
 ### Load → HQ-Phase oder Briefing
 
@@ -556,7 +559,7 @@ mechanische Effekt greift.
 {% macro cut_to_hq_van() -%}{%- endmacro %}
 
 <!-- Macro: StartMission -->
-{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0, fx_override=None) %}
+{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0, fx_override=None, tags=None) %}
 {% set mission_fx = fx_override or {} %}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
@@ -579,6 +582,23 @@ mechanische Effekt greift.
 {% set campaign.fr_intervention = none %}
 {% set scene = {'index': 0, 'foreshadows': []} %}
 {% set campaign.exfil = campaign.exfil | combine({'sweeps': 0, 'stress': 0}, recursive=true) %}
+{% set campaign.mission_tags = [] %}
+{% set tags_source = tags if tags is not none else mission_fx.get('tags') %}
+{% if tags_source %}
+  {% if tags_source is string %}
+    {% set tag_items = tags_source.split('|') %}
+  {% else %}
+    {% set tag_items = tags_source %}
+  {% endif %}
+  {% set normalized = [] %}
+  {% for tag in tag_items %}
+    {% set token = tag|trim|lower %}
+    {% if token %}
+      {% set normalized = normalized + [token] %}
+    {% endif %}
+  {% endfor %}
+  {% set campaign.mission_tags = normalized %}
+{% endif %}
 {{ redirect_same_slot(campaign.epoch, dt_hours) }}
 {% set tcfg = get_transfer_cfg() %}
 {% if should_show_transfer_enter(tcfg) %}
@@ -651,7 +671,18 @@ if campaign.scene < 10:
 
 <!-- Macro: DelayConflict -->
 {% macro DelayConflict(n, allow="") -%}
-{% set campaign.delayConflict = n %}
+{% set base = n %}
+{% set tags = getattr(campaign, 'mission_tags', []) %}
+{% set modifier = 0 %}
+{% for tag in tags %}
+  {% if tag in ['heist', 'street'] %}
+    {% set modifier = modifier + 1 %}
+  {% endif %}
+{% endfor %}
+{% set effective = base - modifier %}
+{% if effective < 2 %}{% set effective = 2 %}{% endif %}
+{% set campaign.delayConflict_base = base %}
+{% set campaign.delayConflict = effective %}
 {% set campaign.delayConflict_allow = allow.split('|') if allow else [] %}
 {%- endmacro %}
 {% macro can_open_conflict(kind) -%}
@@ -665,7 +696,8 @@ if campaign.scene < 10:
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
 anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt
 `DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder
-Verfolgungen.
+Verfolgungen. Missions-Tags `heist` oder `street` senken das Limit automatisch
+um jeweils eine Szene (Minimum: Szene 2).
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce() -%}
