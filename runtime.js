@@ -73,7 +73,48 @@ function ensure_character(){
   if (!state.character.rank){
     state.character.rank = 'Recruit';
   }
+  if (!state.character.cooldowns || typeof state.character.cooldowns !== 'object'){
+    state.character.cooldowns = {};
+  }
   return state.character;
+}
+
+function ensure_cooldowns(){
+  const character = ensure_character();
+  return character.cooldowns;
+}
+
+function set_cooldown(name, rounds){
+  const pool = ensure_cooldowns();
+  if (!Number.isFinite(rounds) || rounds <= 0){
+    delete pool[name];
+    return 0;
+  }
+  pool[name] = rounds;
+  return rounds;
+}
+
+function get_cooldown(name){
+  const pool = ensure_cooldowns();
+  return pool[name] ?? 0;
+}
+
+function activate_tk_melee_cooldown(rounds = 1){
+  const applied = set_cooldown('tk_melee', rounds);
+  const msg = applied > 0
+    ? `TK-Nahkampf kühlt ab – ${applied} Runde Sperre.`
+    : 'TK-Nahkampf bereit.';
+  hud_toast(msg, '🌀');
+  return applied;
+}
+
+function clear_tk_melee_cooldown(){
+  const wasActive = get_cooldown('tk_melee') > 0;
+  set_cooldown('tk_melee', 0);
+  if (wasActive){
+    hud_toast('TK-Nahkampf wieder frei – Fokus stabil.', '🌀');
+  }
+  return wasActive;
 }
 
 function self_reflection_enabled(){
@@ -559,6 +600,10 @@ function scene_overlay(scene){
     if (!self_reflection_enabled()){
       h += ' · SF-OFF';
     }
+    const tkCooldown = get_cooldown('tk_melee');
+    if (tkCooldown > 0){
+      h += ` · TK🌀 ${tkCooldown}`;
+    }
   return h;
 }
 
@@ -894,6 +939,17 @@ function on_command(command){
     return self_reflection_enabled()
       ? 'SF-ON – introspektive Sequenzen erlaubt.'
       : 'SF-OFF – Fokus bleibt extern.';
+  }
+  if (cmd === '!tk melee' || cmd === 'tk melee'){
+    const remaining = activate_tk_melee_cooldown(1);
+    return remaining > 0
+      ? `TK🌀 Cooldown ${remaining} Runde aktiv.`
+      : 'TK🌀 bereit.';
+  }
+  if (cmd === '!tk ready' || cmd === 'tk ready'){
+    return clear_tk_melee_cooldown()
+      ? 'TK🌀 wieder einsatzbereit.'
+      : 'TK🌀 war nicht blockiert.';
   }
   if (cmd === 'modus precision'){
     ensure_ui().gm_style = 'precision';

@@ -187,17 +187,18 @@ Die ersten Schritte in unter zwei Minuten:
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) für rein externe Handlung; `!sf on` stellt es zurück und das HUD zeigt `SF-OFF`, solange der Schutz aktiv ist.
-8. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
+8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde; `!tk ready` hebt die Sperre nach dem Cooldown auf.
+9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
-9. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+10. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
    Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
-10. **Filmischer Einstieg** – das Modul
+11. **Filmischer Einstieg** – das Modul
    [Cinematic Start](systems/gameflow/cinematic-start.md)
    beschreibt einen sofort spielbaren Auftakt.
-11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
+12. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-12. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
+13. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
