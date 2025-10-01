@@ -27,11 +27,11 @@ Vielen Dank für deine Mithilfe!
 
 ## Vor dem ersten Commit
 
-1. Lest `AGENTS.md` vollständig und bestätigt, dass ihr Stil, Strukturregeln und Testpflichten einhaltet.
-2. Prüft, ob eure Änderungen Runtime-Content oder Dev-Doku betreffen. Haltet die Trennung strikt ein (`tags: [meta]`).
-3. Synchronisiert euch mit den Plattformroutinen in [docs/maintainer-ops.md](docs/maintainer-ops.md); dort steht, welche
+1. Lies `AGENTS.md` vollständig und bestätige, dass du Stil-, Strukturregeln und Testpflichten einhältst.
+2. Prüfe, ob deine Änderungen Runtime-Content oder Dev-Doku betreffen. Halte die Trennung strikt ein (`tags: [meta]`).
+3. Stimme dich mit den Plattformroutinen in [docs/maintainer-ops.md](docs/maintainer-ops.md) ab; dort steht, welche
    Uploads, QA-Notizen und Smoke-Checks pro Release nötig sind.
-4. Aktualisiert bei Strukturänderungen `master-index.json`, interne Links und sämtliche Querverweise im README.
+4. Aktualisiere bei Strukturänderungen `master-index.json`, interne Links und sämtliche Querverweise im README.
 
 ## Quellen der Wahrheit zur Laufzeit
 
@@ -47,9 +47,9 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - MyGPT, Proton LUMO und Ollama/OpenWebUI erhalten stets denselben Stand: `meta/masterprompt_v6.md`, `README.md`,
   `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` und `systems/` –
   mit Ausnahme von `systems/runtime-stub-routing-layer.md`.
-- Nutzt den Abschnitt [Wissensspeicher & Plattform-Setup](README.md#wissensspeicher--plattform-setup) als Operative Checkliste.
-- Dokumentiert jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Verzeichnis `internal/qa/`.
-- Für Missions-, Encounter- und Arc-Generatoren verweist ihr den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
+- Nutze den Abschnitt [Wissensspeicher & Plattform-Setup](README.md#wissensspeicher--plattform-setup) als operative Checkliste.
+- Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Verzeichnis `internal/qa/`.
+- Verweise für Missions-, Encounter- und Arc-Generatoren den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 
 ## GM-Style & Lint
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
@@ -68,8 +68,8 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - Optional: `node tools/test_save.js`
 - Optional: `node tools/test_load.js`
 - Für Dispatcher-Smoke-Tests siehe [docs/acceptance-smoke.md](docs/acceptance-smoke.md).
-- Plattformweite QA- und Release-Checks dokumentiert ihr laut [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutzt die dort
-  verlinkten Acceptance-Smoke-Listen als Vorlage für eure Reports.
+- Dokumentiere plattformweite QA- und Release-Checks laut [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutze die dort
+  verlinkten Acceptance-Smoke-Listen als Vorlage für deine Reports.
 
 ### pre-commit Hooks
 
