@@ -10,6 +10,18 @@ Dieser Leitfaden bündelt den standardisierten Playtest-Auftrag für ZEITRISS.
 Nach dem Setup wird der Auftrag in den Chat kopiert, damit alle Plattformen
 identische QA-Durchläufe liefern.
 
+## Wissensspeicher vorbereiten
+
+Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
+
+- `meta/masterprompt_v6.md`
+- `README.md`
+- `master-index.json`
+- Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/`
+  (ohne `systems/runtime-stub-routing-layer.md`).
+
+Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden.
+
 ## Copy-&-Paste-Auftrag für den GPT
 
 > (OOC: Spieleentwickler) Bitte lies den kompletten ZEITRISS-Datensatz aufmerksam

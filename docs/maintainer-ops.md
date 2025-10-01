@@ -8,10 +8,21 @@ tags: [meta]
 
 Dieses Memo bündelt alle internen Abläufe für den Betrieb von
 **ZEITRISS 4.2.2**. Haltet die Schritte strikt ein, damit QA, Releases und
-Plattform-Listings synchron bleiben. Wissensspeicher und Prompts bestehen aus
-`meta/masterprompt_v6.md`, `README.md`, `master-index.json` sowie den 18
-Runtime-Modulen in `core/`, `gameplay/`, `characters/` und `systems/` (ohne
-`systems/runtime-stub-routing-layer.md`).
+Plattform-Listings synchron bleiben.
+
+## Wissensspeicher & Grundsetup
+
+Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
+Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
+
+- `meta/masterprompt_v6.md`
+- `README.md`
+- `master-index.json`
+- Alle 18 Runtime-Module in `core/`, `gameplay/`, `characters/` und `systems/`
+  (ohne `systems/runtime-stub-routing-layer.md`).
+
+Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag gesichert
+werden, um lange Sessions stabil zu halten.
 
 ## Plattform-Workflows
 
@@ -23,25 +34,26 @@ Runtime-Modulen in `core/`, `gameplay/`, `characters/` und `systems/` (ohne
 3. `meta/masterprompt_v6.md` vollständig in das Masterprompt-Feld kopieren und
    speichern.
 4. `README.md`, `master-index.json` sowie alle 18 Runtime-Module (ohne
-   Runtime-Stub) in den Wissensspeicher hochladen. Optional den Masterprompt
-   zusätzlich speichern, damit längere Sessions stabil bleiben.
-5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.2] beta** nennen.
-6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Plattform
+   Runtime-Stub) in den Wissensspeicher hochladen.
+5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
+   längere Sessions stabil bleiben.
+6. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.2] beta** nennen.
+7. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Plattform
    läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
    QA-Log.
-7. QA und Publishing erst freigeben, wenn die Chat-Historie keine
+8. QA und Publishing erst freigeben, wenn die Chat-Historie keine
    personenbezogenen Daten enthält.
-8. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
+9. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
    das Store-Listing aktualisieren.
 
 ### Proton LUMO (verschlüsselter Chat)
 1. Die LUMO-App starten und einen neuen Chat öffnen.
 2. `meta/masterprompt_v6.md`, `README.md`, `master-index.json` und alle
-   Runtime-Module (ohne Runtime-Stub) über die Büroklammer hochladen; optional
-   in den Wissensspeicher übernehmen.
-3. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
+   Runtime-Module (ohne Runtime-Stub) über die Büroklammer hochladen.
+3. Optional alle Dateien in den Wissensspeicher übernehmen.
+4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
    Beginn fixiert ist.
-4. Im QA-Log vermerken, welche LUMO-Funktionen (Dateiupload, Replay,
+5. Im QA-Log vermerken, welche LUMO-Funktionen (Dateiupload, Replay,
    Gerätewechsel) genutzt wurden und ob Markdown/JSON unverändert bleiben.
 
 ### Lokaler Betrieb (Ollama + OpenWebUI)
@@ -67,6 +79,9 @@ Runtime-Modulen in `core/`, `gameplay/`, `characters/` und `systems/` (ohne
 5. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
    Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
    Repo; dokumentiert lokale Befunde zusätzlich.
+6. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
+   Artefakt-Upload scheitert, Job erneut anstoßen. Der Fehler entsteht beim
+   Finalisieren des Uploads und erfordert inhaltlich keine Anpassung am Repo.
 
 ## Systemgrenzen (Reminder)
 - KI-Spielleitung kann keine Dateien schreiben oder Repos verändern;
