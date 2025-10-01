@@ -803,8 +803,10 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
 
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 {{ StoreCompliance() }}
-Anschließend erscheint das Startbanner
-`🟢 ZEITRISS 4.2.2 – Solo-Kampagne gestartet`.
+Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl.
+Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
+Das anschließende Startbanner übernimmt automatisch die passende Form.
+Beispiel: `🟢 ZEITRISS 4.2.2 – Einsatz für {{dich|euch}} gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
