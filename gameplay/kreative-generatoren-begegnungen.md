@@ -822,22 +822,24 @@ auftreten.
 _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Artefakt gleichzeitig führen._
 | 1W14 | Name | Effekt | Risiko / Cooldown |
 |----:|------|--------|-------------------|
-| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | Blend 1 Sz, Px −1 bei Fehlwurf |
-| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | Selbststich SYS −1, Px −1 |
-| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | Bruch → Item weg, Px −1 |
-| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | Erwacht Heat +1, Px −1 |
-| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini −2 | Leck Stress +1, Px −1 |
-| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | Entlädt, Px −1 |
-| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | Fehlversatz Px −1 |
-| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | Puls Heat +1, Px −1 |
-| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | Feuer zerstört, Px −1 |
-|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | Blutkontakt Stress +1, Px −1 |
-|11 | **Temporaler Knochenzahn** | SG −2 auf Fossil-Analysen | Signal-Ping, Px −1 |
-|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | Fehlschuss Ally Blend, Px −1 |
-|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | Löst sich bei Px 4, Px −1 |
-|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | Vision-Flash Stress +1, Px −1 |
+| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px −1 bei Fehlwurf |
+| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS −1, Px −1 |
+| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px −1 |
+| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px −1 |
+| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini −2 | R2: Leck Stress +1, Px −1 |
+| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px −1 |
+| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px −1 |
+| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px −1 |
+| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px −1 |
+|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px −1 |
+|11 | **Temporaler Knochenzahn** | SG −2 auf Fossil-Analysen | R1: Signal-Ping, Px −1 |
+|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px −1 |
+|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px −1 |
+|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px −1 |
 
 > **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko senkt _Paradoxon-Index_, nicht erhöht.
+
+> **Risk-Level (HUD-Badges):** R1 🟢 Niedrig – Warnhinweis · R2 🟡 Moderat – spürbarer Malus · R3 🟠 Hoch – droht Verlust oder harter Debuff · R4 🔴 Kritisch – massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
 
 ### Makro-Update (Toolkit)
 
@@ -850,7 +852,7 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
   {% set pick_data = rng_roll(1,14) %}
   {% set r = pick_data[0][0] %}
   {% set art = artifact_pool_v3[r-1] %}
-  {{ hud_tag('Artefakt ‹' ~ art.name ~ '› ▶ ' ~ art.effect ~ ' (Risk: ' ~ art.risk ~ ')') }}
+  {{ artifact_overlay(art.name, art.effect, art.risk) }}
 {%- endmacro %}
 ```
 
@@ -873,46 +875,46 @@ Para-Kreaturen können zusätzliche Artefakte hinterlassen:
   "artifact_pool_v3": [
     { "id": "A01", "name": "Mothman-Auge",
       "effect": "NightVision30m; Perception+1",
-      "risk": "Flashblind 1Sz; Px-1 fail" },
+      "risk": "R2: Flashblind 1Sz; Px-1 fail" },
     { "id": "A02", "name": "Rift-Skorpion-Stachel",
       "effect": "+2DMG; 20% Double-Strike",
-      "risk": "SYS-1 selfhit; Px-1" },
+      "risk": "R4: SYS-1 selfhit; Px-1" },
     { "id": "A03", "name": "Heuschrecken-Exo-Platte",
       "effect": "Armor+1; Reflex-Dash3m 1/Sz",
-      "risk": "Break → item lost; Px-1" },
+      "risk": "R3: Break → item lost; Px-1" },
     { "id": "A04", "name": "Nullzeit-Larve",
       "effect": "Reload all gadgets 1/mission",
-      "risk": "Awakens Heat+1; Px-1" },
+      "risk": "R2: Awakens Heat+1; Px-1" },
     { "id": "A05", "name": "Ektoplasma-Drüse",
       "effect": "AoE stun; Foes Init-2",
-      "risk": "Leak Stress+1; Px-1" },
+      "risk": "R2: Leak Stress+1; Px-1" },
     { "id": "A06", "name": "Phase-Raptor-Zahnrad",
       "effect": "Ignore cover 2r; +1DMG melee",
-      "risk": "Discharge → empty; Px-1" },
+      "risk": "R2: Discharge → empty; Px-1" },
     { "id": "A07", "name": "Zeitfalter-Kokon",
       "effect": "Mini-jump ±5s 1/Sz",
-      "risk": "Misjump Px-1" },
+      "risk": "R2: Misjump Px-1" },
     { "id": "A08", "name": "Krakenherz-Fragment",
       "effect": "Bioscan 30m",
-      "risk": "Pulse Heat+1; Px-1" },
+      "risk": "R2: Pulse Heat+1; Px-1" },
     { "id": "A09", "name": "Bernstein-Rabenflügel",
       "effect": "Silent move 1Sz; Glide10m",
-      "risk": "Fire destroys; Px-1" },
+      "risk": "R3: Fire destroys; Px-1" },
     { "id": "A10", "name": "Silberne Lupus-Klaue",
       "effect": "+1DMG; 15% Double-Strike",
-      "risk": "Blood Stress+1; Px-1" },
+      "risk": "R2: Blood Stress+1; Px-1" },
     { "id": "A11", "name": "Temporaler Knochenzahn",
       "effect": "Fossil scans DC-2",
-      "risk": "Ping risk; Px-1" },
+      "risk": "R1: Ping risk; Px-1" },
     { "id": "A12", "name": "Mantis-Oculus",
       "effect": "Ranged+1 hit; Flash immune",
-      "risk": "Fail → ally flash; Px-1" },
+      "risk": "R2: Fail → ally flash; Px-1" },
     { "id": "A13", "name": "Rift-Spinnenseide",
       "effect": "30m rope 1t; bypass armor",
-      "risk": "Dissolves at Px4; Px-1" },
+      "risk": "R3: Dissolves at Px4; Px-1" },
     { "id": "A14", "name": "Doppel-Pupille des Nachtvolks",
       "effect": "Fear & Flash immune",
-      "risk": "Vision flash Stress+1; Px-1" }
+      "risk": "R2: Vision flash Stress+1; Px-1" }
   ]
 }
 ```

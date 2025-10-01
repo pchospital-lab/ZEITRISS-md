@@ -29,6 +29,18 @@ default_modus: mission-fokus
 {% if campaign.boss_pressure_cooldowns is not defined %}
   {% set campaign.boss_pressure_cooldowns = {} %}
 {% endif %}
+{% set risk_icon_map = {
+  'R1': '🟢 R1',
+  'R2': '🟡 R2',
+  'R3': '🟠 R3',
+  'R4': '🔴 R4'
+} %}
+{% set risk_label_map = {
+  'R1': 'Niedrig',
+  'R2': 'Moderat',
+  'R3': 'Hoch',
+  'R4': 'Kritisch'
+} %}
 {% set exfil = exfil or {
   'enabled': true,
   'ttl_start_minutes': 8,
@@ -1761,11 +1773,40 @@ if not live_threat and campaign.scene % 3 == 0:
     roll_antagonist()
 ```
 
+### risk_badge() & format_risk() Macros
+Konvertieren Rohdaten (`R1:` … `R4:`) in vereinheitlichte HUD-Badges.
+<!-- Macro: risk_badge -->
+{% macro risk_badge(level) -%}
+  {% set code = level|upper %}
+  {% set badge = risk_icon_map.get(code, '⚪ ' ~ code) %}
+  {% set label = risk_label_map.get(code, 'Unbekannt') %}
+  {{ badge ~ ' · ' ~ label }}
+{%- endmacro %}
+<!-- Macro: format_risk -->
+{% macro format_risk(raw) -%}
+  {% set text = raw|trim %}
+  {% if text|length > 2 and text[0] == 'R' and text[1] in '1234' and text[2] == ':' %}
+    {% set level = text[0:2] %}
+    {% set detail = text[3:]|trim %}
+    {% if detail %}
+      {{ risk_badge(level) ~ ' · ' ~ detail }}
+    {% else %}
+      {{ risk_badge(level) }}
+    {% endif %}
+  {% else %}
+    {% if text %}
+      {{ risk_badge('R2') ~ ' · ' ~ text }}
+    {% else %}
+      {{ risk_badge('R2') }}
+    {% endif %}
+  {% endif %}
+{%- endmacro %}
+
 ### artifact_overlay() Macro
 Standardisiert die HUD-Ausgabe aktiver Artefakte.
 <!-- Macro: artifact_overlay -->
 {% macro artifact_overlay(name, effect, risk) -%}
-{{ hud_tag('Artefakt aktiv · ‹' ~ name ~ '› ▶ ' ~ effect ~ ' (Risk: ' ~ risk ~ ')') }}
+{{ hud_tag('Artefakt aktiv · ‹' ~ name ~ '› ▶ ' ~ effect ~ ' · ' ~ format_risk(risk)) }}
 {%- endmacro %}
 
 ### roll_legendary() Macro
