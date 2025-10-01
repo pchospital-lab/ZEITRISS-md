@@ -94,6 +94,22 @@ README, den Masterprompt, `master-index.json` sowie alle 18 Regelwerkmodule aus 
 Operator-Routinen findet ihr in [docs/maintainer-ops.md](docs/maintainer-ops.md); dort protokolliert ihr QA,
 Release-Checks und Tool-Status.
 
+### KI-Rollen & Zugriffsebenen {#ki-rollen--zugriffsebenen}
+
+- **Custom-GPT „ZEITRISS [ver. 4.2.2]“ (Spielleitung).** Ihr orchestriert jede Session über dieses MyGPT-Setup oder seine
+  Spiegel in Proton LUMO und lokal. Die Instanz erhält ausschließlich den Masterprompt, dieses README, `master-index.json`
+  sowie die 18 Regelmodule. Weitere Repositoriumsdaten bleiben verborgen, damit der Spielfluss sauber durch den Masterprompt
+  geführt wird.
+- **Programmier-KI Codex (Repo-Agent).** Diese Entwicklungseinheit arbeitet direkt im Git-Repository, folgt den
+  Leitplanken aus `AGENTS.md` und `CONTRIBUTING.md` und pflegt Module, Tools und Dokumentation. Sie hat Vollzugriff auf den
+  Code, steuert Builds und verfasst Commits – tritt aber nicht in Erscheinung, wenn ihr eine Spielsitzung führt.
+- **Ingame-KI „Codex“.** Innerhalb der Spielwelt agiert der Codex als Wissens-Interface des ITI. Er liefert HUD-Einblendungen,
+  Missionsdaten und Archivzitate. Die Spielleitung simuliert ihn auf Zuruf und trennt klar zwischen dieser fiktionalen Stimme
+  und der Programmier-KI mit identischem Namen.
+
+Der Masterprompt verknüpft diese Ebenen: Er erklärt der Custom-AI die Rolle der Spielleitung, verweist bei Dev-Aufgaben auf
+den Repo-Agenten und hält die Immersion des Ingame-Codex intakt.
+
 ### OpenAI MyGPT & GPT-Store {#openai-mygpt--gpt-store}
 
 1. Erstellt einen Custom GPT **ZEITRISS [ver. 4.2.2]** und fügt den Inhalt aus `meta/masterprompt_v6.md` in das Masterprompt-Feld
