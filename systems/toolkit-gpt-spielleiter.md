@@ -25,6 +25,10 @@ default_modus: mission-fokus
   ['Timer 90s','Verstärkung in 2min','wanderndes Sichtfenster'],
   ['Timer 90s','Verstärkung in 2min','Ressourcen-Clamp']
 ] %}
+{% set boss_pressure_cooldown_length = 2 %}
+{% if campaign.boss_pressure_cooldowns is not defined %}
+  {% set campaign.boss_pressure_cooldowns = {} %}
+{% endif %}
 {% set exfil = exfil or {
   'enabled': true,
   'ttl_start_minutes': 8,
@@ -993,25 +997,40 @@ total=12, role="", env=None) -%}
   {% endif %}
 {% endfor %}
 {# Boss-Regel #}
-{% if campaign.type == "rift" and campaign.scene == 10 %}
-  {% set pressure_choice = boss_pressure_pool|random %}
-  {% if campaign.last_boss_pressure is defined and pressure_choice == campaign.last_boss_pressure %}
-    {% set pressure_choice = (boss_pressure_pool | reject('equalto', campaign.last_boss_pressure) | list | random) %}
+{% set is_boss_scene = (campaign.type == 'rift' and campaign.scene == 10) or (campaign.type == 'core' and campaign.scene == 10 and campaign.boss_allowed) %}
+{% if is_boss_scene %}
+  {% set trimmed_cooldowns = {} %}
+  {% for pressure_id, cd in campaign.boss_pressure_cooldowns.items() %}
+    {% if cd > 1 %}
+      {% set trimmed_cooldowns = trimmed_cooldowns | combine({pressure_id: cd - 1}) %}
+    {% endif %}
+  {% endfor %}
+  {% set campaign.boss_pressure_cooldowns = trimmed_cooldowns %}
+  {% set available_pressure = namespace(options=[]) %}
+  {% for option in boss_pressure_pool %}
+    {% set option_id = option | join('||') %}
+    {% if campaign.boss_pressure_cooldowns[option_id]|default(0) == 0 %}
+      {% set available_pressure.options = available_pressure.options + [option] %}
+    {% endif %}
+  {% endfor %}
+  {% set selectable_pressure = available_pressure.options %}
+  {% if selectable_pressure|length == 0 %}
+    {% set campaign.boss_pressure_cooldowns = {} %}
+    {% set selectable_pressure = boss_pressure_pool %}
   {% endif %}
+  {% set pressure_choice = selectable_pressure|random %}
+  {% set pressure_id = pressure_choice | join('||') %}
+  {% set campaign.boss_pressure_cooldowns = campaign.boss_pressure_cooldowns | combine({pressure_id: boss_pressure_cooldown_length}) %}
   {% set campaign.last_boss_pressure = pressure_choice %}
   {% set campaign.boss_scene = {'style': 'VERBOSE','pressure': pressure_choice} %}
-  {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
-  {# LINT:BOSS_SCENE10_RIFT #}
-  {{ hud_tag('Boss-Encounter in Szene 10') }}
-{% elif campaign.type == "core" and campaign.scene == 10 and campaign.boss_allowed %}
-  {% set pressure_choice = boss_pressure_pool|random %}
-  {% if campaign.last_boss_pressure is defined and pressure_choice == campaign.last_boss_pressure %}
-    {% set pressure_choice = (boss_pressure_pool | reject('equalto', campaign.last_boss_pressure) | list | random) %}
+  {% if campaign.type == 'rift' %}
+    {{ generate_boss('rift', campaign.mission, campaign.epoch) }}
+    {# LINT:BOSS_SCENE10_RIFT #}
+    {{ hud_tag('Boss-Encounter in Szene 10') }}
+  {% else %}
+    {{ generate_boss('core', campaign.mission, campaign.epoch) }}
+    {{ hud_tag('Boss-Encounter in Szene 10 (Core M' ~ campaign.mission_in_episode ~ ')') }}
   {% endif %}
-  {% set campaign.last_boss_pressure = pressure_choice %}
-  {% set campaign.boss_scene = {'style': 'VERBOSE','pressure': pressure_choice} %}
-  {{ generate_boss('core', campaign.mission, campaign.epoch) }}
-  {{ hud_tag('Boss-Encounter in Szene 10 (Core M' ~ campaign.mission_in_episode ~ ')') }}
 {% endif %}
 {%- endmacro %}
 
