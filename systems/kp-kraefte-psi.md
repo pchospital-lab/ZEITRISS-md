@@ -13,7 +13,7 @@ tags: [system, psi, optional]
 - Integration in die Spielwelt: historische Wurzeln & Kontroversen
 - Spielmechaniken: Anwendung und Begrenzung von Psi-Kräften
 - Entwicklung von Psi im Levelsystem
-- Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
+- Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Kodex)
 
 ### Cheat-Sheet: Psi-Regeln auf einen Blick {#psi-cheat}
 
@@ -54,7 +54,7 @@ In diesem Grundmodus bleiben Psi-Effekte bodenständig.
 Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 
 Präkognition liefert höchstens kurze taktische Ahnungen.
-Der Codex gibt keine prophetischen Hinweise.
+Der Kodex gibt keine prophetischen Hinweise.
 Weitere Stilmodi findet ihr in [README](../README.md#spielmodi).
 
 ### Stiloption: Covert-Ops Technoir
@@ -357,7 +357,7 @@ streiten sich wissenschaftliche Institute und Skeptikervereinigungen über jedes
 Resultat. Diese Kontroverse spiegelt sich im Spiel wider: **In-Game** gibt es Universitäten und
 Forschungsteams (v.a. ab dem späten 20. und 21. Jahrhundert), die parapsychologische Studien
 durchführen – teils mit vorsichtig positiven Hinweisen, teils mit dem Ergebnis, dass alles Betrug
-war. Die Spielercharaktere finden im Codex vielleicht Einträge à la _“Projekt RHINE, Duke University
+war. Die Spielercharaktere finden im Kodex vielleicht Einträge à la _“Projekt RHINE, Duke University
 1935: Versuch zur Telepathie mit Zener-Karten – Ergebnis statistisch signifikant, aber umstritten”_.
 Solches Hintergrundwissen verankert Psi glaubwürdig in der Geschichte. Gleichzeitig erklärt es,
 warum Psi bislang im Verborgenen blieb: Die Effekte waren zu gering und selten, um im großen Stil
@@ -389,7 +389,7 @@ Meditationstechniken oder leichte Neuro-Implantate, um ihre Konzentration zu st�
 bleibt das ITI neutral: Psi ist weder verpönt noch besonders glorifiziert, es gilt als ein weiteres
 _Werkzeug_, um den Zeitstrom zu verstehen. In Briefings mag es heißen: _„Agentin Y hat eine
 ungewöhnliche intuitive Trefferquote bei Missionsentscheidungen – möglicher Psi-Faktor,
-beobachten.“_ Oder der Codex vermerkt nach einem Abenteuer: _„Artefakt XY zeigte psionische
+beobachten.“_ Oder der Kodex vermerkt nach einem Abenteuer: _„Artefakt XY zeigte psionische
 Resonanz, weitere Forschung empfohlen.“_ Innerhalb des ITI gibt es natürlich auch Skeptiker: Einige
 Wissenschaftler halten Psi für Zufall und jeden Aufwand dafür für Verschwendung. Das führt intern zu
 Diskussionen und verleiht der Organisation eine glaubwürdige Tiefe. Für die Spielercharaktere
@@ -422,7 +422,7 @@ verschiedenem Verhältnis zu paranormalen Kräften:
   möglich, dass der Orden über ein Netzwerk von Sehern verfügt, die in verborgenen Bibliotheken sitzen
   und in Büchern blättern, nur um plötzlich in Trance Inhalte aufzuspüren, die nicht schriftlich dort
   stehen. Allerdings ist der Orden eigenständig – er kooperiert zwar manchmal mit dem ITI (etwa durch
-  Wissensaustausch, der Codex könnte mit ihren Archiven vernetzt sein), verfolgt aber seine eigenen
+  Wissensaustausch, der Kodex könnte mit ihren Archiven vernetzt sein), verfolgt aber seine eigenen
   Ziele. Ein Ordo-Seher könnte z.B. den Spielern eine vage Prophezeiung über ihre nächste Mission
   geben, die diese mit Vorsicht genießen sollten. Der Orden hütet auch Geheimnisse über Psi in der
   Vergangenheit – eventuell besitzen sie Aufzeichnungen über jeden historisch dokumentierten Fall von
@@ -558,7 +558,7 @@ unkontrolliert umher). Bei Präkognition ist der „Fehlschlag“ eher ein **fal
 unvollständiges Bild**: Die Vision tritt ein, aber anders als erwartet, was die Gruppe fehlleitet.
 Wichtig ist, dass das Scheitern von Psi spannend bleibt – es soll Konsequenzen haben, die Geschichte
 aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B. dass starke
-Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Codex
+Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Kodex
 notieren könnte).
 
 **Paradoxon-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
@@ -593,7 +593,7 @@ unmöglich sein oder nur unter Verwendung eines mächtigen Artefakts denkbar sei
 nur Informationen aus der Vergangenheit eines Objekts liefern, nicht aus dessen Zukunft (logisch).
 Und Chronokinese wirkt lokal begrenzt – man kann nicht in Jahr 2025 einen Effekt erzielen, der 1805
 jemanden beeinflussst, zumindest nicht direkt. Diese Limits stellt auch das Ingame-Wissen des ITI so
-dar: Der Codex erläutert, dass Psi-Kräfte an den Zeitfluss gebunden sind und man sie nicht als
+dar: Der Kodex erläutert, dass Psi-Kräfte an den Zeitfluss gebunden sind und man sie nicht als
 Abkürzung fürs Zeitreisen missverstehen darf.
 
 Zusammengefasst sorgen die Spielmechaniken dafür, dass Psi als Fähigkeit **regeltechnisch fair**
@@ -773,7 +773,7 @@ Flug ablenken, einen verwundeten Kameraden durch schiere Willenskraft stabilisie
 immer noch kalkulieren müssen, wann und wie er diese Kräfte einsetzt. Denn Übermut könnte ihn teuer
 zu stehen kommen.
 
-## Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Codex)
+## Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Kodex)
 
 Gerade weil Psi-Phänomene subtil und mysteriös sein sollen, kommt der Darstellung durch die
 Spielleitung (hier: die KI, also GPT in der Rolle des SL) große Bedeutung zu. Einige praktische
@@ -811,23 +811,23 @@ Ein weiteres Beispiel: Bei einem missglückten Psi-Versuch könnte das HUD kurz 
 _“Neuronale Instabilität”_ warnen, gepaart mit einem schrillen Ton – der Charakter spürt dies als
 Kopfschmerz. Die Verzahnung von Psi und Technologie auf diese Art verstärkt das Sci-Fi-Flair.
 
-**Codex-Hinweise und Hintergrundwissen:** Der **Codex** des ITI ist das Ingame-Lexikon, das
+**Kodex-Hinweise und Hintergrundwissen:** Der **Kodex** des ITI ist das Ingame-Lexikon, das
 fortlaufend mit Informationen gefüttert wird. Die KI-Spielleitung kann ihn nutzen, um den Spielern
 auf subtile Weise Wissen über Psi zukommen zu lassen. Zum Beispiel, wenn die Gruppe das erste Mal
-einem echten Telepathen begegnet und misstrauisch ist, könnten sie den Codex befragen: _"Codex,
+einem echten Telepathen begegnet und misstrauisch ist, könnten sie den Kodex befragen: _"Kodex,
 Kategorie Paraphänomene: Berichte von Telepathie."_ Daraufhin könnte die KI einen kurzen, sachlichen
-Eintrag präsentieren, etwa: \*„**_Codex-Eintrag_**: Telepathie – Übertragung von Informationen
+Eintrag präsentieren, etwa: \*„**_Kodex-Eintrag_**: Telepathie – Übertragung von Informationen
 zwischen Gehirnen ohne bekannte physische Vermittlung. Status: unbestätigt. Historische Notizen:
 CIA-Projekt ‚Stargate‘ (1975–95) untersuchte Remote Viewing; statistische Abweichungen festgestellt,
 jedoch keine konsistent verwertbaren Resultate. ITI-intern: Siehe Fallakte \#Psi-7 'Vorfall Roswell-
-Temporal' (Zugriff Eingeschränkt).“_ Solche Codex-Auszüge erfüllen mehrere Zwecke: Sie
+Temporal' (Zugriff Eingeschränkt).“_ Solche Kodex-Auszüge erfüllen mehrere Zwecke: Sie
 **informieren** die Spieler (und erinnern an die Real-World-Basis), sie schaffen Authentizität durch
 Fachjargon und Aktennummern, und sie können Foreshadowing betreiben (z.B. Erwähnung einer Fallakte,
-die später wichtig wird). Die KI sollte Codex-Infos dosiert anbieten – idealerweise ausgelöst durch
+die später wichtig wird). Die KI sollte Kodex-Infos dosiert anbieten – idealerweise ausgelöst durch
 Spielerfragen oder als Reaktion auf Ereignisse. Ein netter Trick ist auch, bei bestimmten
-Ereignissen automatisch einen Codex-Hinweis einzublenden, z.B.: _„(Codex update: Ihre jüngste
+Ereignissen automatisch einen Kodex-Hinweis einzublenden, z.B.: _„(Kodex update: Ihre jüngste
 Erfahrung wurde aufgezeichnet – neues Stichwort ‘Psi-Eruption 1893’ verfügbar.)“\* Wenn Spieler das
-lesen, können sie neugierig im Codex nachschlagen, was es damit auf sich hat, und die SL kann einen
+lesen, können sie neugierig im Kodex nachschlagen, was es damit auf sich hat, und die SL kann einen
 vorbereiteten Infotext liefern (vielleicht ein historischer Bericht über einen spontanen Psi-
 Ausbruch in jener Epoche, der Parallelen zur aktuellen Situation hat). Dies alles trägt zur dichten
 Atmosphäre bei – die Welt fühlt sich lebendig an, es gibt mehr zu entdecken jenseits der
@@ -862,7 +862,7 @@ man manche Psi-Erlebnisse wie kurze Flashbacks oder Flashforwards behandelt. Etw
 Mission, in der viel Psi vorkam, könnte die KI eine _Zusammenfassung_ in Form eines fiktiven
 Dossiers geben: _„Rückblick: Missionslog 27 – ‚Der stumme Flüsteraar‘. (Wir sehen in monochromen
 Bildern, wie Elena im 17. Jh. heimlich per Telepathie mit einer Hexenprozess-Angeklagten
-kommuniziert…)“_ – Solche Nachbereitungen im Codex oder als Erzählerstimme können das Erlebte
+kommuniziert…)“_ – Solche Nachbereitungen im Kodex oder als Erzählerstimme können das Erlebte
 nochmals verstärken.
 
 **Spielerführung und Fairness:** Bei aller Atmosphäre darf die KI die **Regelaspekte** nicht

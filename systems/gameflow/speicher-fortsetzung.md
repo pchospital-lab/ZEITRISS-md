@@ -18,7 +18,7 @@ assert campaign.loc == "HQ", "Speichern nur im HQ. Missionszustände sind flüch
 assert state.sys_used == state.sys and state.stress == 0 and state.psi_heat == 0
 assert not state.get('timer') and not state.get('exfil_active')
 required = ["id","sys","sys_used","stress","psi_heat","cooldowns",
-            "campaign.px","artifact_log","codex","economy",
+            "campaign.px","artifact_log","kodex","economy",
             "logs","ui"]
 assert all(k in state for k in required)
 ```
@@ -40,13 +40,13 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "cooldowns": {},
   "campaign": {"episode": 4, "scene": 0, "px": 0},
   "artifact_log": [],
-  "codex": [],
+  "kodex": [],
   "modes": ["mission", "verbose", "transparenz"]
 }
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `psi_heat`, `cooldowns`,
-  `campaign.px`, `artifact_log`, `codex`, `economy`, `logs` und `ui`.
+  `campaign.px`, `artifact_log`, `kodex`, `economy`, `logs` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `Psi-Heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `psi_heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
@@ -58,7 +58,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Nach `Spiel laden` folgt eine kurze Rückblende; danach HQ oder direkt Briefing, keine Frage nach Einstiegstyp.
 - HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
 - Semver-Toleranz: Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
+- Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
@@ -170,28 +170,28 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 > auf die neuen Namen. Speichern nutzt stets die kanonischen Begriffe.
 
 **Alias-Beispiele (erweiterbar):**
-- "Codex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
+- "Kodex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
 - "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
 
 ### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}
 
 - Kollektive Ansprache im Gruppenmodus („Rückkehrprotokoll für Agententeam …“).
-- Synchronisierungs-Hinweis („Codex synchronisiert Einsatzdaten aller Teammitglieder …“).
+- Synchronisierungs-Hinweis („Kodex synchronisiert Einsatzdaten aller Teammitglieder …“).
 - Kurze Rückblende der letzten Ereignisse aus Sicht der Beteiligten.
 - Individuelle Logbucheinträge sind erlaubt (ein Satz pro Char).
 
-> **Codex-Archiv** – Rückkehrprotokoll aktiviert.
+> **Kodex-Archiv** – Rückkehrprotokoll aktiviert.
 > Synchronisiere Einsatzdaten: **Alex** (Lvl 3), **Mia** (Lvl 2).
 > Letzte Einsätze konsolidiert. Paradoxon-Index: █░░░░ (1/5).
 > Willkommen im HQ. Befehle? (Briefing, Shop, Training, Speichern)
 
 ### Abweichende oder fehlerhafte Stände (In-World-Behandlung)
 
-- Leichte Formatfehler: als Codex-Anomalie melden und in-world nachfragen.
+- Leichte Formatfehler: als Kodex-Anomalie melden und in-world nachfragen.
 - Inkonsistenzen: als Anomalie melden und einen Vorschlag zur Bereinigung anbieten.
 - Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
-- Semver-Mismatch: „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
-- Ambige Saves: „Codex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil* oder *Teamprofil* geladen werden?“
+- Semver-Mismatch: „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
+- Ambige Saves: „Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil* oder *Teamprofil* geladen werden?“
 
 ### Kanonisches DeepSave-Schema (Kurzfassung)
 
@@ -258,23 +258,23 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 - **Trennung von Einzelspieler- und Gruppen-Spielständen:** Klare Definition, wie Einzelcharakter-
   Speicherstände vs. Gruppenspielstände aufgebaut und gehandhabt werden.
 - **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung eines
-  einheitlichen Formats mit allen notwendigen Feldern (Name, Attribute, EP, Talente, Inventar, Codex-
+  einheitlichen Formats mit allen notwendigen Feldern (Name, Attribute, EP, Talente, Inventar, Kodex-
   Wissen etc.), damit der KI-Spielleiter (GPT) die Daten fehlerfrei einlesen kann. Das Format wird
-  **In-World** präsentiert (etwa als Codex-Archiv), sodass die Technik für Spieler unsichtbar bleibt.
+  **In-World** präsentiert (etwa als Kodex-Archiv), sodass die Technik für Spieler unsichtbar bleibt.
 - **Integration des Gruppen-Spielsystems:** Mechaniken zum Import vorhandener Einzelcharaktere in
   eine Gruppe, Export einzelner Gruppenmitglieder sowie nahtloses Hinzufügen oder Entfernen von
   Spielern aus laufenden Gruppen.
 - **Fortsetzungs-Logik für GPT:** Formatregeln sorgen dafür, dass GPT den Speicherblock bei jedem
   Laden sicher erkennt, korrekt interpretiert und die Geschichte konsistent fortsetzt.
 - **Automatische Rückblenden & Anschluss an vorherige Mission:** Ingame-Mechanismen (Logbuch, Déjà-
-  vu, Codex-Archiv) ermöglichen eine kurze Zusammenfassung der letzten Ereignisse – jetzt auch aus
+  vu, Kodex-Archiv) ermöglichen eine kurze Zusammenfassung der letzten Ereignisse – jetzt auch aus
   Sicht aller Gruppenmitglieder – beim Laden eines Spielstands, um den Übergang in die neue Mission
   atmosphärisch zu gestalten.
 - **Umgang mit fehlerhaften Speicherständen:** Richtlinien dafür, wie die KI-Spielleitung auf
   abweichende oder beschädigte Savegames reagieren kann (etwa durch korrigierende Vorschläge oder
   Ingame-Nachfragen) – ohne die Immersion zu brechen.
 - **In-World-Spielleitung:** Die Spielleitung durch GPT bleibt vollständig in der Spielwelt
-  verankert. Sämtliche Erklärungen zum Laden/Speichern erfolgen durch Ingame-Elemente (z.B. den Codex,
+  verankert. Sämtliche Erklärungen zum Laden/Speichern erfolgen durch Ingame-Elemente (z.B. den Kodex,
   NSCs oder ein „Nullzeit-Log“) und nicht als außenstehende Systemkommentare.
 - **Beispiel-Speicherblöcke:** Bereitstellung von kommentierten Beispielen für typische
   Speicherstände (sowohl Solo- als auch Gruppen-Spielstände) im standardisierten Format, die als
@@ -396,7 +396,7 @@ interpretieren kann. Typische Felder eines Speicherstands sind unter anderem:
 - **Charakterprofil:** Besondere Merkmale wie moralische Ausrichtung, Ruf oder Zugehörigkeiten (z.B.
   _„altruistisch“_, Rang im ITI, Beziehungen zu Fraktionen).
 - **Errungenschaften:** Wichtige Erfolge aus vergangenen Missionen.
-- **Codex-Wissen:** Relevantes Wissen, das der Charakter im Codex gespeichert hat – z.B.
+- **Kodex-Wissen:** Relevantes Wissen, das der Charakter im Kodex gespeichert hat – z.B.
   Erkenntnisse aus vergangenen Missionen, enthüllte Geheimnisse, bekannte NPCs oder historische
   Fakten, an die er sich erinnert.
 - **Statistiken (optional):** Dinge wie absolvierte Missionen, gelöste Rätsel, besiegte Gegner usw.,
@@ -427,7 +427,7 @@ _{
   "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
   "Talente": ["Pistolenschütze", "Kryptographie"],
   "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
-  "Codex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
+  "Kodex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
   "Errungenschaften": ["Retter von Aquitanien"]
 _}
 
@@ -436,7 +436,7 @@ Zum Beispiel hat er das Talent _Kryptographie_, besitzt ein Neuro-Link-Implantat
 ein Inventar mit
 
 Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet)
-und im **Codex** stehen Einträge, die an
+und im **Kodex** stehen Einträge, die an
 seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356 etc.). Diese Informationen
 reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
 entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten
@@ -599,7 +599,7 @@ dieser Übergang reibungslos und narrativ sauber abläuft. **Je nach Situation p
   (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie gewohnt: GPT liest die
   Charakterdaten ein und setzt die Geschichte nahtlos mit **diesem einen Chrononauten** fort. Für den
   Spieler fühlt es sich an, als würde er genau dort weitermachen, wo er mit seinem Charakter aufgehört
-  hat. Alle Werte, Inventargegenstände und Codex-Einträge aus dem Save stehen zur Verfügung, und die
+  hat. Alle Werte, Inventargegenstände und Kodex-Einträge aus dem Save stehen zur Verfügung, und die
   neue Mission kann mit dem bekannten Helden beginnen. _(Dieser Ablauf entspricht dem bisherigen
   Fortsetzungsprozess in ZEITRISS.)_
 - **Von Solo zu Gruppe (Charaktere hinzufügen):** Neu ist die Möglichkeit, aus einem laufenden
@@ -709,7 +709,7 @@ niemand wird dupliziert.
 - Erkennt *automatisch* gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
   `character`, `Charaktere`, `team` oder `campaign`).
 - Befehle: `!load`, „Spiel laden“, „Spielstand laden“, „Load“. Ohne JSON → Prompt:
-  `Codex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe). "Fertig" startet den Merge.`
+  `Kodex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe). "Fertig" startet den Merge.`
 
 ### Multi-JSON Collector
 - Akzeptiert mehrere JSON-Blöcke in **einer** oder **mehreren** Nachrichten.
@@ -722,7 +722,7 @@ niemand wird dupliziert.
 
 ### Merge-Regeln (Gruppe)
 - Primärschlüssel: `character.id` → Update statt Duplikat.
-- Fallback: `(name, epoche)` → Kollision: `Codex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
+- Fallback: `(name, epoche)` → Kollision: `Kodex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
 - **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
 - Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
 

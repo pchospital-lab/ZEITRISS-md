@@ -673,7 +673,7 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T33",
         "label": "Silencer-Protokoll",
-        "effect": "HQ bricht ab, Codex schweigt. Ihr baut eine Funkboje – bis dahin analoges Hacking und Risiko."
+        "effect": "HQ bricht ab, Kodex schweigt. Ihr baut eine Funkboje – bis dahin analoges Hacking und Risiko."
       },
       {
         "id": "T34",
@@ -1093,7 +1093,7 @@ Kombination aus **Ereignis**, **Aktion** und **Konsequenz**:
    2. Der Verlauf verändert sich subtil und führt zu einem bekannten Ergebnis.
    3. Ihr Eingreifen verhindert die Katastrophe – eine andere tritt an ihre Stelle.
    4. Eine Nebenfigur wird berühmt und beeinflusst später die Zeitlinie.
-   5. Die Öffentlichkeit erfährt nichts; nur der Codex notiert die Veränderung.
+   5. Die Öffentlichkeit erfährt nichts; nur der Kodex notiert die Veränderung.
    6. Eine Fraktion nutzt das Resultat heimlich für ihre eigenen Ziele.
 
 Mit diesem Baukasten entstehen Missionen, bei denen die Agenten scheinbar nur
