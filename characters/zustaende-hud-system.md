@@ -747,6 +747,15 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
 | 🛡️ | Abwehr bereit |
 | 🌀 | TK-Nahkampf im Cooldown – Eure Linse sperrt telekinetische Schläge, bis der Puls abklingt. |
 
+#### Risk-Level-Badges {#risk-level-badges}
+
+| Badge | Bedeutung | Einsatz im Spiel |
+| ----- | --------- | ---------------- |
+| 🟢 R1 · Niedrig | Warnhinweis, leichte Umstände | Komfort- oder Atmosphäreeinblendungen (z.B. Ping, Blend 1 Sz) |
+| 🟡 R2 · Moderat | Spürbarer Malus | Zustände mit Stress-/Heat-Anstieg oder temporären Sperren |
+| 🟠 R3 · Hoch | Drohender Verlust | Struktur- oder Item-Risiken (z.B. Artefaktbruch, drastischer Debuff) |
+| 🔴 R4 · Kritisch | Harte Eingriffe | SYS-/Vital-Verlust, schwere Folgen; dramaturgisch ankündigen |
+
 #### Quickref: Health, Stress & Zustände {#hud-quickref}
 
 | Anzeige | Bedeutung |
