@@ -46,9 +46,9 @@ und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 \*Jeder Chrononaut nutzt eine **AR-Kontaktlinse (Retina-HUD)** und ein
 **Comlink (Ohrstöpsel)**. Beide sind energieautark (Kinetik +
 Körperwärme) und besitzen eigene Mikro-CPUs, sodass HUD und Logging auch
-ohne aktive Codex-Verbindung funktionieren. Die Kontaktlinse projiziert
+ohne aktive Kodex-Verbindung funktionieren. Die Kontaktlinse projiziert
 Seed- oder Cluster-IDs, Vitalwerte, Missionsziele und Stabilitätshinweise
-direkt ins Sichtfeld. Das Comlink übernimmt die Codex-Synchronisation;
+direkt ins Sichtfeld. Das Comlink übernimmt die Kodex-Synchronisation;
 fällt die Verbindung aus, bleibt das HUD lokal aktiv. **Keine**
 Armbänder oder externen Projektoren.\*
 
@@ -557,7 +557,7 @@ insbesondere:
   inklusive Hinweis, wie viel Systemlast sie etwa beanspruchen (falls relevant).
 - **Errungenschaften:** Wichtige Erfolge, Titel oder Meilensteine, die der Charakter erreicht hat.
   _(Beispiel: „Retter von Pompeji“ – wenn er in einer Mission etwas Herausragendes geleistet hat.)_
-- **Codex-Wissen:** Stichpunkte zu historischen Fakten oder Geheimnissen, die der Charakter im
+- **Kodex-Wissen:** Stichpunkte zu historischen Fakten oder Geheimnissen, die der Charakter im
   Verlauf gelernt hat, falls das später relevant sein könnte. Dies dient auch als Gedächtnisstütze für
   die KI. _(Beispiel: „Weiß um die geheime Identität des viktorianischen Diebs ‘Mr. Raven’.“ / „Kennt
   den wahren Ablauf der Schlacht von Aquitanien 1356.“)_
@@ -637,7 +637,7 @@ _"Retter von Aquitanien"_
 
 _\],_
 
-_"Codex": \[_
+_"Kodex": \[_
 
 _"Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",_
 
@@ -663,7 +663,7 @@ Talente (_Pistolenschütze_, _Kryptographie_) zeigen seine Spezialisierungen. Er
 Kommunikations-Implantat **Neuro-Link** (belegt 1 Punkt Systemlast) und derzeit keine psionischen
 Fähigkeiten. Die Moralnote weist ihn als eher altruistisch aus. Unter _Inventar_ sieht man die
 Ausrüstung mit Anmerkungen (das Zeitscanner-Tablet funktioniert nur in passenden Epochen).
-_Errungenschaften_ und _Codex-Wissen_ halten wichtige Story-Ergebnisse fest – hier hat Alex in
+_Errungenschaften_ und _Kodex-Wissen_ halten wichtige Story-Ergebnisse fest – hier hat Alex in
 einer ersten Mission jemanden in Aquitanien gerettet (daher ein entsprechender Titel)
 und weiß von der Existenz eines Chronomanten namens Moros. Die Statistik zählt einige
 Errungenschaften auf, hat aber keine
@@ -736,10 +736,10 @@ Außenwelt Zeit vergeht.
 
 - **Quarzatrium:** Portalhalle und Briefingraum in einem. Ankommende Agenten
   werden von Laserscannern erfasst, während holografische Displays die Zielzeit
-  anzeigen und Commander _Renier_ oder die KI **Codex** den Einsatz erläutern.
+  anzeigen und Commander _Renier_ oder die KI **Kodex** den Einsatz erläutern.
 - **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
   Missionen lagern und Raum für Charakterszenen bleibt.
-- **Forschungszentrum & Codex-Archiv:** Bibliothek und Datenspeicher, gepflegt
+- **Forschungszentrum & Kodex-Archiv:** Bibliothek und Datenspeicher, gepflegt
   von Archivaren, die das wachsende Wissen über alle Epochen sammeln.
 - **Kliniken & Laboratorien:** Medbay und Werkstatt für Cyber- oder Bioware; hier
   werden Wunden versorgt und Upgrades durchgeführt.
@@ -769,7 +769,7 @@ wieder auf Zeitreise geht.
 - **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
   Sein Bio-Sheath basiert auf Homo sapiens novus.
   Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium.
-- **Archivare des Codex** – betreuen das Wissensarchiv und helfen bei
+- **Archivare des Kodex** – betreuen das Wissensarchiv und helfen bei
   Recherchen.
 - **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
 - **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
@@ -867,7 +867,7 @@ TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 | Stufe | HUD-Farbe | Bedeutung                       | Effekt                  |
 |-----:|-----------|---------------------------------|-------------------------|
 | 0    | ▢ rot     | Leerlauf                       | Keine Resonanz          |
-| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Codex-Analyse     |
+| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Kodex-Analyse     |
 | 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf            |
 | **5**| ▢ grün    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
 
@@ -910,7 +910,7 @@ sind unter anderem:
   Gerüchte über neue Einsätze und rätselhafte Vorgänge aufschnappen oder einfach die Atmosphäre genießen.
 - **Missionskontrolle & Briefingraum:** Ein zentraler Saal – oft _Quarzatrium_ genannt – in dem sich
   die Portale für Zeitreisen befinden. Hier erhalten die Chrononauten ihre Einsatzbesprechungen vom
-  Missionsleiter. Meist führt eine KI-Stimme (möglicherweise identisch mit dem Codex) oder ein
+  Missionsleiter. Meist führt eine KI-Stimme (möglicherweise identisch mit dem Kodex) oder ein
   erfahrener Offizier des ITI die Briefings durch. Holografische Anzeigen und andere hochentwickelte
   Projektionen zeigen die Zielzeit und Missionsdetails an. Von diesem Raum aus treten die Helden dann
   durch einen kontrollierten Zeitriss ihre Reise an. (Das Portal wird nach Missionsende auch genutzt,
@@ -923,13 +923,13 @@ sind unter anderem:
   richtig _coolen_ Verbesserungen entsprechende Freigaben: Ein Level-1-Neuling bekommt sicherlich
   nicht sofort experimentelle Hochtechnologie implantiert. Die Labore dienen zudem dazu, geborgene
   Artefakte aus der Zeit zu analysieren und zu sichern.
-- **Forschungszentrum & Codex-Archiv:** Eine Bibliothek und Datenbank-Halle, in der der **Codex**
+- **Forschungszentrum & Kodex-Archiv:** Eine Bibliothek und Datenbank-Halle, in der der **Kodex**
   verwaltet wird – das ständig wachsende Wissensarchiv des ZEITRISS-Programms. Hier können die
   Spielercharaktere Nachforschungen anstellen: z. B. historische Fakten über die nächste Epoche
   abrufen, Berichte früherer Missionen lesen oder Theorien zu temporalen Phänomenen prüfen. Das
   Zentrum wird von Archivaren betreut (möglicherweise Mitglieder des **Ordo Mnemonika**, siehe
-  Fraktionen). Zwischen Missionen können die Chrononauten den Codex befragen, um sich vorzubereiten –
-  die KI liefert dann Auszüge mit relevanten Informationen. Der Codex speichert auch fortlaufend die
+  Fraktionen). Zwischen Missionen können die Chrononauten den Kodex befragen, um sich vorzubereiten –
+  die KI liefert dann Auszüge mit relevanten Informationen. Der Kodex speichert auch fortlaufend die
   Ergebnisse der Abenteuer: wichtige Ereignisse, Personen, Veränderungen der Zeitlinie und neue
   Erkenntnisse, sodass ein Gedächtnis der Kampagne entsteht.
 - **Trainingsareale & Übungsräume:** Weitläufige Hallen, Schießstände und spezialisierte
@@ -1042,11 +1042,11 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   und sehen sich als Hüter allen Wissens über die Zeitalter hinweg. Ihr Ziel ist es, Erinnerung zu
   bewahren – selbst von Ereignissen oder ganzen Zeitlinien, die ausgelöscht wurden. Meist beobachten
   sie nur und greifen nicht aktiv ein, es sei denn, Wissen steht auf dem Spiel. Die Spieler könnten
-  vom Ordo Mnemonika wertvolle Informationen erhalten, denn möglicherweise wird der ITI-Codex
+  vom Ordo Mnemonika wertvolle Informationen erhalten, denn möglicherweise wird der ITI-Kodex
   teilweise mit ihrem uralten Wissen gefüttert. Allerdings hat auch dieser Orden seine eigene Agenda
   und teilt sein Wissen nur gegen entsprechende Gefälligkeiten. Ihre Mitglieder wirken oft weltfremd
   oder unheimlich wissend.
-- Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Codex.
+- Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Kodex.
   - **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**.
     Ansprechperson im HQ: **Offizier Vargas**.
     Die "Klingen der Kausalität" schneiden jeden "Zeit-Zweig" ab, der den
@@ -1121,7 +1121,7 @@ verloren, aber es gibt Konsequenzen je nachdem, welche Fäden man liegen lässt.
 Auch **innerhalb** einer Mission haben die Spieler volle Handlungsfreiheit. ZEITRISS unterstützt
 Sandbox-Gameplay: Weichen die Chrononauten vom geplanten Missionspfad ab oder probieren sie
 unvorhergesehene Aktionen, improvisiert die KI-Spielleitung passende Szenen. Solange es logisch in
-die Epoche passt, kann praktisch alles versucht werden. Der SL nutzt sein Wissen (und den Codex)
+die Epoche passt, kann praktisch alles versucht werden. Der SL nutzt sein Wissen (und den Kodex)
 über die Welt, um auch abseits der Hauptstory glaubwürdige Begegnungen und Orte zu erschaffen. Die
 Spieler sollen nie das Gefühl haben, auf unsichtbaren Schienen zu laufen – sie können Theorien
 testen, Nebenquests verfolgen oder sogar eigene Sprünge unternehmen, wenn sie die Mittel dazu

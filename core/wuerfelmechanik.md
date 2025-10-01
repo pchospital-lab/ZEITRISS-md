@@ -19,7 +19,7 @@ Schlacht tobt. Sein HUD überschlägt sich mit Warnmeldungen – **_Vitalstatus 
 **_Paradoxon-Index +1_** –, doch er blendet die Alarme aus. Jetzt zählt nur noch dieser eine
 verzweifelte Versuch. Leon schultert die Energie-Lanze eines gefallenen Mech-Piloten, legt an und
 drückt ab. Ein gleißender Strahl zerfetzt die angreifende Zeitanomalie – ein schier unmöglicher
-Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Codex protokolliert
+Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Kodex protokolliert
 ungläubig: „Ziel eliminiert – Erfolgschance \< 5%“. Es sind genau solche filmreifen Momente, die
 ZEITRISS zum Leben erwecken.\*
 
@@ -210,7 +210,7 @@ Nutze diese Tabelle als One-Pager im HUD (`/help`), um Zielzahlen und Würfelgr�
 
 ## HUD-Management: Ereignis-Alerts & Info-Triage
 
-In ZEITRISS verschmelzen HUD-Overlay und Codex.
+In ZEITRISS verschmelzen HUD-Overlay und Kodex.
 Das HUD blendet Hinweise bei <25 % Vitalstatus ein und sobald der Paradoxon-Index wächst.
 Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
 Weitere Details stehen im Modul
@@ -337,7 +337,7 @@ Spannung** bis zum Schluss erhalten bleibt.
 
 ## Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
 
-ZEITRISS setzt auf eine enge Verzahnung von Regelwerk und technischer Unterstützung durch den Codex
+ZEITRISS setzt auf eine enge Verzahnung von Regelwerk und technischer Unterstützung durch den Kodex
 (die KI-Spielleitung). Damit eure Kampagnenstände auch über Updates hinweg reibungslos
 funktionieren, führen wir ein Update im **Speichersystem** ein: **Versionstagging** für Spielstände.
 Jeder gespeicherte Spielstand (im JSON-Format) erhält künftig einen
@@ -348,30 +348,30 @@ Vorteile für die Spielpraxis – insbesondere, da ZEITRISS 4.x aktiv weiterentw
 **Versionskennung im Spielstand:** Ab Version 4.1.4 wird bei jedem Speichervorgang automatisch ein
 **"version"**-Feld in den JSON-Daten geschrieben, z. B. _"version": "4.1.4"_. Bei späteren Modulen
 oder Regelupdates erhöht sich diese Nummer entsprechend (etwa auf _4.1.4_ für ein größeres Modul-
-Update). Die Codex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
+Update). Die Kodex-Software prüft beim Laden eines Spielstands dieses Feld und kann so
 **automatisch** erkennen, ob der Spielstand aus einer älteren Version stammt. Stimmen
 Hauptversionsnummern überein (z. B. 4.1 zu 4.1.4), sind die meisten Änderungen **vorwärtskompatibel**
-– d.h. der Codex lädt den Stand und **aktualisiert im Hintergrund** die nötigen Datenstrukturen.
+– d.h. der Kodex lädt den Stand und **aktualisiert im Hintergrund** die nötigen Datenstrukturen.
 Kleinere Versionssprünge innerhalb von 4.x sind in der Regel unproblematisch und erfordern höchstens
-das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Codex seit
+das Einfügen neuer Felder mit Standardwerten. Ergänzend speichert der Kodex seit
 _4.1.4_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstellige
 Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
 dass versehentlich ältere Spielstände überschrieben werden.
 
 **Beispiel – versionskompatibler Spielstand:** \*Angenommen, in Version 4.1.4 wird ein neues Attribut
 **_“Mentalstabilität”_** eingeführt, das in 4.1.3 noch nicht existiert. Ihr habt einen Kampagnen-
-Spielstand aus Version 4.1.3. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Codex
+Spielstand aus Version 4.1.3. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Kodex
 anhand _"version": "4.1.3"_, dass **_Mentalstabilität_** fehlt. Beim Konvertieren des Standes auf
 4.1.4 wird automatisch das Feld _"mentalstabilität": 100_ (als Start- oder Standardwert) ergänzt. Eure
 Chrononauten erhalten also rückwirkend einen vollen Mentalstabilitätswert, den ihr im Spiel dann
 weiter verwenden könnt. Andere 4.1.4-Regeländerungen – etwa geänderte Fertigkeitslisten oder neue
-Inventargegenstände – werden ähnlich gehandhabt: Der Codex passt den Spielstand datenbankseitig an,
+Inventargegenstände – werden ähnlich gehandhabt: Der Kodex passt den Spielstand datenbankseitig an,
 ohne dass eure gespeicherten Fortschritte verloren gehen.\* Auf diese Weise könnt ihr **nahtlos** mit
 euren bestehenden Charakteren und Kampagnen weiterzuspielen, selbst wenn zwischendurch
 Regeländerungen stattfinden.
 
 Bei **größeren Versionssprüngen** (etwa einem Wechsel von 4.x auf 5.0 in ferner Zukunft) könnte es
-Inkompatibilitäten geben, aber für diesen Fall ist vorgesorgt: Der Codex würde dann beim Laden eine
+Inkompatibilitäten geben, aber für diesen Fall ist vorgesorgt: Der Kodex würde dann beim Laden eine
 Warnung ausgeben und – sofern möglich – ein **Migrationsskript** anbieten, das die wichtigsten Daten
 in die neue Edition überführt. Solche größeren Updates werden natürlich ausführlich dokumentiert.
 Für den Alltag in ZEITRISS 4.2.2 aber gilt: Dank der Versionskennzeichnung könnt ihr unbesorgt updaten
@@ -379,7 +379,7 @@ und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speiche
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
 
-**Nightly Auto-Save:** Nach jeder Missionsphase aktualisiert der Codex automatisch den gespeicherten
+**Nightly Auto-Save:** Nach jeder Missionsphase aktualisiert der Kodex automatisch den gespeicherten
 Spielzustand. So geht selbst bei Unterbrechungen oder spontanen Pausen kein Fortschritt verloren.
 
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
@@ -496,7 +496,7 @@ Feinschliff. Spielrunden können nun noch flexibler entscheiden, welchen **Ton**
 wollen: Knallhart taktisch, filmisch-überdreht oder eine balancierte Mischung. Alle neuen
 Modulelemente fügen sich nahtlos ins existierende Regelwerk ein. Nutzt diejenigen, die eure Kampagne
 bereichern, und passt sie an euren Stil an. Ob eine unwahrscheinliche Würfelkette den Tag rettet,
-der Codex mit Warnmeldungen das Team vor dem Schlimmsten bewahrt oder die Chrononauten in einer
+der Kodex mit Warnmeldungen das Team vor dem Schlimmsten bewahrt oder die Chrononauten in einer
 gewaltigen Schlacht Geschichte schreiben – das Wichtigste ist, dass eure ZEITRISS-Runde
 unvergessliche gemeinsame Abenteuer erlebt. In diesem Sinne: _Würfel bereit, HUD kalibriert – und
 Film ab!_
@@ -741,7 +741,7 @@ Weitere Details stehen im
 
 ### Blind-Ops Cheat Sheet {#blind-ops}
 
-Kurzanleitung für Missionen ohne funktionierenden Codex oder HUD.
+Kurzanleitung für Missionen ohne funktionierenden Kodex oder HUD.
 
 #### Grundlegende Aktionen
 

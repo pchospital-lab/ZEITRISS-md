@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from scripts.lint_hud_codex import warn_pattern, pattern
+from scripts.lint_hud_kodex import warn_pattern, pattern
 
 
 def test_warn_pattern_requires_closing_bracket():

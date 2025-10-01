@@ -46,7 +46,7 @@ tags: [meta]
 - Aktualisierte Beispiele, HUD-Hinweise und Vehicle-Note.
 
 ## 4.1.1
-- Item Tier pass-balance (Scout Communicator jetzt Codex-Relay-Knoten, T2 Perks, heavy gear +1 SYS).
+- Item Tier pass-balance (Scout Communicator jetzt Kodex-Relay-Knoten, T2 Perks, heavy gear +1 SYS).
 - Med-Auto-Kit Preis 200 CU, Nahkampf-Mod Kritbonus +2 DMG.
 - Versionstexte auf 4.1.1 aktualisiert.
 
@@ -103,20 +103,20 @@ tags: [meta]
 - Legendary Artefakt-Pool v3 mit 14 Parawesen-Trophies; Makro `roll_legendary()` und JSON-Lookup.
 - `NextScene` ersetzt manuelle `StartScene`/`EndScene`-Aufrufe,
   ergänzt `Objective`- und `Seed`-Zeilen, Boss- und Artefaktmeldungen
-  sowie `EndMission`-Codex-Logs.
+  sowie `EndMission`-Kodex-Logs.
 
 - Save-Befehl nur noch im HQ; `cmdSave` verhindert Speichern unterwegs.
 - `maintain_cooldowns` räumt Nullwerte auf, HQ-Szenen löschen Rest-Cooldowns
   und setzen `sys_used` zurück.
 - Psi-Kräfte erhöhen `sys_used`; Artefakt-Makros loggen Funde in `artifact_log`
-  und `codex_log_artifact`.
+  und `kodex_log_artifact`.
 - Boss-Generator nutzt bei Rifts die Missionsnummer und meldet Szene 10 klar im HUD.
 
 - Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
 - `signal_space`-Stilfilter eingeführt; StartMission betont physische Umgebung.
 - Missions- und Begegnungstabellen nennen konkrete Geräte statt abstrakter Signale.
-- `Codex-Relay-Knoten` beschreibt Reichweite und Störquellen.
-- Codex-Verbindung zum Nullzeit-HQ-Archiv als reale Funkstrecke klargestellt.
+- `Kodex-Relay-Knoten` beschreibt Reichweite und Störquellen.
+- Kodex-Verbindung zum Nullzeit-HQ-Archiv als reale Funkstrecke klargestellt.
 - `hud_vocab` enthält zusätzliche Noir-Phrasen; Macro `noir_soft()` gibt sie als HUD-Code aus.
 - Neues Macro `TK_Melee()` prüft SR ≥ 2 und erhöht die SG entsprechend.
 - `tech_solution()` triggert `inject_complication()` einmalig nach dem vierten Tech-Schritt.

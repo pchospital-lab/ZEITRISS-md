@@ -39,7 +39,7 @@ Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**:
 Basiswaffe, Werkzeug, **AR-Kontaktlinse (Retina-HUD)** und **Comlink
 (Ohrstöpsel, ≈ 2 km)**. Beide Geräte sind energieautark (Kinetik +
 Körperwärme) und besitzen eigene Mikro-CPUs für lokalen Betrieb, falls der
-Codex-Link ausfällt. Zusätzliche Ausrüstung wird klar über Chrono Units
+Kodex-Link ausfällt. Zusätzliche Ausrüstung wird klar über Chrono Units
 abgerechnet.
 
 > **Historische Kaufkraft‑Faustregel**
@@ -124,7 +124,7 @@ Regelkern beschriebene **EP-Kurve** – pro Stufe werden allmählich mehr
 Erfahrungspunkte benötigt, sodass Level-Ups etwas seltener werden, ohne den
 Fortschritt zu bremsen. Nutze nach jeder Mission das Macro
 `EndMission(closed_seed_ids, cluster_gain, faction_delta)`, um Episode und
-Team-Level automatisch zu erhöhen und den Codex-Log zu erzeugen. Die
+Team-Level automatisch zu erhöhen und den Kodex-Log zu erzeugen. Die
 Spielleitung weist im Debriefing kurz darauf hin, damit die Agenten ihre
 neuen Werte in der folgenden HQ-Phase eintragen können.
 
@@ -219,7 +219,7 @@ nehmen. Hier ein Überblick der **Waren- und Diensteklassen**, die den Chrononau
   Zugriffsrechten.) Doch grundsätzlich gilt: Hat ein Agent genug Chrono Units gespart, kann er seinen
   Körper und Geist aufrüsten, um auf zukünftigen Missionen bessere Chancen zu haben.
 - **Information & Wissen:** Wissen ist im Zeitalter der Zeitreisen eine Ware wie jede andere. Für
-  CUs können die Chrononauten im Codex-Archiv des ITI zusätzliche **Informationen** erkaufen, die über
+  CUs können die Chrononauten im Kodex-Archiv des ITI zusätzliche **Informationen** erkaufen, die über
   das Standard-Briefing hinausgehen. Vielleicht stößt ein Archivar der Gilde _Ordo Mnemonika_ gegen
   eine kleine „Spende“ die Archive auf und fördert einen entscheidenden Hinweis zutage – etwa die
   Eigenheiten des französischen Hofes im 17. Jahrhundert oder geheime Schwachstellen eines KI-
@@ -255,7 +255,7 @@ ITI-Hauptquartier:
 | Taktische Kevlar-Weste | Rüstung (modern) | 120 CUs |
 | Leichtes Cyber-Augenimplantat | Implantat | 300 CUs |
 | Temporaler Riss-Stabilisator (einmalig) | Gadget (High-Tech) | 200 CUs |
-| Detaillierter Epoche-Report (Codex-Archiv) | Information (Spende) | 100 CUs |
+| Detaillierter Epoche-Report (Kodex-Archiv) | Information (Spende) | 100 CUs |
 | Bestechung eines Informanten (Schwarzmarkt) | Information | ~30–100 CUs |
 | Komfort-Upgrade fürs Quartier (Deko/Möbel) | Luxus | 200 CUs |
 
@@ -524,7 +524,7 @@ Regelerklärungen des Spielleiters.
 So kann das Wirtschaftssystem Stück für Stück durch die Geschichte eingeführt werden. Im Prolog
 erläutert z.B. ein Ausbilder, wie man Missionsprämien erhält. Ein alter Hase im HQ könnte den
 Neulingen zuraunen, dass es in der Kantine einen Kollegen gibt, der „besondere Besorgungen“ machen
-kann (ein versteckter Hinweis auf den Graumarkt). Der Codex des ITI steht den Charakteren ebenfalls
+kann (ein versteckter Hinweis auf den Graumarkt). Der Kodex des ITI steht den Charakteren ebenfalls
 offen: Darin finden sie in formalem Ton alle wichtigen Infos über Chrono Units, Umrechnungskurse und
 Beschaffungsrichtlinien – ganz so, als würden sie ein **echtes Handbuch** studieren.
 

@@ -25,7 +25,7 @@ Geräusch- oder Geruchsdetail, bevor die Taktik einsetzt.
 ## Ablauf zu Beginn
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
-Daraufhin gibt Commander Renier oder der Codex ein erstes **Briefing** im Quarzatrium.
+Daraufhin gibt Commander Renier oder der Kodex ein erstes **Briefing** im Quarzatrium.
 Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
@@ -53,10 +53,10 @@ Vitalwerten und temporalen Stabilitätswerten aufleuchten lassen. Ein automatisc
 Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlicht, scannt sie auf
 Anomalien und signalisiert mit einem sanften Ton, dass alle **sicher in der Nullzeit** angekommen
 sind. Ein sanfter Ton erklingt im **Comlink (Ohrstöpsel)**, gleichzeitig fährt die
-**AR-Kontaktlinse** das Overlay hoch: `Willkommen, Agent*in. Codex-Sync aktiv ...`
+**AR-Kontaktlinse** das Overlay hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
 *(Details zur Hardware: siehe [HUD & Comms – Spezifikation](../../characters/zustaende-hud-system.md#hud-comms-spec)).*
 
-Noch bevor sich die Halle öffnet, schiebt der Codex eine dezente Hinweiszeile
+Noch bevor sich die Halle öffnet, schiebt der Kodex eine dezente Hinweiszeile
 ins Sichtfeld:
 
 `Tipp: menü zeigt Optionen und aktive Modi`
@@ -75,12 +75,12 @@ an seinem Hals – ein Historiker aus den 2020ern, der ein **historisches Relikt
 mitgebracht hat. Für einen Moment herrscht gespanntes Schweigen: Hier treffen **Menschen
 verschiedener Epochen** zusammen, vereint im Licht des Zeitportals, zum ersten Mal gemeinsam an
 einem Ort jenseits der Zeit. Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
-Codex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film, voller Bedeutung und
+Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film, voller Bedeutung und
 Erwartung.
 
 Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den hohen Raum:
 _„Willkommen im Herzen des ITI, Agents.“_ Während er spricht, erscheint ein halbtransparentes
-Interface-Display neben ihm – der Codex projiziert Ankunftsdaten und Profile. Renier fährt fort,
+Interface-Display neben ihm – der Kodex projiziert Ankunftsdaten und Profile. Renier fährt fort,
 während sein Blick über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
 **_Nullzeit_**, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren
 anders – genau genommen gar nicht. Egal wie lange wir bleiben, für die Außenwelt vergehen nur
@@ -201,7 +201,7 @@ durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier s
   Gesichtern der Neuankömmlinge vorbei, während der Zeitriss hinter ihnen verblasst – Verblüffung und
   Ehrfurcht in ihren Augen.“_ Solche Formulierungen kann man auch direkt einfließen lassen (man muss
   das Wort Kamera nicht erwähnen, aber bildlich denken). Man könnte sagen: _„Langsam wandert euer
-  Blick die hohen Bücherregale des Codex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo das
+  Blick die hohen Bücherregale des Kodex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo das
   flackernde Licht der Projektoren wie Sternenstaub schwebt…“_ – das entspricht einer aufsteigenden
   Kamerafahrt. Oder: _„Wir sehen in einer Nahaufnahme, wie ein Tropfen Blut von Elias’ Stirn auf das
   Kopfsteinpflaster fällt…“_ – eine dramatische Zuspitzung. Solche Techniken machen eure Beschreibung
@@ -794,7 +794,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
 
 ### Missionsidee 4: **PHANTOM X**
 
-_Hook:_ Ein Codex-Agent verschwindet spurlos. Seine letzte Spur weist ins Jahr
+_Hook:_ Ein Kodex-Agent verschwindet spurlos. Seine letzte Spur weist ins Jahr
 **1566**. Die Chrononauten verfolgen ihn durch einen mehrteiligen Arc und
 lernen so die Grundmechaniken.
 

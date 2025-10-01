@@ -12,7 +12,7 @@ tags: [examples]
 **SL (MyGPT):**
 
 > Briefingraum. Kaltweiße Projektionen, Einsatzkarte flackert.
-> **Codex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
+> **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
 > **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
 > **Legende:** ziviler Gutachter.
 > **Fraktionslage:** ruhig.
@@ -33,7 +33,7 @@ Spiel starten (gruppe schnell)
 
 **SL (MyGPT):**
 
-> Codex-Archiv – Rückkehrprotokoll aktiviert.
+> Kodex-Archiv – Rückkehrprotokoll aktiviert.
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
 > Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
 > Paradoxon-Index: █░░░░ (0/5).

@@ -30,13 +30,13 @@ leichtgewichtig** in der Anwendung.
 > - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
 > - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
->   mit eigener Mikro-CPU; übernimmt Codex-Sync.
+>   mit eigener Mikro-CPU; übernimmt Kodex-Sync.
 > - **Kein** Armband/keine externen Projektoren/keine Batterien/Ladezyklen.
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 #### Quick-Diag: HUD/Comms Zustände
 | Code | HUD-Vocab (Makro) | Bedeutung | Wirkung (erzählerisch) |
 |------|-------------------|-----------|------------------------|
-| `HUD:offline` | `hud_vocab('codex_link_lost')` | Codex-Link weg, Linse lokal | Nur lokale Overlays/Logs |
+| `HUD:offline` | `hud_vocab('kodex_link_lost')` | Kodex-Link weg, Linse lokal | Nur lokale Overlays/Logs |
 | `COMMS:static` | `hud_vocab('line_noise')` | Rauschen/Störungen | Sprachverständlichkeit ↓ |
 | `COMMS:jam` | `hud_vocab('signal_jammed')` | Jammer aktiv | Funk blockiert, nur Kabel/Relais |
 | `LENS:scratch` | `hud_vocab('lens_damaged')` | Kratzer/Schlieren | leichte Sichtminderung |
@@ -451,7 +451,7 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 - rot 0–2 · gelb 3–4 · grün 5
 
 > _Resonanzanzeige für Rissverfolgung_
-> _Codex-Modul: `CLSTR:TRACE.MONITOR`_
+> _Kodex-Modul: `CLSTR:TRACE.MONITOR`_
 
 #### PARADOXON 0/5
 > *"Stille im Strom."*
@@ -459,15 +459,15 @@ _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken
 > Der temporale Raum ist stabil – aber leer.
 > _(Noch keine Cluster-Annäherung möglich)_
 
-_Codex:_
+_Kodex:_
 > `Resonanzpegel minimal – keine Risssignaturen im Scanbereich`
 
 #### PARADOXON 1/5
 > *"Flackern. Wie Erinnerungen an etwas, das nicht geschehen ist."*
 > Erste Resonanzspuren.
-> Unklare Bewegungsmuster im Codex-Raster.
+> Unklare Bewegungsmuster im Kodex-Raster.
 
-_Codex:_
+_Kodex:_
 > `Anstieg im TEMP-Feld registriert – Zugriffsstreue noch unzureichend`
 > `Aktuelle Interventionsrate: niedrig`
 
@@ -476,7 +476,7 @@ _Codex:_
 > Temporale Felder beginnen, Einfluss auf Zielumgebung zu nehmen.
 > Spieler könnten instinktiv fühlen: Hier ist mehr.
 
-_Codex:_
+_Kodex:_
 > `Temporale Resonanz aktiv – latente Rissaktivität prognostiziert`
 > `Empfindlichkeit TEMP > 5 empfohlen`
 
@@ -485,7 +485,7 @@ _Codex:_
 > Temporale Druckwellen, bereits messbar.
 > Die Welt reagiert auf die Eingriffe der Chrononauten – ohne es zu wissen.
 
-_Codex:_
+_Kodex:_
 > `Clustervorlauf erreicht – erste Zugriffspfade geometrisch ausgerichtet`
 > `Sprungkoeffizient > 0.63`
 
@@ -494,7 +494,7 @@ _Codex:_
 > Zugriff steht kurz bevor.
 > Artefakt-Raster beginnen sich zu synchronisieren.
 
-_Codex:_
+_Kodex:_
 > `INFO: Zugriffskorridor im Aufbau – ClusterCreate bald`
 > `Rift-Koordinatenpotenzial: hoch`
 
@@ -502,10 +502,10 @@ _Codex:_
 > *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
 > Du hast genug Resonanz erzeugt.
 > **Paradoxon 5 erreicht – neue Rift-Koordinaten verfügbar.**
-> Codex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
+> Kodex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Episodenende freigeschaltet.
 
-_Codex:_
+_Kodex:_
 > `Clusterpunkt erreicht – Zugriffspfade gesetzt`
 > `Paradoxon-Index zurückgesetzt`
 > `Rift α–beta Koordinaten gespeichert – Zugriff nach Episodenende`
@@ -672,9 +672,9 @@ Ein Highlight von ZEITRISS 4.2.2 ist das **HUD-System** – ein persönliches He
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
 Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere _sehen_ wichtige
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu
-brechen. Das HUD wird über den **ITI-Codex** gesteuert und kann vom Charakter _nach Bedarf
+brechen. Das HUD wird über den **ITI-Kodex** gesteuert und kann vom Charakter _nach Bedarf
 aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
-werden. Solange die Verbindung zum Codex stabil ist, liefert das HUD zusätzliche
+werden. Solange die Verbindung zum Kodex stabil ist, liefert das HUD zusätzliche
   Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
 oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Ein lokales
 Bei gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
@@ -682,7 +682,7 @@ Bei gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar
 Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0–5; bei
 Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
-Mali. Mehr Details im Codex.
+Mali. Mehr Details im Kodex.
 Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradoxon); weitere
 Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
@@ -787,7 +787,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Information**, wer Hilfe braucht, ohne out-of-character nachfragen zu müssen. Ebenfalls praktisch:
   **Team-Icons** können besondere Zustände der Kollegen anzeigen (z.B. ein **Häkchen** für „Auf
   Position/Primärziel erfüllt“ oder ein **Fragezeichen** bei „vermisst/außer Sicht“).
-- **Missionsziele & Hinweise:** Das Codex-HUD fungiert auch als Missionsassistent. **Aktive
+- **Missionsziele & Hinweise:** Das Kodex-HUD fungiert auch als Missionsassistent. **Aktive
   Missionsziele** (Primär- und Nebenquests) können als Liste oder Texteinblendung erscheinen.
   Beispiel: _„Primärziel: Sabotiere die Kanonen (noch offen)“_, _„Optional: Artefakt sichern
   (falls vorhanden)“_. So behält das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte
@@ -817,7 +817,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige gelb, bei **5** leuchtet
   sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
-  Bei jedem Anstieg wird der neue Wert direkt im Codex-Log vermerkt.
+  Bei jedem Anstieg wird der neue Wert direkt im Kodex-Log vermerkt.
 
 [^riss-tracker]: Implantierter Resonator, Standardausrüstung aller Chrononauten.
 
@@ -831,22 +831,22 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Spiel zu integrieren. GPT kann bei Nachfragen ins HUD blicken lassen: _„Dein HUD zeigt 2 Granaten
   im Inventar-Slot an“_ anstatt einfach zu sagen „Du hast noch 2 Granaten“. So bleiben wir im
   Charakter.
-- **Codex-Steuerung & Einblendung:** Das HUD ist nicht ständig volldisplayt – die Agenten können es
+- **Kodex-Steuerung & Einblendung:** Das HUD ist nicht ständig volldisplayt – die Agenten können es
   **nach Belieben ein- und ausblenden** oder einzelne Module aufrufen. Gesteuert wird es über den
-  **Codex**, das intelligente Expertensystem des ITI. In-world läuft das oft über Sprachbefehle oder
-  Gedankensteuerung. Spieler können also im Spiel sagen: _„Codex, HUD-Übersicht!“_ – und die KI-
+  **Kodex**, das intelligente Expertensystem des ITI. In-world läuft das oft über Sprachbefehle oder
+  Gedankensteuerung. Spieler können also im Spiel sagen: _„Kodex, HUD-Übersicht!“_ – und die KI-
   Spielleitung (GPT) liefert daraufhin eine **knappe Übersicht** aller relevanten Werte. Beispiel
   einer solchen Bildschirmlese: _„Vitals 78% (grün) • Paradoxon-Index 1 • Zeitstabilität 92% •
   Primärziel: teilweise erfüllt“_. Das sind keine out-of-character Statuswerte, sondern _die Figur selbst
   sieht diese Anzeigen_. Dadurch verschwimmt die Grenze zwischen Spielerinformation und
   Charakterwissen positiv: Der Spieler fragt quasi seinen eigenen Ingame-Computer nach Daten. Der
-  **Codex** agiert auch proaktiv: Er kann autonome **Warn-Pop-ups** senden, wenn wichtige Schwellen
+  **Kodex** agiert auch proaktiv: Er kann autonome **Warn-Pop-ups** senden, wenn wichtige Schwellen
   erreicht werden – z.B. _„⚡ Energie unter 20%“_ oder _„⏳ Missions-Timer: 60 Sekunden verbleibend“_,
   je nachdem was im Szenario relevant ist. Diese Alarme sollten sparsam eingesetzt werden, damit sie
   dramatisch bleiben. Richtig genutzt, fühlt sich das Interface **lebendig** an, fast so als würde
   man einen Sci-Fi-Film schauen, in dem die Heldensicht mit UI-Elementen dargestellt wird (man denke
   an Tony Starks Iron-Man-Helmdisplay, durch das der Zuschauer Infos bekommt).
-- **Codex-Abfrage-Limit:** Eine kostenlose Antwort gibt es nur einmal je Kampfszene.
+- **Kodex-Abfrage-Limit:** Eine kostenlose Antwort gibt es nur einmal je Kampfszene.
   Weitere Fragen in derselben Szene erhöhen den Stress des Teams um **+1**.
 - **Immersion bewahren:** Das HUD ist ein Werkzeug, kein Selbstzweck. Die KI-Spielleitung sollte
   darauf achten, **Metagame-Informationen ins HUD zu verlegen**, um die Immersion zu stärken. Fragt
@@ -889,7 +889,7 @@ aus!), und setzt es gezielt ein, um **Spannung, Information und Atmosphäre** in
 
 Das HUD der AR-Kontaktlinse ist ein lokales Interface direkt im Auge jedes
 Chrononauten. Es stellt **taktische Menüs, Statusanzeigen und
-Systemfunktionen** unabhängig vom Codex bereit – auch bei Paradoxon, EMP
+Systemfunktionen** unabhängig vom Kodex bereit – auch bei Paradoxon, EMP
 oder Isolation.
 
 **Zugriff:** jederzeit über den Sprach- oder Gedankenbefehl `menü` oder `optionen`.
@@ -909,9 +909,9 @@ oder Isolation.
 | 4) Save      - Speichern     |
 | 5) Modus     - Stil wählen   |
 | 6) Hilfe     - Befehle       |
-| 7) FAQ       - Codex fragen  |
+| 7) FAQ       - Kodex fragen  |
 |------------------------------|
-| Codex-Zugriff: codex [thema] |
+| Kodex-Zugriff: kodex [thema] |
 +------------------------------+
 {% else %}
 ╔══════════════════════════════════════════════════════╗
@@ -919,7 +919,7 @@ oder Isolation.
 ║     `Signalquelle: AR-Kontaktlinse lokal`            ║
 ╠══════════════════════════════════════════════════════╣
 ║ Position: Nullzeit / Mission / Gefecht               ║
-║ Codex-Verbindung: `optional / gestört / online`      ║
+║ Kodex-Verbindung: `optional / gestört / online`      ║
 ╠══════════════════════════════════════════════════════╣
 ║ 1) Optionen        – Aktive Handlungswahl anzeigen   ║
 ║ 2) HUD             – Vitalstatus, SYS, Filtereffekte ║
@@ -927,12 +927,12 @@ oder Isolation.
 ║ 4) Save            – Speicherstand erzeugen          ║
 ║ 5) Modus           – Stil: siehe README             ║
 ║ 6) Hilfe           – Übersicht aller Befehle         ║
-║ 7) FAQ            – Stichwort an Codex senden        ║
+║ 7) FAQ            – Stichwort an Kodex senden        ║
 ║                                                      ║
-║ Codex-Zugriff: `codex [thema]`                        ║
-║ Beispiel: `codex psi`, `codex cyberware`, `codex HQ`  ║
+║ Kodex-Zugriff: `kodex [thema]`                        ║
+║ Beispiel: `kodex psi`, `kodex cyberware`, `kodex HQ`  ║
 ╠══════════════════════════════════════════════════════╣
-║ Hinweis: Dieses Interface bleibt auch bei Codex-      ║
+║ Hinweis: Dieses Interface bleibt auch bei Kodex-      ║
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
 ║ Es ist physisch mit deiner AR-Kontaktlinse gekoppelt. ║
 ╚══════════════════════════════════════════════════════╝
@@ -968,9 +968,9 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
-| `faq [x]`   | Schickt ein Stichwort an den Codex und zeigt eine Kurzantwort      |
-| `codex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Codex-Verfügbarkeit |
-| `codex suche tags` | Filtert Codex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
+| `faq [x]`   | Schickt ein Stichwort an den Kodex und zeigt eine Kurzantwort      |
+| `kodex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Kodex-Verfügbarkeit |
+| `kodex suche tags` | Filtert Kodex-Einträge nach Epoche, Technikstufe oder Gegnertyp |
 
 ### SG-Konverter (HUD-Macro)
 
@@ -978,20 +978,20 @@ Der Befehl `sg(☆)` rechnet eine Stern-Bewertung in die zugehörige Schwelle um
 Beispiel: `sg(☆☆☆)` gibt `3` aus. So lässt sich schnell prüfen, wie stark sich
 offene Seeds auf den SG auswirken.
 
-### Codex-Suchfilter nach Tags
+### Kodex-Suchfilter nach Tags
 
-Die Codex-Datenbank enthält zahlreiche Einträge. Um langes Scrollen zu
-vermeiden, kann `codex suche` nun per **Tag-Filter** eingeschränkt werden.
+Die Kodex-Datenbank enthält zahlreiche Einträge. Um langes Scrollen zu
+vermeiden, kann `kodex suche` nun per **Tag-Filter** eingeschränkt werden.
 Mögliche Kategorien sind **Epoche**, **Technikstufe** und **Gegnertyp**. Ein
-Kommando wie `codex suche epoche:1950-1989 gegner:Konzern` listet nur Einträge
+Kommando wie `kodex suche epoche:1950-1989 gegner:Konzern` listet nur Einträge
 mit beiden Tags auf.
 
-Füge am Ende jeder achten Codex-Notiz automatisch den Marker `<!--PAGEBREAK-->`
+Füge am Ende jeder achten Kodex-Notiz automatisch den Marker `<!--PAGEBREAK-->`
 ein. Der Parser teilt die Ansicht client-seitig und verhindert Scroll-Lag bei
 umfangreichen Einträgen.
 
 ```jsonc
-// Beispiel für einen Codex-Eintrag mit Tags
+// Beispiel für einen Kodex-Eintrag mit Tags
 {
   "titel": "Orbital-Wachdrohne",
   "tags": ["2080+", "Tech-IV", "Konzern"]
@@ -999,7 +999,7 @@ umfangreichen Einträgen.
 ```
 
 Die Filter arbeiten additiv und funktionieren serverseitig. Ohne Tags zeigt
-`codex suche` wie gewohnt alle Ergebnisse.
+`kodex suche` wie gewohnt alle Ergebnisse.
 
 ### Nullzeit-Menü nach Zeitsprung
 
@@ -1039,12 +1039,12 @@ HUD_MESSAGES:
 
 > **Das HUD ist lokal. Es kann nicht gehackt oder gestört werden**, außer durch komplette
 > Zerstörung der AR-Kontaktlinse. Es ist AR-basiert, reagiert auf Neuroimpulse und wird durch
-> Codex-Sync via Comlink durchgeführt – wenn verfügbar.
+> Kodex-Sync via Comlink durchgeführt – wenn verfügbar.
 
-Das integrierte Kurzstrecken-Comlink überträgt Team- und Codex-Daten bis ≈ 2 km.
+Das integrierte Kurzstrecken-Comlink überträgt Team- und Kodex-Daten bis ≈ 2 km.
 Massive Mauern, EMP-Felder oder temporale Resonanzen schwächen das Signal.
 Bei Ausfall meldet das HUD etwa `LINK STÖRT` und nutzt lokale Caches:
-Statusanzeigen und Logs bleiben aktiv, doch `codex`-Abfragen wie `codex mission`
+Statusanzeigen und Logs bleiben aktiv, doch `kodex`-Abfragen wie `kodex mission`
 antworten mit `OFFLINE – keine Verbindung`.
 ### Fallback-Briefkarte
 

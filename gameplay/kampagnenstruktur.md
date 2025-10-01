@@ -94,10 +94,10 @@ episode:
 Eine Episode fasst rund zehn Missionen derselben Epoche
 mit insgesamt etwa 120 bis 140 Szenen zusammen.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
-Bei **Session 0** ruft Codex einmalig `episode_seed_make()` auf. Das Makro zieht zehn
+Bei **Session 0** ruft Kodex einmalig `episode_seed_make()` auf. Das Makro zieht zehn
 Missions-Seeds, legt sie als `campaign.episode_plan` ab und speichert Start- sowie
 Endpunkt in `campaign.episode_start` und `campaign.episode_end`.
-Erst nach Mission 10 offenbart Codex den vollen Zusammenhang.
+Erst nach Mission 10 offenbart Kodex den vollen Zusammenhang.
 
 ### Generatoren im Kampagnenablauf {#generatoren-kampagne}
 
@@ -748,7 +748,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 
 **Arc‑Outcome**
 
-- Erfolg → Griechischer Sieg bleibt, Demokratiepfad stabil, +2 Ruf bei Codex, 600–800 CU Gesamtertrag.
+- Erfolg → Griechischer Sieg bleibt, Demokratiepfad stabil, +2 Ruf bei Kodex, 600–800 CU Gesamtertrag.
 - Scheitern → „Persische Weltordnung“ → ClusterCreate(), Zeitlinie kollabiert, Kampagne‑Reset empfohlen.
 
 ##### Quick-Mission Feuerkette 1410 {#quick-mission-feuerkette-1410}
@@ -915,7 +915,7 @@ möglichen Auflösungen planen. Jede Auflösung führt die Kampagne auf einer et
   Sitzung verzweigen lassen. Wählt gezielt die wichtigsten Punkte aus. Nach einer Verzweigung kann man
   die Handlungsfäden später auch wieder zusammenführen, wenn nötig. Das ZEITRISS-Flair erlaubt es,
   dass die Charaktere vielleicht sogar **Auswirkungen ihrer Alternativ-Entscheidung** erleben – etwa
-  durch Berichte im Codex – ohne tatsächlich beide Wege vollständig ausspielen zu
+  durch Berichte im Kodex – ohne tatsächlich beide Wege vollständig ausspielen zu
   müssen. Dies erhöht das Bewusstsein der Spieler für die Konsequenzen ihres Tuns, ohne die Kampagne
   unübersichtlich zu machen.
 
@@ -983,8 +983,8 @@ HQ:
   Holoprojektoren ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
   Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
   Im Solo-Modus stammen diese Platzhalter aus deiner gewählten Fraktion. In Mehrspielerpartien
-  wählt Codex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
-  **Codex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
+  wählt Kodex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
+  **Kodex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
   neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
   personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet – ein eigener
@@ -998,11 +998,11 @@ HQ:
   Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
   Beschwerden** (z. B. Alterungseffekte durch Zeitsprünge oder Paradoxon-Erkrankungen) hier behandelt
   werden, was dem Team erlaubt, nach riskanten Missionen schneller wieder einsatzbereit zu sein.
-- **Archive & Codex:** Eine umfangreiche Bibliothek bzw. Datenbank, in der Wissen aus allen Epochen
-  gesammelt wird. Im ZEITRISS-Universum könnte dies der **Codex** sein – eine KI-gestützte Sammlung
-  aller bekannten Fakten und Berichte. Durch Ausbau der Archive erhält der Codex mehr Rechenleistung
+- **Archive & Kodex:** Eine umfangreiche Bibliothek bzw. Datenbank, in der Wissen aus allen Epochen
+  gesammelt wird. Im ZEITRISS-Universum könnte dies der **Kodex** sein – eine KI-gestützte Sammlung
+  aller bekannten Fakten und Berichte. Durch Ausbau der Archive erhält der Kodex mehr Rechenleistung
   oder Zugang zu geheimen Datenbanken, was bedeutet, dass die Agenten komplexe historische Rätsel
-  leichter lösen können. Außerdem dient der Codex als Erzählinstrument (siehe unten bei
+  leichter lösen können. Außerdem dient der Kodex als Erzählinstrument (siehe unten bei
   **Zwischensequenzen**). Ein ausgebautes Archiv könnte auch **Story-Boni** geben: z. B. einen Hinweis
   auf die Schwachstelle eines kommenden Gegners oder eine Prophezeiung, die im richtigen Moment
   auftaucht.
@@ -1097,7 +1097,7 @@ wie sich Allianzen und Feindschaften zwischen den Fraktionen gegenseitig beeinfl
 
 Das **Allianzmanagement** wird so zu einem eigenen kleinen Spiel innerhalb der Kampagne. Spieler
 haben das Gefühl, Teil eines größeren Ganzen zu sein, und ihre Taten strahlen über einzelne
-Begegnungen hinaus. Visualisieren kann man den Fraktionsruf etwa mit Diagrammen im Codex oder an
+Begegnungen hinaus. Visualisieren kann man den Fraktionsruf etwa mit Diagrammen im Kodex oder an
 einer Pinnwand im Spielzimmer, sodass alle den Status stets vor Augen haben.
 
 ### Teamdynamik unter Mitagenten
@@ -1187,7 +1187,7 @@ oder logisch ersetzt werden._
 
 #### 2 CORE OPS-Pool (1W12)
 
-| Wurf | Codex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
+| Wurf | Kodex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
 | ---- | -------- | ----------------------- | -------- | -------- | --------- |
 | 1 | **EC-CORE-001** | *Grenzposten 1985*: Soldaten filzen Waggon; Team versteckt Gear. | Stealth / Social | 9 | 0 |
 | 2 | **EC-CORE-002** | *Hochhaus-Abseilroute 2072*: Plattform-Einstieg, Sturm. | Infiltration / Klettern | 11 | 0 |
@@ -1204,7 +1204,7 @@ oder logisch ersetzt werden._
 
 #### 3 RIFT OPS-Pool (1W10)
 
-| Wurf | Codex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
+| Wurf | Kodex-ID | Encounter & Kurzbriefing | Konflikt | Basis-DC | Paradoxon |
 | ---- | -------- | ----------------------- | -------- | -------- | --------- |
 | 1 | **EC-RIFT-001** | *Zeit-Doppel*: Kopie des Teams (5 Min Versatz). | Social / Identity | 11 | +2 wenn ignoriert |
 | 2 | **EC-RIFT-002** | *Schwerkraft-Flimmern*: Lokal 0.7 g, Equipment-Checks erschwert. | Survival | 9 | +1 |
@@ -1219,7 +1219,7 @@ oder logisch ersetzt werden._
 
 #### 4 FIELD DOWNTIME-Pool (1W8)
 
-| Wurf | Codex-ID | Szene | Nutzen | Hinweis |
+| Wurf | Kodex-ID | Szene | Nutzen | Hinweis |
 | ---- | -------- | ----- | ------ | ------- |
 | 1 | **EC-FD-001** | Straßen-Garküche Bangkok 1981 – Gerüchte zum Zielort. | Info-Snack (+1 Kontakt) | Paradoxon 0 |
 | 2 | **EC-FD-002** | Nachtzug-Liegewagen – Journalist im Abteil. | Social-Probe, Stress-Abbau | Risiko → Info-Leak |
@@ -1274,40 +1274,40 @@ seine Sorge um die Tochter – Paradoxon +1.
 Diese Tabelle kann ausgedruckt werden und bietet der SL einen schnellen Überblick.
 Die genauen SG-Werte setzt das System erst zur Laufzeit anhand offener Rifts ein.
 
-### Codex-gesteuerte Story-Zwischensequenzen
+### Kodex-gesteuerte Story-Zwischensequenzen
 
-Ein besonderes Feature im ZEITRISS-Setting ist der **Codex** – eine Art allwissendes Archiv oder KI,
+Ein besonderes Feature im ZEITRISS-Setting ist der **Kodex** – eine Art allwissendes Archiv oder KI,
 das einerseits Fakten speichert, andererseits als **Erzählgerät** fungiert. Das Modul schlägt vor,
-den Codex zu nutzen, um **Story-Zwischensequenzen** einzubauen, die von Beziehungen und
+den Kodex zu nutzen, um **Story-Zwischensequenzen** einzubauen, die von Beziehungen und
 Kampagnenfortschritt getriggert werden. Diese Sequenzen funktionieren wie filmische Cutscenes in
 einem Videospiel oder Serie: Sie unterbrechen kurz das aktive Spielgeschehen, um eine wichtige
 Geschichte oder Charakterentwicklung zu zeigen.
 
-So könnt ihr den Codex gezielt einsetzen:
+So könnt ihr den Kodex gezielt einsetzen:
 
 - **Beziehungs-Meilensteine:** Erreicht ein NSC-Verbündeter oder ein Mitagent einen neuen
-  Vertrauenslevel mit den Spielercharakteren, kann der Codex dies reflektieren. Beispielsweise
-  entdeckt das Team im Codex eine neue persönliche Logbuch-Aufzeichnung der betreffenden Person – der
+  Vertrauenslevel mit den Spielercharakteren, kann der Kodex dies reflektieren. Beispielsweise
+  entdeckt das Team im Kodex eine neue persönliche Logbuch-Aufzeichnung der betreffenden Person – der
   Spielleiter liest oder überreicht diese als Narrative. Darin könnte der NSC seine wahren Gefühle,
   eine tragische Vergangenheit oder Hoffnungen für die Zukunft ausdrücken. Die Spieler erfahren so
   intime Details, die im normalen Dialog vielleicht nie ausgesprochen würden, was die Beziehung auf
   eine neue Ebene hebt.
 - **Fraktions- und Plotenthüllungen:** Nach einem großen Wendepunkt in der Kampagne (z. B. dem Ende
-  eines Arcs oder einer drastischen Zeitlinien-Änderung) kann der Codex eine **Zwischensequenz**
+  eines Arcs oder einer drastischen Zeitlinien-Änderung) kann der Kodex eine **Zwischensequenz**
   aktivieren: Vielleicht simuliert er eine historische Doku, die zeigt, wie die Welt sich durch die
   Taten der Agenten verändert hat. Oder er spielt eine geheime Nachricht ab, die eine Fraktion vor
   langer Zeit hinterlegt hat, um genau in diesem Moment abgespielt zu werden. Diese Momente fühlen
   sich an wie Szenen in einem Film, in denen Hintergrundwissen oder neue Gefahren offenbart werden –
   z. B. eine holografische Aufnahme, in der der Antagonist seinen Plan erläutert (und die Agenten
   heimlich zuhören).
- - **Charaktermomente im Codex:** Der Codex kann auch Erinnerungen oder Holo-Rekonstruktionen von Charakteren
+ - **Charaktermomente im Kodex:** Der Kodex kann auch Erinnerungen oder Holo-Rekonstruktionen von Charakteren
   darstellen. Beispielsweise erlebt ein Agent in einer Zwischensequenz einen Traum oder eine Vision,
-  die eigentlich vom Codex induziert wird – etwa um auf einen bevorstehenden Riss hinzuweisen,
+  die eigentlich vom Kodex induziert wird – etwa um auf einen bevorstehenden Riss hinzuweisen,
   erscheinen Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
   Foreshadowing zu betreiben oder moralische Fragen aufzuwerfen, ohne direkt durch NSCs eingreifen zu
   müssen.
 
-Diese **codex-gesteuerten Szenen** sollten sparsam und gezielt eingesetzt werden, damit sie einen
+Diese **kodex-gesteuerten Szenen** sollten sparsam und gezielt eingesetzt werden, damit sie einen
 Höhepunkt darstellen. Sie können vorbereitete Texte oder improvisierte Beschreibungen sein, je nach
 Spielstil. Wichtig ist, sie **filmisch auszuschmücken**: Beschreibt z. B., wie die Beleuchtung im
 Archiv gedimmt wird, ein Hologramm flackert auf und die Stimmen aus der Vergangenheit ertönen. Die
@@ -1326,7 +1326,7 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
 
 - **Ruf und Ansehen:** Wie beim Fraktionsmanagement beschrieben, sammelt die Gruppe Ruf innerhalb des ITI-Systems.
   Die meisten NSCs erkennen sie nicht wieder.
-  Rufwerte spiegeln, wie Codex und verbuendete Fraktionen die Agenten einschaetzen.
+  Rufwerte spiegeln, wie Kodex und verbuendete Fraktionen die Agenten einschaetzen.
   Hoher Ruf erleichtert interne Ablaeufe; schlechter Ruf erzeugt Misstrauen.
   Dieser Wert wirkt nur in ITI- und Fraktionskreisen – Epochen vergessen ihre Helfer.
 - **Einflusszonen:** Mit der Zeit wird die Gruppe in bestimmten **Regionen oder Zeiten** einen
@@ -1335,7 +1335,7 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   die Gruppe nach einigen Missionen starken Einfluss im London des 19. Jahrhunderts (weil sie dort
   mehrmals agiert haben und Verbündete besitzen) und vielleicht im Marskolonie-Jahr 2125. Andere Ecken
   der Geschichte bleiben dafür graue Flecken, wo sie niemand kennt. Einflusszonen könnte man auf einer
-  Timeline-Karte markieren oder im Codex vermerken. Mechanisch ließe sich ein Vorteil gewähren, wenn
+  Timeline-Karte markieren oder im Kodex vermerken. Mechanisch ließe sich ein Vorteil gewähren, wenn
   Missionen in einer Einflusszone stattfinden (z. B. schnellere Informationsbeschaffung, ein Netzwerk
   von Kontakten, Verstecke im Gebiet). Umgekehrt sind Missionen außerhalb des bekannten Einflusses
   riskanter, da die Agenten dort bei Null anfangen. Die Ausbreitung von Einfluss kann eine stille
@@ -1345,7 +1345,7 @@ erzeugen zusammen ein Gefühl fortschreitender Geschichte.
   **veränderten Geschichtsverläufe** festzuhalten. Das ZEITRISS-Modul empfiehlt, eine **Timeline-
   Chronik** zu führen. Nach jeder größeren Mission sollte die Spielleitung notieren: Was war der
   **ursprüngliche Verlauf** der Geschichte an diesem Punkt, und was ist nun durch die Spieler anders?
-  Diese Chronik kann Teil des Codex sein – die Spieler haben vielleicht sogar Zugriff darauf und
+  Diese Chronik kann Teil des Kodex sein – die Spieler haben vielleicht sogar Zugriff darauf und
   können selbst staunen, wie sehr ihre Handlungen die Welt verändern. Historische Auswirkungen können
   subtil sein (ein gerettetes Leben führt Generationen später zu einer neuen Erfindung) oder drastisch
   (eine verhinderte Schlacht verändert den Ausgang eines Krieges). Das Wichtige: Diese Veränderungen
@@ -1412,7 +1412,7 @@ geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
   humorvolle oder rührende Momente.
 - **Trainings- und Übungsszenen:** Die Trainingshalle und andere Einrichtungen können für
   freiwillige Übungen genutzt werden. Man könnte kleine **Minispiele** einbauen: z. B. ein Wettkampf
-  im Schießstand (würfeln, wer bessere Treffer erzielt), ein Schachspiel gegen den Codex (Rätsel für
+  im Schießstand (würfeln, wer bessere Treffer erzielt), ein Schachspiel gegen den Kodex (Rätsel für
   den Spieler), oder ein gemeinsames Übungsszenario auf einem nachgebauten historischen Schlachtfeld.
   Diese Szenen haben geringes Risiko, geben aber allen Charakteren Gelegenheit, ihre Fähigkeiten zu
   zeigen oder voneinander zu lernen – ideal für Immersion und Teamgeist.
@@ -1454,7 +1454,7 @@ Herzen des Sci-Fi-Abenteuers.
 ## Arena-Modus: PvP-Showdowns
 
 Die **ITI-Arena** bietet mehr als einen schlichten Ring. Vor jedem Match wählt
-**Codex** per Missions-Generator ein kurzes **Szenario** – zum Beispiel eine
+**Kodex** per Missions-Generator ein kurzes **Szenario** – zum Beispiel eine
 Verfolgungsjagd oder die Befreiung einer Geisel. Ein Team versucht, das Ziel
 auszulösen, das andere möchte es verhindern. Gespielt wird direkt die
 entscheidende Showdown-Szene.
@@ -1462,7 +1462,7 @@ entscheidende Showdown-Szene.
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte
    Teamgröße fest.
-2. **Szenario-Setup:** Codex zieht das Arenenszenario aus
+2. **Szenario-Setup:** Kodex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die
    Ausgangslage. Auf Wunsch wählt er eine Kulisse über den
    `#epochen-generator`.
@@ -1470,14 +1470,14 @@ entscheidende Showdown-Szene.
    NSC-Generator (`kreative-generatoren-begegnungen.md#nsc-generator`). Level
    und Ausrüstung orientieren sich am Durchschnitt der Spielenden. Eine
    optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder stärker zu
-   skalieren. Anschließend versetzt Codex beide Gruppen in die Arena.
+   skalieren. Anschließend versetzt Kodex beide Gruppen in die Arena.
 4. **Showdown:** Gespielt wird im **Best-of-Three**-Format. Ein HUD-Overlay zeigt
    Punktestand und Rundenfortschritt. Nach jedem Duell kann eine Revanche
    gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt
    und die Serie verliert, erhält keinen Bonus.
 5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
    Best-of-Three-Serie gewinnt und danach aussteigt, erhält **+1 Px**, sofern die
-   laufende Episode noch keinen Arena-Bonus verbucht hat. Codex markiert den
+   laufende Episode noch keinen Arena-Bonus verbucht hat. Kodex markiert den
    Abschluss mit einem `arena_episode_stamp`. Die Startgebühr fällt bei jedem
    neuen Lauf erneut an.
 
@@ -1498,7 +1498,7 @@ bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
-`arena_episode_stamp` hängt im HQ in der Gatehall aus; sobald Codex es setzt,
+`arena_episode_stamp` hängt im HQ in der Gatehall aus; sobald Kodex es setzt,
 weiß die Gruppe, dass für die laufende Episode kein weiterer Px-Bonus mehr
 wartet.
 
@@ -1516,13 +1516,13 @@ Der Begriff **Revanche** beschreibt das Fortsetzen derselben Serie. Ein
 
 **Balance-Richtlinien:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
 werden automatisch resistiert. Einmalige Artefakte sind im Arena-Modus
-deaktiviert. Codex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
+deaktiviert. Kodex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
 vermeiden. Zusätzlich erzwingt das HUD die Variable `phase_strike_tax = +1 SYS`
 und verpasst allen Teilnehmenden die Kernanzug-Flag `psi_buffer = true`, damit
 Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz behalten.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
-Codex moderiert neutral und stellt keine KI-Gegner.
+Kodex moderiert neutral und stellt keine KI-Gegner.
 
 ## Chronopolis – Endgame-Hub
 

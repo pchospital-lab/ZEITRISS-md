@@ -23,7 +23,7 @@ römischer _Gladius_ neben einem modernen Sturmgewehr; an der Wand hängen mitte
 Seite an Seite mit futuristischen Nano-Anzügen. Der Geruch von geöltem Metall mischt sich mit
 ozonelektrischer Luft von Energiezellen. **Eine dezente HUD-Projektion** flimmert im Augenwinkel der
 Chrononautenbrille und blendet Informationen ein: Munitionszähler, Vitalwerte, Umgebungsanalysen. Im
-Ohr meldet sich die KI-Assistentin – Codex – mit ruhiger Stimme: _„Kalibrierung abgeschlossen. Alle
+Ohr meldet sich die KI-Assistentin – Kodex – mit ruhiger Stimme: _„Kalibrierung abgeschlossen. Alle
 Systeme bereit.“_ Der kommende Einsatz führt das Team vom Mittelalter direkt in eine dystopische
 Zukunft, und ihre Ausrüstung wird entscheiden, ob sie beide Welten heil überstehen.
 
@@ -193,7 +193,7 @@ und persönliche Schutzsysteme:
 #### Psi-Abschirmung der Kernanzüge
 
 Der aktuelle ITI-Kernanzug trägt eine schimmernde Faserlage, die als **Psi-Puffer** fungiert. Sobald
-der Einsatz startet, aktiviert Codex automatisch das Feld – im HUD erscheint das Icon `PFIELD`.
+der Einsatz startet, aktiviert Kodex automatisch das Feld – im HUD erscheint das Icon `PFIELD`.
 Mechanisch bedeutet das **+2 SG** gegen telepathische Angriffe sowie einen neutralisierten
 Phase-Strike-Bonus gegen Nicht-Psioniker (der zusätzliche +1 Schaden fällt weg). Der Puffer ist
 Standard ab Tier‑1-Rüstung, benötigt keine zusätzlichen SYS-Kosten und kann für infiltrative
@@ -259,7 +259,7 @@ Ausrüstungsgegenstände:
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
   _Kosten:_ 50 CU. _(tier: 1)_
-- **Codex-Relay-Knoten:** Mobiler Transceiver, der Reichweiten- oder Jammer-
+- **Kodex-Relay-Knoten:** Mobiler Transceiver, der Reichweiten- oder Jammer-
   Beschränkungen aufhebt. Comlink-Basisreichweite ≈ 2 km; dieses Relais
   zählt bei `comms_check()` als `relays = true` und stabilisiert
   HQ-Kommunikation über reale Funktechnik. Aufbau 1 Runde.
@@ -299,7 +299,7 @@ Paradoxon. Beispiele für taktische Gadgets:
   Sicherheitssystemen der Zukunft. _Effekt:_ gibt +2 auf Hacken/Technik; in den meisten Epochen vor
   dem 21. Jh. praktisch unaufhaltsam, da überlegen. **Remote-Hacks erfordern `comms_check()`:**
   Verbinde das Kit mit einem Terminal, Kabel oder dem Ohr-Comlink (Relais) – ohne reale Hardware
-  blockt der Codex die Aktion. _Kosten:_ 150 CU. _(tier: 1)_
+  blockt der Kodex die Aktion. _Kosten:_ 150 CU. _(tier: 1)_
 - **Drohnen (Aufklärer & Helfer):** Kleine, ferngesteuerte Geräte, z.B. fliegende Mini-Drohnen mit
   Kamera oder rollende Spähdrohnen. Sie können Räume auskundschaften, Karten erstellen oder
   Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). _Effekt:_ Der
@@ -394,7 +394,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 - **Persönliches Zeitterminal (PZT):** Ein tablet- oder Clip-Gerät, das
   quantenverschränkte Kommunikation mit dem ITI in der Nullzeit ermöglicht. Darüber können
   Chrononauten verschlüsselte Nachrichten an die Gegenwart senden, kleine Datenmengen übertragen oder
-  auf das **Codex**-Archiv zugreifen. Beispielsweise lässt sich ein kompakter Epochen-Report abrufen
+  auf das **Kodex**-Archiv zugreifen. Beispielsweise lässt sich ein kompakter Epochen-Report abrufen
   (gegen entsprechende CU-Kosten) oder der Standort eines Teammitglieds tracken, sofern dessen Anzug-
   Signal aktiv ist. _Einschränkung:_ Das PZT funktioniert nur, wenn ein stabiler Zeitriss zur
   Gegenwart besteht (z.B. in Missionsfenstern oder per Relais). _Kosten:_ Offiziell unbezahlbar – wird
@@ -466,7 +466,7 @@ Die folgenden Tabellen liefern schnell einsetzbare Loot-Ideen.
 - **Weniger ist mehr:** Ein einzelnes Spezial-Item genügt oft, um Spannung aufzubauen. Zu viel
   Zeit-Loot verwässert den Reiz des Szenarios.
 
-Würfelt 1W6 (oder lasst Codex eine Zahl generieren), um ein passendes Item zu bestimmen.
+Würfelt 1W6 (oder lasst Kodex eine Zahl generieren), um ein passendes Item zu bestimmen.
 CUs (Chrono Units) geben an, wieviel Wert der Fund besitzt,
 oder was ein ähnliches Objekt im HQ kosten würde.
 Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand auftauchen könnte.

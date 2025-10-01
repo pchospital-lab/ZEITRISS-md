@@ -10,7 +10,7 @@ tags: [gameplay]
 - Fahrzeugsteuerung, Manöver & Verfolgungsjagden
 - Reit- und Flugsequenzen (Tiere & Maschinen)
 - Massenkonflikte & Schlachten
-- KI-Integration: Codex & HUD als taktische Helfer
+- KI-Integration: Kodex & HUD als taktische Helfer
 - Tabellen & Beispielwerte
 
 \*Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
@@ -21,7 +21,7 @@ immersiven_** Modul für ZEITRISS 4.2.2, das vollgepackt ist mit Tempo, Technik 
 Fortbewegungsarten und große Konflikte** – ohne den erzählerischen Fokus zu verlieren. Im Folgenden
 findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **dramatische Reit- und
 Flugsequenzen** sowie **epische Massenschlachten** spielbar zu machen. Zudem zeigen wir, wie die
-**KI-Unterstützung des Codex und HUD** euren Chrononauten taktische Vorteile verschafft. Kurzum:
+**KI-Unterstützung des Kodex und HUD** euren Chrononauten taktische Vorteile verschafft. Kurzum:
 Siehe hierzu auch das Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 **Action wie im Kino**, aber übersichtlich und spielbar am Spieltisch.
@@ -39,7 +39,7 @@ Siehe hierzu auch das Modul
 - **Massenkonflikte & Schlachten:** Strukturierte Regeln, um Gefechte mit ganzen Gruppen, Armeen
   verschiedener Epochen oder Mech-Bataillonen abzubilden, ohne jeden Soldaten einzeln auszuwürfeln.
   Taktische Entscheidungen der Helden beeinflussen dabei den Schlachtausgang.
-- **KI-Integration (Codex & HUD):** Ideen, wie der **Codex**, das KI-Assistenzsystem des ITI, und
+- **KI-Integration (Kodex & HUD):** Ideen, wie der **Kodex**, das KI-Assistenzsystem des ITI, und
   die HUD-Overlays der Agenten für taktische Übersichten, Einsatzsteuerung und Immersion genutzt
   werden können – von Missionsdaten bis zu Paradoxon-Warnungen.
 - **Tabellen und Beispielwerte:** Praktische Übersichten zu Fahrzeugtypen, Konfliktarten und
@@ -421,19 +421,19 @@ B). Am Ende hat Seite A knapp die Nase vorn – die Bastille fällt und die Revo
 hohen Verlusten. Die Helden haben das Blatt gewendet, doch die Straßen Pflastern Leichen. Sie haben
 Geschichte geschrieben – jetzt müssen sie mit den Konsequenzen leben.
 
-## KI-Integration: Codex & HUD als taktische Helfer
+## KI-Integration: Kodex & HUD als taktische Helfer
 
 In der Welt von ZEITRISS sind die Chrononauten nicht allein auf ihre Sinne angewiesen. **Der
-Codex**, ein allgegenwärtiges KI-Expertensystem des ITI, begleitet sie durch jeden Einsatz – und
+Kodex**, ein allgegenwärtiges KI-Expertensystem des ITI, begleitet sie durch jeden Einsatz – und
 liefert via **HUD** (Heads-Up-Display) wertvolle Informationen. Diese KI-Integration verleiht dem
 Spiel eine High-Tech-Komponente, die für Atmosphäre **und** spielerische Vorteile sorgt.
 
 **HUD-Overlay im Einsatz:** Jeder Agent trägt eine Kontaktlinse oder Implantat, das ein dezentes
 **HUD** ins Sichtfeld einblendet. Darüber werden Vitaldaten, Missionsziele, Zeitreise-Parameter und
 Umgebungsscans angezeigt – quasi ein Sci-Fi-Interface mitten in historischen Kulissen. Alle HUD-
-Daten stammen vom **ITI-Codex**, der zentrale Rechner, der Sensoren und Missionsinfos auswertet und
-relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) _„Codex,
-Statusbericht!“_ oder _„Codex, HUD-Übersicht!“_ rufen – die KI liefert dann prompt eine knappe
+Daten stammen vom **ITI-Kodex**, der zentrale Rechner, der Sensoren und Missionsinfos auswertet und
+relevante Updates an die Chrononauten sendet. Die Spieler können jederzeit (in-Game) _„Kodex,
+Statusbericht!“_ oder _„Kodex, HUD-Übersicht!“_ rufen – die KI liefert dann prompt eine knappe
 Zusammenfassung der aktuellen Lage. Beispiel einer solchen Einblendung: _Vitalwerte 78 % (stabil) –
 Px 1 – ZEITRISS-Stabilität 92 % – Primärziel 1/3 erfüllt_. Auch Warnmeldungen erscheinen
 automatisch, wenn kritische Schwellen erreicht werden (z. B. Vital \<25 %, Px ≥ 3, Timer
@@ -451,9 +451,9 @@ dramaturgisch dosiert einzusetzen: Es sollte in spannenden Momenten helfen (z.�
 kurzes Aufleuchten im richtigen Moment – „Warnung: Temporalinstabilität steigt!“ – kann die
 Dringlichkeit einer Lage unterstreichen, ohne vom Wesentlichen abzulenken.
 
-**Codex-Unterstützung & Einsatzsteuerung:** Der Codex selbst ist die KI-Stimme im Hintergrund. Im HQ
+**Kodex-Unterstützung & Einsatzsteuerung:** Der Kodex selbst ist die KI-Stimme im Hintergrund. Im HQ
 führt er durch Briefings; im Feld liefert er Daten und kann begrenzte Analysen durchführen. Er ist
-jedoch **kein Orakel**: Das HUD zeigt nur, was technisch erfassbar ist. Beispiel: Der Codex wird
+jedoch **kein Orakel**: Das HUD zeigt nur, was technisch erfassbar ist. Beispiel: Der Kodex wird
 nicht direkt verraten, ob ein NPC lügt – dafür gibt es keinen Sensor. Hat aber ein Agent einen
 tragbaren Herzschlagdetektor aktiv, könnte das HUD einen erhöhten Puls des Gesprächspartners
 anzeigen, den die Spieler interpretieren müssen.
@@ -477,7 +477,7 @@ rotes Herzsymbol blinkt. Dein HUD markiert den Ausgang in 30 Metern mit einem Pf
 ‚Missionsziel: Entkommen‘. Im Team-Status siehst du Miras Icon auf grün – sie hat es bereits nach
 draußen geschafft.“_. Solche Beschreibungen lassen die Spieler **mitfiebern wie in einem Videospiel
 oder Actionfilm**, wo der Held im Helm-Display die letzte Rettung aufblitzen sieht. Am Ende gilt:
-Der Codex und das HUD sollen unterstützen und die Cinematic-Qualität erhöhen – sie sind Mittel zum
+Der Kodex und das HUD sollen unterstützen und die Cinematic-Qualität erhöhen – sie sind Mittel zum
 Zweck, kein Selbstzweck.
 
 ## Tabellen & Beispielwerte
@@ -526,7 +526,7 @@ Proben im Lärm; Schlachtfeld-Chaos verlangt Orientierung (evtl. Proben, um näc
 erreichen). | | **Große Schlacht** (Tausende Beteiligte) | Historische Feldschlacht (z.B.
 Gettysburg), Belagerung einer Stadt | 5–8 pro Seite | Helden können nur Teilaspekte beeinflussen.
 **Zeitdruck**: Ereignisse überschlagen sich – evtl. Timer für gewisse Aufgaben. Mögliche **Folgen**
-bei Misserfolg gravierender. Codex-HUD kann taktische Übersicht liefern, verringert Orientierungs-
+bei Misserfolg gravierender. Kodex-HUD kann taktische Übersicht liefern, verringert Orientierungs-
 Proben. | | **Epischer Zeitkrieg** (Armeen aus versch. Epochen, \> Zehntausende) |
 „Zeitkrieg“-Szenario: z.B. Römerlegion vs. Zukunfts-Mechs auf kollidierenden Zeitlinien | 8+ pro
 Seite (flexibel) | Chaos der Zeiten erschwert vieles: **Paradoxon-Effekte** möglich (würfelt pro
@@ -605,7 +605,7 @@ So verursacht ein Drohnen- oder Minionschwarm spürbar mehr Schaden.
 reicher. Fahrzeuge jeder Art – ob reitend, rollend oder fliegend – ermöglichen filmreife
 Verfolgungsjagden und dramatische Fluchten. Massenschlachten und Mehrfronten-Konflikte lassen sich
 spannend inszenieren, ohne in Buchhaltung auszuarten, und geben den Spielern das Steuer in die Hand,
-selbst wenn ganze Armeen auf dem Spiel stehen. Der **Codex** und sein **HUD-Overlay** schließlich
+selbst wenn ganze Armeen auf dem Spiel stehen. Der **Kodex** und sein **HUD-Overlay** schließlich
 fügen der Immersion eine futuristische Note hinzu und bieten clevere Wege, Spielinformationen
 stimmungsvoll einzubinden. All diese Werkzeuge bleiben optional und flexibel: Nehmt, was zu eurer
 Runde passt, und variiert nach Belieben. In jedem Fall gilt: **Rule of Cool** und erzählerischer
