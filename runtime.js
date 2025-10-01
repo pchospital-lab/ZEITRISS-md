@@ -1,3 +1,5 @@
+const fs = require('fs');
+const path = require('path');
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
 const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
@@ -22,6 +24,37 @@ const CHRONO_CATALOG = [
   { id: 'skin_sable_parallax', name: 'Era-Skin: Sable-Parallax Cloak', category: 'Era-Skins', price: 240, minRank: 'Specialist', minResearch: 2 }
 ];
 
+const ARENA_BASE_FEE = 250;
+const ARENA_FEE_BRACKETS = [
+  { limit: 1000, rate: 0.01 },
+  { limit: 4000, rate: 0.02 },
+  { limit: Infinity, rate: 0.03 }
+];
+
+const ARENA_TIER_RULES = [
+  { tier: 1, minLevel: 1, maxLevel: 5, artifactLimit: 0, procBudget: 3, loadoutBudget: 5 },
+  { tier: 2, minLevel: 6, maxLevel: 10, artifactLimit: 1, procBudget: 4, loadoutBudget: 6 },
+  { tier: 3, minLevel: 11, maxLevel: Infinity, artifactLimit: 1, procBudget: 5, loadoutBudget: 7 }
+];
+
+const ARENA_PROC_KEYS = ['support', 'tools', 'mods', 'devices', 'gizmos'];
+const ARENA_ARTIFACT_KEYS = ['artifacts', 'artifact', 'legendary', 'trophies'];
+const ARENA_LOADOUT_KEYS = ['primary', 'secondary', 'gear', 'equipment', 'items'];
+const ARENA_SCENARIOS = [
+  'Offene Wüstenruine',
+  'Labyrinth-Bunker',
+  'Dschungel mit dichter Vegetation',
+  'Urbanes Trümmerfeld',
+  'Symmetrische Trainingsarena'
+];
+
+let arenaScenarioSerial = 0;
+
+const RUNTIME_TMP_DIR = path.join(__dirname, '.runtime-cache');
+const SUSPEND_DIR = path.join(RUNTIME_TMP_DIR, 'suspend');
+const SUSPEND_VERSION = 1;
+const SUSPEND_TTL_MS = 24 * 60 * 60 * 1000;
+
 let hudSequence = 0;
 
 const HQ_INTRO_LINES = [
@@ -43,7 +76,27 @@ const state = {
   exfil: null,
   fr_intervention: null,
   scene: { index: 0, foreshadows: 0, total: 12 },
-  comms: { jammed: false, relays: 0, rangeMod: 1.0 }
+  comms: { jammed: false, relays: 0, rangeMod: 1.0 },
+  mission: { id: null, objective: null, clock: {}, timers: [] },
+  flags: { runtime: {} },
+  roll: { open: false },
+  suspend_snapshot: null,
+  arena: {
+    active: false,
+    wins_player: 0,
+    wins_opponent: 0,
+    last_reward_episode: null,
+    tier: 1,
+    proc_budget: 0,
+    artifact_limit: 0,
+    loadout_budget: 0,
+    audit: [],
+    fee: 0,
+    scenario: null,
+    damage_dampener: true,
+    team_size: 1,
+    mode: 'single'
+  }
 };
 
 function ensure_logs(){
@@ -77,6 +130,32 @@ function ensure_character(){
     state.character.cooldowns = {};
   }
   return state.character;
+}
+
+function ensure_team(){
+  state.team ||= {};
+  const team = state.team;
+  team.stress = Number.isFinite(team.stress) ? team.stress : 0;
+  team.psi_heat = Number.isFinite(team.psi_heat) ? team.psi_heat : 0;
+  if (typeof team.status !== 'string'){ team.status = 'ready'; }
+  if (!team.cooldowns || typeof team.cooldowns !== 'object'){ team.cooldowns = {}; }
+  return team;
+}
+
+function ensure_mission(){
+  state.mission ||= {};
+  const mission = state.mission;
+  if (typeof mission.id !== 'string'){ mission.id = mission.id ?? null; }
+  if (typeof mission.objective !== 'string'){ mission.objective = mission.objective ?? null; }
+  if (!mission.clock || typeof mission.clock !== 'object'){ mission.clock = {}; }
+  if (!Array.isArray(mission.timers)){ mission.timers = []; }
+  return mission;
+}
+
+function ensure_runtime_flags(){
+  state.flags ||= {};
+  if (!state.flags.runtime || typeof state.flags.runtime !== 'object'){ state.flags.runtime = {}; }
+  return state.flags.runtime;
 }
 
 function ensure_cooldowns(){
@@ -250,6 +329,21 @@ function ensure_campaign(){
   if (typeof state.campaign.chronopolis_tick_modulo !== 'number'){
     state.campaign.chronopolis_tick_modulo = 3;
   }
+  if (typeof state.campaign.episode !== 'number'){
+    const episode = Number(state.campaign.episode);
+    state.campaign.episode = Number.isFinite(episode) ? episode : 0;
+  }
+  if (typeof state.campaign.scene !== 'number'){
+    const scene = Number(state.campaign.scene);
+    state.campaign.scene = Number.isFinite(scene) ? scene : state.scene?.index ?? 0;
+  }
+  if (typeof state.campaign.phase !== 'string'){
+    state.campaign.phase = state.phase || 'core';
+  }
+  if (typeof state.campaign.id !== 'string' || !state.campaign.id.trim()){
+    const base = state.character?.id || 'campaign';
+    state.campaign.id = String(base).trim() || 'campaign';
+  }
 }
 
 function mission_temp(){
@@ -335,6 +429,8 @@ function reset_mission_state(){
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.start = null;
   hudSequence = 0;
+  state.mission = { id: null, objective: null, clock: {}, timers: [] };
+  ensure_team();
 }
 
 function clamp(n, min, max){
@@ -372,6 +468,26 @@ function ensure_economy(){
   return state.economy;
 }
 
+function ensure_arena(){
+  state.arena ||= {};
+  const arena = state.arena;
+  arena.active = !!arena.active;
+  arena.wins_player = Number.isFinite(arena.wins_player) ? arena.wins_player : 0;
+  arena.wins_opponent = Number.isFinite(arena.wins_opponent) ? arena.wins_opponent : 0;
+  arena.last_reward_episode = arena.last_reward_episode ?? null;
+  arena.tier = Number.isFinite(arena.tier) ? arena.tier : 1;
+  arena.proc_budget = Number.isFinite(arena.proc_budget) ? arena.proc_budget : 0;
+  arena.artifact_limit = Number.isFinite(arena.artifact_limit) ? arena.artifact_limit : 0;
+  arena.loadout_budget = Number.isFinite(arena.loadout_budget) ? arena.loadout_budget : 0;
+  arena.audit = Array.isArray(arena.audit) ? arena.audit : [];
+  arena.fee = Number.isFinite(arena.fee) ? arena.fee : 0;
+  arena.scenario = arena.scenario ?? null;
+  arena.damage_dampener = arena.damage_dampener !== false;
+  arena.team_size = Number.isFinite(arena.team_size) ? arena.team_size : 1;
+  arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
+  return arena;
+}
+
 function ensure_chronopolis(){
   const economy = ensure_economy();
   economy.chronopolis ||= {};
@@ -379,6 +495,544 @@ function ensure_chronopolis(){
   if (!Array.isArray(chrono.stock)) chrono.stock = [];
   if (typeof chrono.reset_serial !== 'number') chrono.reset_serial = 0;
   return chrono;
+}
+
+function ensureSuspendStorage(){
+  fs.mkdirSync(SUSPEND_DIR, { recursive: true });
+  return SUSPEND_DIR;
+}
+
+function majorMinor(version){
+  if (!version) return null;
+  const parts = String(version).split('.');
+  return parts.slice(0, 2).join('.');
+}
+
+function safeCampaignId(){
+  ensure_campaign();
+  const raw = state.campaign?.id || state.character?.id || 'campaign';
+  const normalized = String(raw).toLowerCase().replace(/[^a-z0-9_-]+/g, '-');
+  const trimmed = normalized.replace(/^-+|-+$/g, '').replace(/-+/g, '-');
+  return trimmed || 'campaign';
+}
+
+function suspendFilePath(){
+  const dir = ensureSuspendStorage();
+  const file = `${safeCampaignId()}.json`;
+  return path.join(dir, file);
+}
+
+function sanitizeSnapshotClock(clock){
+  if (!clock || typeof clock !== 'object') return {};
+  return JSON.parse(JSON.stringify(clock));
+}
+
+function sanitizeSnapshotTimers(timers){
+  if (!Array.isArray(timers)) return [];
+  return JSON.parse(JSON.stringify(timers));
+}
+
+function sanitizeSnapshotFlags(flags){
+  if (!flags || typeof flags !== 'object') return {};
+  const out = { ...flags };
+  return out;
+}
+
+function sanitizeSnapshotTeam(team){
+  const base = ensure_team();
+  return {
+    stress: Number.isFinite(team?.stress) ? team.stress : base.stress,
+    psi_heat: Number.isFinite(team?.psi_heat) ? team.psi_heat : base.psi_heat,
+    status: typeof team?.status === 'string' ? team.status : base.status,
+    cooldowns: { ...base.cooldowns, ...(team?.cooldowns || {}) }
+  };
+}
+
+function sanitizeSnapshotExfil(exfil){
+  if (!exfil || typeof exfil !== 'object') return null;
+  return {
+    active: !!exfil.active,
+    armed: !!exfil.armed,
+    sweeps: Number.isFinite(exfil.sweeps) ? exfil.sweeps : 0,
+    stress: Number.isFinite(exfil.stress) ? exfil.stress : 0,
+    ttl_min: Number.isFinite(exfil.ttl_min) ? exfil.ttl_min : 0,
+    ttl_sec: Number.isFinite(exfil.ttl_sec) ? exfil.ttl_sec : 0,
+    anchor: exfil.anchor || null,
+    alt_anchor: exfil.alt_anchor || null
+  };
+}
+
+function suspend_snapshot(){
+  ensure_campaign();
+  ensure_mission();
+  const team = ensure_team();
+  const runtimeFlags = ensure_runtime_flags();
+  if (state.arena?.active){
+    throw new Error('Suspend blockiert während Arena-Lauf.');
+  }
+  if (state.exfil?.active){
+    throw new Error('Suspend blockiert während laufender Exfiltration.');
+  }
+  if (state.roll?.open){
+    throw new Error('Suspend nur zwischen Szenen oder nach einem Wurf-Ergebnis.');
+  }
+  const now = Date.now();
+  const expiresAt = now + SUSPEND_TTL_MS;
+  const file = suspendFilePath();
+  const snapshot = {
+    suspend_version: SUSPEND_VERSION,
+    zr_version: ZR_VERSION,
+    created_at: new Date(now).toISOString(),
+    expires_at: new Date(expiresAt).toISOString(),
+    volatile: true,
+    campaign: {
+      episode: state.campaign.episode,
+      scene: state.scene?.index ?? state.campaign.scene,
+      phase: state.campaign.phase,
+      scene_total: state.scene?.total ?? 12
+    },
+    mission: {
+      id: state.mission?.id ?? null,
+      objective: state.mission?.objective ?? null,
+      clock: sanitizeSnapshotClock(state.mission?.clock),
+      timers: sanitizeSnapshotTimers(state.mission?.timers)
+    },
+    team: sanitizeSnapshotTeam(team),
+    exfil: sanitizeSnapshotExfil(state.exfil),
+    flags: sanitizeSnapshotFlags(runtimeFlags)
+  };
+  ensureSuspendStorage();
+  fs.writeFileSync(file, JSON.stringify(snapshot, null, 2), 'utf8');
+  runtimeFlags.suspend_active = true;
+  state.suspend_snapshot = { created_at: now, expires_at: expiresAt, path: file };
+  hud_toast('Session eingefroren · Ablauf <24h', 'HUD');
+  return 'Suspend-Snapshot aktiv. Nutzt !resume, bevor 24h vergehen.';
+}
+
+function resume_snapshot(){
+  ensure_campaign();
+  ensure_mission();
+  const runtimeFlags = ensure_runtime_flags();
+  const file = suspendFilePath();
+  if (!fs.existsSync(file)){
+    runtimeFlags.suspend_active = false;
+    state.suspend_snapshot = null;
+    throw new Error('Kein Suspend-Snapshot gefunden. Bitte HQ-Save laden.');
+  }
+  const raw = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const now = Date.now();
+  const expiresAt = raw.expires_at ? Date.parse(raw.expires_at) : null;
+  if (expiresAt && Number.isFinite(expiresAt) && now > expiresAt){
+    fs.unlinkSync(file);
+    runtimeFlags.suspend_active = false;
+    state.suspend_snapshot = null;
+    hud_toast('Suspend verworfen · HQ-Save nötig', 'HUD');
+    throw new Error('Suspend-Fenster verstrichen. Bitte HQ-Save laden.');
+  }
+  const snapshotVersion = majorMinor(raw.zr_version);
+  if (snapshotVersion && snapshotVersion !== majorMinor(ZR_VERSION)){
+    throw new Error(`Suspend-Version inkompatibel (${raw.zr_version} ≠ ${ZR_VERSION}).`);
+  }
+  state.campaign.episode = raw.campaign?.episode ?? state.campaign.episode;
+  state.campaign.phase = raw.campaign?.phase ?? state.campaign.phase;
+  const sceneIndex = raw.campaign?.scene ?? state.scene?.index ?? state.campaign.scene;
+  const sceneTotal = raw.campaign?.scene_total ?? state.scene?.total ?? 12;
+  state.campaign.scene = sceneIndex;
+  state.scene = { index: sceneIndex, foreshadows: state.scene?.foreshadows ?? 0, total: sceneTotal };
+  const mission = ensure_mission();
+  if (raw.mission){
+    mission.id = raw.mission.id ?? mission.id ?? null;
+    mission.objective = raw.mission.objective ?? mission.objective ?? null;
+    mission.clock = sanitizeSnapshotClock(raw.mission.clock);
+    mission.timers = sanitizeSnapshotTimers(raw.mission.timers);
+  }
+  if (raw.exfil){
+    state.exfil = sanitizeSnapshotExfil(raw.exfil);
+  }
+  const team = ensure_team();
+  if (raw.team){
+    team.stress = Number.isFinite(raw.team.stress) ? raw.team.stress : team.stress;
+    team.psi_heat = Number.isFinite(raw.team.psi_heat) ? raw.team.psi_heat : team.psi_heat;
+    team.status = typeof raw.team.status === 'string' ? raw.team.status : team.status;
+    team.cooldowns = { ...team.cooldowns, ...(raw.team.cooldowns || {}) };
+  }
+  const mergedFlags = sanitizeSnapshotFlags(raw.flags);
+  Object.assign(runtimeFlags, mergedFlags);
+  runtimeFlags.suspend_active = false;
+  state.suspend_snapshot = null;
+  fs.unlinkSync(file);
+  state.roll = { open: false };
+  const message = `Session fortgesetzt · Szene ${sceneIndex}/${sceneTotal}`;
+  hud_toast(message, 'HUD');
+  return `Suspend-Snapshot geladen. Szene ${sceneIndex}/${sceneTotal}.`;
+}
+
+function resolveSuspendPath(){
+  return suspendFilePath();
+}
+
+function ensureArray(value){
+  if (Array.isArray(value)) return value.filter(item => item !== undefined && item !== null && item !== '');
+  if (value === undefined || value === null || value === '') return [];
+  return [value];
+}
+
+function cloneLoadout(loadout){
+  if (!loadout || typeof loadout !== 'object') return {};
+  return JSON.parse(JSON.stringify(loadout));
+}
+
+function enforceProcBudget(loadout, limit, auditLog, label){
+  if (!Number.isFinite(limit) || limit < 0) return loadout;
+  let remaining = limit;
+  for (const key of ARENA_PROC_KEYS){
+    const items = ensureArray(loadout[key]);
+    if (items.length === 0){
+      loadout[key] = [];
+      continue;
+    }
+    const kept = [];
+    for (const item of items){
+      if (remaining > 0){
+        kept.push(item);
+        remaining -= 1;
+      } else {
+        auditLog.push(`${label}: Proc-Budget erreicht – '${item}' aus ${key} deaktiviert`);
+      }
+    }
+    loadout[key] = kept;
+  }
+  return loadout;
+}
+
+function extractArtifactEntries(loadout){
+  const entries = [];
+  for (const key of ARENA_ARTIFACT_KEYS){
+    const value = loadout[key];
+    if (Array.isArray(value)){
+      value.forEach((entry, index) => {
+        if (entry){
+          entries.push({ key, index, value: entry });
+        }
+      });
+    } else if (value){
+      entries.push({ key, index: null, value });
+    }
+  }
+  for (const key of ARENA_PROC_KEYS){
+    const arr = ensureArray(loadout[key]);
+    arr.forEach((entry, index) => {
+      if (typeof entry === 'string' && /artefakt|artifact/i.test(entry)){
+        entries.push({ key, index, value: entry, derived: true });
+      }
+    });
+  }
+  return entries;
+}
+
+function enforceArtifactLimit(loadout, limit, auditLog, label){
+  if (!Number.isFinite(limit) || limit < 0) limit = 0;
+  const entries = extractArtifactEntries(loadout);
+  let kept = 0;
+  for (const entry of entries){
+    if (kept < limit){
+      kept += 1;
+      continue;
+    }
+    auditLog.push(`${label}: Artefakt-Limit erreicht – '${entry.value}' entfernt`);
+    if (entry.index === null){
+      if (Array.isArray(loadout[entry.key])){
+        loadout[entry.key] = [];
+      } else {
+        loadout[entry.key] = null;
+      }
+    } else if (Array.isArray(loadout[entry.key])){
+      const arr = loadout[entry.key];
+      if (entry.index >= 0 && entry.index < arr.length){
+        arr.splice(entry.index, 1);
+      }
+    }
+  }
+  return loadout;
+}
+
+function enforceLoadoutBudget(loadout, limit, auditLog, label){
+  if (!Number.isFinite(limit) || limit <= 0) return loadout;
+  let remaining = limit;
+  for (const key of ARENA_LOADOUT_KEYS){
+    const items = ensureArray(loadout[key]);
+    if (items.length === 0){
+      loadout[key] = [];
+      continue;
+    }
+    if (items.length <= remaining){
+      loadout[key] = items;
+      remaining -= items.length;
+      continue;
+    }
+    const kept = items.slice(0, remaining);
+    const removed = items.slice(remaining);
+    removed.forEach(item => auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`));
+    loadout[key] = kept;
+    remaining = 0;
+  }
+  return loadout;
+}
+
+function resolveArenaTier(players = []){
+  const highestLevel = players.reduce((lvl, entry) => {
+    const raw = entry?.level ?? entry?.character?.level ?? 1;
+    const level = Number(raw);
+    return Math.max(lvl, Number.isFinite(level) ? level : 1);
+  }, 1);
+  return ARENA_TIER_RULES.find(rule => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel) || ARENA_TIER_RULES[0];
+}
+
+function applyArenaTierPolicy(players, tierRule){
+  const audit = [];
+  const sanitisedPlayers = players.map(entry => {
+    const label = entry?.name || entry?.callsign || 'Agent';
+    const clone = { ...entry };
+    const loadout = cloneLoadout(entry?.loadout);
+    enforceArtifactLimit(loadout, tierRule.artifactLimit, audit, label);
+    enforceProcBudget(loadout, tierRule.procBudget, audit, label);
+    enforceLoadoutBudget(loadout, tierRule.loadoutBudget, audit, label);
+    clone.loadout = loadout;
+    return clone;
+  });
+  return { tierRule, players: sanitisedPlayers, audit };
+}
+
+function nextArenaScenario(){
+  const idx = arenaScenarioSerial % ARENA_SCENARIOS.length;
+  const description = ARENA_SCENARIOS[idx];
+  arenaScenarioSerial = (arenaScenarioSerial + 1) % ARENA_SCENARIOS.length;
+  return { description };
+}
+
+function gatherArenaPlayers(){
+  const character = ensure_character();
+  const players = [];
+  const baseFaction = character.faction || state.team?.faction || 'Projekt Phoenix';
+  players.push({
+    name: character.name || character.callsign || character.id || 'Agent',
+    level: Number.isFinite(character.lvl) ? character.lvl : Number(character.level) || 1,
+    faction: baseFaction,
+    loadout: cloneLoadout(state.loadout || {})
+  });
+  const members = Array.isArray(state.team?.members) ? state.team.members : [];
+  members.forEach((member, index) => {
+    if (!member) return;
+    const lvl = Number(member.lvl ?? member.level ?? character.lvl ?? 1);
+    players.push({
+      name: member.name || member.callsign || `Team-${index + 1}`,
+      level: Number.isFinite(lvl) ? lvl : 1,
+      faction: member.faction || baseFaction,
+      loadout: cloneLoadout(member.loadout || {})
+    });
+  });
+  return players;
+}
+
+function readArenaCurrency(){
+  const economy = ensure_economy();
+  const keys = ['credits', 'cu', 'balance', 'assets'];
+  for (const key of keys){
+    const value = Number(economy[key]);
+    if (Number.isFinite(value)){
+      return { key, value: Math.max(0, value) };
+    }
+  }
+  if (!Number.isFinite(Number(economy.credits))){
+    economy.credits = 0;
+  }
+  return { key: 'credits', value: 0 };
+}
+
+function writeArenaCurrency(key, value){
+  const economy = ensure_economy();
+  economy[key] = value;
+  if (key !== 'credits' && economy.credits === undefined){
+    economy.credits = value;
+  }
+}
+
+function getArenaFee(currency = 0){
+  let remaining = Math.max(0, currency);
+  let fee = ARENA_BASE_FEE;
+  for (const bracket of ARENA_FEE_BRACKETS){
+    if (remaining <= 0) break;
+    const taxable = Math.min(remaining, bracket.limit);
+    fee += taxable * bracket.rate;
+    remaining -= taxable;
+  }
+  return Math.floor(fee);
+}
+
+function arenaStart(options = {}){
+  ensure_campaign();
+  const arena = ensure_arena();
+  if (arena.active){
+    throw new Error('Arena bereits aktiv – beendet zuerst die laufende Serie.');
+  }
+  const { key, value } = readArenaCurrency();
+  const fee = getArenaFee(value);
+  if (value < fee){
+    throw new Error('Arena-Gebühr kann nicht bezahlt werden. Credits prüfen.');
+  }
+  const players = gatherArenaPlayers();
+  const tierRule = resolveArenaTier(players);
+  const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
+  const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
+  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 6) : 1;
+  const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
+  const scenario = nextArenaScenario();
+  writeArenaCurrency(key, value - fee);
+  const currentEpisode = state.campaign?.episode ?? null;
+  arena.active = true;
+  arena.wins_player = 0;
+  arena.wins_opponent = 0;
+  arena.tier = tierRule.tier;
+  arena.proc_budget = tierRule.procBudget;
+  arena.artifact_limit = tierRule.artifactLimit;
+  arena.loadout_budget = tierRule.loadoutBudget;
+  arena.audit = audit;
+  arena.fee = fee;
+  arena.scenario = scenario;
+  arena.damage_dampener = true;
+  arena.team_size = teamSize;
+  arena.mode = mode;
+  arena.policy_players = sanitisedPlayers;
+  arena.started_episode = currentEpisode;
+  ensure_runtime_flags().arena_active = true;
+  state.location = 'ARENA';
+  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
+  const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
+  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  if (audit.length){
+    hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
+  }
+  return `${baseMessage} · ${scenario.description} · ${pxNote}`;
+}
+
+function arenaScore(){
+  const arena = ensure_arena();
+  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === (state.campaign?.episode ?? null);
+  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
+  const scenario = arena.scenario?.description || 'n/a';
+  return `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · Team ${arena.team_size} · ${pxNote} · Szenario ${scenario}`;
+}
+
+function arenaExit(){
+  const arena = ensure_arena();
+  if (!arena.active){
+    return 'Arena ist nicht aktiv.';
+  }
+  const episode = state.campaign?.episode ?? null;
+  let pxGranted = false;
+  if (arena.wins_player >= 2 && arena.wins_player > arena.wins_opponent){
+    if (episode !== null && arena.last_reward_episode !== episode){
+      incrementParadoxon(1);
+      arena.last_reward_episode = episode;
+      pxGranted = true;
+    }
+  }
+  const messageParts = [`Arena Ende · Score ${arena.wins_player}:${arena.wins_opponent}`];
+  if (arena.wins_player < 2 || arena.wins_player <= arena.wins_opponent){
+    messageParts.push('Keine Px-Belohnung (Serie verloren)');
+  } else if (pxGranted){
+    messageParts.push(`Px-Bonus +1 (Episode ${episode ?? 'n/a'})`);
+  } else {
+    messageParts.push('Px-Bonus bereits vergeben');
+  }
+  arena.active = false;
+  arena.wins_player = 0;
+  arena.wins_opponent = 0;
+  arena.proc_budget = 0;
+  arena.artifact_limit = 0;
+  arena.loadout_budget = 0;
+  arena.audit = [];
+  arena.fee = 0;
+  arena.scenario = null;
+  arena.damage_dampener = true;
+  arena.team_size = 1;
+  arena.mode = 'single';
+  delete arena.policy_players;
+  delete arena.started_episode;
+  ensure_runtime_flags().arena_active = false;
+  state.location = 'HQ';
+  const message = messageParts.join(' · ');
+  hud_toast(message, 'ARENA');
+  return message;
+}
+
+function arenaRegisterResult(outcome){
+  const arena = ensure_arena();
+  if (!arena.active){
+    throw new Error('Arena ist nicht aktiv. Nutzt !arena start.');
+  }
+  const normalized = (outcome || '').toString().toLowerCase();
+  if (normalized === 'win' || normalized === 'victory'){
+    arena.wins_player += 1;
+  } else if (['loss', 'lose', 'defeat'].includes(normalized)){
+    arena.wins_opponent += 1;
+  } else {
+    throw new Error('Unbekanntes Arena-Ergebnis. Nutzt win oder loss.');
+  }
+  const status = `Arena-Serie ${arena.wins_player}:${arena.wins_opponent}`;
+  let hint = '';
+  if (arena.wins_player >= 2){
+    hint = 'Serie gewonnen – nutzt !arena exit für den Abschluss.';
+  } else if (arena.wins_opponent >= 2){
+    hint = 'Serie verloren – ihr könnt die Arena mit !arena exit verlassen.';
+  }
+  const message = hint ? `${status} · ${hint}` : status;
+  hud_toast(message, 'ARENA');
+  return message;
+}
+
+function parseArenaStartArgs(tokens){
+  let teamSize;
+  let mode;
+  for (let i = 0; i < tokens.length; i += 1){
+    const token = tokens[i];
+    if (token === 'team' && Number.isFinite(Number(tokens[i + 1]))){
+      teamSize = parseInt(tokens[i + 1], 10);
+      i += 1;
+      continue;
+    }
+    if (token === 'mode' && typeof tokens[i + 1] === 'string'){
+      mode = tokens[i + 1];
+      i += 1;
+    }
+  }
+  return { teamSize, mode };
+}
+
+function handleArenaCommand(cmd){
+  const tokens = cmd.split(/\s+/).map(t => t.trim()).filter(Boolean);
+  const sub = tokens[1] || 'status';
+  if (sub === 'start'){
+    const options = parseArenaStartArgs(tokens.slice(2));
+    return arenaStart(options);
+  }
+  if (sub === 'score' || sub === 'status'){
+    return arenaScore();
+  }
+  if (sub === 'exit' || sub === 'leave'){
+    return arenaExit();
+  }
+  if (sub === 'result' && tokens[2]){
+    return arenaRegisterResult(tokens[2]);
+  }
+  if (sub === 'win'){
+    return arenaRegisterResult('win');
+  }
+  if (sub === 'loss' || sub === 'lose'){
+    return arenaRegisterResult('loss');
+  }
+  return 'Arena-Befehle: !arena start [team <n>] [mode <name>] · !arena result win|loss · !arena score · !arena exit';
 }
 
 function rankIndex(rank){
@@ -566,6 +1220,10 @@ function StartMission(){
   const hudLog = ensure_logs();
   hudLog.length = 0;
   ensure_character();
+  ensure_team();
+  const mission = ensure_mission();
+  mission.clock = mission.clock && typeof mission.clock === 'object' ? mission.clock : {};
+  mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: 12 };
 }
@@ -684,6 +1342,9 @@ function select_state_for_save(s){
 }
 
 function save_deep(s=state){
+  if (s?.arena?.active){
+    throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
+  }
   if (s.location !== 'HQ') throw new Error('Save denied: HQ-only.');
   const c = s.character || {};
   const a = c.attributes || {};
@@ -758,13 +1419,20 @@ function hydrate_state(data){
   state.loadout = data.loadout || {};
   state.economy = data.economy || {};
   state.logs = data.logs || {};
+  state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
+  ensure_runtime_flags();
+  state.roll = { open: false };
+  state.arena = data.arena && typeof data.arena === 'object' ? { ...data.arena } : {};
+  ensure_arena();
   state.ui = {
     gm_style: data.ui?.gm_style || 'verbose',
     intro_seen: !!(data.ui?.intro_seen)
   };
   ensure_ui();
   reset_mission_state();
+  ensure_team();
   ensure_campaign();
+  state.suspend_snapshot = null;
 }
 
 function load_deep(raw){
@@ -832,6 +1500,27 @@ function on_command(command){
     }
     if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
       return 'Kodex: Poste Speicherstand als JSON.';
+    }
+    if (cmd === '!suspend'){
+      try {
+        return suspend_snapshot();
+      } catch (err){
+        return err.message;
+      }
+    }
+    if (cmd === '!resume'){
+      try {
+        return resume_snapshot();
+      } catch (err){
+        return err.message;
+      }
+    }
+    if (cmd.startsWith('!arena')){
+      try {
+        return handleArenaCommand(cmd);
+      } catch (err){
+        return err.message;
+      }
     }
     let m;
     if ((m = cmd.match(/^spiel starten \(solo\)(?:\s+(schnell|fast|klassisch|classic))?/))){
@@ -995,5 +1684,14 @@ module.exports = {
   jam_now,
   launch_mission,
   chronopolisStockReport,
-  chronopolisTickStatus
+  chronopolisTickStatus,
+  suspend_snapshot,
+  resume_snapshot,
+  resolveSuspendPath,
+  getArenaFee,
+  arenaStart,
+  arenaScore,
+  arenaExit,
+  arenaRegisterResult,
+  handleArenaCommand
 };
