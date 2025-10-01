@@ -1,61 +1,118 @@
 ---
 title: "Maintainer-Ops"
-version: 1.0.0
+version: 1.1.0
 tags: [meta]
 ---
 
 # Maintainer-Ops
 
-Dieses Dossier hält euren Ablauf straff. Ihr sorgt dafür, dass alle Plattformen denselben Stand führen, QA-Protokolle lückenlos
-bleiben und Releases ohne Drift live gehen. Der Wissensspeicher umfasst genau den Masterprompt, `README.md`, `master-index.json`
-und 18 Runtime-Module; der Stub `systems/runtime-stub-routing-layer.md` bleibt ausschließlich für Dev-Zwecke lokal.
+Dieses Memo bündelt alle internen Abläufe für den Betrieb von
+**ZEITRISS 4.2.2**. Haltet die Schritte strikt ein, damit QA, Releases und
+Plattform-Listings synchron bleiben.
+
+## Wissensspeicher & Grundsetup
+
+Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
+Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
+
+- `meta/masterprompt_v6.md`
+- `README.md`
+- `master-index.json`
+- Alle 18 Runtime-Module in `core/`, `gameplay/`, `characters/` und `systems/`
+  (ohne `systems/runtime-stub-routing-layer.md`).
+
+Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag gesichert
+werden, um lange Sessions stabil zu halten.
 
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
-1. Legt einen Custom GPT **ZEITRISS [ver. 4.2.2]** an und kopiert `meta/masterprompt_v6.md` in das Masterprompt-Feld.
-2. Ladet `README.md`, `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` sowie `systems/`
-   (ohne `systems/runtime-stub-routing-layer.md`) in den Wissensspeicher. Prüft, ob Titel und Version der YAML-Header sichtbar
-   sind.
-3. Klont den GPT direkt als **Beta**. Spieltests, Webtool-Prüfungen und Feature-Checks laufen ausschließlich dort, bis ihr QA
-   freigebt.
-4. Dokumentiert jede Session in `internal/qa/`. Vermerkt Datum, Plattform, Autoload-Pfade (`Spiel starten ...`), Save/Load-IDs
-   und besondere Antworten.
+1. Einen Custom GPT **ZEITRISS [Ver. 4.2.2]** erstellen.
+2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. „Zeitreise-RPG mit
+   Kodex-HUD, explosiven Würfeln und Solo/Coop-Balancing. Keine echten Daten,
+   mehr Infos auf https://zeitriss.org/“.
+3. `meta/masterprompt_v6.md` vollständig in das Masterprompt-Feld kopieren und
+   speichern.
+4. `README.md`, `master-index.json` sowie alle 18 Runtime-Module (ohne
+   Runtime-Stub) in den Wissensspeicher hochladen.
+5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
+   längere Sessions stabil bleiben.
+6. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.2] beta** nennen.
+7. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Plattform
+   läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
+   QA-Log.
+8. QA und Publishing erst freigeben, wenn die Chat-Historie keine
+   personenbezogenen Daten enthält.
+9. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
+   das Store-Listing aktualisieren.
 
-### Proton LUMO
-1. Öffnet einen verschlüsselten LUMO-Chat, ladet `README.md`, `master-index.json`, alle Module (ohne den Runtime-Stub) und
-   `meta/masterprompt_v6.md` per Upload.
-2. Sendet den Masterprompt zusätzlich als Chatnachricht, damit der Verlauf bei Rejoins vollständig bleibt.
-3. Notiert im QA-Log, welche LUMO-Funktionen aktiv waren (Dateiupload, gespeicherte Nachrichten, Replay, Link-Vorschau).
-4. Verifiziert, dass Tabellen, JSON-Blöcke und Makros unverändert angezeigt werden. Bei Formatverlust erneuter Upload.
+### Proton LUMO (verschlüsselter Chat)
+1. Die LUMO-App starten und einen neuen Chat öffnen.
+2. `meta/masterprompt_v6.md`, `README.md`, `master-index.json` und alle
+   Runtime-Module (ohne Runtime-Stub) über die Büroklammer hochladen.
+3. Optional alle Dateien in den Wissensspeicher übernehmen.
+4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
+   Beginn fixiert ist.
+5. Im QA-Log vermerken, welche LUMO-Funktionen (Dateiupload, Replay,
+   Gerätewechsel) genutzt wurden und ob Markdown/JSON unverändert bleiben.
 
-### Ollama + OpenWebUI
-1. Installiert das gewünschte Modell in Ollama und verbindet OpenWebUI mit `http://localhost`.
-2. Importiert `meta/masterprompt_v6.md`, `README.md`, `master-index.json` und sämtliche Module außer dem Runtime-Stub manuell.
-   Nutzt dafür entweder den Dokumenten-Upload oder fügt Inhalte direkt in die Wissensbibliothek.
-3. Spielt den Acceptance-Smoke-Test offline durch. Webtools bleiben deaktiviert, bis eine geprüfte Integration zur Verfügung
-   steht.
-4. Haltet lokale Anpassungen im QA-Log fest. Spiegelt Änderungen zurück nach MyGPT und LUMO, sobald ihr sie verifiziert habt.
+### Lokaler Betrieb (Ollama + OpenWebUI)
+1. Ollama mit dem gewünschten Modell installieren und OpenWebUI lokal
+   verbinden.
+2. Masterprompt, README, Master-Index und alle Runtime-Module importieren
+   (Upload oder Wissensbibliothek).
+3. Acceptance-Smoke-Test offline durchspielen. Webtools stehen nicht zur
+   Verfügung; optionale Integrationen vermerken.
+4. Lokale Anpassungen im QA-Log festhalten und nach Freigabe auf MyGPT und
+   LUMO spiegeln.
 
-## QA-Loop & Save/Load
-- Plant drei komplette Durchläufe im MyGPT-Beta, einen in LUMO und einen lokal. Jede Session endet mit einem Save/Load-Test.
-- Speichert die `saveGame({...})`-Blöcke in sicheren Notizen. Beim Reimport postet ihr den JSON-Block unverändert in den Chat.
-- Checkt Accessibility-Dialoge (HUD-Erklärungen, Sofa-Modus, Offline-Hinweise) und notiert Auffälligkeiten im QA-Log.
-- Nutzt [docs/acceptance-smoke.md](docs/acceptance-smoke.md) als Checkliste, ergänzt aber Plattform-spezifische Beobachtungen.
+## QA-Loop & Speicherstände
+1. Mindestens drei komplette Durchläufe im MyGPT-Beta sowie je einen auf LUMO
+   und lokal einplanen.
+2. In jeder Session Save/Load prüfen: `saveGame({...})` ausgeben lassen, lokal
+   sichern, neuen Chat öffnen und den Reimport testen.
+3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
+   HQ-Briefing-Schleifen abgleichen.
+4. Ergebnisse, Auffälligkeiten und Save/Load-Belege im QA-Log unter
+   `docs/ZEITRISS-qa-audit-2025.md` oder einem neuen Eintrag in `docs/`
+   dokumentieren.
+5. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
+   Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
+   Repo; dokumentiert lokale Befunde zusätzlich.
+6. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
+   Artefakt-Upload scheitert, Job erneut anstoßen. Der Fehler entsteht beim
+   Finalisieren des Uploads und erfordert inhaltlich keine Anpassung am Repo.
+
+## Systemgrenzen (Reminder)
+- KI-Spielleitung kann keine Dateien schreiben oder Repos verändern;
+  Speicherstände nur via Copy & Paste.
+- Save-Funktionen laufen ausschließlich über das HQ. Missionen lassen sich
+  abbrechen, aber nicht zwischen-speichern.
+- MyGPT und LUMO laufen online, besitzen jedoch keinen Webzugang als Tool.
+  LUMO bietet Ende-zu-Ende-Verschlüsselung; Ollama/OpenWebUI bleiben vollständig
+  offline und ohne Webtools.
+- DSGVO-konforme Chats sicherstellen: keine realen personenbezogenen Daten
+  posten, keine unverschlüsselten Log-Transkripte.
 
 ## Release-Checkliste
-- Versionierung folgt **MAJOR.MINOR.PATCH**. Aktualisiert `CHANGELOG.md`, `README.md` und `master-index.json` synchron.
-- Prüft rechtliche Hinweise (`docs/trademark.md`, `LICENSE`) sowie Marken- und DPMA-Hinweise im README.
-- Führt `make lint`, `make test` und `scripts/smoke.sh` aus. Ergebnisse wandern in den QA-Eintrag der jeweiligen Plattform.
-- Gebt die Store- oder Listing-Updates erst frei, wenn alle Plattformen auf denselben Stand synchronisiert sind.
-- Kontrolliert vor Freigabe, dass genau 18 Runtime-Module plus `master-index.json` auf jeder Plattform liegen – ohne den
+- Versionierung nach **MAJOR.MINOR.PATCH**. `CHANGELOG.md`, `README.md`,
+  `master-index.json` und Store-Listing synchron aktualisieren.
+- Rechtliche Hinweise prüfen (`docs/trademark.md`, `LICENSE`,
+  Markenverweise im README).
+- `make lint`, `make test` und `scripts/smoke.sh` ausführen; Ergebnisse im
+  QA-Log vermerken.
+- Vor Freigabe sicherstellen, dass auf jeder Plattform exakt 18
+  Runtime-Module plus `master-index.json` und Masterprompt vorliegen – ohne den
   Runtime-Stub.
+- Erst release, wenn Beta-GPT, LUMO und Ollama denselben Wissensstand führen
+  und QA grün meldet. Übergib QA-Berichte an Codex, damit daraus eine
+  abarbeitbare Liste entsteht.
 
-## Systemgrenzen
-- Die KI-Spielleitung kann keine Dateien schreiben, Repos ändern oder externe APIs aufrufen. Alle Speicherstände entstehen durch
-  Copy & Paste.
-- Save-Funktionen sind auf das HQ beschränkt. Missionen lassen sich abbrechen, aber nicht zwischenspeichern.
-- Webtools stehen nur im MyGPT-Beta zur Verfügung. LUMO arbeitet offline, Ollama bleibt lokal und verzichtet auf Webzugriffe.
-- Achtet auf DSGVO-konforme Chats: keine echten personenbezogenen Daten posten, keine unverschlüsselten Log-Transkripte.
+## Beta-GPT-Workflow
 
-Bleibt wachsam: Jede Anomalie dokumentiert ihr im QA-Log, jede Freigabe folgt erst nach erfolgreichem Sync aller Plattformen.
+1. Beta-GPT vollständig mit Masterprompt, Wissensspeicher und allen Modulen
+   bestücken.
+2. Testauftrag aus `docs/tester-playtest-briefing.md` in den Chat kopieren und
+   den GPT den Durchlauf selbst ausführen lassen.
+3. Antwort in Codex übertragen, daraus eine QA-Notiz erstellen und die
+   identifizierten Punkte strukturiert abarbeiten.
