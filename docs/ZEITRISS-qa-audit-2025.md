@@ -123,7 +123,8 @@ Hochstufen-Spielrunden.
     sofortigen Reset; ein konfigurierbarer Drei-Missions-Takt hält die Stadt
     lebendig.
 29. **Gefährdungs-Skala vereinheitlichen.** Einheitliche Risk-Level-Icons.
-    Status: *offen*.
+    Status: *erledigt* – Toolkit formatiert `R1–R4` automatisch als HUD-Badges,
+    Artefakt-Pool & HUD-Dokumentation spiegeln die neue Skala.
 30. **Würfel-Benchmarks bündeln.** One-Pager für SG/Exploding-Optionen unter
     `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und
     Exploding-Ansagen filmisch auf einer Zeile zusammen.
