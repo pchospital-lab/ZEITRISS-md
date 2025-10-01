@@ -34,7 +34,9 @@ flowchart TD
 ## API / Makros
 ### `DelayConflict(threshold=4, allow=[])`
 Verzögert Konfliktszenen bis zur angegebenen Szene. Optional erlaubt eine
-Liste `allow` frühe Überfälle wie `ambush` oder `vehicle_chase`.
+Liste `allow` frühe Überfälle wie `ambush` oder `vehicle_chase`. Missions-Tags
+`heist` oder `street` senken das Limit automatisch um je eine Szene (Minimum:
+Szene 2).
 
 ### `comms_check(device, range)`
 Prüft Gerät und Reichweite. Wird durch `must_comms(opts)` ergänzt.
