@@ -9,7 +9,7 @@ import re
 from scripts.lib_repo import repo_root, read_text
 
 pattern = re.compile(
-    r"(?<!\\)\[(HUD|INFO|TIP|TIPP|Paradoxon|PX|PRESSURE|ALERT|Codex)\s*:[^\]]*\]"
+    r"(?<!\\)\[(HUD|INFO|TIP|TIPP|Paradoxon|PX|PRESSURE|ALERT|Kodex)\s*:[^\]]*\]"
 )
 warn_pattern = re.compile(
     r"(?<!\\)\[[A-Z][A-Za-z0-9_-]{1,12}\s*:[^\]]*\]"

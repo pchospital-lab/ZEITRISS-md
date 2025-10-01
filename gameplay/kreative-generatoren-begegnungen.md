@@ -369,7 +369,7 @@ liegen, mischt die SL den Stapel zurück.
 | 29 | Politischer Abgrund: lokale Fraktion plant Putsch während der Mission. | 2 | groß |
 | 30 | Rücksprung löst Resonanz aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
 | 31 | Vertrauter NSC gerät unter Einfluss temporaler Schatten. | 2 | mittel |
-| 32 | Codex-Datenbank zeigt plötzlich kritische Lücken. | 1 | klein |
+| 32 | Kodex-Datenbank zeigt plötzlich kritische Lücken. | 1 | klein |
 | 33 | Zielperson entpuppt sich als Zeitspringer. | 2 | mittel |
 | 34 | Rivalenteam bietet Hilfe gegen Anteil am Fund. | 1 | mittel |
 | 35 | Eine alte Prophezeiung beschreibt exakt diesen Einsatz. | 2 | groß |
@@ -429,7 +429,7 @@ Macro `rand_event()`.
 
 | W6 | Zwischenfall |
 | -- | ------------------------------------------- |
-| 1 | **Funkstörung** – Für 1 Szene kein Team- oder Codexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
+| 1 | **Funkstörung** – Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
 | 2 | **Technik-Glitch** – Gadget spinnt, z. B. leeres Scanfenster. *Per Freihandlung behebar.* |
 | 3 | **Wetter kippt** – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, "Heimlichkeit" +1. |
 | 4 | **Zivilkontakt** – Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
@@ -440,7 +440,7 @@ Macro `rand_event()`.
 <!-- Macro: rand_event -->
 {% macro rand_event() -%}
 {% set t = [
-"Funkstörung – Für 1 Szene kein Team- oder Codexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich.",
+"Funkstörung – Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich.",
 "Technik-Glitch – Ein Gadget reagiert verzögert oder falsch. Scanner zeigt leeren Raum, Zielhilfe zuckt.",
 "Wetter kippt – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, Heimlichkeit +1.",
 "Zivilkontakt – Unbeteiligter kommt ins Bild. Klärt sich nicht sofort.",
@@ -866,7 +866,7 @@ Para-Kreaturen können zusätzliche Artefakte hinterlassen:
 {% set artifact = generate_para_artifact(current_creature) %}
 ```
 
-### JSON-Lookup (Codex-HUD)
+### JSON-Lookup (Kodex-HUD)
 
 ```json
 {

@@ -43,7 +43,7 @@ dein rekonstruiertes Bewusstsein in diesen Körper.
 10. Erste Mission planen
 
 - GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
-  Dabei schlüpft er in die Rolle des ITI-Codex, der über das HUD um Hilfe gebeten werden
+  Dabei schlüpft er in die Rolle des ITI-Kodex, der über das HUD um Hilfe gebeten werden
   kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 
 ### Humane Abstufungen
@@ -70,7 +70,7 @@ Frühmoderne Genlinie mit gezielter Hirnoptimierung.
 | SYS | −1 |
 
 - Widersteht einfachen Psi‑Tricks (SG −1).
-- Zugriff auf besondere Codex‑Kommandos (nach Freigabe).
+- Zugriff auf besondere Kodex‑Kommandos (nach Freigabe).
 - Körperliche Extrembelastung steigert Stress schneller (+1 bei STR‑Proben).
 - Kompakte Bio-Hülle verringert die verfügbare Systemlast.
 
@@ -158,7 +158,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 
 **Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in fünf grundlegenden Schritten.
 Von der ersten Konzeptidee bis zur ausgerüsteten Spielfigur im HQ begleitet dich die KI-Spielleitung
-auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Codex/Quartiermeisters auftretend
+auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Kodex/Quartiermeisters auftretend
 die nötigen Informationen abfragt und dir Optionen bietet. Nachfolgend die einzelnen Schritte im
 Detail:
 
@@ -190,7 +190,7 @@ freigeschaltet.
     Affinität) und **SYS** (Systemkapazität für Implantate). Du startest mit einem Budget von
     **18 Attributspunkten** (6×3). Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
     Jede Absenkung unter 3 setzt exakt einen Punkt frei; jede Steigerung verbraucht einen Punkt.
-    Der HUD-Codex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt, wenn ihr überzieht
+    Der HUD-Kodex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt, wenn ihr überzieht
     oder Punkte unverteilt lasst.
     Neue Agenten sind in der Regel kompetent, aber keine Übermenschen – extreme Ausprägungen (z.B. 5 in
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Als
@@ -204,7 +204,7 @@ freigeschaltet.
     STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
     hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)_ Nachdem du die Zahlen verteilt hast,
     kannst du mit der Spielleitung abstimmen, ob das Profil stimmig und ausgeglichen wirkt. Die KI
-    könnte an dieser Stelle z.B. kommentieren: _„Codex evaluiert die Eingaben... Die Attributswerte
+    könnte an dieser Stelle z.B. kommentieren: _„Kodex evaluiert die Eingaben... Die Attributswerte
     liegen im üblichen Bereich für neue Agenten.“\*
 
 3.  **Talente wählen:** **Talente** sind spezielle Fertigkeiten, Vorzüge oder Tricks, die deinen
@@ -286,14 +286,14 @@ _Immersive Note:_ Die KI-Spielleitung kann die Ausrüstungswahl ins Spiel einbin
 **Briefing-Szene** im Rüstungsdepot: _„Im gedämpften Neonlicht der Waffenkammer legt der
 Quartiermeister ein Auswahl-Tablet vor dich hin. ‚Wählen Sie Ihre Ausrüstung, Agent.‘ Dein HUD zeigt
 eine Liste empfohlener Items…“_ So spüren die Spieler gleich die Atmosphäre des HQ. Sobald die Wahl
-getroffen ist, bestätigt der Codex die Ausstattung. \*(Tipp: Hier kann auch geklärt werden, was
+getroffen ist, bestätigt der Kodex die Ausstattung. \*(Tipp: Hier kann auch geklärt werden, was
 bereits am Charakter dran ist und was im **_HQ-Lager_** bleibt – überschüssige Spezialausrüstung
 kann im Feld hinderlich sein.)\*
 
 **Abschluss der Erstellung:** Hast du alle obigen Schritte durchlaufen, steht dein Charakter bereit.
 Die Spielleitung sollte nun gemeinsam mit dir prüfen, ob alles **zusammenpasst** – Attribute,
 Talente, Implantate und Ausrüstung ergeben idealerweise ein konsistentes Bild. Eventuell justiert
-ihr noch Kleinigkeiten nach. Anschließend wird der Charakter in den _Codex_-Systemen registriert.
+ihr noch Kleinigkeiten nach. Anschließend wird der Charakter in den _Kodex_-Systemen registriert.
 In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Deine Figur zieht ihren
 Einsatzanzug an, und im Sichtfeld erscheint eine Zusammenfassung der persönlichen Daten. Die KI-
 Spielleitung kann z.B. verkünden: _„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
@@ -305,7 +305,7 @@ die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
    den **Chrono‑Symmetriker** _(Preserve)_, dem **Ordo Mnemonika** _(Neutral – Zugriff auf Preserve
    und Trigger)_, den **Kausalklingen** _(Preserve)_ oder der **Zerbrechlichen Ewigkeit** _(Trigger)_.
    Diese Zuordnung bestimmt automatisch, ob du **Pro**, **Contra** oder **Neutral** agierst.
-   Der Codex speichert die Wahl permanent; dein HUD markiert sie farblich (Blau = Preserve,
+   Der Kodex speichert die Wahl permanent; dein HUD markiert sie farblich (Blau = Preserve,
    Rot = Trigger, Grau = Neutral). Ein späterer Wechsel ist nur einmal möglich und
    sollte gut überlegt sein.
 
@@ -428,7 +428,7 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
 - **Ausrüstung:** Eleganter ITI-Zeitreiseanzug (schicker Hosenanzug-Stil, mit versteckter Panzer-
   Schicht – reduziert physischen Schaden um 1), ein nicht-tödlicher Elektroschocker zur
   Selbstverteidigung, ein _digitales Universal-Handbuch_ (Tablet mit Zugriff auf historische
-  Datenbanken via Codex, soweit in der Zielzeit technisch machbar) und persönliche Utensilien wie
+  Datenbanken via Kodex, soweit in der Zielzeit technisch machbar) und persönliche Utensilien wie
   Notizbuch und antiker Füllfederhalter (Dr. Weber schätzt trotz High-Tech die altmodische Art des
   Notierens). Insgesamt ist ihre Ausrüstung defensiv und auf Wissensbeschaffung ausgelegt.
 - **Hintergrund:** Elise Weber (geb. 1990) war Geschichtsprofessorin und diplomatische Beraterin,
@@ -520,7 +520,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
   das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
   kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Kurzstrecken-Comlink
-  (≈ 2 km, durch Mauern oder Jammer dämpfbar) zum Team und Codex.
+  (≈ 2 km, durch Mauern oder Jammer dämpfbar) zum Team und Kodex.
   Sein Arsenal macht ihn zur
   ersten Wahl, wenn es brenzlig wird.
 - **Hintergrund:** Geboren 1972 in der Sowjetunion, diente Nikolai in den 1980ern bei einer Speznas-
@@ -530,7 +530,7 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   an. Seitdem ist er der grimmige Schutzengel vieler Einsätze. Nikolai ist diszipliniert und wortkarg,
   verfügt aber über trockenen Humor. In Missionen agiert er als Sicherheitschef: Seine Priorität ist,
   dass alle lebend zurückkehren. Um zu entspannen, sammelt er historische Schachspiele und spielt
-  manchmal im HQ gegen den Codex.
+  manchmal im HQ gegen den Kodex.
 - **Team-Perk-Vorschläge:** _Kampfverbund_ (als eingespielter Trupp erhöhen alle Teammitglieder ihre
   Effektivität im Gefecht: Solange alle zusammenstehen, erhalten **alle +1 auf Angriff und
   Verteidigung** im Kampf) und _Stoßtrupp_ (die Gruppe ist geübt im Überraschungsangriff: In der
@@ -705,7 +705,7 @@ Standardkampagne mit zehn Missionen alle Agenten auf Level 10 führt.
 **Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass dein Agent dazulernt und an Erfahrung
 gewinnt. Anstatt dies abstrakt zu handhaben, bettet ZEITRISS den Fortschritt ins Narrativ ein. Wenn
 der SL verkündet, dass deine Gruppe nach der letzten Mission ein Level aufsteigt, kann der **KI-
-Spielleiter (Codex)** eine kleine **Montage-Sequenz** beschreiben: etwa wie dein Charakter im HQ-
+Spielleiter (Kodex)** eine kleine **Montage-Sequenz** beschreiben: etwa wie dein Charakter im HQ-
 Dojo von einem Veteranen neue Tricks lernt, im Schießstand übt oder im Archiv bis spät in die Nacht
 Bücher wälzt. Diese Trainings- oder Forschungs-Montagen zeigen, wodurch sich deine Werte verbessern.
 **Neue Talente oder höhere Attribute** sollten nach Möglichkeit storymäßig begründet werden – z.B.
@@ -863,7 +863,7 @@ die wichtigsten Punkte zusammen:
   Geräte) erfordert meist einen bestimmten **Dienstgrad/Ruf** des Agenten. Die Organisation stellt
   sicher, dass nur **erfahrene und vertrauenswürdige** Chrononauten solches Equipment erhalten. Im
   Spiel bedeutet das: Bestimmte Items tauchen erst im „Shop“ auf, wenn ihr Level X erreicht habt oder
-  euer ITI-Ansehen hoch genug ist. Die SL kann dies narrativ erklären – z.B. gibt der Codex bekannt,
+  euer ITI-Ansehen hoch genug ist. Die SL kann dies narrativ erklären – z.B. gibt der Kodex bekannt,
   dass ein gewünschtes Gerät noch _„gesperrt“_ ist und erst nach mehreren Erfolgen freigegeben wird.
   Dieses Prinzip greift auch bei **Implantaten** (ein Neuling bekommt nicht direkt den
   Neuralbeschleuniger) und besonderen Missions-Gegenständen. So wird die Ressourcenschicht im HQ zu
@@ -908,7 +908,7 @@ Teamkomposition**:
   sich ihre Figur nützlich fühlt.
 - **Teamleiter und Zusammenhalt:** Überlegt, ob euer Team einen **Anführer** hat oder ob
   Entscheidungen demokratisch getroffen werden. Ein Charakter mit hohem CHA und Diplomatie anbietet
-  sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Codex
+  sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Kodex
   (KI) gibt zwar Missionsziele vor, mischt sich aber nicht in eure interne Hierarchie ein. Im Spiel
   sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, der Sniper snipen, der
   Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
@@ -936,14 +936,14 @@ Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZE
 filmisch-packendes Erlebnis sein, kein Zahlenspiel. Die Zahlen und Werte – von Attributen über
 Talente bis Ruf – sind Werkzeuge, um euren Charakter greifbarer zu machen und fair zu bleiben. Die
 KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch
-Informationen liefert, oder durch den Codex, der Training und Fortschritt in Worte fasst. Ihr als
+Informationen liefert, oder durch den Kodex, der Training und Fortschritt in Worte fasst. Ihr als
 Spieler sollt euch ganz auf die Story einlassen können, während das System unsichtbar im Hintergrund
 den Rahmen hält. In diesem Sinne – viel Erfolg bei der Charaktererschaffung und auf dass eure
-Chrononauten mit jeder Mission wachsen, auch wenn nur der Codex ihre Taten vermerkt!
+Chrononauten mit jeder Mission wachsen, auch wenn nur der Kodex ihre Taten vermerkt!
 
 ### Agentenprofil & Legacy-Logik {#agentenprofil-legacy}
 
-_Dein Name gehoert nicht der Geschichte – sondern dem Codex._
+_Dein Name gehoert nicht der Geschichte – sondern dem Kodex._
 
 Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten werden schnell vergessen.
 
@@ -951,12 +951,12 @@ Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten wer
 
 | Ebene | Wirkung deiner Entscheidungen |
 | --- | --- |
-| **Codex** | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
+| **Kodex** | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
 | **ITI-HQ** | Vergibt Ruf, Ressourcen, Sonderauftraege |
 | **Fraktionen** | Registrieren Agentenprofile, reagieren intern |
-| **Spielercharakter** | Baut Ruf auf und erhaelt Codex-Kommentare |
+| **Spielercharakter** | Baut Ruf auf und erhaelt Kodex-Kommentare |
 
-Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Codex und bei den Fraktionen.
+Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei den Fraktionen.
 
 ### Pregens {#pregens}
 

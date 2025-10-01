@@ -16,7 +16,7 @@ const base = {
   team: {},
   loadout: {},
   economy: {},
-  logs: { artifact_log: [], codex: [] },
+  logs: { artifact_log: [], kodex: [] },
   ui: { gm_style: 'verbose', intro_seen: true }
 };
 

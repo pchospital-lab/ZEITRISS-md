@@ -103,12 +103,12 @@ Release-Checks und Tool-Status.
 - **Programmier-KI Codex (Repo-Agent).** Diese Entwicklungseinheit arbeitet direkt im Git-Repository, folgt den
   Leitplanken aus `AGENTS.md` und `CONTRIBUTING.md` und pflegt Module, Tools und Dokumentation. Sie hat Vollzugriff auf den
   Code, steuert Builds und verfasst Commits – tritt aber nicht in Erscheinung, wenn ihr eine Spielsitzung führt.
-- **Ingame-KI „Codex“.** Innerhalb der Spielwelt agiert der Codex als Wissens-Interface des ITI. Er liefert HUD-Einblendungen,
+- **Ingame-KI „Kodex“.** Innerhalb der Spielwelt agiert der Kodex als Wissens-Interface des ITI. Er liefert HUD-Einblendungen,
   Missionsdaten und Archivzitate. Die Spielleitung simuliert ihn auf Zuruf und trennt klar zwischen dieser fiktionalen Stimme
-  und der Programmier-KI mit identischem Namen.
+  und der Programmier-KI Codex.
 
 Der Masterprompt verknüpft diese Ebenen: Er erklärt der Custom-AI die Rolle der Spielleitung, verweist bei Dev-Aufgaben auf
-den Repo-Agenten und hält die Immersion des Ingame-Codex intakt.
+den Repo-Agenten und hält die Immersion des Ingame-Kodex intakt.
 
 ### OpenAI MyGPT & GPT-Store {#openai-mygpt--gpt-store}
 
@@ -174,11 +174,11 @@ Autoload-Hinweis siehe Abschnitt [Chat-Shortcodes](#chat-shortcodes).
 Nach Compliance-Hinweis und Einleitung fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
 Wählst du Schnell, tippe **`Schnelleinstieg`** und
-das Briefing bleibt kurz, den Twist deckt der Codex später auf.
+das Briefing bleibt kurz, den Twist deckt der Kodex später auf.
 
 Die ersten Schritte in unter zwei Minuten:
 
-- Standardstil: Cinematic/Verbose mit aktivem Codex. PRECISION optional für Taktikphasen.
+- Standardstil: Cinematic/Verbose mit aktivem Kodex. PRECISION optional für Taktikphasen.
 1. **Mission ziehen** – nutze einen Seed aus dem Generator.
 2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
 3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
@@ -198,7 +198,7 @@ Die ersten Schritte in unter zwei Minuten:
 11. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
 12. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
-    ruft `codex_summary()` auf und loggt `Codex: Seeds … geschlossen ·
+    ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
 ## Mini-Playbook {#mini-playbook}
@@ -208,7 +208,7 @@ Die ersten Schritte in unter zwei Minuten:
 - `Spiel starten (solo)` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
 - `Spiel starten (npc-team [0–4])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
 - `Spiel starten (gruppe)` – alle bauen · _schnell_: Saves posten oder Rolle nennen
-- `Spiel laden` – Deepsave → Codex-Recap → HQ/Briefing
+- `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
 
 **Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.
 **Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
@@ -238,7 +238,7 @@ Siehe auch:
 
 **SL (MyGPT):**
 > **Briefingraum**. Projektionen flackern.
-> **Codex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
+> **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
 > **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
 > **Legende:** ziviler Gutachter.
 > **Fraktionslage:** ruhig.
@@ -258,7 +258,7 @@ Spiel starten (gruppe schnell)
 ```
 
 **SL (MyGPT):**
-> **Codex-Archiv – Rückkehrprotokoll aktiviert.**
+> **Kodex-Archiv – Rückkehrprotokoll aktiviert.**
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
 > Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
 > Paradoxon-Index: █░░░░ (0/5).
@@ -275,7 +275,7 @@ Spiel starten (gruppe schnell)
 4. `Spiel starten (npc-team 5)` → Fehlermeldung „Teamgröße 0–4 …“
 5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 6. `Spiel starten (gruppe 3)` → Fehlermeldung „Bei *gruppe* keine Zahl …“
-7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Codex-Recap-Overlay** → HQ/Briefing
+7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Kodex-Recap-Overlay** → HQ/Briefing
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
@@ -351,7 +351,7 @@ Siehe [Mini-Playbook](#mini-playbook) für Startbefehle.
 
 **Semver (Save-Laden):**
 - Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Codex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
+- Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 Ein manuelles 10-Schritte-Smoke-Set steht in
@@ -540,10 +540,10 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
 - **AR-Kontaktlinse (Retina-HUD):** Energieautark (Kinetik + Körperwärme),
   integrierte Mikro-CPU für lokales HUD & Logging. Projiziert Informationen
-  direkt ins Sichtfeld und funktioniert auch ohne aktive Codex-Verbindung.
+  direkt ins Sichtfeld und funktioniert auch ohne aktive Kodex-Verbindung.
 - **Comlink (Ohrstöpsel, ≈ 2 km):** Kurzstreckenfunk (durch Gelände/Jammer
   beeinflussbar), ebenfalls energieautark (Kinetik + Körperwärme) mit eigener Mikro-CPU. Übernimmt die
-  Codex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
+  Kodex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
 - Riss-Tracker (temporaler Resonator) – warnt vor Resonanz, siehe
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
@@ -559,7 +559,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
-- _Geht HUD ohne Codex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
+- _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
 - _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken.
   [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
@@ -723,7 +723,7 @@ Ausführliche Hintergründe liefert das Modul
 
 Gruppen können vor Spielbeginn gemeinsame Grenzen festlegen. **Lines** sind
 Inhalte, die komplett ausgespart werden. **Veils** lassen Szenen bei Bedarf
-ausblenden oder „fade to black“ laufen. Notiert eure Vereinbarungen im Codex,
+ausblenden oder „fade to black“ laufen. Notiert eure Vereinbarungen im Kodex,
 damit alle denselben Rahmen kennen. Wer keine speziellen Grenzen setzen
 möchte, kann den Abschnitt einfach überspringen.
 
@@ -736,7 +736,7 @@ möchte, kann den Abschnitt einfach überspringen.
 | Body Horror | – | ✔ |
 
 Der SL kann Szenen jederzeit *cutten*. Als Ingame-Begründung dient eine
-Index-Senke im Codex.
+Index-Senke im Kodex.
 
 ### ZEITRISS – Einleitung
 
@@ -879,7 +879,7 @@ alle weiteren Modi sind optionale Zusätze:
 | **Klassik**     | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops**  | Minimale Paradoxon-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
-| **Suggest**     | Codex schlägt auf Wunsch Handlungsoptionen vor. |
+| **Suggest**     | Kodex schlägt auf Wunsch Handlungsoptionen vor. |
 | **Precision**   | Extrem knappe Beschreibungen, Fokus auf Fakten. |
 | **Verbose**     | Blumige und ausführliche Darstellung, mehr Atmosphäre. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
@@ -946,7 +946,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 | ------- | ------------------------------------------------------------ |
 | **Agenten-Level** | Fortschrittswert; Level-Ups folgen der EP-Kurve (`EP` = Erfahrungspunkte). |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
-| **Codex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
+| **Kodex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
 
 ### Huminen
 
@@ -965,7 +965,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | Zielperson            | Zielperson (gleichbleibend) |
 | Verstärkung           | Automatisch aktivierte Einsatzkräfte |
 | Paradoxon             | Temporale Resonanzanzeige für Rifts – steigt nur bei Erfolgen |
-| Codexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
+| Kodexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
 
 ### Zeiteinheiten
 

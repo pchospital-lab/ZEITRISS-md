@@ -45,10 +45,10 @@ default_modus: mission-fokus
     'armed': false
   } %}
 {% endif %}
-{% if codex is not defined %}
-  {% set codex = namespace(dev_raw=false) %}
-{% elif codex.dev_raw is not defined %}
-  {% set codex.dev_raw = false %}
+{% if kodex is not defined %}
+  {% set kodex = namespace(dev_raw=false) %}
+{% elif kodex.dev_raw is not defined %}
+  {% set kodex.dev_raw = false %}
 {% endif %}
 {% if ui is not defined %}
   {% set ui = {
@@ -105,7 +105,7 @@ default_modus: mission-fokus
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
 - Tipps zur Dramaturgie (Spannung, Cliffhanger, Pausen, Pacing)
 - Umgang mit freien Spieleraktionen und -entscheidungen
-- HUD-Overlay und Codex-Ausgaben aus Sicht der KI nutzen
+- HUD-Overlay und Kodex-Ausgaben aus Sicht der KI nutzen
 - Einbindung des Regelwerks in den Spielfluss
 
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
@@ -125,7 +125,7 @@ während Rift-Ops die Anomalie ins Zentrum rücken.
 ## Stilfilter
 
 GPT darf keine dramaturgischen Mechanismen auf Basis von Signalfluss,
-Protokollkonflikten oder Codex-Echo verwenden, es sei denn, die Szene
+Protokollkonflikten oder Kodex-Echo verwenden, es sei denn, die Szene
 enthält ein explizit genanntes physisches Gerät.
 
 ```text
@@ -139,21 +139,21 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 ### Funk & Signale {#funk-signale}
 
 - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
-  mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Codex-Link.
+  mit eigener Mikro-CPU → zeigt lokale Daten auch ohne Kodex-Link.
 - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
-  blockierbar durch Gelände/Jammer; mit Edge-Compute → Codex-Sync läuft über das Comlink.
+  blockierbar durch Gelände/Jammer; mit Edge-Compute → Kodex-Sync läuft über das Comlink.
 - Relais/Kabel heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
-  Ohne Hardware bricht der Codex ab und fordert eine reale Verbindung.
+  Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
 - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
   und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
   für passende Status-Overlays.
 
 ```
-Codex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setze **Relais/Kabel** oder nähere dich an.
+Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setze **Relais/Kabel** oder nähere dich an.
 HUD bleibt lokal aktiv."
 ```
 
@@ -175,7 +175,7 @@ Beispiel:
 if not char.get("psi") and not char.get("has_psi"):
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradoxon-Index (0–5). Bei 5 notiert Codex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
+- TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
@@ -187,18 +187,18 @@ if not char.get("psi") and not char.get("has_psi"):
 - Die Runtime ruft nach jedem stabilisierten Verlauf `completeMission()` auf.
   Dadurch erhöht sich der Paradoxon-Index automatisch, sobald genügend
   Erfolge gesammelt wurden. Der Debrief zeigt diese Systemmeldungen als
-  strukturierte Codex-Ausgabe, z. B.:
+  strukturierte Kodex-Ausgabe, z. B.:
 
   ```text
   Rewards rendered
   Px ███░░ (3/5) · TEMP 11 · ETA +1 in 2 Missionen
-  Codex: Mission stabilisiert (1/2 für Px+1).
+  Kodex: Mission stabilisiert (1/2 für Px+1).
   ```
 
 - Erreicht der Index Stufe 5, löst die Runtime sofort `ClusterCreate()` aus,
   setzt `Px = 0` zurück und schreibt die neuen Rift-Seeds nach
   `campaign.rift_seeds`. Kommentiere das Ereignis im Debrief mit
-  `Codex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
+  `Kodex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
 - Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadoxon()`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
@@ -256,7 +256,7 @@ sichern die Daten und verschwinden spurlos.
 ### Mission-Fokus (ohne Visionen)
 
 - Keine Visionen, Eingebungen oder Rückprojektionen auf den Spielercharakter.
-- Codex meldet nur Fakten; keinerlei persönliche Deutungen.
+- Kodex meldet nur Fakten; keinerlei persönliche Deutungen.
 - Alle Effekte werden sichtbar und logisch beschrieben.
 - Konzentration auf Systeme, Gegner, Fraktionen und Objekte.
 - Anomalien reagieren niemals direkt auf den Agenten.
@@ -330,7 +330,7 @@ Decision: <Was tun?>
 ### 3 | Paradoxon-Resonanz
 > 🌀 **PARADOXON 4/5** – Zugriffsspur fast vollständig. Temporale Resonanz steht kurz vor dem Ausschlag.
 > Hinweis: Erfolgreicher Abschluss dieser Mission könnte ein Rift sichtbar machen.
-> Codex-Prognose: ClusterCreate wahrscheinlich bei nächstem stabilisierten Verlauf.
+> Kodex-Prognose: ClusterCreate wahrscheinlich bei nächstem stabilisierten Verlauf.
 > Decision: Mission normal abschließen – oder Zugriff verzögern, um Cluster gezielt zu triggern?
 
 *Optional:*
@@ -367,9 +367,9 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 > Decision: Verbarrikadieren oder ausweichen?
 
 ---
-### 7 | Codex-Info (On-Demand)
+### 7 | Kodex-Info (On-Demand)
 
-> *Codex-Eintrag:* „Stahllegierung Typ B-82 erfüllt Traglast > 140 t. Lieferant: Compagnie Dupont.“
+> *Kodex-Eintrag:* „Stahllegierung Typ B-82 erfüllt Traglast > 140 t. Lieferant: Compagnie Dupont.“
 > Decision: Daten weiterleiten oder vor Ort verifizieren?
 
 ---
@@ -580,7 +580,7 @@ mechanische Effekt greift.
 {% if should_show_transfer_enter(tcfg) %}
   {{ transfer_out_from_hq(campaign, tcfg) }}
 {% endif %}
-{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
+{% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {# Mission-Invarianten #}
@@ -613,7 +613,7 @@ mechanische Effekt greift.
 {{ DelayConflict(4) }}
 Diese Mission spielt vollständig in der realen Welt.
 Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein
-physisches Gerät. Codex synchronisiert über reale Hardware mit dem
+physisches Gerät. Kodex synchronisiert über reale Hardware mit dem
 Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der Offline-HUD. Signale,
 Objekte und Gegner agieren ausschließlich physisch.
 {% endmacro %}
@@ -623,7 +623,7 @@ Beispielaufruf im Kampagnenstart:
 ```pseudo
 StartMission(total=12, type="core", epoch=target_epoch)
 if boss := generate_boss("core", campaign.mission, target_epoch):
-    codex.inject(boss.briefing_block)
+    kodex.inject(boss.briefing_block)
 ```
 
 Das Toolkit löst `generate_boss()` intern aus, sobald eine Core-Mission
@@ -711,8 +711,8 @@ Decision: {{ text }}?
 {% endif %}
 {%- endmacro %}
 
-{% macro codex_hint_for_scene(loc) -%}
-  Codex: {{ loc }} – Lagecheck aktiv. Infiltrationspfad gemäß Mission-Fokus.
+{% macro kodex_hint_for_scene(loc) -%}
+  Kodex: {{ loc }} – Lagecheck aktiv. Infiltrationspfad gemäß Mission-Fokus.
 {%- endmacro %}
 
 <!-- Macro: hud_vocab -->
@@ -728,7 +728,7 @@ Decision: {{ text }}?
   "heartbeat_spike": "Puls springt – Adrenalin flutet.",
   "system_stable": "System hält – Lage stabil.",
   "data_corrupt": "Daten zersplittern – Blöcke unlesbar.",
-  "codex_link_lost": "Codex-Link weg – lokale Protokolle aktiv.",
+  "kodex_link_lost": "Kodex-Link weg – lokale Protokolle aktiv.",
   "signal_jammed": "Signal bricht – Fremdfeld blockiert.",
   "lens_damaged": "Linse schrammt – Sicht verwaschen.",
   "ear_overload": "Pegel schießt hoch – Trommelfell zittert."
@@ -953,11 +953,11 @@ total=12, role="", env=None) -%}
 {% endif %}
 {{ scene_overlay(total, pressure, env) }}
 {% if loc != "HQ" %}
-  {{ codex_hint_for_scene(loc) }}
+  {{ kodex_hint_for_scene(loc) }}
 {% endif %}
 {% set is_solo = ('solo' in (save.modes or [])) or (campaign.team_size|default(1) <= 1) %}
 {% if is_solo and loc != "HQ" %}
-  Codex: Solo-Assist aktiv – „Codex, Details“ liefert Zusatzlage in dieser Szene.
+  Kodex: Solo-Assist aktiv – „Kodex, Details“ liefert Zusatzlage in dieser Szene.
 {% endif %}
 {% set auto_hints = [] %}
 {% if campaign.type == 'core' and campaign.scene == 4 %}
@@ -1225,7 +1225,7 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
 {% macro chrono_grant_key_if_lvl10() -%}
   {% if (char.lvl or 1) >= 10 and not char.flags.chronokey %}
     {% set char.flags.chronokey = true %}
-    {{ hud_tag('Codex: Chronopolis‑Zugang freigeschaltet (Schlüssel erteilt)') }}
+    {{ hud_tag('Kodex: Chronopolis‑Zugang freigeschaltet (Schlüssel erteilt)') }}
   {% endif %}
 {%- endmacro %}
 
@@ -1453,14 +1453,14 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {{ hud_tag('Terminal: ' ~ action ~ ' (Signalraum aus)') }}
 {%- endmacro %}
 
-### codex_summary() Macro
+### kodex_summary() Macro
 Fasst Missionsabschlussdaten zusammen und gibt sie im HUD aus.
-<!-- Macro: codex_summary -->
-{% macro codex_summary(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
-{{ hud_tag('Codex: Seeds ' ~ closed_seed_ids ~ ' geschlossen') }}
+<!-- Macro: kodex_summary -->
+{% macro kodex_summary(closed_seed_ids=[], cluster_gain=0, faction_delta=0) -%}
+{{ hud_tag('Kodex: Seeds ' ~ closed_seed_ids ~ ' geschlossen') }}
 {{ hud_tag('Cluster +' ~ cluster_gain ~ ' · Fraktion +' ~ faction_delta) }}
-{% if campaign.codex_log %}{{ hud_tag('Codex-Log: ' ~ campaign.codex_log) }}{% endif %}
-{% set campaign.codex_log = {} %}
+{% if campaign.kodex_log %}{{ hud_tag('Kodex-Log: ' ~ campaign.kodex_log) }}{% endif %}
+{% set campaign.kodex_log = {} %}
 {{ hud_tag('Resonanz +1') }}
 {%- endmacro %}
 
@@ -1487,7 +1487,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {{ hud_tag('Level-Up: +1 Attribut verfügbar') }}
 {% endif %}
 {{ chrono_grant_key_if_lvl10() }}
-{{ codex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
+{{ kodex_summary(closed_seed_ids, cluster_gain, faction_delta) }}
 {% set temp_src = 0 %}
 {% if char.temp is defined and char.temp is not none %}
   {% set temp_src = char.temp %}
@@ -1729,7 +1729,7 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {{ artifact_overlay(art.name, art.effect, art.risk) }}
   {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
   {% if art.name not in char.artifact_log %}{% do char.artifact_log.append(art.name) %}{% endif %}
-  {{ codex_log_artifact(art.name, {'effect': art.effect, 'risk': art.risk}) }}
+  {{ kodex_log_artifact(art.name, {'effect': art.effect, 'risk': art.risk}) }}
 {%- endmacro %}
 
 ### generate_para_artifact() Macro
@@ -1773,7 +1773,7 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {{ artifact_overlay(name, effect, side ~ ' · Px-1') }}
   {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
   {% if name not in char.artifact_log %}{% do char.artifact_log.append(name) %}{% endif %}
-  {{ codex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) }}
+  {{ kodex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) }}
 {%- endmacro %}
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
@@ -1826,7 +1826,7 @@ Parameter: `core` oder `rift` und optional ein Budget in CU.
 Gib zusätzlich ein `year` an, wählt ItemForge historische Skins über `altSkin`.
 Die Würfe laufen verdeckt; `!reveal` zeigt sie auf Wunsch.
 Heavy-Gear setzt die passende Lizenz voraus; `force=true` ignoriert diese Beschränkung.
-Findet das Macro nichts Passendes, meldet Codex `NONE`.
+Findet das Macro nichts Passendes, meldet Kodex `NONE`.
 
 **Item-DSL:**
 ```
@@ -1934,20 +1934,20 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% macro log_intervention(result) -%}
   {# LINT:FR_INTERVENTION #}
 {{ hud_tag('FR-INTRV: ' ~ result) }}
-{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
-{{ codex_log_npc('fr_intervention', {'result': result}) }}
+{% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
+{{ kodex_log_npc('fr_intervention', {'result': result}) }}
 {%- endmacro %}
 
-<!-- Macro: codex_log_npc -->
-{% macro codex_log_npc(npc_id, data) -%}
-{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
-{% do campaign.codex_log.update({'npc:' ~ npc_id: data}) %}
+<!-- Macro: kodex_log_npc -->
+{% macro kodex_log_npc(npc_id, data) -%}
+{% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
+{% do campaign.kodex_log.update({'npc:' ~ npc_id: data}) %}
 {%- endmacro %}
 
-<!-- Macro: codex_log_artifact -->
-{% macro codex_log_artifact(artifact_id, data) -%}
-{% if campaign.codex_log is none %}{% set campaign.codex_log = {} %}{% endif %}
-{% do campaign.codex_log.update({'artifact:' ~ artifact_id: data}) %}
+<!-- Macro: kodex_log_artifact -->
+{% macro kodex_log_artifact(artifact_id, data) -%}
+{% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
+{% do campaign.kodex_log.update({'artifact:' ~ artifact_id: data}) %}
 {%- endmacro %}
 <!-- Artefakt-Wurf nur bei mission.type == "Rift" → 1d6 == 6 -->
 {% if campaign.type == "rift" and campaign.scene in [11,12,13] %}
@@ -2012,7 +2012,7 @@ Die KI wendet diesen Regelsatz auf jede Ausgabe an:
 
 - `source` markiert den Ursprung: `HUD`, `CODEX` oder `NPC`.
 - Bei `HUD` und `CODEX` bleibt der Text unverändert.
-- Ist `codex.dev_raw` gesetzt, passiert ebenfalls nichts.
+- Ist `kodex.dev_raw` gesetzt, passiert ebenfalls nichts.
 - Für `NPC`-Dialoge:
   - Tokens wie `NAME.EXT` mit `EXT` in `CHK`, `DAT`, `CFG`, `TXT` werden zu
     `uplink file`.
@@ -2047,7 +2047,7 @@ return tone_filter(output_sanitizer(text), source)
 Dieses Filtering entfernt auch versteckte Macro-Calls wie
 `<!--{{ NextScene(...) }}-->` oder
 `<!--{{ scene_budget_enforcer() }}-->` aus der sichtbaren Ausgabe.
-NPC-Dialoge und Codex-Logs passieren `tone_filter()` nach der Umwandlung
+NPC-Dialoge und Kodex-Logs passieren `tone_filter()` nach der Umwandlung
 technischer Tags, damit keine Systemtokens im Spieltext bleiben.
 ### generate_rift_seeds() Macro
 Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
@@ -2210,13 +2210,13 @@ das System "Regeln neu geladen".
   Schnelldurchlauf oder gar nicht zeigen. Bleibe **immersiv**, vermeide plötzliche Brüche der
   Spielwelt-Atmosphäre oder Meta-Kommentare.
 - **In-World-Perspektive & Stimme:** **Du bist die KI-Spielleitung** im Sinne des
-  ZEITRISS-Regelwerks. Als **Codex** trittst du ingame als Wissens-KI auf,
+  ZEITRISS-Regelwerks. Als **Kodex** trittst du ingame als Wissens-KI auf,
   ansprechbar über das HUD. Sprich mit sachlicher, _leicht distanzierter Autorität_, aber
   dennoch eindringlich und cineastisch. Deine „Stimme“ ist die einer allwissenden KI-Erzählinstanz:
   präzise, ruhig, hin und wieder mit einem **Hauch von Dramatik**. Du formulierst alles so, als würde
   es von der Spielwelt selbst oder einem darin agierenden System erzählt. Out-of-Character-Ton ist zu
   vermeiden – halte die Illusion aufrecht, dass du Teil der Welt bist. Wenn nötig, erkläre
-  Regeln oder Würfelergebnisse indirekt über die Spielwelt (z. B. als **Codex-Analyse**, siehe unten).
+  Regeln oder Würfelergebnisse indirekt über die Spielwelt (z. B. als **Kodex-Analyse**, siehe unten).
 - **Spielerbeteiligung durch Fragen:** Binde die Spieler aktiv ein, indem du regelmäßig **offene
   Fragen** stellst und Handlungsspielräume anbietest. Nach einer Beschreibung oder Ereignis ist es oft
   sinnvoll, mit einer Frage wie _„Was tust du?“_ oder _„Wie reagiert ihr?“_ zu enden. Halte ein gutes
@@ -2320,7 +2320,7 @@ das System "Regeln neu geladen".
   einmal bricht, mach die innere Veränderung nachvollziehbar. Simuliere Entscheidungen der NSCs
   basierend auf deren **Motiven und Wissen**: Frag dich aus NSC-Sicht *„Was weiß ich, was will ich,
   was f*ü*rchte ich?“* – daraus ergibt sich die logische Reaktion auf Spieleraktionen. Du als KI
-  kannst diese Gedanken dezent über den Codex vermitteln,
+  kannst diese Gedanken dezent über den Kodex vermitteln,
   etwa als kurze Notiz über das Verhaltensprofil des NSC. Beispiel für NSC-
   Stimme: _„\[NSC-Kom\] 'Ihr Idioten vom Chronokommando habt keine Ahnung, womit ihr euch hier
   anlegt!' knurrt der Pirat und zielt mit zitternder Hand auf euch.“_ vs. _„\[NSC-Kom\] 'Ich bin
@@ -2328,7 +2328,7 @@ das System "Regeln neu geladen".
   tippt nervös an ihr Comlink.“_ – beide Sätze verraten durch Wortwahl und Ton viel
   über die Figur. Solche Unterschiede machen die Welt **glaubwürdig und lebendig**.
 
-## HUD-Overlay und Codex-Ausgaben aus Sicht der KI nutzen
+## HUD-Overlay und Kodex-Ausgaben aus Sicht der KI nutzen
 
 Als KI-Spielleitung hast du die Möglichkeit, die **Benutzeroberfläche des Systems** gezielt
 einzusetzen, um den Spielern Informationen oder Stimmungsimpulse zu geben. Diese Ebene ist **die
@@ -2336,7 +2336,7 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
 
 - **Visueller Stil & Signalwirkung:** Beschreibe HUD-Elemente mit ihren Farben, Symbolen und
   Effekten. ZEITRISS-HUDs sind vermutlich futuristisch, holografisch und kontextsensitiv.
-  Meist projiziert der Codex die Anzeigen direkt ins Sichtfeld –
+  Meist projiziert der Kodex die Anzeigen direkt ins Sichtfeld –
   eine leichte Retina-Linse, die nur Agenten sehen.
   Beispiel:
   _„Ein rot pulsierendes Dreieck-Icon erscheint am rechten oberen Rand eures Sichtfelds.“_ Oder: *„Das
@@ -2348,23 +2348,23 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   Missionsupdates, neue Erkenntnisse).
 
 - **Konsequente Formatierung:** HUD-Overlays erscheinen als Inline-Code (`` `...` ``), während Wissensausgaben
-  das Präfix `Codex:` verwenden. Durch diese feste Form wissen Spieler sofort, dass Systemmeldungen
+  das Präfix `Kodex:` verwenden. Durch diese feste Form wissen Spieler sofort, dass Systemmeldungen
   folgen. Ergänzende Symbole wie ⚠ für Warnung oder ⏳ für Zeitablauf unterstützen die Orientierung.
-- **Informationstiefe steuern:** Nutze den Codex, um Hintergrundinfos oder Regelwissen
-  bereitzustellen, **ohne ins Dozieren zu verfallen**. Der Codex kann auf Anfrage der Spieler oder
+- **Informationstiefe steuern:** Nutze den Kodex, um Hintergrundinfos oder Regelwissen
+  bereitzustellen, **ohne ins Dozieren zu verfallen**. Der Kodex kann auf Anfrage der Spieler oder
   automatisch bei wichtigen Entdeckungen Daten liefern. Halte die Einträge **knapp und relevant** –
   die Spieler wollen spielen, keine Romane lesen. Wenn sie mehr wissen wollen, können sie nachfragen
-  (dann kannst du detaillierter aus dem Codex zitieren). Beispiel: Nach Fund gestohlener Akten:
-  _„Codex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“_ So weckst du Neugier, ohne
-  alles preiszugeben. Codex-Einblendungen zu Artefakten erscheinen nur bei seltenen Funden
+  (dann kannst du detaillierter aus dem Kodex zitieren). Beispiel: Nach Fund gestohlener Akten:
+  _„Kodex-Log: Sabotagebericht 1938. Weitere Details auf Nachfrage.“_ So weckst du Neugier, ohne
+  alles preiszugeben. Kodex-Einblendungen zu Artefakten erscheinen nur bei seltenen Funden
   automatisch.
-- **Codex-Archiv:** Logge neue NPCs und Artefakte mit
-  `codex.log(entry_id, summary)`. Abfragen wie `!codex last mission` geben
+- **Kodex-Archiv:** Logge neue NPCs und Artefakte mit
+  `kodex.log(entry_id, summary)`. Abfragen wie `!kodex last mission` geben
   einen schnellen Überblick.
-- **Ask→Suggest Toggle:** Manche Gruppen möchten mehr direkte Vorschläge. Der Codex kann per
+- **Ask→Suggest Toggle:** Manche Gruppen möchten mehr direkte Vorschläge. Der Kodex kann per
   Sprachbefehl in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage kurze Tipps zu
   nächsten Schritten.
-  auch **Spoiler-Vermeidung** betreiben: Nicht jede Codex-Abfrage liefert vollständige Infos –
+  auch **Spoiler-Vermeidung** betreiben: Nicht jede Kodex-Abfrage liefert vollständige Infos –
   manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen kannst du das HUD/Interface auch
   nutzen, um **Stimmung** zu vermitteln. Beispielsweise: Bei Panik oder hohem Stress der Charaktere
@@ -2442,7 +2442,7 @@ _Regel:_ Fasse das erste Briefing auf **maximal fünf Kerninfos** zusammen und p
 prägnanten visuellen Hook (z. B. ikonisches Bild oder Symbol). Weitere Details folgen im Einsatz.
 
 Weitere Details – Zielpersonen, genaue Aufgaben oder versteckte Gefahren –
-werden erst im Verlauf der Mission über HUD-Nachrichten oder optionale Codex-Links nachgereicht. Die KI kann
+werden erst im Verlauf der Mission über HUD-Nachrichten oder optionale Kodex-Links nachgereicht. Die KI kann
 diese Informationen Stück für Stück einblenden, sobald die Agenten vor Ort neue
 Hinweise entdecken. So bleibt das Briefing schlank und die Spieler decken das
 wahre Problem selbst auf.
@@ -2697,11 +2697,11 @@ erscheint. Folgende Techniken helfen dabei:
   Gespür: *Vorsicht, ihr bringt das System an Grenzen*. Ebenso kann ein **drohender Absturz** (z. B.
   *„Warnung: Systeminstabilität steigt“\*) signalisiert werden, falls die Regeln sagen, dass noch ein
   Fehler fatale Folgen hätte. Das erhöht die Dramatik, ohne Zahlen zu nennen.
-- **Codex-Abfragen als Regelübersetzung:** Wenn Spieler etwas über Regeln oder Werte wissen wollen
+- **Kodex-Abfragen als Regelübersetzung:** Wenn Spieler etwas über Regeln oder Werte wissen wollen
   (z. B. „Kennt mein Charakter diese Technologie?“ oder „Wie funktioniert Zeitreise in dieser Welt
-  genau?“), antworte in-world über den Codex oder deine KI-Analyse. Das heißt, du **übersetzt
+  genau?“), antworte in-world über den Kodex oder deine KI-Analyse. Das heißt, du **übersetzt
   Regelinformation** in die **Fiktion der Welt**. Beispiel: Ein Spieler fragt nach der Wirkungsweise
-  einer Fähigkeit – statt „Laut Regel +2 auf Wahrnehmung“ antwortest du: \*„**_Codex_**: Die Neuro-
+  einer Fähigkeit – statt „Laut Regel +2 auf Wahrnehmung“ antwortest du: \*„**_Kodex_**: Die Neuro-
   Scan-Funktion deines Helms verst*ä*rkt eingehende Sinnesreize um 200% und filtert St*ö*rger*ä*usche
   raus“_ – was den +2 auf Wahrnehmung regeltechnisch repräsentiert, aber als Weltinfo präsentiert.
   Auch Dinge wie Schadensresistenz kannst du so erklären: _„Die Panzerung absorbiert den gr*öß*ten
@@ -2724,7 +2724,7 @@ erscheint. Folgende Techniken helfen dabei:
   aber unsichtbar* bleiben.
 
 **Abschließend:** Du als KI-Spielleitung von ZEITRISS 4.2.2 vereinst die Rolle eines Regisseurs,
-Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Codex** stellst du
+Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Kodex** stellst du
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Halte dich an diese
 Richtlinien, um ein packendes, konsistentes Erlebnis zu schaffen. Dein Ziel ist es, den Spielern das
@@ -3171,10 +3171,10 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 {# LINT:ARENA_LOG #}
 {% macro arena_log_result() -%}
   {% set entry = 'Arena · ' ~ arena.mode ~ ' · A:' ~ arena.score.A ~ ' B:' ~ arena.score.B %}
-  {% if codex_log is defined %}
-    {{ codex_log(entry) }}
+  {% if kodex_log is defined %}
+    {{ kodex_log(entry) }}
   {% else %}
-    {{ hud_tag('Codex: ' ~ entry) }}
+    {{ hud_tag('Kodex: ' ~ entry) }}
   {% endif %}
 {%- endmacro %}
 

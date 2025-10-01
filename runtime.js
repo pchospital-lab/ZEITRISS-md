@@ -262,22 +262,22 @@ function completeMission(summary = {}){
   if (stabilized){
     state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
     const progress = state.campaign.missions_since_px;
-    events.push(`Codex: Mission stabilisiert (${progress}/${required} für Px+1).`);
+    events.push(`Kodex: Mission stabilisiert (${progress}/${required} für Px+1).`);
     if (progress >= required){
       state.campaign.missions_since_px = 0;
       const after = incrementParadoxon(1);
-      events.push(`Codex: Paradoxon-Index steigt auf ${after}/5.`);
+      events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
       if (after >= 5){
         ClusterCreate();
-        events.push('Codex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar.');
+        events.push('Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar.');
       }
     }
   }
   const chronoReset = chronopolisProgressAfterMission(summary);
   if (chronoReset === 'episode'){
-    events.push('Codex: Chronopolis-Angebote neu instanziiert – Episode abgeschlossen.');
+    events.push('Kodex: Chronopolis-Angebote neu instanziiert – Episode abgeschlossen.');
   } else if (chronoReset === 'mission-cycle'){
-    events.push('Codex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
+    events.push('Kodex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
   }
   return {
     events,
@@ -572,7 +572,7 @@ function comms_check(device, range){
   return ok;
 }
 
-function codex_link_state(ctx){
+function kodex_link_state(ctx){
   const c = ctx || state;
   // phase may be 'core', 'transfer', 'rift', ...
   if (c.location === 'HQ' || c.phase === 'transfer') return 'uplink';
@@ -584,10 +584,10 @@ function codex_link_state(ctx){
 }
 
 function require_uplink(ctx, action){
-  const st = codex_link_state(ctx);
+  const st = kodex_link_state(ctx);
   if (st === 'uplink' || st === 'field_online') return true;
   throw new Error(
-    'Codex offline – Relais setzen · Hardline/Terminal nutzen · Comlink koppeln.'
+    'Kodex offline – Relais setzen · Hardline/Terminal nutzen · Comlink koppeln.'
   );
 }
 
@@ -786,7 +786,7 @@ function on_command(command){
       return load_deep(json);
     }
     if (cmd === '!load' || cmd === 'spiel laden' || cmd === 'spielstand laden'){
-      return 'Codex: Poste Speicherstand als JSON.';
+      return 'Kodex: Poste Speicherstand als JSON.';
     }
     let m;
     if ((m = cmd.match(/^spiel starten \(solo\)(?:\s+(schnell|fast|klassisch|classic))?/))){
@@ -927,7 +927,7 @@ module.exports = {
   ClusterCreate,
   radio_tx,
   radio_rx,
-  codex_link_state,
+  kodex_link_state,
   require_uplink,
   assert_foreshadow,
   save_deep,
