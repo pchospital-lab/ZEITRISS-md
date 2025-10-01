@@ -47,7 +47,7 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - MyGPT, Proton LUMO und Ollama/OpenWebUI erhalten stets denselben Stand: `meta/masterprompt_v6.md`, `README.md`,
   `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` und `systems/` –
   mit Ausnahme von `systems/runtime-stub-routing-layer.md`.
-- Nutze den Abschnitt [Wissensspeicher & Plattform-Setup](README.md#wissensspeicher--plattform-setup) als operative Checkliste.
+- Nutze [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) als operative Checkliste für Wissensspeicher und Plattformen.
 - Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Verzeichnis `internal/qa/`.
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 

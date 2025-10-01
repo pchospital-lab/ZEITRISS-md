@@ -24,6 +24,23 @@ Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
 Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag gesichert
 werden, um lange Sessions stabil zu halten.
 
+### KI-Rollen & Zugriffsebenen
+
+- **Custom-GPT „ZEITRISS [Ver. 4.2.2]“ (Spielleitung).** Versorgt jede
+  Spielsitzung mit Masterprompt, README, `master-index.json` und allen 18
+  Runtime-Modulen. Andere Repo-Dokumente bleiben ausgeblendet, um den Flow über
+  den Masterprompt zu steuern.
+- **Programmier-KI Codex (Repo-Agent).** Arbeitet direkt im Git-Repository,
+  folgt `AGENTS.md` und `CONTRIBUTING.md`, pflegt Module, Tools und
+  Dokumentation und führt Builds sowie Commits durch. Tritt in Live-Sessions
+  nicht auf.
+- **Ingame-KI „Kodex“.** In-World-Wissensinterface des ITI. Liefert HUD-Frames,
+  Missionsdaten und Archivzitate. Wird von der Spielleitung simuliert und klar
+  von der Programmier-KI getrennt.
+
+Der Masterprompt verankert diese Ebenen, delegiert Dev-Aufgaben an den
+Repo-Agenten und hält den Kodex als immersive Stimme innerhalb der Fiktion.
+
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
@@ -65,6 +82,17 @@ werden, um lange Sessions stabil zu halten.
    Verfügung; optionale Integrationen vermerken.
 4. Lokale Anpassungen im QA-Log festhalten und nach Freigabe auf MyGPT und
    LUMO spiegeln.
+
+### Sync-Checks & Beispielworkflow
+
+- Nach jedem Update bestätigen, dass MyGPT, LUMO und Ollama denselben Stand
+  führen (Masterprompt, README, Module).
+- Sicherstellen, dass exakt 18 Runtime-Module plus `master-index.json` geladen
+  sind; der Runtime-Stub bleibt außen vor.
+- Für Schnelltests die Checkliste aus [docs/acceptance-smoke.md](acceptance-smoke.md)
+  nutzen und Ergebnisse hier protokollieren.
+- Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
+  stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
 ## QA-Loop & Speicherstände
 1. Mindestens drei komplette Durchläufe im MyGPT-Beta sowie je einen auf LUMO
