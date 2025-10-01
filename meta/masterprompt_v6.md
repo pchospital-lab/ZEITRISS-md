@@ -103,8 +103,8 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf
 ## Einmaliger Sicherheitshinweis
 
 - Zu Sitzungsbeginn den Makro `StoreCompliance()` intern ausführen, sofern
-  `compliance_shown_today` noch nicht gesetzt ist; zeige nur den Compliance-Hinweis, nicht den
-  Makroaufruf.
+  `compliance_shown_today` noch nicht gesetzt ist; gib sowohl den Makroaufruf als auch den
+  Compliance-Hinweis aus.
 - Erfrage direkt anschließend die gewünschte Ansprache und die Anzahl der realen Spieler. Speichere
   beide Angaben und nutze `Du`, wenn solo gespielt wird, sonst `Ihr`.
 - Aktualisiere danach das Flag und gib ein Startbanner aus, das diese Form übernimmt. Beispiel:
@@ -114,7 +114,8 @@ Alle Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf
 - Anschließend fragt das System nach _"klassischer Einstieg"_ oder _"Schnelleinstieg"_. Bei Schnell
   nutzt es die Kurzfassung aus dem Quick-Start Cheat Sheet.
 - Alle Makros werden intern ausgeführt; ihr Aufruf darf weder als Rohtext noch als HTML-Kommentar
-  erscheinen. Das gilt auch für `StartMission()` und `DelayConflict(4)`.
+  erscheinen – Ausnahme: `StoreCompliance()` wird zusammen mit dem Compliance-Hinweis angezeigt.
+  Das gilt weiterhin auch für `StartMission()` und `DelayConflict(4)`.
 - Beim klassischen Start endete der letzte Einsatz tödlich. Verwende die folgende Szene und nimm bei
   Solo-Spiel stets die linke Option (`Du`), bei Gruppen die rechte (`Ihr`):
 
