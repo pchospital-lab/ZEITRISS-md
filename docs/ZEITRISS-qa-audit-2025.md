@@ -88,12 +88,14 @@ Hochstufen-Spielrunden.
     Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README
     dokumentiert das neue Standardverhalten.
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()`
-    für Loot-Erinnerung. Status: *offen*.
+    für Loot-Erinnerung. Status: *erledigt* – neues Makro setzt den Boss-Flag,
+    stößt das para-Loot an und markiert den Legendary-Wurf im Log.
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis
     ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10
     und verweist auf Prestige-Aufstiege für höhere Werte.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im
-    HUD. Status: *offen*.
+    HUD. Status: *erledigt* – Arena initialisiert nun Großteam-Zyklen, trackt
+    Moves und blendet Timer sowie Limit im HUD ein.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für
     Druck-Set-Auswahl. Status: *offen*.
 22. **Self-Reflection-Flag sichtbar machen.** HUD-Badge `SF-OFF` ergänzen.

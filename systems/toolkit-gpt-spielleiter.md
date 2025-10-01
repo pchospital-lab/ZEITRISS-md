@@ -583,6 +583,12 @@ mechanische Effekt greift.
 {% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
+{% set campaign.boss_defeated = false %}
+{% set campaign.rift_loot_prompted = false %}
+{% set campaign.last_rift_boss = none %}
+{% set campaign.last_rift_loot_entry = none %}
+{% set campaign.legendary_roll_pending = false %}
+{% if campaign.loot_log is not defined or campaign.loot_log is none %}{% set campaign.loot_log = [] %}{% endif %}
 {# Mission-Invarianten #}
 {% if campaign.type == "core" %}
   {% set campaign.scene_total = 12 %}
@@ -1719,9 +1725,14 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {% if not campaign.artifact_allowed %}{% return %}{% endif %}
   {% if campaign.scene not in [11,12,13] %}{% return %}{% endif %}
   {% if not campaign.boss_defeated %}{% return %}{% endif %}
+  {% if campaign.legendary_roll_pending is not defined %}{% set campaign.legendary_roll_pending = false %}{% endif %}
   {% set gate_roll = rng_roll(1,6) %}
   {% set gate = gate_roll[0][0] %}
   {{ roll_check(gate_roll[1], 6, gate, gate == 6, gate_roll[0], important=false) }}
+  {% set campaign.legendary_roll_pending = false %}
+  {% if campaign.last_rift_loot_entry is not none %}
+    {% do campaign.last_rift_loot_entry.update({'legendary': gate}) %}
+  {% endif %}
   {% if gate != 6 %}{% return %}{% endif %}
   {% set pick_roll = rng_roll(1,14) %}
   {% set r = pick_roll[0][0] %}
@@ -1730,6 +1741,9 @@ Würfelt legendäres Artefakt aus `artifact_pool_v3`.
   {% if char.artifact_log is none %}{% set char.artifact_log = [] %}{% endif %}
   {% if art.name not in char.artifact_log %}{% do char.artifact_log.append(art.name) %}{% endif %}
   {{ kodex_log_artifact(art.name, {'effect': art.effect, 'risk': art.risk}) }}
+  {% if campaign.last_rift_loot_entry is not none %}
+    {% do campaign.last_rift_loot_entry.update({'legendary_drop': art.name}) %}
+  {% endif %}
 {%- endmacro %}
 
 ### generate_para_artifact() Macro
@@ -1778,6 +1792,41 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
 
 Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
 nach einem Para-Kreaturen-Drop.
+
+### on_rift_boss_down() Macro
+Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendären Wurf.
+<!-- Macro: on_rift_boss_down -->
+{% macro on_rift_boss_down() -%}
+  {% if campaign.type != 'rift' %}
+    {{ hud_tag('Rift-Boss-Trigger steht nur in Rift-Ops zur Verfügung.') }}
+    {% return %}
+  {% endif %}
+  {% set campaign.boss_defeated = true %}
+  {% if campaign.rift_loot_prompted %}
+    {{ hud_ping('Loot-Protokoll bereits abgewickelt – Legendary-Wurf bei Bedarf in Szene 11–13 wiederholen.') }}
+    {% return %}
+  {% endif %}
+  {% set campaign.rift_loot_prompted = true %}
+  {% set boss_data = campaign.last_rift_boss %}
+  {% if not boss_data %}
+    {{ hud_tag('Warnung: Kein gespeicherter Rift-Boss – nutze generate_para_artifact() manuell.') }}
+    {% return %}
+  {% endif %}
+  {{ hud_tag('Rift-Boss neutralisiert – Loot-Automation aktiv.') }}
+  {{ generate_para_artifact(boss_data.creature) }}
+  {% if campaign.loot_log is not defined or campaign.loot_log is none %}{% set campaign.loot_log = [] %}{% endif %}
+  {% set entry = {
+    'seed': campaign.seed_id,
+    'boss': boss_data.creature.name,
+    'scene': campaign.scene,
+    'artifact_macro': 'generate_para_artifact',
+    'legendary': 'pending'
+  } %}
+  {% do campaign.loot_log.append(entry) %}
+  {% set campaign.last_rift_loot_entry = entry %}
+  {% set campaign.legendary_roll_pending = true %}
+  {{ hud_ping('Legendärer Drop: 1W6, nur bei 6 – roll_legendary() in Szene 11–13 ausführen.') }}
+{%- endmacro %}
 
 ### Paradoxon / Rifts (neue Guards)
 
@@ -1900,6 +1949,9 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
     {% if mission_number % 10 == 0 %}
         {% set pool_name = 'rift_boss_pool' %}
         {% set boss_data = generate_para_creature(campaign.seed_id) %}
+        {% set campaign.last_rift_boss = boss_data %}
+        {% set campaign.rift_loot_prompted = false %}
+        {% set campaign.boss_defeated = false %}
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
@@ -2972,16 +3024,32 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
     {% return %}
   {% endif %}
   {{ arena_snapshot_state() }}
+  {% if campaign.team_size is defined %}
+    {% set team_size = campaign.team_size %}
+  {% else %}
+    {% set team_size = 4 %}
+  {% endif %}
+  {% set team_size = team_size|int %}
+  {% set large_team = team_size >= 3 %}
+  {% set cycle_s = large_team and 30 or none %}
+  {% set move_limit = large_team and 4 or none %}
   {% set arena = {
     'active': true, 'mode': mode, 'map': map, 'rounds_total': rounds,
     'round': 0, 'time_limit_s': time_limit_s, 'psi_policy': psi_policy,
     'vehicle_policy': vehicle_policy, 'score': {'A':0,'B':0},
     'oob_penalty': 1,
+    'team_size': team_size, 'large_team': large_team,
+    'cycle_s': cycle_s, 'cycle_remaining': cycle_s,
+    'move_limit': move_limit, 'moves_this_cycle': 0,
+    'cycle_count': 0,
     'damage_dampener': {'mode': 'overflow_half', 'min_bonus': 1}
   } %}
   {{ arena_budget_init(5) }}
   {{ arena_guards_enable() }}
   {{ hud_tag('Arena-Dämpfer aktiv – Exploding-Overflow wird halbiert (aufgerundet)') }}
+  {% if large_team %}
+    {{ hud_tag('Großteam-Modus aktiv – 30s-Zyklus mit Move-Limit ' ~ move_limit ~ ' Aktionen.') }}
+  {% endif %}
   {{ arena_hud("INIT") }}
 {%- endmacro %}
 
@@ -3028,17 +3096,42 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 {# LINT:ARENA_AFK_GUARD #}
 {% macro arena_mark_action() -%}
   {% set arena.last_action_tick = arena.t_remaining or arena.time_limit_s %}
+  {% if arena.large_team %}
+    {% set moves = (arena.moves_this_cycle or 0) + 1 %}
+    {% set arena.moves_this_cycle = moves %}
+    {% set limit = arena.move_limit or moves %}
+    {% if moves <= limit %}
+      {{ hud_ping('Move ' ~ moves ~ '/' ~ limit ~ ' · 30s-Zyklus läuft') }}
+    {% else %}
+      {{ hud_tag('Move-Limit erreicht – wartet bis zum nächsten 30s-Zyklus.') }}
+    {% endif %}
+  {% endif %}
 {%- endmacro %}
 
 {% macro arena_start_round() -%}
   {% set arena.round = arena.round + 1 %}
   {% set arena.t_remaining = arena.time_limit_s %}
+  {% if arena.large_team and arena.cycle_s %}
+    {% set arena.cycle_remaining = arena.cycle_s %}
+    {% set arena.moves_this_cycle = 0 %}
+  {% endif %}
   {{ arena_hud("ROUND") }}
 {%- endmacro %}
 
 {% macro arena_tick(delta_s=10) -%}
   {% set prev = arena.t_remaining or arena.time_limit_s %}
   {% set arena.t_remaining = [prev - delta_s, 0]|max %}
+  {% if arena.large_team and arena.cycle_s %}
+    {% set cycle_prev = arena.cycle_remaining or arena.cycle_s %}
+    {% set cycle_now = [cycle_prev - delta_s, 0]|max %}
+    {% set arena.cycle_remaining = cycle_now %}
+    {% if cycle_now == 0 %}
+      {% set arena.moves_this_cycle = 0 %}
+      {% set arena.cycle_count = (arena.cycle_count or 0) + 1 %}
+      {% set arena.cycle_remaining = arena.cycle_s %}
+      {{ hud_tag('30s-Zyklus reset – Moves 0/' ~ (arena.move_limit or '∞')) }}
+    {% endif %}
+  {% endif %}
   {% if (prev - (arena.last_action_tick or prev)) >= 30 %}
     {{ hud_tag('Inaktivität erkannt – nächste OOB-Strafe +1') }}
     {% set arena.oob_penalty = arena.oob_penalty + 1 %}
@@ -3199,6 +3292,12 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   " · A:" ~ arena.score.A, " · B:" ~ arena.score.B,
   " · OOB " ~ arena.oob_penalty
 ] %}
+{% if arena.large_team %}
+  {% set segs = segs + [
+    " · MOV " ~ (arena.moves_this_cycle or 0) ~ "/" ~ (arena.move_limit or '∞'),
+    " · CYCLE " ~ (arena.cycle_remaining or arena.cycle_s or 0) ~ "s"
+  ] %}
+{% endif %}
 {% if phase %}{% set segs = segs + [" · PHASE:" ~ phase] %}{% endif %}
 `{{ segs|join('') }}`
 {%- endmacro %}
