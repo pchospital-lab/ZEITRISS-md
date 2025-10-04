@@ -24,22 +24,8 @@ Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
 Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag gesichert
 werden, um lange Sessions stabil zu halten.
 
-### KI-Rollen & Zugriffsebenen
-
-- **Custom-GPT „ZEITRISS [Ver. 4.2.2]“ (Spielleitung).** Versorgt jede
-  Spielsitzung mit Masterprompt, README, `master-index.json` und allen 18
-  Runtime-Modulen. Andere Repo-Dokumente bleiben ausgeblendet, um den Flow über
-  den Masterprompt zu steuern.
-- **Programmier-KI Codex (Repo-Agent).** Arbeitet direkt im Git-Repository,
-  folgt `AGENTS.md` und `CONTRIBUTING.md`, pflegt Module, Tools und
-  Dokumentation und führt Builds sowie Commits durch. Tritt in Live-Sessions
-  nicht auf.
-- **Ingame-KI „Kodex“.** In-World-Wissensinterface des ITI. Liefert HUD-Frames,
-  Missionsdaten und Archivzitate. Wird von der Spielleitung simuliert und klar
-  von der Programmier-KI getrennt.
-
-Der Masterprompt verankert diese Ebenen, delegiert Dev-Aufgaben an den
-Repo-Agenten und hält den Kodex als immersive Stimme innerhalb der Fiktion.
+Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
+`AGENTS.md`. Diese Datei konzentriert sich auf ausführbare Abläufe.
 
 ## Plattform-Workflows
 
@@ -95,19 +81,30 @@ Repo-Agenten und hält den Kodex als immersive Stimme innerhalb der Fiktion.
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
 ## QA-Loop & Speicherstände
-1. Mindestens drei komplette Durchläufe im MyGPT-Beta sowie je einen auf LUMO
-   und lokal einplanen.
+Halte für QA und Save/Load-Checks den Übergabeprozess in
+`CONTRIBUTING.md#beta-gpt-qa-uebergaben` ein. Ergänzend gilt:
+
+### Beta-GPT & Playtests
+1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
+   **ZEITRISS [Ver. 4.2.2] beta**.
+2. Starte Playtests ausschließlich im Beta-Klon und füge den Auftrag aus
+   `docs/tester-playtest-briefing.md` in die erste Chat-Nachricht ein.
+3. Übertrage die Antwort des Beta-GPT gesammelt an Codex (Repo-Agent), damit
+   daraus Aufgaben im QA-Fahrplan entstehen.
+4. Synchronisiere den Wissensspeicher des produktiven MyGPT sowie weiterer
+   Plattformen erst, nachdem Codex die QA als grün markiert hat.
+
+### Zusätzliche QA-Pflichten
+1. Plane mindestens drei komplette Durchläufe im MyGPT-Beta sowie je einen auf
+   LUMO und lokal ein.
 2. In jeder Session Save/Load prüfen: `saveGame({...})` ausgeben lassen, lokal
    sichern, neuen Chat öffnen und den Reimport testen.
 3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
    HQ-Briefing-Schleifen abgleichen.
-4. Ergebnisse, Auffälligkeiten und Save/Load-Belege im QA-Log unter
-   `docs/ZEITRISS-qa-audit-2025.md` oder einem neuen Eintrag in `docs/`
-   dokumentieren.
-5. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
+4. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
    Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
    Repo; dokumentiert lokale Befunde zusätzlich.
-6. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
+5. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
    Artefakt-Upload scheitert, Job erneut anstoßen. Der Fehler entsteht beim
    Finalisieren des Uploads und erfordert inhaltlich keine Anpassung am Repo.
 
@@ -133,14 +130,5 @@ Repo-Agenten und hält den Kodex als immersive Stimme innerhalb der Fiktion.
   Runtime-Module plus `master-index.json` und Masterprompt vorliegen – ohne den
   Runtime-Stub.
 - Erst release, wenn Beta-GPT, LUMO und Ollama denselben Wissensstand führen
-  und QA grün meldet. Übergib QA-Berichte an Codex, damit daraus eine
-  abarbeitbare Liste entsteht.
-
-## Beta-GPT-Workflow
-
-1. Beta-GPT vollständig mit Masterprompt, Wissensspeicher und allen Modulen
-   bestücken.
-2. Testauftrag aus `docs/tester-playtest-briefing.md` in den Chat kopieren und
-   den GPT den Durchlauf selbst ausführen lassen.
-3. Antwort in Codex übertragen, daraus eine QA-Notiz erstellen und die
-   identifizierten Punkte strukturiert abarbeiten.
+  und QA grün meldet. Siehe `CONTRIBUTING.md#beta-gpt-qa-uebergaben` für die
+  Übergabe an Codex.
