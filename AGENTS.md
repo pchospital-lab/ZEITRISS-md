@@ -16,6 +16,14 @@ Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und En
 2. Prüfe, ob es zu den Dateien bereits Verweise im `master-index.json` oder in Toolkit-Dokumenten gibt. Passe Querverweise bei strukturellen Änderungen an.
 3. Halte dich an die Trennung zwischen Runtime-Content (`core/`, `gameplay/`, `systems/toolkit-*`, `characters/`) und Dev-Dokumentation (`docs/`, `meta/`, Dateien mit `tags: [meta]`).
 
+## Rollenmodell & Kollaboration
+- **Repo-Agent (Codex/du)** arbeitet ausschließlich im Git-Repository, befolgt diese `AGENTS.md` sowie `CONTRIBUTING.md` und erstellt Commits bzw. PRs. Keine Runtime-Interaktion.
+- **MyGPT „ZEITRISS [Ver. 4.2.2]“** ist die veröffentlichte Spielleitung. Er erhält Masterprompt, README, `master-index.json` und sämtliche Runtime-Module – jedoch keine Dev-Dokumente.
+- **Beta-GPT** ist ein privat geklonter MyGPT-Stand für QA. Alle Playtests laufen hier; Ergebnisse werden in `docs/ZEITRISS-qa-audit-2025.md` oder Folgedokumenten erfasst und in Tickets/Tasks überführt.
+- **Ingame-KI „Kodex“** bleibt eine reine Spielfigur, die durch den Masterprompt beschrieben wird und keinerlei Repositoriumspflichten trägt.
+
+Halte diese Ebenen strikt getrennt: Laufzeit-Content bleibt im MyGPT, alle Entwicklungsaufgaben erfolgen über das Repo mit Codex.
+
 ## Struktur- und Formatregeln
 * **YAML-Header**: Jedes Modul benötigt einen vollständigen YAML-Header mit mindestens `title`, `version` und sinnvollen `tags`. Runtime-Module dürfen maximal eine `#`-H1-Überschrift besitzen. Überschriftenhierarchie sauber aufbauen (`##`, `###`, …).
 * **Szenenaufbau**: Halte alle in `CONTRIBUTING.md` dokumentierten Invarianten ein. Beispiele:

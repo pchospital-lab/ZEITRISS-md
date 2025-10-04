@@ -100,7 +100,7 @@ ZEITRISS-md/
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
 ├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime, ohne `runtime-stub-routing-layer.md`)
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
-├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte (tags: [meta]; inkl. QA-Protokoll docs/ZEITRISS-qa-audit-2025.md)
+├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte (tags: [meta]; inkl. QA-Fahrplan & QA-Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 └─ master-index.json        # Übersicht aller Module und Slugs
 ```
