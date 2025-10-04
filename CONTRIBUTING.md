@@ -51,6 +51,14 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 - Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Protokoll [docs/ZEITRISS-qa-audit-2025.md](docs/ZEITRISS-qa-audit-2025.md).
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 
+<a id="beta-gpt-qa-uebergaben"></a>
+## Beta-GPT & QA-Übergaben
+- Maintainer führen Klon, Playtests und Plattform-Sync laut [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests) aus.
+- Sobald das Beta-Protokoll im Codex-Chat landet, übernimm folgende Schritte:
+  1. Überführe alle Beta-GPT-Findings in Aufgaben im QA-Fahrplan (`docs/ZEITRISS-qa-fahrplan-2025.md`) und kennzeichne Prioritäten.
+  2. Arbeite die Punkte systematisch ab; bestätige Save/Load-Belege im QA-Log (`docs/ZEITRISS-qa-audit-2025.md`).
+  3. Spiegele den Status jeder Aufgabe (offen, in Arbeit, erledigt) sowohl im QA-Fahrplan als auch in etwaigen verlinkten Issues/PRs.
+
 ## GM-Style & Lint
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
   - `verbose`: filmisch, kein PRECISION-Lint
