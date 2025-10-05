@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.1.0
+version: 0.2.0
 tags: [meta]
 ---
 
@@ -27,6 +27,30 @@ nachzuvollziehen.
 5. Verlinke den Abschnitt im QA-Fahrplan und priorisiere die offenen Punkte.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
+
+## 2025-04-02 – Maintainer-Team – Regressionstestplanung
+- Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde
+- Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – Regressionstermine festlegen
+
+```chatlog
+09:10 QA-Koordination: Terminierung der MyGPT-Regressionstests Q2–Q4 2025.
+09:12 Maintainer-Team: Q2-Fenster 09.–13.06.2025 (Spiegelprozesse & Save/Load).
+09:14 Maintainer-Team: Q3-Fenster 08.–12.09.2025 (Arena-/Großteam-Fokus).
+09:16 Maintainer-Team: Q4-Fenster 08.–12.12.2025 (Jahresabschluss & Spiegelkontrolle).
+09:18 Repo-Agent: Fahrplan-Tabelle aktualisieren, QA-Log bei Lauf ergänzen.
+```
+
+**Offene Punkte**
+- [x] Q1 2025 Regressionstest dokumentieren (Abschnitt 2025-03-19).
+- [ ] Q2 2025 Regressionstest 09.–13.06.2025 abschließen und loggen.
+- [ ] Q3 2025 Regressionstest 08.–12.09.2025 abschließen und loggen.
+- [ ] Q4 2025 Regressionstest 08.–12.12.2025 abschließen und loggen.
+
+**Nachverfolgung**
+- Commit/PR: folgt nach Merge (Regressionstest-Terminplan 2025-04-02).
+- QA-Fahrplan: Sprint 3 – Wiederkehrende MyGPT-Regressionstests (Status aktualisiert 2025-04-02).
+- Maintainer-Ops: Regressionstest-Zeitplan ergänzt 2025-04-02.
 
 ## 2025-10-05 – Repo-Agent – Runtime-Lint Pflichtfelder
 - Plattform: Lokale CI-Simulation
