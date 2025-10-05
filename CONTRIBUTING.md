@@ -9,6 +9,7 @@ tags: [meta]
 Bitte beachte folgende Richtlinien beim Bearbeiten der Markdown-Dateien:
 
 - Jeder Abschnitt beginnt mit einem YAML-Header (`title`, `version`, `tags`).
+- Ausnahme: Der Masterprompt (`meta/masterprompt_*.md`) wird seit Version 4.2.2 ohne YAML-Header gepflegt und muss unter 8 000 Zeichen (≈ 8 k Window) bleiben.
 - Halte Zeilen möglichst unter 120 Zeichen und verwende UTF-8.
 - Wrappe lange Absätze bei etwa 100 Zeichen.
 - Pull Requests sollten bestehende Dateien aktualisieren oder neue Module ergänzen.
