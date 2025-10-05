@@ -8,14 +8,13 @@ tags: [meta]
 
 ## 4.2.2 – Arena-Episodenstempel
 
-QA-Nachweis:
-[QA-Log 2025-03-19 – Acceptance-Smoke-Abgleich][qa-log-2025-03-19].
-- PvP-Arena vergibt den Px-Bonus nur einmal pro Episode; `arena_episode_stamp`
-  ist in Kampagnenstruktur und Runtime-Stubs dokumentiert.
-- Makefile ergänzt `lint`- und `test`-Targets, damit Standard-Checks direkt über
-  `make` anlaufen.
-- `tech_solution()` staffelt `tech_heat` nach Teamgröße und erzwingt für Solo-
-  und Duo-Teams einen Gerätezwang über `confirm_device_slot()`.
+QA-Nachweis: [QA-Log 2025-03-19 – Acceptance-Smoke-Abgleich][qa-log-2025-03-19].
+- PvP-Arena vergibt den Px-Bonus nur einmal pro Episode; `arena_episode_stamp` ist in
+  Kampagnenstruktur und Runtime-Stubs dokumentiert.
+- Makefile ergänzt `lint`- und `test`-Targets, damit Standard-Checks direkt über `make` anlaufen.
+- `tech_solution()` staffelt `tech_heat` nach Teamgröße und erzwingt für Solo- und Duo-Teams einen
+  Gerätezwang über `confirm_device_slot()`.
+- `AGENTS.md` und `CONTRIBUTING.md` präzisieren den Ablauf für Beta-GPT- und KI-Review-Reports.
 
 ## 4.0.1
 
@@ -31,8 +30,7 @@ QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 ## 4.0.3
 
 QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
-- Added historical anomaly table and puzzle sets in
-  `gameplay/kreative-generatoren-missionen.md` and
+- Added historical anomaly table and puzzle sets in `gameplay/kreative-generatoren-missionen.md` and
   `gameplay/kreative-generatoren-begegnungen.md`.
 - Introduced contextual `historical_faction` pool in `master-index.json`.
 
@@ -114,7 +112,8 @@ QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 ## 4.1.8 – Terminology Revert
 
 QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
-- Reverted "Interventionsformen" back to "Missionstypen" und integrierte die Begriffszuordnung im README.
+- Reverted "Interventionsformen" back to "Missionstypen" und integrierte die Begriffszuordnung im
+  README.
 - Klarstellung: Mission-Fokus richtet sich gegen Fremdfraktionen, kein PvP im Standardmodus.
 - Updated Toolkit und Generatoren entsprechend.
 
@@ -138,15 +137,14 @@ QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 - Arena-Regeln präzisiert: Szenario-Pool, balanciertes Matchmaking und HUD-Scoreboard.
 - Optionales 1v1-Duell und Balance-Hinweise zu Psi-Kräften und Artefakten.
 - Legendary Artefakt-Pool v3 mit 14 Parawesen-Trophies; Makro `roll_legendary()` und JSON-Lookup.
-- `NextScene` ersetzt manuelle `StartScene`/`EndScene`-Aufrufe,
-  ergänzt `Objective`- und `Seed`-Zeilen, Boss- und Artefaktmeldungen
-  sowie `EndMission`-Kodex-Logs.
+- `NextScene` ersetzt manuelle `StartScene`/`EndScene`-Aufrufe, ergänzt `Objective`- und
+  `Seed`-Zeilen, Boss- und Artefaktmeldungen sowie `EndMission`-Kodex-Logs.
 
 - Save-Befehl nur noch im HQ; `cmdSave` verhindert Speichern unterwegs.
-- `maintain_cooldowns` räumt Nullwerte auf, HQ-Szenen löschen Rest-Cooldowns
-  und setzen `sys_used` zurück.
-- Psi-Kräfte erhöhen `sys_used`; Artefakt-Makros loggen Funde in `artifact_log`
-  und `kodex_log_artifact`.
+- `maintain_cooldowns` räumt Nullwerte auf, HQ-Szenen löschen Rest-Cooldowns und setzen `sys_used`
+  zurück.
+- Psi-Kräfte erhöhen `sys_used`; Artefakt-Makros loggen Funde in `artifact_log` und
+  `kodex_log_artifact`.
 - Boss-Generator nutzt bei Rifts die Missionsnummer und meldet Szene 10 klar im HUD.
 
 - Verankerte Funksignale an reale Hardware in Masterprompt und Toolkit.
@@ -165,26 +163,29 @@ QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 
 ## 4.2.1 – Docs & Flow Hardening
 
-QA-Nachweis:
-[QA-Log 2025-03-17 – Beta GPT – Build 4.2.2][qa-log-2025-03-17].
+QA-Nachweis: [QA-Log 2025-03-17 – Beta GPT – Build 4.2.2][qa-log-2025-03-17].
 - LLM-Dispatcher dokumentiert und HQ-only Save gehärtet.
 - Paradoxon/Rift-Terminologie vereinheitlicht, Gear-Alias-Map ergänzt.
 
 ## 4.2.2 – DPMA Trademark
 
-QA-Nachweis:
-[QA-Log 2025-03-17 – Beta GPT – Build 4.2.2][qa-log-2025-03-17].
+QA-Nachweis: [QA-Log 2025-03-17 – Beta GPT – Build 4.2.2][qa-log-2025-03-17].
 - Lizenz auf eingetragene Marke aktualisiert.
 - README und neue Dokumentation zur DPMA-Urkunde.
 
 ## 4.2.2 – Masterprompt Hardening
 
 QA-Nachweis: Maintainer-Sync 2025-03-19 – Prompt Hardening (intern).
-- Masterprompt 4.2.2 geschärft: direkte Modulverweise, straffere Sicherheits- und Generatorleitplanken, Selbstbegegnungen standardmäßig deaktiviert.
-- DeepSave-Pflicht nach jeder Sitzung mit kanonischem JSON-Block im Prompt verankert und YAML-Header entfernt.
-- Maintainer-Guides (`AGENTS.md`, `CONTRIBUTING.md`) dokumentieren die 8 k-Grenze und die YAML-Ausnahme des Masterprompts.
+- Masterprompt 4.2.2 geschärft: direkte Modulverweise, straffere Sicherheits- und
+  Generatorleitplanken, Selbstbegegnungen standardmäßig deaktiviert.
+- DeepSave-Pflicht nach jeder Sitzung mit kanonischem JSON-Block im Prompt verankert und YAML-Header
+  entfernt.
+- Maintainer-Guides (`AGENTS.md`, `CONTRIBUTING.md`) dokumentieren die 8 k-Grenze und die YAML-
+  Ausnahme des Masterprompts.
 
-[qa-log-2025-03-19]: internal/qa/2025-beta-qa-log.md#2025-03-19--beta-gpt--build-422-acceptance-smoke-abgleich
-[qa-log-2025-03-17]: internal/qa/2025-beta-qa-log.md#2025-03-17--beta-gpt--build-422
+[qa-log-2025-03-19]:
+  internal/qa/2025-beta-qa-log.md#2025-03-19--beta-gpt--build-422-acceptance-smoke-abgleich
+[qa-log-2025-03-17]:
+  internal/qa/2025-beta-qa-log.md#2025-03-17--beta-gpt--build-422
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
