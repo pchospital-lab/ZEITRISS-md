@@ -26,6 +26,7 @@ erlaubt, Informationen wie Lebenspunkte, PP-Pool oder Initiative in-world anzuze
 neuen Module bleiben dem ZEITRISS-Stil treu: **atmosphärisch dicht, erzählerisch fokussiert und doch
 leichtgewichtig** in der Anwendung.
 
+<a id="hud-comms-spec"></a>
 > **HUD & Comms – Hardware-Spezifikation {#hud-comms-spec}**
 > - HUD = **AR-Kontaktlinse (Retina-HUD)**, energieautark (Kinetik + Körperwärme),
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
