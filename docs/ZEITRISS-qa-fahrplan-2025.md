@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.1.1
+version: 1.2.0
 tags: [meta]
 ---
 
@@ -59,6 +59,25 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   und bei Bedarf PRs initiieren.
   - Artefakte: `LICENSE`, `docs/trademark.md`, QA-Log-Referenzen
 
+## Regressionstest-Termine 2025
+
+- **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
+  - Umfang: Vollständiger Regressionstest (Build 4.2.2) mit Save/Load und Boss-Gates.
+  - Status: ✅ abgeschlossen.
+  - QA-Log: `internal/qa/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
+- **Q2 2025 (09.–13.06.2025)**
+  - Umfang: Regressionstest im MyGPT-Beta-Klon mit Fokus auf Spiegelprozesse und Save-Restore.
+  - Status: 🗓️ geplant.
+  - QA-Log: Eintrag folgt nach Lauf.
+- **Q3 2025 (08.–12.09.2025)**
+  - Umfang: Regressionstest im MyGPT-Beta-Klon mit Arena- und Großteam-Schwerpunkt.
+  - Status: 🗓️ geplant.
+  - QA-Log: Eintrag folgt nach Lauf.
+- **Q4 2025 (08.–12.12.2025)**
+  - Umfang: Regressionstest im MyGPT-Beta-Klon mit Jahresabschluss- und Spiegelkontrolle.
+  - Status: 🗓️ geplant.
+  - QA-Log: Eintrag folgt nach Lauf.
+
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
 - [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
@@ -95,10 +114,11 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - [x] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
   (2025-10-05 – QA-Log 2025-10-05, Commit: folgt nach Merge)
-- [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
+- [x] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
   protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
+  (2025-04-02 – QA-Log 2025-04-02, Commit: folgt nach Merge)
 
-## Status-Dashboard (Stand: Überarbeitung 2025-03-17)
+## Status-Dashboard (Stand: Überarbeitung 2025-04-02)
 | Maßnahme | Status | Nächster Schritt | Owner |
 | --- | --- | --- | --- |
 | QA-Fahrplan aktualisieren | ✅ erledigt | README-Referenz prüfen | Maintainer-Team |
@@ -109,7 +129,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ✅ 2025-03-30 | Link-Lint in CI-Läufen beobachten | Repo-Agent |
 | Runtime-Lint YAML/Pflichtfelder | ✅ 2025-10-05 | QA-Log 2025-10-05 referenzieren | Repo-Agent |
-| Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
+| Plattform-Regressionstests | ✅ 2025-04-02 | Q2-Regressionstest protokollieren | QA-Koordination |
 | CHANGELOG QA-Verweise | ✅ 2025-03-26 | QA-Log-Referenzen beibehalten | Repo-Agent |
 | Glossar Terminologie 4.2.2 | ✅ 2025-03-26 | README-Glossar regelmäßig spiegeln | Docs-Verantwortliche |
 
@@ -120,6 +140,8 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   mit diesem Fahrplan.
 - Dokumentiere Abschlüsse mit Datum und Commit in Audit und QA-Log, nicht in den
   Runtime-Dateien.
+- Halte die Terminübersicht der Regressionstests aktuell und verweise nach jedem
+  Lauf auf den entsprechenden QA-Log-Abschnitt.
 
 > Aktualisiere den Statusabschnitt bei jeder Änderung dieses Fahrplans. Jede
 > abgeschlossene Maßnahme erhält Datum, Commit-Referenz und Verweis auf das
