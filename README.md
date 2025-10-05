@@ -957,6 +957,8 @@ Scanne den QR-Code oder besuche
 - [Maintainer-Ops](docs/maintainer-ops.md) – Plattform- und Upload-Checklisten, inklusive QA-spezifischer Routinen.
 
 Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
+Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
+Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.
 
 ## How to Contribute
 

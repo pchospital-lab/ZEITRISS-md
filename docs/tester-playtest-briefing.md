@@ -104,8 +104,8 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
    Hinweise und Ask→Suggest-Toggle erklärt. Falls Informationen fehlen, gezielt nachfragen, bis alle
    Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen,
    Stadt-Diensten, Fraktionswechseln, Rufsystem) im Protokoll stehen.
-6. Analyse unverändert in den Report kopieren. Ergänzend können Plattform, Datum oder besondere
-   Beobachtungen als Randnotizen ergänzt werden.
+6. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere
+   Beobachtungen als Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
 7. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
    Update für bestehende Audits. Ergebnis wird in Codex übertragen, damit Aufgaben strukturiert
    abgearbeitet werden können.
@@ -115,7 +115,7 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 ```text
 # Playtest-Report ZEITRISS
 - Version: (z. B. 4.2.2 beta)
-- Testplattform: (OpenAI / Proton LUMO / Ollama)
+- Testplattform: OpenAI (MyGPT Beta)
 - Datum & Uhrzeit: (lokal)
 - Tester:in: (Alias)
 
@@ -138,8 +138,8 @@ saveGame({...})
 - Reports werden lokal oder in einer gesicherten Team-Ablage archiviert, damit der Ablauf offline
   nachvollziehbar bleibt.
 - Weitere Durchläufe mit alternativen Solo-Builds oder Gruppen-Saves nutzen denselben Auftrag. Die
-  Ansprache, Kodex-Hinweise und Offline-Optionen bleiben dadurch konsistent. Plattformen laufen online
-  ohne Web-Tool; LUMO bietet Verschlüsselung, die lokale Instanz bleibt komplett offline.
+  Ansprache, Kodex-Hinweise und Offline-Optionen bleiben dadurch konsistent.
+  Spiegelplattformen (Store-GPT, LUMO, lokal) erhalten den freigegebenen Stand ohne eigene QA-Optimierung; dokumentiere nur Abweichungen bei Bedarf.
 - Menschliche Gruppen können optional nachziehen, sind aber nicht Teil des Standard-Workflows. Primär
   dient der Auftrag dazu, dass das GPT sämtliche Multiplayer- und Progressionspfade autonom
   simuliert.
