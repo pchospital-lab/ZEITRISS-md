@@ -44,22 +44,27 @@ Vielen Dank für deine Mithilfe!
 Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit stehen.
 
 ## Wissensspeicher-Workflow
-- MyGPT, Proton LUMO und Ollama/OpenWebUI erhalten stets denselben Stand: `meta/masterprompt_v6.md`, `README.md`,
-  `master-index.json` und alle 18 Runtime-Module aus `core/`, `characters/`, `gameplay/` und `systems/` –
-  mit Ausnahme von `systems/runtime-stub-routing-layer.md`.
-- Nutze [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) als operative Checkliste für Wissensspeicher und Plattformen.
-- Dokumentiere jeden Upload, Autoload-Test und Save/Load-Lauf im QA-Protokoll [docs/ZEITRISS-qa-audit-2025.md](docs/ZEITRISS-qa-audit-2025.md).
+- Die operative Pflege der Plattformen liegt bei den Maintainer:innen. Sie folgen der Checkliste in
+  [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) und führen sämtliche Uploads
+  sowie QA-Läufe ausschließlich im OpenAI-MyGPT-Beta-Klon durch.
+- Der Repo-Agent (Codex) arbeitet auf Basis der von den Maintainer:innen gelieferten Ergebnisse. Proton LUMO
+  und lokale Instanzen erhalten erst nach einer grünen MyGPT-Abnahme denselben Stand; im Repo sind dafür keine
+  separaten Optimierungen vorgesehen.
+- Dokumentiere Plattform-Uploads und Save/Load-Befunde weiterhin in den QA-Dokumenten (`docs/ZEITRISS-qa-audit-2025.md`,
+  `docs/ZEITRISS-qa-fahrplan-2025.md`) sobald die Informationen in den Playtest-Logs vorliegen.
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT auf die Module unter `gameplay/` – keine Kopien in PRs.
 
 <a id="beta-gpt-qa-uebergaben"></a>
 ## Beta-GPT & QA-Übergaben
-- Maintainer führen Klon, Playtests und Plattform-Sync laut [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests) aus.
-- Nach jedem Beta-GPT- oder MyGPT-Protokoll gelten folgende Schritte:
-  1. Kopiere das vollständige Chatlog unverändert in `internal/qa/2025-beta-qa-log.md` und dokumentiere Plattform, Build sowie Wissensstand.
-  2. Überführe alle Findings in `docs/ZEITRISS-qa-fahrplan-2025.md`, versehe sie mit Prioritäten und verlinke den Log-Abschnitt.
-  3. Arbeite die Punkte branchweise ab; dokumentiere Tests und Referenzen im Commit.
-  4. Aktualisiere `docs/ZEITRISS-qa-audit-2025.md` nach dem Merge mit Datum, Commit-Link und einem kurzen Ergebnis.
-  5. Halte QA-Fahrplan, Audit und QA-Log synchron (Status "offen", "in Arbeit", "erledigt").
+- Maintainer:innen spielen den MyGPT-Beta-Klon laut [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests) durch,
+  exportieren das vollständige Chatlog und liefern es zusammen mit einer Kurzliste der Findings an Codex.
+- Sobald das Material vorliegt, erledigt der Repo-Agent folgende Schritte im Repository:
+  1. Das Chatlog unverändert in `internal/qa/2025-beta-qa-log.md` archivieren und Plattform, Build sowie Wissensstand notieren.
+  2. Alle Findings in `docs/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den Log-Abschnitt verlinken.
+  3. Die Punkte branchweise abarbeiten; Tests und Referenzen im Commit dokumentieren.
+  4. Nach dem Merge `docs/ZEITRISS-qa-audit-2025.md` mit Datum, Commit-Link und Ergebnis ergänzen.
+- Den Plattform-Sync (Store-GPT, Proton LUMO, lokale Instanzen) übernehmen die Maintainer:innen erst nach einer grünen
+  MyGPT-Abnahme. Im Repo ist lediglich sicherzustellen, dass alle QA-Dokumente denselben Status führen.
 
 ## GM-Style & Lint
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
