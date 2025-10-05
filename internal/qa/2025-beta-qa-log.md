@@ -67,6 +67,8 @@ nachzuvollziehen.
 **Nachverfolgung**
 - Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025).
 - QA-Fahrplan: Sprint 1 – README-Querverweise, QA-Log initialisieren, CONTRIBUTING anpassen.
+- Maintainer-Ops: Version 1.2.0 dokumentiert MyGPT als alleinige QA-Plattform und den Spiegelprozess
+  (Sprint 2 – Spiegelprozesse).
 
 ## Abschnittsvorlage
 ```

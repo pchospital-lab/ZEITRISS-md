@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.1.0
+version: 1.1.1
 tags: [meta]
 ---
 
@@ -61,18 +61,23 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
-- [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+- [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
+  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
 - [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
-  QA-Zyklus prüfen und anpassen. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+  QA-Zyklus prüfen und anpassen.
+  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
 - [x] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
-  und Prioritäten in diesem Fahrplan verlinken. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+  und Prioritäten in diesem Fahrplan verlinken.
+  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
 - [x] QA-Fahrplan überarbeiten (dieses Dokument).
 
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
 - [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
   (Logeintrag ausstehend – QA-Log 2025-03-19)
-- [ ] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
+- [x] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen
+  und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
+  (2025-03-21 – Maintainer-Ops 1.2.0, Commit: folgt nach Merge)
 - [ ] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
 - [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern
   (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
@@ -84,7 +89,8 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   Ergebnis im QA-Log festhalten.
 - [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
-- [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
+- [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
+  protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
 
 ## Status-Dashboard (Stand: Überarbeitung 2025-03-17)
 | Maßnahme | Status | Nächster Schritt | Owner |
@@ -94,6 +100,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
 | CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
 | Acceptance-Smoke-Checkliste | 🟡 in Arbeit | GPT-Run einholen & QA-Log ergänzen | Repo-Agent |
+| Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 
