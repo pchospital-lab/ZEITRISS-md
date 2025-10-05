@@ -103,7 +103,8 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen, Paradoxon-Index-
    Hinweise und Ask→Suggest-Toggle erklärt. Falls Informationen fehlen, gezielt nachfragen, bis alle
    Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen,
-   Stadt-Diensten, Fraktionswechseln, Rufsystem) im Protokoll stehen.
+   Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat) im Protokoll
+   stehen.
 6. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere
    Beobachtungen als Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
 7. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
