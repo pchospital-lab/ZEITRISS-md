@@ -457,7 +457,7 @@ Rift-Op zu spielen oder für künftige Plots zu parken.
 > **Beispiel** – *Seargent Meyer: "Es war hart den Zusammenbruch der Brücke noch
 > einmal miterleben zu müssen, aber das ist nun mal der Lauf der Dinge. Dafür
 > haben wir den Mothman dingfest gemacht; der wird der Zeitlinie keinen Ärger
-> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet dich 3 CU."*
+> mehr bereiten. Leider hat sich Sarah W. verletzt, das kostet euch 3 CU."*
 
 ### Arc-Lock & Self-Collision Guard {#arc-lock}
 
@@ -982,7 +982,7 @@ HQ:
 - **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
   Holoprojektoren ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
   Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
-  Im Solo-Modus stammen diese Platzhalter aus deiner gewählten Fraktion. In Mehrspielerpartien
+  Im Solo-Modus stammen diese Platzhalter aus eurer gewählten Fraktion. In Mehrspielerpartien
   wählt Kodex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
   **Kodex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
   neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
@@ -1437,7 +1437,7 @@ geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
   Pausen stattfinden. Etwa ein Agent, der nachts nicht schlafen kann und im leeren Kontrollraum sitzt,
   gequält von Zweifeln – bis ein Mentor-NSC hinzukommt und ein aufmunterndes Gespräch beginnt. Solche
   Zwei-Personen-Dialoge sind wie Filmszenen, in denen die Figur Tiefe gewinnt. Die Spielleitung kann
-  diese gezielt anbieten („Möchtest du eine Szene spielen, in der dein Charakter X verarbeitet? Ich
+  diese gezielt anbieten („Möchtet ihr eine Szene spielen, in der euer Charakter X verarbeitet? Ich
   könnte NSC Y dazuholen.“). In der sicheren Umgebung des HQ kann man Gefühle und
   Charakterentwicklungen thematisieren, für die mitten im Missionsstress keine Zeit war.
 

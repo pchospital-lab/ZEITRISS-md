@@ -15,17 +15,17 @@ tags: [characters]
 - Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 - Team-Zusammenstellung & Rollenverteilung (optional)
 
-**Einleitung:** In _ZEITRISS 4.2.2_ erschaffst du einen _Chrononauten_-Charakter, der als Zeitreise-
+**Einleitung:** In _ZEITRISS 4.2.2_ erschafft ihr einen _Chrononauten_-Charakter, der als Zeitreise-
 Agent im Dienst des ITI (Institut für Temporale Interventionen) Missionen quer durch die Epochen
-erlebt. Dieses Modul liefert dir eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
-erklärt, wie deine Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
+erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
+erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
-Nach dem fatalen Ende deines früheren Lebens extrahierte das ITI dein Bewusstsein aus dem Absolut.
-Du schließt die Charaktererschaffung in einem virtuellen Raum ab. Erst danach erzeugt das HQ
+Nach dem fatalen Ende eures früheren Lebens extrahierte das ITI euer Bewusstsein aus dem Absolut.
+Ihr schließt die Charaktererschaffung in einem virtuellen Raum ab. Erst danach erzeugt das HQ
 eine passende Bio-Hülle – auf Wunsch auch eine experimentelle Hominin-Form – und überträgt
-dein rekonstruiertes Bewusstsein in diesen Körper.
+euer rekonstruiertes Bewusstsein in diesen Körper.
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
@@ -120,10 +120,10 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 
 ### Quick-Build für One-Shots
 
-- Verteile insgesamt **8 Punkte** frei auf deine Attribute
-- Wähle zwei Talente aus der Liste
-- Markiere ein Standard-Loadout
-- Lass den Ruf zunächst bei 0
+- Verteilt insgesamt **8 Punkte** frei auf eure Attribute
+- Wählt zwei Talente aus der Liste
+- Markiert ein Standard-Loadout
+- Lasst den Ruf zunächst bei 0
 
 ### Schnellstart-Operatives
 
@@ -157,27 +157,27 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 ## Schritt-für-Schritt zur Charaktererschaffung
 
 **Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in fünf grundlegenden Schritten.
-Von der ersten Konzeptidee bis zur ausgerüsteten Spielfigur im HQ begleitet dich die KI-Spielleitung
+Von der ersten Konzeptidee bis zur ausgerüsteten Spielfigur im HQ begleitet euch die KI-Spielleitung
 auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Kodex/Quartiermeisters auftretend
-die nötigen Informationen abfragt und dir Optionen bietet. Nachfolgend die einzelnen Schritte im
+die nötigen Informationen abfragt und euch Optionen bietet. Nachfolgend die einzelnen Schritte im
 Detail:
 
-**Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig dein Konzept klingt – alle neuen
+**Wichtiger Hinweis:** Egal wie spektakulär oder hochrangig euer Konzept klingt – alle neuen
 Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
 **Standardausrüstung**. Eine eindrucksvolle Vorgeschichte verleiht zwar Flair, bringt zu Beginn
 aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
 freigeschaltet.
 
-1.  **Konzept & Rollenwahl:** Überlege dir zunächst eine grobe **Charakteridee**. Bist du ein
+1.  **Konzept & Rollenwahl:** Überlegt euch zunächst eine grobe **Charakteridee**. Ist euer Agent ein
     kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Hacker oder etwas ganz
-    Anderes? Deine Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
-    Diplomatie, Kampf, Technik, Medizin oder Infiltration. Du kannst entweder einen der vordefinierten
-    **Archetypen** wählen (siehe unten) oder ein eigenes Konzept ausarbeiten. Wenn du einen Archetypen
-    übernimmst, hast du sofort einen spielbereiten Helden mit stimmigem Hintergrund und ausbalancierten
-    Werten. Entscheidest du dich für ein eigenes Konzept, hilft es, sich kurz ein **Background-
-    Storyboard** vorzustellen: Aus welcher Epoche stammt dein Agent? Wie wurde er vom ITI rekrutiert?
-    Warum eignet er sich besonders für Zeitreisen? – Diese Fragen geben dir Ansatzpunkte für Attribute
-    und Talente. (Cineastischer Tipp: Stell dir eine kurze Filmszene vor, die deinen Charakter in Aktion
+    Anderes? Eure Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
+    Diplomatie, Kampf, Technik, Medizin oder Infiltration. Ihr könnt entweder einen der vordefinierten
+    **Archetypen** wählen (siehe unten) oder ein eigenes Konzept ausarbeiten. Wenn ihr einen Archetypen
+    übernehmt, habt ihr sofort einen spielbereiten Helden mit stimmigem Hintergrund und ausbalancierten
+    Werten. Entscheidet ihr euch für ein eigenes Konzept, hilft es, sich kurz ein **Background-
+    Storyboard** vorzustellen: Aus welcher Epoche stammt euer Agent? Wie wurde er vom ITI rekrutiert?
+    Warum eignet er sich besonders für Zeitreisen? – Diese Fragen geben euch Ansatzpunkte für Attribute
+    und Talente. (Cineastischer Tipp: Stellt euch eine kurze Filmszene vor, die euren Charakter in Aktion
     zeigt, um sein Wesen zu verdeutlichen.)
 
      Vor der Attributvergabe prüft
@@ -187,81 +187,81 @@ freigeschaltet.
 
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
-    Affinität) und **SYS** (Systemkapazität für Implantate). Du startest mit einem Budget von
+    Affinität) und **SYS** (Systemkapazität für Implantate). Ihr startet mit einem Budget von
     **18 Attributspunkten** (6×3). Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
     Jede Absenkung unter 3 setzt exakt einen Punkt frei; jede Steigerung verbraucht einen Punkt.
     Der HUD-Kodex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt, wenn ihr überzieht
     oder Punkte unverteilt lasst.
     Neue Agenten sind in der Regel kompetent, aber keine Übermenschen – extreme Ausprägungen (z.B. 5 in
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Als
-    Richtlinie kannst du jedem Attribut zunächst den Durchschnittswert **3** geben und dann einige
-    Punkte gemäß deinem Konzept umverteilen: Erhöhe die Schlüsselfähigkeiten deines Charakters und senke
+    Richtlinie könnt ihr jedem Attribut zunächst den Durchschnittswert **3** geben und dann einige
+    Punkte gemäß eurem Konzept umverteilen: Erhöht die Schlüsselfähigkeiten eures Charakters und senkt
     ggf. einen weniger wichtigen Wert auf 2, um einen zusätzlichen Punkt woanders einsetzen zu können.
     Achtet darauf, dass die Summe bis zum Abschluss wieder **18** ergibt.
     Kein Startwert sollte normalerweise über **5** liegen oder unter **2** fallen. Die Beispiel-
     Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
     STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
-    hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)_ Nachdem du die Zahlen verteilt hast,
-    kannst du mit der Spielleitung abstimmen, ob das Profil stimmig und ausgeglichen wirkt. Die KI
+    hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)_ Nachdem ihr die Zahlen verteilt habt,
+    könnt ihr mit der Spielleitung abstimmen, ob das Profil stimmig und ausgeglichen wirkt. Die KI
     könnte an dieser Stelle z.B. kommentieren: _„Kodex evaluiert die Eingaben... Die Attributswerte
     liegen im üblichen Bereich für neue Agenten.“\*
 
-3.  **Talente wählen:** **Talente** sind spezielle Fertigkeiten, Vorzüge oder Tricks, die deinen
+3.  **Talente wählen:** **Talente** sind spezielle Fertigkeiten, Vorzüge oder Tricks, die euren
     Charakter von anderen unterscheiden. Sie verleihen **spezialisierte Boni** auf bestimmte Aktionen
     (meist **+2** auf relevante Proben) oder erlauben automatische Erfolge bei Routineaufgaben in ihrem
-    Bereich. Zu Beginn wählst du in der Regel **drei Talente** für deinen Charakter – orientiert am
-    Konzept. Überlege, was deine Figur besonders gut kann oder was sie einzigartig macht. Viele Talente
-    sind selbsterklärend (z.B. _Schleichprofi_, _Sprengstoffexperte_, _Polyglott_), und du kannst sie in
+    Bereich. Zu Beginn wählt ihr in der Regel **drei Talente** für euren Charakter – orientiert am
+    Konzept. Überlegt, was eure Figur besonders gut kann oder was sie einzigartig macht. Viele Talente
+    sind selbsterklärend (z.B. _Schleichprofi_, _Sprengstoffexperte_, _Polyglott_), und ihr könnt sie in
     Absprache mit der SL auch selbst formulieren. Wichtig ist, dass jedes Talent dem Charakter **im
-    Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist. Wähle am besten Talente, die
-    deine wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B. _Überreden_ als Talent nehmen,
+    Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist. Wählt am besten Talente, die
+    eure wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B. _Überreden_ als Talent nehmen,
     ein Hacker _Computerspezialist_, ein Arzt _Heilkundiger_, etc. – Anregungen liefert die Archetypen-
     Liste unten, wo bei jedem Charakter drei beispielhafte Talente aufgeführt sind. Die KI-Spielleitung
     kann beim Erstellen Vorschläge machen: _„Mira hätte als Hackerin wohl Talente wie Drohnensteuerung
-    oder Techno-Mancer im Repertoire. Möchtest du etwas in der Art wählen?“_ – Auf diese Weise
+    oder Techno-Mancer im Repertoire. Möchtet ihr etwas in der Art wählen?“_ – Auf diese Weise
     integriert sich die Charaktererschaffung nahtlos ins Spiel, anstatt eine trockene Zahlenübung zu
     sein. Psi-spezifische Talente erscheinen nur, wenn das Flag `has_psi` gesetzt ist;
     `render_psi_option()` zeigt sie mit klaren Stresskosten.
 
 4.  **SYS-Verteilung & Implantate:** Das **SYS-Attribut** repräsentiert, wie viel _Cyberware_ oder
-    technische Upgrades dein Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
+    technische Upgrades euer Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
     zu Missionsbeginn ein oder zwei Implantate – technische Verbesserungen, die besondere Fähigkeiten
-    verleihen. Nun entscheidest du, ob und welche **Implantate** dein Charakter erhält. Jedes Implantat
-    hat einen **SYS-Kostenwert**, der deine verfügbare Systemkapazität entsprechend belegt. Die Summe
-    der Kosten darf deine SYS-Punkte nicht überschreiten. Anfänger-Agenten starten oft mit **einem
-    kleineren Implantat** (Kosten 1–2) und behalten etwas Puffer für spätere Upgrades. Wähle Implantate,
-    die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier- Implantat im Auge haben, ein Agent
+    verleihen. Nun entscheidet ihr, ob und welche **Implantate** euer Charakter erhält. Jedes Implantat
+    hat einen **SYS-Kostenwert**, der eure verfügbare Systemkapazität entsprechend belegt. Die Summe
+    der Kosten darf eure SYS-Punkte nicht überschreiten. Anfänger-Agenten starten oft mit **einem
+    kleineren Implantat** (Kosten 1–2) und behalten etwas Puffer für spätere Upgrades. Wählt Implantate,
+    die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
     aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
     (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
     damit 2 von ihren 3 SYS-Punkten. Hackerin Mira hat ein **Neuro-Link**-Interface und eine AR-
-    Kontaktlinse (je 1 SYS, zusammen 2 von 5 Punkten). Du kannst Implantate aus den Archetypen
-    übernehmen oder eigene erfinden – stimme dich mit dem SL ab, was plausibel ist. Die Installation
-    dieser Mods kann Teil deiner Hintergrundstory sein (_„In Miras Zeit sind Neuro-Links Standard, daher
+    Kontaktlinse (je 1 SYS, zusammen 2 von 5 Punkten). Ihr könnt Implantate aus den Archetypen
+    übernehmen oder eigene erfinden – stimmt euch mit der SL ab, was plausibel ist. Die Installation
+    dieser Mods kann Teil eurer Hintergrundstory sein (_„In Miras Zeit sind Neuro-Links Standard, daher
     startet sie damit“_) oder wird vom ITI vor der ersten Mission vorgenommen (cineastisch etwa als
     kurze Klinik-Szene im HQ). Notiz: Implantate bieten Vorteile, kommen aber selten ohne kleine
     Nachteile – diese können erzählerischer Natur sein (z.B. Wartung nötig, Aufsehen erregend) und
     werden von der SL im Blick gehalten.
 
-5.  **Startausrüstung festlegen:** Zuletzt bekommt dein Charakter seine **Ausrüstung**. Standardmäßig
+5.  **Startausrüstung festlegen:** Zuletzt bekommt euer Charakter seine **Ausrüstung**. Standardmäßig
     erhält jede*r Chrononaut*in einen **Einsatzanzug** der ITI – einen modernen Zeitreise-Overall, der
     an die Epoche angepasst werden kann (inklusive versteckter Schutzschicht und dem
-    AR-**HUD**-Overlay). Darüber hinaus wählst du persönliche Ausrüstungsgegenstände, die zu deiner
-    Rolle passen. Orientiere dich dabei an folgenden Faustregeln:
+    AR-**HUD**-Overlay). Darüber hinaus wählt ihr persönliche Ausrüstungsgegenstände, die zu eurer
+    Rolle passen. Orientiert euch dabei an folgenden Faustregeln:
 
-        - **Primär-Waffe oder -Werkzeug:** Wähle ein zentrales „Werkzeug“ deines Charakters. Für Kämpfer
+        - **Primär-Waffe oder -Werkzeug:** Wählt ein zentrales „Werkzeug“ eures Charakters. Für Kämpfer
 
     ist das eine Waffe (z.B. ein Sturmgewehr, Schwert oder futuristischer Blaster, je nach
     Herkunftsepoche), für Wissenschaftler vielleicht ein tragbares Labor oder Scanner, für Techniker ein
-    Toolkit oder Sprengsatz-Kit, etc. Dieses Item ist dein Markenzeichen im Feld (siehe Beispiele
-    unten). - **Sekundärbewaffnung/Gadget:** Nimm ein bis zwei weitere nützliche Gegenstände. Das kann eine
+    Toolkit oder Sprengsatz-Kit, etc. Dieses Item ist euer Markenzeichen im Feld (siehe Beispiele
+    unten). - **Sekundärbewaffnung/Gadget:** Nehmt ein bis zwei weitere nützliche Gegenstände. Das kann eine
     **Sidearm** (Zweitwaffe) sein – viele Charaktere tragen z.B. eine leichte Pistole oder versteckte
     Klinge – sowie ein **Gadget** oder Spezialgerät. Beispielsweise führt Henry (Undercover-Spion) neben
     einer leisen Pistole immer Dietriche, Gifte und ein Safeknacker-Kit mit, während Dr. Richter (Medic)
-    ein Medikit und einen Paradoxon-Scanner dabeihat. Achte auf Vielfalt: Wenn deine Primärausrüstung
-    kämpferisch ist, wähle als Gadget vielleicht etwas Nicht-Tödliches (Betäubungsmittel, Werkzeug) und
-    umgekehrt. - **Epoche und Hintergrund:** Berücksichtige, aus welcher Zeit du kommst und in welche Zeit du
-    geschickt wirst. ITI rüstet Agenten mit _zeittypischen_ Gegenständen aus. Eine Agentin aus 1910 hat
+    ein Medikit und einen Paradoxon-Scanner dabeihat. Achtet auf Vielfalt: Wenn eure Primärausrüstung
+    kämpferisch ist, wählt als Gadget vielleicht etwas Nicht-Tödliches (Betäubungsmittel, Werkzeug) und
+    umgekehrt. - **Epoche und Hintergrund:** Berücksichtigt, aus welcher Zeit ihr kommt und in welche Zeit ihr
+    geschickt werdet. ITI rüstet Agenten mit _zeittypischen_ Gegenständen aus. Eine Agentin aus 1910 hat
     evtl. einen Revolver und Morphium-Spritzen dabei, während ein Futurist Laserwaffen und Nano-Drohnen
     nutzen kann. Übertechnologische Geräte werden für historische Missionen oft **getarnt** (z.B. ein
     Laser in Form eines Flints). Die SL/Quartiermeister kann hier beraten. Grundsätzlich gilt: **High-
@@ -270,7 +270,7 @@ freigeschaltet.
     experimentelle Kybernetik) erst ab höherem Level oder Ruf verfügbar sind.
     - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
-    gesunder Menschenverstand: deine Figur soll weder unterausgerüstet noch überladen ins Abenteuer
+    gesunder Menschenverstand: Eure Figur soll weder unterausgerüstet noch überladen ins Abenteuer
     starten.
 
 ### Basis-Kit {#baseline-kit}
@@ -284,32 +284,32 @@ keinen großen mechanischen Einfluss haben, aber Flair geben.
 
 _Immersive Note:_ Die KI-Spielleitung kann die Ausrüstungswahl ins Spiel einbinden. Etwa durch eine
 **Briefing-Szene** im Rüstungsdepot: _„Im gedämpften Neonlicht der Waffenkammer legt der
-Quartiermeister ein Auswahl-Tablet vor dich hin. ‚Wählen Sie Ihre Ausrüstung, Agent.‘ Dein HUD zeigt
+Quartiermeister ein Auswahl-Tablet vor euch hin. ‚Wählen Sie Ihre Ausrüstung, Agenten.‘ Euer HUD zeigt
 eine Liste empfohlener Items…“_ So spüren die Spieler gleich die Atmosphäre des HQ. Sobald die Wahl
 getroffen ist, bestätigt der Kodex die Ausstattung. \*(Tipp: Hier kann auch geklärt werden, was
 bereits am Charakter dran ist und was im **_HQ-Lager_** bleibt – überschüssige Spezialausrüstung
 kann im Feld hinderlich sein.)\*
 
-**Abschluss der Erstellung:** Hast du alle obigen Schritte durchlaufen, steht dein Charakter bereit.
-Die Spielleitung sollte nun gemeinsam mit dir prüfen, ob alles **zusammenpasst** – Attribute,
+**Abschluss der Erstellung:** Habt ihr alle obigen Schritte durchlaufen, steht euer Charakter bereit.
+Die Spielleitung sollte nun gemeinsam mit euch prüfen, ob alles **zusammenpasst** – Attribute,
 Talente, Implantate und Ausrüstung ergeben idealerweise ein konsistentes Bild. Eventuell justiert
 ihr noch Kleinigkeiten nach. Anschließend wird der Charakter in den _Kodex_-Systemen registriert.
-In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Deine Figur zieht ihren
+In-Game könnte dies als **HUD-Profil-Upload** beschrieben werden: Eure Figur zieht ihren
 Einsatzanzug an, und im Sichtfeld erscheint eine Zusammenfassung der persönlichen Daten. Die KI-
-Spielleitung kann z.B. verkünden: _„Dein HUD kalibriert und zeigt deinen Status: Level 1; Vitalwerte
-100% (grün); Paradoxon 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfährst du
+Spielleitung kann z.B. verkünden: _„Euer HUD kalibriert und zeigt euren Status: Level 1; Vitalwerte
+100% (grün); Paradoxon 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfahrt ihr
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
-6. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legst du im HQ fest,
-   welcher der großen ITI‑Fraktionen du dich vorrangig anschließen möchtest –
+6. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legt ihr im HQ fest,
+   welcher der großen ITI‑Fraktionen ihr euch vorrangig anschließen möchtet –
    den **Chrono‑Symmetriker** _(Preserve)_, dem **Ordo Mnemonika** _(Neutral – Zugriff auf Preserve
    und Trigger)_, den **Kausalklingen** _(Preserve)_ oder der **Zerbrechlichen Ewigkeit** _(Trigger)_.
-   Diese Zuordnung bestimmt automatisch, ob du **Pro**, **Contra** oder **Neutral** agierst.
-   Der Kodex speichert die Wahl permanent; dein HUD markiert sie farblich (Blau = Preserve,
+   Diese Zuordnung bestimmt automatisch, ob ihr **Pro**, **Contra** oder **Neutral** agiert.
+   Der Kodex speichert die Wahl permanent; euer HUD markiert sie farblich (Blau = Preserve,
    Rot = Trigger, Grau = Neutral). Ein späterer Wechsel ist nur einmal möglich und
    sollte gut überlegt sein.
 
-Jetzt bist du bereit für die erste Mission!
+Jetzt seid ihr bereit für die erste Mission!
 
 ## Erste Schritte im ITI
 
@@ -702,23 +702,23 @@ Zeitsprung-Methoden.
 noch nach wichtigen Story-Meilensteinen. So wird garantiert, dass eine
 Standardkampagne mit zehn Missionen alle Agenten auf Level 10 führt.
 
-**Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass dein Agent dazulernt und an Erfahrung
+**Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass euer Agent dazulernt und an Erfahrung
 gewinnt. Anstatt dies abstrakt zu handhaben, bettet ZEITRISS den Fortschritt ins Narrativ ein. Wenn
-der SL verkündet, dass deine Gruppe nach der letzten Mission ein Level aufsteigt, kann der **KI-
-Spielleiter (Kodex)** eine kleine **Montage-Sequenz** beschreiben: etwa wie dein Charakter im HQ-
+die SL verkündet, dass eure Gruppe nach der letzten Mission ein Level aufsteigt, kann der **KI-
+Spielleiter (Kodex)** eine kleine **Montage-Sequenz** beschreiben: etwa wie euer Charakter im HQ-
 Dojo von einem Veteranen neue Tricks lernt, im Schießstand übt oder im Archiv bis spät in die Nacht
-Bücher wälzt. Diese Trainings- oder Forschungs-Montagen zeigen, wodurch sich deine Werte verbessern.
+Bücher wälzt. Diese Trainings- oder Forschungs-Montagen zeigen, wodurch sich eure Werte verbessern.
 **Neue Talente oder höhere Attribute** sollten nach Möglichkeit storymäßig begründet werden – z.B.
 ein Anstieg in GES könnte als Parkour-Training im Hindernisparcours des HQ inszeniert werden. Solche
 Szenen kosten kein zusätzliches In-Game-Geld oder Ressourcen, nur Zeit im HQ (die zwischen Missionen
 relativ frei fließt).
 
-**Verbesserungen pro Stufe:** Bei jedem Level-Aufstieg darfst du deinen Charakter **mechanisch
+**Verbesserungen pro Stufe:** Bei jedem Level-Aufstieg dürft ihr euren Charakter **mechanisch
 verbessern**. Üblicherweise bedeutet das:
 
-- **+1 Attributspunkt** (steigere ein Attribut deiner Wahl um _eins_, bis max. 14 möglich; ab 11
-  würfelst du mit einem W10, ab 14 erhältst du zusätzlich einen Heldenwürfel) **oder** erlerne
-  **ein neues Talent**. Besprich mit dem SL, was für deine Figur sinnvoller ist – Kämpfer investieren
+- **+1 Attributspunkt** (steigert ein Attribut eurer Wahl um _eins_, bis max. 14 möglich; ab 11
+  würfelt ihr mit einem W10, ab 14 erhaltet ihr zusätzlich einen Heldenwürfel) **oder** erlernt
+  **ein neues Talent**. Sprecht mit der SL, was für eure Figur sinnvoller ist – Kämpfer investieren
   vielleicht erst in Stärke, Forscher eher in neue Spezialtalente. Je höher das Level, desto _langsamer_
   sollten Attributssteigerungen stattfinden, um die Balance zu wahren (z.B. nicht jedes Level ein
   Attribut erhöhen, sondern abwechselnd mit Talent freischalten).
@@ -729,7 +729,7 @@ verbessern**. Üblicherweise bedeutet das:
   sollten solche Spitzenwerte selten und erst bei sehr erfahrenen Chrononauten vorkommen. Talente kann
   man dagegen fast unbegrenzt ansammeln, solange sie das Konzept erweitern und nicht brechen. Die
   Archetypen liefern viele Ideen für Talente, sodass
-  du später neue auswählen oder eigene kreieren kannst.
+  ihr später neue auswählen oder eigene kreieren könnt.
 
 **Lebensenergie und andere Steigerungen:** ZEITRISS verwendet anstelle klassischer Trefferpunkte ein
 **Verletzungsstufen-System** – das heißt, eure Lebensenergie steigt nicht direkt mit dem Level,
@@ -738,18 +738,18 @@ oder Talente wie _Schmerzresistenz_ steigern indirekt die Widerstandskraft. Wenn
 HP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
 standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: **Ruf** (siehe unten),
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
-deinen aktuellen ITI-Rang zeigt.
+euren aktuellen ITI-Rang zeigt.
 
-**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl deine **Level-Zahl** als auch den
+**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch den
 **Befähigungsindex** ein. Letzterer basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
 Unter dem Namen läuft ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten Level ist.
-Dein Charakter würde nie laut verkünden „Ich hab Level 3 erreicht“ – innerhalb der Spielwelt gilt
+Euer Charakter würde nie laut verkünden „Ich hab Level 3 erreicht“ – innerhalb der Spielwelt gilt
 nur der Befähigungsindex als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
-exakten Fortschritt nennen, z.B.: _„Dein HUD zeigt Level 3 (70 % bis Level 4) und
+exakten Fortschritt nennen, z.B.: _„Euer HUD zeigt Level 3 (70 % bis Level 4) und
 Befähigungsindex +1.“_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
 HUD-Zusammenfassung könnte lauten: \*„**_HUD-Status_** – Rang +1 (Level 3, 71 % bis Level 4); Vital:
 100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
-Bereich.“\* – daran siehst du auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
+Bereich.“\* – daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen – in der sogenannten **HQ-Phase** – habt ihr
 Gelegenheit, euren Fortschritt auszuspielen. Typische **Downtime-Aktivitäten** sind Training,
@@ -760,7 +760,7 @@ HQ-Phase “aktiviert” werden. Ebenso können einzelne Attribute durch intensi
 Missionen gesteigert werden (nach SL-Vorgabe, meist in Verbindung mit einem Level-Up). Wichtig ist,
 dass solche Verbesserungen nicht aus dem Nichts kommen: Wenn Alex z.B. plötzlich besser schießen
 möchte, könnte er im HQ-Schießstand üben. Die KI-Spielleitung ermuntert zu solchen **Charakter-
-Momenten**, anstatt nur trocken „+1 GES“ zu notieren. So wird Progression Teil der Geschichte deines
+Momenten**, anstatt nur trocken „+1 GES“ zu notieren. So wird Progression Teil der Geschichte eures
 Chrononauten.
 
 ## Rufsystem (Ansehen bei Fraktionen & ITI)
@@ -808,20 +808,20 @@ aber gehasst sein.
 **Darstellung im HUD:** Das HUD-Overlay eures Anzugs kann auch **Reputationsinformationen**
 anzeigen, soweit bekannt. Beispielsweise könnte auf Nachfrage im UI stehen: _„Ruf: Chrono‑Symmetriker = +2
 (anerkannt), Kausalklingen = –1 (misstrauisch)“_. Das ITI-System erfasst also, wie euch wichtige
-Gruppen sehen. Die KI-Spielleitung kann diese Daten ins Spiel einfließen lassen, etwa: _„Dein HUD
-warnt: Die Dorfbewohner wirken dir gegenüber feindselig (Ruf –2).“_ – was dem Charakter implizit zu
+Gruppen sehen. Die KI-Spielleitung kann diese Daten ins Spiel einfließen lassen, etwa: _„Euer HUD
+warnt: Die Dorfbewohner wirken euch gegenüber feindselig (Ruf –2).“_ – was dem Charakter implizit zu
 denken gibt, ohne direkt mit Zahlen um sich zu werfen. In-world kann man das als _„Sozial-Scan“_
 erklären, basierend auf Beobachtungen und Datenbanken. (Natürlich ist das HUD nicht hellseherisch –
 es liefert nur Infos, die das ITI plausibel hat. Die SL soll es sparsam einsetzen und nur bei klaren
 Tendenzen.)
 
-**Ruf beim ITI (intern):** Deine Beförderungen richten sich nach deinem Ansehen bei den internen
-Fraktionen des Instituts. Dabei gilt: Dein ITI‑Ruf ist immer so hoch wie der beste Rufwert, den du
-aktuell bei einer dieser Gruppen vorweisen kannst – etwa bei den Chrono‑Symmetriker, dem Ordo
+**Ruf beim ITI (intern):** Eure Beförderungen richten sich nach eurem Ansehen bei den internen
+Fraktionen des Instituts. Dabei gilt: Euer ITI‑Ruf ist immer so hoch wie der beste Rufwert, den ihr
+aktuell bei einer dieser Gruppen vorweisen könnt – etwa bei den Chrono‑Symmetriker, dem Ordo
 Mnemonika, den Kausalklingen oder der Zerbrechlichen Ewigkeit. Steigt dieser Fraktionsruf, erhöht
-sich automatisch auch dein ITI‑Ruf. Entsprechend nutzt das ITI dieselbe Skala von **–5** bis **+5**
+sich automatisch auch euer ITI‑Ruf. Entsprechend nutzt das ITI dieselbe Skala von **–5** bis **+5**
 und die Missionserfolgswerte aus der Ruftabelle. Bei **Ruf +2** folgt für gewöhnlich die Beförderung
-zum _Feldagenten_, ab **+4** giltst du als _Elitechrononaut_. Das absolute Maximum von **+5** bringt
+zum _Feldagenten_, ab **+4** gilt euer Team als _Elitechrononauten_. Das absolute Maximum von **+5** bringt
 umfassende Privilegien.
 
 ## Zugang zu Ausrüstung & Cyberware (HQ-Phase)
@@ -943,13 +943,13 @@ Chrononauten mit jeder Mission wachsen, auch wenn nur der Kodex ihre Taten verme
 
 ### Agentenprofil & Legacy-Logik {#agentenprofil-legacy}
 
-_Dein Name gehoert nicht der Geschichte – sondern dem Kodex._
+_Euer Name gehoert nicht der Geschichte – sondern dem Kodex._
 
 Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten werden schnell vergessen.
 
 > **Epochen erinnern Ereignisse. Nicht Personen.**
 
-| Ebene | Wirkung deiner Entscheidungen |
+| Ebene | Wirkung eurer Entscheidungen |
 | --- | --- |
 | **Kodex** | Erkennt Missionsmuster, wertet Loyalitaet, Zugriffsstufen steigen |
 | **ITI-HQ** | Vergibt Ruf, Ressourcen, Sonderauftraege |

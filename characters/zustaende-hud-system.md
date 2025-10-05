@@ -84,7 +84,7 @@ im Überblick:
     **Leichter Schmerz** ist spürbar, Adrenalin hält einen aber auf den Beinen. _System:_ **–1
     Malus** auf feine oder konzentrationsintensive Aktionen (es fällt etwas schwerer, sich 100%ig zu
     fokussieren), ansonsten **keine großen Einschränkungen**; Bewegung weiterhin normal. Das HUD
-    ergänzt automatisch `Wundmalus -1` in deine nächsten Würfelbefehle. _Heilung:_
+    ergänzt automatisch `Wundmalus -1` in eure nächsten Würfelbefehle. _Heilung:_
     Solche Blessuren heilen oft **innerhalb einer Szene oder bis zur nächsten Mission** von selbst. Im HQ genügt ein
     Desinfektionsspray, Verband und eine Nacht Ruhe – zum Start der nächsten Mission sind leichte
     Wunden meist **automatisch verheilt**.
@@ -371,8 +371,8 @@ Lebenspunkte hinausgehen:
   nur auf HP, sondern auch darauf, ihre **Charaktere mal durchatmen zu lassen**. Wichtig ist, dass
   Stress **nicht überstrapaziert** wird – es soll ein zusätzliches Drama-Element sein, kein
 dauerhafter Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur die Auswirkungen
-beschreiben („Du merkst, wie deine Hände zittern nach all dem...“), oder offen kommunizieren
-(„Stress 5/10 – Du spürst deutliche Anspannung.“), je nach bevorzugtem Stil. Das HUD besitzt
+beschreiben („Ihr merkt, wie eure Hände zittern nach all dem...“), oder offen kommunizieren
+(„Stress 5/10 – Ihr spürt deutliche Anspannung.“), je nach bevorzugtem Stil. Das HUD besitzt
 einen Toggle `/stress open|hidden`.
 - **Stress-Momente:** Steht das Team unter akutem Zeitdruck (nur noch wenige
   Runden), blendet das HUD automatisch einen Countdown ein. Scheitert eine
@@ -401,7 +401,7 @@ einen Toggle `/stress open|hidden`.
   Auf **2** heilt das Team **1 HP**.
   Bei **3** ist die nächste Probe um **–1 SG** erleichtert.
   Auf **4** sorgt ein Adrenalinrausch für **+2 Initiative** auf die nächste Kampfhandlung.
-  Bei **5** beruhigt sich der Zeitstrom: Psi-Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlst du dich physisch geerdet.
+  Bei **5** beruhigt sich der Zeitstrom: Psi-Heat 0, 2 PP, Zustände weg. Einen Herzschlag fühlt ihr euch physisch geerdet.
   Anschließend springt der Index auf 0.
   Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index.
   Seeds zählen für alle, das Fülltempo richtet sich
@@ -499,8 +499,8 @@ _Kodex:_
 > `Rift-Koordinatenpotenzial: hoch`
 
 #### PARADOXON 5/5 – CLUSTERCREATE
-> *"Der Riss ist da. Du kannst ihn sehen, noch bevor er geschieht."*
-> Du hast genug Resonanz erzeugt.
+> *"Der Riss ist da. Ihr könnt ihn sehen, noch bevor er geschieht."*
+> Ihr habt genug Resonanz erzeugt.
 > **Paradoxon 5 erreicht – neue Rift-Koordinaten verfügbar.**
 > Kodex vermerkt **1–2 neue Rift-Ziele** auf der Raumzeitkarte. Diese werden erst
 > nach Episodenende freigeschaltet.
@@ -552,7 +552,7 @@ bei der keine Risse oder Zeitkreaturen erscheinen.
 **Mini-Beispiele**
 
 1. *Mittelalter:* Ein Runensymbol pulsiert – die Gruppe verliert **1 Stress**.
-2. *Viktorianisch:* Dein Monokel-HUD leuchtet kurz und heilt **1 HP**.
+2. *Viktorianisch:* Euer Monokel-HUD leuchtet kurz und heilt **1 HP**.
 3. *Zweiter Weltkrieg:* Funkgerät surrt, die nächste Probe ist **–1 SG** leichter.
 4. *Kalter Krieg:* Ein Adrenalinrausch verleiht **+2 Initiative**.
 5. *Cyber-Future:* Psi-Heat sinkt auf 0 und das Team erhält **2 PP**; negative Zustände lösen sich auf.
@@ -578,9 +578,9 @@ will, kann folgende **optionale Ressourcensysteme** modular hinzufügen. Diese W
   **Survival-Feeling oder taktische Tiefe** möchte. In einem filmischeren Spiel hingegen ignoriert
   man Ausdauer bewusst, um Helden nicht künstlich zu bremsen.
 - **PP-Pool (Psi-Energie):** Power-Punkte (PP) sind fest an _Temporale Affinität (TEMP)_
-  gebunden; dein Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
+  gebunden; euer Pool entspricht also dem TEMP-Wert. Starke/mittlere/geringe
   Kräfte kosten 3/2/1 PP und lösen 3/2/1 Runden Cooldown aus. Nach jeder
-  Kampfrunde kannst du pro **3 TEMP** 1 PP regenerieren, falls eine
+  Kampfrunde könnt ihr pro **3 TEMP** 1 PP regenerieren, falls eine
   Willenskraftprobe (CHA) gegen doppelten Psi-Heat gelingt; nach jedem Kampf wird
   der Pool voll aufgefüllt. Große
   Effekte erhöhen die Psi-Heat. Im HUD zeigt ein Ω-Symbol die aktuelle PP-Zahl.
@@ -611,7 +611,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
   Charakter _im selben Moment_ reagiert, in dem etwas passiert, und so den Ablauf „unterbricht“.
   Beispiel: Ein Agent sieht, wie ein Feind den Finger krümmt, um zu schießen – der Agent ruft:
   _„Unterbrechung! Ich werfe sofort eine Blendgranate!“_ Wenn die SL die Unterbrechung zulässt (ggf.
-  mit einer Bedingung wie „du verbrauchst dafür deine nächste reguläre Aktion“ oder einem
+  mit einer Bedingung wie „ihr verbraucht dafür eure nächste reguläre Aktion“ oder einem
   erfolgreichen Reflex-Wurf), wird die granate **noch bevor** der Schuss fällt ausgelöst.
   Unterbrechungen sind als **dramatisches Mittel** zu verstehen: In Filmen sieht man oft, wie jemand
   im _letzten Augenblick_ noch etwas tut. Im Spiel sollten sie **restriktiv** gehandhabt werden –
@@ -625,9 +625,9 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
   Unterbrechungen extrem **spannende Wendungen** erzeugen.
 - **Reaktionen:** Reaktionen sind **Antworten auf Aktionen anderer**, die sofort erfolgen, aber
   nicht unbedingt den gegnerischen Ablauf verhindern – eher _parallel_ dazu oder im direkten
-  Anschluss. Klassisches Beispiel: der **Gelegenheitsangriff** – ein Gegner läuft an Dir vorbei, und
-  _als Reaktion_ darfst Du einen schnellen Schlag ausführen. Oder der Feind schießt auf Dich, und
-  _als Reaktion_ wirfst Du Dich zu Boden (**Ausweichreaktion**), um schwerer getroffen zu werden.
+  Anschluss. Klassisches Beispiel: der **Gelegenheitsangriff** – ein Gegner läuft an euch vorbei, und
+  _als Reaktion_ dürft ihr einen schnellen Schlag ausführen. Oder der Feind schießt auf euch, und
+  _als Reaktion_ werft ihr euch zu Boden (**Ausweichreaktion**), um schwerer getroffen zu werden.
   Anders als Unterbrechungen, die das Geschehen _unterbrechen_, laufen Reaktionen _mit_ dem
   auslösenden Ereignis. Viele Systeme erlauben z.B. **eine Reaktion pro Runde** außerhalb der
   eigenen Turnorder. In ZEITRISS könnt ihr das ähnlich handhaben: Jeder Charakter hat z.B. **1
@@ -654,7 +654,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
   weitergeht. Freie Aktionen eignen sich auch für **stilistische Beschreibungen**: Ein Agent könnte
   während seines Angriffs noch einen one-liner raushauen (frei) oder mitten im Sprint dem Team etwas
   zurufen. Dadurch wirken die Szenen lebendig. In begrenzten Situationen kann die SL freie Aktionen
-  auch _einschränken_ („Unter Wasser kannst du leider nichts rufen“) – meist regelt aber der gesunde
+  auch _einschränken_ („Unter Wasser könnt ihr leider nichts rufen“) – meist regelt aber der gesunde
   Menschenverstand, was geht. Spieler sollten also nicht versuchen, eine „freie Aktion“ zu dehnen,
   um doch noch etwas Großes umsonst zu erledigen. Solange alle ehrlich abschätzen, was in einer
   Sekunde machbar ist, bleiben freie Aktionen ein intuitives Werkzeug.
@@ -662,8 +662,8 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 > **Zusammenspiel:** Unterbrechungen, Reaktionen und freie Aktionen sorgen gemeinsam dafür, dass
 > sich Action-Sequenzen **weniger rundenbasiert, sondern organischer** anfühlen. Die KI-Spielleitung
 > sollte diese Möglichkeiten präsent halten. Im Text kann GPT z.B. anregen: \*„Der Wachmann hebt die
-> Pistole – möchtest du **_reagieren_** (z.B. in Deckung springen)?“_ oder _„Die Zeit scheint zu
-> stocken – falls du jetzt **_unterbrichst_** und den Zeit-Stasis-Gadget aktivierst, könntest du dem
+> Pistole – möchtet ihr **_reagieren_** (z.B. in Deckung springen)?“_ oder _„Die Zeit scheint zu
+> stocken – falls ihr jetzt **_unterbrecht_** und den Zeit-Stasis-Gadget aktiviert, könntet ihr dem
 > Ereignis zuvorkommen…“\*. So werden Spieler ermutigt, kreativ mit dem Zeitstrom zu spielen.
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
@@ -713,7 +713,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   Spezielle **Zustände** werden durch **Icons** verdeutlicht: Etwa ein Tröpfchen-Symbol bei
   _Blutung_, ein gebrochenes Knochen-Icon bei _Beinverletzung_, ein Totenkopf bei _Vergiftung_. Die
   KI-Spielleitung nutzt diese Anzeige, um **Schaden und Zustand atmosphärisch zu vermitteln**: Statt
-  plump „Du hast nur noch 2 HP“ zu sagen, kann GPT formulieren: _„Dein HUD blinkt Warnsymbole auf –
+  plump „Ihr habt nur noch 2 HP“ zu sagen, kann GPT formulieren: _„Euer HUD blinkt Warnsymbole auf –
   der Gesundheitsbalken sinkt in den roten Bereich, kritischer Blutverlust!“_ Der Spieler begreift
   sofort, wie schlimm es seinem Charakter geht, **in-world** durch die Augen der Figur.
 | HUD-Meldung | Regelbedeutung |
@@ -730,7 +730,7 @@ Ein kurzes Beispiel für eine typische HUD-Einblendung könnte so aussehen:
   00:59“), der runtertickt. Oder der Charakter hat einen Malus „Bewegung verlangsamt“ (etwa bei
   Beinverletzung) – ein kleines durchgestrichenes Laufsymbol taucht auf. Auf diese Weise verknüpft
   das HUD **Regelzustände mit dem Charaktererleben**: Der Spieler _sieht_ vor seinem inneren Auge,
-  was Sache ist. GPT kann etwa beschreiben: _„Ein kleines Icon blinkt im Sichtfeld: dein Bein ist
+  was Sache ist. GPT kann etwa beschreiben: _„Ein kleines Icon blinkt im Sichtfeld: euer Bein ist
   verletzt, ein Warnsymbol drosselt die Bewegungsanzeige.“_ – Das klingt nach Sci-Fi-Interface,
   deckt sich aber mit dem Malus aus der Regel.
 
@@ -788,11 +788,11 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   **Kampfsituation**. Je nach gewähltem Initiative-Modus könnte es eine **Reihenfolge-Anzeige**
   geben – z.B. eine Leiste mit den Porträt-Icons aller Beteiligten in aktueller Reihenfolge. In
   einem klassischen System sieht der Agent also, _wer wann dran ist_. Im cineastischen Modus könnte
-  das HUD flexibler sein, vielleicht nur hervorheben: **„Du bist am Zug!“** (durch ein
+  das HUD flexibler sein, vielleicht nur hervorheben: **„Ihr seid am Zug!“** (durch ein
   aufleuchtendes eigenes Icon) oder anzeigen, **wer aktuell agiert** (etwa ein roter Rahmen um dem
   Gegner-Avatar, der gerade feuert). Auch der **Team-Status** ist sichtbar: Jeder Chrononaut sieht
   die Vitalwerte seiner Mitstreiter als kleine Anzeigen am Rand. So kann GPT z.B. erwähnen: _„Miras
-  Vitalwert steht bei 100% (grün) – sie ist unverletzt.“_ oder _„Dein Team-Panel zeigt bei Nikolai
+  Vitalwert steht bei 100% (grün) – sie ist unverletzt.“_ oder _„Euer Team-Panel zeigt bei Nikolai
   nur noch 10% (blinkend rot) – er steht kurz vor dem Kollaps.“_ Dadurch haben Spieler **Ingame-
   Information**, wer Hilfe braucht, ohne out-of-character nachfragen zu müssen. Ebenfalls praktisch:
   **Team-Icons** können besondere Zustände der Kollegen anzeigen (z.B. ein **Häkchen** für „Auf
@@ -803,12 +803,12 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   (falls vorhanden)“_. So behält das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte
   diese Infos sparsam und kontextsensitiv einblenden – etwa nur, **wenn die Spieler danach fragen**
   („Ich schaue aufs HUD, welche Ziele noch offen sind“) oder wenn es die Charaktere brauchen (z.B.
-  nach einer langen Diskussion: _„Dein HUD erinnert dich: es bleibt noch das Ziel ‚Daten sichern‘
+  nach einer langen Diskussion: _„Euer HUD erinnert euch: Es bleibt noch das Ziel ‚Daten sichern‘
   unerledigt.“_). Neue Missionshinweise können automatisch aufleuchten, sobald sie anfallen (etwa
   _„❗ Neues Ziel: Fluchtweg finden“_ wenn eine Fluchtsituation eintritt). Das erhöht die Immersion,
   da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
 -  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
-- **W10-Schwelle:** Erreicht eines deiner Attribute den Wert **11**, blendet das HUD ein kleines
+- **W10-Schwelle:** Erreicht eines eurer Attribute den Wert **11**, blendet das HUD ein kleines
   **`W10 aktiv`** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
   (einmaliger Reroll).
 - **Riss-Tracker (temporaler Resonator):**[^riss-tracker] Der **Paradoxon-Index**
@@ -818,7 +818,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5 leuchtet es grün und kündigt
   den `ClusterCreate()`-Moment an. Steigt der Index weiter, pulsiert das Symbol, bis sich der Wert
   wieder beruhigt. GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf
-  Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf deiner
+  Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf eurer
   Raumzeitkarte aufblitzen…“_. Die Spieler
     erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradoxon-Effekte können
   gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
@@ -838,8 +838,8 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Geräts. Schlüssel-Items einer Mission können ebenso angezeigt werden – hat das Team etwa ein
   **Artefakt** gesichert, könnten alle ein kleines Symbol „Artefakt X – Gesichert“ sehen. Diese
   Anzeigen erlauben es, auch Ressourcendinge wie Munition oder Gadget-Abklingzeiten elegant ins
-  Spiel zu integrieren. GPT kann bei Nachfragen ins HUD blicken lassen: _„Dein HUD zeigt 2 Granaten
-  im Inventar-Slot an“_ anstatt einfach zu sagen „Du hast noch 2 Granaten“. So bleiben wir im
+  Spiel zu integrieren. GPT kann bei Nachfragen ins HUD blicken lassen: _„Euer HUD zeigt 2 Granaten
+  im Inventar-Slot an“_ anstatt einfach zu sagen „Ihr habt noch 2 Granaten“. So bleiben wir im
   Charakter.
 - **Kodex-Steuerung & Einblendung:** Das HUD ist nicht ständig volldisplayt – die Agenten können es
   **nach Belieben ein- und ausblenden** oder einzelne Module aufrufen. Gesteuert wird es über den
@@ -860,20 +860,20 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Weitere Fragen in derselben Szene erhöhen den Stress des Teams um **+1**.
 - **Immersion bewahren:** Das HUD ist ein Werkzeug, kein Selbstzweck. Die KI-Spielleitung sollte
   darauf achten, **Metagame-Informationen ins HUD zu verlegen**, um die Immersion zu stärken. Fragt
-  ein Spieler z.B. außerhab der Spielwelt „Wie viele HP hab ich noch?“, kann GPT antworten: _„Du
-  fühlst dich schwer angeschlagen – dein HUD zeigt deinen Vitalstatus bei etwa 20%.“_ So wird aus
-  der abstrakten Zahl wieder ein Gefühl im Charakter. Gleiches gilt für Regeln: Statt „Dein TEMP-
-  Wert ist kritisch niedrig“ könnte man sagen _„Dein HUD meldet: TEMP-Wert kritisch.“_ – was so
+  ein Spieler z.B. außerhab der Spielwelt „Wie viele HP hab ich noch?“, kann GPT antworten: _„Ihr
+  fühlt euch schwer angeschlagen – euer HUD zeigt euren Vitalstatus bei etwa 20%.“_ So wird aus
+  der abstrakten Zahl wieder ein Gefühl im Charakter. Gleiches gilt für Regeln: Statt „Euer TEMP-
+  Wert ist kritisch niedrig“ könnte man sagen _„Euer HUD meldet: TEMP-Wert kritisch.“_ – was so
   klingt, als hätte das ITI intern eben genau so einen Begriff. Kurz: Alles, was Zahlen und Regeln
   angeht, kann das HUD in **fluffige Sci-Fi-Anzeigen** verpacken. Damit bleibt der Spielfluss
   erzählerisch, ohne dass wichtige Infos verloren gehen.
 
 **Beispiel – HUD in Aktion:** Stellen wir uns vor, das Team flieht aus einem brennenden Tempel,
 verfolgt von wütenden Kultisten. Der Soldat Nikolai wurde verwundet. GPT könnte die Situation so
-schildern: \*„Während du keuchend durch den Rauch rennst, verschwimmt dir die Sicht – Blutverlust und
-Erschöpfung fordern ihren Tribut. Dein HUD flackert Warnungen: Vital 45%… 44%… Oben rechts blinkt
+schildern: \*„Während ihr keuchend durch den Rauch rennt, verschwimmt euch die Sicht – Blutverlust und
+Erschöpfung fordern ihren Tribut. Euer HUD flackert Warnungen: Vital 45%… 44%… Oben rechts blinkt
 ein rotes Herz-Icon. Ein Pfeil markiert den Ausgang, 30 Meter voraus, und das Missionsziel
-**_‚Entkommen‘_** leuchtet am Rand deines Sichtfelds. Im Team-Panel steht Miras Avatar bereits auf
+**_‚Entkommen‘_** leuchtet am Rand eures Sichtfelds. Im Team-Panel steht Miras Avatar bereits auf
 grün mit einem Häkchen – sie hat es nach draußen geschafft.\*\*“\* – Hier verstärkt das HUD die
 Hektik und gibt gleichzeitig wichtige Infos: Nikolais Gesundheitsstatus sinkt rapide, der Ausgang
 ist in Reichweite, das Primärziel ist noch offen, und Mira ist bereits sicher. All das erfährt der
@@ -944,7 +944,7 @@ oder Isolation.
 ╠══════════════════════════════════════════════════════╣
 ║ Hinweis: Dieses Interface bleibt auch bei Kodex-      ║
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
-║ Es ist physisch mit deiner AR-Kontaktlinse gekoppelt. ║
+║ Es ist physisch mit eurer AR-Kontaktlinse gekoppelt.  ║
 ╚══════════════════════════════════════════════════════╝
 {% endif %}
 {%- endmacro %}
