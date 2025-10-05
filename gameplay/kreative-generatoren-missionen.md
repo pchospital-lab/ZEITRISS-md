@@ -1295,7 +1295,7 @@ _Regel für die Kühlung der Epochengewichte:_
 _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austauschen. Die obigen
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
-### Rift Seeds (automatisch)
+### Rift-Seeds (automatisch)
 Rifts erscheinen bei Paradoxon 5. Das HQ notiert sie hier als `phase: Rift` ohne Episodennummer.
 Sie werden erst nach Abschluss des aktuellen Core-Arcs als separate Mission spielbar.
 
@@ -2024,7 +2024,7 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITR
   pitch: "Xerxes' Evakuierung vereiteln; Elite-Handler und Heavy-Mercs decken den König."
   timeslot: "480-09-22"
 
-### Rift Seed Catalogue {#rift-seed-catalogue}
+### Rift-Seed Catalogue {#rift-seed-catalogue}
 
 ```yaml
 - rift_id: "RIFT-NX01"
