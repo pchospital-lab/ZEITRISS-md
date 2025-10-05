@@ -464,7 +464,7 @@ ein Werkzeug, kein Autopilot.
 
 Die Spielleitung (oder GPT als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
 Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: „Wie viele HP habe ich noch?“,
-kann die SL antworten: _„Du fühlst dich schwer angeschlagen – dein HUD zeigt deinen
+kann die SL antworten: _„Ihr fühlt euch schwer angeschlagen – euer HUD zeigt euren
 Gesundheitsbalken bei ~20 %.“_ So bleiben Zahlen greifbar, ohne die Immersion zu brechen. Regelwerte
 lassen sich in ITI-Fachbegriffe übertragen (statt „-3 auf Aktionen“ blinkt eben ein roter
 **Statusbalken**). Das verstärkt die Verbindung von Spieler und Charakter: Man _sieht_ förmlich, was
@@ -472,9 +472,9 @@ die Figur spürt.
 
 Richtig eingesetzt, wird das HUD-Overlay zu einem mächtigen Stimmungselement: **Wie in einer
 Filmszene mit dezentem UI** sieht der Tisch die Mission aus Agenten-Perspektive. Etwa so: _„Während
-du keuchend durch den brennenden Tempel sprintest, flackert dein Sichtfeld: Vital 45%… 44%… Ein
-rotes Herzsymbol blinkt. Dein HUD markiert den Ausgang in 30 Metern mit einem Pfeil, daneben
-‚Missionsziel: Entkommen‘. Im Team-Status siehst du Miras Icon auf grün – sie hat es bereits nach
+ihr keuchend durch den brennenden Tempel sprintet, flackert euer Sichtfeld: Vital 45%… 44%… Ein
+rotes Herzsymbol blinkt. Euer HUD markiert den Ausgang in 30 Metern mit einem Pfeil, daneben
+‚Missionsziel: Entkommen‘. Im Team-Status seht ihr Miras Icon auf grün – sie hat es bereits nach
 draußen geschafft.“_. Solche Beschreibungen lassen die Spieler **mitfiebern wie in einem Videospiel
 oder Actionfilm**, wo der Held im Helm-Display die letzte Rettung aufblitzen sieht. Am Ende gilt:
 Der Kodex und das HUD sollen unterstützen und die Cinematic-Qualität erhöhen – sie sind Mittel zum

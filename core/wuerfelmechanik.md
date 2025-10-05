@@ -73,9 +73,9 @@ möglich, was besonders heroische Erfolge oder dramatische Wendungen darstellen 
 und Spieler erleben einen zusätzlichen Adrenalinstoß, wenn der Würfel „explodiert“ – denn aus einem
 sicheren Misserfolg kann so doch noch ein triumphaler Erfolg werden.
 
-**Kurzes Beispiel:** Zeigt der erste W6 eine **6**, wirfst du sofort einen zweiten.
+**Kurzes Beispiel:** Zeigt der erste W6 eine **6**, werft ihr sofort einen zweiten.
 Fällt dieser **4**, ergibt das **10** Punkte.
-Würfelst du stattdessen noch einmal eine **6**, kommst du auf **12**.
+Würfelt ihr stattdessen noch einmal eine **6**, kommt ihr auf **12**.
 Damit endet die Explosion – weitere Würfel sind nicht erlaubt, weil nur der erste W6 explodiert.
 _(Beispiel: Nadia muss einen schwierigen Sprung über eine Schlucht meistern. Sie hat nur mäßige Werte,
 bräuchte aber mindestens eine 10. Sie würfelt eine 6 – diese „explodiert“, sie darf erneut werfen.
@@ -552,7 +552,7 @@ Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario 
 
 Sobald Paradoxon-Index **5** erreicht ist, markiert das HQ nach Missionsende
 1–2 Rift-Seeds auf der Raumzeitkarte.
-Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findest du im
+Stat-Blöcke und Schadenswerte der dort auftauchenden Zeitkreaturen findet ihr im
 [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator).
 Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multiplikator:
 
