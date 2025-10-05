@@ -28,6 +28,24 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-03-19 – Beta GPT – Build 4.2.2 (Acceptance-Smoke-Auswertung ausstehend)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
+- Copy-&-Paste-Auftrag: Acceptance-Smoke-Regression (Dispatcher-Checkliste)
+
+```chatlog
+# Platzhalter: Bitte vollständigen GPT-Output aus dem Acceptance-Smoke-Durchlauf
+# hier einfügen, sobald der Run abgeschlossen ist.
+```
+
+**Offene Punkte**
+- [ ] Acceptance-Smoke-Checkliste um Boss-Gates, HUD-Badges und Psi-Heat
+      verifizieren (Logeintrag ergänzen).
+
+**Nachverfolgung**
+- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025).
+- QA-Fahrplan: Sprint 2 – Acceptance-Smoke-Checkliste.
+
 ## 2025-03-17 – Beta GPT – Build 4.2.2
 - Plattform: Proton LUMO (offline)
 - Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)

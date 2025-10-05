@@ -71,6 +71,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
 - [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
+  (Logeintrag ausstehend – QA-Log 2025-03-19)
 - [ ] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
 - [ ] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
 - [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern
@@ -92,6 +93,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | README-Querverweise | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
 | CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
+| Acceptance-Smoke-Checkliste | 🟡 in Arbeit | GPT-Run einholen & QA-Log ergänzen | Repo-Agent |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 
