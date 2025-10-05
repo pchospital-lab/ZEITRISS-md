@@ -28,6 +28,24 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-03-30 – Repo-Agent – Tooling-Evaluierung Link-Lint
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, Docs-Stand 2025-03-30
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – Link-Lint evaluieren
+
+```chatlog
+03:15 Repo-Agent: `python3 tools/lint_links.py README.md docs internal/qa`
+03:15 Tool: `Alle geprüften Links verweisen auf existierende Dateien.`
+03:16 Repo-Agent: Link-Lint in `make lint` eingebunden.
+```
+
+**Offene Punkte**
+- [x] QA-Fahrplan Sprint 3 – Link-Lint abhaken (Eintrag aktualisiert).
+
+**Nachverfolgung**
+- Commit/PR: folgt nach Merge (Link-Lint Evaluierung 2025-03-30).
+- QA-Fahrplan: Sprint 3 – Automatisierte Link-Prüfung (Status aktualisiert 2025-03-30).
+
 ## 2025-03-19 – Beta GPT – Build 4.2.2 (Acceptance-Smoke-Abgleich)
 - Plattform: OpenAI MyGPT (Beta-Klon)
 - Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)

@@ -2,6 +2,7 @@
 
 lint:
 	npm run lint:rt
+	npm run lint:links
 
 test:
 	npm run test

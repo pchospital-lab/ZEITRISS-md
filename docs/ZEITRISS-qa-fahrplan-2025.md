@@ -11,7 +11,7 @@ Der Fahrplan bündelt sämtliche QA-Aufgaben für ZEITRISS 2025. Er knüpft an
 Copy-&-Paste-Protokolle aus Beta-GPT- und MyGPT-Tests an, priorisiert die daraus
 abgeleiteten Maßnahmen und verweist auf die zugehörigen Artefakte. Prozess- und
 Formatregeln stehen in `AGENTS.md`, `CONTRIBUTING.md` sowie
-[docs/maintainer-ops.md](docs/maintainer-ops.md); dieses Dokument konzentriert
+[maintainer-ops.md](maintainer-ops.md); dieses Dokument konzentriert
 sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## QA-Zyklus
@@ -19,7 +19,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](docs/tester-playtest-briefing.md) durch.
+   [Copy-&-Paste-Auftrags](tester-playtest-briefing.md) durch.
 3. **Archivierung:** Das vollständige Chatprotokoll wird unter
    `internal/qa/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
    Build versehen.
@@ -89,8 +89,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   7d91e53, 8fe8de2, 52d1ba5, 9a1675d, 8208170, 22d3c33, 1be6f57)
 
 ### Sprint 3 – langfristig planen
-- [ ] Automatisierten Link-Lint für README und Docs in CI evaluieren und
+- [x] Automatisierten Link-Lint für README und Docs in CI evaluieren und
   Ergebnis im QA-Log festhalten.
+  (2025-03-30 – QA-Log 2025-03-30, Commit: folgt nach Merge)
 - [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
 - [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
@@ -105,7 +106,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
 | Acceptance-Smoke-Checkliste | ✅ 2025-03-23 | QA-Log 2025-03-19 referenzieren | Repo-Agent |
 | Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
-| Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
+| Automatisierte Link-Prüfung | ✅ 2025-03-30 | Link-Lint in CI-Läufen beobachten | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 | CHANGELOG QA-Verweise | ✅ 2025-03-26 | QA-Log-Referenzen beibehalten | Repo-Agent |
 | Glossar Terminologie 4.2.2 | ✅ 2025-03-26 | README-Glossar regelmäßig spiegeln | Docs-Verantwortliche |
