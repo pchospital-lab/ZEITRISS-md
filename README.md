@@ -47,6 +47,7 @@ tags: [meta]
     1. [Zeiteinheiten](#zeiteinheiten)
     1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
 1. [Playtest Feedback](#playtest-feedback)
+1. [QA-Artefakte & Nachverfolgung](#qa-artefakte--nachverfolgung)
 1. [How to Contribute](#how-to-contribute)
 
 <!-- Macro: StoreCompliance -->
@@ -947,6 +948,15 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
 Scanne den QR-Code oder besuche
 [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
+
+## QA-Artefakte & Nachverfolgung {#qa-artefakte--nachverfolgung}
+
+- [QA-Fahrplan 2025](docs/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking und Verweisen auf Commits.
+- [QA-Audit 2025](docs/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
+- [Beta-QA-Log 2025](internal/qa/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT inklusive Nachverfolgung.
+- [Maintainer-Ops](docs/maintainer-ops.md) – Plattform- und Upload-Checklisten, inklusive QA-spezifischer Routinen.
+
+Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
 
 ## How to Contribute
 

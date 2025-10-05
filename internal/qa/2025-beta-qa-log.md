@@ -26,6 +26,28 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-03-17 – Beta GPT – Build 4.2.2
+- Plattform: Proton LUMO (offline)
+- Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
+- Copy-&-Paste-Auftrag: siehe docs/tester-playtest-briefing.md Abschnitt "Beta"
+
+```chatlog
+03:11 Tester: Lade README, Core und Systems.
+03:15 Tester: Finde keinen Link zum QA-Fahrplan im README.
+03:18 Tester: CONTRIBUTING verweist beim QA-Log auf das Audit.
+03:24 Maintainer: QA-Fahrplan nennt noch keinen initialen Logeintrag.
+03:31 Tester: Übergabe abgeschlossen, bitte in Codex aufnehmen.
+```
+
+**Offene Punkte**
+- [x] README um direkte Links zu QA-Fahrplan, Audit und Beta-QA-Log ergänzen. → umgesetzt in README "QA-Artefakte & Nachverfolgung" (Sprint 1).
+- [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen aktuellen QA-Zyklus tauschen. → aktualisiert mit Log-/Audit-Pfaden und Synchronisationsschritt.
+- [x] QA-Log initialisieren und Beta-Protokoll verlinken. → dieser Eintrag dokumentiert den Startpunkt.
+
+**Nachverfolgung**
+- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025).
+- QA-Fahrplan: Sprint 1 – README-Querverweise, QA-Log initialisieren, CONTRIBUTING anpassen.
+
 ## Abschnittsvorlage
 ```
 ## 2025-03-17 – Beta GPT – Build 4.2.2
