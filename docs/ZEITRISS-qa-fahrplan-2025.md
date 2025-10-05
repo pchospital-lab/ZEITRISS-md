@@ -81,27 +81,28 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
 - [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
-  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+  (2025-03-17 – QA-Log 2025-03-17, Commit: 131046d)
 - [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
   QA-Zyklus prüfen und anpassen.
-  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+  (2025-03-17 – QA-Log 2025-03-17, Commits: 131046d, 03dad05)
 - [x] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
   und Prioritäten in diesem Fahrplan verlinken.
-  (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+  (2025-03-17 – QA-Log 2025-03-17, Commit: 131046d)
 - [x] QA-Fahrplan überarbeiten (dieses Dokument).
+  (2025-03-17 – QA-Log 2025-03-17, Commits: 5cbfce8, d2a3b4c, 3338360)
 
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
 - [x] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
-  (2025-03-23 – QA-Log 2025-03-19, Commit: folgt nach Merge)
+  (2025-03-23 – QA-Log 2025-03-19, Commit: e4d2872)
 - [x] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen
   und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
-  (2025-03-21 – Maintainer-Ops 1.2.0, Commit: folgt nach Merge)
+  (2025-03-21 – Maintainer-Ops 1.2.0, Commit: d2a3b4c)
 - [x] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
-  (2025-03-26 – QA-Log 2025-03-19 & 2025-03-17 verlinkt, Commit: folgt nach Merge)
+  (2025-03-26 – QA-Log 2025-03-19 & 2025-03-17 verlinkt, Commit: e5da4ad)
 - [x] Glossar um neue Terminologie aus Version 4.2.2 erweitern
   (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
-  (2025-03-26 – README-Glossar ergänzt, Commit: folgt nach Merge)
+  (2025-03-26 – README-Glossar ergänzt, Commit: e5da4ad)
 - [x] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
   nachtragen.
   (2025-03-27 – QA-Log 2025-03-19 verlinkt, Commits: b245bef, 5a3fbb3,
@@ -110,23 +111,23 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 ### Sprint 3 – langfristig planen
 - [x] Automatisierten Link-Lint für README und Docs in CI evaluieren und
   Ergebnis im QA-Log festhalten.
-  (2025-03-30 – QA-Log 2025-03-30, Commit: folgt nach Merge)
+  (2025-03-30 – QA-Log 2025-03-30, Commit: 445b8ed)
 - [x] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
-  (2025-10-05 – QA-Log 2025-10-05, Commit: folgt nach Merge)
+  (2025-10-05 – QA-Log 2025-10-05, Commit: 868883a)
 - [x] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
   protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
-  (2025-04-02 – QA-Log 2025-04-02, Commit: folgt nach Merge)
+  (2025-04-02 – QA-Log 2025-04-02, Commit: 3338360)
 
 ## Status-Dashboard (Stand: Überarbeitung 2025-04-02)
 | Maßnahme | Status | Nächster Schritt | Owner |
 | --- | --- | --- | --- |
-| QA-Fahrplan aktualisieren | ✅ erledigt | README-Referenz prüfen | Maintainer-Team |
-| README-Querverweise | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
+| QA-Fahrplan aktualisieren | ✅ erledigt | Statusblock bei jeder Änderung aktualisieren | Maintainer-Team |
+| README-Querverweise | ✅ 2025-03-17 | README-Änderungen stets mit QA-Verweisen abgleichen | Maintainer-Team |
 | QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
-| CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
+| CONTRIBUTING anpassen | ✅ 2025-03-17 | QA-Übergaben halbjährlich auditieren | Docs-Verantwortliche |
 | Acceptance-Smoke-Checkliste | ✅ 2025-03-23 | QA-Log 2025-03-19 referenzieren | Repo-Agent |
-| Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
+| Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Spiegelprozesse bei Plattform-Änderungen prüfen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ✅ 2025-03-30 | Link-Lint in CI-Läufen beobachten | Repo-Agent |
 | Runtime-Lint YAML/Pflichtfelder | ✅ 2025-10-05 | QA-Log 2025-10-05 referenzieren | Repo-Agent |
 | Plattform-Regressionstests | ✅ 2025-04-02 | Q2-Regressionstest protokollieren | QA-Koordination |

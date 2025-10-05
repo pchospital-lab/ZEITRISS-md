@@ -48,7 +48,7 @@ nachzuvollziehen.
 - [ ] Q4 2025 Regressionstest 08.–12.12.2025 abschließen und loggen.
 
 **Nachverfolgung**
-- Commit/PR: folgt nach Merge (Regressionstest-Terminplan 2025-04-02).
+- Commit/PR: 3338360 (Docs: QA-Termine formatiert).
 - QA-Fahrplan: Sprint 3 – Wiederkehrende MyGPT-Regressionstests (Status aktualisiert 2025-04-02).
 - Maintainer-Ops: Regressionstest-Zeitplan ergänzt 2025-04-02.
 
@@ -71,7 +71,7 @@ nachzuvollziehen.
 - [x] Save-Pflichtfelder automatisiert kontrollieren.
 
 **Nachverfolgung**
-- Commit/PR: folgt nach Merge (Runtime-Lint Pflichtfelder 2025-10-05).
+- Commit/PR: 868883a (Add runtime lint for YAML headers and Pflichtfelder).
 - QA-Fahrplan: Sprint 3 – Tooling erweitern (Status aktualisiert 2025-10-05).
 
 ## 2025-03-30 – Repo-Agent – Tooling-Evaluierung Link-Lint
@@ -89,7 +89,7 @@ nachzuvollziehen.
 - [x] QA-Fahrplan Sprint 3 – Link-Lint abhaken (Eintrag aktualisiert).
 
 **Nachverfolgung**
-- Commit/PR: folgt nach Merge (Link-Lint Evaluierung 2025-03-30).
+- Commit/PR: 445b8ed (Add docs link lint evaluation).
 - QA-Fahrplan: Sprint 3 – Automatisierte Link-Prüfung (Status aktualisiert 2025-03-30).
 
 ## 2025-03-19 – Beta GPT – Build 4.2.2 (Acceptance-Smoke-Abgleich)
@@ -114,7 +114,7 @@ nachzuvollziehen.
       verifizieren (Logeintrag ergänzt).
 
 **Nachverfolgung**
-- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025, CHANGELOG-QA-Verweise 2025-03-26).
+- Commits: e4d2872 (docs: acceptance smoke abgleich), e5da4ad (docs: korrigiere markdown-zeilenumbrueche).
 - QA-Fahrplan: Sprint 2 – Acceptance-Smoke-Checkliste (Status: abgeschlossen 2025-03-23).
 
 ## 2025-03-17 – Beta GPT – Build 4.2.2
@@ -136,7 +136,7 @@ nachzuvollziehen.
 - [x] QA-Log initialisieren und Beta-Protokoll verlinken. → dieser Eintrag dokumentiert den Startpunkt.
 
 **Nachverfolgung**
-- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025, README-Glossar Sync 2025-03-26).
+- Commits: 131046d (docs: synchronisiere qa-workflow-dokumente), 03dad05 (docs: schärfe rollen für qa-übergaben), e5da4ad (docs: korrigiere markdown-zeilenumbrueche).
 - QA-Fahrplan: Sprint 1 – README-Querverweise, QA-Log initialisieren, CONTRIBUTING anpassen.
 - Maintainer-Ops: Version 1.2.0 dokumentiert MyGPT als alleinige QA-Plattform und den Spiegelprozess
   (Sprint 2 – Spiegelprozesse).
