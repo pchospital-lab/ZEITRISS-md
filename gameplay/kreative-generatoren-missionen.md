@@ -1674,7 +1674,7 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: black_ops_pool
   title: "Karakorum‑Falschfracht"
-  pitch: "Schmuggle dich als Teppichhändler in einen mongolischen Steuerkonvoi."
+  pitch: "Schmuggelt euch als Teppichhändler in einen mongolischen Steuerkonvoi."
   timeslot: "Tag 0 Morgengrauen"
 
 - arc_id: "Silk1280"
@@ -1955,8 +1955,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 - **Paradoxon** stagniert oder sinkt ausschließlich, wenn CT‑Genesis kurz davor
   ist, den Atomkrieg auszulösen.
 
-Damit hast du denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
-sonst reine Humanoiden-Gefechte – perfekt dosiert für dein gewünschtes ZEITRISS-Feeling.
+Damit habt ihr denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
+sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITRISS-Feeling.
 
 # ─────────────────────────────────────────────────────────────
 # PRESERVE‑ARC – SALAMIS 480 v. Chr.

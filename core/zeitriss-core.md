@@ -15,7 +15,7 @@ tags: [core]
 
 ### Einführung & Leitbild
 
-Stell dir vor, ein Riss in der Zeit öffnet sich und ermöglicht Reisen in vergangene Epochen **und**
+Stellt euch vor, ein Riss in der Zeit öffnet sich und ermöglicht Reisen in vergangene Epochen **und**
 ferne Zukünfte. **ZEITRISS** ist ein textbasiertes Pen-&-Paper-Rollenspiel, in dem eine KI (GPT) als
 Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Gruppe – die Spieler
 übernehmen die Rollen von **Chrononauten**, Zeitagenten, die vom **Institut für Temporale
@@ -269,8 +269,8 @@ Kosten 2 und ein Neuro-Interface mit Kosten 3). Möchte er darüber hinaus noch 
 Fähigkeit aktivieren, müsste er zuerst eine andere Modifikation deaktivieren – oder er riskiert die
 Überlastung. Nicht alle Implantate oder Fähigkeiten müssen permanent _„an“_ sein – der Charakter
 kann entscheiden, welche er aktuell aktiv hält, um innerhalb seiner Grenze zu bleiben. Die
-Spielleitung achtet auf die Systemlast und wird ggf. im Spiel warnen: „Du spürst ein gefährliches
-Kribbeln an der Schädelbasis – dein Interface ist überlastet. Mehr Schub verkraftet dein System
+Spielleitung achtet auf die Systemlast und wird ggf. im Spiel warnen: „Ihr spürt ein gefährliches
+Kribbeln an der Schädelbasis – euer Interface ist überlastet. Mehr Schub verkraftet euer System
 nicht…“
 
 Durch die Systemlast-Beschränkung balanciert sich ein Charakter automatisch aus: Wer viel Cyber- und
@@ -520,7 +520,7 @@ keine direkte Wirkung – narrativ weicht das Ziel aus, blockt den Schlag ab ode
 daneben.
 
 **Schaden & Heilung:** Jeder Chrononaut startet mit etwa 10 LP.
-Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findest du im Modul
+Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findet ihr im Modul
 [Zustaende & HUD](../characters/zustaende-hud-system.md#vitalstatus).
 
 
@@ -850,7 +850,7 @@ Nach dem Seed-Eintrag fällt der Index auf 0 zurück.
 ## Paradoxon-Index (Positive Feedback Gauge)
 
 Der **Paradoxon-Index** misst nicht, wie instabil die Zeit wird,
-sondern **wie viel Resonanz dein Team bereits aufbaut**. Je höher der Wert,
+sondern **wie viel Resonanz euer Team bereits aufbaut**. Je höher der Wert,
 desto besser versteht das ITI die laufende Operation – und desto näher
 rückt der Zugriff auf seltene Rift-Ressourcen.
 
@@ -1137,7 +1137,7 @@ den Kurs selbst bestimmen – die Kampagnenstruktur passt sich ihrem Tempo und i
 an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaßen spannend geführt
 und frei erkundet werden kann.
 
-**Willkommen bei ZEITRISS 4.2.2 – deine Reise durch die Zeit beginnt jetzt!**
+**Willkommen bei ZEITRISS 4.2.2 – eure Reise durch die Zeit beginnt jetzt!**
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
 
