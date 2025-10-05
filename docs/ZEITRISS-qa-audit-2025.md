@@ -146,7 +146,8 @@ Hochstufen-Spielrunden.
    QA-Fahrplan sowie im entsprechenden Abschnitt des QA-Logs dokumentieren.
 2. **Dokumentation:** Punkte 11–20 in README, Maintainer-Ops und Glossar
    spiegeln, sobald Runtime-Anpassungen bestätigt sind; Referenzen im QA-Log
-   hinterlegen.
+   hinterlegen. Maintainer-Ops wurde am 2025-03-21 auf Version 1.2.0 angehoben
+   und beschreibt nun die Spiegelprozesse nach MyGPT-Freigabe.
 3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.

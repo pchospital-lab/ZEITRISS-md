@@ -1,6 +1,6 @@
 ---
 title: "Maintainer-Ops"
-version: 1.1.0
+version: 1.2.0
 tags: [meta]
 ---
 
@@ -31,6 +31,20 @@ Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
 Abnahme werden Store-GPT, Proton LUMO und lokale Instanzen mit genau diesem Stand gespiegelt; separate
 Optimierungen für andere Plattformen sind derzeit nicht vorgesehen.
 
+## QA-Plattformstrategie
+
+- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.2]** auf OpenAI-MyGPT ist die einzige
+  Instanz für aktive QA-Läufe. Alle Regressionstests, Acceptance-Smokes und Save/Load-Prüfungen werden hier
+  durchgeführt und anschließend im QA-Log abgelegt.
+- **Freigabebedingung:** Erst nachdem der Beta-Klon die QA als „grün“ meldet und Codex die
+  Nachverfolgung im QA-Fahrplan geschlossen hat, darf der Wissensstand auf weitere Plattformen gespiegelt
+  werden.
+- **Spiegelroutine:** Store-GPT, Proton LUMO und lokale Installationen erhalten ausschließlich den
+  freigegebenen Stand. Abweichungen oder Ergänzungen werden nicht eigenständig ausprobiert, sondern als
+  Findings an Codex zurückgegeben.
+- **Dokumentation:** Jede Spiegelung wird mit Datum, Zielplattform und Verweis auf den passenden
+  QA-Log-Abschnitt dokumentiert. Nur so bleibt nachvollziehbar, welche Plattform welchen Stand lädt.
+
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
@@ -51,7 +65,8 @@ Optimierungen für andere Plattformen sind derzeit nicht vorgesehen.
 8. QA und Publishing erst freigeben, wenn die Chat-Historie keine
    personenbezogenen Daten enthält.
 9. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
-   das Store-Listing aktualisieren.
+   das Store-Listing aktualisieren. Vermerkt die Spiegelung mit Verweis auf
+   den QA-Log-Eintrag des grünen Runs.
 
 ### Proton LUMO (verschlüsselter Chat)
 1. Nach erfolgreicher MyGPT-Abnahme die LUMO-App starten und einen neuen Chat
@@ -62,7 +77,8 @@ Optimierungen für andere Plattformen sind derzeit nicht vorgesehen.
 4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
    Beginn fixiert ist.
 5. Plattform wird aktuell nicht separat optimiert; dokumentiere nur
-   Abweichungen, falls LUMO den freigegebenen Stand nicht übernimmt.
+   Abweichungen, falls LUMO den freigegebenen Stand nicht übernimmt, und
+   verlinke sie im QA-Log.
 
 ### Lokaler Betrieb (Ollama + OpenWebUI)
 1. Nach erfolgreicher MyGPT-Abnahme Ollama mit dem gewünschten Modell
@@ -72,6 +88,18 @@ Optimierungen für andere Plattformen sind derzeit nicht vorgesehen.
 3. Es erfolgen derzeit keine dedizierten lokalen Optimierungen; prüfe nur, ob
    der freigegebene Stand geladen wird, und notiere Abweichungen bei Bedarf im
    QA-Log.
+
+### Spiegelprozess nach QA-Freigabe
+
+1. Prüfe im QA-Fahrplan, dass der relevante Abschnitt als abgeschlossen markiert und mit Commit-ID
+   versehen ist.
+2. Exportiere den Wissensspeicher aus dem MyGPT-Beta-Klon (Masterprompt, README, master-index und
+   Runtime-Module).
+3. Übertrage den Stand unverändert in den produktiven MyGPT und dokumentiere Datum sowie QA-Log-Referenz.
+4. Spiegele denselben Export im Anschluss auf Store-GPT, Proton LUMO und lokale Instanzen in dieser
+   Reihenfolge. Jede Plattform erhält exakt denselben Datei-Satz.
+5. Ergänze im QA-Log einen kurzen Spiegelvermerk (Plattform, Datum, Verantwortliche Person). Abweichungen
+   werden als neue Findings festgehalten.
 
 ### Sync-Checks & Beispielworkflow
 
