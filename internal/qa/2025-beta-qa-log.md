@@ -50,7 +50,7 @@ nachzuvollziehen.
       verifizieren (Logeintrag ergänzt).
 
 **Nachverfolgung**
-- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025).
+- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025, CHANGELOG-QA-Verweise 2025-03-26).
 - QA-Fahrplan: Sprint 2 – Acceptance-Smoke-Checkliste (Status: abgeschlossen 2025-03-23).
 
 ## 2025-03-17 – Beta GPT – Build 4.2.2
@@ -72,7 +72,7 @@ nachzuvollziehen.
 - [x] QA-Log initialisieren und Beta-Protokoll verlinken. → dieser Eintrag dokumentiert den Startpunkt.
 
 **Nachverfolgung**
-- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025).
+- Commit/PR: wird nach Merge referenziert (Branch QA-Dokumentation 2025, README-Glossar Sync 2025-03-26).
 - QA-Fahrplan: Sprint 1 – README-Querverweise, QA-Log initialisieren, CONTRIBUTING anpassen.
 - Maintainer-Ops: Version 1.2.0 dokumentiert MyGPT als alleinige QA-Plattform und den Spiegelprozess
   (Sprint 2 – Spiegelprozesse).

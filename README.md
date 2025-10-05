@@ -225,11 +225,15 @@ Spiel starten (gruppe schnell)
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
 
 ### Boss-Gates & HUD-Badges
-11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
-12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`) und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
+11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10,
+    HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
+12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`)
+    und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
 
 ### Psi-Heat & Ressourcen-Reset
-13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0, HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
+13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
+    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0,
+    HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
@@ -250,8 +254,10 @@ Debrief und Save (HQ-only).
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
 - **PSI:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` –
-  Psi-Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt nach jedem Konflikt auf 0.
-- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` – führt keinen Psi-Heat-Track.
+  Psi-Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt
+  nach jedem Konflikt auf 0.
+- **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` –
+  führt keinen Psi-Heat-Track.
 In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
 In Szene 1 hängt `FR:Status` an.
 `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
@@ -890,11 +896,20 @@ Kurze Erklärungen wichtiger Abkürzungen:
   T- und N-Stufe der Neumenschen.
 
 - **PP** – Power-Punkte (Psi-Energie) für Psi-Kräfte.
-- **Psi-Heat** – temporärer Psi-Stress (0–6), >4 → −1 Ini, ≥ 5 SG +4, 6 Reboot.
+- **Psi-Heat** – temporärer Psi-Stress (0–6), steigt pro aktiver Psi-Aktion
+  und fällt nach Konflikt- oder HQ-Reset auf 0; ab 5 folgt SG +4, bei 6 greift
+  der Reboot.
 - **Stress** – Mentale Belastung (0–10). 10 ⇒ Zustand Panik.
 - **Px** – Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue
   Rifts und setzt den Wert auf 0.
 - **Px Burn** – 1 Punkt verbrennen = ein Reroll für jeden Charakter oder NSC.
+- **Tier-Gate** – Lizenzschranke im HUD; blockiert Ausrüstung oberhalb der
+  freigeschalteten Tier-Stufe, bis Ruf und Lizenz passen (siehe
+  [Charaktererschaffung](characters/charaktererschaffung.md#zugang-zu-ausruestung--cyberware-hq-phase)).
+- **Kodex-Badges** – HUD-Marker für Status und Sicherheitshinweise (z. B.
+  Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
+  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges)
+  und den [Acceptance-Smoke-Checks](#acceptance-smoke).
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |

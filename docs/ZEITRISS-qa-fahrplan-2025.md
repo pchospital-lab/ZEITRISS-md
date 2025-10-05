@@ -78,9 +78,11 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - [x] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen
   und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
   (2025-03-21 – Maintainer-Ops 1.2.0, Commit: folgt nach Merge)
-- [ ] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
-- [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern
+- [x] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
+  (2025-03-26 – QA-Log 2025-03-19 & 2025-03-17 verlinkt, Commit: folgt nach Merge)
+- [x] Glossar um neue Terminologie aus Version 4.2.2 erweitern
   (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
+  (2025-03-26 – README-Glossar ergänzt, Commit: folgt nach Merge)
 - [ ] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
   nachtragen.
 
@@ -103,6 +105,8 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
+| CHANGELOG QA-Verweise | ✅ 2025-03-26 | QA-Log-Referenzen beibehalten | Repo-Agent |
+| Glossar Terminologie 4.2.2 | ✅ 2025-03-26 | README-Glossar regelmäßig spiegeln | Docs-Verantwortliche |
 
 ## Pflege & Reporting
 - Prüfe bei jeder Änderung, ob Audit und QA-Log entsprechende Einträge erhalten.
