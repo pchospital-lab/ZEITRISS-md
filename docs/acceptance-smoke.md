@@ -1,11 +1,12 @@
 ---
 title: "MyGPT Acceptance Smoke"
-version: 1.0.0
+version: 1.1.0
 tags: [testing]
 ---
 
 # MyGPT Acceptance Smoke
 
+## Dispatcher-Starts & Speicherpfade
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
@@ -13,6 +14,17 @@ tags: [testing]
 5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
-8. `Speichern` während Mission → Blocker „nur im HQ …“
+8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+
+## Boss-Gates & HUD-Badges
+11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
+    `Boss blockiert – Foreshadow 0/2`, bis Hinweise erfüllt sind.
+12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`)
+    und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
+
+## Psi-Heat & Ressourcen-Reset
+13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
+    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
+    setzt SYS/Stress/Psi-Heat zurück.

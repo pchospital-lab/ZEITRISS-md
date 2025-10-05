@@ -212,6 +212,7 @@ Spiel starten (gruppe schnell)
 
 ## Acceptance Smoke (Dispatcher) {#acceptance-smoke}
 
+### Dispatcher-Starts & Speicherpfade
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
@@ -222,6 +223,13 @@ Spiel starten (gruppe schnell)
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
+
+### Boss-Gates & HUD-Badges
+11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
+12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`) und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
+
+### Psi-Heat & Ressourcen-Reset
+13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0, HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
