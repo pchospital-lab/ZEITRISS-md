@@ -79,35 +79,53 @@ Hochstufen-Spielrunden.
 11. **Boss-Foreshadow-Gate erzwingen.** Szene 10 blockieren, bis Hinweise
     geliefert sind. Status: *erledigt* – `NextScene()` hält Szene 9, bis vier
     (Core) bzw. zwei (Rift) Foreshadows über Makros registriert sind und meldet
-    den Gate im HUD.
+    den Gate im HUD. Nachweis: Commit `b245bef` (*Boss-Foreshadow-Gate aktiviert*)
+    und QA-Log 2025-03-19 (Acceptance-Smoke-Abgleich).
 12. **Mission-Generator linten.** Gewichte und Duplicate-Seeds automatisch
     prüfen. Status: *erledigt* – `scripts/lint_mission_generator.py` prüft die
-    Pools und stellt d24-Abdeckung sicher.
+    Pools und stellt d24-Abdeckung sicher. Nachweis: Commit `5a3fbb3`
+    (*Add mission generator lint*); automatisierte Prüfung läuft über
+    `scripts/tests/test_lint_mission_generator.py`.
 13. **Endgame-Ökonomie justieren.** Chronopolis-Angebote mit Rang/Research-Gates
     und Daily Stock versehen. Status: *erledigt* – Runtime koppelt das
     Tagesangebot an Dienstgrad und Research-Level, der Pool rotiert filmisch pro
-    HQ-Zyklus.
+    HQ-Zyklus. Nachweis: Commit `7d91e53` (*Implement Chronopolis stock gating*);
+    Regressionseintrag im QA-Log steht aus.
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen
     bereinigen, `comms_check()` erzwingen. Status: *erledigt* – Arena-Makro
     zwingt `must_comms`, Ausrüstungshinweis verankert Hardwarepflicht.
+    Nachweis: Commit `8fe8de2` (*Sichere Remote-Hacks über comms_check*);
+    QA-Log-Erweiterung für Remote-Hacks ist geplant.
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in
     `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade,
-    Distanzstufen und HUD-Tags; README verankert die Schnellhilfe.
+    Distanzstufen und HUD-Tags; README verankert die Schnellhilfe. Nachweis:
+    Commit `52d1ba5` (*Add HUD quick-help cards for urban ops and SG benchmarks*);
+    QA-Log-Eintrag folgt nach nächstem Stadt-Playtest.
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen.
     Status: *erledigt* – Toolkit listet HQ-Buffs als HUD-Icons inkl.
-    Makro-Snippet, Dopplungen werden per Kampagnenflag geblockt.
+    Makro-Snippet, Dopplungen werden per Kampagnenflag geblockt. Nachweis:
+    Commit `9a1675d` (*Intro-Guard und HQ-Moments nachziehen*); QA-Log-Ergänzung
+    für HQ-Runs steht aus.
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren.
     Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README
-    dokumentiert das neue Standardverhalten.
+    dokumentiert das neue Standardverhalten. Nachweis: Commit `8208170`
+    (*feat: add transfer frames and debug roll output*) sowie QA-Log 2025-03-19
+    (Acceptance-Smoke-Abgleich – JSON-Log aktiv).
 18. **Rift-Boss-Drops automatisieren.** Toolkit-Trigger `on_rift_boss_down()`
     für Loot-Erinnerung. Status: *erledigt* – neues Makro setzt den Boss-Flag,
-    stößt das para-Loot an und markiert den Legendary-Wurf im Log.
+    stößt das para-Loot an und markiert den Legendary-Wurf im Log. Nachweis:
+    Commit `22d3c33` (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log
+    reflektiert den Lauf nach nächstem Rift-Test.
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis
     ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10
-    und verweist auf Prestige-Aufstiege für höhere Werte.
+    und verweist auf Prestige-Aufstiege für höhere Werte. Nachweis:
+    Commit `1be6f57` (*Sichert Attributbudget bei der Charaktererschaffung*);
+    QA-Log-Ergänzung im Charaktererstellungs-Regressionstest ausstehend.
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im
     HUD. Status: *erledigt* – Arena initialisiert nun Großteam-Zyklen, trackt
-    Moves und blendet Timer sowie Limit im HUD ein.
+    Moves und blendet Timer sowie Limit im HUD ein. Nachweis: Commit `22d3c33`
+    (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log-Eintrag für
+    Großteam-Matches wird vorbereitet.
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für
     Druck-Set-Auswahl. Status: *erledigt* – Toolkit setzt eine
     Zweifach-Cooldown-Liste ein, bevor Druck-Sets wieder freigegeben

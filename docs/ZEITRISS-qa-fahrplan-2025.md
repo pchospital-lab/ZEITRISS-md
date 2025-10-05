@@ -83,8 +83,10 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - [x] Glossar um neue Terminologie aus Version 4.2.2 erweitern
   (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
   (2025-03-26 – README-Glossar ergänzt, Commit: folgt nach Merge)
-- [ ] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
+- [x] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
   nachtragen.
+  (2025-03-27 – QA-Log 2025-03-19 verlinkt, Commits: b245bef, 5a3fbb3,
+  7d91e53, 8fe8de2, 52d1ba5, 9a1675d, 8208170, 22d3c33, 1be6f57)
 
 ### Sprint 3 – langfristig planen
 - [ ] Automatisierten Link-Lint für README und Docs in CI evaluieren und
