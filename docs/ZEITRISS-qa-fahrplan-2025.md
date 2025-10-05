@@ -61,11 +61,11 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
-- [ ] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
-- [ ] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
-  QA-Zyklus prüfen und anpassen.
-- [ ] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
-  und Prioritäten in diesem Fahrplan verlinken.
+- [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+- [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
+  QA-Zyklus prüfen und anpassen. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
+- [x] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
+  und Prioritäten in diesem Fahrplan verlinken. (2025-03-17 – QA-Log 2025-03-17, Commit: folgt nach Merge)
 - [x] QA-Fahrplan überarbeiten (dieses Dokument).
 
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
@@ -91,9 +91,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | Maßnahme | Status | Nächster Schritt | Owner |
 | --- | --- | --- | --- |
 | QA-Fahrplan aktualisieren | ✅ erledigt | README-Referenz prüfen | Maintainer-Team |
-| README-Querverweise | ⚪ offen | Links setzen | Maintainer-Team |
-| QA-Log initial füllen | ⚪ offen | Erstes Protokoll eintragen | QA-Koordination |
-| CONTRIBUTING anpassen | ⚪ offen | Abschnitt aktualisieren | Docs-Verantwortliche |
+| README-Querverweise | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
+| QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
+| CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 
