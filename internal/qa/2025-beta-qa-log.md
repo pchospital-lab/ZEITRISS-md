@@ -18,7 +18,9 @@ nachzuvollziehen.
    aus und kopieren das vollständige Chatprotokoll in einen neuen Abschnitt
    dieses Logs.
 2. Kennzeichne zu Beginn jedes Abschnitts Datum, Plattform, Build und genutzte
-   Wissensbasis.
+   Wissensbasis. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
+   Weitere Plattformen werden nur nach Freigabe gespiegelt und dokumentiert,
+   falls Abweichungen auftreten.
 3. Füge das Protokoll unverändert als Codeblock ein. Sensible Informationen
    werden vor dem Einfügen entfernt oder anonymisiert.
 4. Ergänze unterhalb des Protokolls eine kurze Liste mit offenen Punkten.

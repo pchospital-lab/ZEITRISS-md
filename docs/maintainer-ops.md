@@ -27,6 +27,10 @@ werden, um lange Sessions stabil zu halten.
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
 `AGENTS.md`. Diese Datei konzentriert sich auf ausführbare Abläufe.
 
+**Grundsatz:** Alle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta-Klon statt. Erst nach einer grünen
+Abnahme werden Store-GPT, Proton LUMO und lokale Instanzen mit genau diesem Stand gespiegelt; separate
+Optimierungen für andere Plattformen sind derzeit nicht vorgesehen.
+
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
@@ -50,29 +54,29 @@ Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
    das Store-Listing aktualisieren.
 
 ### Proton LUMO (verschlüsselter Chat)
-1. Die LUMO-App starten und einen neuen Chat öffnen.
+1. Nach erfolgreicher MyGPT-Abnahme die LUMO-App starten und einen neuen Chat
+   öffnen.
 2. `meta/masterprompt_v6.md`, `README.md`, `master-index.json` und alle
    Runtime-Module (ohne Runtime-Stub) über die Büroklammer hochladen.
 3. Optional alle Dateien in den Wissensspeicher übernehmen.
 4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
    Beginn fixiert ist.
-5. Im QA-Log vermerken, welche LUMO-Funktionen (Dateiupload, Replay,
-   Gerätewechsel) genutzt wurden und ob Markdown/JSON unverändert bleiben.
+5. Plattform wird aktuell nicht separat optimiert; dokumentiere nur
+   Abweichungen, falls LUMO den freigegebenen Stand nicht übernimmt.
 
 ### Lokaler Betrieb (Ollama + OpenWebUI)
-1. Ollama mit dem gewünschten Modell installieren und OpenWebUI lokal
-   verbinden.
+1. Nach erfolgreicher MyGPT-Abnahme Ollama mit dem gewünschten Modell
+   installieren und OpenWebUI lokal verbinden.
 2. Masterprompt, README, Master-Index und alle Runtime-Module importieren
    (Upload oder Wissensbibliothek).
-3. Acceptance-Smoke-Test offline durchspielen. Webtools stehen nicht zur
-   Verfügung; optionale Integrationen vermerken.
-4. Lokale Anpassungen im QA-Log festhalten und nach Freigabe auf MyGPT und
-   LUMO spiegeln.
+3. Es erfolgen derzeit keine dedizierten lokalen Optimierungen; prüfe nur, ob
+   der freigegebene Stand geladen wird, und notiere Abweichungen bei Bedarf im
+   QA-Log.
 
 ### Sync-Checks & Beispielworkflow
 
-- Nach jedem Update bestätigen, dass MyGPT, LUMO und Ollama denselben Stand
-  führen (Masterprompt, README, Module).
+- Nach jedem freigegebenen Update bestätigen, dass MyGPT und Store-GPT denselben Stand
+  führen (Masterprompt, README, Module) und den Release anschließend auf LUMO sowie lokal spiegeln.
 - Sicherstellen, dass exakt 18 Runtime-Module plus `master-index.json` geladen
   sind; der Runtime-Stub bleibt außen vor.
 - Für Schnelltests die Checkliste aus [docs/acceptance-smoke.md](acceptance-smoke.md)
@@ -94,16 +98,29 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 4. Synchronisiere den Wissensspeicher des produktiven MyGPT sowie weiterer
    Plattformen erst, nachdem Codex die QA als grün markiert hat.
 
+### Übergabe an Codex & Dokumentation
+1. Exportiere nach jeder Beta-GPT-Session das vollständige Chatlog (inklusive Debug-Ausgaben) und
+   sende es unverändert an Codex. Eine kompakte Stichpunktliste der Findings beschleunigt die
+   Übertragung in den QA-Fahrplan.
+2. Markiere im Log klar die Plattform (Standard: MyGPT Beta auf openai.com), den Build-Stand und den
+   verwendeten Wissensspeicher.
+3. Notiere in deiner Übergabe, ob Uploads, Save/Load-Checks oder Plattformspiegelungen bereits erfolgt
+   sind. Codex übernimmt daraufhin die Pflege der Dateien `internal/qa/2025-beta-qa-log.md`,
+   `docs/ZEITRISS-qa-fahrplan-2025.md` und `docs/ZEITRISS-qa-audit-2025.md` im Repo.
+4. Nachdem Codex die QA-Dokumente aktualisiert und alle Findings abgearbeitet hat, spiegelst du den
+   freigegebenen Stand auf Store-GPT, Proton LUMO und lokale Instanzen. Dokumentiere Abweichungen
+   ausschließlich dann, wenn sie vom MyGPT-Referenzlauf abweichen.
+
 ### Zusätzliche QA-Pflichten
-1. Plane mindestens drei komplette Durchläufe im MyGPT-Beta sowie je einen auf
-   LUMO und lokal ein.
+1. Plane mindestens drei komplette Durchläufe im MyGPT-Beta ein; weitere
+   Plattformen erhalten denselben Stand ohne eigenständige QA-Schleifen.
 2. In jeder Session Save/Load prüfen: `saveGame({...})` ausgeben lassen, lokal
    sichern, neuen Chat öffnen und den Reimport testen.
 3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
    HQ-Briefing-Schleifen abgleichen.
 4. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
    Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
-   Repo; dokumentiert lokale Befunde zusätzlich.
+   Repo; dokumentiert ergänzende Befunde weiterhin im QA-Log.
 5. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
    Artefakt-Upload scheitert, Job erneut anstoßen. Der Fehler entsteht beim
    Finalisieren des Uploads und erfordert inhaltlich keine Anpassung am Repo.
@@ -113,8 +130,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
   Speicherstände nur via Copy & Paste.
 - Save-Funktionen laufen ausschließlich über das HQ. Missionen lassen sich
   abbrechen, aber nicht zwischen-speichern.
-- MyGPT und LUMO laufen online, besitzen jedoch keinen Webzugang als Tool.
-  LUMO bietet Ende-zu-Ende-Verschlüsselung; Ollama/OpenWebUI bleiben vollständig
+- MyGPT und Store-GPT laufen online ohne Webtool. LUMO bietet Ende-zu-Ende-Verschlüsselung; Ollama/OpenWebUI bleiben vollständig
   offline und ohne Webtools.
 - DSGVO-konforme Chats sicherstellen: keine realen personenbezogenen Daten
   posten, keine unverschlüsselten Log-Transkripte.
@@ -129,6 +145,5 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 - Vor Freigabe sicherstellen, dass auf jeder Plattform exakt 18
   Runtime-Module plus `master-index.json` und Masterprompt vorliegen – ohne den
   Runtime-Stub.
-- Erst release, wenn Beta-GPT, LUMO und Ollama denselben Wissensstand führen
-  und QA grün meldet. Siehe `CONTRIBUTING.md#beta-gpt-qa-uebergaben` für die
+- Erst release, wenn der Beta-GPT auf MyGPT grün meldet. Danach Store-GPT aktualisieren und den freigegebenen Stand auf LUMO sowie lokal spiegeln. Siehe `CONTRIBUTING.md#beta-gpt-qa-uebergaben` für die
   Übergabe an Codex.

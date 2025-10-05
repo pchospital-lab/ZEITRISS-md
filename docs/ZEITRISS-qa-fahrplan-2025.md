@@ -71,8 +71,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
 - [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
-- [ ] Maintainer-Ops um QA-spezifische Hinweise für Proton LUMO (Save/Load) und
-  MyGPT ergänzen; Fahrplan verlinken.
+- [ ] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
 - [ ] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
 - [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern
   (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
@@ -84,8 +83,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   Ergebnis im QA-Log festhalten.
 - [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
-- [ ] Wiederkehrende Plattform-Regressionstests (MyGPT, LUMO, lokal) terminieren
-  und Status pro Quartal protokollieren.
+- [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
 
 ## Status-Dashboard (Stand: Überarbeitung 2025-03-17)
 | Maßnahme | Status | Nächster Schritt | Owner |
