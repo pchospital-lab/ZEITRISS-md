@@ -6,6 +6,24 @@ from __future__ import annotations
 import os
 import re
 from pathlib import Path
+from typing import Iterable
+
+
+RUNTIME_DIRS: tuple[str, ...] = ("core", "characters", "gameplay", "systems")
+SAVE_REQUIRED_FIELDS: tuple[str, ...] = (
+    "id",
+    "sys",
+    "sys_used",
+    "stress",
+    "psi_heat",
+    "cooldowns",
+    "campaign.px",
+    "artifact_log",
+    "kodex",
+    "economy",
+    "logs",
+    "ui",
+)
 
 # Import helpers; rely on PYTHONPATH or fallback to repo root
 try:
@@ -28,9 +46,115 @@ def req(pattern: str | re.Pattern[str], text: str, msg: str, fails: list[str]) -
         log.info("[ OK ] %s", msg)
 
 
+def check_yaml_headers(root: Path, fails: list[str]) -> None:
+    for md_file in iter_runtime_markdown(root):
+        rel = md_file.relative_to(root)
+        try:
+            text = read_text(md_file)
+        except FileNotFoundError as exc:
+            msg = f"{rel}: {exc}"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        header = extract_front_matter(text)
+        if header is None:
+            msg = f"{rel}: YAML-Header fehlt oder ist unvollständig"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        missing_keys: list[str] = []
+        for key in ("title", "version", "tags"):
+            value = header.get(key, "")
+            if not normalize_value(value):
+                missing_keys.append(key)
+
+        tags_value = header.get("tags", "")
+        tags = parse_tags(tags_value)
+        if not tags:
+            missing_keys.append("tags")
+
+        if missing_keys:
+            msg = f"{rel}: fehlende Pflichtfelder im YAML-Header ({', '.join(sorted(set(missing_keys)))})"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        log.info("[ OK ] %s – YAML-Header vollständig", rel)
+
+
+def check_save_required_fields(text: str, fails: list[str]) -> None:
+    for field in SAVE_REQUIRED_FIELDS:
+        req(
+            rf"\"{re.escape(field)}\"",
+            text,
+            f"Save-Pflichtfeld `{field}` dokumentiert",
+            fails,
+        )
+
+
+def iter_runtime_markdown(root: Path) -> Iterable[Path]:
+    for directory in RUNTIME_DIRS:
+        base = root / directory
+        if not base.exists():
+            continue
+        yield from sorted(base.rglob("*.md"))
+
+
+def extract_front_matter(text: str) -> dict[str, str] | None:
+    lines = text.splitlines()
+    if len(lines) < 3 or lines[0].strip() != "---":
+        return None
+
+    end_index: int | None = None
+    for idx, line in enumerate(lines[1:], start=1):
+        if line.strip() == "---":
+            end_index = idx
+            break
+
+    if end_index is None:
+        return None
+
+    header_lines = lines[1:end_index]
+    header: dict[str, str] = {}
+    for raw in header_lines:
+        if not raw.strip() or raw.strip().startswith("#"):
+            continue
+        if ":" not in raw:
+            continue
+        key, value = raw.split(":", 1)
+        header[key.strip()] = value.strip()
+    return header
+
+
+def normalize_value(value: str) -> str:
+    value = value.strip()
+    if value and value[0] == value[-1] and value[0] in {'"', "'"}:
+        value = value[1:-1].strip()
+    return value
+
+
+def parse_tags(value: str) -> list[str]:
+    raw = normalize_value(value)
+    if raw.startswith("[") and raw.endswith("]"):
+        inner = raw[1:-1].strip()
+        if not inner:
+            return []
+        tags: list[str] = []
+        for part in inner.split(","):
+            normalized = normalize_value(part)
+            if normalized:
+                tags.append(normalized)
+        return tags
+    return []
+
+
 def main() -> int:
     root = repo_root(Path(__file__))
     fails: list[str] = []
+
+    check_yaml_headers(root, fails)
 
     try:
         tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
@@ -96,6 +220,9 @@ def main() -> int:
     req(r"macro radio_rx", tk, "radio_rx Macro vorhanden", fails)
 
     # HQ Save Guard
+    if sv:
+        check_save_required_fields(sv, fails)
+
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
     req(r"migrate_save", sv, "migrate_save vorhanden", fails)
