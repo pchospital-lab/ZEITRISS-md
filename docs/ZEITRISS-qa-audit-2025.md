@@ -1,3 +1,9 @@
+---
+title: "ZEITRISS QA-Audit 2025"
+version: 1.0.0
+tags: [meta, qa]
+---
+
 # ZEITRISS QA-Audit 2025
 
 ## Kontext und Auftrag

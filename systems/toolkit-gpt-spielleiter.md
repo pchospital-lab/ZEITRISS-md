@@ -2194,7 +2194,7 @@ Dieses Filtering entfernt auch versteckte Macro-Calls wie
 NPC-Dialoge und Kodex-Logs passieren `tone_filter()` nach der Umwandlung
 technischer Tags, damit keine Systemtokens im Spieltext bleiben.
 ### generate_rift_seeds() Macro
-Erzeugt neue Rift-Seeds aus dem „Rift Seed Catalogue" und protokolliert sie.
+Erzeugt neue Rift-Seeds aus dem „Rift-Seed Catalogue" und protokolliert sie.
 <!-- Macro: generate_rift_seeds -->
 {% macro generate_rift_seeds(count_min=1, count_max=2) -%}
   {% set catalogue = gpull('gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue') %}

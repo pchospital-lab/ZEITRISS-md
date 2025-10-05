@@ -859,7 +859,7 @@ year: 1960
 place: Karibik
 objective: Black Saturday – Huminen-Söldner kapern B-59
 ```
-Rift Seeds nutzen `phase: Rift`.
+Rift-Seeds nutzen `phase: Rift`.
 
 `phase` markiert die Missionsphase: `core` für den Einsatz vor Ort,
 `transfer` für An- und Abreise sowie `rift` für Paradoxon-Sprünge.
