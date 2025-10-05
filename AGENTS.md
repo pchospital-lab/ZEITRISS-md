@@ -26,6 +26,7 @@ Halte diese Ebenen strikt getrennt: Laufzeit-Content bleibt im MyGPT, alle Entwi
 
 ## Struktur- und Formatregeln
 * **YAML-Header**: Jedes Modul benötigt einen vollständigen YAML-Header mit mindestens `title`, `version` und sinnvollen `tags`. Runtime-Module dürfen maximal eine `#`-H1-Überschrift besitzen. Überschriftenhierarchie sauber aufbauen (`##`, `###`, …).
+* **Masterprompt-Ausnahme**: `meta/masterprompt_*.md` steht seit Version 4.2.2 ohne YAML-Header im Repo. Halte den Text unter 8 000 Zeichen (≈ 8 k Window) und überprüfe Copy-&-Paste-Workflows nach jeder Anpassung.
 * **Szenenaufbau**: Halte alle in `CONTRIBUTING.md` dokumentierten Invarianten ein. Beispiele:
   * Core-Operationen: 12 Szenen.
   * Rift-Operationen: 14 Szenen in 3 Akten.

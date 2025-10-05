@@ -177,6 +177,13 @@ QA-Nachweis:
 - Lizenz auf eingetragene Marke aktualisiert.
 - README und neue Dokumentation zur DPMA-Urkunde.
 
+## 4.2.2 – Masterprompt Hardening
+
+QA-Nachweis: Maintainer-Sync 2025-03-19 – Prompt Hardening (intern).
+- Masterprompt 4.2.2 geschärft: direkte Modulverweise, straffere Sicherheits- und Generatorleitplanken, Selbstbegegnungen standardmäßig deaktiviert.
+- DeepSave-Pflicht nach jeder Sitzung mit kanonischem JSON-Block im Prompt verankert und YAML-Header entfernt.
+- Maintainer-Guides (`AGENTS.md`, `CONTRIBUTING.md`) dokumentieren die 8 k-Grenze und die YAML-Ausnahme des Masterprompts.
+
 [qa-log-2025-03-19]: internal/qa/2025-beta-qa-log.md#2025-03-19--beta-gpt--build-422-acceptance-smoke-abgleich
 [qa-log-2025-03-17]: internal/qa/2025-beta-qa-log.md#2025-03-17--beta-gpt--build-422
 
