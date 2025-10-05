@@ -92,8 +92,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - [x] Automatisierten Link-Lint für README und Docs in CI evaluieren und
   Ergebnis im QA-Log festhalten.
   (2025-03-30 – QA-Log 2025-03-30, Commit: folgt nach Merge)
-- [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
+- [x] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
+  (2025-10-05 – QA-Log 2025-10-05, Commit: folgt nach Merge)
 - [ ] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
   protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
 
@@ -107,6 +108,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | Acceptance-Smoke-Checkliste | ✅ 2025-03-23 | QA-Log 2025-03-19 referenzieren | Repo-Agent |
 | Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ✅ 2025-03-30 | Link-Lint in CI-Läufen beobachten | Repo-Agent |
+| Runtime-Lint YAML/Pflichtfelder | ✅ 2025-10-05 | QA-Log 2025-10-05 referenzieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 | CHANGELOG QA-Verweise | ✅ 2025-03-26 | QA-Log-Referenzen beibehalten | Repo-Agent |
 | Glossar Terminologie 4.2.2 | ✅ 2025-03-26 | README-Glossar regelmäßig spiegeln | Docs-Verantwortliche |

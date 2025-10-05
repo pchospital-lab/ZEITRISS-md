@@ -28,6 +28,28 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-10-05 – Repo-Agent – Runtime-Lint Pflichtfelder
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, Docs-Stand 2025-10-05
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – YAML-Header & Pflichtfelder absichern
+
+```chatlog
+10:12 Repo-Agent: `python3 tools/lint_runtime.py`
+10:12 Tool: `INFO: [ OK ] core/wuerfelmechanik.md – YAML-Header vollständig`
+10:12 Tool: `INFO: [ OK ] systems/gameflow/speicher-fortsetzung.md – YAML-Header vollständig`
+10:12 Tool: `INFO: [ OK ] Save-Pflichtfeld \`campaign.px\` dokumentiert`
+10:12 Tool: `INFO: [ OK ] Save-Pflichtfeld \`ui\` dokumentiert`
+10:12 Tool: `Level 25: Summary: OK`
+```
+
+**Offene Punkte**
+- [x] YAML-Header-Prüfung im Runtime-Lint ergänzen.
+- [x] Save-Pflichtfelder automatisiert kontrollieren.
+
+**Nachverfolgung**
+- Commit/PR: folgt nach Merge (Runtime-Lint Pflichtfelder 2025-10-05).
+- QA-Fahrplan: Sprint 3 – Tooling erweitern (Status aktualisiert 2025-10-05).
+
 ## 2025-03-30 – Repo-Agent – Tooling-Evaluierung Link-Lint
 - Plattform: Lokale CI-Simulation
 - Wissensstand: README v4.2.2, Docs-Stand 2025-03-30
