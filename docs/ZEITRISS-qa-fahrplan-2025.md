@@ -1,79 +1,110 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.0.0
+version: 1.1.0
 tags: [meta]
 ---
 
 # ZEITRISS QA-Fahrplan 2025
 
 ## Zielbild
-Der Fahrplan bündelt alle Schritte, um ZEITRISS 2025 über Plattformen und Releases hinweg konsistent, geprüft und dokumentiert zu halten. Er dient als Arbeitsgrundlage für Maintainer:innen, QA-Agenten und beitragende KIs. Jede Maßnahme zielt darauf ab, den bestehenden Qualitätsstandard zu sichern, Inkonsistenzen früh zu erkennen und Aktualisierungen parallel in Repository und Wissensspeicher abzubilden.
+Der Fahrplan bündelt sämtliche QA-Aufgaben für ZEITRISS 2025. Er knüpft an die
+Copy-&-Paste-Protokolle aus Beta-GPT- und MyGPT-Tests an, priorisiert die daraus
+abgeleiteten Maßnahmen und verweist auf die zugehörigen Artefakte. Prozess- und
+Formatregeln stehen in `AGENTS.md`, `CONTRIBUTING.md` sowie
+[docs/maintainer-ops.md](docs/maintainer-ops.md); dieses Dokument konzentriert
+sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
-## Leitprinzipien
-- **Single Source of Truth.** README, master-index und Runtime-Module bleiben die maßgeblichen Referenzen. Meta-Dokumente (CONTRIBUTING, AGENTS, Maintainer-Ops) definieren Prozesse und werden bei Änderungen synchron gepflegt.
-- **Strikte Trennung Runtime vs. Meta.** Laufzeit-Content bleibt frei von Dev-Hinweisen; alle QA- und Prozessnotizen tragen `tags: [meta]` und leben in `docs/` oder `meta/`.
-- **Verpflichtende QA-Schleifen.** Kein Merge ohne erfolgreiche Lints, Tests, Smoke-Run und dokumentiertes Ergebnis.
-- **Transparente Nachverfolgung.** Jede Änderung mit Auswirkung auf Spielverhalten, Dokumentation oder rechtliche Hinweise erhält einen Eintrag in CHANGELOG und QA-Log.
-- **Terminologie-Hygiene.** Glossar und Toolkit-Begriffe gelten als verbindlich. Neue Begriffe werden sofort in Glossar, Runtime-Modulen und QA-Checklisten gespiegelt.
+## QA-Zyklus
+1. **Vorbereitung:** Maintainer:innen aktualisieren den Wissensstand gemäß
+   Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
+   erhalten.
+2. **Testlauf:** Tester:innen führen den Playtest anhand des
+   [Copy-&-Paste-Auftrags](docs/tester-playtest-briefing.md) durch.
+3. **Archivierung:** Das vollständige Chatprotokoll wird unter
+   `internal/qa/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
+   Build versehen.
+4. **Aufgabenaufbereitung:** Codex überführt die offenen Punkte in diesen
+   Fahrplan (Status, Priorität) und versieht sie mit Verweisen auf Commits, PRs
+   oder Issues.
+5. **Umsetzung:** Maßnahmen laufen in separaten Branches; Testbefehle und
+   Ergebnisse werden im Commit-Body dokumentiert.
+6. **Review & Sync:** Nach Abschluss einer Maßnahme wird das Audit aktualisiert,
+   der Abschnitt im QA-Log abgehakt und gegebenenfalls ein weiterer Beta-Test
+   gestartet.
+
+## Rollen & Übergabe
+- **Maintainer:innen** halten Wissensstände synchron, bauen Beta-GPT-Instanzen
+  und stoßen Tests an.
+- **Tester:innen** dokumentieren Ergebnisse unverändert und liefern sie an Codex
+  über das QA-Log.
+- **Codex (Repo-Agent)** priorisiert die Befunde, setzt Änderungen um und
+  aktualisiert Audit, Fahrplan sowie Referenzdokumente.
+- **Audit-Archiv:** `docs/ZEITRISS-qa-audit-2025.md` (Zusammenfassung) und
+  `internal/qa/` (vollständige Logs).
 
 ## Arbeitsstränge & Ziele
-| Bereich | Zielzustand | Primäre Artefakte |
-| --- | --- | --- |
-| Dokumentation | README, Repo-Map und Maintainer-Doku spiegeln denselben Aufbau, verlinken QA-Fahrplan und Audit-Log. | README, docs/ZEITRISS-qa-fahrplan-2025.md, docs/ZEITRISS-qa-audit-2025.md |
-| Beitragsprozesse | CONTRIBUTING verweist auf Agents-Regeln, QA-Checklisten und Changelog-Pflichten; Branch- und Commit-Standards eingehalten. | CONTRIBUTING.md, AGENTS.md |
-| Tests & Automation | make lint, make test, scripts/smoke.sh laufen lokal und in CI stabil; Smoke-Reports werden archiviert. | Makefile, scripts/smoke.sh, QA-Logs |
-| Recht & Lizenzen | Lizenz, Markenhinweise und Disclaimer sind aktuell, datiert und in README sowie LICENSE konsistent. | README.md, LICENSE, docs/trademark.md |
+- **Dokumentation & Index:** README, Repo-Map und Index spiegeln QA-Dokumente
+  und verlinken Audit sowie Fahrplan konsistent.
+  - Artefakte: `README.md`, `master-index.json`, QA-Dokumente
+- **Beitragsprozesse:** Verweise auf QA-Workflow in `CONTRIBUTING.md` und
+  `AGENTS.md` aktuell halten.
+  - Artefakte: `CONTRIBUTING.md`, `AGENTS.md`
+- **Tests & Automation:** Makefile- und Script-Läufe dokumentieren; Smoke- und
+  Spezialtests werden im QA-Log referenziert.
+  - Artefakte: `Makefile`, `scripts/smoke.sh`, QA-Log-Einträge
+- **Datenschutz & Plattformen:** Plattformhinweise und Offline-First-Vorgaben
+  bleiben in Maintainer-Ops, Audit und Fahrplan synchron.
+  - Artefakte: `docs/maintainer-ops.md`, Audit, QA-Log
+- **Recht & Compliance:** Lizenz- und Markenhinweise mit QA-Maßnahmen abgleichen
+  und bei Bedarf PRs initiieren.
+  - Artefakte: `LICENSE`, `docs/trademark.md`, QA-Log-Referenzen
 
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
-- [ ] README-Querverweise prüfen, ob neue QA-Dokumente (Fahrplan, Audit) überall genannt werden.
-- [ ] CONTRIBUTING-Abschnitt "QA und Wartung" um explizite Referenz auf QA-Fahrplan erweitern.
-- [ ] Scripts: Smoke-Test-Ergebnisformat dokumentieren (Template im QA-Log hinterlegen).
-- [x] QA-Fahrplan erstellen und im Repo ablegen (dieses Dokument).
+- [ ] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
+- [ ] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
+  QA-Zyklus prüfen und anpassen.
+- [ ] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
+  und Prioritäten in diesem Fahrplan verlinken.
+- [x] QA-Fahrplan überarbeiten (dieses Dokument).
 
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
-- [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln (Boss-Gates, HUD-Badges, Psi-Heat).
-- [ ] Maintainer-Ops mit Plattform-spezifischen QA-Tasks für 2025 ergänzen (z. B. LUMO Save/Load-Protokoll).
-- [ ] CHANGELOG-Einträge mit QA-Hinweisen anreichern (welche Tests liefen für jede Version?).
-- [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern (Psi-Heat, Tier-Gates, Kodex-Badges).
+- [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
+  (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
+- [ ] Maintainer-Ops um QA-spezifische Hinweise für Proton LUMO (Save/Load) und
+  MyGPT ergänzen; Fahrplan verlinken.
+- [ ] CHANGELOG-Einträge mit QA-Nachweisen versehen (Verweis auf QA-Log-Abschnitte).
+- [ ] Glossar um neue Terminologie aus Version 4.2.2 erweitern
+  (Psi-Heat, Tier-Gates, Kodex-Badges) und Synchronität dokumentieren.
+- [ ] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
+  nachtragen.
 
 ### Sprint 3 – langfristig planen
-- [ ] Automatisierten Link-Lint für README/Docs in CI aufnehmen.
-- [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu prüfen (`tools/lint_runtime.py` ausbauen).
-- [ ] Regelmäßige Plattform-Regressionstests (MyGPT, LUMO, lokal) als wiederkehrenden Termin im Maintainer-Kalender verankern.
+- [ ] Automatisierten Link-Lint für README und Docs in CI evaluieren und
+  Ergebnis im QA-Log festhalten.
+- [ ] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
+  prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
+- [ ] Wiederkehrende Plattform-Regressionstests (MyGPT, LUMO, lokal) terminieren
+  und Status pro Quartal protokollieren.
 
-## Wiederkehrende Checklisten
-### Vor jedem Commit / PR
-- [ ] `make lint`, `make test`, `scripts/smoke.sh` lokal erfolgreich ausgeführt.
-- [ ] CHANGELOG und relevante Dokumentation aktualisiert, falls Verhalten oder Prozesse betroffen sind.
-- [ ] QA-Fahrplan und Audit-Log geprüft: offener Punkt referenziert oder aktualisiert.
-- [ ] Branch folgt Namensschema `topic/kurzbeschreibung`; Commit-Message im Imperativ mit Scope-Prefix (`docs:`, `fix:` ...).
-
-### Vor Release-Freeze
-- [ ] Alle Plattformen (MyGPT, LUMO, Ollama/OpenWebUI) tragen denselben Wissensstand.
-- [ ] Release-Checkliste aus `docs/maintainer-ops.md` vollständig abgearbeitet.
-- [ ] QA-Audit aktualisiert (neue Tests, Auffälligkeiten, offene Fragen).
-- [ ] Rechtliche Hinweise (Markenbriefing, Impressum, LICENSE) mit aktueller Versionsnummer versehen.
-
-### Quartalsweise Review
-- [ ] QA-Fahrplan gegen reale Umsetzungen spiegeln und Status-Spalte aktualisieren.
-- [ ] Agents-Checkliste auf neue Regeln oder Tooling-Anforderungen prüfen.
-- [ ] Prüfen, ob zusätzliche Automatisierung (z. B. Pre-commit Hooks) aufgenommen werden muss.
-- [ ] Plattform-Monitoring: Upload-Prozesse testen und etwaige API-/Plattformänderungen dokumentieren.
-
-## Status-Dashboard (Stand: initialer Commit)
+## Status-Dashboard (Stand: Überarbeitung 2025-03-17)
 | Maßnahme | Status | Nächster Schritt | Owner |
 | --- | --- | --- | --- |
-| QA-Fahrplan veröffentlichen | ✅ erledigt | README/Docs verlinken | Maintainer-Team |
-| README-Querverweise auf QA-Dokumente | ⚪ offen | Prüfen & ergänzen | Maintainer-Team |
-| CONTRIBUTING um QA-Verweise ergänzen | ⚪ offen | Abschnitt überarbeiten | Docs-Verantwortliche |
+| QA-Fahrplan aktualisieren | ✅ erledigt | README-Referenz prüfen | Maintainer-Team |
+| README-Querverweise | ⚪ offen | Links setzen | Maintainer-Team |
+| QA-Log initial füllen | ⚪ offen | Erstes Protokoll eintragen | QA-Koordination |
+| CONTRIBUTING anpassen | ⚪ offen | Abschnitt aktualisieren | Docs-Verantwortliche |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
-| Plattform-Regressionstests 2025 | ⚪ geplant | Testtermine anlegen | QA-Koordination |
+| Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
 
-## Nächste Schritte
-1. Repo-Map und Maintainer-Doku um Verweis auf diesen Fahrplan ergänzen.
-2. PR anlegen, der CONTRIBUTING und Maintainer-Ops mit klaren QA-Verweisen aktualisiert.
-3. Acceptance-Smoke-Checkliste mit aktuellen Mechaniken gegenprüfen und Delta dokumentieren.
-4. Ergebnisse im QA-Audit loggen und Fortschritt im Dashboard aktualisieren.
+## Pflege & Reporting
+- Prüfe bei jeder Änderung, ob Audit und QA-Log entsprechende Einträge erhalten.
+- Verweise in PR-Beschreibungen auf betroffene QA-Log-Abschnitte.
+- Nutze Issues oder Projektboards für umfangreiche Maßnahmen und verknüpfe sie
+  mit diesem Fahrplan.
+- Dokumentiere Abschlüsse mit Datum und Commit in Audit und QA-Log, nicht in den
+  Runtime-Dateien.
 
-> **Hinweis:** Aktualisiere den Statusabschnitt bei jeder Änderung dieses Fahrplans. Jede abgeschlossene Maßnahme erhält Datum und Commit-Referenz im QA-Audit.
+> Aktualisiere den Statusabschnitt bei jeder Änderung dieses Fahrplans. Jede
+> abgeschlossene Maßnahme erhält Datum, Commit-Referenz und Verweis auf das
+> korrespondierende QA-Log.
