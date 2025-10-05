@@ -1,6 +1,6 @@
 ---
 title: "MyGPT Acceptance Smoke"
-version: 1.1.0
+version: 1.2.0
 tags: [testing]
 ---
 
@@ -28,3 +28,13 @@ tags: [testing]
 13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
     `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
+
+## QA-Abgleich 2025-03-23
+- **Boss-Gates & HUD-Badges:** `scene_overlay()` blendet bei deaktivierter
+  Selbstreflexion das Badge `SF-OFF` ein und führt Foreshadow-Zähler mit, während
+  `assert_foreshadow()` in Präzisionsläufen Warnungen ausgibt; validiert über
+  `GM_STYLE=precision node tools/test_foreshadow.js` sowie das HUD-Skript.
+- **Psi-Heat-Reset:** `migrate_save()` und `hydrate_state()` setzen Psi-Heat in
+  Konflikt- und HQ-Transfers deterministisch zurück und verhindern Speichervorgänge
+  mit Restwärme.
+- **Log-Verweis:** Vollständiges Prüfprotokoll im QA-Log vom 2025-03-19.
