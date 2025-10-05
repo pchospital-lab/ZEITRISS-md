@@ -54,10 +54,12 @@ Merksatz: Alles, was ingame sichtbar/aktiv sein soll, MUSS in README/Toolkit ste
 <a id="beta-gpt-qa-uebergaben"></a>
 ## Beta-GPT & QA-Übergaben
 - Maintainer führen Klon, Playtests und Plattform-Sync laut [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests) aus.
-- Sobald das Beta-Protokoll im Codex-Chat landet, übernimm folgende Schritte:
-  1. Überführe alle Beta-GPT-Findings in Aufgaben im QA-Fahrplan (`docs/ZEITRISS-qa-fahrplan-2025.md`) und kennzeichne Prioritäten.
-  2. Arbeite die Punkte systematisch ab; bestätige Save/Load-Belege im QA-Log (`docs/ZEITRISS-qa-audit-2025.md`).
-  3. Spiegele den Status jeder Aufgabe (offen, in Arbeit, erledigt) sowohl im QA-Fahrplan als auch in etwaigen verlinkten Issues/PRs.
+- Nach jedem Beta-GPT- oder MyGPT-Protokoll gelten folgende Schritte:
+  1. Kopiere das vollständige Chatlog unverändert in `internal/qa/2025-beta-qa-log.md` und dokumentiere Plattform, Build sowie Wissensstand.
+  2. Überführe alle Findings in `docs/ZEITRISS-qa-fahrplan-2025.md`, versehe sie mit Prioritäten und verlinke den Log-Abschnitt.
+  3. Arbeite die Punkte branchweise ab; dokumentiere Tests und Referenzen im Commit.
+  4. Aktualisiere `docs/ZEITRISS-qa-audit-2025.md` nach dem Merge mit Datum, Commit-Link und einem kurzen Ergebnis.
+  5. Halte QA-Fahrplan, Audit und QA-Log synchron (Status "offen", "in Arbeit", "erledigt").
 
 ## GM-Style & Lint
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern Linting:
