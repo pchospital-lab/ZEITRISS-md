@@ -72,9 +72,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - [x] QA-Fahrplan überarbeiten (dieses Dokument).
 
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
-- [ ] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
+- [x] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
-  (Logeintrag ausstehend – QA-Log 2025-03-19)
+  (2025-03-23 – QA-Log 2025-03-19, Commit: folgt nach Merge)
 - [x] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen
   und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
   (2025-03-21 – Maintainer-Ops 1.2.0, Commit: folgt nach Merge)
@@ -99,7 +99,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 | README-Querverweise | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
 | CONTRIBUTING anpassen | ✅ 2025-03-17 | Commit-Verweis nach Merge ergänzen | Docs-Verantwortliche |
-| Acceptance-Smoke-Checkliste | 🟡 in Arbeit | GPT-Run einholen & QA-Log ergänzen | Repo-Agent |
+| Acceptance-Smoke-Checkliste | ✅ 2025-03-23 | QA-Log 2025-03-19 referenzieren | Repo-Agent |
 | Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Commit-Verweis nach Merge ergänzen | Maintainer-Team |
 | Automatisierte Link-Prüfung | ⚪ geplant | Tooling evaluieren | Repo-Agent |
 | Plattform-Regressionstests | ⚪ geplant | Termine festlegen | QA-Koordination |
