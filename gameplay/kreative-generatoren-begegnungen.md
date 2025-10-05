@@ -8,7 +8,7 @@ tags: [gameplay]
 
 ## Gameplay-Index
 
-Modul 8B schließt an 8A an. Teil 7 wurde verworfen, wodurch die Nummerierung eine Lücke aufweist.
+Modul 8B schließt an 8A an. Modul 7 – Fahrzeuge, Konfliktsystem & Kreative Generatoren – steht Euch als veröffentlichter Zwischenschritt zur Verfügung. Es bildet die Brücke in diese Werkzeugkiste.
 
 - NSC-Generator: Begegnungen im Zeitstrom
 - Encounter-Pool: Schnelle Gegnerlisten nach Risiko
