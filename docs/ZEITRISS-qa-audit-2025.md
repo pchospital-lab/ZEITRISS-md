@@ -1,11 +1,23 @@
 # ZEITRISS QA-Audit 2025
 
 ## Kontext und Auftrag
-Ihr habt den Systemtest zu **ZEITRISS 4.2.2** mit Fokus auf Systemkohärenz, Balance,
-HQ-Abläufe und urbane Interaktionen eingespielt. Dieses Audit fasst die
-Erkenntnisse zusammen, bewertet den aktuellen Umsetzungsstand und priorisiert die
-nächsten Entwicklungsschritte. Grundlage sind die aufgeführten Testbeobachtungen
-sowie der Repositorystand `c9a4da2`.
+Die QA-Crew hat den Systemtest zu **ZEITRISS 4.2.2** mit Schwerpunkt auf
+Systemkohärenz, Balance, HQ-Abläufe und urbane Interaktionen dokumentiert. Dieses
+Audit bündelt die Erkenntnisse, bewertet den aktuellen Umsetzungsstand und
+priorisiert die nächsten Entwicklungsschritte. Grundlage sind die aufgeführten
+Testbeobachtungen sowie der Repositorystand `c9a4da2`.
+
+## Rollen & Artefakte
+- **Tester:innen** führen Playthroughs in den vorgesehenen GPT-Instanzen durch
+  und kopieren das Ergebnis unverändert in das QA-Log unter
+  `internal/qa/2025-beta-qa-log.md`.
+- **Maintainer:innen** prüfen die Logs, gleichen sie mit dem Repo-Stand ab und
+  übergeben priorisierte Punkte an Codex.
+- **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
+  und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben
+  strikt getrennt.
+- **Audit-Archiv** liegt in `docs/ZEITRISS-qa-audit-2025.md`; vollständige
+  Protokolle befinden sich im QA-Ordner unter `internal/qa/`.
 
 ## Methodik
 - Analyse der gelieferten Testnotizen (Solo bis Großgruppe, Level 3–100) mit
@@ -129,22 +141,24 @@ Hochstufen-Spielrunden.
     `/help sg`. Status: *erledigt* – `/help sg` fasst Würfelgrößen, Zielwerte und
     Exploding-Ansagen filmisch auf einer Zeile zusammen.
 
-## Nächste Schritte
-1. **Kurzfristig (Sprint 1):** Punkte 1–4 adressieren; sie beeinflussen
-   Referenzierbarkeit, Progression und Balancing unmittelbar.
-2. **Mittelfristig (Sprint 2):** Punkte 5–13 für High-Level-Spielbarkeit und
-   UX-Stabilität umsetzen.
-3. **Langfristig (Sprint 3+):** Punkte 14–30 in Toolkit- und UX-Roadmap
-   einsortieren; mehrere lassen sich als zusammenhängende HUD-/Automation-Epics
-   bündeln.
+## Nachverfolgung & Nächste Schritte
+1. **Validierung:** Maßnahmen 1–10 anhand der Commits prüfen und Ergebnisse im
+   QA-Fahrplan sowie im entsprechenden Abschnitt des QA-Logs dokumentieren.
+2. **Dokumentation:** Punkte 11–20 in README, Maintainer-Ops und Glossar
+   spiegeln, sobald Runtime-Anpassungen bestätigt sind; Referenzen im QA-Log
+   hinterlegen.
+3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
+   QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
+   abstimmen.
 
 ## Offene Fragen für das Team
-- Bestätigt bitte, ob Master-Index `modul_7` künftig die kanonische Bezeichnung
-  trägt oder ob eine alternative Nummerierung geplant ist.
-- Wird die Px-Ökonomie generell überarbeitet (z. B. neue Ruf- oder
-  Trainingsmarker), oder bleibt die Anpassung auf die Arena beschränkt?
-- Welche Toolchain übernimmt das Save-Schema-Mapping (Backwards Compatibility)
-  nach der `psi_heat`-Migration?
+- Master-Index `modul_7`: Klärung, ob die Bezeichnung künftig kanonisch bleibt
+  oder ob eine alternative Nummerierung vorgesehen ist.
+- Px-Ökonomie: Festlegen, ob weitere Ruf- oder Trainingsmarker geplant sind oder
+  ob die Anpassung auf die Arena beschränkt bleibt.
+- Save-Schema-Mapping: Benennung der Toolchain für die Migration nach
+  `psi_heat`.
 
-Bitte gebt Rückmeldung, welche Punkte Ihr bereits intern priorisiert habt, damit
-das Audit in nachfolgenden Iterationen aktualisiert werden kann.
+Bitte priorisierte Maßnahmen an Codex melden und dabei den relevanten
+QA-Log-Eintrag referenzieren, damit Audit und Fahrplan in nachfolgenden
+Iterationen synchron bleiben.
