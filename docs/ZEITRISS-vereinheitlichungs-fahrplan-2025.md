@@ -22,12 +22,16 @@ den Maintainer-Richtlinien.
    - Folgeprüfung: Stichtagskontrolle aller weiteren Root-Dokumente
      (`CHANGELOG.md`, `LICENSE`, `doc.md` usw.) auf verbliebene englische
      Überschriften. ✅ (README, CONTRIBUTING, doc.md aktualisiert)
-2. **YAML-Frontmatter und Versionsstände prüfen**
+2. **YAML-Frontmatter und Versionsstände prüfen** ✅
    - Abgleich der `version`-Felder in README, CONTRIBUTING und relevanten
-     `docs/`-Artefakten mit dem Maintainer-Stand.
-   - Bei Anpassungen: Version hochzählen, Änderungsnotiz in `CHANGELOG.md`
-     ergänzen und Veröffentlichungs-Checkliste aus `docs/maintainer-ops.md`
-     anwenden.
+     `docs/`-Artefakten mit dem Maintainer-Stand. ✅
+   - Ergebnis: README (`version: 4.2.2`), CONTRIBUTING (`version: 1.1.0`),
+     `docs/maintainer-ops.md` (`version: 1.2.1`) und `doc.md`
+     (`version: 1.0.0`) sind konsistent mit dem derzeit dokumentierten
+     Maintainer-Stand, keine Anpassung notwendig. ✅
+   - Bei zukünftigen Anpassungen: Version hochzählen, Änderungsnotiz in
+     `CHANGELOG.md` ergänzen und Veröffentlichungs-Checkliste aus
+     `docs/maintainer-ops.md` anwenden.
 3. **Lizenzhinweise schärfen**
    - LICENSE/LIZENZ-Übersicht auf vollständige Zuordnung (Texte: CC BY-NC 4.0,
      Code: MIT, Links zu Volltexten) prüfen.
