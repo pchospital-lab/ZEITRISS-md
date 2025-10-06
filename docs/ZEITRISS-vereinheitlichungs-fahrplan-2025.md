@@ -32,13 +32,13 @@ den Maintainer-Richtlinien.
    - Bei zukünftigen Anpassungen: Version hochzählen, Änderungsnotiz in
      `CHANGELOG.md` ergänzen und Veröffentlichungs-Checkliste aus
      `docs/maintainer-ops.md` anwenden.
-3. **Lizenzhinweise schärfen**
+3. **Lizenzhinweise schärfen** ✅
    - LICENSE/LIZENZ-Übersicht auf vollständige Zuordnung (Texte: CC BY-NC 4.0,
-     Code: MIT, Links zu Volltexten) prüfen.
+     Code: MIT, Links zu Volltexten) prüfen. ✅
    - README-Hinweis mit präziser Formulierung und funktionierendem Link
-     hinterlegen.
+     hinterlegen. ✅
    - Falls nötig: `docs/trademark.md` sowie weitere Rechtstexte für Konsistenz
-     validieren.
+     validieren. ✅
 4. **Begriffskonsistenz & Format-Checks**
    - Stichprobenartige Prüfung repräsentativer Runtime-Module aus `core/`,
      `gameplay/` und `systems/` gegen die in `AGENTS.md` definierte Checkliste
