@@ -18,9 +18,11 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
   und kopieren das Ergebnis unverändert in das QA-Log unter
   `internal/qa/2025-beta-qa-log.md`.
 - **Maintainer:in (Solo-Setup 2025)** führt alle Beta-GPT-Tests durch,
-  indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Die komplette
-  Antwort wird unverändert an Codex übergeben, der die Ergebnisse in Repo-Tasks
-  und Dokumentationen überführt.
+  indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Der GPT
+  spielt den vollständigen QA-Lauf autonom durch und liefert strukturierte
+  `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke. Die
+  komplette Antwort wird unverändert an Codex übergeben, der die Ergebnisse in
+  Repo-Tasks und Dokumentationen überführt.
 - **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
   und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben
   strikt getrennt.

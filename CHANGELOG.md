@@ -15,6 +15,9 @@ QA-Nachweis: [QA-Log 2025-03-19 – Acceptance-Smoke-Abgleich][qa-log-2025-03-19
 - `tech_solution()` staffelt `tech_heat` nach Teamgröße und erzwingt für Solo- und Duo-Teams einen
   Gerätezwang über `confirm_device_slot()`.
 - `AGENTS.md` und `CONTRIBUTING.md` präzisieren den Ablauf für Beta-GPT- und KI-Review-Reports.
+- QA-Standardprompt simuliert komplette Läufe autonom und liefert strukturierte `ISSUE`-,
+  `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke; Dokumentation in README, Maintainer-Ops,
+  QA-Fahrplan, QA-Audit, QA-Log und Tester-Briefing angepasst.
 
 ## 4.0.1
 

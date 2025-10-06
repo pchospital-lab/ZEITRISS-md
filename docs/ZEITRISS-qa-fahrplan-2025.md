@@ -19,11 +19,14 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](tester-playtest-briefing.md) durch.
+   [Copy-&-Paste-Auftrags](tester-playtest-briefing.md) durch, lassen den GPT den
+   kompletten QA-Lauf eigenständig simulieren und prüfen das Ergebnis auf die
+   geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
+   Blöcke.
 3. **Archivierung:** Das vollständige Chatprotokoll wird unter
    `internal/qa/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
    Build versehen.
-4. **Aufgabenaufbereitung:** Codex überführt die offenen Punkte in diesen
+4. **Aufgabenaufbereitung:** Codex überführt die strukturierten Blöcke in diesen
    Fahrplan (Status, Priorität) und versieht sie mit Verweisen auf Commits, PRs
    oder Issues.
 5. **Umsetzung:** Maßnahmen laufen in separaten Branches; Testbefehle und

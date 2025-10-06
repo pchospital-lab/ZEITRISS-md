@@ -10,8 +10,10 @@ Dieser Leitfaden bündelt den standardisierten Playtest-Auftrag für ZEITRISS un
 strukturierte Testmatrix für Solo-, Koop- und PvP-Szenarien. Die Standardpipeline besteht darin, ein
 Custom-GPT mit dem Wissenspaket aufzusetzen, den untenstehenden Auftrag zu kopieren und das GPT den
 kompletten Ablauf autonom (inklusive Squad-, Koop- und PvP-Simulationen) durchspielen zu lassen. Das
-resultierende Protokoll wird unverändert in das Codex-Fenster (Programmier-KI) übertragen, damit dort
-die QA-Aufgaben erzeugt werden.
+resultierende Protokoll liefert automatisch strukturierte `ISSUE`, `Lösungsvorschlag`, `To-do`- und
+`Nächste Schritte`-Blöcke für Codex und wird unverändert in das Codex-Fenster (Programmier-KI)
+übertragen. Tester:innen posten den Auftrag genau einmal; das GPT simuliert alle benötigten Läufe
+eigenständig und fasst sie im beschriebenen Format zusammen.
 
 ## Wissensspeicher vorbereiten
 
@@ -51,6 +53,10 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 
 ## Copy-&-Paste-Auftrag für den GPT
 
+> **Einmal senden, vollständigen QA-Run abwarten:** Der GPT simuliert Solo-, NPC-Squad-, Koop- und
+> PvP-Szenarien selbstständig. Tester:innen posten diesen Auftrag genau einmal und warten, bis alle
+> Abschnitte samt Abschluss-Blocks geliefert wurden.
+
 > (OOC: Spieleentwickler) Bitte lies den kompletten ZEITRISS-Datensatz aufmerksam und führe
 > nacheinander folgende simulierte Durchläufe als Chrononaut: Solo ohne Begleitteam, Solo mit NPC-
 > Squad, Koop mit einem voll simulierten Spielerteam (inkl. Absprache, Rollen- und Loot-Verteilung)
@@ -68,9 +74,30 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 > müssen getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und Konflikte
 > kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder Regelunklarheit.
 >
-> Liefere anschließend eine nummerierte Analyse mit Problem, möglicher Lösung für Codex
-> (Programmier-KI) und Hinweisen aus Sicht von Spieler:innen sowie Spielleitung. Jede Nummer
-> enthält: beobachtete Situation, Diagnose, reproduzierbare Schritte und eine umsetzbare Empfehlung.
+> Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
+> folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
+>
+> ```text
+> ISSUE #<laufende Nummer>
+> - Beobachtung: <kurze Beschreibung>
+> - Diagnose: <Root Cause oder Regelverweis>
+> - Evidenz: <Reproduktionsschritte oder Log-Hinweis>
+>
+> Lösungsvorschlag
+> - Ansatz: <Empfohlene Korrektur>
+> - Risiken: <Folgen oder Abhängigkeiten>
+>
+> To-do
+> - Codex: <konkreter Umsetzungsauftrag>
+> - QA: <benötigter Test oder Nachweis>
+>
+> Nächste Schritte
+> - Maintainer:innen: <Sync- oder Upload-Aktion>
+> - Notizen: <optionale Hinweise>
+> ```
+>
+> Wiederhole diesen Block für jedes identifizierte Thema. Wenn kein weiteres Thema offen ist, beende
+> die Antwort nach dem letzten Block ohne zusätzliche Zusammenfassung.
 
 ## Ablauf für Tester:innen
 
@@ -105,9 +132,12 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
    Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen,
    Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat) im Protokoll
    stehen.
-6. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere
-   Beobachtungen als Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
-7. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
+6. Überprüfe, dass die GPT-Antwort alle `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
+   Blöcke enthält und keine freien Zusatzabschnitte erzeugt. Fehlende Angaben lässt du das GPT in
+   derselben Sitzung nachreichen.
+7. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere Beobachtungen als
+   Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
+8. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
    Update für bestehende Audits. Ergebnis wird in Codex übertragen, damit Aufgaben strukturiert
    abgearbeitet werden können.
 
@@ -121,7 +151,7 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 - Tester:in: (Alias)
 
 ## GPT-Analyse
-(Paste aus der GPT-Antwort)
+(Paste aus der GPT-Antwort – inklusive aller ISSUE-/Lösungsvorschlag-/To-do-/Nächste-Schritte-Blöcke)
 
 ## Save/Load-Beleg
 saveGame({...})
@@ -133,7 +163,8 @@ saveGame({...})
 
 ## Hinweise zur Weiterverarbeitung
 
-- Maintainer:innen übertragen die nummerierte Liste aus der GPT-Antwort in eine QA-Notiz (z. B. als
+- Maintainer:innen übertragen die strukturierten ISSUE-/Lösungsvorschlag-/To-do-/Nächste-Schritte-
+  Blöcke aus der GPT-Antwort in eine QA-Notiz (z. B. als
   Ergänzung zu `docs/ZEITRISS-qa-audit-2025.md` oder einen neuen Eintrag unter `docs/`). Der
   Save/Load-Block dient als Nachweis für den Kodex- und Charakterstand.
 - Reports werden lokal oder in einer gesicherten Team-Ablage archiviert, damit der Ablauf offline
