@@ -1,10 +1,10 @@
 ---
-title: "Contribution Guidelines"
+title: "Beitragsrichtlinien"
 version: 1.1.0
 tags: [meta]
 ---
 
-# CONTRIBUTING
+# Beitragsrichtlinien
 
 Bitte beachte die folgenden Richtlinien, wenn du Markdown-Dateien in diesem Repository
 bearbeitest.
@@ -77,7 +77,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   nach grüner MyGPT-Abnahme. Im Repo muss nur sichergestellt sein, dass alle QA-Dokumente denselben
   Status führen.
 
-## GM-Style & Lint
+## GM-Stil & Linting
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern das Linting.
   - `verbose`: filmischer Modus, kein PRECISION-Lint.
   - `precision`: Header-/Decision-Pflicht, `assert_foreshadow` warnt.
@@ -97,14 +97,14 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutze die dort verlinkten
   Acceptance-Smoke-Listen als Vorlage für Reports.
 
-### pre-commit Hooks
+### pre-commit-Hooks
 - Installation: `pip install pre-commit`.
 - Ausführung: `pre-commit run --files <datei1> <datei2>`.
 
-## Saves
+## Speicherstände
 - Einziger Typ: Deepsave (HQ-only). Pflege `save_version` und führe `migrate_save()` mit.
 
-## Chat-Shortcodes (Minimal-Set)
+## Chat-Kurzbefehle (Minimal-Set)
 - `!save`, `!load`, `!hud status`, `!gear shop`, `!helper delay|comms|boss`, `!px`,
   `modus verbose|precision`.
 
@@ -114,7 +114,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - Kritische Links verwaltet `.lint/doc_anchors.json` und wird über
   `scripts/lint_doc_links.py` geprüft.
 
-## Windows-Support
+## Windows-Unterstützung
 Die Skripte erwarten eine POSIX-kompatible Umgebung. Die CI nutzt `ubuntu-latest`. Unter Windows
 führst du Tests daher mit Git-Bash oder WSL aus.
 

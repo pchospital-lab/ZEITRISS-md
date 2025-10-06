@@ -17,12 +17,15 @@ tags: [meta]
 → [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 
 ## Inhaltsverzeichnis
-1. [Quick-Start Cheat Sheet](#quick-start-cheat-sheet)
-   1. [Session-0 Agenda](#session-0-agenda)
-   1. [Probability Cheat Table](#probability-cheat-table)
+1. [Schnellstart-Spickzettel](#schnellstart-spickzettel)
+   1. [Agenda für Session 0](#agenda-session-0)
+   1. [Wahrscheinlichkeits-Übersicht](#wahrscheinlichkeits-uebersicht)
 1. [Wissensspeicher & Plattform-Setup](#wissensspeicher--plattform-setup)
 1. [Repo-Map](#repo-map)
-1. [Chat-Shortcodes](#chat-shortcodes)
+1. [Mini-Einsatzhandbuch](#mini-einsatzhandbuch)
+1. [Start-Transkripte (Kurz)](#start-transkripte)
+1. [Abnahme-Smoketest (Dispatcher)](#abnahme-smoketest)
+1. [Chat-Kurzbefehle](#chat-kurzbefehle)
 1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
 1. [Level & EP-Kurve](#level--ep-kurve)
 1. [Regelreferenz](#regelreferenz)
@@ -48,7 +51,7 @@ tags: [meta]
     1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
 1. [Playtest Feedback](#playtest-feedback)
 1. [QA-Artefakte & Nachverfolgung](#qa-artefakte--nachverfolgung)
-1. [How to Contribute](#how-to-contribute)
+1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
 
 <!-- Macro: StoreCompliance -->
 {% macro StoreCompliance() -%}
@@ -83,7 +86,7 @@ Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
    Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
    `generate_boss()` an diesen Punkten automatisch aus.
 
-Siehe das [Quick-Start Cheat Sheet](#quick-start-cheat-sheet) für eine kompakte Einstiegshilfe.
+Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte Einstiegshilfe.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
@@ -106,12 +109,12 @@ ZEITRISS-md/
 └─ master-index.json        # Übersicht aller Module und Slugs
 ```
 
-## Quick-Start Cheat Sheet {#quick-start-cheat-sheet}
+## Schnellstart-Spickzettel {#schnellstart-spickzettel}
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
-Autoload-Hinweis siehe Abschnitt [Chat-Shortcodes](#chat-shortcodes).
+Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
 
 Nach Compliance-Hinweis und Einleitung fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
@@ -144,7 +147,7 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
-## Mini-Playbook {#mini-playbook}
+## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 
 **Startbefehle (Klammern Pflicht):**
 
@@ -163,14 +166,14 @@ Die ersten Schritte in unter zwei Minuten:
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
 
-[Start-Transkripte ↗](docs/start-transcripts.md) · [Acceptance Smoke ↗](docs/acceptance-smoke.md)
+[Start-Transkripte ↗](docs/start-transcripts.md) · [Abnahme-Smoketest ↗](docs/acceptance-smoke.md)
 
 Siehe auch:
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 - [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
 - [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 - [Start-Transkripte (Kurz)](#start-transkripte)
-- [Acceptance Smoke (Dispatcher)](#acceptance-smoke)
+- [Abnahme-Smoketest (Dispatcher)](#abnahme-smoketest)
 
 ## Start-Transkripte (Kurz) {#start-transkripte}
 
@@ -210,7 +213,7 @@ Spiel starten (gruppe schnell)
 
 </details>
 
-## Acceptance Smoke (Dispatcher) {#acceptance-smoke}
+## Abnahme-Smoketest (Dispatcher) {#abnahme-smoketest}
 
 ### Dispatcher-Starts & Speicherpfade
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
@@ -271,7 +274,7 @@ während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
 Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
-### Session-0 Agenda
+### Agenda für Session 0 {#agenda-session-0}
 
 1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
 2. **Lines/Veils bestätigen** – siehe Safety Sheet.
@@ -280,7 +283,7 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
 6. **Regel-Transparenz** – Overlay und JSON-Log laufen standardmäßig; `/debug_rolls` blendet das Log bei Bedarf aus.
 
-### Probability Cheat Table
+### Wahrscheinlichkeits-Übersicht {#wahrscheinlichkeits-uebersicht}
 
 | SG | W6 expl. | W10 expl. | Δ (W10–W6) |
 |---:|---------:|----------:|-----------:|
@@ -289,13 +292,13 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 | 8  | 50 %     | 65 %      | +15 %      |
 | 10 | 33 %     | 53 %      | +20 %      |
 
-### Chat-Shortcodes {#chat-shortcodes}
+### Chat-Kurzbefehle {#chat-kurzbefehle}
 
 Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 ### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
-Siehe [Mini-Playbook](#mini-playbook) für Startbefehle.
+Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 **Akzeptierte Zusätze:**
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
@@ -363,7 +366,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - **ForeshadowHint(text, tag='Foreshadow')** – legt einen Foreshadow-Hinweis samt HUD-Toast an
   und erhöht den Gate-Zähler. Nutzt das Makro für manuelle Andeutungen vor dem Boss.
 
-**Chat-Shortcodes**
+**Chat-Kurzbefehle**
 
 - `!helper delay` – erklärt `DelayConflict` kurz.
 - `!helper comms` – erklärt `comms_check` & Gerätevoraussetzungen.
@@ -671,7 +674,7 @@ Ausführliche Hintergründe liefert das Modul
    `core/`, `characters/`, `gameplay/` und `systems/`; `README.md` sowie `master-index.json` dienen als Navigationsanker.
 3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module mit gültigem Header werden vom GPT
    sicher erkannt.
-4. Führt den Acceptance-Smoke-Test (Abschnitt [Acceptance Smoke](#acceptance-smoke)) durch und protokolliert Autoload,
+4. Führt den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch und protokolliert Autoload,
    Save/Load und Fehlermeldungen pro Plattform.
 5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
    [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) sowie die dort verlinkten
@@ -909,7 +912,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Kodex-Badges** – HUD-Marker für Status und Sicherheitshinweise (z. B.
   Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
   [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges)
-  und den [Acceptance-Smoke-Checks](#acceptance-smoke).
+  und den [Abnahme-Smoketest-Checks](#abnahme-smoketest).
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
@@ -983,7 +986,7 @@ Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnit
 Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
 Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.
 
-## How to Contribute
+## Wie du beitragen kannst
 
 Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum
 Einreichen von Änderungen; beachte insbesondere die
