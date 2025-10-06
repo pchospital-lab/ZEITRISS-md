@@ -14,14 +14,14 @@ QA-Workflow. Alle Schritte erfolgen gemäß `AGENTS.md`, `CONTRIBUTING.md` sowie
 den Maintainer-Richtlinien.
 
 ## Maßnahmenübersicht
-1. **Dokumentensprache vereinheitlichen**
+1. **Dokumentensprache vereinheitlichen** ✅
    - README: Abschnittsüberschriften in konsistente deutsche Terminologie
-     überführen (z. B. „Wie du beitragen kannst“ statt „How to Contribute“).
+     überführen (z. B. „Wie du beitragen kannst“ statt „How to Contribute“). ✅
    - CONTRIBUTING: Frontmatter-Titel und Überschriften eindeutschen (z. B.
-     „Beitragsrichtlinien“, „Rollen & Pflichten“).
+     „Beitragsrichtlinien“, „Rollen & Pflichten“). ✅
    - Folgeprüfung: Stichtagskontrolle aller weiteren Root-Dokumente
      (`CHANGELOG.md`, `LICENSE`, `doc.md` usw.) auf verbliebene englische
-     Überschriften.
+     Überschriften. ✅ (README, CONTRIBUTING, doc.md aktualisiert)
 2. **YAML-Frontmatter und Versionsstände prüfen**
    - Abgleich der `version`-Felder in README, CONTRIBUTING und relevanten
      `docs/`-Artefakten mit dem Maintainer-Stand.
