@@ -54,8 +54,9 @@ Plattformen sind derzeit nicht vorgesehen.
   Repositoriumsaufgaben laufen über Codex (Repo-Agent). Operative QA- und
   Playtest-Sessions erfolgen ausschließlich im Beta-GPT, indem ein vorbereiteter
   Testprompt in den Chat gelegt wird.
-- **Übergabeformat:** Die Beta-GPT-Antwort (Testprotokolle, Abweichungen,
-  Freigaben) wird unverändert in ein neues Anweisungsfenster für Codex kopiert.
+- **Übergabeformat:** Die Beta-GPT-Antwort bündelt den vollständigen QA-Run samt
+  `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcken. Diese
+  Ausgabe wird unverändert in ein neues Anweisungsfenster für Codex kopiert.
   Codex überträgt daraus die erforderlichen Änderungen in Repo-Dateien,
   Fahrpläne und QA-Logs.
 - **Nachweise:** Der Testprompt deckt Acceptance-Smokes, Regressionen und
@@ -170,11 +171,13 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 ### Beta-GPT & Playtests
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
    **ZEITRISS [Ver. 4.2.2] beta**.
-2. Starte Playtests ausschließlich im Beta-Klon und füge den Auftrag aus
-   `docs/tester-playtest-briefing.md` in die erste Chat-Nachricht ein.
-3. Übertrage die Antwort des Beta-GPT gesammelt und unverändert an Codex
-   (Repo-Agent). Codex erstellt daraus Tickets, dokumentiert Freigaben und
-   aktualisiert QA-/Maintainer-Docs.
+2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
+   `docs/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
+   den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
+3. Prüfe, dass die Antwort die geforderten `ISSUE`-, `Lösungsvorschlag`-,
+   `To-do`- und `Nächste Schritte`-Blöcke je Befund enthält, und übertrage sie
+   gesammelt und unverändert an Codex (Repo-Agent). Codex erstellt daraus
+   Tickets, dokumentiert Freigaben und aktualisiert QA-/Maintainer-Docs.
 4. Notiere im QA-Log, welcher Beta-GPT-Prompt verwendet wurde, damit spätere
    Regressionen denselben Ablauf nachvollziehen können.
 5. Synchronisiere den Wissensspeicher des produktiven MyGPT sowie weiterer
@@ -182,9 +185,9 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 
 ### Übergabe an Codex & Dokumentation
 1. Exportiere nach jeder Beta-GPT-Session das vollständige Chatlog (inklusive
-   Debug-Ausgaben) und sende es unverändert an Codex. Eine kompakte
-   Stichpunktliste der Findings beschleunigt die Übertragung in den
-   QA-Fahrplan.
+   Debug-Ausgaben) und sende es unverändert an Codex. Die vom GPT erzeugten
+   `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke ersetzen
+   separate Stichpunktlisten.
 2. Markiere im Log klar die Plattform (Standard: MyGPT Beta auf openai.com),
    den Build-Stand und den verwendeten Wissensspeicher.
 3. Notiere in deiner Übergabe, ob Uploads, Save/Load-Checks oder

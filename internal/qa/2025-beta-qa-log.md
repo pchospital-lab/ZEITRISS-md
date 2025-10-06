@@ -15,16 +15,18 @@ nachzuvollziehen.
 ## Workflow
 1. Maintainer:innen oder Tester:innen führen den Playtest gemäß
    [docs/tester-playtest-briefing.md](../../docs/tester-playtest-briefing.md)
-   aus und kopieren das vollständige Chatprotokoll in einen neuen Abschnitt
-   dieses Logs.
+   aus, lassen den GPT den kompletten QA-Lauf autonom simulieren und kopieren
+   das vollständige Chatprotokoll in einen neuen Abschnitt dieses Logs.
 2. Kennzeichne zu Beginn jedes Abschnitts Datum, Plattform, Build und genutzte
    Wissensbasis. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
    Weitere Plattformen werden nur nach Freigabe gespiegelt und dokumentiert,
    falls Abweichungen auftreten.
 3. Füge das Protokoll unverändert als Codeblock ein. Sensible Informationen
    werden vor dem Einfügen entfernt oder anonymisiert.
-4. Ergänze unterhalb des Protokolls eine kurze Liste mit offenen Punkten.
-5. Verlinke den Abschnitt im QA-Fahrplan und priorisiere die offenen Punkte.
+4. Belasse die vom GPT erzeugten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
+   `Nächste Schritte`-Blöcke unverändert unterhalb des Chatlogs; ergänzende
+   Randnotizen sind optional.
+5. Verlinke den Abschnitt im QA-Fahrplan und priorisiere die gemeldeten Blöcke.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 

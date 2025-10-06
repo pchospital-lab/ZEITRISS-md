@@ -986,6 +986,9 @@ Scanne den QR-Code oder besuche
 
 Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
 Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
+Der Standardprompt aus `docs/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
+simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
+Blöcke für Codex.
 Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.
 
 ## Wie du beitragen kannst

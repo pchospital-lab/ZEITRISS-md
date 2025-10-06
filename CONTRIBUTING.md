@@ -62,12 +62,13 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 <a id="beta-gpt-qa-uebergaben"></a>
 ## Beta-GPT & QA-Übergaben
 - Maintainer:innen spielen den MyGPT-Beta-Klon gemäß
-  [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests), exportieren das vollständige
-  Chatlog und liefern es zusammen mit einer Kurzliste der Findings an Codex.
+  [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests), lassen den GPT den kompletten
+  QA-Run selbst simulieren, exportieren das vollständige Chatlog und liefern es mitsamt der automatisch
+  erzeugten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke an Codex.
 - Sobald das Material vorliegt, erledigt der Repo-Agent folgende Schritte:
   1. Chatlog unverändert in `internal/qa/2025-beta-qa-log.md` archivieren und Plattform, Build sowie
      Wissensstand notieren.
-  2. Alle Findings in `docs/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den
+  2. Die strukturierten Blöcke in `docs/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den
      Log-Abschnitt verlinken.
   3. Tickets branchweise abarbeiten; Tests und Referenzen in den Commits dokumentieren.
   4. Nach dem Merge `docs/ZEITRISS-qa-audit-2025.md` mit Datum, Commit-Link und Ergebnis ergänzen.
