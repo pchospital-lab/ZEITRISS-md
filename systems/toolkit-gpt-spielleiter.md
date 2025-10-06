@@ -77,6 +77,10 @@ default_modus: mission-fokus
 {% elif ui.dice.debug_rolls is not defined %}
   {% set ui.dice = ui.dice | combine({'debug_rolls': true}, recursive=true) %}
 {% endif %}
+{% set allow_event_icons = true %}
+{% if settings is defined and settings.allow_event_icons is defined %}
+  {% set allow_event_icons = settings.allow_event_icons %}
+{% endif %}
 {% if fx is not defined %}
 {% set fx = {
   'transfer': {
@@ -1957,7 +1961,7 @@ Erzeugt eine Para-Kreatur über `#para-creature-generator`.
 {% macro generate_para_creature(seed) -%}
   {%- set enc = gpull('gameplay/kreative-generatoren-begegnungen.md#para-creature-generator', seed) -%}
   {%- set hud_core = hud_tag(enc.creature.name ~ ' (' ~ enc.creature.type ~ ')') -%}
-  {%- set hud = (settings.allow_event_icons and '👾 ' or '') ~ hud_core -%}
+  {%- set hud = (allow_event_icons and '👾 ' or '') ~ hud_core -%}
   {{ {'creature': enc.creature, 'loot': enc.loot, 'hud': hud} }}
 {%- endmacro %}
 
@@ -2019,7 +2023,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
         {% set campaign.boss_dr = 3 %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~
+        {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~
                    ' · Pool: ' ~ pool_name) }}
         {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
@@ -2032,7 +2036,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
         {% set campaign.boss_dr = 2 %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~
+        {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('MINI-BOSS (T3) → ' ~ boss ~
                    ' · Pool: ' ~ pool_name) }}
         {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
@@ -2048,7 +2052,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
         {% set campaign.boss_dr = 3 %}
-        {{ (settings.allow_event_icons and '💀 ' or '') ~
+        {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~
                    ' · Pool: ' ~ pool_name) }}
         {{ hud_tag('Boss-DR aktiviert – −' ~ campaign.boss_dr ~ ' Schaden pro Treffer') }}
