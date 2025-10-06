@@ -17,8 +17,10 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
 - **Tester:innen** führen Playthroughs in den vorgesehenen GPT-Instanzen durch
   und kopieren das Ergebnis unverändert in das QA-Log unter
   `internal/qa/2025-beta-qa-log.md`.
-- **Maintainer:innen** prüfen die Logs, gleichen sie mit dem Repo-Stand ab und
-  übergeben priorisierte Punkte an Codex.
+- **Maintainer:in (Solo-Setup 2025)** führt alle Beta-GPT-Tests durch,
+  indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Die komplette
+  Antwort wird unverändert an Codex übergeben, der die Ergebnisse in Repo-Tasks
+  und Dokumentationen überführt.
 - **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
   und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben
   strikt getrennt.
@@ -170,19 +172,31 @@ Hochstufen-Spielrunden.
    QA-Fahrplan sowie im entsprechenden Abschnitt des QA-Logs dokumentieren.
 2. **Dokumentation:** Punkte 11–20 in README, Maintainer-Ops und Glossar
    spiegeln, sobald Runtime-Anpassungen bestätigt sind; Referenzen im QA-Log
-   hinterlegen. Maintainer-Ops wurde am 2025-03-21 auf Version 1.2.0 angehoben
-   und beschreibt nun die Spiegelprozesse nach MyGPT-Freigabe.
+   hinterlegen. Jeder QA-Log-Eintrag notiert den verwendeten Beta-GPT-Testprompt,
+   damit Regressionen reproduzierbar bleiben. Maintainer-Ops wurde am
+   2025-03-21 auf Version 1.2.0 angehoben und beschreibt nun die Spiegelprozesse
+   nach MyGPT-Freigabe.
 3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.
 
-## Offene Fragen für das Team
-- Master-Index `modul_7`: Klärung, ob die Bezeichnung künftig kanonisch bleibt
-  oder ob eine alternative Nummerierung vorgesehen ist.
-- Px-Ökonomie: Festlegen, ob weitere Ruf- oder Trainingsmarker geplant sind oder
-  ob die Anpassung auf die Arena beschränkt bleibt.
-- Save-Schema-Mapping: Benennung der Toolchain für die Migration nach
-  `psi_heat`.
+## Offene Fragen für das Team (Stand: 2025-04-02)
+Die folgenden Punkte galten im ursprünglichen Audit als ungeklärt und sind für
+den Live-Gang bewertet:
+
+- **Master-Index `modul_7`.** Die Nummerierung bleibt kanonisch: Modul 7 ist
+  dauerhaft `gameplay/fahrzeuge-konflikte.md`. Cross-References in
+  README, Kampagnenstruktur und Master-Index verweisen einheitlich auf diese
+  Datei; weitere Umbenennungen sind nicht vorgesehen.
+- **Px-Ökonomie.** Die Limitierung der Arena-Belohnung auf einmal pro Episode
+  bildet den finalen Rahmen für Version 4.2.2. Weitere Ruf- oder
+  Trainingsmarker werden frühestens im nächsten Major-Update geprüft und sind
+  kein Blocker für den Release.
+- **Save-Schema-Mapping (`psi_heat`).** Die Migration ist produktiv über
+  `runtime.migrate_save()` implementiert. `save_version` 6 erzwingt die neuen
+  Felder (`psi_heat`, `psi_heat_max`) und die Acceptance-Smoke prüft den Pfad.
+  Die Toolchain basiert auf den vorhandenen Runtime-Tests (`tools/test_save.js`,
+  `npm run test:save`) und benötigt keine zusätzliche Utility-Datei.
 
 Bitte priorisierte Maßnahmen an Codex melden und dabei den relevanten
 QA-Log-Eintrag referenzieren, damit Audit und Fahrplan in nachfolgenden

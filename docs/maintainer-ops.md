@@ -48,6 +48,24 @@ Plattformen sind derzeit nicht vorgesehen.
   auf den passenden QA-Log-Abschnitt dokumentiert. Nur so bleibt nachvollziehbar,
   welche Plattform welchen Stand lädt.
 
+### Solo-Maintainer-Workflow (Stand 2025)
+
+- **Arbeitsaufteilung:** Aktuell betreut eine Person das Projekt. Alle
+  Repositoriumsaufgaben laufen über Codex (Repo-Agent). Operative QA- und
+  Playtest-Sessions erfolgen ausschließlich im Beta-GPT, indem ein vorbereiteter
+  Testprompt in den Chat gelegt wird.
+- **Übergabeformat:** Die Beta-GPT-Antwort (Testprotokolle, Abweichungen,
+  Freigaben) wird unverändert in ein neues Anweisungsfenster für Codex kopiert.
+  Codex überträgt daraus die erforderlichen Änderungen in Repo-Dateien,
+  Fahrpläne und QA-Logs.
+- **Nachweise:** Der Testprompt deckt Acceptance-Smokes, Regressionen und
+  Spiegel-Checks ab. Codex dokumentiert die Ergebnisse in den Maintainer- und
+  QA-Dokumenten und referenziert die jeweiligen Chatlogs.
+- **Erweiterbarkeit:** Sollte sich das Team vergrößern, bleibt dieser Ablauf
+  gültig, bis eine alternative Rollenaufteilung dokumentiert wird. Zusätzliche
+  Maintainer:innen richten eigene Beta-Klone ein und liefern ihre Ergebnisse in
+  derselben Form an Codex.
+
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
@@ -118,6 +136,33 @@ Plattformen sind derzeit nicht vorgesehen.
 - Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
+## Go-Live-Checkliste (Build 4.2.2)
+Vor der Spiegelung auf produktive Plattformen sind die folgenden Schritte
+abzuschließen und im QA-Log zu dokumentieren:
+
+1. **Repository-Prüfungen**
+   - `make lint`
+   - `make test`
+   - `npm run test:hud`
+   - `npm run test:debrief`
+   - `npm run test:comms`
+   Alle Läufe müssen ohne Fehler durchlaufen; Warnungen werden im Commit-Log
+   vermerkt.
+2. **Dokumentationsabgleich**
+   - Audit, Fahrplan und Maintainer-Ops auf denselben Stand bringen (Versionen
+     prüfen, offene Fragen schließen, QA-Referenzen ergänzen).
+   - README-Sektion „QA-Artefakte & Nachverfolgung“ auf aktuelle Links testen.
+3. **QA-Log & Freigabe**
+   - Acceptance-Smoke gegen [docs/acceptance-smoke.md](acceptance-smoke.md)
+     abhaken und den Lauf im QA-Log mit Datum, Plattform und Build-ID
+     protokollieren.
+   - Offene Punkte im QA-Log schließen oder vertagen (inkl. Verweis auf den
+     verantwortlichen Commit).
+4. **Spiegelentscheidung**
+   - Erst wenn alle obigen Schritte grün sind, Beta-GPT → Produktiv-GPT →
+     Store-GPT → Proton LUMO → lokale Instanzen spiegeln.
+   - Jede Spiegelung mit Datum, Plattform und QA-Log-Verweis festhalten.
+
 ## QA-Loop & Speicherstände
 Halte für QA und Save/Load-Checks den Übergabeprozess in
 `CONTRIBUTING.md#beta-gpt-qa-uebergaben` ein. Ergänzend gilt:
@@ -127,9 +172,12 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    **ZEITRISS [Ver. 4.2.2] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon und füge den Auftrag aus
    `docs/tester-playtest-briefing.md` in die erste Chat-Nachricht ein.
-3. Übertrage die Antwort des Beta-GPT gesammelt an Codex (Repo-Agent), damit
-   daraus Aufgaben im QA-Fahrplan entstehen.
-4. Synchronisiere den Wissensspeicher des produktiven MyGPT sowie weiterer
+3. Übertrage die Antwort des Beta-GPT gesammelt und unverändert an Codex
+   (Repo-Agent). Codex erstellt daraus Tickets, dokumentiert Freigaben und
+   aktualisiert QA-/Maintainer-Docs.
+4. Notiere im QA-Log, welcher Beta-GPT-Prompt verwendet wurde, damit spätere
+   Regressionen denselben Ablauf nachvollziehen können.
+5. Synchronisiere den Wissensspeicher des produktiven MyGPT sowie weiterer
    Plattformen erst, nachdem Codex die QA als grün markiert hat.
 
 ### Übergabe an Codex & Dokumentation
