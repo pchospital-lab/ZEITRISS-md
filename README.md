@@ -68,7 +68,9 @@ Diese Wahl prägt eure Physiologie, euer Sozialprofil und den Zugriff auf bestim
 Eure Hülle ist keine Tarnung – sie ist euer Körper.
 Ihr erkundet historische Epochen und beseitigt Anomalien.
 Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-Charakterbogen.
-Alle Texte stehen unter einer offenen Lizenz; siehe [LICENSE](LICENSE).
+Texte und Illustrationen stehen unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/),
+der Programmcode unter der [MIT-Lizenz](https://opensource.org/licenses/MIT).
+Details findest du in [LICENSE](LICENSE).
 
 ## TL;DR – ZEITRISS in 6 Punkten
 
