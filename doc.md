@@ -1,10 +1,10 @@
 ---
-title: "Runtime Helper Guide"
+title: "Runtime-Helfer-Leitfaden"
 version: 1.0.0
 tags: [meta]
 ---
 
-# Runtime Helper Guide
+# Runtime-Helfer-Leitfaden
 
 > Übersicht über zentrale Makros für Kampagnenfluss und Funkchecks.
 
@@ -13,7 +13,7 @@ tags: [meta]
 - [Nutzung](#nutzung)
 - [API / Makros](#api--makros)
 - [Beispiele](#beispiele)
-- [Changelog](#changelog)
+- [Änderungsverlauf](#änderungsverlauf)
 
 ## Einleitung
 Dieses Dokument sammelt kurze Hinweise zu häufig genutzten Runtime-Makros.
@@ -22,7 +22,7 @@ Dieses Dokument sammelt kurze Hinweise zu häufig genutzten Runtime-Makros.
 Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 `GM_STYLE` auf `precision`, wenn strenge Guards aktiv sein sollen.
 
-## Message Flow: Load-Pipeline
+## Nachrichtenfluss: Lade-Pipeline
 ```mermaid
 flowchart TD
   U["User Message"] --> J{JSON mit `zr_version`?}
@@ -65,6 +65,6 @@ werden, heben den Gate für Szene 10 auf.
 DelayConflict(4, ["ambush"]);
 ```
 
-## Changelog
+## Änderungsverlauf
 
 - 2025-08-15: Erste Version, lint-konform.
