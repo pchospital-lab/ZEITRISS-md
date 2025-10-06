@@ -182,6 +182,42 @@ Hochstufen-Spielrunden.
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.
 
+## Befunde Beta-GPT-Lauf 2025-06 (ISSUE #1–#16)
+Der Testprompt vom Juni 2025 ergänzt 16 neue Baustellen rund um HQ-Saves,
+Gruppenschemata und PvP-Logik. Die folgenden Einträge bilden den aktuellen
+Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
+übernommen und stehen dort mit Verantwortlichkeiten sowie Terminankern.
+
+**Status-Legende:** `[ ] Offen`, `[x] Erledigt`
+
+| # | Schwerpunkt | Status | Kerndiagnose | Empfohlene Umsetzung | Auswirkung bei Verzug |
+| --- | --- | --- | --- | --- | --- |
+| 1 | HQ-Save-Pflichtfelder | [ ] Offen | Minimal-HQ-Saves lassen `economy`, `logs`, `ui` und `campaign.px` aus. | Schema angleichen, Linterregel `SAVE_REQ_FIELDS` ergänzen, Serializer ergänzt Defaults (`economy`, `logs`, `ui`). | Parser-Fehler und QA-Saves brechen bei Releases. |
+| 2 | Gruppensave-Konsistenz | [ ] Offen | Drei konkurrierende Arrays für Teamzusammenstellungen. | Normalizer in `load_deep()` verankern; Kanonstruktur `party.characters[]`, Legacy-Aliase dokumentieren. | Merge-Dialoge bleiben unzuverlässig. |
+| 3 | Arc-Dashboard | [ ] Offen | Laufzeit nutzt Dashboard, Schema definiert es nicht. | Optionales, aber standardisiertes Objekt dokumentieren; Serializer/Deserializer anbinden. | Story-Hub verliert nach Reload Kontext. |
+| 4 | Load-Compliance | [ ] Offen | Einstiegstrigger feuern mehrfach, Flag fehlt. | `ShowComplianceOnce()` vor Recap ausführen, Flag `logs.flags.compliance_shown_today` speichern. | Wiederholte Dialoge direkt nach `!load`. |
+| 5 | Hot-Exfil Px-Verlust | [ ] Offen | FAQ widerspricht Runtime-Strafe. | Default `exfil_fail_policy.px_loss=false` setzen oder FAQ präzisieren. | Inkonsistente Spielerwartungen, Balancing-Drift. |
+| 6 | Phase-Strike-Kosten | [ ] Offen | PvP-Kosten doppelt definiert, Modus-Flag unklar. | `campaign.mode` als Quelle, Helper `is_pvp()` nutzen, Kosten zentralisieren. | Psi-Balance kippt in Sparring-Szenen. |
+| 7 | Accessibility-Dialog | [ ] Offen | Kein einheitliches Menü für Barrierefreiheit. | `hud.accessibility()` mit persistierenden Flags und Onboarding-Preset implementieren. | Spieler:innen ohne Zugang zu Accessibility-Optionen. |
+| 8 | Offline-Fallback | [ ] Offen | Kein definierter Offline-Dialog trotz HUD-Alerts. | `offline_help()` + lokales FAQ und Ask→Suggest-Flow offline spiegeln. | Kodex-Hilfe bricht bei Jammern weg. |
+| 9 | Semver-Benennung | [ ] Offen | `ZR_VERSION` vs. `zr_version` uneinheitlich im Wording. | Dokumentation harmonisieren, Fehlermeldungen beide Werte nennen, Log ergänzt Runtime-Version. | Fehlermeldungen bleiben missverständlich. |
+| 10 | Foreshadow-Gates | [ ] Offen | Fortschritt nicht im Save verankert. | `logs.foreshadow` persistieren und HUD-Badge anbinden. | Gate lässt sich durch Reload unterlaufen. |
+| 11 | Koop-CU-Verteilung | [ ] Offen | Team- vs. Charakter-Wallet unklar. | Debrief-Dialog mit Splits, Standard `economy.cu`, persönliche Wallets separat buchen. | Konflikte um Belohnungsverteilung, Save-Drift. |
+| 12 | Chronopolis-Warnung | [ ] Offen | Einmaliges Popup ohne Persistenzflag. | `logs.flags.chronopolis_warn_seen` setzen. | Warnung erscheint bei jedem Eintritt erneut. |
+| 13 | Ask→Suggest | [ ] Offen | Mechanik gefordert, aber nicht dokumentiert oder standardisiert. | Toolkit-Makro `suggest_actions()` sowie README-Ergänzung bereitstellen. | UX-Lücke in Beratungssituationen. |
+| 14 | Suspend-Snapshot | [ ] Offen | Initiative- und Timer-Zustände fehlen beim Resume. | Snapshot um `initiative.order[]`, `initiative.active_id`, `hud.timers[]` erweitern. | Konflikte verlieren Struktur nach `!resume`. |
+| 15 | PSI-Buffer-Arena | [ ] Offen | PvP-Dämpfer nicht zentral dokumentiert. | `apply_arena_rules()` bündelt `psi_buffer` + Dämpfer, Dokumentation vereinheitlichen. | Mods/Toolkits setzen Regeln falsch um. |
+| 16 | Chronopolis-Marktlog | [ ] Offen | Käufe erzeugen kein Save-Log trotz Px-Auswirkungen. | `logs.market[]` mit Timestamp, Item, Kosten und Px-Klausel speichern. | Px-Verluste bleiben nicht nachvollziehbar. |
+
+**Folgeaufgaben:**
+
+- [ ] QA ergänzt Regressionstests (Dispatcher-Suite, Cross-Mode-Läufe,
+      Debrief-Splits) und versieht sie mit Referenzen im QA-Log.
+- [ ] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
+      verknüpft Commits mit dem Audit.
+- [ ] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
+      Abschluss der jeweiligen Teilaufgaben.
+
 ## Offene Fragen für das Team (Stand: 2025-04-02)
 Die folgenden Punkte galten im ursprünglichen Audit als ungeklärt und sind für
 den Live-Gang bewertet:
