@@ -62,6 +62,40 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   und bei Bedarf PRs initiieren.
   - Artefakte: `LICENSE`, `docs/trademark.md`, QA-Log-Referenzen
 
+## Maßnahmenpaket Beta-GPT-Testprompt Juni 2025
+Die folgenden Aufgaben leiten sich unmittelbar aus ISSUE #1–#16 des jüngsten
+Beta-GPT-Laufs ab. Sie sind nach Workstream sortiert, enthalten konkrete
+Zwischenschritte und markieren Abhängigkeiten zwischen Runtime, QA und
+Dokumentation.
+
+| Issue | Workstream | Nächster Schritt | Owner | Zieltermin | QA-Verankerung |
+| --- | --- | --- | --- | --- | --- |
+| #1 | Save-Schema | Serializer ergänzt Pflichtfelder + Linter-Regel `SAVE_REQ_FIELDS`. | Codex | KW 25 | Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern. |
+| #2 | Save-Normalisierung | `load_deep()`-Normalizer + Legacy-Alias-Doku. | Codex | KW 26 | Cross-Mode-Load-Test (Solo↔Koop↔PvP). |
+| #3 | Arc-Dashboard | Schema-Doku + Runtime-Serializer/Deserializer. | Codex & Maintainer:in | KW 27 | Episoden-Debrief-Reload mit Seeds. |
+| #4 | Load-Flows | Flag `logs.flags.compliance_shown_today`, Skip Entry Choice. | Codex | KW 25 | Dreifachtest Load-Pfade. |
+| #5 | Exfil-Policy | Default `px_loss=false`, FAQ-Abgleich. | Codex & Maintainer:in | KW 26 | Zwei Missionsläufe (TTL-Timeout vs. regulär). |
+| #6 | PvP-Modusflag | Helper `is_pvp()`, zentrale Kostenberechnung. | Codex | KW 27 | Drei Kampfmodi (Core/Rift/Arena). |
+| #7 | Accessibility | HUD-Menü + Persistenztests. | Codex & QA | KW 28 | HQ-Onboarding-Regression. |
+| #8 | Offline-Fallback | `offline_help()` + HUD-Toast. | Codex | KW 28 | Tunneltest „Funk weg“ inkl. Re-Sync. |
+| #9 | Versionierung | Fehlermeldung & Doku `ZR_VERSION` vs. `zr_version`. | Codex & Maintainer:in | KW 25 | Migrationspfad-Test (`migrate_save()`). |
+| #10 | Foreshadow-Log | `logs.foreshadow` persistieren, HUD-Badge. | Codex | KW 26 | M4→M10 Save/Load-Kette. |
+| #11 | Koop-Ökonomie | Debrief-Split-Dialog + Wallet-Logik. | Codex | KW 29 | Drei Koop-Runs (gleich/ungleich/custom). |
+| #12 | Chronopolis-Warnung | Flag `logs.flags.chronopolis_warn_seen` setzen. | Codex | KW 25 | Doppel-Entry-Test vor/nach Save. |
+| #13 | Ask→Suggest | Toolkit-Makro + README-Update. | Codex & Maintainer:in | KW 27 | Drei Missionsmuster (Verdunkeln/Verhindern/Dokumentieren). |
+| #14 | Suspend-Snapshot | Snapshot-Felder erweitern, Resume-Test. | Codex | KW 26 | Konflikt pausieren/fortsetzen. |
+| #15 | PSI-Arena-Regeln | `apply_arena_rules()` zentralisieren, Doku synchronisieren. | Codex & Maintainer:in | KW 27 | Arena/Core/Rift Vergleich. |
+| #16 | Markt-Log | `logs.market[]` schreiben, Debrief-Trace. | Codex | KW 28 | Chronopolis-Kauf + Px-Folge. |
+
+**Koordinationshinweise:**
+
+- QA pflegt nach jedem abgeschlossenen Punkt den Status im QA-Log und
+  referenziert commit- bzw. PR-IDs.
+- Maintainer:innen aktualisieren Modul 12, README und Master-Index gesammelt
+  pro Block (`Save-Schema`, `HUD/UX`, `Arena/PvP`).
+- Codex sammelt Runtime-Änderungen in logisch getrennten Branches, damit Review
+  und Migration nachvollziehbar bleiben.
+
 ## Regressionstest-Termine 2025
 
 - **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
