@@ -94,7 +94,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - Zusätzliche Runtime-Prüfungen: `python3 tools/lint_runtime.py` und
   `GM_STYLE=verbose python3 tools/lint_runtime.py`.
 - Optionale Checks: `node tools/test_save.js`, `node tools/test_load.js`.
-- Dispatcher-Smoke-Tests siehe [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md).
+- Dispatcher-Smoke-Tests siehe [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 - Dokumentiere plattformweite QA- und Release-Checks nach
   [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutze die dort verlinkten
   Acceptance-Smoke-Listen als Vorlage für Reports.
