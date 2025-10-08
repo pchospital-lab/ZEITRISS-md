@@ -186,8 +186,9 @@ Dokumentation.
 
 ### Issue #9 – Versionierung
 - **Workstream:** Versionierung
-- **Nächster Schritt:** Fehlermeldung und Dokumentation zu `ZR_VERSION` und
-  `zr_version` harmonisieren.
+- **Statusnotiz:** ✅ Semver-Check vergleicht jetzt `zr_version` mit `ZR_VERSION`,
+  Fehlermeldung und Doku sind harmonisiert und `logs.flags.runtime_version`
+  hält die Laufzeitversion fest. (Commit: wird im PR referenziert.)
 - **Owner:** Codex & Maintainer:in
 - **Zieltermin:** KW 25
 - **QA-Verankerung:** Migrationspfad-Test (`migrate_save()`).

@@ -32,6 +32,7 @@ assert.ok(Array.isArray(data.logs.artifact_log));
 assert.ok(Array.isArray(data.logs.kodex));
 assert.ok(Array.isArray(data.logs.hud));
 assert.equal(typeof data.logs.flags, 'object');
+assert.equal(data.logs.flags.runtime_version, rt.ZR_VERSION);
 assert.equal(typeof data.economy.cu, 'number');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
@@ -61,7 +62,7 @@ assert.equal(minimalData.economy.cu, 0);
 assert.ok(Array.isArray(minimalData.logs.artifact_log));
 assert.ok(Array.isArray(minimalData.logs.kodex));
 assert.ok(Array.isArray(minimalData.logs.hud));
-assert.deepEqual(minimalData.logs.flags, {});
+assert.equal(minimalData.logs.flags.runtime_version, rt.ZR_VERSION);
 
 try {
   rt.save_deep({ ...base, location: 'CITY' });
@@ -74,4 +75,5 @@ assert.equal(migrated.save_version, 6);
 assert.equal(migrated.phase, 'core');
 assert.equal(migrated.ui.gm_style, 'verbose');
 assert.equal(migrated.ui.intro_seen, false);
+assert.equal(migrated.logs.flags.runtime_version, rt.ZR_VERSION);
 console.log('save-ok');

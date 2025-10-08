@@ -259,12 +259,15 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Die Kodex-Hilfe bricht bei Verbindungsproblemen ab.
 
 ### Issue #9 – Semver-Benennung
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** `ZR_VERSION` und `zr_version` werden uneinheitlich
   verwendet.
 - **Empfohlene Umsetzung:** Dokumentation harmonisieren, Fehlermeldungen beide
   Werte nennen lassen und das Log um die Runtime-Version ergänzen.
 - **Risiko bei Verzug:** Fehlermeldungen bleiben missverständlich.
+- **Statusnotiz:** ✅ Semver-Prüfung setzt auf `zr_version`↔`ZR_VERSION`,
+  Runtime-Version wird als `logs.flags.runtime_version` persistiert; Doku und
+  Fehlermeldungen ziehen nach. (Commit: wird im PR referenziert.)
 
 ### Issue #10 – Foreshadow-Gates
 - **Status:** [ ] Offen

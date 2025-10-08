@@ -1551,6 +1551,9 @@ function prepare_save_logs(logs){
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
   }
+  if (!base.flags.runtime_version){
+    base.flags.runtime_version = ZR_VERSION;
+  }
   return base;
 }
 
@@ -1840,6 +1843,19 @@ function hydrate_state(data){
 function load_deep(raw){
   const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
   const migrated = migrate_save(data);
+  const runtimeSemver = majorMinor(ZR_VERSION);
+  const saveSemver = majorMinor(migrated.zr_version || migrated.ZR_VERSION);
+  if (saveSemver && saveSemver !== runtimeSemver){
+    throw new Error(`Kodex-Archiv: Datensatz v${saveSemver} nicht kompatibel mit v${runtimeSemver}. Bitte HQ-Migration veranlassen.`);
+  }
+  migrated.zr_version = migrated.zr_version || ZR_VERSION;
+  migrated.logs ||= {};
+  if (!migrated.logs.flags || typeof migrated.logs.flags !== 'object'){
+    migrated.logs.flags = {};
+  }
+  if (!migrated.logs.flags.runtime_version){
+    migrated.logs.flags.runtime_version = migrated.zr_version || ZR_VERSION;
+  }
   migrated.location = 'HQ';
   hydrate_state(migrated);
   const hud = scene_overlay();
