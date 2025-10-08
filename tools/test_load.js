@@ -18,7 +18,12 @@ const save = {
   loadout: {},
   economy: {},
   logs: { artifact_log: [], kodex: [] },
-  ui: { gm_style: 'verbose' }
+  ui: { gm_style: 'verbose' },
+  arc_dashboard: {
+    offene_seeds: [{ id: 'Seed-01', status: 'offen' }],
+    fraktionen: { ITI: { status: 'Verbündet' } },
+    fragen: ['Wie sichern wir den Chronosplit?']
+  }
 };
 
 const res = rt.load_deep(save);
@@ -29,6 +34,10 @@ assert.equal(rt.state.character.psi_heat, 0);
 assert.ok(rt.state.character.heat === undefined);
 assert.equal(rt.state.campaign.px, 0);
 assert.equal(rt.ZR_VERSION, pkg.version);
+assert.ok(Array.isArray(rt.state.arc_dashboard.offene_seeds));
+assert.equal(rt.state.arc_dashboard.offene_seeds[0].id, 'Seed-01');
+assert.equal(rt.state.arc_dashboard.fragen[0], 'Wie sichern wir den Chronosplit?');
+assert.equal(rt.state.arc_dashboard.fraktionen.ITI.status, 'Verbündet');
 console.log('load-ok');
 
 const legacy = {
@@ -69,7 +78,17 @@ const legacy = {
   loadout: {},
   economy: { cu: 4 },
   logs: { artifact_log: [], kodex: [] },
-  ui: { gm_style: 'precision', intro_seen: true }
+  ui: { gm_style: 'precision', intro_seen: true },
+  arc_dashboard: {
+    offene_seeds: [
+      { id: 'Seed-02', status: 'kritisch' },
+      { id: 'Seed-03', status: 'archiviert' }
+    ],
+    fraktionen: {
+      KAIROS: { status: 'Feindlich' }
+    },
+    fragen: []
+  }
 };
 
 const legacyRes = rt.load_deep(legacy);
@@ -78,6 +97,8 @@ const partyRoster = rt.state.party.characters.map(entry => entry.id || entry.cal
 assert.deepStrictEqual(partyRoster, ['ALLY-1', 'ALLY-2', 'ALLY-3', 'Echo', 'ALLY-4']);
 const teamRoster = rt.state.team.members.map(entry => entry.id || entry.callsign || entry.name);
 assert.deepStrictEqual(teamRoster, partyRoster);
+assert.equal(rt.state.arc_dashboard.offene_seeds.length, 2);
+assert.equal(rt.state.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich');
 console.log('legacy-normalized');
 
 const incompatible = {

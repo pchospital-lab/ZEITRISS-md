@@ -17,7 +17,14 @@ const base = {
   loadout: {},
   economy: {},
   logs: { artifact_log: [], kodex: [], hud: [], flags: {} },
-  ui: { gm_style: 'verbose', intro_seen: true }
+  ui: { gm_style: 'verbose', intro_seen: true },
+  arc_dashboard: {
+    offene_seeds: [{ id: 'Seed-77', ort: 'Alexandria' }],
+    fraktionen: {
+      KAIROS: { status: 'Feindlich', letzten_hook: 'Sabotage im Archiv' }
+    },
+    fragen: ['Wer hat den Psi-Sturm ausgelöst?']
+  }
 };
 
 const json = rt.save_deep(base);
@@ -35,6 +42,11 @@ assert.equal(typeof data.logs.flags, 'object');
 assert.equal(data.logs.flags.runtime_version, rt.ZR_VERSION);
 assert.equal(data.logs.flags.chronopolis_warn_seen, false);
 assert.equal(typeof data.economy.cu, 'number');
+assert.ok(Array.isArray(data.arc_dashboard.offene_seeds));
+assert.ok(Array.isArray(data.arc_dashboard.fragen));
+assert.equal(typeof data.arc_dashboard.fraktionen, 'object');
+assert.deepStrictEqual(data.arc_dashboard.offene_seeds[0].id, 'Seed-77');
+assert.deepStrictEqual(data.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));
@@ -65,6 +77,10 @@ assert.ok(Array.isArray(minimalData.logs.kodex));
 assert.ok(Array.isArray(minimalData.logs.hud));
 assert.equal(minimalData.logs.flags.runtime_version, rt.ZR_VERSION);
 assert.equal(minimalData.logs.flags.chronopolis_warn_seen, false);
+assert.ok(Array.isArray(minimalData.arc_dashboard.offene_seeds));
+assert.equal(minimalData.arc_dashboard.offene_seeds.length, 0);
+assert.ok(Array.isArray(minimalData.arc_dashboard.fragen));
+assert.equal(typeof minimalData.arc_dashboard.fraktionen, 'object');
 
 try {
   rt.save_deep({ ...base, location: 'CITY' });
