@@ -169,7 +169,7 @@ Die ersten Schritte in unter zwei Minuten:
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
 
 [Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md) ·
-[Abnahme-Smoketest ↗](internal/qa/checklists/acceptance-smoke.md)
+[Abnahme-Smoketest ↗](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
 
 Siehe auch:
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
@@ -317,8 +317,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
-Ein manuelles 10-Schritte-Smoke-Set steht in
-[Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md).
+Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
+[Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
@@ -987,7 +987,7 @@ Scanne den QR-Code oder besuche
 
 Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
 Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
-Der Standardprompt aus `internal/qa/briefings/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
+Der Standardprompt aus `docs/qa/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
 simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
 Blöcke für Codex.
 Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.

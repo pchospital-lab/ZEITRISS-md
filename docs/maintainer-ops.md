@@ -133,7 +133,7 @@ Plattformen sind derzeit nicht vorgesehen.
 - Sicherstellen, dass exakt 18 Runtime-Module plus `master-index.json` geladen
   sind; der Runtime-Stub bleibt außen vor.
 - Für Schnelltests die Checkliste aus
-  [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md)
+  [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
   nutzen und Ergebnisse hier protokollieren.
 - Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
@@ -155,10 +155,10 @@ abzuschließen und im QA-Log zu dokumentieren:
      prüfen, offene Fragen schließen, QA-Referenzen ergänzen).
    - README-Sektion „QA-Artefakte & Nachverfolgung“ auf aktuelle Links testen.
 3. **QA-Log & Freigabe**
-   - Acceptance-Smoke gegen
-     [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md)
-     abhaken und den Lauf im QA-Log mit Datum, Plattform und Build-ID
-     protokollieren.
+  - Acceptance-Smoke gegen
+    [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
+    abhaken und den Lauf im QA-Log mit Datum, Plattform und Build-ID
+    protokollieren.
    - Offene Punkte im QA-Log schließen oder vertagen (inkl. Verweis auf den
      verantwortlichen Commit).
 4. **Spiegelentscheidung**
@@ -174,7 +174,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
    **ZEITRISS [Ver. 4.2.2] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
-   `internal/qa/briefings/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
+   `docs/qa/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
    den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
 3. Prüfe, dass die Antwort die geforderten `ISSUE`-, `Lösungsvorschlag`-,
    `To-do`- und `Nächste Schritte`-Blöcke je Befund enthält, und übertrage sie
@@ -210,9 +210,9 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    sichern, neuen Chat öffnen und den Reimport testen.
 3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
    HQ-Briefing-Schleifen abgleichen.
-4. Acceptance-Smoke-Checklist aus `internal/qa/checklists/acceptance-smoke.md` ergänzen und
-   Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
-   Repo; dokumentiert ergänzende Befunde weiterhin im QA-Log.
+4. Acceptance-Smoke-Checklist aus `docs/qa/tester-playtest-briefing.md`
+   ergänzen und Abweichungen festhalten. Smoketests laufen bei jedem Merge
+   automatisch im Repo; dokumentiert ergänzende Befunde weiterhin im QA-Log.
 5. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
    Artefakt-Upload scheitert, Job erneut anstoßen. Der Fehler entsteht beim
    Finalisieren des Uploads und erfordert inhaltlich keine Anpassung am Repo.
