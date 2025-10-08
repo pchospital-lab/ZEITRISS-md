@@ -124,8 +124,8 @@ ZEITRISS-md/
   Maintainer:innen.
 - **`docs/qa/tester-playtest-briefing.md`** sowie QA-Logs unter `internal/qa/` – Briefing,
   Checklisten und Protokolle für Tester:innen und Maintainer:innen.
-- **`meta/masterprompt_*.md`** – Spielleitungs-Briefings für MyGPT. Dienen ausschließlich der
-  Laufzeit und werden nicht im Repo geändert.
+- **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
+  dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
