@@ -116,10 +116,10 @@ ZEITRISS-md/
 
 - **`README.md`** – Einstieg für alle Rollen. Führt Runtime-Referenzen, Kurzbefehle sowie die
   Dokumenten-Landkarte und verweist auf weiterführende Leitfäden.
-- **`AGENTS.md`** – Arbeitsgrundlage für den Repo-Agenten (Programmier-KI). Verbindliche Stil-,
-  Struktur- und Testpflichten inklusive Nutzung der gespiegelten Runtimes und Tools im Repo.
-- **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Beschreibt Workflow, Formatierung und
-  Mindest-Checks; verweist auf QA- und Maintainer-Prozesse.
+- **`AGENTS.md`** – Arbeitsgrundlage für den Repo-Agenten (Programmier-KI). Skizziert Rollen,
+  Übergaben und verweist auf die verbindlichen Prüfpfade in `CONTRIBUTING.md`.
+- **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Bündelt Workflow, Formatierung sowie die
+  vollständige QA-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
 - **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und QA-Spiegelungen der
   Maintainer:innen.
 - **`docs/qa/tester-playtest-briefing.md`** sowie QA-Logs unter `internal/qa/` – Briefing,
