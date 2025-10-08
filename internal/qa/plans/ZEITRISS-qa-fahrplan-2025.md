@@ -19,9 +19,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](../briefings/tester-playtest-briefing.md) durch, lassen den GPT den
+   [Copy-&-Paste-Auftrags](/docs/qa/tester-playtest-briefing.md) durch, lassen den GPT den
    kompletten QA-Lauf eigenständig simulieren, inklusive der vollständigen
-   Acceptance-Smoke-Checkliste (`checklists/acceptance-smoke.md`), und prüfen das
+   Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“ im Briefing), und prüfen das
    Ergebnis auf die geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
    `Nächste Schritte`-Blöcke.
 3. **Archivierung:** Das vollständige Chatprotokoll wird unter

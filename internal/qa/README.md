@@ -16,22 +16,20 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
 | --- | --- | --- |
 | `audits/` | `ZEITRISS-qa-audit-2025.md` | Bewertet abgeschlossene Testreihen und dokumentiert Maßnahmenstatus. |
 | `plans/` | `ZEITRISS-qa-fahrplan-2025.md` | Priorisierte Aufgabenliste inklusive Übergaben an Codex und Maintainer:innen. |
-| `checklists/` | `acceptance-smoke.md` | Dispatcher-Smoke-Tests für schnelle Verifikationen ohne Vollregression. |
-| `briefings/` | `tester-playtest-briefing.md` | Copy-&-Paste-Auftrag für Beta-GPT/MyGPT inklusive Reporting-Template. |
 | `transcripts/` | `start-transcripts.md` | Referenztranskripte für Startszenarien (Solo, Gruppe, NPC-Team). |
-| `logs/` | `2025-beta-qa-log.md` | Vollständige Chatprotokolle aus Beta-GPT-Läufen samt Zeitstempel und Wissensstand. |
+| `logs/` | `2025-beta-qa-log.md`, `ZEITRISS-vereinheitlichungs-fahrplan-2025.md` | Vollständige Chatprotokolle und begleitende Vereinheitlichungs-Logs. |
+| `../docs/qa/` | `tester-playtest-briefing.md` | Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-GPT/MyGPT. |
 
 ## Workflow-Knoten
 
 1. **Deepcheck oder manueller Review** → Erkenntnisse aus Live-Sessions mit
    Codex unmittelbar im Fahrplan (`plans/…`) unter "Deepcheck-Aufgaben"
    ergänzen und bei Bedarf als Nachtrag im Audit (`audits/…`) verlinken.
-2. **Beta-GPT-Testlauf** → Auftrag aus `briefings/` nutzen, Ergebnis
-   unverändert in `logs/` ablegen und anschließend Fahrplan/Audit
+2. **Beta-GPT-Testlauf** → Auftrag aus `../docs/qa/tester-playtest-briefing.md`
+   nutzen, Ergebnis unverändert in `logs/` ablegen und anschließend Fahrplan/Audit
    synchronisieren.
-3. **Smoke- oder Regressionstest** → Checkliste aus `checklists/`
-   (insbesondere `acceptance-smoke.md`, das im Beta-GPT-Testprompt
-   verpflichtend enthalten ist) durchspielen, Abweichungen im Log
+3. **Smoke- oder Regressionstest** → Acceptance-Smoke-Abschnitt im
+   `docs/qa/tester-playtest-briefing.md` durchspielen, Abweichungen im Log
    verlinken und im Fahrplan priorisieren.
 4. **Dokumentationsabgleich** → Sicherstellen, dass `README.md`,
    `CONTRIBUTING.md` und `docs/maintainer-ops.md` auf die aktualisierten
