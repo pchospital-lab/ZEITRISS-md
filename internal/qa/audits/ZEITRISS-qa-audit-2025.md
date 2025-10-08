@@ -212,11 +212,11 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   `party.characters[]`; Dokumentation spiegelt die Alias-Bereinigung.
 
 ### Issue #3 – Arc-Dashboard
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Die Runtime nutzt ein Dashboard, das im Schema nicht
   definiert ist.
-- **Empfohlene Umsetzung:** Optionales, aber standardisiertes Objekt
-  dokumentieren und Serializer/Deserializer anbinden.
+- **Umsetzung:** `arc_dashboard` ist jetzt als optionales Objekt dokumentiert;
+  Serializer und `load_deep()` normalisieren Seeds, Fraktionen und Fragen.
 - **Risiko bei Verzug:** Der Story-Hub verliert nach einem Reload Kontext.
 
 ### Issue #4 – Load-Compliance
