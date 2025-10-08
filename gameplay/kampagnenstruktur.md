@@ -1517,9 +1517,10 @@ Der Begriff **Revanche** beschreibt das Fortsetzen derselben Serie. Ein
 **Balance-Richtlinien:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
 werden automatisch resistiert. Einmalige Artefakte sind im Arena-Modus
 deaktiviert. Kodex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
-vermeiden. Zusätzlich erzwingt das HUD die Variable `phase_strike_tax = +1 SYS`
-und verpasst allen Teilnehmenden die Kernanzug-Flag `psi_buffer = true`, damit
-Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz behalten.
+vermeiden. Zusätzlich erzwingt das HUD den Runtime-Helfer `phase_strike_tax()`
+(+1 SYS) und verpasst allen Teilnehmenden die Kernanzug-Flag `psi_buffer = true`,
+damit Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz
+behalten.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
 Kodex moderiert neutral und stellt keine KI-Gegner.

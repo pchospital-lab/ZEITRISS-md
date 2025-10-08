@@ -261,12 +261,25 @@ existenziellen Fragen.
 In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem `trigger_pool` stammt.
 Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte Tragödien.
 Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
-{% set campaign.mode = campaign.mode or 'preserve' %}
+{% set _campaign_mode_raw = campaign.mode | default('preserve') %}
+{% set _campaign_mode = _campaign_mode_raw|string %}
+{% set _campaign_mode = _campaign_mode|trim|lower %}
+{% if _campaign_mode in ['arena', 'sparring'] %}
+  {% set _campaign_mode = 'pvp' %}
+{% endif %}
+{% set campaign.mode = _campaign_mode or 'preserve' %}
+{% set is_pvp_mode = campaign.mode == 'pvp' or (arena is defined and arena and arena.active) %}
 {% if campaign.mode == 'preserve' %}
   {% set campaign.seed_source = 'preserve_pool' %}
-{% else %}
+{% elif campaign.mode == 'trigger' %}
   {% set campaign.seed_source = 'trigger_pool' %}
   {{ hud_tag('Briefing: kleineres Übel sichern (Trigger).') }}
+{% elif is_pvp_mode %}
+  {% set campaign.seed_source = 'preserve_pool' %}
+  {{ hud_tag('Arena-Sparring aktiv – PvP-Modus gebunden. Seeds bleiben deaktiviert.') }}
+{% else %}
+  {% set campaign.seed_source = campaign.seed_source or 'preserve_pool' %}
+  {{ hud_tag('Modus ' ~ campaign.mode ~ ' aktiv.') }}
 {% endif %}
 
 - **Entscheidungsstruktur:** Biete in normalen Szenen drei nummerierte

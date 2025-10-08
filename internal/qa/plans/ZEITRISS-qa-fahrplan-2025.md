@@ -168,8 +168,10 @@ Dokumentation.
 
 ### Issue #6 – PvP-Modusflag
 - **Workstream:** PvP-Modusflag
-- **Nächster Schritt:** Helper `is_pvp()` ergänzen und Kostenberechnung
-  zentralisieren.
+- **Statusnotiz:** ✅ `campaign.mode` treibt nun `is_pvp()` sowie
+  `phase_strike_tax()`/`phase_strike_cost()`. Arena-Start/Exit setzen das
+  Modus-Flag, `state.arena.phase_strike_tax` dokumentiert den Aufschlag.
+  (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 27
 - **QA-Verankerung:** Drei Kampfmodi (Core/Rift/Arena) testen.

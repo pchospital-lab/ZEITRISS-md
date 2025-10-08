@@ -84,7 +84,7 @@ sollte an die Kampagne angepasst werden.)_
 - **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig. _Kosten:_ 2 SYS; eine Zusatzaktion.
 - **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell. _Kosten:_ 3 SYS.
 - **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden. _Kosten:_ 1 SYS permanent.
-- **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS (PvP-Arena: 3 SYS durch `phase_strike_tax`).
+- **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen. _Kosten:_ 2 SYS (PvP-Arena: 3 SYS via `phase_strike_cost()` / `phase_strike_tax`).
 ### Mentale Maskierung {#mentale-maskierung}
 
 Verbirgt Gedanken für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie +2 SG.

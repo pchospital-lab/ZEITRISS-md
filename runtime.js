@@ -98,7 +98,8 @@ const state = {
     scenario: null,
     damage_dampener: true,
     team_size: 1,
-    mode: 'single'
+    mode: 'single',
+    phase_strike_tax: 0
   }
 };
 
@@ -457,12 +458,44 @@ function ensure_campaign(){
     const base = state.character?.id || 'campaign';
     state.campaign.id = String(base).trim() || 'campaign';
   }
+  if (typeof state.campaign.mode !== 'string' || !state.campaign.mode.trim()){
+    state.campaign.mode = 'preserve';
+  }
   const complianceFlag = !!(state.logs?.flags?.compliance_shown_today);
   if (typeof state.campaign.compliance_shown_today !== 'boolean'){
     state.campaign.compliance_shown_today = complianceFlag;
   } else {
     state.campaign.compliance_shown_today = !!state.campaign.compliance_shown_today;
   }
+}
+
+function campaign_mode(ctx = state){
+  const fallback = state.campaign?.mode;
+  const raw = ctx?.campaign?.mode ?? fallback;
+  if (typeof raw !== 'string' || !raw.trim()){
+    return 'preserve';
+  }
+  const normalized = raw.trim().toLowerCase();
+  if (['pvp', 'arena', 'sparring'].includes(normalized)){
+    return 'pvp';
+  }
+  return normalized;
+}
+
+function is_pvp(ctx = state){
+  if (campaign_mode(ctx) === 'pvp'){
+    return true;
+  }
+  const arenaState = ctx?.arena ?? state.arena;
+  return !!(arenaState && typeof arenaState === 'object' && arenaState.active);
+}
+
+function phase_strike_tax(ctx = state){
+  return is_pvp(ctx) ? 1 : 0;
+}
+
+function phase_strike_cost(ctx = state, base = 2){
+  return base + phase_strike_tax(ctx);
 }
 
 function mission_temp(){
@@ -748,6 +781,8 @@ function ensure_arena(){
   arena.damage_dampener = arena.damage_dampener !== false;
   arena.team_size = Number.isFinite(arena.team_size) ? arena.team_size : 1;
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
+  arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
+  arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
   return arena;
 }
 
@@ -1152,6 +1187,7 @@ function arenaStart(options = {}){
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee);
   const currentEpisode = state.campaign?.episode ?? null;
+  const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
   arena.active = true;
   arena.wins_player = 0;
   arena.wins_opponent = 0;
@@ -1165,8 +1201,11 @@ function arenaStart(options = {}){
   arena.damage_dampener = true;
   arena.team_size = teamSize;
   arena.mode = mode;
+  arena.previous_mode = previousMode;
   arena.policy_players = sanitisedPlayers;
   arena.started_episode = currentEpisode;
+  state.campaign.mode = 'pvp';
+  arena.phase_strike_tax = phase_strike_tax();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
   const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
@@ -1221,8 +1260,17 @@ function arenaExit(){
   arena.damage_dampener = true;
   arena.team_size = 1;
   arena.mode = 'single';
+  arena.phase_strike_tax = 0;
   delete arena.policy_players;
   delete arena.started_episode;
+  const restoreMode = arena.previous_mode;
+  if (typeof restoreMode === 'string' && restoreMode.trim()){
+    state.campaign.mode = restoreMode;
+  } else {
+    delete state.campaign.mode;
+    ensure_campaign();
+  }
+  delete arena.previous_mode;
   ensure_runtime_flags().arena_active = false;
   state.location = 'HQ';
   const message = messageParts.join(' · ');
@@ -2252,6 +2300,10 @@ module.exports = {
   suspend_snapshot,
   resume_snapshot,
   resolveSuspendPath,
+  campaign_mode,
+  is_pvp,
+  phase_strike_tax,
+  phase_strike_cost,
   getArenaFee,
   arenaStart,
   arenaScore,
