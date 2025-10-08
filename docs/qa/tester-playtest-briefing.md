@@ -26,7 +26,7 @@ Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
   `systems/runtime-stub-routing-layer.md`).
 
 Eine Zielgruppen- und Dokumentenübersicht findest du in der README unter
-[„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte); sie zeigt, wie Tester:innen ihre
+[„Dokumenten-Landkarte“](../../README.md#dokumenten-landkarte); sie zeigt, wie Tester:innen ihre
 Findings an Maintainer:innen und den Repo-Agenten übergeben.
 
 Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
