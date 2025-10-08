@@ -15,14 +15,37 @@ Plattform-Listings synchron bleiben.
 Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
 Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
 
-- `meta/masterprompt_v6.md`
-- `README.md`
-- `master-index.json`
-- Alle 18 Runtime-Module in `core/`, `gameplay/`, `characters/` und `systems/`
-  (ohne `systems/runtime-stub-routing-layer.md`).
+1. **Masterprompt:** `meta/masterprompt_v6.md`
+2. **Dokumentationsanker:** `README.md` und `master-index.json`
+3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus den Runtime-Verzeichnissen.
+
+| Kategorie    | Datei |
+|--------------|-------|
+| **characters** | `characters/ausruestung-cyberware.md` |
+|              | `characters/charaktererschaffung.md` |
+|              | `characters/cyberware-und-bioware.md` |
+|              | `characters/psi-talente.md` |
+|              | `characters/zustaende-hud-system.md` |
+| **core**     | `core/wuerfelmechanik.md` |
+|              | `core/zeitriss-core.md` |
+| **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
+|              | `gameplay/kampagnenstruktur.md` |
+|              | `gameplay/kampagnenuebersicht.md` |
+|              | `gameplay/kreative-generatoren-begegnungen.md` |
+|              | `gameplay/kreative-generatoren-missionen.md` |
+|              | `gameplay/massenkonflikte.md` |
+| **systems**  | `systems/currency/cu-waehrungssystem.md` |
+|              | `systems/gameflow/cinematic-start.md` |
+|              | `systems/gameflow/speicher-fortsetzung.md` |
+|              | `systems/kp-kraefte-psi.md` |
+|              | `systems/toolkit-gpt-spielleiter.md` |
 
 Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag
 gesichert werden, um lange Sessions stabil zu halten.
+
+> **Abgrenzung:** `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
+> `runtime.js` dient als Offline-Laufzeit für QA-Tests (siehe `tools/`-Suite) und wird nicht in produktive Wissensspeicher
+> übernommen.
 
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
 `AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du im
