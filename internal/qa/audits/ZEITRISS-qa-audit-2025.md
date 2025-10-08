@@ -16,7 +16,7 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
 ## Rollen & Artefakte
 - **Tester:innen** führen Playthroughs in den vorgesehenen GPT-Instanzen durch
   und kopieren das Ergebnis unverändert in das QA-Log unter
-  `internal/qa/2025-beta-qa-log.md`.
+  `internal/qa/logs/2025-beta-qa-log.md`.
 - **Maintainer:in (Solo-Setup 2025)** führt alle Beta-GPT-Tests durch,
   indem der vorbereitete Testprompt in den Beta-Klon geladen wird. Der GPT
   spielt den vollständigen QA-Lauf autonom durch und liefert strukturierte
@@ -26,8 +26,9 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
 - **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
   und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben
   strikt getrennt.
-- **Audit-Archiv** liegt in `docs/ZEITRISS-qa-audit-2025.md`; vollständige
-  Protokolle befinden sich im QA-Ordner unter `internal/qa/`.
+- **Audit-Archiv** liegt in `internal/qa/audits/ZEITRISS-qa-audit-2025.md`;
+  vollständige Protokolle befinden sich im QA-Ordner unter
+  `internal/qa/`.
 
 ## Methodik
 - Analyse der gelieferten Testnotizen (Solo bis Großgruppe, Level 3–100) mit

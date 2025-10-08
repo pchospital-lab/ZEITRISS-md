@@ -187,8 +187,8 @@ QA-Nachweis: Maintainer-Sync 2025-03-19 – Prompt Hardening (intern).
   Ausnahme des Masterprompts.
 
 [qa-log-2025-03-19]:
-  internal/qa/2025-beta-qa-log.md#2025-03-19--beta-gpt--build-422-acceptance-smoke-abgleich
+  internal/qa/logs/2025-beta-qa-log.md#2025-03-19--beta-gpt--build-422-acceptance-smoke-abgleich
 [qa-log-2025-03-17]:
-  internal/qa/2025-beta-qa-log.md#2025-03-17--beta-gpt--build-422
+  internal/qa/logs/2025-beta-qa-log.md#2025-03-17--beta-gpt--build-422
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
