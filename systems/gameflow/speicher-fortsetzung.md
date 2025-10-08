@@ -240,6 +240,16 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 > Gruppen-Save analog mit `party.characters[]`. Kein zweites Schema mit anderen Feldnamen.
 
+### Legacy-Aliase & Normalisierung
+
+- `party.characters[]` ist die verbindliche Quelle für Gruppenroster. Laufzeit und Serializer lesen
+  ausschließlich daraus.
+- Historische Felder (`team.members[]`, `team.roster[]`, `group.characters[]`, `party.members[]`,
+  `npc_team[]`) werden beim Laden automatisch nach `party.characters[]` gespiegelt. Doppelte Einträge
+  erkennt `load_deep()` anhand von IDs, Callsigns oder Namen und entfernt sie.
+- Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach `team.members[]`, um
+  Kompatibilität mit älteren Tools zu bewahren – ohne voneinander abweichende Arrays.
+
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams

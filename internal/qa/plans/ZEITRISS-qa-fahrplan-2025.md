@@ -132,8 +132,9 @@ Dokumentation.
 
 ### Issue #2 – Save-Normalisierung
 - **Workstream:** Save-Normalisierung
-- **Nächster Schritt:** `load_deep()`-Normalizer ergänzen und
-  Legacy-Alias-Dokumentation nachziehen.
+- **Statusnotiz:** ✅ `load_deep()` normalisiert nun alle Gruppen-Aliase nach
+  `party.characters[]`, dedupliziert Mehrfacheinträge und hält die
+  Dokumentation aktuell (Commit: Fahrplan 2025-06-11).
 - **Owner:** Codex
 - **Zieltermin:** KW 26
 - **QA-Verankerung:** Cross-Mode-Load-Test (Solo↔Koop↔PvP).
