@@ -97,6 +97,37 @@ Die komplette Operator-Checkliste liegt in [docs/maintainer-ops.md](docs/maintai
 Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README
 listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt euch das Maintainer-Dokument.
 
+### Upload-Checkliste Wissensspeicher
+
+1. **Masterprompt:** `meta/masterprompt_v6.md` vollständig in das Instruktionsfeld der Zielplattform kopieren.
+2. **Dokumentationsanker:** `README.md` und `master-index.json` in den Wissensspeicher übernehmen.
+3. **Runtime-Module:** Exakt die nachfolgenden 18 Dateien hochladen (weitere Repo-Inhalte, insbesondere `runtime.js`, bleiben
+   lokal für Tests):
+
+| Kategorie    | Datei |
+|--------------|-------|
+| **characters** | `characters/ausruestung-cyberware.md` |
+|              | `characters/charaktererschaffung.md` |
+|              | `characters/cyberware-und-bioware.md` |
+|              | `characters/psi-talente.md` |
+|              | `characters/zustaende-hud-system.md` |
+| **core**     | `core/wuerfelmechanik.md` |
+|              | `core/zeitriss-core.md` |
+| **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
+|              | `gameplay/kampagnenstruktur.md` |
+|              | `gameplay/kampagnenuebersicht.md` |
+|              | `gameplay/kreative-generatoren-begegnungen.md` |
+|              | `gameplay/kreative-generatoren-missionen.md` |
+|              | `gameplay/massenkonflikte.md` |
+| **systems**  | `systems/currency/cu-waehrungssystem.md` |
+|              | `systems/gameflow/cinematic-start.md` |
+|              | `systems/gameflow/speicher-fortsetzung.md` |
+|              | `systems/kp-kraefte-psi.md` |
+|              | `systems/toolkit-gpt-spielleiter.md` |
+
+> **Hinweis:** `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools werden **nicht** in den
+> Wissensspeicher geladen. `runtime.js` fungiert ausschließlich als Offline-Laufzeit für Tests und Linter.
+
 ## Repo-Map {#repo-map}
 
 ```
