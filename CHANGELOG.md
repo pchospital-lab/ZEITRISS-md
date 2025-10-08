@@ -6,6 +6,15 @@ tags: [meta]
 
 # Changelog
 
+## [Unveröffentlicht]
+
+- `AGENTS.md` fokussiert den Repo-Agenten auf Rollen, Übergaben und verweist auf den
+  Beitragsleitfaden.
+- `CONTRIBUTING.md` bündelt die Qualitäts-, Link- und Compliance-Checkliste sowie den vollständigen
+  Pflicht-Testkatalog.
+- README-Dokumenten-Landkarte reflektiert die neue Aufgabenverteilung zwischen `AGENTS.md` und
+  `CONTRIBUTING.md`.
+
 ## 4.2.2 – Arena-Episodenstempel
 
 QA-Nachweis: [QA-Log 2025-03-19 – Acceptance-Smoke-Abgleich][qa-log-2025-03-19].

@@ -39,6 +39,19 @@ Vielen Dank für deine Mithilfe!
 5. Aktualisiere bei Strukturänderungen `master-index.json`, interne Links und sämtliche
    Querverweise im README.
 
+<a id="qualitaets-und-compliance-checkliste"></a>
+## Qualitäts- und Compliance-Checkliste
+- [ ] YAML-Header vorhanden, aktualisiert und syntaktisch korrekt (Ausnahme: Masterprompt).
+- [ ] Strukturregeln eingehalten: Core-Ops mit 12 Szenen, Rift-Ops mit 14 Szenen in drei Akten und
+      Pflichtfelder pro Szene gefüllt.
+- [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`, `SceneCounter`).
+- [ ] Stilprüfung bestanden: filmischer Ton im Runtime-Content (Ihr-Form), Du-Ansprache im
+      Masterprompt, sachlicher Stil in Dev-Dokumenten.
+- [ ] Interne Links geprüft (`scripts/lint_doc_links.py`) und keine Dev-Verweise in Runtime-Modulen.
+- [ ] Deutsche Umlaute korrekt verwendet (`scripts/lint_umlauts.py`).
+- [ ] Trennung zwischen Runtime-Content und Dev-Dokumentation gewahrt (`tags: [meta]`).
+- [ ] Querverweise in `master-index.json`, README, Toolkits und QA-Dokumenten aktualisiert.
+
 ## Quellen der Wahrheit zur Laufzeit
 - **Runtime-fähig** (wird im Spiel geladen):
   - `README.md` – Kurzreferenzen, Chat-Shortcodes, HUD-Hinweise.
@@ -91,15 +104,23 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - Signalspace: Hardwarepflicht (Comlink/Kabel/Relais/Jammer).
 - HUD: Einheitliche Reihenfolge, TTL `mm:ss`; Exfil zeigt Sweeps & Stress.
 
-## Tests
-- Mindestumfang: `make lint`, `make test`, `bash scripts/smoke.sh`.
-- Zusätzliche Runtime-Prüfungen: `python3 tools/lint_runtime.py` und
-  `GM_STYLE=verbose python3 tools/lint_runtime.py`.
-- Optionale Checks: `node tools/test_save.js`, `node tools/test_load.js`.
-- Dispatcher-Smoke-Tests siehe [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
+<a id="verpflichtende-pruefungen"></a>
+## Verpflichtende Prüfungen
+- `make lint`
+- `make test`
+- `bash scripts/smoke.sh`
+- `python3 tools/lint_runtime.py`
+- `GM_STYLE=verbose python3 tools/lint_runtime.py`
+- `python3 scripts/lint_doc_links.py`
+- `python3 scripts/lint_umlauts.py`
+
+### Erweiterte QA & optionale Checks
+- `node tools/test_save.js`, `node tools/test_load.js`
+- Dispatcher-Smoke-Tests siehe
+  [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 - Dokumentiere plattformweite QA- und Release-Checks nach
-  [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutze die dort verlinkten
-  Acceptance-Smoke-Listen als Vorlage für Reports.
+  [docs/maintainer-ops.md](docs/maintainer-ops.md) und nutze die dort verlinkten
+  Acceptance-Smoke-Listen als Vorlage.
 
 ### pre-commit-Hooks
 - Installation: `pip install pre-commit`.
