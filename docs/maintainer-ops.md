@@ -25,7 +25,9 @@ Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag
 gesichert werden, um lange Sessions stabil zu halten.
 
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
-`AGENTS.md`. Diese Datei konzentriert sich auf ausführbare Abläufe.
+`AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du im
+Abschnitt [„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte) des README. Diese Datei
+konzentriert sich auf ausführbare Abläufe.
 
 **Grundsatz:** Alle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta-Klon
 statt. Erst nach einer grünen Abnahme werden Store-GPT, Proton LUMO und lokale

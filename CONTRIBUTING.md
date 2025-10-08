@@ -29,12 +29,14 @@ Vielen Dank für deine Mithilfe!
 
 ## Vor dem ersten Commit
 1. Lies `AGENTS.md` vollständig und bestätige Stil-, Struktur- und Testpflichten.
-2. Prüfe, ob deine Änderungen Runtime-Content oder Dev-Dokumentation betreffen, und halte die
+2. Prüfe die [Dokumenten-Landkarte im README](README.md#dokumenten-landkarte), um Übergabepunkte
+   zwischen Repo-Agent, Maintainer:innen und Tester:innen zu kennen.
+3. Prüfe, ob deine Änderungen Runtime-Content oder Dev-Dokumentation betreffen, und halte die
    Trennung strikt ein (`tags: [meta]`).
-3. Stimme dich mit den Plattformroutinen aus
+4. Stimme dich mit den Plattformroutinen aus
    [docs/maintainer-ops.md](docs/maintainer-ops.md) ab. Dort findest du die nötigen Uploads,
    QA-Notizen und Smoke-Checks pro Release.
-4. Aktualisiere bei Strukturänderungen `master-index.json`, interne Links und sämtliche
+5. Aktualisiere bei Strukturänderungen `master-index.json`, interne Links und sämtliche
    Querverweise im README.
 
 ## Quellen der Wahrheit zur Laufzeit

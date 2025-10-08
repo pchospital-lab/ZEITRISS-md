@@ -25,6 +25,10 @@ Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 - Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/` (ohne
   `systems/runtime-stub-routing-layer.md`).
 
+Eine Zielgruppen- und Dokumentenübersicht findest du in der README unter
+[„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte); sie zeigt, wie Tester:innen ihre
+Findings an Maintainer:innen und den Repo-Agenten übergeben.
+
 Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
 der Masterprompt als System-Prompt unterhalb des 8000-Zeichen-Fensters bleibt, damit alle
 Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein dediziertes System-
