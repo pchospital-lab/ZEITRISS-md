@@ -34,7 +34,8 @@ oder das Spielsystem geladen werden.**
 - **MyGPT „ZEITRISS [Ver. 4.2.2]“** ist die veröffentlichte Spielleitung. Er erhält Masterprompt,
   README, `master-index.json` und sämtliche Runtime-Module – jedoch keine Dev-Dokumente.
 - **Beta-GPT** ist ein privat geklonter MyGPT-Stand für QA. Alle Playtests laufen hier;
-  Ergebnisse landen in `docs/ZEITRISS-qa-audit-2025.md` oder Folgedokumenten und werden in
+  Ergebnisse landen in `internal/qa/audits/ZEITRISS-qa-audit-2025.md` oder
+  Folgedokumenten und werden in
   Tickets bzw. Tasks überführt.
 - **Ingame-KI „Kodex“** bleibt eine reine Spielfigur. Sie wird durch den Masterprompt beschrieben
   und trägt keinerlei Repositoriumspflichten.

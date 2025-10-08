@@ -47,7 +47,8 @@ den Maintainer-Richtlinien.
      Pull-Requests aufbereiten.
 5. **KI-Review- und QA-Prozess aktiv nutzen**
    - Bei jedem größeren Diff: Review über ARXION oder äquivalente
-     Vergleichs-KI anstoßen, Findings in `docs/ZEITRISS-qa-audit-2025.md`
+    Vergleichs-KI anstoßen, Findings in
+    `internal/qa/audits/ZEITRISS-qa-audit-2025.md`
      dokumentieren.
    - Beta-GPT-Playtests für spielrelevante Änderungen durchführen; Reports im
      QA-Fahrplan aktualisieren.

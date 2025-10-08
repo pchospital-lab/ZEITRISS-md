@@ -74,6 +74,10 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 > müssen getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und Konflikte
 > kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder Regelunklarheit.
 >
+> Arbeite zusätzlich jeden Punkt der Acceptance-Smoke-Checkliste aus
+> `internal/qa/checklists/acceptance-smoke.md` ab, vermerke Abweichungen im Evidenz-Block und
+> kennzeichne die Prüfnummer (1–13) pro Befund.
+>
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
 > folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
 >
@@ -134,7 +138,8 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
    stehen.
 6. Überprüfe, dass die GPT-Antwort alle `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
    Blöcke enthält und keine freien Zusatzabschnitte erzeugt. Fehlende Angaben lässt du das GPT in
-   derselben Sitzung nachreichen.
+   derselben Sitzung nachreichen. Dokumentiere zusätzlich für jeden Acceptance-Smoke-Punkt (1–13),
+   ob er bestanden wurde oder welcher Nachtest angesetzt ist.
 7. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere Beobachtungen als
    Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
 8. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
@@ -164,8 +169,9 @@ saveGame({...})
 ## Hinweise zur Weiterverarbeitung
 
 - Maintainer:innen übertragen die strukturierten ISSUE-/Lösungsvorschlag-/To-do-/Nächste-Schritte-
-  Blöcke aus der GPT-Antwort in eine QA-Notiz (z. B. als
-  Ergänzung zu `docs/ZEITRISS-qa-audit-2025.md` oder einen neuen Eintrag unter `docs/`). Der
+  Blöcke aus der GPT-Antwort in eine QA-Notiz (z. B. als Ergänzung zu
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md` oder einen neuen Eintrag in den
+  Fahrplan). Der
   Save/Load-Block dient als Nachweis für den Kodex- und Charakterstand.
 - Reports werden lokal oder in einer gesicherten Team-Ablage archiviert, damit der Ablauf offline
   nachvollziehbar bleibt.

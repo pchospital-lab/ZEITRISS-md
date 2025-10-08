@@ -168,7 +168,8 @@ Die ersten Schritte in unter zwei Minuten:
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
 
-[Start-Transkripte ↗](docs/start-transcripts.md) · [Abnahme-Smoketest ↗](docs/acceptance-smoke.md)
+[Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md) ·
+[Abnahme-Smoketest ↗](internal/qa/checklists/acceptance-smoke.md)
 
 Siehe auch:
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
@@ -317,7 +318,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 Ein manuelles 10-Schritte-Smoke-Set steht in
-[docs/acceptance-smoke.md](docs/acceptance-smoke.md).
+[Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md).
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
@@ -979,14 +980,14 @@ Scanne den QR-Code oder besuche
 
 ## QA-Artefakte & Nachverfolgung {#qa-artefakte--nachverfolgung}
 
-- [QA-Fahrplan 2025](docs/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking und Verweisen auf Commits.
-- [QA-Audit 2025](docs/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
-- [Beta-QA-Log 2025](internal/qa/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT inklusive Nachverfolgung.
+- [QA-Fahrplan 2025](internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking und Verweisen auf Commits.
+- [QA-Audit 2025](internal/qa/audits/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
+- [Beta-QA-Log 2025](internal/qa/logs/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT inklusive Nachverfolgung.
 - [Maintainer-Ops](docs/maintainer-ops.md) – Plattform- und Upload-Checklisten, inklusive QA-spezifischer Routinen.
 
 Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
 Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
-Der Standardprompt aus `docs/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
+Der Standardprompt aus `internal/qa/briefings/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
 simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
 Blöcke für Codex.
 Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.

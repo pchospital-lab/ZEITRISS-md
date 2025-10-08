@@ -11,7 +11,7 @@ Der Fahrplan bündelt sämtliche QA-Aufgaben für ZEITRISS 2025. Er knüpft an
 Copy-&-Paste-Protokolle aus Beta-GPT- und MyGPT-Tests an, priorisiert die daraus
 abgeleiteten Maßnahmen und verweist auf die zugehörigen Artefakte. Prozess- und
 Formatregeln stehen in `AGENTS.md`, `CONTRIBUTING.md` sowie
-[maintainer-ops.md](maintainer-ops.md); dieses Dokument konzentriert
+[maintainer-ops.md](/docs/maintainer-ops.md); dieses Dokument konzentriert
 sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## QA-Zyklus
@@ -19,16 +19,18 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](tester-playtest-briefing.md) durch, lassen den GPT den
-   kompletten QA-Lauf eigenständig simulieren und prüfen das Ergebnis auf die
-   geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
-   Blöcke.
+   [Copy-&-Paste-Auftrags](../briefings/tester-playtest-briefing.md) durch, lassen den GPT den
+   kompletten QA-Lauf eigenständig simulieren, inklusive der vollständigen
+   Acceptance-Smoke-Checkliste (`checklists/acceptance-smoke.md`), und prüfen das
+   Ergebnis auf die geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
+   `Nächste Schritte`-Blöcke.
 3. **Archivierung:** Das vollständige Chatprotokoll wird unter
-   `internal/qa/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
+   `internal/qa/logs/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
    Build versehen.
 4. **Aufgabenaufbereitung:** Codex überführt die strukturierten Blöcke in diesen
-   Fahrplan (Status, Priorität) und versieht sie mit Verweisen auf Commits, PRs
-   oder Issues.
+   Fahrplan (Status, Priorität), ergänzt Live-Erkenntnisse aus Repo-Agent-
+   Deepchecks unter "Deepcheck-Aufgaben" und versieht sie mit Verweisen auf
+   Commits, PRs oder Issues.
 5. **Umsetzung:** Maßnahmen laufen in separaten Branches; Testbefehle und
    Ergebnisse werden im Commit-Body dokumentiert.
 6. **Review & Sync:** Nach Abschluss einer Maßnahme wird das Audit aktualisiert,
@@ -42,8 +44,23 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   über das QA-Log.
 - **Codex (Repo-Agent)** priorisiert die Befunde, setzt Änderungen um und
   aktualisiert Audit, Fahrplan sowie Referenzdokumente.
-- **Audit-Archiv:** `docs/ZEITRISS-qa-audit-2025.md` (Zusammenfassung) und
-  `internal/qa/` (vollständige Logs).
+- **Audit-Archiv:** `internal/qa/audits/ZEITRISS-qa-audit-2025.md`
+  (Zusammenfassung) und `internal/qa/logs/` (vollständige Logs).
+
+## Deepcheck-Aufgaben (Repo-Agent Sessions)
+- Jede Analyse- oder Verbesserungsrunde mit Codex erhält einen eigenen
+  Session-Eintrag im Fahrplan. Dort werden die identifizierten Maßnahmen,
+  Folgeaufgaben und Referenzen gesammelt, bis sie abgeschlossen sind.
+- Neue Session-Einträge werden direkt während des Chats gepflegt, damit der
+  Wissensstand zwischen Beta-GPT-Reports und manuellen Deepchecks konsistent
+  bleibt.
+- Sobald ein Punkt umgesetzt ist, wandert der Status auf ✅ und der passende
+  Commit, PR oder QA-Log-Verweis wird ergänzt.
+
+### Session-Template
+| Session | Erkenntnis / To-do | Status | Referenz |
+| --- | --- | --- | --- |
+| (Beispiel: 2025-06-03 – Codex-Deepcheck) | Struktur aktualisieren, Acceptance-Smoke an Testprompt binden | ✅ (PR #…) | QA-Log (Link einsetzen) |
 
 ## Arbeitsstränge & Ziele
 - **Dokumentation & Index:** README, Repo-Map und Index spiegeln QA-Dokumente
@@ -57,10 +74,10 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   - Artefakte: `Makefile`, `scripts/smoke.sh`, QA-Log-Einträge
 - **Datenschutz & Plattformen:** Plattformhinweise und Offline-First-Vorgaben
   bleiben in Maintainer-Ops, Audit und Fahrplan synchron.
-  - Artefakte: `docs/maintainer-ops.md`, Audit, QA-Log
+  - Artefakte: `/docs/maintainer-ops.md`, Audit, QA-Log
 - **Recht & Compliance:** Lizenz- und Markenhinweise mit QA-Maßnahmen abgleichen
   und bei Bedarf PRs initiieren.
-  - Artefakte: `LICENSE`, `docs/trademark.md`, QA-Log-Referenzen
+  - Artefakte: `LICENSE`, `/docs/trademark.md`, QA-Log-Referenzen
 
 ## Maßnahmenpaket Beta-GPT-Testprompt Juni 2025
 Die folgenden Aufgaben leiten sich unmittelbar aus ISSUE #1–#16 des jüngsten
@@ -101,7 +118,7 @@ Dokumentation.
 - **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
   - Umfang: Vollständiger Regressionstest (Build 4.2.2) mit Save/Load und Boss-Gates.
   - Status: ✅ abgeschlossen.
-  - QA-Log: `internal/qa/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
+  - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
 - **Q2 2025 (09.–13.06.2025)**
   - Umfang: Regressionstest im MyGPT-Beta-Klon mit Fokus auf Spiegelprozesse und Save-Restore.
   - Status: 🗓️ geplant.
@@ -122,7 +139,7 @@ Dokumentation.
 - [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen den neuen
   QA-Zyklus prüfen und anpassen.
   (2025-03-17 – QA-Log 2025-03-17, Commits: 131046d, 03dad05)
-- [x] QA-Log (`internal/qa/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
+- [x] QA-Log (`internal/qa/logs/2025-beta-qa-log.md`) mit erstem Testprotokoll füllen
   und Prioritäten in diesem Fahrplan verlinken.
   (2025-03-17 – QA-Log 2025-03-17, Commit: 131046d)
 - [x] QA-Fahrplan überarbeiten (dieses Dokument).

@@ -132,7 +132,8 @@ Plattformen sind derzeit nicht vorgesehen.
   LUMO sowie lokal spiegeln.
 - Sicherstellen, dass exakt 18 Runtime-Module plus `master-index.json` geladen
   sind; der Runtime-Stub bleibt außen vor.
-- Für Schnelltests die Checkliste aus [docs/acceptance-smoke.md](acceptance-smoke.md)
+- Für Schnelltests die Checkliste aus
+  [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md)
   nutzen und Ergebnisse hier protokollieren.
 - Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
@@ -154,7 +155,8 @@ abzuschließen und im QA-Log zu dokumentieren:
      prüfen, offene Fragen schließen, QA-Referenzen ergänzen).
    - README-Sektion „QA-Artefakte & Nachverfolgung“ auf aktuelle Links testen.
 3. **QA-Log & Freigabe**
-   - Acceptance-Smoke gegen [docs/acceptance-smoke.md](acceptance-smoke.md)
+   - Acceptance-Smoke gegen
+     [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md)
      abhaken und den Lauf im QA-Log mit Datum, Plattform und Build-ID
      protokollieren.
    - Offene Punkte im QA-Log schließen oder vertagen (inkl. Verweis auf den
@@ -172,7 +174,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
    **ZEITRISS [Ver. 4.2.2] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
-   `docs/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
+   `internal/qa/briefings/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
    den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
 3. Prüfe, dass die Antwort die geforderten `ISSUE`-, `Lösungsvorschlag`-,
    `To-do`- und `Nächste Schritte`-Blöcke je Befund enthält, und übertrage sie
@@ -192,8 +194,9 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    den Build-Stand und den verwendeten Wissensspeicher.
 3. Notiere in deiner Übergabe, ob Uploads, Save/Load-Checks oder
    Plattformspiegelungen bereits erfolgt sind. Codex übernimmt daraufhin die
-   Pflege der Dateien `internal/qa/2025-beta-qa-log.md`,
-   `docs/ZEITRISS-qa-fahrplan-2025.md` und `docs/ZEITRISS-qa-audit-2025.md` im
+   Pflege der Dateien `internal/qa/logs/2025-beta-qa-log.md`,
+   `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` und
+   `internal/qa/audits/ZEITRISS-qa-audit-2025.md` im
    Repo.
 4. Nachdem Codex die QA-Dokumente aktualisiert und alle Findings abgearbeitet
    hat, spiegelst du den freigegebenen Stand auf Store-GPT, Proton LUMO und
@@ -207,7 +210,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    sichern, neuen Chat öffnen und den Reimport testen.
 3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
    HQ-Briefing-Schleifen abgleichen.
-4. Acceptance-Smoke-Checklist aus `docs/acceptance-smoke.md` ergänzen und
+4. Acceptance-Smoke-Checklist aus `internal/qa/checklists/acceptance-smoke.md` ergänzen und
    Abweichungen festhalten. Smoketests laufen bei jedem Merge automatisch im
    Repo; dokumentiert ergänzende Befunde weiterhin im QA-Log.
 5. Falls die GitHub-Action `scripts/smoke.sh` mit einem `ECONNRESET` beim
@@ -219,7 +222,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 - **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
   - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.2) mit Save/Load.
   - Status: ✅ abgeschlossen.
-  - QA-Log: `internal/qa/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
+  - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
 - **Q2 2025 (09.–13.06.2025)**
   - Schwerpunkt: Spiegelprozesse, Save/Load-Regression und Upload-Checks.
   - Status: 🗓️ geplant.

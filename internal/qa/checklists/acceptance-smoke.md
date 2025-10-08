@@ -6,6 +6,10 @@ tags: [testing]
 
 # MyGPT Acceptance Smoke
 
+> **Hinweis:** Der standardisierte Beta-GPT-Testprompt verpflichtet sich, jeden
+> Punkt dieser Checkliste automatisch abzudecken. Dokumentiere Abweichungen im
+> QA-Log und im Fahrplan unter den Deepcheck-Aufgaben.
+
 ## Dispatcher-Starts & Speicherpfade
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1

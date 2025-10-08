@@ -54,7 +54,8 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   Instanzen erhalten erst nach einer grünen MyGPT-Abnahme denselben Stand; zusätzliche Optimierungen
   erfolgen nicht im Repo.
 - Dokumentiere Plattform-Uploads und Save/Load-Befunde in den QA-Dokumenten
-  `docs/ZEITRISS-qa-audit-2025.md` sowie `docs/ZEITRISS-qa-fahrplan-2025.md`, sobald entsprechende
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md` sowie
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`, sobald entsprechende
   Informationen aus den Playtests vorliegen.
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT direkt auf die Module unter
   `gameplay/`. Kopien in PRs sind nicht zulässig.
@@ -66,12 +67,12 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   QA-Run selbst simulieren, exportieren das vollständige Chatlog und liefern es mitsamt der automatisch
   erzeugten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke an Codex.
 - Sobald das Material vorliegt, erledigt der Repo-Agent folgende Schritte:
-  1. Chatlog unverändert in `internal/qa/2025-beta-qa-log.md` archivieren und Plattform, Build sowie
+  1. Chatlog unverändert in `internal/qa/logs/2025-beta-qa-log.md` archivieren und Plattform, Build sowie
      Wissensstand notieren.
-  2. Die strukturierten Blöcke in `docs/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den
+  2. Die strukturierten Blöcke in `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den
      Log-Abschnitt verlinken.
   3. Tickets branchweise abarbeiten; Tests und Referenzen in den Commits dokumentieren.
-  4. Nach dem Merge `docs/ZEITRISS-qa-audit-2025.md` mit Datum, Commit-Link und Ergebnis ergänzen.
+  4. Nach dem Merge `internal/qa/audits/ZEITRISS-qa-audit-2025.md` mit Datum, Commit-Link und Ergebnis ergänzen.
 - Vergleichs-KIs (z. B. ARXION) lesen denselben Repo-Stand, prüfen Diffs und liefern bei Bedarf
   zusätzliche Reports. Abarbeitung und Dokumentation der Findings liegen ebenfalls beim Repo-Agenten.
 - Den Plattform-Sync (Store-GPT, Proton LUMO, lokale Instanzen) übernehmen die Maintainer:innen erst
@@ -93,7 +94,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - Zusätzliche Runtime-Prüfungen: `python3 tools/lint_runtime.py` und
   `GM_STYLE=verbose python3 tools/lint_runtime.py`.
 - Optionale Checks: `node tools/test_save.js`, `node tools/test_load.js`.
-- Dispatcher-Smoke-Tests siehe [docs/acceptance-smoke.md](docs/acceptance-smoke.md).
+- Dispatcher-Smoke-Tests siehe [Acceptance-Smoke](internal/qa/checklists/acceptance-smoke.md).
 - Dokumentiere plattformweite QA- und Release-Checks nach
   [docs/maintainer-ops.md](docs/maintainer-ops.md). Nutze die dort verlinkten
   Acceptance-Smoke-Listen als Vorlage für Reports.
