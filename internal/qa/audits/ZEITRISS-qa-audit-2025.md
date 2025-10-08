@@ -285,10 +285,12 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Belohnungsverteilung bleibt strittig und Saves driften.
 
 ### Issue #12 – Chronopolis-Warnung
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Das einmalige Popup besitzt kein Persistenzflag.
 - **Empfohlene Umsetzung:** `logs.flags.chronopolis_warn_seen` setzen.
 - **Risiko bei Verzug:** Die Warnung erscheint bei jedem Eintritt erneut.
+- **Statusnotiz:** Toolkit setzt das Flag nun beim Chronopolis-Einstieg und
+  bindet das Popup nur einmal ein. (Commit: wird im PR referenziert.)
 
 ### Issue #13 – Ask→Suggest
 - **Status:** [ ] Offen

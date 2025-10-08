@@ -210,7 +210,9 @@ Dokumentation.
 
 ### Issue #12 – Chronopolis-Warnung
 - **Workstream:** Chronopolis-Warnung
-- **Nächster Schritt:** Flag `logs.flags.chronopolis_warn_seen` setzen.
+- **Statusnotiz:** ✅ Chronopolis-Warnung persistiert per Toolkit-Flag
+  `logs.flags.chronopolis_warn_seen`; `start_chronopolis()` ruft das Warn-Popup
+  nur einmal auf. (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 25
 - **QA-Verankerung:** Doppel-Entry-Test vor und nach dem Save.
