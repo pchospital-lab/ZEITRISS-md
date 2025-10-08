@@ -1,120 +1,46 @@
 # AGENTS-Richtlinien für ZEITRISS-md
 
-## Zweck dieser Datei
-Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und Entwickler
-(z. B. Codex, ARXION, ChatGPT). Sie dient als verbindlicher Leitfaden für Beiträge zu diesem
-Repository. **Sie ist nicht Teil des Runtime-Contents und darf nicht in Spieler:innen-Prompts
-oder das Spielsystem geladen werden.**
+## Zweck & Fokus
+Diese Datei adressiert ausschließlich Repo-Agenten wie dich (Codex, ChatGPT, ARXION). Sie bündelt
+agentenspezifische Pflichten und verweist für allgemeine Beitragsregeln, QA-Abläufe und Compliance
+auf [CONTRIBUTING.md](CONTRIBUTING.md). **AGENTS.md gehört nicht zum Runtime-Content und darf nicht
+in Prompts oder Spielsysteme übernommen werden.**
 
-**Hinweis:** Eine vollständige Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du
-im Abschnitt [„Dokumenten-Landkarte“](README.md#dokumenten-landkarte) der README. `AGENTS.md`
-fokussiert ausschließlich auf Pflichten des Repo-Agenten. Aufgaben für Maintainer:innen oder
-Tester:innen werden hier nur verlinkt; die vollständigen Schritt-für-Schritt-Anweisungen stehen in
-den jeweiligen Prozessdokumenten.
+## Grundprinzipien
+- Arbeite durchgehend auf Deutsch und beachte die Zielgruppenansprache gemäß
+  [CONTRIBUTING.md → Sprach- & Formatregeln](CONTRIBUTING.md#grundregeln).
+- Prüfe vor jedem Eingriff, ob unterhalb des Zielpfads zusätzliche Richtlinien existieren.
+- Halte Dev-Dokumente (`tags: [meta]`, `docs/`, `meta/` außerhalb des Masterprompts) strikt von
+  Runtime-Content getrennt.
 
-## Geltungsbereich
-- Sprache: Verwende Deutsch. Die Ansprache richtet sich nach dem Zielmedium.
-  - **Runtime-Content** (`core/`, `gameplay/`, `systems/`, `characters/`): filmischer Ton in der
-    konsequenten Ihr-Form.
-  - **Masterprompt** (`meta/masterprompt_*.md`): direkte Du-Ansprache der Spielleitung.
-  - **Dev-Dokumentation** (`AGENTS.md`, `CONTRIBUTING.md`, `docs/`, `meta/` abseits des
-    Masterprompts, Tooling-Notizen): sachlich-professioneller Stil ohne Ihr-Form; arbeite
-    bevorzugt mit neutralen Imperativen oder Du-Ansprache.
-- Umfang: Die Regeln gelten für alle Dateien in diesem Repository, sofern kein untergeordnetes
-  Verzeichnis eigene Anweisungen vorgibt.
-- Inhaltliche Trennung: Materialien mit `tags: [meta]`, Dateien im Verzeichnis `docs/` sowie
-  Entwicklungsnotizen sind reiner Dev-Content. Sie dürfen nicht in In-Game-Texte oder
-  Storymodule eingemischt werden.
+## Arbeitsablauf des Repo-Agenten
+1. **Vorbereitung** – Lies die betroffenen Dateien vollständig und gleiche Strukturvorgaben mit der
+   [Qualitäts- und Compliance-Checkliste](CONTRIBUTING.md#qualitaets-und-compliance-checkliste)
+   ab. Pflege bei strukturellen Änderungen die Verweise in `master-index.json`, README und
+   Toolkits.
+2. **Umsetzung** – Entwickle Änderungen im Repo, dokumentiere Quellen (z. B. QA-Logs) in Commit- und
+   PR-Texten und halte die Rollenabgrenzung aus
+   [README → Dokumenten-Landkarte](README.md#dokumenten-landkarte) ein.
+3. **Prüfung** – Führe den in [CONTRIBUTING.md → Verpflichtende Prüfungen](CONTRIBUTING.md#verpflichtende-pruefungen)
+   beschriebenen Testumfang aus. Ergänze projektspezifische Checks (`tools/`, `scripts/`) bei Bedarf.
+4. **Dokumentation** – Notiere alle Befehle samt Ergebnis im Commit/PR, aktualisiere QA-Belege und
+   melde verbleibende Abweichungen transparent.
 
-## Vorarbeit vor jeder Änderung
-1. Lies die betroffenen Dateien vollständig, insbesondere YAML-Header, Szenenstruktur und
-   bestehende Stilvorgaben.
-2. Prüfe, ob es zu den Dateien Verweise im `master-index.json` oder in Toolkit-Dokumenten gibt.
-   Passe Querverweise bei strukturellen Änderungen an.
-3. Halte die Trennung zwischen Runtime-Content (`core/`, `gameplay/`, `systems/toolkit-*`,
-   `characters/`) und Dev-Dokumentation (`docs/`, `meta/`, Dateien mit `tags: [meta]`) ein.
+## Kollaboration & Übergaben
+- **Maintainer:innen** verantworten Uploads und Plattform-Spiegelungen laut
+  `docs/maintainer-ops.md`. Übernimm ihre QA-Reports unverändert in die internen Dokumente.
+- **Tester:innen** folgen `docs/qa/tester-playtest-briefing.md`. Du synchronisierst Findings mit
+  `internal/qa/audits/` und `internal/qa/plans/`.
+- **Beta-GPT** dient ausschließlich QA-Läufen. **MyGPT ZEITRISS** erhält nur Runtime-relevante
+  Artefakte; Dev-Dokumente bleiben intern.
+- **Ingame-KI „Kodex“** ist reine Spiellore ohne Repositoriumspflichten.
 
-## Rollenmodell & Kollaboration
-- **Repo-Agent (Codex/du)** betreut das Git-Repository, hält `AGENTS.md` und `CONTRIBUTING.md`
-  ein, entwickelt dort Features/Fixes und führt alle verfügbaren Tests mit den gespiegelten
-  Runtimes sowie Tools des Repos aus. Live-Playtests in der GPT-Spielumgebung bleiben Tester:innen
-  vorbehalten; der Repo-Agent wertet deren Ergebnisse aus und dokumentiert Fortschritt in
-  Commits/PRs.
-- **Maintainer:innen** führen Uploads, Spiegelungen und Plattform-Checks nach
-  `docs/maintainer-ops.md` durch. Sie liefern QA-Ergebnisse strukturiert an den Repo-Agenten.
-- **Tester:innen** bedienen den Beta-GPT anhand der Checklisten in
-  `docs/qa/tester-playtest-briefing.md`. Chatlogs und Findings wandern unverändert in die
-  QA-Dokumente.
-- **MyGPT „ZEITRISS [Ver. 4.2.2]“** ist die veröffentlichte Spielleitung. Er erhält Masterprompt,
-  README, `master-index.json` und sämtliche Runtime-Module – jedoch keine Dev-Dokumente.
-- **Beta-GPT** ist ein privat geklonter MyGPT-Stand für QA. Alle Playtests laufen hier; Ergebnisse
-  landen in `internal/qa/audits/ZEITRISS-qa-audit-2025.md` oder Folgedokumenten und werden in Tasks
-  überführt.
-- **Ingame-KI „Kodex“** bleibt eine reine Spielfigur. Sie wird durch den Masterprompt beschrieben
-  und trägt keinerlei Repositoriumspflichten.
+Halte Artefakt-Übergaben sauber getrennt: Maintainer:innen und Tester:innen liefern Chatlogs,
+Checklisten und Protokolle, du implementierst die daraus abgeleiteten Tasks im Repo.
 
-Halte Übergaben strikt getrennt: Maintainer:innen und Tester:innen liefern ihre Artefakte (Chatlogs,
-Checklisten, QA-Protokolle) an den Repo-Agenten. Der Repo-Agent pflegt ausschließlich Repository-
-Änderungen ein und verweist in Commits/PRs auf die zugrunde liegenden QA-Belege.
-
-## Struktur- und Formatregeln
-- **YAML-Header**: Jedes Modul benötigt einen vollständigen Header mit mindestens `title`,
-  `version` und sinnvollen `tags`. Runtime-Module dürfen maximal eine `#`-H1-Überschrift
-  besitzen. Baue die Überschriftenhierarchie sauber auf (`##`, `###`, …).
-- **Masterprompt-Ausnahme**: `meta/masterprompt_*.md` steht seit Version 4.2.2 ohne YAML-Header
-  im Repo. Halte den Text unter 8 000 Zeichen (≈ 8 k Window) und überprüfe Copy-&-Paste-Workflows
-  nach jeder Anpassung.
-- **Szenenaufbau**: Befolge alle in `CONTRIBUTING.md` dokumentierten Invarianten.
-  - Core-Operationen: 12 Szenen.
-  - Rift-Operationen: 14 Szenen in drei Akten.
-  - Jede Szene benennt Konflikt, Ziel und Spur (oder analog definierte Pflichtfelder).
-  - Mission 5 benötigt einen Mini-Boss, Mission 10 einen Boss.
-- **Nomenklatur**: Nutze aktuelle Begriffe (z. B. `Rift-Seeds` anstelle älterer Namen). Erkläre
-  Fachbegriffe bei Bedarf kurz in Klammern.
-- **Stil**: Schreibe in kurzen, aktiven Sätzen. Keine Umgangssprache, keine Marketing-Floskeln.
-  Laufzeitmodule bleiben immersiv und in-world; Dev-Dokumente bleiben nüchtern, klar und ohne
-  Rollenspielton.
-- **Verlinkungen**: Kontrolliere interne Links auf korrekte Pfade. Laufzeitmodule dürfen nicht auf
-  Dev-only-Dokumente referenzieren.
-
-## Qualitäts-Checkliste vor dem Commit
-- [ ] YAML-Header vorhanden, aktualisiert und syntaktisch korrekt.
-- [ ] Strukturregeln (Szenenzahl, Akte, Boss/Mini-Boss, Pflichtfelder) erfüllt.
-- [ ] Überschriften- und Formatvorgaben eingehalten.
-- [ ] Stilprüfung bestanden: filmische Sprache für Runtime, Du-Ansprache im Masterprompt,
-      sachlicher Ton für Dev-Dokumente.
-- [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`).
-- [ ] Alle Links funktionsfähig, keine Referenzen auf Dev-only-Dokumente in Runtime-Modulen.
-- [ ] Trennung von Runtime-Content und Dev-Content respektiert.
-- [ ] Bei Datei-Verschiebungen: Querverweise (`master-index.json`, Toolkits, README) angepasst.
-
-## Technische Anforderungen
-- Führe alle relevanten Lints und Tests aus. Mindestumfang:
-  - `make lint`
-  - `make test`
-  - `bash scripts/smoke.sh`
-- Ergänze projektspezifische Checks bei Bedarf (z. B. `python3 tools/lint_runtime.py`).
-- Stelle sicher, dass `pre-commit`-Hooks sauber durchlaufen. Repariere alle gemeldeten Probleme
-  wie Link-Prüfungen oder Markdown-Formatierung.
-- Verwende bei Textänderungen konsequent deutsche Umlaute (ä, ö, ü, ß) und korrekt gesetzte
-  Backticks.
-
-## Umgang mit KI-Reviews
-- Reiche Diffs zusammen mit dieser `AGENTS.md` an Review-Agents weiter (z. B. ARXION), damit
-  stilistische und strukturelle Kontrollen automatisch erfolgen.
-- Beta-GPT-Playtests liefern dir vollständige Chatlogs und Findings-Listen. Übernimm die Ergebnisse
-  in die QA-Dokumente, gleiche sie mit bestehenden Tickets ab und behebe dokumentierte Abweichungen.
-- Vergleichs-KIs mit Repo-Lesezugriff (z. B. ARXION) melden Auffälligkeiten separat. Pflege deren
-  Auswertungen in die passenden Dateien ein und dokumentiere Begründungen für unvermeidbare
-  Abweichungen in Kommentaren oder PR-Notizen.
-
-## Dokumentation von Tests
-Notiere in Commit- oder PR-Beschreibungen alle ausgeführten Befehle samt Ergebnis. Beschreibe bei
-Fehlern Ursache und Lösung.
-
-## Abschließende Hinweise
-- Diese Datei ist verbindlich. Aktualisiere sie bei Prozessänderungen zeitnah.
-- Laufzeit-Repositories dürfen nur Content enthalten, der im Toolkit oder in README-Dateien
-  verlinkt ist. Entferne toten Content oder markiere ihn klar als `tags: [meta]`.
-- Bewahre die dramaturgische Konsistenz und die Zeitlinien-Logik des ZEITRISS-Universums. Jede
-  Änderung muss mit bestehenden Modulen harmonieren.
+## Dokumentation & Nachverfolgung
+- Archiviere QA-Logs, Fahrpläne und Audits an den vorgesehenen Orten unter `internal/qa/`.
+- Verweise in Commits auf relevante QA- oder Review-Dokumente.
+- Stimme dich bei Prozessänderungen eng mit den Maintainer:innen ab und aktualisiere diese Datei
+  nur für agentenspezifische Anpassungen. Allgemeine Regeln pflegst du in
+  [CONTRIBUTING.md](CONTRIBUTING.md).
