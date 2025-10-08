@@ -22,6 +22,7 @@ tags: [meta]
    1. [Wahrscheinlichkeits-Übersicht](#wahrscheinlichkeits-uebersicht)
 1. [Wissensspeicher & Plattform-Setup](#wissensspeicher--plattform-setup)
 1. [Repo-Map](#repo-map)
+   1. [Dokumenten-Landkarte](#dokumenten-landkarte)
 1. [Mini-Einsatzhandbuch](#mini-einsatzhandbuch)
 1. [Start-Transkripte (Kurz)](#start-transkripte)
 1. [Abnahme-Smoketest (Dispatcher)](#abnahme-smoketest)
@@ -110,6 +111,21 @@ ZEITRISS-md/
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 └─ master-index.json        # Übersicht aller Module und Slugs
 ```
+
+### Dokumenten-Landkarte {#dokumenten-landkarte}
+
+- **`README.md`** – Einstieg für alle Rollen. Führt Runtime-Referenzen, Kurzbefehle sowie die
+  Dokumenten-Landkarte und verweist auf weiterführende Leitfäden.
+- **`AGENTS.md`** – Arbeitsgrundlage für den Repo-Agenten (Programmier-KI). Verbindliche Stil-,
+  Struktur- und Testpflichten inklusive Nutzung der gespiegelten Runtimes und Tools im Repo.
+- **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Beschreibt Workflow, Formatierung und
+  Mindest-Checks; verweist auf QA- und Maintainer-Prozesse.
+- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und QA-Spiegelungen der
+  Maintainer:innen.
+- **`docs/qa/tester-playtest-briefing.md`** sowie QA-Logs unter `internal/qa/` – Briefing,
+  Checklisten und Protokolle für Tester:innen und Maintainer:innen.
+- **`meta/masterprompt_*.md`** – Spielleitungs-Briefings für MyGPT. Dienen ausschließlich der
+  Laufzeit und werden nicht im Repo geändert.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
