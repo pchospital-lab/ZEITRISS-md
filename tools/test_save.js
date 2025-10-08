@@ -33,6 +33,7 @@ assert.ok(Array.isArray(data.logs.kodex));
 assert.ok(Array.isArray(data.logs.hud));
 assert.equal(typeof data.logs.flags, 'object');
 assert.equal(data.logs.flags.runtime_version, rt.ZR_VERSION);
+assert.equal(data.logs.flags.chronopolis_warn_seen, false);
 assert.equal(typeof data.economy.cu, 'number');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
@@ -63,6 +64,7 @@ assert.ok(Array.isArray(minimalData.logs.artifact_log));
 assert.ok(Array.isArray(minimalData.logs.kodex));
 assert.ok(Array.isArray(minimalData.logs.hud));
 assert.equal(minimalData.logs.flags.runtime_version, rt.ZR_VERSION);
+assert.equal(minimalData.logs.flags.chronopolis_warn_seen, false);
 
 try {
   rt.save_deep({ ...base, location: 'CITY' });
@@ -95,6 +97,7 @@ const loadInput = {
 rt.load_deep(JSON.stringify(loadInput));
 assert.equal(rt.state.logs.flags.compliance_shown_today, true);
 assert.equal(rt.state.campaign.compliance_shown_today, true);
+assert.equal(rt.state.logs.flags.chronopolis_warn_seen, false);
 // TODO (#4 Load-Flows): Flag-Handling muss in Toolkit/Makros nachgezogen werden,
 // da runtime.js im aktiven Spiel nicht geladen wird.
 console.log('save-ok');

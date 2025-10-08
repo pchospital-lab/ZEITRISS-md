@@ -114,6 +114,17 @@ default_modus: mission-fokus
   else 'verbose' %}
 {% set state.gm_style = gm_style %}
 {% if scene is not defined %}{% set scene = {} %}{% endif %}
+{% if state.logs is not defined or state.logs is none %}
+  {% set state.logs = {} %}
+{% endif %}
+{% if state.logs.flags is not defined or state.logs.flags is none %}
+  {% set state.logs.flags = {} %}
+{% endif %}
+{% if state.logs.flags.chronopolis_warn_seen is not defined %}
+  {% set state.logs.flags.chronopolis_warn_seen = false %}
+{% else %}
+  {% set state.logs.flags.chronopolis_warn_seen = state.logs.flags.chronopolis_warn_seen | bool %}
+{% endif %}
 
 {% macro set_mode_display(style) -%}
   {% set ui.mode_display = style %}
@@ -1302,6 +1313,13 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {% endif %}
 {%- endmacro %}
 
+{% macro chrono_warn_once() -%}
+  {% if not state.logs.flags.chronopolis_warn_seen %}
+    {{ hud_tag('Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.') }}
+    {% set state.logs.flags.chronopolis_warn_seen = true %}
+  {% endif %}
+{%- endmacro %}
+
 {# LINT:CHRONO_MODULE #}
 {% macro start_chronopolis(district="Agora", ep=None) -%}
   {% if arena and arena.active %}
@@ -1310,6 +1328,7 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {% if chrono_has_key() != 'true' %}
     {{ hud_tag('Zugang verweigert – Chronopolis‑Schlüssel ab Level 10 erforderlich') }}{% return %}
   {% endif %}
+  {{ chrono_warn_once() }}
   {% set campaign.loc = 'CITY' %}
   {% set chrono = {
     'active': true, 'district': district, 'epoch': ep,

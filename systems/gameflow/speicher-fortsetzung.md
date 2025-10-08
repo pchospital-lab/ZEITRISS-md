@@ -165,6 +165,9 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
   `logs.flags.compliance_shown_today=true` setzen. Das automatische Markieren von
   `flags.runtime.skip_entry_choice=true` muss noch in den verfügbaren Toolkit-
   bzw. Makro-Pfaden implementiert werden, da `runtime.js` nicht geladen wird.
+- `Chronopolis-Warnung` – `start_chronopolis()` blendet das einmalige Warn-Popup
+  ein und setzt `logs.flags.chronopolis_warn_seen=true`, damit die Sequenz nach
+  dem ersten Besuch stumm bleibt.
 - `ClusterCreate()` – legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` – zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
 - `launch_rift(id)` – startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
