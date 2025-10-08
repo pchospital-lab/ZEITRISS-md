@@ -126,12 +126,13 @@ Content-Type: application/json
   "open_seeds": [
     { "id":"LND‑1851‑SW", "epoch":"Victorian", "status":"open" }
   ],
-  "campaign": { "episode": 3, "mission_in_episode": 7 },
+  "campaign": { "episode": 3, "mission_in_episode": 7, "mode": "preserve" },
   "arena": {
     "active": false,
     "winsA": 0,
     "winsB": 0,
-    "last_reward_episode": 2
+    "last_reward_episode": 2,
+    "phase_strike_tax": 0
   },
   "player": {
     "hp": 18,
@@ -143,9 +144,12 @@ Content-Type: application/json
 }
 ```
 
-`campaign.episode` spiegelt die aktuelle Missions-Staffel. Der Block `arena`
-merkt sich, ob der Px-Bonus bereits vergeben wurde – `last_reward_episode`
-bewahrt den Episodenstempel, damit kein Team denselben Bonus farmen kann.
+`campaign.episode` spiegelt die aktuelle Missions-Staffel, `campaign.mode`
+markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
+`arena` merkt sich, ob der Px-Bonus bereits vergeben wurde –
+`last_reward_episode` bewahrt den Episodenstempel, damit kein Team denselben
+Bonus farmen kann. `phase_strike_tax` notiert den aktuellen SYS-Aufschlag für
+Phase-Strike (0 außerhalb der Arena, +1 im PvP-Sparring).
 
 _Getter-Helpers (pseudo JS):_
 
@@ -173,6 +177,23 @@ export function ClusterCreate() {
   writeLine(`ClusterCreate spawned ${count} Rift-Seeds.`);
   autoSave();
 }
+
+export const campaignMode = (ctx = state) => {
+  const raw = ctx?.campaign?.mode ?? state.campaign?.mode ?? 'preserve';
+  const normalized = raw.toString().trim().toLowerCase();
+  if (!normalized) return 'preserve';
+  if (['pvp', 'arena', 'sparring'].includes(normalized)) return 'pvp';
+  return normalized;
+};
+
+export const isPvP = (ctx = state) => {
+  if (campaignMode(ctx) === 'pvp') return true;
+  const arenaState = ctx?.arena ?? state.arena;
+  return !!(arenaState && arenaState.active);
+};
+
+export const phaseStrikeTax = (ctx = state) => (isPvP(ctx) ? 1 : 0);
+export const phaseStrikeCost = (ctx = state, base = 2) => base + phaseStrikeTax(ctx);
 ```
 
 ---
@@ -457,6 +478,7 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
   const teamA = createTeam(teamSize, sanitisedPlayers, mode); // füllt mit Fraktionsmitgliedern
   const teamB = createOpposingTeam(teamSize); // GPT generiert Gegenteam
   const lastReward = state.arena?.last_reward_episode ?? null;
+  const previousMode = typeof state.campaign?.mode === "string" ? state.campaign.mode : null;
   state.arena = {
     active: true,
     teamA,
@@ -471,7 +493,11 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
     artifact_limit: tierRule.artifactLimit,
     audit,
     policy_players: sanitisedPlayers,
+    previous_mode: previousMode,
+    phase_strike_tax: 0,
   };
+  state.campaign.mode = "pvp";
+  state.arena.phase_strike_tax = phaseStrikeTax();
   autoSave();
   writeLine(
     `PvP showdown started: ${scenario.description} · Tier ${tierRule.tier} (Budget ${tierRule.loadoutBudget}, Proc ${tierRule.procBudget}, Artefakte ${tierRule.artifactLimit})`,
@@ -506,6 +532,7 @@ function exitPvPArena() {
     }
   }
   const stamp = state.arena.last_reward_episode ?? null;
+  const restoreMode = state.arena.previous_mode;
   state.arena = {
     active: false,
     teamA: [],
@@ -513,7 +540,10 @@ function exitPvPArena() {
     winsA: 0,
     winsB: 0,
     last_reward_episode: stamp,
+    phase_strike_tax: 0,
   };
+  state.arena.previous_mode = null;
+  state.campaign.mode = restoreMode && restoreMode.trim() ? restoreMode : "preserve";
   autoSave();
   writeLine("Arena match ended.");
 }

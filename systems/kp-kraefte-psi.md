@@ -218,14 +218,15 @@ if attack_type == "TK-Melee" and target.armor >= 2:
 Kurze Phasenverschiebung lässt eine Waffe durch feste Materie greifen. Ein
 Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**.
 Der Effekt kostet **2 SYS** in Story- oder Koop-Szenen. Im Arena-PvP greift
-automatisch die Schutzklausel `arena.phase_strike_tax = +1 SYS`, sodass die
-Kosten dort auf **3 SYS** steigen. Misslingt der Einsatz, verliert das Team
+automatisch die Schutzklausel `phase_strike_tax()` (+1 SYS via `is_pvp()`),
+sodass die Kosten dort auf **3 SYS** steigen und `state.arena.phase_strike_tax`
+den Zuschlag widerspiegelt. Misslingt der Einsatz, verliert das Team
 **1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
 auf **0**.
 
 ```typescript
-const phaseStrikeCost = scene.mode === "pvp" ? 3 : 2;
-if (scene.mode === "pvp") {
+const phaseStrikeCost = phase_strike_cost();
+if (is_pvp()) {
   hud.toast("Arena: Phase-Strike belastet +1 SYS");
 }
 psi.spendSYS(actor, phaseStrikeCost);
