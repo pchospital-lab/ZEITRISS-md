@@ -30,6 +30,28 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-06-11 – Repo-Agent – HQ-Save Pflichtfelder
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, runtime.js aktueller Branch (Save-Schema)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Maßnahmenpaket #1 – Save-Schema absichern
+
+```chatlog
+10:12 Repo-Agent: `make lint`
+10:13 Tool: `Level 25: Summary: OK`
+10:14 Repo-Agent: `make test`
+10:17 Tool: `All smoke checks passed.`
+10:18 Repo-Agent: `bash scripts/smoke.sh`
+10:19 Tool: `All smoke checks passed.`
+```
+
+**Offene Punkte**
+- [x] Issue #1 HQ-Save-Pflichtfelder gegen Defaults absichern.
+
+**Nachverfolgung**
+- Commit/PR: 3e4f306
+- QA-Fahrplan: Maßnahmenpaket Issue #1 (Status aktualisiert 2025-06-11).
+- QA-Audit: Issue #1 als erledigt markiert (2025-06-11).
+
 ## 2025-04-02 – Maintainer-Team – Regressionstestplanung
 - Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde
 - Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
