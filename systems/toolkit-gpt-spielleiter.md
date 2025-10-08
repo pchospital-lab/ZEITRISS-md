@@ -48,7 +48,7 @@ default_modus: mission-fokus
   'stress_gain_per_sweep': 1,
   'stress_gain_on_complication': 1,
   'hot_exfil_on_ttl_zero': true,
-  'px_loss_on_hot_fail': true
+  'px_loss_on_hot_fail': false
 } %}
 {% if campaign.exfil is not defined %}
   {% set campaign.exfil = {
