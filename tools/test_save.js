@@ -76,4 +76,25 @@ assert.equal(migrated.phase, 'core');
 assert.equal(migrated.ui.gm_style, 'verbose');
 assert.equal(migrated.ui.intro_seen, false);
 assert.equal(migrated.logs.flags.runtime_version, rt.ZR_VERSION);
+
+const loadInput = {
+  ...data,
+  logs: {
+    hud: [],
+    artifact_log: [],
+    kodex: [],
+    flags: { runtime_version: rt.ZR_VERSION, compliance_shown_today: false }
+  },
+  campaign: {
+    ...data.campaign,
+    compliance_shown_today: false
+  },
+  ui: { gm_style: 'verbose', intro_seen: true }
+};
+
+rt.load_deep(JSON.stringify(loadInput));
+assert.equal(rt.state.logs.flags.compliance_shown_today, true);
+assert.equal(rt.state.campaign.compliance_shown_today, true);
+// TODO (#4 Load-Flows): Flag-Handling muss in Toolkit/Makros nachgezogen werden,
+// da runtime.js im aktiven Spiel nicht geladen wird.
 console.log('save-ok');

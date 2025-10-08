@@ -3,6 +3,7 @@ const path = require('path');
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
 const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
+const COMPLIANCE_NOTICE = 'Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.';
 
 const CHRONO_CATEGORY_LIMITS = {
   'Temporal Ships': 1,
@@ -114,6 +115,18 @@ function ensure_logs(){
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
+  const flags = state.logs.flags;
+  if (!flags.runtime_version){
+    flags.runtime_version = ZR_VERSION;
+  }
+  if (typeof flags.compliance_shown_today !== 'boolean'){
+    flags.compliance_shown_today = !!state.campaign?.compliance_shown_today;
+  } else {
+    flags.compliance_shown_today = !!flags.compliance_shown_today;
+  }
+  if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
+    state.campaign.compliance_shown_today = flags.compliance_shown_today;
+  }
   return state.logs.hud;
 }
 
@@ -189,7 +202,13 @@ function ensure_mission(){
 function ensure_runtime_flags(){
   state.flags ||= {};
   if (!state.flags.runtime || typeof state.flags.runtime !== 'object'){ state.flags.runtime = {}; }
-  return state.flags.runtime;
+  const runtimeFlags = state.flags.runtime;
+  if (typeof runtimeFlags.skip_entry_choice !== 'boolean'){
+    runtimeFlags.skip_entry_choice = false;
+  } else {
+    runtimeFlags.skip_entry_choice = !!runtimeFlags.skip_entry_choice;
+  }
+  return runtimeFlags;
 }
 
 function ensure_cooldowns(){
@@ -259,8 +278,24 @@ function hud_toast(message, tag = 'HUD'){
   return entry;
 }
 
+function show_compliance_once(force = false){
+  ensure_logs();
+  const flags = state.logs.flags;
+  const alreadyShown = !!flags.compliance_shown_today;
+  if (alreadyShown && !force){
+    return false;
+  }
+  writeLine(COMPLIANCE_NOTICE);
+  flags.compliance_shown_today = true;
+  if (state.campaign && typeof state.campaign === 'object'){
+    state.campaign.compliance_shown_today = true;
+  }
+  return !alreadyShown || force;
+}
+
 function play_hq_intro(force = false){
   const ui = ensure_ui();
+  show_compliance_once();
   if (ui.intro_seen && !force) return false;
   writeLine(HQ_INTRO_LINES.join('\n'));
   ui.intro_seen = true;
@@ -384,6 +419,12 @@ function ensure_campaign(){
   if (typeof state.campaign.id !== 'string' || !state.campaign.id.trim()){
     const base = state.character?.id || 'campaign';
     state.campaign.id = String(base).trim() || 'campaign';
+  }
+  const complianceFlag = !!(state.logs?.flags?.compliance_shown_today);
+  if (typeof state.campaign.compliance_shown_today !== 'boolean'){
+    state.campaign.compliance_shown_today = complianceFlag;
+  } else {
+    state.campaign.compliance_shown_today = !!state.campaign.compliance_shown_today;
   }
 }
 
@@ -1526,6 +1567,7 @@ function prepare_save_campaign(campaign){
     ? base.paradoxon_index
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
+  base.compliance_shown_today = !!base.compliance_shown_today;
   return base;
 }
 
@@ -1554,6 +1596,7 @@ function prepare_save_logs(logs){
   if (!base.flags.runtime_version){
     base.flags.runtime_version = ZR_VERSION;
   }
+  base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
   return base;
 }
 
@@ -1794,6 +1837,13 @@ function migrate_save(data){
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
   data.logs = prepare_save_logs(data.logs);
+  if (data.campaign && typeof data.campaign === 'object'){
+    const shown = !!data.logs?.flags?.compliance_shown_today;
+    data.campaign.compliance_shown_today = shown || !!data.campaign.compliance_shown_today;
+  }
+  if (data.logs && data.logs.flags){
+    data.logs.flags.compliance_shown_today = !!data.logs.flags.compliance_shown_today;
+  }
   data.ui = prepare_save_ui(data.ui);
   return data;
 }
@@ -1856,8 +1906,17 @@ function load_deep(raw){
   if (!migrated.logs.flags.runtime_version){
     migrated.logs.flags.runtime_version = migrated.zr_version || ZR_VERSION;
   }
+  if (typeof migrated.logs.flags.compliance_shown_today !== 'boolean'){
+    const fallback = !!migrated.campaign?.compliance_shown_today;
+    migrated.logs.flags.compliance_shown_today = fallback;
+  }
+  if (migrated.campaign && typeof migrated.campaign === 'object' && typeof migrated.campaign.compliance_shown_today !== 'boolean'){
+    migrated.campaign.compliance_shown_today = !!migrated.logs.flags.compliance_shown_today;
+  }
   migrated.location = 'HQ';
   hydrate_state(migrated);
+  ensure_runtime_flags().skip_entry_choice = true;
+  show_compliance_once();
   const hud = scene_overlay();
   writeLine(hud);
   return { status: 'ok', state, hud };
@@ -1875,7 +1934,11 @@ function startSolo(mode='klassisch'){
     cooldowns: {},
     attributes: { SYS_max: 1, SYS_used: 1 }
   };
+  ensure_logs();
+  state.logs.flags.compliance_shown_today = false;
   ensure_campaign();
+  state.campaign.compliance_shown_today = false;
+  ensure_runtime_flags().skip_entry_choice = false;
   play_hq_intro();
   return `solo-${mode}`;
 }
@@ -1889,7 +1952,11 @@ function startGroup(mode='klassisch'){
   state.start = { type: 'gruppe', mode };
   state.location = 'HQ';
   state.team = { size: 0 };
+  ensure_logs();
+  state.logs.flags.compliance_shown_today = false;
   ensure_campaign();
+  state.campaign.compliance_shown_today = false;
+  ensure_runtime_flags().skip_entry_choice = false;
   play_hq_intro();
   return `gruppe-${mode}`;
 }

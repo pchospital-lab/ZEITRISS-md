@@ -161,7 +161,10 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 - `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
 - `DelayConflict(4)` – verschiebt Konfliktszenen bis zur vierten Szene.
-- `ShowComplianceOnce()` – blendet den täglichen Compliance-Hinweis ein.
+- `ShowComplianceOnce()` – blendet den täglichen Compliance-Hinweis ein und soll
+  `logs.flags.compliance_shown_today=true` setzen. Das automatische Markieren von
+  `flags.runtime.skip_entry_choice=true` muss noch in den verfügbaren Toolkit-
+  bzw. Makro-Pfaden implementiert werden, da `runtime.js` nicht geladen wird.
 - `ClusterCreate()` – legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` – zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
 - `launch_rift(id)` – startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
@@ -750,7 +753,9 @@ niemand wird dupliziert.
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
 - **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
-  1×.
+  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today` und wird bei
+  `!load` automatisch gesetzt; `flags.runtime.skip_entry_choice=true` signalisiert den
+  übersprungenen Einstieg.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
