@@ -124,6 +124,11 @@ function ensure_logs(){
   } else {
     flags.compliance_shown_today = !!flags.compliance_shown_today;
   }
+  if (typeof flags.chronopolis_warn_seen !== 'boolean'){
+    flags.chronopolis_warn_seen = false;
+  } else {
+    flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
+  }
   if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
   }
@@ -1597,6 +1602,7 @@ function prepare_save_logs(logs){
     base.flags.runtime_version = ZR_VERSION;
   }
   base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
+  base.flags.chronopolis_warn_seen = !!base.flags.chronopolis_warn_seen;
   return base;
 }
 
@@ -1843,6 +1849,11 @@ function migrate_save(data){
   }
   if (data.logs && data.logs.flags){
     data.logs.flags.compliance_shown_today = !!data.logs.flags.compliance_shown_today;
+    if (typeof data.logs.flags.chronopolis_warn_seen !== 'boolean'){
+      data.logs.flags.chronopolis_warn_seen = false;
+    } else {
+      data.logs.flags.chronopolis_warn_seen = !!data.logs.flags.chronopolis_warn_seen;
+    }
   }
   data.ui = prepare_save_ui(data.ui);
   return data;
@@ -1910,6 +1921,11 @@ function load_deep(raw){
     const fallback = !!migrated.campaign?.compliance_shown_today;
     migrated.logs.flags.compliance_shown_today = fallback;
   }
+  if (typeof migrated.logs.flags.chronopolis_warn_seen !== 'boolean'){
+    migrated.logs.flags.chronopolis_warn_seen = false;
+  } else {
+    migrated.logs.flags.chronopolis_warn_seen = !!migrated.logs.flags.chronopolis_warn_seen;
+  }
   if (migrated.campaign && typeof migrated.campaign === 'object' && typeof migrated.campaign.compliance_shown_today !== 'boolean'){
     migrated.campaign.compliance_shown_today = !!migrated.logs.flags.compliance_shown_today;
   }
@@ -1936,6 +1952,7 @@ function startSolo(mode='klassisch'){
   };
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
+  state.logs.flags.chronopolis_warn_seen = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
   ensure_runtime_flags().skip_entry_choice = false;
@@ -1954,6 +1971,7 @@ function startGroup(mode='klassisch'){
   state.team = { size: 0 };
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
+  state.logs.flags.chronopolis_warn_seen = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
   ensure_runtime_flags().skip_entry_choice = false;
