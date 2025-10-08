@@ -119,7 +119,7 @@ Dokumentation.
 
 | Issue | Workstream | Nächster Schritt | Owner | Zieltermin | QA-Verankerung |
 | --- | --- | --- | --- | --- | --- |
-| #1 | Save-Schema | Serializer ergänzt Pflichtfelder + Linter-Regel `SAVE_REQ_FIELDS`. | Codex | KW 25 | Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern. |
+| #1 | Save-Schema | ✅ Serializer ergänzt Pflichtfelder + Linter-Regel `SAVE_REQ_FIELDS` (Commit 3e4f306). | Codex | KW 25 | Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern. |
 | #2 | Save-Normalisierung | `load_deep()`-Normalizer + Legacy-Alias-Doku. | Codex | KW 26 | Cross-Mode-Load-Test (Solo↔Koop↔PvP). |
 | #3 | Arc-Dashboard | Schema-Doku + Runtime-Serializer/Deserializer. | Codex & Maintainer:in | KW 27 | Episoden-Debrief-Reload mit Seeds. |
 | #4 | Load-Flows | Flag `logs.flags.compliance_shown_today`, Skip Entry Choice. | Codex | KW 25 | Dreifachtest Load-Pfade. |

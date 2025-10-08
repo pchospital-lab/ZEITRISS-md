@@ -21,6 +21,7 @@ required = ["id","sys","sys_used","stress","psi_heat","cooldowns",
             "campaign.px","artifact_log","kodex","economy",
             "logs","ui"]
 assert all(k in state for k in required)
+// Serializer ergänzt fehlende Pflichtblöcke (economy/logs/ui) mit Defaults
 ```
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
@@ -39,19 +40,28 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "psi_heat": 0,
   "cooldowns": {},
   "campaign": {"episode": 4, "scene": 0, "px": 0},
-  "artifact_log": [],
-  "kodex": [],
+  "economy": {"cu": 0},
+  "logs": {
+    "artifact_log": [],
+    "kodex": [],
+    "hud": [],
+    "flags": {}
+  },
+  "ui": {"gm_style": "verbose", "intro_seen": false},
   "modes": ["mission", "verbose", "transparenz"]
 }
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `psi_heat`, `cooldowns`,
-  `campaign.px`, `artifact_log`, `kodex`, `economy`, `logs` und `ui`.
+  `campaign.px`, `economy`, `logs` (inkl. `artifact_log`, `kodex`, `hud`,
+  `flags`) und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `Psi-Heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `psi_heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
   Basiszustand prüfen kann.
-- GPT darf keine dieser Angaben ableiten oder weglassen.
+- GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
+  fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
+  leere Logs, `ui.gm_style = "verbose"`).
 
 **Load-Verhalten**
 

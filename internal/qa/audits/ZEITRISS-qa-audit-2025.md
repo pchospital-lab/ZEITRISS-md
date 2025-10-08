@@ -193,7 +193,7 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 
 | # | Schwerpunkt | Status | Kerndiagnose | Empfohlene Umsetzung | Auswirkung bei Verzug |
 | --- | --- | --- | --- | --- | --- |
-| 1 | HQ-Save-Pflichtfelder | [ ] Offen | Minimal-HQ-Saves lassen `economy`, `logs`, `ui` und `campaign.px` aus. | Schema angleichen, Linterregel `SAVE_REQ_FIELDS` ergänzen, Serializer ergänzt Defaults (`economy`, `logs`, `ui`). | Parser-Fehler und QA-Saves brechen bei Releases. |
+| 1 | HQ-Save-Pflichtfelder | [x] Erledigt | Minimal-HQ-Saves ließen `economy`, `logs`, `ui` und `campaign.px` aus. | Serializer ergänzt Defaults (`economy`, `logs`, `ui`), Kampagnen-Px wird synchronisiert, Linterregel `SAVE_REQ_FIELDS` prüft Pflichtpfade. | ✅ Behoben – Saves liefern wieder vollständige Pflichtfelder. Referenz: Commit 3e4f306. |
 | 2 | Gruppensave-Konsistenz | [ ] Offen | Drei konkurrierende Arrays für Teamzusammenstellungen. | Normalizer in `load_deep()` verankern; Kanonstruktur `party.characters[]`, Legacy-Aliase dokumentieren. | Merge-Dialoge bleiben unzuverlässig. |
 | 3 | Arc-Dashboard | [ ] Offen | Laufzeit nutzt Dashboard, Schema definiert es nicht. | Optionales, aber standardisiertes Objekt dokumentieren; Serializer/Deserializer anbinden. | Story-Hub verliert nach Reload Kontext. |
 | 4 | Load-Compliance | [ ] Offen | Einstiegstrigger feuern mehrfach, Flag fehlt. | `ShowComplianceOnce()` vor Recap ausführen, Flag `logs.flags.compliance_shown_today` speichern. | Wiederholte Dialoge direkt nach `!load`. |
