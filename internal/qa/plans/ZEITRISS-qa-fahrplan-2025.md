@@ -19,10 +19,11 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](../../../docs/qa/tester-playtest-briefing.md) durch, lassen den GPT den
-   kompletten QA-Lauf eigenständig simulieren, inklusive der vollständigen
-   Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“ im Briefing), und prüfen das
-   Ergebnis auf die geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
+   [Copy-&-Paste-Auftrags](../../../docs/qa/tester-playtest-briefing.md) durch.
+   Der GPT simuliert den kompletten QA-Lauf inklusive der vollständigen
+   Acceptance-Smoke-Checkliste (siehe Abschnitt "Acceptance-Smoke-Checkliste"
+   im Briefing). Abschließend prüfen die Tester:innen die Antwort auf die
+   geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
    `Nächste Schritte`-Blöcke.
 3. **Archivierung:** Das vollständige Chatprotokoll wird unter
    `internal/qa/logs/2025-beta-qa-log.md` eingetragen und mit Datum, Plattform und
@@ -59,14 +60,18 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ### Sessions 2025
 
-| Session | Erkenntnis / To-do | Status | Referenz |
-| --- | --- | --- | --- |
-| 2025-06-11 – Codex-Deepcheck | Repository-Analyse: QA-Artefakte in README und master-index bestätigt; Maßnahmenpaket Juni 2025 (#1–#16) unverändert offen, Umsetzung in Blöcken vorbereiten. | 🔄 laufend | README.md §QA-Artefakte; master-index.json; QA-Audit 2025 |
+- **2025-06-11 – Codex-Deepcheck** (Status: 🔄 laufend)
+  - Erkenntnis / To-do: Repository-Analyse bestätigt QA-Artefakte in README und
+    `master-index.json`; Maßnahmenpaket Juni 2025 (#1–#16) bleibt offen und wird
+    blockweise vorbereitet.
+  - Referenz: README.md §QA-Artefakte, `master-index.json`, QA-Audit 2025.
 
 ### Session-Template
-| Session | Erkenntnis / To-do | Status | Referenz |
-| --- | --- | --- | --- |
-| (Beispiel: 2025-06-03 – Codex-Deepcheck) | Struktur aktualisieren, Acceptance-Smoke an Testprompt binden | ✅ (PR #…) | QA-Log (Link einsetzen) |
+
+- **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)
+  - Erkenntnis / To-do: Struktur aktualisieren und Acceptance-Smoke an den
+    Testprompt binden.
+  - Referenz: QA-Log (Link einsetzen).
 
 ## Arbeitsstränge & Ziele
 - **Dokumentation & Index:** README, Repo-Map und Index spiegeln QA-Dokumente
@@ -117,24 +122,125 @@ Beta-GPT-Laufs ab. Sie sind nach Workstream sortiert, enthalten konkrete
 Zwischenschritte und markieren Abhängigkeiten zwischen Runtime, QA und
 Dokumentation.
 
-| Issue | Workstream | Nächster Schritt | Owner | Zieltermin | QA-Verankerung |
-| --- | --- | --- | --- | --- | --- |
-| #1 | Save-Schema | ✅ Serializer ergänzt Pflichtfelder + Linter-Regel `SAVE_REQ_FIELDS` (Commit 3e4f306). | Codex | KW 25 | Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern. |
-| #2 | Save-Normalisierung | `load_deep()`-Normalizer + Legacy-Alias-Doku. | Codex | KW 26 | Cross-Mode-Load-Test (Solo↔Koop↔PvP). |
-| #3 | Arc-Dashboard | Schema-Doku + Runtime-Serializer/Deserializer. | Codex & Maintainer:in | KW 27 | Episoden-Debrief-Reload mit Seeds. |
-| #4 | Load-Flows | Flag `logs.flags.compliance_shown_today`, Skip Entry Choice. | Codex | KW 25 | Dreifachtest Load-Pfade. |
-| #5 | Exfil-Policy | Default `px_loss=false`, FAQ-Abgleich. | Codex & Maintainer:in | KW 26 | Zwei Missionsläufe (TTL-Timeout vs. regulär). |
-| #6 | PvP-Modusflag | Helper `is_pvp()`, zentrale Kostenberechnung. | Codex | KW 27 | Drei Kampfmodi (Core/Rift/Arena). |
-| #7 | Accessibility | HUD-Menü + Persistenztests. | Codex & QA | KW 28 | HQ-Onboarding-Regression. |
-| #8 | Offline-Fallback | `offline_help()` + HUD-Toast. | Codex | KW 28 | Tunneltest „Funk weg“ inkl. Re-Sync. |
-| #9 | Versionierung | Fehlermeldung & Doku `ZR_VERSION` vs. `zr_version`. | Codex & Maintainer:in | KW 25 | Migrationspfad-Test (`migrate_save()`). |
-| #10 | Foreshadow-Log | `logs.foreshadow` persistieren, HUD-Badge. | Codex | KW 26 | M4→M10 Save/Load-Kette. |
-| #11 | Koop-Ökonomie | Debrief-Split-Dialog + Wallet-Logik. | Codex | KW 29 | Drei Koop-Runs (gleich/ungleich/custom). |
-| #12 | Chronopolis-Warnung | Flag `logs.flags.chronopolis_warn_seen` setzen. | Codex | KW 25 | Doppel-Entry-Test vor/nach Save. |
-| #13 | Ask→Suggest | Toolkit-Makro + README-Update. | Codex & Maintainer:in | KW 27 | Drei Missionsmuster (Verdunkeln/Verhindern/Dokumentieren). |
-| #14 | Suspend-Snapshot | Snapshot-Felder erweitern, Resume-Test. | Codex | KW 26 | Konflikt pausieren/fortsetzen. |
-| #15 | PSI-Arena-Regeln | `apply_arena_rules()` zentralisieren, Doku synchronisieren. | Codex & Maintainer:in | KW 27 | Arena/Core/Rift Vergleich. |
-| #16 | Markt-Log | `logs.market[]` schreiben, Debrief-Trace. | Codex | KW 28 | Chronopolis-Kauf + Px-Folge. |
+### Issue #1 – Save-Schema
+- **Workstream:** Save-Schema
+- **Statusnotiz:** ✅ Serializer ergänzt Pflichtfelder und die
+  Linter-Regel `SAVE_REQ_FIELDS` (Commit `3e4f306`).
+- **Owner:** Codex
+- **Zieltermin:** KW 25
+- **QA-Verankerung:** Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern.
+
+### Issue #2 – Save-Normalisierung
+- **Workstream:** Save-Normalisierung
+- **Nächster Schritt:** `load_deep()`-Normalizer ergänzen und
+  Legacy-Alias-Dokumentation nachziehen.
+- **Owner:** Codex
+- **Zieltermin:** KW 26
+- **QA-Verankerung:** Cross-Mode-Load-Test (Solo↔Koop↔PvP).
+
+### Issue #3 – Arc-Dashboard
+- **Workstream:** Arc-Dashboard
+- **Nächster Schritt:** Schema-Dokumentation und Runtime-Serializer/-Deserializer
+  ergänzen.
+- **Owner:** Codex & Maintainer:in
+- **Zieltermin:** KW 27
+- **QA-Verankerung:** Episoden-Debrief-Reload mit Seeds.
+
+### Issue #4 – Load-Flows
+- **Workstream:** Load-Flows
+- **Nächster Schritt:** Flag `logs.flags.compliance_shown_today` setzen und die
+  Skip-Entry-Choice absichern.
+- **Owner:** Codex
+- **Zieltermin:** KW 25
+- **QA-Verankerung:** Dreifachtest der Load-Pfade.
+
+### Issue #5 – Exfil-Policy
+- **Workstream:** Exfil-Policy
+- **Nächster Schritt:** Default `px_loss=false` setzen und FAQ abgleichen.
+- **Owner:** Codex & Maintainer:in
+- **Zieltermin:** KW 26
+- **QA-Verankerung:** Zwei Missionsläufe (TTL-Timeout vs. regulär).
+
+### Issue #6 – PvP-Modusflag
+- **Workstream:** PvP-Modusflag
+- **Nächster Schritt:** Helper `is_pvp()` ergänzen und Kostenberechnung
+  zentralisieren.
+- **Owner:** Codex
+- **Zieltermin:** KW 27
+- **QA-Verankerung:** Drei Kampfmodi (Core/Rift/Arena) testen.
+
+### Issue #7 – Accessibility
+- **Workstream:** Accessibility
+- **Nächster Schritt:** HUD-Menü liefern und Persistenztests durchführen.
+- **Owner:** Codex & QA
+- **Zieltermin:** KW 28
+- **QA-Verankerung:** HQ-Onboarding-Regression.
+
+### Issue #8 – Offline-Fallback
+- **Workstream:** Offline-Fallback
+- **Nächster Schritt:** `offline_help()` sowie HUD-Toast implementieren.
+- **Owner:** Codex
+- **Zieltermin:** KW 28
+- **QA-Verankerung:** Tunneltest „Funk weg“ inklusive Re-Sync.
+
+### Issue #9 – Versionierung
+- **Workstream:** Versionierung
+- **Nächster Schritt:** Fehlermeldung und Dokumentation zu `ZR_VERSION` und
+  `zr_version` harmonisieren.
+- **Owner:** Codex & Maintainer:in
+- **Zieltermin:** KW 25
+- **QA-Verankerung:** Migrationspfad-Test (`migrate_save()`).
+
+### Issue #10 – Foreshadow-Log
+- **Workstream:** Foreshadow-Log
+- **Nächster Schritt:** `logs.foreshadow` persistieren und HUD-Badge ergänzen.
+- **Owner:** Codex
+- **Zieltermin:** KW 26
+- **QA-Verankerung:** M4→M10 Save/Load-Kette.
+
+### Issue #11 – Koop-Ökonomie
+- **Workstream:** Koop-Ökonomie
+- **Nächster Schritt:** Debrief-Split-Dialog und Wallet-Logik ausarbeiten.
+- **Owner:** Codex
+- **Zieltermin:** KW 29
+- **QA-Verankerung:** Drei Koop-Runs (gleich/ungleich/custom).
+
+### Issue #12 – Chronopolis-Warnung
+- **Workstream:** Chronopolis-Warnung
+- **Nächster Schritt:** Flag `logs.flags.chronopolis_warn_seen` setzen.
+- **Owner:** Codex
+- **Zieltermin:** KW 25
+- **QA-Verankerung:** Doppel-Entry-Test vor und nach dem Save.
+
+### Issue #13 – Ask→Suggest
+- **Workstream:** Ask→Suggest
+- **Nächster Schritt:** Toolkit-Makro und README-Update ergänzen.
+- **Owner:** Codex & Maintainer:in
+- **Zieltermin:** KW 27
+- **QA-Verankerung:** Drei Missionsmuster (Verdunkeln/Verhindern/Dokumentieren).
+
+### Issue #14 – Suspend-Snapshot
+- **Workstream:** Suspend-Snapshot
+- **Nächster Schritt:** Snapshot-Felder erweitern und Resume-Test durchführen.
+- **Owner:** Codex
+- **Zieltermin:** KW 26
+- **QA-Verankerung:** Konflikt pausieren und fortsetzen.
+
+### Issue #15 – PSI-Arena-Regeln
+- **Workstream:** PSI-Arena-Regeln
+- **Nächster Schritt:** `apply_arena_rules()` zentralisieren und Dokumentation
+  synchronisieren.
+- **Owner:** Codex & Maintainer:in
+- **Zieltermin:** KW 27
+- **QA-Verankerung:** Arena-, Core- und Rift-Vergleich.
+
+### Issue #16 – Markt-Log
+- **Workstream:** Markt-Log
+- **Nächster Schritt:** `logs.market[]` schreiben und Debrief-Trace
+  dokumentieren.
+- **Owner:** Codex
+- **Zieltermin:** KW 28
+- **QA-Verankerung:** Chronopolis-Kauf inklusive Px-Folge.
 
 **Koordinationshinweise:**
 
@@ -180,7 +286,7 @@ Dokumentation.
 ### Sprint 2 – innerhalb der nächsten zwei Iterationen
 - [x] Acceptance-Smoke-Checkliste gegen aktuelle Runtime-Skripte spiegeln
   (Boss-Gates, HUD-Badges, Psi-Heat) und Ergebnisse im QA-Log dokumentieren.
-  (2025-03-23 – QA-Log 2025-03-19, Commit: e4d2872)
+  (2025-03-23 – QA-Log 2025-03-19; Commit: e4d2872)
 - [x] Maintainer-Ops anpassen: MyGPT als alleinige QA-Plattform herausstellen
   und Spiegelprozesse für Store-GPT, LUMO und lokale Instanzen dokumentieren.
   (2025-03-21 – Maintainer-Ops 1.2.0, Commit: d2a3b4c)
@@ -191,8 +297,9 @@ Dokumentation.
   (2025-03-26 – README-Glossar ergänzt, Commit: e5da4ad)
 - [x] Audit-Abschnitte 11–20 gegen reale Commits spiegeln und Referenzen
   nachtragen.
-  (2025-03-27 – QA-Log 2025-03-19 verlinkt, Commits: b245bef, 5a3fbb3,
-  7d91e53, 8fe8de2, 52d1ba5, 9a1675d, 8208170, 22d3c33, 1be6f57)
+  (2025-03-27 – QA-Log 2025-03-19 verlinkt; Commits: b245bef, 5a3fbb3,
+  7d91e53, 8fe8de2, 52d1ba5, 9a1675d, 8208170, 22d3c33,
+  1be6f57)
 
 ### Sprint 3 – langfristig planen
 - [x] Automatisierten Link-Lint für README und Docs in CI evaluieren und
@@ -200,25 +307,37 @@ Dokumentation.
   (2025-03-30 – QA-Log 2025-03-30, Commit: 445b8ed)
 - [x] Tooling erweitern, um YAML-Header und Pflichtfelder automatisiert zu
   prüfen (`tools/lint_runtime.py` erweitern) und QA-Nachweis ablegen.
-  (2025-10-05 – QA-Log 2025-10-05, Commit: 868883a)
+  (2025-10-05 – QA-Log 2025-10-05; Commit: 868883a)
 - [x] Wiederkehrende MyGPT-Regressionstests terminieren und Status pro Quartal
   protokollieren; Spiegelplattformen nur bei Bedarf kontrollieren.
-  (2025-04-02 – QA-Log 2025-04-02, Commit: 3338360)
+  (2025-04-02 – QA-Log 2025-04-02; Commit: 3338360)
 
 ## Status-Dashboard (Stand: Überarbeitung 2025-04-02)
-| Maßnahme | Status | Nächster Schritt | Owner |
-| --- | --- | --- | --- |
-| QA-Fahrplan aktualisieren | ✅ erledigt | Statusblock bei jeder Änderung aktualisieren | Maintainer-Team |
-| README-Querverweise | ✅ 2025-03-17 | README-Änderungen stets mit QA-Verweisen abgleichen | Maintainer-Team |
-| QA-Log initial füllen | ✅ 2025-03-17 | Folgeprotokolle hinzufügen | QA-Koordination |
-| CONTRIBUTING anpassen | ✅ 2025-03-17 | QA-Übergaben halbjährlich auditieren | Docs-Verantwortliche |
-| Acceptance-Smoke-Checkliste | ✅ 2025-03-23 | QA-Log 2025-03-19 referenzieren | Repo-Agent |
-| Maintainer-Ops Spiegelprozesse | ✅ 2025-03-21 | Spiegelprozesse bei Plattform-Änderungen prüfen | Maintainer-Team |
-| Automatisierte Link-Prüfung | ✅ 2025-03-30 | Link-Lint in CI-Läufen beobachten | Repo-Agent |
-| Runtime-Lint YAML/Pflichtfelder | ✅ 2025-10-05 | QA-Log 2025-10-05 referenzieren | Repo-Agent |
-| Plattform-Regressionstests | ✅ 2025-04-02 | Q2-Regressionstest protokollieren | QA-Koordination |
-| CHANGELOG QA-Verweise | ✅ 2025-03-26 | QA-Log-Referenzen beibehalten | Repo-Agent |
-| Glossar Terminologie 4.2.2 | ✅ 2025-03-26 | README-Glossar regelmäßig spiegeln | Docs-Verantwortliche |
+
+- **QA-Fahrplan aktualisieren** — Status: ✅ erledigt; nächster Schritt:
+  Statusblock bei jeder Änderung aktualisieren. Owner: Maintainer-Team.
+- **README-Querverweise** — Status: ✅ 2025-03-17; nächster Schritt:
+  README-Änderungen stets mit QA-Verweisen abgleichen. Owner:
+  Maintainer-Team.
+- **QA-Log initial füllen** — Status: ✅ 2025-03-17; nächster Schritt:
+  Folgeprotokolle hinzufügen. Owner: QA-Koordination.
+- **CONTRIBUTING anpassen** — Status: ✅ 2025-03-17; nächster Schritt:
+  QA-Übergaben halbjährlich auditieren. Owner: Docs-Verantwortliche.
+- **Acceptance-Smoke-Checkliste** — Status: ✅ 2025-03-23; nächster Schritt:
+  QA-Log 2025-03-19 referenzieren. Owner: Repo-Agent.
+- **Maintainer-Ops Spiegelprozesse** — Status: ✅ 2025-03-21; nächster
+  Schritt: Spiegelprozesse bei Plattform-Änderungen prüfen. Owner:
+  Maintainer-Team.
+- **Automatisierte Link-Prüfung** — Status: ✅ 2025-03-30; nächster Schritt:
+  Link-Lint in CI-Läufen beobachten. Owner: Repo-Agent.
+- **Runtime-Lint YAML/Pflichtfelder** — Status: ✅ 2025-10-05; nächster
+  Schritt: QA-Log 2025-10-05 referenzieren. Owner: Repo-Agent.
+- **Plattform-Regressionstests** — Status: ✅ 2025-04-02; nächster Schritt:
+  Q2-Regressionstest protokollieren. Owner: QA-Koordination.
+- **CHANGELOG QA-Verweise** — Status: ✅ 2025-03-26; nächster Schritt:
+  QA-Log-Referenzen beibehalten. Owner: Repo-Agent.
+- **Glossar Terminologie 4.2.2** — Status: ✅ 2025-03-26; nächster Schritt:
+  README-Glossar regelmäßig spiegeln. Owner: Docs-Verantwortliche.
 
 ## Pflege & Reporting
 - Prüfe bei jeder Änderung, ob Audit und QA-Log entsprechende Einträge erhalten.
