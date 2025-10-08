@@ -14,7 +14,7 @@ nachzuvollziehen.
 
 ## Workflow
 1. Maintainer:innen oder Tester:innen führen den Playtest gemäß
-   [Tester-Playtest-Briefing](/docs/qa/tester-playtest-briefing.md)
+   [Tester-Playtest-Briefing](../../../docs/qa/tester-playtest-briefing.md)
    aus, lassen den GPT den kompletten QA-Lauf autonom simulieren und kopieren
    das vollständige Chatprotokoll in einen neuen Abschnitt dieses Logs.
 2. Kennzeichne zu Beginn jedes Abschnitts Datum, Plattform, Build und genutzte
@@ -107,7 +107,7 @@ nachzuvollziehen.
 03:07 Tool: `EP 0 · MS 0 · SC 0/12 · MODE verbose · Objective: ? · ANCR ? · RW 08:00 · Px 0 · SYS 0 · Lvl - · FR:beobachter · SF-OFF`
 03:08 Repo-Agent: `node - <<'NODE' … psi_heat=1 → save_deep()`
 03:08 Tool: `SaveGuard: Psi-Heat > 0.`
-03:10 Repo-Agent: Laufzeitscan `runtime.scene_overlay()` / `assert_foreshadow()` / `migrate_save()`; Abgleich mit [Acceptance-Smoke](/docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
+03:10 Repo-Agent: Laufzeitscan `runtime.scene_overlay()` / `assert_foreshadow()` / `migrate_save()`; Abgleich mit [Acceptance-Smoke](../../../docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 03:12 Repo-Agent: Ergebnis → Checkliste deckt Skripte ab, QA-Fahrplan aktualisieren.
 ```
 
