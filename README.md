@@ -301,7 +301,7 @@ Debrief und Save (HQ-only).
 > Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
 > **Nach dem Primärziel:** Exfil-Fenster mit **TTL**.
 > Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**.
-> Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht **Px–1**.
+> Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht nur mit aktivierter Px-Verlust-Regel ein **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
@@ -448,7 +448,8 @@ ausführenden Agenten. Sweep und Rücksprung laufen **nie parallel** –
 das RW muss am **IA** oder einem Alt-Anchor **bewusst armiert** werden.
 Sinkt der RW-Timer auf **0**, erzwingt das System einen
 **Hot-Exfil** (kurzer, riskanter Abzug).
-Misslingt dieser deutlich, droht **Resonanzverlust (Px–1)**.
+Misslingt dieser deutlich, kann bei aktivierter Px-Verlust-Regel ein **Resonanzverlust (Px–1)** greifen.
+Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Schalter verfügbar.
 **0–2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.

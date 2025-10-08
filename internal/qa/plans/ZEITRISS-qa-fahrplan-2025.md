@@ -159,7 +159,9 @@ Dokumentation.
 
 ### Issue #5 – Exfil-Policy
 - **Workstream:** Exfil-Policy
-- **Nächster Schritt:** Default `px_loss=false` setzen und FAQ abgleichen.
+- **Statusnotiz:** ✅ Default `px_loss_on_hot_fail=false` gesetzt und README/Guides auf die Opt-in-Strafe hingewiesen.
+- **Testnachweis:** `PYTHONPATH=. python3 scripts/lint_umlauts.py` (OK, 2025-06-11).
+  Commit: wird im PR referenziert.
 - **Owner:** Codex & Maintainer:in
 - **Zieltermin:** KW 26
 - **QA-Verankerung:** Zwei Missionsläufe (TTL-Timeout vs. regulär).
