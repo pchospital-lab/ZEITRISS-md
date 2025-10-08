@@ -11,7 +11,7 @@ Der Fahrplan bündelt sämtliche QA-Aufgaben für ZEITRISS 2025. Er knüpft an
 Copy-&-Paste-Protokolle aus Beta-GPT- und MyGPT-Tests an, priorisiert die daraus
 abgeleiteten Maßnahmen und verweist auf die zugehörigen Artefakte. Prozess- und
 Formatregeln stehen in `AGENTS.md`, `CONTRIBUTING.md` sowie
-[maintainer-ops.md](/docs/maintainer-ops.md); dieses Dokument konzentriert
+[maintainer-ops.md](../../../docs/maintainer-ops.md); dieses Dokument konzentriert
 sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## QA-Zyklus
@@ -19,7 +19,7 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
    Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
    erhalten.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
-   [Copy-&-Paste-Auftrags](/docs/qa/tester-playtest-briefing.md) durch, lassen den GPT den
+   [Copy-&-Paste-Auftrags](../../../docs/qa/tester-playtest-briefing.md) durch, lassen den GPT den
    kompletten QA-Lauf eigenständig simulieren, inklusive der vollständigen
    Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“ im Briefing), und prüfen das
    Ergebnis auf die geforderten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
