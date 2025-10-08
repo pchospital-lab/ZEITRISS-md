@@ -125,6 +125,22 @@ default_modus: mission-fokus
 {% else %}
   {% set state.logs.flags.chronopolis_warn_seen = state.logs.flags.chronopolis_warn_seen | bool %}
 {% endif %}
+{% if state.flags is not defined or state.flags is none %}
+  {% set state.flags = {} %}
+{% endif %}
+{% if state.flags.runtime is not defined or state.flags.runtime is none %}
+  {% set state.flags.runtime = {} %}
+{% endif %}
+{% if state.flags.runtime.skip_entry_choice is not defined %}
+  {% set state.flags.runtime.skip_entry_choice = false %}
+{% else %}
+  {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
+{% endif %}
+{% if campaign.entry_choice_skipped is not defined %}
+  {% set campaign.entry_choice_skipped = false %}
+{% else %}
+  {% set campaign.entry_choice_skipped = campaign.entry_choice_skipped | bool %}
+{% endif %}
 
 {% macro set_mode_display(style) -%}
   {% set ui.mode_display = style %}
@@ -490,6 +506,7 @@ nutzen.
 ### Load → HQ-Phase oder Briefing
 
 - Nach einem erfolgreichen **Load**:
+  - `SkipEntryChoice()` setzen, bevor der Recap startet.
   - `ShowComplianceOnce()` bei Bedarf.
   - `Recap()` abspielen.
   - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
@@ -499,6 +516,7 @@ nutzen.
 ```pseudo
 LoadSave(json):
   hydrate_state(json)
+  SkipEntryChoice()
   ShowComplianceOnce()
   Recap()
   # HQ-Dialog oder Briefing starten
@@ -599,8 +617,19 @@ mechanische Effekt greift.
 {% macro cut_to_hq_van() -%}{%- endmacro %}
 
 <!-- Macro: StartMission -->
+{% macro SkipEntryChoice() -%}
+  {% set state.flags.runtime.skip_entry_choice = true %}
+  {% set campaign.entry_choice_skipped = true %}
+{%- endmacro %}
+
+{% macro AllowEntryChoice() -%}
+  {% set state.flags.runtime.skip_entry_choice = false %}
+  {% set campaign.entry_choice_skipped = false %}
+{%- endmacro %}
+
 {% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0, fx_override=None, tags=None) %}
 {% set mission_fx = fx_override or {} %}
+{{ AllowEntryChoice() }}
 {% if campaign.mission is none %}
   {% set campaign.mission = 1 %}
 {% else %}
@@ -2362,6 +2391,10 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
+  - Setzt unmittelbar nach `hydrate_state()` `SkipEntryChoice()`, damit der
+    Einstieg übersprungen wird.
+  - `StartMission()` ruft intern `AllowEntryChoice()` auf und aktiviert die
+    Auswahl beim nächsten Kampagnenstart erneut.
 
 ### Mission Resolution
 
