@@ -104,6 +104,15 @@ function ensure_logs(){
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
+  if (!Array.isArray(state.logs.artifact_log)){
+    state.logs.artifact_log = [];
+  }
+  if (!Array.isArray(state.logs.kodex)){
+    state.logs.kodex = [];
+  }
+  if (!state.logs.flags || typeof state.logs.flags !== 'object'){
+    state.logs.flags = {};
+  }
   return state.logs.hud;
 }
 
@@ -116,6 +125,16 @@ function ensure_ui(){
   }
   state.ui.intro_seen = !!state.ui.intro_seen;
   return state.ui;
+}
+
+function ensure_economy(){
+  if (!state.economy || typeof state.economy !== 'object'){
+    state.economy = {};
+  }
+  if (!Number.isFinite(state.economy.cu)){
+    state.economy.cu = 0;
+  }
+  return state.economy;
 }
 
 function ensure_character(){
@@ -311,6 +330,13 @@ function ensure_campaign(){
     const raw = Number(state.campaign.paradoxon_index);
     state.campaign.paradoxon_index = Number.isFinite(raw) ? raw : 0;
   }
+  if (!Number.isFinite(state.campaign.px)){
+    const px = Number(state.campaign.px ?? state.campaign.paradoxon_index);
+    state.campaign.px = Number.isFinite(px) ? px : state.campaign.paradoxon_index ?? 0;
+  }
+  if (!Number.isFinite(state.campaign.paradoxon_index)){
+    state.campaign.paradoxon_index = state.campaign.px ?? 0;
+  }
   if (typeof state.campaign.missions_since_px !== 'number'){
     state.campaign.missions_since_px = 0;
   }
@@ -364,6 +390,7 @@ function incrementParadoxon(delta = 1){
   const current = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
   const next = clamp(current + delta, 0, 5);
   state.campaign.paradoxon_index = next;
+  state.campaign.px = next;
   return next;
 }
 
@@ -384,6 +411,7 @@ function ClusterCreate(){
   state.campaign.rift_seeds = [...state.campaign.rift_seeds, ...seeds];
   state.campaign.paradoxon_index = 0;
   state.campaign.missions_since_px = 0;
+  state.campaign.px = 0;
   writeLine(`ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`);
   return state.campaign.paradoxon_index;
 }
@@ -1465,21 +1493,143 @@ function assert_foreshadow(n=2){
   if (c < n) console.log(`Foreshadow low: ${c}/${n}`);
 }
 
+function clone_plain_object(obj){
+  if (!obj || typeof obj !== 'object') return {};
+  return JSON.parse(JSON.stringify(obj));
+}
+
+function prepare_save_campaign(campaign){
+  const base = clone_plain_object(campaign);
+  if (!Number.isFinite(base.paradoxon_index)){
+    const px = Number(base.paradoxon_index);
+    base.paradoxon_index = Number.isFinite(px) ? px : 0;
+  }
+  const pxValue = Number.isFinite(base.px)
+    ? base.px
+    : Number.isFinite(base.paradoxon_index)
+    ? base.paradoxon_index
+    : 0;
+  base.px = Number.isFinite(pxValue) ? pxValue : 0;
+  return base;
+}
+
+function prepare_save_economy(economy){
+  const base = clone_plain_object(economy);
+  if (!Number.isFinite(base.cu)){
+    base.cu = 0;
+  }
+  return base;
+}
+
+function prepare_save_logs(logs){
+  const base = clone_plain_object(logs);
+  if (!Array.isArray(base.hud)){
+    base.hud = [];
+  }
+  if (!Array.isArray(base.artifact_log)){
+    base.artifact_log = [];
+  }
+  if (!Array.isArray(base.kodex)){
+    base.kodex = [];
+  }
+  if (!base.flags || typeof base.flags !== 'object'){
+    base.flags = {};
+  }
+  return base;
+}
+
+function prepare_save_ui(ui){
+  const base = clone_plain_object(ui);
+  base.gm_style = typeof base.gm_style === 'string' ? base.gm_style : 'verbose';
+  base.intro_seen = !!base.intro_seen;
+  return base;
+}
+
+function prepare_save_character(character){
+  const base = clone_plain_object(character);
+  if (!base || typeof base !== 'object'){
+    throw new Error('SaveGuard: Charakterdaten fehlen.');
+  }
+  if (!base.id){
+    throw new Error('SaveGuard: Feld character.id fehlt.');
+  }
+  base.stress = Number.isFinite(base.stress) ? base.stress : 0;
+  base.psi_heat = Number.isFinite(base.psi_heat) ? base.psi_heat : 0;
+  if (!base.cooldowns || typeof base.cooldowns !== 'object'){
+    base.cooldowns = {};
+  }
+  const attrs = clone_plain_object(base.attributes);
+  if (!Number.isFinite(attrs.SYS_max)){
+    const sysMax = Number(attrs.SYS_max);
+    attrs.SYS_max = Number.isFinite(sysMax) ? sysMax : 0;
+  }
+  if (!Number.isFinite(attrs.SYS_used)){
+    const sysUsed = Number(attrs.SYS_used);
+    attrs.SYS_used = Number.isFinite(sysUsed) ? sysUsed : attrs.SYS_max;
+  }
+  base.attributes = attrs;
+  return base;
+}
+
+function prepare_save_team(team){
+  return clone_plain_object(team);
+}
+
+function prepare_save_loadout(loadout){
+  return clone_plain_object(loadout);
+}
+
+function assert_save_field(payload, path){
+  let current = payload;
+  for (const segment of path){
+    if (current == null || !(segment in current)){
+      throw new Error(`SaveGuard: Feld ${path.join('.')} fehlt.`);
+    }
+    current = current[segment];
+  }
+  if (current === undefined || current === null){
+    throw new Error(`SaveGuard: Feld ${path.join('.')} fehlt.`);
+  }
+  return current;
+}
+
+const SAVE_REQUIRED_PATHS = [
+  ['character', 'id'],
+  ['character', 'cooldowns'],
+  ['character', 'attributes', 'SYS_max'],
+  ['character', 'attributes', 'SYS_used'],
+  ['character', 'stress'],
+  ['character', 'psi_heat'],
+  ['campaign', 'px'],
+  ['economy'],
+  ['logs'],
+  ['logs', 'artifact_log'],
+  ['logs', 'kodex'],
+  ['ui']
+];
+
+function enforce_required_save_fields(payload){
+  for (const path of SAVE_REQUIRED_PATHS){
+    assert_save_field(payload, path);
+  }
+}
+
 function select_state_for_save(s){
-  const ui = s.ui || {};
-  return {
+  const payload = {
     save_version: 6,
     zr_version: ZR_VERSION,
     location: s.location,
     phase: s.phase,
-    campaign: s.campaign,
-    character: s.character,
-    team: s.team,
-    loadout: s.loadout,
-    economy: s.economy,
-    logs: s.logs,
-    ui: { gm_style: ui.gm_style ?? 'verbose', intro_seen: !!ui.intro_seen }
+    campaign: prepare_save_campaign(s.campaign),
+    character: prepare_save_character(s.character),
+    team: prepare_save_team(s.team),
+    loadout: prepare_save_loadout(s.loadout),
+    economy: prepare_save_economy(s.economy),
+    logs: prepare_save_logs(s.logs),
+    ui: prepare_save_ui(s.ui)
   };
+  enforce_required_save_fields(payload);
+  return payload;
 }
 
 function save_deep(s=state){
@@ -1492,18 +1642,8 @@ function save_deep(s=state){
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
   if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
   if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
-  const required = [
-    c.id,
-    c.cooldowns,
-    s.campaign?.paradoxon_index,
-    s.economy,
-    s.logs,
-    s.ui
-  ];
-  if (required.some(v => v === undefined)){
-    throw new Error('SaveGuard: missing fields.');
-  }
-  return JSON.stringify(select_state_for_save(s));
+  const payload = select_state_for_save(s);
+  return JSON.stringify(payload);
 }
 
 function migrate_save(data){
@@ -1540,6 +1680,10 @@ function migrate_save(data){
     data.ui.intro_seen = !!data.ui.intro_seen;
     data.save_version = 6;
   }
+  data.campaign = prepare_save_campaign(data.campaign);
+  data.economy = prepare_save_economy(data.economy);
+  data.logs = prepare_save_logs(data.logs);
+  data.ui = prepare_save_ui(data.ui);
   return data;
 }
 
@@ -1560,6 +1704,8 @@ function hydrate_state(data){
   state.loadout = data.loadout || {};
   state.economy = data.economy || {};
   state.logs = data.logs || {};
+  ensure_economy();
+  ensure_logs();
   state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
   ensure_runtime_flags();
   state.roll = { open: false };
