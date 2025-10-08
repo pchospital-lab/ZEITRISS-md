@@ -775,9 +775,9 @@ niemand wird dupliziert.
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
 - **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
-  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today` und wird bei
-  `!load` automatisch gesetzt; `flags.runtime.skip_entry_choice=true` signalisiert den
-  übersprungenen Einstieg.
+  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today`; `SkipEntryChoice()`
+  setzt parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg
+  dokumentiert ist.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.

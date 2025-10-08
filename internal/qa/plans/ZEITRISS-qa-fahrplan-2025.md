@@ -150,9 +150,9 @@ Dokumentation.
 
 ### Issue #4 – Load-Flows
 - **Workstream:** Load-Flows
-- **Statusnotiz:** 🔄 Runtime-Anpassung in `runtime.js` verworfen, da die Datei nicht
-  Bestandteil des Regelwerks ist und im Spielbetrieb fehlt. Flag-Handling muss in den
-  zugänglichen Toolkit-/Makro-Pfaden neu umgesetzt werden.
+- **Statusnotiz:** ✅ `SkipEntryChoice()` setzt den Skip-Status nach dem Load direkt im
+  Toolkit, `StartMission()` stellt ihn über `AllowEntryChoice()` wieder auf Auswahl.
+  (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 25
 - **QA-Verankerung:** Dreifachtest der Load-Pfade (wird nach Neuansatz reaktiviert).
