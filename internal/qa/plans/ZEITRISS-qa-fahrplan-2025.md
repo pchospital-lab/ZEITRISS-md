@@ -141,11 +141,12 @@ Dokumentation.
 
 ### Issue #3 – Arc-Dashboard
 - **Workstream:** Arc-Dashboard
-- **Nächster Schritt:** Schema-Dokumentation und Runtime-Serializer/-Deserializer
-  ergänzen.
+- **Statusnotiz:** ✅ Schema dokumentiert, Serializer/Deserializer übernehmen das
+  optionale Dashboard konsistent. (Commit: wird im PR referenziert.)
 - **Owner:** Codex & Maintainer:in
 - **Zieltermin:** KW 27
-- **QA-Verankerung:** Episoden-Debrief-Reload mit Seeds.
+- **QA-Verankerung:** Tools `test_save.js` und `test_load.js` decken Normalisierung
+  ab; Episoden-Debrief-Reload mit Seeds bleibt für Cross-Check aktiv.
 
 ### Issue #4 – Load-Flows
 - **Workstream:** Load-Flows

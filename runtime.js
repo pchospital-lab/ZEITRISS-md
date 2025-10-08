@@ -75,6 +75,7 @@ const state = {
   economy: {},
   logs: {},
   ui: { gm_style: 'verbose', intro_seen: false },
+  arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
   exfil: null,
   fr_intervention: null,
   scene: { index: 0, foreshadows: 0, total: 12 },
@@ -192,6 +193,37 @@ function ensure_party(){
     party.characters = party.characters.filter(entry => entry && typeof entry === 'object');
   }
   return party;
+}
+
+function ensure_arc_dashboard(){
+  state.arc_dashboard ||= {};
+  const dash = state.arc_dashboard;
+  if (!Array.isArray(dash.offene_seeds)){
+    dash.offene_seeds = [];
+  } else {
+    dash.offene_seeds = dash.offene_seeds
+      .filter(entry => entry && typeof entry === 'object')
+      .map(entry => clone_plain_object(entry));
+  }
+  if (!dash.fraktionen || typeof dash.fraktionen !== 'object' || Array.isArray(dash.fraktionen)){
+    dash.fraktionen = {};
+  } else {
+    const normalized = {};
+    for (const [key, value] of Object.entries(dash.fraktionen)){
+      normalized[key] = value && typeof value === 'object' ? clone_plain_object(value) : {};
+    }
+    dash.fraktionen = normalized;
+  }
+  if (!Array.isArray(dash.fragen)){
+    dash.fragen = [];
+  } else {
+    dash.fragen = dash.fragen.map(entry => (
+      entry && typeof entry === 'object'
+        ? clone_plain_object(entry)
+        : entry
+    ));
+  }
+  return dash;
 }
 
 function ensure_mission(){
@@ -1606,6 +1638,30 @@ function prepare_save_logs(logs){
   return base;
 }
 
+function prepare_save_arc_dashboard(dashboard){
+  const base = dashboard && typeof dashboard === 'object' && !Array.isArray(dashboard)
+    ? clone_plain_object(dashboard)
+    : {};
+  base.offene_seeds = Array.isArray(base.offene_seeds)
+    ? base.offene_seeds.map(entry => clone_plain_object(entry))
+    : [];
+  if (!base.fraktionen || typeof base.fraktionen !== 'object' || Array.isArray(base.fraktionen)){
+    base.fraktionen = {};
+  } else {
+    const normalized = {};
+    for (const [key, value] of Object.entries(base.fraktionen)){
+      normalized[key] = value && typeof value === 'object' ? clone_plain_object(value) : {};
+    }
+    base.fraktionen = normalized;
+  }
+  base.fragen = Array.isArray(base.fragen)
+    ? base.fragen.map(entry => (
+        entry && typeof entry === 'object' ? clone_plain_object(entry) : entry
+      ))
+    : [];
+  return base;
+}
+
 function prepare_save_ui(ui){
   const base = clone_plain_object(ui);
   base.gm_style = typeof base.gm_style === 'string' ? base.gm_style : 'verbose';
@@ -1713,7 +1769,8 @@ function select_state_for_save(s){
     loadout: prepare_save_loadout(s.loadout),
     economy: prepare_save_economy(s.economy),
     logs: prepare_save_logs(s.logs),
-    ui: prepare_save_ui(s.ui)
+    ui: prepare_save_ui(s.ui),
+    arc_dashboard: prepare_save_arc_dashboard(s.arc_dashboard)
   };
   enforce_required_save_fields(payload);
   return payload;
@@ -1843,6 +1900,7 @@ function migrate_save(data){
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
   data.logs = prepare_save_logs(data.logs);
+  data.arc_dashboard = prepare_save_arc_dashboard(data.arc_dashboard);
   if (data.campaign && typeof data.campaign === 'object'){
     const shown = !!data.logs?.flags?.compliance_shown_today;
     data.campaign.compliance_shown_today = shown || !!data.campaign.compliance_shown_today;
@@ -1876,8 +1934,10 @@ function hydrate_state(data){
   state.loadout = data.loadout || {};
   state.economy = data.economy || {};
   state.logs = data.logs || {};
+  state.arc_dashboard = data.arc_dashboard || {};
   ensure_economy();
   ensure_logs();
+  ensure_arc_dashboard();
   state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
   ensure_runtime_flags();
   state.roll = { open: false };
@@ -1917,6 +1977,7 @@ function load_deep(raw){
   if (!migrated.logs.flags.runtime_version){
     migrated.logs.flags.runtime_version = migrated.zr_version || ZR_VERSION;
   }
+  migrated.arc_dashboard = prepare_save_arc_dashboard(migrated.arc_dashboard);
   if (typeof migrated.logs.flags.compliance_shown_today !== 'boolean'){
     const fallback = !!migrated.campaign?.compliance_shown_today;
     migrated.logs.flags.compliance_shown_today = fallback;

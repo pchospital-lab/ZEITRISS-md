@@ -241,11 +241,30 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
   "team": { "name": "NPC-Zelle", "members": [] },
   "economy": { "cu": 0 },
   "logs": { "missions": [], "blacklab": [] },
-  "ui": { "gm_style": "verbose" }
+  "ui": { "gm_style": "verbose" },
+  "arc_dashboard": {
+    "offene_seeds": [],
+    "fraktionen": {},
+    "fragen": []
+  }
 }
 ```
 
 > Gruppen-Save analog mit `party.characters[]`. Kein zweites Schema mit anderen Feldnamen.
+
+#### Arc-Dashboard-Objekt
+
+`arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist optional, wird
+aber vom Serializer automatisch nachgezogen und strukturiert:
+
+- **`offene_seeds[]`** – Liste aktiver Missionsansätze. Jedes Element ist ein Objekt (z. B. mit
+  `id`, `titel`, `status`, `deadline`).
+- **`fraktionen{}`** – Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
+  letzte Aktionen.
+- **`fragen[]`** – Offene Forschungs- oder Storyfragen als kurze Strings oder Objekte.
+
+Beim Laden normalisiert `load_deep()` das Objekt, entfernt Nullwerte und stellt sicher, dass alle
+Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 
 ### Legacy-Aliase & Normalisierung
 
