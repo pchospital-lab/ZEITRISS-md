@@ -149,11 +149,12 @@ Dokumentation.
 
 ### Issue #4 – Load-Flows
 - **Workstream:** Load-Flows
-- **Nächster Schritt:** Flag `logs.flags.compliance_shown_today` setzen und die
-  Skip-Entry-Choice absichern.
+- **Statusnotiz:** 🔄 Runtime-Anpassung in `runtime.js` verworfen, da die Datei nicht
+  Bestandteil des Regelwerks ist und im Spielbetrieb fehlt. Flag-Handling muss in den
+  zugänglichen Toolkit-/Makro-Pfaden neu umgesetzt werden.
 - **Owner:** Codex
 - **Zieltermin:** KW 25
-- **QA-Verankerung:** Dreifachtest der Load-Pfade.
+- **QA-Verankerung:** Dreifachtest der Load-Pfade (wird nach Neuansatz reaktiviert).
 
 ### Issue #5 – Exfil-Policy
 - **Workstream:** Exfil-Policy

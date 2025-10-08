@@ -222,8 +222,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 ### Issue #4 – Load-Compliance
 - **Status:** [ ] Offen
 - **Kerndiagnose:** Einstiegstrigger feuern mehrfach, da ein Statusflag fehlt.
-- **Empfohlene Umsetzung:** `ShowComplianceOnce()` vor dem Recap ausführen und
-  das Flag `logs.flags.compliance_shown_today` speichern.
+- **Umsetzung:** Runtime-Ansatz in `runtime.js` greift nicht, weil die Datei im
+  aktiven Regelwerk fehlt. Flag-Handling muss in zugänglichen Makros/Toolkits
+  neu verankert werden.
 - **Risiko bei Verzug:** Spieler:innen erhalten direkt nach `!load`
   wiederholte Dialoge.
 
