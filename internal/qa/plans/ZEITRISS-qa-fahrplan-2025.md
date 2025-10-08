@@ -57,6 +57,12 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - Sobald ein Punkt umgesetzt ist, wandert der Status auf ✅ und der passende
   Commit, PR oder QA-Log-Verweis wird ergänzt.
 
+### Sessions 2025
+
+| Session | Erkenntnis / To-do | Status | Referenz |
+| --- | --- | --- | --- |
+| 2025-06-11 – Codex-Deepcheck | Repository-Analyse: QA-Artefakte in README und master-index bestätigt; Maßnahmenpaket Juni 2025 (#1–#16) unverändert offen, Umsetzung in Blöcken vorbereiten. | 🔄 laufend | README.md §QA-Artefakte; master-index.json; QA-Audit 2025 |
+
 ### Session-Template
 | Session | Erkenntnis / To-do | Status | Referenz |
 | --- | --- | --- | --- |
@@ -78,6 +84,32 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - **Recht & Compliance:** Lizenz- und Markenhinweise mit QA-Maßnahmen abgleichen
   und bei Bedarf PRs initiieren.
   - Artefakte: `LICENSE`, `/docs/trademark.md`, QA-Log-Referenzen
+
+## Repo-Analyse 2025-06-11
+
+### Abgleich Dokumentation & Index
+- README weist weiterhin direkt auf Fahrplan, Audit, QA-Log und Maintainer-Ops
+  und ist damit konform mit Sprint 1 (Querverweise).
+- `master-index.json` listet unverändert die Runtime- und Meta-Module; keine
+  veralteten QA-Verweise oder fehlende Einträge gegenüber dem README.
+- QA-Audit 2025 enthält die vollständige Problemübersicht aus dem Beta-GPT-Test
+  vom Juni 2025; Abgleich mit dem Fahrplan bestätigt, dass alle 16 Punkte
+  übernommen wurden und dort in der Maßnahmenliste stehen.
+
+### Priorisierte Umsetzungspakete (Ableitung aus Beta-GPT Juni 2025)
+- [ ] **Save- & Load-Block:** Issues #1, #2, #4, #9, #10, #12, #14 – Fokus auf
+  Schema/Linter, Load-Flags und Persistenz der Foreshadow- sowie Warn-Logs.
+  Vor Umsetzung `tools/lint_runtime.py` und bestehende Dispatcher-Tests gegen
+  neue Pflichtfelder spiegeln.
+- [ ] **HUD- & UX-Block:** Issues #3, #5, #7, #8, #10, #13 – Arc-Dashboard,
+  Accessibility-Menü, Offline-Fallback und Foreshadow-Badge bündeln; README und
+  Toolkit-Dokumentation vorbereiten.
+- [ ] **PvP- & Arena-Block:** Issues #6, #11, #15, #16 – Modus-Helper,
+  Koop-Verteilung, Arena-Regeln und Markt-Logging gemeinsam angehen, damit
+  Kampf- und Wirtschaftslogik synchron bleiben.
+- QA-Koordination plant für jeden Block eine eigene Regression (Dispatcher,
+  Cross-Mode, Koop-Debrief). Ergebnisse fließen nach Umsetzung in das
+  Beta-QA-Log.
 
 ## Maßnahmenpaket Beta-GPT-Testprompt Juni 2025
 Die folgenden Aufgaben leiten sich unmittelbar aus ISSUE #1–#16 des jüngsten
