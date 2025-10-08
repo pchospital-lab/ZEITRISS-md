@@ -364,7 +364,7 @@ Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 M
 3. **Interruption-Check** bei aktivem Druck (z.B. Patrouille, Sirene). Fail-Forward → Chase oder kleiner Tradeoff.
 4. **Nullzeit-Beat Pflicht:** Vor dem HQ-Cut immer der kurze Transfer-Moment (Kälte, Licht, 3…2…1).
 
-**TTL ≤ 0 ⇒ Hot-Exfil:** 2–3 kurze, harte Szenen; Misslingen kann **Px–1** bedeuten.
+**TTL ≤ 0 ⇒ Hot-Exfil:** 2–3 kurze, harte Szenen; Misslingen löst nur bei aktivierter Px-Verlust-Regel ein **Px–1** aus.
 
 Empfehlung: **0–2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das Risiko.
 **Speichern** bleibt **HQ-exklusiv**.

@@ -229,12 +229,14 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   wiederholte Dialoge.
 
 ### Issue #5 – Hot-Exfil Px-Verlust
-- **Status:** [ ] Offen
-- **Kerndiagnose:** FAQ und Runtime widersprechen sich bei der Px-Strafe.
-- **Empfohlene Umsetzung:** Default `exfil_fail_policy.px_loss=false` setzen
-  oder die FAQ präzisieren.
-- **Risiko bei Verzug:** Inkonsistente Spielerwartungen führen zu
-  Balancing-Drift.
+- **Status:** [x] Erledigt
+- **Kerndiagnose:** FAQ und Runtime widersprachen sich bei der Px-Strafe.
+- **Umsetzung:** Toolkit-Default `px_loss_on_hot_fail` wurde auf `false`
+  gestellt; README und Kampagnenleitfaden markieren die Px-Strafe als
+  optionalen Opt-in-Schalter.
+- **Statusnotiz:** ✅ Opt-in-Dokumentation gleicht Erwartungen und Runtime ab.
+- **Testnachweis:** `PYTHONPATH=. python3 scripts/lint_umlauts.py` (OK,
+  2025-06-11).
 
 ### Issue #6 – Phase-Strike-Kosten
 - **Status:** [ ] Offen
