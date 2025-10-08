@@ -68,7 +68,8 @@ const state = {
   phase: 'core', // mission phase: core, transfer, rift
   campaign: {},
   character: {},
-  team: {},
+  team: { members: [] },
+  party: { characters: [] },
   loadout: {},
   economy: {},
   logs: {},
@@ -158,7 +159,21 @@ function ensure_team(){
   team.psi_heat = Number.isFinite(team.psi_heat) ? team.psi_heat : 0;
   if (typeof team.status !== 'string'){ team.status = 'ready'; }
   if (!team.cooldowns || typeof team.cooldowns !== 'object'){ team.cooldowns = {}; }
+  if (!Array.isArray(team.members)){
+    team.members = [];
+  }
   return team;
+}
+
+function ensure_party(){
+  state.party ||= {};
+  const party = state.party;
+  if (!Array.isArray(party.characters)){
+    party.characters = [];
+  } else {
+    party.characters = party.characters.filter(entry => entry && typeof entry === 'object');
+  }
+  return party;
 }
 
 function ensure_mission(){
@@ -459,6 +474,7 @@ function reset_mission_state(){
   hudSequence = 0;
   state.mission = { id: null, objective: null, clock: {}, timers: [] };
   ensure_team();
+  ensure_party();
 }
 
 function clamp(n, min, max){
@@ -1572,11 +1588,29 @@ function prepare_save_character(character){
 }
 
 function prepare_save_team(team){
-  return clone_plain_object(team);
+  const base = clone_plain_object(team);
+  if (Array.isArray(team?.members)){
+    base.members = team.members.map(member => clone_plain_object(member));
+  } else if (!Array.isArray(base.members)){
+    base.members = [];
+  }
+  return base;
 }
 
 function prepare_save_loadout(loadout){
   return clone_plain_object(loadout);
+}
+
+function prepare_save_party(party, team){
+  const sourceParty = party && typeof party === 'object' ? party : {};
+  const base = clone_plain_object(sourceParty);
+  const fallback = Array.isArray(base.characters) && base.characters.length
+    ? base.characters
+    : Array.isArray(team?.members)
+    ? team.members
+    : [];
+  base.characters = fallback.map(member => clone_plain_object(member));
+  return base;
 }
 
 function assert_save_field(payload, path){
@@ -1623,6 +1657,7 @@ function select_state_for_save(s){
     campaign: prepare_save_campaign(s.campaign),
     character: prepare_save_character(s.character),
     team: prepare_save_team(s.team),
+    party: prepare_save_party(s.party, s.team),
     loadout: prepare_save_loadout(s.loadout),
     economy: prepare_save_economy(s.economy),
     logs: prepare_save_logs(s.logs),
@@ -1644,6 +1679,78 @@ function save_deep(s=state){
   if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
   const payload = select_state_for_save(s);
   return JSON.stringify(payload);
+}
+
+function roster_entry_key(entry, fallbackIndex){
+  const candidates = [
+    entry?.id,
+    entry?.character?.id,
+    entry?.callsign,
+    entry?.character?.callsign,
+    entry?.name,
+    entry?.character?.name
+  ];
+  for (const candidate of candidates){
+    if (candidate === undefined || candidate === null) continue;
+    const value = String(candidate).trim();
+    if (value){
+      return value.toLowerCase();
+    }
+  }
+  return `idx:${fallbackIndex}`;
+}
+
+function normalize_party_roster(data){
+  if (!data || typeof data !== 'object') return;
+  const team = data.team && typeof data.team === 'object' ? data.team : (data.team = {});
+  const party = data.party && typeof data.party === 'object' ? data.party : (data.party = {});
+  const group = data.group && typeof data.group === 'object' ? data.group : undefined;
+  const candidateArrays = [];
+  const pushArray = arr => {
+    if (Array.isArray(arr) && arr.length){
+      candidateArrays.push(arr);
+    }
+  };
+  pushArray(party.characters);
+  pushArray(team.members);
+  pushArray(team.roster);
+  pushArray(team.characters);
+  pushArray(party.members);
+  if (group){
+    pushArray(group.characters);
+    pushArray(group.members);
+  }
+  pushArray(data.npc_team);
+  pushArray(data.npcs);
+  pushArray(data.roster);
+  const seen = new Set();
+  const canonical = [];
+  let fallbackIndex = 0;
+  const addEntry = (entry) => {
+    if (!entry || typeof entry !== 'object') return;
+    const clone = clone_plain_object(entry);
+    const key = roster_entry_key(clone, fallbackIndex);
+    fallbackIndex += 1;
+    if (seen.has(key)) return;
+    seen.add(key);
+    canonical.push(clone);
+  };
+  candidateArrays.forEach(arr => arr.forEach(addEntry));
+  party.characters = canonical.map(entry => clone_plain_object(entry));
+  data.party = { ...party, characters: party.characters };
+  team.members = party.characters.map(entry => clone_plain_object(entry));
+  if (Array.isArray(team.roster)){
+    team.roster = team.members.map(entry => clone_plain_object(entry));
+  }
+  if (Array.isArray(team.characters)){
+    team.characters = team.members.map(entry => clone_plain_object(entry));
+  }
+  if (group){
+    group.characters = party.characters.map(entry => clone_plain_object(entry));
+    if (Array.isArray(group.members)){
+      group.members = party.characters.map(entry => clone_plain_object(entry));
+    }
+  }
 }
 
 function migrate_save(data){
@@ -1680,6 +1787,7 @@ function migrate_save(data){
     data.ui.intro_seen = !!data.ui.intro_seen;
     data.save_version = 6;
   }
+  normalize_party_roster(data);
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
   data.logs = prepare_save_logs(data.logs);
@@ -1716,8 +1824,15 @@ function hydrate_state(data){
     intro_seen: !!(data.ui?.intro_seen)
   };
   ensure_ui();
+  state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
+  const party = ensure_party();
+  const roster = Array.isArray(party.characters) ? party.characters.map(entry => clone_plain_object(entry)) : [];
+  const team = ensure_team();
+  team.members = roster.map(entry => clone_plain_object(entry));
+  if (Array.isArray(team.roster)){
+    team.roster = roster.map(entry => clone_plain_object(entry));
+  }
   reset_mission_state();
-  ensure_team();
   ensure_campaign();
   state.suspend_snapshot = null;
 }

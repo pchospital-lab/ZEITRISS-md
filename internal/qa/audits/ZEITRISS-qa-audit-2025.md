@@ -202,12 +202,14 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   Pflichtfelder. Referenz: Commit `3e4f306`.
 
 ### Issue #2 – Gruppensave-Konsistenz
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Drei konkurrierende Arrays für Teamzusammenstellungen
   verhindern einen stabilen Merge.
 - **Empfohlene Umsetzung:** Normalizer in `load_deep()` verankern,
   Kanonstruktur `party.characters[]` setzen und Legacy-Aliase dokumentieren.
 - **Risiko bei Verzug:** Merge-Dialoge bleiben unzuverlässig.
+- **Statusnotiz:** ✅ `load_deep()` konsolidiert Gruppenroster auf
+  `party.characters[]`; Dokumentation spiegelt die Alias-Bereinigung.
 
 ### Issue #3 – Arc-Dashboard
 - **Status:** [ ] Offen
