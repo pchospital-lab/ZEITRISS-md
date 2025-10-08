@@ -6,6 +6,12 @@ Diese Datei richtet sich ausschließlich an KI-gestützte Entwicklerinnen und En
 Repository. **Sie ist nicht Teil des Runtime-Contents und darf nicht in Spieler:innen-Prompts
 oder das Spielsystem geladen werden.**
 
+**Hinweis:** Eine vollständige Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du
+im Abschnitt [„Dokumenten-Landkarte“](README.md#dokumenten-landkarte) der README. `AGENTS.md`
+fokussiert ausschließlich auf Pflichten des Repo-Agenten. Aufgaben für Maintainer:innen oder
+Tester:innen werden hier nur verlinkt; die vollständigen Schritt-für-Schritt-Anweisungen stehen in
+den jeweiligen Prozessdokumenten.
+
 ## Geltungsbereich
 - Sprache: Verwende Deutsch. Die Ansprache richtet sich nach dem Zielmedium.
   - **Runtime-Content** (`core/`, `gameplay/`, `systems/`, `characters/`): filmischer Ton in der
@@ -29,19 +35,27 @@ oder das Spielsystem geladen werden.**
    `characters/`) und Dev-Dokumentation (`docs/`, `meta/`, Dateien mit `tags: [meta]`) ein.
 
 ## Rollenmodell & Kollaboration
-- **Repo-Agent (Codex/du)** arbeitet ausschließlich im Git-Repository, befolgt diese
-  `AGENTS.md` sowie `CONTRIBUTING.md` und erstellt Commits bzw. PRs. Keine Runtime-Interaktion.
+- **Repo-Agent (Codex/du)** betreut das Git-Repository, hält `AGENTS.md` und `CONTRIBUTING.md`
+  ein, entwickelt dort Features/Fixes und führt alle verfügbaren Tests mit den gespiegelten
+  Runtimes sowie Tools des Repos aus. Live-Playtests in der GPT-Spielumgebung bleiben Tester:innen
+  vorbehalten; der Repo-Agent wertet deren Ergebnisse aus und dokumentiert Fortschritt in
+  Commits/PRs.
+- **Maintainer:innen** führen Uploads, Spiegelungen und Plattform-Checks nach
+  `docs/maintainer-ops.md` durch. Sie liefern QA-Ergebnisse strukturiert an den Repo-Agenten.
+- **Tester:innen** bedienen den Beta-GPT anhand der Checklisten in
+  `docs/qa/tester-playtest-briefing.md`. Chatlogs und Findings wandern unverändert in die
+  QA-Dokumente.
 - **MyGPT „ZEITRISS [Ver. 4.2.2]“** ist die veröffentlichte Spielleitung. Er erhält Masterprompt,
   README, `master-index.json` und sämtliche Runtime-Module – jedoch keine Dev-Dokumente.
-- **Beta-GPT** ist ein privat geklonter MyGPT-Stand für QA. Alle Playtests laufen hier;
-  Ergebnisse landen in `internal/qa/audits/ZEITRISS-qa-audit-2025.md` oder
-  Folgedokumenten und werden in
-  Tickets bzw. Tasks überführt.
+- **Beta-GPT** ist ein privat geklonter MyGPT-Stand für QA. Alle Playtests laufen hier; Ergebnisse
+  landen in `internal/qa/audits/ZEITRISS-qa-audit-2025.md` oder Folgedokumenten und werden in Tasks
+  überführt.
 - **Ingame-KI „Kodex“** bleibt eine reine Spielfigur. Sie wird durch den Masterprompt beschrieben
   und trägt keinerlei Repositoriumspflichten.
 
-Halte diese Ebenen strikt getrennt: Laufzeit-Content bleibt im MyGPT, alle Entwicklungsaufgaben
-erfolgen über das Repo mit Codex.
+Halte Übergaben strikt getrennt: Maintainer:innen und Tester:innen liefern ihre Artefakte (Chatlogs,
+Checklisten, QA-Protokolle) an den Repo-Agenten. Der Repo-Agent pflegt ausschließlich Repository-
+Änderungen ein und verweist in Commits/PRs auf die zugrunde liegenden QA-Belege.
 
 ## Struktur- und Formatregeln
 - **YAML-Header**: Jedes Modul benötigt einen vollständigen Header mit mindestens `title`,
