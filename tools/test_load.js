@@ -79,3 +79,11 @@ assert.deepStrictEqual(partyRoster, ['ALLY-1', 'ALLY-2', 'ALLY-3', 'Echo', 'ALLY
 const teamRoster = rt.state.team.members.map(entry => entry.id || entry.callsign || entry.name);
 assert.deepStrictEqual(teamRoster, partyRoster);
 console.log('legacy-normalized');
+
+const incompatible = {
+  ...legacy,
+  zr_version: '3.9.0'
+};
+
+assert.throws(() => rt.load_deep(incompatible), /Kodex-Archiv: Datensatz v3.9 nicht kompatibel mit v4.2/);
+console.log('version-guard');

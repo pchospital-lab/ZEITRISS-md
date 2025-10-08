@@ -2310,7 +2310,7 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
 1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
-   - Semver-Prüfung: Save lädt, wenn `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
+   - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
    - Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
    - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing. Keine Nachfrage „klassisch/schnell“.
 2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.

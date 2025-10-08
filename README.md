@@ -182,7 +182,7 @@ Die ersten Schritte in unter zwei Minuten:
 - **Nur-HQ-Save** – Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
 - **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden. Nächster Save im HQ.
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
-- **Semver-Toleranz** – Laden klappt, solange `major.minor` = `ZR_VERSION`; Patch wird ignoriert.
+- **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
 [Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md) ·
 [Abnahme-Smoketest ↗](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
@@ -329,7 +329,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `gruppe 3` → „Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
-- Save lädt, wenn `major.minor` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
+- Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
