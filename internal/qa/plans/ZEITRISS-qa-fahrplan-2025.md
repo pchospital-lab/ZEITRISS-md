@@ -244,10 +244,11 @@ Dokumentation.
 
 ### Issue #14 – Suspend-Snapshot
 - **Workstream:** Suspend-Snapshot
-- **Nächster Schritt:** Snapshot-Felder erweitern und Resume-Test durchführen.
+- **Statusnotiz:** ✅ Suspend-Snapshot übernimmt Initiative-Reihenfolge und HUD-Timer;
+  `tools/test_suspend.js` deckt das Resume ab. (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 26
-- **QA-Verankerung:** Konflikt pausieren und fortsetzen.
+- **QA-Verankerung:** Konflikt pausieren und fortsetzen; `tools/test_suspend.js` dokumentiert den Abgleich.
 
 ### Issue #15 – PSI-Arena-Regeln
 - **Workstream:** PSI-Arena-Regeln
