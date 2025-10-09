@@ -117,6 +117,51 @@ function ensure_logs(){
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
+  if (!Array.isArray(state.logs.foreshadow)){
+    state.logs.foreshadow = [];
+  } else {
+    const deduped = [];
+    const byToken = new Map();
+    for (const entry of state.logs.foreshadow){
+      if (!entry || typeof entry !== 'object' || typeof entry.token !== 'string') continue;
+      const rawToken = entry.token.trim();
+      if (!rawToken) continue;
+      const token = rawToken.toLowerCase();
+      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const message = typeof entry.message === 'string' ? entry.message.trim() : '';
+      const sceneIndex = Number(entry.scene);
+      const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
+      const firstSeen = typeof entry.first_seen === 'string' ? entry.first_seen : null;
+      const lastSeen = typeof entry.last_seen === 'string' ? entry.last_seen : null;
+      if (byToken.has(token)){
+        const existing = byToken.get(token);
+        if (!existing.message && message){
+          existing.message = message;
+        }
+        if (!existing.tag && tag){
+          existing.tag = tag;
+        }
+        if (!Number.isFinite(existing.scene) && Number.isFinite(scene)){
+          existing.scene = scene;
+        }
+        if (!existing.last_seen && lastSeen){
+          existing.last_seen = lastSeen;
+        }
+        continue;
+      }
+      const record = {
+        token,
+        tag,
+        message,
+        scene,
+        first_seen: firstSeen,
+        last_seen: lastSeen || firstSeen
+      };
+      deduped.push(record);
+      byToken.set(token, record);
+    }
+    state.logs.foreshadow = deduped;
+  }
   if (!Array.isArray(state.logs.artifact_log)){
     state.logs.artifact_log = [];
   }
@@ -152,6 +197,80 @@ function ensure_logs(){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
   }
   return state.logs.hud;
+}
+
+function foreshadow_entries(){
+  return Array.isArray(state.logs?.foreshadow) ? state.logs.foreshadow : [];
+}
+
+function foreshadow_count(){
+  return foreshadow_entries().length;
+}
+
+function foreshadow_requirement(ctx = state){
+  const campaign = ctx?.campaign || {};
+  const rawType = typeof campaign.type === 'string' ? campaign.type.trim().toLowerCase() : '';
+  const phase = typeof ctx?.phase === 'string' ? ctx.phase.trim().toLowerCase() : '';
+  if (rawType === 'rift' || (!rawType && phase === 'rift')){
+    return 2;
+  }
+  if (rawType === 'core' || rawType === 'preserve' || rawType === 'story' || (!rawType && phase === 'core')){
+    if (campaign.boss_allowed === false) return 0;
+    return 4;
+  }
+  return 0;
+}
+
+function foreshadow_status(ctx = state){
+  const count = foreshadow_count();
+  const required = foreshadow_requirement(ctx);
+  return required > 0 ? `Foreshadow ${count}/${required}` : `Foreshadow ${count}`;
+}
+
+function sync_foreshadow_progress(){
+  state.scene ||= { index: 0, foreshadows: 0, total: 12 };
+  state.scene.foreshadows = foreshadow_count();
+  return state.scene.foreshadows;
+}
+
+function register_foreshadow(token, details = {}){
+  ensure_logs();
+  const entries = foreshadow_entries();
+  const normalized = typeof token === 'string' ? token.trim().toLowerCase() : '';
+  if (!normalized) return null;
+  const now = new Date().toISOString();
+  let entry = entries.find(item => item.token === normalized);
+  const message = typeof details.message === 'string' ? details.message.trim() : '';
+  const tag = typeof details.tag === 'string' && details.tag.trim() ? details.tag.trim() : 'Foreshadow';
+  const sceneIndex = Number.isFinite(details.scene)
+    ? Number(details.scene)
+    : Number.isFinite(state.scene?.index)
+    ? state.scene.index
+    : null;
+  if (!entry){
+    entry = {
+      token: normalized,
+      tag,
+      message,
+      scene: sceneIndex,
+      first_seen: now,
+      last_seen: now
+    };
+    entries.push(entry);
+  } else {
+    entry.last_seen = now;
+    if (message && !entry.message){
+      entry.message = message;
+    }
+    if (tag && entry.tag !== tag){
+      entry.tag = tag;
+    }
+    if (Number.isFinite(sceneIndex) && !Number.isFinite(entry.scene)){
+      entry.scene = sceneIndex;
+    }
+  }
+  sync_foreshadow_progress();
+  return entry;
 }
 
 function ensure_ui(){
@@ -331,6 +450,21 @@ function hud_toast(message, tag = 'HUD'){
   }
   writeLine(`[${tag}] ${message}`);
   return entry;
+}
+
+function ForeshadowHint(text, tag = 'Foreshadow'){
+  const cleaned = (text ?? '').toString().trim();
+  if (!cleaned){
+    throw new Error('ForeshadowHint: text fehlt.');
+  }
+  const normalizedTag = typeof tag === 'string' && tag.trim() ? tag.trim() : 'Foreshadow';
+  const tokenBase = cleaned
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+  const token = tokenBase ? `manual:${tokenBase}` : `manual:${Date.now()}`;
+  register_foreshadow(token, { message: cleaned, tag: normalizedTag });
+  return hud_toast(`${normalizedTag}: ${cleaned}`, normalizedTag);
 }
 
 function show_compliance_once(force = false){
@@ -1547,6 +1681,8 @@ function StartMission(){
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0, active: false, armed: false, anchor: null, alt_anchor: null };
   const hudLog = ensure_logs();
   hudLog.length = 0;
+  const foreshadowLog = foreshadow_entries();
+  foreshadowLog.length = 0;
   ensure_character();
   ensure_team();
   const mission = ensure_mission();
@@ -1575,6 +1711,13 @@ function scene_overlay(scene){
     if (state.exfil.alt_anchor) h += ` · ALT ${state.exfil.alt_anchor}`;
     if (state.exfil.sweeps) h += ` · Sweeps:${state.exfil.sweeps}`;
     if (state.exfil.stress) h += ` · Stress ${state.exfil.stress}`;
+  }
+  const fsCount = sync_foreshadow_progress();
+  const fsRequired = foreshadow_requirement();
+  if (fsRequired > 0){
+    h += ` · FS ${fsCount}/${fsRequired}`;
+  } else {
+    h += ` · FS ${fsCount}`;
   }
     const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
     const sys = state.character?.attributes?.SYS_max ?? 0;
@@ -1701,6 +1844,51 @@ function prepare_save_logs(logs){
   const base = clone_plain_object(logs);
   if (!Array.isArray(base.hud)){
     base.hud = [];
+  }
+  if (Array.isArray(base.foreshadow)){
+    const deduped = [];
+    const byToken = new Map();
+    for (const entry of base.foreshadow){
+      if (!entry || typeof entry !== 'object' || typeof entry.token !== 'string') continue;
+      const rawToken = entry.token.trim();
+      if (!rawToken) continue;
+      const token = rawToken.toLowerCase();
+      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const message = typeof entry.message === 'string' ? entry.message.trim() : '';
+      const sceneIndex = Number(entry.scene);
+      const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
+      const firstSeen = typeof entry.first_seen === 'string' ? entry.first_seen : null;
+      const lastSeen = typeof entry.last_seen === 'string' ? entry.last_seen : null;
+      if (byToken.has(token)){
+        const existing = byToken.get(token);
+        if (!existing.message && message){
+          existing.message = message;
+        }
+        if (!existing.tag && tag){
+          existing.tag = tag;
+        }
+        if (!Number.isFinite(existing.scene) && Number.isFinite(scene)){
+          existing.scene = scene;
+        }
+        if (!existing.last_seen && lastSeen){
+          existing.last_seen = lastSeen;
+        }
+        continue;
+      }
+      const record = {
+        token,
+        tag,
+        message,
+        scene,
+        first_seen: firstSeen,
+        last_seen: lastSeen || firstSeen
+      };
+      deduped.push(record);
+      byToken.set(token, record);
+    }
+    base.foreshadow = deduped;
+  } else {
+    base.foreshadow = [];
   }
   if (!Array.isArray(base.artifact_log)){
     base.artifact_log = [];
@@ -2025,6 +2213,7 @@ function hydrate_state(data){
   state.arc_dashboard = data.arc_dashboard || {};
   ensure_economy();
   ensure_logs();
+  sync_foreshadow_progress();
   ensure_arc_dashboard();
   state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
   ensure_runtime_flags();
@@ -2059,6 +2248,51 @@ function load_deep(raw){
   }
   migrated.zr_version = migrated.zr_version || ZR_VERSION;
   migrated.logs ||= {};
+  if (Array.isArray(migrated.logs.foreshadow)){
+    const deduped = [];
+    const byToken = new Map();
+    for (const entry of migrated.logs.foreshadow){
+      if (!entry || typeof entry !== 'object' || typeof entry.token !== 'string') continue;
+      const rawToken = entry.token.trim();
+      if (!rawToken) continue;
+      const token = rawToken.toLowerCase();
+      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const message = typeof entry.message === 'string' ? entry.message.trim() : '';
+      const sceneIndex = Number(entry.scene);
+      const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
+      const firstSeen = typeof entry.first_seen === 'string' ? entry.first_seen : null;
+      const lastSeen = typeof entry.last_seen === 'string' ? entry.last_seen : null;
+      if (byToken.has(token)){
+        const existing = byToken.get(token);
+        if (!existing.message && message){
+          existing.message = message;
+        }
+        if (!existing.tag && tag){
+          existing.tag = tag;
+        }
+        if (!Number.isFinite(existing.scene) && Number.isFinite(scene)){
+          existing.scene = scene;
+        }
+        if (!existing.last_seen && lastSeen){
+          existing.last_seen = lastSeen;
+        }
+        continue;
+      }
+      const record = {
+        token,
+        tag,
+        message,
+        scene,
+        first_seen: firstSeen,
+        last_seen: lastSeen || firstSeen
+      };
+      deduped.push(record);
+      byToken.set(token, record);
+    }
+    migrated.logs.foreshadow = deduped;
+  } else {
+    migrated.logs.foreshadow = [];
+  }
   if (!migrated.logs.flags || typeof migrated.logs.flags !== 'object'){
     migrated.logs.flags = {};
   }
@@ -2314,7 +2548,7 @@ function on_command(command){
     return 'FR-Status:\nruhig · beobachter · aktiv';
   }
   if (cmd === '!boss status'){
-    return `Foreshadow ${state.scene.foreshadows}`;
+    return foreshadow_status();
   }
   return '';
 }
@@ -2337,6 +2571,7 @@ module.exports = {
   kodex_link_state,
   require_uplink,
   assert_foreshadow,
+  ForeshadowHint,
   save_deep,
   migrate_save,
   load_deep,

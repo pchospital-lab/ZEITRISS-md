@@ -13,11 +13,16 @@ Plattform-Listings synchron bleiben.
 ## Wissensspeicher & Grundsetup
 
 Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
-Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
+Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen.
+Die 20 verfügbaren Slots sind ausschließlich für diese Dateien reserviert –
+Repo-Hilfsdateien bleiben offline:
 
-1. **Masterprompt:** `meta/masterprompt_v6.md`
-2. **Dokumentationsanker:** `README.md` und `master-index.json`
+1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
+2. **Dokumentationsanker:** `README.md` und `master-index.json`.
 3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus den Runtime-Verzeichnissen.
+
+> **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob alle 20 Module geladen sind. Fehlende oder veraltete
+> Module unverzüglich nachfordern und erneut hochladen.
 
 | Kategorie    | Datei |
 |--------------|-------|
@@ -43,9 +48,26 @@ Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen:
 Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag
 gesichert werden, um lange Sessions stabil zu halten.
 
-> **Abgrenzung:** `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
-> `runtime.js` dient als Offline-Laufzeit für QA-Tests (siehe `tools/`-Suite) und wird nicht in produktive Wissensspeicher
-> übernommen.
+### Runtimes & Tests außerhalb des Wissensspeichers
+
+- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
+- **Repo-Agent:innen verpflichten sich, jede bestätigte Laufzeitänderung unmittelbar als Regelwerk, Prozessbeschreibung oder
+  Pseudocode in den Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher). Nur so erreichen produktive GPTs
+  denselben Funktionsumfang ohne lokale Skripte.
+- Halte einen Abgleich im QA-Journal fest (`internal/qa/logs/`), sobald du eine Laufzeitänderung spiegelst. Notiere Commit-ID,
+  Datum und die Module, die den Pseudocode/Regeltext enthalten.
+- Nutze lokale Runtimes weiter für Entwicklung und Tests; dokumentiere Abweichungen zwischen Skript und Wissensbasis, bis sie
+  synchronisiert sind. Maintainer:innen prüfen im Review, ob dieser Wissensspiegel vorliegt, bevor sie Plattform-Runtimes
+  aktualisieren.
+
+### Spiegelhinweis für Laufzeitänderungen
+
+- Prüft nach jedem Merge, ob `runtime.js` oder andere Offline-Laufzeitdateien angepasst wurden.
+- Übertragt bestätigte Änderungen manuell in die produktive Runtime der Plattform (MyGPT/Store-GPT) gemäß Abschnitt
+  [„Spiegelprozess nach QA-Freigabe“](#spiegelprozess-nach-qa-freigabe). Grundlage ist stets der durch den Repo-Agenten bereits
+  vollständig gespiegelte Wissensstand.
+- Dokumentiert den Mirror im QA-Log inkl. Commit-ID, Datum und Hinweis darauf, welches Wissensspeicher-Modul die
+  Pseudocode-/Regelspiegelung enthält, damit Foreshadow-Log und andere Laufzeitfeatures ingame verfügbar bleiben.
 
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
 `AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du im

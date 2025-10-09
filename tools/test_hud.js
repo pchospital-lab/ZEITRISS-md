@@ -24,3 +24,9 @@ rt.on_command('!tk ready');
 console.log = originalLog;
 tkOverlay = rt.scene_overlay({ index: 0 });
 assert(!tkOverlay.includes('TK🌀'), 'TK-Cooldown wurde nicht entfernt.');
+
+console.log = () => {};
+rt.ForeshadowHint('Seltsames Flimmern am Horizont');
+console.log = originalLog;
+const fsOverlay = rt.scene_overlay();
+assert(fsOverlay.includes('FS 1'), 'Foreshadow-Badge fehlt im Overlay.');

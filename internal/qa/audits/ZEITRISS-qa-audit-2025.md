@@ -22,7 +22,9 @@ Testbeobachtungen sowie der Repositorystand `c9a4da2`.
   spielt den vollständigen QA-Lauf autonom durch und liefert strukturierte
   `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke. Die
   komplette Antwort wird unverändert an Codex übergeben, der die Ergebnisse in
-  Repo-Tasks und Dokumentationen überführt.
+  Repo-Tasks und Dokumentationen überführt. Gleichzeitig prüft die Maintainer-
+  Rolle, ob alle 20 Wissensspeicher-Module geladen sind und ob Laufzeitänderungen
+  als Regel-/Pseudocode-Spiegel in den Runtime-Dokumenten hinterlegt wurden.
 - **Codex (Repo-Agent)** überträgt beschlossene Maßnahmen in Branches, Commits
   und QA-Protokolle. Änderungen an Runtime-Content und Dev-Dokumentation bleiben
   strikt getrennt.
@@ -176,9 +178,12 @@ Hochstufen-Spielrunden.
 2. **Dokumentation:** Punkte 11–20 in README, Maintainer-Ops und Glossar
    spiegeln, sobald Runtime-Anpassungen bestätigt sind; Referenzen im QA-Log
    hinterlegen. Jeder QA-Log-Eintrag notiert den verwendeten Beta-GPT-Testprompt,
-   damit Regressionen reproduzierbar bleiben. Maintainer-Ops wurde am
-   2025-03-21 auf Version 1.2.0 angehoben und beschreibt nun die Spiegelprozesse
-   nach MyGPT-Freigabe.
+   damit Regressionen reproduzierbar bleiben. **Repo-Agent:innen liefern den
+   Wissensspiegel (Runtime-Module, Toolkit) innerhalb desselben Commits** und
+   dokumentieren ihn. Maintainer:innen bestätigen anschließend den Transfer in
+   produktive Plattform-Runtimes (siehe Maintainer-Ops) inklusive Datum und
+   Commit-ID. Maintainer-Ops wurde am 2025-03-21 auf Version 1.2.0 angehoben und
+   beschreibt nun die Spiegelprozesse nach MyGPT-Freigabe.
 3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.
@@ -282,11 +287,12 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   Fehlermeldungen ziehen nach. (Commit: wird im PR referenziert.)
 
 ### Issue #10 – Foreshadow-Gates
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Foreshadow-Fortschritt ist nicht im Save verankert.
 - **Empfohlene Umsetzung:** `logs.foreshadow` persistieren und ein
   HUD-Badge anbinden.
 - **Risiko bei Verzug:** Das Gate lässt sich durch Reloads unterlaufen.
+- **Statusnotiz:** ✅ Persistente `logs.foreshadow` + HUD-Badge umgesetzt; `ForeshadowHint()` schreibt Marker, `!boss status` zeigt `Foreshadow n/m`. (Commit: wird im PR referenziert.)
 
 ### Issue #11 – Koop-CU-Verteilung
 - **Status:** [ ] Offen

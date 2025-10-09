@@ -16,8 +16,10 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 
 ## QA-Zyklus
 1. **Vorbereitung:** Maintainer:innen aktualisieren den Wissensstand gemäß
-   Maintainer-Ops und stellen sicher, dass Beta-GPT und MyGPT denselben Content
-   erhalten.
+   Maintainer-Ops, prüfen die 20 Wissensspeicher-Slots auf Vollständigkeit und
+   stellen sicher, dass Beta-GPT und MyGPT denselben Content erhalten.
+   Laufzeitänderungen werden parallel als Regel- oder Pseudocode-Spiegel in den
+   geladenen Modulen vermerkt.
 2. **Testlauf:** Tester:innen führen den Playtest anhand des
    [Copy-&-Paste-Auftrags](../../../docs/qa/tester-playtest-briefing.md) durch.
    Der GPT simuliert den kompletten QA-Lauf inklusive der vollständigen
@@ -83,6 +85,10 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 - **Tests & Automation:** Makefile- und Script-Läufe dokumentieren; Smoke- und
   Spezialtests werden im QA-Log referenziert.
   - Artefakte: `Makefile`, `scripts/smoke.sh`, QA-Log-Einträge
+- **Wissensspiegel:** Wissensspeicher-Module enthalten die Regel-/Pseudocode-
+  Spiegel der lokalen Runtimes. Abweichungen werden im QA-Log samt Commit-ID
+  und Upload-Datum hinterlegt.
+  - Artefakte: `README.md`, Runtime-Module, `internal/qa/logs/`
 - **Datenschutz & Plattformen:** Plattformhinweise und Offline-First-Vorgaben
   bleiben in Maintainer-Ops, Audit und Fahrplan synchron.
   - Artefakte: `/docs/maintainer-ops.md`, Audit, QA-Log
@@ -204,7 +210,11 @@ Dokumentation.
 
 ### Issue #10 – Foreshadow-Log
 - **Workstream:** Foreshadow-Log
-- **Nächster Schritt:** `logs.foreshadow` persistieren und HUD-Badge ergänzen.
+- **Statusnotiz:** ✅ `logs.foreshadow` persistiert, `ForeshadowHint()` legt persistente Marker an, Toolkit-Makros spiegeln die Logik
+  (Badge, `!boss status`) und das HUD zeigt den FS-Badge.
+- **Mirror-Hinweis:** Maintainer:innen spiegeln die `runtime.js`-Änderungen nach QA-Abnahme in die produktive Runtime laut
+  Maintainer-Ops (QA-Log-Eintrag ergänzen).
+- **Testnachweis:** `npm run lint:rt`, `npm run test:hud`, `npm run test:save`.
 - **Owner:** Codex
 - **Zieltermin:** KW 26
 - **QA-Verankerung:** M4→M10 Save/Load-Kette.
