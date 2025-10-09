@@ -310,12 +310,14 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   bindet das Popup nur einmal ein. (Commit: wird im PR referenziert.)
 
 ### Issue #13 – Ask→Suggest
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Die geforderte Mechanik ist nicht dokumentiert oder
   standardisiert.
 - **Empfohlene Umsetzung:** Toolkit-Makro `suggest_actions()` bereitstellen und
   README ergänzen.
 - **Risiko bei Verzug:** Beratungssituationen bleiben UX-seitig lückenhaft.
+- **Statusnotiz:** Suggest-Modus schaltet via `modus suggest`/`modus ask`, das Toolkit-Makro `suggest_actions()` kennzeichnet
+  Vorschläge und README beschreibt den Ablauf. (Commit: wird im PR referenziert.)
 
 ### Issue #14 – Suspend-Snapshot
 - **Status:** [x] Erledigt

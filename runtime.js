@@ -83,7 +83,7 @@ const state = {
   loadout: {},
   economy: {},
   logs: {},
-  ui: { gm_style: 'verbose', intro_seen: false },
+  ui: { gm_style: 'verbose', intro_seen: false, suggest_mode: false },
   arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
   initiative: { order: [], active_id: null },
   hud: { timers: [] },
@@ -277,12 +277,15 @@ function register_foreshadow(token, details = {}){
 
 function ensure_ui(){
   if (!state.ui || typeof state.ui !== 'object'){
-    state.ui = { gm_style: 'verbose', intro_seen: false };
+    state.ui = { gm_style: 'verbose', intro_seen: false, suggest_mode: false };
   }
   if (typeof state.ui.gm_style !== 'string'){
     state.ui.gm_style = 'verbose';
   }
   state.ui.intro_seen = !!state.ui.intro_seen;
+  if (typeof state.ui.suggest_mode !== 'boolean'){
+    state.ui.suggest_mode = false;
+  }
   return state.ui;
 }
 
@@ -512,6 +515,23 @@ function set_self_reflection(on){
   const message = enabled
     ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'
     : 'Self-Reflection deaktiviert – Fokus bleibt extern.';
+  hud_toast(message, statusTag);
+  return { status: statusTag, message };
+}
+
+function suggest_mode_enabled(){
+  const ui = ensure_ui();
+  return !!ui.suggest_mode;
+}
+
+function set_suggest_mode(on){
+  const ui = ensure_ui();
+  const enabled = !!on;
+  ui.suggest_mode = enabled;
+  const statusTag = enabled ? 'SUG-ON' : 'SUG-OFF';
+  const message = enabled
+    ? 'Suggest-Modus aktiv – Kodex liefert auf Anfrage kurze Vorschläge.'
+    : 'Ask-Modus aktiv – Kodex reagiert nur auf direkte Fragen.';
   hud_toast(message, statusTag);
   return { status: statusTag, message };
 }
@@ -1817,7 +1837,11 @@ function scene_overlay(scene){
   const ui = ensure_ui();
   const mode = ui.gm_style;
   const obj = state.campaign?.objective ?? '?';
-  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · MODE ${mode} · Objective: ${obj}`;
+  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · MODE ${mode}`;
+  if (suggest_mode_enabled()){
+    h += ' · SUG';
+  }
+  h += ` · Objective: ${obj}`;
   if (state.exfil){
     state.exfil.ttl_min = Math.max(0, state.exfil.ttl_min);
     state.exfil.ttl_sec = Math.max(0, state.exfil.ttl_sec);
@@ -2058,6 +2082,7 @@ function prepare_save_ui(ui){
   const base = clone_plain_object(ui);
   base.gm_style = typeof base.gm_style === 'string' ? base.gm_style : 'verbose';
   base.intro_seen = !!base.intro_seen;
+  base.suggest_mode = !!base.suggest_mode;
   return base;
 }
 
@@ -2348,7 +2373,8 @@ function hydrate_state(data){
   ensure_arena();
   state.ui = {
     gm_style: data.ui?.gm_style || 'verbose',
-    intro_seen: !!(data.ui?.intro_seen)
+    intro_seen: !!(data.ui?.intro_seen),
+    suggest_mode: !!(data.ui?.suggest_mode)
   };
   ensure_ui();
   state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
@@ -2638,6 +2664,14 @@ function on_command(command){
     const alt = exfil.alt_anchor ? ` · ALT ${exfil.alt_anchor}` : '';
     return `Exfil ${armed} · ANCR ${exfil.anchor || '?'} · RW ${ttl}${alt}`;
   }
+  if (cmd === 'modus suggest'){
+    const result = set_suggest_mode(true);
+    return `${result.status} – Kodex liefert auf Anfrage Vorschläge.`;
+  }
+  if (cmd === 'modus ask'){
+    const result = set_suggest_mode(false);
+    return `${result.status} – Kodex wartet auf direkte Fragen.`;
+  }
   if (cmd === '!sf off' || cmd === 'sf off' || cmd === 'self reflection off' || cmd === 'self-reflection off'){
     const result = set_self_reflection(false);
     return `${result.status} – introspektive Sequenzen gesperrt.`;
@@ -2722,4 +2756,6 @@ module.exports = {
   arenaRegisterResult,
   handleArenaCommand,
   offline_help
+  , set_suggest_mode
+  , suggest_mode_enabled
 };
