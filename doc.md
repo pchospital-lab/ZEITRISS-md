@@ -57,7 +57,8 @@ Rift-Operationen zwei, um Szene 10 zu erreichen.
 ### `ForeshadowHint(text, tag='Foreshadow')`
 Registriert einen Foreshadow-Hinweis und sendet einen passenden HUD-Toast.
 Nur Hinweise, die über dieses Makro oder automatische System-Hints gesetzt
-werden, heben den Gate für Szene 10 auf.
+werden, heben den Gate für Szene 10 auf. Persistiert Marker in `logs.foreshadow`
+und hält das HUD-Badge aktuell.
 
 ## Beispiele
 ```js
