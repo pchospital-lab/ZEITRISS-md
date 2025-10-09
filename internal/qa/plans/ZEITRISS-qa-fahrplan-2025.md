@@ -237,7 +237,8 @@ Dokumentation.
 
 ### Issue #13 – Ask→Suggest
 - **Workstream:** Ask→Suggest
-- **Nächster Schritt:** Toolkit-Makro und README-Update ergänzen.
+- **Statusnotiz:** ✅ Suggest-Modus toggelt über `modus suggest`/`modus ask`, das Toolkit-Makro `suggest_actions()` markiert
+  Vorschläge als `Vorschlag:` und README dokumentiert den Flow. (Commit: wird im PR referenziert.)
 - **Owner:** Codex & Maintainer:in
 - **Zieltermin:** KW 27
 - **QA-Verankerung:** Drei Missionsmuster (Verdunkeln/Verhindern/Dokumentieren).

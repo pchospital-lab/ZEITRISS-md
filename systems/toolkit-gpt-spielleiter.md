@@ -143,6 +143,14 @@ default_modus: mission-fokus
 {% else %}
   {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
 {% endif %}
+{% if state.ui is not defined or state.ui is none %}
+  {% set state.ui = {'suggest_mode': false} %}
+{% endif %}
+{% if state.ui.suggest_mode is not defined %}
+  {% set state.ui.suggest_mode = false %}
+{% else %}
+  {% set state.ui.suggest_mode = state.ui.suggest_mode | bool %}
+{% endif %}
 {% if state.scene is not defined or state.scene is none %}
   {% set state.scene = {} %}
 {% endif %}
@@ -828,6 +836,34 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 `<span style="color:#888">· {{ msg }}</span>`
 {%- endmacro %}
 
+{% macro suggest_actions(options, context=None, caution=None) -%}
+  {% set opts = [] %}
+  {% if options is string %}
+    {% set opts = [options] %}
+  {% elif options is iterable %}
+    {% set opts = options %}
+  {% endif %}
+  {% if context %}
+    {{ hud_tag('Kontext: ' ~ context) }}
+  {% endif %}
+  {% if not state.ui.suggest_mode %}
+    {{ hud_ping('Suggest-Modus ist aus – `modus suggest` aktiviert automatische Vorschläge.') }}
+  {% endif %}
+  {% if opts %}
+    {% for option in opts %}
+      {% if option %}
+        {{ hud_tag('Vorschlag: ' ~ option) }}
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    {{ hud_ping('Keine Vorschläge hinterlegt.') }}
+  {% endif %}
+  {% if caution %}
+    {{ hud_ping('Hinweis: ' ~ caution) }}
+  {% endif %}
+  {{ hud_ping('Bitte bestätigt oder korrigiert den Vorschlag, bevor der Kodex fortfährt.') }}
+{%- endmacro %}
+
 {% macro offline_help(trigger='command') -%}
   {% set scene_marker = (campaign.loc or 'HQ') ~ ':' ~ (campaign.scene or 0) %}
   {% set last_scene = state.logs.flags.offline_help_last_scene %}
@@ -1303,6 +1339,15 @@ total=None, role="", env=None) -%}
   {{ hud_tag('GM_STYLE → ' ~ new_mode ~ ' (persistiert)') }}
 {%- endmacro %}
 
+{% macro toggle_suggest(enable=true) -%}
+  {% set state.ui.suggest_mode = enable | bool %}
+  {% if state.ui.suggest_mode %}
+    {{ hud_tag('Suggest-Modus aktiv – Kodex liefert auf Anfrage kurze Vorschläge.') }}
+  {% else %}
+    {{ hud_tag('Ask-Modus aktiv – Kodex reagiert nur auf direkte Fragen.') }}
+  {% endif %}
+{%- endmacro %}
+
 {% macro helper_delay() -%}
 DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.
 {%- endmacro %}
@@ -1395,6 +1440,10 @@ Foreshadow {{ count }}{% if required > 0 %}/{{ required }}{% endif %}
     {{ set_mode('precision') }}
   {% elif cmd == 'modus verbose' %}
     {{ set_mode('verbose') }}
+  {% elif cmd == 'modus suggest' %}
+    {{ toggle_suggest(true) }}
+  {% elif cmd == 'modus ask' %}
+    {{ toggle_suggest(false) }}
   {% elif cmd_norm in ['!offline','!help offline','/help offline','offline hilfe'] %}
     {{ offline_help('command') }}
   {% endif %}
@@ -2639,8 +2688,10 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   `kodex.log(entry_id, summary)`. Abfragen wie `!kodex last mission` geben
   einen schnellen Überblick.
 - **Ask→Suggest Toggle:** Manche Gruppen möchten mehr direkte Vorschläge. Der Kodex kann per
-  Sprachbefehl in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage kurze Tipps zu
-  nächsten Schritten.
+  Sprachbefehl `modus suggest` in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage
+  kurze Tipps zu nächsten Schritten; `modus ask` schaltet zurück in den Standard. Nutzt bei
+  aktiver Unterstützung das Toolkit-Makro `suggest_actions()`, um Vorschläge als `Vorschlag:` zu
+  kennzeichnen und explizite Bestätigungen einzuholen.
   auch **Spoiler-Vermeidung** betreiben: Nicht jede Kodex-Abfrage liefert vollständige Infos –
   manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen könnt ihr das HUD/Interface auch

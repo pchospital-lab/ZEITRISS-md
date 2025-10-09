@@ -906,6 +906,10 @@ alle weiteren Modi sind optionale Zusätze:
 
 Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
 
+Der Suggest-Modus wird mit `modus suggest` aktiviert und mit `modus ask` wieder deaktiviert.
+Vorschläge markiert der Kodex sichtbar als `Vorschlag:` (Toolkit-Makro `suggest_actions()`)
+und wartet auf ein bestätigendes oder korrigierendes Spieler-Feedback, bevor er fortfährt.
+
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
 mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.
 
