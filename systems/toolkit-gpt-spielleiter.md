@@ -125,6 +125,10 @@ default_modus: mission-fokus
 {% else %}
   {% set state.logs.flags.chronopolis_warn_seen = state.logs.flags.chronopolis_warn_seen | bool %}
 {% endif %}
+{% if state.logs.flags.offline_help_last_scene is not defined %}
+  {% set state.logs.flags.offline_help_last_scene = None %}
+{% endif %}
+{% set state.logs.flags.offline_help_count = state.logs.flags.offline_help_count | default(0) | int %}
 {% if state.flags is not defined or state.flags is none %}
   {% set state.flags = {} %}
 {% endif %}
@@ -193,6 +197,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
+- Fällt der Kodex-Uplink aus (Reichweite, Jammer, Strom), ruft `!offline`
+  für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
+  `!offline` erinnert an Terminal/Hardline, Jammer-Override, Ask→Suggest-
+  Fallback und daran, dass Saves wie üblich erst im HQ verfügbar sind.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
 - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
@@ -805,6 +813,23 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
 `<span style="color:#888">· {{ msg }}</span>`
 {%- endmacro %}
 
+{% macro offline_help(trigger='command') -%}
+  {% set scene_marker = (campaign.loc or 'HQ') ~ ':' ~ (campaign.scene or 0) %}
+  {% set last_scene = state.logs.flags.offline_help_last_scene %}
+  {% set same_scene = last_scene == scene_marker %}
+  {% set state.logs.flags.offline_help_last_scene = scene_marker %}
+  {% set count = state.logs.flags.offline_help_count + 1 %}
+  {% set state.logs.flags.offline_help_count = count %}
+  {% if same_scene and trigger != 'init' %}
+    {{ hud_ping('Offline-Protokoll läuft – Mission weiter, HUD lokal. Terminal koppeln oder Relais suchen. !offline wiederholt die Schritte.') }}
+  {% else %}
+    {{ hud_tag('Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.') }}
+    {{ hud_tag('Offline-Protokoll: Terminal koppeln, Hardline suchen, Jammer-Override prüfen; Kodex bleibt stumm bis zum Re-Sync.') }}
+    {{ hud_tag('HQ-Save-Regel gilt: Im Einsatz keine neuen Saves, alles im HUD-Log notieren bis zum HQ-Sync.') }}
+    {{ hud_tag('Ask→Suggest-Fallback: Aktionen als „Vorschlag:“ markieren und Bestätigung abholen, bis der Link zurück ist.') }}
+  {% endif %}
+{%- endmacro %}
+
 {# PRECISION-Markierungsmakros #}
 {% macro SceneHeader(kamera, target, pressure, env=None) -%}
 {% if gm_style == 'precision' %}
@@ -1228,9 +1253,8 @@ total=None, role="", env=None) -%}
   {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
   {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
   {% if not ok %}
-      {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. '
-        ~ 'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override '
-        ~ 'aktivieren; Reichweite anpassen.') }}
+      {{ offline_help('auto') }}
+      {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. !offline zeigt das Feldprotokoll für den laufenden Einsatz.') }}
   {% endif %}
 {%- endmacro %}
 
@@ -1270,7 +1294,7 @@ DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehic
 {% macro helper_comms() -%}
 comms_check(device,range): Pflicht vor radio_tx/rx.
 Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
-Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
+Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.
 {%- endmacro %}
 {% macro helper_boss() -%}
 Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
@@ -1316,6 +1340,7 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
   {{ px_tracker(temp_src) }}
 {%- endmacro %}
 {% macro on_command(cmd) -%}
+  {% set cmd_norm = cmd|lower %}
   {% if cmd == '!helper delay' %}
     {{ helper_delay() }}
   {% elif cmd == '!helper comms' %}
@@ -1334,6 +1359,8 @@ Core: M4 1/2, M9 0/2 · Rift: S9 0/2
     {{ set_mode('precision') }}
   {% elif cmd == 'modus verbose' %}
     {{ set_mode('verbose') }}
+  {% elif cmd_norm in ['!offline','!help offline','/help offline','offline hilfe'] %}
+    {{ offline_help('command') }}
   {% endif %}
 {%- endmacro %}
 
@@ -2388,6 +2415,7 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 - Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header EP·MS·SC/total·Mode·Objective setzen.
 
 **Quick-Hilfe:** `!help start` – gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
+**Offline-Notfall:** `!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink (Terminal koppeln, Jammer-Override prüfen, Mission mit HUD-Lokaldaten weiterführen, Ask→Suggest nutzen, Saves wie üblich nur im HQ).
 
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).

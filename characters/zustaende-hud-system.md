@@ -44,6 +44,12 @@ leichtgewichtig** in der Anwendung.
 | `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, verzögerte Reaktion |
 
 
+`!offline` ruft bei `HUD:offline` das Kodex-FAQ ab: Terminal koppeln,
+Hardline suchen, Jammer-Override prüfen, Mission mit HUD-Lokaldaten
+weiterführen und Aktionen als „Vorschlag:“ kennzeichnen, bis der
+ITI↔Kodex-Uplink wieder steht (Saves wie üblich erst zurück im HQ).
+
+
 *Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags.
 Für Funk-Checks nutze `comms_check()`. Vokabeln: siehe
 [Toolkit](../systems/toolkit-gpt-spielleiter.md#hud_vocab).

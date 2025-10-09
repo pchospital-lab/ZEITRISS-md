@@ -136,7 +136,7 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 4. Manueller Save/Load-Test: `saveGame({...})` anfordern, lokal sichern, neuen Chat starten und den
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
    rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
-5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen, Paradoxon-Index-
+5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen (`!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten), Paradoxon-Index-
    Hinweise und Ask→Suggest-Toggle erklärt. Falls Informationen fehlen, gezielt nachfragen, bis alle
    Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen,
    Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat) im Protokoll
