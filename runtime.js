@@ -11,6 +11,15 @@ const CHRONO_CATEGORY_LIMITS = {
   'Era-Skins': 4
 };
 
+const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.';
+const OFFLINE_HELP_GUIDE = [
+  'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
+  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.',
+  '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
+];
+const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
+
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
   { id: 'ship_aurora_skiff', name: 'Aurora-Skiff „Helio“', category: 'Temporal Ships', price: 5400, minRank: 'Specialist', minResearch: 3 },
@@ -130,6 +139,14 @@ function ensure_logs(){
     flags.chronopolis_warn_seen = false;
   } else {
     flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
+  }
+  if (typeof flags.offline_help_last !== 'string'){
+    flags.offline_help_last = null;
+  }
+  if (!Number.isFinite(flags.offline_help_count)){
+    flags.offline_help_count = 0;
+  } else {
+    flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count));
   }
   if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
@@ -1597,11 +1614,26 @@ function kodex_link_state(ctx){
   return inBubble ? 'field_online' : 'field_offline';
 }
 
+function offline_help(){
+  ensure_logs();
+  const flags = state.logs.flags;
+  const now = Date.now();
+  const last = typeof flags.offline_help_last === 'string' ? Date.parse(flags.offline_help_last) : NaN;
+  const shouldToast = !Number.isFinite(last) || (now - last) > OFFLINE_HELP_MIN_INTERVAL_MS;
+  if (shouldToast){
+    hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
+  }
+  flags.offline_help_last = new Date(now).toISOString();
+  flags.offline_help_count = (flags.offline_help_count || 0) + 1;
+  return OFFLINE_HELP_GUIDE.join('\n');
+}
+
 function require_uplink(ctx, action){
   const st = kodex_link_state(ctx);
   if (st === 'uplink' || st === 'field_online') return true;
+  offline_help();
   throw new Error(
-    'Kodex offline – Relais setzen · Hardline/Terminal nutzen · Comlink koppeln.'
+    'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.'
   );
 }
 
@@ -1609,7 +1641,8 @@ function must_comms(o){
   if (!comms_check(o.device, o.range)){
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
-      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen.'
+      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +
+      'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.'
     );
   }
 }
@@ -1683,6 +1716,13 @@ function prepare_save_logs(logs){
   }
   base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
   base.flags.chronopolis_warn_seen = !!base.flags.chronopolis_warn_seen;
+  if (typeof base.flags.offline_help_last !== 'string'){
+    base.flags.offline_help_last = null;
+  }
+  const offlineCount = Number(base.flags.offline_help_count);
+  base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
+    ? Math.floor(offlineCount)
+    : 0;
   return base;
 }
 
@@ -2035,6 +2075,13 @@ function load_deep(raw){
   } else {
     migrated.logs.flags.chronopolis_warn_seen = !!migrated.logs.flags.chronopolis_warn_seen;
   }
+  if (typeof migrated.logs.flags.offline_help_last !== 'string'){
+    migrated.logs.flags.offline_help_last = null;
+  }
+  const migratedOfflineCount = Number(migrated.logs.flags.offline_help_count);
+  migrated.logs.flags.offline_help_count = Number.isFinite(migratedOfflineCount) && migratedOfflineCount > 0
+    ? Math.floor(migratedOfflineCount)
+    : 0;
   if (migrated.campaign && typeof migrated.campaign === 'object' && typeof migrated.campaign.compliance_shown_today !== 'boolean'){
     migrated.campaign.compliance_shown_today = !!migrated.logs.flags.compliance_shown_today;
   }
@@ -2161,6 +2208,9 @@ function on_command(command){
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
         ].join('\n');
+      }
+    if (cmd === '!offline' || cmd === '!help offline' || cmd === '/help offline' || cmd === 'offline hilfe'){
+        return offline_help();
       }
     if (cmd === '!help urban' || cmd === '/help urban'){
         return [
@@ -2309,5 +2359,6 @@ module.exports = {
   arenaScore,
   arenaExit,
   arenaRegisterResult,
-  handleArenaCommand
+  handleArenaCommand,
+  offline_help
 };
