@@ -338,11 +338,13 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   PvP-Abgleich hervor. (Commit: wird im PR referenziert.)
 
 ### Issue #16 – Chronopolis-Marktlog
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Käufe erzeugen kein Save-Log trotz Px-Auswirkungen.
 - **Empfohlene Umsetzung:** `logs.market[]` um Timestamp, Item, Kosten und eine
   Px-Klausel erweitern.
 - **Risiko bei Verzug:** Px-Verluste bleiben nicht nachvollziehbar.
+- **Statusnotiz:** Runtime & Serializer schreiben `logs.market[]` (Timestamp, Item, Kosten, Px-Klausel); README & Speicher-Doku
+  verweisen auf `log_market_purchase()` für den Debrief-Trace. (Commit: wird im PR referenziert.)
 
 **Folgeaufgaben:**
 

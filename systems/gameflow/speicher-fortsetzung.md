@@ -43,6 +43,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "economy": {"cu": 0},
   "logs": {
     "artifact_log": [],
+    "market": [],
     "kodex": [],
     "hud": [],
     "flags": {}
@@ -53,8 +54,8 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 ```
 
 - Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `psi_heat`, `cooldowns`,
-  `campaign.px`, `economy`, `logs` (inkl. `artifact_log`, `kodex`, `hud`,
-  `flags`) und `ui`.
+  `campaign.px`, `economy`, `logs` (inkl. `artifact_log`, `market`, `kodex`,
+  `hud`, `flags`) und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `sys_used`, `stress` und `Psi-Heat` deterministisch: `sys_used` == `sys`,
   `stress` = 0, `psi_heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
@@ -70,6 +71,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 - Logs halten `logs.flags.runtime_version` vor, damit QA die Laufzeitversion des Saves sieht.
+- `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; Debriefs zitieren die jüngsten Einträge als Einkaufstrace.
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
