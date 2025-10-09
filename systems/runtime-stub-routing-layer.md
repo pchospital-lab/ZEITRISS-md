@@ -386,9 +386,12 @@ const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit 
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
-  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.',
-  '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
+  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – ' +
+    'Kodex bleibt bis dahin stumm.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es ' +
+    'weiterhin erst zurück im HQ.',
+  '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und ' +
+    'Bestätigung abwarten.'
 ];
 
 function kodex_link_state(ctx = state) {
@@ -404,7 +407,10 @@ function offline_help() {
   const logs = ensureLogs();
   const flags = logs.flags;
   const now = Date.now();
-  const last = typeof flags.offline_help_last === 'string' ? Date.parse(flags.offline_help_last) : NaN;
+  const last =
+    typeof flags.offline_help_last === 'string'
+      ? Date.parse(flags.offline_help_last)
+      : NaN;
   if (!Number.isFinite(last) || now - last > OFFLINE_HELP_MIN_INTERVAL_MS) {
     hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
   }
@@ -417,7 +423,10 @@ function require_uplink(ctx = state, action = 'command') {
   const status = kodex_link_state(ctx);
   if (status === 'uplink' || status === 'field_online') return true;
   offline_help();
-  throw new Error('Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll.');
+  throw new Error(
+    'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
+      '!offline zeigt das Feldprotokoll.',
+  );
 }
 
 function comms_check(device, range) {
@@ -429,16 +438,29 @@ function comms_check(device, range) {
 }
 
 function radio_tx(options) {
-  const ctx = { ...state, comms: { ...state.comms, device: options.device, range_m: options.range } };
+  const ctx = {
+    ...state,
+    comms: {
+      ...state.comms,
+      device: options.device,
+      range_m: options.range,
+    },
+  };
   require_uplink(ctx, 'radio_tx');
   if (!comms_check(options.device, options.range)) {
-    throw new Error('CommsCheck failed: device/range ungültig – Terminal oder Relay koppeln, Jammer-Override prüfen.');
+    throw new Error(
+      'CommsCheck failed: device/range ungültig – Terminal oder Relay koppeln, ' +
+        'Jammer-Override prüfen.',
+    );
   }
   return 'tx';
 }
 ```
 
-`radio_rx` spiegelt `radio_tx`. Toolkit-Befehle für `!offline` lesen den gleichen Zähler, sodass QA-Läufe identische Hinweise liefern. `require_uplink()` hängt in `must_comms()` sowie den Funk-Commands – jeder Abbruch erhöht den Offline-Counter und triggert das HUD-Toast.
+`radio_rx` spiegelt `radio_tx`. Toolkit-Befehle für `!offline` greifen auf denselben
+Zähler zu, sodass QA-Läufe identische Hinweise liefern. `require_uplink()` hängt in
+`must_comms()` sowie den Funk-Commands; jeder Abbruch erhöht den Offline-Counter und
+triggert das HUD-Toast.
 
 ---
 
@@ -676,7 +698,11 @@ function enforceLoadoutBudget(loadout, limit, auditLog, label) {
     }
     const kept = items.slice(0, remaining);
     const removed = items.slice(remaining);
-    removed.forEach((item) => auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`));
+    removed.forEach((item) => {
+      auditLog.push(
+        `${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`,
+      );
+    });
     loadout[key] = kept;
     remaining = 0;
   }
@@ -689,7 +715,11 @@ function resolveArenaTier(players = []) {
     const level = Number(raw);
     return Math.max(lvl, Number.isFinite(level) ? level : 1);
   }, 1);
-  return ARENA_TIER_RULES.find((rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel) || ARENA_TIER_RULES[0];
+  return (
+    ARENA_TIER_RULES.find(
+      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel,
+    ) || ARENA_TIER_RULES[0]
+  );
 }
 
 function applyArenaTierPolicy(players, tierRule) {
@@ -784,7 +814,10 @@ function arenaStart(options = {}) {
   const tierRule = resolveArenaTier(players);
   const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
   const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
-  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 6) : 1;
+  const teamSize =
+    Number.isFinite(parsedSize) && parsedSize > 0
+      ? Math.min(Math.max(parsedSize, 1), 6)
+      : 1;
   const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee);
@@ -810,20 +843,32 @@ function arenaStart(options = {}) {
   apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
-  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxLocked =
+    arena.last_reward_episode !== null &&
+    arena.last_reward_episode === currentEpisode;
   const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus verfügbar';
   const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
   hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
-  if (audit.length) hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
+  if (audit.length) {
+    hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
+  }
   return `${baseMessage} · ${scenario.description} · ${pxNote}`;
 }
 
 function arenaScore() {
   const arena = ensure_arena();
-  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === (state.campaign?.episode ?? null);
+  const pxLocked =
+    arena.last_reward_episode !== null &&
+    arena.last_reward_episode === (state.campaign?.episode ?? null);
   const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
   const scenario = arena.scenario?.description || 'n/a';
-  return `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · Team ${arena.team_size} · ${pxNote} · Szenario ${scenario}`;
+  return [
+    `Arena-Score ${arena.wins_player}:${arena.wins_opponent}`,
+    `Tier ${arena.tier}`,
+    `Team ${arena.team_size}`,
+    pxNote,
+    `Szenario ${scenario}`,
+  ].join(' · ');
 }
 
 function arenaRegisterResult(outcome) {
@@ -940,11 +985,22 @@ function handleArenaCommand(cmd) {
   if (sub === 'loss' || sub === 'lose') {
     return arenaRegisterResult('loss');
   }
-  return 'Arena-Befehle: !arena start [team <n>] [mode <name>] · !arena result win|loss · !arena score · !arena exit';
+  const help = [
+    '!arena start [team <n>] [mode <name>]',
+    '!arena result win|loss',
+    '!arena score',
+    '!arena exit',
+  ].join(' · ');
+  return `Arena-Befehle: ${help}`;
 }
 ```
 
-Die Runtime belastet die Credits sofort mit der Gebühr, setzt `arena.previous_mode` für die Rückkehr ins Ursprungs-Gameplay und pflegt `arena.policy_players` als Audit-Snapshot der bereinigten Loadouts. QA erwartet identische HUD-Toasts (`ARENA`-Tag) und Px-Bonus-Regeln wie im Toolkit. `ensure_runtime_flags()` synchronisiert parallel `flags.runtime.arena_active` für Toolkit-Prüfpfade.
+Die Runtime belastet die Credits sofort mit der Gebühr, setzt `arena.previous_mode`
+für die Rückkehr ins Ursprungs-Gameplay und pflegt `arena.policy_players` als
+Audit-Snapshot der bereinigten Loadouts. QA erwartet identische HUD-Toasts
+(`ARENA`-Tag) und Px-Bonus-Regeln wie im Toolkit.
+`ensure_runtime_flags()` synchronisiert parallel `flags.runtime.arena_active` für
+Toolkit-Prüfpfade.
 
 
 ## 8 | MULTIPLAYER-RESET – Gruppenmodus starten
@@ -979,7 +1035,8 @@ function generateId(prefix = "CHR") {
 }
 // Beim Erstellen eines neuen Charakters ruft das System `generateId()` auf und
 // speichert die ID im Spielstand.
-// `deepSave()` wird nach jeder Phase aufgerufen – so bleibt der Spielstand selbst bei Abstürzen aktuell.
+// `deepSave()` wird nach jeder Phase aufgerufen – so bleibt der Spielstand
+// selbst bei Abstürzen aktuell.
 ```
 
 ---
