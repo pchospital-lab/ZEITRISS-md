@@ -19,6 +19,7 @@ const OFFLINE_HELP_GUIDE = [
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
+const MARKET_LOG_LIMIT = 24;
 
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
@@ -66,6 +67,101 @@ const SUSPEND_VERSION = 1;
 const SUSPEND_TTL_MS = 24 * 60 * 60 * 1000;
 
 let hudSequence = 0;
+
+function pickString(...candidates){
+  for (const candidate of candidates){
+    if (typeof candidate !== 'string') continue;
+    const trimmed = candidate.trim();
+    if (trimmed){
+      return trimmed;
+    }
+  }
+  return '';
+}
+
+function pickNumber(...candidates){
+  for (const candidate of candidates){
+    const value = asNumber(candidate);
+    if (value !== null){
+      return value;
+    }
+  }
+  return null;
+}
+
+function isoTimestamp(value){
+  if (value instanceof Date && !Number.isNaN(value.getTime())){
+    return value.toISOString();
+  }
+  if (typeof value === 'string'){
+    const trimmed = value.trim();
+    if (trimmed){
+      const parsed = new Date(trimmed);
+      if (!Number.isNaN(parsed.getTime())){
+        return parsed.toISOString();
+      }
+    }
+  }
+  return null;
+}
+
+function normalize_market_entry(entry, fallbackTimestamp){
+  if (!entry || typeof entry !== 'object') return null;
+  const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const item = pickString(entry.item, entry.name, entry.label) || 'Unbekannter Artikel';
+  const cost = pickNumber(entry.cost_cu, entry.cost, entry.price, entry.amount, entry.value, entry.cu, entry.credits);
+  const quantity = pickNumber(entry.quantity, entry.qty, entry.count);
+  const pxDelta = pickNumber(entry.px_delta, entry.delta_px, entry.pxDelta, entry.px);
+  const pxClause = pickString(entry.px_clause, entry.pxClause, entry.px_note, entry.pxNote);
+  const source = pickString(entry.source, entry.location, entry.channel);
+  const note = pickString(entry.note, entry.details, entry.comment);
+  const normalized = {
+    timestamp,
+    item,
+    cost_cu: cost !== null ? Math.max(0, Math.round(cost)) : 0
+  };
+  if (source){
+    normalized.source = source;
+  }
+  if (quantity !== null && quantity > 0){
+    normalized.quantity = Math.max(1, Math.floor(quantity));
+  }
+  if (pxDelta !== null){
+    const rounded = Number.isInteger(pxDelta) ? pxDelta : Math.round(pxDelta * 100) / 100;
+    normalized.px_delta = rounded;
+    if (!pxClause && rounded !== 0){
+      const sign = rounded > 0 ? '+' : '';
+      normalized.px_clause = `Px ${sign}${rounded}`;
+    }
+  }
+  if (pxClause){
+    normalized.px_clause = pxClause;
+  }
+  if (note){
+    normalized.note = note;
+  }
+  const id = pickString(entry.id, entry.entry_id);
+  if (id){
+    normalized.id = id;
+  }
+  return normalized;
+}
+
+function sanitize_market_entries(entries, fallbackTimestamp){
+  if (!Array.isArray(entries)) return [];
+  const timestamp = fallbackTimestamp || new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    const normalized = normalize_market_entry(entry, timestamp);
+    if (normalized){
+      sanitized.push(normalized);
+    }
+  });
+  if (sanitized.length > MARKET_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - MARKET_LOG_LIMIT);
+  }
+  return sanitized;
+}
 
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
@@ -170,6 +266,11 @@ function ensure_logs(){
   if (!Array.isArray(state.logs.kodex)){
     state.logs.kodex = [];
   }
+  if (!Array.isArray(state.logs.market)){
+    state.logs.market = [];
+  } else {
+    state.logs.market = sanitize_market_entries(state.logs.market);
+  }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
@@ -199,6 +300,39 @@ function ensure_logs(){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
   }
   return state.logs.hud;
+}
+
+function ensure_market_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.market)){
+    state.logs.market = [];
+  }
+  state.logs.market = sanitize_market_entries(state.logs.market);
+  return state.logs.market;
+}
+
+function log_market_purchase(item, cost, options = {}){
+  const payload = {
+    ...options,
+    item,
+    cost_cu: cost
+  };
+  if (options.timestamp){
+    const iso = isoTimestamp(options.timestamp);
+    if (iso){
+      payload.timestamp = iso;
+    }
+  }
+  const marketLog = ensure_market_log();
+  const normalized = normalize_market_entry(payload, new Date().toISOString());
+  if (!normalized){
+    throw new Error('MarketLog: Ungültiger Eintrag.');
+  }
+  marketLog.push(normalized);
+  if (marketLog.length > MARKET_LOG_LIMIT){
+    marketLog.splice(0, marketLog.length - MARKET_LOG_LIMIT);
+  }
+  return normalized;
 }
 
 function foreshadow_entries(){
@@ -2068,6 +2202,11 @@ function prepare_save_logs(logs){
   if (!Array.isArray(base.kodex)){
     base.kodex = [];
   }
+  if (Array.isArray(base.market)){
+    base.market = sanitize_market_entries(base.market);
+  } else {
+    base.market = [];
+  }
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
   }
@@ -2195,6 +2334,7 @@ const SAVE_REQUIRED_PATHS = [
   ['economy'],
   ['logs'],
   ['logs', 'artifact_log'],
+  ['logs', 'market'],
   ['logs', 'kodex'],
   ['ui']
 ];
@@ -2788,7 +2928,8 @@ module.exports = {
   arenaExit,
   arenaRegisterResult,
   handleArenaCommand,
-  offline_help
-  , set_suggest_mode
-  , suggest_mode_enabled
+  offline_help,
+  set_suggest_mode,
+  suggest_mode_enabled,
+  log_market_purchase
 };

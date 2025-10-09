@@ -262,8 +262,9 @@ Dokumentation.
 
 ### Issue #16 – Markt-Log
 - **Workstream:** Markt-Log
-- **Nächster Schritt:** `logs.market[]` schreiben und Debrief-Trace
-  dokumentieren.
+- **Statusnotiz:** ✅ Runtime-Helper `log_market_purchase()` schreibt `logs.market[]`
+  (Timestamp, Artikel, Kosten, Px-Klausel); README und Speicher-Doku nennen den
+  Debrief-Trace. (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 28
 - **QA-Verankerung:** Chronopolis-Kauf inklusive Px-Folge.
