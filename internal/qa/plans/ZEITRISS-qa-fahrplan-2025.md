@@ -253,8 +253,9 @@ Dokumentation.
 
 ### Issue #15 – PSI-Arena-Regeln
 - **Workstream:** PSI-Arena-Regeln
-- **Nächster Schritt:** `apply_arena_rules()` zentralisieren und Dokumentation
-  synchronisieren.
+- **Statusnotiz:** ✅ `apply_arena_rules()` bündelt nun PvP-Dämpfer,
+  `psi_buffer`-Flags sowie `phase_strike_tax`; Runtime-Stub und Docs spiegeln die
+  Logik. (Commit: wird im PR referenziert.)
 - **Owner:** Codex & Maintainer:in
 - **Zieltermin:** KW 27
 - **QA-Verankerung:** Arena-, Core- und Rift-Vergleich.

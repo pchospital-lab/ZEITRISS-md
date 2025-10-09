@@ -194,6 +194,28 @@ export const isPvP = (ctx = state) => {
 
 export const phaseStrikeTax = (ctx = state) => (isPvP(ctx) ? 1 : 0);
 export const phaseStrikeCost = (ctx = state, base = 2) => base + phaseStrikeTax(ctx);
+
+export function applyArenaRules(ctx = state) {
+  const arena = ctx?.arena;
+  if (!arena || typeof arena !== "object") return null;
+  const active = !!arena.active;
+  arena.damage_dampener = active;
+  arena.phase_strike_tax = active ? phaseStrikeTax(ctx) : 0;
+  if (!active) return arena;
+  const markBuffer = (entry) => {
+    if (!entry || typeof entry !== "object") return;
+    entry.psi_buffer = true;
+  };
+  markBuffer(ctx.character);
+  if (ctx.team) {
+    markBuffer(ctx.team);
+    (ctx.team.members || []).forEach(markBuffer);
+  }
+  if (ctx.party) {
+    (ctx.party.characters || []).forEach(markBuffer);
+  }
+  return arena;
+}
 ```
 
 ---
@@ -497,7 +519,7 @@ function startPvPArena(teamSize = 1, players = [], mode = "single") {
     phase_strike_tax: 0,
   };
   state.campaign.mode = "pvp";
-  state.arena.phase_strike_tax = phaseStrikeTax();
+  applyArenaRules();
   autoSave();
   writeLine(
     `PvP showdown started: ${scenario.description} · Tier ${tierRule.tier} (Budget ${tierRule.loadoutBudget}, Proc ${tierRule.procBudget}, Artefakte ${tierRule.artifactLimit})`,
@@ -544,6 +566,7 @@ function exitPvPArena() {
   };
   state.arena.previous_mode = null;
   state.campaign.mode = restoreMode && restoreMode.trim() ? restoreMode : "preserve";
+  applyArenaRules();
   autoSave();
   writeLine("Arena match ended.");
 }

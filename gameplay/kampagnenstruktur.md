@@ -1494,7 +1494,10 @@ if (team_wins >= 2 && exit_arena && arena.last_reward_episode !== episode) {
 ein. Jeder Overflow oberhalb des ersten Würfels wird halbiert (aufgerundet).
 Das Toolkit loggt den Effekt im HUD (`Arena-Dämpfer aktiv – Exploding-Overflow`)
 und nutzt den gekappten Wert für SG-Checks oder erzählerischen Schaden. So
-bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen.
+bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen. Der Runtime-Helper
+`apply_arena_rules()` aktiviert den Dämpfer gemeinsam mit dem verpflichtenden
+`psi_buffer` für alle Teilnehmenden, sobald `arena.active = true` gesetzt ist,
+und synchronisiert `phase_strike_tax` mit dem PvP-Modus.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
