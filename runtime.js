@@ -85,6 +85,8 @@ const state = {
   logs: {},
   ui: { gm_style: 'verbose', intro_seen: false },
   arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
+  initiative: { order: [], active_id: null },
+  hud: { timers: [] },
   exfil: null,
   fr_intervention: null,
   scene: { index: 0, foreshadows: 0, total: 12 },
@@ -361,6 +363,80 @@ function ensure_arc_dashboard(){
     ));
   }
   return dash;
+}
+
+function ensure_initiative(){
+  if (!state.initiative || typeof state.initiative !== 'object'){
+    state.initiative = {};
+  }
+  const initiative = state.initiative;
+  if (!Array.isArray(initiative.order)){
+    initiative.order = [];
+  } else {
+    initiative.order = initiative.order
+      .filter(entry => entry !== undefined && entry !== null)
+      .map(entry => (typeof entry === 'object' ? clone_plain_object(entry) : entry));
+  }
+  if (typeof initiative.active_id === 'string'){
+    const trimmed = initiative.active_id.trim();
+    initiative.active_id = trimmed.length ? trimmed : null;
+  } else {
+    initiative.active_id = null;
+  }
+  return initiative;
+}
+
+function normalize_hud_timer(entry){
+  if (entry === undefined || entry === null) return null;
+  if (typeof entry === 'string'){
+    const label = entry.trim();
+    return label ? { label } : null;
+  }
+  if (typeof entry !== 'object') return null;
+  const normalized = clone_plain_object(entry);
+  if (typeof normalized.id === 'string'){
+    const trimmed = normalized.id.trim();
+    normalized.id = trimmed.length ? trimmed : undefined;
+  }
+  if (typeof normalized.label === 'string'){
+    const trimmed = normalized.label.trim();
+    normalized.label = trimmed.length ? trimmed : undefined;
+  }
+  if (typeof normalized.tag === 'string'){
+    const trimmed = normalized.tag.trim();
+    normalized.tag = trimmed.length ? trimmed : undefined;
+  }
+  if (!Number.isFinite(normalized.remaining)) delete normalized.remaining;
+  if (!Number.isFinite(normalized.total)) delete normalized.total;
+  if (normalized.paused !== true) delete normalized.paused;
+  if (normalized.critical !== true) delete normalized.critical;
+  if (typeof normalized.style === 'string'){
+    const trimmed = normalized.style.trim();
+    normalized.style = trimmed.length ? trimmed : undefined;
+  }
+  if (typeof normalized.notes === 'string'){
+    const trimmed = normalized.notes.trim();
+    normalized.notes = trimmed.length ? trimmed : undefined;
+  }
+  Object.keys(normalized).forEach(key => {
+    if (normalized[key] === undefined) delete normalized[key];
+  });
+  return Object.keys(normalized).length ? normalized : {};
+}
+
+function ensure_hud_state(){
+  if (!state.hud || typeof state.hud !== 'object'){
+    state.hud = {};
+  }
+  const hud = state.hud;
+  if (!Array.isArray(hud.timers)){
+    hud.timers = [];
+  } else {
+    hud.timers = hud.timers
+      .map(normalize_hud_timer)
+      .filter(entry => entry !== null);
+  }
+  return hud;
 }
 
 function ensure_mission(){
@@ -735,6 +811,11 @@ function reset_mission_state(){
   state.start = null;
   hudSequence = 0;
   state.mission = { id: null, objective: null, clock: {}, timers: [] };
+  const initiative = ensure_initiative();
+  initiative.order = [];
+  initiative.active_id = null;
+  const hud = ensure_hud_state();
+  hud.timers = [];
   ensure_team();
   ensure_party();
 }
@@ -997,6 +1078,30 @@ function sanitizeSnapshotTeam(team){
   };
 }
 
+function sanitizeSnapshotInitiative(raw){
+  const source = raw && typeof raw === 'object' ? raw : {};
+  const order = Array.isArray(source.order)
+    ? source.order
+        .filter(entry => entry !== undefined && entry !== null)
+        .map(entry => (typeof entry === 'object' ? clone_plain_object(entry) : entry))
+    : [];
+  const activeId = typeof source.active_id === 'string' && source.active_id.trim()
+    ? source.active_id.trim()
+    : null;
+  return { order, active_id: activeId };
+}
+
+function sanitizeSnapshotHud(raw){
+  const source = raw && typeof raw === 'object' ? raw : {};
+  const timers = Array.isArray(source.timers)
+    ? source.timers
+        .map(normalize_hud_timer)
+        .filter(entry => entry !== null)
+        .map(entry => (typeof entry === 'object' ? clone_plain_object(entry) : entry))
+    : [];
+  return { timers };
+}
+
 function sanitizeSnapshotExfil(exfil){
   if (!exfil || typeof exfil !== 'object') return null;
   return {
@@ -1016,6 +1121,8 @@ function suspend_snapshot(){
   ensure_mission();
   const team = ensure_team();
   const runtimeFlags = ensure_runtime_flags();
+  const initiative = ensure_initiative();
+  const hud = ensure_hud_state();
   if (state.arena?.active){
     throw new Error('Suspend blockiert während Arena-Lauf.');
   }
@@ -1048,7 +1155,9 @@ function suspend_snapshot(){
     },
     team: sanitizeSnapshotTeam(team),
     exfil: sanitizeSnapshotExfil(state.exfil),
-    flags: sanitizeSnapshotFlags(runtimeFlags)
+    flags: sanitizeSnapshotFlags(runtimeFlags),
+    initiative: sanitizeSnapshotInitiative(initiative),
+    hud: sanitizeSnapshotHud(hud)
   };
   ensureSuspendStorage();
   fs.writeFileSync(file, JSON.stringify(snapshot, null, 2), 'utf8');
@@ -1105,6 +1214,13 @@ function resume_snapshot(){
     team.status = typeof raw.team.status === 'string' ? raw.team.status : team.status;
     team.cooldowns = { ...team.cooldowns, ...(raw.team.cooldowns || {}) };
   }
+  const initiativeState = ensure_initiative();
+  const restoredInitiative = sanitizeSnapshotInitiative(raw.initiative);
+  initiativeState.order = restoredInitiative.order;
+  initiativeState.active_id = restoredInitiative.active_id;
+  const hudState = ensure_hud_state();
+  const restoredHud = sanitizeSnapshotHud(raw.hud);
+  hudState.timers = restoredHud.timers;
   const mergedFlags = sanitizeSnapshotFlags(raw.flags);
   Object.assign(runtimeFlags, mergedFlags);
   runtimeFlags.suspend_active = false;
@@ -2177,6 +2293,8 @@ function migrate_save(data){
   data.economy = prepare_save_economy(data.economy);
   data.logs = prepare_save_logs(data.logs);
   data.arc_dashboard = prepare_save_arc_dashboard(data.arc_dashboard);
+  data.initiative = sanitizeSnapshotInitiative(data.initiative);
+  data.hud = sanitizeSnapshotHud(data.hud);
   if (data.campaign && typeof data.campaign === 'object'){
     const shown = !!data.logs?.flags?.compliance_shown_today;
     data.campaign.compliance_shown_today = shown || !!data.campaign.compliance_shown_today;
@@ -2211,10 +2329,18 @@ function hydrate_state(data){
   state.economy = data.economy || {};
   state.logs = data.logs || {};
   state.arc_dashboard = data.arc_dashboard || {};
+  state.initiative = data.initiative && typeof data.initiative === 'object'
+    ? JSON.parse(JSON.stringify(data.initiative))
+    : {};
+  state.hud = data.hud && typeof data.hud === 'object'
+    ? JSON.parse(JSON.stringify(data.hud))
+    : {};
   ensure_economy();
   ensure_logs();
   sync_foreshadow_progress();
   ensure_arc_dashboard();
+  ensure_initiative();
+  ensure_hud_state();
   state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
   ensure_runtime_flags();
   state.roll = { open: false };

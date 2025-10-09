@@ -47,6 +47,16 @@ function resetBaseline(){
   rt.state.roll = { open: false };
   rt.state.flags = { runtime: { some_flag: true } };
   rt.state.arena.active = false;
+  rt.state.initiative = {
+    order: ['CHR-SUS', { id: 'EN-01', label: 'Sentinel', remaining: 2 }],
+    active_id: 'CHR-SUS'
+  };
+  rt.state.hud = {
+    timers: [
+      { id: 'bomb', label: 'Sprengsatz', remaining: 3, total: 5 },
+      'Fallback Timer'
+    ]
+  };
 }
 
 function cleanupSnapshot(){
@@ -84,11 +94,17 @@ rt.state.scene.index = 1;
 rt.state.team.stress = 0;
 rt.state.mission.clock = {};
 rt.state.flags.runtime.some_flag = false;
+rt.state.initiative.order = [];
+rt.state.initiative.active_id = null;
+rt.state.hud.timers = [];
 msg = rt.on_command('!resume');
 assert.ok(/Suspend-Snapshot geladen/.test(msg));
 assert.strictEqual(rt.state.scene.index, snapshot.campaign.scene);
 assert.strictEqual(rt.state.team.stress, snapshot.team.stress);
 assert.strictEqual(rt.state.flags.runtime.some_flag, true);
+assert.deepStrictEqual(rt.state.initiative.order, snapshot.initiative.order);
+assert.strictEqual(rt.state.initiative.active_id, snapshot.initiative.active_id);
+assert.deepStrictEqual(rt.state.hud.timers, snapshot.hud.timers);
 assert.ok(!fs.existsSync(path));
 
 // 3. Double resume fails gracefully

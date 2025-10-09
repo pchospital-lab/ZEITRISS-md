@@ -378,7 +378,7 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `!save` – speichert einen Deepsave (nur im HQ).
 - `!load` – lädt den letzten Deepsave.
 - `!suspend` – legt einen flüchtigen Szenen-Snapshot für eine Pause an.
-- `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort.
+- `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt Initiative-Leiste sowie HUD-Timer wieder her.
 - `!autosave hq` – schaltet Auto-Save im HQ.
 
 - `!gear shop` – zeigt Shop-Tier-Liste.

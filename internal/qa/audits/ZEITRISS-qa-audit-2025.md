@@ -318,11 +318,13 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Beratungssituationen bleiben UX-seitig lückenhaft.
 
 ### Issue #14 – Suspend-Snapshot
-- **Status:** [ ] Offen
-- **Kerndiagnose:** Initiative- und Timer-Zustände fehlen beim Resume.
+- **Status:** [x] Erledigt
+- **Kerndiagnose:** Initiative- und Timer-Zustände fehlten beim Resume.
 - **Empfohlene Umsetzung:** Snapshot um `initiative.order[]`,
   `initiative.active_id` und `hud.timers[]` erweitern.
 - **Risiko bei Verzug:** Konflikte verlieren nach `!resume` ihre Struktur.
+- **Statusnotiz:** Suspend-Snapshot übernimmt Initiative-Reihenfolge und HUD-Timer;
+  `tools/test_suspend.js` deckt das Resume ab. (Commit: wird im PR referenziert.)
 
 ### Issue #15 – PSI-Buffer-Arena
 - **Status:** [ ] Offen
