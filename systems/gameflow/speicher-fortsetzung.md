@@ -111,6 +111,13 @@ snapshot = {
     "status": state.team.status,
     "cooldowns": state.team.cooldowns
   },
+  "initiative": {
+    "order": state.initiative.order,
+    "active_id": state.initiative.active_id
+  },
+  "hud": {
+    "timers": state.hud.timers
+  },
   "flags": state.flags.runtime
 }
 write_tmp("suspend/" + state.campaign.id + ".json", snapshot)
@@ -137,6 +144,9 @@ apply(state.team.stress = snapshot.team.stress)
 apply(state.team.psi_heat = snapshot.team.psi_heat)
 apply(state.team.status = snapshot.team.status)
 apply(state.team.cooldowns = snapshot.team.cooldowns)
+apply(state.initiative.order = snapshot.initiative.order)
+apply(state.initiative.active_id = snapshot.initiative.active_id)
+apply(state.hud.timers = snapshot.hud.timers)
 state.flags.runtime.update(snapshot.flags)
 delete_tmp("suspend/" + state.campaign.id + ".json")
 toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " fort.")
@@ -145,6 +155,8 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 - `!resume` ist nur einmal pro Snapshot erlaubt; der Datensatz wird nach dem Laden gelöscht.
 - Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen gesichert bleiben.
 - Bei Ablauf des Snapshots informiert das HUD: „Suspend-Fenster verstrichen. Bitte HQ-Deepsave laden.“
+- Der Snapshot konserviert Initiative-Reihenfolge und HUD-Timer, damit Konfliktszenen nach `!resume`
+  lückenlos weiterlaufen.
 
 **HUD-Feedback**
 
