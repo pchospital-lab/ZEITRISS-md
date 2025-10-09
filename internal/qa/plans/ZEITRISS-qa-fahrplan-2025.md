@@ -68,6 +68,13 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
     blockweise vorbereitet.
   - Referenz: README.md §QA-Artefakte, `master-index.json`, QA-Audit 2025.
 
+- **2025-06-12 – Codex-Repo-Check** (Status: 🔄 laufend)
+  - Erkenntnis / To-do: Runtime-Stubs für HUD/Foreshadow, Offline-Uplink und Arena
+    gegen `runtime.js` 4.2.2 gespiegelt; SaveGuard-Pfade dokumentiert. PR-/Review-
+    Abschluss steht noch aus.
+  - Referenz: `systems/runtime-stub-routing-layer.md` (Mirror 2025-06-12),
+    `runtime.js` QA-Abgleich.
+
 ### Session-Template
 
 - **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)

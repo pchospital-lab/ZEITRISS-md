@@ -121,35 +121,62 @@ Content-Type: application/json
 ```jsonc
 // Spielzustand (JSON) – wird nach jeder Aktion aktualisiert
 {
-  "paradoxon_index": 3,
-  "paradoxon_points": 11,
+  "location": "HQ",
+  "phase": "core",
   "open_seeds": [
-    { "id":"LND‑1851‑SW", "epoch":"Victorian", "status":"open" }
+    { "id": "LND‑1851‑SW", "epoch": "Victorian", "status": "open" }
   ],
-  "campaign": { "episode": 3, "mission_in_episode": 7, "mode": "preserve" },
+  "campaign": {
+    "episode": 3,
+    "mission_in_episode": 7,
+    "mode": "preserve",
+    "px": 3,
+    "missions_since_px": 2,
+    "compliance_shown_today": false
+  },
   "arena": {
     "active": false,
-    "winsA": 0,
-    "winsB": 0,
-    "last_reward_episode": 2,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "last_reward_episode": null,
+    "tier": 1,
+    "proc_budget": 0,
+    "artifact_limit": 0,
+    "loadout_budget": 0,
+    "fee": 0,
     "phase_strike_tax": 0
   },
-  "player": {
+  "character": {
     "hp": 18,
-    "stress": 4,
-    "rank": 37,
-    "inventory": [...]
+    "stress": 0,
+    "rank": "Operator I",
+    "attributes": { "SYS_max": 3, "SYS_used": 0 }
   },
-  "current_room": "Operations-Deck"
+  "logs": {
+    "hud": [],
+    "foreshadow": [],
+    "market": [],
+    "artifact_log": [],
+    "kodex": [],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "compliance_shown_today": false,
+      "offline_help_last": null,
+      "offline_help_count": 0,
+      "chronopolis_warn_seen": false
+    }
+  },
+  "ui": { "gm_style": "verbose", "intro_seen": false, "suggest_mode": false }
 }
 ```
 
 `campaign.episode` spiegelt die aktuelle Missions-Staffel, `campaign.mode`
 markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
-`arena` merkt sich, ob der Px-Bonus bereits vergeben wurde –
-`last_reward_episode` bewahrt den Episodenstempel, damit kein Team denselben
-Bonus farmen kann. `phase_strike_tax` notiert den aktuellen SYS-Aufschlag für
-Phase-Strike (0 außerhalb der Arena, +1 im PvP-Sparring).
+`arena` notiert Laufzustand, Budget-Limits und Episodenstempel für den Px-Bonus.
+`logs.flags` zählt Compliance-Hinweis, Offline-Hilfen sowie die Runtime-Version –
+`runtime.js` erwartet diese Felder beim Laden, damit der GPT dieselbe Persistenz
+bedient. `ui` hält GM-Stil, Intro- und Suggest-Flags synchron mit den Toolkit-
+Makros.
 
 _Getter-Helpers (pseudo JS):_
 
@@ -218,6 +245,201 @@ export function applyArenaRules(ctx = state) {
 }
 ```
 
+### 3.1 | HUD- & Foreshadow-Logs
+
+```javascript
+const MARKET_LOG_LIMIT = 24;
+
+function dedupeForeshadow(entries = []) {
+  const byToken = new Map();
+  const deduped = [];
+  for (const entry of entries) {
+    if (!entry || typeof entry !== 'object' || typeof entry.token !== 'string') continue;
+    const token = entry.token.trim().toLowerCase();
+    if (!token) continue;
+    if (byToken.has(token)) {
+      const existing = byToken.get(token);
+      if (!existing.message && entry.message) existing.message = entry.message.trim();
+      if (!existing.tag && entry.tag) existing.tag = entry.tag.trim();
+      if (!Number.isFinite(existing.scene) && Number.isFinite(entry.scene)) {
+        existing.scene = entry.scene;
+      }
+      if (!existing.last_seen && entry.last_seen) existing.last_seen = entry.last_seen;
+      continue;
+    }
+    const record = {
+      token,
+      tag: entry.tag?.trim() || 'Foreshadow',
+      message: entry.message?.trim() || '',
+      scene: Number.isFinite(entry.scene) ? entry.scene : null,
+      first_seen: entry.first_seen || entry.last_seen || new Date().toISOString(),
+      last_seen: entry.last_seen || entry.first_seen || new Date().toISOString()
+    };
+    deduped.push(record);
+    byToken.set(token, record);
+  }
+  return deduped;
+}
+
+function ensureLogs() {
+  state.logs ||= {};
+  state.logs.hud = Array.isArray(state.logs.hud) ? state.logs.hud : [];
+  state.logs.kodex = Array.isArray(state.logs.kodex) ? state.logs.kodex : [];
+  state.logs.artifact_log = Array.isArray(state.logs.artifact_log)
+    ? state.logs.artifact_log
+    : [];
+  state.logs.foreshadow = Array.isArray(state.logs.foreshadow)
+    ? dedupeForeshadow(state.logs.foreshadow)
+    : [];
+  state.logs.market = sanitizeMarketEntries(state.logs.market);
+  state.logs.flags ||= {};
+  const flags = state.logs.flags;
+  flags.runtime_version ||= ZR_VERSION;
+  flags.compliance_shown_today = !!flags.compliance_shown_today;
+  flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
+  flags.offline_help_last = flags.offline_help_last ?? null;
+  flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count || 0));
+  return state.logs;
+}
+
+function hud_toast(message, tag = "HUD") {
+  const logs = ensureLogs();
+  hudSequence = (hudSequence + 1) % 1_000_000;
+  const entry = {
+    id: hudSequence,
+    tag,
+    message,
+    at: new Date().toISOString()
+  };
+  const log = logs.hud;
+  log.push(entry);
+  if (log.length > 32) {
+    log.splice(0, log.length - 32);
+  }
+  writeLine(`[${tag}] ${message}`);
+  return entry;
+}
+
+function registerForeshadow(token, details = {}) {
+  ensureLogs();
+  const normalized = (token || "").toString().trim().toLowerCase();
+  if (!normalized) return null;
+  const now = new Date().toISOString();
+  const entries = state.logs.foreshadow;
+  let entry = entries.find((item) => item.token === normalized);
+  if (!entry) {
+    entry = {
+      token: normalized,
+      tag: details.tag?.trim() || "Foreshadow",
+      message: (details.message || "").trim(),
+      scene: Number.isFinite(details.scene) ? details.scene : state.scene?.index ?? null,
+      first_seen: now,
+      last_seen: now
+    };
+    entries.push(entry);
+  } else {
+    entry.last_seen = now;
+    if (!entry.message && details.message) entry.message = details.message.trim();
+    if (!entry.tag && details.tag) entry.tag = details.tag.trim();
+    if (!Number.isFinite(entry.scene) && Number.isFinite(details.scene)) {
+      entry.scene = details.scene;
+    }
+  }
+  sync_foreshadow_progress();
+  return entry;
+}
+
+function ForeshadowHint(text, tag = "Foreshadow") {
+  const cleaned = (text || "").toString().trim();
+  if (!cleaned) throw new Error("ForeshadowHint: text fehlt.");
+  const slug = cleaned.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  registerForeshadow(`manual:${slug || Date.now()}`, { message: cleaned, tag });
+  return hud_toast(`${tag}: ${cleaned}`, tag);
+}
+
+function log_market_purchase(item, cost, options = {}) {
+  ensureLogs();
+  const entry = normalize_market_entry({
+    ...options,
+    item,
+    cost_cu: cost
+  });
+  if (!entry) throw new Error("MarketLog: Ungültiger Eintrag.");
+  state.logs.market.push(entry);
+  if (state.logs.market.length > MARKET_LOG_LIMIT) {
+    state.logs.market.splice(0, state.logs.market.length - MARKET_LOG_LIMIT);
+  }
+  return entry;
+}
+```
+
+`sync_foreshadow_progress()` setzt `scene.foreshadows` gleich der deduplizierten
+Log-Länge; Toolkit-Badges und `!boss status` greifen darauf zu.
+`normalize_market_entry()` erzwingt ISO-Timestamps, rundet Kosten und ergänzt
+`px_clause`, falls Px-Delta gesetzt ist. Die Runtime beschneidet die Market-
+Historie auf die letzten 24 Einträge.
+
+### 3.2 | Offline- & Comms-Gating
+
+```javascript
+const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.';
+const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
+const OFFLINE_HELP_GUIDE = [
+  'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
+  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.',
+  '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
+];
+
+function kodex_link_state(ctx = state) {
+  if (ctx.location === 'HQ' || ctx.phase === 'transfer') return 'uplink';
+  const dev = ctx.comms?.device;
+  const rng = ctx.comms?.range_m;
+  const jam = ctx.comms?.jammed;
+  const inBubble = dev === 'comlink' && typeof rng === 'number' && rng <= 2000 && !jam;
+  return inBubble ? 'field_online' : 'field_offline';
+}
+
+function offline_help() {
+  const logs = ensureLogs();
+  const flags = logs.flags;
+  const now = Date.now();
+  const last = typeof flags.offline_help_last === 'string' ? Date.parse(flags.offline_help_last) : NaN;
+  if (!Number.isFinite(last) || now - last > OFFLINE_HELP_MIN_INTERVAL_MS) {
+    hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
+  }
+  flags.offline_help_last = new Date(now).toISOString();
+  flags.offline_help_count = (flags.offline_help_count || 0) + 1;
+  return OFFLINE_HELP_GUIDE.join('\n');
+}
+
+function require_uplink(ctx = state, action = 'command') {
+  const status = kodex_link_state(ctx);
+  if (status === 'uplink' || status === 'field_online') return true;
+  offline_help();
+  throw new Error('Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll.');
+}
+
+function comms_check(device, range) {
+  const okDevice = ['comlink', 'cable', 'relay', 'jammer_override'].includes(device);
+  const jammed = !!state.comms?.jammed;
+  const okRange = (range * (state.comms?.rangeMod ?? 1)) > 0;
+  if (!okDevice || !okRange) return false;
+  return !jammed || device === 'cable' || device === 'relay' || device === 'jammer_override';
+}
+
+function radio_tx(options) {
+  const ctx = { ...state, comms: { ...state.comms, device: options.device, range_m: options.range } };
+  require_uplink(ctx, 'radio_tx');
+  if (!comms_check(options.device, options.range)) {
+    throw new Error('CommsCheck failed: device/range ungültig – Terminal oder Relay koppeln, Jammer-Override prüfen.');
+  }
+  return 'tx';
+}
+```
+
+`radio_rx` spiegelt `radio_tx`. Toolkit-Befehle für `!offline` lesen den gleichen Zähler, sodass QA-Läufe identische Hinweise liefern. `require_uplink()` hängt in `must_comms()` sowie den Funk-Commands – jeder Abbruch erhöht den Offline-Counter und triggert das HUD-Toast.
+
 ---
 
 ## 4 | `Operations-Deck` – Stat-Ausgabe Snippet
@@ -283,68 +505,95 @@ function cmdRest() {
 ## 7 | SAVE-BEFEHL – HQ-Lock
 
 ```typescript
-function cmdSave() {
-  if (state.current_room !== "HQ") {
-    return writeLine("Speichern nur im HQ möglich.");
+const SAVE_REQUIRED_PATHS = [
+  ['character', 'id'],
+  ['character', 'cooldowns'],
+  ['character', 'attributes', 'SYS_max'],
+  ['character', 'attributes', 'SYS_used'],
+  ['character', 'stress'],
+  ['character', 'psi_heat'],
+  ['campaign', 'px'],
+  ['economy'],
+  ['logs'],
+  ['logs', 'artifact_log'],
+  ['logs', 'market'],
+  ['logs', 'kodex'],
+  ['ui']
+];
+
+function enforceRequiredSaveFields(payload) {
+  for (const path of SAVE_REQUIRED_PATHS) {
+    let node = payload;
+    for (const segment of path) {
+      if (node == null || !(segment in node)) {
+        throw new Error('SaveGuard: Feld ' + path.join('.') + ' fehlt.');
+      }
+      node = node[segment];
+    }
+    if (node === undefined || node === null) {
+      throw new Error('SaveGuard: Feld ' + path.join('.') + ' fehlt.');
+    }
   }
-  autoSave();
-  writeLine("Game saved.");
+}
+
+function save_deep(ctx = state) {
+  if (ctx?.arena?.active) throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
+  if (ctx.location !== 'HQ') throw new Error('Save denied: HQ-only.');
+  const c = ctx.character || {};
+  const attrs = c.attributes || {};
+  if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
+  if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
+  if ((attrs.SYS_used ?? 0) > (attrs.SYS_max ?? 0)) {
+    throw new Error('SaveGuard: SYS overflow.');
+  }
+  const payload = select_state_for_save(ctx); // siehe Abschnitt 3 (Persistenz)
+  enforceRequiredSaveFields(payload);
+  return JSON.stringify(payload);
+}
+
+function cmdSave() {
+  if (state.location !== 'HQ') {
+    return writeLine('Speichern nur im HQ möglich.');
+  }
+  save_deep(state);
+  autoSave(); // Persistiert den JSON-String für QA
+  writeLine('Game saved.');
 }
 ```
 
 ## 8 | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
-const ARENA_BASE_FEE = 250; // fixer Grundbetrag
+const ARENA_BASE_FEE = 250;
 const ARENA_FEE_BRACKETS = [
-  { limit: 1000, rate: 0.01 }, // 1 % auf die ersten 1.000 CU
-  { limit: 4000, rate: 0.02 }, // 2 % auf die nächsten 4.000 CU
-  { limit: Infinity, rate: 0.03 }, // 3 % ab 5.000 CU
+  { limit: 1000, rate: 0.01 },
+  { limit: 4000, rate: 0.02 },
+  { limit: Infinity, rate: 0.03 }
 ];
-
-function getArenaFee(currency = state.currency || 0) {
-  let remaining = Math.max(0, currency);
-  let fee = ARENA_BASE_FEE;
-  for (const bracket of ARENA_FEE_BRACKETS) {
-    if (remaining <= 0) break;
-    const taxable = Math.min(remaining, bracket.limit);
-    fee += taxable * bracket.rate;
-    remaining -= taxable;
-  }
-  return Math.floor(fee);
-}
 
 const ARENA_TIER_RULES = [
   { tier: 1, minLevel: 1, maxLevel: 5, artifactLimit: 0, procBudget: 3, loadoutBudget: 5 },
   { tier: 2, minLevel: 6, maxLevel: 10, artifactLimit: 1, procBudget: 4, loadoutBudget: 6 },
-  { tier: 3, minLevel: 11, maxLevel: Infinity, artifactLimit: 1, procBudget: 5, loadoutBudget: 7 },
+  { tier: 3, minLevel: 11, maxLevel: Infinity, artifactLimit: 1, procBudget: 5, loadoutBudget: 7 }
 ];
 
-function resolveArenaTier(players = []) {
-  const highestLevel = players.reduce((lvl, entry) => {
-    const raw = entry?.level ?? entry?.character?.level ?? 1;
-    const level = Number(raw);
-    return Math.max(lvl, Number.isFinite(level) ? level : 1);
-  }, 1);
-  return (
-    ARENA_TIER_RULES.find(
-      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel,
-    ) || ARENA_TIER_RULES[0]
-  );
-}
-
-function cloneLoadout(loadout) {
-  if (!loadout || typeof loadout !== "object") return {};
-  return JSON.parse(JSON.stringify(loadout));
-}
+const ARENA_PROC_KEYS = ['support', 'tools', 'mods', 'devices', 'gizmos'];
+const ARENA_ARTIFACT_KEYS = ['artifacts', 'artifact', 'legendary', 'trophies'];
+const ARENA_LOADOUT_KEYS = ['primary', 'secondary', 'gear', 'equipment', 'items'];
+const ARENA_SCENARIOS = [
+  'Offene Wüstenruine',
+  'Labyrinth-Bunker',
+  'Dschungel mit dichter Vegetation',
+  'Urbanes Trümmerfeld',
+  'Symmetrische Trainingsarena'
+];
+let arenaScenarioSerial = 0;
 
 function ensureArray(value) {
   if (Array.isArray(value)) return value.filter(Boolean);
-  if (value === undefined || value === null || value === "") return [];
+  if (value === undefined || value === null || value === '') return [];
   return [value];
 }
-
-const ARENA_PROC_KEYS = ["support", "tools", "mods", "devices", "gizmos"];
 
 function enforceProcBudget(loadout, limit, auditLog, label) {
   if (!Number.isFinite(limit) || limit < 0) return loadout;
@@ -358,17 +607,13 @@ function enforceProcBudget(loadout, limit, auditLog, label) {
         kept.push(item);
         remaining -= 1;
       } else {
-        auditLog.push(
-          `${label}: Proc-Budget erreicht – '${item}' aus ${key} deaktiviert`,
-        );
+        auditLog.push(`${label}: Proc-Budget erreicht – '${item}' aus ${key} deaktiviert`);
       }
     }
     loadout[key] = kept;
   }
   return loadout;
 }
-
-const ARENA_ARTIFACT_KEYS = ["artifacts", "artifact", "legendary", "trophies"];
 
 function extractArtifactEntries(loadout) {
   const entries = [];
@@ -382,11 +627,10 @@ function extractArtifactEntries(loadout) {
       entries.push({ key, index: null, value });
     }
   }
-  // Zusatzcheck: Support-/Tool-Slots, falls Artefakt erwähnt wird
   for (const key of ARENA_PROC_KEYS) {
     const arr = ensureArray(loadout[key]);
     arr.forEach((entry, index) => {
-      if (typeof entry === "string" && /artefakt|artifact/i.test(entry)) {
+      if (typeof entry === 'string' && /artefakt|artifact/i.test(entry)) {
         entries.push({ key, index, value: entry, derived: true });
       }
     });
@@ -403,174 +647,305 @@ function enforceArtifactLimit(loadout, limit, auditLog, label) {
       kept += 1;
       continue;
     }
-    auditLog.push(
-      `${label}: Artefakt-Limit erreicht – '${entry.value}' entfernt`,
-    );
+    auditLog.push(`${label}: Artefakt-Limit erreicht – '${entry.value}' entfernt`);
     if (entry.index === null) {
       loadout[entry.key] = Array.isArray(loadout[entry.key]) ? [] : null;
     } else if (Array.isArray(loadout[entry.key])) {
       const arr = loadout[entry.key];
-      const idx = arr.indexOf(entry.value);
-      if (idx !== -1) {
-        arr.splice(idx, 1);
+      if (entry.index >= 0 && entry.index < arr.length) {
+        arr.splice(entry.index, 1);
       }
     }
   }
   return loadout;
 }
 
+function enforceLoadoutBudget(loadout, limit, auditLog, label) {
+  if (!Number.isFinite(limit) || limit <= 0) return loadout;
+  let remaining = limit;
+  for (const key of ARENA_LOADOUT_KEYS) {
+    const items = ensureArray(loadout[key]);
+    if (items.length === 0) {
+      loadout[key] = [];
+      continue;
+    }
+    if (items.length <= remaining) {
+      loadout[key] = items;
+      remaining -= items.length;
+      continue;
+    }
+    const kept = items.slice(0, remaining);
+    const removed = items.slice(remaining);
+    removed.forEach((item) => auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`));
+    loadout[key] = kept;
+    remaining = 0;
+  }
+  return loadout;
+}
+
+function resolveArenaTier(players = []) {
+  const highestLevel = players.reduce((lvl, entry) => {
+    const raw = entry?.level ?? entry?.character?.level ?? 1;
+    const level = Number(raw);
+    return Math.max(lvl, Number.isFinite(level) ? level : 1);
+  }, 1);
+  return ARENA_TIER_RULES.find((rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel) || ARENA_TIER_RULES[0];
+}
+
 function applyArenaTierPolicy(players, tierRule) {
   const audit = [];
   const sanitisedPlayers = players.map((entry) => {
-    const label = entry?.name || entry?.callsign || "Agent";
+    const label = entry?.name || entry?.callsign || 'Agent';
     const clone = { ...entry };
-    const loadout = cloneLoadout(entry?.loadout);
+    const loadout = JSON.parse(JSON.stringify(entry?.loadout || {}));
     enforceArtifactLimit(loadout, tierRule.artifactLimit, audit, label);
     enforceProcBudget(loadout, tierRule.procBudget, audit, label);
+    enforceLoadoutBudget(loadout, tierRule.loadoutBudget, audit, label);
     clone.loadout = loadout;
     return clone;
   });
   return { tierRule, players: sanitisedPlayers, audit };
 }
 
-function generateArenaScenario() {
-  const mission = gpull("gameplay/kreative-generatoren-missionen.md#missions-generator");
-  const epoch = gpull("gameplay/kreative-generatoren-missionen.md#epochen-generator");
-  return { description: `${mission} @ ${epoch}` };
+function nextArenaScenario() {
+  const idx = arenaScenarioSerial % ARENA_SCENARIOS.length;
+  const description = ARENA_SCENARIOS[idx];
+  arenaScenarioSerial = (arenaScenarioSerial + 1) % ARENA_SCENARIOS.length;
+  return { description };
 }
 
-function majorityFaction(players) {
-  if (players.length === 0) return "";
-  const tally = {};
-  for (const p of players) {
-    tally[p.faction] = (tally[p.faction] || 0) + 1;
-  }
-  return Object.entries(tally).sort((a, b) => b[1] - a[1])[0][0];
+function gatherArenaPlayers() {
+  const players = [];
+  const character = ensure_character();
+  const baseFaction = character.faction || state.team?.faction || 'Projekt Phoenix';
+  players.push({
+    name: character.name || character.callsign || character.id || 'Agent',
+    level: Number(character.lvl ?? character.level ?? 1),
+    faction: baseFaction,
+    loadout: JSON.parse(JSON.stringify(state.loadout || {}))
+  });
+  const members = Array.isArray(state.team?.members) ? state.team.members : [];
+  members.forEach((member, index) => {
+    if (!member) return;
+    const lvl = Number(member.lvl ?? member.level ?? character.lvl ?? 1);
+    players.push({
+      name: member.name || member.callsign || `Team-${index + 1}`,
+      level: Number.isFinite(lvl) ? lvl : 1,
+      faction: member.faction || baseFaction,
+      loadout: JSON.parse(JSON.stringify(member.loadout || {}))
+    });
+  });
+  return players;
 }
 
-function createFactionAllies(factionId, count) {
-  const allies = [];
-  for (let i = 0; i < count; i++) {
-    const npc = gpull(
-      "gameplay/kreative-generatoren-begegnungen.md#nsc-generator",
-      { faction: factionId },
-    );
-    allies.push(npc);
-  }
-  return allies;
-}
-
-function createOpposingTeam(size) {
-  const foes = [];
-  for (let i = 0; i < size; i++) {
-    const npc = gpull(
-      "gameplay/kreative-generatoren-begegnungen.md#nsc-generator",
-    );
-    foes.push(npc);
-  }
-  return foes;
-}
-
-function createTeam(size, players, mode = "single") {
-  if (players.length === 0) return [];
-  const team = players.slice(0, size);
-  const missing = size - team.length;
-  if (missing > 0) {
-    const fac =
-      mode === "single" ? players[0].faction : majorityFaction(players);
-    team.push(...createFactionAllies(fac, missing)); // NPC-Generator
-  }
-  return team;
-}
-
-function startPvPArena(teamSize = 1, players = [], mode = "single") {
-  const tierRule = resolveArenaTier(players);
-  const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(
-    players,
-    tierRule,
-  );
-  const fee = getArenaFee();
-  const numericCurrency = Number(state.currency);
-  state.currency = Number.isFinite(numericCurrency) ? numericCurrency : 0;
-  if (state.currency < fee) {
-    return writeLine("Not enough CU for Arena match.");
-  }
-  state.currency -= fee;
-  const scenario = generateArenaScenario();
-  const teamA = createTeam(teamSize, sanitisedPlayers, mode); // füllt mit Fraktionsmitgliedern
-  const teamB = createOpposingTeam(teamSize); // GPT generiert Gegenteam
-  const lastReward = state.arena?.last_reward_episode ?? null;
-  const previousMode = typeof state.campaign?.mode === "string" ? state.campaign.mode : null;
-  state.arena = {
-    active: true,
-    teamA,
-    teamB,
-    scenario,
-    winsA: 0,
-    winsB: 0,
-    last_reward_episode: lastReward,
-    tier: tierRule.tier,
-    budget_limit: tierRule.loadoutBudget,
-    proc_budget: tierRule.procBudget,
-    artifact_limit: tierRule.artifactLimit,
-    audit,
-    policy_players: sanitisedPlayers,
-    previous_mode: previousMode,
-    phase_strike_tax: 0,
-  };
-  state.campaign.mode = "pvp";
-  applyArenaRules();
-  autoSave();
-  writeLine(
-    `PvP showdown started: ${scenario.description} · Tier ${tierRule.tier} (Budget ${tierRule.loadoutBudget}, Proc ${tierRule.procBudget}, Artefakte ${tierRule.artifactLimit})`,
-  );
-  if (audit.length > 0) {
-    writeLine(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`);
-  }
-}
-
-function arenaMatchWon(playerTeamWon = true) {
-  if (!state.arena?.active) return;
-  if (playerTeamWon) {
-    state.arena.winsA++;
-  } else {
-    state.arena.winsB++;
-  }
-  if (state.arena.winsA >= 2 || state.arena.winsB >= 2) {
-    exitPvPArena();
-  }
-}
-
-function exitPvPArena() {
-  if (!state.arena?.active) return;
-  if (state.arena.winsA > state.arena.winsB) {
-    const episode = state.campaign?.episode ?? "freeplay";
-    const alreadyRewarded =
-      state.arena.last_reward_episode !== null &&
-      state.arena.last_reward_episode === episode;
-    if (!alreadyRewarded) {
-      state.paradoxon_index += 1; // Px-Bonus nur einmal pro Episode
-      state.arena.last_reward_episode = episode;
+function readArenaCurrency() {
+  const economy = ensure_economy();
+  const keys = ['credits', 'cu', 'balance', 'assets'];
+  for (const key of keys) {
+    const value = Number(economy[key]);
+    if (Number.isFinite(value)) {
+      return { key, value: Math.max(0, value) };
     }
   }
-  const stamp = state.arena.last_reward_episode ?? null;
-  const restoreMode = state.arena.previous_mode;
-  state.arena = {
-    active: false,
-    teamA: [],
-    teamB: [],
-    winsA: 0,
-    winsB: 0,
-    last_reward_episode: stamp,
-    phase_strike_tax: 0,
-  };
-  state.arena.previous_mode = null;
-  state.campaign.mode = restoreMode && restoreMode.trim() ? restoreMode : "preserve";
-  applyArenaRules();
-  autoSave();
-  writeLine("Arena match ended.");
+  if (!Number.isFinite(Number(economy.credits))) {
+    economy.credits = 0;
+  }
+  return { key: 'credits', value: 0 };
+}
+
+function writeArenaCurrency(key, value) {
+  const economy = ensure_economy();
+  economy[key] = value;
+  if (key !== 'credits' && economy.credits === undefined) {
+    economy.credits = value;
+  }
+}
+
+function getArenaFee(currency = 0) {
+  let remaining = Math.max(0, currency);
+  let fee = ARENA_BASE_FEE;
+  for (const bracket of ARENA_FEE_BRACKETS) {
+    if (remaining <= 0) break;
+    const taxable = Math.min(remaining, bracket.limit);
+    fee += taxable * bracket.rate;
+    remaining -= taxable;
+  }
+  return Math.floor(fee);
+}
+
+function arenaStart(options = {}) {
+  ensure_campaign();
+  const arena = ensure_arena();
+  if (arena.active) throw new Error('Arena bereits aktiv – beendet zuerst die laufende Serie.');
+  const { key, value } = readArenaCurrency();
+  const fee = getArenaFee(value);
+  if (value < fee) throw new Error('Arena-Gebühr kann nicht bezahlt werden. Credits prüfen.');
+  const players = gatherArenaPlayers();
+  const tierRule = resolveArenaTier(players);
+  const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
+  const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
+  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 6) : 1;
+  const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
+  const scenario = nextArenaScenario();
+  writeArenaCurrency(key, value - fee);
+  const currentEpisode = state.campaign?.episode ?? null;
+  const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
+  arena.active = true;
+  arena.wins_player = 0;
+  arena.wins_opponent = 0;
+  arena.tier = tierRule.tier;
+  arena.proc_budget = tierRule.procBudget;
+  arena.artifact_limit = tierRule.artifactLimit;
+  arena.loadout_budget = tierRule.loadoutBudget;
+  arena.audit = audit;
+  arena.fee = fee;
+  arena.scenario = scenario;
+  arena.damage_dampener = true;
+  arena.team_size = teamSize;
+  arena.mode = mode;
+  arena.previous_mode = previousMode;
+  arena.policy_players = sanitisedPlayers;
+  arena.started_episode = currentEpisode;
+  state.campaign.mode = 'pvp';
+  apply_arena_rules();
+  ensure_runtime_flags().arena_active = true;
+  state.location = 'ARENA';
+  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus verfügbar';
+  const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
+  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  if (audit.length) hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
+  return `${baseMessage} · ${scenario.description} · ${pxNote}`;
+}
+
+function arenaScore() {
+  const arena = ensure_arena();
+  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === (state.campaign?.episode ?? null);
+  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
+  const scenario = arena.scenario?.description || 'n/a';
+  return `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · Team ${arena.team_size} · ${pxNote} · Szenario ${scenario}`;
+}
+
+function arenaRegisterResult(outcome) {
+  const arena = ensure_arena();
+  if (!arena.active) throw new Error('Arena ist nicht aktiv. Nutzt !arena start.');
+  const normalized = (outcome || '').toString().toLowerCase();
+  if (normalized === 'win' || normalized === 'victory') {
+    arena.wins_player += 1;
+  } else if (['loss', 'lose', 'defeat'].includes(normalized)) {
+    arena.wins_opponent += 1;
+  } else {
+    throw new Error('Unbekanntes Arena-Ergebnis. Nutzt win oder loss.');
+  }
+  const status = `Arena-Serie ${arena.wins_player}:${arena.wins_opponent}`;
+  let hint = '';
+  if (arena.wins_player >= 2) {
+    hint = 'Serie gewonnen – nutzt !arena exit für den Abschluss.';
+  } else if (arena.wins_opponent >= 2) {
+    hint = 'Serie verloren – ihr könnt die Arena mit !arena exit verlassen.';
+  }
+  const message = hint ? `${status} · ${hint}` : status;
+  hud_toast(message, 'ARENA');
+  return message;
+}
+
+function arenaExit() {
+  const arena = ensure_arena();
+  if (!arena.active) return 'Arena ist nicht aktiv.';
+  const episode = state.campaign?.episode ?? null;
+  let pxGranted = false;
+  if (arena.wins_player >= 2 && arena.wins_player > arena.wins_opponent) {
+    if (episode !== null && arena.last_reward_episode !== episode) {
+      incrementParadoxon(1);
+      arena.last_reward_episode = episode;
+      pxGranted = true;
+    }
+  }
+  const messageParts = [`Arena Ende · Score ${arena.wins_player}:${arena.wins_opponent}`];
+  if (arena.wins_player < 2 || arena.wins_player <= arena.wins_opponent) {
+    messageParts.push('Keine Px-Belohnung (Serie verloren)');
+  } else if (pxGranted) {
+    messageParts.push(`Px-Bonus +1 (Episode ${episode ?? 'n/a'})`);
+  } else {
+    messageParts.push('Px-Bonus bereits vergeben');
+  }
+  arena.active = false;
+  arena.wins_player = 0;
+  arena.wins_opponent = 0;
+  arena.proc_budget = 0;
+  arena.artifact_limit = 0;
+  arena.loadout_budget = 0;
+  arena.audit = [];
+  arena.fee = 0;
+  arena.scenario = null;
+  arena.damage_dampener = false;
+  arena.team_size = 1;
+  arena.mode = 'single';
+  arena.phase_strike_tax = 0;
+  delete arena.policy_players;
+  delete arena.started_episode;
+  const restoreMode = arena.previous_mode;
+  if (typeof restoreMode === 'string' && restoreMode.trim()) {
+    state.campaign.mode = restoreMode;
+  } else {
+    delete state.campaign.mode;
+    ensure_campaign();
+  }
+  delete arena.previous_mode;
+  ensure_runtime_flags().arena_active = false;
+  apply_arena_rules();
+  state.location = 'HQ';
+  const message = messageParts.join(' · ');
+  hud_toast(message, 'ARENA');
+  return message;
+}
+
+function parseArenaStartArgs(tokens) {
+  let teamSize;
+  let mode;
+  for (let i = 0; i < tokens.length; i += 1) {
+    const token = tokens[i];
+    if (token === 'team' && Number.isFinite(Number(tokens[i + 1]))) {
+      teamSize = parseInt(tokens[i + 1], 10);
+      i += 1;
+      continue;
+    }
+    if (token === 'mode' && typeof tokens[i + 1] === 'string') {
+      mode = tokens[i + 1];
+      i += 1;
+    }
+  }
+  return { teamSize, mode };
+}
+
+function handleArenaCommand(cmd) {
+  const tokens = cmd.split(/\s+/).map((t) => t.trim()).filter(Boolean);
+  const sub = tokens[1] || 'status';
+  if (sub === 'start') {
+    const options = parseArenaStartArgs(tokens.slice(2));
+    return arenaStart(options);
+  }
+  if (sub === 'score' || sub === 'status') {
+    return arenaScore();
+  }
+  if (sub === 'exit' || sub === 'leave') {
+    return arenaExit();
+  }
+  if (sub === 'result' && tokens[2]) {
+    return arenaRegisterResult(tokens[2]);
+  }
+  if (sub === 'win') {
+    return arenaRegisterResult('win');
+  }
+  if (sub === 'loss' || sub === 'lose') {
+    return arenaRegisterResult('loss');
+  }
+  return 'Arena-Befehle: !arena start [team <n>] [mode <name>] · !arena result win|loss · !arena score · !arena exit';
 }
 ```
+
+Die Runtime belastet die Credits sofort mit der Gebühr, setzt `arena.previous_mode` für die Rückkehr ins Ursprungs-Gameplay und pflegt `arena.policy_players` als Audit-Snapshot der bereinigten Loadouts. QA erwartet identische HUD-Toasts (`ARENA`-Tag) und Px-Bonus-Regeln wie im Toolkit. `ensure_runtime_flags()` synchronisiert parallel `flags.runtime.arena_active` für Toolkit-Prüfpfade.
+
 
 ## 8 | MULTIPLAYER-RESET – Gruppenmodus starten
 
