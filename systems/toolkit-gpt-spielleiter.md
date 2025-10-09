@@ -117,6 +117,9 @@ default_modus: mission-fokus
 {% if state.logs is not defined or state.logs is none %}
   {% set state.logs = {} %}
 {% endif %}
+{% if state.logs.foreshadow is not defined or state.logs.foreshadow is none %}
+  {% set state.logs.foreshadow = [] %}
+{% endif %}
 {% if state.logs.flags is not defined or state.logs.flags is none %}
   {% set state.logs.flags = {} %}
 {% endif %}
@@ -140,6 +143,12 @@ default_modus: mission-fokus
 {% else %}
   {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
 {% endif %}
+{% if state.scene is not defined or state.scene is none %}
+  {% set state.scene = {} %}
+{% endif %}
+{% if state.scene.foreshadows is not defined or state.scene.foreshadows is none %}
+  {% set state.scene.foreshadows = state.logs.foreshadow | length %}
+{% endif %}
 {% if campaign.entry_choice_skipped is not defined %}
   {% set campaign.entry_choice_skipped = false %}
 {% else %}
@@ -158,6 +167,12 @@ default_modus: mission-fokus
 - Umgang mit freien Spieleraktionen und -entscheidungen
 - HUD-Overlay und Kodex-Ausgaben aus Sicht der KI nutzen
 - Einbindung des Regelwerks in den Spielfluss
+- **Mirror-Pflicht Foreshadow-Log:**
+  1. `state.logs.foreshadow` existiert als persistentes Array aus Objekten (`token`, `tag`, `text`, `scene`, `first_seen`, `last_seen`).
+  2. `ForeshadowHint(text, tag)` trimmt den Text, bildet `token = 'manual:' + slug(text)` und dedupliziert Einträge anhand des Tokens.
+  3. Neue oder aktualisierte Einträge setzen `last_seen = now`, ergänzen `message/tag/scene` und halten `first_seen` beim ersten Fund fest.
+  4. `scene.foreshadows` spiegelt die Anzahl deduplizierter Marker; das HUD-Badge und `!boss status` zeigen `Foreshadow n/m` (Core=4, Rift=2, falls `campaign.boss_allowed != false`).
+  5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
 **Spielleiters von ZEITRISS**. Ihr verkörpert nicht die übergeordnete Leit-KI des ITI,
@@ -1298,13 +1313,34 @@ Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override 
 {%- endmacro %}
 {% macro helper_boss() -%}
 Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
+Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow` und `scene.foreshadows` den Fortschritt persistieren.
 Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.
 {%- endmacro %}
 {% macro fr_help() -%}
 FR: ruhig/beobachter/aktiv – wirkt auf Eingriffe in Szene 1.
 {%- endmacro %}
+{% macro foreshadow_requirement() -%}
+  {% set mission_type = (campaign.type or state.phase or '')|lower %}
+  {% if mission_type in ['rift'] %}
+    2
+  {% elif mission_type in ['core','preserve','story'] %}
+    {% if campaign.boss_allowed is defined and campaign.boss_allowed is not none and campaign.boss_allowed == false %}
+      0
+    {% else %}
+      4
+    {% endif %}
+  {% else %}
+    0
+  {% endif %}
+{%- endmacro %}
 {% macro boss_status() -%}
-Core: M4 1/2, M9 0/2 · Rift: S9 0/2
+  {% set entries = [] %}
+  {% if state.logs is defined and state.logs.foreshadow is defined and state.logs.foreshadow %}
+    {% set entries = state.logs.foreshadow %}
+  {% endif %}
+  {% set count = entries|length %}
+  {% set required = foreshadow_requirement() %}
+Foreshadow {{ count }}{% if required > 0 %}/{{ required }}{% endif %}
 {%- endmacro %}
 {% macro show_px() -%}
   {% set temp_src = 0 %}

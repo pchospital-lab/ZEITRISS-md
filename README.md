@@ -97,12 +97,13 @@ Die komplette Operator-Checkliste liegt in [docs/maintainer-ops.md](docs/maintai
 Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README
 listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt euch das Maintainer-Dokument.
 
-### Upload-Checkliste Wissensspeicher
+### Wissensspeicher laden
 
-1. **Masterprompt:** `meta/masterprompt_v6.md` vollständig in das Instruktionsfeld der Zielplattform kopieren.
-2. **Dokumentationsanker:** `README.md` und `master-index.json` in den Wissensspeicher übernehmen.
-3. **Runtime-Module:** Exakt die nachfolgenden 18 Dateien hochladen (weitere Repo-Inhalte, insbesondere `runtime.js`, bleiben
-   lokal für Tests):
+1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
+2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste Chatnachricht, OpenWebUI: Instruktionsfeld). Optional kannst du den Masterprompt zusätzlich als Wissensspeicher-Modul ablegen.
+3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
+
+### Runtime-Module im Wissensspeicher
 
 | Kategorie    | Datei |
 |--------------|-------|
@@ -125,8 +126,13 @@ listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren od
 |              | `systems/kp-kraefte-psi.md` |
 |              | `systems/toolkit-gpt-spielleiter.md` |
 
-> **Hinweis:** `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools werden **nicht** in den
-> Wissensspeicher geladen. `runtime.js` fungiert ausschließlich als Offline-Laufzeit für Tests und Linter.
+### Runtimes & Tests außerhalb des Wissensspeichers
+
+- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und Test-Tools bleiben lokal im Repo und werden **nicht** in produktive Wissensspeicher hochgeladen.
+- Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne externe Skripte denselben Funktionsumfang erhalten.
+- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Dokumentiere Abweichungen zwischen Skript und Wissensspiegelung im QA-Journal (siehe `internal/qa/logs/`) und verweise in Commits/PRs auf die entsprechenden Mirror-Schritte.
+- **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik, HUD-Badges und Save-Strukturen.**
+- **Maintainer:innen prüfen nach erfolgreicher QA lediglich den fertigen Wissensstand und übertragen ihn anschließend gemäß `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
 
 ## Repo-Map {#repo-map}
 
@@ -431,7 +437,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `team: { name, members:[...] }`
 - `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
 - `economy: { cu }`
-- `logs: { missions:[], blacklab:[], hud:[] }`
+- `logs: { missions:[], blacklab:[], hud:[], foreshadow:[] }`
 - `ui: { gm_style:"verbose"|"precision" }`
 - `exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }`
 - `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
