@@ -329,11 +329,13 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   `tools/test_suspend.js` deckt das Resume ab. (Commit: wird im PR referenziert.)
 
 ### Issue #15 – PSI-Buffer-Arena
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** PvP-Dämpfer sind nicht zentral dokumentiert.
 - **Empfohlene Umsetzung:** `apply_arena_rules()` bündelt `psi_buffer` und
   Dämpfer, Dokumentation vereinheitlichen.
 - **Risiko bei Verzug:** Mods und Toolkits setzen Arena-Regeln falsch um.
+- **Statusnotiz:** Runtime & Stub setzen den Helper um, Docs heben den zentralen
+  PvP-Abgleich hervor. (Commit: wird im PR referenziert.)
 
 ### Issue #16 – Chronopolis-Marktlog
 - **Status:** [ ] Offen

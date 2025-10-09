@@ -252,7 +252,9 @@ ein fein abgestimmtes Interferenzfeld, das fremde Psi-Eingriffe ablenkt. Das
 Toolkit setzt dafür automatisch den Flag `psi_buffer = true`. Der Puffer
 liefert **+2 SG** gegen telepathische Angriffe, `mind_control`-Makros und
 reduziert Phase-Strike-Treffer auf **+0 Schaden**, sofern das Ziel keinen
-eigenen Psi-Fokus besitzt (`target.has_psi === false`).
+eigenen Psi-Fokus besitzt (`target.has_psi === false`). Im PvP sorgt der
+Runtime-Helfer `apply_arena_rules()` dafür, dass alle aktiven Arena-Teilnehmer
+den Puffer erhalten und der Exploding-Dämpfer aktiv bleibt.
 
 ```python
 if target.psi_buffer and not target.has_psi:

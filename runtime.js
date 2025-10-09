@@ -1035,6 +1035,37 @@ function ensure_arena(){
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
   arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
+  arena.policy_players = Array.isArray(arena.policy_players)
+    ? arena.policy_players.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : null)).filter(Boolean)
+    : undefined;
+  apply_arena_rules(state);
+  return arena;
+}
+
+function apply_arena_rules(ctx = state){
+  if (!ctx || typeof ctx !== 'object'){ return null; }
+  const arena = ctx.arena;
+  if (!arena || typeof arena !== 'object'){ return null; }
+  const active = !!arena.active;
+  arena.damage_dampener = active && arena.damage_dampener !== false;
+  arena.phase_strike_tax = active ? phase_strike_tax(ctx) : 0;
+  if (!active){
+    return arena;
+  }
+  const markBuffer = target => {
+    if (!target || typeof target !== 'object'){ return; }
+    target.psi_buffer = true;
+  };
+  markBuffer(ensure_character());
+  const team = ensure_team();
+  markBuffer(team);
+  if (Array.isArray(team.members)){
+    team.members.forEach(member => markBuffer(member));
+  }
+  const party = ensure_party();
+  if (Array.isArray(party.characters)){
+    party.characters.forEach(member => markBuffer(member));
+  }
   return arena;
 }
 
@@ -1492,7 +1523,7 @@ function arenaStart(options = {}){
   arena.policy_players = sanitisedPlayers;
   arena.started_episode = currentEpisode;
   state.campaign.mode = 'pvp';
-  arena.phase_strike_tax = phase_strike_tax();
+  apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
   const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
@@ -1544,7 +1575,7 @@ function arenaExit(){
   arena.audit = [];
   arena.fee = 0;
   arena.scenario = null;
-  arena.damage_dampener = true;
+  arena.damage_dampener = false;
   arena.team_size = 1;
   arena.mode = 'single';
   arena.phase_strike_tax = 0;
@@ -1559,6 +1590,7 @@ function arenaExit(){
   }
   delete arena.previous_mode;
   ensure_runtime_flags().arena_active = false;
+  apply_arena_rules();
   state.location = 'HQ';
   const message = messageParts.join(' · ');
   hud_toast(message, 'ARENA');
@@ -2749,6 +2781,7 @@ module.exports = {
   is_pvp,
   phase_strike_tax,
   phase_strike_cost,
+  apply_arena_rules,
   getArenaFee,
   arenaStart,
   arenaScore,
