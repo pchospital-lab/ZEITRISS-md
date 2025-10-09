@@ -259,10 +259,15 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   Accessibility-Optionen.
 
 ### Issue #8 – Offline-Fallback
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Kein definierter Offline-Dialog trotz HUD-Alerts.
 - **Empfohlene Umsetzung:** `offline_help()` ergänzen, ein lokales FAQ
   bereitstellen und den Ask→Suggest-Flow offline spiegeln.
+- **Statusnotiz:** ✅ Toolkit-`offline_help()` liefert FAQ-Text für den im
+  Einsatz gekappten ITI↔Kodex-Uplink, `!offline` ruft das Feldprotokoll ab
+  (Mission läuft mit HUD-Lokaldaten weiter) und `must_comms()` triggert den
+  Fallback samt Hinweis, wenn Reichweite oder Jammer die Verbindung kappen.
+  (Commit: wird im PR referenziert.)
 - **Risiko bei Verzug:** Die Kodex-Hilfe bricht bei Verbindungsproblemen ab.
 
 ### Issue #9 – Semver-Benennung

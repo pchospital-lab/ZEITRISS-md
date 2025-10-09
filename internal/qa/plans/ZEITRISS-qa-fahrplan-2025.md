@@ -185,7 +185,10 @@ Dokumentation.
 
 ### Issue #8 – Offline-Fallback
 - **Workstream:** Offline-Fallback
-- **Nächster Schritt:** `offline_help()` sowie HUD-Toast implementieren.
+- **Statusnotiz:** ✅ Toolkit-`offline_help()` liefert Terminal-/FAQ-Hinweis für
+  den im Einsatz getrennten ITI↔Kodex-Uplink, `!offline` triggert das
+  Feldprotokoll (Mission weiter mit HUD-Lokaldaten) und `must_comms()` lenkt auf
+  den Fallback, sobald Reichweite/Jammer den Uplink kappen.
 - **Owner:** Codex
 - **Zieltermin:** KW 28
 - **QA-Verankerung:** Tunneltest „Funk weg“ inklusive Re-Sync.
