@@ -75,6 +75,15 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
   - Referenz: `systems/runtime-stub-routing-layer.md` (Mirror 2025-06-12),
     `runtime.js` QA-Abgleich.
 
+- **2025-06-13 – Beta-GPT-Nachlauf (Codex)** (Status: 🆕 geplant)
+  - Erkenntnis / To-do: Beta-GPT-Lauf dokumentierte 17 offene Punkte (ISSUE #1–#17)
+    rund um Save-Contract, HUD-UX, PvP/PvE-Parität und Log-Persistenz. Maßnahmen
+    wurden priorisiert und in den neuen Issue-Fahrplan (siehe Abschnitt
+    "Maßnahmenpaket Beta-GPT 2025-06") übertragen. QA-Referenzen fehlen noch und
+    werden nach den nächsten Testläufen ergänzt.
+  - Referenz: internal/qa/logs/2025-beta-qa-log.md (geplanter Eintrag 2025-06-13).
+  - Testläufe (2025-06-13): `make smoke`, `python3 scripts/lint_umlauts.py`.
+
 ### Session-Template
 
 - **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)
@@ -386,3 +395,60 @@ Dokumentation.
 > Aktualisiere den Statusabschnitt bei jeder Änderung dieses Fahrplans. Jede
 > abgeschlossene Maßnahme erhält Datum, Commit-Referenz und Verweis auf das
 > korrespondierende QA-Log.
+
+## Maßnahmenpaket Beta-GPT 2025-06 – Issue-Fahrplan
+
+Die nachfolgende Übersicht strukturiert die im Beta-GPT-Lauf identifizierten
+ISSUES #1–#17 in thematische Cluster, benennt Sofortmaßnahmen und weist die
+zuständigen Rollen zu. Statusangaben werden nach Umsetzung aktualisiert; bis zur
+finalen Bestätigung bleiben Einträge auf 🔄 offen.
+
+### Cluster A – Save-Contract & Persistenz
+
+| Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
+| --- | --- | --- | --- | --- | --- |
+| 🔄 | #1 | Doppelte Save-Schemata (Root vs. `character{}`) | `normalize_save_v6()` implementieren, Alt-Saves spiegeln, Dokumentation Modul 12/README anpassen | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| 🔄 | #2 | Fehlender PvP-Modus-Flag im Save | `ensure_mode_flag()` + HUD-Toast, Default-Heuristik dokumentieren | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
+| 🔄 | #6 | Fraktionsintervention ohne Persistenz | `log_intervention()` + Dashboard-Erweiterung, Log-Filter definieren | Codex, QA | `runtime.js`, `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| 🔄 | #9 | Market-Trace uneinheitlich | `log_market_purchase()` verankern, Debrief-Formatter erweitern | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md` |
+| 🔄 | #10 | Offline-Protokoll fehlt im Save | `offline_audit()` + Debrief-Zeile, README/Modul 16 ergänzen | Codex, Maintainer:innen | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #12 | Gear-Alias wird nicht rückwärts gespiegelt | `alias_trace()` im Debrief, Alias-Liste verknüpfen | Codex | `systems/gameflow/speicher-fortsetzung.md`, `runtime.js` |
+| 🔄 | #14 | Fraktionsbelohnungen im Midgame blockiert | HQ-Basar als Pre-City-Hub implementieren, CU-Logik spiegeln | Codex, Maintainer:innen | `gameplay/kampagnenuebersicht.md`, `systems/currency/cu-waehrungssystem.md` |
+
+### Cluster B – HUD, UX & Accessibility
+
+| Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
+| --- | --- | --- | --- | --- | --- |
+| 🔄 | #3 | Self-Reflection-Toggle fehlt | `sf_toggle()` + HUD-Badge + Save-Flag | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #4 | Boss-Foreshadow Helper nicht implementiert | `boss_helper()` inkl. Overlay, Sollwerte dokumentieren | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #5 | Accessibility-Dialog fehlt | `accessibility_setup()` + `ui.access.*` speichern | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/cinematic-start.md` |
+| 🔄 | #7 | Rift-Seed-Gate ohne klares HUD-Signal | Gate-Check in `launch_rift()`, Toast & Tooltip ergänzen | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
+| 🔄 | #8 | Kein Pre-City-Hub für Demos | HQ-Basar-Menü (siehe Issue #14) + Arc-Dashboard-Verweis | Codex, Maintainer:innen | `runtime.js`, `gameplay/kampagnenuebersicht.md` |
+| 🔄 | #11 | Boss-DR-Toast fehlt | `boss_spawn_toast()` verpflichtend triggern | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #15 | Suggest-Modus intransparent | `toggle_suggest()` persistieren + HUD-Icon | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #16 | Vehikel-HUD-Overlay nicht automatisch aktiv | Szenen-Tagging `env="vehicle"` automatisieren | Codex | `runtime.js`, `gameplay/fahrzeuge-konflikte.md` |
+| 🔄 | #17 | Phase-Strike-Tax ohne HUD-Feedback | `phase_strike_cost()` um Toast + Log erweitern | Codex | `runtime.js`, `systems/kp-kraefte-psi.md` |
+
+### Cluster C – QA & Supporting Artefakte
+
+| Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
+| --- | --- | --- | --- | --- | --- |
+| 🔄 | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#13 aktualisieren, HUD-Logging prüfen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
+| 🔄 | #5 | Accessibility-Profile testen | Drei Profile anlegen, Persistenz verifizieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #6 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| 🔄 | #7 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #8 | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
+| 🔄 | #9 | Debrief-Linter | Debrief-Trace-Checks in QA-Tools ergänzen | QA, Tooling | `tools/`, `scripts/` |
+| 🔄 | #10 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #11 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #12 | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #13 | Squad-Radio-Log QA | Konfliktgrößen S–XL abdecken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #14 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzen | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| 🔄 | #15 | Ask→Suggest Load-Test | Loader-Toast validieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #16 | Vehikel-Overlay QA | Boden- & Luft-Chase testen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #17 | Phase-Strike Arena QA | Drei Einsätze protokollieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+
+> Hinweis: Die Tabellen führen QA-Folgeaufgaben bewusst doppelt (Codex-Implementierung
+> und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
+> jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
