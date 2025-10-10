@@ -114,6 +114,10 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - `python3 scripts/lint_doc_links.py`
 - `python3 scripts/lint_umlauts.py`
 
+Auch bei reinen Dokumentationsänderungen sind diese Prüfungen auszuführen.
+Die Linter validieren Format, Links und Terminologie der Markdown-Dateien
+und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
+
 ### Erweiterte QA & optionale Checks
 - `node tools/test_save.js`, `node tools/test_load.js`
 - Dispatcher-Smoke-Tests siehe
