@@ -154,8 +154,9 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   Vor Umsetzung `tools/lint_runtime.py` und bestehende Dispatcher-Tests gegen
   neue Pflichtfelder spiegeln.
 - [ ] **HUD- & UX-Block:** Issues #3, #5, #7, #8, #10, #13 – Arc-Dashboard,
-  Accessibility-Menü, Offline-Fallback und Foreshadow-Badge bündeln; README und
-  Toolkit-Dokumentation vorbereiten.
+  Offline-Fallback und Foreshadow-Badge bündeln; README und
+  Toolkit-Dokumentation vorbereiten. Accessibility-Menü entfällt nach Maintainer-
+  Entscheid vom 2025-06-13 (Schriftgrößen-Anpassung bleibt clientseitig).
 - [ ] **PvP- & Arena-Block:** Issues #6, #11, #15, #16 – Modus-Helper,
   Koop-Verteilung, Arena-Regeln und Markt-Logging gemeinsam angehen, damit
   Kampf- und Wirtschaftslogik synchron bleiben.
@@ -225,10 +226,12 @@ Dokumentation.
 
 ### Issue #7 – Accessibility
 - **Workstream:** Accessibility
-- **Nächster Schritt:** HUD-Menü liefern und Persistenztests durchführen.
-- **Owner:** Codex & QA
-- **Zieltermin:** KW 28
-- **QA-Verankerung:** HQ-Onboarding-Regression.
+- **Statusnotiz:** ❌ Verworfene Option – HUD behält das Standardmenü, Schrift-
+  größen-Anpassungen erfolgen auf Endgeräten (Entscheid 2025-06-13, Maintainer-
+  Sync bestätigt).
+- **Owner:** —
+- **Zieltermin:** entfällt
+- **QA-Verankerung:** entfällt
 
 ### Issue #8 – Offline-Fallback
 - **Workstream:** Offline-Fallback
@@ -472,7 +475,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | --- | --- | --- | --- | --- | --- |
 | 🔄 | #3 | Self-Reflection-Toggle fehlt | `sf_toggle()` + HUD-Badge + Save-Flag | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
 | 🔄 | #4 | Boss-Foreshadow Helper nicht implementiert | `boss_helper()` inkl. Overlay, Sollwerte dokumentieren | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| 🔄 | #5 | Accessibility-Dialog fehlt | `accessibility_setup()` + `ui.access.*` speichern | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/cinematic-start.md` |
+| ⛔ | #5 | Accessibility-Dialog bleibt extern | Keine Laufzeitänderung – Entscheidung 2025-06-13, Schriftgröße via Endgerät | Codex, Maintainer:innen | Entscheidung QA-Sync 2025-06-13 |
 | 🔄 | #7 | Rift-Seed-Gate ohne klares HUD-Signal | Gate-Check in `launch_rift()`, Toast & Tooltip ergänzen | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
 | 🔄 | #8 | Kein Pre-City-Hub für Demos | HQ-Basar-Menü (siehe Issue #14) + Arc-Dashboard-Verweis | Codex, Maintainer:innen | `runtime.js`, `gameplay/kampagnenuebersicht.md` |
 | 🔄 | #11 | Boss-DR-Toast fehlt | `boss_spawn_toast()` verpflichtend triggern | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
@@ -487,7 +490,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#13 aktualisieren, HUD-Logging prüfen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ✅ | #18 | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
-| 🔄 | #5 | Accessibility-Profile testen | Drei Profile anlegen, Persistenz verifizieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ⛔ | #5 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
 | 🔄 | #6 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #7 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #8 | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
