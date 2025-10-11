@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.2.0
+version: 1.3.1
 tags: [meta]
 ---
 
@@ -39,6 +39,29 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
 6. **Review & Sync:** Nach Abschluss einer Maßnahme wird das Audit aktualisiert,
    der Abschnitt im QA-Log abgehakt und gegebenenfalls ein weiterer Beta-Test
    gestartet.
+
+## Pflicht-Testpaket (Repo-Agent)
+
+Der Repo-Agent führt bei jeder Änderung – auch reinen Dokumentationsupdates –
+das vollständige Pflicht-Testpaket aus und protokolliert Ergebnisse in Commit,
+PR und QA-Log:
+
+- `make lint` – Runtime- und Link-Lints via NPM.
+- `make test` – Modul- und Tool-Unittests.
+- `bash scripts/smoke.sh` – Sammellauf der Python-Lints, Tool-Checks und HUD-
+  Regressionen.
+- `python3 tools/lint_runtime.py` – Direkter Lauf zur schnellen Fehlersuche.
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` – Gegencheck ohne
+  Precision-Warnungen.
+- `python3 scripts/lint_doc_links.py` – Verifiziert Dokumenten- und Ankerlinks.
+- `python3 scripts/lint_umlauts.py` – Prüft Umlaute und Zeichensatz.
+
+✅ **Status 2025-06-13:** Testpaket im Fahrplan verankert; jedes Ergebnis wird im
+QA-Log zur Maßnahme referenziert.
+
+Hinweis: Die Befehlsliste wird zentral in
+[CONTRIBUTING.md → Verpflichtende Prüfungen](../../../CONTRIBUTING.md#verpflichtende-pruefungen)
+gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
 
 ## Rollen & Übergabe
 - **Maintainer:innen** halten Wissensstände synchron, bauen Beta-GPT-Instanzen
@@ -82,7 +105,9 @@ sich ausschließlich auf QA-Inhalte, Status und Nachverfolgung.
     "Maßnahmenpaket Beta-GPT 2025-06") übertragen. QA-Referenzen fehlen noch und
     werden nach den nächsten Testläufen ergänzt.
   - Referenz: internal/qa/logs/2025-beta-qa-log.md (geplanter Eintrag 2025-06-13).
-  - Testläufe (2025-06-13): `make smoke`, `python3 scripts/lint_umlauts.py`.
+  - Testpaket (2025-06-13): `make lint`, `make test`, `bash scripts/smoke.sh`,
+    `python3 tools/lint_runtime.py`, `GM_STYLE=verbose python3 tools/lint_runtime.py`,
+    `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`.
 
 ### Session-Template
 
@@ -313,6 +338,32 @@ Dokumentation.
   - Status: 🗓️ geplant.
   - QA-Log: Eintrag folgt nach Lauf.
 
+## Mission 5 Badge-Check
+
+Zur Absicherung der Foreshadow- und Badge-Kette aus ISSUE #3 dokumentiert dieser Abschnitt,
+wie QA den Nachweis in jedem Beta-GPT-Lauf erbringt. Die Schritte ergänzen die
+[Acceptance-Smoke-Checkliste](../../../docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
+um eine klar definierte Evidenz, damit das HUD-Verhalten von Mission 5 dauerhaft nachvollziehbar bleibt.
+
+1. **Load vorbereiten:** Missionsverlauf bis zum Abschluss von Mission 4 spielen oder mit einem gültigen
+   HQ-Save (`scene_overlay().foreshadow == 2`) starten. Stelle sicher, dass der Foreshadow-Zähler auf 2/2 steht.
+2. **Mission 5 starten:** Wähle den Einsatz über das HUD. QA bestätigt, dass unmittelbar nach dem Start
+   der Toast `Boss-Encounter in Szene 10` erscheint, das Badge `SF-OFF` eingeblendet wird und der HUD-Zähler
+   `Foreshadow 2/2` meldet.
+3. **HUD-Log erfassen:** Dokumentiere den Konsolen- bzw. HUD-Auszug (Text oder Screenshot) direkt im QA-Log und
+   verweise auf die Acceptance-Smoke-Position 12. Bei MyGPT-Läufen genügt ein kopierter Chatlog-Block mit den
+   gemeldeten HUD-Zeilen.
+4. **Foreshadow-Reset prüfen:** Nach Missionsabbruch oder Abschluss sicherstellen, dass das Badge auf `SF-ON`
+   zurückspringt und `ForeshadowHint()` keine offenen Marker mehr meldet. QA vermerkt das Ergebnis im Fahrplan-Status
+   dieses Abschnitts.
+
+> Der Copy-&-Paste-Auftrag im [Tester-Playtest-Briefing](../../../docs/qa/tester-playtest-briefing.md)
+> weist den GPT explizit an, den Mission 5 Badge-Check im selben QA-Lauf zu simulieren und den
+> HUD-/Log-Auszug als Evidenz in die `Evidenz`-Zeilen der ISSUE-Blöcke zu übernehmen.
+
+> Ergebnisdokumentation: Abschnitt „Mission 5 Badge-Check“ dieses Fahrplans dient als Referenz. QA markiert den
+> entsprechenden Punkt im Beta-QA-Log als erledigt und verweist auf das Testdatum sowie die verwendete Runtime-Version.
+
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
 - [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
@@ -434,7 +485,8 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
 | --- | --- | --- | --- | --- | --- |
 | 🔄 | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#13 aktualisieren, HUD-Logging prüfen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
+| ✅ | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
+| ✅ | #18 | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | 🔄 | #5 | Accessibility-Profile testen | Drei Profile anlegen, Persistenz verifizieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #6 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #7 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
