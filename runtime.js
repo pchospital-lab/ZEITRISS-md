@@ -21,6 +21,7 @@ const OFFLINE_HELP_GUIDE = [
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
+const FR_INTERVENTION_LOG_LIMIT = 16;
 
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
@@ -257,6 +258,128 @@ function sanitize_offline_entries(entries, fallbackTimestamp){
   return sanitized;
 }
 
+function normalize_intervention_entry(entry, fallbackTimestamp, options = {}){
+  if (entry === undefined || entry === null) return null;
+  const fillDefaults = options.fillDefaults !== false;
+  let payload;
+  if (typeof entry === 'string'){
+    payload = { result: entry };
+  } else if (typeof entry === 'object'){
+    payload = { ...entry };
+  } else {
+    return null;
+  }
+  const timestamp = isoTimestamp(payload.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const result = pickString(payload.result, payload.status, payload.outcome, payload.message, payload.note);
+  if (!result){
+    return null;
+  }
+  let faction = pickString(payload.faction, payload.faction_id, payload.faction_name, payload.faction_tag, payload.name);
+  if (!faction && fillDefaults && typeof state.campaign?.faction === 'string'){
+    faction = state.campaign.faction;
+  }
+  let impact = pickString(payload.impact, payload.effect, payload.delta, payload.summary);
+  const note = pickString(payload.note, payload.details, payload.comment, payload.description);
+  let location = pickString(payload.location, payload.place);
+  if (!location && fillDefaults && typeof state.location === 'string'){
+    location = state.location;
+  }
+  let phase = pickString(payload.phase);
+  if (!phase && fillDefaults && typeof state.phase === 'string'){
+    phase = state.phase;
+  }
+  let gmStyle = pickString(payload.gm_style);
+  if (!gmStyle && fillDefaults){
+    gmStyle = ensure_ui().gm_style;
+  }
+  let mission = Number.isFinite(payload.mission) ? Math.max(0, Math.floor(payload.mission)) : null;
+  if (mission === null && fillDefaults && Number.isFinite(state.campaign?.mission)){
+    mission = Math.max(0, Math.floor(state.campaign.mission));
+  }
+  let episode = Number.isFinite(payload.episode) ? Math.max(0, Math.floor(payload.episode)) : null;
+  if (episode === null && fillDefaults && Number.isFinite(state.campaign?.episode)){
+    episode = Math.max(0, Math.floor(state.campaign.episode));
+  }
+  const sceneIndex = Number.isFinite(payload.scene_index)
+    ? Math.max(0, Math.floor(payload.scene_index))
+    : (fillDefaults && Number.isFinite(state.scene?.index))
+    ? Math.max(0, Math.floor(state.scene.index))
+    : null;
+  const sceneTotal = Number.isFinite(payload.scene_total)
+    ? Math.max(1, Math.floor(payload.scene_total))
+    : (fillDefaults && Number.isFinite(state.scene?.total))
+    ? Math.max(1, Math.floor(state.scene.total))
+    : null;
+  const observer = typeof payload.observer === 'boolean'
+    ? payload.observer
+    : (payload.is_observer === true || payload.observer === 'true');
+  const escalated = typeof payload.escalated === 'boolean'
+    ? payload.escalated
+    : (payload.escalation === true || payload.escalated === 'true');
+  const severity = pickString(payload.severity, payload.tier);
+  const arc = pickString(payload.arc, payload.arc_id, payload.story_arc);
+  const normalized = { timestamp, result: result.trim() };
+  if (faction){
+    normalized.faction = faction;
+  }
+  if (impact){
+    normalized.impact = impact;
+  }
+  if (note){
+    normalized.note = note;
+  }
+  if (location){
+    normalized.location = location;
+  }
+  if (phase){
+    normalized.phase = phase;
+  }
+  if (gmStyle){
+    normalized.gm_style = gmStyle;
+  }
+  if (mission !== null){
+    normalized.mission = mission;
+  }
+  if (episode !== null){
+    normalized.episode = episode;
+  }
+  if (sceneIndex !== null){
+    normalized.scene_index = sceneIndex;
+  }
+  if (sceneTotal !== null){
+    normalized.scene_total = sceneTotal;
+  }
+  if (arc){
+    normalized.arc = arc;
+  }
+  if (severity){
+    normalized.severity = severity;
+  }
+  if (observer !== undefined){
+    normalized.observer = !!observer;
+  }
+  if (escalated !== undefined){
+    normalized.escalated = !!escalated;
+  }
+  return normalized;
+}
+
+function sanitize_intervention_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    const normalized = normalize_intervention_entry(entry, fallback, { fillDefaults: false });
+    if (normalized){
+      sanitized.push(normalized);
+    }
+  });
+  if (sanitized.length > FR_INTERVENTION_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - FR_INTERVENTION_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
@@ -370,6 +493,11 @@ function ensure_logs(){
   } else {
     state.logs.offline = sanitize_offline_entries(state.logs.offline);
   }
+  if (!Array.isArray(state.logs.fr_interventions)){
+    state.logs.fr_interventions = [];
+  } else {
+    state.logs.fr_interventions = sanitize_intervention_entries(state.logs.fr_interventions);
+  }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
@@ -417,6 +545,15 @@ function ensure_offline_log(){
   }
   state.logs.offline = sanitize_offline_entries(state.logs.offline);
   return state.logs.offline;
+}
+
+function ensure_intervention_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.fr_interventions)){
+    state.logs.fr_interventions = [];
+  }
+  state.logs.fr_interventions = sanitize_intervention_entries(state.logs.fr_interventions);
+  return state.logs.fr_interventions;
 }
 
 function log_market_purchase(item, cost, options = {}){
@@ -594,7 +731,19 @@ function ensure_arc_dashboard(){
   } else {
     const normalized = {};
     for (const [key, value] of Object.entries(dash.fraktionen)){
-      normalized[key] = value && typeof value === 'object' ? clone_plain_object(value) : {};
+      const record = value && typeof value === 'object' ? clone_plain_object(value) : {};
+      if (Array.isArray(record.interventions)){
+        record.interventions = sanitize_intervention_entries(record.interventions).map(entry => ({ ...entry }));
+      } else {
+        record.interventions = [];
+      }
+      if (record.last_intervention){
+        const last = normalize_intervention_entry(record.last_intervention, record.last_intervention?.timestamp, { fillDefaults: false });
+        record.last_intervention = last || null;
+      } else {
+        record.last_intervention = null;
+      }
+      normalized[key] = record;
     }
     dash.fraktionen = normalized;
   }
@@ -608,6 +757,72 @@ function ensure_arc_dashboard(){
     ));
   }
   return dash;
+}
+
+function update_arc_dashboard_intervention(entry){
+  const dash = ensure_arc_dashboard();
+  dash.fraktionen ||= {};
+  const factionKey = typeof entry.faction === 'string' && entry.faction.trim()
+    ? entry.faction.trim()
+    : 'unbekannt';
+  const mapKey = factionKey.toLowerCase();
+  const record = dash.fraktionen[mapKey] && typeof dash.fraktionen[mapKey] === 'object'
+    ? dash.fraktionen[mapKey]
+    : {};
+  if (!record.id){
+    record.id = mapKey;
+  }
+  if (factionKey && !record.name){
+    record.name = factionKey;
+  }
+  const history = Array.isArray(record.interventions) ? record.interventions.slice() : [];
+  const snapshot = { timestamp: entry.timestamp, result: entry.result };
+  if (entry.impact){
+    snapshot.impact = entry.impact;
+  }
+  if (entry.note){
+    snapshot.note = entry.note;
+  }
+  if (entry.phase){
+    snapshot.phase = entry.phase;
+  }
+  if (entry.location){
+    snapshot.location = entry.location;
+  }
+  if (Number.isFinite(entry.scene_index)){
+    snapshot.scene_index = entry.scene_index;
+  }
+  if (Number.isFinite(entry.scene_total)){
+    snapshot.scene_total = entry.scene_total;
+  }
+  if (Number.isFinite(entry.mission)){
+    snapshot.mission = entry.mission;
+  }
+  if (Number.isFinite(entry.episode)){
+    snapshot.episode = entry.episode;
+  }
+  if (entry.arc){
+    snapshot.arc = entry.arc;
+  }
+  if (entry.severity){
+    snapshot.severity = entry.severity;
+  }
+  if (entry.observer !== undefined){
+    snapshot.observer = !!entry.observer;
+  }
+  if (entry.escalated !== undefined){
+    snapshot.escalated = !!entry.escalated;
+  }
+  history.push(snapshot);
+  if (history.length > 6){
+    history.splice(0, history.length - 6);
+  }
+  record.interventions = history;
+  record.last_intervention = snapshot;
+  record.last_result = entry.result;
+  record.last_updated = entry.timestamp;
+  dash.fraktionen[mapKey] = record;
+  return record;
 }
 
 function ensure_initiative(){
@@ -1143,6 +1358,107 @@ function offline_audit(trigger='auto', context = {}){
     offlineLog.splice(0, offlineLog.length - OFFLINE_LOG_LIMIT);
   }
   return normalized;
+}
+
+function log_intervention(result, context = {}){
+  const base = {};
+  const nowIso = new Date().toISOString();
+  if (context && typeof context === 'object'){
+    Object.assign(base, context);
+  }
+  if (result && typeof result === 'object' && !Array.isArray(result)){
+    Object.assign(base, result);
+  } else if (result !== undefined){
+    base.result = result;
+  }
+  if (!base.timestamp){
+    base.timestamp = nowIso;
+  }
+  if (base.scene_index === undefined && Number.isFinite(state.scene?.index)){
+    base.scene_index = state.scene.index;
+  }
+  if (base.scene_total === undefined && Number.isFinite(state.scene?.total)){
+    base.scene_total = state.scene.total;
+  }
+  if (base.phase === undefined && typeof state.phase === 'string'){
+    base.phase = state.phase;
+  }
+  if (base.location === undefined && typeof state.location === 'string'){
+    base.location = state.location;
+  }
+  if (base.mission === undefined && Number.isFinite(state.campaign?.mission)){
+    base.mission = state.campaign.mission;
+  }
+  if (base.episode === undefined && Number.isFinite(state.campaign?.episode)){
+    base.episode = state.campaign.episode;
+  }
+  if (base.gm_style === undefined){
+    base.gm_style = ensure_ui().gm_style;
+  }
+  const normalized = normalize_intervention_entry(base, nowIso, { fillDefaults: true });
+  if (!normalized){
+    throw new Error('log_intervention: Ergebnis fehlt.');
+  }
+  const log = ensure_intervention_log();
+  log.push(normalized);
+  if (log.length > FR_INTERVENTION_LOG_LIMIT){
+    log.splice(0, log.length - FR_INTERVENTION_LOG_LIMIT);
+  }
+  update_arc_dashboard_intervention(normalized);
+  const shouldToast = base.toast !== false;
+  const toastTag = typeof base.toast_tag === 'string' && base.toast_tag.trim() ? base.toast_tag.trim() : 'FR-INTRV';
+  if (shouldToast){
+    hud_toast(`FR-INTRV: ${normalized.result}`, toastTag);
+  }
+  return normalized;
+}
+
+function get_intervention_log(filter = {}){
+  const entries = ensure_intervention_log();
+  const factions = Array.isArray(filter.faction)
+    ? filter.faction.filter(f => typeof f === 'string' && f.trim()).map(f => f.trim().toLowerCase())
+    : (typeof filter.faction === 'string' && filter.faction.trim())
+    ? [filter.faction.trim().toLowerCase()]
+    : [];
+  const resultFilter = typeof filter.result === 'string' && filter.result.trim()
+    ? filter.result.trim().toLowerCase()
+    : null;
+  const observerFilter = typeof filter.observer === 'boolean' ? filter.observer : null;
+  const escalatedFilter = typeof filter.escalated === 'boolean' ? filter.escalated : null;
+  const sinceMs = filter.since ? Date.parse(filter.since) : null;
+  const untilMs = filter.until ? Date.parse(filter.until) : null;
+  return entries
+    .filter((entry) => {
+      if (factions.length){
+        const factionKey = typeof entry.faction === 'string' ? entry.faction.trim().toLowerCase() : '';
+        if (!factions.includes(factionKey)){
+          return false;
+        }
+      }
+      if (resultFilter && (!entry.result || entry.result.trim().toLowerCase() !== resultFilter)){
+        return false;
+      }
+      if (observerFilter !== null && !!entry.observer !== observerFilter){
+        return false;
+      }
+      if (escalatedFilter !== null && !!entry.escalated !== escalatedFilter){
+        return false;
+      }
+      if (sinceMs !== null){
+        const ts = Date.parse(entry.timestamp);
+        if (Number.isFinite(ts) && ts < sinceMs){
+          return false;
+        }
+      }
+      if (untilMs !== null){
+        const ts = Date.parse(entry.timestamp);
+        if (Number.isFinite(ts) && ts > untilMs){
+          return false;
+        }
+      }
+      return true;
+    })
+    .map(entry => clone_plain_object(entry));
 }
 
 function format_offline_report(entry, totalCount){
@@ -2417,6 +2733,11 @@ function prepare_save_logs(logs){
   } else {
     base.offline = [];
   }
+  if (Array.isArray(base.fr_interventions)){
+    base.fr_interventions = sanitize_intervention_entries(base.fr_interventions).map(entry => ({ ...entry }));
+  } else {
+    base.fr_interventions = [];
+  }
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
   }
@@ -2447,7 +2768,19 @@ function prepare_save_arc_dashboard(dashboard){
   } else {
     const normalized = {};
     for (const [key, value] of Object.entries(base.fraktionen)){
-      normalized[key] = value && typeof value === 'object' ? clone_plain_object(value) : {};
+      const record = value && typeof value === 'object' ? clone_plain_object(value) : {};
+      if (Array.isArray(record.interventions)){
+        record.interventions = sanitize_intervention_entries(record.interventions).map(entry => ({ ...entry }));
+      } else {
+        record.interventions = [];
+      }
+      if (record.last_intervention){
+        const last = normalize_intervention_entry(record.last_intervention, record.last_intervention?.timestamp, { fillDefaults: false });
+        record.last_intervention = last || null;
+      } else {
+        record.last_intervention = null;
+      }
+      normalized[key] = record;
     }
     base.fraktionen = normalized;
   }
@@ -3151,6 +3484,8 @@ module.exports = {
   offline_help,
   offline_audit,
   render_offline_protocol,
+  log_intervention,
+  get_intervention_log,
   set_suggest_mode,
   suggest_mode_enabled,
   log_market_purchase
