@@ -14,6 +14,9 @@ in Prompts oder Spielsysteme übernommen werden.**
   Runtime-Content getrennt.
 - **Spiegle jede Laufzeitänderung (runtime.js, Tools) sofort in den Wissensmodulen (README, Runtime-Markdowns, Toolkit-Makros)**
   und dokumentiere den Mirror in Commit/PR sowie – falls noch offen – im QA-Log.
+- Das Pflicht-Testpaket für Repo-Agent:innen ist ausschließlich in
+  [CONTRIBUTING.md → Verpflichtende Prüfungen](CONTRIBUTING.md#verpflichtende-pruefungen)
+  definiert; QA-Reports müssen es nicht mehr als To-do aufführen.
 
 ## Arbeitsablauf des Repo-Agenten
 1. **Vorbereitung** – Lies die betroffenen Dateien vollständig und gleiche Strukturvorgaben mit der
