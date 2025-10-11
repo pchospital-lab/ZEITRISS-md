@@ -91,7 +91,7 @@ Copy-&-Paste-Auftrag für den GPT
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
 > Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
 > ab, vermerke Abweichungen im Evidenz-Block und kennzeichne die Prüfnummer
-> (1–13) pro Befund.
+> (1–15) pro Befund.
 >
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
 > folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
@@ -160,7 +160,7 @@ Copy-&-Paste-Auftrag für den GPT
    Befehle nicht mehr auflisten.
 7. Überprüfen, dass die GPT-Antwort alle `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
    Blöcke enthält und keine freien Zusatzabschnitte erzeugt. Fehlende Angaben lässt du das GPT in
-   derselben Sitzung nachreichen. Dokumentiere zusätzlich für jeden Acceptance-Smoke-Punkt (1–13),
+   derselben Sitzung nachreichen. Dokumentiere zusätzlich für jeden Acceptance-Smoke-Punkt (1–15),
    ob er bestanden wurde oder welcher Nachtest angesetzt ist.
 8. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere Beobachtungen als
    Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
@@ -238,6 +238,19 @@ saveGame({...})
 13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
     `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
+
+### PvP-Modus-Flag & Arena-Rückkehr
+
+14. `!arena start team 2 mode sparring` → HUD bestätigt den Arena-Start.
+    Notiere den `[ARENA]`-Toast und frage den GPT nach
+    `phase_strike_cost()`: Der Wert steigt auf `3` (Basis 2 + Tax 1).
+    Ein anschließendes `saveGame({...})` löst den erwarteten Hinweis
+    „SaveGuard: Arena aktiv – HQ-Save gesperrt.“ aus; dieser Blocker dient als
+    Evidenz dafür, dass der PvP-Flag aktiv ist.
+15. `!arena exit` im Anschluss auslösen → erneut `phase_strike_cost()`
+    anfordern (Wert `2`) und jetzt `saveGame({...})` sichern. Der Save zeigt
+    `campaign.mode: "preserve"` (oder den vorherigen Modus). Dokumentiere
+    Toast, Kostenänderung und Save-Zeilen im QA-Log.
 
 ### QA-Abgleich 2025-03-23
 

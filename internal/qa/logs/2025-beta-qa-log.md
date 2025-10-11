@@ -52,6 +52,65 @@ nachzuvollziehen.
 - QA-Fahrplan: Maßnahmenpaket Issue #1 (Status aktualisiert 2025-06-11).
 - QA-Audit: Issue #1 als erledigt markiert (2025-06-11).
 
+## 2025-06-13 – Repo-Agent – PvP-Modus-Flag Acceptance-Smoke
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Arena-Modus)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Cluster C Issue #2 – PvP-Szenario für Acceptance-Smoke ergänzen
+
+```chatlog
+16:45 Repo-Agent: `node - <<'NODE'
+const rt = require('./runtime.js');
+const { state, handleArenaCommand, save_deep, phase_strike_cost } = rt;
+state.economy.credits = 1000;
+state.character.id = 'qa-agentin';
+state.character.name = 'QA-Agentin';
+state.character.rank = 'Recruit';
+state.character.lvl = 8;
+state.character.stress = 0;
+state.team.members = [];
+state.team.stress = 0;
+state.team.psi_heat = 0;
+state.campaign.episode = 2;
+state.campaign.mode = 'preserve';
+state.campaign.scene = 0;
+state.campaign.paradoxon_index = 0;
+state.campaign.scene_total = 12;
+console.log('Vor Arena:', state.campaign.mode, state.arena.phase_strike_tax, phase_strike_cost());
+console.log(handleArenaCommand('!arena start team 2 mode sparring'));
+console.log('Arena aktiv:', state.campaign.mode, state.arena.phase_strike_tax, phase_strike_cost());
+try {
+  save_deep();
+} catch (err) {
+  console.log('Save während Arena:', err.message);
+}
+console.log(handleArenaCommand('!arena exit'));
+state.team.stress = 0;
+state.team.psi_heat = 0;
+state.character.stress = 0;
+const saveExit = JSON.parse(save_deep());
+console.log('Arena Ende:', state.campaign.mode, state.arena.phase_strike_tax, phase_strike_cost());
+console.log('Save mode:', saveExit.campaign.mode);
+NODE`
+16:45 Tool: `Vor Arena: preserve 0 2`
+16:45 Tool: `[ARENA] Arena initiiert · Tier 2 · Gebühr 260 CU · Px-Bonus verfügbar`
+16:45 Tool: `Arena initiiert · Tier 2 · Gebühr 260 CU · Offene Wüstenruine · Px-Bonus verfügbar`
+16:45 Tool: `Arena aktiv: pvp 1 3`
+16:45 Tool: `Save während Arena: SaveGuard: Arena aktiv – HQ-Save gesperrt.`
+16:45 Tool: `[ARENA] Arena Ende · Score 0:0 · Keine Px-Belohnung (Serie verloren)`
+16:45 Tool: `Arena Ende · Score 0:0 · Keine Px-Belohnung (Serie verloren)`
+16:45 Tool: `Arena Ende: preserve 0 2`
+16:45 Tool: `Save mode: preserve`
+```
+
+**Ergebnisse**
+- [x] PvP-Flag aktiviert `phase_strike_cost()` → 3 und blockiert HQ-Save während Arena.
+- [x] `!arena exit` setzt `phase_strike_cost()` zurück auf 2.
+- [x] HQ-Save nach Arena bestätigt `campaign.mode: "preserve"`.
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C Issue #2 (Acceptance-Smoke #14/#15 dokumentiert 2025-06-13).
+- Docs: `docs/qa/tester-playtest-briefing.md` (PvP-Prüfschritte ergänzt).
+
 ## 2025-04-02 – Maintainer-Team – Regressionstestplanung
 - Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde
 - Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
