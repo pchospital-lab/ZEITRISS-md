@@ -2278,12 +2278,24 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {%- endmacro %}
 
 <!-- Macro: log_intervention -->
-{% macro log_intervention(result) -%}
+{% macro log_intervention(result, data=None) -%}
   {# LINT:FR_INTERVENTION #}
-{{ hud_tag('FR-INTRV: ' ~ result) }}
+  {% set entry = result if result is mapping else {'result': result} %}
+  {% if data %}
+    {% set entry = entry | combine(data, recursive=true) %}
+  {% endif %}
+  {% set text = entry.result if entry.result is defined else entry.get('result', entry.get('status', '')) %}
+{{ hud_tag('FR-INTRV: ' ~ text) }}
 {% if campaign.kodex_log is none %}{% set campaign.kodex_log = {} %}{% endif %}
-{{ kodex_log_npc('fr_intervention', {'result': result}) }}
+{{ kodex_log_npc('fr_intervention', entry) }}
 {%- endmacro %}
+
+> **Runtime-Hinweis:** `log_intervention()` im Node-Runtime-Modul erzeugt parallel zur HUD-Ausgabe einen
+> persistierten Eintrag (`logs.fr_interventions[]`) und aktualisiert das Arc-Dashboard (`fraktionen{}` →
+> `last_intervention`/`interventions[]`). Die Spielleitung kann den Verlauf bei Bedarf mit
+> `get_intervention_log()` gefiltert auslesen. Über den optionalen Parameter `data` gebt ihr
+> zusätzliche Felder wie `faction`, `impact`, `observer` oder `escalated` mit; Szene, Mission und
+> Episode ergänzt die Runtime automatisch.
 
 <!-- Macro: kodex_log_npc -->
 {% macro kodex_log_npc(npc_id, data) -%}
