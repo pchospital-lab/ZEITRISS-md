@@ -487,7 +487,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 
 | Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
 | --- | --- | --- | --- | --- | --- |
-| 🔄 | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#13 aktualisieren, HUD-Logging prüfen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ✅ | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#14/#15 dokumentieren; HUD-/Save-Evidenz sichern (Dokumentiert 2025-06-13) | QA | `internal/qa/logs/2025-beta-qa-log.md`, `docs/qa/tester-playtest-briefing.md` |
 | ✅ | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ✅ | #18 | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ⛔ | #5 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
