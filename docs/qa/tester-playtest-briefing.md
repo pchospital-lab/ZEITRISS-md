@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.1.0
+version: 1.3.1
 tags: [meta]
 ---
 
@@ -84,6 +84,10 @@ Copy-&-Paste-Auftrag für den GPT
 > müssen getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und Konflikte
 > kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder Regelunklarheit.
 >
+> Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben durch: Starte mit
+> `Foreshadow 2/2`, beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und HUD-Zähler und halte den
+> HUD-/Log-Auszug fest. Prüfe zum Abschluss den Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss.
+>
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
 > Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
 > ab, vermerke Abweichungen im Evidenz-Block und kennzeichne die Prüfnummer
@@ -141,18 +145,26 @@ Copy-&-Paste-Auftrag für den GPT
 4. Manueller Save/Load-Test: `saveGame({...})` anfordern, lokal sichern, neuen Chat starten und den
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
    rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
-5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen (`!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten), Paradoxon-Index-
-   Hinweise und Ask→Suggest-Toggle erklärt. Falls Informationen fehlen, gezielt nachfragen, bis alle
-   Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen,
-   Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat) im Protokoll
-   stehen.
-6. Überprüfe, dass die GPT-Antwort alle `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
+5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen (`!offline` –
+   Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten),
+   Paradoxon-Index-Hinweise und Ask→Suggest-Toggle erklärt. Achte zudem darauf, dass der GPT im
+   selben Durchlauf den **Mission 5 Badge-Check** simuliert, den HUD-/Log-Auszug in den Evidenzen
+   sichert und den Foreshadow-Reset dokumentiert. Falls Informationen fehlen, gezielt nachfragen,
+   bis alle Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten,
+   HQ-Erweiterungen, Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges,
+   Psi-Heat) im Protokoll stehen.
+6. Prüfen, ob der GPT im `To-do – Codex`-Block konkrete Umsetzungsaufgaben benennt. Das
+   Pflicht-Testpaket für Repo-Agent:innen ist in
+   [CONTRIBUTING.md → Verpflichtende Prüfungen](../../CONTRIBUTING.md#verpflichtende-pruefungen)
+   dokumentiert und wird unabhängig vom QA-Report durch Codex ausgeführt; der GPT muss die
+   Befehle nicht mehr auflisten.
+7. Überprüfen, dass die GPT-Antwort alle `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
    Blöcke enthält und keine freien Zusatzabschnitte erzeugt. Fehlende Angaben lässt du das GPT in
    derselben Sitzung nachreichen. Dokumentiere zusätzlich für jeden Acceptance-Smoke-Punkt (1–13),
    ob er bestanden wurde oder welcher Nachtest angesetzt ist.
-7. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere Beobachtungen als
+8. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder besondere Beobachtungen als
    Randnotizen ergänzt werden. Standardplattform ist das OpenAI-MyGPT im Beta-Klon.
-8. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
+9. Report an die Maintainer:innen übergeben; daraus entsteht entweder eine neue QA-Notiz oder ein
    Update für bestehende Audits. Ergebnis wird in Codex übertragen, damit Aufgaben strukturiert
    abgearbeitet werden können.
 
