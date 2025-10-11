@@ -887,6 +887,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Preisfaktoren.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
 - Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen `log_market_purchase()` für Debrief-Traces.
+- Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12 Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und Szenenmarker fest; `offline_audit()` speist HUD und Debrief.
 
 ## Spielmodi {#spielmodi}
 
