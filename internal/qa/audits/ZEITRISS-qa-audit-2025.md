@@ -256,12 +256,12 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Die Psi-Balance kippt in Sparring-Szenen.
 
 ### Issue #7 – Accessibility-Dialog
-- **Status:** [ ] Offen
+- **Status:** [x] Entfällt
 - **Kerndiagnose:** Es fehlt ein einheitliches Menü für Barrierefreiheit.
-- **Empfohlene Umsetzung:** `hud.accessibility()` mit persistierenden Flags
-  und Onboarding-Preset implementieren.
-- **Risiko bei Verzug:** Spieler:innen haben keinen Zugang zu
-  Accessibility-Optionen.
+- **Entscheid:** Maintainer:innen verwerfen das HUD-Menü (2025-06-13); Schrift-
+  größen-Anpassungen bleiben Aufgabe der Endgeräte/Apps.
+- **Dokumentation:** Fahrplan 2025 markiert Issue #7 als verworfen, keine
+  Umsetzung in `runtime.js` vorgesehen.
 
 ### Issue #8 – Offline-Fallback
 - **Status:** [x] Erledigt
