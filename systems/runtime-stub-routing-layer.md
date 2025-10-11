@@ -249,6 +249,7 @@ export function applyArenaRules(ctx = state) {
 
 ```javascript
 const MARKET_LOG_LIMIT = 24;
+const OFFLINE_LOG_LIMIT = 12;
 
 function dedupeForeshadow(entries = []) {
   const byToken = new Map();
@@ -371,13 +372,82 @@ function log_market_purchase(item, cost, options = {}) {
   }
   return entry;
 }
+
+function normalize_offline_entry(entry) {
+  const now = entry.timestamp ?? new Date().toISOString();
+  const reason = entry.reason ?? 'fallback';
+  const status = entry.status ?? 'offline';
+  const device = entry.device ?? state.comms?.device ?? null;
+  const jammed = typeof entry.jammed === 'boolean' ? entry.jammed : !!entry.jammed;
+  const range_m = Number.isFinite(entry.range_m) ? Math.max(0, Math.round(entry.range_m)) : null;
+  const relays = Number.isFinite(entry.relays) ? Math.max(0, Math.floor(entry.relays)) : null;
+  const scene_index = Number.isFinite(entry.scene_index) ? Math.max(0, Math.floor(entry.scene_index)) : state.scene?.index ?? 0;
+  const scene_total = Number.isFinite(entry.scene_total) ? Math.max(1, Math.floor(entry.scene_total)) : state.scene?.total ?? 12;
+  return {
+    timestamp: now,
+    reason,
+    status,
+    device,
+    jammed,
+    range_m,
+    relays,
+    scene_index,
+    scene_total,
+    episode: entry.episode ?? state.campaign?.episode ?? 0,
+    mission: entry.mission ?? state.campaign?.mission ?? 0,
+    note: entry.note ?? null,
+    count: entry.count ?? 0
+  };
+}
+
+function offline_audit(trigger = 'auto', context = {}) {
+  const logs = ensureLogs();
+  logs.offline ||= [];
+  const payload = normalize_offline_entry({
+    timestamp: new Date().toISOString(),
+    reason: trigger,
+    status: context.status || 'offline',
+    device: context.device,
+    jammed: context.jammed,
+    range_m: context.range_m,
+    relays: context.relays,
+    note: context.note,
+    count: logs.flags.offline_help_count,
+    scene_index: context.scene_index,
+    scene_total: context.scene_total,
+    episode: context.episode,
+    mission: context.mission
+  });
+  logs.offline.push(payload);
+  if (logs.offline.length > OFFLINE_LOG_LIMIT) {
+    logs.offline.splice(0, logs.offline.length - OFFLINE_LOG_LIMIT);
+  }
+  return payload;
+}
+
+function format_offline_report(entry, totalCount) {
+  const parts = [];
+  if (entry.reason === 'command') {
+    parts.push('manueller Abruf');
+  } else {
+    parts.push('Fallback');
+  }
+  if (entry.device) parts.push(`Gerät ${entry.device}`);
+  if (entry.jammed === true) parts.push('Jammer aktiv');
+  if (entry.jammed === false) parts.push('Jammer frei');
+  if (typeof entry.range_m === 'number') parts.push(`Reichweite ${entry.range_m} m`);
+  if (typeof entry.relays === 'number') parts.push(`Relais ${entry.relays}`);
+  return `Offline-Protokoll (${Math.max(1, totalCount)}×): ${parts.join(' · ')}`;
+}
 ```
 
 `sync_foreshadow_progress()` setzt `scene.foreshadows` gleich der deduplizierten
 Log-Länge; Toolkit-Badges und `!boss status` greifen darauf zu.
 `normalize_market_entry()` erzwingt ISO-Timestamps, rundet Kosten und ergänzt
 `px_clause`, falls Px-Delta gesetzt ist. Die Runtime beschneidet die Market-
-Historie auf die letzten 24 Einträge.
+Historie auf die letzten 24 Einträge. `offline_audit()` spiegelt jeden Uplink-
+Ausfall in `logs.offline[]` (maximal 12 Einträge) und `format_offline_report()`
+liefert die Debrief-Zeile für HUD und Save.
 
 ### 3.2 | Offline- & Comms-Gating
 
@@ -403,7 +473,7 @@ function kodex_link_state(ctx = state) {
   return inBubble ? 'field_online' : 'field_offline';
 }
 
-function offline_help() {
+function offline_help(trigger = 'auto') {
   const logs = ensureLogs();
   const flags = logs.flags;
   const now = Date.now();
@@ -416,16 +486,18 @@ function offline_help() {
   }
   flags.offline_help_last = new Date(now).toISOString();
   flags.offline_help_count = (flags.offline_help_count || 0) + 1;
-  return OFFLINE_HELP_GUIDE.join('\n');
+  const entry = offline_audit(trigger, { count: flags.offline_help_count });
+  const summary = format_offline_report(entry, flags.offline_help_count);
+  return `${OFFLINE_HELP_GUIDE.join('\n')}\n\n${summary}`;
 }
 
 function require_uplink(ctx = state, action = 'command') {
   const status = kodex_link_state(ctx);
   if (status === 'uplink' || status === 'field_online') return true;
-  offline_help();
+  offline_help('auto');
   throw new Error(
     'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
-      '!offline zeigt das Feldprotokoll.',
+      '!offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.',
   );
 }
 
@@ -449,8 +521,9 @@ function radio_tx(options) {
   require_uplink(ctx, 'radio_tx');
   if (!comms_check(options.device, options.range)) {
     throw new Error(
-      'CommsCheck failed: device/range ungültig – Terminal oder Relay koppeln, ' +
-        'Jammer-Override prüfen.',
+      'CommsCheck failed: require valid device/range or relay/jammer override. ' +
+        'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +
+        'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.',
     );
   }
   return 'tx';
@@ -460,7 +533,8 @@ function radio_tx(options) {
 `radio_rx` spiegelt `radio_tx`. Toolkit-Befehle für `!offline` greifen auf denselben
 Zähler zu, sodass QA-Läufe identische Hinweise liefern. `require_uplink()` hängt in
 `must_comms()` sowie den Funk-Commands; jeder Abbruch erhöht den Offline-Counter und
-triggert das HUD-Toast.
+triggert das HUD-Toast. `offline_help('command')` liefert neben dem FAQ die aktuelle
+Zusammenfassung aus `logs.offline[]`.
 
 ---
 

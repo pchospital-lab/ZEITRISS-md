@@ -871,6 +871,25 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
   {% set state.logs.flags.offline_help_last_scene = scene_marker %}
   {% set count = state.logs.flags.offline_help_count + 1 %}
   {% set state.logs.flags.offline_help_count = count %}
+  {% set state.logs.offline = state.logs.offline | default([]) %}
+  {% if state.logs.offline|length >= 12 %}
+    {% set state.logs.offline = state.logs.offline[1:] %}
+  {% endif %}
+  {% set offline_entry = {
+    'timestamp': '__AUTO__',
+    'reason': trigger,
+    'status': 'offline',
+    'device': state.comms.device | default(None),
+    'jammed': state.comms.jammed | default(False),
+    'range_m': state.comms.range_m | default(0),
+    'relays': state.comms.relays | default(0),
+    'scene_index': campaign.scene | default(0),
+    'scene_total': campaign.scene_total | default(12),
+    'episode': campaign.episode | default(0),
+    'mission': campaign.mission | default(0),
+    'count': count
+  } %}
+  {% set state.logs.offline = state.logs.offline + [offline_entry] %}
   {% if same_scene and trigger != 'init' %}
     {{ hud_ping('Offline-Protokoll läuft – Mission weiter, HUD lokal. Terminal koppeln oder Relais suchen. !offline wiederholt die Schritte.') }}
   {% else %}
@@ -879,6 +898,13 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
     {{ hud_tag('HQ-Save-Regel gilt: Im Einsatz keine neuen Saves, alles im HUD-Log notieren bis zum HQ-Sync.') }}
     {{ hud_tag('Ask→Suggest-Fallback: Aktionen als „Vorschlag:“ markieren und Bestätigung abholen, bis der Link zurück ist.') }}
   {% endif %}
+  {% set device = state.comms.device | default('unbekannt') %}
+  {% set jammed = state.comms.jammed | default(False) %}
+  {% set range_m = state.comms.range_m | default(0) %}
+  {% set relays = state.comms.relays | default(0) %}
+  {% set scene_idx = campaign.scene | default(0) %}
+  {% set scene_total = campaign.scene_total | default(12) %}
+  {{ hud_tag('Offline-Protokoll (' ~ count ~ '×): Gerät ' ~ device ~ ' · Jammer ' ~ (jammed and 'aktiv' or 'frei') ~ ' · Reichweite ' ~ range_m ~ 'm · Relais ' ~ relays ~ ' · Szene ' ~ scene_idx ~ '/' ~ scene_total) }}
 {%- endmacro %}
 
 {# PRECISION-Markierungsmakros #}

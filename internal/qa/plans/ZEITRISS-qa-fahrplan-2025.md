@@ -465,7 +465,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #2 | Fehlender PvP-Modus-Flag im Save | `ensure_mode_flag()` + HUD-Toast, Default-Heuristik dokumentieren | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
 | 🔄 | #6 | Fraktionsintervention ohne Persistenz | `log_intervention()` + Dashboard-Erweiterung, Log-Filter definieren | Codex, QA | `runtime.js`, `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #9 | Market-Trace uneinheitlich | `log_market_purchase()` verankern, Debrief-Formatter erweitern | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md` |
-| 🔄 | #10 | Offline-Protokoll fehlt im Save | `offline_audit()` + Debrief-Zeile, README/Modul 16 ergänzen | Codex, Maintainer:innen | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #10 | Offline-Protokoll persistiert | `offline_audit()` schreibt `logs.offline[]`, Debrief-Zeile spiegelt HUD-Status, README/Modul 16 ergänzt | Codex, Maintainer:innen | `runtime.js`, `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/speicher-fortsetzung.md` |
 | 🔄 | #12 | Gear-Alias wird nicht rückwärts gespiegelt | `alias_trace()` im Debrief, Alias-Liste verknüpfen | Codex | `systems/gameflow/speicher-fortsetzung.md`, `runtime.js` |
 | 🔄 | #14 | Fraktionsbelohnungen im Midgame blockiert | HQ-Basar als Pre-City-Hub implementieren, CU-Logik spiegeln | Codex, Maintainer:innen | `gameplay/kampagnenuebersicht.md`, `systems/currency/cu-waehrungssystem.md` |
 

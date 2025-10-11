@@ -72,6 +72,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 - Logs halten `logs.flags.runtime_version` vor, damit QA die Laufzeitversion des Saves sieht.
 - `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; Debriefs zitieren die jüngsten Einträge als Einkaufstrace.
+- `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; Debriefs zitieren den jüngsten Eintrag als Feldprotokoll.
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
