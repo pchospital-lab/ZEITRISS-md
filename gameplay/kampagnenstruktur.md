@@ -152,8 +152,11 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 - Bei aktivem Eingriff eine Szene markieren, in der die Fraktion Ressourcen blockiert oder einen
   Vorteil nutzt.
 - Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
-- `{{ hud_tag('FR-INTRV: ' ~ status) }}` nach Abschluss der Szene via
-  `log_intervention(status)` ausgeben.
+- Nach der Szene `log_intervention({'result': status, 'faction': fraktion,
+  'impact': konsequenz})` aufrufen. Das Makro erzeugt das HUD-Tag automatisch und
+  speichert Status, Fraktion, Szene, Mission und optionale Felder wie
+  `observer: true` (still beobachtend) oder `escalated: true` (offener Eingriff)
+  im Save sowie im Arc-Dashboard.
 
 ### Preserve-vs-Trigger-Logik
 

@@ -70,9 +70,10 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
 - Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
-- Logs halten `logs.flags.runtime_version` vor, damit QA die Laufzeitversion des Saves sieht.
+- Logs halten `logs.flags.runtime_version` vor, damit klar ist, mit welcher Laufzeitversion der Save erstellt wurde.
 - `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; Debriefs zitieren die jüngsten Einträge als Einkaufstrace.
 - `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; Debriefs zitieren den jüngsten Eintrag als Feldprotokoll.
+- `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status.
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
@@ -275,7 +276,9 @@ aber vom Serializer automatisch nachgezogen und strukturiert:
 - **`offene_seeds[]`** – Liste aktiver Missionsansätze. Jedes Element ist ein Objekt (z. B. mit
   `id`, `titel`, `status`, `deadline`).
 - **`fraktionen{}`** – Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
-  letzte Aktionen.
+  letzte Aktionen. Die Runtime ergänzt `last_intervention`, `last_result`, `last_updated` sowie
+  `interventions[]` (max. sechs Snapshots aus `logs.fr_interventions[]` inklusive Wirkung/Notiz),
+  sodass HQ-Dashboard, Kampagnenlog und Runtime denselben Stand anzeigen.
 - **`fragen[]`** – Offene Forschungs- oder Storyfragen als kurze Strings oder Objekte.
 
 Beim Laden normalisiert `load_deep()` das Objekt, entfernt Nullwerte und stellt sicher, dass alle
