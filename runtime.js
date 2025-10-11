@@ -20,6 +20,7 @@ const OFFLINE_HELP_GUIDE = [
 ];
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
+const OFFLINE_LOG_LIMIT = 12;
 
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
@@ -163,6 +164,99 @@ function sanitize_market_entries(entries, fallbackTimestamp){
   return sanitized;
 }
 
+function normalize_offline_entry(entry, fallbackTimestamp){
+  if (!entry || typeof entry !== 'object') return null;
+  const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const reason = pickString(entry.reason, entry.cause, entry.trigger) || 'fallback';
+  const status = pickString(entry.status, entry.state) || 'offline';
+  const device = pickString(entry.device, entry.channel, entry.link);
+  let jammed = null;
+  if (typeof entry.jammed === 'boolean'){
+    jammed = entry.jammed;
+  } else if (typeof entry.jammed === 'string'){
+    const trimmed = entry.jammed.trim().toLowerCase();
+    if (['true', '1', 'yes', 'aktiv'].includes(trimmed)){
+      jammed = true;
+    } else if (['false', '0', 'no', 'frei'].includes(trimmed)){
+      jammed = false;
+    }
+  } else if (entry.jammed != null){
+    jammed = !!entry.jammed;
+  }
+  const range = pickNumber(entry.range_m, entry.range, entry.distance);
+  const relays = pickNumber(entry.relays, entry.relay_count, entry.relays_count);
+  const note = pickString(entry.note, entry.details, entry.message, entry.info);
+  const count = pickNumber(entry.count, entry.sequence, entry.counter, entry.total);
+  const sceneIndex = pickNumber(entry.scene_index, entry.sceneIndex, entry.scene);
+  const sceneTotal = pickNumber(entry.scene_total, entry.sceneTotal, entry.totalScenes);
+  const episode = pickNumber(entry.episode, entry.ep);
+  const mission = pickNumber(entry.mission, entry.ms);
+  const location = pickString(entry.location, entry.loc);
+  const phase = pickString(entry.phase);
+  const gmStyle = pickString(entry.gm_style, entry.gmStyle);
+  const normalized = {
+    timestamp,
+    reason,
+    status
+  };
+  if (device){
+    normalized.device = device;
+  }
+  if (jammed !== null){
+    normalized.jammed = !!jammed;
+  }
+  if (Number.isFinite(range) && range >= 0){
+    normalized.range_m = Math.max(0, Math.round(range));
+  }
+  if (Number.isFinite(relays) && relays >= 0){
+    normalized.relays = Math.max(0, Math.floor(relays));
+  }
+  if (note){
+    normalized.note = note;
+  }
+  if (Number.isFinite(count) && count > 0){
+    normalized.count = Math.max(1, Math.floor(count));
+  }
+  if (Number.isFinite(sceneIndex) && sceneIndex >= 0){
+    normalized.scene_index = Math.max(0, Math.floor(sceneIndex));
+  }
+  if (Number.isFinite(sceneTotal) && sceneTotal > 0){
+    normalized.scene_total = Math.max(1, Math.floor(sceneTotal));
+  }
+  if (Number.isFinite(episode) && episode >= 0){
+    normalized.episode = Math.max(0, Math.floor(episode));
+  }
+  if (Number.isFinite(mission) && mission >= 0){
+    normalized.mission = Math.max(0, Math.floor(mission));
+  }
+  if (location){
+    normalized.location = location;
+  }
+  if (phase){
+    normalized.phase = phase;
+  }
+  if (gmStyle){
+    normalized.gm_style = gmStyle;
+  }
+  return normalized;
+}
+
+function sanitize_offline_entries(entries, fallbackTimestamp){
+  if (!Array.isArray(entries)) return [];
+  const timestamp = fallbackTimestamp || new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    const normalized = normalize_offline_entry(entry, timestamp);
+    if (normalized){
+      sanitized.push(normalized);
+    }
+  });
+  if (sanitized.length > OFFLINE_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - OFFLINE_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
@@ -271,6 +365,11 @@ function ensure_logs(){
   } else {
     state.logs.market = sanitize_market_entries(state.logs.market);
   }
+  if (!Array.isArray(state.logs.offline)){
+    state.logs.offline = [];
+  } else {
+    state.logs.offline = sanitize_offline_entries(state.logs.offline);
+  }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
@@ -309,6 +408,15 @@ function ensure_market_log(){
   }
   state.logs.market = sanitize_market_entries(state.logs.market);
   return state.logs.market;
+}
+
+function ensure_offline_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.offline)){
+    state.logs.offline = [];
+  }
+  state.logs.offline = sanitize_offline_entries(state.logs.offline);
+  return state.logs.offline;
 }
 
 function log_market_purchase(item, cost, options = {}){
@@ -999,6 +1107,100 @@ function render_px_tracker(temp){
 }
 
 const px_tracker = render_px_tracker;
+
+function offline_log_entries(){
+  return Array.isArray(state.logs?.offline) ? state.logs.offline : [];
+}
+
+function offline_audit(trigger='auto', context = {}){
+  ensure_logs();
+  const flags = state.logs.flags || {};
+  const entry = {
+    timestamp: context.timestamp,
+    reason: trigger,
+    status: context.status || 'offline',
+    device: context.device ?? state.comms?.device,
+    jammed: context.jammed ?? state.comms?.jammed,
+    range_m: context.range_m ?? state.comms?.range_m,
+    relays: context.relays ?? state.comms?.relays,
+    note: context.note,
+    count: context.count ?? flags.offline_help_count,
+    scene_index: context.scene_index ?? state.scene?.index,
+    scene_total: context.scene_total ?? state.scene?.total,
+    episode: context.episode ?? state.campaign?.episode,
+    mission: context.mission ?? state.campaign?.mission,
+    location: context.location ?? state.location,
+    phase: context.phase ?? state.phase,
+    gm_style: context.gm_style ?? ensure_ui().gm_style
+  };
+  const offlineLog = ensure_offline_log();
+  const normalized = normalize_offline_entry(entry, new Date().toISOString());
+  if (!normalized){
+    return null;
+  }
+  offlineLog.push(normalized);
+  if (offlineLog.length > OFFLINE_LOG_LIMIT){
+    offlineLog.splice(0, offlineLog.length - OFFLINE_LOG_LIMIT);
+  }
+  return normalized;
+}
+
+function format_offline_report(entry, totalCount){
+  if (!entry) return null;
+  const segments = [];
+  const reason = typeof entry.reason === 'string' ? entry.reason.trim() : '';
+  if (reason){
+    if (reason === 'command'){
+      segments.push('manueller Abruf');
+    } else if (reason === 'auto'){
+      segments.push('Fallback');
+    } else {
+      segments.push(reason);
+    }
+  }
+  if (entry.device){
+    segments.push(`Gerät ${entry.device}`);
+  }
+  if (typeof entry.jammed === 'boolean'){
+    segments.push(entry.jammed ? 'Jammer aktiv' : 'Jammer frei');
+  }
+  if (Number.isFinite(entry.range_m)){
+    const range = Math.max(0, Math.round(entry.range_m));
+    segments.push(`Reichweite ${range}m`);
+  }
+  if (Number.isFinite(entry.relays)){
+    const relays = Math.max(0, Math.floor(entry.relays));
+    segments.push(`Relais ${relays}`);
+  }
+  if (Number.isFinite(entry.scene_index) && Number.isFinite(entry.scene_total)){
+    segments.push(`Szene ${entry.scene_index}/${entry.scene_total}`);
+  } else if (Number.isFinite(entry.scene_index)){
+    segments.push(`Szene ${entry.scene_index}`);
+  }
+  if (Number.isFinite(entry.episode)){
+    segments.push(`EP ${entry.episode}`);
+  }
+  if (Number.isFinite(entry.mission)){
+    segments.push(`MS ${entry.mission}`);
+  }
+  if (entry.note){
+    segments.push(entry.note);
+  }
+  const total = Math.max(1, Number(totalCount) || 1);
+  const header = `Offline-Protokoll (${total}×)`;
+  if (!segments.length){
+    return `${header}: Fallback aktiv.`;
+  }
+  return `${header}: ${segments.join(' · ')}`;
+}
+
+function render_offline_protocol(){
+  const entries = offline_log_entries();
+  if (!entries.length) return null;
+  const latest = entries[entries.length - 1];
+  const total = state.logs?.flags?.offline_help_count || entries.length;
+  return format_offline_report(latest, total);
+}
 
 function asNumber(value){
   if (value === null || value === undefined) return null;
@@ -2063,7 +2265,7 @@ function kodex_link_state(ctx){
   return inBubble ? 'field_online' : 'field_offline';
 }
 
-function offline_help(){
+function offline_help(trigger='auto'){
   ensure_logs();
   const flags = state.logs.flags;
   const now = Date.now();
@@ -2074,13 +2276,16 @@ function offline_help(){
   }
   flags.offline_help_last = new Date(now).toISOString();
   flags.offline_help_count = (flags.offline_help_count || 0) + 1;
-  return OFFLINE_HELP_GUIDE.join('\n');
+  const entry = offline_audit(trigger, { count: flags.offline_help_count });
+  const summary = format_offline_report(entry, flags.offline_help_count);
+  const guide = OFFLINE_HELP_GUIDE.join('\n');
+  return summary ? `${guide}\n\n${summary}` : guide;
 }
 
 function require_uplink(ctx, action){
   const st = kodex_link_state(ctx);
   if (st === 'uplink' || st === 'field_online') return true;
-  offline_help();
+  offline_help('auto');
   throw new Error(
     'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.'
   );
@@ -2206,6 +2411,11 @@ function prepare_save_logs(logs){
     base.market = sanitize_market_entries(base.market);
   } else {
     base.market = [];
+  }
+  if (Array.isArray(base.offline)){
+    base.offline = sanitize_offline_entries(base.offline);
+  } else {
+    base.offline = [];
   }
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
@@ -2335,6 +2545,7 @@ const SAVE_REQUIRED_PATHS = [
   ['logs'],
   ['logs', 'artifact_log'],
   ['logs', 'market'],
+  ['logs', 'offline'],
   ['logs', 'kodex'],
   ['ui']
 ];
@@ -2572,6 +2783,11 @@ function load_deep(raw){
   }
   migrated.zr_version = migrated.zr_version || ZR_VERSION;
   migrated.logs ||= {};
+  if (Array.isArray(migrated.logs.offline)){
+    migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);
+  } else {
+    migrated.logs.offline = [];
+  }
   if (Array.isArray(migrated.logs.foreshadow)){
     const deduped = [];
     const byToken = new Map();
@@ -2703,6 +2919,10 @@ function debrief(st){
   const outcome = st || {};
   const result = completeMission(outcome);
   const lines = [render_rewards(outcome, result), render_px_tracker(outcome.temp || mission_temp())];
+  const offlineSummary = render_offline_protocol();
+  if (offlineSummary){
+    lines.push(offlineSummary);
+  }
   if (result.events.length){
     lines.push(result.events.join('\n'));
   }
@@ -2768,7 +2988,7 @@ function on_command(command){
         ].join('\n');
       }
     if (cmd === '!offline' || cmd === '!help offline' || cmd === '/help offline' || cmd === 'offline hilfe'){
-        return offline_help();
+        return offline_help('command');
       }
     if (cmd === '!help urban' || cmd === '/help urban'){
         return [
@@ -2929,6 +3149,8 @@ module.exports = {
   arenaRegisterResult,
   handleArenaCommand,
   offline_help,
+  offline_audit,
+  render_offline_protocol,
   set_suggest_mode,
   suggest_mode_enabled,
   log_market_purchase
