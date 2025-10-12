@@ -225,11 +225,15 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Risiko bei Verzug:** Der Story-Hub verliert nach einem Reload Kontext.
 
 ### Issue #4 – Load-Compliance
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Einstiegstrigger feuern mehrfach, da ein Statusflag fehlt.
 - **Umsetzung:** Runtime-Ansatz in `runtime.js` greift nicht, weil die Datei im
   aktiven Regelwerk fehlt. Flag-Handling muss in zugänglichen Makros/Toolkits
   neu verankert werden.
+- **Statusnotiz:** ✅ Toolkit setzt `SkipEntryChoice()` direkt nach dem Laden und
+  gibt den Auswahlmodus über `AllowEntryChoice()` nach Missionsstart frei.
+  QA-Fahrplan & Logs halten die Evidenz aus dem Acceptance-Smoke 2025-06-13
+  fest (SaveGuard während Arena und Reset nach Exit).
 - **Risiko bei Verzug:** Spieler:innen erhalten direkt nach `!load`
   wiederholte Dialoge.
 
@@ -296,10 +300,13 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Statusnotiz:** ✅ Persistente `logs.foreshadow` + HUD-Badge umgesetzt; `ForeshadowHint()` schreibt Marker, `!boss status` zeigt `Foreshadow n/m`. (Commit: wird im PR referenziert.)
 
 ### Issue #11 – Koop-CU-Verteilung
-- **Status:** [ ] Offen
+- **Status:** [x] Erledigt
 - **Kerndiagnose:** Team- und Charakter-Wallets werden nicht sauber getrennt.
 - **Empfohlene Umsetzung:** Debrief-Dialog um Splits ergänzen, Standard
   `economy.cu` führen und persönliche Wallets separat buchen.
+- **Statusnotiz:** ✅ Wallet-Split-Dialog zeigt Koop-Summen (`Wallet-Split (n×)`
+  & `HQ-Pool`) und schreibt individuelle Guthaben nach `economy.wallets{}`.
+  QA-Log 2025-06-17 dokumentiert Smoke-/Lint-Läufe samt Debrief-Trace.
 - **Risiko bei Verzug:** Belohnungsverteilung bleibt strittig und Saves driften.
 
 ### Issue #12 – Chronopolis-Warnung
