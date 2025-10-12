@@ -296,6 +296,12 @@ CUs geflossen sind. Der Runtime-Debrief spiegelt dasselbe als `Chronopolis-Trace
 Item, Kosten, Px-Hinweis sowie optionale Notizen oder Quellen. Zusätzlich verweist das Modul „Speicher & Fortsetzung“ auf den Markt-Trace,
 sodass Persistenzprüfungen ohne direkten Zugriff auf die Laufzeit nachvollziehbar bleiben.
 
+Für Hochstufen-Gates nutzt QA das Node-Skript `tools/test_chronopolis_high_tier.js`. Es setzt eine Chief-Agentin mit Research 4,
+rollt das Tagesangebot via `chronopolisStockReport()` und bestätigt, dass sämtliche Slots (Temporal Ships, Never-Was Gadgets,
+Era-Skins) ohne 🔒-Locks aufgehen. Anschließend loggt das Skript `Quantum-Flashbang` inklusive `px_delta`/Notiz über
+`log_market_purchase()` und prüft, dass der Debrief (`Chronopolis-Trace`) Px-Klauseln sowie Quellenhinweise übernimmt.
+Der Lauf ist im QA-Fahrplan unter QA-Follow-up #14 referenziert und dient als Evidenz für Markt-Balance und Persistenz.
+
 ### Wartung und Verschleiß
 
 Hochwertige Geräte müssen regelmäßig kalibriert werden. Nach jeweils drei
