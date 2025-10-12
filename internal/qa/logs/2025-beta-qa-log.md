@@ -111,6 +111,76 @@ NODE`
 - QA-Fahrplan: Cluster C Issue #2 (Acceptance-Smoke #14/#15 dokumentiert 2025-06-13).
 - Docs: `docs/qa/tester-playtest-briefing.md` (PvP-Prüfschritte ergänzt).
 
+## 2025-06-14 – Repo-Agent – Offline-Audit Jammer-Szenario
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Offline-Fallback)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Cluster C Issue #10 – Jammer-Suspend/Resume dokumentieren
+
+```chatlog
+08:40 Repo-Agent: `node - <<'NODE'
+const rt = require('./runtime.js');
+const { StartMission, offline_help, jam_now, render_offline_protocol, state, require_uplink } = rt;
+StartMission();
+state.campaign = { episode: 3, mission: 5, mode: 'preserve', objective: 'Test Mission', px: 2 };
+state.location = 'Einsatzort';
+state.phase = 'core';
+state.scene = { index: 3, total: 12 };
+state.comms.device = 'comlink';
+state.comms.range_m = 5000;
+console.log(offline_help('auto'));
+jam_now(true);
+state.comms.range_m = 1500;
+try {
+  require_uplink(state, 'radio_tx');
+} catch (err){
+  console.log('require_uplink error:', err.message);
+}
+console.log(offline_help('jammer'));
+jam_now(false);
+state.comms.range_m = 5000;
+console.log(offline_help('resume'));
+console.log('Offline log entries:', state.logs.offline);
+console.log('Rendered protocol:', render_offline_protocol());
+NODE`
+08:40 Tool: `[OFFLINE] Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.`
+08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: ``
+08:40 Tool: `Offline-Protokoll (1×): Fallback · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `require_uplink error: Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.`
+08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: ``
+08:40 Tool: `Offline-Protokoll (3×): jammer · Gerät comlink · Jammer aktiv · Reichweite 1500m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: ``
+08:40 Tool: `Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `Offline log entries: [`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.344Z","reason":"auto","status":"offline","device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":1,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.345Z","reason":"auto","status":"offline","device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":2,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.346Z","reason":"jammer","status":"offline","device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":3,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.347Z","reason":"resume","status":"offline","device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":4,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"}`
+08:40 Tool: `]`
+08:40 Tool: `Rendered protocol: Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+```
+
+**Ergebnisse**
+- [x] Jammer-Suspend protokolliert (`reason: "jammer"`, `jammed: true`, Reichweite 1500 m).
+- [x] Resume-Pfad dokumentiert (`reason: "resume"`, Jammer frei, Reichweite 5000 m).
+- [x] Offline-Log-Trace (`render_offline_protocol()`) im QA-Log festgehalten.
+- [x] `python3 tools/lint_runtime.py` bestätigt YAML-/Save-Prüfungen (Level 25 OK).
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C Issue #10 (Offline-Audit Jammer-Szenario) – Status aktualisiert 2025-06-14.
+- Docs: `docs/qa/tester-playtest-briefing.md` (Offline-Fallback-Hinweis deckt Jammer-Flow ab).
+
 ## 2025-04-02 – Maintainer-Team – Regressionstestplanung
 - Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde
 - Wissensstand: README v4.2.2, master-index.json, Runtime-Module (18)
