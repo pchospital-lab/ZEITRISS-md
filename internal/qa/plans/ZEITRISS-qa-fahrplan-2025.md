@@ -140,6 +140,10 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Erkenntnis / To-do: Review bestätigte Spiegelung aller Runtime-Änderungen in README und Systems-Modulen; Trennung zwischen runtime.js, Routing-Stubs und GPT-Wissensmodulen ist intakt.
   - Referenz: runtime.js 4.2.2, README §§Runtime-Flags & Offline-Protokoll, systems/runtime-stub-routing-layer.md §HUD/Foreshadow, Modul 12 Persistenz.
 
+- **2025-06-19 – Codex-Pre-Hub-Doku** (Status: ✅ erledigt)
+  - Erkenntnis / To-do: README §HQ/Chronopolis ergänzt den Pre-City-Hub-Transit, Modul 10 beschreibt Ablauf & Persistenz, Toolkit §HQ-Phase Workflow liefert Regieanweisungen inkl. HUD-Tagging und Warnflag.
+  - Referenz: README.md §ITI-HQ & Chronopolis (Pre-City-Hub), gameplay/kampagnenuebersicht.md §Pre-City-Hub Übergangsphase, systems/toolkit-gpt-spielleiter.md §Pre-City-Hub Transit, QA-Log 2025-06-19.
+
 ### Session-Template
 
 - **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)
@@ -531,7 +535,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ⛔ | #5 | #7 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
 | 🔄 | #6 | #3 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #8 | tbd | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
+| ✅ | #8 | tbd | Pre-City-Hub-Dokumentation | README §HQ/Chronopolis, Modul 10 Pre-Hub & Toolkit Transit-Guide aktualisiert | Codex & Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #9 | #16 | Debrief-Linter | Lint-Skript `tools/lint_debrief_trace.py` prüft Chronopolis/Foreshadow/Offline/Flags und läuft im Smoke-Test | QA, Tooling | `tools/lint_debrief_trace.py`, `scripts/smoke.sh`, `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #10 | #8 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
@@ -545,13 +549,13 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 #### Zuordnung QA-Follow-ups ↔ Beta-Issues (Stand: 2025-06-15)
 
 - Abgeschlossen: QA-Follow-ups #2 (PvP-Modusflag → Issue #6), #3 (Mission 5
-  Badge → Issue #10), #5 (Accessibility → Issue #7), #9 (Debrief-Linter →
+  Badge → Issue #10), #5 (Accessibility → Issue #7), #8 (Pre-City-Hub → Zuordnung offen, Doc-Spiegelung), #9 (Debrief-Linter →
   Issue #16), #10 (Offline-Fallback → Issue #8) sowie #18 (Pflicht-Testpaket,
   Prozess-Item) sind im QA-Log bzw. diesem Fahrplan dokumentiert.
-- Offen/fortlaufend: QA-Follow-ups #6, #7, #8, #11, #12, #13, #14, #15,
+- Offen/fortlaufend: QA-Follow-ups #6, #7, #11, #12, #13, #14, #15,
   #16 und #17 warten auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
-- Offen für den nächsten Beta-Log-Abgleich: Follow-ups #8 (Pre-City-Hub), #12
-  (Alias-Debrief), #13 (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
+- Offen für den nächsten Beta-Log-Abgleich: Follow-ups #12 (Alias-Debrief), #13
+  (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
   Punkte benötigen eine konkrete Zuordnung zu den Issues #1–#16 oder eine
   separate QA-Kategorisierung.
 
@@ -559,7 +563,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 > und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
 > jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
 
-⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Der initiale Abgleich (Stand 2025-06-15) ist oben dokumentiert; die offenen Zuordnungen (#8, #12, #13, #16) bleiben als To-do markiert und werden nach Sichtung des vollständigen Beta-Logs geschlossen.
+⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Der initiale Abgleich (Stand 2025-06-15) ist oben dokumentiert; die offenen Zuordnungen (#12, #13, #16) bleiben als To-do markiert und werden nach Sichtung des vollständigen Beta-Logs geschlossen.
 
 ### Nächste Schritte für offene QA-Follow-ups (Stand: 2025-06-16)
 
@@ -572,10 +576,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
   Mission 10 erneut über den Acceptance-Smoke-Flow ausführen, `ForeshadowHint()`
   sowie den HUD-Badge-Reset dokumentieren. Ergebnisse im QA-Log unter einem
   neuen Abschnitt „Mission 5/10 Gate Re-Run“ sammeln.
-- **QA-Follow-up #8 – Pre-City-Hub Dokumentation (Zuordnung offen):** README-
-  und Kampagnenübersicht prüfen, fehlende Pre-Hub-Hinweise markieren und eine
-  Änderungsnotiz für Maintainer:innen vorbereiten. QA-Log soll den Review mit
-  konkreten Zeilenangaben festhalten.
+- **QA-Follow-up #8 – Pre-City-Hub Dokumentation:** ✅ Abgeschlossen am 2025-06-19. README §HQ/Chronopolis, Modul 10 (§Pre-City-Hub) und Toolkit §HQ-Phase Workflow wurden synchronisiert; QA-Log 2025-06-19 listet Zeilenangaben.
 - **QA-Follow-up #9 – Debrief-Linter (Issue #16):** ✅ Abgeschlossen am
   2025-06-17. `tools/lint_debrief_trace.py` prüft Chronopolis-, Foreshadow-,
   Offline- und Runtime-Flag-Traces automatisiert; `scripts/smoke.sh` ruft den

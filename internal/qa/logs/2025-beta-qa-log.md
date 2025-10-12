@@ -30,6 +30,27 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-06-19 – Repo-Agent – Pre-City-Hub Dokumentation
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2 (HQ/Chronopolis), `gameplay/kampagnenuebersicht.md` Modul 10, Toolkit Stand 2025-06-16
+- Copy-&-Paste-Auftrag: QA-Fahrplan QA-Follow-up #8 – Pre-City-Hub Dokumentation synchronisieren
+
+```chatlog
+10:05 Repo-Agent: `rg "Pre-City-Hub" README.md gameplay/kampagnenuebersicht.md systems/toolkit-gpt-spielleiter.md`
+10:07 Repo-Agent: `sed -n '890,940p' README.md`
+10:09 Repo-Agent: `sed -n '60,140p' gameplay/kampagnenuebersicht.md`
+10:11 Repo-Agent: `sed -n '2960,3005p' systems/toolkit-gpt-spielleiter.md`
+```
+
+**Offene Punkte**
+- [x] README ergänzt Übergangszone und Warnflag (`logs.flags.chronopolis_warn_seen`).
+- [x] Modul 10 dokumentiert Ablauf, Vorschau-Content und Persistenz der Pre-Hub-Sequenz.
+- [x] Toolkit-Makro-Guide führt Transit-Schritte inklusive HUD-Tagging aus.
+
+**Nachverfolgung**
+- QA-Fahrplan: Session „Codex-Pre-Hub-Doku“ (2025-06-19) ergänzt, QA-Follow-up #8 auf ✅ gesetzt.
+- QA-Plan Cluster C Row #8 aktualisiert (README §HQ/Chronopolis, Modul 10 Pre-Hub, Toolkit §HQ-Phase Workflow).
+
 ## 2025-06-17 – Repo-Agent – Koop-Debrief Wallet-Split
 - Plattform: Lokale CI-Simulation
 - Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Koop-Debrief), Systems-Module synchronisiert

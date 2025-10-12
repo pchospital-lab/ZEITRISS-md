@@ -900,6 +900,10 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 
 - **ITI-HQ** bleibt das zentrale Hub mit Shop, Clinic, Workshop,
   Briefing und Fraktionskontakten; hier darf gespeichert werden.
+- **Pre-City-Hub** dient als gesicherte Übergangszone zwischen HQ und Chronopolis.
+  - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an, sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens Mission 2 erreicht hat.
+  - Der Bereich liefert atmosphärische Brückenbeschreibungen (Landeplattform, Transitlifte, Sicherheitschecks) und einen täglichen Vorschau-Feed mit zwei Händlerangeboten (`Chronopolis-Vorschau`). Einkäufe bleiben deaktiviert, bis der eigentliche Stadtschlüssel vorliegt.
+  - Nutzt den Transit, um Fraktionspräsenz zu teasen: kurze NPC-Begegnungen, Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets" markiert. `logs.flags.chronopolis_warn_seen` wird hier bereits gesetzt, damit das Warnbanner beim späteren Stadteintritt nur einmal erscheint.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
