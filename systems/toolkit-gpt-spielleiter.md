@@ -224,11 +224,18 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
   `!offline` erinnert an Terminal/Hardline, Jammer-Override, Ask→Suggest-
   Fallback und daran, dass Saves wie üblich erst im HQ verfügbar sind.
+- Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status` (oder Key-Value `speaker=…|channel=…`). `!radio status` liefert die letzten Einträge für QA, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
-- **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
-  und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
-  für passende Status-Overlays.
+  - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
+    und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
+    für passende Status-Overlays.
+
+### Alias- & Funk-Logs (Persistenz)
+
+- `!alias log Persona|Cover|Status|Notiz` (optional `mission=…|scene=…|location=…`) protokolliert Alias-Läufe in `logs.alias_trace[]`. Nutzt `!alias status` für die letzten Einträge und `!alias clear`, bevor ihr einen neuen Einsatz startet.
+- `!radio log Sprecher|Channel|Meldung|Status` bzw. Key-Value-Varianten schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn zurück.
+- Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.

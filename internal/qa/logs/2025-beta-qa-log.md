@@ -6,6 +6,31 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-20 – Repo-Agent – Alias- & Funk-Logs
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README/Systems aktualisiert (Alias/Squad-Radio), `runtime.js` Branch Alias-Trace, Toolkit Stand 2025-06-20
+- Copy-&-Paste-Auftrag: QA-Follow-ups #12/#13 abschließen, Alias-/Funk-Logs persistieren und Dokumentation spiegeln
+
+```chatlog
+11:45 Repo-Agent: `make lint`
+12:18 Repo-Agent: `make test`
+13:02 Repo-Agent: `bash scripts/smoke.sh`
+13:24 Repo-Agent: `python3 tools/lint_runtime.py`
+13:26 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+13:28 Repo-Agent: `python3 scripts/lint_doc_links.py`
+13:29 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+13:31 Repo-Agent: `node tools/test_alias_trace.js`
+```
+
+**Offene Punkte**
+- [x] Alias-Trace über `!alias log`/`!alias status` implementiert (`logs.alias_trace[]`, Debrief-Zeile `Alias-Trace (n×)`).
+- [x] Squad-Radio-Log via `!radio log`/`!radio status` bereitgestellt (`logs.squad_radio[]`, Debrief-Zeile `Squad-Radio (n×)`).
+- [x] Wissensmodule (README, Systems) spiegeln Alias-/Funk-Workflow inkl. Toolkit-Hinweisen; QA-Fahrplan Cluster C #12/#13 auf ✅ gesetzt.
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C #12/#13 sowie Abschnitt „Nächste Schritte“ aktualisiert (Status ✅, Datum 2025-06-20).
+- QA-Plan verweist auf `runtime.js`, README und Systems-Module für Alias/Funk; QA-Log ergänzt Alias-/Funk-Testlauf.
+
 ## Zweck
 Dieses Log sammelt unveränderte Ergebnisse aus Beta-GPT- und MyGPT-Testläufen. Es
 ist die Arbeitsgrundlage, um Copy-&-Paste-Protokolle aus den GPT-Chats in
@@ -285,6 +310,38 @@ NODE`
 - Commit/PR: 3338360 (Docs: QA-Termine formatiert).
 - QA-Fahrplan: Sprint 3 – Wiederkehrende MyGPT-Regressionstests (Status aktualisiert 2025-04-02).
 - Maintainer-Ops: Regressionstest-Zeitplan ergänzt 2025-04-02.
+
+## 2025-06-21 – Repo-Agent – Chronopolis-Basar Balance-Notiz
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, Runtime-Modul 4.2.2, Audit-Stand 2025-06-18
+- Copy-&-Paste-Auftrag: QA-Fahrplan Cluster C #14 – Chronopolis-Basar Balance-Notiz ergänzen
+
+```chatlog
+14:05 Repo-Agent: `node - <<'NODE' … chronopolisStockReport(); log_market_purchase(); …`
+14:05 Tool:
+Chronopolis · Tagesangebot 2025-10-12
+— Era-Skins —
+Era-Skin: Æon-Nomadenmantel · 200 CU
+🔒 Era-Skin: Neon-Cathedral Glimmer · 220 CU (Rank Lead · Research 1)
+🔒 Era-Skin: Sable-Parallax Cloak · 240 CU (Rank Specialist · Research 2)
+🔒 Era-Skin: Krakatoa 1883 Survivor · 200 CU (Rank Operator I)
+— Never-Was Gadgets —
+🔒 Echo-Distortion-Field · 900 CU (Rank Specialist · Research 3)
+🔒 Phase-Jump-Kapsel · 750 CU (Rank Lead · Research 2)
+🔒 Quantum-Flashbang · 500 CU (Rank Operator II · Research 1)
+— Temporal Ships —
+🔒 Timesloop-Schooner · 5200 CU (Rank Lead · Research 3)
+
+14:06 Tool: `{ timestamp: '2025-06-21T12:00:00.000Z', item: 'Quantum-Flashbang', cost_cu: 500, px_delta: -2, px_clause: 'Px -2', note: 'Beta-Run Rabatt' }`
+```
+
+**Offene Punkte**
+- [ ] Hochstufen-Stichprobe mit Lead + Research 3 durchführen, um alle Kategorien freizuschalten und Px-Klauseln mit echten Käufen zu prüfen.
+
+**Nachverfolgung**
+- Commit/PR: pending (dieser Commit).
+- QA-Fahrplan: Cluster C #14 auf ✅ gesetzt (Stand 2025-06-21).
+- Audit: Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“ ergänzt (2025-06-21).
 
 ## 2025-10-05 – Repo-Agent – Runtime-Lint Pflichtfelder
 - Plattform: Lokale CI-Simulation

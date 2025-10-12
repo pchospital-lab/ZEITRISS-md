@@ -23,6 +23,8 @@ const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
 const PSI_LOG_LIMIT = 16;
+const ALIAS_TRACE_LIMIT = 24;
+const SQUAD_RADIO_LOG_LIMIT = 24;
 
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
@@ -425,6 +427,123 @@ function sanitize_psi_entries(entries){
   return sanitized;
 }
 
+function normalize_alias_entry(entry, fallbackTimestamp){
+  if (!entry || typeof entry !== 'object') return null;
+  const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const persona = pickString(entry.persona, entry.identity, entry.agent, entry.profile);
+  const cover = pickString(entry.cover, entry.alias, entry.mask, entry.role, entry.legend);
+  const status = pickString(entry.status, entry.state, entry.result);
+  const mission = pickString(entry.mission, entry.job, entry.op, entry.operation);
+  const location = pickString(entry.location, entry.site, entry.zone);
+  const note = pickString(entry.note, entry.notes, entry.detail, entry.details, entry.comment);
+  const window = pickString(entry.window, entry.stage);
+  const sceneIndex = pickNumber(entry.scene_index, entry.scene, entry.sceneIndex);
+  const sceneTotal = pickNumber(entry.scene_total, entry.scenes, entry.sceneTotal);
+  if (!persona && !cover && !note){
+    return null;
+  }
+  const normalized = { timestamp };
+  if (persona){
+    normalized.persona = persona;
+  }
+  if (cover){
+    normalized.cover = cover;
+  }
+  if (status){
+    normalized.status = status;
+  }
+  if (mission){
+    normalized.mission = mission;
+  }
+  if (location){
+    normalized.location = location;
+  }
+  if (window){
+    normalized.window = window;
+  }
+  if (note){
+    normalized.note = note;
+  }
+  if (Number.isFinite(sceneIndex)){
+    normalized.scene_index = Math.max(0, Math.floor(sceneIndex));
+  }
+  if (Number.isFinite(sceneTotal)){
+    normalized.scene_total = Math.max(0, Math.floor(sceneTotal));
+  }
+  return normalized;
+}
+
+function sanitize_alias_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    const normalized = normalize_alias_entry(entry, fallback);
+    if (normalized){
+      sanitized.push(normalized);
+    }
+  });
+  if (sanitized.length > ALIAS_TRACE_LIMIT){
+    return sanitized.slice(sanitized.length - ALIAS_TRACE_LIMIT);
+  }
+  return sanitized;
+}
+
+function normalize_radio_entry(entry, fallbackTimestamp){
+  if (!entry || typeof entry !== 'object') return null;
+  const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const message = pickString(entry.message, entry.text, entry.content, entry.call);
+  if (!message){
+    return null;
+  }
+  const speaker = pickString(entry.speaker, entry.from, entry.agent, entry.voice, entry.callsign);
+  const channel = pickString(entry.channel, entry.band, entry.freq, entry.frequency);
+  const status = pickString(entry.status, entry.state, entry.tag);
+  const severity = pickString(entry.severity, entry.priority, entry.level);
+  const note = pickString(entry.note, entry.notes, entry.detail, entry.details, entry.comment);
+  const location = pickString(entry.location, entry.zone, entry.site);
+  const sceneIndex = pickNumber(entry.scene_index, entry.scene, entry.sceneIndex);
+  const normalized = { timestamp, message };
+  if (speaker){
+    normalized.speaker = speaker;
+  }
+  if (channel){
+    normalized.channel = channel;
+  }
+  if (status){
+    normalized.status = status;
+  }
+  if (severity){
+    normalized.severity = severity;
+  }
+  if (note){
+    normalized.note = note;
+  }
+  if (location){
+    normalized.location = location;
+  }
+  if (Number.isFinite(sceneIndex)){
+    normalized.scene_index = Math.max(0, Math.floor(sceneIndex));
+  }
+  return normalized;
+}
+
+function sanitize_radio_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    const normalized = normalize_radio_entry(entry, fallback);
+    if (normalized){
+      sanitized.push(normalized);
+    }
+  });
+  if (sanitized.length > SQUAD_RADIO_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - SQUAD_RADIO_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
@@ -548,6 +667,16 @@ function ensure_logs(){
   } else {
     state.logs.psi = sanitize_psi_entries(state.logs.psi);
   }
+  if (!Array.isArray(state.logs.alias_trace)){
+    state.logs.alias_trace = [];
+  } else {
+    state.logs.alias_trace = sanitize_alias_entries(state.logs.alias_trace);
+  }
+  if (!Array.isArray(state.logs.squad_radio)){
+    state.logs.squad_radio = [];
+  } else {
+    state.logs.squad_radio = sanitize_radio_entries(state.logs.squad_radio);
+  }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
@@ -615,6 +744,24 @@ function ensure_psi_log(){
   return state.logs.psi;
 }
 
+function ensure_alias_trace(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.alias_trace)){
+    state.logs.alias_trace = [];
+  }
+  state.logs.alias_trace = sanitize_alias_entries(state.logs.alias_trace);
+  return state.logs.alias_trace;
+}
+
+function ensure_squad_radio_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.squad_radio)){
+    state.logs.squad_radio = [];
+  }
+  state.logs.squad_radio = sanitize_radio_entries(state.logs.squad_radio);
+  return state.logs.squad_radio;
+}
+
 function log_market_purchase(item, cost, options = {}){
   const payload = {
     ...options,
@@ -675,6 +822,390 @@ function log_phase_strike_event(ctx = state, details = {}){
     psiLog.splice(0, psiLog.length - PSI_LOG_LIMIT);
   }
   return entry;
+}
+
+function log_alias_event(details = {}){
+  const trace = ensure_alias_trace();
+  const fallback = new Date().toISOString();
+  const payload = { ...details };
+  if (!payload.timestamp){
+    payload.timestamp = fallback;
+  }
+  const normalized = normalize_alias_entry(payload, fallback);
+  if (!normalized){
+    throw new Error('AliasTrace: Alias oder Persona fehlen.');
+  }
+  trace.push(normalized);
+  if (trace.length > ALIAS_TRACE_LIMIT){
+    trace.splice(0, trace.length - ALIAS_TRACE_LIMIT);
+  }
+  return normalized;
+}
+
+function log_squad_radio(details = {}){
+  const radioLog = ensure_squad_radio_log();
+  const fallback = new Date().toISOString();
+  const payload = { ...details };
+  if (!payload.timestamp){
+    payload.timestamp = fallback;
+  }
+  const normalized = normalize_radio_entry(payload, fallback);
+  if (!normalized){
+    throw new Error('SquadRadio: Nachricht fehlt.');
+  }
+  radioLog.push(normalized);
+  if (radioLog.length > SQUAD_RADIO_LOG_LIMIT){
+    radioLog.splice(0, radioLog.length - SQUAD_RADIO_LOG_LIMIT);
+  }
+  return normalized;
+}
+
+function format_alias_trace_entry(entry){
+  if (!entry) return '';
+  const parts = [];
+  let label = '';
+  if (entry.persona && entry.cover){
+    label = `${entry.persona} → ${entry.cover}`;
+  } else if (entry.cover){
+    label = entry.cover;
+  } else if (entry.persona){
+    label = entry.persona;
+  }
+  if (entry.status){
+    label = label ? `${label} (${entry.status})` : entry.status;
+  }
+  if (label){
+    parts.push(label);
+  }
+  const meta = [];
+  if (Number.isFinite(entry.scene_index) && Number.isFinite(entry.scene_total)){
+    meta.push(`Sz ${entry.scene_index}/${entry.scene_total}`);
+  } else if (Number.isFinite(entry.scene_index)){
+    meta.push(`Sz ${entry.scene_index}`);
+  }
+  if (entry.mission){
+    meta.push(entry.mission);
+  }
+  if (entry.location){
+    meta.push(entry.location);
+  }
+  if (entry.window){
+    meta.push(entry.window);
+  }
+  if (meta.length){
+    parts.push(meta.join(' · '));
+  }
+  if (entry.note){
+    parts.push(entry.note);
+  }
+  return parts.length ? parts.join(' – ') : '';
+}
+
+function render_alias_trace_summary(limit = 4){
+  const entries = ensure_alias_trace();
+  if (!entries.length) return '';
+  const recent = entries.slice(Math.max(0, entries.length - limit));
+  const lines = [`Alias-Trace (${entries.length}×):`];
+  recent.forEach((entry) => {
+    const line = format_alias_trace_entry(entry);
+    if (line){
+      lines.push(`- ${line}`);
+    }
+  });
+  return lines.join('\n');
+}
+
+function format_squad_radio_entry(entry){
+  if (!entry) return '';
+  const segments = [];
+  const headerParts = [];
+  if (entry.speaker){
+    headerParts.push(entry.speaker);
+  }
+  if (entry.channel){
+    headerParts.push(`#${entry.channel}`);
+  }
+  if (entry.status){
+    headerParts.push(entry.status);
+  }
+  if (entry.severity){
+    headerParts.push(entry.severity);
+  }
+  if (headerParts.length){
+    segments.push(headerParts.join(' · '));
+  }
+  if (entry.message){
+    segments.push(entry.message);
+  }
+  const meta = [];
+  if (Number.isFinite(entry.scene_index)){
+    meta.push(`Sz ${entry.scene_index}`);
+  }
+  if (entry.location){
+    meta.push(entry.location);
+  }
+  if (entry.note){
+    meta.push(entry.note);
+  }
+  if (meta.length){
+    segments.push(meta.join(' · '));
+  }
+  return segments.length ? segments.join(' – ') : '';
+}
+
+function render_squad_radio_summary(limit = 5){
+  const entries = ensure_squad_radio_log();
+  if (!entries.length) return '';
+  const recent = entries.slice(Math.max(0, entries.length - limit));
+  const lines = [`Squad-Radio (${entries.length}×):`];
+  recent.forEach((entry) => {
+    const line = format_squad_radio_entry(entry);
+    if (line){
+      lines.push(`- ${line}`);
+    }
+  });
+  return lines.join('\n');
+}
+
+function strip_quotes(value){
+  if (typeof value !== 'string') return value;
+  const trimmed = value.trim();
+  if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))){
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+function split_pipe_segments(text){
+  if (typeof text !== 'string') return [];
+  return text.split('|').map(segment => strip_quotes(segment));
+}
+
+function parse_alias_payload(text){
+  const segments = split_pipe_segments(text);
+  const payload = {};
+  let index = 0;
+  segments.forEach((segment) => {
+    if (!segment) return;
+    const eq = segment.indexOf('=');
+    if (eq > -1){
+      const key = segment.slice(0, eq).trim().toLowerCase();
+      const value = segment.slice(eq + 1).trim();
+      switch (key){
+        case 'persona':
+        case 'identity':
+        case 'agent':
+        case 'profile':
+          payload.persona = value;
+          break;
+        case 'alias':
+        case 'cover':
+        case 'legend':
+        case 'role':
+          payload.cover = value;
+          break;
+        case 'status':
+        case 'state':
+        case 'result':
+          payload.status = value;
+          break;
+        case 'mission':
+        case 'op':
+        case 'job':
+        case 'operation':
+          payload.mission = value;
+          break;
+        case 'note':
+        case 'details':
+        case 'comment':
+          payload.note = value;
+          break;
+        case 'location':
+        case 'site':
+        case 'zone':
+          payload.location = value;
+          break;
+        case 'scene':
+        case 'scene_index':
+          payload.scene_index = Number.parseInt(value, 10);
+          break;
+        case 'scene_total':
+        case 'scenes':
+          payload.scene_total = Number.parseInt(value, 10);
+          break;
+        case 'window':
+        case 'phase':
+          payload.window = value;
+          break;
+        default:
+          break;
+      }
+      return;
+    }
+    switch (index){
+      case 0:
+        if (!payload.persona){
+          payload.persona = segment;
+        }
+        break;
+      case 1:
+        if (!payload.cover){
+          payload.cover = segment;
+        }
+        break;
+      case 2:
+        if (!payload.status){
+          payload.status = segment;
+        }
+        break;
+      default:
+        payload.note = payload.note ? `${payload.note}; ${segment}` : segment;
+        break;
+    }
+    index += 1;
+  });
+  return payload;
+}
+
+function parse_radio_payload(text){
+  const segments = split_pipe_segments(text);
+  const payload = {};
+  let index = 0;
+  segments.forEach((segment) => {
+    if (!segment) return;
+    const eq = segment.indexOf('=');
+    if (eq > -1){
+      const key = segment.slice(0, eq).trim().toLowerCase();
+      const value = segment.slice(eq + 1).trim();
+      switch (key){
+        case 'speaker':
+        case 'from':
+        case 'agent':
+        case 'voice':
+          payload.speaker = value;
+          break;
+        case 'channel':
+        case 'band':
+        case 'freq':
+        case 'frequency':
+          payload.channel = value;
+          break;
+        case 'message':
+        case 'text':
+        case 'content':
+          payload.message = value;
+          break;
+        case 'status':
+        case 'state':
+        case 'tag':
+          payload.status = value;
+          break;
+        case 'severity':
+        case 'priority':
+        case 'level':
+          payload.severity = value;
+          break;
+        case 'note':
+        case 'comment':
+        case 'details':
+          payload.note = value;
+          break;
+        case 'location':
+        case 'zone':
+        case 'site':
+          payload.location = value;
+          break;
+        case 'scene':
+        case 'scene_index':
+          payload.scene_index = Number.parseInt(value, 10);
+          break;
+        default:
+          break;
+      }
+      return;
+    }
+    switch (index){
+      case 0:
+        if (!payload.speaker){
+          payload.speaker = segment;
+        }
+        break;
+      case 1:
+        if (!payload.channel){
+          payload.channel = segment;
+        }
+        break;
+      case 2:
+        if (!payload.message){
+          payload.message = segment;
+        }
+        break;
+      case 3:
+        if (!payload.status){
+          payload.status = segment;
+        }
+        break;
+      default:
+        payload.note = payload.note ? `${payload.note}; ${segment}` : segment;
+        break;
+    }
+    index += 1;
+  });
+  return payload;
+}
+
+function handleAliasCommand(raw){
+  const cmd = raw.trim();
+  if (cmd === '!alias' || cmd === '!alias status'){
+    const summary = render_alias_trace_summary();
+    return summary || 'Alias-Trace leer.';
+  }
+  if (cmd === '!alias clear'){
+    const trace = ensure_alias_trace();
+    trace.length = 0;
+    return 'Alias-Trace geleert.';
+  }
+  if (cmd === '!alias help'){
+    return 'Alias-Trace: `!alias log Persona|Cover|Status|Notiz` oder Felder via `key=value` setzen. `!alias status` zeigt die Übersicht.';
+  }
+  const m = cmd.match(/^!alias\s+log\s+(.+)/);
+  if (m){
+    try {
+      const entry = log_alias_event(parse_alias_payload(m[1]));
+      const line = format_alias_trace_entry(entry) || 'Alias-Eintrag gespeichert.';
+      return `Alias-Trace aktualisiert (${ensure_alias_trace().length}×): ${line}`;
+    } catch (err){
+      return err.message;
+    }
+  }
+  return 'Alias-Befehl unbekannt. Nutzt `!alias help`.';
+}
+
+function handleRadioCommand(raw){
+  const cmd = raw.trim();
+  if (cmd === '!radio' || cmd === '!radio status'){
+    const summary = render_squad_radio_summary();
+    return summary || 'Squad-Radio-Log leer.';
+  }
+  if (cmd === '!radio clear'){
+    const log = ensure_squad_radio_log();
+    log.length = 0;
+    return 'Squad-Radio-Log geleert.';
+  }
+  if (cmd === '!radio help'){
+    return 'Squad-Radio: `!radio log Sprecher|Channel|Meldung|Status` oder Felder via `key=value`. `!radio status` zeigt die letzten Einträge.';
+  }
+  const m = cmd.match(/^!radio\s+log\s+(.+)/);
+  if (m){
+    try {
+      const entry = log_squad_radio(parse_radio_payload(m[1]));
+      const line = format_squad_radio_entry(entry) || 'Funk-Log gespeichert.';
+      return `Squad-Radio aktualisiert (${ensure_squad_radio_log().length}×): ${line}`;
+    } catch (err){
+      return err.message;
+    }
+  }
+  return 'Radio-Befehl unbekannt. Nutzt `!radio help`.';
 }
 
 function foreshadow_entries(){
@@ -3300,6 +3831,16 @@ function prepare_save_logs(logs){
   } else {
     base.fr_interventions = [];
   }
+  if (Array.isArray(base.alias_trace)){
+    base.alias_trace = sanitize_alias_entries(base.alias_trace);
+  } else {
+    base.alias_trace = [];
+  }
+  if (Array.isArray(base.squad_radio)){
+    base.squad_radio = sanitize_radio_entries(base.squad_radio);
+  } else {
+    base.squad_radio = [];
+  }
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
   }
@@ -3442,6 +3983,8 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'market'],
   ['logs', 'offline'],
   ['logs', 'kodex'],
+  ['logs', 'alias_trace'],
+  ['logs', 'squad_radio'],
   ['ui']
 ];
 
@@ -3953,6 +4496,14 @@ function debrief(st){
   if (offlineSummary){
     lines.push(offlineSummary);
   }
+  const aliasSummary = render_alias_trace_summary();
+  if (aliasSummary){
+    lines.push(aliasSummary);
+  }
+  const radioSummary = render_squad_radio_summary();
+  if (radioSummary){
+    lines.push(radioSummary);
+  }
   const flagSummary = render_runtime_flags_summary();
   if (flagSummary){
     lines.push(flagSummary);
@@ -4070,9 +4621,15 @@ function on_command(command){
       state.campaign.chronopolis_missions_since_reset = 0;
       return 'Chronopolis-Reset durchgeführt. Tagesangebot wird bei nächstem Abruf neu geladen.';
     }
-  if (cmd === '!px'){
-    return render_px_tracker();
-  }
+    if (cmd === '!alias' || cmd.startsWith('!alias ')){
+      return handleAliasCommand(command.trim());
+    }
+    if (cmd === '!radio' || cmd.startsWith('!radio ')){
+      return handleRadioCommand(command.trim());
+    }
+    if (cmd === '!px'){
+      return render_px_tracker();
+    }
   if ((m = cmd.match(/^!exfil\s+arm(?:\s+(.+))?/))){
     return exfil_arm(m[1]);
   }
@@ -4189,5 +4746,9 @@ module.exports = {
   get_intervention_log,
   set_suggest_mode,
   suggest_mode_enabled,
-  log_market_purchase
+  log_market_purchase,
+  log_alias_event,
+  log_squad_radio,
+  render_alias_trace_summary,
+  render_squad_radio_summary
 };

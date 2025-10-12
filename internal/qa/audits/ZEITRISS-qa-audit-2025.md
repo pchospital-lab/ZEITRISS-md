@@ -158,6 +158,33 @@ Hochstufen-Spielrunden.
 26. **TK-Nahkampf-Cooldown visualisieren.** HUD-Icon nach Einsatz. Status:
     *erledigt* – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
     entfernt die Sperre nach der Cooldown-Runde.
+
+## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-21)
+
+- **Stichprobe Runtime:** `CHRONO_CATALOG` listet aktuell einen Tagespool aus
+  drei Kategorien (`Temporal Ships`, `Never-Was Gadgets`, `Era-Skins`). Die
+  Limits (`CHRONO_CATEGORY_LIMITS`) sorgen für 1 Schiff, 3 Gadgets und 4 Skins
+  pro Reset. `rollChronopolisStock()` koppelt die Auswahl an Tagesdatum und
+  Reset-Serial, wodurch Daily-Rerolls deterministisch reproduzierbar bleiben.
+- **Gating & Preise:** `chronopolisStockReport()` versieht alle Einträge mit
+  Rang- (`minRank`) und Research-Schranken (`minResearch`). Die untersuchten
+  Items decken Preisbereiche von 200 CU (Era-Skins) bis 5 400 CU (Temporal
+  Ships) ab. Für unzureichend qualifizierte Crews erzeugt der Report Lock-Hinweise
+  (`🔒 … (Rank … · Research …)`), sodass QA den Balance-Status direkt am HUD-Text
+  erkennt.
+- **Log-Persistenz:** `log_market_purchase()` normalisiert Einträge auf
+  `logs.market[]`, trimmt Kosten in ganze CU und ergänzt automatisch Px-Klauseln
+  (`Px ±n`), sobald `px_delta` gesetzt wird. Das Limit (`MARKET_LOG_LIMIT = 24`)
+  hält den Debrief schlank; ältere Einkäufe werden FIFO gekappt.
+- **QA-Bedarf:** Maintainer:innen liefern für Premium-Angebote (Temporal Ships
+  ≥ 5 000 CU) noch Px- und Quellenhinweise, damit der Debrief Konsolenrabatte
+  (`note`, `source`) unterscheidet. QA vermerkt jeden Testlauf im Beta-Log mit
+  Chronopolis-Report, Px-Delta und Rang/Research-Kontext.
+
+**Offene Beobachtung:** Der aktuelle Testlauf nutzte einen Operator-II-Char ohne
+Research-Level 1. Damit blieben sämtliche Gadgets und Schiffe gesperrt. Für den
+Folgetest ist ein Lead mit Research 3 erforderlich, um Hochstufenpreise und Px-
+Klauseln vollständig zu evaluieren (Abgleich mit Issue #16 „Markt-Log“).
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren.
     Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an
     das HQ-Vermögen.

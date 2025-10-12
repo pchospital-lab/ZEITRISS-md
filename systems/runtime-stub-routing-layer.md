@@ -158,6 +158,9 @@ Content-Type: application/json
     "market": [],
     "artifact_log": [],
     "psi": [],
+    "offline": [],
+    "alias_trace": [],
+    "squad_radio": [],
     "kodex": [],
     "flags": {
       "runtime_version": "4.2.2",
@@ -176,10 +179,13 @@ markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
 `arena` notiert Laufzustand, Budget-Limits und Episodenstempel für den Px-Bonus.
 `logs.psi` speichert die jüngsten Psi-Traces (z. B. Phase-Strike-Kostenaufschläge)
 mit Basis-, Tax- und Gesamtwert samt Modus, damit QA und Toolkit-Hooks das PvP-
-Feedback nachvollziehen können. `logs.flags` zählt Compliance-Hinweis, Offline-
-Hilfen sowie die Runtime-Version – `runtime.js` erwartet diese Felder beim Laden,
-damit der GPT dieselbe Persistenz bedient. `ui` hält GM-Stil, Intro- und Suggest-
-Flags synchron mit den Toolkit-Makros.
+Feedback nachvollziehen können. `logs.alias_trace` hält Alias-Läufe (Persona,
+Cover, Status, Szene/Mission) fest, während `logs.squad_radio` Funkmeldungen mit
+Sprecher, Kanal, Status und optionaler Szene/Ort loggt – beide erscheinen im
+Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)`. `logs.flags` zählt
+Compliance-Hinweis, Offline-Hilfen sowie die Runtime-Version – `runtime.js`
+erwartet diese Felder beim Laden, damit der GPT dieselbe Persistenz bedient.
+`ui` hält GM-Stil, Intro- und Suggest-Flags synchron mit den Toolkit-Makros.
 
 _Getter-Helpers (pseudo JS):_
 
@@ -288,6 +294,8 @@ export function applyArenaRules(ctx = state) {
 ```javascript
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
+const ALIAS_TRACE_LIMIT = 24;
+const SQUAD_RADIO_LOG_LIMIT = 24;
 
 function dedupeForeshadow(entries = []) {
   const byToken = new Map();
@@ -320,6 +328,81 @@ function dedupeForeshadow(entries = []) {
   return deduped;
 }
 
+function normalizeAliasEntry(entry = {}, fallback) {
+  const timestamp = entry.timestamp || fallback || new Date().toISOString();
+  const persona = (entry.persona || entry.identity || entry.agent || '').toString().trim();
+  const cover = (entry.cover || entry.alias || entry.role || entry.legend || '').toString().trim();
+  const status = (entry.status || entry.state || entry.result || '').toString().trim();
+  const mission = (entry.mission || entry.op || '').toString().trim();
+  const location = (entry.location || entry.site || entry.zone || '').toString().trim();
+  const note = (entry.note || entry.details || entry.comment || '').toString().trim();
+  const sceneIndex = Number.isFinite(entry.scene_index) ? entry.scene_index : Number.isFinite(entry.scene) ? entry.scene : null;
+  const sceneTotal = Number.isFinite(entry.scene_total) ? entry.scene_total : null;
+  if (!persona && !cover && !note) return null;
+  const record = { timestamp };
+  if (persona) record.persona = persona;
+  if (cover) record.cover = cover;
+  if (status) record.status = status;
+  if (mission) record.mission = mission;
+  if (location) record.location = location;
+  if (Number.isFinite(sceneIndex)) record.scene_index = Math.max(0, Math.floor(sceneIndex));
+  if (Number.isFinite(sceneTotal)) record.scene_total = Math.max(0, Math.floor(sceneTotal));
+  if (note) record.note = note;
+  return record;
+}
+
+function sanitizeAliasEntries(entries = []) {
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  for (const entry of entries) {
+    const normalized = normalizeAliasEntry(entry, fallback);
+    if (normalized) {
+      sanitized.push(normalized);
+    }
+  }
+  if (sanitized.length > ALIAS_TRACE_LIMIT) {
+    sanitized.splice(0, sanitized.length - ALIAS_TRACE_LIMIT);
+  }
+  return sanitized;
+}
+
+function normalizeRadioEntry(entry = {}, fallback) {
+  const timestamp = entry.timestamp || fallback || new Date().toISOString();
+  const message = (entry.message || entry.text || entry.content || '').toString().trim();
+  if (!message) return null;
+  const speaker = (entry.speaker || entry.from || entry.agent || entry.voice || '').toString().trim();
+  const channel = (entry.channel || entry.band || entry.frequency || '').toString().trim();
+  const status = (entry.status || entry.state || entry.tag || '').toString().trim();
+  const severity = (entry.severity || entry.priority || entry.level || '').toString().trim();
+  const note = (entry.note || entry.details || entry.comment || '').toString().trim();
+  const location = (entry.location || entry.zone || '').toString().trim();
+  const sceneIndex = Number.isFinite(entry.scene_index) ? entry.scene_index : Number.isFinite(entry.scene) ? entry.scene : null;
+  const record = { timestamp, message };
+  if (speaker) record.speaker = speaker;
+  if (channel) record.channel = channel;
+  if (status) record.status = status;
+  if (severity) record.severity = severity;
+  if (Number.isFinite(sceneIndex)) record.scene_index = Math.max(0, Math.floor(sceneIndex));
+  if (location) record.location = location;
+  if (note) record.note = note;
+  return record;
+}
+
+function sanitizeRadioEntries(entries = []) {
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  for (const entry of entries) {
+    const normalized = normalizeRadioEntry(entry, fallback);
+    if (normalized) {
+      sanitized.push(normalized);
+    }
+  }
+  if (sanitized.length > SQUAD_RADIO_LOG_LIMIT) {
+    sanitized.splice(0, sanitized.length - SQUAD_RADIO_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 function ensureLogs() {
   state.logs ||= {};
   state.logs.hud = Array.isArray(state.logs.hud) ? state.logs.hud : [];
@@ -331,6 +414,10 @@ function ensureLogs() {
     ? dedupeForeshadow(state.logs.foreshadow)
     : [];
   state.logs.market = sanitizeMarketEntries(state.logs.market);
+  state.logs.offline = Array.isArray(state.logs.offline) ? state.logs.offline : [];
+  state.logs.psi = Array.isArray(state.logs.psi) ? state.logs.psi : [];
+  state.logs.alias_trace = sanitizeAliasEntries(state.logs.alias_trace);
+  state.logs.squad_radio = sanitizeRadioEntries(state.logs.squad_radio);
   state.logs.flags ||= {};
   const flags = state.logs.flags;
   flags.runtime_version ||= ZR_VERSION;
@@ -407,6 +494,28 @@ function log_market_purchase(item, cost, options = {}) {
   state.logs.market.push(entry);
   if (state.logs.market.length > MARKET_LOG_LIMIT) {
     state.logs.market.splice(0, state.logs.market.length - MARKET_LOG_LIMIT);
+  }
+  return entry;
+}
+
+function log_alias_event(details = {}) {
+  ensureLogs();
+  const entry = normalizeAliasEntry({ ...details }, new Date().toISOString());
+  if (!entry) throw new Error("AliasTrace: Alias oder Persona fehlen.");
+  state.logs.alias_trace.push(entry);
+  if (state.logs.alias_trace.length > ALIAS_TRACE_LIMIT) {
+    state.logs.alias_trace.splice(0, state.logs.alias_trace.length - ALIAS_TRACE_LIMIT);
+  }
+  return entry;
+}
+
+function log_squad_radio(details = {}) {
+  ensureLogs();
+  const entry = normalizeRadioEntry({ ...details }, new Date().toISOString());
+  if (!entry) throw new Error("SquadRadio: Nachricht fehlt.");
+  state.logs.squad_radio.push(entry);
+  if (state.logs.squad_radio.length > SQUAD_RADIO_LOG_LIMIT) {
+    state.logs.squad_radio.splice(0, state.logs.squad_radio.length - SQUAD_RADIO_LOG_LIMIT);
   }
   return entry;
 }
@@ -652,6 +761,9 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'artifact_log'],
   ['logs', 'market'],
   ['logs', 'kodex'],
+  ['logs', 'offline'],
+  ['logs', 'alias_trace'],
+  ['logs', 'squad_radio'],
   ['ui']
 ];
 
