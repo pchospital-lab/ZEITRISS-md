@@ -309,6 +309,9 @@ Dokumentation.
 - **Statusnotiz:** ✅ Runtime-Helper `log_market_purchase()` schreibt `logs.market[]`
   (Timestamp, Artikel, Kosten, Px-Klausel); README und Speicher-Doku nennen den
   Debrief-Trace. (Commit: wird im PR referenziert.)
+- **Dokumentation:** Modul 15 „Chrono Units“ beschreibt den Chronopolis-Basar samt
+  Markt-Trace (`log_market_purchase()`) und QA-Evidenzpfad. (Commit: wird im PR
+  referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 28
 - **QA-Verankerung:** Chronopolis-Kauf inklusive Px-Folge.
@@ -443,6 +446,9 @@ um eine klar definierte Evidenz, damit das HUD-Verhalten von Mission 5 dauerha
   mit diesem Fahrplan.
 - Dokumentiere Abschlüsse mit Datum und Commit in Audit und QA-Log, nicht in den
   Runtime-Dateien.
+- Archiviere im QA-Log jeden Debrief-Auszug aus `logs.market[]`, wie im
+  Beta-GPT-Testlauf Juni 2025 gefordert; der Trace dient als Persistenznachweis
+  für den Chronopolis-Basar.
 - Halte die Terminübersicht der Regressionstests aktuell und verweise nach jedem
   Lauf auf den entsprechenden QA-Log-Abschnitt.
 
@@ -464,7 +470,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #1 | Doppelte Save-Schemata (Root vs. `character{}`) | `normalize_save_v6()` implementieren, Alt-Saves spiegeln, Dokumentation Modul 12/README anpassen | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
 | 🔄 | #2 | Fehlender PvP-Modus-Flag im Save | `ensure_mode_flag()` + HUD-Toast, Default-Heuristik dokumentieren | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
 | ✅ | #6 | Fraktionsintervention ohne Persistenz | `log_intervention()` persistiert Logs + Dashboard, Filter `get_intervention_log()` ergänzt | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md`, `gameplay/kampagnenstruktur.md` |
-| 🔄 | #9 | Market-Trace uneinheitlich | `log_market_purchase()` verankern, Debrief-Formatter erweitern | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md` |
+| ✅ | #9 | Market-Trace konsolidiert | `log_market_purchase()` aktiv, Debrief & Modul 15 dokumentieren den Chronopolis-Trace; QA-Log speichert den Beta-GPT-Debrief-Auszug (`logs.market[]`) als Evidenz (Commit: wird im PR referenziert.) | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md`, `internal/qa/logs/` |
 | ✅ | #10 | Offline-Protokoll persistiert | `offline_audit()` schreibt `logs.offline[]`, Debrief-Zeile spiegelt HUD-Status, README/Modul 16 ergänzt | Codex, Maintainer:innen | `runtime.js`, `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/speicher-fortsetzung.md` |
 | 🔄 | #12 | Gear-Alias wird nicht rückwärts gespiegelt | `alias_trace()` im Debrief, Alias-Liste verknüpfen | Codex | `systems/gameflow/speicher-fortsetzung.md`, `runtime.js` |
 | 🔄 | #14 | Fraktionsbelohnungen im Midgame blockiert | HQ-Basar als Pre-City-Hub implementieren, CU-Logik spiegeln | Codex, Maintainer:innen | `gameplay/kampagnenuebersicht.md`, `systems/currency/cu-waehrungssystem.md` |
