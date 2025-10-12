@@ -157,6 +157,7 @@ Content-Type: application/json
     "foreshadow": [],
     "market": [],
     "artifact_log": [],
+    "psi": [],
     "kodex": [],
     "flags": {
       "runtime_version": "4.2.2",
@@ -173,10 +174,12 @@ Content-Type: application/json
 `campaign.episode` spiegelt die aktuelle Missions-Staffel, `campaign.mode`
 markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
 `arena` notiert Laufzustand, Budget-Limits und Episodenstempel für den Px-Bonus.
-`logs.flags` zählt Compliance-Hinweis, Offline-Hilfen sowie die Runtime-Version –
-`runtime.js` erwartet diese Felder beim Laden, damit der GPT dieselbe Persistenz
-bedient. `ui` hält GM-Stil, Intro- und Suggest-Flags synchron mit den Toolkit-
-Makros.
+`logs.psi` speichert die jüngsten Psi-Traces (z. B. Phase-Strike-Kostenaufschläge)
+mit Basis-, Tax- und Gesamtwert samt Modus, damit QA und Toolkit-Hooks das PvP-
+Feedback nachvollziehen können. `logs.flags` zählt Compliance-Hinweis, Offline-
+Hilfen sowie die Runtime-Version – `runtime.js` erwartet diese Felder beim Laden,
+damit der GPT dieselbe Persistenz bedient. `ui` hält GM-Stil, Intro- und Suggest-
+Flags synchron mit den Toolkit-Makros.
 
 _Getter-Helpers (pseudo JS):_
 
@@ -220,7 +223,42 @@ export const isPvP = (ctx = state) => {
 };
 
 export const phaseStrikeTax = (ctx = state) => (isPvP(ctx) ? 1 : 0);
-export const phaseStrikeCost = (ctx = state, base = 2) => base + phaseStrikeTax(ctx);
+export const phaseStrikeCost = (ctx = state, baseOrOptions = 2) => {
+  const options =
+    typeof baseOrOptions === "object" && !Array.isArray(baseOrOptions)
+      ? baseOrOptions
+      : {};
+  const base = Number.isFinite(baseOrOptions)
+    ? Number(baseOrOptions)
+    : Number.isFinite(options.base)
+    ? Number(options.base)
+    : 2;
+  const tax = phaseStrikeTax(ctx);
+  const total = base + tax;
+  const feedback = options.feedback !== false;
+  const logEnabled = options.log !== false;
+  if (feedback && tax > 0) {
+    hud.toast(`Arena: Phase-Strike belastet +${tax} SYS (Kosten ${total})`, "ARENA");
+  }
+  if (logEnabled && tax > 0) {
+    logs.psi ||= [];
+    logs.psi.push({
+      ability: "phase_strike",
+      timestamp: new Date().toISOString(),
+      base_cost: base,
+      tax,
+      total_cost: total,
+      mode: campaignMode(ctx),
+      arena_active: !!(ctx?.arena?.active),
+      location: ctx?.location ?? state.location ?? null,
+      gm_style: ui.gm_style,
+    });
+    if (logs.psi.length > 16) {
+      logs.psi.splice(0, logs.psi.length - 16);
+    }
+  }
+  return total;
+};
 
 export function applyArenaRules(ctx = state) {
   const arena = ctx?.arena;

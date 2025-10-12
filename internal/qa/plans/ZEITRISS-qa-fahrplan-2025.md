@@ -486,7 +486,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #11 | Boss-DR-Toast fehlt | `boss_spawn_toast()` verpflichtend triggern | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
 | 🔄 | #15 | Suggest-Modus intransparent | `toggle_suggest()` persistieren + HUD-Icon | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
 | 🔄 | #16 | Vehikel-HUD-Overlay nicht automatisch aktiv | Szenen-Tagging `env="vehicle"` automatisieren | Codex | `runtime.js`, `gameplay/fahrzeuge-konflikte.md` |
-| 🔄 | #17 | Phase-Strike-Tax ohne HUD-Feedback | `phase_strike_cost()` um Toast + Log erweitern | Codex | `runtime.js`, `systems/kp-kraefte-psi.md` |
+| ✅ | #17 | Phase-Strike-Tax ohne HUD-Feedback | HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)` + Trace `logs.psi[]` via `phase_strike_cost()`; Docs spiegeln Psi-Log (Commit: wird im PR referenziert.) | Codex | `runtime.js`, `systems/kp-kraefte-psi.md`, `systems/runtime-stub-routing-layer.md`, `gameplay/kampagnenstruktur.md` |
 
 ### Cluster C – QA & Supporting Artefakte
 
