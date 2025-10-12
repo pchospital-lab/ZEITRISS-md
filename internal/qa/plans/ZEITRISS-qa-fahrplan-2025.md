@@ -136,6 +136,10 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Erkenntnis / To-do: Wallet-Split-Dialog und HQ-Pool im Debrief implementiert, Wissensmodule spiegeln den Ablauf ohne runtime.js; Maintainer-Ops enthält den Standardbefehl für den QA-Fahrplan.
   - Referenz: README §HQ/Chronopolis, Modul 12 §Koop-Debrief & Wallet-Split, Toolkit Makros, Maintainer-Ops.
 
+- **2025-06-18 – Codex-Compliance-Check** (Status: ✅ erledigt)
+  - Erkenntnis / To-do: Review bestätigte Spiegelung aller Runtime-Änderungen in README und Systems-Modulen; Trennung zwischen runtime.js, Routing-Stubs und GPT-Wissensmodulen ist intakt.
+  - Referenz: runtime.js 4.2.2, README §§Runtime-Flags & Offline-Protokoll, systems/runtime-stub-routing-layer.md §HUD/Foreshadow, Modul 12 Persistenz.
+
 ### Session-Template
 
 - **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)
