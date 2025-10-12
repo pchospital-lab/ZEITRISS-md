@@ -292,7 +292,8 @@ Die Runtime hält die letzten **24** Einkäufe im Log und schneidet ältere Eint
 alle Felder (z.B. ISO-Format, Trimmen von Item-Namen), damit der Trace konsistent bleibt. Dadurch
 bleibt das Savefile schlank, ohne dass wichtige Belege verloren gehen. Im Debrief liest
 `run_shop_checks()` die jüngsten Datensätze aus, damit das Team sofort nachvollziehen kann, wohin die
-CUs geflossen sind. Zusätzlich verweist das Modul „Speicher & Fortsetzung“ auf den Markt-Trace,
+CUs geflossen sind. Der Runtime-Debrief spiegelt dasselbe als `Chronopolis-Trace (n×): …` wider und nennt Timestamp,
+Item, Kosten, Px-Hinweis sowie optionale Notizen oder Quellen. Zusätzlich verweist das Modul „Speicher & Fortsetzung“ auf den Markt-Trace,
 sodass Persistenzprüfungen ohne direkten Zugriff auf die Laufzeit nachvollziehbar bleiben.
 
 ### Wartung und Verschleiß

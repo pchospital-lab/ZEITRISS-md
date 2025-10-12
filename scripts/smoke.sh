@@ -15,6 +15,7 @@ cd "${ROOT}"
 export PYTHONPATH="${ROOT}:${PYTHONPATH:-}"
 
 python3 tools/lint_runtime.py
+python3 tools/lint_debrief_trace.py
 python3 -m scripts.lint_arena
 python3 -m scripts.lint_chronopolis
 python3 -m scripts.lint_doc_links

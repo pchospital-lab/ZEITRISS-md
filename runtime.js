@@ -769,10 +769,73 @@ function ensure_economy(){
   if (!state.economy || typeof state.economy !== 'object'){
     state.economy = {};
   }
-  if (!Number.isFinite(state.economy.cu)){
-    state.economy.cu = 0;
+  const economy = state.economy;
+  economy.cu = Number.isFinite(economy.cu) ? Math.round(economy.cu) : 0;
+  ensure_wallets();
+  return economy;
+}
+
+function normalize_wallet_id(raw){
+  if (typeof raw !== 'string') return null;
+  const trimmed = raw.trim();
+  return trimmed || null;
+}
+
+function normalize_wallet_record(entry){
+  if (entry === null || entry === undefined) return null;
+  if (typeof entry === 'number'){
+    const balance = Math.max(0, Math.round(entry));
+    return { balance, name: null };
   }
-  return state.economy;
+  if (typeof entry !== 'object' || Array.isArray(entry)){
+    return null;
+  }
+  const amount = asNumber(entry.balance ?? entry.amount ?? entry.cu ?? entry.value ?? entry.delta);
+  if (amount === null){
+    return null;
+  }
+  const balance = Math.max(0, Math.round(amount));
+  const name = typeof entry.name === 'string' && entry.name.trim() ? entry.name.trim() : null;
+  return { balance, name };
+}
+
+function ensure_wallets(){
+  const economy = state.economy || (state.economy = {});
+  const wallets = economy.wallets;
+  const normalized = {};
+  if (wallets && typeof wallets === 'object' && !Array.isArray(wallets)){
+    for (const [key, value] of Object.entries(wallets)){
+      const id = normalize_wallet_id(key);
+      if (!id) continue;
+      const record = normalize_wallet_record(value);
+      if (!record) continue;
+      normalized[id] = {
+        balance: record.balance,
+        name: record.name
+      };
+    }
+  }
+  economy.wallets = normalized;
+  return normalized;
+}
+
+function wallet_lookup(){
+  ensure_wallets();
+  const economy = state.economy;
+  return economy.wallets;
+}
+
+function get_wallet_record(id, label){
+  if (!id) return null;
+  const wallets = wallet_lookup();
+  let record = wallets[id];
+  if (!record){
+    record = { balance: 0, name: label || null };
+    wallets[id] = record;
+  } else if (!record.name && label){
+    record.name = label;
+  }
+  return record;
 }
 
 function ensure_character(){
@@ -1640,10 +1703,99 @@ function render_offline_protocol(){
   return format_offline_report(latest, total);
 }
 
+function format_market_entry(entry){
+  if (!entry || typeof entry !== 'object') return '';
+  const segments = [];
+  if (typeof entry.timestamp === 'string' && entry.timestamp.trim()){
+    segments.push(entry.timestamp.trim());
+  }
+  if (typeof entry.item === 'string' && entry.item.trim()){
+    segments.push(entry.item.trim());
+  }
+  if (Number.isFinite(entry.quantity) && entry.quantity > 1){
+    segments.push(`x${Math.max(1, Math.floor(entry.quantity))}`);
+  }
+  const cost = Number(entry.cost_cu);
+  if (Number.isFinite(cost)){
+    segments.push(`${Math.max(0, Math.round(cost))} CU`);
+  }
+  if (typeof entry.px_clause === 'string' && entry.px_clause.trim()){
+    segments.push(entry.px_clause.trim());
+  }
+  if (typeof entry.note === 'string' && entry.note.trim()){
+    segments.push(entry.note.trim());
+  }
+  if (typeof entry.source === 'string' && entry.source.trim()){
+    segments.push(`Quelle ${entry.source.trim()}`);
+  }
+  return segments.join(' · ');
+}
+
+function render_market_trace(limit = 2){
+  const log = ensure_market_log();
+  if (!log.length) return null;
+  const slice = log.slice(Math.max(0, log.length - Math.max(1, limit)));
+  const entries = slice.map(format_market_entry).filter(Boolean);
+  if (!entries.length) return null;
+  if (log.length > slice.length){
+    entries.unshift('…');
+  }
+  return `Chronopolis-Trace (${log.length}×): ${entries.join(' | ')}`;
+}
+
+function render_foreshadow_report(limit = 3){
+  const entries = foreshadow_entries();
+  if (!entries.length) return null;
+  const slice = entries.slice(Math.max(0, entries.length - Math.max(1, limit)));
+  const summaries = slice.map((entry) => {
+    if (!entry || typeof entry !== 'object') return '';
+    const parts = [];
+    const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+    parts.push(tag);
+    if (Number.isFinite(entry.scene)){
+      parts.push(`Szene ${entry.scene}`);
+    }
+    if (typeof entry.message === 'string' && entry.message.trim()){
+      parts.push(entry.message.trim());
+    }
+    return parts.join(' – ');
+  }).filter(Boolean);
+  if (!summaries.length) return null;
+  if (entries.length > slice.length){
+    summaries.unshift('…');
+  }
+  return `Foreshadow-Log (${entries.length}×): ${summaries.join(' | ')}`;
+}
+
+function render_runtime_flags_summary(){
+  ensure_logs();
+  const flags = state.logs?.flags || {};
+  const parts = [];
+  if (typeof flags.runtime_version === 'string' && flags.runtime_version.trim()){
+    parts.push(`Runtime ${flags.runtime_version.trim()}`);
+  }
+  parts.push(flags.compliance_shown_today ? 'Compliance gezeigt' : 'Compliance offen');
+  parts.push(flags.chronopolis_warn_seen ? 'Chronopolis-Warnung quittiert' : 'Chronopolis-Warnung offen');
+  if (Number.isFinite(flags.offline_help_count) && flags.offline_help_count > 0){
+    parts.push(`Offline-Hilfe ${Math.max(0, Math.floor(flags.offline_help_count))}×`);
+  }
+  if (typeof flags.offline_help_last === 'string' && flags.offline_help_last.trim()){
+    parts.push(`Offline zuletzt ${flags.offline_help_last.trim()}`);
+  }
+  if (!parts.length) return null;
+  return `Runtime-Flags: ${parts.join(' · ')}`;
+}
+
 function asNumber(value){
   if (value === null || value === undefined) return null;
   const num = Number(value);
   return Number.isFinite(num) ? num : null;
+}
+
+function normalize_cu(value){
+  const num = asNumber(value);
+  if (num === null) return null;
+  return Math.max(0, Math.round(num));
 }
 
 function sumCuFromArray(entries){
@@ -1785,9 +1937,282 @@ function render_rewards(outcome = {}, missionResult = {}){
   return `Belohnungen · ${segments.join(' · ')}`;
 }
 
+function build_wallet_roster(){
+  const roster = [];
+  const indexById = new Map();
+  const register = (candidate = {}, fallbackLabel) => {
+    const rawId = typeof candidate.id === 'string' && candidate.id.trim() ? candidate.id.trim() : null;
+    const labels = [candidate.callsign, candidate.name, candidate.alias, candidate.handle, fallbackLabel]
+      .filter((value) => typeof value === 'string' && value.trim());
+    const label = labels.length ? labels[0].trim() : null;
+    let id = rawId;
+    if (!id && label){
+      id = label.toLowerCase().replace(/[^a-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '');
+    }
+    if (!id){
+      id = `agent-${roster.length + 1}`;
+    }
+    if (indexById.has(id)){
+      const existing = roster[indexById.get(id)];
+      if (!existing.label && label){
+        existing.label = label;
+      }
+      return existing;
+    }
+    const entry = { id, label: label || id };
+    roster.push(entry);
+    indexById.set(id, roster.length - 1);
+    return entry;
+  };
+
+  const character = ensure_character();
+  register(character, 'Operator');
+
+  const party = ensure_party();
+  if (Array.isArray(party.characters)){
+    party.characters.forEach((member) => {
+      if (member && typeof member === 'object'){
+        register(member, 'Agent');
+      }
+    });
+  }
+
+  const team = ensure_team();
+  if (Array.isArray(team.members)){
+    team.members.forEach((member) => {
+      if (member && typeof member === 'object'){
+        register(member, 'Agent');
+      }
+    });
+  }
+
+  if (!roster.length){
+    register({ id: 'agent-1', callsign: 'Agent' }, 'Agent');
+  }
+
+  return { roster, indexById };
+}
+
+function normalize_wallet_instruction(entry, fallbackMember, rosterInfo){
+  if (entry === null || entry === undefined) return null;
+  let payload = entry;
+  if (typeof entry === 'number'){
+    payload = { amount: entry };
+  } else if (typeof entry === 'string'){
+    const parts = entry.split(':');
+    if (parts.length === 2){
+      payload = { id: parts[0], amount: parts[1] };
+    } else {
+      return null;
+    }
+  }
+  if (typeof payload !== 'object' || Array.isArray(payload)){
+    return null;
+  }
+  let id = typeof payload.id === 'string' && payload.id.trim() ? payload.id.trim() : null;
+  let label = typeof payload.label === 'string' && payload.label.trim() ? payload.label.trim() : null;
+  if (!label && typeof payload.name === 'string' && payload.name.trim()){
+    label = payload.name.trim();
+  }
+  if (!id && fallbackMember){
+    id = fallbackMember.id;
+    label = label || fallbackMember.label;
+  }
+  if (!id){
+    return null;
+  }
+  if (!label && rosterInfo.indexById.has(id)){
+    label = rosterInfo.roster[rosterInfo.indexById.get(id)].label;
+  }
+  const amount = normalize_cu(payload.amount ?? payload.share ?? payload.value ?? payload.cu ?? payload.payout ?? payload.delta ?? payload.balance);
+  let ratio = asNumber(payload.ratio ?? payload.percent ?? payload.weight ?? payload.share_ratio ?? payload.portion ?? payload.percent_share);
+  if (ratio !== null){
+    ratio = Math.max(0, ratio > 1 ? (ratio > 100 ? ratio / 100 : ratio / 100) : ratio);
+  }
+  const result = {
+    id,
+    label,
+    amount: amount !== null ? Math.max(0, amount) : null,
+    ratio: ratio !== null ? Math.max(0, ratio) : null
+  };
+  if (result.amount === null && result.ratio === null){
+    return null;
+  }
+  return result;
+}
+
+function gather_wallet_instructions(outcome, rosterInfo){
+  const instructions = [];
+  const fallbackQueue = rosterInfo.roster.slice();
+  const nextFallback = () => (fallbackQueue.length ? fallbackQueue.shift() : null);
+  const pushEntry = (entry) => {
+    const normalized = normalize_wallet_instruction(entry, nextFallback(), rosterInfo);
+    if (normalized){
+      instructions.push(normalized);
+    }
+  };
+  const consider = (source) => {
+    if (!source) return;
+    if (Array.isArray(source)){
+      source.forEach((item) => pushEntry(item));
+      return;
+    }
+    if (typeof source === 'object'){
+      for (const [key, value] of Object.entries(source)){
+        if (value && typeof value === 'object' && !Array.isArray(value)){
+          pushEntry({ id: key, ...value });
+        } else {
+          pushEntry({ id: key, amount: value });
+        }
+      }
+    }
+  };
+
+  consider(outcome?.economy?.split);
+  consider(outcome?.economy?.wallet_split);
+  consider(outcome?.economy?.wallets);
+  consider(outcome?.wallet_split);
+  consider(outcome?.wallets);
+  consider(outcome?.cu_split);
+  if (outcome?.split && typeof outcome.split === 'object' && !Array.isArray(outcome.split)){
+    consider(outcome.split.wallets ?? outcome.split.members ?? outcome.split);
+  }
+  return instructions;
+}
+
+function compute_wallet_allocations(totalCu, rosterInfo, instructions){
+  const aggregated = new Map();
+  instructions.forEach((instruction) => {
+    const { id } = instruction;
+    if (!id) return;
+    const base = aggregated.get(id) || {
+      id,
+      label: instruction.label || (rosterInfo.indexById.has(id) ? rosterInfo.roster[rosterInfo.indexById.get(id)].label : id),
+      amount: 0,
+      ratio: 0
+    };
+    if (instruction.amount !== null){
+      base.amount = Math.max(0, base.amount + instruction.amount);
+    }
+    if (instruction.ratio !== null){
+      base.ratio = Math.max(0, base.ratio + instruction.ratio);
+    }
+    if (!base.label && instruction.label){
+      base.label = instruction.label;
+    }
+    aggregated.set(id, base);
+  });
+
+  let available = Math.max(0, Math.round(totalCu));
+  const allocations = [];
+  const addAllocation = (id, label, amount) => {
+    const value = Math.max(0, Math.round(amount));
+    if (value <= 0) return 0;
+    let record = allocations.find((entry) => entry.id === id);
+    if (!record){
+      record = { id, label: label || (rosterInfo.indexById.has(id) ? rosterInfo.roster[rosterInfo.indexById.get(id)].label : id), amount: 0 };
+      allocations.push(record);
+    } else if (!record.label && label){
+      record.label = label;
+    }
+    record.amount += value;
+    return value;
+  };
+
+  aggregated.forEach((entry) => {
+    if (available <= 0) return;
+    if (entry.amount > 0){
+      const assigned = addAllocation(entry.id, entry.label, Math.min(available, Math.round(entry.amount)));
+      available -= assigned;
+    }
+  });
+
+  if (available > 0){
+    const ratioEntries = Array.from(aggregated.values()).filter((entry) => entry.ratio > 0);
+    if (ratioEntries.length){
+      const totalRatio = ratioEntries.reduce((sum, entry) => sum + entry.ratio, 0);
+      if (totalRatio > 0){
+        let distributed = 0;
+        ratioEntries.forEach((entry, index) => {
+          if (available - distributed <= 0) return;
+          let share = available * (entry.ratio / totalRatio);
+          if (index === ratioEntries.length - 1){
+            share = available - distributed;
+          } else {
+            share = Math.round(share);
+          }
+          share = Math.max(0, Math.min(share, available - distributed));
+          if (share > 0){
+            addAllocation(entry.id, entry.label, share);
+            distributed += share;
+          }
+        });
+        available = Math.max(0, available - distributed);
+      }
+    }
+  }
+
+  if (available > 0 && instructions.length === 0){
+    const recipients = rosterInfo.roster.length ? rosterInfo.roster : [{ id: 'agent-1', label: 'Agent' }];
+    const baseShare = Math.floor(available / recipients.length);
+    let remainder = available - baseShare * recipients.length;
+    recipients.forEach((member) => {
+      let share = baseShare;
+      if (remainder > 0){
+        share += 1;
+        remainder -= 1;
+      }
+      if (share > 0){
+        addAllocation(member.id, member.label, share);
+      }
+    });
+    available = 0;
+  }
+
+  const totalAssigned = allocations.reduce((sum, entry) => sum + entry.amount, 0);
+  return { allocations, totalAssigned, leftover: Math.max(0, Math.round(totalCu) - totalAssigned) };
+}
+
+function apply_wallet_split(outcome, cuReward){
+  const reward = normalize_cu(cuReward);
+  if (reward === null || reward <= 0){
+    return { lines: [], payout: 0 };
+  }
+  const rosterInfo = build_wallet_roster();
+  const instructions = gather_wallet_instructions(outcome, rosterInfo);
+  const { allocations, totalAssigned, leftover } = compute_wallet_allocations(reward, rosterInfo, instructions);
+  const economy = ensure_economy();
+  economy.cu = Math.max(0, Math.round(economy.cu) + reward);
+  allocations.forEach((entry) => {
+    const record = get_wallet_record(entry.id, entry.label);
+    if (!record) return;
+    record.balance = Math.max(0, Math.round(record.balance || 0) + entry.amount);
+    if (!record.name && entry.label){
+      record.name = entry.label;
+    }
+  });
+  if (totalAssigned > 0){
+    economy.cu = Math.max(0, Math.round(economy.cu) - totalAssigned);
+  }
+  const lines = [];
+  if (allocations.length){
+    const summary = allocations.map((entry) => `${entry.label || entry.id} +${entry.amount} CU`).join(' | ');
+    lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
+  }
+  const hqBalance = Math.max(0, Math.round(economy.cu));
+  const remainderText = leftover > 0 ? ` (Rest ${leftover} CU im HQ-Pool)` : '';
+  lines.push(`HQ-Pool: ${hqBalance} CU verfügbar${remainderText}.`);
+  return { lines, payout: totalAssigned, leftover };
+}
+
 function ensure_economy(){
-  state.economy ||= {};
-  return state.economy;
+  if (!state.economy || typeof state.economy !== 'object'){
+    state.economy = {};
+  }
+  const economy = state.economy;
+  economy.cu = Number.isFinite(economy.cu) ? Math.round(economy.cu) : 0;
+  ensure_wallets();
+  return economy;
 }
 
 function ensure_arena(){
@@ -2786,6 +3211,21 @@ function prepare_save_economy(economy){
   if (!Number.isFinite(base.cu)){
     base.cu = 0;
   }
+  base.cu = Math.round(base.cu);
+  const wallets = {};
+  if (base.wallets && typeof base.wallets === 'object' && !Array.isArray(base.wallets)){
+    for (const [key, value] of Object.entries(base.wallets)){
+      const id = normalize_wallet_id(key);
+      if (!id) continue;
+      const record = normalize_wallet_record(value);
+      if (!record) continue;
+      wallets[id] = {
+        balance: record.balance,
+        ...(record.name ? { name: record.name } : {})
+      };
+    }
+  }
+  base.wallets = wallets;
   return base;
 }
 
@@ -3490,11 +3930,32 @@ function launch_mission(){
 
 function debrief(st){
   const outcome = st || {};
+  const cuReward = extractCuReward(outcome);
   const result = completeMission(outcome);
-  const lines = [render_rewards(outcome, result), render_px_tracker(outcome.temp || mission_temp())];
+  const lines = [];
+  lines.push(render_rewards(outcome, result));
+  if (cuReward !== null && cuReward > 0){
+    const split = apply_wallet_split(outcome, cuReward);
+    if (split.lines.length){
+      lines.push(...split.lines);
+    }
+  }
+  lines.push(render_px_tracker(outcome.temp || mission_temp()));
+  const marketTrace = render_market_trace();
+  if (marketTrace){
+    lines.push(marketTrace);
+  }
+  const foreshadowSummary = render_foreshadow_report();
+  if (foreshadowSummary){
+    lines.push(foreshadowSummary);
+  }
   const offlineSummary = render_offline_protocol();
   if (offlineSummary){
     lines.push(offlineSummary);
+  }
+  const flagSummary = render_runtime_flags_summary();
+  if (flagSummary){
+    lines.push(flagSummary);
   }
   if (result.events.length){
     lines.push(result.events.join('\n'));

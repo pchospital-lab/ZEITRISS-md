@@ -910,8 +910,11 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
   Preisfaktoren.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
-- Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen `log_market_purchase()` für Debrief-Traces.
-- Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12 Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und Szenenmarker fest; `offline_audit()` speist HUD und Debrief.
+- Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle.
+- Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12 Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und Szenenmarker fest; `offline_audit()` speist HUD und Debrief. Die Zusammenfassung `Offline-Protokoll (n×): …` nennt Trigger, Jammer-Status, Reichweite sowie Episoden-/Missionsmarker.
+- Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …` im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
+- Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs.
+- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
 
 ## Spielmodi {#spielmodi}
 

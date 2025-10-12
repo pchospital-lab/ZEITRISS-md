@@ -106,10 +106,24 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
 - Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
-- Logs halten `logs.flags.runtime_version` vor, damit klar ist, mit welcher Laufzeitversion der Save erstellt wurde.
-- `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; Debriefs zitieren die jüngsten Einträge als Einkaufstrace.
-- `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; Debriefs zitieren den jüngsten Eintrag als Feldprotokoll.
+- Logs halten `logs.flags.runtime_version` vor, damit klar ist, mit welcher Laufzeitversion der Save erstellt wurde. Der Debrief fasst den Persistenzstatus in `Runtime-Flags: …` zusammen (Runtime-Version, Compliance-Check, Chronopolis-Warnung sowie Offline-Hilfe-Zähler und letzter Timestamp).
+- `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; der Debrief rendert daraus `Chronopolis-Trace (n×): …` inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz/Quelle der jüngsten Einkäufe.
+- `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; der Debrief nutzt `Offline-Protokoll (n×): …` als Feldprotokoll-Zusammenfassung.
+- `logs.foreshadow[]` wird dedupliziert und hält Tag, Kurztext, Szene sowie First/Last-Seen. `Foreshadow-Log (n×): …` im Debrief listet die jüngsten Hinweise, damit QA Foreshadow-Gates nachvollziehen kann.
 - `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status.
+- `economy.wallets{}` ist die Koop-Kasse des Teams. Jeder Eintrag folgt der Struktur `<character_id>: {balance, name?}`. Debrief-Splits schreiben Auszahlungen auf diese Wallets, während der zentrale HQ-Pool (`economy.cu`) den Restbestand hält.
+
+### Koop-Debrief & Wallet-Split {#koop-wallet-split}
+
+Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Belohnungen**-Block und direkt danach die Koop-Auszahlung.
+
+1. **Standardaufteilung:** Sind mehrere Agenten aktiv und es liegt kein spezielles Split-Schema vor, teilt der GPT die Auszahlung gleichmäßig auf `economy.wallets{}` auf. Die Zeile `Wallet-Split (n×): …` nennt jede Person mit Callsign und Gutschrift, z. B. `Wallet-Split (3×): Ghost +200 CU | Nova +200 CU | Wrench +200 CU`.
+2. **HQ-Pool aktualisieren:** Anschließend folgt `HQ-Pool: <Betrag> CU verfügbar`. Der Betrag entspricht `economy.cu` nach dem Split. Ein Rest aus Sonderaufteilungen wird in Klammern angezeigt (`Rest 150 CU im HQ-Pool`).
+3. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt QA/SL im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
+4. **Dialogführung:** Im Rollenspiel kündigt Kodex die Standardaufteilung an und bietet Alternativen an: _„Standardaufteilung: je 200 CU. Möchtet ihr eine andere Verteilung? Vorschlag: Nova +100 CU extra für den Artefakt-Fund.“_ Entscheidungen und Sonderfälle dokumentiert der GPT in den Debrief-Notizen oder im QA-Log.
+5. **Persistenz:** Wallets werden beim Speichern als `economy.wallets` festgeschrieben. Die IDs referenzieren die Charaktere aus `party.characters[]`; falls ein Charakter nur einen Namen besitzt, erzeugt der GPT einen slug (`agent-nova`). Änderungen an Callsigns passen die Wallet-Namen automatisch an, ohne die Balance zu verlieren.
+
+> **Hinweis:** Wallet-Splits gehören zum narrativen Ablauf. Auch ohne lokale Runtime muss der GPT die Schritte manuell beschreiben und die Werte in den Save-Block übertragen. Der HQ-Pool bleibt immer sichtbar, damit Koop-Teams bei mehreren Missionen nachvollziehen können, wie viele CU im gemeinsamen Konto verbleiben.
 
 **Legacy-Normalisierung (ohne runtime.js)**
 
