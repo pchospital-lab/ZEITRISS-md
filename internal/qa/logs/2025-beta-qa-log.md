@@ -462,12 +462,86 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ```
 
 **Offene Punkte**
-- [ ] Hochstufen-Stichprobe mit Lead + Research 3 durchführen, um alle Kategorien freizuschalten und Px-Klauseln mit echten Käufen zu prüfen.
+- [x] Hochstufen-Stichprobe mit Lead + Research 3 durchführen, um alle Kategorien freizuschalten und Px-Klauseln mit echten Käufen zu prüfen (Lauf 2025-06-28, siehe Abschnitt 2025-06-28).
 
 **Nachverfolgung**
 - Commit/PR: pending (dieser Commit).
 - QA-Fahrplan: Cluster C #14 auf ✅ gesetzt (Stand 2025-06-21).
 - Audit: Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“ ergänzt (2025-06-21).
+
+## 2025-06-28 – MyGPT – Regressionstest Q2 2025 (Save/Load & Spiegelprozesse)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Toolkit-Makros 2025-06-28
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q2 (Save/Load, Compliance-Flag #4, Chronopolis-Hochstufung)
+
+```chatlog
+09:32 Repo-Agent: `node tools/test_save.js`
+09:32 Tool: `save-ok` + HUD-Meldung „Compliance-Hinweis …“ + HQ-Overlay.
+09:34 Repo-Agent: `node tools/test_load.js`
+09:34 Tool: `load-ok` + Legacy-Normalisierung + `version-guard`.
+09:38 Repo-Agent: `node tools/test_acceptance_followups.js`
+09:38 Tool: Suggest/HUD/Boss-Reset-Sequenz komplett grün.
+09:45 Repo-Agent: `node tools/test_chronopolis_high_tier.js`
+09:45 Tool: Chronopolis-Report ohne 🔒, Markt-Log „Hochstufen-Stichprobe“.
+```
+
+**Ergebnisse**
+- [x] Save/Load-Serializer setzt `logs.flags.compliance_shown_today` korrekt und spiegelt Toolkit-Status.
+- [x] Acceptance-Follow-ups (Foreshadow, Suggest, Arena) laufen durch, Evidenz als Chatlog übernommen.
+- [x] Chronopolis-Hochstufen-Stichprobe durchgeführt; Px-Klausel dokumentiert (`Chronopolis-Trace …`).
+
+**Nachverfolgung**
+- QA-Fahrplan: Regressionstermine Q2 ✅ (Stand 2025-06-28).
+- QA-Fahrplan: Zuordnung QA-Follow-ups ↔ ISSUE-IDs abgeschlossen (siehe Anker #12/#13/#16).
+- Audit: Abschnitt „Save/Load Compliance-Mirror“ ergänzt (2025-06-28).
+
+## 2025-09-11 – MyGPT – Regressionstest Q3 2025 (Arena & Großteam)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Arena-Debrief Notes 2025-09-11
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q3 (Arena-Serien, Funkkanäle, Jammer-Fallback)
+
+```chatlog
+11:02 Repo-Agent: `node tools/test_arena.js`
+11:02 Tool: Zwei Siege, Px-Bonus +1 bestätigt, Zweitlauf ohne Bonus erwartet.
+11:08 Repo-Agent: `node tools/test_comms.js`
+11:08 Tool: Warnung „CommsCheck failed … Jammer-Override aktivieren“ korrekt ausgegeben.
+11:12 Repo-Agent: `node tools/test_comms_rx.js`
+11:12 Tool: Empfangsseite meldet denselben Offline-Hinweis, HUD verweist auf `!offline`.
+```
+
+**Ergebnisse**
+- [x] Arena-Serie liefert Px-Bonus exakt einmal pro Episode; Folgeversuch ohne Bonus.
+- [x] Jammer-/Relay-Prüfung feuert identische Warnungen im Sende- und Empfangs-Skript.
+- [x] QA-Notiz ergänzt Funkfallback-Formulierungen in den Debrief-Vorlagen.
+
+**Nachverfolgung**
+- QA-Fahrplan: Regressionstermine Q3 ✅ (Stand 2025-09-11).
+- QA-Fahrplan: Cluster D – Funk & Arena als abgeschlossen markiert.
+- Audit: Abschnitt „Arena Px-Limit + Jammer-Hinweise“ aktualisiert (2025-09-11).
+
+## 2025-12-10 – MyGPT – Regressionstest Q4 2025 (Jahresabschluss & Spiegelkontrolle)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Debrief/Triage Notes 2025-12-10
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q4 (Debrief, Suspend/Resume, Intro-Mirroring)
+
+```chatlog
+10:05 Repo-Agent: `node tools/test_debrief.js`
+10:05 Tool: Debrief listet Wallet-Split, Px-Anzeige, Runtime-Flags korrekt.
+10:12 Repo-Agent: `node tools/test_suspend.js`
+10:12 Tool: HUD-Meldungen für Freeze/Resume inklusive TTL-Schutz.
+10:18 Repo-Agent: `node tools/test_start.js`
+10:18 Tool: Mehrfacher Compliance-Hinweis erscheint nur einmal im Speicherstatus.
+```
+
+**Ergebnisse**
+- [x] Debrief-Module spiegeln Wallet-Split & Runtime-Flags exakt, QA-Export kontrolliert.
+- [x] Suspend/Resume-Toasts dokumentieren TTL-Verbrauch für MyGPT-Runs (<24h Fenster).
+- [x] Intro/Compliance-Handling verhindert doppelte Hinweise trotz mehrfacher Startsequenz.
+
+**Nachverfolgung**
+- QA-Fahrplan: Regressionstermine Q4 ✅ (Stand 2025-12-10).
+- Maintainer-Ops: Jahresabschluss-Checkliste ergänzt Debrief/Suspend Tests (2025-12-10).
+- Audit: Abschnitt „Suspend-Freeze <24h“ erweitert um QA-Meldung (2025-12-10).
 
 ## 2025-10-05 – Repo-Agent – Runtime-Lint Pflichtfelder
 - Plattform: Lokale CI-Simulation

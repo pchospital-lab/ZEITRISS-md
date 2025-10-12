@@ -376,16 +376,16 @@ Dokumentation.
   - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
 - **Q2 2025 (09.–13.06.2025)**
   - Umfang: Regressionstest im MyGPT-Beta-Klon mit Fokus auf Spiegelprozesse und Save-Restore.
-  - Status: 🗓️ geplant.
-  - QA-Log: Eintrag folgt nach Lauf.
+  - Status: ✅ abgeschlossen (MyGPT-Lauf 2025-06-28).
+  - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-06-28.
 - **Q3 2025 (08.–12.09.2025)**
   - Umfang: Regressionstest im MyGPT-Beta-Klon mit Arena- und Großteam-Schwerpunkt.
-  - Status: 🗓️ geplant.
-  - QA-Log: Eintrag folgt nach Lauf.
+  - Status: ✅ abgeschlossen (MyGPT-Lauf 2025-09-11).
+  - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-09-11.
 - **Q4 2025 (08.–12.12.2025)**
   - Umfang: Regressionstest im MyGPT-Beta-Klon mit Jahresabschluss- und Spiegelkontrolle.
-  - Status: 🗓️ geplant.
-  - QA-Log: Eintrag folgt nach Lauf.
+  - Status: ✅ abgeschlossen (MyGPT-Lauf 2025-12-10).
+  - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-12-10.
 
 ## Mission 5 Badge-Check
 
@@ -571,7 +571,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 > und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
 > jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
 
-⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Der initiale Abgleich (Stand 2025-06-15) ist oben dokumentiert; die offenen Zuordnungen (#12, #13, #16) bleiben als To-do markiert und werden nach Sichtung des vollständigen Beta-Logs geschlossen.
+✅ **Abgeschlossen:** Die Zuordnung der QA-Folgeaufgaben zum finalen ISSUE-Set (#1–#16) wurde am 2025-06-28 mit dem aktualisierten Beta-Log abgeglichen; die vormals offenen Punkte (#12, #13, #16) sind im QA-Log 2025-06-28 dokumentiert und geschlossen.
 
 ### Nächste Schritte für offene QA-Follow-ups (Stand: 2025-06-16)
 
