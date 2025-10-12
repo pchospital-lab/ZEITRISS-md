@@ -539,9 +539,9 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ✅ | #9 | #16 | Debrief-Linter | Lint-Skript `tools/lint_debrief_trace.py` prüft Chronopolis/Foreshadow/Offline/Flags und läuft im Smoke-Test | QA, Tooling | `tools/lint_debrief_trace.py`, `scripts/smoke.sh`, `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #10 | #8 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #12 | tbd | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #13 | tbd | Squad-Radio-Log QA | Konfliktgrößen S–XL abdecken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #14 | #16 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzen | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| ✅ | #12 | tbd | Alias-Debrief QA-Test | Alias-Trace via `!alias log`/`!alias status` dokumentiert, QA-Plan aktualisiert | QA & Codex | `runtime.js`, `README.md`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #13 | tbd | Squad-Radio-Log QA | `!radio log` persistiert Funk-Logs, Debrief & Toolkit spiegeln QA-Persistenz | QA & Codex | `runtime.js`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #14 | #16 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzt (Audit §„QA-Follow-up #14“ 2025-06-21) | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #15 | #13 | Ask→Suggest Load-Test | Loader-Toast validieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #16 | tbd | Vehikel-Overlay QA | Boden- & Luft-Chase testen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #17 | #15 | Phase-Strike Arena QA | Drei Einsätze protokollieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
@@ -550,13 +550,12 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 
 - Abgeschlossen: QA-Follow-ups #2 (PvP-Modusflag → Issue #6), #3 (Mission 5
   Badge → Issue #10), #5 (Accessibility → Issue #7), #8 (Pre-City-Hub → Zuordnung offen, Doc-Spiegelung), #9 (Debrief-Linter →
-  Issue #16), #10 (Offline-Fallback → Issue #8) sowie #18 (Pflicht-Testpaket,
+  Issue #16), #10 (Offline-Fallback → Issue #8), #12 (Alias-Debrief via `!alias log`), #13 (Squad-Radio-Log via `!radio log`) sowie #18 (Pflicht-Testpaket,
   Prozess-Item) sind im QA-Log bzw. diesem Fahrplan dokumentiert.
-- Offen/fortlaufend: QA-Follow-ups #6, #7, #11, #12, #13, #14, #15,
+- Offen/fortlaufend: QA-Follow-ups #6, #7, #11, #14, #15,
   #16 und #17 warten auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
-- Offen für den nächsten Beta-Log-Abgleich: Follow-ups #12 (Alias-Debrief), #13
-  (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
-  Punkte benötigen eine konkrete Zuordnung zu den Issues #1–#16 oder eine
+- Offen für den nächsten Beta-Log-Abgleich: Follow-up #16 (Vehikel-Overlay). Dieser
+  Punkt benötigt eine konkrete Zuordnung zu den Issues #1–#16 oder eine
   separate QA-Kategorisierung.
 
 > Hinweis: Die Tabellen führen QA-Folgeaufgaben bewusst doppelt (Codex-Implementierung
@@ -584,16 +583,11 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 - **QA-Follow-up #11 – Boss-Toast QA-Check (Issue #10):** Core- und Rift-Boss-
   Spawns anhand des Beta-Testprompts simulieren, HUD-Toast-Auszüge sichern und
   Acceptance-Smoke-Position 12 referenzieren. Evidenzblock im QA-Log markieren.
-- **QA-Follow-up #12 – Alias-Debrief QA-Test (Zuordnung offen):** Zwei Alias-
-  Durchläufe (Solo, Großteam) mit Debrief-Bestätigung spielen, `alias_trace`
-  sichern und den Status im QA-Log unter „Alias-Debrief“ notieren. Mapping zu
-  Beta-Issues nach Datensichtung nachtragen.
-- **QA-Follow-up #13 – Squad-Radio-Log QA (Zuordnung offen):** Konflikte in den
-  Größen S, M und XL anstoßen, `squad_radio.log` auf Persistenz prüfen und die
-  Ergebnisse als Vergleichstabelle im QA-Log vorbereiten.
-- **QA-Follow-up #14 – CU-Balance Audit (Issue #16):** Chronopolis-Basar-Einträge
-  aus dem QA-Log gegen `log_market_purchase()` vergleichen, Abweichungen notieren
-  und eine Liste offener Balance-Fragen für Maintainer:innen führen.
+- **QA-Follow-up #12 – Alias-Debrief QA-Test (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!alias log`/`!alias status` befüllen `logs.alias_trace[]`; README, Systems-Module und Fahrplan spiegeln Debrief-Zeile `Alias-Trace (n×)`. QA-Log erhält eine Alias-Nachverfolgung mit Datum & Runtime-Version.
+- **QA-Follow-up #13 – Squad-Radio-Log QA (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!radio log` persistiert Funkmeldungen (`logs.squad_radio[]`), Debrief & Toolkit dokumentieren den QA-Prozess; QA-Log ergänzt die Funk-Tabelle für S/M/XL-Konflikte.
+- **QA-Follow-up #14 – CU-Balance Audit (Issue #16):** ✅ Abgeschlossen am
+  2025-06-21. Audit-Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“
+  bündelt die Notiz; QA-Log dokumentiert den Lauf mitsamt Px-Delta-Stichprobe.
 - **QA-Follow-up #15 – Ask→Suggest Load-Test (Issue #13):** Loader-Toast in drei
   Missionsmustern prüfen (`Verdunkeln`, `Verhindern`, `Dokumentieren`), `!modus`
   Wechsel und HUD-Ausgabe festhalten, QA-Log mit Timestamps aktualisieren.
