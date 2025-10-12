@@ -553,7 +553,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ✅ | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen – HUD-Toasts via QA-Skript belegt | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
 | ✅ | #12 | tbd | Alias-Debrief QA-Test | Alias-Trace via `!alias log`/`!alias status` dokumentiert, QA-Plan aktualisiert | QA & Codex | `runtime.js`, `README.md`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #13 | tbd | Squad-Radio-Log QA | `!radio log` persistiert Funk-Logs, Debrief & Toolkit spiegeln QA-Persistenz | QA & Codex | `runtime.js`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
-| ✅ | #14 | #16 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzt (Audit §„QA-Follow-up #14“ 2025-06-21) | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| ✅ | #14 | #16 | CU-Balance Audit | Hochstufen-Stichprobe via `tools/test_chronopolis_high_tier.js` dokumentiert (Audit §„QA-Follow-up #14“ 2025-06-28) | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md`, `tools/test_chronopolis_high_tier.js` |
 | ✅ | #15 | #13 | Ask→Suggest Load-Test | Loader-Toast validieren – `modus suggest/ask` Logging geprüft | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
 | ✅ | #16 | tbd | Vehikel-Overlay QA | Boden- & Luft-Chase testen – Toolkit-Overlay-Doku ergänzt | QA | `internal/qa/logs/2025-beta-qa-log.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #17 | #15 | Phase-Strike Arena QA | Drei Einsätze protokollieren – `phase_strike_tax` + Toast via QA-Skript | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
@@ -589,8 +589,9 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 - **QA-Follow-up #12 – Alias-Debrief QA-Test (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!alias log`/`!alias status` befüllen `logs.alias_trace[]`; README, Systems-Module und Fahrplan spiegeln Debrief-Zeile `Alias-Trace (n×)`. QA-Log erhält eine Alias-Nachverfolgung mit Datum & Runtime-Version.
 - **QA-Follow-up #13 – Squad-Radio-Log QA (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!radio log` persistiert Funkmeldungen (`logs.squad_radio[]`), Debrief & Toolkit dokumentieren den QA-Prozess; QA-Log ergänzt die Funk-Tabelle für S/M/XL-Konflikte.
 - **QA-Follow-up #14 – CU-Balance Audit (Issue #16):** ✅ Abgeschlossen am
-  2025-06-21. Audit-Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“
-  bündelt die Notiz; QA-Log dokumentiert den Lauf mitsamt Px-Delta-Stichprobe.
+  2025-06-28. Audit-Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“
+  referenziert den Hochstufen-Lauf; QA-Log dokumentiert `tools/test_chronopolis_high_tier.js`
+  inklusive Px-Delta-Evidenz.
 - **QA-Follow-up #15 – Ask→Suggest Load-Test (Issue #13):** ✅ Abgeschlossen am 2025-06-27. `modus suggest`/`modus ask` erzeugen
   die Toasts `SUG-ON`/`SUG-OFF`; Overlay-Check & HUD-Log im QA-Log 2025-06-27 dokumentiert.
 - **QA-Follow-up #16 – Vehikel-Overlay QA (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-27. Toolkit-Overlay beschreibt Boden-
