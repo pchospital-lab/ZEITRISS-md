@@ -116,6 +116,12 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Referenz: internal/qa/logs/2025-beta-qa-log.md (§ 2025-06-14).
   - Testpaket (2025-06-14): Inline-Test (`node`-Snippet für Offline-Audit) und
     `python3 tools/lint_runtime.py` (OK, QA-Log-Auszug 2025-06-14).
+- **2025-06-15 – Codex-Planabgleich** (Status: 🔄 laufend)
+  - Erkenntnis / To-do: Zuordnung der QA-Follow-ups aus dem Beta-GPT-Protokoll
+    zu den Issues #1–#16 gestartet; Mapping-Tabelle in Cluster C ergänzt und
+    offene Fälle für den nächsten Beta-Log-Abgleich markiert.
+  - Referenz: interner Review dieses Fahrplans; QA-Log 2025-06-13 (Mapping in
+    Vorbereitung).
 
 ### Session-Template
 
@@ -500,27 +506,42 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 
 ### Cluster C – QA & Supporting Artefakte
 
-| Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
-| --- | --- | --- | --- | --- | --- |
-| ✅ | #2 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#14/#15 dokumentieren; HUD-/Save-Evidenz sichern (Dokumentiert 2025-06-13) | QA | `internal/qa/logs/2025-beta-qa-log.md`, `docs/qa/tester-playtest-briefing.md` |
-| ✅ | #3 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
-| ✅ | #18 | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
-| ⛔ | #5 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
-| 🔄 | #6 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
-| 🔄 | #7 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #8 | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
-| 🔄 | #9 | Debrief-Linter | Debrief-Trace-Checks in QA-Tools ergänzen | QA, Tooling | `tools/`, `scripts/` |
-| ✅ | #10 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #11 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #12 | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #13 | Squad-Radio-Log QA | Konfliktgrößen S–XL abdecken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #14 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzen | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
-| 🔄 | #15 | Ask→Suggest Load-Test | Loader-Toast validieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #16 | Vehikel-Overlay QA | Boden- & Luft-Chase testen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #17 | Phase-Strike Arena QA | Drei Einsätze protokollieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| Status | QA-Follow-up | Beta-Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
+| --- | --- | --- | --- | --- | --- | --- |
+| ✅ | #2 | #6 | QA-Szenarien für PvP-Mode-Flag | Acceptance-Smoke #5/#7/#14/#15 dokumentieren; HUD-/Save-Evidenz sichern (Dokumentiert 2025-06-13) | QA | `internal/qa/logs/2025-beta-qa-log.md`, `docs/qa/tester-playtest-briefing.md` |
+| ✅ | #3 | #10 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
+| ✅ | #18 | — | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
+| ⛔ | #5 | #7 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
+| 🔄 | #6 | #3 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| 🔄 | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #8 | tbd | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
+| 🔄 | #9 | #16 | Debrief-Linter | Debrief-Trace-Checks in QA-Tools ergänzen | QA, Tooling | `tools/`, `scripts/` |
+| ✅ | #10 | #8 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #12 | tbd | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #13 | tbd | Squad-Radio-Log QA | Konfliktgrößen S–XL abdecken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #14 | #16 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzen | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| 🔄 | #15 | #13 | Ask→Suggest Load-Test | Loader-Toast validieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #16 | tbd | Vehikel-Overlay QA | Boden- & Luft-Chase testen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| 🔄 | #17 | #15 | Phase-Strike Arena QA | Drei Einsätze protokollieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+
+#### Zuordnung QA-Follow-ups ↔ Beta-Issues (Stand: 2025-06-15)
+
+- Abgeschlossen: QA-Follow-ups #2 (PvP-Modusflag → Issue #6), #3 (Mission 5
+  Badge → Issue #10), #5 (Accessibility → Issue #7), #6 (Fraktions-Arc →
+  Issue #3), #7 (Rift-Gates → Issue #10), #9 und #14 (Debrief/CU-Trace →
+  Issue #16), #10 (Offline-Fallback → Issue #8), #11 (Boss-Toast →
+  Issue #10), #15 (Ask→Suggest → Issue #13) sowie #17 (Phase-Strike Arena →
+  Issue #15).
+- QA-spezifisch ohne direkte Issue-Referenz: Follow-up #18 (Pflicht-Testpaket)
+  bleibt als internes Prozess-Item vermerkt.
+- Offen für den nächsten Beta-Log-Abgleich: Follow-ups #8 (Pre-City-Hub), #12
+  (Alias-Debrief), #13 (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
+  Punkte benötigen eine konkrete Zuordnung zu den Issues #1–#16 oder eine
+  separate QA-Kategorisierung.
 
 > Hinweis: Die Tabellen führen QA-Folgeaufgaben bewusst doppelt (Codex-Implementierung
 > und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
 > jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
 
-⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Abgleich steht noch aus und wird im nächsten Fahrplan-Update nachgetragen.
+⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Der initiale Abgleich (Stand 2025-06-15) ist oben dokumentiert; die offenen Zuordnungen (#8, #12, #13, #16) bleiben als To-do markiert und werden nach Sichtung des vollständigen Beta-Logs geschlossen.
