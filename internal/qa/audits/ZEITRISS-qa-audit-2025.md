@@ -159,7 +159,7 @@ Hochstufen-Spielrunden.
     *erledigt* – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
     entfernt die Sperre nach der Cooldown-Runde.
 
-## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-21)
+## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-28)
 
 - **Stichprobe Runtime:** `CHRONO_CATALOG` listet aktuell einen Tagespool aus
   drei Kategorien (`Temporal Ships`, `Never-Was Gadgets`, `Era-Skins`). Die
@@ -181,10 +181,13 @@ Hochstufen-Spielrunden.
   (`note`, `source`) unterscheidet. QA vermerkt jeden Testlauf im Beta-Log mit
   Chronopolis-Report, Px-Delta und Rang/Research-Kontext.
 
-**Offene Beobachtung:** Der aktuelle Testlauf nutzte einen Operator-II-Char ohne
-Research-Level 1. Damit blieben sämtliche Gadgets und Schiffe gesperrt. Für den
-Folgetest ist ein Lead mit Research 3 erforderlich, um Hochstufenpreise und Px-
-Klauseln vollständig zu evaluieren (Abgleich mit Issue #16 „Markt-Log“).
+**Update 2025-06-28 – Hochstufen-Stichprobe abgeschlossen:** Das Node-Skript
+`tools/test_chronopolis_high_tier.js` setzt eine Chief-Agentin mit Research 4,
+rollt `chronopolisStockReport()` (Daily-Roll) und bestätigt, dass sämtliche Slots
+ohne 🔒-Locks erscheinen. Anschließend protokolliert es einen Kauf (`log_market_purchase()`
+mit `px_delta`) und prüft den Debrief-Trace (`Chronopolis-Trace`) auf Px-Klausel,
+Notiz und Quellenhinweis. QA-Log 2025-06-28 führt den Lauf samt Output auf und
+schließt die Beobachtung.
 27. **Arena-Gebühr progressiv staffeln.** Vermögensabhängige Kosten definieren.
     Status: *erledigt* – Staffelung mit 1 %/2 %/3 %-Brackets koppelt Gebühren an
     das HQ-Vermögen.

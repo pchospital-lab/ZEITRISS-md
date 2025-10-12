@@ -6,6 +6,30 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-28 – Repo-Agent – Chronopolis Hochstufen-Stichprobe
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-28, QA-Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: QA-Follow-up #14 schließen, Hochstufen-Angebot & Px-Trace prüfen
+
+```chatlog
+09:35 Repo-Agent: `make lint`
+10:02 Repo-Agent: `make test`
+10:27 Repo-Agent: `bash scripts/smoke.sh`
+10:51 Repo-Agent: `python3 tools/lint_runtime.py`
+10:54 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:58 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:01 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+11:06 Repo-Agent: `node tools/test_chronopolis_high_tier.js`
+```
+
+**Offene Punkte**
+- [x] `tools/test_chronopolis_high_tier.js` bestätigt Daily-Roll ohne 🔒-Locks (Chief + Research 4) und Px-Trace im Debrief.
+- [x] README, Systems-Module und QA-Fahrplan referenzieren den Hochstufen-Lauf; Audit-Abschnitt aktualisiert.
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C #14 aktualisiert (Stand 2025-06-28) inklusive Script-Referenz.
+- Audit: Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“ um Hochstufen-Stichprobe ergänzt.
+
 ## 2025-06-27 – Repo-Agent – Mission 5 Gate & Arena QA
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-27, QA-Fahrplan 1.3.1
