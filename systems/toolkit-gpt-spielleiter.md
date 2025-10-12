@@ -9,6 +9,8 @@ default_modus: mission-fokus
 {% set campaign = campaign or {} %}
 {% if campaign.compliance_shown_today is not defined %}
   {% set campaign.compliance_shown_today = false %}
+{% else %}
+  {% set campaign.compliance_shown_today = campaign.compliance_shown_today | bool %}
 {% endif %}
 {% if campaign.boss_dr is not defined %}
   {% set campaign.boss_dr = 0 %}
@@ -127,6 +129,16 @@ default_modus: mission-fokus
   {% set state.logs.flags.chronopolis_warn_seen = false %}
 {% else %}
   {% set state.logs.flags.chronopolis_warn_seen = state.logs.flags.chronopolis_warn_seen | bool %}
+{% endif %}
+{% if state.logs.flags.compliance_shown_today is not defined %}
+  {% set state.logs.flags.compliance_shown_today = campaign.compliance_shown_today | default(false) | bool %}
+{% else %}
+  {% set state.logs.flags.compliance_shown_today = state.logs.flags.compliance_shown_today | bool %}
+{% endif %}
+{% if campaign.compliance_shown_today and not state.logs.flags.compliance_shown_today %}
+  {% set state.logs.flags.compliance_shown_today = true %}
+{% elif state.logs.flags.compliance_shown_today and not campaign.compliance_shown_today %}
+  {% set campaign.compliance_shown_today = true %}
 {% endif %}
 {% if state.logs.flags.offline_help_last_scene is not defined %}
   {% set state.logs.flags.offline_help_last_scene = None %}
@@ -835,6 +847,11 @@ um jeweils eine Szene (Minimum: Szene 2).
   {% if not campaign.compliance_shown_today %}
     {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
     {% set campaign.compliance_shown_today = true %}
+    {% if state.logs.flags is not defined or state.logs.flags is none %}
+      {% set state.logs = state.logs or {} %}
+      {% set state.logs.flags = {} %}
+    {% endif %}
+    {% set state.logs.flags.compliance_shown_today = true %}
   {% endif %}
 {%- endmacro %}
 
