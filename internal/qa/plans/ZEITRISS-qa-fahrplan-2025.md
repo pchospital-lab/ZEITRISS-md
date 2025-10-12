@@ -109,6 +109,14 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
     `python3 tools/lint_runtime.py`, `GM_STYLE=verbose python3 tools/lint_runtime.py`,
     `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`.
 
+- **2025-06-14 – Codex-Offline-Audit** (Status: ✅ erledigt)
+  - Erkenntnis / To-do: Jammer-Suspend (`reason: "jammer"`, `jammed: true`) und
+    Resume (`reason: "resume"`) im Offline-Log dokumentiert; `render_offline_protocol()`
+    bestätigt den Jammer-Reset im HUD-Log.
+  - Referenz: internal/qa/logs/2025-beta-qa-log.md (§ 2025-06-14).
+  - Testpaket (2025-06-14): Inline-Test (`node`-Snippet für Offline-Audit) und
+    `python3 tools/lint_runtime.py` (OK, QA-Log-Auszug 2025-06-14).
+
 ### Session-Template
 
 - **(Beispiel: 2025-06-03 – Codex-Deepcheck)** (Status: ✅, PR #…)
@@ -437,6 +445,8 @@ um eine klar definierte Evidenz, damit das HUD-Verhalten von Mission 5 dauerha
   QA-Log-Referenzen beibehalten. Owner: Repo-Agent.
 - **Glossar Terminologie 4.2.2** — Status: ✅ 2025-03-26; nächster Schritt:
   README-Glossar regelmäßig spiegeln. Owner: Docs-Verantwortliche.
+- **Offline-Audit Jammer-Flow** — Status: ✅ 2025-06-14; nächster Schritt:
+  Jammer-Regression im Q3-Lauf dokumentieren. Owner: QA.
 
 ## Pflege & Reporting
 - Prüfe bei jeder Änderung, ob Audit und QA-Log entsprechende Einträge erhalten.
@@ -500,7 +510,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #7 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #8 | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
 | 🔄 | #9 | Debrief-Linter | Debrief-Trace-Checks in QA-Tools ergänzen | QA, Tooling | `tools/`, `scripts/` |
-| 🔄 | #10 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ✅ | #10 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #11 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #12 | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #13 | Squad-Radio-Log QA | Konfliktgrößen S–XL abdecken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
