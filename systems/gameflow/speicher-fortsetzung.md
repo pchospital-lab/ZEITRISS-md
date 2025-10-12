@@ -14,14 +14,27 @@ tags: [system]
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
-assert campaign.loc == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
-assert state.sys_used == state.sys and state.stress == 0 and state.psi_heat == 0
-assert not state.get('timer') and not state.get('exfil_active')
-required = ["id","sys","sys_used","stress","psi_heat","cooldowns",
-            "campaign.px","artifact_log","kodex","economy",
-            "logs","ui"]
-assert all(k in state for k in required)
-// Serializer ergänzt fehlende Pflichtblöcke (economy/logs/ui) mit Defaults
+assert state.location == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
+assert state.character.attributes.SYS_used == state.character.attributes.SYS_max
+assert state.character.stress == 0 und state.character.psi_heat == 0
+assert not state.get('timer') und not state.get('exfil_active')
+required = [
+  "character.id",
+  "character.attributes.SYS_max",
+  "character.attributes.SYS_used",
+  "character.stress",
+  "character.psi_heat",
+  "character.cooldowns",
+  "campaign.px",
+  "economy",
+  "logs.artifact_log",
+  "logs.market",
+  "logs.offline",
+  "logs.kodex",
+  "logs.flags",
+  "ui"
+]
+assert serializer_bereit(required)
 ```
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
@@ -32,37 +45,60 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 
 ```json
 {
-  "id": "CHR-1234",
-  "name": "Ghost",
-  "sys": 5,
-  "sys_used": 5,
-  "stress": 0,
-  "psi_heat": 0,
-  "cooldowns": {},
+  "save_version": 6,
+  "zr_version": "4.2.2",
+  "location": "HQ",
+  "phase": "core",
+  "character": {
+    "id": "CHR-1234",
+    "name": "Ghost",
+    "rank": "Operator I",
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {
+      "SYS_max": 5,
+      "SYS_used": 5
+    }
+  },
   "campaign": {"episode": 4, "scene": 0, "px": 0},
+  "team": {"members": []},
+  "party": {"characters": []},
+  "loadout": {},
   "economy": {"cu": 0},
   "logs": {
     "artifact_log": [],
     "market": [],
+    "offline": [],
     "kodex": [],
     "hud": [],
-    "flags": {}
+    "fr_interventions": [],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "compliance_shown_today": false,
+      "chronopolis_warn_seen": false
+    }
   },
-  "ui": {"gm_style": "verbose", "intro_seen": false},
-  "modes": ["mission", "verbose", "transparenz"]
+  "arc_dashboard": {
+    "offene_seeds": [],
+    "fraktionen": {}
+  },
+  "ui": {"gm_style": "verbose", "intro_seen": false, "suggest_mode": false}
 }
 ```
 
-- Pflichtfelder: `id`, `sys`, `sys_used`, `stress`, `psi_heat`, `cooldowns`,
-  `campaign.px`, `economy`, `logs` (inkl. `artifact_log`, `market`, `kodex`,
-  `hud`, `flags`) und `ui`.
+- Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
+  `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
+  `character.cooldowns`, `campaign.px`, `economy`, `logs.artifact_log`,
+  `logs.market`, `logs.offline`, `logs.kodex`, `logs.flags` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
-- Im HQ sind `sys_used`, `stress` und `Psi-Heat` deterministisch: `sys_used` == `sys`,
-  `stress` = 0, `psi_heat` = 0. Das Speichern erfasst diese Werte, damit GPT den
+- Im HQ sind `character.attributes.SYS_used`, `character.stress` und
+  `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
+  `psi_heat = 0`. Das Speichern erfasst diese Werte, damit GPT den
   Basiszustand prüfen kann.
 - GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
-  leere Logs, `ui.gm_style = "verbose"`).
+  leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
 
 **Load-Verhalten**
 
@@ -74,6 +110,26 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; Debriefs zitieren die jüngsten Einträge als Einkaufstrace.
 - `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; Debriefs zitieren den jüngsten Eintrag als Feldprotokoll.
 - `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status.
+
+**Legacy-Normalisierung (ohne runtime.js)**
+
+- Encounter mit Alt-Saves laufen vollständig im LLM – es gibt keine
+  JavaScript-Hooks im Produktivbetrieb. Deshalb erstellt die Spielleitung bei
+  Legacy-Daten den `character{}`-Block manuell, bevor irgendetwas geladen oder
+  geprüft wird:
+  1. Alle vorhandenen Stammdaten (`id`, `name`, `rank`, `callsign`, `lvl`, `xp`)
+     aus Root-Feldern in `character{}` kopieren und anschließend die
+     Wurzelkopien löschen.
+  2. `stress`, `psi_heat`, `psi_heat_max` und `cooldowns{}` ebenso in den
+     `character`-Block übernehmen; `cooldowns{}` immer als Objekt führen.
+  3. `character.attributes{SYS_max,SYS_used}` aus `sys`/`sys_max` bzw.
+     `sys_used` bilden und dabei bestehende Werte aus `attributes{}` nur
+     ergänzen – niemals überschreiben.
+  4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
+     Wurzel notiert hatte, landen sie jetzt ebenfalls in `character{}`.
+- Danach verhält sich der Save wie ein natives v6-Dokument. Guards wie der
+  HQ-Serializer, Log-Sanitizer und das Semver-Gate operieren erst auf dieser
+  bereinigten Struktur.
 
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
