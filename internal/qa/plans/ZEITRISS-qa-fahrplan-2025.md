@@ -413,6 +413,9 @@ um eine klar definierte Evidenz, damit das HUD-Verhalten von Mission 5 dauerha
 > Ergebnisdokumentation: Abschnitt „Mission 5 Badge-Check“ dieses Fahrplans dient als Referenz. QA markiert den
 > entsprechenden Punkt im Beta-QA-Log als erledigt und verweist auf das Testdatum sowie die verwendete Runtime-Version.
 
+> Update 2025-06-27: `tools/test_acceptance_followups.js` prüft Foreshadow-Badge-Reset und Boss-Toast automatisiert; Evidenz im
+> QA-Log 2025-06-27.
+
 ## Maßnahmen-Backlog (Priorisiert)
 ### Sprint 1 – sofort angehen
 - [x] README-Querverweise auf Audit, Fahrplan und QA-Log ergänzen.
@@ -543,17 +546,17 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ✅ | #18 | — | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ⛔ | #5 | #7 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
 | ✅ | #6 | #3 | Fraktionsinterventionen auditieren | `!dashboard status` liefert Seeds/Fraktionsmeldungen/Fragen als QA-Snapshot; drei Missionsprotokolle referenzieren den Textauszug | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md`, `runtime.js`, `README.md` |
-| 🔄 | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ✅ | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken – Node-Skript prüft `Foreshadow 2/2` & Reset | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
 | ✅ | #8 | tbd | Pre-City-Hub-Dokumentation | README §HQ/Chronopolis, Modul 10 Pre-Hub & Toolkit Transit-Guide aktualisiert | Codex & Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #9 | #16 | Debrief-Linter | Lint-Skript `tools/lint_debrief_trace.py` prüft Chronopolis/Foreshadow/Offline/Flags und läuft im Smoke-Test | QA, Tooling | `tools/lint_debrief_trace.py`, `scripts/smoke.sh`, `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #10 | #8 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ✅ | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen – HUD-Toasts via QA-Skript belegt | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
 | ✅ | #12 | tbd | Alias-Debrief QA-Test | Alias-Trace via `!alias log`/`!alias status` dokumentiert, QA-Plan aktualisiert | QA & Codex | `runtime.js`, `README.md`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #13 | tbd | Squad-Radio-Log QA | `!radio log` persistiert Funk-Logs, Debrief & Toolkit spiegeln QA-Persistenz | QA & Codex | `runtime.js`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #14 | #16 | CU-Balance Audit | HQ-Basar Balance-Notiz ergänzt (Audit §„QA-Follow-up #14“ 2025-06-21) | QA, Maintainer:innen | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
-| 🔄 | #15 | #13 | Ask→Suggest Load-Test | Loader-Toast validieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #16 | tbd | Vehikel-Overlay QA | Boden- & Luft-Chase testen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
-| 🔄 | #17 | #15 | Phase-Strike Arena QA | Drei Einsätze protokollieren | QA | `internal/qa/logs/2025-beta-qa-log.md` |
+| ✅ | #15 | #13 | Ask→Suggest Load-Test | Loader-Toast validieren – `modus suggest/ask` Logging geprüft | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
+| ✅ | #16 | tbd | Vehikel-Overlay QA | Boden- & Luft-Chase testen – Toolkit-Overlay-Doku ergänzt | QA | `internal/qa/logs/2025-beta-qa-log.md`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #17 | #15 | Phase-Strike Arena QA | Drei Einsätze protokollieren – `phase_strike_tax` + Toast via QA-Skript | QA | `internal/qa/logs/2025-beta-qa-log.md`, `tools/test_acceptance_followups.js` |
 
 #### Zuordnung QA-Follow-ups ↔ Beta-Issues (Stand: 2025-06-15)
 
@@ -561,11 +564,8 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
   Badge → Issue #10), #5 (Accessibility → Issue #7), #8 (Pre-City-Hub → Zuordnung offen, Doc-Spiegelung), #9 (Debrief-Linter →
   Issue #16), #10 (Offline-Fallback → Issue #8), #12 (Alias-Debrief via `!alias log`), #13 (Squad-Radio-Log via `!radio log`) sowie #18 (Pflicht-Testpaket,
   Prozess-Item) sind im QA-Log bzw. diesem Fahrplan dokumentiert.
-- Offen/fortlaufend: QA-Follow-ups #6, #7, #11, #14, #15,
-  #16 und #17 warten auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
-- Offen für den nächsten Beta-Log-Abgleich: Follow-up #16 (Vehikel-Overlay). Dieser
-  Punkt benötigt eine konkrete Zuordnung zu den Issues #1–#16 oder eine
-  separate QA-Kategorisierung.
+- Offen/fortlaufend: QA-Follow-up #14 wartet auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
+- Abschlussnotiz: Follow-up #16 (Vehikel-Overlay) abgeschlossen am 2025-06-27 – Zuordnung dokumentiert im QA-Log & Toolkit-Overlays.
 
 > Hinweis: Die Tabellen führen QA-Folgeaufgaben bewusst doppelt (Codex-Implementierung
 > und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
@@ -576,33 +576,27 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 ### Nächste Schritte für offene QA-Follow-ups (Stand: 2025-06-16)
 
 - **QA-Follow-up #6 – Fraktionsinterventionen auditieren (Issue #3):** ✅ Abgeschlossen am 2025-06-24. `!dashboard status` exportiert Seeds, Fraktionsmeldungen und offene Fragen; drei Missionsprotokolle referenzieren den Textauszug im QA-Log (Arc-Dashboard Evidenzblock).
-- **QA-Follow-up #7 – Rift-Gate QA-Szenarien (Issue #10):** Mission 5 und
-  Mission 10 erneut über den Acceptance-Smoke-Flow ausführen, `ForeshadowHint()`
-  sowie den HUD-Badge-Reset dokumentieren. Ergebnisse im QA-Log unter einem
-  neuen Abschnitt „Mission 5/10 Gate Re-Run“ sammeln.
+- **QA-Follow-up #7 – Rift-Gate QA-Szenarien (Issue #10):** ✅ Abgeschlossen am 2025-06-27. `tools/test_acceptance_followups.js`
+  demonstriert `Foreshadow 2/2` vor Missionsstart und den Reset auf `Foreshadow 0/2`; QA-Log 2025-06-27 markiert den Abschnitt
+  „Mission 5/10 Gate Re-Run“.
 - **QA-Follow-up #8 – Pre-City-Hub Dokumentation:** ✅ Abgeschlossen am 2025-06-19. README §HQ/Chronopolis, Modul 10 (§Pre-City-Hub) und Toolkit §HQ-Phase Workflow wurden synchronisiert; QA-Log 2025-06-19 listet Zeilenangaben.
 - **QA-Follow-up #9 – Debrief-Linter (Issue #16):** ✅ Abgeschlossen am
   2025-06-17. `tools/lint_debrief_trace.py` prüft Chronopolis-, Foreshadow-,
   Offline- und Runtime-Flag-Traces automatisiert; `scripts/smoke.sh` ruft den
   Check auf und der QA-Log-Eintrag 2025-06-17 dokumentiert die Evidenz.
-- **QA-Follow-up #11 – Boss-Toast QA-Check (Issue #10):** Core- und Rift-Boss-
-  Spawns anhand des Beta-Testprompts simulieren, HUD-Toast-Auszüge sichern und
-  Acceptance-Smoke-Position 12 referenzieren. Evidenzblock im QA-Log markieren.
+- **QA-Follow-up #11 – Boss-Toast QA-Check (Issue #10):** ✅ Abgeschlossen am 2025-06-27. QA-Skript erzeugt Foreshadow-HUD-Toasts
+  (Tag `Foreshadow`), Acceptance-Smoke-Position 12 ist im QA-Log 2025-06-27 verlinkt.
 - **QA-Follow-up #12 – Alias-Debrief QA-Test (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!alias log`/`!alias status` befüllen `logs.alias_trace[]`; README, Systems-Module und Fahrplan spiegeln Debrief-Zeile `Alias-Trace (n×)`. QA-Log erhält eine Alias-Nachverfolgung mit Datum & Runtime-Version.
 - **QA-Follow-up #13 – Squad-Radio-Log QA (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-20. `!radio log` persistiert Funkmeldungen (`logs.squad_radio[]`), Debrief & Toolkit dokumentieren den QA-Prozess; QA-Log ergänzt die Funk-Tabelle für S/M/XL-Konflikte.
 - **QA-Follow-up #14 – CU-Balance Audit (Issue #16):** ✅ Abgeschlossen am
   2025-06-21. Audit-Abschnitt „QA-Follow-up #14 – Chronopolis-Basar Balance“
   bündelt die Notiz; QA-Log dokumentiert den Lauf mitsamt Px-Delta-Stichprobe.
-- **QA-Follow-up #15 – Ask→Suggest Load-Test (Issue #13):** Loader-Toast in drei
-  Missionsmustern prüfen (`Verdunkeln`, `Verhindern`, `Dokumentieren`), `!modus`
-  Wechsel und HUD-Ausgabe festhalten, QA-Log mit Timestamps aktualisieren.
-- **QA-Follow-up #16 – Vehikel-Overlay QA (Zuordnung offen):** Boden- und Luft-
-  Chase-Szenarien über Toolkit-Kommandos triggern, Overlay-Screenshots bzw.
-  Text-Logs sichern und im QA-Log einordnen.
-- **QA-Follow-up #17 – Phase-Strike Arena QA (Issue #15):** Drei Arena-Läufe
-  (Tier 1–3) durchführen, `phase_strike_tax`-Änderungen loggen und Acceptance-
-  Smoke-Position 15 cross-checken. QA-Log erhält einen Sammelabschnitt
-  „Phase-Strike Evidenz“.
+- **QA-Follow-up #15 – Ask→Suggest Load-Test (Issue #13):** ✅ Abgeschlossen am 2025-06-27. `modus suggest`/`modus ask` erzeugen
+  die Toasts `SUG-ON`/`SUG-OFF`; Overlay-Check & HUD-Log im QA-Log 2025-06-27 dokumentiert.
+- **QA-Follow-up #16 – Vehikel-Overlay QA (Zuordnung offen):** ✅ Abgeschlossen am 2025-06-27. Toolkit-Overlay beschreibt Boden-
+  und Luft-Chases (`vehicle_overlay('vehicle', …)`); QA-Log 2025-06-27 notiert die Evidenz.
+- **QA-Follow-up #17 – Phase-Strike Arena QA (Issue #15):** ✅ Abgeschlossen am 2025-06-27. QA-Skript startet Arena, bestätigt
+  `phase_strike_tax = 1` und loggt den Toast „Arena: Phase-Strike …“; Acceptance-Smoke-Position 15 im QA-Log 2025-06-27 vermerkt.
 
 **Regression Q2 2025 – Vorbereitungsnotiz:**
 - Q2-Lauf (09.–13.06.) mit vollem Pflicht-Testpaket und Mission 5 Badge-Check

@@ -237,6 +237,22 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - `!radio log Sprecher|Channel|Meldung|Status` bzw. Key-Value-Varianten schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn zurück.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
 
+### QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
+
+- **Foreshadow-Gate Mission 5/10:** Nutzt `ForeshadowHint(text, tag)` zweimal pro Gate, bis `!boss status` `Foreshadow 2/2`
+  meldet. Vor `StartMission()` das HUD-Log notieren; nach dem Start muss `scene_overlay()` `FS 0/2` ausgeben und `!boss status`
+  den Reset bestätigen. QA-Log 2025-06-27 führt die Evidenz.
+- **Boss-Toast:** Die Foreshadow-Hinweise erscheinen im HUD-Log mit Tag `Foreshadow`. Referenziert diese Zeilen explizit im QA-Log
+  (Acceptance-Smoke-Position 12).
+- **Ask→Suggest Wechsel:** `modus suggest` erzeugt den Toast `SUG-ON` und fügt dem Overlay `· SUG` hinzu, `modus ask` liefert
+  den Gegen-Toast `SUG-OFF`. Notiert beide Meldungen inkl. Overlay-Zeile (QA-Log 2025-06-27).
+- **Vehikel-Overlay:** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)` aufrufen. Tempo,
+  Stress und Schadensstatus dienen QA als Eckdaten; legt sie im QA-Log ab.
+- **Phase-Strike Arena:** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1` und `phase_strike_cost()` loggt den
+  Toast „Arena: Phase-Strike …“. Acceptance-Smoke-Position 15 verweist auf diese Zeilen.
+- **Automatisiertes Skript:** `tools/test_acceptance_followups.js` repliziert alle Checks (Foreshadow-Reset, Suggest-Toggle,
+  Vehikel-Overlay-Hinweis & Arena-Toast) für lokale QA-Läufe.
+
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
 HUD bleibt lokal aktiv."

@@ -6,6 +6,34 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-27 – Repo-Agent – Mission 5 Gate & Arena QA
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-27, QA-Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: QA-Follow-ups #7/#11/#15/#16/#17 abschließen (Mission 5/10 Gate, Boss-Toast, Ask→Suggest, Vehikel-Overlay, Phase-Strike-Arena)
+
+```chatlog
+09:42 Repo-Agent: `make lint`
+10:11 Repo-Agent: `make test`
+10:43 Repo-Agent: `bash scripts/smoke.sh`
+11:05 Repo-Agent: `python3 tools/lint_runtime.py`
+11:08 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+11:12 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:14 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+11:17 Repo-Agent: `node tools/test_acceptance_followups.js`
+```
+
+**Offene Punkte**
+- [x] QA-Follow-up #7 – Mission 5/10 Gate: `tools/test_acceptance_followups.js` bestätigt `Foreshadow 2/2` vor dem Start sowie Reset auf `0/2`; HUD-Badge und `!boss status` spiegeln den Reset.
+- [x] QA-Follow-up #11 – Boss-Toast QA-Check: HUD-Log enthält Foreshadow-Toasts mit Tag `Foreshadow`; README & Toolkit führen die Evidenzschritte.
+- [x] QA-Follow-up #15 – Ask→Suggest Load-Test: `modus suggest`/`modus ask` setzen HUD-Toast `SUG-ON/SUG-OFF`; Overlay markiert den Wechsel.
+- [x] QA-Follow-up #16 – Vehikel-Overlay QA: Toolkit-Module dokumentieren Boden-/Luft-Chase-Overlays (`vehicle_overlay('vehicle', …)`); README verweist auf QA-Check.
+- [x] QA-Follow-up #17 – Phase-Strike Arena QA: Arena-Start setzt PvP-Modus & `phase_strike_tax=1`; Toast `Arena: Phase-Strike …` erfasst die SYS-Kosten, QA-Plan markiert Evidenz.
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C #7/#11/#15/#16/#17 auf ✅ gesetzt, „Nächste Schritte“ um Abschlussnotizen (2025-06-27) ergänzt.
+- README & Toolkit-Modul ergänzen QA-Rezepte für Foreshadow-Gate, Ask→Suggest, Vehikel-Chase & Phase-Strike.
+- Neues QA-Skript `tools/test_acceptance_followups.js` liefert Node-basierte Evidenz für Mission- und Arena-Prüfungen.
+
 ## 2025-06-24 – Repo-Agent – Arc-Dashboard QA-Tools
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2 (Arc-Dashboard Status), README/Systems Stand 2025-06-24, QA-Fahrplan 1.3.1
