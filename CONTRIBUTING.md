@@ -119,6 +119,7 @@ Die Linter validieren Format, Links und Terminologie der Markdown-Dateien
 und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
 
 ### Erweiterte QA & optionale Checks
+- `python3 tools/lint_debrief_trace.py` – verifiziert Debrief-Trace-Ausgaben (Chronopolis, Foreshadow, Offline, Runtime-Flags).
 - `node tools/test_save.js`, `node tools/test_load.js`
 - Dispatcher-Smoke-Tests siehe
   [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).

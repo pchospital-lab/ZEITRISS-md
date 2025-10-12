@@ -30,6 +30,30 @@ nachzuvollziehen.
 6. Sobald Codex einen Punkt bearbeitet hat, aktualisiere das Log mit Verweis auf
    Commit, PR oder Ticket.
 
+## 2025-06-17 – Repo-Agent – Koop-Debrief Wallet-Split
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Koop-Debrief), Systems-Module synchronisiert
+- Copy-&-Paste-Auftrag: QA-Fahrplan Issue #11 – Debrief-Split & Wallet-Logik implementieren
+
+```chatlog
+11:02 Repo-Agent: `make lint`
+11:08 Repo-Agent: `make test`
+11:21 Repo-Agent: `bash scripts/smoke.sh`
+11:27 Repo-Agent: `python3 tools/lint_runtime.py`
+11:29 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+11:31 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:32 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+11:33 Repo-Agent: `python3 tools/lint_debrief_trace.py`
+```
+
+**Offene Punkte**
+- [x] Issue #11 Koop-Ökonomie: Wallet-Split & HQ-Pool im Debrief, Wissensmodule spiegeln Ablauf.
+
+**Nachverfolgung**
+- QA-Fahrplan: Issue #11 (Status aktualisiert 2025-06-17, Session „Codex-Koop-Debrief“).
+- Maintainer-Ops: Standardbefehl für Repo-Agent:innen ergänzt (2025-06-17).
+- README & Modul 12 dokumentieren Wallet-Split und HQ-Pool (2025-06-17).
+
 ## 2025-06-11 – Repo-Agent – HQ-Save Pflichtfelder
 - Plattform: Lokale CI-Simulation
 - Wissensstand: README v4.2.2, runtime.js aktueller Branch (Save-Schema)
@@ -180,6 +204,33 @@ NODE`
 **Nachverfolgung**
 - QA-Fahrplan: Cluster C Issue #10 (Offline-Audit Jammer-Szenario) – Status aktualisiert 2025-06-14.
 - Docs: `docs/qa/tester-playtest-briefing.md` (Offline-Fallback-Hinweis deckt Jammer-Flow ab).
+
+## 2025-06-17 – Repo-Agent – Debrief-Trace Linter
+- Plattform: Lokale CI-Simulation
+- Wissensstand: README v4.2.2 (Debrief-Trace-Erweiterung), `runtime.js` aktueller Branch, `systems/gameflow/speicher-fortsetzung.md`
+- Copy-&-Paste-Auftrag: QA-Follow-up #9 – Debrief-Linter (Issue #16) für Chronopolis-/Foreshadow-/Offline-Traces umsetzen
+
+```chatlog
+09:05 Repo-Agent: `python3 tools/lint_debrief_trace.py`
+09:07 Tool: `INFO: Debrief-Trace-Lint abgeschlossen`
+09:10 Repo-Agent: `make lint && make test`
+09:18 Tool: `All smoke checks passed.`
+09:22 Repo-Agent: `bash scripts/smoke.sh`
+09:23 Tool: `All smoke checks passed.`
+09:27 Repo-Agent: `python3 tools/lint_runtime.py`
+09:30 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+09:33 Repo-Agent: `python3 scripts/lint_doc_links.py`
+09:35 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+```
+
+**Ergebnisse**
+- [x] Debrief rendert `Chronopolis-Trace`, `Foreshadow-Log`, `Offline-Protokoll` und `Runtime-Flags` mit QA-relevanten Feldern.
+- [x] Neues Tool `python3 tools/lint_debrief_trace.py` validiert die Trace-Zeilen und läuft automatisiert im Smoke-Test.
+- [x] README sowie Runtime-Module spiegeln die Debrief-Ausgabeformate (Chronopolis, Offline, Foreshadow, Flags).
+
+**Nachverfolgung**
+- QA-Fahrplan: QA-Follow-up #9 (Debrief-Linter) – Tests & Wissensspiegel dokumentiert 2025-06-17.
+- Docs: README §„ITI-HQ & Chronopolis“, `systems/gameflow/speicher-fortsetzung.md`, `systems/currency/cu-waehrungssystem.md` aktualisiert.
 
 ## 2025-04-02 – Maintainer-Team – Regressionstestplanung
 - Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde

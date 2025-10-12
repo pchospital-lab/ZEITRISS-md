@@ -125,6 +125,16 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
     offene Fälle für den nächsten Beta-Log-Abgleich markiert.
   - Referenz: interner Review dieses Fahrplans; QA-Log 2025-06-13 (Mapping in
     Vorbereitung).
+- **2025-06-16 – Codex-Fahrplanfortschritt** (Status: 🔄 laufend)
+  - Erkenntnis / To-do: Offene QA-Follow-ups (#6–#17) mit konkreten Evidenz-
+    und Tooling-Schritten versehen; Vorbereitungs-Checklisten für Q2-Regression
+    und Fraktions-/Debrief-Protokolle angelegt.
+  - Referenz: Abschnitt „Nächste Schritte für offene QA-Follow-ups“ dieses
+    Fahrplans, QA-Log 2025-06-13 (Acceptance-Smoke) und 2025-06-14
+    (Offline-Audit).
+- **2025-06-17 – Codex-Koop-Debrief** (Status: ✅ erledigt)
+  - Erkenntnis / To-do: Wallet-Split-Dialog und HQ-Pool im Debrief implementiert, Wissensmodule spiegeln den Ablauf ohne runtime.js; Maintainer-Ops enthält den Standardbefehl für den QA-Fahrplan.
+  - Referenz: README §HQ/Chronopolis, Modul 12 §Koop-Debrief & Wallet-Split, Toolkit Makros, Maintainer-Ops.
 
 ### Session-Template
 
@@ -281,7 +291,7 @@ Dokumentation.
 
 ### Issue #11 – Koop-Ökonomie
 - **Workstream:** Koop-Ökonomie
-- **Nächster Schritt:** Debrief-Split-Dialog und Wallet-Logik ausarbeiten.
+- **Statusnotiz:** ✅ Debrief-Split-Dialog liefert `Wallet-Split (n×)` und `HQ-Pool: … CU` im Debrief, `economy.wallets{}` hält die individuellen Guthaben; README, Modul 12 und Toolkit beschreiben den Ablauf für GPT ohne runtime.js. (Commit: wird im PR referenziert.)
 - **Owner:** Codex
 - **Zieltermin:** KW 29
 - **QA-Verankerung:** Drei Koop-Runs (gleich/ungleich/custom).
@@ -503,7 +513,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ✅ | #6 | PvP-Modusflag unklar | `campaign.mode` treibt `is_pvp()` + `phase_strike_tax()`; Arena-Start/Exit setzen Flag & Toast | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
 | ⛔ | #7 | Accessibility-Menü gefordert | Verworfene Option – Maintainer:innen halten Menü extern (Entscheid 2025-06-13) | Codex, Maintainer:innen | Entscheidung QA-Sync 2025-06-13 |
 | ✅ | #8 | Offline-Fallback ohne Leitplanke | Toolkit-`offline_help()` liefert FAQ, `!offline` + `must_comms()` decken Fallback ab | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| 🔄 | #11 | Koop-Ökonomie unsauber | Debrief-Split-Dialog & Wallet-Logik ausarbeiten | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #11 | Koop-Ökonomie unsauber | Debrief-Split mit Wallet-Summen & HQ-Pool dokumentiert, Wissensmodule aktualisiert | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #13 | Ask→Suggest ohne Standard | Suggest-Modus toggelt via `modus`, Makro `suggest_actions()` markiert Vorschläge | Codex & Maintainer:in | `runtime.js`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #15 | PSI-Arena-Regeln verteilt | `apply_arena_rules()` bündelt Dämpfer & `psi_buffer`, Docs spiegeln PvP-Abgleich | Codex & Maintainer:in | `runtime.js`, `systems/runtime-stub-routing-layer.md` |
 
@@ -546,3 +556,55 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 > jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
 
 ⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Der initiale Abgleich (Stand 2025-06-15) ist oben dokumentiert; die offenen Zuordnungen (#8, #12, #13, #16) bleiben als To-do markiert und werden nach Sichtung des vollständigen Beta-Logs geschlossen.
+
+### Nächste Schritte für offene QA-Follow-ups (Stand: 2025-06-16)
+
+- **QA-Follow-up #6 – Fraktionsinterventionen auditieren (Issue #3):** Drei
+  Missionsprotokolle (Core, Rift, Koop) mit aktiviertem Arc-Dashboard
+  durchführen, Seeds/Fraktionen im HUD festhalten und die Auszüge im
+  QA-Log 2025-06-13 ergänzen. Toolkit-Befehl `!dashboard status` als Pflicht-
+  Evidenz aufnehmen.
+- **QA-Follow-up #7 – Rift-Gate QA-Szenarien (Issue #10):** Mission 5 und
+  Mission 10 erneut über den Acceptance-Smoke-Flow ausführen, `ForeshadowHint()`
+  sowie den HUD-Badge-Reset dokumentieren. Ergebnisse im QA-Log unter einem
+  neuen Abschnitt „Mission 5/10 Gate Re-Run“ sammeln.
+- **QA-Follow-up #8 – Pre-City-Hub Dokumentation (Zuordnung offen):** README-
+  und Kampagnenübersicht prüfen, fehlende Pre-Hub-Hinweise markieren und eine
+  Änderungsnotiz für Maintainer:innen vorbereiten. QA-Log soll den Review mit
+  konkreten Zeilenangaben festhalten.
+- **QA-Follow-up #9 – Debrief-Linter (Issue #16):** `tools/`-Ordner auf bestehende
+  Checks durchsichten, Konzept für `lint_debrief_trace.py` skizzieren und ein
+  Protokoll der benötigten Felder (`logs.market[]`, `logs.foreshadow[]`,
+  `logs.flags.*`) im QA-Log ablegen.
+- **QA-Follow-up #11 – Boss-Toast QA-Check (Issue #10):** Core- und Rift-Boss-
+  Spawns anhand des Beta-Testprompts simulieren, HUD-Toast-Auszüge sichern und
+  Acceptance-Smoke-Position 12 referenzieren. Evidenzblock im QA-Log markieren.
+- **QA-Follow-up #12 – Alias-Debrief QA-Test (Zuordnung offen):** Zwei Alias-
+  Durchläufe (Solo, Großteam) mit Debrief-Bestätigung spielen, `alias_trace`
+  sichern und den Status im QA-Log unter „Alias-Debrief“ notieren. Mapping zu
+  Beta-Issues nach Datensichtung nachtragen.
+- **QA-Follow-up #13 – Squad-Radio-Log QA (Zuordnung offen):** Konflikte in den
+  Größen S, M und XL anstoßen, `squad_radio.log` auf Persistenz prüfen und die
+  Ergebnisse als Vergleichstabelle im QA-Log vorbereiten.
+- **QA-Follow-up #14 – CU-Balance Audit (Issue #16):** Chronopolis-Basar-Einträge
+  aus dem QA-Log gegen `log_market_purchase()` vergleichen, Abweichungen notieren
+  und eine Liste offener Balance-Fragen für Maintainer:innen führen.
+- **QA-Follow-up #15 – Ask→Suggest Load-Test (Issue #13):** Loader-Toast in drei
+  Missionsmustern prüfen (`Verdunkeln`, `Verhindern`, `Dokumentieren`), `!modus`
+  Wechsel und HUD-Ausgabe festhalten, QA-Log mit Timestamps aktualisieren.
+- **QA-Follow-up #16 – Vehikel-Overlay QA (Zuordnung offen):** Boden- und Luft-
+  Chase-Szenarien über Toolkit-Kommandos triggern, Overlay-Screenshots bzw.
+  Text-Logs sichern und im QA-Log einordnen.
+- **QA-Follow-up #17 – Phase-Strike Arena QA (Issue #15):** Drei Arena-Läufe
+  (Tier 1–3) durchführen, `phase_strike_tax`-Änderungen loggen und Acceptance-
+  Smoke-Position 15 cross-checken. QA-Log erhält einen Sammelabschnitt
+  „Phase-Strike Evidenz“.
+
+**Regression Q2 2025 – Vorbereitungsnotiz:**
+- Q2-Lauf (09.–13.06.) mit vollem Pflicht-Testpaket und Mission 5 Badge-Check
+  koppeln; QA-Log-Eintrag vorbereitet, benötigt nur noch Chatlog-Einfügung.
+- Wissensmodule (README, Runtime-Markdowns, Toolkit) vor dem Lauf auf den Stand
+  vom 2025-06-16 prüfen und Abweichungen protokollieren.
+- Maintainer:innen erinnern, das Ergebnis nach Laufabschluss im QA-Log zu
+  verlinken und den Regressionstermin in diesem Fahrplan auf ✅ zu setzen.
+
