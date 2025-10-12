@@ -22,6 +22,7 @@ const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
+const PSI_LOG_LIMIT = 16;
 
 const CHRONO_CATALOG = [
   { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
@@ -380,6 +381,50 @@ function sanitize_intervention_entries(entries){
   return sanitized;
 }
 
+function sanitize_psi_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    if (!entry || typeof entry !== 'object') return;
+    const ability = pickString(entry.ability, entry.power, entry.name) || 'phase_strike';
+    const timestamp = isoTimestamp(entry.timestamp) || fallback;
+    const baseCost = pickNumber(entry.base_cost, entry.base, entry.base_cost_sys, entry.baseCost);
+    const tax = pickNumber(entry.tax, entry.tax_sys, entry.delta, entry.addition);
+    const total = pickNumber(entry.total_cost, entry.total, entry.cost_total, entry.cost);
+    const mode = pickString(entry.mode) || campaign_mode();
+    const location = pickString(entry.location) || state.location || null;
+    const arenaActive = entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
+    const gmStyle = pickString(entry.gm_style, entry.gmStyle);
+    const reason = pickString(entry.reason, entry.note);
+    const record = {
+      ability,
+      timestamp,
+      base_cost: Number.isFinite(baseCost) ? baseCost : 0,
+      tax: Number.isFinite(tax) ? tax : 0,
+      total_cost: Number.isFinite(total)
+        ? total
+        : ((Number.isFinite(baseCost) ? baseCost : 0) + (Number.isFinite(tax) ? tax : 0)),
+      mode,
+      arena_active: arenaActive
+    };
+    if (location){
+      record.location = location;
+    }
+    if (gmStyle){
+      record.gm_style = gmStyle;
+    }
+    if (reason){
+      record.reason = reason;
+    }
+    sanitized.push(record);
+  });
+  if (sanitized.length > PSI_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - PSI_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
@@ -498,6 +543,11 @@ function ensure_logs(){
   } else {
     state.logs.fr_interventions = sanitize_intervention_entries(state.logs.fr_interventions);
   }
+  if (!Array.isArray(state.logs.psi)){
+    state.logs.psi = [];
+  } else {
+    state.logs.psi = sanitize_psi_entries(state.logs.psi);
+  }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
   }
@@ -556,6 +606,15 @@ function ensure_intervention_log(){
   return state.logs.fr_interventions;
 }
 
+function ensure_psi_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.psi)){
+    state.logs.psi = [];
+  }
+  state.logs.psi = sanitize_psi_entries(state.logs.psi);
+  return state.logs.psi;
+}
+
 function log_market_purchase(item, cost, options = {}){
   const payload = {
     ...options,
@@ -578,6 +637,44 @@ function log_market_purchase(item, cost, options = {}){
     marketLog.splice(0, marketLog.length - MARKET_LOG_LIMIT);
   }
   return normalized;
+}
+
+function log_phase_strike_event(ctx = state, details = {}){
+  const psiLog = ensure_psi_log();
+  const now = new Date().toISOString();
+  const base = Number.isFinite(details.base) ? Number(details.base) : 0;
+  const tax = Number.isFinite(details.tax) ? Number(details.tax) : 0;
+  const total = Number.isFinite(details.total) ? Number(details.total) : base + tax;
+  const mode = campaign_mode(ctx);
+  const arenaActive = !!(ctx?.arena?.active);
+  const entry = {
+    ability: 'phase_strike',
+    timestamp: now,
+    base_cost: base,
+    tax,
+    total_cost: total,
+    mode,
+    arena_active: arenaActive
+  };
+  const location = typeof ctx?.location === 'string' && ctx.location.trim()
+    ? ctx.location.trim()
+    : (typeof state.location === 'string' && state.location.trim() ? state.location.trim() : null);
+  if (location){
+    entry.location = location;
+  }
+  const ui = ensure_ui();
+  const gmStyle = typeof ui?.gm_style === 'string' ? ui.gm_style.trim() : '';
+  if (gmStyle){
+    entry.gm_style = gmStyle;
+  }
+  if (typeof details.reason === 'string' && details.reason.trim()){
+    entry.reason = details.reason.trim();
+  }
+  psiLog.push(entry);
+  if (psiLog.length > PSI_LOG_LIMIT){
+    psiLog.splice(0, psiLog.length - PSI_LOG_LIMIT);
+  }
+  return entry;
 }
 
 function foreshadow_entries(){
@@ -1198,8 +1295,33 @@ function phase_strike_tax(ctx = state){
   return is_pvp(ctx) ? 1 : 0;
 }
 
-function phase_strike_cost(ctx = state, base = 2){
-  return base + phase_strike_tax(ctx);
+function phase_strike_cost(ctx = state, baseOrOptions = 2, maybeOptions = {}){
+  let base = 2;
+  let options = {};
+  if (Number.isFinite(baseOrOptions)){
+    base = Number(baseOrOptions);
+    if (maybeOptions && typeof maybeOptions === 'object'){
+      options = maybeOptions;
+    }
+  } else if (baseOrOptions && typeof baseOrOptions === 'object'){
+    options = baseOrOptions;
+    if (Number.isFinite(options.base)){
+      base = Number(options.base);
+    }
+  }
+  const tax = phase_strike_tax(ctx);
+  const total = base + tax;
+  const feedback = options.feedback !== false;
+  const logEnabled = options.log !== false;
+  if (feedback && tax > 0){
+    const customMessage = typeof options.toast_message === 'string' ? options.toast_message.trim() : '';
+    const toast = customMessage || `Arena: Phase-Strike belastet +${tax} SYS (Kosten ${total})`;
+    hud_toast(toast, 'ARENA');
+  }
+  if (logEnabled && tax > 0){
+    log_phase_strike_event(ctx, { base, tax, total, reason: options.reason });
+  }
+  return total;
 }
 
 function mission_temp(){

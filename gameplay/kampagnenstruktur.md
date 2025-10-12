@@ -1526,7 +1526,10 @@ deaktiviert. Kodex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
 vermeiden. Zusätzlich erzwingt das HUD den Runtime-Helfer `phase_strike_tax()`
 (+1 SYS) und verpasst allen Teilnehmenden die Kernanzug-Flag `psi_buffer = true`,
 damit Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz
-behalten.
+behalten. `phase_strike_cost()` quittiert jeden Abruf während aktiver Arena
+automatisch mit dem HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)`
+und legt einen Trace in `logs.psi[]` ab (Ability, Basis-, Tax- und Gesamtwert),
+damit QA und Toolkit-Hooks die Kostenentwicklung belegen können.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
 Kodex moderiert neutral und stellt keine KI-Gegner.

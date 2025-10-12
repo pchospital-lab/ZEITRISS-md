@@ -251,8 +251,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   `is_pvp()` einführen und die Kosten zentralisieren.
 - **Statusnotiz:** ✅ `campaign.mode` steuert jetzt `is_pvp()` sowie
   `phase_strike_tax()/phase_strike_cost()`. Arena-Start/Exit setzen den Modus,
-  `state.arena.phase_strike_tax` spiegelt den Zuschlag. (Commit: wird im PR
-  referenziert.)
+  `state.arena.phase_strike_tax` spiegelt den Zuschlag und der HUD-Toast
+  `Arena: Phase-Strike belastet +1 SYS (Kosten 3)` samt `logs.psi[]`-Trace
+  belegt den Aufschlag. (Commit: wird im PR referenziert.)
 - **Risiko bei Verzug:** Die Psi-Balance kippt in Sparring-Szenen.
 
 ### Issue #7 – Accessibility-Dialog
