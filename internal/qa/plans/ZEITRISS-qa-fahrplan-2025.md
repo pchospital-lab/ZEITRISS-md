@@ -532,7 +532,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | 🔄 | #6 | #3 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
 | 🔄 | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #8 | tbd | Pre-City-Hub-Dokumentation | README/Modul-Updates planen | Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md` |
-| 🔄 | #9 | #16 | Debrief-Linter | Debrief-Trace-Checks in QA-Tools ergänzen | QA, Tooling | `tools/`, `scripts/` |
+| ✅ | #9 | #16 | Debrief-Linter | Lint-Skript `tools/lint_debrief_trace.py` prüft Chronopolis/Foreshadow/Offline/Flags und läuft im Smoke-Test | QA, Tooling | `tools/lint_debrief_trace.py`, `scripts/smoke.sh`, `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #10 | #8 | Offline-Audit QA-Flow | Jammer-Szenario suspend/resume dokumentiert (QA-Log 2025-06-14) | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #11 | #10 | Boss-Toast QA-Check | Core/Rift-Spawns überwachen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | 🔄 | #12 | tbd | Alias-Debrief QA-Test | Zwei Aliasläufe planen | QA | `internal/qa/logs/2025-beta-qa-log.md` |
@@ -545,10 +545,10 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 #### Zuordnung QA-Follow-ups ↔ Beta-Issues (Stand: 2025-06-15)
 
 - Abgeschlossen: QA-Follow-ups #2 (PvP-Modusflag → Issue #6), #3 (Mission 5
-  Badge → Issue #10), #5 (Accessibility → Issue #7), #10 (Offline-Fallback →
-  Issue #8) sowie #18 (Pflicht-Testpaket, Prozess-Item) sind im QA-Log bzw.
-  diesem Fahrplan dokumentiert.
-- Offen/fortlaufend: QA-Follow-ups #6, #7, #8, #9, #11, #12, #13, #14, #15,
+  Badge → Issue #10), #5 (Accessibility → Issue #7), #9 (Debrief-Linter →
+  Issue #16), #10 (Offline-Fallback → Issue #8) sowie #18 (Pflicht-Testpaket,
+  Prozess-Item) sind im QA-Log bzw. diesem Fahrplan dokumentiert.
+- Offen/fortlaufend: QA-Follow-ups #6, #7, #8, #11, #12, #13, #14, #15,
   #16 und #17 warten auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
 - Offen für den nächsten Beta-Log-Abgleich: Follow-ups #8 (Pre-City-Hub), #12
   (Alias-Debrief), #13 (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
@@ -576,10 +576,10 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
   und Kampagnenübersicht prüfen, fehlende Pre-Hub-Hinweise markieren und eine
   Änderungsnotiz für Maintainer:innen vorbereiten. QA-Log soll den Review mit
   konkreten Zeilenangaben festhalten.
-- **QA-Follow-up #9 – Debrief-Linter (Issue #16):** `tools/`-Ordner auf bestehende
-  Checks durchsichten, Konzept für `lint_debrief_trace.py` skizzieren und ein
-  Protokoll der benötigten Felder (`logs.market[]`, `logs.foreshadow[]`,
-  `logs.flags.*`) im QA-Log ablegen.
+- **QA-Follow-up #9 – Debrief-Linter (Issue #16):** ✅ Abgeschlossen am
+  2025-06-17. `tools/lint_debrief_trace.py` prüft Chronopolis-, Foreshadow-,
+  Offline- und Runtime-Flag-Traces automatisiert; `scripts/smoke.sh` ruft den
+  Check auf und der QA-Log-Eintrag 2025-06-17 dokumentiert die Evidenz.
 - **QA-Follow-up #11 – Boss-Toast QA-Check (Issue #10):** Core- und Rift-Boss-
   Spawns anhand des Beta-Testprompts simulieren, HUD-Toast-Auszüge sichern und
   Acceptance-Smoke-Position 12 referenzieren. Evidenzblock im QA-Log markieren.
