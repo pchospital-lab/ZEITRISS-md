@@ -420,6 +420,20 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
 - `!boss status` – listet Foreshadow-Zähler.
 
+### QA-Checks 2025-06-27 – Mission 5 Gate & Arena
+
+- **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen (`Foreshadow 2/2`), `!boss status`
+  protokollieren und vor Missionsstart das HUD-Log sichern. `StartMission()` leert das HUD-Log und setzt den Zähler auf
+  `Foreshadow 0/2`; QA-Log 2025-06-27 führt die Evidenzzeilen.
+- **Ask→Suggest Wechsel.** `modus suggest`/`modus ask` toggeln den HUD-Toast `SUG-ON`/`SUG-OFF`; das Szene-Overlay zeigt in der
+  Suggest-Phase den Zusatz `· SUG`. QA-Checks dokumentieren beide Toasts und das Overlay (QA-Log 2025-06-27).
+- **Vehikel-Chases.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)` nutzen. Toolkit
+  beschreibt die QA-Schritte und referenziert die Werte im Overlay; QA-Log 2025-06-27 verlinkt die Prüfnotizen.
+- **Phase-Strike Arena.** `arenaStart()` schaltet den Kampagnenmodus auf PvP, setzt `phase_strike_tax = 1` und das HUD loggt den
+  Toast „Arena: Phase-Strike …“ bei `phase_strike_cost()`. Acceptance-Smoke-Position 15 ist im QA-Log 2025-06-27 hinterlegt.
+- **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert alle Checks (Foreshadow-Reset, Suggest-HUD,
+  Vehikel-Overlay-Notizen & Arena-Toast) und dient als Referenzskript für Beta-/MyGPT-Spiegel.
+
 ## Mini-FAQ
 
 **Warum nur HQ-Saves?**
