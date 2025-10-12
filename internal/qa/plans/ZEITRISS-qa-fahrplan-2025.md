@@ -477,26 +477,26 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
 | --- | --- | --- | --- | --- | --- |
 | ✅ | #1 | Doppelte Save-Schemata (Root vs. `character{}`) | `normalize_save_v6()` implementiert, Alt-Saves gespiegelt, Dokumentation Modul 12/README aktualisiert | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `README.md` |
-| 🔄 | #2 | Fehlender PvP-Modus-Flag im Save | `ensure_mode_flag()` + HUD-Toast, Default-Heuristik dokumentieren | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
-| ✅ | #6 | Fraktionsintervention ohne Persistenz | `log_intervention()` persistiert Logs + Dashboard, Filter `get_intervention_log()` ergänzt | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md`, `gameplay/kampagnenstruktur.md` |
-| ✅ | #9 | Market-Trace konsolidiert | `log_market_purchase()` aktiv, Debrief & Modul 15 dokumentieren den Chronopolis-Trace; QA-Log speichert den Beta-GPT-Debrief-Auszug (`logs.market[]`) als Evidenz (Commit: wird im PR referenziert.) | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md`, `internal/qa/logs/` |
-| ✅ | #10 | Offline-Protokoll persistiert | `offline_audit()` schreibt `logs.offline[]`, Debrief-Zeile spiegelt HUD-Status, README/Modul 16 ergänzt | Codex, Maintainer:innen | `runtime.js`, `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/speicher-fortsetzung.md` |
-| 🔄 | #12 | Gear-Alias wird nicht rückwärts gespiegelt | `alias_trace()` im Debrief, Alias-Liste verknüpfen | Codex | `systems/gameflow/speicher-fortsetzung.md`, `runtime.js` |
-| 🔄 | #14 | Fraktionsbelohnungen im Midgame blockiert | HQ-Basar als Pre-City-Hub implementieren, CU-Logik spiegeln | Codex, Maintainer:innen | `gameplay/kampagnenuebersicht.md`, `systems/currency/cu-waehrungssystem.md` |
+| ✅ | #2 | Gruppensave-Konsistenz fehlt | `load_deep()` normalisiert Team-/Gruppen-Aliase nach `party.characters[]`, Deduplizierung dokumentiert | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #4 | Load-Compliance driftet | `SkipEntryChoice()` setzt den Skip-Status direkt nach `load_deep()`, `StartMission()` ruft `AllowEntryChoice()` auf | Codex | `systems/toolkit-gpt-spielleiter.md`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #9 | Semver-Abgleich uneinheitlich | Semver-Check harmonisiert `zr_version`↔`ZR_VERSION`, Fehlermeldungen & Logs spiegeln die Runtime-Version | Codex, Maintainer:innen | `runtime.js`, `README.md` |
+| ✅ | #10 | Foreshadow-Gate nicht persistiert | `logs.foreshadow` + `ForeshadowHint()` persistiert Marker, Toolkit-Badges spiegeln den Status (`!boss status`) | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #12 | Chronopolis-Warnung ohne Flag | `logs.flags.chronopolis_warn_seen` setzt Persistenz, Warn-Popup feuert nur einmal | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #14 | Suspend-Snapshot verliert HUD/Initiative | Snapshot übernimmt Initiative/Taktik, `tools/test_suspend.js` belegt Resume-Flow | Codex | `runtime.js`, `tools/test_suspend.js`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #16 | Markt-Log fehlt | `log_market_purchase()` schreibt Timestamp/Item/Kosten/Px, README & Modul 15 dokumentieren Debrief-Trace | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md`, `internal/qa/logs/` |
 
 ### Cluster B – HUD, UX & Accessibility
 
 | Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
 | --- | --- | --- | --- | --- | --- |
-| 🔄 | #3 | Self-Reflection-Toggle fehlt | `sf_toggle()` + HUD-Badge + Save-Flag | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| 🔄 | #4 | Boss-Foreshadow Helper nicht implementiert | `boss_helper()` inkl. Overlay, Sollwerte dokumentieren | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| ⛔ | #5 | Accessibility-Dialog bleibt extern | Keine Laufzeitänderung – Entscheidung 2025-06-13, Schriftgröße via Endgerät | Codex, Maintainer:innen | Entscheidung QA-Sync 2025-06-13 |
-| 🔄 | #7 | Rift-Seed-Gate ohne klares HUD-Signal | Gate-Check in `launch_rift()`, Toast & Tooltip ergänzen | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
-| 🔄 | #8 | Kein Pre-City-Hub für Demos | HQ-Basar-Menü (siehe Issue #14) + Arc-Dashboard-Verweis | Codex, Maintainer:innen | `runtime.js`, `gameplay/kampagnenuebersicht.md` |
-| 🔄 | #11 | Boss-DR-Toast fehlt | `boss_spawn_toast()` verpflichtend triggern | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| 🔄 | #15 | Suggest-Modus intransparent | `toggle_suggest()` persistieren + HUD-Icon | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
-| 🔄 | #16 | Vehikel-HUD-Overlay nicht automatisch aktiv | Szenen-Tagging `env="vehicle"` automatisieren | Codex | `runtime.js`, `gameplay/fahrzeuge-konflikte.md` |
-| ✅ | #17 | Phase-Strike-Tax ohne HUD-Feedback | HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)` + Trace `logs.psi[]` via `phase_strike_cost()`; Docs spiegeln Psi-Log (Commit: wird im PR referenziert.) | Codex | `runtime.js`, `systems/kp-kraefte-psi.md`, `systems/runtime-stub-routing-layer.md`, `gameplay/kampagnenstruktur.md` |
+| ✅ | #3 | Arc-Dashboard fehlt im Schema | Schema dokumentiert Dashboard, Serializer/Deserializer spiegeln Seeds/Fraktionen | Codex & Maintainer:in | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #5 | Hot-Exfil Px-Strafe inkonsistent | Default `px_loss_on_hot_fail=false`, Guides markieren Opt-in-Strafe | Codex & Maintainer:in | `runtime.js`, `README.md`, `gameplay/kampagnenstruktur.md` |
+| ✅ | #6 | PvP-Modusflag unklar | `campaign.mode` treibt `is_pvp()` + `phase_strike_tax()`; Arena-Start/Exit setzen Flag & Toast | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
+| ⛔ | #7 | Accessibility-Menü gefordert | Verworfene Option – Maintainer:innen halten Menü extern (Entscheid 2025-06-13) | Codex, Maintainer:innen | Entscheidung QA-Sync 2025-06-13 |
+| ✅ | #8 | Offline-Fallback ohne Leitplanke | Toolkit-`offline_help()` liefert FAQ, `!offline` + `must_comms()` decken Fallback ab | Codex | `runtime.js`, `systems/toolkit-gpt-spielleiter.md` |
+| 🔄 | #11 | Koop-Ökonomie unsauber | Debrief-Split-Dialog & Wallet-Logik ausarbeiten | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #13 | Ask→Suggest ohne Standard | Suggest-Modus toggelt via `modus`, Makro `suggest_actions()` markiert Vorschläge | Codex & Maintainer:in | `runtime.js`, `README.md`, `systems/toolkit-gpt-spielleiter.md` |
+| ✅ | #15 | PSI-Arena-Regeln verteilt | `apply_arena_rules()` bündelt Dämpfer & `psi_buffer`, Docs spiegeln PvP-Abgleich | Codex & Maintainer:in | `runtime.js`, `systems/runtime-stub-routing-layer.md` |
 
 ### Cluster C – QA & Supporting Artefakte
 
@@ -522,3 +522,5 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 > Hinweis: Die Tabellen führen QA-Folgeaufgaben bewusst doppelt (Codex-Implementierung
 > und QA-Validierung), um parallele Verantwortlichkeiten sichtbar zu machen. Nach
 > jedem abgeschlossenen Schritt sind Audit und QA-Log zu aktualisieren.
+
+⚠️ **Zu klären:** Die Nummerierung der QA-Folgeaufgaben (#2, #3, #18 …) basiert auf dem Copy-&-Paste-Protokoll des Beta-GPT-Laufs und muss gegen die finalen ISSUE-IDs (#1–#16) gespiegelt werden. Abgleich steht noch aus und wird im nächsten Fahrplan-Update nachgetragen.
