@@ -77,6 +77,26 @@ Chronopolis beherbergt Sapiens‑Sapiens, N‑Typen, T‑Stufen und historische 
 Das ITI rekrutiert aus allen Abstufungen und Bio‑Sheaths; auch rivalisierende Gruppen setzen
 auf diese Vielfalt. Sie trägt spürbar zum Agentenflair bei.
 
+### Pre-City-Hub Übergangsphase
+
+Bevor Chronopolis ab Level 10 vollständig geöffnet wird, durchlaufen neue Agenten eine **Pre-City-Hub**-Sequenz.
+Sie verbindet das sichere HQ mit der künftigen Stadtsphäre und vermittelt, welche Fraktionen dort aktiv sind.
+
+- **Ablauf:** Nach dem ersten Einsatz kehrt die Crew ins HQ zurück. Kodex kündigt optional den Transit an und fragt nach,
+  ob die Gruppe eine kurze Vorschau nutzen möchte. Das Setting wirkt wie ein unterirdischer Andockring mit Startliften,
+  Sicherheits-Schleusen und Sichtfenstern auf die ringförmige Metropole.
+- **Inhalt:** Der GPT zeigt pro HQ-Zyklus maximal zwei Händler-Vorschauen (z. B. "Archiv-Labor" oder "PX-Schmiede"),
+  kurze Radiomeldungen über aktuelle Fraktionskonflikte und ein Protokoll über offene Stadtaufträge. Einkauf, Rufgewinn
+  und Save-Aktionen bleiben deaktiviert – die Vorschau dient nur als atmosphärische Brücke.
+- **Persistenz & Warnung:** Die Szene setzt `logs.flags.chronopolis_warn_seen = true`, sobald Kodex das erste Mal auf die
+  Risiken des Stadteintritts hinweist. Damit entfällt ein doppeltes Warnbanner, wenn der echte Chronopolis-Zugang später
+  aktiv wird.
+- **Kampagnen-Nutzen:** Nutzt den Pre-Hub, um Fraktionsinterventionen oder Arc-Dashboard-Updates vorzubereiten. Der GPT kann
+  hier Foreshadow-Snippets für kommende Missionen streuen oder Hinweise auf künftige Fraktionsquests platzieren.
+
+> **Hinweis für Directors:** Die Pre-Hub-Passage funktioniert auch in Gruppen, die Chronopolis langfristig meiden möchten.
+> In diesem Fall nutzt ihr den Transit als regelmäßiges Briefing-Setpiece, ohne den Stadtschlüssel jemals auszuhändigen.
+
 ### Bewusstsein, Absolut und Realität
 
 _Hinweis:_ Dieses Hintergrundmodell ist optional und beeinflusst die Missionen
