@@ -273,6 +273,28 @@ und den Charakteren greifbare Vorteile oder schlicht Vergnügen verschaffen. **W
 beste Ausrüstung will **verdient** sein. Das ITI stellt nie einfach alles uneingeschränkt ins Regal
 – es gibt Beschränkungen, wer wann auf welche Güter zugreifen darf.
 
+### HQ-Basar & Chronopolis-Log
+
+Der Einkaufsknoten des ITI – intern meist als **Chronopolis-Basar** bezeichnet – wird technisch vom
+Runtime-Helper `log_market_purchase()` flankiert. Immer wenn Agent:innen Ware ordern, ruft das
+Toolkit diesen Helper auf. Er sorgt dafür, dass jeder Einkauf als strukturierter Datensatz in
+`logs.market[]` landet und so dauerhaft im Kampagnen-Save erhalten bleibt. Ein Markt-Eintrag enthält:
+
+| Feld | Bedeutung |
+| --- | --- |
+| `timestamp` | ISO-Zeitstempel des Kaufs (Nullzeit). |
+| `item` | Kurzbezeichnung des gekauften Artikels oder Dienstes. |
+| `cost_cu` | Abgerechnete Kosten in Chrono Units. |
+| `px_clause` | Optionaler Hinweis, ob Px-Klauseln oder Sonderrabatte gegriffen haben. |
+
+Die Runtime hält die letzten **24** Einkäufe im Log und schneidet ältere Einträge automatisch ab –
+ähnlich wie beim `logs.offline[]`-Verlauf. Vor dem Speichern normalisiert `sanitize_market_entries()`
+alle Felder (z.B. ISO-Format, Trimmen von Item-Namen), damit der Trace konsistent bleibt. Dadurch
+bleibt das Savefile schlank, ohne dass wichtige Belege verloren gehen. Im Debrief liest
+`run_shop_checks()` die jüngsten Datensätze aus, damit das Team sofort nachvollziehen kann, wohin die
+CUs geflossen sind. Zusätzlich verweist das Modul „Speicher & Fortsetzung“ auf den Markt-Trace,
+sodass Persistenzprüfungen ohne direkten Zugriff auf die Laufzeit nachvollziehbar bleiben.
+
 ### Wartung und Verschleiß
 
 Hochwertige Geräte müssen regelmäßig kalibriert werden. Nach jeweils drei
