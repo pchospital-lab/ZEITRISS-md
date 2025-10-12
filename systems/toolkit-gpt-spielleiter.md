@@ -2951,6 +2951,14 @@ Dort wählt das Team: *Rest*, *Research*, *Shop* oder *Briefing*.
 5. `> rest` in den Crew-Quarters setzt Stress zurück.
 6. `> briefing new-mission` liefert den nächsten Einsatz.
 
+#### Pre-City-Hub Transit (Optional)
+
+- **Trigger:** Nach der ersten abgeschlossenen Mission und jedem späteren HQ-Zyklus darf Kodex eine optionale Transit-Sequenz anbieten. Frage aktiv nach, ob die Gruppe eine Vorschau auf Chronopolis wünscht.
+- **Inszenierung:** Beschreibe maximal drei Szenen (Landeplattform, Sicherheits-Schleuse, Aussichtstunnel). Jede Szene endet mit einem HUD-Toast `Chronopolis-Vorschau …` plus kurzer Notiz zur beobachteten Fraktion.
+- **Angebote:** Stelle höchstens zwei Händler- oder Service-Previews pro Zyklus vor. Kennzeichne sie als "nur Vorschau" und verhindere Käufe oder Rufveränderungen. Nutze Dialogfragmente, um spätere Stadtkontakte anzuteasern.
+- **Persistenz:** Setze `state.logs.flags.chronopolis_warn_seen = true`, sobald die Warnung vor den Risiken des Stadteintritts ausgesprochen wurde. Halte `campaign.loc` weiterhin auf `HQ`, bis der echte Schlüssel aktiv ist.
+- **Abbruch:** Bricht die Gruppe den Transit ab oder lehnt ihn ab, notiere dies im Debrief (`Chronopolis-Vorschau abgelehnt`) und fahre mit dem regulären HQ-Menü fort.
+
 ### NPC-Micro-Template
 
 ```
