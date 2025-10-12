@@ -172,8 +172,7 @@ Dokumentation.
 
 ### Issue #1 – Save-Schema
 - **Workstream:** Save-Schema
-- **Statusnotiz:** ✅ Serializer ergänzt Pflichtfelder und die
-  Linter-Regel `SAVE_REQ_FIELDS` (Commit `3e4f306`).
+- **Statusnotiz:** ✅ Serializer ergänzt Pflichtfelder (`SAVE_REQ_FIELDS`); Legacy-Root-Saves werden jetzt direkt in den Wissensmodulen beschrieben (manuelle `character{}`-Spiegelung ohne runtime.js). Modul 12 & README führen die Schrittfolge für GPT aus, Commit `3e4f306` + Folgecommit dokumentieren den Mirror.
 - **Owner:** Codex
 - **Zieltermin:** KW 25
 - **QA-Verankerung:** Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern.
@@ -467,7 +466,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 
 | Status | Issue | Kernproblem | Sofortmaßnahme | Owner | Referenzartefakte |
 | --- | --- | --- | --- | --- | --- |
-| 🔄 | #1 | Doppelte Save-Schemata (Root vs. `character{}`) | `normalize_save_v6()` implementieren, Alt-Saves spiegeln, Dokumentation Modul 12/README anpassen | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md` |
+| ✅ | #1 | Doppelte Save-Schemata (Root vs. `character{}`) | `normalize_save_v6()` implementiert, Alt-Saves gespiegelt, Dokumentation Modul 12/README aktualisiert | Codex, Maintainer:innen | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `README.md` |
 | 🔄 | #2 | Fehlender PvP-Modus-Flag im Save | `ensure_mode_flag()` + HUD-Toast, Default-Heuristik dokumentieren | Codex | `runtime.js`, `gameplay/kampagnenstruktur.md` |
 | ✅ | #6 | Fraktionsintervention ohne Persistenz | `log_intervention()` persistiert Logs + Dashboard, Filter `get_intervention_log()` ergänzt | Codex | `runtime.js`, `systems/gameflow/speicher-fortsetzung.md`, `systems/toolkit-gpt-spielleiter.md`, `gameplay/kampagnenstruktur.md` |
 | ✅ | #9 | Market-Trace konsolidiert | `log_market_purchase()` aktiv, Debrief & Modul 15 dokumentieren den Chronopolis-Trace; QA-Log speichert den Beta-GPT-Debrief-Auszug (`logs.market[]`) als Evidenz (Commit: wird im PR referenziert.) | Codex | `runtime.js`, `systems/currency/cu-waehrungssystem.md`, `internal/qa/logs/` |
