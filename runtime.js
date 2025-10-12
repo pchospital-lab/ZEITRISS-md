@@ -3106,9 +3106,127 @@ function hydrate_state(data){
   state.suspend_snapshot = null;
 }
 
+function normalize_save_v6(data){
+  if (!data || typeof data !== 'object') return data;
+  const normalized = data;
+  const ensureObject = (value) => (value && typeof value === 'object' && !Array.isArray(value) ? value : {});
+  normalized.character = ensureObject(normalized.character);
+  const character = normalized.character;
+  const assignString = (targetKey, ...sourceKeys) => {
+    if (typeof character[targetKey] === 'string' && character[targetKey].trim()){
+      sourceKeys.forEach((key) => {
+        if (key in normalized) delete normalized[key];
+      });
+      return;
+    }
+    const candidates = sourceKeys.map((key) => normalized[key]);
+    candidates.push(character[targetKey]);
+    const value = pickString(...candidates);
+    if (value){
+      character[targetKey] = value;
+    }
+    sourceKeys.forEach((key) => {
+      if (key in normalized) delete normalized[key];
+    });
+  };
+  const assignNumber = (targetKey, ...sourceKeys) => {
+    if (Number.isFinite(character[targetKey])){
+      sourceKeys.forEach((key) => {
+        if (key in normalized) delete normalized[key];
+      });
+      return;
+    }
+    for (const key of sourceKeys){
+      if (!(key in normalized)) continue;
+      const candidate = asNumber(normalized[key]);
+      if (candidate !== null){
+        character[targetKey] = candidate;
+        break;
+      }
+    }
+    sourceKeys.forEach((key) => {
+      if (key in normalized) delete normalized[key];
+    });
+  };
+  assignString('id', 'id', 'character_id');
+  assignString('name', 'name');
+  assignString('callsign', 'callsign');
+  assignString('rank', 'rank');
+  assignNumber('lvl', 'lvl', 'level');
+  assignNumber('xp', 'xp');
+  assignNumber('stress', 'stress');
+  assignNumber('psi_heat', 'psi_heat');
+  assignNumber('psi_heat_max', 'psi_heat_max', 'psi_heat_cap');
+  if (typeof character.self_reflection !== 'boolean' && 'self_reflection' in normalized){
+    character.self_reflection = !!normalized.self_reflection;
+    delete normalized.self_reflection;
+  }
+  const ensurePlainObject = (value) => (value && typeof value === 'object' && !Array.isArray(value) ? value : {});
+  if (!character.cooldowns || typeof character.cooldowns !== 'object' || Array.isArray(character.cooldowns)){
+    character.cooldowns = ensurePlainObject(normalized.cooldowns);
+    if (!character.cooldowns || typeof character.cooldowns !== 'object' || Array.isArray(character.cooldowns)){
+      character.cooldowns = {};
+    }
+  } else if (normalized.cooldowns && typeof normalized.cooldowns === 'object' && !Array.isArray(normalized.cooldowns)){
+    const source = normalized.cooldowns;
+    for (const [key, value] of Object.entries(source)){
+      if (!(key in character.cooldowns)){
+        character.cooldowns[key] = value;
+      }
+    }
+  }
+  if ('cooldowns' in normalized){
+    delete normalized.cooldowns;
+  }
+  const attributes = ensurePlainObject(character.attributes);
+  const assignAttributeNumber = (targetKey, ...sourceKeys) => {
+    if (Number.isFinite(attributes[targetKey])){
+      sourceKeys.forEach((key) => {
+        if (key in normalized) delete normalized[key];
+      });
+      return;
+    }
+    for (const key of sourceKeys){
+      if (!(key in normalized)) continue;
+      const candidate = asNumber(normalized[key]);
+      if (candidate !== null){
+        attributes[targetKey] = candidate;
+        break;
+      }
+    }
+    sourceKeys.forEach((key) => {
+      if (key in normalized) delete normalized[key];
+    });
+  };
+  if (normalized.attributes && typeof normalized.attributes === 'object' && !Array.isArray(normalized.attributes)){
+    for (const [key, value] of Object.entries(normalized.attributes)){
+      if (!(key in attributes)){
+        attributes[key] = value;
+      }
+    }
+    delete normalized.attributes;
+  }
+  assignAttributeNumber('SYS_max', 'sys', 'sys_max');
+  assignAttributeNumber('SYS_used', 'sys_used');
+  if (character.attributes && typeof character.attributes === 'object' && !Array.isArray(character.attributes)){
+    for (const [key, value] of Object.entries(character.attributes)){
+      if (!(key in attributes)){
+        attributes[key] = value;
+      }
+    }
+  }
+  character.attributes = attributes;
+  if (!Array.isArray(character.modes) && Array.isArray(normalized.modes) && character.modes === undefined){
+    character.modes = normalized.modes.slice();
+    delete normalized.modes;
+  }
+  return normalized;
+}
+
 function load_deep(raw){
-  const data = typeof raw === 'string' ? JSON.parse(raw) : raw;
-  const migrated = migrate_save(data);
+  const source = typeof raw === 'string' ? JSON.parse(raw) : clone_plain_object(raw);
+  const normalized = normalize_save_v6(source);
+  const migrated = migrate_save(normalized);
   const runtimeSemver = majorMinor(ZR_VERSION);
   const saveSemver = majorMinor(migrated.zr_version || migrated.ZR_VERSION);
   if (saveSemver && saveSemver !== runtimeSemver){

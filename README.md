@@ -369,6 +369,30 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 
+**Save v6 – Pflichtfelder & Kompatibilität**
+- `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
+  `character.stress`, `character.psi_heat`, `character.cooldowns` sind immer
+  Teil des HQ-Deepsaves.
+- `campaign.px`, `economy`, `logs.artifact_log`, `logs.market`, `logs.offline`,
+  `logs.kodex`, `logs.flags` sowie `ui` werden vom Serializer garantiert, damit
+  QA alle Guards automatisiert prüfen kann.
+- **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
+  Wurzel-Schlüssel wie `sys`, `sys_used`, `stress`, `psi_heat` oder
+  `cooldowns` besitzt, legt die Spielleitung beim Laden vorab den Block
+  `character{}` an:
+  1. `character.id`, `character.name`, `character.rank`, `character.callsign`
+     aus gleichnamigen Root-Feldern übernehmen (falls belegt).
+  2. `character.stress`, `character.psi_heat` und `character.cooldowns`
+     aus den alten Root-Feldern kopieren und die Wurzelvarianten danach
+     verwerfen.
+  3. `character.attributes{SYS_max,SYS_used}` aus `sys`/`sys_max` bzw.
+     `sys_used` bilden; weitere Werte aus `attributes{}` nur ergänzen,
+     niemals überschreiben.
+  4. Optionale Felder wie `modes[]`, `self_reflection` oder `lvl` ebenfalls in
+     `character{}` verschieben, sofern sie vorher an der Wurzel lagen.
+  Auf diese Weise steht dem GPT immer das vollständige Save-v6-Schema zur
+  Verfügung, auch ohne die lokale `runtime.js`.
+
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).

@@ -11,17 +11,19 @@ from typing import Iterable
 
 RUNTIME_DIRS: tuple[str, ...] = ("core", "characters", "gameplay", "systems")
 SAVE_REQUIRED_FIELDS: tuple[str, ...] = (
-    "id",
-    "sys",
-    "sys_used",
-    "stress",
-    "psi_heat",
-    "cooldowns",
+    "character.id",
+    "character.attributes.SYS_max",
+    "character.attributes.SYS_used",
+    "character.stress",
+    "character.psi_heat",
+    "character.cooldowns",
     "campaign.px",
-    "artifact_log",
-    "kodex",
     "economy",
-    "logs",
+    "logs.artifact_log",
+    "logs.market",
+    "logs.offline",
+    "logs.kodex",
+    "logs.flags",
     "ui",
 )
 
@@ -226,7 +228,12 @@ def main() -> int:
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
     req(r"migrate_save", sv, "migrate_save vorhanden", fails)
-    req(r"sys_used == state\.sys|state\.sys_used == state\.sys", sv, "Deterministik geprüft", fails)
+    req(
+        r"state\.character\.attributes\.SYS_used == state\.character\.attributes\.SYS_max|SYS_used == SYS_max",
+        sv,
+        "Deterministik geprüft",
+        fails,
+    )
 
     # Conflict Gate Helper
     req(r"can_open_conflict", tk, "can_open_conflict Macro vorhanden", fails)
