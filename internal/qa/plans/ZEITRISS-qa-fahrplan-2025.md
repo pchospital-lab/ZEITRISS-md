@@ -98,13 +98,16 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Referenz: `systems/runtime-stub-routing-layer.md` (Mirror 2025-06-12),
     `runtime.js` QA-Abgleich.
 
-- **2025-06-13 – Beta-GPT-Nachlauf (Codex)** (Status: 🆕 geplant)
+- **2025-06-13 – Beta-GPT-Nachlauf (Codex)** (Status: 🔄 laufend)
   - Erkenntnis / To-do: Beta-GPT-Lauf dokumentierte 17 offene Punkte (ISSUE #1–#17)
     rund um Save-Contract, HUD-UX, PvP/PvE-Parität und Log-Persistenz. Maßnahmen
     wurden priorisiert und in den neuen Issue-Fahrplan (siehe Abschnitt
-    "Maßnahmenpaket Beta-GPT 2025-06") übertragen. QA-Referenzen fehlen noch und
-    werden nach den nächsten Testläufen ergänzt.
-  - Referenz: internal/qa/logs/2025-beta-qa-log.md (geplanter Eintrag 2025-06-13).
+    "Maßnahmenpaket Beta-GPT 2025-06") übertragen. Weitere QA-Referenzen folgen
+    nach zusätzlichen Testläufen.
+  - Update 2025-06-13: Acceptance-Smoke #14/#15 (PvP-Flag, SaveGuard) im QA-Log
+    2025-06-13 dokumentiert; PvP-/Arena-Validierung bleibt bis zum Abschluss der
+    übrigen Beta-GPT-Nacharbeiten offen.
+  - Referenz: internal/qa/logs/2025-beta-qa-log.md (§ 2025-06-13).
   - Testpaket (2025-06-13): `make lint`, `make test`, `bash scripts/smoke.sh`,
     `python3 tools/lint_runtime.py`, `GM_STYLE=verbose python3 tools/lint_runtime.py`,
     `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`.
@@ -528,13 +531,11 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 #### Zuordnung QA-Follow-ups ↔ Beta-Issues (Stand: 2025-06-15)
 
 - Abgeschlossen: QA-Follow-ups #2 (PvP-Modusflag → Issue #6), #3 (Mission 5
-  Badge → Issue #10), #5 (Accessibility → Issue #7), #6 (Fraktions-Arc →
-  Issue #3), #7 (Rift-Gates → Issue #10), #9 und #14 (Debrief/CU-Trace →
-  Issue #16), #10 (Offline-Fallback → Issue #8), #11 (Boss-Toast →
-  Issue #10), #15 (Ask→Suggest → Issue #13) sowie #17 (Phase-Strike Arena →
-  Issue #15).
-- QA-spezifisch ohne direkte Issue-Referenz: Follow-up #18 (Pflicht-Testpaket)
-  bleibt als internes Prozess-Item vermerkt.
+  Badge → Issue #10), #5 (Accessibility → Issue #7), #10 (Offline-Fallback →
+  Issue #8) sowie #18 (Pflicht-Testpaket, Prozess-Item) sind im QA-Log bzw.
+  diesem Fahrplan dokumentiert.
+- Offen/fortlaufend: QA-Follow-ups #6, #7, #8, #9, #11, #12, #13, #14, #15,
+  #16 und #17 warten auf weitere Evidenz aus Beta-GPT-Logs oder Tooling.
 - Offen für den nächsten Beta-Log-Abgleich: Follow-ups #8 (Pre-City-Hub), #12
   (Alias-Debrief), #13 (Squad-Radio-Log) und #16 (Vehikel-Overlay). Diese
   Punkte benötigen eine konkrete Zuordnung zu den Issues #1–#16 oder eine
