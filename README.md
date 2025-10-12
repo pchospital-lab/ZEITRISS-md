@@ -1078,6 +1078,8 @@ Scanne den QR-Code oder besuche
 - [Beta-QA-Log 2025](internal/qa/logs/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT inklusive Nachverfolgung.
 - [Maintainer-Ops](docs/maintainer-ops.md) – Plattform- und Upload-Checklisten, inklusive QA-spezifischer Routinen.
 
+Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen, Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅ gesetzt; siehe QA-Fahrplan & QA-Log 2025-06-22.
+
 Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
 Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
 Der Standardprompt aus `docs/qa/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom

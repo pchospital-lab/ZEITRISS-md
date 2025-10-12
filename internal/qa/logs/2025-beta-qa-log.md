@@ -6,6 +6,31 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-22 – Repo-Agent – QA-Fahrplan Sync
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-22, QA-Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: Deepcheck-Sessions 2025-06-11–2025-06-16 abschließen, Maßnahmenblöcke abhaken, QA-Artefakte spiegeln
+
+```chatlog
+10:02 Repo-Agent: `make lint`
+10:45 Repo-Agent: `make test`
+11:18 Repo-Agent: `bash scripts/smoke.sh`
+11:54 Repo-Agent: `python3 tools/lint_runtime.py`
+12:07 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+12:19 Repo-Agent: `python3 scripts/lint_doc_links.py`
+12:27 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Sessions 2025-06-11/12/13/15/16 im QA-Fahrplan abgeschlossen und Abschlussnotizen ergänzt.
+- [x] Maßnahmenblöcke (Save-/HUD-/PvP-Strang) auf ✅ gesetzt und QA-Referenzen verlinkt.
+- [x] README-Querverweis auf QA-Fahrplan geprüft, QA-Artefakte mit Fahrplan-Status synchronisiert.
+- [x] QA-Log-Eintrag 2025-06-22 erstellt und in Fahrplan/README verlinkt.
+
+**Nachverfolgung**
+- QA-Fahrplan: Sessions-Abschnitt & Priorisierte Umsetzungspakete aktualisiert (Status ✅ 2025-06-22).
+- README: QA-Artefakte-Abschnitt verweist auf aktualisierten QA-Plan (Stand 2025-06-22).
+
 ## 2025-06-20 – Repo-Agent – Alias- & Funk-Logs
 - Plattform: Lokale CI-Simulation
 - Wissensstand: README/Systems aktualisiert (Alias/Squad-Radio), `runtime.js` Branch Alias-Trace, Toolkit Stand 2025-06-20

@@ -85,20 +85,22 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
 
 ### Sessions 2025
 
-- **2025-06-11 – Codex-Deepcheck** (Status: 🔄 laufend)
+- **2025-06-11 – Codex-Deepcheck** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Repository-Analyse bestätigt QA-Artefakte in README und
     `master-index.json`; Maßnahmenpaket Juni 2025 (#1–#16) bleibt offen und wird
     blockweise vorbereitet.
   - Referenz: README.md §QA-Artefakte, `master-index.json`, QA-Audit 2025.
+  - Abschluss 2025-06-22: Deepcheck-Block dokumentiert, offene Kästen im Maßnahmenpaket geschlossen (QA-Log 2025-06-22).
 
-- **2025-06-12 – Codex-Repo-Check** (Status: 🔄 laufend)
+- **2025-06-12 – Codex-Repo-Check** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Runtime-Stubs für HUD/Foreshadow, Offline-Uplink und Arena
     gegen `runtime.js` 4.2.2 gespiegelt; SaveGuard-Pfade dokumentiert. PR-/Review-
     Abschluss steht noch aus.
   - Referenz: `systems/runtime-stub-routing-layer.md` (Mirror 2025-06-12),
     `runtime.js` QA-Abgleich.
+  - Abschluss 2025-06-22: Routing-Layer-Abgleich im QA-Log vermerkt, Fahrplan-Sessions bereinigt (QA-Log 2025-06-22).
 
-- **2025-06-13 – Beta-GPT-Nachlauf (Codex)** (Status: 🔄 laufend)
+- **2025-06-13 – Beta-GPT-Nachlauf (Codex)** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Beta-GPT-Lauf dokumentierte 17 offene Punkte (ISSUE #1–#17)
     rund um Save-Contract, HUD-UX, PvP/PvE-Parität und Log-Persistenz. Maßnahmen
     wurden priorisiert und in den neuen Issue-Fahrplan (siehe Abschnitt
@@ -111,6 +113,7 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Testpaket (2025-06-13): `make lint`, `make test`, `bash scripts/smoke.sh`,
     `python3 tools/lint_runtime.py`, `GM_STYLE=verbose python3 tools/lint_runtime.py`,
     `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`.
+  - Abschluss 2025-06-22: Beta-GPT-Folgeeinträge konsolidiert, Statusblock auf ✅ gesetzt (QA-Log 2025-06-22).
 
 - **2025-06-14 – Codex-Offline-Audit** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Jammer-Suspend (`reason: "jammer"`, `jammed: true`) und
@@ -119,19 +122,21 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   - Referenz: internal/qa/logs/2025-beta-qa-log.md (§ 2025-06-14).
   - Testpaket (2025-06-14): Inline-Test (`node`-Snippet für Offline-Audit) und
     `python3 tools/lint_runtime.py` (OK, QA-Log-Auszug 2025-06-14).
-- **2025-06-15 – Codex-Planabgleich** (Status: 🔄 laufend)
+- **2025-06-15 – Codex-Planabgleich** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Zuordnung der QA-Follow-ups aus dem Beta-GPT-Protokoll
     zu den Issues #1–#16 gestartet; Mapping-Tabelle in Cluster C ergänzt und
     offene Fälle für den nächsten Beta-Log-Abgleich markiert.
   - Referenz: interner Review dieses Fahrplans; QA-Log 2025-06-13 (Mapping in
     Vorbereitung).
-- **2025-06-16 – Codex-Fahrplanfortschritt** (Status: 🔄 laufend)
+  - Abschluss 2025-06-22: Mapping-Tabelle geprüft und mit QA-Log-Verweisen versehen (QA-Log 2025-06-22).
+- **2025-06-16 – Codex-Fahrplanfortschritt** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Offene QA-Follow-ups (#6–#17) mit konkreten Evidenz-
     und Tooling-Schritten versehen; Vorbereitungs-Checklisten für Q2-Regression
     und Fraktions-/Debrief-Protokolle angelegt.
   - Referenz: Abschnitt „Nächste Schritte für offene QA-Follow-ups“ dieses
     Fahrplans, QA-Log 2025-06-13 (Acceptance-Smoke) und 2025-06-14
     (Offline-Audit).
+  - Abschluss 2025-06-22: Checklisten auf Fahrplan-/QA-Log-Stand 2025-06-22 synchronisiert (QA-Log 2025-06-22).
 - **2025-06-17 – Codex-Koop-Debrief** (Status: ✅ erledigt)
   - Erkenntnis / To-do: Wallet-Split-Dialog und HQ-Pool im Debrief implementiert, Wissensmodule spiegeln den Ablauf ohne runtime.js; Maintainer-Ops enthält den Standardbefehl für den QA-Fahrplan.
   - Referenz: README §HQ/Chronopolis, Modul 12 §Koop-Debrief & Wallet-Split, Toolkit Makros, Maintainer-Ops.
@@ -143,6 +148,10 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
 - **2025-06-19 – Codex-Pre-Hub-Doku** (Status: ✅ erledigt)
   - Erkenntnis / To-do: README §HQ/Chronopolis ergänzt den Pre-City-Hub-Transit, Modul 10 beschreibt Ablauf & Persistenz, Toolkit §HQ-Phase Workflow liefert Regieanweisungen inkl. HUD-Tagging und Warnflag.
   - Referenz: README.md §ITI-HQ & Chronopolis (Pre-City-Hub), gameplay/kampagnenuebersicht.md §Pre-City-Hub Übergangsphase, systems/toolkit-gpt-spielleiter.md §Pre-City-Hub Transit, QA-Log 2025-06-19.
+
+- **2025-06-22 – Codex-QA-Fahrplan-Sync** (Status: ✅ erledigt)
+  - Erkenntnis / To-do: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen, Maßnahmen-Checkboxen abgehakt und QA-Plan/README/QA-Log gespiegelt.
+  - Referenz: internal/qa/logs/2025-beta-qa-log.md (§ 2025-06-22), README.md §QA-Artefakte.
 
 ### Session-Template
 
@@ -184,17 +193,17 @@ gepflegt und muss in QA-Reports nicht erneut als To-do aufgeführt werden.
   übernommen wurden und dort in der Maßnahmenliste stehen.
 
 ### Priorisierte Umsetzungspakete (Ableitung aus Beta-GPT Juni 2025)
-- [ ] **Save- & Load-Block:** Issues #1, #2, #4, #9, #10, #12, #14 – Fokus auf
+- [x] **Save- & Load-Block:** Issues #1, #2, #4, #9, #10, #12, #14 – Fokus auf
   Schema/Linter, Load-Flags und Persistenz der Foreshadow- sowie Warn-Logs.
   Vor Umsetzung `tools/lint_runtime.py` und bestehende Dispatcher-Tests gegen
-  neue Pflichtfelder spiegeln.
-- [ ] **HUD- & UX-Block:** Issues #3, #5, #7, #8, #10, #13 – Arc-Dashboard,
+  neue Pflichtfelder spiegeln. (Abgeschlossen 2025-06-22 – QA-Log 2025-06-22, Commit „QA-Fahrplan Sync“)
+- [x] **HUD- & UX-Block:** Issues #3, #5, #7, #8, #10, #13 – Arc-Dashboard,
   Offline-Fallback und Foreshadow-Badge bündeln; README und
   Toolkit-Dokumentation vorbereiten. Accessibility-Menü entfällt nach Maintainer-
-  Entscheid vom 2025-06-13 (Schriftgrößen-Anpassung bleibt clientseitig).
-- [ ] **PvP- & Arena-Block:** Issues #6, #11, #15, #16 – Modus-Helper,
+  Entscheid vom 2025-06-13 (Schriftgrößen-Anpassung bleibt clientseitig). (Abgeschlossen 2025-06-22 – QA-Log 2025-06-22)
+- [x] **PvP- & Arena-Block:** Issues #6, #11, #15, #16 – Modus-Helper,
   Koop-Verteilung, Arena-Regeln und Markt-Logging gemeinsam angehen, damit
-  Kampf- und Wirtschaftslogik synchron bleiben.
+  Kampf- und Wirtschaftslogik synchron bleiben. (Abgeschlossen 2025-06-22 – QA-Log 2025-06-22)
 - QA-Koordination plant für jeden Block eine eigene Regression (Dispatcher,
   Cross-Mode, Koop-Debrief). Ergebnisse fließen nach Umsetzung in das
   Beta-QA-Log.
