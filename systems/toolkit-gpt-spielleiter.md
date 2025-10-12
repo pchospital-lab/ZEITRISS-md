@@ -759,6 +759,8 @@ Funk läuft über Comlinks mit begrenzter Reichweite; jede Störung hat ein
 physisches Gerät. Kodex synchronisiert über reale Hardware mit dem
 Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der Offline-HUD. Signale,
 Objekte und Gegner agieren ausschließlich physisch.
+
+`!dashboard status` liefert QA das Arc-Dashboard als Text (Seeds, letzte Fraktionsmeldungen, offene Fragen) und dient als unmittelbarer Evidenz-Snapshot für Beta-Logs.
 {% endmacro %}
 
 Beispielaufruf im Kampagnenstart:

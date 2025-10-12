@@ -416,6 +416,8 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
 - `!px` – zeigt aktuellen Paradoxon-Stand.
 - `!fr help` – zeigt den aktuellen FR-Status.
+- `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als QA-Report zusammen.
+- `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
 - `!boss status` – listet Foreshadow-Zähler.
 
 ## Mini-FAQ

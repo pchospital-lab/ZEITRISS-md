@@ -2177,6 +2177,207 @@ function get_intervention_log(filter = {}){
     .map(entry => clone_plain_object(entry));
 }
 
+function describe_arc_seed(entry){
+  if (entry === undefined || entry === null){
+    return null;
+  }
+  if (typeof entry === 'string'){
+    const trimmed = entry.trim();
+    return trimmed.length ? trimmed : null;
+  }
+  if (typeof entry !== 'object'){
+    return String(entry);
+  }
+  const id = typeof entry.id === 'string' && entry.id.trim() ? entry.id.trim() : null;
+  const key = typeof entry.key === 'string' && entry.key.trim() ? entry.key.trim() : null;
+  const title = typeof entry.title === 'string' && entry.title.trim() ? entry.title.trim() : null;
+  const hook = typeof entry.hook === 'string' && entry.hook.trim() ? entry.hook.trim() : null;
+  const epoch = typeof entry.epoch === 'string' && entry.epoch.trim() ? entry.epoch.trim() : null;
+  const status = typeof entry.status === 'string' && entry.status.trim() ? entry.status.trim() : null;
+  const severity = entry.severity !== undefined && entry.severity !== null
+    ? entry.severity
+    : (entry.level !== undefined ? entry.level : null);
+  const deadline = typeof entry.deadline === 'string' && entry.deadline.trim()
+    ? entry.deadline.trim()
+    : (typeof entry.until === 'string' && entry.until.trim() ? entry.until.trim() : null);
+  const labelParts = [];
+  if (id){
+    labelParts.push(`#${id}`);
+  } else if (key){
+    labelParts.push(`#${key}`);
+  }
+  if (title){
+    labelParts.push(title);
+  } else if (hook){
+    labelParts.push(hook);
+  }
+  if (!labelParts.length && epoch){
+    labelParts.push(epoch);
+  }
+  if (!labelParts.length){
+    labelParts.push('Seed');
+  }
+  const tagParts = [];
+  if (epoch){
+    tagParts.push(epoch);
+  }
+  if (status){
+    tagParts.push(status);
+  }
+  if (Number.isFinite(severity)){
+    tagParts.push(`Stufe ${severity}`);
+  } else if (typeof severity === 'string' && severity.trim()){
+    tagParts.push(severity.trim());
+  }
+  if (deadline){
+    tagParts.push(`bis ${deadline}`);
+  }
+  if (typeof entry.priority === 'string' && entry.priority.trim()){
+    tagParts.push(entry.priority.trim());
+  }
+  const label = labelParts.join(' · ');
+  return tagParts.length ? `${label} · ${tagParts.join(' · ')}` : label;
+}
+
+function describe_arc_question(entry){
+  if (entry === undefined || entry === null){
+    return null;
+  }
+  if (typeof entry === 'string'){
+    const trimmed = entry.trim();
+    return trimmed.length ? trimmed : null;
+  }
+  if (typeof entry !== 'object'){
+    return String(entry);
+  }
+  const title = ['title', 'question', 'prompt', 'summary', 'text']
+    .map((key) => typeof entry[key] === 'string' && entry[key].trim() ? entry[key].trim() : null)
+    .find(Boolean);
+  const identifier = ['id', 'key', 'ref']
+    .map((key) => typeof entry[key] === 'string' && entry[key].trim() ? entry[key].trim() : null)
+    .find(Boolean);
+  const status = typeof entry.status === 'string' && entry.status.trim() ? entry.status.trim() : null;
+  const owner = typeof entry.owner === 'string' && entry.owner.trim()
+    ? entry.owner.trim()
+    : (typeof entry.assignee === 'string' && entry.assignee.trim() ? entry.assignee.trim() : null);
+  const episode = Number.isFinite(entry.episode) ? `E${entry.episode}` : null;
+  const mission = Number.isFinite(entry.mission) ? `M${entry.mission}` : null;
+  const labelParts = [];
+  if (identifier){
+    labelParts.push(identifier);
+  }
+  if (title){
+    labelParts.push(title);
+  }
+  if (!labelParts.length){
+    labelParts.push('Frage');
+  }
+  const tagParts = [status, owner, episode, mission].filter(Boolean);
+  return tagParts.length ? `${labelParts.join(' · ')} · ${tagParts.join(' · ')}` : labelParts.join(' · ');
+}
+
+function render_arc_dashboard_status(){
+  const dash = ensure_arc_dashboard();
+  const lines = [];
+  lines.push('Arc-Dashboard Status');
+  const seeds = Array.isArray(dash.offene_seeds) ? dash.offene_seeds : [];
+  const seedLines = seeds
+    .map(describe_arc_seed)
+    .filter((line) => typeof line === 'string' && line.trim());
+  if (seedLines.length){
+    lines.push('Seeds:');
+    seedLines.forEach((line) => {
+      lines.push(`• ${line}`);
+    });
+  } else {
+    lines.push('Seeds: keine offenen Seeds.');
+  }
+
+  const factions = dash.fraktionen && typeof dash.fraktionen === 'object' && !Array.isArray(dash.fraktionen)
+    ? Object.values(dash.fraktionen)
+    : [];
+  const factionRecords = factions
+    .filter((record) => record && typeof record === 'object')
+    .map((record) => ({ ...record }));
+  if (factionRecords.length){
+    lines.push('Fraktionen:');
+    factionRecords
+      .sort((a, b) => {
+        const nameA = (a.name || a.id || '').toLowerCase();
+        const nameB = (b.name || b.id || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      })
+      .forEach((record) => {
+        const name = record.name || record.id || 'Fraktion';
+        const last = record.last_intervention && typeof record.last_intervention === 'object'
+          ? record.last_intervention
+          : null;
+        const result = typeof (last?.result || record.last_result) === 'string'
+          ? (last?.result || record.last_result)
+          : 'keine Aktivität';
+        const tags = [];
+        if (Number.isFinite(last?.episode)){
+          tags.push(`E${last.episode}`);
+        }
+        if (Number.isFinite(last?.mission)){
+          tags.push(`M${last.mission}`);
+        }
+        if (typeof last?.phase === 'string' && last.phase.trim()){
+          tags.push(last.phase.trim());
+        }
+        if (Number.isFinite(last?.scene_index)){
+          const index = Math.max(0, last.scene_index);
+          const sceneNumber = index + 1;
+          if (Number.isFinite(last?.scene_total)){
+            tags.push(`Sz ${sceneNumber}/${last.scene_total}`);
+          } else {
+            tags.push(`Sz ${sceneNumber}`);
+          }
+        }
+        if (typeof last?.location === 'string' && last.location.trim()){
+          tags.push(last.location.trim());
+        }
+        if (last?.escalated){
+          tags.push('Escal');
+        }
+        if (last?.observer){
+          tags.push('Beobachter');
+        }
+        if (typeof record.interventions?.length === 'number' && record.interventions.length > 1){
+          tags.push(`Verlauf ${record.interventions.length}×`);
+        }
+        const suffix = tags.length ? ` (${tags.join(' · ')})` : '';
+        const timestamp = typeof last?.timestamp === 'string' && last.timestamp.trim()
+          ? ` @ ${last.timestamp.trim()}`
+          : '';
+        lines.push(`• ${name}: ${result}${suffix}${timestamp}`);
+        if (typeof last?.impact === 'string' && last.impact.trim()){
+          lines.push(`  Impact: ${last.impact.trim()}`);
+        }
+        if (typeof last?.note === 'string' && last.note.trim()){
+          lines.push(`  Notiz: ${last.note.trim()}`);
+        }
+      });
+  } else {
+    lines.push('Fraktionen: keine Interventionen protokolliert.');
+  }
+
+  const questions = Array.isArray(dash.fragen) ? dash.fragen : [];
+  const questionLines = questions
+    .map(describe_arc_question)
+    .filter((line) => typeof line === 'string' && line.trim());
+  if (questionLines.length){
+    lines.push('Fragen:');
+    questionLines.forEach((line) => {
+      lines.push(`• ${line}`);
+    });
+  } else {
+    lines.push('Fragen: keine offenen Rückfragen.');
+  }
+
+  return lines.join('\n');
+}
+
 function format_offline_report(entry, totalCount){
   if (!entry) return null;
   const segments = [];
@@ -4627,6 +4828,12 @@ function on_command(command){
     if (cmd === '!radio' || cmd.startsWith('!radio ')){
       return handleRadioCommand(command.trim());
     }
+    if (cmd === '!dashboard' || cmd === '!dashboard status'){
+      return render_arc_dashboard_status();
+    }
+    if (cmd === '!help dashboard'){
+      return 'Arc-Dashboard: !dashboard status fasst Seeds, Fraktionsmeldungen und offene Fragen als Text zusammen.';
+    }
     if (cmd === '!px'){
       return render_px_tracker();
     }
@@ -4750,5 +4957,6 @@ module.exports = {
   log_alias_event,
   log_squad_radio,
   render_alias_trace_summary,
-  render_squad_radio_summary
+  render_squad_radio_summary,
+  render_arc_dashboard_status
 };
