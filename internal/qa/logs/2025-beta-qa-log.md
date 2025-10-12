@@ -212,6 +212,15 @@ NODE`
 
 ```chatlog
 09:05 Repo-Agent: `python3 tools/lint_debrief_trace.py`
+09:05 Tool: `INFO: [ OK ] Chronopolis-Trace nennt Einkauf & Kosten`
+09:05 Tool: `INFO: [ OK ] Chronopolis-Trace enthält Timestamp`
+09:06 Tool: `INFO: [ OK ] Foreshadow-Log referenziert Mission 5 Hinweis`
+09:06 Tool: `INFO: [ OK ] Offline-Protokoll meldet Jammer-Trace`
+09:06 Tool: `INFO: [ OK ] Runtime-Flags führen Runtime-Version`
+09:06 Tool: `INFO: [ OK ] Runtime-Flags zeigen Compliance-Status`
+09:06 Tool: `INFO: [ OK ] Runtime-Flags spiegeln Chronopolis-Warnung`
+09:06 Tool: `INFO: [ OK ] Runtime-Flags zählen Offline-Hilfe`
+09:07 Tool: `INFO: [ OK ] Runtime-Flags enthalten letzten Offline-Zeitstempel`
 09:07 Tool: `INFO: Debrief-Trace-Lint abgeschlossen`
 09:10 Repo-Agent: `make lint && make test`
 09:18 Tool: `All smoke checks passed.`
