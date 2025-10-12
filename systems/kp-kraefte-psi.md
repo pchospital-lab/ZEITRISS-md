@@ -220,17 +220,22 @@ Nahkampfangriff ignoriert dadurch Rüstungen und verursacht **+1 Schaden**.
 Der Effekt kostet **2 SYS** in Story- oder Koop-Szenen. Im Arena-PvP greift
 automatisch die Schutzklausel `phase_strike_tax()` (+1 SYS via `is_pvp()`),
 sodass die Kosten dort auf **3 SYS** steigen und `state.arena.phase_strike_tax`
-den Zuschlag widerspiegelt. Misslingt der Einsatz, verliert das Team
+den Zuschlag widerspiegelt. `phase_strike_cost()` löst in diesem Fall automatisch
+den HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)` aus und protokolliert
+den Zugriff im neuen Trace `logs.psi[]` (Ability `phase_strike`, Basiswert, Taxe,
+Gesamtkosten, Modus). Misslingt der Einsatz, verliert das Team
 **1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
 auf **0**.
 
 ```typescript
 const phaseStrikeCost = phase_strike_cost();
-if (is_pvp()) {
-  hud.toast("Arena: Phase-Strike belastet +1 SYS");
-}
+// HUD-Toast und logs.psi[]-Eintrag entstehen automatisch, sobald PvP-Tax aktiv ist.
 psi.spendSYS(actor, phaseStrikeCost);
 ```
+
+_Hinweis:_ Für stille Abfragen (z.B. Tests) lässt sich das Feedback unterdrücken:
+`phase_strike_cost(state, { feedback: false, log: false })` liefert den Wert ohne
+Toast oder Log-Eintrag.
 
 ### Reichweitenzonen {#reichweitenzonen}
 
