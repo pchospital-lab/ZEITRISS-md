@@ -19,10 +19,13 @@ SAVE_REQUIRED_FIELDS: tuple[str, ...] = (
     "character.cooldowns",
     "campaign.px",
     "economy",
+    "logs",
     "logs.artifact_log",
     "logs.market",
     "logs.offline",
     "logs.kodex",
+    "logs.alias_trace",
+    "logs.squad_radio",
     "logs.flags",
     "ui",
 )

@@ -6,6 +6,30 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-29 – Repo-Agent – Save-Pflichtfelder Mirror
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-29, QA-Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: QA-Fahrplan §Maßnahmenpaket (Issue #1 – Save-Schema) – Pflichtfelder `logs.alias_trace`/`logs.squad_radio` in Wissensmodulen spiegeln und Lint erweitern.
+
+```chatlog
+09:45 Repo-Agent: `make lint`
+09:58 Repo-Agent: `make test`
+10:34 Repo-Agent: `bash scripts/smoke.sh`
+10:51 Repo-Agent: `python3 tools/lint_runtime.py`
+10:54 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:57 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:59 Repo-Agent: `python3 scripts/lint_umlauts.py` (Fehler: ModuleNotFoundError)
+11:00 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Pflichtfelder `logs.alias_trace`/`logs.squad_radio` im Save-Pseudocode und JSON-Beispiel ergänzt; README spiegeln; Lint prüft die Felder.
+- [x] QA-Fahrplan-Referenz: Cluster A Issue #1 – Save-Schema bestätigt aktualisierte Wissensmodule.
+
+**Nachverfolgung**
+- QA-Fahrplan: Abschnitt „Maßnahmenpaket Beta-GPT 2025-06 – Issue-Fahrplan → Cluster A – Save-Contract & Persistenz“ verweist jetzt auf README + Modul 12 mit den zusätzlichen Pflichtfeldern.
+- Audit: Save-Contract-Abschnitt 2025-06 vermerkt identische Pflichtfelder (keine weiteren Maßnahmen erforderlich).
+
 ## 2025-06-28 – Repo-Agent – Chronopolis Hochstufen-Stichprobe
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-28, QA-Fahrplan 1.3.1
