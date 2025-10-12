@@ -6,6 +6,31 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-06-24 – Repo-Agent – Arc-Dashboard QA-Tools
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2 (Arc-Dashboard Status), README/Systems Stand 2025-06-24, QA-Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: QA-Follow-up #6 abschließen, Arc-Dashboard-Status für QA exportierbar machen und Dokumentation spiegeln
+
+```chatlog
+09:58 Repo-Agent: `make lint`
+10:17 Repo-Agent: `make test`
+11:06 Repo-Agent: `bash scripts/smoke.sh`
+11:18 Repo-Agent: `python3 tools/lint_runtime.py`
+11:21 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+11:24 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:26 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+11:29 Repo-Agent: `node - <<'NODE'` (Arc-Dashboard Status-Testausgabe)
+```
+
+**Offene Punkte**
+- [x] `!dashboard status` liefert Seeds, Fraktionsmeldungen und offene Fragen als Text-Snapshot für QA-Protokolle.
+- [x] README und Systems-Module nennen den neuen QA-Befehl; Toolkit weist auf den Evidenzexport hin.
+- [x] QA-Fahrplan Cluster C #6 auf ✅ gesetzt, Nächste-Schritte-Abschnitt datiert.
+
+**Nachverfolgung**
+- QA-Fahrplan: Cluster C #6 sowie Abschnitt „Nächste Schritte“ mit Abschlussvermerk (2025-06-24) aktualisiert.
+- README & Systems spiegeln Arc-Dashboard-Befehl; QA-Plan referenziert Runtime- und Doku-Updates.
+
 ## 2025-06-22 – Repo-Agent – QA-Fahrplan Sync
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-22, QA-Fahrplan 1.3.1
