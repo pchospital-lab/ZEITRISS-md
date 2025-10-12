@@ -216,7 +216,7 @@ Dokumentation.
 
 ### Issue #1 – Save-Schema
 - **Workstream:** Save-Schema
-- **Statusnotiz:** ✅ Serializer ergänzt Pflichtfelder (`SAVE_REQ_FIELDS`); Legacy-Root-Saves werden jetzt direkt in den Wissensmodulen beschrieben (manuelle `character{}`-Spiegelung ohne runtime.js). Modul 12 & README führen die Schrittfolge für GPT aus, Commit `3e4f306` + Folgecommit dokumentieren den Mirror.
+- **Statusnotiz:** ✅ Serializer ergänzt Pflichtfelder (`SAVE_REQ_FIELDS`); Legacy-Root-Saves werden jetzt direkt in den Wissensmodulen beschrieben (manuelle `character{}`-Spiegelung ohne runtime.js). Modul 12 & README führen die Schrittfolge für GPT aus, Commit `3e4f306` + Folgecommit dokumentieren den Mirror. Update 2025-06-29: Pflichtfeldliste (inkl. `logs.alias_trace`/`logs.squad_radio`) in Modul 12, README und Lint nachgezogen.
 - **Owner:** Codex
 - **Zieltermin:** KW 25
 - **QA-Verankerung:** Dispatcher-Suite „HQ-Save Pflichtfelder“ erweitern.

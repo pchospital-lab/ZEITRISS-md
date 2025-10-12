@@ -27,10 +27,13 @@ required = [
   "character.cooldowns",
   "campaign.px",
   "economy",
+  "logs",
   "logs.artifact_log",
   "logs.market",
   "logs.offline",
   "logs.kodex",
+  "logs.alias_trace",
+  "logs.squad_radio",
   "logs.flags",
   "ui"
 ]
@@ -71,6 +74,8 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
     "market": [],
     "offline": [],
     "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
     "hud": [],
     "fr_interventions": [],
     "flags": {
@@ -89,8 +94,9 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
-  `character.cooldowns`, `campaign.px`, `economy`, `logs.artifact_log`,
-  `logs.market`, `logs.offline`, `logs.kodex`, `logs.flags` und `ui`.
+  `character.cooldowns`, `campaign.px`, `economy`, `logs`, `logs.artifact_log`,
+  `logs.market`, `logs.offline`, `logs.kodex`, `logs.alias_trace`,
+  `logs.squad_radio`, `logs.flags` und `ui`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,

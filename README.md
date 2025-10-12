@@ -373,9 +373,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
   `character.stress`, `character.psi_heat`, `character.cooldowns` sind immer
   Teil des HQ-Deepsaves.
-- `campaign.px`, `economy`, `logs.artifact_log`, `logs.market`, `logs.offline`,
-  `logs.kodex`, `logs.flags` sowie `ui` werden vom Serializer garantiert, damit
-  QA alle Guards automatisiert prüfen kann.
+- `campaign.px`, `economy`, `logs`, `logs.artifact_log`, `logs.market`,
+  `logs.offline`, `logs.kodex`, `logs.alias_trace`, `logs.squad_radio`,
+  `logs.flags` sowie `ui` werden vom Serializer garantiert, damit QA alle
+  Guards automatisiert prüfen kann.
 - **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
   Wurzel-Schlüssel wie `sys`, `sys_used`, `stress`, `psi_heat` oder
   `cooldowns` besitzt, legt die Spielleitung beim Laden vorab den Block
