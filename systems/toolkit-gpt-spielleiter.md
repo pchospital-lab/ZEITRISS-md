@@ -282,6 +282,12 @@ if not char.get("psi") and not char.get("has_psi"):
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
   wenn eine Begegnung ausgeschlossen bleibt.
+- **Koop-Auszahlungen:**
+  - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus `economy.wallets{}`. Ohne Vorgaben verteilt der GPT die Prämie gleichmäßig.
+  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
+  - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU. Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova, HQ-Pool belassen.“_
+  - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`). Der GPT bestätigt die Vorgaben, passt die Wallets an und dokumentiert Abweichungen im QA-Log.
+  - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus: Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
   Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.

@@ -114,6 +114,14 @@ Plattformen sind derzeit nicht vorgesehen.
   Maintainer:innen richten eigene Beta-Klone ein und liefern ihre Ergebnisse in
   derselben Form an Codex.
 
+### Standardbefehl für Repo-Agent:innen
+
+Nutze für Folgeaufträge immer dieselbe Kurzform, damit Codex den QA-Fahrplan Schritt für Schritt abarbeitet und nur Repo-Artefakte aktualisiert:
+
+> `Codex, arbeite bitte den QA-Fahrplan (internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) Schritt für Schritt ab und setze die genannten Maßnahmen direkt im Repo um. Spiegle jede Laufzeitänderung in den Wissensmodulen (README, Systems-Module) und halte die Trennung zwischen Runtime-Stubs (runtime.js, routing-layer) und den GPT-Laufzeitdateien strikt ein.`
+
+Der Zusatz stellt klar, dass lokale Hilfsskripte (z. B. `runtime.js`) nur für Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
+
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
