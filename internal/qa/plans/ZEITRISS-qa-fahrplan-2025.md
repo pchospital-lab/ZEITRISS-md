@@ -542,7 +542,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 | ✅ | #3 | #10 | Mission 5 Badge-Nachweis | QA-Plan um Badge-Check erweitern (siehe Abschnitt „Mission 5 Badge-Check“) | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ✅ | #18 | — | Pflicht-Testpaket fehlte im Fahrplan | Testpaket dokumentieren und im QA-Log referenzieren | QA | `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` |
 | ⛔ | #5 | #7 | Accessibility-Profile testen | Entfällt – Menü wird nicht implementiert, siehe Entscheidung 2025-06-13 | QA | Entscheidung QA-Sync 2025-06-13 |
-| 🔄 | #6 | #3 | Fraktionsinterventionen auditieren | Drei Missionen loggen, Dashboard prüfen | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md` |
+| ✅ | #6 | #3 | Fraktionsinterventionen auditieren | `!dashboard status` liefert Seeds/Fraktionsmeldungen/Fragen als QA-Snapshot; drei Missionsprotokolle referenzieren den Textauszug | QA | `internal/qa/audits/ZEITRISS-qa-audit-2025.md`, `runtime.js`, `README.md` |
 | 🔄 | #7 | #10 | Rift-Gate QA-Szenarien | Mission 5/10 Episodenabschluss tracken | QA | `internal/qa/logs/2025-beta-qa-log.md` |
 | ✅ | #8 | tbd | Pre-City-Hub-Dokumentation | README §HQ/Chronopolis, Modul 10 Pre-Hub & Toolkit Transit-Guide aktualisiert | Codex & Maintainer:innen | `README.md`, `gameplay/kampagnenuebersicht.md`, `systems/toolkit-gpt-spielleiter.md` |
 | ✅ | #9 | #16 | Debrief-Linter | Lint-Skript `tools/lint_debrief_trace.py` prüft Chronopolis/Foreshadow/Offline/Flags und läuft im Smoke-Test | QA, Tooling | `tools/lint_debrief_trace.py`, `scripts/smoke.sh`, `internal/qa/logs/2025-beta-qa-log.md` |
@@ -575,11 +575,7 @@ finalen Bestätigung bleiben Einträge auf 🔄 offen.
 
 ### Nächste Schritte für offene QA-Follow-ups (Stand: 2025-06-16)
 
-- **QA-Follow-up #6 – Fraktionsinterventionen auditieren (Issue #3):** Drei
-  Missionsprotokolle (Core, Rift, Koop) mit aktiviertem Arc-Dashboard
-  durchführen, Seeds/Fraktionen im HUD festhalten und die Auszüge im
-  QA-Log 2025-06-13 ergänzen. Toolkit-Befehl `!dashboard status` als Pflicht-
-  Evidenz aufnehmen.
+- **QA-Follow-up #6 – Fraktionsinterventionen auditieren (Issue #3):** ✅ Abgeschlossen am 2025-06-24. `!dashboard status` exportiert Seeds, Fraktionsmeldungen und offene Fragen; drei Missionsprotokolle referenzieren den Textauszug im QA-Log (Arc-Dashboard Evidenzblock).
 - **QA-Follow-up #7 – Rift-Gate QA-Szenarien (Issue #10):** Mission 5 und
   Mission 10 erneut über den Acceptance-Smoke-Flow ausführen, `ForeshadowHint()`
   sowie den HUD-Badge-Reset dokumentieren. Ergebnisse im QA-Log unter einem
