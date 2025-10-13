@@ -263,7 +263,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    Plattformen erhalten denselben Stand ohne eigenständige QA-Schleifen.
 2. In jeder Session Save/Load prüfen: `saveGame({...})` ausgeben lassen, lokal
    sichern, neuen Chat öffnen und den Reimport testen.
-3. Accessibility-Dialoge (HUD-Erklärung, Sofa-Modus, Offline-Hinweise) und
+3. Accessibility-Dialoge (HUD-Erklärung, Offline-Hinweise) und
    HQ-Briefing-Schleifen abgleichen.
 4. Acceptance-Smoke-Checklist aus `docs/qa/tester-playtest-briefing.md`
    ergänzen und Abweichungen festhalten. Smoketests laufen bei jedem Merge
