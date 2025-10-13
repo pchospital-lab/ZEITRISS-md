@@ -145,7 +145,7 @@ Copy-&-Paste-Auftrag für den GPT
 4. Manueller Save/Load-Test: `saveGame({...})` anfordern, lokal sichern, neuen Chat starten und den
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
    rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
-5. Verifizieren, dass der GPT-Output HUD-Presets, Sofa-Modus, Offline-Optionen (`!offline` –
+5. Verifizieren, dass der GPT-Output HUD-Presets, Offline-Optionen (`!offline` –
    Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten),
    Paradoxon-Index-Hinweise und Ask→Suggest-Toggle erklärt. Achte zudem darauf, dass der GPT im
    selben Durchlauf den **Mission 5 Badge-Check** simuliert, den HUD-/Log-Auszug in den Evidenzen
