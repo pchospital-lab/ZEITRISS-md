@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.4.0
+version: 1.5.0
 tags: [meta]
 ---
 
@@ -69,6 +69,7 @@ Die aktuelle Beschreibung liegt zusätzlich in
 | 2025-06-18  | Compliance-Abgleich            | `runtime.js` 4.2.2; README §§Runtime-Flags & Offline-Protokoll |
 | 2025-06-19  | Pre-City-Hub Dokumentation     | README §ITI-HQ & Chronopolis; QA-Log 2025-06-19 |
 | 2025-06-22  | Fahrplan-/QA-Log-Synchronität | QA-Log 2025-06-22 |
+| 2025-07-05  | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
@@ -109,6 +110,32 @@ QA-Audit und im Beta-QA-Log.
 | #14   | Suspend-Snapshot           | ✅ abgeschlossen | Toolkit; QA-Log 2025-06-22 |
 | #15   | PSI-Arena-Regeln           | ✅ abgeschlossen | `runtime.js`; QA-Log 2025-06-27 |
 | #16   | Markt-Log                  | ✅ abgeschlossen | README; Modul 15; QA-Log 2025-06-28 |
+
+## Maßnahmenpaket Beta-GPT 2025-07 (Issues #1–#15)
+
+Der Beta-GPT-Lauf vom 2025-07-05 lieferte neue Findings rund um Save-Versionen,
+Foreshadow-Darstellung, Arena-/Comms-Makros und Acceptance-Checks. Die folgende
+Tabelle dokumentiert den offenen Maßnahmenblock. Detailnotizen: QA-Log
+2025-07-05 sowie [Rohprotokoll des Beta-GPT-Laufs](../logs/2025-07-05-beta-gpt-delta.md)
+und das ergänzende Chatprotokoll (Maintainer:innen-Archiv).
+
+| Issue | Thema                                              | Status       | Primärreferenzen |
+| ----- | -------------------------------------------------- | ------------ | ---------------- |
+| #1    | Save-Version 5→6 Angleichen (Serializer, Migration) | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
+| #2    | Foreshadow Gate vs. Season Total trennen            | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 16 |
+| #3    | `scene_overlay()`/`!boss status` Schnittstellen     | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 16 |
+| #4    | `SF-OFF`-Badge Preconditions dokumentieren          | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 12 |
+| #5    | `arenaStart(options)` Makro + HUD-Toast             | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 19 |
+| #6    | `comms_check()` Funktionsspec                       | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 11 |
+| #7    | Save-Dedupe `team.members`→`party.characters`       | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
+| #8    | Doppelte `logs.fr_interventions[]`-Zeile entfernen  | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
+| #9    | Acceptance 12 Reihenfolge Boss-Toast vs. Badge      | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 12 |
+| #10   | Wallet-Init Solo→Koop                               | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
+| #11   | Accessibility-/Offline-Checks in Acceptance-Smoke   | 🟡 offen     | QA-Log 2025-07-05; README Smoke-Test |
+| #12   | README „Spiel laden“ mit Speicher-Modul syncen      | 🟡 offen     | QA-Log 2025-07-05; README Kapitel „Spiel laden“ |
+| #13   | Foreshadow-Reset Evidenz (HUD + QA-Log) präzisieren | 🟡 offen     | QA-Log 2025-07-05; README Mission 5 Badge |
+| #14   | Arena-Save-Guard als Acceptance-Schritt             | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 15 |
+| #15   | City/Chronopolis Acceptance-Smoke                   | 🟡 offen     | QA-Log 2025-07-05; README Chronopolis |
 
 ## Regressionstest-Termine 2025
 

@@ -1,10 +1,42 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.2.0
+version: 0.3.0
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-07-05 – Tester: Beta-GPT – Schema-, HUD- und Arena-Deltas
+- Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
+- Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-06-30, QA-Fahrplan 1.4.0
+- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#15) für Save-Versionierung, Foreshadow-Status, Arena-/Comms-Makros und Acceptance-Texte in Fahrplan & Audit spiegeln.
+- Rohdaten: [Beta-GPT Lauf 2025-07-05 – Rohprotokoll](2025-07-05-beta-gpt-delta.md)
+
+**Befunde (Kurzfassung)**
+1. Save-Version driftet zwischen Beispiel (`save_version: 6`) und Serializer/Migration (`5`).
+2. Foreshadow-Zähler Gate (2/2) vs. Season Total (4) uneinheitlich dargestellt.
+3. Makro `scene_overlay()` sowie `!boss status` fehlen als formale Schnittstellenbeschreibung.
+4. Acceptance 12 verlangt `SF-OFF`-Badge ohne klaren Vorbereitungs-Schritt oder Auto-Toggle.
+5. `arenaStart(options)` in Toolkit/Doku nicht definiert; Phase-Strike-Toast hängt an Psi-Modul.
+6. `comms_check(device, range)` ohne Funktionsspezifikation trotz Pflichtreferenz.
+7. Doppelstruktur `team.members[]` vs. `party.characters[]` erzeugt Save-Konflikte.
+8. Doppelte Dokumentationszeile zu `logs.fr_interventions[]` im Speicher-Modul.
+9. Acceptance 12 koppelt Boss-DR-Toast und `SF-OFF`-Badge ohne Reihenfolge.
+10. Cross-Mode-Saves (Solo→Koop) initialisieren Wallets nicht eindeutig.
+11. Accessibility-/Offline-Checks fehlen im Acceptance-Smoke.
+12. README „Spiel laden“ widerspricht Speicher-Modul (kein Einstiegsauswahl-Dialog).
+13. Foreshadow-Reset benötigt doppelte Evidenz (HUD + QA-Log) mit einheitlicher Quelle.
+14. Arena-Save-Guard nicht als Acceptance-Schritt dokumentiert.
+15. City/Chronopolis-Module haben keinen dedizierten Acceptance-Smoke-Test.
+
+**To-dos**
+- [ ] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen.
+- [ ] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan + README/Toolkit).
+- [ ] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-Smokes) nach Umsetzung.
+
+**Nachverfolgung**
+- Fahrplan-Version 1.5.0 führt Issues #1–#15 als offen geplante Maßnahmen mit QA-Verantwortlichkeiten.
+- Audit-Update offen (wartet auf Codex-Umsetzung und Maintainer:innen-Abgleich).
 
 ## 2025-06-29 – Repo-Agent – Save-Pflichtfelder Mirror
 - Plattform: Lokale CI-Simulation
