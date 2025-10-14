@@ -6,6 +6,36 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-07-18 – Tester: Beta-GPT – Save/HUD/Compliance Regression
+- Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
+- Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-07-10, QA-Fahrplan 1.5.0
+- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#12) für Exfil-SaveGuard, HUD-Badges, Persistenz-Flags und Dispatcher-Hinweise in Fahrplan & Audit spiegeln.
+- Rohdaten: [Beta-GPT Lauf 2025-07-18 – Rohprotokoll](2025-07-18-beta-gpt-delta.md)
+
+**Befunde (Kurzfassung)**
+1. Exfil-Rücksprung setzt `campaign.exfil.active` nicht zuverlässig zurück; HQ-DeepSave blockiert.
+2. Mission 5 HUD zeigt nach Start nur `FS 0/4` ohne Gate-Bestätigung (`Foreshadow 2/2`).
+3. `SF-OFF`-Badge fehlt sporadisch wegen fehlendem Persistenz-Flag für `!sf off`.
+4. Solo→Koop-Import legt Wallets erst nach Debrief an; HUD-Shortcuts laufen ins Leere.
+5. Arena-Phase-Strike-Steuer wird nicht in `logs.psi[]` persistiert.
+6. Compliance-Hinweis wird nach `!load` mehrfach gezeigt (Mirror `campaign` ↔ `logs.flags`).
+7. `logs.offline[]` überschreitet FIFO-Limit 12 bei wiederholtem `!offline`.
+8. Boss-Gate-Badge fehlt im HUD trotz aktivem Gate.
+9. Start-Dispatcher erinnert nicht konsistent an `!radio clear`/`!alias clear` vor Einsatz.
+10. `px_tracker(temp)` ETA-Kommunikation divergiert zwischen HUD und README.
+11. Heist/Street-Tags normalisieren `DelayConflict` nicht zuverlässig (`tags_source` Parsing).
+12. Semver-Mismatch-Text unterscheidet sich zwischen README und Toolkit.
+
+**To-dos**
+- [ ] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-07-18“ mit Issues #1–#12 anlegen, Status initial offen lassen.
+- [ ] Audit: Befundliste übernehmen und Referenzen (HUD/Saves/Dispatcher) verknüpfen.
+- [ ] QA-Referenzen: Maintainer:innen erstellen Evidenz (Screenshots, Logs) nach Umsetzung.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.6.0 führt neuen Maßnahmenblock und verweist auf Rohprotokoll.
+- Audit-Update offen (wartet auf Codex-Umsetzung und Maintainer:innen-Abgleich).
+- README/Toolkit-Sync für Gate-/Badge-/Compliance-Themen steht aus.
+
 ## 2025-07-10 – Repo-Agent – Beta-GPT 2025-07 Maßnahmen umgesetzt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-07-10, QA-Fahrplan 1.5.0
