@@ -6,6 +6,36 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-07-10 – Repo-Agent – Beta-GPT 2025-07 Maßnahmen umgesetzt
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-07-10, QA-Fahrplan 1.5.0
+- Copy-&-Paste-Auftrag: QA-Fahrplan 2025-07 Maßnahmenblock (#1–#15) vollständig schließen; Wissensmodule & README spiegeln.
+
+```chatlog
+09:12 Repo-Agent: `make lint`
+10:04 Repo-Agent: `make test`
+11:18 Repo-Agent: `bash scripts/smoke.sh`
+11:42 Repo-Agent: `python3 tools/lint_runtime.py`
+11:46 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+11:49 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:51 Repo-Agent: `PYTHONPATH=. python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Save-Version & Migration: Serializer/Migrationsleitfaden in `systems/gameflow/speicher-fortsetzung.md` auf `save_version: 6`
+  angehoben, README-Spiegel ergänzt.
+- [x] Foreshadow-Gate & Saisonstand: README & Toolkit unterscheiden Gate (2/2) und Saison (4/4) inkl. `scene_overlay()`/`!boss status`-Spec.
+- [x] Acceptance 12 (`SF-OFF`, Boss-Toast, Foreshadow-Reset) samt QA-Doppelbelegen dokumentiert; LINT-Anchor `FS_RESET_OK`
+  verankert und freigegeben.
+- [x] Arena-Start, SaveGuard & Koop-Wallet-Initialisierung in README/Systems beschrieben; Acceptance-Smoke um Accessibility/Offline
+  sowie Chronopolis-Smoke ergänzt.
+- [x] QA-Fahrplan Maßnahmenpaket 2025-07 auf ✅ gesetzt; README, Toolkit, doc.md und `.lint/anchors.allow` synchronisiert.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.5.0 spiegelt Abschluss aller Beta-GPT-2025-07-Issues inkl. Referenzen.
+- README & Systems liefern aktualisierte Laufzeitspiegel; `.lint/anchors.allow` enthält `LINT:FS_RESET_OK`.
+- Audit-Update steht noch aus (Maintainer:innen-Bestätigung).
+
 ## 2025-07-05 – Tester: Beta-GPT – Schema-, HUD- und Arena-Deltas
 - Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-06-30, QA-Fahrplan 1.4.0

@@ -110,6 +110,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 
 - Nach `Spiel laden` folgt eine kurze Rückblende; danach HQ oder direkt Briefing, keine Frage nach Einstiegstyp.
 - HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
+{# LINT:FS_RESET_OK #}
 - Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 - Logs halten `logs.flags.runtime_version` vor, damit klar ist, mit welcher Laufzeitversion der Save erstellt wurde. Der Debrief fasst den Persistenzstatus in `Runtime-Flags: …` zusammen (Runtime-Version, Compliance-Check, Chronopolis-Warnung sowie Offline-Hilfe-Zähler und letzter Timestamp).
@@ -117,7 +118,6 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; der Debrief rendert daraus `Chronopolis-Trace (n×): …` inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz/Quelle der jüngsten Einkäufe.
 - `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; der Debrief nutzt `Offline-Protokoll (n×): …` als Feldprotokoll-Zusammenfassung.
 - `logs.foreshadow[]` wird dedupliziert und hält Tag, Kurztext, Szene sowie First/Last-Seen. `Foreshadow-Log (n×): …` im Debrief listet die jüngsten Hinweise, damit QA Foreshadow-Gates nachvollziehen kann.
-- `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status.
 - `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status. QA ruft `!dashboard status` auf, um Seeds, Fraktionsmeldungen und offene Fragen direkt aus dem Dashboard zu exportieren – der Textbericht dient als Evidenz im QA-Log.
 - `logs.alias_trace[]` dokumentiert Alias-Läufe mit Persona, Cover, Status, Szene, Mission und optionaler Notiz. `!alias log Persona|Cover|Status|Notiz` (oder Key-Value-Varianten wie `mission=M5|scene=3`) legt Einträge an, der Debrief fasst sie als `Alias-Trace (n×): …` für QA-Abgleiche zusammen.
 - `logs.squad_radio[]` hält Funkmeldungen mit Sprecher, Kanal, Nachricht, Status sowie optional Szene/Ort fest. `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` speichert Ereignisse, der Debrief liefert die Zusammenfassung `Squad-Radio (n×): …` für Persistenzprüfungen.
@@ -128,10 +128,11 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Belohnungen**-Block und direkt danach die Koop-Auszahlung.
 
 1. **Standardaufteilung:** Sind mehrere Agenten aktiv und es liegt kein spezielles Split-Schema vor, teilt der GPT die Auszahlung gleichmäßig auf `economy.wallets{}` auf. Die Zeile `Wallet-Split (n×): …` nennt jede Person mit Callsign und Gutschrift, z. B. `Wallet-Split (3×): Ghost +200 CU | Nova +200 CU | Wrench +200 CU`.
-2. **HQ-Pool aktualisieren:** Anschließend folgt `HQ-Pool: <Betrag> CU verfügbar`. Der Betrag entspricht `economy.cu` nach dem Split. Ein Rest aus Sonderaufteilungen wird in Klammern angezeigt (`Rest 150 CU im HQ-Pool`).
-3. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt QA/SL im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
-4. **Dialogführung:** Im Rollenspiel kündigt Kodex die Standardaufteilung an und bietet Alternativen an: _„Standardaufteilung: je 200 CU. Möchtet ihr eine andere Verteilung? Vorschlag: Nova +100 CU extra für den Artefakt-Fund.“_ Entscheidungen und Sonderfälle dokumentiert der GPT in den Debrief-Notizen oder im QA-Log.
-5. **Persistenz:** Wallets werden beim Speichern als `economy.wallets` festgeschrieben. Die IDs referenzieren die Charaktere aus `party.characters[]`; falls ein Charakter nur einen Namen besitzt, erzeugt der GPT einen slug (`agent-nova`). Änderungen an Callsigns passen die Wallet-Namen automatisch an, ohne die Balance zu verlieren.
+2. **Solo→Koop-Umstieg:** Wechselt eine Kampagne von Solo auf Koop, initialisiert GPT vor der nächsten Auszahlung für jede Figur in `party.characters[]` einen Wallet-Eintrag (`{balance: 0, name}`) und verschiebt vorhandene Solo-Ersparnisse als `economy.cu` in den HQ-Pool. Es entsteht kein zweites Wallet-Schema.
+3. **HQ-Pool aktualisieren:** Anschließend folgt `HQ-Pool: <Betrag> CU verfügbar`. Der Betrag entspricht `economy.cu` nach dem Split. Ein Rest aus Sonderaufteilungen wird in Klammern angezeigt (`Rest 150 CU im HQ-Pool`).
+4. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt QA/SL im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
+5. **Dialogführung:** Im Rollenspiel kündigt Kodex die Standardaufteilung an und bietet Alternativen an: _„Standardaufteilung: je 200 CU. Möchtet ihr eine andere Verteilung? Vorschlag: Nova +100 CU extra für den Artefakt-Fund.“_ Entscheidungen und Sonderfälle dokumentiert der GPT in den Debrief-Notizen oder im QA-Log.
+6. **Persistenz:** Wallets werden beim Speichern als `economy.wallets` festgeschrieben. Die IDs referenzieren die Charaktere aus `party.characters[]`; falls ein Charakter nur einen Namen besitzt, erzeugt der GPT einen slug (`agent-nova`). Änderungen an Callsigns passen die Wallet-Namen automatisch an, ohne die Balance zu verlieren.
 
 > **Hinweis:** Wallet-Splits gehören zum narrativen Ablauf. Auch ohne lokale Runtime muss der GPT die Schritte manuell beschreiben und die Werte in den Save-Block übertragen. Der HQ-Pool bleibt immer sichtbar, damit Koop-Teams bei mehreren Missionen nachvollziehen können, wie viele CU im gemeinsamen Konto verbleiben.
 
@@ -311,7 +312,7 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 ```json
 {
   "zr_version": "4.2.2",
-  "save_version": 5,
+  "save_version": 6,
   "location": "HQ",
   "phase": "core",
   "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
@@ -372,7 +373,10 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
   `npc_team[]`) werden beim Laden automatisch nach `party.characters[]` gespiegelt. Doppelte Einträge
   erkennt `load_deep()` anhand von IDs, Callsigns oder Namen und entfernt sie.
 - Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach `team.members[]`, um
-  Kompatibilität mit älteren Tools zu bewahren – ohne voneinander abweichende Arrays.
+  Kompatibilität mit älteren Tools zu bewahren – ohne voneinander abweichende Arrays. `team.members[]`
+  ist somit immer eine 1:1-Kopie des kanonischen `party.characters[]`. GPT ergänzt neue Koop-Mitglieder
+  ausschließlich im `party`-Block; `team.members[]` wird nur vom Serializer gespiegelt, damit Saves
+  aus Solo- und Koop-Läufen keine widersprüchlichen Listen mehr besitzen.
 
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
@@ -454,7 +458,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 function select_state_for_save(state) {
   return {
     zr_version: "4.2.2",
-    save_version: 5,
+    save_version: 6,
     created_at: new Date().toISOString(),
     location: state.location,
     phase: state.phase,
@@ -506,6 +510,11 @@ function migrate_save(data) {
     delete character.heat;
     delete character.heat_max;
     data.save_version = 5;
+  }
+  if (data.save_version === 5) {
+    data.ui ||= { gm_style: "verbose" };
+    data.ui.intro_seen = !!data.ui.intro_seen;
+    data.save_version = 6;
   }
   return data;
 }
