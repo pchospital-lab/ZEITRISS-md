@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.5.0
+version: 1.6.0
 tags: [meta]
 ---
 
@@ -70,6 +70,7 @@ Die aktuelle Beschreibung liegt zusätzlich in
 | 2025-06-19  | Pre-City-Hub Dokumentation     | README §ITI-HQ & Chronopolis; QA-Log 2025-06-19 |
 | 2025-06-22  | Fahrplan-/QA-Log-Synchronität | QA-Log 2025-06-22 |
 | 2025-07-05  | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
+| 2025-07-18  | Beta-GPT Regression Save/HUD/Compliance | QA-Log 2025-07-18 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
@@ -136,6 +137,28 @@ und das ergänzende Chatprotokoll (Maintainer:innen-Archiv).
 | #13   | Foreshadow-Reset Evidenz (HUD + QA-Log) präzisieren | ✅ abgeschlossen | README QA-Checks 2025-06-27; Toolkit Schnittstellen |
 | #14   | Arena-Save-Guard als Acceptance-Schritt             | ✅ abgeschlossen | README Runtime-Helper & QA-Checks |
 | #15   | City/Chronopolis Acceptance-Smoke                   | ✅ abgeschlossen | README QA-Checks 2025-06-27 |
+
+## Maßnahmenpaket Beta-GPT 2025-07-18 (Issues #1–#12)
+
+Der Beta-GPT-Lauf vom 2025-07-18 offenbart neue Regressionen rund um Save-Guards,
+HUD-Badges, Persistenz-Flags und Dispatcher-Hinweise. Die Tabelle listet alle
+offenen Maßnahmen auf. Detailnotizen stehen im QA-Log 2025-07-18 sowie im
+[Rohprotokoll des Beta-GPT-Laufs](../logs/2025-07-18-beta-gpt-delta.md).
+
+| Issue | Thema                                              | Status     | Primärreferenzen |
+| ----- | -------------------------------------------------- | ---------- | ---------------- |
+| #1    | Exfil-SaveGuard & `campaign.exfil.active` Reset    | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #2    | Mission 5 HUD Gate-Badge (FS 2/2 · Saison 0/4)     | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #3    | `SF-OFF` Persistenzflag & Overlay-Kopplung         | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #4    | Solo→Koop Wallet-Initialisierung vor Debrief       | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #5    | Arena `phase_strike_tax` Persistenz in `logs.psi[]`| 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #6    | Compliance-Flag Mirror Runtime↔Campaign            | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #7    | FIFO-Deckel `logs.offline[]`                       | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #8    | Boss-Gate Badge `GATE` in `scene_overlay()`        | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #9    | Dispatcher-Hinweis `!radio clear`/`!alias clear`   | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #10   | `px_tracker()` ETA-Heuristik & README-Kommunikation| 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #11   | Heist/Street Tag-Normalisierung für Konflikt-Delay | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #12   | Semver-Mismatch-Fehlertext vereinheitlichen        | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
 
 ## Regressionstest-Termine 2025
 
