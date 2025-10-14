@@ -251,9 +251,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 ### QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
 
-- **Foreshadow-Gate Mission 5/10:** Nutzt `ForeshadowHint(text, tag)` zweimal pro Gate, bis `!boss status` `Foreshadow 2/2`
-  meldet. Vor `StartMission()` das HUD-Log notieren; nach dem Start muss `scene_overlay()` `FS 0/2` ausgeben und `!boss status`
-  den Reset bestätigen. QA-Log 2025-06-27 führt die Evidenz.
+- **Foreshadow-Gate Mission 5/10:** Nutzt `ForeshadowHint(text, tag)` zweimal pro Gate, bis das HUD `Foreshadow 2/2` meldet.
+  Vor `StartMission()` das HUD-Log notieren; nach dem Start muss `scene_overlay()` `FS 0/4` (Core) bzw. `FS 0/2` (Rift) ausgeben
+  und `!boss status` `Foreshadow 0/4` bzw. `0/2` melden. QA-Log 2025-06-27 führt die Evidenz.
+  {# LINT:FS_RESET_OK #}
 - **Boss-Toast:** Die Foreshadow-Hinweise erscheinen im HUD-Log mit Tag `Foreshadow`. Referenziert diese Zeilen explizit im QA-Log
   (Acceptance-Smoke-Position 12).
 - **Ask→Suggest Wechsel:** `modus suggest` erzeugt den Toast `SUG-ON` und fügt dem Overlay `· SUG` hinzu, `modus ask` liefert
@@ -264,6 +265,17 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Toast „Arena: Phase-Strike …“. Acceptance-Smoke-Position 15 verweist auf diese Zeilen.
 - **Automatisiertes Skript:** `tools/test_acceptance_followups.js` repliziert alle Checks (Foreshadow-Reset, Suggest-Toggle,
   Vehikel-Overlay-Hinweis & Arena-Toast) für lokale QA-Läufe.
+
+#### Schnittstellen (Foreshadow & Arena)
+
+- **`scene_overlay(total?, pressure?, env?)`** – Rendert das HUD-Banner `EP·MS·SC` inklusive Missionsziel,
+  Px/SYS/Lvl, Exfil-Status und `FS count/required`. Nach `StartMission()` wird `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
+  erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde.
+- **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4 Hinweise, Rift = 2) und dient als Saison-Indikator.
+  QA notiert Gate-Evidenz (`Foreshadow 2/2` im HUD) und den Saisonstand (`Foreshadow 0/4` nach dem Reset).
+- **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize` (1–6) und `mode` (`single`/`squad` …).
+  Zieht die Arena-Gebühr aus `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`, markiert die Arena als aktiv,
+  aktiviert SaveGuards (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr, Szenario und Px-Status aus.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -1366,7 +1378,11 @@ total=None, role="", env=None) -%}
 {%- endmacro %}
 
 #### comms_check {#comms-check}
-*(Makro-Beschreibung bleibt, Linkziel für Querverweise hinzugefügt.)*
+Validiert Funkhardware und Reichweite. Erwartet `device` (`Comlink`, `Kabel`,
+`Relais`, `JammerOverride`), Reichweite in Kilometern sowie optionale Flags für
+Jammer/Relais. Rückgabe `true`, wenn Reichweite × Reichweitenmodifikator > 0 ist
+und ein Jammer nur mit Kabel/Relais/Override umgangen wird. `must_comms()` nutzt
+dieses Ergebnis und löst bei Fehlern den Offline-Hinweis aus.
 
 {% macro comms_check(device, range_km=0, jammer=false, relays=false) -%}
   {% set ok_device = device in ['Comlink','Kabel','Relais','JammerOverride'] %}
