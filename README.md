@@ -51,7 +51,6 @@ tags: [meta]
     1. [Zeiteinheiten](#zeiteinheiten)
     1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
 1. [Playtest Feedback](#playtest-feedback)
-1. [QA-Artefakte & Nachverfolgung](#qa-artefakte--nachverfolgung)
 1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
 
 <!-- Macro: StoreCompliance -->
@@ -420,34 +419,19 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
 - `!px` – zeigt aktuellen Paradoxon-Stand.
 - `!fr help` – zeigt den aktuellen FR-Status.
-- `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als QA-Report zusammen.
+- `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als Report zusammen.
 - `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
-- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2 Hinweise) und dient als QA-Beleg für Gate + Saisonstand.
+- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2 Hinweise) und zeigt Gate-Fortschritt vs. Saisonstand.
 
-### QA-Checks 2025-06-27 – Mission 5 Gate & Arena
+### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
-- **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen (`Foreshadow 2/2` Gate-Evidenz), `!boss status`
-  protokollieren und vor Missionsstart das HUD-Log sichern. `StartMission()` leert das HUD-Log und setzt den Zähler im Overlay auf
-  `FS 0/4` (Core) bzw. `FS 0/2` (Rift). QA-Log 2025-06-27 führt die Evidenzzeilen.
-  - **Gate vs. Season Total:** Das Gate verlangt zwei Hinweise pro Boss-Gate (Mission 5 & 10); `!boss status` meldet gleichzeitig
-    den Saisonbedarf (`Foreshadow n/4` im Core, `n/2` im Rift). QA hält deshalb zwei Nachweise fest: HUD-Log `Foreshadow 2/2`
-    vor dem Start und `scene_overlay()`/`!boss status` direkt nach `StartMission()`.
-    {# LINT:FS_RESET_OK #}
-- **Ask→Suggest Wechsel.** `modus suggest`/`modus ask` toggeln den HUD-Toast `SUG-ON`/`SUG-OFF`; das Szene-Overlay zeigt in der
-  Suggest-Phase den Zusatz `· SUG`. QA-Checks dokumentieren beide Toasts und das Overlay (QA-Log 2025-06-27).
-- **Vehikel-Chases.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)` nutzen. Toolkit
-  beschreibt die QA-Schritte und referenziert die Werte im Overlay; QA-Log 2025-06-27 verlinkt die Prüfnotizen.
-- **Phase-Strike Arena.** `arenaStart()` schaltet den Kampagnenmodus auf PvP, setzt `phase_strike_tax = 1` und das HUD loggt den
-  Toast „Arena: Phase-Strike …“ bei `phase_strike_cost()`. Acceptance-Smoke-Position 15 ist im QA-Log 2025-06-27 hinterlegt.
-- **Self-Reflection Guard.** Acceptance-Schritt 12 verlangt `SF-OFF` beim Start von Mission 5. Das Flag wird ausschließlich durch
-  `!sf off` gesetzt; `StartMission()` toggelt es nicht automatisch. QA dokumentiert Toggle-Befehl, Badge im HUD und
-  `scene_overlay()` (`… · SF-OFF`).
-- **Accessibility/Offline Acceptance.** Acceptance-Smoke ergänzt `!help offline`/`offline_help()` sowie Accessibility-Menü-Checks
-  (`/help access`, HUD-Kontrast) als Pflichtschritte (QA-Log 2025-07-05).
-- **Chronopolis Acceptance-Smoketest.** `tools/test_chronopolis_high_tier.js` bildet den City-/Chronopolis-Check ab (Markt-Limits,
-  Px-Trace, Hochstufen-Angebote). QA referenziert das Skript und die Debrief-Zeilen im QA-Log 2025-06-28.
-- **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert alle Checks (Foreshadow-Reset, Suggest-HUD,
-  Vehikel-Overlay-Notizen & Arena-Toast) und dient als Referenzskript für Beta-/MyGPT-Spiegel.
+- **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro Gate, bis das HUD `Foreshadow 2/2` meldet.
+  Nach `StartMission()` setzt `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift);
+  `!boss status` zeigt gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
+- **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
+  `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
+- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
+  setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier, Szenario sowie Px-Status per HUD-Toast.
 
 ## Mini-FAQ
 
@@ -1113,22 +1097,6 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
 Scanne den QR-Code oder besuche
 [www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
-
-## QA-Artefakte & Nachverfolgung {#qa-artefakte--nachverfolgung}
-
-- [QA-Fahrplan 2025](internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking und Verweisen auf Commits.
-- [QA-Audit 2025](internal/qa/audits/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
-- [Beta-QA-Log 2025](internal/qa/logs/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT inklusive Nachverfolgung.
-- [Maintainer-Ops](docs/maintainer-ops.md) – Plattform- und Upload-Checklisten, inklusive QA-spezifischer Routinen.
-
-Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen, Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅ gesetzt; siehe QA-Fahrplan & QA-Log 2025-06-22.
-
-Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit wie Fahrplan nach dem Merge.
-Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt.
-Der Standardprompt aus `docs/qa/tester-playtest-briefing.md` lässt den GPT den gesamten QA-Lauf autonom
-simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-
-Blöcke für Codex.
-Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche Plattformoptimierung.
 
 ## Wie du beitragen kannst
 
