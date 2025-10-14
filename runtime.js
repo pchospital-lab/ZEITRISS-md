@@ -1369,18 +1369,30 @@ function get_wallet_record(id, label){
   return record;
 }
 
+function ensure_psi_buffer_flag(target){
+  if (!target || typeof target !== 'object'){
+    return target;
+  }
+  if (target.psi_buffer === undefined){
+    target.psi_buffer = true;
+  }
+  return target;
+}
+
 function ensure_character(){
   state.character ||= {};
-  if (state.character.self_reflection === undefined){
-    state.character.self_reflection = true;
+  const character = state.character;
+  if (character.self_reflection === undefined){
+    character.self_reflection = true;
   }
-  if (!state.character.rank){
-    state.character.rank = 'Recruit';
+  if (!character.rank){
+    character.rank = 'Recruit';
   }
-  if (!state.character.cooldowns || typeof state.character.cooldowns !== 'object'){
-    state.character.cooldowns = {};
+  if (!character.cooldowns || typeof character.cooldowns !== 'object'){
+    character.cooldowns = {};
   }
-  return state.character;
+  ensure_psi_buffer_flag(character);
+  return character;
 }
 
 function ensure_team(){
@@ -1390,9 +1402,13 @@ function ensure_team(){
   team.psi_heat = Number.isFinite(team.psi_heat) ? team.psi_heat : 0;
   if (typeof team.status !== 'string'){ team.status = 'ready'; }
   if (!team.cooldowns || typeof team.cooldowns !== 'object'){ team.cooldowns = {}; }
+  ensure_psi_buffer_flag(team);
   if (!Array.isArray(team.members)){
     team.members = [];
   }
+  team.members.forEach((member) => {
+    ensure_psi_buffer_flag(member);
+  });
   return team;
 }
 
@@ -1404,6 +1420,9 @@ function ensure_party(){
   } else {
     party.characters = party.characters.filter(entry => entry && typeof entry === 'object');
   }
+  party.characters.forEach((member) => {
+    ensure_psi_buffer_flag(member);
+  });
   return party;
 }
 
@@ -2757,9 +2776,16 @@ function normalize_wallet_instruction(entry, fallbackMember, rosterInfo){
     label = rosterInfo.roster[rosterInfo.indexById.get(id)].label;
   }
   const amount = normalize_cu(payload.amount ?? payload.share ?? payload.value ?? payload.cu ?? payload.payout ?? payload.delta ?? payload.balance);
-  let ratio = asNumber(payload.ratio ?? payload.percent ?? payload.weight ?? payload.share_ratio ?? payload.portion ?? payload.percent_share);
-  if (ratio !== null){
-    ratio = Math.max(0, ratio > 1 ? (ratio > 100 ? ratio / 100 : ratio / 100) : ratio);
+  const weightSource = asNumber(payload.ratio ?? payload.weight ?? payload.share_ratio ?? payload.portion);
+  let ratio = null;
+  if (weightSource !== null){
+    ratio = Math.max(0, weightSource);
+  } else {
+    const percentSource = asNumber(payload.percent ?? payload.percent_share);
+    if (percentSource !== null){
+      const normalizedPercent = percentSource > 1 ? percentSource / 100 : percentSource;
+      ratio = Math.max(0, normalizedPercent);
+    }
   }
   const result = {
     id,
@@ -2980,12 +3006,8 @@ function apply_arena_rules(ctx = state){
   const active = !!arena.active;
   arena.damage_dampener = active && arena.damage_dampener !== false;
   arena.phase_strike_tax = active ? phase_strike_tax(ctx) : 0;
-  if (!active){
-    return arena;
-  }
   const markBuffer = target => {
-    if (!target || typeof target !== 'object'){ return; }
-    target.psi_buffer = true;
+    ensure_psi_buffer_flag(target);
   };
   markBuffer(ensure_character());
   const team = ensure_team();
@@ -2996,6 +3018,9 @@ function apply_arena_rules(ctx = state){
   const party = ensure_party();
   if (Array.isArray(party.characters)){
     party.characters.forEach(member => markBuffer(member));
+  }
+  if (!active){
+    return arena;
   }
   return arena;
 }
@@ -3784,6 +3809,7 @@ function StartMission(){
   foreshadowLog.length = 0;
   ensure_character();
   ensure_team();
+  ensure_party();
   const mission = ensure_mission();
   mission.clock = mission.clock && typeof mission.clock === 'object' ? mission.clock : {};
   mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
@@ -4940,6 +4966,7 @@ module.exports = {
   phase_strike_tax,
   phase_strike_cost,
   apply_arena_rules,
+  apply_wallet_split,
   getArenaFee,
   arenaStart,
   arenaScore,
