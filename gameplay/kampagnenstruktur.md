@@ -1500,7 +1500,9 @@ und nutzt den gekappten Wert für SG-Checks oder erzählerischen Schaden. So
 bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen. Der Runtime-Helper
 `apply_arena_rules()` aktiviert den Dämpfer gemeinsam mit dem verpflichtenden
 `psi_buffer` für alle Teilnehmenden, sobald `arena.active = true` gesetzt ist,
-und synchronisiert `phase_strike_tax` mit dem PvP-Modus.
+und synchronisiert `phase_strike_tax` mit dem PvP-Modus. Außerhalb aktiver Läufe
+füllt der Helper fehlende `psi_buffer`-Flags ebenfalls automatisch auf, sodass
+auch HQ-Szenen den Standard-Kernschutz führen.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das

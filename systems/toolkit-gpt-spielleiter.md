@@ -335,6 +335,7 @@ if not char.get("psi") and not char.get("has_psi"):
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU. Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova, HQ-Pool belassen.“_
   - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`). Der GPT bestätigt die Vorgaben, passt die Wallets an und dokumentiert Abweichungen im QA-Log.
   - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus: Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
+  - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`, `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile; nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0–1 bzw. 0–100 % normiert.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
   Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
@@ -595,6 +596,7 @@ nutzen.
   - `Recap()` abspielen.
   - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
   - **Keine** Nachfrage „klassischer Einstieg/Schnelleinstieg“.
+  - Standard-Flags prüfen: Falls `character.psi_buffer`, `team.psi_buffer` oder `party.characters[].psi_buffer` fehlen, setze sie auf `true`, damit der Grundschutz aktiv bleibt.
 
 **Beispiel:**
 ```pseudo
