@@ -95,6 +95,25 @@ Plattformen sind derzeit nicht vorgesehen.
   auf den passenden QA-Log-Abschnitt dokumentiert. Nur so bleibt nachvollziehbar,
   welche Plattform welchen Stand lädt.
 
+## QA-Artefakte & Nachverfolgung
+
+- [QA-Fahrplan 2025](../internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking
+  und Commit-Verweisen.
+- [QA-Audit 2025](../internal/qa/audits/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
+- [Beta-QA-Log 2025](../internal/qa/logs/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT mit
+  Nachverfolgung.
+- [Tester-Playtest-Briefing](./qa/tester-playtest-briefing.md) – Standardauftrag für Beta-/MyGPT-Läufe inklusive Acceptance-
+  Smoke.
+
+Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen, Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅
+gesetzt; siehe QA-Fahrplan & QA-Log 2025-06-22.
+
+Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit sowie Fahrplan nach dem
+Merge. Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt. Der Standardprompt aus dem Tester-Playtest-Briefing
+lässt den GPT den gesamten QA-Lauf autonom simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
+`Nächste Schritte`-Blöcke für Codex. Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme
+denselben Stand ohne zusätzliche Plattformoptimierung.
+
 ### Solo-Maintainer-Workflow (Stand 2025)
 
 - **Arbeitsaufteilung:** Aktuell betreut eine Person das Projekt. Alle
