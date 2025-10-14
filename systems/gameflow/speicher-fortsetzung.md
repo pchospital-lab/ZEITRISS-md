@@ -130,7 +130,7 @@ Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Bel
 1. **Standardaufteilung:** Sind mehrere Agenten aktiv und es liegt kein spezielles Split-Schema vor, teilt der GPT die Auszahlung gleichmäßig auf `economy.wallets{}` auf. Die Zeile `Wallet-Split (n×): …` nennt jede Person mit Callsign und Gutschrift, z. B. `Wallet-Split (3×): Ghost +200 CU | Nova +200 CU | Wrench +200 CU`.
 2. **Solo→Koop-Umstieg:** Wechselt eine Kampagne von Solo auf Koop, initialisiert GPT vor der nächsten Auszahlung für jede Figur in `party.characters[]` einen Wallet-Eintrag (`{balance: 0, name}`) und verschiebt vorhandene Solo-Ersparnisse als `economy.cu` in den HQ-Pool. Es entsteht kein zweites Wallet-Schema.
 3. **HQ-Pool aktualisieren:** Anschließend folgt `HQ-Pool: <Betrag> CU verfügbar`. Der Betrag entspricht `economy.cu` nach dem Split. Ein Rest aus Sonderaufteilungen wird in Klammern angezeigt (`Rest 150 CU im HQ-Pool`).
-4. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt QA/SL im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
+4. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt QA/SL im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Gewichtsangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben als reine Anteile stehen und werden relativ zueinander verteilt; nur explizite Prozentfelder (`percent`, `percent_share`) erwartet der GPT auf 0–1 bzw. 0–100 % und normiert sie entsprechend. Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
 5. **Dialogführung:** Im Rollenspiel kündigt Kodex die Standardaufteilung an und bietet Alternativen an: _„Standardaufteilung: je 200 CU. Möchtet ihr eine andere Verteilung? Vorschlag: Nova +100 CU extra für den Artefakt-Fund.“_ Entscheidungen und Sonderfälle dokumentiert der GPT in den Debrief-Notizen oder im QA-Log.
 6. **Persistenz:** Wallets werden beim Speichern als `economy.wallets` festgeschrieben. Die IDs referenzieren die Charaktere aus `party.characters[]`; falls ein Charakter nur einen Namen besitzt, erzeugt der GPT einen slug (`agent-nova`). Änderungen an Callsigns passen die Wallet-Namen automatisch an, ohne die Balance zu verlieren.
 
@@ -152,6 +152,7 @@ Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Bel
      ergänzen – niemals überschreiben.
   4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
      Wurzel notiert hatte, landen sie jetzt ebenfalls in `character{}`.
+- Abschließend kontrollierst du die Standard-Flags: **Psi-Puffer** gehören bei allen Agent:innen zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}` oder `party.characters[]`, ergänze `true`.
 - Danach verhält sich der Save wie ein natives v6-Dokument. Guards wie der
   HQ-Serializer, Log-Sanitizer und das Semver-Gate operieren erst auf dieser
   bereinigten Struktur.

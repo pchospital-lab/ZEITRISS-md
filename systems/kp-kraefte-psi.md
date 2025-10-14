@@ -260,6 +260,9 @@ reduziert Phase-Strike-Treffer auf **+0 Schaden**, sofern das Ziel keinen
 eigenen Psi-Fokus besitzt (`target.has_psi === false`). Im PvP sorgt der
 Runtime-Helfer `apply_arena_rules()` dafür, dass alle aktiven Arena-Teilnehmer
 den Puffer erhalten und der Exploding-Dämpfer aktiv bleibt.
+Wenn du Saves manuell kurierst oder Legacy-Daten migrierst, prüfe diese Flags
+und setze fehlende Einträge ebenfalls auf `true`, damit der Schutz erhalten
+bleibt.
 
 ```python
 if target.psi_buffer and not target.has_psi:
