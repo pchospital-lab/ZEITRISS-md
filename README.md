@@ -186,7 +186,7 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) für rein externe Handlung; `!sf on` stellt es zurück und das HUD zeigt `SF-OFF`, solange der Schutz aktiv ist.
+7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) für rein externe Handlung; `!sf on` stellt es zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen.
 8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde; `!tk ready` hebt die Sperre nach dem Cooldown auf.
 9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
@@ -377,6 +377,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `logs.offline`, `logs.kodex`, `logs.alias_trace`, `logs.squad_radio`,
   `logs.flags` sowie `ui` werden vom Serializer garantiert, damit QA alle
   Guards automatisiert prüfen kann.
+- Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
+  landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
+  als boolesches Feld.
 - **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
   Wurzel-Schlüssel wie `sys`, `sys_used`, `stress`, `psi_heat` oder
   `cooldowns` besitzt, legt die Spielleitung beim Laden vorab den Block
@@ -419,19 +422,30 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als QA-Report zusammen.
 - `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
-- `!boss status` – listet Foreshadow-Zähler.
+- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2 Hinweise) und dient als QA-Beleg für Gate + Saisonstand.
 
 ### QA-Checks 2025-06-27 – Mission 5 Gate & Arena
 
-- **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen (`Foreshadow 2/2`), `!boss status`
-  protokollieren und vor Missionsstart das HUD-Log sichern. `StartMission()` leert das HUD-Log und setzt den Zähler auf
-  `Foreshadow 0/2`; QA-Log 2025-06-27 führt die Evidenzzeilen.
+- **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen (`Foreshadow 2/2` Gate-Evidenz), `!boss status`
+  protokollieren und vor Missionsstart das HUD-Log sichern. `StartMission()` leert das HUD-Log und setzt den Zähler im Overlay auf
+  `FS 0/4` (Core) bzw. `FS 0/2` (Rift). QA-Log 2025-06-27 führt die Evidenzzeilen.
+  - **Gate vs. Season Total:** Das Gate verlangt zwei Hinweise pro Boss-Gate (Mission 5 & 10); `!boss status` meldet gleichzeitig
+    den Saisonbedarf (`Foreshadow n/4` im Core, `n/2` im Rift). QA hält deshalb zwei Nachweise fest: HUD-Log `Foreshadow 2/2`
+    vor dem Start und `scene_overlay()`/`!boss status` direkt nach `StartMission()`.
+    {# LINT:FS_RESET_OK #}
 - **Ask→Suggest Wechsel.** `modus suggest`/`modus ask` toggeln den HUD-Toast `SUG-ON`/`SUG-OFF`; das Szene-Overlay zeigt in der
   Suggest-Phase den Zusatz `· SUG`. QA-Checks dokumentieren beide Toasts und das Overlay (QA-Log 2025-06-27).
 - **Vehikel-Chases.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)` nutzen. Toolkit
   beschreibt die QA-Schritte und referenziert die Werte im Overlay; QA-Log 2025-06-27 verlinkt die Prüfnotizen.
 - **Phase-Strike Arena.** `arenaStart()` schaltet den Kampagnenmodus auf PvP, setzt `phase_strike_tax = 1` und das HUD loggt den
   Toast „Arena: Phase-Strike …“ bei `phase_strike_cost()`. Acceptance-Smoke-Position 15 ist im QA-Log 2025-06-27 hinterlegt.
+- **Self-Reflection Guard.** Acceptance-Schritt 12 verlangt `SF-OFF` beim Start von Mission 5. Das Flag wird ausschließlich durch
+  `!sf off` gesetzt; `StartMission()` toggelt es nicht automatisch. QA dokumentiert Toggle-Befehl, Badge im HUD und
+  `scene_overlay()` (`… · SF-OFF`).
+- **Accessibility/Offline Acceptance.** Acceptance-Smoke ergänzt `!help offline`/`offline_help()` sowie Accessibility-Menü-Checks
+  (`/help access`, HUD-Kontrast) als Pflichtschritte (QA-Log 2025-07-05).
+- **Chronopolis Acceptance-Smoketest.** `tools/test_chronopolis_high_tier.js` bildet den City-/Chronopolis-Check ab (Markt-Limits,
+  Px-Trace, Hochstufen-Angebote). QA referenziert das Skript und die Debrief-Zeilen im QA-Log 2025-06-28.
 - **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert alle Checks (Foreshadow-Reset, Suggest-HUD,
   Vehikel-Overlay-Notizen & Arena-Toast) und dient als Referenzskript für Beta-/MyGPT-Spiegel.
 
@@ -454,14 +468,26 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - **DelayConflict(threshold=4, allow=[])** – Verzögert Konfliktszenen bis zur Szene
   `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
   (Minimum: Szene 2). `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
-- **comms_check(device, range)** – Pflicht vor `radio_tx/rx`: validiert Funkgerät,
-  Leitung, Relais/Jammer-Override und Reichweite.
+- **comms_check(device, range_m, jammed?, relays?)** – Pflicht vor `radio_tx/rx`:
+  akzeptiert `device` (`comlink`, `cable`, `relay`, `jammer_override`), eine
+  Reichweite in Metern sowie optionale Flags. Gibt `true` zurück, wenn Reichweite
+  × `state.comms.rangeMod` > 0 ist und bei aktivem Jammer nur Kabel, Relais oder
+  Override genutzt werden. Andernfalls schlägt der Guard fehl und löst `must_comms()`
+  aus.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
+- **scene_overlay(total?, pressure?, env?)** – erzeugt das HUD-Banner `EP·MS·SC`
+  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Nach
+  `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core) sichtbar sein;
+  `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell deaktiviert wurde.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
   Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
 - **ForeshadowHint(text, tag='Foreshadow')** – legt einen Foreshadow-Hinweis samt HUD-Toast an
   und erhöht den Gate-Zähler. Nutzt das Makro für manuelle Andeutungen vor dem Boss.
+- **arenaStart(options)** – schaltet den Kampagnenmodus auf PvP, zieht die
+  Arena-Gebühr aus `economy`, setzt `phase_strike_tax = 1`, aktiviert die
+  SaveGuards (`save_deep` wirft bei aktiver Arena) und meldet Tier, Szenario,
+  Gebühr sowie Px-Status per HUD-Toast.
 
 **Chat-Kurzbefehle**
 
@@ -858,7 +884,7 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
 - **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
-  Rückblick nahtlos weiter.
+  Rückblick nahtlos weiter – ohne Auswahlmenü für `klassisch`/`schnell`.
 
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 {{ StoreCompliance() }}
@@ -937,7 +963,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient QA als Persistenz-Nachweis für Funkprotokolle (S/M/XL-Konflikte).
 - Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …` im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
 - Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs.
-- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
+- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop initialisiert GPT die Wallets mit `balance: 0` pro Figur aus `party.characters[]` und verschiebt alte Solo-Guthaben vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
 
 ## Spielmodi {#spielmodi}
 

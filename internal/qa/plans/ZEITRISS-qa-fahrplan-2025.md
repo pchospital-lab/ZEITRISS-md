@@ -121,21 +121,21 @@ und das ergänzende Chatprotokoll (Maintainer:innen-Archiv).
 
 | Issue | Thema                                              | Status       | Primärreferenzen |
 | ----- | -------------------------------------------------- | ------------ | ---------------- |
-| #1    | Save-Version 5→6 Angleichen (Serializer, Migration) | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
-| #2    | Foreshadow Gate vs. Season Total trennen            | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 16 |
-| #3    | `scene_overlay()`/`!boss status` Schnittstellen     | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 16 |
-| #4    | `SF-OFF`-Badge Preconditions dokumentieren          | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 12 |
-| #5    | `arenaStart(options)` Makro + HUD-Toast             | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 19 |
-| #6    | `comms_check()` Funktionsspec                       | 🟡 offen     | QA-Log 2025-07-05; Toolkit Modul 11 |
-| #7    | Save-Dedupe `team.members`→`party.characters`       | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
-| #8    | Doppelte `logs.fr_interventions[]`-Zeile entfernen  | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
-| #9    | Acceptance 12 Reihenfolge Boss-Toast vs. Badge      | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 12 |
-| #10   | Wallet-Init Solo→Koop                               | 🟡 offen     | QA-Log 2025-07-05; `systems/gameflow/speicher-fortsetzung.md` |
-| #11   | Accessibility-/Offline-Checks in Acceptance-Smoke   | 🟡 offen     | QA-Log 2025-07-05; README Smoke-Test |
-| #12   | README „Spiel laden“ mit Speicher-Modul syncen      | 🟡 offen     | QA-Log 2025-07-05; README Kapitel „Spiel laden“ |
-| #13   | Foreshadow-Reset Evidenz (HUD + QA-Log) präzisieren | 🟡 offen     | QA-Log 2025-07-05; README Mission 5 Badge |
-| #14   | Arena-Save-Guard als Acceptance-Schritt             | 🟡 offen     | QA-Log 2025-07-05; README Acceptance 15 |
-| #15   | City/Chronopolis Acceptance-Smoke                   | 🟡 offen     | QA-Log 2025-07-05; README Chronopolis |
+| #1    | Save-Version 5→6 Angleichen (Serializer, Migration) | ✅ abgeschlossen | README; `systems/gameflow/speicher-fortsetzung.md` |
+| #2    | Foreshadow Gate vs. Season Total trennen            | ✅ abgeschlossen | README QA-Checks 2025-06-27; Toolkit Modul 16 |
+| #3    | `scene_overlay()`/`!boss status` Schnittstellen     | ✅ abgeschlossen | README Runtime-Helper; Toolkit Modul 16 |
+| #4    | `SF-OFF`-Badge Preconditions dokumentieren          | ✅ abgeschlossen | README Schnellstart & QA-Checks |
+| #5    | `arenaStart(options)` Makro + HUD-Toast             | ✅ abgeschlossen | README Runtime-Helper; Toolkit Schnittstellen |
+| #6    | `comms_check()` Funktionsspec                       | ✅ abgeschlossen | README Runtime-Helper; `doc.md`; Toolkit Modul 11 |
+| #7    | Save-Dedupe `team.members`→`party.characters`       | ✅ abgeschlossen | `systems/gameflow/speicher-fortsetzung.md` |
+| #8    | Doppelte `logs.fr_interventions[]`-Zeile entfernen  | ✅ abgeschlossen | `systems/gameflow/speicher-fortsetzung.md` |
+| #9    | Acceptance 12 Reihenfolge Boss-Toast vs. Badge      | ✅ abgeschlossen | README QA-Checks 2025-06-27 |
+| #10   | Wallet-Init Solo→Koop                               | ✅ abgeschlossen | README Koop-Ökonomie; `systems/gameflow/speicher-fortsetzung.md` |
+| #11   | Accessibility-/Offline-Checks in Acceptance-Smoke   | ✅ abgeschlossen | README QA-Checks 2025-06-27 |
+| #12   | README „Spiel laden“ mit Speicher-Modul syncen      | ✅ abgeschlossen | README Spielstart; `systems/gameflow/speicher-fortsetzung.md` |
+| #13   | Foreshadow-Reset Evidenz (HUD + QA-Log) präzisieren | ✅ abgeschlossen | README QA-Checks 2025-06-27; Toolkit Schnittstellen |
+| #14   | Arena-Save-Guard als Acceptance-Schritt             | ✅ abgeschlossen | README Runtime-Helper & QA-Checks |
+| #15   | City/Chronopolis Acceptance-Smoke                   | ✅ abgeschlossen | README QA-Checks 2025-06-27 |
 
 ## Regressionstest-Termine 2025
 
