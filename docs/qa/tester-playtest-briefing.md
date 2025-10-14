@@ -168,6 +168,32 @@ Copy-&-Paste-Auftrag für den GPT
    Update für bestehende Audits. Ergebnis wird in Codex übertragen, damit Aufgaben strukturiert
    abgearbeitet werden können.
 
+## QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
+
+- **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen
+  (`Foreshadow 2/2` Gate-Evidenz), HUD-Log vor Missionsstart sichern und `!boss status`
+  nach `StartMission()` notieren. Das Overlay muss auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
+  zurücksetzen, der Befehl meldet parallel den Saisonbedarf (`Foreshadow n/4` bzw. `n/2`).
+  {# LINT:FS_RESET_OK #}
+- **Gate vs. Season Total.** Halte zwei Nachweise fest: HUD-Log `Foreshadow 2/2` vor dem Start
+  sowie `scene_overlay()`/`!boss status` direkt nach `StartMission()`.
+- **Ask→Suggest Wechsel.** `modus suggest` erzeugt den Toast `SUG-ON` und ergänzt das Overlay
+  um `· SUG`; `modus ask` liefert `SUG-OFF`. Dokumentiere beide Meldungen mit Overlay-Zeile.
+- **Vehikel-Chases.** `vehicle_overlay('vehicle', tempo, stress, schaden)` einsetzen und die
+  Werte im QA-Log referenzieren.
+- **Phase-Strike Arena.** `arenaStart()` aktiviert PvP, setzt `phase_strike_tax = 1` und löst
+  den HUD-Toast „Arena: Phase-Strike …“ bei `phase_strike_cost()` aus. Acceptance-Smoke-Position 15
+  verweist auf diese Evidenz.
+- **Self-Reflection Guard.** Acceptance-Schritt 12 verlangt `SF-OFF` beim Start von Mission 5.
+  Das Flag wird ausschließlich durch `!sf off` gesetzt; `scene_overlay()` (`… · SF-OFF`) und HUD-Badge
+  protokollieren.
+- **Accessibility/Offline Acceptance.** Ergänze `!help offline`/`offline_help()` sowie Accessibility-Menü-Checks
+  (`/help access`, HUD-Kontrast) als Pflichtschritte (QA-Log 2025-07-05).
+- **Chronopolis Acceptance-Smoketest.** `tools/test_chronopolis_high_tier.js` bildet Markt-Limits,
+  Px-Trace und Hochstufen-Angebote ab; Debrief-Zeilen im QA-Log 2025-06-28 verlinken.
+- **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert Foreshadow-Reset,
+  Suggest-HUD, Vehikel-Overlay-Notizen und Arena-Toast für Beta-/MyGPT-Spiegel.
+
 ## Template für den Report an die Maintainer:innen
 
 ```text

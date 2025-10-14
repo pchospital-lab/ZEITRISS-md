@@ -249,22 +249,22 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - `!radio log Sprecher|Channel|Meldung|Status` bzw. Key-Value-Varianten schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn zurück.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
 
-### QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
+### Foreshadow, Suggest & Arena (Spielleitfokus)
 
-- **Foreshadow-Gate Mission 5/10:** Nutzt `ForeshadowHint(text, tag)` zweimal pro Gate, bis das HUD `Foreshadow 2/2` meldet.
-  Vor `StartMission()` das HUD-Log notieren; nach dem Start muss `scene_overlay()` `FS 0/4` (Core) bzw. `FS 0/2` (Rift) ausgeben
-  und `!boss status` `Foreshadow 0/4` bzw. `0/2` melden. QA-Log 2025-06-27 führt die Evidenz.
-  {# LINT:FS_RESET_OK #}
-- **Boss-Toast:** Die Foreshadow-Hinweise erscheinen im HUD-Log mit Tag `Foreshadow`. Referenziert diese Zeilen explizit im QA-Log
-  (Acceptance-Smoke-Position 12).
-- **Ask→Suggest Wechsel:** `modus suggest` erzeugt den Toast `SUG-ON` und fügt dem Overlay `· SUG` hinzu, `modus ask` liefert
-  den Gegen-Toast `SUG-OFF`. Notiert beide Meldungen inkl. Overlay-Zeile (QA-Log 2025-06-27).
-- **Vehikel-Overlay:** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)` aufrufen. Tempo,
-  Stress und Schadensstatus dienen QA als Eckdaten; legt sie im QA-Log ab.
-- **Phase-Strike Arena:** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1` und `phase_strike_cost()` loggt den
-  Toast „Arena: Phase-Strike …“. Acceptance-Smoke-Position 15 verweist auf diese Zeilen.
-- **Automatisiertes Skript:** `tools/test_acceptance_followups.js` repliziert alle Checks (Foreshadow-Reset, Suggest-Toggle,
-  Vehikel-Overlay-Hinweis & Arena-Toast) für lokale QA-Läufe.
+- **Foreshadow-Gate Mission 5/10.** Setzt `ForeshadowHint(text, tag)` zweimal pro Gate,
+  bis das HUD `Foreshadow 2/2` meldet. Nach `StartMission()` muss `scene_overlay()`
+  den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen; `!boss status`
+  zeigt parallel den Saisonstand und bestätigt, dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
+- **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.
+  Nutzt sie für dramatische Hinweise, bevor Mission 5/10 startet, und verweist in
+  Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
+- **Ask↔Suggest.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`, Overlay `· SUG`).
+  Wechselt bei Bedarf mit `modus ask` zurück zu klassischem Fragenmodus (`SUG-OFF`).
+- **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
+  einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
+- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
+  und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
+  blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status.
 
 #### Schnittstellen (Foreshadow & Arena)
 

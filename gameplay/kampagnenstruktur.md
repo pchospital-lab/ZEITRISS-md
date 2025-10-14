@@ -1644,18 +1644,7 @@ _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenz
 
 _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 
-### 8 | Dev-Task-Board
-
-| Task                          | Owner     | ETA    |
-| ----------------------------- | --------- | ------ |
-| Static City Map Greybox       | Level Art | 7 Tage |
-| GPT-Stub & RNG-Seed           | Backend   | 5 Tage |
-| Vendor / NPC Scriptables      | Gameplay  | 6 Tage |
-| UI Warn-Popup & Banner        | UX        | 4 Tage |
-| Cutscene Camera Path          | Animator  | 5 Tage |
-| QA Pass (Level 10 unlock flow) | QA        | 3 Tage |
-
-### 9 | Beispiel-Run (Spieler Level 11)
+### 8 | Beispiel-Run (Spieler Level 11)
 
 1. Spieler klickt „Chronopolis betreten“.
 2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
