@@ -22,6 +22,7 @@ const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
+const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
 const SQUAD_RADIO_LOG_LIMIT = 24;
@@ -702,8 +703,30 @@ function ensure_logs(){
   } else {
     flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count));
   }
+  if (typeof flags.self_reflection !== 'boolean'){
+    const charFlag = state.character && typeof state.character.self_reflection === 'boolean'
+      ? state.character.self_reflection
+      : true;
+    flags.self_reflection = charFlag !== false;
+  } else {
+    flags.self_reflection = !!flags.self_reflection;
+  }
+  const gateProgress = Number(flags.foreshadow_gate_progress);
+  flags.foreshadow_gate_progress = Number.isFinite(gateProgress) && gateProgress > 0
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(gateProgress)))
+    : 0;
+  const gateSnapshot = Number(flags.foreshadow_gate_snapshot);
+  flags.foreshadow_gate_snapshot = Number.isFinite(gateSnapshot) && gateSnapshot > 0
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(gateSnapshot)))
+    : 0;
+  flags.foreshadow_gate_expected = !!flags.foreshadow_gate_expected
+    || flags.foreshadow_gate_progress > 0
+    || flags.foreshadow_gate_snapshot > 0;
   if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
+  }
+  if (state.character && typeof state.character === 'object'){
+    state.character.self_reflection = flags.self_reflection;
   }
   return state.logs.hud;
 }
@@ -1383,7 +1406,10 @@ function ensure_character(){
   state.character ||= {};
   const character = state.character;
   if (character.self_reflection === undefined){
-    character.self_reflection = true;
+    const persisted = state.logs?.flags?.self_reflection;
+    character.self_reflection = persisted === false ? false : true;
+  } else if (state.logs?.flags && typeof state.logs.flags.self_reflection === 'boolean'){
+    character.self_reflection = state.logs.flags.self_reflection;
   }
   if (!character.rank){
     character.rank = 'Recruit';
@@ -1670,6 +1696,11 @@ function clear_tk_melee_cooldown(){
 }
 
 function self_reflection_enabled(){
+  ensure_logs();
+  const flags = state.logs.flags;
+  if (typeof flags.self_reflection === 'boolean'){
+    return flags.self_reflection;
+  }
   const character = ensure_character();
   return character.self_reflection !== false;
 }
@@ -1678,6 +1709,7 @@ function set_self_reflection(on){
   const enabled = !!on;
   const character = ensure_character();
   character.self_reflection = enabled;
+  ensure_logs().flags.self_reflection = enabled;
   const statusTag = enabled ? 'SF-ON' : 'SF-OFF';
   const message = enabled
     ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'
@@ -1727,7 +1759,27 @@ function ForeshadowHint(text, tag = 'Foreshadow'){
     .replace(/^_+|_+$/g, '');
   const token = tokenBase ? `manual:${tokenBase}` : `manual:${Date.now()}`;
   register_foreshadow(token, { message: cleaned, tag: normalizedTag });
+  ensure_logs();
+  const flags = state.logs.flags;
+  const current = Number.isFinite(flags.foreshadow_gate_progress)
+    ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
+    : 0;
+  const next = Math.min(FORESHADOW_GATE_REQUIRED, current + 1);
+  flags.foreshadow_gate_progress = next;
+  if (next > 0){
+    flags.foreshadow_gate_expected = true;
+  }
   return hud_toast(`${normalizedTag}: ${cleaned}`, normalizedTag);
+}
+
+function sync_compliance_flags(){
+  ensure_logs();
+  ensure_campaign();
+  const flags = state.logs.flags;
+  const combined = !!(flags.compliance_shown_today || state.campaign?.compliance_shown_today);
+  flags.compliance_shown_today = combined;
+  state.campaign.compliance_shown_today = combined;
+  return combined;
 }
 
 function show_compliance_once(force = false){
@@ -1739,9 +1791,7 @@ function show_compliance_once(force = false){
   }
   writeLine(COMPLIANCE_NOTICE);
   flags.compliance_shown_today = true;
-  if (state.campaign && typeof state.campaign === 'object'){
-    state.campaign.compliance_shown_today = true;
-  }
+  sync_compliance_flags();
   return !alreadyShown || force;
 }
 
@@ -1767,6 +1817,7 @@ function ensure_exfil(){
   exfil.armed = !!exfil.armed;
   if (typeof exfil.anchor !== 'string') exfil.anchor = null;
   if (typeof exfil.alt_anchor !== 'string') exfil.alt_anchor = null;
+  sync_campaign_exfil(exfil);
   return exfil;
 }
 
@@ -1782,6 +1833,7 @@ function exfil_arm(anchor){
   exfil.armed = true;
   const resolved = normalize_anchor(anchor) ?? exfil.anchor ?? '?';
   exfil.anchor = normalize_anchor(resolved) ?? '?';
+  sync_campaign_exfil(exfil);
   const parts = ['Exfil armiert'];
   if (exfil.anchor && exfil.anchor !== '?'){
     parts.push(`ANCR ${exfil.anchor}`);
@@ -1797,6 +1849,7 @@ function exfil_set_alt(anchor){
   const exfil = ensure_exfil();
   const resolved = normalize_anchor(anchor);
   exfil.alt_anchor = resolved;
+  sync_campaign_exfil(exfil);
   const message = resolved ? `Exfil Alt-Anchor → ${resolved}` : 'Exfil Alt-Anchor entfernt';
   hud_toast(message);
   return message;
@@ -1820,6 +1873,7 @@ function exfil_tick(token){
   const { min, sec } = parse_rw_token(token);
   exfil.ttl_min = min;
   exfil.ttl_sec = sec;
+  sync_campaign_exfil(exfil);
   const ttl = ttl_fmt(min, sec);
   const message = `Exfil Tick · RW ${ttl}`;
   hud_toast(message);
@@ -1881,6 +1935,64 @@ function ensure_campaign(){
   } else {
     state.campaign.compliance_shown_today = !!state.campaign.compliance_shown_today;
   }
+  ensure_campaign_exfil();
+}
+
+function ensure_campaign_exfil(){
+  state.campaign ||= {};
+  const campaign = state.campaign;
+  if (!campaign.exfil || typeof campaign.exfil !== 'object'){
+    campaign.exfil = {};
+  }
+  const exfil = campaign.exfil;
+  exfil.active = !!exfil.active;
+  exfil.armed = !!exfil.armed;
+  exfil.hot = !!exfil.hot;
+  exfil.sweeps = Number.isFinite(exfil.sweeps) ? Math.max(0, Math.floor(exfil.sweeps)) : 0;
+  exfil.stress = Number.isFinite(exfil.stress) ? Math.max(0, Math.floor(exfil.stress)) : 0;
+  exfil.anchor = typeof exfil.anchor === 'string' && exfil.anchor.trim() ? exfil.anchor.trim() : null;
+  exfil.alt_anchor = typeof exfil.alt_anchor === 'string' && exfil.alt_anchor.trim() ? exfil.alt_anchor.trim() : null;
+  exfil.ttl = Number.isFinite(exfil.ttl) ? Math.max(0, Number(exfil.ttl)) : 0;
+  if (state.location === 'HQ'){
+    exfil.active = false;
+    exfil.armed = false;
+    exfil.hot = false;
+    exfil.ttl = 0;
+    exfil.sweeps = 0;
+    exfil.stress = 0;
+    exfil.anchor = null;
+    exfil.alt_anchor = null;
+  } else if (state.phase === 'transfer'){
+    exfil.active = false;
+    exfil.armed = false;
+  }
+  return exfil;
+}
+
+function sync_campaign_exfil(source = state.exfil){
+  ensure_campaign();
+  const exfil = ensure_campaign_exfil();
+  if (!source || typeof source !== 'object'){
+    exfil.active = false;
+    exfil.armed = false;
+    exfil.hot = false;
+    exfil.ttl = 0;
+    exfil.sweeps = 0;
+    exfil.stress = 0;
+    exfil.anchor = null;
+    exfil.alt_anchor = null;
+    return exfil;
+  }
+  exfil.active = !!source.active;
+  exfil.armed = !!source.armed;
+  exfil.hot = !!source.hot;
+  exfil.sweeps = Number.isFinite(source.sweeps) ? Math.max(0, Math.floor(source.sweeps)) : 0;
+  exfil.stress = Number.isFinite(source.stress) ? Math.max(0, Math.floor(source.stress)) : 0;
+  exfil.anchor = typeof source.anchor === 'string' && source.anchor.trim() ? source.anchor.trim() : null;
+  exfil.alt_anchor = typeof source.alt_anchor === 'string' && source.alt_anchor.trim() ? source.alt_anchor.trim() : null;
+  const ttlMinutes = Math.max(0, (Number(source.ttl_min) || 0) + (Number(source.ttl_sec) || 0) / 60);
+  exfil.ttl = ttlMinutes;
+  return exfil;
 }
 
 function campaign_mode(ctx = state){
@@ -1925,13 +2037,13 @@ function phase_strike_cost(ctx = state, baseOrOptions = 2, maybeOptions = {}){
   const tax = phase_strike_tax(ctx);
   const total = base + tax;
   const feedback = options.feedback !== false;
-  const logEnabled = options.log !== false;
+  const persist = options.persist !== false;
   if (feedback && tax > 0){
     const customMessage = typeof options.toast_message === 'string' ? options.toast_message.trim() : '';
     const toast = customMessage || `Arena: Phase-Strike belastet +${tax} SYS (Kosten ${total})`;
     hud_toast(toast, 'ARENA');
   }
-  if (logEnabled && tax > 0){
+  if (persist && tax > 0){
     log_phase_strike_event(ctx, { base, tax, total, reason: options.reason });
   }
   return total;
@@ -2007,6 +2119,12 @@ function completeMission(summary = {}){
   } else if (chronoReset === 'mission-cycle'){
     events.push('Kodex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
   }
+  if (state.logs?.flags){
+    state.logs.flags.foreshadow_gate_snapshot = 0;
+    state.logs.flags.foreshadow_gate_progress = 0;
+    state.logs.flags.foreshadow_gate_expected = false;
+  }
+  sync_campaign_exfil(null);
   return {
     events,
     required,
@@ -2030,6 +2148,7 @@ function reset_mission_state(){
   hud.timers = [];
   ensure_team();
   ensure_party();
+  sync_campaign_exfil(null);
 }
 
 function clamp(n, min, max){
@@ -2053,13 +2172,13 @@ function render_px_tracker(temp){
   const progress = clamp(state.campaign?.missions_since_px ?? 0, 0, required);
   const remaining = Math.max(0, required - progress);
   const eta = `${remaining} Mission${remaining === 1 ? '' : 'en'}`;
-  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · ETA +1 in ${eta}`;
+  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · ETA (Heuristik) +1 in ${eta}`;
 }
 
 const px_tracker = render_px_tracker;
 
 function offline_log_entries(){
-  return Array.isArray(state.logs?.offline) ? state.logs.offline : [];
+  return ensure_offline_log();
 }
 
 function offline_audit(trigger='auto', context = {}){
@@ -2963,6 +3082,26 @@ function apply_wallet_split(outcome, cuReward){
   return { lines, payout: totalAssigned, leftover };
 }
 
+function initialize_wallets_from_roster(){
+  ensure_economy();
+  const wallets = wallet_lookup();
+  const { roster } = build_wallet_roster();
+  let created = 0;
+  roster.forEach((entry) => {
+    if (!entry || !entry.id) return;
+    if (!wallets[entry.id]){
+      wallets[entry.id] = { balance: 0, name: entry.label || null };
+      created += 1;
+    } else if (!wallets[entry.id].name && entry.label){
+      wallets[entry.id].name = entry.label;
+    }
+  });
+  if (created > 0){
+    hud_toast(`Wallets initialisiert (${created}×)`, 'HQ');
+  }
+  return created;
+}
+
 function ensure_economy(){
   if (!state.economy || typeof state.economy !== 'object'){
     state.economy = {};
@@ -3803,10 +3942,17 @@ function StartMission(){
   state.phase = 'core';
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0, active: false, armed: false, anchor: null, alt_anchor: null };
+  sync_campaign_exfil(state.exfil);
   const hudLog = ensure_logs();
   hudLog.length = 0;
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
+  const flags = state.logs.flags;
+  const gateProgress = Number.isFinite(flags.foreshadow_gate_progress)
+    ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
+    : 0;
+  flags.foreshadow_gate_snapshot = Math.min(FORESHADOW_GATE_REQUIRED, gateProgress);
+  flags.foreshadow_gate_progress = 0;
   ensure_character();
   ensure_team();
   ensure_party();
@@ -3847,6 +3993,18 @@ function scene_overlay(scene){
     h += ` · FS ${fsCount}/${fsRequired}`;
   } else {
     h += ` · FS ${fsCount}`;
+  }
+  const gateFlags = state.logs?.flags || {};
+  const gateProgressSnapshot = Number(gateFlags.foreshadow_gate_snapshot);
+  const gateProgressLive = Number(gateFlags.foreshadow_gate_progress);
+  const gateProgress = Number.isFinite(gateProgressSnapshot) && gateProgressSnapshot > 0
+    ? gateProgressSnapshot
+    : Number.isFinite(gateProgressLive)
+    ? gateProgressLive
+    : 0;
+  const gateValue = Math.max(0, Math.min(FORESHADOW_GATE_REQUIRED, Math.floor(gateProgress)));
+  if (gateFlags.foreshadow_gate_expected || gateValue > 0){
+    h += ` · GATE ${gateValue}/${FORESHADOW_GATE_REQUIRED}`;
   }
     const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
     const sys = state.character?.attributes?.SYS_max ?? 0;
@@ -3961,6 +4119,17 @@ function prepare_save_campaign(campaign){
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
   base.compliance_shown_today = !!base.compliance_shown_today;
+  const exfilSource = base.exfil && typeof base.exfil === 'object' ? base.exfil : {};
+  base.exfil = {
+    active: !!exfilSource.active,
+    armed: !!exfilSource.armed,
+    hot: !!exfilSource.hot,
+    sweeps: Number.isFinite(exfilSource.sweeps) ? Math.max(0, Math.floor(exfilSource.sweeps)) : 0,
+    stress: Number.isFinite(exfilSource.stress) ? Math.max(0, Math.floor(exfilSource.stress)) : 0,
+    anchor: typeof exfilSource.anchor === 'string' && exfilSource.anchor.trim() ? exfilSource.anchor.trim() : null,
+    alt_anchor: typeof exfilSource.alt_anchor === 'string' && exfilSource.alt_anchor.trim() ? exfilSource.alt_anchor.trim() : null,
+    ttl: Number.isFinite(exfilSource.ttl) ? Math.max(0, Number(exfilSource.ttl)) : 0
+  };
   return base;
 }
 
@@ -4083,6 +4252,18 @@ function prepare_save_logs(logs){
   base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
     ? Math.floor(offlineCount)
     : 0;
+  base.flags.self_reflection = base.flags.self_reflection !== false;
+  const gateProgress = Number(base.flags.foreshadow_gate_progress);
+  base.flags.foreshadow_gate_progress = Number.isFinite(gateProgress) && gateProgress > 0
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(gateProgress)))
+    : 0;
+  const gateSnapshot = Number(base.flags.foreshadow_gate_snapshot);
+  base.flags.foreshadow_gate_snapshot = Number.isFinite(gateSnapshot) && gateSnapshot > 0
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(gateSnapshot)))
+    : 0;
+  base.flags.foreshadow_gate_expected = !!base.flags.foreshadow_gate_expected
+    || base.flags.foreshadow_gate_progress > 0
+    || base.flags.foreshadow_gate_snapshot > 0;
   return base;
 }
 
@@ -4246,6 +4427,9 @@ function save_deep(s=state){
     throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
   }
   if (s.location !== 'HQ') throw new Error('Save denied: HQ-only.');
+  if (s?.exfil?.active || s?.campaign?.exfil?.active){
+    throw new Error('SaveGuard: Exfil aktiv – HQ-Save gesperrt.');
+  }
   const c = s.character || {};
   const a = c.attributes || {};
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
@@ -4410,6 +4594,7 @@ function hydrate_state(data){
     : {};
   ensure_economy();
   ensure_logs();
+  sync_compliance_flags();
   sync_foreshadow_progress();
   ensure_arc_dashboard();
   ensure_initiative();
@@ -4666,15 +4851,21 @@ function startSolo(mode='klassisch'){
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
   state.logs.flags.chronopolis_warn_seen = false;
+  state.logs.flags.self_reflection = true;
+  state.logs.flags.foreshadow_gate_progress = 0;
+  state.logs.flags.foreshadow_gate_snapshot = 0;
+  state.logs.flags.foreshadow_gate_expected = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
   ensure_runtime_flags().skip_entry_choice = false;
+  sync_compliance_flags();
   play_hq_intro();
   return `solo-${mode}`;
 }
 
 function setupNpcTeam(size=0){
   state.team = { size };
+  initialize_wallets_from_roster();
 }
 
 function startGroup(mode='klassisch'){
@@ -4685,9 +4876,15 @@ function startGroup(mode='klassisch'){
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
   state.logs.flags.chronopolis_warn_seen = false;
+  state.logs.flags.self_reflection = true;
+  state.logs.flags.foreshadow_gate_progress = 0;
+  state.logs.flags.foreshadow_gate_snapshot = 0;
+  state.logs.flags.foreshadow_gate_expected = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
   ensure_runtime_flags().skip_entry_choice = false;
+  sync_compliance_flags();
+  initialize_wallets_from_roster();
   play_hq_intro();
   return `gruppe-${mode}`;
 }
@@ -4791,6 +4988,7 @@ function on_command(command){
     if (cmd === '!help start' || cmd === '/help start'){
         return [
           'Startbefehle:',
+          '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, damit Funk- und Alias-Logs frisch sind.',
           '- Spiel starten (solo) [klassisch|schnell]',
           '- Spiel starten (npc-team [0–4]) [klassisch|schnell]',
           '- Spiel starten (gruppe) [klassisch|schnell]',

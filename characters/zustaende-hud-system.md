@@ -58,8 +58,13 @@ Für Funk-Checks nutze `comms_check()`. Vokabeln: siehe
 ### HUD-Header: Modus, Level & Rank {#hud-header}
 Der Standard-Header zeigt:
 `EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
-`· TTL {mm:ss?} · Stress {cur} · Px {px_bar} · Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
+`· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
+`· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
+- `GATE {gate_seen}/2` erscheint in Mission 5/10, sobald zwei Foreshadow-Hinweise gesetzt wurden.
+  Der Wert bleibt im Save (`logs.flags.foreshadow_gate_*`) erhalten und synchronisiert sich beim Laden automatisch.
+- `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
+  zurücksetzt; beim Laden sorgt die Runtime für den Mirror.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies

@@ -6,6 +6,35 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-07-20 – Repo-Agent – Beta-GPT 2025-07-18 Maßnahmen umgesetzt
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit/Characters Stand 2025-07-20, QA-Fahrplan 1.6.1
+- Copy-&-Paste-Auftrag: Beta-GPT 2025-07-18 (#1–#12) final abhaken, Gate-Badge/Psi-Log-Doku spiegeln, Dispatcher-Text angleichen.
+
+**Maßnahmen**
+1. Toolkit (`systems/toolkit-gpt-spielleiter.md`): Tagsplit für `StartMission` (`|`/`,`) vereinheitlicht, Gate-Badge `GATE n/2`
+   dokumentiert und Runtime-Hinweis für `logs.psi[]` ergänzt; Dispatcher-Semver-Fehlertext mit README synchronisiert.
+2. HUD-Modul (`characters/zustaende-hud-system.md`): Header-Spezifikation um `GATE {seen}/2` und Self-Reflection-Persistenz
+   erweitert.
+3. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`): Beta-GPT-Block 2025-07-18 auf ✅ gesetzt, Kurznotizen und
+   Referenzen auf Runtime/Wissensmodule ergänzt.
+4. QA-Log aktualisiert (dieser Eintrag) und auf Pflichttests verwiesen.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+PYTHONPATH=. python3 scripts/lint_umlauts.py
+```
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.6.1 markiert Beta-GPT 2025-07-18 als abgeschlossen; Referenzen auf README/Toolkit/HUD-Modul gesetzt.
+- Wissensmodule spiegeln Runtime-Badges (`GATE`, `SF-OFF`) und Arena-Persistenz (`logs.psi[]`).
+
 ## 2025-07-19 – Repo-Agent – QA-Tooling Sync
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-07-19, QA-Fahrplan 1.6.1
