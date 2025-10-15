@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.6.0
+version: 1.6.1
 tags: [meta]
 ---
 
@@ -86,6 +86,32 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
   Abweichungen werden mit Commit-ID im QA-Log erfasst.
 - **Datenschutz & Plattformen** – Maintainer-Ops, Audit und Fahrplan halten
   Plattformhinweise und Offline-First-Vorgaben synchron.
+
+## Maßnahmen – Formatierung & Tooling
+
+**Ist-Stand 2025-07-19**
+
+- Zeilenlängen- und Formatvorgaben (≤ 100 Zeichen, UTF-8, Absatzabstand) sind in
+  [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#grundregeln) dokumentiert, werden
+  aktuell jedoch nicht durch ein separates Markdownlint-/Prettier-Setup
+  automatisiert.
+- Das Pflicht-Testpaket (`make lint`, `make test`, `bash scripts/smoke.sh` plus
+  Direktaufrufe der Python-Linter) deckt Runtime-, Link- und Terminologie-Checks
+  ab; zusätzliche Node-Abhängigkeiten sind bislang nicht eingebunden.
+- Die lokalen pre-commit-Hooks rufen ausschließlich projektinterne Python-Checks
+  auf und spiegeln keine externen Formatter.
+
+**To-dos**
+
+- [ ] Evaluieren, ob ein schlankes `.markdownlint`-Profil (max 100 Zeichen,
+      Frontmatter-Ausnahmen) den bestehenden QA-Checks ergänzt, ohne
+      widersprüchliche Format-Rewrites zu erzeugen.
+- [ ] Abklären, ob ein optionales `.prettierrc` lediglich Dokumentationsbereiche
+      adressieren soll; Ziel: keine automatischen Rewraps in Runtime-Modulen
+      (`core/`, `systems/`).
+- [ ] Falls zusätzliche Tools eingeführt werden, Makefile-, `package.json`- und
+      pre-commit-Konfigurationen so erweitern, dass das Pflicht-Testpaket stabil
+      bleibt und neue Abhängigkeiten klar dokumentiert werden.
 
 ## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
 
