@@ -6,6 +6,38 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-07-19 – Repo-Agent – QA-Tooling Sync
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-07-19, QA-Fahrplan 1.6.1
+- Copy-&-Paste-Auftrag: Formatierungs- und Tooling-Block aus QA-Fahrplan 2025 (Version 1.6.1)
+  schließen und Audit/Maintainer-Ops spiegeln.
+
+**Maßnahmen**
+1. `.markdownlint.yaml` eingeführt (100-Zeichen-Profil inkl. Frontmatter-Ausnahme) und in
+   das Python-basierte `npm run lint:md` integriert; Makefile & Pre-Commit-Hook rufen
+   QA-Plan, QA-Audit und QA-Index (`internal/qa/README.md`) mit ab.
+2. `.prettierrc.json` ergänzt, beschränkt auf Dokumentationspfade (`docs/`, `internal/`, Root-Markdowns),
+   Runtime-Module bleiben von Auto-Rewraps unberührt.
+3. `package.json`-Skripte für Markdownlint & Prettier dokumentiert, Makefile `make lint` erweitert,
+   Maintainer-Ops/CONTRIBUTING/QA-Fahrplan/Audit synchronisiert.
+
+```chatlog
+10:12 Repo-Agent: npm install (403 Forbidden – Registry block; Markdownlint läuft via Python-Skript)
+10:19 Repo-Agent: npm run lint:md
+10:23 Repo-Agent: make lint
+10:27 Repo-Agent: make test
+10:41 Repo-Agent: bash scripts/smoke.sh
+10:58 Repo-Agent: python3 tools/lint_runtime.py
+11:05 Repo-Agent: GM_STYLE=verbose python3 tools/lint_runtime.py
+11:12 Repo-Agent: python3 scripts/lint_doc_links.py
+11:18 Repo-Agent: python3 scripts/lint_umlauts.py
+```
+
+**Nachverfolgung**
+- QA-Fahrplan: Formatierungs-Block abgehakt (Version 1.6.1).
+- Audit: Abschnitt „Tooling-Abgleich“ ergänzt.
+- Maintainer-Ops/CONTRIBUTING reflektieren `make lint` + Markdownlint.
+
 ## 2025-07-18 – Tester: Beta-GPT – Save/HUD/Compliance Regression
 - Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-07-10, QA-Fahrplan 1.5.0
