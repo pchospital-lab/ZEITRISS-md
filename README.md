@@ -185,7 +185,7 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) für rein externe Handlung; `!sf on` stellt es zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen.
+7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`; `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen.
 8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde; `!tk ready` hebt die Sperre nach dem Cooldown auf.
 9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
@@ -286,7 +286,9 @@ Spiel starten (gruppe schnell)
 11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10,
     HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
 12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`)
-    und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
+    sowie das Gate-Badge `GATE 2/2` ein; `SF-OFF` bleibt als Badge sichtbar,
+    wenn die Self-Reflection zuvor deaktiviert wurde. Der Foreshadow-Zähler
+    startet bei `FS 0/4` und zählt im HUD weiter hoch.
 
 ### Psi-Heat & Ressourcen-Reset
 13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
@@ -359,6 +361,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
 - `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
+- Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf, damit Funk- und Alias-Logs ohne Altlasten starten.
 
 **Fehlertexte:**
 - `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).“
@@ -417,7 +420,7 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
 - `modus verbose` – Filmisch an; Toast `GM_STYLE → verbose (persistiert)`.
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
-- `!px` – zeigt aktuellen Paradoxon-Stand.
+- `!px` – zeigt aktuellen Paradoxon-Stand inklusive ETA (Heuristik) aus `px_tracker()`.
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als Report zusammen.
 - `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
@@ -426,12 +429,13 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 ### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
 - **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro Gate, bis das HUD `Foreshadow 2/2` meldet.
-  Nach `StartMission()` setzt `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift);
-  `!boss status` zeigt gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
+  Nach `StartMission()` setzt `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und zeigt parallel das Badge
+  `GATE n/2` für den Gate-Status; `!boss status` meldet gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
-  setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier, Szenario sowie Px-Status per HUD-Toast.
+  setzt `phase_strike_tax = 1`, blockiert HQ-Saves, loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier,
+  Szenario sowie Px-Status per HUD-Toast.
 
 ## Mini-FAQ
 
@@ -511,6 +515,11 @@ Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Sch
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
+
+Die Runtime spiegelt das Fenster parallel nach `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`.
+Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
+„SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Nach der Rückkehr ins HQ setzt `campaign.exfil`
+alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
 
 ### HUD-Shortcuts für Exfiltration
 
@@ -947,7 +956,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient QA als Persistenz-Nachweis für Funkprotokolle (S/M/XL-Konflikte).
 - Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …` im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
 - Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs.
-- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop initialisiert GPT die Wallets mit `balance: 0` pro Figur aus `party.characters[]` und verschiebt alte Solo-Guthaben vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
+- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
 
 ## Spielmodi {#spielmodi}
 

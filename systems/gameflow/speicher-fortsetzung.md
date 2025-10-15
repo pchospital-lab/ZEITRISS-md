@@ -17,7 +17,7 @@ tags: [system]
 assert state.location == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
 assert state.character.attributes.SYS_used == state.character.attributes.SYS_max
 assert state.character.stress == 0 und state.character.psi_heat == 0
-assert not state.get('timer') und not state.get('exfil_active')
+assert not state.get('timer') und not state.get('exfil_active') und not campaign.exfil.active
 required = [
   "character.id",
   "character.attributes.SYS_max",
@@ -42,6 +42,12 @@ assert serializer_bereit(required)
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt:
+
+`campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
+spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
+oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit
+„SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Sobald die Crew ins HQ
+zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ.

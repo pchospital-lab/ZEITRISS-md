@@ -253,8 +253,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 - **Foreshadow-Gate Mission 5/10.** Setzt `ForeshadowHint(text, tag)` zweimal pro Gate,
   bis das HUD `Foreshadow 2/2` meldet. Nach `StartMission()` muss `scene_overlay()`
-  den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen; `!boss status`
-  zeigt parallel den Saisonstand und bestätigt, dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
+  den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen und zusätzlich das
+  Gate-Badge `GATE n/2` anzeigen; `!boss status` spiegelt den Saisonstand und bestätigt,
+  dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
 - **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.
   Nutzt sie für dramatische Hinweise, bevor Mission 5/10 startet, und verweist in
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
@@ -265,6 +266,15 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
   und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
   blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status.
+
+> **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
+> HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
+> `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime spiegelt ihr den Badge per
+> `hud_tag('GATE ' ~ seen ~ '/2')` manuell, damit HUD und Save denselben Gate-Snapshot behalten.
+
+> **Runtime-Hinweis:** `phase_strike_cost()` loggt in der Node-Runtime jede Phase-Strike-Steuer
+> als Objekt in `logs.psi[]` (`type: 'phase_strike_tax'`, `amount`, `scene`). Die Spielleitung
+> hält dieselben Daten fest, wenn sie den Arena-Flow ohne Runtime-Stubs ausführt.
 
 #### Schnittstellen (Foreshadow & Arena)
 
@@ -583,10 +593,10 @@ Parameter `type` unterscheidet zwischen Core- und Rift-Operationen und
 wird in `campaign.type` gespeichert. `epoch` hält die Zeitepoche der
 Mission fest und dient der Boss-Generierung. `fx_override` erlaubt
 missionale Anpassungen von `fx.transfer` wie `show_redirect:false` oder
-einem abweichenden `redirect_hours`. Über `tags` (Liste oder `'|'`-String)
-werden Missions-Tags wie `heist`/`street` gesetzt, die Makros wie
-`DelayConflict` auswerten. Alternativ lässt sich `fx_override={"tags":["heist"]}`
-nutzen.
+einem abweichenden `redirect_hours`. Über `tags` (Liste oder `'|'`- bzw.
+`','`-String) werden Missions-Tags wie `heist`/`street` gesetzt, die
+Makros wie `DelayConflict` auswerten. Alternativ lässt sich
+`fx_override={"tags":["heist"]}` nutzen.
 
 ### Load → HQ-Phase oder Briefing
 
@@ -741,7 +751,7 @@ mechanische Effekt greift.
 {% set tags_source = tags if tags is not none else mission_fx.get('tags') %}
 {% if tags_source %}
   {% if tags_source is string %}
-    {% set tag_items = tags_source.split('|') %}
+    {% set tag_items = tags_source.replace(',', '|').split('|') %}
   {% else %}
     {% set tag_items = tags_source %}
   {% endif %}
@@ -840,7 +850,27 @@ if campaign.scene < 10:
 {% if effective < 2 %}{% set effective = 2 %}{% endif %}
 {% set campaign.delayConflict_base = base %}
 {% set campaign.delayConflict = effective %}
-{% set campaign.delayConflict_allow = allow.split('|') if allow else [] %}
+{% set allow_tokens = [] %}
+{% if allow is string %}
+  {% for item in allow.replace(',', '|').split('|') %}
+    {% set token = item|trim %}
+    {% if token %}
+      {% set allow_tokens = allow_tokens + [token] %}
+    {% endif %}
+  {% endfor %}
+{% elif allow is sequence %}
+  {% for item in allow %}
+    {% if item is string %}
+      {% set token = item|trim %}
+      {% if token %}
+        {% set allow_tokens = allow_tokens + [token] %}
+      {% endif %}
+    {% elif item %}
+      {% set allow_tokens = allow_tokens + [item] %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% set campaign.delayConflict_allow = allow_tokens %}
 {%- endmacro %}
 {% macro can_open_conflict(kind) -%}
   {% set g = {'threshold': campaign.delayConflict or 4, 'allow': campaign.delayConflict_allow or []} %}
@@ -852,9 +882,9 @@ if campaign.scene < 10:
 {%- endmacro %}
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
 anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt
-`DelayConflict(4, allow='ambush|vehicle_chase')` frühe Überfälle oder
-Verfolgungen. Missions-Tags `heist` oder `street` senken das Limit automatisch
-um jeweils eine Szene (Minimum: Szene 2).
+`DelayConflict(4, allow='ambush|vehicle_chase')` (oder `ambush,vehicle_chase`)
+frühe Überfälle oder Verfolgungen. Missions-Tags `heist` oder `street`
+senken das Limit automatisch um jeweils eine Szene (Minimum: Szene 2).
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce() -%}
@@ -2588,7 +2618,7 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 **Parsingregel (case-insensitive, natürliche Sprache):**
 1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
    - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-   - Mismatch → „Save stammt aus vX.Y, aktuelle Runtime vA.B – nicht kompatibel. Patch-Level wird ignoriert.“
+   - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
    - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing. Keine Nachfrage „klassisch/schnell“.
 2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.

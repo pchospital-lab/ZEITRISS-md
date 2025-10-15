@@ -178,18 +178,18 @@ offenen Maßnahmen auf. Detailnotizen stehen im QA-Log 2025-07-18 sowie im
 
 | Issue | Thema                                              | Status     | Primärreferenzen |
 | ----- | -------------------------------------------------- | ---------- | ---------------- |
-| #1    | Exfil-SaveGuard & `campaign.exfil.active` Reset    | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #2    | Mission 5 HUD Gate-Badge (FS 2/2 · Saison 0/4)     | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #3    | `SF-OFF` Persistenzflag & Overlay-Kopplung         | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #4    | Solo→Koop Wallet-Initialisierung vor Debrief       | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #5    | Arena `phase_strike_tax` Persistenz in `logs.psi[]`| 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #6    | Compliance-Flag Mirror Runtime↔Campaign            | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #7    | FIFO-Deckel `logs.offline[]`                       | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #8    | Boss-Gate Badge `GATE` in `scene_overlay()`        | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #9    | Dispatcher-Hinweis `!radio clear`/`!alias clear`   | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #10   | `px_tracker()` ETA-Heuristik & README-Kommunikation| 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #11   | Heist/Street Tag-Normalisierung für Konflikt-Delay | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
-| #12   | Semver-Mismatch-Fehlertext vereinheitlichen        | 🟡 offen   | QA-Log 2025-07-18; Rohprotokoll 2025-07-18 |
+| #1    | Exfil-SaveGuard & `campaign.exfil.active` Reset    | ✅ abgeschlossen – Guard & Reset laut Runtime | runtime.js; systems/gameflow/speicher-fortsetzung.md |
+| #2    | Mission 5 HUD Gate-Badge (FS 2/2 · Saison 0/4)     | ✅ abgeschlossen – HUD blendet `GATE 2/2` ein | runtime.js; README; characters/zustaende-hud-system.md |
+| #3    | `SF-OFF` Persistenzflag & Overlay-Kopplung         | ✅ abgeschlossen – Flag spiegelt HUD & Save   | runtime.js; README; characters/zustaende-hud-system.md |
+| #4    | Solo→Koop Wallet-Initialisierung vor Debrief       | ✅ abgeschlossen – Wallet-Autoinit aktiv      | runtime.js; README |
+| #5    | Arena `phase_strike_tax` Persistenz in `logs.psi[]`| ✅ abgeschlossen – Steuer landet im Psi-Log   | runtime.js; README; systems/toolkit-gpt-spielleiter.md |
+| #6    | Compliance-Flag Mirror Runtime↔Campaign            | ✅ abgeschlossen – Mirror `logs.flags` aktiv  | runtime.js; systems/toolkit-gpt-spielleiter.md |
+| #7    | FIFO-Deckel `logs.offline[]`                       | ✅ abgeschlossen – Queue capped auf 12        | runtime.js; README |
+| #8    | Boss-Gate Badge `GATE` in `scene_overlay()`        | ✅ abgeschlossen – Toolkit/GPT spiegeln Badge | runtime.js; systems/toolkit-gpt-spielleiter.md; characters/zustaende-hud-system.md |
+| #9    | Dispatcher-Hinweis `!radio clear`/`!alias clear`   | ✅ abgeschlossen – Hinweis Teil der Start-Hilfe | runtime.js; README |
+| #10   | `px_tracker()` ETA-Heuristik & README-Kommunikation| ✅ abgeschlossen – ETA-Hinweis synchronisiert | runtime.js; README |
+| #11   | Heist/Street Tag-Normalisierung für Konflikt-Delay | ✅ abgeschlossen – Tagsplit `|`/`,` erlaubt   | runtime.js; systems/toolkit-gpt-spielleiter.md |
+| #12   | Semver-Mismatch-Fehlertext vereinheitlichen        | ✅ abgeschlossen – Dispatcher-Text = README   | README; systems/toolkit-gpt-spielleiter.md |
 
 ## Regressionstest-Termine 2025
 
