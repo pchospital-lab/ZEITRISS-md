@@ -12,6 +12,9 @@
     "test:hud": "node tools/test_hud.js",
     "test:debrief": "node tools/test_debrief.js",
     "test:comms": "node tools/test_comms_rx.js",
-    "test": "npm run lint:rt && npm run smoke && npm run test:save && npm run test:conflict"
+    "test": "npm run lint:rt && npm run smoke && npm run test:save && npm run test:conflict",
+    "lint:md": "python3 scripts/lint_markdown.py --config .markdownlint.yaml internal/qa/README.md internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md internal/qa/audits/ZEITRISS-qa-audit-2025.md",
+    "format:docs": "prettier --write README.md CHANGELOG.md CONTRIBUTING.md doc.md docs/**/*.md internal/**/*.md",
+    "format:docs:check": "prettier --check README.md CHANGELOG.md CONTRIBUTING.md doc.md docs/**/*.md internal/**/*.md"
   }
 }

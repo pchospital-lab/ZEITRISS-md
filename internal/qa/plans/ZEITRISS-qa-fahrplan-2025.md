@@ -103,15 +103,20 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
 **To-dos**
 
-- [ ] Evaluieren, ob ein schlankes `.markdownlint`-Profil (max 100 Zeichen,
+- [x] Evaluieren, ob ein schlankes `.markdownlint`-Profil (max 100 Zeichen,
       Frontmatter-Ausnahmen) den bestehenden QA-Checks ergänzt, ohne
-      widersprüchliche Format-Rewrites zu erzeugen.
-- [ ] Abklären, ob ein optionales `.prettierrc` lediglich Dokumentationsbereiche
+      widersprüchliche Format-Rewrites zu erzeugen. → `.markdownlint.yaml`
+      eingebunden; `npm run lint:md` deckt QA-Plan, QA-Audit und QA-Index ab
+      und läuft automatisch via `make lint`.
+- [x] Abklären, ob ein optionales `.prettierrc` lediglich Dokumentationsbereiche
       adressieren soll; Ziel: keine automatischen Rewraps in Runtime-Modulen
-      (`core/`, `systems/`).
-- [ ] Falls zusätzliche Tools eingeführt werden, Makefile-, `package.json`- und
+      (`core/`, `systems/`). → `.prettierrc.json` beschränkt sich auf Repo-
+      Dokumentation und belässt Runtime-Module unangetastet.
+- [x] Falls zusätzliche Tools eingeführt werden, Makefile-, `package.json`- und
       pre-commit-Konfigurationen so erweitern, dass das Pflicht-Testpaket stabil
-      bleibt und neue Abhängigkeiten klar dokumentiert werden.
+      bleibt und neue Abhängigkeiten klar dokumentiert werden. → `npm run`
+      Skripte ergänzt, Makefile erweitert, markdownlint in pre-commit-Hooks
+      verankert.
 
 ## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
 

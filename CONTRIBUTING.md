@@ -106,7 +106,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 
 <a id="verpflichtende-pruefungen"></a>
 ## Verpflichtende Prüfungen
-- `make lint`
+- `make lint` (führt `npm run lint:rt`, `npm run lint:links` und `npm run lint:md` aus)
 - `make test`
 - `bash scripts/smoke.sh`
 - `python3 tools/lint_runtime.py`
@@ -121,6 +121,8 @@ und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
 ### Erweiterte QA & optionale Checks
 - `python3 tools/lint_debrief_trace.py` – verifiziert Debrief-Trace-Ausgaben (Chronopolis, Foreshadow, Offline, Runtime-Flags).
 - `node tools/test_save.js`, `node tools/test_load.js`
+- `npm run format:docs:check` – optionaler Prettier-Check für Dokumentation
+  (lokale Installation von `prettier` erforderlich).
 - Dispatcher-Smoke-Tests siehe
   [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 - Dokumentiere plattformweite QA- und Release-Checks nach
