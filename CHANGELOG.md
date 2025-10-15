@@ -14,6 +14,7 @@ tags: [meta]
   Pflicht-Testkatalog.
 - README-Dokumenten-Landkarte reflektiert die neue Aufgabenverteilung zwischen `AGENTS.md` und
   `CONTRIBUTING.md`.
+- QA-Fahrplan 2025 Version 1.6.1 ergänzt Maßnahmenblock für Formatierungs- und Tooling-Abgleich.
 
 ## 4.2.2 – Arena-Episodenstempel
 
