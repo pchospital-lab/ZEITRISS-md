@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json.schemastore.org/prettierrc",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "singleQuote": false,
+  "trailingComma": "none",
+  "proseWrap": "preserve",
+  "overrides": [
+    {
+      "files": [
+        "README.md",
+        "CHANGELOG.md",
+        "CONTRIBUTING.md",
+        "doc.md",
+        "docs/**/*.md",
+        "internal/**/*.md"
+      ],
+      "options": {
+        "proseWrap": "preserve"
+      }
+    },
+    {
+      "files": [
+        "core/**/*.md",
+        "systems/**/*.md",
+        "gameplay/**/*.md",
+        "characters/**/*.md"
+      ],
+      "options": {
+        "proseWrap": "preserve"
+      }
+    }
+  ]
+}

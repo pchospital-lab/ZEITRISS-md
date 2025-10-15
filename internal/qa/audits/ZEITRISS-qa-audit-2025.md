@@ -217,6 +217,13 @@ schließt die Beobachtung.
 3. **Roadmap:** Themen 21–30 mit der UX-/Tooling-Roadmap verknüpfen, in den
    QA-Fahrplan übernehmen und Priorität über den jeweiligen QA-Log-Eintrag
    abstimmen.
+4. **Tooling-Abgleich:** `.markdownlint.yaml` (Zeilenlänge 100, Frontmatter-Ausnahmen)
+   und `.prettierrc.json` (Doc-only Overrides) sind produktiv eingebunden.
+   `make lint` ruft `npm run lint:md` (Python-Skript auf Basis der Markdownlint-
+   Regeln) für QA-Plan, QA-Audit und QA-Index auf; der Pre-Commit-Hook
+   `markdownlint` verweist auf dieselbe Konfiguration. Optionales
+   `npm run format:docs:check` steht für
+   Dokumentations-Reviews bereit (Prettier lokal installieren, falls benötigt).
 
 ## Befunde Beta-GPT-Lauf 2025-06 (ISSUE #1–#16)
 Der Testprompt vom Juni 2025 ergänzt 16 neue Baustellen rund um HQ-Saves,
@@ -318,8 +325,8 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
   Werte nennen lassen und das Log um die Runtime-Version ergänzen.
 - **Risiko bei Verzug:** Fehlermeldungen bleiben missverständlich.
 - **Statusnotiz:** ✅ Semver-Prüfung setzt auf `zr_version`↔`ZR_VERSION`,
-  Runtime-Version wird als `logs.flags.runtime_version` persistiert; Doku und
-  Fehlermeldungen ziehen nach. (Commit: wird im PR referenziert.)
+  Runtime-Version wird als `logs.flags.runtime_version` persistiert; Doku
+  und Fehlermeldungen ziehen nach. (Commit: wird im PR referenziert.)
 
 ### Issue #10 – Foreshadow-Gates
 - **Status:** [x] Erledigt
@@ -327,7 +334,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Empfohlene Umsetzung:** `logs.foreshadow` persistieren und ein
   HUD-Badge anbinden.
 - **Risiko bei Verzug:** Das Gate lässt sich durch Reloads unterlaufen.
-- **Statusnotiz:** ✅ Persistente `logs.foreshadow` + HUD-Badge umgesetzt; `ForeshadowHint()` schreibt Marker, `!boss status` zeigt `Foreshadow n/m`. (Commit: wird im PR referenziert.)
+- **Statusnotiz:** ✅ Persistente `logs.foreshadow` + HUD-Badge umgesetzt;
+  `ForeshadowHint()` schreibt Marker, `!boss status` zeigt `Foreshadow n/m`.
+  (Commit: wird im PR referenziert.)
 
 ### Issue #11 – Koop-CU-Verteilung
 - **Status:** [x] Erledigt
@@ -354,8 +363,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Empfohlene Umsetzung:** Toolkit-Makro `suggest_actions()` bereitstellen und
   README ergänzen.
 - **Risiko bei Verzug:** Beratungssituationen bleiben UX-seitig lückenhaft.
-- **Statusnotiz:** Suggest-Modus schaltet via `modus suggest`/`modus ask`, das Toolkit-Makro `suggest_actions()` kennzeichnet
-  Vorschläge und README beschreibt den Ablauf. (Commit: wird im PR referenziert.)
+- **Statusnotiz:** Suggest-Modus schaltet via `modus suggest`/`modus ask`,
+  das Toolkit-Makro `suggest_actions()` kennzeichnet Vorschläge und README
+  beschreibt den Ablauf. (Commit: wird im PR referenziert.)
 
 ### Issue #14 – Suspend-Snapshot
 - **Status:** [x] Erledigt
@@ -363,8 +373,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Empfohlene Umsetzung:** Snapshot um `initiative.order[]`,
   `initiative.active_id` und `hud.timers[]` erweitern.
 - **Risiko bei Verzug:** Konflikte verlieren nach `!resume` ihre Struktur.
-- **Statusnotiz:** Suspend-Snapshot übernimmt Initiative-Reihenfolge und HUD-Timer;
-  `tools/test_suspend.js` deckt das Resume ab. (Commit: wird im PR referenziert.)
+- **Statusnotiz:** Suspend-Snapshot übernimmt Initiative-Reihenfolge und HUD-
+  Timer; `tools/test_suspend.js` deckt das Resume ab. (Commit: wird im PR
+  referenziert.)
 
 ### Issue #15 – PSI-Buffer-Arena
 - **Status:** [x] Erledigt
@@ -381,8 +392,10 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 - **Empfohlene Umsetzung:** `logs.market[]` um Timestamp, Item, Kosten und eine
   Px-Klausel erweitern.
 - **Risiko bei Verzug:** Px-Verluste bleiben nicht nachvollziehbar.
-- **Statusnotiz:** Runtime & Serializer schreiben `logs.market[]` (Timestamp, Item, Kosten, Px-Klausel); README & Speicher-Doku
-  verweisen auf `log_market_purchase()` für den Debrief-Trace. (Commit: wird im PR referenziert.)
+- **Statusnotiz:** Runtime & Serializer schreiben `logs.market[]` (Timestamp,
+  Item, Kosten, Px-Klausel); README & Speicher-Doku verweisen auf
+  `log_market_purchase()` für den Debrief-Trace. (Commit: wird im PR
+  referenziert.)
 
 **Folgeaufgaben:**
 
