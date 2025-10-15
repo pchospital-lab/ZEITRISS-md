@@ -3102,16 +3102,6 @@ function initialize_wallets_from_roster(){
   return created;
 }
 
-function ensure_economy(){
-  if (!state.economy || typeof state.economy !== 'object'){
-    state.economy = {};
-  }
-  const economy = state.economy;
-  economy.cu = Number.isFinite(economy.cu) ? Math.round(economy.cu) : 0;
-  ensure_wallets();
-  return economy;
-}
-
 function ensure_arena(){
   state.arena ||= {};
   const arena = state.arena;

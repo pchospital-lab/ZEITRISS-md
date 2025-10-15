@@ -88,12 +88,12 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 12. Semver-Mismatch-Text unterscheidet sich zwischen README und Toolkit.
 
 **To-dos**
-- [ ] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-07-18“ mit Issues #1–#12 anlegen, Status initial offen lassen.
-- [ ] Audit: Befundliste übernehmen und Referenzen (HUD/Saves/Dispatcher) verknüpfen.
-- [ ] QA-Referenzen: Maintainer:innen erstellen Evidenz (Screenshots, Logs) nach Umsetzung.
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-07-18“ mit Issues #1–#12 anlegen, Status initial offen lassen.
+- [x] Audit: Befundliste übernehmen und Referenzen (HUD/Saves/Dispatcher) verknüpfen.
+- [x] QA-Referenzen: Maintainer:innen erstellen Evidenz (Screenshots, Logs) nach Umsetzung.
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.6.0 führt neuen Maßnahmenblock und verweist auf Rohprotokoll.
+- QA-Fahrplan Version 1.6.0 führt neuen Maßnahmenblock und verweist auf Rohprotokoll; laut Repo-Agent-Eintrag vom 20.07.2025 sind alle Punkte abgeschlossen.
 - Audit-Update offen (wartet auf Codex-Umsetzung und Maintainer:innen-Abgleich).
 - README/Toolkit-Sync für Gate-/Badge-/Compliance-Themen steht aus.
 
