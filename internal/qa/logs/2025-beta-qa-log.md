@@ -6,6 +6,38 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-10-15 – Tester: Beta-GPT – Acceptance-/HUD-/Save-Drift
+- Plattform: Beta-GPT (Remote-Lauf via Maintainer-Script)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-07-20, QA-Fahrplan 1.6.1
+- Copy-&-Paste-Auftrag: Neues Maßnahmenpaket (Issues #1–#15) für Acceptance-Smoke, Save-Migration, HUD-Badges und Arena-/Accessibility-Prozesse anlegen, in Fahrplan & Audit verlinken.
+- Rohdaten: [Beta-GPT Lauf 2025-10-15 – Rohprotokoll](2025-10-15-beta-gpt-delta.md)
+
+**Befunde (Kurzfassung)**
+1. Acceptance-Smoke-Liste endet bei Schritt 13, gefordert sind 15 Prüfpunkte (Dispatcher/README).
+2. Legacy-Gruppensaves (`"Charaktere"/"Gruppe"`, `zr_version 4.1.5`) kollidieren mit v6-Serializer (`party.characters[]`).
+3. `StartMission()` setzt `AllowEntryChoice()` trotz `SkipEntryChoice()`-Flag nach Ladevorgängen.
+4. `SF-OFF`-Badge kehrt ohne Auto-Reset nicht zu `SF-ON` zurück.
+5. Gate-Badge `GATE 2/2` verliert Persistenz während M5/M10 trotz erfülltem Gate.
+6. PvP-/Arena-Saves besitzen keinen dedizierten `phase`/`arena`-Persistenzmarker.
+7. Arena-Cross-Mode-Flows spiegeln `logs.psi[]`/Arena-Marker nicht zuverlässig.
+8. NPC-Squad-Callouts landen nicht automatisch in `logs.squad_radio[]` (fehlender Auto-Hook).
+9. Chronopolis-Vorschau setzt `logs.flags.chronopolis_warn_seen` nicht dauerhaft.
+10. Hazard-Pay-Logik kollidiert mit Wallet-Split-Reihenfolge bei Solo→Koop-Imports.
+11. Boss-DR-HUD-Toast fehlt in Teilen der M5/M10-Läufe.
+12. `logs.foreshadow[]` ist nicht als Pflichtfeld im v6-Schema markiert.
+13. Kein eigener `!accessibility`-Dialog trotz Acceptance-Vorgabe.
+14. Dispatcher-Start kennt kein `trigger`-Flag (Preserve/Trigger-Parität fehlt).
+15. Cinematic-Start stellt initialen HUD-Header nicht zwingend her.
+
+**To-dos**
+- [ ] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen.
+- [ ] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit aktualisieren.
+- [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-Transkripte) nach Umsetzung.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.6.x aktualisieren (Ziel: 1.7.0) und Beta-QA-Log mit Fahrplan/Audit verknüpfen.
+- README, Toolkit und Save-Module müssen Acceptance-/HUD-/Arena-/Accessibility-Kapitel nachziehen.
+
 ## 2025-07-20 – Repo-Agent – Beta-GPT 2025-07-18 Maßnahmen umgesetzt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit/Characters Stand 2025-07-20, QA-Fahrplan 1.6.1

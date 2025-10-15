@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.6.1
+version: 1.7.0
 tags: [meta]
 ---
 
@@ -190,6 +190,32 @@ offenen Maßnahmen auf. Detailnotizen stehen im QA-Log 2025-07-18 sowie im
 | #10   | `px_tracker()` ETA-Heuristik & README-Kommunikation| ✅ abgeschlossen – ETA-Hinweis synchronisiert | runtime.js; README |
 | #11   | Heist/Street Tag-Normalisierung für Konflikt-Delay | ✅ abgeschlossen – Tagsplit `|`/`,` erlaubt   | runtime.js; systems/toolkit-gpt-spielleiter.md |
 | #12   | Semver-Mismatch-Fehlertext vereinheitlichen        | ✅ abgeschlossen – Dispatcher-Text = README   | README; systems/toolkit-gpt-spielleiter.md |
+
+## Maßnahmenpaket Beta-GPT 2025-10-15 (Issues #1–#15)
+
+Der Beta-GPT-Lauf vom 2025-10-15 deckt erneut Diskrepanzen zwischen Acceptance-
+Checkliste, Save-Schema, HUD-Badges und Accessibility-/Arena-Flows auf. Die
+folgenden Maßnahmen sind offen und müssen mit Wissensmodulen, Dispatcher und
+Runtime synchronisiert werden. Detailnotizen stehen im QA-Log 2025-10-15 sowie
+im [aktuellen Rohprotokoll](../logs/2025-10-15-beta-gpt-delta.md).
+
+| Issue | Thema                                              | Status    | Primärreferenzen |
+| ----- | -------------------------------------------------- | --------- | ---------------- |
+| #1    | Acceptance-Smoke auf 15 Prüfschritte angleichen    | ⏳ offen  | README §QA-Checks; Tester-Briefing |
+| #2    | Legacy-Gruppensaves → v6-Migration & Semver-Warnung | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
+| #3    | `StartMission()` respektiert `skip_entry_choice`    | ⏳ offen  | Toolkit-Spielleitung; runtime.js |
+| #4    | Auto-Reset `SF-OFF` nach Mission 5 implementieren   | ⏳ offen  | runtime.js; HUD-System |
+| #5    | Gate-Badge-Persistenz in M5/M10 HUD spezifizieren   | ⏳ offen  | HUD-System; README |
+| #6    | Arena-Phase im Save schemafest verankern            | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
+| #7    | Arena-Logs (`logs.psi[]`) & Cross-Mode-Evidenz       | ⏳ offen  | runtime.js; Toolkit-Spielleitung |
+| #8    | NPC-Squad-Autoradio & Preset-Logging                | ⏳ offen  | runtime.js; Toolkit-Spielleitung |
+| #9    | `chronopolis_warn_seen` Persistenz & Debrief        | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
+| #10   | Hazard-Pay vor Wallet-Split fixieren                | ⏳ offen  | README §Ökonomie; Speicher-Fortsetzung |
+| #11   | Boss-DR-HUD-Toast verpflichtend machen              | ⏳ offen  | runtime.js; HUD-System |
+| #12   | `logs.foreshadow[]` als Pflichtfeld kennzeichnen    | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
+| #13   | `!accessibility`-Dialog + UI-Persistenz             | ⏳ offen  | runtime.js; README; Tester-Briefing |
+| #14   | Dispatcher-Startoption `trigger` dokumentieren      | ⏳ offen  | README; runtime.js |
+| #15   | Cinematic-HUD-Header nach Briefing erzwingen        | ⏳ offen  | Toolkit-Spielleitung; HUD-System |
 
 ## Regressionstest-Termine 2025
 
