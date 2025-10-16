@@ -281,8 +281,15 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **`scene_overlay(total?, pressure?, env?)`** – Rendert das HUD-Banner `EP·MS·SC` inklusive Missionsziel,
   Px/SYS/Lvl, Exfil-Status und `FS count/required`. Nach `StartMission()` wird `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
   erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde. Nach Mission 5 setzt
-  die Runtime Self-Reflection automatisch zurück (`SF-ON`), Toolkit-Spielleiter:innen spiegeln dies ggf. mit
-  `set_self_reflection(true)`.
+  die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die Mission beendet oder abgebrochen
+  wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und protokollieren dabei den HUD-Toast
+  `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason` (`completed`/`aborted`).
+- **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert Self-Reflection, schreibt den HUD-Toast
+  (`SF-ON`/`SF-OFF`) und persistiert das Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die Runtime
+  legt zusätzlich `logs.flags.self_reflection_off` an, wenn Self-Reflection deaktiviert ist.
+- **Foreshadow-Gate-Flags.** `scene_overlay()` synchronisiert `logs.flags.foreshadow_gate_m5_seen` bzw.
+  `logs.flags.foreshadow_gate_m10_seen` (boolean) und zählt `logs.foreshadow[]` dedupliziert. Ohne Runtime setzt die
+  Spielleitung die Keys manuell, sobald `ForeshadowHint()` den Gate erfüllt.
 - **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4 Hinweise, Rift = 2) und dient als Saison-Indikator.
   QA notiert Gate-Evidenz (`Foreshadow 2/2` im HUD) und den Saisonstand (`Foreshadow 0/4` nach dem Reset).
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize` (1–6) und `mode` (`single`/`squad` …).
@@ -1412,34 +1419,50 @@ total=None, role="", env=None) -%}
 {%- endmacro %}
 
 #### comms_check {#comms-check}
-Validiert Funkhardware und Reichweite. Erwartet `device` (`Comlink`, `Kabel`,
-`Relais`, `JammerOverride`), Reichweite in Kilometern sowie optionale Flags für
-Jammer/Relais. Rückgabe `true`, wenn Reichweite × Reichweitenmodifikator > 0 ist
-und ein Jammer nur mit Kabel/Relais/Override umgangen wird. `must_comms()` nutzt
-dieses Ergebnis und löst bei Fehlern den Offline-Hinweis aus.
+Validiert Funkhardware und Reichweite. Erwartet `device`
+(`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung egal) und eine
+Reichweite in **Metern** (`range_m`). Optional akzeptiert der Guard ein
+Kilometerfeld (`range_km`) sowie Flags für Jammer- oder Relay-Unterstützung.
+`must_comms()` ruft `comms_check()` auf, normalisiert Groß-/Kleinschreibung sowie
+km→m und löst bei Fehlern den Offline-Hinweis aus.
 
-{% macro comms_check(device, range_km=0, jammer=false, relays=false) -%}
-  {% set ok_device = device in ['Comlink','Kabel','Relais','JammerOverride'] %}
-  {% set ok_range = (range_km <= 2 or relays) and (not jammer or relays) %}
-  {{ ok_device and ok_range }}
+{% macro comms_check(device, range_m=0, range_km=None, jammer=false, relays=false) -%}
+  {% set raw = (device or '')|trim %}
+  {% set dev = raw|lower %}
+  {% if dev == 'commlink' %}{% set dev = 'comlink' %}{% endif %}
+  {% if dev in ['jammeroverride','jammer-override'] %}{% set dev = 'jammer_override' %}{% endif %}
+  {% set meters = range_m|float %}
+  {% if (meters <= 0) and (range_km is not none) %}
+    {% set meters = (range_km|float) * 1000 %}
+  {% endif %}
+  {% set ok_device = dev in ['comlink','cable','relay','jammer_override'] %}
+  {% set ok_range = meters > 0 %}
+  {% set jam_blocked = jammer and dev not in ['cable','relay','jammer_override'] and not relays %}
+  {{ ok_device and ok_range and (not jam_blocked) }}
 {%- endmacro %}
 
 {% macro must_comms(o) -%}
   {{ validate_signal((o.device or '') ~ ' ' ~ (o.text or '')) }}
-  {% set ok = comms_check(o.device, o.range_km|default(0), o.jammer|default(false), o.relays|default(false)) %}
+  {% set ok = comms_check(
+    o.device,
+    o.range_m|default(0),
+    o.range_km if o.range_km is defined else none,
+    o.jammer|default(false),
+    o.relays|default(false)
+  ) %}
   {% if not ok %}
       {{ offline_help('auto') }}
       {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. !offline zeigt das Feldprotokoll für den laufenden Einsatz.') }}
   {% endif %}
 {%- endmacro %}
 
-{% macro radio_tx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
-  {{ must_comms({'device':device,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
+{% macro radio_tx(msg, device='comlink', range_m=0, range_km=None, jammer=false, relays=false) -%}
+  {{ must_comms({'device':device,'range_m':range_m,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
   {{ hud_tag(msg) }}
 {%- endmacro %}
 
-{% macro radio_rx(msg, device='Comlink', range_km=0, jammer=false, relays=false) -%}
-  {{ must_comms({'device':device,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
+{% macro radio_rx(msg, device='comlink', range_m=0, range_km=None, jammer=false, relays=false) -%}
+  {{ must_comms({'device':device,'range_m':range_m,'range_km':range_km,'jammer':jammer,'relays':relays,'text':msg}) }}
   {{ hud_tag(msg) }}
 {%- endmacro %}
 
@@ -1476,8 +1499,8 @@ dieses Ergebnis und löst bei Fehlern den Offline-Hinweis aus.
 DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.
 {%- endmacro %}
 {% macro helper_comms() -%}
-comms_check(device,range): Pflicht vor radio_tx/rx.
-Erfordert Comlink/Kabel/Relais/Jammer-Override und gültige Reichweite.
+comms_check(device,range_m,range_km?): Pflicht vor radio_tx/rx.
+Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal) und Meterwerte; optional wandelt der Guard Kilometer in Meter um.
 Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.
 {%- endmacro %}
 {% macro helper_boss() -%}
@@ -2611,7 +2634,7 @@ else:
     include_pools(["Trigger"])
 ```
 
-Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
+Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
 
 ## Start Dispatcher {#start-dispatcher}
 

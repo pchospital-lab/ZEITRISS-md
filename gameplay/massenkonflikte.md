@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.2 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte"
+title: "ZEITRISS 4.2.2 – Modul 9: Verfolgungsjagden & Massenkonflikte"
 version: 4.2.2
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.2 – Modul 9: Fahrzeuge, Verfolgungsjagden & Massenkonflikte
+# ZEITRISS 4.2.2 – Modul 9: Verfolgungsjagden & Massenkonflikte
 
 - Fahrzeugarten in verschiedenen Zeitaltern
 - Fahrzeugsteuerung, Manöver & Verfolgungsjagden

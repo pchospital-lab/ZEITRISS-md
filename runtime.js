@@ -722,6 +722,33 @@ function ensure_logs(){
   flags.foreshadow_gate_expected = !!flags.foreshadow_gate_expected
     || flags.foreshadow_gate_progress > 0
     || flags.foreshadow_gate_snapshot > 0;
+  flags.foreshadow_gate_m5_seen = !!flags.foreshadow_gate_m5_seen;
+  flags.foreshadow_gate_m10_seen = !!flags.foreshadow_gate_m10_seen;
+  flags.self_reflection_off = !!flags.self_reflection_off && !flags.self_reflection;
+  if (typeof flags.self_reflection_changed_at !== 'string'){
+    flags.self_reflection_changed_at = null;
+  }
+  if (typeof flags.self_reflection_last_change_reason !== 'string'){
+    flags.self_reflection_last_change_reason = null;
+  } else {
+    const trimmed = flags.self_reflection_last_change_reason.trim();
+    flags.self_reflection_last_change_reason = trimmed ? trimmed : null;
+  }
+  if (typeof flags.self_reflection_auto_reset_at !== 'string'){
+    flags.self_reflection_auto_reset_at = null;
+  }
+  if (typeof flags.self_reflection_auto_reset_reason !== 'string'){
+    flags.self_reflection_auto_reset_reason = null;
+  } else {
+    const resetReason = flags.self_reflection_auto_reset_reason.trim();
+    flags.self_reflection_auto_reset_reason = resetReason ? resetReason : null;
+  }
+  if (typeof flags.last_mission_end_reason !== 'string'){
+    flags.last_mission_end_reason = null;
+  } else {
+    const lastReason = flags.last_mission_end_reason.trim();
+    flags.last_mission_end_reason = lastReason ? lastReason : null;
+  }
   if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
   }
@@ -1802,16 +1829,25 @@ function self_reflection_enabled(){
   return character.self_reflection !== false;
 }
 
-function set_self_reflection(on){
+function set_self_reflection(on, opts = {}){
+  const options = opts && typeof opts === 'object' ? opts : {};
   const enabled = !!on;
   const character = ensure_character();
   character.self_reflection = enabled;
-  ensure_logs().flags.self_reflection = enabled;
-  const statusTag = enabled ? 'SF-ON' : 'SF-OFF';
-  const message = enabled
+  const flags = ensure_logs().flags;
+  const statusTag = options.tag || (enabled ? 'SF-ON' : 'SF-OFF');
+  const defaultMessage = enabled
     ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'
     : 'Self-Reflection deaktiviert – Fokus bleibt extern.';
-  hud_toast(message, statusTag);
+  const message = options.message || defaultMessage;
+  const timestamp = new Date().toISOString();
+  flags.self_reflection = enabled;
+  flags.self_reflection_off = !enabled;
+  flags.self_reflection_changed_at = timestamp;
+  flags.self_reflection_last_change_reason = options.reason || null;
+  if (!options.silent){
+    hud_toast(message, statusTag);
+  }
   return { status: statusTag, message };
 }
 
@@ -1865,6 +1901,15 @@ function ForeshadowHint(text, tag = 'Foreshadow'){
   flags.foreshadow_gate_progress = next;
   if (next > 0){
     flags.foreshadow_gate_expected = true;
+  }
+  const missionNumber = Number(state.campaign?.mission);
+  if (Number.isFinite(missionNumber)){
+    if (missionNumber === 5 && next >= FORESHADOW_GATE_REQUIRED){
+      flags.foreshadow_gate_m5_seen = true;
+    }
+    if (missionNumber === 10 && next >= FORESHADOW_GATE_REQUIRED){
+      flags.foreshadow_gate_m10_seen = true;
+    }
   }
   return hud_toast(`${normalizedTag}: ${cleaned}`, normalizedTag);
 }
@@ -2195,6 +2240,17 @@ function completeMission(summary = {}){
   const events = [];
   const temp = typeof summary.temp === 'number' ? summary.temp : mission_temp();
   const required = missions_required(temp);
+  const missionNumber = Number(state.campaign?.mission);
+  const reasonCandidate = pickString(summary.reason, summary.completed, summary.outcome, summary.status);
+  let missionEndReason = 'completed';
+  const normalizedReason = typeof reasonCandidate === 'string' ? reasonCandidate.trim().toLowerCase() : '';
+  if (summary.aborted || normalizedReason === 'aborted'){
+    missionEndReason = 'aborted';
+  } else if (normalizedReason === 'failed'){
+    missionEndReason = 'failed';
+  } else if (normalizedReason === 'stabilized' || normalizedReason === 'completed'){
+    missionEndReason = 'completed';
+  }
   const stabilized = summary.stabilized || summary.success || summary.completed === 'stabilized';
   if (stabilized){
     state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
@@ -2216,11 +2272,24 @@ function completeMission(summary = {}){
   } else if (chronoReset === 'mission-cycle'){
     events.push('Kodex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
   }
+  const nowIso = new Date().toISOString();
   if (state.logs?.flags){
-    state.logs.flags.foreshadow_gate_snapshot = 0;
-    state.logs.flags.foreshadow_gate_progress = 0;
-    state.logs.flags.foreshadow_gate_expected = false;
+    const flags = state.logs.flags;
+    flags.foreshadow_gate_snapshot = 0;
+    flags.foreshadow_gate_progress = 0;
+    flags.foreshadow_gate_expected = false;
+    flags.last_mission_end_reason = missionEndReason;
+    if (Number.isFinite(missionNumber) && missionNumber === 5 && (missionEndReason === 'completed' || missionEndReason === 'aborted')){
+      set_self_reflection(true, {
+        message: 'SF-ON (post-M5 reset)',
+        tag: 'SF-ON',
+        reason: missionEndReason
+      });
+      flags.self_reflection_auto_reset_at = nowIso;
+      flags.self_reflection_auto_reset_reason = missionEndReason;
+    }
   }
+  state.campaign.last_mission_end_reason = missionEndReason;
   sync_campaign_exfil(null);
   return {
     events,
@@ -4157,12 +4226,87 @@ function scene_overlay(scene){
   return h;
 }
 
-function comms_check(device, range){
+function normalize_comms_payload(input){
+  const source = input && typeof input === 'object' ? input : {};
+  const normalized = { ...source };
+  const rawDevice = pickString(
+    source.device,
+    source.Device,
+    source.DEVICE
+  );
+  let device = rawDevice ? rawDevice.toString().trim() : '';
+  if (device){
+    const canonical = device.toLowerCase().replace(/\s+/g, '_');
+    const map = {
+      comlink: 'comlink',
+      commlink: 'comlink',
+      'com-link': 'comlink',
+      kabel: 'cable',
+      cable: 'cable',
+      relay: 'relay',
+      relais: 'relay',
+      jammer: 'jammer_override',
+      jammeroverride: 'jammer_override',
+      'jammer-override': 'jammer_override',
+      jammer_override: 'jammer_override'
+    };
+    device = map[canonical] || canonical;
+  } else {
+    device = null;
+  }
+  const rangeCandidates = [
+    source.range_m,
+    source.rangeM,
+    source.range,
+    source.rangeMeters,
+    source.range_meters,
+    source.distance
+  ];
+  let range = pickNumber(...rangeCandidates);
+  if (range === null){
+    const km = pickNumber(
+      source.range_km,
+      source.rangeKm,
+      source.rangeKilometers,
+      source.range_kilometers
+    );
+    if (km !== null){
+      range = km * 1000;
+    }
+  }
+  if (range !== null){
+    range = Number(range);
+    if (!Number.isFinite(range)){
+      range = null;
+    }
+  }
+  const relaysCandidate = pickNumber(source.relays, source.relay_count);
+  const jammerCandidate = source.jammer ?? source.jammed ?? null;
+  normalized.device = device;
+  normalized.range_m = range;
+  if (normalized.range === undefined && range !== null){
+    normalized.range = range;
+  }
+  normalized.relays = relaysCandidate !== null ? Math.max(0, relaysCandidate) : (source.relays === true ? 1 : 0);
+  if (jammerCandidate !== null){
+    normalized.jammer = !!jammerCandidate;
+  }
+  return normalized;
+}
+
+function comms_check(deviceOrOptions, maybeRange){
+  const normalized = typeof deviceOrOptions === 'object' && deviceOrOptions !== null
+    ? normalize_comms_payload(deviceOrOptions)
+    : normalize_comms_payload({ device: deviceOrOptions, range_m: maybeRange });
+  const device = normalized.device;
+  const range = normalized.range_m;
   const okDev = ['comlink', 'cable', 'relay', 'jammer_override'].includes(device);
-  const jam = !!state.comms?.jammed;
-  const okRng = (range * (state.comms?.rangeMod ?? 1)) > 0;
+  const rangeFactor = state.comms?.rangeMod ?? 1;
+  const okRng = Number.isFinite(range) && (range * rangeFactor) > 0;
+  const jammed = normalized.jammer ?? !!state.comms?.jammed;
+  const hasRelay = device === 'relay' || (Number.isFinite(normalized.relays) && normalized.relays > 0);
   const ok = okDev && okRng && (
-    !jam || device === 'cable' || device === 'jammer_override' || device === 'relay'
+    !jammed || device === 'cable' || device === 'jammer_override' || hasRelay
   );
   return ok;
 }
@@ -4205,26 +4349,28 @@ function require_uplink(ctx, action){
 }
 
 function must_comms(o){
-  if (!comms_check(o.device, o.range)){
+  const normalized = normalize_comms_payload(o);
+  if (!comms_check(normalized)){
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
       'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +
       'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.'
     );
   }
+  return normalized;
 }
 
 function radio_tx(o){
-  const ctx = { ...state, comms: { ...state.comms, device: o.device, range_m: o.range } };
+  const normalized = must_comms(o);
+  const ctx = { ...state, comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m } };
   require_uplink(ctx, 'radio_tx');
-  must_comms(o);
   return 'tx';
 }
 
 function radio_rx(o){
-  const ctx = { ...state, comms: { ...state.comms, device: o.device, range_m: o.range } };
+  const normalized = must_comms(o);
+  const ctx = { ...state, comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m } };
   require_uplink(ctx, 'radio_rx');
-  must_comms(o);
   return 'rx';
 }
 
@@ -4431,6 +4577,22 @@ function prepare_save_logs(logs){
     ? Math.floor(offlineCount)
     : 0;
   base.flags.self_reflection = base.flags.self_reflection !== false;
+  base.flags.self_reflection_off = !!base.flags.self_reflection_off;
+  base.flags.self_reflection_changed_at = typeof base.flags.self_reflection_changed_at === 'string'
+    ? base.flags.self_reflection_changed_at
+    : null;
+  base.flags.self_reflection_last_change_reason = typeof base.flags.self_reflection_last_change_reason === 'string'
+    ? base.flags.self_reflection_last_change_reason.trim() || null
+    : null;
+  base.flags.self_reflection_auto_reset_at = typeof base.flags.self_reflection_auto_reset_at === 'string'
+    ? base.flags.self_reflection_auto_reset_at
+    : null;
+  base.flags.self_reflection_auto_reset_reason = typeof base.flags.self_reflection_auto_reset_reason === 'string'
+    ? base.flags.self_reflection_auto_reset_reason.trim() || null
+    : null;
+  base.flags.last_mission_end_reason = typeof base.flags.last_mission_end_reason === 'string'
+    ? base.flags.last_mission_end_reason.trim() || null
+    : null;
   const gateProgress = Number(base.flags.foreshadow_gate_progress);
   base.flags.foreshadow_gate_progress = Number.isFinite(gateProgress) && gateProgress > 0
     ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(gateProgress)))
@@ -4442,6 +4604,8 @@ function prepare_save_logs(logs){
   base.flags.foreshadow_gate_expected = !!base.flags.foreshadow_gate_expected
     || base.flags.foreshadow_gate_progress > 0
     || base.flags.foreshadow_gate_snapshot > 0;
+  base.flags.foreshadow_gate_m5_seen = !!base.flags.foreshadow_gate_m5_seen;
+  base.flags.foreshadow_gate_m10_seen = !!base.flags.foreshadow_gate_m10_seen;
   return base;
 }
 
