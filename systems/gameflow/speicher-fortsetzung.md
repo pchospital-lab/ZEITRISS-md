@@ -83,6 +83,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
     "alias_trace": [],
     "squad_radio": [],
     "hud": [],
+    "foreshadow": [],
     "fr_interventions": [],
     "flags": {
       "runtime_version": "4.2.2",
@@ -94,7 +95,35 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
     "offene_seeds": [],
     "fraktionen": {}
   },
-  "ui": {"gm_style": "verbose", "intro_seen": false, "suggest_mode": false}
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": false,
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "full",
+    "output_pace": "normal"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "previous_mode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "tier": 1,
+    "proc_budget": 0,
+    "artifact_limit": 0,
+    "loadout_budget": 0,
+    "phase_strike_tax": 0,
+    "damage_dampener": true,
+    "team_size": 1,
+    "fee": 0,
+    "scenario": null,
+    "started_episode": null,
+    "last_reward_episode": null,
+    "policy_players": [],
+    "audit": []
+  }
 }
 ```
 
@@ -102,7 +131,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns`, `campaign.px`, `economy`, `logs`, `logs.artifact_log`,
   `logs.market`, `logs.offline`, `logs.kodex`, `logs.alias_trace`,
-  `logs.squad_radio`, `logs.flags` und `ui`.
+  `logs.squad_radio`, `logs.foreshadow`, `logs.flags`, `ui` und `arena`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
@@ -128,10 +157,13 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - `logs.alias_trace[]` dokumentiert Alias-Läufe mit Persona, Cover, Status, Szene, Mission und optionaler Notiz. `!alias log Persona|Cover|Status|Notiz` (oder Key-Value-Varianten wie `mission=M5|scene=3`) legt Einträge an, der Debrief fasst sie als `Alias-Trace (n×): …` für QA-Abgleiche zusammen.
 - `logs.squad_radio[]` hält Funkmeldungen mit Sprecher, Kanal, Nachricht, Status sowie optional Szene/Ort fest. `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` speichert Ereignisse, der Debrief liefert die Zusammenfassung `Squad-Radio (n×): …` für Persistenzprüfungen.
 - `economy.wallets{}` ist die Koop-Kasse des Teams. Jeder Eintrag folgt der Struktur `<character_id>: {balance, name?}`. Debrief-Splits schreiben Auszahlungen auf diese Wallets, während der zentrale HQ-Pool (`economy.cu`) den Restbestand hält.
+- `arena{}` spiegelt den PvP-Status: `active`, `phase` (`idle`/`active`/`completed`), aktueller `mode` (`single`/`sparring` …), `previous_mode` zur Rückkehr ins Story-Play, Serienstand (`wins_player`, `wins_opponent`), Budget-Limits (`proc_budget`, `artifact_limit`, `loadout_budget`), `phase_strike_tax`, Szenario/Audit sowie `policy_players[]` (sanitisierte Loadouts). `logs.psi[]` erhält parallel `mode_previous`, damit Cross-Mode-Evidenz im Debrief steht.
 
 ### Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
 Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Belohnungen**-Block und direkt danach die Koop-Auszahlung.
+
+**Hazard-Pay vorab:** Enthält `outcome` ein Feld `hazard_pay` (oder `economy.hazard_pay`), verbucht die Runtime den Betrag sofort im HQ-Pool und loggt `Hazard-Pay: … CU priorisiert`. Erst danach läuft die reguläre Wallet-Verteilung.
 
 1. **Standardaufteilung:** Sind mehrere Agenten aktiv und es liegt kein spezielles Split-Schema vor, teilt der GPT die Auszahlung gleichmäßig auf `economy.wallets{}` auf. Die Zeile `Wallet-Split (n×): …` nennt jede Person mit Callsign und Gutschrift, z. B. `Wallet-Split (3×): Ghost +200 CU | Nova +200 CU | Wrench +200 CU`.
 2. **Solo→Koop-Umstieg:** Wechselt eine Kampagne von Solo auf Koop, initialisiert GPT vor der nächsten Auszahlung für jede Figur in `party.characters[]` einen Wallet-Eintrag (`{balance: 0, name}`) und verschiebt vorhandene Solo-Ersparnisse als `economy.cu` in den HQ-Pool. Es entsteht kein zweites Wallet-Schema.

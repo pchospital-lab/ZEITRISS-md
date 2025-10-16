@@ -71,6 +71,19 @@ grep "save-ok" out/save.log
 node tools/test_load.js | tee out/load.log
 grep "load-ok" out/load.log
 
+# Startoptionen, Accessibility und Chronopolis-Gate
+node tools/test_start.js > out/start.log
+grep "start-ok" out/start.log
+
+node tools/test_accessibility.js > out/accessibility.log
+grep "accessibility-ok" out/accessibility.log
+
+node tools/test_chronopolis_ack.js > out/chronopolis_ack.log
+grep "chronopolis-ack-ok" out/chronopolis_ack.log
+
+node tools/test_arena_schema.js > out/arena_schema.log
+grep "arena-schema-ok" out/arena_schema.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"

@@ -130,13 +130,18 @@ Copy-&-Paste-Auftrag für den GPT
    demonstriert sind. Fehlende Abschnitte lässt du das GPT in derselben Sitzung nachliefern.
 3. Prüfen, ob das GPT die gesamte Testmatrix eigenständig abarbeitet und lückenlos dokumentiert:
    - **Solo ohne Begleitteam:** Fokus auf Progression, Ressourcenfluss, Paradoxon-Index und
-     Reaktionen des Kodex-HUD ohne externe Einflüsse.
+     Reaktionen des Kodex-HUD ohne externe Einflüsse. Der Trigger-Start (`Spiel starten (solo
+     trigger schnell)`) muss `campaign.mode = trigger` setzen und ohne erneute Auswahlmenüs in das
+     Briefing springen.
    - **Solo mit NPC-Team:** Verhalten der Squad-KI, Taktik-Befehle, Auto-Revive und Balance der
      Missionsziele kontrollieren. Prüfen, ob NPCs korrekt auf HQ-Briefings, Kodex-Kommandos und
-     Stadt-Services reagieren.
+     Stadt-Services reagieren. `Spiel starten (npc-team 3 trigger schnell)` muss das Seed-Feld
+     (`campaign.seed_source = trigger`) spiegeln und das Autoteam korrekt skalieren.
    - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
      Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
-     Mitspieler:in) müssen im Protokoll auftauchen.
+     Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart `Spiel starten (gruppe trigger
+     schnell)` darf keine zusätzliche Zahlenabfrage zulassen und übernimmt den Trigger-Modus in
+     `campaign.mode`.
    - **Simuliertes PvP:** Matchmaking-Hinweise, Regeltexte, Fraktionsboni und Konfliktauflösungen
      erfassen. Sicherstellen, dass PvP-Gefechte den Paradoxon-Index korrekt adressieren und keine
      Solo-/Koop-Elemente leaken.
@@ -147,10 +152,11 @@ Copy-&-Paste-Auftrag für den GPT
    rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
 5. Verifizieren, dass der GPT-Output HUD-Presets, Offline-Optionen (`!offline` –
    Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten),
-   Paradoxon-Index-Hinweise und Ask→Suggest-Toggle erklärt. Achte zudem darauf, dass der GPT im
-   selben Durchlauf den **Mission 5 Badge-Check** simuliert, den HUD-/Log-Auszug in den Evidenzen
-   sichert und den Foreshadow-Reset dokumentiert. Falls Informationen fehlen, gezielt nachfragen,
-   bis alle Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten,
+   das Accessibility-Panel (`!accessibility`), Paradoxon-Index-Hinweise und Ask→Suggest-Toggle
+   erklärt. Achte zudem darauf, dass der GPT im selben Durchlauf den **Mission 5 Badge-Check**
+   simuliert, den HUD-/Log-Auszug in den Evidenzen sichert, den Foreshadow-Reset dokumentiert und
+   die Chronopolis-Warnung bei Bedarf mit `!chronopolis ack` quittiert. Falls Informationen fehlen,
+   gezielt nachfragen, bis alle Acceptance-Smoke-Punkte (inkl. Gear-Aliasse, `Spiel starten`-Varianten,
    HQ-Erweiterungen, Stadt-Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges,
    Psi-Heat) im Protokoll stehen.
 6. Prüfen, ob der GPT im `To-do – Codex`-Block konkrete Umsetzungsaufgaben benennt. Das
@@ -256,8 +262,10 @@ saveGame({...})
 
 11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
     `Boss blockiert – Foreshadow 0/2`, bis Hinweise erfüllt sind.
-12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`)
-    und Badge `SF-OFF` ein; Foreshadow-Schritte zählen im HUD hoch.
+12. Mission 5 starten → HUD meldet `GATE 0/2`, blendet den Mini-Boss-Toast
+    (`Boss-Encounter in Szene 10`) sowie `SF-OFF` ein; Foreshadow-Schritte
+    zählen im HUD hoch und nach Mission 5 kehrt das System automatisch zu
+    `SF-ON` zurück.
 
 ### Psi-Heat & Ressourcen-Reset
 

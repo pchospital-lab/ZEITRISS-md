@@ -817,6 +817,9 @@ function log_phase_strike_event(ctx = state, details = {}){
   const total = Number.isFinite(details.total) ? Number(details.total) : base + tax;
   const mode = campaign_mode(ctx);
   const arenaActive = !!(ctx?.arena?.active);
+  const previousMode = typeof ctx?.arena?.previous_mode === 'string' && ctx.arena.previous_mode.trim()
+    ? ctx.arena.previous_mode.trim()
+    : null;
   const entry = {
     ability: 'phase_strike',
     timestamp: now,
@@ -826,6 +829,9 @@ function log_phase_strike_event(ctx = state, details = {}){
     mode,
     arena_active: arenaActive
   };
+  if (previousMode){
+    entry.mode_previous = previousMode;
+  }
   const location = typeof ctx?.location === 'string' && ctx.location.trim()
     ? ctx.location.trim()
     : (typeof state.location === 'string' && state.location.trim() ? state.location.trim() : null);
@@ -881,6 +887,21 @@ function log_squad_radio(details = {}){
     radioLog.splice(0, radioLog.length - SQUAD_RADIO_LOG_LIMIT);
   }
   return normalized;
+}
+
+function record_npc_autoradio(size, mode){
+  const normalizedSize = Number.isFinite(size) ? Math.max(0, Math.floor(size)) : 0;
+  const presetParts = [`NPC-Autoradio aktiv (${normalizedSize}× Squad)`];
+  const normalizedMode = typeof mode === 'string' ? mode.trim().toLowerCase() : 'preserve';
+  if (normalizedMode === 'trigger'){
+    presetParts.push('Trigger-Seeds bereit');
+  }
+  log_squad_radio({
+    speaker: 'Kodex',
+    channel: 'npc-team',
+    message: presetParts.join(' · '),
+    status: 'preset'
+  });
 }
 
 function format_alias_trace_entry(entry){
@@ -1307,7 +1328,14 @@ function register_foreshadow(token, details = {}){
 
 function ensure_ui(){
   if (!state.ui || typeof state.ui !== 'object'){
-    state.ui = { gm_style: 'verbose', intro_seen: false, suggest_mode: false };
+    state.ui = {
+      gm_style: 'verbose',
+      intro_seen: false,
+      suggest_mode: false,
+      contrast: 'standard',
+      badge_density: 'full',
+      output_pace: 'normal'
+    };
   }
   if (typeof state.ui.gm_style !== 'string'){
     state.ui.gm_style = 'verbose';
@@ -1316,7 +1344,76 @@ function ensure_ui(){
   if (typeof state.ui.suggest_mode !== 'boolean'){
     state.ui.suggest_mode = false;
   }
+  const contrast = typeof state.ui.contrast === 'string' ? state.ui.contrast.trim().toLowerCase() : '';
+  if (!['standard', 'high'].includes(contrast)){
+    state.ui.contrast = 'standard';
+  } else {
+    state.ui.contrast = contrast;
+  }
+  const badgeDensity = typeof state.ui.badge_density === 'string' ? state.ui.badge_density.trim().toLowerCase() : '';
+  if (!['full', 'compact', 'minimal'].includes(badgeDensity)){
+    state.ui.badge_density = 'full';
+  } else {
+    state.ui.badge_density = badgeDensity;
+  }
+  const pace = typeof state.ui.output_pace === 'string' ? state.ui.output_pace.trim().toLowerCase() : '';
+  if (!['normal', 'slow', 'fast'].includes(pace)){
+    state.ui.output_pace = 'normal';
+  } else {
+    state.ui.output_pace = pace;
+  }
   return state.ui;
+}
+
+function accessibility_status(){
+  const ui = ensure_ui();
+  const parts = [];
+  parts.push(`Kontrast: ${ui.contrast === 'high' ? 'hoch' : 'standard'}`);
+  const badgeMap = { full: 'voll', compact: 'kompakt', minimal: 'minimal' };
+  parts.push(`HUD-Badges: ${badgeMap[ui.badge_density] || 'voll'}`);
+  const paceMap = { slow: 'langsam', normal: 'normal', fast: 'schnell' };
+  parts.push(`Output-Takt: ${paceMap[ui.output_pace] || 'normal'}`);
+  return [
+    'Accessibility-Panel – verfügbare Optionen:',
+    '- `!accessibility contrast [standard|high]`',
+    '- `!accessibility badges [full|compact|minimal]`',
+    '- `!accessibility pace [slow|normal|fast]`',
+    '',
+    `Aktueller Status: ${parts.join(' · ')}`
+  ].join('\n');
+}
+
+function set_accessibility_option(option, value){
+  const ui = ensure_ui();
+  const normalizedOption = option.trim().toLowerCase();
+  const normalizedValue = value.trim().toLowerCase();
+  switch (normalizedOption){
+    case 'contrast':
+      if (!['standard', 'high'].includes(normalizedValue)){
+        throw new Error('Kontrastoption unbekannt – nutze `standard` oder `high`.');
+      }
+      ui.contrast = normalizedValue;
+      hud_toast(normalizedValue === 'high' ? 'HUD-Kontrast erhöht.' : 'HUD-Kontrast normal.', 'ACCESS');
+      break;
+    case 'badges':
+    case 'badge':
+      if (!['full', 'compact', 'minimal'].includes(normalizedValue)){
+        throw new Error('Badge-Dichte unbekannt – wähle `full`, `compact` oder `minimal`.');
+      }
+      ui.badge_density = normalizedValue;
+      hud_toast(`HUD-Badges → ${normalizedValue}`, 'ACCESS');
+      break;
+    case 'pace':
+      if (!['slow', 'normal', 'fast'].includes(normalizedValue)){
+        throw new Error('Tempo unbekannt – `slow`, `normal` oder `fast` sind erlaubt.');
+      }
+      ui.output_pace = normalizedValue;
+      hud_toast(`Output-Takt → ${normalizedValue}`, 'ACCESS');
+      break;
+    default:
+      throw new Error('Unbekannte Accessibility-Option.');
+  }
+  return accessibility_status();
 }
 
 function ensure_economy(){
@@ -3051,14 +3148,23 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
 }
 
 function apply_wallet_split(outcome, cuReward){
+  const economy = ensure_economy();
+  const hazardSource = outcome?.economy?.hazard_pay ?? outcome?.hazard_pay ?? outcome?.economy?.hazard;
+  const hazardPay = normalize_cu(hazardSource);
+  const lines = [];
+  if (hazardPay !== null && hazardPay > 0){
+    economy.cu = Math.max(0, Math.round(economy.cu) + hazardPay);
+    lines.push(`Hazard-Pay: ${hazardPay} CU priorisiert (HQ-Pool).`);
+  }
   const reward = normalize_cu(cuReward);
   if (reward === null || reward <= 0){
-    return { lines: [], payout: 0 };
+    const hqBalance = Math.max(0, Math.round(economy.cu));
+    lines.push(`HQ-Pool: ${hqBalance} CU verfügbar.`);
+    return { lines, payout: 0, leftover: 0 };
   }
   const rosterInfo = build_wallet_roster();
   const instructions = gather_wallet_instructions(outcome, rosterInfo);
   const { allocations, totalAssigned, leftover } = compute_wallet_allocations(reward, rosterInfo, instructions);
-  const economy = ensure_economy();
   economy.cu = Math.max(0, Math.round(economy.cu) + reward);
   allocations.forEach((entry) => {
     const record = get_wallet_record(entry.id, entry.label);
@@ -3071,7 +3177,6 @@ function apply_wallet_split(outcome, cuReward){
   if (totalAssigned > 0){
     economy.cu = Math.max(0, Math.round(economy.cu) - totalAssigned);
   }
-  const lines = [];
   if (allocations.length){
     const summary = allocations.map((entry) => `${entry.label || entry.id} +${entry.amount} CU`).join(' | ');
     lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
@@ -3121,6 +3226,7 @@ function ensure_arena(){
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
   arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
+  arena.phase = typeof arena.phase === 'string' ? arena.phase : (arena.active ? 'active' : 'idle');
   arena.policy_players = Array.isArray(arena.policy_players)
     ? arena.policy_players.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : null)).filter(Boolean)
     : undefined;
@@ -3133,6 +3239,11 @@ function apply_arena_rules(ctx = state){
   const arena = ctx.arena;
   if (!arena || typeof arena !== 'object'){ return null; }
   const active = !!arena.active;
+  if (!active && arena.phase !== 'completed'){
+    arena.phase = 'idle';
+  } else if (active){
+    arena.phase = arena.phase === 'completed' ? 'completed' : 'active';
+  }
   arena.damage_dampener = active && arena.damage_dampener !== false;
   arena.phase_strike_tax = active ? phase_strike_tax(ctx) : 0;
   const markBuffer = target => {
@@ -3592,6 +3703,7 @@ function arenaStart(options = {}){
   const currentEpisode = state.campaign?.episode ?? null;
   const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
   arena.active = true;
+  arena.phase = 'active';
   arena.wins_player = 0;
   arena.wins_opponent = 0;
   arena.tier = tierRule.tier;
@@ -3652,6 +3764,7 @@ function arenaExit(){
     messageParts.push('Px-Bonus bereits vergeben');
   }
   arena.active = false;
+  arena.phase = 'completed';
   arena.wins_player = 0;
   arena.wins_opponent = 0;
   arena.proc_budget = 0;
@@ -3895,6 +4008,15 @@ function chronopolisProgressAfterMission(summary){
   return null;
 }
 
+function acknowledge_chronopolis_warning(){
+  ensure_logs();
+  state.logs.flags.chronopolis_warn_seen = true;
+  ensure_campaign();
+  state.campaign.chronopolis_warn_seen = true;
+  hud_toast('Chronopolis-Warnung quittiert – Stadtbriefing aktiv.', 'CITY');
+  return 'Chronopolis-Warnung quittiert.';
+}
+
 function render_shop_tiers(level=1, faction_rep=0, rift_blueprints=[]){
   const t1 = level >= 1;
   const t2 = level >= 6;
@@ -3951,6 +4073,28 @@ function StartMission(){
   mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: 12 };
+  const runtimeFlags = ensure_runtime_flags();
+  runtimeFlags.skip_entry_choice = false;
+  const missionNumber = Number(state.campaign?.mission);
+  if (Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10)){
+    state.logs.flags.foreshadow_gate_expected = true;
+  }
+  if (Number.isFinite(missionNumber) && missionNumber >= 6 && !self_reflection_enabled()){
+    set_self_reflection(true);
+    state.logs.flags.self_reflection_auto_reset_at = new Date().toISOString();
+  }
+  let bossToast = null;
+  if (Number.isFinite(missionNumber) && missionNumber === 5){
+    bossToast = 'Mini-Boss in Szene 10 – Overflow halbiert.';
+  } else if (Number.isFinite(missionNumber) && missionNumber === 10){
+    bossToast = 'Boss-Finale in Szene 10 – DR aktiv.';
+  }
+  const overlay = scene_overlay();
+  writeLine(overlay);
+  if (bossToast){
+    hud_toast(bossToast, 'BOSS');
+  }
+  return overlay;
 }
 
 function scene_overlay(scene){
@@ -4123,6 +4267,47 @@ function prepare_save_campaign(campaign){
   return base;
 }
 
+function prepare_save_arena(arena){
+  const source = clone_plain_object(arena);
+  const active = !!source.active;
+  const normalized = {
+    active,
+    phase: typeof source.phase === 'string' && source.phase.trim()
+      ? source.phase.trim()
+      : active
+      ? 'active'
+      : 'idle',
+    mode: typeof source.mode === 'string' && source.mode.trim() ? source.mode.trim() : 'single',
+    previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
+      ? source.previous_mode.trim()
+      : null,
+    team_size: Number.isFinite(source.team_size) ? Math.max(1, Math.min(6, Math.floor(source.team_size))) : 1,
+    tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
+    proc_budget: Number.isFinite(source.proc_budget) ? Math.max(0, Math.floor(source.proc_budget)) : 0,
+    artifact_limit: Number.isFinite(source.artifact_limit) ? Math.max(0, Math.floor(source.artifact_limit)) : 0,
+    loadout_budget: Number.isFinite(source.loadout_budget) ? Math.max(0, Math.floor(source.loadout_budget)) : 0,
+    wins_player: Number.isFinite(source.wins_player) ? Math.max(0, Math.floor(source.wins_player)) : 0,
+    wins_opponent: Number.isFinite(source.wins_opponent) ? Math.max(0, Math.floor(source.wins_opponent)) : 0,
+    fee: Number.isFinite(source.fee) ? Math.max(0, Math.floor(source.fee)) : 0,
+    phase_strike_tax: Number.isFinite(source.phase_strike_tax) ? Math.max(0, Math.floor(source.phase_strike_tax)) : 0,
+    damage_dampener: source.damage_dampener !== false,
+    started_episode: Number.isFinite(source.started_episode) ? Math.floor(source.started_episode) : null,
+    last_reward_episode: Number.isFinite(source.last_reward_episode)
+      ? Math.floor(source.last_reward_episode)
+      : null,
+    scenario: source.scenario && typeof source.scenario === 'object'
+      ? clone_plain_object(source.scenario)
+      : (typeof source.scenario === 'string' ? source.scenario : null),
+    audit: Array.isArray(source.audit)
+      ? source.audit.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : entry)).filter(Boolean)
+      : [],
+    policy_players: Array.isArray(source.policy_players)
+      ? source.policy_players.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : entry)).filter(Boolean)
+      : []
+  };
+  return normalized;
+}
+
 function prepare_save_economy(economy){
   const base = clone_plain_object(economy);
   if (!Number.isFinite(base.cu)){
@@ -4150,6 +4335,9 @@ function prepare_save_logs(logs){
   const base = clone_plain_object(logs);
   if (!Array.isArray(base.hud)){
     base.hud = [];
+  }
+  if (!Array.isArray(base.foreshadow)){
+    base.foreshadow = [];
   }
   if (Array.isArray(base.foreshadow)){
     const deduped = [];
@@ -4298,6 +4486,12 @@ function prepare_save_ui(ui){
   base.gm_style = typeof base.gm_style === 'string' ? base.gm_style : 'verbose';
   base.intro_seen = !!base.intro_seen;
   base.suggest_mode = !!base.suggest_mode;
+  const contrast = typeof base.contrast === 'string' ? base.contrast.trim().toLowerCase() : '';
+  base.contrast = ['standard', 'high'].includes(contrast) ? contrast : 'standard';
+  const badgeDensity = typeof base.badge_density === 'string' ? base.badge_density.trim().toLowerCase() : '';
+  base.badge_density = ['full', 'compact', 'minimal'].includes(badgeDensity) ? badgeDensity : 'full';
+  const pace = typeof base.output_pace === 'string' ? base.output_pace.trim().toLowerCase() : '';
+  base.output_pace = ['slow', 'normal', 'fast'].includes(pace) ? pace : 'normal';
   return base;
 }
 
@@ -4377,6 +4571,7 @@ const SAVE_REQUIRED_PATHS = [
   ['campaign', 'px'],
   ['economy'],
   ['logs'],
+  ['logs', 'foreshadow'],
   ['logs', 'artifact_log'],
   ['logs', 'market'],
   ['logs', 'offline'],
@@ -4406,6 +4601,7 @@ function select_state_for_save(s){
     economy: prepare_save_economy(s.economy),
     logs: prepare_save_logs(s.logs),
     ui: prepare_save_ui(s.ui),
+    arena: prepare_save_arena(s.arena),
     arc_dashboard: prepare_save_arc_dashboard(s.arc_dashboard)
   };
   enforce_required_save_fields(payload);
@@ -4555,6 +4751,7 @@ function migrate_save(data){
     }
   }
   data.ui = prepare_save_ui(data.ui);
+  data.arena = prepare_save_arena(data.arena);
   return data;
 }
 
@@ -4599,6 +4796,17 @@ function hydrate_state(data){
     intro_seen: !!(data.ui?.intro_seen),
     suggest_mode: !!(data.ui?.suggest_mode)
   };
+  if (data.ui && typeof data.ui === 'object'){
+    if (data.ui.contrast !== undefined){
+      state.ui.contrast = data.ui.contrast;
+    }
+    if (data.ui.badge_density !== undefined){
+      state.ui.badge_density = data.ui.badge_density;
+    }
+    if (data.ui.output_pace !== undefined){
+      state.ui.output_pace = data.ui.output_pace;
+    }
+  }
   ensure_ui();
   state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
   const party = ensure_party();
@@ -4826,9 +5034,10 @@ function load_deep(raw){
   return { status: 'ok', state, hud };
 }
 
-function startSolo(mode='klassisch'){
+function startSolo(mode='klassisch', seedMode='preserve'){
   ensure_ui();
-  state.start = { type: 'solo', mode };
+  const normalizedSeed = seedMode === 'trigger' ? 'trigger' : 'preserve';
+  state.start = { type: 'solo', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
   state.character = {
     id: 'CHR-NEW',
@@ -4847,20 +5056,24 @@ function startSolo(mode='klassisch'){
   state.logs.flags.foreshadow_gate_expected = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
+  state.campaign.mode = normalizedSeed;
+  state.campaign.seed_source = normalizedSeed;
   ensure_runtime_flags().skip_entry_choice = false;
   sync_compliance_flags();
   play_hq_intro();
-  return `solo-${mode}`;
+  return normalizedSeed === 'preserve' ? `solo-${mode}` : `solo-${normalizedSeed}-${mode}`;
 }
 
 function setupNpcTeam(size=0){
   state.team = { size };
   initialize_wallets_from_roster();
+  record_npc_autoradio(size, state.campaign?.mode || 'preserve');
 }
 
-function startGroup(mode='klassisch'){
+function startGroup(mode='klassisch', seedMode='preserve'){
   ensure_ui();
-  state.start = { type: 'gruppe', mode };
+  const normalizedSeed = seedMode === 'trigger' ? 'trigger' : 'preserve';
+  state.start = { type: 'gruppe', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
   state.team = { size: 0 };
   ensure_logs();
@@ -4872,11 +5085,13 @@ function startGroup(mode='klassisch'){
   state.logs.flags.foreshadow_gate_expected = false;
   ensure_campaign();
   state.campaign.compliance_shown_today = false;
+  state.campaign.mode = normalizedSeed;
+  state.campaign.seed_source = normalizedSeed;
   ensure_runtime_flags().skip_entry_choice = false;
   sync_compliance_flags();
   initialize_wallets_from_roster();
   play_hq_intro();
-  return `gruppe-${mode}`;
+  return normalizedSeed === 'preserve' ? `gruppe-${mode}` : `gruppe-${normalizedSeed}-${mode}`;
 }
 
 function launch_mission(){
@@ -4959,29 +5174,77 @@ function on_command(command){
       }
     }
     let m;
-    if ((m = cmd.match(/^spiel starten \(solo\)(?:\s+(schnell|fast|klassisch|classic))?/))){
-      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
-      return startSolo(mode);
+    if ((m = cmd.match(/^spiel starten\s*\(npc-team\s+([0-9]+)/))){
+      const size = parseInt(m[1], 10);
+      if (Number.isFinite(size) && size > 4){
+        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).';
+      }
     }
-    if ((m = cmd.match(/^spiel starten\s*\(npc-team\)(?:\s+([0-4]))?(?:\s+(schnell|fast|klassisch|classic))?$/))){
-      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
-      startSolo(mode);
-      const size = m[1] ? parseInt(m[1], 10) : 0;
+    if (cmd.match(/^spiel starten\s*\(gruppe\s+\d/)){
+      return 'Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)';
+    }
+    if ((m = cmd.match(/^spiel starten\s*\(solo([^)]*)\)$/))){
+      const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
+      let mode = 'klassisch';
+      let seedMode = 'preserve';
+      options.forEach((token) => {
+        if (token === 'schnell' || token === 'fast') mode = 'schnell';
+        if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
+        if (token === 'trigger') seedMode = 'trigger';
+        if (token === 'preserve') seedMode = 'preserve';
+      });
+      return startSolo(mode, seedMode);
+    }
+    if ((m = cmd.match(/^spiel starten\s*\(npc-team([^)]*)\)$/))){
+      const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
+      let size = 0;
+      let mode = 'klassisch';
+      let seedMode = 'preserve';
+      options.forEach((token) => {
+        if (/^[0-9]+$/.test(token)){
+          const parsed = parseInt(token, 10);
+          if (Number.isFinite(parsed)){
+            size = parsed;
+          }
+        } else if (token === 'schnell' || token === 'fast'){
+          mode = 'schnell';
+        } else if (token === 'klassisch' || token === 'classic'){
+          mode = 'klassisch';
+        } else if (token === 'trigger'){
+          seedMode = 'trigger';
+        } else if (token === 'preserve'){
+          seedMode = 'preserve';
+        }
+      });
+      if (size > 4){
+        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).';
+      }
+      startSolo(mode, seedMode);
       setupNpcTeam(size);
       state.start.type = 'npc-team';
-      return `npc-team-${mode}`;
+      state.start.seed_mode = seedMode;
+      const response = seedMode === 'preserve' ? `npc-team-${mode}` : `npc-team-${seedMode}-${mode}`;
+      return response;
     }
-    if ((m = cmd.match(/^spiel starten\s*\(gruppe\)(?:\s+(schnell|fast|klassisch|classic))?$/))){
-      const mode = (cmd.includes('schnell') || cmd.includes('fast')) ? 'schnell' : 'klassisch';
-      return startGroup(mode);
+    if ((m = cmd.match(/^spiel starten\s*\(gruppe([^)]*)\)$/))){
+      const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
+      let mode = 'klassisch';
+      let seedMode = 'preserve';
+      options.forEach((token) => {
+        if (token === 'schnell' || token === 'fast') mode = 'schnell';
+        if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
+        if (token === 'trigger') seedMode = 'trigger';
+        if (token === 'preserve') seedMode = 'preserve';
+      });
+      return startGroup(mode, seedMode);
     }
     if (cmd === '!help start' || cmd === '/help start'){
         return [
           'Startbefehle:',
           '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, damit Funk- und Alias-Logs frisch sind.',
-          '- Spiel starten (solo) [klassisch|schnell]',
-          '- Spiel starten (npc-team [0–4]) [klassisch|schnell]',
-          '- Spiel starten (gruppe) [klassisch|schnell]',
+          '- Spiel starten (solo [preserve|trigger]) [klassisch|schnell]',
+          '- Spiel starten (npc-team [0–4] [preserve|trigger]) [klassisch|schnell]',
+          '- Spiel starten (gruppe [preserve|trigger]) [klassisch|schnell]',
           '- Spiel laden',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
@@ -4990,6 +5253,20 @@ function on_command(command){
     if (cmd === '!offline' || cmd === '!help offline' || cmd === '/help offline' || cmd === 'offline hilfe'){
         return offline_help('command');
       }
+    if (cmd === '!accessibility' || cmd === '!accessibility status' || cmd === '/help accessibility'){
+      return accessibility_status();
+    }
+    if (cmd.startsWith('!accessibility ')){
+      const parts = cmd.split(/\s+/);
+      if (parts.length < 3){
+        return 'Syntax: `!accessibility <contrast|badges|pace> <wert>`';
+      }
+      try {
+        return set_accessibility_option(parts[1], parts[2]);
+      } catch (err){
+        return err.message;
+      }
+    }
     if (cmd === '!help urban' || cmd === '/help urban'){
         return [
           'Urban Quick-Card:',
@@ -5035,6 +5312,9 @@ function on_command(command){
       chronopolis_reset('manual');
       state.campaign.chronopolis_missions_since_reset = 0;
       return 'Chronopolis-Reset durchgeführt. Tagesangebot wird bei nächstem Abruf neu geladen.';
+    }
+    if (cmd === '!chronopolis ack' || cmd === '!chronopolis warn ack'){
+      return acknowledge_chronopolis_warning();
     }
     if (cmd === '!alias' || cmd.startsWith('!alias ')){
       return handleAliasCommand(command.trim());
@@ -5146,6 +5426,7 @@ module.exports = {
   launch_mission,
   chronopolisStockReport,
   chronopolisTickStatus,
+  acknowledge_chronopolis_warning,
   suspend_snapshot,
   resume_snapshot,
   resolveSuspendPath,

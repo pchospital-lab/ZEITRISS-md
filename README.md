@@ -205,9 +205,9 @@ Die ersten Schritte in unter zwei Minuten:
 
 **Startbefehle (Klammern Pflicht):**
 
-- `Spiel starten (solo)` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0–4])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
-- `Spiel starten (gruppe)` – alle bauen · _schnell_: Saves posten oder Rolle nennen
+- `Spiel starten (solo [preserve|trigger])` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
+- `Spiel starten (npc-team [0–4] [preserve|trigger])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
+- `Spiel starten (gruppe [preserve|trigger])` – alle bauen · _schnell_: Saves posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
 
 **Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.
@@ -400,7 +400,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Verfügung, auch ohne die lokale `runtime.js`.
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
-Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
+Ein manuelles 15-Schritte-Smoke-Set steht im Abschnitt
 [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
@@ -410,6 +410,7 @@ Ein manuelles 10-Schritte-Smoke-Set steht im Abschnitt
 - `!suspend` – legt einen flüchtigen Szenen-Snapshot für eine Pause an.
 - `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt Initiative-Leiste sowie HUD-Timer wieder her.
 - `!autosave hq` – schaltet Auto-Save im HQ.
+- `!accessibility` – öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
 
 - `!gear shop` – zeigt Shop-Tier-Liste.
 - `!psi heat` – erklärt Psi-Heat und Burn.
@@ -871,9 +872,9 @@ Nach Compliance-Hinweis und Einleitung wählst du zwischen
 Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
 (Icons sind optional):
 
-- **`Spiel starten (solo)`** – Einzelner Chrononaut; GPT führt die NSCs.
-- **`Spiel starten (npc-team)`** – GPT stellt ein temporäres Begleitteam bereit.
-- **`Spiel starten (gruppe)`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
+- **`Spiel starten (solo [preserve|trigger])`** – Einzelner Chrononaut; GPT führt die NSCs.
+- **`Spiel starten (npc-team [0–4] [preserve|trigger])`** – GPT stellt ein temporäres Begleitteam bereit.
+- **`Spiel starten (gruppe [preserve|trigger])`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
   oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
 - **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
@@ -950,6 +951,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
   Preisfaktoren.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
+- Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die freigeschaltete Stadt und hält den Status im Save.
 - Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle.
 - Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12 Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und Szenenmarker fest; `offline_audit()` speist HUD und Debrief. Die Zusammenfassung `Offline-Protokoll (n×): …` nennt Trigger, Jammer-Status, Reichweite sowie Episoden-/Missionsmarker.
 - Alias-Debriefs landen in `logs.alias_trace[]`: `!alias log Persona|Cover|Status|Notiz` (oder Key-Value wie `mission=M5|scene=3`) erzeugt einen Eintrag mit Timestamp, Persona, Cover, Status, Szene/Mission und optionaler Notiz. Der Debrief fasst die letzten Einträge in `Alias-Trace (n×): …` zusammen – Grundlage für QA-Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
@@ -957,6 +959,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …` im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
 - Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs.
 - Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
+- **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft die Wallet-Verteilung.
 
 ## Spielmodi {#spielmodi}
 
