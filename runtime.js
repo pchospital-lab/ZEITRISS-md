@@ -1834,7 +1834,8 @@ function set_self_reflection(on, opts = {}){
   const enabled = !!on;
   const character = ensure_character();
   character.self_reflection = enabled;
-  const flags = ensure_logs().flags;
+  ensure_logs();
+  const flags = state.logs.flags || (state.logs.flags = {});
   const statusTag = options.tag || (enabled ? 'SF-ON' : 'SF-OFF');
   const defaultMessage = enabled
     ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'

@@ -6,6 +6,44 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-10-21 – Repo-Agent – Beta-GPT 2025-10-15 Nacharbeiten validiert
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21, QA-Fahrplan 1.8.1
+- Copy-&-Paste-Auftrag: Fahrplan-Eintrag für die Live-Nacharbeiten ergänzen,
+  Beta-GPT-Checks (Acceptance 1–15, Funkgeräte, Compliance-Makro, Save-Schema) erneut
+  gegen Runtime & Wissensmodule spiegeln.
+
+**Maßnahmen**
+1. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) auf Version 1.8.1 gehoben,
+   neuen Deepcheck-Eintrag `2025-10-21` ergänzt und im Maßnahmenpaket 2025-10-15 den
+   Abschlussstand 2025-10-21 dokumentiert.
+2. Runtime (`runtime.js`): `set_self_reflection()` absichert nun nach `ensure_logs()` auch
+   `state.logs.flags`, damit der automatische SF-Reset nach Mission 5 ohne Fehler läuft.
+3. QA-Log (dieser Eintrag) führt Tests & Spiegelungen auf und verweist auf die aktualisierten
+   Dokumente (README, QA-Briefing, Masterprompt, Speicher-Module).
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+PYTHONPATH=. python3 scripts/lint_umlauts.py
+```
+
+**Ergebnisse**
+- `make lint` läuft komplett grün und bestätigt Link-/Markdownlint der QA-Dokumente
+  (`internal/qa/...`).
+- `make test` inklusive Smoke-, Save- und Konflikt-Suite läuft nach dem Fix in
+  `set_self_reflection()` fehlerfrei durch.
+- Zusatzläufe (`scripts/smoke.sh`, Runtime-Linter, Link-/Umlaut-Checks) bleiben ohne Befund.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.8.1 verweist auf diesen Logeintrag und markiert die Beta-GPT
+  Nacharbeiten als validiert.
+- Maintainer:innen liefern weiterhin Evidenzen laut Einträgen 2025-10-15/20 nach.
+
 ## 2025-10-15 – Tester: Beta-GPT – Acceptance-/HUD-/Save-Drift
 - Plattform: Beta-GPT (Remote-Lauf via Maintainer-Script)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-07-20, QA-Fahrplan 1.6.1
