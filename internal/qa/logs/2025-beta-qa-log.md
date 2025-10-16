@@ -30,13 +30,13 @@ tags: [meta]
 15. Cinematic-Start stellt initialen HUD-Header nicht zwingend her.
 
 **To-dos**
-- [ ] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen.
-- [ ] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit aktualisieren.
-- [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-Transkripte) nach Umsetzung.
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen. → QA-Fahrplan 1.8.0 dokumentiert alle Punkte als abgeschlossen.
+- [x] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit aktualisieren. → Audit-Update vom 20.10.2025 ergänzt die neuen Abschnitte.
+- [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-Transkripte) nach Umsetzung. → Nachweise werden im Evidenz-Log `internal/qa/evidence/2025-beta-gpt-evidenz.md` gesammelt.
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.6.x aktualisieren (Ziel: 1.7.0) und Beta-QA-Log mit Fahrplan/Audit verknüpfen.
-- README, Toolkit und Save-Module müssen Acceptance-/HUD-/Arena-/Accessibility-Kapitel nachziehen.
+- QA-Fahrplan Version 1.8.0 führt das Maßnahmenpaket als abgeschlossen; Audit- und Evidenz-Aktualisierung laufen über die neuen Abschnitte.
+- README, Toolkit und Save-Module spiegeln die Kapitel (Stand 2025-10-20); offene Evidenzen bleiben im Evidenz-Log markiert.
 
 ## 2025-10-20 – Repo-Agent – Smoke-/Lint-Check & Offene Punkte
 - Plattform: Lokale CI-Simulation
@@ -61,15 +61,11 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
   HUD-Badges konsistent.
 
 **Offene Aufgaben (Stand 2025-10-20)**
-- QA-Audit führt bislang nur die Maßnahmenpakete bis Beta-GPT 2025-06. Die Pakete 2025-07,
-  2025-07-18 und 2025-10-15 müssen noch als Abschnitt mit Statusnotizen ergänzt werden,
-  damit Fahrplan, Audit und QA-Log synchron bleiben.
-- Die To-do-Checkboxen in diesem Log für die Läufe 2025-07-05 und 2025-10-15 sollten nach
-  dem Audit-Update geschlossen oder mit Statusnotizen versehen werden (Fahrplan ist bereits
-  auf ✅).
-- Maintainer:innen liefern noch die in Audit §Folgeaufgaben geforderten QA-Evidenzen
+- [x] QA-Audit: Abschnitte für Beta-GPT 2025-07, 2025-07-18 und 2025-10-15 ergänzt (Update 20.10.2025).
+- [x] QA-Log: To-do-Checkboxen in den Läufen 2025-07-05 und 2025-10-15 mit Statusnotizen versehen.
+- [ ] Maintainer:innen liefern die in Audit §Folgeaufgaben geforderten QA-Evidenzen
   (Dispatcher-Suite, Cross-Mode-Läufe, Debrief-Splits) sowie HUD-/Save-Dumps für die
-  jüngsten Beta-GPT-Runs.
+  jüngsten Beta-GPT-Runs; Vorlage siehe `internal/qa/evidence/2025-beta-gpt-evidenz.md`.
 
 **Nachverfolgung**
 - QA-Fahrplan 1.8.0 bestätigt den Abschluss aller Beta-GPT-Maßnahmenpakete; Audit-Update und
@@ -220,9 +216,9 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 15. City/Chronopolis-Module haben keinen dedizierten Acceptance-Smoke-Test.
 
 **To-dos**
-- [ ] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen.
-- [ ] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan + README/Toolkit).
-- [ ] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-Smokes) nach Umsetzung.
+- [x] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen. → Erledigt in QA-Fahrplan 1.8.0 (§„Maßnahmenpaket Beta-GPT 2025-07“).
+- [x] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan + README/Toolkit). → Update 2025-10-20 im QA-Audit dokumentiert.
+- [ ] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-Smokes) nach Umsetzung. → Ablage vorbereitet unter `internal/qa/evidence/2025-beta-gpt-evidenz.md`.
 
 **Nachverfolgung**
 - Fahrplan-Version 1.5.0 führt Issues #1–#15 als offen geplante Maßnahmen mit QA-Verantwortlichkeiten.

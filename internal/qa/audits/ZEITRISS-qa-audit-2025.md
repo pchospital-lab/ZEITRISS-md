@@ -159,6 +159,47 @@ Hochstufen-Spielrunden.
     *erledigt* – Runtime blendet `TK🌀` nach `!tk melee` ein und `!tk ready`
     entfernt die Sperre nach der Cooldown-Runde.
 
+## Beta-GPT 2025-07 – Save/HUD/Arena-Deltas (Update: 2025-10-20)
+
+- **Status:** Alle Issues #1–#15 sind laut QA-Fahrplan 1.8.0 und
+  Beta-QA-Log 2025-07-20 abgeschlossen; README, Toolkit und HUD-Modul spiegeln
+  Gate-/Badge-/City-Flows.
+- **Fahrplan:** Abschnitt „Maßnahmenpaket Beta-GPT 2025-07“ führt sämtliche
+  Punkte als ✅ und verweist auf die Runtime- und Wissensmodule.
+- **QA-Log:** Eintrag 2025-07-20 bestätigt die Umsetzung und die
+  Pflichttest-Läufe.
+- **Evidenz:** HUD-/Save-/Arena-Belege stehen aus. Sammelstelle siehe
+  [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md).
+
+## Beta-GPT 2025-07-18 – Save/HUD/Compliance-Regression (Update: 2025-10-20)
+
+- **Status:** Maßnahmen #1–#12 sind laut QA-Fahrplan 1.8.0 umgesetzt; HUD-Badges
+  (`SF-OFF`, `GATE 2/2`), Psi-Logs und Dispatcher-Hinweise wurden in Runtime,
+  README, Toolkit und HUD-Modul gespiegelt.
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-07-18“ markiert alle
+  Punkte als ✅ und verlinkt auf die betroffenen Module.
+- **QA-Log:** Eintrag 2025-07-20 dokumentiert die Pflichttestläufe sowie die
+  Doku-Synchronisation.
+- **Evidenz:** Exfil-/Wallet-Traces und Psi-/HUD-Logs werden nach dem nächsten
+    Beta-GPT-Lauf unter
+    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
+    ergänzt.
+
+## Beta-GPT 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas (Update: 2025-10-20)
+
+- **Status:** Alle 15 Maßnahmen sind in QA-Fahrplan 1.8.0 als ✅ vermerkt; die
+  Acceptance-Smoke umfasst wieder 15 Prüfschritte, das Save-Schema erzwingt
+  `logs.foreshadow[]` und Arena-Phase-Marker, HUD & Dispatcher spiegeln den
+  Auto-Reset von `SF-OFF`, Cinematic-Header und Accessibility-Dialog.
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-15“ listet die
+  aktualisierten Referenzen auf Runtime, README, Toolkit, HUD-Modul und
+  Tester-Briefing.
+- **QA-Log:** Eintrag 2025-10-20 bestätigt den grünen Pflichttest-Stack und die
+  offenen Schritte für Audit und QA-Evidenz.
+- **Evidenz:** Acceptance-Checkliste, HUD-Dumps und Dispatcher-Transkripte sind
+    vorzubereiten. Ablage:
+    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md).
+
 ## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-28)
 
 - **Stichprobe Runtime:** `CHRONO_CATALOG` listet aktuell einen Tagespool aus
@@ -400,7 +441,9 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 **Folgeaufgaben:**
 
 - [ ] QA ergänzt Regressionstests (Dispatcher-Suite, Cross-Mode-Läufe,
-      Debrief-Splits) und versieht sie mit Referenzen im QA-Log.
+      Debrief-Splits) und trägt die Nachweise im Evidenzprotokoll unter
+      `internal/qa/evidence/2025-beta-gpt-evidenz.md` nach; QA-Log und Fahrplan
+      verweisen anschließend auf die Ablage.
 - [ ] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
       verknüpft Commits mit dem Audit.
 - [ ] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
