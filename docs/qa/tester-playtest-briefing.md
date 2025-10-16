@@ -60,13 +60,11 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
 Der komplette Auftrag steht im folgenden Copyblock. Ein Klick auf das Kopiersymbol umfasst den
 Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
-```text
-Copy-&-Paste-Auftrag für den GPT
-
 > **Einmal senden, vollständigen QA-Run abwarten:** Der GPT simuliert Solo-, NPC-Squad-, Koop- und
 > PvP-Szenarien selbstständig. Tester:innen posten diesen Auftrag genau einmal und warten, bis alle
 > Abschnitte samt Abschluss-Blocks geliefert wurden.
->
+
+```text
 > (OOC: Spieleentwickler) Bitte lies den kompletten ZEITRISS-Datensatz aufmerksam und führe
 > nacheinander folgende simulierte Durchläufe als Chrononaut: Solo ohne Begleitteam, Solo mit NPC-
 > Squad, Koop mit einem voll simulierten Spielerteam (inkl. Absprache, Rollen- und Loot-Verteilung)
