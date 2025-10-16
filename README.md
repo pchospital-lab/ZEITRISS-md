@@ -53,9 +53,14 @@ tags: [meta]
 1. [Playtest Feedback](#playtest-feedback)
 1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
 
-<!-- Macro: StoreCompliance -->
-{% macro StoreCompliance() -%}
+<!-- Macro: ShowComplianceOnce -->
+{% macro ShowComplianceOnce() -%}
 Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
+{%- endmacro %}
+
+<!-- Macro: StoreCompliance (Alias) -->
+{% macro StoreCompliance() -%}
+{{ ShowComplianceOnce() }} {# Alias für Legacy-Prompts, bitte ShowComplianceOnce bevorzugen. #}
 {%- endmacro %}
 
 ## Überblick
@@ -185,7 +190,7 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`; `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen.
+7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`; `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen. Nach Mission 5 stellt die Runtime Self-Reflection automatisch auf `SF-ON` zurück – sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
 8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde; `!tk ready` hebt die Sperre nach dem Cooldown auf.
 9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
@@ -285,15 +290,26 @@ Spiel starten (gruppe schnell)
 ### Boss-Gates & HUD-Badges
 11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10,
     HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
-12. Mission 5 starten → HUD blendet Mini-Boss-DR (`Boss-Encounter in Szene 10`)
-    sowie das Gate-Badge `GATE 2/2` ein; `SF-OFF` bleibt als Badge sichtbar,
-    wenn die Self-Reflection zuvor deaktiviert wurde. Der Foreshadow-Zähler
-    startet bei `FS 0/4` und zählt im HUD weiter hoch.
+12. Mission 5 starten → HUD blendet den Encounter-Hinweis
+    `Boss-Encounter in Szene 10` sowie das Gate-Badge `GATE 2/2` ein;
+    `SF-OFF` bleibt sichtbar, wenn Self-Reflection zuvor deaktiviert wurde.
+    Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In Szene 10
+    zeigt das HUD den Mini-Boss-DR-Toast, im Debrief setzt die Runtime
+    Self-Reflection bei Missionsende (`completed` **oder** `aborted`) auf
+    `SF-ON` zurück.
 
 ### Psi-Heat & Ressourcen-Reset
 13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
     `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0,
     HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
+
+### Accessibility & UI-Persistenz
+14. `!accessibility` auslösen → Dialog öffnet sich, Auswahl `High Contrast`
+    + `Badges dense` + `Output pace slow` bestätigen → HUD-Toast
+    „Accessibility aktualisiert …“ erscheint; Save-Preview zeigt die
+    aktualisierten UI-Felder.
+15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
+    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
@@ -457,12 +473,13 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - **DelayConflict(threshold=4, allow=[])** – Verzögert Konfliktszenen bis zur Szene
   `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
   (Minimum: Szene 2). `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
-- **comms_check(device, range_m, jammed?, relays?)** – Pflicht vor `radio_tx/rx`:
-  akzeptiert `device` (`comlink`, `cable`, `relay`, `jammer_override`), eine
-  Reichweite in Metern sowie optionale Flags. Gibt `true` zurück, wenn Reichweite
-  × `state.comms.rangeMod` > 0 ist und bei aktivem Jammer nur Kabel, Relais oder
-  Override genutzt werden. Andernfalls schlägt der Guard fehl und löst `must_comms()`
-  aus.
+- **comms_check(device, range_m, …)** – Pflicht vor `radio_tx/rx`:
+  akzeptiert `device` (`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung
+  egal) und eine Reichweite in Metern. Optional nimmt der Guard `range_km`,
+  `jammer` und `relays` entgegen. `must_comms()` normalisiert die Eingaben,
+  wandelt Kilometer in Meter um und schlägt fehl, wenn ein Jammer ohne Kabel,
+  Relay oder Override überbrückt werden soll. In dem Fall löst der Guard den
+  Offline-Hinweis aus.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 - **scene_overlay(total?, pressure?, env?)** – erzeugt das HUD-Banner `EP·MS·SC`
   mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Nach
@@ -481,8 +498,9 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 **Chat-Kurzbefehle**
 
 - `!helper delay` – erklärt `DelayConflict` kurz.
-- `!helper comms` – erklärt `comms_check` & Gerätevoraussetzungen.
-  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
+- `!helper comms` – erklärt `comms_check`, akzeptierte Geräte (lowercase) und
+  die Meter/Kilometer-Normalisierung. Tipp: Terminal suchen / Comlink koppeln /
+  Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
 ### Runtime-State (Kurzreferenz)
@@ -758,7 +776,7 @@ sind der Übersicht halber aufgeführt.
 | [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC & Encounter-Gen |
 | [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
 | [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
-| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Regeln für Massenkonflikte |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Verfolgungsjagden & Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
 | [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
@@ -881,7 +899,7 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   Rückblick nahtlos weiter – ohne Auswahlmenü für `klassisch`/`schnell`.
 
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
-{{ StoreCompliance() }}
+{{ ShowComplianceOnce() }}
 Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.

@@ -129,9 +129,10 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
-  `character.cooldowns`, `campaign.px`, `economy`, `logs`, `logs.artifact_log`,
-  `logs.market`, `logs.offline`, `logs.kodex`, `logs.alias_trace`,
-  `logs.squad_radio`, `logs.foreshadow`, `logs.flags`, `ui` und `arena`.
+  `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
+  `logs`, `logs.artifact_log`, `logs.market`, `logs.offline`, `logs.kodex`,
+  `logs.alias_trace`, `logs.squad_radio`, `logs.foreshadow`,
+  `logs.fr_interventions`, `logs.psi`, `logs.flags`, `ui` und `arena`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
@@ -140,6 +141,9 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
+- `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
+  `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
+  normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise.
 
 **Load-Verhalten**
 
@@ -149,15 +153,22 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
 - Logs halten `logs.flags.runtime_version` vor, damit klar ist, mit welcher Laufzeitversion der Save erstellt wurde. Der Debrief fasst den Persistenzstatus in `Runtime-Flags: …` zusammen (Runtime-Version, Compliance-Check, Chronopolis-Warnung sowie Offline-Hilfe-Zähler und letzter Timestamp).
-- Toolkit-Makros spiegeln den Compliance-Status: `ShowComplianceOnce()` setzt sowohl `campaign.compliance_shown_today` als auch `state.logs.flags.compliance_shown_today`, damit Saves ohne laufende Runtime denselben Persistenzzustand liefern.
+- Toolkit-Makros spiegeln den Compliance-Status: `ShowComplianceOnce()` (Alias `StoreCompliance()`) setzt sowohl `campaign.compliance_shown_today` als auch `state.logs.flags.compliance_shown_today`, damit Saves ohne laufende Runtime denselben Persistenzzustand liefern.
 - `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; der Debrief rendert daraus `Chronopolis-Trace (n×): …` inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz/Quelle der jüngsten Einkäufe.
 - `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode; der Debrief nutzt `Offline-Protokoll (n×): …` als Feldprotokoll-Zusammenfassung.
 - `logs.foreshadow[]` wird dedupliziert und hält Tag, Kurztext, Szene sowie First/Last-Seen. `Foreshadow-Log (n×): …` im Debrief listet die jüngsten Hinweise, damit QA Foreshadow-Gates nachvollziehen kann.
 - `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge) mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung. `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf z. B. nach Fraktion oder Beobachter-Status. QA ruft `!dashboard status` auf, um Seeds, Fraktionsmeldungen und offene Fragen direkt aus dem Dashboard zu exportieren – der Textbericht dient als Evidenz im QA-Log.
+- `campaign.hq_moments_used: string[]` dokumentiert genutzte HQ-Buffs (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer es auf `[]`; Debriefs listen „HQ-Moments (n×)“ anhand dieses Arrays.
 - `logs.alias_trace[]` dokumentiert Alias-Läufe mit Persona, Cover, Status, Szene, Mission und optionaler Notiz. `!alias log Persona|Cover|Status|Notiz` (oder Key-Value-Varianten wie `mission=M5|scene=3`) legt Einträge an, der Debrief fasst sie als `Alias-Trace (n×): …` für QA-Abgleiche zusammen.
 - `logs.squad_radio[]` hält Funkmeldungen mit Sprecher, Kanal, Nachricht, Status sowie optional Szene/Ort fest. `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` speichert Ereignisse, der Debrief liefert die Zusammenfassung `Squad-Radio (n×): …` für Persistenzprüfungen.
-- `economy.wallets{}` ist die Koop-Kasse des Teams. Jeder Eintrag folgt der Struktur `<character_id>: {balance, name?}`. Debrief-Splits schreiben Auszahlungen auf diese Wallets, während der zentrale HQ-Pool (`economy.cu`) den Restbestand hält.
+- `economy.wallets{}` ist die Koop-Kasse des Teams. Jeder Eintrag folgt der Struktur `<character_id>: {balance, name?}`. Debrief-Splits schreiben Auszahlungen auf diese Wallets, während der zentrale HQ-Pool (`economy.cu`) den Restbestand hält. Fehlt das Objekt, initialisiert die Runtime es beim nächsten Debrief (`Wallets initialisiert (n×)`), Saves spiegeln stets ein Objekt (ggf. `{}`).
 - `arena{}` spiegelt den PvP-Status: `active`, `phase` (`idle`/`active`/`completed`), aktueller `mode` (`single`/`sparring` …), `previous_mode` zur Rückkehr ins Story-Play, Serienstand (`wins_player`, `wins_opponent`), Budget-Limits (`proc_budget`, `artifact_limit`, `loadout_budget`), `phase_strike_tax`, Szenario/Audit sowie `policy_players[]` (sanitisierte Loadouts). `logs.psi[]` erhält parallel `mode_previous`, damit Cross-Mode-Evidenz im Debrief steht.
+- `logs.psi[]` protokolliert Arena-spezifische Kosten (`phase_strike_tax`) sowie den zuletzt aktiven Modus (`mode_previous`);
+  Debriefs listen diese Einträge als „Arena-Psi (n×)“ auf.
+- `logs.flags` hält neben klassischen Flags nun auch `foreshadow_gate_m5_seen`, `foreshadow_gate_m10_seen`,
+  `last_mission_end_reason`, `self_reflection_off`, `self_reflection_changed_at`,
+  `self_reflection_last_change_reason` sowie `self_reflection_auto_reset_{at,reason}`. Diese Werte dienen QA-Läufen als
+  Beleg für Gate-Status und Self-Reflection-Resets.
 
 ### Koop-Debrief & Wallet-Split {#koop-wallet-split}
 

@@ -42,7 +42,7 @@ Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen
 [Missions‑Generator](kreative-generatoren-missionen.md#missions-generator)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
 Falls eure Runde Fahrzeugwerte oder Regeln für große Gefechte benötigt, siehe
-[Modul 7](fahrzeuge-konflikte.md) und [Modul 9](massenkonflikte.md).
+[Modul 7](fahrzeuge-konflikte.md) und [Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
 Dort finden sich Manöver, Upgrades und Massenkampfregeln.
 
 
