@@ -38,6 +38,43 @@ tags: [meta]
 - QA-Fahrplan Version 1.6.x aktualisieren (Ziel: 1.7.0) und Beta-QA-Log mit Fahrplan/Audit verknüpfen.
 - README, Toolkit und Save-Module müssen Acceptance-/HUD-/Arena-/Accessibility-Kapitel nachziehen.
 
+## 2025-10-20 – Repo-Agent – Smoke-/Lint-Check & Offene Punkte
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-15, QA-Fahrplan 1.8.0
+- Copy-&-Paste-Auftrag: Pflicht-Testpaket erneut verifizieren, QA-Dokumente auf
+  Restarbeiten prüfen.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+PYTHONPATH=. python3 scripts/lint_umlauts.py
+```
+
+**Ergebnisse**
+- Alle Pflichtprüfungen laufen grün; `scripts/lint_umlauts.py` benötigt weiterhin `PYTHONPATH=.`,
+  fällt sonst mit `ModuleNotFoundError` aus.
+- Keine neuen Diff-Hinweise im Runtime-Stapel; README/Toolkit spiegeln die aktuellen Guards und
+  HUD-Badges konsistent.
+
+**Offene Aufgaben (Stand 2025-10-20)**
+- QA-Audit führt bislang nur die Maßnahmenpakete bis Beta-GPT 2025-06. Die Pakete 2025-07,
+  2025-07-18 und 2025-10-15 müssen noch als Abschnitt mit Statusnotizen ergänzt werden,
+  damit Fahrplan, Audit und QA-Log synchron bleiben.
+- Die To-do-Checkboxen in diesem Log für die Läufe 2025-07-05 und 2025-10-15 sollten nach
+  dem Audit-Update geschlossen oder mit Statusnotizen versehen werden (Fahrplan ist bereits
+  auf ✅).
+- Maintainer:innen liefern noch die in Audit §Folgeaufgaben geforderten QA-Evidenzen
+  (Dispatcher-Suite, Cross-Mode-Läufe, Debrief-Splits) sowie HUD-/Save-Dumps für die
+  jüngsten Beta-GPT-Runs.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.8.0 bestätigt den Abschluss aller Beta-GPT-Maßnahmenpakete; Audit-Update und
+  QA-Evidenz bleiben als nächste Schritte offen.
+
 ## 2025-07-20 – Repo-Agent – Beta-GPT 2025-07-18 Maßnahmen umgesetzt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit/Characters Stand 2025-07-20, QA-Fahrplan 1.6.1
