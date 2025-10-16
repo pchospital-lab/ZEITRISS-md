@@ -136,6 +136,9 @@ Content-Type: application/json
   },
   "arena": {
     "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "previous_mode": null,
     "wins_player": 0,
     "wins_opponent": 0,
     "last_reward_episode": null,
@@ -144,7 +147,12 @@ Content-Type: application/json
     "artifact_limit": 0,
     "loadout_budget": 0,
     "fee": 0,
-    "phase_strike_tax": 0
+    "phase_strike_tax": 0,
+    "damage_dampener": true,
+    "team_size": 1,
+    "scenario": null,
+    "policy_players": [],
+    "audit": []
   },
   "character": {
     "hp": 18,
@@ -170,22 +178,31 @@ Content-Type: application/json
       "chronopolis_warn_seen": false
     }
   },
-  "ui": { "gm_style": "verbose", "intro_seen": false, "suggest_mode": false }
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": false,
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "full",
+    "output_pace": "normal"
+  }
 }
 ```
 
 `campaign.episode` spiegelt die aktuelle Missions-Staffel, `campaign.mode`
 markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
-`arena` notiert Laufzustand, Budget-Limits und Episodenstempel für den Px-Bonus.
-`logs.psi` speichert die jüngsten Psi-Traces (z. B. Phase-Strike-Kostenaufschläge)
-mit Basis-, Tax- und Gesamtwert samt Modus, damit QA und Toolkit-Hooks das PvP-
-Feedback nachvollziehen können. `logs.alias_trace` hält Alias-Läufe (Persona,
-Cover, Status, Szene/Mission) fest, während `logs.squad_radio` Funkmeldungen mit
-Sprecher, Kanal, Status und optionaler Szene/Ort loggt – beide erscheinen im
-Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)`. `logs.flags` zählt
-Compliance-Hinweis, Offline-Hilfen sowie die Runtime-Version – `runtime.js`
-erwartet diese Felder beim Laden, damit der GPT dieselbe Persistenz bedient.
-`ui` hält GM-Stil, Intro- und Suggest-Flags synchron mit den Toolkit-Makros.
+`arena` notiert Laufzustand, Phase (`idle`/`active`/`completed`), Moduswechsel,
+Budget-Limits und Episodenstempel für den Px-Bonus. `logs.psi` speichert die
+jüngsten Phase-Strike-Traces mit Basis-, Tax- und Gesamtwert, aktuellem Modus
+und `mode_previous`, damit QA Cross-Mode-Evidenz nachverfolgt. `logs.alias_trace`
+hält Alias-Läufe (Persona, Cover, Status, Szene/Mission) fest, während
+`logs.squad_radio` Funkmeldungen mit Sprecher, Kanal, Status und optionaler
+Szene/Ort loggt – beide erscheinen im Debrief als `Alias-Trace (n×)` bzw.
+`Squad-Radio (n×)`. `logs.flags` zählt Compliance-Hinweis, Offline-Hilfen sowie
+die Runtime-Version – `runtime.js` erwartet diese Felder beim Laden, damit der
+GPT dieselbe Persistenz bedient. `ui` hält GM-Stil, Intro-, Suggest- und
+Accessibility-Flags (`contrast`, `badge_density`, `output_pace`) synchron mit
+den Toolkit-Makros.
 
 _Getter-Helpers (pseudo JS):_
 
@@ -255,6 +272,7 @@ export const phaseStrikeCost = (ctx = state, baseOrOptions = 2) => {
       tax,
       total_cost: total,
       mode: campaignMode(ctx),
+      mode_previous: ctx?.arena?.previous_mode ?? null,
       arena_active: !!(ctx?.arena?.active),
       location: ctx?.location ?? state.location ?? null,
       gm_style: ui.gm_style,

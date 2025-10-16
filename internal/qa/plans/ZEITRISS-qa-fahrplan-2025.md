@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.7.0
+version: 1.8.0
 tags: [meta]
 ---
 
@@ -82,6 +82,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
   QA-Workflow.
 - **Tests & Automation** – Makefile- und Script-Läufe sind dokumentiert; Smoke-
   und Spezialtests werden im QA-Log belegt.
+  - Node-Smoke deckt Start-Trigger, Accessibility-Persistenz, Chronopolis-
+    Acknowledge und Arena-Schema ab (`tools/test_start.js`,
+    `tools/test_accessibility.js`, `tools/test_chronopolis_ack.js`,
+    `tools/test_arena_schema.js`).
 - **Wissensspiegel** – Wissensmodule enthalten die Spiegel der lokalen Runtimes;
   Abweichungen werden mit Commit-ID im QA-Log erfasst.
 - **Datenschutz & Plattformen** – Maintainer-Ops, Audit und Fahrplan halten
@@ -201,21 +205,21 @@ im [aktuellen Rohprotokoll](../logs/2025-10-15-beta-gpt-delta.md).
 
 | Issue | Thema                                              | Status    | Primärreferenzen |
 | ----- | -------------------------------------------------- | --------- | ---------------- |
-| #1    | Acceptance-Smoke auf 15 Prüfschritte angleichen    | ⏳ offen  | README §QA-Checks; Tester-Briefing |
-| #2    | Legacy-Gruppensaves → v6-Migration & Semver-Warnung | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
-| #3    | `StartMission()` respektiert `skip_entry_choice`    | ⏳ offen  | Toolkit-Spielleitung; runtime.js |
-| #4    | Auto-Reset `SF-OFF` nach Mission 5 implementieren   | ⏳ offen  | runtime.js; HUD-System |
-| #5    | Gate-Badge-Persistenz in M5/M10 HUD spezifizieren   | ⏳ offen  | HUD-System; README |
-| #6    | Arena-Phase im Save schemafest verankern            | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
-| #7    | Arena-Logs (`logs.psi[]`) & Cross-Mode-Evidenz       | ⏳ offen  | runtime.js; Toolkit-Spielleitung |
-| #8    | NPC-Squad-Autoradio & Preset-Logging                | ⏳ offen  | runtime.js; Toolkit-Spielleitung |
-| #9    | `chronopolis_warn_seen` Persistenz & Debrief        | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
-| #10   | Hazard-Pay vor Wallet-Split fixieren                | ⏳ offen  | README §Ökonomie; Speicher-Fortsetzung |
-| #11   | Boss-DR-HUD-Toast verpflichtend machen              | ⏳ offen  | runtime.js; HUD-System |
-| #12   | `logs.foreshadow[]` als Pflichtfeld kennzeichnen    | ⏳ offen  | runtime.js; Speicher-Fortsetzung |
-| #13   | `!accessibility`-Dialog + UI-Persistenz             | ⏳ offen  | runtime.js; README; Tester-Briefing |
-| #14   | Dispatcher-Startoption `trigger` dokumentieren      | ⏳ offen  | README; runtime.js |
-| #15   | Cinematic-HUD-Header nach Briefing erzwingen        | ⏳ offen  | Toolkit-Spielleitung; HUD-System |
+| #1    | Acceptance-Smoke auf 15 Prüfschritte angleichen    | ✅ abgeschlossen | README §QA-Checks 2025-06-27; Tester-Briefing §Acceptance-Smoke |
+| #2    | Legacy-Gruppensaves → v6-Migration & Semver-Warnung | ✅ abgeschlossen | runtime.js; systems/gameflow/speicher-fortsetzung.md |
+| #3    | `StartMission()` respektiert `skip_entry_choice`    | ✅ abgeschlossen | runtime.js; systems/toolkit-gpt-spielleiter.md |
+| #4    | Auto-Reset `SF-OFF` nach Mission 5 implementieren   | ✅ abgeschlossen | runtime.js; characters/zustaende-hud-system.md |
+| #5    | Gate-Badge-Persistenz in M5/M10 HUD spezifizieren   | ✅ abgeschlossen | runtime.js; characters/zustaende-hud-system.md |
+| #6    | Arena-Phase im Save schemafest verankern            | ✅ abgeschlossen | runtime.js; systems/runtime-stub-routing-layer.md |
+| #7    | Arena-Logs (`logs.psi[]`) & Cross-Mode-Evidenz       | ✅ abgeschlossen | runtime.js; systems/toolkit-gpt-spielleiter.md |
+| #8    | NPC-Squad-Autoradio & Preset-Logging                | ✅ abgeschlossen | runtime.js; systems/toolkit-gpt-spielleiter.md |
+| #9    | `chronopolis_warn_seen` Persistenz & Debrief        | ✅ abgeschlossen | runtime.js; README §ITI-HQ & Chronopolis |
+| #10   | Hazard-Pay vor Wallet-Split fixieren                | ✅ abgeschlossen | runtime.js; systems/gameflow/speicher-fortsetzung.md |
+| #11   | Boss-DR-HUD-Toast verpflichtend machen              | ✅ abgeschlossen | runtime.js; characters/zustaende-hud-system.md |
+| #12   | `logs.foreshadow[]` als Pflichtfeld kennzeichnen    | ✅ abgeschlossen | runtime.js; systems/gameflow/speicher-fortsetzung.md |
+| #13   | `!accessibility`-Dialog + UI-Persistenz             | ✅ abgeschlossen | runtime.js; README §Chat-Kurzbefehle |
+| #14   | Dispatcher-Startoption `trigger` dokumentieren      | ✅ abgeschlossen | runtime.js; README §Spielstart; Tester-Briefing |
+| #15   | Cinematic-HUD-Header nach Briefing erzwingen        | ✅ abgeschlossen | runtime.js; characters/zustaende-hud-system.md |
 
 ## Regressionstest-Termine 2025
 
