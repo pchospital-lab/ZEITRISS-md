@@ -666,25 +666,58 @@ function require_uplink(ctx = state, action = 'command') {
   );
 }
 
-function comms_check(device, range) {
+function normalizeCommsOptions(options = {}) {
+  const rawDevice = (options.device ?? '').toString().trim().toLowerCase().replace(/\s+/g, '_');
+  const deviceMap = {
+    comlink: 'comlink',
+    commlink: 'comlink',
+    'com-link': 'comlink',
+    kabel: 'cable',
+    cable: 'cable',
+    relay: 'relay',
+    relais: 'relay',
+    jammer: 'jammer_override',
+    jammer_override: 'jammer_override',
+    'jammer-override': 'jammer_override',
+    jammeroverride: 'jammer_override'
+  };
+  const device = deviceMap[rawDevice] || (rawDevice || null);
+  const relays = Number.isFinite(options.relays) ? Math.max(0, options.relays) : (options.relays === true ? 1 : 0);
+  const rangeKm = Number.isFinite(options.range_km) ? options.range_km : Number(options.range_km);
+  const rawMeters = Number.isFinite(options.range_m) ? options.range_m : Number(options.range_m);
+  const meters = Number.isFinite(rawMeters) && rawMeters > 0
+    ? rawMeters
+    : Number.isFinite(rangeKm) && rangeKm > 0
+    ? rangeKm * 1000
+    : null;
+  const jammer = options.jammer ?? options.jammed ?? undefined;
+  return { device, range_m: meters, relays, jammer };
+}
+
+function comms_check(options) {
+  const normalized = normalizeCommsOptions(options);
+  const device = normalized.device;
+  const range = normalized.range_m;
   const okDevice = ['comlink', 'cable', 'relay', 'jammer_override'].includes(device);
-  const jammed = !!state.comms?.jammed;
-  const okRange = (range * (state.comms?.rangeMod ?? 1)) > 0;
+  const jammed = normalized.jammer ?? !!state.comms?.jammed;
+  const okRange = Number.isFinite(range) && (range * (state.comms?.rangeMod ?? 1)) > 0;
   if (!okDevice || !okRange) return false;
-  return !jammed || device === 'cable' || device === 'relay' || device === 'jammer_override';
+  const hasRelay = device === 'relay' || normalized.relays > 0;
+  return !jammed || device === 'cable' || device === 'jammer_override' || hasRelay;
 }
 
 function radio_tx(options) {
+  const normalized = normalizeCommsOptions(options);
   const ctx = {
     ...state,
     comms: {
       ...state.comms,
-      device: options.device,
-      range_m: options.range,
+      device: normalized.device,
+      range_m: normalized.range_m,
     },
   };
   require_uplink(ctx, 'radio_tx');
-  if (!comms_check(options.device, options.range)) {
+  if (!comms_check(normalized)) {
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
         'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +

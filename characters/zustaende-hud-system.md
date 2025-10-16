@@ -62,11 +62,16 @@ Der Standard-Header zeigt:
 `· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10, sobald zwei Foreshadow-Hinweise gesetzt wurden.
-  Der Wert bleibt im Save (`logs.flags.foreshadow_gate_*`) erhalten, Mission 5/10 markieren den Gate-Status bereits beim
-  Start (`GATE 0/2`), und der `BOSS`-Toast signalisiert Mini-/Endboss in Szene 10. Nach Mission 5 setzt die Runtime
-  Self-Reflection automatisch auf `SF-ON` zurück.
+  Der Wert bleibt im Save über `logs.flags.foreshadow_gate_m5_seen` bzw. `logs.flags.foreshadow_gate_m10_seen`
+  erhalten. Mission 5/10 markieren den Gate-Status bereits beim Start (`GATE 0/2`), und der `BOSS`-Toast signalisiert
+  Mini-/Endboss in Szene 10. Nach Mission 5 setzt die Runtime Self-Reflection automatisch auf `SF-ON` zurück – sowohl
+  bei Missionsabschluss als auch bei Abbruch (`logs.flags.last_mission_end_reason`).
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
-  zurücksetzt; beim Laden sorgt die Runtime für den Mirror.
+  zurücksetzt; `set_self_reflection(enabled: boolean)` schreibt parallel `logs.flags.self_reflection`
+  und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert
+  `logs.flags.self_reflection_changed_at` sowie `logs.flags.self_reflection_last_change_reason`.
+  Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
+  und `logs.flags.self_reflection_auto_reset_reason`.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies

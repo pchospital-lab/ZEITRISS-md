@@ -38,12 +38,13 @@ Liste `allow` frühe Überfälle wie `ambush` oder `vehicle_chase`. Missions-Tag
 `heist` oder `street` senken das Limit automatisch um je eine Szene (Minimum:
 Szene 2).
 
-### `comms_check(device, range_m, jammed?, relays?)`
-Prüft Gerät und Reichweite. Akzeptiert `device` (`comlink`, `cable`, `relay`,
-`jammer_override`) sowie eine Reichweite in Metern. Optional können Jammer- oder
-Relay-Flags übergeben werden. Liefert `true`, wenn Reichweite × `state.comms.rangeMod`
+### `comms_check(device, range_m, …)`
+Prüft Gerät und Reichweite. Akzeptiert `device`
+(`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung egal) sowie eine
+Reichweite in Metern. Optional können `range_km`, Jammer- oder Relay-Flags
+übergeben werden. Liefert `true`, wenn Reichweite × `state.comms.rangeMod`
 größer Null ist und bei Jammer nur Kabel, Relais oder Override genutzt werden.
-Wird durch `must_comms(opts)` ergänzt.
+Wird durch `must_comms(opts)` ergänzt, das automatisch km→m konvertiert.
 
 ### `must_comms(opts)`
 Zentraler Guard für Funkverkehr. Wirft `CommsCheck failed: require valid device/range or relay/jammer override.`
