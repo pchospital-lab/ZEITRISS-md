@@ -62,7 +62,9 @@ Der Standard-Header zeigt:
 `· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10, sobald zwei Foreshadow-Hinweise gesetzt wurden.
-  Der Wert bleibt im Save (`logs.flags.foreshadow_gate_*`) erhalten und synchronisiert sich beim Laden automatisch.
+  Der Wert bleibt im Save (`logs.flags.foreshadow_gate_*`) erhalten, Mission 5/10 markieren den Gate-Status bereits beim
+  Start (`GATE 0/2`), und der `BOSS`-Toast signalisiert Mini-/Endboss in Szene 10. Nach Mission 5 setzt die Runtime
+  Self-Reflection automatisch auf `SF-ON` zurück.
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
   zurücksetzt; beim Laden sorgt die Runtime für den Mirror.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).

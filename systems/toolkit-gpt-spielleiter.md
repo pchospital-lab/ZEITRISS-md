@@ -280,7 +280,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 - **`scene_overlay(total?, pressure?, env?)`** – Rendert das HUD-Banner `EP·MS·SC` inklusive Missionsziel,
   Px/SYS/Lvl, Exfil-Status und `FS count/required`. Nach `StartMission()` wird `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
-  erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde.
+  erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde. Nach Mission 5 setzt
+  die Runtime Self-Reflection automatisch zurück (`SF-ON`), Toolkit-Spielleiter:innen spiegeln dies ggf. mit
+  `set_self_reflection(true)`.
 - **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4 Hinweise, Rift = 2) und dient als Saison-Indikator.
   QA notiert Gate-Evidenz (`Foreshadow 2/2` im HUD) und den Saisonstand (`Foreshadow 0/4` nach dem Reset).
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize` (1–6) und `mode` (`single`/`squad` …).
@@ -2623,18 +2625,21 @@ Rufe `StoreCompliance()` ohne HTML-Kommentar auf, damit der Hinweis sichtbar ble
 2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.
    - `schnell|fast` erwähnt → Schnelleinstieg.
+   - `trigger` erwähnt → Seeds aus dem `trigger_pool`, `campaign.mode = 'trigger'`, `state.start.seed_mode = 'trigger'`.
+   - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`, `campaign.mode = 'preserve'`.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: nie nach Load fragen.
-   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“
+   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“ Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset `NPC-Autoradio aktiv (…× Squad)`.
    - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei *gruppe* keine Zahl angeben.“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
 **Missionsstart:**
-- Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen.
+- Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt sofort das HUD-Overlay zurück, setzt `skip_entry_choice=false`, markiert Gate-Missionen (5/10) und spielt bei Bedarf den Boss-Toast (`BOSS`).
 - Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header EP·MS·SC/total·Mode·Objective setzen.
 
 **Quick-Hilfe:** `!help start` – gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
 **Offline-Notfall:** `!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink (Terminal koppeln, Jammer-Override prüfen, Mission mit HUD-Lokaldaten weiterführen, Ask→Suggest nutzen, Saves wie üblich nur im HQ).
+**Accessibility-Panel:** `!accessibility` zeigt Kontrast, HUD-Badge-Dichte und Output-Takt; Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in `ui{contrast,badge_density,output_pace}`.
 
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
