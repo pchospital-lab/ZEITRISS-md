@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.0
+version: 1.8.1
 tags: [meta]
 ---
 
@@ -71,6 +71,7 @@ Die aktuelle Beschreibung liegt zusätzlich in
 | 2025-06-22  | Fahrplan-/QA-Log-Synchronität | QA-Log 2025-06-22 |
 | 2025-07-05  | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
 | 2025-07-18  | Beta-GPT Regression Save/HUD/Compliance | QA-Log 2025-07-18 |
+| 2025-10-21  | Beta-GPT 2025-10-15 Nacharbeiten validiert | QA-Log 2025-10-21 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
@@ -220,6 +221,11 @@ im [aktuellen Rohprotokoll](../logs/2025-10-15-beta-gpt-delta.md).
 | #13   | `!accessibility`-Dialog + UI-Persistenz             | ✅ abgeschlossen | runtime.js; README §Chat-Kurzbefehle |
 | #14   | Dispatcher-Startoption `trigger` dokumentieren      | ✅ abgeschlossen | runtime.js; README §Spielstart; Tester-Briefing |
 | #15   | Cinematic-HUD-Header nach Briefing erzwingen        | ✅ abgeschlossen | runtime.js; characters/zustaende-hud-system.md |
+
+**Stand 2025-10-21:** README, QA-Briefing und Masterprompt spiegeln die 15 Acceptance-Schritte,
+`runtime.js`/Toolkit dokumentieren `ShowComplianceOnce()` als Primär-Makro mit Alias
+`StoreCompliance()`, und Save-/Modul-Dokumente führen Wallets, HQ-Moments, Logs (`logs.psi[]`,
+`logs.fr_interventions[]`, `logs.flags.foreshadow_gate_*`) sowie Modul-9-Begriffe konsistent.
 
 ## Regressionstest-Termine 2025
 
