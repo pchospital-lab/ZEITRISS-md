@@ -1028,6 +1028,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Preisfaktoren.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-
   gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
+- Slot-Matrix pro Tag: 1 Temporal Ship, 3 Never-Was Gadgets und 4 Era-Skins
+  rollen gleichzeitig; die Runtime spiegelt exakt diese Verteilung im Save.
 - Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
   `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
   freigeschaltete Stadt und hält den Status im Save.
