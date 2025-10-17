@@ -4,6 +4,14 @@ from __future__ import annotations
 
 from pathlib import Path
 import re
+import sys
+
+# Beim direkten Aufruf über ``python3 scripts/lint_umlauts.py`` liegt das Paket
+# ``scripts`` nicht automatisch im ``sys.path``. Wir ergänzen deshalb das
+# Repository-Wurzelverzeichnis, damit die Modulimporte sowohl im Modul- als auch
+# im Skriptmodus funktionieren.
+if __package__ in {None, ""}:
+    sys.path.append(str(Path(__file__).resolve().parents[1]))
 
 from scripts.lib_repo import repo_root, read_text
 from scripts.lib_md import strip_front_matter

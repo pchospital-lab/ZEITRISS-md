@@ -244,7 +244,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Fallback und daran, dass Saves wie üblich erst im HQ verfügbar sind.
 - Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status`
   (oder Key-Value `speaker=…|channel=…`). `!radio status` liefert die letzten
-  Einträge für QA, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
+  Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
   - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
@@ -262,7 +262,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
-  (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
+  (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
+  bei Bedarf zusätzlich im Missionslog.
 
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
@@ -309,7 +310,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Spielleitung die Keys manuell, sobald `ForeshadowHint()` den Gate erfüllt.
 - **`!boss status`** – Gibt `Gate value/2 · Mission FS count/required` aus (Core = 4
   Hinweise, Rift = 2) und dient als Saison-Indikator.
-  QA notiert Gate-Evidenz (`GATE 2/2` im HUD) und den Saisonstand (`Mission FS 0/4` nach dem Reset).
+  Dokumentiere Gate-Badge (`GATE 2/2` im HUD) und Saisonstand (`Mission FS 0/4` nach dem Reset) für eure Einsatznotizen.
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
   (1–6) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
   `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`,
@@ -379,8 +380,8 @@ if not char.get("psi") and not char.get("has_psi"):
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_
   - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`).
-    Der GPT bestätigt die Vorgaben, passt die Wallets an und dokumentiert
-    Abweichungen im QA-Log.
+    Der GPT bestätigt die Vorgaben, passt die Wallets an und hält Besonderheiten
+    im Missionsprotokoll fest.
     - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus:
       Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
     - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`,
@@ -866,7 +867,7 @@ physisches Gerät. Kodex synchronisiert über reale Hardware mit dem
 Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der Offline-HUD. Signale,
 Objekte und Gegner agieren ausschließlich physisch.
 
-`!dashboard status` liefert QA das Arc-Dashboard als Text (Seeds, letzte Fraktionsmeldungen, offene Fragen)
+`!dashboard status` liefert das Arc-Dashboard als Text (Seeds, letzte Fraktionsmeldungen, offene Fragen)
 und dient als unmittelbarer Evidenz-Snapshot für Beta-Logs.
 {% endmacro %}
 
