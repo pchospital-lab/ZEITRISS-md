@@ -12,8 +12,8 @@ Ergänzende Auswertung und Maßnahmen stehen im [Beta-QA-Log 2025](2025-beta-qa-
 ```text
 ISSUE #1
 
-* Beobachtung: Save-Schema drifts – Beispiel-JSON nutzt `save_version: 6`, Serializer/Migrationscode
-  und Kurzschema führen `save_version: 5`.
+* Beobachtung: Save-Schema drifts – Beispiel-JSON nutzt `save_version: 6`,
+  Serializer/Migrationscode und Kurzschema führen `save_version: 5`.
 * Diagnose: Unsauberer Versionsstand in `speicher-fortsetzung.md` zwischen Beispiel-Block (v6) und
   `select_state_for_save()`/Migration (v5).
 * Evidenz: Beispiel-DeepSave zeigt `save_version: 6` (HQ-only-Block) ; `select_state_for_save()`
@@ -42,21 +42,21 @@ ISSUE #2
 
 * Beobachtung: Foreshadow-Zähler uneinheitlich (Gate 2/2 vs. Gesamtsoll 4 für Core);
   HUD-/Statusreferenzen widersprechen sich.
-* Diagnose: Toolkit spiegelt „Foreshadow n/m (Core=4, Rift=2)“ als Gesamtziel, während Boss-Gates
-  pro Mission 2/2 verlangen (M5 & M10).
+* Diagnose: Toolkit spiegelt „Foreshadow n/m (Core=4, Rift=2)“ als Gesamtziel,
+  während Boss-Gates pro Mission 2/2 verlangen (M5 & M10).
 * Evidenz: Boss-Foreshadow-Checklist: je 2 Hinweise vor M5 und M9/M10. ; Toolkit-Mirror beschreibt
   Core=4 insgesamt.
 
 Lösungsvorschlag
 
-* Ansatz: Anzeige klar trennen: `Foreshadow Gate 2/2 (diese Mission)` + optional `Season Total 2/4`.
-  `!boss status` soll beide Werte ausgeben.
+* Ansatz: Anzeige klar trennen: `Foreshadow Gate 2/2 (diese Mission)` + optional
+  `Season Total 2/4`. `!boss status` soll beide Werte ausgeben.
 * Risiken: UI-String-Änderung; bestehende QA-Referenzen (FS 0/2) müssen angepasst bleiben.
 
 To-do
 
-* Codex: `!boss status` erweitern (Gate- und Staffelzähler getrennt); HUD-Badge „FS x/2 · Total y/4“
-  in Precision.
+* Codex: `!boss status` erweitern (Gate- und Staffelzähler getrennt);
+  HUD-Badge „FS x/2 · Total y/4“ in Precision.
 * QA: Acceptance 11/12 neu screenshotten (Gate bleibt 2/2, Total optional).
 
 Nächste Schritte
@@ -66,25 +66,27 @@ Nächste Schritte
 
 ISSUE #3
 
-* Beobachtung: Referenzierte Befehle/Makros ohne formale Definition (`scene_overlay()`, teils `!boss
-  status`-Ablauf).
-* Diagnose: Toolkit/README verweisen auf `scene_overlay()` zur Foreshadow-Rücksetzung nach
-  StartMission; definierte Makro-Signatur fehlt im Modul.
-* Evidenz: QA-Checks 2025‑06‑27 nennen `scene_overlay()` und `!boss status` Reset-Beleg, ohne Makro-
-  Blöcke.
+* Beobachtung: Referenzierte Befehle/Makros ohne formale Definition
+  (`scene_overlay()`, teils `!boss status`-Ablauf).
+* Diagnose: Toolkit/README verweisen auf `scene_overlay()` zur
+  Foreshadow-Rücksetzung nach StartMission; definierte Makro-Signatur fehlt im
+  Modul.
+* Evidenz: QA-Checks 2025‑06‑27 nennen `scene_overlay()` und `!boss status`
+  Reset-Beleg, ohne Makro-Blöcke.
 
 Lösungsvorschlag
 
-* Ansatz: `scene_overlay(total, pressure, env)` öffentlich in Toolkit dokumentieren
-  (Inputs/Outputs); `!boss status`-Output spezifizieren (Gate, Total, letzte Tokens).
+* Ansatz: `scene_overlay(total, pressure, env)` öffentlich in Toolkit
+  dokumentieren (Inputs/Outputs); `!boss status`-Output spezifizieren (Gate,
+  Total, letzte Tokens).
 * Risiken: Minimal; nur Doku/Signatur-Sync.
 
 To-do
 
-* Codex: Makro-Header & Rückgabewerte in Modul 16 sichtbar machen; `!boss status` Help-Text in
-  README ergänzen.
-* QA: Mission‑Start protokollieren: vor/nach `StartMission()` HUD-Log + `!boss status` Reset „FS
-  0/2“.
+* Codex: Makro-Header & Rückgabewerte in Modul 16 sichtbar machen;
+  `!boss status` Help-Text in README ergänzen.
+* QA: Mission‑Start protokollieren: vor/nach `StartMission()` HUD-Log +
+  `!boss status` Reset „FS 0/2“.
 
 Nächste Schritte
 
@@ -102,14 +104,16 @@ ISSUE #4
 
 Lösungsvorschlag
 
-* Ansatz: Acceptance präzisieren („Vor M5 `!sf off` setzen“) **oder** StartMission(M5) temporär
-  `self_reflection=false` setzen und nach Debrief resetten.
+* Ansatz: Acceptance präzisieren („Vor M5 `!sf off` setzen“) **oder**
+  StartMission(M5) temporär `self_reflection=false` setzen und nach Debrief
+  resetten.
 * Risiken: Auto-Umschalten könnte Stilpräferenzen verletzen; daher bevorzugt Testtext anpassen.
 
 To-do
 
 * Codex: `!sf` Helptext + Acceptance-Notiz im README verlinken (Badge-Check Precondition).
-* QA: Badge-Reset auf `SF-ON` nach Abbruch/Abschluss explizit loggen (HUD-Auszug). (Mission‑5‑Check)
+* QA: Badge-Reset auf `SF-ON` nach Abbruch/Abschluss explizit loggen
+  (HUD-Auszug). (Mission‑5‑Check)
 
 Nächste Schritte
 
@@ -120,23 +124,24 @@ ISSUE #5
 
 * Beobachtung: Arena-PvP Einstieg (`arenaStart(options)`) wird gefordert, Makro/Doku nicht
   vollständig enthalten; Kosten-Toast hängt an `phase_strike_cost()`.
-* Diagnose: README/Toolkit referenzieren `arenaStart()` inkl. `phase_strike_tax = 1` und Arena-Toast
-  bei `phase_strike_cost()`, aber `arenaStart`-Definition fehlt; Kosten- und Schutzklauseln stehen
-  unter Psi (Phase-Strike).
+* Diagnose: README/Toolkit referenzieren `arenaStart()` inkl.
+  `phase_strike_tax = 1` und Arena-Toast bei `phase_strike_cost()`, aber
+  `arenaStart`-Definition fehlt; Kosten- und Schutzklauseln stehen unter Psi
+  (Phase-Strike).
 * Evidenz: Acceptance pos. 15 → Arena-Toast über `phase_strike_cost()`; kein expliziter
   `arenaStart`-Makro-Block.
 
 Lösungsvorschlag
 
-* Ansatz: `arenaStart(options)` im Toolkit definieren (Flags setzen, Save-Blocker aktivieren,
-  Snapshot/Restore nutzen, PvP-Modus an). `apply_arena_rules()`/`phase_strike_tax` aus Psi-Modul
-  verlinken.
+* Ansatz: `arenaStart(options)` im Toolkit definieren (Flags setzen,
+  Save-Blocker aktivieren, Snapshot/Restore nutzen, PvP-Modus an).
+  `apply_arena_rules()`/`phase_strike_tax` aus Psi-Modul verlinken.
 * Risiken: Schnittstellenklarheit mit Save-Guard (HQ-only) sicherstellen.
 
 To-do
 
-* Codex: Arena-Makro implementieren; HUD-Toast „Arena: Phase‑Strike …“ als verifizierbares Event
-  loggen (`logs.psi[]`).
+* Codex: Arena-Makro implementieren; HUD-Toast „Arena: Phase‑Strike …“ als
+  verifizierbares Event loggen (`logs.psi[]`).
 * QA: PvP-Smoke (pos. 15) mit HUD-/Log-Belegen fahren.
 
 Nächste Schritte
@@ -155,13 +160,14 @@ ISSUE #6
 
 Lösungsvorschlag
 
-* Ansatz: Minimalspezifikation (required args, Std-Outputs, HUD-Pings bei Jammer/Relais/Range);
-  ASCII/Unicode-Hinweise integrieren.
+* Ansatz: Minimalspezifikation (required args, Std-Outputs, HUD-Pings bei
+  Jammer/Relais/Range); ASCII/Unicode-Hinweise integrieren.
 * Risiken: Keiner – Dokuergänzung.
 
 To-do
 
-* Codex: `comms_check()`-Spec (device, range_m, jammed, relays) + HUD-Vokab verlinken.
+* Codex: `comms_check()`-Spec (device, range_m, jammed, relays) + HUD-Vokab
+  verlinken.
 * QA: Offline-Hinweise/`!offline`-Flow gegen `offline_help()` prüfen.
 
 Nächste Schritte
@@ -180,16 +186,16 @@ ISSUE #7
 
 Lösungsvorschlag
 
-* Ansatz: Kanonisch `party.characters[]` für spielende Agent:innen; `team` nur für NSC-Zelle/Flavor
-  (optional). Serializer-Dedupe-Regel: `party` → primär, `team.members` → ignorieren oder in `party`
-  migrieren.
+* Ansatz: Kanonisch `party.characters[]` für spielende Agent:innen; `team` nur
+  für NSC-Zelle/Flavor (optional). Serializer-Dedupe-Regel: `party` → primär,
+  `team.members` → ignorieren oder in `party` migrieren.
 * Risiken: Altsaves mit `team`-Zählung; Migration nötig.
 
 To-do
 
 * Codex: `migrate_save()` erweitert: `team.members → party.characters` (bei leeren `party`).
-* QA: Cross-Mode-Save-Import (Solo→Koop, Koop→PvP) einmal mit Altsave (`team`) testen; Wallet-Split
-  & HUD prüfen.
+* QA: Cross-Mode-Save-Import (Solo→Koop, Koop→PvP) einmal mit Altsave (`team`)
+  testen; Wallet-Split & HUD prüfen.
 
 Nächste Schritte
 
@@ -244,23 +250,26 @@ Nächste Schritte
 
 ISSUE #10
 
-* Beobachtung: Cross‑Mode‑Saves: Koop‑Wallets (`economy.wallets{}`) dokumentiert, aber kein klarer
-  Importpfad von Solo‑Saves (ohne Wallets) in Koop‑Runs.
-* Diagnose: Wallet-Persistenz/Binding an `party.characters[].id` beschrieben; Autoload/Merge kann
-  Solo→Koop, aber Wallet-Init (Default) nicht explizit genannt.
-* Evidenz: Wallet-Mechanik + Debrief-Formate vorhanden; Merge-Regeln definieren ID-basiertes
-  Zusammenführen, aber kein „Wallet seeden bei Erstimport“.
+* Beobachtung: Cross‑Mode‑Saves: Koop‑Wallets (`economy.wallets{}`) dokumentiert,
+  aber kein klarer Importpfad von Solo‑Saves (ohne Wallets) in Koop‑Runs.
+* Diagnose: Wallet-Persistenz/Binding an `party.characters[].id`
+  beschrieben; Autoload/Merge kann Solo→Koop, aber Wallet-Init (Default) nicht
+  explizit genannt.
+* Evidenz: Wallet-Mechanik + Debrief-Formate vorhanden; Merge-Regeln
+  definieren ID-basiertes Zusammenführen, aber kein „Wallet seeden bei
+  Erstimport“.
 
 Lösungsvorschlag
 
-* Ansatz: Beim Gruppen‑Merge: fehlende `economy.wallets{}` initialisieren (alle beteiligten
-  `party.characters[].id` mit Balance 0). Debrief nach erster Koop‑Mission erzeugt Split‑Einträge.
+* Ansatz: Beim Gruppen‑Merge: fehlende `economy.wallets{}` initialisieren (alle
+  beteiligten `party.characters[].id` mit Balance 0). Debrief nach erster
+  Koop‑Mission erzeugt Split‑Einträge.
 * Risiken: Keine; nur Defaults.
 
 To-do
 
-* Codex: `migrate_save()` erweitert: wenn `party.characters[]` existiert und `economy.wallets` fehlt
-  → leeres Wallet‑Mapping erzeugen.
+* Codex: `migrate_save()` erweitert: wenn `party.characters[]` existiert und
+  `economy.wallets` fehlt → leeres Wallet‑Mapping erzeugen.
 * QA: Solo‑Save in Koop importieren → Mission spielen → Wallet‑Split & HQ‑Pool verifizieren.
 
 Nächste Schritte
@@ -272,22 +281,24 @@ ISSUE #11
 
 * Beobachtung: Accessibility/Offline‑Hinweise vorhanden, aber Acceptance „Accessibility‑Dialoge“
   nicht als eigener Prüfpfad referenziert.
-* Diagnose: HUD-Menü ASCII‑Fallback, Offline‑Protokoll, `!offline` und Suggest‑Fallback sind
-  dokumentiert – Acceptance-Checkliste (1–15) erwähnt diese nicht; QA-Anker fehlt.
+* Diagnose: HUD-Menü ASCII‑Fallback, Offline‑Protokoll, `!offline` und
+  Suggest‑Fallback sind dokumentiert – Acceptance-Checkliste (1–15) erwähnt
+  diese nicht; QA-Anker fehlt.
 * Evidenz: `hud_menu()` ASCII, `offline_help()` erzeugt HUD‑Zeile/Protokoll, `!offline`-FAQ
   vorhanden.
 
 Lösungsvorschlag
 
 * Ansatz: Acceptance‑Smoke um zwei Punkte erweitern: (a) ASCII‑HUD‑Menü Render
-  (settings.ascii_only), (b) Offline‑Dialog (Jammer an → `!offline` → Protokollzeile +
-  Suggest‑Fallback‑Toast).
+  (settings.ascii_only), (b) Offline‑Dialog (Jammer an → `!offline` →
+  Protokollzeile + Suggest‑Fallback‑Toast).
 * Risiken: Keine.
 
 To-do
 
 * Codex: README „Abnahme‑Smoketest“ um Accessibility‑Checks ergänzen.
-* QA: Evidenzblöcke (HUD‑ASCII‑Render, Offline‑Toast, Log‑Zeile „Offline-Protokoll (n×) …“).
+* QA: Evidenzblöcke (HUD‑ASCII‑Render, Offline‑Toast, Log‑Zeile
+  „Offline-Protokoll (n×) …“).
 
 Nächste Schritte
 
@@ -298,8 +309,9 @@ ISSUE #12
 
 * Beobachtung: Mission‑Startfluss widerspricht teils den „Einstieg“-Hinweisen beim Laden (kein
   klassisch/schnell nach Load) vs. globalem Einstiegskapitel.
-* Diagnose: Speicher‑Modul verlangt nach Load sofortigen Recap + StartMission ohne Einstiegsauswahl;
-  README nennt allgemeine Startpfade inkl. Einstiegstypen – potenziell missverständlich.
+* Diagnose: Speicher‑Modul verlangt nach Load sofortigen Recap +
+  StartMission ohne Einstiegsauswahl; README nennt allgemeine Startpfade inkl.
+  Einstiegstypen – potenziell missverständlich.
 * Evidenz: „Spiel laden + kompatibler Save → **kein** klassisch/schnell; Kodex‑Recap‑Overlay …“
   (Dispatcher 7) ; Speicher‑Modul bestätigt diesen Flow.
 
@@ -355,8 +367,8 @@ ISSUE #14
 
 Lösungsvorschlag
 
-* Ansatz: Acceptance pos. 15 ergänzen: „Während Arena-Run erzeugt Kodex Toast ‚Speichern blockiert –
-  Arena aktiv‘ bei Save‑Versuch.“
+* Ansatz: Acceptance pos. 15 ergänzen: „Während Arena-Run erzeugt Kodex Toast
+  ‚Speichern blockiert – Arena aktiv‘ bei Save‑Versuch.“
 * Risiken: Keine.
 
 To-do
