@@ -70,7 +70,7 @@ ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie v
 mehreren Faktoren, zum Beispiel:
 _Budget-Hinweis:_ Standardmissionen rechnen mit **10 × Spielerlevel CU**. Die SL kann den Wert anpassen.
 Empfohlen wird eine dynamische Formel, die den Prämienwert an die tatsächlich gespielten Szenen koppelt:
-`Belohnung = Basiswert × (abgeschlossene Szenen / 12)`.
+`Belohnung = Basiswert × Multiplikator × (abgeschlossene Szenen / 12)`.
 
 ### Core-Ops Belohnungen {#core-ops-belohnungen}
 
@@ -78,6 +78,11 @@ Basisprämie nach Missionsrisiko:
 - Low: 400 CU
 - Mid: 500 CU
 - High: 600 CU
+
+Multiplikatoren nach Missionsausgang:
+- Teil-Erfolg: × 0,6
+- Erfolg: × 1,0
+- Erfolg mit Bonuszielen: × 1,2
 
 Boni (kumulativ):
 - Ziel lebend gesichert: +150 CU

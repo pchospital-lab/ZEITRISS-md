@@ -44,6 +44,7 @@ Prüft Gerät und Reichweite. Akzeptiert `device`
 Reichweite in Metern. Optional können `range_km`, Jammer- oder Relay-Flags
 übergeben werden. Liefert `true`, wenn Reichweite × `state.comms.rangeMod`
 größer Null ist und bei Jammer nur Kabel, Relais oder Override genutzt werden.
+Die Kernregeln sind im [README → Comms-Core](README.md#comms-core) gespiegelt.
 Wird durch `must_comms(opts)` ergänzt, das automatisch km→m konvertiert.
 
 ### `must_comms(opts)`

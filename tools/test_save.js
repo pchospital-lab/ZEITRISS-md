@@ -139,7 +139,7 @@ assert.equal(rt.state.logs.flags.compliance_shown_today, true);
 assert.equal(rt.state.campaign.compliance_shown_today, true);
 assert.equal(rt.state.logs.flags.chronopolis_warn_seen, false);
 assert.equal(rt.state.scene.foreshadows, 1);
-assert(rt.on_command('!boss status').includes('Foreshadow 1'));
+assert(rt.on_command('!boss status').includes('Mission FS 1/4'));
 // Hinweis (#4 Load-Flows): Toolkit-Makros spiegeln das Flag jetzt mit,
 // damit MyGPT-Läufe ohne runtime.js denselben Persistenzstatus liefern.
 
