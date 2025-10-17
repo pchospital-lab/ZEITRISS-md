@@ -1531,7 +1531,7 @@ damit Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz
 behalten. `phase_strike_cost()` quittiert jeden Abruf während aktiver Arena
 automatisch mit dem HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)`
 und legt einen Trace in `logs.psi[]` ab (Ability, Basis-, Tax- und Gesamtwert),
-damit QA und Toolkit-Hooks die Kostenentwicklung belegen können.
+damit Logs und Toolkit-Hooks die Kostenentwicklung belegen können.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
 Kodex moderiert neutral und stellt keine KI-Gegner.
@@ -1773,7 +1773,7 @@ _Gesamtlänge 5 s bei 60 fps._
 | 3     | Ω-Ring-Spline, Mag-lev, LOD-0-Assets.              |
 | 4     | Licht & Skybox, Cutscene-Pfad.                     |
 | 5     | Ambience, LOD-1/2, Kollisionen.                    |
-| 6     | GPT-Socket-Test, QA und Performance-Sweep.         |
+| 6     | GPT-Socket-Test und Performance-Sweep.              |
 
 **Eine Map, unendliches Replay** – dieser Blueprint bildet die Grundlage für das Endgame-Hub Chronopolis.
 

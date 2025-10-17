@@ -122,6 +122,12 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       bleibt und neue Abhängigkeiten klar dokumentiert werden. → `npm run`
       Skripte ergänzt, Makefile erweitert, markdownlint in pre-commit-Hooks
       verankert.
+- [ ] `systems/gameflow/speicher-fortsetzung.md` strukturell neu gliedern
+      (Zeilenführung, Abschnittslogik, Semantik „Load-Verhalten“ bis
+      „Koop-Debrief“) und Abgleich mit Laufzeit-Flows dokumentieren.
+- [ ] `gameplay/kampagnenstruktur.md` auf QA-fremde Abschnitte prüfen (z. B.
+      „Performance-Ziele“, „Build-Roadmap“) und entscheiden, ob diese Inhalte in
+      Wissensmodule oder interne Dev-Dokumente gehören.
 
 ## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
 
