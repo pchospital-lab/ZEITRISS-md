@@ -27,15 +27,20 @@ required = [
   "character.cooldowns",
   "campaign.px",
   "economy",
+  "economy.wallets",
   "logs",
+  "logs.hud",
   "logs.artifact_log",
   "logs.market",
   "logs.offline",
   "logs.kodex",
   "logs.alias_trace",
   "logs.squad_radio",
+  "logs.fr_interventions",
+  "logs.psi",
   "logs.flags",
-  "ui"
+  "ui",
+  "arena"
 ]
 assert serializer_bereit(required)
 ```
@@ -74,7 +79,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
   "team": {"members": []},
   "party": {"characters": []},
   "loadout": {},
-  "economy": {"cu": 0},
+  "economy": {"cu": 0, "wallets": {}},
   "logs": {
     "artifact_log": [],
     "market": [],
@@ -83,6 +88,7 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
     "alias_trace": [],
     "squad_radio": [],
     "hud": [],
+    "psi": [],
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
@@ -130,9 +136,9 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
-  `logs`, `logs.artifact_log`, `logs.market`, `logs.offline`, `logs.kodex`,
-  `logs.alias_trace`, `logs.squad_radio`, `logs.foreshadow`,
-  `logs.fr_interventions`, `logs.psi`, `logs.flags`, `ui` und `arena`.
+  `logs` (inklusive `hud`, `artifact_log`, `market`, `offline`, `kodex`,
+  `alias_trace`, `squad_radio`, `foreshadow`, `fr_interventions`, `psi`,
+  `flags`), `ui` und `arena`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
@@ -144,6 +150,100 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
   normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise.
+
+### Cross-Mode Import – Solo → Koop/Arena {#cross-mode-import}
+
+1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
+   enthält nur den Protagonisten. Nach dem Laden läuft `initialize_wallets()`
+   automatisch und legt leere Wallets für alle aktiven Agent:innen an.
+2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
+   für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
+   `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
+   aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz.
+3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
+   `arena.previous_mode` und `arena.phase='active'`. Während der Serie blockiert
+   der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Exit schreibt die Runtime
+   `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg) und erlaubt wieder
+   HQ-Saves.
+
+### Accessibility-Preset (zweites Muster) {#accessibility-save}
+
+```json
+{
+  "save_version": 6,
+  "zr_version": "4.2.2",
+  "location": "HQ",
+  "phase": "core",
+  "character": {
+    "id": "CHR-7777",
+    "name": "Jade",
+    "rank": "Specialist",
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {"SYS_max": 6, "SYS_used": 6}
+  },
+  "campaign": {"episode": 12, "scene": 0, "px": 2},
+  "team": {"members": []},
+  "party": {"characters": []},
+  "loadout": {},
+  "economy": {"cu": 1200, "wallets": {"jade": {"balance": 1200, "name": "Jade"}}},
+  "logs": {
+    "artifact_log": [],
+    "market": [],
+    "offline": [],
+    "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
+    "hud": [],
+    "psi": [],
+    "foreshadow": [],
+    "fr_interventions": [],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "compliance_shown_today": true,
+      "chronopolis_warn_seen": true,
+      "offline_help_count": 1,
+      "offline_help_last": "2025-10-28T19:42:00Z"
+    }
+  },
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}},
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "suggest_mode": false,
+    "contrast": "high",
+    "badge_density": "compact",
+    "output_pace": "slow"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "previous_mode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "tier": 1,
+    "proc_budget": 0,
+    "artifact_limit": 0,
+    "loadout_budget": 0,
+    "phase_strike_tax": 0,
+    "damage_dampener": true,
+    "team_size": 1,
+    "fee": 0,
+    "scenario": null,
+    "started_episode": null,
+    "last_reward_episode": null,
+    "policy_players": [],
+    "audit": []
+  }
+}
+```
+
+Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
+Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
+läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
+zurücksetzen.
 
 **Load-Verhalten**
 
@@ -324,9 +424,12 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
 
 - Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
-- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus.
+- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus und markiert den
+  Px-Reset als „anhängig“.
 - Rift-Seeds sind erst nach Episodenende spielbar.
-- Nach der Rift-Phase setzen Index und Resonanz auf 0.
+- Nach der Rift-Phase setzen Index und Resonanz auf 0. Der Serializer spiegelt
+  dies im Debrief (`px_reset_confirm=true`) und das HUD bestätigt den Reset zu
+  Beginn der nächsten Mission.
 
 ### Legacy-Kompatibilität (Gear-Alias)
 

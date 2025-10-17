@@ -89,7 +89,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > ```json```-Snippet aus, damit der automatische Abgleich ohne Nachbearbeitung möglich ist.
 >
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben durch: Starte mit
-> `Foreshadow 2/2`, beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und HUD-Zähler und halte den
+> `Gate 2/2`, beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und den HUD-Zähler (`FS 0/4`) und halte den
 > HUD-/Log-Auszug fest. Prüfe zum Abschluss den Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss.
 >
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
@@ -183,11 +183,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 ## QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
 
 - **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen
-  (`Foreshadow 2/2` Gate-Evidenz), HUD-Log vor Missionsstart sichern und `!boss status`
+  (`Gate 2/2` Evidenz), HUD-Log vor Missionsstart sichern und `!boss status`
   nach `StartMission()` notieren. Das Overlay muss auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
-  zurücksetzen, der Befehl meldet parallel den Saisonbedarf (`Foreshadow n/4` bzw. `n/2`).
+  zurücksetzen, der Befehl meldet parallel den Saisonbedarf (`Gate n/2 · Mission FS n/4`
+  bzw. `n/2`).
   {# LINT:FS_RESET_OK #}
-- **Gate vs. Season Total.** Halte zwei Nachweise fest: HUD-Log `Foreshadow 2/2` vor dem Start
+- **Gate vs. Season Total.** Halte zwei Nachweise fest: HUD-Log `Gate 2/2` vor dem Start
   sowie `scene_overlay()`/`!boss status` direkt nach `StartMission()`.
 - **Ask→Suggest Wechsel.** `modus suggest` erzeugt den Toast `SUG-ON` und ergänzt das Overlay
   um `· SUG`; `modus ask` liefert `SUG-OFF`. Dokumentiere beide Meldungen mit Overlay-Zeile.
@@ -272,12 +273,13 @@ saveGame({...})
 ### Boss-Gates & HUD-Badges
 
 11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
-    `Boss blockiert – Foreshadow 0/2`, bis Hinweise erfüllt sind.
+    `Gate blockiert – Gate 0/2`, bis Hinweise erfüllt sind.
 12. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
-    Szene 10 erscheint der Mini-Boss-DR-Toast; beim Missionsende (Abbruch oder
-    Abschluss) setzt die Runtime Self-Reflection automatisch auf `SF-ON` zurück.
+    Szene 10 erscheint der Toast `Boss-DR aktiviert – −2 Schaden pro Treffer`; beim
+    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
+    auf `SF-ON` zurück.
 
 ### Psi-Heat & Ressourcen-Reset
 
