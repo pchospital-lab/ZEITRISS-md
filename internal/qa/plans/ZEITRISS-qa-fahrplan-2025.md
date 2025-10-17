@@ -200,11 +200,12 @@ und das ergänzende Chatprotokoll (Maintainer:innen-Archiv).
 
 ## Formatierungs-Backlog 2025-10 (Dokumentation)
 
-- **QA-Logs 2025-07-05/07-18/10-15:** Markdown-Zeilen > 100 Zeichen kürzen, ohne
-  Chatlog-Details zu verlieren. Review offen.
-- **Fahrplan-Tabellen (Abschnitt „Maßnahmenpaket Beta-GPT 2025-07“):**
-  Tabellen-Spalten neu aufteilen oder Kürzel definieren, damit die Markdown-
-  Zeilen unter 100 Zeichen bleiben.
+- ✅ **QA-Logs 2025-07-05/07-18/10-15:** Markdown-Zeilen unter 100 Zeichen
+  gebracht (Stand 2025-10-21).
+- ✅ **Fahrplan-Tabellen „Maßnahmenpaket Beta-GPT 2025-07“:** Spaltenkürzel
+  geprüft, Zeilenlängen passen (Stand 2025-10-21).
+
+Aktuell keine offenen Formatierungsaufgaben.
 
 ## Maßnahmenpaket Beta-GPT 2025-07-18 (Issues #1–#12)
 
