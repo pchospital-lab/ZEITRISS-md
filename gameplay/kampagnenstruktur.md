@@ -1628,6 +1628,9 @@ _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenz
 
 - **Rang & Research:** Jede Zeile vermerkt ein Mindest-Rank-Label sowie ein Research-Level. Das HUD blendet verschlossene Einträge mit 🔒 und der geforderten Stufe ein.
 - **Daily Stamp:** `!chrono stock` würfelt pro Nullzeit-Tag ein filmisches Angebot; ein Reset löscht den Cache und zieht frische Händler auf die Bühne.
+- **Slot-Matrix:** Pro Tageswurf erscheinen 1 Temporal Ship, 3 Never-Was Gadgets
+  und 4 Era-Skins; `log_market_purchase()` übernimmt die gleiche Verteilung
+  für Save- und Debrief-Logs.
 - **City-Tick:** Episodenabschluss triggert automatisch einen Reset. Optional rotiert das Angebot alle drei Missionen (`!chrono tick` → `off` oder `3`).
 
 ### 6 | No-Go-Zonen (Style-Compliance)
