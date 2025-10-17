@@ -301,7 +301,7 @@ CUs geflossen sind. Der Runtime-Debrief spiegelt dasselbe als `Chronopolis-Trace
 Item, Kosten, Px-Hinweis sowie optionale Notizen oder Quellen. Zusätzlich verweist das Modul „Speicher & Fortsetzung“ auf den Markt-Trace,
 sodass Persistenzprüfungen ohne direkten Zugriff auf die Laufzeit nachvollziehbar bleiben.
 
-Details zu automatisierten Testläufen und QA-Belegen stehen ausschließlich in den internen QA-Dokumenten.
+Details zu automatisierten Testläufen und Belegsammlungen stehen ausschließlich in den internen Prüfprotokollen.
 
 ### Wartung und Verschleiß
 
