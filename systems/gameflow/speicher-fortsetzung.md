@@ -245,88 +245,112 @@ Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
 zurücksetzen.
 
-**Load-Verhalten**
+## Laden & HQ-Rückkehr {#load-flow}
 
-- Nach `Spiel laden` folgt eine kurze Rückblende. Danach geht es direkt ins HQ
-  oder Briefing; eine Nachfrage zum Einstiegstyp entfällt.
-- HUD-Overlay: EP·MS·SC/Total·Px·SYS anzeigen, bevor es weitergeht.
+### Ablauf nach `!load`
+
+1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
+   Eingabe mit „Kodex: Poste Speicherstand als JSON.“
+2. **Deserializer starten.** `load_deep()` in `runtime.js` migriert Legacy-Felder
+   in die v6-Struktur, prüft Pflichtblöcke und setzt `state.location='HQ'`.
+3. **Rückblende & HUD.** `scene_overlay()` rendert nach dem Laden den HUD-Block
+   „EP·MS·SC/Total·Px·SYS“. Die Runde springt ohne Nachfrage direkt zum HQ-
+   beziehungsweise Briefing-Einstieg.
+4. **Compliance-Spiegel.** `show_compliance_once()` ruft das Toolkit-Makro
+   `ShowComplianceOnce()` (Alias `StoreCompliance()`) auf und synchronisiert
+   `campaign.compliance_shown_today` mit `logs.flags.compliance_shown_today`.
+
 {# LINT:FS_RESET_OK #}
-- Semver-Toleranz: Save lädt, wenn `major.minor` aus `zr_version` mit
-  `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
-  HQ-Migration veranlassen.“
-- `logs.flags.runtime_version` dokumentiert die erzeugende Laufzeitversion. Der
-  Debrief fasst den Persistenzstatus in `Runtime-Flags: …` zusammen (Runtime-
-  Version, Compliance-Check, Chronopolis-Warnung, Offline-Hilfe-Zähler und
-  letzter Timestamp).
-- Toolkit-Makros spiegeln den Compliance-Status: `ShowComplianceOnce()` (Alias
-  `StoreCompliance()`) setzt sowohl `campaign.compliance_shown_today` als auch
-  `state.logs.flags.compliance_shown_today`, damit Saves ohne laufende Runtime
-  denselben Persistenzzustand liefern.
-- `logs.market[]` bündelt Chronopolis-Käufe mit ISO-Timestamp, Artikel, Kosten
-  und Px-Klausel. Toolkit- und Runtime-Hooks nutzen `log_market_purchase()`; der
-  Debrief rendert daraus `Chronopolis-Trace (n×): …` inklusive Timestamp, Item,
-  Kosten, Px-Hinweis sowie optionaler Notiz/Quelle der jüngsten Einkäufe.
-- `logs.offline[]` protokolliert Offline-Fallbacks (max. 12 Einträge) inklusive
-  Trigger, Gerät, Jammer-Status, Reichweite, Relais sowie Szene/Episode. Der
-  Debrief nutzt `Offline-Protokoll (n×): …` als Feldprotokoll-Zusammenfassung.
-- `logs.foreshadow[]` wird dedupliziert und hält Tag, Kurztext, Szene sowie
-  First/Last-Seen. `Foreshadow-Log (n×): …` im Debrief listet die jüngsten
-  Hinweise und hält die Gate-Entwicklung transparent.
-- `logs.fr_interventions[]` hält Fraktionsinterventionen fest (max. 16 Einträge)
-  mit Ergebnis, Fraktion, Szene, Missionsnummer und optionaler Wirkung.
-  `log_intervention()` erzeugt HUD-Toast plus Persistenz, spiegelt den Eintrag
-  ins Arc-Dashboard und `get_intervention_log()` filtert den Verlauf, etwa nach
-  Fraktion oder Beobachter-Status. `!dashboard status` liefert Seeds,
-  Fraktionsmeldungen und offene Fragen direkt als exportierbaren Textbericht.
-- `campaign.hq_moments_used: string[]` dokumentiert genutzte HQ-Buffs
-  (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer es auf
-  `[]`; Debriefs listen „HQ-Moments (n×)“ anhand dieses Arrays.
-- `logs.alias_trace[]` dokumentiert Alias-Läufe mit Persona, Cover, Status,
-  Szene, Mission und optionaler Notiz. `!alias log Persona|Cover|Status|Notiz`
-  (oder Key-Value-Varianten wie `mission=M5|scene=3`) legt Einträge an, der
-  Debrief fasst sie als `Alias-Trace (n×): …` für einen konsistenten
-  Einsatzüberblick zusammen.
-- `logs.squad_radio[]` hält Funkmeldungen mit Sprecher, Kanal, Nachricht, Status
-  sowie optional Szene/Ort fest. `!radio log Sprecher|Channel|Meldung|Status`
-  bzw. `speaker=Nova|channel=med|…` speichert Ereignisse; der Debrief liefert
-  die Zusammenfassung `Squad-Radio (n×): …` für Persistenzprüfungen.
-- `economy.wallets{}` ist die Koop-Kasse des Teams. Jeder Eintrag folgt der
-  Struktur `<character_id>: {balance, name?}`. Debrief-Splits schreiben
-  Auszahlungen auf diese Wallets, während der zentrale HQ-Pool (`economy.cu`)
-  den Restbestand hält. Fehlt das Objekt, initialisiert die Runtime es beim
-  nächsten Debrief (`Wallets initialisiert (n×)`); Saves spiegeln stets ein
-  Objekt (ggf. `{}`).
-- `arena{}` spiegelt den PvP-Status: `active`, `phase` (`idle`/`active`/
-  `completed`), aktueller `mode` (`single`/`sparring` …), `previous_mode` zur
-  Rückkehr ins Story-Play, Serienstand (`wins_player`, `wins_opponent`), Budget-
-  Limits (`proc_budget`, `artifact_limit`, `loadout_budget`), `phase_strike_tax`,
-  Szenario/Audit sowie `policy_players[]` (sanitisierte Loadouts). `logs.psi[]`
-  erhält parallel `mode_previous`, damit Cross-Mode-Evidenz im Debrief steht.
-- `logs.psi[]` protokolliert Arena-spezifische Kosten (`phase_strike_tax`) sowie
-  den zuletzt aktiven Modus (`mode_previous`). Debriefs listen diese Einträge als
-  „Arena-Psi (n×)“ auf.
-- `logs.flags` hält neben klassischen Flags nun auch
-  `foreshadow_gate_m5_seen`, `foreshadow_gate_m10_seen`,
-  `last_mission_end_reason`, `self_reflection_off`,
-  `self_reflection_changed_at`, `self_reflection_last_change_reason` sowie
-  `self_reflection_auto_reset_{at,reason}`. Die Werte dokumentieren Gate-Status
-  und Self-Reflection-Resets nachvollziehbar.
 
-### Koop-Debrief & Wallet-Split {#koop-wallet-split}
+> **Laufzeitabgleich:** Guard-Texte und HUD-Ausgabe entsprechen den Routinen
+> `load_deep()` und `scene_overlay()` in `runtime.js` (ZR_VERSION 4.2.2).
 
-Nach jeder Mission verteilt der Debrief die Chrono-Unit-Prämie zuerst als **Belohnungen**-Block und direkt danach die Koop-Auszahlung.
+### Kompatibilität & Guards
 
-**Hazard-Pay vorab:** Enthält `outcome` ein Feld `hazard_pay` (oder `economy.hazard_pay`), verbucht die Runtime den Betrag sofort im HQ-Pool und loggt `Hazard-Pay: … CU priorisiert`. Erst danach läuft die reguläre Wallet-Verteilung.
+- Semver-Toleranz: Lädt, wenn `major.minor` der gespeicherten `zr_version` dem
+  aktuellen `ZR_VERSION` entspricht; Patch-Level sind egal.
+- Version-Mismatch liefert `Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit
+  vA.B. Bitte HQ-Migration veranlassen.`
+- `campaign.exfil.active` oder `state.exfil.active` blockieren den HQ-Save mit
+  „SaveGuard: Exfil aktiv – HQ-Save gesperrt.“
+- Pflichtblöcke dürfen nicht geschätzt werden; der Serializer ersetzt fehlende
+  Strukturen mit sicheren Defaults (Wallets `{}`, Logs als leere Arrays,
+  `ui.gm_style="verbose"`).
 
-1. **Standardaufteilung:** Sind mehrere Agenten aktiv und es liegt kein spezielles Split-Schema vor, teilt der GPT die Auszahlung gleichmäßig auf `economy.wallets{}` auf. Die Zeile `Wallet-Split (n×): …` nennt jede Person mit Callsign und Gutschrift, z. B. `Wallet-Split (3×): Ghost +200 CU | Nova +200 CU | Wrench +200 CU`.
-2. **Solo→Koop-Umstieg:** Wechselt eine Kampagne von Solo auf Koop, initialisiert GPT vor der nächsten Auszahlung für jede Figur in `party.characters[]` einen Wallet-Eintrag (`{balance: 0, name}`) und verschiebt vorhandene Solo-Ersparnisse als `economy.cu` in den HQ-Pool. Es entsteht kein zweites Wallet-Schema.
-3. **HQ-Pool aktualisieren:** Anschließend folgt `HQ-Pool: <Betrag> CU verfügbar`. Der Betrag entspricht `economy.cu` nach dem Split. Ein Rest aus Sonderaufteilungen wird in Klammern angezeigt (`Rest 150 CU im HQ-Pool`).
-4. **Individuelle Schemata:** Soll die Auszahlung anders laufen, hinterlegt die Spielleitung im `outcome` ein `economy.split`/`wallet_split`-Objekt (z. B. `{id:"ghost", amount:300}`, `{id:"nova", ratio:2}`). Gewichtsangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben als reine Anteile stehen und werden relativ zueinander verteilt; nur explizite Prozentfelder (`percent`, `percent_share`) erwartet der GPT auf 0–1 bzw. 0–100 % und normiert sie entsprechend. Der GPT nutzt diese Vorgaben, addiert die Werte auf die Wallets und lässt nicht zugewiesene CU automatisch im HQ-Pool.
-5. **Dialogführung:** Im Rollenspiel kündigt Kodex die Standardaufteilung an und bietet Alternativen an: _„Standardaufteilung: je 200 CU. Möchtet ihr eine andere Verteilung? Vorschlag: Nova +100 CU extra für den Artefakt-Fund.“_ Entscheidungen und Sonderfälle dokumentiert der GPT in den Debrief-Notizen oder im Einsatzprotokoll.
-6. **Persistenz:** Wallets werden beim Speichern als `economy.wallets` festgeschrieben. Die IDs referenzieren die Charaktere aus `party.characters[]`; falls ein Charakter nur einen Namen besitzt, erzeugt der GPT einen slug (`agent-nova`). Änderungen an Callsigns passen die Wallet-Namen automatisch an, ohne die Balance zu verlieren.
+### Persistente Debrief-Spiegel
 
-> **Hinweis:** Wallet-Splits gehören zum narrativen Ablauf. Auch ohne lokale Runtime muss der GPT die Schritte manuell beschreiben und die Werte in den Save-Block übertragen. Der HQ-Pool bleibt immer sichtbar, damit Koop-Teams bei mehreren Missionen nachvollziehen können, wie viele CU im gemeinsamen Konto verbleiben.
+- **Runtime-Flags.** `logs.flags.runtime_version` hält die erzeugende Version
+  fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
+  Compliance-Status, Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
+  Timestamp.
+- **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
+  `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
+  `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
+- **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
+  `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
+  Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
+  `Offline-Protokoll (n×): …` zusammen. `normalize_save_v6()` dedupliziert
+  `logs.foreshadow[]` (Tag, Kurztext, Szene, First/Last-Seen);
+  Debriefs spiegeln `Foreshadow-Log (n×): …`.
+- **Fraktionen & Funk.** `log_intervention()` protokolliert bis zu 16
+  `logs.fr_interventions[]` (Ergebnis, Fraktion, Szene, Mission, Zusatzfelder)
+  und spiegelt sie ins Arc-Dashboard; `render_alias_trace_summary()` fasst
+  `logs.alias_trace[]` zu `Alias-Trace (n×): …` zusammen. Funkmeldungen landen
+  via `log_squad_radio()` in `logs.squad_radio[]`; der Debrief liefert
+  `Squad-Radio (n×): …`.
+- **HQ-Rituale.** `campaign.hq_moments_used: string[]` dokumentiert Buffs
+  (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer `[]`;
+  Debriefs nennen „HQ-Moments (n×)“ entsprechend.
+- **Arena & Psi.** `ensure_arena()` konserviert PvP-Status, Phasen,
+  Serienstände, Budget-Limits sowie `phase_strike_tax`. Parallel hält
+  `logs.psi[]` `phase_strike_tax` und `mode_previous` fest, damit
+  `render_psi_summary()` den Cross-Mode-Kontext liefert.
+- **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
+  `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
+  ein Objekt – ggf. `{}`.
+- **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
+  (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
+  `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
+
+## Koop-Debrief & Wallet-Split {#koop-wallet-split}
+
+Nach jeder Mission folgt auf den Belohnungsblock automatisch der Koop-Abschnitt.
+`apply_wallet_split()` spiegelt das Ergebnis in `economy.wallets{}` und erzeugt
+die Debrief-Zeilen.
+
+### Hazard-Pay & HQ-Pool
+
+- Enthält `outcome` ein `hazard_pay`-Feld (oder `economy.hazard_pay`), bucht die
+  Runtime den Betrag zuerst auf `economy.cu` und loggt `Hazard-Pay: … CU
+  priorisiert`.
+- Anschließend meldet `apply_wallet_split()` den HQ-Stand als
+  `HQ-Pool: <Betrag> CU verfügbar`. Restbeträge erscheinen in Klammern
+  (`Rest 150 CU im HQ-Pool`).
+
+### Standard- und Sonderaufteilungen
+
+1. **Standardaufteilung.** Ohne Vorgaben verteilt der GPT die Auszahlung
+   gleichmäßig (`Wallet-Split (n×): Ghost +200 CU | …`).
+2. **Solo→Koop.** Beim Moduswechsel initialisiert
+   `initialize_wallets_from_roster()` leere Wallets für alle `party.characters[]`
+   und verschiebt Solo-Guthaben in den HQ-Pool.
+3. **Spezialschemata.** Sonderregeln kommen über `economy.split`/`wallet_split`.
+   Prozentwerte (`percent`, `percent_share`) nutzt GPT als 0–1 bzw. 0–100 %.
+   Verhältnisangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben
+   relative Anteile. Nicht zugewiesene CU verbleiben im HQ-Pool.
+4. **Dialogführung.** Kodex nennt Standard und Alternativen (_„Standardaufteilung
+   je 200 CU …“_) und dokumentiert Entscheidungen in Debrief oder
+   Einsatzprotokoll.
+
+### Persistenz & IDs
+
+- `economy.wallets{}` speichert Balances anhand der IDs aus
+  `party.characters[]`. Fehlt eine ID, erzeugt GPT einen Slug (`agent-nova`).
+- Änderungen an Callsigns aktualisieren nur den Anzeigenamen; das Guthaben bleibt
+  über die ID erhalten.
+- Ohne lokale Runtime müssen GPT-Leitungen dieselben Schritte manuell
+  beschreiben und die Werte in den Saveblock übertragen, damit Koop-Teams ihre
+  CU-Historie nachvollziehen können.
 
 **Legacy-Normalisierung (ohne runtime.js)**
 
