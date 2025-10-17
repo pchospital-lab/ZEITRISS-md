@@ -82,6 +82,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > müssen getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und Konflikte
 > kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder Regelunklarheit.
 >
+> Hänge an deine Antwort einen Abschnitt `Test-Save (JSON)` an. Er enthält einen vollständig
+> ausgefüllten `saveGame`-Block mit Dummy-Testdaten (inklusive `zr_version`, `session_title`,
+> `summary`, `open_tasks`, `next_contact`, `messages` sowie passenden Kodex- und Charakterwerten),
+> den wir direkt in eine neue ZEITRISS-Instanz importieren können. Gib den Block in einem
+> ```json```-Snippet aus, damit der automatische Abgleich ohne Nachbearbeitung möglich ist.
+>
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben durch: Starte mit
 > `Foreshadow 2/2`, beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und HUD-Zähler und halte den
 > HUD-/Log-Auszug fest. Prüfe zum Abschluss den Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss.
@@ -147,7 +153,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
      konsistent sind. Prüfen, wie Kodex und HUD auf wiederholte Schleifen reagieren.
 4. Manueller Save/Load-Test: `saveGame({...})` anfordern, lokal sichern, neuen Chat starten und den
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
-   rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
+   rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden). Der
+   Abschnitt `Test-Save (JSON)` aus der GPT-Antwort dient als Referenz und Import-Block für den
+   automatisierten Gegencheck in einer frischen ZEITRISS-Instanz.
 5. Verifizieren, dass der GPT-Output HUD-Presets, Offline-Optionen (`!offline` –
    Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten),
    das Accessibility-Panel (`!accessibility`), Paradoxon-Index-Hinweise und Ask→Suggest-Toggle
