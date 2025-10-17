@@ -1033,6 +1033,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
+- **Maintainer-Blueprint:** Map-Layout, Performance-Ziele und Build-Roadmap
+  stehen in `docs/dev/chronopolis-map-blueprint.md` für Art/Tech-Abgleiche bereit.
 - In Chronopolis sind FR-Kontakte untersagt und Rifts lassen sich dort
   nicht starten; Seeds und Board-Infos erscheinen weiterhin.
 - HQ-Zutritt ist ITI-Agenten vorbehalten; Gäste benötigen
