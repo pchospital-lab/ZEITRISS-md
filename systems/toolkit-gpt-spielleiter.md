@@ -188,10 +188,16 @@ default_modus: mission-fokus
 - HUD-Overlay und Kodex-Ausgaben aus Sicht der KI nutzen
 - Einbindung des Regelwerks in den Spielfluss
 - **Mirror-Pflicht Foreshadow-Log:**
-  1. `state.logs.foreshadow` existiert als persistentes Array aus Objekten (`token`, `tag`, `text`, `scene`, `first_seen`, `last_seen`).
-  2. `ForeshadowHint(text, tag)` trimmt den Text, bildet `token = 'manual:' + slug(text)` und dedupliziert Einträge anhand des Tokens.
-  3. Neue oder aktualisierte Einträge setzen `last_seen = now`, ergänzen `message/tag/scene` und halten `first_seen` beim ersten Fund fest.
-  4. `scene.foreshadows` spiegelt die Anzahl deduplizierter Marker; das HUD-Badge und `!boss status` zeigen `Foreshadow n/m` (Core=4, Rift=2, falls `campaign.boss_allowed != false`).
+  1. `state.logs.foreshadow` existiert als persistentes Array aus Objekten
+     (`token`, `tag`, `text`, `scene`, `first_seen`, `last_seen`).
+  2. `ForeshadowHint(text, tag)` trimmt den Text, bildet
+     `token = 'manual:' + slug(text)` und dedupliziert Einträge anhand des
+     Tokens.
+  3. Neue oder aktualisierte Einträge setzen `last_seen = now`, ergänzen
+     `message/tag/scene` und halten `first_seen` beim ersten Fund fest.
+  4. `scene.foreshadows` spiegelt die Anzahl deduplizierter Marker; das
+     HUD-Badge und `!boss status` zeigen `Foreshadow n/m` (Core=4, Rift=2,
+     falls `campaign.boss_allowed != false`).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
@@ -236,7 +242,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
   `!offline` erinnert an Terminal/Hardline, Jammer-Override, Ask→Suggest-
   Fallback und daran, dass Saves wie üblich erst im HQ verfügbar sind.
-- Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status` (oder Key-Value `speaker=…|channel=…`). `!radio status` liefert die letzten Einträge für QA, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
+- Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status`
+  (oder Key-Value `speaker=…|channel=…`). `!radio status` liefert die letzten
+  Einträge für QA, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
   - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
@@ -245,9 +253,16 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 ### Alias- & Funk-Logs (Persistenz)
 
-- `!alias log Persona|Cover|Status|Notiz` (optional `mission=…|scene=…|location=…`) protokolliert Alias-Läufe in `logs.alias_trace[]`. Nutzt `!alias status` für die letzten Einträge und `!alias clear`, bevor ihr einen neuen Einsatz startet.
-- `!radio log Sprecher|Channel|Meldung|Status` bzw. Key-Value-Varianten schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn zurück.
-- Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
+- `!alias log Persona|Cover|Status|Notiz` (optional `mission=…|scene=…|location=…`)
+  protokolliert Alias-Läufe in `logs.alias_trace[]`. Nutzt `!alias status` für
+  die letzten Einträge und `!alias clear`, bevor ihr einen neuen Einsatz
+  startet.
+- `!radio log Sprecher|Channel|Meldung|Status` bzw. Key-Value-Varianten
+  schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die
+  jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
+  zurück.
+- Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
+  (n×)` und liefern QA-Evidenz. Markiert Besonderheiten zusätzlich im QA-Log.
 
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
@@ -284,17 +299,23 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die Mission beendet oder abgebrochen
   wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und protokollieren dabei den HUD-Toast
   `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason` (`completed`/`aborted`).
-- **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert Self-Reflection, schreibt den HUD-Toast
-  (`SF-ON`/`SF-OFF`) und persistiert das Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die Runtime
-  legt zusätzlich `logs.flags.self_reflection_off` an, wenn Self-Reflection deaktiviert ist.
+- **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert
+  Self-Reflection, schreibt den HUD-Toast (`SF-ON`/`SF-OFF`) und persistiert das
+  Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die
+  Runtime legt zusätzlich `logs.flags.self_reflection_off` an, wenn
+  Self-Reflection deaktiviert ist.
 - **Foreshadow-Gate-Flags.** `scene_overlay()` synchronisiert `logs.flags.foreshadow_gate_m5_seen` bzw.
   `logs.flags.foreshadow_gate_m10_seen` (boolean) und zählt `logs.foreshadow[]` dedupliziert. Ohne Runtime setzt die
   Spielleitung die Keys manuell, sobald `ForeshadowHint()` den Gate erfüllt.
-- **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4 Hinweise, Rift = 2) und dient als Saison-Indikator.
+- **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4
+  Hinweise, Rift = 2) und dient als Saison-Indikator.
   QA notiert Gate-Evidenz (`Foreshadow 2/2` im HUD) und den Saisonstand (`Foreshadow 0/4` nach dem Reset).
-- **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize` (1–6) und `mode` (`single`/`squad` …).
-  Zieht die Arena-Gebühr aus `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`, markiert die Arena als aktiv,
-  aktiviert SaveGuards (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr, Szenario und Px-Status aus.
+- **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
+  (1–6) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
+  `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`,
+  markiert die Arena als aktiv, aktiviert SaveGuards (`save_deep` verweigert
+  HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr, Szenario und Px-Status
+  aus.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -349,12 +370,23 @@ if not char.get("psi") and not char.get("has_psi"):
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
   wenn eine Begegnung ausgeschlossen bleibt.
 - **Koop-Auszahlungen:**
-  - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus `economy.wallets{}`. Ohne Vorgaben verteilt der GPT die Prämie gleichmäßig.
-  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
-  - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU. Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova, HQ-Pool belassen.“_
-  - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`). Der GPT bestätigt die Vorgaben, passt die Wallets an und dokumentiert Abweichungen im QA-Log.
-  - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus: Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
-  - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`, `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile; nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0–1 bzw. 0–100 % normiert.
+  - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus
+    `economy.wallets{}`. Ohne Vorgaben verteilt der GPT die Prämie
+    gleichmäßig.
+  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
+    Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
+  - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
+    Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
+    HQ-Pool belassen.“_
+  - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`).
+    Der GPT bestätigt die Vorgaben, passt die Wallets an und dokumentiert
+    Abweichungen im QA-Log.
+    - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus:
+      Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
+    - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`,
+      `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile;
+      nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0–1
+      bzw. 0–100 % normiert.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
   Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.
@@ -615,7 +647,9 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
   - `Recap()` abspielen.
   - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
   - **Keine** Nachfrage „klassischer Einstieg/Schnelleinstieg“.
-  - Standard-Flags prüfen: Falls `character.psi_buffer`, `team.psi_buffer` oder `party.characters[].psi_buffer` fehlen, setze sie auf `true`, damit der Grundschutz aktiv bleibt.
+    - Standard-Flags prüfen: Falls `character.psi_buffer`, `team.psi_buffer`
+      oder `party.characters[].psi_buffer` fehlen, setze sie auf `true`, damit
+      der Grundschutz aktiv bleibt.
 
 **Beispiel:**
 ```pseudo
@@ -635,11 +669,13 @@ damit keine Dopplung entsteht.
 
 | Icon | HUD-Tag (`hud_tag`) | Auslöser im HQ | Wirkung |
 |------|---------------------|----------------|---------|
-| 🎯 **FOCUS** | `HQ:FOCUS · +1 SG Präzision` | Atemsync mit Sora im Trainingsdeck. | Nächste Präzisionsprobe des Teams erhält **+1 SG**. |
-| 🛡️ **BASTION** | `HQ:BASTION · Stress -1` | Commander Renier hält eine Schutzrede. | Entfernt **1 Stress** bei allen Anwesenden. |
-| ⚡ **SPARK** | `HQ:SPARK · SYS +1 (1 Szene)` | Werkstattcrew überlädt die Feldmodule. | Gewährt **+1 freies SYS** für die erste Szene der nächsten Mission. |
-| 💠 **CALM** | `HQ:CALM · Psi-Heat null` | Nullzeit-Lotus aktiviert die Kühlkammern. | Setzt **Psi-Heat auf 0** (einmalig). |
-| 🛰️ **PULSE** | `HQ:PULSE · Comms ok` | Relais-Netz wird neu kalibriert. | Der nächste `comms_check()` gelingt automatisch. |
+| 🎯 **FOCUS** | `HQ:FOCUS · +1 SG Präzision` | Atemsync im Trainingsdeck. | Nächste Präzisionsprobe erhält **+1 SG**. |
+| 🛡️ **BASTION** | `HQ:BASTION · Stress -1` | Schutzrede von Commander Renier. | Entfernt **1 Stress** bei allen. |
+| ⚡ **SPARK** | `HQ:SPARK · SYS +1 (1 Szene)` | Werkstattcrew überlädt Feldmodule. | Gewährt **+1 freies SYS** |
+|            |                                  |                                   | für Szene eins. |
+| 💠 **CALM** | `HQ:CALM · Psi-Heat null` | Nullzeit-Lotus kühlt die Kammern. | Setzt **Psi-Heat auf 0** (einmalig). |
+| 🛰️ **PULSE** | `HQ:PULSE · Comms ok` | Relaisnetz wird neu kalibriert. | Der nächste `comms_check()` |
+|            |                             |                                 | gelingt automatisch. |
 
 **Makro-Snippet:**
 
@@ -732,7 +768,16 @@ mechanische Effekt greift.
   {% set campaign.entry_choice_skipped = false %}
 {%- endmacro %}
 
-{% macro StartMission(total=12, seed_id=None, objective=None, type="core", epoch=None, dt_hours=0, fx_override=None, tags=None) %}
+{% macro StartMission(
+  total=12,
+  seed_id=None,
+  objective=None,
+  type="core",
+  epoch=None,
+  dt_hours=0,
+  fx_override=None,
+  tags=None
+) %}
 {% set mission_fx = fx_override or {} %}
 {{ AllowEntryChoice() }}
 {% if campaign.mission is none %}
@@ -821,7 +866,8 @@ physisches Gerät. Kodex synchronisiert über reale Hardware mit dem
 Nullzeit-HQ-Archiv; bei Ausfall bleibt nur der Offline-HUD. Signale,
 Objekte und Gegner agieren ausschließlich physisch.
 
-`!dashboard status` liefert QA das Arc-Dashboard als Text (Seeds, letzte Fraktionsmeldungen, offene Fragen) und dient als unmittelbarer Evidenz-Snapshot für Beta-Logs.
+`!dashboard status` liefert QA das Arc-Dashboard als Text (Seeds, letzte Fraktionsmeldungen, offene Fragen)
+und dient als unmittelbarer Evidenz-Snapshot für Beta-Logs.
 {% endmacro %}
 
 Beispielaufruf im Kampagnenstart:
@@ -992,12 +1038,15 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
   } %}
   {% set state.logs.offline = state.logs.offline + [offline_entry] %}
   {% if same_scene and trigger != 'init' %}
-    {{ hud_ping('Offline-Protokoll läuft – Mission weiter, HUD lokal. Terminal koppeln oder Relais suchen. !offline wiederholt die Schritte.') }}
+    {{ hud_ping('Offline-Protokoll läuft – Mission weiter, HUD lokal. ' ~
+      'Terminal koppeln oder Relais suchen. !offline wiederholt die Schritte.') }}
   {% else %}
     {{ hud_tag('Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.') }}
-    {{ hud_tag('Offline-Protokoll: Terminal koppeln, Hardline suchen, Jammer-Override prüfen; Kodex bleibt stumm bis zum Re-Sync.') }}
+    {{ hud_tag('Offline-Protokoll: Terminal koppeln, Hardline suchen, ' ~
+      'Jammer-Override prüfen; Kodex bleibt stumm bis zum Re-Sync.') }}
     {{ hud_tag('HQ-Save-Regel gilt: Im Einsatz keine neuen Saves, alles im HUD-Log notieren bis zum HQ-Sync.') }}
-    {{ hud_tag('Ask→Suggest-Fallback: Aktionen als „Vorschlag:“ markieren und Bestätigung abholen, bis der Link zurück ist.') }}
+    {{ hud_tag('Ask→Suggest-Fallback: Aktionen als „Vorschlag:“ markieren ' ~
+      'und Bestätigung abholen, bis der Link zurück ist.') }}
   {% endif %}
   {% set device = state.comms.device | default('unbekannt') %}
   {% set jammed = state.comms.jammed | default(False) %}
@@ -1005,7 +1054,9 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
   {% set relays = state.comms.relays | default(0) %}
   {% set scene_idx = campaign.scene | default(0) %}
   {% set scene_total = campaign.scene_total | default(12) %}
-  {{ hud_tag('Offline-Protokoll (' ~ count ~ '×): Gerät ' ~ device ~ ' · Jammer ' ~ (jammed and 'aktiv' or 'frei') ~ ' · Reichweite ' ~ range_m ~ 'm · Relais ' ~ relays ~ ' · Szene ' ~ scene_idx ~ '/' ~ scene_total) }}
+  {{ hud_tag('Offline-Protokoll (' ~ count ~ '×): Gerät ' ~ device ~ ' · Jammer ' ~
+      (jammed and 'aktiv' or 'frei') ~ ' · Reichweite ' ~ range_m ~ 'm · Relais ' ~ relays ~
+      ' · Szene ' ~ scene_idx ~ '/' ~ scene_total) }}
 {%- endmacro %}
 
 {# PRECISION-Markierungsmakros #}
@@ -1301,7 +1352,8 @@ total=12, role="", env=None) -%}
   {% endif %}
 {% endfor %}
 {# Boss-Regel #}
-{% set is_boss_scene = (campaign.type == 'rift' and campaign.scene == 10) or (campaign.type == 'core' and campaign.scene == 10 and campaign.boss_allowed) %}
+{% set is_boss_scene = (campaign.type == 'rift' and campaign.scene == 10) or
+  (campaign.type == 'core' and campaign.scene == 10 and campaign.boss_allowed) %}
 {% if is_boss_scene %}
   {% set trimmed_cooldowns = {} %}
   {% for pressure_id, cd in campaign.boss_pressure_cooldowns.items() %}
@@ -1324,7 +1376,9 @@ total=12, role="", env=None) -%}
   {% endif %}
   {% set pressure_choice = selectable_pressure|random %}
   {% set pressure_id = pressure_choice | join('||') %}
-  {% set campaign.boss_pressure_cooldowns = campaign.boss_pressure_cooldowns | combine({pressure_id: boss_pressure_cooldown_length}) %}
+  {% set campaign.boss_pressure_cooldowns = campaign.boss_pressure_cooldowns | combine({
+    pressure_id: boss_pressure_cooldown_length
+  }) %}
   {% set campaign.last_boss_pressure = pressure_choice %}
   {% set campaign.boss_scene = {'style': 'VERBOSE','pressure': pressure_choice} %}
   {% if campaign.type == 'rift' %}
@@ -1452,7 +1506,10 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
   ) %}
   {% if not ok %}
       {{ offline_help('auto') }}
-      {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. !offline zeigt das Feldprotokoll für den laufenden Einsatz.') }}
+      {{ raise('CommsCheck failed: require valid device/range or relay/jammer override. ' ~
+        'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / ' ~
+        'Jammer-Override aktivieren; Reichweite anpassen. ' ~
+        '!offline zeigt das Feldprotokoll für den laufenden Einsatz.') }}
   {% endif %}
 {%- endmacro %}
 
@@ -1500,12 +1557,15 @@ DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehic
 {%- endmacro %}
 {% macro helper_comms() -%}
 comms_check(device,range_m,range_km?): Pflicht vor radio_tx/rx.
-Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal) und Meterwerte; optional wandelt der Guard Kilometer in Meter um.
-Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.
+Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal)
+und Meterwerte; optional wandelt der Guard Kilometer in Meter um.
+Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren;
+Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.
 {%- endmacro %}
 {% macro helper_boss() -%}
 Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
-Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow` und `scene.foreshadows` den Fortschritt persistieren.
+Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`
+und `scene.foreshadows` den Fortschritt persistieren.
 Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.
 {%- endmacro %}
 {% macro fr_help() -%}
@@ -1616,7 +1676,8 @@ Foreshadow {{ count }}{% if required > 0 %}/{{ required }}{% endif %}
 
 {% macro chrono_warn_once() -%}
   {% if not state.logs.flags.chronopolis_warn_seen %}
-    {{ hud_tag('Chronopolis entzieht sich jeder bekannten Zeitlinie. Nur wer die Konsequenzen akzeptiert, tritt ein.') }}
+    {{ hud_tag('Chronopolis entzieht sich jeder bekannten Zeitlinie. ' ~
+      'Nur wer die Konsequenzen akzeptiert, tritt ein.') }}
     {% set state.logs.flags.chronopolis_warn_seen = true %}
   {% endif %}
 {%- endmacro %}
@@ -1918,7 +1979,8 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {% if delta > 0 %}
     {{ hud_tag('Attributbudget: ' ~ tally.total ~ '/' ~ budget ~ ' · ' ~ delta ~ ' Punkt(e) verfügbar') }}
   {% elif delta < 0 %}
-    {{ hud_tag('Attributbudget überzogen: ' ~ tally.total ~ '/' ~ budget ~ ' · Bitte ' ~ (-delta) ~ ' Punkt(e) zurücknehmen.') }}
+    {{ hud_tag('Attributbudget überzogen: ' ~ tally.total ~ '/' ~ budget ~ ' · Bitte ' ~
+      (-delta) ~ ' Punkt(e) zurücknehmen.') }}
   {% else %}
     {{ hud_tag('Attributbudget ausgeglichen: ' ~ tally.total ~ '/' ~ budget ~ ' · Keine Restpunkte') }}
   {% endif %}
@@ -2642,27 +2704,41 @@ Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf,
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
 1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
-   - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-   - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
-   - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing. Keine Nachfrage „klassisch/schnell“.
+   - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION`
+     übereinstimmt; Patch-Level wird ignoriert.
+   - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
+     HQ-Migration veranlassen.“
+   - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing.
+     Keine Nachfrage „klassisch/schnell“.
 2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.
    - `schnell|fast` erwähnt → Schnelleinstieg.
-   - `trigger` erwähnt → Seeds aus dem `trigger_pool`, `campaign.mode = 'trigger'`, `state.start.seed_mode = 'trigger'`.
-   - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`, `campaign.mode = 'preserve'`.
+   - `trigger` erwähnt → Seeds aus dem `trigger_pool`,
+     `campaign.mode = 'trigger'`, `state.start.seed_mode = 'trigger'`.
+   - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`,
+     `campaign.mode = 'preserve'`.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: nie nach Load fragen.
-   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“ Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset `NPC-Autoradio aktiv (…× Squad)`.
+   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“
+     Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
+     `NPC-Autoradio aktiv (…× Squad)`.
    - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei *gruppe* keine Zahl angeben.“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
 **Missionsstart:**
-- Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt sofort das HUD-Overlay zurück, setzt `skip_entry_choice=false`, markiert Gate-Missionen (5/10) und spielt bei Bedarf den Boss-Toast (`BOSS`).
-- Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header EP·MS·SC/total·Mode·Objective setzen.
+- Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
+  sofort das HUD-Overlay zurück, setzt `skip_entry_choice=false`, markiert Gate-Missionen (5/10)
+  und spielt bei Bedarf den Boss-Toast (`BOSS`).
+- Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header
+  EP·MS·SC/total·Mode·Objective setzen.
 
 **Quick-Hilfe:** `!help start` – gibt die vier Start-/Load-Befehle mit Kurzbeschreibung aus.
-**Offline-Notfall:** `!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink (Terminal koppeln, Jammer-Override prüfen, Mission mit HUD-Lokaldaten weiterführen, Ask→Suggest nutzen, Saves wie üblich nur im HQ).
-**Accessibility-Panel:** `!accessibility` zeigt Kontrast, HUD-Badge-Dichte und Output-Takt; Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in `ui{contrast,badge_density,output_pace}`.
+**Offline-Notfall:** `!offline` – Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink
+(Terminal koppeln, Jammer-Override prüfen, Mission mit HUD-Lokaldaten weiterführen, Ask→Suggest
+ nutzen, Saves wie üblich nur im HQ).
+**Accessibility-Panel:** `!accessibility` zeigt Kontrast, HUD-Badge-Dichte und Output-Takt;
+Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
+`ui{contrast,badge_density,output_pace}`.
 
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
@@ -3071,11 +3147,17 @@ Dort wählt das Team: *Rest*, *Research*, *Shop* oder *Briefing*.
 
 #### Pre-City-Hub Transit (Optional)
 
-- **Trigger:** Nach der ersten abgeschlossenen Mission und jedem späteren HQ-Zyklus darf Kodex eine optionale Transit-Sequenz anbieten. Frage aktiv nach, ob die Gruppe eine Vorschau auf Chronopolis wünscht.
-- **Inszenierung:** Beschreibe maximal drei Szenen (Landeplattform, Sicherheits-Schleuse, Aussichtstunnel). Jede Szene endet mit einem HUD-Toast `Chronopolis-Vorschau …` plus kurzer Notiz zur beobachteten Fraktion.
-- **Angebote:** Stelle höchstens zwei Händler- oder Service-Previews pro Zyklus vor. Kennzeichne sie als "nur Vorschau" und verhindere Käufe oder Rufveränderungen. Nutze Dialogfragmente, um spätere Stadtkontakte anzuteasern.
-- **Persistenz:** Setze `state.logs.flags.chronopolis_warn_seen = true`, sobald die Warnung vor den Risiken des Stadteintritts ausgesprochen wurde. Halte `campaign.loc` weiterhin auf `HQ`, bis der echte Schlüssel aktiv ist.
-- **Abbruch:** Bricht die Gruppe den Transit ab oder lehnt ihn ab, notiere dies im Debrief (`Chronopolis-Vorschau abgelehnt`) und fahre mit dem regulären HQ-Menü fort.
+- **Trigger:** Nach der ersten abgeschlossenen Mission und jedem späteren HQ-Zyklus
+  darf Kodex eine optionale Transit-Sequenz anbieten. Frage aktiv nach, ob die Gruppe
+  eine Vorschau auf Chronopolis wünscht.
+- **Inszenierung:** Beschreibe maximal drei Szenen (Landeplattform, Sicherheits-Schleuse, Aussichtstunnel).
+  Jede Szene endet mit einem HUD-Toast `Chronopolis-Vorschau …` plus kurzer Notiz zur beobachteten Fraktion.
+- **Angebote:** Stelle höchstens zwei Händler- oder Service-Previews pro Zyklus vor. Kennzeichne sie als "nur Vorschau"
+  und verhindere Käufe oder Rufveränderungen. Nutze Dialogfragmente, um spätere Stadtkontakte anzuteasern.
+- **Persistenz:** Setze `state.logs.flags.chronopolis_warn_seen = true`, sobald die Warnung vor den Risiken
+  des Stadteintritts ausgesprochen wurde. Halte `campaign.loc` weiterhin auf `HQ`, bis der echte Schlüssel aktiv ist.
+- **Abbruch:** Bricht die Gruppe den Transit ab oder lehnt ihn ab, notiere dies im Debrief
+  (`Chronopolis-Vorschau abgelehnt`). Fahre mit dem regulären HQ-Menü fort.
 
 ### NPC-Micro-Template
 
