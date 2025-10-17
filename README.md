@@ -8,9 +8,13 @@ tags: [meta]
 
 [![LLM-Ready ✅][llm-ready-badge]][llm-ready-link]
 
-> **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und JSON-Charakterbögen.
+> **Kurzfassung:** ZEITRISS® schickt euch als operative Chrononauten in ein
+> Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und
+> JSON-Charakterbögen.
 > **Markenhinweis:** ZEITRISS® ist eine eingetragene Marke von Florian Michler.
-> **DPMA-Dossier:** Der vollständige Registerauszug liegt im [Markenbriefing](docs/trademark.md); haltet das Aktenzeichen 30 2025 215 671.9 bereit.
+> **DPMA-Dossier:** Der vollständige Registerauszug liegt im
+> [Markenbriefing](docs/trademark.md); haltet das Aktenzeichen 30 2025 215 671.9
+> bereit.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
@@ -97,15 +101,26 @@ Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompak
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
-Die komplette Operator-Checkliste liegt in [docs/maintainer-ops.md](docs/maintainer-ops.md). Dort findet ihr die
-Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README
-listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt euch das Maintainer-Dokument.
+Die komplette Operator-Checkliste liegt in
+[docs/maintainer-ops.md](docs/maintainer-ops.md). Dort findet ihr die
+Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen
+Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README listet nur die
+Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt
+euch das Maintainer-Dokument.
 
 ### Wissensspeicher laden
 
-1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
-2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste Chatnachricht, OpenWebUI: Instruktionsfeld). Optional kannst du den Masterprompt zusätzlich als Wissensspeicher-Modul ablegen.
-3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
+1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle
+   unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner
+   Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation
+   reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
+2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als
+   Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste Chatnachricht,
+   OpenWebUI: Instruktionsfeld). Optional kannst du den Masterprompt zusätzlich
+   als Wissensspeicher-Modul ablegen.
+3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
+   alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
+   wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
 
 ### Runtime-Module im Wissensspeicher
 
@@ -132,11 +147,23 @@ listet nur die Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren od
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
-- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und Test-Tools bleiben lokal im Repo und werden **nicht** in produktive Wissensspeicher hochgeladen.
-- Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne externe Skripte denselben Funktionsumfang erhalten.
-- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Dokumentiere Abweichungen zwischen Skript und Wissensspiegelung im QA-Journal (siehe `internal/qa/logs/`) und verweise in Commits/PRs auf die entsprechenden Mirror-Schritte.
-- **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik, HUD-Badges und Save-Strukturen.**
-- **Maintainer:innen prüfen nach erfolgreicher QA lediglich den fertigen Wissensstand und übertragen ihn anschließend gemäß `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
+- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
+  Test-Tools bleiben lokal im Repo und werden **nicht** in produktive
+  Wissensspeicher hochgeladen.
+- Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als
+  Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis
+  (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
+  externe Skripte denselben Funktionsumfang erhalten.
+- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Dokumentiere
+  Abweichungen zwischen Skript und Wissensspiegelung im QA-Journal (siehe
+  `internal/qa/logs/`) und verweise in Commits/PRs auf die entsprechenden
+  Mirror-Schritte.
+- **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der
+  Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik,
+  HUD-Badges und Save-Strukturen.**
+- **Maintainer:innen prüfen nach erfolgreicher QA lediglich den fertigen
+  Wissensstand und übertragen ihn anschließend gemäß
+  `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
 
 ## Repo-Map {#repo-map}
 
@@ -146,9 +173,11 @@ ZEITRISS-md/
 ├─ core/                    # Grundregeln & Zeitriss-Mechaniken (Runtime)
 ├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
-├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime, ohne `runtime-stub-routing-layer.md`)
+├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime)
+│                           # ohne `runtime-stub-routing-layer.md`
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
-├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte (tags: [meta]; inkl. QA-Fahrplan & QA-Protokoll)
+├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte
+│                           # (tags: [meta]; inkl. QA-Fahrplan & QA-Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 └─ master-index.json        # Übersicht aller Module und Slugs
 ```
@@ -190,8 +219,16 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – `!sf off` setzt das globale Flag (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`; `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF` anzeigen. Nach Mission 5 stellt die Runtime Self-Reflection automatisch auf `SF-ON` zurück – sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
-8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde; `!tk ready` hebt die Sperre nach dem Cooldown auf.
+7. **Self-Reflection Off** – `!sf off` setzt das globale Flag
+   (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
+   `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen
+   Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF`
+   anzeigen. Nach Mission 5 stellt die Runtime Self-Reflection automatisch auf
+   `SF-ON` zurück – sowohl nach Abschluss als auch nach Abbruch
+   (`logs.flags.last_mission_end_reason`).
+8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
+   Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
+   `!tk ready` hebt die Sperre nach dem Cooldown auf.
 9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
    Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
 10. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
@@ -210,7 +247,8 @@ Die ersten Schritte in unter zwei Minuten:
 
 **Startbefehle (Klammern Pflicht):**
 
-- `Spiel starten (solo [preserve|trigger])` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
+- `Spiel starten (solo [preserve|trigger])` – Erschaffung → HQ-Intro → Briefing
+  → Szene 1 · _schnell_: Rolle + Defaults → Briefing
 - `Spiel starten (npc-team [0–4] [preserve|trigger])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
 - `Spiel starten (gruppe [preserve|trigger])` – alle bauen · _schnell_: Saves posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
@@ -223,7 +261,8 @@ Die ersten Schritte in unter zwei Minuten:
 - **Nur-HQ-Save** – Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
 - **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden. Nächster Save im HQ.
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
-- **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
+- **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
+  mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
 [Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md) ·
 [Abnahme-Smoketest ↗](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
@@ -377,7 +416,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
 - `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
-- Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf, damit Funk- und Alias-Logs ohne Altlasten starten.
+- Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
+  damit Funk- und Alias-Logs ohne Altlasten starten.
 
 **Fehlertexte:**
 - `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).“
@@ -424,7 +464,8 @@ Ein manuelles 15-Schritte-Smoke-Set steht im Abschnitt
 - `!save` – speichert einen Deepsave (nur im HQ).
 - `!load` – lädt den letzten Deepsave.
 - `!suspend` – legt einen flüchtigen Szenen-Snapshot für eine Pause an.
-- `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt Initiative-Leiste sowie HUD-Timer wieder her.
+- `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt
+  Initiative-Leiste sowie HUD-Timer wieder her.
 - `!autosave hq` – schaltet Auto-Save im HQ.
 - `!accessibility` – öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
 
@@ -439,15 +480,20 @@ Ein manuelles 15-Schritte-Smoke-Set steht im Abschnitt
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
 - `!px` – zeigt aktuellen Paradoxon-Stand inklusive ETA (Heuristik) aus `px_tracker()`.
 - `!fr help` – zeigt den aktuellen FR-Status.
-- `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen, offene Fragen) als Report zusammen.
-- `!help dashboard` – Spickzettel für `!dashboard status` und Arc-Dashboard-Evidenzen.
-- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2 Hinweise) und zeigt Gate-Fortschritt vs. Saisonstand.
+- `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen,
+  offene Fragen) als Report zusammen.
+- `!help dashboard` – Spickzettel für `!dashboard status` und
+  Arc-Dashboard-Evidenzen.
+- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2
+  Hinweise) und zeigt Gate-Fortschritt vs. Saisonstand.
 
 ### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
-- **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro Gate, bis das HUD `Foreshadow 2/2` meldet.
-  Nach `StartMission()` setzt `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und zeigt parallel das Badge
-  `GATE n/2` für den Gate-Status; `!boss status` meldet gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
+- **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro
+  Gate, bis das HUD `Foreshadow 2/2` meldet. Nach `StartMission()` setzt
+  `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und
+  zeigt parallel das Badge `GATE n/2` für den Gate-Status; `!boss status`
+  meldet gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
@@ -533,9 +579,11 @@ Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Sch
 **0–2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
 **Ziel:** Freiraum für Erkundung – unter spürbarem Zeit- und Nerven-Druck.
-**HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern weiterhin ausschließlich im **HQ**.)
+**HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern
+weiterhin ausschließlich im **HQ**.)
 
-Die Runtime spiegelt das Fenster parallel nach `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`.
+Die Runtime spiegelt das Fenster parallel nach
+`campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`.
 Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
 „SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Nach der Rückkehr ins HQ setzt `campaign.exfil`
 alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
@@ -785,7 +833,8 @@ sind der Übersicht halber aufgeführt.
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
-Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6 folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
+Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6 folgt das
+nun veröffentlichte Modul 7, anschließend 8A und 8B.
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
@@ -804,14 +853,15 @@ Ausführliche Hintergründe liefert das Modul
 
 ## Beispielworkflow
 
-1. Öffnet `meta/masterprompt_v6.md`, kopiert den vollständigen Text in das Anweisungsfenster eurer Zielplattform und sichert den
-   Upload im QA-Log.
-2. Ladet anschließend die **25 Regelmodule** gemäß Tabelle in den Wissensspeicher. Laufzeitrelevante Dateien liegen in
-   `core/`, `characters/`, `gameplay/` und `systems/`; `README.md` sowie `master-index.json` dienen als Navigationsanker.
-3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module mit gültigem Header werden vom GPT
-   sicher erkannt.
-4. Führt den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch und protokolliert Autoload,
-   Save/Load und Fehlermeldungen pro Plattform.
+1. Öffnet `meta/masterprompt_v6.md`, kopiert den vollständigen Text in das Anweisungsfenster
+   eurer Zielplattform und sichert den Upload im QA-Log.
+2. Ladet anschließend die **25 Regelmodule** gemäß Tabelle in den Wissensspeicher.
+   Laufzeitrelevante Dateien liegen in `core/`, `characters/`, `gameplay/` und `systems/`;
+   `README.md` sowie `master-index.json` dienen als Navigationsanker.
+3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module
+   mit gültigem Header werden vom GPT sicher erkannt.
+4. Führt den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
+   und protokolliert Autoload, Save/Load und Fehlermeldungen pro Plattform.
 5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
    [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) sowie die dort verlinkten
    Unterkapitel. Diese Module enthalten sämtliche Tabellen, YAML-Beispiele und Briefing-Vorlagen.
@@ -956,9 +1006,17 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - **ITI-HQ** bleibt das zentrale Hub mit Shop, Clinic, Workshop,
   Briefing und Fraktionskontakten; hier darf gespeichert werden.
 - **Pre-City-Hub** dient als gesicherte Übergangszone zwischen HQ und Chronopolis.
-  - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an, sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens Mission 2 erreicht hat.
-  - Der Bereich liefert atmosphärische Brückenbeschreibungen (Landeplattform, Transitlifte, Sicherheitschecks) und einen täglichen Vorschau-Feed mit zwei Händlerangeboten (`Chronopolis-Vorschau`). Einkäufe bleiben deaktiviert, bis der eigentliche Stadtschlüssel vorliegt.
-  - Nutzt den Transit, um Fraktionspräsenz zu teasen: kurze NPC-Begegnungen, Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets" markiert. `logs.flags.chronopolis_warn_seen` wird hier bereits gesetzt, damit das Warnbanner beim späteren Stadteintritt nur einmal erscheint.
+  - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an,
+    sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens
+    Mission 2 erreicht hat.
+  - Der Bereich liefert atmosphärische Brückenbeschreibungen (Landeplattform,
+    Transitlifte, Sicherheitschecks) und einen täglichen Vorschau-Feed mit zwei
+    Händlerangeboten (`Chronopolis-Vorschau`). Einkäufe bleiben deaktiviert, bis
+    der eigentliche Stadtschlüssel vorliegt.
+  - Nutzt den Transit, um Fraktionspräsenz zu teasen: kurze NPC-Begegnungen,
+    Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
+    markiert. `logs.flags.chronopolis_warn_seen` wird hier bereits gesetzt,
+    damit das Warnbanner beim späteren Stadteintritt nur einmal erscheint.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
@@ -968,16 +1026,46 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   `guest_custody`.
 - Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
   Preisfaktoren.
-- Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
-- Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die freigeschaltete Stadt und hält den Status im Save.
-- Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle.
-- Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12 Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und Szenenmarker fest; `offline_audit()` speist HUD und Debrief. Die Zusammenfassung `Offline-Protokoll (n×): …` nennt Trigger, Jammer-Status, Reichweite sowie Episoden-/Missionsmarker.
-- Alias-Debriefs landen in `logs.alias_trace[]`: `!alias log Persona|Cover|Status|Notiz` (oder Key-Value wie `mission=M5|scene=3`) erzeugt einen Eintrag mit Timestamp, Persona, Cover, Status, Szene/Mission und optionaler Notiz. Der Debrief fasst die letzten Einträge in `Alias-Trace (n×): …` zusammen – Grundlage für QA-Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
-- Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status` bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient QA als Persistenz-Nachweis für Funkprotokolle (S/M/XL-Konflikte).
-- Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …` im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
-- Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs.
-- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt werden.
-- **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft die Wallet-Verteilung.
+- Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-
+  gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
+- Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
+  `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
+  freigeschaltete Stadt und hält den Status im Save.
+- Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert
+  Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen
+  `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten
+  Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive
+  Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle.
+- Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12
+  Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und
+  Szenenmarker fest; `offline_audit()` speist HUD und Debrief. Die
+  Zusammenfassung `Offline-Protokoll (n×): …` nennt Trigger, Jammer-Status,
+  Reichweite sowie Episoden-/Missionsmarker.
+- Alias-Debriefs landen in `logs.alias_trace[]`: `!alias log Persona|Cover|Status|Notiz`
+  (oder Key-Value wie `mission=M5|scene=3`) erzeugt einen Eintrag mit Timestamp,
+  Persona, Cover, Status, Szene/Mission und optionaler Notiz. Der Debrief fasst
+  die letzten Einträge in `Alias-Trace (n×): …` zusammen – Grundlage für
+  QA-Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
+- Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status`
+  bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene
+  und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient QA als Persistenz-
+  Nachweis für Funkprotokolle (S/M/XL-Konflikte).
+- Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …`
+  im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
+- Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus
+  (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-
+  Hilfe-Zähler mit Timestamp des letzten Abrufs.
+- Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche
+  Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den
+  Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
+  sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus
+  `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben
+  vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie
+  gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt
+  werden.
+- **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
+  landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
+  die Wallet-Verteilung.
 
 ## Spielmodi {#spielmodi}
 

@@ -3,7 +3,8 @@ const path = require('path');
 const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
 
 const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
-const COMPLIANCE_NOTICE = 'Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.';
+const COMPLIANCE_NOTICE =
+  'Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.';
 
 const CHRONO_CATEGORY_LIMITS = {
   'Temporal Ships': 1,
@@ -28,17 +29,94 @@ const ALIAS_TRACE_LIMIT = 24;
 const SQUAD_RADIO_LOG_LIMIT = 24;
 
 const CHRONO_CATALOG = [
-  { id: 'ship_chronoglider_mk2', name: 'Chronoglider MK II', category: 'Temporal Ships', price: 5000, minRank: 'Lead', minResearch: 2 },
-  { id: 'ship_aurora_skiff', name: 'Aurora-Skiff „Helio“', category: 'Temporal Ships', price: 5400, minRank: 'Specialist', minResearch: 3 },
-  { id: 'ship_timesloop_schooner', name: 'Timesloop-Schooner', category: 'Temporal Ships', price: 5200, minRank: 'Lead', minResearch: 3 },
-  { id: 'gadget_quantum_flashbang', name: 'Quantum-Flashbang', category: 'Never-Was Gadgets', price: 500, minRank: 'Operator II', minResearch: 1 },
-  { id: 'gadget_nullgrav_tether', name: 'Null-Grav-Tether', category: 'Never-Was Gadgets', price: 450, minRank: 'Operator I', minResearch: 1 },
-  { id: 'gadget_phase_jump_capsule', name: 'Phase-Jump-Kapsel', category: 'Never-Was Gadgets', price: 750, minRank: 'Lead', minResearch: 2 },
-  { id: 'gadget_echo_distortion_field', name: 'Echo-Distortion-Field', category: 'Never-Was Gadgets', price: 900, minRank: 'Specialist', minResearch: 3 },
-  { id: 'skin_aeon_nomad', name: 'Era-Skin: Æon-Nomadenmantel', category: 'Era-Skins', price: 200, minRank: 'Recruit', minResearch: 0 },
-  { id: 'skin_krakatoa_1883', name: 'Era-Skin: Krakatoa 1883 Survivor', category: 'Era-Skins', price: 200, minRank: 'Operator I', minResearch: 0 },
-  { id: 'skin_neon_cathedral', name: 'Era-Skin: Neon-Cathedral Glimmer', category: 'Era-Skins', price: 220, minRank: 'Lead', minResearch: 1 },
-  { id: 'skin_sable_parallax', name: 'Era-Skin: Sable-Parallax Cloak', category: 'Era-Skins', price: 240, minRank: 'Specialist', minResearch: 2 }
+  {
+    id: 'ship_chronoglider_mk2',
+    name: 'Chronoglider MK II',
+    category: 'Temporal Ships',
+    price: 5000,
+    minRank: 'Lead',
+    minResearch: 2
+  },
+  {
+    id: 'ship_aurora_skiff',
+    name: 'Aurora-Skiff „Helio“',
+    category: 'Temporal Ships',
+    price: 5400,
+    minRank: 'Specialist',
+    minResearch: 3
+  },
+  {
+    id: 'ship_timesloop_schooner',
+    name: 'Timesloop-Schooner',
+    category: 'Temporal Ships',
+    price: 5200,
+    minRank: 'Lead',
+    minResearch: 3
+  },
+  {
+    id: 'gadget_quantum_flashbang',
+    name: 'Quantum-Flashbang',
+    category: 'Never-Was Gadgets',
+    price: 500,
+    minRank: 'Operator II',
+    minResearch: 1
+  },
+  {
+    id: 'gadget_nullgrav_tether',
+    name: 'Null-Grav-Tether',
+    category: 'Never-Was Gadgets',
+    price: 450,
+    minRank: 'Operator I',
+    minResearch: 1
+  },
+  {
+    id: 'gadget_phase_jump_capsule',
+    name: 'Phase-Jump-Kapsel',
+    category: 'Never-Was Gadgets',
+    price: 750,
+    minRank: 'Lead',
+    minResearch: 2
+  },
+  {
+    id: 'gadget_echo_distortion_field',
+    name: 'Echo-Distortion-Field',
+    category: 'Never-Was Gadgets',
+    price: 900,
+    minRank: 'Specialist',
+    minResearch: 3
+  },
+  {
+    id: 'skin_aeon_nomad',
+    name: 'Era-Skin: Æon-Nomadenmantel',
+    category: 'Era-Skins',
+    price: 200,
+    minRank: 'Recruit',
+    minResearch: 0
+  },
+  {
+    id: 'skin_krakatoa_1883',
+    name: 'Era-Skin: Krakatoa 1883 Survivor',
+    category: 'Era-Skins',
+    price: 200,
+    minRank: 'Operator I',
+    minResearch: 0
+  },
+  {
+    id: 'skin_neon_cathedral',
+    name: 'Era-Skin: Neon-Cathedral Glimmer',
+    category: 'Era-Skins',
+    price: 220,
+    minRank: 'Lead',
+    minResearch: 1
+  },
+  {
+    id: 'skin_sable_parallax',
+    name: 'Era-Skin: Sable-Parallax Cloak',
+    category: 'Era-Skins',
+    price: 240,
+    minRank: 'Specialist',
+    minResearch: 2
+  }
 ];
 
 const ARENA_BASE_FEE = 250;
@@ -278,7 +356,13 @@ function normalize_intervention_entry(entry, fallbackTimestamp, options = {}){
   if (!result){
     return null;
   }
-  let faction = pickString(payload.faction, payload.faction_id, payload.faction_name, payload.faction_tag, payload.name);
+  let faction = pickString(
+    payload.faction,
+    payload.faction_id,
+    payload.faction_name,
+    payload.faction_tag,
+    payload.name
+  );
   if (!faction && fillDefaults && typeof state.campaign?.faction === 'string'){
     faction = state.campaign.faction;
   }
@@ -749,7 +833,11 @@ function ensure_logs(){
     const lastReason = flags.last_mission_end_reason.trim();
     flags.last_mission_end_reason = lastReason ? lastReason : null;
   }
-  if (state.campaign && typeof state.campaign === 'object' && typeof state.campaign.compliance_shown_today !== 'boolean'){
+    if (
+      state.campaign &&
+      typeof state.campaign === 'object' &&
+      typeof state.campaign.compliance_shown_today !== 'boolean'
+    ){
     state.campaign.compliance_shown_today = flags.compliance_shown_today;
   }
   if (state.character && typeof state.character === 'object'){
@@ -1236,8 +1324,11 @@ function handleAliasCommand(raw){
     trace.length = 0;
     return 'Alias-Trace geleert.';
   }
-  if (cmd === '!alias help'){
-    return 'Alias-Trace: `!alias log Persona|Cover|Status|Notiz` oder Felder via `key=value` setzen. `!alias status` zeigt die Übersicht.';
+    if (cmd === '!alias help'){
+      return (
+        'Alias-Trace: `!alias log Persona|Cover|Status|Notiz` oder Felder via `key=value` setzen. '
+        + '`!alias status` zeigt die Übersicht.'
+      );
   }
   const m = cmd.match(/^!alias\s+log\s+(.+)/);
   if (m){
@@ -1264,7 +1355,10 @@ function handleRadioCommand(raw){
     return 'Squad-Radio-Log geleert.';
   }
   if (cmd === '!radio help'){
-    return 'Squad-Radio: `!radio log Sprecher|Channel|Meldung|Status` oder Felder via `key=value`. `!radio status` zeigt die letzten Einträge.';
+    return (
+      'Squad-Radio: `!radio log Sprecher|Channel|Meldung|Status` oder Felder via `key=value`. '
+      + '`!radio status` zeigt die letzten Einträge.'
+    );
   }
   const m = cmd.match(/^!radio\s+log\s+(.+)/);
   if (m){
@@ -1597,8 +1691,12 @@ function ensure_arc_dashboard(){
       } else {
         record.interventions = [];
       }
-      if (record.last_intervention){
-        const last = normalize_intervention_entry(record.last_intervention, record.last_intervention?.timestamp, { fillDefaults: false });
+        if (record.last_intervention){
+          const last = normalize_intervention_entry(
+            record.last_intervention,
+            record.last_intervention?.timestamp,
+            { fillDefaults: false }
+          );
         record.last_intervention = last || null;
       } else {
         record.last_intervention = null;
@@ -2131,8 +2229,14 @@ function sync_campaign_exfil(source = state.exfil){
   exfil.hot = !!source.hot;
   exfil.sweeps = Number.isFinite(source.sweeps) ? Math.max(0, Math.floor(source.sweeps)) : 0;
   exfil.stress = Number.isFinite(source.stress) ? Math.max(0, Math.floor(source.stress)) : 0;
-  exfil.anchor = typeof source.anchor === 'string' && source.anchor.trim() ? source.anchor.trim() : null;
-  exfil.alt_anchor = typeof source.alt_anchor === 'string' && source.alt_anchor.trim() ? source.alt_anchor.trim() : null;
+  exfil.anchor =
+    typeof source.anchor === 'string' && source.anchor.trim()
+      ? source.anchor.trim()
+      : null;
+  exfil.alt_anchor =
+    typeof source.alt_anchor === 'string' && source.alt_anchor.trim()
+      ? source.alt_anchor.trim()
+      : null;
   const ttlMinutes = Math.max(0, (Number(source.ttl_min) || 0) + (Number(source.ttl_sec) || 0) / 60);
   exfil.ttl = ttlMinutes;
   return exfil;
@@ -2280,7 +2384,11 @@ function completeMission(summary = {}){
     flags.foreshadow_gate_progress = 0;
     flags.foreshadow_gate_expected = false;
     flags.last_mission_end_reason = missionEndReason;
-    if (Number.isFinite(missionNumber) && missionNumber === 5 && (missionEndReason === 'completed' || missionEndReason === 'aborted')){
+    if (
+      Number.isFinite(missionNumber) &&
+      missionNumber === 5 &&
+      (missionEndReason === 'completed' || missionEndReason === 'aborted')
+    ){
       set_self_reflection(true, {
         message: 'SF-ON (post-M5 reset)',
         tag: 'SF-ON',
@@ -2961,8 +3069,17 @@ function render_rewards(outcome = {}, missionResult = {}){
   }
 
   const px = clamp(asNumber(missionResult?.paradoxon_index) ?? asNumber(state.campaign?.paradoxon_index) ?? 0, 0, 5);
-  const progress = Math.max(0, asNumber(missionResult?.missions_since_px) ?? asNumber(state.campaign?.missions_since_px) ?? 0);
-  const required = Math.max(1, asNumber(missionResult?.required) ?? missions_required(asNumber(outcome?.temp) ?? mission_temp()));
+    const progress = Math.max(
+      0,
+      asNumber(missionResult?.missions_since_px) ??
+        asNumber(state.campaign?.missions_since_px) ??
+        0
+    );
+    const required = Math.max(
+      1,
+      asNumber(missionResult?.required) ??
+        missions_required(asNumber(outcome?.temp) ?? mission_temp())
+    );
   const remaining = Math.max(0, required - progress);
   segments.push(`Resonanz Px ${px}/5 (${remaining}/${required} bis Px+1)`);
 
@@ -3061,7 +3178,15 @@ function normalize_wallet_instruction(entry, fallbackMember, rosterInfo){
   if (!label && rosterInfo.indexById.has(id)){
     label = rosterInfo.roster[rosterInfo.indexById.get(id)].label;
   }
-  const amount = normalize_cu(payload.amount ?? payload.share ?? payload.value ?? payload.cu ?? payload.payout ?? payload.delta ?? payload.balance);
+    const amount = normalize_cu(
+      payload.amount ??
+        payload.share ??
+        payload.value ??
+        payload.cu ??
+        payload.payout ??
+        payload.delta ??
+        payload.balance
+    );
   const weightSource = asNumber(payload.ratio ?? payload.weight ?? payload.share_ratio ?? payload.portion);
   let ratio = null;
   if (weightSource !== null){
@@ -3129,12 +3254,16 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
   instructions.forEach((instruction) => {
     const { id } = instruction;
     if (!id) return;
-    const base = aggregated.get(id) || {
-      id,
-      label: instruction.label || (rosterInfo.indexById.has(id) ? rosterInfo.roster[rosterInfo.indexById.get(id)].label : id),
-      amount: 0,
-      ratio: 0
-    };
+      const base = aggregated.get(id) || {
+        id,
+        label:
+          instruction.label ||
+          (rosterInfo.indexById.has(id)
+            ? rosterInfo.roster[rosterInfo.indexById.get(id)].label
+            : id),
+        amount: 0,
+        ratio: 0
+      };
     if (instruction.amount !== null){
       base.amount = Math.max(0, base.amount + instruction.amount);
     }
@@ -3154,7 +3283,15 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
     if (value <= 0) return 0;
     let record = allocations.find((entry) => entry.id === id);
     if (!record){
-      record = { id, label: label || (rosterInfo.indexById.has(id) ? rosterInfo.roster[rosterInfo.indexById.get(id)].label : id), amount: 0 };
+      record = {
+        id,
+        label:
+          label ||
+          (rosterInfo.indexById.has(id)
+            ? rosterInfo.roster[rosterInfo.indexById.get(id)].label
+            : id),
+        amount: 0
+      };
       allocations.push(record);
     } else if (!record.label && label){
       record.label = label;
@@ -3298,7 +3435,11 @@ function ensure_arena(){
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
   arena.phase = typeof arena.phase === 'string' ? arena.phase : (arena.active ? 'active' : 'idle');
   arena.policy_players = Array.isArray(arena.policy_players)
-    ? arena.policy_players.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : null)).filter(Boolean)
+    ? arena.policy_players
+        .map((entry) =>
+          entry && typeof entry === 'object' ? clone_plain_object(entry) : null
+        )
+        .filter(Boolean)
     : undefined;
   apply_arena_rules(state);
   return arena;
@@ -3667,7 +3808,11 @@ function resolveArenaTier(players = []){
     const level = Number(raw);
     return Math.max(lvl, Number.isFinite(level) ? level : 1);
   }, 1);
-  return ARENA_TIER_RULES.find(rule => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel) || ARENA_TIER_RULES[0];
+  return (
+    ARENA_TIER_RULES.find(
+      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel
+    ) || ARENA_TIER_RULES[0]
+  );
 }
 
 function applyArenaTierPolicy(players, tierRule){
@@ -3793,7 +3938,8 @@ function arenaStart(options = {}){
   apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
   state.location = 'ARENA';
-  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxLocked =
+    arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
   const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
   const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
   hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
@@ -3805,10 +3951,15 @@ function arenaStart(options = {}){
 
 function arenaScore(){
   const arena = ensure_arena();
-  const pxLocked = arena.last_reward_episode !== null && arena.last_reward_episode === (state.campaign?.episode ?? null);
+  const pxLocked =
+    arena.last_reward_episode !== null &&
+    arena.last_reward_episode === (state.campaign?.episode ?? null);
   const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
   const scenario = arena.scenario?.description || 'n/a';
-  return `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · Team ${arena.team_size} · ${pxNote} · Szenario ${scenario}`;
+  const summary =
+    `Arena-Score ${arena.wins_player}:${arena.wins_opponent} · Tier ${arena.tier} · ` +
+    `Team ${arena.team_size} · ${pxNote}`;
+  return `${summary} · Szenario ${scenario}`;
 }
 
 function arenaExit(){
@@ -4045,7 +4196,10 @@ function chronopolisTickStatus(){
   const reason = chrono.last_reset_reason || 'init';
   const when = chrono.last_reset_at || '–';
   const missionInfo = modulo > 0 ? `alle ${modulo} Missionen` : 'deaktiviert';
-  return `Chronopolis-Tick · Episoden → immer · Missionen → ${missionInfo} · Fortschritt ${progress}/${modulo || '–'} · Letzter Reset ${reason} @ ${when}`;
+  return (
+    `Chronopolis-Tick · Episoden → immer · Missionen → ${missionInfo} · Fortschritt ` +
+    `${progress}/${modulo || '–'} · Letzter Reset ${reason} @ ${when}`
+  );
 }
 
 function chronopolisSetTickModulo(modulo){
@@ -4123,7 +4277,16 @@ function jam_now(on = true){
 function StartMission(){
   state.phase = 'core';
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
-  state.exfil = { sweeps: 0, stress: 0, ttl_min: 8, ttl_sec: 0, active: false, armed: false, anchor: null, alt_anchor: null };
+  state.exfil = {
+    sweeps: 0,
+    stress: 0,
+    ttl_min: 8,
+    ttl_sec: 0,
+    active: false,
+    armed: false,
+    anchor: null,
+    alt_anchor: null
+  };
   sync_campaign_exfil(state.exfil);
   const hudLog = ensure_logs();
   hudLog.length = 0;
@@ -4345,7 +4508,8 @@ function require_uplink(ctx, action){
   if (st === 'uplink' || st === 'field_online') return true;
   offline_help('auto');
   throw new Error(
-    'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.'
+    'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
+      '!offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.'
   );
 }
 
@@ -4354,7 +4518,8 @@ function must_comms(o){
   if (!comms_check(normalized)){
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
-      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +
+      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / ' +
+      'Jammer-Override aktivieren; Reichweite anpassen. ' +
       'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.'
     );
   }
@@ -4407,8 +4572,14 @@ function prepare_save_campaign(campaign){
     hot: !!exfilSource.hot,
     sweeps: Number.isFinite(exfilSource.sweeps) ? Math.max(0, Math.floor(exfilSource.sweeps)) : 0,
     stress: Number.isFinite(exfilSource.stress) ? Math.max(0, Math.floor(exfilSource.stress)) : 0,
-    anchor: typeof exfilSource.anchor === 'string' && exfilSource.anchor.trim() ? exfilSource.anchor.trim() : null,
-    alt_anchor: typeof exfilSource.alt_anchor === 'string' && exfilSource.alt_anchor.trim() ? exfilSource.alt_anchor.trim() : null,
+    anchor:
+      typeof exfilSource.anchor === 'string' && exfilSource.anchor.trim()
+        ? exfilSource.anchor.trim()
+        : null,
+    alt_anchor:
+      typeof exfilSource.alt_anchor === 'string' && exfilSource.alt_anchor.trim()
+        ? exfilSource.alt_anchor.trim()
+        : null,
     ttl: Number.isFinite(exfilSource.ttl) ? Math.max(0, Number(exfilSource.ttl)) : 0
   };
   return base;
@@ -4446,10 +4617,18 @@ function prepare_save_arena(arena){
       ? clone_plain_object(source.scenario)
       : (typeof source.scenario === 'string' ? source.scenario : null),
     audit: Array.isArray(source.audit)
-      ? source.audit.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : entry)).filter(Boolean)
+      ? source.audit
+          .map((entry) =>
+            entry && typeof entry === 'object' ? clone_plain_object(entry) : entry
+          )
+          .filter(Boolean)
       : [],
     policy_players: Array.isArray(source.policy_players)
-      ? source.policy_players.map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : entry)).filter(Boolean)
+      ? source.policy_players
+          .map((entry) =>
+            entry && typeof entry === 'object' ? clone_plain_object(entry) : entry
+          )
+          .filter(Boolean)
       : []
   };
   return normalized;
@@ -4629,7 +4808,11 @@ function prepare_save_arc_dashboard(dashboard){
         record.interventions = [];
       }
       if (record.last_intervention){
-        const last = normalize_intervention_entry(record.last_intervention, record.last_intervention?.timestamp, { fillDefaults: false });
+        const last = normalize_intervention_entry(
+          record.last_intervention,
+          record.last_intervention?.timestamp,
+          { fillDefaults: false }
+        );
         record.last_intervention = last || null;
       } else {
         record.last_intervention = null;
@@ -5110,7 +5293,10 @@ function load_deep(raw){
   const runtimeSemver = majorMinor(ZR_VERSION);
   const saveSemver = majorMinor(migrated.zr_version || migrated.ZR_VERSION);
   if (saveSemver && saveSemver !== runtimeSemver){
-    throw new Error(`Kodex-Archiv: Datensatz v${saveSemver} nicht kompatibel mit v${runtimeSemver}. Bitte HQ-Migration veranlassen.`);
+    throw new Error(
+      `Kodex-Archiv: Datensatz v${saveSemver} nicht kompatibel mit v${runtimeSemver}. ` +
+        'Bitte HQ-Migration veranlassen.'
+    );
   }
   migrated.zr_version = migrated.zr_version || ZR_VERSION;
   migrated.logs ||= {};
@@ -5187,7 +5373,11 @@ function load_deep(raw){
   migrated.logs.flags.offline_help_count = Number.isFinite(migratedOfflineCount) && migratedOfflineCount > 0
     ? Math.floor(migratedOfflineCount)
     : 0;
-  if (migrated.campaign && typeof migrated.campaign === 'object' && typeof migrated.campaign.compliance_shown_today !== 'boolean'){
+  if (
+    migrated.campaign &&
+    typeof migrated.campaign === 'object' &&
+    typeof migrated.campaign.compliance_shown_today !== 'boolean'
+  ){
     migrated.campaign.compliance_shown_today = !!migrated.logs.flags.compliance_shown_today;
   }
   migrated.location = 'HQ';
