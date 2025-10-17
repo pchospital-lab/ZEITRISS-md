@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.1
+version: 1.8.2
 tags: [meta]
 ---
 
@@ -262,6 +262,34 @@ im [aktuellen Rohprotokoll](../logs/2025-10-15-beta-gpt-delta.md).
 `runtime.js`/Toolkit dokumentieren `ShowComplianceOnce()` als Primär-Makro mit Alias
 `StoreCompliance()`, und Save-/Modul-Dokumente führen Wallets, HQ-Moments, Logs (`logs.psi[]`,
 `logs.fr_interventions[]`, `logs.flags.foreshadow_gate_*`) sowie Modul-9-Begriffe konsistent.
+
+## Maßnahmenpaket Beta-GPT 2025-10-28 (Issues #1–#13)
+
+Der Beta-GPT-Lauf vom 2025-10-28 deckt neue Abweichungen zwischen SaveGuard,
+Pflichtfeld-Docs, Arena-Blockern und Ökonomie-/HUD-Texten auf. Die Tabelle bündelt
+alle offenen Maßnahmen; Detailnotizen stehen im QA-Log 2025-10-28 und im
+Maintainer-Rohprotokoll (Archiv).
+
+| Issue | Thema | Status | Primärreferenzen |
+| ----- | -------------------------------------------------- | ------------ | ---------------- |
+| #1 | HQ-DeepSave Pflichtfelder vereinheitlichen | 🟠 offen – Serializer & Docs syncen | runtime.js;<br>systems/gameflow/speicher-fortsetzung.md;<br>Modul 12 |
+| #2 | Save-Beispiel um Pflichtblöcke erweitern | 🟠 offen – JSON anpassen | Modul 12 |
+| #3 | Arena-Active-Blocker im SaveGuard verankern | 🟠 offen – Guard + Toast | runtime.js;<br>characters/zustaende-hud-system.md |
+| #4 | Foreshadow-/Gate-Badges terminologisch trennen | 🟠 offen – UI-Strings harmonisieren | characters/zustaende-hud-system.md;<br>runtime.js |
+| #5 | Paradoxon-Reset auf Missionsende verzögern | 🟠 offen – ClusterCreate Hook | runtime.js;<br>systems/toolkit-gpt-spielleiter.md |
+| #6 | Boss-DR-HUD-Toast als Pflicht overlayn | 🟠 offen – Spawn-Hook fixieren | runtime.js;<br>characters/zustaende-hud-system.md |
+| #7 | Mission-5 Self-Reflection Reset an EndMission binden | 🟠 offen – End-Hook klarziehen | runtime.js;<br>systems/gameflow/speicher-fortsetzung.md |
+| #8 | Cross-Mode Import Beispielstrecke ergänzen | 🟠 offen – Schrittfolge dokumentieren | Modul 12;<br>README |
+| #9 | Mission-/CU-Ökonomie auf eine Formel normieren | 🟠 offen – Tabellen angleichen | Modul 8A;<br>Modul 15;<br>runtime.js |
+| #10 | Gate-Badge vs. Toast Anzeige konsolidieren | 🟠 offen – Doppelmeldungen klären | characters/zustaende-hud-system.md;<br>README |
+| #11 | Comms-Core Regelblock zentral verankern | 🟠 offen – Core/README ergänzen | README;<br>doc.md |
+| #12 | Foreshadow-Mirror Pflichtfeld absichern | 🟠 offen – Save + Status | runtime.js;<br>systems/gameflow/speicher-fortsetzung.md |
+| #13 | Accessibility-Preset Beispiel ergänzen | 🟠 offen – Zweites Muster-Save | Modul 12 |
+
+**QA-Testreferenz**
+- Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder). Erwartet:
+  Serializer ergänzt fehlende Pflichtblöcke leer und meldet Warnung – keine
+  Blocker.
 
 ## Regressionstest-Termine 2025
 

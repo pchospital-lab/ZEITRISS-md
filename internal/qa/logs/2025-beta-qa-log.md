@@ -1,10 +1,59 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.3.0
+version: 0.4.0
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-10-28 – Tester: Beta-GPT – Save/HUD/Arena-Divergenzen
+- Plattform: Beta-GPT (Remote-Lauf via Maintainer-Skript)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21,
+  QA-Fahrplan 1.8.1
+- Copy-&-Paste-Auftrag: Neues Maßnahmenpaket (Issues #1–#13) für HQ-DeepSave,
+  HUD-/Arena-Guards, Ökonomie und Comms-Regelblock anlegen, Fahrplan & Audit
+  verlinken.
+- Rohdaten: Beta-GPT Lauf 2025-10-28 – Rohprotokoll (Maintainer-Archiv,
+  Ablage folgt unter `internal/qa/logs/`).
+
+**Befunde (Kurzfassung)**
+1. Pflichtfeldliste des HQ-DeepSave widerspricht SaveGuard-Spec (Serializer vs.
+   Textauflistung).
+2. Beispiel-JSON im Save-Kapitel lässt Pflichtfelder (`economy.wallets`,
+   `logs.foreshadow` usw.) weg.
+3. Arena-Active sperrt HQ-Saves nicht zuverlässig (fehlender Guard trotz
+   Toolkit-Anforderung).
+4. Gate-Badge bezeichnet Foreshadow-Zähler uneinheitlich (`Foreshadow 0/2`
+   vs. `GATE 0/2`).
+5. Paradoxon-Reset widerspricht sich (sofort vs. nach einer Runde) zwischen
+   Kampagnenstruktur und Modul 12.
+6. Boss-DR-HUD-Toast fehlt trotz Kampagnenstruktur-Vorgabe.
+7. Mission-5 Self-Reflection Reset ist nicht garantiert an `EndMission()`
+   gebunden.
+8. Solo→Koop/PvP Cross-Mode-Doku fehlt eine durchgehende Import-Sequenz.
+9. Mission-/CU-Ökonomie nutzt abweichende Basiswerte (Modul 8A vs. Modul 15).
+10. Gate-Badge und Toast duplizieren den gleichen Hinweis (Acceptance 11–12).
+11. Comms-Reichweite/Hardwarepflicht fehlt als zentraler Regelblock im Core.
+12. Foreshadow-Mirror-Pflicht wird nicht als Save-Pflichtfeld abgesichert.
+13. Accessibility-Preset-Beispiel im Save-Modul fehlt.
+
+**To-dos**
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-28“ mit Issues #1–#13
+  anlegen (Status „🟠 offen“).
+- [ ] Audit: Befundliste übernehmen und Referenzen mit Modul-Updates
+  synchronisieren.
+- [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-/Save-Dumps,
+  Wallet-Splits, Arena-Guards) nach Umsetzung nach.
+
+**QA-Testfälle (gefordert)**
+- Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder laut Tabelle).
+  Erwartet: keine Fehler, Serializer ergänzt fehlende Pflichtblöcke leer und
+  protokolliert Warnung.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.8.1 listet das neue Maßnahmenpaket und verweist auf dieses
+  Log.
+- Audit-Update folgt nach Umsetzung der offenen Punkte.
 
 ## 2025-10-21 – Repo-Agent – Beta-GPT 2025-10-15 Nacharbeiten validiert
 - Plattform: Lokale CI-Simulation
