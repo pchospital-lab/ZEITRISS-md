@@ -328,12 +328,13 @@ Spiel starten (gruppe schnell)
 
 ### Boss-Gates & HUD-Badges
 11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10,
-    HUD-Toast `Boss blockiert – Foreshadow 0/2` bis Hinweise erfüllt.
+    HUD-Toast `Gate blockiert – Gate 0/2` bis Hinweise erfüllt.
 12. Mission 5 starten → HUD blendet den Encounter-Hinweis
     `Boss-Encounter in Szene 10` sowie das Gate-Badge `GATE 2/2` ein;
     `SF-OFF` bleibt sichtbar, wenn Self-Reflection zuvor deaktiviert wurde.
     Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In Szene 10
-    zeigt das HUD den Mini-Boss-DR-Toast, im Debrief setzt die Runtime
+    zeigt das HUD `Boss-DR aktiviert – −2 Schaden pro Treffer` (Mini-Boss);
+    Mission 10 meldet `−3 Schaden`. Im Debrief setzt die Runtime
     Self-Reflection bei Missionsende (`completed` **oder** `aborted`) auf
     `SF-ON` zurück.
 
@@ -408,6 +409,16 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 
 Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
+### Comms-Core – Funkcheck in Kurzform {#comms-core}
+
+- **Hardwarepflicht:** Funk funktioniert nur mit Comlink (≈ 2 km), Kabel oder
+  Relais. Jammer-Overrides müssen explizit gesetzt werden (`device='jammer_override'`).
+- **Reichweitenprüfung:** `comms_check()` akzeptiert Meter (`range_m`) oder
+  Kilometer (`range_km`) und normalisiert Werte automatisch. Jammer ohne Kabel/
+  Relais blockieren den Kontakt.
+- **Fallback:** Scheitert der Check, meldet der Kodex `CommsCheck failed …` und
+  verweist auf das Offline-FAQ. Details siehe [Runtime-Helfer](doc.md#comms-check).
+
 ### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
 Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
@@ -431,10 +442,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
   `character.stress`, `character.psi_heat`, `character.cooldowns` sind immer
   Teil des HQ-Deepsaves.
-- `campaign.px`, `economy`, `logs`, `logs.artifact_log`, `logs.market`,
-  `logs.offline`, `logs.kodex`, `logs.alias_trace`, `logs.squad_radio`,
-  `logs.flags` sowie `ui` werden vom Serializer garantiert, damit QA alle
-  Guards automatisiert prüfen kann.
+- `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
+  `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
+  `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena`
+  werden vom Serializer garantiert, damit QA alle Guards automatisiert prüfen kann.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
@@ -484,16 +495,16 @@ Ein manuelles 15-Schritte-Smoke-Set steht im Abschnitt
   offene Fragen) als Report zusammen.
 - `!help dashboard` – Spickzettel für `!dashboard status` und
   Arc-Dashboard-Evidenzen.
-- `!boss status` – meldet `Foreshadow x/y` (Core = 4 Hinweise, Rift = 2
-  Hinweise) und zeigt Gate-Fortschritt vs. Saisonstand.
+- `!boss status` – meldet `Gate x/2 · Mission FS y/4` (Core) bzw. `y/2`
+  (Rift) und zeigt Gate-Fortschritt vs. Saisonstand.
 
 ### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
 - **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro
-  Gate, bis das HUD `Foreshadow 2/2` meldet. Nach `StartMission()` setzt
+  Gate, bis das HUD `GATE 2/2` meldet. Nach `StartMission()` setzt
   `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und
   zeigt parallel das Badge `GATE n/2` für den Gate-Status; `!boss status`
-  meldet gleichzeitig den Saisonstand (`Foreshadow n/4` bzw. `n/2`).
+  meldet gleichzeitig `Gate n/2 · Mission FS n/4` (bzw. `n/2`).
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
@@ -509,7 +520,9 @@ Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nich
 Der Paradoxon-Index (Px) belohnt saubere Kausalketten.
 Schlampige, laute Aktionen lassen ihn stagnieren.
 –Px gibt es nur bei zivilen Opfern oder zerstörten Kern-Ankern.
-Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds, danach setzt der Zähler auf 0.
+Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds, markiert den Reset als
+anhängig und setzt den Index nach dem Debrief auf 0 – das HUD bestätigt den
+Reset zu Beginn der nächsten Mission.
 
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.

@@ -1395,10 +1395,30 @@ function foreshadow_requirement(ctx = state){
   return 0;
 }
 
+function gate_progress_info(ctx = state){
+  const flags = ctx?.logs?.flags || {};
+  const snapshot = Number(flags.foreshadow_gate_snapshot);
+  const live = Number(flags.foreshadow_gate_progress);
+  const value = Number.isFinite(snapshot) && snapshot > 0
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(snapshot)))
+    : Number.isFinite(live)
+    ? Math.min(FORESHADOW_GATE_REQUIRED, Math.max(0, Math.floor(live)))
+    : 0;
+  return {
+    value,
+    expected: !!flags.foreshadow_gate_expected
+  };
+}
+
 function foreshadow_status(ctx = state){
   const count = foreshadow_count();
   const required = foreshadow_requirement(ctx);
-  return required > 0 ? `Foreshadow ${count}/${required}` : `Foreshadow ${count}`;
+  const gate = gate_progress_info(ctx);
+  const missionText = required > 0 ? `Mission FS ${count}/${required}` : `Foreshadow ${count}`;
+  if (gate.expected || gate.value > 0){
+    return `Gate ${gate.value}/${FORESHADOW_GATE_REQUIRED} · ${missionText}`;
+  }
+  return missionText;
 }
 
 function sync_foreshadow_progress(){
@@ -2333,9 +2353,8 @@ function ClusterCreate(){
     });
   }
   state.campaign.rift_seeds = [...state.campaign.rift_seeds, ...seeds];
-  state.campaign.paradoxon_index = 0;
-  state.campaign.missions_since_px = 0;
-  state.campaign.px = 0;
+  state.campaign.px_reset_pending = true;
+  state.campaign.px_reset_scheduled_at = new Date().toISOString();
   writeLine(`ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`);
   return state.campaign.paradoxon_index;
 }
@@ -2367,7 +2386,7 @@ function completeMission(summary = {}){
       events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
       if (after >= 5){
         ClusterCreate();
-        events.push('Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar.');
+        events.push('Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. Px-Reset folgt nach Missionsende.');
       }
     }
   }
@@ -2400,6 +2419,15 @@ function completeMission(summary = {}){
   }
   state.campaign.last_mission_end_reason = missionEndReason;
   sync_campaign_exfil(null);
+  if (state.campaign.px_reset_pending){
+    state.campaign.paradoxon_index = 0;
+    state.campaign.px = 0;
+    state.campaign.missions_since_px = 0;
+    state.campaign.px_reset_pending = false;
+    state.campaign.px_reset_confirm = true;
+    state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
+    events.push('Kodex: Paradoxon-Index zurückgesetzt – Reset beim nächsten Briefing bestätigen.');
+  }
   return {
     events,
     required,
@@ -2967,6 +2995,80 @@ function sumCuFromArray(entries){
   return found ? total : null;
 }
 
+function normalize_risk_level(raw){
+  if (typeof raw === 'string'){
+    const value = raw.trim().toLowerCase();
+    if (!value) return null;
+    if (value.includes('low') || value.includes('niedrig')) return 'low';
+    if (value.includes('high') || value.includes('hoch')) return 'high';
+    if (value.includes('mid') || value.includes('medium') || value.includes('mittel')) return 'mid';
+  }
+  if (Number.isFinite(raw)){
+    if (raw <= 1) return 'low';
+    if (raw >= 3) return 'high';
+    return 'mid';
+  }
+  return null;
+}
+
+function resolve_risk_level(outcome = {}){
+  const candidates = [
+    outcome?.risk,
+    outcome?.risk_level,
+    outcome?.riskLevel,
+    outcome?.difficulty,
+    outcome?.mission_risk,
+    outcome?.mission?.risk,
+    state.campaign?.risk,
+    state.campaign?.risk_level
+  ];
+  for (const candidate of candidates){
+    const normalized = normalize_risk_level(candidate);
+    if (normalized) return normalized;
+  }
+  return 'mid';
+}
+
+function resolve_completion_tier(outcome = {}){
+  const boolBonus = outcome?.bonus === true || outcome?.bonus_objectives === true || outcome?.bonusAchieved === true;
+  const boolPartial = outcome?.partial === true || outcome?.teil_erfolg === true;
+  const boolFail = outcome?.failed === true || outcome?.aborted === true || outcome?.failure === true;
+  const candidates = [
+    outcome?.result,
+    outcome?.status,
+    outcome?.outcome,
+    outcome?.summary,
+    outcome?.mission_result,
+    outcome?.mission?.result
+  ].map((value) => (typeof value === 'string' ? value.trim().toLowerCase() : ''));
+  if (boolBonus || candidates.some((value) => value.includes('bonus') || value.includes('perfect') || value.includes('voll'))){
+    return 'bonus';
+  }
+  if (boolFail || candidates.some((value) => value.includes('fail') || value.includes('aborted') || value.includes('scheiter'))){
+    return 'fail';
+  }
+  if (boolPartial || candidates.some((value) => value.includes('teil') || value.includes('partial'))){
+    return 'partial';
+  }
+  return 'success';
+}
+
+function compute_default_cu_reward(outcome = {}){
+  const risk = resolve_risk_level(outcome);
+  const tier = resolve_completion_tier(outcome);
+  const baseMap = { low: 400, mid: 500, high: 600 };
+  const base = baseMap[risk] ?? 500;
+  const multiplierMap = { partial: 0.6, success: 1.0, bonus: 1.2, fail: 0.3 };
+  const multiplier = multiplierMap[tier] ?? 1.0;
+  let reward = base * multiplier;
+  const teamSize = asNumber(outcome?.team_size ?? outcome?.team?.size ?? state.team?.size ?? state.team?.members?.length);
+  if (teamSize !== null && teamSize > 0 && teamSize < 3){
+    reward *= 1.5;
+  }
+  reward = Math.round(reward);
+  return reward > 0 ? reward : null;
+}
+
 function extractCuReward(outcome){
   const sources = [
     outcome,
@@ -3004,6 +3106,8 @@ function extractCuReward(outcome){
       }
     }
   }
+  const computed = compute_default_cu_reward(outcome);
+  if (computed !== null) return computed;
   const fallback = asNumber(state.campaign?.cu_payout);
   return fallback !== null && fallback > 0 ? fallback : null;
 }
@@ -4308,6 +4412,11 @@ function StartMission(){
   state.scene = { index: 0, foreshadows: 0, total: 12 };
   const runtimeFlags = ensure_runtime_flags();
   runtimeFlags.skip_entry_choice = false;
+  if (state.campaign?.px_reset_confirm){
+    hud_toast('Paradoxon-Reset abgeschlossen – Px 0/5.', 'PX');
+    delete state.campaign.px_reset_confirm;
+    delete state.campaign.px_reset_scheduled_at;
+  }
   const missionNumber = Number(state.campaign?.mission);
   if (Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10)){
     state.logs.flags.foreshadow_gate_expected = true;
@@ -4317,15 +4426,30 @@ function StartMission(){
     state.logs.flags.self_reflection_auto_reset_at = new Date().toISOString();
   }
   let bossToast = null;
-  if (Number.isFinite(missionNumber) && missionNumber === 5){
-    bossToast = 'Mini-Boss in Szene 10 – Overflow halbiert.';
-  } else if (Number.isFinite(missionNumber) && missionNumber === 10){
-    bossToast = 'Boss-Finale in Szene 10 – DR aktiv.';
+  let bossDrToast = null;
+  let bossDrValue = null;
+  if (Number.isFinite(missionNumber) && missionNumber >= 5){
+    if (missionNumber % 10 === 0){
+      bossToast = 'Boss-Finale in Szene 10 – DR aktiv.';
+      bossDrValue = 3;
+    } else if (missionNumber % 5 === 0){
+      bossToast = 'Mini-Boss in Szene 10 – Overflow halbiert.';
+      bossDrValue = 2;
+    }
+  }
+  if (bossDrValue !== null){
+    state.campaign.boss_dr = bossDrValue;
+    bossDrToast = `Boss-DR aktiviert – −${bossDrValue} Schaden pro Treffer`;
+  } else if (state.campaign && 'boss_dr' in state.campaign){
+    delete state.campaign.boss_dr;
   }
   const overlay = scene_overlay();
   writeLine(overlay);
   if (bossToast){
     hud_toast(bossToast, 'BOSS');
+  }
+  if (bossDrToast){
+    hud_toast(bossDrToast, 'BOSS');
   }
   return overlay;
 }
@@ -4361,17 +4485,9 @@ function scene_overlay(scene){
   } else {
     h += ` · FS ${fsCount}`;
   }
-  const gateFlags = state.logs?.flags || {};
-  const gateProgressSnapshot = Number(gateFlags.foreshadow_gate_snapshot);
-  const gateProgressLive = Number(gateFlags.foreshadow_gate_progress);
-  const gateProgress = Number.isFinite(gateProgressSnapshot) && gateProgressSnapshot > 0
-    ? gateProgressSnapshot
-    : Number.isFinite(gateProgressLive)
-    ? gateProgressLive
-    : 0;
-  const gateValue = Math.max(0, Math.min(FORESHADOW_GATE_REQUIRED, Math.floor(gateProgress)));
-  if (gateFlags.foreshadow_gate_expected || gateValue > 0){
-    h += ` · GATE ${gateValue}/${FORESHADOW_GATE_REQUIRED}`;
+  const gateInfo = gate_progress_info(state);
+  if (gateInfo.expected || gateInfo.value > 0){
+    h += ` · GATE ${gateInfo.value}/${FORESHADOW_GATE_REQUIRED}`;
   }
     const px = state.campaign?.px ?? state.campaign?.paradoxon_index ?? 0;
     const sys = state.character?.attributes?.SYS_max ?? 0;
@@ -4564,6 +4680,13 @@ function prepare_save_campaign(campaign){
     ? base.paradoxon_index
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
+  const bossDr = Number(base.boss_dr);
+  base.boss_dr = Number.isFinite(bossDr) && bossDr > 0 ? Math.floor(bossDr) : 0;
+  base.px_reset_pending = !!base.px_reset_pending;
+  base.px_reset_confirm = !!base.px_reset_confirm;
+  if (typeof base.px_reset_scheduled_at !== 'string'){
+    base.px_reset_scheduled_at = null;
+  }
   base.compliance_shown_today = !!base.compliance_shown_today;
   const exfilSource = base.exfil && typeof base.exfil === 'object' ? base.exfil : {};
   base.exfil = {
@@ -4712,6 +4835,11 @@ function prepare_save_logs(logs){
   }
   if (!Array.isArray(base.artifact_log)){
     base.artifact_log = [];
+  }
+  if (Array.isArray(base.psi)){
+    base.psi = sanitize_psi_entries(base.psi);
+  } else {
+    base.psi = [];
   }
   if (!Array.isArray(base.kodex)){
     base.kodex = [];
@@ -4918,7 +5046,9 @@ const SAVE_REQUIRED_PATHS = [
   ['character', 'psi_heat'],
   ['campaign', 'px'],
   ['economy'],
+  ['economy', 'wallets'],
   ['logs'],
+  ['logs', 'hud'],
   ['logs', 'foreshadow'],
   ['logs', 'artifact_log'],
   ['logs', 'market'],
@@ -4926,7 +5056,11 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'kodex'],
   ['logs', 'alias_trace'],
   ['logs', 'squad_radio'],
-  ['ui']
+  ['logs', 'fr_interventions'],
+  ['logs', 'psi'],
+  ['logs', 'flags'],
+  ['ui'],
+  ['arena']
 ];
 
 function enforce_required_save_fields(payload){
@@ -4957,7 +5091,8 @@ function select_state_for_save(s){
 }
 
 function save_deep(s=state){
-  if (s?.arena?.active){
+  const arenaState = s?.arena;
+  if (arenaState?.active || (arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed')){
     throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
   }
   if (s.location !== 'HQ') throw new Error('Save denied: HQ-only.');

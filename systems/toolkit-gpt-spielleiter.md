@@ -267,7 +267,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
 - **Foreshadow-Gate Mission 5/10.** Setzt `ForeshadowHint(text, tag)` zweimal pro Gate,
-  bis das HUD `Foreshadow 2/2` meldet. Nach `StartMission()` muss `scene_overlay()`
+  bis das HUD `GATE 2/2` meldet. Nach `StartMission()` muss `scene_overlay()`
   den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen und zusätzlich das
   Gate-Badge `GATE n/2` anzeigen; `!boss status` spiegelt den Saisonstand und bestätigt,
   dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
@@ -307,9 +307,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Foreshadow-Gate-Flags.** `scene_overlay()` synchronisiert `logs.flags.foreshadow_gate_m5_seen` bzw.
   `logs.flags.foreshadow_gate_m10_seen` (boolean) und zählt `logs.foreshadow[]` dedupliziert. Ohne Runtime setzt die
   Spielleitung die Keys manuell, sobald `ForeshadowHint()` den Gate erfüllt.
-- **`!boss status`** – Gibt `Foreshadow count/required` als Text aus (Core = 4
+- **`!boss status`** – Gibt `Gate value/2 · Mission FS count/required` aus (Core = 4
   Hinweise, Rift = 2) und dient als Saison-Indikator.
-  QA notiert Gate-Evidenz (`Foreshadow 2/2` im HUD) und den Saisonstand (`Foreshadow 0/4` nach dem Reset).
+  QA notiert Gate-Evidenz (`GATE 2/2` im HUD) und den Saisonstand (`Mission FS 0/4` nach dem Reset).
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
   (1–6) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
   `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`,
@@ -1438,15 +1438,19 @@ total=None, role="", env=None) -%}
   {% set have = foreshadows|length %}
   {% set gate_active = gate_target and have < required %}
   {% if gate_active %}
-    {{ hud_tag('Boss blockiert – Foreshadow ' ~ have ~ '/' ~ required) }}
+    {% if not campaign.foreshadow_gate_warned %}
+      {{ hud_tag('Gate blockiert – Gate ' ~ have ~ '/' ~ required) }}
+      {% set campaign.foreshadow_gate_warned = true %}
+    {% endif %}
     {% if campaign.type == 'core' %}
       {{ hud_tag('Fehlende Hinweise: Mission 4 und Mission 9 liefern je zwei Foreshadows vor Szene 10.') }}
     {% else %}
       {{ hud_tag('Fehlende Hinweise: Szene 9 muss zwei Foreshadows setzen, bevor Szene 10 öffnet.') }}
     {% endif %}
     {{ assert_foreshadow(required) }}
-    {{ hud_tag('Foreshadow-Gate aktiv – Szene ' ~ campaign.scene|format("%02d") ~ ' bleibt offen.') }}
+    {{ hud_tag('Gate aktiv – Szene ' ~ campaign.scene|format("%02d") ~ ' bleibt offen.') }}
   {% else %}
+    {% set campaign.foreshadow_gate_warned = false %}
     {# Konflikte in Szene < delayConflict blocken #}
       {% if campaign.scene < campaign.delayConflict
           and role in ["Konflikt","Finale"]

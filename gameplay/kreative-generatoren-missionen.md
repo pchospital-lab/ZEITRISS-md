@@ -123,11 +123,26 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 |13 | Abschluss | Rücksprung |
 |14 | Debrief | Belohnung auszahlen |
 ### Mission Economy
-| Ergebnis | CU-Basis |
-|----------|---------|
-| Teil-Erfolg | 300 |
-| Erfolg | 500 |
-| Erfolg + Bonus | 600 |
+
+Belohnungen folgen einer einheitlichen Formel:
+
+`Belohnung = Risiko-Basis × Erfolgs-Multiplikator`
+
+| Risiko | Basiswert (CU) |
+|--------|----------------|
+| Low | 400 |
+| Mid | 500 |
+| High | 600 |
+
+| Ergebnis | Multiplikator | Beispiel (Mid) |
+|----------|---------------|----------------|
+| Teil-Erfolg | 0.6 | 300 CU |
+| Erfolg | 1.0 | 500 CU |
+| Erfolg + Bonus | 1.2 | 600 CU |
+
+Die Runtime verwendet dieselben Werte, wenn kein konkreter Betrag im Debrief
+übergeben wird. Solo- oder Buddy-Läufe lösen zusätzlich Hazard-Pay
+(`+50 %` auf die Basis) aus.
 
 ## Automatischer Mission Seed
 
