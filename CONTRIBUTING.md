@@ -106,7 +106,9 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 
 <a id="verpflichtende-pruefungen"></a>
 ## Verpflichtende Prüfungen
-- `make lint` (führt `npm run lint:rt`, `npm run lint:links` und `npm run lint:md` aus)
+- `make lint` (führt `npm run lint:rt`, `GM_STYLE=verbose npm run lint:rt`,
+  `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
+  `npm run lint:links` und `npm run lint:md` aus)
 - `make test`
 - `bash scripts/smoke.sh`
 - `python3 tools/lint_runtime.py`
