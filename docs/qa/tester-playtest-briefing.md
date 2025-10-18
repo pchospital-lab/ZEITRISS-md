@@ -23,7 +23,7 @@ Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 - `README.md`
 - `master-index.json`
 - Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/` (ohne
-  `systems/runtime-stub-routing-layer.md`).
+  `internal/runtime/runtime-stub-routing-layer.md`).
 
 Eine Zielgruppen- und Dokumentenübersicht findest du in der README unter
 [„Dokumenten-Landkarte“](../../README.md#dokumenten-landkarte); sie zeigt, wie Tester:innen ihre
@@ -124,7 +124,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 ## Ablauf für Tester:innen
 
 1. Masterprompt (`meta/masterprompt_v6.md`), `README.md`, `master-index.json` und alle Runtime-Module
-   (ohne `systems/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden. Optional
+   (ohne `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden. Optional
    Masterprompt zusätzlich in den Wissensspeicher übernehmen. Verifiziere, dass der GPT den Begriff
    **Kodex** korrekt nutzt und keine Legacy-Nennungen wie „Codex“ oder veraltete Save-Felder
    (`zr_version < 4.x`) ausgibt.

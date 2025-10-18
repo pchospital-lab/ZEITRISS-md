@@ -17,7 +17,7 @@ bearbeitest.
 - Pull Requests aktualisieren bestehende Dateien oder ergänzen neue Module.
 - Schreibe prägnante Commit-Nachrichten im Imperativ und öffne PRs stets gegen den
   `main`-Branch.
-- `systems/runtime-stub-routing-layer.md` dient als Referenz für eine eigene Runtime.
+- `internal/runtime/runtime-stub-routing-layer.md` dient als Referenz für eine eigene Runtime.
   Dieses Dokument bleibt Developer-Only; Spielmodule dürfen es nicht einbinden.
 - Aktiviere das Hook `.githooks/pre-commit` über `git config core.hooksPath .githooks`.
 - Signalaktionen setzen reale Hardware voraus (Comlink, Terminal, Kabel oder Relais). Ohne
