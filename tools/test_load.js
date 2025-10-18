@@ -20,7 +20,7 @@ const save = {
   logs: { artifact_log: [], kodex: [] },
   ui: { gm_style: 'verbose' },
   arc_dashboard: {
-    offene_seeds: [{ id: 'Seed-01', status: 'offen' }],
+    offene_seeds: ['Kontakt: Beta-Sondierung', { id: 'Seed-01', status: 'offen' }],
     fraktionen: { ITI: { status: 'Verbündet' } },
     fragen: ['Wie sichern wir den Chronosplit?']
   }
@@ -35,7 +35,8 @@ assert.ok(rt.state.character.heat === undefined);
 assert.equal(rt.state.campaign.px, 0);
 assert.equal(rt.ZR_VERSION, pkg.version);
 assert.ok(Array.isArray(rt.state.arc_dashboard.offene_seeds));
-assert.equal(rt.state.arc_dashboard.offene_seeds[0].id, 'Seed-01');
+assert.equal(rt.state.arc_dashboard.offene_seeds[0], 'Kontakt: Beta-Sondierung');
+assert.equal(rt.state.arc_dashboard.offene_seeds[1].id, 'Seed-01');
 assert.equal(rt.state.arc_dashboard.fragen[0], 'Wie sichern wir den Chronosplit?');
 assert.equal(rt.state.arc_dashboard.fraktionen.ITI.status, 'Verbündet');
 console.log('load-ok');

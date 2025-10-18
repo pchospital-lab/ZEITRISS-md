@@ -32,7 +32,7 @@ const base = {
   },
   ui: { gm_style: 'verbose', intro_seen: true },
   arc_dashboard: {
-    offene_seeds: [{ id: 'Seed-77', ort: 'Alexandria' }],
+    offene_seeds: ['Freitext: Anomalie aufspüren', { id: 'Seed-77', ort: 'Alexandria' }],
     fraktionen: {
       KAIROS: { status: 'Feindlich', letzten_hook: 'Sabotage im Archiv' }
     },
@@ -61,7 +61,8 @@ assert.equal(typeof data.economy.cu, 'number');
 assert.ok(Array.isArray(data.arc_dashboard.offene_seeds));
 assert.ok(Array.isArray(data.arc_dashboard.fragen));
 assert.equal(typeof data.arc_dashboard.fraktionen, 'object');
-assert.deepStrictEqual(data.arc_dashboard.offene_seeds[0].id, 'Seed-77');
+assert.deepStrictEqual(data.arc_dashboard.offene_seeds[0], 'Freitext: Anomalie aufspüren');
+assert.deepStrictEqual(data.arc_dashboard.offene_seeds[1].id, 'Seed-77');
 assert.deepStrictEqual(data.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
@@ -134,12 +135,19 @@ const loadInput = {
   ui: { gm_style: 'verbose', intro_seen: true }
 };
 
+loadInput.arc_dashboard.offene_seeds = ['  Kontakt: Altes Archiv  ', { id: 'Seed-88', status: 'aktiv' }];
+
 rt.load_deep(JSON.stringify(loadInput));
 assert.equal(rt.state.logs.flags.compliance_shown_today, true);
 assert.equal(rt.state.campaign.compliance_shown_today, true);
 assert.equal(rt.state.logs.flags.chronopolis_warn_seen, false);
 assert.equal(rt.state.scene.foreshadows, 1);
 assert(rt.on_command('!boss status').includes('Mission FS 1/4'));
+assert.equal(rt.state.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
+assert.equal(rt.state.arc_dashboard.offene_seeds[1].id, 'Seed-88');
+const roundtrip = JSON.parse(rt.save_deep(rt.state));
+assert.equal(roundtrip.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
+assert.equal(roundtrip.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 // Hinweis (#4 Load-Flows): Toolkit-Makros spiegeln das Flag jetzt mit,
 // damit MyGPT-Läufe ohne runtime.js denselben Persistenzstatus liefern.
 

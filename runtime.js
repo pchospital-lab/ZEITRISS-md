@@ -1699,8 +1699,17 @@ function ensure_arc_dashboard(){
     dash.offene_seeds = [];
   } else {
     dash.offene_seeds = dash.offene_seeds
-      .filter(entry => entry && typeof entry === 'object')
-      .map(entry => clone_plain_object(entry));
+      .map((entry) => {
+        if (entry && typeof entry === 'object'){
+          return clone_plain_object(entry);
+        }
+        if (typeof entry === 'string'){
+          const trimmed = entry.trim();
+          return trimmed ? trimmed : null;
+        }
+        return null;
+      })
+      .filter(entry => entry !== null);
   }
   if (!dash.fraktionen || typeof dash.fraktionen !== 'object' || Array.isArray(dash.fraktionen)){
     dash.fraktionen = {};
@@ -4924,7 +4933,18 @@ function prepare_save_arc_dashboard(dashboard){
     ? clone_plain_object(dashboard)
     : {};
   base.offene_seeds = Array.isArray(base.offene_seeds)
-    ? base.offene_seeds.map(entry => clone_plain_object(entry))
+    ? base.offene_seeds
+        .map((entry) => {
+          if (entry && typeof entry === 'object'){
+            return clone_plain_object(entry);
+          }
+          if (typeof entry === 'string'){
+            const trimmed = entry.trim();
+            return trimmed ? trimmed : null;
+          }
+          return null;
+        })
+        .filter(entry => entry !== null)
     : [];
   if (!base.fraktionen || typeof base.fraktionen !== 'object' || Array.isArray(base.fraktionen)){
     base.fraktionen = {};

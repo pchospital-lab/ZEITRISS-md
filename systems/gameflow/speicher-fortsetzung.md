@@ -639,8 +639,8 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 `arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist optional, wird
 aber vom Serializer automatisch nachgezogen und strukturiert:
 
-- **`offene_seeds[]`** – Liste aktiver Missionsansätze. Jedes Element ist ein Objekt (z. B. mit
-  `id`, `titel`, `status`, `deadline`).
+- **`offene_seeds[]`** – Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
+  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein.
 - **`fraktionen{}`** – Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
   letzte Aktionen. Die Runtime ergänzt `last_intervention`, `last_result`, `last_updated` sowie
   `interventions[]` (max. sechs Snapshots aus `logs.fr_interventions[]` inklusive Wirkung/Notiz),

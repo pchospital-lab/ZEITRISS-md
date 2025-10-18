@@ -15,6 +15,9 @@ tags: [meta]
 - README-Dokumenten-Landkarte reflektiert die neue Aufgabenverteilung zwischen `AGENTS.md` und
   `CONTRIBUTING.md`.
 - QA-Fahrplan 2025 Version 1.6.1 ergänzt Maßnahmenblock für Formatierungs- und Tooling-Abgleich.
+- Alias-/Funk-Logs (`!alias log`, `!radio log`) samt `!alias clear`/`!radio clear`, Persistenz und
+  Debrief-Zeilen sind in README und Toolkit dokumentiert; QA-Fahrplan & Evidenz spiegeln die neuen
+  Dispatcher-Hinweise.
 
 ## 4.2.2 – Arena-Episodenstempel
 
