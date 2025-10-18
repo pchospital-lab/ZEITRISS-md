@@ -147,7 +147,7 @@ euch das Maintainer-Dokument.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
-- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
+- `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
   Test-Tools bleiben lokal im Repo und werden **nicht** in produktive
   Wissensspeicher hochgeladen.
 - Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als
@@ -174,7 +174,7 @@ ZEITRISS-md/
 ├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
 ├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime)
-│                           # ohne `runtime-stub-routing-layer.md`
+├─ internal/runtime/        # Entwickler-Stubs (`runtime-stub-routing-layer.md`) & lokale Runtimes
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
 ├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte
 │                           # (tags: [meta]; inkl. Fahrplan & Protokoll)

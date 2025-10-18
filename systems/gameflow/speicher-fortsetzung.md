@@ -1004,7 +1004,7 @@ dieser Übergang reibungslos und narrativ sauber abläuft. **Je nach Situation p
   handelt, und keinen Klon erzeugen.)_
   Nach dem Zusammenführen der Spielstände setzt GPT den Paradoxon-Index sowie die Liste offener
   Rifts auf **0**, damit das Team mit einem sauberen Stand beginnen kann. Ein optionales
-  `startGroupMode()`-Snippet im Entwickler-Stubs `systems/runtime-stub-routing-layer.md`
+  `startGroupMode()`-Snippet im Entwickler-Stubs `internal/runtime/runtime-stub-routing-layer.md`
   illustriert diesen Reset – das Dokument selbst wird nicht ins Spiel eingebunden.
 
 **Zusammengefasst:** Ein einzelner Savegame-Block ergibt einen einzelnen Charakter; mehrere
