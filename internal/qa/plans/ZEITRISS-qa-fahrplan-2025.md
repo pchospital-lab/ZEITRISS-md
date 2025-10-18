@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.6
+version: 1.8.7
 tags: [meta]
 ---
 
@@ -80,6 +80,8 @@ Checks in einem Schritt.
 | 2025-10-31 | Wissensmodule von QA-Hinweisen bereinigt | QA-Log 2025-10-31 |
 | 2025-11-01 | Deepcheck-Sync & Fahrplan 1.8.5 | QA-Log 2025-11-01 |
 | 2025-11-02 | Wissensmodule entschlackt (Review) | QA-Log 2025-11-02 |
+| 2025-11-03 | QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check | QA-Log 2025-11-03 |
+| 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror | QA-Log 2025-11-04 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 

@@ -48,6 +48,15 @@ verwirrt. Ohne Korrektur gefährden diese Punkte die Anschlussfähigkeit von
 Regelreferenzen, die Progressionsökonomie und das Balancing in
 Hochstufen-Spielrunden.
 
+## Update 2025-11-04 – Deepcheck-Fortsetzung & Fahrplan 1.8.7
+
+- QA-Fahrplan wurde auf Version 1.8.7 angehoben; die Deepcheck-Tabelle führt
+  nun die Läufe vom 2025-11-03 und 2025-11-04.
+- QA-Log 2025-11-04 dokumentiert die Synchronisation sowie den erfolgreichen
+  Pflicht-Testlauf (`make lint`, `make test`, Smoke- und Linter-Skripte).
+- Wissensmodule (README, Toolkit, Systems) bleiben frei von störenden
+  QA-Anweisungen; keine Laufzeitänderungen notwendig.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
