@@ -44,10 +44,13 @@ leichtgewichtig** in der Anwendung.
 | `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, verzögerte Reaktion |
 
 
-`!offline` ruft bei `HUD:offline` das Kodex-FAQ ab: Terminal koppeln,
-Hardline suchen, Jammer-Override prüfen, Mission mit HUD-Lokaldaten
-weiterführen und Aktionen als „Vorschlag:“ kennzeichnen, bis der
-ITI↔Kodex-Uplink wieder steht (Saves wie üblich erst zurück im HQ).
+`!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex Offline-FAQ auf. Die
+Hinweise sind identisch mit der Runtime und helfen der Crew, den Uplink wiederherzustellen:
+- Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen – bis
+  dahin bleibt der Kodex stumm.
+- Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis zum HQ-Resync gesperrt.
+- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und auf
+  Bestätigung warten.
 
 
 *Hinweis:* Diese Codes ändern keine SG-Werte per se; sie sind erzählerische Flags.

@@ -429,6 +429,13 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Relais blockieren den Kontakt.
 - **Fallback:** Scheitert der Check, meldet der Kodex `CommsCheck failed …` und
   verweist auf das Offline-FAQ. Details siehe [Runtime-Helfer](doc.md#comms-check).
+- **Offline-Fallback:** `!offline` gibt höchstens einmal pro Minute das Kodex Offline-FAQ aus.
+  Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
+  - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen – bis
+    dahin bleibt der Kodex stumm.
+  - Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis zum HQ-Resync gesperrt.
+  - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und auf
+    Bestätigung warten.
 
 ### Start & Load – LLM-Dispatcher (ohne externe Runtime)
 
