@@ -57,6 +57,18 @@ Hochstufen-Spielrunden.
 - Wissensmodule (README, Toolkit, Systems) bleiben frei von störenden
   QA-Anweisungen; keine Laufzeitänderungen notwendig.
 
+## Update 2025-11-05 – QA-Evidenz-JSON-Handshake
+
+- Maintainer:innen liefern den Beta-GPT-Testprompt jetzt als JSON-Block, prüfen
+  ihn in einer zweiten ZEITRISS-Instanz und stellen den abgeglichenen Datensatz
+  bereit; Codex übernimmt die Artefakte unverändert.
+- Evidenzprotokoll `internal/qa/evidence/2025-beta-gpt-evidenz.md` Version 0.2.0
+  enthält die JSON-Hand-offs für die Läufe 2025-07-05, 2025-07-18, 2025-10-15
+  und 2025-10-28.
+- QA-Log markiert die entsprechenden „QA-Referenzen“-Checkboxen als erledigt;
+  Audit-Abschnitte verweisen fortan auf das Evidenzprotokoll statt auf offene
+  Maintainer-Lieferungen.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
@@ -178,8 +190,9 @@ Hochstufen-Spielrunden.
   Punkte als ✅ und verweist auf die Runtime- und Wissensmodule.
 - **QA-Log:** Eintrag 2025-07-20 bestätigt die Umsetzung und die
   Pflichttest-Läufe.
-- **Evidenz:** HUD-/Save-/Arena-Belege stehen aus. Sammelstelle siehe
-  [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md).
+- **Evidenz:** JSON-Hand-off 2025-11-05 belegt HUD-/Save-/Arena-Traces im
+  [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
+  (§2025-07-05).
 
 ## Beta-GPT 2025-07-18 – Save/HUD/Compliance-Regression (Update: 2025-10-20)
 
@@ -190,10 +203,10 @@ Hochstufen-Spielrunden.
   Punkte als ✅ und verlinkt auf die betroffenen Module.
 - **QA-Log:** Eintrag 2025-07-20 dokumentiert die Pflichttestläufe sowie die
   Doku-Synchronisation.
-- **Evidenz:** Exfil-/Wallet-Traces und Psi-/HUD-Logs werden nach dem nächsten
-    Beta-GPT-Lauf unter
+- **Evidenz:** Exfil-/Wallet-Traces sowie Psi-/HUD-Logs liegen über den JSON-
+    Hand-off 2025-11-05 in
     [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
-    ergänzt.
+    (§2025-07-18) vor.
 
 ## Beta-GPT 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas (Update: 2025-10-20)
 
@@ -204,11 +217,12 @@ Hochstufen-Spielrunden.
 - **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-15“ listet die
   aktualisierten Referenzen auf Runtime, README, Toolkit, HUD-Modul und
   Tester-Briefing.
-- **QA-Log:** Eintrag 2025-10-20 bestätigt den grünen Pflichttest-Stack und die
-  offenen Schritte für Audit und QA-Evidenz.
+- **QA-Log:** Eintrag 2025-10-20 bestätigt den grünen Pflichttest-Stack und
+  verweist seit 2025-11-05 auf die abgeschlossene QA-Evidenz.
 - **Evidenz:** Acceptance-Checkliste, HUD-Dumps und Dispatcher-Transkripte sind
-    vorzubereiten. Ablage:
-    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md).
+    über den JSON-Hand-off 2025-11-05 im
+    [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md)
+    (§2025-10-15) dokumentiert.
 
 ## Beta-GPT 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas (Update: 2025-10-28)
 
@@ -221,13 +235,11 @@ Hochstufen-Spielrunden.
 - **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-28“ verweist auf die
   aktualisierten Runtime- und Wissensmodule (RT, M12, HUD, Core) und verlinkt die
   QA-Testreferenz (`!save` Minimal-HQ-Save).
-- **QA-Log:** Eintrag 2025-10-28 notiert das Audit-Update (dieser Abschnitt) und
-  hält die offene Evidenzübergabe der Maintainer:innen fest.
-- **Evidenz:** HUD-/Save-Dumps, Wallet-Splits und Arena-Guards bleiben im
-  Evidenz-Log (`internal/qa/evidence/2025-beta-gpt-evidenz.md`) als offene
-  Maintainer-Lieferung markiert; Abschnitt §2025-10-28 listet die benötigten
-  Artefakte (DeepSave + Wallet-Split, Arena-Guard, Foreshadow/Gate-Badges mit
-  Accessibility-Preset, Ökonomie/Boss-DR).
+- **QA-Log:** Eintrag 2025-10-28 verweist seit 2025-11-05 auf den erledigten
+  JSON-Hand-off (HUD-/Save-/Arena-Evidenz) und markiert die Checkbox als ✅.
+- **Evidenz:** HUD-/Save-Dumps, Wallet-Splits und Arena-Guards liegen im
+  Evidenz-Log (`internal/qa/evidence/2025-beta-gpt-evidenz.md` §2025-10-28)
+  über den JSON-Hand-off 2025-11-05 vor.
 
 ## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-28)
 
@@ -472,10 +484,10 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 
 **Folgeaufgaben:**
 
-- [ ] QA ergänzt Regressionstests (Dispatcher-Suite, Cross-Mode-Läufe,
+- [x] QA ergänzt Regressionstests (Dispatcher-Suite, Cross-Mode-Läufe,
       Debrief-Splits) und trägt die Nachweise im Evidenzprotokoll unter
       `internal/qa/evidence/2025-beta-gpt-evidenz.md` nach; QA-Log und Fahrplan
-      verweisen anschließend auf die Ablage.
+      verweisen seit dem JSON-Hand-off 2025-11-05 auf die Ablage.
 - [ ] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
       verknüpft Commits mit dem Audit.
 - [ ] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
