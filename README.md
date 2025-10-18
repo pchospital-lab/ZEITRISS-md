@@ -447,6 +447,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 - Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
   damit Funk- und Alias-Logs ohne Altlasten starten.
+- Alias- und Funkbefehle akzeptieren beliebige Groß-/Kleinschreibung (`!alias`,
+  `!ALIAS`, `!Radio Log` usw.).
 
 **Fehlertexte:**
 - `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).“
@@ -1096,10 +1098,14 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Persona, Cover, Status, Szene/Mission und optionaler Notiz. Der Debrief fasst
   die letzten Einträge in `Alias-Trace (n×): …` zusammen – Grundlage für
   spätere Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
+- Die Alias-Befehle sind case-insensitive; `!ALIAS LOG` und `!alias log`
+  verhalten sich identisch.
 - Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status`
   bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene
   und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient als Persistenz-
   Nachweis für Funkprotokolle (S/M/XL-Konflikte).
+- Auch die Funkbefehle tolerieren jede Groß-/Kleinschreibung (`!RADIO STATUS`,
+  `!radio status` usw.).
 - Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …`
   im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für spätere
   Belege.

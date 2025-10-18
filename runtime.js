@@ -1315,22 +1315,23 @@ function parse_radio_payload(text){
 
 function handleAliasCommand(raw){
   const cmd = raw.trim();
-  if (cmd === '!alias' || cmd === '!alias status'){
+  const normalized = cmd.toLowerCase();
+  if (normalized === '!alias' || normalized === '!alias status'){
     const summary = render_alias_trace_summary();
     return summary || 'Alias-Trace leer.';
   }
-  if (cmd === '!alias clear'){
+  if (normalized === '!alias clear'){
     const trace = ensure_alias_trace();
     trace.length = 0;
     return 'Alias-Trace geleert.';
   }
-    if (cmd === '!alias help'){
-      return (
-        'Alias-Trace: `!alias log Persona|Cover|Status|Notiz` oder Felder via `key=value` setzen. '
-        + '`!alias status` zeigt die Übersicht.'
-      );
+  if (normalized === '!alias help'){
+    return (
+      'Alias-Trace: `!alias log Persona|Cover|Status|Notiz` oder Felder via `key=value` setzen. '
+      + '`!alias status` zeigt die Übersicht.'
+    );
   }
-  const m = cmd.match(/^!alias\s+log\s+(.+)/);
+  const m = cmd.match(/^!alias\s+log\s+(.+)/i);
   if (m){
     try {
       const entry = log_alias_event(parse_alias_payload(m[1]));
@@ -1345,22 +1346,23 @@ function handleAliasCommand(raw){
 
 function handleRadioCommand(raw){
   const cmd = raw.trim();
-  if (cmd === '!radio' || cmd === '!radio status'){
+  const normalized = cmd.toLowerCase();
+  if (normalized === '!radio' || normalized === '!radio status'){
     const summary = render_squad_radio_summary();
     return summary || 'Squad-Radio-Log leer.';
   }
-  if (cmd === '!radio clear'){
+  if (normalized === '!radio clear'){
     const log = ensure_squad_radio_log();
     log.length = 0;
     return 'Squad-Radio-Log geleert.';
   }
-  if (cmd === '!radio help'){
+  if (normalized === '!radio help'){
     return (
       'Squad-Radio: `!radio log Sprecher|Channel|Meldung|Status` oder Felder via `key=value`. '
       + '`!radio status` zeigt die letzten Einträge.'
     );
   }
-  const m = cmd.match(/^!radio\s+log\s+(.+)/);
+  const m = cmd.match(/^!radio\s+log\s+(.+)/i);
   if (m){
     try {
       const entry = log_squad_radio(parse_radio_payload(m[1]));
