@@ -6,6 +6,60 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-10-31 – Repo-Agent – Wissensmodule von QA-Artefakten befreit
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-31,
+  QA-Fahrplan 1.8.4
+- Copy-&-Paste-Auftrag: QA-Fahrplan „Dokumentation & Index“ aufräumen,
+  QA-Verweise aus Wissensmodulen und `master-index.json` entfernen.
+
+**Maßnahmen**
+1. README Dokumenten-Landkarte verschlankt und den QA-Block entfernt, damit die
+   Wissensmodule ausschließlich runtime-relevante Inhalte führen.
+2. `master-index.json` von QA-Artefakt-Modulen bereinigt, damit der
+   Wissensspeicher nur Runtime-Dokumente lädt.
+3. QA-Fahrplan auf Version 1.8.4 aktualisiert und den neuen Status zur
+   Dokumentation festgehalten.
+
+```shell
+make lint
+```
+
+**Nachverfolgung**
+- QA-Fahrplan 1.8.4 hält den schlanken Dokumentationsstand fest.
+- QA-Artefakte verbleiben in `internal/qa/` und werden nicht mehr als
+  Wissensmodule geführt.
+
+## 2025-10-30 – Repo-Agent – QA-Artefakte verknüpft
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-30,
+  QA-Fahrplan 1.8.3
+- Copy-&-Paste-Auftrag: QA-Fahrplan Abschnitt „Dokumentation & Index“
+  nachvollziehen, QA-Artefakte sichtbar in README & Master-Index verankern.
+
+**Maßnahmen**
+1. README Dokumenten-Landkarte um direkten Block zu QA-Fahrplan, QA-Audit und
+   Beta-QA-Log erweitert; Repo-Map listet `internal/qa/` als Meta-Ordner.
+2. `master-index.json` führt Fahrplan, Audit und Log neu unter Kategorie „QA“,
+   damit Wissensspeicher-Loadouts die Artefakte schneller finden.
+3. QA-Fahrplan auf Version 1.8.3 gehoben und Statusnotiz zum synchronisierten
+   Dokumentationsstand ergänzt.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+```
+
+**Nachverfolgung**
+- QA-Fahrplan 1.8.3 dokumentiert die neue Verlinkung; README & Master-Index
+  bleiben runtime-fokussiert ohne zusätzliche QA-Anweisungen.
+- Keine Runtime-Änderungen nötig; Spiegelpflicht bleibt erfüllt.
+
 ## 2025-10-29 – Repo-Agent – Wissensmodule entschlackt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-29,

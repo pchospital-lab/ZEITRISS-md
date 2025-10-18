@@ -174,6 +174,7 @@ ZEITRISS-md/
 ├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
 ├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime)
+├─ internal/qa/             # QA-Fahrplan, Audit, Logs (Meta-Artefakte)
 ├─ internal/runtime/        # Entwickler-Stubs (`runtime-stub-routing-layer.md`) & lokale Runtimes
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
 ├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte
@@ -192,8 +193,7 @@ ZEITRISS-md/
   vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
 - **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen der
   Maintainer:innen.
-- **`docs/qa/tester-playtest-briefing.md`** sowie die Logs unter `internal/qa/` – Briefing,
-  Checklisten und Protokolle für Tester:innen und Maintainer:innen.
+- **`docs/qa/tester-playtest-briefing.md`** – Briefing und Checklisten für QA-Läufe.
 - **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
