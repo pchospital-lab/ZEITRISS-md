@@ -240,8 +240,14 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   **HUD-Offline-Modus** aktiv.
 - Fällt der Kodex-Uplink aus (Reichweite, Jammer, Strom), ruft `!offline`
   für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
-  `!offline` erinnert an Terminal/Hardline, Jammer-Override, Ask→Suggest-
-  Fallback und daran, dass Saves wie üblich erst im HQ verfügbar sind.
+  der Befehl ist auf einen Aufruf pro Minute gedrosselt und gibt immer
+  dieselben Schritte aus:
+  - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen –
+    bis dahin bleibt der Kodex stumm.
+  - Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves landen
+    weiter im HQ.
+  - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und
+    auf Bestätigung warten.
 - Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status`
   (oder Key-Value `speaker=…|channel=…`). `!radio status` liefert die letzten
   Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
