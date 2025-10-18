@@ -62,6 +62,11 @@ GM_STYLE=precision node tools/test_foreshadow.js | grep "Foreshadow low"
 node tools/test_comms.js | grep "CommsCheck failed"
 node tools/test_comms_rx.js | grep 'CommsCheck failed: require valid device/range or relay/jammer override.'
 
+# Alias- und Squad-Radio-Logs
+node tools/test_alias_trace.js | tee out/alias_trace.log
+grep "Alias-Trace (2×):" out/alias_trace.log
+grep "Squad-Radio (2×):" out/alias_trace.log
+
 # Save whitelist and HQ guard
 node tools/test_save.js | tee out/save.log
 grep "Save denied: HQ-only." out/save.log
