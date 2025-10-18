@@ -585,13 +585,26 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 ### Runtime-State (Kurzreferenz)
 
 - `location: "HQ" | "field"`
-- `campaign: { episode, mission_in_episode, paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
-- `character: { name, level, attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_used}, talents:[], ... }`
-- `team: { name, members:[...] }`
+- `campaign: { episode, mission_in_episode, scene, px,`
+  `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
+- `character: { name, level, stress, psi_heat, cooldowns:{},`
+  `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_used},`
+  `talents:[], ... }`
+- `team: { name, members:[...] }`, `party: { characters:[...] }`
 - `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
-- `economy: { cu }`
-- `logs: { missions:[], blacklab:[], hud:[], foreshadow:[] }`
-- `ui: { gm_style:"verbose"|"precision" }`
+- `economy: { cu, wallets:{} }`
+- `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
+  `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
+  `fr_interventions:[], psi:[], flags:{} }`
+- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }`
+- `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
+  `suggest_mode:boolean, contrast:"standard"|"high",`
+  `badge_density:"full"|"dense", output_pace:"normal"|"slow" }`
+- `arena: { active, phase, mode, previous_mode, wins_player,`
+  `wins_opponent, tier, proc_budget, artifact_limit,`
+  `loadout_budget, phase_strike_tax, team_size, fee,`
+  `scenario, started_episode, last_reward_episode,`
+  `policy_players:[], audit:[] }`
 - `exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }`
 - `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
 - `comms: { jammed:boolean, relays:number, rangeMod:number }`

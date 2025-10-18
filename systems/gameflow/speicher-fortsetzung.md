@@ -36,6 +36,7 @@ required = [
   "logs.kodex",
   "logs.alias_trace",
   "logs.squad_radio",
+  "logs.foreshadow",
   "logs.fr_interventions",
   "logs.psi",
   "logs.flags",
@@ -535,7 +536,14 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
   "save_version": 6,
   "location": "HQ",
   "phase": "core",
-  "campaign": { "episode": 1, "mission_in_episode": 2, "scene": 0, "px": 1 },
+  "campaign": {
+    "episode": 1,
+    "mission_in_episode": 2,
+    "scene": 0,
+    "px": 1,
+    "paradoxon_index": 0,
+    "fr_bias": "normal"
+  },
   "character": {
     "id": "CHR-XXXX",
     "name": "Agent Name",
@@ -556,13 +564,65 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
     "cooldowns": {}
   },
   "team": { "name": "NPC-Zelle", "members": [] },
-  "economy": { "cu": 0 },
-  "logs": { "missions": [], "blacklab": [] },
-  "ui": { "gm_style": "verbose" },
+  "party": { "characters": [] },
+  "loadout": {
+    "primary": "Resonanz-Sniper (SD)",
+    "secondary": "Sidearm (SD)",
+    "cqb": null,
+    "armor": ["Kevlar", "Helm 360°"],
+    "tools": ["Medikit", "Nano-Bindepflaster"],
+    "support": []
+  },
+  "economy": { "cu": 0, "wallets": {} },
+  "logs": {
+    "artifact_log": [],
+    "market": [],
+    "offline": [],
+    "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
+    "hud": [],
+    "foreshadow": [],
+    "fr_interventions": [],
+    "psi": [],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "chronopolis_warn_seen": false,
+      "compliance_shown_today": false
+    }
+  },
   "arc_dashboard": {
     "offene_seeds": [],
     "fraktionen": {},
     "fragen": []
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": false,
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "full",
+    "output_pace": "normal"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "previous_mode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "tier": 1,
+    "proc_budget": 0,
+    "artifact_limit": 0,
+    "loadout_budget": 0,
+    "phase_strike_tax": 0,
+    "team_size": 1,
+    "fee": 0,
+    "scenario": null,
+    "started_episode": null,
+    "last_reward_episode": null,
+    "policy_players": [],
+    "audit": []
   }
 }
 ```
