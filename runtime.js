@@ -19,6 +19,30 @@ const OFFLINE_HELP_GUIDE = [
   '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
+
+function helper_delay_text(){
+  return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.";
+}
+
+function helper_comms_text(){
+  return [
+    'comms_check(device,range_m,range_km?): Pflicht vor radio_tx/rx.',
+    'Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal)',
+    'und Meterwerte; optional wandelt der Guard Kilometer in Meter um.',
+    'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren;',
+    'Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.'
+  ].join('\n');
+}
+
+function helper_boss_text(){
+  return [
+    'Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
+    'Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`',
+    'und `scene.foreshadows` den Fortschritt persistieren.',
+    'Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.'
+  ].join('\n');
+}
+
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
@@ -5864,6 +5888,15 @@ function on_command(command){
         if (token === 'preserve') seedMode = 'preserve';
       });
       return startGroup(mode, seedMode);
+    }
+    if (cmd === '!helper delay'){
+      return helper_delay_text();
+    }
+    if (cmd === '!helper comms'){
+      return helper_comms_text();
+    }
+    if (cmd === '!helper boss'){
+      return helper_boss_text();
     }
     if (cmd === '!help start' || cmd === '/help start'){
         return [
