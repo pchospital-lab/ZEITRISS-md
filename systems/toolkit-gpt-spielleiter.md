@@ -366,6 +366,12 @@ if not char.get("psi") and not char.get("has_psi"):
   Erfolge gesammelt wurden. Der Debrief zeigt diese Systemmeldungen als
   strukturierte Kodex-Ausgabe, z. B.:
 
+- Übergibt ihr String-Flags (`"true"`, `"false"`, `"Stabilized"`, `"no"` …)
+  an `completeMission(summary)`, normalisiert die Runtime diese Angaben.
+  Nur eindeutig positive Tokens (`"true"`, `"yes"`, `"success"`, `"stabilized"`
+  usw.) zählen als Stabilisierung; `"false"`, `"no"`, `"failed"` oder leere
+  Werte erhöhen `missions_since_px` nicht.
+
   ```text
   Rewards rendered
   Px ███░░ (3/5) · TEMP 11 · ETA +1 in 2 Missionen

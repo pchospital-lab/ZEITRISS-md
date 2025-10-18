@@ -1123,6 +1123,10 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
   landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
   die Wallet-Verteilung.
+- **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.cu`) und
+  Wallets (`economy.wallets{}`) akzeptieren numerische Strings wie `"1500"` und
+  wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
+  Werte fallen auf `0` zurück.
 
 ## Spielmodi {#spielmodi}
 

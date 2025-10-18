@@ -1564,7 +1564,8 @@ function ensure_economy(){
     state.economy = {};
   }
   const economy = state.economy;
-  economy.cu = Number.isFinite(economy.cu) ? Math.round(economy.cu) : 0;
+  const normalizedCu = asNumber(economy.cu);
+  economy.cu = Number.isFinite(normalizedCu) ? Math.round(normalizedCu) : 0;
   ensure_wallets();
   return economy;
 }
@@ -2377,16 +2378,27 @@ function completeMission(summary = {}){
   const required = missions_required(temp);
   const missionNumber = Number(state.campaign?.mission);
   const reasonCandidate = pickString(summary.reason, summary.completed, summary.outcome, summary.status);
-  let missionEndReason = 'completed';
   const normalizedReason = typeof reasonCandidate === 'string' ? reasonCandidate.trim().toLowerCase() : '';
-  if (summary.aborted || normalizedReason === 'aborted'){
+  const abortedToken =
+    typeof summary.aborted === 'string' ? summary.aborted.trim().toLowerCase() : '';
+  const abortedFlag = asBoolean(summary.aborted) === true || abortedToken === 'aborted' || abortedToken === 'abort';
+  const stabilizedFlag = asBoolean(summary.stabilized);
+  const successFlag = asBoolean(summary.success);
+  const completedFlag = asBoolean(summary.completed);
+  let missionEndReason = 'completed';
+  if (abortedFlag || normalizedReason === 'aborted'){
     missionEndReason = 'aborted';
-  } else if (normalizedReason === 'failed'){
+  } else if (successFlag === false || normalizedReason === 'failed'){
     missionEndReason = 'failed';
   } else if (normalizedReason === 'stabilized' || normalizedReason === 'completed'){
     missionEndReason = 'completed';
   }
-  const stabilized = summary.stabilized || summary.success || summary.completed === 'stabilized';
+  const stabilized =
+    stabilizedFlag === true ||
+    successFlag === true ||
+    completedFlag === true ||
+    normalizedReason === 'stabilized' ||
+    normalizedReason === 'completed';
   if (stabilized){
     state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
     const progress = state.campaign.missions_since_px;
@@ -2974,6 +2986,63 @@ function asNumber(value){
   if (value === null || value === undefined) return null;
   const num = Number(value);
   return Number.isFinite(num) ? num : null;
+}
+
+const BOOLEAN_TRUE_TOKENS = new Set([
+  'true',
+  '1',
+  'yes',
+  'y',
+  'ja',
+  'j',
+  'ok',
+  'okay',
+  'success',
+  'successful',
+  'succeeded',
+  'stabilized',
+  'stabilised',
+  'stabilise',
+  'completed',
+  'complete',
+  'done'
+]);
+
+const BOOLEAN_FALSE_TOKENS = new Set([
+  'false',
+  '0',
+  'no',
+  'n',
+  'nein',
+  'not',
+  'fail',
+  'failed',
+  'failure',
+  'unstable',
+  'unstabilized',
+  'unstabilised',
+  'aborted',
+  'abort',
+  'cancel',
+  'cancelled',
+  'canceled'
+]);
+
+function asBoolean(value){
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number'){
+    if (Number.isNaN(value)) return null;
+    return value !== 0;
+  }
+  if (typeof value === 'string'){
+    const normalized = value.trim().toLowerCase();
+    if (!normalized) return null;
+    if (BOOLEAN_TRUE_TOKENS.has(normalized)) return true;
+    if (BOOLEAN_FALSE_TOKENS.has(normalized)) return false;
+    return null;
+  }
+  return null;
 }
 
 function normalize_cu(value){
@@ -4770,10 +4839,8 @@ function prepare_save_arena(arena){
 
 function prepare_save_economy(economy){
   const base = clone_plain_object(economy);
-  if (!Number.isFinite(base.cu)){
-    base.cu = 0;
-  }
-  base.cu = Math.round(base.cu);
+  const normalizedCu = asNumber(base.cu);
+  base.cu = Number.isFinite(normalizedCu) ? Math.round(normalizedCu) : 0;
   const wallets = {};
   if (base.wallets && typeof base.wallets === 'object' && !Array.isArray(base.wallets)){
     for (const [key, value] of Object.entries(base.wallets)){
