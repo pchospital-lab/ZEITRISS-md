@@ -45,6 +45,9 @@ tags: [meta]
   (QA-Fahrplan 1.8.2).
 - [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-/Save-Dumps,
   Wallet-Splits, Arena-Guards) nach Umsetzung nach.
+  - Offene Artefakte sind im Evidenzlog unter §2025-10-28 vorgemerkt
+    (DeepSave + Wallet-Split, Arena-Guard-Trace, Foreshadow/Gate-Badges inkl.
+    Accessibility-Preset, Ökonomie-Formeln & Boss-DR-Toast).
 
 **QA-Testfälle (gefordert)**
 - Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder laut Tabelle).

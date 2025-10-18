@@ -109,3 +109,39 @@ TODO: Dispatcher-/Cinematic-Auszug ergänzen
 > **Hinweis:** Sobald ein Kasten abgehakt ist, bitte die betreffenden
 > QA-Log-Abschnitte aktualisieren und im Audit den neuen Evidenzstand
 > vermerken.
+
+## 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas
+
+Referenzen: QA-Log [2025-10-28](../logs/2025-beta-qa-log.md#2025-10-28--tester-beta-gpt--savehudarena-divergenzen),
+QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-28“.
+
+- [ ] **HQ-DeepSave Mindestfelder & Wallet-Split:** Minimal-HQ-Save mit
+      vollständigen Pflichtblöcken (`economy.wallets`, `logs.foreshadow`,
+      `ui.badges`) inklusive Wallet-Split vor/nach Paradoxon-Reset.
+
+```json
+// TODO: DeepSave + Wallet-Split einfügen
+```
+
+- [ ] **Arena-Active Guard:** HUD-/Dispatcher-Trace, der den Save-Blocker bei
+      aktiver Arena dokumentiert (`Arena aktiv – HQ-Save gesperrt`).
+
+```text
+TODO: Arena-Guard-Trace ergänzen
+```
+
+- [ ] **Foreshadow-/Gate-Badges & Accessibility-Preset:** HUD-Screenshot oder
+      Logauszug mit getrennten `Foreshadow n/2`- und `Gate n/2`-Badges sowie dem
+      zusätzlichen Accessibility-Preset im Dispatcher.
+
+```text
+TODO: HUD-/Accessibility-Auszüge einfügen
+```
+
+- [ ] **Ökonomie-Formeln & Boss-DR-Toast:** Debrief-/HUD-Protokoll, das die
+      neuen Ökonomie-Formeln (Mission-/CU-Split) sowie den automatischen
+      Boss-DR-Toast bestätigt.
+
+```text
+TODO: Ökonomie-/Boss-DR-Nachweis ergänzen
+```
