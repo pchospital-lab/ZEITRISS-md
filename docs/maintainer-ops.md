@@ -50,7 +50,7 @@ gesichert werden, um lange Sessions stabil zu halten.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
-- `systems/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
+- `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
 - **Repo-Agent:innen verpflichten sich, jede bestätigte Laufzeitänderung unmittelbar als Regelwerk, Prozessbeschreibung oder
   Pseudocode in den Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher). Nur so erreichen produktive GPTs
   denselben Funktionsumfang ohne lokale Skripte.

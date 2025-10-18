@@ -145,7 +145,7 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 `BRF` = docs/qa/tester-playtest-briefing.md  
 `CW` = systems/currency/cu-waehrungssystem.md  
 `GM` = gameplay/kreative-generatoren-missionen.md  
-`SR` = systems/runtime-stub-routing-layer.md
+`SR` = internal/runtime/runtime-stub-routing-layer.md
 
 README-Abschnittskürzel:  
 `R(QA)` = README §QA-Checks 2025-06-27  
