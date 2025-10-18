@@ -161,7 +161,8 @@ Hochstufen-Spielrunden.
 
 ## Beta-GPT 2025-07 – Save/HUD/Arena-Deltas (Update: 2025-10-20)
 
-- **Status:** Alle Issues #1–#15 sind laut QA-Fahrplan 1.8.0 und
+- **Status:** Alle Issues #1–#15 sind laut QA-Fahrplan 1.8.2 (fortgeschrieben
+  aus 1.8.0) und
   Beta-QA-Log 2025-07-20 abgeschlossen; README, Toolkit und HUD-Modul spiegeln
   Gate-/Badge-/City-Flows.
 - **Fahrplan:** Abschnitt „Maßnahmenpaket Beta-GPT 2025-07“ führt sämtliche
@@ -173,7 +174,7 @@ Hochstufen-Spielrunden.
 
 ## Beta-GPT 2025-07-18 – Save/HUD/Compliance-Regression (Update: 2025-10-20)
 
-- **Status:** Maßnahmen #1–#12 sind laut QA-Fahrplan 1.8.0 umgesetzt; HUD-Badges
+- **Status:** Maßnahmen #1–#12 sind laut QA-Fahrplan 1.8.2 umgesetzt; HUD-Badges
   (`SF-OFF`, `GATE 2/2`), Psi-Logs und Dispatcher-Hinweise wurden in Runtime,
   README, Toolkit und HUD-Modul gespiegelt.
 - **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-07-18“ markiert alle
@@ -187,7 +188,7 @@ Hochstufen-Spielrunden.
 
 ## Beta-GPT 2025-10-15 – Acceptance-/HUD-/Accessibility-Deltas (Update: 2025-10-20)
 
-- **Status:** Alle 15 Maßnahmen sind in QA-Fahrplan 1.8.0 als ✅ vermerkt; die
+- **Status:** Alle 15 Maßnahmen sind in QA-Fahrplan 1.8.2 als ✅ vermerkt; die
   Acceptance-Smoke umfasst wieder 15 Prüfschritte, das Save-Schema erzwingt
   `logs.foreshadow[]` und Arena-Phase-Marker, HUD & Dispatcher spiegeln den
   Auto-Reset von `SF-OFF`, Cinematic-Header und Accessibility-Dialog.
@@ -199,6 +200,23 @@ Hochstufen-Spielrunden.
 - **Evidenz:** Acceptance-Checkliste, HUD-Dumps und Dispatcher-Transkripte sind
     vorzubereiten. Ablage:
     [`internal/qa/evidence/2025-beta-gpt-evidenz.md`](../evidence/2025-beta-gpt-evidenz.md).
+
+## Beta-GPT 2025-10-28 – SaveGuard/HUD/Ökonomie-Deltas (Update: 2025-10-28)
+
+- **Status:** Alle 13 Maßnahmen sind laut QA-Fahrplan 1.8.2 als ✅ markiert;
+  `runtime.js` validiert HQ-DeepSaves inklusive Arena-Active-Blocker,
+  Paradoxon-Reset und Boss-DR-Toast, während README, Modul 12
+  (`systems/gameflow/speicher-fortsetzung.md`) und HUD-/Core-Sektionen die
+  getrennten Foreshadow-/Gate-Badges, Ökonomie-Formeln sowie das zusätzliche
+  Accessibility-Preset spiegeln.
+- **Fahrplan:** Tabelle „Maßnahmenpaket Beta-GPT 2025-10-28“ verweist auf die
+  aktualisierten Runtime- und Wissensmodule (RT, M12, HUD, Core) und verlinkt die
+  QA-Testreferenz (`!save` Minimal-HQ-Save).
+- **QA-Log:** Eintrag 2025-10-28 notiert das Audit-Update (dieser Abschnitt) und
+  hält die offene Evidenzübergabe der Maintainer:innen fest.
+- **Evidenz:** HUD-/Save-Dumps, Wallet-Splits und Arena-Guards bleiben im
+  Evidenz-Log (`internal/qa/evidence/2025-beta-gpt-evidenz.md`) als offene
+  Maintainer-Lieferung markiert.
 
 ## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-28)
 
