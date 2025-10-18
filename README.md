@@ -583,7 +583,9 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `!helper delay` – erklärt `DelayConflict` kurz.
 - `!helper comms` – erklärt `comms_check`, akzeptierte Geräte (lowercase) und
   die Meter/Kilometer-Normalisierung. Tipp: Terminal suchen / Comlink koppeln /
-  Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
+  Kabel/Relais nutzen / Jammer-Override aktivieren; `!offline` zeigt das
+  Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft. Reichweite
+  anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
 
 ### Runtime-State (Kurzreferenz)
@@ -1139,7 +1141,7 @@ Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen. **Hard Sci-Fi** bildet den nüchternen Grundton;
 alle weiteren Modi sind optionale Zusätze:
 | Modus           | Kurzbeschreibung |
-
+| ---             | --- |
 | **Hard Sci-Fi** | Bodennaher Stil ohne Visionen, nüchterne Technik. |
 | **Film**        | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Klassik**     | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
