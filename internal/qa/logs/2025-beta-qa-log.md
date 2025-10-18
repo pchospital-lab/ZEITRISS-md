@@ -6,6 +6,42 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-11-04 – Repo-Agent – Deepcheck-Fortsetzung & Fahrplan 1.8.7
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-02,
+  QA-Fahrplan 1.8.6 → 1.8.7
+- Auftrag: Deepcheck-Tabelle mit QA-Log 2025-11-03/04 synchronisieren,
+  Audit-Notiz anpassen und Wissensmodule auf QA-Hinweise prüfen.
+
+**Maßnahmen**
+1. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) auf Version 1.8.7
+   gehoben und die Deepcheck-Tabelle um die Sessions vom 2025-11-03 und
+   2025-11-04 ergänzt, damit Plan und QA-Log identische Referenzen führen.
+2. QA-Audit (`internal/qa/audits/ZEITRISS-qa-audit-2025.md`) um eine Kurznotiz
+   erweitert, die den neuen Deepcheck-Lauf dokumentiert und auf dieses Log
+   verweist.
+3. Wissensmodule (README, Toolkit, Systems-Module) stichprobenartig geprüft –
+   keine QA-Prüfanweisungen gefunden; Laufzeitinhalte bleiben unverändert.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+```
+
+**Ergebnisse**
+- Pflicht-Testpaket bleibt grün; Linter, Smoke- und Node-Tests bestätigen den
+  unveränderten Runtime-Stand.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.8.7 verweist auf diesen Logeintrag.
+- Audit führt die Deepcheck-Fortsetzung als Update 2025-11-04 und bleibt damit
+  mit Fahrplan und QA-Log synchron.
+
 ## 2025-11-03 – Repo-Agent – QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-02,
