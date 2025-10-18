@@ -635,6 +635,8 @@ Die Runtime spiegelt das Fenster parallel nach
 Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
 „SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Nach der Rückkehr ins HQ setzt `campaign.exfil`
 alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
+HQ-Saves akzeptieren ausschließlich volle Systemlast: `character.attributes.SYS_used` muss dem
+`SYS_max` entsprechen, sonst bricht `save_deep()` mit „SaveGuard: SYS nicht voll.“ ab.
 
 ### HUD-Shortcuts für Exfiltration
 

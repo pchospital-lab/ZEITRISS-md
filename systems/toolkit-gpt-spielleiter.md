@@ -327,7 +327,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`,
   markiert die Arena als aktiv, aktiviert SaveGuards (`save_deep` verweigert
   HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr, Szenario und Px-Status
-  aus.
+  aus. HQ-DeepSaves verlangen volle Systemlast (`SYS_used == SYS_max`), sonst
+  meldet die Runtime „SaveGuard: SYS nicht voll.“ und blockiert den Save.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
