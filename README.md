@@ -598,7 +598,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
   `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
   `fr_interventions:[], psi:[], flags:{} }`
-- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }`
+- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }` (`offene_seeds[]` akzeptiert Strings oder Objekte)
 - `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
   `suggest_mode:boolean, contrast:"standard"|"high",`
   `badge_density:"full"|"dense", output_pace:"normal"|"slow" }`
