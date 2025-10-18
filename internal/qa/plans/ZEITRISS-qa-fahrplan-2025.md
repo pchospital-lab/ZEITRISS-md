@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.2
+version: 1.8.4
 tags: [meta]
 ---
 
@@ -79,8 +79,11 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
 ## Arbeitsstränge & Ziele
 
-- **Dokumentation & Index** – README, Repo-Map und `master-index.json` verweisen
-  konsistent auf Audit, Fahrplan und QA-Log.
+- **Dokumentation & Index** – README, Repo-Map und `master-index.json` halten
+  die Runtime-Referenz schlank. *Stand 2025-10-31:* Die Dokumenten-Landkarte
+  verweist ausschließlich auf runtime-relevante Module; QA-Artefakte bleiben in
+  `internal/qa/` dokumentiert und werden außerhalb des Wissensspeichers
+  gepflegt.
 - **Beitragsprozesse** – `CONTRIBUTING.md` und `AGENTS.md` spiegeln den aktuellen
   QA-Workflow.
 - **Tests & Automation** – Makefile- und Script-Läufe sind dokumentiert; Smoke-
