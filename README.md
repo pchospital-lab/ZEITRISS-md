@@ -314,42 +314,53 @@ Spiel starten (gruppe schnell)
 
 ## Abnahme-Smoketest (Dispatcher) {#abnahme-smoketest}
 
+Die vollständige 15-Punkte-Abnahme steht im
+[Tester-Briefing](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
+Hier stehen nur die Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows
+kennen, ohne von QA-Anweisungen abgelenkt zu werden.
+
 ### Dispatcher-Starts & Speicherpfade
-1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
-2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
-3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
-4. `Spiel starten (npc-team 5)` → Fehlermeldung „Teamgröße 0–4 …“
-5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
-6. `Spiel starten (gruppe 3)` → Fehlermeldung „Bei *gruppe* keine Zahl …“
-7. `Spiel laden` + kompatibler Save → **kein** klassisch/schnell; **Kodex-Recap-Overlay** → HQ/Briefing
-8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
-9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
-10. „Px 5“ triggern → Hinweis: Seeds erzeugt, **spielbar nach Episodenende**, danach Reset
+
+- **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
+  `gruppe` plus die Zusätze `klassisch` oder `schnell`. `npc-team` verlangt eine
+  Zahl `0–4`, `gruppe` ignoriert Zahlen. Ungültige Kombinationen liefern die
+  passenden Fehltexte.
+- **Briefing & Schnellstart.** `Spiel starten (solo)` führt direkt ins Briefing
+  der aktuellen Episode. `klassisch` blendet Auswahlmenüs ein, `schnell`
+  überspringt sie. NPC-Teams werden bei Bedarf automatisch erzeugt und skaliert.
+- **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
+  aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
+- **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
+  „Speichern nur im HQ …“ und hält die Mission aktiv.
+- **Gear-Aliasse & Px.** Alias-Befehle gleichen Schreibvarianten aus (z. B.
+  „Multi-Tool-Armband“ → „Multi-Tool-Handschuh“). Erreicht der Paradoxon-Index
+  Px 5, informiert der Kodex, dass neue Seeds erst nach Episodenende spielbar
+  sind und danach zurückgesetzt werden.
 
 ### Boss-Gates & HUD-Badges
-11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10,
-    HUD-Toast `Gate blockiert – Gate 0/2` bis Hinweise erfüllt.
-12. Mission 5 starten → HUD blendet den Encounter-Hinweis
-    `Boss-Encounter in Szene 10` sowie das Gate-Badge `GATE 2/2` ein;
-    `SF-OFF` bleibt sichtbar, wenn Self-Reflection zuvor deaktiviert wurde.
-    Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In Szene 10
-    zeigt das HUD `Boss-DR aktiviert – −2 Schaden pro Treffer` (Mini-Boss);
-    Mission 10 meldet `−3 Schaden`. Im Debrief setzt die Runtime
-    Self-Reflection bei Missionsende (`completed` **oder** `aborted`) auf
-    `SF-ON` zurück.
+
+`!helper boss` listet Foreshadow-Hinweise für Mission 5 und Mission 10, solange
+das Gate blockiert ist (`Gate 0/2`). Sobald Mission 5 startet, blendet das HUD
+das Gate-Badge `GATE 2/2` und den Hinweis „Boss-Encounter in Szene 10“ ein. Der
+Foreshadow-Zähler beginnt bei `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und zählt pro
+Hinweis hoch. In Szene 10 erscheint automatisch der Toast mit dem aktiven
+Boss-Schadensreduktionswert (`−2` bei Mini-Bossen, `−3` bei Endbossen). Nach dem
+Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig davon,
+ob die Mission abgeschlossen oder abgebrochen wurde.
 
 ### Psi-Heat & Ressourcen-Reset
-13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
-    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0,
-    HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
+
+Psi-Aktionen erhöhen `Psi-Heat` pro Konflikt. Nach jedem Konflikt springt der
+Wert auf 0. Transfers zurück ins HQ setzen zusätzlich SYS-Auslastung, Stress und
+Psi-Heat auf die gespeicherten Grundwerte zurück.
 
 ### Accessibility & UI-Persistenz
-14. `!accessibility` auslösen → Dialog öffnet sich, Auswahl `High Contrast`
-    + `Badges dense` + `Output pace slow` bestätigen → HUD-Toast
-    „Accessibility aktualisiert …“ erscheint; Save-Preview zeigt die
-    aktualisierten UI-Felder.
-15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
-    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+
+Der Befehl `!accessibility` öffnet das UI-Panel (Kontrast, Badge-Dichte,
+Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“
+und schreibt die Auswahl in den Save. Beim erneuten Laden stehen die Werte mit
+`contrast: high`, `badge_density: dense`, `output_pace: slow` (oder den gewählten
+Alternativen) sofort wieder bereit.
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
