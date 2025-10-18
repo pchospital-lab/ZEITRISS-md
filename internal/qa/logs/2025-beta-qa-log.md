@@ -6,6 +6,37 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-10-29 – Repo-Agent – Wissensmodule entschlackt
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-29,
+  QA-Fahrplan 1.8.2
+- Copy-&-Paste-Auftrag: QA-Fahrplan Schritt „Wissensspiegel“ befolgen,
+  QA-Hinweise aus produktiven Wissensmodulen minimieren, ohne Runtime-Spiegel zu verlieren.
+
+**Maßnahmen**
+1. README (`README.md`) überarbeitet und QA-spezifische Formulierungen in den
+   Runtime-Kapiteln neutralisiert (Operator-Setup, Save v6, Debrief-Logs), damit
+   produktive GPTs ohne Prüfhinweise arbeiten können.
+2. Beispielworkflow präzisiert: Upload-Protokollierung bleibt erhalten,
+   Abnahme-Smoke wird als optionaler Test ausgewiesen.
+3. Logbuch (dieser Eintrag) dokumentiert die Anpassung gemäß QA-Fahrplan
+   „Wissensspiegel“.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+```
+
+**Nachverfolgung**
+- README spiegelt weiterhin alle Runtime-Guards, verzichtet aber auf
+  störende QA-Anweisungen in Wissensmodulen.
+- Weitere Evidenzen werden nicht benötigt; keine offenen Punkte.
+
 ## 2025-10-28 – Tester: Beta-GPT – Save/HUD/Arena-Divergenzen
 - Plattform: Beta-GPT (Remote-Lauf via Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21,
