@@ -4555,7 +4555,9 @@ function StartMission(){
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: 12 };
   const runtimeFlags = ensure_runtime_flags();
-  runtimeFlags.skip_entry_choice = false;
+  if (runtimeFlags.skip_entry_choice !== true){
+    runtimeFlags.skip_entry_choice = false;
+  }
   if (state.campaign?.px_reset_confirm){
     hud_toast('Paradoxon-Reset abgeschlossen – Px 0/5.', 'PX');
     delete state.campaign.px_reset_confirm;

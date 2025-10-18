@@ -2753,8 +2753,8 @@ Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf,
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
-  sofort das HUD-Overlay zurück, setzt `skip_entry_choice=false`, markiert Gate-Missionen (5/10)
-  und spielt bei Bedarf den Boss-Toast (`BOSS`).
+  sofort das HUD-Overlay zurück, übernimmt ein gesetztes `skip_entry_choice=true`, markiert
+  Gate-Missionen (5/10) und spielt bei Bedarf den Boss-Toast (`BOSS`).
 - Direkt danach `DelayConflict(4)`; Transfer-Frame zeigen und HUD-Header
   EP·MS·SC/total·Mode·Objective setzen.
 
@@ -2770,8 +2770,9 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
   - Setzt unmittelbar nach `hydrate_state()` `SkipEntryChoice()`, damit der
     Einstieg übersprungen wird.
-  - `StartMission()` ruft intern `AllowEntryChoice()` auf und aktiviert die
-    Auswahl beim nächsten Kampagnenstart erneut.
+  - `StartMission()` setzt `skip_entry_choice` nur dann auf `false`, wenn kein
+    Überspringen dokumentiert ist; nach einem aktiven `SkipEntryChoice()` bleibt
+    der Nachweis erhalten.
 
 ### Mission Resolution
 
