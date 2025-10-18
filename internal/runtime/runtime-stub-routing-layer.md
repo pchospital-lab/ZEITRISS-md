@@ -193,8 +193,10 @@ Content-Type: application/json
 markiert den aktiven Ablauf (z. B. `preserve`, `trigger`, `pvp`). Der Block
 `arena` notiert Laufzustand, Phase (`idle`/`active`/`completed`), Moduswechsel,
 Budget-Limits und Episodenstempel für den Px-Bonus. `logs.psi` speichert die
-jüngsten Phase-Strike-Traces mit Basis-, Tax- und Gesamtwert, aktuellem Modus
-und `mode_previous`, damit QA Cross-Mode-Evidenz nachverfolgt. `logs.alias_trace`
+jüngsten Phase-Strike-Traces (`ability='phase_strike'`, `base_cost`, `tax`,
+`total_cost`, `mode`, `arena_active` plus optionale Felder wie
+`mode_previous`/`location`/`gm_style`/`reason`), damit QA Cross-Mode-Evidenz
+nachverfolgt. `logs.alias_trace`
 hält Alias-Läufe (Persona, Cover, Status, Szene/Mission) fest, während
 `logs.squad_radio` Funkmeldungen mit Sprecher, Kanal, Status und optionaler
 Szene/Ort loggt – beide erscheinen im Debrief als `Alias-Trace (n×)` bzw.

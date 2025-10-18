@@ -287,16 +287,21 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
   und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
-  blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status.
+  blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
+  Kostenabfrage schreibt via `log_phase_strike_event()` einen Eintrag in `logs.psi[]`
+  (`ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`, `arena_active`, optional
+  `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
+  den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
+  (z. B. Solo→PvP) transparent zu protokollieren.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
 > HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
 > `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime spiegelt ihr den Badge per
 > `hud_tag('GATE ' ~ seen ~ '/2')` manuell, damit HUD und Save denselben Gate-Snapshot behalten.
 
-> **Runtime-Hinweis:** `phase_strike_cost()` loggt in der Node-Runtime jede Phase-Strike-Steuer
-> als Objekt in `logs.psi[]` (`type: 'phase_strike_tax'`, `amount`, `scene`). Die Spielleitung
-> hält dieselben Daten fest, wenn sie den Arena-Flow ohne Runtime-Stubs ausführt.
+> **Runtime-Hinweis:** `phase_strike_cost()` ruft intern `log_phase_strike_event()` auf. Ohne
+> laufende Runtime übernimmt ihr denselben Logger-Aufbau manuell, damit Ability, Basiswert,
+> Steuer, Gesamtwert und Modus im Saveblock identisch erscheinen.
 
 #### Schnittstellen (Foreshadow & Arena)
 
