@@ -1045,27 +1045,60 @@ function gatherArenaPlayers() {
   return players;
 }
 
-function readArenaCurrency() {
-  const economy = ensure_economy();
-  const keys = ['credits', 'cu', 'balance', 'assets'];
-  for (const key of keys) {
-    const value = Number(economy[key]);
-    if (Number.isFinite(value)) {
-      return { key, value: Math.max(0, value) };
+const ECONOMY_PRIMARY_KEYS = ['credits', 'cu', 'balance', 'assets'];
+
+function normalize_primary_currency(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return null;
+  const rounded = Math.round(numeric);
+  return rounded < 0 ? 0 : rounded;
+}
+
+function resolve_primary_currency(economy) {
+  if (!economy || typeof economy !== 'object') return 0;
+  for (const key of ECONOMY_PRIMARY_KEYS) {
+    if (!(key in economy)) continue;
+    const normalized = normalize_primary_currency(economy[key]);
+    if (normalized !== null) {
+      return normalized;
     }
   }
-  if (!Number.isFinite(Number(economy.credits))) {
-    economy.credits = 0;
+  return 0;
+}
+
+function sync_primary_currency(economy, override) {
+  if (!economy || typeof economy !== 'object') return 0;
+  let amount = override !== undefined ? normalize_primary_currency(override) : null;
+  if (amount === null) {
+    amount = resolve_primary_currency(economy);
   }
-  return { key: 'credits', value: 0 };
+  if (amount === null) {
+    amount = 0;
+  }
+  economy.cu = amount;
+  economy.credits = amount;
+  return amount;
+}
+
+function readArenaCurrency() {
+  const economy = ensure_economy();
+  for (const key of ECONOMY_PRIMARY_KEYS) {
+    if (!(key in economy)) continue;
+    const normalized = normalize_primary_currency(economy[key]);
+    if (normalized !== null) {
+      return { key, value: normalized };
+    }
+  }
+  const synced = sync_primary_currency(economy);
+  return { key: 'credits', value: synced };
 }
 
 function writeArenaCurrency(key, value) {
   const economy = ensure_economy();
-  economy[key] = value;
-  if (key !== 'credits' && economy.credits === undefined) {
-    economy.credits = value;
-  }
+  const normalized = normalize_primary_currency(value);
+  const amount = normalized === null ? 0 : normalized;
+  economy[key] = amount;
+  sync_primary_currency(economy, amount);
 }
 
 function getArenaFee(currency = 0) {

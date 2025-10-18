@@ -531,7 +531,9 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
   setzt `phase_strike_tax = 1`, blockiert HQ-Saves, loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier,
-  Szenario sowie Px-Status per HUD-Toast.
+  Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool (`economy.cu`) und im
+  Credits-Fallback (`economy.credits`) verbucht; `sync_primary_currency()` hält beide Felder deckungsgleich und
+  synchronisiert beim Laden vorhandene Saves auf diesen Stand.
 
 ## Mini-FAQ
 
@@ -1121,7 +1123,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben
   vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie
   gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt
-  werden.
+  werden. Alle Anpassungen am HQ-Pool spiegeln `economy.credits` automatisch,
+  damit Arena- und Tool-Fallbacks denselben Kontostand sehen.
 - **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
   landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
   die Wallet-Verteilung.
