@@ -110,7 +110,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
   `npm run lint:links` und `npm run lint:md` aus)
 - `make test`
-- `bash scripts/smoke.sh`
+- `bash scripts/smoke.sh` (inkl. `node tools/test_alias_trace.js` für Alias-/Funk-Logs)
 - `python3 tools/lint_runtime.py`
 - `GM_STYLE=verbose python3 tools/lint_runtime.py`
 - `python3 scripts/lint_doc_links.py`

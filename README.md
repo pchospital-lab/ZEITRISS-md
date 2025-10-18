@@ -555,7 +555,9 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 
 - **DelayConflict(threshold=4, allow=[])** – Verzögert Konfliktszenen bis zur Szene
   `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
-  (Minimum: Szene 2). `allow` kann frühe `ambush`/`vehicle_chase` freigeben.
+  (Minimum: Szene 2). `allow` bleibt standardmäßig leer; setze z. B.
+  `allow='ambush|vehicle_chase'`, wenn frühe Überfälle oder Verfolgungen erlaubt
+  sein sollen.
 - **comms_check(device, range_m, …)** – Pflicht vor `radio_tx/rx`:
   akzeptiert `device` (`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung
   egal) und eine Reichweite in Metern. Optional nimmt der Guard `range_km`,

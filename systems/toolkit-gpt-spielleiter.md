@@ -957,10 +957,11 @@ if campaign.scene < 10:
   {% endif %}
 {%- endmacro %}
 Rufe `DelayConflict(4)` direkt nach `StartMission()` auf, ohne den Makroaufruf
-anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Optional erlaubt
-`DelayConflict(4, allow='ambush|vehicle_chase')` (oder `ambush,vehicle_chase`)
-frühe Überfälle oder Verfolgungen. Missions-Tags `heist` oder `street`
-senken das Limit automatisch um jeweils eine Szene (Minimum: Szene 2).
+anzuzeigen, um Konflikte erst ab Szene 4 zuzulassen. Standardmäßig bleibt
+`allow` leer; gib etwa `DelayConflict(4, allow='ambush|vehicle_chase')` (oder
+`ambush,vehicle_chase`) an, wenn frühe Überfälle oder Verfolgungen erlaubt sein
+sollen. Missions-Tags `heist` oder `street` senken das Limit automatisch um
+jeweils eine Szene (Minimum: Szene 2).
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce() -%}
@@ -1578,7 +1579,7 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
 {%- endmacro %}
 
 {% macro helper_delay() -%}
-DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.
+DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.
 {%- endmacro %}
 {% macro helper_comms() -%}
 comms_check(device,range_m,range_km?): Pflicht vor radio_tx/rx.
