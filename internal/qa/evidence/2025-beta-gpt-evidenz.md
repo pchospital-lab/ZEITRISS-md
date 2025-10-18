@@ -6,6 +6,9 @@ tags: [meta, qa]
 
 # QA-Evidenz – Beta-GPT Läufe 2025
 
+**Evidenzstand:** Alle Auszüge spiegeln den freigegebenen Build **4.2.2**
+(`zr_version`/`runtime_version`).
+
 Dieses Protokoll listet die für die Beta-GPT-Regressionsläufe geforderten
 Nachweise. Seit 2025-11-05 liefern die Maintainer:innen den Beta-GPT-Testprompt
 als JSON-Block, spiegeln ihn in einer zweiten ZEITRISS-Instanz und übergeben
@@ -26,19 +29,19 @@ abgeschlossen; die Nachweise stammen aus dem JSON-Hand-off 2025-11-05.
 {
   "before": {
     "save_version": 5,
-    "zr_version": "4.2.1",
+    "zr_version": "4.2.2",
     "ui": { "intro_seen": 0 },
     "campaign": {
       "mode": "preserve",
       "exfil": { "active": true, "sweeps": 1, "anchor": "Atlas-Korridor" }
     },
     "logs": {
-      "flags": { "runtime_version": "4.2.1", "chronopolis_warn_seen": "false" }
+      "flags": { "runtime_version": "4.2.2", "chronopolis_warn_seen": "false" }
     }
   },
   "after": {
     "save_version": 6,
-    "zr_version": "4.2.1",
+    "zr_version": "4.2.2",
     "ui": {
       "intro_seen": false,
       "gm_style": "verbose",
@@ -59,7 +62,7 @@ abgeschlossen; die Nachweise stammen aus dem JSON-Hand-off 2025-11-05.
     },
     "logs": {
       "flags": {
-        "runtime_version": "4.2.1",
+        "runtime_version": "4.2.2",
         "chronopolis_warn_seen": true,
         "foreshadow_gate_progress": 0,
         "foreshadow_gate_snapshot": 0
@@ -190,7 +193,7 @@ QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-15“.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.0",
+  "zr_version": "4.2.2",
   "party": {
     "characters": [
       { "id": "alpha", "callsign": "Alpha", "stress": 0, "psi_heat": 0 },
@@ -212,7 +215,7 @@ QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-15“.
     "phase_strike_tax": 0
   },
   "flags": {
-    "runtime_version": "4.2.0",
+    "runtime_version": "4.2.2",
     "compliance_shown_today": false,
     "foreshadow_gate_progress": 0
   }

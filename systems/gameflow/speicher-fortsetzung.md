@@ -487,9 +487,9 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 - `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
 - `DelayConflict(4)` – verschiebt Konfliktszenen bis zur vierten Szene.
 - `ShowComplianceOnce()` – blendet den täglichen Compliance-Hinweis ein und soll
-  `logs.flags.compliance_shown_today=true` setzen. Das automatische Markieren von
-  `flags.runtime.skip_entry_choice=true` muss noch in den verfügbaren Toolkit-
-  bzw. Makro-Pfaden implementiert werden, da `runtime.js` nicht geladen wird.
+  `logs.flags.compliance_shown_today=true` setzen. `SkipEntryChoice()` markiert
+  parallel `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das
+  Flag unverändert in den Einsatz.
 - `Chronopolis-Warnung` – `start_chronopolis()` blendet das einmalige Warn-Popup
   ein und setzt `logs.flags.chronopolis_warn_seen=true`, damit die Sequenz nach
   dem ersten Besuch stumm bleibt.
@@ -1174,7 +1174,7 @@ niemand wird dupliziert.
 - **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
   1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today`; `SkipEntryChoice()`
   setzt parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg
-  dokumentiert ist.
+  dokumentiert bleibt – `StartMission()` respektiert ein bereits gesetztes Flag.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
