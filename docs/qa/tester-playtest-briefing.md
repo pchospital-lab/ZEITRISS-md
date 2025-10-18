@@ -81,17 +81,24 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > Bündle die Ergebnisse in klaren Abschnitten und halte einen straffen, erwachsenen Agenten-Thriller-
 > Ton ohne Abschweifungen.
 >
-> Prüfe Save/Load mit dem aktuellen `saveGame`-Schema (inkl. `zr_version`, `Charakter`-Blöcken,
-> `Kodex`-Einträgen und optionalem `arc_dashboard`), kontrolliere HQ-Briefing-Schleifen,
+> Prüfe Save/Load mit dem aktuellen `saveGame`-Schema (Pflichtfelder laut Speicher-Modul:
+> `save_version`, `zr_version`, `location`, `phase`, `campaign`, `character`, `economy`
+> inklusive `wallets{}`, `logs` mit `artifact_log`, `market`, `offline`, `kodex`,
+> `alias_trace`, `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `hud`, `flags`
+> sowie `ui`, `arena`; optional `arc_dashboard`), kontrolliere HQ-Briefing-Schleifen,
 > Accessibility-Dialoge, Offline-Hinweise sowie Ask→Suggest- und Kodex-Kommandos. Cross-Mode-Saves
 > müssen getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und Konflikte
 > kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder Regelunklarheit.
 >
 > Hänge an deine Antwort einen Abschnitt `Test-Save (JSON)` an. Er enthält einen vollständig
-> ausgefüllten `saveGame`-Block mit Dummy-Testdaten (inklusive `zr_version`, `session_title`,
-> `summary`, `open_tasks`, `next_contact`, `messages` sowie passenden Kodex- und Charakterwerten),
-> den wir direkt in eine neue ZEITRISS-Instanz importieren können. Gib den Block in einem
+> ausgefüllten `saveGame`-Block mit Dummy-Testdaten auf Basis des kanonischen Schemas
+> (`save_version`, `zr_version`, `location`, `phase`, `campaign`, `character`, `economy`
+> inkl. `wallets{}`, `logs` mit `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
+> `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `hud`, `flags`, dazu `ui`, `arena`,
+> optional `arc_dashboard`) sowie passende Kodex- und Charakterwerte. Gib den Block in einem
 > ```json```-Snippet aus, damit der automatische Abgleich ohne Nachbearbeitung möglich ist.
+> Zusatzfelder, die ausschließlich für nachgelagerte Tools gedacht sind, dürfen angehängt werden,
+> müssen aber das Save-Schema nicht verletzen und werden vom Serializer ansonsten ignoriert.
 >
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben durch: Starte mit
 > `Gate 2/2`, beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und den HUD-Zähler (`FS 0/4`) und halte den
