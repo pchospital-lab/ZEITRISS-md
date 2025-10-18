@@ -9,7 +9,7 @@ tags: [meta]
 ## 2025-10-28 – Tester: Beta-GPT – Save/HUD/Arena-Divergenzen
 - Plattform: Beta-GPT (Remote-Lauf via Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21,
-  QA-Fahrplan 1.8.1
+  QA-Fahrplan 1.8.2 (aktualisiert am 2025-10-28)
 - Copy-&-Paste-Auftrag: Neues Maßnahmenpaket (Issues #1–#13) für HQ-DeepSave,
   HUD-/Arena-Guards, Ökonomie und Comms-Regelblock anlegen, Fahrplan & Audit
   verlinken.
@@ -40,8 +40,9 @@ tags: [meta]
 **To-dos**
 - [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-28“ mit Issues #1–#13
   anlegen (Status „🟠 offen“).
-- [ ] Audit: Befundliste übernehmen und Referenzen mit Modul-Updates
-  synchronisieren.
+- [x] Audit: Befundliste übernehmen und Referenzen mit Modul-Updates
+  synchronisieren. → Audit-Update 2025-10-28 verlinkt alle 13 Maßnahmen
+  (QA-Fahrplan 1.8.2).
 - [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-/Save-Dumps,
   Wallet-Splits, Arena-Guards) nach Umsetzung nach.
 
@@ -51,19 +52,21 @@ tags: [meta]
   protokolliert Warnung.
 
 **Nachverfolgung**
-- QA-Fahrplan 1.8.1 listet das neue Maßnahmenpaket und verweist auf dieses
+- QA-Fahrplan 1.8.2 listet das neue Maßnahmenpaket und verweist auf dieses
   Log.
 - Audit-Update folgt nach Umsetzung der offenen Punkte.
 
 ## 2025-10-21 – Repo-Agent – Beta-GPT 2025-10-15 Nacharbeiten validiert
 - Plattform: Lokale CI-Simulation
-- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21, QA-Fahrplan 1.8.1
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-21,
+  QA-Fahrplan 1.8.2 (Fortschreibung aus 1.8.1)
 - Copy-&-Paste-Auftrag: Fahrplan-Eintrag für die Live-Nacharbeiten ergänzen,
   Beta-GPT-Checks (Acceptance 1–15, Funkgeräte, Compliance-Makro, Save-Schema) erneut
   gegen Runtime & Wissensmodule spiegeln.
 
 **Maßnahmen**
-1. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) auf Version 1.8.1 gehoben,
+1. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) auf Version 1.8.1 gehoben
+   (weitergeführt als 1.8.2),
    neuen Deepcheck-Eintrag `2025-10-21` ergänzt und im Maßnahmenpaket 2025-10-15 den
    Abschlussstand 2025-10-21 dokumentiert.
 2. Runtime (`runtime.js`): `set_self_reflection()` absichert nun nach `ensure_logs()` auch
@@ -89,7 +92,7 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 - Zusatzläufe (`scripts/smoke.sh`, Runtime-Linter, Link-/Umlaut-Checks) bleiben ohne Befund.
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.8.1 verweist auf diesen Logeintrag und markiert die Beta-GPT
+- QA-Fahrplan Version 1.8.2 verweist auf diesen Logeintrag und markiert die Beta-GPT
   Nacharbeiten als validiert.
 - Maintainer:innen liefern weiterhin Evidenzen laut Einträgen 2025-10-15/20 nach.
 
@@ -117,17 +120,18 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 15. Cinematic-Start stellt initialen HUD-Header nicht zwingend her.
 
 **To-dos**
-- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen. → QA-Fahrplan 1.8.0 dokumentiert alle Punkte als abgeschlossen.
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen. → QA-Fahrplan 1.8.2 (fortgeschrieben aus 1.8.0) dokumentiert alle Punkte als abgeschlossen.
 - [x] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit aktualisieren. → Audit-Update vom 20.10.2025 ergänzt die neuen Abschnitte.
 - [ ] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-Transkripte) nach Umsetzung. → Nachweise werden im Evidenz-Log `internal/qa/evidence/2025-beta-gpt-evidenz.md` gesammelt.
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.8.0 führt das Maßnahmenpaket als abgeschlossen; Audit- und Evidenz-Aktualisierung laufen über die neuen Abschnitte.
+- QA-Fahrplan Version 1.8.2 führt das Maßnahmenpaket als abgeschlossen; Audit- und Evidenz-Aktualisierung laufen über die neuen Abschnitte.
 - README, Toolkit und Save-Module spiegeln die Kapitel (Stand 2025-10-20); offene Evidenzen bleiben im Evidenz-Log markiert.
 
 ## 2025-10-20 – Repo-Agent – Smoke-/Lint-Check & Offene Punkte
 - Plattform: Lokale CI-Simulation
-- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-15, QA-Fahrplan 1.8.0
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-10-15,
+  QA-Fahrplan 1.8.2 (Fortschreibung aus 1.8.0)
 - Copy-&-Paste-Auftrag: Pflicht-Testpaket erneut verifizieren, QA-Dokumente auf
   Restarbeiten prüfen.
 
@@ -155,7 +159,7 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
   jüngsten Beta-GPT-Runs; Vorlage siehe `internal/qa/evidence/2025-beta-gpt-evidenz.md`.
 
 **Nachverfolgung**
-- QA-Fahrplan 1.8.0 bestätigt den Abschluss aller Beta-GPT-Maßnahmenpakete; Audit-Update und
+- QA-Fahrplan 1.8.2 bestätigt den Abschluss aller Beta-GPT-Maßnahmenpakete; Audit-Update und
   QA-Evidenz bleiben als nächste Schritte offen.
 
 ## 2025-07-20 – Repo-Agent – Beta-GPT 2025-07-18 Maßnahmen umgesetzt
@@ -303,7 +307,7 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 15. City/Chronopolis-Module haben keinen dedizierten Acceptance-Smoke-Test.
 
 **To-dos**
-- [x] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen. → Erledigt in QA-Fahrplan 1.8.0 (§„Maßnahmenpaket Beta-GPT 2025-07“).
+- [x] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen. → Erledigt in QA-Fahrplan 1.8.2 (§„Maßnahmenpaket Beta-GPT 2025-07“).
 - [x] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan + README/Toolkit). → Update 2025-10-20 im QA-Audit dokumentiert.
 - [ ] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-Smokes) nach Umsetzung. → Ablage vorbereitet unter `internal/qa/evidence/2025-beta-gpt-evidenz.md`.
 
