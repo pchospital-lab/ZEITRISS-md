@@ -260,9 +260,12 @@ schließt die Beobachtung.
    abstimmen.
 4. **Tooling-Abgleich:** `.markdownlint.yaml` (Zeilenlänge 100, Frontmatter-Ausnahmen)
    und `.prettierrc.json` (Doc-only Overrides) sind produktiv eingebunden.
-   `make lint` ruft `npm run lint:md` (Python-Skript auf Basis der Markdownlint-
-   Regeln) für QA-Plan, QA-Audit und QA-Index auf; der Pre-Commit-Hook
-   `markdownlint` verweist auf dieselbe Konfiguration. Optionales
+   `make lint` ruft der Reihe nach `npm run lint:rt`, `GM_STYLE=verbose npm run
+   lint:rt`, `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
+   `npm run lint:links` und `npm run lint:md` auf. Das Markdownlint-Skript
+   basiert auf der Python-Implementierung der `.markdownlint.yaml` und prüft QA-
+   Plan, QA-Audit und QA-Index; der Pre-Commit-Hook `markdownlint` verweist auf
+   dieselbe Konfiguration. Optionales
    `npm run format:docs:check` steht für
    Dokumentations-Reviews bereit (Prettier lokal installieren, falls benötigt).
 

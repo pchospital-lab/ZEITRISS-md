@@ -217,7 +217,8 @@ Vor der Spiegelung auf produktive Plattformen sind die folgenden Schritte
 abzuschließen und im QA-Log zu dokumentieren:
 
 1. **Repository-Prüfungen**
-   - `make lint` (inkl. Markdownlint für Wissensmodule)
+   - `make lint` (inkl. doppeltem Runtime-Lint, Doc-Link- und Umlaut-Checks sowie
+     Markdownlint für Wissensmodule)
    - `make test`
    - `npm run test:hud`
    - `npm run test:debrief`

@@ -45,6 +45,8 @@ referenziert:
 
 Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
+`make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
+Checks in einem Schritt.
 
 ## Rollen & Übergabe
 
