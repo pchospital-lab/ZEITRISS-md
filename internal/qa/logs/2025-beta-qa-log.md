@@ -1,10 +1,40 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.0
+version: 0.4.1
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-11-02 – Repo-Agent – Wissensmodule entschlackt
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-02,
+  QA-Fahrplan 1.8.5
+- Auftrag: QA-Fahrplan-Vorgabe „Wissensmodule ohne störende QA-Anweisungen“
+  überprüfen und verbleibende Hinweise in den Laufzeitmodulen neutralisieren.
+
+**Maßnahmen**
+1. README-Schnellstart aktualisiert: Self-Reflection-Block erklärt den Toggle vor
+   Mission 5 ohne Verweis auf Acceptance-Schritte, Fokus liegt auf HUD/Overlay.
+2. Dispatcher-Abschnitt betont, dass die 15-Schritte-Liste optional im
+   Dispatcher-Briefing liegt; Quick-Hilfe-Abschnitt verweist nur noch bei Bedarf
+   auf den vollständigen manuellen Check.
+3. Laufzeitwissen bleibt unverändert, weitere Module enthielten keine
+   störenden QA-Instruktionen.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+```
+
+**Nachverfolgung**
+- README bündelt weiterhin alle Laufzeitabläufe ohne QA-Sprech.
+- QA-Fahrplan-Ziel „Wissensmodule entschlackt“ bleibt erfüllt.
 
 ## 2025-11-01 – Repo-Agent – Deepcheck-Sync & Fahrplan 1.8.5
 - Plattform: Lokale CI-Simulation
