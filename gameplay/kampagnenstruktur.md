@@ -1463,8 +1463,10 @@ auszulösen, das andere möchte es verhindern. Gespielt wird direkt die
 entscheidende Showdown-Szene.
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
-   Vermögens**. Vor dem Start legen die Teilnehmenden ihre gewünschte
-   Teamgröße fest.
+   Vermögens**. Kodex zieht den Betrag aus dem primären Economy-Feld und
+   spiegelt ihn via `sync_primary_currency()` sofort auf `economy.cu` und
+   `economy.credits`, damit HQ-Pool und Credits-Fallback identische Werte führen.
+   Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
 2. **Szenario-Setup:** Kodex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die
    Ausgangslage. Auf Wunsch wählt er eine Kulisse über den

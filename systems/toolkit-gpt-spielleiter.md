@@ -324,11 +324,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Dokumentiere Gate-Badge (`GATE 2/2` im HUD) und Saisonstand (`Mission FS 0/4` nach dem Reset) für eure Einsatznotizen.
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
   (1–6) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
-  `economy`, setzt `state.campaign.mode = 'pvp'`, `phase_strike_tax = 1`,
-  markiert die Arena als aktiv, aktiviert SaveGuards (`save_deep` verweigert
-  HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr, Szenario und Px-Status
-  aus. HQ-DeepSaves verlangen volle Systemlast (`SYS_used == SYS_max`), sonst
-  meldet die Runtime „SaveGuard: SYS nicht voll.“ und blockiert den Save.
+  `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
+  `economy.cu` und `economy.credits`, setzt `state.campaign.mode = 'pvp'`,
+  `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
+  (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
+  Szenario und Px-Status aus. HQ-DeepSaves verlangen volle Systemlast
+  (`SYS_used == SYS_max`), sonst meldet die Runtime „SaveGuard: SYS nicht voll.“
+  und blockiert den Save.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.

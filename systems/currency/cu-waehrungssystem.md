@@ -35,6 +35,21 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
+### HQ-Pool & Credits-Fallback
+
+- `economy.cu` bildet das offizielle HQ-Hauptkonto. Das Fallback-Feld `economy.credits` sichert
+  Legacy-Saves ab, die nur einen generischen Credit-Wert führen.
+- `sync_primary_currency()` sorgt nach jeder Buchung dafür, dass beide Felder denselben Betrag tragen.
+  Der Helper ermittelt den gültigen Wert anhand der Primärschlüssel (`credits`, `cu`, `balance`,
+  `assets`) und setzt anschließend `economy.cu` **und** `economy.credits` auf den ermittelten Betrag.
+- `writeArenaCurrency()` nutzt `sync_primary_currency()`, damit Arena-Gebühren, Wallet-Splits und
+  Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert der
+  Helper divergierende Saves automatisch.
+
+So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` jederzeit auf konsistente
+Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich immer auf beide
+Felder aus und verhindern Ghost-Guthaben in den Ingame-Dialogen.
+
 Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**:
 Basiswaffe, Werkzeug, **AR-Kontaktlinse (Retina-HUD)** und **Comlink
 (Ohrstöpsel, ≈ 2 km)**. Beide Geräte sind energieautark (Kinetik +

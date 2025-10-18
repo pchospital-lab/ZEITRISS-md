@@ -1559,13 +1559,54 @@ function set_accessibility_option(option, value){
   return accessibility_status();
 }
 
+const ECONOMY_PRIMARY_KEYS = ['credits', 'cu', 'balance', 'assets'];
+
+function normalize_primary_currency(value){
+  const numeric = asNumber(value);
+  if (numeric === null) return null;
+  const rounded = Math.round(numeric);
+  return rounded < 0 ? 0 : rounded;
+}
+
+function resolve_primary_currency(economy){
+  if (!economy || typeof economy !== 'object'){
+    return 0;
+  }
+  for (const key of ECONOMY_PRIMARY_KEYS){
+    if (!(key in economy)) continue;
+    const normalized = normalize_primary_currency(economy[key]);
+    if (normalized !== null){
+      return normalized;
+    }
+  }
+  return 0;
+}
+
+function sync_primary_currency(economy, override){
+  if (!economy || typeof economy !== 'object'){
+    return 0;
+  }
+  let amount = null;
+  if (override !== undefined){
+    amount = normalize_primary_currency(override);
+  }
+  if (amount === null){
+    amount = resolve_primary_currency(economy);
+  }
+  if (amount === null){
+    amount = 0;
+  }
+  economy.cu = amount;
+  economy.credits = amount;
+  return amount;
+}
+
 function ensure_economy(){
   if (!state.economy || typeof state.economy !== 'object'){
     state.economy = {};
   }
   const economy = state.economy;
-  const normalizedCu = asNumber(economy.cu);
-  economy.cu = Number.isFinite(normalizedCu) ? Math.round(normalizedCu) : 0;
+  sync_primary_currency(economy);
   ensure_wallets();
   return economy;
 }
@@ -3572,6 +3613,7 @@ function apply_wallet_split(outcome, cuReward){
     const summary = allocations.map((entry) => `${entry.label || entry.id} +${entry.amount} CU`).join(' | ');
     lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
   }
+  sync_primary_currency(economy, economy.cu);
   const hqBalance = Math.max(0, Math.round(economy.cu));
   const remainderText = leftover > 0 ? ` (Rest ${leftover} CU im HQ-Pool)` : '';
   lines.push(`HQ-Pool: ${hqBalance} CU verfügbar${remainderText}.`);
@@ -4047,25 +4089,23 @@ function gatherArenaPlayers(){
 
 function readArenaCurrency(){
   const economy = ensure_economy();
-  const keys = ['credits', 'cu', 'balance', 'assets'];
-  for (const key of keys){
-    const value = Number(economy[key]);
-    if (Number.isFinite(value)){
-      return { key, value: Math.max(0, value) };
+  for (const key of ECONOMY_PRIMARY_KEYS){
+    if (!(key in economy)) continue;
+    const normalized = normalize_primary_currency(economy[key]);
+    if (normalized !== null){
+      return { key, value: normalized };
     }
   }
-  if (!Number.isFinite(Number(economy.credits))){
-    economy.credits = 0;
-  }
-  return { key: 'credits', value: 0 };
+  const synced = sync_primary_currency(economy);
+  return { key: 'credits', value: synced };
 }
 
 function writeArenaCurrency(key, value){
   const economy = ensure_economy();
-  economy[key] = value;
-  if (key !== 'credits' && economy.credits === undefined){
-    economy.credits = value;
-  }
+  const normalized = normalize_primary_currency(value);
+  const amount = normalized === null ? 0 : normalized;
+  economy[key] = amount;
+  sync_primary_currency(economy, amount);
 }
 
 function getArenaFee(currency = 0){
@@ -4839,8 +4879,9 @@ function prepare_save_arena(arena){
 
 function prepare_save_economy(economy){
   const base = clone_plain_object(economy);
-  const normalizedCu = asNumber(base.cu);
-  base.cu = Number.isFinite(normalizedCu) ? Math.round(normalizedCu) : 0;
+  const primary = sync_primary_currency(base);
+  base.cu = primary;
+  base.credits = primary;
   const wallets = {};
   if (base.wallets && typeof base.wallets === 'object' && !Array.isArray(base.wallets)){
     for (const [key, value] of Object.entries(base.wallets)){

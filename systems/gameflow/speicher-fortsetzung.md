@@ -166,9 +166,11 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
    aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
    `arena.previous_mode` und `arena.phase='active'`. Während der Serie blockiert
-   der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Exit schreibt die Runtime
-   `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg) und erlaubt wieder
-   HQ-Saves.
+   der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Start zieht die Routine die
+   Gebühr aus dem primären Economy-Feld und spiegelt sie via
+   `sync_primary_currency()` auf `economy.cu` und `economy.credits`. Beim Exit
+   schreibt die Runtime `arena.phase='completed'`, synchronisiert Px (+1 bei
+   Sieg) und erlaubt wieder HQ-Saves.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
