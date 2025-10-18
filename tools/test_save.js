@@ -197,4 +197,71 @@ rt.state.party.characters.forEach((member) => {
   assert.equal(member.psi_buffer, true);
 });
 
+function resetMissionTestState(){
+  rt.state.location = 'MISSION';
+  rt.state.phase = 'core';
+  rt.state.logs = { flags: {} };
+  rt.state.exfil = {};
+  rt.state.campaign = {
+    paradoxon_index: 0,
+    missions_since_px: 0,
+    px: 0,
+    mission: 1,
+    rift_seeds: [],
+    rift_blueprints: [],
+    chronopolis_tick_modulo: 0,
+    chronopolis_missions_since_reset: 0
+  };
+}
+
+resetMissionTestState();
+const failedMission = rt.completeMission({
+  temp: 1,
+  stabilized: 'false',
+  success: 'no',
+  completed: 'failed',
+  reason: 'failed'
+});
+assert.equal(rt.state.campaign.missions_since_px, 0);
+assert.equal(
+  failedMission.events.some((line) => /Mission stabilisiert/.test(line)),
+  false
+);
+assert.equal(rt.state.campaign.last_mission_end_reason, 'failed');
+
+resetMissionTestState();
+rt.completeMission({ temp: 1, stabilized: 'YES' });
+assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
+
+resetMissionTestState();
+rt.completeMission({ temp: 1, success: 'true' });
+assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
+
+resetMissionTestState();
+rt.completeMission({ temp: 1, completed: 'Stabilized' });
+assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
+
+rt.state.economy = { cu: '1500', wallets: {} };
+const hqPoolStatus = rt.apply_wallet_split({}, 0);
+assert.equal(rt.state.economy.cu, 1500);
+assert.ok(Array.isArray(hqPoolStatus.lines));
+
+const economyMirrorSource = JSON.parse(JSON.stringify(base));
+economyMirrorSource.economy = {
+  cu: '1750',
+  wallets: {
+    ghost: { balance: '50', name: 'Ghost' },
+    nova: { balance: '125' }
+  }
+};
+const economyMirrorJson = rt.save_deep(economyMirrorSource);
+const economyMirrorData = JSON.parse(economyMirrorJson);
+assert.equal(economyMirrorData.economy.cu, 1750);
+assert.equal(economyMirrorData.economy.wallets.ghost.balance, 50);
+assert.equal(economyMirrorData.economy.wallets.ghost.name, 'Ghost');
+assert.equal(economyMirrorData.economy.wallets.nova.balance, 125);
+
 console.log('save-ok');
