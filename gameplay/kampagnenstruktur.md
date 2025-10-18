@@ -1530,7 +1530,9 @@ vermeiden. Zusätzlich erzwingt das HUD den Runtime-Helfer `phase_strike_tax()`
 damit Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz
 behalten. `phase_strike_cost()` quittiert jeden Abruf während aktiver Arena
 automatisch mit dem HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)`
-und legt einen Trace in `logs.psi[]` ab (Ability, Basis-, Tax- und Gesamtwert),
+und legt einen Trace in `logs.psi[]` ab (`ability='phase_strike'`, `base_cost`,
+`tax`, `total_cost`, `mode`, `arena_active` plus optionale Felder für
+`mode_previous`/`location`/`gm_style`/`reason`),
 damit Logs und Toolkit-Hooks die Kostenentwicklung belegen können.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.

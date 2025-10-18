@@ -303,9 +303,14 @@ zurücksetzen.
   (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer `[]`;
   Debriefs nennen „HQ-Moments (n×)“ entsprechend.
 - **Arena & Psi.** `ensure_arena()` konserviert PvP-Status, Phasen,
-  Serienstände, Budget-Limits sowie `phase_strike_tax`. Parallel hält
-  `logs.psi[]` `phase_strike_tax` und `mode_previous` fest, damit
-  `render_psi_summary()` den Cross-Mode-Kontext liefert.
+  Serienstände, Budget-Limits sowie `phase_strike_tax`. Sobald
+  `phase_strike_cost()` greift, ruft die Runtime `log_phase_strike_event()`
+  auf und legt in `logs.psi[]` strukturierte Einträge mit
+  `ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode` und
+  `arena_active` an; optional ergänzt der Logger `mode_previous`, `location`,
+  `gm_style` und `reason`. `prepare_save_logs()`/`sanitize_psi_entries()`
+  halten dieses Schema stabil, sodass Debriefs und Cross-Mode-Audits jederzeit
+  dieselben Werte lesen können.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
   ein Objekt – ggf. `{}`.
