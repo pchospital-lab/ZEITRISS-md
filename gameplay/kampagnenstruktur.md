@@ -1660,10 +1660,58 @@ _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 
 ### Chronopolis Static Map Blueprint
 
-Die detaillierte Level-Bau- und Performance-Referenz (Sockets, Asset-Budgets,
-Cutscene-Routen, Build-Roadmap) liegt jetzt als Maintainer-Dokument in
-`docs/dev/chronopolis-map-blueprint.md`. In diesem Modul bleiben ausschließlich
-die Informationen, die GPTs für das Leiten benötigen.
+Chronopolis bleibt als kreisförmiger Stadtteil mit 600 Metern Durchmesser
+erhalten. Der Ω-Ring schwebt als Transitlinie über den Kopfsteinen und rahmt
+den **Central Spire** ein – ein 180 Meter hoher Chronotorium-Turm, in dessen
+Glaskern das **ITI-Hauptquartier** der Nullzeit ankert. Von der Paradoxon Plaza
+aus zieht sich der Stadtkragen wie ein Wurm um das Kommandozentrum. Vier
+Quadranten schließen unmittelbar an die Plaza und damit an die Hauptanflugzone
+des ITI an: Im Norden liegt der Temporal Dockyard, in dem Neo-Ark-Schiffe an
+Slip #01 direkt an die Hangars des ITI andocken; im Osten pulsiert der Chrono-
+Bazaar mit dem Fractal-Canopy-Markt und den offiziellen ITI-Genehmigungsständen;
+im Süden warten die Regalbrücken der Eternal Archive samt Infinite Staircase als
+verlängerte Wissenslobby des HQ; im Westen gleitet das Aion Sanctuary samt
+Glass-Wave-Kathedrale in gedämpftem Amberlicht, das als Rückzugsbereich für
+Agenten deklariert ist. Jede Straße misst weiterhin zwölf Meter Breite, sodass
+die Plaza trotz der dichten Vertikalstruktur offen bleibt und freie Sichtachsen
+auf den Spire gewährt.
+
+Vertikal staffelt sich der Hub in vier Ebenen: Unterhalb (−20 m) verzweigen die
+Wartungstunnel des Sub-Grids, die direkt in die Servicetrassen des ITI führen
+und als optionale Arenen dienen. Auf Straßenniveau trifft die Gruppe Händler,
+Holo-Kioske und Ruheinseln, die alle mit den HQ-Protokollen synchronisiert sind.
+Auf +25 Metern zieht der magnetische Ω-Ring seine Schleife – erst ab Level 60
+zugänglich, aber als visueller Kontrast stets präsent und als Express-Link zu
+den äußeren ITI-Docks gekennzeichnet. Die Spitze des Spires ist als Sky-Deck in
+Cutscenes reserviert, in denen Zeitpartikel der Skybox wie Glühwürmchen um die
+Kuppel treiben und das ITI-Logo als Hologramm schweben lassen.
+
+Stimmunglich hilft folgender Merkmix bei Beschreibungen: kaltes Türkis trifft
+auf warme Amber-Akzente; Glocken aus dem Sanctuary verweben sich mit dem dumpfen
+Maschinenbrummen des Docks. Props folgen der oktogonalen Chrono-Glyphik –
+Kioske und Sitzbänke besitzen integrierte Kompassrosen, die subtile Hinweise auf
+die Zeitanker-Technologie liefern und den ITI-Navigationsroutinen entsprechen.
+
+Für Einstiege bleiben fünf Spawnpunkte relevant und klar an die HQ-Logistik
+gebunden: `SPWN_PLAZA` (0,0,0) für den Standardstart am ITI-Empfang;
+`SPWN_DOCK` (−260,180,0) für Schiffstutorials mit direkter Sichtlinie auf die
+Hangars; `SPWN_BAZ` (260,180,0) als Händlerhotspot mit mindestens drei
+Verkäufern und ITI-Lizenzprüfung; `SPWN_ARCH` (−260,−180,0) für Questcluster im
+Archivflügel; `SPWN_SANC` (260,−180,0) als stiller Ruhepol für Nachbesprechungen.
+Jedes Straßenmodul von zehn Metern Kantenlänge hält zwei Sockets für Händler- oder
+NPC-Besetzungen bereit – die Engine tauscht also nur Population, niemals die
+Geometrie.
+
+Die Kamerafahrt zur Vorstellung der Stadt dauert fünf Sekunden: Der Blick startet
+100 Meter über dem Spire (`C0`), sinkt auf 60 Meter mit leichtem Roll nach rechts
+(`C1`), schweift zwei Sekunden über die Dockyard-Kräne (`C2`) – inklusive Blick
+auf die angedockten ITI-Schiffe – und endet acht Meter über der Paradoxon-Plaza
+(`C3`).
+
+Die vollständige Maintainer-Blaupause mit Asset-Budgets, Mod-Kit-Dateien und
+Build-Roadmap bleibt in `docs/dev/chronopolis-map-blueprint.md` dokumentiert.
+Hier konzentrieren wir uns auf die Informationen, die GPTs für das Leiten
+benötigen.
 
 ## Fazit
 
