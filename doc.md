@@ -33,10 +33,10 @@ flowchart TD
 
 ## API / Makros
 ### `DelayConflict(threshold=4, allow=[])`
-Verzögert Konfliktszenen bis zur angegebenen Szene. Optional erlaubt eine
-Liste `allow` frühe Überfälle wie `ambush` oder `vehicle_chase`. Missions-Tags
-`heist` oder `street` senken das Limit automatisch um je eine Szene (Minimum:
-Szene 2).
+Verzögert Konfliktszenen bis zur angegebenen Szene. Standardmäßig bleibt die
+Liste `allow` leer; setze etwa `allow=['ambush','vehicle_chase']`, wenn frühe
+Überfälle oder Verfolgungen erlaubt sein sollen. Missions-Tags `heist` oder
+`street` senken das Limit automatisch um je eine Szene (Minimum: Szene 2).
 
 ### `comms_check(device, range_m, …)`
 Prüft Gerät und Reichweite. Akzeptiert `device`
@@ -52,8 +52,9 @@ Zentraler Guard für Funkverkehr. Wirft `CommsCheck failed: require valid device
 bei ungültigem Gerät oder Reichweite.
 
 ### `can_open_conflict(type)`
-Liefert `true`, wenn Konflikte vor `DelayConflict`-Threshold erlaubt sind
-(`ambush`/`vehicle_chase` etc.), sonst `false`.
+Liefert `true`, wenn Konflikte vor `DelayConflict`-Threshold erlaubt sind und
+`type` in der per `allow` gesetzten Ausnahmeliste (`ambush`, `vehicle_chase`
+etc.) steht, sonst `false`.
 
 ### `assert_foreshadow(count=2)`
 Warnung im PRECISION-Stil, falls weniger als `count` Hinweise für spätere
@@ -69,7 +70,7 @@ und hält das HUD-Badge aktuell.
 ## Beispiele
 ```js
 // Kurzes Beispiel
-DelayConflict(4, ["ambush"]);
+DelayConflict(4, ["ambush", "vehicle_chase"]);
 ```
 
 ## Änderungsverlauf

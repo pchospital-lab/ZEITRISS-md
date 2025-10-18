@@ -21,7 +21,7 @@ const OFFLINE_HELP_GUIDE = [
 ];
 
 function helper_delay_text(){
-  return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Ausnahmen: 'ambush','vehicle_chase'.";
+  return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.";
 }
 
 function helper_comms_text(){

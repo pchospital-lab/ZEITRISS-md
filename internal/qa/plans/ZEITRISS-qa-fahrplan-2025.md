@@ -97,9 +97,9 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 - **Tests & Automation** – Makefile- und Script-Läufe sind dokumentiert; Smoke-
   und Spezialtests werden im QA-Log belegt.
   - Node-Smoke deckt Start-Trigger, Accessibility-Persistenz, Chronopolis-
-    Acknowledge und Arena-Schema ab (`tools/test_start.js`,
+    Acknowledge, Arena-Schema sowie Alias-/Funk-Logs ab (`tools/test_start.js`,
     `tools/test_accessibility.js`, `tools/test_chronopolis_ack.js`,
-    `tools/test_arena_schema.js`).
+    `tools/test_arena_schema.js`, `tools/test_alias_trace.js`).
 - **Wissensspiegel** – Wissensmodule enthalten die Spiegel der lokalen Runtimes;
   Abweichungen werden mit Commit-ID im QA-Log erfasst.
 - **Datenschutz & Plattformen** – Maintainer-Ops, Audit und Fahrplan halten
