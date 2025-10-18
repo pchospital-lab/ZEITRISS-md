@@ -103,7 +103,7 @@ Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompak
 
 Die komplette Operator-Checkliste liegt in
 [docs/maintainer-ops.md](docs/maintainer-ops.md). Dort findet ihr die
-Plattform-Workflows, QA-Notizen sowie die Rollenaufteilung zwischen
+Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
 Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README listet nur die
 Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt
 euch das Maintainer-Dokument.
@@ -155,13 +155,13 @@ euch das Maintainer-Dokument.
   (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
   externe Skripte denselben Funktionsumfang erhalten.
 - Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Dokumentiere
-  Abweichungen zwischen Skript und Wissensspiegelung im QA-Journal (siehe
+  Abweichungen zwischen Skript und Wissensspiegelung im Laufzeitjournal (siehe
   `internal/qa/logs/`) und verweise in Commits/PRs auf die entsprechenden
   Mirror-Schritte.
 - **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der
   Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik,
   HUD-Badges und Save-Strukturen.**
-- **Maintainer:innen prüfen nach erfolgreicher QA lediglich den fertigen
+- **Maintainer:innen prüfen nach abgeschlossenen Tests lediglich den fertigen
   Wissensstand und übertragen ihn anschließend gemäß
   `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
 
@@ -177,7 +177,7 @@ ZEITRISS-md/
 │                           # ohne `runtime-stub-routing-layer.md`
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
 ├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte
-│                           # (tags: [meta]; inkl. QA-Fahrplan & QA-Protokoll)
+│                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 └─ master-index.json        # Übersicht aller Module und Slugs
 ```
@@ -189,10 +189,10 @@ ZEITRISS-md/
 - **`AGENTS.md`** – Arbeitsgrundlage für den Repo-Agenten (Programmier-KI). Skizziert Rollen,
   Übergaben und verweist auf die verbindlichen Prüfpfade in `CONTRIBUTING.md`.
 - **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Bündelt Workflow, Formatierung sowie die
-  vollständige QA-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
-- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und QA-Spiegelungen der
+  vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
+- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen der
   Maintainer:innen.
-- **`docs/qa/tester-playtest-briefing.md`** sowie QA-Logs unter `internal/qa/` – Briefing,
+- **`docs/qa/tester-playtest-briefing.md`** sowie die Logs unter `internal/qa/` – Briefing,
   Checklisten und Protokolle für Tester:innen und Maintainer:innen.
 - **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
@@ -317,7 +317,7 @@ Spiel starten (gruppe schnell)
 Die vollständige 15-Punkte-Abnahme steht im
 [Tester-Briefing](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 Hier stehen nur die Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows
-kennen, ohne von QA-Anweisungen abgelenkt zu werden.
+kennen, ohne von zusätzlichen Testanweisungen abgelenkt zu werden.
 
 ### Dispatcher-Starts & Speicherpfade
 
@@ -463,7 +463,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
   `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
   `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena`
-  werden vom Serializer garantiert, damit QA alle Guards automatisiert prüfen kann.
+  werden vom Serializer garantiert, damit automatisierte Prüfungen alle Guards
+  vollständig abdecken.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
@@ -885,13 +886,13 @@ Ausführliche Hintergründe liefert das Modul
 ## Beispielworkflow
 
 1. Öffnet `meta/masterprompt_v6.md`, kopiert den vollständigen Text in das Anweisungsfenster
-   eurer Zielplattform und sichert den Upload im QA-Log.
+   eurer Zielplattform und dokumentiert den Upload im internen Protokoll (`internal/qa/logs/`).
 2. Ladet anschließend die **25 Regelmodule** gemäß Tabelle in den Wissensspeicher.
    Laufzeitrelevante Dateien liegen in `core/`, `characters/`, `gameplay/` und `systems/`;
    `README.md` sowie `master-index.json` dienen als Navigationsanker.
 3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module
    mit gültigem Header werden vom GPT sicher erkannt.
-4. Führt den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
+4. Führt bei Bedarf den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
    und protokolliert Autoload, Save/Load und Fehlermeldungen pro Plattform.
 5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
    [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) sowie die dort verlinkten
@@ -1080,13 +1081,14 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   (oder Key-Value wie `mission=M5|scene=3`) erzeugt einen Eintrag mit Timestamp,
   Persona, Cover, Status, Szene/Mission und optionaler Notiz. Der Debrief fasst
   die letzten Einträge in `Alias-Trace (n×): …` zusammen – Grundlage für
-  QA-Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
+  spätere Follow-ups zu Alias-Läufen in Solo- und Großteam-Szenarien.
 - Squad-Funk landet in `logs.squad_radio[]`: `!radio log Sprecher|Channel|Meldung|Status`
   bzw. `speaker=Nova|channel=med|…` protokolliert Kanal, Meldung, Status, Szene
-  und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient QA als Persistenz-
+  und Ort. Die Debrief-Zeile `Squad-Radio (n×): …` dient als Persistenz-
   Nachweis für Funkprotokolle (S/M/XL-Konflikte).
 - Foreshadow-Hinweise werden dedupliziert gespeichert; `Foreshadow-Log (n×): …`
-  im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für QA-Belege.
+  im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für spätere
+  Belege.
 - Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus
   (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-
   Hilfe-Zähler mit Timestamp des letzten Abrufs.
