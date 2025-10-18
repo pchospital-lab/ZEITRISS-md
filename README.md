@@ -221,11 +221,10 @@ Die ersten Schritte in unter zwei Minuten:
 6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 7. **Self-Reflection Off** – `!sf off` setzt das globale Flag
    (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
-   `!sf on` stellt beides zurück. Acceptance-Schritt 12 verlangt den manuellen
-   Toggle vor Mission 5, damit HUD-Badge und `scene_overlay()` `SF-OFF`
-   anzeigen. Nach Mission 5 stellt die Runtime Self-Reflection automatisch auf
-   `SF-ON` zurück – sowohl nach Abschluss als auch nach Abbruch
-   (`logs.flags.last_mission_end_reason`).
+   `!sf on` stellt beides zurück. Vor Mission 5 unbedingt manuell toggeln,
+   damit HUD-Badge und `scene_overlay()` den Status `SF-OFF` zeigen. Nach
+   Mission 5 stellt die Runtime Self-Reflection automatisch auf `SF-ON` zurück –
+   sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
 8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
    Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
    `!tk ready` hebt die Sperre nach dem Cooldown auf.
@@ -314,10 +313,11 @@ Spiel starten (gruppe schnell)
 
 ## Abnahme-Smoketest (Dispatcher) {#abnahme-smoketest}
 
-Die vollständige 15-Punkte-Abnahme steht im
-[Tester-Briefing](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
-Hier stehen nur die Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows
-kennen, ohne von zusätzlichen Testanweisungen abgelenkt zu werden.
+Die ausführliche 15-Schritte-Liste liegt im
+[Dispatcher-Briefing](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
+und bleibt optional für manuelle Validierungen. Hier folgen ausschließlich die
+Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows ohne QA-Kontext
+nutzen können.
 
 ### Dispatcher-Starts & Speicherpfade
 
@@ -486,7 +486,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Verfügung, auch ohne die lokale `runtime.js`.
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
-Ein manuelles 15-Schritte-Smoke-Set steht im Abschnitt
+Wenn du einen kompletten manuellen Check brauchst, findest du die
+15-Schritte-Variante im Abschnitt
 [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
