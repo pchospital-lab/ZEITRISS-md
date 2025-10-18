@@ -55,6 +55,11 @@ Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progre
   wie im Regelkern laufen (Reset auf 0 nach Seed-Anlage, Seeds erst nach Episodenende spielbar) und
   dass Riftloops keine unerlaubten Shortcuts erzeugen.
 
+> **Manueller Abgleich:** Der Beta-GPT deckt Mission‑5-Badge-Check, Ask→Suggest-Wechsel,
+> Accessibility-/Offline-Hinweise sowie die Acceptance-Smoke-Checkliste ab, Tester:innen müssen
+> jedoch prüfen, ob der Autolauf jeden Punkt tatsächlich dokumentiert. Fehlen Nachweise, forderst du
+> sie im selben Chat explizit nach oder ergänzt sie manuell im Report.
+
 ## Copy-&-Paste-Auftrag für den GPT
 
 Der komplette Auftrag steht im folgenden Copyblock. Ein Klick auf das Kopiersymbol umfasst den
@@ -155,7 +160,8 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
    rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden). Der
    Abschnitt `Test-Save (JSON)` aus der GPT-Antwort dient als Referenz und Import-Block für den
-   automatisierten Gegencheck in einer frischen ZEITRISS-Instanz.
+   automatisierten Gegencheck in einer frischen ZEITRISS-Instanz; nur dieser JSON-Block wird in die
+   zweite Instanz kopiert, das restliche Protokoll bleibt dem QA-Log vorbehalten.
 5. Verifizieren, dass der GPT-Output HUD-Presets, Offline-Optionen (`!offline` –
    Kodex-Fallback bei getrenntem ITI↔Kodex-Uplink; Mission läuft weiter mit HUD-Lokaldaten),
    das Accessibility-Panel (`!accessibility`), Paradoxon-Index-Hinweise und Ask→Suggest-Toggle
