@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.4
+version: 1.8.5
 tags: [meta]
 ---
 
@@ -74,6 +74,10 @@ Checks in einem Schritt.
 | 2025-07-05 | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
 | 2025-07-18 | Beta-GPT Regression Save/HUD/Compliance | QA-Log 2025-07-18 |
 | 2025-10-21 | Beta-GPT 2025-10-15 Nacharbeiten validiert | QA-Log 2025-10-21 |
+| 2025-10-28 | Beta-GPT 2025-10-28 Deltas dokumentiert | QA-Log 2025-10-28; Maßnahmenpaket Beta-GPT 2025-10-28 |
+| 2025-10-29 | HQ-DeepSave & Wissensspiegel entschlackt | QA-Log 2025-10-29 |
+| 2025-10-30 | QA-Artefakte sichtbar verknüpft | QA-Log 2025-10-30 |
+| 2025-10-31 | Wissensmodule von QA-Hinweisen bereinigt | QA-Log 2025-10-31 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
