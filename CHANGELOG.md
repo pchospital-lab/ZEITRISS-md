@@ -18,6 +18,8 @@ tags: [meta]
 - Alias-/Funk-Logs (`!alias log`, `!radio log`) samt `!alias clear`/`!radio clear`, Persistenz und
   Debrief-Zeilen sind in README und Toolkit dokumentiert; QA-Fahrplan & Evidenz spiegeln die neuen
   Dispatcher-Hinweise.
+- SaveGuard verhindert HQ-Deepsaves mit unvoller Systemlast (Fehler „SaveGuard: SYS nicht voll.“);
+  README, Toolkit und Speicher-Modul bestätigen weiterhin volle SYS-Beispiele (5/5, 6/6).
 
 ## 4.2.2 – Arena-Episodenstempel
 
