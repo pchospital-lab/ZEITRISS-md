@@ -1,21 +1,22 @@
 ---
 title: "QA-Evidenz Beta-GPT 2025"
-version: 0.1.0
+version: 0.2.0
 tags: [meta, qa]
 ---
 
 # QA-Evidenz – Beta-GPT Läufe 2025
 
 Dieses Protokoll listet die für die Beta-GPT-Regressionsläufe geforderten
-Nachweise. Sobald die Maintainer:innen den jeweiligen Lauf erneut "live"
-fahren, werden die HUD-/Save-/Dispatcher-Auszüge hier ergänzt und in den
-QA-Logs verlinkt.
+Nachweise. Seit 2025-11-05 liefern die Maintainer:innen den Beta-GPT-Testprompt
+als JSON-Block, spiegeln ihn in einer zweiten ZEITRISS-Instanz und übergeben
+den abgeglichenen Datensatz an Codex. Die HUD-/Save-/Dispatcher-Auszüge werden
+hier abgelegt und in QA-Log sowie Audit verlinkt.
 
 ## 2025-07-05 – Save/HUD/Arena-Deltas
 
 Referenzen: QA-Log [2025-07-05](../logs/2025-beta-qa-log.md#2025-07-05--tester-beta-gpt--schema-hud-und-arena-deltas),
 QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-07“. Die technischen Fixes sind
-abgeschlossen; es fehlen lediglich die Nachweise.
+abgeschlossen; die Nachweise stammen aus dem JSON-Hand-off 2025-11-05.
 
 - [x] **Migration 5→6 (DeepSave):** Vorher-/Nachher-JSON für einen
       Gruppensave, der den Wechsel von `save_version: 5` auf `save_version: 6`
