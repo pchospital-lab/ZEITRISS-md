@@ -216,7 +216,9 @@ Hochstufen-Spielrunden.
   hält die offene Evidenzübergabe der Maintainer:innen fest.
 - **Evidenz:** HUD-/Save-Dumps, Wallet-Splits und Arena-Guards bleiben im
   Evidenz-Log (`internal/qa/evidence/2025-beta-gpt-evidenz.md`) als offene
-  Maintainer-Lieferung markiert.
+  Maintainer-Lieferung markiert; Abschnitt §2025-10-28 listet die benötigten
+  Artefakte (DeepSave + Wallet-Split, Arena-Guard, Foreshadow/Gate-Badges mit
+  Accessibility-Preset, Ökonomie/Boss-DR).
 
 ## QA-Follow-up #14 – Chronopolis-Basar Balance (Stand: 2025-06-28)
 
