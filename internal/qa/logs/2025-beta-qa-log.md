@@ -6,6 +6,47 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-11-03 – Repo-Agent – QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check
+- Plattform: Lokale CI-Simulation
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-02,
+  QA-Fahrplan 1.8.6
+- Auftrag: QA-Fahrplan 2025 laut Planabschnitt „Pflege & Reporting“ prüfen,
+  Deepcheck-Tabelle mit QA-Log-Einträgen 2025-11-01/02 synchronisieren und
+  Wissensmodule auf verbleibende QA-Anweisungen sichten.
+
+**Maßnahmen**
+1. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) auf Version 1.8.6
+   gehoben und die Deepcheck-Tabelle um die Läufe vom 2025-11-01 und 2025-11-02
+   ergänzt, damit Fahrplan, Audit und QA-Log dieselben Referenzen führen.
+2. README, Toolkit und Systems-Module stichprobenartig geprüft – keine
+   verbliebenen QA-Prüfanweisungen im produktiven Wissensspiegel gefunden;
+   Laufzeitinformationen bleiben unverändert.
+3. QA-Log (dieser Eintrag) dokumentiert Spiegel und Tests, damit die
+   Pflege-Vorgabe aus dem QA-Fahrplan erfüllt ist.
+
+```shell
+make lint
+make test
+bash scripts/smoke.sh
+python3 tools/lint_runtime.py
+GM_STYLE=verbose python3 tools/lint_runtime.py
+python3 scripts/lint_doc_links.py
+python3 scripts/lint_umlauts.py
+```
+
+**Ergebnisse**
+- `make lint` bestätigt Markdownlint, Runtime-Linter, Doc-Link- und Umlaut-Checks
+  ohne Beanstandungen.
+- `make test` läuft fehlerfrei; keine Regressionen in Dispatcher- oder Save-Tests.
+- Zusatzläufe (`scripts/smoke.sh`, Runtime-Linter direkt) melden keine Abweichung;
+  Doc-Link- und Umlaut-Prüfungen bleiben grün.
+
+**Nachverfolgung**
+- QA-Fahrplan Version 1.8.6 verweist auf diesen Logeintrag und spiegelt die
+  Deepchecks bis 2025-11-02.
+- Keine weiteren Aktionen erforderlich; Wissensmodule bleiben QA-neutral
+  formuliert.
+
 ## 2025-11-02 – Repo-Agent – Wissensmodule entschlackt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-02,
