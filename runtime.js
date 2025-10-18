@@ -5193,6 +5193,13 @@ function save_deep(s=state){
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
   if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
   if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
+  if (
+    a.SYS_max !== undefined &&
+    a.SYS_used !== undefined &&
+    a.SYS_used !== a.SYS_max
+  ){
+    throw new Error('SaveGuard: SYS nicht voll.');
+  }
   const payload = select_state_for_save(s);
   return JSON.stringify(payload);
 }

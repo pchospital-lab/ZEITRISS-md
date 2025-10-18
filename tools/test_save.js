@@ -68,6 +68,10 @@ assert.deepStrictEqual(data.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich')
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_used: 2 } } }));
+assert.throws(
+  () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_used: 2 } } }),
+  /SaveGuard: SYS nicht voll\./
+);
 
 const minimal = {
   location: 'HQ',

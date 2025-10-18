@@ -56,7 +56,9 @@ oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
-übergeben werden, nächster Save erst im HQ.
+übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen volle Systemlast:
+Sobald `character.attributes.SYS_used` vom `SYS_max` abweicht, stoppt die Runtime
+den Deepsave mit „SaveGuard: SYS nicht voll.“.
 
 ```json
 {
@@ -144,7 +146,8 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
   `psi_heat = 0`. Das Speichern erfasst diese Werte, damit GPT den
-  Basiszustand prüfen kann.
+  Basiszustand prüfen kann. Die JSON-Beispiele in diesem Modul zeigen weiterhin
+  volle SYS-Werte (5/5 bzw. 6/6) und erfüllen damit den Guard.
 - GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
