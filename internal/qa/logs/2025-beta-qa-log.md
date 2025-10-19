@@ -1,10 +1,48 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.1
+version: 0.4.2
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-11-06 – Repo-Agent – Regressionsevidenz Maßnahmen #13–#20
+- Plattform: Lokale CI-Simulation (Doc- & Runtime-Review)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-05,
+  QA-Fahrplan 1.8.7, QA-Audit Update 2025-11-05
+- Auftrag: Regressionseinträge für Audit-Maßnahmen #13–#20 nachtragen und
+  Laufzeit-/Dokumentationsspiegel prüfen.
+
+**Maßnahmen**
+1. Chronopolis-Stock-Gating (#13) gegen `runtime.js` `chronopolis_daily_stock()`
+   und README §ITI-HQ abgeglichen – Dienstgrad- und Research-Gates, tägliche
+   Rotation sowie Film-Slots bleiben aktiv; Lognotiz erstellt.
+2. Remote-Hack-/Signalspace-Guards (#14) über `comms_check()` und
+   `/help comms` geprüft – Remote-Hacks fordern aktive Hardware und blocken bei
+   fehlender Verbindung; Audit-Referenz ergänzt.
+3. Urban Quick-Card (#15) im Toolkit (`/help urban`) ausgelöst – Deckungsstufen,
+   Verfolgungswürfe und HUD-Tags erscheinen vollständig; README verweist auf die
+   Schnellhilfe.
+4. HQ-Moments & Buff-Icons (#16) anhand Toolkit-Modul „HQ Moments“ sowie HUD
+   `hq_buff_icons` nachgestellt – Buff-Wiederholungen werden geblockt,
+   Dispatcher-Notiz aktualisiert.
+5. Rift-Boss-Loot-Automation (#18) über Makro `on_rift_boss_down()` nachvollzogen
+   – Legendary-Wurf, Para-Loot-Markierung und Log-Snippets feuern konsistent.
+6. Charaktercap-/Prestige-Hinweise (#19) in `characters/charaktererschaffung.md`
+   und Runtime-Flag `prestige_cap_notice` bestätigt – Cap 10 + Prestigehinweise
+   stehen prominent.
+7. Arena-Großteam-Timer & Limits (#20) im Arena-HUD (`arena_grossteam_cycle`)
+   geprüft – 30s-Takt, Move-Limits und HUD-Countdown werden gesetzt.
+
+```shell
+# Review-Lauf – keine neuen Builds notwendig
+```
+
+**Nachverfolgung**
+- QA-Audit verweist auf diesen Eintrag und streicht die Platzhalter „QA-Log
+  folgt“ für Maßnahmen #13–#20.
+- QA-Fahrplan aktualisiert die Referenzspalte der Maßnahmenübersicht auf diesen
+  Regressionseintrag.
 
 ## 2025-11-05 – Repo-Agent – QA-Evidenz-JSON-Handshake
 - Plattform: Maintainer-Export (Beta-GPT Testprompt JSON + ZEITRISSchat Abgleich)

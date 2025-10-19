@@ -14,7 +14,7 @@ tags: [meta]
   Pflicht-Testkatalog.
 - README-Dokumenten-Landkarte reflektiert die neue Aufgabenverteilung zwischen `AGENTS.md` und
   `CONTRIBUTING.md`.
-- QA-Fahrplan 2025 Version 1.6.1 ergänzt Maßnahmenblock für Formatierungs- und Tooling-Abgleich.
+- QA-Fahrplan 2025 Version 1.8.7 spiegelt Deepcheck-Fortsetzung, JSON-Evidenz-Handshake und aktualisierte QA-Referenzen.
 - Alias-/Funk-Logs (`!alias log`, `!radio log`) samt `!alias clear`/`!radio clear`, Persistenz und
   Debrief-Zeilen sind in README und Toolkit dokumentiert; QA-Fahrplan & Evidenz spiegeln die neuen
   Dispatcher-Hinweise.
