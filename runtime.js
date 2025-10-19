@@ -2552,6 +2552,7 @@ function reset_mission_state(){
   state.campaign ||= {};
   state.campaign.phase = missionPhase;
   state.campaign.scene_total = sceneTotal;
+  state.campaign.scene = state.scene.index;
   sync_campaign_exfil(null);
 }
 
@@ -4609,7 +4610,7 @@ function StartMission(){
   mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
-  state.campaign.scene = Number.isFinite(state.campaign.scene) ? state.campaign.scene : 0;
+  state.campaign.scene = state.scene.index;
   const runtimeFlags = ensure_runtime_flags();
   if (runtimeFlags.skip_entry_choice !== true){
     runtimeFlags.skip_entry_choice = false;

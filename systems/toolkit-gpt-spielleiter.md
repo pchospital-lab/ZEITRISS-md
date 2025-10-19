@@ -661,10 +661,12 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 `fx_override={"tags":["heist"]}` nutzen.
 
 > **Runtime-Mirror:** `StartMission()` und `reset_mission_state()` lesen
-> `campaign.scene_total` und setzen `state.phase`/`campaign.phase`
-> automatisch anhand des Missionstyps. Rift-Ops behalten damit `phase:
-> Rift` und `SC …/14` im HUD sowie in Saves, Core-Ops `phase: Core` mit
-> `SC …/12`.
+> `campaign.scene_total`, setzen `state.phase`/`campaign.phase`
+> automatisch anhand des Missionstyps **und** überschreiben
+> `campaign.scene` auf den aktuellen Szenenindex (`0` beim Start).
+> Rift-Ops behalten damit `phase: Rift` und `SC …/14` im HUD sowie in
+> Saves, Core-Ops `phase: Core` mit `SC …/12`. Beim Save nach dem
+> Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten.
 
 ### Load → HQ-Phase oder Briefing
 
