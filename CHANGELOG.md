@@ -20,6 +20,9 @@ tags: [meta]
   Dispatcher-Hinweise.
 - SaveGuard verhindert HQ-Deepsaves mit unvoller Systemlast (Fehler „SaveGuard: SYS nicht voll.“);
   README, Toolkit und Speicher-Modul bestätigen weiterhin volle SYS-Beispiele (5/5, 6/6).
+- Runtime spiegelt Rift-Missionsdaten: `StartMission()`/`reset_mission_state()` übernehmen
+  `campaign.scene_total`, setzen `phase` auf `core`/`rift` und zeigen Rift-Ops korrekt mit `SC …/14`
+  im HUD sowie in Saves; Toolkit-Docs vermerken den Mirror.
 
 ## 4.2.2 – Arena-Episodenstempel
 

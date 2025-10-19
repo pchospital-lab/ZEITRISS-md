@@ -1448,7 +1448,13 @@ function foreshadow_status(ctx = state){
 }
 
 function sync_foreshadow_progress(){
-  state.scene ||= { index: 0, foreshadows: 0, total: 12 };
+  const missionType = resolve_mission_type();
+  const sceneTotal = resolve_scene_total(missionType);
+  if (!state.scene){
+    state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
+  } else if (!Number.isFinite(state.scene.total) || state.scene.total <= 0){
+    state.scene.total = sceneTotal;
+  }
   state.scene.foreshadows = foreshadow_count();
   return state.scene.foreshadows;
 }
@@ -2525,9 +2531,13 @@ function completeMission(summary = {}){
 }
 
 function reset_mission_state(){
+  const missionType = resolve_mission_type();
+  const missionPhase = missionType === 'rift' ? 'rift' : 'core';
+  const sceneTotal = resolve_scene_total(missionType);
   state.exfil = null;
   state.fr_intervention = null;
-  state.scene = { index: 0, foreshadows: 0, total: 12 };
+  state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
+  state.phase = missionPhase;
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.start = null;
   hudSequence = 0;
@@ -2539,6 +2549,9 @@ function reset_mission_state(){
   hud.timers = [];
   ensure_team();
   ensure_party();
+  state.campaign ||= {};
+  state.campaign.phase = missionPhase;
+  state.campaign.scene_total = sceneTotal;
   sync_campaign_exfil(null);
 }
 
@@ -3853,7 +3866,7 @@ function suspend_snapshot(){
       episode: state.campaign.episode,
       scene: state.scene?.index ?? state.campaign.scene,
       phase: state.campaign.phase,
-      scene_total: state.scene?.total ?? 12
+      scene_total: Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total()
     },
     mission: {
       id: state.mission?.id ?? null,
@@ -3902,7 +3915,11 @@ function resume_snapshot(){
   state.campaign.episode = raw.campaign?.episode ?? state.campaign.episode;
   state.campaign.phase = raw.campaign?.phase ?? state.campaign.phase;
   const sceneIndex = raw.campaign?.scene ?? state.scene?.index ?? state.campaign.scene;
-  const sceneTotal = raw.campaign?.scene_total ?? state.scene?.total ?? 12;
+  const fallbackTotal = Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total();
+  const sceneTotalSource = raw.campaign?.scene_total;
+  const sceneTotal = Number.isFinite(sceneTotalSource)
+    ? Math.max(1, Math.floor(sceneTotalSource))
+    : fallbackTotal;
   state.campaign.scene = sceneIndex;
   state.scene = { index: sceneIndex, foreshadows: state.scene?.foreshadows ?? 0, total: sceneTotal };
   const mission = ensure_mission();
@@ -4522,8 +4539,46 @@ function jam_now(on = true){
   state.comms.jammed = !!on;
 }
 
+function resolve_mission_type(){
+  const campaignType = typeof state.campaign?.type === 'string'
+    ? state.campaign.type.trim().toLowerCase()
+    : '';
+  if (campaignType === 'rift' || campaignType === 'core'){
+    return campaignType;
+  }
+  const campaignPhase = typeof state.campaign?.phase === 'string'
+    ? state.campaign.phase.trim().toLowerCase()
+    : '';
+  if (campaignPhase === 'rift' || campaignPhase === 'core'){
+    return campaignPhase;
+  }
+  const currentPhase = typeof state.phase === 'string' ? state.phase.trim().toLowerCase() : '';
+  if (currentPhase === 'rift' || currentPhase === 'core'){
+    return currentPhase;
+  }
+  return 'core';
+}
+
+function resolve_scene_total(missionType = resolve_mission_type()){
+  const storedTotal = Number(state.campaign?.scene_total);
+  if (Number.isFinite(storedTotal) && storedTotal > 0){
+    return Math.max(1, Math.floor(storedTotal));
+  }
+  const sceneTotal = Number(state.scene?.total);
+  if (Number.isFinite(sceneTotal) && sceneTotal > 0){
+    return Math.max(1, Math.floor(sceneTotal));
+  }
+  return missionType === 'rift' ? 14 : 12;
+}
+
 function StartMission(){
-  state.phase = 'core';
+  const missionType = resolve_mission_type();
+  const missionPhase = missionType === 'rift' ? 'rift' : 'core';
+  const sceneTotal = resolve_scene_total(missionType);
+  state.phase = missionPhase;
+  state.campaign ||= {};
+  state.campaign.phase = missionPhase;
+  state.campaign.scene_total = sceneTotal;
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = {
     sweeps: 0,
@@ -4553,7 +4608,8 @@ function StartMission(){
   mission.clock = mission.clock && typeof mission.clock === 'object' ? mission.clock : {};
   mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
-  state.scene = { index: 0, foreshadows: 0, total: 12 };
+  state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
+  state.campaign.scene = Number.isFinite(state.campaign.scene) ? state.campaign.scene : 0;
   const runtimeFlags = ensure_runtime_flags();
   if (runtimeFlags.skip_entry_choice !== true){
     runtimeFlags.skip_entry_choice = false;
@@ -4605,7 +4661,7 @@ function scene_overlay(scene){
   const ep = state.campaign?.episode ?? 0;
   const ms = state.campaign?.mission ?? 0;
   const sc = s.index ?? 0;
-  const total = state.scene?.total ?? 12;
+  const total = Number.isFinite(s.total) ? s.total : resolve_scene_total();
   const ui = ensure_ui();
   const mode = ui.gm_style;
   const obj = state.campaign?.objective ?? '?';
