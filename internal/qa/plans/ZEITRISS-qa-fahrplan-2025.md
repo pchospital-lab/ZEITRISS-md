@@ -82,6 +82,7 @@ Checks in einem Schritt.
 | 2025-11-02 | Wissensmodule entschlackt (Review) | QA-Log 2025-11-02 |
 | 2025-11-03 | QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check | QA-Log 2025-11-03 |
 | 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror | QA-Log 2025-11-04 |
+| 2025-11-06 | Regression Audit-Maßnahmen #13–#20 | QA-Log 2025-11-06 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
