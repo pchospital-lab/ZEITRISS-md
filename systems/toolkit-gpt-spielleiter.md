@@ -660,6 +660,12 @@ einem abweichenden `redirect_hours`. Über `tags` (Liste oder `'|'`- bzw.
 Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 `fx_override={"tags":["heist"]}` nutzen.
 
+> **Runtime-Mirror:** `StartMission()` und `reset_mission_state()` lesen
+> `campaign.scene_total` und setzen `state.phase`/`campaign.phase`
+> automatisch anhand des Missionstyps. Rift-Ops behalten damit `phase:
+> Rift` und `SC …/14` im HUD sowie in Saves, Core-Ops `phase: Core` mit
+> `SC …/12`.
+
 ### Load → HQ-Phase oder Briefing
 
 - Nach einem erfolgreichen **Load**:
