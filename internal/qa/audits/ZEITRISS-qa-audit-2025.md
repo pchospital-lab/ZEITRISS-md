@@ -69,6 +69,16 @@ Hochstufen-Spielrunden.
   Audit-Abschnitte verweisen fortan auf das Evidenzprotokoll statt auf offene
   Maintainer-Lieferungen.
 
+## Update 2025-11-06 – Regressionsevidenz Audit-Maßnahmen #13–#20
+
+- QA-Log 2025-11-06 dokumentiert die Regressionstests für Chronopolis-Stock-
+  Gating, Signalspace-Guards, Urban-Quick-Card, HQ-Moments, Rift-Boss-Loot,
+  Charaktercap und Arena-Großteams.
+- Audit-Einträge #13–#20 verlinken auf den neuen QA-Log-Abschnitt und streichen
+  die Platzhalter „QA-Log-Eintrag folgt“.
+- QA-Fahrplan 2025 aktualisiert die Referenzspalten der betroffenen
+  Maßnahmenübersichten entsprechend.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
@@ -124,22 +134,22 @@ Hochstufen-Spielrunden.
     und Daily Stock versehen. Status: *erledigt* – Runtime koppelt das
     Tagesangebot an Dienstgrad und Research-Level, der Pool rotiert filmisch pro
     HQ-Zyklus. Nachweis: Commit `7d91e53` (*Implement Chronopolis stock gating*);
-    Regressionseintrag im QA-Log steht aus.
+    QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 14. **Signal-Space-Konsequenz in Texten verankern.** Remote-Hack-Formulierungen
     bereinigen, `comms_check()` erzwingen. Status: *erledigt* – Arena-Makro
     zwingt `must_comms`, Ausrüstungshinweis verankert Hardwarepflicht.
     Nachweis: Commit `8fe8de2` (*Sichere Remote-Hacks über comms_check*);
-    QA-Log-Erweiterung für Remote-Hacks ist geplant.
+    QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 15. **Urban Quick-Card zentral anbieten.** Deckungs- und Verfolgungsreferenzen in
     `/help` bündeln. Status: *erledigt* – `/help urban` liefert Deckungsgrade,
     Distanzstufen und HUD-Tags; README verankert die Schnellhilfe. Nachweis:
     Commit `52d1ba5` (*Add HUD quick-help cards for urban ops and SG benchmarks*);
-    QA-Log-Eintrag folgt nach nächstem Stadt-Playtest.
+    QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 16. **HQ-Moments mechanisch verankern.** Tabelle mit Buff-Icons einführen.
     Status: *erledigt* – Toolkit listet HQ-Buffs als HUD-Icons inkl.
     Makro-Snippet, Dopplungen werden per Kampagnenflag geblockt. Nachweis:
-    Commit `9a1675d` (*Intro-Guard und HQ-Moments nachziehen*); QA-Log-Ergänzung
-    für HQ-Runs steht aus.
+    Commit `9a1675d` (*Intro-Guard und HQ-Moments nachziehen*); QA-Log 2025-11-06
+    (Regressionsevidenz Maßnahmen #13–#20).
 17. **Arena zwingt JSON-Würfellog.** `debug_rolls` standardmäßig aktivieren.
     Status: *erledigt* – Toolkit-Default wurde auf `true` gesetzt und README
     dokumentiert das neue Standardverhalten. Nachweis: Commit `8208170`
@@ -149,17 +159,17 @@ Hochstufen-Spielrunden.
     für Loot-Erinnerung. Status: *erledigt* – neues Makro setzt den Boss-Flag,
     stößt das para-Loot an und markiert den Legendary-Wurf im Log. Nachweis:
     Commit `22d3c33` (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log
-    reflektiert den Lauf nach nächstem Rift-Test.
+    2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 19. **Attribut-Cap kommunizieren.** Charaktererschaffung um Prestige-Hinweis
     ergänzen. Status: *erledigt* – Charaktererschaffung betont das Cap bei 10
     und verweist auf Prestige-Aufstiege für höhere Werte. Nachweis:
     Commit `1be6f57` (*Sichert Attributbudget bei der Charaktererschaffung*);
-    QA-Log-Ergänzung im Charaktererstellungs-Regressionstest ausstehend.
+    QA-Log 2025-11-06 (Regressionsevidenz Maßnahmen #13–#20).
 20. **Arena-Großteams mit Timern steuern.** 30-Sekunden-Takt und Move-Limit im
     HUD. Status: *erledigt* – Arena initialisiert nun Großteam-Zyklen, trackt
     Moves und blendet Timer sowie Limit im HUD ein. Nachweis: Commit `22d3c33`
-    (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log-Eintrag für
-    Großteam-Matches wird vorbereitet.
+    (*Automatisiere Rift-Boss-Loot und Arena-Takt*); QA-Log 2025-11-06
+    (Regressionsevidenz Maßnahmen #13–#20).
 21. **Boss-Pressure-Variationen schützen.** Memory-Pool/Cooldown für
     Druck-Set-Auswahl. Status: *erledigt* – Toolkit setzt eine
     Zweifach-Cooldown-Liste ein, bevor Druck-Sets wieder freigegeben
