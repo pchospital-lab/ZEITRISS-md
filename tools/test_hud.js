@@ -1,7 +1,12 @@
 const assert = require('assert');
 const rt = require('../runtime');
 
+const originalLog = console.log;
+
+console.log = () => {};
 rt.StartMission();
+console.log = originalLog;
+
 let overlay = rt.scene_overlay({ index: 0 });
 assert(!overlay.includes('TK🌀'), 'Cooldown-Icon darf nicht gesetzt sein.');
 console.log(overlay);
@@ -12,7 +17,6 @@ overlay = rt.scene_overlay({ index: 0 });
 assert(overlay.includes('Sweeps:1') && overlay.includes('Stress 2'), 'Exfil-Werte fehlen.');
 console.log(overlay);
 
-const originalLog = console.log;
 console.log = () => {};
 rt.on_command('!tk melee');
 console.log = originalLog;
@@ -33,7 +37,9 @@ assert(fsOverlay.includes('FS 1'), 'Foreshadow-Badge fehlt im Overlay.');
 
 rt.state.campaign.type = 'rift';
 rt.state.campaign.scene_total = 14;
+console.log = () => {};
 const riftOverlay = rt.StartMission();
+console.log = originalLog;
 assert(riftOverlay.includes('SC 0/14'), 'Rift-Overlay zeigt nicht 14 Szenen.');
 assert.strictEqual(rt.state.phase, 'rift', 'Rift-Phase in state.phase fehlt.');
 assert.strictEqual(rt.state.campaign.phase, 'rift', 'Rift-Phase in campaign.phase fehlt.');
