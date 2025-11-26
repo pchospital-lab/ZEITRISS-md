@@ -274,8 +274,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
 - **Foreshadow-Gate Mission 5/10.** Setzt `ForeshadowHint(text, tag)` zweimal pro Gate,
-  bis das HUD `GATE 2/2` meldet. Nach `StartMission()` muss `scene_overlay()`
-  den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen und zusätzlich das
+  bis das HUD `GATE 2/2` meldet. `GATE 0/2` gehört zum Missionsstart und signalisiert,
+  dass noch kein Gate erfüllt wurde. Nach `StartMission()` muss `scene_overlay()` den
+  Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen und zusätzlich das
   Gate-Badge `GATE n/2` anzeigen; `!boss status` spiegelt den Saisonstand und bestätigt,
   dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
 - **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.

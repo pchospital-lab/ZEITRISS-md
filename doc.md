@@ -22,6 +22,16 @@ Dieses Dokument sammelt kurze Hinweise zu häufig genutzten Runtime-Makros.
 Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 `GM_STYLE` auf `precision`, wenn strenge Guards aktiv sein sollen.
 
+## Acceptance-Smoketest (Kurzfassung)
+
+1. `Spiel starten (solo)` → HQ-Overlay `EP·MS·SC` und Compliance-Toast prüfen.
+2. `!load` HQ-Save → HUD zeigt `FS 0/4` (Core) bzw. `FS 0/2` (Rift) plus
+   `GATE 0/2`.
+3. `!helper boss` bestätigt Gate-Status vor Mission 5/10.
+4. `!save` im HQ verifiziert Guard (`SYS` voll, `stress=0`, `psi_heat=0`,
+   Arena inaktiv).
+5. `!arena status`/`!arena quit` stellt den HQ-Reset vor neuen Saves klar.
+
 ## Nachrichtenfluss: Lade-Pipeline
 ```mermaid
 flowchart TD

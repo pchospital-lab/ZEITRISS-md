@@ -3709,6 +3709,20 @@ function ensure_arena(){
   return arena;
 }
 
+function reset_arena_after_load(){
+  const arena = ensure_arena();
+  const hadCompleted = arena.phase === 'completed';
+  const wasActive =
+    !!arena.active || (arena.phase && arena.phase !== 'idle' && arena.phase !== 'completed');
+  if (wasActive && !arena.previous_mode){
+    arena.previous_mode = typeof arena.mode === 'string' ? arena.mode : null;
+  }
+  arena.active = false;
+  arena.phase = hadCompleted || wasActive ? 'completed' : 'idle';
+  arena.phase_strike_tax = 0;
+  return wasActive;
+}
+
 function apply_arena_rules(ctx = state){
   if (!ctx || typeof ctx !== 'object'){ return null; }
   const arena = ctx.arena;
@@ -5737,10 +5751,15 @@ function load_deep(raw){
   }
   migrated.location = 'HQ';
   hydrate_state(migrated);
+  const arenaWasActive = reset_arena_after_load();
+  initialize_wallets_from_roster();
   ensure_runtime_flags().skip_entry_choice = true;
   show_compliance_once();
   const hud = scene_overlay();
   writeLine(hud);
+  if (arenaWasActive){
+    writeLine('Arena-Zustand auf HQ zurückgesetzt.');
+  }
   return { status: 'ok', state, hud };
 }
 
