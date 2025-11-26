@@ -136,6 +136,30 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 }
 ```
 
+- **Mission 5 Auto-Reset (Self-Reflection-Beispiel)**
+
+```json
+{
+  "logs": {
+    "hud": ["SF-OFF (Mission 5)", "GATE 2/2"],
+    "flags": {
+      "foreshadow_gate_m5_seen": true,
+      "self_reflection": false,
+      "self_reflection_off": true,
+      "self_reflection_auto_reset_at": "2025-11-26T22:10:00Z",
+      "self_reflection_auto_reset_reason": "mission5_end",
+      "last_mission_end_reason": "aborted"
+    }
+  },
+  "character": {"self_reflection": true},
+  "ui": {"suggest_mode": false}
+}
+```
+
+Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
+bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
+den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
+
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
@@ -154,6 +178,10 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 - `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
   normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise.
+- Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
+  `party.characters[]` gehoben; anschließend legt
+  `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und
+  meldet den Schritt im HUD („Wallets initialisiert …“).
 
 ### Cross-Mode Import – Solo → Koop/Arena {#cross-mode-import}
 
@@ -282,6 +310,10 @@ zurücksetzen.
 - Pflichtblöcke dürfen nicht geschätzt werden; der Serializer ersetzt fehlende
   Strukturen mit sicheren Defaults (Wallets `{}`, Logs als leere Arrays,
   `ui.gm_style="verbose"`).
+- Story-Beispiel für den HQ-Guard: Abbruch kurz vor Mission 5-Boss → HUD meldet
+  `BOSS`+`GATE 2/2`, Debrief schreibt `last_mission_end_reason=aborted`,
+  Self-Reflection springt automatisch auf `SF-ON` und der Save bleibt bis zur
+  Rückkehr ins HQ gesperrt.
 
 ### Persistente Debrief-Spiegel
 
@@ -292,6 +324,8 @@ zurücksetzen.
 - **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
   `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
   `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
+  `chronopolis_warn_seen` bleibt beim Laden gesetzt und sorgt dafür, dass die
+  City-Warnblende nur einmal auftaucht – auch nach Pre-City-Warncuts.
 - **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
   `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
   Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
@@ -316,6 +350,11 @@ zurücksetzen.
   `gm_style` und `reason`. `prepare_save_logs()`/`sanitize_psi_entries()`
   halten dieses Schema stabil, sodass Debriefs und Cross-Mode-Audits jederzeit
   dieselben Werte lesen können.
+- **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
+  deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
+  Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
+  zurückgesetzt.“); die letzte Runde bleibt über `arena.previous_mode`
+  nachvollziehbar.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
   ein Objekt – ggf. `{}`.
@@ -387,6 +426,20 @@ die Debrief-Zeilen.
 Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
 Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
 Transparenz-Modus nach einem Neustart erhalten.
+
+**Save-Beispiel mit `modes` inkl. `suggest`**
+
+```json
+{
+  "ui": {"suggest_mode": true, "gm_style": "verbose"},
+  "character": {"modes": ["mission_focus", "suggest"]},
+  "logs": {"hud": ["· SUG", "Mission-Fokus"]}
+}
+```
+
+Der Save hält sowohl die aktivierten Erzählmodi (`modes[]`) als auch den UI-Flag
+`suggest_mode`. Beim Laden setzt GPT `modus suggest` und spiegelt das HUD-Tag
+`· SUG` samt Mission-Fokus-Badge.
 
 ## Session-Suspend (Temporärer Snapshot) {#session-suspend}
 
