@@ -76,6 +76,11 @@ Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 4. Misslingt die Probe bei hohem Heat, kann die Backlash-Tabelle greifen.
 5. Talente oder Ausrüstung (z.B. Neuralverstärker **+1**) addieren sich vor dem Wurf.
 
+**Reset-Regel:** Nach jedem Konflikt springt Psi-Heat automatisch auf 0. Das HQ
+setzt zusätzlich Stress, SYS und Psi-Heat auf die gespeicherten Basiswerte
+zurück. HQ-Saves erzwingen daher `psi_heat=0`; läuft noch Arena oder Mission,
+verweigert der Guard den Save.
+
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
 

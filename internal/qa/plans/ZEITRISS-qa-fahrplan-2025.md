@@ -313,15 +313,15 @@ QA-Log 2025-11-26.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Mission 5 Self-Reflection Auto-Reset Beispiel | ⏳ offen | M12; HUD |
-| #2 | Arena-Saves beim Laden auf HQ zurücksetzen | ⏳ offen | RT; M12 |
-| #3 | Acceptance-Smoke-Kurzfassung im Wissensspiegel | ⏳ offen | R(QA); DOC |
-| #4 | Foreshadow-Gate-Badge 0/2 vs. 2/2 präzisieren | ⏳ offen | HUD; TK(16) |
-| #5 | Save-Beispiel für `modes` inkl. `suggest` | ⏳ offen | M12; R |
-| #6 | Chronopolis-Warncut & Flag-Verhalten erläutern | ⏳ offen | R(Chrono); M12 |
-| #7 | HQ-only SaveGuard: Story-Beispiel für Missionsabbruch | ⏳ offen | M12; R |
-| #8 | Array-only Gruppensave: Migration mit Wallet-Init | ⏳ offen | M12 |
-| #9 | Psi-Heat-Reset (Konflikt vs. HQ) klarziehen | ⏳ offen | RT; PSI |
+| #1 | Mission 5 Self-Reflection Auto-Reset Beispiel | ✅ – Save/HUD-Beispiel ergänzt | M12; HUD |
+| #2 | Arena-Saves beim Laden auf HQ zurücksetzen | ✅ – Runtime-Reset & Doku | RT; M12 |
+| #3 | Acceptance-Smoke-Kurzfassung im Wissensspiegel | ✅ – Kurzabläufe in README/DOC | R(QA); DOC |
+| #4 | Foreshadow-Gate-Badge 0/2 vs. 2/2 präzisieren | ✅ – HUD/Toolkit präzisiert | HUD; TK(16) |
+| #5 | Save-Beispiel für `modes` inkl. `suggest` | ✅ – Beispielblock dokumentiert | M12; R |
+| #6 | Chronopolis-Warncut & Flag-Verhalten erläutern | ✅ – Warncut-Flag erklärt | R(Chrono); M12 |
+| #7 | HQ-only SaveGuard: Story-Beispiel für Missionsabbruch | ✅ – Guard-Story im Modul | M12; R |
+| #8 | Array-only Gruppensave: Migration mit Wallet-Init | ✅ – Migration & Wallet-Init | M12 |
+| #9 | Psi-Heat-Reset (Konflikt vs. HQ) klarziehen | ✅ – Reset-Regel dokumentiert | RT; PSI |
 
 **QA-Testreferenz (11-26 Paket)**
 - Mission 5 Badge-Check erneut mit Save-Reset-Flags abbilden.

@@ -319,6 +319,14 @@ und bleibt optional für manuelle Validierungen. Hier folgen ausschließlich die
 Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows ohne QA-Kontext
 nutzen können.
 
+**Kurzablauf (Wissensspiegel)**
+
+1. `Spiel starten (solo)` → HQ-Overlay `EP·MS·SC`, Compliance-Toast prüfen.
+2. `!load` HQ-Save → HUD spiegelt `FS 0/4` bzw. `FS 0/2`, `GATE 0/2`.
+3. `!helper boss` → Gate-Status verifizieren, Mission 5/10 vorbereitet.
+4. `!save` im HQ bestätigt Guard (SYS voll, Stress 0, Psi-Heat 0, Arena inaktiv).
+5. `!arena status` oder `!arena quit` bestätigt Reset vor neuen HQ-Saves.
+
 ### Dispatcher-Starts & Speicherpfade
 
 - **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
@@ -1091,6 +1099,9 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
   `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
   freigeschaltete Stadt und hält den Status im Save.
+- Pre-City-Warncut: Der kurze Warnschnitt zwischen HQ und City setzt das Flag
+  ebenfalls und verhindert doppelte Banner beim nächsten Laden oder nach HQ-
+  Rückkehr. Erst `chronopolis_reset()` öffnet den Warnhinweis erneut.
 - Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert
   Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen
   `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten
