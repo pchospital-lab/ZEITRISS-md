@@ -6,6 +6,71 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-11-26 – Maintainer – Simulativer Acceptance-/Save-Lauf
+- Plattform: Beta-GPT (simulativer Lauf, kein `runtime.js`-Eval)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-06,
+  QA-Fahrplan 1.8.8, QA-Audit Update 2025-11-06
+- Auftrag: Neuestes Testprotokoll (Solo, Koop, PvP, Mission-5-Badge-Check)
+  aus Maintainer-Chat in QA-Struktur spiegeln und Fahrplan-Issues
+  einsortieren.
+
+**Teststrecke (simulativ, HUD/Saves nach Spezifikation)**
+- Solo Core-Op Frühphase (EP 01, MS 01, „Chrono Heist“, ARGOS als Gegenspieler),
+  Px-Tracker und SaveGuard geprüft; Fail-Forward erhöht den Stress/TEMP,
+  lässt den Px-Index regelkonform stagnieren (kein Px-Anstieg).
+- Solo Core-Op Midgame (EP 04, „FALKENSTEIN NACHTJAGD“): Jammer-Phase mit
+  `COMMS:jam`, Offline-Fallback und Px 3/5 via TEMP>7.
+- Endgame Chronopolis & Rift: `chronopolis_warn_seen=true`, Marktstock via
+  `!chrono stock`, Px5→`ClusterCreate()` Seeds #011/#015, Rift-Op HUD mit TTL
+  und Rank-Spiegel.
+- Solo + NPC-Squad: Start über `npc-team 2`, Callouts/Fail-Forward markiert,
+  Save-Handling über `party.characters[]`/`team.members[]` beschrieben.
+- Koop (Merge zweier Solos): Wallet-Split 600 CU → 2×300 CU, Accessibility
+  Persistenz (`contrast=high`, `badge_density=compact`, `output_pace=slow`).
+- PvP/Arena: `arenaStart({teamSize:2, mode:'squad'})`, SaveGuard blockiert HQ-
+  Saves; Cross-Mode-Laderisiko notiert.
+- Mission 5 Badge-Check (Gate 2/2, SF-OFF, FS 0/4): HUD-Hoffnung,
+  Boss-DR-Toast erwartet; Auto-Reset auf `SF-ON` gefordert.
+- Acceptance-Smoke (15 Punkte) per README-Dispatcher-Summary durchgegangen;
+  Abweichungen in Issues erfasst.
+
+**Save-Abgleich**
+- Maintainer-Save (v6) geprüft: vollständige Pflichtfelder (`economy.wallets{}`
+  inkl. Split, `logs.*`, `ui`, `arena`, `arc_dashboard.offene_seeds[]`,
+  Foreshadow-Tokens) vorhanden; Mission 5 HUD-Header mit `GATE 2/2` und
+  `SF-OFF` geloggt.
+
+**Issue-Blöcke (Übergabe an Fahrplan/Audit)**
+1. Self-Reflection Auto-Reset nach Mission 5 nur beschrieben, kein Save-
+   Beispiel/Toast (`self_reflection_auto_reset_*`, Debrief-Text) –
+   Dokumentationslücke.
+2. Arena/PvP Cross-Mode-Laden unklar (Arena-Flags bleiben nach `load_deep()`
+   aktiv, obwohl `location='HQ'`).
+3. Acceptance-Smoke-Checkliste fehlt im Runtime-Wissensspiegel; nur README-
+   Verweis vorhanden.
+4. Foreshadow-Gate-Badge uneinheitlich beschrieben (Mission 5/10 zeigt `GATE`
+   bereits bei 0/2? HUD-Text widersprüchlich).
+5. Suggest-Modus (`modes`-Liste) ohne Save-Beispiel; Persistenz/Bedeutung
+   vs. `ui.gm_style` unklar.
+6. Chronopolis-Warnung (`chronopolis_warn_seen`) narrativ kaum erklärt; kein
+   Beispiel-HUD/Popup.
+7. HQ-only SaveGuard: fehlendes Story-Beispiel für Abbruch ohne HQ-Save
+   (Gear-Hand-over, Debrief-Toast).
+8. Array-only Gruppen-Save (reines JSON-Array) – Migration zu
+   `party.characters[]`/`economy.wallets{}` nur textlich erwähnt, kein Beispiel.
+9. Psi-Heat-Reset: Erwartung HQ=0 dokumentiert, aber Konflikt-Reset/HUD-Toast
+   nicht als Save-Guard beschrieben.
+
+```shell
+# Review-Lauf – keine Runtime-Änderungen, nur QA-Spiegel
+```
+
+**Nachverfolgung**
+- QA-Fahrplan 1.8.8 führt neues Maßnahmenpaket (Issues #1–#9) und Deepcheck-
+  Tabelle fort.
+- Audit erhält Update 2025-11-26 mit Verweis auf diesen Logeintrag und die
+  offenen Maßnahmen.
+
 ## 2025-11-06 – Repo-Agent – Regressionsevidenz Maßnahmen #13–#20
 - Plattform: Lokale CI-Simulation (Doc- & Runtime-Review)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-05,

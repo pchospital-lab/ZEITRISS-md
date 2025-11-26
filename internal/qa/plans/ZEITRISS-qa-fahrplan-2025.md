@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.7
+version: 1.8.8
 tags: [meta]
 ---
 
@@ -83,6 +83,7 @@ Checks in einem Schritt.
 | 2025-11-03 | QA-Fahrplan 1.8.6 Sync & Wissensmodule-Check | QA-Log 2025-11-03 |
 | 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror | QA-Log 2025-11-04 |
 | 2025-11-06 | Regression Audit-Maßnahmen #13–#20 | QA-Log 2025-11-06 |
+| 2025-11-26 | Simulativer Acceptance-/Save-Lauf | QA-Log 2025-11-26 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
@@ -303,7 +304,30 @@ Maintainer-Rohprotokoll (Archiv).
 | #12 | Foreshadow-Mirror Pflichtfeld | ✅ – SaveGuard + Beispiel | RT; M12 |
 | #13 | Accessibility-Preset Beispiel | ✅ – Zweites Muster-Save | M12 |
 
-**QA-Testreferenz**
+## Maßnahmenpaket Beta-GPT 2025-11-26 (Issues #1–#9)
+
+Der simulative Maintainer-Lauf vom 2025-11-26 deckt Dokumentationslücken rund
+um Mission 5 Auto-Reset, Arena-Cross-Mode-Laden, Suggest-Modus-Persistenz und
+Save-Beispiele auf. Die Tabelle sammelt alle offenen Punkte; Details stehen im
+QA-Log 2025-11-26.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------ | ---------- |
+| #1 | Mission 5 Self-Reflection Auto-Reset Beispiel | ⏳ offen | M12; HUD |
+| #2 | Arena-Saves beim Laden auf HQ zurücksetzen | ⏳ offen | RT; M12 |
+| #3 | Acceptance-Smoke-Kurzfassung im Wissensspiegel | ⏳ offen | R(QA); DOC |
+| #4 | Foreshadow-Gate-Badge 0/2 vs. 2/2 präzisieren | ⏳ offen | HUD; TK(16) |
+| #5 | Save-Beispiel für `modes` inkl. `suggest` | ⏳ offen | M12; R |
+| #6 | Chronopolis-Warncut & Flag-Verhalten erläutern | ⏳ offen | R(Chrono); M12 |
+| #7 | HQ-only SaveGuard: Story-Beispiel für Missionsabbruch | ⏳ offen | M12; R |
+| #8 | Array-only Gruppensave: Migration mit Wallet-Init | ⏳ offen | M12 |
+| #9 | Psi-Heat-Reset (Konflikt vs. HQ) klarziehen | ⏳ offen | RT; PSI |
+
+**QA-Testreferenz (11-26 Paket)**
+- Mission 5 Badge-Check erneut mit Save-Reset-Flags abbilden.
+- Arena-Save in HQ laden und Guard/Reset beobachten.
+
+**QA-Testreferenz (10-28 Paket)**
 - Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder). Erwartet:
   Serializer ergänzt fehlende Pflichtblöcke leer und meldet Warnung – keine
   Blocker.

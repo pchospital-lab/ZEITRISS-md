@@ -79,6 +79,16 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan 2025 aktualisiert die Referenzspalten der betroffenen
   Maßnahmenübersichten entsprechend.
 
+## Update 2025-11-26 – Simulativer Acceptance-/Save-Lauf
+
+- QA-Log 2025-11-26 spiegelt den Maintainer-Lauf (Solo/Koop/PvP, Mission 5,
+  Acceptance-Smoke) mit Save-V6-Beispiel und neun Issue-Blöcken.
+- QA-Fahrplan 1.8.8 ergänzt Deepcheck-Tabelle und neues Maßnahmenpaket
+  2025-11-26 (Dokulücken zu Self-Reflection-Reset, Arena-Cross-Mode,
+  Suggest-Modus, Chronopolis-Warnung, Array-only-Saves, Psi-Heat-Reset).
+- Maßnahmenstatus: alle neun Punkte offen; Umsetzung in README/Toolkit/Save-
+  Modulen ausstehend.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
