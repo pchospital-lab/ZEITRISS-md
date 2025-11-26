@@ -2786,8 +2786,9 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
 ### Mission Resolution
 
 Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
-`history_ok_trigger()` auf. Nur Abweichungen vom vorgesehenen Ausgang
-treiben den Paradoxon-Index nach oben.
+`history_ok_trigger()` auf. **Stabile, historisch passende Verläufe**
+füllen den Px-Balken; Abweichungen lassen ihn stehen oder führen bei
+schweren Kollateralschäden zu Px–1.
 
 ### !seed Command
 Gibt einen zufälligen Mission Seed aus dem passenden Pool aus.
@@ -3211,7 +3212,7 @@ dialog: "Zeit ist kein Fluss, Agent. Sie ist ein Tresor."
 event_id: lab_overload
 trigger: Spieler betritt Research-Wing
 skill_gate: Tech 12
-on_fail: +1 Paradoxon-Punkt, mini-explosion (1 W6 Schaden)
+on_fail: Px stagniert, mini-explosion (1 W6 Schaden)
 on_success: 200 CU Bonus
 ```
 
