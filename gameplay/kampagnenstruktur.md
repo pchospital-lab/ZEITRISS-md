@@ -120,6 +120,23 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
   und Fluchtgeometrie). Die Boss-Szene läuft im Stil **VERBOSE** (4–6 Sätze) und
   drückt mit Elementen wie Timer oder Verstärkung.
 
+#### Foreshadow-Gate & Bossphase verzahnen {#foreshadow-gate-bossphase}
+
+1. **HUD & Log klarmachen:** Das Toolkit zeigt im HUD ein Badge wie `Foreshadow 2/4` an und
+   führt einen deduplizierten Foreshadow-Log. Die Einträge landen im Foreshadow-Panel der
+   UI, sodass SL und Spielende jederzeit sehen, welche Marker bereits gesetzt sind.
+2. **Pflicht-Hinweise zählen:** Die zwei Hinweise vor Szene 10 erfüllen gleichzeitig die
+   Boss-Gate-Vorgabe. Core-Ops benötigen insgesamt **4** eindeutige Marker, Rift-Ops **2**.
+   Wiederholte Themen zählen nicht doppelt.
+3. **Trigger-Moment:** Die Spielleitung ruft `ForeshadowHint(tag, text)` immer dann auf,
+   wenn ein signifikanter Hinweis ausgespielt wird (z. B. „Signatur-Gadget“ oder
+   „Fluchtgeometrie“). Die Tags fließen in den Gate-Zähler ein.
+4. **Gate prüfen:** Erreicht das HUD die geforderte Zahl (Core 4/4, Rift 2/2), ist der
+   Boss freigegeben. Verzögerte Konflikte bleiben möglich, wenn `DelayConflict` mit
+   `allow=["ambush", "vehicle_chase"]` aktiviert ist.
+5. **Beispiel:** Vor dem Showdown zeigt das HUD `Foreshadow 2/4` (Core-Mission 4 erledigt);
+   nach Mission 9 stehen `Foreshadow 4/4` und der Boss-Gate öffnet.
+
 ### Fraktionsdynamik und -Konflikte
 
 
@@ -170,11 +187,29 @@ welches Ereignis betroffen ist, deckt die Investigation auf.
 Zur Auswertung nutzt die KI-Spielleitung je nach Modus
 `history_ok_preserve()` oder `history_ok_trigger()`.
 Pro entspricht Preserve, Contra steht für Trigger – beide Seiten arbeiten letztlich
-am Erhalt einer stabilen Zeitlinie.
+am Erhalt einer stabilen Zeitlinie. Eine Kampagne läuft jedoch strikt in einem
+einzigen Modus; gemischte Pools oder parallele Preserve/Trigger-Läufe sind
+ausgeschlossen.
 Eine kurze Zusammenfassung der Abläufe bietet das README.
 > **Hinweis:** In **Trigger-Missionen** stellen die erzwungenen Tragödien stets das **kleinere Übel** dar –
 > ihre Verhinderung würde eine noch schlimmere Katastrophe auslösen. Dieses Framing hält die
 > Entscheidungen der Agenten moralisch nachvollziehbar, obwohl sie historisches Unheil herbeiführen.
+
+#### Entscheidungsroutine Preserve vs. Trigger {#preserve-trigger-ablauf}
+
+1. **Session 0 abfragen:** Die SL ermittelt pro Person die Präferenz (Pro = Preserve,
+   Contra = Trigger) und dokumentiert sie im Kampagnenlog. Bei Uneinigkeit wird ein
+   Kampagnenmodus festgelegt (Konsens oder SL-Entscheid); der jeweils andere Modus
+   entfällt für diese Kampagne.
+2. **Seed-Pool fixieren:** Ab dem Start zieht die Runde ausschließlich aus dem gewählten
+   Pool (`preserve_pool` oder `trigger_pool`). Es gibt keine Rotationen oder
+   Parallelmissionen zwischen den Modi.
+3. **Sitzungsstart-Checkliste:** Pool wählen → Mission-Seed ziehen → Modus im HUD markieren
+   (`[PRESERVE]` oder `[TRIGGER]`) → Briefing fahren.
+4. **Einsatz ausspielen:** Während der Mission bleibt der Modus fix; die SL nutzt passende
+   Complications und NSC-Haltungen (Preserve defensiv, Trigger konfrontativ).
+5. **Debrief:** Beim Auswertungsschritt ruft die SL ausschließlich den passenden Call zum
+   gewählten Modus auf – `history_ok_preserve()` oder `history_ok_trigger()`.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
