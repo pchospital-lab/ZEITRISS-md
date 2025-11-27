@@ -58,6 +58,11 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 - Statushinweise nur bei Regelrelevanz.
 - Zeitsprünge zeigen das **Nullzeit-Menü** aus `zustaende-hud-system.md`. HUD-Meldungen
   bleiben futuristisch und knapp.
+- Hud bleibt immer sichtbar und kontextsensitiv: Nullzeit, HQ-Link und Feld-HUD nutzen denselben
+  kompakten Inline-Stil mit Backticks. Keine Codeblöcke oder Sprach-Tags.
+- Inhalte passen sich Szene und Phase an (Vitals & Paradoxon bei Gefahr, Missionsziel & Uhrzeit im
+  Briefing, Tarnstatus & Lautstärke beim Schleichen, Comms-Qualität & Team-IDs im Gefecht). Buttons
+  bleiben kurz, futuristisch und wirken wie Spiel-Badges, auch auf mobilen Displays.
 
 ## Spielerinteraktion
 
