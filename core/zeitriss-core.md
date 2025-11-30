@@ -159,20 +159,20 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 
 **Attributswerte:** Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
 außergewöhnlich und markiert einen Topwert – diese Schwelle bildet das offizielle **Attributs-Cap**
-der Startkampagnen. Bei der Charaktererschaffung starten alle Attribute typischerweise auf einem
-Grundwert (z. B. jeweils 3), und es steht eine bestimmte Anzahl freier Punkte zur Verteilung bereit
-(üblich sind etwa 8 Punkte für alle sechs Attribute). Kein Start-Attribut sollte höher als ~6 sein,
-damit Ihr nicht bereits im Prolog übermenschlich beginnt. Durch diese Verteilung entstehen
-unterschiedliche Startcharaktere – spezialisierte Experten oder vielseitige Allrounder. Werte über 10
-werden erst nach einem **Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet;
-bis dahin bleibt das Cap unverrückbar. Sobald Ihr Prestige erreicht, öffnet Ihr die Tür zu
-qualitativen Perks, die einzelne Attribute punktuell über die Zehn hinausheben und dabei neue
-Erzählhaken auslösen.
+der Startkampagnen. Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
+tragt direkt die **Boni/Mali eurer Bio-Hülle** ein (diese können Zwischenwerte unter 0 erzeugen) und
+verteilt anschließend **18 freie Punkte** – jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
+kein Attribut unter **1** liegen; 3 bleibt der Orientierungswert für Durchschnittlichkeit, typische
+Startbereiche sind 2–5. Kein Start-Attribut sollte höher als ~6 sein, damit Ihr nicht bereits im
+Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere –
+spezialisierte Experten oder vielseitige Allrounder. Werte über 10 werden erst nach einem
+**Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet; bis dahin bleibt das
+Cap unverrückbar. Sobald Ihr Prestige erreicht, öffnet Ihr die Tür zu qualitativen Perks, die
+einzelne Attribute punktuell über die Zehn hinausheben und dabei neue Erzählhaken auslösen.
 
-**Beispiel:** Agent Alex startet mit STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3. Mit 8 freien
-Attributpunkten erhöht der Spieler Geschicklichkeit um +2, Intelligenz um +2, Temporale Affinität um
-+1 und Systemlast um +1. Alex hat nun STR 3, GES 5, INT 5, CHA 3, TEMP 4, SYS 4 – er ist also
-überdurchschnittlich schlau und gewandt und hat bereits eine gewisse Zeit-Sensibilität, aber nur
+**Beispiel:** Agent Alex (Standardmensch ohne Modifikatoren) startet alle Werte bei 0, fügt keine
+Rassenanpassungen hinzu und verteilt 18 Punkte: STR 3, GES 4, INT 4, CHA 2, TEMP 3, SYS 2. Alex ist
+damit überdurchschnittlich gewandt und schlau, besitzt solide Temporale Affinität, aber nur
 durchschnittliche Körperkraft und Ausstrahlung. Diese Werte fließen in Proben ein: Je höher ein
 Attribut, desto größer die Chance, dass entsprechende Aktionen gelingen; niedrige Werte machen
 Aufgaben auf diesen Gebieten schwieriger. Gleichzeitig bestimmen TEMP und SYS, wie gut Alex mit

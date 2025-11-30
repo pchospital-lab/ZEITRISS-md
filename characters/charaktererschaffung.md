@@ -31,7 +31,7 @@ euer rekonstruiertes Bewusstsein in diesen Körper.
 1. Konzeptidee festlegen
 2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (T‑Stufe/N‑Typ) oder historischer Hominin.
    Siehe [Hominin-Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
-3. Attribute verteilen (Basis 2–5)
+3. Attribute verteilen (18 Punkte von Basis 0, Endwerte ≥ 1)
 4. Zwei Talente wählen
 5. Startausrüstung notieren
 6. Ruf und Hintergrund skizzieren
@@ -188,17 +188,22 @@ freigeschaltet.
 2.  **Attribute zuweisen:** Jeder Chrononaut besitzt **sechs Basis-Attribute**: **STR** (Stärke),
     **GES** (Geschicklichkeit), **INT** (Intelligenz), **CHA** (Charisma), **TEMP** (Temporale
     Affinität) und **SYS** (Systemkapazität für Implantate). Ihr startet mit einem Budget von
-    **18 Attributspunkten** (6×3). Ein Wert von **2–3** gilt als durchschnittlich, **4–5** als exzellent.
-    Jede Absenkung unter 3 setzt exakt einen Punkt frei; jede Steigerung verbraucht einen Punkt.
-    Der HUD-Kodex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt, wenn ihr überzieht
-    oder Punkte unverteilt lasst.
+    **18 Attributspunkten**. Geht bei der Verteilung konsequent so vor:
+
+    1. Setzt **alle Attribute auf 0** und wendet sofort die **Rassen-Boni/-Mali** an. Dadurch können
+       auch **0- oder negative Zwischenwerte** entstehen.
+    2. Verteilt nun die **18 Punkte** auf die so modifizierten Werte. Jeder Punkt erhöht einen Wert um
+       genau **+1**. Der HUD-Kodex blendet nach jeder Anpassung `Attributbudget: X/18` ein und mahnt,
+       wenn ihr überzieht oder Punkte unverteilt lasst.
+    3. Nach der Verteilung muss **jeder Endwert mindestens 1** betragen (Rassenmali dürfen also nicht
+       dazu führen, dass ihr bei **0 oder darunter** fertig werdet). Werte um **3** dienen nur als
+       Orientierung für Durchschnittlichkeit; typischer Startbereich sind **2–5**, extrem hohe
+       Spezialisierungen sollten durch Schwächen ausgeglichen sein.
+
     Neue Agenten sind in der Regel kompetent, aber keine Übermenschen – extreme Ausprägungen (z.B. 5 in
-    mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Als
-    Richtlinie könnt ihr jedem Attribut zunächst den Durchschnittswert **3** geben und dann einige
-    Punkte gemäß eurem Konzept umverteilen: Erhöht die Schlüsselfähigkeiten eures Charakters und senkt
-    ggf. einen weniger wichtigen Wert auf 2, um einen zusätzlichen Punkt woanders einsetzen zu können.
-    Achtet darauf, dass die Summe bis zum Abschluss wieder **18** ergibt.
-    Kein Startwert sollte normalerweise über **5** liegen oder unter **2** fallen. Die Beispiel-
+    mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Achtet
+    darauf, dass die Summe bis zum Abschluss **18** ergibt.
+    Kein Startwert sollte normalerweise über **5** liegen oder unter **1** fallen. Die Beispiel-
     Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
     STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber

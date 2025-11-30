@@ -2007,8 +2007,12 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   {% endif %}
   {% set attrs = char_ref.attributes | default({}, true) %}
   {% set tally = namespace(total=0) %}
+  {% set low_attrs = [] %}
   {% for _, val in attrs.items() %}
     {% set tally.total = tally.total + (val or 0) %}
+    {% if (val or 0) < 1 %}
+      {% do low_attrs.append(_ ~ ' ' ~ (val or 0)) %}
+    {% endif %}
   {% endfor %}
   {% set delta = budget - tally.total %}
   {% if delta > 0 %}
@@ -2018,6 +2022,9 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
       (-delta) ~ ' Punkt(e) zurücknehmen.') }}
   {% else %}
     {{ hud_tag('Attributbudget ausgeglichen: ' ~ tally.total ~ '/' ~ budget ~ ' · Keine Restpunkte') }}
+  {% endif %}
+  {% if low_attrs %}
+    {{ hud_tag('Mindestwert prüfen: ' ~ low_attrs|join(', ') ~ ' → Werte auf mindestens 1 anheben') }}
   {% endif %}
 {%- endmacro %}
 
