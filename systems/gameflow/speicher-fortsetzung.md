@@ -283,10 +283,12 @@ zurücksetzen.
 
 ### Ablauf nach `!load`
 
-1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
+ 1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
    Eingabe mit „Kodex: Poste Speicherstand als JSON.“
-2. **Deserializer starten.** `load_deep()` in `runtime.js` migriert Legacy-Felder
-   in die v6-Struktur, prüft Pflichtblöcke und setzt `state.location='HQ'`.
+ 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
+   migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
+   `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
+   diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
 3. **Rückblende & HUD.** `scene_overlay()` rendert nach dem Laden den HUD-Block
    „EP·MS·SC/Total·Px·SYS“. Die Runde springt ohne Nachfrage direkt zum HQ-
    beziehungsweise Briefing-Einstieg.
@@ -296,8 +298,15 @@ zurücksetzen.
 
 {# LINT:FS_RESET_OK #}
 
-> **Laufzeitabgleich:** Guard-Texte und HUD-Ausgabe entsprechen den Routinen
-> `load_deep()` und `scene_overlay()` in `runtime.js` (ZR_VERSION 4.2.2).
+> **Laufzeitabgleich:** Dieses Modul ist maßgeblich für GPT-basierte
+> Spielleitungen. Die beigelegte `runtime.js` dient nur als Test-Spiegel für
+> lokale Runs und wird nicht in produktive Wissensspeicher geladen.
+
+**Mid-Session-Merge:** Für laufende Einsätze nutzt GPT statt `load_deep()` einen
+leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
+`party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
+So können neue Agent:innen aufschlagen, während `state.location` auf Mission
+steht; gespeichert wird trotzdem erst wieder im HQ.
 
 ### Kompatibilität & Guards
 
@@ -1087,48 +1096,40 @@ sie jedoch hinzufügen, um maximale Eindeutigkeit zu erzielen.)
 
 ### Laden und Zusammenführen von Speicherständen
 
-Beim Laden eines Speicherstands in den Chat-Kontext – sei es zu Beginn einer neuen Spielsession oder
-mitten im Spiel – folgt GPT je nach Art des Savegames unterschiedlichen Pfaden. Wichtig ist, dass
-dieser Übergang reibungslos und narrativ sauber abläuft. **Je nach Situation passiert Folgendes:**
+Speichern bleibt strikt HQ-only. **Gruppen-Merges** dürfen aber auch mitten in einer laufenden Mission
+passieren: Spielende posten ihre letzten HQ-Saves in den Chat, GPT liest die Charakterblöcke ein und
+fügt sie ohne Timer- oder Szenen-Reset in die aktive Gruppe ein. Der laufende Einsatz bleibt
+eingefroren, bis die neuen Agent:innen eingegliedert sind. **Je nach Situation passiert Folgendes:**
 
-- **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand geladen
+- **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand im HQ geladen
   (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie gewohnt: GPT liest die
   Charakterdaten ein und setzt die Geschichte nahtlos mit **diesem einen Chrononauten** fort. Für den
   Spieler fühlt es sich an, als würde er genau dort weitermachen, wo er mit seinem Charakter aufgehört
   hat. Alle Werte, Inventargegenstände und Kodex-Einträge aus dem Save stehen zur Verfügung, und die
   neue Mission kann mit dem bekannten Helden beginnen. _(Dieser Ablauf entspricht dem bisherigen
   Fortsetzungsprozess in ZEITRISS.)_
-- **Von Solo zu Gruppe (Charaktere hinzufügen):** Neu ist die Möglichkeit, aus einem laufenden
-  Einzelspiel eine Gruppe zu bilden, indem man einen weiteren Charakter hinzulädt. Das geht so: Man
-  startet wie üblich mit dem bisherigen Solo-Charakter A (lädt also dessen Save). Anschließend fügt
-  man zusätzlich den Speicherblock eines zweiten Charakters B in den Chat ein. GPT erkennt nun, dass
-  zwei getrennte Datensätze vorliegen. Daraus resultiert automatisch ein **Gruppen-Spielstand**.
-  Charakter B wird als neues Gruppenmitglied hinzugefügt, ohne Charakter A zu entfernen oder zu
-  überschreiben. In der laufenden Geschichte taucht B dann z.B. als weiterer Agent auf, der sich dem
-  Team anschließt. Charakter A behält all seine Daten und bleibt aktiv; Charakter B bringt seine
-  eigenen Daten mit. Fortan führt GPT beide Charaktere gemeinsam in einem Gruppenstand weiter.
-  _(Wichtig: Die Reihenfolge, in der man zusätzliche Charakter-Saves einfügt, spielt keine große Rolle
-  – ob B gleich zu Anfang oder mitten in einer Mission dazukommt: GPT erkennt den neuen Datensatz und
-  integriert B entsprechend ins Team.)_
-- **Gruppenstart (mehrere Charaktere gemeinsam laden):** Es ist ebenso möglich, **von Anfang an**
-  mehrere Speicherstände gleichzeitig zu laden – zum Beispiel wenn mehrere Spieler, die zuvor einzeln
-  gespielt haben, nun zusammen eine Mission starten wollen. In diesem Fall werden die Savegame-Blöcke
-  aller beteiligten Charaktere nacheinander (oder gesammelt) in den neuen Chat eingefügt. GPT
-  konsolidiert diese Informationen automatisch zu **einem einzigen Gruppenstand**: Alle Charakterdaten
-  bleiben jeweils separat vorhanden, bilden aber in der Spielwelt nun ein gemeinsames Team. GPT
-  behandelt den zusammengeführten Speicherblock als eine Einheit, die alle nötigen Infos für die
-  Gruppe enthält. Es ist also, als hätte GPT intern eine Liste aller aktiven Charaktere. Kein
-  Charakter überschreibt einen anderen: Selbst wenn man mehrere JSON-Objekte unmittelbar
-  hintereinander einfügt, werden sie nicht vermischt. GPT sieht mehrere Top-Level- Objekte bzw. Array-
-  Elemente und erstellt intern eine Sammlung aller Charaktere. _(Reihenfolge egal: Ob man zuerst Alex,
-  dann Mia lädt oder umgekehrt, spielt inhaltlich keine Rolle – am Ende zählt, dass GPT beide Einträge
-  sieht. Sollte ein Charakter doppelt geladen werden (z.B. jemand fügt versehentlich denselben Save
-  zweimal ein), würde GPT dank identischer Daten/ID erkennen, dass es sich um die gleiche Figur
-  handelt, und keinen Klon erzeugen.)_
-  Nach dem Zusammenführen der Spielstände setzt GPT den Paradoxon-Index sowie die Liste offener
-  Rifts auf **0**, damit das Team mit einem sauberen Stand beginnen kann. Ein optionales
-  `startGroupMode()`-Snippet im Entwickler-Stubs `internal/runtime/runtime-stub-routing-layer.md`
-  illustriert diesen Reset – das Dokument selbst wird nicht ins Spiel eingebunden.
+- **Von Solo zu Gruppe (Charaktere hinzufügen):** Wer aus einem Solo-Spiel eine Gruppe bilden möchte,
+  erledigt das spätestens im Briefing: Zuerst wird wie üblich der Solo-Charakter A geladen, anschließend
+  folgt der Speicherblock von Charakter B. GPT erkennt die getrennten Datensätze und erzeugt daraus einen
+  **Gruppen-Spielstand**. Charakter B wird als neues Gruppenmitglied ergänzt, ohne Charakter A zu
+  überschreiben. Der Eintritt kann beim Briefing oder – falls die Mission schon läuft – als filmischer
+  Drop-in in der aktuellen Szene passieren (z. B. Ankunft per Gate oder Funk-Handshake). Die Mission
+  selbst wird dabei **nicht** zurückgesetzt.
+- **Gruppenstart (mehrere Charaktere gemeinsam laden):** Mehrere Speicherstände können zum Session-
+  Start hintereinander (oder gesammelt) ins HQ gepostet werden, wenn mehrere Spieler ihre Soloruns zu
+  einem Team bündeln wollen. GPT konsolidiert diese Informationen zu **einem einzigen Gruppenstand**:
+  Alle Charakterdaten bleiben separat erhalten, bilden aber nun ein gemeinsames Team. Kein Charakter
+  überschreibt einen anderen; doppelte Saves derselben ID erkennt GPT und aktualisiert nur. Die
+  Reihenfolge der Blöcke ist egal. Nach dem Zusammenführen setzt GPT Paradoxon-Index und offene Rifts
+  auf **0**, damit der neue Run sauber im HQ beginnt. Das Toolkit zeigt den Reset-Pseudocode in
+  `systems/toolkit-gpt-spielleiter.md` (Snippet `StartGroupMode()`); interne Dev-Stubs sind dafür
+  nicht erforderlich.
+
+> **Mid-Session-Beitritt:** Ein Missionsteam darf jederzeit neue HQ-Saves einwerfen. GPT friert die
+> Szene kurz ein, mapt die neuen Charaktere auf `party.characters[]`, normalisiert Wallets und fährt
+> dann mit unveränderten Timern/Clocks fort. Speichern bleibt dennoch HQ-only; ein Ausstieg mitten in
+> der Mission erzeugt **keinen** neuen Save, sondern verweist auf den letzten HQ-Save oder einen
+> temporären `!suspend`-Snapshot.
 
 **Zusammengefasst:** Ein einzelner Savegame-Block ergibt einen einzelnen Charakter; mehrere
 Savegame-Blöcke (gleichzeitig oder sukzessive) ergeben die Bildung bzw. Erweiterung einer Gruppe.

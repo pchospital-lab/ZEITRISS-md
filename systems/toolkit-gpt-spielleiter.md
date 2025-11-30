@@ -3085,6 +3085,30 @@ Gruppendynamik zu erleben.
   Kampagnenplanung (Episoden, Briefing, Einsatz, Debriefing), damit auch
   improvisierte Gruppenmissionen rund wirken.
 
+### Toolkit-Pseudocode: Gruppen-Reset & Mid-Session-Merge
+
+```pseudo
+macro StartGroupMode(players = [], keep_scene = false):
+  hud_tag("GRP · Linking …")
+  state.paradoxon_index = 0
+  state.open_seeds = []
+  normalize_wallets(players)
+  if keep_scene:
+    // Mid-Session-Beitritt: Timer/Clocks bleiben stehen, Szene kurz einfrieren
+    map_players_to_party(players)
+    toast("Crew erweitert – Mission läuft weiter.")
+    return
+  // HQ-Start: Standard-Gruppenreset
+  map_players_to_party(players)
+  scene_reset_to_hq()
+  toast("Gruppenmodus aktiv. Paradoxon-Index zurückgesetzt.")
+```
+
+Nutze `keep_scene=true`, wenn Spieler:innen mitten in einer Mission dazukommen: Du stoppst kurz die
+Action, fügst die neuen Charaktere ein und setzt die laufenden Timer ohne Neustart fort. Im HQ-Start
+läuft derselbe Makro ohne Flag und räumt Paradoxon-Index sowie offene Seeds für einen sauberen Beginn
+ab.
+
 ## Fazit
 
 Mit dieser Methode kann ein Solo-Spieler jederzeit ein kurzlebiges, aber
