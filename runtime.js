@@ -811,11 +811,14 @@ function ensure_logs(){
   } else {
     flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count));
   }
-  if (typeof flags.self_reflection !== 'boolean'){
-    const charFlag = state.character && typeof state.character.self_reflection === 'boolean'
+  const charSelfReflection =
+    state.character && typeof state.character.self_reflection === 'boolean'
       ? state.character.self_reflection
-      : true;
-    flags.self_reflection = charFlag !== false;
+      : null;
+  if (charSelfReflection !== null){
+    flags.self_reflection = !!charSelfReflection;
+  } else if (typeof flags.self_reflection !== 'boolean'){
+    flags.self_reflection = true;
   } else {
     flags.self_reflection = !!flags.self_reflection;
   }
@@ -832,7 +835,8 @@ function ensure_logs(){
     || flags.foreshadow_gate_snapshot > 0;
   flags.foreshadow_gate_m5_seen = !!flags.foreshadow_gate_m5_seen;
   flags.foreshadow_gate_m10_seen = !!flags.foreshadow_gate_m10_seen;
-  flags.self_reflection_off = !!flags.self_reflection_off && !flags.self_reflection;
+  flags.self_reflection_off = (!flags.self_reflection && flags.self_reflection_off !== false)
+    || (flags.self_reflection_off === true && !flags.self_reflection);
   if (typeof flags.self_reflection_changed_at !== 'string'){
     flags.self_reflection_changed_at = null;
   }
@@ -2456,6 +2460,7 @@ function completeMission(summary = {}){
   const stabilizedFlag = asBoolean(summary.stabilized);
   const successFlag = asBoolean(summary.success);
   const completedFlag = asBoolean(summary.completed);
+  const patzerFlag = normalizedReason === 'patzer' || normalizedReason === 'kritischer patzer';
   let missionEndReason = 'completed';
   if (abortedFlag || normalizedReason === 'aborted'){
     missionEndReason = 'aborted';
@@ -2470,6 +2475,13 @@ function completeMission(summary = {}){
     completedFlag === true ||
     normalizedReason === 'stabilized' ||
     normalizedReason === 'completed';
+  if (!stabilized && (missionEndReason === 'failed' || patzerFlag)){
+    const before = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+    const after = incrementParadoxon(-1);
+    state.campaign.missions_since_px = 0;
+    const note = patzerFlag ? 'Patzer' : 'Mission fehlgeschlagen';
+    events.push(`Kodex: ${note} – Px sinkt auf ${after}/5 (vorher ${before}/5).`);
+  }
   if (stabilized){
     state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
     const progress = state.campaign.missions_since_px;

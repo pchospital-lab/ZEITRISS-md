@@ -90,7 +90,8 @@ Details findest du in [LICENSE](LICENSE).
    Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten.
-   Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px.
+   Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px; ein Fail
+   oder Patzer zieht den Index um 1 Punkt nach unten.
    Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende.
 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
@@ -500,6 +501,26 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
 15-Schritte-Variante im Abschnitt
 [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
+**Acceptance-Smoke – Laufzeit-Set (15 Punkte)**
+1. `Spiel starten (solo klassisch)` → HQ-Overlay (`EP·MS·SC`, Compliance-Toast).
+2. `Spiel starten (solo schnell)` → Rolle wählen, Briefing ohne Rückfrage.
+3. `Spiel starten (npc-team 3 schnell)` → drei NSCs sichtbar, Briefing-Start.
+4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“.
+5. `Spiel starten (gruppe schnell)` → zwei Saves + Rolle, Briefing-Start.
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“.
+7. `Spiel laden` → Kodex-Recap-Overlay, Start ohne erneute Dispatcher-Frage.
+8. `Speichern` in Mission blockiert („Speichern nur im HQ …“).
+9. Gear-Alias „Multi-Tool-Armband“ → stiller Alias → „Multi-Tool-Handschuh“.
+10. `Px 5` erreicht → Hinweis „Seeds erzeugt, spielbar nach Episodenende“.
+11. `!helper boss` nach M4 → Gate `0/2`, Foreshadow-Liste für Mission 5/10.
+12. Mission 5: HUD `GATE 2/2`, `SF-OFF` falls zuvor deaktiviert, Boss-DR-Toast
+    in Szene 10; Missionsende setzt Self-Reflection automatisch auf `SF-ON`.
+13. Psi-Konflikt → `Psi-Heat +1`; nach Konflikt `psi_heat = 0`, HQ-Transfer
+    setzt SYS/Stress/Psi-Heat zurück.
+14. `!accessibility` → `contrast=high`, `badge_density=dense/compact`,
+    `output_pace=slow` speichern; Toast „Accessibility aktualisiert …“.
+15. Save laden → `!accessibility` erneut prüfen, Werte sind persistiert.
+
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
 - `!save` – speichert einen Deepsave (nur im HQ).
@@ -509,6 +530,9 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
   Initiative-Leiste sowie HUD-Timer wieder her.
 - `!autosave hq` – schaltet Auto-Save im HQ.
 - `!accessibility` – öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
+  Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
+  `output_pace=normal|fast|slow` im Save; der Toast „Accessibility aktualisiert …“
+  bestätigt jede Änderung.
 
 - `!gear shop` – zeigt Shop-Tier-Liste.
 - `!psi heat` – erklärt Psi-Heat und Burn.
@@ -536,7 +560,13 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
   zeigt parallel das Badge `GATE n/2` für den Gate-Status; `!boss status`
   meldet gleichzeitig `Gate n/2 · Mission FS n/4` (bzw. `n/2`).
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
-  `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`).
+  `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`). Das SUG-Badge
+  ist unabhängig von Self-Reflection und bleibt aktiv, auch wenn `SF-OFF` gesetzt wurde.
+- **Self-Reflection-Quelle.** Das HUD orientiert sich an `character.self_reflection`;
+  `logs.flags.self_reflection` spiegelt diesen Wert und darf ihn nicht überschreiben.
+- **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis zum Exit
+  und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul; Standardkampagnen
+  laufen ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
   setzt `phase_strike_tax = 1`, blockiert HQ-Saves, loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier,
   Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool (`economy.cu`) und im
@@ -1106,7 +1136,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen
   `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten
   Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive
-  Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle.
+  Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle; ältere
+  Einträge werden oberhalb von 24 automatisch abgeschnitten.
 - Offline-Fallbacks landen ebenfalls im Save: `logs.offline[]` hält bis zu 12
   Protokollzeilen mit Trigger, Gerät, Jammer-Status, Reichweite, Relais und
   Szenenmarker fest; `offline_audit()` speist HUD und Debrief. Die
@@ -1135,11 +1166,14 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den
   Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
   sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus
-  `party.characters[]`/`team.members[]` und verschiebt alte Solo-Guthaben
-  vollständig in den HQ-Pool. Ohne Spezialvorgaben teilt der GPT die Prämie
-  gleichmäßig und holt eine Bestätigung ein, bevor Sonderwünsche umgesetzt
-  werden. Alle Anpassungen am HQ-Pool spiegeln `economy.credits` automatisch,
-  damit Arena- und Tool-Fallbacks denselben Kontostand sehen.
+  `party.characters[]`; die Fallback-Struktur `team.members[]` bleibt
+  ausschließlich für Legacy-Migrationen reserviert.
+  `initialize_wallets_from_roster()` verschiebt alte Solo-Guthaben vollständig
+  in den HQ-Pool und öffnet anschließend die Wallets aller aktiven IDs. Ohne
+  Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine
+  Bestätigung ein, bevor Sonderwünsche umgesetzt werden. Alle Anpassungen am HQ-
+  Pool spiegeln `economy.credits` automatisch, damit Arena- und Tool-Fallbacks
+  denselben Kontostand sehen.
 - **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
   landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
   die Wallet-Verteilung.
