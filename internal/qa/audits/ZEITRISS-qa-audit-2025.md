@@ -99,6 +99,8 @@ Hochstufen-Spielrunden.
   Status „offen“ für alle Punkte angelegt.
 - Nächste Schritte: Px-Balancing und Dokumentations-Sync priorisieren, danach
   Save-/HUD-Klärungen und PvP-Hinweis in README/Toolkit.
+- Maßnahmenpaket 2025-12-02 vollständig umgesetzt (Px-Balancing, Acceptance-
+  Spiegel, Save- und Arena-Deltas); QA-Fahrplan und QA-Log aktualisiert.
 
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin

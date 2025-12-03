@@ -77,7 +77,9 @@ Der Standard-Header zeigt:
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert
   `logs.flags.self_reflection_changed_at` sowie `logs.flags.self_reflection_last_change_reason`.
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
-  und `logs.flags.self_reflection_auto_reset_reason`.
+  und `logs.flags.self_reflection_auto_reset_reason`. Quelle ist stets
+  `character.self_reflection`; Log-Flags spiegeln diesen Wert und dürfen ihn nicht
+  überschreiben. Der Suggest-Modus (`SUG`) bleibt davon unabhängig aktiv.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies

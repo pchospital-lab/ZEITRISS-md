@@ -21,23 +21,23 @@ tags: [meta]
   geliefert.
 
 **Offene Punkte (neues Maßnahmenpaket 2025-12-02)**
-- [ ] Px-Balancing: Schlechtes Spielen muss Px senken, gutes Spielen erhöhen.
-- [ ] Acceptance-Smoke 15er-Liste im Laufzeit-Set spiegeln
+- [x] Px-Balancing: Schlechtes Spielen muss Px senken, gutes Spielen erhöhen.
+- [x] Acceptance-Smoke 15er-Liste im Laufzeit-Set spiegeln
       (nicht nur externes QA-Dokument).
-- [ ] `select_state_for_save()`-Pseudocode auf Save-v6 Pflichtfelder heben
+- [x] `select_state_for_save()`-Pseudocode auf Save-v6 Pflichtfelder heben
       (inkl. `arena`, `arc_dashboard`, `economy.wallets{}`, vollständige Logs).
-- [ ] Wallet-Init-Begriff vereinheitlichen
+- [x] Wallet-Init-Begriff vereinheitlichen
       (`initialize_wallets_from_roster()` statt gemischter Aliase).
-- [ ] Self-Reflection-Quelle klären (Charakterwert vs. Flag-Historie) und HUD
+- [x] Self-Reflection-Quelle klären (Charakterwert vs. Flag-Historie) und HUD
       an das Charakterfeld binden.
-- [ ] Arena-SaveGuard: dokumentieren, dass `arenaStart()` `location` setzt und
+- [x] Arena-SaveGuard: dokumentieren, dass `arenaStart()` `location` setzt und
       Saves mit aktivem `arena.active` blockiert.
-- [ ] `!accessibility`-Dialog exemplarisch beschreiben (Optionen → JSON-Mapping).
-- [ ] Gruppensaves: Legacy `team.members[]` nur als Migration, produktiv nur
+- [x] `!accessibility`-Dialog exemplarisch beschreiben (Optionen → JSON-Mapping).
+- [x] Gruppensaves: Legacy `team.members[]` nur als Migration, produktiv nur
       `party.characters[]` zeigen.
-- [ ] Suggest-Modus vs. Self-Reflection entkoppeln, Badges getrennt erläutern.
-- [ ] Markt-Log-Limit (24 Einträge) im Speicher-Modul explizit nennen.
-- [ ] PvP-Arena als optionales Endgame-Feature im README kennzeichnen.
+- [x] Suggest-Modus vs. Self-Reflection entkoppeln, Badges getrennt erläutern.
+- [x] Markt-Log-Limit (24 Einträge) im Speicher-Modul explizit nennen.
+- [x] PvP-Arena als optionales Endgame-Feature im README kennzeichnen.
 
 **Nachverfolgung**
 - Fahrplan/Audit: neues Maßnahmenpaket 2025-12-02 aufnehmen, Status = offen.
