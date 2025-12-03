@@ -89,6 +89,17 @@ Hochstufen-Spielrunden.
 - Maßnahmenstatus: alle neun Punkte offen; Umsetzung in README/Toolkit/Save-
   Modulen ausstehend.
 
+## Update 2025-12-02 – Px-/Acceptance-Folgelauf
+
+- QA-Log 2025-12-02 dokumentiert den erneuten Testprompt-Lauf mit Px-Regression
+  (Fail-Forward erhöht Px, soll senken) und 11 offenen Folgepunkten zu
+  Acceptance-Spiegel, SaveGuard, Wallet-Init, Self-Reflection, Arena und PvP-
+  Kennzeichnung.
+- QA-Fahrplan auf Version 1.8.9 angehoben; neues Maßnahmenpaket 2025-12-02 mit
+  Status „offen“ für alle Punkte angelegt.
+- Nächste Schritte: Px-Balancing und Dokumentations-Sync priorisieren, danach
+  Save-/HUD-Klärungen und PvP-Hinweis in README/Toolkit.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
