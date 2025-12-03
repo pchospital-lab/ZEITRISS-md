@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.8
+version: 1.8.9
 tags: [meta]
 ---
 
@@ -331,6 +331,26 @@ QA-Log 2025-11-26.
 - Regressionstest `!save` mit Minimal-HQ-Save (nur Pflichtfelder). Erwartet:
   Serializer ergänzt fehlende Pflichtblöcke leer und meldet Warnung – keine
   Blocker.
+
+## Maßnahmenpaket Maintainer 2025-12-02 (Issues #1–#11)
+
+Der erneute Testprompt-Lauf vom 2025-12-02 liefert einen Px-Balancing-Bug und
+zehn Dokumentations-/Save-Themen (Acceptance-Spiegel, SaveGuard, Wallets, HUD).
+Alle Punkte sind offen und warten auf Umsetzung im Wissensspiegel.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------ | ---------- |
+| #1 | Px-Balancing: Fail/Patzer senken Px | 🟡 offen | RT; TK(16); R(QA) |
+| #2 | Acceptance-Smoke-Liste im Runtime-Set spiegeln | 🟡 offen | R(QA); DOC; BRF |
+| #3 | `select_state_for_save()` Pflichtfelder angleichen | 🟡 offen | M12; R(Start); RT |
+| #4 | Wallet-Init-Begriff vereinheitlichen | 🟡 offen | M12; R(Koop) |
+| #5 | Self-Reflection: Charakterwert hat Vorrang | 🟡 offen | HUD; RT; M12 |
+| #6 | Arena-SaveGuard: `location`-Set und Blocker dokumentieren | 🟡 offen | R; TK(16); SR |
+| #7 | `!accessibility`-Dialog (Optionen → JSON) ausformulieren | 🟡 offen | R(Chat); HUD |
+| #8 | Gruppensaves ohne `team.members[]` zeigen (Legacy nur Migration) | 🟡 offen | M12 |
+| #9 | Suggest-Modus vs. Self-Reflection entkoppeln | 🟡 offen | TK(16); R(Chat) |
+| #10 | Markt-Log auf 24 Einträge limit dokumentieren | 🟡 offen | M12; CW |
+| #11 | PvP-Arena als optionales Endgame kennzeichnen | 🟡 offen | R(QA); TK(16) |
 
 ## Regressionstest-Termine 2025
 
