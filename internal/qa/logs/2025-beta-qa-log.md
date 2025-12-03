@@ -6,6 +6,43 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-12-02 – Maintainer – Testprompt Px-/Acceptance-Folgelauf
+- Plattform: Beta-GPT (simulativer Lauf, kein `runtime.js`-Eval)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-26,
+  QA-Fahrplan 1.8.8, QA-Audit Update 2025-11-26
+- Auftrag: Testprompt-Run mit Solo/Koop/PvP-Szenen, Px-Regression
+  dokumentieren, neue Acceptance- und Save-Deltathemen sammeln.
+
+**Teststrecke (simulativ)**
+- Solo London-Arc („Chrono Heist“) mit Fail-Forward: Px steigt trotz Patzer,
+  soll laut Regelwerk sinken; PvP als regulärer Spielteil bestätigt.
+- Solo + NPC-Team („GLASLÄUFER“), Koop-Fortsetzung, PvP-Arena („Phase-Strike")
+  und Mission 5 Badge-Check erneut durchgespielt; ausführliches Save-JSON
+  geliefert.
+
+**Offene Punkte (neues Maßnahmenpaket 2025-12-02)**
+- [ ] Px-Balancing: Schlechtes Spielen muss Px senken, gutes Spielen erhöhen.
+- [ ] Acceptance-Smoke 15er-Liste im Laufzeit-Set spiegeln
+      (nicht nur externes QA-Dokument).
+- [ ] `select_state_for_save()`-Pseudocode auf Save-v6 Pflichtfelder heben
+      (inkl. `arena`, `arc_dashboard`, `economy.wallets{}`, vollständige Logs).
+- [ ] Wallet-Init-Begriff vereinheitlichen
+      (`initialize_wallets_from_roster()` statt gemischter Aliase).
+- [ ] Self-Reflection-Quelle klären (Charakterwert vs. Flag-Historie) und HUD
+      an das Charakterfeld binden.
+- [ ] Arena-SaveGuard: dokumentieren, dass `arenaStart()` `location` setzt und
+      Saves mit aktivem `arena.active` blockiert.
+- [ ] `!accessibility`-Dialog exemplarisch beschreiben (Optionen → JSON-Mapping).
+- [ ] Gruppensaves: Legacy `team.members[]` nur als Migration, produktiv nur
+      `party.characters[]` zeigen.
+- [ ] Suggest-Modus vs. Self-Reflection entkoppeln, Badges getrennt erläutern.
+- [ ] Markt-Log-Limit (24 Einträge) im Speicher-Modul explizit nennen.
+- [ ] PvP-Arena als optionales Endgame-Feature im README kennzeichnen.
+
+**Nachverfolgung**
+- Fahrplan/Audit: neues Maßnahmenpaket 2025-12-02 aufnehmen, Status = offen.
+- Commit/PR: folgt nach Dokumentations-Sync.
+
 ## 2025-11-26 – Maintainer – Simulativer Acceptance-/Save-Lauf
 - Plattform: Beta-GPT (simulativer Lauf, kein `runtime.js`-Eval)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-11-06,
