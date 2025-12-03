@@ -284,6 +284,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
 - **Ask↔Suggest.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`, Overlay `· SUG`).
   Wechselt bei Bedarf mit `modus ask` zurück zu klassischem Fragenmodus (`SUG-OFF`).
+  Self-Reflection hat keinen Einfluss auf `SUG`; das Badge bleibt unabhängig von
+  `SF-ON`/`SF-OFF` sichtbar.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
@@ -293,7 +295,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   (`ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`, `arena_active`, optional
   `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
   den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
-  (z. B. Solo→PvP) transparent zu protokollieren.
+  (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
+  `location='ARENA'` und markiert Px-Belohnungen pro Episode; PvP bleibt ein
+  optionales Endgame-Modul außerhalb der Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
 > HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
@@ -360,6 +364,9 @@ if not char.get("psi") and not char.get("has_psi"):
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
+  Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
+  Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
+  (`Px sinkt auf …`).
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und geschätztem ETA bis zum
   nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · ETA +1 in 2 Missionen`.
@@ -2780,7 +2787,8 @@ Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf,
  nutzen, Saves wie üblich nur im HQ).
 **Accessibility-Panel:** `!accessibility` zeigt Kontrast, HUD-Badge-Dichte und Output-Takt;
 Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
-`ui{contrast,badge_density,output_pace}`.
+`ui{contrast,badge_density,output_pace}`. Valide Optionen: `contrast=standard|high`,
+`badge_density=standard|dense|compact`, `output_pace=normal|fast|slow`.
 
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).

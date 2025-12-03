@@ -340,17 +340,17 @@ Alle Punkte sind offen und warten auf Umsetzung im Wissensspiegel.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ---------- |
-| #1 | Px-Balancing: Fail/Patzer senken Px | 🟡 offen | RT; TK(16); R(QA) |
-| #2 | Acceptance-Smoke-Liste im Runtime-Set spiegeln | 🟡 offen | R(QA); DOC; BRF |
-| #3 | `select_state_for_save()` Pflichtfelder angleichen | 🟡 offen | M12; R(Start); RT |
-| #4 | Wallet-Init-Begriff vereinheitlichen | 🟡 offen | M12; R(Koop) |
-| #5 | Self-Reflection: Charakterwert hat Vorrang | 🟡 offen | HUD; RT; M12 |
-| #6 | Arena-SaveGuard: `location`-Set und Blocker dokumentieren | 🟡 offen | R; TK(16); SR |
-| #7 | `!accessibility`-Dialog (Optionen → JSON) ausformulieren | 🟡 offen | R(Chat); HUD |
-| #8 | Gruppensaves ohne `team.members[]` zeigen (Legacy nur Migration) | 🟡 offen | M12 |
-| #9 | Suggest-Modus vs. Self-Reflection entkoppeln | 🟡 offen | TK(16); R(Chat) |
-| #10 | Markt-Log auf 24 Einträge limit dokumentieren | 🟡 offen | M12; CW |
-| #11 | PvP-Arena als optionales Endgame kennzeichnen | 🟡 offen | R(QA); TK(16) |
+| #1 | Px-Balancing: Fail/Patzer senken Px | ✅ abgeschlossen | RT; TK(16); R(QA) |
+| #2 | Acceptance-Smoke-Liste im Runtime-Set spiegeln | ✅ abgeschlossen | R(QA); DOC; BRF |
+| #3 | `select_state_for_save()` Pflichtfelder angleichen | ✅ abgeschlossen | M12; R(Start); RT |
+| #4 | Wallet-Init-Begriff vereinheitlichen | ✅ abgeschlossen | M12; R(Koop) |
+| #5 | Self-Reflection: Charakterwert hat Vorrang | ✅ abgeschlossen | HUD; RT; M12 |
+| #6 | Arena-SaveGuard: `location`-Set und Blocker dokumentieren | ✅ abgeschlossen | R; TK(16); SR |
+| #7 | `!accessibility`-Dialog (Optionen → JSON) ausformulieren | ✅ abgeschlossen | R(Chat); HUD |
+| #8 | Gruppensaves ohne `team.members[]` zeigen (Legacy nur Migration) | ✅ abgeschlossen | M12 |
+| #9 | Suggest-Modus vs. Self-Reflection entkoppeln | ✅ abgeschlossen | TK(16); R(Chat) |
+| #10 | Markt-Log auf 24 Einträge limit dokumentieren | ✅ abgeschlossen | M12; CW |
+| #11 | PvP-Arena als optionales Endgame kennzeichnen | ✅ abgeschlossen | R(QA); TK(16) |
 
 ## Regressionstest-Termine 2025
 

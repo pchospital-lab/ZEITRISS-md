@@ -24,13 +24,25 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 
 ## Acceptance-Smoketest (Kurzfassung)
 
-1. `Spiel starten (solo)` → HQ-Overlay `EP·MS·SC` und Compliance-Toast prüfen.
-2. `!load` HQ-Save → HUD zeigt `FS 0/4` (Core) bzw. `FS 0/2` (Rift) plus
-   `GATE 0/2`.
-3. `!helper boss` bestätigt Gate-Status vor Mission 5/10.
-4. `!save` im HQ verifiziert Guard (`SYS` voll, `stress=0`, `psi_heat=0`,
+1. `Spiel starten (solo klassisch)` → HQ-Overlay `EP·MS·SC` + Compliance-Toast.
+2. `Spiel starten (solo schnell)` → Rolle wählen, Briefing ohne Rückfrage.
+3. `Spiel starten (npc-team 3 schnell)` → drei NSCs sichtbar.
+4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“.
+5. `Spiel starten (gruppe schnell)` → zwei Saves + Rolle → Briefing.
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“.
+7. `!load` HQ-Save → HUD `FS 0/4` (Core) bzw. `FS 0/2` plus `GATE 0/2`.
+8. `!helper boss` bestätigt Gate-Status vor Mission 5/10.
+9. `!save` im HQ verifiziert Guard (`SYS` voll, `stress=0`, `psi_heat=0`,
    Arena inaktiv).
-5. `!arena status`/`!arena quit` stellt den HQ-Reset vor neuen Saves klar.
+10. `!arena status`/`!arena quit` stellt den HQ-Reset vor neuen Saves klar.
+11. `Px 5` erreicht → Hinweis „Seeds erzeugt, spielbar nach Episodenende“.
+12. Mission 5 → HUD `GATE 2/2`, ggf. `SF-OFF`, Boss-DR-Toast in Szene 10;
+    Missionsende setzt Self-Reflection auf `SF-ON` zurück.
+13. Psi-Konflikt → `Psi-Heat +1`; nach Konflikt `psi_heat = 0`, HQ-Transfer
+    setzt SYS/Stress/Psi-Heat zurück.
+14. `!accessibility` → `contrast=high`, `badge_density=dense/compact`,
+    `output_pace=slow` speichern; Toast „Accessibility aktualisiert …“.
+15. Save laden → `!accessibility` erneut prüfen, Werte sind persistiert.
 
 ## Nachrichtenfluss: Lade-Pipeline
 ```mermaid

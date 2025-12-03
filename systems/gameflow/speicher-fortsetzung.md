@@ -159,13 +159,16 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
 den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
+Der Charakterwert `character.self_reflection` ist die Quelle für den HUD-Mirror;
+`logs.flags.self_reflection` folgt diesem Wert und darf ihn nicht überstimmen.
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
   `logs` (inklusive `hud`, `artifact_log`, `market`, `offline`, `kodex`,
   `alias_trace`, `squad_radio`, `foreshadow`, `fr_interventions`, `psi`,
-  `flags`), `ui` und `arena`.
+  `flags`), `ui` und `arena`. Der Market-Trace hält maximal 24 Einträge und
+  schneidet ältere automatisch ab.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
@@ -181,19 +184,22 @@ den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
 - Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
   `party.characters[]` gehoben; anschließend legt
   `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und
-  meldet den Schritt im HUD („Wallets initialisiert …“).
+  meldet den Schritt im HUD („Wallets initialisiert …“). `team.members[]`
+  bleibt ausschließlich Migration und erscheint nicht in neuen Beispielblöcken.
 
 ### Cross-Mode Import – Solo → Koop/Arena {#cross-mode-import}
 
 1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
-   enthält nur den Protagonisten. Nach dem Laden läuft `initialize_wallets()`
-   automatisch und legt leere Wallets für alle aktiven Agent:innen an.
+   enthält nur den Protagonisten. Nach dem Laden läuft
+   `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
+   aktiven Agent:innen an.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
    aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
-   `arena.previous_mode` und `arena.phase='active'`. Während der Serie blockiert
+   `arena.previous_mode` und `arena.phase='active'`, markiert `location='ARENA'`
+   und blockiert Save-Versuche bis zum Arena-Exit. Während der Serie blockiert
    der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Start zieht die Routine die
    Gebühr aus dem primären Economy-Feld und spiegelt sie via
    `sync_primary_currency()` auf `economy.cu` und `economy.credits`. Beim Exit
@@ -277,7 +283,14 @@ den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
-zurücksetzen.
+zurücksetzen. Der Dialog mappt die Optionen 1:1 auf JSON:
+
+- **Kontrast:** `contrast = standard|high`
+- **Badge-Dichte:** `badge_density = standard|dense|compact`
+- **Ausgabetempo:** `output_pace = normal|fast|slow`
+
+Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
+die Auswahl in `ui{}`.
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
@@ -811,16 +824,23 @@ function select_state_for_save(state) {
   return {
     zr_version: "4.2.2",
     save_version: 6,
-    created_at: new Date().toISOString(),
     location: state.location,
     phase: state.phase,
     campaign: state.campaign,
     character: state.character,
     team: state.team,
+    party: {
+      characters: state.party?.characters ?? state.team?.members ?? []
+    },
     loadout: state.loadout,
     economy: state.economy,
     logs: state.logs,
-    ui: { gm_style: state.ui?.gm_style ?? "verbose" }
+    ui: {
+      gm_style: state.ui?.gm_style ?? "verbose",
+      suggest_mode: !!state.ui?.suggest_mode
+    },
+    arena: state.arena,
+    arc_dashboard: state.arc_dashboard
   };
 }
 

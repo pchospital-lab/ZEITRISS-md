@@ -810,14 +810,21 @@ const SAVE_REQUIRED_PATHS = [
   ['character', 'psi_heat'],
   ['campaign', 'px'],
   ['economy'],
+  ['economy', 'wallets'],
   ['logs'],
+  ['logs', 'hud'],
+  ['logs', 'foreshadow'],
   ['logs', 'artifact_log'],
   ['logs', 'market'],
-  ['logs', 'kodex'],
   ['logs', 'offline'],
+  ['logs', 'kodex'],
   ['logs', 'alias_trace'],
   ['logs', 'squad_radio'],
-  ['ui']
+  ['logs', 'fr_interventions'],
+  ['logs', 'psi'],
+  ['logs', 'flags'],
+  ['ui'],
+  ['arena']
 ];
 
 function enforceRequiredSaveFields(payload) {
