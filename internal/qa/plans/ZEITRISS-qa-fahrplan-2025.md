@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.8.9
+version: 1.9.0
 tags: [meta]
 ---
 
@@ -155,10 +155,13 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 `TK(11)` = systems/toolkit-gpt-spielleiter.md – Modul 11  
 `HUD` = characters/zustaende-hud-system.md  
 `DOC` = doc.md  
-`BRF` = docs/qa/tester-playtest-briefing.md  
-`CW` = systems/currency/cu-waehrungssystem.md  
-`GM` = gameplay/kreative-generatoren-missionen.md  
+`BRF` = docs/qa/tester-playtest-briefing.md
+`CW` = systems/currency/cu-waehrungssystem.md
+`GM` = gameplay/kreative-generatoren-missionen.md
 `SR` = internal/runtime/runtime-stub-routing-layer.md
+`PSI` = systems/kp-kraefte-psi.md
+`VEH` = gameplay/fahrzeuge-konflikte.md
+`MASS` = gameplay/massenkonflikte.md
 
 README-Abschnittskürzel:  
 `R(QA)` = README §QA-Checks 2025-06-27  
@@ -351,6 +354,45 @@ Alle Punkte sind offen und warten auf Umsetzung im Wissensspiegel.
 | #9 | Suggest-Modus vs. Self-Reflection entkoppeln | ✅ abgeschlossen | TK(16); R(Chat) |
 | #10 | Markt-Log auf 24 Einträge limit dokumentieren | ✅ abgeschlossen | M12; CW |
 | #11 | PvP-Arena als optionales Endgame kennzeichnen | ✅ abgeschlossen | R(QA); TK(16) |
+
+## Maßnahmenpaket Maintainer 2025-12-12 (Issues #1–#6)
+
+Der jüngste Testprompt-Lauf (inklusive HQ-Deepsave, Mission 5 Badge-Check und
+Arena-Cross-Mode) identifiziert sechs neue Dokumentations- und Strukturthemen,
+die im Wissensspiegel verankert werden müssen. Alle Punkte sind offen und
+verlangen eine Synchronisation zwischen README, QA-Briefing, Speichermodul und
+Toolkit.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------ | ------------- |
+| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ⏳ offen | R(QA); BRF; DOC |
+| #2 | Self-Reflection: Truth-Source `character.self_reflection` klarstellen | ⏳ offen | HUD; RT; M12 |
+| #3 | Boss-Gate/Foreshadow Terminologie und Reset-Zeitpunkte vereinheitlichen | ⏳ offen | HUD; TK(16); R(QA) |
+| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) mit Schrittfolge dokumentieren | ⏳ offen | M12; R(Koop); CW |
+| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) in einem Unterabschnitt bündeln | ⏳ offen | PSI; TK(16); RT |
+| #6 | Fahrzeug- und Massenkonflikt-Regeln in Smoke-Flow verankern | ⏳ offen | R(QA); VEH; MASS |
+
+**Nächste Schritte (konkret umsetzbar)**
+
+- **#1 Acceptance-Smoke-Mirror** – Originaltext aus `docs/qa/tester-playtest-briefing.md`
+  Abschnitt Acceptance 1–15 vollständig in README/DOC spiegeln (Bullet-Form, identischer
+  Wortlaut), Querverweis aus Dispatcher-Abschnitt ergänzen; QA-Log-Eintrag nachziehen.
+- **#2 Self-Reflection Priorität** – In Speichermodul + HUD-Modul klarstellen: Runtime
+  liest ausschließlich `character.self_reflection`; `logs.flags.self_reflection` ist nur
+  Audit. Helper-Funktion `set_self_reflection()` dokumentieren (Input, Auto-Reset nach
+  Mission 5), Beispiel-Save anpassen.
+- **#3 Boss-Gate Terminologie** – Tabelle mit FS/GATE-Zuständen anlegen (Episodenstart,
+  nach Mission 4/9, Start Mission 5/10); `!helper boss`/`!boss status` erwartete HUD-Strings
+  angleichen; QA-Smoke Schritt 5/8 mit Sollwerten ergänzen.
+- **#4 Währungs-Sync Cross-Mode** – Pseudocode-Sequence dokumentieren: Load →
+  `initialize_wallets_from_roster()` → `sync_primary_currency()` → Arena-Fee → Wallet-Split;
+  Beispiel-HUD/Debrief mit HQ-Pool + Einzelwallets; Hinweis „Credits nicht direkt setzen“. 
+- **#5 Arena & Psi** – Unterabschnitt „Arena-Psi“ (Psi- oder Toolkit-Modul) mit 3–5
+  Bulletpoints: Basis-Kosten 2 SYS, Arena-Tax +1 SYS, `psi_buffer`-Dämpfung, Px/Risiko,
+  Logging (`logs.psi[]`), HUD-Toast. QA-Smoke zwei Arena-Testfälle (mit/ohne Psi) ergänzen.
+- **#6 Fahrzeuge/Massenkonflikte** – Acceptance-Liste um empfohlenen Test „Cineastische
+  Verfolgung“ erweitern (Start Overlay, Crash/Stress); Dispatcher/README auf Fahrzeug- und
+  Massenkonfliktmodule verlinken; Cheat-Sheet mit Kernschadenswerten anlegen.
 
 ## Regressionstest-Termine 2025
 
