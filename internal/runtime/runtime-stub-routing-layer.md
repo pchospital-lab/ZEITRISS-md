@@ -173,6 +173,7 @@ Content-Type: application/json
     "flags": {
       "runtime_version": "4.2.2",
       "compliance_shown_today": false,
+      "offline_help_last_scene": null,
       "offline_help_last": null,
       "offline_help_count": 0,
       "chronopolis_warn_seen": false
@@ -183,7 +184,7 @@ Content-Type: application/json
     "intro_seen": false,
     "suggest_mode": false,
     "contrast": "standard",
-    "badge_density": "full",
+    "badge_density": "standard",
     "output_pace": "normal"
   }
 }
@@ -443,7 +444,14 @@ function ensureLogs() {
   flags.runtime_version ||= ZR_VERSION;
   flags.compliance_shown_today = !!flags.compliance_shown_today;
   flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
-  flags.offline_help_last = flags.offline_help_last ?? null;
+  const offlineScene = typeof flags.offline_help_last_scene === 'string'
+    ? flags.offline_help_last_scene
+    : null;
+  const offlineLast = typeof flags.offline_help_last === 'string'
+    ? flags.offline_help_last
+    : null;
+  flags.offline_help_last_scene = offlineScene || offlineLast || null;
+  flags.offline_help_last = flags.offline_help_last_scene;
   flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count || 0));
   return state.logs;
 }
@@ -651,7 +659,19 @@ function offline_help(trigger = 'auto') {
   if (!Number.isFinite(last) || now - last > OFFLINE_HELP_MIN_INTERVAL_MS) {
     hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
   }
-  flags.offline_help_last = new Date(now).toISOString();
+  const sceneIdx = Number.isFinite(state.scene?.index) ? state.scene.index : null;
+  const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
+  const markerParts = [];
+  if (state.location) markerParts.push(state.location);
+  if (sceneIdx !== null && sceneTotal !== null) {
+    markerParts.push(`SC${sceneIdx}/${sceneTotal}`);
+  } else if (sceneIdx !== null) {
+    markerParts.push(`SC${sceneIdx}`);
+  }
+  const marker = markerParts.join(':');
+  const nowIso = new Date(now).toISOString();
+  flags.offline_help_last = nowIso;
+  flags.offline_help_last_scene = marker || nowIso;
   flags.offline_help_count = (flags.offline_help_count || 0) + 1;
   const entry = offline_audit(trigger, { count: flags.offline_help_count });
   const summary = format_offline_report(entry, flags.offline_help_count);

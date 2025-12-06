@@ -1,10 +1,49 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.2
+version: 0.4.3
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-12-03 – Maintainer – Testprompt Voll-Lauf (Solo/Koop/Arena)
+- Plattform: Beta-GPT (simulativ, Speicher- und HUD-Flows)
+- Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-12-02,
+  QA-Fahrplan 1.9.0
+- Auftrag: Gesamter QA-Testprompt inkl. Save/Load, Solo, Solo+NPC, Koop,
+  Arena/PvP und Acceptance-Smoke (1–15) mit Mission-5-Badge-Check; Deltas für
+  Badge-Dichte, Offline-Logs und Acceptance-Mirror sammeln.
+
+**Teststrecke (simulativ, HUD/Saves)**
+- Solo Core (EP 01, MS 01/04/10) sowie Mini-Boss-Check M5: HUD-Badges (`GATE`,
+  `FS`, `SF`) und Px/Cluster-Lauf überprüft; Save-v6-Beispiel mit
+  vollständigen Pflichtblöcken geliefert.
+- Solo + NPC-Squad (MS 02/05) und Koop-Starts (`gruppe schnell`, Mid-Session-
+  Merge) mit Wallet-Split und Funk-Logs; Cross-Mode Save-Load erfolgreich.
+- Rift- und PvP-Pfade: Arena-Start blockiert HQ-Saves, Phase-Strike-Tax wird in
+  `logs.psi[]` protokolliert; Chronopolis-Vorschau ohne Markt-Zugriff bleibt
+  save-kompatibel.
+- Acceptance-Smoke 1–15 durchlaufen; Accessibility-Persistenz (`contrast: high`,
+  `badge_density: compact`, `output_pace: slow`) bestätigt, aber Enum-Drift und
+  Offline-Feldnamen fallen auf.
+
+**Issue-Blöcke (Übergabe an Fahrplan/Audit)**
+1. **Badge-Dichte/Output-Pace Enum-Drift.** Save-Schema nennt `full|minimal`,
+   Accessibility-Dialog `standard|dense|compact`, Toolkit/Runtime akzeptieren
+   `full|compact|minimal`. Kanonische Liste fehlt, Migration `full→standard`
+   erforderlich.
+2. **Offline-Hilfe Feldnamen.** Toolkit nutzt `logs.flags.offline_help_last_scene`,
+   Save-Mirror nur `offline_help_last`; Feldabdrift gefährdet Debrief-Spiegel.
+3. **Acceptance-Smoke-Mirror (11–15).** Dispatcher/README müssen die vollständige
+   15er-Liste explizit führen (Boss-Gate/SF/SUG, Psi-Heat, Accessibility,
+   Arena-Add-ons), damit GPTs ohne QA-Dokument alle Schritte abdecken.
+
+**Nachverfolgung**
+- Fahrplan/Audit: Neues Maßnahmenpaket 2025-12-03 mit Issues #1–#3 anlegen,
+  Status = offen.
+- README/DOC/Schema: Badge-Dichte/Tempo-Enums vereinheitlichen und Save/Migration
+  dokumentieren; Offline-Hilfe-Feldnamen harmonisieren.
+- Acceptance-Mirror: Nummerierte Liste 1–15 im Runtime-Set verankern.
 
 ## 2025-12-02 – Maintainer – Testprompt Px-/Acceptance-Folgelauf
 - Plattform: Beta-GPT (simulativer Lauf, kein `runtime.js`-Eval)

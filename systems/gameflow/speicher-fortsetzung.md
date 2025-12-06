@@ -109,7 +109,7 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
     "intro_seen": false,
     "suggest_mode": false,
     "contrast": "standard",
-    "badge_density": "full",
+    "badge_density": "standard",
     "output_pace": "normal"
   },
   "arena": {
@@ -258,7 +258,8 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
       "compliance_shown_today": true,
       "chronopolis_warn_seen": true,
       "offline_help_count": 1,
-      "offline_help_last": "2025-10-28T19:42:00Z"
+      "offline_help_last_scene": "HQ:4",
+      "offline_help_last": "HQ:4"
     }
   },
   "arc_dashboard": {"offene_seeds": [], "fraktionen": {}},
@@ -304,7 +305,9 @@ zurücksetzen. Der Dialog mappt die Optionen 1:1 auf JSON:
 - **Ausgabetempo:** `output_pace = normal|fast|slow`
 
 Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
-die Auswahl in `ui{}`.
+die Auswahl in `ui{}`. Legacy-Werte `full|minimal` werden beim Laden auf
+`standard|compact` gemappt; Saves ohne Badge-Feld setzen automatisch auf
+`standard`.
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
@@ -356,7 +359,9 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 - **Runtime-Flags.** `logs.flags.runtime_version` hält die erzeugende Version
   fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
   Compliance-Status, Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
-  Timestamp.
+  Szene-Marker (`offline_help_last_scene`). Legacy-Felder
+  `offline_help_last` werden beim Laden auf `offline_help_last_scene`
+  gespiegelt.
 - **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
   `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
   `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
@@ -700,7 +705,7 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
     "intro_seen": false,
     "suggest_mode": false,
     "contrast": "standard",
-    "badge_density": "full",
+    "badge_density": "standard",
     "output_pace": "normal"
   },
   "arena": {

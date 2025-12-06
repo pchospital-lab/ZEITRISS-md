@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.9.0
+version: 1.9.1
 tags: [meta]
 ---
 
@@ -84,6 +84,7 @@ Checks in einem Schritt.
 | 2025-11-04 | Deepcheck-Fortsetzung & Fahrplan 1.8.7 Mirror | QA-Log 2025-11-04 |
 | 2025-11-06 | Regression Audit-Maßnahmen #13–#20 | QA-Log 2025-11-06 |
 | 2025-11-26 | Simulativer Acceptance-/Save-Lauf | QA-Log 2025-11-26 |
+| 2025-12-03 | Testprompt Voll-Lauf (Acceptance 1–15, Save v6) | QA-Log 2025-12-03 |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
@@ -393,6 +394,19 @@ Toolkit.
 - **#6 Fahrzeuge/Massenkonflikte** – Acceptance-Liste um empfohlenen Test „Cineastische
   Verfolgung“ erweitern (Start Overlay, Crash/Stress); Dispatcher/README auf Fahrzeug- und
   Massenkonfliktmodule verlinken; Cheat-Sheet mit Kernschadenswerten anlegen.
+
+## Maßnahmenpaket Maintainer 2025-12-03 (Issues #1–#3)
+
+Der erneute Testprompt-Voll-Lauf liefert drei neue Spiegel-Themen: Accessibility-
+Enums divergieren zwischen Schema und Dialog, Offline-Hilfe nutzt verschiedene
+Feldnamen und die 15er Acceptance-Liste ist im Runtime-Set zu knapp gespiegelt.
+Alle Punkte sind umgesetzt.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------ | ------------- |
+| #1 | Badge-Dichte/Output-Pace vereinheitlichen (`full|minimal` → `standard|compact`) | ✅ abgeschlossen | M12; RT; R(QA) |
+| #2 | Offline-Hilfe-Feldname auf `offline_help_last_scene` konsolidieren | ✅ abgeschlossen | M12; RT; SR |
+| #3 | Acceptance-Smoke 1–15 im Runtime-Mirror schließen (Boss/SF/SUG/Psi/Access/Arena) | ✅ abgeschlossen | R(QA); DOC; BRF |
 
 ## Regressionstest-Termine 2025
 

@@ -522,10 +522,10 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
     `Gate blockiert – Gate 0/2`, bis Hinweise erfüllt sind.
 12. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
-    `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
-    Szene 10 erscheint der Toast `Boss-DR aktiviert – −2 Schaden pro Treffer`; beim
-    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
-    auf `SF-ON` zurück.
+    `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet
+    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −2
+    Schaden pro Treffer`; beim Missionsende (Abbruch oder Abschluss) setzt die Runtime
+    Self-Reflection automatisch auf `SF-ON` zurück.
 
 #### Psi-Heat & Ressourcen-Reset
 
@@ -536,11 +536,13 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
 #### Accessibility & UI-Persistenz
 
 14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
-    `Badges: dense` und `Output pace: slow` bestätigen; HUD-Toast
+    `Badges: dense` oder `compact` und `Output pace: slow` bestätigen; HUD-Toast
     „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
-    Save-Preview sichern.
+    Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
+    `standard|compact` gemappt.
 15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
-    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+    persistiert (`contrast: high`, `badge_density: dense|compact`,
+    `output_pace: slow`).
 
 **Arena- und Fahrzeug-Smoke (Ergänzung)**
 - Arena/Psi: Ein Lauf mit Psi-Charakter (`phase_strike_cost()` aktiv, HUD-Toast
@@ -685,7 +687,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }` (`offene_seeds[]` akzeptiert Strings oder Objekte)
 - `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
   `suggest_mode:boolean, contrast:"standard"|"high",`
-  `badge_density:"full"|"dense", output_pace:"normal"|"slow" }`
+  `badge_density:"standard"|"dense"|"compact",`
+  `output_pace:"normal"|"fast"|"slow" }`
 - `arena: { active, phase, mode, previous_mode, wins_player,`
   `wins_opponent, tier, proc_budget, artifact_limit,`
   `loadout_budget, phase_strike_tax, team_size, fee,`
