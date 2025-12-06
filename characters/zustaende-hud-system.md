@@ -79,7 +79,9 @@ Der Standard-Header zeigt:
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
   und `logs.flags.self_reflection_auto_reset_reason`. Quelle ist stets
   `character.self_reflection`; Log-Flags spiegeln diesen Wert und dürfen ihn nicht
-  überschreiben. Der Suggest-Modus (`SUG`) bleibt davon unabhängig aktiv.
+  überschreiben. Nutze `set_self_reflection(enabled, reason?)`, um Charakterwert
+  und Log synchron zu halten; der Auto-Reset nach Mission 5 greift immer. Der
+  Suggest-Modus (`SUG`) bleibt davon unabhängig aktiv.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies
