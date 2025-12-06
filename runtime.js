@@ -803,9 +803,15 @@ function ensure_logs(){
   } else {
     flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
   }
-  if (typeof flags.offline_help_last !== 'string'){
-    flags.offline_help_last = null;
-  }
+  const legacyOfflineLast = typeof flags.offline_help_last === 'string'
+    ? flags.offline_help_last
+    : null;
+  const offlineScene = typeof flags.offline_help_last_scene === 'string'
+    ? flags.offline_help_last_scene
+    : null;
+  const normalizedOfflineScene = offlineScene || legacyOfflineLast;
+  flags.offline_help_last_scene = normalizedOfflineScene || null;
+  flags.offline_help_last = normalizedOfflineScene || null;
   if (!Number.isFinite(flags.offline_help_count)){
     flags.offline_help_count = 0;
   } else {
@@ -1503,6 +1509,16 @@ function register_foreshadow(token, details = {}){
   return entry;
 }
 
+function normalize_badge_density(value, fallback = 'standard'){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (['standard', 'dense', 'compact'].includes(normalized)){
+    return normalized;
+  }
+  if (normalized === 'full') return 'standard';
+  if (normalized === 'minimal') return 'compact';
+  return fallback;
+}
+
 function ensure_ui(){
   if (!state.ui || typeof state.ui !== 'object'){
     state.ui = {
@@ -1510,7 +1526,7 @@ function ensure_ui(){
       intro_seen: false,
       suggest_mode: false,
       contrast: 'standard',
-      badge_density: 'full',
+      badge_density: 'standard',
       output_pace: 'normal'
     };
   }
@@ -1527,12 +1543,7 @@ function ensure_ui(){
   } else {
     state.ui.contrast = contrast;
   }
-  const badgeDensity = typeof state.ui.badge_density === 'string' ? state.ui.badge_density.trim().toLowerCase() : '';
-  if (!['full', 'compact', 'minimal'].includes(badgeDensity)){
-    state.ui.badge_density = 'full';
-  } else {
-    state.ui.badge_density = badgeDensity;
-  }
+  state.ui.badge_density = normalize_badge_density(state.ui.badge_density);
   const pace = typeof state.ui.output_pace === 'string' ? state.ui.output_pace.trim().toLowerCase() : '';
   if (!['normal', 'slow', 'fast'].includes(pace)){
     state.ui.output_pace = 'normal';
@@ -1546,14 +1557,14 @@ function accessibility_status(){
   const ui = ensure_ui();
   const parts = [];
   parts.push(`Kontrast: ${ui.contrast === 'high' ? 'hoch' : 'standard'}`);
-  const badgeMap = { full: 'voll', compact: 'kompakt', minimal: 'minimal' };
+  const badgeMap = { standard: 'standard', dense: 'dicht', compact: 'kompakt' };
   parts.push(`HUD-Badges: ${badgeMap[ui.badge_density] || 'voll'}`);
   const paceMap = { slow: 'langsam', normal: 'normal', fast: 'schnell' };
   parts.push(`Output-Takt: ${paceMap[ui.output_pace] || 'normal'}`);
   return [
     'Accessibility-Panel – verfügbare Optionen:',
     '- `!accessibility contrast [standard|high]`',
-    '- `!accessibility badges [full|compact|minimal]`',
+    '- `!accessibility badges [standard|dense|compact]`',
     '- `!accessibility pace [slow|normal|fast]`',
     '',
     `Aktueller Status: ${parts.join(' · ')}`
@@ -1574,11 +1585,11 @@ function set_accessibility_option(option, value){
       break;
     case 'badges':
     case 'badge':
-      if (!['full', 'compact', 'minimal'].includes(normalizedValue)){
-        throw new Error('Badge-Dichte unbekannt – wähle `full`, `compact` oder `minimal`.');
+      ui.badge_density = normalize_badge_density(normalizedValue, null);
+      if (!ui.badge_density){
+        throw new Error('Badge-Dichte unbekannt – wähle `standard`, `dense` oder `compact`.');
       }
-      ui.badge_density = normalizedValue;
-      hud_toast(`HUD-Badges → ${normalizedValue}`, 'ACCESS');
+      hud_toast(`HUD-Badges → ${ui.badge_density}`, 'ACCESS');
       break;
     case 'pace':
       if (!['slow', 'normal', 'fast'].includes(normalizedValue)){
@@ -3066,8 +3077,11 @@ function render_runtime_flags_summary(){
   if (Number.isFinite(flags.offline_help_count) && flags.offline_help_count > 0){
     parts.push(`Offline-Hilfe ${Math.max(0, Math.floor(flags.offline_help_count))}×`);
   }
-  if (typeof flags.offline_help_last === 'string' && flags.offline_help_last.trim()){
-    parts.push(`Offline zuletzt ${flags.offline_help_last.trim()}`);
+  const offlineLast = typeof flags.offline_help_last_scene === 'string'
+    ? flags.offline_help_last_scene.trim()
+    : (typeof flags.offline_help_last === 'string' ? flags.offline_help_last.trim() : '');
+  if (offlineLast){
+    parts.push(`Offline zuletzt ${offlineLast}`);
   }
   if (!parts.length) return null;
   return `Runtime-Flags: ${parts.join(' · ')}`;
@@ -4831,6 +4845,28 @@ function kodex_link_state(ctx){
   return inBubble ? 'field_online' : 'field_offline';
 }
 
+function offline_scene_marker(){
+  const location = state.location || null;
+  const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
+  const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
+  const episode = Number.isFinite(state.campaign?.episode) ? state.campaign.episode : null;
+  const mission = Number.isFinite(state.campaign?.mission_in_episode)
+    ? state.campaign.mission_in_episode
+    : Number.isFinite(state.campaign?.mission)
+      ? state.campaign.mission
+      : null;
+  const parts = [];
+  if (location) parts.push(location);
+  if (episode !== null && mission !== null){
+    parts.push(`EP${episode}-MS${mission}`);
+  } else if (sceneIndex !== null && sceneTotal !== null){
+    parts.push(`SC${sceneIndex}/${sceneTotal}`);
+  } else if (sceneIndex !== null){
+    parts.push(`SC${sceneIndex}`);
+  }
+  return parts.join(':') || null;
+}
+
 function offline_help(trigger='auto'){
   ensure_logs();
   const flags = state.logs.flags;
@@ -4840,7 +4876,9 @@ function offline_help(trigger='auto'){
   if (shouldToast){
     hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
   }
-  flags.offline_help_last = new Date(now).toISOString();
+  const nowIso = new Date(now).toISOString();
+  flags.offline_help_last = nowIso;
+  flags.offline_help_last_scene = offline_scene_marker() || nowIso;
   flags.offline_help_count = (flags.offline_help_count || 0) + 1;
   const entry = offline_audit(trigger, { count: flags.offline_help_count });
   const summary = format_offline_report(entry, flags.offline_help_count);
@@ -5105,9 +5143,14 @@ function prepare_save_logs(logs){
   }
   base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
   base.flags.chronopolis_warn_seen = !!base.flags.chronopolis_warn_seen;
-  if (typeof base.flags.offline_help_last !== 'string'){
-    base.flags.offline_help_last = null;
-  }
+  const offlineLastScene = typeof base.flags.offline_help_last_scene === 'string'
+    ? base.flags.offline_help_last_scene.trim()
+    : null;
+  const offlineLast = typeof base.flags.offline_help_last === 'string'
+    ? base.flags.offline_help_last.trim()
+    : null;
+  base.flags.offline_help_last_scene = offlineLastScene || offlineLast || null;
+  base.flags.offline_help_last = base.flags.offline_help_last_scene;
   const offlineCount = Number(base.flags.offline_help_count);
   base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
     ? Math.floor(offlineCount)
@@ -5203,8 +5246,7 @@ function prepare_save_ui(ui){
   base.suggest_mode = !!base.suggest_mode;
   const contrast = typeof base.contrast === 'string' ? base.contrast.trim().toLowerCase() : '';
   base.contrast = ['standard', 'high'].includes(contrast) ? contrast : 'standard';
-  const badgeDensity = typeof base.badge_density === 'string' ? base.badge_density.trim().toLowerCase() : '';
-  base.badge_density = ['full', 'compact', 'minimal'].includes(badgeDensity) ? badgeDensity : 'full';
+  base.badge_density = normalize_badge_density(base.badge_density);
   const pace = typeof base.output_pace === 'string' ? base.output_pace.trim().toLowerCase() : '';
   base.output_pace = ['slow', 'normal', 'fast'].includes(pace) ? pace : 'normal';
   return base;
@@ -5747,9 +5789,14 @@ function load_deep(raw){
   } else {
     migrated.logs.flags.chronopolis_warn_seen = !!migrated.logs.flags.chronopolis_warn_seen;
   }
-  if (typeof migrated.logs.flags.offline_help_last !== 'string'){
-    migrated.logs.flags.offline_help_last = null;
-  }
+  const migratedOfflineLastScene = typeof migrated.logs.flags.offline_help_last_scene === 'string'
+    ? migrated.logs.flags.offline_help_last_scene.trim()
+    : null;
+  const migratedOfflineLast = typeof migrated.logs.flags.offline_help_last === 'string'
+    ? migrated.logs.flags.offline_help_last.trim()
+    : null;
+  migrated.logs.flags.offline_help_last_scene = migratedOfflineLastScene || migratedOfflineLast || null;
+  migrated.logs.flags.offline_help_last = migrated.logs.flags.offline_help_last_scene;
   const migratedOfflineCount = Number(migrated.logs.flags.offline_help_count);
   migrated.logs.flags.offline_help_count = Number.isFinite(migratedOfflineCount) && migratedOfflineCount > 0
     ? Math.floor(migratedOfflineCount)
