@@ -45,6 +45,10 @@ aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 - `writeArenaCurrency()` nutzt `sync_primary_currency()`, damit Arena-Gebühren, Wallet-Splits und
   Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert der
   Helper divergierende Saves automatisch.
+- **Cross-Mode-Sequenz:** `load_save()` → `initialize_wallets_from_roster()` →
+  `sync_primary_currency()` → `arenaStart()` (Gebühr) → Debrief
+  `apply_wallet_split()`. Credits/Fallback-Werte niemals manuell setzen –
+  immer über `economy.cu` + Helper spiegeln.
 
 So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` jederzeit auf konsistente
 Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich immer auf beide

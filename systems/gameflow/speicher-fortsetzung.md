@@ -159,8 +159,16 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
 den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
-Der Charakterwert `character.self_reflection` ist die Quelle für den HUD-Mirror;
-`logs.flags.self_reflection` folgt diesem Wert und darf ihn nicht überstimmen.
+
+**Self-Reflection-Priorität & Helper**
+- Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
+  sind Audit-Mirror und ersetzen den Charakterwert nie.
+- `set_self_reflection(enabled:boolean, reason?: string)` setzt
+  `character.self_reflection` und `logs.flags.self_reflection` synchron, legt
+  `self_reflection_changed_at/_reason` an und plant den Auto-Reset nach
+  Mission 5 (`self_reflection_auto_reset_*`).
+- Auto-Reset feuert nach Mission 5 immer, egal ob Abschluss oder Abbruch, und
+  setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück.
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
@@ -189,6 +197,10 @@ Der Charakterwert `character.self_reflection` ist die Quelle für den HUD-Mirror
 
 ### Cross-Mode Import – Solo → Koop/Arena {#cross-mode-import}
 
+Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
+`load_save()` → `initialize_wallets_from_roster()` → `sync_primary_currency()` →
+Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
+
 1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
    enthält nur den Protagonisten. Nach dem Laden läuft
    `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
@@ -196,7 +208,9 @@ Der Charakterwert `character.self_reflection` ist die Quelle für den HUD-Mirror
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
-   aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz.
+   aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
+   stammen immer aus `economy.cu`/`wallets{}` – Credits nie per Hand direkt
+   setzen.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
    `arena.previous_mode` und `arena.phase='active'`, markiert `location='ARENA'`
    und blockiert Save-Versuche bis zum Arena-Exit. Während der Serie blockiert

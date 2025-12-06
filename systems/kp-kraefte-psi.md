@@ -274,6 +274,17 @@ if target.psi_buffer and not target.has_psi:
 In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
 (`PFIELD`) beschreiben; er lässt sich deaktivieren, kostet aber keine SYS.
 
+### Arena-Psi-Bundle (Phase-Strike & Tax) {#arena-psi}
+
+- Basis-Kosten: 2 SYS in Story/Koop, Arena-Tax hebt `phase_strike_cost()` auf
+  3 SYS und setzt `state.arena.phase_strike_tax = 1`.
+- Psi-Puffer: `psi_buffer=true` dämpft Phase-Strike-Schaden auf +0 bei
+  Nicht-Psi-Zielen und gewährt +2 SG gegen Telepathie/`mind_control`.
+- Logging: Jeder Arena-Einsatz schreibt `logs.psi[]` (`ability`, `base_cost`,
+  `tax`, `total_cost`, `arena_active`, optional `mode_previous/location`).
+- HUD/Toast: Arena-Gebühr und Tax werden als Toast ausgegeben; QA-Smoke führt
+  je einen Arena-Lauf mit und ohne Psi, um Tax + Puffer sichtbar zu machen.
+
 ### Anti-Psi-Gitter
 
 Einige Einrichtungen verfügen über **Anti-Psi-Gitter** – feinmaschige Metallstreifen

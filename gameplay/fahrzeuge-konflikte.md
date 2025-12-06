@@ -43,6 +43,16 @@ machen, ohne das Pen-&-Paper-Flair zu verlieren.
 Macht euch bereit für ein noch lebendigeres Zeitreise-Erlebnis. Im Folgenden steigen wir direkt ein
 – mit dröhnenden Motoren, packenden Wortgefechten und einem Fundus der Zeit als Spielplatz!
 
+### Cineastische Verfolgung – QA-Cheat-Sheet {#cine-chase}
+
+- Start-Overlay: `EP·MS·SC · MODE · Gate/FS` aus dem Dispatcher übernehmen, Crash/Stress im HUD loggen.
+- Crash-Benchmark: SG 12 für riskante Manöver, Grundschaden **2** (leichte Kollision) bis **3**
+  (Frontal). Misslingt der Wurf, **Stress +1** für Fahrende und Mitfahrende.
+- Rammen/Blocken: Erfolgreicher SG → Gegner bremst aus, HUD notiert `Vehicle Clash`.
+- Ausstieg: Nach Crash → kurzer Stunt (Sprung, Abrollen) mit SG 10; bei Fehlschlag Stress +1.
+- Acceptance-Smoke-Add-on: Eine filmische Verfolgung pro Lauf (mit HUD-Startoverlay) und Crash-
+  Protokoll im QA-Log.
+
 ## Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 
 **Mehr als nur Fortbewegung:** In ZEITRISS reisen nicht nur Menschen durch die Zeit – auch Fahrzeuge
