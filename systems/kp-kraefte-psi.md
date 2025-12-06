@@ -256,11 +256,13 @@ Schwelle.
 Alle ITI-Standardanzüge führen seit Revision 4.2.2 einen **Psi-Puffer** mit –
 ein fein abgestimmtes Interferenzfeld, das fremde Psi-Eingriffe ablenkt. Das
 Toolkit setzt dafür automatisch den Flag `psi_buffer = true`. Der Puffer
-liefert **+2 SG** gegen telepathische Angriffe, `mind_control`-Makros und
-reduziert Phase-Strike-Treffer auf **+0 Schaden**, sofern das Ziel keinen
-eigenen Psi-Fokus besitzt (`target.has_psi === false`). Im PvP sorgt der
-Runtime-Helfer `apply_arena_rules()` dafür, dass alle aktiven Arena-Teilnehmer
-den Puffer erhalten und der Exploding-Dämpfer aktiv bleibt.
+liefert **+2 SG** gegen telepathische Angriffe und `mind_control`-Makros –
+Angreifende müssen also um **+2** höher treffen; es gibt keinen versteckten
+−2‑Bonus für die Verteidigung. Phase-Strike-Treffer werden auf **+0 Schaden**
+reduziert, sofern das Ziel keinen eigenen Psi-Fokus besitzt
+(`target.has_psi === false`). Im PvP sorgt der Runtime-Helfer
+`apply_arena_rules()` dafür, dass alle aktiven Arena-Teilnehmer den Puffer
+erhalten und der Exploding-Dämpfer aktiv bleibt.
 Wenn du Saves manuell kurierst oder Legacy-Daten migrierst, prüfe diese Flags
 und setze fehlende Einträge ebenfalls auf `true`, damit der Schutz erhalten
 bleibt.
@@ -279,7 +281,8 @@ In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
 - Basis-Kosten: 2 SYS in Story/Koop, Arena-Tax hebt `phase_strike_cost()` auf
   3 SYS und setzt `state.arena.phase_strike_tax = 1`.
 - Psi-Puffer: `psi_buffer=true` dämpft Phase-Strike-Schaden auf +0 bei
-  Nicht-Psi-Zielen und gewährt +2 SG gegen Telepathie/`mind_control`.
+  Nicht-Psi-Zielen und erhöht die SG für Angreifende um +2 bei
+  Telepathie/`mind_control` (kein −2‑Bonus für die Verteidigung).
 - Logging: Jeder Arena-Einsatz schreibt `logs.psi[]` (`ability`, `base_cost`,
   `tax`, `total_cost`, `arena_active`, optional `mode_previous/location`).
 - HUD/Toast: Arena-Gebühr und Tax werden als Toast ausgegeben; QA-Smoke führt
