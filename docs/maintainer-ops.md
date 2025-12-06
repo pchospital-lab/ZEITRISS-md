@@ -17,12 +17,15 @@ Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen.
 Die 20 verfügbaren Slots sind ausschließlich für diese Dateien reserviert –
 Repo-Hilfsdateien bleiben offline:
 
-1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
+1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste
+   Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
-3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus den Runtime-Verzeichnissen.
+3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
+   den Runtime-Verzeichnissen.
 
-> **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob alle 20 Module geladen sind. Fehlende oder veraltete
-> Module unverzüglich nachfordern und erneut hochladen.
+> **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob
+> alle 20 Module geladen sind. Fehlende oder veraltete Module unverzüglich
+> nachfordern und erneut hochladen.
 
 | Kategorie    | Datei |
 |--------------|-------|
@@ -50,29 +53,39 @@ gesichert werden, um lange Sessions stabil zu halten.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
-- `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und Tools verbleiben ausschließlich im Repo.
-- **Repo-Agent:innen verpflichten sich, jede bestätigte Laufzeitänderung unmittelbar als Regelwerk, Prozessbeschreibung oder
-  Pseudocode in den Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher). Nur so erreichen produktive GPTs
-  denselben Funktionsumfang ohne lokale Skripte.
-- Halte einen Abgleich im QA-Journal fest (`internal/qa/logs/`), sobald du eine Laufzeitänderung spiegelst. Notiere Commit-ID,
-  Datum und die Module, die den Pseudocode/Regeltext enthalten.
-- Nutze lokale Runtimes weiter für Entwicklung und Tests; dokumentiere Abweichungen zwischen Skript und Wissensbasis, bis sie
-  synchronisiert sind. Maintainer:innen prüfen im Review, ob dieser Wissensspiegel vorliegt, bevor sie Plattform-Runtimes
-  aktualisieren.
+- `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Skripte und
+  Tools verbleiben ausschließlich im Repo.
+- **Repo-Agent:innen verpflichten sich, jede bestätigte Laufzeitänderung
+  unmittelbar als Regelwerk, Prozessbeschreibung oder Pseudocode in den
+  Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher).
+  Nur so erreichen produktive GPTs denselben Funktionsumfang ohne lokale
+  Skripte.
+- Halte einen Abgleich im QA-Journal fest (`internal/qa/logs/`), sobald du eine
+  Laufzeitänderung spiegelst. Notiere Commit-ID, Datum und die Module, die den
+  Pseudocode/Regeltext enthalten.
+- Nutze lokale Runtimes weiter für Entwicklung und Tests; dokumentiere
+  Abweichungen zwischen Skript und Wissensbasis, bis sie synchronisiert sind.
+  Maintainer:innen prüfen im Review, ob dieser Wissensspiegel vorliegt, bevor
+  sie Plattform-Runtimes aktualisieren.
 
 ### Spiegelhinweis für Laufzeitänderungen
 
-- Prüft nach jedem Merge, ob `runtime.js` oder andere Offline-Laufzeitdateien angepasst wurden.
-- Übertragt bestätigte Änderungen manuell in die produktive Runtime der Plattform (MyGPT/Store-GPT) gemäß Abschnitt
-  [„Spiegelprozess nach QA-Freigabe“](#spiegelprozess-nach-qa-freigabe). Grundlage ist stets der durch den Repo-Agenten bereits
-  vollständig gespiegelte Wissensstand.
-- Dokumentiert den Mirror im QA-Log inkl. Commit-ID, Datum und Hinweis darauf, welches Wissensspeicher-Modul die
-  Pseudocode-/Regelspiegelung enthält, damit Foreshadow-Log und andere Laufzeitfeatures ingame verfügbar bleiben.
+- Prüft nach jedem Merge, ob `runtime.js` oder andere Offline-Laufzeitdateien
+  angepasst wurden.
+- Übertragt bestätigte Änderungen manuell in die produktive Runtime der
+  Plattform (MyGPT/Store-GPT) gemäß Abschnitt
+  [„Spiegelprozess nach QA-Freigabe“](#spiegelprozess-nach-qa-freigabe).
+  Grundlage ist stets der durch den Repo-Agenten bereits vollständig
+  gespiegelte Wissensstand.
+- Dokumentiert den Mirror im QA-Log inkl. Commit-ID, Datum und Hinweis darauf,
+  welches Wissensspeicher-Modul die Pseudocode-/Regelspiegelung enthält, damit
+  Foreshadow-Log und andere Laufzeitfeatures ingame verfügbar bleiben.
 
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
-`AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten findest du im
-Abschnitt [„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte) des README. Diese Datei
-konzentriert sich auf ausführbare Abläufe.
+`AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten
+findest du im Abschnitt
+[„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte) des README. Diese
+Datei konzentriert sich auf ausführbare Abläufe.
 
 **Grundsatz:** Alle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta-Klon
 statt. Erst nach einer grünen Abnahme werden Store-GPT, Proton LUMO und lokale
@@ -81,10 +94,10 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Plattformstrategie
 
-- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.2]** auf OpenAI-MyGPT ist die einzige
-  Instanz für aktive QA-Läufe. Alle Regressionstests, Acceptance-Smokes und
-  Save/Load-Prüfungen werden hier durchgeführt und anschließend im QA-Log
-  abgelegt.
+- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.2]** auf
+  OpenAI-MyGPT ist die einzige Instanz für aktive QA-Läufe. Alle
+  Regressionstests, Acceptance-Smokes und Save/Load-Prüfungen werden hier
+  durchgeführt und anschließend im QA-Log abgelegt.
 - **Freigabebedingung:** Erst nachdem der Beta-Klon die QA als „grün“ meldet
   und Codex die Nachverfolgung im QA-Fahrplan geschlossen hat, darf der
   Wissensstand auf weitere Plattformen gespiegelt werden.
@@ -97,22 +110,27 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Artefakte & Nachverfolgung
 
-- [QA-Fahrplan 2025](../internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) – priorisierte Maßnahmenliste mit Status-Tracking
-  und Commit-Verweisen.
-- [QA-Audit 2025](../internal/qa/audits/ZEITRISS-qa-audit-2025.md) – Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
-- [Beta-QA-Log 2025](../internal/qa/logs/2025-beta-qa-log.md) – vollständige Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT mit
-  Nachverfolgung.
-- [Tester-Playtest-Briefing](./qa/tester-playtest-briefing.md) – Standardauftrag für Beta-/MyGPT-Läufe inklusive Acceptance-
-  Smoke.
+- [QA-Fahrplan 2025](../internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) –
+  priorisierte Maßnahmenliste mit Status-Tracking und Commit-Verweisen.
+- [QA-Audit 2025](../internal/qa/audits/ZEITRISS-qa-audit-2025.md) –
+  Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
+- [Beta-QA-Log 2025](../internal/qa/logs/2025-beta-qa-log.md) – vollständige
+  Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT mit Nachverfolgung.
+- [Tester-Playtest-Briefing](./qa/tester-playtest-briefing.md) –
+  Standardauftrag für Beta-/MyGPT-Läufe inklusive Acceptance-Smoke.
 
-Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen, Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅
-gesetzt; siehe QA-Fahrplan & QA-Log 2025-06-22.
+Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen,
+Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅ gesetzt; siehe QA-Fahrplan &
+QA-Log 2025-06-22.
 
-Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt und aktualisiere Audit sowie Fahrplan nach dem
-Merge. Aktuelle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta statt. Der Standardprompt aus dem Tester-Playtest-Briefing
-lässt den GPT den gesamten QA-Lauf autonom simulieren und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
-`Nächste Schritte`-Blöcke für Codex. Store-GPT, Proton LUMO und lokale Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme
-denselben Stand ohne zusätzliche Plattformoptimierung.
+Verknüpfe jede QA-Maßnahme in PR-Beschreibungen mit dem passenden Log-Abschnitt
+und aktualisiere Audit sowie Fahrplan nach dem Merge. Aktuelle QA-Läufe finden
+ausschließlich im OpenAI-MyGPT-Beta statt. Der Standardprompt aus dem
+Tester-Playtest-Briefing lässt den GPT den gesamten QA-Lauf autonom simulieren
+und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
+`Nächste Schritte`-Blöcke für Codex. Store-GPT, Proton LUMO und lokale
+Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne
+zusätzliche Plattformoptimierung.
 
 ### Solo-Maintainer-Workflow (Stand 2025)
 
@@ -135,11 +153,17 @@ denselben Stand ohne zusätzliche Plattformoptimierung.
 
 ### Standardbefehl für Repo-Agent:innen
 
-Nutze für Folgeaufträge immer dieselbe Kurzform, damit Codex den QA-Fahrplan Schritt für Schritt abarbeitet und nur Repo-Artefakte aktualisiert:
+Nutze für Folgeaufträge immer dieselbe Kurzform, damit Codex den QA-Fahrplan
+Schritt für Schritt abarbeitet und nur Repo-Artefakte aktualisiert:
 
-> `Codex, arbeite bitte den QA-Fahrplan (internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) Schritt für Schritt ab und setze die genannten Maßnahmen direkt im Repo um. Spiegle jede Laufzeitänderung in den Wissensmodulen (README, Systems-Module) und halte die Trennung zwischen Runtime-Stubs (runtime.js, routing-layer) und den GPT-Laufzeitdateien strikt ein.`
+> `Codex, arbeite bitte den QA-Fahrplan (internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md)
+> Schritt für Schritt ab und setze die genannten Maßnahmen direkt im Repo um.
+> Spiegle jede Laufzeitänderung in den Wissensmodulen (README, Systems-Module)
+> und halte die Trennung zwischen Runtime-Stubs (runtime.js, routing-layer) und
+> den GPT-Laufzeitdateien strikt ein.`
 
-Der Zusatz stellt klar, dass lokale Hilfsskripte (z. B. `runtime.js`) nur für Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
+Der Zusatz stellt klar, dass lokale Hilfsskripte (z. B. `runtime.js`) nur für
+Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 
 ## Plattform-Workflows
 

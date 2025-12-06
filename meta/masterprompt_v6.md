@@ -72,7 +72,8 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 
 ## Spielstand & Fortsetzung
 
-- Lege nach jeder Sitzung einen `DeepSave` im kanonischen JSON-Block mit Charakterdaten, Inventar, Position und Paradoxon-Index an.
+- Lege nach jeder Sitzung einen `DeepSave` im kanonischen JSON-Block mit Charakterdaten,
+  Inventar, Position und Paradoxon-Index an.
 - Fortsetzungen starten mit kurzem Rückblick plus Laden des Spielstands.
 - Ohne Save: `cinematic-start.md` nutzen und Schnellstart-Operatives aus `charaktererschaffung.md`
   anbieten.
