@@ -303,11 +303,13 @@ saveGame({...})
 ### Accessibility & UI-Persistenz
 
 14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
-    `Badges: dense` und `Output pace: slow` bestätigen; HUD-Toast
+    `Badges: dense` oder `compact` und `Output pace: slow` bestätigen; HUD-Toast
     „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
-    Save-Preview sichern.
+    Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
+    `standard|compact` gemappt.
 15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
-    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+    persistiert (`contrast: high`, `badge_density: dense|compact`,
+    `output_pace: slow`).
 
 ### QA-Abgleich 2025-03-23
 

@@ -102,6 +102,19 @@ Hochstufen-Spielrunden.
 - Maßnahmenpaket 2025-12-02 vollständig umgesetzt (Px-Balancing, Acceptance-
   Spiegel, Save- und Arena-Deltas); QA-Fahrplan und QA-Log aktualisiert.
 
+## Update 2025-12-03 – Acceptance-/Save-Voll-Lauf
+
+- QA-Log 2025-12-03 fasst den vollständigen Testprompt (Solo, Solo+NPC, Koop,
+  Rift, Arena, Mission 5 Badge-Check, Save/Load v6) zusammen und liefert drei
+  neue Issues zu Accessibility-Enums, Offline-Hilfe-Feldnamen und der
+  nummerierten Acceptance-Smoke-Liste.
+- QA-Fahrplan 1.9.1 ergänzt den Deepcheck 2025-12-03 sowie das Maßnahmenpaket
+  2025-12-03 (#1–#3) mit Status „abgeschlossen“.
+- Umsetzung: README/DOC/QA-Briefing harmonisieren die Acceptance-Punkte 11–15
+  samt SF-/SUG-Hinweisen; Save-Modul und Runtime mappen `badge_density`
+  (`full|minimal` → `standard|compact`) und konsolidieren
+  `offline_help_last_scene` als kanonisches Feld.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
