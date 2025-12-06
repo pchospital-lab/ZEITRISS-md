@@ -22,27 +22,52 @@ Dieses Dokument sammelt kurze Hinweise zu häufig genutzten Runtime-Makros.
 Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 `GM_STYLE` auf `precision`, wenn strenge Guards aktiv sein sollen.
 
-## Acceptance-Smoketest (Kurzfassung)
+## Acceptance-Smoketest (Mirror)
 
-1. `Spiel starten (solo klassisch)` → HQ-Overlay `EP·MS·SC` + Compliance-Toast.
-2. `Spiel starten (solo schnell)` → Rolle wählen, Briefing ohne Rückfrage.
-3. `Spiel starten (npc-team 3 schnell)` → drei NSCs sichtbar.
-4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“.
-5. `Spiel starten (gruppe schnell)` → zwei Saves + Rolle → Briefing.
-6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“.
-7. `!load` HQ-Save → HUD `FS 0/4` (Core) bzw. `FS 0/2` plus `GATE 0/2`.
-8. `!helper boss` bestätigt Gate-Status vor Mission 5/10.
-9. `!save` im HQ verifiziert Guard (`SYS` voll, `stress=0`, `psi_heat=0`,
-   Arena inaktiv).
-10. `!arena status`/`!arena quit` stellt den HQ-Reset vor neuen Saves klar.
-11. `Px 5` erreicht → Hinweis „Seeds erzeugt, spielbar nach Episodenende“.
-12. Mission 5 → HUD `GATE 2/2`, ggf. `SF-OFF`, Boss-DR-Toast in Szene 10;
-    Missionsende setzt Self-Reflection auf `SF-ON` zurück.
-13. Psi-Konflikt → `Psi-Heat +1`; nach Konflikt `psi_heat = 0`, HQ-Transfer
+### Dispatcher-Starts & Speicherpfade
+
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
+2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
+4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“
+5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“
+7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
+8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
+9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+
+### Boss-Gates & HUD-Badges
+
+11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
+    `Gate blockiert – Gate 0/2`, bis Hinweise erfüllt sind.
+12. Mission 5 starten → HUD meldet den Encounter-Hinweis
+    `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
+    `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
+    Szene 10 erscheint der Toast `Boss-DR aktiviert – −2 Schaden pro Treffer`; beim
+    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
+    auf `SF-ON` zurück.
+
+### Psi-Heat & Ressourcen-Reset
+
+13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
+    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
-14. `!accessibility` → `contrast=high`, `badge_density=dense/compact`,
-    `output_pace=slow` speichern; Toast „Accessibility aktualisiert …“.
-15. Save laden → `!accessibility` erneut prüfen, Werte sind persistiert.
+
+### Accessibility & UI-Persistenz
+
+14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
+    `Badges: dense` und `Output pace: slow` bestätigen; HUD-Toast
+    „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
+    Save-Preview sichern.
+15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
+    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+
+**Arena- und Fahrzeug-Smoke (Ergänzung)**
+- Arena/Psi: Ein Lauf mit Psi-Charakter (`phase_strike_cost()` aktiv, HUD-Toast
+  mit Tax + Logs), ein Lauf ohne Psi (nur Arena-Gebühr, `psi_buffer` aktiv).
+- Fahrzeuge/Massenkonflikte: „Cineastische Verfolgung“ auslösen (Start-Overlay,
+  Crash/Stress protokollieren) und Massenkonflikt-Flag aufnehmen.
 
 ## Nachrichtenfluss: Lade-Pipeline
 ```mermaid

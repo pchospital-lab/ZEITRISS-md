@@ -501,25 +501,52 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
 15-Schritte-Variante im Abschnitt
 [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
-**Acceptance-Smoke – Laufzeit-Set (15 Punkte)**
-1. `Spiel starten (solo klassisch)` → HQ-Overlay (`EP·MS·SC`, Compliance-Toast).
-2. `Spiel starten (solo schnell)` → Rolle wählen, Briefing ohne Rückfrage.
-3. `Spiel starten (npc-team 3 schnell)` → drei NSCs sichtbar, Briefing-Start.
-4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“.
-5. `Spiel starten (gruppe schnell)` → zwei Saves + Rolle, Briefing-Start.
-6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“.
-7. `Spiel laden` → Kodex-Recap-Overlay, Start ohne erneute Dispatcher-Frage.
-8. `Speichern` in Mission blockiert („Speichern nur im HQ …“).
-9. Gear-Alias „Multi-Tool-Armband“ → stiller Alias → „Multi-Tool-Handschuh“.
-10. `Px 5` erreicht → Hinweis „Seeds erzeugt, spielbar nach Episodenende“.
-11. `!helper boss` nach M4 → Gate `0/2`, Foreshadow-Liste für Mission 5/10.
-12. Mission 5: HUD `GATE 2/2`, `SF-OFF` falls zuvor deaktiviert, Boss-DR-Toast
-    in Szene 10; Missionsende setzt Self-Reflection automatisch auf `SF-ON`.
-13. Psi-Konflikt → `Psi-Heat +1`; nach Konflikt `psi_heat = 0`, HQ-Transfer
+### Acceptance-Smoke-Checkliste (Mirror)
+
+#### Dispatcher-Starts & Speicherpfade
+
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
+2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
+4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“
+5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“
+7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
+8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
+9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+
+#### Boss-Gates & HUD-Badges
+
+11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
+    `Gate blockiert – Gate 0/2`, bis Hinweise erfüllt sind.
+12. Mission 5 starten → HUD meldet den Encounter-Hinweis
+    `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
+    `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
+    Szene 10 erscheint der Toast `Boss-DR aktiviert – −2 Schaden pro Treffer`; beim
+    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
+    auf `SF-ON` zurück.
+
+#### Psi-Heat & Ressourcen-Reset
+
+13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
+    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
-14. `!accessibility` → `contrast=high`, `badge_density=dense/compact`,
-    `output_pace=slow` speichern; Toast „Accessibility aktualisiert …“.
-15. Save laden → `!accessibility` erneut prüfen, Werte sind persistiert.
+
+#### Accessibility & UI-Persistenz
+
+14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
+    `Badges: dense` und `Output pace: slow` bestätigen; HUD-Toast
+    „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
+    Save-Preview sichern.
+15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
+    persistiert (`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+
+**Arena- und Fahrzeug-Smoke (Ergänzung)**
+- Arena/Psi: Ein Lauf mit Psi-Charakter (`phase_strike_cost()` aktiv, HUD-Toast
+  mit Tax + Logs), ein Lauf ohne Psi (nur Arena-Gebühr, `psi_buffer` aktiv).
+- Fahrzeuge/Massenkonflikte: „Cineastische Verfolgung“ auslösen (Start-Overlay,
+  Crash/Stress protokollieren) und Massenkonflikt-Flag aufnehmen.
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
@@ -554,16 +581,29 @@ Wenn du einen kompletten manuellen Check brauchst, findest du die
 
 ### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
+#### Boss-Gate-Status & Terminologie
+
+| Zeitpunkt | Foreshadow-Ziel | Gate-Anzeige | Erwartete Strings |
+| --------- | ---------------- | ------------ | ----------------- |
+| Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
+| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – Gate 0/2` |
+| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`) |
+| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −2 Schaden pro Treffer` |
+
 - **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro
   Gate, bis das HUD `GATE 2/2` meldet. Nach `StartMission()` setzt
   `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und
   zeigt parallel das Badge `GATE n/2` für den Gate-Status; `!boss status`
-  meldet gleichzeitig `Gate n/2 · Mission FS n/4` (bzw. `n/2`).
+  meldet gleichzeitig `Gate n/2 · Mission FS n/4` (bzw. `n/2`) mit denselben
+  Labels wie `!helper boss`.
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`). Das SUG-Badge
   ist unabhängig von Self-Reflection und bleibt aktiv, auch wenn `SF-OFF` gesetzt wurde.
-- **Self-Reflection-Quelle.** Das HUD orientiert sich an `character.self_reflection`;
-  `logs.flags.self_reflection` spiegelt diesen Wert und darf ihn nicht überschreiben.
+- **Self-Reflection-Quelle.** Alle Runtime-Flows lesen ausschließlich
+  `character.self_reflection`; `logs.flags.self_reflection` ist Audit-Mirror und darf
+  den Charakterwert nicht ersetzen. `set_self_reflection(enabled, reason?)` setzt
+  beide Felder synchron, loggt `*_changed_at/reason` und plant den Auto-Reset nach
+  Mission 5 (`self_reflection_auto_reset_*`).
 - **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis zum Exit
   und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul; Standardkampagnen
   laufen ohne Arena-Fokus weiter.
