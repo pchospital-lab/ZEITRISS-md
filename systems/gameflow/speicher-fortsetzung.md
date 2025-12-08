@@ -4,7 +4,7 @@ version: 4.2.3
 tags: [system]
 ---
 
-# ZEITRISS 4.2.2 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.3 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
@@ -135,6 +135,11 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
   }
 }
 ```
+
+`campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
+Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed).
+`arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
+führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -337,16 +342,17 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 ```json
 {
   "logs": {
-    "hud": ["SF-OFF (Mission 5)", "GATE 2/2"],
+    "hud": ["SF-OFF (Mission 5)", "GATE 2/2", "SF-ON (post-M5 reset)"],
     "self_reflection_history": [
       {"mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z"}
     ],
     "flags": {
       "foreshadow_gate_m5_seen": true,
-      "self_reflection": false,
-      "self_reflection_off": true,
+      "self_reflection": true,
+      "self_reflection_off": false,
       "self_reflection_auto_reset_at": "2025-11-26T22:10:00Z",
       "self_reflection_auto_reset_reason": "mission5_end",
+      "self_reflection_last_change_reason": "mission5_end",
       "last_mission_end_reason": "aborted"
     }
   },
@@ -358,7 +364,9 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
 den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`), die optionale
-`self_reflection_history[]` hält jeden Reset chronologisch fest.
+`self_reflection_history[]` hält jeden Reset chronologisch fest. Nach dem
+Debrief ist der Charakterwert maßgeblich (`self_reflection=true`), Log-Flags
+spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 
 **Self-Reflection-Priorität & Helper**
 - Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
@@ -406,7 +414,10 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
    enthält nur den Protagonisten. Nach dem Laden läuft
    `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
-   aktiven Agent:innen an.
+   aktiven Agent:innen an. Die Person, die den Save bereitstellt, ist der Host:
+   Ihr Kampagnenblock (`episode`, `mission`, `mode`, `seed_source`) gewinnt bei
+   Konflikten den Vorrang; zusätzliche Crew-Saves dürfen nur Charaktere,
+   Loadouts und Wallets beisteuern.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
@@ -418,9 +429,12 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    und blockiert Save-Versuche bis zum Arena-Exit. Während der Serie blockiert
    der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Start zieht die Routine die
    Gebühr aus dem primären Economy-Feld und spiegelt sie via
-   `sync_primary_currency()` auf `economy.cu` und `economy.credits`. Beim Exit
-   schreibt die Runtime `arena.phase='completed'`, synchronisiert Px (+1 bei
-   Sieg) und erlaubt wieder HQ-Saves.
+   `sync_primary_currency()` auf `economy.cu` und `economy.credits`. Der
+   Kampagnenmodus wird temporär auf `pvp` gesetzt, `campaign.previous_mode`
+   sichert den alten Wert (`preserve`/`trigger`). Beim Exit schreibt die Runtime
+   `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg), stellt
+   `campaign.mode = previous_mode` wieder her, leert `previous_mode` und erlaubt
+   erneut HQ-Saves.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 

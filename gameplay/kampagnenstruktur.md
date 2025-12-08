@@ -108,7 +108,8 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 - **Sitzungsstart:** Der **Automatische Mission Seed** bestimmt Zeit, Ort, Anomalie und Risiko.
 - **Core-Ops:** Ziehen Ziele aus `CoreObjectiveTable`.
 - **Rift-Ops:** Nutzen Seeds aus dem „Rift Seed Catalogue"; offene Seeds erscheinen bei
-  `ClusterCreate()`.
+  `ClusterCreate()`. `campaign.rift_seeds[]` führt den Pool als Single Source of
+  Truth; `arc_dashboard.offene_seeds[]` spiegelt ausschließlich diesen Block.
 - **Encounters:**
   - NSC-Generator und risikobasierte Encounter-Pools füllen Zwischenszenen.
   - Para-Creature-Generator (Urban Myth Edition) liefert urbane Legenden für historische
@@ -317,10 +318,18 @@ bilden eine Ausnahme: Ihr Boss erscheint in Szene 10.
 Mini-Bosse nutzen keine Zeittricks. Episoden-Bosse dürfen genau einen kurzen Chrono-Effekt einbringen.
 
 **Automatischer Boss-DR:** Das Toolkit vergibt beim Spawn jedes Bosses eine
-Pflicht-Schadensreduktion. Mini-Bosse erhalten **DR 2**, Arc- und Rift-Bosse
-**DR 3**. Der HUD-Hinweis „Boss-DR aktiviert – −X Schaden pro Treffer“ erinnert
-euch daran, den Exploding-Overflow konsequent zu kappen. Diese Vorgabe ersetzt
-Hausregeln und verhindert überzogene Burst-Spitzen.
+Pflicht-Schadensreduktion. Der Wert richtet sich nach der Teamgröße:
+
+| Teamgröße | Mini-Boss DR | Arc-/Rift-Boss DR |
+| --------- | ------------ | ----------------- |
+| 1–2       | 1            | 2                 |
+| 3–4       | 2            | 3                 |
+| 5–6       | 3 (optional Hard-Mode) | 4 (optional Hard-Mode) |
+
+Der HUD-Hinweis „Boss-DR aktiviert – −X Schaden pro Treffer“ nutzt diesen Wert
+und kappen Exploding-Overflow konsequent. Diese Vorgabe ersetzt Hausregeln und
+verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe übermäßig zu
+strecken.
 
 ### Boss-Foreshadow Checklist (Zeitpunkte unverändert) {#boss-foreshadow}
 - Core-Ops:

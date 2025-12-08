@@ -37,6 +37,15 @@ Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein
 System-Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progressionsphasen
 betont.
 
+## Referenzen & Fixtures
+
+- **Vollständiges Test-Save (v6):** `internal/qa/fixtures/savegame_v6_test.json` enthält Cross-Mode-
+  und Arena-Spuren, `logs.psi[]`, `economy.wallets{}` sowie `campaign.rift_seeds[]`. Es dient den
+  Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und wird bei Schema-Updates gespiegelt.
+- **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
+  setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren, damit
+  Logs und Checks reproduzierbar bleiben.
+
 ## Testumfang und Meilensteine
 
 - **HQ und Kodex-HUD:** Briefings, Loop-Start, Archiv-Updates, Ask→Suggest-Wechsel und
@@ -142,6 +151,14 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 ```
 
 ## Ablauf für Tester:innen
+
+### Zusatz-Checks: Verfolgungen & Massenkonflikte
+
+- **Cineastische Verfolgung:** Pro Testlauf eine Verfolgung mit HUD-Startoverlay durchführen,
+  Crash/Stress-Einträge festhalten und sicherstellen, dass `Vehicle Clash`-Notizen im Log landen.
+- **Massenkonflikt:** Einen kurzen Ansturm oder Rückzug markieren (`Mass Conflict`-Flag im HUD,
+  Szenentitel setzen), Kernschaden (3 bzw. 4–5 bei schweren Waffen) und Chaos-/Stress-Spitzen loggen;
+  bei drei Chaos-Punkten den SG 12 Break-Point prüfen.
 
 1. Masterprompt (`meta/masterprompt_v6.md`), `README.md`, `master-index.json` und alle
    Runtime-Module (ohne `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart
