@@ -56,7 +56,7 @@ const base = {
     },
     fragen: ['Wer hat den Psi-Sturm ausgelöst?'],
     timeline: [
-      { id: 'TL-1', epoch: '1971', label: 'Apollo', stability: 4 },
+      { id: 'TL-1', epoch: '1971', label: 'Apollo' },
       { label: 'Leer' },
       'invalid'
     ]
@@ -88,7 +88,6 @@ assert.deepStrictEqual(data.arc_dashboard.offene_seeds[0], 'Freitext: Anomalie a
 assert.deepStrictEqual(data.arc_dashboard.offene_seeds[1].id, 'Seed-77');
 assert.deepStrictEqual(data.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich');
 assert.ok(Array.isArray(data.arc_dashboard.timeline));
-assert.equal(data.arc_dashboard.timeline[0].stability, 4);
 assert.equal(data.arc_dashboard.timeline[0].epoch, '1971');
 assert.equal(data.arc_dashboard.timeline[0].id, 'TL-1');
 assert.equal(data.arc_dashboard.timeline.length, 2);
