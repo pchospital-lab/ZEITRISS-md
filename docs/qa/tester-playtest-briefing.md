@@ -97,8 +97,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > Squad, Koop mit einem voll simulierten Spielerteam (inkl. Absprache, Rollen- und Loot-Verteilung)
 > sowie PvP-Gefechte zwischen zwei simulierten Fraktionen. Für jede Phase (Frühphase, Midgame,
 > Endgame) müssen HQ-Briefing, Mission, Stadt-/Fraktionsmodule, Paradoxon-Index-Handling und Kodex-
-> HUD demonstriert werden. Stelle sicher, dass alle Squad-Mitglieder und PvP-Gegner glaubwürdig
-> agieren (inkl. Chat-/Voice-Callouts) und dokumentiere Sync-, Save- und Konfliktauflösungen.
+> HUD demonstriert werden. Führe zusätzlich Rifts in mindestens drei Level-Clustern durch (z. B.
+> 1–25, 80–150, 400–1000), inklusive Loop-Reset, Seed-Öffnung, Artefaktwirtschaft und Auswirkungen
+> auf Paradoxon-Index und Kodex. Stelle sicher, dass alle Squad-Mitglieder und PvP-Gegner
+> glaubwürdig agieren (inkl. Chat-/Voice-Callouts) und dokumentiere Sync-, Save- und
+> Konfliktauflösungen.
 >
 > Bündle die Ergebnisse in klaren Abschnitten und halte einen straffen,
 > erwachsenen Agenten-Thriller-Ton ohne Abschweifungen.
@@ -111,8 +114,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > `arc_dashboard`). Kontrolliere HQ-Briefing-Schleifen, Accessibility-Dialoge,
 > Offline-Hinweise sowie Ask→Suggest- und Kodex-Kommandos. Cross-Mode-Saves müssen
 > getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und
-> Konflikte kennzeichnen). Dokumentiere jede Unstimmigkeit, Balance-Frage oder
-> Regelunklarheit.
+> Konflikte kennzeichnen). Decke bei Save- und Load-Prüfungen auch späte Progression
+> ab (Level 100+, 400+, 1000) und halte fest, wie Artefakt-/Rift-Boni, Wallets und
+> Psi-/Fraktionswerte skaliert werden. Dokumentiere jede Unstimmigkeit, Balance-
+> Frage oder Regelunklarheit.
 >
 > Hänge an deine Antwort einen Abschnitt `Test-Save (JSON)` an. Er enthält einen
 > vollständig ausgefüllten `saveGame`-Block mit Dummy-Testdaten auf Basis des
@@ -120,11 +125,14 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > `campaign`, `character`, `economy` inkl. `wallets{}`, `logs` mit `artifact_log`,
 > `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `foreshadow`,
 > `fr_interventions`, `psi`, `hud`, `flags`, dazu `ui`, `arena`, optional
-> `arc_dashboard`) sowie passende Kodex- und Charakterwerte. Gib den Block in
-> einem ```json```-Snippet aus, damit der automatische Abgleich ohne
-> Nachbearbeitung möglich ist. Zusatzfelder, die ausschließlich für
-> nachgelagerte Tools gedacht sind, dürfen angehängt werden, müssen aber das
-> Save-Schema nicht verletzen und werden vom Serializer ansonsten ignoriert.
+> `arc_dashboard`) sowie passende Kodex- und Charakterwerte. Bilde darin mindestens
+> zwei Level- und Rift-Varianten ab (z. B. <10, 120, 500+ inklusive Seeds und
+> Artefaktboni), damit Skalierung und Persistenz über den vollen Bereich 1–1000
+> validiert werden können. Gib den Block in einem ```json```-Snippet aus, damit der
+> automatische Abgleich ohne Nachbearbeitung möglich ist. Zusatzfelder, die
+> ausschließlich für nachgelagerte Tools gedacht sind, dürfen angehängt werden,
+> müssen aber das Save-Schema nicht verletzen und werden vom Serializer ansonsten
+> ignoriert.
 >
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben
 > durch: Starte mit `Gate 2/2`, beginne Mission 5, bestätige Toast, Badge
