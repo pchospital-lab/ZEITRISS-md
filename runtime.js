@@ -5135,6 +5135,40 @@ function prepare_save_logs(logs){
   } else {
     base.squad_radio = [];
   }
+  if (Array.isArray(base.field_notes)){
+    base.field_notes = base.field_notes
+      .map((entry) => {
+        if (!entry) return null;
+        if (typeof entry === 'string'){
+          const note = entry.trim();
+          return note ? { note } : null;
+        }
+        if (typeof entry !== 'object' || Array.isArray(entry)) return null;
+        const record = clone_plain_object(entry);
+        const agentId = typeof record.agent_id === 'string' && record.agent_id.trim()
+          ? record.agent_id.trim()
+          : null;
+        const mission = typeof record.mission === 'string' && record.mission.trim()
+          ? record.mission.trim()
+          : null;
+        const timestamp = typeof record.timestamp === 'string' && record.timestamp.trim()
+          ? record.timestamp.trim()
+          : null;
+        const note = typeof record.note === 'string' && record.note.trim()
+          ? record.note.trim()
+          : (typeof record.text === 'string' ? record.text.trim() : null);
+        if (!note && !mission && !agentId && !timestamp) return null;
+        const normalized = {};
+        if (agentId) normalized.agent_id = agentId;
+        if (mission) normalized.mission = mission;
+        if (timestamp) normalized.timestamp = timestamp;
+        if (note) normalized.note = note;
+        return normalized;
+      })
+      .filter(Boolean);
+  } else {
+    base.field_notes = [];
+  }
   if (!base.flags || typeof base.flags !== 'object'){
     base.flags = {};
   }
@@ -5236,6 +5270,34 @@ function prepare_save_arc_dashboard(dashboard){
         entry && typeof entry === 'object' ? clone_plain_object(entry) : entry
       ))
     : [];
+  if (Array.isArray(base.timeline)){
+    base.timeline = base.timeline
+      .map((entry) => {
+        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return null;
+        const record = clone_plain_object(entry);
+        const id = typeof record.id === 'string' && record.id.trim() ? record.id.trim() : null;
+        const epoch = typeof record.epoch === 'string' && record.epoch.trim()
+          ? record.epoch.trim()
+          : null;
+        const label = typeof record.label === 'string' && record.label.trim()
+          ? record.label.trim()
+          : null;
+        const stabilityRaw = Number(record.stability);
+        const stability = Number.isFinite(stabilityRaw)
+          ? Math.max(0, Math.min(5, Math.floor(stabilityRaw)))
+          : null;
+        if (!id && !epoch && !label && stability === null) return null;
+        const normalized = {};
+        if (id) normalized.id = id;
+        if (epoch) normalized.epoch = epoch;
+        if (label) normalized.label = label;
+        if (stability !== null) normalized.stability = stability;
+        return normalized;
+      })
+      .filter(Boolean);
+  } else {
+    base.timeline = [];
+  }
   return base;
 }
 
@@ -5275,6 +5337,24 @@ function prepare_save_character(character){
     attrs.SYS_used = Number.isFinite(sysUsed) ? sysUsed : attrs.SYS_max;
   }
   base.attributes = attrs;
+  if (base.quarters && typeof base.quarters === 'object' && !Array.isArray(base.quarters)){
+    const quarters = clone_plain_object(base.quarters);
+    quarters.id = typeof quarters.id === 'string' && quarters.id.trim() ? quarters.id.trim() : null;
+    const preset = typeof quarters.preset === 'string' ? quarters.preset.trim() : '';
+    quarters.preset = preset || 'custom';
+    quarters.deck = typeof quarters.deck === 'string' && quarters.deck.trim()
+      ? quarters.deck.trim()
+      : null;
+    quarters.notes = typeof quarters.notes === 'string' && quarters.notes.trim()
+      ? quarters.notes.trim()
+      : null;
+    quarters.layout_tags = Array.isArray(quarters.layout_tags)
+      ? quarters.layout_tags
+          .map((tag) => (typeof tag === 'string' ? tag.trim() : null))
+          .filter(Boolean)
+      : [];
+    base.quarters = quarters;
+  }
   return base;
 }
 
