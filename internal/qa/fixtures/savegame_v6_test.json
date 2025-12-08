@@ -1,0 +1,298 @@
+{
+  "save_version": 6,
+  "zr_version": "4.2.2",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 1,
+    "mission": 5,
+    "mission_in_episode": 5,
+    "scene": 0,
+    "type": "core",
+    "mode": "preserve",
+    "px": 3,
+    "seed_source": "preserve_pool",
+    "seed_id": "P-0002",
+    "objective": "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust.",
+    "hq_moments_used": ["BASTION"],
+    "hq_moment_last": "BASTION",
+    "rift_seeds": ["RIFT-011", "RIFT-015"],
+    "exfil": {
+      "active": false,
+      "armed": false,
+      "hot": false,
+      "ttl": 0,
+      "sweeps": 0,
+      "stress": 0,
+      "anchor": null,
+      "alt_anchor": null
+    }
+  },
+  "character": {
+    "id": "AGENT-TEST",
+    "name": "Vektor",
+    "rank": "Operator I",
+    "level": 3,
+    "xp": 240,
+    "origin": {
+      "epoch": "ITI-Nullzeit",
+      "hominin": "Homo sapiens sapiens",
+      "role": "Infiltrator"
+    },
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {
+      "STR": 4,
+      "GES": 6,
+      "INT": 4,
+      "CHA": 3,
+      "TEMP": 2,
+      "SYS_max": 4,
+      "SYS_used": 4,
+      "hp": 11,
+      "hp_max": 11
+    },
+    "modes": ["mission_focus"],
+    "self_reflection": false,
+    "has_psi": false,
+    "psi_buffer": true,
+    "talents": ["Schleichprofi", "Pistolenschütze"],
+    "skills": ["Infiltration", "Taktische Analyse"],
+    "implants": [
+      {
+        "name": "Retina-HUD-Kontaktlinse",
+        "sys_cost": 0,
+        "effect": "Standard-HUD, Paradoxon-Anzeige"
+      },
+      {
+        "name": "Taktisches Ohrimplantat Mk I",
+        "sys_cost": 1,
+        "effect": "+1 Gehör, Comlink-Boost"
+      },
+      {
+        "name": "Reflex-Boost Microline",
+        "sys_cost": 1,
+        "effect": "+1 Initiative"
+      }
+    ],
+    "inventory": {
+      "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
+      "armor": ["Kevlar-Weste Stufe II"],
+      "gadgets": [
+        "Multi-Tool Wraith",
+        "Faseroptik-Kabelkamera",
+        "Rauchgranate Mk I",
+        "Micro-Breacher"
+      ],
+      "consumables": ["Med-Patch"],
+      "special": ["Notfall-Transponder"]
+    },
+    "quarters": {
+      "id": "QTR-T01",
+      "preset": "custom",
+      "layout_tags": ["stealth", "urban_ghost"],
+      "deck": "HQ-A",
+      "notes": "Kleines Einzelquartier mit schallgedämmter Tür."
+    },
+    "stats": {
+      "missions_completed": 4,
+      "deaths": 0,
+      "rifts_closed": 0,
+      "shots_fired": 27
+    }
+  },
+  "team": {
+    "members": [
+      {
+        "id": "AGENT-TEST",
+        "callsign": "Vektor"
+      }
+    ]
+  },
+  "party": {
+    "characters": [
+      {
+        "id": "AGENT-TEST",
+        "callsign": "Vektor",
+        "psi_buffer": true,
+        "has_psi": false
+      }
+    ]
+  },
+  "loadout": {
+    "AGENT-TEST": {
+      "primary": "CQB-Kampfpistole (SD)",
+      "secondary": "Tactical Fighting Knife",
+      "armor": "Kevlar-Weste Stufe II",
+      "gear": [
+        "Multi-Tool Wraith",
+        "Faseroptik-Kabelkamera",
+        "Rauchgranate Mk I",
+        "Micro-Breacher",
+        "Ersatzmagazin"
+      ]
+    }
+  },
+  "economy": {
+    "cu": 2100,
+    "credits": 2100,
+    "wallets": {
+      "AGENT-TEST": {
+        "name": "Vektor",
+        "balance": 2100
+      }
+    }
+  },
+  "logs": {
+    "artifact_log": [
+      {
+        "id": "A01",
+        "name": "Mothman-Auge",
+        "mission_ref": "EP01-MS03",
+        "seed_id": "RIFT-011",
+        "status": "archived",
+        "note": "NightVision30m; Perception+1"
+      }
+    ],
+    "market": [
+      {
+        "ts": "2025-11-26T18:45:00Z",
+        "item": "Kevlar-Weste Stufe II",
+        "cost_cu": 150,
+        "px_clause": "neutral"
+      }
+    ],
+    "offline": [
+      {
+        "ts": "2025-11-26T18:30:00Z",
+        "scene": "HQ",
+        "context": "Jammer HQ-West",
+        "note": "Hud-Only, Funk down"
+      }
+    ],
+    "kodex": [],
+    "alias_trace": [
+      {
+        "ts": "2025-11-26T18:35:00Z",
+        "alias": "Echo",
+        "message": "Alias gesetzt"
+      }
+    ],
+    "squad_radio": [],
+    "hud": [
+      "EP 01 · MS 04 · SC 12/12 · MODE CORE · Px ███░░ (3/5) · FS 4/4 · GATE 2/2",
+      "SF-OFF (M5 prep)",
+      "Wallets initialisiert (solo → koop)",
+      "Arena-Gebühr 200 CU abgebucht",
+      "Boss-DR aktiviert – −2 Schaden"
+    ],
+    "psi": [
+      {
+        "ts": "2025-11-26T21:10:00Z",
+        "mode_previous": "preserve",
+        "note": "Arena-Run solo"
+      }
+    ],
+    "foreshadow": [
+      {"scene": 5, "label": "Steg fällt ein", "mission_ref": "EP01-MS05"},
+      {"scene": 9, "label": "Foreshadow: Click", "mission_ref": "EP01-MS05"},
+      {"scene": 10, "label": "Boss-Toast", "mission_ref": "EP01-MS05"}
+    ],
+    "fr_interventions": [
+      {
+        "ts": "2025-11-26T19:00:00Z",
+        "faction": "ITI",
+        "event": "Briefing-Override",
+        "effect": "+1 Stability"
+      }
+    ],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "compliance_shown_today": true,
+      "chronopolis_warn_seen": false,
+      "self_reflection": false,
+      "self_reflection_off": true,
+      "self_reflection_auto_reset_at": null,
+      "self_reflection_auto_reset_reason": null,
+      "last_mission_end_reason": null,
+      "foreshadow_gate_m5_seen": true,
+      "foreshadow_gate_m10_seen": false,
+      "output_pace_suggestion": null
+    }
+  },
+  "arc_dashboard": {
+    "offene_seeds": [
+      {
+        "id": "RIFT-011",
+        "epoch": "1983",
+        "label": "Oko False Alarm – Schattenkontakt",
+        "status": "open"
+      },
+      {
+        "id": "RIFT-015",
+        "epoch": "1977",
+        "label": "Dam Safety Drill – Schattenriss im Wehr",
+        "status": "open"
+      }
+    ],
+    "fraktionen": {
+      "ITI": 1,
+      "Zeitkartell": -1
+    },
+    "timeline": [
+      {
+        "id": "TL-OLYMPICS-2000",
+        "epoch": "2000",
+        "label": "Milzbrand-Nano-Anschlag bei Olympia 2000 verhindert",
+        "stability": 4
+      },
+      {
+        "id": "TL-APOLLO15",
+        "epoch": "1971",
+        "label": "Apollo 15 Guidance stabilisiert",
+        "stability": 2
+      }
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal"
+  },
+  "arena": {
+    "active": false,
+    "phase": "completed",
+    "mode": "squad",
+    "previous_mode": "preserve",
+    "wins_player": 1,
+    "wins_opponent": 1,
+    "tier": 2,
+    "proc_budget": 0,
+    "artifact_limit": 1,
+    "loadout_budget": 500,
+    "phase_strike_tax": 1,
+    "damage_dampener": true,
+    "team_size": 4,
+    "fee": 200,
+    "scenario": "Scrimmage Montauk",
+    "started_episode": 1,
+    "last_reward_episode": 1,
+    "policy_players": ["AGENT-TEST"],
+    "audit": [
+      {
+        "ts": "2025-11-26T21:30:00Z",
+        "event": "arenaStart",
+        "fee": 200
+      },
+      {
+        "ts": "2025-11-26T21:50:00Z",
+        "event": "arenaEnd",
+        "reward_cu": 300
+      }
+    ]
+  }
+}

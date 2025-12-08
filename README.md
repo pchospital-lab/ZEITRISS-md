@@ -29,7 +29,6 @@ tags: [meta]
    1. [Dokumenten-Landkarte](#dokumenten-landkarte)
 1. [Mini-Einsatzhandbuch](#mini-einsatzhandbuch)
 1. [Start-Transkripte (Kurz)](#start-transkripte)
-1. [Abnahme-Smoketest (Dispatcher)](#abnahme-smoketest)
 1. [Chat-Kurzbefehle](#chat-kurzbefehle)
 1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
 1. [Level & EP-Kurve](#level--ep-kurve)
@@ -267,8 +266,7 @@ wirkt auf weitere Starts, Cross-Mode-Saves und Arena-Rücksprünge.
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
-[Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md) ·
-[Abnahme-Smoketest ↗](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
+[Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md)
 
 Siehe auch:
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
@@ -315,21 +313,7 @@ Spiel starten (gruppe schnell)
 
 </details>
 
-## Abnahme-Smoketest (Dispatcher) {#abnahme-smoketest}
-
-Die ausführliche 15-Schritte-Liste liegt im
-[Dispatcher-Briefing](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
-und bleibt optional für manuelle Validierungen. Hier folgen ausschließlich die
-Laufzeitregeln, damit produktive GPTs die Dispatcher-Flows ohne QA-Kontext
-nutzen können.
-
-**Kurzablauf (Wissensspiegel)**
-
-1. `Spiel starten (solo)` → HQ-Overlay `EP·MS·SC`, Compliance-Toast prüfen.
-2. `!load` HQ-Save → HUD spiegelt `FS 0/4` bzw. `FS 0/2`, `GATE 0/2`.
-3. `!helper boss` → Gate-Status verifizieren, Mission 5/10 vorbereitet.
-4. `!save` im HQ bestätigt Guard (SYS voll, Stress 0, Psi-Heat 0, Arena inaktiv).
-5. `!arena status` oder `!arena quit` bestätigt Reset vor neuen HQ-Saves.
+## Dispatcher-Kurzreferenz
 
 ### Dispatcher-Starts & Speicherpfade
 
@@ -502,58 +486,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Verfügung, auch ohne die lokale `runtime.js`.
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
-Wenn du einen kompletten manuellen Check brauchst, findest du die
-15-Schritte-Variante im Abschnitt
-[Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 
-### Acceptance-Smoke-Checkliste (Mirror)
-
-#### Dispatcher-Starts & Speicherpfade
-
-1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
-2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
-3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
-4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“
-5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
-6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“
-7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
-8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
-9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
-10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
-
-#### Boss-Gates & HUD-Badges
-
-11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
-    `Gate blockiert – Gate 0/2`, bis Hinweise erfüllt sind.
-12. Mission 5 starten → HUD meldet den Encounter-Hinweis
-    `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
-    `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet
-    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −2
-    Schaden pro Treffer`; beim Missionsende (Abbruch oder Abschluss) setzt die Runtime
-    Self-Reflection automatisch auf `SF-ON` zurück.
-
-#### Psi-Heat & Ressourcen-Reset
-
-13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
-    `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
-    setzt SYS/Stress/Psi-Heat zurück.
-
-#### Accessibility & UI-Persistenz
-
-14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
-    `Badges: dense` oder `compact` und `Output pace: slow` bestätigen; HUD-Toast
-    „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
-    Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
-    `standard|compact` gemappt.
-15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
-    persistiert (`contrast: high`, `badge_density: dense|compact`,
-    `output_pace: slow`).
-
-**Arena- und Fahrzeug-Smoke (Ergänzung)**
-- Arena/Psi: Ein Lauf mit Psi-Charakter (`phase_strike_cost()` aktiv, HUD-Toast
-  mit Tax + Logs), ein Lauf ohne Psi (nur Arena-Gebühr, `psi_buffer` aktiv).
-- Fahrzeuge/Massenkonflikte: „Cineastische Verfolgung“ auslösen (Start-Overlay,
-  Crash/Stress protokollieren) und Massenkonflikt-Flag aufnehmen.
+### Dispatcher- und HUD-Befehle
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.

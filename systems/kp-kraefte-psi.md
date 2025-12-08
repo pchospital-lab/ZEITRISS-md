@@ -285,8 +285,7 @@ In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
   Telepathie/`mind_control` (kein −2‑Bonus für die Verteidigung).
 - Logging: Jeder Arena-Einsatz schreibt `logs.psi[]` (`ability`, `base_cost`,
   `tax`, `total_cost`, `arena_active`, optional `mode_previous/location`).
-- HUD/Toast: Arena-Gebühr und Tax werden als Toast ausgegeben; QA-Smoke führt
-  je einen Arena-Lauf mit und ohne Psi, um Tax + Puffer sichtbar zu machen.
+- HUD/Toast: Arena-Gebühr und Tax werden als Toast ausgegeben.
 
 ### Anti-Psi-Gitter
 

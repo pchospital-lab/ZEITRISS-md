@@ -296,8 +296,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
   den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
   (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
-  `location='ARENA'` und markiert Px-Belohnungen pro Episode; PvP bleibt ein
-  optionales Endgame-Modul außerhalb der Kernkampagne.
+  `location='ARENA'`, merkt `campaign.previous_mode` und markiert Px-Belohnungen
+  pro Episode; `arenaEnd()` stellt `campaign.mode` wieder her und leert den
+  `previous_mode`-Puffer. PvP bleibt ein optionales Endgame-Modul außerhalb der
+  Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
 > HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
@@ -2642,6 +2644,8 @@ NPC-Dialoge und Kodex-Logs passieren `tone_filter()` nach der Umwandlung
 technischer Tags, damit keine Systemtokens im Spieltext bleiben.
 ### generate_rift_seeds() Macro
 Erzeugt neue Rift-Seeds aus dem „Rift-Seed Catalogue" und protokolliert sie.
+`campaign.rift_seeds[]` bleibt die Single Source; `arc_dashboard.offene_seeds[]`
+spiegelt diesen Block beim Save/Load.
 <!-- Macro: generate_rift_seeds -->
 {% macro generate_rift_seeds(count_min=1, count_max=2) -%}
   {% set catalogue = gpull('gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue') %}
