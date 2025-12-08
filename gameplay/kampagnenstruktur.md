@@ -286,6 +286,10 @@ Bei parallelen Einsätzen zählt jeder Trupp seinen Index separat und merge ihn 
 Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
 zusammengeführt oder getrennt bleiben.
 
+**Single Source:** `campaign.rift_seeds[]` bleibt die führende Liste offener Risse;
+`arc_dashboard.offene_seeds[]` spiegelt sie nur. Merges respektieren immer den
+Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wallets.
+
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 

@@ -63,7 +63,7 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.2",
+  "zr_version": "4.2.3",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -95,7 +95,7 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.2",
+      "runtime_version": "4.2.3",
       "compliance_shown_today": false,
       "chronopolis_warn_seen": false
     }
@@ -140,6 +140,13 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed).
 `arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
+Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
+ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
+
+**Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
+enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
+Arena-Audit, Wallet-Split-Logs und Self-Reflection-Status. Er dient als
+Referenz für Acceptance- und Load-Flows.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -151,7 +158,7 @@ führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.2",
+  "zr_version": "4.2.3",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -260,7 +267,7 @@ führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.2",
+      "runtime_version": "4.2.3",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": false
     },
@@ -370,7 +377,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 
 **Self-Reflection-Priorität & Helper**
 - Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
-  sind Audit-Mirror und ersetzen den Charakterwert nie.
+  spiegeln den Charakterwert, ersetzen ihn aber nie.
 - `set_self_reflection(enabled:boolean, reason?: string)` setzt
   `character.self_reflection` und `logs.flags.self_reflection` synchron, legt
   `self_reflection_changed_at/_reason` an, plant den Auto-Reset nach
@@ -415,9 +422,9 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    enthält nur den Protagonisten. Nach dem Laden läuft
    `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
    aktiven Agent:innen an. Die Person, die den Save bereitstellt, ist der Host:
-   Ihr Kampagnenblock (`episode`, `mission`, `mode`, `seed_source`) gewinnt bei
-   Konflikten den Vorrang; zusätzliche Crew-Saves dürfen nur Charaktere,
-   Loadouts und Wallets beisteuern.
+   Ihr Kampagnenblock (`episode`, `mission`, `mode`, `seed_source`,
+   `rift_seeds[]`) gewinnt bei Konflikten den Vorrang; zusätzliche Crew-Saves
+   dürfen nur Charaktere, Loadouts und Wallets beisteuern.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
@@ -434,14 +441,22 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    sichert den alten Wert (`preserve`/`trigger`). Beim Exit schreibt die Runtime
    `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg), stellt
    `campaign.mode = previous_mode` wieder her, leert `previous_mode` und erlaubt
-   erneut HQ-Saves.
+   erneut HQ-Saves. `reset_arena_after_load()` bewahrt den letzten Modus über
+   `arena.previous_mode`, falls mitten in einer Serie geladen wird, damit der
+   Exit konsistent auf den Ursprungsmodus zurückspringt.
+
+**Host-Regel für Mehrfach-Import:** Sobald mehrere Saves zusammengeführt
+werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen weder
+`campaign.mode` noch `campaign.rift_seeds[]` oder Episoden-/Missionszähler
+überschreiben. Der Merge-Pfad zieht lediglich Charaktere, Loadouts und Wallets
+heran und protokolliert abweichende Seeds im HUD/Debrief.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.2",
+  "zr_version": "4.2.3",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -470,7 +485,7 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.2",
+      "runtime_version": "4.2.3",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": true,
       "offline_help_count": 1,
@@ -852,7 +867,7 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 ```json
 {
-  "zr_version": "4.2.2",
+  "zr_version": "4.2.3",
   "save_version": 6,
   "location": "HQ",
   "phase": "core",
@@ -906,7 +921,7 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
     "fr_interventions": [],
     "psi": [],
     "flags": {
-      "runtime_version": "4.2.2",
+      "runtime_version": "4.2.3",
       "chronopolis_warn_seen": false,
       "compliance_shown_today": false
     }
@@ -990,7 +1005,7 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.2** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.3** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -1057,7 +1072,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 ```javascript
 function select_state_for_save(state) {
   return {
-    zr_version: "4.2.2",
+    zr_version: "4.2.3",
     save_version: 6,
     location: state.location,
     phase: state.phase,
@@ -1219,7 +1234,7 @@ Entdeckungen.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.2 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.3 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 

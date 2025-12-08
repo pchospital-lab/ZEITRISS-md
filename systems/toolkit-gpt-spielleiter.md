@@ -298,8 +298,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
   `location='ARENA'`, merkt `campaign.previous_mode` und markiert Px-Belohnungen
   pro Episode; `arenaEnd()` stellt `campaign.mode` wieder her und leert den
-  `previous_mode`-Puffer. PvP bleibt ein optionales Endgame-Modul außerhalb der
-  Kernkampagne.
+  `previous_mode`-Puffer. `reset_arena_after_load()` hält den Ursprungsmodus über
+  `arena.previous_mode` fest, falls ein Save mitten in der Serie geladen wird.
+  PvP bleibt ein optionales Endgame-Modul außerhalb der Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
 > HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
@@ -2652,9 +2653,12 @@ spiegelt diesen Block beim Save/Load.
   {% set options = [s for s in catalogue if not getattr(s, 'meta_introspection', False)] %}
   {% set n = range(count_min, count_max + 1)|random %}
   {% set picks = random.sample(options, n) %}
-  {% if campaign.open_seeds is none %}{% set campaign.open_seeds = [] %}{% endif %}
+  {% if campaign.rift_seeds is none %}{% set campaign.rift_seeds = [] %}{% endif %}
+  {% if arc_dashboard.offene_seeds is none %}{% set arc_dashboard.offene_seeds = [] %}{% endif %}
   {% for seed in picks %}
-    {% do campaign.open_seeds.append({'id': seed.rift_id, 'epoch': seed.epoch, 'status': 'open'}) %}
+    {% set new_seed = {'id': seed.rift_id, 'epoch': seed.epoch, 'status': 'open'} %}
+    {% do campaign.rift_seeds.append(new_seed) %}
+    {% do arc_dashboard.offene_seeds.append(new_seed) %}
     {{ hud_tag('Rift entdeckt: ' ~ seed.rift_id ~ ' (' ~ seed.epoch ~ ')') }}
   {% endfor %}
 {%- endmacro %}

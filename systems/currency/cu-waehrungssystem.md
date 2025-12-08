@@ -89,9 +89,16 @@ ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie v
 mehreren Faktoren, zum Beispiel:
 _Budget-Hinweis:_ Die Kurzformel **10 × Spielerlevel CU** dient nur als Planungs-
 Faustregel für neue Kampagnen und ersetzt keine Auszahlung. Verbindlich ist die
-dynamische Formel `Belohnung = Basiswert × Multiplikator × (abgeschlossene
-Szenen / 12)` plus klar benanntem Hazard-Pay (+50 % bei Teamgröße < 3) und
-optionalem Bonus für Zusatzaufgaben.
+dynamische Formel:
+
+`Belohnung = Basiswert × Risiko-Multiplikator × (abgeschlossene Szenen / 12)`
+
+- **Hazard-Pay:** +50 % auf die Basisprämie, wenn weniger als drei Agent:innen
+  teilnehmen.
+- **Level-Faustregel:** 10 × Spielerlevel CU als Richtwert für die Planung,
+  keine harte Auszahlung.
+- **Bonusziele:** Optionale Zusatzaufgaben erhöhen den Multiplikator oder ergänzen
+  einen Festbetrag; dokumentiere die Quelle im Debrief.
 
 ### Core-Ops Belohnungen {#core-ops-belohnungen}
 
