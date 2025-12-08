@@ -5282,16 +5282,11 @@ function prepare_save_arc_dashboard(dashboard){
         const label = typeof record.label === 'string' && record.label.trim()
           ? record.label.trim()
           : null;
-        const stabilityRaw = Number(record.stability);
-        const stability = Number.isFinite(stabilityRaw)
-          ? Math.max(0, Math.min(5, Math.floor(stabilityRaw)))
-          : null;
-        if (!id && !epoch && !label && stability === null) return null;
+        if (!id && !epoch && !label) return null;
         const normalized = {};
         if (id) normalized.id = id;
         if (epoch) normalized.epoch = epoch;
         if (label) normalized.label = label;
-        if (stability !== null) normalized.stability = stability;
         return normalized;
       })
       .filter(Boolean);
