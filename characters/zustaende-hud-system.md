@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.2 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
-version: 4.2.2
+title: "ZEITRISS 4.2.3 – Modul 5: Erweiterte Systeme & Cinematisches HUD"
+version: 4.2.3
 tags: [characters, optional]
 ---
 
@@ -77,7 +77,9 @@ Der Standard-Header zeigt:
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert
   `logs.flags.self_reflection_changed_at` sowie `logs.flags.self_reflection_last_change_reason`.
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
-  und `logs.flags.self_reflection_auto_reset_reason`. Quelle ist stets
+  und `logs.flags.self_reflection_auto_reset_reason`. Wiederholte Resets hängen optional
+  Einträge in `logs.self_reflection_history[]` an (z. B. `{ mission_ref, reason, ts }`), damit
+  mehrere Mission‑5-Durchläufe nachvollziehbar bleiben. Quelle ist stets
   `character.self_reflection`; Log-Flags spiegeln diesen Wert und dürfen ihn nicht
   überschreiben. Nutze `set_self_reflection(enabled, reason?)`, um Charakterwert
   und Log synchron zu halten; der Auto-Reset nach Mission 5 greift immer. Der
