@@ -1,6 +1,6 @@
 {
   "save_version": 6,
-  "zr_version": "4.2.2",
+  "zr_version": "4.2.3",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -16,7 +16,20 @@
     "objective": "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust.",
     "hq_moments_used": ["BASTION"],
     "hq_moment_last": "BASTION",
-    "rift_seeds": ["RIFT-011", "RIFT-015"],
+    "rift_seeds": [
+      {
+        "id": "RIFT-011",
+        "epoch": "1983",
+        "label": "Oko False Alarm – Schattenkontakt",
+        "status": "open"
+      },
+      {
+        "id": "RIFT-015",
+        "epoch": "1977",
+        "label": "Dam Safety Drill – Schattenriss im Wehr",
+        "status": "open"
+      }
+    ],
     "exfil": {
       "active": false,
       "armed": false,
@@ -208,7 +221,7 @@
       }
     ],
     "flags": {
-      "runtime_version": "4.2.2",
+      "runtime_version": "4.2.3",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": false,
       "self_reflection": false,
