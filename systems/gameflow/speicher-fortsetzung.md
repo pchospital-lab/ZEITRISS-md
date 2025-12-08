@@ -329,8 +329,8 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 ```
 
 **Timeline-Notizen:** `arc_dashboard.timeline[]` speichert bedeutende Einsätze
-mit `stability 0–5` (0 = instabil, 5 = gesichert). `stability` beschreibt die
-robuste Verankerung des Ereignisses und ist unabhängig von `campaign.px`.
+mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
+`campaign.px`.
 
 **Mission 5 Auto-Reset (Self-Reflection-Beispiel)**
 
