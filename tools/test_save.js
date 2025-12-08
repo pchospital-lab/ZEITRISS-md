@@ -11,7 +11,14 @@ const base = {
     stress: 0,
     psi_heat: 0,
     cooldowns: {},
-    attributes: { SYS_max: 1, SYS_used: 1 }
+    attributes: { SYS_max: 1, SYS_used: 1 },
+    quarters: {
+      id: 'QTR-A17',
+      preset: ' custom ',
+      layout_tags: ['cqb_ready', '  analyst_cell '],
+      deck: 'HQ-A',
+      notes: 'Testquartier'
+    }
   },
   team: {},
   loadout: {},
@@ -28,7 +35,18 @@ const base = {
     artifact_log: [],
     kodex: [],
     hud: [],
-    flags: {}
+    flags: {},
+    field_notes: [
+      '   Quick Memo   ',
+      {
+        agent_id: 'CHR-1',
+        mission: 'Testmission',
+        timestamp: '2025-07-01T10:00:00Z',
+        note: 'Notiz mit Trim'
+      },
+      {},
+      []
+    ]
   },
   ui: { gm_style: 'verbose', intro_seen: true },
   arc_dashboard: {
@@ -36,7 +54,12 @@ const base = {
     fraktionen: {
       KAIROS: { status: 'Feindlich', letzten_hook: 'Sabotage im Archiv' }
     },
-    fragen: ['Wer hat den Psi-Sturm ausgelöst?']
+    fragen: ['Wer hat den Psi-Sturm ausgelöst?'],
+    timeline: [
+      { id: 'TL-1', epoch: '1971', label: 'Apollo', stability: 4 },
+      { label: 'Leer' },
+      'invalid'
+    ]
   }
 };
 
@@ -64,6 +87,16 @@ assert.equal(typeof data.arc_dashboard.fraktionen, 'object');
 assert.deepStrictEqual(data.arc_dashboard.offene_seeds[0], 'Freitext: Anomalie aufspüren');
 assert.deepStrictEqual(data.arc_dashboard.offene_seeds[1].id, 'Seed-77');
 assert.deepStrictEqual(data.arc_dashboard.fraktionen.KAIROS.status, 'Feindlich');
+assert.ok(Array.isArray(data.arc_dashboard.timeline));
+assert.equal(data.arc_dashboard.timeline[0].stability, 4);
+assert.equal(data.arc_dashboard.timeline[0].epoch, '1971');
+assert.equal(data.arc_dashboard.timeline[0].id, 'TL-1');
+assert.equal(data.arc_dashboard.timeline.length, 2);
+assert.equal(data.logs.field_notes.length, 2);
+assert.equal(data.logs.field_notes[0].note, 'Quick Memo');
+assert.equal(data.logs.field_notes[1].mission, 'Testmission');
+assert.equal(data.character.quarters.preset, 'custom');
+assert.equal(data.character.quarters.layout_tags[1], 'analyst_cell');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));

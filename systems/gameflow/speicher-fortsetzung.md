@@ -136,7 +136,203 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 }
 ```
 
-- **Mission 5 Auto-Reset (Self-Reflection-Beispiel)**
+### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
+
+> Referenz-HQ-Block mit Quartier, Timeline, Squad und Feldnotizen. Alle
+> Pflichtfelder bleiben erhalten; optionale Blöcke sind knapp, aber vollständig
+> ausgefüllt, damit jede Spielleitung sofort den gesamten Charakterbogen
+> nachvollziehen kann.
+
+```json
+{
+  "save_version": 6,
+  "zr_version": "4.2.2",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 1,
+    "mission": 2,
+    "mission_in_episode": 2,
+    "scene": 0,
+    "px": 2,
+    "mode": "preserve",
+    "exfil": {
+      "active": false,
+      "armed": false,
+      "hot": false,
+      "ttl": 0,
+      "sweeps": 0,
+      "stress": 0,
+      "anchor": null,
+      "alt_anchor": null
+    }
+  },
+  "character": {
+    "id": "AGENT-01",
+    "name": "Agent Nova",
+    "rank": "Operator I",
+    "level": 2,
+    "xp": 120,
+    "origin": {
+      "epoch": "ITI-Nullzeit",
+      "hominin": "Homo sapiens sapiens",
+      "role": "CQB-Operator"
+    },
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {
+      "STR": 3,
+      "GES": 6,
+      "INT": 4,
+      "CHA": 2,
+      "TEMP": 1,
+      "SYS_max": 2,
+      "SYS_used": 2,
+      "hp": 10,
+      "hp_max": 10
+    },
+    "modes": ["mission_focus"],
+    "self_reflection": true,
+    "talents": ["Schleichprofi", "Pistolenschütze", "Reaktionsschnell"],
+    "skills": ["CQB", "Taktische Analyse"],
+    "implants": [
+      {"name": "Reflex-Boost Microline", "sys_cost": 1, "effect": "+1 Initiative"},
+      {"name": "Taktisches Ohrimplantat Mk I", "sys_cost": 1, "effect": "+1 Gehör"}
+    ],
+    "inventory": {
+      "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
+      "armor": ["Kevlar-Weste Stufe II"],
+      "gadgets": ["Multi-Tool Wraith", "Faseroptik-Kabelkamera", "Rauchgranate Mk I", "Micro-Breacher"],
+      "consumables": ["Med-Patch"],
+      "special": ["Notfall-Transponder"]
+    },
+    "quarters": {
+      "id": "QTR-A17",
+      "preset": "custom",
+      "layout_tags": ["cqb_ready", "urban_ghost", "analyst_cell"],
+      "deck": "HQ-A",
+      "notes": "Schallgedämmte CQB-Zelle mit Analysten-Setup"
+    },
+    "stats": {
+      "missions_completed": 2,
+      "deaths": 1,
+      "rifts_closed": 0,
+      "shots_fired": 2
+    }
+  },
+  "team": {"members": [{"id": "AGENT-01", "callsign": "Nova"}]},
+  "party": {"characters": [{"id": "AGENT-01", "callsign": "Nova"}]},
+  "loadout": {
+    "AGENT-01": {
+      "primary": "CQB-Kampfpistole (SD)",
+      "secondary": "Tactical Fighting Knife",
+      "armor": "Kevlar-Weste Stufe II",
+      "gear": [
+        "Multi-Tool Wraith",
+        "Faseroptik-Kabelkamera",
+        "Rauchgranate Mk I",
+        "Micro-Breacher",
+        "Ersatzmagazin"
+      ]
+    }
+  },
+  "economy": {
+    "cu": 1650,
+    "wallets": {
+      "AGENT-01": {"name": "Agent Nova", "balance": 1650}
+    }
+  },
+  "logs": {
+    "artifact_log": [],
+    "market": [],
+    "offline": [],
+    "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
+    "hud": [],
+    "psi": [],
+    "foreshadow": [],
+    "fr_interventions": [],
+    "flags": {
+      "runtime_version": "4.2.2",
+      "compliance_shown_today": true,
+      "chronopolis_warn_seen": false
+    },
+    "field_notes": [
+      {
+        "agent_id": "AGENT-01",
+        "mission": "Sydney 2000 – Maskottchen-Bio-Plot",
+        "timestamp": "2000-09-15T20:30:00Z",
+        "note": "Nano-Kapsel in der Logistik gesichert; Zelle neutralisiert."
+      },
+      {
+        "agent_id": "AGENT-01",
+        "mission": "Apollo 15 Abort Call",
+        "timestamp": "1971-07-30T03:15:00Z",
+        "note": "Saboteur in Tunnel S-03 gefesselt, Guidance-Daten korrigiert."
+      }
+    ]
+  },
+  "arc_dashboard": {
+    "offene_seeds": [],
+    "fraktionen": {
+      "ITI": 0,
+      "Ordo Mnemonika": 0,
+      "Kausalklingen": 0
+    },
+    "timeline": [
+      {
+        "id": "TL-OLYMPICS-2000",
+        "epoch": "2000",
+        "label": "Milzbrand-Nano-Anschlag bei Olympia 2000 verhindert",
+        "stability": 4
+      },
+      {
+        "id": "TL-APOLLO15",
+        "epoch": "1971",
+        "label": "Apollo 15 Guidance stabilisiert",
+        "stability": 2
+      }
+    ]
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "suggest_mode": false,
+    "contrast": "standard",
+    "badge_density": "standard",
+    "output_pace": "normal"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "previous_mode": null,
+    "wins_player": 0,
+    "wins_opponent": 0,
+    "tier": 1,
+    "proc_budget": 0,
+    "artifact_limit": 0,
+    "loadout_budget": 0,
+    "phase_strike_tax": 0,
+    "damage_dampener": true,
+    "team_size": 1,
+    "fee": 0,
+    "scenario": null,
+    "started_episode": null,
+    "last_reward_episode": null,
+    "policy_players": [],
+    "audit": []
+  }
+}
+```
+
+**Timeline-Notizen:** `arc_dashboard.timeline[]` speichert bedeutende Einsätze
+mit `stability 0–5` (0 = instabil, 5 = gesichert). `stability` beschreibt die
+robuste Verankerung des Ereignisses und ist unabhängig von `campaign.px`.
+
+**Mission 5 Auto-Reset (Self-Reflection-Beispiel)**
 
 ```json
 {
