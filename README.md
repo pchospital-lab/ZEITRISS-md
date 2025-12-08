@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.2
+version: 4.2.3
 tags: [meta]
 ---
 
@@ -357,6 +357,23 @@ Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert
 und schreibt die Auswahl in den Save. Beim erneuten Laden stehen die Werte mit
 `contrast: high`, `badge_density: dense`, `output_pace: slow` (oder den gewählten
 Alternativen) sofort wieder bereit.
+
+### Abnahme-Smoketest (Runtime-Overlay)
+
+1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
+   (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
+   1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
+   und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
+2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 zeigt Szene 5/10 und
+   `Gate 0/2`; Mission 5 blendet `Boss-Encounter in Szene 10`, `GATE 2/2` und
+   ggf. `SF-OFF` ein, Szene 10 triggert `Boss-DR aktiviert – −X Schaden` mit
+   Auto-Reset `SF-ON` zum Debrief.
+3. **Psi & Ressourcen** – Psi-Konflikt meldet `Psi-Heat +1`, danach Reset;
+   HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
+4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast,
+   Badge-Dichte und Ausgabetempo, Toast notieren; nach erneutem Laden bleiben
+   die Werte erhalten. Vollständige Wortlaute decken `doc.md` und das
+   Tester-Briefing ab.
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
@@ -789,7 +806,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
-**ZEITRISS 4.2.2** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.2.3** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
@@ -1034,7 +1051,7 @@ Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
-Beispiel: `🟢 ZEITRISS 4.2.2 – Einsatz für {{dich|euch}} gestartet`.
+Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).

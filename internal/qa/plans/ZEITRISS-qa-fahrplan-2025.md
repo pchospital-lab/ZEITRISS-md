@@ -404,15 +404,15 @@ müssen. Der komplette Rohtext liegt unter
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Vollständiges v6-Test-Save als Fixture | ⏳ offen | M12; README |
-| #2 | Self-Reflection Flags vs. Charakterwert | ⏳ offen | HUD; RT; M12 |
-| #3 | Versionsstring Modul 12 (4.2.2 vs. 4.2.3) | ⏳ offen | M12; README; master-index |
-| #4 | Single Source of Truth für Rift-Seeds | ⏳ offen | M12; TK(16); gameplay/kampagnenstruktur.md |
-| #5 | Arena-Mode-Reset (campaign.mode ← previous_mode) | ⏳ offen | TK(16); RT; SR |
-| #6 | Host-Regel beim Multi-Save-Import | ⏳ offen | README; M12 |
-| #7 | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level) | ⏳ offen | CW; Modul 15; Modul 8A |
-| #8 | Boss-DR nach Teamgröße staffeln | ⏳ offen | HUD; TK(16); gameplay/kampagnenstruktur.md |
-| #9 | Acceptance-Smoke 1–15 als Runtime-Overlay bereitstellen | ⏳ offen | R(QA); DOC; BRF |
+| #1 | Vollständiges v6-Test-Save als Fixture | ✅ abgeschlossen | M12; README |
+| #2 | Self-Reflection Flags vs. Charakterwert | ✅ abgeschlossen | HUD; RT; M12 |
+| #3 | Versionsstring Modul 12 (4.2.2 vs. 4.2.3) | ✅ abgeschlossen | M12; README; master-index |
+| #4 | Single Source of Truth für Rift-Seeds | ✅ abgeschlossen | M12; TK(16); gameplay/kampagnenstruktur.md |
+| #5 | Arena-Mode-Reset (campaign.mode ← previous_mode) | ✅ abgeschlossen | TK(16); RT; SR |
+| #6 | Host-Regel beim Multi-Save-Import | ✅ abgeschlossen | README; M12 |
+| #7 | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level) | ✅ abgeschlossen | CW; Modul 15; Modul 8A |
+| #8 | Boss-DR nach Teamgröße staffeln | ✅ abgeschlossen | HUD; TK(16); gameplay/kampagnenstruktur.md |
+| #9 | Acceptance-Smoke 1–15 als Runtime-Overlay bereitstellen | ✅ abgeschlossen | R(QA); DOC; BRF |
 
 **QA-Testreferenz (12-13 Paket)**
 - Acceptance-Smoke erneut mit dem geposteten HQ-Deepsave durchlaufen (Solo → Koop → Arena) und
