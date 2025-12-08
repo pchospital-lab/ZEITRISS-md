@@ -473,9 +473,11 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Teil des HQ-Deepsaves.
 - `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
   `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
-  `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena`
-  werden vom Serializer garantiert, damit automatisierte Prüfungen alle Guards
-  vollständig abdecken.
+  `foreshadow`, `fr_interventions`, `psi`, `flags`, `field_notes`) sowie `ui`
+  und `arena` werden vom Serializer garantiert, damit automatisierte
+  Prüfungen alle Guards vollständig abdecken. `character.quarters` wird
+  für HQ/Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält
+  Kampagnenereignisse samt Stabilität (0–5) fest.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
