@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.1
+version: 1.3.2
 tags: [meta]
 ---
 
@@ -155,18 +155,17 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    nachliefern.
 3. Prüfen, ob das GPT die gesamte Testmatrix eigenständig abarbeitet und lückenlos dokumentiert:
    - **Solo ohne Begleitteam:** Fokus auf Progression, Ressourcenfluss, Paradoxon-Index und
-     Reaktionen des Kodex-HUD ohne externe Einflüsse. Der Trigger-Start (`Spiel starten (solo
-     trigger schnell)`) muss `campaign.mode = trigger` setzen und ohne erneute Auswahlmenüs in das
-     Briefing springen.
+     Reaktionen des Kodex-HUD ohne externe Einflüsse. Der Kampagnenmodus (`preserve|trigger`) wird
+     vor dem Start über `!kampagnenmodus` gesetzt und muss nach dem Start im Save sichtbar sein.
    - **Solo mit NPC-Team:** Verhalten der Squad-KI, Taktik-Befehle, Auto-Revive und Balance der
      Missionsziele kontrollieren. Prüfen, ob NPCs korrekt auf HQ-Briefings, Kodex-Kommandos und
-     Stadt-Services reagieren. `Spiel starten (npc-team 3 trigger schnell)` muss das Seed-Feld
+     Stadt-Services reagieren. `!kampagnenmodus trigger` vor dem Start muss das Seed-Feld
      (`campaign.seed_source = trigger`) spiegeln und das Autoteam korrekt skalieren.
    - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
      Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
-     Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart `Spiel starten (gruppe trigger
-     schnell)` darf keine zusätzliche Zahlenabfrage zulassen und übernimmt den Trigger-Modus in
-     `campaign.mode`.
+     Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart `Spiel starten (gruppe schnell)`
+     darf keine zusätzliche Zahlenabfrage zulassen und übernimmt den vorher gesetzten Kampagnenmodus
+     in `campaign.mode`/`campaign.seed_source`.
    - **Simuliertes PvP:** Matchmaking-Hinweise, Regeltexte, Fraktionsboni und Konfliktauflösungen
      erfassen. Sicherstellen, dass PvP-Gefechte den Paradoxon-Index korrekt adressieren und keine
      Solo-/Koop-Elemente leaken.

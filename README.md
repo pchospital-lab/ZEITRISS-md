@@ -247,11 +247,14 @@ Die ersten Schritte in unter zwei Minuten:
 
 **Startbefehle (Klammern Pflicht):**
 
-- `Spiel starten (solo [preserve|trigger])` – Erschaffung → HQ-Intro → Briefing
-  → Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0–4] [preserve|trigger])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
-- `Spiel starten (gruppe [preserve|trigger])` – alle bauen · _schnell_: Saves posten oder Rolle nennen
+- `Spiel starten (solo [klassisch|schnell])` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
+- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
+- `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
+
+Kampagnenmodus (`preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
+`!kampagnenmodus preserve|trigger`. Der Wert landet in `campaign.mode`/`seed_source` und
+wirkt auf weitere Starts, Cross-Mode-Saves und Arena-Rücksprünge.
 
 **Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.
 **Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
@@ -1079,13 +1082,18 @@ Nach Compliance-Hinweis und Einleitung wählst du zwischen
 Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
 (Icons sind optional):
 
-- **`Spiel starten (solo [preserve|trigger])`** – Einzelner Chrononaut; GPT führt die NSCs.
-- **`Spiel starten (npc-team [0–4] [preserve|trigger])`** – GPT stellt ein temporäres Begleitteam bereit.
-- **`Spiel starten (gruppe [preserve|trigger])`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
+- **`Spiel starten (solo [klassisch|schnell])`** – Einzelner Chrononaut; GPT führt die NSCs.
+- **`Spiel starten (npc-team [0–4] [klassisch|schnell])`** – GPT stellt ein temporäres Begleitteam bereit.
+- **`Spiel starten (gruppe [klassisch|schnell])`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
   oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
 - **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter – ohne Auswahlmenü für `klassisch`/`schnell`.
+
+`preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Der Modus wird in
+`campaign.mode` und `campaign.seed_source` hinterlegt, bevor Starts oder Arena-
+Abzweigungen laufen. Legacy-Starts mit `preserve|trigger` in den Klammern werden
+mit einem Hinweis abgebrochen.
 
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 {{ ShowComplianceOnce() }}
