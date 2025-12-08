@@ -19,6 +19,13 @@ benötigten Läufe eigenständig und fasst sie im beschriebenen Format zusammen.
 
 ## Wissensspeicher vorbereiten
 
+> **Smoketest-Rahmen:** Die Acceptance-Smoke-Checkliste ist ein QA-/Abnahme-
+> Workflow für Beta-GPT oder CI, nicht Teil des Live-Spielbetriebs. Im regulären
+> Spiel löst kein Spielerkommando („Spiel starten“, „Speichern“ etc.) den
+> Smoketest aus. Der Copy-&-Paste-Auftrag unten enthält die Smoke-Schritte,
+> damit Beta-GPT-Sessions sie autonom abdecken; für das produktive GPT bleiben
+> sie im Wissensspeicher nur als Referenz.
+
 Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 
 - `meta/masterprompt_v6.md`
@@ -26,6 +33,9 @@ Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 - `master-index.json`
 - Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/` (ohne
   `internal/runtime/runtime-stub-routing-layer.md`).
+- Diese QA-Briefing-Datei (`docs/qa/tester-playtest-briefing.md`) bleibt nur für QA-
+  Sessions (z. B. Beta-GPT). Sie wird nicht in produktive Wissensspeicher
+  geladen.
 
 Eine Zielgruppen- und Dokumentenübersicht findest du in der README unter
 [„Dokumenten-Landkarte“](../../README.md#dokumenten-landkarte); sie zeigt, wie
@@ -125,6 +135,22 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
 > ab, vermerke Abweichungen im Evidenz-Block und kennzeichne die Prüfnummer
 > (1–15) pro Befund.
+>   Acceptance-Smoke-Checkliste (Kurzfassung zum Abarbeiten im selben Lauf):
+>   1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
+>   2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+>   3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
+>   4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße 0–4 …“
+>   5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
+>   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei *gruppe* keine Zahl …“
+>   7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing
+>   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
+>   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+>   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+>   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast `Gate blockiert – Gate 0/2`
+>   12. Mission 5 → HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −2 Schaden` und Reset auf `SF-ON`
+>   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach Konflikt/HQ-Transfer
+>   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace: slow`; Toast notieren, Save-Preview aktualisiert
+>   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
 >
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
 > folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
@@ -298,8 +324,10 @@ saveGame({...})
 ## Acceptance-Smoke-Checkliste
 
 > **Hinweis:** Der standardisierte Beta-GPT-Testprompt verpflichtet sich, jeden
-> Punkt dieser Checkliste automatisch abzudecken. Dokumentiere Abweichungen im
-> QA-Log und im Fahrplan unter den Deepcheck-Aufgaben.
+> Punkt dieser Checkliste automatisch abzudecken. Der Smoketest gehört exklusiv
+> in QA-/Beta-GPT-Läufe oder CI (`scripts/smoke.sh`), nicht in den regulären
+> Spielablauf. Dokumentiere Abweichungen im QA-Log und im Fahrplan unter den
+> Deepcheck-Aufgaben.
 
 ### Dispatcher-Starts & Speicherpfade
 
