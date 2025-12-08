@@ -87,9 +87,11 @@ Die primäre Quelle von Chrono Units sind erfolgreiche **Missionen** – und auc
 von **Beute** aus verschiedenen Zeitaltern. Wann immer ein Einsatz abgeschlossen wird, honoriert das
 ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie variiert dabei nach
 mehreren Faktoren, zum Beispiel:
-_Budget-Hinweis:_ Standardmissionen rechnen mit **10 × Spielerlevel CU**. Die SL kann den Wert anpassen.
-Empfohlen wird eine dynamische Formel, die den Prämienwert an die tatsächlich gespielten Szenen koppelt:
-`Belohnung = Basiswert × Multiplikator × (abgeschlossene Szenen / 12)`.
+_Budget-Hinweis:_ Die Kurzformel **10 × Spielerlevel CU** dient nur als Planungs-
+Faustregel für neue Kampagnen und ersetzt keine Auszahlung. Verbindlich ist die
+dynamische Formel `Belohnung = Basiswert × Multiplikator × (abgeschlossene
+Szenen / 12)` plus klar benanntem Hazard-Pay (+50 % bei Teamgröße < 3) und
+optionalem Bonus für Zusatzaufgaben.
 
 ### Core-Ops Belohnungen {#core-ops-belohnungen}
 

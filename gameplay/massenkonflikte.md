@@ -45,15 +45,13 @@ Siehe hierzu auch das Modul
 - **Tabellen und Beispielwerte:** Praktische Übersichten zu Fahrzeugtypen, Konfliktarten und
   beispielhaften Spielwerten, um die neuen Regeln schnell anzuwenden.
 
-### Massenkonflikt-Quick-Check (QA) {#mass-qa}
+### Massenkonflikt-Quickref {#mass-qa}
 
 - Startmarker: HUD-Flag `Mass Conflict` + Szenentitel (z. B. „Basar-Aufruhr“).
 - Kernschaden: Standard-Treffer **3** Schaden gegen Trupp-Abschnitte, schwere Waffen **4–5**.
 - Stress/Chaos: Jede verfehlte Massenaktion addiert **Stress +1** für die Truppe,
   dokumentiert im HUD/`logs.hud`.
 - Break-Point: Bei 3 Chaos-Punkten droht Rückzug → SG 12 Probe, sonst Moralverlust.
-- Acceptance-Smoke-Add-on: Ein kurzer Massenkonflikt-Test (Ansturm oder Rückzug)
-  mit HUD-Flag und Schadensnotiz im QA-Log.
 
 ## Fahrzeugarten in verschiedenen Zeitaltern
 
