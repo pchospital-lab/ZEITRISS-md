@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.2 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.2
+title: "ZEITRISS 4.2.3 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.3
 tags: [system]
 ---
 
@@ -338,6 +338,9 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 {
   "logs": {
     "hud": ["SF-OFF (Mission 5)", "GATE 2/2"],
+    "self_reflection_history": [
+      {"mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z"}
+    ],
     "flags": {
       "foreshadow_gate_m5_seen": true,
       "self_reflection": false,
@@ -354,15 +357,18 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 
 Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
-den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`).
+den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`), die optionale
+`self_reflection_history[]` hält jeden Reset chronologisch fest.
 
 **Self-Reflection-Priorität & Helper**
 - Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
   sind Audit-Mirror und ersetzen den Charakterwert nie.
 - `set_self_reflection(enabled:boolean, reason?: string)` setzt
   `character.self_reflection` und `logs.flags.self_reflection` synchron, legt
-  `self_reflection_changed_at/_reason` an und plant den Auto-Reset nach
-  Mission 5 (`self_reflection_auto_reset_*`).
+  `self_reflection_changed_at/_reason` an, plant den Auto-Reset nach
+  Mission 5 (`self_reflection_auto_reset_*`) und hängt auf Wunsch einen Eintrag
+  an `logs.self_reflection_history[]` an, damit Wiederholungen nachvollziehbar
+  bleiben.
 - Auto-Reset feuert nach Mission 5 immer, egal ob Abschluss oder Abbruch, und
   setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück.
 

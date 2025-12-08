@@ -5897,9 +5897,10 @@ function load_deep(raw){
   return { status: 'ok', state, hud };
 }
 
-function startSolo(mode='klassisch', seedMode='preserve'){
+function startSolo(mode='klassisch'){
   ensure_ui();
-  const normalizedSeed = seedMode === 'trigger' ? 'trigger' : 'preserve';
+  ensure_campaign();
+  const normalizedSeed = campaign_mode();
   state.start = { type: 'solo', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
   state.character = {
@@ -5917,7 +5918,6 @@ function startSolo(mode='klassisch', seedMode='preserve'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
-  ensure_campaign();
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
@@ -5933,9 +5933,10 @@ function setupNpcTeam(size=0){
   record_npc_autoradio(size, state.campaign?.mode || 'preserve');
 }
 
-function startGroup(mode='klassisch', seedMode='preserve'){
+function startGroup(mode='klassisch'){
   ensure_ui();
-  const normalizedSeed = seedMode === 'trigger' ? 'trigger' : 'preserve';
+  ensure_campaign();
+  const normalizedSeed = campaign_mode();
   state.start = { type: 'gruppe', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
   state.team = { size: 0 };
@@ -5946,7 +5947,6 @@ function startGroup(mode='klassisch', seedMode='preserve'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
-  ensure_campaign();
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
@@ -5955,6 +5955,17 @@ function startGroup(mode='klassisch', seedMode='preserve'){
   initialize_wallets_from_roster();
   play_hq_intro();
   return normalizedSeed === 'preserve' ? `gruppe-${mode}` : `gruppe-${normalizedSeed}-${mode}`;
+}
+
+function set_campaign_mode_command(raw){
+  const normalized = typeof raw === 'string' ? raw.trim().toLowerCase() : '';
+  if (!['preserve', 'trigger'].includes(normalized)){
+    return 'Kampagnenmodus setzen: `!kampagnenmodus preserve|trigger`.';
+  }
+  ensure_campaign();
+  state.campaign.mode = normalized;
+  state.campaign.seed_source = normalized;
+  return `Kampagnenmodus gesetzt: ${normalized.toUpperCase()} (persistiert im HQ-Save).`;
 }
 
 function launch_mission(){
@@ -6049,20 +6060,23 @@ function on_command(command){
     if ((m = cmd.match(/^spiel starten\s*\(solo([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
       let mode = 'klassisch';
-      let seedMode = 'preserve';
+      let legacySeed = null;
       options.forEach((token) => {
         if (token === 'schnell' || token === 'fast') mode = 'schnell';
         if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
-        if (token === 'trigger') seedMode = 'trigger';
-        if (token === 'preserve') seedMode = 'preserve';
+        if (token === 'trigger' || token === 'preserve') legacySeed = token;
       });
-      return startSolo(mode, seedMode);
+      if (legacySeed){
+        return 'Startsyntax aktualisiert: Kampagnenmodus im HQ setzen (z. B. `!kampagnenmodus trigger`). ' +
+          'In den Start-Klammern nur `klassisch` oder `schnell` nutzen.';
+      }
+      return startSolo(mode);
     }
     if ((m = cmd.match(/^spiel starten\s*\(npc-team([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
       let size = 0;
       let mode = 'klassisch';
-      let seedMode = 'preserve';
+      let legacySeed = null;
       options.forEach((token) => {
         if (/^[0-9]+$/.test(token)){
           const parsed = parseInt(token, 10);
@@ -6073,33 +6087,42 @@ function on_command(command){
           mode = 'schnell';
         } else if (token === 'klassisch' || token === 'classic'){
           mode = 'klassisch';
-        } else if (token === 'trigger'){
-          seedMode = 'trigger';
-        } else if (token === 'preserve'){
-          seedMode = 'preserve';
+        } else if (token === 'trigger' || token === 'preserve'){
+          legacySeed = token;
         }
       });
+      if (legacySeed){
+        return 'Kampagnenmodus wird nicht mehr im Startbefehl gesetzt. Nutze `!kampagnenmodus preserve|trigger` ' +
+          'im HQ und wiederhole den Start mit `klassisch` oder `schnell`.';
+      }
       if (size > 4){
         return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).';
       }
-      startSolo(mode, seedMode);
+      startSolo(mode);
       setupNpcTeam(size);
       state.start.type = 'npc-team';
-      state.start.seed_mode = seedMode;
-      const response = seedMode === 'preserve' ? `npc-team-${mode}` : `npc-team-${seedMode}-${mode}`;
-      return response;
+      state.start.seed_mode = campaign_mode();
+      return `npc-team-${mode}`;
     }
     if ((m = cmd.match(/^spiel starten\s*\(gruppe([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
       let mode = 'klassisch';
-      let seedMode = 'preserve';
+      let legacySeed = null;
       options.forEach((token) => {
         if (token === 'schnell' || token === 'fast') mode = 'schnell';
         if (token === 'klassisch' || token === 'classic') mode = 'klassisch';
-        if (token === 'trigger') seedMode = 'trigger';
-        if (token === 'preserve') seedMode = 'preserve';
+        if (token === 'trigger' || token === 'preserve') legacySeed = token;
       });
-      return startGroup(mode, seedMode);
+      if (legacySeed){
+        return 'Kampagnenmodus separat setzen: `!kampagnenmodus preserve|trigger`. ' +
+          'Start-Klammern verwenden nur `klassisch` oder `schnell`.';
+      }
+      return startGroup(mode);
+    }
+    if (cmd === '!kampagnenmodus' || cmd.startsWith('!kampagnenmodus ') || cmd === '!campaign-mode'){
+      const tokens = command.trim().split(/\s+/);
+      const choice = tokens[1];
+      return set_campaign_mode_command(choice);
     }
     if (cmd === '!helper delay'){
       return helper_delay_text();
@@ -6114,10 +6137,11 @@ function on_command(command){
         return [
           'Startbefehle:',
           '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, damit Funk- und Alias-Logs frisch sind.',
-          '- Spiel starten (solo [preserve|trigger]) [klassisch|schnell]',
-          '- Spiel starten (npc-team [0–4] [preserve|trigger]) [klassisch|schnell]',
-          '- Spiel starten (gruppe [preserve|trigger]) [klassisch|schnell]',
+          '- Spiel starten (solo [klassisch|schnell])',
+          '- Spiel starten (npc-team [0–4] [klassisch|schnell])',
+          '- Spiel starten (gruppe [klassisch|schnell])',
           '- Spiel laden',
+          'Kampagnenmodus separat setzen: !kampagnenmodus preserve|trigger (persistiert im Save).',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
         ].join('\n');
