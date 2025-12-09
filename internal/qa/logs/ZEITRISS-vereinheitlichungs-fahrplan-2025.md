@@ -25,7 +25,7 @@ den Maintainer-Richtlinien.
 2. **YAML-Frontmatter und Versionsstände prüfen** ✅
    - Abgleich der `version`-Felder in README, CONTRIBUTING und relevanten
      `docs/`-Artefakten mit dem Maintainer-Stand. ✅
-   - Ergebnis: README (`version: 4.2.2`), CONTRIBUTING (`version: 1.1.0`),
+   - Ergebnis: README (`version: 4.2.3`), CONTRIBUTING (`version: 1.1.0`),
      `docs/maintainer-ops.md` (`version: 1.2.1`) und `doc.md`
      (`version: 1.0.0`) sind konsistent mit dem derzeit dokumentierten
      Maintainer-Stand, keine Anpassung notwendig. ✅
