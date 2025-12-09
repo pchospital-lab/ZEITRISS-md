@@ -44,9 +44,11 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 12. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet
-    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −2
-    Schaden pro Treffer`; beim Missionsende (Abbruch oder Abschluss) setzt die Runtime
-    Self-Reflection automatisch auf `SF-ON` zurück.
+    bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −X
+    Schaden pro Treffer` (DR nach Teamgröße/Boss-Typ laut
+    [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); beim
+    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection
+    automatisch auf `SF-ON` zurück.
 
 ### Psi-Heat & Ressourcen-Reset
 

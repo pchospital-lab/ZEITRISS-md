@@ -228,7 +228,7 @@ QA-Fahrplan §„Maßnahmenpaket Beta-GPT 2025-10-15“.
 
 ```text
 Overlay Mission 5: EP 1 · MS 5 · SC 0/12 · MODE verbose · Objective: Boss-Test · GATE 2/2 · SF-OFF
-HUD-Log: [BOSS] Mini-Boss in Szene 10 – Overflow halbiert. | [BOSS] Boss-DR aktiviert – −2 Schaden pro Treffer
+HUD-Log: [BOSS] Mini-Boss in Szene 10 – Overflow halbiert. | [BOSS] Boss-DR aktiviert – −X Schaden pro Treffer
 Accessibility Status: Kontrast: hoch · HUD-Badges: kompakt · Output-Takt: langsam
 ```
 
@@ -310,7 +310,7 @@ Accessibility-Status: Kontrast: hoch · HUD-Badges: kompakt · Output-Takt: lang
       Boss-DR-Toast bestätigt.
 
 ```text
-HUD: [BOSS] Mini-Boss in Szene 10 – Overflow halbiert. | [BOSS] Boss-DR aktiviert – −2 Schaden pro Treffer
+HUD: [BOSS] Mini-Boss in Szene 10 – Overflow halbiert. | [BOSS] Boss-DR aktiviert – −X Schaden pro Treffer
 Debrief:
 Belohnungen · Chrono Units +480 CU · Resonanz Px 1/5 (5/5 bis Px+1) · Rang Recruit
 Hazard-Pay: 60 CU priorisiert (HQ-Pool).

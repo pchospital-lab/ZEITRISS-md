@@ -155,7 +155,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 >   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 >   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast `Gate blockiert – Gate 0/2`
->   12. Mission 5 → HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −2 Schaden` und Reset auf `SF-ON`
+>   12. Mission 5 → HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)) und Reset auf `SF-ON`
 >   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach Konflikt/HQ-Transfer
 >   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace: slow`; Toast notieren, Save-Preview aktualisiert
 >   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
@@ -357,7 +357,8 @@ saveGame({...})
 12. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
-    Szene 10 erscheint der Toast `Boss-DR aktiviert – −2 Schaden pro Treffer`; beim
+    Szene 10 erscheint der Toast `Boss-DR aktiviert – −X Schaden pro Treffer` (DR nach
+    Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); beim
     Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
     auf `SF-ON` zurück.
 
