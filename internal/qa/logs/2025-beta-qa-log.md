@@ -9,7 +9,7 @@ tags: [meta]
 ## 2025-12-03 – Maintainer – Testprompt Voll-Lauf (Solo/Koop/Arena)
 - Plattform: Beta-GPT (simulativ, Speicher- und HUD-Flows)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-12-02,
-  QA-Fahrplan 1.9.0
+  QA-Fahrplan 1.9.1
 - Auftrag: Gesamter QA-Testprompt inkl. Save/Load, Solo, Solo+NPC, Koop,
   Arena/PvP und Acceptance-Smoke (1–15) mit Mission-5-Badge-Check; Deltas für
   Badge-Dichte, Offline-Logs und Acceptance-Mirror sammeln.
