@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { version: ZR_VERSION = '4.2.2' } = require('./package.json');
+const { version: ZR_VERSION = '4.2.3' } = require('./package.json');
 
 const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
 const COMPLIANCE_NOTICE =

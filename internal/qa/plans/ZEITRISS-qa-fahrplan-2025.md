@@ -378,6 +378,8 @@ Toolkit.
 - **#1 Acceptance-Smoke-Mirror** – Originaltext aus `docs/qa/tester-playtest-briefing.md`
   Abschnitt Acceptance 1–15 vollständig in README/DOC spiegeln (Bullet-Form, identischer
   Wortlaut), Querverweis aus Dispatcher-Abschnitt ergänzen; QA-Log-Eintrag nachziehen.
+- **Modul-Versionen 4.2.3** – Master-Index, README-Modulübersicht und Modul-Frontmatter auf
+  4.2.3 prüfen; verbleibende 4.2.2-Module begründet dokumentieren und QA-Log spiegeln.
 - **#2 Self-Reflection Priorität** – In Speichermodul + HUD-Modul klarstellen: Runtime
   liest ausschließlich `character.self_reflection`; `logs.flags.self_reflection` ist nur
   Audit. Helper-Funktion `set_self_reflection()` dokumentieren (Input, Auto-Reset nach
