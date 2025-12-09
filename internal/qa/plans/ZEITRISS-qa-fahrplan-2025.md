@@ -360,42 +360,23 @@ Alle Punkte sind offen und warten auf Umsetzung im Wissensspiegel.
 
 Der jüngste Testprompt-Lauf (inklusive HQ-Deepsave, Mission 5 Badge-Check und
 Arena-Cross-Mode) identifiziert sechs neue Dokumentations- und Strukturthemen,
-die im Wissensspiegel verankert werden müssen. Alle Punkte sind offen und
-verlangen eine Synchronisation zwischen README, QA-Briefing, Speichermodul und
-Toolkit.
+die im Wissensspiegel verankert wurden. Alle Punkte sind umgesetzt und
+zwischen README, QA-Briefing, Speichermodul, Psi-Modul und Toolkit
+abgestimmt.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ⏳ offen | R(QA); BRF; DOC |
-| #2 | Self-Reflection: Truth-Source `character.self_reflection` klarstellen | ⏳ offen | HUD; RT; M12 |
-| #3 | Boss-Gate/Foreshadow Terminologie und Reset-Zeitpunkte vereinheitlichen | ⏳ offen | HUD; TK(16); R(QA) |
-| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) mit Schrittfolge dokumentieren | ⏳ offen | M12; R(Koop); CW |
-| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) in einem Unterabschnitt bündeln | ⏳ offen | PSI; TK(16); RT |
-| #6 | Fahrzeug- und Massenkonflikt-Regeln in Smoke-Flow verankern | ⏳ offen | R(QA); VEH; MASS |
+| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ✅ abgeschlossen – README/DOC spiegeln Acceptance 1–15 inkl. Dispatcher-Verweis | R(QA); BRF; DOC |
+| #2 | Self-Reflection: Truth-Source `character.self_reflection` klarstellen | ✅ abgeschlossen – Speichermodul/HUD priorisieren Charakterwert + Auto-Reset | HUD; RT; M12 |
+| #3 | Boss-Gate/Foreshadow Terminologie und Reset-Zeitpunkte vereinheitlichen | ✅ abgeschlossen – HUD/Toolkit-Status und README-Smoke synchronisiert | HUD; TK(16); R(QA) |
+| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) mit Schrittfolge dokumentieren | ✅ abgeschlossen – Schrittfolge & Beispiel-Save im Speichermodul | M12; R(Koop); CW |
+| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) in einem Unterabschnitt bündeln | ✅ abgeschlossen – Psi-Modul bündelt Arena-Psi-Bullets (Tax/Buffer/Logs) | PSI; TK(16); RT |
+| #6 | Fahrzeug- und Massenkonflikt-Regeln in Smoke-Flow verankern | ✅ abgeschlossen – doc.md Smoke-Flow mit Arena-/Fahrzeugtests ergänzt | R(QA); VEH; MASS |
 
 **Nächste Schritte (konkret umsetzbar)**
 
-- **#1 Acceptance-Smoke-Mirror** – Originaltext aus `docs/qa/tester-playtest-briefing.md`
-  Abschnitt Acceptance 1–15 vollständig in README/DOC spiegeln (Bullet-Form, identischer
-  Wortlaut), Querverweis aus Dispatcher-Abschnitt ergänzen; QA-Log-Eintrag nachziehen.
-- **Modul-Versionen 4.2.3** – Master-Index, README-Modulübersicht und Modul-Frontmatter auf
-  4.2.3 prüfen; verbleibende 4.2.2-Module begründet dokumentieren und QA-Log spiegeln.
-- **#2 Self-Reflection Priorität** – In Speichermodul + HUD-Modul klarstellen: Runtime
-  liest ausschließlich `character.self_reflection`; `logs.flags.self_reflection` ist nur
-  Audit. Helper-Funktion `set_self_reflection()` dokumentieren (Input, Auto-Reset nach
-  Mission 5), Beispiel-Save anpassen.
-- **#3 Boss-Gate Terminologie** – Tabelle mit FS/GATE-Zuständen anlegen (Episodenstart,
-  nach Mission 4/9, Start Mission 5/10); `!helper boss`/`!boss status` erwartete HUD-Strings
-  angleichen; QA-Smoke Schritt 5/8 mit Sollwerten ergänzen.
-- **#4 Währungs-Sync Cross-Mode** – Pseudocode-Sequence dokumentieren: Load →
-  `initialize_wallets_from_roster()` → `sync_primary_currency()` → Arena-Fee → Wallet-Split;
-  Beispiel-HUD/Debrief mit HQ-Pool + Einzelwallets; Hinweis „Credits nicht direkt setzen“. 
-- **#5 Arena & Psi** – Unterabschnitt „Arena-Psi“ (Psi- oder Toolkit-Modul) mit 3–5
-  Bulletpoints: Basis-Kosten 2 SYS, Arena-Tax +1 SYS, `psi_buffer`-Dämpfung, Px/Risiko,
-  Logging (`logs.psi[]`), HUD-Toast. QA-Smoke zwei Arena-Testfälle (mit/ohne Psi) ergänzen.
-- **#6 Fahrzeuge/Massenkonflikte** – Acceptance-Liste um empfohlenen Test „Cineastische
-  Verfolgung“ erweitern (Start Overlay, Crash/Stress); Dispatcher/README auf Fahrzeug- und
-  Massenkonfliktmodule verlinken; Cheat-Sheet mit Kernschadenswerten anlegen.
+- Alle Maßnahmen des 2025-12-12-Pakets sind gespiegelt. Nächster Abgleich erfolgt im
+  QA-Lauf 2025-12-13 (siehe Folgepaket).
 
 ## Maßnahmenpaket Maintainer 2025-12-13 (Issues #1–#9)
 
@@ -458,6 +439,8 @@ dokumentiert.
 
 - Audit und QA-Log nach jeder Maßnahme aktualisieren und Commits verlinken.
 - PR-Beschreibungen auf betroffene QA-Log-Abschnitte verweisen.
+- Abschlussstand 2025-12-12 im Audit/QA-Log vermerken (README/DOC/Speicher/Psi
+  gespiegelt).
 - Regressionstermine nach jedem Lauf hier und im QA-Log abhaken.
 - Debrief-Auszugsprotokolle (`logs.market[]`, Foreshadow, Funk) weiterhin im
   QA-Log archivieren.
