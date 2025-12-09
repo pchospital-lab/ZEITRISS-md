@@ -4,7 +4,7 @@ version: 4.2.3
 tags: [characters, optional]
 ---
 
-# ZEITRISS 4.2.2 – Modul 5: Erweiterte Systeme & Cinematisches HUD
+# ZEITRISS 4.2.3 – Modul 5: Erweiterte Systeme & Cinematisches HUD
 
 ## Inhalt
 
