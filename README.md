@@ -340,7 +340,8 @@ das Gate blockiert ist (`Gate 0/2`). Sobald Mission 5 startet, blendet das HUD
 das Gate-Badge `GATE 2/2` und den Hinweis „Boss-Encounter in Szene 10“ ein. Der
 Foreshadow-Zähler beginnt bei `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und zählt pro
 Hinweis hoch. In Szene 10 erscheint automatisch der Toast mit dem aktiven
-Boss-Schadensreduktionswert (`−2` bei Mini-Bossen, `−3` bei Endbossen). Nach dem
+Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach Teamgröße und
+Boss-Typ gemäß [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach dem
 Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig davon,
 ob die Mission abgeschlossen oder abgebrochen wurde.
 
@@ -546,7 +547,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 | Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
 | Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – Gate 0/2` |
 | Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`) |
-| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −2 Schaden pro Treffer` |
+| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss- bzw. Teamgröße) |
 
 - **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro
   Gate, bis das HUD `GATE 2/2` meldet. Nach `StartMission()` setzt
