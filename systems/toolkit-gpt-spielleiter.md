@@ -709,7 +709,7 @@ damit keine Dopplung entsteht.
 
 | Icon | HUD-Tag (`hud_tag`) | Auslöser im HQ | Wirkung |
 |------|---------------------|----------------|---------|
-| 🎯 **FOCUS** | `HQ:FOCUS · +1 SG Präzision` | Atemsync im Trainingsdeck. | Nächste Präzisionsprobe erhält **+1 SG**. |
+| 🎯 **FOCUS** | `HQ:FOCUS · +1 Präzision` | Atemsync im Trainingsdeck. | Nächste Präzisionsprobe erhält **+1 Bonus**. |
 | 🛡️ **BASTION** | `HQ:BASTION · Stress -1` | Schutzrede von Commander Renier. | Entfernt **1 Stress** bei allen. |
 | ⚡ **SPARK** | `HQ:SPARK · SYS +1 (1 Szene)` | Werkstattcrew überlädt Feldmodule. | Gewährt **+1 freies SYS** |
 |            |                                  |                                   | für Szene eins. |
@@ -722,10 +722,14 @@ damit keine Dopplung entsteht.
 ```jinja
 {% set used = campaign.hq_moments_used | default([], true) %}
 {% if 'FOCUS' not in used %}
-  {{ hud_tag('HQ:FOCUS · +1 SG Präzision') }}
+  {{ hud_tag('HQ:FOCUS · +1 Präzision') }}
   {% set campaign.hq_moments_used = used + ['FOCUS'] %}
 {% endif %}
 ```
+
+Die Buffs sind vor allem als **Feld-Downtime** (Safehouse, Nullzeit-Puffer) gedacht. Im echten HQ setzt
+`StartScene('HQ')` ohnehin **Stress** und **Psi-Heat auf 0** – CALM ist dort also redundant, entfaltet
+seinen Nutzen aber bei Zwischenstopps im Einsatz.
 
 Haltet die Toasts auf **maximal sechs Worte** und gebt sofort an, welcher
 mechanische Effekt greift.
