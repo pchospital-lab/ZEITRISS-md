@@ -273,12 +273,11 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
-- **Foreshadow-Gate Mission 5/10.** Setzt `ForeshadowHint(text, tag)` zweimal pro Gate,
-  bis das HUD `GATE 2/2` meldet. `GATE 0/2` gehört zum Missionsstart und signalisiert,
-  dass noch kein Gate erfüllt wurde. Nach `StartMission()` muss `scene_overlay()` den
-  Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) zurücksetzen und zusätzlich das
-  Gate-Badge `GATE n/2` anzeigen; `!boss status` spiegelt den Saisonstand und bestätigt,
-  dass der Boss erst nach vollständigem Gate-Eintrag erscheint.
+- **Foreshadow-Gate Mission 5/10.** Das Gate steht zum Missionsstart fest auf
+  `GATE 2/2`; `scene_overlay()` setzt parallel den Foreshadow-Zähler auf `FS 0/4`
+  (Core) bzw. `FS 0/2` (Rift). `ForeshadowHint(text, tag)` zählt ausschließlich `FS`
+  hoch, Gate und HUD-Badge bleiben unverändert. `!boss status` spiegelt den
+  Saisonstand und bestätigt, dass der Boss erst in Szene 10 erscheint.
 - **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.
   Nutzt sie für dramatische Hinweise, bevor Mission 5/10 startet, und verweist in
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
@@ -288,12 +287,12 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `SF-ON`/`SF-OFF` sichtbar.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
-- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
-  und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
-  blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
-  Kostenabfrage schreibt via `log_phase_strike_event()` einen Eintrag in `logs.psi[]`
-  (`ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`, `arena_active`, optional
-  `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
+  - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
+    und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
+    blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
+    Kostenabfrage schreibt via `log_phase_strike_event()` einen Eintrag in `logs.arena_psi[]`
+    (`ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`, `arena_active`, optional
+    `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
   den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
   (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
   `location='ARENA'`, merkt `campaign.previous_mode` und markiert Px-Belohnungen
@@ -303,9 +302,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   PvP bleibt ein optionales Endgame-Modul außerhalb der Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
-> HUD-Badge `GATE {seen}/2` an `scene_overlay()` und speichert den Status in
+> HUD-Badge `GATE 2/2` an `scene_overlay()` und speichert den Status in
 > `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime spiegelt ihr den Badge per
-> `hud_tag('GATE ' ~ seen ~ '/2')` manuell, damit HUD und Save denselben Gate-Snapshot behalten.
+> `hud_tag('GATE 2/2')` manuell, damit HUD und Save denselben Gate-Snapshot behalten.
 
 > **Runtime-Hinweis:** `phase_strike_cost()` ruft intern `log_phase_strike_event()` auf. Ohne
 > laufende Runtime übernimmt ihr denselben Logger-Aufbau manuell, damit Ability, Basiswert,
@@ -675,9 +674,11 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 > `campaign.scene_total`, setzen `state.phase`/`campaign.phase`
 > automatisch anhand des Missionstyps **und** überschreiben
 > `campaign.scene` auf den aktuellen Szenenindex (`0` beim Start).
-> Rift-Ops behalten damit `phase: Rift` und `SC …/14` im HUD sowie in
-> Saves, Core-Ops `phase: Core` mit `SC …/12`. Beim Save nach dem
-> Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten.
+> Rift-Ops behalten damit `phase: rift` und `SC …/14` im HUD sowie in
+> Saves, Core-Ops `phase: core` mit `SC …/12`. Beim Save nach dem
+> Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten. Seeds
+> geben lediglich den Missionstyp vor; die Runtime setzt `phase`
+> automatisch in Kleinbuchstaben (`core|transfer|rift`).
 
 ### Load → HQ-Phase oder Briefing
 

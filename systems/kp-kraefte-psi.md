@@ -222,8 +222,9 @@ automatisch die Schutzklausel `phase_strike_tax()` (+1 SYS via `is_pvp()`),
 sodass die Kosten dort auf **3 SYS** steigen und `state.arena.phase_strike_tax`
 den Zuschlag widerspiegelt. `phase_strike_cost()` löst in diesem Fall automatisch
 den HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)` aus und protokolliert
-den Zugriff im neuen Trace `logs.psi[]` (Eintrag mit `ability='phase_strike'`,
-`base_cost`, `tax`, `total_cost`, `mode`, `arena_active` sowie optionalem
+den Zugriff im dedizierten Trace `logs.arena_psi[]` (Eintrag mit
+`ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`,
+`arena_active`, `category='arena_phase_strike'` sowie optionalem
 `mode_previous`/`location`/`gm_style`/`reason`). Misslingt der Einsatz, verliert das Team
 **1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
 auf **0**.

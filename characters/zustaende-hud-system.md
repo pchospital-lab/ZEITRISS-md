@@ -64,16 +64,16 @@ Der Standard-Header zeigt:
 `· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
 `· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
-- `GATE {gate_seen}/2` erscheint in Mission 5/10. `GATE 0/2` gehört zum Start
-  der Mission (Gate noch blockiert), `GATE 2/2` blendet erst ein, wenn zwei
-  Foreshadows gesetzt wurden und `logs.flags.foreshadow_gate_m5_seen`
-  beziehungsweise `_m10_seen` `true` sind. Der Gate-Wert bleibt im Save
-  erhalten und kehrt nach einem Load sofort zurück. Der `BOSS`-Toast in Szene 10
-  ergänzt den Gate-Status. Nach Mission 5 setzt die Runtime Self-Reflection
-  automatisch auf `SF-ON` zurück – sowohl bei Missionsabschluss als auch bei
-  Abbruch (`logs.flags.last_mission_end_reason`). Der Boss-DR-Toast staffelt
-  sich nach Teamgröße (Solo/Duo = 1, 3–4 = 2, 5–6 = 3/4 optional) und nutzt den
-  gleichen Wert im HUD und Debrief.
+- `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
+  fest auf `GATE 2/2`. Der Foreshadow-Zähler beginnt parallel bei `FS 0/4`
+  (Core) bzw. `FS 0/2` (Rift) und zählt unabhängig vom Gate die gesetzten
+  Hinweise hoch. Der Gate-Wert bleibt im Save erhalten und kehrt nach einem Load
+  sofort zurück. Der `BOSS`-Toast in Szene 10 ergänzt den Gate-Status. Nach
+  Mission 5 setzt die Runtime Self-Reflection automatisch auf `SF-ON` zurück –
+  sowohl bei Missionsabschluss als auch bei Abbruch
+  (`logs.flags.last_mission_end_reason`). Der Boss-DR-Toast staffelt sich nach
+  Teamgröße (Solo/Duo = 1, 3–4 = 2, 5–6 = 3/4 optional) und nutzt den gleichen
+  Wert im HUD und Debrief.
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
   zurücksetzt; `set_self_reflection(enabled: boolean)` schreibt parallel `logs.flags.self_reflection`
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert

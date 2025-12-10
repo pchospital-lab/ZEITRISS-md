@@ -536,6 +536,52 @@ function sanitize_psi_entries(entries){
   return sanitized;
 }
 
+function sanitize_arena_psi_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  entries.forEach((entry) => {
+    if (!entry || typeof entry !== 'object') return;
+    const ability = pickString(entry.ability, entry.power, entry.name) || 'phase_strike';
+    const timestamp = isoTimestamp(entry.timestamp) || fallback;
+    const baseCost = pickNumber(entry.base_cost, entry.base, entry.base_cost_sys, entry.baseCost);
+    const tax = pickNumber(entry.tax, entry.tax_sys, entry.delta, entry.addition);
+    const total = pickNumber(entry.total_cost, entry.total, entry.cost_total, entry.cost);
+    const mode = pickString(entry.mode) || campaign_mode();
+    const location = pickString(entry.location) || state.location || null;
+    const arenaActive = entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
+    const gmStyle = pickString(entry.gm_style, entry.gmStyle);
+    const reason = pickString(entry.reason, entry.note);
+    const category = pickString(entry.category) || 'arena_phase_strike';
+    const record = {
+      ability,
+      timestamp,
+      base_cost: Number.isFinite(baseCost) ? baseCost : 0,
+      tax: Number.isFinite(tax) ? tax : 0,
+      total_cost: Number.isFinite(total)
+        ? total
+        : ((Number.isFinite(baseCost) ? baseCost : 0) + (Number.isFinite(tax) ? tax : 0)),
+      mode,
+      arena_active: arenaActive,
+      category
+    };
+    if (location){
+      record.location = location;
+    }
+    if (gmStyle){
+      record.gm_style = gmStyle;
+    }
+    if (reason){
+      record.reason = reason;
+    }
+    sanitized.push(record);
+  });
+  if (sanitized.length > PSI_LOG_LIMIT){
+    return sanitized.slice(sanitized.length - PSI_LOG_LIMIT);
+  }
+  return sanitized;
+}
+
 function normalize_alias_entry(entry, fallbackTimestamp){
   if (!entry || typeof entry !== 'object') return null;
   const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
@@ -776,6 +822,11 @@ function ensure_logs(){
   } else {
     state.logs.psi = sanitize_psi_entries(state.logs.psi);
   }
+  if (!Array.isArray(state.logs.arena_psi)){
+    state.logs.arena_psi = [];
+  } else {
+    state.logs.arena_psi = sanitize_arena_psi_entries(state.logs.arena_psi);
+  }
   if (!Array.isArray(state.logs.alias_trace)){
     state.logs.alias_trace = [];
   } else {
@@ -916,6 +967,15 @@ function ensure_psi_log(){
   return state.logs.psi;
 }
 
+function ensure_arena_psi_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.arena_psi)){
+    state.logs.arena_psi = [];
+  }
+  state.logs.arena_psi = sanitize_arena_psi_entries(state.logs.arena_psi);
+  return state.logs.arena_psi;
+}
+
 function ensure_alias_trace(){
   ensure_logs();
   if (!Array.isArray(state.logs.alias_trace)){
@@ -959,7 +1019,7 @@ function log_market_purchase(item, cost, options = {}){
 }
 
 function log_phase_strike_event(ctx = state, details = {}){
-  const psiLog = ensure_psi_log();
+  const arenaPsiLog = ensure_arena_psi_log();
   const now = new Date().toISOString();
   const base = Number.isFinite(details.base) ? Number(details.base) : 0;
   const tax = Number.isFinite(details.tax) ? Number(details.tax) : 0;
@@ -976,7 +1036,8 @@ function log_phase_strike_event(ctx = state, details = {}){
     tax,
     total_cost: total,
     mode,
-    arena_active: arenaActive
+    arena_active: arenaActive,
+    category: 'arena_phase_strike'
   };
   if (previousMode){
     entry.mode_previous = previousMode;
@@ -995,9 +1056,9 @@ function log_phase_strike_event(ctx = state, details = {}){
   if (typeof details.reason === 'string' && details.reason.trim()){
     entry.reason = details.reason.trim();
   }
-  psiLog.push(entry);
-  if (psiLog.length > PSI_LOG_LIMIT){
-    psiLog.splice(0, psiLog.length - PSI_LOG_LIMIT);
+  arenaPsiLog.push(entry);
+  if (arenaPsiLog.length > PSI_LOG_LIMIT){
+    arenaPsiLog.splice(0, arenaPsiLog.length - PSI_LOG_LIMIT);
   }
   return entry;
 }
@@ -2111,20 +2172,33 @@ function ForeshadowHint(text, tag = 'Foreshadow'){
   register_foreshadow(token, { message: cleaned, tag: normalizedTag });
   ensure_logs();
   const flags = state.logs.flags;
-  const current = Number.isFinite(flags.foreshadow_gate_progress)
-    ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
-    : 0;
-  const next = Math.min(FORESHADOW_GATE_REQUIRED, current + 1);
-  flags.foreshadow_gate_progress = next;
-  if (next > 0){
-    flags.foreshadow_gate_expected = true;
-  }
   const missionNumber = Number(state.campaign?.mission);
-  if (Number.isFinite(missionNumber)){
-    if (missionNumber === 5 && next >= FORESHADOW_GATE_REQUIRED){
+  const gateFixed = Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10);
+  if (!gateFixed){
+    const current = Number.isFinite(flags.foreshadow_gate_progress)
+      ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
+      : 0;
+    const next = Math.min(FORESHADOW_GATE_REQUIRED, current + 1);
+    flags.foreshadow_gate_progress = next;
+    if (next > 0){
+      flags.foreshadow_gate_expected = true;
+    }
+    if (Number.isFinite(missionNumber)){
+      if (missionNumber === 5 && next >= FORESHADOW_GATE_REQUIRED){
+        flags.foreshadow_gate_m5_seen = true;
+      }
+      if (missionNumber === 10 && next >= FORESHADOW_GATE_REQUIRED){
+        flags.foreshadow_gate_m10_seen = true;
+      }
+    }
+  } else {
+    flags.foreshadow_gate_expected = true;
+    flags.foreshadow_gate_snapshot = FORESHADOW_GATE_REQUIRED;
+    flags.foreshadow_gate_progress = 0;
+    if (missionNumber === 5){
       flags.foreshadow_gate_m5_seen = true;
     }
-    if (missionNumber === 10 && next >= FORESHADOW_GATE_REQUIRED){
+    if (missionNumber === 10){
       flags.foreshadow_gate_m10_seen = true;
     }
   }
@@ -4637,10 +4711,14 @@ function StartMission(){
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
   const flags = state.logs.flags;
+  const missionNumber = Number(state.campaign?.mission);
   const gateProgress = Number.isFinite(flags.foreshadow_gate_progress)
     ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
     : 0;
-  flags.foreshadow_gate_snapshot = Math.min(FORESHADOW_GATE_REQUIRED, gateProgress);
+  const gateStartValue = Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10)
+    ? FORESHADOW_GATE_REQUIRED
+    : gateProgress;
+  flags.foreshadow_gate_snapshot = Math.min(FORESHADOW_GATE_REQUIRED, gateStartValue);
   flags.foreshadow_gate_progress = 0;
   ensure_character();
   ensure_team();
@@ -4660,9 +4738,14 @@ function StartMission(){
     delete state.campaign.px_reset_confirm;
     delete state.campaign.px_reset_scheduled_at;
   }
-  const missionNumber = Number(state.campaign?.mission);
   if (Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10)){
     state.logs.flags.foreshadow_gate_expected = true;
+    if (missionNumber === 5){
+      state.logs.flags.foreshadow_gate_m5_seen = true;
+    }
+    if (missionNumber === 10){
+      state.logs.flags.foreshadow_gate_m10_seen = true;
+    }
   }
   if (Number.isFinite(missionNumber) && missionNumber >= 6 && !self_reflection_enabled()){
     set_self_reflection(true);
@@ -5106,6 +5189,11 @@ function prepare_save_logs(logs){
     base.psi = sanitize_psi_entries(base.psi);
   } else {
     base.psi = [];
+  }
+  if (Array.isArray(base.arena_psi)){
+    base.arena_psi = sanitize_arena_psi_entries(base.arena_psi);
+  } else {
+    base.arena_psi = [];
   }
   if (!Array.isArray(base.kodex)){
     base.kodex = [];

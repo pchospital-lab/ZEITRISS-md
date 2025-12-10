@@ -184,13 +184,15 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
   Missions-Typ.
 - QA: Cross-Mode-Smoke (Solo → Koop → PvP) sicherstellen, dass `phase` konstant bleibt.
 
-### 3. Rift-Seeds um Level-Bänder/Tiers ergänzen
+### 3. Rift-Seeds mit optionalen Seed-Tiers ergänzen
 
-- Kampagnenstruktur `gameplay/kampagnenstruktur.md` um Abschnitt „Level-Bänder/Seed-Tiers“
-  erweitern (Early/Mid/Late, Beispiel-Seeds, Arc-Dashboard-Spiegel).
-- Optional neues Feld `seed_tier` in Arc-Dashboard beschreiben; Seed-Beispiele und Save-Schema
-  aktualisieren.
-- QA: Drei Rifts fahren (Level 8 / 120 / 500+) und Seed-Zuordnung dokumentieren.
+- Kampagnenstruktur `gameplay/kampagnenstruktur.md` um Hinweise zu optionalen
+  Seed-Tiers (Early/Mid/Late) erweitern – ohne Level-Gating, freier Zugriff ab
+  Level 1; Beispiel-Seeds nennen und Arc-Dashboard-Spiegel zeigen.
+- Optionales Feld `seed_tier` in Arc-Dashboard beschreiben; Seed-Beispiele und
+  Save-Schema aktualisieren.
+- QA: Drei Rifts fahren (Level 8 / 120 / 500+) und Seed-Zuordnung dokumentieren
+  – nur als Balancing-Hinweis, nicht als Sperre.
 
 ### 4. Arena-Phase-Strike-Logs von Psi-Heat trennen
 
