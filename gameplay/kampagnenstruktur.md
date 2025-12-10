@@ -297,7 +297,9 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
   Balancing-/QA-Hinweis (z. B. Foreshadow vs. Peak-Paramonster), schaltet aber
   keine Mission frei oder zu. Beispiele: `R-010 Echo-Train`, `R-085 Glass
   Torrent`, `R-404 Black Sun` funktionieren in jeder Progression, das Tier
-  beschreibt lediglich die gewünschte Schärfe.
+  beschreibt lediglich die gewünschte Schärfe. Seeds landen so im Save/Dashboard:
+  `campaign.rift_seeds[{id, epoch, label, status:'open', seed_tier:'mid'}]` und
+  spiegeln als `arc_dashboard.offene_seeds[]` denselben Eintrag.
 - **QA-Referenz:** Beispielwerte liegen lokal in
   `internal/qa/fixtures/savegame_v6_highlevel.json` für Regressionstests; sie
   sind kein Wissensanker der produktiven GPTs.

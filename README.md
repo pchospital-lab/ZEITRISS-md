@@ -569,15 +569,14 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 | --------- | ---------------- | ------------ | ----------------- |
 | Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
 | Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – Gate 0/2` |
-| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`) |
+| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); Mission-5-Badge-Check fordert den sichtbaren `GATE 2/2`-Toast |
 | Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss- bzw. Teamgröße) |
 
-- **Foreshadow-Gate (Mission 5/10).** Nutze `ForeshadowHint()` zweimal pro
-  Gate, bis das HUD `GATE 2/2` meldet. Nach `StartMission()` setzt
-  `scene_overlay()` den Zähler auf `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und
-  zeigt parallel das Badge `GATE n/2` für den Gate-Status; `!boss status`
-  meldet gleichzeitig `Gate n/2 · Mission FS n/4` (bzw. `n/2`) mit denselben
-  Labels wie `!helper boss`.
+- **Foreshadow-Gate (Mission 5/10).** Nach `StartMission()` setzt die Runtime
+  automatisch `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`) als Badge **und** Toast.
+  `ForeshadowHint()` zählt ausschließlich `FS` hoch; Gate bleibt unverändert.
+  `!boss status` meldet denselben Snapshot und dient als Mission-5-Badge-Check
+  im Smoke-Paket.
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
   `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`). Das SUG-Badge
   ist unabhängig von Self-Reflection und bleibt aktiv, auch wenn `SF-OFF` gesetzt wurde.
@@ -655,6 +654,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `location: "HQ" | "field"`
 - `campaign: { episode, mission_in_episode, scene, px,`
   `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
+- `phase: "core"|"transfer"|"rift"` (immer lowercase, Seeds liefern nur den Typ)
 - `character: { name, level, stress, psi_heat, cooldowns:{},`
   `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_used},`
   `talents:[], ... }`
