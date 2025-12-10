@@ -92,6 +92,7 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
     "squad_radio": [],
     "hud": [],
     "psi": [],
+    "arena_psi": [],
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
@@ -143,10 +144,27 @@ führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
 
+**Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
+Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
+(Kleinbuchstaben) gemäß Missionstyp und Szenenzahl. Seeds geben nur den Typ
+vor und überlassen das `phase`-Feld der Laufzeit.
+
+**Accessibility-Felder:** Der Serializer schreibt stets `ui.gm_style` und
+`ui.suggest_mode`. Felder für `contrast`, `badge_density` und `output_pace` sind
+empfohlen, fallen beim Laden aber automatisch auf `standard`/`standard`/`normal`
+zurück, falls sie fehlen. Saves dürfen diese Felder weglassen, ohne dass
+Persistenz verloren geht.
+
 **Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
 enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
 Arena-Audit, Wallet-Split-Logs und Self-Reflection-Status. Er dient als
 Referenz für Acceptance- und Load-Flows.
+
+**High-Level-Progression:** `internal/qa/fixtures/savegame_v6_highlevel.json`
+zeigt drei Stände (Lvl 8/120/520) mit Seed-Pools und optionaler
+`seed_tier`-Kennzeichnung. Nutzung: Regression für Rifts und Endgame-Scaling;
+die Datei liegt nur lokal als QA-Bezugspunkt und ist nicht Teil des
+produktiven Wissensspeichers.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -633,12 +651,12 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 - **Arena & Psi.** `ensure_arena()` konserviert PvP-Status, Phasen,
   Serienstände, Budget-Limits sowie `phase_strike_tax`. Sobald
   `phase_strike_cost()` greift, ruft die Runtime `log_phase_strike_event()`
-  auf und legt in `logs.psi[]` strukturierte Einträge mit
-  `ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode` und
-  `arena_active` an; optional ergänzt der Logger `mode_previous`, `location`,
-  `gm_style` und `reason`. `prepare_save_logs()`/`sanitize_psi_entries()`
-  halten dieses Schema stabil, sodass Debriefs und Cross-Mode-Audits jederzeit
-  dieselben Werte lesen können.
+  auf und legt in `logs.arena_psi[]` strukturierte Einträge mit
+  `ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`,
+  `arena_active` und `category='arena_phase_strike'` an; optional ergänzt der
+  Logger `mode_previous`, `location`, `gm_style` und `reason`.
+  `prepare_save_logs()`/`sanitize_arena_psi_entries()` halten dieses Schema
+  stabil und entkoppeln Arena-Psi-Logs von `logs.psi[]` (Psi-Heat/Story).
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
@@ -936,6 +954,7 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
     "hud": [],
     "foreshadow": [],
     "fr_interventions": [],
+    "arena_psi": [],
     "psi": [],
     "flags": {
       "runtime_version": "4.2.3",
@@ -987,7 +1006,9 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 aber vom Serializer automatisch nachgezogen und strukturiert:
 
 - **`offene_seeds[]`** – Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
-  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein.
+  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein. Optionales
+  Feld `seed_tier` dient als Balancing-Hinweis (`early|mid|late`) ohne Freischalt-
+  oder Sperrwirkung; alle Seeds bleiben ab Level 1 spielbar.
 - **`fraktionen{}`** – Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
   letzte Aktionen. Die Runtime ergänzt `last_intervention`, `last_result`, `last_updated` sowie
   `interventions[]` (max. sechs Snapshots aus `logs.fr_interventions[]` inklusive Wirkung/Notiz),

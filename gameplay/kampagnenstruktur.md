@@ -290,6 +290,18 @@ zusammengeführt oder getrennt bleiben.
 `arc_dashboard.offene_seeds[]` spiegelt sie nur. Merges respektieren immer den
 Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wallets.
 
+#### Level-Hinweise & optionale Seed-Tiers
+- **Freier Zugriff ab Level 1:** Alle Seeds sind jederzeit spielbar; die Runtime
+  passt Gegner, Auflagen und Belohnungen an Squad-Level und Teamgröße an.
+- **Optionale Seed-Tiers:** `seed_tier: early|mid|late` dient nur als
+  Balancing-/QA-Hinweis (z. B. Foreshadow vs. Peak-Paramonster), schaltet aber
+  keine Mission frei oder zu. Beispiele: `R-010 Echo-Train`, `R-085 Glass
+  Torrent`, `R-404 Black Sun` funktionieren in jeder Progression, das Tier
+  beschreibt lediglich die gewünschte Schärfe.
+- **QA-Referenz:** Beispielwerte liegen lokal in
+  `internal/qa/fixtures/savegame_v6_highlevel.json` für Regressionstests; sie
+  sind kein Wissensanker der produktiven GPTs.
+
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 
