@@ -627,7 +627,9 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `Squad-Radio (n×): …`.
 - **HQ-Rituale.** `campaign.hq_moments_used: string[]` dokumentiert Buffs
   (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer `[]`;
-  Debriefs nennen „HQ-Moments (n×)“ entsprechend.
+  Debriefs nennen „HQ-Moments (n×)“ entsprechend. HUD-Logs übernehmen das
+  jeweils gültige `hud_tag` (z. B. `HQ:CALM · Psi +1 (Mission)` bei CALM) und
+  spiegeln so den aktiven Effekt.
 - **Arena & Psi.** `ensure_arena()` konserviert PvP-Status, Phasen,
   Serienstände, Budget-Limits sowie `phase_strike_tax`. Sobald
   `phase_strike_cost()` greift, ruft die Runtime `log_phase_strike_event()`
