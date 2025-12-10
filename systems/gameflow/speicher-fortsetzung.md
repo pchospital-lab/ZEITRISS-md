@@ -340,6 +340,21 @@ Referenz für Acceptance- und Load-Flows.
 }
 ```
 
+**Optionale strukturierte Talente:** Wer statt reiner Strings klarere Tool-
+Hooks benötigt, kann Talente auch als Objekte speichern. Die einfache Liste
+bleibt unterstützt; beide Formen können gemischt werden.
+
+```json
+"talents": [
+  "Schleichprofi",
+  {"name": "Pistolenschütze", "tag": "ranged", "bonus": 2},
+  {"name": "Menschenkenntnis", "tag": "interrogation", "bonus": 2}
+]
+```
+
+Die Felder `tag` und `bonus` sind optional, helfen aber beim automatischen
+Routen zu passenden Proben.
+
 **Timeline-Notizen:** `arc_dashboard.timeline[]` speichert bedeutende Einsätze
 mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 `campaign.px`.
