@@ -267,6 +267,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
+- Gear-Alias: Dispatcher gleicht „Multi-Tool-Armband“ automatisch auf
+  „Multi-Tool-Handschuh“ an; markiert Abweichungen im Debrief.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
   (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
   bei Bedarf zusätzlich im Missionslog.
@@ -274,10 +276,11 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 ### Foreshadow, Suggest & Arena (Spielleitfokus)
 
 - **Foreshadow-Gate Mission 5/10.** Das Gate steht zum Missionsstart fest auf
-  `GATE 2/2`; `scene_overlay()` setzt parallel den Foreshadow-Zähler auf `FS 0/4`
-  (Core) bzw. `FS 0/2` (Rift). `ForeshadowHint(text, tag)` zählt ausschließlich `FS`
-  hoch, Gate und HUD-Badge bleiben unverändert. `!boss status` spiegelt den
-  Saisonstand und bestätigt, dass der Boss erst in Szene 10 erscheint.
+  `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`), `scene_overlay()` schreibt denselben
+  Snapshot ins HUD-Badge. `ForeshadowHint(text, tag)` zählt ausschließlich `FS`
+  hoch; Gate und Toast bleiben unverändert. `!boss status` bestätigt denselben
+  Gate-Snapshot, Mission-5-Badge-Checks bestehen nur mit dem sichtbaren
+  `GATE 2/2`-Badge.
 - **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.
   Nutzt sie für dramatische Hinweise, bevor Mission 5/10 startet, und verweist in
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
@@ -302,9 +305,11 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   PvP bleibt ein optionales Endgame-Modul außerhalb der Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das
-> HUD-Badge `GATE 2/2` an `scene_overlay()` und speichert den Status in
-> `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime spiegelt ihr den Badge per
-> `hud_tag('GATE 2/2')` manuell, damit HUD und Save denselben Gate-Snapshot behalten.
+> HUD-Badge `GATE 2/2` und den Toast `GATE 2/2 · FS 0/x` an `scene_overlay()` und
+> speichert den Status in `logs.flags.foreshadow_gate_*`. Ohne laufende Runtime
+> spiegelt ihr Badge und Toast per `hud_tag('GATE 2/2')` +
+> `hud_toast('GATE 2/2 · FS 0/x','BOSS')` manuell, damit HUD und Save denselben
+> Gate-Snapshot behalten.
 
 > **Runtime-Hinweis:** `phase_strike_cost()` ruft intern `log_phase_strike_event()` auf. Ohne
 > laufende Runtime übernimmt ihr denselben Logger-Aufbau manuell, damit Ability, Basiswert,
@@ -338,6 +343,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Szenario und Px-Status aus. HQ-DeepSaves verlangen volle Systemlast
   (`SYS_used == SYS_max`), sonst meldet die Runtime „SaveGuard: SYS nicht voll.“
   und blockiert den Save.
+  Phase-Strike-Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
+  `arena_phase_strike`), nicht im regulären `logs.psi[]`.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.

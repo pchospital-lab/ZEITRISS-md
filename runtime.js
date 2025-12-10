@@ -4715,7 +4715,8 @@ function StartMission(){
   const gateProgress = Number.isFinite(flags.foreshadow_gate_progress)
     ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
     : 0;
-  const gateStartValue = Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10)
+  const m5Or10 = Number.isFinite(missionNumber) && (missionNumber === 5 || missionNumber === 10);
+  const gateStartValue = m5Or10
     ? FORESHADOW_GATE_REQUIRED
     : gateProgress;
   flags.foreshadow_gate_snapshot = Math.min(FORESHADOW_GATE_REQUIRED, gateStartValue);
@@ -4746,6 +4747,11 @@ function StartMission(){
     if (missionNumber === 10){
       state.logs.flags.foreshadow_gate_m10_seen = true;
     }
+    const fsRequired = foreshadow_requirement();
+    const gateBadge = `GATE ${FORESHADOW_GATE_REQUIRED}/${FORESHADOW_GATE_REQUIRED}`;
+    const fsBadge = `FS 0/${fsRequired}`;
+    hud_tag(gateBadge);
+    hud_toast(`${gateBadge} · ${fsBadge}`, 'BOSS');
   }
   if (Number.isFinite(missionNumber) && missionNumber >= 6 && !self_reflection_enabled()){
     set_self_reflection(true);

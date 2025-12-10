@@ -39,6 +39,7 @@ required = [
   "logs.foreshadow",
   "logs.fr_interventions",
   "logs.psi",
+  "logs.arena_psi",
   "logs.flags",
   "ui",
   "arena"
@@ -138,7 +139,10 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 ```
 
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
-Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed).
+Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
+und kann optional `seed_tier: early|mid|late` tragen (reiner QA-/Balance-Hinweis,
+keine Gating-Logik). `logs.arena_psi[]` spiegelt Phase-Strike-Events separat
+vom regulären `logs.psi[]`.
 `arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
@@ -146,14 +150,16 @@ ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
 
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
 Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
-(Kleinbuchstaben) gemäß Missionstyp und Szenenzahl. Seeds geben nur den Typ
-vor und überlassen das `phase`-Feld der Laufzeit.
+(immer Kleinbuchstaben) gemäß Missionstyp und Szenenzahl. Seeds geben nur den
+Typ vor und überlassen das `phase`-Feld der Laufzeit; Uppercase-Werte gelten
+als ungültig und werden beim Laden auf lowercase normalisiert.
 
 **Accessibility-Felder:** Der Serializer schreibt stets `ui.gm_style` und
 `ui.suggest_mode`. Felder für `contrast`, `badge_density` und `output_pace` sind
-empfohlen, fallen beim Laden aber automatisch auf `standard`/`standard`/`normal`
-zurück, falls sie fehlen. Saves dürfen diese Felder weglassen, ohne dass
-Persistenz verloren geht.
+empfohlen; fehlen sie, setzt die Runtime Defaults (`standard`/`standard`/
+`normal`) und loggt den Schritt im Accessibility-Toast. Saves dürfen diese
+Felder weglassen, ohne dass Persistenz verloren geht; Smokes mit fehlenden
+Feldern gelten als bestanden, wenn die Defaults greifen.
 
 **Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
 enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
