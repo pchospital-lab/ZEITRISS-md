@@ -68,36 +68,37 @@ Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereigniss
 
 ## Überblick
 
-**ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil.
-Ihr spielt operative Chrononauten – Agenten des ITI – in taktisch optimierten Biohüllen.
-Bereits zu Beginn entscheidet ihr euch für eine genetische Grundform:
-Entweder Homo sapiens oder ein abgeleiteter Hominin-Typ wie Neandertaler, Denisova oder Atlanter-Vorläufer.
-Diese Wahl prägt eure Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente.
-Eure Hülle ist keine Tarnung – sie ist euer Körper.
-Ihr erkundet historische Epochen und beseitigt Anomalien.
-Das System verwendet explodierende Würfel und protokolliert Zustände im JSON-Charakterbogen.
-Texte und Illustrationen stehen unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/),
-der Programmcode unter der [MIT-Lizenz](https://opensource.org/licenses/MIT).
+**ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
+spielt operative Chrononauten – Agenten des ITI – in taktisch optimierten
+Biohüllen. Bereits zu Beginn entscheidet ihr euch für eine genetische
+Grundform: Entweder Homo sapiens oder ein abgeleiteter Hominin-Typ wie
+Neandertaler, Denisova oder Atlanter-Vorläufer. Diese Wahl prägt eure
+Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente. Eure
+Hülle ist keine Tarnung – sie ist euer Körper. Ihr erkundet historische Epochen
+und beseitigt Anomalien. Das System verwendet explodierende Würfel und
+protokolliert Zustände im JSON-Charakterbogen. Texte und Illustrationen stehen
+unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), der
+Programmcode unter der [MIT-Lizenz](https://opensource.org/licenses/MIT).
 Details findest du in [LICENSE](LICENSE).
 
 ## TL;DR – ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-2. **Mission Phases.** Core-Ops verlaufen wie Episoden:
-   Briefing → Infiltration → Intel/Konflikt → Exfiltration → Debrief –
-   insgesamt zwölf Szenen. Rift-Ops sind eigenständige Filme in drei
-   Akten mit vierzehn Szenen.
+2. **Mission Phases.** Core-Ops verlaufen wie Episoden: Briefing → Infiltration →
+   Intel/Konflikt → Exfiltration → Debrief – insgesamt zwölf Szenen. Rift-Ops sind
+   eigenständige Filme in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten.
-   Schlampiges Vorgehen stagniert, destruktive Ausreißer senken Px; ein Fail
-   oder Patzer zieht den Index um 1 Punkt nach unten.
-   Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende.
+4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten. Schlampiges Vorgehen
+   stagniert, destruktive Ausreißer senken Px; ein Fail oder Patzer zieht den Index
+   um 1 Punkt nach unten. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds –
+   spielbar nach Episodenende.
 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
-6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10 der Episoden-Boss.
-   Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit löst
-   `generate_boss()` an diesen Punkten automatisch aus.
+6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10
+   der Episoden-Boss. Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit
+   löst `generate_boss()` an diesen Punkten automatisch aus.
 
-Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte Einstiegshilfe.
+Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte
+Einstiegshilfe.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
@@ -191,15 +192,17 @@ ZEITRISS-md/
   Übergaben und verweist auf die verbindlichen Prüfpfade in `CONTRIBUTING.md`.
 - **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Bündelt Workflow, Formatierung sowie die
   vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
-- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen der
-  Maintainer:innen.
+- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen
+  der Maintainer:innen.
 - **`docs/qa/tester-playtest-briefing.md`** – Briefing und Checklisten für QA-Läufe.
 - **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
-> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um kritische Linienbrüche zu stoppen.
-> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und Sekunden­entscheidungen.
+> **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um
+> kritische Linienbrüche zu stoppen.
+> Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und
+> Sekunden­entscheidungen.
 _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
 Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
@@ -246,23 +249,29 @@ Die ersten Schritte in unter zwei Minuten:
 
 **Startbefehle (Klammern Pflicht):**
 
-- `Spiel starten (solo [klassisch|schnell])` – Erschaffung → HQ-Intro → Briefing → Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße · _schnell_: Rolle + Teamgröße
-- `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves posten oder Rolle nennen
+- `Spiel starten (solo [klassisch|schnell])` – Erschaffung → HQ-Intro → Briefing →
+  Szene 1 · _schnell_: Rolle + Defaults → Briefing
+- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße ·
+  _schnell_: Rolle + Teamgröße
+- `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves
+  posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
 
 Kampagnenmodus (`preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus preserve|trigger`. Der Wert landet in `campaign.mode`/`seed_source` und
 wirkt auf weitere Starts, Cross-Mode-Saves und Arena-Rücksprünge.
 
-**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo` nicht.
+**Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo`
+nicht.
 **Rollen-Kurzformen erlaubt:** `infil`, `tech`, `face`, `cqb`, `psi`.
 
 **Regeln:**
 
 - **Nur-HQ-Save** – Speichern ist nur im HQ möglich; Missionszustände sind flüchtig.
-- **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden. Nächster Save im HQ.
-- **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach Episodenende; danach Reset).
+- **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden.
+  Nächster Save im HQ.
+- **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach
+  Episodenende; danach Reset).
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
@@ -343,9 +352,9 @@ ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
 zählen nur den `FS`-Block hoch. In Szene 10 erscheint automatisch der Toast mit
 dem aktiven Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach
 Teamgröße und Boss-Typ gemäß
-[Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach dem Debrief setzt die
-Runtime Self-Reflection auf `SF-ON` zurück – unabhängig davon, ob die Mission
-abgeschlossen oder abgebrochen wurde.
+[Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach
+dem Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig
+davon, ob die Mission abgeschlossen oder abgebrochen wurde.
 
 ### Psi-Heat & Ressourcen-Reset
 
@@ -412,7 +421,8 @@ Debrief und Save (HQ-only).
 > Beim Abzug folgt `Fenster stabil · <TTL> · Return 3…2…1`.
 > **Nach dem Primärziel:** Exfil-Fenster mit **TTL**.
 > Jede zusätzliche Szene reduziert die TTL und **erhöht Stress**.
-> Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht nur mit aktivierter Px-Verlust-Regel ein **Px–1**.
+> Bei **TTL 0** folgt **Hot-Exfil**; scheitert der, droht nur mit aktivierter
+> Px-Verlust-Regel ein **Px–1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
@@ -442,7 +452,8 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 3. **Historische Epochen-Wishlist** – Top 3 der Gruppe sammeln.
 4. **Teamrollen wählen** – Infiltration, Tech, Face, Sniper …
 5. **Paradoxon-Toleranz** – Legt fest, ab welcher Resonanz ihr neue Rifts erspüren möchtet.
-6. **Regel-Transparenz** – Overlay und JSON-Log laufen standardmäßig; `/debug_rolls` blendet das Log bei Bedarf aus.
+6. **Regel-Transparenz** – Overlay und JSON-Log laufen standardmäßig;
+   `/debug_rolls` blendet das Log bei Bedarf aus.
 
 ### Wahrscheinlichkeits-Übersicht {#wahrscheinlichkeits-uebersicht}
 
@@ -470,7 +481,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
   - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen – bis
     dahin bleibt der Kodex stumm.
-  - Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis zum HQ-Resync gesperrt.
+  - Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis
+    zum HQ-Resync gesperrt.
   - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und auf
     Bestätigung warten.
 
@@ -479,7 +491,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 **Akzeptierte Zusätze:**
-- Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen (auch `classic|fast`).
+- Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen
+  (auch `classic|fast`).
 - `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 - Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
@@ -492,8 +505,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `gruppe 3` → „Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
-- Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt; Patch-Level wird ignoriert.
-- Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
+- Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt;
+  Patch-Level wird ignoriert.
+- Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
+  HQ-Migration veranlassen.“
 
 **Save v6 – Pflichtfelder & Kompatibilität**
 - `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
@@ -551,7 +566,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `!regelcheck modul` – zwingt die KI, Regeln aus dem genannten Modul zu laden.
 - `!regelreset` – setzt den Regelkontext nach Warnhinweis zurück und lädt alle Module neu.
 - `modus verbose` – Filmisch an; Toast `GM_STYLE → verbose (persistiert)`.
-- `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast `GM_STYLE → precision (persistiert)`.
+- `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast
+  `GM_STYLE → precision (persistiert)`.
 - `!px` – zeigt aktuellen Paradoxon-Stand inklusive ETA (Heuristik) aus `px_tracker()`.
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen,
@@ -577,9 +593,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `ForeshadowHint()` zählt ausschließlich `FS` hoch; Gate bleibt unverändert.
   `!boss status` meldet denselben Snapshot und dient als Mission-5-Badge-Check
   im Smoke-Paket.
-- **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD, Overlay `· SUG`),
-  `modus ask` wechselt zurück in den klassischen Fragemodus (`SUG-OFF`). Das SUG-Badge
-  ist unabhängig von Self-Reflection und bleibt aktiv, auch wenn `SF-OFF` gesetzt wurde.
+- **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD,
+  Overlay `· SUG`), `modus ask` wechselt zurück in den klassischen Fragemodus
+  (`SUG-OFF`). Das SUG-Badge ist unabhängig von Self-Reflection und bleibt aktiv,
+  auch wenn `SF-OFF` gesetzt wurde.
 - **Self-Reflection-Quelle.** Alle Runtime-Flows lesen ausschließlich
   `character.self_reflection`; `logs.flags.self_reflection` ist Audit-Mirror und darf
   den Charakterwert nicht ersetzen. `set_self_reflection(enabled, reason?)` setzt
@@ -588,16 +605,19 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis zum Exit
   und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul; Standardkampagnen
   laufen ohne Arena-Fokus weiter.
-- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die Arena-Gebühr aus `economy`,
-  setzt `phase_strike_tax = 1`, blockiert HQ-Saves, loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier,
-  Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool (`economy.cu`) und im
-  Credits-Fallback (`economy.credits`) verbucht; `sync_primary_currency()` hält beide Felder deckungsgleich und
-  synchronisiert beim Laden vorhandene Saves auf diesen Stand.
+- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die
+  Arena-Gebühr aus `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves,
+  loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier, Szenario sowie
+  Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool
+  (`economy.cu`) und im Credits-Fallback (`economy.credits`) verbucht;
+  `sync_primary_currency()` hält beide Felder deckungsgleich und synchronisiert
+  beim Laden vorhandene Saves auf diesen Stand.
 
 ## Mini-FAQ
 
 **Warum nur HQ-Saves?**
-Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht festgeschrieben werden.
+Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht
+festgeschrieben werden.
 
 **Was bedeutet Px?**
 Der Paradoxon-Index (Px) belohnt saubere Kausalketten.
@@ -624,7 +644,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   wandelt Kilometer in Meter um und schlägt fehl, wenn ein Jammer ohne Kabel,
   Relay oder Override überbrückt werden soll. In dem Fall löst der Guard den
   Offline-Hinweis aus.
-  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren; Reichweite anpassen.
+  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen /
+  Jammer-Override aktivieren; Reichweite anpassen.
 - **scene_overlay(total?, pressure?, env?)** – erzeugt das HUD-Banner `EP·MS·SC`
   mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Nach
   `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core) sichtbar sein;
@@ -664,7 +685,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
   `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
   `fr_interventions:[], psi:[], flags:{} }`
-- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }` (`offene_seeds[]` akzeptiert Strings oder Objekte)
+- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }`
+  (`offene_seeds[]` akzeptiert Strings oder Objekte)
 - `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
   `suggest_mode:boolean, contrast:"standard"|"high",`
   `badge_density:"standard"|"dense"|"compact",`
@@ -689,7 +711,8 @@ ausführenden Agenten. Sweep und Rücksprung laufen **nie parallel** –
 das RW muss am **IA** oder einem Alt-Anchor **bewusst armiert** werden.
 Sinkt der RW-Timer auf **0**, erzwingt das System einen
 **Hot-Exfil** (kurzer, riskanter Abzug).
-Misslingt dieser deutlich, kann bei aktivierter Px-Verlust-Regel ein **Resonanzverlust (Px–1)** greifen.
+Misslingt dieser deutlich, kann bei aktivierter Px-Verlust-Regel ein
+**Resonanzverlust (Px–1)** greifen.
 Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Schalter verfügbar.
 **0–2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
 3+ = Hot-Exfil-Gefahr. [Details](gameplay/kampagnenstruktur.md#post-op-sweep)
@@ -720,7 +743,8 @@ Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-O
 - `!help urban` / `/help urban` – Urban Quick-Card: Deckungsgrade, Verfolgungsdistanzen, Toast-Tags.
 - `!help sg` / `/help sg` – SG- & Exploding-Benchmark: Würfelgrößen, Zielwerte, Phasenrichtwerte.
 
-Alle Quick-Cards halten die Toasts auf sechs Wörter begrenzt und liefern filmische Callouts für das HUD.
+Alle Quick-Cards halten die Toasts auf sechs Wörter begrenzt und liefern
+filmische Callouts für das HUD.
 
 ## Level & EP-Kurve
 
@@ -765,7 +789,9 @@ Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
-Makros siehe [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick), den Abschnitt zum
+Makros siehe
+[speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick),
+den Abschnitt zum
 [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) und zum
 [Immersiven Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden):
 - `ClusterCreate()`
@@ -804,14 +830,16 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   integrierte Mikro-CPU für lokales HUD & Logging. Projiziert Informationen
   direkt ins Sichtfeld und funktioniert auch ohne aktive Kodex-Verbindung.
 - **Comlink (Ohrstöpsel, ≈ 2 km):** Kurzstreckenfunk (durch Gelände/Jammer
-  beeinflussbar), ebenfalls energieautark (Kinetik + Körperwärme) mit eigener Mikro-CPU. Übernimmt die
+  beeinflussbar), ebenfalls energieautark (Kinetik + Körperwärme) mit eigener
+  Mikro-CPU. Übernimmt die
   Kodex-Synchronisation; fällt die Verbindung aus, bleibt das HUD lokal aktiv.
 - Riss-Tracker (temporaler Resonator) – warnt vor Resonanz, siehe
   [Temporale Tools](characters/ausruestung-cyberware.md#temporale-tools)
 - Basiswaffe nach Einsatzprofil
 - Universelles Werkzeug oder Scanner
 
-*Details zur Hardware siehe* [HUD & Comms – Spezifikation](characters/zustaende-hud-system.md#hud-comms-spec).
+*Details zur Hardware siehe*
+[HUD & Comms – Spezifikation](characters/zustaende-hud-system.md#hud-comms-spec).
 *HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/zustaende-hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
@@ -821,10 +849,12 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
-- _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute). [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
+- _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute).
+  [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
 - _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken.
   [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
-- _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
+- _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
+  `comms_check()` zählt sie als `relays=true`.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
@@ -950,17 +980,19 @@ sind der Übersicht halber aufgeführt.
 | [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
 | [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
 
-Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6 folgt das
-nun veröffentlichte Modul 7, anschließend 8A und 8B.
+Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6
+folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
 
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
-**Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf 18 Markdown-Dateien;
-mehrere Module sind Abschnitte anderer Dateien. Zusammen mit `README.md` und `master-index.json`
-umfasst das Regelwerk **20** Dateien. `meta/masterprompt_v6.md` wird separat per Copy-Paste
-genutzt. Im `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
+**Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
+18 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
+mit `README.md` und `master-index.json` umfasst das Regelwerk **20** Dateien.
+`meta/masterprompt_v6.md` wird separat per Copy-Paste genutzt. Im
+`master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
 Langfassungen desselben Moduls auflisten.
-Eine kompakte [HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
+Eine kompakte
+[HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
 [Cinematisches HUD-Overlay](characters/zustaende-hud-system.md#cinematisches-hud-overlay).
@@ -980,8 +1012,9 @@ Ausführliche Hintergründe liefert das Modul
 4. Führt bei Bedarf den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
    und protokolliert Autoload, Save/Load und Fehlermeldungen pro Plattform.
 5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
-   [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) sowie die dort verlinkten
-   Unterkapitel. Diese Module enthalten sämtliche Tabellen, YAML-Beispiele und Briefing-Vorlagen.
+   [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md)
+   sowie die dort verlinkten Unterkapitel. Diese Module enthalten sämtliche
+   Tabellen, YAML-Beispiele und Briefing-Vorlagen.
 
 ### Lines & Veils (optional)
 
@@ -1057,10 +1090,13 @@ Nach Compliance-Hinweis und Einleitung wählst du zwischen
 Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
 (Icons sind optional):
 
-- **`Spiel starten (solo [klassisch|schnell])`** – Einzelner Chrononaut; GPT führt die NSCs.
-- **`Spiel starten (npc-team [0–4] [klassisch|schnell])`** – GPT stellt ein temporäres Begleitteam bereit.
-- **`Spiel starten (gruppe [klassisch|schnell])`** – Mehrere reale Spieler laden ihre eigenen Speicherstände
-  oder erstellen gemeinsam neue Charaktere; GPT koordiniert die Szene.
+- **`Spiel starten (solo [klassisch|schnell])`** – Einzelner Chrononaut; GPT führt
+  die NSCs.
+- **`Spiel starten (npc-team [0–4] [klassisch|schnell])`** – GPT stellt ein
+  temporäres Begleitteam bereit.
+- **`Spiel starten (gruppe [klassisch|schnell])`** – Mehrere reale Spieler laden
+  ihre eigenen Speicherstände oder erstellen gemeinsam neue Charaktere; GPT
+  koordiniert die Szene.
 - **`Spiel laden`** – Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter – ohne Auswahlmenü für `klassisch`/`schnell`.
@@ -1085,7 +1121,8 @@ Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
 Wird `Spiel laden` ohne JSON-Block eingegeben, fordert GPT den Spielstand an
 und setzt nicht aus dem Nichts fort.
 
-Details zum Speichersystem findest du in [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
+Details zum Speichersystem findest du in
+[speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md).
 
 Der Befehl `Speichern` erzeugt immer einen vollständigen **Deep Save** als
 JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Film ab!`, um eine
@@ -1292,7 +1329,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Px Burn** – 1 Punkt verbrennen = ein Reroll für jeden Charakter oder NSC.
 - **Tier-Gate** – Lizenzschranke im HUD; blockiert Ausrüstung oberhalb der
   freigeschalteten Tier-Stufe, bis Ruf und Lizenz passen (siehe
-  [Charaktererschaffung](characters/charaktererschaffung.md#zugang-zu-ausruestung--cyberware-hq-phase)).
+  [Charaktererschaffung][char-gear]).
 - **Kodex-Badges** – HUD-Marker für Status und Sicherheitshinweise (z. B.
   Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
   [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges)
@@ -1347,6 +1384,7 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot
 [adrenalinschub]: characters/psi-talente.md#adrenalinschub
 [notfall-stimulanz]: characters/charaktererschaffung.md#notfall-stimulanz
+[char-gear]: characters/charaktererschaffung.md#zugang-zu-ausruestung--cyberware-hq-phase
 [psi-pp-regeneration]: systems/kp-kraefte-psi.md#psi-pp-regeneration
 [psi-heat-track]: systems/kp-kraefte-psi.md#psi-heat-track
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
@@ -1368,7 +1406,8 @@ Für lokale Checks nutze die dort beschriebene `pre-commit`-Integration.
 
 Die Inhalte stehen für private kreative Nutzung bereit.
 ZEITRISS® ist eine beim DPMA eingetragene Wortmarke (Reg.-Nr. 30 2025 215 671).
-Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung erlaubt (siehe [LICENSE](LICENSE)).
+Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung
+erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
