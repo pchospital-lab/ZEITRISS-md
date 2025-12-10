@@ -229,6 +229,25 @@ freigeschaltet.
     sein. Psi-spezifische Talente erscheinen nur, wenn das Flag `has_psi` gesetzt ist;
     `render_psi_option()` zeigt sie mit klaren Stresskosten.
 
+    **Kurzreferenz – häufige Talente**
+
+    | Talent                 | Typ     | Effekt (Richtwert)                 |
+    |------------------------|---------|------------------------------------|
+    | Schusswaffenexperte    | passiv  | +2 auf Fernkampf-Proben            |
+    | CQB-Spezialist         | passiv  | +2 auf Nahkampf / Close Quarters   |
+    | Menschenkenntnis       | passiv  | +2 auf Verhören/Überreden          |
+    | Spurensucher           | aktiv   | 1×/Szene +1 auf Analyse/Spuren     |
+    | Med-Tech               | aktiv   | 1×/Szene automatischer Stabilize   |
+    | Techno-Mancer          | passiv  | +2 auf Hacken/Programmieren        |
+    | Drohnensteuerung       | passiv  | +2 auf Drohnen-/Fahrzeugsteuerung  |
+    | Polyglott              | passiv  | Auto-Erfolg bei einfachen Sprachen |
+    | Schleichprofi          | passiv  | +2 auf Schleichen/Diebstahl        |
+    | Taktische Analyse      | aktiv   | 1×/Mission +2 auf Initiativwurf    |
+    | Psi-Fokus (nur `has_psi`) | aktiv | 1×/Szene +1 Bonus auf Psi-Probe    |
+
+    Nutzt die Tabelle als Vorlage und passt Werte/Begrenzungen ans Szenario an. Talente dürfen gern
+    erzählerisch gefärbt sein – solange klar bleibt, welche Probe sie typischerweise beeinflussen.
+
 4.  **SYS-Verteilung & Implantate:** Das **SYS-Attribut** repräsentiert, wie viel _Cyberware_ oder
     technische Upgrades euer Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
     zu Missionsbeginn ein oder zwei Implantate – technische Verbesserungen, die besondere Fähigkeiten
