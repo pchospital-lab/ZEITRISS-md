@@ -713,7 +713,7 @@ damit keine Dopplung entsteht.
 | 🛡️ **BASTION** | `HQ:BASTION · Stress -1` | Schutzrede von Commander Renier. | Entfernt **1 Stress** bei allen. |
 | ⚡ **SPARK** | `HQ:SPARK · SYS +1 (1 Szene)` | Werkstattcrew überlädt Feldmodule. | Gewährt **+1 freies SYS** |
 |            |                                  |                                   | für Szene eins. |
-| 💠 **CALM** | `HQ:CALM · Psi-Heat null` | Nullzeit-Lotus kühlt die Kammern. | Setzt **Psi-Heat auf 0** (einmalig). |
+| 💠 **CALM** | `HQ:CALM · Psi +1 (Mission)` | Nullzeit-Lotus kühlt die Kammern. | Erste Psi-Probe der kommenden Mission erhält **+1 Bonus**. |
 | 🛰️ **PULSE** | `HQ:PULSE · Comms ok` | Relaisnetz wird neu kalibriert. | Der nächste `comms_check()` |
 |            |                             |                                 | gelingt automatisch. |
 
@@ -727,9 +727,9 @@ damit keine Dopplung entsteht.
 {% endif %}
 ```
 
-Die Buffs sind vor allem als **Feld-Downtime** (Safehouse, Nullzeit-Puffer) gedacht. Im echten HQ setzt
-`StartScene('HQ')` ohnehin **Stress** und **Psi-Heat auf 0** – CALM ist dort also redundant, entfaltet
-seinen Nutzen aber bei Zwischenstopps im Einsatz.
+Die Buffs sind vor allem als **Feld-Downtime** (Safehouse, Nullzeit-Puffer) gedacht. CALM trägt seinen
+Psi-Bonus in die nächste Mission und hält ihn bis zur ersten Psi-Probe aufrecht – auch wenn `StartScene('HQ')`
+Stress und Psi-Heat bereits auf 0 setzt.
 
 Haltet die Toasts auf **maximal sechs Worte** und gebt sofort an, welcher
 mechanische Effekt greift.
