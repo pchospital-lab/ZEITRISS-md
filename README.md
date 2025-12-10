@@ -332,18 +332,20 @@ Spiel starten (gruppe schnell)
   „Multi-Tool-Armband“ → „Multi-Tool-Handschuh“). Erreicht der Paradoxon-Index
   Px 5, informiert der Kodex, dass neue Seeds erst nach Episodenende spielbar
   sind und danach zurückgesetzt werden.
+  Der Alias bleibt ein Stil-Mapping; die Hardware-Regel „kein Armband“ gilt
+  weiterhin.
 
 ### Boss-Gates & HUD-Badges
 
-`!helper boss` listet Foreshadow-Hinweise für Mission 5 und Mission 10, solange
-das Gate blockiert ist (`Gate 0/2`). Sobald Mission 5 startet, blendet das HUD
-das Gate-Badge `GATE 2/2` und den Hinweis „Boss-Encounter in Szene 10“ ein. Der
-Foreshadow-Zähler beginnt bei `FS 0/4` (Core) bzw. `FS 0/2` (Rift) und zählt pro
-Hinweis hoch. In Szene 10 erscheint automatisch der Toast mit dem aktiven
-Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach Teamgröße und
-Boss-Typ gemäß [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach dem
-Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig davon,
-ob die Mission abgeschlossen oder abgebrochen wurde.
+`!helper boss` listet Foreshadow-Hinweise für Mission 5 und Mission 10; das Gate
+ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
+`GATE 2/2 · FS 0/4` (Core) bzw. `GATE 2/2 · FS 0/2` (Rift); Foreshadow-Hinweise
+zählen nur den `FS`-Block hoch. In Szene 10 erscheint automatisch der Toast mit
+dem aktiven Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach
+Teamgröße und Boss-Typ gemäß
+[Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach dem Debrief setzt die
+Runtime Self-Reflection auf `SF-ON` zurück – unabhängig davon, ob die Mission
+abgeschlossen oder abgebrochen wurde.
 
 ### Psi-Heat & Ressourcen-Reset
 
@@ -355,9 +357,12 @@ Psi-Heat auf die gespeicherten Grundwerte zurück.
 
 Der Befehl `!accessibility` öffnet das UI-Panel (Kontrast, Badge-Dichte,
 Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“
-und schreibt die Auswahl in den Save. Beim erneuten Laden stehen die Werte mit
-`contrast: high`, `badge_density: dense`, `output_pace: slow` (oder den gewählten
-Alternativen) sofort wieder bereit.
+und schreibt die Auswahl in den Save. Die Runtime setzt bei fehlenden Feldern
+automatisch `contrast: standard`, `badge_density: standard` und `output_pace: normal`;
+im Serializer landen verbindlich `gm_style` und `suggest_mode`, optionale Access-
+Felder nur, wenn sie gesetzt wurden. Beim erneuten Laden stehen gewählte Werte
+(`contrast: high`, `badge_density: dense`, `output_pace: slow` oder Alternativen)
+sofort wieder bereit.
 
 ### Abnahme-Smoketest (Runtime-Overlay)
 
@@ -365,16 +370,34 @@ Alternativen) sofort wieder bereit.
    (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
    1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
    und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
-2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 zeigt Szene 5/10 und
-   `Gate 0/2`; Mission 5 blendet `Boss-Encounter in Szene 10`, `GATE 2/2` und
-   ggf. `SF-OFF` ein, Szene 10 triggert `Boss-DR aktiviert – −X Schaden` mit
-   Auto-Reset `SF-ON` zum Debrief.
+2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und
+   `Gate 2/2` an; Mission 5 blendet `Boss-Encounter in Szene 10`, `GATE 2/2`
+   und ggf. `SF-OFF` ein, Szene 10 triggert `Boss-DR aktiviert – −X Schaden`
+   mit Auto-Reset `SF-ON` zum Debrief.
 3. **Psi & Ressourcen** – Psi-Konflikt meldet `Psi-Heat +1`, danach Reset;
    HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
 4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast,
    Badge-Dichte und Ausgabetempo, Toast notieren; nach erneutem Laden bleiben
    die Werte erhalten. Vollständige Wortlaute decken `doc.md` und das
    Tester-Briefing ab.
+
+**Stabile Flows (Regression-Basis)**
+- Ask→Suggest-Overlay bleibt getrennt von Self-Reflection und läuft in Solo,
+  NPC, Koop und PvP stabil.
+- Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
+  Solo/NPC/Koop/PvP identisch.
+- Alias-Mapping „Multi-Tool-Armband → Multi-Tool-Handschuh“ ist aktiv, ohne die
+  Hardware-Regel „kein Armband“ aufzuweichen.
+
+**Dispatcher-Smoke-Basislinie**
+| Schritt | Inhalt | Status |
+| ------ | ----------------------------- | -------- |
+| 1 | Spielstart solo klassisch/schnell | ✅ stabil |
+| 2 | NPC-Team 0–4 erstellt, skaliert | ✅ stabil |
+| 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
+| 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
+| 5 | Missions-Blocker verhindern Saves | ✅ stabil |
+| 6 | Gear-Alias & Px 5 Hinweis sichtbar | ✅ stabil |
 
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
@@ -1218,12 +1241,12 @@ Gefechte richten sich gegen NSCs, nicht gegeneinander.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
-phase: Core
+phase: core
 year: 1960
 place: Karibik
 objective: Black Saturday – Huminen-Söldner kapern B-59
 ```
-Rift-Seeds nutzen `phase: Rift`.
+Rift-Seeds nutzen `phase: rift`.
 
 `phase` markiert die Missionsphase: `core` für den Einsatz vor Ort,
 `transfer` für An- und Abreise sowie `rift` für Paradoxon-Sprünge.
