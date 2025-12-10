@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.9.1
+version: 1.10.0
 tags: [meta]
 ---
 
@@ -158,6 +158,79 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 `DOC` = doc.md  
 `BRF` = docs/qa/tester-playtest-briefing.md
 `CW` = systems/currency/cu-waehrungssystem.md
+
+## Maßnahmenpaket Beta-GPT 2025-12 (Copy-Paste-QA)
+
+Die folgenden Punkte stammen aus dem Copy-Paste-Testlauf (Acceptance 1–15, Save v6) und sind für
+den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf Release-Qualität.
+
+### 1. Boss-Gate-Mission 5/10 entkoppeln (Gate fix 2/2, FS separat)
+
+- HUD-Spec `HUD` auf `GATE 2/2 · FS 0/4` zum Missionsstart M5/M10 umstellen, Gate nicht mehr an
+  Foreshadow-Counts koppeln.
+- Toolkit `TK(16)` (Foreshadow, Suggest & Arena) spiegeln: Gate-Status fix, Foreshadows erhöhen
+  nur `FS`.
+- Runtime (`RT` → `StartMission()`, `scene_overlay()`) prüfen und falls nötig Gate-Status auf den
+  festen Startwert setzen; Boss-Toast/Flags synchronisieren.
+- QA: Mission-5-Badge-Check (Prüfnummern 11–12) in Solo/NPC/Koop/Arena erneut laufen lassen.
+
+### 2. `phase`-Feld konsolidieren (technisch lowercase)
+
+- README-Beispiele und Seeds auf `phase: core|transfer|rift` (lowercase) angleichen; Flavor-Groß-
+  schreibung aus YAML entfernen.
+- Speicher-Doku `M12` ergänzen: HQ-Save immer `phase: core`; Missionslaufzeit steuert
+  `campaign.type/scene`.
+- Toolkit-Hinweis in `TK(11)`/`TK(16)`: `phase` wird zur Laufzeit gesetzt, Seeds tragen nur den
+  Missions-Typ.
+- QA: Cross-Mode-Smoke (Solo → Koop → PvP) sicherstellen, dass `phase` konstant bleibt.
+
+### 3. Rift-Seeds um Level-Bänder/Tiers ergänzen
+
+- Kampagnenstruktur `gameplay/kampagnenstruktur.md` um Abschnitt „Level-Bänder/Seed-Tiers“
+  erweitern (Early/Mid/Late, Beispiel-Seeds, Arc-Dashboard-Spiegel).
+- Optional neues Feld `seed_tier` in Arc-Dashboard beschreiben; Seed-Beispiele und Save-Schema
+  aktualisieren.
+- QA: Drei Rifts fahren (Level 8 / 120 / 500+) und Seed-Zuordnung dokumentieren.
+
+### 4. Arena-Phase-Strike-Logs von Psi-Heat trennen
+
+- Entscheidung fixieren: neues Feld `logs.arena_psi[]` **oder** verpflichtendes Tagging
+  (`category: arena|psi`, `heat_delta` vs. `sys_cost`). Schema in `M12` ergänzen.
+- Toolkit-Logger (`phase_strike_cost`/`log_phase_strike_event`) anpassen; README/Psi-Modul um
+  QA-Hinweise ergänzen.
+- QA: Acceptance 13 erneut (Psi-Heat + Arena-Strike) mit Filterkriterien prüfen.
+
+### 5. Accessibility-Felder robust spiegeln
+
+- Speicher-Doku `M12` klarstellen: `contrast`/`badge_density`/`output_pace` empfohlen, Defaults
+  beim Laden wenn Felder fehlen; Serializer setzt explizit nur `gm_style`/`suggest_mode`.
+- Optional Defaults im Serializer (`RT` → UI-Prep) ergänzen; README-Beispiel anpassen.
+- QA: Save ohne Accessibility-Felder laden, `!accessibility` auf Standardwerte prüfen.
+
+### 6. Save-Beispiele für High-Level-/Rift-Play ergänzen
+
+- Speicher-Doku um Abschnitt „High-Level-Progression (100–1000)“ erweitern und Referenz-Testsave
+  (Lvl 8/120/520 mit Seeds 1–25/80–150/400–1000) verlinken.
+- QA-Log/Audit auf neuen Testspeicherstand verweisen; Archivierung unter `internal/qa/fixtures`
+  prüfen.
+
+### 7. Gear-Alias „Multi-Tool-Armband“ dokumentieren
+
+- Alias-Doku `README`/`Toolkit` um Eintrag „Multi-Tool-Armband → Multi-Tool-Handschuh“ ergänzen;
+  Hardware-Regel „kein Armband“ bleibt bestehen.
+- QA: Acceptance 9 als Stil-Compliance führen (still mapping, kein neues Item).
+
+### 8. Offline/Ask→Suggest/Alias/Squad-Radio als stabil vermerken
+
+- QA-Abschnitt (README oder QA-Handbuch) um Kurznotiz ergänzen: Ask→Suggest, Offline-FAQ,
+  Alias-/Squad-Radio-Logs Smoke bestanden in Solo/NPC/Koop/PvP.
+- QA-Log aktualisieren, Status als Referenz für Regressionen markieren.
+
+### 9. Dispatcher-Smoke 1–6 als Referenzstatus halten
+
+- Optional Mini-Tabelle im QA-Kapitel anlegen („Dispatcher-Smoke 1–6 bestanden“), damit künftige
+  Änderungen die Basislinie kennen.
+- QA: Bei Dispatcher-Änderungen Acceptance 1–6 erneut durchlaufen lassen.
 `GM` = gameplay/kreative-generatoren-missionen.md
 `SR` = internal/runtime/runtime-stub-routing-layer.md
 `PSI` = systems/kp-kraefte-psi.md
