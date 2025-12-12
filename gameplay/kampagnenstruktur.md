@@ -345,9 +345,11 @@ Pflicht-Schadensreduktion. Der Wert richtet sich nach der Teamgröße:
 | 5–6       | 3 (optional Hard-Mode) | 4 (optional Hard-Mode) |
 
 Der HUD-Hinweis „Boss-DR aktiviert – −X Schaden pro Treffer“ nutzt diesen Wert
-und kappen Exploding-Overflow konsequent. Diese Vorgabe ersetzt Hausregeln und
-verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe übermäßig zu
-strecken.
+und kappen Exploding-Overflow konsequent. `campaign.team_size` übernimmt der
+Runtime-Start automatisch aus `party.characters`/`team.members` und legt den
+DR-Wert kampagnenweit als `campaign.boss_dr` ab. Diese Vorgabe ersetzt
+Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
+übermäßig zu strecken.
 
 ### Boss-Foreshadow Checklist (Zeitpunkte unverändert) {#boss-foreshadow}
 - Core-Ops:
@@ -503,6 +505,12 @@ Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed en
 Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
 Ablauf der Geschichte wahrt, generiert mehr Paradoxon-Punkte; plumpes Vorgehen
 senkt den Zähler schneller.
+
+Einheitliche CU-Formel (Core **und** Rift):
+`Belohnung = Basiswert(Risiko) × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`.
+Basiswerte sind 400/500/600 CU (Low/Mid/High), Ergebnis-Multiplikatoren liegen
+bei 0,3/0,6/1,0/1,2 (fail/partial/success/bonus), `Seed-Multi = 1 + 0,2 ×
+offene Seeds` (Minimum 1,0) und Hazard-Pay gewährt Solo/Buddy-Teams **1,5×**.
 
 ##### Rifts sammeln {#rifts-sammeln}
 
@@ -1594,10 +1602,10 @@ vermeiden. Zusätzlich erzwingt das HUD den Runtime-Helfer `phase_strike_tax()`
 damit Phase-Strike im PvP teurer wird und Nicht-Psioniker einen Grundschutz
 behalten. `phase_strike_cost()` quittiert jeden Abruf während aktiver Arena
 automatisch mit dem HUD-Toast `Arena: Phase-Strike belastet +1 SYS (Kosten 3)`
-und legt einen Trace in `logs.psi[]` ab (`ability='phase_strike'`, `base_cost`,
-`tax`, `total_cost`, `mode`, `arena_active` plus optionale Felder für
-`mode_previous`/`location`/`gm_style`/`reason`),
-damit Logs und Toolkit-Hooks die Kostenentwicklung belegen können.
+und legt einen Trace in `logs.arena_psi[]` ab (`ability='phase_strike'`,
+`base_cost`, `tax`, `total_cost`, `mode`, `arena_active` plus optionale Felder
+für `mode_previous`/`location`/`gm_style`/`reason`), damit Logs und Toolkit-
+Hooks die Kostenentwicklung belegen können.
 
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
 Kodex moderiert neutral und stellt keine KI-Gegner.
