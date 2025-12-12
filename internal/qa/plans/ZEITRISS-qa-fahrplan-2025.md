@@ -478,6 +478,34 @@ müssen. Der komplette Rohtext liegt unter
 - Mission-5-Badge-Check und Arena-Exit gezielt beobachten, um Self-Reflection- und Mode-Reset-
   Deltas zu reproduzieren.
 
+## Maßnahmenpaket Copy-Paste-QA 2025-12-XX (Issues #1–#6)
+
+Der jüngste Copy-Paste-Testlauf liefert sechs neue Inkonsistenzen in Boss-DR, Arena-/Psi-Logging,
+Foreshadow-Gates, Rift-Belohnungen, Cross-Mode-Merge-Conflicts und SaveGuard-Feldern. Die Punkte
+werden über die nächsten Durchläufe schrittweise abgearbeitet.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------ | ---------------- |
+| #1 | Boss-DR nach Teamgröße statt Fixwerten spiegeln | ⏳ offen | gameplay/kampagnenstruktur.md; systems/toolkit-gpt-spielleiter.md; systems/wuerfelmechanik.md |
+| #2 | Phase-Strike-Logs auf `logs.arena_psi[]` konsolidieren | ⏳ offen | systems/kp-kraefte-psi.md; gameplay/kampagnenstruktur.md; README.md |
+| #3 | Foreshadow-/Gate-Begriffe und Persistenz vereinheitlichen | ⏳ offen | README.md; systems/toolkit-gpt-spielleiter.md; systems/gameflow/speicher-fortsetzung.md |
+| #4 | Rift-CU-Belohnung als Single-Formel dokumentieren | ⏳ offen | systems/currency/cu-waehrungssystem.md; gameplay/kampagnenstruktur.md |
+| #5 | Merge-Konflikte in Cross-Mode-Saves strukturiert loggen | ⏳ offen | systems/gameflow/speicher-fortsetzung.md; README.md |
+| #6 | Pflichtfelder Save v6 mit Fixture absichern (`logs.arena_psi` etc.) | ⏳ offen | systems/gameflow/speicher-fortsetzung.md; internal/qa/fixtures/ |
+
+**QA-Rohform (geplant)**
+
+- Boss-DR-Matrixtest für Teamgrößen 1–5 in Mini/Arc/Rift; Acceptance-Smoke #12 Solo+Duo wiederholen.
+- PvP-/Arena-Lauf mit Phase-Strike: Save-Validator erwartet `logs.arena_psi[]` (kein Fallback).
+- Foreshadow-/Gate-Check: `!helper boss` liefert Zahlen, Boss-Szenen-Blockade triggert Toast erst
+  beim Szenenwechsel; Save/Load erhält `logs.foreshadow[]` dedupliziert.
+- Rift-Reward-Regression: Level 8/120/520/1000 mit identischem Risiko und Seeds, Debrief nennt
+  Formel und Quelle.
+- Cross-Mode-Merge: Solo→Koop→PvP mit Wallet-/Seed-Differenzen; `logs.flags.merge_conflicts[]`
+  hält Konfliktobjekte, HUD zeigt Kurztoast.
+- SaveGuard-Full-Matrix: Fixture `savegame_v6_matrix` laden, Pflichtcontainer vorhanden, Unknown
+  Fields werden ignoriert; Acceptance-Smoke #7 gegen Fixture.
+
 ## Maßnahmenpaket Maintainer 2025-12-03 (Issues #1–#3)
 
 Der erneute Testprompt-Voll-Lauf liefert drei neue Spiegel-Themen: Accessibility-
