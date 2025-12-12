@@ -546,8 +546,8 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 | #11 | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000) | ✅ abgeschlossen – optionale `cluster_hint`/`level_hint` in Save/Dashboard dokumentiert | gameplay/kampagnenstruktur.md; M12 |
 | #12 | Wallet-Splitting: Restverteilung deterministisch loggen | ✅ abgeschlossen – Roster-Order & HQ-Pool-Hinweis fix | R; M12 |
 | #13 | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf) | ✅ abgeschlossen – Archiv-/Salvage-Sink ersetzt Verkäufe, keine CU-Auszahlung | CW; README; gameplay/kampagnenstruktur.md |
-| #14 | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren | 🟡 offen | RT; SR |
-| #15 | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | 🟡 offen | TK(16); M12; RT |
+| #14 | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren | ✅ abgeschlossen | RT; SR; R |
+| #15 | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | ✅ abgeschlossen | TK(16); M12; RT; R |
 
 **QA-Testreferenz (Rohform Copy-Paste-Lauf)**
 

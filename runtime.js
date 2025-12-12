@@ -2443,6 +2443,56 @@ function ensure_campaign(){
     state.campaign.compliance_shown_today = !!state.campaign.compliance_shown_today;
   }
   ensure_campaign_exfil();
+  return state.campaign;
+}
+
+function normalize_rift_seed_entry(entry){
+  if (!entry) return null;
+  if (typeof entry === 'string'){
+    const id = entry.trim();
+    if (!id) return null;
+    return { id, label: id, status: 'open' };
+  }
+  if (typeof entry !== 'object' || Array.isArray(entry)) return null;
+  const id = pickString(entry.id, entry.seed_id, entry.label, entry.name);
+  if (!id) return null;
+  const statusRaw = pickString(entry.status, entry.state) || 'open';
+  const status = statusRaw.toLowerCase() === 'closed' ? 'closed' : 'open';
+  const seedTierRaw = pickString(entry.seed_tier);
+  const seedTier = seedTierRaw ? seedTierRaw.toLowerCase() : null;
+  const clusterHint = pickString(entry.cluster_hint);
+  const levelHint = pickString(entry.level_hint);
+  const epoch = Number(entry.epoch);
+  const normalized = {
+    id: id.trim(),
+    label: pickString(entry.label, entry.name, id) || id.trim(),
+    status,
+  };
+  if (seedTier && ['early', 'mid', 'late'].includes(seedTier)){
+    normalized.seed_tier = seedTier;
+  }
+  if (clusterHint){
+    normalized.cluster_hint = clusterHint;
+  }
+  if (levelHint){
+    normalized.level_hint = levelHint;
+  }
+  if (Number.isFinite(epoch)){
+    normalized.epoch = epoch;
+  }
+  return normalized;
+}
+
+function ensure_rift_seeds(){
+  ensure_campaign();
+  const seeds = Array.isArray(state.campaign.rift_seeds)
+    ? state.campaign.rift_seeds
+    : [];
+  const normalized = seeds
+    .map((entry) => normalize_rift_seed_entry(entry))
+    .filter(Boolean);
+  state.campaign.rift_seeds = normalized;
+  return state.campaign.rift_seeds;
 }
 
 function ensure_campaign_exfil(){
@@ -3879,8 +3929,53 @@ function ensure_arena(){
         )
         .filter(Boolean)
     : undefined;
+  if (!arena.resume_token || typeof arena.resume_token !== 'object' || Array.isArray(arena.resume_token)){
+    arena.resume_token = null;
+  }
   apply_arena_rules(state);
   return arena;
+}
+
+function build_arena_resume_token(arena){
+  if (!arena) return null;
+  const scenario =
+    arena.scenario && typeof arena.scenario === 'object'
+      ? {
+          description:
+            pickString(arena.scenario.description, arena.scenario.name, arena.scenario.id) || null,
+        }
+      : null;
+  const policyPlayers = Array.isArray(arena.policy_players)
+    ? arena.policy_players
+        .map((entry) => {
+          if (!entry || typeof entry !== 'object') return null;
+          const id = pickString(entry.id, entry.player_id);
+          if (!id) return null;
+          return {
+            id: String(id).trim(),
+            name: pickString(entry.name, entry.label, entry.callsign) || null,
+          };
+        })
+        .filter(Boolean)
+    : [];
+  return {
+    created_at: new Date().toISOString(),
+    scenario,
+    team_size:
+      Number.isFinite(arena.team_size) && arena.team_size > 0
+        ? Math.min(6, Math.floor(arena.team_size))
+        : 1,
+    mode: typeof arena.mode === 'string' ? arena.mode : 'single',
+    previous_mode: typeof arena.previous_mode === 'string' ? arena.previous_mode : null,
+    tier:
+      Number.isFinite(arena.tier) && arena.tier > 0
+        ? Math.min(3, Math.floor(arena.tier))
+        : 1,
+    fee_paid: Number.isFinite(arena.fee) ? Math.max(0, Math.floor(arena.fee)) : 0,
+    audit: Array.isArray(arena.audit) ? arena.audit.slice() : [],
+    started_episode: Number.isFinite(arena.started_episode) ? Math.floor(arena.started_episode) : null,
+    policy_players: policyPlayers.length ? policyPlayers : undefined,
+  };
 }
 
 function reset_arena_after_load(){
@@ -3891,10 +3986,15 @@ function reset_arena_after_load(){
   if (wasActive && !arena.previous_mode){
     arena.previous_mode = typeof arena.mode === 'string' ? arena.mode : null;
   }
+  let resume_token = null;
+  if (wasActive){
+    resume_token = build_arena_resume_token(arena);
+    arena.resume_token = resume_token;
+  }
   arena.active = false;
   arena.phase = hadCompleted || wasActive ? 'completed' : 'idle';
   arena.phase_strike_tax = 0;
-  return wasActive;
+  return { wasActive, resume_token };
 }
 
 function apply_arena_rules(ctx = state){
@@ -4379,6 +4479,77 @@ function getArenaFee(currency = 0){
   return Math.floor(fee);
 }
 
+function arenaResume(){
+  ensure_campaign();
+  const arena = ensure_arena();
+  if (arena.active){
+    return 'Arena läuft bereits.';
+  }
+  const token = arena.resume_token;
+  if (!token || typeof token !== 'object'){
+    return 'Kein Arena-Resume-Token vorhanden.';
+  }
+  const teamSize =
+    Number.isFinite(token.team_size) && token.team_size > 0
+      ? Math.min(Math.floor(token.team_size), 6)
+      : 1;
+  const mode = typeof token.mode === 'string' ? token.mode : 'single';
+  const tier =
+    Number.isFinite(token.tier) && token.tier > 0 ? Math.min(Math.floor(token.tier), 3) : 1;
+  const policyPlayers = Array.isArray(token.policy_players)
+    ? token.policy_players
+        .map((entry) => (entry && typeof entry === 'object' ? clone_plain_object(entry) : null))
+        .filter(Boolean)
+    : arena.policy_players || [];
+  const scenario =
+    token.scenario && typeof token.scenario === 'object'
+      ? {
+          description:
+            pickString(token.scenario.description, token.scenario.name, token.scenario.id) ||
+            'Arena-Szenario',
+        }
+      : nextArenaScenario();
+  const audit = Array.isArray(token.audit) ? token.audit.slice() : [];
+  const previousMode =
+    typeof token.previous_mode === 'string'
+      ? token.previous_mode
+      : typeof state.campaign?.mode === 'string'
+      ? state.campaign.mode
+      : null;
+  const currentEpisode = state.campaign?.episode ?? token.started_episode ?? null;
+  arena.active = true;
+  arena.phase = 'active';
+  arena.wins_player = 0;
+  arena.wins_opponent = 0;
+  arena.tier = tier;
+  arena.proc_budget = Number.isFinite(arena.proc_budget) ? arena.proc_budget : 0;
+  arena.artifact_limit = Number.isFinite(arena.artifact_limit) ? arena.artifact_limit : 0;
+  arena.loadout_budget = Number.isFinite(arena.loadout_budget) ? arena.loadout_budget : 0;
+  arena.audit = audit;
+  arena.fee = Number.isFinite(token.fee_paid) ? Math.max(0, Math.floor(token.fee_paid)) : 0;
+  arena.scenario = scenario;
+  arena.damage_dampener = true;
+  arena.team_size = teamSize;
+  arena.mode = mode;
+  arena.previous_mode = previousMode;
+  arena.policy_players = policyPlayers;
+  arena.started_episode = currentEpisode;
+  delete arena.resume_token;
+  state.campaign.mode = 'pvp';
+  apply_arena_rules();
+  ensure_runtime_flags().arena_active = true;
+  state.location = 'ARENA';
+  const pxLocked =
+    arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
+  const baseMessage = `Arena Resume · Tier ${arena.tier}`;
+  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  if (audit.length){
+    hud_toast(`Arena-Audit reaktiviert: ${audit.length} Hinweise.`, 'ARENA');
+  }
+  return `${baseMessage} · ${scenario.description} · ${pxNote}`;
+}
+
 function arenaStart(options = {}){
   ensure_campaign();
   const arena = ensure_arena();
@@ -4555,6 +4726,9 @@ function handleArenaCommand(cmd){
   if (sub === 'exit' || sub === 'leave'){
     return arenaExit();
   }
+  if (sub === 'resume'){
+    return arenaResume();
+  }
   if (sub === 'result' && tokens[2]){
     return arenaRegisterResult(tokens[2]);
   }
@@ -4564,7 +4738,14 @@ function handleArenaCommand(cmd){
   if (sub === 'loss' || sub === 'lose'){
     return arenaRegisterResult('loss');
   }
-  return 'Arena-Befehle: !arena start [team <n>] [mode <name>] · !arena result win|loss · !arena score · !arena exit';
+  const help = [
+    '!arena start [team <n>] [mode <name>]',
+    '!arena resume',
+    '!arena result win|loss',
+    '!arena score',
+    '!arena exit'
+  ].join(' · ');
+  return `Arena-Befehle: ${help}`;
 }
 
 function rankIndex(rank){
@@ -4775,6 +4956,35 @@ function resolve_mission_type(){
     return currentPhase;
   }
   return 'core';
+}
+
+function find_open_rift_seed(seedId = null){
+  const seeds = ensure_rift_seeds();
+  if (!seeds.length) return null;
+  if (seedId && typeof seedId === 'string'){
+    const target = seedId.trim().toLowerCase();
+    const match = seeds.find((seed) =>
+      seed?.id && seed.id.toLowerCase() === target && seed.status !== 'closed'
+    );
+    if (match) return match;
+  }
+  return seeds.find((seed) => seed && seed.status !== 'closed') || null;
+}
+
+function can_launch_rift(seedId = null){
+  const location = typeof state.location === 'string' ? state.location.trim().toUpperCase() : 'HQ';
+  if (location !== 'HQ'){
+    return { ok: false, reason: 'Rift-Start nur im HQ erlaubt.' };
+  }
+  const arenaActive = !!state.arena?.active;
+  if (arenaActive){
+    return { ok: false, reason: 'Arena aktiv – Rift-Start blockiert.' };
+  }
+  const seed = find_open_rift_seed(seedId);
+  if (!seed){
+    return { ok: false, reason: 'Keine offenen Rift-Seeds verfügbar.' };
+  }
+  return { ok: true, seed };
 }
 
 function resolve_scene_total(missionType = resolve_mission_type()){
@@ -6128,14 +6338,18 @@ function load_deep(raw){
   }
   migrated.location = 'HQ';
   hydrate_state(migrated);
-  const arenaWasActive = reset_arena_after_load();
+  ensure_rift_seeds();
+  const arenaReset = reset_arena_after_load();
   initialize_wallets_from_roster();
   ensure_runtime_flags().skip_entry_choice = true;
   show_compliance_once();
   const hud = scene_overlay();
   writeLine(hud);
-  if (arenaWasActive){
+  if (arenaReset.wasActive){
     writeLine('Arena-Zustand auf HQ zurückgesetzt.');
+    if (arenaReset.resume_token){
+      writeLine('Arena-Resume-Token gesichert: Serie kann aus dem HQ fortgesetzt werden.');
+    }
   }
   return { status: 'ok', state, hud };
 }
@@ -6215,6 +6429,28 @@ function launch_mission(){
   state.phase = 'transfer';
   StartMission();
   return 'mission-launched';
+}
+
+function launch_rift(seedId = null){
+  const check = can_launch_rift(seedId);
+  if (!check.ok){
+    throw new Error(check.reason);
+  }
+  const seed = check.seed;
+  ensure_campaign();
+  state.campaign.type = 'rift';
+  state.campaign.phase = 'rift';
+  state.phase = 'transfer';
+  state.campaign.seed_source = 'rift';
+  state.campaign.active_seed_id = seed?.id ?? null;
+  state.campaign.active_seed_label = seed?.label ?? null;
+  if (seed?.seed_tier){
+    state.campaign.active_seed_tier = seed.seed_tier;
+  }
+  if (Number.isFinite(seed?.epoch)){
+    state.campaign.epoch = seed.epoch;
+  }
+  return launch_mission();
 }
 
 function debrief(st){
@@ -6558,11 +6794,14 @@ module.exports = {
   save_deep,
   migrate_save,
   load_deep,
+  ensure_rift_seeds,
+  can_launch_rift,
   startSolo,
   setupNpcTeam,
   startGroup,
   jam_now,
   launch_mission,
+  launch_rift,
   chronopolisStockReport,
   chronopolisTickStatus,
   acknowledge_chronopolis_warning,
@@ -6576,6 +6815,7 @@ module.exports = {
   apply_arena_rules,
   apply_wallet_split,
   getArenaFee,
+  arenaResume,
   arenaStart,
   arenaScore,
   arenaExit,

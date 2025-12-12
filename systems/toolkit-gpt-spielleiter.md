@@ -2392,8 +2392,20 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
   {% endif %}
 {%- endmacro %}
 
-{% macro can_launch_rift() -%}
-  {{ 'true' if (campaign.loc == 'HQ' and campaign.episode_completed) else 'false' }}
+{% macro can_launch_rift(seed_id=None) -%}
+  {% set loc = (location or campaign.loc or 'HQ')|upper %}
+  {% set seeds = campaign.rift_seeds or [] %}
+  {% set open = false %}
+  {% for seed in seeds %}
+    {% set status = (seed.status or 'open')|lower %}
+    {% if status != 'closed' %}
+      {% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %}
+      {% if seed_id is none or sid == (seed_id|string) %}
+        {% set open = true %}{% break %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {{ 'true' if (loc == 'HQ' and open) else 'false' }}
 {%- endmacro %}
 
 {% macro apply_rift_mods_next_episode() -%}
@@ -2402,12 +2414,23 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 {%- endmacro %}
 
 ### launch_rift Macro (Gate: nur im HQ & nach Episodenende)
-{% macro launch_rift(id) -%}
-  {% if can_launch_rift() != 'true' %}
+{% macro launch_rift(id=None) -%}
+  {% if can_launch_rift(id) != 'true' %}
     {{ hud_tag('Rift-Start blockiert – erst nach Episodenende & im HQ') }}
     {% return %}
   {% endif %}
-  {{ StartMission(total=14, type='rift', epoch=campaign.epoch, seed_id=id, objective='Resolve Rift') }}
+  {% set seeds = campaign.rift_seeds or [] %}
+  {% set target = None %}
+  {% for seed in seeds %}
+    {% set status = (seed.status or 'open')|lower %}
+    {% if status != 'closed' %}
+      {% set sid = (seed.id or seed.seed_id or seed.label or seed)|string %}
+      {% if id is none or sid == (id|string) %}{% set target = seed %}{% break %}{% endif %}
+    {% endif %}
+  {% endfor %}
+  {% set sid = (target and (target.id or target.label)) or (id|string) %}
+  {{ StartMission(total=14, type='rift', epoch=target and target.epoch or campaign.epoch,
+    seed_id=sid, objective='Resolve Rift') }}
 {%- endmacro %}
 
 ### generate_para_creature() Macro

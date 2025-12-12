@@ -273,7 +273,13 @@ nicht.
 - **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden.
   Nächster Save im HQ.
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach
-  Episodenende; danach Reset).
+  Episodenende; danach Reset). Rift-Starts sind HQ-gebunden
+  (`location='HQ'`) und greifen ausschließlich auf objektförmige
+  `campaign.rift_seeds[]` (id/label/status/seed_tier, optionale
+  cluster-/level-Hints) zurück; der Normalizer hebt Legacy-Strings an.
+- **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
+  `arena.resume_token` (Tier, Teamgröße, Modus, Audit) und erlaubt `!arena
+  resume` ohne erneute Gebühr aus dem HQ.
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 

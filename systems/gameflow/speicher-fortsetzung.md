@@ -149,8 +149,11 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
 und kann optional `seed_tier: early|mid|late` sowie Metadaten `cluster_hint`
 (1-25/80-150/400-1000) und freies `level_hint` tragen (reine QA-/Balance-
-Hinweise, keine Gating-Logik). `logs.arena_psi[]` spiegelt Phase-Strike-Events
-separat vom regulären `logs.psi[]`.
+Hinweise, keine Gating-Logik). Der Normalizer hebt Legacy-Strings oder
+uneinheitliche Felder auf Objektform und setzt unbekannte Status auf
+`open`. Launch-Guards erwarten `location='HQ'` und lehnen Starts mit
+aktiver Arena oder fehlenden Seeds ab. `logs.arena_psi[]` spiegelt
+Phase-Strike-Events separat vom regulären `logs.psi[]`.
 `arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
@@ -685,7 +688,9 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
   zurückgesetzt.“); die letzte Runde bleibt über `arena.previous_mode`
-  nachvollziehbar.
+  nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
+  `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, Audit,
+  `previous_mode`), das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
   ein Objekt – ggf. `{}`.

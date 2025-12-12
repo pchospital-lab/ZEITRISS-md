@@ -889,6 +889,11 @@ function cmdSave() {
 }
 ```
 
+Rift-Seeds landen konsolidiert in `campaign.rift_seeds[]`; der Loader hebt
+Strings auf Objektform (`id`/`label`/`status`, optional `seed_tier` und
+Cluster-/Level-Hints) und setzt fehlende Status auf `open`. Rift-Starts sind
+HQ-gebunden (`location='HQ'`) und brechen ab, solange die Arena aktiv ist.
+
 ## 8 | PVP-ARENA – Matchmaking-Stub
 
 ```typescript
@@ -1340,6 +1345,11 @@ Audit-Snapshot der bereinigten Loadouts. QA erwartet identische HUD-Toasts
 (`ARENA`-Tag) und Px-Bonus-Regeln wie im Toolkit.
 `ensure_runtime_flags()` synchronisiert parallel `flags.runtime.arena_active` für
 Toolkit-Prüfpfade.
+
+`arenaResume()` reaktiviert eine laufende Serie nach einem HQ-Load, sofern die
+Runtime einen `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, Audit,
+`previous_mode`) hinterlegt hat; die Gebühr bleibt verbucht, der HUD-Toast
+meldet „Arena Resume · Tier …“.
 
 
 ## 8 | MULTIPLAYER-RESET – Gruppenmodus starten
