@@ -268,7 +268,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
 - Gear-Alias: Dispatcher gleicht „Multi-Tool-Armband“ automatisch auf
-  „Multi-Tool-Handschuh“ an; markiert Abweichungen im Debrief.
+  „Multi-Tool-Handschuh“ an; markiert Abweichungen im Debrief. Die
+  Runtime normalisiert Live-Loadouts und Saves still auf den Handschuh,
+  damit Arena/HQ-Equip immer den kanonischen Eintrag verwendet.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
   (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
   bei Bedarf zusätzlich im Missionslog.
