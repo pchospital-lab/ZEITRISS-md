@@ -135,9 +135,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > ignoriert.
 >
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben
-> durch: Starte mit `Gate 2/2`, beginne Mission 5, bestätige Toast, Badge
-> (`SF-OFF`) und den HUD-Zähler (`FS 0/4`) und halte den HUD-/Log-Auszug fest.
-> Prüfe zum Abschluss den Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss.
+> durch: Starte mit `Gate 2/2`, **Schritt 0: setze vor Missionsbeginn `!sf off`**,
+> beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und den HUD-Zähler
+> (`FS 0/4`) und halte den HUD-/Log-Auszug fest. Prüfe zum Abschluss den
+> Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss (HUD-Log +
+> `logs.flags.self_reflection_auto_reset_*`).
 >
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
 > Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
@@ -155,7 +157,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 >   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 >   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast `Gate blockiert – Gate 0/2`
->   12. Mission 5 → HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)) und Reset auf `SF-ON`
+>   12. Mission 5 → **Schritt 0 `!sf off` vor Missionsstart**, HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)) und Reset auf `SF-ON`
 >   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach Konflikt/HQ-Transfer
 >   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace: slow`; Toast notieren, Save-Preview aktualisiert
 >   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)

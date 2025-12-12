@@ -380,9 +380,10 @@ sofort wieder bereit.
    1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
    und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
 2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und
-   `Gate 2/2` an; Mission 5 blendet `Boss-Encounter in Szene 10`, `GATE 2/2`
-   und ggf. `SF-OFF` ein, Szene 10 triggert `Boss-DR aktiviert – −X Schaden`
-   mit Auto-Reset `SF-ON` zum Debrief.
+   `Gate 2/2` an; Mission 5 startet mit Schritt 0 `!sf off`, blendet
+   `Boss-Encounter in Szene 10`, `GATE 2/2` und ggf. `SF-OFF` ein, Szene 10
+   triggert `Boss-DR aktiviert – −X Schaden` mit Auto-Reset `SF-ON` zum
+   Debrief.
 3. **Psi & Ressourcen** – Psi-Konflikt meldet `Psi-Heat +1`, danach Reset;
    HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
 4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast,
@@ -396,7 +397,8 @@ sofort wieder bereit.
 - Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
   Solo/NPC/Koop/PvP identisch.
 - Alias-Mapping „Multi-Tool-Armband → Multi-Tool-Handschuh“ ist aktiv, ohne die
-  Hardware-Regel „kein Armband“ aufzuweichen.
+  Hardware-Regel „kein Armband“ aufzuweichen; die Runtime normalisiert
+  Live-Loadouts und Saves automatisch auf den Handschuh.
 
 **Dispatcher-Smoke-Basislinie**
 | Schritt | Inhalt | Status |
