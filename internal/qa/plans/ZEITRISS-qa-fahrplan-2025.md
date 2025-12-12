@@ -524,6 +524,48 @@ Alle Punkte sind umgesetzt.
 | #2 | Offline-Hilfe-Feldname auf `offline_help_last_scene` konsolidieren | ✅ abgeschlossen | M12; RT; SR |
 | #3 | Acceptance-Smoke 1–15 im Runtime-Mirror schließen (Boss/SF/SUG/Psi/Access/Arena) | ✅ abgeschlossen | R(QA); DOC; BRF |
 
+## Maßnahmenpaket Copy-Paste-QA 2025-12-XX (Issues #1–#15)
+
+Der Copy-Paste-Testlauf (Acceptance 1–15, Save v6, Multi-Level-Seed-Set) liefert 15 neue Findings.
+Sie werden in den kommenden Durchläufen sukzessive abgearbeitet. Rohreferenz: vollständiger
+Save-Block (HQ/Core, Px 4/5, Seeds #011/#085/#404, Wallet 4×) sowie die Mission-5-Badge-Abfolge:
+SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei Abort/Complete.
+
+| Issue | Thema | Status | Primärref. |
+| ----- | ------------------------------ | ------------------------- | ---------------- |
+| #1 | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal) | 🟡 offen | RT; R; TK(16) |
+| #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | 🟡 offen | M12; R |
+| #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | 🟡 offen | RT; HUD; BRF |
+| #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | 🟡 offen | RT; R |
+| #5 | Gear-Alias „Multi-Tool-Armband → Handschuh“ auch im Live-Equip | 🟡 offen | RT; TK(16); R |
+| #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | 🟡 offen | RT; TK(16) |
+| #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | 🟡 offen | M12; R |
+| #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | 🟡 offen | M12; R |
+| #9 | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung) | 🟡 offen | CW; GM; R |
+| #10 | Px-Policy für Rifts klären (`campaign.px` vs. `rift_px`) | 🟡 offen | RT; gameplay/kampagnenstruktur.md |
+| #11 | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000) | 🟡 offen | gameplay/kampagnenstruktur.md; M12 |
+| #12 | Wallet-Splitting: Restverteilung deterministisch loggen | 🟡 offen | RT; M12; CW |
+| #13 | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf) | 🟡 offen | CW; README; gameplay/kampagnenstruktur.md |
+| #14 | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren | 🟡 offen | RT; SR |
+| #15 | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | 🟡 offen | TK(16); M12; RT |
+
+**QA-Testreferenz (Rohform Copy-Paste-Lauf)**
+
+- Save v6 (HQ, ARC 1/EP 2/MS 4, Seeds #011/#085/#404, Squad-Level 7/120/580/1000, Wallet-Split
+  4×) inkl. HUD/Logs/Flags als Fixture-Basis.
+- Mission 5 Badge-Check: Start mit `!sf off`, HUD `GATE 2/2 · FS 0/4 · SF-OFF`, Boss-DR-Toast in
+  Szene 10, Auto-Reset auf SF-ON bei Abort/Complete, Log-Feld
+  `self_reflection_auto_reset_reason` gesetzt.
+- Smoke #8 SaveGuard: HQ-only-Toast vs. Mission/Exfil/Arena-Blocker, Snapshot-Toleranz prüfen.
+- Smoke #9 Gear-Alias: Command „Multi-Tool-Armband ausrüsten“ mappt still auf Handschuh, optional
+  `logs.alias_trace[]`/`logs.hud[]`.
+- Dispatcher-Smoke #4/#6: Startoptionen `npc-team 5` bzw. `gruppe 3` ohne Markdown, Strings
+  Acceptance-konform.
+- Economy/Rift/Wallet: CU-Formel für identische Mission in Core vs. Rift (Seeds/Hazard-Pay),
+  Wallet-Split inkl. Rest-Policy loggen, Paradoxon-Index-Verhalten in Rift klarstellen.
+- Arena: Load resettet auf HQ, Phase-Strike-Tax in `logs.arena_psi[]`, Option für Lobby-Resume
+  klären.
+
 ## Regressionstest-Termine 2025
 
 | Zeitraum | Umfang | Status | QA-Log |
