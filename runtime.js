@@ -5642,6 +5642,13 @@ function enforce_required_save_fields(payload){
   }
 }
 
+function toast_save_block(reason){
+  const trimmed = typeof reason === 'string' ? reason.trim() : '';
+  return trimmed
+    ? `SaveGuard: ${trimmed} – HQ-Save gesperrt.`
+    : 'SaveGuard: HQ-Save gesperrt.';
+}
+
 function select_state_for_save(s){
   const payload = {
     save_version: 6,
@@ -5666,11 +5673,11 @@ function select_state_for_save(s){
 function save_deep(s=state){
   const arenaState = s?.arena;
   if (arenaState?.active || (arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed')){
-    throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
+    throw new Error(toast_save_block('Arena aktiv'));
   }
-  if (s.location !== 'HQ') throw new Error('Save denied: HQ-only.');
+  if (s.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
   if (s?.exfil?.active || s?.campaign?.exfil?.active){
-    throw new Error('SaveGuard: Exfil aktiv – HQ-Save gesperrt.');
+    throw new Error(toast_save_block('Exfil aktiv'));
   }
   const c = s.character || {};
   const a = c.attributes || {};
@@ -6276,11 +6283,11 @@ function on_command(command){
     if ((m = cmd.match(/^spiel starten\s*\(npc-team\s+([0-9]+)/))){
       const size = parseInt(m[1], 10);
       if (Number.isFinite(size) && size > 4){
-        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).';
+        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
       }
     }
     if (cmd.match(/^spiel starten\s*\(gruppe\s+\d/)){
-      return 'Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)';
+      return 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
     }
     if ((m = cmd.match(/^spiel starten\s*\(solo([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
@@ -6321,7 +6328,7 @@ function on_command(command){
           'im HQ und wiederhole den Start mit `klassisch` oder `schnell`.';
       }
       if (size > 4){
-        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).';
+        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
       }
       startSolo(mode);
       setupNpcTeam(size);
