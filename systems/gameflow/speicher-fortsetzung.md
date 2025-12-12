@@ -154,6 +154,13 @@ führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
 
+**Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
+HQ-Deepsaves. README, Toolkit und QA-Notizen zitieren lediglich Auszüge, ohne
+abweichende Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
+`team.members[]`) sind reine Import-Aliase; neue Saves entstehen ausschließlich
+im v6-Format mit `party.characters[]`. Divergierende Doppelstrukturen gelten als
+Fehler und werden beim Laden zusammengeführt.
+
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
 Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
 (immer Kleinbuchstaben) gemäß Missionstyp und Szenenzahl. Seeds geben nur den
@@ -1279,8 +1286,8 @@ Mission erneut im Prompt geladen werden muss.
 ```
 
 _Beispiel:_ Dieses optionale Feld sammelt kurze Einsatzmemos und hat keinerlei
-Regelwirkung. Es erleichtert jedoch die Nachverfolgung einzelner
-Entdeckungen.
+Regelwirkung. Der Serializer legt ein leeres Array an, wenn keine Notizen
+vorliegen; Validatoren akzeptieren auch Saves ohne `field_notes[]`.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
