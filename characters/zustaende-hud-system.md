@@ -700,7 +700,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
 
-Ein Highlight von ZEITRISS 4.2.2 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
+Ein Highlight von ZEITRISS 4.2.3 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
 Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
 Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere _sehen_ wichtige
 Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu
