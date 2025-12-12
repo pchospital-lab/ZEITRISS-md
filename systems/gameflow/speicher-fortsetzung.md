@@ -40,6 +40,7 @@ required = [
   "logs.fr_interventions",
   "logs.psi",
   "logs.arena_psi",
+  "logs.flags.merge_conflicts",
   "logs.flags",
   "ui",
   "arena"
@@ -49,6 +50,11 @@ assert serializer_bereit(required)
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt:
+
+Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json` und
+`savegame_v6_highlevel.json` führen alle Pflichtcontainer (u. a. `logs.arena_psi[]`,
+`logs.flags.merge_conflicts[]`) als minimale Beispiele und dienen als Abgleich
+für Smoke-/Acceptance-Läufe.
 
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
 spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
@@ -466,8 +472,8 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    dürfen nur Charaktere, Loadouts und Wallets beisteuern.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
-   `Wallet-Split` in den HUD-Logs. `logs.psi[]` dokumentiert parallel den zuvor
-   aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
+   `Wallet-Split` in den HUD-Logs. `logs.arena_psi[]` dokumentiert parallel den
+   zuvor aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
    stammen immer aus `economy.cu`/`wallets{}` – Credits nie per Hand direkt
    setzen.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
@@ -1536,6 +1542,10 @@ niemand wird dupliziert.
 - Fallback: `(name, epoche)` → Kollision: `Kodex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
 - **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
 - Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
+- Merge-Konflikte (z. B. Wallet-Delta, Modus-Wechsel, offene Seeds) landen in
+  `logs.flags.merge_conflicts[]` mit `{field, source, target, mode?, note?, resolved:false}`;
+  optional HUD-Toast „Merge-Konflikt protokolliert“ anfügen, sobald der Konflikt
+  manuell aufgelöst wurde.
 
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).

@@ -280,7 +280,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Snapshot ins HUD-Badge. `ForeshadowHint(text, tag)` zählt ausschließlich `FS`
   hoch; Gate und Toast bleiben unverändert. `!boss status` bestätigt denselben
   Gate-Snapshot, Mission-5-Badge-Checks bestehen nur mit dem sichtbaren
-  `GATE 2/2`-Badge.
+  `GATE 2/2`-Badge. Das Overlay persistiert `logs.flags.foreshadow_gate_*` und
+  dedupliziert `logs.foreshadow[]` automatisch, damit Save/Load denselben
+  Gate-Stand zeigt.
 - **HUD-Toast & Overlay.** Foreshadow-Hinweise tragen das Tag `Foreshadow` im HUD-Log.
   Nutzt sie für dramatische Hinweise, bevor Mission 5/10 startet, und verweist in
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch.
@@ -2450,6 +2452,17 @@ Rift-Missionen generieren mit `itemforge()` regulären Loot wie Core-Einsätze u
 gewähren nach dem Sieg über das Paramonster einen zusätzlichen Artefaktwurf
 (`1W6`, nur bei `6`).
 
+{% macro boss_dr_for_team_size(team_size, tier='arc') -%}
+  {% set size = team_size|int %}
+  {% if size <= 2 %}
+    {{ 1 if tier == 'mini' else 2 }}
+  {% elif size <= 4 %}
+    {{ 2 if tier == 'mini' else 3 }}
+  {% else %}
+    {{ 3 if tier == 'mini' else 4 }}
+  {% endif %}
+{%- endmacro %}
+
 ### generate_boss() Macro
 Wählt gemäß Missionsstand einen Mini-, Arc- oder Rift-Boss aus den Pools des
 Boss-Generators. Mini-Bosse erscheinen erst ab Mission 5.
@@ -2459,6 +2472,13 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {% set campaign.boss_dr = 0 %}
+{% set team_size = campaign.team_size|default(4) %}
+{% if campaign.team is defined and campaign.team.members is defined %}
+    {% set member_count = campaign.team.members|length %}
+    {% if member_count > 0 %}
+        {% set team_size = member_count %}
+    {% endif %}
+{% endif %}
 {% if type == "core" %}
     {% if mission_number % 10 == 0 %}
         {% set pool_name = 'core_arc_boss_pool' %}
@@ -2468,7 +2488,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {% set campaign.boss_dr = 3 %}
+        {% set campaign.boss_dr = boss_dr_for_team_size(team_size, 'arc') %}
         {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('ARC-BOSS (T3) → ' ~ boss.name ~
                    ' · Pool: ' ~ pool_name) }}
@@ -2481,7 +2501,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {% set campaign.boss_dr = 2 %}
+        {% set campaign.boss_dr = boss_dr_for_team_size(team_size, 'mini') %}
         {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('MINI-BOSS (T3) → ' ~ boss ~
                    ' · Pool: ' ~ pool_name) }}
@@ -2497,7 +2517,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
         {% do campaign.boss_history.append(boss_data.creature.name) %}
         {% set used = campaign.boss_pool_usage.get(pool_name, 0) %}
         {% do campaign.boss_pool_usage.update({pool_name: used + 1}) %}
-        {% set campaign.boss_dr = 3 %}
+        {% set campaign.boss_dr = boss_dr_for_team_size(team_size, 'arc') %}
         {{ (allow_event_icons and '💀 ' or '') ~
            hud_tag('RIFT-BOSS (T3) → ' ~ boss_data.creature.name ~
                    ' · Pool: ' ~ pool_name) }}

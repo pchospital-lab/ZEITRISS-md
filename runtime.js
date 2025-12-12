@@ -582,6 +582,45 @@ function sanitize_arena_psi_entries(entries){
   return sanitized;
 }
 
+function sanitize_merge_conflicts(entries){
+  if (!Array.isArray(entries)) return [];
+  const sanitized = [];
+  const limit = 50;
+  entries.forEach((entry) => {
+    if (!entry || typeof entry !== 'object') return;
+    const field = pickString(entry.field, entry.key, entry.path);
+    const source = pickString(entry.source, entry.source_value, entry.incoming);
+    const target = pickString(entry.target, entry.target_value, entry.existing);
+    const mode = pickString(entry.mode, entry.context);
+    const note = pickString(entry.note, entry.reason, entry.description);
+    const timestamp = isoTimestamp(entry.timestamp);
+    const resolved = entry.resolved === true;
+    if (!field) return;
+    const record = { field };
+    if (source){
+      record.source = source;
+    }
+    if (target){
+      record.target = target;
+    }
+    if (mode){
+      record.mode = mode;
+    }
+    if (timestamp){
+      record.timestamp = timestamp;
+    }
+    if (note){
+      record.note = note;
+    }
+    record.resolved = resolved;
+    sanitized.push(record);
+  });
+  if (sanitized.length > limit){
+    return sanitized.slice(sanitized.length - limit);
+  }
+  return sanitized;
+}
+
 function normalize_alias_entry(entry, fallbackTimestamp){
   if (!entry || typeof entry !== 'object') return null;
   const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
@@ -867,6 +906,11 @@ function ensure_logs(){
     flags.offline_help_count = 0;
   } else {
     flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count));
+  }
+  if (!Array.isArray(flags.merge_conflicts)){
+    flags.merge_conflicts = [];
+  } else {
+    flags.merge_conflicts = sanitize_merge_conflicts(flags.merge_conflicts);
   }
   const charSelfReflection =
     state.character && typeof state.character.self_reflection === 'boolean'
@@ -1838,6 +1882,22 @@ function ensure_party(){
     ensure_psi_buffer_flag(member);
   });
   return party;
+}
+
+function resolve_team_size(ctx = state){
+  const campaignSize = asNumber(ctx?.campaign?.team_size);
+  if (campaignSize !== null && campaignSize > 0){
+    return Math.min(6, Math.max(1, Math.floor(campaignSize)));
+  }
+  const partySize = Array.isArray(ctx?.party?.characters) ? ctx.party.characters.length : null;
+  if (Number.isFinite(partySize) && partySize > 0){
+    return Math.min(6, Math.max(1, Math.floor(partySize)));
+  }
+  const teamSize = Array.isArray(ctx?.team?.members) ? ctx.team.members.length : null;
+  if (Number.isFinite(teamSize) && teamSize > 0){
+    return Math.min(6, Math.max(1, Math.floor(teamSize)));
+  }
+  return 1;
 }
 
 function ensure_arc_dashboard(){
@@ -4686,6 +4746,18 @@ function resolve_scene_total(missionType = resolve_mission_type()){
   return missionType === 'rift' ? 14 : 12;
 }
 
+function resolve_boss_dr(teamSize, bossTier){
+  const size = Number.isFinite(teamSize) ? Math.min(6, Math.max(1, Math.floor(teamSize))) : 1;
+  const tier = bossTier === 'mini' ? 'mini' : 'arc';
+  if (size <= 2){
+    return tier === 'mini' ? 1 : 2;
+  }
+  if (size <= 4){
+    return tier === 'mini' ? 2 : 3;
+  }
+  return tier === 'mini' ? 3 : 4;
+}
+
 function StartMission(){
   const missionType = resolve_mission_type();
   const missionPhase = missionType === 'rift' ? 'rift' : 'core';
@@ -4710,8 +4782,13 @@ function StartMission(){
   hudLog.length = 0;
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
+  ensure_character();
+  ensure_team();
+  ensure_party();
   const flags = state.logs.flags;
+  const teamSize = resolve_team_size();
   const missionNumber = Number(state.campaign?.mission);
+  state.campaign.team_size = teamSize;
   const gateProgress = Number.isFinite(flags.foreshadow_gate_progress)
     ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
     : 0;
@@ -4721,9 +4798,6 @@ function StartMission(){
     : gateProgress;
   flags.foreshadow_gate_snapshot = Math.min(FORESHADOW_GATE_REQUIRED, gateStartValue);
   flags.foreshadow_gate_progress = 0;
-  ensure_character();
-  ensure_team();
-  ensure_party();
   const mission = ensure_mission();
   mission.clock = mission.clock && typeof mission.clock === 'object' ? mission.clock : {};
   mission.timers = Array.isArray(mission.timers) ? mission.timers : [];
@@ -4763,10 +4837,10 @@ function StartMission(){
   if (Number.isFinite(missionNumber) && missionNumber >= 5){
     if (missionNumber % 10 === 0){
       bossToast = 'Boss-Finale in Szene 10 – DR aktiv.';
-      bossDrValue = 3;
+      bossDrValue = resolve_boss_dr(teamSize, 'arc');
     } else if (missionNumber % 5 === 0){
       bossToast = 'Mini-Boss in Szene 10 – Overflow halbiert.';
-      bossDrValue = 2;
+      bossDrValue = resolve_boss_dr(teamSize, 'mini');
     }
   }
   if (bossDrValue !== null){
@@ -5036,6 +5110,10 @@ function prepare_save_campaign(campaign){
     ? base.paradoxon_index
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
+  const campaignTeamSize = asNumber(base.team_size);
+  base.team_size = Number.isFinite(campaignTeamSize)
+    ? Math.min(6, Math.max(1, Math.floor(campaignTeamSize)))
+    : null;
   const bossDr = Number(base.boss_dr);
   base.boss_dr = Number.isFinite(bossDr) && bossDr > 0 ? Math.floor(bossDr) : 0;
   base.px_reset_pending = !!base.px_reset_pending;
@@ -5283,6 +5361,7 @@ function prepare_save_logs(logs){
   base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
     ? Math.floor(offlineCount)
     : 0;
+  base.flags.merge_conflicts = sanitize_merge_conflicts(base.flags.merge_conflicts);
   base.flags.self_reflection = base.flags.self_reflection !== false;
   base.flags.self_reflection_off = !!base.flags.self_reflection_off;
   base.flags.self_reflection_changed_at = typeof base.flags.self_reflection_changed_at === 'string'

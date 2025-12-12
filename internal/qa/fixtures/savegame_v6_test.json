@@ -231,6 +231,7 @@
       "last_mission_end_reason": null,
       "foreshadow_gate_m5_seen": true,
       "foreshadow_gate_m10_seen": false,
+      "merge_conflicts": [],
       "output_pace_suggestion": null
     }
   },

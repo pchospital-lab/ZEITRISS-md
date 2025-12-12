@@ -37,7 +37,7 @@
       "party": {"characters": []},
       "loadout": {},
       "economy": {"cu": 1200, "wallets": {}},
-      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {}},
+      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
       "arc_dashboard": {"offene_seeds": [{"id": "R-010", "seed_tier": "early"}], "fraktionen": {}},
       "ui": {"gm_style": "verbose", "suggest_mode": false}
     },
@@ -72,7 +72,7 @@
       "party": {"characters": []},
       "loadout": {},
       "economy": {"cu": 8800, "wallets": {}},
-      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {}},
+      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
       "arc_dashboard": {"offene_seeds": [{"id": "R-085", "seed_tier": "mid"}], "fraktionen": {}},
       "ui": {"gm_style": "precision", "suggest_mode": true, "contrast": "high", "badge_density": "dense", "output_pace": "slow"}
     },
@@ -107,7 +107,7 @@
       "party": {"characters": []},
       "loadout": {},
       "economy": {"cu": 25000, "wallets": {}},
-      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {}},
+      "logs": {"hud": [], "foreshadow": [], "fr_interventions": [], "arena_psi": [], "psi": [], "flags": {"merge_conflicts": []}},
       "arc_dashboard": {"offene_seeds": [{"id": "R-404", "seed_tier": "late"}], "fraktionen": {}},
       "ui": {"gm_style": "verbose", "suggest_mode": true}
     }
