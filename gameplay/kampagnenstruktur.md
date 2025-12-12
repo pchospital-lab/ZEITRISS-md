@@ -300,6 +300,11 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
   beschreibt lediglich die gewünschte Schärfe. Seeds landen so im Save/Dashboard:
   `campaign.rift_seeds[{id, epoch, label, status:'open', seed_tier:'mid'}]` und
   spiegeln als `arc_dashboard.offene_seeds[]` denselben Eintrag.
+- **Cluster- & Level-Metadaten (optional):** Ergänze nach Bedarf
+  `cluster_hint: 1-25|80-150|400-1000` und ein freies
+  `level_hint` (z. B. „ab Lvl 80 empfohlen“), um das gewünschte Power-Level
+  abzubilden. Sie dienen nur dem Debrief/Arc-Dashboard, nicht als Gating-Flag;
+  die Runtime zieht weiterhin Squad-Level und Teamgröße heran.
 - **QA-Referenz:** Beispielwerte liegen lokal in
   `internal/qa/fixtures/savegame_v6_highlevel.json` für Regressionstests; sie
   sind kein Wissensanker der produktiven GPTs.

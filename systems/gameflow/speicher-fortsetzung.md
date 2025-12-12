@@ -147,9 +147,10 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
 
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
-und kann optional `seed_tier: early|mid|late` tragen (reiner QA-/Balance-Hinweis,
-keine Gating-Logik). `logs.arena_psi[]` spiegelt Phase-Strike-Events separat
-vom regulären `logs.psi[]`.
+und kann optional `seed_tier: early|mid|late` sowie Metadaten `cluster_hint`
+(1-25/80-150/400-1000) und freies `level_hint` tragen (reine QA-/Balance-
+Hinweise, keine Gating-Logik). `logs.arena_psi[]` spiegelt Phase-Strike-Events
+separat vom regulären `logs.psi[]`.
 `arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`

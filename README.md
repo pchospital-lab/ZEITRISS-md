@@ -231,8 +231,10 @@ Die ersten Schritte in unter zwei Minuten:
 8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
    Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
    `!tk ready` hebt die Sperre nach dem Cooldown auf.
-9. **Chrono-Units** – Belohnungen folgen dem CU-Multiplikator des Rifts.
-   Formel: `Belohnung = Basiswert × (Szenenanzahl / 12)`.
+9. **Chrono-Units** – Einheitliche Formel für Core **und** Rift:
+   `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
+   (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
+   `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
 10. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
    Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
@@ -950,6 +952,10 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 
 † Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
 Relikte zählen als Story-Items und nutzen den normalen Generator.
+
+**Artefakt-Sink:** Artefakte verlassen den Markt. Nach der Analyse wandern sie
+ins Archiv/Salvage (Kodex-Eintrag, Fraktionsbonus, Ersatzteile) und bringen
+keine direkten CUs ein; Tausch bleibt nur intern im HQ.
 
 ## Kampagnenhierarchie
 

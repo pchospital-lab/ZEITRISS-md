@@ -184,15 +184,19 @@ verbleiben kann**:
   die Auszahlung. Genauso werden entfremdete Zukunftsgeräte – z.B. ein Laser aus dem Jahr 2200, den
   man im Mittelalter sichergestellt hat – von den Technikern übernommen; als Dankeschön dafür erhält
   die Gruppe Chrono Units, da sie geholfen hat, einen potenziellen Zeitfrevel aufzudecken.
-- **Behalten und Nutzen:** Nicht alles, was glänzt, muss verkauft werden. Einige ergatterte
+- **Behalten und Nutzen:** Nicht alles, was glänzt, muss monetarisiert werden. Einige ergatterte
   Ausrüstungsstücke dürfen die Chrononauten behalten und in künftigen Missionen einsetzen, sofern das
   ITI grünes Licht gibt. Hier greift wieder die zeitkritische Analyse: Ist ein Gadget ungefährlich für
   den Zeitstrom und von offensichtlichem Wert für die Agenten, wandert es ins **persönliche
   Equipment**. _Beispiel:_ Die Gruppe findet in einer Cyberpunk-Zukunft ein hochentwickeltes
   Schlossknacker-Werkzeug. Nach Prüfung erlaubt das ITI, dass die Agenten es behalten – fortan steht
-  es ihnen als Teil ihrer Ausrüstung zur Verfügung, anstatt in CUs ausgezahlt zu werden. Sollten sie
-  sich später entscheiden, es doch nicht mehr zu benötigen, können sie es immer noch an das ITI
-  verkaufen und die Chrono Units dafür einstreichen.
+  es ihnen als Teil ihrer Ausrüstung zur Verfügung, anstatt in CUs ausgezahlt zu werden. Wird es
+  später überflüssig, landet es im Archiv – ohne CU-Gutschrift.
+- **Salvage-Sink statt Verkauf:** Überschüssige Relikte gehen ins **Archiv** und werden dort
+  zerlegt, katalogisiert oder im Museum verwahrt. Der Gegenwert fließt als
+  Forschungs-/Archivpunkte in den Plot (z. B. neue Kodex-Einträge, Fraktionsbonus,
+  seltene Ersatzteile), aber **nie** als CU-Auszahlung. Artefakte wandern auf diese Weise aus der
+  aktiven Wirtschaft und tauchen höchstens als Story-Token wieder auf.
 - **Tausch unter Kollegen:** Das Leben im HQ pulsiert vor lauter Agenten aus allen möglichen Zeiten
   – da kommt es vor, dass auch untereinander gehandelt wird. Ein Chrononaut kann einen Fund direkt
   einem Kollegen anbieten – vielleicht möchte jemand im Team unbedingt jenes antike Schwert aus der
