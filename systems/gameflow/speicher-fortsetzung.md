@@ -448,6 +448,9 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   `alias_trace`, `squad_radio`, `foreshadow`, `fr_interventions`, `psi`,
   `flags`), `ui` und `arena`. Der Market-Trace hält maximal 24 Einträge und
   schneidet ältere automatisch ab.
+- **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
+  Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
+  abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_used`, `character.stress` und
   `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
@@ -704,6 +707,10 @@ die Debrief-Zeilen.
 - Anschließend meldet `apply_wallet_split()` den HQ-Stand als
   `HQ-Pool: <Betrag> CU verfügbar`. Restbeträge erscheinen in Klammern
   (`Rest 150 CU im HQ-Pool`).
+- Reihenfolge und Restsummen bleiben deterministisch: Die Debrief-Zeile
+  `Wallet-Split (n×)` listet IDs in Roster-Reihenfolge, verteilt Rundungsreste
+  gleichmäßig von oben nach unten und schließt mit einem einzigen Hinweis auf
+  den verbleibenden HQ-Pool (`Rest … CU im HQ-Pool`).
 
 ### Standard- und Sonderaufteilungen
 
