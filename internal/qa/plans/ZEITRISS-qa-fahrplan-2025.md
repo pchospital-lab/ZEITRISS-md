@@ -536,9 +536,9 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 | #1 | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal) | 🟡 offen | RT; R; TK(16) |
 | #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema | M12; R |
 | #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert | RT; HUD; BRF |
-| #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | 🟡 offen | RT; R |
+| #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text | RT; R |
 | #5 | Gear-Alias „Multi-Tool-Armband → Handschuh“ auch im Live-Equip | ✅ abgeschlossen – Runtime normalisiert Loadouts/Saves auf den Handschuh | RT; TK(16); R |
-| #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | 🟡 offen | RT; TK(16) |
+| #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown | RT; TK(16) |
 | #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R |
 | #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays | M12; R |
 | #9 | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung) | 🟡 offen | CW; GM; R |

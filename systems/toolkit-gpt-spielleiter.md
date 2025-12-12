@@ -2813,7 +2813,7 @@ Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf,
    - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“
      Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
      `NPC-Autoradio aktiv (…× Squad)`.
-   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei *gruppe* keine Zahl angeben.“
+   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
 **Missionsstart:**
