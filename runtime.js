@@ -159,6 +159,9 @@ const ARENA_TIER_RULES = [
 const ARENA_PROC_KEYS = ['support', 'tools', 'mods', 'devices', 'gizmos'];
 const ARENA_ARTIFACT_KEYS = ['artifacts', 'artifact', 'legendary', 'trophies'];
 const ARENA_LOADOUT_KEYS = ['primary', 'secondary', 'gear', 'equipment', 'items'];
+const GEAR_ALIAS_MAP = {
+  multitoolarmband: 'Multi-Tool-Handschuh'
+};
 const ARENA_SCENARIOS = [
   'Offene Wüstenruine',
   'Labyrinth-Bunker',
@@ -4142,6 +4145,35 @@ function ensureArray(value){
   return [value];
 }
 
+function normalize_gear_alias(value){
+  if (typeof value !== 'string') return value;
+  const normalized = value
+    .toLowerCase()
+    .replace(/ä/g, 'ae')
+    .replace(/ö/g, 'oe')
+    .replace(/ü/g, 'ue')
+    .replace(/ß/g, 'ss')
+    .replace(/[^a-z0-9]+/g, '');
+  const mapped = GEAR_ALIAS_MAP[normalized];
+  return mapped || value;
+}
+
+function normalize_loadout_aliases(loadout){
+  const base = loadout && typeof loadout === 'object' ? clone_plain_object(loadout) : {};
+  for (const [key, value] of Object.entries(base)){
+    if (Array.isArray(value)){
+      base[key] = value
+        .map(entry => normalize_gear_alias(entry))
+        .filter(entry => entry !== undefined && entry !== null && entry !== '');
+    } else if (value && typeof value === 'object'){
+      base[key] = normalize_loadout_aliases(value);
+    } else {
+      base[key] = normalize_gear_alias(value);
+    }
+  }
+  return base;
+}
+
 function cloneLoadout(loadout){
   if (!loadout || typeof loadout !== 'object') return {};
   return JSON.parse(JSON.stringify(loadout));
@@ -5529,7 +5561,13 @@ function prepare_save_character(character){
 function prepare_save_team(team){
   const base = clone_plain_object(team);
   if (Array.isArray(team?.members)){
-    base.members = team.members.map(member => clone_plain_object(member));
+    base.members = team.members.map(member => {
+      const clone = clone_plain_object(member);
+      if (clone.loadout){
+        clone.loadout = normalize_loadout_aliases(clone.loadout);
+      }
+      return clone;
+    });
   } else if (!Array.isArray(base.members)){
     base.members = [];
   }
@@ -5537,7 +5575,7 @@ function prepare_save_team(team){
 }
 
 function prepare_save_loadout(loadout){
-  return clone_plain_object(loadout);
+  return normalize_loadout_aliases(loadout);
 }
 
 function prepare_save_party(party, team){
@@ -5548,7 +5586,13 @@ function prepare_save_party(party, team){
     : Array.isArray(team?.members)
     ? team.members
     : [];
-  base.characters = fallback.map(member => clone_plain_object(member));
+  base.characters = fallback.map(member => {
+    const clone = clone_plain_object(member);
+    if (clone.loadout){
+      clone.loadout = normalize_loadout_aliases(clone.loadout);
+    }
+    return clone;
+  });
   return base;
 }
 
@@ -5788,7 +5832,7 @@ function hydrate_state(data){
   }
   delete state.character.heat_max;
   state.team = data.team || {};
-  state.loadout = data.loadout || {};
+  state.loadout = normalize_loadout_aliases(data.loadout);
   state.economy = data.economy || {};
   state.logs = data.logs || {};
   state.arc_dashboard = data.arc_dashboard || {};
@@ -5830,10 +5874,18 @@ function hydrate_state(data){
   state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
   const party = ensure_party();
   const roster = Array.isArray(party.characters) ? party.characters.map(entry => clone_plain_object(entry)) : [];
+  const normalizedRoster = roster.map(entry => {
+    const clone = clone_plain_object(entry);
+    if (clone.loadout){
+      clone.loadout = normalize_loadout_aliases(clone.loadout);
+    }
+    return clone;
+  });
+  party.characters = normalizedRoster.map(entry => clone_plain_object(entry));
   const team = ensure_team();
-  team.members = roster.map(entry => clone_plain_object(entry));
+  team.members = normalizedRoster.map(entry => clone_plain_object(entry));
   if (Array.isArray(team.roster)){
-    team.roster = roster.map(entry => clone_plain_object(entry));
+    team.roster = normalizedRoster.map(entry => clone_plain_object(entry));
   }
   reset_mission_state();
   ensure_campaign();
