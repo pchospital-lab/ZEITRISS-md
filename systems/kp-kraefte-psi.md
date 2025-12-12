@@ -231,7 +231,7 @@ auf **0**.
 
 ```typescript
 const phaseStrikeCost = phase_strike_cost();
-// HUD-Toast und logs.psi[]-Eintrag entstehen automatisch, sobald PvP-Tax aktiv ist.
+// HUD-Toast und logs.arena_psi[]-Eintrag entstehen automatisch, sobald PvP-Tax aktiv ist.
 psi.spendSYS(actor, phaseStrikeCost);
 ```
 
@@ -284,8 +284,9 @@ In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
 - Psi-Puffer: `psi_buffer=true` dämpft Phase-Strike-Schaden auf +0 bei
   Nicht-Psi-Zielen und erhöht die SG für Angreifende um +2 bei
   Telepathie/`mind_control` (kein −2‑Bonus für die Verteidigung).
-- Logging: Jeder Arena-Einsatz schreibt `logs.psi[]` (`ability`, `base_cost`,
-  `tax`, `total_cost`, `arena_active`, optional `mode_previous/location`).
+- Logging: Jeder Arena-Einsatz schreibt `logs.arena_psi[]` (`ability`,
+  `base_cost`, `tax`, `total_cost`, `arena_active`, optional
+  `mode_previous/location`).
 - HUD/Toast: Arena-Gebühr und Tax werden als Toast ausgegeben.
 
 ### Anti-Psi-Gitter

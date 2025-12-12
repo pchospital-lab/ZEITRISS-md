@@ -593,6 +593,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `ForeshadowHint()` zählt ausschließlich `FS` hoch; Gate bleibt unverändert.
   `!boss status` meldet denselben Snapshot und dient als Mission-5-Badge-Check
   im Smoke-Paket.
+- **Persistenz der Gate-Felder.** `scene_overlay()` spiegelt den Gate-Snapshot als
+  `logs.flags.foreshadow_gate_*` und dedupliziert `logs.foreshadow[]` (Token-basiert).
+  HUD-Badge und Save nutzen konsequent das Muster `GATE 2/2` plus `FS x/y`,
+  sodass `!boss status` und Ladepunkte denselben Stand zeigen.
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD,
   Overlay `· SUG`), `modus ask` wechselt zurück in den klassischen Fragemodus
   (`SUG-OFF`). Das SUG-Badge ist unabhängig von Self-Reflection und bleibt aktiv,
@@ -607,7 +611,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   laufen ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die
   Arena-Gebühr aus `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves,
-  loggt Phase-Strike-Steuern in `logs.psi[]` und meldet Tier, Szenario sowie
+  loggt Phase-Strike-Steuern in `logs.arena_psi[]` und meldet Tier, Szenario sowie
   Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool
   (`economy.cu`) und im Credits-Fallback (`economy.credits`) verbucht;
   `sync_primary_currency()` hält beide Felder deckungsgleich und synchronisiert
@@ -684,7 +688,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `economy: { cu, wallets:{} }`
 - `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
   `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
-  `fr_interventions:[], psi:[], flags:{} }`
+  `fr_interventions:[], arena_psi:[], psi:[], flags:{} }`
 - `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }`
   (`offene_seeds[]` akzeptiert Strings oder Objekte)
 - `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`

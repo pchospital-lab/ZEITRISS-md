@@ -89,14 +89,15 @@ ITI die Beteiligten mit einer Gutschrift in CUs. Die Höhe der Missionsprämie v
 mehreren Faktoren, zum Beispiel:
 _Budget-Hinweis:_ Die Kurzformel **10 × Spielerlevel CU** dient nur als Planungs-
 Faustregel für neue Kampagnen und ersetzt keine Auszahlung. Verbindlich ist die
-dynamische Formel:
+dynamische Formel (Core **und** Rift):
 
-`Belohnung = Basiswert × Risiko-Multiplikator × (abgeschlossene Szenen / 12)`
+`Belohnung = Basiswert × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`
 
-- **Hazard-Pay:** +50 % auf die Basisprämie, wenn weniger als drei Agent:innen
-  teilnehmen.
-- **Level-Faustregel:** 10 × Spielerlevel CU als Richtwert für die Planung,
-  keine harte Auszahlung.
+- **Basiswert:** Risikoabhängig (Low = 400, Mid = 500, High = 600 CU).
+- **Ergebnis:** fail 0,3 · partial 0,6 · success 1,0 · bonus 1,2.
+- **Seed-Multi:** `1 + 0,2 × offene Seeds` (Rift-Pool), Minimum 1,0.
+- **Hazard-Pay:** Solo/Buddy-Bonus 1,5×, sobald das Team aus weniger als drei
+  Agent:innen besteht.
 - **Bonusziele:** Optionale Zusatzaufgaben erhöhen den Multiplikator oder ergänzen
   einen Festbetrag; dokumentiere die Quelle im Debrief.
 
