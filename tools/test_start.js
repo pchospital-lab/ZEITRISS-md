@@ -30,12 +30,12 @@ assert.strictEqual(rt.state.campaign.seed_source, 'preserve');
 assert.strictEqual(rt.state.team.size, 3);
 
 let error = rt.on_command('spiel starten (npc-team 5)');
-assert.strictEqual(error, 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).');
+assert.strictEqual(error, 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).');
 assert.strictEqual(rt.state.start.type, 'npc-team');
 assert.strictEqual(rt.state.team.size, 3);
 
 error = rt.on_command('spiel starten (gruppe 3)');
-assert.strictEqual(error, 'Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)');
+assert.strictEqual(error, 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)');
 assert.strictEqual(rt.state.start.type, 'npc-team');
 
 response = rt.on_command('spiel starten (gruppe trigger fast)');

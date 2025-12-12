@@ -862,9 +862,11 @@ function enforceRequiredSaveFields(payload) {
   }
 }
 
+const toast_save_block = (reason) => `SaveGuard: ${reason} – HQ-Save gesperrt.`;
+
 function save_deep(ctx = state) {
-  if (ctx?.arena?.active) throw new Error('SaveGuard: Arena aktiv – HQ-Save gesperrt.');
-  if (ctx.location !== 'HQ') throw new Error('Save denied: HQ-only.');
+  if (ctx?.arena?.active) throw new Error(toast_save_block('Arena aktiv'));
+  if (ctx.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
   const c = ctx.character || {};
   const attrs = c.attributes || {};
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');

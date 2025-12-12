@@ -503,8 +503,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `!ALIAS`, `!Radio Log` usw.).
 
 **Fehlertexte:**
-- `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. `npc-team 3`).“
-- `gruppe 3` → „Bei *gruppe* keine Zahl angeben. (klassisch/schnell sind erlaubt)“
+- `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+- `gruppe 3` → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
 - Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt;
@@ -739,6 +739,7 @@ Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deeps
 alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
 HQ-Saves akzeptieren ausschließlich volle Systemlast: `character.attributes.SYS_used` muss dem
 `SYS_max` entsprechen, sonst bricht `save_deep()` mit „SaveGuard: SYS nicht voll.“ ab.
+Speichern außerhalb des HQs meldet „SaveGuard: HQ-only – HQ-Save gesperrt.“.
 
 ### HUD-Shortcuts für Exfiltration
 

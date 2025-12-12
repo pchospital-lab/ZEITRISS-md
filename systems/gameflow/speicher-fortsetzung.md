@@ -59,7 +59,8 @@ für Smoke-/Acceptance-Läufe.
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
 spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
 oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit
-„SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Sobald die Crew ins HQ
+„SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Arena- und HQ-Blocker nutzen
+denselben Text via `toast_save_block(reason)`. Sobald die Crew ins HQ
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
@@ -1153,7 +1154,7 @@ function select_state_for_save(state) {
 
 function save_deep(state) {
   if (state.location !== "HQ") {
-    throw new Error("Save denied: HQ-only.");
+    throw new Error(toast_save_block("HQ-only"));
   }
   const payload = select_state_for_save(state);
   payload.checksum = sha256(JSON.stringify(payload)); // optional
