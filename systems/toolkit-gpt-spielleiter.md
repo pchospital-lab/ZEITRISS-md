@@ -999,8 +999,10 @@ sollen. Missions-Tags `heist` oder `street` senken das Limit automatisch um
 jeweils eine Szene (Minimum: Szene 2).
 
 <!-- Macro: ShowComplianceOnce -->
-{% macro ShowComplianceOnce() -%}
-  {% if not campaign.compliance_shown_today %}
+{% macro ShowComplianceOnce(qa_mode=False, force=False) -%}
+  {% set qa = qa_mode or false %}
+  {% set force_flag = force or qa %}
+  {% if force_flag or not campaign.compliance_shown_today %}
     {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
     {% set campaign.compliance_shown_today = true %}
     {% if state.logs.flags is not defined or state.logs.flags is none %}
@@ -1008,6 +1010,9 @@ jeweils eine Szene (Minimum: Szene 2).
       {% set state.logs.flags = {} %}
     {% endif %}
     {% set state.logs.flags.compliance_shown_today = true %}
+    {% if qa %}
+      {{ hud_tag('Compliance-Hinweis im QA-Kanal bestätigt.') }}
+    {% endif %}
   {% endif %}
 {%- endmacro %}
 
@@ -2787,7 +2792,9 @@ else:
     include_pools(["Trigger"])
 ```
 
-Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis sichtbar bleibt.
+Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis
+sichtbar bleibt. Für QA-Läufe darf `ShowComplianceOnce(qa_mode=true)` zusätzlich den HUD-Toast
+setzen; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
 
 ## Start Dispatcher {#start-dispatcher}
 

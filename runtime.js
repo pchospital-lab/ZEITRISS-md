@@ -2278,7 +2278,15 @@ function sync_compliance_flags(){
   return combined;
 }
 
-function show_compliance_once(force = false){
+function show_compliance_once(options = {}){
+  const normalized = typeof options === 'boolean'
+    ? { force: options, qa_mode: false }
+    : (options || {});
+  const force = !!normalized.force;
+  const channel = typeof normalized.channel === 'string'
+    ? normalized.channel.toLowerCase()
+    : normalized.channel;
+  const qaMode = !!normalized.qa_mode || channel === 'hud';
   ensure_logs();
   const flags = state.logs.flags;
   const alreadyShown = !!flags.compliance_shown_today;
@@ -2286,6 +2294,9 @@ function show_compliance_once(force = false){
     return false;
   }
   writeLine(COMPLIANCE_NOTICE);
+  if (qaMode){
+    hud_toast(COMPLIANCE_NOTICE, 'HUD');
+  }
   flags.compliance_shown_today = true;
   sync_compliance_flags();
   return !alreadyShown || force;

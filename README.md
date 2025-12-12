@@ -1135,6 +1135,8 @@ Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
 Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
+- QA-Läufe können den Hinweis zusätzlich als HUD-Toast loggen:
+  `ShowComplianceOnce(qa_mode=true)` setzt Flag und HUD-Eintrag in einem Schritt.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
