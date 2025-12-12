@@ -541,11 +541,11 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 | #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown | RT; TK(16) |
 | #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R |
 | #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays | M12; R |
-| #9 | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung) | 🟡 offen | CW; GM; R |
+| #9 | CU-Belohnungsformel vereinheitlichen (Quickstart/Generator/Währung) | ✅ abgeschlossen – Schnellstart/Generator/CW nutzen einheitliche Risiko/Seed/Hazard-Formel | CW; GM; R |
 | #10 | Px-Policy für Rifts klären (`campaign.px` vs. `rift_px`) | 🟡 offen | RT; gameplay/kampagnenstruktur.md |
-| #11 | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000) | 🟡 offen | gameplay/kampagnenstruktur.md; M12 |
+| #11 | Rift-Seeds um Cluster/Level-Metadaten erweitern (1–25/80–150/400–1000) | ✅ abgeschlossen – optionale `cluster_hint`/`level_hint` in Save/Dashboard dokumentiert | gameplay/kampagnenstruktur.md; M12 |
 | #12 | Wallet-Splitting: Restverteilung deterministisch loggen | 🟡 offen | RT; M12; CW |
-| #13 | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf) | 🟡 offen | CW; README; gameplay/kampagnenstruktur.md |
+| #13 | Artefaktwirtschaft: Sink/Salvage einführen (kein Verkauf) | ✅ abgeschlossen – Archiv-/Salvage-Sink ersetzt Verkäufe, keine CU-Auszahlung | CW; README; gameplay/kampagnenstruktur.md |
 | #14 | Arena-Ladepolitik: Lobby-Saves/Resume-Token definieren | 🟡 offen | RT; SR |
 | #15 | Rift-Launch-Guards auf v6-Felder normalisieren (`location`, Seeds als Objekte) | 🟡 offen | TK(16); M12; RT |
 
