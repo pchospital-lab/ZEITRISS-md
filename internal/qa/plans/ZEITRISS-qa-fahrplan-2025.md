@@ -533,7 +533,7 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------------------- | ---------------- |
-| #1 | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal) | 🟡 offen | RT; R; TK(16) |
+| #1 | QA-Mode für `ShowComplianceOnce()` (HUD-Toast-Kanal) | ✅ abgeschlossen | RT; R; TK(16) |
 | #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema | M12; R |
 | #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert | RT; HUD; BRF |
 | #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text | RT; R |
