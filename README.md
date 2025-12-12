@@ -511,16 +511,22 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   HQ-Migration veranlassen.“
 
 **Save v6 – Pflichtfelder & Kompatibilität**
+- _Single Source:_ Das vollständige Schema steht in
+  `systems/gameflow/speicher-fortsetzung.md`. README und Toolkit zitieren nur
+  Auszüge; neue Saves benutzen ausschließlich die v6-Struktur mit
+  `party.characters[]` als kanonischem Roster (Legacy-Mirror
+  `team.members[]` bleibt nur für Import/Export erhalten).
 - `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
   `character.stress`, `character.psi_heat`, `character.cooldowns` sind immer
   Teil des HQ-Deepsaves.
 - `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
   `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
-  `foreshadow`, `fr_interventions`, `psi`, `flags`, `field_notes`) sowie `ui`
-  und `arena` werden vom Serializer garantiert, damit automatisierte
-  Prüfungen alle Guards vollständig abdecken. `character.quarters` wird
-  für HQ/Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält
-  Kampagnenereignisse fest.
+  `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena` werden
+  vom Serializer garantiert, damit automatisierte Prüfungen alle Guards
+  vollständig abdecken. `logs.field_notes[]` ist optional; fehlt der Block,
+  legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
+  Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
+  fest.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
