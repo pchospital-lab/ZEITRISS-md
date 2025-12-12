@@ -450,8 +450,9 @@ abgestimmt.
 
 **Nächste Schritte (konkret umsetzbar)**
 
-- Alle Maßnahmen des 2025-12-12-Pakets sind gespiegelt. Nächster Abgleich erfolgt im
-  QA-Lauf 2025-12-13 (siehe Folgepaket).
+- Alle Maßnahmen des 2025-12-12-Pakets sind gespiegelt. Der Abgleich im QA-Lauf
+  2025-12-13 ist bereits abgeschlossen; Details stehen im folgenden
+  Maßnahmenpaket.
 
 ## Maßnahmenpaket Maintainer 2025-12-13 (Issues #1–#9)
 
