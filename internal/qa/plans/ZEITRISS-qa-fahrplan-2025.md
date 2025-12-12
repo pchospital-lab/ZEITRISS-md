@@ -480,31 +480,36 @@ müssen. Der komplette Rohtext liegt unter
 
 ## Maßnahmenpaket Copy-Paste-QA 2025-12-XX (Issues #1–#6)
 
-Der jüngste Copy-Paste-Testlauf liefert sechs neue Inkonsistenzen in Boss-DR, Arena-/Psi-Logging,
-Foreshadow-Gates, Rift-Belohnungen, Cross-Mode-Merge-Conflicts und SaveGuard-Feldern. Die Punkte
-werden über die nächsten Durchläufe schrittweise abgearbeitet.
+Der Copy-Paste-Lauf ist gespiegelt: Missionsstart zieht die Teamgröße, staffelt den Boss-DR per
+Matrix, und Toolkit/HUD spiegeln den Wert samt Toast. Phase-Strike-Logs landen verbindlich in
+`logs.arena_psi[]`, Foreshadow-/Gate-Persistenz wurde vereinheitlicht, und die CU-Formel deckt Core-
+und Rift-Einsätze inkl. Seeds/Hazard-Pay ab. Cross-Mode-Saves führen strukturierte
+`logs.flags.merge_conflicts[]`, und die v6-Fixtures enthalten alle Pflichtcontainer.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ---------------- |
-| #1 | Boss-DR nach Teamgröße statt Fixwerten spiegeln | ⏳ offen | gameplay/kampagnenstruktur.md; systems/toolkit-gpt-spielleiter.md; systems/wuerfelmechanik.md |
-| #2 | Phase-Strike-Logs auf `logs.arena_psi[]` konsolidieren | ⏳ offen | systems/kp-kraefte-psi.md; gameplay/kampagnenstruktur.md; README.md |
-| #3 | Foreshadow-/Gate-Begriffe und Persistenz vereinheitlichen | ⏳ offen | README.md; systems/toolkit-gpt-spielleiter.md; systems/gameflow/speicher-fortsetzung.md |
-| #4 | Rift-CU-Belohnung als Single-Formel dokumentieren | ⏳ offen | systems/currency/cu-waehrungssystem.md; gameplay/kampagnenstruktur.md |
-| #5 | Merge-Konflikte in Cross-Mode-Saves strukturiert loggen | ⏳ offen | systems/gameflow/speicher-fortsetzung.md; README.md |
-| #6 | Pflichtfelder Save v6 mit Fixture absichern (`logs.arena_psi` etc.) | ⏳ offen | systems/gameflow/speicher-fortsetzung.md; internal/qa/fixtures/ |
+| #1 | Boss-DR nach Teamgröße statt Fixwerten spiegeln | ✅ abgeschlossen | gameplay/kampagnenstruktur.md; systems/toolkit-gpt-spielleiter.md; systems/wuerfelmechanik.md |
+| #2 | Phase-Strike-Logs auf `logs.arena_psi[]` konsolidieren | ✅ abgeschlossen | systems/kp-kraefte-psi.md; gameplay/kampagnenstruktur.md; README.md |
+| #3 | Foreshadow-/Gate-Begriffe und Persistenz vereinheitlichen | ✅ abgeschlossen | README.md; systems/toolkit-gpt-spielleiter.md; systems/gameflow/speicher-fortsetzung.md |
+| #4 | Rift-CU-Belohnung als Single-Formel dokumentieren | ✅ abgeschlossen | systems/currency/cu-waehrungssystem.md; gameplay/kampagnenstruktur.md |
+| #5 | Merge-Konflikte in Cross-Mode-Saves strukturiert loggen | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; README.md |
+| #6 | Pflichtfelder Save v6 mit Fixture absichern (`logs.arena_psi` etc.) | ✅ abgeschlossen | systems/gameflow/speicher-fortsetzung.md; internal/qa/fixtures/ |
 
-**QA-Rohform (geplant)**
+**QA-Referenz (Copy-Paste-QA)**
 
-- Boss-DR-Matrixtest für Teamgrößen 1–5 in Mini/Arc/Rift; Acceptance-Smoke #12 Solo+Duo wiederholen.
-- PvP-/Arena-Lauf mit Phase-Strike: Save-Validator erwartet `logs.arena_psi[]` (kein Fallback).
-- Foreshadow-/Gate-Check: `!helper boss` liefert Zahlen, Boss-Szenen-Blockade triggert Toast erst
-  beim Szenenwechsel; Save/Load erhält `logs.foreshadow[]` dedupliziert.
-- Rift-Reward-Regression: Level 8/120/520/1000 mit identischem Risiko und Seeds, Debrief nennt
-  Formel und Quelle.
-- Cross-Mode-Merge: Solo→Koop→PvP mit Wallet-/Seed-Differenzen; `logs.flags.merge_conflicts[]`
-  hält Konfliktobjekte, HUD zeigt Kurztoast.
-- SaveGuard-Full-Matrix: Fixture `savegame_v6_matrix` laden, Pflichtcontainer vorhanden, Unknown
-  Fields werden ignoriert; Acceptance-Smoke #7 gegen Fixture.
+- Acceptance-Smoke #12 Solo+Duo: Boss-DR-Matrix für Teamgrößen 1–5, HUD-Toast spiegelt Toolkit-
+  Wert (`campaign.boss_dr`).
+- PvP-/Arena-Lauf mit Phase-Strike: Save-Validator erwartet Einträge in `logs.arena_psi[]` mit
+  Fähigkeit, Szenario und Kostenquelle (Tax/Buffer).
+- Foreshadow-/Gate-Check: `!helper boss` liefert Zahlen, Szenenblockade triggert Toast und wird als
+  `logs.foreshadow[]` persistiert; Gate-Flags spiegeln ins Save-Schema.
+- Rift-Reward-Regression: Level 8/120/520/1000 bei identischem Risiko und Seeds, Debrief nennt die
+  CU-Formel (10×Level×Risiko×Hazard-Pay×Seed-Multiplikator) einheitlich.
+- Cross-Mode-Merge: Solo→Koop→PvP mit divergierenden Wallet-/Seed-Deltas erzeugt strukturierte
+  `logs.flags.merge_conflicts[]`, HUD zeigt Kurztoast; Save-Merge folgt dem Host-Pfad.
+- SaveGuard-Full-Matrix: Fixture `savegame_v6_matrix` und `savegame_v6_highlevel.json` prüfen die
+  Pflichtcontainer (`logs.arena_psi[]`, `logs.flags.merge_conflicts[]` usw.), Unknown Fields werden
+  toleriert.
 
 ## Maßnahmenpaket Maintainer 2025-12-03 (Issues #1–#3)
 
