@@ -567,6 +567,10 @@ Einsprung noch die Ereignisse im Riss erhöhen ihn. Kontakt mit Artefakten kann
 den Index dennoch steigern. Die Handlung ist eine eigenständige X-Files-Episode,
 die nur thematisch zur aktuellen Epoche passt.
 
+**Px-Policy:** Kampagnen führen ausschließlich `campaign.px`; ein separates
+`rift_px` existiert nicht. Loader verwerfen abweichende Felder und spiegeln
+Rift-Ops automatisch auf den gemeinsamen Px-Stand.
+
 ```text
 Name / Epoche
 Tier: Minor | Std | Major   HP: W6×Tier   DEF-Schwelle: 4–6

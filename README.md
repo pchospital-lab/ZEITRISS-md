@@ -714,6 +714,10 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
 - `comms: { jammed:boolean, relays:number, rangeMod:number }`
 
+**Px-Policy:** `campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und
+Progression. Rifts führen kein separates `rift_px`; Importpfade verwerfen
+abweichende Felder, Loader und Toolkit spiegeln ausschließlich `campaign.px`.
+
 ## Exfil-Fenster & Sweeps
 
 Sobald das **Primärziel** erreicht ist, öffnet sich ein
@@ -1261,6 +1265,10 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
   landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
   die Wallet-Verteilung.
+- **Deterministische Verteilung.** `Wallet-Split (n×)` listet alle IDs in
+  Roster-Reihenfolge, verteilt Rundungsreste von oben nach unten und schließt
+  mit einem einzigen Hinweis auf den verbleibenden HQ-Pool (`Rest … CU im
+  HQ-Pool`).
 - **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.cu`) und
   Wallets (`economy.wallets{}`) akzeptieren numerische Strings wie `"1500"` und
   wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
