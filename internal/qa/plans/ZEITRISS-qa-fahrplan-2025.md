@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.10.0
+version: 1.11.0
 tags: [meta]
 ---
 
@@ -566,6 +566,77 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
   Wallet-Split inkl. Rest-Policy loggen, Paradoxon-Index-Verhalten in Rift klarstellen.
 - Arena: Load resettet auf HQ, Phase-Strike-Tax in `logs.arena_psi[]`, Option für Lobby-Resume
   klären.
+
+## Maßnahmenpaket Copy-Paste-QA 2026-01 (Issues #1–#16, Rohform)
+
+Der jüngste Copy-Paste-Testlauf (Solo, Solo+Squad, Koop, PvP; Seeds 1–25/80–150/400–1000) brachte
+16 neue Befunde plus zusätzliche Vorgaben der Tester:innen. Alle Punkte sind noch offen und
+werden in den kommenden Umsetzungsrunden priorisiert. Die Rohbeobachtungen aus den HUD-/Log-
+Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
+
+### Globale Leitplanken
+
+- Artefakte und Relikte sollen ohne Sonderregeln wie reguläre Items handelbar bleiben; keine
+  Ausnahmen in Economy- oder Save-Flows.
+- Ruf/Fraktionen/Preserve-Trigger strenger fassen (langsamer Progress), idealerweise bereits in
+  der Charactererstellung verankern.
+- Deepsave erzwingen: Bei „speichern“/„deepsave“ im HQ immer einen vollständigen JSON-Deepsave
+  schreiben; „light save“ eliminieren.
+
+### Rohnotizen aus dem Testlauf
+
+- E2E-Läufe pro Modus spielbar, aber es fehlt ein kanonisches E2E-Trace-Schema, das Logs
+  (`logs.hud`, `logs.squad_radio`, `logs.kodex`, `logs.foreshadow`, `logs.fr_interventions`) pro
+  Szene ablegt.
+- Compliance/Ansprache-Flow blockiert Smoke-Runs; benötigt QA-Bypass (`qa_mode`).
+- Rift-Seeds: Freischaltung widersprüchlich (Episode vs. Arc); HUD/Toolkit müssen konsolidiert
+  werden.
+- Gate/Foreshadow-Terminologie driftet (GATE 0/2 vs. Gate 0/4 vs. Foreshadow 2/4); Toasts und HUD
+  müssen auf das 2/2-Gate + 4/4-FS-Set festgezogen werden.
+- Paradoxon-Effekte weichen zwischen Modulen ab (Stress/HP/SG/Initiative); eine Quelle fehlt.
+- SYS-Semantik kollidiert mit SaveGuard (SYS_used vs. freie SYS); `SYS_installed` und
+  `SYS_runtime` müssen sauber getrennt werden.
+- SaveGuard-Pflichtfelder (`logs.flags.merge_conflicts`, `logs.arena_psi`) fehlen in Beispielen;
+  JSON-Schema-Version nötig.
+- Accessibility-Persistenz: `save_deep()` speichert nur Teilfelder, `contrast/badge_density/
+  output_pace` fehlen nach Load.
+- Offline-Hinweis spricht von Save-Sperre, obwohl HQ-only gilt; Text muss Cloud-Sync präzisieren.
+- Cross-Mode-Merge verwirft Seeds/Counter still; Konfliktliste muss verpflichtend gefüllt werden.
+- Load-Guard erzwingt HQ und verschweigt Arena-Context-Drops; Conflict-Toast fehlt.
+- High-Level-Ökonomie (100+/400+/1000) unklar: Rewards vs. Kosten skaliert nicht sauber.
+- Artefaktprogression: Drop selten, Verkauf gesperrt, Skalierung im Endgame unattraktiv; braucht
+  Research-/Archiv-Value.
+- Teamgrößen-Regeln inkonsistent kommuniziert (Core 0–4 vs. Arena 1–6); Fehlermeldungen nach Mode
+  trennen.
+- Mission 5 Badge/SF-OFF-Test braucht stringstabile Snapshots (Gate 2/2, FS 0/4, Boss-DR-Toast,
+  Auto-Reset-Flags).
+- Offizielles, schema-volles QA-Save fehlt (Lvl 7/120/512+, Seeds offen/geschlossen, Wallets,
+  Arena/PvP/Psi-Logs) – sollte als Fixture versioniert werden.
+
+### Fahrplan (Issues #1–#16)
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
+| ----- | ------------------------------ | -------------------------------------------- |
+| #1 | E2E-Trace-Schema pro Szene/Modus | Schema für HUD/Radio/Kodex/FS/FR/Economy
+| | | definieren, Hooks bei Start/End/Launch/Rift/Arena |
+| #2 | Compliance-QA-Bypass | QA-Flag `qa_mode` als Toast-only, Start-Dispatcher
+| | | übernimmt Player-Count/Ansprache |
+| #3 | Rift-Seed Freischaltung Episode | Wording in Core/Toolkit/Runtime angleichen, AC#10
+| | vs. Arc | Snapshot test |
+| #4 | Gate vs. Foreshadow Terminologie | `NextScene()` Toast auf FS 0/4 trimmen, HUD/Helper
+| | | spiegeln |
+| #5 | Paradoxon-Effekte vereinheitlichen | Single Source Tabelle, Runtime/HUD/Doku synchron |
+| #6 | SYS-Semantik/SaveGuard trennen | `SYS_installed`/`SYS_runtime` einführen, Save-Migration |
+| #7 | Save-Schema Pflichtfelder | JSON-Schema `saveGame.v6` versionieren, Loader validiert |
+| #8 | Accessibility-Persistenz | `save_deep()` UI-Whitelist erweitern, Defaults beim Load |
+| #9 | Offline-HUD-FAQ präzisieren | Text auf Cloud-Resync begrenzen, `!offline` zeigt Guard |
+| #10 | Cross-Mode-Merge-Konflikte | Pflichtkonflikt-Entries für Seeds/Counter/UI/Arena |
+| #11 | Arena-Load-Konfliktmarkierung | Load erzeugt Toast + `merge_conflicts` bei Arena-State |
+| #12 | High-Level-Ökonomie | Tabelle Level→Reward/Costs, Sink-Mechanik dokumentieren |
+| #13 | Artefaktprogression | Research/Archive-Value, prozentuale Effekte, Trade erlaubt |
+| #14 | Teamgrößen-Fehlertexte | Mode-spezifische Validatoren/Strings Core 0–4, Arena 1–6 |
+| #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
+| #16 | QA-Fixture Save v6 voll | Fixture `qa/fixtures/saveGame_v6_full.json` + Roundtrip |
 
 ## Regressionstest-Termine 2025
 
