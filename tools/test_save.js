@@ -11,7 +11,7 @@ const base = {
     stress: 0,
     psi_heat: 0,
     cooldowns: {},
-    attributes: { SYS_max: 1, SYS_used: 1 },
+    attributes: { SYS_max: 1, SYS_installed: 1, SYS_runtime: 1, SYS_used: 1 },
     quarters: {
       id: 'QTR-A17',
       preset: ' custom ',
@@ -99,10 +99,14 @@ assert.equal(data.character.quarters.layout_tags[1], 'analyst_cell');
 
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));
-assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_used: 2 } } }));
+assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_installed: 2, SYS_runtime: 2, SYS_used: 2 } } }));
 assert.throws(
-  () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_used: 2 } } }),
-  /SaveGuard: SYS nicht voll\./
+  () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_installed: 2, SYS_runtime: 2, SYS_used: 2 } } }),
+  /SaveGuard: SYS nicht voll installiert\./
+);
+assert.throws(
+  () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_installed: 3, SYS_runtime: 4, SYS_used: 3 } } }),
+  /SaveGuard: SYS runtime overflow\./
 );
 
 const minimal = {
@@ -114,7 +118,7 @@ const minimal = {
     stress: 0,
     psi_heat: 0,
     cooldowns: {},
-    attributes: { SYS_max: 1, SYS_used: 1 }
+    attributes: { SYS_max: 1, SYS_installed: 1, SYS_runtime: 1, SYS_used: 1 }
   }
 };
 
