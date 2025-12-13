@@ -244,8 +244,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   dieselben Schritte aus:
   - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen –
     bis dahin bleibt der Kodex stumm.
-  - Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves landen
-    weiter im HQ.
+  - Mission normal fortsetzen: HUD liefert lokale Logs, Deepsaves/Cloud-Sync
+    laufen erst wieder zurück im HQ.
   - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und
     auf Bestätigung warten.
 - Funkmeldungen protokolliert ihr via `!radio log Sprecher|Channel|Meldung|Status`
@@ -339,7 +339,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Hinweise, Rift = 2) und dient als Saison-Indikator.
   Dokumentiere Gate-Badge (`GATE 2/2` im HUD) und Saisonstand (`Mission FS 0/4` nach dem Reset) für eure Einsatznotizen.
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
-  (1–6) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
+  (1–4) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
   `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
   `economy.cu` und `economy.credits`, setzt `state.campaign.mode = 'pvp'`,
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
@@ -2840,9 +2840,9 @@ setzen; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem
      `campaign.mode = 'preserve'`.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: nie nach Load fragen.
-   - `npc-team`: Größe 0–4; bei Fehler → „Teamgröße erlaubt: 0–4.“
-     Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
-     `NPC-Autoradio aktiv (…× Squad)`.
+  - `npc-team`: Teamgröße 0–4; bei Fehler → „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+    Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
+    `NPC-Autoradio aktiv (…× Squad)`.
    - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
