@@ -633,8 +633,8 @@ const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – ' +
     'Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es ' +
-    'weiterhin erst zurück im HQ.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync ' +
+    'laufen erst nach der Rückkehr ins HQ (HQ-only, keine Save-Sperre).',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und ' +
     'Bestätigung abwarten.'
 ];
@@ -844,6 +844,12 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'psi'],
   ['logs', 'flags'],
   ['ui'],
+  ['ui', 'gm_style'],
+  ['ui', 'intro_seen'],
+  ['ui', 'suggest_mode'],
+  ['ui', 'contrast'],
+  ['ui', 'badge_density'],
+  ['ui', 'output_pace'],
   ['arena']
 ];
 

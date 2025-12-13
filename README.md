@@ -489,8 +489,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
   - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen – bis
     dahin bleibt der Kodex stumm.
-  - Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync
-    laufen erst wieder nach dem Rückweg ins HQ.
+  - Mission normal fortsetzen: HUD liefert lokale Logs. HQ-Deepsaves/Cloud-Sync
+    laufen erst nach der Rückkehr ins HQ (HQ-only, keine Save-Sperre).
   - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und auf
     Bestätigung warten.
 
@@ -535,6 +535,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest.
+- `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
+  Felder `contrast`, `badge_density` und `output_pace`; der SaveGuard bricht
+  den HQ-Deepsave ab, wenn eines fehlt. Migration und Serializer füllen
+  Legacy-Saves auf `standard|normal` auf.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.

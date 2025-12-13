@@ -16,7 +16,8 @@ const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit 
 const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs, Deepsaves/Cloud-Sync laufen erst zurück im HQ.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync laufen erst nach der',
+  '  Rückkehr ins HQ (HQ-only, keine Save-Sperre).',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
@@ -5854,6 +5855,12 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'psi'],
   ['logs', 'flags'],
   ['ui'],
+  ['ui', 'gm_style'],
+  ['ui', 'intro_seen'],
+  ['ui', 'suggest_mode'],
+  ['ui', 'contrast'],
+  ['ui', 'badge_density'],
+  ['ui', 'output_pace'],
   ['arena']
 ];
 
@@ -6083,22 +6090,7 @@ function hydrate_state(data){
   state.roll = { open: false };
   state.arena = data.arena && typeof data.arena === 'object' ? { ...data.arena } : {};
   ensure_arena();
-  state.ui = {
-    gm_style: data.ui?.gm_style || 'verbose',
-    intro_seen: !!(data.ui?.intro_seen),
-    suggest_mode: !!(data.ui?.suggest_mode)
-  };
-  if (data.ui && typeof data.ui === 'object'){
-    if (data.ui.contrast !== undefined){
-      state.ui.contrast = data.ui.contrast;
-    }
-    if (data.ui.badge_density !== undefined){
-      state.ui.badge_density = data.ui.badge_density;
-    }
-    if (data.ui.output_pace !== undefined){
-      state.ui.output_pace = data.ui.output_pace;
-    }
-  }
+  state.ui = prepare_save_ui(data.ui);
   ensure_ui();
   state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
   const party = ensure_party();
