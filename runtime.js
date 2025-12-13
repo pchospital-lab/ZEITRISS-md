@@ -5893,14 +5893,20 @@ function prepare_save_character(character){
     base.cooldowns = {};
   }
   const attrs = clone_plain_object(base.attributes);
-  if (!Number.isFinite(attrs.SYS_max)){
-    const sysMax = Number(attrs.SYS_max);
-    attrs.SYS_max = Number.isFinite(sysMax) ? sysMax : 0;
-  }
-  if (!Number.isFinite(attrs.SYS_used)){
-    const sysUsed = Number(attrs.SYS_used);
-    attrs.SYS_used = Number.isFinite(sysUsed) ? sysUsed : attrs.SYS_max;
-  }
+  const sysMaxRaw = Number(attrs.SYS_max);
+  const sysMax = Number.isFinite(sysMaxRaw) ? sysMaxRaw : 0;
+  const sysInstalledRaw = Number(
+    Number.isFinite(attrs.SYS_installed) ? attrs.SYS_installed : attrs.SYS_used
+  );
+  const sysInstalled = Number.isFinite(sysInstalledRaw) ? sysInstalledRaw : sysMax;
+  const sysRuntimeRaw = Number(
+    Number.isFinite(attrs.SYS_runtime) ? attrs.SYS_runtime : sysInstalled
+  );
+  const sysRuntime = Number.isFinite(sysRuntimeRaw) ? sysRuntimeRaw : sysInstalled;
+  attrs.SYS_max = sysMax;
+  attrs.SYS_installed = clamp(sysInstalled, 0, sysMax);
+  attrs.SYS_runtime = clamp(sysRuntime, 0, attrs.SYS_installed);
+  attrs.SYS_used = attrs.SYS_installed;
   base.attributes = attrs;
   if (base.quarters && typeof base.quarters === 'object' && !Array.isArray(base.quarters)){
     const quarters = clone_plain_object(base.quarters);
@@ -5979,6 +5985,8 @@ const SAVE_REQUIRED_PATHS = [
   ['character', 'id'],
   ['character', 'cooldowns'],
   ['character', 'attributes', 'SYS_max'],
+  ['character', 'attributes', 'SYS_installed'],
+  ['character', 'attributes', 'SYS_runtime'],
   ['character', 'attributes', 'SYS_used'],
   ['character', 'stress'],
   ['character', 'psi_heat'],
@@ -6053,15 +6061,21 @@ function save_deep(s=state){
   }
   const c = s.character || {};
   const a = c.attributes || {};
+  const sysMax = Number.isFinite(a.SYS_max) ? Number(a.SYS_max) : 0;
+  const sysInstalled = Number.isFinite(a.SYS_installed)
+    ? Number(a.SYS_installed)
+    : Number.isFinite(a.SYS_used)
+      ? Number(a.SYS_used)
+      : sysMax;
+  const sysRuntime = Number.isFinite(a.SYS_runtime)
+    ? Number(a.SYS_runtime)
+    : sysInstalled;
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
   if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
-  if (a.SYS_used > a.SYS_max) throw new Error('SaveGuard: SYS overflow.');
-  if (
-    a.SYS_max !== undefined &&
-    a.SYS_used !== undefined &&
-    a.SYS_used !== a.SYS_max
-  ){
-    throw new Error('SaveGuard: SYS nicht voll.');
+  if (sysInstalled > sysMax) throw new Error('SaveGuard: SYS overflow.');
+  if (sysRuntime > sysInstalled) throw new Error('SaveGuard: SYS runtime overflow.');
+  if (sysInstalled !== sysMax){
+    throw new Error('SaveGuard: SYS nicht voll installiert.');
   }
   const payload = select_state_for_save(s);
   return JSON.stringify(payload);
@@ -6361,6 +6375,8 @@ function normalize_save_v6(data){
     delete normalized.attributes;
   }
   assignAttributeNumber('SYS_max', 'sys', 'sys_max');
+  assignAttributeNumber('SYS_installed', 'sys_installed');
+  assignAttributeNumber('SYS_runtime', 'sys_runtime');
   assignAttributeNumber('SYS_used', 'sys_used');
   if (character.attributes && typeof character.attributes === 'object' && !Array.isArray(character.attributes)){
     for (const [key, value] of Object.entries(character.attributes)){

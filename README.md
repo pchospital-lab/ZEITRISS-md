@@ -528,9 +528,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Auszüge; neue Saves benutzen ausschließlich die v6-Struktur mit
   `party.characters[]` als kanonischem Roster (Legacy-Mirror
   `team.members[]` bleibt nur für Import/Export erhalten).
-- `character.id`, `character.attributes.SYS_max`, `character.attributes.SYS_used`,
-  `character.stress`, `character.psi_heat`, `character.cooldowns` sind immer
-  Teil des HQ-Deepsaves.
+- `character.id`, `character.attributes.SYS_max`,
+  `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
+  `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
+  `character.cooldowns` sind immer Teil des HQ-Deepsaves.
 - `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
   `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
   `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena` werden
@@ -547,17 +548,17 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
 - **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
-  Wurzel-Schlüssel wie `sys`, `sys_used`, `stress`, `psi_heat` oder
-  `cooldowns` besitzt, legt die Spielleitung beim Laden vorab den Block
-  `character{}` an:
+  Wurzel-Schlüssel wie `sys`, `sys_used`, `sys_installed`, `sys_runtime`,
+  `stress`, `psi_heat` oder `cooldowns` besitzt, legt die Spielleitung beim
+  Laden vorab den Block `character{}` an:
   1. `character.id`, `character.name`, `character.rank`, `character.callsign`
      aus gleichnamigen Root-Feldern übernehmen (falls belegt).
   2. `character.stress`, `character.psi_heat` und `character.cooldowns`
      aus den alten Root-Feldern kopieren und die Wurzelvarianten danach
      verwerfen.
-  3. `character.attributes{SYS_max,SYS_used}` aus `sys`/`sys_max` bzw.
-     `sys_used` bilden; weitere Werte aus `attributes{}` nur ergänzen,
-     niemals überschreiben.
+  3. `character.attributes{SYS_max,SYS_installed,SYS_runtime,SYS_used}` aus
+     `sys`/`sys_max`, `sys_installed`, `sys_runtime` bzw. `sys_used` bilden;
+     weitere Werte aus `attributes{}` nur ergänzen, niemals überschreiben.
   4. Optionale Felder wie `modes[]`, `self_reflection` oder `lvl` ebenfalls in
      `character{}` verschieben, sofern sie vorher an der Wurzel lagen.
   Auf diese Weise steht dem GPT immer das vollständige Save-v6-Schema zur
@@ -703,7 +704,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
 - `phase: "core"|"transfer"|"rift"` (immer lowercase, Seeds liefern nur den Typ)
 - `character: { name, level, stress, psi_heat, cooldowns:{},`
-  `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_used},`
+  `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},`
   `talents:[], ... }`
 - `team: { name, members:[...] }`, `party: { characters:[...] }`
 - `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
@@ -759,8 +760,11 @@ Die Runtime spiegelt das Fenster parallel nach
 Solange `campaign.exfil.active` wahr ist, verweigert der HQ-Serializer den Deepsave mit
 „SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Nach der Rückkehr ins HQ setzt `campaign.exfil`
 alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben Felder als Referenz.
-HQ-Saves akzeptieren ausschließlich volle Systemlast: `character.attributes.SYS_used` muss dem
-`SYS_max` entsprechen, sonst bricht `save_deep()` mit „SaveGuard: SYS nicht voll.“ ab.
+HQ-Saves akzeptieren ausschließlich vollständig installierte Systeme:
+`character.attributes.SYS_installed` muss `SYS_max` entsprechen, die Runtime-Last darf den
+installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `save_deep()` mit
+„SaveGuard: SYS nicht voll installiert.“ ab; eine Runtime-Last über den installierten Slots führt
+zu „SaveGuard: SYS runtime overflow.“.
 Speichern außerhalb des HQs meldet „SaveGuard: HQ-only – HQ-Save gesperrt.“.
 
 ### HUD-Shortcuts für Exfiltration

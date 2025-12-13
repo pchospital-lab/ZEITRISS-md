@@ -31,7 +31,7 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 5, "SYS_used": 5}
+        "attributes": {"SYS_max": 5, "SYS_installed": 5, "SYS_runtime": 5, "SYS_used": 5}
       },
       "team": {"members": []},
       "party": {"characters": []},
@@ -66,7 +66,7 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 8, "SYS_used": 8}
+        "attributes": {"SYS_max": 8, "SYS_installed": 8, "SYS_runtime": 8, "SYS_used": 8}
       },
       "team": {"members": [{"id": "NPC-01", "role": "Funk"}]},
       "party": {"characters": []},
@@ -101,7 +101,7 @@
         "stress": 0,
         "psi_heat": 0,
         "cooldowns": {},
-        "attributes": {"SYS_max": 10, "SYS_used": 10}
+        "attributes": {"SYS_max": 10, "SYS_installed": 10, "SYS_runtime": 10, "SYS_used": 10}
       },
       "team": {"members": []},
       "party": {"characters": []},

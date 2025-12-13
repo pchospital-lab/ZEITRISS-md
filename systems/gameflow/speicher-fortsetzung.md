@@ -15,12 +15,15 @@ tags: [system]
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert state.location == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
-assert state.character.attributes.SYS_used == state.character.attributes.SYS_max
+assert state.character.attributes.SYS_installed == state.character.attributes.SYS_max
+assert state.character.attributes.SYS_runtime <= state.character.attributes.SYS_installed
 assert state.character.stress == 0 und state.character.psi_heat == 0
 assert not state.get('timer') und not state.get('exfil_active') und not campaign.exfil.active
 required = [
   "character.id",
   "character.attributes.SYS_max",
+  "character.attributes.SYS_installed",
+  "character.attributes.SYS_runtime",
   "character.attributes.SYS_used",
   "character.stress",
   "character.psi_heat",
@@ -65,9 +68,9 @@ denselben Text via `toast_save_block(reason)`. Sobald die Crew ins HQ
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
-übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen volle Systemlast:
-Sobald `character.attributes.SYS_used` vom `SYS_max` abweicht, stoppt die Runtime
-den Deepsave mit „SaveGuard: SYS nicht voll.“.
+übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
+Installation (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb des
+installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 
 ```json
 {
@@ -84,6 +87,8 @@ den Deepsave mit „SaveGuard: SYS nicht voll.“.
     "cooldowns": {},
     "attributes": {
       "SYS_max": 5,
+      "SYS_installed": 5,
+      "SYS_runtime": 5,
       "SYS_used": 5
     }
   },
@@ -255,6 +260,8 @@ produktiven Wissensspeichers.
       "CHA": 2,
       "TEMP": 1,
       "SYS_max": 2,
+      "SYS_installed": 2,
+      "SYS_runtime": 2,
       "SYS_used": 2,
       "hp": 10,
       "hp_max": 10
@@ -458,6 +465,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück.
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
+  `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
   `logs` (inklusive `hud`, `artifact_log`, `market`, `offline`, `kodex`,
@@ -468,11 +476,12 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
 - Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
-- Im HQ sind `character.attributes.SYS_used`, `character.stress` und
-  `character.psi_heat` deterministisch: `SYS_used == SYS_max`, `stress = 0`,
-  `psi_heat = 0`. Das Speichern erfasst diese Werte, damit GPT den
-  Basiszustand prüfen kann. Die JSON-Beispiele in diesem Modul zeigen weiterhin
-  volle SYS-Werte (5/5 bzw. 6/6) und erfüllen damit den Guard.
+- Im HQ sind `character.attributes.SYS_installed` und
+  `character.attributes.SYS_max` deckungsgleich, `SYS_runtime` liegt höchstens
+  bei der installierten Last, `stress = 0`, `psi_heat = 0`. Das Speichern
+  erfasst diese Werte, damit GPT den Basiszustand prüfen kann. Die JSON-
+  Beispiele in diesem Modul zeigen weiterhin volle SYS-Werte (5/5 bzw. 6/6)
+  und erfüllen damit den Guard.
 - GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
@@ -539,7 +548,7 @@ heran und protokolliert abweichende Seeds im HUD/Debrief.
     "stress": 0,
     "psi_heat": 0,
     "cooldowns": {},
-    "attributes": {"SYS_max": 6, "SYS_used": 6}
+    "attributes": {"SYS_max": 6, "SYS_installed": 6, "SYS_runtime": 6, "SYS_used": 6}
   },
   "campaign": {"episode": 12, "scene": 0, "px": 2},
   "team": {"members": []},
@@ -769,9 +778,11 @@ die Debrief-Zeilen.
      Wurzelkopien löschen.
   2. `stress`, `psi_heat`, `psi_heat_max` und `cooldowns{}` ebenso in den
      `character`-Block übernehmen; `cooldowns{}` immer als Objekt führen.
-  3. `character.attributes{SYS_max,SYS_used}` aus `sys`/`sys_max` bzw.
-     `sys_used` bilden und dabei bestehende Werte aus `attributes{}` nur
-     ergänzen – niemals überschreiben.
+  3. `character.attributes{SYS_max,SYS_installed,SYS_runtime,SYS_used}` aus
+     `sys`/`sys_max`, `sys_installed`, `sys_runtime` bzw. `sys_used` bilden und
+     dabei bestehende Werte aus `attributes{}` nur ergänzen – niemals
+     überschreiben. Fehlt `SYS_installed`, setze es auf `SYS_used` oder den
+     Maximalwert; `SYS_runtime` darf höchstens die installierte Last tragen.
   4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
      Wurzel notiert hatte, landen sie jetzt ebenfalls in `character{}`.
 - Abschließend kontrollierst du die Standard-Flags: **Psi-Puffer** gehören bei allen Agent:innen zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}` oder `party.characters[]`, ergänze `true`.
@@ -988,7 +999,7 @@ und werden beim Laden ignoriert.
     "id": "CHR-XXXX",
     "name": "Agent Name",
     "level": 3,
-    "attributes": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS_max": 4, "SYS_used": 4 },
+    "attributes": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS_max": 4, "SYS_installed": 4, "SYS_runtime": 4, "SYS_used": 4 },
     "talents": ["Scharfschütze II", "Soldat I"],
     "bioware": ["Reflexverstärkung", "Muskelstärkung", "Stealth-Skin", "Adrenalin-Drüse"],
     "synergy": "Adaptive Ligament",

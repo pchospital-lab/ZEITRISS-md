@@ -344,9 +344,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `economy.cu` und `economy.credits`, setzt `state.campaign.mode = 'pvp'`,
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
-  Szenario und Px-Status aus. HQ-DeepSaves verlangen volle Systemlast
-  (`SYS_used == SYS_max`), sonst meldet die Runtime „SaveGuard: SYS nicht voll.“
-  und blockiert den Save.
+  Szenario und Px-Status aus. HQ-DeepSaves verlangen vollständig installierte
+  Systeme (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb der
+  installierten Slots, sonst meldet die Runtime „SaveGuard: SYS nicht voll
+  installiert.“ bzw. „SaveGuard: SYS runtime overflow.“ und blockiert den Save.
   Phase-Strike-Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
   `arena_phase_strike`), nicht im regulären `logs.psi[]`.
 
