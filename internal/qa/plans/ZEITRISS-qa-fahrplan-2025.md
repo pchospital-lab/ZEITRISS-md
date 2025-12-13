@@ -616,10 +616,10 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte |
 | ----- | ------------------------------ | -------------------------------------------- |
-| #1 | E2E-Trace-Schema pro Szene/Modus | Schema für HUD/Radio/Kodex/FS/FR/Economy
-| | | definieren, Hooks bei Start/End/Launch/Rift/Arena |
-| #2 | Compliance-QA-Bypass | QA-Flag `qa_mode` als Toast-only, Start-Dispatcher
-| | | übernimmt Player-Count/Ansprache |
+| #1 | E2E-Trace-Schema pro Szene/Modus | ✅ Schema & Runtime-Hooks (Start/Rift/Arena) dokumentiert,
+| | | Trace landet in `logs.trace[]` |
+| #2 | Compliance-QA-Bypass | ✅ `qa_mode` = HUD-Toast-only, Start-Dispatcher übernimmt
+| | | Player-Count/Ansprache |
 | #3 | Rift-Seed Freischaltung Episode | Wording in Core/Toolkit/Runtime angleichen, AC#10
 | | vs. Arc | Snapshot test |
 | #4 | Gate vs. Foreshadow Terminologie | `NextScene()` Toast auf FS 0/4 trimmen, HUD/Helper

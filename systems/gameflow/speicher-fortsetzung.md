@@ -30,6 +30,7 @@ required = [
   "economy.wallets",
   "logs",
   "logs.hud",
+  "logs.trace",
   "logs.artifact_log",
   "logs.market",
   "logs.offline",
@@ -165,6 +166,18 @@ abweichende Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
 `team.members[]`) sind reine Import-Aliase; neue Saves entstehen ausschließlich
 im v6-Format mit `party.characters[]`. Divergierende Doppelstrukturen gelten als
 Fehler und werden beim Laden zusammengeführt.
+
+### E2E-Trace-Schema {#e2e-trace}
+
+`logs.trace[]` hält ein kompaktes E2E-Protokoll pro Modus/Szene. Jede Zeile
+enthält mindestens `event`, `at` (ISO), `location`, `phase`,
+`mission_type`/`campaign_mode`, `scene{episode,mission,index,total}` sowie
+`foreshadow{progress,required,tokens,expected}`. Optionale Felder fassen HUD-
+Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{cu,wallets}`), FR-Bias
+und Arena- oder Seed-Metadaten zusammen. Die Runtime ruft `record_trace()` bei
+`StartMission()`, `launch_rift()` und `arenaStart()` auf, begrenzt die Liste auf
+64 Einträge und spiegelt die Snapshots im HQ-Save (Fixtures enthalten
+Beispiele). Das Trace ergänzt `logs.hud[]` und ersetzt keine Toasts.
 
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
 Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`

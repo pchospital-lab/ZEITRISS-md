@@ -1003,7 +1003,9 @@ jeweils eine Szene (Minimum: Szene 2).
   {% set qa = qa_mode or false %}
   {% set force_flag = force or qa %}
   {% if force_flag or not campaign.compliance_shown_today %}
-    {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
+    {% if not qa %}
+      {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
+    {% endif %}
     {% set campaign.compliance_shown_today = true %}
     {% if state.logs.flags is not defined or state.logs.flags is none %}
       {% set state.logs = state.logs or {} %}
@@ -1011,7 +1013,7 @@ jeweils eine Szene (Minimum: Szene 2).
     {% endif %}
     {% set state.logs.flags.compliance_shown_today = true %}
     {% if qa %}
-      {{ hud_tag('Compliance-Hinweis im QA-Kanal bestätigt.') }}
+      {{ hud_tag('Compliance-Hinweis im QA-Kanal bestätigt (Toast only).') }}
     {% endif %}
   {% endif %}
 {%- endmacro %}
@@ -2816,8 +2818,9 @@ else:
 ```
 
 Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis
-sichtbar bleibt. Für QA-Läufe darf `ShowComplianceOnce(qa_mode=true)` zusätzlich den HUD-Toast
-setzen; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
+sichtbar bleibt. Für QA-Läufe schaltet `ShowComplianceOnce(qa_mode=true)` den Chat-Hinweis ab und
+setzt nur den HUD-Toast, während der Start-Dispatcher die Ansprache/Spielerzahl aus dem Befehl
+ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
 
 ## Start Dispatcher {#start-dispatcher}
 
