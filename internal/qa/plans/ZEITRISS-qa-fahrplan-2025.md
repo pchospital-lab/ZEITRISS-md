@@ -621,18 +621,22 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | #2 | Compliance-QA-Bypass | ✅ `qa_mode` = HUD-Toast-only, Start-Dispatcher übernimmt
 | | | Player-Count/Ansprache |
 | #3 | Rift-Seed Freischaltung Episode | ✅ Runtime/Toolkit/README angleichen: HQ-only nach Episodenende (AC#10 Mirror) |
-| #4 | Gate vs. Foreshadow Terminologie | `NextScene()` Toast auf FS 0/4 trimmen, HUD/Helper
-| | | spiegeln |
+| #4 | Gate vs. Foreshadow Terminologie | ✅ `NextScene()` fixiert Gate-Toast auf FS 0/4; HUD
+| | | und Boss-Helper spiegeln Gate 2/2 konstant |
 | #5 | Paradoxon-Effekte vereinheitlichen | ✅ Single-Source-Tabelle in Modul 12; README verweist auf Px 0–4/5 Schema |
-| #6 | SYS-Semantik/SaveGuard trennen | `SYS_installed`/`SYS_runtime` einführen, Save-Migration |
+| #6 | SYS-Semantik/SaveGuard trennen | ✅ `SYS_installed`/`SYS_runtime` Pflicht, Save-Migration |
+| | | und Fehlermeldungen aktiv |
 | #7 | Save-Schema Pflichtfelder | JSON-Schema `saveGame.v6` versionieren, Loader validiert |
-| #8 | Accessibility-Persistenz | `save_deep()` UI-Whitelist erweitern, Defaults beim Load |
-| #9 | Offline-HUD-FAQ präzisieren | Text auf Cloud-Resync begrenzen, `!offline` zeigt Guard |
+| #8 | Accessibility-Persistenz | ✅ `save_deep()` zieht UI-Felder via `prepare_save_ui()`,
+| | | SaveGuard erzwingt kompletten Block |
+| #9 | Offline-HUD-FAQ präzisieren | ✅ FAQ/Stub/README spiegeln Cloud-Sync & HQ-only-Policy;
+| | | QA-Bypass-Text ergänzt |
 | #10 | Cross-Mode-Merge-Konflikte | Pflichtkonflikt-Entries für Seeds/Counter/UI/Arena |
 | #11 | Arena-Load-Konfliktmarkierung | Load erzeugt Toast + `merge_conflicts` bei Arena-State |
 | #12 | High-Level-Ökonomie | Tabelle Level→Reward/Costs, Sink-Mechanik dokumentieren |
 | #13 | Artefaktprogression | Research/Archive-Value, prozentuale Effekte, Trade erlaubt |
-| #14 | Teamgrößen-Fehlertexte | Einheitlicher Validator/String „Teamgrößen: 0–4 …“ |
+| #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf 0–4 vereinheitlicht, Docs
+| | | und Tests angepasst |
 | #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
 | #16 | QA-Fixture Save v6 voll | Fixture `qa/fixtures/saveGame_v6_full.json` + Roundtrip |
 
