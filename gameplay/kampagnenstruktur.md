@@ -272,7 +272,8 @@ Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 ([Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge)).
 Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand als `rift_seeds` und lassen sich über das
-**ClusterDashboard** einsehen. 🌀 PX 5/5 – ClusterCreate aktiviert · Neue Seeds: #011, #015
+**ClusterDashboard** einsehen. Jede weitere Px‑5‑Stufe **stapelt** zusätzliche Seeds
+im Pool – kein Cap. 🌀 PX 5/5 – ClusterCreate aktiviert · Neue Seeds: #011, #015
 Erst nach Abschluss der Episode kann die Gruppe
 einen Eintrag via `launch_rift(seed_id)` als eigenständige Rift-Op starten und danach
 zum Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische
@@ -311,6 +312,9 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
 
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
+`apply_rift_mods_next_episode()` zählt ausschließlich **offene** Seeds für
+`sg_bonus` und `cu_multi = 1 + 0,2 × offene Seeds`, sodass Gruppen ihren Schwellen-
+und Loot-Faktor bewusst über gelagerte Seeds steuern können.
 `launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Runtime und Toolkit prüfen
 `campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
 gestartet werden darf.

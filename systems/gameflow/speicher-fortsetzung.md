@@ -918,6 +918,27 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
   dies im Debrief (`px_reset_confirm=true`) und das HUD bestätigt den Reset zu
   Beginn der nächsten Mission.
 
+**Single-Source-Paradoxon-Effekte:**
+
+| Px-Stand | Wirkung (Runtime/HUD/Doku) |
+| -------- | -------------------------- |
+| 0–4      | Keine Maluswerte oder Sonderregeln. HUD zeigt den aktuellen Balken und nutzt `campaign.px` als einzige Quelle. Die optionale Px-Verlust-Regel greift nur, wenn sie bewusst aktiviert wurde (z. B. misslungene Hot-Exfil). |
+| 5        | `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als ausstehend und verhindert weitere Px-Anstiege. HUD/Debrief notieren „Paradoxon-Index 5 erreicht – neue Rifts sichtbar“. Nach der Rift-Op springt der Wert auf 0 und der Reset-Toast bestätigt dies. |
+
+Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert nicht.
+`apply_rift_mods_next_episode()` liest ausschließlich **offene** Seeds aus und
+setzt `sg_bonus` sowie `cu_multi = 1 + 0,2 × offene Seeds`, damit der Pool
+gezielt als Schwellen- oder Loot-Hebel genutzt werden kann.
+
+Die Px-Boni wirken ausschließlich im Debrief/HQ: Analyse‑ und Loot‑Boosts
+werden dort aus `campaign.px` berechnet und beeinflussen die nächste
+Operation; während der Mission existieren keine separaten Mid-Scene-Buffs
+mehr, damit Seed-Stacking und Px-Anzeige dieselbe Quelle teilen.
+
+Toolkit, Runtime und README referenzieren ausschließlich diese Tabelle; Legacy-
+Varianten (Arc-spezifische Px, zusätzliche Stresswürfe) gelten als verworfen
+und werden beim Laden ignoriert.
+
 ### Legacy-Kompatibilität (Gear-Alias)
 
 > Hinweis für die Spielleitung: Beim Laden interpretiert ihr alte oder abweichende Gear-Bezeichnungen still

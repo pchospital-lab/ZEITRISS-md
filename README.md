@@ -91,7 +91,8 @@ Details findest du in [LICENSE](LICENSE).
 4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten. Schlampiges Vorgehen
    stagniert, destruktive Ausreißer senken Px; ein Fail oder Patzer zieht den Index
    um 1 Punkt nach unten. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds –
-   spielbar nach Episodenende.
+   spielbar nach Episodenende. Jede neue Px‑5‑Schwelle **stapelt** zusätzliche
+   Seeds im Pool, der Zähler springt nur für den nächsten Zyklus auf 0.
 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10
    der Episoden-Boss. Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit
@@ -273,7 +274,8 @@ nicht.
 - **Ausstieg in Mission** – Möglich, aber ohne Speichern. Gear darf übergeben werden.
   Nächster Save im HQ.
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach
-  Episodenende; danach Reset). Rift-Starts sind HQ-gebunden
+  Episodenende; danach Reset). Jeder erneute Px‑5‑Treffer legt weitere Seeds oben
+  drauf – es gibt **kein Hard-Limit**. Rift-Starts sind HQ-gebunden
   (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
   (`campaign.episode_completed` oder `mission_in_episode ≥ 10`) und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
@@ -727,6 +729,10 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 **Px-Policy:** `campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und
 Progression. Rifts führen kein separates `rift_px`; Importpfade verwerfen
 abweichende Felder, Loader und Toolkit spiegeln ausschließlich `campaign.px`.
+Die Paradoxon-Effekte sind zentral in
+[`systems/gameflow/speicher-fortsetzung.md`](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
+festgelegt: Px 0–4 erzeugt keine Maluswerte, Px 5 triggert `ClusterCreate()`
+und setzt nach der Rift-Op auf 0 zurück.
 
 ## Exfil-Fenster & Sweeps
 
