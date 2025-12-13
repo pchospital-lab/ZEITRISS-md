@@ -1311,11 +1311,11 @@ _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austa
 sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
 ### Rift-Seeds (automatisch)
-Rifts erscheinen bei Paradoxon 5. Das HQ notiert sie hier als `phase: Rift` ohne Episodennummer.
+Rifts erscheinen bei Paradoxon 5. Das HQ notiert sie hier als `phase: rift` ohne Episodennummer.
 Sie werden erst nach Abschluss des aktuellen Core-Arcs als separate Mission spielbar.
 
 ```yaml
-phase: Rift
+phase: rift
 jahr: 1889
 ort: Prag
 thema: Beispiel-Rift
