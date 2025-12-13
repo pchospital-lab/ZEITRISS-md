@@ -2402,6 +2402,8 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 {% macro can_launch_rift(seed_id=None) -%}
   {% set loc = (location or campaign.loc or 'HQ')|upper %}
   {% set seeds = campaign.rift_seeds or [] %}
+  {% set mission_in_episode = campaign.mission_in_episode or 0 %}
+  {% set episode_done = campaign.episode_completed or mission_in_episode >= 10 %}
   {% set open = false %}
   {% for seed in seeds %}
     {% set status = (seed.status or 'open')|lower %}
@@ -2412,7 +2414,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
       {% endif %}
     {% endif %}
   {% endfor %}
-  {{ 'true' if (loc == 'HQ' and open) else 'false' }}
+  {{ 'true' if (loc == 'HQ' and episode_done and open) else 'false' }}
 {%- endmacro %}
 
 {% macro apply_rift_mods_next_episode() -%}

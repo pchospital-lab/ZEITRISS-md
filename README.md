@@ -274,9 +274,11 @@ nicht.
   Nächster Save im HQ.
 - **Paradoxon & Rifts** – Px 5 ⇒ `ClusterCreate()` (1–2 Rift-Seeds; spielbar nach
   Episodenende; danach Reset). Rift-Starts sind HQ-gebunden
-  (`location='HQ'`) und greifen ausschließlich auf objektförmige
-  `campaign.rift_seeds[]` (id/label/status/seed_tier, optionale
-  cluster-/level-Hints) zurück; der Normalizer hebt Legacy-Strings an.
+  (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
+  (`campaign.episode_completed` oder `mission_in_episode ≥ 10`) und greifen
+  ausschließlich auf objektförmige `campaign.rift_seeds[]`
+  (id/label/status/seed_tier, optionale cluster-/level-Hints) zurück; der
+  Normalizer hebt Legacy-Strings an.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, Audit) und erlaubt `!arena
   resume` ohne erneute Gebühr aus dem HQ.
