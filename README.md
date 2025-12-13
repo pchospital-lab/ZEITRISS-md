@@ -607,7 +607,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 | Zeitpunkt | Foreshadow-Ziel | Gate-Anzeige | Erwartete Strings |
 | --------- | ---------------- | ------------ | ----------------- |
 | Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
-| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – Gate 0/2` |
+| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
 | Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); Mission-5-Badge-Check fordert den sichtbaren `GATE 2/2`-Toast |
 | Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss- bzw. Teamgröße) |
 
