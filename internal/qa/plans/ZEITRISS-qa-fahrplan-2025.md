@@ -620,11 +620,10 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | | | Trace landet in `logs.trace[]` |
 | #2 | Compliance-QA-Bypass | ✅ `qa_mode` = HUD-Toast-only, Start-Dispatcher übernimmt
 | | | Player-Count/Ansprache |
-| #3 | Rift-Seed Freischaltung Episode | Wording in Core/Toolkit/Runtime angleichen, AC#10
-| | vs. Arc | Snapshot test |
+| #3 | Rift-Seed Freischaltung Episode | ✅ Runtime/Toolkit/README angleichen: HQ-only nach Episodenende (AC#10 Mirror) |
 | #4 | Gate vs. Foreshadow Terminologie | `NextScene()` Toast auf FS 0/4 trimmen, HUD/Helper
 | | | spiegeln |
-| #5 | Paradoxon-Effekte vereinheitlichen | Single Source Tabelle, Runtime/HUD/Doku synchron |
+| #5 | Paradoxon-Effekte vereinheitlichen | ✅ Single-Source-Tabelle in Modul 12; README verweist auf Px 0–4/5 Schema |
 | #6 | SYS-Semantik/SaveGuard trennen | `SYS_installed`/`SYS_runtime` einführen, Save-Migration |
 | #7 | Save-Schema Pflichtfelder | JSON-Schema `saveGame.v6` versionieren, Loader validiert |
 | #8 | Accessibility-Persistenz | `save_deep()` UI-Whitelist erweitern, Defaults beim Load |

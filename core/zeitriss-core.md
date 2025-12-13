@@ -854,6 +854,11 @@ sondern **wie viel Resonanz euer Team bereits aufbaut**. Je höher der Wert,
 desto besser versteht das ITI die laufende Operation – und desto näher
 rückt der Zugriff auf seltene Rift-Ressourcen.
 
+Die Umrechnung erfolgt erst im Debrief und in der HQ-Phase: Kleine
+Stufen-Boni wirken dort als Analyse- und Loot-Boosts für die nächste
+Operation; während der Mission existieren keine zusätzlichen Mid-Scene-
+Effekte.
+
 Spielende wollen den Index **bewusst steigern**, denn jeder Punkt bringt
 neue **Rift-Seeds** in Reichweite. Ein **Paradoxon −1** bremst den
 Fortschritt spürbar.
@@ -864,11 +869,11 @@ Werten steigert sich der Index rasant. Als Richtwert gilt:
 TEMP 1–3 erzeugen meist alle fünf Missionen +1, TEMP 4–7 etwa alle vier,
 TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 
-| Stufe | HUD-Farbe | Bedeutung                       | Effekt                  |
-|-----:|-----------|---------------------------------|-------------------------|
-| 0    | ▢ rot     | Leerlauf                       | Keine Resonanz          |
-| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Kodex-Analyse     |
-| 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf            |
+| Stufe | HUD-Farbe | Bedeutung                       | Effekt (Debrief/HQ)                   |
+|-----:|-----------|---------------------------------|--------------------------------------|
+| 0    | ▢ rot     | Leerlauf                       | Keine Resonanz                       |
+| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Kodex-Analyse im Debrief       |
+| 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf in der HQ-Auswertung    |
 | **5**| ▢ grün    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
 
 > **ClusterCreate:** Bei Stufe 5 pulsiert das HUD grün.
