@@ -374,12 +374,10 @@ Psi-Heat auf die gespeicherten Grundwerte zurück.
 
 Der Befehl `!accessibility` öffnet das UI-Panel (Kontrast, Badge-Dichte,
 Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“
-und schreibt die Auswahl in den Save. Die Runtime setzt bei fehlenden Feldern
-automatisch `contrast: standard`, `badge_density: standard` und `output_pace: normal`;
-im Serializer landen verbindlich `gm_style` und `suggest_mode`, optionale Access-
-Felder nur, wenn sie gesetzt wurden. Beim erneuten Laden stehen gewählte Werte
-(`contrast: high`, `badge_density: dense`, `output_pace: slow` oder Alternativen)
-sofort wieder bereit.
+und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
+Block ab (`gm_style`, `suggest_mode`, `contrast`, `badge_density`, `output_pace`),
+füllt fehlende Felder automatisch mit `standard|normal` und stellt sie beim Laden
+sofort wieder her (z. B. `contrast: high`, `badge_density: dense`, `output_pace: slow`).
 
 ### Abnahme-Smoketest (Runtime-Overlay)
 
@@ -491,8 +489,8 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   Es erinnert Schritt für Schritt daran, wie die Crew den Uplink erneut herstellt:
   - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen – bis
     dahin bleibt der Kodex stumm.
-  - Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis
-    zum HQ-Resync gesperrt.
+  - Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync
+    laufen erst wieder nach dem Rückweg ins HQ.
   - Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ kennzeichnen und auf
     Bestätigung warten.
 
@@ -503,7 +501,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 **Akzeptierte Zusätze:**
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen
   (auch `classic|fast`).
-- `npc-team` akzeptiert nur Größen `0–4`; `gruppe` nimmt keine Zahl.
+- `npc-team` akzeptiert Teamgrößen `0–4`; Arena nutzt dieselbe Obergrenze.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 - Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
   damit Funk- und Alias-Logs ohne Altlasten starten.
@@ -511,7 +509,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `!ALIAS`, `!Radio Log` usw.).
 
 **Fehlertexte:**
-- `npc-team 5` → „Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+- `npc-team 5` → „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
 - `gruppe 3` → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**

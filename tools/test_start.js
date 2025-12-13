@@ -30,7 +30,10 @@ assert.strictEqual(rt.state.campaign.seed_source, 'preserve');
 assert.strictEqual(rt.state.team.size, 3);
 
 let error = rt.on_command('spiel starten (npc-team 5)');
-assert.strictEqual(error, 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).');
+assert.strictEqual(
+  error,
+  'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).'
+);
 assert.strictEqual(rt.state.start.type, 'npc-team');
 assert.strictEqual(rt.state.team.size, 3);
 

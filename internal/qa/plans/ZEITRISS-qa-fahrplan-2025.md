@@ -228,11 +228,11 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
   Alias-/Squad-Radio-Logs Smoke bestanden in Solo/NPC/Koop/PvP.
 - QA-Log aktualisieren, Status als Referenz für Regressionen markieren.
 
-### 9. Dispatcher-Smoke 1–6 als Referenzstatus halten
+### 9. Dispatcher-Smoke 0–4 als Referenzstatus halten
 
-- Optional Mini-Tabelle im QA-Kapitel anlegen („Dispatcher-Smoke 1–6 bestanden“), damit künftige
+- Optional Mini-Tabelle im QA-Kapitel anlegen („Dispatcher-Smoke 0–4 bestanden“), damit künftige
   Änderungen die Basislinie kennen.
-- QA: Bei Dispatcher-Änderungen Acceptance 1–6 erneut durchlaufen lassen.
+- QA: Bei Dispatcher-Änderungen Acceptance 0–4 erneut durchlaufen lassen.
 `GM` = gameplay/kreative-generatoren-missionen.md
 `SR` = internal/runtime/runtime-stub-routing-layer.md
 `PSI` = systems/kp-kraefte-psi.md
@@ -606,8 +606,7 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 - High-Level-Ökonomie (100+/400+/1000) unklar: Rewards vs. Kosten skaliert nicht sauber.
 - Artefaktprogression: Drop selten, Verkauf gesperrt, Skalierung im Endgame unattraktiv; braucht
   Research-/Archiv-Value.
-- Teamgrößen-Regeln inkonsistent kommuniziert (Core 0–4 vs. Arena 1–6); Fehlermeldungen nach Mode
-  trennen.
+- Teamgrößen-Regeln auf 0–4 vereinheitlichen; Fehlermeldungen entsprechend vereinfachen.
 - Mission 5 Badge/SF-OFF-Test braucht stringstabile Snapshots (Gate 2/2, FS 0/4, Boss-DR-Toast,
   Auto-Reset-Flags).
 - Offizielles, schema-volles QA-Save fehlt (Lvl 7/120/512+, Seeds offen/geschlossen, Wallets,
@@ -634,7 +633,7 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | #11 | Arena-Load-Konfliktmarkierung | Load erzeugt Toast + `merge_conflicts` bei Arena-State |
 | #12 | High-Level-Ökonomie | Tabelle Level→Reward/Costs, Sink-Mechanik dokumentieren |
 | #13 | Artefaktprogression | Research/Archive-Value, prozentuale Effekte, Trade erlaubt |
-| #14 | Teamgrößen-Fehlertexte | Mode-spezifische Validatoren/Strings Core 0–4, Arena 1–6 |
+| #14 | Teamgrößen-Fehlertexte | Einheitlicher Validator/String „Teamgrößen: 0–4 …“ |
 | #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
 | #16 | QA-Fixture Save v6 voll | Fixture `qa/fixtures/saveGame_v6_full.json` + Roundtrip |
 

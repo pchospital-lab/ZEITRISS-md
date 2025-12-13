@@ -16,7 +16,7 @@ const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit 
 const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs, Deepsaves/Cloud-Sync laufen erst zurück im HQ.',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
@@ -1890,15 +1890,15 @@ function ensure_party(){
 function resolve_team_size(ctx = state){
   const campaignSize = asNumber(ctx?.campaign?.team_size);
   if (campaignSize !== null && campaignSize > 0){
-    return Math.min(6, Math.max(1, Math.floor(campaignSize)));
+    return Math.min(4, Math.max(1, Math.floor(campaignSize)));
   }
   const partySize = Array.isArray(ctx?.party?.characters) ? ctx.party.characters.length : null;
   if (Number.isFinite(partySize) && partySize > 0){
-    return Math.min(6, Math.max(1, Math.floor(partySize)));
+    return Math.min(4, Math.max(1, Math.floor(partySize)));
   }
   const teamSize = Array.isArray(ctx?.team?.members) ? ctx.team.members.length : null;
   if (Number.isFinite(teamSize) && teamSize > 0){
-    return Math.min(6, Math.max(1, Math.floor(teamSize)));
+    return Math.min(4, Math.max(1, Math.floor(teamSize)));
   }
   return 1;
 }
@@ -3963,7 +3963,7 @@ function build_arena_resume_token(arena){
     scenario,
     team_size:
       Number.isFinite(arena.team_size) && arena.team_size > 0
-        ? Math.min(6, Math.floor(arena.team_size))
+        ? Math.min(4, Math.floor(arena.team_size))
         : 1,
     mode: typeof arena.mode === 'string' ? arena.mode : 'single',
     previous_mode: typeof arena.previous_mode === 'string' ? arena.previous_mode : null,
@@ -4565,7 +4565,7 @@ function arenaStart(options = {}){
   const tierRule = resolveArenaTier(players);
   const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
   const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
-  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 6) : 1;
+  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 4) : 1;
   const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee);
@@ -5000,7 +5000,7 @@ function resolve_scene_total(missionType = resolve_mission_type()){
 }
 
 function resolve_boss_dr(teamSize, bossTier){
-  const size = Number.isFinite(teamSize) ? Math.min(6, Math.max(1, Math.floor(teamSize))) : 1;
+  const size = Number.isFinite(teamSize) ? Math.min(4, Math.max(1, Math.floor(teamSize))) : 1;
   const tier = bossTier === 'mini' ? 'mini' : 'arc';
   if (size <= 2){
     return tier === 'mini' ? 1 : 2;
@@ -5365,7 +5365,7 @@ function prepare_save_campaign(campaign){
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
   const campaignTeamSize = asNumber(base.team_size);
   base.team_size = Number.isFinite(campaignTeamSize)
-    ? Math.min(6, Math.max(1, Math.floor(campaignTeamSize)))
+    ? Math.min(4, Math.max(1, Math.floor(campaignTeamSize)))
     : null;
   const bossDr = Number(base.boss_dr);
   base.boss_dr = Number.isFinite(bossDr) && bossDr > 0 ? Math.floor(bossDr) : 0;
@@ -5409,7 +5409,7 @@ function prepare_save_arena(arena){
     previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
       ? source.previous_mode.trim()
       : null,
-    team_size: Number.isFinite(source.team_size) ? Math.max(1, Math.min(6, Math.floor(source.team_size))) : 1,
+    team_size: Number.isFinite(source.team_size) ? Math.max(1, Math.min(4, Math.floor(source.team_size))) : 1,
     tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
     proc_budget: Number.isFinite(source.proc_budget) ? Math.max(0, Math.floor(source.proc_budget)) : 0,
     artifact_limit: Number.isFinite(source.artifact_limit) ? Math.max(0, Math.floor(source.artifact_limit)) : 0,
@@ -5871,6 +5871,7 @@ function toast_save_block(reason){
 }
 
 function select_state_for_save(s){
+  const ui = prepare_save_ui({ ...ensure_ui(), ...clone_plain_object(s.ui) });
   const payload = {
     save_version: 6,
     zr_version: ZR_VERSION,
@@ -5883,7 +5884,7 @@ function select_state_for_save(s){
     loadout: prepare_save_loadout(s.loadout),
     economy: prepare_save_economy(s.economy),
     logs: prepare_save_logs(s.logs),
-    ui: prepare_save_ui(s.ui),
+    ui,
     arena: prepare_save_arena(s.arena),
     arc_dashboard: prepare_save_arc_dashboard(s.arc_dashboard)
   };
@@ -6530,7 +6531,7 @@ function on_command(command){
     if ((m = cmd.match(/^spiel starten\s*\(npc-team\s+([0-9]+)/))){
       const size = parseInt(m[1], 10);
       if (Number.isFinite(size) && size > 4){
-        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+        return 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
       }
     }
     if (cmd.match(/^spiel starten\s*\(gruppe\s+\d/)){
@@ -6575,7 +6576,7 @@ function on_command(command){
           'im HQ und wiederhole den Start mit `klassisch` oder `schnell`.';
       }
       if (size > 4){
-        return 'Teamgröße erlaubt: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+        return 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
       }
       startSolo(mode);
       setupNpcTeam(size);
