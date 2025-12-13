@@ -303,7 +303,7 @@ function normalize_offline_entry(entry, fallbackTimestamp){
   const episode = pickNumber(entry.episode, entry.ep);
   const mission = pickNumber(entry.mission, entry.ms);
   const location = pickString(entry.location, entry.loc);
-  const phase = pickString(entry.phase);
+  const phase = normalize_phase_value(pickString(entry.phase));
   const gmStyle = pickString(entry.gm_style, entry.gmStyle);
   const normalized = {
     timestamp,
@@ -400,9 +400,9 @@ function normalize_intervention_entry(entry, fallbackTimestamp, options = {}){
   if (!location && fillDefaults && typeof state.location === 'string'){
     location = state.location;
   }
-  let phase = pickString(payload.phase);
+  let phase = normalize_phase_value(pickString(payload.phase));
   if (!phase && fillDefaults && typeof state.phase === 'string'){
-    phase = state.phase;
+    phase = normalize_phase_value(state.phase);
   }
   let gmStyle = pickString(payload.gm_style);
   if (!gmStyle && fillDefaults){
@@ -1633,6 +1633,11 @@ function normalize_badge_density(value, fallback = 'standard'){
   return fallback;
 }
 
+function normalize_phase_value(value, fallback = ''){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  return normalized || fallback;
+}
+
 function ensure_ui(){
   if (!state.ui || typeof state.ui !== 'object'){
     state.ui = {
@@ -2512,9 +2517,7 @@ function ensure_campaign(){
     const scene = Number(state.campaign.scene);
     state.campaign.scene = Number.isFinite(scene) ? scene : state.scene?.index ?? 0;
   }
-  if (typeof state.campaign.phase !== 'string'){
-    state.campaign.phase = state.phase || 'core';
-  }
+  state.campaign.phase = normalize_phase_value(state.campaign.phase, state.phase || 'core');
   if (typeof state.campaign.id !== 'string' || !state.campaign.id.trim()){
     const base = state.character?.id || 'campaign';
     state.campaign.id = String(base).trim() || 'campaign';
@@ -4288,7 +4291,7 @@ function resume_snapshot(){
     throw new Error(`Suspend-Version inkompatibel (${raw.zr_version} ≠ ${ZR_VERSION}).`);
   }
   state.campaign.episode = raw.campaign?.episode ?? state.campaign.episode;
-  state.campaign.phase = raw.campaign?.phase ?? state.campaign.phase;
+  state.campaign.phase = normalize_phase_value(raw.campaign?.phase, state.campaign.phase);
   const sceneIndex = raw.campaign?.scene ?? state.scene?.index ?? state.campaign.scene;
   const fallbackTotal = Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total();
   const sceneTotalSource = raw.campaign?.scene_total;
@@ -6109,7 +6112,7 @@ function migrate_save(data){
     data.save_version = 3;
   }
   if (data.save_version === 3){
-    data.phase ||= 'core';
+    data.phase = normalize_phase_value(data.phase, 'core');
     data.save_version = 4;
   }
   if (data.save_version === 4){
@@ -6131,6 +6134,10 @@ function migrate_save(data){
     data.ui ||= { gm_style: 'verbose' };
     data.ui.intro_seen = !!data.ui.intro_seen;
     data.save_version = 6;
+  }
+  data.phase = normalize_phase_value(data.phase, 'core');
+  if (data.campaign && typeof data.campaign === 'object'){
+    data.campaign.phase = normalize_phase_value(data.campaign.phase, data.phase);
   }
   normalize_party_roster(data);
   data.campaign = prepare_save_campaign(data.campaign);
@@ -6158,7 +6165,7 @@ function migrate_save(data){
 
 function hydrate_state(data){
   state.location = data.location || 'HQ';
-  state.phase = data.phase || 'core';
+  state.phase = normalize_phase_value(data.phase, 'core');
   state.campaign = data.campaign || {};
   state.character = data.character || {};
   ensure_character();

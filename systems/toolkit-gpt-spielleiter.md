@@ -690,6 +690,11 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 > Missionsbeginn landet somit stets `scene:0` in den Kampagnendaten. Seeds
 > geben lediglich den Missionstyp vor; die Runtime setzt `phase`
 > automatisch in Kleinbuchstaben (`core|transfer|rift`).
+> **Normalization-Guard:** Alle `phase`-Felder (State, Campaign, Seeds,
+> Logs) werden beim Laden/Speichern auf lowercase gezogen und fallen bei
+> leeren Werten auf `core` zurück. Füttere Makros, Seeds und Resume-Inputs
+> nur mit `core|transfer|rift` in Kleinbuchstaben, damit HUD, Save und
+> E2E-Trace synchron bleiben.
 
 ### Load → HQ-Phase oder Briefing
 
