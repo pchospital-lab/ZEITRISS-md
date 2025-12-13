@@ -13,6 +13,8 @@ RUNTIME_DIRS: tuple[str, ...] = ("core", "characters", "gameplay", "systems")
 SAVE_REQUIRED_FIELDS: tuple[str, ...] = (
     "character.id",
     "character.attributes.SYS_max",
+    "character.attributes.SYS_installed",
+    "character.attributes.SYS_runtime",
     "character.attributes.SYS_used",
     "character.stress",
     "character.psi_heat",
@@ -232,9 +234,15 @@ def main() -> int:
     req(r"save_version", sv, "save_version im Save-Modul", fails)
     req(r"migrate_save", sv, "migrate_save vorhanden", fails)
     req(
-        r"state\.character\.attributes\.SYS_used == state\.character\.attributes\.SYS_max|SYS_used == SYS_max",
+        r"SYS_installed[\s\S]*SYS_max",
         sv,
-        "Deterministik geprüft",
+        "SYS-Installation vs. Kapazität dokumentiert",
+        fails,
+    )
+    req(
+        r"SYS_runtime",
+        sv,
+        "SYS-Runtime-Last dokumentiert",
         fails,
     )
 

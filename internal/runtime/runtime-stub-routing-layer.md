@@ -158,7 +158,7 @@ Content-Type: application/json
     "hp": 18,
     "stress": 0,
     "rank": "Operator I",
-    "attributes": { "SYS_max": 3, "SYS_used": 0 }
+    "attributes": { "SYS_max": 3, "SYS_installed": 3, "SYS_runtime": 0, "SYS_used": 3 }
   },
   "logs": {
     "hud": [],
@@ -825,6 +825,8 @@ const SAVE_REQUIRED_PATHS = [
   ['character', 'id'],
   ['character', 'cooldowns'],
   ['character', 'attributes', 'SYS_max'],
+  ['character', 'attributes', 'SYS_installed'],
+  ['character', 'attributes', 'SYS_runtime'],
   ['character', 'attributes', 'SYS_used'],
   ['character', 'stress'],
   ['character', 'psi_heat'],
@@ -875,11 +877,14 @@ function save_deep(ctx = state) {
   if (ctx.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
   const c = ctx.character || {};
   const attrs = c.attributes || {};
+  const sysMax = attrs.SYS_max ?? 0;
+  const sysInstalled = attrs.SYS_installed ?? attrs.SYS_used ?? sysMax;
+  const sysRuntime = attrs.SYS_runtime ?? sysInstalled;
   if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
   if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
-  if ((attrs.SYS_used ?? 0) > (attrs.SYS_max ?? 0)) {
-    throw new Error('SaveGuard: SYS overflow.');
-  }
+  if (sysInstalled > sysMax) throw new Error('SaveGuard: SYS overflow.');
+  if (sysRuntime > sysInstalled) throw new Error('SaveGuard: SYS runtime overflow.');
+  if (sysInstalled !== sysMax) throw new Error('SaveGuard: SYS nicht voll installiert.');
   const payload = select_state_for_save(ctx); // siehe Abschnitt 3 (Persistenz)
   enforceRequiredSaveFields(payload);
   return JSON.stringify(payload);
