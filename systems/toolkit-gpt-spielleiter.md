@@ -1509,7 +1509,7 @@ total=None, role="", env=None) -%}
   {% set gate_active = gate_target and have < required %}
   {% if gate_active %}
     {% if not campaign.foreshadow_gate_warned %}
-      {{ hud_tag('Gate blockiert – Gate ' ~ have ~ '/' ~ required) }}
+      {{ hud_tag('Gate blockiert – FS ' ~ have ~ '/' ~ required ~ ' (Gate 2/2 bleibt gesetzt)') }}
       {% set campaign.foreshadow_gate_warned = true %}
     {% endif %}
     {% if campaign.type == 'core' %}
@@ -1518,7 +1518,7 @@ total=None, role="", env=None) -%}
       {{ hud_tag('Fehlende Hinweise: Szene 9 muss zwei Foreshadows setzen, bevor Szene 10 öffnet.') }}
     {% endif %}
     {{ assert_foreshadow(required) }}
-    {{ hud_tag('Gate aktiv – Szene ' ~ campaign.scene|format("%02d") ~ ' bleibt offen.') }}
+    {{ hud_tag('Gate aktiv – Szene ' ~ campaign.scene|format("%02d") ~ ' bleibt offen, FS fehlen.') }}
   {% else %}
     {% set campaign.foreshadow_gate_warned = false %}
     {# Konflikte in Szene < delayConflict blocken #}

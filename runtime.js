@@ -40,7 +40,8 @@ function helper_boss_text(){
     'Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
     'Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`',
     'und `scene.foreshadows` den Fortschritt persistieren.',
-    'Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.'
+    'Gate 2/2 steht ab Missionsstart; Szene 10 öffnet nur bei FS 4/4 (Core) oder 2/2 (Rift).',
+    'Gate-Toast zeigt fehlende Foreshadows: `Gate blockiert – FS x/y (Gate 2/2 bleibt)`.'
   ].join('\n');
 }
 
