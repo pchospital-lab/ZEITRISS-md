@@ -794,6 +794,11 @@ function ensure_logs(){
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
+  if (!Array.isArray(state.logs.trace)){
+    state.logs.trace = [];
+  } else if (state.logs.trace.length > 64){
+    state.logs.trace = state.logs.trace.slice(-64);
+  }
   if (!Array.isArray(state.logs.foreshadow)){
     state.logs.foreshadow = [];
   } else {
@@ -2222,6 +2227,83 @@ function hud_toast(message, tag = 'HUD'){
   return entry;
 }
 
+function record_trace(event, details = {}){
+  ensure_logs();
+  if (!Array.isArray(state.logs.trace)){
+    state.logs.trace = [];
+  }
+  const eventName = typeof event === 'string' && event.trim() ? event.trim() : 'event';
+  const nowIso = new Date().toISOString();
+  const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
+  const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
+  const episode = Number.isFinite(state.campaign?.episode) ? state.campaign.episode : null;
+  const mission = Number.isFinite(state.campaign?.mission) ? state.campaign.mission : null;
+  const missionType = resolve_mission_type();
+  const campaignMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
+  const channel = typeof details.channel === 'string' && details.channel.trim()
+    ? details.channel.trim()
+    : null;
+  const overlay = typeof details.hud === 'string' && details.hud.trim()
+    ? details.hud.trim()
+    : null;
+  const foreshadowRequired = foreshadow_requirement();
+  const foreshadowProgress = Number.isFinite(state.logs?.flags?.foreshadow_gate_progress)
+    ? state.logs.flags.foreshadow_gate_progress
+    : 0;
+  const trace = {
+    event: eventName,
+    at: nowIso,
+    location: state.location || null,
+    phase: state.phase || state.campaign?.phase || null,
+    mission_type: missionType,
+    campaign_mode: campaignMode,
+    scene: {
+      episode,
+      mission,
+      index: sceneIndex,
+      total: sceneTotal
+    },
+    hud: overlay,
+    channel,
+    foreshadow: {
+      progress: foreshadowProgress,
+      required: foreshadowRequired,
+      tokens: Array.isArray(state.logs?.foreshadow) ? state.logs.foreshadow.length : 0,
+      expected: !!state.logs?.flags?.foreshadow_gate_expected
+    },
+    radio_count: Array.isArray(state.logs?.squad_radio) ? state.logs.squad_radio.length : 0,
+    kodex_count: Array.isArray(state.logs?.kodex) ? state.logs.kodex.length : 0,
+    alias_count: Array.isArray(state.logs?.alias_trace) ? state.logs.alias_trace.length : 0,
+    economy: {
+      cu: Number.isFinite(state.economy?.cu) ? state.economy.cu : null,
+      wallets: state.economy?.wallets ? Object.keys(state.economy.wallets).length : 0
+    },
+    fr_bias: state.campaign?.fr_bias || null,
+    intervention: state.fr_intervention || null,
+    note: typeof details.note === 'string' && details.note.trim() ? details.note.trim() : null
+  };
+  if (details.arena && typeof details.arena === 'object'){
+    trace.arena = {
+      scenario: details.arena.scenario || null,
+      tier: details.arena.tier ?? null,
+      team_size: details.arena.team_size ?? resolve_team_size()
+    };
+  }
+  if (details.seed && typeof details.seed === 'object'){
+    trace.seed = {
+      id: details.seed.id || state.campaign?.active_seed_id || null,
+      tier: details.seed.tier || state.campaign?.active_seed_tier || null,
+      label: details.seed.label || state.campaign?.active_seed_label || null,
+      status: details.seed.status || null
+    };
+  }
+  state.logs.trace.push(trace);
+  if (state.logs.trace.length > 64){
+    state.logs.trace.splice(0, state.logs.trace.length - 64);
+  }
+  return trace;
+}
+
 function ForeshadowHint(text, tag = 'Foreshadow'){
   const cleaned = (text ?? '').toString().trim();
   if (!cleaned){
@@ -2294,7 +2376,10 @@ function show_compliance_once(options = {}){
   if (alreadyShown && !force){
     return false;
   }
-  writeLine(COMPLIANCE_NOTICE);
+  const toastOnly = qaMode;
+  if (!toastOnly){
+    writeLine(COMPLIANCE_NOTICE);
+  }
   if (qaMode){
     hud_toast(COMPLIANCE_NOTICE, 'HUD');
   }
@@ -4601,6 +4686,12 @@ function arenaStart(options = {}){
   if (audit.length){
     hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
   }
+  record_trace('arena_start', {
+    hud: baseMessage,
+    channel: 'ARENA',
+    arena: { scenario: scenario?.description || null, tier: tierRule.tier, team_size: teamSize },
+    note: pxNote
+  });
   return `${baseMessage} · ${scenario.description} · ${pxNote}`;
 }
 
@@ -5111,6 +5202,17 @@ function StartMission(){
   if (bossDrToast){
     hud_toast(bossDrToast, 'BOSS');
   }
+  record_trace('mission_start', {
+    hud: overlay,
+    channel: 'HUD',
+    note: bossDrToast || bossToast || null,
+    seed: {
+      id: state.campaign?.active_seed_id || state.campaign?.seed_id || null,
+      tier: state.campaign?.active_seed_tier || null,
+      label: state.campaign?.active_seed_label || null,
+      status: state.campaign?.type === 'rift' ? 'open' : null
+    }
+  });
   return overlay;
 }
 
@@ -6443,6 +6545,16 @@ function launch_rift(seedId = null){
   if (Number.isFinite(seed?.epoch)){
     state.campaign.epoch = seed.epoch;
   }
+  record_trace('rift_launch', {
+    channel: 'RIFT',
+    hud: seed?.label ? `Rift ${seed.id}: ${seed.label}` : null,
+    seed: {
+      id: seed?.id || null,
+      label: seed?.label || null,
+      tier: seed?.seed_tier || null,
+      status: seed?.status || 'open'
+    }
+  });
   return launch_mission();
 }
 
@@ -6787,6 +6899,7 @@ module.exports = {
   save_deep,
   migrate_save,
   load_deep,
+  record_trace,
   ensure_rift_seeds,
   can_launch_rift,
   startSolo,

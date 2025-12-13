@@ -200,6 +200,47 @@
       "Arena-Gebühr 200 CU abgebucht",
       "Boss-DR aktiviert – −X Schaden pro Treffer"
     ],
+    "trace": [
+      {
+        "event": "mission_start",
+        "at": "2025-11-26T18:25:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "preserve",
+        "scene": {"episode": 1, "mission": 5, "index": 0, "total": 12},
+        "hud": "EP 01 · MS 05 · SC 0/12 · MODE verbose · Objective: Stabilisiere Reaktor",
+        "channel": "HUD",
+        "foreshadow": {"progress": 0, "required": 4, "tokens": 0, "expected": true},
+        "radio_count": 0,
+        "kodex_count": 0,
+        "alias_count": 1,
+        "economy": {"cu": 1200, "wallets": 2},
+        "fr_bias": "normal",
+        "intervention": "none",
+        "note": "Boss-DR aktiviert – −2 Schaden pro Treffer"
+      },
+      {
+        "event": "arena_start",
+        "at": "2025-11-26T20:00:00Z",
+        "location": "ARENA",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "pvp",
+        "scene": {"episode": 1, "mission": 5, "index": 0, "total": 12},
+        "hud": "Arena initiiert · Tier 1 · Gebühr 200 CU",
+        "channel": "ARENA",
+        "foreshadow": {"progress": 0, "required": 4, "tokens": 0, "expected": false},
+        "radio_count": 0,
+        "kodex_count": 0,
+        "alias_count": 1,
+        "economy": {"cu": 1000, "wallets": 2},
+        "fr_bias": "normal",
+        "intervention": "none",
+        "arena": {"scenario": "Chronopolis Patrol", "tier": 1, "team_size": 2},
+        "note": "Px-Bonus verfügbar"
+      }
+    ],
     "psi": [
       {
         "ts": "2025-11-26T21:10:00Z",

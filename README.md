@@ -1139,12 +1139,14 @@ mit einem Hinweis abgebrochen.
 
 Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
 {{ ShowComplianceOnce() }}
-Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl.
+Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl oder übernimmt
+beides direkt aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
 Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
-- QA-Läufe können den Hinweis zusätzlich als HUD-Toast loggen:
-  `ShowComplianceOnce(qa_mode=true)` setzt Flag und HUD-Eintrag in einem Schritt.
+- QA-Läufe nutzen `ShowComplianceOnce(qa_mode=true)`, um nur den HUD-Toast zu setzen und
+  den Chat von Compliance-Text zu befreien; der Start-Dispatcher übernimmt Ansprache und
+  Player-Count aus dem Kommando.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
@@ -1161,7 +1163,10 @@ Der Befehl `Speichern` erzeugt immer einen vollständigen **Deep Save** als
 JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Film ab!`, um eine
 optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
 kopieren lässt. Alle Spielstände werden intern im Charakterbogen geführt –
-separate Sicherungen sind nicht erforderlich.
+separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
+`logs.trace[]` als E2E-Protokoll: Mission-Start, Rift-Launch und Arena-Init
+landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
+HUD-Overlay, sodass QA-Läufe den kompletten Run nachvollziehen können.
 
 ```json
 {
