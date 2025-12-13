@@ -2391,10 +2391,9 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 {% macro on_stabilize_history() -%}
   {% set campaign.px = campaign.px + 1 %}
   {% if campaign.px >= 5 %}
-     {% set seeds = ['auto'] %}
      {# LINT:PX5_SEED_GATE #}
      {{ hud_tag('Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar') }}
-     {% set campaign.rift_seeds = (campaign.rift_seeds or []) + seeds %}
+     {{ generate_rift_seeds(1,2) }}
      {% set campaign.px = 0 %}
   {% endif %}
 {%- endmacro %}
@@ -2418,7 +2417,15 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
 {%- endmacro %}
 
 {% macro apply_rift_mods_next_episode() -%}
-  {% set n = (campaign.rift_seeds or [])|length %}
+  {% set seeds = campaign.rift_seeds or [] %}
+  {% set open_seeds = [] %}
+  {% for seed in seeds %}
+    {% set status = (seed.status or 'open')|lower %}
+    {% if status != 'closed' %}
+      {% do open_seeds.append(seed) %}
+    {% endif %}
+  {% endfor %}
+  {% set n = open_seeds|length %}
   {% set campaign.next_episode = {'sg_bonus': n, 'cu_multi': 1.0 + 0.2*n} %}
 {%- endmacro %}
 
