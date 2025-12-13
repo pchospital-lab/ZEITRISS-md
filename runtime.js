@@ -2480,6 +2480,10 @@ function exfil_tick(token){
 
 function ensure_campaign(){
   state.campaign ||= {};
+  const missionRaw = Number(state.campaign.mission);
+  state.campaign.mission = Number.isFinite(missionRaw)
+    ? Math.max(1, Math.floor(missionRaw))
+    : 1;
   if (typeof state.campaign.paradoxon_index !== 'number'){
     const raw = Number(state.campaign.paradoxon_index);
     state.campaign.paradoxon_index = Number.isFinite(raw) ? raw : 0;
@@ -2509,9 +2513,23 @@ function ensure_campaign(){
   if (typeof state.campaign.chronopolis_tick_modulo !== 'number'){
     state.campaign.chronopolis_tick_modulo = 3;
   }
+  const missionInEpisodeRaw = Number(state.campaign.mission_in_episode);
+  const missionInEpisode = Number.isFinite(missionInEpisodeRaw)
+    ? Math.max(1, Math.floor(missionInEpisodeRaw))
+    : ((state.campaign.mission - 1) % 10) + 1;
+  state.campaign.mission_in_episode = missionInEpisode;
   if (typeof state.campaign.episode !== 'number'){
     const episode = Number(state.campaign.episode);
-    state.campaign.episode = Number.isFinite(episode) ? episode : 0;
+    state.campaign.episode = Number.isFinite(episode)
+      ? Math.max(1, Math.floor(episode))
+      : Math.max(1, Math.floor((state.campaign.mission - 1) / 10) + 1);
+  } else {
+    state.campaign.episode = Math.max(1, Math.floor(state.campaign.episode));
+  }
+  if (typeof state.campaign.episode_completed !== 'boolean'){
+    state.campaign.episode_completed = missionInEpisode >= 10;
+  } else {
+    state.campaign.episode_completed = !!state.campaign.episode_completed;
   }
   if (typeof state.campaign.scene !== 'number'){
     const scene = Number(state.campaign.scene);
@@ -2750,6 +2768,11 @@ function completeMission(summary = {}){
   const temp = typeof summary.temp === 'number' ? summary.temp : mission_temp();
   const required = missions_required(temp);
   const missionNumber = Number(state.campaign?.mission);
+  const missionInEpisode = Number.isFinite(state.campaign?.mission_in_episode)
+    ? Math.max(1, Math.floor(state.campaign.mission_in_episode))
+    : Number.isFinite(missionNumber)
+      ? ((Math.max(1, Math.floor(missionNumber)) - 1) % 10) + 1
+      : null;
   const reasonCandidate = pickString(summary.reason, summary.completed, summary.outcome, summary.status);
   const normalizedReason = typeof reasonCandidate === 'string' ? reasonCandidate.trim().toLowerCase() : '';
   const abortedToken =
@@ -2799,6 +2822,10 @@ function completeMission(summary = {}){
     events.push('Kodex: Chronopolis-Angebote neu instanziiert – Episode abgeschlossen.');
   } else if (chronoReset === 'mission-cycle'){
     events.push('Kodex: Chronopolis-Angebote rotiert – HQ-Zyklus erreicht.');
+  }
+  if (missionInEpisode !== null){
+    state.campaign.mission_in_episode = missionInEpisode;
+    state.campaign.episode_completed = missionInEpisode >= 10;
   }
   const nowIso = new Date().toISOString();
   if (state.logs?.flags){
@@ -5075,6 +5102,12 @@ function can_launch_rift(seedId = null){
   if (arenaActive){
     return { ok: false, reason: 'Arena aktiv – Rift-Start blockiert.' };
   }
+  const episodeDone = state.campaign?.episode_completed === true;
+  const missionInEpisode = Number(state.campaign?.mission_in_episode);
+  const episodeReady = episodeDone || (Number.isFinite(missionInEpisode) && missionInEpisode >= 10);
+  if (!episodeReady){
+    return { ok: false, reason: 'Rift-Start blockiert – erst nach Episodenende im HQ.' };
+  }
   const seed = find_open_rift_seed(seedId);
   if (!seed){
     return { ok: false, reason: 'Keine offenen Rift-Seeds verfügbar.' };
@@ -5107,6 +5140,7 @@ function resolve_boss_dr(teamSize, bossTier){
 }
 
 function StartMission(){
+  ensure_campaign();
   const missionType = resolve_mission_type();
   const missionPhase = missionType === 'rift' ? 'rift' : 'core';
   const sceneTotal = resolve_scene_total(missionType);
@@ -5136,6 +5170,7 @@ function StartMission(){
   const flags = state.logs.flags;
   const teamSize = resolve_team_size();
   const missionNumber = Number(state.campaign?.mission);
+  const missionInEpisode = Number(state.campaign?.mission_in_episode);
   state.campaign.team_size = teamSize;
   const gateProgress = Number.isFinite(flags.foreshadow_gate_progress)
     ? Math.max(0, Math.floor(flags.foreshadow_gate_progress))
@@ -5174,6 +5209,9 @@ function StartMission(){
     const fsBadge = `FS 0/${fsRequired}`;
     hud_tag(gateBadge);
     hud_toast(`${gateBadge} · ${fsBadge}`, 'BOSS');
+  }
+  if (Number.isFinite(missionInEpisode) && missionInEpisode <= 1){
+    state.campaign.episode_completed = false;
   }
   if (Number.isFinite(missionNumber) && missionNumber >= 6 && !self_reflection_enabled()){
     set_self_reflection(true);

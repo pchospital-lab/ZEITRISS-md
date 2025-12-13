@@ -311,6 +311,9 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
 
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
+`launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Runtime und Toolkit prüfen
+`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
+gestartet werden darf.
 
 #### Kurzübersicht: Missions-Rhythmus und Artefakte
 
