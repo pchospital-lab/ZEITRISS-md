@@ -589,8 +589,10 @@ heran und protokolliert abweichende Seeds im HUD/Debrief.
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
-zurücksetzen. Der Serializer speichert den kompletten UI-Block, füllt fehlende
-Felder auf `standard|normal` und mappt die Optionen 1:1 auf JSON:
+zurücksetzen. HQ-Deepsaves erzwingen den kompletten UI-Block
+(`gm_style`/`intro_seen`/`suggest_mode` plus `contrast`/`badge_density`/
+`output_pace`); fehlt ein Feld, stoppt der SaveGuard und die Migration füllt
+es auf `standard|normal` auf. Der Serializer mappt die Optionen 1:1 auf JSON:
 
 - **Kontrast:** `contrast = standard|high`
 - **Badge-Dichte:** `badge_density = standard|dense|compact`
