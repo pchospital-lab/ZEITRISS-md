@@ -633,8 +633,10 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | | | QA-Bypass-Text ergänzt |
 | #10 | Cross-Mode-Merge-Konflikte | ✅ Loader-Hook `push_merge_conflict()` protokolliert Seeds/Counter/UI/Arena |
 | #11 | Arena-Load-Konfliktmarkierung | ✅ Load erzeugt Toast + `merge_conflicts` bei Arena-State |
-| #12 | High-Level-Ökonomie | Tabelle Level→Reward/Costs, Sink-Mechanik dokumentieren |
-| #13 | Artefaktprogression | Research/Archive-Value, prozentuale Effekte, Trade erlaubt |
+| #12 | High-Level-Ökonomie | ✅ Modul 15 führt die Level-100/400/1000-Tabelle (Reward vs. Sinks),
+| | | README verweist auf Seed-Stack/Hazard-Pay und unveränderte Wallet-Splits |
+| #13 | Artefaktprogression | ✅ Modul 15 dokumentiert Research-/Archivwerte und prozentuale Buffs,
+| | | freier Artefakthandel bleibt im Kampagnen- und README-Regelblock verankert |
 | #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf 0–4 vereinheitlicht, Docs
 | | | und Tests angepasst |
 | #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
