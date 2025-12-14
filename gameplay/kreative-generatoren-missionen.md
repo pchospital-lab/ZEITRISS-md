@@ -122,6 +122,23 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 |12 | Verfolgung | Gegner setzt nach |
 |13 | Abschluss | Rücksprung |
 |14 | Debrief | Belohnung auszahlen |
+
+### Einstiegsmodi und Pflichtphasen {#undercover-einstieg}
+
+- **Undercover-Start** bedeutet nicht, dass die Handlung übersprungen wird: Auch wenn das Team schon
+  "drin" ist, durchläuft es die **vollen Phasen 3–9** (Auftakt → Infiltration → Kontakt → Konflikt I
+  → Intel Twist → Konflikt II → Sicherung). Erst danach öffnet die Runtime Flucht/Verfolgung.
+- **Gate statt Sprung:** Der Missions-Generator schaltet `Sicherung`, `Flucht` und `Rücksprung`
+  erst frei, wenn mindestens **6–7 Szenen** im Log stehen. Ein Undercover-Briefing darf also nicht
+  direkt in Szene 9 einsteigen.
+- **Pflicht-Hürden:** Bei Undercover wird mindestens eine **Hürde** (Misstrauen, Scan, Schichtwechsel
+  o. Ä.) in der Infiltrations- oder Kontaktphase verankert, die aktiv ausgespielt werden muss.
+- **Fail-Forward-Backfill:** Läuft eine Mission zu schnell, fügt die Runtime automatisch **2–3
+  Zusatzszenen** ein (z. B. unerwartete Patrouille, Gegenangriff, lokale Komplikation am Ziel), bis
+  der Zielkorridor **12 (Core) bzw. 14 (Rift) Szenen** erreicht ist. Diese Szenen nutzen bevorzugt
+  offene Twists oder Fraktionsinterventionen, damit die Spannung organisch steigt.
+- **Stressaufbau:** In den Backfill-Szenen erhöht jede Verzögerung den Stress, damit Undercover
+  nicht zur risikofreien Abkürzung wird.
 ### Mission Economy
 
 Belohnungen folgen einer einheitlichen Formel:

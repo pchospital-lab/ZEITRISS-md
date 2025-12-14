@@ -705,6 +705,27 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
 4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
 
+### Gegenwehr & Makros {#counterfire}
+
+- **Standard-Opener-Volley:** Gegner eröffnen idealerweise, erzwingen Deckung/Stress und setzen
+  Druck, _sofern_ sie nicht bereits durch Infiltration, Überraschung oder gezielte Stunts
+  ausgeschaltet sind. Initiative-Skills und präzise Alpha-Strikes dürfen den Opener kippen.
+- **Gegenwehr pro Szene als Default:** Nach Spielenden-Aktionen prüft die Runde, ob ein
+  `counter_move()` sinnvoll ist (Schützen verlagern Feuer, Bosse zünden ein Gadget, Fahrzeuge
+  sperren Wege). Reaktionen entfallen, wenn Gegner handlungsunfähig, überrascht oder klar
+  unterlegen sind; Skills und Stunts, die Reaktionen verhindern, bleiben voll wirksam.
+- **Makros (Pseudo):**
+
+```pseudo
+opener_volley(): Ansage "Gegner eröffnen Feuer" → Deckung/Stress würfeln lassen.
+suppression_fire(): blockiert Route oder zwingt Nachladen/Umweg (−1 Agi, +1 Stress bei Versagen).
+counter_move(): Spezialfähigkeit oder Positionswechsel, der Druck erhöht (Timer, Verstärkung, Jammer).
+```
+
+- **Boss-Zyklus:** Boss-Szenen fahren standardmäßig `opener_volley()` → Signatur-Fähigkeit →
+  `suppression_fire()` oder Verstärkung, erst dann volle Spieleraktionen – es sei denn, der Boss
+  wurde zuvor überrascht oder neutralisiert. Das gilt für Mini- wie Rift-Bosse.
+
 ## Boss-Generator: Mini-, Episoden- und Rift-Bosse {#boss-generator}
 
 Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Mission 5 auf,
