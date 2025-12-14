@@ -123,6 +123,26 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 |13 | Abschluss | Rücksprung |
 |14 | Debrief | Belohnung auszahlen |
 
+### Core-Briefing-Baukasten (Anchor + Auftragstyp)
+
+- **Anchor bestimmen:** Person, Ort oder Objekt setzt den Kernkonflikt (z. B.
+  Informant, Relais-Knoten, Archivkiste).
+- **Auftragstyp wählen:** `protect | extract | neutralize | document | influence | prevent`.
+- **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
+  oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
+- **Physische Near-Future-Tech:** Scans, Hacks, Comms laufen über Linse/Sensor/
+  Kabel/Relays/Terminal – Mixed-Reality-HUD über die Linse statt losgelöster
+  VR-Räume oder Projektor-UIs.
+
+### Rift-Casefiles: Tatort → Leads → Boss
+
+- Das 14er-Template folgt der Ermittlungslogik: **Tatort (1–4)** → **Leads
+  (5–10)** → **Boss (11–14)**.
+- HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss`; der
+  Casefile-Tracker spiegelt den Wechsel.
+- One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
+  restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
+
 ### Einstiegsmodi und Pflichtphasen {#undercover-einstieg}
 
 - **Undercover-Start** bedeutet nicht, dass die Handlung übersprungen wird: Auch wenn das Team schon

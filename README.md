@@ -887,6 +887,12 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 > externen Projektoren. **Keine Batterien oder Ladezyklen** – die Geräte
 > speisen sich aus Bewegung und Körperwärme.
 
+> **Mixed-Reality-HUD:** Das Interface erscheint als Retina-Holo direkt im
+> Sichtfeld (Terminator-/AR-Stil) und begleitet jede Epoche. HQ = volles Kodex-
+> Panel; im Feld stellt das Comlink/Kodex-Light die Verbindung, bei Funkstille
+> bleibt das lokale HUD aktiv (Scans/Logs laufen weiter, Kodex antwortet erst
+> nach Re-Link).
+
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
 - _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute).
@@ -931,24 +937,31 @@ Artefakten und temporaler Abweichungen.
 #### Agenten-Thriller-Ton 2026-02 – Leitplanken
 
 - **Physicality Gate:** Jeder Scan/Hack/Comms-Call bindet Hardware fest ein
-  (Kontaktlinse, Sensor, Kabel/Relais). Keine abstrakten „Digitalräume“, keine
-  Holo-UI ohne Trägergerät.
-- **Loop-Klarheit:** Core-Ops laufen als **Episoden**; Rift-Ops starten erst
-  nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HQ-only für
-  Rift-Seeds; kein paralleler Rift-Betrieb.
+  (Kontaktlinse, Sensor, Kabel/Relais). Keine abstrakten „Digitalräume“ – das
+  HUD bleibt das Retina-Holo der Linse (Mixed-Reality im Sichtfeld) statt
+  raumfüllender VR oder projektorbasierter UI. Runtime erzwingt
+  Geräteangaben über `require_scan_device()/require_hack_device()` und
+  protokolliert Comms-Hardware als `HARDWARE`-Toast.
+- **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
+  starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
+  führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
+  `STAGE Tatort/Leads/Boss`. HQ-only für Rift-Seeds; kein paralleler
+  Rift-Betrieb.
 - **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
   Auftragstyp (`protect | extract | neutralize | document | influence |
-  prevent`). Mindestens 60 % der Core-Ops fokussieren Personen- oder
-  Einflussziele statt reiner Objekt-Raubzüge.
+  prevent`). Mindestens 60 % der Core-Ops fokussieren Personen, Einfluss oder
+  Schutz statt reiner Objekt-Raubzüge.
 - **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab – Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Skip-Flag
   respektieren (`state.flags.runtime.skip_entry_choice`).
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template mit
   Pflicht-Casefile-Overlay, genau **einem** Anomalie-Element und einem Twist.
-  Tatort → Leads → Boss, alles physisch belegbar.
+  Tatort → Leads → Boss, alles physisch belegbar und als `CASE STAGE` im HUD
+  nachverfolgbar.
 - **One-Weird-Thing-Rule:** Core bleibt ohne echte Anomalien (nur rationale
   Täuschungen). Rift erlaubt höchstens **1** Para-Element; restliche Effekte
-  sind wissenschaftlich erklärbar.
+  sind wissenschaftlich erklärbar. Runtime meldet Budgetverstöße via
+  `register_anomaly()` und `WEIRD`-Toast.
 - **HUD als dünnes Overlay:** Kurzzeilen in Backticks beschreiben physische
   Wahrnehmungen (Sensor, Vibration, Displayzeile) statt abstrakter UI.
 - **HUD-Casefile & Entry-Toast:** Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice` als HUD-Toast ein
