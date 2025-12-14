@@ -1002,6 +1002,15 @@ fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
 Beendigung der Episode – Teams können Seeds „offen halten“, um
 spätere Beutezüge zu planen.
 
+**Raumzeitkarte & Urban-Legends-Logik:** Die auf der Raumzeitkarte sichtbaren
+Risse sind keine offenen Löcher im Gefüge, sondern **Marker für gescheiterte oder
+fehlerhafte Eingriffe** – durch Fremdfraktionen, misslungene Chrono-Teams oder
+die eigene Crew. Sie schlagen als **urbane Legenden** oder folkloristische
+Spukmeldungen auf (Mothman, Nightcrawler, Schattenleute) und tragen stets ein
+zeitliches Motiv (Echo, Verzögerung, Deja-vu, Loop). Sobald die Agenten die
+Kreatur oder das Phänomen neutralisieren, schließt sich der Eintrag: Die Legende
+gilt als aufgeklärt, der „Riss“ verschwindet von der Karte.
+
 **Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.**
 Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
 
