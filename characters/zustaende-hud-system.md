@@ -722,6 +722,12 @@ Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0–5; bei
 Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
 Mali. Mehr Details im Kodex.
+
+> **Dünnes Overlay, physischer Träger.** HUD-Zeilen erscheinen in Backticks als
+> Display-/Sensor-Feedback (Linse flackert, Relais klickt, Resonator vibriert) –
+> niemals als schwebendes Holo ohne Gerät. **MODE CORE** kennzeichnet Episoden,
+> **MODE RIFT** Casefiles aus dem HQ. Casefile-Overlays zeigen Tatort → Leads →
+> Boss mit genau einem Anomalie-Element.
 Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradoxon); weitere
 Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
 Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
