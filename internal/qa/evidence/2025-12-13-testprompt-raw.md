@@ -210,7 +210,7 @@ Test-Save (JSON)
     "kodex": [
       {
         "ts": "2025-11-26T20:30:00Z",
-        "message": "Paradoxon-Index 3/5 – ClusterCreate bei nächstem stabilisierten Verlauf wahrscheinlich."
+        "message": "Paradoxon-Index 3/5 – ClusterCreate wahrscheinlich bei nächster stabiler Phase."
       }
     ],
     "alias_trace": [

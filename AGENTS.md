@@ -12,8 +12,9 @@ in Prompts oder Spielsysteme übernommen werden.**
 - Prüfe vor jedem Eingriff, ob unterhalb des Zielpfads zusätzliche Richtlinien existieren.
 - Halte Dev-Dokumente (`tags: [meta]`, `docs/`, `meta/` außerhalb des Masterprompts) strikt von
   Runtime-Content getrennt.
-- **Spiegle jede Laufzeitänderung (runtime.js, Tools) sofort in den Wissensmodulen (README, Runtime-Markdowns, Toolkit-Makros)**
-  und dokumentiere den Mirror in Commit/PR sowie – falls noch offen – im QA-Log.
+- **Spiegle jede Laufzeitänderung (runtime.js, Tools) sofort in den Wissensmodulen (README,
+  Runtime-Markdowns, Toolkit-Makros)** und dokumentiere den Mirror in Commit/PR sowie – falls
+  noch offen – im QA-Log.
 - Das Pflicht-Testpaket für Repo-Agent:innen ist ausschließlich in
   [CONTRIBUTING.md → Verpflichtende Prüfungen](CONTRIBUTING.md#verpflichtende-pruefungen)
   definiert; QA-Reports müssen es nicht mehr als To-do aufführen.
@@ -26,10 +27,12 @@ in Prompts oder Spielsysteme übernommen werden.**
 2. **Umsetzung** – Entwickle Änderungen im Repo, dokumentiere Quellen (z. B. QA-Logs) in Commit- und
    PR-Texten und halte die Rollenabgrenzung aus
    [README → Dokumenten-Landkarte](README.md#dokumenten-landkarte) ein.
-   Laufzeitfeatures müssen parallel als Regel- oder Prozessbeschreibung in den Wissensmodulen landen,
-   damit produktive GPTs ohne lokale Skripte identisch reagieren.
-3. **Prüfung** – Führe den in [CONTRIBUTING.md → Verpflichtende Prüfungen](CONTRIBUTING.md#verpflichtende-pruefungen)
-   beschriebenen Testumfang aus. Ergänze projektspezifische Checks (`tools/`, `scripts/`) bei Bedarf.
+   Laufzeitfeatures müssen parallel als Regel- oder Prozessbeschreibung in den Wissensmodulen
+   landen, damit produktive GPTs ohne lokale Skripte identisch reagieren.
+3. **Prüfung** – Führe den in
+   [CONTRIBUTING.md → Verpflichtende Prüfungen](CONTRIBUTING.md#verpflichtende-pruefungen)
+   beschriebenen Testumfang aus. Ergänze projektspezifische Checks (`tools/`, `scripts/`) bei
+   Bedarf.
 4. **Dokumentation** – Notiere alle Befehle samt Ergebnis im Commit/PR, aktualisiere QA-Belege und
    melde verbleibende Abweichungen transparent.
 
