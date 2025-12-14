@@ -100,8 +100,8 @@ Die Kernregeln sind im [README → Comms-Core](README.md#comms-core) gespiegelt
 Wird durch `must_comms(opts)` ergänzt, das automatisch km→m konvertiert.
 
 ### `must_comms(opts)`
-Zentraler Guard für Funkverkehr. Wirft `CommsCheck failed: require valid device/range or relay/jammer override.`
-bei ungültigem Gerät oder Reichweite.
+Zentraler Guard für Funkverkehr. Wirft `CommsCheck failed: require valid device/range or
+relay/jammer override.` bei ungültigem Gerät oder Reichweite.
 
 ### `can_open_conflict(type)`
 Liefert `true`, wenn Konflikte vor `DelayConflict`-Threshold erlaubt sind und
