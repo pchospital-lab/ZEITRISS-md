@@ -111,16 +111,10 @@ der **W10-Ersatz** – sind **optional** und sollten nur eingesetzt werden, wenn
 Runde passen. Sie bieten frischen Wind für erfahrene Runden, ohne das Grundsystem fundamental zu
 verändern.
 
-**Schwellen-Kalibrierung:** Standardproben nutzen einen W6. Ein SG von **5** gilt als
-leichte Herausforderung, **8–9** als mittel, **12** als schwierig und **15+** als
-extrem. Ein **Heldenwürfel** ermöglicht einmal pro Szene einen kostenlosen Reroll.
-
-| Stufe  | Zielzahl |
-| ------ | -------- |
-| Leicht | 5        |
-| Mittel | 8–9      |
-| Schwer | 12       |
-| Extrem | 15+      |
+**Schwellen-Kalibrierung:** Standardproben nutzen einen W6. Als Basis gelten die Zielzahlen aus
+der Referenz unten: **Leicht 5**, **Mittel 8–9**, **Schwer 12** und **Extrem 15+**. Wer die optionale W10-
+Variante spielt, behält dieselben Zielwerte bei. Ein **Heldenwürfel** ermöglicht einmal pro Szene
+einen kostenlosen Reroll.
 
 **Hinweis:** Durch explodierende Würfel können gerade unwahrscheinliche Aktionen spektakulär
 gelingen. Die Spielleitung sollte dies erzählerisch hervorheben – z. B. durch cineastische
@@ -186,12 +180,10 @@ wie riskant ein Schritt ist und verhindern übermäßige Varianz.
 
 | Schwierigkeit | Zielwert | Beschreibung | Beispiele |
 |---------------|---------:|--------------|-----------|
-| Routine       | **3** | Alltag, kaum Risiko | Tür öffnen, triviales Hacken |
-| Standard      | **4** | Typische Einsatzprobe | Schloss knacken, Überwachung umgehen |
-| Anspruchsvoll | **5** | Merkliches Risiko | High-Security Alarm umgehen |
-| Legendär      | **6** | Nur für Profis | Laserfeld im Sprint passieren |
-| Episch        | **7** | Held*innen-Stufe | In 5 Sek. Quantenkern neu kalibrieren |
-| Unmöglich?    | **8+** | Nur mit Boosts | Freier Fall via Telekinese bremsen |
+| Leicht        | **5** | Routineeinsatz ohne großen Druck | Tür öffnen, triviales Hacken |
+| Mittel        | **8–9** | Übliche Operative-Checks | Schloss knacken, Überwachung umgehen |
+| Schwer        | **12** | Hohes Risiko, Spezialist:innen nötig | High-Security-Alarm umgehen |
+| Extrem        | **15+** | Nur mit Boosts oder Exploding-Glück | Laserfeld im Sprint passieren |
 
 ### Referenz-Bogen {#reference-sheet}
 

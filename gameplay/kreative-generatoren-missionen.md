@@ -149,8 +149,9 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
   "drin" ist, durchläuft es die **vollen Phasen 3–9** (Auftakt → Infiltration → Kontakt → Konflikt I
   → Intel Twist → Konflikt II → Sicherung). Erst danach öffnet die Runtime Flucht/Verfolgung.
 - **Gate statt Sprung:** Der Missions-Generator schaltet `Sicherung`, `Flucht` und `Rücksprung`
-  erst frei, wenn mindestens **6–7 Szenen** im Log stehen. Ein Undercover-Briefing darf also nicht
-  direkt in Szene 9 einsteigen.
+  erst frei, wenn mindestens **6–7 Szenen** im Log stehen. Es zählen nur **vollwertige Szenen**
+  (eigene Phase oder klarer Twist); Mikroschnitte oder Doppeldokumentation derselben Szene heben
+  das Gate nicht auf. Ein Undercover-Briefing darf also nicht direkt in Szene 9 einsteigen.
 - **Pflicht-Hürden:** Bei Undercover wird mindestens eine **Hürde** (Misstrauen, Scan, Schichtwechsel
   o. Ä.) in der Infiltrations- oder Kontaktphase verankert, die aktiv ausgespielt werden muss.
 - **Fail-Forward-Backfill:** Läuft eine Mission zu schnell, fügt die Runtime automatisch **2–3
