@@ -151,6 +151,28 @@ So wird die Belohnung greifbar und direkt Teil der Geschichte.
 Hohe Einmalzahlungen sind selten – die meisten Missionen bringen moderate Beträge,
 um das Wirtschaftssystem spannend zu halten.
 
+### High-Level-Ökonomie (Lvl 100/400/1000)
+
+Die Save-v6-Formel skaliert auch im Endgame. Nutze die Tabelle, um Belohnungen und
+Ausgaben pro Missionsband zu planen; Werte referenzieren Solo/Buddy mit
+Hazard-Pay sowie `seed_multi = 1 + 0,2 × offene Seeds`.
+
+| Level | Richtwert Belohnung* | Typische Kosten/Sinks |
+| --- | --- | --- |
+| 100 | 400–720 CU (Low–High, Bonus 1,2) | T2/3-Implantate 300–800 CU, Chronopolis-Services 150–300 CU |
+| 400 | 1,6k–2,8k CU (Seed-Multi ≈ 1,8) | HQ-Ausbau, Endgame-Loadouts 2–3k CU, Research-Sinks 500+ CU |
+| 1000 | 4k–7k CU (High-Risk, Seed-Multi 2,0+) | Fraktionsprojekte/Legendary Gear 5k+ CU, Warp-Transport, Artefakt-Research Stufe 1–3 |
+
+*Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
+Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).
+
+- **Sinks fixieren:** Levelabhängige Wartung (Transport/Logistik) oder Archiv-
+  und Research-Spenden halten Überschüsse im Fluss und stützen das Paradoxon-
+  Balancing ab Level 400+.
+- **Wallet-Splits unverändert:** Auch hohe Beträge fließen erst in den HQ-Pool
+  und werden dann per `Wallet-Split (n×)` verteilt; Rundungen folgen derselben
+  Sequenz wie im Low-Level-Spiel.
+
 Auch der Erfahrungsfortschritt wird hier festgehalten: In den ersten Stufen
 steigt das Team nach jeder bestandenen Mission um **eine Stufe** auf. Dieser
 zügige Aufstieg gilt bis inklusive Level 10. Danach greift die im
@@ -214,8 +236,26 @@ zu Zukunftsdaten. Die Gruppe entscheidet nach der Analyse, ob sie das Artefakt
 im HQ archiviert oder als seltene Ressource behält, etwa um es später im Plot
 einzusetzen oder untereinander zu tauschen.
 
-Artefakte stammen ausschließlich aus Rifts und haben keinen CU-Gegenwert.
-Verkäufe an NSCs sind unzulässig.
+Artefakte stammen ausschließlich aus Rifts und besitzen keinen festen CU-Listenpreis.
+Sie folgen den normalen Handelsregeln: Tausch, Schenkung oder Verkauf gegen CUs sind
+zulässig, solange der Plot es trägt; Save-/Economy-Flows behandeln sie wie reguläres
+Gear. Offizielle Abrechnung im HQ läuft über Research-/Archivwerte statt über
+Marktpreise, damit der ökonomische Kreislauf intakt bleibt.
+
+###### Artefaktprogression & Research-Werte
+
+- **Research statt Verkauf:** Jede Trophäe trägt `archive_value` (Museums-
+  oder Laborpunkte) und optional `research_value` für Kodex-Updates. Archiv- und
+  Researchwerte sind Add-ons zum normalen Inventar- oder Walletfluss und sichern,
+  dass Artefakte auch im Endgame Fortschritt bringen.
+- **Prozentuale Effekte:** Aktive Artefakte nutzen gestaffelte Prozentboni statt
+  Fixwerte, z.B. **Stufe 1:** +10 % Investigationsproben oder -1 Stress-Tick;
+  **Stufe 2:** +15 %/+2%; **Stufe 3:** +20–25 %/+3–4%. Die Staffel greift für
+  Buffs wie Loot-Bonus, Paradoxon-Abbau, Psi-Fokus oder Resistenzboons und skaliert
+  damit in Level 100+/400+/1000-Kampagnen ohne harte Caps.
+- **Trade erlaubt:** Artefakte dürfen wie jedes Gear getauscht oder als Plotpfand
+  verhandelt werden; Research-/Archivwerte begleiten den Besitzerwechsel und
+  wandern beim Archivieren als Sink endgültig aus der Wirtschaft.
 
 Durch diese Mechaniken bleibt der Umgang mit Missionsbeute **dynamisch**. Jeder Gegenstand erzählt
 eine kleine Geschichte: Ein unscheinbares Artefakt aus 800 v. Chr. könnte sich in der Nullzeit als
