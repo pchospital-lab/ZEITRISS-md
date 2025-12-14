@@ -1,0 +1,24 @@
+{
+  "hq_overlay": "EP 2 · MS 5 · SC 0/10 · MODE verbose · Objective: Mission 5 Badge QA · FS 0/4 · GATE 2/2 · Px 0 · SYS 1 · Lvl -",
+  "sf_off": "SF-OFF – introspektive Sequenzen gesperrt.",
+  "mission_overlay": "EP 2 · MS 5 · SC 0/10 · MODE verbose · Objective: Mission 5 Badge QA · ANCR ? · RW 08:00 · FS 0/4 · GATE 2/2 · Px 0 · SYS 1 · Lvl - · FR:ruhig · SF-OFF",
+  "hud_mission": [
+    { "tag": "BOSS", "message": "GATE 2/2 · FS 0/4" },
+    { "tag": "BOSS", "message": "Mini-Boss in Szene 10 – Overflow halbiert." },
+    { "tag": "BOSS", "message": "Boss-DR aktiviert – −1 Schaden pro Treffer" }
+  ],
+  "boss_status": "Gate 2/2 · Mission FS 0/4",
+  "hud_after": [
+    { "tag": "BOSS", "message": "GATE 2/2 · FS 0/4" },
+    { "tag": "BOSS", "message": "Mini-Boss in Szene 10 – Overflow halbiert." },
+    { "tag": "BOSS", "message": "Boss-DR aktiviert – −1 Schaden pro Treffer" },
+    { "tag": "SF-ON", "message": "SF-ON (post-M5 reset)" }
+  ],
+  "flag_checks": {
+    "self_reflection": true,
+    "foreshadow_gate_snapshot": 0,
+    "foreshadow_gate_progress": 0,
+    "foreshadow_gate_expected": false,
+    "self_reflection_auto_reset_reason": "completed"
+  }
+}
