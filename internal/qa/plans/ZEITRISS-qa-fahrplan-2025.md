@@ -647,6 +647,34 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
 | #16 | QA-Fixture Save v6 voll | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert |
 
+## Maßnahmenpaket Agenten-Thriller-Ton 2026-02 (Issues #1–#9)
+
+Der jüngste Playtest und das begleitende GPT-Memo zeigen Drifts im Ton: Core-Ops sollen wie
+Infiltrations-/Agentenmissionen wirken, Rift-Ops wie Ermittlungsfälle (True Detective × X-Files),
+ohne „Digitalraum“-Eindruck. HUD-Mechanik bleibt unverändert, aber die Interpretation und
+Generator-Outputs müssen nachgeschärft werden. Alle Punkte sind offen.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
+| ----- | ------------------------------ | -------------------------------------------- |
+| #1 | Physicality Gate erzwingen | Start-/Runtime-Prompt um Hardwarepflicht ergänzen;
+| | | Narrations-Smoke „Scan/Hack/Comms“ auf Gerät + Sensorik prüfen |
+| #2 | Core vs. Rift Loop klarziehen | Briefing/HUD nur „Episode“ für Core nutzen; Rift-Seeds
+| | | HQ-only nach Episodenende, HUD `MODE RIFT`/Casefile-Label spiegeln |
+| #3 | Core-Ziele diversifizieren | Briefing: Anchor + Op-Task (protect/extract/neutralize/
+| | | document/influence/prevent); QA-Verteilung 60 % People-Aufträge |
+| #4 | Rift als Case Engine | Pflicht: Casefile-Overlay, 14-Szenen-Template mit Twist,
+| | | genau ein Anomalie-Element; QA 20 Rifts auf Tatort/Leads/Boss prüfen |
+| #5 | EntryChoice sichtbar machen | Scene 0/1 Entry-Menu pro Modus (Cover/Silent/Asset bzw.
+| | | Agent/Investigator/Forensik) bereitstellen; Skip-Flag respektieren |
+| #6 | Rift-Seed normalisieren | Seed-Objekte mit `label/seed_tier/hook` speichern und bei
+| | | Load fehlende Felder aus Katalog auffüllen; Migrationspfad bauen |
+| #7 | Welt-Beats als Standard | Fraktionsintervention 1× Briefing/1× Mid/1× Debrief in
+| | | Szene/HUD-Log einstreuen; `logs.fr_interventions[]` füllen |
+| #8 | HUD als dünnes Overlay führen | Header/Toasts beibehalten, aber Beschreibung auf
+| | | physische Wahrnehmung umstellen; HUD-Zeilen in Backticks standardisieren |
+| #9 | One-Weird-Thing-Rule aktivieren | Core: 0 echte Anomalien; Rift: max. 1 Para-Element,
+| | | sonst physisch/rational auflösen; QA-Tonprüfung auf Budget 1 |
+
 ## Regressionstest-Termine 2025
 
 | Zeitraum | Umfang | Status | QA-Log |
