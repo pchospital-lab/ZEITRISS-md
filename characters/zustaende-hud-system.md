@@ -34,6 +34,13 @@ leichtgewichtig** in der Anwendung.
 >   mit eigener Mikro-CPU; übernimmt Kodex-Sync.
 > - **Kein** Armband/keine externen Projektoren/keine Batterien/Ladezyklen.
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
+
+**Zugriffsmatrix Kodex ↔ HUD**
+- **HQ/ITI:** Vollzugriff, Kodex aktiv, HUD läuft parallel.
+- **Funkepochen:** Kodex aktiv innerhalb einer **ca. 2 km Bubble ab Einstiegspunkt**; Relais/Kabel
+  erweitern den Radius. Jammer/Gelände können den Link kappen.
+- **Funklose Ären (z.B. Mittelalter) oder gejammt:** Nur HUD/Logs ("codex-light"). Kodex schweigt,
+  bis Hardware-Link steht. `!offline` höchstens **1×/Minute** erlaubt das Offline-FAQ.
 #### Quick-Diag: HUD/Comms Zustände
 | Code | HUD-Vocab (Makro) | Bedeutung | Wirkung (erzählerisch) |
 |------|-------------------|-----------|------------------------|

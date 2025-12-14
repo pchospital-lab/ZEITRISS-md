@@ -894,6 +894,10 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
   `comms_check()` zählt sie als `relays=true`.
+- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI = Vollzugriff.**
+  In Funkepochen gilt eine **ca. 2 km Bubble ab Einstiegspunkt**, erweiterbar per Relais/Kabel;
+  Jammer oder funklose Ären (z.B. Mittelalter) schalten den Kodex stumm → nur HUD/Logs laufen.
+  `!offline` höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder steht.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
