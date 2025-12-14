@@ -650,9 +650,11 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 ## Maßnahmenpaket Agenten-Thriller-Ton 2026-02 (Issues #1–#9)
 
 Der jüngste Playtest und das begleitende GPT-Memo zeigen Drifts im Ton: Core-Ops sollen wie
-Infiltrations-/Agentenmissionen wirken, Rift-Ops wie Ermittlungsfälle (True Detective × X-Files),
-ohne „Digitalraum“-Eindruck. HUD-Mechanik bleibt unverändert, aber die Interpretation und
-Generator-Outputs müssen nachgeschärft werden. Alle Punkte sind offen.
+Infiltrations-/Agentenmissionen wirken, Rift-Ops wie Ermittlungsfälle (im Stil eines gritty
+Tech-Noir-Procedurals, True Detective × X-Files, mit physischer Near-Future-Operative-Technologie
+statt abstrakter System- oder Digitalraumästhetik), ohne „Digitalraum“-Eindruck. HUD-Mechanik
+bleibt unverändert, aber die Interpretation und Generator-Outputs müssen nachgeschärft werden.
+Alle Punkte sind offen.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte |
 | ----- | ------------------------------ | -------------------------------------------- |
