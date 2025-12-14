@@ -926,6 +926,31 @@ Artefakten und temporaler Abweichungen.
 > Raumschiff) haben eine wissenschaftliche Erklärung.
 > **Rift-Ops** im Zukunftssetting hingegen schlagen einen subtilen Horror-Ton an
 > (à la *Event Horizon*), ohne ins Fantastische abzugleiten.
+
+#### Agenten-Thriller-Ton 2026-02 – Leitplanken
+
+- **Physicality Gate:** Jeder Scan/Hack/Comms-Call bindet Hardware fest ein
+  (Kontaktlinse, Sensor, Kabel/Relais). Keine abstrakten „Digitalräume“, keine
+  Holo-UI ohne Trägergerät.
+- **Loop-Klarheit:** Core-Ops laufen als **Episoden**; Rift-Ops starten erst
+  nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HQ-only für
+  Rift-Seeds; kein paralleler Rift-Betrieb.
+- **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
+  Auftragstyp (`protect | extract | neutralize | document | influence |
+  prevent`). Mindestens 60 % der Core-Ops fokussieren Personen- oder
+  Einflussziele statt reiner Objekt-Raubzüge.
+- **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab – Core
+  `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Skip-Flag
+  respektieren (`state.flags.runtime.skip_entry_choice`).
+- **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template mit
+  Pflicht-Casefile-Overlay, genau **einem** Anomalie-Element und einem Twist.
+  Tatort → Leads → Boss, alles physisch belegbar.
+- **One-Weird-Thing-Rule:** Core bleibt ohne echte Anomalien (nur rationale
+  Täuschungen). Rift erlaubt höchstens **1** Para-Element; restliche Effekte
+  sind wissenschaftlich erklärbar.
+- **HUD als dünnes Overlay:** Kurzzeilen in Backticks beschreiben physische
+  Wahrnehmungen (Sensor, Vibration, Displayzeile) statt abstrakter UI.
+
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.
 - Paranormale Phänomene fühlen sich real an, werden aber über Zeit­effekte erklärt

@@ -658,24 +658,24 @@ Alle Punkte sind offen.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte |
 | ----- | ------------------------------ | -------------------------------------------- |
-| #1 | Physicality Gate erzwingen | Start-/Runtime-Prompt um Hardwarepflicht ergänzen;
+| #1 | Physicality Gate erzwingen | README/Toolkit spiegeln Hardwarepflicht für Scan/Hack/Comms;
 | | | Narrations-Smoke „Scan/Hack/Comms“ auf Gerät + Sensorik prüfen |
-| #2 | Core vs. Rift Loop klarziehen | Briefing/HUD nur „Episode“ für Core nutzen; Rift-Seeds
-| | | HQ-only nach Episodenende, HUD `MODE RIFT`/Casefile-Label spiegeln |
-| #3 | Core-Ziele diversifizieren | Briefing: Anchor + Op-Task (protect/extract/neutralize/
-| | | document/influence/prevent); QA-Verteilung 60 % People-Aufträge |
-| #4 | Rift als Case Engine | Pflicht: Casefile-Overlay, 14-Szenen-Template mit Twist,
+| #2 | Core vs. Rift Loop klarziehen | README/Toolkit nutzen nur „Episode“ für Core; Rift-Seeds
+| | | HQ-only nach Episodenende, HUD `MODE RIFT`/Casefile-Label verankert |
+| #3 | Core-Ziele diversifizieren | README/Toolkit: Briefing Anchor + Op-Task (protect/extract/
+| | | neutralize/document/influence/prevent); 60 % People-Aufträge gesetzt |
+| #4 | Rift als Case Engine | README/Toolkit: Casefile-Overlay, 14-Szenen-Template mit Twist,
 | | | genau ein Anomalie-Element; QA 20 Rifts auf Tatort/Leads/Boss prüfen |
-| #5 | EntryChoice sichtbar machen | Scene 0/1 Entry-Menu pro Modus (Cover/Silent/Asset bzw.
-| | | Agent/Investigator/Forensik) bereitstellen; Skip-Flag respektieren |
+| #5 | EntryChoice sichtbar machen | README/Toolkit: Scene 0/1 Entry-Menu (Cover/Silent/Asset bzw.
+| | | Agent/Investigator/Forensik) dokumentiert; Skip-Flag respektieren |
 | #6 | Rift-Seed normalisieren | Seed-Objekte mit `label/seed_tier/hook` speichern und bei
 | | | Load fehlende Felder aus Katalog auffüllen; Migrationspfad bauen |
-| #7 | Welt-Beats als Standard | Fraktionsintervention 1× Briefing/1× Mid/1× Debrief in
+| #7 | Welt-Beats als Standard | Toolkit: Fraktionsintervention Briefing/Mid/Debrief in
 | | | Szene/HUD-Log einstreuen; `logs.fr_interventions[]` füllen |
-| #8 | HUD als dünnes Overlay führen | Header/Toasts beibehalten, aber Beschreibung auf
-| | | physische Wahrnehmung umstellen; HUD-Zeilen in Backticks standardisieren |
-| #9 | One-Weird-Thing-Rule aktivieren | Core: 0 echte Anomalien; Rift: max. 1 Para-Element,
-| | | sonst physisch/rational auflösen; QA-Tonprüfung auf Budget 1 |
+| #8 | HUD als dünnes Overlay führen | README + HUD-Spec: physische Wahrnehmung, Backticks,
+| | | MODE CORE/RIFT; HUD-Casefile führt Tatort/Leads/Boss |
+| #9 | One-Weird-Thing-Rule aktivieren | README/Toolkit: Core ohne Anomalien, Rift Budget 1,
+| | | rest physisch/rational; QA-Tonprüfung auf Budget 1 |
 
 ## Regressionstest-Termine 2025
 
