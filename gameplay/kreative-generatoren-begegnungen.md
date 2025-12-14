@@ -592,14 +592,16 @@ birgt unendliche Überraschungen.**
 ## Para-Creature-Generator: Urban Myth Edition {#para-creature-generator}
 
 Kompaktgenerator samt drei gebrauchsfertigen Fallakten im „X‑Files“-Dossier-Stil.
-Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
+Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**. Runtime‑Rahmen: Physicality Gate (Mixed-Reality-Linsen-HUD, keine VR/Projektoren), dünne MODE/CASE/HOOK/EntryChoice-Overlays und maximal **ein** „Weird“-Element pro Szene, das via `register_anomaly()` angemeldet wird.
+Jeder Urban-Myth-Seed markiert eine **Zeitwunde durch misslungene Eingriffe**; auch das Phänomen selbst trägt einen Zeitmarker (Echo, Loop, Zeitversatz, Stutter), der zeigt, warum die Legende überhaupt sichtbar wurde.
 
 ### Vorgehen
 
 1. Würfle **1W6** für die Epoche.
 2. Würfle **1W20** für das urbane Mythos-Motiv.
-3. Kreiere die technisch plausible Ursache (Ideen siehe Motiv-Spalte).
-4. Setze den Stat-Block nach Risikostufe (S/M/L/XL) ein.
+3. Kreiere die technisch plausible Ursache (Ideen siehe Motiv-Spalte) mit **Hardware-Bezug** (Linse, Sensor, Kabelscanner) und triggere bei zusätzlicher Weirdness `register_anomaly()`.
+4. Verpasse dem Motiv einen **Zeit-Einschlag**: verzögerte Schatten, Echo-Aufnahme aus falscher Epoche, 30‑Sek‑Loop, Déjà-vu bei jedem Witness. So bleibt sichtbar, dass der „Riss“ ein Zeitfehler ist.
+5. Setze den Stat-Block nach Risikostufe (S/M/L/XL) ein und zeige im HUD den HEADER `MODE CORE/RIFT · CASEFILE · HOOK · EntryChoice?` als dünnes Overlay.
 
 ```markdown
 ### 1A – Epoche (d6)
@@ -611,20 +613,22 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 6 | Near‑Future (2011‑2035)
 
 ### 1B – Urban‑Myth‑Motiv (d20)
-01 | Kopfloser Reiter – Holo‑Projektor auf Drohne
+> Alle Motive laufen über Linse/Sensorik, keine freistehenden Projektionen. Bei doppelter Weirdness `register_anomaly()` nutzen und die MR-Quelle physisch verankern.
+
+01 | Kopfloser Reiter – Drohne mit Linse-Spot (kein Projektor)
 02 | Schwarzer Hund – Chem‑Mod Kampf­organismus
 03 | Mothman – Stealth‑Fallschirmspringer im Testanzug
 04 | Schattenleute – Psi‑Induzierte Schlafparalyse
 05 | Rote Hexe – Nano‑Feuer‑Aerosol erzeugt „Flammen“
 06 | Men in Black – Regierungsabteilung nutzt Neural‑Wipe
 07 | Weeping Woman – Audio‑Drohne mit Lament‑Frequenz
-08 | Phantom‑Zug – Magnetschwebetest, Zeit ➙ Verwerfung
+08 | Phantom‑Zug – Magnetschwebetest, Zeit ➙ Verwerfung (HUD‑Echo)
 09 | Kinder mit schwarzen Augen – Gen‑Versuch / Linsenimplantat
 10 | Kraken im Kanal – Sewer‑Drohne mit Tentakel‑Manipulatoren
 11 | Crying Boy Painting – Quantenspeicher im Pigment (Daten‑Vault)
 12 | Goatman – Bio‑Chimäre entlaufenem Labor
 13 | Greys – Nano‑Skin‑Anzüge verzerren Proportionen
-14 | Hitchhiking Ghost – Zeitversetzte Holo-Aufnahme
+14 | Hitchhiking Ghost – Zeitversetzte Linse-Aufnahme auf HUD
 15 | Lake‑Monster – Schwarm‑U‑Drohnen unter Hüllfeld
 16 | Shapeshifter – adaptive Metamaterial‑Suit
 17 | Spukhaus – Übersprungener EM‑Emitter tft Paradoxon‑Energie
@@ -632,6 +636,9 @@ Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**.
 19 | Straßenlaternen‑Summen – HF‑Psi‑Störsender, löst Migräne aus
 20 | Blutfarbenes Mondlicht – Orbitale Linse fokussiert IR‑Spektrum
 ```
+
+> Reminder: Jede Begegnung hängt an einem aktiven Casefile/Hook, nutzt Linse/HUD als einziges UI und respektiert das One‑Weird‑Thing‑Budget. Zusätzliche Phänomene müssen technisch erklärbar sein oder als `register_anomaly()` mit WEIRD-Warnung laufen.
+> Sobald die Agenten das Para-Phänomen oder seinen technischen Kern neutralisieren, **endet die Legende und der Seed schließt sich** – die Raumzeitkarte markiert das Casefile als erledigt.
 
 ### Stat-Block-Schablone
 

@@ -201,11 +201,14 @@ durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier s
   Gesichtern der Neuankömmlinge vorbei, während der Zeitriss hinter ihnen verblasst – Verblüffung und
   Ehrfurcht in ihren Augen.“_ Solche Formulierungen kann man auch direkt einfließen lassen (man muss
   das Wort Kamera nicht erwähnen, aber bildlich denken). Man könnte sagen: _„Langsam wandert euer
-  Blick die hohen Bücherregale des Kodex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo das
-  flackernde Licht der Projektoren wie Sternenstaub schwebt…“_ – das entspricht einer aufsteigenden
-  Kamerafahrt. Oder: _„Wir sehen in einer Nahaufnahme, wie ein Tropfen Blut von Elias’ Stirn auf das
-  Kopfsteinpflaster fällt…“_ – eine dramatische Zuspitzung. Solche Techniken machen eure Beschreibung
-  lebendig und filmisch.
+  Blick die hohen Bücherregale des Kodex-Archivs entlang, bis hinauf zur gläsernen Kuppel, wo die
+  schmalen Statusringe eurer Linsen-HUDs wie kalter Schimmer über die Regale huschen…“_ – das
+  entspricht einer aufsteigenden Kamerafahrt ohne Projektorlicht. Oder: _„Wir sehen in einer
+  Nahaufnahme, wie ein Tropfen Blut von Elias’ Stirn auf das Kopfsteinpflaster fällt…“_ – eine
+  dramatische Zuspitzung. Solche Techniken machen eure Beschreibung lebendig und filmisch.
+
+  Reminder: Physicality Gate einhalten – Mixed-Reality-Linsen und sensorbasierte Lichtquellen statt
+  VR-Räumen oder externen Projektoren nutzen.
 - **Zeitlupe und Zeitraffer:** Im Zeitreise-Setting bietet es sich an, auch mit der **Wahrnehmung
   von Zeit** zu spielen. Eine dramatische Szene kann sich gefühlt in Zeitlupe abspielen – beschreibt
   etwa, wie in einem brenzligen Moment **die Zeit für die Charaktere langsamer zu fließen scheint**
