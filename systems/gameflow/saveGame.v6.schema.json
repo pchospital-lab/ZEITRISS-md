@@ -1,0 +1,174 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zeitriss.example/saveGame.v6.schema.json",
+  "title": "ZEITRISS Save v6",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "save_version",
+    "zr_version",
+    "location",
+    "phase",
+    "campaign",
+    "character",
+    "team",
+    "party",
+    "loadout",
+    "economy",
+    "logs",
+    "ui",
+    "arena",
+    "arc_dashboard"
+  ],
+  "properties": {
+    "save_version": { "type": "integer", "const": 6 },
+    "zr_version": { "type": "string" },
+    "location": { "type": "string" },
+    "phase": { "type": "string" },
+    "campaign": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["phase", "px", "exfil"],
+      "properties": {
+        "phase": { "type": "string" },
+        "episode": { "type": "integer" },
+        "mission_in_episode": { "type": "integer" },
+        "scene": { "type": ["integer", "null"] },
+        "px": { "type": "number" },
+        "paradoxon_index": { "type": "number" },
+        "px_reset_pending": { "type": "boolean" },
+        "px_reset_confirm": { "type": "boolean" },
+        "px_reset_scheduled_at": { "type": ["string", "null"] },
+        "fr_bias": { "type": "string" },
+        "team_size": { "type": ["integer", "null"] },
+        "boss_dr": { "type": "integer" },
+        "compliance_shown_today": { "type": "boolean" },
+        "exfil": {
+          "type": "object",
+          "required": ["active", "armed", "hot", "sweeps", "stress", "ttl"],
+          "properties": {
+            "active": { "type": "boolean" },
+            "armed": { "type": "boolean" },
+            "hot": { "type": "boolean" },
+            "sweeps": { "type": "integer" },
+            "stress": { "type": "integer" },
+            "ttl": { "type": "number" },
+            "anchor": { "type": ["string", "null"] },
+            "alt_anchor": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "character": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "attributes", "stress", "psi_heat", "cooldowns"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "callsign": { "type": "string" },
+        "lvl": { "type": ["integer", "number"] },
+        "xp": { "type": ["integer", "number"] },
+        "stress": { "type": "number" },
+        "psi_heat": { "type": "number" },
+        "psi_heat_max": { "type": ["integer", "number"] },
+        "attributes": {
+          "type": "object",
+          "required": ["SYS_max", "SYS_installed", "SYS_runtime", "SYS_used"],
+          "properties": {
+            "SYS_max": { "type": "number" },
+            "SYS_installed": { "type": "number" },
+            "SYS_runtime": { "type": "number" },
+            "SYS_used": { "type": "number" }
+          }
+        },
+        "cooldowns": { "type": "object" },
+        "modes": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "team": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "members": { "type": "array", "items": { "type": "object" } },
+        "roster": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "party": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["characters"],
+      "properties": {
+        "characters": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "loadout": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "economy": {
+      "type": "object",
+      "required": ["wallets"],
+      "properties": {
+        "cu": { "type": ["integer", "number"] },
+        "wallets": { "type": "object" }
+      }
+    },
+    "logs": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "hud",
+        "trace",
+        "artifact_log",
+        "market",
+        "offline",
+        "kodex",
+        "alias_trace",
+        "squad_radio",
+        "foreshadow",
+        "fr_interventions",
+        "arena_psi",
+        "psi",
+        "flags"
+      ],
+      "properties": {
+        "hud": { "type": "array", "items": { "type": "object" } },
+        "trace": { "type": "array", "items": { "type": "object" } },
+        "artifact_log": { "type": "array", "items": { "type": "object" } },
+        "market": { "type": "array", "items": { "type": "object" } },
+        "offline": { "type": "array", "items": { "type": "object" } },
+        "kodex": { "type": "array", "items": { "type": "object" } },
+        "alias_trace": { "type": "array", "items": { "type": "object" } },
+        "squad_radio": { "type": "array", "items": { "type": "object" } },
+        "field_notes": { "type": "array", "items": { "type": ["object", "string"] } },
+        "foreshadow": { "type": "array", "items": { "type": "object" } },
+        "fr_interventions": { "type": "array", "items": { "type": "object" } },
+        "arena_psi": { "type": "array", "items": { "type": "object" } },
+        "psi": { "type": "array", "items": { "type": "object" } },
+        "flags": {
+          "type": "object",
+          "required": ["merge_conflicts"],
+          "properties": {
+            "merge_conflicts": { "type": "array", "items": { "type": "object" } }
+          }
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "required": ["gm_style", "intro_seen", "suggest_mode", "contrast", "badge_density", "output_pace"],
+      "properties": {
+        "gm_style": { "type": "string" },
+        "intro_seen": { "type": "boolean" },
+        "suggest_mode": { "type": "boolean" },
+        "contrast": { "type": "string" },
+        "badge_density": { "type": "string" },
+        "output_pace": { "type": "string" }
+      }
+    },
+    "arena": { "type": "object", "additionalProperties": true },
+    "arc_dashboard": { "type": "object", "additionalProperties": true }
+  }
+}

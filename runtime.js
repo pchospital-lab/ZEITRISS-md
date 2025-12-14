@@ -5616,6 +5616,14 @@ function prepare_save_logs(logs){
   if (!Array.isArray(base.hud)){
     base.hud = [];
   }
+  if (Array.isArray(base.trace)){
+    base.trace = base.trace
+      .map(entry => (entry && typeof entry === 'object' ? clone_plain_object(entry) : null))
+      .filter(Boolean)
+      .slice(-64);
+  } else {
+    base.trace = [];
+  }
   if (!Array.isArray(base.foreshadow)){
     base.foreshadow = [];
   }
@@ -5880,13 +5888,14 @@ function prepare_save_ui(ui){
   return base;
 }
 
-function prepare_save_character(character){
-  const base = clone_plain_object(character);
-  if (!base || typeof base !== 'object'){
-    throw new Error('SaveGuard: Charakterdaten fehlen.');
+function prepare_save_character(character, options = {}){
+  const { requireId = true } = options;
+  const base = clone_plain_object(character || {});
+  if (requireId && !base.id){
+    throw new Error('SaveGuard: Feld character.id fehlt.');
   }
   if (!base.id){
-    throw new Error('SaveGuard: Feld character.id fehlt.');
+    base.id = 'UNKNOWN';
   }
   base.stress = Number.isFinite(base.stress) ? base.stress : 0;
   base.psi_heat = Number.isFinite(base.psi_heat) ? base.psi_heat : 0;
@@ -5982,6 +5991,8 @@ function assert_save_field(payload, path){
   return current;
 }
 
+const SAVE_SCHEMA_PATH = path.join(__dirname, 'systems', 'gameflow', 'saveGame.v6.schema.json');
+
 const SAVE_REQUIRED_PATHS = [
   ['character', 'id'],
   ['character', 'cooldowns'],
@@ -5996,6 +6007,7 @@ const SAVE_REQUIRED_PATHS = [
   ['economy', 'wallets'],
   ['logs'],
   ['logs', 'hud'],
+  ['logs', 'trace'],
   ['logs', 'foreshadow'],
   ['logs', 'artifact_log'],
   ['logs', 'market'],
@@ -6004,8 +6016,10 @@ const SAVE_REQUIRED_PATHS = [
   ['logs', 'alias_trace'],
   ['logs', 'squad_radio'],
   ['logs', 'fr_interventions'],
+  ['logs', 'arena_psi'],
   ['logs', 'psi'],
   ['logs', 'flags'],
+  ['logs', 'flags', 'merge_conflicts'],
   ['ui'],
   ['ui', 'gm_style'],
   ['ui', 'intro_seen'],
@@ -6015,6 +6029,78 @@ const SAVE_REQUIRED_PATHS = [
   ['ui', 'output_pace'],
   ['arena']
 ];
+
+let cachedSaveSchema = null;
+
+function load_save_schema(){
+  if (cachedSaveSchema) return cachedSaveSchema;
+  try {
+    const raw = fs.readFileSync(SAVE_SCHEMA_PATH, 'utf8');
+    cachedSaveSchema = JSON.parse(raw);
+  } catch (err){
+    console.warn('Save-Schema konnte nicht geladen werden:', err.message || err);
+    cachedSaveSchema = null;
+  }
+  return cachedSaveSchema;
+}
+
+function validate_type(value, expected){
+  switch (expected){
+  case 'object':
+    return value !== null && typeof value === 'object' && !Array.isArray(value);
+  case 'array':
+    return Array.isArray(value);
+  case 'number':
+    return typeof value === 'number' && Number.isFinite(value);
+  case 'integer':
+    return Number.isInteger(value);
+  case 'string':
+    return typeof value === 'string';
+  case 'boolean':
+    return typeof value === 'boolean';
+  case 'null':
+    return value === null;
+  default:
+    return true;
+  }
+}
+
+function validate_schema_node(value, schema, pathLabel){
+  if (!schema) return;
+  const typeList = schema.type ? (Array.isArray(schema.type) ? schema.type : [schema.type]) : [];
+  if (typeList.length){
+    const matches = typeList.some(type => validate_type(value, type));
+    if (!matches){
+      throw new Error(`Save-Schema (saveGame.v6): ${pathLabel} hat Typ ${typeof value}, erwartet ${typeList.join('|')}.`);
+    }
+  }
+  if (schema.const !== undefined && value !== schema.const){
+    throw new Error(`Save-Schema (saveGame.v6): ${pathLabel} erwartet Wert ${schema.const}.`);
+  }
+  if (schema.required && Array.isArray(schema.required) && validate_type(value, 'object')){
+    for (const key of schema.required){
+      if (!(key in value) || value[key] === undefined){
+        throw new Error(`Save-Schema (saveGame.v6): Feld ${pathLabel}.${key} fehlt.`);
+      }
+    }
+  }
+  if (schema.properties && validate_type(value, 'object')){
+    for (const [key, childSchema] of Object.entries(schema.properties)){
+      if (value[key] !== undefined){
+        validate_schema_node(value[key], childSchema, `${pathLabel}.${key}`);
+      }
+    }
+  }
+  if (schema.items && validate_type(value, 'array')){
+    value.forEach((item, index) => validate_schema_node(item, schema.items, `${pathLabel}[${index}]`));
+  }
+}
+
+function validate_save_schema(payload){
+  const schema = load_save_schema();
+  if (!schema) return;
+  validate_schema_node(payload, schema, 'saveGame');
+}
 
 function enforce_required_save_fields(payload){
   for (const path of SAVE_REQUIRED_PATHS){
@@ -6193,6 +6279,7 @@ function migrate_save(data){
     data.campaign.phase = normalize_phase_value(data.campaign.phase, data.phase);
   }
   normalize_party_roster(data);
+  data.character = prepare_save_character(data.character, { requireId: false });
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
   data.logs = prepare_save_logs(data.logs);
@@ -6398,15 +6485,16 @@ function load_deep(raw){
   const source = typeof raw === 'string' ? JSON.parse(raw) : clone_plain_object(raw);
   const normalized = normalize_save_v6(source);
   const migrated = migrate_save(normalized);
+  migrated.zr_version = migrated.zr_version || migrated.ZR_VERSION || ZR_VERSION;
+  validate_save_schema(migrated);
   const runtimeSemver = majorMinor(ZR_VERSION);
-  const saveSemver = majorMinor(migrated.zr_version || migrated.ZR_VERSION);
+  const saveSemver = majorMinor(migrated.zr_version);
   if (saveSemver && saveSemver !== runtimeSemver){
     throw new Error(
       `Kodex-Archiv: Datensatz v${saveSemver} nicht kompatibel mit v${runtimeSemver}. ` +
         'Bitte HQ-Migration veranlassen.'
     );
   }
-  migrated.zr_version = migrated.zr_version || ZR_VERSION;
   migrated.logs ||= {};
   if (Array.isArray(migrated.logs.offline)){
     migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);

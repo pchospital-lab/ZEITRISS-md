@@ -1179,6 +1179,15 @@ separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 `logs.trace[]` als E2E-Protokoll: Mission-Start, Rift-Launch und Arena-Init
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
 HUD-Overlay, sodass QA-Läufe den kompletten Run nachvollziehen können.
+Das kanonische JSON-Schema `systems/gameflow/saveGame.v6.schema.json` bildet
+alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
+`Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
+Für MyGPT ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
+ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
+Pflichtset und den Baum `save_version/zr_version/location/phase → character
+→ campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
+→ arc_dashboard/ui/arena`, um den Speicherstand zu rekonstruieren. Die
+Schema-Datei selbst dient primär der Validierung in QA-Läufen.
 
 ```json
 {

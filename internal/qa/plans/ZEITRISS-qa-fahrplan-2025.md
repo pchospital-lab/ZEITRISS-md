@@ -626,7 +626,7 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | #5 | Paradoxon-Effekte vereinheitlichen | ✅ Single-Source-Tabelle in Modul 12; README verweist auf Px 0–4/5 Schema |
 | #6 | SYS-Semantik/SaveGuard trennen | ✅ `SYS_installed`/`SYS_runtime` Pflicht, Save-Migration |
 | | | und Fehlermeldungen aktiv |
-| #7 | Save-Schema Pflichtfelder | JSON-Schema `saveGame.v6` versionieren, Loader validiert |
+| #7 | Save-Schema Pflichtfelder | ✅ `saveGame.v6.schema.json` versioniert; Loader prüft Pflichtcontainer; GPT-Kompaktprofil dokumentiert |
 | #8 | Accessibility-Persistenz | ✅ `save_deep()` zieht UI-Felder via `prepare_save_ui()`,
 | | | SaveGuard erzwingt kompletten Block |
 | #9 | Offline-HUD-FAQ präzisieren | ✅ FAQ/Stub/README spiegeln Cloud-Sync & HQ-only-Policy;
