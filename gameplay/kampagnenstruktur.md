@@ -41,6 +41,15 @@ Das ZEITRISS-System unterscheidet klar vier Ebenen:
 - **Arc** – mehrere Episoden bilden einen übergeordneten Handlungsbogen.
 - **Kampagne** – verknüpft mehrere Arcs zu einer fortlaufenden Gesamtstory.
 
+### Einsatz-Einstiege & Szenen-Gate
+
+- **Undercover bleibt vollständig:** Auch verdeckte Starts nutzen die Phasen **Auftakt bis Sicherung**.
+  Übersprungene Schritte werden als Komplikationen nachgereicht (z. B. plötzlicher Scan, Schicht-
+  wechsel, Verdachtsmoment), damit Spannung und Belohnungslogik konsistent bleiben.
+- **Szenen-Mindestmaß:** Die Runtime öffnet `Sicherung`/`Flucht` erst nach **6–7** protokollierten
+  Szenen und füllt fehlende Abschnitte mit Twists oder Gegenangriffen auf, bis der Zielkorridor
+  (12 Core / 14 Rift) erreicht ist.
+
 ## Kampagnenplanung im ZEITRISS-Stil
 
 Langanhaltende ZEITRISS-Kampagnen profitieren von einer **durchdachten Planung** und **flexiblen
@@ -167,8 +176,9 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 - Wählt eine **Fremdfraktion** mit eigenem Ziel.
 - Zu Missionsbeginn auf Intervention würfeln (`1–2` ruhig, `3–4` Beobachter, `5–6` aktiver Eingriff).
-- Bei aktivem Eingriff eine Szene markieren, in der die Fraktion Ressourcen blockiert oder einen
-  Vorteil nutzt.
+- Bei aktivem Eingriff zwingt die Fraktion mindestens **eine volle Szene Gegenwehr** (Hinterhalt,
+  Sperrfeuer, Blockade). Ergebnis `5–6` ist kein Flavor-Tag, sondern löst einen echten Angriff aus,
+  bevor die Spielenden freie Aktionen haben.
 - Nach der Mission die Konsequenzen im Kampagnenlog notieren und ggf. Fraktionswerte anpassen.
 - Nach der Szene `log_intervention({'result': status, 'faction': fraktion,
   'impact': konsequenz})` aufrufen. Das Makro erzeugt das HUD-Tag automatisch und
@@ -195,6 +205,16 @@ Eine kurze Zusammenfassung der Abläufe bietet das README.
 > **Hinweis:** In **Trigger-Missionen** stellen die erzwungenen Tragödien stets das **kleinere Übel** dar –
 > ihre Verhinderung würde eine noch schlimmere Katastrophe auslösen. Dieses Framing hält die
 > Entscheidungen der Agenten moralisch nachvollziehbar, obwohl sie historisches Unheil herbeiführen.
+
+**Toleranzfenster für Abweichungen**
+
+- **Fokus nur aufs Kernereignis:** Warnungen und harte Eingriffe greifen erst, wenn der Kern-Auslöser
+  gefährdet ist (z. B. Start der Rakete, Signatur-Meeting, Evakuierung). Lärm, unorthodoxe Taktiken
+  oder alternative Wege bleiben zulässig.
+- **Toleranz-Puffer:** `tolerance = 2–3` Eskalationspunkte standardmäßig. Einzelverstöße erzeugen nur
+  Flavor-Hinweise; erst kumulierte Abweichungen stoßen einen Warning-Cutscene an.
+- **Debrief-Label:** Tolerierte Abweichungen landen als **Noise** im Debrief (kein Malus, kein Reset),
+  echte Gefährdungen als **Violation** mit klarer Begründung.
 
 #### Entscheidungsroutine Preserve vs. Trigger {#preserve-trigger-ablauf}
 
