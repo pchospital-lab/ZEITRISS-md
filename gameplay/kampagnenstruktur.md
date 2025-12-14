@@ -330,6 +330,10 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
   `internal/qa/fixtures/savegame_v6_highlevel.json` für Regressionstests; sie
   sind kein Wissensanker der produktiven GPTs.
 
+Seeds liegen immer als Objekte mit `id/label/status/seed_tier/hook` vor; der
+Normalizer ergänzt fehlende Felder aus dem Seed-Katalog, damit Casefile-Overlays
+(`CASE <ID>: <Label> · HOOK …`) konsistent bleiben.
+
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 `apply_rift_mods_next_episode()` zählt ausschließlich **offene** Seeds für

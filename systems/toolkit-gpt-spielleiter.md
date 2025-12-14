@@ -218,6 +218,12 @@ default_modus: mission-fokus
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
   `state.flags.runtime.skip_entry_choice` oder `campaign.entry_choice_skipped`
   gesetzt ist, beschreibe den zuletzt gewählten Stil nur knapp.
+- **Casefile-Anchors:** Rift-HUD zeigt `MODE RIFT · CASE <ID>: <Label> · HOOK …`; Seeds
+  werden beim Laden normalisiert (`label/seed_tier/hook`) und aus dem Seed-Katalog
+  aufgefüllt, falls Felder fehlen.
+- **Fraktions-Beats protokollieren:** Der gezogene `state.fr_intervention` wird in
+  Briefing (Szene 0), Mid-Mission (ab Szenenhälfte) und Debrief als
+  `logs.fr_interventions[]` mit Szene/Episode/Mission abgelegt.
 - **Welt-Beats streuen:** Trage Fraktionsinterventionen als
   `logs.fr_interventions[]` ein (mind. Briefing/Mid/Debrief), jeweils mit
   Quelle (z.B. ITS, Tempest, Archiv) und Szene.
