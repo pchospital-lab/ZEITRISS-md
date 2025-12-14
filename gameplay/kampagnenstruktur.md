@@ -46,9 +46,10 @@ Das ZEITRISS-System unterscheidet klar vier Ebenen:
 - **Undercover bleibt vollständig:** Auch verdeckte Starts nutzen die Phasen **Auftakt bis Sicherung**.
   Übersprungene Schritte werden als Komplikationen nachgereicht (z. B. plötzlicher Scan, Schicht-
   wechsel, Verdachtsmoment), damit Spannung und Belohnungslogik konsistent bleiben.
-- **Szenen-Mindestmaß:** Die Runtime öffnet `Sicherung`/`Flucht` erst nach **6–7** protokollierten
+- **Szenen-Mindestmaß:** Die Runtime öffnet `Sicherung`/`Flucht` erst nach **6–7** vollwertigen
   Szenen und füllt fehlende Abschnitte mit Twists oder Gegenangriffen auf, bis der Zielkorridor
-  (12 Core / 14 Rift) erreicht ist.
+  (12 Core / 14 Rift) erreicht ist. **Kurzschnitte zählen nicht** – jede Szene muss eine Phase
+  oder klare Wendung abbilden, damit das Gate nicht zum Aufsplitten von Missionen verleitet.
 
 ## Kampagnenplanung im ZEITRISS-Stil
 
@@ -100,8 +101,12 @@ episode:
   arc_generator_default: true
   sg_rift_bonus: 1
 ```
-Eine Episode fasst rund zehn Missionen derselben Epoche
-mit insgesamt etwa 120 bis 140 Szenen zusammen.
+Eine Episode fasst rund **zehn Missionen** derselben Epoche zusammen. Da jede Mission
+auf **12–14 Szenen** abzielt und das Szenen-Gate erst nach **6–7** vollwertigen Einträgen öffnet,
+ergibt sich die Zielspanne von **120–140 Szenen pro Episode**. Das Gate sichert das Mindesttempo
+und verhindert, dass Missionen kleingeschnitten werden. Die Werte sind **Richtlinien**, damit Tempo und
+Belohnungslogik konsistent bleiben; einzelne Missionen dürfen kürzer oder länger ausfallen, solange
+der durchschnittliche Korridor pro Episode gewahrt bleibt.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
 Bei **Session 0** ruft Kodex einmalig `episode_seed_make()` auf. Das Makro zieht zehn
 Missions-Seeds, legt sie als `campaign.episode_plan` ab und speichert Start- sowie
