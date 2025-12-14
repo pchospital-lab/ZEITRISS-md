@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.11.0
+version: 1.11.1
 tags: [meta]
 ---
 
@@ -103,6 +103,11 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
     Acknowledge, Arena-Schema sowie Alias-/Funk-Logs ab (`tools/test_start.js`,
     `tools/test_accessibility.js`, `tools/test_chronopolis_ack.js`,
     `tools/test_arena_schema.js`, `tools/test_alias_trace.js`).
+  - Mission-5-Badge-Flow als automatisierter Follow-up-Check mit Golden File:
+    `tools/test_acceptance_followups.js` nutzt
+    `internal/qa/fixtures/mission5_badge_snapshots.json`, um Gate 2/2,
+    Foreshadow-Badge, SF-OFF/SF-ON-Reset und Boss-DR-Toast stringstabil zu
+    prüfen.
 - **Wissensspiegel** – Wissensmodule enthalten die Spiegel der lokalen Runtimes;
   Abweichungen werden mit Commit-ID im QA-Log erfasst.
 - **Datenschutz & Plattformen** – Maintainer-Ops, Audit und Fahrplan halten
