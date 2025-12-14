@@ -21,6 +21,17 @@ const OFFLINE_HELP_GUIDE = [
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
+const RIFT_SEED_CATALOG = {
+  'R-010': { label: 'Echo-Train', seed_tier: 'early', hook: 'Verlorener Zug, resonante Frequenzen.' },
+  'R-015': { label: 'Dam Safety', seed_tier: 'early', hook: 'Dammleck, strukturelle Flutwarnungen.' },
+  'R-022': { label: 'Lost Signal', seed_tier: 'early', hook: 'Abgeschnittene Funkrelais, verschwundene Crew.' },
+  'R-085': { label: 'Glass Torrent', seed_tier: 'mid', hook: 'Glasregen über Forschungssilo.' },
+  'R-111': { label: 'Psi Bloom', seed_tier: 'mid', hook: 'Psi-Übersättigung, flackernde Neuro-Relays.' },
+  'R-404': { label: 'Black Sun', seed_tier: 'late', hook: 'Verfinsterter Himmel, Grav-Wellen im Zentrum.' },
+  'R-777': { label: 'Omega Spiral', seed_tier: 'late', hook: 'Spiralriss, Klang wie rückwärts laufende Stimmen.' },
+  'R-900': { label: 'White Signal', seed_tier: 'late', hook: 'Blendender Radiopuls, Sensoren im Overdrive.' }
+};
+
 function helper_delay_text(){
   return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.";
 }
@@ -1035,6 +1046,58 @@ function ensure_intervention_log(){
   }
   state.logs.fr_interventions = sanitize_intervention_entries(state.logs.fr_interventions);
   return state.logs.fr_interventions;
+}
+
+function reset_intervention_stage_flags(){
+  ensure_logs();
+  const flags = state.logs.flags;
+  flags.fr_intervention_briefing_logged = false;
+  flags.fr_intervention_mid_logged = false;
+  flags.fr_intervention_debrief_logged = false;
+}
+
+function log_fr_intervention(stage='mid', note=null){
+  const result = state.fr_intervention || null;
+  if (!result || result === 'none') return null;
+  const timestamp = new Date().toISOString();
+  const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total();
+  const payload = normalize_intervention_entry({
+    timestamp,
+    result,
+    impact: stage,
+    note: note || `Fraktionsintervention (${stage})`,
+    scene_index: Number.isFinite(state.scene?.index) ? state.scene.index : null,
+    scene_total: sceneTotal,
+    mission: state.campaign?.mission,
+    episode: state.campaign?.episode,
+    phase: state.phase || state.campaign?.phase,
+    gm_style: ensure_ui().gm_style
+  }, timestamp, { fillDefaults: true });
+  if (!payload) return null;
+  const log = ensure_intervention_log();
+  log.push(payload);
+  if (log.length > FR_INTERVENTION_LOG_LIMIT){
+    log.splice(0, log.length - FR_INTERVENTION_LOG_LIMIT);
+  }
+  return payload;
+}
+
+function maybe_log_intervention_stage(sceneIndex, sceneTotal){
+  if (!state.fr_intervention || state.fr_intervention === 'none') return null;
+  ensure_logs();
+  const flags = state.logs.flags;
+  const total = Number.isFinite(sceneTotal) ? sceneTotal : resolve_scene_total();
+  let logged = null;
+  if (sceneIndex === 0 && !flags.fr_intervention_briefing_logged){
+    logged = log_fr_intervention('briefing', 'Fraktion beobachtet den Einstieg.');
+    flags.fr_intervention_briefing_logged = !!logged;
+  }
+  const midTrigger = Math.max(1, Math.ceil(total / 2));
+  if (sceneIndex >= midTrigger && !flags.fr_intervention_mid_logged){
+    logged = log_fr_intervention('mid', 'Fraktion greift während der Mission ein.');
+    flags.fr_intervention_mid_logged = !!logged;
+  }
+  return logged;
 }
 
 function ensure_psi_log(){
@@ -2313,6 +2376,9 @@ function record_trace(event, details = {}){
     intervention: state.fr_intervention || null,
     note: typeof details.note === 'string' && details.note.trim() ? details.note.trim() : null
   };
+  if (sceneIndex !== null){
+    maybe_log_intervention_stage(sceneIndex, sceneTotal);
+  }
   if (details.arena && typeof details.arena === 'object'){
     trace.arena = {
       scenario: details.arena.scenario || null,
@@ -2325,7 +2391,8 @@ function record_trace(event, details = {}){
       id: details.seed.id || state.campaign?.active_seed_id || null,
       tier: details.seed.tier || state.campaign?.active_seed_tier || null,
       label: details.seed.label || state.campaign?.active_seed_label || null,
-      status: details.seed.status || null
+      status: details.seed.status || null,
+      hook: details.seed.hook || state.campaign?.active_seed_hook || null
     };
   }
   state.logs.trace.push(trace);
@@ -2579,6 +2646,15 @@ function ensure_campaign(){
   return state.campaign;
 }
 
+function lookup_seed_catalog_entry(id){
+  if (!id || typeof id !== 'string') return null;
+  const normalizedId = id.trim().toLowerCase();
+  const match = Object.entries(RIFT_SEED_CATALOG).find(([key]) => key.toLowerCase() === normalizedId);
+  if (!match) return null;
+  const [, entry] = match;
+  return { ...entry, id: match[0] };
+}
+
 function normalize_rift_seed_entry(entry){
   if (!entry) return null;
   if (typeof entry === 'string'){
@@ -2596,13 +2672,16 @@ function normalize_rift_seed_entry(entry){
   const clusterHint = pickString(entry.cluster_hint);
   const levelHint = pickString(entry.level_hint);
   const epoch = Number(entry.epoch);
+  const catalog = lookup_seed_catalog_entry(id);
   const normalized = {
     id: id.trim(),
-    label: pickString(entry.label, entry.name, id) || id.trim(),
+    label: pickString(entry.label, entry.name) || catalog?.label || id.trim(),
     status,
   };
   if (seedTier && ['early', 'mid', 'late'].includes(seedTier)){
     normalized.seed_tier = seedTier;
+  } else if (catalog?.seed_tier){
+    normalized.seed_tier = catalog.seed_tier;
   }
   if (clusterHint){
     normalized.cluster_hint = clusterHint;
@@ -2612,6 +2691,14 @@ function normalize_rift_seed_entry(entry){
   }
   if (Number.isFinite(epoch)){
     normalized.epoch = epoch;
+  }
+  const hook = pickString(entry.hook, entry.case_hook, entry.pitch);
+  if (hook){
+    normalized.hook = hook;
+  } else if (catalog?.hook){
+    normalized.hook = catalog.hook;
+  } else {
+    normalized.hook = 'Hook ausstehend – Casefile ergänzen.';
   }
   return normalized;
 }
@@ -5190,6 +5277,8 @@ function StartMission(){
   hudLog.length = 0;
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
+  reset_intervention_stage_flags();
+  state.logs.flags.entry_choice_prompted = false;
   ensure_character();
   ensure_team();
   ensure_party();
@@ -5280,7 +5369,37 @@ function StartMission(){
       status: state.campaign?.type === 'rift' ? 'open' : null
     }
   });
+  prompt_entry_choice();
   return overlay;
+}
+
+function entry_choice_options(){
+  const missionType = resolve_mission_type();
+  return missionType === 'rift'
+    ? ['Agent', 'Investigator', 'Forensik']
+    : ['Cover', 'Silent', 'Asset'];
+}
+
+function prompt_entry_choice(){
+  const flags = ensure_runtime_flags();
+  ensure_logs();
+  if (flags.skip_entry_choice || state.campaign?.entry_choice_skipped){
+    return null;
+  }
+  if (state.logs.flags.entry_choice_prompted){
+    return null;
+  }
+  const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : 0;
+  if (sceneIndex > 1){
+    return null;
+  }
+  const missionType = resolve_mission_type();
+  const modeLabel = missionType === 'rift' ? 'MODE RIFT' : 'MODE CORE';
+  const options = entry_choice_options();
+  const line = `\`${modeLabel} · EntryChoice ${options.join('/')}\``;
+  hud_toast(line, 'ENTRY');
+  state.logs.flags.entry_choice_prompted = true;
+  return line;
 }
 
 function scene_overlay(scene){
@@ -5289,10 +5408,25 @@ function scene_overlay(scene){
   const ms = state.campaign?.mission ?? 0;
   const sc = s.index ?? 0;
   const total = Number.isFinite(s.total) ? s.total : resolve_scene_total();
-  const ui = ensure_ui();
-  const mode = ui.gm_style;
   const obj = state.campaign?.objective ?? '?';
-  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · MODE ${mode}`;
+  const missionType = resolve_mission_type();
+  const modeLabel = missionType === 'rift' ? 'MODE RIFT' : 'MODE CORE';
+  let h = `EP ${ep} · MS ${ms} · SC ${sc}/${total} · ${modeLabel}`;
+  if (missionType === 'rift'){
+    const seedId = state.campaign?.active_seed_id || state.campaign?.seed_id;
+    const seedLabel = state.campaign?.active_seed_label || state.campaign?.seed_label;
+    const seedHook = state.campaign?.active_seed_hook || state.campaign?.seed_hook;
+    const hookSnippet = seedHook ? seedHook.slice(0, 72) : null;
+    const caseParts = [];
+    if (seedId) caseParts.push(seedId);
+    if (seedLabel) caseParts.push(seedLabel);
+    if (caseParts.length){
+      h += ` · CASE ${caseParts.join(': ')}`;
+    }
+    if (hookSnippet){
+      h += ` · HOOK ${hookSnippet}`;
+    }
+  }
   if (suggest_mode_enabled()){
     h += ' · SUG';
   }
@@ -6821,6 +6955,11 @@ function launch_rift(seedId = null){
   if (seed?.seed_tier){
     state.campaign.active_seed_tier = seed.seed_tier;
   }
+  if (seed?.hook){
+    state.campaign.active_seed_hook = seed.hook;
+  } else if ('active_seed_hook' in state.campaign){
+    delete state.campaign.active_seed_hook;
+  }
   if (Number.isFinite(seed?.epoch)){
     state.campaign.epoch = seed.epoch;
   }
@@ -6842,6 +6981,11 @@ function debrief(st){
   const cuReward = extractCuReward(outcome);
   const result = completeMission(outcome);
   const lines = [];
+  ensure_logs();
+  if (!state.logs.flags.fr_intervention_debrief_logged){
+    const logged = log_fr_intervention('debrief', 'Fraktion reagiert im Debrief.');
+    state.logs.flags.fr_intervention_debrief_logged = !!logged;
+  }
   lines.push(render_rewards(outcome, result));
   if (cuReward !== null && cuReward > 0){
     const split = apply_wallet_split(outcome, cuReward);

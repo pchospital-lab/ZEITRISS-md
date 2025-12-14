@@ -666,14 +666,10 @@ Alle Punkte sind offen.
 | | | neutralize/document/influence/prevent); 60 % People-Aufträge gesetzt |
 | #4 | Rift als Case Engine | README/Toolkit: Casefile-Overlay, 14-Szenen-Template mit Twist,
 | | | genau ein Anomalie-Element; QA 20 Rifts auf Tatort/Leads/Boss prüfen |
-| #5 | EntryChoice sichtbar machen | README/Toolkit: Scene 0/1 Entry-Menu (Cover/Silent/Asset bzw.
-| | | Agent/Investigator/Forensik) dokumentiert; Skip-Flag respektieren |
-| #6 | Rift-Seed normalisieren | Seed-Objekte mit `label/seed_tier/hook` speichern und bei
-| | | Load fehlende Felder aus Katalog auffüllen; Migrationspfad bauen |
-| #7 | Welt-Beats als Standard | Toolkit: Fraktionsintervention Briefing/Mid/Debrief in
-| | | Szene/HUD-Log einstreuen; `logs.fr_interventions[]` füllen |
-| #8 | HUD als dünnes Overlay führen | README + HUD-Spec: physische Wahrnehmung, Backticks,
-| | | MODE CORE/RIFT; HUD-Casefile führt Tatort/Leads/Boss |
+| #5 | EntryChoice sichtbar machen | ✅ Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice …` als HUD-Toast ein, Skip-Flag respektiert (Runtime + Docs aktualisiert) |
+| #6 | Rift-Seed normalisieren | ✅ Normalizer erzwingt `id/label/status/seed_tier/hook`, füllt fehlende Felder aus Seed-Katalog; Launch setzt `active_seed_hook` |
+| #7 | Welt-Beats als Standard | ✅ Fraktionsinterventionen loggen automatisch Briefing/Mid/Debrief nach `logs.fr_interventions[]` (mit Szene/Episode/Mission) |
+| #8 | HUD als dünnes Overlay führen | ✅ HUD-Header zeigen `MODE CORE/RIFT` + `CASE <ID>: <Label> · HOOK …`; Entry-Toasts/Case-Hooks als Backtick-Overlay, HUD-Spec/Toolkit/README gespiegelt |
 | #9 | One-Weird-Thing-Rule aktivieren | README/Toolkit: Core ohne Anomalien, Rift Budget 1,
 | | | rest physisch/rational; QA-Tonprüfung auf Budget 1 |
 

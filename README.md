@@ -279,8 +279,9 @@ nicht.
   (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
   (`campaign.episode_completed` oder `mission_in_episode ≥ 10`) und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
-  (id/label/status/seed_tier, optionale cluster-/level-Hints) zurück; der
-  Normalizer hebt Legacy-Strings an.
+  (id/label/status/seed_tier/hook, optionale cluster-/level-Hints) zurück; der
+  Normalizer hebt Legacy-Strings an und zieht fehlende Label/Hook/Seed-Tier aus
+  dem Seed-Katalog nach.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, Audit) und erlaubt `!arena
   resume` ohne erneute Gebühr aus dem HQ.
@@ -950,6 +951,11 @@ Artefakten und temporaler Abweichungen.
   sind wissenschaftlich erklärbar.
 - **HUD als dünnes Overlay:** Kurzzeilen in Backticks beschreiben physische
   Wahrnehmungen (Sensor, Vibration, Displayzeile) statt abstrakter UI.
+- **HUD-Casefile & Entry-Toast:** Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice` als HUD-Toast ein
+  (Skip-Flag respektiert). Rift-Overlays führen das aktive Casefile (`CASE <ID>: <Label> · HOOK …`)
+  basierend auf den normalisierten Seed-Feldern.
+- **Fraktions-Beats loggen:** Briefing, Mid-Mission und Debrief schreiben die gezogene
+  Fraktionsintervention als `logs.fr_interventions[]` mit Szene/Episode/Mission mit.
 
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.
