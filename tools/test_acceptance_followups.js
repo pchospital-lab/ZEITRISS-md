@@ -1,4 +1,9 @@
 const assert = require('assert');
+const mission5Fixture = require('../internal/qa/fixtures/mission5_badge_snapshots.json');
+
+if (typeof global.hud_tag !== 'function'){
+  global.hud_tag = () => {};
+}
 
 function freshRuntime(){
   delete require.cache[require.resolve('../runtime')];
@@ -20,14 +25,16 @@ function runForeshadowGateCheck(){
   rt.ForeshadowHint('Rift-Anomalie → Stabilisationsfenster', 'Foreshadow');
   assert.strictEqual(rt.state.logs.hud.length, beforeHud + 2, 'Foreshadow toasts fehlen');
   const bossStatus = rt.on_command('!boss status');
-  assert.ok(/Foreshadow\s+2\/2/.test(bossStatus), 'Foreshadow-Zähler meldet nicht 2/2');
+  assert.ok(/FS\s+2\/2/.test(bossStatus), 'Foreshadow-Zähler meldet nicht 2/2');
   const overlayBefore = rt.scene_overlay();
   assert.ok(overlayBefore.includes('FS 2/2'), 'Scene-Overlay zeigt keine Foreshadow 2/2');
 
   rt.StartMission();
-  assert.strictEqual(rt.state.logs.hud.length, 0, 'HUD-Log wurde beim Missionsstart nicht zurückgesetzt');
+  const hudAfterStart = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
+  assert.strictEqual(hudAfterStart[0]?.message, 'GATE 2/2 · FS 0/2', 'Gate-Toast nach Reset fehlt');
+  assert.ok(hudAfterStart.every(entry => entry.tag === 'BOSS'), 'HUD-Log enthält Rest-Einträge');
   const bossAfter = rt.on_command('!boss status');
-  assert.ok(/Foreshadow\s+0\/2/.test(bossAfter), 'Foreshadow-Zähler wurde nicht zurückgesetzt');
+  assert.ok(/FS\s+0\/2/.test(bossAfter), 'Foreshadow-Zähler wurde nicht zurückgesetzt');
   const overlayAfter = rt.scene_overlay();
   assert.ok(overlayAfter.includes('FS 0/2'), 'Scene-Overlay meldet nach Reset nicht 0/2');
 
@@ -91,10 +98,56 @@ function runPhaseStrikeArenaCheck(){
   return { arenaMsg, toast: toast.message, exitMsg };
 }
 
+function runMissionFiveBadgeCheck(){
+  const rt = freshRuntime();
+  const originalRandom = Math.random;
+  Math.random = () => 0.12;
+  try {
+    rt.startSolo('klassisch');
+    rt.state.campaign.episode = 2;
+    rt.state.campaign.mission = 5;
+    rt.state.campaign.type = 'core';
+    rt.state.campaign.objective = 'Mission 5 Badge QA';
+    rt.state.scene = { index: 0, foreshadows: 0, total: 10 };
+    rt.state.logs.flags.foreshadow_gate_snapshot = 2;
+    rt.state.logs.flags.foreshadow_gate_expected = true;
+
+    const hqOverlay = rt.scene_overlay();
+    assert.strictEqual(hqOverlay, mission5Fixture.hq_overlay, 'HQ-Overlay für Mission 5 weicht von der Referenz ab');
+
+    const sfOff = rt.on_command('!sf off');
+    assert.strictEqual(sfOff, mission5Fixture.sf_off, 'SF-OFF-Toast fehlt oder ist verändert');
+
+    const startOverlay = rt.StartMission();
+    assert.strictEqual(startOverlay, mission5Fixture.mission_overlay, 'Mission-Start-Overlay stimmt nicht mit dem Snapshot überein');
+
+    const hudMission = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
+    assert.deepStrictEqual(hudMission, mission5Fixture.hud_mission, 'HUD-Toast-Log beim Start entspricht nicht dem Golden File');
+
+    const bossStatus = rt.on_command('!boss status');
+    assert.strictEqual(bossStatus, mission5Fixture.boss_status, 'Boss-Status liefert nicht Gate 2/2 · FS 0/4');
+
+    rt.state.scene.index = 10;
+    rt.completeMission({ reason: 'completed' });
+    const hudAfter = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
+    assert.deepStrictEqual(hudAfter, mission5Fixture.hud_after, 'SF-Reset/HUD-Log nach Mission 5 stimmt nicht');
+
+    const flags = rt.state.logs.flags;
+    Object.entries(mission5Fixture.flag_checks).forEach(([key, expected]) => {
+      assert.strictEqual(flags[key], expected, `Flag ${key} entspricht nicht dem Snapshot`);
+    });
+
+    return { hqOverlay, sfOff, startOverlay, hudMission, bossStatus, hudAfter };
+  } finally {
+    Math.random = originalRandom;
+  }
+}
+
 function main(){
   const foreshadow = runForeshadowGateCheck();
   const suggest = runSuggestToggleCheck();
   const arena = runPhaseStrikeArenaCheck();
+  const mission5 = runMissionFiveBadgeCheck();
 
   console.log('Foreshadow overlay (vorher):', foreshadow.overlayBefore);
   console.log('Foreshadow overlay (nachher):', foreshadow.overlayAfter);
@@ -105,6 +158,10 @@ function main(){
   console.log('Arena Start:', arena.arenaMsg);
   console.log('Arena Phase-Strike Toast:', arena.toast);
   console.log('Arena Exit:', arena.exitMsg);
+  console.log('Mission 5 HQ Overlay:', mission5.hqOverlay);
+  console.log('Mission 5 Start Overlay:', mission5.startOverlay);
+  console.log('Mission 5 HUD Start:', mission5.hudMission.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
+  console.log('Mission 5 HUD Reset:', mission5.hudAfter.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
 }
 
 if (require.main === module){

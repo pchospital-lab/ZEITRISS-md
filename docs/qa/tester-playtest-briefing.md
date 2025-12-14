@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.2
+version: 1.3.3
 tags: [meta]
 ---
 
@@ -55,6 +55,10 @@ betont.
 - **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
   setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren, damit
   Logs und Checks reproduzierbar bleiben.
+- **Mission‑5 Badge-Snapshots:** `internal/qa/fixtures/mission5_badge_snapshots.json` enthält HUD- und
+  Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up-Runner
+  `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die manuelle Mission‑5-
+  Dokumentation bleibt Teil des Abschluss-Reports.
 
 ## Testumfang und Meilensteine
 
@@ -139,7 +143,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > beginne Mission 5, bestätige Toast, Badge (`SF-OFF`) und den HUD-Zähler
 > (`FS 0/4`) und halte den HUD-/Log-Auszug fest. Prüfe zum Abschluss den
 > Badge-Reset auf `SF-ON` nach Abbruch oder Abschluss (HUD-Log +
-> `logs.flags.self_reflection_auto_reset_*`).
+> `logs.flags.self_reflection_auto_reset_*`). Die automatisierten Snapshots im
+> QA-Runner (`tools/test_acceptance_followups.js`) dienen als Referenz, das
+> manuelle Protokoll bleibt Pflicht.
 >
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
 > Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
