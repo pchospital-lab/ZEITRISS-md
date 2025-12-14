@@ -58,7 +58,25 @@ dort deterministisch gesetzt:
 Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json` und
 `savegame_v6_highlevel.json` führen alle Pflichtcontainer (u. a. `logs.arena_psi[]`,
 `logs.flags.merge_conflicts[]`) als minimale Beispiele und dienen als Abgleich
-für Smoke-/Acceptance-Läufe.
+für Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
+`systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
+dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
+Pflichtcontainer fehlen oder die Typen nicht passen.
+
+### Kompakt-Profil für GPT (Save v6)
+Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
+ohne Artefakt-Anhang in den Wissensspeicher passt. Orientiere dich an
+SaveGuard + folgendem Pfadbaum:
+
+- `save_version`, `zr_version`, `location`, `phase`
+- `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
+- `campaign.{episode,scene,px,rift_seeds[]}`
+- `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
+- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen},flags.merge_conflicts[]}`
+- `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (kompletter Arena-Status)
+
+Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
+das Klartext-Profil als maßgebliche Struktur.
 
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
 spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
