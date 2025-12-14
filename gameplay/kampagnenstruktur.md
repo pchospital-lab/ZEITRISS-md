@@ -972,10 +972,15 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 - Rift-Pool als Array: `seed_id` und `status(open/closed)`.
 - Schwierigkeit = `base_dc + open_seeds`.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
+- High-Level-Ökonomie: Modul 15 listet Richtwerte für Level 100/400/1000
+  (Belohnung vs. Kosten/Sinks); Hazard-Pay und Seed-Multiplikator bleiben
+  identisch.
 - Side-Op erzeugt ein Paramonster nach dem obigen Template im aktuellen `epoch_id`.
 - Bei Rift-Ops die `campaign.scene` bis **14** verfolgen und erst dann abschließen.
 - Rift-Operationen erhöhen den Paradoxon-Index nicht und schließen sich nach dem Verlassen automatisch.
   Artefaktkontakt kann dennoch Punkte auslösen.
+- Artefakte handelbar wie Gear: Research-/Archivwerte dokumentieren Fortschritt;
+  prozentuale Buff-Staffel (≈ 10 / 15 / 20–25 %) hält Endgame-Balancing stabil.
 
 #### Adaptive Opposition
 

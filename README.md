@@ -977,9 +977,10 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 † Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
 Relikte zählen als Story-Items und nutzen den normalen Generator.
 
-**Artefakt-Sink:** Artefakte verlassen den Markt. Nach der Analyse wandern sie
-ins Archiv/Salvage (Kodex-Eintrag, Fraktionsbonus, Ersatzteile) und bringen
-keine direkten CUs ein; Tausch bleibt nur intern im HQ.
+**Artefakt-Sink:** Artefakte bleiben handelbar wie Gear (Tausch, Schenkung oder
+Verkauf zulässig), aber die Abrechnung läuft über Research-/Archivwerte statt
+Marktpreis. Archivieren zieht sie endgültig aus der Wirtschaft, CUs fließen nur
+über den HQ-Pool und nie als automatischer Sellout.
 
 ## Kampagnenhierarchie
 
@@ -1309,6 +1310,9 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   Wallets (`economy.wallets{}`) akzeptieren numerische Strings wie `"1500"` und
   wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
   Werte fallen auf `0` zurück.
+- **High-Level-Ökonomie:** Modul 15 enthält eine Tabelle für Level 100/400/1000
+  (Belohnung vs. Sink). Hazard-Pay und `seed_multi` folgen der gleichen Formel,
+  Wallet-Split und Rundungslogik bleiben unverändert.
 
 ## Spielmodi {#spielmodi}
 
