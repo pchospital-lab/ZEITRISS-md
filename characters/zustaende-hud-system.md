@@ -71,6 +71,12 @@ Der Standard-Header zeigt:
 `· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
 `· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
 
+- Rift-Casefiles hängen `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss` an
+  den Header, damit der Ermittlungsstand (Tatort → Leads → Boss) sichtbar bleibt.
+- Physicality Gate: Hardware-Checks für Scan/Hack/Comms erscheinen als
+  `HARDWARE`-Toasts, inklusive Gerät (Linse/Sensor/Kabel/Relay/Terminal) und
+  kurzem Feedback (Vibration, Rauschen, Hitze der Linse).
+
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge
   **und** Boss-Toast synchron, `!boss status` spiegelt denselben Snapshot. Der
@@ -725,7 +731,8 @@ Mali. Mehr Details im Kodex.
 
 > **Dünnes Overlay, physischer Träger.** HUD-Zeilen erscheinen in Backticks als
 > Display-/Sensor-Feedback (Linse flackert, Relais klickt, Resonator vibriert) –
-> niemals als schwebendes Holo ohne Gerät. **MODE CORE** kennzeichnet Episoden,
+> als Holo-Layer der Linse (Mixed-Reality), niemals losgelöst ohne Gerät.
+> **MODE CORE** kennzeichnet Episoden,
 > **MODE RIFT** Casefiles aus dem HQ. Casefile-Overlays zeigen Tatort → Leads →
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`

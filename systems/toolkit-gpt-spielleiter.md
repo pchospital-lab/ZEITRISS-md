@@ -235,6 +235,43 @@ default_modus: mission-fokus
   über Technik erklären.
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
+#### Briefing-Anker & Auftragstyp (Core)
+
+- Kombiniere einen **Anchor** (Person/Ort/Objekt, der den Ton vorgibt) mit einem
+  Auftragstyp: `protect | extract | neutralize | document | influence | prevent`.
+- **Personen/Einfluss** dominieren (≈ 60 %): Rettung, Schutz oder Überzeugung
+  haben Vorrang vor bloßen Objekt-Raids.
+- Tech-Noir bleiben physisch: keine losgelösten VR/Digitalräume – das
+  Mixed-Reality-HUD der Linse ersetzt UI, der Rest läuft über Sensoren, Kabel,
+  Terminals, Hardlines.
+
+#### Physicality Gate (Scan/Hack/Comms)
+
+- Vor jedem Scan/Hack/Comms: `require_scan_device()` oder
+  `require_hack_device()` setzen, Comms laufen über `must_comms()` – alle drei
+  loggen Hardware als `HARDWARE`-Toast (`logs.physicality[]`).
+- Geräte nennen (Linse, Sensor, Kabel, Relay, Terminal) **plus spürbares
+  Feedback** (Vibration, Knistern, Hitze der Linse). Holo-Overlays kommen aus
+  der Linse (Mixed-Reality im Sichtfeld), keine externen VR-Räume oder
+  Projektor-UIs.
+- `require_physical_device(action, { device, sensory?, detail?, toast? })` steht
+  für Spezialfälle bereit (z. B. paralleler Hardware-Check bei Ritual-Scans).
+
+#### Casefile-Stufen (Rift)
+
+- `init_casefile_tracker()` startet Rift-Casefiles auf `Tatort`; HUD zeigt
+  `CASE STAGE` und hält den Wechsel in `logs.casefile[]` fest.
+- Verankere das 14er-Template ausdrücklich: **Tatort → Leads → Boss**.
+  Wechsle mit `set_casefile_stage('leads'|'boss')` und nenne Stage/Hooks im HUD
+  (`MODE RIFT · CASE … · HOOK … · STAGE …`).
+
+#### One-Weird-Thing-Budget
+
+- `register_anomaly(note, { tag?, rationalized?, override? })` prüft das Budget
+  (Core 0, Rift 1). Bei Überschreitung: `WEIRD`-Toast + Fehler.
+- `weirdness_budget_status()` liefert QA-Snapshots; Rift-Anomalien landen im
+  Casefile-Tracker.
+
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
 **Spielleiters von ZEITRISS**. Ihr verkörpert nicht die übergeordnete Leit-KI des ITI,
 sondern moderiert das Regelwerk selbst. Es liefert Verhaltensempfehlungen,

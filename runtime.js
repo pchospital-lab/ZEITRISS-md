@@ -42,7 +42,9 @@ function helper_comms_text(){
     'Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal)',
     'und Meterwerte; optional wandelt der Guard Kilometer in Meter um.',
     'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren;',
-    'Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.'
+    'Reichweite anpassen. Physicality Gate greift: Scan/Hack/Comms nennen immer ihr Gerät',
+    '(Linse/Sensor/Kabel/Relay/Terminal). `!offline` zeigt das Feldprotokoll, während die Mission',
+    'mit HUD-Lokaldaten weiterläuft.'
   ].join('\n');
 }
 
@@ -60,10 +62,12 @@ const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
+const PHYSICALITY_LOG_LIMIT = 16;
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
 const SQUAD_RADIO_LOG_LIMIT = 24;
+const WEIRDNESS_LOG_LIMIT = 12;
 
 const CHRONO_CATALOG = [
   {
@@ -921,6 +925,21 @@ function ensure_logs(){
     state.logs.squad_radio = [];
   } else {
     state.logs.squad_radio = sanitize_radio_entries(state.logs.squad_radio);
+  }
+  if (!Array.isArray(state.logs.physicality)){
+    state.logs.physicality = [];
+  } else if (state.logs.physicality.length > PHYSICALITY_LOG_LIMIT){
+    state.logs.physicality = state.logs.physicality.slice(-PHYSICALITY_LOG_LIMIT);
+  }
+  if (!Array.isArray(state.logs.weirdness)){
+    state.logs.weirdness = [];
+  } else if (state.logs.weirdness.length > WEIRDNESS_LOG_LIMIT){
+    state.logs.weirdness = state.logs.weirdness.slice(-WEIRDNESS_LOG_LIMIT);
+  }
+  if (!Array.isArray(state.logs.casefile)){
+    state.logs.casefile = [];
+  } else if (state.logs.casefile.length > 12){
+    state.logs.casefile = state.logs.casefile.slice(-12);
   }
   if (!state.logs.flags || typeof state.logs.flags !== 'object'){
     state.logs.flags = {};
@@ -5260,6 +5279,7 @@ function StartMission(){
   state.phase = missionPhase;
   state.campaign ||= {};
   state.campaign.phase = missionPhase;
+  state.campaign.loop = missionPhase === 'rift' ? 'casefile' : 'episode';
   state.campaign.scene_total = sceneTotal;
   state.comms = { jammed: false, relays: 0, rangeMod: 1.0 };
   state.exfil = {
@@ -5275,6 +5295,12 @@ function StartMission(){
   sync_campaign_exfil(state.exfil);
   const hudLog = ensure_logs();
   hudLog.length = 0;
+  state.logs.physicality = [];
+  state.logs.weirdness = [];
+  state.logs.casefile = [];
+  if ('casefile_stage' in state.logs){
+    delete state.logs.casefile_stage;
+  }
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
   reset_intervention_stage_flags();
@@ -5302,6 +5328,7 @@ function StartMission(){
   state.fr_intervention = roll_fr(state.campaign?.fr_bias || 'normal');
   state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
   state.campaign.scene = state.scene.index;
+  init_casefile_tracker();
   const runtimeFlags = ensure_runtime_flags();
   if (runtimeFlags.skip_entry_choice !== true){
     runtimeFlags.skip_entry_choice = false;
@@ -5426,6 +5453,10 @@ function scene_overlay(scene){
     if (hookSnippet){
       h += ` · HOOK ${hookSnippet}`;
     }
+    const stageLabel = casefile_stage_label();
+    if (stageLabel){
+      h += ` · STAGE ${stageLabel}`;
+    }
   }
   if (suggest_mode_enabled()){
     h += ' · SUG';
@@ -5467,6 +5498,224 @@ function scene_overlay(scene){
       h += ` · TK🌀 ${tkCooldown}`;
     }
   return h;
+}
+
+function casefile_stage_label(){
+  if (resolve_mission_type() !== 'rift') return null;
+  const raw = typeof state.casefile?.stage === 'string'
+    ? state.casefile.stage
+    : 'crime_scene';
+  const map = {
+    crime_scene: 'Tatort',
+    tatort: 'Tatort',
+    leads: 'Leads',
+    boss: 'Boss',
+    showdown: 'Boss'
+  };
+  return map[raw] || raw;
+}
+
+function set_casefile_stage(stage){
+  if (resolve_mission_type() !== 'rift') return null;
+  const key = typeof stage === 'string' ? stage.trim().toLowerCase() : '';
+  const map = { tatort: 'crime_scene', crime_scene: 'crime_scene', leads: 'leads', boss: 'boss', showdown: 'boss' };
+  const normalized = map[key];
+  if (!normalized){
+    throw new Error('Casefile-Stage unbekannt – nutze Tatort/Leads/Boss.');
+  }
+  ensure_logs();
+  state.casefile ||= {};
+  const previous = state.casefile.stage;
+  state.casefile.stage = normalized;
+  state.logs.casefile_stage = normalized;
+  state.logs.casefile ||= [];
+  state.logs.casefile.push({
+    stage: normalized,
+    scene: state.scene?.index ?? 0,
+    episode: state.campaign?.episode ?? null,
+    mission: state.campaign?.mission ?? null,
+    ts: new Date().toISOString()
+  });
+  if (state.logs.casefile.length > 12){
+    state.logs.casefile.splice(0, state.logs.casefile.length - 12);
+  }
+  if (previous !== normalized){
+    const label = casefile_stage_label();
+    hud_toast(`CASE STAGE · ${label}`, 'CASE');
+  }
+  return normalized;
+}
+
+function init_casefile_tracker(){
+  if (resolve_mission_type() !== 'rift'){
+    if (state.logs && 'casefile_stage' in state.logs) delete state.logs.casefile_stage;
+    delete state.casefile;
+    return null;
+  }
+  ensure_logs();
+  state.casefile = state.casefile && typeof state.casefile === 'object' && !Array.isArray(state.casefile)
+    ? state.casefile
+    : {};
+  state.casefile.stage = typeof state.casefile.stage === 'string' ? state.casefile.stage : 'crime_scene';
+  state.casefile.anomalies = Array.isArray(state.casefile.anomalies) ? state.casefile.anomalies : [];
+  state.logs.casefile_stage = state.casefile.stage;
+  state.logs.casefile ||= [];
+  state.logs.casefile.push({
+    stage: state.casefile.stage,
+    scene: state.scene?.index ?? 0,
+    episode: state.campaign?.episode ?? null,
+    mission: state.campaign?.mission ?? null,
+    ts: new Date().toISOString()
+  });
+  if (state.logs.casefile.length > 12){
+    state.logs.casefile.splice(0, state.logs.casefile.length - 12);
+  }
+  hud_toast('CASE STAGE · Tatort → Leads → Boss', 'CASE');
+  return state.casefile.stage;
+}
+
+function normalize_device_id(raw){
+  const dev = pickString(raw);
+  if (!dev) return null;
+  const canonical = dev.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+  const map = {
+    linse: 'lens',
+    lens: 'lens',
+    kontaktlinse: 'lens',
+    retina: 'lens',
+    hud: 'lens',
+    sensor: 'sensor',
+    scanner: 'sensor',
+    bioscanner: 'sensor',
+    tablet: 'tablet',
+    terminal: 'terminal',
+    konsole: 'terminal',
+    deck: 'terminal',
+    port: 'terminal',
+    node: 'terminal',
+    comlink: 'comlink',
+    commlink: 'comlink',
+    'com-link': 'comlink',
+    kabel: 'cable',
+    cable: 'cable',
+    hardline: 'cable',
+    relay: 'relay',
+    relais: 'relay'
+  };
+  return map[canonical] || canonical;
+}
+
+function record_physical_interaction(action, device, extra = {}){
+  ensure_logs();
+  if (!Array.isArray(state.logs.physicality)){
+    state.logs.physicality = [];
+  }
+  const entry = {
+    action,
+    device,
+    scene: state.scene?.index ?? null,
+    episode: state.campaign?.episode ?? null,
+    mission: state.campaign?.mission ?? null,
+    ts: new Date().toISOString(),
+    ...extra
+  };
+  state.logs.physicality.push(entry);
+  if (state.logs.physicality.length > PHYSICALITY_LOG_LIMIT){
+    state.logs.physicality.splice(0, state.logs.physicality.length - PHYSICALITY_LOG_LIMIT);
+  }
+  return entry;
+}
+
+function require_physical_device(action, options = {}){
+  const normalizedAction = typeof action === 'string' ? action.toLowerCase() : 'any';
+  const device = normalize_device_id(options.device);
+  const allowMap = {
+    scan: ['sensor', 'scanner', 'lens', 'tablet', 'terminal', 'drone'],
+    hack: ['terminal', 'deck', 'cable', 'relay', 'comlink'],
+    comms: ['comlink', 'cable', 'relay', 'jammer_override']
+  };
+  const allowed = allowMap[normalizedAction] || allowMap.any || [];
+  if (!device || (allowed.length && !allowed.includes(device))){
+    const expected = allowed.length ? allowed.join('/') : 'Lens/Sensor/Terminal';
+    throw new Error(
+      `Physicality Gate: ${normalizedAction} benötigt Hardware (${expected}). ` +
+      'Setze device=Linse/Sensor/Terminal/Kabel/Relay und beschreibe das spürbare Feedback.'
+    );
+  }
+  const entry = record_physical_interaction(normalizedAction, device, {
+    sensory: options.sensory || null,
+    detail: options.detail || null
+  });
+  if (options.toast !== false){
+    hud_toast(`Hardware ${device} · ${normalizedAction.toUpperCase()} ready`, 'HARDWARE');
+  }
+  return entry;
+}
+
+function require_scan_device(options = {}){
+  return require_physical_device('scan', options);
+}
+
+function require_hack_device(options = {}){
+  return require_physical_device('hack', options);
+}
+
+function ensure_weirdness_log(){
+  ensure_logs();
+  if (!Array.isArray(state.logs.weirdness)){
+    state.logs.weirdness = [];
+  }
+  return state.logs.weirdness;
+}
+
+function weirdness_budget_status(){
+  const missionType = resolve_mission_type();
+  const budget = missionType === 'rift' ? 1 : 0;
+  const log = ensure_weirdness_log();
+  const used = log.filter((entry) => !entry.rationalized).length;
+  return { missionType, budget, used };
+}
+
+function register_anomaly(note, options = {}){
+  const missionType = resolve_mission_type();
+  const log = ensure_weirdness_log();
+  const entry = {
+    note: typeof note === 'string' && note.trim() ? note.trim() : (options.note || 'Anomalie'),
+    tag: options.tag || null,
+    rationalized: !!options.rationalized,
+    scene: state.scene?.index ?? null,
+    episode: state.campaign?.episode ?? null,
+    mission: state.campaign?.mission ?? null,
+    ts: new Date().toISOString()
+  };
+  const status = weirdness_budget_status();
+  const remaining = status.budget - status.used;
+  if (missionType === 'core' && !entry.rationalized && options.override !== true){
+    hud_toast('Core-Budget 0 – Effekt rationalisieren oder als Täuschung markieren.', 'WEIRD');
+    throw new Error(
+      'Core-Weirdness-Budget 0 – markiere die Erscheinung als Täuschung/Technik ' +
+      'oder setze rationalized=true.'
+    );
+  }
+  if (missionType === 'rift' && !entry.rationalized && remaining <= 0 && options.override !== true){
+    hud_toast('Rift-Budget erschöpft – One-Weird-Thing schon belegt.', 'WEIRD');
+    throw new Error(
+      'Rift-Weirdness-Budget überschritten (Budget 1, weitere Effekte rationalisieren ' +
+      'oder override setzen).'
+    );
+  }
+  log.push(entry);
+  if (log.length > WEIRDNESS_LOG_LIMIT){
+    log.splice(0, log.length - WEIRDNESS_LOG_LIMIT);
+  }
+  if (missionType === 'rift'){
+    init_casefile_tracker();
+    state.casefile.anomalies.push(entry.tag || 'anomaly');
+    if (state.casefile.anomalies.length > 3){
+      state.casefile.anomalies.splice(0, state.casefile.anomalies.length - 3);
+    }
+  }
+  return entry;
 }
 
 function normalize_comms_payload(input){
@@ -5626,6 +5875,11 @@ function must_comms(o){
       'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.'
     );
   }
+  record_physical_interaction('comms', normalized.device || 'comlink', {
+    range_m: normalized.range_m ?? null,
+    relays: normalized.relays ?? null,
+    jammed: normalized.jammer ?? normalized.jammed ?? false
+  });
   return normalized;
 }
 
@@ -7317,6 +7571,13 @@ module.exports = {
   radio_rx,
   kodex_link_state,
   require_uplink,
+  require_physical_device,
+  require_scan_device,
+  require_hack_device,
+  register_anomaly,
+  weirdness_budget_status,
+  set_casefile_stage,
+  init_casefile_tracker,
   assert_foreshadow,
   ForeshadowHint,
   save_deep,
