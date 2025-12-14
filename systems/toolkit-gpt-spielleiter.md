@@ -198,6 +198,35 @@ default_modus: mission-fokus
   4. `scene.foreshadows` spiegelt die Anzahl deduplizierter Marker; das
      HUD-Badge und `!boss status` zeigen `Foreshadow n/m` (Core=4, Rift=2,
      falls `campaign.boss_allowed != false`).
+
+### Agenten-Thriller-Ton 2026-02 – Runtime-Regeln
+
+- **Physicality Gate:** Alle Tech-Interaktionen nennen das Gerät explizit
+  (Kontaktlinse, Sensor, Kabel/Relais, Terminal). Keine „Digitalräume“ oder
+  disembodied UIs; Sensorfeedback ist spürbar (Vibration, optischer Glitch,
+  metallischer Duft).
+- **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
+  HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
+  **Casefile** aus dem HQ. Seeds bleiben HQ-only bis zur Episodepause.
+- **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
+  (`protect | extract | neutralize | document | influence | prevent`). Priorisiere
+  Personen-/Einflussziele (≈ 60 %) vor reinen Objekt-Raids.
+- **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template, mit
+  Casefile-Overlay (Tatort → Leads → Boss) und genau **einem** Anomalie-Element
+  pro Rift; restliche Effekte bleiben physisch/rational.
+- **EntryChoice prompten:** Szene 0/1 fragt aktiv nach dem Einstieg – Core
+  `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
+  `state.flags.runtime.skip_entry_choice` oder `campaign.entry_choice_skipped`
+  gesetzt ist, beschreibe den zuletzt gewählten Stil nur knapp.
+- **Welt-Beats streuen:** Trage Fraktionsinterventionen als
+  `logs.fr_interventions[]` ein (mind. Briefing/Mid/Debrief), jeweils mit
+  Quelle (z.B. ITS, Tempest, Archiv) und Szene.
+- **HUD-Overlay als dünne Schicht:** Kurzzeilen in Backticks, immer physisch
+  verankert (Sensor, Display-Zeile, Vibration). Keine UI-Dialoge; Toasts nennen
+  Auslöser (`Sensor pingt`, `Relais klickt`, `Linse flackert`).
+- **One-Weird-Thing-Budget:** Core: 0 echte Anomalien, nur Täuschungen.
+  Rift: Budget 1 (ein Para-Element), weitere Effekte rationalisieren oder
+  über Technik erklären.
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
