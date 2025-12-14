@@ -631,14 +631,14 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | | | SaveGuard erzwingt kompletten Block |
 | #9 | Offline-HUD-FAQ präzisieren | ✅ FAQ/Stub/README spiegeln Cloud-Sync & HQ-only-Policy;
 | | | QA-Bypass-Text ergänzt |
-| #10 | Cross-Mode-Merge-Konflikte | Pflichtkonflikt-Entries für Seeds/Counter/UI/Arena |
-| #11 | Arena-Load-Konfliktmarkierung | Load erzeugt Toast + `merge_conflicts` bei Arena-State |
+| #10 | Cross-Mode-Merge-Konflikte | ✅ Loader-Hook `push_merge_conflict()` protokolliert Seeds/Counter/UI/Arena |
+| #11 | Arena-Load-Konfliktmarkierung | ✅ Load erzeugt Toast + `merge_conflicts` bei Arena-State |
 | #12 | High-Level-Ökonomie | Tabelle Level→Reward/Costs, Sink-Mechanik dokumentieren |
 | #13 | Artefaktprogression | Research/Archive-Value, prozentuale Effekte, Trade erlaubt |
 | #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf 0–4 vereinheitlicht, Docs
 | | | und Tests angepasst |
 | #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
-| #16 | QA-Fixture Save v6 voll | Fixture `qa/fixtures/saveGame_v6_full.json` + Roundtrip |
+| #16 | QA-Fixture Save v6 voll | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert |
 
 ## Regressionstest-Termine 2025
 

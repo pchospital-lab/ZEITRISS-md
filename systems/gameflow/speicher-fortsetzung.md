@@ -55,10 +55,11 @@ assert serializer_bereit(required)
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt:
 
-Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json` und
-`savegame_v6_highlevel.json` führen alle Pflichtcontainer (u. a. `logs.arena_psi[]`,
-`logs.flags.merge_conflicts[]`) als minimale Beispiele und dienen als Abgleich
-für Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
+Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json`,
+`savegame_v6_highlevel.json` und `savegame_v6_full.json` führen alle
+Pflichtcontainer (u. a. `logs.arena_psi[]`, `logs.flags.merge_conflicts[]`) als
+minimale bis schema-vollständige Beispiele und dienen als Abgleich für
+Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
 `systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
@@ -225,6 +226,12 @@ zeigt drei Stände (Lvl 8/120/520) mit Seed-Pools und optionaler
 `seed_tier`-Kennzeichnung. Nutzung: Regression für Rifts und Endgame-Scaling;
 die Datei liegt nur lokal als QA-Bezugspunkt und ist nicht Teil des
 produktiven Wissensspeichers.
+
+**Schema-voller QA-Save:** `internal/qa/fixtures/savegame_v6_full.json`
+vereint Level 7/120/512 mit offenen und geschlossenen Seeds, vollständigem
+UI-Block, Wallet-Splits, Arena-/PvP-/Psi-Logs sowie Merge-Conflict-Einträgen.
+Der Datensatz belegt alle Pflichtcontainer des Save-Schemas und eignet sich
+für Roundtrip-Tests und Loader-Dedupe.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 

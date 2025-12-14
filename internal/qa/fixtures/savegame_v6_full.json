@@ -1,0 +1,576 @@
+{
+  "meta": {
+    "purpose": "QA-Referenzsave (Schema-voll)",
+    "description": "Level 7/120/512 mit offenen und geschlossenen Seeds, Arena-/PvP-/Psi-Logs.",
+    "created_at": "2025-12-14",
+    "notes": "Abdeckung aller Pflichtcontainer inkl. Merge-Konflikten und Arc-Dashboard."
+  },
+  "saves": [
+    {
+      "save_version": 6,
+      "zr_version": "4.2.3",
+      "location": "HQ",
+      "phase": "core",
+      "campaign": {
+        "episode": 2,
+        "mission": 5,
+        "mission_in_episode": 5,
+        "scene": 0,
+        "type": "core",
+        "mode": "preserve",
+        "phase": "core",
+        "px": 2,
+        "boss_dr": 1,
+        "team_size": 1,
+        "exfil": {
+          "active": false,
+          "armed": false,
+          "hot": false,
+          "sweeps": 0,
+          "stress": 0,
+          "ttl": 0,
+          "anchor": null,
+          "alt_anchor": null
+        },
+        "rift_seeds": [
+          { "id": "R-015", "epoch": "1977", "label": "Dam Safety", "status": "open", "seed_tier": "early" },
+          { "id": "R-022", "epoch": "1989", "label": "Lost Signal", "status": "closed" }
+        ],
+        "compliance_shown_today": true
+      },
+      "character": {
+        "id": "AGENT-L07",
+        "name": "Vektor",
+        "callsign": "Vektor",
+        "level": 7,
+        "stress": 0,
+        "psi_heat": 0,
+        "cooldowns": {},
+        "attributes": {
+          "SYS_max": 5,
+          "SYS_installed": 5,
+          "SYS_runtime": 5,
+          "SYS_used": 4
+        },
+        "modes": ["mission_focus"],
+        "self_reflection": false
+      },
+      "team": {
+        "name": "Solo",
+        "members": [
+          { "id": "AGENT-L07", "role": "Lead" }
+        ]
+      },
+      "party": { "characters": [{ "id": "AGENT-L07", "callsign": "Vektor" }] },
+      "loadout": {
+        "AGENT-L07": {
+          "primary": "CQB-Kampfpistole (SD)",
+          "secondary": "Tactical Knife",
+          "armor": "Kevlar II",
+          "gear": ["Multi-Tool-Handschuh", "Med-Patch", "Rauchgranate Mk I"]
+        }
+      },
+      "economy": {
+        "cu": 2100,
+        "wallets": {
+          "AGENT-L07": { "name": "Vektor", "balance": 2100 }
+        }
+      },
+      "logs": {
+        "hud": [
+          "EP 02 · MS 05 · SC 0/12 · MODE CORE · GATE 2/2 · FS 0/4",
+          "Boss-DR aktiviert – −1 Schaden pro Treffer"
+        ],
+        "trace": [
+          {
+            "event": "mission_start",
+            "at": "2025-12-14T09:15:00Z",
+            "location": "HQ",
+            "phase": "core",
+            "mission_type": "core",
+            "campaign_mode": "preserve",
+            "scene": { "episode": 2, "mission": 5, "index": 0, "total": 12 },
+            "hud": "EP 02 · MS 05 · SC 0/12 · MODE CORE",
+            "channel": "HUD",
+            "foreshadow": { "progress": 0, "required": 4, "tokens": 0, "expected": true },
+            "radio_count": 0,
+            "kodex_count": 0,
+            "alias_count": 0,
+            "economy": { "cu": 2100, "wallets": 1 },
+            "fr_bias": "neutral",
+            "intervention": "none"
+          }
+        ],
+        "artifact_log": [
+          {
+            "id": "A-010",
+            "name": "Mothman-Auge",
+            "mission_ref": "EP02-MS03",
+            "status": "archived",
+            "note": "NightVision30m"
+          }
+        ],
+        "market": [
+          { "ts": "2025-12-14T08:50:00Z", "item": "Kevlar II", "cost_cu": 150, "px_clause": "neutral" }
+        ],
+        "offline": [
+          { "ts": "2025-12-14T08:40:00Z", "scene": "HQ", "context": "Jammer", "note": "HUD only" }
+        ],
+        "kodex": [],
+        "alias_trace": [
+          { "ts": "2025-12-14T08:45:00Z", "alias": "Echo", "message": "Alias gesetzt" }
+        ],
+        "squad_radio": [],
+        "field_notes": ["SF-OFF set für M5"],
+        "foreshadow": [
+          { "scene": 5, "label": "Steg fällt ein", "mission_ref": "EP02-MS05" }
+        ],
+        "fr_interventions": [],
+        "arena_psi": [],
+        "psi": [],
+        "flags": {
+          "runtime_version": "4.2.3",
+          "compliance_shown_today": true,
+          "chronopolis_warn_seen": false,
+          "foreshadow_gate_m5_seen": true,
+          "foreshadow_gate_m10_seen": false,
+          "merge_conflicts": [
+            {
+              "field": "campaign.rift_seeds",
+              "source": "import",
+              "target": "host",
+              "mode": "hq_merge",
+              "note": "Host behält Seeds R-015/R-022; Import verworfen",
+              "resolved": false
+            }
+          ]
+        }
+      },
+      "ui": {
+        "gm_style": "verbose",
+        "intro_seen": true,
+        "suggest_mode": false,
+        "contrast": "standard",
+        "badge_density": "standard",
+        "output_pace": "normal"
+      },
+      "arena": {
+        "active": false,
+        "phase": "completed",
+        "mode": "squad",
+        "team_size": 1,
+        "tier": 1,
+        "fee": 0,
+        "scenario": null,
+        "phase_strike_tax": 0,
+        "audit": []
+      },
+      "arc_dashboard": {
+        "offene_seeds": [
+          { "id": "R-015", "seed_tier": "early" }
+        ],
+        "fraktionen": { "ITI": 1, "Kartell": -1 }
+      }
+    },
+    {
+      "save_version": 6,
+      "zr_version": "4.2.3",
+      "location": "HQ",
+      "phase": "core",
+      "campaign": {
+        "episode": 6,
+        "mission": 12,
+        "mission_in_episode": 2,
+        "scene": 0,
+        "type": "core",
+        "mode": "trigger",
+        "phase": "core",
+        "px": 3,
+        "team_size": 3,
+        "exfil": {
+          "active": false,
+          "armed": false,
+          "hot": false,
+          "sweeps": 0,
+          "stress": 0,
+          "ttl": 0,
+          "anchor": null,
+          "alt_anchor": null
+        },
+        "rift_seeds": [
+          { "id": "R-085", "epoch": "2029", "label": "Glass Torrent", "status": "open", "seed_tier": "mid" },
+          { "id": "R-111", "epoch": "2130", "label": "Psi Bloom", "status": "open", "seed_tier": "mid" }
+        ],
+        "px_reset_pending": false,
+        "px_reset_confirm": false
+      },
+      "character": {
+        "id": "AGENT-L120",
+        "name": "Mara",
+        "callsign": "Mara",
+        "level": 120,
+        "stress": 1,
+        "psi_heat": 0,
+        "cooldowns": {},
+        "attributes": {
+          "SYS_max": 8,
+          "SYS_installed": 8,
+          "SYS_runtime": 8,
+          "SYS_used": 6
+        },
+        "modes": ["suggest"],
+        "self_reflection": true
+      },
+      "team": {
+        "name": "Triad",
+        "members": [
+          { "id": "AGENT-L120", "role": "Lead" },
+          { "id": "NPC-01", "role": "Funk" },
+          { "id": "NPC-02", "role": "Medic" }
+        ]
+      },
+      "party": {
+        "characters": [
+          { "id": "AGENT-L120", "callsign": "Mara" },
+          { "id": "NPC-01", "callsign": "Echo" },
+          { "id": "NPC-02", "callsign": "Doc" }
+        ]
+      },
+      "loadout": {
+        "AGENT-L120": {
+          "primary": "Vector PDW",
+          "secondary": "Machine Pistol",
+          "armor": "Ceramic Vest",
+          "gear": ["Multi-Tool-Handschuh", "EMP-Granate", "Stimulant"]
+        }
+      },
+      "economy": {
+        "cu": 8800,
+        "wallets": {
+          "AGENT-L120": { "name": "Mara", "balance": 6200 },
+          "NPC-01": { "name": "Echo", "balance": 1400 },
+          "NPC-02": { "name": "Doc", "balance": 1200 }
+        }
+      },
+      "logs": {
+        "hud": [
+          "EP 06 · MS 12 · SC 0/12 · MODE CORE · Px ███░░ (3/5)",
+          "Arena-Start vorbereitet · Team 3"
+        ],
+        "trace": [
+          {
+            "event": "mission_start",
+            "at": "2025-12-14T10:05:00Z",
+            "location": "HQ",
+            "phase": "core",
+            "mission_type": "core",
+            "campaign_mode": "trigger",
+            "scene": { "episode": 6, "mission": 12, "index": 0, "total": 12 },
+            "hud": "EP 06 · MS 12 · MODE CORE",
+            "channel": "HUD",
+            "foreshadow": { "progress": 0, "required": 4, "tokens": 0, "expected": false },
+            "radio_count": 1,
+            "kodex_count": 0,
+            "alias_count": 1,
+            "economy": { "cu": 8800, "wallets": 3 },
+            "fr_bias": "normal",
+            "intervention": "none"
+          },
+          {
+            "event": "arena_start",
+            "at": "2025-12-14T10:20:00Z",
+            "location": "ARENA",
+            "phase": "core",
+            "mission_type": "core",
+            "campaign_mode": "pvp",
+            "scene": { "episode": 6, "mission": 12, "index": 0, "total": 12 },
+            "hud": "Arena initiiert · Tier 2 · Gebühr 400 CU",
+            "channel": "ARENA",
+            "foreshadow": { "progress": 0, "required": 4, "tokens": 0, "expected": false },
+            "radio_count": 1,
+            "kodex_count": 0,
+            "alias_count": 1,
+            "economy": { "cu": 8400, "wallets": 3 },
+            "fr_bias": "normal",
+            "intervention": "none",
+            "arena": { "scenario": "Chronopolis Patrol", "tier": 2, "team_size": 3 }
+          }
+        ],
+        "artifact_log": [
+          { "id": "A-044", "name": "Crystal Servo", "mission_ref": "EP06-MS11", "status": "stored" }
+        ],
+        "market": [],
+        "offline": [],
+        "kodex": [],
+        "alias_trace": [
+          { "ts": "2025-12-14T10:00:00Z", "alias": "Echo", "message": "Alias gesetzt" }
+        ],
+        "squad_radio": [
+          { "ts": "2025-12-14T10:02:00Z", "message": "Squad ready" }
+        ],
+        "field_notes": [],
+        "foreshadow": [
+          { "scene": 10, "label": "Boss-Toast", "mission_ref": "EP06-MS12" }
+        ],
+        "fr_interventions": [],
+        "arena_psi": [
+          {
+            "ts": "2025-12-14T10:22:00Z",
+            "ability": "phase_strike",
+            "category": "arena",
+            "heat_delta": 2,
+            "note": "Phase-Strike-Tax angewendet"
+          }
+        ],
+        "psi": [
+          { "ts": "2025-12-14T10:18:00Z", "mode_previous": "preserve", "note": "Arena-Run" }
+        ],
+        "flags": {
+          "runtime_version": "4.2.3",
+          "compliance_shown_today": true,
+          "chronopolis_warn_seen": true,
+          "foreshadow_gate_m5_seen": true,
+          "foreshadow_gate_m10_seen": true,
+          "merge_conflicts": [],
+          "output_pace_suggestion": null
+        }
+      },
+      "ui": {
+        "gm_style": "precision",
+        "intro_seen": true,
+        "suggest_mode": true,
+        "contrast": "high",
+        "badge_density": "dense",
+        "output_pace": "slow"
+      },
+      "arena": {
+        "active": true,
+        "phase": "prep",
+        "mode": "pvp",
+        "team_size": 3,
+        "tier": 2,
+        "fee": 400,
+        "scenario": "Chronopolis Patrol",
+        "phase_strike_tax": 1,
+        "damage_dampener": true,
+        "audit": [
+          { "ts": "2025-12-14T10:20:00Z", "event": "arenaStart", "fee": 400 }
+        ]
+      },
+      "arc_dashboard": {
+        "offene_seeds": [
+          { "id": "R-085", "seed_tier": "mid" },
+          { "id": "R-111", "seed_tier": "mid" }
+        ],
+        "fraktionen": { "ITI": 2 },
+        "timeline": []
+      }
+    },
+    {
+      "save_version": 6,
+      "zr_version": "4.2.3",
+      "location": "HQ",
+      "phase": "core",
+      "campaign": {
+        "episode": 11,
+        "mission": 22,
+        "mission_in_episode": 2,
+        "scene": 0,
+        "type": "core",
+        "mode": "trigger",
+        "phase": "core",
+        "px": 5,
+        "px_reset_pending": true,
+        "px_reset_confirm": true,
+        "team_size": 4,
+        "boss_dr": 2,
+        "exfil": {
+          "active": false,
+          "armed": false,
+          "hot": false,
+          "sweeps": 0,
+          "stress": 0,
+          "ttl": 0,
+          "anchor": null,
+          "alt_anchor": null
+        },
+        "rift_seeds": [
+          { "id": "R-404", "epoch": "4021", "label": "Black Sun", "status": "open", "seed_tier": "late" },
+          { "id": "R-777", "epoch": "???", "label": "Omega Spiral", "status": "open", "seed_tier": "late" },
+          { "id": "R-900", "epoch": "∞", "label": "White Signal", "status": "closed", "seed_tier": "late" }
+        ]
+      },
+      "character": {
+        "id": "AGENT-L512",
+        "name": "Vox",
+        "callsign": "Vox",
+        "level": 512,
+        "stress": 2,
+        "psi_heat": 1,
+        "cooldowns": {},
+        "attributes": {
+          "SYS_max": 10,
+          "SYS_installed": 10,
+          "SYS_runtime": 10,
+          "SYS_used": 8
+        },
+        "modes": ["suggest", "mission_focus"],
+        "self_reflection": true
+      },
+      "team": {
+        "name": "Strike",
+        "members": [
+          { "id": "AGENT-L512", "role": "Lead" },
+          { "id": "NPC-21", "role": "Support" },
+          { "id": "NPC-22", "role": "Hacker" },
+          { "id": "NPC-23", "role": "Psi" }
+        ]
+      },
+      "party": {
+        "characters": [
+          { "id": "AGENT-L512", "callsign": "Vox" },
+          { "id": "NPC-21", "callsign": "Rook" },
+          { "id": "NPC-22", "callsign": "Ghost" },
+          { "id": "NPC-23", "callsign": "Psi" }
+        ]
+      },
+      "loadout": {
+        "AGENT-L512": {
+          "primary": "Plasma Carbine",
+          "secondary": "Backup SMG",
+          "armor": "Adaptive Suit",
+          "gear": ["Multi-Tool-Handschuh", "Chrono-Beacon", "Nano-Meds"]
+        }
+      },
+      "economy": {
+        "cu": 25000,
+        "wallets": {
+          "AGENT-L512": { "name": "Vox", "balance": 15000 },
+          "NPC-21": { "name": "Rook", "balance": 3000 },
+          "NPC-22": { "name": "Ghost", "balance": 3000 },
+          "NPC-23": { "name": "Psi", "balance": 4000 }
+        }
+      },
+      "logs": {
+        "hud": [
+          "EP 11 · MS 22 · SC 0/14 · MODE CORE · Px █████ (5/5)",
+          "Px-Reset pending · Seed-Stapel 3"
+        ],
+        "trace": [
+          {
+            "event": "mission_start",
+            "at": "2025-12-14T11:30:00Z",
+            "location": "HQ",
+            "phase": "core",
+            "mission_type": "core",
+            "campaign_mode": "trigger",
+            "scene": { "episode": 11, "mission": 22, "index": 0, "total": 14 },
+            "hud": "EP 11 · MS 22 · MODE CORE",
+            "channel": "HUD",
+            "foreshadow": { "progress": 0, "required": 4, "tokens": 0, "expected": false },
+            "radio_count": 2,
+            "kodex_count": 1,
+            "alias_count": 1,
+            "economy": { "cu": 25000, "wallets": 4 },
+            "fr_bias": "strict",
+            "intervention": "none"
+          },
+          {
+            "event": "rift_launch",
+            "at": "2025-12-14T11:45:00Z",
+            "location": "RIFT",
+            "phase": "rift",
+            "mission_type": "rift",
+            "campaign_mode": "trigger",
+            "scene": { "episode": 11, "mission": 0, "index": 1, "total": 14 },
+            "hud": "Rift-Op gestartet · Seed R-404",
+            "channel": "RIFT",
+            "foreshadow": { "progress": 0, "required": 2, "tokens": 0, "expected": false },
+            "radio_count": 2,
+            "kodex_count": 1,
+            "alias_count": 1,
+            "economy": { "cu": 25000, "wallets": 4 },
+            "fr_bias": "strict",
+            "intervention": "none",
+            "arena": { "scenario": "Rift Strike", "tier": 3, "team_size": 4 }
+          }
+        ],
+        "artifact_log": [
+          { "id": "A-404", "name": "Chrono-Lens", "mission_ref": "R-404", "status": "research" }
+        ],
+        "market": [
+          { "ts": "2025-12-14T11:10:00Z", "item": "Adaptive Suit", "cost_cu": 6000, "px_clause": "high" }
+        ],
+        "offline": [],
+        "kodex": [
+          { "ts": "2025-12-14T11:12:00Z", "entry": "Px-Reset geplant" }
+        ],
+        "alias_trace": [
+          { "ts": "2025-12-14T11:05:00Z", "alias": "Vox", "message": "Alias gesetzt" }
+        ],
+        "squad_radio": [
+          { "ts": "2025-12-14T11:20:00Z", "message": "Squad ready for Rift" }
+        ],
+        "field_notes": ["Px-Reset nach Rift"],
+        "foreshadow": [
+          { "scene": 10, "label": "Boss-Toast", "mission_ref": "EP11-MS22" }
+        ],
+        "fr_interventions": [
+          { "ts": "2025-12-14T11:25:00Z", "faction": "ITI", "event": "Briefing-Override", "effect": "+1 Stability" }
+        ],
+        "arena_psi": [
+          {
+            "ts": "2025-12-14T11:33:00Z",
+            "ability": "phase_strike",
+            "category": "arena",
+            "heat_delta": 3,
+            "note": "Px5 Tax"
+          }
+        ],
+        "psi": [
+          { "ts": "2025-12-14T11:28:00Z", "mode_previous": "trigger", "note": "Psi-Heat Check" }
+        ],
+        "flags": {
+          "runtime_version": "4.2.3",
+          "compliance_shown_today": true,
+          "chronopolis_warn_seen": true,
+          "foreshadow_gate_m5_seen": true,
+          "foreshadow_gate_m10_seen": true,
+          "merge_conflicts": [],
+          "output_pace_suggestion": "slow"
+        }
+      },
+      "ui": {
+        "gm_style": "verbose",
+        "intro_seen": true,
+        "suggest_mode": true,
+        "contrast": "high",
+        "badge_density": "dense",
+        "output_pace": "slow"
+      },
+      "arena": {
+        "active": false,
+        "phase": "completed",
+        "mode": "squad",
+        "team_size": 4,
+        "tier": 3,
+        "fee": 0,
+        "scenario": "Rift Strike",
+        "phase_strike_tax": 2,
+        "audit": [
+          { "ts": "2025-12-14T11:45:00Z", "event": "arenaReset", "reason": "Rift" }
+        ]
+      },
+      "arc_dashboard": {
+        "offene_seeds": [
+          { "id": "R-404", "seed_tier": "late" },
+          { "id": "R-777", "seed_tier": "late" }
+        ],
+        "fraktionen": { "ITI": 3, "Kartell": -2 },
+        "timeline": [
+          { "id": "TL-RIFT", "epoch": "4021", "label": "Black Sun gestoppt", "stability": 3 }
+        ]
+      }
+    }
+  ]
+}
