@@ -286,6 +286,13 @@ Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 enthalten immer Anomalien wie Parawesen oder Artefakte. Diese Einsätze laufen
 außerhalb der aktuellen Episode und zählen nicht zur regulären Missionszahl.
 
+Rift-Seeds sind **Narben früherer Fehlgriffe** – ob durch Fremdfraktionen,
+fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf
+der Raumzeitkarte als urbane Legenden, deren Kern immer einen **Zeit-Marker**
+trägt: Echos, Loops, Deja-vus oder Verzögerungen, die zeigen, dass der
+Geschichtsfluss instabil ist. Sobald die Agenten das Phänomen neutralisieren,
+verschwindet der Seed: Die Legende ist aufgeklärt, der „Riss“ schließt sich.
+
 Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
