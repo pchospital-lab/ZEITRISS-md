@@ -8,7 +8,6 @@
     "save_version",
     "zr_version",
     "location",
-    "phase",
     "campaign",
     "character",
     "team",
@@ -28,14 +27,13 @@
     "campaign": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["phase", "px", "exfil"],
+      "required": ["px", "exfil"],
       "properties": {
         "phase": { "type": "string" },
         "episode": { "type": "integer" },
         "mission_in_episode": { "type": "integer" },
         "scene": { "type": ["integer", "null"] },
-        "px": { "type": "number" },
-        "paradoxon_index": { "type": "number" },
+        "px": { "type": "integer", "minimum": 0 },
         "px_reset_pending": { "type": "boolean" },
         "px_reset_confirm": { "type": "boolean" },
         "px_reset_scheduled_at": { "type": ["string", "null"] },
@@ -52,7 +50,7 @@
             "hot": { "type": "boolean" },
             "sweeps": { "type": "integer" },
             "stress": { "type": "integer" },
-            "ttl": { "type": "number" },
+            "ttl": { "type": "integer", "minimum": 0 },
             "anchor": { "type": ["string", "null"] },
             "alt_anchor": { "type": ["string", "null"] }
           }
@@ -89,6 +87,7 @@
     "team": {
       "type": "object",
       "additionalProperties": true,
+      "description": "Legacy/Migration: party.characters ist kanonisch.",
       "properties": {
         "name": { "type": "string" },
         "members": { "type": "array", "items": { "type": "object" } },
@@ -120,7 +119,6 @@
       "additionalProperties": true,
       "required": [
         "hud",
-        "trace",
         "artifact_log",
         "market",
         "offline",
