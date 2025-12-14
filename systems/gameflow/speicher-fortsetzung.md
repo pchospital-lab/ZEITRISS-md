@@ -549,7 +549,10 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen weder
 `campaign.mode` noch `campaign.rift_seeds[]` oder Episoden-/Missionszähler
 überschreiben. Der Merge-Pfad zieht lediglich Charaktere, Loadouts und Wallets
-heran und protokolliert abweichende Seeds im HUD/Debrief.
+heran und protokolliert abweichende Seeds im HUD/Debrief. Jeder abweichende
+Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, UI-Optionen,
+Arena- oder Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]`
+und wird als Host-Wert beibehalten.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
@@ -1629,10 +1632,14 @@ niemand wird dupliziert.
 - Fallback: `(name, epoche)` → Kollision: `Kodex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
 - **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
 - Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
-- Merge-Konflikte (z. B. Wallet-Delta, Modus-Wechsel, offene Seeds) landen in
-  `logs.flags.merge_conflicts[]` mit `{field, source, target, mode?, note?, resolved:false}`;
-  optional HUD-Toast „Merge-Konflikt protokolliert“ anfügen, sobald der Konflikt
-  manuell aufgelöst wurde.
+- Merge-Konflikte (z. B. Wallet-Delta, Modus-Wechsel, offene Seeds) landen
+  **verpflichtend** in `logs.flags.merge_conflicts[]` mit `{field, source, target,
+  mode?, note?, resolved:false}`. Seeds, Kampagnenzähler (Mission, Episode,
+  Szene, Seed-Quelle), UI-Präferenzen (`gm_style`, `contrast`,
+  `badge_density`, `output_pace`) und Arena-/HQ-Kontexte werden immer mit
+  Host-Vorrang geloggt und behalten die Host-Werte. Bei Arena-Ladevorgängen
+  erscheint zusätzlich ein HUD-Toast („Merge-Konflikt: Arena-Status
+  verworfen“), das den Reset auf HQ dokumentiert.
 
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).

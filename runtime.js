@@ -626,6 +626,31 @@ function sanitize_merge_conflicts(entries){
   return sanitized;
 }
 
+function push_merge_conflict(list, { field, source, target, mode, note, resolved=false }){
+  if (!Array.isArray(list)) return [];
+  const record = { field };
+  const stringify = (value) => {
+    if (value === undefined || value === null) return undefined;
+    if (typeof value === 'string') return value;
+    if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+    if (Array.isArray(value)) return value.map(stringify).filter(Boolean).join(', ');
+    if (typeof value === 'object') return JSON.stringify(value);
+    return undefined;
+  };
+  const src = stringify(source);
+  const tgt = stringify(target);
+  const ctx = stringify(mode);
+  const description = stringify(note);
+  if (!record.field || typeof record.field !== 'string') return list;
+  if (src){ record.source = src; }
+  if (tgt){ record.target = tgt; }
+  if (ctx){ record.mode = ctx; }
+  if (description){ record.note = description; }
+  record.resolved = resolved === true;
+  list.push(record);
+  return sanitize_merge_conflicts(list);
+}
+
 function normalize_alias_entry(entry, fallbackTimestamp){
   if (!entry || typeof entry !== 'object') return null;
   const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
@@ -6483,6 +6508,12 @@ function normalize_save_v6(data){
 
 function load_deep(raw){
   const source = typeof raw === 'string' ? JSON.parse(raw) : clone_plain_object(raw);
+  const hostHasState =
+    (state?.character && Object.keys(state.character).length > 0)
+    || (state?.campaign && Object.keys(state.campaign).length > 0)
+    || (state?.party && Array.isArray(state.party.characters) && state.party.characters.length > 0);
+  const hostCampaign = hostHasState && state?.campaign ? clone_plain_object(state.campaign) : null;
+  const hostUi = hostHasState && state?.ui ? prepare_save_ui(state.ui) : null;
   const normalized = normalize_save_v6(source);
   const migrated = migrate_save(normalized);
   migrated.zr_version = migrated.zr_version || migrated.ZR_VERSION || ZR_VERSION;
@@ -6496,6 +6527,101 @@ function load_deep(raw){
     );
   }
   migrated.logs ||= {};
+  migrated.logs.flags ||= {};
+  let mergeConflicts = Array.isArray(migrated.logs.flags.merge_conflicts)
+    ? sanitize_merge_conflicts(migrated.logs.flags.merge_conflicts)
+    : [];
+  const noteConflict = (payload) => {
+    mergeConflicts = push_merge_conflict(mergeConflicts, payload);
+  };
+  const incomingLocation = typeof normalized.location === 'string' ? normalized.location : migrated.location;
+  if (incomingLocation && incomingLocation !== 'HQ'){
+    noteConflict({
+      field: 'location',
+      source: incomingLocation,
+      target: 'HQ',
+      mode: 'load',
+      note: 'HQ-only: Standort zurückgesetzt'
+    });
+  }
+  const arenaSource = migrated.arena && typeof migrated.arena === 'object' ? migrated.arena : {};
+  const arenaActive =
+    !!arenaSource.active
+    || (arenaSource.phase && arenaSource.phase !== 'idle' && arenaSource.phase !== 'completed');
+  const arenaConflictLogged = arenaActive;
+  if (arenaActive){
+    noteConflict({
+      field: 'arena.state',
+      source: arenaSource.phase || 'active',
+      target: 'reset:completed',
+      mode: 'load',
+      note: 'Arena-Status verworfen (HQ-Save)'
+    });
+  }
+  if (hostCampaign && migrated.campaign){
+    const counters = [
+      'mission',
+      'mission_in_episode',
+      'episode',
+      'scene',
+      'mode',
+      'seed_source'
+    ];
+    counters.forEach((key) => {
+      const hostValue = hostCampaign[key];
+      const incomingValue = migrated.campaign[key];
+      if (
+        hostValue !== undefined
+        && hostValue !== null
+        && incomingValue !== undefined
+        && incomingValue !== null
+        && hostValue !== incomingValue
+      ){
+        noteConflict({
+          field: `campaign.${key}`,
+          source: incomingValue,
+          target: hostValue,
+          mode: 'merge',
+          note: 'Host-Kampagnenzähler behalten'
+        });
+        migrated.campaign[key] = hostValue;
+      }
+    });
+    if (
+      Array.isArray(hostCampaign.rift_seeds)
+      && hostCampaign.rift_seeds.length
+      && Array.isArray(migrated.campaign.rift_seeds)
+      && JSON.stringify(hostCampaign.rift_seeds) !== JSON.stringify(migrated.campaign.rift_seeds)
+    ){
+      noteConflict({
+        field: 'campaign.rift_seeds',
+        source: migrated.campaign.rift_seeds.length,
+        target: hostCampaign.rift_seeds.length,
+        mode: 'merge',
+        note: 'Host-Seeds priorisiert'
+      });
+      migrated.campaign.rift_seeds = hostCampaign.rift_seeds;
+    }
+  }
+  const incomingUi = prepare_save_ui(migrated.ui);
+  if (hostUi){
+    const uiKeys = ['gm_style', 'contrast', 'badge_density', 'output_pace'];
+    uiKeys.forEach((key) => {
+      if (hostUi[key] !== undefined && incomingUi[key] !== undefined && hostUi[key] !== incomingUi[key]){
+        noteConflict({
+          field: `ui.${key}`,
+          source: incomingUi[key],
+          target: hostUi[key],
+          mode: 'merge',
+          note: 'UI-Host-Preference'
+        });
+        incomingUi[key] = hostUi[key];
+      }
+    });
+  }
+  migrated.ui = incomingUi;
+  migrated.location = 'HQ';
+  migrated.logs.flags.merge_conflicts = mergeConflicts;
   if (Array.isArray(migrated.logs.offline)){
     migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);
   } else {
@@ -6595,6 +6721,9 @@ function load_deep(raw){
     if (arenaReset.resume_token){
       writeLine('Arena-Resume-Token gesichert: Serie kann aus dem HQ fortgesetzt werden.');
     }
+  }
+  if (arenaConflictLogged){
+    hud_toast('Merge-Konflikt: Arena-Status verworfen', 'HUD');
   }
   return { status: 'ok', state, hud };
 }
