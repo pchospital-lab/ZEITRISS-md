@@ -2188,13 +2188,43 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
 
 ### Rift-Casefile Builder
 
+Schablone für vollständige Fallakten mit exakt **einer** Weirdness (Guard bleibt aktiv, keine
+zweite Anomalie und keine „es war nur Tech“-Auflösung). Nutze den Builder für Low/Mid/High-Seeds
+und mappe ihn direkt auf das 14-Szenen-Template.
+
 1. **CASE** – `ID | Epoche | Seed-Tier | time_marker`.
-2. **VISUAL HOOK** – 1 Satz mit Anchor + Marker.
+2. **VISUAL HOOK** – 1 Satz mit Anchor + Marker, der sofort im HUD auftaucht.
 3. **BRIEFING PUBLIC** – max. 5 Bullets; Witness + Gefahrenhinweis, keine zweite Weirdness.
-4. **OBJECTIVES** – `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover Sample`.
-5. **CASE OVERLAY** – HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` + `register_anomaly()` nur einmal.
+4. **OBJECTIVES** – `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover
+   Sample`.
+5. **CASE OVERLAY** – HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` +
+   `register_anomaly()` nur einmal.
 6. **TRUTH** – kurzer Absatz, warum Marker aktiv bleibt.
 7. **LEADS PRIVATE** – 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
 8. **BOSS PRIVATE** – Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
+
+**14-Szenen-Map (Tatort → Leads → Boss)**
+
+- **Tatort (1–4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
+- **Leads (5–10):** Drei Würfel-Checks aus „Leads Private“ platzieren, je einer deckt den
+  Anchor, den Marker und die Weakness ab; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
+- **Boss (11–14):** Weakness öffentlich sichtbar machen, Marker-Bedingung für Abschluss prüfen,
+  Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen.
+
+**Builder-Template (Beispielraster)**
+
+```markdown
+CASE <ID> — <Epoche> — <Seed-Tier> — time_marker <Marker>
+VISUAL HOOK: <Anchor + Marker>
+BRIEFING PUBLIC: • <Bullet 1> • <Bullet 2> • <Bullet 3> (max. 5)
+OBJECTIVES: Secure Anchor · Trace Leads · Neutralize Weakness · Recover Sample (optional)
+CASE OVERLAY: MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1
+TRUTH: <Kurzabsatz, warum Marker aktiv bleibt>
+LEADS PRIVATE:
+  - <Skill/Schwierigkeit + Fund> → Anchor/Weakness sichtbar
+  - <Skill/Schwierigkeit + Fund> → Zeitmarker erklärt
+  - <Skill/Schwierigkeit + Fund> → Boss-Setup oder Safe-Approach
+BOSS PRIVATE: <Stat-Hinweis> · <eine Zeitfähigkeit> · Weakness: <klarer Schritt>
+```
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
