@@ -703,6 +703,15 @@ Persistenz. Alle Punkte sind offen und für den nächsten Durchlauf einzuplanen.
 | | | optional Load-Normalizer für Alt-Saves; QA: Save/Load mit 3 Seeds, HQ-Briefing zeigt
 | | | vollständige Seed-Daten |
 
+**Umsetzungsstand 2026-03**
+
+- [x] Issue #1 Para-Creature-Generator auf Rift-Casefile-Default gedreht.
+- [x] Issue #2 Rift-Seed Catalogue kanonisiert (Chrono Butcher + Jersey Devil, Deepsea verschoben).
+- [x] Issue #3 Rift-Casefile-Builder mit 14-Szenen-Map und Output-Raster verankert.
+- [x] Issue #4 One-Weird-Thing-Guard sichtbar in Generator und Catalogue dokumentiert.
+- [x] Issue #5 Rift-Seed-Persistenz (`label/seed_tier/hook/time_marker`) in Toolkit-Makro
+      umgesetzt.
+
 ## Regressionstest-Termine 2025
 
 | Zeitraum | Umfang | Status | QA-Log |
