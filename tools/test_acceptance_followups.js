@@ -31,8 +31,21 @@ function runForeshadowGateCheck(){
 
   rt.StartMission();
   const hudAfterStart = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
-  assert.strictEqual(hudAfterStart[0]?.message, 'GATE 2/2 · FS 0/2', 'Gate-Toast nach Reset fehlt');
-  assert.ok(hudAfterStart.every(entry => entry.tag === 'BOSS'), 'HUD-Log enthält Rest-Einträge');
+  assert.strictEqual(
+    hudAfterStart[0]?.tag,
+    'CASE',
+    'Case-Stage-Overlay sollte als erstes HUD-Element erscheinen'
+  );
+  assert.ok(
+    hudAfterStart.some(entry => entry.tag === 'BOSS' && entry.message === 'GATE 2/2 · FS 0/2'),
+    'Gate-Toast nach Reset fehlt'
+  );
+  assert.ok(
+    hudAfterStart.some(entry => entry.tag === 'ENTRY'),
+    'EntryChoice-Toast fehlt nach Missionsstart'
+  );
+  const foreignTags = hudAfterStart.filter(entry => !['BOSS', 'CASE', 'ENTRY'].includes(entry.tag));
+  assert.strictEqual(foreignTags.length, 0, 'HUD-Log enthält Rest-Einträge');
   const bossAfter = rt.on_command('!boss status');
   assert.ok(/FS\s+0\/2/.test(bossAfter), 'Foreshadow-Zähler wurde nicht zurückgesetzt');
   const overlayAfter = rt.scene_overlay();
