@@ -689,7 +689,7 @@ Persistenz. Alle Punkte sind offen und für den nächsten Durchlauf einzuplanen.
 | #2 | Rift-Seed Catalogue kanonisch anlegen | `gameplay/kreative-generatoren-missionen.md` um
 | | | neuen Abschnitt `#rift-seed-catalogue` erweitern (Casefile-Schema mit `rift_id/epoch/label/`
 | | | `hook/briefing_public/leads/boss_private`), `RiftSeedTable`-Einträge 10/24 auf
-| | | `Glass Torrent`/`Jersey Devil` setzen, Deepsea-Seed in future/Arc verschieben; QA: 10 Seeds
+| | | `Chrono Butcher`/`Jersey Devil` setzen, Deepsea-Seed in future/Arc verschieben; QA: 10 Seeds
 | | | ziehen, Briefing max. 5 Bullets, Boss 1 Zeiteffekt |
 | #3 | Rift-Casefile-Builder als Output-Template verankern | Unter dem neuen Catalogue einen
 | | | “Rift-Casefile Builder”-Block einfügen (CASE, VISUAL HOOK, BRIEFING PUBLIC, OBJECTIVES,
