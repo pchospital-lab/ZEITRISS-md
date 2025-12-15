@@ -244,6 +244,7 @@ abzuschließen und im QA-Log zu dokumentieren:
    - `make lint` (inkl. doppeltem Runtime-Lint, Doc-Link- und Umlaut-Checks sowie
      Markdownlint für Wissensmodule)
    - `make test`
+   - `npm run test:acceptance` (Mission‑5‑Badge-/HUD-Snapshots gegen Golden File)
    - `npm run test:hud`
    - `npm run test:debrief`
    - `npm run test:comms`
