@@ -109,7 +109,8 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 - `make lint` (führt `npm run lint:rt`, `GM_STYLE=verbose npm run lint:rt`,
   `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
   `npm run lint:links` und `npm run lint:md` aus)
-- `make test`
+- `make test` (ruft `npm run test` auf, inklusive `npm run test:acceptance` mit den
+  Mission‑5‑Golden‑Files)
 - `bash scripts/smoke.sh` (inkl. `node tools/test_alias_trace.js` für Alias-/Funk-Logs)
 - `python3 tools/lint_runtime.py`
 - `GM_STYLE=verbose python3 tools/lint_runtime.py`
