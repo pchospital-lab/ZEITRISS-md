@@ -163,6 +163,10 @@ euch das Maintainer-Dokument.
 - **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der
   Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik,
   HUD-Badges und Save-Strukturen.**
+- **QA-Runner:** `npm run test:acceptance` bzw. `tools/test_acceptance_followups.js`
+  prüfen Mission‑5/HUD-Golden-Files aus
+  `internal/qa/fixtures/mission5_badge_snapshots.json`. Die Läufe gehören zu den
+  Pflichttests und werden im QA-Log referenziert.
 - **Maintainer:innen prüfen nach abgeschlossenen Tests lediglich den fertigen
   Wissensstand und übertragen ihn anschließend gemäß
   `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
