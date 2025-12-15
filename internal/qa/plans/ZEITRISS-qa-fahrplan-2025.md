@@ -673,6 +673,36 @@ Alle Punkte sind offen.
 | #9 | One-Weird-Thing-Rule aktivieren | ✅ Runtime-Guard `register_anomaly()` (Core 0/Rift 1 +
 | | | `WEIRD`-Toast); README/Toolkit/Generator spiegeln Budget 1 |
 
+## Maßnahmenpaket Rift-/Casefile-Generatoren 2026-03 (Issues #1–#5)
+
+Der Copy-Paste-Lauf zum Rift-/Casefile-Thema hat fünf zentrale Baustellen identifiziert. Sie zielen
+auf klare Default-Ausgaben (echte Para-Kreaturen), einen kanonischen Seed-Katalog und konsistente
+Persistenz. Alle Punkte sind offen und für den nächsten Durchlauf einzuplanen.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
+| ----- | ------------------------------ | -------------------------------------------- |
+| #1 | Para-Creature-Generator auf Rift-Casefile-Default drehen | `gameplay/kreative-generatoren-`
+| | | `begegnungen.md`: Abschnitt `#para-creature-generator` durch “Rift Casefile Edition” ersetzen,
+| | | alte Urban-Myth-Edition als `#urban-myth-generator` auslagern; One-Weird-Thing (1 Zeiteffekt,
+| | | 1 Anchor, 3–5 Tells, 1 Weakness) als Standard; optional `master-index.json` Pooltitel
+| | | aktualisieren; QA: 10 Seeds, keine Tech-Falschspuren |
+| #2 | Rift-Seed Catalogue kanonisch anlegen | `gameplay/kreative-generatoren-missionen.md` um
+| | | neuen Abschnitt `#rift-seed-catalogue` erweitern (Casefile-Schema mit `rift_id/epoch/label/`
+| | | `hook/briefing_public/leads/boss_private`), `RiftSeedTable`-Einträge 10/24 auf
+| | | `Glass Torrent`/`Jersey Devil` setzen, Deepsea-Seed in future/Arc verschieben; QA: 10 Seeds
+| | | ziehen, Briefing max. 5 Bullets, Boss 1 Zeiteffekt |
+| #3 | Rift-Casefile-Builder als Output-Template verankern | Unter dem neuen Catalogue einen
+| | | “Rift-Casefile Builder”-Block einfügen (CASE, VISUAL HOOK, BRIEFING PUBLIC, OBJECTIVES,
+| | | CASE OVERLAY, TRUTH, LEADS PRIVATE, BOSS PRIVATE; 14-Szenen-Map); QA: 3 Seeds (low/mid/high)
+| | | als komplette Fallakte rendern |
+| #4 | One-Weird-Thing-Guard als Default dokumentieren | Guard-Text in Para-Creature-Generator und
+| | | Rift-Seed Catalogue ergänzen: keine zweite Anomalie, keine “es war nur Tech” in Rifts,
+| | | Urban-Myth-Generator nur als Falschspur; QA: 5 Rift-Runs prüfen, dass nur 1 Weirdness aktiv |
+| #5 | Rift-Seed-Persistenz erweitern | `systems/toolkit-gpt-spielleiter.md` (Makro
+| | | `generate_rift_seeds()`): Seed-Objekt um `label/seed_tier/hook/time_marker` ergänzen,
+| | | optional Load-Normalizer für Alt-Saves; QA: Save/Load mit 3 Seeds, HQ-Briefing zeigt
+| | | vollständige Seed-Daten |
+
 ## Regressionstest-Termine 2025
 
 | Zeitraum | Umfang | Status | QA-Log |
