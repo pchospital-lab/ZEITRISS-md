@@ -644,7 +644,7 @@ Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
 | | | freier Artefakthandel bleibt im Kampagnen- und README-Regelblock verankert |
 | #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf 0–4 vereinheitlicht, Docs
 | | | und Tests angepasst |
-| #15 | Mission 5 Badge/SF-OFF Snapshot | Automatisierter QA-Runner, HUD/Toasts/Reset-Flags |
+| #15 | Mission 5 Badge/SF-OFF Snapshot | ✅ QA-Runner `tools/test_acceptance_followups.js` prüft HUD/Flags gegen Golden File |
 | #16 | QA-Fixture Save v6 voll | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert |
 
 ## Maßnahmenpaket Agenten-Thriller-Ton 2026-02 (Issues #1–#9)
