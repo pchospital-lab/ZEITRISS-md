@@ -55,10 +55,10 @@ betont.
 - **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
   setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren, damit
   Logs und Checks reproduzierbar bleiben.
-- **Mission‑5 Badge-Snapshots:** `internal/qa/fixtures/mission5_badge_snapshots.json` enthält HUD- und
-  Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up-Runner
-  `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die manuelle Mission‑5-
-  Dokumentation bleibt Teil des Abschluss-Reports.
+- **Mission‑5 Badge-Snapshots:** `internal/qa/fixtures/mission5_badge_snapshots.json` enthält
+  HUD- und Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up-
+  Runner `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die
+  manuelle Mission‑5-Dokumentation bleibt Teil des Abschluss-Reports.
 
 ## Testumfang und Meilensteine
 
@@ -162,11 +162,19 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 >   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
 >   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
->   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`
->   12. Mission 5 → **Schritt 0 `!sf off` vor Missionsstart**, HUD meldet `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)) und Reset auf `SF-ON`
->   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach Konflikt/HQ-Transfer
->   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace: slow`; Toast notieren, Save-Preview aktualisiert
->   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
+>   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast
+>       `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`
+>   12. Mission 5 → **Schritt 0 `!sf off` vor Missionsstart**, HUD meldet
+>       `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast
+>       `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut
+>       [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode))
+>       und Reset auf `SF-ON`
+>   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach
+>       Konflikt/HQ-Transfer
+>   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace:
+>       slow`; Toast notieren, Save-Preview aktualisiert
+>   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert
+>       (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
 >
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
 > folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
@@ -198,9 +206,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 - **Cineastische Verfolgung:** Pro Testlauf eine Verfolgung mit HUD-Startoverlay durchführen,
   Crash/Stress-Einträge festhalten und sicherstellen, dass `Vehicle Clash`-Notizen im Log landen.
-- **Massenkonflikt:** Einen kurzen Ansturm oder Rückzug markieren (`Mass Conflict`-Flag im HUD,
-  Szenentitel setzen), Kernschaden (3 bzw. 4–5 bei schweren Waffen) und Chaos-/Stress-Spitzen loggen;
-  bei drei Chaos-Punkten den SG 12 Break-Point prüfen.
+- **Massenkonflikt:** Einen kurzen Ansturm oder Rückzug markieren
+  (`Mass Conflict`-Flag im HUD, Szenentitel setzen), Kernschaden (3 bzw. 4–5 bei
+  schweren Waffen) und Chaos-/Stress-Spitzen loggen; bei drei Chaos-Punkten den
+  SG 12 Break-Point prüfen.
 
 1. Masterprompt (`meta/masterprompt_v6.md`), `README.md`, `master-index.json` und alle
    Runtime-Module (ohne `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart
@@ -220,11 +229,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
      Missionsziele kontrollieren. Prüfen, ob NPCs korrekt auf HQ-Briefings, Kodex-Kommandos und
      Stadt-Services reagieren. `!kampagnenmodus trigger` vor dem Start muss das Seed-Feld
      (`campaign.seed_source = trigger`) spiegeln und das Autoteam korrekt skalieren.
-   - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
-     Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
-     Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart `Spiel starten (gruppe schnell)`
-     darf keine zusätzliche Zahlenabfrage zulassen und übernimmt den vorher gesetzten Kampagnenmodus
-     in `campaign.mode`/`campaign.seed_source`.
+    - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
+      Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
+      Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart
+      `Spiel starten (gruppe schnell)` darf keine zusätzliche Zahlenabfrage zulassen und
+      übernimmt den vorher gesetzten Kampagnenmodus in
+      `campaign.mode`/`campaign.seed_source`.
    - **Simuliertes PvP:** Matchmaking-Hinweise, Regeltexte, Fraktionsboni und Konfliktauflösungen
      erfassen. Sicherstellen, dass PvP-Gefechte den Paradoxon-Index korrekt adressieren und keine
      Solo-/Koop-Elemente leaken.
@@ -366,10 +376,11 @@ saveGame({...})
 12. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4` und zählt hoch. In
-    Szene 10 erscheint der Toast `Boss-DR aktiviert – −X Schaden pro Treffer` (DR nach
-    Teamgröße laut [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); beim
-    Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection automatisch
-    auf `SF-ON` zurück.
+    Szene 10 erscheint der Toast `Boss-DR aktiviert – −X Schaden pro Treffer`
+    (DR nach Teamgröße laut
+    [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode));
+    beim Missionsende (Abbruch oder Abschluss) setzt die Runtime Self-Reflection
+    automatisch auf `SF-ON` zurück.
 
 ### Psi-Heat & Ressourcen-Reset
 
