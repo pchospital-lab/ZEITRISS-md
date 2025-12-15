@@ -25,7 +25,7 @@ const RIFT_SEED_CATALOG = {
   'R-010': { label: 'Echo-Train', seed_tier: 'early', hook: 'Verlorener Zug, resonante Frequenzen.' },
   'R-015': { label: 'Dam Safety', seed_tier: 'early', hook: 'Dammleck, strukturelle Flutwarnungen.' },
   'R-022': { label: 'Lost Signal', seed_tier: 'early', hook: 'Abgeschnittene Funkrelais, verschwundene Crew.' },
-  'R-085': { label: 'Glass Torrent', seed_tier: 'mid', hook: 'Glasregen über Forschungssilo.' },
+  'R-085': { label: 'Chrono Butcher', seed_tier: 'mid', hook: 'Serienmorde im Nullzeit-Korridor.' },
   'R-111': { label: 'Psi Bloom', seed_tier: 'mid', hook: 'Psi-Übersättigung, flackernde Neuro-Relays.' },
   'R-404': { label: 'Black Sun', seed_tier: 'late', hook: 'Verfinsterter Himmel, Grav-Wellen im Zentrum.' },
   'R-777': { label: 'Omega Spiral', seed_tier: 'late', hook: 'Spiralriss, Klang wie rückwärts laufende Stimmen.' },

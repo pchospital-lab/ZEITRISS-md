@@ -198,7 +198,7 @@
           "alt_anchor": null
         },
         "rift_seeds": [
-          { "id": "R-085", "epoch": "2029", "label": "Glass Torrent", "status": "open", "seed_tier": "mid" },
+          { "id": "R-085", "epoch": "1997", "label": "Chrono Butcher", "status": "open", "seed_tier": "mid" },
           { "id": "R-111", "epoch": "2130", "label": "Psi Bloom", "status": "open", "seed_tier": "mid" }
         ],
         "px_reset_pending": false,

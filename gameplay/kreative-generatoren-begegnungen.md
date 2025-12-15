@@ -14,7 +14,8 @@ Modul 8B schließt an 8A an. Modul 7 – Fahrzeuge, Konfliktsystem & Kreative Ge
 - Encounter-Pool: Schnelle Gegnerlisten nach Risiko
 - Encounter-Pakete & Twist-Seeds
 - Kreaturen- & Gestalten-Generator
-- Para-Creature-Generator: Urban Myth Edition
+- Para-Creature-Generator: Rift Casefile Edition
+- Urban-Myth-Generator (False Lead)
 - Boss-Generator: Mini-, Episoden- und Rift-Bosse
 - Artefakt-Generator: Parawesen-Trophies
 - Para-Artefakt-Generator: On-The-Fly (Körperteil × Buff-Matrix)
@@ -589,56 +590,90 @@ können solche Kreaturen dafür sorgen, dass selbst erfahrene Chrononauten nie v
 birgt unendliche Überraschungen.**
 
 <a id="para-creature-generator"></a>
-## Para-Creature-Generator: Urban Myth Edition {#para-creature-generator}
+## Para-Creature-Generator: Rift Casefile Edition {#para-creature-generator}
 
-Kompaktgenerator samt drei gebrauchsfertigen Fallakten im „X‑Files“-Dossier-Stil.
-Alle Werte nutzen das **ZEITRISS‑W6-System (Exploding 6)**. Runtime‑Rahmen: Physicality Gate (Mixed-Reality-Linsen-HUD, keine VR/Projektoren), dünne MODE/CASE/HOOK/EntryChoice-Overlays und maximal **ein** „Weird“-Element pro Szene, das via `register_anomaly()` angemeldet wird.
-Jeder Urban-Myth-Seed markiert eine **Zeitwunde durch misslungene Eingriffe**; auch das Phänomen selbst trägt einen Zeitmarker (Echo, Loop, Zeitversatz, Stutter), der zeigt, warum die Legende überhaupt sichtbar wurde.
+Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles. Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen, **ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine** Schwäche. Keine zweite Anomalie, keine „es war nur Tech“-Auflösung in Rifts; zusätzliche Technik gehört in den Abschnitt „Urban-Myth-Generator“.
+
+### Guard & Struktur
+
+- Nutze `register_anomaly()` nur für das eine Zeitphänomen (Echo, Loop, Stutter, Anker-Zeitversatz). HUD-Overlay: `MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1`.
+- Jede Kreatur bindet einen **Zeitmarker** (Echo/Loop/Stutter/Static/Slip/Anchor‑Tether). Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
+- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt, das als „Zeuge“ oder „Bollwerk“ fungiert. Wird der Anchor befreit/zerstört, löst sich die Anomalie.
+- **Tells:** 3–5 wiedererkennbare Signale (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
+- **Weakness:** eine eindeutige Abschaltbedingung (Material, Frequenz, Ritual, spezifisches Werkzeug). Ohne Weakness kein Abschluss.
+
+### Schrittfolge
+
+1. **Epoche (W6)** – 1 Frühe Neuzeit, 2 Industrialisierung, 3 Weltkriege, 4 Kalter Krieg, 5 Digitale Anfänge, 6 Near‑Future.
+2. **Zeitmarker (W6)** – 1 Echo‑Schleife (verzögerte Schatten), 2 Loop 30 Sek., 3 Stutter (Zeitsprünge in Frames), 4 Static (verrauschte Wahrnehmung), 5 Slip (Kreatur fällt kurz aus Phase), 6 Anchor‑Tether (Kreatur an einen Zeugen gebunden).
+3. **Anchor (W6)** – 1 Erstzeuge, 2 Tatort mit Einschlag, 3 Opfer mit Zeitbrand, 4 Artefakt/Container, 5 Familienlinie/Blutanker, 6 Forschungslog/Blackbox.
+4. **Tells (3–5 aus W10 wiederholen, keine Duplikate)** – 1 Frosthauch, 2 verzerrter Funk, 3 bläulicher Schleier, 4 Geruch nach Ozon/Metall, 5 scharfe Schatten gegen die Lichtquelle, 6 Tierpanik, 7 Uhren laufen rückwärts, 8 Audiospur mit Flüstern, 9 zweiter Nachhall jeder Bewegung, 10 kurzes „Bildflackern“ im HUD.
+5. **Weakness (W6)** – 1 bestimmte Frequenz (z. B. 18 Hz Infraschall), 2 geheiligtes Material (Salz/Quecksilber), 3 Anchor neutralisieren (Zeuge befreien, Container öffnen), 4 Zeitsiegel (Ritualkreis + Sensor), 5 Schockfrost/Hitze, 6 Psi‑Signatur spiegeln (Mind‑Wurf gegen Psi‑Sig).
+6. **Stat-Block** nach Risikostufe (S/M/L/XL) und die Fähigkeitspalette um den Zeitmarker herum bauen (Teleport = Stutter, Versteinerung = Static etc.).
+
+### Casefile-Schablone
+
+- **CASE:** `RIFT-<ID> | Epoche | Seed-Tier (low/mid/high)`
+- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker (`"Echoender Schatten hinter jedem Zeugen"`).
+- **BRIEFING PUBLIC (max. 5 Bulletpoints):** Witness-Reports, Schauplatz, Gefahrenhinweis.
+- **OBJECTIVES:** `Secure Anchor`, `Identify Time Marker`, `Neutralize Weakness`, optional `Recover Sample`.
+- **CASE OVERLAY:** HUD-Tag `CASEFILE <ID> · HOOK <Label> · TIME <Marker>` + `WEIRD 1/1` Toast.
+- **TRUTH:** kurzer Absatz mit Ursache (Para-Kreatur) und warum der Zeitmarker aktiv bleibt.
+- **LEADS PRIVATE:** 3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11) und Verknüpfung zum Anchor.
+- **BOSS PRIVATE:** Mini-Statblock + Zeitfähigkeit (nur **eine** Weirdness). Wenn Urban-Myth-Generator genutzt wird, liegt hier die echte Para-Kreatur, der Mythos ist nur ein Deckmantel.
+
+### Zwei einsatzbereite Casefiles
+
+**Chrono Butcher — „Blutspur im Nullzeit-Korridor“ (Seed-Tier mid)**
+- **Epoche/Marker:** 1997, Digitale Anfänge · **Stutter** (Tatort-Sequenzen brechen in Frame-Sprüngen ab).
+- **Anchor:** Ermittlungsakte mit blutgetränkter Taschenuhr des ersten Opfers (Zeitbrand hält Stutter offen).
+- **Tells:** Blutlachen fließen kurz rückwärts, Funksprüche knacken mit Opferstimme, Schatten reißen versetzt.
+- **Weakness:** Anchor-Uhr auf 00:13:17 stellen und im Stutter-Fenster zerstören (gleichzeitiger Psi‑Impuls Mind 12).
+- **Boss Private:** **HP 11 | Armor 1 | Str 3d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6** – *Frame Lunge* (Agi‑Save 12, sonst 3 HP, verursacht Panik), *Cut In/Out* (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
+
+**Jersey Devil — „Flügelschlag im Pine Barren“ (Seed-Tier low)**
+- **Epoche/Marker:** 1909, Industrialisierung · **Loop** (30‑Sek‑Flugbahn wiederholt sich an Bäumen).
+- **Anchor:** Verkohlte Überreste der „13th Child“-Legende in einer Wurzelhöhle (Familienfluch hält Loop stabil).
+- **Tells:** Schwefelgeruch, schreiender Wind, Kratzspuren spiralförmig, Tiere fliehen den Pfad.
+- **Weakness:** Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11, dann Loop kollabiert).
+- **Boss Private:** **HP 8 | Armor 1 | Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6** – *Dive Bomb* (Agi‑Save 11, sonst 2 HP), *Loop Reset* (setzt Initiative zurück, wenn Anchor unberührt).
+
+<a id="urban-myth-generator"></a>
+## Urban-Myth-Generator (False Lead)
+
+Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleichen HUD-Rahmen (MODE/CASE/HOOK) und respektiert den One-Weird-Thing-Guard: die Mythos-Erklärung darf **nicht** zur zweiten Anomalie werden. Sobald klar ist, dass nur Tech/Manipulation dahintersteckt, muss das eigentliche Para-Phänomen aus der Rift-Casefile-Edition sichtbar werden.
 
 ### Vorgehen
 
-1. Würfle **1W6** für die Epoche.
-2. Würfle **1W20** für das urbane Mythos-Motiv.
-3. Kreiere die technisch plausible Ursache (Ideen siehe Motiv-Spalte) mit **Hardware-Bezug** (Linse, Sensor, Kabelscanner) und triggere bei zusätzlicher Weirdness `register_anomaly()`.
-4. Verpasse dem Motiv einen **Zeit-Einschlag**: verzögerte Schatten, Echo-Aufnahme aus falscher Epoche, 30‑Sek‑Loop, Déjà-vu bei jedem Witness. So bleibt sichtbar, dass der „Riss“ ein Zeitfehler ist.
-5. Setze den Stat-Block nach Risikostufe (S/M/L/XL) ein und zeige im HUD den HEADER `MODE CORE/RIFT · CASEFILE · HOOK · EntryChoice?` als dünnes Overlay.
+1. **Epoche (W6)** – identisch zur Rift-Edition.
+2. **Urban-Myth-Motiv (W20)** – nutzt Hardware/Linsen statt Hologramme.
+3. **Zeitmarker setzen** (Echo/Loop/Stutter etc.), um den „Riss“ sichtbar zu halten, und bei echter Weirdness `register_anomaly()` loggen.
+4. **Stat-Block** nach Risiko; alles Technische als Shadow-Op erklären (keine VR-Illusionen, nur Sensorik/Implantate).
 
 ```markdown
-### 1A – Epoche (d6)
-1 | Frühe Neuzeit (1500‑1700)
-2 | Industrialisierung (1700‑1900)
-3 | Weltkriege (1914‑1945)
-4 | Kalter Krieg (1945‑1991)
-5 | Digitale Anfänge (1992‑2010)
-6 | Near‑Future (2011‑2035)
-
-### 1B – Urban‑Myth‑Motiv (d20)
-> Alle Motive laufen über Linse/Sensorik, keine freistehenden Projektionen. Bei doppelter Weirdness `register_anomaly()` nutzen und die MR-Quelle physisch verankern.
-
-01 | Kopfloser Reiter – Drohne mit Linse-Spot (kein Projektor)
-02 | Schwarzer Hund – Chem‑Mod Kampf­organismus
-03 | Mothman – Stealth‑Fallschirmspringer im Testanzug
-04 | Schattenleute – Psi‑Induzierte Schlafparalyse
-05 | Rote Hexe – Nano‑Feuer‑Aerosol erzeugt „Flammen“
-06 | Men in Black – Regierungsabteilung nutzt Neural‑Wipe
-07 | Weeping Woman – Audio‑Drohne mit Lament‑Frequenz
-08 | Phantom‑Zug – Magnetschwebetest, Zeit ➙ Verwerfung (HUD‑Echo)
-09 | Kinder mit schwarzen Augen – Gen‑Versuch / Linsenimplantat
-10 | Kraken im Kanal – Sewer‑Drohne mit Tentakel‑Manipulatoren
-11 | Crying Boy Painting – Quantenspeicher im Pigment (Daten‑Vault)
-12 | Goatman – Bio‑Chimäre entlaufenem Labor
-13 | Greys – Nano‑Skin‑Anzüge verzerren Proportionen
-14 | Hitchhiking Ghost – Zeitversetzte Linse-Aufnahme auf HUD
-15 | Lake‑Monster – Schwarm‑U‑Drohnen unter Hüllfeld
-16 | Shapeshifter – adaptive Metamaterial‑Suit
-17 | Spukhaus – Übersprungener EM‑Emitter tft Paradoxon‑Energie
-18 | Schlankes Wesen – Lidar‑Verzerrer + Knochenverlängerungen
-19 | Straßenlaternen‑Summen – HF‑Psi‑Störsender, löst Migräne aus
-20 | Blutfarbenes Mondlicht – Orbitale Linse fokussiert IR‑Spektrum
+01 Kopfloser Reiter – Drohne mit Linse-Spot (kein Projektor)
+02 Schwarzer Hund – Chem‑Mod‑Kampf­organismus
+03 Mothman – Stealth‑Fallschirmspringer im Testanzug
+04 Schattenleute – Psi‑induzierte Schlafparalyse
+05 Rote Hexe – Nano‑Feuer‑Aerosol erzeugt „Flammen“
+06 Men in Black – Regierungsabteilung nutzt Neural‑Wipe
+07 Weeping Woman – Audio-Drohne mit Lament-Frequenz
+08 Phantom-Zug – Magnetschwebetest, Zeit ➙ Verwerfung (HUD‑Echo)
+09 Kinder mit schwarzen Augen – Gen‑Versuch / Linsenimplantat
+10 Kraken im Kanal – Sewer-Drohne mit Tentakel‑Manipulatoren
+11 Crying Boy Painting – Quantenspeicher im Pigment (Daten‑Vault)
+12 Goatman – Bio-Chimäre entlaufenem Labor
+13 Greys – Nano-Skin-Anzüge verzerren Proportionen
+14 Hitchhiking Ghost – Zeitversetzte Linse-Aufnahme auf HUD
+15 Lake-Monster – Schwarm-U‑Drohnen unter Hüllfeld
+16 Shapeshifter – adaptive Metamaterial-Suit
+17 Spukhaus – Übersprungener EM-Emitter + Paradoxon-Energie
+18 Schlankes Wesen – Lidar-Verzerrer + Knochenverlängerungen
+19 Straßenlaternen-Summen – HF-Psi-Störsender, löst Migräne aus
+20 Blutfarbenes Mondlicht – Orbitale Linse fokussiert IR-Spektrum
 ```
 
-> Reminder: Jede Begegnung hängt an einem aktiven Casefile/Hook, nutzt Linse/HUD als einziges UI und respektiert das One‑Weird‑Thing‑Budget. Zusätzliche Phänomene müssen technisch erklärbar sein oder als `register_anomaly()` mit WEIRD-Warnung laufen.
-> Sobald die Agenten das Para-Phänomen oder seinen technischen Kern neutralisieren, **endet die Legende und der Seed schließt sich** – die Raumzeitkarte markiert das Casefile als erledigt.
+> Reminder: Urban-Myth-Seeds sind **Falschspuren**. Wenn die SL sie ausspielt, muss klar bleiben, dass der eigentliche Rift-Hook eine Para-Kreatur mit genau **einer** Weirdness enthält. Sobald Anchor/Marker neutralisiert sind, schließt der Seed.
 
 ### Stat-Block-Schablone
 
@@ -652,58 +687,6 @@ Jeder Urban-Myth-Seed markiert eine **Zeitwunde durch misslungene Eingriffe**; a
 > **Armor** reduziert Schaden pro Treffer.
 > **HP** ist die Wundschwelle (W = 3 HP).
 > **Psi‑Sig** wird gegen Psi-Detection oder Paradoxon-Interaktion gewürfelt.
-
-### Drei einsatzbereite Fallakten
-
-> Format lehnt sich an ein klassisches FBI‑X‑Files‑Briefing an.
-> **Zeilen in Klammern** eignen sich als schnelle HUD-Tags.
-> Weiterführende Hinweise finden sich im Modul
-> [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
-
-#### A. Black Dog – „Schinderhannes‑Geflüster“
-
-> **Epoche:** Industrialisierung (1893, Eifel) | **Risikostufe:** M
-
-- **Mythos:** Schwarzer, schweigsamer Hund soll Nachtwächter zu Tode gehetzt haben.
-- **Realität:** Firma **Krieg & Sohn** testet kobaltimprägnierte **Chem‑Mod‑Raupenhunde** für Grabenschlachten.
-- **Beobachtungen:** Opfer weisen akute Blutarmut (Toxin α‑13) auf.
-- **Paradoxon‑Risiko:** gering (≤ 1).
-- **STAT‑BLOCK:**
-
-  - **Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6 | Armor 1 | HP 8**
-  - *F1 Parcours‑Beißer*: freier Move über Hindernisse, Attacke ignoriert Deckung.
-  - *F2 Schwarzlicht‑Pelz*: unsichtbar für IR/NV‑Optik (−2 Mod auf Entdecken).
-
-#### B. Mothman – „Projekt Nachtfalke“
-
-> **Epoche:** Kalter Krieg (1967, Point Pleasant, USA) | **Risikostufe:** L
-
-- **Mythos:** Geflügeltes Wesen mit roten Augen warnt vor Brückeneinsturz.
-- **Realität:** US‑Airforce Black‑Op mit Prototyp‑**Stealth‑Wing‑Suit**.
-  Aufklärer filmte Stahlermüdung – Intervention verboten.
-- **Paradoxon‑Risiko:** mittel (2‑3) bei temporalen Eingriffen.
-- **STAT‑BLOCK:**
-
-  - **Str 4d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6 | Armor 2 | HP 10**
-  - *F1 Schwebe‑Stillstand*: 0 m Schwebeflug → +2 Agi auf Ausweichen.
-  - *F2 Sonic‑Scream‑Baken*: 1/Tag, macht Wache 1 Rd. taub (−2 Agi).
-  - *F3 Omen‑Protokoll*: Bei Sichtung +1 Stress für Zivilisten, SL‑Bonuswürfel.
-
-#### C. Shadow People – „Umbra-Reflex“
-
-> **Epoche:** Near‑Future (2025, Seoul) | **Risikostufe:** XL
-
-- **Mythos:** Dunkle Silhouetten erscheinen im Augenwinkel, verschwinden bei Blickkontakt.
-- **Realität:** Konzern **Limbic Inc.** testet neuronale **Psi‑Induktoren**,
-   die REM‑Bereiche wecken → kollektive Hypnagoge.
-- **Paradoxon‑Risiko:** hoch (4‑5) – massenhafter Psi‑Einsatz stört Zeitfeld‑Sensoren.
-- **STAT‑BLOCK:**
-
-  - **Str 5d6 | Agi 5d6 | Mind 4d6 | Psi‑Sig 4d6 | Armor 3 | HP 14**
-  - *F1 Flimmer‑Phase*: kann sich als „Nachbild“ 10 m teleport‑ähnlich versetzen.
-  - *F2 Psi‑Drown*: 1/3 Rd. −2 Mind und −1 Reaktions‑Ini für alle Nicht‑Psi.
-  - *F3 Paradoxon‑Spike*: Bei Treffer explodiert Psi‑Sig auf W6=6 (Px −1).
-  - *F4 Schwarm‑Halluzination*: Jeder Witness‑NPC muss Will-Save (Mind 3d6) oder flieht.
 
 ### Einsatz-Tips
 

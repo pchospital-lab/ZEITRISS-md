@@ -2806,11 +2806,36 @@ spiegelt diesen Block beim Save/Load.
   {% set picks = random.sample(options, n) %}
   {% if campaign.rift_seeds is none %}{% set campaign.rift_seeds = [] %}{% endif %}
   {% if arc_dashboard.offene_seeds is none %}{% set arc_dashboard.offene_seeds = [] %}{% endif %}
+  {# Normalizer für alte Saves ohne Label/Hook/Marker #}
+  {% for legacy in campaign.rift_seeds %}
+    {% if legacy.label is not defined %}{% set legacy.label = legacy.hook if legacy.hook is defined else legacy.id %}{% endif %}
+    {% if legacy.seed_tier is not defined %}{% set legacy.seed_tier = 'mid' %}{% endif %}
+    {% if legacy.hook is not defined %}{% set legacy.hook = legacy.label %}{% endif %}
+    {% if legacy.time_marker is not defined %}{% set legacy.time_marker = 'Echo' %}{% endif %}
+  {% endfor %}
   {% for seed in picks %}
-    {% set new_seed = {'id': seed.rift_id, 'epoch': seed.epoch, 'status': 'open'} %}
+    {% set label = seed.label if seed.label is defined else seed.rift_id %}
+    {% set seed_tier = seed.seed_tier if seed.seed_tier is defined else 'mid' %}
+    {% set hook = seed.hook if seed.hook is defined else label %}
+    {% set time_marker = seed.time_marker if seed.time_marker is defined else 'Echo' %}
+    {% set briefing_public = seed.briefing_public if seed.briefing_public is defined else [] %}
+    {% set leads = seed.leads if seed.leads is defined else [] %}
+    {% set boss_private = seed.boss_private if seed.boss_private is defined else {} %}
+    {% set new_seed = {
+      'id': seed.rift_id,
+      'label': label,
+      'seed_tier': seed_tier,
+      'hook': hook,
+      'time_marker': time_marker,
+      'epoch': seed.epoch,
+      'status': 'open',
+      'briefing_public': briefing_public,
+      'leads': leads,
+      'boss_private': boss_private
+    } %}
     {% do campaign.rift_seeds.append(new_seed) %}
     {% do arc_dashboard.offene_seeds.append(new_seed) %}
-    {{ hud_tag('Rift entdeckt: ' ~ seed.rift_id ~ ' (' ~ seed.epoch ~ ')') }}
+    {{ hud_tag('Rift entdeckt: ' ~ seed.rift_id ~ ' · ' ~ label ~ ' · Marker ' ~ time_marker ~ ' (' ~ seed.epoch ~ ')') }}
   {% endfor %}
 {%- endmacro %}
 ### PxPing() Macro

@@ -838,9 +838,9 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     },
     {
       "d24": 10,
-      "Seed": "Jersey Devil",
-      "Hook": "Fliegendes Ungeheuer raubt Vieh – Flugbahn analysieren, Nest zerstören",
-      "hiddenCause": "Parawesen: Verfluchte Chimäre (Jersey Devil) – lauert in Wäldern, schlägt nachts auf Farmen zu"
+      "Seed": "Chrono Butcher",
+      "Hook": "Serienmorde mit Frame-Sprüngen – Ermittlungsakte sichern, Butcher stellen",
+      "hiddenCause": "Parakiller in Stutter-Schleife, gebunden an blutgetränkte Taschenuhr des ersten Opfers"
     },
     {
       "d24": 11,
@@ -922,13 +922,15 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     },
     {
       "d24": 24,
-      "Seed": "Geheime Tiefsee-Megacity",
-      "Hook": "Ursprung des \"Blob\" stoppen",
-      "hiddenCause": "abtrünnige KI manipuliert Gen-Pools im Ozean"
+      "Seed": "Jersey Devil",
+      "Hook": "Flügelschlag über Pine Barrens – Flugbahn analysieren, Nest zerstören",
+      "hiddenCause": "Para-Kreatur (Loop-Marker) kreist um Kupfer-Ei im Wald, terrorisiert Siedler"
     }
   ]
 }
 ```
+
+> Hinweis: Der frühere Tiefsee-Seed wandert in einen künftigen Arc (Future/Arc‑Slots); im Rift-Raster bleiben nur Seeds mit eindeutigem One-Weird-Thing.
 
 ## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}
 
@@ -2079,66 +2081,120 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITR
 
 ### Rift-Seed Catalogue {#rift-seed-catalogue}
 
+Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen aus maximal fünf Stichpunkten, Boss-Notes enthalten exakt eine Weirdness. `time_marker` beschreibt das aktive Phänomen; Urban-Myth-Täuschungen sind nur erlaubt, wenn die Rift-Casefile-Edition die echte Kreatur liefert.
+
 ```yaml
-- rift_id: "RIFT-NX01"
-  epoch: "Iceland 1615"
-  anomaly: "Kryo-Wyrm"
-  risk: 4
-  paramonster:
-    type: "Wärmeegel-Drache"
-    hp: 18
-    abilities: ["Frost Nova", "Tunnel Ambush"]
-  resolve_requires: "slay_creature"
+- rift_id: "RIFT-BUTCHER"
+  epoch: "Warschau 1997"
+  label: "Chrono Butcher"
+  seed_tier: mid
+  hook: "Serienmorde im Nullzeit-Korridor – Ermittlungsakte sichern, Killer stoppen"
+  time_marker: Stutter
+  briefing_public:
+    - Tatorte zeigen Blutspuren, die sich kurz zurückziehen
+    - Letzte Opfer funken „Er ist schon wieder hier“ bevor Verbindung bricht
+    - Ermittlungsakte mit Taschenuhr des ersten Opfers verschwunden
+    - Zeugen hören Stimmfragmente aus den Fluren
+  leads:
+    - Investigation 12: Frame-Brüche an Wänden bilden Weg zum Uhr-Anchor
+    - Mind 12: Opferstimme hallt im Psi-Scan exakt 00:13:17 nach
+    - Tech 11: Überwachung zeigt zwei Schatten pro Bewegung
+  boss_private:
+    truth: Zeitversetzter Serienmörder in Stutter-Schleife, an Uhr gebunden
+    weakness: Anchor-Uhr exakt 00:13:17 stellen und im Stutter zerstören (Psi-Impuls Mind 12)
+    anomaly: Frame Lunge (Agi-Save 12, 3 HP + Panik)
+    boss_stat_hint: "HP 11 | Armor 1 | Agi 4d6 | Psi-Sig 3d6"
 
-- rift_id: "RIFT-NX02"
-  epoch: "Nagasaki 1946"
-  anomaly: "Zeit-Resonanz-Sirene"
-  risk: 5
-  paramonster:
-    type: "Phasen-Banshee"
-    hp: 14
-    abilities: ["Sonic Warp", "Chrono Blink"]
-  resolve_requires: "banish_creature"
+- rift_id: "RIFT-JDEV"
+  epoch: "New Jersey 1909"
+  label: "Jersey Devil"
+  seed_tier: low
+  hook: "Flügelschlag im Pine Barren – Nest ausheben"
+  time_marker: Loop
+  briefing_public:
+    - Viehrisse bei Vollmond, kreisförmige Kratzspuren
+    - Zeugen hören 30-Sek-Schrei mit Wiederholung
+    - Pfadfinder-Patrouille vermisst
+  leads:
+    - Survival 10: Verkohlte Knochenreste im Wurzelbau bergen
+    - Tech 9: Audioanalyse bestätigt Loop-Marker
+    - Investigation 11: Flugbahn wiederholt Baumaufschlag
+  boss_private:
+    truth: Para-Chimäre kreist um verfluchte Familienreste
+    weakness: Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11)
+    anomaly: Loop Reset (setzt Ini zurück, Anchor schützt)
+    boss_stat_hint: "HP 8 | Armor 1 | Agi 4d6 | Psi-Sig 2d6"
 
-- rift_id: "RIFT-NX03"
-  epoch: "Sahara 2028"
-  anomaly: "Glas-Sand-Giganten"
-  risk: 3
-  paramonster:
-    type: "Silikatkoloss"
-    hp: 20
-    abilities: ["Sandstorm Cloak", "Shard Volley"]
-  resolve_requires: "seal_rift_core"
+- rift_id: "RIFT-BRIDGE"
+  epoch: "Chongqing 2032"
+  label: "Totenbrücke"
+  seed_tier: mid
+  hook: "Geisterbus stoppt Verkehr – Ursache finden, Brücke freiräumen"
+  time_marker: Echo
+  briefing_public:
+    - Bus erscheint jede Stunde, keine Fahrer
+    - Verkehrs-App meldet Schattenfahrzeug ohne Nummer
+    - Passant hörte Stimmen aus anderer Epoche
+  leads:
+    - Tech 12: Lidar zeigt Nachbild, kein Radar-Echo
+    - Investigation 12: Unfallakte 1998 mit gleichem Bus
+    - Medicine 11: Zeuge erleidet Zeitbrand an Händen
+  boss_private:
+    truth: Echo-Manifestation des Unfallbusses, gebunden an Fahrgast-Anker
+    weakness: Blackbox bergen + Anker verarzten
+    anomaly: Echo Surge (Psi-Save 12, Stress +1)
+    boss_stat_hint: "HP 9 | Armor 0 | Mind 3d6 | Psi-Sig 3d6"
 
-- rift_id: "RIFT-NX04"
-  epoch: "Athens 415 BC"
-  anomaly: "Bronze-Hoplon-Golem"
-  risk: 4
-  paramonster:
-    type: "Lebender Kriegsschild"
-    hp: 16
-    abilities: ["Ricochet Bash", "Molten Core"]
-  resolve_requires: "artifact_retrieval"
-
-- rift_id: "RIFT-NX05"
+- rift_id: "RIFT-ORCHID"
   epoch: "Amazonas 1899"
-  anomaly: "Blut-Orchideen-Parasit"
-  risk: 3
-  paramonster:
-    type: "Flora-Symbionten-Schwarm"
-    hp: 12
-    abilities: ["Mind-Spore", "Vine Snare"]
-  resolve_requires: "burn_nest"
+  label: "Blood Orchid"
+  seed_tier: mid
+  hook: "Kurierteam verschollen – Symbionten-Parasit stoppen"
+  time_marker: Slip
+  briefing_public:
+    - Expedition meldet Halluzinationen, dann Funkstille
+    - Lianen wachsen in Stunden, nicht Wochen
+    - Ein Träger sprach rückwärts, Stimme doppelt
+  leads:
+    - Medicine 12: Sporen haben fremde Zeitstempel
+    - Survival 11: Pflanzenfläche pulsiert im 5-Sek-Rhythmus
+    - Investigation 10: Kartendaten zeigen sich verschiebende Pfade
+  boss_private:
+    truth: Symbionten-Schwarm springt zwischen Phasen
+    weakness: Feuer + Stabilisierung des Zeitmarkers mit Salzlinie
+    anomaly: Slip Bloom (Agi-Save 12, immobilisiert 1 Rd.)
+    boss_stat_hint: "HP 12 | Armor 1 | Str 3d6 | Psi-Sig 3d6"
 
-- rift_id: "RIFT-NX06"
+- rift_id: "RIFT-LUNAR"
   epoch: "Luna Far-Side 2266"
-  anomaly: "Leerenheuler"
-  risk: 5
-  paramonster:
-    type: "Null-G-Raubtier"
-    hp: 22
-    abilities: ["Silent Pounce", "Vacuum Rend"]
-  resolve_requires: "trap_and_jettison"
+  label: "Void Howler"
+  seed_tier: high
+  hook: "Funkspalte auf Mondbasis – Null-G-Raubtier jagt Crew"
+  time_marker: Stutter
+  briefing_public:
+    - Kameras verlieren alle 3 Frames Bild
+    - Außenschotts öffnen sich ohne Signal
+    - Astronaut berichtet, dass Geräusch vor Echo kommt
+  leads:
+    - Tech 13: Stutter-Marker deckt sich mit Px-Sensorwarnung
+    - Engineering 12: Kratzspuren verlaufen gegen Bewegungsrichtung
+    - Medicine 12: Opfergewebe zeigt Vakuumverbrennungen
+  boss_private:
+    truth: Null-G-Raubtier springt phasenweise, jagt auf Atemluft
+    weakness: Druckschott schließen + Psi-Signatur spiegeln (Mind 13)
+    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Px −1 bei W6=6)
+    boss_stat_hint: "HP 14 | Armor 2 | Agi 5d6 | Psi-Sig 4d6"
 ```
+
+### Rift-Casefile Builder
+
+1. **CASE** – `ID | Epoche | Seed-Tier | time_marker`.
+2. **VISUAL HOOK** – 1 Satz mit Anchor + Marker.
+3. **BRIEFING PUBLIC** – max. 5 Bullets; Witness + Gefahrenhinweis, keine zweite Weirdness.
+4. **OBJECTIVES** – `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover Sample`.
+5. **CASE OVERLAY** – HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` + `register_anomaly()` nur einmal.
+6. **TRUTH** – kurzer Absatz, warum Marker aktiv bleibt.
+7. **LEADS PRIVATE** – 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
+8. **BOSS PRIVATE** – Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
