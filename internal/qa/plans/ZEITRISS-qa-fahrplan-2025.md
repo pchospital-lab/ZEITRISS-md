@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.11.1
+version: 1.12.0
 tags: [meta]
 ---
 
@@ -711,6 +711,30 @@ Persistenz. Alle Punkte sind offen und für den nächsten Durchlauf einzuplanen.
 - [x] Issue #4 One-Weird-Thing-Guard sichtbar in Generator und Catalogue dokumentiert.
 - [x] Issue #5 Rift-Seed-Persistenz (`label/seed_tier/hook/time_marker`) in Toolkit-Makro
       umgesetzt.
+
+## Maßnahmenpaket Tester-Playtest 2026-04 (Issues #1–#13)
+
+Der erneute Durchlauf des Tester-Briefings (Acceptance 1–15, Mission 5 Badge-Check, HQ-Deepsave)
+liefert 13 neue Findings. Der Fokus liegt auf stringstabilen Dispatcher-/SaveGuard-Texten,
+Pflichtfeldern im Save-Schema, Boss-/Team-Clamps, Px-Reset-Timing, Chronopolis-Gating,
+Arena-/Queue-States, UI-Enums, Cross-Mode-Konflikten, Offline-Guards, Output-Vertrag und einem
+vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Runden abgearbeitet.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
+| ----- | ------------------------------ | -------------------------------------------- |
+| #1 | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen. |
+| #2 | SaveGuard-Pflichtfelder vs. Prompt | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen. |
+| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`SaveGuard: HQ-only/Exfil aktiv/Arena aktiv/SYS nicht voll installiert`) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. |
+| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 0–4 hart clampen (Load/ArenaStart), DR-Tabelle >4 entfernen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. |
+| #5 | Px-Reset & Seed-Gating präzisieren | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen. |
+| #6 | Chronopolis-Gate vs. Pre-City | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen. |
+| #7 | Arena Queue-/Zone-State vertraglich fixen | `arena.queue_state` Enum (`idle|searching|matched|staging|active|completed`) + optional `arena.zone` (`safe|combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. |
+| #8 | UI-Enums konsolidieren | Kanonisches Set (`badge_density: standard|dense|compact`, `output_pace: normal|fast|slow`) festziehen; Legacy-Mappings dokumentieren und Serializer normalisieren. |
+| #9 | Cross-Mode-Import Konfliktlogging | Merge-Layer erzwingt `merge_conflicts` bei Abweichungen (`campaign.mode`, Seeds, UI, Arena-State); `logs.trace` Merge-Event; QA-Checkliste fordert sichtbare Konflikte + Arena-Reset-Beleg. |
+| #10 | Offline-Fallback Rate-Limit + SaveGuard | Acceptance um Rate-Limit (`!offline` <60 s) und Save-Sperre bis HQ-Resync erweitern; eigener SaveGuard-Reason + `logs.trace` (`save-blocked: offline`). |
+| #11 | QA-Output-Vertrag widerspruchsfrei | Output-Regel festlegen: JSON-Block entweder als Appendix oder als Evidenz in ISSUE; Runner/Parser tolerant machen, Copyblock-Version anheben. |
+| #12 | Offizielles v6-Fixture bereitstellen | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. |
+| #13 | `economy.credits` Spiegel klären | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz. |
 
 ## Regressionstest-Termine 2025
 
