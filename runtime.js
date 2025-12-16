@@ -6051,16 +6051,29 @@ function prepare_save_campaign(campaign){
 
 function prepare_save_arena(arena){
   const source = clone_plain_object(arena);
-  const active = !!source.active;
-  const phase = typeof source.phase === 'string' && source.phase.trim()
-    ? source.phase.trim()
-    : active
-    ? 'active'
-    : 'idle';
+  const providedPhase = normalize_phase_value(source.phase);
+  const providedQueue = source.queue_state;
+  const baseActive = !!source.active;
+  const provisionalQueue = normalize_arena_queue_state(providedQueue, {
+    active: baseActive,
+    phase: providedPhase
+  });
+  const queueActive = ['searching', 'matched', 'staging', 'active'].includes(provisionalQueue);
+  const phase = providedPhase
+    ? providedPhase === 'completed' && queueActive
+      ? 'active'
+      : providedPhase
+    : provisionalQueue === 'completed'
+      ? 'completed'
+      : queueActive || baseActive
+        ? 'active'
+        : 'idle';
+  const active = phase !== 'idle' && phase !== 'completed' ? true : baseActive || queueActive;
+  const queue_state = normalize_arena_queue_state(provisionalQueue, { active, phase });
   const normalized = {
     active,
     phase,
-    queue_state: normalize_arena_queue_state(source.queue_state, { active, phase }),
+    queue_state,
     zone: normalize_arena_zone(source.zone, { active }),
     mode: typeof source.mode === 'string' && source.mode.trim() ? source.mode.trim() : 'single',
     previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
@@ -6661,7 +6674,13 @@ function save_deep(s=state){
     });
     throw new Error(toast_save_block('Offline – HQ-Re-Sync erforderlich'));
   }
-  if (arenaState?.active || (arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed')){
+  const queueState = normalize_arena_queue_state(arenaState?.queue_state, {
+    active: !!arenaState?.active,
+    phase: arenaState?.phase
+  });
+  const queueActive = ['searching', 'matched', 'staging', 'active'].includes(queueState);
+  const phaseActive = arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed';
+  if (arenaState?.active || phaseActive || queueActive){
     throw new Error(toast_save_block('Arena aktiv'));
   }
   if (s.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
