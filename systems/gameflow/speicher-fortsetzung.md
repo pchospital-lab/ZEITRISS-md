@@ -963,11 +963,11 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 - Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
 - Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus und markiert den
-  Px-Reset als „anhängig“.
+  Px-Reset als „anhängig“ (`px_reset_pending=true`, `px_reset_confirm=false`).
 - Rift-Seeds sind erst nach Episodenende spielbar.
-- Nach der Rift-Phase setzen Index und Resonanz auf 0. Der Serializer spiegelt
-  dies im Debrief (`px_reset_confirm=true`) und das HUD bestätigt den Reset zu
-  Beginn der nächsten Mission.
+- Nach der Rift-Phase setzt der Debrief im HQ den Index auf 0, schreibt ein
+  `logs.trace[]`-Event (`px_reset`) und bestätigt den Reset via
+  `px_reset_confirm=true` und HUD-Toast, sobald die Crew im HQ ankommt.
 
 **Single-Source-Paradoxon-Effekte:**
 
