@@ -368,7 +368,7 @@ ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
 `GATE 2/2 · FS 0/4` (Core) bzw. `GATE 2/2 · FS 0/2` (Rift); Foreshadow-Hinweise
 zählen nur den `FS`-Block hoch. In Szene 10 erscheint automatisch der Toast mit
 dem aktiven Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach
-Teamgröße und Boss-Typ gemäß
+Teamgröße 0–4 (Werte >4 werden geklemmt) und Boss-Typ gemäß
 [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach
 dem Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig
 davon, ob die Mission abgeschlossen oder abgebrochen wurde.
@@ -387,6 +387,8 @@ und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
 Block ab (`gm_style`, `suggest_mode`, `contrast`, `badge_density`, `output_pace`),
 füllt fehlende Felder automatisch mit `standard|normal` und stellt sie beim Laden
 sofort wieder her (z. B. `contrast: high`, `badge_density: dense`, `output_pace: slow`).
+Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
+`default|steady` → `normal`.
 
 ### Abnahme-Smoketest (Runtime-Overlay)
 
@@ -544,7 +546,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   vollständig abdecken. `logs.field_notes[]` ist optional; fehlt der Block,
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
-  fest.
+  fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
+  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
   Felder `contrast`, `badge_density` und `output_pace`; der SaveGuard bricht
   den HQ-Deepsave ab, wenn eines fehlt. Migration und Serializer füllen
@@ -575,7 +578,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
-- `!save` – speichert einen Deepsave (nur im HQ).
+- `!save` – speichert einen Deepsave (nur im HQ; SaveGuard blockt bei Offline-
+  Fallback: „SaveGuard: Offline – HQ-Re-Sync erforderlich.“).
 - `!load` – lädt den letzten Deepsave.
 - `!suspend` – legt einen flüchtigen Szenen-Snapshot für eine Pause an.
 - `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt

@@ -420,7 +420,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Systeme (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb der
   installierten Slots, sonst meldet die Runtime „SaveGuard: SYS nicht voll
   installiert.“ bzw. „SaveGuard: SYS runtime overflow.“ und blockiert den Save.
-  Phase-Strike-Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
+  Arena-States führen `queue_state=idle|searching|matched|staging|active|completed`
+  und `zone=safe|combat`; Teamgrößen werden hart auf 0–4 geklemmt. Phase-Strike-
+  Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
   `arena_phase_strike`), nicht im regulären `logs.psi[]`.
 
 ```
@@ -2572,13 +2574,13 @@ gewähren nach dem Sieg über das Paramonster einen zusätzlichen Artefaktwurf
 (`1W6`, nur bei `6`).
 
 {% macro boss_dr_for_team_size(team_size, tier='arc') -%}
-  {% set size = team_size|int %}
-  {% if size <= 2 %}
+  {% set size = [team_size|int, 4]|min %}
+  {% if size <= 0 %}
+    {{ 0 }}
+  {% elif size <= 2 %}
     {{ 1 if tier == 'mini' else 2 }}
-  {% elif size <= 4 %}
-    {{ 2 if tier == 'mini' else 3 }}
   {% else %}
-    {{ 3 if tier == 'mini' else 4 }}
+    {{ 2 if tier == 'mini' else 3 }}
   {% endif %}
 {%- endmacro %}
 
