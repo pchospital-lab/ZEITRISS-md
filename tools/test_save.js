@@ -102,11 +102,11 @@ assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_installed: 2, SYS_runtime: 2, SYS_used: 2 } } }));
 assert.throws(
   () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_installed: 2, SYS_runtime: 2, SYS_used: 2 } } }),
-  /SaveGuard: SYS nicht voll installiert\./
+  /SaveGuard: SYS nicht voll installiert/
 );
 assert.throws(
   () => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 3, SYS_installed: 3, SYS_runtime: 4, SYS_used: 3 } } }),
-  /SaveGuard: SYS runtime overflow\./
+  /SaveGuard: SYS runtime overflow/
 );
 
 const minimal = {

@@ -419,7 +419,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Szenario und Px-Status aus. HQ-DeepSaves verlangen vollständig installierte
   Systeme (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb der
   installierten Slots, sonst meldet die Runtime „SaveGuard: SYS nicht voll
-  installiert.“ bzw. „SaveGuard: SYS runtime overflow.“ und blockiert den Save.
+  installiert – HQ-Save gesperrt.“ bzw. „SaveGuard: SYS runtime overflow –
+  HQ-Save gesperrt.“ und blockiert den Save. Stress/Psi-Heat tragen denselben
+  SaveGuard-Suffix.
   Arena-States führen `queue_state=idle|searching|matched|staging|active|completed`
   und `zone=safe|combat`; Teamgrößen werden hart auf 0–4 geklemmt. Phase-Strike-
   Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
