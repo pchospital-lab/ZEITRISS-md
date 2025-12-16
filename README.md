@@ -1302,6 +1302,12 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
     Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
     markiert. `logs.flags.chronopolis_warn_seen` wird hier bereits gesetzt,
     damit das Warnbanner beim späteren Stadteintritt nur einmal erscheint.
+- **QA-Splitting:** Frühphase testet ausschließlich den Transit/Pre-City-Flow.
+  Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
+  setzt `logs.flags.chronopolis_unlocked=true` plus
+  `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
+  (Level/Quelle) und blendet den HUD-Toast
+  `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
