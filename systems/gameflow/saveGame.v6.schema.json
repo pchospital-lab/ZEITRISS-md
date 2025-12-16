@@ -167,7 +167,18 @@
         "output_pace": { "type": "string" }
       }
     },
-    "arena": { "type": "object", "additionalProperties": true },
+    "arena": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "queue_state": {
+          "type": "string",
+          "enum": ["idle", "searching", "matched", "staging", "active", "completed"]
+        },
+        "zone": { "type": "string", "enum": ["safe", "combat"] },
+        "team_size": { "type": "integer", "minimum": 0, "maximum": 4 }
+      }
+    },
     "arc_dashboard": { "type": "object", "additionalProperties": true }
   }
 }

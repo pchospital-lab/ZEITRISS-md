@@ -68,6 +68,8 @@ const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
 const SQUAD_RADIO_LOG_LIMIT = 24;
 const WEIRDNESS_LOG_LIMIT = 12;
+const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
+const ARENA_ZONES = ['safe', 'combat'];
 
 const CHRONO_CATALOG = [
   {
@@ -1741,6 +1743,41 @@ function normalize_badge_density(value, fallback = 'standard'){
   return fallback;
 }
 
+function normalize_output_pace(value, fallback = 'normal'){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (['normal', 'slow', 'fast'].includes(normalized)){
+    return normalized;
+  }
+  if (normalized === 'rapid' || normalized === 'quick') return 'fast';
+  if (normalized === 'steady' || normalized === 'default') return 'normal';
+  return fallback;
+}
+
+function clamp_team_size(value, { defaultValue = 1, allowZero = false } = {}){
+  const numeric = asNumber(value);
+  if (!Number.isFinite(numeric)) return defaultValue;
+  const min = allowZero ? 0 : 1;
+  const clamped = Math.min(4, Math.max(min, Math.floor(numeric)));
+  return clamped;
+}
+
+function normalize_arena_queue_state(value, { active = false, phase } = {}){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (ARENA_QUEUE_STATES.includes(normalized)){
+    return normalized;
+  }
+  if (phase === 'completed') return 'completed';
+  return active ? 'active' : 'idle';
+}
+
+function normalize_arena_zone(value, { active = false } = {}){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (ARENA_ZONES.includes(normalized)){
+    return normalized;
+  }
+  return active ? 'combat' : 'safe';
+}
+
 function normalize_phase_value(value, fallback = ''){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
   return normalized || fallback;
@@ -1771,12 +1808,7 @@ function ensure_ui(){
     state.ui.contrast = contrast;
   }
   state.ui.badge_density = normalize_badge_density(state.ui.badge_density);
-  const pace = typeof state.ui.output_pace === 'string' ? state.ui.output_pace.trim().toLowerCase() : '';
-  if (!['normal', 'slow', 'fast'].includes(pace)){
-    state.ui.output_pace = 'normal';
-  } else {
-    state.ui.output_pace = pace;
-  }
+  state.ui.output_pace = normalize_output_pace(state.ui.output_pace);
   return state.ui;
 }
 
@@ -1822,7 +1854,7 @@ function set_accessibility_option(option, value){
       if (!['slow', 'normal', 'fast'].includes(normalizedValue)){
         throw new Error('Tempo unbekannt – `slow`, `normal` oder `fast` sind erlaubt.');
       }
-      ui.output_pace = normalizedValue;
+      ui.output_pace = normalize_output_pace(normalizedValue);
       hud_toast(`Output-Takt → ${normalizedValue}`, 'ACCESS');
       break;
     default:
@@ -2009,15 +2041,15 @@ function ensure_party(){
 function resolve_team_size(ctx = state){
   const campaignSize = asNumber(ctx?.campaign?.team_size);
   if (campaignSize !== null && campaignSize > 0){
-    return Math.min(4, Math.max(1, Math.floor(campaignSize)));
+    return clamp_team_size(campaignSize, { allowZero: false });
   }
   const partySize = Array.isArray(ctx?.party?.characters) ? ctx.party.characters.length : null;
   if (Number.isFinite(partySize) && partySize > 0){
-    return Math.min(4, Math.max(1, Math.floor(partySize)));
+    return clamp_team_size(partySize, { allowZero: false });
   }
   const teamSize = Array.isArray(ctx?.team?.members) ? ctx.team.members.length : null;
   if (Number.isFinite(teamSize) && teamSize > 0){
-    return Math.min(4, Math.max(1, Math.floor(teamSize)));
+    return clamp_team_size(teamSize, { allowZero: false });
   }
   return 1;
 }
@@ -4165,11 +4197,16 @@ function ensure_arena(){
   arena.fee = Number.isFinite(arena.fee) ? arena.fee : 0;
   arena.scenario = arena.scenario ?? null;
   arena.damage_dampener = arena.damage_dampener !== false;
-  arena.team_size = Number.isFinite(arena.team_size) ? arena.team_size : 1;
+  arena.team_size = clamp_team_size(arena.team_size, { allowZero: true });
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
   arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
   arena.phase = typeof arena.phase === 'string' ? arena.phase : (arena.active ? 'active' : 'idle');
+  arena.queue_state = normalize_arena_queue_state(arena.queue_state, {
+    active: arena.active,
+    phase: arena.phase
+  });
+  arena.zone = normalize_arena_zone(arena.zone, { active: arena.active });
   arena.policy_players = Array.isArray(arena.policy_players)
     ? arena.policy_players
         .map((entry) =>
@@ -4209,10 +4246,7 @@ function build_arena_resume_token(arena){
   return {
     created_at: new Date().toISOString(),
     scenario,
-    team_size:
-      Number.isFinite(arena.team_size) && arena.team_size > 0
-        ? Math.min(4, Math.floor(arena.team_size))
-        : 1,
+    team_size: clamp_team_size(arena.team_size, { allowZero: true }),
     mode: typeof arena.mode === 'string' ? arena.mode : 'single',
     previous_mode: typeof arena.previous_mode === 'string' ? arena.previous_mode : null,
     tier:
@@ -4255,6 +4289,11 @@ function apply_arena_rules(ctx = state){
   } else if (active){
     arena.phase = arena.phase === 'completed' ? 'completed' : 'active';
   }
+  arena.queue_state = normalize_arena_queue_state(arena.queue_state, {
+    active,
+    phase: arena.phase
+  });
+  arena.zone = normalize_arena_zone(arena.zone, { active });
   arena.damage_dampener = active && arena.damage_dampener !== false;
   arena.phase_strike_tax = active ? phase_strike_tax(ctx) : 0;
   const markBuffer = target => {
@@ -4737,10 +4776,7 @@ function arenaResume(){
   if (!token || typeof token !== 'object'){
     return 'Kein Arena-Resume-Token vorhanden.';
   }
-  const teamSize =
-    Number.isFinite(token.team_size) && token.team_size > 0
-      ? Math.min(Math.floor(token.team_size), 6)
-      : 1;
+  const teamSize = clamp_team_size(token.team_size, { allowZero: true });
   const mode = typeof token.mode === 'string' ? token.mode : 'single';
   const tier =
     Number.isFinite(token.tier) && token.tier > 0 ? Math.min(Math.floor(token.tier), 3) : 1;
@@ -4767,6 +4803,8 @@ function arenaResume(){
   const currentEpisode = state.campaign?.episode ?? token.started_episode ?? null;
   arena.active = true;
   arena.phase = 'active';
+  arena.queue_state = 'active';
+  arena.zone = 'combat';
   arena.wins_player = 0;
   arena.wins_opponent = 0;
   arena.tier = tier;
@@ -4812,8 +4850,7 @@ function arenaStart(options = {}){
   const players = gatherArenaPlayers();
   const tierRule = resolveArenaTier(players);
   const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
-  const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
-  const teamSize = Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 4) : 1;
+  const teamSize = clamp_team_size(options.teamSize, { allowZero: false });
   const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee);
@@ -4821,6 +4858,8 @@ function arenaStart(options = {}){
   const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
   arena.active = true;
   arena.phase = 'active';
+  arena.queue_state = 'active';
+  arena.zone = 'combat';
   arena.wins_player = 0;
   arena.wins_opponent = 0;
   arena.tier = tierRule.tier;
@@ -4851,7 +4890,13 @@ function arenaStart(options = {}){
   record_trace('arena_start', {
     hud: baseMessage,
     channel: 'ARENA',
-    arena: { scenario: scenario?.description || null, tier: tierRule.tier, team_size: teamSize },
+    arena: {
+      scenario: scenario?.description || null,
+      tier: tierRule.tier,
+      team_size: teamSize,
+      queue_state: arena.queue_state,
+      zone: arena.zone
+    },
     note: pxNote
   });
   return `${baseMessage} · ${scenario.description} · ${pxNote}`;
@@ -4894,6 +4939,8 @@ function arenaExit(){
   }
   arena.active = false;
   arena.phase = 'completed';
+  arena.queue_state = 'completed';
+  arena.zone = 'safe';
   arena.wins_player = 0;
   arena.wins_opponent = 0;
   arena.proc_budget = 0;
@@ -5260,15 +5307,15 @@ function resolve_scene_total(missionType = resolve_mission_type()){
 }
 
 function resolve_boss_dr(teamSize, bossTier){
-  const size = Number.isFinite(teamSize) ? Math.min(4, Math.max(1, Math.floor(teamSize))) : 1;
+  const size = clamp_team_size(teamSize, { allowZero: true });
   const tier = bossTier === 'mini' ? 'mini' : 'arc';
+  if (size <= 0){
+    return 0;
+  }
   if (size <= 2){
     return tier === 'mini' ? 1 : 2;
   }
-  if (size <= 4){
-    return tier === 'mini' ? 2 : 3;
-  }
-  return tier === 'mini' ? 3 : 4;
+  return tier === 'mini' ? 2 : 3;
 }
 
 function StartMission(){
@@ -5841,7 +5888,13 @@ function offline_help(trigger='auto'){
   const flags = state.logs.flags;
   const now = Date.now();
   const last = typeof flags.offline_help_last === 'string' ? Date.parse(flags.offline_help_last) : NaN;
-  const shouldToast = !Number.isFinite(last) || (now - last) > OFFLINE_HELP_MIN_INTERVAL_MS;
+  const deltaMs = Number.isFinite(last) ? now - last : Infinity;
+  if (trigger === 'command' && deltaMs < OFFLINE_HELP_MIN_INTERVAL_MS){
+    const waitSeconds = Math.ceil((OFFLINE_HELP_MIN_INTERVAL_MS - deltaMs) / 1000);
+    const lastScene = flags.offline_help_last_scene || flags.offline_help_last || 'n/a';
+    return `Offline-Protokoll bereits aktualisiert (${lastScene}) – erneut in ${waitSeconds}s erlaubt.`;
+  }
+  const shouldToast = !Number.isFinite(last) || deltaMs > OFFLINE_HELP_MIN_INTERVAL_MS;
   if (shouldToast){
     hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
   }
@@ -5922,9 +5975,7 @@ function prepare_save_campaign(campaign){
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
   const campaignTeamSize = asNumber(base.team_size);
-  base.team_size = Number.isFinite(campaignTeamSize)
-    ? Math.min(4, Math.max(1, Math.floor(campaignTeamSize)))
-    : null;
+  base.team_size = clamp_team_size(campaignTeamSize, { defaultValue: null, allowZero: true });
   const bossDr = Number(base.boss_dr);
   base.boss_dr = Number.isFinite(bossDr) && bossDr > 0 ? Math.floor(bossDr) : 0;
   base.px_reset_pending = !!base.px_reset_pending;
@@ -5956,18 +6007,21 @@ function prepare_save_campaign(campaign){
 function prepare_save_arena(arena){
   const source = clone_plain_object(arena);
   const active = !!source.active;
+  const phase = typeof source.phase === 'string' && source.phase.trim()
+    ? source.phase.trim()
+    : active
+    ? 'active'
+    : 'idle';
   const normalized = {
     active,
-    phase: typeof source.phase === 'string' && source.phase.trim()
-      ? source.phase.trim()
-      : active
-      ? 'active'
-      : 'idle',
+    phase,
+    queue_state: normalize_arena_queue_state(source.queue_state, { active, phase }),
+    zone: normalize_arena_zone(source.zone, { active }),
     mode: typeof source.mode === 'string' && source.mode.trim() ? source.mode.trim() : 'single',
     previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
       ? source.previous_mode.trim()
       : null,
-    team_size: Number.isFinite(source.team_size) ? Math.max(1, Math.min(4, Math.floor(source.team_size))) : 1,
+    team_size: clamp_team_size(source.team_size, { allowZero: true }),
     tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
     proc_budget: Number.isFinite(source.proc_budget) ? Math.max(0, Math.floor(source.proc_budget)) : 0,
     artifact_limit: Number.isFinite(source.artifact_limit) ? Math.max(0, Math.floor(source.artifact_limit)) : 0,
@@ -6296,8 +6350,7 @@ function prepare_save_ui(ui){
   const contrast = typeof base.contrast === 'string' ? base.contrast.trim().toLowerCase() : '';
   base.contrast = ['standard', 'high'].includes(contrast) ? contrast : 'standard';
   base.badge_density = normalize_badge_density(base.badge_density);
-  const pace = typeof base.output_pace === 'string' ? base.output_pace.trim().toLowerCase() : '';
-  base.output_pace = ['slow', 'normal', 'fast'].includes(pace) ? pace : 'normal';
+  base.output_pace = normalize_output_pace(base.output_pace);
   return base;
 }
 
@@ -6552,6 +6605,17 @@ function select_state_for_save(s){
 
 function save_deep(s=state){
   const arenaState = s?.arena;
+  const linkState = kodex_link_state(s);
+  if (linkState !== 'uplink'){
+    record_trace('save_blocked', {
+      channel: 'SAVE',
+      note: 'offline',
+      arena: arenaState || null,
+      reason: 'offline',
+      link_state: linkState
+    });
+    throw new Error(toast_save_block('Offline – HQ-Re-Sync erforderlich'));
+  }
   if (arenaState?.active || (arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed')){
     throw new Error(toast_save_block('Arena aktiv'));
   }
@@ -6919,8 +6983,14 @@ function load_deep(raw){
   let mergeConflicts = Array.isArray(migrated.logs.flags.merge_conflicts)
     ? sanitize_merge_conflicts(migrated.logs.flags.merge_conflicts)
     : [];
+  const initialConflictCount = mergeConflicts.length;
+  let mergeConflictsChanged = false;
   const noteConflict = (payload) => {
+    const before = mergeConflicts.length;
     mergeConflicts = push_merge_conflict(mergeConflicts, payload);
+    if (mergeConflicts.length > before){
+      mergeConflictsChanged = true;
+    }
   };
   const incomingLocation = typeof normalized.location === 'string' ? normalized.location : migrated.location;
   if (incomingLocation && incomingLocation !== 'HQ'){
@@ -7112,6 +7182,18 @@ function load_deep(raw){
   }
   if (arenaConflictLogged){
     hud_toast('Merge-Konflikt: Arena-Status verworfen', 'HUD');
+  }
+  const conflictCount = mergeConflicts.length;
+  if (mergeConflictsChanged || conflictCount !== initialConflictCount || arenaConflictLogged){
+    record_trace('merge_conflicts', {
+      channel: 'LOAD',
+      note: 'Host-Vorrang beim Merge',
+      arena: {
+        phase: state.arena?.phase || null,
+        queue_state: state.arena?.queue_state || null
+      },
+      merge_conflicts: conflictCount
+    });
   }
   return { status: 'ok', state, hud };
 }
