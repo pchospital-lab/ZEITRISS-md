@@ -548,11 +548,17 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4.
+  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4. Der Load-Merge
+  schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
+  Marker, `conflict_fields`, `conflicts_added`, Gesamttally), damit
+  Cross-Mode-Imports einheitliche Belege liefern.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
   Felder `contrast`, `badge_density` und `output_pace`; der SaveGuard bricht
   den HQ-Deepsave ab, wenn eines fehlt. Migration und Serializer füllen
   Legacy-Saves auf `standard|normal` auf.
+- Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
+  Credits-Fallbacks (`economy.credits`) auf den HQ-Pool `economy.cu`, bevor
+  Wallets oder Arena-Guards greifen.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
