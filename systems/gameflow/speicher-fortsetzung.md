@@ -99,6 +99,12 @@ Klammertext, SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und
 fehlender Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem
 Suffix ab, damit das QA-Log dieselbe Guard-Matrix spiegelt.
 
+Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
+aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
+und `arena.phase` im Serializer auf `active` und blockiert den HQ-Save mit
+„SaveGuard: Arena aktiv – HQ-Save gesperrt.“, bis `queue_state` wieder `idle`
+oder `completed` erreicht.
+
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
 Installation (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb des

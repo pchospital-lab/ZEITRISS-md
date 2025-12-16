@@ -548,7 +548,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4. Der Load-Merge
+  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4. Der SaveGuard wertet
+  `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
+  `idle` oder `completed` ist; Matchmaking-States zählen als aktiv. Der Load-Merge
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
   Marker, `conflict_fields`, `conflicts_added`, Gesamttally), damit
   Cross-Mode-Imports einheitliche Belege liefern.

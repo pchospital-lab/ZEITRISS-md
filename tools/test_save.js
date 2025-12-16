@@ -97,6 +97,16 @@ assert.equal(data.logs.field_notes[1].mission, 'Testmission');
 assert.equal(data.character.quarters.preset, 'custom');
 assert.equal(data.character.quarters.layout_tags[1], 'analyst_cell');
 
+assert.throws(
+  () => rt.save_deep({ ...base, arena: { queue_state: 'searching' } }),
+  /SaveGuard: Arena aktiv/
+);
+
+const completedArena = JSON.parse(rt.save_deep({ ...base, arena: { queue_state: 'completed' } }));
+assert.equal(completedArena.arena.queue_state, 'completed');
+assert.equal(completedArena.arena.phase, 'completed');
+assert.equal(completedArena.arena.active, false);
+
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, stress: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, psi_heat: 1 } }));
 assert.throws(() => rt.save_deep({ ...base, character: { ...base.character, attributes: { SYS_max: 1, SYS_installed: 2, SYS_runtime: 2, SYS_used: 2 } } }));
