@@ -540,9 +540,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns` sind immer Teil des HQ-Deepsaves.
 - `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
-  `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`,
-  `foreshadow`, `fr_interventions`, `psi`, `flags`) sowie `ui` und `arena` werden
-  vom Serializer garantiert, damit automatisierte Prüfungen alle Guards
+  `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
+  `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
+  `flags`, `flags.merge_conflicts`) sowie `ui` und `arena` werden vom
+  Serializer garantiert, damit automatisierte Prüfungen alle Guards
   vollständig abdecken. `logs.field_notes[]` ist optional; fehlt der Block,
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse

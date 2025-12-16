@@ -736,6 +736,14 @@ vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Ru
 | #12 | Offizielles v6-Fixture bereitstellen | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. |
 | #13 | `economy.credits` Spiegel klären | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz. |
 
+**Fortschritt 2026-04 (laufend)**
+
+- SaveGuard-Pflichtcontainer (inkl. `logs.trace`, `logs.arena_psi`,
+  `logs.flags.merge_conflicts`) sind im README gespiegelt; der Serializer bricht
+  bei fehlendem Trace-Block ab.
+- Px-Reset bestätigt erst im Debrief→HQ den Rücksetzer (`px_reset_confirm`,
+  Trace-Event `px_reset`, HUD-Toast) und hält Seeds bis Episodenende gesperrt.
+
 ## Regressionstest-Termine 2025
 
 | Zeitraum | Umfang | Status | QA-Log |
