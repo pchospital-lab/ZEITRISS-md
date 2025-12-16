@@ -70,6 +70,7 @@ const SQUAD_RADIO_LOG_LIMIT = 24;
 const WEIRDNESS_LOG_LIMIT = 12;
 const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
 const ARENA_ZONES = ['safe', 'combat'];
+const CHRONOPOLIS_UNLOCK_LEVEL = 10;
 
 const CHRONO_CATALOG = [
   {
@@ -960,6 +961,11 @@ function ensure_logs(){
   } else {
     flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
   }
+  const unlockLevel = Number.isFinite(flags.chronopolis_unlock_level)
+    ? Math.max(1, Math.floor(flags.chronopolis_unlock_level))
+    : CHRONOPOLIS_UNLOCK_LEVEL;
+  flags.chronopolis_unlock_level = unlockLevel;
+  flags.chronopolis_unlocked = !!flags.chronopolis_unlocked;
   const legacyOfflineLast = typeof flags.offline_help_last === 'string'
     ? flags.offline_help_last
     : null;
@@ -5110,6 +5116,24 @@ function shuffleWithRng(items, rng){
   return arr;
 }
 
+function chronopolis_unlock_if_ready(source = 'runtime'){
+  ensure_logs();
+  const char = ensure_character();
+  const flags = state.logs.flags;
+  const level = Number.isFinite(char.lvl) ? char.lvl : Number(char.level) || 1;
+  const required = Number.isFinite(flags.chronopolis_unlock_level)
+    ? Math.max(1, Math.floor(flags.chronopolis_unlock_level))
+    : CHRONOPOLIS_UNLOCK_LEVEL;
+  flags.chronopolis_unlock_level = required;
+  if (level >= required && !flags.chronopolis_unlocked){
+    flags.chronopolis_unlocked = true;
+    record_trace('chronopolis_unlock', { level, required, source });
+    hud_toast(`Chronopolis-Schlüssel aktiv – Level ${required}+ erreicht.`, 'CITY');
+    return true;
+  }
+  return false;
+}
+
 function chronopolis_reset(reason){
   const chrono = ensure_chronopolis();
   chrono.stock = [];
@@ -7101,6 +7125,16 @@ function load_deep(raw){
   migrated.ui = incomingUi;
   migrated.location = 'HQ';
   migrated.logs.flags.merge_conflicts = mergeConflicts;
+  const chronoUnlock = Number.isFinite(migrated.logs.flags.chronopolis_unlock_level)
+    ? Math.max(1, Math.floor(migrated.logs.flags.chronopolis_unlock_level))
+    : CHRONOPOLIS_UNLOCK_LEVEL;
+  migrated.logs.flags.chronopolis_unlock_level = chronoUnlock;
+  if (!migrated.logs.flags.chronopolis_unlocked){
+    const charLevel = Number.isFinite(migrated.character?.lvl)
+      ? migrated.character.lvl
+      : Number(migrated.character?.level) || 1;
+    migrated.logs.flags.chronopolis_unlocked = charLevel >= chronoUnlock;
+  }
   if (Array.isArray(migrated.logs.offline)){
     migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);
   } else {
@@ -7344,6 +7378,7 @@ function debrief(st){
   const lines = [];
   ensure_logs();
   state.location = 'HQ';
+  chronopolis_unlock_if_ready('debrief');
   const pxResetNote = apply_px_reset_if_ready('debrief');
   if (!state.logs.flags.fr_intervention_debrief_logged){
     const logged = log_fr_intervention('debrief', 'Fraktion reagiert im Debrief.');

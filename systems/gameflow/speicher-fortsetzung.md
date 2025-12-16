@@ -80,7 +80,7 @@ SaveGuard + folgendem Pfadbaum:
 - `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
 - `campaign.{episode,scene,px,rift_seeds[]}`
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
-- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen},flags.merge_conflicts[]}`
+- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,chronopolis_unlock_level,chronopolis_unlocked},flags.merge_conflicts[]}`
 - `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`, `zone=safe|combat`, `team_size` hart 0–4)
 
 Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
@@ -722,7 +722,13 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
   `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
   `chronopolis_warn_seen` bleibt beim Laden gesetzt und sorgt dafür, dass die
-  City-Warnblende nur einmal auftaucht – auch nach Pre-City-Warncuts.
+  City-Warnblende nur einmal auftaucht – auch nach Pre-City-Warncuts. Der
+  Chronopolis-Schlüssel schaltet ab Level 10 frei: Der Serializer hält das
+  erwartete Level unter `logs.flags.chronopolis_unlock_level=10`, markiert den
+  Übergang mit `chronopolis_unlocked=true` und schreibt beim ersten Erreichen
+  ein Trace-Event `chronopolis_unlock` (Quelle + Level). Der HUD-Toast
+  „Chronopolis-Schlüssel aktiv – Level 10+ erreicht.“ dient als sichtbarer
+  Beleg in der Acceptance-Checkliste.
 - **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
   `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
   Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
