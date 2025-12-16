@@ -870,7 +870,8 @@ function enforceRequiredSaveFields(payload) {
   }
 }
 
-const toast_save_block = (reason) => `SaveGuard: ${reason} – HQ-Save gesperrt.`;
+const toast_save_block = (reason) =>
+  reason ? `SaveGuard: ${reason} – HQ-Save gesperrt.` : 'SaveGuard: HQ-Save gesperrt.';
 
 function save_deep(ctx = state) {
   if (ctx?.arena?.active) throw new Error(toast_save_block('Arena aktiv'));
@@ -880,11 +881,11 @@ function save_deep(ctx = state) {
   const sysMax = attrs.SYS_max ?? 0;
   const sysInstalled = attrs.SYS_installed ?? attrs.SYS_used ?? sysMax;
   const sysRuntime = attrs.SYS_runtime ?? sysInstalled;
-  if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
-  if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
-  if (sysInstalled > sysMax) throw new Error('SaveGuard: SYS overflow.');
-  if (sysRuntime > sysInstalled) throw new Error('SaveGuard: SYS runtime overflow.');
-  if (sysInstalled !== sysMax) throw new Error('SaveGuard: SYS nicht voll installiert.');
+  if (c.stress !== 0) throw new Error(toast_save_block('Stress aktiv'));
+  if ((c.psi_heat ?? 0) !== 0) throw new Error(toast_save_block('Psi-Heat aktiv'));
+  if (sysInstalled > sysMax) throw new Error(toast_save_block('SYS overflow'));
+  if (sysRuntime > sysInstalled) throw new Error(toast_save_block('SYS runtime overflow'));
+  if (sysInstalled !== sysMax) throw new Error(toast_save_block('SYS nicht voll installiert'));
   const payload = select_state_for_save(ctx); // siehe Abschnitt 3 (Persistenz)
   enforceRequiredSaveFields(payload);
   return JSON.stringify(payload);

@@ -779,8 +779,9 @@ alle Werte (inkl. Anchor und Stress) zurück; das Save-Schema führt dieselben F
 HQ-Saves akzeptieren ausschließlich vollständig installierte Systeme:
 `character.attributes.SYS_installed` muss `SYS_max` entsprechen, die Runtime-Last darf den
 installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `save_deep()` mit
-„SaveGuard: SYS nicht voll installiert.“ ab; eine Runtime-Last über den installierten Slots führt
-zu „SaveGuard: SYS runtime overflow.“.
+„SaveGuard: SYS nicht voll installiert – HQ-Save gesperrt.“ ab; eine Runtime-Last über den
+installierten Slots führt zu „SaveGuard: SYS runtime overflow – HQ-Save gesperrt.“. Stress
+und Psi-Heat tragen denselben SaveGuard-Suffix, um HQ-Sperren klar zu markieren.
 Speichern außerhalb des HQs meldet „SaveGuard: HQ-only – HQ-Save gesperrt.“.
 
 ### HUD-Shortcuts für Exfiltration

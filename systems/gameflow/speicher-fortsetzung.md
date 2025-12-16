@@ -93,6 +93,12 @@ oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit
 denselben Text via `toast_save_block(reason)`. Sobald die Crew ins HQ
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
+Alle SaveGuards hängen ihren Grund konsistent an das Suffix „– HQ-Save
+gesperrt.“ an: Offline-Reasons und HQ-/Arena-Locks teilen sich den
+Klammertext, SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und
+fehlender Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem
+Suffix ab, damit das QA-Log dieselbe Guard-Matrix spiegelt.
+
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
 Installation (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb des
