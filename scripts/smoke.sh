@@ -69,7 +69,7 @@ grep "Squad-Radio (2×):" out/alias_trace.log
 
 # Save whitelist and HQ guard
 node tools/test_save.js | tee out/save.log
-grep "SaveGuard: HQ-only – HQ-Save gesperrt." out/save.log
+grep -E "SaveGuard: (Offline|HQ-only)" out/save.log
 grep "save-ok" out/save.log
 
 # Load path

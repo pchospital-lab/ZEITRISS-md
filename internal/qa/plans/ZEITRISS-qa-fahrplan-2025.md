@@ -743,6 +743,10 @@ vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Ru
   bei fehlendem Trace-Block ab.
 - Px-Reset bestätigt erst im Debrief→HQ den Rücksetzer (`px_reset_confirm`,
   Trace-Event `px_reset`, HUD-Toast) und hält Seeds bis Episodenende gesperrt.
+- Load-Merge protokolliert Konfliktfelder (`conflict_fields`/`conflicts_added`)
+  inklusive Arena-Reset/Zone/Queue-State in `logs.trace.merge_conflicts`;
+  `savegame_v6_full.json` trägt Queue-/Zone-Felder, Credits-Fallbacks und die
+  Trace-Belege als Fixture-Nachweis.
 
 ## Regressionstest-Termine 2025
 

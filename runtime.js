@@ -7222,6 +7222,7 @@ function load_deep(raw){
   }
   migrated.location = 'HQ';
   hydrate_state(migrated);
+  ensure_economy();
   ensure_rift_seeds();
   const pxResetNote = apply_px_reset_if_ready('load');
   const arenaReset = reset_arena_after_load();
@@ -7243,15 +7244,27 @@ function load_deep(raw){
     hud_toast('Merge-Konflikt: Arena-Status verworfen', 'HUD');
   }
   const conflictCount = mergeConflicts.length;
-  if (mergeConflictsChanged || conflictCount !== initialConflictCount || arenaConflictLogged){
+  const conflictsAdded = Math.max(0, conflictCount - initialConflictCount);
+  const conflictFields = mergeConflicts.map((entry) => entry.field).filter(Boolean);
+  if (
+    mergeConflictsChanged
+    || conflictCount !== initialConflictCount
+    || conflictCount > 0
+    || arenaConflictLogged
+  ){
     record_trace('merge_conflicts', {
       channel: 'LOAD',
-      note: 'Host-Vorrang beim Merge',
+      note: arenaReset.wasActive ? 'Host-Vorrang + Arena-Reset' : 'Host-Vorrang beim Merge',
       arena: {
         phase: state.arena?.phase || null,
-        queue_state: state.arena?.queue_state || null
+        queue_state: state.arena?.queue_state || null,
+        zone: state.arena?.zone || null,
+        reset: arenaReset.wasActive || false,
+        resume_token: !!arenaReset.resume_token
       },
-      merge_conflicts: conflictCount
+      merge_conflicts: conflictCount,
+      conflicts_added: conflictsAdded,
+      conflict_fields: conflictFields
     });
   }
   return { status: 'ok', state, hud };

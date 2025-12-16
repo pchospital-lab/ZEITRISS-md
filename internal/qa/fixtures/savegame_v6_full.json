@@ -72,6 +72,7 @@
       },
       "economy": {
         "cu": 2100,
+        "credits": 2100,
         "wallets": {
           "AGENT-L07": { "name": "Vektor", "balance": 2100 }
         }
@@ -96,9 +97,31 @@
             "radio_count": 0,
             "kodex_count": 0,
             "alias_count": 0,
-            "economy": { "cu": 2100, "wallets": 1 },
+            "economy": { "cu": 2100, "credits": 2100, "wallets": 1 },
             "fr_bias": "neutral",
             "intervention": "none"
+          },
+          {
+            "event": "merge_conflicts",
+            "at": "2025-12-14T09:16:00Z",
+            "location": "HQ",
+            "phase": "core",
+            "mission_type": "core",
+            "campaign_mode": "preserve",
+            "scene": { "episode": 2, "mission": 5, "index": 0, "total": 12 },
+            "hud": "EP 02 · MS 05 · SC 0/12 · MODE CORE",
+            "channel": "LOAD",
+            "foreshadow": { "progress": 0, "required": 4, "tokens": 0, "expected": true },
+            "radio_count": 0,
+            "kodex_count": 0,
+            "alias_count": 0,
+            "economy": { "cu": 2100, "credits": 2100, "wallets": 1 },
+            "fr_bias": "neutral",
+            "intervention": "none",
+            "arena": { "phase": "completed", "queue_state": "completed", "zone": "safe", "reset": false, "resume_token": false },
+            "merge_conflicts": 1,
+            "conflicts_added": 1,
+            "conflict_fields": ["campaign.rift_seeds"]
           }
         ],
         "artifact_log": [
@@ -157,6 +180,8 @@
       "arena": {
         "active": false,
         "phase": "completed",
+        "queue_state": "completed",
+        "zone": "safe",
         "mode": "squad",
         "team_size": 1,
         "tier": 1,
@@ -246,6 +271,7 @@
       },
       "economy": {
         "cu": 8800,
+        "credits": 8800,
         "wallets": {
           "AGENT-L120": { "name": "Mara", "balance": 6200 },
           "NPC-01": { "name": "Echo", "balance": 1400 },
@@ -272,7 +298,7 @@
             "radio_count": 1,
             "kodex_count": 0,
             "alias_count": 1,
-            "economy": { "cu": 8800, "wallets": 3 },
+            "economy": { "cu": 8800, "credits": 8800, "wallets": 3 },
             "fr_bias": "normal",
             "intervention": "none"
           },
@@ -290,7 +316,7 @@
             "radio_count": 1,
             "kodex_count": 0,
             "alias_count": 1,
-            "economy": { "cu": 8400, "wallets": 3 },
+            "economy": { "cu": 8400, "credits": 8400, "wallets": 3 },
             "fr_bias": "normal",
             "intervention": "none",
             "arena": { "scenario": "Chronopolis Patrol", "tier": 2, "team_size": 3 }
@@ -345,7 +371,9 @@
       },
       "arena": {
         "active": true,
-        "phase": "prep",
+        "phase": "active",
+        "queue_state": "active",
+        "zone": "combat",
         "mode": "pvp",
         "team_size": 3,
         "tier": 2,
@@ -444,6 +472,7 @@
       },
       "economy": {
         "cu": 25000,
+        "credits": 25000,
         "wallets": {
           "AGENT-L512": { "name": "Vox", "balance": 15000 },
           "NPC-21": { "name": "Rook", "balance": 3000 },
@@ -471,7 +500,7 @@
             "radio_count": 2,
             "kodex_count": 1,
             "alias_count": 1,
-            "economy": { "cu": 25000, "wallets": 4 },
+            "economy": { "cu": 25000, "credits": 25000, "wallets": 4 },
             "fr_bias": "strict",
             "intervention": "none"
           },
@@ -489,7 +518,7 @@
             "radio_count": 2,
             "kodex_count": 1,
             "alias_count": 1,
-            "economy": { "cu": 25000, "wallets": 4 },
+            "economy": { "cu": 25000, "credits": 25000, "wallets": 4 },
             "fr_bias": "strict",
             "intervention": "none",
             "arena": { "scenario": "Rift Strike", "tier": 3, "team_size": 4 }
@@ -551,6 +580,8 @@
       "arena": {
         "active": false,
         "phase": "completed",
+        "queue_state": "completed",
+        "zone": "safe",
         "mode": "squad",
         "team_size": 4,
         "tier": 3,
