@@ -64,6 +64,13 @@ Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
 
+Offline-Fallbacks sperren den HQ-Save bis zum Kodex-Re-Sync: `save_deep()`
+bricht mit „SaveGuard: Offline – HQ-Re-Sync erforderlich.“ ab, schreibt
+gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason: offline`) und
+führt keine weiteren Save-Guards aus. Der Befehl `!offline` ist auf 60 s
+getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch noch
+füllen sie das Protokoll.
+
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
 ohne Artefakt-Anhang in den Wissensspeicher passt. Orientiere dich an
@@ -74,7 +81,7 @@ SaveGuard + folgendem Pfadbaum:
 - `campaign.{episode,scene,px,rift_seeds[]}`
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
 - `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen},flags.merge_conflicts[]}`
-- `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (kompletter Arena-Status)
+- `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`, `zone=safe|combat`, `team_size` hart 0–4)
 
 Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
@@ -160,6 +167,8 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "phase_strike_tax": 0,
     "damage_dampener": true,
     "team_size": 1,
+    "queue_state": "idle",
+    "zone": "safe",
     "fee": 0,
     "scenario": null,
     "started_episode": null,
@@ -559,7 +568,9 @@ werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen wede
 heran und protokolliert abweichende Seeds im HUD/Debrief. Jeder abweichende
 Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, UI-Optionen,
 Arena- oder Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]`
-und wird als Host-Wert beibehalten.
+und wird als Host-Wert beibehalten; `load_deep()` schreibt ergänzend ein
+`logs.trace[]`-Event `merge_conflicts` mit Arena-Phase/Queue-State und aktueller
+Konfliktanzahl.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
@@ -650,7 +661,8 @@ es auf `standard|normal` auf. Der Serializer mappt die Optionen 1:1 auf JSON:
 
 Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
 die Auswahl in `ui{}`. Legacy-Werte `full|minimal` werden beim Laden auf
-`standard|compact` gemappt; Saves ohne Badge-Feld setzen automatisch auf
+`standard|compact` gemappt; `rapid|quick` landen auf `fast`,
+`default|steady` auf `normal`. Saves ohne Badge-Feld setzen automatisch auf
 `standard`.
 
 ## Laden & HQ-Rückkehr {#load-flow}
