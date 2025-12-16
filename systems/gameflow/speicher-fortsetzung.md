@@ -569,8 +569,11 @@ heran und protokolliert abweichende Seeds im HUD/Debrief. Jeder abweichende
 Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, UI-Optionen,
 Arena- oder Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]`
 und wird als Host-Wert beibehalten; `load_deep()` schreibt ergänzend ein
-`logs.trace[]`-Event `merge_conflicts` mit Arena-Phase/Queue-State und aktueller
-Konfliktanzahl.
+`logs.trace[]`-Event `merge_conflicts` mit Arena-Phase/Queue-State/Zone,
+Reset-/Resume-Markern, `conflict_fields`, `conflicts_added` und Gesamtzähler.
+Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
+HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
+Arena-Guards scharfgeschaltet werden.
 
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
