@@ -140,6 +140,13 @@ assert.equal(minimalData.arc_dashboard.offene_seeds.length, 0);
 assert.ok(Array.isArray(minimalData.arc_dashboard.fragen));
 assert.equal(typeof minimalData.arc_dashboard.fraktionen, 'object');
 
+const missingTrace = JSON.parse(rt.save_deep({ ...base, logs: { ...base.logs, trace: [] } }));
+delete missingTrace.logs.trace;
+assert.throws(
+  () => rt.enforce_required_save_fields(missingTrace),
+  /SaveGuard: Feld logs\.trace fehlt\./
+);
+
 try {
   rt.save_deep({ ...base, location: 'CITY' });
 } catch (e) {

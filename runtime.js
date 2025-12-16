@@ -2921,6 +2921,7 @@ function ClusterCreate(){
   }
   state.campaign.rift_seeds = [...state.campaign.rift_seeds, ...seeds];
   state.campaign.px_reset_pending = true;
+  state.campaign.px_reset_confirm = false;
   state.campaign.px_reset_scheduled_at = new Date().toISOString();
   writeLine(`ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`);
   return state.campaign.paradoxon_index;
@@ -3015,13 +3016,10 @@ function completeMission(summary = {}){
   state.campaign.last_mission_end_reason = missionEndReason;
   sync_campaign_exfil(null);
   if (state.campaign.px_reset_pending){
-    state.campaign.paradoxon_index = 0;
-    state.campaign.px = 0;
-    state.campaign.missions_since_px = 0;
-    state.campaign.px_reset_pending = false;
-    state.campaign.px_reset_confirm = true;
+    state.campaign.px_reset_pending = true;
+    state.campaign.px_reset_confirm = false;
     state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
-    events.push('Kodex: Paradoxon-Index zurückgesetzt – Reset beim nächsten Briefing bestätigen.');
+    events.push('Kodex: Px-Reset geplant – Debrief im HQ bestätigt den Rücksetzer.');
   }
   return {
     events,
@@ -3029,6 +3027,29 @@ function completeMission(summary = {}){
     missions_since_px: state.campaign.missions_since_px ?? 0,
     paradoxon_index: state.campaign.paradoxon_index ?? 0
   };
+}
+
+function apply_px_reset_if_ready(reason = 'hq'){
+  ensure_campaign();
+  const location = typeof state.location === 'string' ? state.location.trim().toUpperCase() : 'HQ';
+  if (location !== 'HQ') return null;
+  if (!state.campaign.px_reset_pending) return null;
+  ensure_logs();
+  state.campaign.paradoxon_index = 0;
+  state.campaign.px = 0;
+  state.campaign.missions_since_px = 0;
+  state.campaign.px_reset_pending = false;
+  state.campaign.px_reset_confirm = true;
+  state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
+  const note = 'Paradoxon-Index zurückgesetzt – Episode startet bei 0/5.';
+  hud_toast(note, 'PX');
+  record_trace('px_reset', {
+    channel: 'PX',
+    note,
+    reason,
+    scheduled_at: state.campaign.px_reset_scheduled_at
+  });
+  return note;
 }
 
 function reset_mission_state(){
@@ -7168,12 +7189,16 @@ function load_deep(raw){
   migrated.location = 'HQ';
   hydrate_state(migrated);
   ensure_rift_seeds();
+  const pxResetNote = apply_px_reset_if_ready('load');
   const arenaReset = reset_arena_after_load();
   initialize_wallets_from_roster();
   ensure_runtime_flags().skip_entry_choice = true;
   show_compliance_once();
   const hud = scene_overlay();
   writeLine(hud);
+  if (pxResetNote){
+    writeLine(pxResetNote);
+  }
   if (arenaReset.wasActive){
     writeLine('Arena-Zustand auf HQ zurückgesetzt.');
     if (arenaReset.resume_token){
@@ -7318,9 +7343,14 @@ function debrief(st){
   const result = completeMission(outcome);
   const lines = [];
   ensure_logs();
+  state.location = 'HQ';
+  const pxResetNote = apply_px_reset_if_ready('debrief');
   if (!state.logs.flags.fr_intervention_debrief_logged){
     const logged = log_fr_intervention('debrief', 'Fraktion reagiert im Debrief.');
     state.logs.flags.fr_intervention_debrief_logged = !!logged;
+  }
+  if (pxResetNote){
+    lines.push(pxResetNote);
   }
   lines.push(render_rewards(outcome, result));
   if (cuReward !== null && cuReward > 0){
@@ -7705,5 +7735,7 @@ module.exports = {
   log_squad_radio,
   render_alias_trace_summary,
   render_squad_radio_summary,
-  render_arc_dashboard_status
+  render_arc_dashboard_status,
+  SAVE_REQUIRED_PATHS,
+  enforce_required_save_fields
 };
