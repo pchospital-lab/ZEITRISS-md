@@ -747,6 +747,13 @@ vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Ru
   inklusive Arena-Reset/Zone/Queue-State in `logs.trace.merge_conflicts`;
   `savegame_v6_full.json` trägt Queue-/Zone-Felder, Credits-Fallbacks und die
   Trace-Belege als Fixture-Nachweis.
+- Acceptance-Smoke-Dispatcher nutzt kanonische Fehlertexte für `npc-team 5` und
+  `gruppe 3`, Quickstart betont den Gruppen-Flow mit 2 Saves + 1 Rolle.
+- SaveGuard-Matrix vereinheitlicht alle HQ-Blocker mit Suffix „– HQ-Save
+  gesperrt.“ (Arena/HQ/Exfil/Offline, SYS- und Stress/Psi-Checks) in Runtime
+  und Wissensmodulen.
+- QA-Output-Vertrag erlaubt den Save-v6-JSON-Block entweder als ISSUE-Evidenz
+  oder als Appendix; Runner/Parser akzeptieren beide Varianten.
 
 ## Regressionstest-Termine 2025
 

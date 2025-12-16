@@ -6679,12 +6679,12 @@ function save_deep(s=state){
   const sysRuntime = Number.isFinite(a.SYS_runtime)
     ? Number(a.SYS_runtime)
     : sysInstalled;
-  if (c.stress !== 0) throw new Error('SaveGuard: stress > 0.');
-  if ((c.psi_heat ?? 0) !== 0) throw new Error('SaveGuard: Psi-Heat > 0.');
-  if (sysInstalled > sysMax) throw new Error('SaveGuard: SYS overflow.');
-  if (sysRuntime > sysInstalled) throw new Error('SaveGuard: SYS runtime overflow.');
+  if (c.stress !== 0) throw new Error(toast_save_block('Stress aktiv'));
+  if ((c.psi_heat ?? 0) !== 0) throw new Error(toast_save_block('Psi-Heat aktiv'));
+  if (sysInstalled > sysMax) throw new Error(toast_save_block('SYS overflow'));
+  if (sysRuntime > sysInstalled) throw new Error(toast_save_block('SYS runtime overflow'));
   if (sysInstalled !== sysMax){
-    throw new Error('SaveGuard: SYS nicht voll installiert.');
+    throw new Error(toast_save_block('SYS nicht voll installiert'));
   }
   const payload = select_state_for_save(s);
   return JSON.stringify(payload);
@@ -7438,6 +7438,9 @@ function debrief(st){
   return lines.join('\n');
 }
 
+const NPC_TEAM_SIZE_ERROR = 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
+
 function on_command(command){
     let cmd = command.toLowerCase().trim();
     if (cmd.startsWith('!load ')){
@@ -7472,11 +7475,11 @@ function on_command(command){
     if ((m = cmd.match(/^spiel starten\s*\(npc-team\s+([0-9]+)/))){
       const size = parseInt(m[1], 10);
       if (Number.isFinite(size) && size > 4){
-        return 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+        return NPC_TEAM_SIZE_ERROR;
       }
     }
     if (cmd.match(/^spiel starten\s*\(gruppe\s+\d/)){
-      return 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
+      return GROUP_NUMBER_ERROR;
     }
     if ((m = cmd.match(/^spiel starten\s*\(solo([^)]*)\)$/))){
       const options = m[1] ? m[1].trim().split(/\s+/).filter(Boolean) : [];
@@ -7517,7 +7520,7 @@ function on_command(command){
           'im HQ und wiederhole den Start mit `klassisch` oder `schnell`.';
       }
       if (size > 4){
-        return 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+        return NPC_TEAM_SIZE_ERROR;
       }
       startSolo(mode);
       setupNpcTeam(size);

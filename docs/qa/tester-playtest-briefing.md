@@ -136,7 +136,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > automatische Abgleich ohne Nachbearbeitung möglich ist. Zusatzfelder, die
 > ausschließlich für nachgelagerte Tools gedacht sind, dürfen angehängt werden,
 > müssen aber das Save-Schema nicht verletzen und werden vom Serializer ansonsten
-> ignoriert.
+> ignoriert. Der JSON-Block kann als Appendix ans Ende der Antwort oder direkt
+> als Evidenz unter einem ISSUE-Block erscheinen; beide Varianten sind gültig
+> und werden vom Runner/Parser akzeptiert.
 >
 > Führe danach den **„Mission 5 Badge-Check“** wie im QA-Fahrplan beschrieben
 > durch: Starte mit `Gate 2/2`, **Schritt 0: setze vor Missionsbeginn `!sf off`**,
@@ -155,9 +157,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 >   2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 >   3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
->   4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße erlaubt: 0–4 …“
+>   4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgrößen: 0–4. Bitte erneut
+>      eingeben (z. B. npc-team 3).“
 >   5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
->   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl …“
+>   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
+>      (klassisch/schnell sind erlaubt)“
 >   7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing
 >   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 >   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
@@ -177,7 +181,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >       (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
 >
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
-> folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare):
+> folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare). Den JSON-
+> Appendix kannst du entweder nach dem letzten Block oder innerhalb des passenden ISSUE als
+> Evidenz platzieren – Hauptsache, er bleibt als ```json``` formatiert.
 >
 > ISSUE #<laufende Nummer>
 > - Beobachtung: <kurze Beschreibung>
@@ -360,9 +366,11 @@ saveGame({...})
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
-4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgröße erlaubt: 0–4 …“
+4. `Spiel starten (npc-team 5)` → Fehlertext „Teamgrößen: 0–4. Bitte erneut eingeben
+   (z. B. npc-team 3).“
 5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
-6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl …“
+6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
+   (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
