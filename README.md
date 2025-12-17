@@ -959,13 +959,21 @@ Artefakten und temporaler Abweichungen.
   HUD bleibt das Retina-Holo der Linse (Mixed-Reality im Sichtfeld) statt
   raumfüllender VR oder projektorbasierter UI. Runtime erzwingt
   Geräteangaben über `require_scan_device()/require_hack_device()` und
-  protokolliert Comms-Hardware als `HARDWARE`-Toast.
+  protokolliert Comms-Hardware als `HARDWARE`-Toast; der Stilwächter läuft
+  default und sperrt Digitalraum-Vokabeln (z. B. „Matrix/Holodeck“).
+- **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
+  gm_third_person`). Entscheidungsprompts dürfen die Spielenden adressieren,
+  Erzählsätze und Beschreibungen bleiben in 3rd Person.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
   `STAGE Tatort/Leads/Boss`; die Runtime zieht die Stages automatisch aus der
   14-Szenen-Map (Sz 1–4 Tatort, 5–10 Leads, 11–14 Boss). HQ-only für Rift-
   Seeds; kein paralleler Rift-Betrieb.
+- **Mode-Preset:** Charaktere starten und laden mit `modes` =
+  `[mission_focus, covert_ops_technoir]`. Der Normalizer ergänzt Legacy-Saves
+  automatisch, das Noir-Preset greift vor Szene 0 und blendet den Modus im HUD
+  ein.
 - **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
   Auftragstyp (`protect | extract | neutralize | document | influence |
   prevent`). Mindestens 60 % der Core-Ops fokussieren Personen, Einfluss oder
@@ -982,12 +990,19 @@ Artefakten und temporaler Abweichungen.
   sind wissenschaftlich erklärbar. Runtime meldet Budgetverstöße via
   `register_anomaly()` und `WEIRD`-Toast.
 - **HUD als dünnes Overlay:** Kurzzeilen in Backticks beschreiben physische
-  Wahrnehmungen (Sensor, Vibration, Displayzeile) statt abstrakter UI.
+  Wahrnehmungen (Sensor, Vibration, Displayzeile) statt abstrakter UI. Ziel
+  80 % Szene/20 % HUD, Limit 2 Toasts pro Szene; Gate/FS/Boss-Strings bleiben
+  unverändert.
 - **HUD-Casefile & Entry-Toast:** Szene 0/1 blendet `MODE CORE/RIFT · EntryChoice` als HUD-Toast ein
   (Skip-Flag respektiert). Rift-Overlays führen das aktive Casefile (`CASE <ID>: <Label> · HOOK …`)
   basierend auf den normalisierten Seed-Feldern.
 - **Fraktions-Beats loggen:** Briefing, Mid-Mission und Debrief schreiben die gezogene
   Fraktionsintervention als `logs.fr_interventions[]` mit Szene/Episode/Mission mit.
+
+> Atmosphere Contract (QA/Runner): 3rd-Person-Narration, Physicality-
+> Guard/Banned Terms, Rift = Casefile-Monster-Hunt, Core rational/noir, HUD
+> schlank (80/20). Runtime exportiert den Contract als QA-Block
+> (`logs.flags.atmosphere_contract`).
 
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.

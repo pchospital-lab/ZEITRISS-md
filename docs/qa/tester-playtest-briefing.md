@@ -206,6 +206,16 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > die Antwort nach dem letzten Block ohne zusätzliche Zusammenfassung.
 ```
 
+### Atmosphere Contract (Stil-Check)
+
+- Contract-Inhalte: 3rd-Person-Narration (`voice_profile = gm_third_person`),
+  Physicality-Guard inkl. Banned Terms (keine Digitalräume/Matrix/Holodeck),
+  Rift = Casefile-Monster-Hunt, Core rational/noir, HUD schlank
+  (Ziel 80 % Szene/20 % HUD, max. 2 Toasts/Szene).
+- Ziehe den Contract aus `logs.flags.atmosphere_contract` oder README/Toolkit
+  und dokumentiere einen 8–12-zeiligen Excerpt pro Phase (Start/HQ → Szene →
+  Debrief). Vermerke Pass/Fail des Banned-Terms-Checks.
+
 ## Ablauf für Tester:innen
 
 ### Zusatz-Checks: Verfolgungen & Massenkonflikte
