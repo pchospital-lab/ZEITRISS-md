@@ -548,13 +548,48 @@ E --> A
 Nach jeder Mission hält das System in einem kurzen **Nullzeit-Menü** an.
 Dort entscheidet die Runde stets, wie ausführlich die HQ-Phase sein soll.
 Die Optionen *Rest*, *Research*, *Shop* und *Briefing* stehen immer bereit.
-Anschließend vergibt die SL Belohnungen und Level-Ups, bevor der
-folgende Einsatz startet. Zur Wahl stehen drei Wege:
+Anschließend vergibt die SL **Belohnungen (CU), Loot-Recap, XP/Ruf sowie
+Level-Ups/Skill-Picks** im Debrief, bevor der folgende Einsatz startet.
+Zur Wahl stehen drei Wege:
 
-1. **HQ manuell erkunden** – Klinikbesuche und Quartierausbau laufen komplett aus.
+1. **HQ manuell erkunden** – volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
+   Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
 2. **Schnell-HQ** – wenige Menüklicks genügen, um Heilung und Einkauf zu erledigen.
 3. **Auto-HQ & Save** – automatische Abwicklung, dann direkt zur nächsten Mission.
 
+
+#### Gameflow-Spickzettel (Core vs Rift) {#gameflow-spickzettel}
+
+```mermaid
+flowchart TD
+    seed[Mission-Seed] --> gate[Szenen-Gate 6–7/12–14]
+    gate --> m5[Mini-Boss M5 (Core-only)]
+    gate --> play[Mission-Loop]
+    play --> boss[Boss-Sz. 10 (Core/Rift)]
+    boss --> debrief[Debrief & HQ-Phase]
+    debrief --> rewards[CU · Loot-Recap · XP/Ruf · Level/Skills]
+    rewards --> px[Paradoxon-Index & offene Seeds]
+    px -->|Px 5| rift[Rift-Pool/ClusterCreate()]
+    px --> next[Mission N+1]
+    rift --> epi[Episodenende]
+    epi --> optional[Optionale Rift-Operation(en)]
+    optional --> reset[Seed-Multi neu setzen]
+    reset --> next
+```
+
+| Element                  | **Core-Ops**                                            | **Rift-Ops**                                                  |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------------------------ |
+| Zielkorridor Szenen      | 12 (Gate öffnet nach 6–7)                               | 14 (Gate öffnet nach 6–7)                                    |
+| Foreshadow-Gate          | 4 eindeutige Marker vor Boss                            | 2 eindeutige Marker vor Boss                                 |
+| Boss-Rhythmus            | Mini-Boss Mission 5, Episoden-Boss Mission 10           | Boss in Szene 10 jeder Rift-Op                               |
+| Loot/Belohnungen         | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU| Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief    |
+| Paradoxon & Seeds        | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen   |
+| HQ-Pflichtschritte       | Debrief: CU ausschütten, Loot recap, XP/Ruf vergeben, Level/Skills ziehen, Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
+
+**HQ-Kurzcheck nach jeder Mission:**
+- Debrief durchführen (CU auszahlen, Loot benennen, XP/Ruf, Level-Up & Skills festhalten).
+- Offene Seeds und Paradoxon-Index eintragen; Seed-Multi fürs Episodenende im Blick behalten.
+- Rest/Research/Shop/Briefing auswählen (manuell, Schnell-HQ oder Auto-HQ & Save).
 
 #### Offene Rifts
 In der HQ-Phase, nach Abschluss der Episode, entscheidet das Team pro Seed,
