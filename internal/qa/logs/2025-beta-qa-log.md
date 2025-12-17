@@ -1,10 +1,36 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.4
+version: 0.4.6
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-03 – Repo-Agent – HUD-Limit-Rollback & Atmosphere-Contract (Build 4.2.3)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.5
+- Auftrag: HUD-Limit-Deckelung zurücknehmen, HUD-Zählung unverändert lassen,
+  Atmosphere-Contract-Test beibehalten und Wissensmodule synchron halten.
+
+```chatlog
+07:10 Repo-Agent: `node tools/test_atmosphere_contract.js`
+07:15 Repo-Agent: `make lint`
+07:25 Repo-Agent: `make test`
+07:36 Repo-Agent: `bash scripts/smoke.sh`
+07:44 Repo-Agent: `python3 tools/lint_runtime.py`
+07:49 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+07:55 Repo-Agent: `python3 scripts/lint_doc_links.py`
+08:00 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] HUD-Limit-Sperre entfernt: HUD zählt pro Szene weiter, aber blockiert
+      keine optionalen Toasts; Trace- oder Limit-Notizen entfallen.
+- [x] Dokumentationsspiegel in HUD-/Toolkit-Modulen bereinigt.
+
+**Nachverfolgung**
+- QA-Fahrplan: Version 1.13.5 ohne HUD-Limit-Sperre.
+- Commit/PR: verweist auf HUD-Limit-Rollback + QA-Pflichttests (siehe Chatlog).
 
 ## 2026-05-01 – Repo-Agent – Atmosphere-Contract-Regression (Build 4.2.3)
 - Plattform: OpenAI MyGPT (Beta-Klon)
