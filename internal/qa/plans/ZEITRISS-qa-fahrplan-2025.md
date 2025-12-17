@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.2
+version: 1.13.3
 tags: [meta]
 ---
 
@@ -842,4 +842,7 @@ den Wissensmodulen verankert werden.
 - ✅ Issue #5 (Mode-Preset): Start/Load setzen `modes` auf `mission_focus` +
   `covert_ops_technoir`, Normalizer ergänzt Legacy-Saves; Noir-Preset greift vor
   Szene 0, Speicher-Doku und Fixtures spiegeln das Feld.
+- ✅ Atmosphere-Contract-Regressionstest deckt Start- und Load-Pfade ab,
+  validiert HUD-Usage-Reset, Voice-Lock, Mode-Preset und Banned-Terms und läuft
+  im npm-Pflichtpaket automatisch mit.
 
