@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.3
+version: 1.13.5
 tags: [meta]
 ---
 
@@ -845,4 +845,7 @@ den Wissensmodulen verankert werden.
 - ✅ Atmosphere-Contract-Regressionstest deckt Start- und Load-Pfade ab,
   validiert HUD-Usage-Reset, Voice-Lock, Mode-Preset und Banned-Terms und läuft
   im npm-Pflichtpaket automatisch mit.
+- ✅ HUD-Limit bleibt unverändert: Toast-Sperren wurden verworfen, das HUD
+  bleibt bewusst schlank geführt (80 % Szene/20 % HUD) und zählt weiterhin
+  die Einblendungen pro Szene nur zur QA-Beobachtung.
 
