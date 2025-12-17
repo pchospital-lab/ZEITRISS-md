@@ -121,7 +121,7 @@ function runMissionFiveBadgeCheck(){
     rt.state.campaign.mission = 5;
     rt.state.campaign.type = 'core';
     rt.state.campaign.objective = 'Mission 5 Badge QA';
-    rt.state.scene = { index: 0, foreshadows: 0, total: 10 };
+    rt.state.scene = { index: 0, foreshadows: 0, total: 12 };
     rt.state.logs.flags.foreshadow_gate_snapshot = 2;
     rt.state.logs.flags.foreshadow_gate_expected = true;
 
