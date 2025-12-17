@@ -288,9 +288,12 @@ Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 
 **Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus dem
 [Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
-enthalten immer eine Anomalie mit Para-Wesen; Artefakt-Bezug existiert höchstens als
-Stoppuhr-Plotgerät und nicht als Loot. Diese Einsätze laufen außerhalb der aktuellen
-Episode und zählen nicht zur regulären Missionszahl.
+enthalten immer eine Anomalie mit Para-Wesen. Sie nutzen den regulären Gear-Loot-Pool
+der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschließlich
+nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar);
+Epiloge bleiben würfelfrei, Stoppuhr-Artefakte gelten nur als Plot-Schwachstellen.
+Diese Einsätze laufen außerhalb der aktuellen Episode und zählen nicht zur regulären
+Missionszahl.
 
 Rift-Seeds sind **Narben früherer Fehlgriffe** – ob durch Fremdfraktionen,
 fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf
@@ -453,7 +456,7 @@ if paradox_level >= threshold:
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
 | --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
 | **Core-Ops** | Rand-Epochen & CoreObjectiveTable | – | Spionage-Thriller    | `[CORE MISSION - …]`  |
-| **Rift-Ops** | RiftSeedTable d24                 | Stoppuhr-Plotgerät (kein Loot) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
+| **Rift-Ops** | RiftSeedTable d24                 | Artefaktwurf Boss Sz. 10 (Katalog/Generator, handelbar) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
 
