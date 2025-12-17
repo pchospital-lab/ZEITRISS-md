@@ -95,6 +95,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > PvP-Szenarien selbstständig. Tester:innen posten diesen Auftrag genau einmal und warten, bis alle
 > Abschnitte samt Abschluss-Blocks geliefert wurden.
 
+> **Vor dem Absenden prüfen:** Ist das Wissenspaket vollständig geladen (Masterprompt, README,
+> Index, Runtime-Module, diese Briefing-Datei)? Ist das Speicherfenster groß genug für den
+> System-Prompt? Falls nein, zuerst Aufteilung oder Kürzung vornehmen, damit der GPT den vollständigen
+> Auftrag verarbeiten kann.
+
 ```text
 > (OOC: Spieleentwickler) Bitte lies den kompletten ZEITRISS-Datensatz aufmerksam und führe
 > nacheinander folgende simulierte Durchläufe als Chrononaut: Solo ohne Begleitteam, Solo mit NPC-
@@ -282,6 +287,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    erzeugt. Fehlende Angaben lässt du das GPT in derselben Sitzung nachreichen.
    Dokumentiere zusätzlich für jeden Acceptance-Smoke-Punkt (1–15), ob er
    bestanden wurde oder welcher Nachtest angesetzt ist.
+   Ergänze – falls der GPT Auslassungen macht – klar benannte Nachforderungen
+   („Fehlt Acceptance-Schritt 9, bitte nachliefern …“) im selben Chat, damit
+   Runner und Parser die Nachträge eindeutig zuordnen können.
 8. Analyse unverändert in den Report kopieren. Ergänzend können Datum oder
    besondere Beobachtungen als Randnotizen ergänzt werden. Standardplattform ist
    das OpenAI-MyGPT im Beta-Klon.
