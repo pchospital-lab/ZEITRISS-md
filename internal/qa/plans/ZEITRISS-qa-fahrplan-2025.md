@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.12.0
+version: 1.13.0
 tags: [meta]
 ---
 
@@ -796,4 +796,46 @@ dokumentiert.
 - Regressionstermine nach jedem Lauf hier und im QA-Log abhaken.
 - Debrief-Auszugsprotokolle (`logs.market[]`, Foreshadow, Funk) weiterhin im
   QA-Log archivieren.
+
+## Maßnahmenpaket Atmosphären-Feintuning 2026-05 (Issues #1–#7)
+
+Der jüngste Playtest (Rift-Ops mit gekürztem Briefing) liefert sieben
+Atmosphären- und Perspektiv-Regressionen. Fokus: Physicality-Guard,
+Voice-Lock, Rift-Template, Core-Noir, Default-Mode, HUD-Schlankheit und
+QA-Stylevertrag. Alle Punkte sind offen und müssen im Runtime-Overlay sowie in
+den Wissensmodulen verankert werden.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ------------------------------ | -------------------------------------------- | ------ |
+| #1 | Physicality Guard erzwingen | Codex/Runtime-Stilwächter als Default aktivieren: Tech-Handlungen | 🟡 offen |
+| | | immer mit Gerät + Sinnesdetail, „Digitalraum“-Vokab außerhalb HUD | |
+| | | blocken; Lexikon-Filter in Toolkit/README dokumentieren; QA: 20 Szenen | |
+| | | auf gebannte Begriffe und Geräte-Nennung prüfen. | |
+| #2 | Voice-Lock auf dritte Person | Runtime-Flag `voice_profile = gm_third_person` als Standard setzen; | 🟡 offen |
+| | | „Du“-Narration sperren, Entscheidungsprompts dürfen Spieler | |
+| | | ansprechen ohne Perspektivbruch; Masterprompt/Toolkit spiegeln; | |
+| | | QA: Start + Load zwei Szenen ohne 2nd-Person-Narration verifizieren. | |
+| #3 | Rift-Template = Monster-Hunt | Rift-Generator auf 14-Szenen-Map trimmen (Tatort→Leads→Boss Szene 10, | 🟡 offen |
+| | | eine Anomalie, Foreshadows Szene 9); Seed-Felder `{hook,` | |
+| | | atrocity_scene, signature, time_skill, weakness_hint, boss_arena}` | |
+| | | erzwingen; HUD führt Stages; QA: 3 Seeds prüfen (Szene 1 Opferbild, | |
+| | | Szene 9 zwei Foreshadows, Szene 10 Bosskontakt + DR-Toast). | |
+| #4 | Core/HQ-Noir festziehen | Core-Briefings zurück auf Anchor+Auftragstyp (Person/Ort priorisiert), | 🟡 offen |
+| | | jede HQ-Szene mit Sinneseindruck/Fraktionsbeat; keine Menüsprache; | |
+| | | Toolkit/README aktualisieren; QA: 5 Core-Briefings, mind. 3 mit | |
+| | | Personen-/Einflusszielen, keine Para-Elemente. | |
+| #5 | Default-Mode-Preset reaktivieren | `modes` immer mit `mission_focus` + `covert_ops_technoir` | 🟡 offen |
+| | | initialisieren; Load-Normalizer ergänzt fehlende/legacy Modes; | |
+| | | `modus covert_ops_technoir` vor erster Szene anwenden; README/ | |
+| | | Speicher-Doku spiegeln; QA: Start + Load ohne Modes zeigt Noir-Stil | |
+| | | sofort. | |
+| #6 | HUD als dünne Schicht halten | Output-Limiter: 80 % Szene, max. 20 % HUD; lange Erklärabsätze zu | 🟡 offen |
+| | | Toast + 1 Satz kürzen; HUD-Strings (Gate/FS/Boss-DR) unverändert | |
+| | | lassen; QA: 10 Konflikt-Beats mit ≤2 HUD-Zeilen, kein Tech-Exkurs | |
+| | | >1 Absatz. | |
+| #7 | QA-Runner mit Atmosphere Contract | QA-Prompt um „Atmosphere Contract“ ergänzen (3rd person, Physicality | 🟡 offen |
+| | | Gate, Rift=Monster-Casefile, Core rational/noir, keine Digitalräume | |
+| | | außerhalb HUD); Pflicht-Excerpt 8–12 Zeilen pro Phase + Banned- | |
+| | | Terms-Check verankern; QA: 1 Run dokumentiert „keine Digitalräume“ | |
+| | | Pass/Fail. | |
 
