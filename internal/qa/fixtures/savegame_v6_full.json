@@ -52,7 +52,7 @@
           "SYS_runtime": 5,
           "SYS_used": 4
         },
-        "modes": ["mission_focus"],
+        "modes": ["mission_focus", "covert_ops_technoir"],
         "self_reflection": false
       },
       "team": {
@@ -175,7 +175,8 @@
         "suggest_mode": false,
         "contrast": "standard",
         "badge_density": "standard",
-        "output_pace": "normal"
+        "output_pace": "normal",
+        "voice_profile": "gm_third_person"
       },
       "arena": {
         "active": false,
@@ -243,7 +244,7 @@
           "SYS_runtime": 8,
           "SYS_used": 6
         },
-        "modes": ["suggest"],
+        "modes": ["mission_focus", "covert_ops_technoir", "suggest"],
         "self_reflection": true
       },
       "team": {
@@ -367,7 +368,8 @@
         "suggest_mode": true,
         "contrast": "high",
         "badge_density": "dense",
-        "output_pace": "slow"
+        "output_pace": "slow",
+        "voice_profile": "gm_third_person"
       },
       "arena": {
         "active": true,
@@ -442,7 +444,7 @@
           "SYS_runtime": 10,
           "SYS_used": 8
         },
-        "modes": ["suggest", "mission_focus"],
+        "modes": ["mission_focus", "covert_ops_technoir", "suggest"],
         "self_reflection": true
       },
       "team": {
@@ -575,7 +577,8 @@
         "suggest_mode": true,
         "contrast": "high",
         "badge_density": "dense",
-        "output_pace": "slow"
+        "output_pace": "slow",
+        "voice_profile": "gm_third_person"
       },
       "arena": {
         "active": false,

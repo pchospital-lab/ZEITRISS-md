@@ -163,7 +163,8 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "suggest_mode": false,
     "contrast": "standard",
     "badge_density": "standard",
-    "output_pace": "normal"
+    "output_pace": "normal",
+    "voice_profile": "gm_third_person"
   },
   "arena": {
     "active": false,
@@ -231,11 +232,12 @@ Typ vor und überlassen das `phase`-Feld der Laufzeit; Uppercase-Werte gelten
 als ungültig und werden beim Laden auf lowercase normalisiert.
 
 **Accessibility-Felder:** Der Serializer schreibt stets `ui.gm_style` und
-`ui.suggest_mode`. Felder für `contrast`, `badge_density` und `output_pace` sind
-empfohlen; fehlen sie, setzt die Runtime Defaults (`standard`/`standard`/
-`normal`) und loggt den Schritt im Accessibility-Toast. Saves dürfen diese
-Felder weglassen, ohne dass Persistenz verloren geht; Smokes mit fehlenden
-Feldern gelten als bestanden, wenn die Defaults greifen.
+`ui.suggest_mode`. Felder für `contrast`, `badge_density`, `output_pace` und
+`voice_profile` sind empfohlen; fehlen sie, setzt die Runtime Defaults
+(`standard`/`standard`/`normal`/`gm_third_person`) und loggt den Schritt im
+Accessibility-Toast. Saves dürfen diese Felder weglassen, ohne dass Persistenz
+verloren geht; Smokes mit fehlenden Feldern gelten als bestanden, wenn die
+Defaults greifen.
 
 **Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
 enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
@@ -312,7 +314,7 @@ für Roundtrip-Tests und Loader-Dedupe.
       "hp": 10,
       "hp_max": 10
     },
-    "modes": ["mission_focus"],
+    "modes": ["mission_focus", "covert_ops_technoir"],
     "self_reflection": true,
     "talents": ["Schleichprofi", "Pistolenschütze", "Reaktionsschnell"],
     "skills": ["CQB", "Taktische Analyse"],
@@ -860,7 +862,7 @@ Transparenz-Modus nach einem Neustart erhalten.
 ```json
 {
   "ui": {"suggest_mode": true, "gm_style": "verbose"},
-  "character": {"modes": ["mission_focus", "suggest"]},
+  "character": {"modes": ["mission_focus", "covert_ops_technoir", "suggest"]},
   "logs": {"hud": ["· SUG", "Mission-Fokus"]}
 }
 ```
