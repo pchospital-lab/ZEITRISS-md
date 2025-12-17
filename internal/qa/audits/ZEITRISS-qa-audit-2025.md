@@ -130,6 +130,9 @@ Hochstufen-Spielrunden.
 - Offline-Flows besitzen ein 60-Sekunden-Rate-Limit; SaveGuard blockiert HQ-
   Saves ohne Uplink mit Trace-Eintrag und Toast, Acceptance-Smoke spiegelt die
   kanonischen Dispatcher-Strings.
+- Fahrplan-Version 1.12.0 spiegelt alle 13 Punkte des Pakets als ✅ abgeschlossen
+  (Tabelle + Checkliste im Abschnitt „Tester-Playtest 2026-04“); QA-Log und
+  Fixtures sind damit synchron zum Audit.
 
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
