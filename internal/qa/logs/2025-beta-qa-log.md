@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.6
+version: 0.4.7
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-04 – Repo-Agent – QA-Fahrplan 1.13.6 Konsistenzlauf (Build 4.2.3)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.6
+- Auftrag: Fahrplan-Statusangaben harmonisieren, abgeschlossene Maßnahmenpakete als geschlossen
+  kennzeichnen und QA-Log/Versionierung spiegeln.
+
+```chatlog
+07:05 Repo-Agent: `make lint`
+07:22 Repo-Agent: `make test`
+07:49 Repo-Agent: `bash scripts/smoke.sh`
+08:03 Repo-Agent: `python3 tools/lint_runtime.py`
+08:07 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+08:11 Repo-Agent: `python3 scripts/lint_doc_links.py`
+08:13 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Fahrplan-Version 1.13.6 dokumentiert den Abschluss der Pakete 2026-01 bis 2026-04 samt
+      konsistenter Statusangaben.
+
+**Nachverfolgung**
+- QA-Fahrplan und QA-Log wurden synchronisiert, Commit/PR verweisen auf diesen Konsistenzlauf.
 
 ## 2026-05-03 – Repo-Agent – HUD-Limit-Rollback & Atmosphere-Contract (Build 4.2.3)
 - Plattform: OpenAI MyGPT (Beta-Klon)

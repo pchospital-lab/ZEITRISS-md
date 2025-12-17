@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.5
+version: 1.13.6
 tags: [meta]
 ---
 
@@ -575,9 +575,9 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 ## Maßnahmenpaket Copy-Paste-QA 2026-01 (Issues #1–#16, Rohform)
 
 Der jüngste Copy-Paste-Testlauf (Solo, Solo+Squad, Koop, PvP; Seeds 1–25/80–150/400–1000) brachte
-16 neue Befunde plus zusätzliche Vorgaben der Tester:innen. Alle Punkte sind noch offen und
-werden in den kommenden Umsetzungsrunden priorisiert. Die Rohbeobachtungen aus den HUD-/Log-
-Auszügen bleiben hier erhalten, damit keine Kontextdetails verloren gehen.
+16 neue Befunde plus zusätzliche Vorgaben der Tester:innen. Alle Punkte sind abgeschlossen und
+werden im Umsetzungsstand dokumentiert; die Rohbeobachtungen aus den HUD-/Log-Auszügen bleiben hier
+erhalten, damit keine Kontextdetails verloren gehen.
 
 ### Globale Leitplanken
 
@@ -654,7 +654,8 @@ Infiltrations-/Agentenmissionen wirken, Rift-Ops wie Ermittlungsfälle (im Stil 
 Tech-Noir-Procedurals, True Detective × X-Files, mit physischer Near-Future-Operative-Technologie
 statt abstrakter System- oder Digitalraumästhetik), ohne „Digitalraum“-Eindruck. HUD-Mechanik
 bleibt unverändert, aber die Interpretation und Generator-Outputs müssen nachgeschärft werden.
-Alle Punkte sind offen.
+Alle Punkte sind abgeschlossen; der Abschnitt dient als referenzierte Belegspur für den
+abgeschlossenen Tone-Shift.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte |
 | ----- | ------------------------------ | -------------------------------------------- |
@@ -677,7 +678,7 @@ Alle Punkte sind offen.
 
 Der Copy-Paste-Lauf zum Rift-/Casefile-Thema hat fünf zentrale Baustellen identifiziert. Sie zielen
 auf klare Default-Ausgaben (echte Para-Kreaturen), einen kanonischen Seed-Katalog und konsistente
-Persistenz. Alle Punkte sind offen und für den nächsten Durchlauf einzuplanen.
+Persistenz. Alle Punkte sind abgeschlossen und werden über den Umsetzungsstand gespiegelt.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte |
 | ----- | ------------------------------ | -------------------------------------------- |
@@ -718,7 +719,8 @@ Der erneute Durchlauf des Tester-Briefings (Acceptance 1–15, Mission 5 Badge
 liefert 13 neue Findings. Der Fokus liegt auf stringstabilen Dispatcher-/SaveGuard-Texten,
 Pflichtfeldern im Save-Schema, Boss-/Team-Clamps, Px-Reset-Timing, Chronopolis-Gating,
 Arena-/Queue-States, UI-Enums, Cross-Mode-Konflikten, Offline-Guards, Output-Vertrag und einem
-vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Runden abgearbeitet.
+vollständigen v6-Fixture. Alle Punkte sind abgeschlossen; Abschnitt und Tabelle dokumentieren die
+nachgewiesenen Fixes für Folgeaudits.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
