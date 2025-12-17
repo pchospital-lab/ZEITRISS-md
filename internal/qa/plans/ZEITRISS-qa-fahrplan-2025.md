@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.0
+version: 1.13.1
 tags: [meta]
 ---
 
@@ -815,7 +815,7 @@ den Wissensmodulen verankert werden.
 | | | „Du“-Narration sperren, Entscheidungsprompts dürfen Spieler | |
 | | | ansprechen ohne Perspektivbruch; Masterprompt/Toolkit spiegeln; | |
 | | | QA: Start + Load zwei Szenen ohne 2nd-Person-Narration verifizieren. | |
-| #3 | Rift-Template = Monster-Hunt | Rift-Generator auf 14-Szenen-Map trimmen (Tatort→Leads→Boss Szene 10, | 🟡 offen |
+| #3 | Rift-Template = Monster-Hunt | Rift-Generator auf 14-Szenen-Map trimmen (Tatort→Leads→Boss Szene 10, | ✅ erledigt |
 | | | eine Anomalie, Foreshadows Szene 9); Seed-Felder `{hook,` | |
 | | | atrocity_scene, signature, time_skill, weakness_hint, boss_arena}` | |
 | | | erzwingen; HUD führt Stages; QA: 3 Seeds prüfen (Szene 1 Opferbild, | |
@@ -838,4 +838,15 @@ den Wissensmodulen verankert werden.
 | | | außerhalb HUD); Pflicht-Excerpt 8–12 Zeilen pro Phase + Banned- | |
 | | | Terms-Check verankern; QA: 1 Run dokumentiert „keine Digitalräume“ | |
 | | | Pass/Fail. | |
+
+**Umsetzungsstand 2026-05**
+
+- ✅ Issue #3 (Rift-Template) umgesetzt: `resolve_scene_total`,
+  `StartMission()` und `launch_mission()` setzen die Szenentotale strikt auf
+  12 (Corelauft) bzw. 14 (Rift) und überschreiben Altwerte; Rift-Casefiles
+  leiten Stages automatisch aus dem 14-Szenen-Raster (Sz 1–4 Tatort,
+  5–10 Leads, 11–14 Boss) ab und synchronisieren Tatort/Leads/Boss bei
+  Missionsstart und jedem HUD-Durchlauf. Toolkit/README spiegeln den
+  Missionstyp-Reset und die Boss-/Foreshadow-Gates, Acceptance-Tests prüfen
+  das 12-Szenen-Core-Overlay.
 
