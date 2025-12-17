@@ -240,15 +240,18 @@ Die ersten Schritte in unter zwei Minuten:
    `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
    (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
    `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
-10. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
-   [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
-   Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
-11. **Filmischer Einstieg** – das Modul
-   [Cinematic Start](systems/gameflow/cinematic-start.md)
-   beschreibt einen sofort spielbaren Auftakt.
-12. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
-   [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-13. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
+10. **Debrief & HQ** – Nach jeder Mission im HQ: CU ausschütten, Loot-Recap
+    nennen, XP/Ruf vergeben, Level-Up & Skill-Picks festhalten, dann Save.
+    Überblick im [Gameflow-Spickzettel](gameplay/kampagnenstruktur.md#gameflow-spickzettel).
+11. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+    [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
+    Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
+12. **Filmischer Einstieg** – das Modul
+    [Cinematic Start](systems/gameflow/cinematic-start.md)
+    beschreibt einen sofort spielbaren Auftakt.
+13. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
+    [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
+14. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
     Cluster +… · Fraktion +…`.
 
@@ -1303,7 +1306,8 @@ Nach jedem Zeitsprung und nach jeder Mission öffnet sich ein
 **Nullzeit-Menü**. Hier bestimmt die Gruppe, wie ausführlich die
 HQ-Phase ablaufen soll. Zur Wahl stehen drei Optionen:
 
-1. **HQ manuell erkunden** – volle Szenen, Quartierausbau und Klinikbesuche.
+1. **HQ manuell erkunden** – volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
+   Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
 2. **Schnell-HQ** – wenige Klicks für Heilung und Einkauf.
 3. **Auto-HQ & Save** – automatische Abwicklung, dann direkt zur nächsten Mission.
 
