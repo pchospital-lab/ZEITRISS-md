@@ -1,10 +1,31 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.3
+version: 0.4.4
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-01 – Repo-Agent – Atmosphere-Contract-Regression (Build 4.2.3)
+- Plattform: OpenAI MyGPT (Beta-Klon)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.3
+- Auftrag: Atmosphere-Contract-Regression Start/Load (HUD-Usage-Reset, Voice-Lock,
+  Mode-Preset, Banned-Terms) und npm-Pflichttest-Integration.
+
+```chatlog
+03:10 Repo-Agent: `npm run test:atmosphere`
+03:10 Tool: `atmosphere-contract-start-ok`
+03:11 Tool: `atmosphere-contract-load-ok`
+```
+
+**Offene Punkte**
+- [x] QA-Fahrplan 1.13.3 spiegelt den Atmosphere-Contract-Test im Pflichtpaket.
+- [x] Atmosphere-Contract-Block (`logs.flags.atmosphere_contract`) enthält HUD-Usage-
+      Reset, Voice-Lock, Mode-Preset und Banned-Terms; keine Restabweichungen.
+
+**Nachverfolgung**
+- Commit/PR: wird mit diesem Branch verknüpft (Atmosphere-Contract-Regression).
+- QA-Fahrplan: Version 1.13.3, Maßnahmenpaket 2026-05 vollständig dokumentiert.
 
 ## 2025-12-03 – Maintainer – Testprompt Voll-Lauf (Solo/Koop/Arena)
 - Plattform: Beta-GPT (simulativ, Speicher- und HUD-Flows)
