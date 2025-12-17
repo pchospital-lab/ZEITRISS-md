@@ -124,6 +124,9 @@ Hochstufen-Spielrunden.
   `badge_density/output_pace` und schreibt Arena-Queue-/Zonen-Felder in den
   Save; Load-Merge protokolliert Konflikte inkl. Credits-Fallbacks in
   `logs.trace`.
+- Chronopolis-Gate ist auf Level 10 angehoben; Debrief-Flow setzt Unlock-Toast
+  und Trace (`chronopolis_unlock_level`) und trennt Pre-City-Checks von den
+  Stadttests im QA-Plan.
 - Offline-Flows besitzen ein 60-Sekunden-Rate-Limit; SaveGuard blockiert HQ-
   Saves ohne Uplink mit Trace-Eintrag und Toast, Acceptance-Smoke spiegelt die
   kanonischen Dispatcher-Strings.
