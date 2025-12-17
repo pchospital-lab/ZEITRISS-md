@@ -720,53 +720,53 @@ Pflichtfeldern im Save-Schema, Boss-/Team-Clamps, Px-Reset-Timing, Chronopolis-G
 Arena-/Queue-States, UI-Enums, Cross-Mode-Konflikten, Offline-Guards, Output-Vertrag und einem
 vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Runden abgearbeitet.
 
-| Issue | Kurzfassung | Fahrplan/Nächste Schritte |
-| ----- | ------------------------------ | -------------------------------------------- |
-| #1 | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen. |
-| #2 | SaveGuard-Pflichtfelder vs. Prompt | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen. |
-| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`SaveGuard: HQ-only/Exfil aktiv/Arena aktiv/SYS nicht voll installiert`) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. |
-| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 0–4 hart clampen (Load/ArenaStart), DR-Tabelle >4 entfernen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. |
-| #5 | Px-Reset & Seed-Gating präzisieren | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen. |
-| #6 | Chronopolis-Gate vs. Pre-City | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen. |
-| #7 | Arena Queue-/Zone-State vertraglich fixen | `arena.queue_state` Enum (`idle|searching|matched|staging|active|completed`) + optional `arena.zone` (`safe|combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. |
-| #8 | UI-Enums konsolidieren | Kanonisches Set (`badge_density: standard|dense|compact`, `output_pace: normal|fast|slow`) festziehen; Legacy-Mappings dokumentieren und Serializer normalisieren. |
-| #9 | Cross-Mode-Import Konfliktlogging | Merge-Layer erzwingt `merge_conflicts` bei Abweichungen (`campaign.mode`, Seeds, UI, Arena-State); `logs.trace` Merge-Event; QA-Checkliste fordert sichtbare Konflikte + Arena-Reset-Beleg. |
-| #10 | Offline-Fallback Rate-Limit + SaveGuard | Acceptance um Rate-Limit (`!offline` <60 s) und Save-Sperre bis HQ-Resync erweitern; eigener SaveGuard-Reason + `logs.trace` (`save-blocked: offline`). |
-| #11 | QA-Output-Vertrag widerspruchsfrei | Output-Regel festlegen: JSON-Block entweder als Appendix oder als Evidenz in ISSUE; Runner/Parser tolerant machen, Copyblock-Version anheben. |
-| #12 | Offizielles v6-Fixture bereitstellen | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. |
-| #13 | `economy.credits` Spiegel klären | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz. |
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ------------------------------ | -------------------------------------------- | ------ |
+| #1 | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen. | ✅ erledigt |
+| #2 | SaveGuard-Pflichtfelder vs. Prompt | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen. | ✅ erledigt |
+| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`SaveGuard: HQ-only/Exfil aktiv/Arena aktiv/SYS nicht voll installiert`) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. | ✅ erledigt |
+| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 0–4 hart clampen (Load/ArenaStart), DR-Tabelle >4 entfernen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. | ✅ erledigt |
+| #5 | Px-Reset & Seed-Gating präzisieren | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen. | ✅ erledigt |
+| #6 | Chronopolis-Gate vs. Pre-City | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen. | ✅ erledigt |
+| #7 | Arena Queue-/Zone-State vertraglich fixen | `arena.queue_state` Enum (`idle|searching|matched|staging|active|completed`) + optional `arena.zone` (`safe|combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. | ✅ erledigt |
+| #8 | UI-Enums konsolidieren | Kanonisches Set (`badge_density: standard|dense|compact`, `output_pace: normal|fast|slow`) festziehen; Legacy-Mappings dokumentieren und Serializer normalisieren. | ✅ erledigt |
+| #9 | Cross-Mode-Import Konfliktlogging | Merge-Layer erzwingt `merge_conflicts` bei Abweichungen (`campaign.mode`, Seeds, UI, Arena-State); `logs.trace` Merge-Event; QA-Checkliste fordert sichtbare Konflikte + Arena-Reset-Beleg. | ✅ erledigt |
+| #10 | Offline-Fallback Rate-Limit + SaveGuard | Acceptance um Rate-Limit (`!offline` <60 s) und Save-Sperre bis HQ-Resync erweitern; eigener SaveGuard-Reason + `logs.trace` (`save-blocked: offline`). | ✅ erledigt |
+| #11 | QA-Output-Vertrag widerspruchsfrei | Output-Regel festlegen: JSON-Block entweder als Appendix oder als Evidenz in ISSUE; Runner/Parser tolerant machen, Copyblock-Version anheben. | ✅ erledigt |
+| #12 | Offizielles v6-Fixture bereitstellen | Schema-konformes Save (Lvl 7/120/520, Seeds 1–25/80–150/400–1000, Pflichtcontainer inkl. `logs.trace`/`logs.arena_psi`/`merge_conflicts`) unter `internal/qa/fixtures/` versionieren; CI-Test „schema-validate + load_deep + summarize“ ergänzen. | ✅ erledigt |
+| #13 | `economy.credits` Spiegel klären | Entscheiden, ob `economy.credits` als derived/optional Feld verbleibt oder konsolidiert wird; Loader synchronisiert `credits = cu` bei fehlendem Feld, QA testet Arena/Wallet-Split ohne Divergenz. | ✅ erledigt |
 
-**Fortschritt 2026-04 (laufend)**
+**Umsetzungsstand 2026-04**
 
-- SaveGuard-Pflichtcontainer (inkl. `logs.trace`, `logs.arena_psi`,
+- ✅ SaveGuard-Pflichtcontainer (inkl. `logs.trace`, `logs.arena_psi`,
   `logs.flags.merge_conflicts`) sind im README gespiegelt; der Serializer bricht
   bei fehlendem Trace-Block ab.
-- Px-Reset bestätigt erst im Debrief→HQ den Rücksetzer (`px_reset_confirm`,
+- ✅ Px-Reset bestätigt erst im Debrief→HQ den Rücksetzer (`px_reset_confirm`,
   Trace-Event `px_reset`, HUD-Toast) und hält Seeds bis Episodenende gesperrt.
-- Chronopolis ist erst ab Level 10 freigeschaltet; Debrief/HQ-Flow schreibt
+- ✅ Chronopolis ist erst ab Level 10 freigeschaltet; Debrief/HQ-Flow schreibt
   einen Unlock-Toast plus Trace (`chronopolis_unlock_level`) und der QA-Plan
   trennt Pre-City-Hub-Checks von den Stadttests.
-- Load-Merge protokolliert Konfliktfelder (`conflict_fields`/`conflicts_added`)
+- ✅ Load-Merge protokolliert Konfliktfelder (`conflict_fields`/`conflicts_added`)
   inklusive Arena-Reset/Zone/Queue-State in `logs.trace.merge_conflicts`;
   `savegame_v6_full.json` trägt Queue-/Zone-Felder, Credits-Fallbacks und die
   Trace-Belege als Fixture-Nachweis.
-- Acceptance-Smoke-Dispatcher nutzt kanonische Fehlertexte für `npc-team 5` und
-  `gruppe 3`, Quickstart betont den Gruppen-Flow mit 2 Saves + 1 Rolle.
-- SaveGuard-Matrix vereinheitlicht alle HQ-Blocker mit Suffix „– HQ-Save
+- ✅ Acceptance-Smoke-Dispatcher nutzt kanonische Fehlertexte für `npc-team 5`
+  und `gruppe 3`, Quickstart betont den Gruppen-Flow mit 2 Saves + 1 Rolle.
+- ✅ SaveGuard-Matrix vereinheitlicht alle HQ-Blocker mit Suffix „– HQ-Save
   gesperrt.“ (Arena/HQ/Exfil/Offline, SYS- und Stress/Psi-Checks) in Runtime
   und Wissensmodulen.
-- QA-Output-Vertrag erlaubt den Save-v6-JSON-Block entweder als ISSUE-Evidenz
-  oder als Appendix; Runner/Parser akzeptieren beide Varianten.
-- UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 0–4, mappt
+- ✅ QA-Output-Vertrag erlaubt den Save-v6-JSON-Block entweder als ISSUE-
+  Evidenz oder als Appendix; Runner/Parser akzeptieren beide Varianten.
+- ✅ UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 0–4, mappt
   `badge_density/output_pace` auf kanonische Enums und spiegelt Queue-/Zonen-
   Felder im Arena-Block der Saves.
-- Offline-Fallbacks sind gehärtet: `!offline` besitzt ein 60-Sekunden-Rate-
-  Limit, SaveGuard blockiert HQ-Saves ohne Uplink und schreibt einen Trace-
-  Eintrag.
-- SaveGuard wertet Arena-Queue-States (`idle|searching|matched|staging|active|
-  completed`) beim Serialisieren aus, leitet `active/phase` daraus ab und
-  sperrt HQ-Saves während laufendem Matchmaking; Tests prüfen aktiv blockierte
-  Saves.
+- ✅ Offline-Fallbacks sind gehärtet: `!offline` besitzt ein 60-Sekunden-Rate-
+  Limit, SaveGuard blockiert HQ-Saves ohne Uplink und schreibt einen
+  Trace-Eintrag.
+- ✅ SaveGuard wertet Arena-Queue-States
+  (`idle|searching|matched|staging|active|completed`) beim Serialisieren aus,
+  leitet `active/phase` daraus ab und sperrt HQ-Saves während laufendem
+  Matchmaking; Tests prüfen aktiv blockierte Saves.
 
 ## Regressionstest-Termine 2025
 
