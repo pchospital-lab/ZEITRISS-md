@@ -461,6 +461,17 @@ if paradox_level >= threshold:
 | **Mission (Core-Op)** | 60–75 min | **12 Szenen** | „Netflix-Folge“ – Cliffhanger, Level-Up |
 | **Rift-Op (X-File)**  | 90–120 min   | **14 Szenen**      | Action-Thriller – zwei Peaks,<br>Twist und Finale |
 
+#### Aktaufteilung pro Missionstyp
+
+- **Core (Thrillerton, 12 Szenen):** Akt A (1–4) Setup, Anreise und erster Konflikt, Akt B (5–9)
+  Intel-Twist und Sicherungsvorbereitung, Akt C (10–12) Showdown/Flucht/Debrief. Das
+  Boss-Gate öffnet frühestens bei Szene 10 und verlangt **4** eindeutige Foreshadow-Marker
+  (Mission 4 und 9 je zwei).
+- **Rift (Film-Template mit Mid-Twist, 14 Szenen):** Akt A (1–4) Tatort & erste Spur,
+  Akt B (5–9) Leads, Ermittlungen und Mid-Twist (spätestens Szene 9), Akt C (10–12) Boss-Showdown,
+  Szene 13 Nachspiel, Szene 14 Epilog/Artefaktwurf. Showdowns beginnen frühestens bei Szene 10;
+  das Boss-Gate verlangt **2** Foreshadow-Marker vor dem Einstieg.
+
 ### Post-Op Sweep (optional)
 
 Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Minuten**.

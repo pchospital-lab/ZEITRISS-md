@@ -5340,15 +5340,19 @@ function can_launch_rift(seedId = null){
 }
 
 function resolve_scene_total(missionType = resolve_mission_type()){
+  const canonical = missionType === 'rift' ? 14 : 12;
+  const normalize = (value) => Math.max(1, Math.floor(value));
   const storedTotal = Number(state.campaign?.scene_total);
   if (Number.isFinite(storedTotal) && storedTotal > 0){
-    return Math.max(1, Math.floor(storedTotal));
+    const normalized = normalize(storedTotal);
+    if (normalized === canonical) return normalized;
   }
   const sceneTotal = Number(state.scene?.total);
   if (Number.isFinite(sceneTotal) && sceneTotal > 0){
-    return Math.max(1, Math.floor(sceneTotal));
+    const normalized = normalize(sceneTotal);
+    if (normalized === canonical) return normalized;
   }
-  return missionType === 'rift' ? 14 : 12;
+  return canonical;
 }
 
 function resolve_boss_dr(teamSize, bossTier){
@@ -5370,6 +5374,7 @@ function StartMission(){
   const sceneTotal = resolve_scene_total(missionType);
   state.phase = missionPhase;
   state.campaign ||= {};
+  state.campaign.type = missionPhase;
   state.campaign.phase = missionPhase;
   state.campaign.loop = missionPhase === 'rift' ? 'casefile' : 'episode';
   state.campaign.scene_total = sceneTotal;
@@ -7362,6 +7367,9 @@ function set_campaign_mode_command(raw){
 
 function launch_mission(){
   state.phase = 'transfer';
+  ensure_campaign();
+  state.campaign.type = 'core';
+  state.campaign.phase = 'core';
   StartMission();
   return 'mission-launched';
 }
