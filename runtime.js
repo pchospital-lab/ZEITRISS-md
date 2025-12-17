@@ -5426,6 +5426,7 @@ function StartMission(){
   state.scene = { index: 0, foreshadows: 0, total: sceneTotal };
   state.campaign.scene = state.scene.index;
   init_casefile_tracker();
+  sync_casefile_stage_by_scene(state.scene.index, state.scene.total);
   const runtimeFlags = ensure_runtime_flags();
   if (runtimeFlags.skip_entry_choice !== true){
     runtimeFlags.skip_entry_choice = false;
@@ -5550,6 +5551,7 @@ function scene_overlay(scene){
     if (hookSnippet){
       h += ` · HOOK ${hookSnippet}`;
     }
+    sync_casefile_stage_by_scene(sc, total);
     const stageLabel = casefile_stage_label();
     if (stageLabel){
       h += ` · STAGE ${stageLabel}`;
@@ -5595,6 +5597,25 @@ function scene_overlay(scene){
       h += ` · TK🌀 ${tkCooldown}`;
     }
   return h;
+}
+
+function expected_casefile_stage(sceneIndex, sceneTotal){
+  if (resolve_mission_type() !== 'rift') return null;
+  const total = Math.max(1, Math.floor(Number.isFinite(sceneTotal) ? sceneTotal : resolve_scene_total('rift')));
+  const scene = Math.max(1, Math.floor(Number.isFinite(sceneIndex) ? sceneIndex : 0));
+  if (scene <= Math.min(4, total)) return 'crime_scene';
+  if (scene <= Math.min(10, total)) return 'leads';
+  return 'boss';
+}
+
+function sync_casefile_stage_by_scene(sceneIndex, sceneTotal){
+  if (resolve_mission_type() !== 'rift') return null;
+  const target = expected_casefile_stage(sceneIndex, sceneTotal);
+  const current = typeof state.casefile?.stage === 'string' ? state.casefile.stage : null;
+  if (target && current !== target){
+    return set_casefile_stage(target);
+  }
+  return current || target;
 }
 
 function casefile_stage_label(){
