@@ -515,7 +515,10 @@ if not char.get("psi") and not char.get("has_psi"):
   Rufe `NextScene(loc, objective, seed_id, pressure=None, total=12,
   role="Ankunft")` bei Core-Ops, `NextScene(loc, objective, seed_id,
   pressure=None, total=14, role="Ankunft")` bei Rift-Ops, um die Gesamtzahl
-  korrekt anzuzeigen.
+  korrekt anzuzeigen. Die Runtime setzt `campaign.type` und
+  `campaign.scene_total` missionstypisch auf **12** (Core via
+  `launch_mission()`) bzw. **14** (Rift via `launch_rift()`), sodass HUD und
+  Logs nach einem Missionswechsel keine alten `SC …/14`‑Zähler mitnehmen.
   Jede Vorlagen-Szene beginnt damit. Eine Core-Operation sollte frühestens nach
   Szene 10 enden, eine Rift-Operation frühestens nach Szene 12. Nutze die
   Szenenanzahl möglichst voll aus.
