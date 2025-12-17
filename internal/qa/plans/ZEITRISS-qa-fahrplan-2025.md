@@ -743,6 +743,9 @@ vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Ru
   bei fehlendem Trace-Block ab.
 - Px-Reset bestätigt erst im Debrief→HQ den Rücksetzer (`px_reset_confirm`,
   Trace-Event `px_reset`, HUD-Toast) und hält Seeds bis Episodenende gesperrt.
+- Chronopolis ist erst ab Level 10 freigeschaltet; Debrief/HQ-Flow schreibt
+  einen Unlock-Toast plus Trace (`chronopolis_unlock_level`) und der QA-Plan
+  trennt Pre-City-Hub-Checks von den Stadttests.
 - Load-Merge protokolliert Konfliktfelder (`conflict_fields`/`conflicts_added`)
   inklusive Arena-Reset/Zone/Queue-State in `logs.trace.merge_conflicts`;
   `savegame_v6_full.json` trägt Queue-/Zone-Felder, Credits-Fallbacks und die
