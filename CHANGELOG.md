@@ -8,6 +8,8 @@ tags: [meta]
 
 ## [Unveröffentlicht]
 
+- Laufende Änderungen ab 2025 werden primär im QA-Fahrplan, QA-Audit und
+  QA-Log dokumentiert; dieses Changelog dient nur noch als Archivanker.
 - `AGENTS.md` fokussiert den Repo-Agenten auf Rollen, Übergaben und verweist auf den
   Beitragsleitfaden.
 - `CONTRIBUTING.md` bündelt die Qualitäts-, Link- und Compliance-Checkliste sowie den vollständigen
