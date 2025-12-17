@@ -115,6 +115,19 @@ Hochstufen-Spielrunden.
   (`full|minimal` → `standard|compact`) und konsolidieren
   `offline_help_last_scene` als kanonisches Feld.
 
+## Update 2026-04 – Tester-Playtest-Fortschritt
+
+- Maßnahmenpaket Tester-Playtest 2026-04 fortgeschrieben: SaveGuard wertet
+  Arena-Queue-States (`idle|…|completed`) beim Serialisieren aus, sperrt HQ-
+  Saves während Matchmaking und harmonisiert die HQ-Blockertexte.
+- UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 0–4, mapped
+  `badge_density/output_pace` und schreibt Arena-Queue-/Zonen-Felder in den
+  Save; Load-Merge protokolliert Konflikte inkl. Credits-Fallbacks in
+  `logs.trace`.
+- Offline-Flows besitzen ein 60-Sekunden-Rate-Limit; SaveGuard blockiert HQ-
+  Saves ohne Uplink mit Trace-Eintrag und Toast, Acceptance-Smoke spiegelt die
+  kanonischen Dispatcher-Strings.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
