@@ -754,6 +754,16 @@ vollständigen v6-Fixture. Alle Punkte sind offen und werden in den nächsten Ru
   und Wissensmodulen.
 - QA-Output-Vertrag erlaubt den Save-v6-JSON-Block entweder als ISSUE-Evidenz
   oder als Appendix; Runner/Parser akzeptieren beide Varianten.
+- UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 0–4, mappt
+  `badge_density/output_pace` auf kanonische Enums und spiegelt Queue-/Zonen-
+  Felder im Arena-Block der Saves.
+- Offline-Fallbacks sind gehärtet: `!offline` besitzt ein 60-Sekunden-Rate-
+  Limit, SaveGuard blockiert HQ-Saves ohne Uplink und schreibt einen Trace-
+  Eintrag.
+- SaveGuard wertet Arena-Queue-States (`idle|searching|matched|staging|active|
+  completed`) beim Serialisieren aus, leitet `active/phase` daraus ab und
+  sperrt HQ-Saves während laufendem Matchmaking; Tests prüfen aktiv blockierte
+  Saves.
 
 ## Regressionstest-Termine 2025
 
