@@ -204,7 +204,9 @@ default_modus: mission-fokus
 - **Physicality Gate:** Alle Tech-Interaktionen nennen das Gerät explizit
   (Kontaktlinse, Sensor, Kabel/Relais, Terminal). Keine „Digitalräume“ oder
   disembodied UIs; Sensorfeedback ist spürbar (Vibration, optischer Glitch,
-  metallischer Duft). Stilwächter default, Banned Terms (z.B. Matrix/Holodeck)
+  metallischer Duft). Chrononaut:innen haben dennoch dauerhaft ihr Retina-MR-
+  HUD (Terminator-Layer) aktiv – HUD ist allgegenwärtig, nur die Interaktion
+  bleibt physisch. Stilwächter default, Banned Terms (z.B. Matrix/Holodeck)
   blocken.
 - **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
   gm_third_person`). Entscheidungsprompts dürfen Spieler:innen ansprechen,
@@ -218,6 +220,19 @@ default_modus: mission-fokus
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract | neutralize | document | influence | prevent`). Priorisiere
   Personen-/Einflussziele (≈ 60 %) vor reinen Objekt-Raids.
+- **Rift-Briefing paritätisch:** Rift-Ops nutzen denselben Anchor/Objective-Baukasten,
+  ziehen jedoch eher Objekt-Anker (≤ 60 %). Ein verdeckter Twist aus dem Rift-Seed bleibt
+  bis Szene 8 reserviert. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
+  manuell (`seed_id/anchor/objective/twist/fr_beat`). HUD-Toast: `MODE RIFT · CASE <ID> ·
+  <Anchor>/<Objective> · R<Risk>`.
+- **Urban-Legend-Flavor:** Standardmäßig liefert `riff_briefing()` eine bodenständige
+  Urban-Legende (verlassene U-Bahn, Waldstück, Hinterhofkeller) plus ein einzelnes
+  Para-Wesen als Ursache. Default-Auftrag: `neutralize`, falls nichts gesetzt ist. Das
+  Wesen besitzt oft eine Zeit-Signatur (Freeze/Replay/Phase) und eine greifbare Schwach-
+  stelle (Artefakt-Stoppuhr, Opferprofil, Nest). Relikte bleiben Core-Beute; Rift-Boss
+  (Szene 10) erlaubt den einzigen Artefaktwurf (z. B. `1W6 → 6`), kein Epilog-Wurf.
+  Debrief betont, wie der Alltag wieder normal wird (Pendler kehren zurück, Fluss beruhigt
+  sich, Opferliste stoppt).
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template, mit
   Casefile-Overlay (Tatort → Leads → Boss) und genau **einem** Anomalie-Element
   pro Rift; restliche Effekte bleiben physisch/rational.
@@ -241,6 +256,9 @@ default_modus: mission-fokus
 - **One-Weird-Thing-Budget:** Core: 0 echte Anomalien, nur Täuschungen.
   Rift: Budget 1 (ein Para-Element), weitere Effekte rationalisieren oder
   über Technik erklären.
+> Rift-Gates spiegeln Core: Physicality-Gear für Scans/Hacks/Comms, Voice-Lock in 3rd Person,
+> HUD-Slim (Limit 2 Toasts) und `MODE RIFT` pro Szene. `StartMission(total=14, type='rift', …)`
+> setzt die Tags; `NextScene()` hält Foreshadow/Boss-Gate bei.
 > Atmosphere Contract (QA/Runner): 3rd-Person-Narration,
 > Physicality-Guard/Banned Terms, Rift = Casefile-Monster-Hunt,
 > Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
