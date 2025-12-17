@@ -139,7 +139,8 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1–4)** → **Leads
   (5–10)** → **Boss (11–14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss`; der
-  Casefile-Tracker spiegelt den Wechsel.
+  Casefile-Tracker spiegelt den Wechsel. Die Runtime setzt die Stufe automatisch
+  anhand des Szenenzählers (1–4 Tatort, 5–10 Leads, 11–14 Boss).
 - One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
   restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
 

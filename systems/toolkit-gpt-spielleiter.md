@@ -262,7 +262,9 @@ default_modus: mission-fokus
 - `init_casefile_tracker()` startet Rift-Casefiles auf `Tatort`; HUD zeigt
   `CASE STAGE` und hält den Wechsel in `logs.casefile[]` fest.
 - Verankere das 14er-Template ausdrücklich: **Tatort → Leads → Boss**.
-  Wechsle mit `set_casefile_stage('leads'|'boss')` und nenne Stage/Hooks im HUD
+  Die Runtime zieht die Stufen automatisch aus dem Szenenzähler (1–4 Tatort,
+  5–10 Leads, 11–14 Boss); bei Sprüngen kannst du mit
+  `set_casefile_stage('leads'|'boss')` nachziehen und Stage/Hooks im HUD nennen
   (`MODE RIFT · CASE … · HOOK … · STAGE …`).
 
 #### One-Weird-Thing-Budget
