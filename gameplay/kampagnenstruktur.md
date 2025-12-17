@@ -288,8 +288,9 @@ Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 
 **Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus dem
 [Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
-enthalten immer Anomalien wie Parawesen oder Artefakte. Diese Einsätze laufen
-außerhalb der aktuellen Episode und zählen nicht zur regulären Missionszahl.
+enthalten immer eine Anomalie mit Para-Wesen; Artefakt-Bezug existiert höchstens als
+Stoppuhr-Plotgerät und nicht als Loot. Diese Einsätze laufen außerhalb der aktuellen
+Episode und zählen nicht zur regulären Missionszahl.
 
 Rift-Seeds sind **Narben früherer Fehlgriffe** – ob durch Fremdfraktionen,
 fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf
@@ -355,16 +356,16 @@ und Loot-Faktor bewusst über gelagerte Seeds steuern können.
 `campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
 gestartet werden darf.
 
-#### Kurzübersicht: Missions-Rhythmus und Artefakte
+#### Kurzübersicht: Missions-Rhythmus und Artefakt-Plot
 
 - **Paradoxon-Index/Resonanz 0–5:** Anstieg gemäß TEMP-Progresstabelle.
   Bei Stufe 5 enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt beide Werte auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
   Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
-- **Artefaktwürfe:** Nach dem Sieg über ein Paramonster in einer Rift-Op darf die SL 1W6 werfen.
-  Nur bei einer 6 wird ein Artefakt geborgen. Diese seltenen Fundstücke sind begehrte Plot-Hooks,
-  werden im HQ analysiert und können gesammelt oder unter den Agenten getauscht werden.
-  Beispiele liefert die Tabelle „Kuriose Artefakte & Relikte“ im Generator-Modul.
+- **Artefakt-Drops nur am Rift-Boss:** Core-Ops liefern Relikte und regulären Gear-Loot; Rift-Ops
+  nutzen denselben Gear-Pool, bekommen aber **nur nach dem Boss (Szene 10)** einen Artefaktwurf
+  (z. B. `1W6 → 6` = seltenes Artefakt). Stoppuhr-Artefakte bleiben als Plot-Schwachstellen
+  möglich, ersetzen aber den Boss-Loot nicht. Relikte bleiben Core-exklusiv.
 - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
   zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradoxon-Subsystem
   steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
@@ -452,7 +453,7 @@ if paradox_level >= threshold:
 | Schiene      | Generator                         | Artefakte? | Stil                 | HUD                   |
 | --------------------- | ------------ | ------------------ | ------------------------------- | --------------------- |
 | **Core-Ops** | Rand-Epochen & CoreObjectiveTable | – | Spionage-Thriller    | `[CORE MISSION - …]`  |
-| **Rift-Ops** | RiftSeedTable d24                 | Selten (1W6 = 6) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
+| **Rift-Ops** | RiftSeedTable d24                 | Stoppuhr-Plotgerät (kein Loot) | Blockbuster-Anomalie | `[RIFT RESPONSE - …]` |
 
 #### Missionsdauer vs. Soll-Szenen {#missionsdauer}
 
@@ -469,7 +470,7 @@ if paradox_level >= threshold:
   (Mission 4 und 9 je zwei).
 - **Rift (Film-Template mit Mid-Twist, 14 Szenen):** Akt A (1–4) Tatort & erste Spur,
   Akt B (5–9) Leads, Ermittlungen und Mid-Twist (spätestens Szene 9), Akt C (10–12) Boss-Showdown,
-  Szene 13 Nachspiel, Szene 14 Epilog/Artefaktwurf. Showdowns beginnen frühestens bei Szene 10;
+  Szene 13 Nachspiel, Szene 14 Epilog/Flashback (kein Loot). Showdowns beginnen frühestens bei Szene 10;
   das Boss-Gate verlangt **2** Foreshadow-Marker vor dem Einstieg.
 
 ### Post-Op Sweep (optional)
@@ -670,14 +671,53 @@ enden im Showdown gegen ein Paramonster. Die Szenen im Überblick:
 11. Klimax – Gegner besiegt, Riss schließen.
 12. Nachwirkungen & Aufräumen.
 13. Debriefing oder Rückkehr.
-14. Epilog – optionaler Artefaktfund bei W6 = 6.
+14. Epilog – Fade-out oder kurzer Stoppuhr-Flashback (Artefakt-Drop bereits beim Boss,
+    kein Epilog-Wurf).
 
 Stilhinweise:
 - Tonalität mischt Mystery‑Investigation und Thriller‑Action.
 - Nur ein übernatürliches Phänomen; alles andere bleibt realistisch.
 - Paramonster bildet den Kern der Handlung.
 - Ereignisse beeinflussen den Core‑Arc nicht.
-- Artefakte sind extrem seltene Boni.
+- Relikte bleiben Core-Beute; Rift-Ops gewähren regulären Gear-Loot **plus** einen
+  Artefaktwurf ausschließlich nach dem Boss (Szene 10). Stoppuhr-Artefakte sind als
+  Schwachstelle/Timer-Gerät erlaubt, ersetzen aber den Boss-Drop nicht; im Epilog wird
+  nicht zusätzlich gewürfelt.
+- **Default-Fall:** Rift-Ops spielen sich wie eine urbane Legende. Die Anomalie rührt von
+  einem konkreten Para-Wesen her (z. B. Zeitfresser, Echo-Ripper, schattenhafter
+  Pendler) oder wird von ihm ausgelöst. Auftrag ist fast immer: Wesen aufspüren,
+  Schwachstelle nutzen, neutralisieren. Nach dem Boss-Kill schildert der Debrief,
+  wie Alltag und Betroffene wieder ins Lot kommen.
+- **Physicality-/Voice-Lock:** Auch Rift-Ops verlangen greifbare Hardware für Scans/Hacks/Comms
+  (Linse, Sensor, Kabel/Relais, Terminal) und bleiben strikt in 3rd‑Person‑Erzählung
+  ohne VR/Disembodied-UIs. Chrononaut:innen führen dennoch permanent ihr Retina-MR-HUD
+  (Terminator-Stil), das alle Tags und Toasts zeigt.
+- **HUD-Schlankheit:** `MODE RIFT` zeigt die Seed-ID samt Risiko/Hook, Toast-Limit 2 pro Szene;
+  Foreshadow-Status und Boss-Gate bleiben unverändert im Overlay.
+
+##### Briefing-Baukasten für Rift-Ops
+
+- **Anchor + Auftragstyp:** Setze einen klaren Fokus (Person/Ort/Objekt) und einen Auftragstyp
+  (`protect | extract | neutralize | document | influence | prevent`). Rift-Briefings dürfen
+  einen höheren Anteil an Objekt-Ankern haben, behalten aber mindestens 40 % Personen-/Einflussziele
+  für Parität zum Core-Format.
+- **Urban-Legend-Hook:** Seeds bevorzugen bodenständige, greifbare Motive (verlassene Fabrik,
+  Stadtrand-Wald, U-Bahn-Station) und eine Legende, die sich auf ein einzelnes Wesen zurückführt
+  – Zeitreisender Psychopath, Echo-Kreatur, parasitäres Tier. Das Wesen hat meist eine Zeit- oder
+  Raum-Signatur (Freeze, Rewind, Phasen-Sprung), die im Kampf ausgespielt werden kann.
+- **Twist verdeckt halten:** Ziehe aus dem Rift-Seed (oder dem Mid‑Twist‑Pool) einen verborgenen
+  Wendepunkt und notiere ihn als SL-Flag; erst Szene 8 legt den Twist offen.
+- **Fraktionsbeat loggen:** Lege beim Briefing einen Fraktions-Hook (z. B. Kartell, Archiv, Tempest)
+  als `logs.fr_interventions[]` an; aktualisiere ihn Mid-Mission und im Debrief.
+- **HUD-Toast:** Einstieg blendet `MODE RIFT · CASE <ID> · <Anchor>/<Objective> · R<Stufe>` ein;
+  im Log erscheinen Seed-ID, Risiko und Hook.
+
+Beispiel-Seed-Zeile (Rift):
+```
+Seed #R-118  ·  Anchor: stillgelegte U-Bahn „Neonfurt“  ·  Auftrag: neutralize  ·  Twist: Täter ist ein
+zeitversetzter Serienmörder (para) mit gestohlener Stoppuhr als Artefakt-Katalysator  ·  Fraktionsbeat: Archiv will Opferlisten sichern
+Risiko: R3  ·  Hook: kalter Atem in leeren Zügen
+```
 
 ###### Rift-Mission Template
 
@@ -695,7 +735,8 @@ Stilhinweise:
 11. Klimax – [SCHWACHSTELLE/LÖSUNG] nutzen.
 12. Nachspiel – Aufräumen in [ORT].
 13. Debrief – Rückreise oder HQ-Funk.
-14. Epilog – optionales Artefakt [RELIKT].
+14. Epilog – Fade-out oder kurzer Stoppuhr-Flashback (Artefakt-Drop bereits beim Boss,
+    kein Epilog-Wurf).
 ```
 
 _SL-Sidebar:_ Die wahre Ursache der Anomalie bleibt geheim.
@@ -1173,10 +1214,11 @@ bestimmte Projekte einzigartige Komponenten als Missionsziel.
 
 - **Finanzielle Mittel (CU):** Alle Stufen des HQ und jede Ausrüstung lassen sich ausschließlich mit
   CUs erwerben. Beispiel: Verstärkung der Zeitreaktoren in der Kommandozentrale.
- - **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
-   besonderes Relikt. Artefakte treten nur in Rift‑Einsätzen überhaupt in Erscheinung – und selbst dort
-   äußerst selten, vergleichbar mit legendären Funden. Core‑Ops liefern höchstens Bauteile oder
-   historische Relikte. Diese Komponenten werden meist in eigenen Missionen erbeutet.
+- **Spezialbauteile & Relikte:** Manche Ausbaustufen benötigen ein seltenes Material oder ein
+  besonderes Relikt. Core‑Ops liefern diese Relikte und Bauteile. Rift‑Bosskämpfe werfen
+  hingegen seltene Artefakte ab (ggf. Stoppuhr-gebunden), die als außergewöhnliche
+  Ressourcen zählen; außerhalb des Boss-Drops tauchen sie nicht als Loot auf. Diese
+  Komponenten werden meist in eigenen Missionen erbeutet.
 - **Personal & Kontakte:** Neue Verbündete oder Experten, die im Laufe der Kampagne dazukommen,
   kann man ebenfalls als Ressource sehen. Ein brillanter Wissenschaftler NSC im Labor verbessert
   dessen Leistungsfähigkeit. Ein Veteran-Agent als Ausbilder steigert die Effekte der
