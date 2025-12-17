@@ -204,10 +204,17 @@ default_modus: mission-fokus
 - **Physicality Gate:** Alle Tech-Interaktionen nennen das Gerät explizit
   (Kontaktlinse, Sensor, Kabel/Relais, Terminal). Keine „Digitalräume“ oder
   disembodied UIs; Sensorfeedback ist spürbar (Vibration, optischer Glitch,
-  metallischer Duft).
+  metallischer Duft). Stilwächter default, Banned Terms (z.B. Matrix/Holodeck)
+  blocken.
+- **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
+  gm_third_person`). Entscheidungsprompts dürfen Spieler:innen ansprechen,
+  Beschreibungen bleiben in 3rd Person.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
   **Casefile** aus dem HQ. Seeds bleiben HQ-only bis zur Episodepause.
+- **Mode-Preset:** Charaktere führen `modes = [mission_focus,
+  covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
+  Szene 0 ins HUD bringen.
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract | neutralize | document | influence | prevent`). Priorisiere
   Personen-/Einflussziele (≈ 60 %) vor reinen Objekt-Raids.
@@ -229,10 +236,15 @@ default_modus: mission-fokus
   Quelle (z.B. ITS, Tempest, Archiv) und Szene.
 - **HUD-Overlay als dünne Schicht:** Kurzzeilen in Backticks, immer physisch
   verankert (Sensor, Display-Zeile, Vibration). Keine UI-Dialoge; Toasts nennen
-  Auslöser (`Sensor pingt`, `Relais klickt`, `Linse flackert`).
+  Auslöser (`Sensor pingt`, `Relais klickt`, `Linse flackert`). Ziel 80 % Szene/
+  20 % HUD, Limit 2 Toasts pro Szene; Gate/FS/Boss-Strings unverändert lassen.
 - **One-Weird-Thing-Budget:** Core: 0 echte Anomalien, nur Täuschungen.
   Rift: Budget 1 (ein Para-Element), weitere Effekte rationalisieren oder
   über Technik erklären.
+> Atmosphere Contract (QA/Runner): 3rd-Person-Narration,
+> Physicality-Guard/Banned Terms, Rift = Casefile-Monster-Hunt,
+> Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
+> Block ab (`logs.flags.atmosphere_contract`).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 #### Briefing-Anker & Auftragstyp (Core)

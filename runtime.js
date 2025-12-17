@@ -63,6 +63,7 @@ const MARKET_LOG_LIMIT = 24;
 const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
 const PHYSICALITY_LOG_LIMIT = 16;
+const HUD_SCENE_TOAST_LIMIT = 2;
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
@@ -71,6 +72,14 @@ const WEIRDNESS_LOG_LIMIT = 12;
 const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
 const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
+const DEFAULT_MODES = ['mission_focus', 'covert_ops_technoir'];
+const ATMOSPHERE_BANNED_TERMS = [
+  'cyberspace',
+  'virtueller raum',
+  'digitalraum',
+  'matrix',
+  'holodeck'
+];
 
 const CHRONO_CATALOG = [
   {
@@ -835,6 +844,8 @@ const state = {
 
 function ensure_logs(){
   state.logs ||= {};
+  state.logs.flags ||= {};
+  state.logs.flags.hud_scene_usage ||= {};
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
@@ -1789,6 +1800,33 @@ function normalize_phase_value(value, fallback = ''){
   return normalized || fallback;
 }
 
+function normalize_voice_profile(value){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  const allowed = ['gm_third_person', 'gm_observer'];
+  if (allowed.includes(normalized)) return normalized;
+  return 'gm_third_person';
+}
+
+function normalize_modes_list(modes){
+  const normalized = Array.isArray(modes)
+    ? modes
+        .map((entry) => (typeof entry === 'string' ? entry.trim().toLowerCase() : null))
+        .filter(Boolean)
+    : [];
+  const result = [];
+  DEFAULT_MODES.forEach((mode) => {
+    if (!result.includes(mode)){
+      result.push(mode);
+    }
+  });
+  normalized.forEach((mode) => {
+    if (!result.includes(mode)){
+      result.push(mode);
+    }
+  });
+  return result;
+}
+
 function ensure_ui(){
   if (!state.ui || typeof state.ui !== 'object'){
     state.ui = {
@@ -1797,7 +1835,8 @@ function ensure_ui(){
       suggest_mode: false,
       contrast: 'standard',
       badge_density: 'standard',
-      output_pace: 'normal'
+      output_pace: 'normal',
+      voice_profile: 'gm_third_person'
     };
   }
   if (typeof state.ui.gm_style !== 'string'){
@@ -1815,6 +1854,7 @@ function ensure_ui(){
   }
   state.ui.badge_density = normalize_badge_density(state.ui.badge_density);
   state.ui.output_pace = normalize_output_pace(state.ui.output_pace);
+  state.ui.voice_profile = normalize_voice_profile(state.ui.voice_profile);
   return state.ui;
 }
 
@@ -2009,6 +2049,7 @@ function ensure_character(){
   if (!character.cooldowns || typeof character.cooldowns !== 'object'){
     character.cooldowns = {};
   }
+  character.modes = normalize_modes_list(character.modes);
   ensure_psi_buffer_flag(character);
   return character;
 }
@@ -2275,7 +2316,30 @@ function ensure_runtime_flags(){
   } else {
     runtimeFlags.skip_entry_choice = !!runtimeFlags.skip_entry_choice;
   }
+  if (runtimeFlags.physicality_guard !== false){
+    runtimeFlags.physicality_guard = true;
+  }
+  runtimeFlags.voice_profile = normalize_voice_profile(runtimeFlags.voice_profile);
   return runtimeFlags;
+}
+
+function ensure_atmosphere_contract(){
+  const runtimeFlags = ensure_runtime_flags();
+  const ui = ensure_ui();
+  ui.voice_profile = runtimeFlags.voice_profile || ui.voice_profile;
+  runtimeFlags.voice_profile = normalize_voice_profile(ui.voice_profile);
+  runtimeFlags.physicality_guard = runtimeFlags.physicality_guard !== false;
+  state.logs ||= {};
+  state.logs.flags ||= {};
+  state.logs.flags.hud_scene_usage ||= {};
+  state.logs.flags.atmosphere_contract = {
+    voice_profile: runtimeFlags.voice_profile,
+    physicality_guard: runtimeFlags.physicality_guard,
+    default_modes: normalize_modes_list(state.character?.modes),
+    hud_limit: { per_scene: HUD_SCENE_TOAST_LIMIT, narrative_ratio: '80/20' },
+    banned_terms: ATMOSPHERE_BANNED_TERMS
+  };
+  return state.logs.flags.atmosphere_contract;
 }
 
 function ensure_cooldowns(){
@@ -2366,6 +2430,27 @@ function set_suggest_mode(on){
   return { status: statusTag, message };
 }
 
+function reset_hud_usage(){
+  ensure_logs();
+  state.logs.flags.hud_scene_usage = {};
+}
+
+function register_hud_usage(tag){
+  ensure_logs();
+  const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
+  if (sceneIndex === null) return;
+  const usage = state.logs.flags.hud_scene_usage;
+  const key = String(sceneIndex);
+  const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
+  record.count = (record.count || 0) + 1;
+  record.limit = HUD_SCENE_TOAST_LIMIT;
+  if (!record.tags || typeof record.tags !== 'object'){
+    record.tags = {};
+  }
+  record.tags[tag] = (record.tags[tag] || 0) + 1;
+  usage[key] = record;
+}
+
 function hud_toast(message, tag = 'HUD'){
   const log = ensure_logs();
   hudSequence = (hudSequence + 1) % 10000;
@@ -2374,6 +2459,7 @@ function hud_toast(message, tag = 'HUD'){
   if (log.length > 32){
     log.splice(0, log.length - 32);
   }
+  register_hud_usage(tag);
   writeLine(`[${tag}] ${message}`);
   return entry;
 }
@@ -5398,6 +5484,7 @@ function StartMission(){
   if ('casefile_stage' in state.logs){
     delete state.logs.casefile_stage;
   }
+  reset_hud_usage();
   const foreshadowLog = foreshadow_entries();
   foreshadowLog.length = 0;
   reset_intervention_stage_flags();
@@ -5431,6 +5518,7 @@ function StartMission(){
   if (runtimeFlags.skip_entry_choice !== true){
     runtimeFlags.skip_entry_choice = false;
   }
+  ensure_atmosphere_contract();
   if (state.campaign?.px_reset_confirm){
     hud_toast('Paradoxon-Reset abgeschlossen – Px 0/5.', 'PX');
     delete state.campaign.px_reset_confirm;
@@ -6318,6 +6406,21 @@ function prepare_save_logs(logs){
   base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
     ? Math.floor(offlineCount)
     : 0;
+  if (!base.flags.hud_scene_usage || typeof base.flags.hud_scene_usage !== 'object' || Array.isArray(base.flags.hud_scene_usage)){
+    base.flags.hud_scene_usage = {};
+  } else {
+    const usage = {};
+    for (const [sceneIndex, raw] of Object.entries(base.flags.hud_scene_usage)){
+      const count = Number.isFinite(raw?.count) ? Math.max(0, Math.floor(raw.count)) : 0;
+      const tags = raw?.tags && typeof raw.tags === 'object' && !Array.isArray(raw.tags)
+        ? Object.fromEntries(
+            Object.entries(raw.tags).map(([tag, value]) => [tag, Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0])
+          )
+        : {};
+      usage[sceneIndex] = { count, tags, limit: HUD_SCENE_TOAST_LIMIT };
+    }
+    base.flags.hud_scene_usage = usage;
+  }
   base.flags.merge_conflicts = sanitize_merge_conflicts(base.flags.merge_conflicts);
   base.flags.self_reflection = base.flags.self_reflection !== false;
   base.flags.self_reflection_off = !!base.flags.self_reflection_off;
@@ -6349,6 +6452,15 @@ function prepare_save_logs(logs){
     || base.flags.foreshadow_gate_snapshot > 0;
   base.flags.foreshadow_gate_m5_seen = !!base.flags.foreshadow_gate_m5_seen;
   base.flags.foreshadow_gate_m10_seen = !!base.flags.foreshadow_gate_m10_seen;
+  const contract = base.flags.atmosphere_contract && typeof base.flags.atmosphere_contract === 'object'
+    ? { ...base.flags.atmosphere_contract }
+    : {};
+  contract.voice_profile = normalize_voice_profile(contract.voice_profile);
+  contract.physicality_guard = contract.physicality_guard !== false;
+  contract.default_modes = normalize_modes_list(contract.default_modes || state.character?.modes);
+  contract.hud_limit = { per_scene: HUD_SCENE_TOAST_LIMIT, narrative_ratio: '80/20' };
+  contract.banned_terms = ATMOSPHERE_BANNED_TERMS;
+  base.flags.atmosphere_contract = contract;
   return base;
 }
 
@@ -6435,6 +6547,7 @@ function prepare_save_ui(ui){
   base.contrast = ['standard', 'high'].includes(contrast) ? contrast : 'standard';
   base.badge_density = normalize_badge_density(base.badge_density);
   base.output_pace = normalize_output_pace(base.output_pace);
+  base.voice_profile = normalize_voice_profile(base.voice_profile);
   return base;
 }
 
@@ -6486,6 +6599,7 @@ function prepare_save_character(character, options = {}){
       : [];
     base.quarters = quarters;
   }
+  base.modes = normalize_modes_list(base.modes);
   return base;
 }
 
@@ -7041,8 +7155,9 @@ function normalize_save_v6(data){
     }
   }
   character.attributes = attributes;
-  if (!Array.isArray(character.modes) && Array.isArray(normalized.modes) && character.modes === undefined){
-    character.modes = normalized.modes.slice();
+  const normalizedModes = normalize_modes_list(character.modes || normalized.modes);
+  character.modes = normalizedModes;
+  if ('modes' in normalized){
     delete normalized.modes;
   }
   return normalized;
@@ -7273,6 +7388,8 @@ function load_deep(raw){
   const arenaReset = reset_arena_after_load();
   initialize_wallets_from_roster();
   ensure_runtime_flags().skip_entry_choice = true;
+  ensure_atmosphere_contract();
+  reset_hud_usage();
   show_compliance_once();
   const hud = scene_overlay();
   writeLine(hud);
@@ -7327,7 +7444,8 @@ function startSolo(mode='klassisch'){
     psi_heat: 0,
     self_reflection: true,
     cooldowns: {},
-    attributes: { SYS_max: 1, SYS_used: 1 }
+    attributes: { SYS_max: 1, SYS_used: 1 },
+    modes: DEFAULT_MODES.slice()
   };
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
@@ -7340,6 +7458,7 @@ function startSolo(mode='klassisch'){
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
   ensure_runtime_flags().skip_entry_choice = false;
+  ensure_atmosphere_contract();
   sync_compliance_flags();
   play_hq_intro();
   return normalizedSeed === 'preserve' ? `solo-${mode}` : `solo-${normalizedSeed}-${mode}`;
@@ -7369,6 +7488,7 @@ function startGroup(mode='klassisch'){
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
   ensure_runtime_flags().skip_entry_choice = false;
+  ensure_atmosphere_contract();
   sync_compliance_flags();
   initialize_wallets_from_roster();
   play_hq_intro();

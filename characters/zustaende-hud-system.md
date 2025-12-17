@@ -76,6 +76,9 @@ Der Standard-Header zeigt:
 - Physicality Gate: Hardware-Checks für Scan/Hack/Comms erscheinen als
   `HARDWARE`-Toasts, inklusive Gerät (Linse/Sensor/Kabel/Relay/Terminal) und
   kurzem Feedback (Vibration, Rauschen, Hitze der Linse).
+- HUD-Usage: Runtime zählt Toasts pro Szene (`logs.flags.hud_scene_usage`),
+  Ziel 80 % Szene/20 % HUD, Limit 2 Toasts; Gate/FS/Boss-Strings bleiben
+  unverändert.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge

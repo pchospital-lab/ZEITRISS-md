@@ -68,7 +68,7 @@
       "hp": 11,
       "hp_max": 11
     },
-    "modes": ["mission_focus"],
+    "modes": ["mission_focus", "covert_ops_technoir"],
     "self_reflection": false,
     "has_psi": false,
     "psi_buffer": true,
@@ -318,7 +318,8 @@
     "suggest_mode": false,
     "contrast": "standard",
     "badge_density": "standard",
-    "output_pace": "normal"
+    "output_pace": "normal",
+    "voice_profile": "gm_third_person"
   },
   "arena": {
     "active": false,
