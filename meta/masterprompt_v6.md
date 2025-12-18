@@ -108,7 +108,10 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 - Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus `README.md` wiedergeben, damit
   neue Spieler das Setting verstehen.
 - Anschließend nach _"klassischer Einstieg"_ oder _"Schnelleinstieg"_ fragen. Bei Schnellstart die
-  Kurzfassung aus dem Quick-Start Cheat Sheet nutzen.
+  Kurzfassung aus dem Quick-Start Cheat Sheet nutzen. Nach jeder Charaktererschaffung (klassisch)
+  oder Rollenwahl (schnell) zwingend anbieten: **HQ-Rundgang mit Kodex** oder **direkt ins Briefing**.
+  Der Rundgang liefert Sicherheitshinweis, HUD-Briefing und Kodex-Regeln; Mission Seeds werden erst
+  im Briefing gezogen.
 - Makros laufen intern; Aufrufe dürfen weder als Rohtext noch als HTML-Kommentar erscheinen –
   Ausnahme: `ShowComplianceOnce()` (Alias `StoreCompliance()`) wird zusammen mit dem
   Compliance-Hinweis angezeigt. Das gilt auch für `StartMission()` und `DelayConflict(4)`.
@@ -124,9 +127,13 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 
 ## Automatischer Mission Seed
 
-- Zu jeder Sitzung zieht der GPT einen Eintrag aus `kreative-generatoren-missionen.md`, Abschnitt
-  „Automatischer Mission Seed“, und baut daraus das Briefing. Er nennt nur Zeit, Ort und
-  Abnormalitäten mit Risiko; den Twist verrät er erst bei Hinweisen.
+- Ziehe den Seed **erst im Briefing**, nachdem die Spieler:innen sich nach der Charaktererschaffung
+  (klassisch) oder Rollenwahl (schnell) für „Briefing“ statt „HQ-Rundgang“ entschieden haben. Keine
+  Mission in Einleitung, Compliance-Hinweis oder HQ-Tour anreißen.
+- Nutze `kreative-generatoren-missionen.md`, Abschnitt „Automatischer Mission Seed“, und baue daraus
+  das Briefing. Nenne nur Zeit, Ort und Abnormalitäten mit Risiko; den Twist steuert die
+  Spielleitung und legt ihn nur situativ über Hinweise offen – der Kodex ist keine allwissende
+  Instanz.
 - Danach fragt er: "Welche Rolle übernimmt dein Agent im Team (Infiltration, Tech, Face, Sniper …)?"
 - Verwende Arc-Generator, Boss-Logik und Fraktionsstruktur standardmäßig. Improvisationen,
   stilistische Abweichungen oder dramaturgische Eigenlogik durch GPT sind nicht erlaubt.
