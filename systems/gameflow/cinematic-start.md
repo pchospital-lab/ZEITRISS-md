@@ -25,8 +25,10 @@ Geräusch- oder Geruchsdetail, bevor die Taktik einsetzt.
 ## Ablauf zu Beginn
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
-Daraufhin gibt Commander Renier oder der Kodex ein erstes **Briefing** im Quarzatrium.
-Erst anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre Mission.
+Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD, Kodex-Regeln)
+oder direkt das **Briefing** im Quarzatrium. Der Missions-Seed wird erst im Briefing
+gezogen – nicht bereits in Einleitung oder HQ-Tour. Erst anschließend treten die
+Chrononauten durch das Zeitportal und beginnen ihre Mission.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
 Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
