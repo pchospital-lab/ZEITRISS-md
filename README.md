@@ -1175,45 +1175,75 @@ Index-Senke im Kodex.
 
 ### ZEITRISS – Einleitung
 
-Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrtausende. Während
-Reiche aufsteigen und vergehen, wuchern unerkannte Wunden in der Chronik der Menschheit.
-Risse, kaum breiter als ein Atemzug, doch tief genug, um Welten zu verschlingen.
+In der Welt von ZEITRISS sind berühmte Verschwörungstheorien Realität. Das
+Philadelphia-Experiment 1943 und das Montauk-Projekt 1983 – beide waren erfolgreich
+und rissen Löcher ins Gefüge der Zeit. Ein Kriegsschiff verschwand sekundenlang
+spurlos aus dem Hafen; Jahrzehnte später öffnete ein geheimes Radar-Experiment ein
+Tor zwischen den Epochen. Diese Vorfälle erschütterten die Grundlagen der Welt und
+führten zur Gründung des Instituts für Temporale Intervention (ITI). Eine
+internationale Koalition aus Wissenschaftlern, Militärs und Geheimdiensten rief das
+ITI ins Leben, um Paradoxien einzudämmen und weitere Zeitrisse zu verhindern.
 
-Im Verborgenen wacht das *Institut für Temporale Intervention*. Seine Chrononauten –
-ausgebildet in Tarnung, Sabotage und der Kunst, mit einem einzigen Wort Geschichte
-umzuschreiben – tragen die Verantwortung, das fragile Kontinuum zu schützen. Jeder Einsatz
-führt sie an Grenzen, die keine Karte kennt: zu Bibliotheken, deren Bücher noch nicht
-verfasst sind; auf Schlachtfelder, die es niemals geben darf;
-in den Schatten von Städten, deren Namen erst in einer fernen Zukunft ausgesprochen werden.
+Seitdem operiert das ITI aus der Nullzeit, einem versteckten Hub jenseits des
+normalen Zeitstroms. Von dort aus koordinieren sie Einsätze überall und jederzeit.
+Keine Hilfe von außen – selbst eine ferne galaktische Föderation fortgeschrittener
+Alien-Spezies schaut nur tatenlos zu, denn die Menschheit gilt ihr als
+unbedeutend. Also nimmt das ITI das Heft selbst in die Hand: rein menschliche
+Initiative, High-Tech-Ausrüstung und ein klarer Auftrag – rette die Timeline um
+jeden Preis.
 
-Doch sie sind nicht allein. Mächte jenseits unserer Gegenwart beanspruchen verlorene
-Sekunden, um daraus Imperien zu schmieden. Maschinenwesen aus einer düsteren Zukunft
-schleichen rückwärts durch die Zeit, während fanatische Orden uralte Augenblicke vergolden,
-um als allherrschende Gottkönige zu erwachen. Zwischen diesen Fronten entscheidet ein einziges
-Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie enden wird.
+Du bist einer dieser Agenten, ein Chrononaut. Deine Mission: auftauchende Risse
+flicken, Manipulationen korrigieren, die Hauptzeitlinie stabil halten. Du
+infiltrierst geheime Anlagen, führst riskante Sabotagen durch, beschützt
+gefährdete Schlüsselfiguren – was immer nötig ist, damit die Geschichte nicht
+entgleist. Kein Schicksal, keine Prophezeiung – nur du und deine Entscheidungen in
+Einsätzen, bei denen Sekunden über Erfolg oder Untergang bestimmen. Deine Erfolge
+bleiben unsichtbar; deine Rückschläge schreiben ganze Kapitel um.
 
-Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
-Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
-*Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
-geschehen musste.*
+Dabei kämpfst du nicht nur gegen die Tücken der Zeit, sondern auch gegen Gegner aus
+Fleisch und Blut. Der Megakonzern ChronTech will die Zukunft zu seinem Eigentum
+machen. Projekt Phoenix – ein Zirkel ehemaliger Montauk-Wissenschaftler – treibt
+rücksichtslos neue Zeitreise-Experimente voran. Geheimorden mit uraltem Wissen und
+skrupellose Schattenkonzerne verfolgen ihre eigenen Pläne im Zeitgefüge. Jeder
+Eingriff dieser Fraktionen zerrt weiter an der Wirklichkeit.
 
-Die Stunde schlägt. Das nächste Sprungfenster öffnet sich. Wer den Mut besitzt, den Pfad
-der Chrononauten zu beschreiten, tritt durch dieses Tor – wissend, dass ein einziger
-Schritt ein Schicksal tilgen, ein anderes erschaffen und die Legende eines ganzen
-Zeitalters ungeschehen machen kann.
+Und manchmal reißt sie. Wenn die Kausalketten zu sehr strapaziert werden, brechen
+Phänomene hervor, die niemand vorausgesehen hat: echte Anomalien. Aus solchen
+Rissen kriechen Dinge, die es nicht geben dürfte – Para-Kreaturen aus
+zerbrochenen Möglichkeitswelten. Sie aufzuspüren und einzudämmen ist die ultimative
+Verantwortung eines Chrononauten, damit aus einem einzelnen Zeitfehler kein
+Flächenbrand der Realität wird.
 
-Willkommen im Agenten-Thriller jenseits aller Grenzen – willkommen in ZEITRISS.
-Die Zeit wartet nicht.
-Dein letzter Einsatz endete tödlich. Aufgrund deines außergewöhnlich starken freien Willens
-konnte das ITI dein Bewusstsein aus dem Absolut rekonstruieren – du erhältst eine zweite Chance.
-Jetzt schwebst du im Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
-Bewusstseinsbehälter.
-Holo-Konsolen blenden Erinnerungen ein; hier legst du fest, wer du warst und wer du sein willst.
-Hinter der Panzerverglasung wächst aus Synth-Gel eine neue Bio-Hülle – auf Wunsch in einer
-Hominin-Variante.
-Wenn die Drucktanks verstummen, entlädt sich ein Transferblitz, Sensoren flackern auf und dein
-Bewusstsein fährt in den Körper.
-Erst jetzt öffnest du die Augen in einer klinisch weißen Kammer.
+Im Quarzatrium des ITI schweben die Sprungkreise in perfekter Ruhe. Laser
+zeichnen das nächste Sprungziel auf die Startplattform, bereit für den Moment,
+in dem deine neue Bio-Hülle andockt. Erst wenn Körper und Retina-Linse
+hochfahren, koppelt sich das HUD ein und zieht den Einsatzcode aus dem offenen
+Ops-Pool.
+
+Die Nullzeit kennt keinen Countdown. Das ITI schon.
+
+Wie willst du einsteigen?
+
+Klassischer Einstieg: Gemächlicher Start im Nullzeit-HQ – du lernst deinen
+Chrononauten kennen, bevor es ins Feld geht.
+
+Schnelleinstieg: Überspringe die Einführung: Wähle eine Rolle und stürze dich
+direkt ins erste Briefing.
+
+Freie Aktion: Definiere Callsign, Konzept und Hülle deines Chrononauten, und wir
+beginnen unmittelbar mit deinem ersten Einsatz.
+
+Wenn du dich für den klassischen Einstieg entscheidest, startet alles wie gehabt
+im Nullzeit-Labor: Dein letzter Einsatz endete tödlich. Aufgrund deines
+außergewöhnlich starken freien Willens konnte das ITI dein Bewusstsein aus dem
+Absolut rekonstruieren – du erhältst eine zweite Chance. Jetzt schwebst du im
+Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
+Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
+wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
+Synth-Gel eine neue Bio-Hülle – auf Wunsch in einer Hominin-Variante. Wenn die
+Drucktanks verstummen, entlädt sich ein Transferblitz, Sensoren flackern auf und
+dein Bewusstsein fährt in den Körper. Erst jetzt öffnest du die Augen in einer
+klinisch weißen Kammer.
 
 Nach Compliance-Hinweis und Einleitung wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
