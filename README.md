@@ -214,30 +214,34 @@ Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
 
 Nach Compliance-Hinweis und Einleitung fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
-Wählst du Schnell, tippe **`Schnelleinstieg`** und
-das Briefing bleibt kurz, den Twist deckt der Kodex später auf.
+Bei **klassisch** folgt die volle Charaktererschaffung.
+Danach wählst du: **HQ-Rundgang mit Kodex** (Tour, HUD, Kodex-Regeln)
+oder **Briefing** (erst dort wird die Mission gezogen).
+Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und kannst
+ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 
 Die ersten Schritte in unter zwei Minuten:
 
 - Standardstil: Cinematic/Verbose mit aktivem Kodex. PRECISION optional für Taktikphasen.
-1. **Mission ziehen** – nutze einen Seed aus dem Generator.
-2. **Drei Ziele** – formuliere klar nummerierte Aufträge.
-3. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
-4. **Success Table** – Erfolgsraten siehe [Würfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
-5. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
+1. **Einstieg wählen** – klassisch = volle Charaktererschaffung, schnell = Rolle + Kurzprofil.
+2. **Nach der Erstellung entscheiden** – HQ-Rundgang mit Kodex (Tour + Regelframe) oder direkt ins Briefing.
+3. **Briefing:** Mission ziehen (Seed aus dem Generator) und drei klar nummerierte Ziele formulieren.
+4. **Proben** – Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
+5. **Success Table** – Erfolgsraten siehe [Würfelmechanik](core/wuerfelmechanik.md#w6-vs-w10).
+6. **Risiko** – misslingt ein Exploding-Wurf und der Gegner explodiert,
    erhält er einen Vorteil.
-6. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-7. **Self-Reflection Off** – `!sf off` setzt das globale Flag
+7. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
+8. **Self-Reflection Off** – `!sf off` setzt das globale Flag
    (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
    `!sf on` stellt beides zurück. Vor Mission 5 unbedingt manuell toggeln,
    damit HUD-Badge und `scene_overlay()` den Status `SF-OFF` zeigen. Nach
    Mission 5 stellt die Runtime Self-Reflection automatisch auf `SF-ON` zurück –
    sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
-8. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
+9. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
    Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
    `!tk ready` hebt die Sperre nach dem Cooldown auf.
-9. **Chrono-Units** – Einheitliche Formel für Core **und** Rift:
-   `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
+10. **Chrono-Units** – Einheitliche Formel für Core **und** Rift:
+    `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
    (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
    `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
 10. **Debrief & HQ** – Nach jeder Mission im HQ: CU ausschütten, Loot-Recap
@@ -1228,7 +1232,7 @@ Klassischer Einstieg: Gemächlicher Start im Nullzeit-HQ – du lernst deinen
 Chrononauten kennen, bevor es ins Feld geht.
 
 Schnelleinstieg: Überspringe die Einführung: Wähle eine Rolle und stürze dich
-direkt ins erste Briefing.
+nach kurzer Vorbereitung ins Spiel – Briefing oder HQ-Rundgang nach Wahl.
 
 Freie Aktion: Definiere Callsign, Konzept und Hülle deines Chrononauten, und wir
 beginnen unmittelbar mit deinem ersten Einsatz.
@@ -1248,10 +1252,13 @@ klinisch weißen Kammer.
 Nach Compliance-Hinweis und Einleitung wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
 
-- _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper,
-  danach Einführung ins ITI und eine reguläre Mission.
-- _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …),
-  erhalte kurz Pro & Contra und starte direkt in eine kurze Mission.
+- _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper.
+  Danach entscheidest du, ob du einen HQ-Rundgang mit Kodex-Tour (inklusive
+  Sicherheits- und HUD-Briefing) willst oder direkt ins Briefing gehst. Der
+  Missions-Seed wird erst im Briefing gezogen.
+- _Schnell:_ Wähle eine Rolle (Infiltration, Tech, Face, Sniper …) und ein
+  Kurzprofil. Anschließend kannst du ebenfalls zwischen HQ-Einstieg und sofortigem
+  Briefing wählen.
 
 ## Spielstart
 
