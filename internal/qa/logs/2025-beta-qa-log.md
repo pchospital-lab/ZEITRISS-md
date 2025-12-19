@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.12
+version: 0.4.13
 tags: [meta]
 ---
 
@@ -28,6 +28,29 @@ tags: [meta]
 
 **Nachverfolgung**
 - QA-Fahrplan 1.13.16: Issue #12 auf erledigt gesetzt.
+
+## 2025-12-19 – Repo-Agent – Accessibility-Defaults im UI-Block (Issue #5) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Modul 12 4.2.3, QA-Fahrplan 1.13.17
+- Auftrag: Accessibility-Defaults in README und Speichermodul spiegeln, SaveGuard-Text
+  an die UI-Normalisierung anpassen.
+
+```chatlog
+16:20 Repo-Agent: `make lint`
+16:28 Repo-Agent: `make test`
+16:33 Repo-Agent: `bash scripts/smoke.sh`
+16:36 Repo-Agent: `python3 tools/lint_runtime.py`
+16:38 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+16:40 Repo-Agent: `python3 scripts/lint_doc_links.py`
+16:41 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] README und Modul 12 beschreiben Defaults für fehlende Accessibility-Felder.
+- [x] SaveGuard-Formulierung auf „normalisierter UI-Block“ vereinheitlicht.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.17: Issue #5 im Beta-GPT-12-Plan als erledigt markiert.
 
 ## 2025-12-19 – Repo-Agent – HQ-Intro Schlusszeile (Issue #10) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

@@ -144,6 +144,13 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan 1.13.15 markiert Issue #10 des Tester-Playtests 2025-12-18 als
   abgeschlossen.
 
+## Update 2025-12-19 – Accessibility-Defaults (Issue #5)
+
+- README und Modul 12 stellen klar, dass fehlende Accessibility-Felder durch
+  Migration/Serializer auf Defaults normalisiert werden.
+- QA-Log 2025-12-19 dokumentiert den Pflicht-Testlauf und den UI-Block-Check.
+- QA-Fahrplan 1.13.17 markiert Issue #5 im Beta-GPT-12-Plan als erledigt.
+
 ## Update 2026-04 – Tester-Playtest-Fortschritt
 
 - Maßnahmenpaket Tester-Playtest 2026-04 fortgeschrieben: SaveGuard wertet

@@ -564,9 +564,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Marker, `conflict_fields`, `conflicts_added`, Gesamttally), damit
   Cross-Mode-Imports einheitliche Belege liefern.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
-  Felder `contrast`, `badge_density` und `output_pace`; der SaveGuard bricht
-  den HQ-Deepsave ab, wenn eines fehlt. Migration und Serializer füllen
-  Legacy-Saves auf `standard|normal` auf.
+  Felder `contrast`, `badge_density` und `output_pace`. Migration und Serializer
+  ergänzen fehlende Felder mit Defaults (`standard|normal`), sodass der
+  SaveGuard den normalisierten UI-Block prüft.
 - Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
   Credits-Fallbacks (`economy.credits`) auf den HQ-Pool `economy.cu`, bevor
   Wallets oder Arena-Guards greifen.
