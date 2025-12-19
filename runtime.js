@@ -2323,6 +2323,54 @@ function ensure_runtime_flags(){
   return runtimeFlags;
 }
 
+function normalize_atmosphere_contract_capture(raw){
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const normalized = {};
+  for (const [phaseKey, entry] of Object.entries(raw)){
+    const phase = normalize_phase_value(phaseKey);
+    if (!['core', 'transfer', 'rift'].includes(phase)) continue;
+    const record = entry && typeof entry === 'object' && !Array.isArray(entry) ? entry : {};
+    const lines = Array.isArray(record.lines)
+      ? record.lines
+          .map(line => (typeof line === 'string' ? line.trim() : ''))
+          .filter(Boolean)
+          .slice(0, 12)
+      : [];
+    const bannedTerms = record.banned_terms && typeof record.banned_terms === 'object' && !Array.isArray(record.banned_terms)
+      ? record.banned_terms
+      : {};
+    const statusRaw = typeof bannedTerms.status === 'string'
+      ? bannedTerms.status.trim().toUpperCase()
+      : '';
+    const status = statusRaw === 'PASS' || statusRaw === 'FAIL' ? statusRaw : null;
+    const hits = Array.isArray(bannedTerms.hits)
+      ? bannedTerms.hits
+          .map(term => (typeof term === 'string' ? term.trim() : ''))
+          .filter(Boolean)
+      : [];
+    const hudToasts = Number.isFinite(record.hud_toasts)
+      ? Math.max(0, Math.floor(record.hud_toasts))
+      : null;
+    const capturedAt = typeof record.captured_at === 'string' && record.captured_at.trim()
+      ? record.captured_at.trim()
+      : null;
+    const normalizedRecord = {};
+    if (lines.length) normalizedRecord.lines = lines;
+    if (status || hits.length){
+      const bannedRecord = {};
+      if (status) bannedRecord.status = status;
+      if (hits.length) bannedRecord.hits = hits;
+      normalizedRecord.banned_terms = bannedRecord;
+    }
+    if (hudToasts !== null) normalizedRecord.hud_toasts = hudToasts;
+    if (capturedAt) normalizedRecord.captured_at = capturedAt;
+    if (Object.keys(normalizedRecord).length){
+      normalized[phase] = normalizedRecord;
+    }
+  }
+  return Object.keys(normalized).length ? normalized : null;
+}
+
 function ensure_atmosphere_contract(){
   const runtimeFlags = ensure_runtime_flags();
   const ui = ensure_ui();
@@ -2339,6 +2387,12 @@ function ensure_atmosphere_contract(){
     hud_limit: { per_scene: HUD_SCENE_TOAST_LIMIT, narrative_ratio: '80/20' },
     banned_terms: ATMOSPHERE_BANNED_TERMS
   };
+  const capture = normalize_atmosphere_contract_capture(state.logs.flags.atmosphere_contract_capture);
+  if (capture){
+    state.logs.flags.atmosphere_contract_capture = capture;
+  } else if (state.logs.flags.atmosphere_contract_capture !== undefined){
+    delete state.logs.flags.atmosphere_contract_capture;
+  }
   return state.logs.flags.atmosphere_contract;
 }
 
@@ -6514,6 +6568,12 @@ function prepare_save_logs(logs){
   contract.hud_limit = { per_scene: HUD_SCENE_TOAST_LIMIT, narrative_ratio: '80/20' };
   contract.banned_terms = ATMOSPHERE_BANNED_TERMS;
   base.flags.atmosphere_contract = contract;
+  const capture = normalize_atmosphere_contract_capture(base.flags.atmosphere_contract_capture);
+  if (capture){
+    base.flags.atmosphere_contract_capture = capture;
+  } else {
+    delete base.flags.atmosphere_contract_capture;
+  }
   return base;
 }
 

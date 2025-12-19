@@ -174,6 +174,15 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan wurde auf Version 1.13.13 angehoben und markiert Issue #3 des
   Playtest-Pakets 2025-12-18 als erledigt.
 
+## Update 2026-05-08 – Atmosphere-Contract Capture (Issue #6)
+
+- Optionales QA-Flag `logs.flags.atmosphere_contract_capture` ergänzt und im
+  Runtime-Normalizer sowie im Gold-Save-Fixture verankert.
+- Wissensmodule (README, Toolkit, Speicher-Modul, QA-Briefing) dokumentieren
+  8–12-zeilige Exzerpte pro Phase inkl. PASS/FAIL-Status und HUD-Toast-Zählung.
+- QA-Fahrplan 1.13.14 markiert Issue #6 des Tester-Playtest-Pakets 2025-12-18
+  als abgeschlossen; QA-Log führt den Testlauf vom 2026-05-08.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien

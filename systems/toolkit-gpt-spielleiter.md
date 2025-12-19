@@ -262,7 +262,9 @@ default_modus: mission-fokus
 > Atmosphere Contract (QA/Runner): 3rd-Person-Narration,
 > Physicality-Guard/Banned Terms, Rift = Casefile-Monster-Hunt,
 > Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
-> Block ab (`logs.flags.atmosphere_contract`).
+> Block ab (`logs.flags.atmosphere_contract`). QA-Exzerpte pro Phase landen
+> optional in `logs.flags.atmosphere_contract_capture` (8–12 Zeilen,
+> Banned-Terms PASS/FAIL, HUD-Toast-Zählung).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 #### Briefing-Anker & Auftragstyp (Core)

@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.13
+version: 1.13.14
 tags: [meta]
 ---
 
@@ -282,10 +282,10 @@ abgearbeitet werden.
    `vehicle_clash` und `mass_conflict` als strukturierte `logs.hud[]`-Events
    ergänzt (Tempo/Stress/Schaden/Chaos/Break-SG); HUD-Parser normalisiert
    strukturierte Einträge für Save/Load.
-6. **Issue #6 – Atmosphere-Contract Capture (QA-only) (⏳ offen)**  
-   Optionales QA-Flag `atmosphere_contract_capture` einführen, das
-   8–12-Zeiler pro Phase speichert inkl. PASS/FAIL für Banned-Terms und
-   Toasts-Zählung.
+6. **Issue #6 – Atmosphere-Contract Capture (QA-only) (✅ erledigt)**  
+   Optionales QA-Flag `logs.flags.atmosphere_contract_capture` eingeführt,
+   speichert 8–12-Zeiler pro Phase inkl. PASS/FAIL für Banned-Terms und
+   HUD-Toast-Zählung; Fixture und Wissensmodule gespiegelt.
 7. **Issue #7 – Economy-Scaling-Brücke dokumentieren (✅ erledigt)**  
    `cu_waehrungssystem.md` um Brücke „Rewards → Wallet-Richtwerte 400+“
    ergänzt; High-Tier-Sinks/Chronopolis-Preisanker dokumentiert; QA-Pfad für

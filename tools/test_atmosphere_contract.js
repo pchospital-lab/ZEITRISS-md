@@ -2,7 +2,28 @@ const rt = require('../runtime');
 const assert = require('assert');
 
 // Start-Mission: Atmosphere-Contract greift und HUD-Usage wird zurückgesetzt.
-rt.state.logs = { flags: { hud_scene_usage: { 2: { count: 3, tags: { HUD: 3 } } } } };
+rt.state.logs = {
+  flags: {
+    hud_scene_usage: { 2: { count: 3, tags: { HUD: 3 } } },
+    atmosphere_contract_capture: {
+      core: {
+        lines: [
+          'HQ-Intro: 3rd-Person, physisch verankert.',
+          'Linse scannt, Kabel vibriert, keine UI-Räume.',
+          'HUD kurz, nur Status, keine Dialogboxen.',
+          'Core bleibt rational, kein Para-Element.',
+          'EntryChoice beschrieben, kein Skip.',
+          'Briefing trägt Mission-Fokus.',
+          'Scene 1 startet mit Sensor-Toast.',
+          'Debrief verweist auf Archiv.'
+        ],
+        banned_terms: { status: 'pass' },
+        hud_toasts: 2,
+        captured_at: '2026-05-08T07:30:00Z'
+      }
+    }
+  }
+};
 rt.state.ui = {
   gm_style: 'verbose',
   intro_seen: true,
@@ -25,6 +46,23 @@ const startContract = rt.state.logs.flags.atmosphere_contract;
 assert.strictEqual(startContract.voice_profile, 'gm_third_person');
 assert.deepStrictEqual(startContract.default_modes, ['mission_focus', 'covert_ops_technoir']);
 assert.ok(startContract.banned_terms.includes('holodeck'));
+assert.deepStrictEqual(rt.state.logs.flags.atmosphere_contract_capture, {
+  core: {
+    lines: [
+      'HQ-Intro: 3rd-Person, physisch verankert.',
+      'Linse scannt, Kabel vibriert, keine UI-Räume.',
+      'HUD kurz, nur Status, keine Dialogboxen.',
+      'Core bleibt rational, kein Para-Element.',
+      'EntryChoice beschrieben, kein Skip.',
+      'Briefing trägt Mission-Fokus.',
+      'Scene 1 startet mit Sensor-Toast.',
+      'Debrief verweist auf Archiv.'
+    ],
+    banned_terms: { status: 'PASS' },
+    hud_toasts: 2,
+    captured_at: '2026-05-08T07:30:00Z'
+  }
+});
 console.log('atmosphere-contract-start-ok');
 
 // Load-Pfad: Voice-Lock und Mode-Preset werden normalisiert.
