@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.8
+version: 0.4.9
 tags: [meta]
 ---
 
@@ -124,6 +124,33 @@ tags: [meta]
 **Nachverfolgung**
 - Commit/PR: wird mit diesem Branch verknüpft (Atmosphere-Contract-Regression).
 - QA-Fahrplan: Version 1.13.3, Maßnahmenpaket 2026-05 vollständig dokumentiert.
+
+## 2025-12-19 – Repo-Agent – Economy-Scaling & Gold Save (Issues #7/#8) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.12
+- Auftrag: Economy-Scaling-Brücke (Rewards→Wallet-Richtwerte 400+),
+  Chronopolis-Sinks dokumentieren, QA-Pfad Lvl 120/512/900+ fixieren und
+  Gold-Save-Fixture aktualisieren.
+
+```chatlog
+09:10 Repo-Agent: `make lint`
+09:26 Repo-Agent: `make test`
+09:48 Repo-Agent: `bash scripts/smoke.sh`
+09:55 Repo-Agent: `python3 tools/lint_runtime.py`
+09:57 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:00 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:02 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Wallet-Richtwerte 400+ + Chronopolis-Sinks in `cu_waehrungssystem.md`
+      ergänzt; QA-Briefing benennt Level 120/512/900+ als Prüfanker.
+- [x] Gold-Save-Fixture (`savegame_v6_full.json`) erweitert um
+      `logs.flags.atmosphere_contract` und `hud_scene_usage`.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.12: Issues #7/#8 erledigt.
+- Commit/PR: wird im PR referenziert.
 
 ## 2025-12-19 – Repo-Agent – Playtest-Fixes (Issues #1/#9/#11) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

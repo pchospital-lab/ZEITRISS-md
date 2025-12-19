@@ -99,7 +99,8 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 > **Vor dem Absenden prüfen:** Ist das Wissenspaket vollständig geladen (Masterprompt, README,
 > Index, Runtime-Module, diese Briefing-Datei)? Ist das Speicherfenster groß genug für den
-> System-Prompt? Falls nein, zuerst Aufteilung oder Kürzung vornehmen, damit der GPT den vollständigen
+> System-Prompt? Falls nein, zuerst Aufteilung oder Kürzung vornehmen, damit der GPT den
+> vollständigen
 > Auftrag verarbeiten kann.
 
 ```text
@@ -128,7 +129,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und
 > Konflikte kennzeichnen). Decke bei Save- und Load-Prüfungen auch späte Progression
 > ab (Level 100+, 400+, 1000) und halte fest, wie Artefakt-/Rift-Boni, Wallets und
-> Psi-/Fraktionswerte skaliert werden. Dokumentiere jede Unstimmigkeit, Balance-
+> Psi-/Fraktionswerte skaliert werden. Für den Ökonomiepfad nutze explizit
+> Level 120, 512 und 900+ als Prüfanker (HQ-Pool, Wallet-Splits,
+> Chronopolis-Sinks) und vermerke, ob die Richtwerte eingehalten werden.
+> Dokumentiere jede Unstimmigkeit, Balance-
 > Frage oder Regelunklarheit.
 >
 > Hänge an deine Antwort einen Abschnitt `Test-Save (JSON)` an. Er enthält einen

@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.11
+version: 1.13.12
 tags: [meta]
 ---
 
@@ -74,7 +74,7 @@ Checks in einem Schritt.
 | 2025-07-05 | Beta-GPT Deltas (Save/HUD/Arena) | QA-Log 2025-07-05 |
 | 2025-07-18 | Beta-GPT Regression Save/HUD/Compliance | QA-Log 2025-07-18 |
 | 2025-10-21 | Beta-GPT 2025-10-15 Nacharbeiten validiert | QA-Log 2025-10-21 |
-| 2025-10-28 | Beta-GPT 2025-10-28 Deltas dokumentiert | QA-Log 2025-10-28; Maßnahmenpaket Beta-GPT 2025-10-28 |
+| 2025-10-28 | Beta-GPT 10-28 Deltas dokumentiert | QA-Log 2025-10-28; Paket 2025-10-28 |
 | 2025-10-29 | HQ-DeepSave & Wissensspiegel entschlackt | QA-Log 2025-10-29 |
 | 2025-10-30 | QA-Artefakte sichtbar verknüpft | QA-Log 2025-10-30 |
 | 2025-10-31 | Wissensmodule von QA-Hinweisen bereinigt | QA-Log 2025-10-31 |
@@ -287,13 +287,13 @@ abgearbeitet werden.
    Optionales QA-Flag `atmosphere_contract_capture` einführen, das
    8–12-Zeiler pro Phase speichert inkl. PASS/FAIL für Banned-Terms und
    Toasts-Zählung.
-7. **Issue #7 – Economy-Scaling-Brücke dokumentieren (⏳ offen)**  
+7. **Issue #7 – Economy-Scaling-Brücke dokumentieren (✅ erledigt)**  
    `cu_waehrungssystem.md` um Brücke „Rewards → Wallet-Richtwerte 400+“
-   ergänzen; High-Tier-Sinks/Chronopolis-Preise evaluieren; QA-Pfad für
-   Lvl 120/512/900+ definieren.
-8. **Issue #8 – QA-Fixture „Gold Save“ aktualisieren (⏳ offen)**  
-   Vollständigen Save-Block als Fixture versionieren oder Referenz fixieren;
-   Import-Tests (`migrate_save()`/Roundtrip) dokumentieren.
+   ergänzt; High-Tier-Sinks/Chronopolis-Preisanker dokumentiert; QA-Pfad für
+   Lvl 120/512/900+ ergänzt.
+8. **Issue #8 – QA-Fixture „Gold Save“ aktualisieren (✅ erledigt)**  
+   Vollständigen Save-Block als Fixture fixiert; QA-Referenz enthält den
+   erweiterten Flags-Block inkl. Atmosphere-Contract.
 9. **Issue #9 – Szene-Counter in Charaktererstellung (✅ erledigt)**  
    Szene-Anzeige bleibt im HQ (inkl. Charaktererstellung) aus; Scene-Overlay
    erscheint nur in Missionen/Rifts.
@@ -509,12 +509,20 @@ abgestimmt.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ------------- |
-| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ✅ abgeschlossen – README/DOC spiegeln Acceptance 1–15 inkl. Dispatcher-Verweis | R(QA); BRF; DOC |
-| #2 | Self-Reflection: Truth-Source `character.self_reflection` klarstellen | ✅ abgeschlossen – Speichermodul/HUD priorisieren Charakterwert + Auto-Reset | HUD; RT; M12 |
-| #3 | Boss-Gate/Foreshadow Terminologie und Reset-Zeitpunkte vereinheitlichen | ✅ abgeschlossen – HUD/Toolkit-Status und README-Smoke synchronisiert | HUD; TK(16); R(QA) |
-| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) mit Schrittfolge dokumentieren | ✅ abgeschlossen – Schrittfolge & Beispiel-Save im Speichermodul | M12; R(Koop); CW |
-| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) in einem Unterabschnitt bündeln | ✅ abgeschlossen – Psi-Modul bündelt Arena-Psi-Bullets (Tax/Buffer/Logs) | PSI; TK(16); RT |
-| #6 | Fahrzeug- und Massenkonflikt-Regeln in Smoke-Flow verankern | ✅ abgeschlossen – doc.md Smoke-Flow mit Arena-/Fahrzeugtests ergänzt | R(QA); VEH; MASS |
+| #1 | Acceptance-Smoke-Checkliste als Runtime-Mirror ergänzen | ✅ | R(QA); BRF; DOC |
+| #2 | Self-Reflection: Truth-Source `character.self_reflection` | ✅ | HUD; RT; M12 |
+| #3 | Boss-Gate/Foreshadow Terminologie & Reset-Zeitpunkte | ✅ | HUD; TK(16); R(QA) |
+| #4 | Cross-Mode Währungs-Sync (Solo→Koop→Arena) | ✅ | M12; R(Koop); CW |
+| #5 | Arena-Psi-Regeln (Phase-Strike, Tax, Buffer) bündeln | ✅ | PSI; TK(16); RT |
+| #6 | Fahrzeug-/Massenkonflikt-Regeln im Smoke-Flow | ✅ | R(QA); VEH; MASS |
+
+Details zum Maßnahmenpaket 2025-12-12:
+- #1 README/DOC spiegeln Acceptance 1–15 inkl. Dispatcher-Verweis.
+- #2 Speichermodul/HUD priorisieren `character.self_reflection` + Auto-Reset.
+- #3 HUD/Toolkit-Status und README-Smoke synchronisiert.
+- #4 Schrittfolge + Beispiel-Save im Speichermodul dokumentiert.
+- #5 Psi-Modul bündelt Arena-Psi-Bullets (Tax/Buffer/Logs).
+- #6 doc.md Smoke-Flow um Arena-/Fahrzeugtests ergänzt.
 
 **Nächste Schritte (konkret umsetzbar)**
 
@@ -534,11 +542,11 @@ müssen. Der komplette Rohtext liegt unter
 | #1 | Vollständiges v6-Test-Save als Fixture | ✅ abgeschlossen | M12; README |
 | #2 | Self-Reflection Flags vs. Charakterwert | ✅ abgeschlossen | HUD; RT; M12 |
 | #3 | Versionsstring Modul 12 (4.2.2 vs. 4.2.3) | ✅ abgeschlossen | M12; README; master-index |
-| #4 | Single Source of Truth für Rift-Seeds | ✅ abgeschlossen | M12; TK(16); gameplay/kampagnenstruktur.md |
+| #4 | Single Source of Truth für Rift-Seeds | ✅ | M12; TK(16); gameplay/kampagnenstruktur |
 | #5 | Arena-Mode-Reset (campaign.mode ← previous_mode) | ✅ abgeschlossen | TK(16); RT; SR |
 | #6 | Host-Regel beim Multi-Save-Import | ✅ abgeschlossen | README; M12 |
-| #7 | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level) | ✅ abgeschlossen | CW; Modul 15; Modul 8A |
-| #8 | Boss-DR nach Teamgröße staffeln | ✅ abgeschlossen | HUD; TK(16); gameplay/kampagnenstruktur.md |
+| #7 | CU-Formel konsolidieren (Risko, Hazard-Pay, 10×Level) | ✅ | CW; Modul 15; Modul 8A |
+| #8 | Boss-DR nach Teamgröße staffeln | ✅ | HUD; TK(16); gameplay/kampagnenstruktur |
 | #9 | Acceptance-Smoke 1–15 als Runtime-Overlay bereitstellen | ✅ abgeschlossen | R(QA); DOC; BRF |
 
 **QA-Testreferenz (12-13 Paket)**
