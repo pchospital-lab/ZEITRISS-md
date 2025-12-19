@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.17
+version: 1.13.18
 tags: [meta]
 ---
 
@@ -169,7 +169,7 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 Die folgenden Punkte stammen aus dem Copy-Paste-Testlauf (Acceptance 1–15, Save v6) und sind für
 den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf Release-Qualität.
 
-### 1. Boss-Gate-Mission 5/10 entkoppeln (Gate fix 2/2, FS separat)
+### 1. Boss-Gate-Mission 5/10 entkoppeln (Gate fix 2/2, FS separat) (✅ erledigt)
 
 - HUD-Spec `HUD` auf `GATE 2/2 · FS 0/4` zum Missionsstart M5/M10 umstellen, Gate nicht mehr an
   Foreshadow-Counts koppeln.
@@ -179,7 +179,7 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
   festen Startwert setzen; Boss-Toast/Flags synchronisieren.
 - QA: Mission-5-Badge-Check (Prüfnummern 11–12) in Solo/NPC/Koop/Arena erneut laufen lassen.
 
-### 2. `phase`-Feld konsolidieren (technisch lowercase)
+### 2. `phase`-Feld konsolidieren (technisch lowercase) (✅ erledigt)
 
 - README-Beispiele und Seeds auf `phase: core|transfer|rift` (lowercase) angleichen; Flavor-Groß-
   schreibung aus YAML entfernen.
@@ -189,7 +189,7 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
   Missions-Typ.
 - QA: Cross-Mode-Smoke (Solo → Koop → PvP) sicherstellen, dass `phase` konstant bleibt.
 
-### 3. Rift-Seeds mit optionalen Seed-Tiers ergänzen
+### 3. Rift-Seeds mit optionalen Seed-Tiers ergänzen (✅ erledigt)
 
 - Kampagnenstruktur `gameplay/kampagnenstruktur.md` um Hinweise zu optionalen
   Seed-Tiers (Early/Mid/Late) erweitern – ohne Level-Gating, freier Zugriff ab
@@ -199,7 +199,7 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 - QA: Drei Rifts fahren (Level 8 / 120 / 500+) und Seed-Zuordnung dokumentieren
   – nur als Balancing-Hinweis, nicht als Sperre.
 
-### 4. Arena-Phase-Strike-Logs von Psi-Heat trennen
+### 4. Arena-Phase-Strike-Logs von Psi-Heat trennen (✅ erledigt)
 
 - Entscheidung fixieren: neues Feld `logs.arena_psi[]` **oder** verpflichtendes Tagging
   (`category: arena|psi`, `heat_delta` vs. `sys_cost`). Schema in `M12` ergänzen.
@@ -214,26 +214,26 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 - README-Beispiel anpassen und Default-Logik der Migration/Serializer spiegeln.
 - QA: Save ohne Accessibility-Felder laden, `!accessibility` auf Standardwerte prüfen.
 
-### 6. Save-Beispiele für High-Level-/Rift-Play ergänzen
+### 6. Save-Beispiele für High-Level-/Rift-Play ergänzen (✅ erledigt)
 
 - Speicher-Doku um Abschnitt „High-Level-Progression (100–1000)“ erweitern und Referenz-Testsave
   (Lvl 8/120/520 mit Seeds 1–25/80–150/400–1000) verlinken.
 - QA-Log/Audit auf neuen Testspeicherstand verweisen; Archivierung unter `internal/qa/fixtures`
   prüfen.
 
-### 7. Gear-Alias „Multi-Tool-Armband“ dokumentieren
+### 7. Gear-Alias „Multi-Tool-Armband“ dokumentieren (✅ erledigt)
 
 - Alias-Doku `README`/`Toolkit` um Eintrag „Multi-Tool-Armband → Multi-Tool-Handschuh“ ergänzen;
   Hardware-Regel „kein Armband“ bleibt bestehen.
 - QA: Acceptance 9 als Stil-Compliance führen (still mapping, kein neues Item).
 
-### 8. Offline/Ask→Suggest/Alias/Squad-Radio als stabil vermerken
+### 8. Offline/Ask→Suggest/Alias/Squad-Radio als stabil vermerken (✅ erledigt)
 
 - QA-Abschnitt (README oder QA-Handbuch) um Kurznotiz ergänzen: Ask→Suggest, Offline-FAQ,
   Alias-/Squad-Radio-Logs Smoke bestanden in Solo/NPC/Koop/PvP.
 - QA-Log aktualisieren, Status als Referenz für Regressionen markieren.
 
-### 9. Dispatcher-Smoke 0–4 als Referenzstatus halten
+### 9. Dispatcher-Smoke 0–4 als Referenzstatus halten (✅ erledigt)
 
 - Optional Mini-Tabelle im QA-Kapitel anlegen („Dispatcher-Smoke 0–4 bestanden“), damit künftige
   Änderungen die Basislinie kennen.

@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.13
+version: 0.4.14
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-10 – Repo-Agent – High-Level-Regression & Beta-GPT-12 Abschluss (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Modul 12 4.2.3, QA-Fahrplan 1.13.18
+- Auftrag: High-Level-Fixture-Hinweis ergänzen, Beta-GPT-12-Plan abschließen,
+  Audit und QA-Log synchronisieren.
+
+```chatlog
+12:05 Repo-Agent: `make lint`
+12:29 Repo-Agent: `make test`
+12:36 Repo-Agent: `bash scripts/smoke.sh`
+12:40 Repo-Agent: `python3 tools/lint_runtime.py`
+12:42 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+12:44 Repo-Agent: `python3 scripts/lint_doc_links.py`
+12:45 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] README benennt `savegame_v6_highlevel.json` als High-Level-Referenz.
+- [x] QA-Fahrplan markiert das Beta-GPT-12-Paket als erledigt; Audit gespiegelt.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.18: Beta-GPT-12-Paket (Issues #1–#9) abgeschlossen.
 
 ## 2026-05-09 – Repo-Agent – Arena-SceneCounter/HUD-Overlay (Issue #12) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
