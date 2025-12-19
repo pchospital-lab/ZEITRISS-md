@@ -137,6 +137,13 @@ Hochstufen-Spielrunden.
   Atmosphere-Contract-Block und HUD-Usage-Flags als Referenz.
 - QA-Fahrplan 1.13.12 markiert Issues #7/#8 als abgeschlossen.
 
+## Update 2025-12-19 – HQ-Intro Schlusszeile (Issue #10)
+
+- HQ-Kurzintro um die Schlusszeile ergänzt und Start-Dispatcher-Doku gespiegelt.
+- QA-Log 2025-12-19 dokumentiert den Pflicht-Testlauf.
+- QA-Fahrplan 1.13.15 markiert Issue #10 des Tester-Playtests 2025-12-18 als
+  abgeschlossen.
+
 ## Update 2026-04 – Tester-Playtest-Fortschritt
 
 - Maßnahmenpaket Tester-Playtest 2026-04 fortgeschrieben: SaveGuard wertet
