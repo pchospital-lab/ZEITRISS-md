@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.16
+version: 1.13.17
 tags: [meta]
 ---
 
@@ -207,11 +207,11 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
   QA-Hinweise ergänzen.
 - QA: Acceptance 13 erneut (Psi-Heat + Arena-Strike) mit Filterkriterien prüfen.
 
-### 5. Accessibility-Felder robust spiegeln
+### 5. Accessibility-Felder robust spiegeln (✅ erledigt)
 
-- Speicher-Doku `M12` klarstellen: `contrast`/`badge_density`/`output_pace` empfohlen, Defaults
-  beim Laden wenn Felder fehlen; Serializer setzt explizit nur `gm_style`/`suggest_mode`.
-- Optional Defaults im Serializer (`RT` → UI-Prep) ergänzen; README-Beispiel anpassen.
+- Speicher-Doku `M12` klarstellen: `contrast`/`badge_density`/`output_pace` optional, Defaults
+  greifen bei fehlenden Feldern; SaveGuard prüft den normalisierten UI-Block.
+- README-Beispiel anpassen und Default-Logik der Migration/Serializer spiegeln.
 - QA: Save ohne Accessibility-Felder laden, `!accessibility` auf Standardwerte prüfen.
 
 ### 6. Save-Beispiele für High-Level-/Rift-Play ergänzen

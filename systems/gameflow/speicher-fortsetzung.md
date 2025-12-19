@@ -243,13 +243,12 @@ Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
 Typ vor und überlassen das `phase`-Feld der Laufzeit; Uppercase-Werte gelten
 als ungültig und werden beim Laden auf lowercase normalisiert.
 
-**Accessibility-Felder:** Der Serializer schreibt stets `ui.gm_style` und
-`ui.suggest_mode`. Felder für `contrast`, `badge_density`, `output_pace` und
-`voice_profile` sind empfohlen; fehlen sie, setzt die Runtime Defaults
-(`standard`/`standard`/`normal`/`gm_third_person`) und loggt den Schritt im
-Accessibility-Toast. Saves dürfen diese Felder weglassen, ohne dass Persistenz
-verloren geht; Smokes mit fehlenden Feldern gelten als bestanden, wenn die
-Defaults greifen.
+**Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
+(`ui.gm_style`, `ui.suggest_mode`) und ergänzen fehlende Felder für `contrast`,
+`badge_density`, `output_pace` und `voice_profile` mit Defaults
+(`standard`/`standard`/`normal`/`gm_third_person`). Saves dürfen diese Felder
+weglassen, ohne Persistenz zu verlieren; Smokes gelten als bestanden, wenn die
+Defaults greifen und der SaveGuard den normalisierten Block akzeptiert.
 
 **Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
 enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
@@ -679,10 +678,11 @@ Arena-Guards scharfgeschaltet werden.
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
-zurücksetzen. HQ-Deepsaves erzwingen den kompletten UI-Block
+zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block
 (`gm_style`/`intro_seen`/`suggest_mode` plus `contrast`/`badge_density`/
-`output_pace`); fehlt ein Feld, stoppt der SaveGuard und die Migration füllt
-es auf `standard|normal` auf. Der Serializer mappt die Optionen 1:1 auf JSON:
+`output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
+(`standard|normal`), sodass der SaveGuard den normalisierten Block akzeptiert.
+Der Serializer mappt die Optionen 1:1 auf JSON:
 
 - **Kontrast:** `contrast = standard|high`
 - **Badge-Dichte:** `badge_density = standard|dense|compact`
