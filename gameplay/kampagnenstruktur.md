@@ -207,9 +207,10 @@ am Erhalt einer stabilen Zeitlinie. Eine Kampagne läuft jedoch strikt in einem
 einzigen Modus; gemischte Pools oder parallele Preserve/Trigger-Läufe sind
 ausgeschlossen.
 Eine kurze Zusammenfassung der Abläufe bietet das README.
-> **Hinweis:** In **Trigger-Missionen** stellen die erzwungenen Tragödien stets das **kleinere Übel** dar –
-> ihre Verhinderung würde eine noch schlimmere Katastrophe auslösen. Dieses Framing hält die
-> Entscheidungen der Agenten moralisch nachvollziehbar, obwohl sie historisches Unheil herbeiführen.
+> **Hinweis:** In **Trigger-Missionen** müssen die dokumentierten Tragödien
+> historisch korrekt eintreten; ihre Verhinderung würde eine deutlich schlimmere
+> Katastrophe auslösen. Dieses Framing hält die Entscheidungen der Agenten
+> moralisch nachvollziehbar, obwohl sie historisches Unheil herbeiführen.
 
 **Toleranzfenster für Abweichungen**
 

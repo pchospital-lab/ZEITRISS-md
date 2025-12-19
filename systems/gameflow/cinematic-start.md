@@ -15,47 +15,54 @@ tags: [system]
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
 
-Der cineastische Einstieg ist **Default** für jede Mission. PRECISION-Kurzheader erscheinen
-nur bei Bedarf in Konflikt- oder Finaleszenen. Das HQ zeigt beim Sprung stets den
-Transfer-Frame; anschließend folgt ein Establishing Shot der Zielrealität.
+Der cineastische Einstieg ist **Default** für jede Mission. PRECISION-Kurzheader
+erscheinen nur bei Bedarf in Konflikt- oder Finaleszenen. Das HQ zeigt beim
+Sprung stets den Transfer-Frame; anschließend folgt ein Establishing Shot der
+Zielrealität.
 
-Hinweis: In jeder Mission mindestens ein Establishing-Absatz, ein Close-up und ein
-Geräusch- oder Geruchsdetail, bevor die Taktik einsetzt.
+Hinweis: In jeder Mission mindestens ein Establishing-Absatz, ein Close-up und
+ein Geräusch- oder Geruchsdetail, bevor die Taktik einsetzt.
 
 ## Ablauf zu Beginn
 
 Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquartier.
-Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD, Kodex-Regeln)
-oder direkt das **Briefing** im Quarzatrium. Der Missions-Seed wird erst im Briefing
-gezogen – nicht bereits in Einleitung oder HQ-Tour. Erst anschließend treten die
-Chrononauten durch das Zeitportal und beginnen ihre Mission.
+Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD,
+Kodex-Regeln) oder direkt das **Briefing** im Quarzatrium. Der Missions-Seed
+wird erst im Briefing gezogen – nicht bereits in Einleitung oder HQ-Tour. Erst
+anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre
+Mission.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
 Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
-Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die Chrononauten erhalten
-eine handfeste Geschichtsmission, die sie mitten in eine Verschwörung führt.
+Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die
+Chrononauten erhalten eine handfeste Geschichtsmission, die sie mitten in eine
+Verschwörung führt.
 Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../../core/zeitriss-core.md#paradoxon--pararifts)
-per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer Vorgang. Auf der
-[Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte) erscheinen
-1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind.
+per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer
+Vorgang. Auf der
+[Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte)
+erscheinen 1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind.
 Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode.
 Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen.
 Sie riskieren während des Arcs keinen höheren SG.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
-Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des ITI-Hauptquartiers
-ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht das Quarzatrium in unwirklichen Glanz,
-während ein schimmerndes Zeitportal wie ein schwebende Scheibe im Raum hängt. Nacheinander treten
-die **Chrononauten** hindurch und betreten die **Nullzeit**, jenen neutralen Zwischenraum außerhalb
-aller Epochen. Für einen Herzschlag lang hält alles inne – die Zeit selbst scheint den Atem
-anzuhalten. Dann erwachen die Sinneseindrücke: klinisch reine, unbewegte Luft ohne jeden Windhauch;
-holografische Anzeigen, die am Rande des Sichtfelds flüchtige Daten zu Ankunftskoordinaten,
-Vitalwerten und temporalen Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
-Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlicht, scannt sie auf
-Anomalien und signalisiert mit einem sanften Ton, dass alle **sicher in der Nullzeit** angekommen
-sind. Ein sanfter Ton erklingt im **Comlink (Ohrstöpsel)**, gleichzeitig fährt die
-**AR-Kontaktlinse** das Overlay hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
+Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
+ITI-Hauptquartiers ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht
+das Quarzatrium in unwirklichen Glanz, während ein schimmerndes Zeitportal wie
+ein schwebende Scheibe im Raum hängt. Nacheinander treten die **Chrononauten**
+hindurch und betreten die **Nullzeit**, jenen neutralen Zwischenraum außerhalb
+aller Epochen. Für einen Herzschlag lang hält alles inne – die Zeit selbst
+scheint den Atem anzuhalten. Dann erwachen die Sinneseindrücke: klinisch reine,
+unbewegte Luft ohne jeden Windhauch; holografische Anzeigen, die am Rande des
+Sichtfelds flüchtige Daten zu Ankunftskoordinaten, Vitalwerten und temporalen
+Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
+Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlicht,
+scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
+**sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
+**Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
+hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
 *(Details zur Hardware: siehe
 [HUD & Comms – Spezifikation](../../characters/zustaende-hud-system.md#hud-comms-spec)).*
 
@@ -64,75 +71,86 @@ ins Sichtfeld:
 
 `Tipp: menü zeigt Optionen und aktive Modi`
 
-Mit einem Zischen gleiten gegenüber dem Portal massive Stahltüren auf. **Commander Arnaud Renier**,
-Einsatzleiter des Instituts für Temporale Intervention (ITI), tritt mit entschlossenem Schritt in
-die Halle. Sein schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick verraten
-militärische Disziplin, doch ein angedeutetes Lächeln in seinen Augen zeigt auch Neugier. Renier
-mustert die Neuankömmlinge – eine **Gruppe von Agenten aus unterschiedlichen Zeiten**: Dort steht
-ein kräftiger Mann in zerbeulter Plattenrüstung, an der getrockneter Schlamm aus dem 13. Jahrhundert
-klebt – ein Ritter, der gerade eben einen mittelalterlichen Kriegsschauplatz verlassen hat. Neben
-ihm blickt eine Frau in einem hochmodernen Nanofaser-Anzug fasziniert auf die antik wirkende Halle –
-eine Technikerin aus dem Jahr 2190, für die diese Umgebung beinahe prähistorisch anmutet. Etwas
-abseits tastet ein junges Talent in Jeans und Lederjacke vorsichtig nach dem altägyptischen Amulett
+Mit einem Zischen gleiten gegenüber dem Portal massive Stahltüren auf.
+**Commander Arnaud Renier**, Einsatzleiter des Instituts für Temporale
+Intervention (ITI), tritt mit entschlossenem Schritt in die Halle. Sein
+schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick
+verraten militärische Disziplin, doch ein angedeutetes Lächeln in seinen Augen
+zeigt auch Neugier. Renier mustert die Neuankömmlinge – eine **Gruppe von
+Agenten aus unterschiedlichen Zeiten**: Dort steht ein kräftiger Mann in
+zerbeulter Plattenrüstung, an der getrockneter Schlamm aus dem 13. Jahrhundert
+klebt – ein Ritter, der gerade eben einen mittelalterlichen Kriegsschauplatz
+verlassen hat. Neben ihm blickt eine Frau in einem hochmodernen Nanofaser-Anzug
+fasziniert auf die antik wirkende Halle – eine Technikerin aus dem Jahr 2190,
+für die diese Umgebung beinahe prähistorisch anmutet. Etwas abseits tastet ein
+junges Talent in Jeans und Lederjacke vorsichtig nach dem altägyptischen Amulett
 an seinem Hals – ein Historiker aus den 2020ern, der ein **historisches Relikt**
-von seiner letzten Mission
-mitgebracht hat. Für einen Moment herrscht gespanntes Schweigen: Hier treffen **Menschen
-verschiedener Epochen** zusammen, vereint im Licht des Zeitportals, zum ersten Mal gemeinsam an
-einem Ort jenseits der Zeit. Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
-Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film, voller Bedeutung und
-Erwartung.
+von seiner letzten Mission mitgebracht hat. Für einen Moment herrscht gespanntes
+Schweigen: Hier treffen **Menschen verschiedener Epochen** zusammen, vereint im
+Licht des Zeitportals, zum ersten Mal gemeinsam an einem Ort jenseits der Zeit.
+Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
+Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film,
+voller Bedeutung und Erwartung.
 
-Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den hohen Raum:
-_„Willkommen im Herzen des ITI, Agents.“_ Während er spricht, erscheint ein halbtransparentes
-Interface-Display neben ihm – der Kodex projiziert Ankunftsdaten und Profile. Renier fährt fort,
-während sein Blick über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
-**_Nullzeit_**, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier ticken die Uhren
-anders – genau genommen gar nicht. Egal wie lange wir bleiben, für die Außenwelt vergehen nur
-Sekunden. Wir altern nicht und können euch genau an den Moment zurückschicken, aus dem ihr gekommen
-seid. Doch es ist auch gewöhnungsbedürftig: kein Tag, keine Nacht, nur wir und unsere Missionen.“_
-Er lächelt aufmunternd und tritt näher. _„Bevor wir fortfahren, nehmt euch einen Augenblick. Schaut
-euch um, lernt euch kennen.“\* Die Charaktere haben Zeit, erste Worte zu wechseln – Blicke voller
-Neugier, Skepsis, Aufregung werden getauscht. Dieser Moment könnte der Auftakt zu ihrem ersten
-gemeinsamen Abenteuer sein…
+Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den
+hohen Raum: _„Willkommen im Herzen des ITI, Agents.“_ Während er spricht,
+erscheint ein halbtransparentes Interface-Display neben ihm – der Kodex
+projiziert Ankunftsdaten und Profile. Renier fährt fort, während sein Blick
+über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
+**_Nullzeit_**, unserem Hauptquartier außerhalb des normalen Zeitstroms. Hier
+ticken die Uhren anders – genau genommen gar nicht. Egal wie lange wir bleiben,
+für die Außenwelt vergehen nur Sekunden. Wir altern nicht und können euch genau
+an den Moment zurückschicken, aus dem ihr gekommen seid. Doch es ist auch
+gewöhnungsbedürftig: kein Tag, keine Nacht, nur wir und unsere Missionen.“_ Er
+lächelt aufmunternd und tritt näher. _„Bevor wir fortfahren, nehmt euch einen
+Augenblick. Schaut euch um, lernt euch kennen.“\* Die Charaktere haben Zeit,
+erste Worte zu wechseln – Blicke voller Neugier, Skepsis, Aufregung werden
+getauscht. Dieser Moment könnte der Auftakt zu ihrem ersten gemeinsamen
+Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.2.3**, der überarbeiteten und erweiterten Fassung des
-cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt das frühere fixe
-Einstiegsszenario durch einen **flexiblen Baukasten**, der Spielleiter\*innen dabei hilft, einen
-maßgeschneiderten, filmreifen Start in die Kampagne zu gestalten. Statt einer vorgegebenen Szene
-bietet Modul 13 zahlreiche **Optionen für Einstiege**, die individuell an Gruppe, Epoche und
-Tonalität angepasst werden können.
+**Willkommen zu Modul 13 von ZEITRISS 4.2.3**, der überarbeiteten und erweiterten
+Fassung des cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt
+das frühere fixe Einstiegsszenario durch einen **flexiblen Baukasten**, der
+Spielleiter\*innen dabei hilft, einen maßgeschneiderten, filmreifen Start in die
+Kampagne zu gestalten. Statt einer vorgegebenen Szene bietet Modul 13 zahlreiche
+**Optionen für Einstiege**, die individuell an Gruppe, Epoche und Tonalität
+angepasst werden können.
 
-Ziel ist es, einen **cineastischen Auftakt** zu ermöglichen – einen Start ins Abenteuer, der sich
-anfühlt wie der Beginn eines spannenden Films. Dafür werden in diesem Modul filmische Stilmittel,
-Strukturen und Erzählkniffe vorgestellt, die das Kopfkino der Spielrunde auf Hochtouren bringen. Ob
-dramatische Action-Sequenz, stimmungsvolle Charaktereinführung oder mysteriöse Auftaktszene – die
-folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg so atmosphärisch wie
-möglich zu gestalten.
+Ziel ist es, einen **cineastischen Auftakt** zu ermöglichen – einen Start ins
+Abenteuer, der sich anfühlt wie der Beginn eines spannenden Films. Dafür werden
+in diesem Modul filmische Stilmittel, Strukturen und Erzählkniffe vorgestellt,
+die das Kopfkino der Spielrunde auf Hochtouren bringen. Ob dramatische
+Action-Sequenz, stimmungsvolle Charaktereinführung oder mysteriöse Auftaktszene
+– die folgenden Seiten liefern **Inspirationen und Werkzeuge**, um den Einstieg
+so atmosphärisch wie möglich zu gestalten.
 
-Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller mit historisch
-fundierten Verschwörungen. Bei steigendem Paradoxon-Index können in jeder Epoche leichte
-Symptome wie Funkflackern oder ein **Kurz-Nachhall** auftreten. Stärkere paranormale Phänomene
-entstehen jedoch erst in Rifts und erinnern an **X-Files**. Es gibt keine magischen
-Erklärungen oder Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
+Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller
+mit historisch fundierten Verschwörungen. Bei steigendem Paradoxon-Index können
+in jeder Epoche leichte Symptome wie Funkflackern oder ein **Kurz-Nachhall**
+auftreten. Stärkere paranormale Phänomene entstehen jedoch erst in Rifts und
+erinnern an **X-Files**. Es gibt keine magischen Erklärungen oder
+Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
 
-Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten Abschnitt der Kampagne
-flexibel auf **Gruppengröße**, **Spielerzahl**, **Herkunft der Charaktere**, **Epoche des
-Szenarios** und gewünschte **Stimmung** abstimmt. Von einem einzelnen Helden bis zu einem Team aus
-Veteranen, von humorvoll-leichter Tonart bis zum gritty Zeitreise-Thriller – dieser Baukasten hilft
-dabei, für alle den passenden Auftakt zu finden.
+Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten
+Abschnitt der Kampagne flexibel auf **Gruppengröße**, **Spielerzahl**, **Herkunft
+der Charaktere**, **Epoche des Szenarios** und gewünschte **Stimmung** abstimmt.
+Von einem einzelnen Helden bis zu einem Team aus Veteranen, von
+humorvoll-leichter Tonart bis zum gritty Zeitreise-Thriller – dieser Baukasten
+hilft dabei, für alle den passenden Auftakt zu finden.
 
-Zum Abschluss bietet das Modul eine Auswahl **möglicher Startmissionen** als **modulare
-Einstiegspunkte**. Diese sind keine ausformulierten Abenteuer, sondern lose Skizzen, die reichlich
-Raum für Anpassungen lassen. Sie sollen als Sprungbrett dienen: Spielleitungen können sie direkt
-aufgreifen oder nach Belieben abwandeln, um einen einzigartigen Start ins **erste echte ZEITRISS-
-Abenteuer** ihrer Gruppe zu schaffen.
+Zum Abschluss bietet das Modul eine Auswahl **möglicher Startmissionen** als
+**modulare Einstiegspunkte**. Diese sind keine ausformulierten Abenteuer,
+sondern lose Skizzen, die reichlich Raum für Anpassungen lassen. Sie sollen als
+Sprungbrett dienen: Spielleitungen können sie direkt aufgreifen oder nach
+Belieben abwandeln, um einen einzigartigen Start ins **erste echte
+ZEITRISS-Abenteuer** ihrer Gruppe zu schaffen.
 
 
 Tauchen wir nun ein in die Welt des filmischen Erzählens und schauen wir uns an,
-mit welchen Techniken und Ideen man einen **cineastischen Einstieg** inszenieren
-kann. Licht aus, **Film ab** für euer Zeitreise-Abenteuer!
+mit welchen Techniken und Ideen man einen **cineastischen Einstieg**
+inszenieren kann. Licht aus, **Film ab** für euer Zeitreise-Abenteuer!
 
 ### Mini-Szenarien: Preserve vs Trigger
 
@@ -149,10 +167,12 @@ von Beginn an entweder Preserve oder Trigger ist.
 
 ## Filmische Techniken für einen epischen Start
 
-Ein gelungener cineastischer Einstieg nutzt ähnliche Techniken wie ein guter Film oder eine
-mitreißende Serie. Im Rollenspiel lassen sich Kameraeinstellungen, Schnitte und andere Stilmittel
-durch lebendige Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier sind einige
-**filmreife Techniken**, um eure erste Spielsitzung wie auf der Leinwand erstrahlen zu lassen:
+Ein gelungener cineastischer Einstieg nutzt ähnliche Techniken wie ein guter
+Film oder eine mitreißende Serie. Im Rollenspiel lassen sich
+Kameraeinstellungen, Schnitte und andere Stilmittel durch lebendige
+Beschreibung und geschickte Erzähldramaturgie nachahmen. Hier sind einige
+**filmreife Techniken**, um eure erste Spielsitzung wie auf der Leinwand
+erstrahlen zu lassen:
 
 - **In medias res – Mitten ins Geschehen:** Überlegt, ob ihr direkt **mitten in
   einer actiongeladenen Szene** starten wollt. Ähnlich wie ein Film, der ohne
