@@ -76,6 +76,33 @@ tags: [meta]
 - Commit/PR: wird mit diesem Branch verknüpft (Atmosphere-Contract-Regression).
 - QA-Fahrplan: Version 1.13.3, Maßnahmenpaket 2026-05 vollständig dokumentiert.
 
+## 2025-12-19 – Repo-Agent – Playtest-Fixes (Issues #1/#9/#11) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.9
+- Auftrag: Dispatcher-Fehlertext „gruppe 3“ harmonisieren, Scene-Overlay im HQ
+  unterdrücken (Charaktererstellung), Handgelenk-Default streichen.
+
+```chatlog
+08:10 Repo-Agent: `make lint`
+08:22 Repo-Agent: `make test`
+08:38 Repo-Agent: `bash scripts/smoke.sh`
+08:45 Repo-Agent: `python3 tools/lint_runtime.py`
+08:46 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+08:47 Repo-Agent: `python3 scripts/lint_doc_links.py`
+08:48 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Dispatcher-String `gruppe 3` harmonisiert (README/Toolkit/QA-Briefing).
+- [x] Scene-Overlay nur noch in Missionen/Rifts; HQ/Charaktererstellung ohne
+      Szenenzähler (Runtime + Speicher-Doku + Acceptance-Fixtures).
+- [x] Handgelenk-Default als Legacy markiert, Hardware-Anker bleiben erhalten.
+- [ ] Arena-SceneCounter/HUD-Overlay: Prüfen, ob PvP-Arena einen Szenenzähler
+      benötigt und wie `scene_overlay()` im Arena-Flow eingesetzt werden soll.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.8 markiert Issues #1/#9/#11 als erledigt.
+
 ## 2025-12-03 – Maintainer – Testprompt Voll-Lauf (Solo/Koop/Arena)
 - Plattform: Beta-GPT (simulativ, Speicher- und HUD-Flows)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-12-02,

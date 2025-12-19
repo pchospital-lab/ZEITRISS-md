@@ -167,6 +167,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 >   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
 >      (klassisch/schnell sind erlaubt)“
+>      (klassisch/schnell sind erlaubt)“
 >   7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing
 >   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
 >   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
@@ -388,6 +389,7 @@ saveGame({...})
    (z. B. npc-team 3).“
 5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
+   (klassisch/schnell sind erlaubt)“
    (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“

@@ -5458,6 +5458,7 @@ function StartMission(){
   const missionType = resolve_mission_type();
   const missionPhase = missionType === 'rift' ? 'rift' : 'core';
   const sceneTotal = resolve_scene_total(missionType);
+  state.location = 'FIELD';
   state.phase = missionPhase;
   state.campaign ||= {};
   state.campaign.type = missionPhase;
@@ -5616,6 +5617,10 @@ function prompt_entry_choice(){
 }
 
 function scene_overlay(scene){
+  const location = typeof state.location === 'string' ? state.location.trim().toUpperCase() : 'HQ';
+  if (location === 'HQ'){
+    return null;
+  }
   const s = scene || state.scene;
   const ep = state.campaign?.episode ?? 0;
   const ms = state.campaign?.mission ?? 0;
@@ -7391,8 +7396,11 @@ function load_deep(raw){
   ensure_atmosphere_contract();
   reset_hud_usage();
   show_compliance_once();
+  sync_foreshadow_progress();
   const hud = scene_overlay();
-  writeLine(hud);
+  if (hud){
+    writeLine(hud);
+  }
   if (pxResetNote){
     writeLine(pxResetNote);
   }

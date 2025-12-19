@@ -1,5 +1,5 @@
 {
-  "hq_overlay": "EP 2 · MS 5 · SC 0/12 · MODE CORE · Objective: Mission 5 Badge QA · FS 0/4 · GATE 2/2 · Px 0 · SYS 1 · Lvl -",
+  "hq_overlay": null,
   "sf_off": "SF-OFF – introspektive Sequenzen gesperrt.",
   "mission_overlay": "EP 2 · MS 5 · SC 0/12 · MODE CORE · Objective: Mission 5 Badge QA · ANCR ? · RW 08:00 · FS 0/4 · GATE 2/2 · Px 0 · SYS 1 · Lvl - · FR:ruhig · SF-OFF",
   "hud_mission": [
