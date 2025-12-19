@@ -167,6 +167,13 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan wurde auf Version 1.13.11 angehoben und markiert Issues #2/#5
   des Playtest-Pakets 2025-12-18 als erledigt.
 
+## Update 2026-05-07 – Mission-5-Load-Snapshot (Issue #3)
+
+- Acceptance-Follow-up prüft Mission‑5‑HUD, Gate/SF/Boss‑Toast und
+  Auto‑Reset‑Flags (`self_reflection_auto_reset_*`) nach Save/Load.
+- QA-Fahrplan wurde auf Version 1.13.13 angehoben und markiert Issue #3 des
+  Playtest-Pakets 2025-12-18 als erledigt.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
