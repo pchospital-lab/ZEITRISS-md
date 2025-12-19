@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.10
+version: 1.13.11
 tags: [meta]
 ---
 
@@ -267,10 +267,10 @@ abgearbeitet werden.
 1. **Issue #1 – Dispatcher-Fehlertext `gruppe 3` zu kurz (✅ erledigt)**  
    Dispatcher-String auf „Bei gruppe keine Zahl angeben. (klassisch/schnell
    sind erlaubt)“ harmonisiert; Snapshot-Quellen synchronisiert.
-2. **Issue #2 – Save-Container/Parser-Vollständigkeit (⏳ offen)**  
+2. **Issue #2 – Save-Container/Parser-Vollständigkeit (✅ erledigt)**  
    QA-Parser/Fixtures um Pflichtcontainer `logs.trace[]` und
-   `logs.arena_psi[]` ergänzen; optional QA-Toast für Offline-Rate-Limit;
-   Cross-Mode-Import neu prüfen.
+   `logs.arena_psi[]` ergänzt; Test-Save/Briefing-Listen spiegeln die Container,
+   Negativtest für fehlendes `logs.arena_psi` ergänzt.
 3. **Issue #3 – Mission-5-Badge-Snapshot nach Load (⏳ offen)**  
    Gate/SF/Boss-Toast nach Load sofort spiegeln; Auto-Reset-Flags
    (`self_reflection_auto_reset_*`) sichern; Mission 5 (Abschluss/Abbruch)
@@ -279,9 +279,10 @@ abgearbeitet werden.
    `logs.arena_psi[]` stets vorhanden; SaveGuard blockt bei `arena.active`
    oder `queue_state != idle`; Arena-Flow (Start → Phase-Strike → Save → HQ)
    erneut prüfen.
-5. **Issue #5 – Sonder-Overlays strukturiert loggen (⏳ offen)**  
+5. **Issue #5 – Sonder-Overlays strukturiert loggen (✅ erledigt)**  
    `vehicle_clash` und `mass_conflict` als strukturierte `logs.hud[]`-Events
-   ergänzen (Tempo/Stress/Schaden/Chaos/Break-SG); Parser anpassen.
+   ergänzt (Tempo/Stress/Schaden/Chaos/Break-SG); HUD-Parser normalisiert
+   strukturierte Einträge für Save/Load.
 6. **Issue #6 – Atmosphere-Contract Capture (QA-only) (⏳ offen)**  
    Optionales QA-Flag `atmosphere_contract_capture` einführen, das
    8–12-Zeiler pro Phase speichert inkl. PASS/FAIL für Banned-Terms und

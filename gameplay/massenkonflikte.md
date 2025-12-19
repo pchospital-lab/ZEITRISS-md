@@ -48,6 +48,8 @@ Siehe hierzu auch das Modul
 ### Massenkonflikt-Quickref {#mass-qa}
 
 - Startmarker: HUD-Flag `Mass Conflict` + Szenentitel (z. B. „Basar-Aufruhr“).
+- HUD-Overlay: `mass_conflict_overlay(chaos, break_sg, stress)` schreibt einen
+  strukturierten `logs.hud`-Eintrag (`event: mass_conflict`).
 - Kernschaden: Standard-Treffer **3** Schaden gegen Trupp-Abschnitte, schwere Waffen **4–5**.
 - Stress/Chaos: Jede verfehlte Massenaktion addiert **Stress +1** für die Truppe,
   dokumentiert im HUD/`logs.hud`.
