@@ -14,7 +14,9 @@ tags: [system]
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
-assert state.location == "HQ", "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
+assert state.location == "HQ", (
+  "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
+)
 assert state.character.attributes.SYS_installed == state.character.attributes.SYS_max
 assert state.character.attributes.SYS_runtime <= state.character.attributes.SYS_installed
 assert state.character.stress == 0 und state.character.psi_heat == 0
@@ -92,8 +94,17 @@ SaveGuard + folgendem Pfadbaum:
 - `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
 - `campaign.{episode,scene,px,rift_seeds[]}`
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
-- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,atmosphere_contract_capture,hud_scene_usage},flags.merge_conflicts[]}`
-- `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`, `zone=safe|combat`, `team_size` hart 0–4)
+- `logs` mit folgenden Pfaden:
+  - `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `hud`, `psi`,
+    `arena_psi`, `foreshadow`, `fr_interventions`
+  - `flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,
+    chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,
+    atmosphere_contract_capture,hud_scene_usage}`
+  - `flags.merge_conflicts[]`
+- `arc_dashboard{offene_seeds[],fraktionen{}}`
+- `ui` (vollständiger UI-Block)
+- `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
+  `zone=safe|combat`, `team_size` hart 0–4)
 
 Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
@@ -336,7 +347,12 @@ für Roundtrip-Tests und Loader-Dedupe.
     "inventory": {
       "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
       "armor": ["Kevlar-Weste Stufe II"],
-      "gadgets": ["Multi-Tool Wraith", "Faseroptik-Kabelkamera", "Rauchgranate Mk I", "Micro-Breacher"],
+      "gadgets": [
+        "Multi-Tool Wraith",
+        "Faseroptik-Kabelkamera",
+        "Rauchgranate Mk I",
+        "Micro-Breacher"
+      ],
       "consumables": ["Med-Patch"],
       "special": ["Notfall-Transponder"]
     },
@@ -861,7 +877,9 @@ die Debrief-Zeilen.
      Maximalwert; `SYS_runtime` darf höchstens die installierte Last tragen.
   4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
      Wurzel notiert hatte, landen sie jetzt ebenfalls in `character{}`.
-- Abschließend kontrollierst du die Standard-Flags: **Psi-Puffer** gehören bei allen Agent:innen zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}` oder `party.characters[]`, ergänze `true`.
+- Abschließend kontrollierst du die Standard-Flags: **Psi-Puffer** gehören bei allen
+  Agent:innen zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}`
+  oder `party.characters[]`, ergänze `true`.
 - Danach verhält sich der Save wie ein natives v6-Dokument. Guards wie der
   HQ-Serializer, Log-Sanitizer und das Semver-Gate operieren erst auf dieser
   bereinigten Struktur.
@@ -962,10 +980,12 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 ```
 
 - `!resume` ist nur einmal pro Snapshot erlaubt; der Datensatz wird nach dem Laden gelöscht.
-- Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen gesichert bleiben.
-- Bei Ablauf des Snapshots informiert das HUD: „Suspend-Fenster verstrichen. Bitte HQ-Deepsave laden.“
-- Der Snapshot konserviert Initiative-Reihenfolge und HUD-Timer, damit Konfliktszenen nach `!resume`
-  lückenlos weiterlaufen.
+- Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen
+  gesichert bleiben.
+- Bei Ablauf des Snapshots informiert das HUD: „Suspend-Fenster verstrichen. Bitte
+  HQ-Deepsave laden.“
+- Der Snapshot konserviert Initiative-Reihenfolge und HUD-Timer, damit Konfliktszenen
+  nach `!resume` lückenlos weiterlaufen.
 
 **HUD-Feedback**
 
@@ -976,7 +996,8 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 **Best Practices**
 
 - Nutzt `!suspend`, wenn Ihr mitten im Konflikt aufhören müsst, aber den Flow bewahren wollt.
-- Legt direkt vor einer Pause eine Mini-Rekap an, damit `!resume` den Einstieg filmisch anschließen kann.
+- Legt direkt vor einer Pause eine Mini-Rekap an, damit `!resume` den Einstieg
+  filmisch anschließen kann.
 - Verlasst Euch nicht dauerhaft darauf: Der Snapshot ersetzt keinen Story-Fortschritts-Save im HQ.
 ## Makros im Überblick {#makros-im-ueberblick}
 
@@ -1007,10 +1028,13 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 **Single-Source-Paradoxon-Effekte:**
 
-| Px-Stand | Wirkung (Runtime/HUD/Doku) |
-| -------- | -------------------------- |
-| 0–4      | Keine Maluswerte oder Sonderregeln. HUD zeigt den aktuellen Balken und nutzt `campaign.px` als einzige Quelle. Die optionale Px-Verlust-Regel greift nur, wenn sie bewusst aktiviert wurde (z. B. misslungene Hot-Exfil). |
-| 5        | `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als ausstehend und verhindert weitere Px-Anstiege. HUD/Debrief notieren „Paradoxon-Index 5 erreicht – neue Rifts sichtbar“. Nach der Rift-Op springt der Wert auf 0 und der Reset-Toast bestätigt dies. |
+- **Px-Stand 0–4:** Keine Maluswerte oder Sonderregeln. HUD zeigt den aktuellen
+  Balken und nutzt `campaign.px` als einzige Quelle. Die optionale Px-Verlust-
+  Regel greift nur, wenn sie bewusst aktiviert wurde (z. B. misslungene Hot-Exfil).
+- **Px-Stand 5:** `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als
+  ausstehend und verhindert weitere Px-Anstiege. HUD/Debrief notieren
+  „Paradoxon-Index 5 erreicht – neue Rifts sichtbar“. Nach der Rift-Op springt
+  der Wert auf 0 und der Reset-Toast bestätigt dies.
 
 Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert nicht.
 `apply_rift_mods_next_episode()` liest ausschließlich **offene** Seeds aus und
@@ -1028,8 +1052,9 @@ und werden beim Laden ignoriert.
 
 ### Legacy-Kompatibilität (Gear-Alias)
 
-> Hinweis für die Spielleitung: Beim Laden interpretiert ihr alte oder abweichende Gear-Bezeichnungen still
-> auf die neuen Namen. Speichern nutzt stets die kanonischen Begriffe.
+> Hinweis für die Spielleitung: Beim Laden interpretiert ihr alte oder abweichende
+> Gear-Bezeichnungen still auf die neuen Namen. Speichern nutzt stets die kanonischen
+> Begriffe.
 
 **Alias-Beispiele (erweiterbar):**
 - "Kodex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
@@ -1052,8 +1077,10 @@ und werden beim Laden ignoriert.
 - Leichte Formatfehler: als Kodex-Anomalie melden und in-world nachfragen.
 - Inkonsistenzen: als Anomalie melden und einen Vorschlag zur Bereinigung anbieten.
 - Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
-- Semver-Mismatch: „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte HQ-Migration veranlassen.“
-- Ambige Saves: „Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil* oder *Teamprofil* geladen werden?“
+- Semver-Mismatch: „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
+  HQ-Migration veranlassen.“
+- Ambige Saves: „Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil*
+  oder *Teamprofil* geladen werden?“
 
 ### Kanonisches DeepSave-Schema (Kurzfassung)
 
@@ -1075,7 +1102,17 @@ und werden beim Laden ignoriert.
     "id": "CHR-XXXX",
     "name": "Agent Name",
     "level": 3,
-    "attributes": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS_max": 4, "SYS_installed": 4, "SYS_runtime": 4, "SYS_used": 4 },
+    "attributes": {
+      "STR": 5,
+      "GES": 10,
+      "INT": 4,
+      "CHA": 4,
+      "TEMP": 2,
+      "SYS_max": 4,
+      "SYS_installed": 4,
+      "SYS_runtime": 4,
+      "SYS_used": 4
+    },
     "talents": ["Scharfschütze II", "Soldat I"],
     "bioware": ["Reflexverstärkung", "Muskelstärkung", "Stealth-Skin", "Adrenalin-Drüse"],
     "synergy": "Adaptive Ligament",
@@ -1177,16 +1214,19 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 
 ### Legacy-Aliase & Normalisierung
 
-- `party.characters[]` ist die verbindliche Quelle für Gruppenroster. Laufzeit und Serializer lesen
-  ausschließlich daraus.
-- Historische Felder (`team.members[]`, `team.roster[]`, `group.characters[]`, `party.members[]`,
-  `npc_team[]`) werden beim Laden automatisch nach `party.characters[]` gespiegelt. Doppelte Einträge
-  erkennt `load_deep()` anhand von IDs, Callsigns oder Namen und entfernt sie.
-- Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach `team.members[]`, um
-  Kompatibilität mit älteren Tools zu bewahren – ohne voneinander abweichende Arrays. `team.members[]`
-  ist somit immer eine 1:1-Kopie des kanonischen `party.characters[]`. GPT ergänzt neue Koop-Mitglieder
-  ausschließlich im `party`-Block; `team.members[]` wird nur vom Serializer gespiegelt, damit Saves
-  aus Solo- und Koop-Läufen keine widersprüchlichen Listen mehr besitzen.
+- `party.characters[]` ist die verbindliche Quelle für Gruppenroster. Laufzeit und
+  Serializer lesen ausschließlich daraus.
+- Historische Felder (`team.members[]`, `team.roster[]`, `group.characters[]`,
+  `party.members[]`, `npc_team[]`) werden beim Laden automatisch nach
+  `party.characters[]` gespiegelt. Doppelte Einträge erkennt `load_deep()`
+  anhand von IDs, Callsigns oder Namen und entfernt sie.
+- Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach
+  `team.members[]`, um Kompatibilität mit älteren Tools zu bewahren – ohne
+  voneinander abweichende Arrays. `team.members[]` ist somit immer eine
+  1:1-Kopie des kanonischen `party.characters[]`. GPT ergänzt neue
+  Koop-Mitglieder ausschließlich im `party`-Block; `team.members[]` wird nur
+  vom Serializer gespiegelt, damit Saves aus Solo- und Koop-Läufen keine
+  widersprüchlichen Listen mehr besitzen.
 
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
@@ -1215,10 +1255,11 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
   Wert 3, steigt der Paradoxon-Index um +1.
 - **Trennung von Einzelspieler- und Gruppen-Spielständen:** Klare Definition, wie Einzelcharakter-
   Speicherstände vs. Gruppenspielstände aufgebaut und gehandhabt werden.
-- **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung eines
-  einheitlichen Formats mit allen notwendigen Feldern (Name, Attribute, EP, Talente, Inventar, Kodex-
-  Wissen etc.), damit der KI-Spielleiter (GPT) die Daten fehlerfrei einlesen kann. Das Format wird
-  **In-World** präsentiert (etwa als Kodex-Archiv), sodass die Technik für Spieler unsichtbar bleibt.
+- **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung
+  eines einheitlichen Formats mit allen notwendigen Feldern (Name, Attribute, EP, Talente,
+  Inventar, Kodex-Wissen etc.), damit der KI-Spielleiter (GPT) die Daten fehlerfrei
+  einlesen kann. Das Format wird **In-World** präsentiert (etwa als Kodex-Archiv),
+  sodass die Technik für Spieler unsichtbar bleibt.
 - **Integration des Gruppen-Spielsystems:** Mechaniken zum Import vorhandener Einzelcharaktere in
   eine Gruppe, Export einzelner Gruppenmitglieder sowie nahtloses Hinzufügen oder Entfernen von
   Spielern aus laufenden Gruppen.
@@ -1231,14 +1272,17 @@ flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung
 - **Umgang mit fehlerhaften Speicherständen:** Richtlinien dafür, wie die KI-Spielleitung auf
   abweichende oder beschädigte Savegames reagieren kann (etwa durch korrigierende Vorschläge oder
   Ingame-Nachfragen) – ohne die Immersion zu brechen.
-- **In-World-Spielleitung:** Die Spielleitung durch GPT bleibt vollständig in der Spielwelt
-  verankert. Sämtliche Erklärungen zum Laden/Speichern erfolgen durch Ingame-Elemente (z.B. den Kodex,
-  NSCs oder ein „Nullzeit-Log“) und nicht als außenstehende Systemkommentare.
+- **In-World-Spielleitung:** Die Spielleitung durch GPT bleibt vollständig in der
+  Spielwelt verankert. Sämtliche Erklärungen zum Laden/Speichern erfolgen durch
+  Ingame-Elemente (z.B. den Kodex, NSCs oder ein „Nullzeit-Log“) und nicht als
+  außenstehende Systemkommentare.
 - **Beispiel-Speicherblöcke:** Bereitstellung von kommentierten Beispielen für typische
   Speicherstände (sowohl Solo- als auch Gruppen-Spielstände) im standardisierten Format, die als
   Vorlage dienen können.
-- **Token-Lite-Modus:** Missionslog mit max. 15 Einträgen. Archivierte Rifts lassen sich auslagern, um Token zu sparen.
-- **Archiv-ZIP:** Erledigte Missions-JSON lassen sich gebündelt zippen, um Langzeitkampagnen schlank zu halten.
+- **Token-Lite-Modus:** Missionslog mit max. 15 Einträgen. Archivierte Rifts lassen
+  sich auslagern, um Token zu sparen.
+- **Archiv-ZIP:** Erledigte Missions-JSON lassen sich gebündelt zippen, um
+  Langzeitkampagnen schlank zu halten.
 
 Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erläutert.
 Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
@@ -1337,7 +1381,8 @@ function migrate_save(data) {
 }
 ```
 
-`sha256()` dient lediglich der Entwicklungsprüfung; im regulären Spielbetrieb darf die Checksumme entfallen.
+`sha256()` dient lediglich der Entwicklungsprüfung; im regulären Spielbetrieb darf die
+Checksumme entfallen.
 
 ## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 
@@ -1371,9 +1416,9 @@ interpretieren kann. Typische Felder eines Speicherstands sind unter anderem:
   Fakten, an die er sich erinnert.
 - **Statistiken (optional):** Dinge wie absolvierte Missionen, gelöste Rätsel, besiegte Gegner usw.,
   falls für den Spielfortschritt von Belang.
-- **Zeitlinien-Veränderungen (optional):** Wichtige Abweichungen im historischen Verlauf, die durch
-  die Aktionen des Charakters verursacht wurden, inklusive Angabe eines Stabilitätsgrads der Änderung
-  (siehe _Zeitlinien-Tracker_ weiter unten).
+- **Zeitlinien-Veränderungen (optional):** Wichtige Abweichungen im historischen Verlauf,
+  die durch die Aktionen des Charakters verursacht wurden, inklusive Angabe eines
+  Stabilitätsgrads der Änderung (siehe _Zeitlinien-Tracker_ weiter unten).
 
 Nicht im Speicherstand enthalten sind in der Regel detailreiche Situationsbeschreibungen oder
 komplette Dialogverläufe vergangener Missionen. Der Speicherstand soll **kompakt** bleiben –
@@ -1401,13 +1446,15 @@ _{
   "Errungenschaften": ["Retter von Aquitanien"]
 _}
 
-_Erläuterung:_ In diesem Speicherblock sind alle zentralen Daten von Alex nach seiner ersten Mission enthalten.
+_Erläuterung:_ In diesem Speicherblock sind alle zentralen Daten von Alex nach
+seiner ersten Mission enthalten.
 Zum Beispiel hat er das Talent _Kryptographie_, besitzt ein Neuro-Link-Implantat,
 ein Inventar mit
 
 Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet)
 und im **Kodex** stehen Einträge, die an
-seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356 etc.). Diese Informationen
+seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356
+etc.). Diese Informationen
 reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
 entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten
 Mission erneut im Prompt geladen werden muss.
@@ -1447,9 +1494,10 @@ Format:
 
 - **Array von Charakterobjekten:** Der Speicherblock besteht aus einer Liste _\[...\]_, in der jedes
   Element ein vollständiges Charakter-Datenobjekt (wie oben beschrieben) ist.
-- **Wrapper-Objekt mit Charakterliste:** Der Speicherblock ist ein JSON-Objekt mit einem Feld (z.B.
-  _"Charaktere"_ oder _"Gruppe"_), das eine Liste aller Charakterobjekte enthält. Optional kann dieses
-  Objekt zusätzliche gruppenweite Felder wie einen Gruppennamen enthalten.
+- **Wrapper-Objekt mit Charakterliste:** Der Speicherblock ist ein JSON-Objekt mit einem
+  Feld (z.B. _"Charaktere"_ oder _"Gruppe"_), das eine Liste aller Charakterobjekte
+  enthält. Optional kann dieses Objekt zusätzliche gruppenweite Felder wie einen
+  Gruppennamen enthalten.
 
 Beide Varianten sind technisch handhabbar. Wichtig ist vor allem, dass GPT zuverlässig erkennt, dass
 mehrere Charaktere vorliegen. Aus Gründen der Klarheit verwenden wir im Folgenden einen Wrapper-
@@ -1495,15 +1543,17 @@ Charakter enthält oder eine Gruppe. Diese Unterscheidung erfolgt **allein durch
 
 - **Einzelspieler-Speicherstand:** Besteht typischerweise aus **einem einzigen JSON-Objekt** mit
   Charakterdaten – kein äußerer Array und kein _"Charaktere"_-Feld. Auf oberster Ebene steht z.B.
-  direkt _"Name": "Alex"_. GPT liest diese Struktur und sieht nur einen Charaktereintrag – damit ist
-  klar, dass es sich um einen Solo-Spielstand handelt. _Beispiel:_ _{ "Name": "Alex", "Level": 2, ...
-  }_ – kein Array, keine weiteren Objekte auf Top-Level außer diesem einen Charakter →
+  direkt _"Name": "Alex"_. GPT liest diese Struktur und sieht nur einen
+  Charaktereintrag – damit ist klar, dass es sich um einen Solo-Spielstand
+  handelt. _Beispiel:_ _{ "Name": "Alex", "Level": 2, ... }_ – kein Array, keine
+  weiteren Objekte auf Top-Level außer diesem einen Charakter →
   **Einzelcharakter-Save**.
 - **Gruppen-Speicherstand:** Erkennbar an **mehreren Charakterdatensätzen** in einem Container. Das
-  kann eine JSON-Liste _\[ {...}, {...} \]_ sein oder ein Objekt mit einem Feld _"Charaktere"_ (bzw.
-  analog), welches ein Array enthält. Sobald GPT mehr als ein Charakterobjekt findet, ist klar: Dieser
-  Spielstand umfasst mehrere Figuren. Ein optionales Feld _"Gruppe"_/_"Team"_ kann die Gruppennatur
-  untermauern, wird aber zur reinen Erkennung nicht benötigt. _Beispiel:_ _{ "Charaktere": \[
+  kann eine JSON-Liste _\[ {...}, {...} \]_ sein oder ein Objekt mit einem Feld
+  _"Charaktere"_ (bzw. analog), welches ein Array enthält. Sobald GPT mehr als ein
+  Charakterobjekt findet, ist klar: Dieser Spielstand umfasst mehrere Figuren.
+  Ein optionales Feld _"Gruppe"_/_"Team"_ kann die Gruppennatur untermauern, wird
+  aber zur reinen Erkennung nicht benötigt. _Beispiel:_ _{ "Charaktere": \[
   {Char1-Daten}, {Char2-Daten} \] }_ – mehrere Objekte im Array → **Gruppen-Save**.
 
 Im Klartext prüft GPT beim Laden eines Spielstands einfach die oberste Struktur: Ein einzelnes
@@ -1538,10 +1588,11 @@ Zusammenführung mehrerer Speicherstände oder dem späteren Aktualisieren einze
 innerhalb einer Gruppe kann GPT anhand der ID erkennen, ob ein Charakter bereits existiert oder neu
 hinzukommt. So werden Duplikate vermieden:
 
-- **Mit ID:** Lädt man einen neuen Speicherstand von Alex in eine bestehende Gruppe, in der Alex mit
-  gleicher ID schon existiert, weiß das System, dass es **denselben Charakter** updaten soll (anstatt
-  einen zweiten „Alex“ hinzuzufügen). Gleiches gilt beim erneuten Laden eines fortgeschrittenen
-  Savegames: Die ID signalisiert GPT, welcher bestehende Gruppencharakter aktualisiert werden muss.
+- **Mit ID:** Lädt man einen neuen Speicherstand von Alex in eine bestehende Gruppe,
+  in der Alex mit gleicher ID schon existiert, weiß das System, dass es
+  **denselben Charakter** updaten soll (anstatt einen zweiten „Alex“ hinzuzufügen).
+  Gleiches gilt beim erneuten Laden eines fortgeschrittenen Savegames: Die ID
+  signalisiert GPT, welcher bestehende Gruppencharakter aktualisiert werden muss.
 - **Ohne ID:** Versucht GPT, Charaktere anhand von Name + Epoche o. ä. zu unterscheiden. Das kann in
   vielen Fällen funktionieren, ist aber fehleranfälliger (z.B. könnten zwei Spieler zufällig beide
 einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
@@ -1561,40 +1612,46 @@ sie jedoch hinzufügen, um maximale Eindeutigkeit zu erzielen.)
 
 ### Laden und Zusammenführen von Speicherständen
 
-Speichern bleibt strikt HQ-only. **Gruppen-Merges** dürfen aber auch mitten in einer laufenden Mission
-passieren: Spielende posten ihre letzten HQ-Saves in den Chat, GPT liest die Charakterblöcke ein und
-fügt sie ohne Timer- oder Szenen-Reset in die aktive Gruppe ein. Der laufende Einsatz bleibt
-eingefroren, bis die neuen Agent:innen eingegliedert sind. **Je nach Situation passiert Folgendes:**
+Speichern bleibt strikt HQ-only. **Gruppen-Merges** dürfen aber auch mitten in einer
+laufenden Mission passieren: Spielende posten ihre letzten HQ-Saves in den Chat,
+GPT liest die Charakterblöcke ein und fügt sie ohne Timer- oder Szenen-Reset in
+die aktive Gruppe ein. Der laufende Einsatz bleibt eingefroren, bis die neuen
+Agent:innen eingegliedert sind. **Je nach Situation passiert Folgendes:**
 
-- **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand im HQ geladen
-  (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie gewohnt: GPT liest die
-  Charakterdaten ein und setzt die Geschichte nahtlos mit **diesem einen Chrononauten** fort. Für den
-  Spieler fühlt es sich an, als würde er genau dort weitermachen, wo er mit seinem Charakter aufgehört
-  hat. Alle Werte, Inventargegenstände und Kodex-Einträge aus dem Save stehen zur Verfügung, und die
-  neue Mission kann mit dem bekannten Helden beginnen. _(Dieser Ablauf entspricht dem bisherigen
-  Fortsetzungsprozess in ZEITRISS.)_
-- **Von Solo zu Gruppe (Charaktere hinzufügen):** Wer aus einem Solo-Spiel eine Gruppe bilden möchte,
-  erledigt das spätestens im Briefing: Zuerst wird wie üblich der Solo-Charakter A geladen, anschließend
-  folgt der Speicherblock von Charakter B. GPT erkennt die getrennten Datensätze und erzeugt daraus einen
-  **Gruppen-Spielstand**. Charakter B wird als neues Gruppenmitglied ergänzt, ohne Charakter A zu
-  überschreiben. Der Eintritt kann beim Briefing oder – falls die Mission schon läuft – als filmischer
-  Drop-in in der aktuellen Szene passieren (z. B. Ankunft per Gate oder Funk-Handshake). Die Mission
-  selbst wird dabei **nicht** zurückgesetzt.
-- **Gruppenstart (mehrere Charaktere gemeinsam laden):** Mehrere Speicherstände können zum Session-
-  Start hintereinander (oder gesammelt) ins HQ gepostet werden, wenn mehrere Spieler ihre Soloruns zu
-  einem Team bündeln wollen. GPT konsolidiert diese Informationen zu **einem einzigen Gruppenstand**:
-  Alle Charakterdaten bleiben separat erhalten, bilden aber nun ein gemeinsames Team. Kein Charakter
-  überschreibt einen anderen; doppelte Saves derselben ID erkennt GPT und aktualisiert nur. Die
-  Reihenfolge der Blöcke ist egal. Nach dem Zusammenführen setzt GPT Paradoxon-Index und offene Rifts
-  auf **0**, damit der neue Run sauber im HQ beginnt. Das Toolkit zeigt den Reset-Pseudocode in
-  `systems/toolkit-gpt-spielleiter.md` (Snippet `StartGroupMode()`); interne Dev-Stubs sind dafür
-  nicht erforderlich.
+- **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand
+  im HQ geladen (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie
+  gewohnt: GPT liest die Charakterdaten ein und setzt die Geschichte nahtlos mit
+  **diesem einen Chrononauten** fort. Für den Spieler fühlt es sich an, als würde
+  er genau dort weitermachen, wo er mit seinem Charakter aufgehört hat. Alle
+  Werte, Inventargegenstände und Kodex-Einträge aus dem Save stehen zur Verfügung,
+  und die neue Mission kann mit dem bekannten Helden beginnen. _(Dieser Ablauf
+  entspricht dem bisherigen Fortsetzungsprozess in ZEITRISS.)_
+- **Von Solo zu Gruppe (Charaktere hinzufügen):** Wer aus einem Solo-Spiel eine
+  Gruppe bilden möchte, erledigt das spätestens im Briefing: Zuerst wird wie
+  üblich der Solo-Charakter A geladen, anschließend folgt der Speicherblock von
+  Charakter B. GPT erkennt die getrennten Datensätze und erzeugt daraus einen
+  **Gruppen-Spielstand**. Charakter B wird als neues Gruppenmitglied ergänzt,
+  ohne Charakter A zu überschreiben. Der Eintritt kann beim Briefing oder – falls
+  die Mission schon läuft – als filmischer Drop-in in der aktuellen Szene
+  passieren (z. B. Ankunft per Gate oder Funk-Handshake). Die Mission selbst
+  wird dabei **nicht** zurückgesetzt.
+- **Gruppenstart (mehrere Charaktere gemeinsam laden):** Mehrere Speicherstände
+  können zum Session-Start hintereinander (oder gesammelt) ins HQ gepostet werden,
+  wenn mehrere Spieler ihre Soloruns zu einem Team bündeln wollen. GPT konsolidiert
+  diese Informationen zu **einem einzigen Gruppenstand**: Alle Charakterdaten
+  bleiben separat erhalten, bilden aber nun ein gemeinsames Team. Kein Charakter
+  überschreibt einen anderen; doppelte Saves derselben ID erkennt GPT und
+  aktualisiert nur. Die Reihenfolge der Blöcke ist egal. Nach dem Zusammenführen
+  setzt GPT Paradoxon-Index und offene Rifts auf **0**, damit der neue Run sauber
+  im HQ beginnt. Das Toolkit zeigt den Reset-Pseudocode in
+  `systems/toolkit-gpt-spielleiter.md` (Snippet `StartGroupMode()`); interne
+  Dev-Stubs sind dafür nicht erforderlich.
 
 > **Mid-Session-Beitritt:** Ein Missionsteam darf jederzeit neue HQ-Saves einwerfen. GPT friert die
 > Szene kurz ein, mapt die neuen Charaktere auf `party.characters[]`, normalisiert Wallets und fährt
-> dann mit unveränderten Timern/Clocks fort. Speichern bleibt dennoch HQ-only; ein Ausstieg mitten in
-> der Mission erzeugt **keinen** neuen Save, sondern verweist auf den letzten HQ-Save oder einen
-> temporären `!suspend`-Snapshot.
+> dann mit unveränderten Timern/Clocks fort. Speichern bleibt dennoch HQ-only;
+> ein Ausstieg mitten in der Mission erzeugt **keinen** neuen Save, sondern
+> verweist auf den letzten HQ-Save oder einen temporären `!suspend`-Snapshot.
 
 **Zusammengefasst:** Ein einzelner Savegame-Block ergibt einen einzelnen Charakter; mehrere
 Savegame-Blöcke (gleichzeitig oder sukzessive) ergeben die Bildung bzw. Erweiterung einer Gruppe.
@@ -1606,45 +1663,54 @@ GPT erkennt das automatisch anhand der Formatstruktur und passt sein Vorgehen en
 Sobald ein Spiel im Gruppenmodus läuft, gelten einfache **Regeln für den Umgang mit Gruppen-
 Spielständen**, damit GPT als Spielleiter nichts durcheinanderbringt:
 
-- **Neuen Charakter hinzufügen:** Jeder zusätzliche Charakter-Datensatz, der in der aktuellen Gruppe
-  noch nicht vorhanden war, wird als neues Gruppenmitglied ergänzt. GPT erzeugt intern einen neuen
-  Charaktereintrag und übernimmt alle Werte aus dessen Savegame. _Beispiel:_ Die Gruppe bestand bisher
-  nur aus Alex. Nun wird Mias Speicherstand hinzugefügt. Mia (neuer Name/ID) wird von GPT als neues
-  Mitglied erkannt. Ergebnis: Gruppe = \[Alex, Mia\]. Beide stehen mit ihren vollen Daten zur
-  Verfügung.
-- **Bestehenden Charakter aktualisieren:** Wird ein Speicherstand geladen, der zu einem Charakter
-  gehört, der bereits in der Gruppe existiert, so werden dessen Daten **aktualisiert**, nicht
-  dupliziert. Hier kommt das Metadaten-Feld (ID) ins Spiel: GPT vergleicht die IDs (falls vorhanden)
-  oder ersatzweise Name/Epoche. Stimmen diese überein, nimmt es an, dass es derselbe Charakter ist.
-  _Beispiel:_ In einer laufenden Gruppe aus Alex und Mia werden zu Beginn der nächsten Mission beide
-  aktualisierten Savegames neu geladen. GPT erkennt an Alex’ ID oder Namen, dass Alex schon Teil der
-  Gruppe ist – also wird **kein zweiter Alex** hinzugefügt, sondern Alex’ bestehender Eintrag mit den
-  aktuellen Werten versehen (die ohnehin dem Save entsprechen). Genauso für Mia. Die Gruppe \[Alex,
-  Mia\] bleibt bestehen, nur dass nun beide auf dem neuesten Stand sind.
-- **Keine Konflikte durch unterschiedliche Felder:** Charaktere können unterschiedliche Felder oder
-  Listen in ihren Daten haben, ohne Probleme zu verursachen. Hat Charakter A z.B. ein Feld _"Psionik":
-  \[\]_ (weil er keine psionischen Fähigkeiten hat) und Charakter B gar kein Feld _"Psionik"_ (weil es
-  für sie nie relevant war), führt das zu keinerlei Konflikt. GPT interpretiert einfach jeden
-  Charakterblock für sich. Fehlt ein Feld bei einer Figur, bedeutet das nur, dass diese Figur dazu
-  keine Angaben hat – es ist kein globales Problem. Es gibt also keine Fehlermeldung oder Störung,
-  sondern jeder Charakterdatensatz wird individuell vollständig gelesen.
-- **Optionale gemeinsame Elemente:** Das System ist primär so ausgelegt, dass jede Figur **getrennte
-  Daten** hat. Falls gewünscht, kann man aber auch gruppenweite Felder definieren – etwa ein
-  gemeinsames _"Gruppeninventar"_ oder einen aktuellen _"Missionsstatus"_, die außerhalb der einzelnen
-  Charakterobjekte im JSON stehen. Solche Felder gelten dann für die **gesamte Gruppe**. GPT würde sie
-  als von allen geteilt interpretieren. _Beispiel:_ Man könnte dem Gruppen-JSON ein Feld _"Mission":
-  "Paris 1943 – Einsatzbeginn"_ auf oberster Ebene hinzufügen. GPT weiß dann, dass alle Charaktere
-  sich zu Beginn von Mission X (hier Paris 1943) befinden. Solche globalen Felder sind optional und
-  sollten sparsam verwendet werden, um die Trennung der Charakterdaten klar zu halten.
-- **Charaktere entfernen:** Wenn ein Charakter die Gruppe dauerhaft verlassen soll, kann dies
-  einfach dadurch geschehen, dass sein Datenblock im nächsten Speicherstand **weggelassen** wird. GPT
-  wird beim Laden merken, dass ein zuvor vorhandener Charaktereintrag nicht mehr vorhanden ist. Die
-  Konsequenz in der Spielwelt wäre, dass diese Figur nicht mehr Teil der aktiven Gruppe ist.
-  Idealerweise wird dies narrativ untermauert – etwa indem zuvor in der Geschichte erklärt wird,
-  **warum** der Charakter die Gruppe verlässt (Ruhestand, eigene Mission, Tod etc.). Beim nächsten
-  Laden fehlen seine Daten; GPT interpretiert das so, dass nur die verbleibenden Charaktere
-  weitermachen. _(Hinweis: Der letzte gespeicherte Stand des entfernten Charakters kann
-  selbstverständlich als Einzel-Save separat archiviert werden, falls er später wiederkommt oder solo
+- **Neuen Charakter hinzufügen:** Jeder zusätzliche Charakter-Datensatz, der in der
+  aktuellen Gruppe noch nicht vorhanden war, wird als neues Gruppenmitglied
+  ergänzt. GPT erzeugt intern einen neuen Charaktereintrag und übernimmt alle
+  Werte aus dessen Savegame. _Beispiel:_ Die Gruppe bestand bisher nur aus Alex.
+  Nun wird Mias Speicherstand hinzugefügt. Mia (neuer Name/ID) wird von GPT als
+  neues Mitglied erkannt. Ergebnis: Gruppe = \[Alex, Mia\]. Beide stehen mit ihren
+  vollen Daten zur Verfügung.
+- **Bestehenden Charakter aktualisieren:** Wird ein Speicherstand geladen, der zu
+  einem Charakter gehört, der bereits in der Gruppe existiert, so werden dessen
+  Daten **aktualisiert**, nicht dupliziert. Hier kommt das Metadaten-Feld (ID) ins
+  Spiel: GPT vergleicht die IDs (falls vorhanden) oder ersatzweise Name/Epoche.
+  Stimmen diese überein, nimmt es an, dass es derselbe Charakter ist. _Beispiel:_
+  In einer laufenden Gruppe aus Alex und Mia werden zu Beginn der nächsten Mission
+  beide aktualisierten Savegames neu geladen. GPT erkennt an Alex’ ID oder Namen,
+  dass Alex schon Teil der Gruppe ist – also wird **kein zweiter Alex**
+  hinzugefügt, sondern Alex’ bestehender Eintrag mit den aktuellen Werten versehen
+  (die ohnehin dem Save entsprechen). Genauso für Mia. Die Gruppe \[Alex, Mia\]
+  bleibt bestehen, nur dass nun beide auf dem neuesten Stand sind.
+- **Keine Konflikte durch unterschiedliche Felder:** Charaktere können
+  unterschiedliche Felder oder Listen in ihren Daten haben, ohne Probleme zu
+  verursachen. Hat Charakter A z.B. ein Feld _"Psionik": \[\]_ (weil er keine
+  psionischen Fähigkeiten hat) und Charakter B gar kein Feld _"Psionik"_ (weil es
+  für sie nie relevant war), führt das zu keinerlei Konflikt. GPT interpretiert
+  einfach jeden Charakterblock für sich. Fehlt ein Feld bei einer Figur, bedeutet
+  das nur, dass diese Figur dazu keine Angaben hat – es ist kein globales Problem.
+  Es gibt also keine Fehlermeldung oder Störung, sondern jeder Charakterdatensatz
+  wird individuell vollständig gelesen.
+- **Optionale gemeinsame Elemente:** Das System ist primär so ausgelegt, dass jede
+  Figur **getrennte Daten** hat. Falls gewünscht, kann man aber auch gruppenweite
+  Felder definieren – etwa ein gemeinsames _"Gruppeninventar"_ oder einen
+  aktuellen _"Missionsstatus"_, die außerhalb der einzelnen Charakterobjekte im
+  JSON stehen. Solche Felder gelten dann für die **gesamte Gruppe**. GPT würde sie
+  als von allen geteilt interpretieren. _Beispiel:_ Man könnte dem Gruppen-JSON
+  ein Feld _"Mission": "Paris 1943 – Einsatzbeginn"_ auf oberster Ebene
+  hinzufügen. GPT weiß dann, dass alle Charaktere sich zu Beginn von Mission X
+  (hier Paris 1943) befinden. Solche globalen Felder sind optional und sollten
+  sparsam verwendet werden, um die Trennung der Charakterdaten klar zu halten.
+- **Charaktere entfernen:** Wenn ein Charakter die Gruppe dauerhaft verlassen
+  soll, kann dies einfach dadurch geschehen, dass sein Datenblock im nächsten
+  Speicherstand **weggelassen** wird. GPT wird beim Laden merken, dass ein zuvor
+  vorhandener Charaktereintrag nicht mehr vorhanden ist. Die Konsequenz in der
+  Spielwelt wäre, dass diese Figur nicht mehr Teil der aktiven Gruppe ist.
+  Idealerweise wird dies narrativ untermauert – etwa indem zuvor in der Geschichte
+  erklärt wird, **warum** der Charakter die Gruppe verlässt (Ruhestand, eigene
+  Mission, Tod etc.). Beim nächsten Laden fehlen seine Daten; GPT interpretiert
+  das so, dass nur die verbleibenden Charaktere weitermachen. _(Hinweis: Der
+  letzte gespeicherte Stand des entfernten Charakters kann selbstverständlich als
+  Einzel-Save separat archiviert werden, falls er später wiederkommt oder solo
   weiterspielt – die Formatkompatibilität macht’s möglich.)_
 
 Durch diese Regeln können Gruppen dynamisch **wachsen oder schrumpfen**, ohne Chaos im Speicherstand
@@ -1671,7 +1737,8 @@ niemand wird dupliziert.
 - Erkennt *automatisch* gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
   `character`, `Charaktere`, `team` oder `campaign`).
 - Befehle: `!load`, „Spiel laden“, „Spielstand laden“, „Load“. Ohne JSON → Prompt:
-  `Kodex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe). "Fertig" startet den Merge.`
+  `Kodex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe).`
+  `"Fertig" startet den Merge.`
 
 ### Multi-JSON Collector
 - Akzeptiert mehrere JSON-Blöcke in **einer** oder **mehreren** Nachrichten.
