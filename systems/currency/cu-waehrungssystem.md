@@ -39,20 +39,21 @@ aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 
 - `economy.cu` bildet das offizielle HQ-Hauptkonto. Das Fallback-Feld `economy.credits` sichert
   Legacy-Saves ab, die nur einen generischen Credit-Wert führen.
-- `sync_primary_currency()` sorgt nach jeder Buchung dafür, dass beide Felder denselben Betrag tragen.
-  Der Helper ermittelt den gültigen Wert anhand der Primärschlüssel (`credits`, `cu`, `balance`,
-  `assets`) und setzt anschließend `economy.cu` **und** `economy.credits` auf den ermittelten Betrag.
+- `sync_primary_currency()` sorgt nach jeder Buchung dafür, dass beide Felder denselben Betrag
+  tragen. Der Helper ermittelt den gültigen Wert anhand der Primärschlüssel (`credits`, `cu`,
+  `balance`, `assets`) und setzt anschließend `economy.cu` **und** `economy.credits` auf den
+  ermittelten Betrag.
 - `writeArenaCurrency()` nutzt `sync_primary_currency()`, damit Arena-Gebühren, Wallet-Splits und
-  Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert der
-  Helper divergierende Saves automatisch.
+  Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert
+  der Helper divergierende Saves automatisch.
 - **Cross-Mode-Sequenz:** `load_save()` → `initialize_wallets_from_roster()` →
   `sync_primary_currency()` → `arenaStart()` (Gebühr) → Debrief
   `apply_wallet_split()`. Credits/Fallback-Werte niemals manuell setzen –
   immer über `economy.cu` + Helper spiegeln.
 
-So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` jederzeit auf konsistente
-Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich immer auf beide
-Felder aus und verhindern Ghost-Guthaben in den Ingame-Dialogen.
+So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` jederzeit auf
+konsistente Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich
+immer auf beide Felder aus und verhindern Ghost-Guthaben in den Ingame-Dialogen.
 
 Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**:
 Basiswaffe, Werkzeug, **AR-Kontaktlinse (Retina-HUD)** und **Comlink
@@ -121,25 +122,26 @@ Boni (kumulativ):
 
 
 - **Erfüllung der Missionsziele:** Wird das Hauptziel einer Mission erreicht, erhält jeder
-  beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die zum
-  Ziel führen, werden honoriert – Einfallsreichtum zahlt sich aus. Scheitert eine Mission vollständig,
-  gibt es zumindest ein kleines „Trostpflaster“ in Form einiger CUs, um die Mühen der Agenten
-  anzuerkennen.
+  beteiligte Agent eine Grundprämie an Chrono Units. Selbst Teilerfolge oder kreative Umwege, die
+  zum Ziel führen, werden honoriert – Einfallsreichtum zahlt sich aus. Scheitert eine Mission
+  vollständig, gibt es zumindest ein kleines „Trostpflaster“ in Form einiger CUs, um die Mühen der
+  Agenten anzuerkennen.
 - **Risiko und Gefährlichkeit:** Waghalsige Einsätze bringen höhere Prämien. Eine Mission inmitten
-  einer Schlacht oder unter extremen Umweltbedingungen wird vom ITI mit **Gefahrenzulagen** vergütet.
-  Objektive Risikoanalysen bestimmen diese Boni – so wirft ein verdeckter Einsatz im Kriegsgebiet
-  spürbar mehr CUs ab als ein Routineauftrag in friedlicher Umgebung.
+  einer Schlacht oder unter extremen Umweltbedingungen wird vom ITI mit
+  **Gefahrenzulagen** vergütet. Objektive Risikoanalysen bestimmen diese Boni – so wirft ein
+  verdeckter Einsatz im Kriegsgebiet spürbar mehr CUs ab als ein Routineauftrag in friedlicher
+  Umgebung.
 - **Hazard Pay Solo/Buddy:** Besteht das Einsatzteam aus weniger als drei Agenten,
   zahlt das ITI eine Gefahrenzulage von **+50 %** auf die Grundprämie.
 - **Bonusaufgaben und Nebenmissionsziele:** Viele Aufträge bieten optionale Ziele. Das Retten eines
   zusätzlichen Zeugen, das Bergen eines geheimen Artefakts oder das Abwenden eines drohenden
-  Zeitparadoxons – solche Extra-Leistungen bedankt das ITI mit entsprechenden Bonus-CUs. Wer über den
-  Tellerrand des eigentlichen Auftrags hinausblickt, wird finanziell belohnt.
+  Zeitparadoxons – solche Extra-Leistungen bedankt das ITI mit entsprechenden Bonus-CUs. Wer über
+  den Tellerrand des eigentlichen Auftrags hinausblickt, wird finanziell belohnt.
 - **Außergewöhnliche Erfolge:** Gelegentlich vollbringen Chrononauten etwas so Spektakuläres, dass
   es über die normalen Missionsanforderungen hinausgeht. Solche Taten können narrativ mit einer
   **Sonderprämie** gewürdigt werden. Vielleicht zieht ein Agent einen riskanten Plan durch, der die
-  Mission in letzter Sekunde rettet – in solchen Fällen „findet“ der Missionsleiter schon mal ein paar
-  zusätzliche Chrono Units, um die Leistung anerkennend zu honorieren.
+  Mission in letzter Sekunde rettet – in solchen Fällen „findet“ der Missionsleiter schon mal ein
+  paar zusätzliche Chrono Units, um die Leistung anerkennend zu honorieren.
 
 Nach der Rückkehr ins Hauptquartier erfolgt im Debriefing die Abrechnung:
 Die verdienten CUs werden auf die Konten gebucht.
@@ -159,9 +161,9 @@ Hazard-Pay sowie `seed_multi = 1 + 0,2 × offene Seeds`.
 
 | Level | Richtwert Belohnung* | Typische Kosten/Sinks |
 | --- | --- | --- |
-| 100 | 400–720 CU (Low–High, Bonus 1,2) | T2/3-Implantate 300–800 CU, Chronopolis-Services 150–300 CU |
-| 400 | 1,6k–2,8k CU (Seed-Multi ≈ 1,8) | HQ-Ausbau, Endgame-Loadouts 2–3k CU, Research-Sinks 500+ CU |
-| 1000 | 4k–7k CU (High-Risk, Seed-Multi 2,0+) | Fraktionsprojekte/Legendary Gear 5k+ CU, Warp-Transport, Artefakt-Research Stufe 1–3 |
+| 100 | 400–720 CU (Low–High) | Implantate 300–800 CU; Chronopolis 150–300 CU |
+| 400 | 1,6k–2,8k CU (Seed-Multi ≈ 1,8) | HQ-Ausbau, Loadouts 2–3k CU, Research 500+ CU |
+| 1000 | 4k–7k CU (High-Risk, Seed-Multi 2,0+) | Fraktionsprojekte/Legendary Gear 5k+ CU |
 
 *Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
 Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).
@@ -172,6 +174,28 @@ Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).
 - **Wallet-Splits unverändert:** Auch hohe Beträge fließen erst in den HQ-Pool
   und werden dann per `Wallet-Split (n×)` verteilt; Rundungen folgen derselben
   Sequenz wie im Low-Level-Spiel.
+
+### Rewards → Wallet-Richtwerte (ab Lvl 400+)
+
+Die Belohnungen aus der Core-/Rift-Formel sollten die Wallets auf einem
+kontrollierten Plateau halten. Nutze die Richtwerte als Brücke zwischen
+Reward-Berechnung, HQ-Pool und persönlichen Wallets, damit der Ökonomie-Loop
+auch im Endgame stabil bleibt:
+
+- **Lvl 120:** HQ-Pool 8–10 k CU, Wallets 1–2 k CU pro Agent:in.
+- **Lvl 512:** HQ-Pool 25–30 k CU, Wallets 3–5 k CU pro Agent:in.
+- **Lvl 900+:** HQ-Pool 45–60 k CU, Wallets 6–10 k CU pro Agent:in.
+
+**Chronopolis-Preisanker (High-Tier-Sinks):**
+
+- **Services/Research:** 500–1 500 CU pro Stufe (Analyse, Psi-Kalibrierung,
+  Archiveinträge).
+- **High-End-Loadouts:** 2–5 k CU (Legendary Gear, Implant-Stacks, Sondermodule).
+- **Temporal-Assets:** 5 k+ CU (Ships, Gate-Boosts, Artefakt-Rekonstruktion).
+
+Die Richtwerte sind bewusst breiter gefasst: 2–3 Missionen ohne große Sinks
+sollten Wallets sichtbar anheben, während Chronopolis/Research/Spezialausrüstung
+den Überschuss wieder abbauen.
 
 Auch der Erfahrungsfortschritt wird hier festgehalten: In den ersten Stufen
 steigt das Team nach jeder bestandenen Mission um **eine Stufe** auf. Dieser

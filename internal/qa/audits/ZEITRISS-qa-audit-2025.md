@@ -127,6 +127,16 @@ Hochstufen-Spielrunden.
 - Offener Follow-up: Arena-SceneCounter/HUD-Overlay prüfen (Fahrplan Issue #12),
   um HQ-Start und Arena-Flow konsistent zu halten.
 
+## Update 2025-12-19 – Economy-Scaling & Gold Save (Issues #7/#8)
+
+- Economy-Scaling-Brücke dokumentiert: Rewards→Wallet-Richtwerte ab Level 400+
+  sowie Chronopolis-Preisanker für High-Tier-Sinks sind im CU-Modul ergänzt.
+- QA-Briefing benennt Level 120/512/900+ als Prüfanker für HQ-Pool, Wallet-Split
+  und Chronopolis-Sinks.
+- Gold-Save-Fixture (`savegame_v6_full.json`) trägt den erweiterten
+  Atmosphere-Contract-Block und HUD-Usage-Flags als Referenz.
+- QA-Fahrplan 1.13.12 markiert Issues #7/#8 als abgeschlossen.
+
 ## Update 2026-04 – Tester-Playtest-Fortschritt
 
 - Maßnahmenpaket Tester-Playtest 2026-04 fortgeschrieben: SaveGuard wertet
