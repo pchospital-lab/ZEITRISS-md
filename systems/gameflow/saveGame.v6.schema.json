@@ -157,7 +157,14 @@
     },
     "ui": {
       "type": "object",
-      "required": ["gm_style", "intro_seen", "suggest_mode", "contrast", "badge_density", "output_pace"],
+      "required": [
+        "gm_style",
+        "intro_seen",
+        "suggest_mode",
+        "contrast",
+        "badge_density",
+        "output_pace"
+      ],
       "properties": {
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },
