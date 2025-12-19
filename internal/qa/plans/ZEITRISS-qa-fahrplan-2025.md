@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.7
+version: 1.13.9
 tags: [meta]
 ---
 
@@ -254,7 +254,7 @@ README-Abschnittskürzel:
 `R(Chrono)` = README §ITI-HQ & Chronopolis  
 `R(Chat)` = README §Chat-Kurzbefehle
 
-## Maßnahmenpaket Tester-Playtest 2025-12-18 (Issues #1–#11)
+## Maßnahmenpaket Tester-Playtest 2025-12-18 (Issues #1–#12)
 
 Der aktuelle Playtest (Tester-Briefing + eigener Lauf) liefert neue Findings zu
 Dispatcher-Strings, Save-Containern, Mission‑5‑Badges, Arena/Psi-Logs,
@@ -264,10 +264,9 @@ Stilabweichung („Handgelenk“-Regel) aufgefallen, die als neues Issue geführ
 wird. Die folgenden Punkte sind offen und müssen in den nächsten Zyklen
 abgearbeitet werden.
 
-1. **Issue #1 – Dispatcher-Fehlertext `gruppe 3` zu kurz (⏳ offen)**  
+1. **Issue #1 – Dispatcher-Fehlertext `gruppe 3` zu kurz (✅ erledigt)**  
    Dispatcher-String auf „Bei gruppe keine Zahl angeben. (klassisch/schnell
-   sind erlaubt)“ harmonisieren; Snapshots/Fixtures mitziehen; Acceptance 6
-   erneut prüfen.
+   sind erlaubt)“ harmonisiert; Snapshot-Quellen synchronisiert.
 2. **Issue #2 – Save-Container/Parser-Vollständigkeit (⏳ offen)**  
    QA-Parser/Fixtures um Pflichtcontainer `logs.trace[]` und
    `logs.arena_psi[]` ergänzen; optional QA-Toast für Offline-Rate-Limit;
@@ -294,16 +293,19 @@ abgearbeitet werden.
 8. **Issue #8 – QA-Fixture „Gold Save“ aktualisieren (⏳ offen)**  
    Vollständigen Save-Block als Fixture versionieren oder Referenz fixieren;
    Import-Tests (`migrate_save()`/Roundtrip) dokumentieren.
-9. **Issue #9 – Szene-Counter in Charaktererstellung (⏳ offen)**  
-   Szene-Anzeige darf in der Charaktererstellung (HQ-Labor) nicht erscheinen;
-   HQ führt keinen Szenenzähler, Scene-Overlay nur in Missionen/Rifts anzeigen.
+9. **Issue #9 – Szene-Counter in Charaktererstellung (✅ erledigt)**  
+   Szene-Anzeige bleibt im HQ (inkl. Charaktererstellung) aus; Scene-Overlay
+   erscheint nur in Missionen/Rifts.
 10. **Issue #10 – Einleitung endet sporadisch zu früh (⏳ offen)**  
    Start-Intro auf vollständigen Abschluss prüfen (fehlender letzter Abschnitt
    im Startflow); Start-Pipeline/Briefing-Fallback verifizieren.
-11. **Issue #11 – „Handgelenk“-Regel entfernen (⏳ offen)**  
-   Stilregel zu Handgelenk-Projektionen als Legacy markieren und aus Outputs
-   streichen; Hardware-Anker bleiben (Linse/Terminal/Kabel), kein
-   Handgelenk-Default.
+11. **Issue #11 – „Handgelenk“-Regel entfernen (✅ erledigt)**  
+   Handgelenk-Projektionen als Legacy markiert; Hardware-Anker bleiben
+   (Linse/Terminal/Kabel), kein Handgelenk-Default.
+12. **Issue #12 – Arena-SceneCounter/HUD-Overlay prüfen (⏳ offen)**  
+   Prüfen, ob PvP-Arena einen Szenenzähler benötigt und wie sich das mit
+   `scene_overlay()`/HUD-Header verzahnt (Arena-Start aus HQ, Location
+   `ARENA`). Entscheidung dokumentieren und ggf. Runtime/Toolkit spiegeln.
 
 **Hinweise zum Playtest-Output**
 

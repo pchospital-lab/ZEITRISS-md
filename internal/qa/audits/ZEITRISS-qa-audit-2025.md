@@ -115,6 +115,18 @@ Hochstufen-Spielrunden.
   (`full|minimal` → `standard|compact`) und konsolidieren
   `offline_help_last_scene` als kanonisches Feld.
 
+## Update 2025-12-19 – Playtest-Fixes (Issues #1/#9/#11)
+
+- QA-Log 2025-12-19 dokumentiert die Repo-Anpassungen: Dispatcher-Fehlertext
+  `gruppe 3` harmonisiert, Scene-Overlay im HQ (Charaktererstellung) entfernt,
+  Handgelenk-Default als Legacy markiert.
+- Runtime setzt `location='FIELD'` beim Missionsstart und rendert das
+  Scene-Overlay nur noch in Missionen/Rifts; Acceptance-Fixture und Tests
+  spiegeln den HQ-Nullwert.
+- QA-Fahrplan 1.13.8 markiert Issues #1/#9/#11 als abgeschlossen.
+- Offener Follow-up: Arena-SceneCounter/HUD-Overlay prüfen (Fahrplan Issue #12),
+  um HQ-Start und Arena-Flow konsistent zu halten.
+
 ## Update 2026-04 – Tester-Playtest-Fortschritt
 
 - Maßnahmenpaket Tester-Playtest 2026-04 fortgeschrieben: SaveGuard wertet

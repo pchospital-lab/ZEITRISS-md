@@ -699,8 +699,9 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen /
   Jammer-Override aktivieren; Reichweite anpassen.
 - **scene_overlay(total?, pressure?, env?)** – erzeugt das HUD-Banner `EP·MS·SC`
-  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Nach
-  `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core) sichtbar sein;
+  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Im HQ
+  erscheint kein Szenenzähler; das Overlay ist Missionen/Rifts vorbehalten.
+  Nach `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core) sichtbar sein;
   `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell deaktiviert wurde.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
@@ -724,7 +725,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 
 ### Runtime-State (Kurzreferenz)
 
-- `location: "HQ" | "field"`
+- `location: "HQ" | "FIELD" | "ARENA"`
 - `campaign: { episode, mission_in_episode, scene, px,`
   `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
 - `phase: "core"|"transfer"|"rift"` (immer lowercase, Seeds liefern nur den Typ)
@@ -910,7 +911,8 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**
 > externen Projektoren. **Keine Batterien oder Ladezyklen** – die Geräte
-> speisen sich aus Bewegung und Körperwärme.
+> speisen sich aus Bewegung und Körperwärme. **Kein Handgelenk-Default**:
+> HUD bleibt Retina-Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
 
 > **Mixed-Reality-HUD:** Das Interface erscheint als Retina-Holo direkt im
 > Sichtfeld (Terminator-/AR-Stil) und begleitet jede Epoche. HQ = volles Kodex-
