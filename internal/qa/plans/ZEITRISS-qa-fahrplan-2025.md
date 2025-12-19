@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.6
+version: 1.13.7
 tags: [meta]
 ---
 
@@ -253,6 +253,66 @@ README-Abschnittskürzel:
 `R(Start)` = README §Spielstart  
 `R(Chrono)` = README §ITI-HQ & Chronopolis  
 `R(Chat)` = README §Chat-Kurzbefehle
+
+## Maßnahmenpaket Tester-Playtest 2025-12-18 (Issues #1–#11)
+
+Der aktuelle Playtest (Tester-Briefing + eigener Lauf) liefert neue Findings zu
+Dispatcher-Strings, Save-Containern, Mission‑5‑Badges, Arena/Psi-Logs,
+Sonder-Overlays, Atmosphere-Contract-Capture, Economy-Brücke, QA-Fixtures sowie
+zwei Flow-Regressionen im HQ/Charakter-Setup. Zusätzlich ist eine
+Stilabweichung („Handgelenk“-Regel) aufgefallen, die als neues Issue geführt
+wird. Die folgenden Punkte sind offen und müssen in den nächsten Zyklen
+abgearbeitet werden.
+
+1. **Issue #1 – Dispatcher-Fehlertext `gruppe 3` zu kurz (⏳ offen)**  
+   Dispatcher-String auf „Bei gruppe keine Zahl angeben. (klassisch/schnell
+   sind erlaubt)“ harmonisieren; Snapshots/Fixtures mitziehen; Acceptance 6
+   erneut prüfen.
+2. **Issue #2 – Save-Container/Parser-Vollständigkeit (⏳ offen)**  
+   QA-Parser/Fixtures um Pflichtcontainer `logs.trace[]` und
+   `logs.arena_psi[]` ergänzen; optional QA-Toast für Offline-Rate-Limit;
+   Cross-Mode-Import neu prüfen.
+3. **Issue #3 – Mission-5-Badge-Snapshot nach Load (⏳ offen)**  
+   Gate/SF/Boss-Toast nach Load sofort spiegeln; Auto-Reset-Flags
+   (`self_reflection_auto_reset_*`) sichern; Mission 5 (Abschluss/Abbruch)
+   erneut prüfen.
+4. **Issue #4 – Arena-Psi-Logs & SaveGuard-Regeln (⏳ offen)**  
+   `logs.arena_psi[]` stets vorhanden; SaveGuard blockt bei `arena.active`
+   oder `queue_state != idle`; Arena-Flow (Start → Phase-Strike → Save → HQ)
+   erneut prüfen.
+5. **Issue #5 – Sonder-Overlays strukturiert loggen (⏳ offen)**  
+   `vehicle_clash` und `mass_conflict` als strukturierte `logs.hud[]`-Events
+   ergänzen (Tempo/Stress/Schaden/Chaos/Break-SG); Parser anpassen.
+6. **Issue #6 – Atmosphere-Contract Capture (QA-only) (⏳ offen)**  
+   Optionales QA-Flag `atmosphere_contract_capture` einführen, das
+   8–12-Zeiler pro Phase speichert inkl. PASS/FAIL für Banned-Terms und
+   Toasts-Zählung.
+7. **Issue #7 – Economy-Scaling-Brücke dokumentieren (⏳ offen)**  
+   `cu_waehrungssystem.md` um Brücke „Rewards → Wallet-Richtwerte 400+“
+   ergänzen; High-Tier-Sinks/Chronopolis-Preise evaluieren; QA-Pfad für
+   Lvl 120/512/900+ definieren.
+8. **Issue #8 – QA-Fixture „Gold Save“ aktualisieren (⏳ offen)**  
+   Vollständigen Save-Block als Fixture versionieren oder Referenz fixieren;
+   Import-Tests (`migrate_save()`/Roundtrip) dokumentieren.
+9. **Issue #9 – Szene-Counter in Charaktererstellung (⏳ offen)**  
+   Szene-Anzeige darf in der Charaktererstellung (HQ-Labor) nicht erscheinen;
+   HQ führt keinen Szenenzähler, Scene-Overlay nur in Missionen/Rifts anzeigen.
+10. **Issue #10 – Einleitung endet sporadisch zu früh (⏳ offen)**  
+   Start-Intro auf vollständigen Abschluss prüfen (fehlender letzter Abschnitt
+   im Startflow); Start-Pipeline/Briefing-Fallback verifizieren.
+11. **Issue #11 – „Handgelenk“-Regel entfernen (⏳ offen)**  
+   Stilregel zu Handgelenk-Projektionen als Legacy markieren und aus Outputs
+   streichen; Hardware-Anker bleiben (Linse/Terminal/Kabel), kein
+   Handgelenk-Default.
+
+**Hinweise zum Playtest-Output**
+
+- HQ‑Import aus v6‑Save zeigt korrektes Overlay (`EP/MS/SC`) und Rift‑Seeds,
+  dennoch muss die Szene‑Anzeige in der Charaktererstellung unterdrückt
+  werden (HQ‑Labor ≠ Mission).
+- Der Handgelenk‑Verweis („Multi‑Tool‑Handschuh am Handgelenk“) ist eine
+  Altregel aus früheren Outputs und widerspricht dem Retinal‑HUD‑Prinzip; als
+  eigenes Issue behandeln und in Toolkit/README prüfen.
 
 Alle Maßnahmen des Beta-GPT-Laufs Juni 2025 sind abgeschlossen. Die Tabelle
 fasst Status und Hauptverweise zusammen; weiterführende Evidenz steht im
@@ -850,4 +910,3 @@ den Wissensmodulen verankert werden.
 - ✅ HUD-Limit bleibt unverändert: Toast-Sperren wurden verworfen, das HUD
   bleibt bewusst schlank geführt (80 % Szene/20 % HUD) und zählt weiterhin
   die Einblendungen pro Szene nur zur QA-Beobachtung.
-
