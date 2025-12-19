@@ -69,6 +69,11 @@ schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,
 damage, at}` bzw. `{event:"mass_conflict", chaos, break_sg, stress, at}`. Diese
 Einträge ergänzen die Toast-Strings und bleiben für QA/Replay maschinenlesbar.
 
+Optionales QA-Flag `logs.flags.atmosphere_contract_capture` speichert pro Phase
+(`core|transfer|rift`) einen 8–12-zeiligen Exzerpt-Block sowie den Status des
+Banned-Terms-Checks und die HUD-Toast-Zählung, z. B.
+`{lines:[...], banned_terms:{status:'PASS'|'FAIL', hits?:[...]}, hud_toasts:2}`.
+
 Offline-Fallbacks sperren den HQ-Save bis zum Kodex-Re-Sync: `save_deep()`
 bricht mit „SaveGuard: Offline – HQ-Re-Sync erforderlich.“ ab, schreibt
 gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason: offline`) und
@@ -85,7 +90,7 @@ SaveGuard + folgendem Pfadbaum:
 - `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
 - `campaign.{episode,scene,px,rift_seeds[]}`
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
-- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,chronopolis_unlock_level,chronopolis_unlocked},flags.merge_conflicts[]}`
+- `logs.{artifact_log,market,offline,kodex,alias_trace,squad_radio,hud,psi,arena_psi,foreshadow,fr_interventions,flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,atmosphere_contract_capture,hud_scene_usage},flags.merge_conflicts[]}`
 - `arc_dashboard{offene_seeds[],fraktionen{}}`, `ui` (vollständiger UI-Block), `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`, `zone=safe|combat`, `team_size` hart 0–4)
 
 Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt

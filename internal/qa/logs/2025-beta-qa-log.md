@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.10
+version: 0.4.11
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-08 – Repo-Agent – Atmosphere-Contract Capture (Issue #6) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.14
+- Auftrag: QA-Capture-Flag für Atmosphere-Contract ergänzen, Fixture und
+  Wissensmodule spiegeln.
+
+```chatlog
+08:05 Repo-Agent: `make lint`
+08:21 Repo-Agent: `make test`
+08:39 Repo-Agent: `bash scripts/smoke.sh`
+08:47 Repo-Agent: `python3 tools/lint_runtime.py`
+08:50 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+08:54 Repo-Agent: `python3 scripts/lint_doc_links.py`
+08:57 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] `logs.flags.atmosphere_contract_capture` als optionaler QA-Block ergänzt
+      (8–12 Zeilen pro Phase, Banned-Terms PASS/FAIL, HUD-Toast-Zählung).
+- [x] Gold-Save-Fixture und Wissensmodule (README/Toolkit/Speicher/Briefing)
+      spiegeln den Capture-Block.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.14: Issue #6 auf erledigt gesetzt.
 
 ## 2026-05-07 – Repo-Agent – Mission-5-Load-Snapshot (Issue #3) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

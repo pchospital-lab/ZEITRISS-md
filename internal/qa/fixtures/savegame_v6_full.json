@@ -218,6 +218,53 @@
               "holodeck"
             ]
           },
+          "atmosphere_contract_capture": {
+            "core": {
+              "lines": [
+                "HQ-Intro in 3rd Person, physisch verankert.",
+                "Linse scannt, Kabel vibriert, kein UI-Raum.",
+                "HUD kurz, Statuszeilen nur bei Bedarf.",
+                "Core rational: keine echten Anomalien.",
+                "EntryChoice klar benannt.",
+                "Briefing fokussiert Mission-Fokus.",
+                "Szene startet mit Sensor-Toast.",
+                "Debrief verweist auf Archiv."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 2,
+              "captured_at": "2025-12-14T09:10:00Z"
+            },
+            "transfer": {
+              "lines": [
+                "Transfer bleibt knapp, Wegpunkte genannt.",
+                "Scan läuft über Linse, kein Digitalraum.",
+                "HUD nur als vibrierende Statuszeile.",
+                "Kontakt per Relay beschrieben.",
+                "Kein Meta-UI-Vokabular.",
+                "Team nimmt Positionen ein.",
+                "Hinweis auf Missionsanker.",
+                "Scene-Handoff ruhig."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 1,
+              "captured_at": "2025-12-14T09:14:00Z"
+            },
+            "rift": {
+              "lines": [
+                "Rift-Casefile gesetzt, Monster-Hunt.",
+                "HUD nennt CASE + HOOK kurz.",
+                "Physische Spuren statt UI-Dialog.",
+                "Sensorflackern beschreibt den Rift.",
+                "Anomalie bleibt singulär.",
+                "Konflikt spitzt sich zu.",
+                "Debrief fasst Artefakt-Spur.",
+                "HUD-Toast warnt vor Holodeck-Noise."
+              ],
+              "banned_terms": { "status": "FAIL", "hits": ["holodeck"] },
+              "hud_toasts": 3,
+              "captured_at": "2025-12-14T09:22:00Z"
+            }
+          },
           "foreshadow_gate_m5_seen": true,
           "foreshadow_gate_m10_seen": false,
           "merge_conflicts": [
@@ -444,6 +491,53 @@
               "matrix",
               "holodeck"
             ]
+          },
+          "atmosphere_contract_capture": {
+            "core": {
+              "lines": [
+                "HQ-Intro in 3rd Person, physisch verankert.",
+                "Linse scannt, Kabel vibriert, kein UI-Raum.",
+                "HUD kurz, Statuszeilen nur bei Bedarf.",
+                "Core rational: keine echten Anomalien.",
+                "EntryChoice klar benannt.",
+                "Briefing fokussiert Mission-Fokus.",
+                "Szene startet mit Sensor-Toast.",
+                "Debrief verweist auf Archiv."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 2,
+              "captured_at": "2025-12-14T10:12:00Z"
+            },
+            "transfer": {
+              "lines": [
+                "Transfer bleibt knapp, Wegpunkte genannt.",
+                "Scan läuft über Linse, kein Digitalraum.",
+                "HUD nur als vibrierende Statuszeile.",
+                "Kontakt per Relay beschrieben.",
+                "Kein Meta-UI-Vokabular.",
+                "Team nimmt Positionen ein.",
+                "Hinweis auf Missionsanker.",
+                "Scene-Handoff ruhig."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 1,
+              "captured_at": "2025-12-14T10:15:00Z"
+            },
+            "rift": {
+              "lines": [
+                "Rift-Casefile gesetzt, Monster-Hunt.",
+                "HUD nennt CASE + HOOK kurz.",
+                "Physische Spuren statt UI-Dialog.",
+                "Sensorflackern beschreibt den Rift.",
+                "Anomalie bleibt singulär.",
+                "Konflikt spitzt sich zu.",
+                "Debrief fasst Artefakt-Spur.",
+                "HUD-Toast warnt vor Holodeck-Noise."
+              ],
+              "banned_terms": { "status": "FAIL", "hits": ["holodeck"] },
+              "hud_toasts": 3,
+              "captured_at": "2025-12-14T10:24:00Z"
+            }
           },
           "foreshadow_gate_m5_seen": true,
           "foreshadow_gate_m10_seen": true,
@@ -722,6 +816,53 @@
               "matrix",
               "holodeck"
             ]
+          },
+          "atmosphere_contract_capture": {
+            "core": {
+              "lines": [
+                "HQ-Intro in 3rd Person, physisch verankert.",
+                "Linse scannt, Kabel vibriert, kein UI-Raum.",
+                "HUD kurz, Statuszeilen nur bei Bedarf.",
+                "Core rational: keine echten Anomalien.",
+                "EntryChoice klar benannt.",
+                "Briefing fokussiert Mission-Fokus.",
+                "Szene startet mit Sensor-Toast.",
+                "Debrief verweist auf Archiv."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 2,
+              "captured_at": "2025-12-14T11:34:00Z"
+            },
+            "transfer": {
+              "lines": [
+                "Transfer bleibt knapp, Wegpunkte genannt.",
+                "Scan läuft über Linse, kein Digitalraum.",
+                "HUD nur als vibrierende Statuszeile.",
+                "Kontakt per Relay beschrieben.",
+                "Kein Meta-UI-Vokabular.",
+                "Team nimmt Positionen ein.",
+                "Hinweis auf Missionsanker.",
+                "Scene-Handoff ruhig."
+              ],
+              "banned_terms": { "status": "PASS" },
+              "hud_toasts": 1,
+              "captured_at": "2025-12-14T11:39:00Z"
+            },
+            "rift": {
+              "lines": [
+                "Rift-Casefile gesetzt, Monster-Hunt.",
+                "HUD nennt CASE + HOOK kurz.",
+                "Physische Spuren statt UI-Dialog.",
+                "Sensorflackern beschreibt den Rift.",
+                "Anomalie bleibt singulär.",
+                "Konflikt spitzt sich zu.",
+                "Debrief fasst Artefakt-Spur.",
+                "HUD-Toast warnt vor Holodeck-Noise."
+              ],
+              "banned_terms": { "status": "FAIL", "hits": ["holodeck"] },
+              "hud_toasts": 3,
+              "captured_at": "2025-12-14T11:48:00Z"
+            }
           },
           "foreshadow_gate_m5_seen": true,
           "foreshadow_gate_m10_seen": true,

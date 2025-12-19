@@ -1013,7 +1013,9 @@ Artefakten und temporaler Abweichungen.
 > Atmosphere Contract (QA/Runner): 3rd-Person-Narration, Physicality-
 > Guard/Banned Terms, Rift = Casefile-Monster-Hunt, Core rational/noir, HUD
 > schlank (80/20). Runtime exportiert den Contract als QA-Block
-> (`logs.flags.atmosphere_contract`).
+> (`logs.flags.atmosphere_contract`); optionale QA-Exzerpte pro Phase landen
+> in `logs.flags.atmosphere_contract_capture` (8–12 Zeilen, Banned-Terms
+> PASS/FAIL, HUD-Toast-Zählung).
 
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.
