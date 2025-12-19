@@ -228,7 +228,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   (Ziel 80 % Szene/20 % HUD, max. 2 Toasts/Szene).
 - Ziehe den Contract aus `logs.flags.atmosphere_contract` oder README/Toolkit
   und dokumentiere einen 8–12-zeiligen Excerpt pro Phase (Start/HQ → Szene →
-  Debrief). Vermerke Pass/Fail des Banned-Terms-Checks.
+  Debrief). Speichere den Auszug optional in
+  `logs.flags.atmosphere_contract_capture` mit `lines`, `banned_terms.status`
+  (PASS/FAIL, ggf. `hits[]`) und `hud_toasts` (HUD-Toast-Zählung).
 
 ## Ablauf für Tester:innen
 
