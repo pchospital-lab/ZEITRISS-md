@@ -64,6 +64,11 @@ Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
 
+`logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
+schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,
+damage, at}` bzw. `{event:"mass_conflict", chaos, break_sg, stress, at}`. Diese
+Einträge ergänzen die Toast-Strings und bleiben für QA/Replay maschinenlesbar.
+
 Offline-Fallbacks sperren den HQ-Save bis zum Kodex-Re-Sync: `save_deep()`
 bricht mit „SaveGuard: Offline – HQ-Re-Sync erforderlich.“ ab, schreibt
 gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason: offline`) und

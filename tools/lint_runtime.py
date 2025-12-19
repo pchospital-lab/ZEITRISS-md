@@ -28,6 +28,8 @@ SAVE_REQUIRED_FIELDS: tuple[str, ...] = (
     "logs.kodex",
     "logs.alias_trace",
     "logs.squad_radio",
+    "logs.trace",
+    "logs.arena_psi",
     "logs.flags",
     "ui",
 )
