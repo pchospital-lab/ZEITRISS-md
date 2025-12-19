@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.7
+version: 0.4.8
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-06 – Repo-Agent – Playtest-Fixes (Issues #2/#5) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.11
+- Auftrag: Pflichtcontainer `logs.trace[]`/`logs.arena_psi[]` spiegeln; Sonder-Overlays als
+  strukturierte `logs.hud[]`-Events sichern.
+
+```chatlog
+08:05 Repo-Agent: `make lint`
+08:21 Repo-Agent: `make test`
+08:34 Repo-Agent: `bash scripts/smoke.sh`
+08:41 Repo-Agent: `python3 tools/lint_runtime.py`
+08:45 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+08:50 Repo-Agent: `python3 scripts/lint_doc_links.py`
+08:53 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] QA-Fixture/Testbriefing um `logs.trace[]` und `logs.arena_psi[]` ergänzt;
+      Negativtest für fehlendes `logs.arena_psi` ergänzt.
+- [x] Sonder-Overlays loggen strukturierte HUD-Events (`vehicle_clash`,
+      `mass_conflict`) inkl. Parser-Normalisierung.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.11: Issues #2/#5 erledigt, Audit-Sync dokumentiert.
 
 ## 2026-05-05 – Repo-Agent – Arena-SaveGuard (Queue-State) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

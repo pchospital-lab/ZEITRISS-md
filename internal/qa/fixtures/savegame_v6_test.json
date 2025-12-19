@@ -200,6 +200,20 @@
       "SF-OFF (M5 prep)",
       "Wallets initialisiert (solo → koop)",
       "Arena-Gebühr 200 CU abgebucht",
+      {
+        "event": "vehicle_clash",
+        "tempo": "hoch",
+        "stress": 2,
+        "damage": 1,
+        "at": "2025-11-26T20:30:00Z"
+      },
+      {
+        "event": "mass_conflict",
+        "chaos": 2,
+        "break_sg": 12,
+        "stress": 1,
+        "at": "2025-11-26T20:45:00Z"
+      },
       "Boss-DR aktiviert – −X Schaden pro Treffer"
     ],
     "trace": [
@@ -243,6 +257,7 @@
         "note": "Px-Bonus verfügbar"
       }
     ],
+    "arena_psi": [],
     "psi": [
       {
         "ts": "2025-11-26T21:10:00Z",

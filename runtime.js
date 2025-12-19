@@ -6256,9 +6256,56 @@ function prepare_save_economy(economy){
   return base;
 }
 
+function normalize_hud_metric(value){
+  if (Number.isFinite(value)){
+    return value;
+  }
+  if (typeof value === 'string' && value.trim()){
+    return value.trim();
+  }
+  return null;
+}
+
+function normalize_hud_entry(entry){
+  if (typeof entry === 'string'){
+    const message = entry.trim();
+    return message ? message : null;
+  }
+  if (!entry || typeof entry !== 'object' || Array.isArray(entry)){
+    return null;
+  }
+  const record = {};
+  const id = typeof entry.id === 'string' && entry.id.trim() ? entry.id.trim() : null;
+  if (id) record.id = id;
+  const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : null;
+  if (tag) record.tag = tag;
+  const message = typeof entry.message === 'string' && entry.message.trim() ? entry.message.trim() : null;
+  if (message) record.message = message;
+  const event = typeof entry.event === 'string' && entry.event.trim() ? entry.event.trim() : null;
+  if (event) record.event = event;
+  const at = typeof entry.at === 'string' && entry.at.trim() ? entry.at.trim() : null;
+  if (at) record.at = at;
+  const tempo = normalize_hud_metric(entry.tempo);
+  if (tempo !== null) record.tempo = tempo;
+  const stress = normalize_hud_metric(entry.stress);
+  if (stress !== null) record.stress = stress;
+  const damage = normalize_hud_metric(entry.damage ?? entry.schaden);
+  if (damage !== null) record.damage = damage;
+  const chaos = normalize_hud_metric(entry.chaos);
+  if (chaos !== null) record.chaos = chaos;
+  const breakSg = normalize_hud_metric(entry.break_sg ?? entry.breakSG);
+  if (breakSg !== null) record.break_sg = breakSg;
+  return Object.keys(record).length ? record : null;
+}
+
 function prepare_save_logs(logs){
   const base = clone_plain_object(logs);
-  if (!Array.isArray(base.hud)){
+  if (Array.isArray(base.hud)){
+    base.hud = base.hud
+      .map(normalize_hud_entry)
+      .filter(Boolean)
+      .slice(-32);
+  } else {
     base.hud = [];
   }
   if (Array.isArray(base.trace)){

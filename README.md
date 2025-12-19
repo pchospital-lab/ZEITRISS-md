@@ -802,6 +802,8 @@ Speichern außerhalb des HQs meldet „SaveGuard: HQ-only – HQ-Save gesperrt.�
 - `!exfil status` – fasst Anchor, RW und Armierung als Text zusammen.
 
 Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
+Sonder-Overlays für Verfolgungen und Massenkonflikte schreiben zusätzlich strukturierte Einträge
+(`event: vehicle_clash` / `mass_conflict`) in `logs.hud`.
 
 ### HUD-Schnellhilfe (`/help`)
 

@@ -146,6 +146,17 @@ Hochstufen-Spielrunden.
   (Tabelle + Checkliste im Abschnitt „Tester-Playtest 2026-04“); QA-Log und
   Fixtures sind damit synchron zum Audit.
 
+## Update 2026-05-06 – Playtest-Fixes (Issues #2/#5)
+
+- QA-Log 2026-05-06 dokumentiert die Ergänzung der Pflichtcontainer
+  `logs.trace[]` und `logs.arena_psi[]` in Test-Saves und Briefings sowie den
+  neuen Negativtest für fehlendes `logs.arena_psi`.
+- Sonder-Overlays (Verfolgung/Massenkonflikt) loggen strukturierte
+  `logs.hud[]`-Events (`vehicle_clash`, `mass_conflict`); der Runtime-Parser
+  normalisiert die Records für Save/Load.
+- QA-Fahrplan wurde auf Version 1.13.11 angehoben und markiert Issues #2/#5
+  des Playtest-Pakets 2025-12-18 als erledigt.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien

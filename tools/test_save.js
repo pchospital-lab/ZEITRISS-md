@@ -162,6 +162,13 @@ assert.throws(
   /SaveGuard: Feld logs\.trace fehlt\./
 );
 
+const missingArenaPsi = JSON.parse(rt.save_deep({ ...base, logs: { ...base.logs, arena_psi: [] } }));
+delete missingArenaPsi.logs.arena_psi;
+assert.throws(
+  () => rt.enforce_required_save_fields(missingArenaPsi),
+  /SaveGuard: Feld logs\.arena_psi fehlt\./
+);
+
 try {
   rt.save_deep({ ...base, location: 'CITY' });
 } catch (e) {

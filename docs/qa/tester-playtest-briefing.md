@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.3
+version: 1.3.4
 tags: [meta]
 ---
 
@@ -50,11 +50,13 @@ betont.
 ## Referenzen & Fixtures
 
 - **Vollständiges Test-Save (v6):** `internal/qa/fixtures/savegame_v6_test.json` enthält Cross-Mode-
-  und Arena-Spuren, `logs.psi[]`, `economy.wallets{}` sowie `campaign.rift_seeds[]`. Es dient den
+  und Arena-Spuren, `logs.trace[]`, `logs.psi[]`, `logs.arena_psi[]`,
+  `economy.wallets{}` sowie `campaign.rift_seeds[]`. Es dient den
   Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und wird bei Schema-Updates gespiegelt.
 - **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
-  setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren, damit
-  Logs und Checks reproduzierbar bleiben.
+  setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren.
+  Sonder-Overlays sollen zusätzlich strukturierte `logs.hud[]`-Events (`vehicle_clash`,
+  `mass_conflict`) enthalten, damit QA-Parser und Checks reproduzierbar bleiben.
 - **Mission‑5 Badge-Snapshots:** `internal/qa/fixtures/mission5_badge_snapshots.json` enthält
   HUD- und Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up-
   Runner `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die
@@ -119,8 +121,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > Speicher-Modul: `save_version`, `zr_version`, `location`, `phase`, `campaign`,
 > `character`, `economy` inklusive `wallets{}`, `logs` mit `artifact_log`, `market`,
 > `offline`, `kodex`, `alias_trace`, `squad_radio`, `foreshadow`,
-> `fr_interventions`, `psi`, `hud`, `flags` sowie `ui`, `arena`; optional
-> `arc_dashboard`). Kontrolliere HQ-Briefing-Schleifen, Accessibility-Dialoge,
+> `fr_interventions`, `psi`, `arena_psi`, `trace`, `hud`, `flags` sowie `ui`,
+> `arena`; optional `arc_dashboard`). Kontrolliere HQ-Briefing-Schleifen,
+> Accessibility-Dialoge,
 > Offline-Hinweise sowie Ask→Suggest- und Kodex-Kommandos. Cross-Mode-Saves müssen
 > getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und
 > Konflikte kennzeichnen). Decke bei Save- und Load-Prüfungen auch späte Progression
@@ -133,8 +136,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > kanonischen Schemas (`save_version`, `zr_version`, `location`, `phase`,
 > `campaign`, `character`, `economy` inkl. `wallets{}`, `logs` mit `artifact_log`,
 > `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `foreshadow`,
-> `fr_interventions`, `psi`, `hud`, `flags`, dazu `ui`, `arena`, optional
-> `arc_dashboard`) sowie passende Kodex- und Charakterwerte. Bilde darin mindestens
+> `fr_interventions`, `psi`, `arena_psi`, `trace`, `hud`, `flags`, dazu `ui`,
+> `arena`, optional `arc_dashboard`) sowie passende Kodex- und Charakterwerte.
+> Bilde darin mindestens
 > zwei Level- und Rift-Varianten ab (z. B. <10, 120, 500+ inklusive Seeds und
 > Artefaktboni), damit Skalierung und Persistenz über den vollen Bereich 1–1000
 > validiert werden können. Gib den Block in einem ```json```-Snippet aus, damit der
