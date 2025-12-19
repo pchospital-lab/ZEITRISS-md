@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.9
+version: 0.4.10
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-07 – Repo-Agent – Mission-5-Load-Snapshot (Issue #3) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.13
+- Auftrag: Mission‑5‑Badge‑Snapshot nach Load absichern, Auto‑Reset‑Flags
+  (`self_reflection_auto_reset_*`) prüfen, Gate/SF/Boss‑Toast nach Load spiegeln.
+
+```chatlog
+08:20 Repo-Agent: `make lint`
+08:35 Repo-Agent: `make test`
+08:57 Repo-Agent: `bash scripts/smoke.sh`
+09:05 Repo-Agent: `python3 tools/lint_runtime.py`
+09:08 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+09:12 Repo-Agent: `python3 scripts/lint_doc_links.py`
+09:15 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Acceptance-Follow-up prüft Mission‑5‑HUD, Gate/SF/Boss‑Toast und
+      Auto‑Reset‑Flags nach Save/Load; Logs bleiben stabil.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.13: Issue #3 auf erledigt gesetzt.
 
 ## 2026-05-06 – Repo-Agent – Playtest-Fixes (Issues #2/#5) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
