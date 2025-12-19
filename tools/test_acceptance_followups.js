@@ -150,6 +150,32 @@ function runMissionFiveBadgeCheck(){
     Object.entries(mission5Fixture.flag_checks).forEach(([key, expected]) => {
       assert.strictEqual(flags[key], expected, `Flag ${key} entspricht nicht dem Snapshot`);
     });
+    assert.ok(
+      typeof flags.self_reflection_auto_reset_at === 'string' && flags.self_reflection_auto_reset_at.trim(),
+      'Flag self_reflection_auto_reset_at fehlt nach Mission 5'
+    );
+
+    rt.state.location = 'HQ';
+    rt.state.phase = 'core';
+    rt.state.exfil = { active: false };
+    rt.state.campaign.exfil = { active: false };
+    const saved = rt.save_deep();
+    const reloaded = freshRuntime();
+    reloaded.load_deep(saved);
+    const loadHud = reloaded.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
+    assert.deepStrictEqual(
+      loadHud.slice(0, mission5Fixture.hud_after.length),
+      mission5Fixture.hud_after,
+      'HUD-Log nach Load (Mission 5) stimmt im Kern nicht'
+    );
+    const loadFlags = reloaded.state.logs.flags;
+    Object.entries(mission5Fixture.flag_checks).forEach(([key, expected]) => {
+      assert.strictEqual(loadFlags[key], expected, `Load-Flag ${key} entspricht nicht dem Snapshot`);
+    });
+    assert.ok(
+      typeof loadFlags.self_reflection_auto_reset_at === 'string' && loadFlags.self_reflection_auto_reset_at.trim(),
+      'Flag self_reflection_auto_reset_at fehlt nach Load'
+    );
 
     return { hqOverlay, sfOff, startOverlay, hudMission, bossStatus, hudAfter };
   } finally {

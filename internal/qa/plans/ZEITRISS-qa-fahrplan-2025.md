@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.12
+version: 1.13.13
 tags: [meta]
 ---
 
@@ -271,10 +271,9 @@ abgearbeitet werden.
    QA-Parser/Fixtures um Pflichtcontainer `logs.trace[]` und
    `logs.arena_psi[]` ergänzt; Test-Save/Briefing-Listen spiegeln die Container,
    Negativtest für fehlendes `logs.arena_psi` ergänzt.
-3. **Issue #3 – Mission-5-Badge-Snapshot nach Load (⏳ offen)**  
-   Gate/SF/Boss-Toast nach Load sofort spiegeln; Auto-Reset-Flags
-   (`self_reflection_auto_reset_*`) sichern; Mission 5 (Abschluss/Abbruch)
-   erneut prüfen.
+3. **Issue #3 – Mission-5-Badge-Snapshot nach Load (✅ erledigt)**  
+   Mission‑5‑HUD und Auto‑Reset‑Flags werden im Save/Load geprüft; Acceptance‑Check
+   validiert Gate/SF/Boss‑Toast sowie `self_reflection_auto_reset_*` nach Load.
 4. **Issue #4 – Arena-Psi-Logs & SaveGuard-Regeln (✅ erledigt)**  
    `logs.arena_psi[]` stets vorhanden; SaveGuard blockt bei `arena.active`
    oder `queue_state != idle`; Arena-Flow (Start → Phase-Strike → Save → HQ)
