@@ -429,11 +429,11 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 #### Schnittstellen (Foreshadow & Arena)
 
 - **`scene_overlay(total?, pressure?, env?)`** – Rendert das HUD-Banner `EP·MS·SC` inklusive Missionsziel,
-  Px/SYS/Lvl, Exfil-Status und `FS count/required`. Im HQ (inklusive Charaktererstellung) erscheint kein
-  Szenenzähler; das Overlay ist ausschließlich für Missionen/Rifts gedacht. Nach `StartMission()` wird `FS 0/4` (Core)
-  bzw. `FS 0/2` (Rift) erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde.
-  Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die Mission
-  beendet oder abgebrochen wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und
+  Px/SYS/Lvl, Exfil-Status und `FS count/required`. Im HQ (inklusive Charaktererstellung) und in der Arena erscheint
+  kein Szenenzähler; das Overlay ist ausschließlich für Missionen/Rifts gedacht. Nach `StartMission()` wird `FS 0/4`
+  (Core) bzw. `FS 0/2` (Rift) erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert
+  wurde. Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die
+  Mission beendet oder abgebrochen wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und
   protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason`
   (`completed`/`aborted`).
 - **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert
@@ -1880,6 +1880,10 @@ Foreshadow {{ count }}{% if required > 0 %}/{{ required }}{% endif %}
 {% macro chrono_has_key() -%}
   {{ 'true' if (char.flags.chronokey or 'Chronopolis‑Schlüssel' in (char.inv or [])) else 'false' }}
 {%- endmacro %}
+
+**HQ-Definition:** Zum HQ zählen ITI-Nullzeit, die ITI-Decks und der Pre-City-Hub.
+Chronopolis selbst ist `CITY` und zählt **nicht** als HQ (kein Save, kein
+HQ-Overlay).
 
 {% macro chrono_grant_key_if_lvl10() -%}
   {% if (char.lvl or 1) >= 10 and not char.flags.chronokey %}
