@@ -3028,6 +3028,8 @@ ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetzt
     `NPC-Autoradio aktiv (…× Squad)`.
    - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
+   - **HQ-Kurzintro:** vier Zeilen, Schlusszeile „Die Nullzeit kennt keinen
+     Countdown. Das ITI schon.“
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
