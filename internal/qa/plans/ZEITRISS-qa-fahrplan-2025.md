@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.9
+version: 1.13.10
 tags: [meta]
 ---
 
@@ -275,7 +275,7 @@ abgearbeitet werden.
    Gate/SF/Boss-Toast nach Load sofort spiegeln; Auto-Reset-Flags
    (`self_reflection_auto_reset_*`) sichern; Mission 5 (Abschluss/Abbruch)
    erneut prüfen.
-4. **Issue #4 – Arena-Psi-Logs & SaveGuard-Regeln (⏳ offen)**  
+4. **Issue #4 – Arena-Psi-Logs & SaveGuard-Regeln (✅ erledigt)**  
    `logs.arena_psi[]` stets vorhanden; SaveGuard blockt bei `arena.active`
    oder `queue_state != idle`; Arena-Flow (Start → Phase-Strike → Save → HQ)
    erneut prüfen.

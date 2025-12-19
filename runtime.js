@@ -4402,10 +4402,11 @@ function apply_arena_rules(ctx = state){
   } else if (active){
     arena.phase = arena.phase === 'completed' ? 'completed' : 'active';
   }
-  arena.queue_state = normalize_arena_queue_state(arena.queue_state, {
+  const normalizedQueue = normalize_arena_queue_state(arena.queue_state, {
     active,
     phase: arena.phase
   });
+  arena.queue_state = active ? normalizedQueue : 'idle';
   arena.zone = normalize_arena_zone(arena.zone, { active });
   arena.damage_dampener = active && arena.damage_dampener !== false;
   arena.phase_strike_tax = active ? phase_strike_tax(ctx) : 0;
@@ -6823,9 +6824,9 @@ function save_deep(s=state){
     active: !!arenaState?.active,
     phase: arenaState?.phase
   });
-  const queueActive = ['searching', 'matched', 'staging', 'active'].includes(queueState);
+  const queueBlocked = queueState !== 'idle';
   const phaseActive = arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed';
-  if (arenaState?.active || phaseActive || queueActive){
+  if (arenaState?.active || phaseActive || queueBlocked){
     throw new Error(toast_save_block('Arena aktiv'));
   }
   if (s.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
