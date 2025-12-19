@@ -694,10 +694,10 @@ Arena-Guards scharfgeschaltet werden.
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
-zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block
-(`gm_style`/`intro_seen`/`suggest_mode` plus `contrast`/`badge_density`/
-`output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
-(`standard|normal`), sodass der SaveGuard den normalisierten Block akzeptiert.
+zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block (`gm_style`/
+`intro_seen`/`suggest_mode` plus `contrast`/`badge_density`/`output_pace`); fehlen
+Felder, ergänzen Migration und Serializer Defaults (`standard|normal`), sodass
+der SaveGuard den normalisierten Block akzeptiert.
 Der Serializer mappt die Optionen 1:1 auf JSON:
 
 - **Kontrast:** `contrast = standard|high`
@@ -705,18 +705,17 @@ Der Serializer mappt die Optionen 1:1 auf JSON:
 - **Ausgabetempo:** `output_pace = normal|fast|slow`
 
 Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
-die Auswahl in `ui{}`. Legacy-Werte `full|minimal` werden beim Laden auf
-`standard|compact` gemappt; `rapid|quick` landen auf `fast`,
-`default|steady` auf `normal`. Saves ohne Badge-Feld setzen automatisch auf
-`standard`.
+die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
+`standard|compact` gemappt; `rapid|quick` landen auf `fast`, `default|steady` auf
+`normal`. Saves ohne Badge-Feld setzen automatisch auf `standard`.
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
 ### Ablauf nach `!load`
 
- 1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
+1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
    Eingabe mit „Kodex: Poste Speicherstand als JSON.“
- 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
+2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
    migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
@@ -779,8 +778,8 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
   Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
   `Offline-Protokoll (n×): …` zusammen. `normalize_save_v6()` dedupliziert
-  `logs.foreshadow[]` (Tag, Kurztext, Szene, First/Last-Seen);
-  Debriefs spiegeln `Foreshadow-Log (n×): …`.
+  `logs.foreshadow[]` (Tag, Kurztext, Szene, First/Last-Seen); Debriefs spiegeln
+  `Foreshadow-Log (n×): …`.
 - **Fraktionen & Funk.** `log_intervention()` protokolliert bis zu 16
   `logs.fr_interventions[]` (Ergebnis, Fraktion, Szene, Mission, Zusatzfelder)
   und spiegelt sie ins Arc-Dashboard; `render_alias_trace_summary()` fasst

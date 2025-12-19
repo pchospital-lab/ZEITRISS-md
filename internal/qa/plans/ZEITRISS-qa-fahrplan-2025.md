@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.18
+version: 1.13.19
 tags: [meta]
 ---
 
@@ -149,6 +149,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 - [x] `gameplay/kampagnenstruktur.md` auf QA-fremde Abschnitte prüfen (z. B.
       „Performance-Ziele“, „Build-Roadmap“) und entscheiden, ob diese Inhalte in
       Wissensmodule oder interne Dev-Dokumente gehören.
+- [ ] Restliche Module unter `systems/gameflow/` auf Zeilenlängen, Listen- und
+      Absatzumbrüche prüfen (Formatierungs-Review nach
+      `systems/gameflow/speicher-fortsetzung.md` und
+      `systems/gameflow/cinematic-start.md`).
 
 ## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
 
