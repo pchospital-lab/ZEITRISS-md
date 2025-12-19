@@ -798,7 +798,8 @@ function sanitize_radio_entries(entries){
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
-  'Commander Renier: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“'
+  'Commander Renier: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“',
+  'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
 ];
 
 const state = {

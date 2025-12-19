@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.14
+version: 1.13.15
 tags: [meta]
 ---
 
@@ -296,9 +296,8 @@ abgearbeitet werden.
 9. **Issue #9 – Szene-Counter in Charaktererstellung (✅ erledigt)**  
    Szene-Anzeige bleibt im HQ (inkl. Charaktererstellung) aus; Scene-Overlay
    erscheint nur in Missionen/Rifts.
-10. **Issue #10 – Einleitung endet sporadisch zu früh (⏳ offen)**  
-   Start-Intro auf vollständigen Abschluss prüfen (fehlender letzter Abschnitt
-   im Startflow); Start-Pipeline/Briefing-Fallback verifizieren.
+10. **Issue #10 – Einleitung endet sporadisch zu früh (✅ erledigt)**  
+   HQ-Kurzintro um die Schlusszeile ergänzt und im Start-Flow gespiegelt.
 11. **Issue #11 – „Handgelenk“-Regel entfernen (✅ erledigt)**  
    Handgelenk-Projektionen als Legacy markiert; Hardware-Anker bleiben
    (Linse/Terminal/Kabel), kein Handgelenk-Default.

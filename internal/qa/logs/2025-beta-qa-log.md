@@ -6,6 +6,27 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-12-19 – Repo-Agent – HQ-Intro Schlusszeile (Issue #10) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.15
+- Auftrag: HQ-Kurzintro vervollständigen und Start-Flow spiegeln.
+
+```chatlog
+11:05 Repo-Agent: `make lint`
+11:22 Repo-Agent: `make test`
+11:46 Repo-Agent: `bash scripts/smoke.sh`
+11:56 Repo-Agent: `python3 tools/lint_runtime.py`
+11:59 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+12:03 Repo-Agent: `python3 scripts/lint_doc_links.py`
+12:07 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] HQ-Kurzintro um die Schlusszeile ergänzt und Start-Dispatcher dokumentiert.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.15: Issue #10 auf erledigt gesetzt.
+
 ## 2026-05-08 – Repo-Agent – Atmosphere-Contract Capture (Issue #6) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.14

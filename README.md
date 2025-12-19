@@ -357,6 +357,8 @@ Spiel starten (gruppe schnell)
 - **Briefing & Schnellstart.** `Spiel starten (solo)` führt direkt ins Briefing
   der aktuellen Episode. `klassisch` blendet Auswahlmenüs ein, `schnell`
   überspringt sie. NPC-Teams werden bei Bedarf automatisch erzeugt und skaliert.
+- **HQ-Kurzintro (Runtime).** Vier Zeilen, Schlusszeile: „Die Nullzeit kennt
+  keinen Countdown. Das ITI schon.“
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
