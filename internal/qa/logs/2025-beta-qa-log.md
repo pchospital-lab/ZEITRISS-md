@@ -6,6 +6,30 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-05-05 – Repo-Agent – Arena-SaveGuard (Queue-State) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.10
+- Auftrag: SaveGuard blockiert HQ-Saves bei `queue_state != idle`, Arena-Queue
+  nach Abschluss auf `idle`, QA-Fixture spiegeln.
+
+```chatlog
+07:10 Repo-Agent: `make lint`
+07:24 Repo-Agent: `make test`
+07:36 Repo-Agent: `bash scripts/smoke.sh`
+07:44 Repo-Agent: `python3 tools/lint_runtime.py`
+07:48 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+07:52 Repo-Agent: `python3 scripts/lint_doc_links.py`
+07:56 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] SaveGuard blockiert nicht-idle Queue-States; Arena-Queue wird im HQ auf
+      `idle` normalisiert.
+- [x] QA-Fixture und Wissensmodule (README/Toolkit/Speicher-Modul) gespiegelt.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.10: Issue #4 auf erledigt gesetzt (Arena-SaveGuard-Regel).
+
 ## 2026-05-04 – Repo-Agent – QA-Fahrplan 1.13.6 Konsistenzlauf (Build 4.2.3)
 - Plattform: OpenAI MyGPT (Beta-Klon)
 - Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.6

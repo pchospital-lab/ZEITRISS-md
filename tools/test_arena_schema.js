@@ -36,6 +36,7 @@ setupState();
 rt.state.arena = {
   active: false,
   phase: 'completed',
+  queue_state: 'idle',
   mode: 'team',
   previous_mode: 'single',
   team_size: 4,
