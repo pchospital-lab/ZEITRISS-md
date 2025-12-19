@@ -692,9 +692,9 @@ die Auswahl in `ui{}`. Legacy-Werte `full|minimal` werden beim Laden auf
    migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
-3. **Rückblende & HUD.** `scene_overlay()` rendert nach dem Laden den HUD-Block
-   „EP·MS·SC/Total·Px·SYS“. Die Runde springt ohne Nachfrage direkt zum HQ-
-   beziehungsweise Briefing-Einstieg.
+3. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
+   HQ (inklusive Charaktererstellung) bleibt der Szenenzähler aus. Die Runde
+   springt ohne Nachfrage direkt zum HQ- beziehungsweise Briefing-Einstieg.
 4. **Compliance-Spiegel.** `show_compliance_once()` ruft das Toolkit-Makro
    `ShowComplianceOnce()` (Alias `StoreCompliance()`) auf und synchronisiert
    `campaign.compliance_shown_today` mit `logs.flags.compliance_shown_today`.

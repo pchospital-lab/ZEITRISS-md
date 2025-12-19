@@ -340,6 +340,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   blockierbar durch Gelände/Jammer; mit Edge-Compute → Kodex-Sync läuft über das Comlink.
 - Relais/Kabel heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
 - **Kein** Armband/keine externen Projektoren/keine Batterien.
+- **Kein Handgelenk-Default:** HUD bleibt Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
 - Fällt der Kodex-Uplink aus (Reichweite, Jammer, Strom), ruft `!offline`
@@ -426,11 +427,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 #### Schnittstellen (Foreshadow & Arena)
 
 - **`scene_overlay(total?, pressure?, env?)`** – Rendert das HUD-Banner `EP·MS·SC` inklusive Missionsziel,
-  Px/SYS/Lvl, Exfil-Status und `FS count/required`. Nach `StartMission()` wird `FS 0/4` (Core) bzw. `FS 0/2` (Rift)
-  erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde. Nach Mission 5 setzt
-  die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die Mission beendet oder abgebrochen
-  wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und protokollieren dabei den HUD-Toast
-  `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason` (`completed`/`aborted`).
+  Px/SYS/Lvl, Exfil-Status und `FS count/required`. Im HQ (inklusive Charaktererstellung) erscheint kein
+  Szenenzähler; das Overlay ist ausschließlich für Missionen/Rifts gedacht. Nach `StartMission()` wird `FS 0/4` (Core)
+  bzw. `FS 0/2` (Rift) erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert wurde.
+  Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die Mission
+  beendet oder abgebrochen wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und
+  protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason`
+  (`completed`/`aborted`).
 - **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert
   Self-Reflection, schreibt den HUD-Toast (`SF-ON`/`SF-OFF`) und persistiert das
   Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die
@@ -3000,7 +3003,7 @@ ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetzt
   - `npc-team`: Teamgröße 0–4; bei Fehler → „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
     Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
     `NPC-Autoradio aktiv (…× Squad)`.
-   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.“
+   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
 
 **Missionsstart:**

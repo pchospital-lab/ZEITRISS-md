@@ -27,7 +27,7 @@ function runForeshadowGateCheck(){
   const bossStatus = rt.on_command('!boss status');
   assert.ok(/FS\s+2\/2/.test(bossStatus), 'Foreshadow-Zähler meldet nicht 2/2');
   const overlayBefore = rt.scene_overlay();
-  assert.ok(overlayBefore.includes('FS 2/2'), 'Scene-Overlay zeigt keine Foreshadow 2/2');
+  assert.strictEqual(overlayBefore, null, 'Scene-Overlay sollte im HQ leer sein');
 
   rt.StartMission();
   const hudAfterStart = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
@@ -62,6 +62,7 @@ function runForeshadowGateCheck(){
 function runSuggestToggleCheck(){
   const rt = freshRuntime();
   rt.startSolo('klassisch');
+  rt.StartMission();
   const overlayBase = rt.scene_overlay();
   assert.ok(!overlayBase.includes('· SUG'), 'Suggest-Markierung sollte deaktiviert sein');
 
