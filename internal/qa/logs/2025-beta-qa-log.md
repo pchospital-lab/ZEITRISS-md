@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.14
+version: 0.4.15
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-11 – Repo-Agent – Gameflow-Schema-Format & Fahrplan-Sync (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: QA-Fahrplan 1.13.20
+- Auftrag: SaveGame-v6-Schema auf Zeilenlängen prüfen, QA-Fahrplan-Status der
+  Gameflow-Review abschließen.
+
+```chatlog
+09:05 Repo-Agent: `make lint`
+09:22 Repo-Agent: `make test`
+09:55 Repo-Agent: `bash scripts/smoke.sh`
+10:02 Repo-Agent: `python3 tools/lint_runtime.py`
+10:05 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:08 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:10 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] `systems/gameflow/saveGame.v6.schema.json` auf Zeilenlängen bereinigt.
+- [x] QA-Fahrplan markiert den Gameflow-Format-Review als abgeschlossen.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.20: Gameflow-Format-Review abgeschlossen.
 
 ## 2026-05-10 – Repo-Agent – High-Level-Regression & Beta-GPT-12 Abschluss (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
