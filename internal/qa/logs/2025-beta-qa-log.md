@@ -311,8 +311,9 @@ tags: [meta]
 - [x] Scene-Overlay nur noch in Missionen/Rifts; HQ/Charaktererstellung ohne
       Szenenzähler (Runtime + Speicher-Doku + Acceptance-Fixtures).
 - [x] Handgelenk-Default als Legacy markiert, Hardware-Anker bleiben erhalten.
-- [ ] Arena-SceneCounter/HUD-Overlay: Prüfen, ob PvP-Arena einen Szenenzähler
-      benötigt und wie `scene_overlay()` im Arena-Flow eingesetzt werden soll.
+- [x] Arena-SceneCounter/HUD-Overlay: Prüfen, ob PvP-Arena einen Szenenzähler
+      benötigt und wie `scene_overlay()` im Arena-Flow eingesetzt werden soll
+      (Korrigiert am 2026-05-09; siehe Eintrag „Arena-SceneCounter/HUD-Overlay“).
 
 **Nachverfolgung**
 - QA-Fahrplan 1.13.8 markiert Issues #1/#9/#11 als erledigt.

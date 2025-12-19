@@ -309,11 +309,11 @@ abgearbeitet werden.
 **Hinweise zum Playtest-Output**
 
 - HQ‑Import aus v6‑Save zeigt korrektes Overlay (`EP/MS/SC`) und Rift‑Seeds,
-  dennoch muss die Szene‑Anzeige in der Charaktererstellung unterdrückt
-  werden (HQ‑Labor ≠ Mission).
+  Szene‑Anzeige in der Charaktererstellung bleibt unterdrückt
+  (umgesetzt in Issue #9: HQ‑Labor ≠ Mission).
 - Der Handgelenk‑Verweis („Multi‑Tool‑Handschuh am Handgelenk“) ist eine
-  Altregel aus früheren Outputs und widerspricht dem Retinal‑HUD‑Prinzip; als
-  eigenes Issue behandeln und in Toolkit/README prüfen.
+  Altregel aus früheren Outputs und widerspricht dem Retinal‑HUD‑Prinzip
+  (umgesetzt in Issue #11: in Toolkit/README korrigiert).
 
 Alle Maßnahmen des Beta-GPT-Laufs Juni 2025 sind abgeschlossen. Die Tabelle
 fasst Status und Hauptverweise zusammen; weiterführende Evidenz steht im
