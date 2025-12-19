@@ -167,6 +167,9 @@ euch das Maintainer-Dokument.
   prüfen Mission‑5/HUD-Golden-Files aus
   `internal/qa/fixtures/mission5_badge_snapshots.json`. Die Läufe gehören zu den
   Pflichttests und werden im QA-Log referenziert.
+- **QA-Fixtures:** `internal/qa/fixtures/savegame_v6_test.json` (vollständiger
+  v6-HQ-Save) und `internal/qa/fixtures/savegame_v6_highlevel.json` (Level 8/120/520
+  mit `seed_tier`-Hinweisen) dienen als Referenzen für Save-/Rift-Regressionen.
 - **Maintainer:innen prüfen nach abgeschlossenen Tests lediglich den fertigen
   Wissensstand und übertragen ihn anschließend gemäß
   `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**

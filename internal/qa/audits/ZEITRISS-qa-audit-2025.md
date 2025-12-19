@@ -206,6 +206,13 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan 1.13.16 markiert Issue #12 des Tester-Playtest-Pakets 2025-12-18
   als abgeschlossen; QA-Log dokumentiert den Lauf vom 2026-05-09.
 
+## Update 2026-05-10 – High-Level-Regression & Beta-GPT-12 Abschluss
+
+- README referenziert die High-Level-Fixture (`savegame_v6_highlevel.json`) als
+  Regressionanker für Rift-/Endgame-Saves mit Seed-Tiers.
+- QA-Fahrplan 1.13.18 markiert das Beta-GPT-12-Maßnahmenpaket (Issues #1–#9)
+  als abgeschlossen; QA-Log dokumentiert den Abgleich.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien
