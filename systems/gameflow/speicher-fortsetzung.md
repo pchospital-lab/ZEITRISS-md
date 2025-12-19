@@ -103,7 +103,7 @@ Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
 aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
 und `arena.phase` im Serializer auf `active` und blockiert den HQ-Save mit
 „SaveGuard: Arena aktiv – HQ-Save gesperrt.“, bis `queue_state` wieder `idle`
-oder `completed` erreicht.
+erreicht (auch `completed` bleibt gespeichert, aber blockiert den Save).
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige

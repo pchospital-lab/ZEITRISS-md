@@ -102,8 +102,13 @@ assert.throws(
   /SaveGuard: Arena aktiv/
 );
 
-const completedArena = JSON.parse(rt.save_deep({ ...base, arena: { queue_state: 'completed' } }));
-assert.equal(completedArena.arena.queue_state, 'completed');
+assert.throws(
+  () => rt.save_deep({ ...base, arena: { queue_state: 'completed' } }),
+  /SaveGuard: Arena aktiv/
+);
+
+const completedArena = JSON.parse(rt.save_deep({ ...base, arena: { phase: 'completed', queue_state: 'idle' } }));
+assert.equal(completedArena.arena.queue_state, 'idle');
 assert.equal(completedArena.arena.phase, 'completed');
 assert.equal(completedArena.arena.active, false);
 

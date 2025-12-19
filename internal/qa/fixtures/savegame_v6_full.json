@@ -118,7 +118,7 @@
             "economy": { "cu": 2100, "credits": 2100, "wallets": 1 },
             "fr_bias": "neutral",
             "intervention": "none",
-            "arena": { "phase": "completed", "queue_state": "completed", "zone": "safe", "reset": false, "resume_token": false },
+            "arena": { "phase": "completed", "queue_state": "idle", "zone": "safe", "reset": false, "resume_token": false },
             "merge_conflicts": 1,
             "conflicts_added": 1,
             "conflict_fields": ["campaign.rift_seeds"]
@@ -181,7 +181,7 @@
       "arena": {
         "active": false,
         "phase": "completed",
-        "queue_state": "completed",
+        "queue_state": "idle",
         "zone": "safe",
         "mode": "squad",
         "team_size": 1,
@@ -583,7 +583,7 @@
       "arena": {
         "active": false,
         "phase": "completed",
-        "queue_state": "completed",
+        "queue_state": "idle",
         "zone": "safe",
         "mode": "squad",
         "team_size": 4,

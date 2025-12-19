@@ -456,7 +456,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   installierten Slots, sonst meldet die Runtime „SaveGuard: SYS nicht voll
   installiert – HQ-Save gesperrt.“ bzw. „SaveGuard: SYS runtime overflow –
   HQ-Save gesperrt.“ und blockiert den Save. Stress/Psi-Heat tragen denselben
-  SaveGuard-Suffix. Arena-Matchmaking (`queue_state` ≠ `idle|completed`) zählt
+  SaveGuard-Suffix. Arena-Matchmaking (`queue_state` ≠ `idle`) zählt
   dabei als aktiv und sperrt HQ-Saves selbst dann, wenn externe Tools das
   `active`-Flag vergessen; setzt den Queue-State bei PvP-Handshakes daher
   explizit.
