@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.11
+version: 0.4.12
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-05-09 – Repo-Agent – Arena-SceneCounter/HUD-Overlay (Issue #12) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Toolkit/runtime 4.2.3, QA-Fahrplan 1.13.16
+- Auftrag: Arena-Szenenzähler klären, `scene_overlay()` auf Missionen/Rifts begrenzen und
+  Wissensmodule spiegeln.
+
+```chatlog
+10:05 Repo-Agent: `make lint`
+10:23 Repo-Agent: `make test`
+10:55 Repo-Agent: `bash scripts/smoke.sh`
+11:06 Repo-Agent: `python3 tools/lint_runtime.py`
+11:10 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+11:14 Repo-Agent: `python3 scripts/lint_doc_links.py`
+11:17 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] `scene_overlay()` rendert nur bei `location='FIELD'`; HQ und Arena bleiben ohne Overlay.
+- [x] README/Toolkit/Speicher-Modul spiegeln den Arena-Ausschluss des Szenenzählers.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.16: Issue #12 auf erledigt gesetzt.
 
 ## 2025-12-19 – Repo-Agent – HQ-Intro Schlusszeile (Issue #10) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

@@ -53,7 +53,9 @@ assert serializer_bereit(required)
 ```
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
-dort deterministisch gesetzt:
+dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
+aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
+`CITY`-Status und ist **kein** HQ:
 
 Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json`,
 `savegame_v6_highlevel.json` und `savegame_v6_full.json` führen alle
@@ -703,8 +705,9 @@ die Auswahl in `ui{}`. Legacy-Werte `full|minimal` werden beim Laden auf
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
 3. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
-   HQ (inklusive Charaktererstellung) bleibt der Szenenzähler aus. Die Runde
-   springt ohne Nachfrage direkt zum HQ- beziehungsweise Briefing-Einstieg.
+   HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
+   aus. Die Runde springt ohne Nachfrage direkt zum HQ- beziehungsweise
+   Briefing-Einstieg.
 4. **Compliance-Spiegel.** `show_compliance_once()` ruft das Toolkit-Makro
    `ShowComplianceOnce()` (Alias `StoreCompliance()`) auf und synchronisiert
    `campaign.compliance_shown_today` mit `logs.flags.compliance_shown_today`.

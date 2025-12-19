@@ -190,6 +190,15 @@ Hochstufen-Spielrunden.
 - QA-Fahrplan 1.13.14 markiert Issue #6 des Tester-Playtest-Pakets 2025-12-18
   als abgeschlossen; QA-Log führt den Testlauf vom 2026-05-08.
 
+## Update 2026-05-09 – Arena-SceneCounter/HUD-Overlay (Issue #12)
+
+- `scene_overlay()` rendert nur noch bei `location='FIELD'`; HQ und Arena
+  bleiben ohne Szenenzähler.
+- Wissensmodule (README, Toolkit, Speicher-Modul) spiegeln den Arena-Ausschluss
+  des Overlays.
+- QA-Fahrplan 1.13.16 markiert Issue #12 des Tester-Playtest-Pakets 2025-12-18
+  als abgeschlossen; QA-Log dokumentiert den Lauf vom 2026-05-09.
+
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
    auf einen „ausgelassenen siebten Teil“, während Master-Index und Dateien

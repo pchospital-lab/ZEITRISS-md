@@ -701,10 +701,11 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen /
   Jammer-Override aktivieren; Reichweite anpassen.
 - **scene_overlay(total?, pressure?, env?)** – erzeugt das HUD-Banner `EP·MS·SC`
-  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Im HQ
-  erscheint kein Szenenzähler; das Overlay ist Missionen/Rifts vorbehalten.
-  Nach `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core) sichtbar sein;
-  `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell deaktiviert wurde.
+  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Im HQ und
+  in der Arena erscheint kein Szenenzähler; das Overlay ist Missionen/Rifts
+  vorbehalten. Nach `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core)
+  sichtbar sein; `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell
+  deaktiviert wurde.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
   Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
@@ -1364,6 +1365,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 
 - **ITI-HQ** bleibt das zentrale Hub mit Shop, Clinic, Workshop,
   Briefing und Fraktionskontakten; hier darf gespeichert werden.
+- **HQ-Definition:** Zum HQ zählen das ITI-Nullzeit-Hub, alle ITI-Decks und der
+  Pre-City-Hub. Chronopolis gehört **nicht** dazu (eigener Status `CITY`).
 - **Pre-City-Hub** dient als gesicherte Übergangszone zwischen HQ und Chronopolis.
   - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an,
     sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens

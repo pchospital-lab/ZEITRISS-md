@@ -5674,7 +5674,7 @@ function prompt_entry_choice(){
 
 function scene_overlay(scene){
   const location = typeof state.location === 'string' ? state.location.trim().toUpperCase() : 'HQ';
-  if (location === 'HQ'){
+  if (location !== 'FIELD'){
     return null;
   }
   const s = scene || state.scene;

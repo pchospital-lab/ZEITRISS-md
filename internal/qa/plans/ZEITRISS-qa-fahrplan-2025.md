@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.15
+version: 1.13.16
 tags: [meta]
 ---
 
@@ -301,10 +301,10 @@ abgearbeitet werden.
 11. **Issue #11 – „Handgelenk“-Regel entfernen (✅ erledigt)**  
    Handgelenk-Projektionen als Legacy markiert; Hardware-Anker bleiben
    (Linse/Terminal/Kabel), kein Handgelenk-Default.
-12. **Issue #12 – Arena-SceneCounter/HUD-Overlay prüfen (⏳ offen)**  
-   Prüfen, ob PvP-Arena einen Szenenzähler benötigt und wie sich das mit
-   `scene_overlay()`/HUD-Header verzahnt (Arena-Start aus HQ, Location
-   `ARENA`). Entscheidung dokumentieren und ggf. Runtime/Toolkit spiegeln.
+12. **Issue #12 – Arena-SceneCounter/HUD-Overlay prüfen (✅ erledigt)**  
+   Arena zeigt keinen Szenenzähler; `scene_overlay()` rendert ausschließlich
+   bei `location='FIELD'`. Entscheidung in README/Toolkit/Speicher-Modul
+   gespiegelt und Runtime angepasst.
 
 **Hinweise zum Playtest-Output**
 
