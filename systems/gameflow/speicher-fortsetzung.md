@@ -1195,8 +1195,8 @@ und werden beim Laden ignoriert.
 
 #### Arc-Dashboard-Objekt
 
-`arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist optional, wird
-aber vom Serializer automatisch nachgezogen und strukturiert:
+`arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist im Schema
+verpflichtend, wird aber vom Serializer automatisch nachgezogen und strukturiert:
 
 - **`offene_seeds[]`** – Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
   oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein. Optionales
@@ -1437,7 +1437,7 @@ _{
   "Erfahrung": 15,
   "zr_version": "4.1.5",
   "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},  # optional
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
   "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
   "Talente": ["Pistolenschütze", "Kryptographie"],
   "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
@@ -1513,7 +1513,7 @@ _{_
   "Gruppe": "Team Chronos",
   "zr_version": "4.1.5",
   "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},  # optional
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
   "Charaktere": [
     { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
     { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
