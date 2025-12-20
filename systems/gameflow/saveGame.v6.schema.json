@@ -17,7 +17,8 @@
     "economy",
     "logs",
     "ui",
-    "arena"
+    "arena",
+    "arc_dashboard"
   ],
   "properties": {
     "save_version": { "type": "integer", "const": 6 },
@@ -168,9 +169,9 @@
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },
         "suggest_mode": { "type": "boolean" },
-        "contrast": { "type": "string" },
-        "badge_density": { "type": "string" },
-        "output_pace": { "type": "string" },
+        "contrast": { "type": "string", "enum": ["standard", "high"] },
+        "badge_density": { "type": "string", "enum": ["standard", "dense", "compact"] },
+        "output_pace": { "type": "string", "enum": ["normal", "fast", "slow"] },
         "voice_profile": { "type": "string" }
       }
     },
@@ -205,6 +206,18 @@
         "resume_token": { "type": ["string", "null"] }
       }
     },
-    "arc_dashboard": { "type": "object", "additionalProperties": true }
+    "arc_dashboard": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["offene_seeds", "fraktionen"],
+      "properties": {
+        "offene_seeds": {
+          "type": "array",
+          "items": { "type": ["object", "string"] }
+        },
+        "fraktionen": { "type": "object" },
+        "fragen": { "type": "array", "items": { "type": ["object", "string"] } }
+      }
+    }
   }
 }
