@@ -995,9 +995,9 @@ Artefakten und temporaler Abweichungen.
   automatisch, das Noir-Preset greift vor Szene 0 und blendet den Modus im HUD
   ein.
 - **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
-  Auftragstyp (`protect | extract | neutralize | document | influence |
-  prevent`). Mindestens 60 % der Core-Ops fokussieren Personen, Einfluss oder
-  Schutz statt reiner Objekt-Raubzüge.
+  Auftragstyp (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize |
+  document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
+  Personen, Einfluss oder Schutz statt reiner Objekt-Raubzüge.
 - **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab – Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Skip-Flag
   respektieren (`state.flags.runtime.skip_entry_choice`).

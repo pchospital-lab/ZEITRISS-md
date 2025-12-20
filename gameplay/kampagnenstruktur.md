@@ -737,7 +737,7 @@ Stilhinweise:
 ##### Briefing-Baukasten für Rift-Ops
 
 - **Anchor + Auftragstyp:** Setze einen klaren Fokus (Person/Ort/Objekt) und einen Auftragstyp
-  (`protect | extract | neutralize | document | influence | prevent`). Rift-Briefings dürfen
+  (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`). Rift-Briefings dürfen
   einen höheren Anteil an Objekt-Ankern haben, behalten aber mindestens 40 % Personen-/Einflussziele
   für Parität zum Core-Format.
 - **Urban-Legend-Hook:** Seeds bevorzugen bodenständige, greifbare Motive (verlassene Fabrik,
