@@ -43,9 +43,9 @@ Das ZEITRISS-System unterscheidet klar vier Ebenen:
 
 ### Einsatz-Einstiege & Szenen-Gate
 
-- **Undercover bleibt vollständig:** Auch verdeckte Starts nutzen die Phasen **Auftakt bis Sicherung**.
-  Übersprungene Schritte werden als Komplikationen nachgereicht (z. B. plötzlicher Scan, Schicht-
-  wechsel, Verdachtsmoment), damit Spannung und Belohnungslogik konsistent bleiben.
+- **Undercover bleibt vollständig:** Auch verdeckte Einsätze durchlaufen alle Kernphasen.
+  Übersprungene Schritte werden später als Komplikationen eingebracht (z. B. plötzlicher Scan,
+  Schichtwechsel, Verdachtsmoment), damit Spannung und Belohnungslogik konsistent bleiben.
 - **Szenen-Mindestmaß:** Die Runtime öffnet `Sicherung`/`Flucht` erst nach **6–7** vollwertigen
   Szenen und füllt fehlende Abschnitte mit Twists oder Gegenangriffen auf, bis der Zielkorridor
   (12 Core / 14 Rift) erreicht ist. **Kurzschnitte zählen nicht** – jede Szene muss eine Phase
