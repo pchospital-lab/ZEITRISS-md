@@ -397,7 +397,7 @@ liegen, mischt die SL den Stapel zurück.
 | 54 | Edison-Sabotage verschiebt Marktführung durch gestohlene Glühfäden. | 2 | mittel |
 | 55 | Gedruckte Tarn-Zeitung führt zu Meuterei, Front bricht 48 h früher. | 2 | groß |
 | 56 | Aktien-Algorithmus verhindert Börsencrash, Industrie boomt. | 1 | mittel |
-| 57 | Geisterarmee-Hologramme ziehen feindliche Reserven ab. | 2 | mittel |
+| 57 | Geisterarmee-Lichtbilder ziehen feindliche Reserven ab. | 2 | mittel |
 | 58 | Mondlandung-Leak zwingt vorgezogene Apollo-Mission, scheitert fast. | 2 | mittel |
 | 59 | Quantenbug im Siegelprotokoll deckt Schattenzugang auf. | 2 | mittel |
 | 60 | Gefälschte Sonnensturmprognose erzwingt globale Evakuierungsproben. | 2 | groß |
@@ -648,7 +648,7 @@ Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleiche
 ### Vorgehen
 
 1. **Epoche (W6)** – identisch zur Rift-Edition.
-2. **Urban-Myth-Motiv (W20)** – nutzt Hardware/Linsen statt Hologramme.
+2. **Urban-Myth-Motiv (W20)** – nutzt Hardware/Linsen statt Lichtbilder.
 3. **Zeitmarker setzen** (Echo/Loop/Stutter etc.), um den „Riss“ sichtbar zu halten, und bei echter Weirdness `register_anomaly()` loggen.
 4. **Stat-Block** nach Risiko; alles Technische als Shadow-Op erklären (keine VR-Illusionen, nur Sensorik/Implantate).
 
@@ -663,7 +663,7 @@ Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleiche
 08 Phantom-Zug – Magnetschwebetest, Zeit ➙ Verwerfung (HUD‑Echo)
 09 Kinder mit schwarzen Augen – Gen‑Versuch / Linsenimplantat
 10 Kraken im Kanal – Sewer-Drohne mit Tentakel‑Manipulatoren
-11 Crying Boy Painting – Quantenspeicher im Pigment (Daten‑Vault)
+11 Crying Boy Painting – Quantenspeicher im Pigment (Archivkammer)
 12 Goatman – Bio-Chimäre entlaufenem Labor
 13 Greys – Nano-Skin-Anzüge verzerren Proportionen
 14 Hitchhiking Ghost – Zeitversetzte Linse-Aufnahme auf HUD
@@ -753,7 +753,7 @@ boss_template:
     tier2:
       - item: Adrenalin-Shot
         cu: 60
-      - item: Holo-Köder
+      - item: Lichtbild-Köder
         cu: 90
       - item: Nano-Bindepflaster
         cu: 70
@@ -1229,6 +1229,6 @@ vorgesehenen Erfolgsbonus.
 | 11 | Frühmittelalter | Runen‑Stele | Ringstein mit 16 Runen | Sternkarte richten, Fach öffnet | Fehler: Pfeilfalle |
 | 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
 | 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
-| 14 | Near-Future | QC-Vault | Holozahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
+| 14 | Near-Future | QC-Archivkammer | Lichtzahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

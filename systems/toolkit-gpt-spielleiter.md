@@ -217,6 +217,16 @@ default_modus: mission-fokus
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
   covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
+- **Noir-Lexikon (Mapping):** Digitale Begriffe in physische Noir-Varianten
+  übersetzen (player-facing).
+
+  | Technischer Begriff | Noir-Variante (Bevorzugt) |
+  |--------------------|---------------------------|
+  | Knoten / Node | Schaltpunkt / Relaispunkt |
+  | Vault | Archivkammer / Tresor |
+  | Holo / Hologramm | Lichtbild / Projektion |
+  | Debug | Fehlerspur / Diagnose |
+  | Link / Uplink | Leitung / Funkverbindung |
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
   influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
@@ -265,7 +275,8 @@ default_modus: mission-fokus
 > Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
 > Block ab (`logs.flags.atmosphere_contract`). QA-Exzerpte pro Phase landen
 > optional in `logs.flags.atmosphere_contract_capture` (8–12 Zeilen,
-> Banned-Terms PASS/FAIL, HUD-Toast-Zählung).
+> `banned_terms.status` + `banned_terms.hits[]`, `howto_hits[]`,
+> `rewrite_suggestion`, HUD-Toast-Zählung).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 #### Briefing-Anker & Auftragstyp (Core)
@@ -2821,6 +2832,8 @@ Beispiel:
    | regex_replace('<!--\s*Macro:.*?-->', '', ignorecase=True, multiline=True)
    | regex_replace('(?s){%\s*macro.*?%}.*?{%-?\s*endmacro\s*%}', '', ignorecase=True)
    | regex_replace('(?s){%.*?%}', '')
+   | regex_replace('`\\s*[!/][^`]*`', '')
+   | regex_replace('`\\s*[A-Za-z_]+\\([^`]*\\)`', '')
    | replace('{{', '')
    | replace('}}', '') }}
 {%- endmacro %}
@@ -2834,15 +2847,17 @@ Die KI wendet diesen Regelsatz auf jede Ausgabe an:
 - Ist `kodex.dev_raw` gesetzt, passiert ebenfalls nichts.
 - Für `NPC`-Dialoge:
   - Tokens wie `NAME.EXT` mit `EXT` in `CHK`, `DAT`, `CFG`, `TXT` werden zu
-    `uplink file`.
+    `Aktenanhang` (oder `Beilage`/`Abzug`) umgeschrieben.
   - Wörter in VERSALIEN mit mindestens drei Zeichen werden kleingeschrieben,
     außer sie stehen auf einer Whitelist (`CIA`, `FBI`, `NSA`).
+  - Digitale Ersatzwörter (z. B. `uplink file`, `download`, `upload`, `database`,
+    `server`) sind Blacklist und werden in Noir-Varianten überführt.
 
 ```pseudo
 function tone_filter(text, source):
     if source == HUD or source == CODEX or dev_raw:
         return text
-    text = replace_file_tokens(text)    # NAME.EXT -> "uplink file"
+    text = replace_file_tokens(text)    # NAME.EXT -> "Aktenanhang"
     text = downcase_allcaps(text)       # MAX POWER -> max power
     return text
 ```
@@ -2851,7 +2866,7 @@ Beispiele:
 
 ```pseudo
 tone_filter("`SCAN 92 %`", HUD) -> "`SCAN 92 %`"
-tone_filter("Lade LOGFILE.CFG", NPC) -> "Lade uplink file"
+tone_filter("Lade LOGFILE.CFG", NPC) -> "Lade Aktenanhang"
 tone_filter("SPRINGT AUF MAX POWER", NPC) -> "springt auf max power"
 tone_filter("CIA DATABASE", NPC) -> "CIA DATABASE"
 ```

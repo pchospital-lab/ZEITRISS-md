@@ -918,7 +918,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 > **Creature-Limit:** einziges Bio-Hybrid bleibt der **Urwolf-Bluthund**
 > (zeitversetzter Riesenwolf). Keine weiteren Tiere.
 > **Chrompunk-Flair:** Chrom-Söldner im Linothorax-Kevlar,
-> Holo-Helme mit Hoplit-Kamm, „Bronze“-Smartguns und Wachstafel-Cyberdecks.
+> Projektionshelme mit Hoplit-Kamm, „Bronze“-Smartguns und Wachstafel-Cyberdecks.
 
 | # | Datum/Phase 480u202f v.u202f Chr. | Codename | Schauplatz | Preserve | ARGOS-Hook |
 | -- | ---------------------- | -------- | ---------- | -------- | ---------- |
@@ -928,7 +928,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 |   |   |   |   | Face + Hack-Monk säen Panik → Nahkampf im Adyton |
 | 3 | 31. Aug. | **Phalanx Key** | Sparta, Gerusia | Überzeuge Ephoren, 50 Triremen freizugeben (keine Landarmee). |
 |   |   |   |   | Silver-Tongue besticht Rat → Rededuell, dann Hoplit-Gunfight im Hof |
-| 4 | 2. Sept. | **Aegis Node** | Ägina-Signalfeuer | Bewahre Feuerkette – falsches Signal ändert Flottenorden. |
+| 4 | 2. Sept. | **Aegis-Schaltpunkt** | Ägina-Signalfeuer | Bewahre Feuerkette – falsches Signal ändert Flottenorden. |
 |   |   |   |   | Drohnen-Rigger zündet Kupfer-Ornithopter-Fackel → Felsenklippen-Duell |
 | 5 | 10. Sept. | **Iron Marble** | Piräus-Lager | Persische Skorpion-Ballista-Vorräte zerstören. |
 |   |   |   |   | Merc-Squad infiltriert als 'Bauern' → Lagerbrand, Kurzfeuergefechte |
@@ -955,7 +955,7 @@ Bronze-Silk-Road-Zeitlinie verdienen.
 | **Samurai‑Bodyguard**     | Katana T2, Reflex‑Boost                  | Elite‑Melee                |
 | **Sniper (Gastraphetes)** | Repetier‑Bolzenwerfer, Optik‑Aug         | Fernfeuer                  |
 | **Heavy‑Merc**            | Hoplon‑Drohnen, Pilum‑Launcher           | Schildwall‑Advance         |
-| **Elite‑Handler**         | Tact‑Link, Gel‑Stab                      | Kommando, Moral‑Boost      |
+| **Elite‑Handler**         | Takt‑Leitung, Gel‑Stab                   | Kommando, Moral‑Boost      |
 
 ### Stil‑ und Regel‑Notizen
 
@@ -1204,7 +1204,7 @@ HQ:
   etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
   Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI‑Arena** zur Verfügung.
-  Holoprojektoren ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
+  Projektionsmodule ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
   Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
   Im Solo-Modus stammen diese Platzhalter aus eurer gewählten Fraktion. In Mehrspielerpartien
   wählt Kodex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
@@ -1525,7 +1525,7 @@ So könnt ihr den Kodex gezielt einsetzen:
   sich an wie Szenen in einem Film, in denen Hintergrundwissen oder neue Gefahren offenbart werden –
   z. B. eine holografische Aufnahme, in der der Antagonist seinen Plan erläutert (und die Agenten
   heimlich zuhören).
- - **Charaktermomente im Kodex:** Der Kodex kann auch Erinnerungen oder Holo-Rekonstruktionen von Charakteren
+ - **Charaktermomente im Kodex:** Der Kodex kann auch Erinnerungen oder Projektions-Rekonstruktionen von Charakteren
   darstellen. Beispielsweise erlebt ein Agent in einer Zwischensequenz einen Traum oder eine Vision,
   die eigentlich vom Kodex induziert wird – etwa um auf einen bevorstehenden Riss hinzuweisen,
   erscheinen Bilder einer zerstörten Zukunft. Solche Sequenzen geben der Spielleitung die Möglichkeit,
@@ -1535,7 +1535,7 @@ So könnt ihr den Kodex gezielt einsetzen:
 Diese **kodex-gesteuerten Szenen** sollten sparsam und gezielt eingesetzt werden, damit sie einen
 Höhepunkt darstellen. Sie können vorbereitete Texte oder improvisierte Beschreibungen sein, je nach
 Spielstil. Wichtig ist, sie **filmisch auszuschmücken**: Beschreibt z. B., wie die Beleuchtung im
-Archiv gedimmt wird, ein Hologramm flackert auf und die Stimmen aus der Vergangenheit ertönen. Die
+Archiv gedimmt wird, ein Lichtbild flackert auf und die Stimmen aus der Vergangenheit ertönen. Die
 Spieler lehnen sich einen Moment zurück und lauschen – wie Zuschauer – der Zwischensequenz, bevor
 sie wieder in ihre Rollen einsteigen. Durch dieses Stilmittel gewinnt die Kampagne an erzählerischer
 Tiefe und Abwechslung, ohne den Spielfluss zu stören.
@@ -1641,9 +1641,9 @@ geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
   den Spieler), oder ein gemeinsames Übungsszenario auf einem nachgebauten historischen Schlachtfeld.
   Diese Szenen haben geringes Risiko, geben aber allen Charakteren Gelegenheit, ihre Fähigkeiten zu
   zeigen oder voneinander zu lernen – ideal für Immersion und Teamgeist.
-- **Holosuite-Einheiten:** Moderne Holosuites unterstützen vor allem Hacker- und
-  Datentrainings. Reale Gefechtsübungen finden hingegen auf spezialisierten
-  Trainingsgeländen statt. Die KI-Spielleitung kann Holosuites nutzen, um
+- **Projektionssuite-Einheiten:** Moderne Projektionssuiten unterstützen vor allem Systemzugriff-
+  und Datentrainings. Reale Gefechtsübungen finden hingegen auf spezialisierten
+  Trainingsgeländen statt. Die KI-Spielleitung kann Projektionssuiten nutzen, um
   Debriefing-Sequenzen oder taktische Planungen zu begleiten.
 - **Soziale Events im HQ:** Vielleicht gibt es Anlass zu feiern – einen Geburtstag eines
   Teammitglieds aus einer längst vergangenen Epoche, das Jubiläum der Gründung der ZEITRISS-
@@ -1831,7 +1831,7 @@ POST /gpt/getChronopolisPopulation
 
 _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 
-### 4 | Content-Richtlinien für dynamische Bevölkerung
+### 4 | Leitplanken für dynamische Bevölkerung
 
 
 | Kategorie | Mindest-Pool | Beispiele | Regel-Notizen |
@@ -1905,12 +1905,12 @@ auf den Spire gewährt.
 Vertikal staffelt sich der Hub in vier Ebenen: Unterhalb (−20 m) verzweigen die
 Wartungstunnel des Sub-Grids, die direkt in die Servicetrassen des ITI führen
 und als optionale Arenen dienen. Auf Straßenniveau trifft die Gruppe Händler,
-Holo-Kioske und Ruheinseln, die alle mit den HQ-Protokollen synchronisiert sind.
+Projektionskioske und Ruheinseln, die alle mit den HQ-Protokollen synchronisiert sind.
 Auf +25 Metern zieht der magnetische Ω-Ring seine Schleife – erst ab Level 60
-zugänglich, aber als visueller Kontrast stets präsent und als Express-Link zu
+zugänglich, aber als visueller Kontrast stets präsent und als Express-Route zu
 den äußeren ITI-Docks gekennzeichnet. Die Spitze des Spires ist als Sky-Deck in
 Cutscenes reserviert, in denen Zeitpartikel der Skybox wie Glühwürmchen um die
-Kuppel treiben und das ITI-Logo als Hologramm schweben lassen.
+Kuppel treiben und das ITI-Logo als Lichtbild schweben lassen.
 
 Stimmunglich hilft folgender Merkmix bei Beschreibungen: kaltes Türkis trifft
 auf warme Amber-Akzente; Glocken aus dem Sanctuary verweben sich mit dem dumpfen

@@ -1584,6 +1584,19 @@ Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 | Paradoxon             | Temporale Resonanzanzeige für Rifts – steigt nur bei Erfolgen |
 | Kodexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
 
+### Noir-Lexikon (Terminologie)
+
+Damit der Tech-Noir-Ton physisch bleibt, werden digitale Begriffe in
+spielerfreundliche Noir-Varianten übersetzt.
+
+| Technischer Begriff | Noir-Variante (Bevorzugt) |
+|--------------------|---------------------------|
+| Knoten / Node | Schaltpunkt / Relaispunkt |
+| Vault | Archivkammer / Tresor |
+| Holo / Hologramm | Lichtbild / Projektion |
+| Debug | Fehlerspur / Diagnose |
+| Link / Uplink | Leitung / Funkverbindung |
+
 ### Zeiteinheiten
 
   - **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 12, Rift-Ops 14 Szenen

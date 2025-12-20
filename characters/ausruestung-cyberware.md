@@ -73,7 +73,7 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | EMP-Patch | legt 1 elektr. Schloss flach (SG‑1) | 300 |
 | Netz-Spoofer | fälscht Kamera-Feed 1 Szene | 300 |
 | Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) | 60 |
-| Holo-Köder | 1‑Szene Decoy; Heimlichkeit +2 | 90 |
+| Lichtbild-Köder | 1‑Szene Decoy; Heimlichkeit +2 | 90 |
 | Nano-Bindepflaster | 4 HP sofort; kein Med‑Bay | 70 |
 
 | Ausrüstung (Tier 3 – ca. 600 CU) | Effekt | Kosten (CU) |
@@ -259,7 +259,7 @@ Ausrüstungsgegenstände:
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
   _Kosten:_ 50 CU. _(tier: 1)_
-- **Kodex-Relay-Knoten:** Mobiler Transceiver, der Reichweiten- oder Jammer-
+- **Kodex-Relaispunkt:** Mobiler Transceiver, der Reichweiten- oder Jammer-
   Beschränkungen aufhebt. Comlink-Basisreichweite ≈ 2 km; dieses Relais
   zählt bei `comms_check()` als `relays = true` und stabilisiert
   HQ-Kommunikation über reale Funktechnik. Aufbau 1 Runde.
@@ -339,11 +339,11 @@ tragbar und verbessern Einsätze spürbar, ohne den SYS-Wert stark zu belasten.
 | Kategorie | Item | Effekte (Kurzfassung) | SYS | Kosten (CU) | Tier |
 | --- | --- | --- | --- | --- | --- |
 | **Tarnung & Zugriff** | _Adaptive Camo-Cloak_ | Aktive Tarnmatrix, +2 Schleichen; 1× Blend-Schutz | 1 | 900 | 2 |
-|  | _Micro-Breach-Drone_ | Lautloser Cutter für Schlösser/cb-Knoten; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
+|  | _Micro-Breach-Drone_ | Lautloser Cutter für Schlösser/Schaltpunkte; Silent Rotor (−1 SG Horchen) | 0 | 1100 | 2 |
 | **Defensiv-Gear** | _Kinetic Barrier-Harness_ | Schockfeld negiert 2 LP/Treffer (3 Lad.) | 1 | 1000 | 2 |
 |  | _Reactive Weave Vest_ | Flex-Fasern; −1 LP Schaden, unterm Outfit unsichtbar | 0 | 850 | 1 |
 | **Sensorik & Aufklärung** | _Hyper-Spectrum-Scanner-Kit_ | Handgerät; +2 Aufkl.; Spurenscan 50 m | 0 | 800 | 1 |
-|  | _Neuro-Link Tac-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
+|  | _Neuro-Takt-Visor_ | HUD-Einblendungen; +1 Initiative, +1 Fernkampf, Nachtsicht | 1 | 1200 | 2 |
 | **Med-/Support** | _Med-Auto-Kit_ | Auto-Clot; 1× 2 LP Sofortheilung | 0 | 200 | 2 |
 
 #### Stim-Reg Cap-Injector {#stim-reg-cap-injector}
@@ -512,7 +512,7 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
 4. **Verwunschene Linse** – Barock, spielt kurze voraufgezeichnete Szene; 1× pro Mission; –1 Px. {rare_rift}
 5. **Biotech-Samen** – Kapsel wächst in Minuten zu Unterschlupf; 1× pro Mission. {rare_rift}
 6. **Schriftrolle Vergessener Orden** – Teilweise unleserlich, verschlüsselte Hinweise; 1× pro Mission. {rare_rift}
-7. **Holo-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht; 1× pro Mission. {rare_rift}
+7. **Lichtbild-Zeitstempel** – Digitaler Marker, der kurz vergangene Ereignisse sichtbar macht; 1× pro Mission. {rare_rift}
 8. **Runenwürfel** – Spielt gespeicherte Entscheidung ab; 1× pro Mission +1 auf Geschichtswürfe. {rare_rift}
 9. **Fluxprojektor** – 3 s Hülle; UV-Bogen schneidet Stahl (5 m); 1× pro Mission. {rare_rift}
 
