@@ -61,7 +61,7 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 
 | Ausrüstung (Tier 1 – ca. 100 CU) | Effekt | Kosten (CU) |
 | --- | --- | --- |
-| Lockpick-Implantat | +2 Schlösser, leise | 100 |
+| Bypass-Implantat | +2 Sicherheitsmechanik, leise | 100 |
 | Schalldämpfer-Aufsatz | −2 Wach-Alert, nur 3 Schüsse haltbar | 100 |
 | Micro-Bug-Pair | 20 m Funk, 30 Min Akku | 100 |
 | Rauchgranate Mk I | 1 Szene – Sicht –2 | 100 |
@@ -69,7 +69,7 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | Ausrüstung (Tier 2 – 60–300 CU) | Effekt | Kosten (CU) |
 | --- | --- | --- |
 | Chamäleon-Suit v2 | +1 Sneak in Licht, +2 im Dunkeln | 300 |
-| Mini-Drohne "Wisp" | Live-Vid 120 m, Hack-Reichweite 20 m | 300 |
+| Mini-Drohne "Wisp" | Live-Vid 120 m, Zugriffsreichweite 20 m | 300 |
 | EMP-Patch | legt 1 elektr. Schloss flach (SG‑1) | 300 |
 | Netz-Spoofer | fälscht Kamera-Feed 1 Szene | 300 |
 | Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) | 60 |
@@ -251,10 +251,10 @@ Ausrüstungsgegenstände:
 - **Kletterausrüstung:** Seile, Haken, ein kompakter mechanischer Seilwerfer und Karabiner.
   Erleichtert Klettern und Abseilen erheblich (Proben +2 oder automatische Erfolge bei einfachen
   Kletterpartien). _Kosten:_ 40 CU. _(tier: 0)_
-- **Dietrichset & Universalwerkzeug:** Sammlung von Dietrichen, Spannern sowie ein kleines
-  multifunktionales Werkzeug (Schraubendreher, Zange, Messer in einem).
-  Ermöglicht das Öffnen von Schlössern (üblich +2 auf Mechanik/Technik-Proben)
-  und kleinere Reparaturen. _Kosten:_ 20 CU. _(tier: 0)_
+- **Mechanik-Set & Universalwerkzeug:** Feine Werkzeuge plus multifunktionales Tool
+  (Schraubendreher, Zange, Messer in einem).
+  Unterstützt das Überwinden einfacher mechanischer Sicherungen (üblich +2 auf
+  Mechanik/Technik-Proben) und kleinere Reparaturen. _Kosten:_ 20 CU. _(tier: 0)_
 - **Nachtsichtgerät (Starlight-Goggles):** Ein tragbares Nachtsicht-Monokel aus dem späten 20. Jh.
   Verstärkt Restlicht, um in dunkler Umgebung sehen zu können. In Epochen vor dem 20. Jh. schwer zu
   erklären (muss versteckt genutzt werden). _Effekt:_ ignoriert Dunkelheits-Mali auf Wahrnehmung.
@@ -281,7 +281,7 @@ Für historische Settings bietet sich ein einfaches Basispaket ohne moderne Tech
 - Karten-Overlay der Epoche direkt im HUD, Zoomfunktion über die Linsen statt
   Fernglas.
 - Optional ein unauffälliger Bogen oder Armbrust statt Drohne.
-- **Proto-Patch Lockpick** (einfaches Dietrich‑Tool, einmal nutzbar). _Kosten:_ 0 CU. _(tier: 0)_
+- **Proto-Patch Bypass** (einfaches Bypass‑Tool, einmal nutzbar). _Kosten:_ 0 CU. _(tier: 0)_
 - **Proto-Patch Scout-Mic** (Mini-Mikro, 10 m Kabel). _Kosten:_ 10 CU. _(tier: 0)_
 
 ### Taktische Gadgets
@@ -293,13 +293,12 @@ wurden auf Missionen in der Zukunft erbeutet. Ihr Einsatz kann das Blatt wenden 
 Geht ein High-Tech-Gadget verloren oder gerät es in falsche Hände der Vergangenheit, droht ein
 Paradoxon. Beispiele für taktische Gadgets:
 
-- **Tragbares Hacker-Kit:** Ein Mini-Computer (z.B. _Quanten-Laptop_ aus dem Jahr 2120) mit
-  ausfahrbaren Interface-Steckern und Decoder-Software. Ermöglicht das Hacken von Computersystemen in
-  allen Epochen – sei es das Knacken von 80er-Jahre-Terminals oder das Überbrücken von
-  Sicherheitssystemen der Zukunft. _Effekt:_ gibt +2 auf Hacken/Technik; in den meisten Epochen vor
-  dem 21. Jh. praktisch unaufhaltsam, da überlegen. **Remote-Hacks erfordern `comms_check()`:**
-  Verbinde das Kit mit einem Terminal, Kabel oder dem Ohr-Comlink (Relais) – ohne reale Hardware
-  blockt der Kodex die Aktion. _Kosten:_ 150 CU. _(tier: 1)_
+- **Tragbares Zugriffsmodul:** Ein Mini-Computer (z.B. _Quanten-Laptop_ aus dem Jahr 2120) mit
+  ausfahrbaren Interface-Steckern und Decoder-Software. Ermöglicht Systemzugriff und Diagnose in
+  allen Epochen – von 80er-Jahre-Terminals bis zu Zukunftssystemen. _Effekt:_ gibt +2 auf
+  Systemzugriff/Technik; in den meisten Epochen vor dem 21. Jh. praktisch unaufhaltsam, da überlegen.
+  **Remote-Zugriffe erfordern `comms_check()`:** Verbinde das Modul mit einem Terminal, Kabel oder dem
+  Ohr-Comlink (Relais) – ohne reale Hardware blockt der Kodex die Aktion. _Kosten:_ 150 CU. _(tier: 1)_
 - **Drohnen (Aufklärer & Helfer):** Kleine, ferngesteuerte Geräte, z.B. fliegende Mini-Drohnen mit
   Kamera oder rollende Spähdrohnen. Sie können Räume auskundschaften, Karten erstellen oder
   Ablenkungen provozieren. Reichweite bis zu 100 m (Verstärker nötig für mehr). _Effekt:_ Der

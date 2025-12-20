@@ -135,7 +135,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
     - Unique Gear: Chamäleon‑Overall (Stealth‑Vorteil +1)
 
 2. **"Kernel" – Tech & Drone Handler**
-    - Attribute (2/3/5/3/3/4) | Skills: Hacking 4, Hardware 3
+    - Attribute (2/3/5/3/3/4) | Skills: Systemzugriff 4, Hardware 3
     - Bioware: Neuro‑Link‑Socket
     - Unique Gear: Falt‑Nanodrohne *“Pixie”* (Sensor + Mini‑Arm)
 
@@ -169,7 +169,7 @@ aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Mis
 freigeschaltet.
 
 1.  **Konzept & Rollenwahl:** Überlegt euch zunächst eine grobe **Charakteridee**. Ist euer Agent ein
-    kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Hacker oder etwas ganz
+    kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Tech-Operative oder etwas ganz
     Anderes? Eure Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
     Diplomatie, Kampf, Technik, Medizin oder Infiltration. Ihr könnt entweder einen der vordefinierten
     **Archetypen** wählen (siehe unten) oder ein eigenes Konzept ausarbeiten. Wenn ihr einen Archetypen
@@ -221,9 +221,9 @@ freigeschaltet.
     Absprache mit der SL auch selbst formulieren. Wichtig ist, dass jedes Talent dem Charakter **im
     Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist. Wählt am besten Talente, die
     eure wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B. _Überreden_ als Talent nehmen,
-    ein Hacker _Computerspezialist_, ein Arzt _Heilkundiger_, etc. – Anregungen liefert die Archetypen-
+    ein Tech-Operative _Systemanalyst_, ein Arzt _Heilkundiger_, etc. – Anregungen liefert die Archetypen-
     Liste unten, wo bei jedem Charakter drei beispielhafte Talente aufgeführt sind. Die KI-Spielleitung
-    kann beim Erstellen Vorschläge machen: _„Mira hätte als Hackerin wohl Talente wie Drohnensteuerung
+    kann beim Erstellen Vorschläge machen: _„Mira hätte als Tech-Operative wohl Talente wie Drohnensteuerung
     oder Techno-Mancer im Repertoire. Möchtet ihr etwas in der Art wählen?“_ – Auf diese Weise
     integriert sich die Charaktererschaffung nahtlos ins Spiel, anstatt eine trockene Zahlenübung zu
     sein. Psi-spezifische Talente erscheinen nur, wenn das Flag `has_psi` gesetzt ist;
@@ -238,7 +238,7 @@ freigeschaltet.
     | Menschenkenntnis       | passiv  | +2 auf Verhören/Überreden          |
     | Spurensucher           | aktiv   | 1×/Szene +1 auf Analyse/Spuren     |
     | Med-Tech               | aktiv   | 1×/Szene automatischer Stabilize   |
-    | Techno-Mancer          | passiv  | +2 auf Hacken/Programmieren        |
+    | Techno-Mancer          | passiv  | +2 auf Systemzugriff/Analyse       |
     | Drohnensteuerung       | passiv  | +2 auf Drohnen-/Fahrzeugsteuerung  |
     | Polyglott              | passiv  | Auto-Erfolg bei einfachen Sprachen |
     | Schleichprofi          | passiv  | +2 auf Schleichen/Diebstahl        |
@@ -258,7 +258,7 @@ freigeschaltet.
     die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
     aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
     (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
-    damit 2 von ihren 3 SYS-Punkten. Hackerin Mira hat ein **Neuro-Link**-Interface und eine AR-
+    damit 2 von ihren 3 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface und eine AR-
     Kontaktlinse (je 1 SYS, zusammen 2 von 5 Punkten). Ihr könnt Implantate aus den Archetypen
     übernehmen oder eigene erfinden – stimmt euch mit der SL ab, was plausibel ist. Die Installation
     dieser Mods kann Teil eurer Hintergrundstory sein (_„In Miras Zeit sind Neuro-Links Standard, daher
@@ -281,7 +281,7 @@ freigeschaltet.
     unten). - **Sekundärbewaffnung/Gadget:** Nehmt ein bis zwei weitere nützliche Gegenstände. Das kann eine
     **Sidearm** (Zweitwaffe) sein – viele Charaktere tragen z.B. eine leichte Pistole oder versteckte
     Klinge – sowie ein **Gadget** oder Spezialgerät. Beispielsweise führt Henry (Undercover-Spion) neben
-    einer leisen Pistole immer Dietriche, Gifte und ein Safeknacker-Kit mit, während Dr. Richter (Medic)
+    einer leisen Pistole immer Mechanik-Bypass-Tools, Gifte und ein Tresor-Override-Kit mit, während Dr. Richter (Medic)
     ein Medikit und einen Paradoxon-Scanner dabeihat. Achtet auf Vielfalt: Wenn eure Primärausrüstung
     kämpferisch ist, wählt als Gadget vielleicht etwas Nicht-Tödliches (Betäubungsmittel, Werkzeug) und
     umgekehrt. - **Epoche und Hintergrund:** Berücksichtigt, aus welcher Zeit ihr kommt und in welche Zeit ihr
@@ -467,39 +467,39 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   _Kulturexperten_ (die Gruppe kennt dank geballten Wissens etwaige Sitten und vermeidet kulturelle
   Fettnäpfchen; keine Abzüge durch Fremdheit).
 
-### Zukunfts-Hacker – Mira Nguyen
+### Zukunfts-Tech-Operative – Mira Nguyen
 
 - **Rasse:** Denisova-Mensch
 
-_„Kein System ist sicher – besonders nicht, wenn es aus dem letzten Jahrhundert stammt.“_ – Mira
-stammt aus der Zukunft und ist eine Genielektronikerin. Sie hackt Computersysteme aller Epochen
-mühelos und kommandiert Drohnen wie andere Leute Haustiere.
+_„Kein System bleibt lange verborgen – besonders nicht, wenn es aus dem letzten Jahrhundert stammt.“_ – Mira
+stammt aus der Zukunft und ist eine Genielektronikerin. Sie verschafft sich Systemzugriff in allen
+Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 
 - **Attribute:** STR 2, GES 4, INT 5, CHA 2, TEMP 3, SYS 5 – Herausragende Intelligenz und
   Systemaffinität; flinke Finger; körperlich schwach und sozial unbeholfen. Der hohe SYS-Wert spiegelt
   wider, dass sie etliche Cyber-Devices in sich trägt.
-- **Talente:** _Techno-Mancer_ (+2 auf Hacken/Programmieren – Mira dringt in Computersysteme aller
-  Zeiten ein, als wären sie Spielzeug), _Drohnensteuerung_ (kann mehrere Drohnen simultan
+- **Talente:** _Techno-Mancer_ (+2 auf Systemzugriff/Analyse – Mira erarbeitet Zugang zu
+  Computersystemen aller Zeiten, als wären sie Spielzeug), _Drohnensteuerung_ (kann mehrere Drohnen simultan
   kontrollieren; automatischer Erfolg bei einfachen Drohnen-Manövern, +2 auf komplexe Aktionen mit
   Drohnen), _Improvisationsingenieurin_ (+2 auf Technik/Elektronik-Proben, um Geräte zu reparieren
   oder mit begrenzten Mitteln etwas Nützliches zu basteln – MacGyver-Style). Diese drei Talente machen
   sie zur Allround-Technikerin, die jede Maschine zum Tanzen bringt.
 - **Implantate:** _Neuro-Link_ (Gehirnimplantat als direkte Schnittstelle zu Computern – ermöglicht
-  Gedankensteuerung von Geräten und Hacken ohne physische Eingabe) und _AR-Linse_ (augmentierte
+  Gedankensteuerung von Geräten und Systemzugriff ohne physische Eingabe) und _AR-Linse_ (augmentierte
   Kontaktlinse im linken Auge, blendet digitale Infos ins Sichtfeld ein – z.B. technische Daten über
   anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 SYS.
-  Optional besitzt Mira noch einen _Nano-Firewall-Chip_ (implantierte Abwehr gegen feindliche Hacks
+  Optional besitzt Mira noch einen _Nano-Firewall-Chip_ (implantierte Abwehr gegen feindliche Zugriffsversuche
   auf ihre Cyberware, würde weitere SYS kosten).
-- **Ausrüstung:** Tragbares Hacker-Kit (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
-  Quanten-Algorithmen zum superschnellen Codeknacken), eine kleine Aufklärungsdrohne namens
+- **Ausrüstung:** Tragbares Zugriffsmodul (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
+  Quanten-Algorithmen zum schnellen Überwinden von Sicherheitsroutinen), eine kleine Aufklärungsdrohne namens
   _„Sperling“_ (handtellergroß, leise fliegend, mit Kamera – Reichweite ~100 m), ein Multi-Tool-
   Handschuh (fährt diverse Werkzeuge aus: Schraubendreher, Laserschneider, Lötkolben – ideal für
   Sabotage und Reparaturen). Als Bewaffnung führt Mira eine leichte **Needler-Pistole** aus der
   Zukunft – quasi eine lautlose Betäubungswaffe, die narkotisierende Mikroprojektile verschießt. Ihr
   Stil ist es, Gegner unauffällig auszuschalten statt zu töten.
-- **Hintergrund:** Mira Nguyen, geboren 2085 in Ho-Chi-Minh-Stadt, war ein jugendliches Hacker-
-  Wunderkind. Sie knackte in ihrer Teenagerzeit Regierungsserver und entkam knapp einer Verhaftung,
-  als das ITI sie aus der Zeit „herausholte“. Nun nutzt sie ihre Fähigkeiten zum Schutz der Zeitlinie.
+- **Hintergrund:** Mira Nguyen, geboren 2085 in Ho-Chi-Minh-Stadt, war ein jugendliches Tech-
+  Wunderkind. Sie verschaffte sich in ihrer Teenagerzeit Zugang zu Regierungsservern und entkam knapp
+  einer Verhaftung, als das ITI sie aus der Zeit „herausholte“. Nun nutzt sie ihre Fähigkeiten zum Schutz der Zeitlinie.
   Mira wirkt in historischen Epochen oft wie ein Alien, da Technik ihre Muttersprache ist.
   Anspielungen aus ihrer Zukunft versteht niemand, was zu bizarren Situationen führen kann. Doch sie
   findet in jeder Ära einen Weg, vorhandene Technologien zu ihrem Vorteil zu nutzen. Ihr größtes Asset
@@ -682,8 +682,8 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
 - **Implantate:** _Stimm-Modulator_ (Implantat an den Stimmbändern, erlaubt ihm, seine Stimme in
   Tonlage und Klang beliebig zu verstellen – ideal, um andere Personen zu imitieren oder per Funk als
   jemand anders aufzutreten; verleiht +2 auf Täuschungsversuche, die die Stimme betreffen), sowie ein
-  internes _Dietrichset in der Fingerkuppe_ (kleine ausfahrbare Schlossknacker-Werkzeuge in zwei
-  Fingern – er benötigt keine externen Dietriche mehr, um Schlösser zu knacken; Kosten 1 SYS).
+  internes _Bypass-Set in der Fingerkuppe_ (kleine ausfahrbare Öffnungswerkzeuge in zwei
+  Fingern – er benötigt keine externen Tools mehr, um mechanische Sicherungen zu überwinden; Kosten 1 SYS).
   Zusammen beanspruchen diese Mods 2/4 SYS.
 - **Ausrüstung:** **Identitäten-Set** (Sammlung falscher Papiere, Ausweise, Siegelringe etc. aus
   verschiedenen Epochen – so kann Henry sich im Handumdrehen als jemand ausgeben, z.B. als Offizier
@@ -694,7 +694,7 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   historische Einsätze – leise und tödlich auf kurze Distanz, inkl. ein paar vergifteter Bolzen)
   **und** ein **Revolver mit Schalldämpfer** (für moderne Settings – ein leiser .22er für kurze
   Distanzen). Zusätzlich führt Henry diverse **Gifte** und **Drogen** mit (z.B. Schlafmittel, niedrig
-  dosiertes Wahrheitsserum) und versteckte Tools: ein klassisches Dietrich-Set (falls die Implantate
+  dosiertes Wahrheitsserum) und versteckte Tools: ein klassisches Bypass-Set (falls die Implantate
   ausfallen) und einen kleinen **Dekompressor** (aufblasbares Kissen, um Türen oder Tresore einen
   Spalt zu öffnen). Diese Ausstattung macht ihn extrem flexibel für Undercover- Missionen.
 - **Hintergrund:** Henry Walsh wurde in den 1940ern geboren und war zunächst Top-Agent des MI6 im
@@ -934,7 +934,7 @@ Teamkomposition**:
   Entscheidungen demokratisch getroffen werden. Ein Charakter mit hohem CHA und Diplomatie anbietet
   sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Kodex
   (KI) gibt zwar Missionsziele vor, mischt sich aber nicht in eure interne Hierarchie ein. Im Spiel
-  sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Hacker hacken darf, der Sniper snipen, der
+  sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Tech-Operative Systemzugriff übernimmt, der Sniper snipen, der
   Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
   vorkommen, die jeweils eine andere Spezialisierung glänzen lassen.
 - **Team-Spezialisierungen (Perks):** Sobald ihr einige Missionen als Einheit absolviert habt, könnt
@@ -948,7 +948,7 @@ Teamkomposition**:
   Die Entscheidung für solche Spezialisierungen kann im Spiel getroffen werden, doch man darf ruhig
   schon vorher darüber sprechen, damit alle darauf hinarbeiten können.
 - **Beispiel-Team:** Nehmen wir an, ihr nutzt einige der oben beschriebenen Archetypen: Dr. Weber
-  (Diplomatin), Nikolai (Soldat), Mira (Hacker) und Dr. Richter (Medic). Dieses 4er-Team ist sehr gut
+  (Diplomatin), Nikolai (Soldat), Mira (Tech-Operative) und Dr. Richter (Medic). Dieses 4er-Team ist sehr gut
   abgerundet – von Kampf über Soziales bis Wissen ist alles da. Ihr könntet als Team-Perk _Analytiker-
   Team_ wählen, um eure kombinierte Stärke in Investigation zu betonen, oder _Stoßtrupp_, falls ihr
   oft präventiv zuschlagt. **Cineastisch** würde eure Gruppe wirken wie aus einem Zeitreise-Thriller:
@@ -987,7 +987,7 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | Name | Rolle | Rasse | STR/GES/INT/CHA/TEMP/SYS | Rassenmods |
 | --- | --- | --- | --- | --- |
 | Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 2/3/5/5/4/3 | keine |
-| Mira Nguyen | Zukunfts-Hacker | Denisova-Mensch | 2/4/5/2/3/5 | STR+1 TEMP+1 CHA−1 INT−1 |
+| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch | 2/4/5/2/3/5 | STR+1 TEMP+1 CHA−1 INT−1 |
 | Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 5/4/3/3/3/2 | STR+2 INT−1 CHA−1 |
 | Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 3/4/4/3/2/4 | GES+2 STR−2 |
 | Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 3/3/5/4/5/3 | GES+1 SYS+1 CHA−1 INT−1 |

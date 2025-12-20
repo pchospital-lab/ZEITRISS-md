@@ -122,7 +122,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "modern"
   type: "security"
   risk: "S"
-  text: "Kontrollposten mit veralteter Schlüsselkarte (Hack-Bonus)"
+  text: "Kontrollposten mit veralteter Schlüsselkarte (Zugriffs-Bonus)"
 
 - epoch: "modern"
   type: "security"
@@ -191,7 +191,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "future"
   type: "nanite"
   risk: "XL"
-  text: "Naniteschwarm (Korrosion jeder Elektronik, Immun gegen Hack)"
+  text: "Naniteschwarm (Korrosion jeder Elektronik, immun gegen Systemzugriff)"
 - epoch: "future"
   type: "boss"
   risk: "XL"
@@ -258,18 +258,20 @@ Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-Sys
 | Psi-Kern 5 | –  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (−2)      |
 | Stress 12 | –   | kämpft bis HP ≤ −4 (Corporate Loyalty)           | –                     |
 
-### 3 · Zeit-Hacker – Stufe A (Transhuman)
+### 3 · Zeit-Operative – Stufe A (Transhuman)
 
 | Attribut | Wert | Fertigkeiten                            | Gear                  |
 | -------- | ---- | --------------------------------------- | --------------------- |
 | Körper 2 | –    | Infowar 5, Athletik 2                   | Inline-Chrono-Tap     |
 | Tech 5   | –    | Chrono-Exploit 5, Sabotage 3            | Smart-Gloves (+2)      |
-| Psi-Rest 2 | –  | **Spezial:** Temporal Backdoor          | –                     |
+| Psi-Rest 2 | –  | **Spezial:** Timing-Gefühl             | –                     |
 | Stress 10 | –   | HP 8                                    |                       |
 
 _Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px −1 bei Erfolg ≥ 2.
-_Temporal Backdoor:_ Bei drei aktiven Beacon-Geräten (Signal-Stack 3) entsteht ein Kurz-Rift,
-dann fällt der Stack auf 0.
+_Timing-Gefühl:_ Du spürst, wann eine Routine bricht – Türzyklen, Patrouillen, Blickrichtungen.
+Mechanik: 1× pro Szene bekommst du +2 auf eine Probe, die Timing betrifft (Schleichen durch Sichtfenster,
+an Wache vorbei, in einen Raumwechsel). Bei Erfolg: du darfst eine Konsequenzstufe (Lärm/Alarm)
+um 1 reduzieren.
 
 ### Bonus-Micro-Begegnungen (d13)
 
@@ -397,7 +399,7 @@ liegen, mischt die SL den Stapel zurück.
 | 56 | Aktien-Algorithmus verhindert Börsencrash, Industrie boomt. | 1 | mittel |
 | 57 | Geisterarmee-Hologramme ziehen feindliche Reserven ab. | 2 | mittel |
 | 58 | Mondlandung-Leak zwingt vorgezogene Apollo-Mission, scheitert fast. | 2 | mittel |
-| 59 | Quantenbug in SSL deckt Regierungs-Backdoor auf. | 2 | mittel |
+| 59 | Quantenbug im Siegelprotokoll deckt Schattenzugang auf. | 2 | mittel |
 | 60 | Gefälschte Sonnensturmprognose erzwingt globale Evakuierungsproben. | 2 | groß |
 | 61 | Asteroid-Bergbau-Kartell zettelt Aufstand auf Raumstation an. | 2 | groß |
 | 62 | Terraform-Sabotage durch Mikro-Dronen löst ökologische Reset-Schleife aus. | 3 | groß |
@@ -1202,7 +1204,7 @@ phase: core
   fraktion: Rotes Oktagon
   ziel: Labelt NATO-Übung Able Archer als Angriff
   etablierter_verlauf: Frühwarnung bleibt Fehlalarm
-  methode: Hackt Serpukhov-15 Datenbus
+  methode: Zapft Serpukhov-15 Datenbus physisch an
   codename: IRON-DAWN
 - jahr: 1989
   ort: Leipzig

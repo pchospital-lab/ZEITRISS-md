@@ -218,8 +218,9 @@ default_modus: mission-fokus
   covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
-  (`protect | extract | neutralize | document | influence | prevent`). Priorisiere
-  Personen-/Einflussziele (≈ 60 %) vor reinen Objekt-Raids.
+  (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
+  influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
+  Objekt-Raids.
 - **Rift-Briefing paritätisch:** Rift-Ops nutzen denselben Anchor/Objective-Baukasten,
   ziehen jedoch eher Objekt-Anker (≤ 60 %). Ein verdeckter Twist aus dem Rift-Seed bleibt
   bis Szene 8 reserviert. Starte mit `riff_briefing(seed_id, risk)` oder setze die Felder
@@ -270,7 +271,8 @@ default_modus: mission-fokus
 #### Briefing-Anker & Auftragstyp (Core)
 
 - Kombiniere einen **Anchor** (Person/Ort/Objekt, der den Ton vorgibt) mit einem
-  Auftragstyp: `protect | extract | neutralize | document | influence | prevent`.
+  Auftragstyp: `protect | extract (Evakuierung/Schutzaufnahme) | neutralize |
+  document | influence | prevent`.
 - **Personen/Einfluss** dominieren (≈ 60 %): Rettung, Schutz oder Überzeugung
   haben Vorrang vor bloßen Objekt-Raids.
 - Tech-Noir bleiben physisch: keine losgelösten VR/Digitalräume – das
