@@ -230,7 +230,8 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   und dokumentiere einen 8–12-zeiligen Excerpt pro Phase (Start/HQ → Szene →
   Debrief). Speichere den Auszug optional in
   `logs.flags.atmosphere_contract_capture` mit `lines`, `banned_terms.status`
-  (PASS/FAIL, ggf. `hits[]`) und `hud_toasts` (HUD-Toast-Zählung).
+  (PASS/FAIL, `banned_terms.hits[]`), `howto_hits[]`, `rewrite_suggestion` und
+  `hud_toasts` (HUD-Toast-Zählung).
 
 ## Ablauf für Tester:innen
 
