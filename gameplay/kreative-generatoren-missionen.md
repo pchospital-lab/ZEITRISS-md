@@ -931,8 +931,6 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
 }
 ```
 
-> Hinweis: Der frühere Tiefsee-Seed wandert in einen künftigen Arc (Future/Arc‑Slots); im Rift-Raster bleiben nur Seeds mit eindeutigem One-Weird-Thing.
-
 ## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}
 
 Nicht jede Session ist ein großes Story-Kapitel – manchmal möchten die Spieler im freien Spiel einen
@@ -962,7 +960,6 @@ gezielt beeinflussen. Die Missionstypen gliedern sich in fünf Kategorien:
 - **Verhindern** – Anschläge, Putsche oder Deals stoppen.
 - **Dokumentieren** – Geheime Beweise für das ITI sichern.
 
-Frühere Beispielmissionen wurden zugunsten dieses flexiblen Baukastens gestrichen.
 Kombiniert die Tabellen nach Belieben und erstellt eure eigenen Einsätze. Für
 größere Handlungsbögen könnt ihr mehrere Aufträge verbinden oder den
 [Arc-Baukasten](kampagnenstruktur.md#arc-baukasten-und-episodenstruktur) aus Modul 6
