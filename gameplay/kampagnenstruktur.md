@@ -104,7 +104,7 @@ episode:
 Eine Episode fasst rund **zehn Missionen** derselben Epoche zusammen. Da jede Mission
 auf **12–14 Szenen** abzielt und das Szenen-Gate erst nach **6–7** vollwertigen Einträgen öffnet,
 ergibt sich die Zielspanne von **120–140 Szenen pro Episode**. Das Gate sichert das Mindesttempo
-und verhindert, dass Missionen kleingeschnitten werden. Die Werte sind **Richtlinien**, damit Tempo und
+und verhindert, dass Missionen kleingeschnitten werden. Die Werte sind **Leitplanken**, damit Tempo und
 Belohnungslogik konsistent bleiben; einzelne Missionen dürfen kürzer oder länger ausfallen, solange
 der durchschnittliche Korridor pro Episode gewahrt bleibt.
 Jede Missionsphase kann sich dabei über mehrere Szenen erstrecken.
@@ -1746,7 +1746,7 @@ zurückgesetzt**. Die Simulation verursacht keine echten Verletzungen – bei
 Der Begriff **Revanche** beschreibt das Fortsetzen derselben Serie. Ein
 **neuer Lauf** beginnt eine frische Serie mit erneuter Startgebühr.
 
-**Balance-Richtlinien:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
+**Balance-Leitplanken:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
 werden automatisch resistiert. Einmalige Artefakte sind im Arena-Modus
 deaktiviert. Kodex darf Gegner mit passenden Kontern erzeugen, um Ausreißer zu
 vermeiden. Zusätzlich erzwingt das HUD den Runtime-Helfer `phase_strike_tax()`
