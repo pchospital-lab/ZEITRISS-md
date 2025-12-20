@@ -127,7 +127,7 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 
 - **Anchor bestimmen:** Person, Ort oder Objekt setzt den Kernkonflikt (z. B.
   Informant, Relais-Knoten, Archivkiste).
-- **Auftragstyp wählen:** `protect | extract | neutralize | document | influence | prevent`.
+- **Auftragstyp wählen:** `protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`.
 - **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
   oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
 - **Physische Near-Future-Tech:** Scans, Hacks, Comms laufen über Linse/Sensor/
@@ -228,11 +228,11 @@ preserve_pool:
   - id: "P-0004"
     year: 2000
     place: "Sydney"
-    title: "Olympics Bio-Plot"
-    objective: "Stoppe nie geschehenen Milzbrandanschlag bei Olympia 2000."
+    title: "Olympics Kontaminationsalarm"
+    objective: "Stabilisiere Kontaminationsalarm bei Olympia 2000, sichere Proben und Ablauf."
     antagonist: null
     antagonist_goal: null
-    twist: "Zeitreisende Extremisten verstecken Nano-Toxin im Maskottchen-Plush."
+    twist: "Zeitreisende Extremisten verursachen Laborstörung, Proben verschwinden im Maskottchen-Lager."
   - id: "P-0005"
     year: 2001
     place: "Genf"
@@ -942,7 +942,7 @@ dramatisch und interessant verlaufen.
 
 | Pack | Inhalt | CU‐Preis |
 |------|--------|---------|
-| **Stealth‑Kit** | Chamäleon‑Overall, Geräuschdämpfer‑Set, Mini‑Holo‑Lockpick, Nano‑Kabel (20 m) | 950 CU |
+| **Stealth‑Kit** | Chamäleon‑Overall, Geräuschdämpfer‑Set, Mini‑Holo‑Bypass, Nano‑Kabel (20 m) | 950 CU |
 | **Heavy‑Ops** | Smart‑Assault‑Rifle, Sub‑Derm‑Kevlar, Adren‑Shot ×2, Flash‑Charges ×3 | 1 350 CU |
 | **Tech‑Recon** | Quanten‑Sniffer‑Rig, Drohne „Pixie“, EMP‑Patch ×2, Data‑Spike‑Protokoll | 1 100 CU |
 *SL‑Tipp*: Jede zusätzliche Sonderausrüstung erhöht das Missionsbudget; nicht verwendete CU fließt in Belohnungen.
@@ -954,7 +954,7 @@ Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Artefa
 selten automatisch auf, vergleichbar mit legendären Funden. Spieler können ihr Auftreten nicht
 gezielt beeinflussen. Die Missionstypen gliedern sich in fünf Kategorien:
 
-- **Verschwinden** – Zielpersonen heimlich ausschalten oder entführen.
+- **Schutzaufnahme/Evakuierung** – Zielpersonen aus Gefahrenlagen herausführen und sichern.
 - **Einflüstern** – Einfluss auf NSCs durch Täuschung oder Manipulation.
 - **Verdunkeln** – Spuren verwischen und Beweise stehlen.
 - **Verhindern** – Anschläge, Putsche oder Deals stoppen.

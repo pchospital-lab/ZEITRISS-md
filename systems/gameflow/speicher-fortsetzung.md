@@ -411,9 +411,9 @@ für Roundtrip-Tests und Loader-Dedupe.
     "field_notes": [
       {
         "agent_id": "AGENT-01",
-        "mission": "Sydney 2000 – Maskottchen-Bio-Plot",
+        "mission": "Sydney 2000 – Maskottchen-Alarm",
         "timestamp": "2000-09-15T20:30:00Z",
-        "note": "Nano-Kapsel in der Logistik gesichert; Zelle neutralisiert."
+        "note": "Kontaminationsalarm im Logistikbereich eingedämmt; Probenbestand gesichert."
       },
       {
         "agent_id": "AGENT-01",
@@ -434,7 +434,7 @@ für Roundtrip-Tests und Loader-Dedupe.
       {
         "id": "TL-OLYMPICS-2000",
         "epoch": "2000",
-        "label": "Milzbrand-Nano-Anschlag bei Olympia 2000 verhindert",
+        "label": "Kontaminationsalarm bei Olympia 2000 stabilisiert",
         "stability": 4
       },
       {
