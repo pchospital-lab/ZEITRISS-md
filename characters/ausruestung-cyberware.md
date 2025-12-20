@@ -507,8 +507,6 @@ Manche Einträge verweisen auf typische Missionen, in denen der Gegenstand aufta
 Artefakte sind unbezahlbar, dürfen nicht verkauft werden und jede Agentin darf nur ein Artefakt
 gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier eingelagert werden.
 
-<!-- Artefakte außerhalb von Rifts = nicht mehr regelkonform -->
-
 1. **Kristallschädel** – Schwache Energie, Datenspeicher; 1× pro Mission. {rare_rift}
 2. **Zeitkompass** – Zeigt Instabilitäten; 1× pro Mission +1 Paradoxon. `altSkin: "Sonnenuhr 200 v.Chr."`
 3. **Portativ-Orakel** – Gerät 28. Jh.; 70% Ja/Nein; 1× pro Mission. `altSkin: "Bronze-Würfelorakel"`
