@@ -61,7 +61,7 @@ Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Tempora
 Forschungslabore, Trainingsareale und das zentrale **Arc‑Dashboard** bilden den ersten Anlaufpunkt
 für neue Chrononauten.
 Die Metropole **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis **Level 10**
-verschlossen. Dann erhalten die Agenten einen **Stadtschlüssel**, der Zugang zu Händlern und
+verschlossen. Dann erhalten die Chrononauten einen **Stadtschlüssel**, der Zugang zu Händlern und
 Aufträgen in der Stadt gewährt. Bei Erreichen von Level 10 überreicht Commander Renier persönlich
 den Schlüssel. Chronopolis wird bei jedem Besuch frisch instanziiert, sodass sich Bewohnerschaft
 und Ambient-Quests dynamisch an die laufende Kampagne anpassen; die Händler- und Service-Knoten
@@ -70,17 +70,17 @@ ITI-HQ verankert bleiben. Für erweiterte Übergaben können die optionalen Wrap
 [README](../README.md) eingebunden werden – der Stadthub verweist lediglich darauf, ohne deren
 Details zu replizieren.
 Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.
-Jeder Agent besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
+Jeder Chrononaut besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
 verwaltet werden.
 Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote nach eurem ITI-Rang und dem aktuellen Ruf.
-Kurze Infobriefe lassen sich direkt ins HUD streamen, sodass klar ist, welche
-Fraktion Unterstützung bietet.
+Kurze Infobriefe lassen sich direkt ins HUD streamen; sie markieren, welche Fraktion
+indirekt Einfluss nimmt oder Gerüchte streut, ohne formale Treffen in Chronopolis zu erzwingen.
 Weitere Infos zum HUD liefert das Modul
 [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
 Bei höherem ITI-Dienstgrad öffnet sich zusätzlich der streng bewachte Kernbereich.
 Chronopolis beherbergt Sapiens‑Sapiens, N‑Typen, T‑Stufen und historische Homininen.
 Das ITI rekrutiert aus allen Abstufungen und Bio‑Sheaths; auch rivalisierende Gruppen setzen
-auf diese Vielfalt. Sie trägt spürbar zum Agentenflair bei.
+auf diese Vielfalt. Sie trägt spürbar zum Chrononautenflair bei.
 
 ### Pre-City-Hub Übergangsphase
 
@@ -93,9 +93,8 @@ Sie verbindet das sichere HQ mit der künftigen Stadtsphäre und vermittelt, wel
 - **Inhalt:** Der GPT zeigt pro HQ-Zyklus maximal zwei Händler-Vorschauen (z. B. "Archiv-Labor" oder "PX-Schmiede"),
   kurze Radiomeldungen über aktuelle Fraktionskonflikte und ein Protokoll über offene Stadtaufträge. Einkauf, Rufgewinn
   und Save-Aktionen bleiben deaktiviert – die Vorschau dient nur als atmosphärische Brücke.
-- **Persistenz & Warnung:** Die Szene setzt `logs.flags.chronopolis_warn_seen = true`, sobald Kodex das erste Mal auf die
-  Risiken des Stadteintritts hinweist. Damit entfällt ein doppeltes Warnbanner, wenn der echte Chronopolis-Zugang später
-  aktiv wird.
+- **Persistenz & Warnung:** Sobald Kodex erstmals auf die Risiken des Stadteintritts hinweist, merkt sich das System diese
+  Warnung, damit beim späteren Zugang kein doppeltes Banner erscheint.
 - **Kampagnen-Nutzen:** Nutzt den Pre-Hub, um Fraktionsinterventionen oder Arc-Dashboard-Updates vorzubereiten. Der GPT kann
   hier Foreshadow-Snippets für kommende Missionen streuen oder Hinweise auf künftige Fraktionsquests platzieren.
 

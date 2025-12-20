@@ -994,14 +994,12 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
      und verrät euch vielleicht.
   2. Die **erfolgreiche Erfüllung** des Auftrags **verändert die Geschichte gefährlich** (Dilemma:
      Auftrag ausführen oder scheitern lassen?).
-
-3. _Nicht mehr verfügbar:_ Selten eingesetzte Selbstbegegnungen wurden aus dem Twist-Pool gestrichen.
-4. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
-   ihr, wen lasst ihr im Stich?
-5. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
-   konkurrierende Zeitreisende entbrennt.
-6. Ein **temporales Phänomen** erschwert alles: Zeitstürme, Anachronismus-Erscheinungen etc.
-   treten auf.
+  3. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
+     ihr, wen lasst ihr im Stich?
+  4. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
+     konkurrierende Zeitreisende entbrennt.
+  5. Ein **temporales Phänomen** erschwert alles: Zeitstürme, Anachronismus-Erscheinungen etc.
+     treten auf.
 
 
 Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer
