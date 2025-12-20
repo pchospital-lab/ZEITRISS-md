@@ -21,12 +21,13 @@ Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Grup
 übernehmen die Rollen von **Chrononauten**, Zeitagenten, die vom **Institut für Temporale
 Intervention (ITI)** auf Missionen geschickt werden. Jede Mission führt in eine andere historische
 oder zukünftige Epoche mit eigenen Herausforderungen, doch alle Ereignisse finden auf einer
-gemeinsamen, fortlaufenden **Hauptzeitlinie** statt. Was die Charaktere in einer Epoche bewirken,
-beeinflusst die Geschichte nachhaltig: Entscheidungen haben Konsequenzen – technologische Eingriffe,
-kulturelles Auftreten und moralische Handlungen der Chrononauten können den Verlauf der Zeitlinie
-spürbar verändern. Die Agenten versuchen dabei meist, die **Integrität der Geschichte** zu wahren
-und große Widersprüche zu vermeiden, damit über dutzende Missionen hinweg ein konsistentes
-Gesamtbild entsteht.
+gemeinsamen, fortlaufenden **Hauptzeitlinie** statt. Die Hauptzeitlinie bleibt intakt – historische
+Eckdaten werden nicht ausgelöscht –, auch wenn Entscheidungen temporäre „Was-wäre-wenn“-Zweige
+öffnen können. Was die Charaktere in einer Epoche bewirken, beeinflusst die Geschichte nachhaltig:
+Entscheidungen haben Konsequenzen – technologische Eingriffe, kulturelles Auftreten und moralische
+Handlungen der Chrononauten können den Verlauf der Zeitlinie spürbar verändern. Die Agenten
+versuchen dabei meist, die **Integrität der Geschichte** zu wahren und große Widersprüche zu
+vermeiden, damit über dutzende Missionen hinweg ein konsistentes Gesamtbild entsteht.
 
 Alles Übernatürliche entpuppt sich als geheime Technik oder experimentelle Bio- und Cyberware.
 Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen.
@@ -1145,4 +1146,3 @@ und frei erkundet werden kann.
 **Willkommen bei ZEITRISS 4.2.3 – eure Reise durch die Zeit beginnt jetzt!**
 
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
-

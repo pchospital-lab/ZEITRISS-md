@@ -88,15 +88,18 @@ Details findest du in [LICENSE](LICENSE).
    Intel/Konflikt → Exfiltration → Debrief – insgesamt zwölf Szenen. Rift-Ops sind
    eigenständige Filme in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** belohnt bewahrte Kausalketten. Schlampiges Vorgehen
-   stagniert, destruktive Ausreißer senken Px; ein Fail oder Patzer zieht den Index
-   um 1 Punkt nach unten. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds –
-   spielbar nach Episodenende. Jede neue Px‑5‑Schwelle **stapelt** zusätzliche
-   Seeds im Pool, der Zähler springt nur für den nächsten Zyklus auf 0.
+4. **Paradoxon-Index (Px)** steigt, wenn ihr historische Abläufe intakt haltet.
+   Sorgfältiges, unauffälliges Eingreifen erhöht den Px, schlampiges oder
+   brachiales Vorgehen lässt ihn stagnieren oder senkt ihn (ein schwerer Fail oder
+   Patzer zieht den Index z. B. um 1 nach unten). Erreicht der Px Stufe 5, verrät
+   `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende. Danach springt
+   der Px für den nächsten Zyklus auf 0; weitere Px‑5‑Treffer stapeln zusätzliche
+   Seeds im Pool.
 5. **Hard Sci-Fi.** Keine Magie, Psi kostet Power-Punkte.
-6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in Mission 10
-   der Episoden-Boss. Rift-Operationen platzieren ihren Boss in Szene 10. Das Toolkit
-   löst `generate_boss()` an diesen Punkten automatisch aus.
+6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
+   Mission 10 der Episoden-Boss. Rift-Operationen führen ihren Endgegner im
+   finalen Akt ein (meist um Szene 10). Das Toolkit löst `generate_boss()` an
+   diesen Punkten automatisch aus.
 
 Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte
 Einstiegshilfe.
