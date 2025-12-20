@@ -28,7 +28,7 @@ Optionen ins Spiel bringt. Dieses Regelmodul erweitert das System um spannende V
 Würfelmechanik, ein dynamisches HUD-Warnsystem, feinere Attributs-Skalierung, ein robustes
 Speichersystem und alternative Regeln für große **Schlachten** – ohne den erzählerischen Fokus zu
 verlieren. Im Folgenden findet ihr neue Regeln und Inspirationen, um kritische Proben noch
-nervenaufreibender, das HUD der Agenten informativer (aber nicht überwältigend) und Massengefechte
+nervenaufreibender, das HUD der Chrononauten informativer (aber nicht überwältigend) und Massengefechte
 so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber weiterhin
 übersichtlich und spielbar am Spieltisch.
 
@@ -41,7 +41,7 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
 - **HUD-Management & Alerts:** Ein ereignisgesteuertes Hinweis-System für das HUD der Chrononauten, das
   bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder wenn der Paradoxon-Index steigt)
   automatisch Meldungen einblendet. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
-  Situationen nur wirklich wichtige Daten angezeigt werden und die Agenten nicht von
+  Situationen nur wirklich wichtige Daten angezeigt werden und die Chrononauten nicht von
   Informationsflut überwältigt werden.
   In jeder Kampagne kann der Resonanzhinweis über `modus paradoxon off`
   deaktiviert werden. Wer ihn aktiviert,

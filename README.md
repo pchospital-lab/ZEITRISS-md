@@ -1383,8 +1383,8 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
     der eigentliche Stadtschlüssel vorliegt.
   - Nutzt den Transit, um Fraktionspräsenz zu teasen: kurze NPC-Begegnungen,
     Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
-    markiert. `logs.flags.chronopolis_warn_seen` wird hier bereits gesetzt,
-    damit das Warnbanner beim späteren Stadteintritt nur einmal erscheint.
+    markiert. Die erste Warnung wird dabei intern vermerkt, damit das Banner beim
+    späteren Stadteintritt nur einmal erscheint.
 - **QA-Splitting:** Frühphase testet ausschließlich den Transit/Pre-City-Flow.
   Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
   setzt `logs.flags.chronopolis_unlocked=true` plus
@@ -1396,10 +1396,12 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   `CITY`, Speichern bleibt blockiert.
 - **Maintainer-Blueprint:** Map-Layout, Performance-Ziele und Build-Roadmap
   stehen in `docs/dev/chronopolis-map-blueprint.md` für Art/Tech-Abgleiche bereit.
-- In Chronopolis sind FR-Kontakte untersagt und Rifts lassen sich dort
-  nicht starten; Seeds und Board-Infos erscheinen weiterhin.
-- HQ-Zutritt ist ITI-Agenten vorbehalten; Gäste benötigen
-  `guest_custody`.
+- In Chronopolis sind **offizielle** FR-Kontakte untersagt – keine direkten
+  Fraktionsmeetings, keine diplomatischen Übergaben. Fraktionen wirken dort nur
+  indirekt über Gerüchte, Auftragsgeräusche und HUD-Briefings. Rifts lassen sich
+  in der Stadt nicht starten; Seeds und Board-Infos erscheinen weiterhin.
+- HQ-Zutritt ist ITI-Agenten vorbehalten; Begleitpersonen bleiben unter strikter
+  Aufsicht und erhalten keinen freien Zugang.
 - Chronopolis-Services sind Wrapper um die HQ-Module mit eigenen
   Preisfaktoren.
 - Das Tagesangebot folgt einem Daily-Roll: `!chrono stock` zeigt Rang- und Research-
@@ -1413,7 +1415,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   ebenfalls und verhindert doppelte Banner beim nächsten Laden oder nach HQ-
   Rückkehr. Erst `chronopolis_reset()` öffnet den Warnhinweis erneut.
 - Chronopolis-Käufe landen im Kampagnen-Save: `logs.market[]` protokolliert
-  Timestamp, Artikel, Kosten und Px-Klausel; Toolkit- und Runtime-Hooks nutzen
+  Timestamp, Artikel, Kosten und Px-Klausel (Paradoxon-Hinweis); Toolkit- und Runtime-Hooks nutzen
   `log_market_purchase()` für Debrief-Traces. Der Debrief fasst die jüngsten
   Einkäufe über die Zeile `Chronopolis-Trace (n×): …` zusammen – inklusive
   Timestamp, Item, Kosten, Px-Hinweis sowie optionaler Notiz oder Quelle; ältere
@@ -1501,9 +1503,9 @@ Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
 ```yaml
 phase: core
-year: 1960
+year: 1962
 place: Karibik
-objective: Black Saturday – Huminen-Söldner kapern B-59
+objective: Black Saturday – Funkspruch der B-59 unterdrücken (kein Torpedoabschuss)
 ```
 Rift-Seeds nutzen `phase: rift`.
 

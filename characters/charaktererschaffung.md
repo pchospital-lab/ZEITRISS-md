@@ -15,8 +15,8 @@ tags: [characters]
 - Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 - Team-Zusammenstellung & Rollenverteilung (optional)
 
-**Einleitung:** In _ZEITRISS 4.2.3_ erschafft ihr einen _Chrononauten_-Charakter, der als Zeitreise-
-Agent im Dienst des ITI (Institut für Temporale Interventionen) Missionen quer durch die Epochen
+**Einleitung:** In _ZEITRISS 4.2.3_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
+Dienst des ITI (Institut für Temporale Interventionen), der Missionen quer durch die Epochen
 erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
 erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
 Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren **Ausrüstungs-
@@ -125,7 +125,7 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 - Markiert ein Standard-Loadout
 - Lasst den Ruf zunächst bei 0
 
-### Schnellstart-Operatives
+### Schnellstart-Chrononauten
 
 Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passender Ausrüstung.
 
