@@ -17,8 +17,7 @@
     "economy",
     "logs",
     "ui",
-    "arena",
-    "arc_dashboard"
+    "arena"
   ],
   "properties": {
     "save_version": { "type": "integer", "const": 6 },
@@ -44,7 +43,7 @@
         "compliance_shown_today": { "type": "boolean" },
         "exfil": {
           "type": "object",
-          "required": ["active", "armed", "hot", "sweeps", "stress", "ttl"],
+          "required": ["active", "armed", "hot", "sweeps", "stress", "ttl", "anchor", "alt_anchor"],
           "properties": {
             "active": { "type": "boolean" },
             "armed": { "type": "boolean" },
@@ -55,7 +54,8 @@
             "anchor": { "type": ["string", "null"] },
             "alt_anchor": { "type": ["string", "null"] }
           }
-        }
+        },
+        "rift_seeds": { "type": "array", "items": { "type": "object" } }
       }
     },
     "character": {
@@ -66,6 +66,7 @@
         "id": { "type": "string" },
         "name": { "type": "string" },
         "callsign": { "type": "string" },
+        "rank": { "type": "string" },
         "lvl": { "type": ["integer", "number"] },
         "xp": { "type": ["integer", "number"] },
         "stress": { "type": "number" },
@@ -120,6 +121,7 @@
       "additionalProperties": true,
       "required": [
         "hud",
+        "trace",
         "artifact_log",
         "market",
         "offline",
@@ -160,10 +162,7 @@
       "required": [
         "gm_style",
         "intro_seen",
-        "suggest_mode",
-        "contrast",
-        "badge_density",
-        "output_pace"
+        "suggest_mode"
       ],
       "properties": {
         "gm_style": { "type": "string" },
@@ -171,19 +170,39 @@
         "suggest_mode": { "type": "boolean" },
         "contrast": { "type": "string" },
         "badge_density": { "type": "string" },
-        "output_pace": { "type": "string" }
+        "output_pace": { "type": "string" },
+        "voice_profile": { "type": "string" }
       }
     },
     "arena": {
       "type": "object",
       "additionalProperties": true,
       "properties": {
+        "active": { "type": "boolean" },
+        "phase": { "type": "string" },
+        "mode": { "type": "string" },
+        "previous_mode": { "type": ["string", "null"] },
+        "wins_player": { "type": "integer" },
+        "wins_opponent": { "type": "integer" },
+        "tier": { "type": "integer" },
+        "proc_budget": { "type": "integer" },
+        "artifact_limit": { "type": "integer" },
+        "loadout_budget": { "type": "integer" },
+        "phase_strike_tax": { "type": "integer" },
+        "damage_dampener": { "type": "boolean" },
         "queue_state": {
           "type": "string",
           "enum": ["idle", "searching", "matched", "staging", "active", "completed"]
         },
         "zone": { "type": "string", "enum": ["safe", "combat"] },
-        "team_size": { "type": "integer", "minimum": 0, "maximum": 4 }
+        "team_size": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "fee": { "type": "integer" },
+        "scenario": { "type": ["object", "null"] },
+        "started_episode": { "type": ["integer", "null"] },
+        "last_reward_episode": { "type": ["integer", "null"] },
+        "policy_players": { "type": "array", "items": { "type": "object" } },
+        "audit": { "type": "array", "items": { "type": "object" } },
+        "resume_token": { "type": ["string", "null"] }
       }
     },
     "arc_dashboard": { "type": "object", "additionalProperties": true }
