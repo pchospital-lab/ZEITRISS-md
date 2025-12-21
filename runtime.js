@@ -2593,6 +2593,9 @@ function record_trace(event, details = {}){
       hook: details.seed.hook || state.campaign?.active_seed_hook || null
     };
   }
+  if (details.economy_audit && typeof details.economy_audit === 'object'){
+    trace.economy_audit = clone_plain_object(details.economy_audit);
+  }
   state.logs.trace.push(trace);
   if (state.logs.trace.length > 64){
     state.logs.trace.splice(0, state.logs.trace.length - 64);
@@ -4348,6 +4351,109 @@ function initialize_wallets_from_roster(){
     hud_toast(`Wallets initialisiert (${created}×)`, 'HQ');
   }
   return created;
+}
+
+function sum_wallet_balances(wallets){
+  if (!wallets || typeof wallets !== 'object') return { total: 0, count: 0 };
+  let total = 0;
+  let count = 0;
+  Object.values(wallets).forEach((record) => {
+    if (!record || typeof record !== 'object') return;
+    const balance = Number(record.balance);
+    if (Number.isFinite(balance)){
+      total += Math.max(0, Math.round(balance));
+    }
+    count += 1;
+  });
+  return { total: Math.max(0, Math.round(total)), count };
+}
+
+function sum_market_spend(logs){
+  const entries = sanitize_market_entries(logs?.market);
+  const total = entries.reduce((sum, entry) => {
+    const cost = Number(entry?.cost_cu);
+    if (!Number.isFinite(cost)) return sum;
+    return sum + Math.max(0, Math.round(cost));
+  }, 0);
+  return { total_cu: Math.max(0, Math.round(total)), entries: entries.length };
+}
+
+function economy_audit_guidelines(level, walletCount){
+  if (!Number.isFinite(level)) return null;
+  let band = null;
+  let hqMin = null;
+  let hqMax = null;
+  let walletMin = null;
+  let walletMax = null;
+  if (level >= 900){
+    band = '900+';
+    hqMin = 45000;
+    hqMax = 60000;
+    walletMin = 6000;
+    walletMax = 10000;
+  } else if (level >= 512){
+    band = '512';
+    hqMin = 25000;
+    hqMax = 30000;
+    walletMin = 3000;
+    walletMax = 5000;
+  } else if (level >= 120){
+    band = '120';
+    hqMin = 8000;
+    hqMax = 10000;
+    walletMin = 1000;
+    walletMax = 2000;
+  }
+  if (!band) return null;
+  const walletTotal = walletCount > 0
+    ? { min: walletMin * walletCount, max: walletMax * walletCount }
+    : null;
+  return {
+    level_band: band,
+    hq_pool: { min: hqMin, max: hqMax },
+    wallet_avg: { min: walletMin, max: walletMax },
+    wallet_total: walletTotal
+  };
+}
+
+function build_economy_audit(s){
+  const economy = s?.economy || {};
+  const hqPool = Number.isFinite(economy.cu) ? Math.max(0, Math.round(economy.cu)) : 0;
+  const { total: walletSum, count: walletCount } = sum_wallet_balances(economy.wallets);
+  const walletAvg = walletCount > 0 ? Math.round(walletSum / walletCount) : null;
+  const level = asNumber(s?.character?.lvl ?? s?.character?.level ?? s?.campaign?.level);
+  const guidelines = economy_audit_guidelines(level, walletCount);
+  const chronopolis = sum_market_spend(s?.logs);
+  let outOfRange = null;
+  if (guidelines){
+    const hqOut = hqPool < guidelines.hq_pool.min || hqPool > guidelines.hq_pool.max;
+    const walletOut = walletAvg !== null
+      ? walletAvg < guidelines.wallet_avg.min || walletAvg > guidelines.wallet_avg.max
+      : false;
+    if (hqOut || walletOut){
+      outOfRange = { hq_pool: hqOut, wallet_avg: walletOut };
+    }
+  }
+  return {
+    level,
+    hq_pool: hqPool,
+    wallet_sum: walletSum,
+    wallet_count: walletCount,
+    wallet_avg: walletAvg,
+    guidelines,
+    chronopolis_sinks: chronopolis,
+    out_of_range: outOfRange
+  };
+}
+
+function maybe_toast_economy_audit(audit){
+  if (!audit?.out_of_range) return;
+  const parts = [];
+  if (audit.out_of_range.hq_pool) parts.push('HQ-Pool');
+  if (audit.out_of_range.wallet_avg) parts.push('Wallets');
+  const scope = parts.length ? parts.join('/') : 'Ökonomie';
+  const band = audit.guidelines?.level_band ? `Lvl ${audit.guidelines.level_band}` : 'Endgame';
+  hud_toast(`Economy-Audit: ${scope} außerhalb Richtwerten (${band}).`, 'HQ');
 }
 
 function ensure_arena(){
@@ -6321,7 +6427,7 @@ function normalize_hud_metric(value){
   return null;
 }
 
-function normalize_hud_entry(entry){
+function normalize_hud_entry(entry, fallbackTimestamp){
   if (typeof entry === 'string'){
     const message = entry.trim();
     return message ? message : null;
@@ -6339,7 +6445,11 @@ function normalize_hud_entry(entry){
   const event = typeof entry.event === 'string' && entry.event.trim() ? entry.event.trim() : null;
   if (event) record.event = event;
   const at = typeof entry.at === 'string' && entry.at.trim() ? entry.at.trim() : null;
-  if (at) record.at = at;
+  if (at){
+    record.at = at;
+  } else if (event){
+    record.at = fallbackTimestamp || new Date().toISOString();
+  }
   const tempo = normalize_hud_metric(entry.tempo);
   if (tempo !== null) record.tempo = tempo;
   const stress = normalize_hud_metric(entry.stress);
@@ -6356,8 +6466,9 @@ function normalize_hud_entry(entry){
 function prepare_save_logs(logs){
   const base = clone_plain_object(logs);
   if (Array.isArray(base.hud)){
+    const hudTimestamp = new Date().toISOString();
     base.hud = base.hud
-      .map(normalize_hud_entry)
+      .map(entry => normalize_hud_entry(entry, hudTimestamp))
       .filter(Boolean)
       .slice(-32);
   } else {
@@ -6971,6 +7082,13 @@ function save_deep(s=state){
   if (sysInstalled !== sysMax){
     throw new Error(toast_save_block('SYS nicht voll installiert'));
   }
+  const economyAudit = build_economy_audit(s);
+  record_trace('economy_audit', {
+    channel: 'SAVE',
+    economy_audit: economyAudit,
+    note: 'hq_save'
+  });
+  maybe_toast_economy_audit(economyAudit);
   const payload = select_state_for_save(s);
   return JSON.stringify(payload);
 }
