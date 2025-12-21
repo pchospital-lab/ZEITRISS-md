@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 import textwrap
@@ -23,6 +24,7 @@ log = get_logger("lint_debrief_trace")
 NODE_SCRIPT = textwrap.dedent(
     r"""
     const rt = require('./runtime.js');
+    const { version: ZR_VERSION = '4.2.3' } = require('./package.json');
     const { state, log_market_purchase, ForeshadowHint, offline_audit, debrief } = rt;
 
     const captured = [];
@@ -68,7 +70,7 @@ NODE_SCRIPT = textwrap.dedent(
       mission: 5
     });
 
-    state.logs.flags.runtime_version = '4.2.2';
+    state.logs.flags.runtime_version = ZR_VERSION;
     state.logs.flags.compliance_shown_today = true;
     state.logs.flags.chronopolis_warn_seen = true;
     state.logs.flags.offline_help_count = 3;
@@ -135,6 +137,8 @@ def require(pattern: str, text: str, message: str, failures: list[str]) -> None:
 
 def lint(root: Path) -> int:
     payload = run_node(root)
+    package = json.loads((root / "package.json").read_text(encoding="utf-8"))
+    runtime_version = package.get("version", "4.2.3")
     debrief_text = str(payload.get("debrief", ""))
     if not debrief_text:
         log.error("Debrief-Text fehlt in der Node-Antwort")
@@ -145,7 +149,12 @@ def lint(root: Path) -> int:
     require(r"Chronopolis-Trace \(\d+×\): .*2025-06-13T11:00:00.000Z", debrief_text, "Chronopolis-Trace enthält Timestamp", failures)
     require(r"Foreshadow-Log \(\d+×\): .*Boss Gate", debrief_text, "Foreshadow-Log referenziert Mission 5 Hinweis", failures)
     require(r"Offline-Protokoll \(\d+×\): .*jammer.*Jammer aktiv.*Reichweite 1500m", debrief_text, "Offline-Protokoll meldet Jammer-Trace", failures)
-    require(r"Runtime-Flags: .*Runtime 4\.2\.2", debrief_text, "Runtime-Flags führen Runtime-Version", failures)
+    require(
+        rf"Runtime-Flags: .*Runtime {re.escape(runtime_version)}",
+        debrief_text,
+        "Runtime-Flags führen Runtime-Version",
+        failures,
+    )
     require(r"Runtime-Flags: .*Compliance gezeigt", debrief_text, "Runtime-Flags zeigen Compliance-Status", failures)
     require(r"Runtime-Flags: .*Chronopolis-Warnung quittiert", debrief_text, "Runtime-Flags spiegeln Chronopolis-Warnung", failures)
     require(r"Runtime-Flags: .*Offline-Hilfe 3×", debrief_text, "Runtime-Flags zählen Offline-Hilfe", failures)
