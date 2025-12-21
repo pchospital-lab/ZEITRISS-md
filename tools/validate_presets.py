@@ -153,6 +153,10 @@ def validate_blocks(blocks: list[PresetBlock]) -> list[str]:
             errors.append(
                 f"{block.name}: SYS-Last {block.sys_used} > SYS {block.final['SYS']}"
             )
+        if block.sys_used != block.final["SYS"]:
+            errors.append(
+                f"{block.name}: SYS-Last {block.sys_used} != SYS {block.final['SYS']}"
+            )
     return errors
 
 

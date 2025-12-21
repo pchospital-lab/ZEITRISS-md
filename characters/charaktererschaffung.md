@@ -124,6 +124,8 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 - Passt Namen, Callsign und Hintergrund an.
 - Legt die Spezies fest und übernehmt die Rassenmods.
 - Übernehmt Talente sowie Cyber-/Bioware samt SYS-Last aus dem Preset.
+- Die Presets sind so gebaut, dass die SYS-Last voll ausgeschöpft ist
+  (Psi-Chars füllen freie Slots mit aktiven Psi-Kräften).
 - Markiert ein Standard-Loadout und startet mit Ruf 0.
 - Psi ist optional: Aktiviert `has_psi`, wenn das Preset ein Psi-Modul trägt.
 
@@ -137,8 +139,8 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3 – schnell,
   leise, robust genug für nächtliche Einsätze.
 - **Talente:** _Schleichprofi_, _Akrobat_, _Schattenprofil_.
-- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1).
-  **SYS-Last:** 2/3.
+- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1),
+  Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3.
 - **Unique Gear:** Chamäleon‑Overall (Stealth‑Vorteil +1).
 
 **Preset-Check (Editor)**
@@ -146,7 +148,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
 - **Talente:** Schleichprofi; Akrobat; Schattenprofil
-- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1). **SYS-Last:** 2/3
+- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
 
 #### "Kernel" – Tech & Drone Handler
 
@@ -154,8 +156,8 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3 – Tech- und
   Drohnenspezialistin mit hoher temporaler Sensibilität.
 - **Talente:** _Techno‑Mancer_, _Drohnensteuerung_, _Systemanalyst_.
-- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1).
-  **SYS-Last:** 2/3.
+- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1),
+  Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3.
 - **Unique Gear:** Falt‑Nanodrohne _„Pixie“_ (Sensor + Mini‑Arm).
 
 **Preset-Check (Editor)**
@@ -163,7 +165,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3
 - **Talente:** Techno‑Mancer; Drohnensteuerung; Systemanalyst
-- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1). **SYS-Last:** 2/3
+- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
 
 #### "Wildcard" – Face / Social Ops
 
@@ -188,7 +190,8 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2 – brachiale
   Kraft, schnelle Reaktion, kurze Wege.
 - **Talente:** _Waffenmeister_, _CQB‑Spezialist_, _Schmerzresistenz_.
-- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 1/2.
+- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1), Servomotoren in Beinen (SYS 1).
+  **SYS-Last:** 2/2.
 - **Unique Gear:** Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden).
 
 **Preset-Check (Editor)**
@@ -196,7 +199,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
 - **Talente:** Waffenmeister; CQB‑Spezialist; Schmerzresistenz
-- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 1/2
+- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1), Servomotoren in Beinen (SYS 1). **SYS-Last:** 2/2
 
 #### "Focus" – Psi-Assault
 
@@ -204,8 +207,9 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2 – Psi-Fokus,
   klare Konzentration, geringe körperliche Reserven.
 - **Talente:** _Psi‑Kontrolle_, _Meditation_, _Fokusfeuer_.
-- **Cyber-/Bioware:** keine. **SYS-Last:** 0/2.
+- **Cyber-/Bioware:** keine (0 SYS). **SYS-Last:** 2/2.
 - **Psi‑Modul:** Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.).
+  **Aktive Psi‑Slots:** Zeitsinn (SYS 1, permanent), Telepathie (SYS 1).
 - **Unique Gear:** Kaltes Gestell (−1 Heat während Tragezeit).
 
 **Preset-Check (Editor)**
@@ -213,7 +217,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
 - **Finale Attribute:** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2
 - **Talente:** Psi‑Kontrolle; Meditation; Fokusfeuer
-- **Cyber-/Bioware:** keine. **SYS-Last:** 0/2
+- **Cyber-/Bioware:** keine (0 SYS), Zeitsinn (SYS 1), Telepathie (SYS 1). **SYS-Last:** 2/2
 
 ## Schritt-für-Schritt zur Charaktererschaffung
 
@@ -468,7 +472,8 @@ zeigen:
 1. **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3.
 2. **Rasse:** Homo sapiens sapiens (keine Modifikatoren).
 3. **Talente:** _Soldat_, _Erste Hilfe_, _Zähigkeit_.
-4. **Cyber-/Bioware:** keine. **SYS-Last:** 0/3.
+4. **Cyber-/Bioware:** Neuro-Link (SYS 1), Notfall‑Stimulat (SYS 1),
+   Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 3/3.
 5. **Ausrüstung:** Standard-Zeitreiseanzug, leichte Pistole, 1 Medkit.
 
 **Preset-Check (Editor)**
@@ -476,7 +481,7 @@ zeigen:
 - **Rassenmods:** keine
 - **Finale Attribute:** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
 - **Talente:** Soldat; Erste Hilfe; Zähigkeit
-- **Cyber-/Bioware:** keine. **SYS-Last:** 0/3
+- **Cyber-/Bioware:** Neuro-Link (SYS 1), Notfall‑Stimulat (SYS 1), Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 3/3
 
 Mit diesen Werten gelingt Jonas bei einem durchschnittlichen SG 7 ungefähr
 jede zweite Probe. Er eignet sich bestens, um die Regeln zu testen, ohne die
@@ -615,19 +620,20 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   _Schmerzresistenz_ (gewöhnliche Schmerzen halten ihn kaum auf – Verletzungs-Mali werden um 1
   reduziert: leichte Wunden ignoriert er ganz, mittlere nur –1 etc.). Damit steckt er mehr ein und
   bleibt handlungsfähig.
-- **Implantate:** Keine permanenten Implantate – Nikolai lehnt Cyberware weitgehend ab. Allerdings
+- **Implantate:** Keine umfangreichen Implantate – Nikolai lehnt schwere Cyberware ab. Für den
 <a id="notfall-stimulanz"></a>
-  trägt er ein subkutanes _Notfall-Stimulanz-Modul_ (automatische Adrenalinausschüttung bei kritischen
-  Verletzungen). **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde
-  kampffähig statt sofort auszufallen; danach kollabiert er. Kosten: 1 SYS. (Dieses Modul hat ihm
-  schon mehrmals das Leben gerettet.)
+  Ernstfall trägt er jedoch ein subkutanes _Notfall-Stimulanz-Modul_ (automatische
+  Adrenalinausschüttung bei kritischen Verletzungen) **und** _Sub‑Derm‑Kevlar_ als Schutzschicht.
+  **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde kampffähig statt
+  sofort auszufallen; danach kollabiert er. Kosten: je 1 SYS, zusammen 2/2. (Diese Minimalmods haben
+  ihm schon mehrmals das Leben gerettet.)
 
 **Preset-Check (Editor)**
 - **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
 - **Rassenmods:** STR +2, INT −1, CHA −1
 - **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
 - **Talente:** Waffenmeister; Taktiker; Schmerzresistenz
-- **Cyber-/Bioware:** Notfall-Stimulanz-Modul (SYS 1). **SYS-Last:** 1/2
+- **Cyber-/Bioware:** Notfall-Stimulanz-Modul (SYS 1), Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
   Einzelschuss, Salve, Vollauto; Schaden je nach Modus 3–5, mittlere Reichweite), dazu eine **antike
   Nahkampfwaffe** nach Wahl – meist Kampfmesser, manchmal ein Schwert aus dem 13. Jh. (Familienerbstück).
@@ -672,17 +678,17 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
   Technische und für Fortbewegungsmittel.
 - **Implantate:** _Ocular-HUD_ (Augenimplantat, das technische Daten ins Sichtfeld einblendet – z.B.
   Geschwindigkeitsanzeige eines Fahrzeugs, Schadensdiagnosen; verleiht +1 auf Fahrzeugkontrolle dank
-  optimaler Routen- und Warnhinweise), sowie eine _Nano-Werkzeugkolonie_ (winzige Naniten im Unterarm,
-  die auf Befehl ein „Werkzeug“ an der Handfläche formen – Sabine hat somit eingebaute Werkzeuge zum
-  Schrauben, Löten etc.; erlaubt Reparaturen, ohne extra Tool mitzunehmen, Kosten 1 SYS). Beide
-  Implantate zusammen belegen 2 von 3 SYS.
+  optimaler Routen- und Warnhinweise), eine _Nano-Werkzeugkolonie_ (winzige Naniten im Unterarm, die
+  auf Befehl ein „Werkzeug“ an der Handfläche formen – Sabine hat somit eingebaute Werkzeuge zum
+  Schrauben, Löten etc.; erlaubt Reparaturen, ohne extra Tool mitzunehmen, Kosten 1 SYS) sowie ein
+  _Neuro-Link_ als Direktverbindung zu Maschinen (1 SYS). Die drei Implantate belegen 3/3 SYS.
 
 **Preset-Check (Editor)**
 - **Basiswerte (18):** STR 4, GES 3, INT 4, CHA 2, TEMP 2, SYS 3
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3
 - **Talente:** Mechaniker-Meisterin; Sprengstoffexperte; Fahrzeugprofi
-- **Cyber-/Bioware:** Ocular-HUD (SYS 1), Nano-Werkzeugkolonie (SYS 1). **SYS-Last:** 2/3
+- **Cyber-/Bioware:** Ocular-HUD (SYS 1), Nano-Werkzeugkolonie (SYS 1), Neuro-Link (SYS 1). **SYS-Last:** 3/3
 - **Ausrüstung:** Gefüllte **Werkzeugtasche** (Schraubenschlüssel, Hammer, altmodische und
   futuristische Tools – alles, um im Feld zu improvisieren), ein tragbarer **Allzweck-Scanner**
   (analysert Materialstrukturen, ortet Energiesignaturen – hilft, versteckte Mechanismen aufzuspüren
@@ -1100,8 +1106,8 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | --- | --- | --- | --- | --- | --- | --- |
 | Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
 | Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
-| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 1/2 |
-| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 2/3 |
+| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 2/2 |
+| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 3/3 |
 | Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 2/2/5/3/5/1 | GES+1 SYS+1 CHA−1 INT−1 | 2/3/4/2/5/2 | 2/2 |
 | Henry Walsh | Undercover-Spion | Homo sapiens novus | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
 
