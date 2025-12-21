@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -24,7 +25,10 @@ log = get_logger("lint_debrief_trace")
 NODE_SCRIPT = textwrap.dedent(
     r"""
     const rt = require('./runtime.js');
-    const { version: ZR_VERSION = '4.2.3' } = require('./package.json');
+    const { ZR_VERSION } = process.env;
+    if (!ZR_VERSION) {
+      throw new Error('ZR_VERSION fehlt. Bitte package.json-Version in die Umgebung reichen.');
+    }
     const { state, log_market_purchase, ForeshadowHint, offline_audit, debrief } = rt;
 
     const captured = [];
@@ -96,9 +100,14 @@ class LintError(RuntimeError):
 
 def run_node(root: Path) -> dict[str, object]:
     """Execute the Node helper and return the parsed payload."""
+    package = json.loads((root / "package.json").read_text(encoding="utf-8"))
+    runtime_version = package.get("version")
+    if not runtime_version:
+        raise LintError("package.json enthält keine Version")
     proc = subprocess.run(
         ["node", "-e", NODE_SCRIPT],
         cwd=root,
+        env={**os.environ, "ZR_VERSION": str(runtime_version)},
         check=False,
         capture_output=True,
         text=True,
