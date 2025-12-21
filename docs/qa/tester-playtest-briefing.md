@@ -345,7 +345,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 ```text
 # Playtest-Report ZEITRISS
-- Version: (z. B. 4.2.2 beta)
+- Version: (z. B. 4.2.3 beta)
 - Testplattform: OpenAI (MyGPT Beta)
 - Datum & Uhrzeit: (lokal)
 - Tester:in: (Alias)
