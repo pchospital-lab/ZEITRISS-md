@@ -401,21 +401,24 @@ Spielleitung kann z.B. verkünden: _„Euer HUD kalibriert und zeigt euren Statu
 100% (grün); Paradoxon 0 – Temporale Stabilität gegeben. Ausrüstungssysteme online.“_ – So erfahrt ihr
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
-6. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legt ihr im HQ fest,
+7. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legt ihr im HQ fest,
    welcher der großen ITI‑Fraktionen ihr euch vorrangig anschließen möchtet –
    den **Chrono‑Symmetriker** _(Preserve)_, dem **Ordo Mnemonika** _(Neutral – Zugriff auf Preserve
    und Trigger)_, den **Kausalklingen** _(Preserve)_ oder der **Zerbrechlichen Ewigkeit** _(Trigger)_.
    Diese Zuordnung bestimmt automatisch, ob ihr **Pro**, **Contra** oder **Neutral** agiert.
    Der Kodex speichert die Wahl permanent; euer HUD markiert sie farblich (Blau = Preserve,
-   Rot = Trigger, Grau = Neutral). Ein späterer Wechsel ist nur einmal möglich und
-   sollte gut überlegt sein.
+   Rot = Trigger, Grau = Neutral). Die Entscheidung fällt **vor dem ersten Briefing**
+   und noch während der HQ-Einweisung, damit eure Betreuung klar zugeordnet ist.
+   Ein späterer Wechsel ist nur einmal möglich und sollte gut überlegt sein.
 
 Jetzt seid ihr bereit für die erste Mission!
 
 ## Erste Schritte im ITI
 
 Direkt im Anschluss führt die Spielleitung die frisch gebackenen Chrononauten in das
-**Institut für Temporale Intervention (ITI)**. Dieses Hauptquartier liegt in einer
+**Institut für Temporale Intervention (ITI)**. Die erste Einweisung übernimmt
+Commander Renier persönlich, bevor er die Betreuung an die Fraktionskontakte übergibt.
+Dieses Hauptquartier liegt in einer
 gewaltigen Megacity innerhalb der **Nullzeit** – ein schwebender Knotenpunkt jenseits
 des normalen Zeitstroms. In dieser High-Tech-Enklave,
 die wie eine düstere Untergrundmetropole voller Neonlichter und Schatten wirkt,
@@ -428,7 +431,7 @@ Zeitgeflecht beeinflussen.
 
 An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
 darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
-ob er oder sie **pro** oder **contra** agiert (siehe Schritt 6 oben). Unabhängig
+ob er oder sie **pro** oder **contra** agiert (siehe Schritt 7 oben). Unabhängig
 von dieser Wahl kann die Gruppe die Paradoxon-Mechanik per `modus paradoxon off`
 deaktivieren und bei Bedarf identisch wieder einschalten – häufig geschieht
 dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
@@ -441,9 +444,11 @@ Alle vier besitzen unterschiedliche Hominin-Bio-Sheaths:
 - Archivarin Mira – Homo floresiensis
 - Offizier Vargas – Homo erectus (spät)
 - Agentin Narella – Denisova-Mensch
-Diese Liaisons betreuen euch im HQ und vermitteln Missionen aus dem gemeinsamen Auftragspool.
-Sie halten zudem optionale Spezialaufträge ihrer Fraktion bereit.
-Commander Renier bleibt weiterhin Gesamtkoordinator.
+Diese Liaisons betreuen euch im HQ, übernehmen ab jetzt **Briefings und Debriefings**
+und vermitteln Missionen aus dem gemeinsamen Auftragspool. Sie halten zudem optionale
+Spezialaufträge ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
+und tritt vor allem bei fraktionsübergreifenden Einsätzen, Eskalationen oder
+Schlüsselmeilensteinen auf.
 Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung
 zusammen.
 Agenten unterschiedlicher Haltung mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
@@ -454,15 +459,16 @@ Ein späterer Wechsel zwischen Pro, Contra und Neutral ist ausgeschlossen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
-Später kauft ihr euch zusätzliche Zugangs-**Stufen** im Fraktionskomplex des ITI.
+kauft ihr euch zusätzliche Zugangs-**Stufen** im Fraktionskomplex des ITI.
 Ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen.
 Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
 Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
 Wunden versorgt und der nächste Auftrag vorbereitet – die Heimkehr ist also ein
 regelmäßiges, aber freiwilliges Element des Spielablaufs.
 
-Am Ende des Rundgangs legt **Commander Renier** drei mögliche Wege vor, wie es
-weitergehen kann:
+Am Ende des Rundgangs legt **Commander Renier** den Rahmen fest und übergibt an
+die zuständige Fraktionskontaktperson, die das konkrete Briefing übernimmt. Drei
+mögliche Wege zeigen, wie es weitergehen kann:
 
 1. **Offizielle Kampagne:** Der klassische Einstieg beginnt mit einem Einsatz
    rund um den Montauk-Vorfall von 1983 oder ein ähnliches Zeitexperiment und

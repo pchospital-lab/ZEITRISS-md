@@ -963,8 +963,9 @@ Historische Einsätze sind strikt getrennt in:
 - **Preserve-Missionen** – sichern beinahe entglittene Ereignisse
 - **Trigger-Missionen** – garantieren dokumentierte Tragödien
 
-Spielende wählen zu Beginn eine Fraktion und erhalten Zugriff auf entsprechend
-ausgerichtete Kampagnenpfade.
+Spielende wählen ihre Fraktion **nach der Charaktererschaffung im ITI**
+(Profil-Upload, dann Fraktionswahl vor dem ersten Briefing) und erhalten Zugriff
+auf entsprechend ausgerichtete Kampagnenpfade.
 
 In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärungen:
 Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.

@@ -737,7 +737,8 @@ Außenwelt Zeit vergeht.
 
 - **Quarzatrium:** Portalhalle und Briefingraum in einem. Ankommende Agenten
   werden von Laserscannern erfasst, während holografische Displays die Zielzeit
-  anzeigen und Commander _Renier_ oder die KI **Kodex** den Einsatz erläutern.
+  anzeigen. Commander _Renier_ übernimmt die erste Einweisung und übergibt die
+  laufenden Briefings/Debriefs danach an die zuständigen Fraktions-Liaisons.
 - **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
   Missionen lagern und Raum für Charakterszenen bleibt.
 - **Forschungszentrum & Kodex-Archiv:** Bibliothek und Datenspeicher, gepflegt
@@ -769,7 +770,8 @@ wieder auf Zeitreise geht.
 
 - **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
   Sein Bio-Sheath basiert auf Homo sapiens novus.
-  Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium.
+  Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium und bleibt die
+  Stimme für Eskalationen, Gesamtbriefings und Schlüsselmeilensteine.
 - **Archivare des Kodex** – betreuen das Wissensarchiv und helfen bei
   Recherchen.
 - **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
@@ -780,6 +782,8 @@ wieder auf Zeitreise geht.
   Ordo Mnemonika: Archivarin Mira (H. floresiensis);
   Kausalklingen: Offizier Vargas (H. erectus spät);
   Zerbrechliche Ewigkeit: Agentin Narella (Denisova-Mensch).
+  Sie übernehmen die regulären Briefings, Debriefs und HQ-Anliegen, sobald eine
+  Fraktionszuordnung erfolgt ist.
 
 #### Megacity in der Nullzeit
 
