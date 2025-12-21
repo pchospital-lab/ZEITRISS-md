@@ -1767,12 +1767,15 @@ niemand wird dupliziert.
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
 - **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
-  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today`; `SkipEntryChoice()`
-  setzt parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg
-  dokumentiert bleibt – `StartMission()` respektiert ein bereits gesetztes Flag.
+  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today`; `load_deep()` markiert
+  zusätzlich `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der
+  Einstieg übersprungen und kein HQ-Intro erneut ausgespielt wird. `SkipEntryChoice()` setzt
+  parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg dokumentiert
+  bleibt – `StartMission()` respektiert ein bereits gesetztes Flag.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
-- **Einstieg** gemäß README: _„klassischer Einstieg“_ oder _„Schnelleinstieg“_.
+- **Einstieg**: Kein klassisch/schnell nach dem Load; der Flow endet nach Recap direkt im
+  HQ/Briefing.
   - HQ-Interlude nur als Text; kein `NextScene("HQ")`.
   - Danach Transfer-HUD einblenden und direkt `NextScene(loc=<Ziel>, role="Ankunft")`.
 

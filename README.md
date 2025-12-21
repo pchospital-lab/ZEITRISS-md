@@ -278,7 +278,8 @@ Die ersten Schritte in unter zwei Minuten:
   (Team gesamt 1–5) · _schnell_: Rolle + NPC‑Begleiter
 - `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves
   posten oder Rolle nennen
-- `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
+- `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
+  `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
 Kampagnenmodus (`preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus preserve|trigger`. Der Wert landet in `campaign.mode`/`seed_source` und
