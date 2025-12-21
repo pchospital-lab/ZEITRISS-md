@@ -196,7 +196,7 @@
           "enum": ["idle", "searching", "matched", "staging", "active", "completed"]
         },
         "zone": { "type": "string", "enum": ["safe", "combat"] },
-        "team_size": { "type": "integer", "minimum": 0, "maximum": 4 },
+        "team_size": { "type": "integer", "minimum": 0, "maximum": 5 },
         "fee": { "type": "integer" },
         "scenario": { "type": ["object", "null"] },
         "started_episode": { "type": ["integer", "null"] },

@@ -87,8 +87,9 @@ Der Standard-Header zeigt:
   Mission-5-Tests verlangen explizit den sichtbaren Badge. Nach Mission 5 setzt
   die Runtime Self-Reflection automatisch auf `SF-ON` zurück – sowohl bei
   Missionsabschluss als auch bei Abbruch (`logs.flags.last_mission_end_reason`).
-  Der Boss-DR-Toast staffelt sich nach Teamgröße (Solo/Duo = 1, 3–4 = 2, 5–6 =
-  3/4 optional) und nutzt den gleichen Wert im HUD und Debrief.
+  Der Boss-DR-Toast staffelt sich nach Teamgröße (Solo/Duo = 1, 3–4 = 2,
+  Teamgröße 5 = 3 (Mini) bzw. 4 (Arc/Rift)) und nutzt den gleichen Wert im HUD
+  und Debrief.
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
   zurücksetzt; `set_self_reflection(enabled: boolean)` schreibt parallel `logs.flags.self_reflection`
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert

@@ -476,7 +476,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `active`-Flag vergessen; setzt den Queue-State bei PvP-Handshakes daher
   explizit.
   Arena-States führen `queue_state=idle|searching|matched|staging|active|completed`
-  und `zone=safe|combat`; Teamgrößen werden hart auf 0–4 geklemmt. Phase-Strike-
+  und `zone=safe|combat`; Teamgrößen werden hart auf 1–5 geklemmt. Phase-Strike-
   Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
   `arena_phase_strike`), nicht im regulären `logs.psi[]`.
 
@@ -2657,13 +2657,15 @@ gewähren nach dem Sieg über das Paramonster einen zusätzlichen Artefaktwurf
 (`1W6`, nur bei `6`).
 
 {% macro boss_dr_for_team_size(team_size, tier='arc') -%}
-  {% set size = [team_size|int, 4]|min %}
+  {% set size = [team_size|int, 5]|min %}
   {% if size <= 0 %}
     {{ 0 }}
   {% elif size <= 2 %}
     {{ 1 if tier == 'mini' else 2 }}
-  {% else %}
+  {% elif size <= 4 %}
     {{ 2 if tier == 'mini' else 3 }}
+  {% else %}
+    {{ 3 if tier == 'mini' else 4 }}
   {% endif %}
 {%- endmacro %}
 
@@ -2676,7 +2678,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 {% if campaign.boss_history is none %}{% set campaign.boss_history = [] %}{% endif %}
 {% if campaign.boss_pool_usage is none %}{% set campaign.boss_pool_usage = {} %}{% endif %}
 {% set campaign.boss_dr = 0 %}
-{% set team_size = campaign.team_size|default(4) %}
+{% set team_size = campaign.team_size|default(5) %}
 {% if campaign.team is defined and campaign.team.members is defined %}
     {% set member_count = campaign.team.members|length %}
     {% if member_count > 0 %}
@@ -3044,8 +3046,8 @@ ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetzt
      `campaign.mode = 'preserve'`.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
-   - `npc-team`: Teamgröße 0–4 (Gesamtteam inkl. Spieler); bei Fehler →
-     „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+   - `npc-team`: NPC‑Begleiter 0–4 (Team gesamt 1–5); bei Fehler →
+     „NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).“
     Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
     `NPC-Autoradio aktiv (…× Squad)`.
    - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.
@@ -3710,7 +3712,7 @@ Protokolliert technische Lösungen und erhöht bei Wiederholung die SG.
 {% if campaign.tech_sg is not defined %}{% set campaign.tech_sg = 0 %}{% endif %}
 {% if campaign.tech_steps is not defined %}{% set campaign.tech_steps = 0 %}{% endif %}
 {% if campaign.complication_done is not defined %}{% set campaign.complication_done = false %}{% endif %}
-{% set team_size = campaign.team_size|default(4) %}
+{% set team_size = campaign.team_size|default(5) %}
 {% if team_size <= 1 %}
   {% set tech_threshold = 1 %}
 {% elif team_size <= 2 %}
@@ -3912,7 +3914,7 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   {% if campaign.team_size is defined %}
     {% set team_size = campaign.team_size %}
   {% else %}
-    {% set team_size = 4 %}
+    {% set team_size = 5 %}
   {% endif %}
   {% set team_size = team_size|int %}
   {% set large_team = team_size >= 3 %}

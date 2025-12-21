@@ -395,10 +395,10 @@ Pflicht-Schadensreduktion. Der Wert richtet sich nach der Teamgröße:
 | --------- | ------------ | ----------------- |
 | 1–2       | 1            | 2                 |
 | 3–4       | 2            | 3                 |
+| 5         | 3            | 4                 |
 
-Teamgrößen sind kampagnenweit auf 0–4 gedeckelt – auch in der Arena. Ältere
-Saves mit größeren Teams werden beim Laden auf 4 reduziert, Hard-Mode-DR für
-Teams 5–6 entfällt damit.
+Teamgrößen sind kampagnenweit auf 1–5 gedeckelt – auch in der Arena. Ältere
+Saves mit größeren Teams werden beim Laden auf 5 reduziert.
 
 Der HUD-Hinweis „Boss-DR aktiviert – −X Schaden pro Treffer“ nutzt diesen Wert
 und kappen Exploding-Overflow konsequent. `campaign.team_size` übernimmt der

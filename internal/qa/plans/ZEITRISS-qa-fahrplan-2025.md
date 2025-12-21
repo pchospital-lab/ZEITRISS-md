@@ -635,7 +635,8 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 - Mission 5 Badge-Check: Start mit `!sf off`, HUD `GATE 2/2 · FS 0/4 · SF-OFF`, Boss-DR-Toast in
   Szene 10, Auto-Reset auf SF-ON bei Abort/Complete, Log-Feld
   `self_reflection_auto_reset_reason` gesetzt.
-- Smoke #8 SaveGuard: HQ-only-Toast vs. Mission/Exfil/Arena-Blocker, Snapshot-Toleranz prüfen.
+- Smoke #8 SaveGuard: „Speichern nur im HQ“-Toast vs. Mission/Exfil/Arena-Blocker,
+  Snapshot-Toleranz prüfen.
 - Smoke #9 Gear-Alias: Command „Multi-Tool-Armband ausrüsten“ mappt still auf Handschuh, optional
   `logs.alias_trace[]`/`logs.hud[]`.
 - Dispatcher-Smoke #4/#6: Startoptionen `npc-team 5` bzw. `gruppe 3` ohne Markdown, Strings
@@ -652,11 +653,11 @@ liefert aber Präzisierungen zu Teamgröße, Rift-Zusammenwurf, Seed-Gating, Px-
 Konnektivität. Die Punkte sind als nächste Umsetzungswelle zu planen; Priorität hat die
 Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapshots.
 
-1. **Issue #1 – Teamgröße kanonisch auf 5 festziehen (1 Spieler + 4 NPCs/Spieler) (🟡 offen)**  
+1. **Issue #1 – Teamgröße kanonisch auf 5 festziehen (1 Spieler + 4 NPCs/Spieler) (✅ erledigt)**  
    Zielbild: aktive Party **1–5** (Standard = 5). `npc-team N` steht für **NPC-Begleiter 0–4**,
    effektive Party = 1+N, Clamp auf 5. `arena.team_size` und Start-Dispatcher prüfen
    (1–5, 0 nur Legacy → clamp auf 1). Veraltete 0–4/5–6-Angaben entfernen.
-2. **Issue #2 – SaveGuard-Blocker-String konsolidieren (🟡 offen)**  
+2. **Issue #2 – SaveGuard-Blocker-String konsolidieren (✅ erledigt)**  
    Ein kanonischer User-Text („Speichern nur im HQ…“) plus `logs.trace[]`-Guard-Reason
    (`save_blocked`, `reason=hq_only`) für QA. README/Acceptance auf dieselbe Phrase trimmen.
 3. **Issue #3 – `!load` ohne Einstiegsauswahl (🟡 offen)**  
@@ -854,8 +855,8 @@ nachgewiesenen Fixes für Folgeaudits.
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
 | #1 | Acceptance-Smoke Dispatcher-Strings angleichen | QA-Briefing/Runner auf kanonische Fehlertexte (`npc-team 5`, `gruppe 3`) und Gruppen-Flow („2 Saves + 1 Rolle“ klar definieren) trimmen; Strings optional zentralisieren oder Tests auf contains/startsWith umstellen. | ✅ erledigt |
 | #2 | SaveGuard-Pflichtfelder vs. Prompt | Pflichtcontainer-Liste (inkl. `logs.trace`, `logs.arena_psi`, `logs.flags.merge_conflicts`) im QA-Prompt spiegeln; optional `required_containers` aus Schema exportieren und Negativtest „fehlendes logs.trace“ ergänzen. | ✅ erledigt |
-| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`SaveGuard: HQ-only/Exfil aktiv/Arena aktiv/SYS nicht voll installiert`) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. | ✅ erledigt |
-| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 0–4 hart clampen (Load/ArenaStart), DR-Tabelle >4 entfernen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. | ✅ erledigt |
+| #3 | SaveGuard-Texte vereinheitlichen | Kanonische Guard-Matrix (`Speichern nur im HQ…`/Exfil/Arena/SYS nicht voll installiert) definieren und README/Save-Modul/Toolkit/Snapshots synchronisieren. | ✅ erledigt |
+| #4 | Boss-DR & Teamgröße clampen | Teamgröße auf 1–5 hart clampen (Load/ArenaStart), DR-Tabelle anpassen; Legacy-Saves loggen Migration/Conflict. HUD/Toolkit-DR-Else-Branch streichen. | ✅ erledigt |
 | #5 | Px-Reset & Seed-Gating präzisieren | Terminologie „Episode“ durchgängig nutzen, Reset beim Debrief→HQ mit `px_reset_pending/confirm`; Seeds erst nach Episodenende spielbar, Reset-Flags und Logs setzen. | ✅ erledigt |
 | #6 | Chronopolis-Gate vs. Pre-City | QA-Plan splitten: Frühphase testet Pre-City-Hub (Werkstatt/Archiv) ohne Vollstadt; ab Level 10 Chronopolis/Fraktionen. Toast/Log `chronopolis_unlock_level=10` ergänzen. | ✅ erledigt |
 | #7 | Arena Queue-/Zone-State vertraglich fixen | `arena.queue_state` Enum (`idle|searching|matched|staging|active|completed`) + optional `arena.zone` (`safe|combat`) definieren; HUD/Logs/Save spiegeln, Acceptance-Check für Queue-Transitions + SaveGuard während `arena.phase=active`. | ✅ erledigt |
