@@ -120,39 +120,100 @@ Alle Varianten balancieren ihre Boni und Mali aus.
 
 ### Quick-Build für One-Shots
 
-- Verteilt insgesamt **8 Punkte** frei auf eure Attribute
-- Wählt zwei Talente aus der Liste
-- Markiert ein Standard-Loadout
-- Lasst den Ruf zunächst bei 0
+- Wählt ein Preset aus den Schnellstart-Chrononauten oder Start-Archetypen.
+- Passt Namen, Callsign und Hintergrund an.
+- Legt die Spezies fest und übernehmt die Rassenmods.
+- Übernehmt Talente sowie Cyber-/Bioware samt SYS-Last aus dem Preset.
+- Markiert ein Standard-Loadout und startet mit Ruf 0.
+- Psi ist optional: Aktiviert `has_psi`, wenn das Preset ein Psi-Modul trägt.
 
 ### Schnellstart-Chrononauten
 
 Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passender Ausrüstung.
 
-1. **"Ghost" – Infiltration Specialist**
-    - Attribute (3/5/4/3/3/2) | Schlüssel­skills: Schleichen 4, Elektronik 3
-    - Cyberware: Retina‑Filmraster, Fingernagel‑Picks
-    - Unique Gear: Chamäleon‑Overall (Stealth‑Vorteil +1)
+#### "Ghost" – Infiltration Specialist
 
-2. **"Kernel" – Tech & Drone Handler**
-    - Attribute (2/3/5/3/3/4) | Skills: Systemzugriff 4, Hardware 3
-    - Bioware: Neuro‑Link‑Socket
-    - Unique Gear: Falt‑Nanodrohne *“Pixie”* (Sensor + Mini‑Arm)
+- **Rasse:** Homo floresiensis
+- **Attribute (final):** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3 – schnell,
+  leise, robust genug für nächtliche Einsätze.
+- **Talente:** _Schleichprofi_, _Akrobat_, _Schattenprofil_.
+- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1).
+  **SYS-Last:** 2/3.
+- **Unique Gear:** Chamäleon‑Overall (Stealth‑Vorteil +1).
 
-3. **"Wildcard" – Face / Social Ops**
-    - Attribute (2/3/3/5/4/2) | Skills: Verhandeln 4, Verkleiden 3
-    - Cyberware: Stimm‑Modulator, Daten‑Tattoos
-      - Unique Gear: Wegwerf‑DNA‑Spray (−1 Px für kurze Verkleidung)
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 3, GES 3, INT 4, CHA 3, TEMP 2, SYS 3
+- **Rassenmods:** STR −2, GES +2
+- **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
+- **Talente:** Schleichprofi; Akrobat; Schattenprofil
+- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1). **SYS-Last:** 2/3
 
-4. **"Ricochet" – Close-Quarters Shooter**
-    - Attribute (5/4/3/2/3/3) | Skills: Schusswaffen 4, Taktik 2
-    - Cyberware: Sub‑Derm‑Kevlar (1 Schaden ignorieren / Szene)
-    - Unique Gear: Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden)
+#### "Kernel" – Tech & Drone Handler
 
-5. **"Focus" – Psi-Assault**
-    - Attribute (3/3/3/2/5/4) | Skills: Psi‑Kraft 4, Meditation 3
-    - Psi‑Modul: Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.)
-    - Unique Gear: Kaltes Gestell (−1 Heat während Tragezeit)
+- **Rasse:** Denisova‑Mensch
+- **Attribute (final):** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3 – Tech- und
+  Drohnenspezialistin mit hoher temporaler Sensibilität.
+- **Talente:** _Techno‑Mancer_, _Drohnensteuerung_, _Systemanalyst_.
+- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1).
+  **SYS-Last:** 2/3.
+- **Unique Gear:** Falt‑Nanodrohne _„Pixie“_ (Sensor + Mini‑Arm).
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 1, GES 3, INT 5, CHA 3, TEMP 3, SYS 3
+- **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
+- **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3
+- **Talente:** Techno‑Mancer; Drohnensteuerung; Systemanalyst
+- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1). **SYS-Last:** 2/3
+
+#### "Wildcard" – Face / Social Ops
+
+- **Rasse:** Homo sapiens novus
+- **Attribute (final):** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2 – soziale
+  Dominanz und ruhige Präsenz.
+- **Talente:** _Diplomatin_, _Menschenkenntnis_, _Verkleidungskünstler_.
+- **Cyber-/Bioware:** Stimm‑Modulator (SYS 1), Daten‑Tattoos (SYS 1).
+  **SYS-Last:** 2/2.
+- **Unique Gear:** Tarnspray (eine Szene Verkleidung ohne Aufsehen).
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 4, TEMP 2, SYS 3
+- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Finale Attribute:** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2
+- **Talente:** Diplomatin; Menschenkenntnis; Verkleidungskünstler
+- **Cyber-/Bioware:** Stimm‑Modulator (SYS 1), Daten‑Tattoos (SYS 1). **SYS-Last:** 2/2
+
+#### "Ricochet" – Close-Quarters Shooter
+
+- **Rasse:** Homo neanderthalensis
+- **Attribute (final):** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2 – brachiale
+  Kraft, schnelle Reaktion, kurze Wege.
+- **Talente:** _Waffenmeister_, _CQB‑Spezialist_, _Schmerzresistenz_.
+- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 1/2.
+- **Unique Gear:** Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden).
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
+- **Rassenmods:** STR +2, INT −1, CHA −1
+- **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
+- **Talente:** Waffenmeister; CQB‑Spezialist; Schmerzresistenz
+- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 1/2
+
+#### "Focus" – Psi-Assault
+
+- **Rasse:** Homo sapiens novus
+- **Attribute (final):** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2 – Psi-Fokus,
+  klare Konzentration, geringe körperliche Reserven.
+- **Talente:** _Psi‑Kontrolle_, _Meditation_, _Fokusfeuer_.
+- **Cyber-/Bioware:** keine. **SYS-Last:** 0/2.
+- **Psi‑Modul:** Telekinese‑Mk II (Reichweite 10 m, Heat +1/Ben.).
+- **Unique Gear:** Kaltes Gestell (−1 Heat während Tragezeit).
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 2, GES 3, INT 3, CHA 3, TEMP 4, SYS 3
+- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Finale Attribute:** STR 1, GES 2, INT 4, CHA 4, TEMP 5, SYS 2
+- **Talente:** Psi‑Kontrolle; Meditation; Fokusfeuer
+- **Cyber-/Bioware:** keine. **SYS-Last:** 0/2
 
 ## Schritt-für-Schritt zur Charaktererschaffung
 
@@ -206,8 +267,8 @@ freigeschaltet.
     Kein Startwert sollte normalerweise über **5** liegen oder unter **1** fallen. Die Beispiel-
     Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
-    STR 5 und GES 4, während z.B. CHA 3 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
-    hingegen hat INT 5 und CHA 5 als Stärken, dafür nur STR 2.)_ Nachdem ihr die Zahlen verteilt habt,
+    STR 5 und GES 4, während z.B. CHA 2 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
+    hingegen hat INT 5 und CHA 4 als Stärken, dafür nur STR 1.)_ Nachdem ihr die Zahlen verteilt habt,
     könnt ihr mit der Spielleitung abstimmen, ob das Profil stimmig und ausgeglichen wirkt. Die KI
     könnte an dieser Stelle z.B. kommentieren: _„Kodex evaluiert die Eingaben... Die Attributswerte
     liegen im üblichen Bereich für neue Agenten.“\*
@@ -258,8 +319,8 @@ freigeschaltet.
     die zum Konzept passen: Ein Scharfschütze könnte ein Zielvisier-Implantat im Auge haben, ein Agent
     aus der Zukunft vielleicht einen Datenlink. Beispiele: Dr. Weber trägt einen **Neuro-Translator**
     (Sprachchip, Kosten 1) sowie ein **kognitives Enhancement** (Gedächtnischip, Kosten 1) und nutzt
-    damit 2 von ihren 3 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface und eine AR-
-    Kontaktlinse (je 1 SYS, zusammen 2 von 5 Punkten). Ihr könnt Implantate aus den Archetypen
+    damit 2 von ihren 2 SYS-Punkten. Tech-Operative Mira hat ein **Neuro-Link**-Interface und eine AR-
+    Kontaktlinse (je 1 SYS, zusammen 2 von 2 Punkten). Ihr könnt Implantate aus den Archetypen
     übernehmen oder eigene erfinden – stimmt euch mit der SL ab, was plausibel ist. Die Installation
     dieser Mods kann Teil eurer Hintergrundstory sein (_„In Miras Zeit sind Neuro-Links Standard, daher
     startet sie damit“_) oder wird vom ITI vor der ersten Mission vorgenommen (cineastisch etwa als
@@ -404,9 +465,18 @@ zwischenzuspeichern, bevor sie in den Einsatz gehen.
 Der Rekrut **Jonas Richter** dient als Musterfigur, um Neulingen den Ablauf zu
 zeigen:
 
-1. **Attribute:** STR 3, GES 3, INT 3, CHA 2, TEMP 2, SYS 2.
-2. **Talente:** _Soldat_ (+1 auf Waffennutzung), _Erste Hilfe_.
-3. **Ausrüstung:** Standard-Zeitreiseanzug, leichte Pistole, 1 Medkit.
+1. **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3.
+2. **Rasse:** Homo sapiens sapiens (keine Modifikatoren).
+3. **Talente:** _Soldat_, _Erste Hilfe_, _Zähigkeit_.
+4. **Cyber-/Bioware:** keine. **SYS-Last:** 0/3.
+5. **Ausrüstung:** Standard-Zeitreiseanzug, leichte Pistole, 1 Medkit.
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
+- **Rassenmods:** keine
+- **Finale Attribute:** STR 3, GES 3, INT 3, CHA 3, TEMP 3, SYS 3
+- **Talente:** Soldat; Erste Hilfe; Zähigkeit
+- **Cyber-/Bioware:** keine. **SYS-Last:** 0/3
 
 Mit diesen Werten gelingt Jonas bei einem durchschnittlichen SG 7 ungefähr
 jede zweite Probe. Er eignet sich bestens, um die Regeln zu testen, ohne die
@@ -435,7 +505,7 @@ Charakter besonders fördern kann.)
 _„Geschichte ist Verhandlung – und ich kenne beides.“_ – Dr. Weber ist eine belesene Historikerin
 und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen verbinden kann.
 
-- **Attribute:** STR 2, GES 3, INT 5, CHA 5, TEMP 4, SYS 3 – Physisch unscheinbar, aber brillant und
+- **Attribute:** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2 – Physisch unscheinbar, aber brillant und
   charismatisch; zudem hohe temporale Affinität durch viel Zeitlinien-Studium. (Ihre herausragende
   Intelligenz und Ausstrahlung machen sie zur geborenen Diplomatin, körperlich ist sie jedoch eher
   schwach.)
@@ -448,7 +518,14 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   Sprechen nahezu jeder Sprache in Echtzeit – ideal für Erstkontakte in fremden Zeiten, Kosten 1 SYS)
   und _Kognitives Enhancement Stufe 1_ (kleiner Hirnchip zur Verbesserung des Erinnerungsvermögens, +1
   auf Wissensproben – bereits in obigem INT-Wert berücksichtigt, Kosten 1 SYS). Beide Implantate
-  zusammen belegen 2 von 3 SYS.
+  zusammen belegen 2 von 2 SYS.
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
+- **Rassenmods:** keine
+- **Finale Attribute:** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
+- **Talente:** Polyglott; Historisches Wissen; Diplomatin
+- **Cyber-/Bioware:** Neuro-Translator (SYS 1), Kognitives Enhancement Stufe 1 (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** Eleganter ITI-Zeitreiseanzug (schicker Hosenanzug-Stil, mit versteckter Panzer-
   Schicht – reduziert physischen Schaden um 1), ein nicht-tödlicher Elektroschocker zur
   Selbstverteidigung, ein _digitales Universal-Handbuch_ (Tablet mit Zugriff auf historische
@@ -475,9 +552,9 @@ _„Kein System bleibt lange verborgen – besonders nicht, wenn es aus dem letz
 stammt aus der Zukunft und ist eine Genielektronikerin. Sie verschafft sich Systemzugriff in allen
 Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 
-- **Attribute:** STR 2, GES 4, INT 5, CHA 2, TEMP 3, SYS 5 – Herausragende Intelligenz und
-  Systemaffinität; flinke Finger; körperlich schwach und sozial unbeholfen. Der hohe SYS-Wert spiegelt
-  wider, dass sie etliche Cyber-Devices in sich trägt.
+- **Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2 – Hohe technische Kompetenz und
+  Systemaffinität; flinke Finger; körperlich schwach und sozial zurückhaltend. Mira trägt nur wenige,
+  aber präzise abgestimmte Cyber-Devices.
 - **Talente:** _Techno-Mancer_ (+2 auf Systemzugriff/Analyse – Mira erarbeitet Zugang zu
   Computersystemen aller Zeiten, als wären sie Spielzeug), _Drohnensteuerung_ (kann mehrere Drohnen simultan
   kontrollieren; automatischer Erfolg bei einfachen Drohnen-Manövern, +2 auf komplexe Aktionen mit
@@ -487,9 +564,16 @@ Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 - **Implantate:** _Neuro-Link_ (Gehirnimplantat als direkte Schnittstelle zu Computern – ermöglicht
   Gedankensteuerung von Geräten und Systemzugriff ohne physische Eingabe) und _AR-Linse_ (augmentierte
   Kontaktlinse im linken Auge, blendet digitale Infos ins Sichtfeld ein – z.B. technische Daten über
-  anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 SYS.
-  Optional besitzt Mira noch einen _Nano-Firewall-Chip_ (implantierte Abwehr gegen feindliche Zugriffsversuche
-  auf ihre Cyberware, würde weitere SYS kosten).
+  anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 von 2 SYS.
+  Optional besitzt Mira noch einen _Nano-Firewall-Chip_ (implantierte Abwehr gegen feindliche
+  Zugriffsversuche auf ihre Cyberware, würde weitere SYS kosten).
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 1, GES 4, INT 5, CHA 3, TEMP 3, SYS 2
+- **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
+- **Finale Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2
+- **Talente:** Techno‑Mancer; Drohnensteuerung; Improvisationsingenieurin
+- **Cyber-/Bioware:** Neuro-Link (SYS 1), AR-Linse (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** Tragbares Zugriffsmodul (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
   Quanten-Algorithmen zum schnellen Überwinden von Sicherheitsroutinen), eine kleine Aufklärungsdrohne namens
   _„Sperling“_ (handtellergroß, leise fliegend, mit Kamera – Reichweite ~100 m), ein Multi-Tool-
@@ -518,7 +602,7 @@ _„Zeit zu kämpfen – egal in welcher Epoche.“_ – Nikolai ist ein kampfer
 Zeitreise-Einsatz als Schlacht betrachtet, die es zu gewinnen gilt. Er dient als Beschützer des
 Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 
-- **Attribute:** STR 5, GES 4, INT 3, CHA 3, TEMP 3, SYS 2 – Außergewöhnlich robust und kräftig, mit
+- **Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2 – Außergewöhnlich robust und kräftig, mit
   schnellen Reflexen; Intellekt und Ausstrahlung durchschnittlich; kaum Implantate, da er sich auf
   natürliche Stärke verlässt. Nikolai ist der körperlich Stärkste der Archetypen, ein klassischer
   „Tank“.
@@ -537,6 +621,13 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   Verletzungen). **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde
   kampffähig statt sofort auszufallen; danach kollabiert er. Kosten: 1 SYS. (Dieses Modul hat ihm
   schon mehrmals das Leben gerettet.)
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 3, GES 4, INT 3, CHA 3, TEMP 3, SYS 2
+- **Rassenmods:** STR +2, INT −1, CHA −1
+- **Finale Attribute:** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2
+- **Talente:** Waffenmeister; Taktiker; Schmerzresistenz
+- **Cyber-/Bioware:** Notfall-Stimulanz-Modul (SYS 1). **SYS-Last:** 1/2
 - **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
   Einzelschuss, Salve, Vollauto; Schaden je nach Modus 3–5, mittlere Reichweite), dazu eine **antike
   Nahkampfwaffe** nach Wahl – meist Kampfmesser, manchmal ein Schwert aus dem 13. Jh. (Familienerbstück).
@@ -569,9 +660,9 @@ _„Wenn’s klemmt oder knarzt – ich krieg das schon hin.“_ – Sabine ist 
 Grobe. Sie repariert, modifiziert und bedient jede Maschine, ob Pferdekutsche oder Raumschiff. Und
 wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich.
 
-- **Attribute:** STR 3, GES 4, INT 4, CHA 3, TEMP 2, SYS 4 – Handwerklich geschickt und clever;
-  physisch durchschnittlich fit; geringe temporale Affinität (Sabine ist eher bodenständig im Hier und
-  Jetzt); ein paar nützliche Cyber-Upgrades zur Unterstützung.
+- **Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3 – Handwerklich geschickt und clever;
+  physisch solide und sehr schnell; geringe temporale Affinität (Sabine ist eher bodenständig im Hier
+  und Jetzt); ein paar nützliche Cyber-Upgrades zur Unterstützung.
 - **Talente:** _Mechaniker-Meisterin_ (+2 auf Reparatur- und Konstruktion-Proben für Fahrzeuge,
   Geräte und Maschinen aller Epochen – Sabine kriegt eine Dampflok genauso flott wie ein Hoverbike),
   _Sprengstoffexperte_ (versiert im Umgang mit Explosionen: +2 auf alle Proben mit Sprengstoffen;
@@ -584,7 +675,14 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
   optimaler Routen- und Warnhinweise), sowie eine _Nano-Werkzeugkolonie_ (winzige Naniten im Unterarm,
   die auf Befehl ein „Werkzeug“ an der Handfläche formen – Sabine hat somit eingebaute Werkzeuge zum
   Schrauben, Löten etc.; erlaubt Reparaturen, ohne extra Tool mitzunehmen, Kosten 1 SYS). Beide
-  Implantate zusammen belegen 2 von 4 SYS.
+  Implantate zusammen belegen 2 von 3 SYS.
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 4, GES 3, INT 4, CHA 2, TEMP 2, SYS 3
+- **Rassenmods:** STR −2, GES +2
+- **Finale Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3
+- **Talente:** Mechaniker-Meisterin; Sprengstoffexperte; Fahrzeugprofi
+- **Cyber-/Bioware:** Ocular-HUD (SYS 1), Nano-Werkzeugkolonie (SYS 1). **SYS-Last:** 2/3
 - **Ausrüstung:** Gefüllte **Werkzeugtasche** (Schraubenschlüssel, Hammer, altmodische und
   futuristische Tools – alles, um im Feld zu improvisieren), ein tragbarer **Allzweck-Scanner**
   (analysert Materialstrukturen, ortet Energiesignaturen – hilft, versteckte Mechanismen aufzuspüren
@@ -617,10 +715,10 @@ _„Die Zeitlinie ist ein Puzzle – lasst es uns zusammensetzen. Und bleibt dab
 Dr. Richter ist zugleich Feldarzt und wissenschaftliches Gehirn des Teams. Er sucht nach Erklärungen
 für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
 
-- **Attribute:** STR 3, GES 3, INT 5, CHA 4, TEMP 5, SYS 3 – Hochgebildet und analytisch stark, mit
-  ausgeprägtem Charisma und temporaler Sensibilität; empathisch und ausdrucksfähig; körperlich
-  mittelmäßig fit; moderater Implantateinsatz. Seine extrem hohe TEMP-Affinität ist selten und macht
-  ihn besonders sensitiv für Zeit-Anomalien.
+- **Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 5, SYS 2 – Hochgebildet und analytisch stark, mit
+  ausgeprägter temporaler Sensibilität; empathisch und ausdrucksfähig; körperlich solide; moderater
+  Implantateinsatz. Seine hohe TEMP-Affinität ist selten und macht ihn besonders sensitiv für
+  Zeit-Anomalien.
 - **Talente:** _Arzt der Zeiten_ (umfassende medizinische Kenntnisse von antiker Kräuterheilung bis
   Nano-Medizin: +2 auf Heilungs- und Diagnose-Proben; kann mit Ausrüstung Verwundete schneller
   stabilisieren und kritische Verletzungen behandeln), _Analytiker_ (scharfer Verstand für Muster: +2
@@ -634,7 +732,14 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   temporale Felder – quasi ein eingebauter Paradoxon-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
   auftreten, gibt Vorwarnung bei steigendem Paradoxon-Index) – Kosten 1 SYS. Außerdem ein _medizinisches
   HUD_ als Kontaktlinse, das Vitalwerte von Personen im Blickfeld anzeigt (erleichtert Diagnose, +1
-  auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/3 SYS.
+  auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/2 SYS.
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 2, GES 2, INT 5, CHA 3, TEMP 5, SYS 1
+- **Rassenmods:** GES +1, SYS +1, CHA −1, INT −1
+- **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 5, SYS 2
+- **Talente:** Arzt der Zeiten; Analytiker; Temporallogiker
+- **Cyber-/Bioware:** Chrono-Sensorik-Modul (SYS 1), medizinisches HUD (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** **Mobiles Medikit** (Spritzen, Verbände, Mini-Defibrillator, Schmerzmittel,
   futuristische Wundheilungs-Sprays – alles Nötige, um Verletzte im Feld zu stabilisieren und
   versorgen), **Analyse-Kit** (tragbares Labor mit Reagenzgläsern, Mini-Mikroskop, Chemie-
@@ -666,10 +771,10 @@ _„Aus den Schatten heraus lässt sich Geschichte am effektivsten verändern.�
 der Täuschung, Infiltration und lautlosen Eliminierung. Er beschafft Informationen oder schaltet
 Ziele aus, ohne dass jemand merkt, dass er da war.
 
-- **Attribute:** STR 2, GES 5, INT 4, CHA 4, TEMP 3, SYS 4 – Sehr agil und reaktionsschnell, dazu
-  scharfsinnig und sozial gewieft; körperlich nicht sehr stark; einige Spezial-Implantate zur
-  Unterstützung; temporale Affinität durchschnittlich. Er ist der klassische Rogue-Typus: flink,
-  clever, charismatisch.
+- **Attribute:** STR 1, GES 4, INT 4, CHA 4, TEMP 3, SYS 2 – Sehr agil und reaktionsschnell, dazu
+  scharfsinnig und sozial gewieft; körperlich nicht sehr stark; gezielte Spezial-Implantate zur
+  Unterstützung; temporale Affinität solide. Er ist der klassische Rogue-Typus: flink, clever,
+  charismatisch.
 - **Talente:** _Schleichprofi_ (+2 auf Schleichen und Diebstahl – ob er durch mittelalterliche
   Burghallen huscht oder eine Laser-Alarmanlage umgeht, Henry bewegt sich wie ein Schatten),
   _Verkleidungskünstler_ (Talent zur Identitätsannahme: mit passender Kleidung und Akzent imitiert er
@@ -684,7 +789,14 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   jemand anders aufzutreten; verleiht +2 auf Täuschungsversuche, die die Stimme betreffen), sowie ein
   internes _Bypass-Set in der Fingerkuppe_ (kleine ausfahrbare Öffnungswerkzeuge in zwei
   Fingern – er benötigt keine externen Tools mehr, um mechanische Sicherungen zu überwinden; Kosten 1 SYS).
-  Zusammen beanspruchen diese Mods 2/4 SYS.
+  Zusammen beanspruchen diese Mods 2/2 SYS.
+
+**Preset-Check (Editor)**
+- **Basiswerte (18):** STR 2, GES 5, INT 3, CHA 3, TEMP 2, SYS 3
+- **Rassenmods:** STR −1, GES −1, INT +1, CHA +1, TEMP +1, SYS −1
+- **Finale Attribute:** STR 1, GES 4, INT 4, CHA 4, TEMP 3, SYS 2
+- **Talente:** Schleichprofi; Verkleidungskünstler; Lautlose Klinge
+- **Cyber-/Bioware:** Stimm-Modulator (SYS 1), Bypass-Set (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** **Identitäten-Set** (Sammlung falscher Papiere, Ausweise, Siegelringe etc. aus
   verschiedenen Epochen – so kann Henry sich im Handumdrehen als jemand ausgeben, z.B. als Offizier
   mit gefälschtem Befehl, als Mönch mit passendem Abzeichen). Sein ITI-Einsatzanzug verfügt über
@@ -984,14 +1096,14 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 
 ### Pregens {#pregens}
 
-| Name | Rolle | Rasse | STR/GES/INT/CHA/TEMP/SYS | Rassenmods |
-| --- | --- | --- | --- | --- |
-| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 2/3/5/5/4/3 | keine |
-| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch | 2/4/5/2/3/5 | STR+1 TEMP+1 CHA−1 INT−1 |
-| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 5/4/3/3/3/2 | STR+2 INT−1 CHA−1 |
-| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 3/4/4/3/2/4 | GES+2 STR−2 |
-| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 3/3/5/4/5/3 | GES+1 SYS+1 CHA−1 INT−1 |
-| Henry Walsh | Undercover-Spion | Homo sapiens novus | 2/5/4/4/3/4 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 |
+| Name | Rolle | Rasse | Basiswerte (18) | Rassenmods | Finale Attribute | SYS-Last |
+| --- | --- | --- | --- | --- | --- | --- |
+| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
+| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
+| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 1/2 |
+| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 2/3 |
+| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 2/2/5/3/5/1 | GES+1 SYS+1 CHA−1 INT−1 | 2/3/4/2/5/2 | 2/2 |
+| Henry Walsh | Undercover-Spion | Homo sapiens novus | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.

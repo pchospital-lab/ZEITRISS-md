@@ -1,10 +1,34 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.15
+version: 0.4.16
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-07-02 – Repo-Agent – Chrononauten-Presets 2026-07 (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Charaktererschaffung 4.2.3, QA-Fahrplan 1.13.22
+- Auftrag: Presets editor-konform machen, Validator ergänzen, QA-Sync.
+
+```chatlog
+09:10 Repo-Agent: `make lint`
+09:45 Repo-Agent: `make test`
+10:20 Repo-Agent: `bash scripts/smoke.sh`
+10:28 Repo-Agent: `python3 tools/lint_runtime.py`
+10:31 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:34 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:36 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Start-Archetypen, Schnellstart-Presets und Tutorial auf 18-Punkte-Schema
+      mit Rassenmods, Talenten und SYS-Last umgestellt.
+- [x] Quick-Build auf Preset-Auswahl gedreht; Unique-Gear ohne Px-Drift.
+- [x] Preset-Validator ergänzt und in `make lint` eingebunden.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.22: Chrononauten-Presets 2026-07 abgeschlossen.
 
 ## 2026-05-11 – Repo-Agent – Gameflow-Schema-Format & Fahrplan-Sync (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

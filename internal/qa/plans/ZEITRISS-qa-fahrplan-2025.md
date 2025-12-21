@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.21
+version: 1.13.22
 tags: [meta]
 ---
 
@@ -954,7 +954,19 @@ Legacy-Regeln oder Skill-Sidepaths.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | 🗓️ geplant |
-| #2 | Schnellstart & Quick-Build editor-konform machen | `characters/charaktererschaffung.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar. | 🗓️ geplant |
-| #3 | Tutorial-Charakter Jonas editorfähig machen | `characters/charaktererschaffung.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen. | 🗓️ geplant |
-| #4 | Preset-Validator gegen Drift | Tooling-Check aufsetzen (`tools/validate_presets.*` oder Parser):<br>prüft Presets auf 6 Attribute, Summe=18 (vor Mods), Start-Caps,<br>**Rassenmods**, **Talente**, **Cyber-/Bioware** inkl. SYS-Budget. Optional<br>strukturierte Preset-Quelle (JSON/YAML) definieren und Doku daraus<br>generieren. QA: Validator rot → nach Fix grün; Pflichtlauf im QA-Paket<br>dokumentieren. | 🗓️ geplant |
+| #1 | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | ✅ erledigt |
+| #2 | Schnellstart & Quick-Build editor-konform machen | `characters/charaktererschaffung.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar. | ✅ erledigt |
+| #3 | Tutorial-Charakter Jonas editorfähig machen | `characters/charaktererschaffung.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen. | ✅ erledigt |
+| #4 | Preset-Validator gegen Drift | Tooling-Check aufsetzen (`tools/validate_presets.*` oder Parser):<br>prüft Presets auf 6 Attribute, Summe=18 (vor Mods), Start-Caps,<br>**Rassenmods**, **Talente**, **Cyber-/Bioware** inkl. SYS-Budget. Optional<br>strukturierte Preset-Quelle (JSON/YAML) definieren und Doku daraus<br>generieren. QA: Validator rot → nach Fix grün; Pflichtlauf im QA-Paket<br>dokumentieren. | ✅ erledigt |
+
+**Umsetzungsstand 2026-07**
+
+- ✅ `characters/charaktererschaffung.md` auf Editor-Basiswerte (18 Punkte)
+  umgestellt: Start-Archetypen, Schnellstart-Chrononauten, Pregens und
+  Tutorial-Preset spiegeln Rassenmods, Talente sowie SYS-Last der
+  Cyber-/Bioware.
+- ✅ Quick-Build und Schnellstart-Formate auf Preset-Auswahl gedreht; Skills
+  in Talente übersetzt, Psi-Option als Toggle markiert, Unique-Gear ohne
+  direkte Px-Manipulation.
+- ✅ Preset-Validator `tools/validate_presets.py` prüft Attribute, Mods,
+  Talente und SYS-Budget; `make lint` führt den Check aus.
