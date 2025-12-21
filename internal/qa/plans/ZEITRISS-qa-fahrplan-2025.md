@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.22
+version: 1.13.23
 tags: [meta]
 ---
 
@@ -988,3 +988,18 @@ Arena-Outputs **physisch** wirken, ohne Digitalraum-Vibe.
 | #7 | Feedback-Intensität als Kalibrierung | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen. | 🟡 umgesetzt, QA offen |
 | #8 | Shared-Overlay Lore | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben. | 🟡 umgesetzt, QA offen |
 | #9 | Dämpfer diegetisch erklären | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich. | 🟡 umgesetzt, QA offen |
+
+## Maßnahmenpaket Spielstart & Charaktererschaffung 2026-09 (Issues #1–#6)
+
+Dieses Paket fasst den Feinschliff für Spielstart, Herkunftslogik und
+Charakterdossier zusammen. Ziel ist ein runderer Einstieg mit klaren Defaults,
+Origin-Block und Echo-Talent, ohne das Spieldesign zu verändern.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
+| #1 | Start-Defaults ohne Spielerzahl-Fragen | `README.md` und `systems/toolkit-gpt-spielleiter.md`: `solo` setzt Ansprache **Du** und `player_count = 1`, keine Nachfrage; `gruppe` nutzt **Ihr**, Spielerzahl wird im Charakterbau mitgezählt. Modusfrage nur, wenn `klassisch|schnell` fehlt. | ✅ abgeschlossen |
+| #2 | `npc-team`-Semantik klären | `README.md` und Toolkit: `npc-team N` = Gesamtteamgröße inkl. Spieler (0–4). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen. | ✅ abgeschlossen |
+| #3 | Origin-Block vor der Statistik | `characters/charaktererschaffung.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`. | ✅ abgeschlossen |
+| #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
+| #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
+| #6 | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss. | ✅ abgeschlossen |
