@@ -219,8 +219,11 @@ _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnell
 Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
 
 Nach Compliance-Hinweis und Einleitung fragt das System nach
-_"klassischer Einstieg"_ oder _"Schnelleinstieg"_.
+_"klassischer Einstieg"_ oder _"Schnelleinstieg"_ – es sei denn, der Startbefehl
+enthält den Modus bereits.
 Bei **klassisch** folgt die volle Charaktererschaffung.
+Vor den Werten steht der Origin-Block (Epoche/Beruf/Tod), auf Wunsch mit
+`generate` oder `custom generate`, plus Echo-Talent aus dem früheren Leben.
 Danach wählst du: **HQ-Rundgang mit Kodex** (Tour, HUD, Kodex-Regeln)
 oder **Briefing** (erst dort wird die Mission gezogen).
 Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und kannst
@@ -271,8 +274,8 @@ Die ersten Schritte in unter zwei Minuten:
 
 - `Spiel starten (solo [klassisch|schnell])` – Erschaffung → HQ-Intro → Briefing →
   Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße ·
-  _schnell_: Rolle + Teamgröße
+- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße
+  (Gesamtteam inkl. Spieler) · _schnell_: Rolle + Teamgröße
 - `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves
   posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
@@ -358,11 +361,13 @@ Spiel starten (gruppe schnell)
 
 - **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
   `gruppe` plus die Zusätze `klassisch` oder `schnell`. `npc-team` verlangt eine
-  Zahl `0–4`, `gruppe` ignoriert Zahlen. Ungültige Kombinationen liefern die
-  passenden Fehltexte.
-- **Briefing & Schnellstart.** `Spiel starten (solo)` führt direkt ins Briefing
-  der aktuellen Episode. `klassisch` blendet Auswahlmenüs ein, `schnell`
-  überspringt sie. NPC-Teams werden bei Bedarf automatisch erzeugt und skaliert.
+  Zahl `0–4` (Gesamtteam inkl. Spieler), `gruppe` ignoriert Zahlen. Ungültige
+  Kombinationen liefern die passenden Fehltexte.
+- **Briefing & Schnellstart.** Ohne Modus fragt der Dispatcher einmalig nach
+  „klassisch oder schnell?“. `klassisch` blendet Auswahlmenüs ein, `schnell`
+  überspringt sie. Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
+  Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
+  Bedarf automatisch erzeugt und skaliert.
 - **HQ-Kurzintro (Runtime).** Vier Zeilen, Schlusszeile: „Die Nullzeit kennt
   keinen Countdown. Das ITI schon.“
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
