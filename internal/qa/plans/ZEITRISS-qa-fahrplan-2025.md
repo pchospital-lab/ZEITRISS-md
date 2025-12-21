@@ -645,6 +645,61 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 - Arena: Load resettet auf HQ, Phase-Strike-Tax in `logs.arena_psi[]`, Option für Lobby-Resume
   klären.
 
+## Maßnahmenpaket Tester-Playtest 2025-12-XX (Issues #1–#12, Review-Update)
+
+Der erneute Tester-Lauf (Briefing vollständig, Output gegengeprüft) bestätigt die zwölf Issues,
+liefert aber Präzisierungen zu Teamgröße, Rift-Zusammenwurf, Seed-Gating, Px-Reset und Offline-
+Konnektivität. Die Punkte sind als nächste Umsetzungswelle zu planen; Priorität hat die
+Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapshots.
+
+1. **Issue #1 – Teamgröße kanonisch auf 5 festziehen (1 Spieler + 4 NPCs/Spieler) (🟡 offen)**  
+   Zielbild: aktive Party **1–5** (Standard = 5). `npc-team N` steht für **NPC-Begleiter 0–4**,
+   effektive Party = 1+N, Clamp auf 5. `arena.team_size` und Start-Dispatcher prüfen
+   (1–5, 0 nur Legacy → clamp auf 1). Veraltete 0–4/5–6-Angaben entfernen.
+2. **Issue #2 – SaveGuard-Blocker-String konsolidieren (🟡 offen)**  
+   Ein kanonischer User-Text („Speichern nur im HQ…“) plus `logs.trace[]`-Guard-Reason
+   (`save_blocked`, `reason=hq_only`) für QA. README/Acceptance auf dieselbe Phrase trimmen.
+3. **Issue #3 – `!load` ohne Einstiegsauswahl (🟡 offen)**  
+   Load-Flow endet nach Recap direkt im HQ/Briefing (kein klassisch/schnell). `load_deep()` setzt
+   `entry_choice_skipped`/`intro_seen`, Modul 12 bereinigen.
+4. **Issue #4 – Rift-Zusammenwurf deckeln & überschüssige Rifts abgeben (🟡 offen)**  
+   Beim Merge/Group-Import **maximale Rift-Anzahl kappen**. Überschuss wird automatisch an andere
+   ITI-NPC-Teams abgegeben, inkl. Auswahl, welche offenen Rifts erhalten bleiben. Kein globaler
+   Reset von Paradoxon/Seeds beim Merge; Reset nur via explizitem Kommando.
+5. **Issue #5 – Legacy-Save-Beispiele in `zeitriss-core.md` bereinigen (🟡 offen)**  
+   Legacy-Layouts („Gruppe/Charaktere“) als Archiv markieren oder auf v6-Shape umstellen
+   (`party.characters[]`, `save_version`, `logs.*`), inkl. klarer QA-Warnung.
+6. **Issue #6 – Rift-Seeds: spielbar nach Episodenabschluss (🟡 offen)**  
+   Arc/Episode-Begriffe hart trennen: Seeds entstehen bei Px 5, **spielbar erst nach Episodenende**.
+   `zeitriss-core.md` an Kampagnenstruktur anpassen.
+7. **Issue #7 – Px-Reset-Timing festlegen (🟡 offen)**  
+   Praxis-Entscheid: Reset bleibt **nach der Mission / im Debrief** (wie früherer Lauf), damit
+   Buffs/positive Effekte nicht entwertet werden. Dokumentation und Flags
+   (`px_reset_pending/confirm`) entsprechend konsolidieren.
+8. **Issue #8 – Boss-DR/HUD-Doku konsolidieren (🟡 offen)**  
+   HUD-System aktualisieren (Teamcap 1–5, 5–6 entfernen); DR-Toast nach Boss-Typ (Mini vs.
+   Arc/Rift). Optional `boss_type` in Trace/HUD für QA.
+9. **Issue #9 – `logs.hud[]`-Overlays mit Timestamp (🟡 offen)**  
+   `vehicle_clash`/`mass_conflict`-Makros schreiben `at: now_iso()`. Alternativ: `at` als optional
+   deklarieren und Schema-Beispiele anpassen.
+10. **Issue #10 – Offline-Konnektivität: HQ immer mit Kodex (🟡 offen)**  
+   Klarstellen: Im HQ **immer** Verbindung zu Kodex; Offline-Kappung gilt **nur während Mission**.
+   Offline-Help ergänzt um SaveGuard-Blocker im HQ (nur falls Mission-Offlinemode aktiv).
+11. **Issue #11 – Economy-Audit-Trace ergänzen (🟡 offen)**  
+   `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
+   Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
+12. **Issue #12 – Atmosphere-Contract-Capture in QA-Mode erzwingen (🟡 offen)**  
+   In QA-Mode pro Phase (core/transfer/rift) 8–12 Zeilen + Banned-Terms + HUD-Toast-Zählung in
+   `logs.flags.atmosphere_contract_capture`.
+
+**QA-Hinweis (Review-Update)**  
+
+- Teamgröße-Entscheid (1–5) muss in Save-Schema, Dispatcher, HUD-DR, Arena-Policy und
+  QA-Fixtures gespiegelt werden.  
+- Rift-Zusammenwurf: Deckel + Auswahl-UI/Logik und Abgabe an ITI-Teams in Save/Trace
+  dokumentieren.  
+- Offline: HQ bleibt online; Mission-only-Kappung reduziert SaveGuard-Missverständnisse.
+
 ## Maßnahmenpaket Copy-Paste-QA 2026-01 (Issues #1–#16, Rohform)
 
 Der jüngste Copy-Paste-Testlauf (Solo, Solo+Squad, Koop, PvP; Seeds 1–25/80–150/400–1000) brachte
