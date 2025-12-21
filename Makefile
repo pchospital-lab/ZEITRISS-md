@@ -7,6 +7,7 @@ lint:
 	python3 scripts/lint_umlauts.py
 	npm run lint:links
 	npm run lint:md
+	npm run lint:presets
 
 test:
 	npm run test
