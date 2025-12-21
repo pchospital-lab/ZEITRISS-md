@@ -681,13 +681,13 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
 8. **Issue #8 – Boss-DR/HUD-Doku konsolidieren (🟡 offen)**  
    HUD-System aktualisieren (Teamcap 1–5, 5–6 entfernen); DR-Toast nach Boss-Typ (Mini vs.
    Arc/Rift). Optional `boss_type` in Trace/HUD für QA.
-9. **Issue #9 – `logs.hud[]`-Overlays mit Timestamp (🟡 offen)**  
-   `vehicle_clash`/`mass_conflict`-Makros schreiben `at: now_iso()`. Alternativ: `at` als optional
-   deklarieren und Schema-Beispiele anpassen.
+9. **Issue #9 – `logs.hud[]`-Overlays mit Timestamp (✅ erledigt)**  
+   `logs.hud[]`-Events akzeptieren `at`, der Serializer ergänzt fehlende Timestamps beim HQ-Save.
+   README/Toolkit/Save-Docs spiegeln die ISO-Stempel-Regel.
 10. **Issue #10 – Offline-Konnektivität: HQ immer mit Kodex (🟡 offen)**  
    Klarstellen: Im HQ **immer** Verbindung zu Kodex; Offline-Kappung gilt **nur während Mission**.
    Offline-Help ergänzt um SaveGuard-Blocker im HQ (nur falls Mission-Offlinemode aktiv).
-11. **Issue #11 – Economy-Audit-Trace ergänzen (🟡 offen)**  
+11. **Issue #11 – Economy-Audit-Trace ergänzen (✅ erledigt)**  
    `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
    Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
 12. **Issue #12 – Atmosphere-Contract-Capture in QA-Mode erzwingen (🟡 offen)**  

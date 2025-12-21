@@ -6,6 +6,29 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-12-22 – Repo-Agent – HUD-Timestamps & Economy-Audit (Issues #9/#11) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: SaveFlow/Toolkit/README 4.2.3, QA-Fahrplan 1.13.22
+- Auftrag: HUD-Overlay-Timestamps sichern, Economy-Audit-Trace beim HQ-Save ergänzen.
+
+```chatlog
+14:05 Repo-Agent: `make lint`
+14:25 Repo-Agent: `make test`
+14:48 Repo-Agent: `bash scripts/smoke.sh`
+15:05 Repo-Agent: `python3 tools/lint_runtime.py`
+15:07 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+15:09 Repo-Agent: `python3 scripts/lint_doc_links.py`
+15:10 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] `logs.hud[]`-Events erhalten beim HQ-Save einen ISO-Timestamp, wenn `at` fehlt.
+- [x] `economy_audit`-Trace beim HQ-Save ergänzt (Level, HQ-Pool, Wallet-Summe, Richtwerte, Chronopolis-Sinks).
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (fix: economy audit & hud timestamps)
+- QA-Fahrplan: Tester-Playtest 2025-12-XX (Issue #9/#11) abgeschlossen.
+
 ## 2025-12-21 – Repo-Agent – Load-Flow Skip-Flags (Issue #3) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: README/Modul 12/Toolkit 4.2.3, QA-Fahrplan 1.13.22

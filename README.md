@@ -819,7 +819,8 @@ nicht persistiert.“.
 
 Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
 Sonder-Overlays für Verfolgungen und Massenkonflikte schreiben zusätzlich strukturierte Einträge
-(`event: vehicle_clash` / `mass_conflict`) in `logs.hud`.
+(`event: vehicle_clash` / `mass_conflict`) in `logs.hud`. Fehlt ein `at`, ergänzt
+der HQ-Serializer beim Speichern einen ISO-Zeitstempel.
 
 ### HUD-Schnellhilfe (`/help`)
 
@@ -1334,6 +1335,9 @@ separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 `logs.trace[]` als E2E-Protokoll: Mission-Start, Rift-Launch und Arena-Init
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
 HUD-Overlay, sodass QA-Läufe den kompletten Run nachvollziehen können.
+Beim HQ-Save ergänzt die Runtime außerdem ein `economy_audit`-Trace mit Level,
+HQ-Pool, Wallet-Summe, Richtwerten und Chronopolis-Sinks (Toast nur bei
+Abweichungen).
 Das kanonische JSON-Schema `systems/gameflow/saveGame.v6.schema.json` bildet
 alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
 `Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
