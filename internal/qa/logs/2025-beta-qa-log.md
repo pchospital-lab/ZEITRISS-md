@@ -6,6 +6,29 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-12-21 – Repo-Agent – Load-Flow Skip-Flags (Issue #3) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: README/Modul 12/Toolkit 4.2.3, QA-Fahrplan 1.13.22
+- Auftrag: Load-Flow ohne Einstiegsauswahl verankern und Wissensmodule spiegeln.
+
+```chatlog
+23:05 Repo-Agent: `make lint`
+23:10 Repo-Agent: `make test`
+23:20 Repo-Agent: `bash scripts/smoke.sh`
+23:24 Repo-Agent: `python3 tools/lint_runtime.py`
+23:26 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+23:28 Repo-Agent: `python3 scripts/lint_doc_links.py`
+23:30 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] `load_deep()` setzt `campaign.entry_choice_skipped=true` und `ui.intro_seen=true`.
+- [x] Modul 12/README/Toolkit spiegeln den Load-Flow ohne Einstiegsauswahl.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (fix: load-flow ohne entry choice)
+- QA-Fahrplan: Tester-Playtest 2025-12-XX (Issue #3) abgeschlossen.
+
 ## 2025-12-21 – Repo-Agent – PvP-Arena MR-Paket (QA-Vorlauf) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: Arena MR-Update 4.2.3, QA-Fahrplan 1.13.22

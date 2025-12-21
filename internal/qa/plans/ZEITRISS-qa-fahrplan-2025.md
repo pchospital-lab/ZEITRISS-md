@@ -660,9 +660,10 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
 2. **Issue #2 – SaveGuard-Blocker-String konsolidieren (✅ erledigt)**  
    Ein kanonischer User-Text („Speichern nur im HQ…“) plus `logs.trace[]`-Guard-Reason
    (`save_blocked`, `reason=hq_only`) für QA. README/Acceptance auf dieselbe Phrase trimmen.
-3. **Issue #3 – `!load` ohne Einstiegsauswahl (🟡 offen)**  
+3. **Issue #3 – `!load` ohne Einstiegsauswahl (✅ erledigt)**  
    Load-Flow endet nach Recap direkt im HQ/Briefing (kein klassisch/schnell). `load_deep()` setzt
-   `entry_choice_skipped`/`intro_seen`, Modul 12 bereinigen.
+   `campaign.entry_choice_skipped=true` und `ui.intro_seen=true`, Modul 12/Toolkit/README
+   konsistent gespiegelt.
 4. **Issue #4 – Rift-Zusammenwurf deckeln & überschüssige Rifts abgeben (🟡 offen)**  
    Beim Merge/Group-Import **maximale Rift-Anzahl kappen**. Überschuss wird automatisch an andere
    ITI-NPC-Teams abgegeben, inkl. Auswahl, welche offenen Rifts erhalten bleiben. Kein globaler

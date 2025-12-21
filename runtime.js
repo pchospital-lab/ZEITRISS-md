@@ -7514,6 +7514,10 @@ function load_deep(raw){
   const arenaReset = reset_arena_after_load();
   initialize_wallets_from_roster();
   ensure_runtime_flags().skip_entry_choice = true;
+  ensure_campaign();
+  state.campaign.entry_choice_skipped = true;
+  ensure_ui();
+  state.ui.intro_seen = true;
   ensure_atmosphere_contract();
   reset_hud_usage();
   show_compliance_once();
