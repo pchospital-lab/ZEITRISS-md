@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.16
+version: 0.4.17
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-12-21 – Repo-Agent – PvP-Arena MR-Paket (QA-Vorlauf) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Arena MR-Update 4.2.3, QA-Fahrplan 1.13.22
+- Auftrag: Pflicht-Testpaket ausführen, QA-Vorlauf für MR-Arena dokumentieren.
+
+```chatlog
+12:05 Repo-Agent: `make lint`
+12:34 Repo-Agent: `make test`
+12:55 Repo-Agent: `bash scripts/smoke.sh`
+13:07 Repo-Agent: `python3 tools/lint_runtime.py`
+13:10 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+13:12 Repo-Agent: `python3 scripts/lint_doc_links.py`
+13:13 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [ ] PvP-Arena MR-Feinschliff im MyGPT-Beta-Lauf prüfen
+      (kein VR/Holo-Vokabular, Shared-Overlay/Beacon, Suit-Lock,
+      Magnetfeld-Deck, HUD-Labels).
+- [ ] QA-Fahrplan „PvP-Arena Mixed-Reality 2026-08“ nach Live-Probelauf
+      auf ✅ abschließen und Log-Referenz ergänzen.
+
+**Nachverfolgung**
+- QA-Fahrplan 1.13.22: MR-Arena-Paket (Issues #1–#9) bleibt QA offen.
 
 ## 2026-07-02 – Repo-Agent – Chrononauten-Presets 2026-07 (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
