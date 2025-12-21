@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.0
+version: 1.0.1
 tags: [meta, qa]
 ---
 
@@ -212,6 +212,15 @@ Hochstufen-Spielrunden.
   Regressionanker für Rift-/Endgame-Saves mit Seed-Tiers.
 - QA-Fahrplan 1.13.18 markiert das Beta-GPT-12-Maßnahmenpaket (Issues #1–#9)
   als abgeschlossen; QA-Log dokumentiert den Abgleich.
+
+## Update 2026-07-02 – Chrononauten-Presets 2026-07
+
+- Charaktererschaffung bündelt Presets auf dem 18-Punkte-Schema inklusive
+  Rassenmods, Talenten und SYS-Last der Cyber-/Bioware; Quick-Build und
+  Schnellstart-Presets sind editorfähig dokumentiert.
+- Preset-Validator `tools/validate_presets.py` prüft Attribute, Mods und
+  SYS-Budgets und läuft über `make lint`.
+- QA-Fahrplan 1.13.22 und QA-Log 2026-07-02 dokumentieren den Abschluss.
 
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
