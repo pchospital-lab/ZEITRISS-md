@@ -23,23 +23,23 @@ Freischalten neuer Talente und Attribute bis hin zum **Rufsystem** und besseren 
 Zugängen** im HQ. Alles ist filmisch und immersiv präsentiert, aber klar strukturiert und
 regelleicht gehalten, sodass der Spielfluss im Vordergrund steht.
 Nach dem fatalen Ende eures früheren Lebens extrahierte das ITI euer Bewusstsein aus dem Absolut.
-Ihr schließt die Charaktererschaffung in einem virtuellen Raum ab. Erst danach erzeugt das HQ
-eine passende Bio-Hülle – auf Wunsch auch eine experimentelle Hominin-Form – und überträgt
-euer rekonstruiertes Bewusstsein in diesen Körper.
+Die Charaktererschaffung findet im **Nullzeit-Puffer** statt, über Holo-Interfaces und Labor-
+Displays. Erst wenn der Prozess abgeschlossen ist, baut das HQ die passende Bio-Hülle – auf
+Wunsch auch eine experimentelle Hominin-Form – und lädt euer rekonstruiertes Bewusstsein hinein.
 ### Kurz-Checkliste Charaktererstellung
 
 1. Konzeptidee festlegen
 2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (T‑Stufe/N‑Typ) oder historischer Hominin.
    Siehe [Hominin-Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (18 Punkte von Basis 0, Endwerte ≥ 1)
-4. Zwei Talente wählen
+4. Drei Talente wählen (2 frei + 1 Echo aus dem früheren Leben)
 5. Startausrüstung notieren
-6. Ruf und Hintergrund skizzieren
-7. Cyber/Bio/Psi (max zwei Bereiche) auswählen
-8. Werte in das HUD übernehmen
+6. Cyber/Bio/Psi (max zwei Bereiche) auswählen
+7. Werte in das HUD übernehmen
    Weitere Hinweise und Symboltabellen findet ihr im Abschnitt
    [Cinematisches HUD-Overlay](zustaende-hud-system.md#cinematisches-hud-overlay).
-9. Teamrolle festlegen
+8. Teamrolle festlegen
+9. Dossier skizzieren (Lebenslauf, Tod, Anker, Hook)
 10. Erste Mission planen
 
 - GPT agiert als Spielleiter – vergleichbar mit einer klassischen Pen-&-Paper-Runde.
@@ -221,7 +221,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 
 ## Schritt-für-Schritt zur Charaktererschaffung
 
-**Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in fünf grundlegenden Schritten.
+**Übersicht:** Die Erstellung eines Charakters in ZEITRISS erfolgt in sechs grundlegenden Schritten.
 Von der ersten Konzeptidee bis zur ausgerüsteten Spielfigur im HQ begleitet euch die KI-Spielleitung
 auf Wunsch durch diesen Prozess – etwa indem sie in der Rolle des Kodex/Quartiermeisters auftretend
 die nötigen Informationen abfragt und euch Optionen bietet. Nachfolgend die einzelnen Schritte im
@@ -233,9 +233,13 @@ Chrononauten starten in der offiziellen Kampagne immer auf **Level 1** mit
 aber keine unmittelbaren Boni. Besondere Vorteile werden erst im Verlauf der Missionen
 freigeschaltet.
 
-1.  **Konzept & Rollenwahl:** Überlegt euch zunächst eine grobe **Charakteridee**. Ist euer Agent ein
-    kampferprobter Zeit-Soldat, eine brillante Historikerin, ein futuristischer Tech-Operative oder etwas ganz
-    Anderes? Eure Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
+1.  **Origin-Block & Rollenwahl:** Vor Zahlen und Regeln klärt ihr das frühere Ich – **was war ich
+    einst, was will ich sein**. Dazu genügen drei Eckdaten: **Epoche/Ort**, **Rolle/Beruf** und
+    **Tod (immer künstlich herbeigeführt, nur als Kategorie)**. Ihr könnt das selbst beschreiben,
+    euch einen kompletten Vorschlag **generieren** lassen oder **custom generate** wählen (2–4
+    Eckdaten nennen, der Kodex baut den Rest). Erst danach legt ihr die **Chrononaut-Rolle** fest:
+    kampferprobter Zeit-Soldat, brillante Historikerin, futuristischer Tech-Operative oder etwas ganz
+    Anderes. Eure Figur sollte einen **Rollen-Schwerpunkt** haben, der im Team nützlich ist – z.B.
     Diplomatie, Kampf, Technik, Medizin oder Infiltration. Ihr könnt entweder einen der vordefinierten
     **Archetypen** wählen (siehe unten) oder ein eigenes Konzept ausarbeiten. Wenn ihr einen Archetypen
     übernehmt, habt ihr sofort einen spielbereiten Helden mit stimmigem Hintergrund und ausbalancierten
@@ -280,19 +284,21 @@ freigeschaltet.
 3.  **Talente wählen:** **Talente** sind spezielle Fertigkeiten, Vorzüge oder Tricks, die euren
     Charakter von anderen unterscheiden. Sie verleihen **spezialisierte Boni** auf bestimmte Aktionen
     (meist **+2** auf relevante Proben) oder erlauben automatische Erfolge bei Routineaufgaben in ihrem
-    Bereich. Zu Beginn wählt ihr in der Regel **drei Talente** für euren Charakter – orientiert am
-    Konzept. Überlegt, was eure Figur besonders gut kann oder was sie einzigartig macht. Viele Talente
-    sind selbsterklärend (z.B. _Schleichprofi_, _Sprengstoffexperte_, _Polyglott_), und ihr könnt sie in
-    Absprache mit der SL auch selbst formulieren. Wichtig ist, dass jedes Talent dem Charakter **im
-    Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist. Wählt am besten Talente, die
-    eure wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B. _Überreden_ als Talent nehmen,
-    ein Tech-Operative _Systemanalyst_, ein Arzt _Heilkundiger_, etc. – Anregungen liefert die Archetypen-
-    Liste unten, wo bei jedem Charakter drei beispielhafte Talente aufgeführt sind. Die KI-Spielleitung
-    kann beim Erstellen Vorschläge machen: _„Mira hätte als Tech-Operative wohl Talente wie Drohnensteuerung
-    oder Techno-Mancer im Repertoire. Möchtet ihr etwas in der Art wählen?“_ – Auf diese Weise
-    integriert sich die Charaktererschaffung nahtlos ins Spiel, anstatt eine trockene Zahlenübung zu
-    sein. Psi-spezifische Talente erscheinen nur, wenn das Flag `has_psi` gesetzt ist;
-    `render_psi_option()` zeigt sie mit klaren Stresskosten.
+    Bereich. Zu Beginn wählt ihr **drei Talente** – **zwei frei** und **ein Echo-Talent** aus dem
+    früheren Leben. Das Echo-Talent ist eng gefasst und klar hergeleitet (Beruf, Disziplin, Handwerk,
+    Status), kein Alleskönner. Beispiele: Gladiator → _Schwertkampf_ oder _Schmerzresistenz_; Steinmetz
+    → _Materialkunde_; Raumflotten-Kapitän → _Taktische Führung_. Die freien Talente bilden die
+    Chrononaut-Rolle ab. Viele Talente sind selbsterklärend (z.B. _Schleichprofi_, _Sprengstoffexperte_,
+    _Polyglott_), und ihr könnt sie in Absprache mit der SL auch selbst formulieren. Wichtig ist, dass
+    jedes Talent dem Charakter **im Spiel einen Vorteil** verschafft, der aber thematisch begrenzt ist.
+    Wählt am besten Talente, die eure wichtigsten Rollen unterstreichen. Eine Diplomatin könnte z.B.
+    _Überreden_ als Talent nehmen, ein Tech-Operative _Systemanalyst_, ein Arzt _Heilkundiger_, etc. –
+    Anregungen liefert die Archetypen-Liste unten, wo bei jedem Charakter drei beispielhafte Talente
+    aufgeführt sind. Die KI-Spielleitung kann beim Erstellen Vorschläge machen: _„Mira hätte als
+    Tech-Operative wohl Talente wie Drohnensteuerung oder Techno-Mancer im Repertoire. Möchtet ihr
+    etwas in der Art wählen?“_ – Auf diese Weise integriert sich die Charaktererschaffung nahtlos ins
+    Spiel, anstatt eine trockene Zahlenübung zu sein. Psi-spezifische Talente erscheinen nur, wenn das
+    Flag `has_psi` gesetzt ist; `render_psi_option()` zeigt sie mit klaren Stresskosten.
 
     **Kurzreferenz – häufige Talente**
 
@@ -358,6 +364,12 @@ freigeschaltet.
     Agenten aus. Im Spiel kann das bedeuten, dass gewisse Items (etwa ein Zeitbeschleuniger oder
     experimentelle Kybernetik) erst ab höherem Level oder Ruf verfügbar sind.
     - **Ausrüstungsbudget:** Auf Wunsch kann man die Startausrüstung durch ein Punktekonto (oder CUs) limitieren.
+
+6.  **Dossier abschließen:** Am Ende steht ein kurzes Dossier, damit der Charakter _fertig_ ist:
+    **Akte** (Name/Callsign/Rang), **Früheres Leben** (Epoche, Rolle, 2–3 Stationen), **Tod** (Kategorie),
+    **ITI-Motiv** (warum dein Bewusstsein wiedergeholt wurde), **Echo-Talent**, **Rolle** + zwei freie
+    Talente, **Anker/Schwachstelle** (Objekt/Satz/Ort + Trigger) und **offener Faden** als Hook.
+    Das Dossier liefert Story ohne Start-Bonus und dient später als persönlicher Arc-Anker.
     Jeder neue Charakter erhält **100 CU** Wert an Gear.
     gesunder Menschenverstand: Eure Figur soll weder unterausgerüstet noch überladen ins Abenteuer
     starten.

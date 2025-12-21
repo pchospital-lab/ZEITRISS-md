@@ -3043,11 +3043,13 @@ ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetzt
    - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`,
      `campaign.mode = 'preserve'`.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
-   - `solo`: nie nach Load fragen.
-  - `npc-team`: Teamgröße 0–4; bei Fehler → „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+   - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
+   - `npc-team`: Teamgröße 0–4 (Gesamtteam inkl. Spieler); bei Fehler →
+     „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
     Auto-Log per `record_npc_autoradio()` erzeugt Funk-Preset
     `NPC-Autoradio aktiv (…× Squad)`.
-   - `gruppe`: keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
+   - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.
+     (klassisch/schnell sind erlaubt)“. Spielerzahl wird im Charakterbau mitgezählt.
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
    - **HQ-Kurzintro:** vier Zeilen, Schlusszeile „Die Nullzeit kennt keinen
      Countdown. Das ITI schon.“
