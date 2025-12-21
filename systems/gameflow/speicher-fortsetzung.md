@@ -104,7 +104,7 @@ SaveGuard + folgendem Pfadbaum:
 - `arc_dashboard{offene_seeds[],fraktionen{}}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat`, `team_size` hart 0–4)
+  `zone=safe|combat`, `team_size` hart 1–5)
 
 Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
@@ -117,10 +117,12 @@ denselben Text via `toast_save_block(reason)`. Sobald die Crew ins HQ
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
 Alle SaveGuards hängen ihren Grund konsistent an das Suffix „– HQ-Save
-gesperrt.“ an: Offline-Reasons und HQ-/Arena-Locks teilen sich den
-Klammertext, SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und
-fehlender Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem
-Suffix ab, damit das QA-Log dieselbe Guard-Matrix spiegelt.
+gesperrt.“ an: Offline-Reasons und Arena-Locks teilen sich den Klammertext,
+SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und fehlender
+Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem Suffix ab,
+damit das QA-Log dieselbe Guard-Matrix spiegelt. **HQ-only** nutzt hingegen
+den kanonischen Hinweis „Speichern nur im HQ …“ und loggt zusätzlich
+`logs.trace[]` mit `reason: hq_only`.
 
 Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
 aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
@@ -1334,7 +1336,7 @@ function select_state_for_save(state) {
 
 function save_deep(state) {
   if (state.location !== "HQ") {
-    throw new Error(toast_save_block("HQ-only"));
+    throw new Error("Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.");
   }
   const payload = select_state_for_save(state);
   payload.checksum = sha256(JSON.stringify(payload)); // optional

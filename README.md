@@ -274,8 +274,8 @@ Die ersten Schritte in unter zwei Minuten:
 
 - `Spiel starten (solo [klassisch|schnell])` – Erschaffung → HQ-Intro → Briefing →
   Szene 1 · _schnell_: Rolle + Defaults → Briefing
-- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + Teamgröße
-  (Gesamtteam inkl. Spieler) · _schnell_: Rolle + Teamgröße
+- `Spiel starten (npc-team [0–4] [klassisch|schnell])` – PC bauen + NPC‑Begleiter
+  (Team gesamt 1–5) · _schnell_: Rolle + NPC‑Begleiter
 - `Spiel starten (gruppe [klassisch|schnell])` – alle bauen · _schnell_: Saves
   posten oder Rolle nennen
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing
@@ -361,8 +361,8 @@ Spiel starten (gruppe schnell)
 
 - **Spielstart-Varianten.** `Spiel starten` akzeptiert `solo`, `npc-team` und
   `gruppe` plus die Zusätze `klassisch` oder `schnell`. `npc-team` verlangt eine
-  Zahl `0–4` (Gesamtteam inkl. Spieler), `gruppe` ignoriert Zahlen. Ungültige
-  Kombinationen liefern die passenden Fehltexte.
+  Zahl `0–4` (NPC‑Begleiter; Team gesamt 1–5), `gruppe` ignoriert Zahlen.
+  Ungültige Kombinationen liefern die passenden Fehltexte.
 - **Briefing & Schnellstart.** Ohne Modus fragt der Dispatcher einmalig nach
   „klassisch oder schnell?“. `klassisch` blendet Auswahlmenüs ein, `schnell`
   überspringt sie. Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
@@ -388,7 +388,7 @@ ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
 `GATE 2/2 · FS 0/4` (Core) bzw. `GATE 2/2 · FS 0/2` (Rift); Foreshadow-Hinweise
 zählen nur den `FS`-Block hoch. In Szene 10 erscheint automatisch der Toast mit
 dem aktiven Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach
-Teamgröße 0–4 (Werte >4 werden geklemmt) und Boss-Typ gemäß
+Teamgröße 1–5 (Werte >5 werden geklemmt) und Boss-Typ gemäß
 [Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach
 dem Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig
 davon, ob die Mission abgeschlossen oder abgebrochen wurde.
@@ -441,7 +441,7 @@ Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`
 | Schritt | Inhalt | Status |
 | ------ | ----------------------------- | -------- |
 | 1 | Spielstart solo klassisch/schnell | ✅ stabil |
-| 2 | NPC-Team 0–4 erstellt, skaliert | ✅ stabil |
+| 2 | NPC-Team 0–4 erstellt (Team gesamt 1–5) | ✅ stabil |
 | 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
 | 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
 | 5 | Missions-Blocker verhindern Saves | ✅ stabil |
@@ -532,7 +532,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 **Akzeptierte Zusätze:**
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen
   (auch `classic|fast`).
-- `npc-team` akzeptiert Teamgrößen `0–4`; Arena nutzt dieselbe Obergrenze.
+- `npc-team` akzeptiert `0–4` NPC‑Begleiter (Team gesamt 1–5); Arena nutzt dieselbe Obergrenze.
 - Erlaubte Rollen-Kurzformen: `infil`, `tech`, `face`, `cqb`, `psi`.
 - Vor jedem Einsatz ruft der Dispatcher `!radio clear` und `!alias clear` auf,
   damit Funk- und Alias-Logs ohne Altlasten starten.
@@ -540,7 +540,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `!ALIAS`, `!Radio Log` usw.).
 
 **Fehlertexte:**
-- `npc-team 5` → „Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).“
+- `npc-team 5` → „NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).“
 - `gruppe 3` → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
@@ -568,7 +568,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat` und klemmt Teamgrößen hart auf 0–4. Der SaveGuard wertet
+  `zone=safe|combat` und klemmt Teamgrößen hart auf 1–5. Der SaveGuard wertet
   `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
   `idle` ist; Matchmaking-States zählen als aktiv. Der Load-Merge
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
@@ -806,7 +806,8 @@ installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `sav
 „SaveGuard: SYS nicht voll installiert – HQ-Save gesperrt.“ ab; eine Runtime-Last über den
 installierten Slots führt zu „SaveGuard: SYS runtime overflow – HQ-Save gesperrt.“. Stress
 und Psi-Heat tragen denselben SaveGuard-Suffix, um HQ-Sperren klar zu markieren.
-Speichern außerhalb des HQs meldet „SaveGuard: HQ-only – HQ-Save gesperrt.“.
+Speichern außerhalb des HQs meldet „Speichern nur im HQ. Missionszustände sind flüchtig und werden
+nicht persistiert.“.
 
 ### HUD-Shortcuts für Exfiltration
 
@@ -1288,8 +1289,8 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
 
 - **`Spiel starten (solo [klassisch|schnell])`** – Einzelner Chrononaut; GPT führt
   die NSCs.
-- **`Spiel starten (npc-team [0–4] [klassisch|schnell])`** – GPT stellt ein
-  temporäres Begleitteam bereit.
+- **`Spiel starten (npc-team [0–4] [klassisch|schnell])`** – GPT stellt
+  NPC‑Begleiter bereit (Team gesamt 1–5).
 - **`Spiel starten (gruppe [klassisch|schnell])`** – Mehrere reale Spieler laden
   ihre eigenen Speicherstände oder erstellen gemeinsam neue Charaktere; GPT
   koordiniert die Szene.
