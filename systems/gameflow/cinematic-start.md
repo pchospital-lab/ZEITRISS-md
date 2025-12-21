@@ -484,7 +484,9 @@ ITI begrüßt. Diese Variante ist klassisch, da sie den gemeinsamen **Startpunkt
 markiert. Die Szene aus dem Modul-Einstieg oben ist ein Beispiel dafür: Ankunft im Quarzatrium,
 Begrüßung durch Commander Renier, erste Orientierung. Danach startet ein **geführter HQ‑Rundgang**
 (Quarzatrium → Med‑Lab → Chrono‑Portal) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
-und System-Slots. Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
+und System-Slots. Sobald die Fraktionswahl steht, übernehmen die jeweiligen
+Fraktionskontaktpersonen die regulären Briefings und Debriefs.
+Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
 wichtigsten Bereiche, bevor es zur ersten Trainingsmission oder direkt zum Einsatz geht.
 Das HQ dient
 hier als sicherer **Hub**, um Fragen zu klären und das Bedienkonzept kennenzulernen. Diese Option
@@ -523,8 +525,8 @@ _in medias res_ in einer Zeitperiode, wo die Agents gerade **etwas Schiefgelaufe
 müssen. Beispiel: _New York, 1929 – die Chrononauten jagen einen abtrünnigen Zeitagenten über die
 Dächer, um ein gestohlenes Relikt zurückzuholen._ Die Spieler wissen anfangs nicht viel Kontext,
 nur dass es wichtig ist. Nachdem die Szene gespielt ist (idealerweise erfolgreich), **schneidet**
-die Handlung vielleicht zurück ins HQ-Büro, wo Renier sagt: _„So ungefähr wird das ablaufen.
-Fragen?“_ – Reveal: Das zuvor Gespielte war ein optionaler **Probe-Einsatz** unter realen
+die Handlung vielleicht zurück ins HQ-Büro, wo Renier (oder die zuständige Fraktionskontaktperson)
+sagt: _„So ungefähr wird das ablaufen. Fragen?“_ – Reveal: Das zuvor Gespielte war ein optionaler **Probe-Einsatz** unter realen
 Bedingungen oder ein **Vorabausschnitt aus einer späteren Mission**. Alternativ
 kann die Action-Sequenz auch die erste echte Mission gewesen sein, und das
 Kennenlernen im HQ passiert _nach_ der Rückkehr (z.B. die Gruppe wurde in einer
