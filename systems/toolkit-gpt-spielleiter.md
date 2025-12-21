@@ -3076,6 +3076,8 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
   - Setzt unmittelbar nach `hydrate_state()` `SkipEntryChoice()`, damit der
     Einstieg übersprungen wird.
+  - Markiert `campaign.entry_choice_skipped=true` und `ui.intro_seen=true`, damit nach dem Load
+    kein HQ-Intro erneut läuft und keine Einstiegsauswahl erscheint.
   - `StartMission()` setzt `skip_entry_choice` nur dann auf `false`, wenn kein
     Überspringen dokumentiert ist; nach einem aktiven `SkipEntryChoice()` bleibt
     der Nachweis erhalten.
