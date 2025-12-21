@@ -1775,7 +1775,7 @@ function clamp_team_size(value, { defaultValue = 1, allowZero = false } = {}){
   const numeric = asNumber(value);
   if (!Number.isFinite(numeric)) return defaultValue;
   const min = allowZero ? 0 : 1;
-  const clamped = Math.min(4, Math.max(min, Math.floor(numeric)));
+  const clamped = Math.min(5, Math.max(min, Math.floor(numeric)));
   return clamped;
 }
 
@@ -4365,7 +4365,7 @@ function ensure_arena(){
   arena.fee = Number.isFinite(arena.fee) ? arena.fee : 0;
   arena.scenario = arena.scenario ?? null;
   arena.damage_dampener = arena.damage_dampener !== false;
-  arena.team_size = clamp_team_size(arena.team_size, { allowZero: true });
+  arena.team_size = clamp_team_size(arena.team_size, { allowZero: false });
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
   arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
@@ -4414,7 +4414,7 @@ function build_arena_resume_token(arena){
   return {
     created_at: new Date().toISOString(),
     scenario,
-    team_size: clamp_team_size(arena.team_size, { allowZero: true }),
+    team_size: clamp_team_size(arena.team_size, { allowZero: false }),
     mode: typeof arena.mode === 'string' ? arena.mode : 'single',
     previous_mode: typeof arena.previous_mode === 'string' ? arena.previous_mode : null,
     tier:
@@ -4945,7 +4945,7 @@ function arenaResume(){
   if (!token || typeof token !== 'object'){
     return 'Kein Arena-Resume-Token vorhanden.';
   }
-  const teamSize = clamp_team_size(token.team_size, { allowZero: true });
+  const teamSize = clamp_team_size(token.team_size, { allowZero: false });
   const mode = typeof token.mode === 'string' ? token.mode : 'single';
   const tier =
     Number.isFinite(token.tier) && token.tier > 0 ? Math.min(Math.floor(token.tier), 3) : 1;
@@ -5498,15 +5498,15 @@ function resolve_scene_total(missionType = resolve_mission_type()){
 }
 
 function resolve_boss_dr(teamSize, bossTier){
-  const size = clamp_team_size(teamSize, { allowZero: true });
+  const size = clamp_team_size(teamSize, { allowZero: false });
   const tier = bossTier === 'mini' ? 'mini' : 'arc';
-  if (size <= 0){
-    return 0;
-  }
   if (size <= 2){
     return tier === 'mini' ? 1 : 2;
   }
-  return tier === 'mini' ? 2 : 3;
+  if (size <= 4){
+    return tier === 'mini' ? 2 : 3;
+  }
+  return tier === 'mini' ? 3 : 4;
 }
 
 function StartMission(){
@@ -6195,7 +6195,7 @@ function prepare_save_campaign(campaign){
     : 0;
   base.px = Number.isFinite(pxValue) ? pxValue : 0;
   const campaignTeamSize = asNumber(base.team_size);
-  base.team_size = clamp_team_size(campaignTeamSize, { defaultValue: null, allowZero: true });
+  base.team_size = clamp_team_size(campaignTeamSize, { defaultValue: null, allowZero: false });
   const bossDr = Number(base.boss_dr);
   base.boss_dr = Number.isFinite(bossDr) && bossDr > 0 ? Math.floor(bossDr) : 0;
   base.px_reset_pending = !!base.px_reset_pending;
@@ -6254,7 +6254,7 @@ function prepare_save_arena(arena){
     previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
       ? source.previous_mode.trim()
       : null,
-    team_size: clamp_team_size(source.team_size, { allowZero: true }),
+    team_size: clamp_team_size(source.team_size, { allowZero: false }),
     tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
     proc_budget: Number.isFinite(source.proc_budget) ? Math.max(0, Math.floor(source.proc_budget)) : 0,
     artifact_limit: Number.isFinite(source.artifact_limit) ? Math.max(0, Math.floor(source.artifact_limit)) : 0,
@@ -6893,6 +6893,9 @@ function toast_save_block(reason){
     : 'SaveGuard: HQ-Save gesperrt.';
 }
 
+const HQ_ONLY_SAVE_TEXT =
+  'Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.';
+
 function select_state_for_save(s){
   const ui = prepare_save_ui({ ...ensure_ui(), ...clone_plain_object(s.ui) });
   const payload = {
@@ -6937,7 +6940,16 @@ function save_deep(s=state){
   if (arenaState?.active || phaseActive || queueBlocked){
     throw new Error(toast_save_block('Arena aktiv'));
   }
-  if (s.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
+  if (s.location !== 'HQ'){
+    record_trace('save_blocked', {
+      channel: 'SAVE',
+      note: 'hq_only',
+      arena: arenaState || null,
+      reason: 'hq_only',
+      link_state: linkState
+    });
+    throw new Error(HQ_ONLY_SAVE_TEXT);
+  }
   if (s?.exfil?.active || s?.campaign?.exfil?.active){
     throw new Error(toast_save_block('Exfil aktiv'));
   }
@@ -7555,6 +7567,7 @@ function startSolo(mode='klassisch'){
   const normalizedSeed = campaign_mode();
   state.start = { type: 'solo', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
+  state.campaign.team_size = 1;
   state.character = {
     id: 'CHR-NEW',
     stress: 0,
@@ -7582,9 +7595,20 @@ function startSolo(mode='klassisch'){
 }
 
 function setupNpcTeam(size=0){
-  state.team = { size };
+  const numeric = Number.isFinite(size) ? size : parseInt(size, 10);
+  const npcCount = Number.isFinite(numeric)
+    ? Math.min(4, Math.max(0, Math.floor(numeric)))
+    : 0;
+  const total = clamp_team_size(npcCount + 1, { allowZero: false });
+  state.team = {
+    size: total,
+    members: Array.from({ length: npcCount }, (_, index) => ({ id: `NPC-${index + 1}` }))
+  };
+  if (state.campaign && typeof state.campaign === 'object'){
+    state.campaign.team_size = total;
+  }
   initialize_wallets_from_roster();
-  record_npc_autoradio(size, state.campaign?.mode || 'preserve');
+  record_npc_autoradio(npcCount, state.campaign?.mode || 'preserve');
 }
 
 function startGroup(mode='klassisch'){
@@ -7593,7 +7617,8 @@ function startGroup(mode='klassisch'){
   const normalizedSeed = campaign_mode();
   state.start = { type: 'gruppe', mode, seed_mode: normalizedSeed };
   state.location = 'HQ';
-  state.team = { size: 0 };
+  state.campaign.team_size = 5;
+  state.team = { size: 5 };
   ensure_logs();
   state.logs.flags.compliance_shown_today = false;
   state.logs.flags.chronopolis_warn_seen = false;
@@ -7723,7 +7748,8 @@ function debrief(st){
   return lines.join('\n');
 }
 
-const NPC_TEAM_SIZE_ERROR = 'Teamgrößen: 0–4. Bitte erneut eingeben (z. B. npc-team 3).';
+const NPC_TEAM_SIZE_ERROR =
+  'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).';
 const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
 
 function on_command(command){
