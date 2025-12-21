@@ -1684,6 +1684,19 @@ Verfolgungsjagd oder die Befreiung einer Geisel. Ein Team versucht, das Ziel
 auszulösen, das andere möchte es verhindern. Gespielt wird direkt die
 entscheidende Showdown-Szene.
 
+Die Arena ist eine **Mixed-Reality-Trainingsanlage**: reale Hallensegmente,
+magnetische Felder für Trägheit und G‑Peaks, dazu Anzüge/Helme mit haptischem
+Feedback und medizinischem Monitoring. Waffen, Fahrzeuge und Gadgets erscheinen
+als **MR-Overlay** im Visor, sind aber an reale Props, Rigs und Marker
+gekoppelt. Ein Beacon‑Gitter liefert allen Teilnehmenden denselben
+Referenz‑Raster, sodass jede Projektion für alle gleich sitzt – nichts ist
+„nur im Kopf“.
+
+**Eintrittsbild:** In der Schleuse knacken Magnetfelder an, die Anzüge ziehen
+kurz an Schultern und Hüfte, die Halle brummt. Im Staging‑Bereich blinken die
+Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat‑Zone
+öffnet, „setzen“ sich MR‑Waffen und Fahrzeuge sauber auf die realen Rigs.
+
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Kodex zieht den Betrag aus dem primären Economy-Feld und
    spiegelt ihn via `sync_primary_currency()` sofort auf `economy.cu` und
@@ -1692,7 +1705,8 @@ entscheidende Showdown-Szene.
 2. **Szenario-Setup:** Kodex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die
    Ausgangslage. Auf Wunsch wählt er eine Kulisse über den
-   `#epochen-generator`.
+   `#epochen-generator`. Kulisse meint ein modulares Trainingsset (Wände,
+   Props, Licht, Nebel) plus MR‑Overlay – kein echter Epochensprung.
 3. **Matchmaking:** GPT füllt fehlende Verbündete und Gegenspieler über den
    NSC-Generator (`kreative-generatoren-begegnungen.md#nsc-generator`). Level
    und Ausrüstung orientieren sich am Durchschnitt der Spielenden. Eine
@@ -1720,7 +1734,9 @@ if (team_wins >= 2 && exit_arena && arena.last_reward_episode !== episode) {
 **Pflicht-Dämpfer:** Die Arena setzt automatisch einen **Exploding-Dämpfer**
 ein. Jeder Overflow oberhalb des ersten Würfels wird halbiert (aufgerundet).
 Das Toolkit loggt den Effekt im HUD (`Arena-Dämpfer aktiv – Exploding-Overflow`)
-und nutzt den gekappten Wert für SG-Checks oder erzählerischen Schaden. So
+und nutzt den gekappten Wert für SG-Checks oder erzählerischen Schaden. Der
+Effekt ist die **Impuls-Governor**-Schicht des Anzugs/Feldes, die Spitzen kappt
+und den Körper schützt. So
 bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen. Der Runtime-Helper
 `apply_arena_rules()` aktiviert den Dämpfer gemeinsam mit dem verpflichtenden
 `psi_buffer` für alle Teilnehmenden, sobald `arena.active = true` gesetzt ist,
@@ -1740,11 +1756,23 @@ die Arena vorzeitig, verlieren sie die laufende Serie und erhalten nur bis
 dahin verdiente Belohnungen.
 
 Zwischen den Runden werden **LP, Munition und anhaltende Effekte vollständig
-zurückgesetzt**. Die Simulation verursacht keine echten Verletzungen – bei
-0 LP scheidet ein Agent lediglich aus dem Match aus.
+zurückgesetzt** – per Medi-Scan, Suit-Rekalibrierung und Crew-Reload. Treffer
+verursachen **kontrolliertes** haptisches Feedback, aber keine bleibenden
+Schäden: Bei 0 LP greift der Suit-Lock, die Person wird medizinisch geprüft und
+scheidet aus dem Match aus.
+
+**Feedback-Intensität:** Die Arena kann als Kalibrierung geführt werden
+(`feedback_intensity: off | low | standard`). „Low“ bleibt spürbar, aber weich
+abgefedert; „Standard“ betont den Lerneffekt, bleibt jedoch sicherheitsbegrenzt.
 
 Der Begriff **Revanche** beschreibt das Fortsetzen derselben Serie. Ein
 **neuer Lauf** beginnt eine frische Serie mit erneuter Startgebühr.
+
+**Fahrzeug‑Rigs (optional):** Arena‑Fahrzeuge sind Boden‑Rigs/Harnesses im
+Magnetfeld‑Deck. Die MR‑Karosse legt sich als Overlay über das Rig, während die
+Magnetfelder das Gefühl von Schweben und Trägheit liefern. Alle Teilnehmenden
+sehen dieselbe Karosse im Visor, weil sie am gemeinsamen Beacon‑Raster
+verankert ist.
 
 **Balance-Leitplanken:** Mächtige Psi-Kontrollkräfte wirken abgeschwächt oder
 werden automatisch resistiert. Einmalige Artefakte sind im Arena-Modus

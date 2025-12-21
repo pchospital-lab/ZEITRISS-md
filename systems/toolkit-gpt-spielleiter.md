@@ -3899,8 +3899,9 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 {%- endmacro %}
 
 {# LINT:ARENA_SINGLE_INSTANCE #}
-{% macro start_pvp_arena(mode="duel", map="Holo-Halle A", rounds=3,
-  time_limit_s=180, psi_policy="allowed", vehicle_policy="off") -%}
+{% macro start_pvp_arena(mode="duel", map="Magnet-Deck A", rounds=3,
+  time_limit_s=180, psi_policy="allowed", vehicle_policy="off",
+  feedback_intensity="low") -%}
   {% if arena and arena.active %}
     {{ hud_tag('Arena bereits aktiv – beende aktuelles Match zuerst') }}
     {% return %}
@@ -3918,8 +3919,8 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   {% set arena = {
     'active': true, 'mode': mode, 'map': map, 'rounds_total': rounds,
     'round': 0, 'time_limit_s': time_limit_s, 'psi_policy': psi_policy,
-    'vehicle_policy': vehicle_policy, 'score': {'A':0,'B':0},
-    'oob_penalty': 1,
+    'vehicle_policy': vehicle_policy, 'feedback_intensity': feedback_intensity,
+    'score': {'A':0,'B':0}, 'oob_penalty': 1,
     'team_size': team_size, 'large_team': large_team,
     'cycle_s': cycle_s, 'cycle_remaining': cycle_s,
     'move_limit': move_limit, 'moves_this_cycle': 0,
@@ -4029,7 +4030,7 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 {%- endmacro %}
 
 {% macro arena_oob(hit_team) -%}
-  {{ hud_tag('Out-of-Bounds: Team ' ~ hit_team ~ ' erhält ' ~ arena.oob_penalty ~ ' Stun') }}
+  {{ hud_tag('Grenzverletzung: Team ' ~ hit_team ~ ' erhält ' ~ arena.oob_penalty ~ ' Stun') }}
   {{ arena_apply_stun(hit_team, arena.oob_penalty) }}
   {{ arena_hud("OOB") }}
 {%- endmacro %}
@@ -4074,10 +4075,11 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   {% set artifact = arena.artifact_limit if arena.artifact_limit is not none else 1 %}
   {% set tier = arena.tier or 1 %}
   {% set psi_allowed = (arena.psi_policy == "allowed") %}
-  {% set vehicle_allowed = (arena.vehicle_policy == "on") %}
+  {% set vehicle_allowed = (arena.vehicle_policy in ["on", "rig"]) %}
+  {% set vehicle_label = (arena.vehicle_policy == "rig") and "Rig" or "ja" %}
   {{ hud_tag('Loadout: Tier ' ~ tier ~ ' · Budget ' ~ budget ~ ' · Proc ' ~ proc ~
     ' · Artefakte ' ~ artifact ~ ' · Psi ' ~ (psi_allowed and 'ja' or 'nein') ~
-    ' · Fahrzeuge ' ~ (vehicle_allowed and 'ja' or 'nein')) }}
+    ' · Fahrzeuge ' ~ (vehicle_allowed and vehicle_label or 'nein')) }}
 {%- endmacro %}
 
 {# LINT:ARENA_ACTIONS #}
@@ -4166,21 +4168,30 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   {{ arena_hud("SCORE") }}
 {%- endmacro %}
 
-{% macro arena_hud(phase="") -%}
+{% macro arena_hud(phase="", style="diegetic") -%}
+{% set debug = style == "debug" %}
+{% set map_label = debug and "Map" or "Halle" %}
+{% set round_label = debug and "R" or "Runde" %}
+{% set time_label = debug and "T" or "Zeit" %}
+{% set oob_label = debug and "OOB" or "Grenze" %}
+{% set moves_label = debug and "MOV" or "Aktionen" %}
+{% set cycle_label = debug and "CYCLE" or "Zyklus" %}
+{% set phase_label = debug and "PHASE" or "Phase" %}
 {% set segs = [
-  "ARENA·" ~ arena.mode|upper, " · Map " ~ arena.map,
-  " · R " ~ arena.round ~ "/" ~ arena.rounds_total,
-  " · T " ~ (arena.t_remaining or arena.time_limit_s) ~ "s",
+  "ARENA·" ~ arena.mode|upper, " · " ~ map_label ~ " " ~ arena.map,
+  " · " ~ round_label ~ " " ~ arena.round ~ "/" ~ arena.rounds_total,
+  " · " ~ time_label ~ " " ~ (arena.t_remaining or arena.time_limit_s) ~ "s",
   " · A:" ~ arena.score.A, " · B:" ~ arena.score.B,
-  " · OOB " ~ arena.oob_penalty
+  " · " ~ oob_label ~ " " ~ arena.oob_penalty
 ] %}
 {% if arena.large_team %}
   {% set segs = segs + [
-    " · MOV " ~ (arena.moves_this_cycle or 0) ~ "/" ~ (arena.move_limit or '∞'),
-    " · CYCLE " ~ (arena.cycle_remaining or arena.cycle_s or 0) ~ "s"
+    " · " ~ moves_label ~ " " ~ (arena.moves_this_cycle or 0) ~ "/" ~
+      (arena.move_limit or '∞'),
+    " · " ~ cycle_label ~ " " ~ (arena.cycle_remaining or arena.cycle_s or 0) ~ "s"
   ] %}
 {% endif %}
-{% if phase %}{% set segs = segs + [" · PHASE:" ~ phase] %}{% endif %}
+{% if phase %}{% set segs = segs + [" · " ~ phase_label ~ ":" ~ phase] %}{% endif %}
 `{{ segs|join('') }}`
 {%- endmacro %}
 
