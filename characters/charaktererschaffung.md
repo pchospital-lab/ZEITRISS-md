@@ -139,7 +139,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3 – schnell,
   leise, robust genug für nächtliche Einsätze.
 - **Talente:** _Schleichprofi_, _Akrobat_, _Schattenprofil_.
-- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1),
+- **Cyber-/Bioware:** Neuro‑Translator (SYS 1), Fingernagel‑Klingen (SYS 1),
   Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3.
 - **Unique Gear:** Chamäleon‑Overall (Stealth‑Vorteil +1).
 
@@ -148,7 +148,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
 - **Talente:** Schleichprofi; Akrobat; Schattenprofil
-- **Cyber-/Bioware:** Retina‑Filmraster (SYS 1), Fingernagel‑Klingen (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
+- **Cyber-/Bioware:** Neuro‑Translator (SYS 1), Fingernagel‑Klingen (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
 
 #### "Kernel" – Tech & Drone Handler
 
