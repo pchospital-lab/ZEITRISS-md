@@ -970,3 +970,21 @@ Legacy-Regeln oder Skill-Sidepaths.
   direkte Px-Manipulation.
 - ✅ Preset-Validator `tools/validate_presets.py` prüft Attribute, Mods,
   Talente und SYS-Budget; `make lint` führt den Check aus.
+
+## Maßnahmenpaket PvP-Arena Mixed-Reality 2026-08 (Issues #1–#9)
+
+Dieses Paket bündelt die MR-Schärfung der PvP-Arena (Ausrüstung, Haptik,
+Magnetfeld-Deck, Shared-Overlay) samt diegetischer HUD-Schicht. Ziel ist, dass
+Arena-Outputs **physisch** wirken, ohne Digitalraum-Vibe.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
+| #1 | Arena als MR-Trainingsanlage verankern | `gameplay/kampagnenstruktur.md`: „Simulation“ durch MR-Trainingsanlage ersetzen, Suit-Lock/Med-Scan und Reset-Logik diegetisch erklären. QA: 1 Arena-Probelauf ohne VR-Vokabular. | 🟡 umgesetzt, QA offen |
+| #2 | Hardware-/Facility-Kasten ergänzen | `gameplay/kampagnenstruktur.md`: kurzer MR-Absatz (Suit/Helm, Magnetfeld, Beacon-Gitter, Safe/Combat-Zonen), 1 Beispielabsatz „Eintritt in die Arena“. QA: Stil-Check gegen Holodeck/VR-Termine. | 🟡 umgesetzt, QA offen |
+| #3 | Default-Map umbenennen | `systems/toolkit-gpt-spielleiter.md`: Default `map` auf physische Bezeichnung (z. B. „Magnet-Deck A“) ändern; ggf. Legacy-Hinweis. QA: Arena-Start zeigt neuen Map-Label. | 🟡 umgesetzt, QA offen |
+| #4 | Diegetisches HUD als Default | `systems/toolkit-gpt-spielleiter.md`: `arena_hud()` um `style='diegetic'` ergänzen; Labels „Halle/Grenze/Zeit/Runde“ verwenden, Debug-Style optional. QA: HUD in beiden Styles prüfen. | 🟡 umgesetzt, QA offen |
+| #5 | Fahrzeug-Rigs für Arena | `gameplay/kampagnenstruktur.md`: Arena-Fahrzeugrigs beschreiben (Harness + MR-Karosse + Magnetfeld). `vehicle_policy='rig'` im Toolkit dokumentieren. QA: Chase-Szene mit Rig vs. off. | 🟡 umgesetzt, QA offen |
+| #6 | Kulisse = Set + MR-Overlay | `gameplay/kampagnenstruktur.md`: Kulissen-Satz ergänzen (Set/Props/Licht + MR), kein Epochensprung. QA: Prompt „Kulisse 1700“ bleibt Arena. | 🟡 umgesetzt, QA offen |
+| #7 | Feedback-Intensität als Kalibrierung | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen. | 🟡 umgesetzt, QA offen |
+| #8 | Shared-Overlay Lore | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben. | 🟡 umgesetzt, QA offen |
+| #9 | Dämpfer diegetisch erklären | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich. | 🟡 umgesetzt, QA offen |
