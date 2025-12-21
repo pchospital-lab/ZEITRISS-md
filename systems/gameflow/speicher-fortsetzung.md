@@ -72,6 +72,7 @@ Pflichtcontainer fehlen oder die Typen nicht passen.
 schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,
 damage, at}` bzw. `{event:"mass_conflict", chaos, break_sg, stress, at}`. Diese
 Einträge ergänzen die Toast-Strings und bleiben für QA/Replay maschinenlesbar.
+Fehlt `at`, ergänzt der Serializer beim HQ-Save einen ISO-Zeitstempel.
 
 Optionales QA-Flag `logs.flags.atmosphere_contract_capture` speichert pro Phase
 (`core|transfer|rift`) einen 8–12-zeiligen Exzerpt-Block sowie den Status des
@@ -248,7 +249,10 @@ Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{cu,wallets}`), FR-Bias
 und Arena- oder Seed-Metadaten zusammen. Die Runtime ruft `record_trace()` bei
 `StartMission()`, `launch_rift()` und `arenaStart()` auf, begrenzt die Liste auf
 64 Einträge und spiegelt die Snapshots im HQ-Save (Fixtures enthalten
-Beispiele). Das Trace ergänzt `logs.hud[]` und ersetzt keine Toasts.
+Beispiele). Beim HQ-Save schreibt die Runtime zusätzlich ein `economy_audit`-
+Event mit Level, HQ-Pool, Wallet-Summe, Richtwerten und Chronopolis-Sinks;
+ein HUD-Toast erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und
+ersetzt keine Toasts.
 
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
 Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`

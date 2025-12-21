@@ -414,6 +414,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `SF-ON`/`SF-OFF` sichtbar.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
+  Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events; fehlt `at`,
+  ergänzt der HQ-Save einen ISO-Zeitstempel.
   - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
     und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
     blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
@@ -547,6 +549,9 @@ if not char.get("psi") and not char.get("has_psi"):
     gleichmäßig.
   - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
     Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
+  - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level, HQ-Pool,
+    Wallet-Summe, Richtwerte, Chronopolis-Sinks); ein HUD-Toast erscheint nur
+    bei Abweichungen.
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_
