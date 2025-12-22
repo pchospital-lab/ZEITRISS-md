@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.26
+version: 1.13.27
 tags: [meta]
 ---
 
@@ -85,6 +85,7 @@ Checks in einem Schritt.
 | 2025-11-06 | Regression Audit-Maßnahmen #13–#20 | QA-Log 2025-11-06 |
 | 2025-11-26 | Simulativer Acceptance-/Save-Lauf | QA-Log 2025-11-26 |
 | 2025-12-03 | Testprompt Voll-Lauf (Acceptance 1–15, Save v6) | QA-Log 2025-12-03 |
+| 2025-12-22 | Pflichtprüfungen vollständig grün | Repo-Checks (make lint/test, smoke, Linter) |
 
 Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
