@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.3 – Modul 9: Verfolgungsjagden & Massenkonflikte"
-version: 4.2.3
+title: "ZEITRISS 4.2.5 – Modul 9: Verfolgungsjagden & Massenkonflikte"
+version: 4.2.5
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.3 – Modul 9: Verfolgungsjagden & Massenkonflikte
+# ZEITRISS 4.2.5 – Modul 9: Verfolgungsjagden & Massenkonflikte
 
 - Fahrzeugarten in verschiedenen Zeitaltern
 - Fahrzeugsteuerung, Manöver & Verfolgungsjagden
@@ -16,7 +16,7 @@ tags: [gameplay]
 \*Mit gellenden Bremsen schlittert ein 80er-Jahre DeLorean um die Kurve, dicht gefolgt von schwarzen
 Geländewagen aus der Zukunft. Gleichzeitig erzittert in der Ferne ein Schlachtfeld: Mittelalterliche
 Ritter stoßen auf stählerne Mechs aus dem 23. Jahrhundert. Willkommen zu einem **_filmisch-
-immersiven_** Modul für ZEITRISS 4.2.3, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.\*
+immersiven_** Modul für ZEITRISS 4.2.5, das vollgepackt ist mit Tempo, Technik und taktischer Tiefe.\*
 **Dieses Regelmodul erweitert das ZEITRISS-System um alles rund um Fahrzeuge, besondere
 Fortbewegungsarten und große Konflikte** – ohne den erzählerischen Fokus zu verlieren. Im Folgenden
 findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **dramatische Reit- und
@@ -149,7 +149,7 @@ ausdrücklich willkommen.
 ### Fahrzeugbeschaffung & Ressourcen
 
 Die Frage _„Wie kommen die Helden überhaupt an ein Fahrzeug?“_ bietet Gelegenheit für spannende
-Plot-Ideen. In ZEITRISS 4.2.3 gibt es mehrere gängige **Beschaffungswege**:
+Plot-Ideen. In ZEITRISS 4.2.5 gibt es mehrere gängige **Beschaffungswege**:
 
 - **HQ-Ausstattung:** Oft stellt das ITI den Agenten ein Transportmittel zur Verfügung, das zur
   Missionszeit passt (sofern dort bereits etwas Lager- oder tarnbar ist). Vorteil: zuverlässig,

@@ -1,6 +1,6 @@
 ---
 title: "Changelog"
-version: 4.2.3
+version: 4.2.5
 tags: [meta]
 ---
 
@@ -26,7 +26,7 @@ tags: [meta]
 - Runtime spiegelt Rift-Missionsdaten: `StartMission()`/`reset_mission_state()` übernehmen
   `campaign.scene_total`, setzen `phase` auf `core`/`rift` und zeigen Rift-Ops korrekt mit `SC …/14`
   im HUD sowie in Saves; Toolkit-Docs vermerken den Mirror.
-- Versionseinträge konsolidiert: README/runtime stehen auf 4.2.3, QA-Fahrplan 1.10.0 ist im QA-Log
+- Versionseinträge konsolidiert: README/runtime stehen auf 4.2.5, QA-Fahrplan 1.10.0 ist im QA-Log
   gespiegelt.
 
 ## 4.2.2 – Arena-Episodenstempel

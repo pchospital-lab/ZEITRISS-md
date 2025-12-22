@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.3 – Runtime Stub & Routing Layer (Text-Edition)"
-version: 4.2.3
+title: "ZEITRISS 4.2.5 – Runtime Stub & Routing Layer (Text-Edition)"
+version: 4.2.5
 tags: [meta]
 ---
 
-# ZEITRISS 4.2.3 – Runtime Stub & Routing Layer (Text-Edition)
+# ZEITRISS 4.2.5 – Runtime Stub & Routing Layer (Text-Edition)
 
 _Plug-and-play Vorlagen für eure Entwickler – copy-pastable Pseudocode / JSON-Schemas._
 
@@ -171,7 +171,7 @@ Content-Type: application/json
     "squad_radio": [],
     "kodex": [],
     "flags": {
-      "runtime_version": "4.2.3",
+      "runtime_version": "4.2.5",
       "compliance_shown_today": false,
       "offline_help_last_scene": null,
       "offline_help_last": null,
