@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.4
+version: 4.2.5
 tags: [meta]
 ---
 
@@ -890,7 +890,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
-**ZEITRISS 4.2.4** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.2.5** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
@@ -1222,7 +1222,7 @@ Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl oder �
 beides direkt aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
-Beispiel: `🟢 ZEITRISS 4.2.4 – Einsatz für {{dich|euch}} gestartet`.
+Beispiel: `🟢 ZEITRISS 4.2.5 – Einsatz für {{dich|euch}} gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
@@ -1362,8 +1362,9 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   im Debrief listet Tag, Szene und Kurztext der jüngsten Hinweise für spätere
   Belege.
 - Die Zeile `Runtime-Flags: …` dokumentiert Persistenzstatus
-  (`runtime_version`, Compliance-Check, Chronopolis-Warnung) sowie Offline-
-  Hilfe-Zähler mit Timestamp des letzten Abrufs.
+  (`runtime_version`, Compliance-Check, Chronopolis-Warnung, Action-Contract)
+  sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs; bei
+  protokollierten Cuts erscheint zusätzlich `How-to-Guard n×`.
 - Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche
   Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den
   Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
@@ -1421,6 +1422,9 @@ Actionfilm-Cut (Intent → Schnitt → Ergebnis), `fsk12` reduziert Intensität 
 `off` blendet Gewalt zugunsten von Flucht, Stun oder Umgehung aus.
 Grundregel: Keine Schritt-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen
 laufen über Noise, Stress, Heat oder enge Zeitfenster.
+Für QA-Reports kann `log_action_contract_guard("Notiz", {phase, scene})`
+genutzt werden; der Save hält `logs.flags.platform_action_contract` und
+`logs.flags.howto_guard_hits[]`.
 
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
 mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.

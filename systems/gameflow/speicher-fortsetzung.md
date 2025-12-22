@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.4
+title: "ZEITRISS 4.2.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.5
 tags: [system]
 ---
 
-# ZEITRISS 4.2.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
@@ -93,8 +93,9 @@ SaveGuard + folgendem Pfadbaum:
     `arena_psi`, `foreshadow`, `fr_interventions`
   - `flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,
     chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,
-    hud_scene_usage}`
+    hud_scene_usage,platform_action_contract}`
   - `flags.merge_conflicts[]`
+  - `flags.howto_guard_hits[]`
 - `arc_dashboard{offene_seeds[],fraktionen{}}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
@@ -132,7 +133,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.4",
+  "zr_version": "4.2.5",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -167,9 +168,16 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.4",
+      "runtime_version": "4.2.5",
       "compliance_shown_today": false,
-      "chronopolis_warn_seen": false
+      "chronopolis_warn_seen": false,
+      "platform_action_contract": {
+        "action_mode": "konform",
+        "pattern": "intent-cut-result",
+        "loot_policy": "outcome_only",
+        "body_handling": "none"
+      },
+      "howto_guard_hits": []
     }
   },
   "arc_dashboard": {
@@ -272,7 +280,7 @@ Persistenz zu verlieren; die Defaults greifen automatisch.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.4",
+  "zr_version": "4.2.5",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -388,9 +396,16 @@ Persistenz zu verlieren; die Defaults greifen automatisch.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.4",
+      "runtime_version": "4.2.5",
       "compliance_shown_today": true,
-      "chronopolis_warn_seen": false
+      "chronopolis_warn_seen": false,
+      "platform_action_contract": {
+        "action_mode": "konform",
+        "pattern": "intent-cut-result",
+        "loot_policy": "outcome_only",
+        "body_handling": "none"
+      },
+      "howto_guard_hits": []
     },
     "field_notes": [
       {
@@ -609,7 +624,7 @@ Arena-Guards scharfgeschaltet werden.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.4",
+  "zr_version": "4.2.5",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -638,12 +653,19 @@ Arena-Guards scharfgeschaltet werden.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.4",
+      "runtime_version": "4.2.5",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": true,
       "offline_help_count": 1,
       "offline_help_last_scene": "HQ:4",
-      "offline_help_last": "HQ:4"
+      "offline_help_last": "HQ:4",
+      "platform_action_contract": {
+        "action_mode": "konform",
+        "pattern": "intent-cut-result",
+        "loot_policy": "outcome_only",
+        "body_handling": "none"
+      },
+      "howto_guard_hits": []
     }
   },
   "arc_dashboard": {"offene_seeds": [], "fraktionen": {}},
@@ -749,8 +771,10 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 
 - **Runtime-Flags.** `logs.flags.runtime_version` hält die erzeugende Version
   fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
-  Compliance-Status, Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
-  Szene-Marker (`offline_help_last_scene`). Legacy-Felder
+  Compliance-Status, Chronopolis-Warnung, Action-Contract-Modus sowie
+  Offline-Hilfe-Zähler plus Szene-Marker (`offline_help_last_scene`). Optional
+  ergänzen `logs.flags.howto_guard_hits[]` QA-Cuts; der Debrief zählt sie als
+  `How-to-Guard n×`. Legacy-Felder
   `offline_help_last` werden beim Laden auf `offline_help_last_scene`
   gespiegelt.
 - **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
@@ -1075,7 +1099,7 @@ und werden beim Laden ignoriert.
 
 ```json
 {
-  "zr_version": "4.2.4",
+  "zr_version": "4.2.5",
   "save_version": 6,
   "location": "HQ",
   "phase": "core",
@@ -1140,9 +1164,16 @@ und werden beim Laden ignoriert.
     "arena_psi": [],
     "psi": [],
     "flags": {
-      "runtime_version": "4.2.4",
+      "runtime_version": "4.2.5",
       "chronopolis_warn_seen": false,
-      "compliance_shown_today": false
+      "compliance_shown_today": false,
+      "platform_action_contract": {
+        "action_mode": "konform",
+        "pattern": "intent-cut-result",
+        "loot_policy": "outcome_only",
+        "body_handling": "none"
+      },
+      "howto_guard_hits": []
     }
   },
   "arc_dashboard": {
@@ -1230,7 +1261,7 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.4** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.5** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -1301,7 +1332,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 ```javascript
 function select_state_for_save(state) {
   return {
-    zr_version: "4.2.4",
+    zr_version: "4.2.5",
     save_version: 6,
     location: state.location,
     phase: state.phase,
@@ -1467,7 +1498,7 @@ vorliegen; Validatoren akzeptieren auch Saves ohne `field_notes[]`.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.4 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.5 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 

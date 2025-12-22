@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.6
+version: 1.3.7
 tags: [meta]
 ---
 
@@ -279,6 +279,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   oder Debrief-Recap. `modus action|gewalt` respektiert die gewählte Stufe.
 - **FAIL:** Konkrete Gewaltanleitungen, optimierende How-to-Tipps, detailliertes
   Durchsuchen von Körpern oder explizite Verletzungsdarstellungen.
+- **Trace:** `logs.flags.platform_action_contract` hält den aktiven Modus.
+  Optional können Cuts via `log_action_contract_guard("Notiz", {phase, scene})`
+  in `logs.flags.howto_guard_hits[]` abgelegt werden.
 
 ### Compliance-Hinweis im QA-Lauf
 
