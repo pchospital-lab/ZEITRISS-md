@@ -574,7 +574,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `idle` ist; Matchmaking-States zählen als aktiv. Der Load-Merge
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
   Marker, `conflict_fields`, `conflicts_added`, Gesamttally), damit
-  Cross-Mode-Imports einheitliche Belege liefern.
+  Cross-Mode-Imports einheitliche Belege liefern. Offene `campaign.rift_seeds[]`
+  werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen automatisch an
+  ITI-NPC-Teams und erscheinen im Trace (`merge_conflicts.rift_merge`).
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
   Felder `contrast`, `badge_density` und `output_pace`. Migration und Serializer
   ergänzen fehlende Felder mit Defaults (`standard|normal`), sodass der
@@ -648,7 +650,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 | Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
 | Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
 | Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); Mission-5-Badge-Check fordert den sichtbaren `GATE 2/2`-Toast |
-| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss- bzw. Teamgröße) |
+| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss-Typ und Teamgröße 1–5) |
 
 - **Foreshadow-Gate (Mission 5/10).** Nach `StartMission()` setzt die Runtime
   automatisch `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`) als Badge **und** Toast.
@@ -659,6 +661,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `logs.flags.foreshadow_gate_*` und dedupliziert `logs.foreshadow[]` (Token-basiert).
   HUD-Badge und Save nutzen konsequent das Muster `GATE 2/2` plus `FS x/y`,
   sodass `!boss status` und Ladepunkte denselben Stand zeigen.
+- **QA-Trace für Boss-Typ.** `logs.trace[].boss` hält beim Missionsstart
+  `type=mini|arc|rift` und `dr`, damit Boss-DR-Snapshots im Audit eindeutig sind.
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD,
   Overlay `· SUG`), `modus ask` wechselt zurück in den klassischen Fragemodus
   (`SUG-OFF`). Das SUG-Badge ist unabhängig von Self-Reflection und bleibt aktiv,
@@ -1032,8 +1036,9 @@ Artefakten und temporaler Abweichungen.
 > Atmosphere Contract (QA/Runner): 3rd-Person-Narration, Physicality-
 > Guard/Banned Terms, Rift = Casefile-Monster-Hunt, Core rational/noir, HUD
 > schlank (80/20). Runtime exportiert den Contract als QA-Block
-> (`logs.flags.atmosphere_contract`); optionale QA-Exzerpte pro Phase landen
-> in `logs.flags.atmosphere_contract_capture` (8–12 Zeilen, Banned-Terms
+> (`logs.flags.atmosphere_contract`); in QA-Mode (`logs.flags.qa_mode=true`)
+> sind Exzerpte pro Phase **verpflichtend** in
+> `logs.flags.atmosphere_contract_capture` (8–12 Zeilen, Banned-Terms
 > PASS/FAIL, HUD-Toast-Zählung).
 
 **Was ist eine Anomalie?**

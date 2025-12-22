@@ -1,10 +1,37 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.18
+version: 0.4.19
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-12-23 – Repo-Agent – Rift-Merge-Cap & QA-Capture (Issues #4/#8/#12) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README/Toolkit 4.2.3, QA-Fahrplan 1.13.25
+- Auftrag: Rift-Merge-Deckelung mit Trace dokumentieren, Boss-DR-Docs/Trace
+  konsolidieren, Atmosphere-Contract-Capture in QA-Mode erzwingen.
+
+```chatlog
+11:05 Repo-Agent: `make lint`
+11:28 Repo-Agent: `make test`
+11:49 Repo-Agent: `bash scripts/smoke.sh`
+12:05 Repo-Agent: `python3 tools/lint_runtime.py`
+12:08 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+12:10 Repo-Agent: `python3 scripts/lint_doc_links.py`
+12:12 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Rift-Seeds beim Merge auf 12 deckeln; Überschuss geht an ITI-NPC-Teams und
+      ist im Trace sichtbar.
+- [x] Boss-DR-Doku auf Teamgröße 1–5 konsolidieren; Boss-Typ im Trace spiegeln.
+- [x] QA-Mode erzwingt `logs.flags.atmosphere_contract_capture` je Phase mit
+      8–12 Zeilen, Banned-Terms-Status und HUD-Toast-Zählung.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (fix: rift merge cap & qa capture)
+- QA-Fahrplan: Tester-Playtest 2025-12-XX (Issue #4/#8/#12) abgeschlossen.
 
 ## 2025-12-22 – Repo-Agent – HUD-Timestamps & Economy-Audit (Issues #9/#11) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
