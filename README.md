@@ -44,7 +44,6 @@ tags: [meta]
 1. [Loot-Quickref](#loot-quickref)
 1. [Kampagnenhierarchie](#kampagnenhierarchie)
 1. [Struktur](#struktur)
-1. [Beispielworkflow](#beispielworkflow)
 1. [Spielstart](#spielstart)
 1. [Spielmodi](#spielmodi)
 1. [Generator-Utilities](#generator-utilities)
@@ -53,7 +52,6 @@ tags: [meta]
     1. [Begriffsklärung](#begriffsklärung)
     1. [Zeiteinheiten](#zeiteinheiten)
     1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
-1. [Playtest Feedback](#playtest-feedback)
 1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
 
 <!-- Macro: ShowComplianceOnce -->
@@ -166,16 +164,6 @@ euch das Maintainer-Dokument.
 - **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der
   Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik,
   HUD-Badges und Save-Strukturen.**
-- **QA-Runner:** `npm run test:acceptance` bzw. `tools/test_acceptance_followups.js`
-  prüfen Mission‑5/HUD-Golden-Files aus
-  `internal/qa/fixtures/mission5_badge_snapshots.json`. Die Läufe gehören zu den
-  Pflichttests und werden im QA-Log referenziert.
-- **QA-Fixtures:** `internal/qa/fixtures/savegame_v6_test.json` (vollständiger
-  v6-HQ-Save) und `internal/qa/fixtures/savegame_v6_highlevel.json` (Level 8/120/520
-  mit `seed_tier`-Hinweisen) dienen als Referenzen für Save-/Rift-Regressionen.
-- **Maintainer:innen prüfen nach abgeschlossenen Tests lediglich den fertigen
-  Wissensstand und übertragen ihn anschließend gemäß
-  `docs/maintainer-ops.md` in die produktiven Plattform-Runtimes.**
 
 ## Repo-Map {#repo-map}
 
@@ -186,10 +174,10 @@ ZEITRISS-md/
 ├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
 ├─ systems/                 # Gameflow, Währungen, Toolkit für die KI-Spielleitung (Runtime)
-├─ internal/qa/             # QA-Fahrplan, Audit, Logs (Meta-Artefakte)
+├─ internal/qa/             # Interne Pläne/Logs (Meta-Artefakte)
 ├─ internal/runtime/        # Entwickler-Stubs (`runtime-stub-routing-layer.md`) & lokale Runtimes
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
-├─ docs/                    # Maintainer-Ops, Smoke-Tests, Starttranskripte
+├─ docs/                    # Maintainer-Ops, Starttranskripte
 │                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 └─ master-index.json        # Übersicht aller Module und Slugs
@@ -205,7 +193,6 @@ ZEITRISS-md/
   vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
 - **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen
   der Maintainer:innen.
-- **`docs/qa/tester-playtest-briefing.md`** – Briefing und Checklisten für QA-Läufe.
 - **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
@@ -304,19 +291,16 @@ nicht.
   Normalizer hebt Legacy-Strings an und zieht fehlende Label/Hook/Seed-Tier aus
   dem Seed-Katalog nach.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
-  `arena.resume_token` (Tier, Teamgröße, Modus, Audit) und erlaubt `!arena
+  `arena.resume_token` (Tier, Teamgröße, Modus) und erlaubt `!arena
   resume` ohne erneute Gebühr aus dem HQ.
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
-
-[Start-Transkripte ↗](internal/qa/transcripts/start-transcripts.md)
 
 Siehe auch:
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 - [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
 - [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 - [Start-Transkripte (Kurz)](#start-transkripte)
-- [Abnahme-Smoketest (Dispatcher)](#abnahme-smoketest)
 
 ## Start-Transkripte (Kurz) {#start-transkripte}
 
@@ -410,44 +394,6 @@ füllt fehlende Felder automatisch mit `standard|normal` und stellt sie beim Lad
 sofort wieder her (z. B. `contrast: high`, `badge_density: dense`, `output_pace: slow`).
 Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
 `default|steady` → `normal`.
-
-### Abnahme-Smoketest (Runtime-Overlay)
-
-1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
-   (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
-   1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
-   und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
-2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und
-   `Gate 2/2` an; Mission 5 startet mit Schritt 0 `!sf off`, blendet
-   `Boss-Encounter in Szene 10`, `GATE 2/2` und ggf. `SF-OFF` ein, Szene 10
-   triggert `Boss-DR aktiviert – −X Schaden` mit Auto-Reset `SF-ON` zum
-   Debrief.
-3. **Psi & Ressourcen** – Psi-Konflikt meldet `Psi-Heat +1`, danach Reset;
-   HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
-4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast,
-   Badge-Dichte und Ausgabetempo, Toast notieren; nach erneutem Laden bleiben
-   die Werte erhalten. Vollständige Wortlaute decken `doc.md` und das
-   Tester-Briefing ab.
-
-**Stabile Flows (Regression-Basis)**
-- Ask→Suggest-Overlay bleibt getrennt von Self-Reflection und läuft in Solo,
-  NPC, Koop und PvP stabil.
-- Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
-  Solo/NPC/Koop/PvP identisch.
-- Alias-Mapping „Multi-Tool-Armband → Multi-Tool-Handschuh“ ist aktiv, ohne die
-  Hardware-Regel „kein Armband“ aufzuweichen; die Runtime normalisiert
-  Live-Loadouts und Saves automatisch auf den Handschuh.
-
-**Dispatcher-Smoke-Basislinie**
-| Schritt | Inhalt | Status |
-| ------ | ----------------------------- | -------- |
-| 1 | Spielstart solo klassisch/schnell | ✅ stabil |
-| 2 | NPC-Team 0–4 erstellt (Team gesamt 1–5) | ✅ stabil |
-| 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
-| 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
-| 5 | Missions-Blocker verhindern Saves | ✅ stabil |
-| 6 | Gear-Alias & Px 5 Hinweis sichtbar | ✅ stabil |
-
 
 **HQ → Transfer-Out → Mission → Exfil/Transfer-Back → HQ**
 Vor jeder Mission zeigt das HUD den Transfer-Countdown
@@ -564,8 +510,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
   `flags`, `flags.merge_conflicts`) sowie `ui` und `arena` werden vom
-  Serializer garantiert, damit automatisierte Prüfungen alle Guards
-  vollständig abdecken. `logs.field_notes[]` ist optional; fehlt der Block,
+  Serializer garantiert. `logs.field_notes[]` ist optional; fehlt der Block,
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
@@ -643,45 +588,25 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 ### Boss-Gates, Suggest-Modus & Arena (Kurzinfo)
 
-#### Boss-Gate-Status & Terminologie
-
-| Zeitpunkt | Foreshadow-Ziel | Gate-Anzeige | Erwartete Strings |
-| --------- | ---------------- | ------------ | ----------------- |
-| Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
-| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
-| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); Mission-5-Badge-Check fordert den sichtbaren `GATE 2/2`-Toast |
-| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss-Typ und Teamgröße 1–5) |
-
-- **Foreshadow-Gate (Mission 5/10).** Nach `StartMission()` setzt die Runtime
-  automatisch `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`) als Badge **und** Toast.
-  `ForeshadowHint()` zählt ausschließlich `FS` hoch; Gate bleibt unverändert.
-  `!boss status` meldet denselben Snapshot und dient als Mission-5-Badge-Check
-  im Smoke-Paket.
-- **Persistenz der Gate-Felder.** `scene_overlay()` spiegelt den Gate-Snapshot als
-  `logs.flags.foreshadow_gate_*` und dedupliziert `logs.foreshadow[]` (Token-basiert).
-  HUD-Badge und Save nutzen konsequent das Muster `GATE 2/2` plus `FS x/y`,
-  sodass `!boss status` und Ladepunkte denselben Stand zeigen.
-- **QA-Trace für Boss-Typ.** `logs.trace[].boss` hält beim Missionsstart
-  `type=mini|arc|rift` und `dr`, damit Boss-DR-Snapshots im Audit eindeutig sind.
-- **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON` im HUD,
-  Overlay `· SUG`), `modus ask` wechselt zurück in den klassischen Fragemodus
-  (`SUG-OFF`). Das SUG-Badge ist unabhängig von Self-Reflection und bleibt aktiv,
-  auch wenn `SF-OFF` gesetzt wurde.
-- **Self-Reflection-Quelle.** Alle Runtime-Flows lesen ausschließlich
-  `character.self_reflection`; `logs.flags.self_reflection` ist Audit-Mirror und darf
-  den Charakterwert nicht ersetzen. `set_self_reflection(enabled, reason?)` setzt
-  beide Felder synchron, loggt `*_changed_at/reason` und plant den Auto-Reset nach
-  Mission 5 (`self_reflection_auto_reset_*`).
-- **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis zum Exit
-  und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul; Standardkampagnen
-  laufen ohne Arena-Fokus weiter.
-- **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, zieht die
-  Arena-Gebühr aus `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves,
-  loggt Phase-Strike-Steuern in `logs.arena_psi[]` und meldet Tier, Szenario sowie
-  Px-Status per HUD-Toast. Die Gebühr wird dabei parallel im HQ-Pool
-  (`economy.cu`) und im Credits-Fallback (`economy.credits`) verbucht;
-  `sync_primary_currency()` hält beide Felder deckungsgleich und synchronisiert
-  beim Laden vorhandene Saves auf diesen Stand.
+- **Boss-Gates.** Ab Mission 5/10 setzt die Runtime `GATE 2/2` plus `FS 0/4`
+  (Rift: `FS 0/2`) als Badge und Toast. `ForeshadowHint()` erhöht nur den
+  `FS`-Zähler, das Gate bleibt fest. In Szene 10 erscheint der Boss-Toast mit
+  der Schadensreduktion (skaliert nach Teamgröße und Boss-Typ). Nach dem
+  Missionsende setzt die Runtime Self-Reflection wieder auf `SF-ON` zurück.
+- **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`),
+  `modus ask` schaltet zurück (`SUG-OFF`). Das SUG-Badge bleibt unabhängig von
+  Self-Reflection aktiv.
+- **Self-Reflection.** Quelle bleibt stets `character.self_reflection`;
+  `logs.flags.self_reflection` spiegelt den Wert nur. `set_self_reflection()`
+  hält beide Felder synchron und protokolliert den Auto-Reset nach Mission 5.
+- **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis
+  zum Exit und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul;
+  Standardkampagnen laufen ohne Arena-Fokus weiter.
+- **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
+  `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
+  Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
+  (`economy.cu`) und im Credits-Fallback (`economy.credits`) geführt;
+  `sync_primary_currency()` hält beide Felder deckungsgleich.
 
 ## Mini-FAQ
 
@@ -1033,14 +958,6 @@ Artefakten und temporaler Abweichungen.
 - **Fraktions-Beats loggen:** Briefing, Mid-Mission und Debrief schreiben die gezogene
   Fraktionsintervention als `logs.fr_interventions[]` mit Szene/Episode/Mission mit.
 
-> Atmosphere Contract (QA/Runner): 3rd-Person-Narration, Physicality-
-> Guard/Banned Terms, Rift = Casefile-Monster-Hunt, Core rational/noir, HUD
-> schlank (80/20). Runtime exportiert den Contract als QA-Block
-> (`logs.flags.atmosphere_contract`); in QA-Mode (`logs.flags.qa_mode=true`)
-> sind Exzerpte pro Phase **verpflichtend** in
-> `logs.flags.atmosphere_contract_capture` (8–12 Zeilen, Banned-Terms
-> PASS/FAIL, HUD-Toast-Zählung).
-
 **Was ist eine Anomalie?**
 - Ein Seed markiert eine Störung im Zeitfluss.
 - Paranormale Phänomene fühlen sich real an, werden aber über Zeit­effekte erklärt
@@ -1172,22 +1089,6 @@ Ausführliche Hintergründe liefert das Modul
 | Konflikt   | Spannung        | Exploding 6 nutzen    |
 | Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
 
-## Beispielworkflow
-
-1. Öffnet `meta/masterprompt_v6.md`, kopiert den vollständigen Text in das Anweisungsfenster
-   eurer Zielplattform und dokumentiert den Upload im internen Protokoll (`internal/qa/logs/`).
-2. Ladet anschließend die **25 Regelmodule** gemäß Tabelle in den Wissensspeicher.
-   Laufzeitrelevante Dateien liegen in `core/`, `characters/`, `gameplay/` und `systems/`;
-   `README.md` sowie `master-index.json` dienen als Navigationsanker.
-3. Kontrolliert jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module
-   mit gültigem Header werden vom GPT sicher erkannt.
-4. Führt bei Bedarf den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
-   und protokolliert Autoload, Save/Load und Fehlermeldungen pro Plattform.
-5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist ihr den GPT auf
-   [gameplay/kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md)
-   sowie die dort verlinkten Unterkapitel. Diese Module enthalten sämtliche
-   Tabellen, YAML-Beispiele und Briefing-Vorlagen.
-
 ### Lines & Veils (optional)
 
 Gruppen können vor Spielbeginn gemeinsame Grenzen festlegen. **Lines** sind
@@ -1318,9 +1219,6 @@ beides direkt aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
 Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
-- QA-Läufe nutzen `ShowComplianceOnce(qa_mode=true)`, um nur den HUD-Toast zu setzen und
-  den Chat von Compliance-Text zu befreien; der Start-Dispatcher übernimmt Ansprache und
-  Player-Count aus dem Kommando.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
@@ -1340,7 +1238,7 @@ kopieren lässt. Alle Spielstände werden intern im Charakterbogen geführt –
 separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 `logs.trace[]` als E2E-Protokoll: Mission-Start, Rift-Launch und Arena-Init
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
-HUD-Overlay, sodass QA-Läufe den kompletten Run nachvollziehen können.
+HUD-Overlay, sodass der Run nachvollziehbar bleibt.
 Beim HQ-Save ergänzt die Runtime außerdem ein `economy_audit`-Trace mit Level,
 HQ-Pool, Wallet-Summe, Richtwerten und Chronopolis-Sinks (Toast nur bei
 Abweichungen).
@@ -1352,7 +1250,7 @@ ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
 Pflichtset und den Baum `save_version/zr_version/location/phase → character
 → campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
 → arc_dashboard/ui/arena`, um den Speicherstand zu rekonstruieren. Die
-Schema-Datei selbst dient primär der Validierung in QA-Läufen.
+Schema-Datei selbst dient primär der Validierung in Tools.
 
 ```json
 {
@@ -1403,7 +1301,6 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
     Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
     markiert. Die erste Warnung wird dabei intern vermerkt, damit das Banner beim
     späteren Stadteintritt nur einmal erscheint.
-- **QA-Splitting:** Frühphase testet ausschließlich den Transit/Pre-City-Flow.
   Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
   setzt `logs.flags.chronopolis_unlocked=true` plus
   `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
@@ -1574,8 +1471,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
   [Charaktererschaffung][char-gear]).
 - **Kodex-Badges** – HUD-Marker für Status und Sicherheitshinweise (z. B.
   Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
-  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges)
-  und den [Abnahme-Smoketest-Checks](#abnahme-smoketest).
+  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges).
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
@@ -1645,12 +1541,6 @@ spielerfreundliche Noir-Varianten übersetzt.
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 [llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
 
-
-## Playtest Feedback
-
-Wir freuen uns über Rückmeldungen zu Flow und Regelfragen.
-Scanne den QR-Code oder besuche
-[www.zeitriss.org](https://www.zeitriss.org/), um uns deine Eindrücke zu schicken.
 
 ## Wie du beitragen kannst
 

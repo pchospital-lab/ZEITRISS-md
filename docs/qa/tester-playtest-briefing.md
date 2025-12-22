@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.4
+version: 1.3.5
 tags: [meta]
 ---
 
@@ -47,12 +47,43 @@ Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein
 System-Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progressionsphasen
 betont.
 
+## Beispielworkflow (Setup & Autoload)
+
+1. Öffne `meta/masterprompt_v6.md`, kopiere den vollständigen Text in das
+   Anweisungsfenster der Zielplattform und dokumentiere den Upload im internen
+   Protokoll (`internal/qa/logs/`).
+2. Lade anschließend `README.md`, `master-index.json` und die 18 Runtime-Module
+   wie oben beschrieben in den Wissensspeicher.
+3. Kontrolliere jeden YAML-Header auf `title`, `version` und konsistente `tags`.
+   Nur Module mit gültigem Header werden vom GPT sicher erkannt.
+4. Führe bei Bedarf den Abnahme-Smoketest (Abschnitt
+   [Abnahme-Smoketest](#abnahme-smoketest)) durch und protokolliere Autoload,
+   Save/Load und Fehlermeldungen pro Plattform.
+5. Für Mission Seeds, Encounter- oder Arc-Generatoren verweist du den GPT auf
+   [gameplay/kreative-generatoren-missionen.md](../../gameplay/kreative-generatoren-missionen.md)
+   sowie die dort verlinkten Unterkapitel. Diese Module enthalten sämtliche
+   Tabellen, YAML-Beispiele und Briefing-Vorlagen.
+
 ## Referenzen & Fixtures
 
 - **Vollständiges Test-Save (v6):** `internal/qa/fixtures/savegame_v6_test.json` enthält Cross-Mode-
   und Arena-Spuren, `logs.trace[]`, `logs.psi[]`, `logs.arena_psi[]`,
   `economy.wallets{}` sowie `campaign.rift_seeds[]`. Es dient den
   Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und wird bei Schema-Updates gespiegelt.
+- **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische
+  Save-Schema ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
+  `Save-Schema (saveGame.v6)` ab.
+- **QA-Runner:** `npm run test:acceptance` sowie `tools/test_acceptance_followups.js` prüfen die
+  Mission‑5/HUD-Golden-Files aus `internal/qa/fixtures/mission5_badge_snapshots.json`. Beide
+  Läufe gehören zu den Pflichttests und werden im QA-Log referenziert.
+- **High-Level-Progression:** `internal/qa/fixtures/savegame_v6_highlevel.json` zeigt drei Stände
+  (Lvl 8/120/520) mit Seed-Pools und optionaler `seed_tier`-Kennzeichnung. Nutzung: Regression für
+  Rifts und Endgame-Scaling; die Datei liegt nur lokal als QA-Bezugspunkt und ist nicht Teil des
+  produktiven Wissensspeichers.
+- **Schema-voller Save:** `internal/qa/fixtures/savegame_v6_full.json` vereint Level 7/120/512 mit
+  offenen und geschlossenen Seeds, vollständigem UI-Block, Wallet-Splits, Arena-/PvP-/Psi-Logs
+  sowie Merge-Conflict-Einträgen. Der Datensatz belegt alle Pflichtcontainer und eignet sich für
+  Roundtrip-Tests und Loader-Dedupe.
 - **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
   setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren.
   Sonder-Overlays sollen zusätzlich strukturierte `logs.hud[]`-Events (`vehicle_clash`,
@@ -73,6 +104,11 @@ betont.
   vollständig abdecken.
 - **Stadt und Fraktionen:** Freischaltung ab dem definierten Level prüfen, Services (Werkstatt,
   Archiv, Schwarzmärkte) validieren und Ruf-/Fraktions-Wechsel dokumentieren.
+- **QA-Splitting Chronopolis:** Frühphase testet ausschließlich den Transit-/Pre-City-Flow.
+  Ab Level 10 schaltet die Runtime den Chronopolis-Schlüssel frei, setzt
+  `logs.flags.chronopolis_unlocked=true`, `chronopolis_unlock_level=10`, schreibt ein
+  `chronopolis_unlock`-Trace-Event (Level/Quelle) und blendet den Toast
+  `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein.
 - **Squad-Konfigurationen:** Wechsel zwischen Solo, Solo+NPC-Squad und Koop-Teams testen;
   Squad-Rollen, Synergieboni und Respec-Flows nachvollziehen.
 - **PvP-Inhalte:** Queue-Aufbau, Regeltext, Fraktionsboni, Belohnungen sowie Safe-Zone/Combat-Zone-
@@ -226,12 +262,28 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   Physicality-Guard inkl. Banned Terms (keine Digitalräume/Matrix/Holodeck),
   Rift = Casefile-Monster-Hunt, Core rational/noir, HUD schlank
   (Ziel 80 % Szene/20 % HUD, max. 2 Toasts/Szene).
-- Ziehe den Contract aus `logs.flags.atmosphere_contract` oder README/Toolkit
-  und dokumentiere einen 8–12-zeiligen Excerpt pro Phase (Start/HQ → Szene →
-  Debrief). Speichere den Auszug optional in
-  `logs.flags.atmosphere_contract_capture` mit `lines`, `banned_terms.status`
-  (PASS/FAIL, `banned_terms.hits[]`), `howto_hits[]`, `rewrite_suggestion` und
-  `hud_toasts` (HUD-Toast-Zählung).
+- Die Runtime exportiert den Contract als `logs.flags.atmosphere_contract`.
+  In QA-Mode (`logs.flags.qa_mode=true`) ist pro Phase ein 8–12-zeiliger
+  Exzerpt-Block Pflicht: `logs.flags.atmosphere_contract_capture` mit `lines`,
+  `banned_terms.status` (PASS/FAIL, `banned_terms.hits[]`),
+  `howto_hits[]`, `rewrite_suggestion` und `hud_toasts`
+  (HUD-Toast-Zählung).
+
+### Compliance-Hinweis im QA-Lauf
+
+- Nutze `ShowComplianceOnce(qa_mode=true)`, um nur den HUD-Toast zu setzen und
+  den Chat von Compliance-Text freizuhalten. Der Start-Dispatcher übernimmt
+  Ansprache und Player-Count aus dem Kommando.
+
+### QA-Flags & Zusatzmarker
+
+- **Boss-Trace:** `logs.trace[].boss` hält beim Missionsstart `type=mini|arc|rift`
+  sowie den DR-Wert, damit Boss-Snapshots eindeutig sind.
+- **Weirdness-Budget:** `weirdness_budget_status()` liefert QA-Snapshots; Rift-
+  Anomalien landen im Casefile-Tracker.
+- **SaveGuard-Suffixe:** Alle SaveGuards hängen den Grund konsistent an
+  „– HQ-Save gesperrt.“ an. Das erleichtert den Abgleich der Guard-Matrix in
+  QA-Logs.
 
 ## Ablauf für Tester:innen
 
@@ -309,6 +361,51 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    QA-Notiz oder ein Update für bestehende Audits. Ergebnis wird in Codex
    übertragen, damit Aufgaben strukturiert abgearbeitet werden können.
 
+## Abnahme-Smoketest (Runtime-Overlay) {#abnahme-smoketest}
+
+1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
+   (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
+   1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
+   und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
+2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und
+   `Gate 2/2` an; Mission 5 startet mit Schritt 0 `!sf off`, blendet
+   `Boss-Encounter in Szene 10`, `GATE 2/2` und ggf. `SF-OFF` ein, Szene 10
+   triggert `Boss-DR aktiviert – −X Schaden` mit Auto-Reset `SF-ON` zum Debrief.
+3. **Psi & Ressourcen** – Psi-Konflikt meldet `Psi-Heat +1`, danach Reset;
+   HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
+4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast,
+   Badge-Dichte und Ausgabetempo, Toast notieren; nach erneutem Laden bleiben
+   die Werte erhalten. Vollständige Wortlaute decken `doc.md` und das
+   Tester-Briefing ab.
+
+**Stabile Flows (Regression-Basis)**
+- Ask→Suggest-Overlay bleibt getrennt von Self-Reflection und läuft in Solo,
+  NPC, Koop und PvP stabil.
+- Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
+  Solo/NPC/Koop/PvP identisch.
+- Alias-Mapping „Multi-Tool-Armband → Multi-Tool-Handschuh“ ist aktiv, ohne die
+  Hardware-Regel „kein Armband“ aufzuweichen; die Runtime normalisiert
+  Live-Loadouts und Saves automatisch auf den Handschuh.
+
+**Dispatcher-Smoke-Basislinie**
+| Schritt | Inhalt | Status |
+| ------ | ----------------------------- | -------- |
+| 1 | Spielstart solo klassisch/schnell | ✅ stabil |
+| 2 | NPC-Team 0–4 erstellt (Team gesamt 1–5) | ✅ stabil |
+| 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
+| 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
+| 5 | Missions-Blocker verhindern Saves | ✅ stabil |
+| 6 | Gear-Alias & Px 5 Hinweis sichtbar | ✅ stabil |
+
+## Boss-Gate-Status & Terminologie (Referenzstrings)
+
+| Zeitpunkt | Foreshadow-Ziel | Gate-Anzeige | Erwartete Strings |
+| --------- | ---------------- | ------------ | ----------------- |
+| Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
+| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
+| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); sichtbarer `GATE 2/2`-Toast |
+| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss-Typ und Teamgröße 1–5) |
+
 ## QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
 
 - **Mission 5/10 Foreshadow-Gate & Boss-Toast.** `ForeshadowHint()` zweimal aufrufen
@@ -340,6 +437,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   Px-Trace und Hochstufen-Angebote ab; Debrief-Zeilen im QA-Log 2025-06-28 verlinken.
 - **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert Foreshadow-Reset,
   Suggest-HUD, Vehikel-Overlay-Notizen und Arena-Toast für Beta-/MyGPT-Spiegel.
+
+## Playtest-Feedback (externe Rückmeldung)
+
+Wir freuen uns über Rückmeldungen zu Flow und Regelfragen. Scanne den QR-Code
+oder besuche [www.zeitriss.org](https://www.zeitriss.org/), um Eindrücke aus
+Playtests zu schicken.
 
 ## Template für den Report an die Maintainer:innen
 

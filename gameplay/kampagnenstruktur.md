@@ -334,7 +334,7 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
 - **Freier Zugriff ab Level 1:** Alle Seeds sind jederzeit spielbar; die Runtime
   passt Gegner, Auflagen und Belohnungen an Squad-Level und Teamgröße an.
 - **Optionale Seed-Tiers:** `seed_tier: early|mid|late` dient nur als
-  Balancing-/QA-Hinweis (z. B. Foreshadow vs. Peak-Paramonster), schaltet aber
+  Balancing-Hinweis (z. B. Foreshadow vs. Peak-Paramonster), schaltet aber
   keine Mission frei oder zu. Beispiele: `R-010 Echo-Train`, `R-085 Glass
   Torrent`, `R-404 Black Sun` funktionieren in jeder Progression, das Tier
   beschreibt lediglich die gewünschte Schärfe. Seeds landen so im Save/Dashboard:
@@ -345,9 +345,6 @@ Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wal
   `level_hint` (z. B. „ab Lvl 80 empfohlen“), um das gewünschte Power-Level
   abzubilden. Sie dienen nur dem Debrief/Arc-Dashboard, nicht als Gating-Flag;
   die Runtime zieht weiterhin Squad-Level und Teamgröße heran.
-- **QA-Referenz:** Beispielwerte liegen lokal in
-  `internal/qa/fixtures/savegame_v6_highlevel.json` für Regressionstests; sie
-  sind kein Wissensanker der produktiven GPTs.
 
 Seeds liegen immer als Objekte mit `id/label/status/seed_tier/hook` vor; der
 Normalizer ergänzt fehlende Felder aus dem Seed-Katalog, damit Casefile-Overlays
