@@ -1,10 +1,34 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.19
+version: 0.4.20
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-08-15 – Repo-Agent – PvP-Arena MR-Paket Abschluss (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
+- Wissensstand: Arena-MR-Docs 4.2.3, QA-Fahrplan 1.13.26
+- Auftrag: MR-Arena-Feinschliff final prüfen, QA-Fahrplan auf ✅ abschließen.
+
+```chatlog
+08:40 Repo-Agent: `make lint`
+09:12 Repo-Agent: `make test`
+09:38 Repo-Agent: `bash scripts/smoke.sh`
+09:55 Repo-Agent: `python3 tools/lint_runtime.py`
+09:57 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+09:59 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:01 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] MR-Terminologie prüfen: keine VR-/Holodeck-Formulierungen, physische Halle.
+- [x] Arena-Map-Label „Magnet-Deck A“ und diegetisches HUD (`Halle/Grenze/Zeit/Runde`).
+- [x] Beacon-Gitter, Suit-Lock/Med-Scan, Rig-Hardware und Feedback-Intensität verankert.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (docs: arena mr qa abschließen)
+- QA-Fahrplan: PvP-Arena Mixed-Reality 2026-08 (Issues #1–#9) abgeschlossen.
 
 ## 2025-12-23 – Repo-Agent – Rift-Merge-Cap & QA-Capture (Issues #4/#8/#12) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
