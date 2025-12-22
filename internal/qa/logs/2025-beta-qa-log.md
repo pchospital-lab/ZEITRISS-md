@@ -6,6 +6,36 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2025-12-22 – Repo-Agent – Wissensspeicher-20-Slot Phase 1 (Konsolidierung)
+- Plattform: Lokales Repo-Run (QA-Skripte + Strukturabgleich)
+- Wissensstand: README v4.2.5, QA-Fahrplan 1.13.31
+- Copy-&-Paste-Auftrag: QA-Fahrplan 2025 – Wissensspeicher 20-Slot-Optimierung Phase 1
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `make test`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Cyberware/Bioware in `characters/ausruestung-cyberware.md` konsolidiert.
+- [x] Psi-Talente in `systems/kp-kraefte-psi.md` gespiegelt und verlinkt.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (Wissensspeicher-20-Slot Phase 1).
+- QA-Fahrplan: Wissensspeicher 20-Slot-Optimierung (Phase 1 abgeschlossen 2025-12-22).
+
 ## 2026-11-02 – Repo-Agent – Action-Contract-Logging (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
 - Wissensstand: README v4.2.5, Runtime v4.2.5

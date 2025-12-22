@@ -28,6 +28,8 @@ tags: [meta]
   im HUD sowie in Saves; Toolkit-Docs vermerken den Mirror.
 - Versionseinträge konsolidiert: README/runtime stehen auf 4.2.5, QA-Fahrplan 1.10.0 ist im QA-Log
   gespiegelt.
+- Wissensspeicher-Konsolidierung: Cyberware/Bioware in `ausruestung-cyberware.md` gebündelt,
+  Psi-Talente in `systems/kp-kraefte-psi.md` integriert; zwei Slots bleiben frei.
 
 ## 4.2.2 – Arena-Episodenstempel
 

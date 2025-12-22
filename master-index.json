@@ -43,18 +43,19 @@
     },
     {
       "slug": "cyber-full",
-      "path": "characters/cyberware-und-bioware.md",
+      "path": "characters/ausruestung-cyberware.md",
       "title": "ZEITRISS 4.2.5 – Modul 4B: Cyberware & Bioware",
       "category": "Cyber",
-      "variantType": "full"
+      "variantType": "full",
+      "href": "#cyberware-bioware"
     },
     {
       "slug": "psi-short",
-      "path": "characters/psi-talente.md",
+      "path": "systems/kp-kraefte-psi.md",
       "title": "ZEITRISS 4.2.5 – Modul 4C: Psi-Fähigkeiten & Talente",
       "category": "Psi",
       "variantType": "short",
-      "href": "#backlash-tabelle-kritischer-patzer"
+      "href": "#psi-talente"
     },
     {
       "slug": "psi-full",
