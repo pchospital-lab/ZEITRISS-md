@@ -75,6 +75,7 @@ const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active',
 const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
 const DEFAULT_MODES = ['mission_focus', 'covert_ops_technoir'];
+const DEFAULT_ACTION_MODE = 'konform';
 const ATMOSPHERE_BANNED_TERMS = [
   'cyberspace',
   'virtueller raum',
@@ -814,7 +815,12 @@ const state = {
   loadout: {},
   economy: {},
   logs: {},
-  ui: { gm_style: 'verbose', intro_seen: false, suggest_mode: false },
+  ui: {
+    gm_style: 'verbose',
+    intro_seen: false,
+    suggest_mode: false,
+    action_mode: DEFAULT_ACTION_MODE
+  },
   arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
   initiative: { order: [], active_id: null },
   hud: { timers: [] },
@@ -1773,6 +1779,16 @@ function normalize_output_pace(value, fallback = 'normal'){
   return fallback;
 }
 
+function normalize_action_mode(value, fallback = DEFAULT_ACTION_MODE){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (!normalized) return fallback;
+  if (['frei', 'free', 'full', 'open'].includes(normalized)) return 'frei';
+  if (['konform', 'compliance', 'safe', 'standard'].includes(normalized)) return 'konform';
+  if (['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'].includes(normalized)) return 'fsk12';
+  if (['off', 'aus', 'none', 'zero'].includes(normalized)) return 'off';
+  return fallback;
+}
+
 function clamp_team_size(value, { defaultValue = 1, allowZero = false } = {}){
   const numeric = asNumber(value);
   if (!Number.isFinite(numeric)) return defaultValue;
@@ -1839,7 +1855,8 @@ function ensure_ui(){
       contrast: 'standard',
       badge_density: 'standard',
       output_pace: 'normal',
-      voice_profile: 'gm_third_person'
+      voice_profile: 'gm_third_person',
+      action_mode: DEFAULT_ACTION_MODE
     };
   }
   if (typeof state.ui.gm_style !== 'string'){
@@ -1855,10 +1872,23 @@ function ensure_ui(){
   } else {
     state.ui.contrast = contrast;
   }
+  state.ui.action_mode = normalize_action_mode(state.ui.action_mode);
   state.ui.badge_density = normalize_badge_density(state.ui.badge_density);
   state.ui.output_pace = normalize_output_pace(state.ui.output_pace);
   state.ui.voice_profile = normalize_voice_profile(state.ui.voice_profile);
   return state.ui;
+}
+
+function action_mode_status(){
+  const ui = ensure_ui();
+  const label = ui.action_mode ? ui.action_mode.toUpperCase() : DEFAULT_ACTION_MODE.toUpperCase();
+  return `Action-Contract → ${label} (persistiert)`;
+}
+
+function set_action_mode(raw){
+  const ui = ensure_ui();
+  ui.action_mode = normalize_action_mode(raw);
+  return action_mode_status();
 }
 
 function accessibility_status(){
@@ -6860,6 +6890,7 @@ function prepare_save_ui(ui){
   base.badge_density = normalize_badge_density(base.badge_density);
   base.output_pace = normalize_output_pace(base.output_pace);
   base.voice_profile = normalize_voice_profile(base.voice_profile);
+  base.action_mode = normalize_action_mode(base.action_mode);
   return base;
 }
 
@@ -7003,6 +7034,7 @@ const SAVE_REQUIRED_PATHS = [
   ['ui', 'contrast'],
   ['ui', 'badge_density'],
   ['ui', 'output_pace'],
+  ['ui', 'action_mode'],
   ['arena']
 ];
 
@@ -8212,6 +8244,9 @@ function on_command(command){
     const armed = exfil.armed ? 'armiert' : 'inaktiv';
     const alt = exfil.alt_anchor ? ` · ALT ${exfil.alt_anchor}` : '';
     return `Exfil ${armed} · ANCR ${exfil.anchor || '?'} · RW ${ttl}${alt}`;
+  }
+  if ((m = cmd.match(/^modus\s+(action|gewalt)(?:\s+(.+))?$/))){
+    return m[2] ? set_action_mode(m[2]) : action_mode_status();
   }
   if (cmd === 'modus suggest'){
     const result = set_suggest_mode(true);

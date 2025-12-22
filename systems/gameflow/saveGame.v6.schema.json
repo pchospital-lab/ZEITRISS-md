@@ -163,12 +163,14 @@
       "required": [
         "gm_style",
         "intro_seen",
-        "suggest_mode"
+        "suggest_mode",
+        "action_mode"
       ],
       "properties": {
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },
         "suggest_mode": { "type": "boolean" },
+        "action_mode": { "type": "string", "enum": ["frei", "konform", "fsk12", "off"] },
         "contrast": { "type": "string", "enum": ["standard", "high"] },
         "badge_density": { "type": "string", "enum": ["standard", "dense", "compact"] },
         "output_pace": { "type": "string", "enum": ["normal", "fast", "slow"] },

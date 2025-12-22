@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.3
+version: 4.2.4
 tags: [meta]
 ---
 
@@ -389,9 +389,10 @@ Psi-Heat auf die gespeicherten Grundwerte zurück.
 Der Befehl `!accessibility` öffnet das UI-Panel (Kontrast, Badge-Dichte,
 Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“
 und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
-Block ab (`gm_style`, `suggest_mode`, `contrast`, `badge_density`, `output_pace`),
-füllt fehlende Felder automatisch mit `standard|normal` und stellt sie beim Laden
-sofort wieder her (z. B. `contrast: high`, `badge_density: dense`, `output_pace: slow`).
+Block ab (`gm_style`, `suggest_mode`, `action_mode`, `contrast`, `badge_density`,
+`output_pace`), füllt fehlende Felder automatisch mit `standard|normal` plus
+`action_mode=konform` und stellt sie beim Laden sofort wieder her (z. B.
+`contrast: high`, `badge_density: dense`, `output_pace: slow`).
 Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
 `default|steady` → `normal`.
 
@@ -522,10 +523,11 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Cross-Mode-Imports einheitliche Belege liefern. Offene `campaign.rift_seeds[]`
   werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen automatisch an
   ITI-NPC-Teams und erscheinen im Trace (`merge_conflicts.rift_merge`).
-- `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode` die Accessibility-
-  Felder `contrast`, `badge_density` und `output_pace`. Migration und Serializer
-  ergänzen fehlende Felder mit Defaults (`standard|normal`), sodass der
-  SaveGuard den normalisierten UI-Block prüft.
+- `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
+  Accessibility-Felder `contrast`, `badge_density` und `output_pace`. Migration
+  und Serializer ergänzen fehlende Felder mit Defaults (`standard|normal`,
+  `action_mode=konform`), sodass der SaveGuard den normalisierten UI-Block
+  prüft.
 - Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
   Credits-Fallbacks (`economy.credits`) auf den HQ-Pool `economy.cu`, bevor
   Wallets oder Arena-Guards greifen.
@@ -577,6 +579,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `modus verbose` – Filmisch an; Toast `GM_STYLE → verbose (persistiert)`.
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast
   `GM_STYLE → precision (persistiert)`.
+- `modus action|gewalt frei|konform|fsk12|off` – Action-Contract umschalten;
+  `modus action` zeigt den aktuellen Wert.
 - `!px` – zeigt aktuellen Paradoxon-Stand inklusive ETA (Heuristik) aus `px_tracker()`.
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen,
@@ -886,7 +890,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
-**ZEITRISS 4.2.3** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.2.4** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
@@ -1218,7 +1222,7 @@ Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl oder �
 beides direkt aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
-Beispiel: `🟢 ZEITRISS 4.2.3 – Einsatz für {{dich|euch}} gestartet`.
+Beispiel: `🟢 ZEITRISS 4.2.4 – Einsatz für {{dich|euch}} gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).
@@ -1409,6 +1413,14 @@ Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
 Der Suggest-Modus wird mit `modus suggest` aktiviert und mit `modus ask` wieder deaktiviert.
 Vorschläge markiert der Kodex sichtbar als `Vorschlag:` (Toolkit-Makro `suggest_actions()`)
 und wartet auf ein bestätigendes oder korrigierendes Spieler-Feedback, bevor er fortfährt.
+
+**Action-Contract-Schalter.** Für Plattformwechsel gibt es einen Gewalt-Regler:
+`modus action|gewalt konform|frei|fsk12|off`. Standard ist `konform`. `frei`
+liefert filmische Action ohne How-to-Details, `konform` nutzt den
+Actionfilm-Cut (Intent → Schnitt → Ergebnis), `fsk12` reduziert Intensität und
+`off` blendet Gewalt zugunsten von Flucht, Stun oder Umgehung aus.
+Grundregel: Keine Schritt-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen
+laufen über Noise, Stress, Heat oder enge Zeitfenster.
 
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
 mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.
