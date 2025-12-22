@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.1
+version: 1.0.2
 tags: [meta, qa]
 ---
 
@@ -221,6 +221,13 @@ Hochstufen-Spielrunden.
 - Preset-Validator `tools/validate_presets.py` prüft Attribute, Mods und
   SYS-Budgets und läuft über `make lint`.
 - QA-Fahrplan 1.13.22 und QA-Log 2026-07-02 dokumentieren den Abschluss.
+
+## Update 2026-08-15 – PvP-Arena Mixed-Reality Abschluss
+
+- QA-Probelauf bestätigt MR-Trainingsanlage, Beacon-Gitter, Suit-Lock/Med-Scan,
+  Rig-Hardware sowie diegetische HUD-Labels ohne VR-Vokabular.
+- QA-Fahrplan 1.13.26 markiert das PvP-Arena-MR-Paket (Issues #1–#9) als
+  abgeschlossen; QA-Log dokumentiert den Lauf vom 2026-08-15.
 
 ## Maßnahmenkatalog (Priorisiert)
 1. **Modulnummern & Cross-References harmonisieren.** Modul 6 verweist weiterhin
