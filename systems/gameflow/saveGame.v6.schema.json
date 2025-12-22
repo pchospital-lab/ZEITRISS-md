@@ -153,7 +153,18 @@
           "type": "object",
           "required": ["merge_conflicts"],
           "properties": {
-            "merge_conflicts": { "type": "array", "items": { "type": "object" } }
+            "merge_conflicts": { "type": "array", "items": { "type": "object" } },
+            "platform_action_contract": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "action_mode": { "type": "string", "enum": ["frei", "konform", "fsk12", "off"] },
+                "pattern": { "type": "string" },
+                "loot_policy": { "type": "string" },
+                "body_handling": { "type": "string" }
+              }
+            },
+            "howto_guard_hits": { "type": "array", "items": { "type": ["object", "string"] } }
           }
         }
       }

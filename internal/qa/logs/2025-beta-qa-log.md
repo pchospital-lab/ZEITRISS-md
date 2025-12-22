@@ -1,10 +1,39 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.21
+version: 0.4.22
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-11-02 – Repo-Agent – Action-Contract-Logging (Build 4.2.5)
+- Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
+- Wissensstand: README v4.2.5, Runtime v4.2.5
+- Copy-&-Paste-Auftrag: QA-Fahrplan 2026-10 – Optionale Action-Contract-Logs
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `make test`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Action-Contract-Logging in Runtime, Save-Schema und Wissensmodulen gespiegelt.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (Ergänze Action-Contract-Logging).
+- QA-Fahrplan: Maßnahmenpaket Plattform-Contract Action & Gewalt #6 (Status aktualisiert 2026-11-02).
 
 ## 2026-10-30 – Repo-Agent – Action-Contract-Schalter & Outcome-Guard (Build 4.2.4)
 - Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)

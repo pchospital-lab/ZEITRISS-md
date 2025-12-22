@@ -1789,6 +1789,39 @@ function normalize_action_mode(value, fallback = DEFAULT_ACTION_MODE){
   return fallback;
 }
 
+function normalize_howto_guard_hits(raw){
+  if (!Array.isArray(raw)) return [];
+  const normalized = [];
+  for (const entry of raw){
+    if (!entry) continue;
+    if (typeof entry === 'string'){
+      const note = entry.trim();
+      if (note){
+        normalized.push({ note });
+      }
+      continue;
+    }
+    if (typeof entry !== 'object' || Array.isArray(entry)) continue;
+    const note = typeof entry.note === 'string' ? entry.note.trim() : '';
+    if (!note) continue;
+    const mode = normalize_action_mode(entry.action_mode || entry.mode, null);
+    const phaseRaw = normalize_phase_value(entry.phase, '');
+    const phase = ['core', 'transfer', 'rift'].includes(phaseRaw) ? phaseRaw : null;
+    const sceneIndex = Number(entry.scene);
+    const scene = Number.isFinite(sceneIndex) ? Math.max(0, Math.floor(sceneIndex)) : null;
+    const capturedAt = typeof entry.captured_at === 'string' && entry.captured_at.trim()
+      ? entry.captured_at.trim()
+      : null;
+    const record = { note };
+    if (mode) record.action_mode = mode;
+    if (phase) record.phase = phase;
+    if (Number.isFinite(scene)) record.scene = scene;
+    if (capturedAt) record.captured_at = capturedAt;
+    normalized.push(record);
+  }
+  return normalized.slice(-32);
+}
+
 function clamp_team_size(value, { defaultValue = 1, allowZero = false } = {}){
   const numeric = asNumber(value);
   if (!Number.isFinite(numeric)) return defaultValue;
@@ -1888,7 +1921,53 @@ function action_mode_status(){
 function set_action_mode(raw){
   const ui = ensure_ui();
   ui.action_mode = normalize_action_mode(raw);
+  ensure_action_contract();
   return action_mode_status();
+}
+
+function ensure_action_contract(){
+  const ui = ensure_ui();
+  ensure_logs();
+  const flags = state.logs.flags;
+  const actionMode = normalize_action_mode(ui.action_mode);
+  ui.action_mode = actionMode;
+  flags.platform_action_contract = {
+    action_mode: actionMode,
+    pattern: 'intent-cut-result',
+    loot_policy: 'outcome_only',
+    body_handling: 'none'
+  };
+  flags.howto_guard_hits = normalize_howto_guard_hits(flags.howto_guard_hits);
+  return flags.platform_action_contract;
+}
+
+function log_action_contract_guard(note, opts = {}){
+  const message = typeof note === 'string' ? note.trim() : '';
+  if (!message){
+    throw new Error('How-to-Guard: Notiz fehlt.');
+  }
+  const options = opts && typeof opts === 'object' ? opts : {};
+  const contract = ensure_action_contract();
+  const flags = state.logs.flags;
+  const phaseRaw = normalize_phase_value(options.phase || state.phase, '');
+  const phase = ['core', 'transfer', 'rift'].includes(phaseRaw) ? phaseRaw : null;
+  const sceneValue = Number.isFinite(options.scene)
+    ? Math.floor(options.scene)
+    : Number.isFinite(state.scene?.index)
+      ? Math.floor(state.scene.index)
+      : null;
+  const overrideMode = normalize_action_mode(options.action_mode || options.mode, null);
+  const entry = {
+    note: message,
+    action_mode: overrideMode || contract?.action_mode || normalize_action_mode(state.ui?.action_mode),
+    captured_at: new Date().toISOString()
+  };
+  if (phase) entry.phase = phase;
+  if (sceneValue !== null) entry.scene = sceneValue;
+  const hits = Array.isArray(flags.howto_guard_hits) ? flags.howto_guard_hits : [];
+  hits.push(entry);
+  flags.howto_guard_hits = normalize_howto_guard_hits(hits);
+  return `How-to-Guard protokolliert (${flags.howto_guard_hits.length}×).`;
 }
 
 function accessibility_status(){
@@ -2469,6 +2548,7 @@ function ensure_atmosphere_contract(){
   } else if (state.logs.flags.atmosphere_contract_capture !== undefined){
     delete state.logs.flags.atmosphere_contract_capture;
   }
+  ensure_action_contract();
   return state.logs.flags.atmosphere_contract;
 }
 
@@ -3827,6 +3907,7 @@ function render_foreshadow_report(limit = 3){
 
 function render_runtime_flags_summary(){
   ensure_logs();
+  ensure_action_contract();
   const flags = state.logs?.flags || {};
   const parts = [];
   if (typeof flags.runtime_version === 'string' && flags.runtime_version.trim()){
@@ -3842,6 +3923,15 @@ function render_runtime_flags_summary(){
     : (typeof flags.offline_help_last === 'string' ? flags.offline_help_last.trim() : '');
   if (offlineLast){
     parts.push(`Offline zuletzt ${offlineLast}`);
+  }
+  const actionContract = flags.platform_action_contract;
+  const actionMode = typeof actionContract?.action_mode === 'string' ? actionContract.action_mode.trim() : '';
+  if (actionMode){
+    parts.push(`Action-Contract ${actionMode.toUpperCase()}`);
+  }
+  const howtoHits = Array.isArray(flags.howto_guard_hits) ? flags.howto_guard_hits.length : 0;
+  if (howtoHits > 0){
+    parts.push(`How-to-Guard ${howtoHits}×`);
   }
   if (!parts.length) return null;
   return `Runtime-Flags: ${parts.join(' · ')}`;
@@ -6803,6 +6893,15 @@ function prepare_save_logs(logs){
   } else {
     delete base.flags.atmosphere_contract_capture;
   }
+  const actionContract = base.flags.platform_action_contract && typeof base.flags.platform_action_contract === 'object'
+    ? { ...base.flags.platform_action_contract }
+    : {};
+  actionContract.action_mode = normalize_action_mode(actionContract.action_mode);
+  actionContract.pattern = 'intent-cut-result';
+  actionContract.loot_policy = 'outcome_only';
+  actionContract.body_handling = 'none';
+  base.flags.platform_action_contract = actionContract;
+  base.flags.howto_guard_hits = normalize_howto_guard_hits(base.flags.howto_guard_hits);
   return base;
 }
 
@@ -8361,6 +8460,7 @@ module.exports = {
   get_intervention_log,
   set_suggest_mode,
   suggest_mode_enabled,
+  log_action_contract_guard,
   log_market_purchase,
   log_alias_event,
   log_squad_radio,
