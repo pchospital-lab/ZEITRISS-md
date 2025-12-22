@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.30
+version: 1.13.31
 tags: [meta]
 ---
 
@@ -154,6 +154,55 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       Absatzumbrüche prüfen (Formatierungs-Review nach
       `systems/gameflow/speicher-fortsetzung.md` und
       `systems/gameflow/cinematic-start.md`).
+
+## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
+
+**Zielbild:** Retrieval-Leistung der Wissensmodule erhöhen, indem sehr kurze Module
+thematisch konsolidiert und sehr lange Module in klar getrennte Teilmodule
+aufgespalten werden. Die Umstellung soll keine Verschlimmbesserung erzeugen und
+inklusive Querverweisen, Index- und QA-Sync erfolgen.
+
+### Phase 1 – Konsolidierung kurzer Module (Slots freimachen)
+
+1. **Cyberware bündeln**
+   - Quelle: `characters/cyberware-und-bioware.md`
+   - Ziel: `characters/ausruestung-cyberware.md`
+   - Leitplanken: Einleitung + Regeln + Bioware-Sektionen übernehmen; bestehende
+     Legalitäts-/Wartungsanker (`#legalitäts--wartungs-stufen`) stabil halten oder
+     sauber migrieren.
+2. **Psi bündeln**
+   - Quelle: `characters/psi-talente.md`
+   - Ziel: `systems/kp-kraefte-psi.md`
+   - Leitplanken: Talentlisten direkt hinter Kernmechanik platzieren; Anker wie
+     `#mentale-maskierung` prüfen und bei Bedarf weiterleiten.
+
+**Ergebnis Phase 1:** Zwei Slots werden freigemacht, ohne thematische
+Fragmentierung zu erzeugen.
+
+### Phase 2 – Split langer Module (Retrieval-Klarheit)
+
+1. **`characters/zustaende-hud-system.md` aufspalten**
+   - Teil A: Zustände/Statusregeln (Effekte, Trigger, Kernmechanik)
+   - Teil B: HUD-/Interface-System (Anzeige-Logik, UI-Mechaniken)
+   - Vorgeschlagene Zielpfade: `characters/zustaende.md`,
+     `characters/hud-system.md`
+2. **`characters/charaktererschaffung.md` aufspalten**
+   - Teil A: Erschaffungsschritte & Basiswerte
+   - Teil B: Optionen/Module/Sonderregeln
+   - Vorgeschlagene Zielpfade: `characters/charaktererschaffung-grundlagen.md`,
+     `characters/charaktererschaffung-optionen.md`
+
+**Ergebnis Phase 2:** Lange Module werden in semantisch saubere Teile zerlegt,
+ohne Querbezüge zu verlieren.
+
+### Phase 3 – Sync & QA
+
+- **Querverweise aktualisieren:** alle Links/Anker in Runtime-Modulen, README und
+  `master-index.json` prüfen und anpassen.
+- **Wissensspiegel sichern:** falls Runtime-Änderungen betroffen sind, Spiegel in
+  README/Runtime-Markdowns/Toolkit-Makros dokumentieren.
+- **QA-Log ergänzen:** Befehle + Ergebnisse je Schritt im QA-Log erfassen.
+- **Pflicht-Testpaket ausführen:** siehe `CONTRIBUTING.md#verpflichtende-pruefungen`.
 
 ## Maßnahmenübersicht Beta-GPT 2025-06 (Issues #1–#16)
 
