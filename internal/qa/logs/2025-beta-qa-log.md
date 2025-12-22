@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.17
+version: 0.4.18
 tags: [meta]
 ---
 
@@ -28,6 +28,32 @@ tags: [meta]
 **Nachverfolgung**
 - Commit/PR: aktueller Commit im Branch (fix: economy audit & hud timestamps)
 - QA-Fahrplan: Tester-Playtest 2025-12-XX (Issue #9/#11) abgeschlossen.
+
+## 2025-12-21 – Repo-Agent – Save/Offline/Paradoxon-Konsistenz (Issues #5/#6/#7/#10) (Build 4.2.3)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Core/README/Toolkit 4.2.3, QA-Fahrplan 1.13.24
+- Auftrag: Legacy-Save-Beispiele auf v6 heben, Seed-Gating/Episodenlogik klären,
+  Px-Reset im Debrief/HQ spiegeln, Offline-FAQ auf HQ-Uplink trimmen.
+
+```chatlog
+09:10 Repo-Agent: `make lint`
+09:28 Repo-Agent: `make test`
+09:44 Repo-Agent: `bash scripts/smoke.sh`
+10:01 Repo-Agent: `python3 tools/lint_runtime.py`
+10:03 Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+10:05 Repo-Agent: `python3 scripts/lint_doc_links.py`
+10:06 Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Save-Beispiele auf v6-Shape (`party.characters[]`, `logs.*`) aktualisieren.
+- [x] Rift-Seeds nach Episodenabschluss spielbar; Arc/Episode-Begriffe trennen.
+- [x] Px-Reset im Debrief/HQ bestätigen (`px_reset_pending/confirm`).
+- [x] Offline-Konnektivität: HQ immer online, Offline nur im Feld.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (Docs/Runtime-Update Save/Px/Offline).
+- QA-Fahrplan: Tester-Playtest 2025-12-XX (Issue #5/#6/#7/#10) abgeschlossen.
 
 ## 2025-12-21 – Repo-Agent – Load-Flow Skip-Flags (Issue #3) (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)

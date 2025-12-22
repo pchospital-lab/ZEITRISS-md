@@ -574,101 +574,78 @@ maschinenlesbar sein, aber auch für Menschen lesbar bleiben. Empfohlen wird ein
 Block (JSON oder YAML). Im Speichertext sollten keine versteckten Befehle oder missverständlichen
 Pronomen stehen – nur klare, beschreibende Daten in der dritten Person.
 
-Ein **Beispiel** für einen Speicherstand im JSON-Format:
+Ein **Beispiel** für einen Speicherstand im JSON-Format (v6, gekürzt):
 
-_{_
+```json
+{
+  "save_version": 6,
+  "zr_version": "4.2.3",
+  "location": "HQ",
+  "phase": "core",
+  "character": {
+    "id": "CHR-1234",
+    "name": "Alex",
+    "rank": "Operator I",
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {
+      "SYS_max": 5,
+      "SYS_installed": 5,
+      "SYS_runtime": 5,
+      "SYS_used": 5
+    }
+  },
+  "campaign": {
+    "episode": 2,
+    "mission_in_episode": 3,
+    "scene": 0,
+    "px": 3,
+    "px_reset_pending": false,
+    "px_reset_confirm": false,
+    "exfil": {
+      "active": false,
+      "armed": false,
+      "hot": false,
+      "sweeps": 0,
+      "stress": 0,
+      "ttl": 0,
+      "anchor": null,
+      "alt_anchor": null
+    }
+  },
+  "party": {
+    "characters": [
+      {"id": "CHR-1234", "name": "Alex", "rank": "Operator I"}
+    ]
+  },
+  "team": {"members": []},
+  "loadout": {},
+  "economy": {"cu": 320, "wallets": {"Alex": 120}},
+  "logs": {
+    "hud": [],
+    "trace": [],
+    "artifact_log": [],
+    "market": [],
+    "offline": [],
+    "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
+    "foreshadow": [],
+    "fr_interventions": [],
+    "arena_psi": [],
+    "psi": [],
+    "flags": {"merge_conflicts": []}
+  },
+  "ui": {"gm_style": "verbose", "intro_seen": true, "suggest_mode": false},
+  "arena": {"active": false, "phase": "idle"},
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}}
+}
+```
 
-_"Name": "Alex",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_"Level": 2,_
-
-_"Erfahrung": 15,_
-
-_"Attribute": {_
-
-_"Stärke": 4,_
-
-_"Geschicklichkeit": 5,_
-
-_"Intelligenz": 5,_
-
-_"Charisma": 3,_
-
-_"Temporale Affinität": 4,_
-
-_"Systemlast": 3_
-
-_},_
-
-_"Talente": \[_
-
-_"Pistolenschütze",_
-
-_"Kryptographie"_
-
-_\],_
-
-_"Implantate": \[_
-
-_"Neuro-Link (Kommunikationsimplantat, Systemlast 1)"_
-
-_\],_
-
-_"Psionik": \[\],_
-
-_"Moral": "überwiegend altruistisch",_
-
-_"Ruf": "Angesehener Agent im ITI; unbekannt bei externen Fraktionen",_
-
-_"Inventar": \[_
-
-_"Dietrich-Set (+1 auf Schlösser knacken)",_
-
-_"Heiltrank (stellt 5 LP wieder her)",_
-
-_"Zeitscanner-Tablet (nur in High-Tech-Umgebungen funktionstüchtig)"_
-
-_\],_
-
-_"Errungenschaften": \[_
-
-_"Retter von Aquitanien"_
-
-_\],_
-
-_"Kodex": \[_
-
-_"Kennt den wahren Ablauf der Schlacht von Aquitanien 1356",_
-
-_"Weiß von der Existenz des Chronomanten Moros"_
-
-_\],_
-
-_"Statistik": {_
-
-_"Absolvierte Missionen": 1,_
-
-_"Gelöste Rätsel": 2,_
-
-_"Besiegte Gegner": 3_
-
-_}_
-
-_}_
-
-_Erläuterung:_ In diesem Speicherblock sind alle wichtigen Daten von Alex enthalten. Er ist Level 2
-mit 15 EP; seine Attributswerte (inklusive der speziellen Werte TEMP und SYS) sind aufgeführt. Seine
-Talente (_Pistolenschütze_, _Kryptographie_) zeigen seine Spezialisierungen. Er hat ein
-Kommunikations-Implantat **Neuro-Link** (belegt 1 Punkt Systemlast) und derzeit keine psionischen
-Fähigkeiten. Die Moralnote weist ihn als eher altruistisch aus. Unter _Inventar_ sieht man die
-Ausrüstung mit Anmerkungen (das Zeitscanner-Tablet funktioniert nur in passenden Epochen).
-_Errungenschaften_ und _Kodex-Wissen_ halten wichtige Story-Ergebnisse fest – hier hat Alex in
-einer ersten Mission jemanden in Aquitanien gerettet (daher ein entsprechender Titel)
-und weiß von der Existenz eines Chronomanten namens Moros. Die Statistik zählt einige
-Errungenschaften auf, hat aber keine
-Auswirkungen auf die Regeln.
+_Erläuterung:_ Der v6-Block enthält alle Laufzeitfelder (Kampagnenstand, Party,
+Logs, UI, Arena, Arc-Dashboard). Details zur Vollstruktur sind im Modul
+**Speicherstand & Fortsetzung** dokumentiert.
 
 Dieses Format ist kompakt genug, um es direkt im Chat zu verwenden, und zugleich eindeutig für das
 KI-Modell. Für die Spieler bedeutet es, dass ihr Fortschritt sauber festgehalten wird – der
@@ -680,27 +657,24 @@ Mission kopiert man diesen Block in den neuen Chat-Kontext. Die KI liest den Spe
 hat dadurch sofort alle wichtigen Fakten zur Hand – Fähigkeiten, Inventar, vergangene Ereignisse –
 ohne sich alles _„merken“_ zu müssen.
 
-**Gruppen-Spielstände:** Neu im aktualisierten Regelwerk ist die Unterstützung von Speicherständen
-für **Gruppen**. Ein einzelner Speicherblock kann nun mehrere Spielercharaktere umfassen. Dazu
-werden anstelle eines einzelnen Charakter-Objekts einfach mehrere Charakter-Datensätze in der Datei
-hinterlegt – zum Beispiel als Liste unter einem gemeinsamen Schlüssel _"Charaktere"_ (optional mit
-einem Gruppennamen). Sobald das System im Speicherblock mehr als einen Charaktereintrag findet, ist
-klar, dass es sich um einen Gruppen-Spielstand handelt. Man könnte beispielsweise mehrere
-Charakterobjekte in einem Array speichern oder ein JSON-Objekt folgendermaßen aufbauen:
+**Gruppen-Spielstände:** Ein einzelner Speicherblock kann mehrere
+Spielercharaktere enthalten. Dafür ist `party.characters[]` der kanonische
+Container; `team.members[]` kann als Spiegel/Legacy-Roster mitgeführt werden.
 
-_{_
-
-_"Gruppe": "Team Chronos",_
-
-_"Charaktere": \[_
-
-_{ ... Daten von Charakter 1 ... },_
-
-_{ ... Daten von Charakter 2 ... }_
-
-_\]_
-
-_}_
+```json
+{
+  "party": {
+    "characters": [
+      {"id": "CHR-1234", "name": "Alex"},
+      {"id": "CHR-5678", "name": "Nova"}
+    ]
+  },
+  "team": {
+    "name": "Team Chronos",
+    "members": [{"id": "CHR-1234"}, {"id": "CHR-5678"}]
+  }
+}
+```
 
 Auf diese Weise lassen sich auch zuvor getrennte Einzelspieler-Charaktere zu einem Team
 zusammenführen. Die Struktur pro Charakter bleibt identisch, sodass keine Informationen verloren
@@ -848,9 +822,9 @@ in einen neuen Kampagnenstrang führt.
 ## Paradoxon & Pararifts {#paradoxon--pararifts}
 
 Erreicht der **Paradoxon-Index** Stufe 5, notiert das ITI 1–2 neue **Rift-Seeds**.
-Sie erscheinen erst nach der Mission im HQ auf der Raumzeitkarte und
-können später als eigenständige Rift-Operationen gespielt werden.
-Nach dem Seed-Eintrag fällt der Index auf 0 zurück.
+Sie erscheinen nach der Mission im HQ auf der Raumzeitkarte, sind aber erst
+nach **Episodenabschluss** spielbar. Der Reset des Index wird im Debrief/HQ
+bestätigt (`px_reset_pending/confirm`).
 
 ## Paradoxon-Index (Positive Feedback Gauge)
 
@@ -882,8 +856,9 @@ TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
 | **5**| ▢ grün    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
 
 > **ClusterCreate:** Bei Stufe 5 pulsiert das HUD grün.
-> Das ITI merkt nach Missionsende 1–2 Rift-Seeds vor (spielbar nach Arc-Abschluss).
-> Danach springt der Index auf **0** und der Loop beginnt erneut.
+> Das ITI merkt nach Missionsende 1–2 Rift-Seeds vor (spielbar nach
+> Episodenabschluss). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
+> Reset auf **0**, danach beginnt der Loop erneut.
 **Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
 Artefakte, High-Tech-Belohnungen und besondere Missions-Hooks zu erhalten.
 Ein niedriger Index ist kein „Safety Score“, sondern verschenktes Potenzial.

@@ -505,10 +505,11 @@ Beispiel:
 if not char.get("psi") and not char.get("has_psi"):
     options = [o for o in options if not o.isPsi]
 ```
-- TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
+  - TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
-  erst nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte).
+  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte),
+  sind aber erst **nach Episodenabschluss** spielbar.
   Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
   Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
   (`Px sinkt auf …`).
@@ -534,11 +535,12 @@ if not char.get("psi") and not char.get("has_psi"):
   Kodex: Mission stabilisiert (1/2 für Px+1).
   ```
 
-- Erreicht der Index Stufe 5, löst die Runtime sofort `ClusterCreate()` aus,
-  setzt `Px = 0` zurück und schreibt die neuen Rift-Seeds nach
-  `campaign.rift_seeds`. Kommentiere das Ereignis im Debrief mit
-  `Kodex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
-- Bei 5 zugleich `createRifts(1-2)` auslösen und `resetParadoxon()`.
+- Erreicht der Index Stufe 5, löst die Runtime `ClusterCreate()` aus,
+  markiert den Reset als **pending** (`px_reset_pending=true`,
+  `px_reset_confirm=false`) und schreibt die neuen Rift-Seeds nach
+  `campaign.rift_seeds`. Der eigentliche Rücksetzer erfolgt im Debrief/HQ
+  (`px_reset_confirm=true`) mit HUD-Toast. Kommentiere das Ereignis im Debrief
+  mit `Kodex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
@@ -756,11 +758,11 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
 > Seed auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
-> und darf erst nach Abschluss des aktuellen Core-Arcs gespielt werden.
-> Offene Rifts erhöhen SG und Loot-Multiplikator erst nach dem Core-Arc.
+> und darf erst nach **Episodenabschluss** gespielt werden.
+> Offene Rifts erhöhen SG und Loot-Multiplikator erst nach der Episode.
 > Ein Team kann Seeds unbesiegt lassen und die Core-Operation fortsetzen.
-> Dadurch riskieren sie während des Arcs keinen höheren SG.
-> Decision: Seed notieren oder ITI-Team losschicken; eigene Rift-Op erst nach dem Arc.
+> Dadurch riskieren sie während der Episode keinen höheren SG.
+> Decision: Seed notieren oder ITI-Team losschicken; eigene Rift-Op erst nach der Episode.
 
 ---
 **Checkliste PRECISION**
@@ -1251,7 +1253,7 @@ zuverlässig erscheint. Verwandte Makros arbeiten ohne sichtbare Ausgabe.
     {{ hud_tag('Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.') }}
     {{ hud_tag('Offline-Protokoll: Terminal koppeln, Hardline suchen, ' ~
       'Jammer-Override prüfen; Kodex bleibt stumm bis zum Re-Sync.') }}
-    {{ hud_tag('HQ-Save-Regel gilt: Im Einsatz keine neuen Saves, alles im HUD-Log notieren bis zum HQ-Sync.') }}
+    {{ hud_tag('HQ bleibt online; Offline gilt nur im Einsatz. HQ-Saves nach Re-Sync.') }}
     {{ hud_tag('Ask→Suggest-Fallback: Aktionen als „Vorschlag:“ markieren ' ~
       'und Bestätigung abholen, bis der Link zurück ist.') }}
   {% endif %}

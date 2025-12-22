@@ -910,7 +910,8 @@ lernen so die Grundmechaniken.
   Kurz tauchen 7000 Spinnen auf – sie ersticken sofort. Aus der Apparatur
   kommen alpenländische Söldner und Ordenskrieger.
 - **Schluss:** Nach Zerstörung der Apparatur springt der Wächter in letzter
-  Sekunde. Der Arc endet mit Paradoxon-Reset und offener Spur.
+  Sekunde. Der Arc endet mit offener Spur; der Paradoxon-Reset wird im
+  Debrief/HQ bestätigt.
 
 _Hinweis:_ Dieser Beispielarc besteht aus zwei Blöcken mit je fünf Missionen
 und bildet somit einen kompakten Zehnmissionsbogen.

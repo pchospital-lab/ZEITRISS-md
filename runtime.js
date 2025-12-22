@@ -16,8 +16,8 @@ const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit 
 const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync laufen erst nach der',
-  '  Rückkehr ins HQ (HQ-only, keine Save-Sperre).',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld.',
+  '  Im HQ besteht immer Kodex-Uplink; Deepsaves/Cloud-Sync erst nach Rückkehr.',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
