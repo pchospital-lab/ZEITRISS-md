@@ -79,12 +79,13 @@ Optionales QA-Flag `logs.flags.atmosphere_contract_capture` speichert pro Phase
 Banned-Terms-Checks und die HUD-Toast-Zählung, z. B.
 `{lines:[...], banned_terms:{status:'PASS'|'FAIL', hits?:[...]}, hud_toasts:2}`.
 
-Offline-Fallbacks sperren den HQ-Save bis zum Kodex-Re-Sync: `save_deep()`
-bricht mit „SaveGuard: Offline – HQ-Re-Sync erforderlich.“ ab, schreibt
-gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason: offline`) und
-führt keine weiteren Save-Guards aus. Der Befehl `!offline` ist auf 60 s
-getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch noch
-füllen sie das Protokoll.
+Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
+Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
+den HQ-Save bis zum Re-Sync („SaveGuard: Offline – HQ-Re-Sync erforderlich.“),
+schreibt gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason:
+offline`) und führt keine weiteren Save-Guards aus. Der Befehl `!offline` ist
+auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
+noch füllen sie das Protokoll.
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
