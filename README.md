@@ -1250,7 +1250,8 @@ ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
 Pflichtset und den Baum `save_version/zr_version/location/phase → character
 → campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
 → arc_dashboard/ui/arena`, um den Speicherstand zu rekonstruieren. Die
-Schema-Datei selbst dient primär der Validierung in Tools.
+Schema-Datei selbst wird nicht in den Wissensspeicher geladen und dient primär
+der Validierung in Tools.
 
 ```json
 {
