@@ -1,6 +1,6 @@
 ---
 title: "QA-Evidenz Index 2025"
-version: 0.1.0
+version: 0.1.1
 tags: [meta, qa]
 ---
 
@@ -17,6 +17,8 @@ den zugehörigen QA-Log-Abschnitten.
 - [`2025-beta-gpt-evidenz.md`](2025-beta-gpt-evidenz.md) – Sammelprotokoll
   für die Beta-GPT-Läufe vom 05.07., 18.07. und 15.10.2025 mit Checklisten
   für jede geforderte Evidenz.
+- [`2026-10-plattform-contract-action-gewalt.md`](2026-10-plattform-contract-action-gewalt.md)
+  – Quellenmemo zum Plattform-Contract „Action & Gewalt“ (Outcome statt Anleitung).
 
 ## Workflow
 

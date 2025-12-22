@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.5
+version: 1.3.6
 tags: [meta]
 ---
 
@@ -270,6 +270,15 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   `banned_terms.status` (PASS/FAIL, `banned_terms.hits[]`),
   `howto_hits[]`, `rewrite_suggestion` und `hud_toasts`
   (HUD-Toast-Zählung).
+
+### Action & Gewalt Contract (Outcome-Check)
+
+- **PASS:** Gewaltmomente laufen als Actionfilm-Cut (Intent → Cut → Ergebnis),
+  keine Schritt-für-Schritt-Beschreibung, kein Body-Handling. Konsequenzen
+  erscheinen als Noise/Stress/Heat/Zeitfenster; Loot/Intel nur als Outcome-Tag
+  oder Debrief-Recap. `modus action|gewalt` respektiert die gewählte Stufe.
+- **FAIL:** Konkrete Gewaltanleitungen, optimierende How-to-Tipps, detailliertes
+  Durchsuchen von Körpern oder explizite Verletzungsdarstellungen.
 
 ### Compliance-Hinweis im QA-Lauf
 

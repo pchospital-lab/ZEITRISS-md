@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.3 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.3
+title: "ZEITRISS 4.2.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.4
 tags: [system]
 ---
 
-# ZEITRISS 4.2.3 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.4 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
@@ -132,7 +132,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.3",
+  "zr_version": "4.2.4",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -167,7 +167,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.3",
+      "runtime_version": "4.2.4",
       "compliance_shown_today": false,
       "chronopolis_warn_seen": false
     }
@@ -180,6 +180,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "gm_style": "verbose",
     "intro_seen": false,
     "suggest_mode": false,
+    "action_mode": "konform",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
@@ -255,10 +256,11 @@ Typ vor und überlassen das `phase`-Feld der Laufzeit; Uppercase-Werte gelten
 als ungültig und werden beim Laden auf lowercase normalisiert.
 
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
-(`ui.gm_style`, `ui.suggest_mode`) und ergänzen fehlende Felder für `contrast`,
-`badge_density`, `output_pace` und `voice_profile` mit Defaults
-(`standard`/`standard`/`normal`/`gm_third_person`). Saves dürfen diese Felder
-weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
+(`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende
+Felder für `contrast`, `badge_density`, `output_pace` und `voice_profile` mit
+Defaults (`standard`/`standard`/`normal`/`gm_third_person`). `action_mode`
+landet standardmäßig auf `konform`. Saves dürfen diese Felder weglassen, ohne
+Persistenz zu verlieren; die Defaults greifen automatisch.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -270,7 +272,7 @@ weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.3",
+  "zr_version": "4.2.4",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -386,7 +388,7 @@ weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.3",
+      "runtime_version": "4.2.4",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": false
     },
@@ -431,6 +433,7 @@ weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
+    "action_mode": "konform",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal"
@@ -498,7 +501,7 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
     }
   },
   "character": {"self_reflection": true},
-  "ui": {"suggest_mode": false}
+  "ui": {"suggest_mode": false, "action_mode": "konform"}
 }
 ```
 
@@ -606,7 +609,7 @@ Arena-Guards scharfgeschaltet werden.
 ```json
 {
   "save_version": 6,
-  "zr_version": "4.2.3",
+  "zr_version": "4.2.4",
   "location": "HQ",
   "phase": "core",
   "character": {
@@ -635,7 +638,7 @@ Arena-Guards scharfgeschaltet werden.
     "foreshadow": [],
     "fr_interventions": [],
     "flags": {
-      "runtime_version": "4.2.3",
+      "runtime_version": "4.2.4",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": true,
       "offline_help_count": 1,
@@ -648,6 +651,7 @@ Arena-Guards scharfgeschaltet werden.
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
+    "action_mode": "konform",
     "contrast": "high",
     "badge_density": "compact",
     "output_pace": "slow"
@@ -680,9 +684,10 @@ Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
 zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block (`gm_style`/
-`intro_seen`/`suggest_mode` plus `contrast`/`badge_density`/`output_pace`); fehlen
-Felder, ergänzen Migration und Serializer Defaults (`standard|normal`), sodass
-der SaveGuard den normalisierten Block akzeptiert.
+`intro_seen`/`suggest_mode`/`action_mode` plus `contrast`/`badge_density`/
+`output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
+(`standard|normal` plus `action_mode=konform`), sodass der SaveGuard den
+normalisierten Block akzeptiert.
 Der Serializer mappt die Optionen 1:1 auf JSON:
 
 - **Kontrast:** `contrast = standard|high`
@@ -876,15 +881,15 @@ Transparenz-Modus nach einem Neustart erhalten.
 
 ```json
 {
-  "ui": {"suggest_mode": true, "gm_style": "verbose"},
+  "ui": {"suggest_mode": true, "gm_style": "verbose", "action_mode": "konform"},
   "character": {"modes": ["mission_focus", "covert_ops_technoir", "suggest"]},
   "logs": {"hud": ["· SUG", "Mission-Fokus"]}
 }
 ```
 
 Der Save hält sowohl die aktivierten Erzählmodi (`modes[]`) als auch den UI-Flag
-`suggest_mode`. Beim Laden setzt GPT `modus suggest` und spiegelt das HUD-Tag
-`· SUG` samt Mission-Fokus-Badge.
+`suggest_mode` und den Action-Contract. Beim Laden setzt GPT `modus suggest`
+und spiegelt das HUD-Tag `· SUG` samt Mission-Fokus-Badge.
 
 ## Session-Suspend (Temporärer Snapshot) {#session-suspend}
 
@@ -1070,7 +1075,7 @@ und werden beim Laden ignoriert.
 
 ```json
 {
-  "zr_version": "4.2.3",
+  "zr_version": "4.2.4",
   "save_version": 6,
   "location": "HQ",
   "phase": "core",
@@ -1135,7 +1140,7 @@ und werden beim Laden ignoriert.
     "arena_psi": [],
     "psi": [],
     "flags": {
-      "runtime_version": "4.2.3",
+      "runtime_version": "4.2.4",
       "chronopolis_warn_seen": false,
       "compliance_shown_today": false
     }
@@ -1149,6 +1154,7 @@ und werden beim Laden ignoriert.
     "gm_style": "verbose",
     "intro_seen": false,
     "suggest_mode": false,
+    "action_mode": "konform",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal"
@@ -1224,7 +1230,7 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 
 ## Einführung und Zielsetzung
 
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.3** wird in Modul 12 vollständig
+Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.4** wird in Modul 12 vollständig
 überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
 gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
 Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
@@ -1295,7 +1301,7 @@ Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
 ```javascript
 function select_state_for_save(state) {
   return {
-    zr_version: "4.2.3",
+    zr_version: "4.2.4",
     save_version: 6,
     location: state.location,
     phase: state.phase,
@@ -1310,7 +1316,8 @@ function select_state_for_save(state) {
     logs: state.logs,
     ui: {
       gm_style: state.ui?.gm_style ?? "verbose",
-      suggest_mode: !!state.ui?.suggest_mode
+      suggest_mode: !!state.ui?.suggest_mode,
+      action_mode: state.ui?.action_mode ?? "konform"
     },
     arena: state.arena,
     arc_dashboard: state.arc_dashboard
@@ -1338,7 +1345,7 @@ function migrate_save(data) {
     data.save_version = 2;
   }
   if (data.save_version === 2) {
-    data.ui ||= { gm_style: "verbose" };
+    data.ui ||= { gm_style: "verbose", action_mode: "konform" };
     data.save_version = 3;
   }
   if (data.save_version === 3) {
@@ -1357,7 +1364,7 @@ function migrate_save(data) {
     data.save_version = 5;
   }
   if (data.save_version === 5) {
-    data.ui ||= { gm_style: "verbose" };
+    data.ui ||= { gm_style: "verbose", action_mode: "konform" };
     data.ui.intro_seen = !!data.ui.intro_seen;
     data.save_version = 6;
   }
@@ -1460,7 +1467,7 @@ vorliegen; Validatoren akzeptieren auch Saves ohne `field_notes[]`.
 
 Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
 funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.3 direkt weitergenutzt werden.
+nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.4 direkt weitergenutzt werden.
 
 ## Gruppen-Spielstände – Neue Unterstützung für Teams
 
