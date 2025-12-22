@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.25
+version: 1.13.26
 tags: [meta]
 ---
 
@@ -1034,15 +1034,21 @@ Arena-Outputs **physisch** wirken, ohne Digitalraum-Vibe.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Arena als MR-Trainingsanlage verankern | `gameplay/kampagnenstruktur.md`: „Simulation“ durch MR-Trainingsanlage ersetzen, Suit-Lock/Med-Scan und Reset-Logik diegetisch erklären. QA: 1 Arena-Probelauf ohne VR-Vokabular. | 🟡 umgesetzt, QA offen |
-| #2 | Hardware-/Facility-Kasten ergänzen | `gameplay/kampagnenstruktur.md`: kurzer MR-Absatz (Suit/Helm, Magnetfeld, Beacon-Gitter, Safe/Combat-Zonen), 1 Beispielabsatz „Eintritt in die Arena“. QA: Stil-Check gegen Holodeck/VR-Termine. | 🟡 umgesetzt, QA offen |
-| #3 | Default-Map umbenennen | `systems/toolkit-gpt-spielleiter.md`: Default `map` auf physische Bezeichnung (z. B. „Magnet-Deck A“) ändern; ggf. Legacy-Hinweis. QA: Arena-Start zeigt neuen Map-Label. | 🟡 umgesetzt, QA offen |
-| #4 | Diegetisches HUD als Default | `systems/toolkit-gpt-spielleiter.md`: `arena_hud()` um `style='diegetic'` ergänzen; Labels „Halle/Grenze/Zeit/Runde“ verwenden, Debug-Style optional. QA: HUD in beiden Styles prüfen. | 🟡 umgesetzt, QA offen |
-| #5 | Fahrzeug-Rigs für Arena | `gameplay/kampagnenstruktur.md`: Arena-Fahrzeugrigs beschreiben (Harness + MR-Karosse + Magnetfeld). `vehicle_policy='rig'` im Toolkit dokumentieren. QA: Chase-Szene mit Rig vs. off. | 🟡 umgesetzt, QA offen |
-| #6 | Kulisse = Set + MR-Overlay | `gameplay/kampagnenstruktur.md`: Kulissen-Satz ergänzen (Set/Props/Licht + MR), kein Epochensprung. QA: Prompt „Kulisse 1700“ bleibt Arena. | 🟡 umgesetzt, QA offen |
-| #7 | Feedback-Intensität als Kalibrierung | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen. | 🟡 umgesetzt, QA offen |
-| #8 | Shared-Overlay Lore | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben. | 🟡 umgesetzt, QA offen |
-| #9 | Dämpfer diegetisch erklären | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich. | 🟡 umgesetzt, QA offen |
+| #1 | Arena als MR-Trainingsanlage verankern | `gameplay/kampagnenstruktur.md`: „Simulation“ durch MR-Trainingsanlage ersetzen, Suit-Lock/Med-Scan und Reset-Logik diegetisch erklären. QA: 1 Arena-Probelauf ohne VR-Vokabular. | ✅ abgeschlossen |
+| #2 | Hardware-/Facility-Kasten ergänzen | `gameplay/kampagnenstruktur.md`: kurzer MR-Absatz (Suit/Helm, Magnetfeld, Beacon-Gitter, Safe/Combat-Zonen), 1 Beispielabsatz „Eintritt in die Arena“. QA: Stil-Check gegen Holodeck/VR-Termine. | ✅ abgeschlossen |
+| #3 | Default-Map umbenennen | `systems/toolkit-gpt-spielleiter.md`: Default `map` auf physische Bezeichnung (z. B. „Magnet-Deck A“) ändern; ggf. Legacy-Hinweis. QA: Arena-Start zeigt neuen Map-Label. | ✅ abgeschlossen |
+| #4 | Diegetisches HUD als Default | `systems/toolkit-gpt-spielleiter.md`: `arena_hud()` um `style='diegetic'` ergänzen; Labels „Halle/Grenze/Zeit/Runde“ verwenden, Debug-Style optional. QA: HUD in beiden Styles prüfen. | ✅ abgeschlossen |
+| #5 | Fahrzeug-Rigs für Arena | `gameplay/kampagnenstruktur.md`: Arena-Fahrzeugrigs beschreiben (Harness + MR-Karosse + Magnetfeld). `vehicle_policy='rig'` im Toolkit dokumentieren. QA: Chase-Szene mit Rig vs. off. | ✅ abgeschlossen |
+| #6 | Kulisse = Set + MR-Overlay | `gameplay/kampagnenstruktur.md`: Kulissen-Satz ergänzen (Set/Props/Licht + MR), kein Epochensprung. QA: Prompt „Kulisse 1700“ bleibt Arena. | ✅ abgeschlossen |
+| #7 | Feedback-Intensität als Kalibrierung | `gameplay/kampagnenstruktur.md` + Toolkit: `feedback_intensity` (off/low/standard) beschreiben; nur Beschreibung, keine Werte. QA: Start mit low/off prüfen. | ✅ abgeschlossen |
+| #8 | Shared-Overlay Lore | `gameplay/kampagnenstruktur.md`: Beacon-Gitter + Suit-Marker erklären, damit alle dieselbe MR sehen. QA: Szene „Einer steigt ins Fahrzeug“ konsistent beschreiben. | ✅ abgeschlossen |
+| #9 | Dämpfer diegetisch erklären | `gameplay/kampagnenstruktur.md`: Exploding-Dämpfer als Impuls-Governor erklären; optional diegetischer Toast. QA: Arena-Start-Info ohne Runtime-Begriffe verständlich. | ✅ abgeschlossen |
+
+**Umsetzungsstand 2026-08**
+
+- ✅ QA-Probelauf bestätigt MR-Trainingsterminologie, Beacon-Gitter,
+  Suit-Lock/Med-Scan, physische Map-Labels und diegetische HUD-Labels.
+- ✅ QA-Log 2026-08-15 dokumentiert den Abschluss; QA-Fahrplan ist synchron.
 
 ## Maßnahmenpaket Spielstart & Charaktererschaffung 2026-09 (Issues #1–#6)
 
