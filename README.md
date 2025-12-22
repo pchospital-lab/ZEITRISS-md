@@ -378,7 +378,7 @@ Spiel starten (gruppe schnell)
 - **Gear-Aliasse & Px.** Alias-Befehle gleichen Schreibvarianten aus (z. B.
   „Multi-Tool-Armband“ → „Multi-Tool-Handschuh“). Erreicht der Paradoxon-Index
   Px 5, informiert der Kodex, dass neue Seeds erst nach Episodenende spielbar
-  sind und danach zurückgesetzt werden.
+  sind; der Px-Reset wird im Debrief/HQ bestätigt (`px_reset_pending/confirm`).
   Der Alias bleibt ein Stil-Mapping; die Hardware-Regel „kein Armband“ gilt
   weiterhin.
 
@@ -934,10 +934,10 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 > HUD bleibt Retina-Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
 
 > **Mixed-Reality-HUD:** Das Interface erscheint als Retina-Holo direkt im
-> Sichtfeld (Terminator-/AR-Stil) und begleitet jede Epoche. HQ = volles Kodex-
-> Panel; im Feld stellt das Comlink/Kodex-Light die Verbindung, bei Funkstille
-> bleibt das lokale HUD aktiv (Scans/Logs laufen weiter, Kodex antwortet erst
-> nach Re-Link).
+> Sichtfeld (Terminator-/AR-Stil) und begleitet jede Epoche. **HQ = immer
+> Kodex-Uplink**; im Feld stellt das Comlink/Kodex-Light die Verbindung. Bei
+> Funkstille bleibt das lokale HUD aktiv (Scans/Logs laufen weiter, Kodex
+> antwortet erst nach Re-Link).
 
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
@@ -947,10 +947,11 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
   `comms_check()` zählt sie als `relays=true`.
-- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI = Vollzugriff.**
-  In Funkepochen gilt eine **ca. 2 km Bubble ab Einstiegspunkt**, erweiterbar per Relais/Kabel;
-  Jammer oder funklose Ären (z.B. Mittelalter) schalten den Kodex stumm → nur HUD/Logs laufen.
-  `!offline` höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder steht.
+- _Wann spricht der Kodex?_ → Nur mit aktivem Comlink-Uplink. **HQ/ITI = Vollzugriff**
+  (Offline gilt nur im Einsatz). In Funkepochen gilt eine **ca. 2 km Bubble ab
+  Einstiegspunkt**, erweiterbar per Relais/Kabel; Jammer oder funklose Ären
+  (z.B. Mittelalter) schalten den Kodex stumm → nur HUD/Logs laufen. `!offline`
+  höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder steht.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.

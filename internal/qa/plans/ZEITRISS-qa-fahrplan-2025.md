@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.23
+version: 1.13.24
 tags: [meta]
 ---
 
@@ -668,25 +668,23 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
    Beim Merge/Group-Import **maximale Rift-Anzahl kappen**. Überschuss wird automatisch an andere
    ITI-NPC-Teams abgegeben, inkl. Auswahl, welche offenen Rifts erhalten bleiben. Kein globaler
    Reset von Paradoxon/Seeds beim Merge; Reset nur via explizitem Kommando.
-5. **Issue #5 – Legacy-Save-Beispiele in `zeitriss-core.md` bereinigen (🟡 offen)**  
-   Legacy-Layouts („Gruppe/Charaktere“) als Archiv markieren oder auf v6-Shape umstellen
-   (`party.characters[]`, `save_version`, `logs.*`), inkl. klarer QA-Warnung.
-6. **Issue #6 – Rift-Seeds: spielbar nach Episodenabschluss (🟡 offen)**  
-   Arc/Episode-Begriffe hart trennen: Seeds entstehen bei Px 5, **spielbar erst nach Episodenende**.
-   `zeitriss-core.md` an Kampagnenstruktur anpassen.
-7. **Issue #7 – Px-Reset-Timing festlegen (🟡 offen)**  
-   Praxis-Entscheid: Reset bleibt **nach der Mission / im Debrief** (wie früherer Lauf), damit
-   Buffs/positive Effekte nicht entwertet werden. Dokumentation und Flags
-   (`px_reset_pending/confirm`) entsprechend konsolidieren.
+5. **Issue #5 – Legacy-Save-Beispiele in `zeitriss-core.md` bereinigen (✅ erledigt)**  
+   Save-Beispiele auf v6-Shape (inkl. `party.characters[]`, `save_version`, `logs.*`) umgestellt und
+   Gruppenstruktur klargestellt.
+6. **Issue #6 – Rift-Seeds: spielbar nach Episodenabschluss (✅ erledigt)**  
+   Seeds entstehen bei Px 5, bleiben bis Episodenabschluss gesperrt; Core/Toolkit/README gespiegelt.
+7. **Issue #7 – Px-Reset-Timing festlegen (✅ erledigt)**  
+   Reset bleibt **nach der Mission / im Debrief/HQ**; Flags `px_reset_pending/confirm` dokumentiert
+   und in Wissensmodulen konsolidiert.
 8. **Issue #8 – Boss-DR/HUD-Doku konsolidieren (🟡 offen)**  
    HUD-System aktualisieren (Teamcap 1–5, 5–6 entfernen); DR-Toast nach Boss-Typ (Mini vs.
    Arc/Rift). Optional `boss_type` in Trace/HUD für QA.
 9. **Issue #9 – `logs.hud[]`-Overlays mit Timestamp (✅ erledigt)**  
    `logs.hud[]`-Events akzeptieren `at`, der Serializer ergänzt fehlende Timestamps beim HQ-Save.
    README/Toolkit/Save-Docs spiegeln die ISO-Stempel-Regel.
-10. **Issue #10 – Offline-Konnektivität: HQ immer mit Kodex (🟡 offen)**  
-   Klarstellen: Im HQ **immer** Verbindung zu Kodex; Offline-Kappung gilt **nur während Mission**.
-   Offline-Help ergänzt um SaveGuard-Blocker im HQ (nur falls Mission-Offlinemode aktiv).
+10. **Issue #10 – Offline-Konnektivität: HQ immer mit Kodex (✅ erledigt)**  
+   Klarstellung: HQ **immer** mit Kodex-Uplink; Offline-Kappung gilt **nur während Mission**.
+   Offline-Help und Save-Doku spiegeln den Re-Sync-Blocker im HQ.
 11. **Issue #11 – Economy-Audit-Trace ergänzen (✅ erledigt)**  
    `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
    Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
