@@ -147,7 +147,7 @@ def require(pattern: str, text: str, message: str, failures: list[str]) -> None:
 def lint(root: Path) -> int:
     payload = run_node(root)
     package = json.loads((root / "package.json").read_text(encoding="utf-8"))
-    runtime_version = package.get("version", "4.2.3")
+    runtime_version = package.get("version", "4.2.5")
     debrief_text = str(payload.get("debrief", ""))
     if not debrief_text:
         log.error("Debrief-Text fehlt in der Node-Antwort")

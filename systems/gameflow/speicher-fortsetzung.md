@@ -773,7 +773,7 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
   Compliance-Status, Chronopolis-Warnung, Action-Contract-Modus sowie
   Offline-Hilfe-Zähler plus Szene-Marker (`offline_help_last_scene`). Optional
-  ergänzen `logs.flags.howto_guard_hits[]` QA-Cuts; der Debrief zählt sie als
+  ergänzen `logs.flags.howto_guard_hits[]` Guard-Cuts; der Debrief zählt sie als
   `How-to-Guard n×`. Legacy-Felder
   `offline_help_last` werden beim Laden auf `offline_help_last_scene`
   gespiegelt.

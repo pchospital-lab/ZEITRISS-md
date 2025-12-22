@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.3 – Modul 3: Charaktererschaffung & Progression"
-version: 4.2.3
+title: "ZEITRISS 4.2.5 – Modul 3: Charaktererschaffung & Progression"
+version: 4.2.5
 tags: [characters]
 ---
 
-# ZEITRISS 4.2.3 – Modul 3: Charaktererschaffung & Progression
+# ZEITRISS 4.2.5 – Modul 3: Charaktererschaffung & Progression
 
 ## Inhalt
 
@@ -15,7 +15,7 @@ tags: [characters]
 - Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 - Team-Zusammenstellung & Rollenverteilung (optional)
 
-**Einleitung:** In _ZEITRISS 4.2.3_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
+**Einleitung:** In _ZEITRISS 4.2.5_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
 Dienst des ITI (Institut für Temporale Interventionen), der Missionen quer durch die Epochen
 erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
 erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
@@ -1092,7 +1092,7 @@ Teamkomposition**:
   spielen lässt, Mira, die ein Napoleonic-Era-Telegramm abhört, und Julian, der eine mysteriöse
   Krankheit im Jahr 2120 analysiert. Solche Unterschiede machen das Spiel spannend!
 
-Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.2.3 soll ein
+Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.2.5 soll ein
 filmisch-packendes Erlebnis sein, kein Zahlenspiel. Die Zahlen und Werte – von Attributen über
 Talente bis Ruf – sind Werkzeuge, um euren Charakter greifbarer zu machen und fair zu bleiben. Die
 KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch

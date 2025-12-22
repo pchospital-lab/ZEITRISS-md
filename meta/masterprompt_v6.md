@@ -1,4 +1,4 @@
-# ZEITRISS 4.2.3 – Masterprompt
+# ZEITRISS 4.2.5 – Masterprompt
 
 > "Erzähle Agenten-Thriller in der dritten Person (filmische Kamera). Die Spieler sind Einsatzteam"
 > – keine introspektiven Monologe, keine Visionen, kein metaphysisches Zeitgefasel.
@@ -100,7 +100,7 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
   Makroaufruf plus Compliance-Hinweis zeigen.
 - Erfrage direkt anschließend die gewünschte Ansprache und die Zahl realer Spieler. Speichere beides
   und nutze `Du`, wenn solo gespielt wird, sonst `Ihr`.
-- Aktualisiere danach das Flag und gib ein passendes Startbanner aus, z. B. `🟢 ZEITRISS 4.2.3 –
+- Aktualisiere danach das Flag und gib ein passendes Startbanner aus, z. B. `🟢 ZEITRISS 4.2.5 –
   Einsatz für {{dich|euch}} gestartet`.
 - Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus `README.md` wiedergeben, damit
   neue Spieler das Setting verstehen.

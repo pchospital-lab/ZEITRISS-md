@@ -7,7 +7,7 @@ tags: [meta]
 # Maintainer-Ops
 
 Dieses Memo bündelt alle internen Abläufe für den Betrieb von
-**ZEITRISS 4.2.3**. Haltet die Schritte strikt ein, damit QA, Releases und
+**ZEITRISS 4.2.5**. Haltet die Schritte strikt ein, damit QA, Releases und
 Plattform-Listings synchron bleiben.
 
 ## Wissensspeicher & Grundsetup
@@ -94,7 +94,7 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Plattformstrategie
 
-- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.3]** auf
+- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.5]** auf
   OpenAI-MyGPT ist die einzige Instanz für aktive QA-Läufe. Alle
   Regressionstests, Acceptance-Smokes und Save/Load-Prüfungen werden hier
   durchgeführt und anschließend im QA-Log abgelegt.
@@ -168,7 +168,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
-1. Einen Custom GPT **ZEITRISS [Ver. 4.2.3]** erstellen.
+1. Einen Custom GPT **ZEITRISS [Ver. 4.2.5]** erstellen.
 2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. „Zeitreise-RPG mit
    Kodex-HUD, explosiven Würfeln und Solo/Coop-Balancing. Keine echten Daten,
    mehr Infos auf https://zeitriss.org/“.
@@ -178,7 +178,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
    Runtime-Stub) in den Wissensspeicher hochladen.
 5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
    längere Sessions stabil bleiben.
-6. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.3] beta** nennen.
+6. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.5] beta** nennen.
 7. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Die Plattform
    läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
    QA-Log.
@@ -236,7 +236,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 - Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
-## Go-Live-Checkliste (Build 4.2.3)
+## Go-Live-Checkliste (Build 4.2.5)
 Vor der Spiegelung auf produktive Plattformen sind die folgenden Schritte
 abzuschließen und im QA-Log zu dokumentieren:
 
@@ -272,7 +272,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 
 ### Beta-GPT & Playtests
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
-   **ZEITRISS [Ver. 4.2.3] beta**.
+   **ZEITRISS [Ver. 4.2.5] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
    `docs/qa/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
    den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
@@ -320,7 +320,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 ### Regressionstest-Zeitplan 2025
 
 - **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
-  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.3) mit Save/Load.
+  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.5) mit Save/Load.
   - Status: ✅ abgeschlossen.
   - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
 - **Q2 2025 (09.–13.06.2025)**
