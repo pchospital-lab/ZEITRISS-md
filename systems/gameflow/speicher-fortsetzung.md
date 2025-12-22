@@ -63,6 +63,7 @@ Das versionierte JSON-Schema liegt unter
 `systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
+Die Schema-Datei wird nicht in den Wissensspeicher geladen.
 
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
 schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,

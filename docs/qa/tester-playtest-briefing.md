@@ -72,7 +72,9 @@ betont.
   Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und wird bei Schema-Updates gespiegelt.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische
   Save-Schema ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
-  `Save-Schema (saveGame.v6)` ab.
+  `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung im Repo und wird
+  **nicht** in den Wissensspeicher geladen – für GPT-Validierung gilt das Kompakt-Profil in
+  `systems/gameflow/speicher-fortsetzung.md` („Kompakt-Profil für GPT (Save v6)“).
 - **QA-Runner:** `npm run test:acceptance` sowie `tools/test_acceptance_followups.js` prüfen die
   Mission‑5/HUD-Golden-Files aus `internal/qa/fixtures/mission5_badge_snapshots.json`. Beide
   Läufe gehören zu den Pflichttests und werden im QA-Log referenziert.
