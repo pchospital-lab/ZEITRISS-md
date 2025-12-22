@@ -83,15 +83,13 @@ Der Standard-Header zeigt:
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge
   **und** Boss-Toast synchron, `!boss status` spiegelt denselben Snapshot. Der
-  Gate-Wert bleibt im Save erhalten und kehrt nach einem Load sofort zurück;
-  Mission-5-Tests verlangen explizit den sichtbaren Badge. Nach Mission 5 setzt
-  die Runtime Self-Reflection automatisch auf `SF-ON` zurück – sowohl bei
-  Missionsabschluss als auch bei Abbruch (`logs.flags.last_mission_end_reason`).
+  Gate-Wert bleibt im Save erhalten und kehrt nach einem Load sofort zurück.
+  Nach Mission 5 setzt die Runtime Self-Reflection automatisch auf `SF-ON`
+  zurück – sowohl bei Missionsabschluss als auch bei Abbruch
+  (`logs.flags.last_mission_end_reason`).
   Der Boss-DR-Toast staffelt sich nach Teamgröße (1–2 = 1, 3–4 = 2,
   Teamgröße 5 = 3 (Mini) bzw. 4 (Arc/Rift)) und nutzt den gleichen Wert im HUD
-  und Debrief. Die Runtime markiert den Boss-Typ für QA optional im Trace
-  (`logs.trace[].boss.type = mini|arc|rift`), damit HUD-Snapshots eindeutig
-  bleiben.
+  und Debrief.
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
   zurücksetzt; `set_self_reflection(enabled: boolean)` schreibt parallel `logs.flags.self_reflection`
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert

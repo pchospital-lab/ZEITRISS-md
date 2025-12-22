@@ -59,11 +59,7 @@ dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
 aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
 `CITY`-Status und ist **kein** HQ:
 
-Referenz-Fixtures `internal/qa/fixtures/savegame_v6_test.json`,
-`savegame_v6_highlevel.json` und `savegame_v6_full.json` führen alle
-Pflichtcontainer (u. a. `logs.arena_psi[]`, `logs.flags.merge_conflicts[]`) als
-minimale bis schema-vollständige Beispiele und dienen als Abgleich für
-Smoke-/Acceptance-Läufe. Das versionierte JSON-Schema liegt unter
+Das versionierte JSON-Schema liegt unter
 `systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
@@ -71,14 +67,8 @@ Pflichtcontainer fehlen oder die Typen nicht passen.
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
 schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,
 damage, at}` bzw. `{event:"mass_conflict", chaos, break_sg, stress, at}`. Diese
-Einträge ergänzen die Toast-Strings und bleiben für QA/Replay maschinenlesbar.
+Einträge ergänzen die Toast-Strings und bleiben für Replay maschinenlesbar.
 Fehlt `at`, ergänzt der Serializer beim HQ-Save einen ISO-Zeitstempel.
-
-Optionales QA-Flag `logs.flags.atmosphere_contract_capture` speichert pro Phase
-(`core|transfer|rift`) einen 8–12-zeiligen Exzerpt-Block sowie den Status des
-Banned-Terms-Checks und die HUD-Toast-Zählung, z. B.
-`{lines:[...], banned_terms:{status:'PASS'|'FAIL', hits?:[...]}, hud_toasts:2}`.
-In QA-Mode (`logs.flags.qa_mode=true`) ist der Block pro Phase verpflichtend.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
@@ -102,14 +92,14 @@ SaveGuard + folgendem Pfadbaum:
     `arena_psi`, `foreshadow`, `fr_interventions`
   - `flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,
     chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,
-    atmosphere_contract_capture,hud_scene_usage}`
+    hud_scene_usage}`
   - `flags.merge_conflicts[]`
 - `arc_dashboard{offene_seeds[],fraktionen{}}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat`, `team_size` hart 1–5)
 
-Die JSON-Schema-Datei bleibt für Validierungs-/QA-Läufe bestehen; GPT nutzt
+Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
 
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
@@ -123,7 +113,7 @@ Alle SaveGuards hängen ihren Grund konsistent an das Suffix „– HQ-Save
 gesperrt.“ an: Offline-Reasons und Arena-Locks teilen sich den Klammertext,
 SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und fehlender
 Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem Suffix ab,
-damit das QA-Log dieselbe Guard-Matrix spiegelt. **HQ-only** nutzt hingegen
+damit die Guard-Matrix konsistent bleibt. **HQ-only** nutzt hingegen
 den kanonischen Hinweis „Speichern nur im HQ …“ und loggt zusätzlich
 `logs.trace[]` mit `reason: hq_only`.
 
@@ -223,7 +213,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
 und kann optional `seed_tier: early|mid|late` sowie Metadaten `cluster_hint`
-(1-25/80-150/400-1000) und freies `level_hint` tragen (reine QA-/Balance-
+(1-25/80-150/400-1000) und freies `level_hint` tragen (reine Balance-
 Hinweise, keine Gating-Logik). Der Normalizer hebt Legacy-Strings oder
 uneinheitliche Felder auf Objektform und setzt unbekannte Status auf
 `open`. Launch-Guards erwarten `location='HQ'` und lehnen Starts mit
@@ -235,8 +225,8 @@ Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
 
 **Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
-HQ-Deepsaves. README, Toolkit und QA-Notizen zitieren lediglich Auszüge, ohne
-abweichende Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
+HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
+Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
 `team.members[]`) sind reine Import-Aliase; neue Saves entstehen ausschließlich
 im v6-Format mit `party.characters[]`. Divergierende Doppelstrukturen gelten als
 Fehler und werden beim Laden zusammengeführt.
@@ -251,8 +241,8 @@ Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{cu,wallets}`), FR-Bias
 und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
 `boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Runtime ruft
 `record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
-begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save
-(Fixtures enthalten Beispiele). Beim HQ-Save schreibt die Runtime zusätzlich
+begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save.
+Beim HQ-Save schreibt die Runtime zusätzlich
 ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe, Richtwerten und
 Chronopolis-Sinks; ein HUD-Toast erscheint nur bei Abweichungen. Das Trace
 ergänzt `logs.hud[]` und ersetzt keine Toasts.
@@ -267,25 +257,7 @@ als ungültig und werden beim Laden auf lowercase normalisiert.
 (`ui.gm_style`, `ui.suggest_mode`) und ergänzen fehlende Felder für `contrast`,
 `badge_density`, `output_pace` und `voice_profile` mit Defaults
 (`standard`/`standard`/`normal`/`gm_third_person`). Saves dürfen diese Felder
-weglassen, ohne Persistenz zu verlieren; Smokes gelten als bestanden, wenn die
-Defaults greifen und der SaveGuard den normalisierten Block akzeptiert.
-
-**Vollständiges Test-Save:** `internal/qa/fixtures/savegame_v6_test.json`
-enthält den vollständig ausgefüllten v6-HQ-Save mit offenen Rift-Seeds,
-Arena-Audit, Wallet-Split-Logs und Self-Reflection-Status. Er dient als
-Referenz für Acceptance- und Load-Flows.
-
-**High-Level-Progression:** `internal/qa/fixtures/savegame_v6_highlevel.json`
-zeigt drei Stände (Lvl 8/120/520) mit Seed-Pools und optionaler
-`seed_tier`-Kennzeichnung. Nutzung: Regression für Rifts und Endgame-Scaling;
-die Datei liegt nur lokal als QA-Bezugspunkt und ist nicht Teil des
-produktiven Wissensspeichers.
-
-**Schema-voller QA-Save:** `internal/qa/fixtures/savegame_v6_full.json`
-vereint Level 7/120/512 mit offenen und geschlossenen Seeds, vollständigem
-UI-Block, Wallet-Splits, Arena-/PvP-/Psi-Logs sowie Merge-Conflict-Einträgen.
-Der Datensatz belegt alle Pflichtcontainer des Save-Schemas und eignet sich
-für Roundtrip-Tests und Loader-Dedupe.
+weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -785,7 +757,7 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   Übergang mit `chronopolis_unlocked=true` und schreibt beim ersten Erreichen
   ein Trace-Event `chronopolis_unlock` (Quelle + Level). Der HUD-Toast
   „Chronopolis-Schlüssel aktiv – Level 10+ erreicht.“ dient als sichtbarer
-  Beleg in der Acceptance-Checkliste.
+  Hinweis im HUD.
 - **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
   `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
   Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
@@ -817,8 +789,8 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
   zurückgesetzt.“); die letzte Runde bleibt über `arena.previous_mode`
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
-  `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, Audit,
-  `previous_mode`), das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
+  `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, `previous_mode`),
+  das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
   ein Objekt – ggf. `{}`.

@@ -270,14 +270,6 @@ default_modus: mission-fokus
 > Rift-Gates spiegeln Core: Physicality-Gear für Scans/Hacks/Comms, Voice-Lock in 3rd Person,
 > HUD-Slim (Limit 2 Toasts) und `MODE RIFT` pro Szene. `StartMission(total=14, type='rift', …)`
 > setzt die Tags; `NextScene()` hält Foreshadow/Boss-Gate bei.
-> Atmosphere Contract (QA/Runner): 3rd-Person-Narration,
-> Physicality-Guard/Banned Terms, Rift = Casefile-Monster-Hunt,
-> Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
-> Block ab (`logs.flags.atmosphere_contract`). In QA-Mode
-> (`logs.flags.qa_mode=true`) sind Exzerpte pro Phase **verpflichtend** in
-> `logs.flags.atmosphere_contract_capture` (8–12 Zeilen,
-> `banned_terms.status` + `banned_terms.hits[]`, `howto_hits[]`,
-> `rewrite_suggestion`, HUD-Toast-Zählung).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
 
 #### Briefing-Anker & Auftragstyp (Core)
@@ -317,7 +309,7 @@ default_modus: mission-fokus
 
 - `register_anomaly(note, { tag?, rationalized?, override? })` prüft das Budget
   (Core 0, Rift 1). Bei Überschreitung: `WEIRD`-Toast + Fehler.
-- `weirdness_budget_status()` liefert QA-Snapshots; Rift-Anomalien landen im
+- `weirdness_budget_status()` liefert Status-Snapshots; Rift-Anomalien landen im
   Casefile-Tracker.
 
 \*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
@@ -1161,7 +1153,7 @@ jeweils eine Szene (Minimum: Szene 2).
     {% endif %}
     {% set state.logs.flags.compliance_shown_today = true %}
     {% if qa %}
-      {{ hud_tag('Compliance-Hinweis im QA-Kanal bestätigt (Toast only).') }}
+      {{ hud_tag('Compliance-Hinweis bestätigt (Toast only).') }}
     {% endif %}
   {% endif %}
 {%- endmacro %}
@@ -3031,9 +3023,7 @@ else:
 ```
 
 Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis
-sichtbar bleibt. Für QA-Läufe schaltet `ShowComplianceOnce(qa_mode=true)` den Chat-Hinweis ab und
-setzt nur den HUD-Toast, während der Start-Dispatcher die Ansprache/Spielerzahl aus dem Befehl
-ableitet; `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
+sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
 
 ## Start Dispatcher {#start-dispatcher}
 
