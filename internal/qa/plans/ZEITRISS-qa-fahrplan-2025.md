@@ -165,13 +165,13 @@ inklusive Querverweisen, Index- und QA-Sync erfolgen.
 ### Phase 1 – Konsolidierung kurzer Module (Slots freimachen)
 
 1. **Cyberware bündeln**
-   - Quelle: `characters/cyberware-und-bioware.md`
+   - Quelle: `characters/ausruestung-cyberware.md` (integriert)
    - Ziel: `characters/ausruestung-cyberware.md`
    - Leitplanken: Einleitung + Regeln + Bioware-Sektionen übernehmen; bestehende
      Legalitäts-/Wartungsanker (`#legalitäts--wartungs-stufen`) stabil halten oder
      sauber migrieren.
 2. **Psi bündeln**
-   - Quelle: `characters/psi-talente.md`
+   - Quelle: `systems/kp-kraefte-psi.md` (integriert)
    - Ziel: `systems/kp-kraefte-psi.md`
    - Leitplanken: Talentlisten direkt hinter Kernmechanik platzieren; Anker wie
      `#mentale-maskierung` prüfen und bei Bedarf weiterleiten.

@@ -20,7 +20,7 @@ Repo-Hilfsdateien bleiben offline:
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste
    Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
-3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
+3. **Runtime-Module:** Exakt die unten aufgelisteten 16 Markdown-Dateien aus
    den Runtime-Verzeichnissen.
 
 > **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob
@@ -31,8 +31,6 @@ Repo-Hilfsdateien bleiben offline:
 |--------------|-------|
 | **characters** | `characters/ausruestung-cyberware.md` |
 |              | `characters/charaktererschaffung.md` |
-|              | `characters/cyberware-und-bioware.md` |
-|              | `characters/psi-talente.md` |
 |              | `characters/zustaende-hud-system.md` |
 | **core**     | `core/wuerfelmechanik.md` |
 |              | `core/zeitriss-core.md` |
@@ -174,7 +172,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
    mehr Infos auf https://zeitriss.org/“.
 3. `meta/masterprompt_v6.md` vollständig in das Masterprompt-Feld kopieren und
    speichern.
-4. `README.md`, `master-index.json` sowie alle 18 Runtime-Module (ohne
+4. `README.md`, `master-index.json` sowie alle 16 Runtime-Module (ohne
    Runtime-Stub) in den Wissensspeicher hochladen.
 5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
    längere Sessions stabil bleiben.
@@ -228,7 +226,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 - Nach jedem freigegebenen Update bestätigen, dass MyGPT und Store-GPT denselben
   Stand führen (Masterprompt, README, Module) und den Release anschließend auf
   LUMO sowie lokal spiegeln.
-- Sicherstellen, dass exakt 18 Runtime-Module plus `master-index.json` geladen
+- Sicherstellen, dass exakt 16 Runtime-Module plus `master-index.json` geladen
   sind; der Runtime-Stub bleibt außen vor.
 - Für Schnelltests die Checkliste aus
   [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)

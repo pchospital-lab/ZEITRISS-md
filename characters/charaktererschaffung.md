@@ -30,7 +30,7 @@ Wunsch auch eine experimentelle Hominin-Form – und lädt euer rekonstruiertes 
 
 1. Konzeptidee festlegen
 2. Spezies oder Bio-Hülle wählen – Basis-Mensch, humane Abstufung (T‑Stufe/N‑Typ) oder historischer Hominin.
-   Siehe [Hominin-Bio-Sheaths](cyberware-und-bioware.md#optional-hominin-bio-sheaths).
+   Siehe [Hominin-Bio-Sheaths](ausruestung-cyberware.md#optional-hominin-bio-sheaths).
 3. Attribute verteilen (18 Punkte von Basis 0, Endwerte ≥ 1)
 4. Drei Talente wählen (2 frei + 1 Echo aus dem früheren Leben)
 5. Startausrüstung notieren

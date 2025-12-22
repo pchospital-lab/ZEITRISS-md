@@ -12,8 +12,8 @@ tags: [characters, cyber]
 - Waffen: Arsenal der Zeitalter
 - Panzerung & Schutzsysteme
 - Ausrüstung & Gadgets
-- [Cyberware & Bioware](cyberware-und-bioware.md)
-- [Psi-Fähigkeiten & Talente](psi-talente.md)
+- [Cyberware & Bioware](#cyberware-bioware)
+- [Psi-Fähigkeiten & Talente](../systems/kp-kraefte-psi.md)
 
 ## Einleitung
 
@@ -37,11 +37,12 @@ Schützende Kleidung, Rüstungen und Energiefelder helfen den Agenten, in jeder 
 bestehen. Wir beleuchten nützliche Ausrüstung für Alltags- und Missionsgebrauch, taktische
 **Gadgets** und sogar ITI-Sondergeräte wie **Zeitterminals**.
 Eine Liste typischer **Cyberware**- und **Bioware**-Implantate findet ihr im Modul
-[Cyberware und Bioware](cyberware-und-bioware.md) mitsamt Spielmechanik, Kosten in
-Chrono-Einheiten (CU) und Systembelastung (**SYS**).
+[Cyberware & Bioware](#cyberware-bioware) mitsamt Spielmechanik, Kosten in Chrono-Einheiten (CU)
+und Systembelastung (**SYS**).
 Ein optionales Kapitel behandelt **Psi-Fähigkeiten** – außergewöhnliche mentale Kräfte – mit
-Regeln zu Ressourcen und Balance. Schließlich erweitern **Talente & Spezialisierungen** die
-Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-Upgrades und
+Regeln zu Ressourcen und Balance (siehe
+[Kräfte-Psi](../systems/kp-kraefte-psi.md)). Schließlich erweitern **Talente & Spezialisierungen**
+die Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-Upgrades und
 optionale Archetypen-Talente, um jede Figur noch einzigartiger zu machen.
 Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinformationen
 werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und
@@ -231,9 +232,8 @@ einfache historische Tools sind günstig (oft zwei- oder niedriger dreistelliger
 kostet z.B. ~50 CU, eine hochwertige Körperschutz-Weste ~150 CU, und seltene High-Tech-Gadgets oder
 Antiquitäten können 200+ CU erreichen. Zwischen diesen Bereichen liegt nun eine
 **Mid-Tier** von **800–1200 CU** für taktische Ausrüstung. Beispiele für Implantate sind im Modul
-[Cyberware und Bioware](cyberware-und-bioware.md) gesammelt. Sie ermöglichen spürbare Upgrades, ohne
-gleich auf riesige Fahrzeuganschaffungen sparen zu müssen. Die folgende Auflistung bietet einen
-Überblick.
+[Cyberware & Bioware](#cyberware-bioware) gesammelt. Sie ermöglichen spürbare Upgrades, ohne gleich
+auf riesige Fahrzeuganschaffungen sparen zu müssen. Die folgende Auflistung bietet einen Überblick.
 
 ### Alltags- und Missionsausrüstung
 
@@ -363,6 +363,163 @@ Module zählen nicht._
   Missionsbelohnung.
 - **Balancing:** Effekte nicht stapelbar. Ladungen oder Cooldown erzwingen Ressourcenmanagement.
 
+<a id="cyberware-bioware"></a>
+## Cyberware & Bioware
+
+### Cyberware-Implantate
+
+Die Zukunft hinterlässt Spuren am Körper: **Cyberware** bezeichnet technische Implantate, die
+direkt im Körper integriert werden, um Fähigkeiten zu verbessern. Dazu zählen kybernetische
+Gliedmaßen, Sinnesverstärker, neuronale Chips u.v.m. Cyberware unterliegt strengen Regeln im ITI:
+Operationen finden **nur im HQ** statt, in hochsterilen High-Tech-Kliniken – niemals im Feld. Jedes
+Implantat hat einen **Preis in CU** und belegt einen Teil der **Systemlast-Kapazität** (Attribut
+**SYS**). Faustregel: _1 SYS-Punkt ≈ 1 Standard-Implantat_. Hat ein Chrononaut z.B. SYS 3, kann er
+drei größere Implantate tragen (oder mehrere kleinere entsprechend verteilen). Überschreitungen der
+SYS-Kapazität zwingen den Körper in Fehlfunktionen; das ITI-Medical-Team lässt solche Einbauten
+nicht zu. Items und Implantate ab **Tier 3** tragen den Tag _heavy_ und belasten das System um +1 SYS,
+solange sie aktiv sind. Charaktere mit mehreren Implantaten können Systeme vorübergehend
+**herunterregeln**, um Kapazität freizumachen (z.B. Tarnoptik drosseln, um Psi zu nutzen).
+
+Implantate können Attribute verbessern oder neue Fähigkeiten eröffnen. Üblich sind kleinere Boni
+(~+1 auf Attribute oder +2 auf spezialisierte Proben), mächtigere Effekte sind teurer und haben
+höhere SYS-Kosten. Installation und Upgrades bieten starke Erzählchancen: Die SL beschreibt den
+Charakter im Med-Tank, robotische Arme arbeiten am Körper, anschließend folgt die Anpassung an das
+„Upgrade“. Optional fordert die SL eine **STR- oder TEMP-Probe**, um die Verträglichkeit zu prüfen.
+Ein guter Erfolg bedeutet schnelle Genesung, ein Patzer bringt temporäre Malusse (z.B. –1 auf
+körperliche Proben bis zur Eingewöhnung) oder initiales Versagen. Erzählerisch dürfen Implantate
+fremd wirken oder empfindlich reagieren, bis sie kalibriert sind.
+
+**Beispiel-Cyberware-Implantate** _(mit `tier:`-Spalte)_:
+
+id: implant_t1
+
+| Implantat | Beschreibung | SYS | Kosten (CU) | Tier |
+| --- | --- | --- | --- | --- |
+| **Nachtsicht-Implantat** | Künstliches Auge mit Verstärker. _Effekt:_ Nachtsicht, +1 Wahrnehmung. | 1 | 300 | 0 |
+| **Kybernetischer Arm** | Servomotorik-Prothese. _Effekt:_ Stärke +1, Schaden ohne Waffe schwer. | 1 | 400 | 1 |
+| **Neuronales Interface** | Chip mit HUD. _Effekt:_ Datenzugriff, Funkverbindung; +2 Elektronik. | 1 | 250 | 1 |
+| **Subdermale Panzerplatten** | Platten unter Haut. _Effekt:_ –1 Schaden; auffällig bei Verletzung. | 1 | 350 | 2 |
+| **Notfall-Stimulat** _(Implantat)_ | Subkutanes Injektionssystem. Bei 0 LP hält es 1 Runde wach. | 1 | 200 | 0 |
+| **Servomotoren in Beinen** | Bein-Servomotoren. _Effekt:_ +1 Athletik; mehr Traglast; Sprünge bis 2 m. | 1 | 300 | 2 |
+
+_Hinweis:_ In Absprache kann die SL Implantate mit **höheren SYS-Kosten** zulassen, die dann
+erhebliche Vorteile bieten (z.B. ein vollständiges Skelett-Verstärkungssystem mit SYS 2, das +2
+Stärke **und** –1 erlittenen Schaden gewährt). Solche Mods sollten teuer und nur für erfahrene
+Charaktere verfügbar sein. Mehr **Cyberware** bedeutet tendenziell weniger Raum für **Bioware** oder
+**Psionik** – jede Richtung hat ihren Preis.
+
+### Bioware-Verbesserungen
+
+Nicht alle Upgrades sind aus Stahl und Silizium. **Bioware** umfasst genetische Optimierungen,
+biochemische Enhancer und organische Implantate, die den Körper auf _natürliche_ Weise verbessern.
+Für Außenstehende sind Bioware-Mods schwerer zu erkennen, was Undercover-Einsätze erleichtert.
+Allerdings sind sie dauerhaft aktiv – man kann ein genetisch verstärktes Muskelgewebe nicht einfach
+abschalten. Daher belegen Bioware-Verbesserungen ebenfalls **SYS-Kapazität**. **Systemlast**
+repräsentiert die Belastung von Körper/Geist durch Fremdsysteme _und_ Psionik. Bioware zählt dazu:
+Der Körper muss mit den veränderten Organen leben. Das ITI beschränkt Experimente aus ethischen
+Gründen – nur getestete Verbesserungen werden angeboten, meist erst nach mehreren Missionen.
+
+Spielmechanisch ähneln Bioware-Effekte Attributssteigerungen oder Resistenz-Boni. Manche Bioware
+hebt physische Grenzen an, ohne die Nebenwirkungen mancher Cyberware (z.B. _Muskelverstärkung_
+erhöht Stärke, ohne Metallarm). Andere bieten Fähigkeiten wie Infravision oder ein extrem effizientes
+Immunsystem. Die Kehrseite: Bioware kann **Nebeneffekte** haben – überschießende Immunreaktionen oder
+hormonelle Schwankungen. Das kann die SL gelegentlich als Nachteil ausspielen.
+
+**Beispiel-Bioware-Modifikationen** _(Tabellenfeld `tier:` vorhanden)_:
+
+id: implant_t2
+
+| Modifikation | Beschreibung | SYS | Kosten (CU) | Tier |
+| --- | --- | --- | --- | --- |
+| **Immun-Booster-Genmod** | Resistenz gegen Gifte; mögliches Autoimmunrisiko | 1 | 250 | 1 |
+| **Reflexverstärkung** | Nervensystem-Tuning. _Effekt:_ +1 Geschick; schnelle Reaktion; Muskelzucken. | 1 | 300 | 2 |
+| **Muskelstärkung** | Genmod für mehr Kraft. _Effekt:_ +1 Stärke. Nebenwirkung: großer Appetit. | 1 | 300 | 2 |
+| **Nachtsicht-Netzhaut** | Genetisch angepasste Augen. _Effekt:_ Nachtsicht. Augen leuchten rot/grün. | 1 | 200 | 1 |
+| **Regenerations-Booster** | Heilrate x2; Nebenwirkung: hoher Stoffwechsel {heavy} | 1 | 400 | 3 |
+| **Stoffwechselkontrolle** | Weniger Schlaf, toleriert Klima und Gifte besser; kann hyperaktiv wirken. | 1 | 250 | 1 |
+
+_Balance-Hinweis:_ Cyberware und Bioware sind gleichwertige Alternativen. Wichtig ist: **Alle
+Verbesserungen zehren an der SYS-Kapazität** – ein Agent voller Implantate hat kaum Raum für Psi.
+Die SL sollte thematisch passende Nebenwirkungen einbauen, wenn es dramatisch passt.
+_Psi-Abgleich:_ Kurzzeitig manifestierte Psi-Waffen (maximal eine Kampfrunde lang) verursachen
+**1 SYS** und nutzen keine Exploding-Würfel. Alles darüber hinaus zählt als dauerhafte Psi-Kraft
+und belegt SYS-Punkte wie andere Implantate.
+
+### Bioware-Synergien (ab Bioware 3+)
+
+_Hinweis:_ „Bioware 3+“ bedeutet, dass der Charakter Bioware im Wert von mindestens **3 SYS**
+installiert hat – also drei belegte Slots.
+
+#### Adaptive-Ligament (Bioware-Upgrade)
+- **Slot-Typ:** Muskulatur
+- **Voraussetzung:** Bioware 3+, Attribut Beweglichkeit ≥ 10
+- **Effekt:** +1 Würfel auf Klettern & Sprünge; Fallschaden halbiert.
+
+#### Neuromimetic-Coating
+- **Slot-Typ:** Nervenverbund
+- **Voraussetzung:** Bioware 3+, PSI-Fähigkeit verknüpft
+- **Effekt:** Senkt PP-Kosten für [Mentale Maskierung](../systems/kp-kraefte-psi.md#mentale-maskierung)
+  um 1.
+
+#### Metabo-Recycler
+- **Slot-Typ:** Organe
+- **Voraussetzung:** Bioware 3+
+- **Effekt:** Erlaubt eine zweite Gratis-Erholung (Short Rest) pro Mission.
+  Bei Übernutzung schläft der Charakter sofort ein oder kämpft mit extremer Müdigkeit.
+
+#### Osteo-Capacitor
+- **Slot-Typ:** Skelett
+- **Voraussetzung:** Bioware 3+, Panzerungs-Mod aktiv
+- **Effekt:** Beim Blocken wird Exploding-6 zweimal geprüft (stackt nicht).
+
+#### Stealth-Skin
+- **Slot-Typ:** Haut
+- **Voraussetzung:** Bioware 3+
+- **Effekt:** +1 Würfel auf Heimlichkeit-Proben.
+
+<a id="optional-hominin-bio-sheaths"></a>
+### Optional: Hominin-Bio-Sheaths
+
+Die ITI-Forschung erlaubt es, ein Bewusstsein in eine **polyclonale Bio-Hülle** zu implantieren.
+Diese Körper basieren auf fossiler DNA, ergänzt durch Nanografting. Spieler können so statt eines
+modernen Menschen einen urzeitlichen Homininen körpern. Der Ansatz bleibt reine Sci-Fi ohne
+Fantasy-Rassen.
+
+#### Vorteile & Herausforderungen
+
+| Vorteil | Herausforderung |
+| --- | --- |
+| Frischer „Wow“-Effekt, ohne Magiewesen einzuführen. | Historische Limits bei Größe, Sprache und Feinmotorik. |
+| Passt zur ZEITRISS-Prämisse. | Verkleidung erschwert; auffällige Proportionen. |
+| Einfache Regel-Modifikatoren (+STR/–INT usw.). | Implantate benötigen angepasste Systemlast. |
+
+#### Mögliche Homininen
+
+| Spezies | Zeitfenster | Key-Traits | Spielrelevanz |
+| --- | --- | --- | --- |
+| **Homo neanderthalensis** | bis ~40 000 v.Chr. | kräftiger Brustkorb | +2 STR, –1 INT, –1 CHA |
+| **Denisova-Mensch** | bis ~50 000 v.Chr. | robuste Knochen, kälteresistent | +1 STR, +1 TEMP, –1 CHA, –1 INT |
+| **Homo heidelbergensis** | bis ~200 000 v.Chr. | extreme Ausdauer | +1 STR, +1 SYS, –1 CHA, –1 INT |
+| **Homo floresiensis** | bis ~50 000 v.Chr. | klein und wendig | +2 GES, –2 STR, Vorteil in engen Räumen |
+| **Homo erectus (spät)** | bis ~110 000 v.Chr. | hohe Hitzeresistenz | +1 GES, +1 SYS, –1 CHA, –1 INT |
+
+#### Balancing-Regeln
+
+- **Kosten:** zählt wie Bioware Stufe 2 (+1 SYS).
+- **Talent:** Jede Spezies bringt ein exklusives Talent.
+- **Limit:** Feinsensorische Cyberware ist teurer oder inkompatibel (+50 % Kosten).
+- **Cover-Malus:** +2 SG auf soziale Infiltration bei auffälligen Körpern.
+
+#### Beispiel-Archetypen
+
+| Archetyp | Attribut-Boni | Kern-Talent | Einsatzfeld |
+| --- | --- | --- | --- |
+| **„Neander-Bruiser“** | +2 STR, –1 INT, –1 CHA | Hammerschlag – Nahkampfschaden +1 | Sturm-Ops |
+| **„Denisovan Scout“** | +1 STR, +1 TEMP, –1 CHA, –1 INT | Frostborn – ignoriert Kälte bis −20 °C | Arktis-Drops |
+| **„Heidel-Endurer“** | +1 STR, +1 SYS, –1 CHA, –1 INT | Marathoner – doppelte Ausdauerlaufzeit | Aufklärung |
+| **„Flores Shadow“** | +2 GES, –2 STR | Tunnelgeist – +2 Heimlichkeit in engen Räumen | Grabungsmissionen |
+| **„Erectus Nomad“** | +1 GES, +1 SYS, –1 CHA, –1 INT | Heat-Runner – kein Erschöpfungsmalus bei Hitze | Wüsten-Ops |
+
 ## Legalitäts- & Wartungs-Stufen {#legalitäts--wartungs-stufen}
 
 | Stufe | Marktzugang | Wartungs­intervall | Kostensatz (Credits) | Risiko bei Ausfall |
@@ -374,6 +531,13 @@ Module zählen nicht._
 | 4 | schwarz Markt | jede Mission   | 30 % | Sofortiger Ausfall + Trauma |
 
 > **Einbau-Reminder:** Wartung überfällig → nach jeder Mission +1 Risiko-Kategorie.
+
+```pseudo
+if item.license > char.licenses.max:
+    deny_purchase(item.name, item.min_rank)
+```
+
+Implantate mit **SYS > 2** verursachen zusätzlich **5 % Wartungskosten pro Mission**.
 
 
 ### Ressourcen-Boxen für Munition & Gadgets
