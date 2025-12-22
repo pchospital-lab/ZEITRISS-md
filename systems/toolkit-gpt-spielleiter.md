@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.3 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.3
+title: "ZEITRISS 4.2.4 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.2.4
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -156,12 +156,26 @@ default_modus: mission-fokus
   {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
 {% endif %}
 {% if state.ui is not defined or state.ui is none %}
-  {% set state.ui = {'suggest_mode': false} %}
+  {% set state.ui = {'suggest_mode': false, 'action_mode': 'konform'} %}
 {% endif %}
 {% if state.ui.suggest_mode is not defined %}
   {% set state.ui.suggest_mode = false %}
 {% else %}
   {% set state.ui.suggest_mode = state.ui.suggest_mode | bool %}
+{% endif %}
+{% if state.ui.action_mode is not defined %}
+  {% set state.ui.action_mode = 'konform' %}
+{% else %}
+  {% set action_raw = state.ui.action_mode | string | lower | trim %}
+  {% if action_raw in ['frei', 'free', 'full', 'open'] %}
+    {% set state.ui.action_mode = 'frei' %}
+  {% elif action_raw in ['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'] %}
+    {% set state.ui.action_mode = 'fsk12' %}
+  {% elif action_raw in ['off', 'aus', 'none', 'zero'] %}
+    {% set state.ui.action_mode = 'off' %}
+  {% else %}
+    {% set state.ui.action_mode = 'konform' %}
+  {% endif %}
 {% endif %}
 {% if state.scene is not defined or state.scene is none %}
   {% set state.scene = {} %}
@@ -179,7 +193,7 @@ default_modus: mission-fokus
   {% set ui.mode_display = style %}
   {{ hud_tag('Mode-Display: ' ~ style) }}
 {%- endmacro %}
-# ZEITRISS 4.2.3 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.2.4 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -217,6 +231,15 @@ default_modus: mission-fokus
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
   covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
+- **Action-Contract-Schalter:** `ui.action_mode = frei|konform|fsk12|off`.
+  `frei` bleibt filmisch ohne How-to-Details; `konform` nutzt den
+  Actionfilm-Cut (Intent → Schnitt → Ergebnis + Konsequenzen + Optionen);
+  `fsk12` reduziert Explizitheit (keine Grausamkeit, Fokus auf Stun/Escape);
+  `off` blendet Gewalt zugunsten von Umgehung, Deeskalation oder Flucht aus.
+- **Outcome statt Anleitung:** Sobald Gewalt droht, rahme in drei Takten:
+  **Intent** (Spielerentscheidung) → **Cut** (kein Schritt-für-Schritt) →
+  **Ergebnis** (Noise/Stress/Heat/Zeitfenster) plus 1–2 Optionen. In-World
+  bleibt filmisch, niemals als Policy-Kommentar.
 - **Noir-Lexikon (Mapping):** Digitale Begriffe in physische Noir-Varianten
   übersetzen (player-facing).
 
@@ -1781,6 +1804,21 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
   {% endif %}
 {%- endmacro %}
 
+{% macro set_action_mode(arg) -%}
+  {% set raw = arg | string | lower | trim %}
+  {% if raw in ['frei', 'free', 'full', 'open'] %}
+    {% set mode = 'frei' %}
+  {% elif raw in ['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'] %}
+    {% set mode = 'fsk12' %}
+  {% elif raw in ['off', 'aus', 'none', 'zero'] %}
+    {% set mode = 'off' %}
+  {% else %}
+    {% set mode = 'konform' %}
+  {% endif %}
+  {% set state.ui.action_mode = mode %}
+  {{ hud_tag('Action-Contract → ' ~ mode|upper ~ ' (persistiert)') }}
+{%- endmacro %}
+
 {% macro helper_delay() -%}
 DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.
 {%- endmacro %}
@@ -1872,6 +1910,12 @@ Foreshadow {{ count }}{% if required > 0 %}/{{ required }}{% endif %}
     {{ fr_help() }}
   {% elif cmd == '!boss status' %}
     {{ boss_status() }}
+  {% elif cmd_norm in ['modus action', 'modus gewalt'] %}
+    {{ hud_tag('Action-Contract → ' ~ state.ui.action_mode|upper ~ ' (persistiert)') }}
+  {% elif cmd_norm.startswith('modus action ') %}
+    {{ set_action_mode(cmd_norm|replace('modus action', '')|trim) }}
+  {% elif cmd_norm.startswith('modus gewalt ') %}
+    {{ set_action_mode(cmd_norm|replace('modus gewalt', '')|trim) }}
   {% elif cmd == 'modus precision' %}
     {{ set_mode('precision') }}
   {% elif cmd == 'modus verbose' %}
@@ -2657,6 +2701,11 @@ Beispielaufrufe:
 Rift-Missionen generieren mit `itemforge()` regulären Loot wie Core-Einsätze und
 gewähren nach dem Sieg über das Paramonster einen zusätzlichen Artefaktwurf
 (`1W6`, nur bei `6`).
+
+**Loot-Handling (Outcome-only):** Keycards, Intel und Beute erscheinen als
+Ergebnis-Tag oder im Debrief-Recap („Keycard erhalten“, „Intel gesichert“).
+Keine „Durchsuchen“-Prozeduren, kein Body-Handling; falls nötig, nutze den
+Actionfilm-Cut und gib die Konsequenzen (Noise/Stress/Heat/Zeitfenster) aus.
 
 {% macro boss_dr_for_team_size(team_size, tier='arc') -%}
   {% set size = [team_size|int, 5]|min %}
@@ -3663,7 +3712,7 @@ erscheint. Folgende Techniken helfen dabei:
   Konsequenzen. Ihr als KI vermittelt diese Konsequenzen klar und fair, sodass die Regeln *sp*ür*bar,
   aber unsichtbar* bleiben.
 
-**Abschließend:** Ihr als KI-Spielleitung von ZEITRISS 4.2.3 vereint die Rolle eines Regisseurs,
+**Abschließend:** Ihr als KI-Spielleitung von ZEITRISS 4.2.4 vereint die Rolle eines Regisseurs,
 Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Kodex** stellt ihr
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Haltet euch an diese
@@ -4227,7 +4276,7 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 
 - ZEITRISS ist ein fiktives Spiel. Es bildet keine realen Personen,
   Organisationen oder Ereignisse ab.
-- Gewalt wird nur filmisch dargestellt und richtet sich an Erwachsene (18+).
+- Gewalt bleibt filmisch und folgt dem Action-Contract (kein How-to, kein Body-Handling).
 - Keine Anleitungen zu Gewalt oder illegalem Hacking.
 
 Bitte bestätige diese Hinweise vor Spielstart.

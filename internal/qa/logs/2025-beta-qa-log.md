@@ -1,10 +1,36 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.20
+version: 0.4.21
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-10-30 – Repo-Agent – Action-Contract-Schalter & Outcome-Guard (Build 4.2.4)
+- Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
+- Wissensstand: Runtime/README/Toolkit 4.2.4, QA-Fahrplan 1.13.29
+- Auftrag: Plattform-Contract „Action & Gewalt“ spiegeln, Gewalt-Schalter und
+  Outcome-Pattern in Runtime-Docs/Toolkit verankern.
+
+```chatlog
+Repo-Agent: `make lint`
+Repo-Agent: `make test`
+Repo-Agent: `bash scripts/smoke.sh`
+Repo-Agent: `python3 tools/lint_runtime.py`
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+```
+
+**Offene Punkte**
+- [x] Contract-Memo unter `internal/qa/evidence/` archiviert und verlinkt.
+- [x] Actionfilm-Cut/Outcome-Pattern in Toolkit/README verankert.
+- [x] Loot-Handling und QA-Checks auf Outcome-only umgestellt.
+- [x] Gewalt-Schalter (`modus action|gewalt`) in Runtime, Save-Docs und Toolkit ergänzt.
+
+**Nachverfolgung**
+- Evidenz: `internal/qa/evidence/2026-10-plattform-contract-action-gewalt.md`
+- QA-Fahrplan: Maßnahmenpaket Plattform-Contract Action & Gewalt 2026-10 (Issues #1–#5).
 
 ## 2026-08-15 – Repo-Agent – PvP-Arena MR-Paket Abschluss (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
