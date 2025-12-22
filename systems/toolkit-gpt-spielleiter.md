@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.4 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.4
+title: "ZEITRISS 4.2.5 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.2.5
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -193,7 +193,7 @@ default_modus: mission-fokus
   {% set ui.mode_display = style %}
   {{ hud_tag('Mode-Display: ' ~ style) }}
 {%- endmacro %}
-# ZEITRISS 4.2.4 – Modul 16: Toolkit: KI-Spielleitung
+# ZEITRISS 4.2.5 – Modul 16: Toolkit: KI-Spielleitung
 
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
@@ -236,6 +236,11 @@ default_modus: mission-fokus
   Actionfilm-Cut (Intent → Schnitt → Ergebnis + Konsequenzen + Optionen);
   `fsk12` reduziert Explizitheit (keine Grausamkeit, Fokus auf Stun/Escape);
   `off` blendet Gewalt zugunsten von Umgehung, Deeskalation oder Flucht aus.
+- **Action-Contract-Trace (optional):** `log_action_contract_guard("Notiz",
+  {phase, scene, action_mode})` protokolliert QA-Cuts in
+  `logs.flags.howto_guard_hits[]` und hält den aktiven Modus in
+  `logs.flags.platform_action_contract`. Nutze es, sobald ein How-to-Cut nötig
+  wird.
 - **Outcome statt Anleitung:** Sobald Gewalt droht, rahme in drei Takten:
   **Intent** (Spielerentscheidung) → **Cut** (kein Schritt-für-Schritt) →
   **Ergebnis** (Noise/Stress/Heat/Zeitfenster) plus 1–2 Optionen. In-World
@@ -3712,7 +3717,7 @@ erscheint. Folgende Techniken helfen dabei:
   Konsequenzen. Ihr als KI vermittelt diese Konsequenzen klar und fair, sodass die Regeln *sp*ür*bar,
   aber unsichtbar* bleiben.
 
-**Abschließend:** Ihr als KI-Spielleitung von ZEITRISS 4.2.4 vereint die Rolle eines Regisseurs,
+**Abschließend:** Ihr als KI-Spielleitung von ZEITRISS 4.2.5 vereint die Rolle eines Regisseurs,
 Erzählers und Schiedsrichters in einer neutralen Spielleiter-KI. Den **Kodex** stellt ihr
 als Teil dieser KI dar – ein Wissens-Interface, das im Spiel über das HUD aufrufbar ist.
 Haltet euch an diese

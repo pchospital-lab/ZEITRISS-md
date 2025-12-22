@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.29
+version: 1.13.30
 tags: [meta]
 ---
 
@@ -1080,4 +1080,4 @@ Debrief oder als knapper Scene-Tag („Keycard erhalten“) sichtbar.
 | #3 | Style-Compliance spiegeln | `README.md` und `gameplay/kampagnenstruktur.md` (No-Go-Zonen/Style-Compliance) um kurze Regeln ergänzen: keine Schritt-für-Schritt-Gewalt, kein Body-Handling, Konsequenzen via Noise/Stress/Heat/Zeitfenster. | ✅ abgeschlossen |
 | #4 | Loot-Handling abstrahieren | Toolkit-/Debrief-Hinweise präzisieren (Keycards/Intel als Outcome, Loot-Recap im Debrief, keine „Durchsuchen“-Prozeduren). Relevante Makros: `itemforge()`, Loot-Reminder. | ✅ abgeschlossen |
 | #5 | QA-Checks für Tester:innen | `docs/qa/tester-playtest-briefing.md` um PASS/FAIL-Kriterien ergänzen (Cut/Outcome bei zu konkreten Ansagen, keine How-to-Optimierungen, In-World bleibt). | ✅ abgeschlossen |
-| #6 | Optionales Runtime-Logging | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren. | ⬜ |
+| #6 | Optionales Runtime-Logging | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren. | ✅ abgeschlossen |
