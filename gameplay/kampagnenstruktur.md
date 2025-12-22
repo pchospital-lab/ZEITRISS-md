@@ -310,7 +310,9 @@ Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1–2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand als `rift_seeds` und lassen sich über das
 **ClusterDashboard** einsehen. Jede weitere Px‑5‑Stufe **stapelt** zusätzliche Seeds
-im Pool – kein Cap. 🌀 PX 5/5 – ClusterCreate aktiviert · Neue Seeds: #011, #015
+im Pool; beim Merge/Group-Import greift eine Deckelung (max. 12 offene Seeds),
+Überschuss geht automatisch an ITI-NPC-Teams. 🌀 PX 5/5 – ClusterCreate aktiviert
+· Neue Seeds: #011, #015
 Erst nach Abschluss der Episode kann die Gruppe
 einen Eintrag via `launch_rift(seed_id)` als eigenständige Rift-Op starten und danach
 zum Core-Generator zurückkehren. Diese **Rift-Ops** gelten als filmische

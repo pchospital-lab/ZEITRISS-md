@@ -32,6 +32,8 @@ const RIFT_SEED_CATALOG = {
   'R-900': { label: 'White Signal', seed_tier: 'late', hook: 'Blendender Radiopuls, Sensoren im Overdrive.' }
 };
 
+const RIFT_SEED_MERGE_CAP = 12;
+
 function helper_delay_text(){
   return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.";
 }
@@ -2372,6 +2374,49 @@ function normalize_atmosphere_contract_capture(raw){
   return Object.keys(normalized).length ? normalized : null;
 }
 
+function assert_atmosphere_contract_capture(){
+  const flags = state?.logs?.flags;
+  if (!flags?.qa_mode) return null;
+  const capture = normalize_atmosphere_contract_capture(flags.atmosphere_contract_capture);
+  const phases = ['core', 'transfer', 'rift'];
+  const missing = [];
+  const invalid = [];
+  if (!capture){
+    throw new Error('QA-Mode: Atmosphere-Contract-Capture fehlt (core/transfer/rift).');
+  }
+  for (const phase of phases){
+    const entry = capture[phase];
+    if (!entry){
+      missing.push(phase);
+      continue;
+    }
+    const lines = Array.isArray(entry.lines) ? entry.lines : [];
+    const lineCount = lines.length;
+    if (lineCount < 8 || lineCount > 12){
+      invalid.push(`${phase}: lines ${lineCount}/8–12`);
+    }
+    const banned = entry.banned_terms && typeof entry.banned_terms === 'object'
+      ? entry.banned_terms
+      : {};
+    const status = typeof banned.status === 'string' ? banned.status.trim() : '';
+    if (!status){
+      invalid.push(`${phase}: banned_terms.status fehlt`);
+    }
+    if (!Number.isFinite(entry.hud_toasts)){
+      invalid.push(`${phase}: hud_toasts fehlt`);
+    }
+  }
+  if (missing.length || invalid.length){
+    const details = [
+      missing.length ? `fehlende Phasen: ${missing.join(', ')}` : null,
+      invalid.length ? `Invalid: ${invalid.join(' | ')}` : null
+    ].filter(Boolean).join(' · ');
+    throw new Error(`QA-Mode: Atmosphere-Contract-Capture unvollständig (${details}).`);
+  }
+  flags.atmosphere_contract_capture = capture;
+  return capture;
+}
+
 function ensure_atmosphere_contract(){
   const runtimeFlags = ensure_runtime_flags();
   const ui = ensure_ui();
@@ -2672,6 +2717,9 @@ function show_compliance_once(options = {}){
   ensure_logs();
   const flags = state.logs.flags;
   const alreadyShown = !!flags.compliance_shown_today;
+  if (qaMode){
+    flags.qa_mode = true;
+  }
   if (alreadyShown && !force){
     return false;
   }
@@ -2902,6 +2950,39 @@ function normalize_rift_seed_entry(entry){
     normalized.hook = 'Hook ausstehend – Casefile ergänzen.';
   }
   return normalized;
+}
+
+function normalize_rift_seed_list(list){
+  return (Array.isArray(list) ? list : [])
+    .map((entry) => normalize_rift_seed_entry(entry))
+    .filter(Boolean);
+}
+
+function merge_rift_seed_pools(hostSeeds, incomingSeeds, cap = RIFT_SEED_MERGE_CAP){
+  const combined = [];
+  const seen = new Set();
+  const pushSeed = (seed) => {
+    const id = seed?.id ? seed.id.trim() : '';
+    if (!id) return;
+    const key = id.toLowerCase();
+    if (seen.has(key)) return;
+    seen.add(key);
+    combined.push(seed);
+  };
+  normalize_rift_seed_list(hostSeeds).forEach(pushSeed);
+  normalize_rift_seed_list(incomingSeeds).forEach(pushSeed);
+  const openSeeds = combined.filter((seed) => seed.status !== 'closed');
+  const keptOpen = openSeeds.slice(0, cap);
+  const keptIds = new Set(keptOpen.map((seed) => seed.id.toLowerCase()));
+  const kept = combined.filter((seed) => seed.status === 'closed' || keptIds.has(seed.id.toLowerCase()));
+  const overflow = openSeeds.slice(cap);
+  return {
+    seeds: kept,
+    kept_open: keptOpen,
+    overflow,
+    open_total: openSeeds.length,
+    cap
+  };
 }
 
 function ensure_rift_seeds(){
@@ -5711,12 +5792,15 @@ function StartMission(){
   let bossToast = null;
   let bossDrToast = null;
   let bossDrValue = null;
+  let bossType = null;
   if (Number.isFinite(missionNumber) && missionNumber >= 5){
     if (missionNumber % 10 === 0){
       bossToast = 'Boss-Finale in Szene 10 – DR aktiv.';
+      bossType = missionType === 'rift' ? 'rift' : 'arc';
       bossDrValue = resolve_boss_dr(teamSize, 'arc');
     } else if (missionNumber % 5 === 0){
       bossToast = 'Mini-Boss in Szene 10 – Overflow halbiert.';
+      bossType = 'mini';
       bossDrValue = resolve_boss_dr(teamSize, 'mini');
     }
   }
@@ -5738,6 +5822,9 @@ function StartMission(){
     hud: overlay,
     channel: 'HUD',
     note: bossDrToast || bossToast || null,
+    boss: bossType
+      ? { type: bossType, dr: bossDrValue, toast: bossDrToast || bossToast }
+      : null,
     seed: {
       id: state.campaign?.active_seed_id || state.campaign?.seed_id || null,
       tier: state.campaign?.active_seed_tier || null,
@@ -7082,6 +7169,8 @@ function save_deep(s=state){
   if (sysInstalled !== sysMax){
     throw new Error(toast_save_block('SYS nicht voll installiert'));
   }
+  ensure_atmosphere_contract();
+  assert_atmosphere_contract_capture();
   const economyAudit = build_economy_audit(s);
   record_trace('economy_audit', {
     channel: 'SAVE',
@@ -7434,6 +7523,7 @@ function load_deep(raw){
     : [];
   const initialConflictCount = mergeConflicts.length;
   let mergeConflictsChanged = false;
+  let riftMergeReport = null;
   const noteConflict = (payload) => {
     const before = mergeConflicts.length;
     mergeConflicts = push_merge_conflict(mergeConflicts, payload);
@@ -7494,20 +7584,41 @@ function load_deep(raw){
         migrated.campaign[key] = hostValue;
       }
     });
-    if (
-      Array.isArray(hostCampaign.rift_seeds)
-      && hostCampaign.rift_seeds.length
-      && Array.isArray(migrated.campaign.rift_seeds)
-      && JSON.stringify(hostCampaign.rift_seeds) !== JSON.stringify(migrated.campaign.rift_seeds)
-    ){
-      noteConflict({
-        field: 'campaign.rift_seeds',
-        source: migrated.campaign.rift_seeds.length,
-        target: hostCampaign.rift_seeds.length,
-        mode: 'merge',
-        note: 'Host-Seeds priorisiert'
-      });
-      migrated.campaign.rift_seeds = hostCampaign.rift_seeds;
+    const hostSeeds = Array.isArray(hostCampaign.rift_seeds)
+      ? hostCampaign.rift_seeds
+      : [];
+    const incomingSeeds = Array.isArray(migrated.campaign.rift_seeds)
+      ? migrated.campaign.rift_seeds
+      : [];
+    if (hostSeeds.length || incomingSeeds.length){
+      const normalizedHost = normalize_rift_seed_list(hostSeeds);
+      const normalizedIncoming = normalize_rift_seed_list(incomingSeeds);
+      const mergeResult = merge_rift_seed_pools(normalizedHost, normalizedIncoming);
+      const overflowCount = mergeResult.overflow.length;
+      const incomingHasSeeds = normalizedIncoming.length > 0;
+      const diff = incomingHasSeeds
+        && JSON.stringify(normalizedHost) !== JSON.stringify(normalizedIncoming);
+      if (diff || overflowCount){
+        noteConflict({
+          field: 'campaign.rift_seeds',
+          source: normalizedIncoming.length,
+          target: normalizedHost.length,
+          mode: 'merge',
+          note: overflowCount
+            ? `Rift-Pool gekappt (${mergeResult.cap}) – Überschuss an ITI-NPC-Teams`
+            : 'Host-Seeds priorisiert'
+        });
+      }
+      migrated.campaign.rift_seeds = mergeResult.seeds;
+      if (diff || overflowCount){
+        riftMergeReport = {
+          cap: mergeResult.cap,
+          open_total: mergeResult.open_total,
+          kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
+          handoff_seed_ids: mergeResult.overflow.map((seed) => seed.id),
+          handoff_to: 'ITI-NPC-Teams'
+        };
+      }
     }
   }
   const incomingUi = prepare_save_ui(migrated.ui);
@@ -7675,6 +7786,7 @@ function load_deep(raw){
         reset: arenaReset.wasActive || false,
         resume_token: !!arenaReset.resume_token
       },
+      rift_merge: riftMergeReport,
       merge_conflicts: conflictCount,
       conflicts_added: conflictsAdded,
       conflict_fields: conflictFields
