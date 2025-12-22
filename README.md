@@ -114,7 +114,7 @@ euch das Maintainer-Dokument.
 ### Wissensspeicher laden
 
 1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle
-   unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner
+   unten aufgeführten 16 Runtime-Module in den Wissensspeicher deiner
    Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation
    reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
 2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als
@@ -131,8 +131,6 @@ euch das Maintainer-Dokument.
 |--------------|-------|
 | **characters** | `characters/ausruestung-cyberware.md` |
 |              | `characters/charaktererschaffung.md` |
-|              | `characters/cyberware-und-bioware.md` |
-|              | `characters/psi-talente.md` |
 |              | `characters/zustaende-hud-system.md` |
 | **core**     | `core/wuerfelmechanik.md` |
 |              | `core/zeitriss-core.md` |
@@ -1050,9 +1048,7 @@ sind der Übersicht halber aufgeführt.
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
 | [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Quickref |
 | [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Fortschritt |
-| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Gadgets |
-| [cyberware-und-bioware.md](characters/cyberware-und-bioware.md) | Implantate & Bioware |
-| [characters/psi-talente.md](characters/psi-talente.md) | Psi-Fähigkeiten |
+| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Implantate |
 | [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradoxon |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
@@ -1062,7 +1058,7 @@ sind der Übersicht halber aufgeführt.
 | [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
 | [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Verfolgungsjagden & Massenkonflikte |
 | [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Details zu Psi-Kräften |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Psi-Kräfte, Talente & Regeln |
 | [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
 | [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
 | [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | CU-Währungssystem |
@@ -1075,8 +1071,9 @@ folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 **Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
-18 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
-mit `README.md` und `master-index.json` umfasst das Regelwerk **20** Dateien.
+16 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
+mit `README.md` und `master-index.json` umfasst das Regelwerk **18** Dateien –
+zwei Slots bleiben als Reserve für künftige Splits frei.
 `meta/masterprompt_v6.md` wird separat per Copy-Paste genutzt. Im
 `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
 Langfassungen desselben Moduls auflisten.
@@ -1546,7 +1543,7 @@ spielerfreundliche Noir-Varianten übersetzt.
 
 [stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot
-[adrenalinschub]: characters/psi-talente.md#adrenalinschub
+[adrenalinschub]: systems/kp-kraefte-psi.md#adrenalinschub
 [notfall-stimulanz]: characters/charaktererschaffung.md#notfall-stimulanz
 [char-gear]: characters/charaktererschaffung.md#zugang-zu-ausruestung--cyberware-hq-phase
 [psi-pp-regeneration]: systems/kp-kraefte-psi.md#psi-pp-regeneration
