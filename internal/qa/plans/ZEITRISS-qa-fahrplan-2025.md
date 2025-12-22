@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.27
+version: 1.13.28
 tags: [meta]
 ---
 
@@ -1065,3 +1065,19 @@ Origin-Block und Echo-Talent, ohne das Spieldesign zu verändern.
 | #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
 | #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
 | #6 | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss. | ✅ abgeschlossen |
+
+## Maßnahmenpaket Plattform-Contract Action & Gewalt 2026-10 (Issues #1–#6)
+
+OpenAI hat die Plattformregeln für Gewalt weiter verschärft. Ziel ist, den
+Agenten-Thriller-Ton und filmische Action zu behalten, ohne in How-to oder
+Body-Handling abzudriften. Loot/Intel bleibt als **abstrakter Outcome** im
+Debrief oder als knapper Scene-Tag („Keycard erhalten“) sichtbar.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ---------------------------------------- | ------------------------------------------- | ------ |
+| #1 | Contract-Memo archivieren | Neues Meta-Dokument unter `internal/qa/evidence/` anlegen (Titel: „Plattform-Contract: Action & Gewalt“), Quelle/Datum vermerken und im QA-Log referenzieren. | ⬜ |
+| #2 | Actionfilm-Cut als SL-Pattern | `systems/toolkit-gpt-spielleiter.md`: Guard/Pattern „Outcome statt Anleitung“ ergänzen (Intent → Cut → Resultat + Konsequenzen + Optionen), ohne Policy-Sprache im In-World-Output. | ⬜ |
+| #3 | Style-Compliance spiegeln | `README.md` und `gameplay/kampagnenstruktur.md` (No-Go-Zonen/Style-Compliance) um kurze Regeln ergänzen: keine Schritt-für-Schritt-Gewalt, kein Body-Handling, Konsequenzen via Noise/Stress/Heat/Zeitfenster. | ⬜ |
+| #4 | Loot-Handling abstrahieren | Toolkit-/Debrief-Hinweise präzisieren (Keycards/Intel als Outcome, Loot-Recap im Debrief, keine „Durchsuchen“-Prozeduren). Relevante Makros: `itemforge()`, Loot-Reminder. | ⬜ |
+| #5 | QA-Checks für Tester:innen | `docs/qa/tester-playtest-briefing.md` um PASS/FAIL-Kriterien ergänzen (Cut/Outcome bei zu konkreten Ansagen, keine How-to-Optimierungen, In-World bleibt). | ⬜ |
+| #6 | Optionales Runtime-Logging | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren. | ⬜ |
