@@ -237,7 +237,7 @@ default_modus: mission-fokus
   `fsk12` reduziert Explizitheit (keine Grausamkeit, Fokus auf Stun/Escape);
   `off` blendet Gewalt zugunsten von Umgehung, Deeskalation oder Flucht aus.
 - **Action-Contract-Trace (optional):** `log_action_contract_guard("Notiz",
-  {phase, scene, action_mode})` protokolliert QA-Cuts in
+  {phase, scene, action_mode})` protokolliert Guard-Cuts in
   `logs.flags.howto_guard_hits[]` und hält den aktiven Modus in
   `logs.flags.platform_action_contract`. Nutze es, sobald ein How-to-Cut nötig
   wird.

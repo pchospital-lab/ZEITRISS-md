@@ -157,13 +157,9 @@ euch das Maintainer-Dokument.
   Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis
   (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
   externe Skripte denselben Funktionsumfang erhalten.
-- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Dokumentiere
-  Abweichungen zwischen Skript und Wissensspiegelung im Laufzeitjournal (siehe
-  `internal/qa/logs/`) und verweise in Commits/PRs auf die entsprechenden
-  Mirror-Schritte.
-- **Repo-Agent:innen spiegeln jede Laufzeitänderung unmittelbar in der
-  Wissensbasis (README, Runtime-Module etc.), einschließlich Foreshadow-Logik,
-  HUD-Badges und Save-Strukturen.**
+- Nutze die lokalen Runtimes weiterhin für Entwicklung und Tests. Spiegel
+  Anpassungen an Runtime-Logik zeitnah in den Wissensmodulen, damit der
+  produktive Wissensspeicher konsistent bleibt.
 
 ## Repo-Map {#repo-map}
 
@@ -1422,8 +1418,8 @@ Actionfilm-Cut (Intent → Schnitt → Ergebnis), `fsk12` reduziert Intensität 
 `off` blendet Gewalt zugunsten von Flucht, Stun oder Umgehung aus.
 Grundregel: Keine Schritt-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen
 laufen über Noise, Stress, Heat oder enge Zeitfenster.
-Für QA-Reports kann `log_action_contract_guard("Notiz", {phase, scene})`
-genutzt werden; der Save hält `logs.flags.platform_action_contract` und
+Optional kann `log_action_contract_guard("Notiz", {phase, scene})` genutzt
+werden; der Save hält `logs.flags.platform_action_contract` und
 `logs.flags.howto_guard_hits[]`.
 
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
