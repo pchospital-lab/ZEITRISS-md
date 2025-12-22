@@ -78,6 +78,7 @@ Optionales QA-Flag `logs.flags.atmosphere_contract_capture` speichert pro Phase
 (`core|transfer|rift`) einen 8–12-zeiligen Exzerpt-Block sowie den Status des
 Banned-Terms-Checks und die HUD-Toast-Zählung, z. B.
 `{lines:[...], banned_terms:{status:'PASS'|'FAIL', hits?:[...]}, hud_toasts:2}`.
+In QA-Mode (`logs.flags.qa_mode=true`) ist der Block pro Phase verpflichtend.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
@@ -247,13 +248,14 @@ enthält mindestens `event`, `at` (ISO), `location`, `phase`,
 `mission_type`/`campaign_mode`, `scene{episode,mission,index,total}` sowie
 `foreshadow{progress,required,tokens,expected}`. Optionale Felder fassen HUD-
 Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{cu,wallets}`), FR-Bias
-und Arena- oder Seed-Metadaten zusammen. Die Runtime ruft `record_trace()` bei
-`StartMission()`, `launch_rift()` und `arenaStart()` auf, begrenzt die Liste auf
-64 Einträge und spiegelt die Snapshots im HQ-Save (Fixtures enthalten
-Beispiele). Beim HQ-Save schreibt die Runtime zusätzlich ein `economy_audit`-
-Event mit Level, HQ-Pool, Wallet-Summe, Richtwerten und Chronopolis-Sinks;
-ein HUD-Toast erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und
-ersetzt keine Toasts.
+und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
+`boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Runtime ruft
+`record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
+begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save
+(Fixtures enthalten Beispiele). Beim HQ-Save schreibt die Runtime zusätzlich
+ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe, Richtwerten und
+Chronopolis-Sinks; ein HUD-Toast erscheint nur bei Abweichungen. Das Trace
+ergänzt `logs.hud[]` und ersetzt keine Toasts.
 
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
 Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
@@ -619,6 +621,9 @@ Arena- oder Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]`
 und wird als Host-Wert beibehalten; `load_deep()` schreibt ergänzend ein
 `logs.trace[]`-Event `merge_conflicts` mit Arena-Phase/Queue-State/Zone,
 Reset-/Resume-Markern, `conflict_fields`, `conflicts_added` und Gesamtzähler.
+Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen
+automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
+`merge_conflicts.rift_merge` abgelegt.
 Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
 HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
 Arena-Guards scharfgeschaltet werden.

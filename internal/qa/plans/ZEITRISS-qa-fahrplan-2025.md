@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.24
+version: 1.13.25
 tags: [meta]
 ---
 
@@ -664,10 +664,10 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
    Load-Flow endet nach Recap direkt im HQ/Briefing (kein klassisch/schnell). `load_deep()` setzt
    `campaign.entry_choice_skipped=true` und `ui.intro_seen=true`, Modul 12/Toolkit/README
    konsistent gespiegelt.
-4. **Issue #4 – Rift-Zusammenwurf deckeln & überschüssige Rifts abgeben (🟡 offen)**  
-   Beim Merge/Group-Import **maximale Rift-Anzahl kappen**. Überschuss wird automatisch an andere
-   ITI-NPC-Teams abgegeben, inkl. Auswahl, welche offenen Rifts erhalten bleiben. Kein globaler
-   Reset von Paradoxon/Seeds beim Merge; Reset nur via explizitem Kommando.
+4. **Issue #4 – Rift-Zusammenwurf deckeln & überschüssige Rifts abgeben (✅ erledigt)**  
+   Merge-Flow deckelt offene Rift-Seeds auf 12, überschüssige Seeds gehen automatisch an
+   ITI-NPC-Teams; Auswahl (kept/handoff) steht im Trace `merge_conflicts.rift_merge`. Kein
+   globaler Reset von Paradoxon/Seeds beim Merge.
 5. **Issue #5 – Legacy-Save-Beispiele in `zeitriss-core.md` bereinigen (✅ erledigt)**  
    Save-Beispiele auf v6-Shape (inkl. `party.characters[]`, `save_version`, `logs.*`) umgestellt und
    Gruppenstruktur klargestellt.
@@ -676,9 +676,9 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
 7. **Issue #7 – Px-Reset-Timing festlegen (✅ erledigt)**  
    Reset bleibt **nach der Mission / im Debrief/HQ**; Flags `px_reset_pending/confirm` dokumentiert
    und in Wissensmodulen konsolidiert.
-8. **Issue #8 – Boss-DR/HUD-Doku konsolidieren (🟡 offen)**  
-   HUD-System aktualisieren (Teamcap 1–5, 5–6 entfernen); DR-Toast nach Boss-Typ (Mini vs.
-   Arc/Rift). Optional `boss_type` in Trace/HUD für QA.
+8. **Issue #8 – Boss-DR/HUD-Doku konsolidieren (✅ erledigt)**  
+   HUD/README spiegeln Teamcap 1–5 und Boss-DR nach Boss-Typ (Mini vs. Arc/Rift); QA-Trace ergänzt
+   `logs.trace[].boss.type`/`dr` für Mission-Start-Snapshots.
 9. **Issue #9 – `logs.hud[]`-Overlays mit Timestamp (✅ erledigt)**  
    `logs.hud[]`-Events akzeptieren `at`, der Serializer ergänzt fehlende Timestamps beim HQ-Save.
    README/Toolkit/Save-Docs spiegeln die ISO-Stempel-Regel.
@@ -688,9 +688,9 @@ Konsistenz der Runtime-Entscheidung in Wissensmodulen, Save-Schema und QA-Snapsh
 11. **Issue #11 – Economy-Audit-Trace ergänzen (✅ erledigt)**  
    `economy_audit` in `logs.trace[]` beim HQ-Save (Level, HQ-Pool, Wallet-Sum, Richtwerte,
    Chronopolis-Sinks). HUD-Toast nur bei Out-of-Range.
-12. **Issue #12 – Atmosphere-Contract-Capture in QA-Mode erzwingen (🟡 offen)**  
-   In QA-Mode pro Phase (core/transfer/rift) 8–12 Zeilen + Banned-Terms + HUD-Toast-Zählung in
-   `logs.flags.atmosphere_contract_capture`.
+12. **Issue #12 – Atmosphere-Contract-Capture in QA-Mode erzwingen (✅ erledigt)**  
+   QA-Mode (`logs.flags.qa_mode=true`) erzwingt pro Phase 8–12 Zeilen plus Banned-Terms-Status
+   und HUD-Toast-Zählung; SaveGuard blockt unvollständige Captures.
 
 **QA-Hinweis (Review-Update)**  
 

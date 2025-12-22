@@ -273,8 +273,9 @@ default_modus: mission-fokus
 > Atmosphere Contract (QA/Runner): 3rd-Person-Narration,
 > Physicality-Guard/Banned Terms, Rift = Casefile-Monster-Hunt,
 > Core rational/noir, HUD schlank (80/20). Runtime legt den Contract als QA-
-> Block ab (`logs.flags.atmosphere_contract`). QA-Exzerpte pro Phase landen
-> optional in `logs.flags.atmosphere_contract_capture` (8–12 Zeilen,
+> Block ab (`logs.flags.atmosphere_contract`). In QA-Mode
+> (`logs.flags.qa_mode=true`) sind Exzerpte pro Phase **verpflichtend** in
+> `logs.flags.atmosphere_contract_capture` (8–12 Zeilen,
 > `banned_terms.status` + `banned_terms.hits[]`, `howto_hits[]`,
 > `rewrite_suggestion`, HUD-Toast-Zählung).
   5. Foreshadow-Marker werden im Save gespeichert (`logs.foreshadow`) und beim Laden synchronisiert.
@@ -505,11 +506,13 @@ Beispiel:
 if not char.get("psi") and not char.get("has_psi"):
     options = [o for o in options if not o.isPsi]
 ```
-  - TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
+- TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
   nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte),
   sind aber erst **nach Episodenabschluss** spielbar.
+  Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
+  Einträge gehen automatisch an ITI-NPC-Teams und erscheinen im Merge-Trace.
   Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
   Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
   (`Px sinkt auf …`).
