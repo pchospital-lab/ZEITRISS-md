@@ -486,7 +486,7 @@ QA-Log 2025-11-26.
 
 Der erneute Testprompt-Lauf vom 2025-12-02 liefert einen Px-Balancing-Bug und
 zehn Dokumentations-/Save-Themen (Acceptance-Spiegel, SaveGuard, Wallets, HUD).
-Alle Punkte sind offen und warten auf Umsetzung im Wissensspiegel.
+Alle Punkte sind umgesetzt und im Wissensspiegel verankert.
 
 | Issue | Thema | Status | Primärref. |
 | ----- | ------------------------------ | ------------ | ---------- |
@@ -740,7 +740,8 @@ erhalten, damit keine Kontextdetails verloren gehen.
 - High-Level-Ökonomie (100+/400+/1000) unklar: Rewards vs. Kosten skaliert nicht sauber.
 - Artefaktprogression: Drop selten, Verkauf gesperrt, Skalierung im Endgame unattraktiv; braucht
   Research-/Archiv-Value.
-- Teamgrößen-Regeln auf 0–4 vereinheitlichen; Fehlermeldungen entsprechend vereinfachen.
+- Teamgrößen-Regeln (Team gesamt 1–5, `npc-team` = 0–4 NPCs) festziehen; die
+  Forderung nach 0–4 Teamgröße ist überholt.
 - Mission 5 Badge/SF-OFF-Test braucht stringstabile Snapshots (Gate 2/2, FS 0/4, Boss-DR-Toast,
   Auto-Reset-Flags).
 - Offizielles, schema-volles QA-Save fehlt (Lvl 7/120/512+, Seeds offen/geschlossen, Wallets,
@@ -771,8 +772,8 @@ erhalten, damit keine Kontextdetails verloren gehen.
 | | | README verweist auf Seed-Stack/Hazard-Pay und unveränderte Wallet-Splits |
 | #13 | Artefaktprogression | ✅ Modul 15 dokumentiert Research-/Archivwerte und prozentuale Buffs,
 | | | freier Artefakthandel bleibt im Kampagnen- und README-Regelblock verankert |
-| #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf 0–4 vereinheitlicht, Docs
-| | | und Tests angepasst |
+| #14 | Teamgrößen-Fehlertexte | ✅ Validator/Start/HUD-Strings auf Team gesamt 1–5 harmonisiert,
+| | | `npc-team` bleibt 0–4 NPCs; Docs und Tests angepasst |
 | #15 | Mission 5 Badge/SF-OFF Snapshot | ✅ QA-Runner `tools/test_acceptance_followups.js` prüft HUD/Flags gegen Golden File |
 | #16 | QA-Fixture Save v6 voll | ✅ Fixture `internal/qa/fixtures/savegame_v6_full.json` dokumentiert |
 
@@ -888,7 +889,7 @@ nachgewiesenen Fixes für Folgeaudits.
   und Wissensmodulen.
 - ✅ QA-Output-Vertrag erlaubt den Save-v6-JSON-Block entweder als ISSUE-
   Evidenz oder als Appendix; Runner/Parser akzeptieren beide Varianten.
-- ✅ UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 0–4, mappt
+- ✅ UI-/Runtime-Normalisierung klemmt Teamgrößen hart auf 1–5, mappt
   `badge_density/output_pace` auf kanonische Enums und spiegelt Queue-/Zonen-
   Felder im Arena-Block der Saves.
 - ✅ Offline-Fallbacks sind gehärtet: `!offline` besitzt ein 60-Sekunden-Rate-
@@ -933,8 +934,8 @@ dokumentiert.
 Der jüngste Playtest (Rift-Ops mit gekürztem Briefing) liefert sieben
 Atmosphären- und Perspektiv-Regressionen. Fokus: Physicality-Guard,
 Voice-Lock, Rift-Template, Core-Noir, Default-Mode, HUD-Schlankheit und
-QA-Stylevertrag. Alle Punkte sind offen und müssen im Runtime-Overlay sowie in
-den Wissensmodulen verankert werden.
+QA-Stylevertrag. Alle Punkte sind umgesetzt und im Runtime-Overlay sowie in
+den Wissensmodulen verankert.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
@@ -1060,7 +1061,7 @@ Origin-Block und Echo-Talent, ohne das Spieldesign zu verändern.
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
 | #1 | Start-Defaults ohne Spielerzahl-Fragen | `README.md` und `systems/toolkit-gpt-spielleiter.md`: `solo` setzt Ansprache **Du** und `player_count = 1`, keine Nachfrage; `gruppe` nutzt **Ihr**, Spielerzahl wird im Charakterbau mitgezählt. Modusfrage nur, wenn `klassisch|schnell` fehlt. | ✅ abgeschlossen |
-| #2 | `npc-team`-Semantik klären | `README.md` und Toolkit: `npc-team N` = Gesamtteamgröße inkl. Spieler (0–4). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen. | ✅ abgeschlossen |
+| #2 | `npc-team`-Semantik klären | `README.md` und Toolkit: `npc-team N` = NPC‑Begleiter 0–4 (Team gesamt 1–5). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen. | ✅ abgeschlossen |
 | #3 | Origin-Block vor der Statistik | `characters/charaktererschaffung.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`. | ✅ abgeschlossen |
 | #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
 | #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
