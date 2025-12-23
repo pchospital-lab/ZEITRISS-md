@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.3
+version: 1.0.4
 tags: [meta, qa]
 ---
 
@@ -47,6 +47,13 @@ der Arena und das uneinheitliche „Heat“-Vokabular, das Spieler:innen wie Too
 verwirrt. Ohne Korrektur gefährden diese Punkte die Anschlussfähigkeit von
 Regelreferenzen, die Progressionsökonomie und das Balancing in
 Hochstufen-Spielrunden.
+
+## Update 2026-11-04 – Economy-Audit-Status Sync
+
+- QA-Fahrplan 1.13.34 markiert das Copy-Paste-QA-Issue #12 (Chronopolis/Economy-
+  Audit) als ✅ erledigt; der HQ-Save schreibt den `economy_audit`-Trace
+  kanonisch.
+- QA-Log 2026-11-04 dokumentiert den Abgleich und den Pflicht-Testlauf.
 
 ## Update 2025-11-04 – Deepcheck-Fortsetzung & Fahrplan 1.8.7
 

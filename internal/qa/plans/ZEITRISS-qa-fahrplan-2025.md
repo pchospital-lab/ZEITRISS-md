@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.33
+version: 1.13.34
 tags: [meta]
 ---
 
@@ -317,7 +317,7 @@ halten die nächsten Schritte für Folge-Läufe fest.
 | #9 | Accessibility Legacy-Mapping | PASS; QA erweitert um Legacy-Import (`full|minimal`, `rapid|quick`). | ✅ pass |
 | #10 | Offline-Fallback | PASS; Rate-Limit & SaveGuard behalten. Optionaler Hinweis „Mission läuft weiter“. | ✅ pass |
 | #11 | Vehikel-/Massenkonflikt-Logs | PASS; strukturierte `logs.hud[]`-Events als Pflichtlog prüfen. | ✅ pass |
-| #12 | Chronopolis/Economy-Audit | PASS; optional `economy_audit` Trace bei HQ-Save standardisieren. | 🟡 offen |
+| #12 | Chronopolis/Economy-Audit | PASS; `economy_audit`-Trace bei HQ-Save standardisiert. | ✅ erledigt |
 | #13 | Rift-Boss-Szenenindex | Generator-Map auf Boss-Encounter Szene 10 + Resolution Szene 11–14 harmonisiert. QA: Golden-Files updaten. | ✅ erledigt |
 | #14 | Test-Save v6 Fixture | Fixture `savegame_v6_test.json` aktualisiert (Seed-Source konsistent). | ✅ erledigt |
 
