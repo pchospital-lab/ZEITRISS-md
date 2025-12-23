@@ -76,7 +76,7 @@ Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote nach eure
 Kurze Infobriefe lassen sich direkt ins HUD streamen; sie markieren, welche Fraktion
 indirekt Einfluss nimmt oder Gerüchte streut, ohne formale Treffen in Chronopolis zu erzwingen.
 Weitere Infos zum HUD liefert das Modul
-[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+[Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 Bei höherem ITI-Dienstgrad öffnet sich zusätzlich der streng bewachte Kernbereich.
 Chronopolis beherbergt Sapiens‑Sapiens, N‑Typen, T‑Stufen und historische Homininen.
 Das ITI rekrutiert aus allen Abstufungen und Bio‑Sheaths; auch rivalisierende Gruppen setzen

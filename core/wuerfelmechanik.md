@@ -206,7 +206,7 @@ In ZEITRISS verschmelzen HUD-Overlay und Kodex.
 Das HUD blendet Hinweise bei <25 % Vitalstatus ein und sobald der Paradoxon-Index wächst.
 Setzt optional `alertCooldown` in eurer config.json, um Spam zu vermeiden.
 Weitere Details stehen im Modul
-[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+[Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 ```json
 {
   "alertCooldown": 1
@@ -518,7 +518,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 ### Paradoxon-Index
 
 *Siehe auch das*
-*[Paradoxon-Subsystem](../characters/zustaende-hud-system.md#paradoxon-subsystem)*
+*[Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem)*
 *für eine ausführliche Beschreibung.*
 
 | Stufe | Effekt                     |
@@ -610,14 +610,15 @@ heranstürmende Sicherheitskraft abzuwehren.
 | **Lila** | SYS              |
 
 Die Farben korrespondieren mit den Tabellen im
-[Modul zur Charaktererschaffung](../characters/charaktererschaffung.md) und
+[Modul zur Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md) und
 helfen neuen Gruppen, die Proben den richtigen Werten zuzuordnen.
 
 ### 4. Exfiltration
 
 Mit gekapptem Kabel ziehen sich beide Agenten zurück. Ein kurzer "Atemzug"
 zwischen den Szenen reduziert den Stress um 1 Punkt, wie im Modul
-[Zustände & HUD](../characters/zustaende-hud-system.md) beschrieben.
+[Zustände](../characters/zustaende.md) und
+[HUD-System](../characters/hud-system.md) beschrieben.
 
 Dieses Beispiel zeigt, wie flüssig die Kernmechanik abläuft und wie
 Exploding-Würfel filmische Spitzen erzeugen, ohne den Spielfluss zu bremsen.
