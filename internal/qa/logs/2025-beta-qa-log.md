@@ -797,8 +797,8 @@ Repo-Agent: `python3 scripts/lint_umlauts.py`
    Dispatcher-Notiz aktualisiert.
 5. Rift-Boss-Loot-Automation (#18) über Makro `on_rift_boss_down()` nachvollzogen
    – Legendary-Wurf, Para-Loot-Markierung und Log-Snippets feuern konsistent.
-6. Charaktercap-/Prestige-Hinweise (#19) in `characters/charaktererschaffung.md`
-   und Runtime-Flag `prestige_cap_notice` bestätigt – Cap 10 + Prestigehinweise
+6. Charaktercap-/Prestige-Hinweise (#19) in `core/zeitriss-core.md` und
+   Runtime-Flag `prestige_cap_notice` bestätigt – Cap 10 + Prestigehinweise
    stehen prominent.
 7. Arena-Großteam-Timer & Limits (#20) im Arena-HUD (`arena_grossteam_cycle`)
    geprüft – 30s-Takt, Move-Limits und HUD-Countdown werden gesetzt.
@@ -1233,7 +1233,7 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 **Maßnahmen**
 1. Toolkit (`systems/toolkit-gpt-spielleiter.md`): Tagsplit für `StartMission` (`|`/`,`) vereinheitlicht, Gate-Badge `GATE n/2`
    dokumentiert und Runtime-Hinweis für `logs.psi[]` ergänzt; Dispatcher-Semver-Fehlertext mit README synchronisiert.
-2. HUD-Modul (`characters/zustaende-hud-system.md`): Header-Spezifikation um `GATE {seen}/2` und Self-Reflection-Persistenz
+2. HUD-Modul (`characters/hud-system.md`): Header-Spezifikation um `GATE {seen}/2` und Self-Reflection-Persistenz
    erweitert.
 3. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`): Beta-GPT-Block 2025-07-18 auf ✅ gesetzt, Kurznotizen und
    Referenzen auf Runtime/Wissensmodule ergänzt.

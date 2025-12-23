@@ -70,7 +70,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: HUD‑Spezifikation in `zustaende-hud-system.md`
+* Maintainer:innen: HUD‑Spezifikation in `characters/hud-system.md`
   referenzieren; README‑Hinweis „Boss‑Gates & HUD‑Badges“ aktualisieren.
 * Notizen: Boss‑Auto‑Foreshadows in Szene 4/9 prüfen (Auto‑Hints im Toolkit).
 
@@ -248,7 +248,7 @@ To-do
 
 Nächste Schritte
 
-* Maintainer:innen: HUD‑Spec (Badges) in `zustaende-hud-system.md` nachziehen.
+* Maintainer:innen: HUD‑Spec (Badges) in `characters/hud-system.md` nachziehen.
   (Glossar verweist bereits auf Badges.)
 * Notizen: Auch für Rift‑Gate (2/2 in Szene 10) verwenden.
 
@@ -356,4 +356,3 @@ Nächste Schritte
 * Maintainer:innen: Docs angleichen; Translator‑Keys einführen.
 * Notizen: Keine.
 ```
-

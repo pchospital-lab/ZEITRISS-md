@@ -181,10 +181,10 @@ Fragmentierung zu erzeugen.
 
 ### Phase 2 – Split langer Module (Retrieval-Klarheit)
 
-1. **`characters/zustaende-hud-system.md` aufspalten (✅ erledigt)**
+1. **Modul 5 (Zustände/HUD) aufspalten (✅ erledigt)**
    - Teil A: Zustände/Statusregeln → `characters/zustaende.md`
    - Teil B: HUD-/Interface-System → `characters/hud-system.md`
-2. **`characters/charaktererschaffung.md` aufspalten (✅ erledigt)**
+2. **Modul 3 (Charaktererschaffung) aufspalten (✅ erledigt)**
    - Teil A: Erschaffungsschritte & Basiswerte →
      `characters/charaktererschaffung-grundlagen.md`
    - Teil B: Optionen/Module/Sonderregeln →
@@ -1039,7 +1039,7 @@ QA-Absicherung gegen How-to-Nähe sowie Digital-Drift.
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
 | #1 | Bio-Seed/Save-Wording entschärfen | `kreative-generatoren-missionen.md` Seed P-0004 und `speicher-fortsetzung.md` Beispiel-Strings auf Kontaminationsalarm/Probenverlust/Laborstörung umstellen (keine Erreger/Anschlag/Toxin). Optional `sensitive:true` + Core-Filter. QA: Smoke-Check „Banned Terms“ um Bio-Trigger ergänzen. | ✅ abgeschlossen |
 | #2 | Extract/Kidnapping-Framing | Missionstyp „Verschwinden“ in Schutzaufnahme/Evakuierung umtexten, ggf. Split in Core/Opt-in. README-Mapping `extract → Evakuierung/Schutzaufnahme` ergänzen. QA: Acceptance-Regel für objective=`extract` ohne Entführungswortlaut. | ✅ abgeschlossen |
-| #3 | Lockpick/Hack-How-to entfernen | `ausruestung-cyberware.md`, `charaktererschaffung.md`, `cu_waehrungssystem.md` auf abstrakte Kompetenz-Boni umstellen (kein Dietrich/Lockpick/knacken/Hacker-Kit). QA: Banned-Terms erweitern (player-facing). | ✅ abgeschlossen |
+| #3 | Lockpick/Hack-How-to entfernen | `ausruestung-cyberware.md`, `characters/charaktererschaffung-grundlagen.md`, `cu_waehrungssystem.md` auf abstrakte Kompetenz-Boni umstellen (kein Dietrich/Lockpick/knacken/Hacker-Kit). QA: Banned-Terms erweitern (player-facing). | ✅ abgeschlossen |
 | #4 | Encounter-Hack/Real-Targets entschärfen | `kreative-generatoren-begegnungen.md` Methoden auf physische Manipulation umstellen, reale Targets/SSL/Backdoor in In-World-Begriffe übersetzen. QA: Atmosphere-Contract-Banned-Terms um „Hack/Backdoor/SSL“ ergänzen. | ✅ abgeschlossen |
 | #5 | Noir-Lexikon gegen Digital-Drift | Zentrale Mapping-Tabelle (Toolkit/README) für Knoten/Vault/Holo/Debug etc. definieren. `kampagnenstruktur.md`, `kreative-generatoren-begegnungen.md`, Gear-Namen auf Noir-Lexikon drehen. QA: Contract-Prüfung erweitert (hits + HUD-Toast 80/20). | ✅ abgeschlossen |
 | #6 | Tone-Filter: `NAME.EXT` | Tone-Filter-Mapping auf „Aktenanhang/Beilage/Abzug“ umstellen oder Token entfernen; Whitelist/Blacklist für digitale Ersatzwörter ergänzen. QA: Atmosphere-Excerpt darf „uplink file“ nicht enthalten. | ✅ abgeschlossen |
@@ -1058,14 +1058,15 @@ Legacy-Regeln oder Skill-Sidepaths.
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
-| #1 | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | ✅ erledigt |
-| #2 | Schnellstart & Quick-Build editor-konform machen | `characters/charaktererschaffung.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar. | ✅ erledigt |
-| #3 | Tutorial-Charakter Jonas editorfähig machen | `characters/charaktererschaffung.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen. | ✅ erledigt |
+| #1 | Pregens & Start-Archetypen auf 18-Punkte-Schema umstellen | `characters/charaktererschaffung-optionen.md`: Abschnitt `### Pregens` + alle<br>`## Start-Archetypen`-Blöcke auf **Editor-Basiswerte** umstellen<br>(Attribute starten bei 0, Rassenmods addieren, dann 18 Punkte).<br>**Rassenmods, Talente, Cyber-/Bioware** pro Pregen prüfen und in den<br>Attributzeilen spiegeln; SYS-Kosten der Implantate miterfassen.<br>Flavour-Zeilen an neue Schwerpunkte angleichen. QA: Jeder Pregen =<br>Summe 18 (vor Mods) + Editor-Nachbau (Rasse/Mods/Implantate/Talente). | ✅ erledigt |
+| #2 | Schnellstart & Quick-Build editor-konform machen | `characters/charaktererschaffung-optionen.md`: `### Quick-Build für One-Shots`<br>auf Preset-Auswahl umstellen (kein „8 Punkte frei“).<br>`### Schnellstart-Chrononauten` auf Editor-Presets mit 18 Punkten +<br>Rassenmods umstellen; **Skills-Altbestand** entfernen oder 1:1 in<br>Talente übersetzen. Psi-Option klar als Toggle deklarieren. Unique-Gear<br>ohne direkte Px-Manipulation modellieren. QA: Alle Schnellstart-Presets<br>im Editor (Rasse/Mods/Implantate/Talente) nachbaubar. | ✅ erledigt |
+| #3 | Tutorial-Charakter Jonas editorfähig machen | `characters/charaktererschaffung-grundlagen.md` → „Beispielcharakter für die<br>Tutorialrunde“: Attribute auf 18-Punkte-Schema bringen (inkl.<br>Rassenmods/Talente/Cyber-/Bioware, falls gesetzt). Text zur Probechance<br>prüfen und ggf. angleichen. QA: Jonas lässt sich im Editor ohne<br>Sonderregeln bauen. | ✅ erledigt |
 | #4 | Preset-Validator gegen Drift | Tooling-Check aufsetzen (`tools/validate_presets.*` oder Parser):<br>prüft Presets auf 6 Attribute, Summe=18 (vor Mods), Start-Caps,<br>**Rassenmods**, **Talente**, **Cyber-/Bioware** inkl. SYS-Budget. Optional<br>strukturierte Preset-Quelle (JSON/YAML) definieren und Doku daraus<br>generieren. QA: Validator rot → nach Fix grün; Pflichtlauf im QA-Paket<br>dokumentieren. | ✅ erledigt |
 
 **Umsetzungsstand 2026-07**
 
-- ✅ `characters/charaktererschaffung.md` auf Editor-Basiswerte (18 Punkte)
+- ✅ `characters/charaktererschaffung-grundlagen.md` und
+  `characters/charaktererschaffung-optionen.md` auf Editor-Basiswerte (18 Punkte)
   umgestellt: Start-Archetypen, Schnellstart-Chrononauten, Pregens und
   Tutorial-Preset spiegeln Rassenmods, Talente sowie SYS-Last der
   Cyber-/Bioware.
@@ -1109,10 +1110,10 @@ Origin-Block und Echo-Talent, ohne das Spieldesign zu verändern.
 | ----- | ---------------------------------------- | ------------------------------------------- | ------ |
 | #1 | Start-Defaults ohne Spielerzahl-Fragen | `README.md` und `systems/toolkit-gpt-spielleiter.md`: `solo` setzt Ansprache **Du** und `player_count = 1`, keine Nachfrage; `gruppe` nutzt **Ihr**, Spielerzahl wird im Charakterbau mitgezählt. Modusfrage nur, wenn `klassisch|schnell` fehlt. | ✅ abgeschlossen |
 | #2 | `npc-team`-Semantik klären | `README.md` und Toolkit: `npc-team N` = NPC‑Begleiter 0–4 (Team gesamt 1–5). Fehltexte bleiben unverändert. QA: Start-Transkripte/Smoke-Check prüfen. | ✅ abgeschlossen |
-| #3 | Origin-Block vor der Statistik | `characters/charaktererschaffung.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`. | ✅ abgeschlossen |
-| #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
-| #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
-| #6 | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss. | ✅ abgeschlossen |
+| #3 | Origin-Block vor der Statistik | `characters/charaktererschaffung-grundlagen.md` und README: Origin-Block (Epoche/Ort, Rolle/Beruf, Tod-Kategorie) vor den Werten; Optionen _selbst bauen_, `generate`, `custom generate`. | ✅ abgeschlossen |
+| #4 | Echo-Talent als drittes Talent | `characters/charaktererschaffung-grundlagen.md`: 2 freie Talente + 1 Echo-Talent aus dem früheren Leben, eng gefasst. Checkliste konsistent auf drei Talente ziehen. | ✅ abgeschlossen |
+| #5 | Dossier-Ausgabe definieren | `characters/charaktererschaffung-grundlagen.md`: Akte, früheres Leben, Todeskategorie, ITI-Motiv, Echo-Talent, Rolle, Anker/Schwachstelle, Hook als Abschlussblock. | ✅ abgeschlossen |
+| #6 | Nullzeit-Puffer statt „virtueller Raum“ | `characters/charaktererschaffung-grundlagen.md`: Wording auf Nullzeit-Puffer/Holo-Interface/Labor drehen, Körperbau erst nach Abschluss. | ✅ abgeschlossen |
 
 ## Maßnahmenpaket Plattform-Contract Action & Gewalt 2026-10 (Issues #1–#6)
 
