@@ -357,12 +357,11 @@ Spiel starten (gruppe schnell)
   aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „Speichern nur im HQ …“ und hält die Mission aktiv.
-- **Gear-Aliasse & Px.** Alias-Befehle gleichen Schreibvarianten aus (z. B.
-  „Multi-Tool-Armband“ → „Multi-Tool-Handschuh“). Erreicht der Paradoxon-Index
-  Px 5, informiert der Kodex, dass neue Seeds erst nach Episodenende spielbar
-  sind; der Px-Reset wird im Debrief/HQ bestätigt (`px_reset_pending/confirm`).
-  Der Alias bleibt ein Stil-Mapping; die Hardware-Regel „kein Armband“ gilt
-  weiterhin.
+- **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
+  Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
+  Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
+  Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ bestätigt
+  (`px_reset_pending/confirm`).
 
 ### Boss-Gates & HUD-Badges
 
@@ -859,10 +858,11 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 *HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
-> (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**
-> externen Projektoren. **Keine Batterien oder Ladezyklen** – die Geräte
-> speisen sich aus Bewegung und Körperwärme. **Kein Handgelenk-Default**:
-> HUD bleibt Retina-Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
+> (Kontaktlinse/Comlink/Kabel/Relais). Armbänder sind erlaubt, projizieren aber
+> kein HUD; externe Projektoren gibt es nicht. **Keine Batterien oder
+> Ladezyklen** – die Geräte speisen sich aus Bewegung und Körperwärme.
+> **Kein Handgelenk-Default:** HUD bleibt Retina-Linse/Comlink/Terminal, keine
+> Projektionen vom Handgelenk.
 
 > **Mixed-Reality-HUD:** Das Interface erscheint als Retina-Holo direkt im
 > Sichtfeld (Terminator-/AR-Stil) und begleitet jede Epoche. **HQ = immer
@@ -1159,6 +1159,10 @@ hochfahren, koppelt sich das HUD ein und zieht den Einsatzcode aus dem offenen
 Ops-Pool.
 
 Die Nullzeit kennt keinen Countdown. Das ITI schon.
+
+**Paradoxon:** Der Index (Px) steigt, wenn ihr stabil und präzise eingreift.
+Zu hartes Vorgehen lässt ihn stagnieren oder sinken. Bei Px 5 erzeugt
+`ClusterCreate()` neue Rift-Seeds und setzt den Index zurück.
 
 Wie willst du einsteigen?
 

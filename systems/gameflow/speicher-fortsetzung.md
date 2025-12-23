@@ -1063,15 +1063,10 @@ Toolkit, Runtime und README referenzieren ausschließlich diese Tabelle; Legacy-
 Varianten (Arc-spezifische Px, zusätzliche Stresswürfe) gelten als verworfen
 und werden beim Laden ignoriert.
 
-### Legacy-Kompatibilität (Gear-Alias)
+### Legacy-Kompatibilität (Gear-Labels)
 
-> Hinweis für die Spielleitung: Beim Laden interpretiert ihr alte oder abweichende
-> Gear-Bezeichnungen still auf die neuen Namen. Speichern nutzt stets die kanonischen
-> Begriffe.
-
-**Alias-Beispiele (erweiterbar):**
-- "Kodex-Armbandverstärker" → **Comlink-Boostermodul (Ear-Clip)**
-- "Multi-Tool-Armband" → **Multi-Tool-Handschuh**
+> Hinweis für die Spielleitung: Gear-Bezeichnungen bleiben beim Laden erhalten.
+> Es gibt keine automatische Normalisierung oder erzwungene Umbenennung.
 
 ### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}
 
