@@ -1107,7 +1107,7 @@ und werden beim Laden ignoriert.
     "fr_bias": "normal"
   },
   "character": {
-    "id": "CHR-XXXX",
+    "id": "CHR-0001",
     "name": "Agent Name",
     "level": 3,
     "attributes": {
