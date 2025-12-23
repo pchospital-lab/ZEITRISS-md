@@ -27,7 +27,8 @@ Regelmodule zu Zuständen, Heilung und Paradoxon liegen im separaten Modul
 >   mit on-device Mikro-CPU (Offline-HUD & Logging).
 > - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
 >   mit eigener Mikro-CPU; übernimmt Kodex-Sync.
-> - **Kein** Armband/keine externen Projektoren/keine Batterien/Ladezyklen.
+> - Armbänder sind erlaubt, projizieren aber kein HUD; keine externen
+>   Projektoren, keine Batterien/Ladezyklen.
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 **Zugriffsmatrix Kodex ↔ HUD**
