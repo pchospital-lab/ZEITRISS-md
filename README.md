@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.5
+version: 4.2.6
 tags: [meta]
 ---
 
@@ -1258,7 +1258,8 @@ Pflichtset und den Baum `save_version/zr_version/location/phase → character
 → campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
 → arc_dashboard/ui/arena`, um den Speicherstand zu rekonstruieren. Die
 Schema-Datei selbst wird nicht in den Wissensspeicher geladen und dient primär
-der Validierung in Tools.
+der Validierung in Tools. `arc_dashboard` ist ein Pflichtcontainer im
+Schema und muss im Save-Preview enthalten sein.
 
 ```json
 {

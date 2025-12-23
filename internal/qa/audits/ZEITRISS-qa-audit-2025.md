@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.2
+version: 1.0.3
 tags: [meta, qa]
 ---
 
@@ -509,10 +509,11 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
 
 ### Issue #3 – Arc-Dashboard
 - **Status:** [x] Erledigt
-- **Kerndiagnose:** Die Runtime nutzt ein Dashboard, das im Schema nicht
-  definiert ist.
-- **Umsetzung:** `arc_dashboard` ist jetzt als optionales Objekt dokumentiert;
-  Serializer und `load_deep()` normalisieren Seeds, Fraktionen und Fragen.
+- **Kerndiagnose:** Das Arc-Dashboard muss als Pflichtcontainer im Save-Schema
+  und in der Doku auftauchen, damit Cross-Mode-Imports stabil bleiben.
+- **Umsetzung:** `arc_dashboard` ist als Pflichtobjekt im Schema sowie in
+  Speicher-, README- und QA-Briefing-Texten dokumentiert; Serializer und
+  `load_deep()` normalisieren Seeds, Fraktionen und Fragen.
 - **Risiko bei Verzug:** Der Story-Hub verliert nach einem Reload Kontext.
 
 ### Issue #4 – Load-Compliance
