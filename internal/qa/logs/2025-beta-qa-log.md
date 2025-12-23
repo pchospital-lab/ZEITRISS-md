@@ -266,14 +266,16 @@ Repo-Agent: `python3 scripts/lint_umlauts.py`
 ```
 
 **Offene Punkte**
-- [ ] PvP-Arena MR-Feinschliff im MyGPT-Beta-Lauf prüfen
+- [x] PvP-Arena MR-Feinschliff im MyGPT-Beta-Lauf geprüft
       (kein VR/Holo-Vokabular, Shared-Overlay/Beacon, Suit-Lock,
-      Magnetfeld-Deck, HUD-Labels).
-- [ ] QA-Fahrplan „PvP-Arena Mixed-Reality 2026-08“ nach Live-Probelauf
-      auf ✅ abschließen und Log-Referenz ergänzen.
+      Magnetfeld-Deck, HUD-Labels). → Abschluss siehe QA-Log 2026-08-15.
+- [x] QA-Fahrplan „PvP-Arena Mixed-Reality 2026-08“ nach Live-Probelauf
+      auf ✅ abgeschlossen und Log-Referenz ergänzt. → Abschluss siehe QA-Log
+      2026-08-15.
 
 **Nachverfolgung**
-- QA-Fahrplan 1.13.22: MR-Arena-Paket (Issues #1–#9) bleibt QA offen.
+- QA-Fahrplan 1.13.26: MR-Arena-Paket (Issues #1–#9) abgeschlossen, siehe
+  QA-Log 2026-08-15.
 
 ## 2026-07-02 – Repo-Agent – Chrononauten-Presets 2026-07 (Build 4.2.3)
 - Plattform: Lokales Repo-Run (QA-Skripte)
