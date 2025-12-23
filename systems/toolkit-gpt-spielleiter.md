@@ -394,8 +394,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
-  - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/zustaende-hud-system.md#hud-comms-spec)
-    und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/zustaende-hud-system.md#hud-icons)
+  - **Siehe auch:** [HUD & Comms – Spezifikation](../characters/hud-system.md#hud-comms-spec)
+    und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/hud-system.md#hud-icons)
     für passende Status-Overlays.
 
 ### Alias- & Funk-Logs (Persistenz)
@@ -529,7 +529,7 @@ if not char.get("psi") and not char.get("has_psi"):
 - TRACK Paradoxon-Index (0–5). Bei 5 notiert Kodex "Paradoxon-Index 5 erreicht – neue Rift-Koordinaten verfügbar".
   Anschließend hält das System frische Rift-Seeds fest.
   Seeds erscheinen laut [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts)
-  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte),
+  nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte),
   sind aber erst **nach Episodenabschluss** spielbar.
   Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
   Einträge gehen automatisch an ITI-NPC-Teams und erscheinen im Merge-Trace.
@@ -780,7 +780,7 @@ markiert das HUD aktuelle Schutzpositionen mit `cover`.
 > **Neuer Rift-Seed:** *#1889-01 – Kanallegende von Saint-Martin.*
 > Karte aktualisiert. Gemäß
 > [Zeitriss-Core](../core/zeitriss-core.md#paradoxon--pararifts) erscheint der
-> Seed auf der [Raumzeitkarte](../characters/zustaende-hud-system.md#raumzeitkarte)
+> Seed auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte)
 > und darf erst nach **Episodenabschluss** gespielt werden.
 > Offene Rifts erhöhen SG und Loot-Multiplikator erst nach der Episode.
 > Ein Team kann Seeds unbesiegt lassen und die Core-Operation fortsetzen.

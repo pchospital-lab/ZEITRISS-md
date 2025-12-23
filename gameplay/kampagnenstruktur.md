@@ -419,7 +419,7 @@ Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 #### Paradoxon-Subsystem
 
 Weitere Details stehen im
-[Paradoxon-Subsystem](../characters/zustaende-hud-system.md#paradox-subsystem).
+[Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem).
 Dieses Kapitel fasst die Effekte kurz zusammen:
 
 | Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
@@ -1314,7 +1314,7 @@ Neben individuellen NSCs sollten die Agenten auch ihren **Ruf bei verschiedenen 
 aufbauen. Für jedes Bündnis oder jede Rivalität kann die SL einen Wert von –5 bis +5 notieren.
 Wie viele Missionserfolge zum Aufstieg nötig sind und welche Auswirkungen hohe beziehungsweise
 niedrige Werte haben, wird detailliert im Modul
-[Charaktererschaffung](../characters/charaktererschaffung.md#rufsystem-ansehen-bei-fraktionen--iti)
+[Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#rufsystem-ansehen-bei-fraktionen--iti)
 beschrieben. Dort findet ihr auch eine grobe Missions-Tabelle. Kurz gesagt steigt der Ruf nur sehr
 langsam, kann aber durch **Fraktionsquests** schneller wachsen. Die SL sollte außerdem aufzeigen,
 wie sich Allianzen und Feindschaften zwischen den Fraktionen gegenseitig beeinflussen.

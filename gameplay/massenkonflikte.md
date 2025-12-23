@@ -23,7 +23,7 @@ findet ihr neue Regeln und Inspirationen, um **atemlose Verfolgungsjagden**, **d
 Flugsequenzen** sowie **epische Massenschlachten** spielbar zu machen. Zudem zeigen wir, wie die
 **KI-Unterstützung des Kodex und HUD** euren Chrononauten taktische Vorteile verschafft. Kurzum:
 Siehe hierzu auch das Modul
-[Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+[Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 **Action wie im Kino**, aber übersichtlich und spielbar am Spieltisch.
 
 **Dieses Modul enthält im Überblick:**

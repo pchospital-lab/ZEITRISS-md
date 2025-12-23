@@ -522,7 +522,7 @@ daneben.
 
 **Schaden & Heilung:** Jeder Chrononaut startet mit etwa 10 LP.
 Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findet ihr im Modul
-[Zustaende & HUD](../characters/zustaende-hud-system.md#vitalstatus).
+[Zustände & HUD](../characters/hud-system.md#vitalstatus).
 
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere

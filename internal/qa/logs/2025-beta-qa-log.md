@@ -1,10 +1,46 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.22
+version: 0.4.23
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2025-12-29 – Repo-Agent – Wissensspeicher-20-Slot Phase 2 (Splits)
+- Plattform: Lokales Repo-Run (QA-Skripte + Strukturabgleich)
+- Wissensstand: README v4.2.5, QA-Fahrplan 1.13.32
+- Copy-&-Paste-Auftrag: QA-Fahrplan 2025 – Wissensspeicher 20-Slot-Optimierung Phase 2
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `make test`
+Tool: ✅ (npm warn: Unknown env config "http-proxy")
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Modul 5 in Zustände/HUD getrennt (`characters/zustaende.md`,
+  `characters/hud-system.md`).
+- [x] Modul 3 in Grundlagen/Optionen getrennt
+  (`characters/charaktererschaffung-grundlagen.md`,
+  `characters/charaktererschaffung-optionen.md`).
+- [x] README, master-index, Toolkit- und Kampagnen-Links sowie Maintainer-Ops
+  synchronisiert.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (Wissensspeicher-20-Slot Phase 2).
+- QA-Fahrplan: Wissensspeicher 20-Slot-Optimierung (Phase 2 abgeschlossen
+  2025-12-29).
 
 ## 2025-12-22 – Repo-Agent – Wissensspeicher-20-Slot Phase 1 (Konsolidierung)
 - Plattform: Lokales Repo-Run (QA-Skripte + Strukturabgleich)

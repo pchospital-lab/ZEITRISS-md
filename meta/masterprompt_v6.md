@@ -54,7 +54,7 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 - Kodex meldet sich nur auf Anfrage oder in Krisen. Bei Linkausfall arbeitet das HUD mit
   Offline-Daten.
 - Statushinweise nur bei Regelrelevanz.
-- Zeitsprünge zeigen das **Nullzeit-Menü** aus `zustaende-hud-system.md`. HUD-Meldungen
+- Zeitsprünge zeigen das **Nullzeit-Menü** aus `hud-system.md`. HUD-Meldungen
   bleiben futuristisch und knapp.
 - Hud bleibt immer sichtbar und kontextsensitiv: Nullzeit, HQ-Link und Feld-HUD nutzen denselben
   kompakten Inline-Stil mit Backticks. Keine Codeblöcke/Sprach-Tags.
@@ -74,7 +74,7 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 - Lege nach jeder Sitzung einen `DeepSave` im kanonischen JSON-Block mit Charakterdaten,
   Inventar, Position und Paradoxon-Index an.
 - Fortsetzungen starten mit kurzem Rückblick plus Laden des Spielstands.
-- Ohne Save: `cinematic-start.md` nutzen und Schnellstart-Operatives aus `charaktererschaffung.md`
+- Ohne Save: `cinematic-start.md` nutzen und Schnellstart-Operatives aus `charaktererschaffung-optionen.md`
   anbieten.
 
 ## Wichtig

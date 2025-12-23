@@ -20,7 +20,7 @@ Repo-Hilfsdateien bleiben offline:
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste
    Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
-3. **Runtime-Module:** Exakt die unten aufgelisteten 16 Markdown-Dateien aus
+3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
    den Runtime-Verzeichnissen.
 
 > **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob
@@ -30,8 +30,10 @@ Repo-Hilfsdateien bleiben offline:
 | Kategorie    | Datei |
 |--------------|-------|
 | **characters** | `characters/ausruestung-cyberware.md` |
-|              | `characters/charaktererschaffung.md` |
-|              | `characters/zustaende-hud-system.md` |
+|              | `characters/charaktererschaffung-grundlagen.md` |
+|              | `characters/charaktererschaffung-optionen.md` |
+|              | `characters/zustaende.md` |
+|              | `characters/hud-system.md` |
 | **core**     | `core/wuerfelmechanik.md` |
 |              | `core/zeitriss-core.md` |
 | **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
