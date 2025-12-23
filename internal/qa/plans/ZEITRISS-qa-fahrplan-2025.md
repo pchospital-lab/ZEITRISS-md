@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.32
+version: 1.13.33
 tags: [meta]
 ---
 
@@ -308,7 +308,7 @@ halten die nächsten Schritte für Folge-Läufe fest.
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
 | #1 | Paradoxon-Intro invertiert | Einleitungstext korrigieren: Px steigt nur bei sauberer Stabilisierung; hartes Eingreifen lässt Px stagnieren oder sinken. QA: Einleitung/Start-Text gegen README spiegeln. | ✅ erledigt |
 | #2 | Doppelte Zeile in Acceptance #6 | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet. | ✅ erledigt |
-| #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisieren, Save-Preview immer mit `arc_dashboard` ausgeben. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | 🟡 offen |
+| #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisiert; Save-Preview immer mit `arc_dashboard`. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | ✅ erledigt |
 | #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA: Loadout mit Armband bleibt unverändert. | ✅ erledigt |
 | #5 | `seed_source` (trigger vs. trigger_pool) | QA-Briefing auf Toolkit-Strings angleichen oder Legacy-Alias dokumentieren. QA: Merge stabil halten. | 🟡 offen |
 | #6 | Boss-Gate/DR-Logs | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen. | ✅ pass |
