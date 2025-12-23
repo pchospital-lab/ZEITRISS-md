@@ -159,7 +159,7 @@ Lösungsvorschlag
 
 To-do
 
-* Codex: HUD‑Overlay‑Spec in `zustaende-hud-system.md` erweitern
+* Codex: HUD‑Overlay‑Spec in `characters/hud-system.md` erweitern
   (Badge‑Persistenz).
 * QA: HUD‑Dump Szene 1 und Szene 10 in M5; `!boss status` spiegelt
   Saisonstand (FS n/4).
