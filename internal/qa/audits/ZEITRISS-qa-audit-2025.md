@@ -218,6 +218,15 @@ Hochstufen-Spielrunden.
 - Charaktererschaffung bündelt Presets auf dem 18-Punkte-Schema inklusive
   Rassenmods, Talenten und SYS-Last der Cyber-/Bioware; Quick-Build und
   Schnellstart-Presets sind editorfähig dokumentiert.
+
+## Update 2026-11-03 – Wissensspeicher-Phase-3-Sync & Vereinheitlichung
+
+- QA-Fahrplan markiert die Phase-3-Synchronisierung der 20-Slot-Optimierung als
+  abgeschlossen; QA-Log 2026-11-03 dokumentiert Pflichtlauf und Referenzen.
+- Vereinheitlichungs-Fahrplan 2025 schließt die Stichprobenprüfung in Runtime-
+  Modulen ab (Core, Gameplay, Systems) und vermerkt keine Abweichungen.
+- QA-Pflichtpaket ausgeführt (Lint, Tests, Smoke, Runtime- und Link-/Umlaut-
+  Lints) und in QA-Log/Commit-Notizen gespiegelt.
 - Preset-Validator `tools/validate_presets.py` prüft Attribute, Mods und
   SYS-Budgets und läuft über `make lint`.
 - QA-Fahrplan 1.13.22 und QA-Log 2026-07-02 dokumentieren den Abschluss.
