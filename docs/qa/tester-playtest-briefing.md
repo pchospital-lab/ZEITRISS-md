@@ -131,6 +131,10 @@ betont.
 Der komplette Auftrag steht im folgenden Copyblock. Ein Klick auf das Kopiersymbol umfasst den
 Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
+> **Kurzauftrag:** Einmal senden, vollständigen QA-Run abwarten und ausschließlich das unten
+> definierte Blockformat liefern. Der JSON-Block am Ende ist Pflicht und dient dem Reimport.
+> Keine Zusatzkommentare außerhalb der Blöcke.
+
 > **Einmal senden, vollständigen QA-Run abwarten:** Der GPT simuliert Solo-, NPC-Squad-, Koop- und
 > PvP-Szenarien selbstständig. Tester:innen posten diesen Auftrag genau einmal und warten, bis alle
 > Abschnitte samt Abschluss-Blocks geliefert wurden.
@@ -153,8 +157,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > glaubwürdig agieren (inkl. Chat-/Voice-Callouts) und dokumentiere Sync-, Save- und
 > Konfliktauflösungen.
 >
-> Bündle die Ergebnisse in klaren Abschnitten und halte einen straffen,
-> erwachsenen Agenten-Thriller-Ton ohne Abschweifungen.
+> **Output strikt:** Antworte ausschließlich im Blockformat `ISSUE`, `Lösungsvorschlag`, `To-do`,
+> `Nächste Schritte` (eine Leerzeile zwischen den Blöcken). Keine Zusatzkommentare außerhalb dieser
+> Blöcke. Der JSON-Appendix muss als ```json```-Snippet enthalten sein.
+>
+> Tonalität: straffer, erwachsener Agenten-Thriller ohne Abschweifungen.
 >
 > Prüfe Save/Load mit dem aktuellen `saveGame`-Schema (Pflichtfelder laut
 > Speicher-Modul: `save_version`, `zr_version`, `location`, `phase`, `campaign`,
@@ -201,35 +208,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > manuelle Protokoll bleibt Pflicht.
 >
 > Arbeite zusätzlich jeden Punkt der in diesem Dokument hinterlegten
-> Acceptance-Smoke-Checkliste (siehe Abschnitt „Acceptance-Smoke-Checkliste“)
-> ab, vermerke Abweichungen im Evidenz-Block und kennzeichne die Prüfnummer
-> (1–15) pro Befund.
->   Acceptance-Smoke-Checkliste (Kurzfassung zum Abarbeiten im selben Lauf):
->   1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
->   2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
->   3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing
->   4. `Spiel starten (npc-team 5)` → Fehlertext „NPC-Begleiter: 0–4 (Team gesamt 1–5).
->      Bitte erneut eingeben (z. B. npc-team 3).“
->   5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
->   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
->      (klassisch/schnell sind erlaubt)“
->   7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing
->   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
->   9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
->   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
->   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast
->       `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`
->   12. Mission 5 → **Schritt 0 `!sf off` vor Missionsstart**, HUD meldet
->       `Boss-Encounter in Szene 10`, `GATE 2/2`, ggf. `SF-OFF`; Szene 10 Toast
->       `Boss-DR aktiviert – −X Schaden` (DR nach Teamgröße laut
->       [Boss-DR-Skala](../../gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode))
->       und Reset auf `SF-ON`
->   13. Psi-Charakter: Aktion löst `Psi-Heat +1` aus, Reset auf 0 nach
->       Konflikt/HQ-Transfer
->   14. `!accessibility` → `High Contrast`, `Badges: dense/compact`, `Output pace:
->       slow`; Toast notieren, Save-Preview aktualisiert
->   15. Save laden → `!accessibility` erneut öffnen → Einstellungen persistiert
->       (`contrast: high`, `badge_density: dense|compact`, `output_pace: slow`)
+> Acceptance-Smoke-Checkliste (Abschnitt „Acceptance-Smoke-Checkliste“) ab,
+> vermerke Abweichungen im Evidenz-Block und kennzeichne die Prüfnummer (1–15)
+> pro Befund.
 >
 > Erstelle nach Abschluss aller Simulationen eine strukturierte Ergebnisübersicht ausschließlich in
 > folgendem Format (eine Leerzeile trennt die Blöcke, keine zusätzlichen Kommentare). Den JSON-
