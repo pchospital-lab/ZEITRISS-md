@@ -3107,8 +3107,10 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
    - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.
      (klassisch/schnell sind erlaubt)“. Spielerzahl wird im Charakterbau mitgezählt.
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
-   - **HQ-Kurzintro:** vier Zeilen, Schlusszeile „Die Nullzeit kennt keinen
-     Countdown. Das ITI schon.“
+   - Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst
+     dann das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
+   - **HQ-Kurzintro:** kurze, stimmige Zusammenfassung (1–3 Sätze) statt
+     Vollzitat; die Schlusszeile kann sinngemäß anklingen.
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
