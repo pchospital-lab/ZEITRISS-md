@@ -137,10 +137,11 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 ### Rift-Casefiles: Tatort → Leads → Boss
 
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1–4)** → **Leads
-  (5–10)** → **Boss (11–14)**.
+  (5–9)** → **Boss-Encounter (10)** → **Boss-Resolution (11–14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss`; der
   Casefile-Tracker spiegelt den Wechsel. Die Runtime setzt die Stufe automatisch
-  anhand des Szenenzählers (1–4 Tatort, 5–10 Leads, 11–14 Boss).
+  anhand des Szenenzählers (1–4 Tatort, 5–9 Leads, 10 Boss-Encounter, 11–14
+  Boss-Resolution).
 - One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
   restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
 
@@ -2202,10 +2203,12 @@ und mappe ihn direkt auf das 14-Szenen-Template.
 **14-Szenen-Map (Tatort → Leads → Boss)**
 
 - **Tatort (1–4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
-- **Leads (5–10):** Drei Würfel-Checks aus „Leads Private“ platzieren, je einer deckt den
+- **Leads (5–9):** Drei Würfel-Checks aus „Leads Private“ platzieren, je einer deckt den
   Anchor, den Marker und die Weakness ab; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
-- **Boss (11–14):** Weakness öffentlich sichtbar machen, Marker-Bedingung für Abschluss prüfen,
+- **Boss-Encounter (10):** Weakness sichtbar machen, Marker-Bedingung für Abschluss prüfen,
   Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen.
+- **Boss-Resolution (11–14):** Flucht-/Nachbeben, Cleanup, Konsequenzen, Abschluss (HUD bleibt
+  im Boss-Stage-Modus).
 
 **Builder-Template (Beispielraster)**
 

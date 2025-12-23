@@ -138,7 +138,9 @@ So bleibt Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 
 **Reset-Regel:** Nach jedem Konflikt springt Psi-Heat automatisch auf 0. Das HQ setzt zusätzlich
 Stress, SYS und Psi-Heat auf die gespeicherten Basiswerte zurück. HQ-Saves erzwingen daher
-`psi_heat=0`; läuft noch Arena oder Mission, verweigert der Guard den Save.
+`psi_heat=0`; läuft noch Arena oder Mission, verweigert der Guard den Save. Arena-Niederlagen
+setzen **keinen** Paradoxon-Reset: `campaign.px` bleibt unverändert, der Reset folgt nur auf
+Px 5 + Debrief/HQ.
 
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_

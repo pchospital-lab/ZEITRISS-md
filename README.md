@@ -379,7 +379,8 @@ davon, ob die Mission abgeschlossen oder abgebrochen wurde.
 
 Psi-Aktionen erhöhen `Psi-Heat` pro Konflikt. Nach jedem Konflikt springt der
 Wert auf 0. Transfers zurück ins HQ setzen zusätzlich SYS-Auslastung, Stress und
-Psi-Heat auf die gespeicherten Grundwerte zurück.
+Psi-Heat auf die gespeicherten Grundwerte zurück. Arena-Niederlagen setzen
+keinen Paradoxon-Reset; `campaign.px` bleibt unverändert bis zum Debrief/HQ.
 
 ### Accessibility & UI-Persistenz
 

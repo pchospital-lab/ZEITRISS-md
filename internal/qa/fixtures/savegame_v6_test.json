@@ -11,7 +11,7 @@
     "type": "core",
     "mode": "preserve",
     "px": 3,
-    "seed_source": "preserve_pool",
+    "seed_source": "preserve",
     "seed_id": "P-0002",
     "objective": "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust.",
     "hq_moments_used": ["BASTION"],
