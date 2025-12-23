@@ -78,7 +78,7 @@ QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 
 QA-Nachweis: Legacy-Abnahme (vor 2025, intern archiviert).
 - Ergänzt Psi-Sektion "Phase-Strike" mit Anker und Referenz.
-- Kleinere Textpflege in `psi-talente.md`.
+- Kleinere Textpflege in `systems/kp-kraefte-psi.md`.
 
 ## 4.1.0
 
