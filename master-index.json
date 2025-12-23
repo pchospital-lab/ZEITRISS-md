@@ -29,9 +29,15 @@
       "level": "muss"
     },
     {
-      "slug": "chars",
-      "path": "characters/charaktererschaffung.md",
-      "title": "ZEITRISS 4.2.5 – Modul 3: Charaktererschaffung & Progression",
+      "slug": "chars-basics",
+      "path": "characters/charaktererschaffung-grundlagen.md",
+      "title": "ZEITRISS 4.2.5 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)",
+      "category": "Characters"
+    },
+    {
+      "slug": "chars-options",
+      "path": "characters/charaktererschaffung-optionen.md",
+      "title": "ZEITRISS 4.2.5 – Modul 3B: Charakteroptionen & Archetypen",
       "category": "Characters"
     },
     {
@@ -67,9 +73,16 @@
       "level": "soll"
     },
     {
+      "slug": "states",
+      "path": "characters/zustaende.md",
+      "title": "ZEITRISS 4.2.5 – Modul 5A: Zustände & erweiterte Systeme",
+      "category": "Characters",
+      "level": "soll"
+    },
+    {
       "slug": "hud",
-      "path": "characters/zustaende-hud-system.md",
-      "title": "ZEITRISS 4.2.5 – Modul 5: Erweiterte Systeme & Cinematisches HUD",
+      "path": "characters/hud-system.md",
+      "title": "ZEITRISS 4.2.5 – Modul 5B: Cinematisches HUD & Interface-System",
       "category": "Characters",
       "level": "soll"
     },

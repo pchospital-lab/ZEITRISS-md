@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.31
+version: 1.13.32
 tags: [meta]
 ---
 
@@ -181,15 +181,13 @@ Fragmentierung zu erzeugen.
 
 ### Phase 2 – Split langer Module (Retrieval-Klarheit)
 
-1. **`characters/zustaende-hud-system.md` aufspalten**
-   - Teil A: Zustände/Statusregeln (Effekte, Trigger, Kernmechanik)
-   - Teil B: HUD-/Interface-System (Anzeige-Logik, UI-Mechaniken)
-   - Vorgeschlagene Zielpfade: `characters/zustaende.md`,
-     `characters/hud-system.md`
-2. **`characters/charaktererschaffung.md` aufspalten**
-   - Teil A: Erschaffungsschritte & Basiswerte
-   - Teil B: Optionen/Module/Sonderregeln
-   - Vorgeschlagene Zielpfade: `characters/charaktererschaffung-grundlagen.md`,
+1. **`characters/zustaende-hud-system.md` aufspalten (✅ erledigt)**
+   - Teil A: Zustände/Statusregeln → `characters/zustaende.md`
+   - Teil B: HUD-/Interface-System → `characters/hud-system.md`
+2. **`characters/charaktererschaffung.md` aufspalten (✅ erledigt)**
+   - Teil A: Erschaffungsschritte & Basiswerte →
+     `characters/charaktererschaffung-grundlagen.md`
+   - Teil B: Optionen/Module/Sonderregeln →
      `characters/charaktererschaffung-optionen.md`
 
 **Ergebnis Phase 2:** Lange Module werden in semantisch saubere Teile zerlegt,
@@ -213,7 +211,7 @@ ohne Querbezüge zu verlieren.
 `M12` = systems/gameflow/speicher-fortsetzung.md  
 `TK(16)` = systems/toolkit-gpt-spielleiter.md – Modul 16  
 `TK(11)` = systems/toolkit-gpt-spielleiter.md – Modul 11  
-`HUD` = characters/zustaende-hud-system.md  
+`HUD` = characters/hud-system.md  
 `DOC` = doc.md  
 `BRF` = docs/qa/tester-playtest-briefing.md
 `CW` = systems/currency/cu-waehrungssystem.md

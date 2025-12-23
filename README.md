@@ -114,7 +114,7 @@ euch das Maintainer-Dokument.
 ### Wissensspeicher laden
 
 1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle
-   unten aufgeführten 16 Runtime-Module in den Wissensspeicher deiner
+   unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner
    Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation
    reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
 2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als
@@ -130,8 +130,10 @@ euch das Maintainer-Dokument.
 | Kategorie    | Datei |
 |--------------|-------|
 | **characters** | `characters/ausruestung-cyberware.md` |
-|              | `characters/charaktererschaffung.md` |
-|              | `characters/zustaende-hud-system.md` |
+|              | `characters/charaktererschaffung-grundlagen.md` |
+|              | `characters/charaktererschaffung-optionen.md` |
+|              | `characters/zustaende.md` |
+|              | `characters/hud-system.md` |
 | **core**     | `core/wuerfelmechanik.md` |
 |              | `core/zeitriss-core.md` |
 | **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
@@ -830,7 +832,7 @@ den Abschnitt zum
 | [Grundwürfelsystem (W6)](core/wuerfelmechanik.md) | ✅ | | | Kernmechanik – explodierende Würfel |
 | [Paradoxon-Index](core/zeitriss-core.md) | ✅ | | | Kampagnen-Fortschritt |
 | [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Episoden-Boss nach Missionsnummern |
-| [Stress-System](characters/zustaende-hud-system.md) | | ✅ | | Für psychische Belastung und Druck |
+| [Stress-System](characters/zustaende.md) | | ✅ | | Für psychische Belastung und Druck |
 | [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für große Missionen |
 | [Psi-Kräfte / Psi-Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
 
@@ -851,8 +853,8 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 - Universelles Werkzeug oder Scanner
 
 *Details zur Hardware siehe*
-[HUD & Comms – Spezifikation](characters/zustaende-hud-system.md#hud-comms-spec).
-*HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/zustaende-hud-system.md#hud-icons).
+[HUD & Comms – Spezifikation](characters/hud-system.md#hud-comms-spec).
+*HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Es gibt **kein** Armband und **keine**
@@ -869,7 +871,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 #### Mini-FAQ
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
 - _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute).
-  [HUD-Spec](characters/zustaende-hud-system.md#hud-comms-spec)
+  [HUD-Spec](characters/hud-system.md#hud-comms-spec)
 - _Wie weit reicht Funk?_ → **≈ 2 km**, Gelände/Jammer wirken.
   [Toolkit](systems/toolkit-gpt-spielleiter.md#funk-signale)
 - _Relais/Kabel?_ → heben Reichweiten- oder Jammer-Beschränkungen auf;
@@ -1047,9 +1049,11 @@ sind der Übersicht halber aufgeführt.
 | [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
 | [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
 | [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Quickref |
-| [characters/charaktererschaffung.md](characters/charaktererschaffung.md) | Charaktererschaffung & Fortschritt |
+| [characters/charaktererschaffung-grundlagen.md](characters/charaktererschaffung-grundlagen.md) | Charaktererschaffung (Grundlagen) |
+| [characters/charaktererschaffung-optionen.md](characters/charaktererschaffung-optionen.md) | Optionen, Archetypen & Teamrollen |
 | [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Implantate |
-| [characters/zustaende-hud-system.md](characters/zustaende-hud-system.md) | Zustände, HUD & Paradoxon |
+| [characters/zustaende.md](characters/zustaende.md) | Zustände, Paradoxon & Statusregeln |
+| [characters/hud-system.md](characters/hud-system.md) | HUD-Interface & Anzeige-Logik |
 | [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
 | [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
 | [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission & Kampagnen-Generatoren |
@@ -1071,17 +1075,17 @@ folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
 Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
 
 **Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
-16 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
-mit `README.md` und `master-index.json` umfasst das Regelwerk **18** Dateien –
-zwei Slots bleiben als Reserve für künftige Splits frei.
+18 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
+mit `README.md` und `master-index.json` umfasst das Regelwerk **20** Dateien –
+die Wissensspeicher-Slots sind damit vollständig belegt.
 `meta/masterprompt_v6.md` wird separat per Copy-Paste genutzt. Im
 `master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
 Langfassungen desselben Moduls auflisten.
 Eine kompakte
-[HUD-Übersicht zu Health, Stress und Zuständen](characters/zustaende-hud-system.md#hud-quickref)
+[HUD-Übersicht zu Health, Stress und Zuständen](characters/hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
-[Cinematisches HUD-Overlay](characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+[Cinematisches HUD-Overlay](characters/hud-system.md#cinematisches-hud-overlay).
 
 | Konflikt   | Spannung        | Exploding 6 nutzen    |
 | Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
@@ -1441,7 +1445,7 @@ Rift-Seeds nutzen `phase: rift`.
 Die Paradoxon-Mechanik ist standardmäßig aktiv. Über `modus paradoxon off` lässt
 sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
 wieder einschalten. Siehe auch
-[Charaktererschaffung](characters/charaktererschaffung.md) und
+[Charaktererschaffung](characters/charaktererschaffung-grundlagen.md) und
 [Zeitriss-Core](core/zeitriss-core.md) für weitere Hinweise.
 
 ## Generator-Utilities
@@ -1456,9 +1460,9 @@ Kurze Erklärungen wichtiger Abkürzungen:
 
 - **CU** – Chrono-Units, universelle Missionswährung.
 - **Retina-HUD (AR-Kontaktlinse)** – [Standardausrüstung](#standardausruestung) /
-  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#hud-comms-spec).
+  [HUD-&-Comms-Spec](characters/hud-system.md#hud-comms-spec).
 - **Comlink (Ohrstöpsel)** – [Standardausrüstung](#standardausruestung) /
-  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#hud-comms-spec) /
+  [HUD-&-Comms-Spec](characters/hud-system.md#hud-comms-spec) /
   [`comms_check`](systems/toolkit-gpt-spielleiter.md#comms-check).
 - **ITI** – Institut für Temporale Intervention.
 - **Seed-ID** – Kennziffer eines Missions-Seeds.
@@ -1481,7 +1485,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
   [Charaktererschaffung][char-gear]).
 - **Kodex-Badges** – HUD-Marker für Status und Sicherheitshinweise (z. B.
   Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
-  [HUD-&-Comms-Spec](characters/zustaende-hud-system.md#risk-level-badges).
+  [HUD-&-Comms-Spec](characters/hud-system.md#risk-level-badges).
 
 | Begriff | Bedeutung |
 | ------- | ------------------------------------------------------------ |
@@ -1544,8 +1548,8 @@ spielerfreundliche Noir-Varianten übersetzt.
 [stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot
 [adrenalinschub]: systems/kp-kraefte-psi.md#adrenalinschub
-[notfall-stimulanz]: characters/charaktererschaffung.md#notfall-stimulanz
-[char-gear]: characters/charaktererschaffung.md#zugang-zu-ausruestung--cyberware-hq-phase
+[notfall-stimulanz]: characters/charaktererschaffung-optionen.md#notfall-stimulanz
+[char-gear]: characters/charaktererschaffung-grundlagen.md#zugang-zu-ausruestung--cyberware-hq-phase
 [psi-pp-regeneration]: systems/kp-kraefte-psi.md#psi-pp-regeneration
 [psi-heat-track]: systems/kp-kraefte-psi.md#psi-heat-track
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success

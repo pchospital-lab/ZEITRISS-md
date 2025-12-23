@@ -40,7 +40,7 @@ Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer
 Vorgang. Auf der
-[Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte)
+[Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
 erscheinen 1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind.
 Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode.
 Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen.
@@ -63,7 +63,7 @@ scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
 hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
 *(Details zur Hardware: siehe
-[HUD & Comms – Spezifikation](../../characters/zustaende-hud-system.md#hud-comms-spec)).*
+[HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec)).*
 
 Noch bevor sich die Halle öffnet, schiebt der Kodex eine dezente Hinweiszeile
 ins Sichtfeld:
@@ -733,7 +733,7 @@ Wer bei den Ermittlungen zu stark vom offiziellen Geschichtsverlauf abkommt,
 steigert den Paradoxon-Index kaum.
 Erreicht dieser Stufe 5, legt das HQ gemäß
 [Zeitriss‑Core](../../core/zeitriss-core.md#paradoxon--pararifts) automatisch neue
-Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte)
+Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
 an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte. Die
 Szene spielt in den neonbeleuchteten Schatten von _Neo Berlin 2085_ – einer
 futuristischen Metropole voller Cyberpunk-Flair. In engen Gassen und auf
@@ -786,7 +786,7 @@ alternativ einen Fehler in der Geschichte korrigieren. Diese Mission betont das
   Erreicht der Wert 5, macht das HQ per `ClusterCreate()` einen neuen Rift-Zugang
   sichtbar.
   Die resultierenden Seeds landen erst nach dem Einsatz auf der
-  [Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte);
+  [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte);
   während der Mission kommt es lediglich zu kurzen Störimpulsen.
   Die Gruppe muss Nachforschungen anstellen, einen Hinweis auf den geplanten
   Tatort finden (z.B. der Erfinder hält eine Rede auf einem Marktplatz) und
@@ -842,7 +842,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   Kult als Tor zur Hölle verehrt. Erst wenn der Paradoxon-Index Stufe 5 erreicht,
   meldet das HQ per `ClusterCreate()` einen neuen Rift-Seed. Dieser erscheint nach
   der Mission auf der
-  [Raumzeitkarte](../../characters/zustaende-hud-system.md#raumzeitkarte); vor Ort
+  [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte); vor Ort
   zeigt sich nur ein Anstieg instabiler Effekte. Nach und nach erkennen sie, dass
   ein **Zeit-Riss** unter dem Dorf wächst – verursacht von der Apparatur. Eine
   gegnerische Zeitfraktion hat bemerkt, dass ihr altes Gerät wieder aktiv ist und

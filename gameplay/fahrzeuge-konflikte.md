@@ -108,7 +108,7 @@ und Auffälligkeit eines Fahrzeugs in unterschiedlichen Zeiten:
   spektakulär versagen.)
 _HUD-Timer:_ Für Tech IV-Fahrzeuge tickt pro Szene ein W6-Countdown. Bei 0 bleibt nur noch der
   Schwebemodus in einem Meter Höhe. Hinweise zum HUD liefert das Modul
-  [Cinematisches HUD-Overlay](../characters/zustaende-hud-system.md#cinematisches-hud-overlay).
+  [Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 - **Tech V – Temporale Schiffe:** Jenseits konventioneller Technik – seltene Zeitschiffe oder
   Apparate, die eigenständig den Zeitstrom navigieren können. _Beispiele:_ Ein ganzes Vehikel, das
   Sprünge durch die Zeit ausführt (eine Zeitmaschine in Fahrzeugform, z.B. ein spezielles Chrono-

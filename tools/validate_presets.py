@@ -161,7 +161,7 @@ def validate_blocks(blocks: list[PresetBlock]) -> list[str]:
 
 
 def main() -> int:
-    path = Path("characters/charaktererschaffung.md")
+    path = Path("characters/charaktererschaffung-optionen.md")
     content = path.read_text(encoding="utf-8")
     blocks = find_preset_blocks(content.splitlines())
     errors = validate_blocks(blocks)
