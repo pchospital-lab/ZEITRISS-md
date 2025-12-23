@@ -36,7 +36,7 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
    (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
-9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges

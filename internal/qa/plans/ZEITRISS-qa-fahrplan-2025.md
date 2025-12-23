@@ -275,11 +275,11 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 - QA-Log/Audit auf neuen Testspeicherstand verweisen; Archivierung unter `internal/qa/fixtures`
   prüfen.
 
-### 7. Gear-Alias „Multi-Tool-Armband“ dokumentieren (✅ erledigt)
+### 7. Gear-Armbänder zulassen (✅ erledigt)
 
-- Alias-Doku `README`/`Toolkit` um Eintrag „Multi-Tool-Armband → Multi-Tool-Handschuh“ ergänzen;
-  Hardware-Regel „kein Armband“ bleibt bestehen.
-- QA: Acceptance 9 als Stil-Compliance führen (still mapping, kein neues Item).
+- Runtime-Gear-Alias entfernt; Armbänder sind reguläres Gear ohne
+  Normalisierung.
+- QA: Acceptance 9 prüft, dass „Multi-Tool-Armband“ im Loadout bleibt.
 
 ### 8. Offline/Ask→Suggest/Alias/Squad-Radio als stabil vermerken (✅ erledigt)
 
@@ -297,6 +297,29 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 `PSI` = systems/kp-kraefte-psi.md
 `VEH` = gameplay/fahrzeuge-konflikte.md
 `MASS` = gameplay/massenkonflikte.md
+
+## Maßnahmenpaket Copy-Paste-QA 2025-12 (Issues #1–#14)
+
+Der Copy-Paste-Lauf (Acceptance 1–15, Save v6, QA-Runner) ist vollständig
+abgeglichen. Die folgenden Punkte fassen den aktuellen Zustand zusammen und
+halten die nächsten Schritte für Folge-Läufe fest.
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ------------------------------ | -------------------------------------------- | ------ |
+| #1 | Paradoxon-Intro invertiert | Einleitungstext korrigieren: Px steigt nur bei sauberer Stabilisierung; hartes Eingreifen lässt Px stagnieren oder sinken. QA: Einleitung/Start-Text gegen README spiegeln. | ✅ erledigt |
+| #2 | Doppelte Zeile in Acceptance #6 | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet. | ✅ erledigt |
+| #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisieren, Save-Preview immer mit `arc_dashboard` ausgeben. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | 🟡 offen |
+| #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA: Loadout mit Armband bleibt unverändert. | ✅ erledigt |
+| #5 | `seed_source` (trigger vs. trigger_pool) | QA-Briefing auf Toolkit-Strings angleichen oder Legacy-Alias dokumentieren. QA: Merge stabil halten. | 🟡 offen |
+| #6 | Boss-Gate/DR-Logs | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen. | ✅ pass |
+| #7 | Ask↔Suggest | PASS; Overlay-Parser akzeptiert `· SUG` als optionales Suffix. QA: `SUG-ON/OFF` Toasts prüfen. | ✅ pass |
+| #8 | Psi-Heat vs. Px-Reset | Psi-Modul trennen: Arena-Fail darf `campaign.px` nicht resetten. QA: A/B-Test Arena-Fail & Px 5 Seeds. | 🟡 offen |
+| #9 | Accessibility Legacy-Mapping | PASS; QA erweitert um Legacy-Import (`full|minimal`, `rapid|quick`). | ✅ pass |
+| #10 | Offline-Fallback | PASS; Rate-Limit & SaveGuard behalten. Optionaler Hinweis „Mission läuft weiter“. | ✅ pass |
+| #11 | Vehikel-/Massenkonflikt-Logs | PASS; strukturierte `logs.hud[]`-Events als Pflichtlog prüfen. | ✅ pass |
+| #12 | Chronopolis/Economy-Audit | PASS; optional `economy_audit` Trace bei HQ-Save standardisieren. | 🟡 offen |
+| #13 | Rift-Boss-Szenenindex | Toolkit/README/Generatoren auf `boss_encounter_scene=10`, `boss_resolution_scene=11` harmonisieren. QA: Golden-Files updaten. | 🟡 offen |
+| #14 | Test-Save v6 Fixture | Fixture unter `internal/qa/fixtures/` spiegeln; `qa_variants` als meta-Block auslagern, falls Schema strikt ist. | 🟡 offen |
 
 README-Abschnittskürzel:  
 `R(QA)` = README §QA-Checks 2025-06-27  
@@ -666,7 +689,7 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 | #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema | M12; R |
 | #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert | RT; HUD; BRF |
 | #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text | RT; R |
-| #5 | Gear-Alias „Multi-Tool-Armband → Handschuh“ auch im Live-Equip | ✅ abgeschlossen – Runtime normalisiert Loadouts/Saves auf den Handschuh | RT; TK(16); R |
+| #5 | Gear-Armband als eigenes Gear | ✅ abgeschlossen – keine Normalisierung, Armbänder bleiben erhalten | RT; TK(16); R |
 | #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown | RT; TK(16) |
 | #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R |
 | #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays | M12; R |
@@ -687,8 +710,8 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
   `self_reflection_auto_reset_reason` gesetzt.
 - Smoke #8 SaveGuard: „Speichern nur im HQ“-Toast vs. Mission/Exfil/Arena-Blocker,
   Snapshot-Toleranz prüfen.
-- Smoke #9 Gear-Alias: Command „Multi-Tool-Armband ausrüsten“ mappt still auf Handschuh, optional
-  `logs.alias_trace[]`/`logs.hud[]`.
+- Smoke #9 Gear-Check: Command „Multi-Tool-Armband ausrüsten“ bleibt im Loadout, optional
+  `logs.hud[]` für PX/Seed-Hinweis.
 - Dispatcher-Smoke #4/#6: Startoptionen `npc-team 5` bzw. `gruppe 3` ohne Markdown, Strings
   Acceptance-konform.
 - Economy/Rift/Wallet: CU-Formel für identische Mission in Core vs. Rift (Seeds/Hazard-Pay),

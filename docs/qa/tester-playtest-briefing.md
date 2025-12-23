@@ -213,10 +213,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >   5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 >   6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
 >      (klassisch/schnell sind erlaubt)“
->      (klassisch/schnell sind erlaubt)“
 >   7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing
 >   8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
->   9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+>   9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
 >   10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 >   11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10, Toast
 >       `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`
@@ -352,7 +351,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    simuliert, den HUD-/Log-Auszug in den Evidenzen sichert, den Foreshadow-Reset dokumentiert und
     die Chronopolis-Warnung bei Bedarf mit `!chronopolis ack` quittiert. Falls
     Informationen fehlen, gezielt nachfragen, bis alle Acceptance-Smoke-Punkte
-    (inkl. Gear-Aliasse, `Spiel starten`-Varianten, HQ-Erweiterungen, Stadt-
+    (inkl. Gear-Checks, `Spiel starten`-Varianten, HQ-Erweiterungen, Stadt-
     Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat)
     im Protokoll stehen.
 6. Prüfen, ob der GPT im `To-do – Codex`-Block konkrete Umsetzungsaufgaben benennt. Das
@@ -377,10 +376,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 ## Abnahme-Smoketest (Runtime-Overlay) {#abnahme-smoketest}
 
-1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
+   1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
    (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
-   1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Alias
-   und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
+   1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Check
+   (Armband bleibt) und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
 2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und
    `Gate 2/2` an; Mission 5 startet mit Schritt 0 `!sf off`, blendet
    `Boss-Encounter in Szene 10`, `GATE 2/2` und ggf. `SF-OFF` ein, Szene 10
@@ -397,9 +396,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   NPC, Koop und PvP stabil.
 - Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
   Solo/NPC/Koop/PvP identisch.
-- Alias-Mapping „Multi-Tool-Armband → Multi-Tool-Handschuh“ ist aktiv, ohne die
-  Hardware-Regel „kein Armband“ aufzuweichen; die Runtime normalisiert
-  Live-Loadouts und Saves automatisch auf den Handschuh.
+- Gear-Bezeichnungen bleiben erhalten; Armbänder werden nicht normalisiert.
 
 **Dispatcher-Smoke-Basislinie**
 | Schritt | Inhalt | Status |
@@ -409,7 +406,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 | 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
 | 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
 | 5 | Missions-Blocker verhindern Saves | ✅ stabil |
-| 6 | Gear-Alias & Px 5 Hinweis sichtbar | ✅ stabil |
+| 6 | Gear-Armband bleibt erhalten & Px 5 Hinweis sichtbar | ✅ stabil |
 
 ## Boss-Gate-Status & Terminologie (Referenzstrings)
 
@@ -518,10 +515,9 @@ saveGame({...})
 5. `Spiel starten (gruppe schnell)` → 2 Saves + 1 Rolle → Briefing
 6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
    (klassisch/schnell sind erlaubt)“
-   (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
-9. Gear-Alias: „Multi-Tool-Armband ausrüsten“ → still → „Multi-Tool-Handschuh“
+9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges

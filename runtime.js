@@ -191,9 +191,7 @@ const ARENA_TIER_RULES = [
 const ARENA_PROC_KEYS = ['support', 'tools', 'mods', 'devices', 'gizmos'];
 const ARENA_ARTIFACT_KEYS = ['artifacts', 'artifact', 'legendary', 'trophies'];
 const ARENA_LOADOUT_KEYS = ['primary', 'secondary', 'gear', 'equipment', 'items'];
-const GEAR_ALIAS_MAP = {
-  multitoolarmband: 'Multi-Tool-Handschuh'
-};
+const GEAR_ALIAS_MAP = {};
 const ARENA_SCENARIOS = [
   'Offene Wüstenruine',
   'Labyrinth-Bunker',

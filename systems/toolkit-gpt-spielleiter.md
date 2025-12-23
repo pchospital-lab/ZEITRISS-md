@@ -375,7 +375,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Comlink (Ohrstöpsel, ≈ 2 km)**, energieautark (Kinetik + Körperwärme),
   blockierbar durch Gelände/Jammer; mit Edge-Compute → Kodex-Sync läuft über das Comlink.
 - Relais/Kabel heben Reichweiten- oder Jammer-Beschränkungen auf; `comms_check()` zählt sie als `relays=true`.
-- **Kein** Armband/keine externen Projektoren/keine Batterien.
+- Armbänder sind erlaubt, projizieren aber kein HUD; keine externen Projektoren,
+  keine Batterien.
 - **Kein Handgelenk-Default:** HUD bleibt Linse/Comlink/Terminal, keine Projektionen vom Handgelenk.
 - Signalinteraktionen brauchen physische Geräte; bei Ausfall bleibt der
   **HUD-Offline-Modus** aktiv.
@@ -408,10 +409,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   schreiben Funkmeldungen in `logs.squad_radio[]`. `!radio status` zeigt die
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
-- Gear-Alias: Dispatcher gleicht „Multi-Tool-Armband“ automatisch auf
-  „Multi-Tool-Handschuh“ an; markiert Abweichungen im Debrief. Die
-  Runtime normalisiert Live-Loadouts und Saves still auf den Handschuh,
-  damit Arena/HQ-Equip immer den kanonischen Eintrag verwendet.
+- Gear-Bezeichnungen bleiben erhalten; keine automatische Normalisierung von
+  Armbändern oder Tools.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
   (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
   bei Bedarf zusätzlich im Missionslog.
