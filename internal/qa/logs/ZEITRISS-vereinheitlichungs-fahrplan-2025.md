@@ -45,6 +45,10 @@ den Maintainer-Richtlinien.
      (u. a. Terminologie „Rift-Seeds“, Ihr-Form, Szenenzählung).
    - Ergebnisse protokollieren und eventuelle Abweichungen als Issues oder
      Pull-Requests aufbereiten.
+   - Stichprobe abgeschlossen: `core/zeitriss-core.md`,
+     `gameplay/kampagnenstruktur.md`,
+     `systems/toolkit-gpt-spielleiter.md` geprüft; keine Terminologie- oder
+     Formatabweichungen erkannt. ✅
 5. **KI-Review- und QA-Prozess aktiv nutzen**
    - Bei jedem größeren Diff: Review über ARXION oder äquivalente
     Vergleichs-KI anstoßen, Findings in
@@ -54,6 +58,8 @@ den Maintainer-Richtlinien.
      QA-Fahrplan aktualisieren.
    - Commit- und PR-Notizen um ausgeführte Tests ergänzen (z. B. `make lint`,
      `make test`, `bash scripts/smoke.sh`).
+   - QA-Pflichtlauf + Sync in QA-Log und Audit dokumentiert; keine
+     externen Playtests erforderlich (Dokumentationsabschluss). ✅
 
 ## Zeitplan & Verantwortlichkeiten
 - **Sprint 1 (Woche 1–2):** Sprachangleichung in README/CONTRIBUTING
