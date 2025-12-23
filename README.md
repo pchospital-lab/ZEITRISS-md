@@ -209,6 +209,8 @@ Vor den Werten steht der Origin-Block (Epoche/Beruf/Tod), auf Wunsch mit
 `generate` oder `custom generate`, plus Echo-Talent aus dem früheren Leben.
 Danach wählst du: **HQ-Rundgang mit Kodex** (Tour, HUD, Kodex-Regeln)
 oder **Briefing** (erst dort wird die Mission gezogen).
+Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst dann
+das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
 Bei **Schnelleinstieg** legst du nur Rolle + Kurzprofil fest und kannst
 ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 
@@ -349,8 +351,8 @@ Spiel starten (gruppe schnell)
   überspringt sie. Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
-- **HQ-Kurzintro (Runtime).** Vier Zeilen, Schlusszeile: „Die Nullzeit kennt
-  keinen Countdown. Das ITI schon.“
+- **HQ-Kurzintro (Runtime).** Kurze, stimmige Zusammenfassung (1–3 Sätze) statt
+  Vollzitat; die Schlusszeile kann sinngemäß anklingen.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
