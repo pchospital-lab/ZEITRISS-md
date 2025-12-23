@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.7
+version: 1.3.8
 tags: [meta]
 ---
 
@@ -161,7 +161,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > `character`, `economy` inklusive `wallets{}`, `logs` mit `artifact_log`, `market`,
 > `offline`, `kodex`, `alias_trace`, `squad_radio`, `foreshadow`,
 > `fr_interventions`, `psi`, `arena_psi`, `trace`, `hud`, `flags` sowie `ui`,
-> `arena`; optional `arc_dashboard`). Kontrolliere HQ-Briefing-Schleifen,
+> `arena`, `arc_dashboard`). Kontrolliere HQ-Briefing-Schleifen,
 > Accessibility-Dialoge,
 > Offline-Hinweise sowie Ask→Suggest- und Kodex-Kommandos. Cross-Mode-Saves müssen
 > getestet werden (z. B. Solo-Save in Koop importieren, Koop-Save in PvP laden und
@@ -179,7 +179,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > `campaign`, `character`, `economy` inkl. `wallets{}`, `logs` mit `artifact_log`,
 > `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `foreshadow`,
 > `fr_interventions`, `psi`, `arena_psi`, `trace`, `hud`, `flags`, dazu `ui`,
-> `arena`, optional `arc_dashboard`) sowie passende Kodex- und Charakterwerte.
+> `arena`, `arc_dashboard`) sowie passende Kodex- und Charakterwerte.
 > Bilde darin mindestens
 > zwei Level- und Rift-Varianten ab (z. B. <10, 120, 500+ inklusive Seeds und
 > Artefaktboni), damit Skalierung und Persistenz über den vollen Bereich 1–1000
