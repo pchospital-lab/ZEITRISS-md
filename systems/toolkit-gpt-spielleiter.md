@@ -614,8 +614,10 @@ Spiegelparadoxa bleiben deaktiviert, damit sich jede Szene auf taktische
 Planung und technische Herausforderungen konzentriert. Dramatische
 Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
-In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem `trigger_pool` stammt.
-Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte Tragödien.
+In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem
+`trigger_pool` stammt. Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte
+Tragödien. Der Modus wird im Save als `campaign.seed_source` mit `preserve|trigger` gespiegelt –
+die Poolnamen bleiben intern `preserve_pool`/`trigger_pool`.
 Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
 {% set _campaign_mode_raw = campaign.mode | default('preserve') %}
 {% set _campaign_mode = _campaign_mode_raw|string %}
@@ -626,15 +628,15 @@ Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampag
 {% set campaign.mode = _campaign_mode or 'preserve' %}
 {% set is_pvp_mode = campaign.mode == 'pvp' or (arena is defined and arena and arena.active) %}
 {% if campaign.mode == 'preserve' %}
-  {% set campaign.seed_source = 'preserve_pool' %}
+  {% set campaign.seed_source = 'preserve' %}
 {% elif campaign.mode == 'trigger' %}
-  {% set campaign.seed_source = 'trigger_pool' %}
+  {% set campaign.seed_source = 'trigger' %}
   {{ hud_tag('Briefing: kleineres Übel sichern (Trigger).') }}
 {% elif is_pvp_mode %}
-  {% set campaign.seed_source = 'preserve_pool' %}
+  {% set campaign.seed_source = 'preserve' %}
   {{ hud_tag('Arena-Sparring aktiv – PvP-Modus gebunden. Seeds bleiben deaktiviert.') }}
 {% else %}
-  {% set campaign.seed_source = campaign.seed_source or 'preserve_pool' %}
+  {% set campaign.seed_source = campaign.seed_source or 'preserve' %}
   {{ hud_tag('Modus ' ~ campaign.mode ~ ' aktiv.') }}
 {% endif %}
 

@@ -310,16 +310,16 @@ halten die nächsten Schritte für Folge-Läufe fest.
 | #2 | Doppelte Zeile in Acceptance #6 | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet. | ✅ erledigt |
 | #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisiert; Save-Preview immer mit `arc_dashboard`. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | ✅ erledigt |
 | #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA: Loadout mit Armband bleibt unverändert. | ✅ erledigt |
-| #5 | `seed_source` (trigger vs. trigger_pool) | QA-Briefing auf Toolkit-Strings angleichen oder Legacy-Alias dokumentieren. QA: Merge stabil halten. | 🟡 offen |
+| #5 | `seed_source` (trigger vs. trigger_pool) | Toolkit auf `seed_source = preserve|trigger` gespiegelt, Fixture angepasst; Pools bleiben `preserve_pool`/`trigger_pool`. | ✅ erledigt |
 | #6 | Boss-Gate/DR-Logs | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen. | ✅ pass |
 | #7 | Ask↔Suggest | PASS; Overlay-Parser akzeptiert `· SUG` als optionales Suffix. QA: `SUG-ON/OFF` Toasts prüfen. | ✅ pass |
-| #8 | Psi-Heat vs. Px-Reset | Psi-Modul trennen: Arena-Fail darf `campaign.px` nicht resetten. QA: A/B-Test Arena-Fail & Px 5 Seeds. | 🟡 offen |
+| #8 | Psi-Heat vs. Px-Reset | Psi-Module/README klären: Arena-Fails resetten `campaign.px` nicht; Px-Reset folgt nur nach Px 5 + Debrief/HQ. | ✅ erledigt |
 | #9 | Accessibility Legacy-Mapping | PASS; QA erweitert um Legacy-Import (`full|minimal`, `rapid|quick`). | ✅ pass |
 | #10 | Offline-Fallback | PASS; Rate-Limit & SaveGuard behalten. Optionaler Hinweis „Mission läuft weiter“. | ✅ pass |
 | #11 | Vehikel-/Massenkonflikt-Logs | PASS; strukturierte `logs.hud[]`-Events als Pflichtlog prüfen. | ✅ pass |
 | #12 | Chronopolis/Economy-Audit | PASS; optional `economy_audit` Trace bei HQ-Save standardisieren. | 🟡 offen |
-| #13 | Rift-Boss-Szenenindex | Toolkit/README/Generatoren auf `boss_encounter_scene=10`, `boss_resolution_scene=11` harmonisieren. QA: Golden-Files updaten. | 🟡 offen |
-| #14 | Test-Save v6 Fixture | Fixture unter `internal/qa/fixtures/` spiegeln; `qa_variants` als meta-Block auslagern, falls Schema strikt ist. | 🟡 offen |
+| #13 | Rift-Boss-Szenenindex | Generator-Map auf Boss-Encounter Szene 10 + Resolution Szene 11–14 harmonisiert. QA: Golden-Files updaten. | ✅ erledigt |
+| #14 | Test-Save v6 Fixture | Fixture `savegame_v6_test.json` aktualisiert (Seed-Source konsistent). | ✅ erledigt |
 
 README-Abschnittskürzel:  
 `R(QA)` = README §QA-Checks 2025-06-27  
