@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.13.34
+version: 1.14.0
 tags: [meta]
 ---
 
@@ -1155,3 +1155,28 @@ Debrief oder als knapper Scene-Tag („Keycard erhalten“) sichtbar.
 | #4 | Loot-Handling abstrahieren | Toolkit-/Debrief-Hinweise präzisieren (Keycards/Intel als Outcome, Loot-Recap im Debrief, keine „Durchsuchen“-Prozeduren). Relevante Makros: `itemforge()`, Loot-Reminder. | ✅ abgeschlossen |
 | #5 | QA-Checks für Tester:innen | `docs/qa/tester-playtest-briefing.md` um PASS/FAIL-Kriterien ergänzen (Cut/Outcome bei zu konkreten Ansagen, keine How-to-Optimierungen, In-World bleibt). | ✅ abgeschlossen |
 | #6 | Optionales Runtime-Logging | Prüfen, ob `logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]` sinnvoll sind; falls ja, Save-Schema/Runtime/Toolkit/Debrief spiegeln und QA-Trace definieren. | ✅ abgeschlossen |
+
+## Maßnahmenpaket QA-Copy-Paste-Lauf 2026-10 (Issues #1–#11)
+
+Der aktuelle Copy-Paste-Lauf aus `docs/qa/tester-playtest-briefing.md` deckt
+Acceptance 1–15 komplett ab und liefert 11 neue Findings. Schwerpunkte:
+Compliance-Bypass im QA-Mode, Dispatcher-Strings, Px5/ClusterCreate,
+Mission-5-Badge-Check, Psi-Heat-Logging, Suggest-Persistenz,
+Offline-Guard-Wording, Accessibility-Roundtrip, Economy-Drift-Trace,
+HUD-Toast-Budget sowie Arena-Merge-Konflikte. Der komplette QA-Save liegt im
+Testlog (inkl. Seeds 1–25/80–150/400–1000, Wallet-Anker 120/512/900+, Arena-
+Pfad, Offline-Rate-Limit und HUD-Object-Events).
+
+| Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
+| ----- | ------------------------------ | ------------------------------------------- | ------ |
+| #1 | QA-Mode-Compliance & Ansprache | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen. | 🟡 offen |
+| #2 | Dispatcher-Start & Fehltexte | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session loggen; Load-Flow überspringt Startfragen, SaveGuard bleibt HQ-only. | 🟡 offen |
+| #3 | Px 5 → ClusterCreate-Standard | Trace-Schema `cluster_create` vereinheitlichen (`px_before/after`, `seed_ids`, Episode/Mission/Loc), `campaign.rift_seeds[]` als Objekte normalisieren; HUD-Toast „Px Reset → 0“. | 🟡 offen |
+| #4 | Mission‑5 Badge/SF-OFF Safeguard | QA-Hook beim Start von M5: wenn `SF-OFF` fehlt, Warn-Toast/Debrief-Hinweis + Flag `acceptance_12_missing_sf_off`; `foreshadow_gate_m5_seen` persistieren. | 🟡 offen |
+| #5 | Psi-Heat Trace | `log_psi_event()` um Kategorien `psi_heat_inc/reset` mit Trigger ergänzen; Aggregation pro Konflikt, HQ-Transfer reset protokollieren. | 🟡 offen |
+| #6 | Suggest-Persistenz-Guard | `normalize_save_v6()` synchronisiert `ui.suggest_mode` ↔ `character.modes` und schreibt HUD-Tag `· SUG` deterministisch; Roundtrip-Test (SUG-ON/OFF) fixieren. | 🟡 offen |
+| #7 | Offline-FAQ & SaveGuard | README/FAQ-Text auf „HQ-Deepsave erst nach Re-Sync; SaveGuard blockt Offline-Ende“ angleichen; SaveGuard-Meldung mit Suffix „– HQ-Save gesperrt.“ und Trace `save_blocked` standardisieren. | 🟡 offen |
+| #8 | Accessibility-Roundtrip | UI-Block (`contrast/badge_density/output_pace` etc.) vollständig speichern/ laden; Legacy-Mapping unit-testen; Acceptance 14/15 Runner um Diff-Check erweitern. | 🟡 offen |
+| #9 | Economy: Currency-Sync Trace | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen. | 🟡 offen |
+| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; QA-Mode schreibt `toast_suppressed` Trace und `hud_scene_usage` pro Szene. Gate/FS/Boss priorisieren. | 🟡 offen |
+| #11 | Arena-Merge-Konflikt-Toast | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token. | 🟡 offen |
