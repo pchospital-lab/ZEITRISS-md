@@ -560,9 +560,12 @@ if not char.get("psi") and not char.get("has_psi"):
 - Erreicht der Index Stufe 5, löst die Runtime `ClusterCreate()` aus,
   markiert den Reset als **pending** (`px_reset_pending=true`,
   `px_reset_confirm=false`) und schreibt die neuen Rift-Seeds nach
-  `campaign.rift_seeds`. Der eigentliche Rücksetzer erfolgt im Debrief/HQ
-  (`px_reset_confirm=true`) mit HUD-Toast. Kommentiere das Ereignis im Debrief
-  mit `Kodex: ClusterCreate() aktiv – neue Rift-Seeds sichtbar.`.
+  `campaign.rift_seeds` (alle Einträge werden als Objekte mit id/label/status
+  normalisiert). Der eigentliche Rücksetzer erfolgt im Debrief/HQ
+  (`px_reset_confirm=true`) mit HUD-Toast „Px Reset → 0“. Kommentiere das
+  Ereignis im Debrief mit `Kodex: ClusterCreate() aktiv – neue Rift-Seeds
+  sichtbar.`; der Trace `cluster_create` enthält px_before/after, seed_ids,
+  Episode/Mission/Loc sowie die Anzahl der offenen Seeds.
 - `redirect_same_slot(epoch, Δt)` dient als Logik-Schutz.
   Der Sprungversatz beträgt in der Regel 6 h oder mehr, damit die Agenten
   niemals zeitgleich auf sich selbst treffen. Abweichungen sind nur erlaubt,
