@@ -518,15 +518,20 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
   `idle` ist; Matchmaking-States zählen als aktiv. Der Load-Merge
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
-  Marker, `conflict_fields`, `conflicts_added`, Gesamttally), damit
-  Cross-Mode-Imports einheitliche Belege liefern. Offene `campaign.rift_seeds[]`
-  werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen automatisch an
-  ITI-NPC-Teams und erscheinen im Trace (`merge_conflicts.rift_merge`).
+  Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und dedupliziert
+  identische Konflikt-Records, damit Cross-Mode-Imports einheitliche Belege
+  liefern. Offene `campaign.rift_seeds[]` werden beim Merge auf 12 gedeckelt;
+  überschüssige Seeds gehen automatisch an ITI-NPC-Teams und erscheinen im
+  Trace (`merge_conflicts.rift_merge`). Arena-Resets setzen immer einen
+  HUD-Toast „Merge-Konflikt: Arena-Status verworfen“ und hinterlegen den
+  Konflikt im Trace.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
   Accessibility-Felder `contrast`, `badge_density` und `output_pace`. Migration
   und Serializer ergänzen fehlende Felder mit Defaults (`standard|normal`,
   `action_mode=konform`), sodass der SaveGuard den normalisierten UI-Block
-  prüft.
+  prüft. `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
+  `character.modes`: Sobald eine Seite `suggest` gesetzt hat, aktiviert der
+  Save beide Flags und rendert das HUD-Tag `· SUG` deterministisch.
 - Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
   Credits-Fallbacks (`economy.credits`) auf den HQ-Pool `economy.cu`, bevor
   Wallets oder Arena-Guards greifen.
