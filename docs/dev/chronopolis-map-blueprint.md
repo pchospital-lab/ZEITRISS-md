@@ -9,6 +9,7 @@ tags: [dev, chronopolis]
 _Grundplan einer statischen City-Map für das textbasierte GPT-Spiel_
 
 ## 1 · Macro-Layout (Top-Down)
+
 ```
          ┌──────────────────────────┐
          │   Ω-Ring Transit Line    │
@@ -51,7 +52,7 @@ _Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch._
 | --------------- | ---------------------------------------------------------------------------- |
 | **Architektur** | Weiße Terrazzoflächen mit titanfarbenen Rippen, Art-Déco trifft Möbius.      |
 | **Beleuchtung** | Mischung aus kühlem Türkis und warmen Amber-Akzenten.                        |
-| **Skybox**      | Statische Nebelwolke, leichte Zeitpartikel; sanftes Leuchten der Zeitanker. |
+| **Skybox**      | Statische Nebelwolke, leichte Zeitpartikel; sanftes Leuchten der Zeitanker.  |
 | **Ambient SFX** | Dockyard: dumpfes Maschinenbrummen; Sanctuary: sanfte Glockenklänge.         |
 | **Props**       | Holo-Kioske mit Oktagon-Glyphen, Bänke mit integrierter Chrono-Kompass-Rose. |
 
@@ -69,6 +70,7 @@ _Maßstab: Durchmesser 600 m, Straßenbreite 12 m, Spire 180 m hoch._
 
 Jedes 10x10-m-Straßenmodul besitzt zwei Sockets zur Platzierung von Händlern oder NPCs. Die
 Engine ersetzt nur Population, keine Geometrie.
+
 ```
 {
   "socket_id": "baz_12_B",
