@@ -17,7 +17,7 @@ const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
   '- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld.',
-  '  Im HQ besteht immer Kodex-Uplink; Deepsaves/Cloud-Sync erst nach Rückkehr.',
+  '  Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard, bis der Re-Sync steht.',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
@@ -6445,7 +6445,7 @@ function require_uplink(ctx, action){
   offline_help('auto');
   throw new Error(
     'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
-      '!offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.'
+      '!offline zeigt das Feldprotokoll, HQ-Deepsave erst nach Re-Sync.'
   );
 }
 
@@ -7220,8 +7220,9 @@ function toast_save_block(reason){
     : 'SaveGuard: HQ-Save gesperrt.';
 }
 
-const HQ_ONLY_SAVE_TEXT =
+const HQ_ONLY_SAVE_REASON =
   'Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.';
+const HQ_ONLY_SAVE_TEXT = toast_save_block(HQ_ONLY_SAVE_REASON);
 
 function select_state_for_save(s){
   const ui = prepare_save_ui({ ...ensure_ui(), ...clone_plain_object(s.ui) });
@@ -7256,7 +7257,7 @@ function save_deep(s=state){
       reason: 'offline',
       link_state: linkState
     });
-    throw new Error(toast_save_block('Offline – HQ-Re-Sync erforderlich'));
+    throw new Error(toast_save_block('Offline – HQ-Deepsave erst nach Re-Sync'));
   }
   const queueState = normalize_arena_queue_state(arenaState?.queue_state, {
     active: !!arenaState?.active,
@@ -8241,7 +8242,7 @@ function on_command(command){
           '- Spiel laden',
           'Kampagnenmodus separat setzen: !kampagnenmodus preserve|trigger (persistiert im Save).',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
-          'Speichern nur im HQ. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
+          'SaveGuard: Speichern nur im HQ – HQ-Save gesperrt. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
         ].join('\n');
       }
     if (cmd === '!offline' || cmd === '!help offline' || cmd === '/help offline' || cmd === 'offline hilfe'){

@@ -35,7 +35,7 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 6. `Spiel starten (gruppe 3)` → Fehlertext „Bei gruppe keine Zahl angeben.
    (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
-8. `Speichern` während Mission → Blocker „Speichern nur im HQ …“
+8. `Speichern` während Mission → Blocker „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
 9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
 10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 

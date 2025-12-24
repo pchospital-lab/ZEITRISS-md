@@ -356,7 +356,8 @@ Spiel starten (gruppe schnell)
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
-  „Speichern nur im HQ …“ und hält die Mission aktiv.
+  „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
+  aktiv.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
@@ -556,7 +557,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `!rules stealth` – zitiert die Passage zu Schleichen.
 - `!gear cyberware` – zeigt Ausrüstung oder Implantate.
 - `!save` – speichert einen Deepsave (nur im HQ; SaveGuard blockt bei Offline-
-  Fallback: „SaveGuard: Offline – HQ-Re-Sync erforderlich.“).
+  Ende mit „SaveGuard: Offline – HQ-Deepsave erst nach Re-Sync – HQ-Save
+  gesperrt.“).
 - `!load` – lädt den letzten Deepsave.
 - `!suspend` – legt einen flüchtigen Szenen-Snapshot für eine Pause an.
 - `!resume` – setzt den letzten Suspend-Snapshot exakt einmal fort und stellt
@@ -738,8 +740,7 @@ installierten Wert nicht überschreiten. Weicht die Installation ab, bricht `sav
 „SaveGuard: SYS nicht voll installiert – HQ-Save gesperrt.“ ab; eine Runtime-Last über den
 installierten Slots führt zu „SaveGuard: SYS runtime overflow – HQ-Save gesperrt.“. Stress
 und Psi-Heat tragen denselben SaveGuard-Suffix, um HQ-Sperren klar zu markieren.
-Speichern außerhalb des HQs meldet „Speichern nur im HQ. Missionszustände sind flüchtig und werden
-nicht persistiert.“.
+Speichern außerhalb des HQs meldet „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“.
 
 ### HUD-Shortcuts für Exfiltration
 
@@ -883,7 +884,9 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
   (Offline gilt nur im Einsatz). In Funkepochen gilt eine **ca. 2 km Bubble ab
   Einstiegspunkt**, erweiterbar per Relais/Kabel; Jammer oder funklose Ären
   (z.B. Mittelalter) schalten den Kodex stumm → nur HUD/Logs laufen. `!offline`
-  höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder steht.
+  höchstens **1×/Minute** triggert das Offline-FAQ, bis der Hardware-Link wieder
+  steht. Endet eine Mission offline, blockt der SaveGuard jeden HQ-Deepsave,
+  bis der Re-Sync erfolgt.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.

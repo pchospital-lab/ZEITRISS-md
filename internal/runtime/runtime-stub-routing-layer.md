@@ -633,8 +633,9 @@ const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
   '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – ' +
     'Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs; HQ-Deepsaves/Cloud-Sync ' +
-    'laufen erst nach der Rückkehr ins HQ (HQ-only, keine Save-Sperre).',
+  '- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld. ' +
+    'Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard, ' +
+    'bis der Re-Sync steht.',
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und ' +
     'Bestätigung abwarten.'
 ];
@@ -684,7 +685,7 @@ function require_uplink(ctx = state, action = 'command') {
   offline_help('auto');
   throw new Error(
     'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
-      '!offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.',
+      '!offline zeigt das Feldprotokoll, HQ-Deepsave erst nach Re-Sync.',
   );
 }
 
@@ -893,7 +894,7 @@ function save_deep(ctx = state) {
 
 function cmdSave() {
   if (state.location !== 'HQ') {
-    return writeLine('Speichern nur im HQ möglich.');
+    return writeLine(toast_save_block('Speichern nur im HQ'));
   }
   save_deep(state);
   autoSave(); // Persistiert den JSON-String für QA
