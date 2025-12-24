@@ -1174,7 +1174,7 @@ Pfad, Offline-Rate-Limit und HUD-Object-Events).
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ------------------------------ | ------------------------------------------- | ------ |
 | #1 | QA-Mode-Compliance & Ansprache | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen. | ✅ erledigt (2026-11-06) |
-| #2 | Dispatcher-Start & Fehltexte | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session loggen; Load-Flow überspringt Startfragen, SaveGuard bleibt HQ-only. | 🟡 offen |
+| #2 | Dispatcher-Start & Fehltexte | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session (`dispatch_hint`, channel `dispatcher`), Load-Flow ohne EntryChoice, SaveGuard HQ-only-Blocker-String. | ✅ abgeschlossen (Strings/Trace in RT & README gespiegelt) |
 | #3 | Px 5 → ClusterCreate-Standard | Trace-Schema `cluster_create` vereinheitlichen (`px_before/after`, `seed_ids`, Episode/Mission/Scene/Loc + campaign_type), `campaign.rift_seeds[]` als Objekte normalisieren; HUD-Toast „Px Reset → 0“. | ✅ abgeschlossen (Cluster-Trace + Seed-Normalisierung 2026-11-06) |
 | #4 | Mission‑5 Badge/SF-OFF Safeguard | QA-Hook beim Start von M5: wenn `SF-OFF` fehlt, Warn-Toast/Debrief-Hinweis + Flag `acceptance_12_missing_sf_off`; `foreshadow_gate_m5_seen` persistieren. | ✅ abgeschlossen (2026-11-07) |
 | #5 | Psi-Heat Trace | `log_psi_event()` um Kategorien `psi_heat_inc/reset` mit Trigger ergänzen; Aggregation pro Konflikt, HQ-Transfer reset protokollieren. | ✅ abgeschlossen (2026-11-07) |
