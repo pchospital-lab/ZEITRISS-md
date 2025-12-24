@@ -362,7 +362,8 @@ Spiel starten (gruppe schnell)
 - **HQ-Kurzintro (Runtime).** Kurze, stimmige Zusammenfassung (1–3 Sätze) statt
   Vollzitat; die Schlusszeile kann sinngemäß anklingen.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
-  aktiviert das Kodex-Overlay und übernimmt alle Save-Flags.
+  aktiviert das Kodex-Overlay, überspringt Einstiegsprompts/EntryChoice und
+  übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv.
