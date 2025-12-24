@@ -2018,10 +2018,13 @@ function normalize_output_pace(value, fallback = 'normal'){
 function normalize_action_mode(value, fallback = DEFAULT_ACTION_MODE){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
   if (!normalized) return fallback;
-  if (['frei', 'free', 'full', 'open'].includes(normalized)) return 'frei';
-  if (['konform', 'compliance', 'safe', 'standard'].includes(normalized)) return 'konform';
-  if (['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'].includes(normalized)) return 'fsk12';
-  if (['off', 'aus', 'none', 'zero'].includes(normalized)) return 'off';
+  if (['frei', 'free', 'full', 'open', 'uncut', 'gewalt'].includes(normalized)) return 'frei';
+  if (
+    ['konform', 'compliance', 'safe', 'standard', 'fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13', 'off', 'aus', 'none', 'zero']
+      .includes(normalized)
+  ){
+    return 'konform';
+  }
   return fallback;
 }
 
