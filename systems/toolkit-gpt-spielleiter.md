@@ -167,12 +167,8 @@ default_modus: mission-fokus
   {% set state.ui.action_mode = 'konform' %}
 {% else %}
   {% set action_raw = state.ui.action_mode | string | lower | trim %}
-  {% if action_raw in ['frei', 'free', 'full', 'open'] %}
+  {% if action_raw in ['frei', 'free', 'full', 'open', 'uncut', 'gewalt'] %}
     {% set state.ui.action_mode = 'frei' %}
-  {% elif action_raw in ['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'] %}
-    {% set state.ui.action_mode = 'fsk12' %}
-  {% elif action_raw in ['off', 'aus', 'none', 'zero'] %}
-    {% set state.ui.action_mode = 'off' %}
   {% else %}
     {% set state.ui.action_mode = 'konform' %}
   {% endif %}
@@ -231,11 +227,10 @@ default_modus: mission-fokus
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
   covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
-- **Action-Contract-Schalter:** `ui.action_mode = frei|konform|fsk12|off`.
-  `frei` bleibt filmisch ohne How-to-Details; `konform` nutzt den
-  Actionfilm-Cut (Intent → Schnitt → Ergebnis + Konsequenzen + Optionen);
-  `fsk12` reduziert Explizitheit (keine Grausamkeit, Fokus auf Stun/Escape);
-  `off` blendet Gewalt zugunsten von Umgehung, Deeskalation oder Flucht aus.
+- **Action-Contract-Schalter:** `ui.action_mode = konform|frei`.
+  Default ist `konform` (GPT-konforme Actionfilm-Cuts, keine Schritt-für-Schritt-How-tos);
+  `frei` bleibt filmisch ohne How-to-Details und versteht den Alias „uncut“.
+  Legacy-Werte wie `fsk12`, `standard` oder `off` werden automatisch auf `konform` gehoben.
 - **Action-Contract-Trace (optional):** `log_action_contract_guard("Notiz",
   {phase, scene, action_mode})` protokolliert Guard-Cuts in
   `logs.flags.howto_guard_hits[]` und hält den aktiven Modus in
@@ -1822,12 +1817,8 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
 
 {% macro set_action_mode(arg) -%}
   {% set raw = arg | string | lower | trim %}
-  {% if raw in ['frei', 'free', 'full', 'open'] %}
+  {% if raw in ['frei', 'free', 'full', 'open', 'uncut', 'gewalt'] %}
     {% set mode = 'frei' %}
-  {% elif raw in ['fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13'] %}
-    {% set mode = 'fsk12' %}
-  {% elif raw in ['off', 'aus', 'none', 'zero'] %}
-    {% set mode = 'off' %}
   {% else %}
     {% set mode = 'konform' %}
   {% endif %}

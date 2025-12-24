@@ -158,7 +158,7 @@
               "type": "object",
               "additionalProperties": true,
               "properties": {
-                "action_mode": { "type": "string", "enum": ["frei", "konform", "fsk12", "off"] },
+                "action_mode": { "type": "string", "enum": ["frei", "konform"] },
                 "pattern": { "type": "string" },
                 "loot_policy": { "type": "string" },
                 "body_handling": { "type": "string" }
@@ -181,7 +181,7 @@
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },
         "suggest_mode": { "type": "boolean" },
-        "action_mode": { "type": "string", "enum": ["frei", "konform", "fsk12", "off"] },
+        "action_mode": { "type": "string", "enum": ["frei", "konform"] },
         "contrast": { "type": "string", "enum": ["standard", "high"] },
         "badge_density": { "type": "string", "enum": ["standard", "dense", "compact"] },
         "output_pace": { "type": "string", "enum": ["normal", "fast", "slow"] },
