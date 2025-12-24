@@ -1,7 +1,19 @@
 const rt = require('../runtime');
 const assert = require('assert');
 
-let response = rt.on_command('spiel starten (solo trigger schnell)');
+let response = rt.on_command('spiel starten solo');
+assert.strictEqual(response, rt.DISPATCHER_START_SYNTAX_HINT);
+const traceLength = rt.state.logs.trace.length;
+const lastTrace = rt.state.logs.trace[traceLength - 1];
+assert.strictEqual(lastTrace.event, 'dispatch_hint');
+assert.strictEqual(lastTrace.reason, 'start_syntax');
+assert.strictEqual(rt.state.logs.flags.dispatch_syntax_hint_seen, true);
+
+response = rt.on_command('spiel starten solo');
+assert.strictEqual(response, rt.DISPATCHER_START_SYNTAX_HINT);
+assert.strictEqual(rt.state.logs.trace.length, traceLength);
+
+response = rt.on_command('spiel starten (solo trigger schnell)');
 assert(response.startsWith('Startsyntax aktualisiert'));
 
 response = rt.on_command('!kampagnenmodus trigger');
