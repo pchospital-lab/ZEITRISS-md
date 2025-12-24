@@ -66,7 +66,7 @@ const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
 const PHYSICALITY_LOG_LIMIT = 16;
 const HUD_SCENE_TOAST_LIMIT = 2;
-const HUD_PRIORITY_TAGS = new Set(['ARENA', 'BOSS', 'GATE', 'FS', 'FORESHADOW']);
+const HUD_PRIORITY_TAGS = new Set(['ARENA', 'BOSS', 'GATE', 'FS', 'FORESHADOW', 'ENTRY']);
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
@@ -532,13 +532,55 @@ function sanitize_psi_entries(entries){
   const sanitized = [];
   entries.forEach((entry) => {
     if (!entry || typeof entry !== 'object') return;
-    const ability = pickString(entry.ability, entry.power, entry.name) || 'phase_strike';
+    const category = pickString(entry.category);
     const timestamp = isoTimestamp(entry.timestamp) || fallback;
+    const location = pickString(entry.location) || state.location || null;
+    const mission = Number.isFinite(entry.mission) ? Math.floor(entry.mission) : state.campaign?.mission ?? null;
+    const episode = Number.isFinite(entry.episode) ? Math.floor(entry.episode) : state.campaign?.episode ?? null;
+    const sceneIndex = Number.isFinite(entry.scene_index) ? Math.max(0, Math.floor(entry.scene_index)) : null;
+    const sceneTotal = Number.isFinite(entry.scene_total)
+      ? Math.max(1, Math.floor(entry.scene_total))
+      : (Number.isFinite(state.scene?.total) ? state.scene.total : null);
+    if (category === 'psi_heat_inc' || category === 'psi_heat_reset'){
+      const trigger = pickString(entry.trigger);
+      const triggers = Array.isArray(entry.triggers)
+        ? entry.triggers
+            .map((token) => (typeof token === 'string' ? token.trim() : ''))
+            .filter(Boolean)
+        : [];
+      const uniqueTriggers = [];
+      const seen = new Set();
+      [trigger, ...triggers].forEach((token) => {
+        if (!token || seen.has(token)) return;
+        seen.add(token);
+        uniqueTriggers.push(token);
+      });
+      const record = {
+        category,
+        timestamp,
+        delta: asNumber(entry.delta),
+        trigger: trigger || null,
+        triggers: uniqueTriggers,
+        scene_index: sceneIndex,
+        scene_total: sceneTotal,
+        mission,
+        episode,
+        phase: pickString(entry.phase) || state.phase || state.campaign?.phase || null,
+        location
+      };
+      if (Number.isFinite(entry.before)) record.before = Math.floor(entry.before);
+      if (Number.isFinite(entry.after)) record.after = Math.floor(entry.after);
+      if (typeof entry.note === 'string' && entry.note.trim()){
+        record.note = entry.note.trim();
+      }
+      sanitized.push(record);
+      return;
+    }
+    const ability = pickString(entry.ability, entry.power, entry.name) || 'phase_strike';
     const baseCost = pickNumber(entry.base_cost, entry.base, entry.base_cost_sys, entry.baseCost);
     const tax = pickNumber(entry.tax, entry.tax_sys, entry.delta, entry.addition);
     const total = pickNumber(entry.total_cost, entry.total, entry.cost_total, entry.cost);
     const mode = pickString(entry.mode) || campaign_mode();
-    const location = pickString(entry.location) || state.location || null;
     const arenaActive = entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
     const gmStyle = pickString(entry.gm_style, entry.gmStyle);
     const reason = pickString(entry.reason, entry.note);
@@ -1024,6 +1066,7 @@ function ensure_logs(){
   } else {
     flags.merge_conflicts = sanitize_merge_conflicts(flags.merge_conflicts);
   }
+  flags.psi_heat_buffer = normalize_psi_heat_buffer(flags.psi_heat_buffer);
   const charSelfReflection =
     state.character && typeof state.character.self_reflection === 'boolean'
       ? state.character.self_reflection
@@ -1068,6 +1111,7 @@ function ensure_logs(){
     const resetReason = flags.self_reflection_auto_reset_reason.trim();
     flags.self_reflection_auto_reset_reason = resetReason ? resetReason : null;
   }
+  flags.acceptance_12_missing_sf_off = !!flags.acceptance_12_missing_sf_off;
   if (typeof flags.last_mission_end_reason !== 'string'){
     flags.last_mission_end_reason = null;
   } else {
@@ -1182,6 +1226,170 @@ function ensure_arena_psi_log(){
   }
   state.logs.arena_psi = sanitize_arena_psi_entries(state.logs.arena_psi);
   return state.logs.arena_psi;
+}
+
+function ensure_psi_heat_buffer(){
+  ensure_logs();
+  const flags = state.logs.flags;
+  const normalized = normalize_psi_heat_buffer(flags.psi_heat_buffer);
+  if (flags.psi_heat_buffer && typeof flags.psi_heat_buffer === 'object' && !Array.isArray(flags.psi_heat_buffer)){
+    flags.psi_heat_buffer.scene_index = normalized.scene_index;
+    flags.psi_heat_buffer.total = normalized.total;
+    flags.psi_heat_buffer.triggers = normalized.triggers;
+    return flags.psi_heat_buffer;
+  }
+  flags.psi_heat_buffer = normalized;
+  return flags.psi_heat_buffer;
+}
+
+function flush_psi_heat_buffer(options = {}, bufferRef = null){
+  const buffer = bufferRef && typeof bufferRef === 'object' ? bufferRef : ensure_psi_heat_buffer();
+  if (!buffer.total){
+    if (Number.isFinite(options.scene_index)){
+      buffer.scene_index = Math.max(0, Math.floor(options.scene_index));
+    }
+    return null;
+  }
+  const log = ensure_psi_log();
+  const now = new Date().toISOString();
+  const sceneIndex = Number.isFinite(options.scene_index)
+    ? Math.max(0, Math.floor(options.scene_index))
+    : Number.isFinite(buffer.scene_index)
+      ? buffer.scene_index
+      : (Number.isFinite(state.scene?.index) ? Math.max(0, Math.floor(state.scene.index)) : null);
+  const sceneTotal = Number.isFinite(options.scene_total)
+    ? Math.max(1, Math.floor(options.scene_total))
+    : Number.isFinite(state.scene?.total)
+      ? Math.max(1, Math.floor(state.scene.total))
+      : null;
+  const entry = {
+    category: 'psi_heat_inc',
+    timestamp: now,
+    delta: buffer.total,
+    triggers: buffer.triggers.slice(),
+    scene_index: sceneIndex,
+    scene_total: sceneTotal,
+    mission: state.campaign?.mission ?? null,
+    episode: state.campaign?.episode ?? null,
+    phase: state.phase || state.campaign?.phase || null,
+    location: state.location || null
+  };
+  log.push(entry);
+  if (log.length > PSI_LOG_LIMIT){
+    log.splice(0, log.length - PSI_LOG_LIMIT);
+  }
+  buffer.total = 0;
+  buffer.triggers = [];
+  buffer.scene_index = sceneIndex;
+  state.logs.flags.psi_heat_buffer = buffer;
+  return entry;
+}
+
+function log_psi_event(event = {}){
+  const payload = typeof event === 'string' ? { trigger: event } : (event || {});
+  const categoryRaw = typeof payload.category === 'string' ? payload.category.trim() : '';
+  const category = categoryRaw || 'psi_event';
+  const trigger = typeof payload.trigger === 'string' && payload.trigger.trim()
+    ? payload.trigger.trim()
+    : null;
+  const delta = Number.isFinite(payload.delta) ? Math.floor(payload.delta) : null;
+  const sceneIndex = Number.isFinite(payload.scene_index)
+    ? Math.max(0, Math.floor(payload.scene_index))
+    : Number.isFinite(state.scene?.index)
+      ? Math.max(0, Math.floor(state.scene.index))
+      : null;
+  const sceneTotal = Number.isFinite(payload.scene_total)
+    ? Math.max(1, Math.floor(payload.scene_total))
+    : Number.isFinite(state.scene?.total)
+      ? Math.max(1, Math.floor(state.scene.total))
+      : null;
+
+  if (category === 'psi_heat_inc'){
+    const buffer = ensure_psi_heat_buffer();
+    if (buffer.total > 0 && buffer.scene_index !== null && sceneIndex !== null && buffer.scene_index !== sceneIndex){
+      flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
+    }
+    if (sceneIndex !== null){
+      buffer.scene_index = sceneIndex;
+    }
+    const amount = Number.isFinite(delta)
+      ? Math.max(0, Math.floor(delta))
+      : Number.isFinite(payload.amount)
+        ? Math.max(0, Math.floor(payload.amount))
+        : 1;
+    buffer.total += amount;
+    if (trigger && !buffer.triggers.includes(trigger)){
+      buffer.triggers.push(trigger);
+      if (buffer.triggers.length > 8){
+        buffer.triggers = buffer.triggers.slice(buffer.triggers.length - 8);
+      }
+    }
+    if (payload.flush === true){
+      const entry = flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
+      state.logs.flags.psi_heat_buffer = buffer;
+      return entry;
+    }
+    state.logs.flags.psi_heat_buffer = buffer;
+    return buffer;
+  }
+
+  const log = ensure_psi_log();
+  if (category === 'psi_heat_reset'){
+    flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal });
+  }
+  const now = new Date().toISOString();
+  const entry = {
+    category,
+    timestamp: now,
+    scene_index: sceneIndex,
+    scene_total: sceneTotal,
+    mission: state.campaign?.mission ?? null,
+    episode: state.campaign?.episode ?? null,
+    phase: state.phase || state.campaign?.phase || null,
+    location: state.location || null
+  };
+  if (trigger) entry.trigger = trigger;
+  if (delta !== null) entry.delta = delta;
+  if (Number.isFinite(payload.before)) entry.before = Math.floor(payload.before);
+  if (Number.isFinite(payload.after)) entry.after = Math.floor(payload.after);
+  if (typeof payload.note === 'string' && payload.note.trim()){
+    entry.note = payload.note.trim();
+  }
+  log.push(entry);
+  if (log.length > PSI_LOG_LIMIT){
+    log.splice(0, log.length - PSI_LOG_LIMIT);
+  }
+  state.logs.psi = sanitize_psi_entries(log);
+  return entry;
+}
+
+function reset_psi_heat(trigger = 'hq_transfer', options = {}){
+  const character = ensure_character();
+  const team = ensure_team();
+  const beforeCharacter = Number.isFinite(character.psi_heat) ? character.psi_heat : 0;
+  const beforeTeam = Number.isFinite(team.psi_heat) ? team.psi_heat : 0;
+  character.psi_heat = 0;
+  team.psi_heat = 0;
+  const sceneIndex = Number.isFinite(options.scene_index)
+    ? Math.max(0, Math.floor(options.scene_index))
+    : Number.isFinite(state.scene?.index)
+      ? Math.max(0, Math.floor(state.scene.index))
+      : null;
+  const sceneTotal = Number.isFinite(options.scene_total)
+    ? Math.max(1, Math.floor(options.scene_total))
+    : Number.isFinite(state.scene?.total)
+      ? Math.max(1, Math.floor(state.scene.total))
+      : null;
+  flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal });
+  return log_psi_event({
+    category: 'psi_heat_reset',
+    trigger,
+    before: Math.max(beforeCharacter, beforeTeam),
+    after: 0,
+    note: typeof options.note === 'string' ? options.note : null,
+    scene_index: sceneIndex,
+    scene_total: sceneTotal
+  });
 }
 
 function ensure_alias_trace(){
@@ -2757,7 +2965,8 @@ function register_hud_usage(tag, options = {}){
   const usage = state.logs.flags.hud_scene_usage;
   const key = String(sceneIndex);
   const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
-  const increment = priority ? 0 : 1;
+  const isEntry = tag && tag.toUpperCase() === 'ENTRY';
+  const increment = priority && !isEntry ? 0 : 1;
   record.count = Math.max(0, Number.isFinite(record.count) ? Math.floor(record.count) : 0) + increment;
   record.limit = HUD_SCENE_TOAST_LIMIT;
   if (!record.tags || typeof record.tags !== 'object' || Array.isArray(record.tags)){
@@ -4160,6 +4369,9 @@ function render_runtime_flags_summary(){
   const howtoHits = Array.isArray(flags.howto_guard_hits) ? flags.howto_guard_hits.length : 0;
   if (howtoHits > 0){
     parts.push(`How-to-Guard ${howtoHits}×`);
+  }
+  if (flags.acceptance_12_missing_sf_off){
+    parts.push('Mission 5 ohne SF-OFF gestartet');
   }
   if (flags.qa_mode){
     const qaParts = [];
@@ -6136,6 +6348,17 @@ function StartMission(){
     state.logs.flags.foreshadow_gate_expected = true;
     if (missionNumber === 5){
       state.logs.flags.foreshadow_gate_m5_seen = true;
+      if (self_reflection_enabled()){
+        state.logs.flags.acceptance_12_missing_sf_off = true;
+        hud_toast('Mission 5: SF-OFF empfohlen – introspektive Sequenzen sperren.', 'SF');
+        record_trace('qa_flag', {
+          channel: 'QA',
+          note: 'Mission 5 ohne SF-OFF gestartet',
+          mission: missionNumber,
+          episode: state.campaign?.episode ?? null,
+          team_size: teamSize
+        });
+      }
     }
     if (missionNumber === 10){
       state.logs.flags.foreshadow_gate_m10_seen = true;
@@ -7123,6 +7346,8 @@ function prepare_save_logs(logs){
     || base.flags.foreshadow_gate_snapshot > 0;
   base.flags.foreshadow_gate_m5_seen = !!base.flags.foreshadow_gate_m5_seen;
   base.flags.foreshadow_gate_m10_seen = !!base.flags.foreshadow_gate_m10_seen;
+  base.flags.psi_heat_buffer = normalize_psi_heat_buffer(base.flags.psi_heat_buffer);
+  base.flags.acceptance_12_missing_sf_off = !!base.flags.acceptance_12_missing_sf_off;
   const contract = base.flags.atmosphere_contract && typeof base.flags.atmosphere_contract === 'object'
     ? { ...base.flags.atmosphere_contract }
     : {};
@@ -7876,7 +8101,35 @@ function normalize_save_v6(data){
   if ('modes' in normalized){
     delete normalized.modes;
   }
-  normalized.ui = prepare_save_ui(normalized.ui || {});
+  const uiRaw = ensureObject(normalized.ui);
+  const accessibility = ensureObject(normalized.accessibility);
+  const legacyContrast = pickString(uiRaw.contrast, accessibility.contrast, normalized.contrast, normalized.ui_contrast);
+  if (legacyContrast){
+    uiRaw.contrast = legacyContrast;
+  }
+  const legacyBadges = pickString(
+    uiRaw.badge_density,
+    accessibility.badge_density,
+    accessibility.badges,
+    normalized.badge_density,
+    normalized.badges,
+    normalized.ui_badges
+  );
+  if (legacyBadges){
+    uiRaw.badge_density = legacyBadges;
+  }
+  const legacyPace = pickString(
+    uiRaw.output_pace,
+    accessibility.output_pace,
+    accessibility.pace,
+    normalized.output_pace,
+    normalized.pace,
+    normalized.ui_pace
+  );
+  if (legacyPace){
+    uiRaw.output_pace = legacyPace;
+  }
+  normalized.ui = prepare_save_ui(uiRaw || {});
   const suggestFromModes = normalizedModes.includes('suggest');
   const suggestFromUi = !!normalized.ui.suggest_mode;
   const suggestEnabled = suggestFromModes || suggestFromUi;
@@ -7886,6 +8139,11 @@ function normalize_save_v6(data){
   }
   if (!suggestEnabled && suggestFromModes){
     character.modes = normalize_modes_list(normalizedModes.filter((entry) => entry !== 'suggest'));
+  }
+  ['contrast', 'badge_density', 'output_pace', 'ui_contrast', 'ui_badges', 'ui_pace', 'badges', 'pace']
+    .forEach((key) => { if (key in normalized) delete normalized[key]; });
+  if ('accessibility' in normalized){
+    delete normalized.accessibility;
   }
   normalized.campaign = ensureObject(normalized.campaign);
   const campaign = normalized.campaign;
@@ -8383,6 +8641,7 @@ function debrief(st){
     state.logs.flags.qa_debrief = true;
   }
   state.location = 'HQ';
+  reset_psi_heat('hq_transfer', { note: 'Debrief' });
   chronopolis_unlock_if_ready('debrief');
   const pxResetNote = apply_px_reset_if_ready('debrief');
   if (!state.logs.flags.fr_intervention_debrief_logged){
@@ -8435,6 +8694,32 @@ const NPC_TEAM_SIZE_ERROR =
 const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
 const DISPATCHER_START_SYNTAX_HINT =
   'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]). Klammern sind Pflicht.';
+
+function normalize_psi_heat_buffer(value){
+  if (!value || typeof value !== 'object' || Array.isArray(value)){
+    return { scene_index: null, total: 0, triggers: [] };
+  }
+  const sceneIndex = Number(value.scene_index);
+  const totalRaw = Number(value.total ?? value.delta ?? value.amount);
+  const triggers = Array.isArray(value.triggers)
+    ? value.triggers
+        .map((entry) => (typeof entry === 'string' ? entry.trim() : ''))
+        .filter(Boolean)
+    : [];
+  const unique = [];
+  const seen = new Set();
+  for (const trigger of triggers){
+    if (seen.has(trigger)) continue;
+    seen.add(trigger);
+    unique.push(trigger);
+    if (unique.length >= 8) break;
+  }
+  return {
+    scene_index: Number.isFinite(sceneIndex) ? Math.max(0, Math.floor(sceneIndex)) : null,
+    total: Number.isFinite(totalRaw) && totalRaw > 0 ? Math.max(0, Math.floor(totalRaw)) : 0,
+    triggers: unique
+  };
+}
 
 function record_dispatch_syntax_hint(command){
   ensure_logs();
@@ -8805,9 +9090,12 @@ module.exports = {
   get_intervention_log,
   set_suggest_mode,
   suggest_mode_enabled,
+  set_accessibility_option,
   log_action_contract_guard,
   log_market_purchase,
   log_alias_event,
+  log_psi_event,
+  reset_psi_heat,
   log_squad_radio,
   render_alias_trace_summary,
   render_squad_radio_summary,

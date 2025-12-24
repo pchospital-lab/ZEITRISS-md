@@ -474,7 +474,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   wurde. Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die
   Mission beendet oder abgebrochen wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und
   protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason`
-  (`completed`/`aborted`).
+  (`completed`/`aborted`). Startet Mission 5 ohne `SF-OFF`, loggt die Runtime einen Warn-Toast, setzt
+  `logs.flags.acceptance_12_missing_sf_off=true` und führt den Hinweis im Debrief unter Runtime-Flags. Das Flag
+  `foreshadow_gate_m5_seen` bleibt im Save erhalten und wird beim Laden normalisiert.
 - **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert
   Self-Reflection, schreibt den HUD-Toast (`SF-ON`/`SF-OFF`) und persistiert das
   Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die
