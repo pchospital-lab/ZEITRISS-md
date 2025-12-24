@@ -866,6 +866,12 @@ function ensure_logs(){
   state.logs ||= {};
   state.logs.flags ||= {};
   state.logs.flags.hud_scene_usage ||= {};
+  const qaFlags = normalize_qa_flags(state.logs.flags);
+  state.logs.flags.qa_mode = qaFlags.qa_mode;
+  state.logs.flags.qa_addressing = qaFlags.qa_addressing;
+  state.logs.flags.qa_player_count = qaFlags.qa_player_count;
+  state.logs.flags.qa_dispatch_seen = qaFlags.qa_dispatch_seen;
+  state.logs.flags.qa_debrief = qaFlags.qa_debrief;
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
@@ -2528,6 +2534,24 @@ function normalize_atmosphere_contract_capture(raw){
   return Object.keys(normalized).length ? normalized : null;
 }
 
+function normalize_qa_flags(flags){
+  const base = flags && typeof flags === 'object' && !Array.isArray(flags)
+    ? { ...flags }
+    : {};
+  base.qa_mode = !!base.qa_mode;
+  const addressingRaw = typeof base.qa_addressing === 'string'
+    ? base.qa_addressing.trim().toLowerCase()
+    : '';
+  base.qa_addressing = addressingRaw || null;
+  const playerCount = Number(base.qa_player_count);
+  base.qa_player_count = Number.isFinite(playerCount) && playerCount > 0
+    ? Math.max(1, Math.floor(playerCount))
+    : null;
+  base.qa_dispatch_seen = base.qa_mode && !!base.qa_dispatch_seen;
+  base.qa_debrief = base.qa_mode && !!base.qa_debrief;
+  return base;
+}
+
 function assert_atmosphere_contract_capture(){
   const flags = state?.logs?.flags;
   if (!flags?.qa_mode) return null;
@@ -2903,10 +2927,12 @@ function show_compliance_once(options = {}){
     : normalized.channel;
   const qaMode = !!normalized.qa_mode || channel === 'hud';
   ensure_logs();
+  ensure_campaign();
   const flags = state.logs.flags;
   const alreadyShown = !!flags.compliance_shown_today;
   if (qaMode){
     flags.qa_mode = true;
+    state.campaign.qa_mode = true;
   }
   if (alreadyShown && !force){
     return false;
@@ -4010,6 +4036,19 @@ function render_runtime_flags_summary(){
   const howtoHits = Array.isArray(flags.howto_guard_hits) ? flags.howto_guard_hits.length : 0;
   if (howtoHits > 0){
     parts.push(`How-to-Guard ${howtoHits}×`);
+  }
+  if (flags.qa_mode){
+    const qaParts = [];
+    if (flags.qa_addressing){
+      qaParts.push(`Ansprache ${flags.qa_addressing.toUpperCase()}`);
+    }
+    if (Number.isFinite(flags.qa_player_count)){
+      qaParts.push(`${Math.max(1, Math.floor(flags.qa_player_count))} Spieler`);
+    }
+    if (flags.qa_debrief){
+      qaParts.push('Debrief geloggt');
+    }
+    parts.push(`QA-Mode${qaParts.length ? `: ${qaParts.join(' / ')}` : ''}`);
   }
   if (!parts.length) return null;
   return `Runtime-Flags: ${parts.join(' · ')}`;
@@ -6983,6 +7022,12 @@ function prepare_save_logs(logs){
   actionContract.body_handling = 'none';
   base.flags.platform_action_contract = actionContract;
   base.flags.howto_guard_hits = normalize_howto_guard_hits(base.flags.howto_guard_hits);
+  const qaFlags = normalize_qa_flags(base.flags);
+  base.flags.qa_mode = qaFlags.qa_mode;
+  base.flags.qa_addressing = qaFlags.qa_addressing;
+  base.flags.qa_player_count = qaFlags.qa_player_count;
+  base.flags.qa_dispatch_seen = qaFlags.qa_dispatch_seen;
+  base.flags.qa_debrief = qaFlags.qa_debrief;
   return base;
 }
 
@@ -7874,6 +7919,12 @@ function load_deep(raw){
       : Number(migrated.character?.level) || 1;
     migrated.logs.flags.chronopolis_unlocked = charLevel >= chronoUnlock;
   }
+  const qaFlags = normalize_qa_flags(migrated.logs.flags);
+  migrated.logs.flags.qa_mode = qaFlags.qa_mode;
+  migrated.logs.flags.qa_addressing = qaFlags.qa_addressing;
+  migrated.logs.flags.qa_player_count = qaFlags.qa_player_count;
+  migrated.logs.flags.qa_dispatch_seen = qaFlags.qa_dispatch_seen;
+  migrated.logs.flags.qa_debrief = qaFlags.qa_debrief;
   if (Array.isArray(migrated.logs.offline)){
     migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);
   } else {
@@ -8020,6 +8071,25 @@ function load_deep(raw){
   return { status: 'ok', state, hud };
 }
 
+function apply_qa_dispatch_meta(addressing, playerCount){
+  ensure_logs();
+  const flags = state.logs.flags;
+  if (!flags.qa_mode) return;
+  const normalized = normalize_qa_flags(flags);
+  const addressingToken = typeof addressing === 'string'
+    ? addressing.trim().toLowerCase()
+    : null;
+  if (addressingToken){
+    normalized.qa_addressing = addressingToken;
+  }
+  const count = asNumber(playerCount);
+  if (Number.isFinite(count) && count > 0){
+    normalized.qa_player_count = Math.max(1, Math.floor(count));
+  }
+  normalized.qa_dispatch_seen = true;
+  state.logs.flags = { ...state.logs.flags, ...normalized };
+}
+
 function startSolo(mode='klassisch'){
   ensure_ui();
   ensure_campaign();
@@ -8043,6 +8113,10 @@ function startSolo(mode='klassisch'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
+  state.logs.flags.qa_dispatch_seen = false;
+  state.logs.flags.qa_player_count = null;
+  state.logs.flags.qa_addressing = null;
+  state.logs.flags.qa_debrief = false;
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
@@ -8050,6 +8124,7 @@ function startSolo(mode='klassisch'){
   ensure_atmosphere_contract();
   sync_compliance_flags();
   play_hq_intro();
+  apply_qa_dispatch_meta('du', state.campaign.team_size);
   return normalizedSeed === 'preserve' ? `solo-${mode}` : `solo-${normalizedSeed}-${mode}`;
 }
 
@@ -8068,6 +8143,7 @@ function setupNpcTeam(size=0){
   }
   initialize_wallets_from_roster();
   record_npc_autoradio(npcCount, state.campaign?.mode || 'preserve');
+  apply_qa_dispatch_meta('du', total);
 }
 
 function startGroup(mode='klassisch'){
@@ -8085,6 +8161,10 @@ function startGroup(mode='klassisch'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
+  state.logs.flags.qa_dispatch_seen = false;
+  state.logs.flags.qa_player_count = null;
+  state.logs.flags.qa_addressing = null;
+  state.logs.flags.qa_debrief = false;
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
@@ -8093,6 +8173,7 @@ function startGroup(mode='klassisch'){
   sync_compliance_flags();
   initialize_wallets_from_roster();
   play_hq_intro();
+  apply_qa_dispatch_meta('ihr', state.campaign.team_size);
   return normalizedSeed === 'preserve' ? `gruppe-${mode}` : `gruppe-${normalizedSeed}-${mode}`;
 }
 
@@ -8159,6 +8240,9 @@ function debrief(st){
   const result = completeMission(outcome);
   const lines = [];
   ensure_logs();
+  if (state.logs.flags.qa_mode){
+    state.logs.flags.qa_debrief = true;
+  }
   state.location = 'HQ';
   chronopolis_unlock_if_ready('debrief');
   const pxResetNote = apply_px_reset_if_ready('debrief');
