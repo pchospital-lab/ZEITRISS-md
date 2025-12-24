@@ -15,7 +15,7 @@ tags: [system]
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert state.location == "HQ", (
-  "Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert."
+  "SaveGuard: Speichern nur im HQ – HQ-Save gesperrt."
 )
 assert state.character.attributes.SYS_installed == state.character.attributes.SYS_max
 assert state.character.attributes.SYS_runtime <= state.character.attributes.SYS_installed
@@ -73,9 +73,10 @@ Fehlt `at`, ergänzt der Serializer beim HQ-Save einen ISO-Zeitstempel.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
-den HQ-Save bis zum Re-Sync („SaveGuard: Offline – HQ-Re-Sync erforderlich.“),
-schreibt gleichzeitig ein `logs.trace[]`-Event `save_blocked` (`reason:
-offline`) und führt keine weiteren Save-Guards aus. Der Befehl `!offline` ist
+den HQ-Save bis zum Re-Sync („SaveGuard: Offline – HQ-Deepsave erst nach
+Re-Sync – HQ-Save gesperrt.“), schreibt gleichzeitig ein `logs.trace[]`-Event
+`save_blocked` (`reason: offline`) und führt keine weiteren Save-Guards aus.
+Der Befehl `!offline` ist
 auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
 noch füllen sie das Protokoll.
 
@@ -115,9 +116,9 @@ Alle SaveGuards hängen ihren Grund konsistent an das Suffix „– HQ-Save
 gesperrt.“ an: Offline-Reasons und Arena-Locks teilen sich den Klammertext,
 SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und fehlender
 Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem Suffix ab,
-damit die Guard-Matrix konsistent bleibt. **HQ-only** nutzt hingegen
-den kanonischen Hinweis „Speichern nur im HQ …“ und loggt zusätzlich
-`logs.trace[]` mit `reason: hq_only`.
+damit die Guard-Matrix konsistent bleibt. **HQ-only** nutzt denselben
+SaveGuard-String („SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“) und
+loggt zusätzlich `logs.trace[]` mit `reason: hq_only`.
 
 Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
 aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
@@ -1352,7 +1353,7 @@ function select_state_for_save(state) {
 
 function save_deep(state) {
   if (state.location !== "HQ") {
-    throw new Error("Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.");
+    throw new Error("SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.");
   }
   const payload = select_state_for_save(state);
   payload.checksum = sha256(JSON.stringify(payload)); // optional
