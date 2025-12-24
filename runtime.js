@@ -872,6 +872,7 @@ function ensure_logs(){
   state.logs.flags.qa_player_count = qaFlags.qa_player_count;
   state.logs.flags.qa_dispatch_seen = qaFlags.qa_dispatch_seen;
   state.logs.flags.qa_debrief = qaFlags.qa_debrief;
+  state.logs.flags.dispatch_syntax_hint_seen = !!state.logs.flags.dispatch_syntax_hint_seen;
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
   }
@@ -2831,6 +2832,16 @@ function record_trace(event, details = {}){
     intervention: state.fr_intervention || null,
     note: typeof details.note === 'string' && details.note.trim() ? details.note.trim() : null
   };
+  const reason = typeof details.reason === 'string' && details.reason.trim() ? details.reason.trim() : null;
+  if (reason){
+    trace.reason = reason;
+  }
+  const commandExcerpt = typeof details.command === 'string' && details.command.trim()
+    ? details.command.trim().slice(0, 200)
+    : null;
+  if (commandExcerpt){
+    trace.command = commandExcerpt;
+  }
   if (sceneIndex !== null){
     maybe_log_intervention_stage(sceneIndex, sceneTotal);
   }
@@ -6939,6 +6950,7 @@ function prepare_save_logs(logs){
     base.flags.runtime_version = ZR_VERSION;
   }
   base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
+  base.flags.dispatch_syntax_hint_seen = !!base.flags.dispatch_syntax_hint_seen;
   base.flags.chronopolis_warn_seen = !!base.flags.chronopolis_warn_seen;
   const offlineLastScene = typeof base.flags.offline_help_last_scene === 'string'
     ? base.flags.offline_help_last_scene.trim()
@@ -7925,6 +7937,7 @@ function load_deep(raw){
   migrated.logs.flags.qa_player_count = qaFlags.qa_player_count;
   migrated.logs.flags.qa_dispatch_seen = qaFlags.qa_dispatch_seen;
   migrated.logs.flags.qa_debrief = qaFlags.qa_debrief;
+  migrated.logs.flags.dispatch_syntax_hint_seen = !!migrated.logs.flags.dispatch_syntax_hint_seen;
   if (Array.isArray(migrated.logs.offline)){
     migrated.logs.offline = sanitize_offline_entries(migrated.logs.offline);
   } else {
@@ -8113,6 +8126,7 @@ function startSolo(mode='klassisch'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
+  state.logs.flags.dispatch_syntax_hint_seen = false;
   state.logs.flags.qa_dispatch_seen = false;
   state.logs.flags.qa_player_count = null;
   state.logs.flags.qa_addressing = null;
@@ -8161,6 +8175,7 @@ function startGroup(mode='klassisch'){
   state.logs.flags.foreshadow_gate_progress = 0;
   state.logs.flags.foreshadow_gate_snapshot = 0;
   state.logs.flags.foreshadow_gate_expected = false;
+  state.logs.flags.dispatch_syntax_hint_seen = false;
   state.logs.flags.qa_dispatch_seen = false;
   state.logs.flags.qa_player_count = null;
   state.logs.flags.qa_addressing = null;
@@ -8294,6 +8309,24 @@ function debrief(st){
 const NPC_TEAM_SIZE_ERROR =
   'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).';
 const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
+const DISPATCHER_START_SYNTAX_HINT =
+  'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]). Klammern sind Pflicht.';
+
+function record_dispatch_syntax_hint(command){
+  ensure_logs();
+  const flags = state.logs.flags;
+  if (flags.dispatch_syntax_hint_seen){
+    return;
+  }
+  flags.dispatch_syntax_hint_seen = true;
+  const trimmed = typeof command === 'string' ? command.trim() : '';
+  const commandExcerpt = trimmed ? trimmed.slice(0, 160) : null;
+  record_trace('dispatch_hint', {
+    channel: 'dispatcher',
+    reason: 'start_syntax',
+    command: commandExcerpt
+  });
+}
 
 function on_command(command){
     let cmd = command.toLowerCase().trim();
@@ -8324,6 +8357,11 @@ function on_command(command){
       } catch (err){
         return err.message;
       }
+    }
+    const missingStartBrackets = cmd.startsWith('spiel starten') && (!cmd.includes('(') || !cmd.includes(')'));
+    if (missingStartBrackets){
+      record_dispatch_syntax_hint(command);
+      return DISPATCHER_START_SYNTAX_HINT;
     }
     let m;
     if ((m = cmd.match(/^spiel starten\s*\(npc-team\s+([0-9]+)/))){
@@ -8396,6 +8434,10 @@ function on_command(command){
           'Start-Klammern verwenden nur `klassisch` oder `schnell`.';
       }
       return startGroup(mode);
+    }
+    if (cmd.startsWith('spiel starten')){
+      record_dispatch_syntax_hint(command);
+      return DISPATCHER_START_SYNTAX_HINT;
     }
     if (cmd === '!kampagnenmodus' || cmd.startsWith('!kampagnenmodus ') || cmd === '!campaign-mode'){
       const tokens = command.trim().split(/\s+/);
@@ -8576,6 +8618,7 @@ function on_command(command){
 
 module.exports = {
   ZR_VERSION,
+  DISPATCHER_START_SYNTAX_HINT,
   state,
   on_command,
   debrief,
