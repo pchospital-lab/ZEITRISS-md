@@ -123,9 +123,7 @@ Content-Type: application/json
 {
   "location": "HQ",
   "phase": "core",
-  "open_seeds": [
-    { "id": "LND‑1851‑SW", "epoch": "Victorian", "status": "open" }
-  ],
+  "open_seeds": [{ "id": "LND‑1851‑SW", "epoch": "Victorian", "status": "open" }],
   "campaign": {
     "episode": 3,
     "mission_in_episode": 7,
@@ -322,7 +320,7 @@ function dedupeForeshadow(entries = []) {
   const byToken = new Map();
   const deduped = [];
   for (const entry of entries) {
-    if (!entry || typeof entry !== 'object' || typeof entry.token !== 'string') continue;
+    if (!entry || typeof entry !== "object" || typeof entry.token !== "string") continue;
     const token = entry.token.trim().toLowerCase();
     if (!token) continue;
     if (byToken.has(token)) {
@@ -337,8 +335,8 @@ function dedupeForeshadow(entries = []) {
     }
     const record = {
       token,
-      tag: entry.tag?.trim() || 'Foreshadow',
-      message: entry.message?.trim() || '',
+      tag: entry.tag?.trim() || "Foreshadow",
+      message: entry.message?.trim() || "",
       scene: Number.isFinite(entry.scene) ? entry.scene : null,
       first_seen: entry.first_seen || entry.last_seen || new Date().toISOString(),
       last_seen: entry.last_seen || entry.first_seen || new Date().toISOString()
@@ -351,13 +349,17 @@ function dedupeForeshadow(entries = []) {
 
 function normalizeAliasEntry(entry = {}, fallback) {
   const timestamp = entry.timestamp || fallback || new Date().toISOString();
-  const persona = (entry.persona || entry.identity || entry.agent || '').toString().trim();
-  const cover = (entry.cover || entry.alias || entry.role || entry.legend || '').toString().trim();
-  const status = (entry.status || entry.state || entry.result || '').toString().trim();
-  const mission = (entry.mission || entry.op || '').toString().trim();
-  const location = (entry.location || entry.site || entry.zone || '').toString().trim();
-  const note = (entry.note || entry.details || entry.comment || '').toString().trim();
-  const sceneIndex = Number.isFinite(entry.scene_index) ? entry.scene_index : Number.isFinite(entry.scene) ? entry.scene : null;
+  const persona = (entry.persona || entry.identity || entry.agent || "").toString().trim();
+  const cover = (entry.cover || entry.alias || entry.role || entry.legend || "").toString().trim();
+  const status = (entry.status || entry.state || entry.result || "").toString().trim();
+  const mission = (entry.mission || entry.op || "").toString().trim();
+  const location = (entry.location || entry.site || entry.zone || "").toString().trim();
+  const note = (entry.note || entry.details || entry.comment || "").toString().trim();
+  const sceneIndex = Number.isFinite(entry.scene_index)
+    ? entry.scene_index
+    : Number.isFinite(entry.scene)
+      ? entry.scene
+      : null;
   const sceneTotal = Number.isFinite(entry.scene_total) ? entry.scene_total : null;
   if (!persona && !cover && !note) return null;
   const record = { timestamp };
@@ -389,15 +391,21 @@ function sanitizeAliasEntries(entries = []) {
 
 function normalizeRadioEntry(entry = {}, fallback) {
   const timestamp = entry.timestamp || fallback || new Date().toISOString();
-  const message = (entry.message || entry.text || entry.content || '').toString().trim();
+  const message = (entry.message || entry.text || entry.content || "").toString().trim();
   if (!message) return null;
-  const speaker = (entry.speaker || entry.from || entry.agent || entry.voice || '').toString().trim();
-  const channel = (entry.channel || entry.band || entry.frequency || '').toString().trim();
-  const status = (entry.status || entry.state || entry.tag || '').toString().trim();
-  const severity = (entry.severity || entry.priority || entry.level || '').toString().trim();
-  const note = (entry.note || entry.details || entry.comment || '').toString().trim();
-  const location = (entry.location || entry.zone || '').toString().trim();
-  const sceneIndex = Number.isFinite(entry.scene_index) ? entry.scene_index : Number.isFinite(entry.scene) ? entry.scene : null;
+  const speaker = (entry.speaker || entry.from || entry.agent || entry.voice || "")
+    .toString()
+    .trim();
+  const channel = (entry.channel || entry.band || entry.frequency || "").toString().trim();
+  const status = (entry.status || entry.state || entry.tag || "").toString().trim();
+  const severity = (entry.severity || entry.priority || entry.level || "").toString().trim();
+  const note = (entry.note || entry.details || entry.comment || "").toString().trim();
+  const location = (entry.location || entry.zone || "").toString().trim();
+  const sceneIndex = Number.isFinite(entry.scene_index)
+    ? entry.scene_index
+    : Number.isFinite(entry.scene)
+      ? entry.scene
+      : null;
   const record = { timestamp, message };
   if (speaker) record.speaker = speaker;
   if (channel) record.channel = channel;
@@ -428,9 +436,7 @@ function ensureLogs() {
   state.logs ||= {};
   state.logs.hud = Array.isArray(state.logs.hud) ? state.logs.hud : [];
   state.logs.kodex = Array.isArray(state.logs.kodex) ? state.logs.kodex : [];
-  state.logs.artifact_log = Array.isArray(state.logs.artifact_log)
-    ? state.logs.artifact_log
-    : [];
+  state.logs.artifact_log = Array.isArray(state.logs.artifact_log) ? state.logs.artifact_log : [];
   state.logs.foreshadow = Array.isArray(state.logs.foreshadow)
     ? dedupeForeshadow(state.logs.foreshadow)
     : [];
@@ -444,12 +450,9 @@ function ensureLogs() {
   flags.runtime_version ||= ZR_VERSION;
   flags.compliance_shown_today = !!flags.compliance_shown_today;
   flags.chronopolis_warn_seen = !!flags.chronopolis_warn_seen;
-  const offlineScene = typeof flags.offline_help_last_scene === 'string'
-    ? flags.offline_help_last_scene
-    : null;
-  const offlineLast = typeof flags.offline_help_last === 'string'
-    ? flags.offline_help_last
-    : null;
+  const offlineScene =
+    typeof flags.offline_help_last_scene === "string" ? flags.offline_help_last_scene : null;
+  const offlineLast = typeof flags.offline_help_last === "string" ? flags.offline_help_last : null;
   flags.offline_help_last_scene = offlineScene || offlineLast || null;
   flags.offline_help_last = flags.offline_help_last_scene;
   flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count || 0));
@@ -486,7 +489,7 @@ function registerForeshadow(token, details = {}) {
       token: normalized,
       tag: details.tag?.trim() || "Foreshadow",
       message: (details.message || "").trim(),
-      scene: Number.isFinite(details.scene) ? details.scene : state.scene?.index ?? null,
+      scene: Number.isFinite(details.scene) ? details.scene : (state.scene?.index ?? null),
       first_seen: now,
       last_seen: now
     };
@@ -506,7 +509,10 @@ function registerForeshadow(token, details = {}) {
 function ForeshadowHint(text, tag = "Foreshadow") {
   const cleaned = (text || "").toString().trim();
   if (!cleaned) throw new Error("ForeshadowHint: text fehlt.");
-  const slug = cleaned.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  const slug = cleaned
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
   registerForeshadow(`manual:${slug || Date.now()}`, { message: cleaned, tag });
   return hud_toast(`${tag}: ${cleaned}`, tag);
 }
@@ -550,14 +556,18 @@ function log_squad_radio(details = {}) {
 
 function normalize_offline_entry(entry) {
   const now = entry.timestamp ?? new Date().toISOString();
-  const reason = entry.reason ?? 'fallback';
-  const status = entry.status ?? 'offline';
+  const reason = entry.reason ?? "fallback";
+  const status = entry.status ?? "offline";
   const device = entry.device ?? state.comms?.device ?? null;
-  const jammed = typeof entry.jammed === 'boolean' ? entry.jammed : !!entry.jammed;
+  const jammed = typeof entry.jammed === "boolean" ? entry.jammed : !!entry.jammed;
   const range_m = Number.isFinite(entry.range_m) ? Math.max(0, Math.round(entry.range_m)) : null;
   const relays = Number.isFinite(entry.relays) ? Math.max(0, Math.floor(entry.relays)) : null;
-  const scene_index = Number.isFinite(entry.scene_index) ? Math.max(0, Math.floor(entry.scene_index)) : state.scene?.index ?? 0;
-  const scene_total = Number.isFinite(entry.scene_total) ? Math.max(1, Math.floor(entry.scene_total)) : state.scene?.total ?? 12;
+  const scene_index = Number.isFinite(entry.scene_index)
+    ? Math.max(0, Math.floor(entry.scene_index))
+    : (state.scene?.index ?? 0);
+  const scene_total = Number.isFinite(entry.scene_total)
+    ? Math.max(1, Math.floor(entry.scene_total))
+    : (state.scene?.total ?? 12);
   return {
     timestamp: now,
     reason,
@@ -575,13 +585,13 @@ function normalize_offline_entry(entry) {
   };
 }
 
-function offline_audit(trigger = 'auto', context = {}) {
+function offline_audit(trigger = "auto", context = {}) {
   const logs = ensureLogs();
   logs.offline ||= [];
   const payload = normalize_offline_entry({
     timestamp: new Date().toISOString(),
     reason: trigger,
-    status: context.status || 'offline',
+    status: context.status || "offline",
     device: context.device,
     jammed: context.jammed,
     range_m: context.range_m,
@@ -602,17 +612,17 @@ function offline_audit(trigger = 'auto', context = {}) {
 
 function format_offline_report(entry, totalCount) {
   const parts = [];
-  if (entry.reason === 'command') {
-    parts.push('manueller Abruf');
+  if (entry.reason === "command") {
+    parts.push("manueller Abruf");
   } else {
-    parts.push('Fallback');
+    parts.push("Fallback");
   }
   if (entry.device) parts.push(`Gerät ${entry.device}`);
-  if (entry.jammed === true) parts.push('Jammer aktiv');
-  if (entry.jammed === false) parts.push('Jammer frei');
-  if (typeof entry.range_m === 'number') parts.push(`Reichweite ${entry.range_m} m`);
-  if (typeof entry.relays === 'number') parts.push(`Relais ${entry.relays}`);
-  return `Offline-Protokoll (${Math.max(1, totalCount)}×): ${parts.join(' · ')}`;
+  if (entry.jammed === true) parts.push("Jammer aktiv");
+  if (entry.jammed === false) parts.push("Jammer frei");
+  if (typeof entry.range_m === "number") parts.push(`Reichweite ${entry.range_m} m`);
+  if (typeof entry.relays === "number") parts.push(`Relais ${entry.relays}`);
+  return `Offline-Protokoll (${Math.max(1, totalCount)}×): ${parts.join(" · ")}`;
 }
 ```
 
@@ -627,38 +637,36 @@ liefert die Debrief-Zeile für HUD und Save.
 ### 3.2 | Offline- & Comms-Gating
 
 ```javascript
-const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.';
+const OFFLINE_HELP_TOAST = "Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.";
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
 const OFFLINE_HELP_GUIDE = [
-  'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
-  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – ' +
-    'Kodex bleibt bis dahin stumm.',
-  '- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld. ' +
-    'Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard, ' +
-    'bis der Re-Sync steht.',
-  '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und ' +
-    'Bestätigung abwarten.'
+  "Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):",
+  "- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – " +
+    "Kodex bleibt bis dahin stumm.",
+  "- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld. " +
+    "Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard, " +
+    "bis der Re-Sync steht.",
+  "- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und " +
+    "Bestätigung abwarten."
 ];
 
 function kodex_link_state(ctx = state) {
-  if (ctx.location === 'HQ' || ctx.phase === 'transfer') return 'uplink';
+  if (ctx.location === "HQ" || ctx.phase === "transfer") return "uplink";
   const dev = ctx.comms?.device;
   const rng = ctx.comms?.range_m;
   const jam = ctx.comms?.jammed;
-  const inBubble = dev === 'comlink' && typeof rng === 'number' && rng <= 2000 && !jam;
-  return inBubble ? 'field_online' : 'field_offline';
+  const inBubble = dev === "comlink" && typeof rng === "number" && rng <= 2000 && !jam;
+  return inBubble ? "field_online" : "field_offline";
 }
 
-function offline_help(trigger = 'auto') {
+function offline_help(trigger = "auto") {
   const logs = ensureLogs();
   const flags = logs.flags;
   const now = Date.now();
   const last =
-    typeof flags.offline_help_last === 'string'
-      ? Date.parse(flags.offline_help_last)
-      : NaN;
+    typeof flags.offline_help_last === "string" ? Date.parse(flags.offline_help_last) : NaN;
   if (!Number.isFinite(last) || now - last > OFFLINE_HELP_MIN_INTERVAL_MS) {
-    hud_toast(OFFLINE_HELP_TOAST, 'OFFLINE');
+    hud_toast(OFFLINE_HELP_TOAST, "OFFLINE");
   }
   const sceneIdx = Number.isFinite(state.scene?.index) ? state.scene.index : null;
   const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
@@ -669,50 +677,55 @@ function offline_help(trigger = 'auto') {
   } else if (sceneIdx !== null) {
     markerParts.push(`SC${sceneIdx}`);
   }
-  const marker = markerParts.join(':');
+  const marker = markerParts.join(":");
   const nowIso = new Date(now).toISOString();
   flags.offline_help_last = nowIso;
   flags.offline_help_last_scene = marker || nowIso;
   flags.offline_help_count = (flags.offline_help_count || 0) + 1;
   const entry = offline_audit(trigger, { count: flags.offline_help_count });
   const summary = format_offline_report(entry, flags.offline_help_count);
-  return `${OFFLINE_HELP_GUIDE.join('\n')}\n\n${summary}`;
+  return `${OFFLINE_HELP_GUIDE.join("\n")}\n\n${summary}`;
 }
 
-function require_uplink(ctx = state, action = 'command') {
+function require_uplink(ctx = state, action = "command") {
   const status = kodex_link_state(ctx);
-  if (status === 'uplink' || status === 'field_online') return true;
-  offline_help('auto');
+  if (status === "uplink" || status === "field_online") return true;
+  offline_help("auto");
   throw new Error(
-    'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. ' +
-      '!offline zeigt das Feldprotokoll, HQ-Deepsave erst nach Re-Sync.',
+    "Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. " +
+      "!offline zeigt das Feldprotokoll, HQ-Deepsave erst nach Re-Sync."
   );
 }
 
 function normalizeCommsOptions(options = {}) {
-  const rawDevice = (options.device ?? '').toString().trim().toLowerCase().replace(/\s+/g, '_');
+  const rawDevice = (options.device ?? "").toString().trim().toLowerCase().replace(/\s+/g, "_");
   const deviceMap = {
-    comlink: 'comlink',
-    commlink: 'comlink',
-    'com-link': 'comlink',
-    kabel: 'cable',
-    cable: 'cable',
-    relay: 'relay',
-    relais: 'relay',
-    jammer: 'jammer_override',
-    jammer_override: 'jammer_override',
-    'jammer-override': 'jammer_override',
-    jammeroverride: 'jammer_override'
+    comlink: "comlink",
+    commlink: "comlink",
+    "com-link": "comlink",
+    kabel: "cable",
+    cable: "cable",
+    relay: "relay",
+    relais: "relay",
+    jammer: "jammer_override",
+    jammer_override: "jammer_override",
+    "jammer-override": "jammer_override",
+    jammeroverride: "jammer_override"
   };
-  const device = deviceMap[rawDevice] || (rawDevice || null);
-  const relays = Number.isFinite(options.relays) ? Math.max(0, options.relays) : (options.relays === true ? 1 : 0);
+  const device = deviceMap[rawDevice] || rawDevice || null;
+  const relays = Number.isFinite(options.relays)
+    ? Math.max(0, options.relays)
+    : options.relays === true
+      ? 1
+      : 0;
   const rangeKm = Number.isFinite(options.range_km) ? options.range_km : Number(options.range_km);
   const rawMeters = Number.isFinite(options.range_m) ? options.range_m : Number(options.range_m);
-  const meters = Number.isFinite(rawMeters) && rawMeters > 0
-    ? rawMeters
-    : Number.isFinite(rangeKm) && rangeKm > 0
-    ? rangeKm * 1000
-    : null;
+  const meters =
+    Number.isFinite(rawMeters) && rawMeters > 0
+      ? rawMeters
+      : Number.isFinite(rangeKm) && rangeKm > 0
+        ? rangeKm * 1000
+        : null;
   const jammer = options.jammer ?? options.jammed ?? undefined;
   return { device, range_m: meters, relays, jammer };
 }
@@ -721,12 +734,12 @@ function comms_check(options) {
   const normalized = normalizeCommsOptions(options);
   const device = normalized.device;
   const range = normalized.range_m;
-  const okDevice = ['comlink', 'cable', 'relay', 'jammer_override'].includes(device);
+  const okDevice = ["comlink", "cable", "relay", "jammer_override"].includes(device);
   const jammed = normalized.jammer ?? !!state.comms?.jammed;
-  const okRange = Number.isFinite(range) && (range * (state.comms?.rangeMod ?? 1)) > 0;
+  const okRange = Number.isFinite(range) && range * (state.comms?.rangeMod ?? 1) > 0;
   if (!okDevice || !okRange) return false;
-  const hasRelay = device === 'relay' || normalized.relays > 0;
-  return !jammed || device === 'cable' || device === 'jammer_override' || hasRelay;
+  const hasRelay = device === "relay" || normalized.relays > 0;
+  return !jammed || device === "cable" || device === "jammer_override" || hasRelay;
 }
 
 function radio_tx(options) {
@@ -736,18 +749,18 @@ function radio_tx(options) {
     comms: {
       ...state.comms,
       device: normalized.device,
-      range_m: normalized.range_m,
-    },
+      range_m: normalized.range_m
+    }
   };
-  require_uplink(ctx, 'radio_tx');
+  require_uplink(ctx, "radio_tx");
   if (!comms_check(normalized)) {
     throw new Error(
-      'CommsCheck failed: require valid device/range or relay/jammer override. ' +
-        'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. ' +
-        'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.',
+      "CommsCheck failed: require valid device/range or relay/jammer override. " +
+        "Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / Jammer-Override aktivieren; Reichweite anpassen. " +
+        "Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll."
     );
   }
-  return 'tx';
+  return "tx";
 }
 ```
 
@@ -778,7 +791,7 @@ function renderOperationsDeck() {
 function loadParaCreatureEncounter(seed) {
   const enc = gpull(
     "gameplay/kreative-generatoren-begegnungen.md#para-creature-generator",
-    seed.id,
+    seed.id
   );
   state.encounter = { creature: enc.creature, loot: enc.loot };
   writeLine(`Rift spawns ${enc.creature.name}.`);
@@ -823,37 +836,37 @@ function cmdRest() {
 
 ```typescript
 const SAVE_REQUIRED_PATHS = [
-  ['character', 'id'],
-  ['character', 'cooldowns'],
-  ['character', 'attributes', 'SYS_max'],
-  ['character', 'attributes', 'SYS_installed'],
-  ['character', 'attributes', 'SYS_runtime'],
-  ['character', 'attributes', 'SYS_used'],
-  ['character', 'stress'],
-  ['character', 'psi_heat'],
-  ['campaign', 'px'],
-  ['economy'],
-  ['economy', 'wallets'],
-  ['logs'],
-  ['logs', 'hud'],
-  ['logs', 'foreshadow'],
-  ['logs', 'artifact_log'],
-  ['logs', 'market'],
-  ['logs', 'offline'],
-  ['logs', 'kodex'],
-  ['logs', 'alias_trace'],
-  ['logs', 'squad_radio'],
-  ['logs', 'fr_interventions'],
-  ['logs', 'psi'],
-  ['logs', 'flags'],
-  ['ui'],
-  ['ui', 'gm_style'],
-  ['ui', 'intro_seen'],
-  ['ui', 'suggest_mode'],
-  ['ui', 'contrast'],
-  ['ui', 'badge_density'],
-  ['ui', 'output_pace'],
-  ['arena']
+  ["character", "id"],
+  ["character", "cooldowns"],
+  ["character", "attributes", "SYS_max"],
+  ["character", "attributes", "SYS_installed"],
+  ["character", "attributes", "SYS_runtime"],
+  ["character", "attributes", "SYS_used"],
+  ["character", "stress"],
+  ["character", "psi_heat"],
+  ["campaign", "px"],
+  ["economy"],
+  ["economy", "wallets"],
+  ["logs"],
+  ["logs", "hud"],
+  ["logs", "foreshadow"],
+  ["logs", "artifact_log"],
+  ["logs", "market"],
+  ["logs", "offline"],
+  ["logs", "kodex"],
+  ["logs", "alias_trace"],
+  ["logs", "squad_radio"],
+  ["logs", "fr_interventions"],
+  ["logs", "psi"],
+  ["logs", "flags"],
+  ["ui"],
+  ["ui", "gm_style"],
+  ["ui", "intro_seen"],
+  ["ui", "suggest_mode"],
+  ["ui", "contrast"],
+  ["ui", "badge_density"],
+  ["ui", "output_pace"],
+  ["arena"]
 ];
 
 function enforceRequiredSaveFields(payload) {
@@ -861,44 +874,44 @@ function enforceRequiredSaveFields(payload) {
     let node = payload;
     for (const segment of path) {
       if (node == null || !(segment in node)) {
-        throw new Error('SaveGuard: Feld ' + path.join('.') + ' fehlt.');
+        throw new Error("SaveGuard: Feld " + path.join(".") + " fehlt.");
       }
       node = node[segment];
     }
     if (node === undefined || node === null) {
-      throw new Error('SaveGuard: Feld ' + path.join('.') + ' fehlt.');
+      throw new Error("SaveGuard: Feld " + path.join(".") + " fehlt.");
     }
   }
 }
 
 const toast_save_block = (reason) =>
-  reason ? `SaveGuard: ${reason} – HQ-Save gesperrt.` : 'SaveGuard: HQ-Save gesperrt.';
+  reason ? `SaveGuard: ${reason} – HQ-Save gesperrt.` : "SaveGuard: HQ-Save gesperrt.";
 
 function save_deep(ctx = state) {
-  if (ctx?.arena?.active) throw new Error(toast_save_block('Arena aktiv'));
-  if (ctx.location !== 'HQ') throw new Error(toast_save_block('HQ-only'));
+  if (ctx?.arena?.active) throw new Error(toast_save_block("Arena aktiv"));
+  if (ctx.location !== "HQ") throw new Error(toast_save_block("HQ-only"));
   const c = ctx.character || {};
   const attrs = c.attributes || {};
   const sysMax = attrs.SYS_max ?? 0;
   const sysInstalled = attrs.SYS_installed ?? attrs.SYS_used ?? sysMax;
   const sysRuntime = attrs.SYS_runtime ?? sysInstalled;
-  if (c.stress !== 0) throw new Error(toast_save_block('Stress aktiv'));
-  if ((c.psi_heat ?? 0) !== 0) throw new Error(toast_save_block('Psi-Heat aktiv'));
-  if (sysInstalled > sysMax) throw new Error(toast_save_block('SYS overflow'));
-  if (sysRuntime > sysInstalled) throw new Error(toast_save_block('SYS runtime overflow'));
-  if (sysInstalled !== sysMax) throw new Error(toast_save_block('SYS nicht voll installiert'));
+  if (c.stress !== 0) throw new Error(toast_save_block("Stress aktiv"));
+  if ((c.psi_heat ?? 0) !== 0) throw new Error(toast_save_block("Psi-Heat aktiv"));
+  if (sysInstalled > sysMax) throw new Error(toast_save_block("SYS overflow"));
+  if (sysRuntime > sysInstalled) throw new Error(toast_save_block("SYS runtime overflow"));
+  if (sysInstalled !== sysMax) throw new Error(toast_save_block("SYS nicht voll installiert"));
   const payload = select_state_for_save(ctx); // siehe Abschnitt 3 (Persistenz)
   enforceRequiredSaveFields(payload);
   return JSON.stringify(payload);
 }
 
 function cmdSave() {
-  if (state.location !== 'HQ') {
-    return writeLine(toast_save_block('Speichern nur im HQ'));
+  if (state.location !== "HQ") {
+    return writeLine(toast_save_block("Speichern nur im HQ"));
   }
   save_deep(state);
   autoSave(); // Persistiert den JSON-String für QA
-  writeLine('Game saved.');
+  writeLine("Game saved.");
 }
 ```
 
@@ -923,21 +936,21 @@ const ARENA_TIER_RULES = [
   { tier: 3, minLevel: 11, maxLevel: Infinity, artifactLimit: 1, procBudget: 5, loadoutBudget: 7 }
 ];
 
-const ARENA_PROC_KEYS = ['support', 'tools', 'mods', 'devices', 'gizmos'];
-const ARENA_ARTIFACT_KEYS = ['artifacts', 'artifact', 'legendary', 'trophies'];
-const ARENA_LOADOUT_KEYS = ['primary', 'secondary', 'gear', 'equipment', 'items'];
+const ARENA_PROC_KEYS = ["support", "tools", "mods", "devices", "gizmos"];
+const ARENA_ARTIFACT_KEYS = ["artifacts", "artifact", "legendary", "trophies"];
+const ARENA_LOADOUT_KEYS = ["primary", "secondary", "gear", "equipment", "items"];
 const ARENA_SCENARIOS = [
-  'Offene Wüstenruine',
-  'Labyrinth-Bunker',
-  'Dschungel mit dichter Vegetation',
-  'Urbanes Trümmerfeld',
-  'Symmetrische Trainingsarena'
+  "Offene Wüstenruine",
+  "Labyrinth-Bunker",
+  "Dschungel mit dichter Vegetation",
+  "Urbanes Trümmerfeld",
+  "Symmetrische Trainingsarena"
 ];
 let arenaScenarioSerial = 0;
 
 function ensureArray(value) {
   if (Array.isArray(value)) return value.filter(Boolean);
-  if (value === undefined || value === null || value === '') return [];
+  if (value === undefined || value === null || value === "") return [];
   return [value];
 }
 
@@ -976,7 +989,7 @@ function extractArtifactEntries(loadout) {
   for (const key of ARENA_PROC_KEYS) {
     const arr = ensureArray(loadout[key]);
     arr.forEach((entry, index) => {
-      if (typeof entry === 'string' && /artefakt|artifact/i.test(entry)) {
+      if (typeof entry === "string" && /artefakt|artifact/i.test(entry)) {
         entries.push({ key, index, value: entry, derived: true });
       }
     });
@@ -1023,9 +1036,7 @@ function enforceLoadoutBudget(loadout, limit, auditLog, label) {
     const kept = items.slice(0, remaining);
     const removed = items.slice(remaining);
     removed.forEach((item) => {
-      auditLog.push(
-        `${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`,
-      );
+      auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`);
     });
     loadout[key] = kept;
     remaining = 0;
@@ -1041,7 +1052,7 @@ function resolveArenaTier(players = []) {
   }, 1);
   return (
     ARENA_TIER_RULES.find(
-      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel,
+      (rule) => highestLevel >= rule.minLevel && highestLevel <= rule.maxLevel
     ) || ARENA_TIER_RULES[0]
   );
 }
@@ -1049,7 +1060,7 @@ function resolveArenaTier(players = []) {
 function applyArenaTierPolicy(players, tierRule) {
   const audit = [];
   const sanitisedPlayers = players.map((entry) => {
-    const label = entry?.name || entry?.callsign || 'Agent';
+    const label = entry?.name || entry?.callsign || "Agent";
     const clone = { ...entry };
     const loadout = JSON.parse(JSON.stringify(entry?.loadout || {}));
     enforceArtifactLimit(loadout, tierRule.artifactLimit, audit, label);
@@ -1071,9 +1082,9 @@ function nextArenaScenario() {
 function gatherArenaPlayers() {
   const players = [];
   const character = ensure_character();
-  const baseFaction = character.faction || state.team?.faction || 'Projekt Phoenix';
+  const baseFaction = character.faction || state.team?.faction || "Projekt Phoenix";
   players.push({
-    name: character.name || character.callsign || character.id || 'Agent',
+    name: character.name || character.callsign || character.id || "Agent",
     level: Number(character.lvl ?? character.level ?? 1),
     faction: baseFaction,
     loadout: JSON.parse(JSON.stringify(state.loadout || {}))
@@ -1092,7 +1103,7 @@ function gatherArenaPlayers() {
   return players;
 }
 
-const ECONOMY_PRIMARY_KEYS = ['credits', 'cu', 'balance', 'assets'];
+const ECONOMY_PRIMARY_KEYS = ["credits", "cu", "balance", "assets"];
 
 function normalize_primary_currency(value) {
   const numeric = Number(value);
@@ -1102,7 +1113,7 @@ function normalize_primary_currency(value) {
 }
 
 function resolve_primary_currency(economy) {
-  if (!economy || typeof economy !== 'object') return 0;
+  if (!economy || typeof economy !== "object") return 0;
   for (const key of ECONOMY_PRIMARY_KEYS) {
     if (!(key in economy)) continue;
     const normalized = normalize_primary_currency(economy[key]);
@@ -1114,7 +1125,7 @@ function resolve_primary_currency(economy) {
 }
 
 function sync_primary_currency(economy, override) {
-  if (!economy || typeof economy !== 'object') return 0;
+  if (!economy || typeof economy !== "object") return 0;
   let amount = override !== undefined ? normalize_primary_currency(override) : null;
   if (amount === null) {
     amount = resolve_primary_currency(economy);
@@ -1137,7 +1148,7 @@ function readArenaCurrency() {
     }
   }
   const synced = sync_primary_currency(economy);
-  return { key: 'credits', value: synced };
+  return { key: "credits", value: synced };
 }
 
 function writeArenaCurrency(key, value) {
@@ -1163,23 +1174,21 @@ function getArenaFee(currency = 0) {
 function arenaStart(options = {}) {
   ensure_campaign();
   const arena = ensure_arena();
-  if (arena.active) throw new Error('Arena bereits aktiv – beendet zuerst die laufende Serie.');
+  if (arena.active) throw new Error("Arena bereits aktiv – beendet zuerst die laufende Serie.");
   const { key, value } = readArenaCurrency();
   const fee = getArenaFee(value);
-  if (value < fee) throw new Error('Arena-Gebühr kann nicht bezahlt werden. Credits prüfen.');
+  if (value < fee) throw new Error("Arena-Gebühr kann nicht bezahlt werden. Credits prüfen.");
   const players = gatherArenaPlayers();
   const tierRule = resolveArenaTier(players);
   const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
   const parsedSize = Number.isFinite(options.teamSize) ? Math.floor(options.teamSize) : NaN;
   const teamSize =
-    Number.isFinite(parsedSize) && parsedSize > 0
-      ? Math.min(Math.max(parsedSize, 1), 6)
-      : 1;
-  const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
+    Number.isFinite(parsedSize) && parsedSize > 0 ? Math.min(Math.max(parsedSize, 1), 6) : 1;
+  const mode = typeof options.mode === "string" ? options.mode.toLowerCase() : "single";
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee);
   const currentEpisode = state.campaign?.episode ?? null;
-  const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
+  const previousMode = typeof state.campaign?.mode === "string" ? state.campaign.mode : null;
   arena.active = true;
   arena.wins_player = 0;
   arena.wins_opponent = 0;
@@ -1196,18 +1205,17 @@ function arenaStart(options = {}) {
   arena.previous_mode = previousMode;
   arena.policy_players = sanitisedPlayers;
   arena.started_episode = currentEpisode;
-  state.campaign.mode = 'pvp';
+  state.campaign.mode = "pvp";
   apply_arena_rules();
   ensure_runtime_flags().arena_active = true;
-  state.location = 'ARENA';
+  state.location = "ARENA";
   const pxLocked =
-    arena.last_reward_episode !== null &&
-    arena.last_reward_episode === currentEpisode;
-  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus verfügbar';
+    arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
+  const pxNote = pxLocked ? "Px-Bonus bereits vergeben" : "Px-Bonus verfügbar";
   const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
-  hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
+  hud_toast(`${baseMessage} · ${pxNote}`, "ARENA");
   if (audit.length) {
-    hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
+    hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, "ARENA");
   }
   return `${baseMessage} · ${scenario.description} · ${pxNote}`;
 }
@@ -1217,43 +1225,43 @@ function arenaScore() {
   const pxLocked =
     arena.last_reward_episode !== null &&
     arena.last_reward_episode === (state.campaign?.episode ?? null);
-  const pxNote = pxLocked ? 'Px-Bonus bereits vergeben' : 'Px-Bonus offen';
-  const scenario = arena.scenario?.description || 'n/a';
+  const pxNote = pxLocked ? "Px-Bonus bereits vergeben" : "Px-Bonus offen";
+  const scenario = arena.scenario?.description || "n/a";
   return [
     `Arena-Score ${arena.wins_player}:${arena.wins_opponent}`,
     `Tier ${arena.tier}`,
     `Team ${arena.team_size}`,
     pxNote,
-    `Szenario ${scenario}`,
-  ].join(' · ');
+    `Szenario ${scenario}`
+  ].join(" · ");
 }
 
 function arenaRegisterResult(outcome) {
   const arena = ensure_arena();
-  if (!arena.active) throw new Error('Arena ist nicht aktiv. Nutzt !arena start.');
-  const normalized = (outcome || '').toString().toLowerCase();
-  if (normalized === 'win' || normalized === 'victory') {
+  if (!arena.active) throw new Error("Arena ist nicht aktiv. Nutzt !arena start.");
+  const normalized = (outcome || "").toString().toLowerCase();
+  if (normalized === "win" || normalized === "victory") {
     arena.wins_player += 1;
-  } else if (['loss', 'lose', 'defeat'].includes(normalized)) {
+  } else if (["loss", "lose", "defeat"].includes(normalized)) {
     arena.wins_opponent += 1;
   } else {
-    throw new Error('Unbekanntes Arena-Ergebnis. Nutzt win oder loss.');
+    throw new Error("Unbekanntes Arena-Ergebnis. Nutzt win oder loss.");
   }
   const status = `Arena-Serie ${arena.wins_player}:${arena.wins_opponent}`;
-  let hint = '';
+  let hint = "";
   if (arena.wins_player >= 2) {
-    hint = 'Serie gewonnen – nutzt !arena exit für den Abschluss.';
+    hint = "Serie gewonnen – nutzt !arena exit für den Abschluss.";
   } else if (arena.wins_opponent >= 2) {
-    hint = 'Serie verloren – ihr könnt die Arena mit !arena exit verlassen.';
+    hint = "Serie verloren – ihr könnt die Arena mit !arena exit verlassen.";
   }
   const message = hint ? `${status} · ${hint}` : status;
-  hud_toast(message, 'ARENA');
+  hud_toast(message, "ARENA");
   return message;
 }
 
 function arenaExit() {
   const arena = ensure_arena();
-  if (!arena.active) return 'Arena ist nicht aktiv.';
+  if (!arena.active) return "Arena ist nicht aktiv.";
   const episode = state.campaign?.episode ?? null;
   let pxGranted = false;
   if (arena.wins_player >= 2 && arena.wins_player > arena.wins_opponent) {
@@ -1265,11 +1273,11 @@ function arenaExit() {
   }
   const messageParts = [`Arena Ende · Score ${arena.wins_player}:${arena.wins_opponent}`];
   if (arena.wins_player < 2 || arena.wins_player <= arena.wins_opponent) {
-    messageParts.push('Keine Px-Belohnung (Serie verloren)');
+    messageParts.push("Keine Px-Belohnung (Serie verloren)");
   } else if (pxGranted) {
-    messageParts.push(`Px-Bonus +1 (Episode ${episode ?? 'n/a'})`);
+    messageParts.push(`Px-Bonus +1 (Episode ${episode ?? "n/a"})`);
   } else {
-    messageParts.push('Px-Bonus bereits vergeben');
+    messageParts.push("Px-Bonus bereits vergeben");
   }
   arena.active = false;
   arena.wins_player = 0;
@@ -1282,12 +1290,12 @@ function arenaExit() {
   arena.scenario = null;
   arena.damage_dampener = false;
   arena.team_size = 1;
-  arena.mode = 'single';
+  arena.mode = "single";
   arena.phase_strike_tax = 0;
   delete arena.policy_players;
   delete arena.started_episode;
   const restoreMode = arena.previous_mode;
-  if (typeof restoreMode === 'string' && restoreMode.trim()) {
+  if (typeof restoreMode === "string" && restoreMode.trim()) {
     state.campaign.mode = restoreMode;
   } else {
     delete state.campaign.mode;
@@ -1296,9 +1304,9 @@ function arenaExit() {
   delete arena.previous_mode;
   ensure_runtime_flags().arena_active = false;
   apply_arena_rules();
-  state.location = 'HQ';
-  const message = messageParts.join(' · ');
-  hud_toast(message, 'ARENA');
+  state.location = "HQ";
+  const message = messageParts.join(" · ");
+  hud_toast(message, "ARENA");
   return message;
 }
 
@@ -1307,12 +1315,12 @@ function parseArenaStartArgs(tokens) {
   let mode;
   for (let i = 0; i < tokens.length; i += 1) {
     const token = tokens[i];
-    if (token === 'team' && Number.isFinite(Number(tokens[i + 1]))) {
+    if (token === "team" && Number.isFinite(Number(tokens[i + 1]))) {
       teamSize = parseInt(tokens[i + 1], 10);
       i += 1;
       continue;
     }
-    if (token === 'mode' && typeof tokens[i + 1] === 'string') {
+    if (token === "mode" && typeof tokens[i + 1] === "string") {
       mode = tokens[i + 1];
       i += 1;
     }
@@ -1321,33 +1329,36 @@ function parseArenaStartArgs(tokens) {
 }
 
 function handleArenaCommand(cmd) {
-  const tokens = cmd.split(/\s+/).map((t) => t.trim()).filter(Boolean);
-  const sub = tokens[1] || 'status';
-  if (sub === 'start') {
+  const tokens = cmd
+    .split(/\s+/)
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const sub = tokens[1] || "status";
+  if (sub === "start") {
     const options = parseArenaStartArgs(tokens.slice(2));
     return arenaStart(options);
   }
-  if (sub === 'score' || sub === 'status') {
+  if (sub === "score" || sub === "status") {
     return arenaScore();
   }
-  if (sub === 'exit' || sub === 'leave') {
+  if (sub === "exit" || sub === "leave") {
     return arenaExit();
   }
-  if (sub === 'result' && tokens[2]) {
+  if (sub === "result" && tokens[2]) {
     return arenaRegisterResult(tokens[2]);
   }
-  if (sub === 'win') {
-    return arenaRegisterResult('win');
+  if (sub === "win") {
+    return arenaRegisterResult("win");
   }
-  if (sub === 'loss' || sub === 'lose') {
-    return arenaRegisterResult('loss');
+  if (sub === "loss" || sub === "lose") {
+    return arenaRegisterResult("loss");
   }
   const help = [
-    '!arena start [team <n>] [mode <name>]',
-    '!arena result win|loss',
-    '!arena score',
-    '!arena exit',
-  ].join(' · ');
+    "!arena start [team <n>] [mode <name>]",
+    "!arena result win|loss",
+    "!arena score",
+    "!arena exit"
+  ].join(" · ");
   return `Arena-Befehle: ${help}`;
 }
 ```
@@ -1364,7 +1375,6 @@ Runtime einen `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, Audit,
 `previous_mode`) hinterlegt hat; die Gebühr bleibt verbucht, der HUD-Toast
 meldet „Arena Resume · Tier …“.
 
-
 ## 8 | MULTIPLAYER-RESET – Gruppenmodus starten
 
 ```typescript
@@ -1374,9 +1384,7 @@ function startGroupMode(players = []) {
   state.paradoxon_index = 0;
   state.open_seeds = [];
   deepSave();
-  writeLine(
-    `Group mode initiated for ${players.length} players. Paradoxon-Index reset.`,
-  );
+  writeLine(`Group mode initiated for ${players.length} players. Paradoxon-Index reset.`);
 }
 ```
 
@@ -1409,22 +1417,21 @@ function generateId(prefix = "CHR") {
 2. **Endpoint / Stub** `getRoomPopulation` implementieren; Aufruf bei Raum-Wechsel.
 3. **State-Objekt** & _deepSave()_ global verfügbar machen.
 4. **Commands**
+   - `go <alias>` (Navigation)
+   - `look` (Raum-Refresh)
+   - `jump <rift-id>` (Side-Op)
+   - `rest` (Nur in Crew-Quarters)
+   - `regelreset` (Spieler: Regelmodule neu laden, Warnhinweis)
 
-    - `go <alias>` (Navigation)
-    - `look` (Raum-Refresh)
-    - `jump <rift-id>` (Side-Op)
-    - `rest` (Nur in Crew-Quarters)
-    - `regelreset` (Spieler: Regelmodule neu laden, Warnhinweis)
-
-    ```typescript
-    if (cmd === "regelreset") {
-      const ok = await confirm("Regelreset lädt alle Module neu. Fortfahren?");
-      if (ok) {
-        loadAllRuleModules();
-        notify("Regeln neu geladen.");
-      }
-    }
-    ```
+   ```typescript
+   if (cmd === "regelreset") {
+     const ok = await confirm("Regelreset lädt alle Module neu. Fortfahren?");
+     if (ok) {
+       loadAllRuleModules();
+       notify("Regeln neu geladen.");
+     }
+   }
+   ```
 
 5. **Para-Creature-Generator** bereits vorhanden – einfach aus `cmdJump` callen.
 6. Nach jeder Phase `deepSave()` aufrufen; es gibt keine Delta-Saves.

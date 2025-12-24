@@ -159,7 +159,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > vollständigen
 > Auftrag verarbeiten kann.
 
-```text
+````text
 > (OOC: Spieleentwickler) Bitte lies den kompletten ZEITRISS-Datensatz aufmerksam und führe
 > nacheinander folgende simulierte Durchläufe als Chrononaut: Solo ohne Begleitteam, Solo mit NPC-
 > Squad, Koop mit einem voll simulierten Spielerteam (inkl. Absprache, Rollen- und Loot-Verteilung)
@@ -250,7 +250,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 >
 > Wiederhole diesen Block für jedes identifizierte Thema. Wenn kein weiteres Thema offen ist, beende
 > die Antwort nach dem letzten Block ohne zusätzliche Zusammenfassung.
-```
+````
 
 ### Atmosphere Contract (Stil-Check)
 
@@ -322,12 +322,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
      Missionsziele kontrollieren. Prüfen, ob NPCs korrekt auf HQ-Briefings, Kodex-Kommandos und
      Stadt-Services reagieren. `!kampagnenmodus trigger` vor dem Start muss das Seed-Feld
      (`campaign.seed_source = trigger`) spiegeln und das Autoteam korrekt skalieren.
-    - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
-      Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
-      Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart
-      `Spiel starten (gruppe schnell)` darf keine zusätzliche Zahlenabfrage zulassen und
-      übernimmt den vorher gesetzten Kampagnenmodus in
-      `campaign.mode`/`campaign.seed_source`.
+   - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
+     Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
+     Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart
+     `Spiel starten (gruppe schnell)` darf keine zusätzliche Zahlenabfrage zulassen und
+     übernimmt den vorher gesetzten Kampagnenmodus in
+     `campaign.mode`/`campaign.seed_source`.
    - **Simuliertes PvP:** Matchmaking-Hinweise, Regeltexte, Fraktionsboni und Konfliktauflösungen
      erfassen. Sicherstellen, dass PvP-Gefechte den Paradoxon-Index korrekt adressieren und keine
      Solo-/Koop-Elemente leaken.
@@ -344,11 +344,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    das Accessibility-Panel (`!accessibility`), Paradoxon-Index-Hinweise und Ask→Suggest-Toggle
    erklärt. Achte zudem darauf, dass der GPT im selben Durchlauf den **Mission 5 Badge-Check**
    simuliert, den HUD-/Log-Auszug in den Evidenzen sichert, den Foreshadow-Reset dokumentiert und
-    die Chronopolis-Warnung bei Bedarf mit `!chronopolis ack` quittiert. Falls
-    Informationen fehlen, gezielt nachfragen, bis alle Acceptance-Smoke-Punkte
-    (inkl. Gear-Checks, `Spiel starten`-Varianten, HQ-Erweiterungen, Stadt-
-    Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat)
-    im Protokoll stehen.
+   die Chronopolis-Warnung bei Bedarf mit `!chronopolis ack` quittiert. Falls
+   Informationen fehlen, gezielt nachfragen, bis alle Acceptance-Smoke-Punkte
+   (inkl. Gear-Checks, `Spiel starten`-Varianten, HQ-Erweiterungen, Stadt-
+   Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat)
+   im Protokoll stehen.
 6. Prüfen, ob der GPT im `To-do – Codex`-Block konkrete Umsetzungsaufgaben benennt. Das
    Pflicht-Testpaket für Repo-Agent:innen ist in
    [CONTRIBUTING.md → Verpflichtende Prüfungen](../../CONTRIBUTING.md#verpflichtende-pruefungen)
@@ -371,7 +371,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 ## Abnahme-Smoketest (Runtime-Overlay) {#abnahme-smoketest}
 
-   1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
+1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams
    (`npc-team 3|5`), Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves +
    1 Rolle), `Spiel laden` → Kodex-Overlay, Save-Blocker in Mission, Gear-Check
    (Armband bleibt) und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
@@ -387,6 +387,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    Tester-Briefing ab.
 
 **Stabile Flows (Regression-Basis)**
+
 - Ask→Suggest-Overlay bleibt getrennt von Self-Reflection und läuft in Solo,
   NPC, Koop und PvP stabil.
 - Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in
@@ -405,12 +406,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 ## Boss-Gate-Status & Terminologie (Referenzstrings)
 
-| Zeitpunkt | Foreshadow-Ziel | Gate-Anzeige | Erwartete Strings |
-| --------- | ---------------- | ------------ | ----------------- |
-| Episodenstart/HQ | noch nicht gesetzt | kein Gate-HUD | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift) |
-| Nach Mission 4/9 | Hinweise stehen aus | `Gate 0/2` (HUD/Toast) | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
-| Start Mission 5/10 | FS-Zähler läuft | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); sichtbarer `GATE 2/2`-Toast |
-| Szene 10 | alle Hinweise platziert | `GATE 2/2` + Boss-Toast | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss-Typ und Teamgröße 1–5) |
+| Zeitpunkt          | Foreshadow-Ziel         | Gate-Anzeige                                      | Erwartete Strings                                                                                           |
+| ------------------ | ----------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Episodenstart/HQ   | noch nicht gesetzt      | kein Gate-HUD                                     | `!boss status` meldet nur Saisonstand `Mission FS 0/4` (Core) bzw. `0/2` (Rift)                             |
+| Nach Mission 4/9   | Hinweise stehen aus     | `Gate 0/2` (HUD/Toast)                            | `!helper boss` zeigt Foreshadow-Liste Szene 5/10, Toast `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)` |
+| Start Mission 5/10 | FS-Zähler läuft         | `GATE 2/2` + `FS 0/4` (Core) bzw. `FS 0/2` (Rift) | `!boss status` meldet `Gate 2/2 · Mission FS 0/4` (oder `0/2`); sichtbarer `GATE 2/2`-Toast                 |
+| Szene 10           | alle Hinweise platziert | `GATE 2/2` + Boss-Toast                           | `Boss-DR aktiviert – −X Schaden pro Treffer` (DR skaliert nach Boss-Typ und Teamgröße 1–5)                  |
 
 ## QA-Checks 2025-06-27 – Mission 5 Gate, Suggest & Arena
 

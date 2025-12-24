@@ -10,6 +10,7 @@ Bitte beachte die folgenden Richtlinien, wenn du Markdown-Dateien in diesem Repo
 bearbeitest.
 
 ## Grundregeln
+
 - Jeder Abschnitt beginnt mit einem YAML-Header (`title`, `version`, `tags`).
 - Ausnahme: Der Masterprompt (`meta/masterprompt_*.md`) wird seit Version 4.2.2 ohne
   YAML-Header gepflegt und muss unter 8 000 Zeichen (≈ 8 k Window) bleiben.
@@ -28,6 +29,7 @@ bearbeitest.
 Vielen Dank für deine Mithilfe!
 
 ## Vor dem ersten Commit
+
 1. Lies `AGENTS.md` vollständig und bestätige Stil-, Struktur- und Testpflichten.
 2. Prüfe die [Dokumenten-Landkarte im README](README.md#dokumenten-landkarte), um Übergabepunkte
    zwischen Repo-Agent, Maintainer:innen und Tester:innen zu kennen.
@@ -40,7 +42,9 @@ Vielen Dank für deine Mithilfe!
    Querverweise im README.
 
 <a id="qualitaets-und-compliance-checkliste"></a>
+
 ## Qualitäts- und Compliance-Checkliste
+
 - [ ] YAML-Header vorhanden, aktualisiert und syntaktisch korrekt (Ausnahme: Masterprompt).
 - [ ] Strukturregeln eingehalten: Core-Ops mit 12 Szenen, Rift-Ops mit 14 Szenen in drei Akten und
       Pflichtfelder pro Szene gefüllt.
@@ -53,6 +57,7 @@ Vielen Dank für deine Mithilfe!
 - [ ] Querverweise in `master-index.json`, README, Toolkits und QA-Dokumenten aktualisiert.
 
 ## Quellen der Wahrheit zur Laufzeit
+
 - **Runtime-fähig** (wird im Spiel geladen):
   - `README.md` – Kurzreferenzen, Chat-Shortcodes, HUD-Hinweise.
   - `systems/toolkit-gpt-spielleiter.md` – Makros, Guards, Router, Runtime-Logik.
@@ -62,6 +67,7 @@ Vielen Dank für deine Mithilfe!
 Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder Toolkit stehen.
 
 ## Wissensspeicher-Workflow
+
 - Die operative Plattformpflege liegt bei den Maintainer:innen. Sie folgen der Checkliste aus
   [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) und führen alle
   Uploads sowie QA-Läufe ausschließlich im OpenAI-MyGPT-Beta-Klon durch.
@@ -79,7 +85,9 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   `gameplay/`. Kopien in PRs sind nicht zulässig.
 
 <a id="beta-gpt-qa-uebergaben"></a>
+
 ## Beta-GPT & QA-Übergaben
+
 - Maintainer:innen spielen den MyGPT-Beta-Klon gemäß
   [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests), lassen den GPT den kompletten
   QA-Run selbst simulieren, exportieren das vollständige Chatlog und liefern es mitsamt der automatisch
@@ -98,17 +106,21 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   Status führen.
 
 ## GM-Stil & Linting
+
 - `gm_style` (persistenter State) oder `GM_STYLE` (ENV) steuern das Linting.
   - `verbose`: filmischer Modus, kein PRECISION-Lint.
   - `precision`: Header-/Decision-Pflicht, `assert_foreshadow` warnt.
 
 ## Pflicht-Invarianten (nicht brechen)
+
 - Boss-Timing: Core-Mission 5 (Mini), Mission 10 (Boss); Rift-Szene 10.
 - Signalspace: Hardwarepflicht (Comlink/Kabel/Relais/Jammer).
 - HUD: Einheitliche Reihenfolge, TTL `mm:ss`; Exfil zeigt Sweeps & Stress.
 
 <a id="verpflichtende-pruefungen"></a>
+
 ## Verpflichtende Prüfungen
+
 - `make lint` (führt `npm run lint:rt`, `GM_STYLE=verbose npm run lint:rt`,
   `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
   `npm run lint:links`, `npm run lint:md` und `npm run lint:presets` aus)
@@ -125,6 +137,7 @@ Die Linter validieren Format, Links und Terminologie der Markdown-Dateien
 und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
 
 ### Erweiterte QA & optionale Checks
+
 - `python3 tools/lint_debrief_trace.py` – verifiziert Debrief-Trace-Ausgaben (Chronopolis, Foreshadow, Offline, Runtime-Flags).
 - `node tools/test_save.js`, `node tools/test_load.js`
 - `npm run format:docs:check` – optionaler Prettier-Check für Dokumentation
@@ -136,27 +149,33 @@ und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
   Acceptance-Smoke-Listen als Vorlage.
 
 ### pre-commit-Hooks
+
 - Installation: `pip install pre-commit`.
 - Ausführung: `pre-commit run --files <datei1> <datei2>`.
 
 ## Speicherstände
+
 - Einziger Typ: Deepsave (HQ-only). Pflege `save_version` und führe `migrate_save()` mit.
 
 ## Chat-Kurzbefehle (Minimal-Set)
+
 - `!save`, `!load`, `!hud status`, `!gear shop`, `!helper delay|comms|boss`, `!px`,
   `modus verbose|precision`.
 
 ## Offline-Lint ausführen
+
 - `python3 tools/lint_runtime.py` prüft die Runtime-Guards.
 - `bash scripts/smoke.sh` startet alle Linter gesammelt.
 - Kritische Links verwaltet `.lint/doc_anchors.json` und wird über
   `scripts/lint_doc_links.py` geprüft.
 
 ## Windows-Unterstützung
+
 Die Skripte erwarten eine POSIX-kompatible Umgebung. Die CI nutzt `ubuntu-latest`. Unter Windows
 führst du Tests daher mit Git-Bash oder WSL aus.
 
 ## Formatierungshinweise
+
 - Nutze Bindestriche (`-`) als Aufzählungszeichen.
 - Kursivtext wird mit Unterstrichen (`_Text_`) gesetzt, fetter Text mit doppelten Sternchen
   (`**Text**`).
@@ -171,7 +190,9 @@ _kursiv_ und **fett**
 ```
 
 <a id="schreibweise-umlaute"></a>
+
 ## Schreibweise – Umlaute (kanonisch)
+
 - **Fließtext:** Verwende die deutschen Umlaute **ä/ö/ü/ß**.
 - **ASCII-Ersatz** (`ae/oe/ue/ss`) ist nur in Code, IDs, Dateinamen oder technischen Kontexten
   erlaubt (z. B. Anker-IDs, Regex, Slugs).
@@ -181,11 +202,13 @@ _kursiv_ und **fett**
 - **Tests lokal:** `python3 scripts/lint_umlauts.py` oder `make smoke`.
 
 ## HUD- und Regeltext-Stil
+
 - HUD-Informationen (in-world) werden blau markiert: `<span style="color:#6cf">HUD</span>`.
 - Regelhinweise (OOC) erscheinen in Orange: `<span style="color:#f93">Regel</span>`.
 - Nutze diese Kennzeichnung sparsam, um schnelle Orientierung zu bieten.
 
 ## PR-Checkliste
+
 - [ ] Core-Op nutzt 12 Szenen.
 - [ ] Rift-Op enthält 14 Szenen in drei Akten.
 - [ ] Jede Szene benennt **Conflict, Goal, Spur**.
@@ -195,6 +218,7 @@ _kursiv_ und **fett**
 - [ ] `SceneCounter` wird via `NextScene()` erhöht.
 
 ## ITI-HQ & Chronopolis
+
 - **ITI-HQ** stellt Shop, Clinic, Workshop, Briefing und Fraktionskontakte bereit und erlaubt
   Speichern.
 - **Chronopolis** ist eine optionale City ab Level 10, freischaltbar über den
@@ -204,6 +228,7 @@ _kursiv_ und **fett**
 - Signalraum bleibt deaktiviert; Aktionen erfordern reale Geräte wie Terminal, Kabel oder Comlink.
 
 ## PvP-Arena (HQ-Training)
+
 - Arena läuft im HQ-Kontext; keine Seeds, kein Paradoxon, kein Boss, keine FR-Intervention und
   keine CU-Belohnung.
 - Runden & Timer: Best-of-N, bei 0 Sudden Death, OOB-Strafe eskaliert.
