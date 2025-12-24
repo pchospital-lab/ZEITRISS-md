@@ -719,6 +719,11 @@ Der Serializer mappt die Optionen 1:1 auf JSON:
 - **Badge-Dichte:** `badge_density = standard|dense|compact`
 - **Ausgabetempo:** `output_pace = normal|fast|slow`
 
+Legacy-Felder (`contrast`, `badge_density`, `output_pace`, `ui_contrast`,
+`ui_badges`, `ui_pace`, `badges`, `pace`) landen beim Laden automatisch im
+`ui`-Block. Acceptance 14/15 prüft den Roundtrip und vergleicht die geladenen
+UI-Werte gegen den gespeicherten Block.
+
 Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
 die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 `standard|compact` gemappt; `rapid|quick` landen auf `fast`, `default|steady` auf
@@ -817,6 +822,11 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   Logger `mode_previous`, `location`, `gm_style` und `reason`.
   `prepare_save_logs()`/`sanitize_arena_psi_entries()` halten dieses Schema
   stabil und entkoppeln Arena-Psi-Logs von `logs.psi[]` (Psi-Heat/Story).
+- **Psi-Heat-Trace.** `log_psi_event()` bündelt `psi_heat_inc` pro Konflikt
+  (Trigger-Liste, Szene/Mission) und schreibt HQ-Transfers als
+  `psi_heat_reset` mit Trigger (`hq_transfer`) in `logs.psi[]`. `reset_psi_heat()`
+  leert Charakter- und Team-Psi-Heat beim Debrief, die Runtime-Flags führen
+  die Aggregation fort.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
