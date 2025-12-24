@@ -1169,7 +1169,7 @@ Pfad, Offline-Rate-Limit und HUD-Object-Events).
 
 | Issue | Kurzfassung | Fahrplan/Nächste Schritte | Status |
 | ----- | ------------------------------ | ------------------------------------------- | ------ |
-| #1 | QA-Mode-Compliance & Ansprache | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen. | 🟡 offen |
+| #1 | QA-Mode-Compliance & Ansprache | `ShowComplianceOnce(qa_mode=true)` zeigt nur HUD-Toast; Dispatcher übernimmt `qa_player_count`/`qa_addressing`, Save-Flags spiegeln QA-Mode. Debrief-Runtime-Flag ergänzen. | ✅ erledigt (2026-11-06) |
 | #2 | Dispatcher-Start & Fehltexte | Golden-Strings für Start-/Fehlertexte (Klammern-Pflicht), Syntax-Hint 1×/Session loggen; Load-Flow überspringt Startfragen, SaveGuard bleibt HQ-only. | 🟡 offen |
 | #3 | Px 5 → ClusterCreate-Standard | Trace-Schema `cluster_create` vereinheitlichen (`px_before/after`, `seed_ids`, Episode/Mission/Loc), `campaign.rift_seeds[]` als Objekte normalisieren; HUD-Toast „Px Reset → 0“. | 🟡 offen |
 | #4 | Mission‑5 Badge/SF-OFF Safeguard | QA-Hook beim Start von M5: wenn `SF-OFF` fehlt, Warn-Toast/Debrief-Hinweis + Flag `acceptance_12_missing_sf_off`; `foreshadow_gate_m5_seen` persistieren. | 🟡 offen |

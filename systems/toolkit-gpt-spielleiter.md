@@ -1182,6 +1182,7 @@ jeweils eine Szene (Minimum: Szene 2).
     {% endif %}
     {% set state.logs.flags.compliance_shown_today = true %}
     {% if qa %}
+      {% set state.logs.flags.qa_mode = true %}
       {{ hud_tag('Compliance-Hinweis bestätigt (Toast only).') }}
     {% endif %}
   {% endif %}
