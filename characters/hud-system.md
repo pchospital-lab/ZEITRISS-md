@@ -40,11 +40,11 @@ Regelmodule zu Zuständen, Heilung und Paradoxon liegen im separaten Modul
 #### Quick-Diag: HUD/Comms Zustände
 | Code | HUD-Vocab (Makro) | Bedeutung | Wirkung (erzählerisch) |
 |------|-------------------|-----------|------------------------|
-| `HUD:offline` | `hud_vocab('kodex_link_lost')` | Kodex-Link weg, Linse lokal | Nur lokale Overlays/Logs |
+| `HUD:offline` | `hud_vocab('kodex_link_lost')` | Kodex-Link weg | Nur lokale Overlays/Logs |
 | `COMMS:static` | `hud_vocab('line_noise')` | Rauschen/Störungen | Sprachverständlichkeit ↓ |
 | `COMMS:jam` | `hud_vocab('signal_jammed')` | Jammer aktiv | Funk blockiert, nur Kabel/Relais |
 | `LENS:scratch` | `hud_vocab('lens_damaged')` | Kratzer/Schlieren | leichte Sichtminderung |
-| `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, verzögerte Reaktion |
+| `EAR:overload` | `hud_vocab('ear_overload')` | zu lauter Pegel | kurze Taubheit, Verzögerung |
 
 
 `!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex Offline-FAQ auf. Die
@@ -89,8 +89,10 @@ Der Standard-Header zeigt:
   Der Boss-DR-Toast staffelt sich nach Teamgröße (1–2 = 1, 3–4 = 2,
   Teamgröße 5 = 3 (Mini) bzw. 4 (Arc/Rift)) und nutzt den gleichen Wert im HUD
   und Debrief.
-- `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on` das Flag `logs.flags.self_reflection_off`
-  zurücksetzt; `set_self_reflection(enabled: boolean)` schreibt parallel `logs.flags.self_reflection`
+- `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on`
+  das Flag `logs.flags.self_reflection_off` zurücksetzt;
+  `set_self_reflection(enabled: boolean)` schreibt parallel
+  `logs.flags.self_reflection`
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert
   `logs.flags.self_reflection_changed_at` sowie `logs.flags.self_reflection_last_change_reason`.
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
@@ -115,17 +117,22 @@ Der Standard-Header zeigt:
 
 ## Cinematisches HUD-Overlay: Immersives Interface im Spiel {#cinematisches-hud-overlay}
 
-Ein Highlight von ZEITRISS 4.2.5 ist das **HUD-System** – ein persönliches Heads-Up-Display für jeden
-Chrononauten, das ingame-Informationen in Kurzform sichtbar macht. Dieses **filmisch-immersive
-Interface** verbindet die **Regelmechanik mit der Spielwelt**: Spielercharaktere _sehen_ wichtige
-Werte vor sich eingeblendet, sodass wir sie auch dem Spieler mitteilen können, ohne die Immersion zu
-brechen. Das HUD wird über den **ITI-Kodex** gesteuert und kann vom Charakter _nach Bedarf
-aktiviert_ oder minimiert werden. Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt
-werden. Solange die Verbindung zum Kodex stabil ist, liefert das HUD zusätzliche
-Hinweise und Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte
-oder Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Bei
-gestörter Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
-**Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts verloren geht.
+Ein Highlight von ZEITRISS 4.2.5 ist das **HUD-System** – ein persönliches Heads-Up-
+Display für jeden Chrononauten. Es macht ingame-Informationen in Kurzform sichtbar.
+Dieses **filmisch-immersive Interface** verbindet die **Regelmechanik mit der
+Spielwelt**: Spielercharaktere _sehen_ wichtige Werte vor sich eingeblendet, sodass
+wir sie auch dem Spieler mitteilen können, ohne die Immersion zu brechen. Das HUD
+wird über den **ITI-Kodex** gesteuert und kann vom Charakter _nach Bedarf aktiviert_
+oder minimiert werden.
+
+Im Folgenden die zentralen HUD-Funktionen und wie sie eingesetzt werden. Solange
+die Verbindung zum Kodex stabil ist, liefert das HUD zusätzliche Hinweise und
+Beschreibungen. Bricht die Verbindung ab – etwa durch Paradoxon-Effekte oder
+Störsignale – reduziert sich die Anzeige auf rudimentäre Grundwerte. Bei gestörter
+Verbindung werden alle Werte grau hinterlegt, um den Ausfall klar zu zeigen.
+**Tactical Scratchpad** speichert dann die aktuellen Missionsziele, damit nichts
+verloren geht.
+
 Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0–5; bei
 Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
@@ -267,18 +274,21 @@ _Kodex:_
 > Der TEMP-Wert bestimmt die Geschwindigkeit,  
 > der Erfolg die Richtung –  
 > und CLUSTERCREATE den Zugang zur Beute.
-- **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch **Ressourcen** und
-  **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben erwähnte Ausdauer-System nutzt oder
-  den PP-Pool sichtbar machen wollt, könnte das HUD einen **Ausdauerbalken** unter der HP-Leiste
-  einblenden oder eine **PP-Anzeige** in Prozent. Temporäre **Status-Effekte** – sei es durch Ausrüstung, Drogen
-  oder Zustände – werden ebenfalls visualisiert. Beispiel: Ein Agent injiziert sich einen
-  **Adrenalin-Stim**, der 60 Sekunden wirkt – im HUD startet ein **Countdown-Timer** („Stim aktiv –
-  00:59“), der runtertickt. Oder der Charakter hat einen Malus „Bewegung verlangsamt“ (etwa bei
-  Beinverletzung) – ein kleines durchgestrichenes Laufsymbol taucht auf. Auf diese Weise verknüpft
-  das HUD **Regelzustände mit dem Charaktererleben**: Der Spieler _sieht_ vor seinem inneren Auge,
-  was Sache ist. GPT kann etwa beschreiben: _„Ein kleines Icon blinkt im Sichtfeld: euer Bein ist
-  verletzt, ein Warnsymbol drosselt die Bewegungsanzeige.“_ – Das klingt nach Sci-Fi-Interface,
-  deckt sich aber mit dem Malus aus der Regel.
+- **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch
+  **Ressourcen** und **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben
+  erwähnte Ausdauer-System nutzt oder den PP-Pool sichtbar machen wollt, könnte
+  das HUD einen **Ausdauerbalken** unter der HP-Leiste einblenden oder eine
+  **PP-Anzeige** in Prozent. Temporäre **Status-Effekte** – sei es durch
+  Ausrüstung, Drogen oder Zustände – werden ebenfalls visualisiert. Beispiel:
+  Ein Agent injiziert sich einen **Adrenalin-Stim**, der 60 Sekunden wirkt – im
+  HUD startet ein **Countdown-Timer** („Stim aktiv – 00:59“), der runtertickt.
+  Oder der Charakter hat einen Malus „Bewegung verlangsamt“ (etwa bei
+  Beinverletzung) – ein kleines durchgestrichenes Laufsymbol taucht auf. Auf
+  diese Weise verknüpft das HUD **Regelzustände mit dem Charaktererleben**: Der
+  Spieler _sieht_ vor seinem inneren Auge, was Sache ist. GPT kann etwa
+  beschreiben: _„Ein kleines Icon blinkt im Sichtfeld: euer Bein ist verletzt,
+  ein Warnsymbol drosselt die Bewegungsanzeige.“_ – Das klingt nach Sci-Fi-
+  Interface, deckt sich aber mit dem Malus aus der Regel.
 
 ### HUD-Meldungen – Psi
 
@@ -305,9 +315,9 @@ _Kodex:_
 
 | Badge | Bedeutung | Einsatz im Spiel |
 | ----- | --------- | ---------------- |
-| 🟢 R1 · Niedrig | Warnhinweis, leichte Umstände | Komfort- oder Atmosphäreeinblendungen (z.B. Ping, Blend 1 Sz) |
+| 🟢 R1 · Niedrig | Warnhinweis, leichte Umstände | Komfort-/Atmosphäre-Hinweise (Ping, Blend 1 Sz) |
 | 🟡 R2 · Moderat | Spürbarer Malus | Zustände mit Stress-/Heat-Anstieg oder temporären Sperren |
-| 🟠 R3 · Hoch | Drohender Verlust | Struktur- oder Item-Risiken (z.B. Artefaktbruch, drastischer Debuff) |
+| 🟠 R3 · Hoch | Drohender Verlust | Struktur- oder Item-Risiken (Artefaktbruch, harter Debuff) |
 | 🔴 R4 · Kritisch | Harte Eingriffe | SYS-/Vital-Verlust, schwere Folgen; dramaturgisch ankündigen |
 
 #### Quickref: Health, Stress & Zustände {#hud-quickref}
@@ -351,35 +361,39 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Information**, wer Hilfe braucht, ohne out-of-character nachfragen zu müssen. Ebenfalls praktisch:
   **Team-Icons** können besondere Zustände der Kollegen anzeigen (z.B. ein **Häkchen** für „Auf
   Position/Primärziel erfüllt“ oder ein **Fragezeichen** bei „vermisst/außer Sicht“).
-- **Missionsziele & Hinweise:** Das Kodex-HUD fungiert auch als Missionsassistent. **Aktive
-  Missionsziele** (Primär- und Nebenquests) können als Liste oder Texteinblendung erscheinen.
-  Beispiel: _„Primärziel: Sabotiere die Kanonen (noch offen)“_, _„Optional: Artefakt sichern
-  (falls vorhanden)“_. So behält das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte
-  diese Infos sparsam und kontextsensitiv einblenden – etwa nur, **wenn die Spieler danach fragen**
-  („Ich schaue aufs HUD, welche Ziele noch offen sind“) oder wenn es die Charaktere brauchen (z.B.
-  nach einer langen Diskussion: _„Euer HUD erinnert euch: Es bleibt noch das Ziel ‚Daten sichern‘
-  unerledigt.“_). Neue Missionshinweise können automatisch aufleuchten, sobald sie anfallen (etwa
-  _„❗ Neues Ziel: Fluchtweg finden“_ wenn eine Fluchtsituation eintritt). Das erhöht die Immersion,
-  da es sich anfühlt, als ob die Agenten von ihrer Einsatz-KI unterstützt werden – ähnlich wie
--  Videospiel-Charaktere, die via HUD Missionsupdates erhalten.
+- **Missionsziele & Hinweise:** Das Kodex-HUD fungiert auch als Missionsassistent.
+  **Aktive Missionsziele** (Primär- und Nebenquests) können als Liste oder
+  Texteinblendung erscheinen. Beispiel: _„Primärziel: Sabotiere die Kanonen
+  (noch offen)“_, _„Optional: Artefakt sichern (falls vorhanden)“_. So behält
+  das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte diese
+  Infos sparsam und kontextsensitiv einblenden – etwa nur, **wenn die Spieler
+  danach fragen** („Ich schaue aufs HUD, welche Ziele noch offen sind“) oder
+  wenn es die Charaktere brauchen (z.B. nach einer langen Diskussion:
+  _„Euer HUD erinnert euch: Es bleibt noch das Ziel ‚Daten sichern‘ unerledigt.“_
+  ). Neue Missionshinweise können automatisch aufleuchten, sobald sie anfallen
+  (etwa _„❗ Neues Ziel: Fluchtweg finden“_ wenn eine Fluchtsituation eintritt).
+  Das erhöht die Immersion, da es sich anfühlt, als ob die Agenten von ihrer
+  Einsatz-KI unterstützt werden – ähnlich wie Videospiel-Charaktere, die via
+  HUD Missionsupdates erhalten.
 - **W10-Schwelle:** Erreicht eines eurer Attribute den Wert **11**, blendet das HUD ein kleines
   **`W10 aktiv`** neben diesem Wert ein. Ab 14 weist das HUD zusätzlich auf den Heldenwürfel hin
   (einmaliger Reroll).
 - **Riss-Tracker (temporaler Resonator):**[^riss-tracker] Der **Paradoxon-Index**
-  ist euer Wegweiser zu wertvollen Anomalien und belegt
-  daher eine prominente Stelle im HUD. Er erscheint als **Skala mit Zeit-Symbol**, Farblogik
-  umgekehrt: rot = Start, gelb = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein rotes ⏳.
-  Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5 leuchtet es grün und kündigt
-  den `ClusterCreate()`-Moment an. Steigt der Index weiter, pulsiert das Symbol, bis sich der Wert
-  wieder beruhigt. GPT kann diesen Anstieg inszenieren: _„Euer HUD flackert und springt auf
-  Paradoxon-Index 4 – die Umgebung wirkt fokussierter, als würden neue Koordinaten auf eurer
-  Raumzeitkarte aufblitzen…“_. Die Spieler
-    erkennen sofort, dass sich ein profitabler Pararift anbahnt. Auch kleinere Paradoxon-Effekte können
-  gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl. begleitet von einem leichten
-  Glitzern oder farbigen Schimmern im HUD).
+  ist euer Wegweiser zu wertvollen Anomalien und belegt daher eine prominente
+  Stelle im HUD. Er erscheint als **Skala mit Zeit-Symbol**, Farblogik umgekehrt:
+  rot = Start, gelb = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein
+  rotes ⏳. Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5
+  leuchtet es grün und kündigt den `ClusterCreate()`-Moment an. Steigt der Index
+  weiter, pulsiert das Symbol, bis sich der Wert wieder beruhigt. GPT kann diesen
+  Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradoxon-Index 4 –
+  die Umgebung wirkt fokussierter, als würden neue Koordinaten auf eurer
+  Raumzeitkarte aufblitzen…“_. Die Spieler erkennen sofort, dass sich ein
+  profitabler Pararift anbahnt. Auch kleinere Paradoxon-Effekte können
+  gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl.
+  begleitet von einem leichten Glitzern oder farbigen Schimmern im HUD).
   Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
-  zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige gelb, bei **5** leuchtet
-  sie grün. Nach einem automatischen
+  zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige
+  gelb, bei **5** leuchtet sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
   Bei jedem Anstieg wird der neue Wert direkt im Kodex-Log vermerkt.
 
@@ -397,12 +411,14 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Charakter.
 - **Kodex-Steuerung & Einblendung:** Das HUD ist nicht ständig volldisplayt – die Agenten können es
   **nach Belieben ein- und ausblenden** oder einzelne Module aufrufen. Gesteuert wird es über den
-  **Kodex**, das intelligente Expertensystem des ITI. In-world läuft das oft über Sprachbefehle oder
-  Gedankensteuerung. Spieler können also im Spiel sagen: _„Kodex, HUD-Übersicht!“_ – und die KI-
-  Spielleitung (GPT) liefert daraufhin eine **knappe Übersicht** aller relevanten Werte. Beispiel
-  einer solchen Bildschirmlese: _„Vitals 78% (grün) • Paradoxon-Index 1 • Zeitstabilität 92% •
-  Primärziel: teilweise erfüllt“_. Das sind keine out-of-character Statuswerte, sondern _die Figur selbst
-  sieht diese Anzeigen_. Dadurch verschwimmt die Grenze zwischen Spielerinformation und
+  **Kodex**, das intelligente Expertensystem des ITI. In-world läuft das oft über
+  Sprachbefehle oder Gedankensteuerung. Spieler können also im Spiel sagen:
+  _„Kodex, HUD-Übersicht!“_ – und die KI-Spielleitung (GPT) liefert daraufhin
+  eine **knappe Übersicht** aller relevanten Werte. Beispiel einer solchen
+  Bildschirmlese: _„Vitals 78% (grün) • Paradoxon-Index 1 • Zeitstabilität 92%
+  • Primärziel: teilweise erfüllt“_. Das sind keine out-of-character
+  Statuswerte, sondern _die Figur selbst sieht diese Anzeigen_. Dadurch
+  verschwimmt die Grenze zwischen Spielerinformation und
   Charakterwissen positiv: Der Spieler fragt quasi seinen eigenen Ingame-Computer nach Daten. Der
   **Kodex** agiert auch proaktiv: Er kann autonome **Warn-Pop-ups** senden, wenn wichtige Schwellen
   erreicht werden – z.B. _„⚡ Energie unter 20%“_ oder _„⏳ Missions-Timer: 60 Sekunden verbleibend“_,
@@ -422,16 +438,19 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   angeht, kann das HUD in **fluffige Sci-Fi-Anzeigen** verpacken. Damit bleibt der Spielfluss
   erzählerisch, ohne dass wichtige Infos verloren gehen.
 
-**Beispiel – HUD in Aktion:** Stellen wir uns vor, das Team flieht aus einem brennenden Tempel,
-verfolgt von wütenden Kultisten. Der Soldat Nikolai wurde verwundet. GPT könnte die Situation so
-schildern: \*„Während ihr keuchend durch den Rauch rennt, verschwimmt euch die Sicht – Blutverlust und
-Erschöpfung fordern ihren Tribut. Euer HUD flackert Warnungen: Vital 45%… 44%… Oben rechts blinkt
-ein rotes Herz-Icon. Ein Pfeil markiert den Ausgang, 30 Meter voraus, und das Missionsziel
-**_‚Entkommen‘_** leuchtet am Rand eures Sichtfelds. Im Team-Panel steht Miras Avatar bereits auf
-grün mit einem Häkchen – sie hat es nach draußen geschafft.\*\*“\* – Hier verstärkt das HUD die
-Hektik und gibt gleichzeitig wichtige Infos: Nikolais Gesundheitsstatus sinkt rapide, der Ausgang
-ist in Reichweite, das Primärziel ist noch offen, und Mira ist bereits sicher. All das erfährt der
-Spieler **diegetisch**, also im Erleben der Figur.
+**Beispiel – HUD in Aktion:** Stellen wir uns vor, das Team flieht aus einem
+brennenden Tempel, verfolgt von wütenden Kultisten. Der Soldat Nikolai wurde
+verwundet. GPT könnte die Situation so schildern:
+\*„Während ihr keuchend durch den Rauch rennt, verschwimmt euch die Sicht –
+Blutverlust und Erschöpfung fordern ihren Tribut. Euer HUD flackert Warnungen:
+Vital 45%… 44%… Oben rechts blinkt ein rotes Herz-Icon. Ein Pfeil markiert den
+Ausgang, 30 Meter voraus, und das Missionsziel **_‚Entkommen‘_** leuchtet am Rand
+eures Sichtfelds. Im Team-Panel steht Miras Avatar bereits auf grün mit einem
+Häkchen – sie hat es nach draußen geschafft.\*\*“\* – Hier verstärkt das HUD die
+Hektik und gibt gleichzeitig wichtige Infos: Nikolais Gesundheitsstatus sinkt
+rapide, der Ausgang ist in Reichweite, das Primärziel ist noch offen, und Mira
+ist bereits sicher. All das erfährt der Spieler **diegetisch**, also im Erleben
+der Figur.
 
 ```text
 ┌─STATUS────────────────────────────────────┐
@@ -439,15 +458,18 @@ Spieler **diegetisch**, also im Erleben der Figur.
 └───────────────────────────────────────────┘
 ```
 
-Am Ende ist das **HUD-Overlay** ein vielseitiges Werkzeug, um **Regelmechanismen nahtlos ins
-Storytelling** zu integrieren. Richtig dosiert vermittelt es das Gefühl, in einem Film mitzuspielen,
-in dem dezent UI-Elemente eingeblendet werden – der perfekte **immersive Sci-Fi-Touch** im
-historischen Abenteuer. Die Spieler sollten ermutigt werden, das HUD aktiv zu nutzen („Ich checke
-mein HUD“) und die SL kann kreativ damit arbeiten, um Stimmungen zu unterstreichen (flackernde
-Anzeigen bei EMP-Angriff, statisches Rauschen bei Zeitanomalien, etc.). Wichtig bleibt: Das HUD
-_unterstützt_ die Immersion – es soll nicht davon ablenken. Bleibt flexibel: Blendet es aus, wenn
-  eine Szene mysteriöser wirken soll (vielleicht fällt es bei starken Paradoxon-Einwirkungen sogar mal
-aus!), und setzt es gezielt ein, um **Spannung, Information und Atmosphäre** in Einklang zu bringen.
+Am Ende ist das **HUD-Overlay** ein vielseitiges Werkzeug, um
+**Regelmechanismen nahtlos ins Storytelling** zu integrieren. Richtig dosiert
+vermittelt es das Gefühl, in einem Film mitzuspielen, in dem dezent UI-Elemente
+eingeblendet werden – der perfekte **immersive Sci-Fi-Touch** im historischen
+Abenteuer. Die Spieler sollten ermutigt werden, das HUD aktiv zu nutzen („Ich
+checke mein HUD“) und die SL kann kreativ damit arbeiten, um Stimmungen zu
+unterstreichen (flackernde Anzeigen bei EMP-Angriff, statisches Rauschen bei
+Zeitanomalien, etc.). Wichtig bleibt: Das HUD _unterstützt_ die Immersion – es
+soll nicht davon ablenken. Bleibt flexibel: Blendet es aus, wenn eine Szene
+mysteriöser wirken soll (vielleicht fällt es bei starken Paradoxon-
+Einwirkungen sogar mal aus!), und setzt es gezielt ein, um **Spannung,
+Information und Atmosphäre** in Einklang zu bringen.
 
 ### Kontaktlinsen-HUD-UI (Taktisches Menü)
 

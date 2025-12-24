@@ -159,6 +159,19 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       (`docs/qa/tester-playtest-briefing.md`) auslagern; Mirror und ggf. offene
       Deltas im QA-Log dokumentieren.
 
+### Offene Formatierungs-Tasks (Zeilenlänge ≤ 100)
+
+- [x] `characters/hud-system.md` auf Tabellen- und Fließtext-Umbrüche geprüft
+      und unter die 100-Zeichen-Vorgabe gebracht.
+- [ ] `characters/charaktererschaffung-optionen.md` mit Spezies-Tabelle und
+      Archetypen-Bullets neu umbrechen.
+- [ ] `characters/zustaende.md` (Zustandsbeschreibungen, Px/PP-Tabellen) an die
+      Zeilenlängenvorgabe anpassen.
+- [ ] QA-/Log-Dokumente unter `internal/qa/` aufbreite Tabellen prüfen und
+      kürzen.
+- [ ] Skripte (`scripts/`, `runtime.js`) auf überlange Strings/Kommentare
+      kontrollieren und bei Bedarf umbrechen.
+
 ## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
 
 **Zielbild:** Retrieval-Leistung der Wissensmodule erhöhen, indem sehr kurze Module
