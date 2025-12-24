@@ -41,6 +41,15 @@ Eine Zielgruppen- und Dokumentenübersicht findest du in der README unter
 [„Dokumenten-Landkarte“](../../README.md#dokumenten-landkarte); sie zeigt, wie
 Tester:innen ihre Findings an Maintainer:innen und den Repo-Agenten übergeben.
 
+### QA-Modus und Protokolle
+
+- QA-Sessions verwenden `ShowComplianceOnce(qa_mode=true)`: Der Compliance-Hinweis
+  bleibt als HUD-Toast, `logs.flags.qa_mode` markiert den Lauf.
+- Startkommandos übergeben in QA-Läufen automatisch `qa_addressing` und
+  `qa_player_count` an die Dispatcher-Logs.
+- Der Debrief setzt `logs.flags.qa_debrief=true`, damit QA-Parser vollständige
+  Läufe erkennen.
+
 Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
 der Masterprompt als System-Prompt unterhalb des 8000-Zeichen-Fensters bleibt, damit alle
 Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein dediziertes
