@@ -154,6 +154,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       Absatzumbrüche prüfen (Formatierungs-Review nach
       `systems/gameflow/speicher-fortsetzung.md` und
       `systems/gameflow/cinematic-start.md`).
+- [ ] Wissensmodule erneut auf QA-Aufträge oder Smoke-Listen prüfen und bei
+      Treffern in das Tester-Briefing
+      (`docs/qa/tester-playtest-briefing.md`) auslagern; Mirror und ggf. offene
+      Deltas im QA-Log dokumentieren.
 
 ## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
 
@@ -1178,5 +1182,5 @@ Pfad, Offline-Rate-Limit und HUD-Object-Events).
 | #7 | Offline-FAQ & SaveGuard | README/FAQ-Text auf „HQ-Deepsave erst nach Re-Sync; SaveGuard blockt Offline-Ende“ angleichen; SaveGuard-Meldung mit Suffix „– HQ-Save gesperrt.“ und Trace `save_blocked` standardisieren. | ✅ abgeschlossen (Runtime-Strings & Wissensmodule vereinheitlicht 2026-11-05) |
 | #8 | Accessibility-Roundtrip | UI-Block (`contrast/badge_density/output_pace` etc.) vollständig speichern/ laden; Legacy-Mapping unit-testen; Acceptance 14/15 Runner um Diff-Check erweitern. | 🟡 offen |
 | #9 | Economy: Currency-Sync Trace | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen. | ✅ abgeschlossen (Trace `currency_sync` für Arena/Wallet/Hazard/Markt aktiv 2026-11-05) |
-| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; QA-Mode schreibt `toast_suppressed` Trace und `hud_scene_usage` pro Szene. Gate/FS/Boss priorisieren. | 🟡 offen |
+| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; QA-Mode schreibt `toast_suppressed` Trace und `hud_scene_usage` pro Szene. Gate/FS/Boss priorisieren. | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06) |
 | #11 | Arena-Merge-Konflikt-Toast | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token. | ✅ abgeschlossen (Toast + Trace dedupliziert 2026-11-05) |

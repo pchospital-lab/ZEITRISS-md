@@ -17,6 +17,11 @@ resultierende Protokoll liefert automatisch strukturierte `ISSUE`, `Lösungsvors
 (Programmier-KI) übertragen. Tester:innen posten den Auftrag genau einmal; das GPT simuliert alle
 benötigten Läufe eigenständig und fasst sie im beschriebenen Format zusammen.
 
+QA- und Acceptance-Anweisungen liegen ausschließlich in diesem Briefing und
+werden nicht in Runtime-Module gespiegelt, damit produktive Wissensspeicher
+schlank bleiben. Lade für QA-Sessions diese Datei manuell und halte
+Runtime-Module frei von QA-Prompts oder Smoke-Listen.
+
 ## Wissensspeicher vorbereiten
 
 > **Smoketest-Rahmen:** Die Acceptance-Smoke-Checkliste ist ein QA-/Abnahme-
