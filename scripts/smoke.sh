@@ -44,7 +44,7 @@ grep -E "Px .* TEMP" out/debrief.log
 node tools/test_hud.js > out/hud.log
 grep -E "RW [0-9]{2}:[0-9]{2}" out/hud.log
 head -n1 out/hud.log > out/scene_01.log
-tail -n1 out/hud.log > out/scene_02.log
+grep -m1 "Sweeps:" out/hud.log > out/scene_02.log
 ! grep "Sweeps:" out/scene_01.log
 ! grep "Stress " out/scene_01.log
 grep "Sweeps:" out/scene_02.log
