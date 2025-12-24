@@ -6,6 +6,40 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-11-05 – Repo-Agent – Copy-Paste-QA 2026-10 Sync (Build 4.2.5)
+- Plattform: Lokales Repo-Run (QA-Skripte + Fahrplan-Sync)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0
+- Auftrag: Copy-Paste-QA-Maßnahmen #6/#7/#9/#11 spiegeln (Suggest-Persistenz, Offline-SaveGuard,
+  Currency-Sync, Arena-Merge-Toast) und QA-Artefakte aktualisieren.
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Copy-Paste-QA #6: Suggest-Persistenz zwischen UI-Flag und `character.modes` sowie HUD-Tag `· SUG`
+      als deterministische Roundtrip-Kette validiert.
+- [x] Copy-Paste-QA #7: Offline-SaveGuard-Strings vereinheitlicht, FAQ/README-Spiegel mit HQ-Sperre aktualisiert.
+- [x] Copy-Paste-QA #9: `currency_sync`-Trace für Wallet-/Hazard-/Arena-/Markt-Flows im Fahrplan dokumentiert.
+- [x] Copy-Paste-QA #11: Arena-Merge-Konflikt-Toast + Trace-Dedupe gespiegelt und als abgeschlossen markiert.
+
+**Nachverfolgung**
+- Commit/PR: aktueller Commit im Branch (Copy-Paste-QA 2026-10 Sync #6/#7/#9/#11).
+- QA-Fahrplan: Copy-Paste-QA 2026-10 – Issues #6/#7/#9/#11 auf ✅ gesetzt.
+
 ## 2026-11-04 – Repo-Agent – Economy-Audit-Status Sync (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: README v4.2.5, QA-Fahrplan 1.13.34
