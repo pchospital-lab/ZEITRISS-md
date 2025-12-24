@@ -371,8 +371,9 @@ Spiel starten (gruppe schnell)
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
   Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
   „Px Reset → 0“ bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
-  schreibt ein `cluster_create`-Trace (px_before/after, Seeds, Episode/Mission/
-  Loc) und normalisiert `campaign.rift_seeds` als Objekt-Liste.
+  schreibt ein `cluster_create`-Trace (px_before/after, Seeds,
+  Episode/Mission/Scene/Loc + campaign_type) und normalisiert
+  `campaign.rift_seeds` beim Lauf und beim Laden als Objekt-Liste.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
   Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
   und kein Budget verbrauchen. Im QA-Mode landet jede Unterdrückung als
