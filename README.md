@@ -600,8 +600,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `modus verbose` – Filmisch an; Toast `GM_STYLE → verbose (persistiert)`.
 - `modus precision` – Kurzprotokoll an (nur taktische Abschnitte); Toast
   `GM_STYLE → precision (persistiert)`.
-- `modus action|gewalt frei|konform|fsk12|off` – Action-Contract umschalten;
-  `modus action` zeigt den aktuellen Wert.
+- `modus action|gewalt konform|frei` – Action-Contract umschalten; Alias:
+  `uncut` → `frei`. `modus action` zeigt den aktuellen Wert, Legacy-Werte wie
+  `fsk12` oder `standard` werden auf `konform` normalisiert.
 - `!px` – zeigt aktuellen Paradoxon-Stand inklusive ETA (Heuristik) aus `px_tracker()`.
 - `!fr help` – zeigt den aktuellen FR-Status.
 - `!dashboard status` – fasst das Arc-Dashboard (Seeds, Fraktionsmeldungen,
@@ -1447,10 +1448,11 @@ Vorschläge markiert der Kodex sichtbar als `Vorschlag:` (Toolkit-Makro `suggest
 und wartet auf ein bestätigendes oder korrigierendes Spieler-Feedback, bevor er fortfährt.
 
 **Action-Contract-Schalter.** Für Plattformwechsel gibt es einen Gewalt-Regler:
-`modus action|gewalt konform|frei|fsk12|off`. Standard ist `konform`. `frei`
-liefert filmische Action ohne How-to-Details, `konform` nutzt den
-Actionfilm-Cut (Intent → Schnitt → Ergebnis), `fsk12` reduziert Intensität und
-`off` blendet Gewalt zugunsten von Flucht, Stun oder Umgehung aus.
+`modus action|gewalt konform|frei` (Alias: `uncut` → `frei`). Standard ist
+`konform` als GPT-freundlicher Actionfilm-Cut (Intent → Schnitt → Ergebnis). Das
+schont How-to-Details, liefert filmische Konsequenzen und lässt Legacy-Werte
+(`fsk12`, `standard`, `off`) automatisch auf `konform` fallen. `frei` liefert
+das ungekürzte Feeling ohne How-to-Details.
 Grundregel: Keine Schritt-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen
 laufen über Noise, Stress, Heat oder enge Zeitfenster.
 Optional kann `log_action_contract_guard("Notiz", {phase, scene})` genutzt
