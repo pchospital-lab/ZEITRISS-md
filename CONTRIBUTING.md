@@ -72,6 +72,9 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   `internal/qa/audits/ZEITRISS-qa-audit-2025.md` sowie
   `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`, sobald entsprechende
   Informationen aus den Playtests vorliegen.
+- QA-Artefakte (QA-Aufträge, Acceptance-Smoke-Listen, Beta-GPT-Prompts) bleiben im Tester-Briefing
+  [`docs/qa/tester-playtest-briefing.md`](docs/qa/tester-playtest-briefing.md) und werden bei Bedarf
+  manuell in QA-Sessions gepostet. Sie gehören nicht in die Wissensspeicher-Slots.
 - Verweise für Missions-, Encounter- und Arc-Generatoren den GPT direkt auf die Module unter
   `gameplay/`. Kopien in PRs sind nicht zulässig.
 
