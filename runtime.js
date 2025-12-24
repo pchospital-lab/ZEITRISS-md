@@ -3461,6 +3461,14 @@ function ClusterCreate(ctx = {}){
   const phase = typeof ctx.phase === 'string'
     ? ctx.phase
     : state.campaign.phase || state.phase || null;
+  const missionScene = Number.isFinite(ctx.scene)
+    ? Math.max(0, Math.floor(ctx.scene))
+    : Number.isFinite(state.scene?.index)
+      ? Math.max(0, Math.floor(state.scene.index))
+      : null;
+  const missionType = typeof state.campaign?.type === 'string'
+    ? state.campaign.type
+    : null;
   record_trace('cluster_create', {
     channel: 'PX',
     px_before: pxBefore,
@@ -3472,7 +3480,9 @@ function ClusterCreate(ctx = {}){
     mission,
     mission_in_episode: missionInEpisode,
     location,
-    phase
+    phase,
+    scene: missionScene,
+    campaign_type: missionType
   });
   return state.campaign.paradoxon_index;
 }
@@ -7876,6 +7886,17 @@ function normalize_save_v6(data){
   }
   if (!suggestEnabled && suggestFromModes){
     character.modes = normalize_modes_list(normalizedModes.filter((entry) => entry !== 'suggest'));
+  }
+  normalized.campaign = ensureObject(normalized.campaign);
+  const campaign = normalized.campaign;
+  const riftSeeds = Array.isArray(campaign.rift_seeds)
+    ? campaign.rift_seeds
+    : Array.isArray(normalized.rift_seeds)
+      ? normalized.rift_seeds
+      : [];
+  campaign.rift_seeds = normalize_rift_seed_list(riftSeeds);
+  if ('rift_seeds' in normalized){
+    delete normalized.rift_seeds;
   }
   return normalized;
 }
