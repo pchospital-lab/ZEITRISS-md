@@ -321,10 +321,10 @@ Lösungsvorschlag
   Einstiegsauswahldialog); Verweis auf Modul 12.
 * Risiken: Doku‑Konsistenz only.
 
-To-do
+To-do (abgeschlossen)
 
-* Codex: Linkanker auf `speicher-fortsetzung` bei „Spiel laden“ ergänzen.
-* QA: Dispatcher‑Punkt 7 erneut validieren (kein Einstiegsprompt nach Load).
+* README-Linkanker auf `speicher-fortsetzung` ergänzt; Dispatcher-Load-Flow bestätigt: `load_deep()` setzt HQ-Recap ohne EntryChoice (`skip_entry_choice=true`).
+* QA: Dispatcher‑Punkt 7 erneut validiert – Syntax-Hinweis liefert einmalig `dispatch_hint` (channel `dispatcher`), Klammerpflicht-Fehlertext bleibt laut Runtime/README kanonisch.
 
 Nächste Schritte
 

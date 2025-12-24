@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.8
+version: 1.3.9
 tags: [meta]
 ---
 
@@ -501,6 +501,12 @@ saveGame({...})
 > Deepcheck-Aufgaben.
 
 ### Dispatcher-Starts & Speicherpfade
+
+**Strings/Traces:** Klammerpflicht-Fehlertext laut Runtime: „Startsyntax: Spiel starten
+(solo|npc-team [0–4]|gruppe [klassisch|schnell]). Klammern sind Pflicht.“; der Hinweis loggt
+höchstens einmal pro Session `dispatch_hint` (channel `dispatcher`). `Spiel laden` überspringt
+EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in Missionen blockt mit
+„SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
 
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
