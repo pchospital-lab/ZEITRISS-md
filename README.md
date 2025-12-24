@@ -365,8 +365,10 @@ Spiel starten (gruppe schnell)
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
-  Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ bestätigt
-  (`px_reset_pending/confirm`).
+  Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
+  „Px Reset → 0“ bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
+  schreibt ein `cluster_create`-Trace (px_before/after, Seeds, Episode/Mission/
+  Loc) und normalisiert `campaign.rift_seeds` als Objekt-Liste.
 
 ### Boss-Gates & HUD-Badges
 
