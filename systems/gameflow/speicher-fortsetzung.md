@@ -898,9 +898,10 @@ die Debrief-Zeilen.
   HQ-Serializer, Log-Sanitizer und das Semver-Gate operieren erst auf dieser
   bereinigten Struktur.
 
-Beim Laden liest die Spielleitung `modes` aus und ruft für jeden
-Eintrag `modus <name>` auf. So bleiben etwa Mission-Fokus oder
-Transparenz-Modus nach einem Neustart erhalten.
+Beim Laden sorgt `normalize_save_v6()` selbst für den Sync: `ui.suggest_mode`
+und `character.modes` werden vereinigt, `suggest`-Einträge landen in beiden
+Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
+(`mission_focus`, `transparenz` usw.) bleiben wie gewohnt erhalten.
 
 **Save-Beispiel mit `modes` inkl. `suggest`**
 
@@ -1779,7 +1780,9 @@ niemand wird dupliziert.
   `badge_density`, `output_pace`) und Arena-/HQ-Kontexte werden immer mit
   Host-Vorrang geloggt und behalten die Host-Werte. Bei Arena-Ladevorgängen
   erscheint zusätzlich ein HUD-Toast („Merge-Konflikt: Arena-Status
-  verworfen“), das den Reset auf HQ dokumentiert.
+  verworfen“), das den Reset auf HQ dokumentiert. Dedupe-Regeln halten
+  identische Konflikte pro Load-Lauf klein und nutzen das Resume-Token als
+  Anker, falls es bereitgestellt wird.
 
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).

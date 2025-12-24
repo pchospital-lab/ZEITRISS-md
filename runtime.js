@@ -670,6 +670,19 @@ function push_merge_conflict(list, { field, source, target, mode, note, resolved
   const ctx = stringify(mode);
   const description = stringify(note);
   if (!record.field || typeof record.field !== 'string') return list;
+  const exists = list.some((entry) =>
+    entry
+    && typeof entry === 'object'
+    && entry.field === record.field
+    && entry.source === src
+    && entry.target === tgt
+    && entry.mode === ctx
+    && entry.note === description
+    && entry.resolved === (resolved === true)
+  );
+  if (exists){
+    return list;
+  }
   if (src){ record.source = src; }
   if (tgt){ record.target = tgt; }
   if (ctx){ record.mode = ctx; }
@@ -2630,12 +2643,45 @@ function set_suggest_mode(on){
   const ui = ensure_ui();
   const enabled = !!on;
   ui.suggest_mode = enabled;
+  const character = ensure_character();
+  const modes = normalize_modes_list(character.modes);
+  const hasSuggest = modes.includes('suggest');
+  if (enabled && !hasSuggest){
+    modes.push('suggest');
+  }
+  if (!enabled && hasSuggest){
+    const filtered = modes.filter((entry) => entry !== 'suggest');
+    character.modes = normalize_modes_list(filtered);
+  } else {
+    character.modes = modes;
+  }
   const statusTag = enabled ? 'SUG-ON' : 'SUG-OFF';
   const message = enabled
     ? 'Suggest-Modus aktiv – Kodex liefert auf Anfrage kurze Vorschläge.'
     : 'Ask-Modus aktiv – Kodex reagiert nur auf direkte Fragen.';
   hud_toast(message, statusTag);
   return { status: statusTag, message };
+}
+
+function sync_suggest_preferences(ctx = state){
+  if (!ctx || typeof ctx !== 'object') return false;
+  const ui = ensure_ui();
+  const character = ensure_character();
+  const modes = normalize_modes_list(character.modes);
+  const modeFlag = modes.includes('suggest');
+  const uiFlag = !!ui.suggest_mode;
+  const enabled = modeFlag || uiFlag;
+  ui.suggest_mode = enabled;
+  if (enabled && !modeFlag){
+    modes.push('suggest');
+  }
+  if (!enabled && modeFlag){
+    const filtered = modes.filter((entry) => entry !== 'suggest');
+    character.modes = normalize_modes_list(filtered);
+  } else {
+    character.modes = modes;
+  }
+  return enabled;
 }
 
 function reset_hud_usage(){
@@ -7623,6 +7669,17 @@ function normalize_save_v6(data){
   if ('modes' in normalized){
     delete normalized.modes;
   }
+  normalized.ui = prepare_save_ui(normalized.ui || {});
+  const suggestFromModes = normalizedModes.includes('suggest');
+  const suggestFromUi = !!normalized.ui.suggest_mode;
+  const suggestEnabled = suggestFromModes || suggestFromUi;
+  normalized.ui.suggest_mode = suggestEnabled;
+  if (suggestEnabled && !suggestFromModes){
+    character.modes = normalize_modes_list([...normalizedModes, 'suggest']);
+  }
+  if (!suggestEnabled && suggestFromModes){
+    character.modes = normalize_modes_list(normalizedModes.filter((entry) => entry !== 'suggest'));
+  }
   return normalized;
 }
 
@@ -7877,6 +7934,7 @@ function load_deep(raw){
   state.campaign.entry_choice_skipped = true;
   ensure_ui();
   state.ui.intro_seen = true;
+  sync_suggest_preferences();
   ensure_atmosphere_contract();
   reset_hud_usage();
   show_compliance_once();
