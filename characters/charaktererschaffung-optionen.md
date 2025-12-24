@@ -67,11 +67,11 @@ Vorstufe zum Posthumanen. Wirkt auf Unmodifizierte oft befremdlich.
 Chronopolis versammelt Agenten aller drei Stufen. Auch rivalisierende Gruppen
 setzen auf diese Mischung, was dem Spiel eine vielfältige Note verleiht.
 
-| Spezies            | Boni                                                | Nachteile                        |
-| ------------------ | --------------------------------------------------- | -------------------------------- |
-| **T‑Stufe**        | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS     | EMP-anfällig, Neurostabilisierung nötig |
-| **N‑Typ**          | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS     | Psi-resistent, Stress +1 bei STR |
-| **Standard-Mensch**| Keine Modifikatoren                                | –                                |
+| Spezies | Boni | Nachteile |
+| --- | --- | --- |
+| **T‑Stufe** | −2 STR, −1 GES, +2 INT, +2 CHA, +2 TEMP, −3 SYS | EMP-anfällig; Neurostabi nötig |
+| **N‑Typ** | −1 STR, −1 GES, +1 INT, +1 CHA, +1 TEMP, −1 SYS | Psi-resistent, Stress +1 bei STR |
+| **Standard-Mensch** | Keine Modifikatoren | – |
 
 Weitere Vorfahren siehe Abschnitt
 [Historische Homininen (Bio-Sheaths)](#historische-homininen-bio-sheaths).
@@ -120,7 +120,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 1, GES 5, INT 4, CHA 3, TEMP 2, SYS 3
 - **Talente:** Schleichprofi; Akrobat; Schattenprofil
-- **Cyber-/Bioware:** Neuro‑Translator (SYS 1), Fingernagel‑Klingen (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
+- **Cyber-/Bioware:** Neuro-Trans(SYS1), Fingernagel-Kl.(SYS1), Notfall-Stim(SYS1) **SYS-Last:** 3/3
 
 #### "Kernel" – Tech & Drone Handler
 
@@ -137,7 +137,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Rassenmods:** STR +1, TEMP +1, CHA −1, INT −1
 - **Finale Attribute:** STR 2, GES 3, INT 4, CHA 2, TEMP 4, SYS 3
 - **Talente:** Techno‑Mancer; Drohnensteuerung; Systemanalyst
-- **Cyber-/Bioware:** Neuro‑Link‑Socket (SYS 1), Sensor‑Linse (SYS 1), Notfall‑Stimulat (SYS 1). **SYS-Last:** 3/3
+- **Cyber-/Bioware:** Neuro-Link-Sock.(SYS1), AR-Linse(SYS1), Notfall-Stim(SYS1) **SYS-Last:** 3/3
 
 #### "Wildcard" – Face / Social Ops
 
@@ -145,8 +145,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 2, GES 2, INT 4, CHA 5, TEMP 3, SYS 2 – soziale
   Dominanz und ruhige Präsenz.
 - **Talente:** _Diplomatin_, _Menschenkenntnis_, _Verkleidungskünstler_.
-- **Cyber-/Bioware:** Stimm‑Modulator (SYS 1), Daten‑Tattoos (SYS 1).
-  **SYS-Last:** 2/2.
+- **Cyber-/Bioware:** Stimm‑Modulator (SYS 1), Daten‑Tattoos (SYS 1) **SYS-Last:** 2/2.
 - **Unique Gear:** Tarnspray (eine Szene Verkleidung ohne Aufsehen).
 
 **Preset-Check (Editor)**
@@ -162,8 +161,7 @@ Wer direkt loslegen will, findet hier fünf einsatzbereite Charaktere mit passen
 - **Attribute (final):** STR 5, GES 4, INT 2, CHA 2, TEMP 3, SYS 2 – brachiale
   Kraft, schnelle Reaktion, kurze Wege.
 - **Talente:** _Waffenmeister_, _CQB‑Spezialist_, _Schmerzresistenz_.
-- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1), Servomotoren in Beinen (SYS 1).
-  **SYS-Last:** 2/2.
+- **Cyber-/Bioware:** Sub‑Derm‑Kevlar (SYS 1), Servomotoren in Beinen (SYS 1) **SYS-Last:** 2/2.
 - **Unique Gear:** Resonanz‑Shotgun (bei 2 Erfolgen: zusätzl. Rückstoßschaden).
 
 **Preset-Check (Editor)**
@@ -203,7 +201,8 @@ abwandelt. Die Archetypen decken in Kombination alle wichtigen Fertigkeitsbereic
 Teams ab. Im Folgenden werden die sechs Charaktere vorgestellt, jeweils mit Attributen, Talenten,
 Implantaten, Ausrüstung und kurzem Hintergrund. (Jeder Archetyp besitzt außerdem zwei Vorschläge für
 **Team-Spezialisierungen**, welche gruppenweite Boni bieten – diese sog. _Team-Perks_ sind im
-[Abschnitt Team-Perks](../gameplay/kampagnenstruktur.md#team-perks) ausführlich beschrieben und werden hier erwähnt,
+[Abschnitt Team-Perks](../gameplay/kampagnenstruktur.md#team-perks) ausführlich beschrieben und
+werden hier erwähnt,
 um zu zeigen, welche Rolle im Team der
 Charakter besonders fördern kann.)
 
@@ -224,8 +223,10 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   Situationen; kennt Etikette und kulturelle Feinheiten jeder Epoche). Diese Talente unterstreichen
   ihre Rolle als kommunikatives und wissbegieriges Teammitglied.
 - **Implantate:** _Neuro-Translator_ (implantierter Sprachchip im Ohr, ermöglicht das Verstehen und
-  Sprechen nahezu jeder Sprache in Echtzeit – ideal für Erstkontakte in fremden Zeiten, Kosten 1 SYS)
-  und _Kognitives Enhancement Stufe 1_ (kleiner Hirnchip zur Verbesserung des Erinnerungsvermögens, +1
+  Sprechen nahezu jeder Sprache in Echtzeit – ideal für Erstkontakte in fremden Zeiten, Kosten 1
+  SYS)
+  und _Kognitives Enhancement Stufe 1_ (kleiner Hirnchip zur Verbesserung des Erinnerungsvermögens,
+  +1
   auf Wissensproben – bereits in obigem INT-Wert berücksichtigt, Kosten 1 SYS). Beide Implantate
   zusammen belegen 2 von 2 SYS.
 
@@ -234,7 +235,7 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
 - **Rassenmods:** keine
 - **Finale Attribute:** STR 1, GES 2, INT 5, CHA 4, TEMP 4, SYS 2
 - **Talente:** Polyglott; Historisches Wissen; Diplomatin
-- **Cyber-/Bioware:** Neuro-Translator (SYS 1), Kognitives Enhancement Stufe 1 (SYS 1). **SYS-Last:** 2/2
+- **Cyber-/Bioware:** Neuro-Translator (SYS 1), Kognitives Enh. Stufe 1 (SYS 1) **SYS-Last:** 2/2
 - **Ausrüstung:** Eleganter ITI-Zeitreiseanzug (schicker Hosenanzug-Stil, mit versteckter Panzer-
   Schicht – reduziert physischen Schaden um 1), ein nicht-tödlicher Elektroschocker zur
   Selbstverteidigung, ein _digitales Universal-Handbuch_ (Tablet mit Zugriff auf historische
@@ -243,7 +244,8 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
   Notierens). Insgesamt ist ihre Ausrüstung defensiv und auf Wissensbeschaffung ausgelegt.
 - **Hintergrund:** Elise Weber (geb. 1990) war Geschichtsprofessorin und diplomatische Beraterin,
   bevor das ITI sie rekrutierte. Sie stieß in Archiven auf Anomalien und erkannte korrekt, dass
-  Zeitreisen dahinter stecken – damit qualifizierte sie sich als Chrononautin. In Missionen übernimmt
+  Zeitreisen dahinter stecken – damit qualifizierte sie sich als Chrononautin. In Missionen
+  übernimmt
   Dr. Weber meist die Rolle der Sprecherin und Kulturmittlerin. Sie begegnet selbst Kaisern oder
   Stammeshäuptlingen mit Respekt und versteht es, Konflikte verbal zu entschärfen. Ihre Schwäche:
   körperliche Strapazen meidet sie, und manchmal verliert sie sich in Debatten, wo schneller
@@ -257,23 +259,29 @@ und geschickte Unterhändlerin, die in mehreren Epochen zuhause ist und Kulturen
 
 - **Rasse:** Denisova-Mensch
 
-_„Kein System bleibt lange verborgen – besonders nicht, wenn es aus dem letzten Jahrhundert stammt.“_ – Mira
+_„Kein System bleibt lange verborgen – besonders nicht, wenn es aus dem letzten Jahrhundert
+stammt.“_ – Mira
 stammt aus der Zukunft und ist eine Genielektronikerin. Sie verschafft sich Systemzugriff in allen
 Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 
 - **Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2 – Hohe technische Kompetenz und
-  Systemaffinität; flinke Finger; körperlich schwach und sozial zurückhaltend. Mira trägt nur wenige,
+  Systemaffinität; flinke Finger; körperlich schwach und sozial zurückhaltend. Mira trägt nur
+  wenige,
   aber präzise abgestimmte Cyber-Devices.
 - **Talente:** _Techno-Mancer_ (+2 auf Systemzugriff/Analyse – Mira erarbeitet Zugang zu
-  Computersystemen aller Zeiten, als wären sie Spielzeug), _Drohnensteuerung_ (kann mehrere Drohnen simultan
+  Computersystemen aller Zeiten, als wären sie Spielzeug), _Drohnensteuerung_ (kann mehrere Drohnen
+  simultan
   kontrollieren; automatischer Erfolg bei einfachen Drohnen-Manövern, +2 auf komplexe Aktionen mit
   Drohnen), _Improvisationsingenieurin_ (+2 auf Technik/Elektronik-Proben, um Geräte zu reparieren
-  oder mit begrenzten Mitteln etwas Nützliches zu basteln – MacGyver-Style). Diese drei Talente machen
+  oder mit begrenzten Mitteln etwas Nützliches zu basteln – MacGyver-Style). Diese drei Talente
+  machen
   sie zur Allround-Technikerin, die jede Maschine zum Tanzen bringt.
 - **Implantate:** _Neuro-Link_ (Gehirnimplantat als direkte Schnittstelle zu Computern – ermöglicht
-  Gedankensteuerung von Geräten und Systemzugriff ohne physische Eingabe) und _AR-Linse_ (augmentierte
+  Gedankensteuerung von Geräten und Systemzugriff ohne physische Eingabe) und _AR-Linse_
+  (augmentierte
   Kontaktlinse im linken Auge, blendet digitale Infos ins Sichtfeld ein – z.B. technische Daten über
-  anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 von 2 SYS.
+  anvisierte Geräte; gibt +1 auf Wahrnehmung technischer Details). Beide belegen zusammen 2 von 2
+  SYS.
   Optional besitzt Mira noch einen _Nano-Firewall-Chip_ (implantierte Abwehr gegen feindliche
   Zugriffsversuche auf ihre Cyberware, würde weitere SYS kosten).
 
@@ -283,20 +291,26 @@ Epochen mühelos und kommandiert Drohnen wie andere Leute Haustiere.
 - **Finale Attribute:** STR 2, GES 4, INT 4, CHA 2, TEMP 4, SYS 2
 - **Talente:** Techno‑Mancer; Drohnensteuerung; Improvisationsingenieurin
 - **Cyber-/Bioware:** Neuro-Link (SYS 1), AR-Linse (SYS 1). **SYS-Last:** 2/2
-- **Ausrüstung:** Tragbares Zugriffsmodul (Mini-Computer aus dem Jahr 2120 mit multifunktionalen Ports,
-  Quanten-Algorithmen zum schnellen Überwinden von Sicherheitsroutinen), eine kleine Aufklärungsdrohne namens
+- **Ausrüstung:** Tragbares Zugriffsmodul (Mini-Computer aus dem Jahr 2120 mit multifunktionalen
+  Ports,
+  Quanten-Algorithmen zum schnellen Überwinden von Sicherheitsroutinen), eine kleine
+  Aufklärungsdrohne namens
   _„Sperling“_ (handtellergroß, leise fliegend, mit Kamera – Reichweite ~100 m), ein Multi-Tool-
   Handschuh (fährt diverse Werkzeuge aus: Schraubendreher, Laserschneider, Lötkolben – ideal für
   Sabotage und Reparaturen). Als Bewaffnung führt Mira eine leichte **Needler-Pistole** aus der
   Zukunft – quasi eine lautlose Betäubungswaffe, die narkotisierende Mikroprojektile verschießt. Ihr
   Stil ist es, Gegner unauffällig auszuschalten statt zu töten.
 - **Hintergrund:** Mira Nguyen, geboren 2085 in Ho-Chi-Minh-Stadt, war ein jugendliches Tech-
-  Wunderkind. Sie verschaffte sich in ihrer Teenagerzeit Zugang zu Regierungsservern und entkam knapp
-  einer Verhaftung, als das ITI sie aus der Zeit „herausholte“. Nun nutzt sie ihre Fähigkeiten zum Schutz der Zeitlinie.
+  Wunderkind. Sie verschaffte sich in ihrer Teenagerzeit Zugang zu Regierungsservern und entkam
+  knapp
+  einer Verhaftung, als das ITI sie aus der Zeit „herausholte“. Nun nutzt sie ihre Fähigkeiten zum
+  Schutz der Zeitlinie.
   Mira wirkt in historischen Epochen oft wie ein Alien, da Technik ihre Muttersprache ist.
   Anspielungen aus ihrer Zukunft versteht niemand, was zu bizarren Situationen führen kann. Doch sie
-  findet in jeder Ära einen Weg, vorhandene Technologien zu ihrem Vorteil zu nutzen. Ihr größtes Asset
-  ist die **kreative Problemlösung**, ihr größtes Risiko: Sie unterschätzt manchmal primitive Gefahren
+  findet in jeder Ära einen Weg, vorhandene Technologien zu ihrem Vorteil zu nutzen. Ihr größtes
+  Asset
+  ist die **kreative Problemlösung**, ihr größtes Risiko: Sie unterschätzt manchmal primitive
+  Gefahren
   – einen wütenden Wikinger kann man nicht einfach debuggen.
 - **Team-Perk-Vorschläge:** _Datenverbund_ (das Team ist durch Miras Einrichtung immer digital
   vernetzt: lautlose Kommunikation untereinander, und koordinierte Aktionen bekommen +1 Bonus) und
@@ -316,7 +330,8 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   natürliche Stärke verlässt. Nikolai ist der körperlich Stärkste der Archetypen, ein klassischer
   „Tank“.
 - **Talente:** _Waffenmeister_ (Meister im Umgang mit einem breiten Arsenal vom Schwert bis zum
-  Laser-Gewehr; gewährt entweder +2 auf alle Angriffs-Proben mit **allen** Waffenarten, oder man wählt
+  Laser-Gewehr; gewährt entweder +2 auf alle Angriffs-Proben mit **allen** Waffenarten, oder man
+  wählt
   zwei Waffengattungen für je +2, z.B. +2 auf Feuerwaffen **und** +2 auf Klingenwaffen), _Taktiker_
   (geübter Feldkommandeur: einmal pro Kampf darf Nikolai seine **Initiative** neu würfeln und den
   besseren Wert behalten; außerdem können Verbündete einen +1 Angriffsbonus auf ihren ersten Angriff
@@ -328,7 +343,8 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 <a id="notfall-stimulanz"></a>
   Ernstfall trägt er jedoch ein subkutanes _Notfall-Stimulanz-Modul_ (automatische
   Adrenalinausschüttung bei kritischen Verletzungen) **und** _Sub‑Derm‑Kevlar_ als Schutzschicht.
-  **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde kampffähig statt
+  **Effekt:** Einmal pro Mission, wenn Nikolai auf 0 LP fällt, bleibt er noch 1 Runde kampffähig
+  statt
   sofort auszufallen; danach kollabiert er. Kosten: je 1 SYS, zusammen 2/2. (Diese Minimalmods haben
   ihm schon mehrmals das Leben gerettet.)
 
@@ -340,10 +356,13 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
 - **Cyber-/Bioware:** Notfall-Stimulanz-Modul (SYS 1), Sub‑Derm‑Kevlar (SYS 1). **SYS-Last:** 2/2
 - **Ausrüstung:** Modernes **modulares Sturmgewehr** (AK-Variante 21. Jhd., umschaltbar zwischen
   Einzelschuss, Salve, Vollauto; Schaden je nach Modus 3–5, mittlere Reichweite), dazu eine **antike
-  Nahkampfwaffe** nach Wahl – meist Kampfmesser, manchmal ein Schwert aus dem 13. Jh. (Familienerbstück).
-  Schusssichere **Körperpanzerung**: taktische Kevlar-Weste (moderner Körperschutz, -1 Schaden von Projektilen) plus
+  Nahkampfwaffe** nach Wahl – meist Kampfmesser, manchmal ein Schwert aus dem 13. Jh.
+  (Familienerbstück).
+  Schusssichere **Körperpanzerung**: taktische Kevlar-Weste (moderner Körperschutz, -1 Schaden von
+  Projektilen) plus
   leichter Helm. Als spezielles Gadget hat er ein **„Zeit-Messer“** – ein Wurfmesser-artiges Gerät,
-  das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen oder
+  das einen temporalen Riss für ein paar Sekunden erzeugen kann (z.B. um Fesseln zu durchtrennen
+  oder
   kurzzeitig Deckung zu schaffen). Außerdem Standardausrüstung: Handschellen, Kurzstrecken-Comlink
   (≈ 2 km, durch Mauern oder Jammer dämpfbar) zum Team und Kodex.
   Sein Arsenal macht ihn zur
@@ -352,14 +371,17 @@ Teams und fühlt sich mit modernen wie historischen Waffen bestens aus.
   Spezialeinheit. Er erlebte dort eine mysteriöse Operation – wie sich herausstellte, ein geheimer
   Zeitreise-Zwischenfall – bei der sein gesamtes Team ausgelöscht wurde. Nikolai überlebte schwer
   verletzt. Das ITI rettete ihn mittels Not-Rückholung und bot ihm eine neue Aufgabe als Chrononaut
-  an. Seitdem ist er der grimmige Schutzengel vieler Einsätze. Nikolai ist diszipliniert und wortkarg,
-  verfügt aber über trockenen Humor. In Missionen agiert er als Sicherheitschef: Seine Priorität ist,
+  an. Seitdem ist er der grimmige Schutzengel vieler Einsätze. Nikolai ist diszipliniert und
+  wortkarg,
+  verfügt aber über trockenen Humor. In Missionen agiert er als Sicherheitschef: Seine Priorität
+  ist,
   dass alle lebend zurückkehren. Um zu entspannen, sammelt er historische Schachspiele und spielt
   manchmal im HQ gegen den Kodex.
 - **Team-Perk-Vorschläge:** _Kampfverbund_ (als eingespielter Trupp erhöhen alle Teammitglieder ihre
   Effektivität im Gefecht: Solange alle zusammenstehen, erhalten **alle +1 auf Angriff und
   Verteidigung** im Kampf) und _Stoßtrupp_ (die Gruppe ist geübt im Überraschungsangriff: In der
-  **ersten Kampfrunde** eines Gefechts bekommen alle einen Initiativbonus und +1 auf Schaden, wenn sie
+  **ersten Kampfrunde** eines Gefechts bekommen alle einen Initiativbonus und +1 auf Schaden, wenn
+  sie
   den Kampf eröffnen).
 
 ### Tech-Ingenieur – Sabine Kessler
@@ -371,7 +393,8 @@ Grobe. Sie repariert, modifiziert und bedient jede Maschine, ob Pferdekutsche od
 wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich.
 
 - **Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3 – Handwerklich geschickt und clever;
-  physisch solide und sehr schnell; geringe temporale Affinität (Sabine ist eher bodenständig im Hier
+  physisch solide und sehr schnell; geringe temporale Affinität (Sabine ist eher bodenständig im
+  Hier
   und Jetzt); ein paar nützliche Cyber-Upgrades zur Unterstützung.
 - **Talente:** _Mechaniker-Meisterin_ (+2 auf Reparatur- und Konstruktion-Proben für Fahrzeuge,
   Geräte und Maschinen aller Epochen – Sabine kriegt eine Dampflok genauso flott wie ein Hoverbike),
@@ -392,7 +415,7 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
 - **Rassenmods:** STR −2, GES +2
 - **Finale Attribute:** STR 2, GES 5, INT 4, CHA 2, TEMP 2, SYS 3
 - **Talente:** Mechaniker-Meisterin; Sprengstoffexperte; Fahrzeugprofi
-- **Cyber-/Bioware:** Ocular-HUD (SYS 1), Nano-Werkzeugkolonie (SYS 1), Neuro-Link (SYS 1). **SYS-Last:** 3/3
+- **Cyber-/Bioware:** Ocular-HUD(SYS1), Nano-Werkzeug(SYS1), Neuro-Link(SYS1) **SYS-Last:** 3/3
 - **Ausrüstung:** Gefüllte **Werkzeugtasche** (Schraubenschlüssel, Hammer, altmodische und
   futuristische Tools – alles, um im Feld zu improvisieren), ein tragbarer **Allzweck-Scanner**
   (analysert Materialstrukturen, ortet Energiesignaturen – hilft, versteckte Mechanismen aufzuspüren
@@ -405,14 +428,18 @@ wenn nötig, sprengt sie Hindernisse aus dem Weg – kontrolliert, versteht sich
   kämpfen.
 - **Hintergrund:** Sabine Kessler stammt aus Deutschland im Jahr 2025. Sie arbeitete ursprünglich
   als Ingenieurin in der Automobilindustrie, suchte dann aber in Krisengebieten nach Abenteuer als
-  Fahrzeugmechanikerin. In einem afghanischen Bunker stieß sie auf Teile eines offenkundig zeitfremden
-  Geräts – ein fehlgeschlagenes Experiment. Diese Mischung aus Neugier und Furchtlosigkeit brachte das
-  ITI dazu, sie anzuwerben. Sabine liebt Heavy Metal der 1980er, hat eine Vorliebe für großes Werkzeug
+  Fahrzeugmechanikerin. In einem afghanischen Bunker stieß sie auf Teile eines offenkundig
+  zeitfremden
+  Geräts – ein fehlgeschlagenes Experiment. Diese Mischung aus Neugier und Furchtlosigkeit brachte
+  das
+  ITI dazu, sie anzuwerben. Sabine liebt Heavy Metal der 1980er, hat eine Vorliebe für großes
+  Werkzeug
   und verabscheut bürokratischen Quark. Im Team bleibt sie meist ruhig im Hintergrund, bis es um
   Technik geht – dann blüht sie auf. Als Fluchtwagen-Fahrerin war sie schon mehrmals Gold wert.
 - **Team-Perk-Vorschläge:** _Fahrzeug-Crew_ (nutzt das Team ein Fahrzeug, sind alle an Bord perfekt
   aufeinander eingespielt: Bei Verfolgungsjagden oder Fluchten erhalten alle Beteiligten +1 auf
-  fahrzeugbezogene Aktionen – der Fahrer auf Manöver, die anderen z.B. auf Schießen vom Fahrzeug aus)
+  fahrzeugbezogene Aktionen – der Fahrer auf Manöver, die anderen z.B. auf Schießen vom Fahrzeug
+  aus)
   und _Werkstatt-Team_ (durch Sabines Training können selbst Nicht-Techniker im Team einfache
   technische Aufgaben erfüllen: Alle bekommen +1 auf Reparatur/Sabotage, wenn mindestens zwei
   zusammenarbeiten; außerdem dauert die Ausrüstung-Instandsetzung nach Missionen nur halb so lange).
@@ -431,16 +458,20 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   Zeit-Anomalien.
 - **Talente:** _Arzt der Zeiten_ (umfassende medizinische Kenntnisse von antiker Kräuterheilung bis
   Nano-Medizin: +2 auf Heilungs- und Diagnose-Proben; kann mit Ausrüstung Verwundete schneller
-  stabilisieren und kritische Verletzungen behandeln), _Analytiker_ (scharfer Verstand für Muster: +2
+  stabilisieren und kritische Verletzungen behandeln), _Analytiker_ (scharfer Verstand für Muster:
+  +2
   auf Proben, um Indizien oder rätselhafte Phänomene zu analysieren – z.B. Paradoxon-Spuren
   untersuchen, chemische Analysen durchführen), _Temporallogiker_ (durch Studium der Temporalphysik:
-  +1 auf alle TEMP-bezogenen Würfe – z.B. Resistenz gegen Paradoxon-Effekte oder das Erkennen feinster
+  +1 auf alle TEMP-bezogenen Würfe – z.B. Resistenz gegen Paradoxon-Effekte oder das Erkennen
+  feinster
   Zeitstörungen; kann zudem Paradoxon-Index grob vorhersagen oder senken, indem er Gegenmaßnahmen
   vorschlägt). Diese Mischung befähigt ihn, sowohl praktische Medizin als auch theoretische Zeit-
   Analyse zu beherrschen.
 - **Implantate:** _Chrono-Sensorik-Modul_ (kleines Implantat an der Schläfe, detektiert schwache
-  temporale Felder – quasi ein eingebauter Paradoxon-Detektor; vibriert/leuchtet, wenn Zeitabweichungen
-  auftreten, gibt Vorwarnung bei steigendem Paradoxon-Index) – Kosten 1 SYS. Außerdem ein _medizinisches
+  temporale Felder – quasi ein eingebauter Paradoxon-Detektor; vibriert/leuchtet, wenn
+  Zeitabweichungen
+  auftreten, gibt Vorwarnung bei steigendem Paradoxon-Index) – Kosten 1 SYS. Außerdem ein
+  _medizinisches
   HUD_ als Kontaktlinse, das Vitalwerte von Personen im Blickfeld anzeigt (erleichtert Diagnose, +1
   auf schnelle Einschätzung von Verletzungen, Kosten 1 SYS). Beide nutzen 2/2 SYS.
 
@@ -462,7 +493,8 @@ für temporale Phänomene, kümmert sich aber auch um die Gesundheit der Crew.
   Notfall). Damit kann er sich wehren, bleibt aber dem Prinzip „Heiler, nicht Zerstörer“ treu.
 - **Hintergrund:** Dr. Julian Richter (geb. 2038 in Berlin) war Biochemiker und Arzt in einem
   Forschungsprojekt zur Alterungsumkehr, das unerwartet temporale Effekte tangierte. Das ITI
-  rekrutierte ihn wegen seiner einzigartigen Kombination aus wissenschaftlicher Neugier und ethischem
+  rekrutierte ihn wegen seiner einzigartigen Kombination aus wissenschaftlicher Neugier und
+  ethischem
   Verantwortungsbewusstsein. Im Team übernimmt Julian oft die Rolle des **Beraters**: Er evaluiert
   Risiken, achtet auf moralische Leitplanken und versucht Paradoxa zu verhindern. Sein hohes TEMP-
   Talent lässt ihn manchmal Dinge spüren, die anderen entgehen (Déjà-vus, „Zeitflimmern“ in der Luft
@@ -487,7 +519,8 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   charismatisch.
 - **Talente:** _Schleichprofi_ (+2 auf Schleichen und Diebstahl – ob er durch mittelalterliche
   Burghallen huscht oder eine Laser-Alarmanlage umgeht, Henry bewegt sich wie ein Schatten),
-  _Verkleidungskünstler_ (Talent zur Identitätsannahme: mit passender Kleidung und Akzent imitiert er
+  _Verkleidungskünstler_ (Talent zur Identitätsannahme: mit passender Kleidung und Akzent imitiert
+  er
   fremde Rollen; gegen durchschnittliche Wachen/Zivilisten gelingt das automatisch, für
   anspruchsvollere Rollen gibt ihm das Talent +2 auf Täuschungs-Würfe), _Lautlose Klinge_ (geübt im
   lautlosen Ausschalten: gelingt ihm ein Überraschungsangriff im Nahkampf, verursacht er
@@ -495,10 +528,13 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   einem Schlag bewusstlos schlagen oder lautlos töten, wenn die Umstände passen). Damit ist Henry
   prädestiniert für geheime Operationen.
 - **Implantate:** _Stimm-Modulator_ (Implantat an den Stimmbändern, erlaubt ihm, seine Stimme in
-  Tonlage und Klang beliebig zu verstellen – ideal, um andere Personen zu imitieren oder per Funk als
-  jemand anders aufzutreten; verleiht +2 auf Täuschungsversuche, die die Stimme betreffen), sowie ein
+  Tonlage und Klang beliebig zu verstellen – ideal, um andere Personen zu imitieren oder per Funk
+  als
+  jemand anders aufzutreten; verleiht +2 auf Täuschungsversuche, die die Stimme betreffen), sowie
+  ein
   internes _Bypass-Set in der Fingerkuppe_ (kleine ausfahrbare Öffnungswerkzeuge in zwei
-  Fingern – er benötigt keine externen Tools mehr, um mechanische Sicherungen zu überwinden; Kosten 1 SYS).
+  Fingern – er benötigt keine externen Tools mehr, um mechanische Sicherungen zu überwinden; Kosten
+  1 SYS).
   Zusammen beanspruchen diese Mods 2/2 SYS.
 
 **Preset-Check (Editor)**
@@ -511,11 +547,14 @@ Ziele aus, ohne dass jemand merkt, dass er da war.
   verschiedenen Epochen – so kann Henry sich im Handumdrehen als jemand ausgeben, z.B. als Offizier
   mit gefälschtem Befehl, als Mönch mit passendem Abzeichen). Sein ITI-Einsatzanzug verfügt über
   **tarnende Anpassungen**: Er kann Farbe und Schnitt verändern und reversible Kleidungsschichten
-  nutzen, um sich der jeweiligen Epoche unauffällig anzupassen (kein volles Tarnfeld, aber er fällt in
-  der Menge weniger auf; gewährt +1 auf unentdeckt bleiben). Bewaffnung: eine kleine **Armbrust** (für
+  nutzen, um sich der jeweiligen Epoche unauffällig anzupassen (kein volles Tarnfeld, aber er fällt
+  in
+  der Menge weniger auf; gewährt +1 auf unentdeckt bleiben). Bewaffnung: eine kleine **Armbrust**
+  (für
   historische Einsätze – leise und tödlich auf kurze Distanz, inkl. ein paar vergifteter Bolzen)
   **und** ein **Revolver mit Schalldämpfer** (für moderne Settings – ein leiser .22er für kurze
-  Distanzen). Zusätzlich führt Henry diverse **Gifte** und **Drogen** mit (z.B. Schlafmittel, niedrig
+  Distanzen). Zusätzlich führt Henry diverse **Gifte** und **Drogen** mit (z.B. Schlafmittel,
+  niedrig
   dosiertes Wahrheitsserum) und versteckte Tools: ein klassisches Bypass-Set (falls die Implantate
   ausfallen) und einen kleinen **Dekompressor** (aufblasbares Kissen, um Türen oder Tresore einen
   Spalt zu öffnen). Diese Ausstattung macht ihn extrem flexibel für Undercover- Missionen.
@@ -547,7 +586,8 @@ Teamkomposition**:
   Die sechs Archetypen demonstrieren ein nahezu ideales Setup: Jede wichtige Fertigkeit (Kampf,
   Technik, Medizin, Diplomatie, Infiltration, Wissen) ist abgedeckt. Wenn ihr Charaktere erstellt,
   versucht also, nicht alle dieselbe Nische zu wählen. Ein mögliches 4er-Team könnte z.B. bestehen
-  aus: einem Diplomat/Gelehrten, einem Soldaten/Sicherheitsexperten, einem Tech-Spezialisten und einem
+  aus: einem Diplomat/Gelehrten, einem Soldaten/Sicherheitsexperten, einem Tech-Spezialisten und
+  einem
   Medic/Analytiker. So habt ihr für soziale, kämpferische, technische und investigative Aufgaben
   jeweils jemanden. Bei 5–6 Spielern können sich auch Rollen überschneiden oder Mischcharaktere
   entstehen – das ist völlig okay, solange jeder etwas Eigenes beitragen kann.
@@ -555,34 +595,46 @@ Teamkomposition**:
   **wer welche Rolle** ungefähr einnimmt. ZEITRISS kennt keine festen Klassen, daher sind die
   Übergänge fließend. Vielleicht möchten zwei Spieler kampforientierte Figuren spielen – dann
   überlegt, wie ihr sie unterscheidet (z.B. einer Nahkämpfer, einer Scharfschütze). Oder ihr habt
-  keinen reinen „Gesellschafts-Charakter“ – dann verteilt Talente wie _Überreden_ oder _Täuschen_ auf
+  keinen reinen „Gesellschafts-Charakter“ – dann verteilt Talente wie _Überreden_ oder _Täuschen_
+  auf
   eure Kämpfer/Techniker, damit jemand im richtigen Moment einspringen kann. Das System ist flexible
-  genug, dass auch unorthodoxe Teams funktionieren (z.B. eine reine Militär-Truppe ohne Diplomat, was
+  genug, dass auch unorthodoxe Teams funktionieren (z.B. eine reine Militär-Truppe ohne Diplomat,
+  was
   dann eben andere Probleme mit roher Gewalt lösen muss). Wichtig ist, dass **alle Spaß haben** und
   sich ihre Figur nützlich fühlt.
 - **Teamleiter und Zusammenhalt:** Überlegt, ob euer Team einen **Anführer** hat oder ob
   Entscheidungen demokratisch getroffen werden. Ein Charakter mit hohem CHA und Diplomatie anbietet
-  sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der Kodex
+  sich oft als Sprecher gegenüber NSCs – das kann man in der Session 0 gemeinsam festlegen. Der
+  Kodex
   (KI) gibt zwar Missionsziele vor, mischt sich aber nicht in eure interne Hierarchie ein. Im Spiel
-  sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Tech-Operative Systemzugriff übernimmt, der Sniper snipen, der
-  Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene **Challenges**
+  sollte jeder mal Spotlight bekommen: Plant Szenen, wo der Tech-Operative Systemzugriff übernimmt,
+  der Sniper snipen, der
+  Doc heilen, etc. Das Abenteuer kann von der SL so gestaltet werden, dass verschiedene
+  **Challenges**
   vorkommen, die jeweils eine andere Spezialisierung glänzen lassen.
 - **Team-Spezialisierungen (Perks):** Sobald ihr einige Missionen als Einheit absolviert habt, könnt
-  ihr im HQ auch **Team-Perks** erwerben (siehe [Abschnitt Team-Perks](../gameplay/kampagnenstruktur.md#team-perks)).
+  ihr im HQ auch **Team-Perks** erwerben (siehe [Abschnitt Team-
+  Perks](../gameplay/kampagnenstruktur.md#team-perks)).
   Diese repräsentieren besondere Taktiken oder
-  Routinen, die eure Gruppe gemeinsam gelernt hat. Ihr könnt von Anfang an im Blick haben, wohin eure
+  Routinen, die eure Gruppe gemeinsam gelernt hat. Ihr könnt von Anfang an im Blick haben, wohin
+  eure
   Zusammenarbeit führen soll. Wollt ihr z.B. ein **eingespielter Kampftrupp** sein, bietet sich der
   Perk _Kampfverbund_ an, der euch im Gefecht einen Vorteil gibt (s. Nikolais Vorschlag: +1 auf
   Angr/Vert, solange ihr zusammenbleibt). Seid ihr eher Detektive, wäre _Analytiker-Team_ passend
-  (gemeinsam +1 auf Wahrnehmung und Rätsellösen). Für Schleich-Teams gäbe es Perks wie _Lautlos_ etc.
+  (gemeinsam +1 auf Wahrnehmung und Rätsellösen). Für Schleich-Teams gäbe es Perks wie _Lautlos_
+  etc.
   Die Entscheidung für solche Spezialisierungen kann im Spiel getroffen werden, doch man darf ruhig
   schon vorher darüber sprechen, damit alle darauf hinarbeiten können.
 - **Beispiel-Team:** Nehmen wir an, ihr nutzt einige der oben beschriebenen Archetypen: Dr. Weber
-  (Diplomatin), Nikolai (Soldat), Mira (Tech-Operative) und Dr. Richter (Medic). Dieses 4er-Team ist sehr gut
-  abgerundet – von Kampf über Soziales bis Wissen ist alles da. Ihr könntet als Team-Perk _Analytiker-
+  (Diplomatin), Nikolai (Soldat), Mira (Tech-Operative) und Dr. Richter (Medic). Dieses 4er-Team ist
+  sehr gut
+  abgerundet – von Kampf über Soziales bis Wissen ist alles da. Ihr könntet als Team-Perk
+  _Analytiker-
   Team_ wählen, um eure kombinierte Stärke in Investigation zu betonen, oder _Stoßtrupp_, falls ihr
-  oft präventiv zuschlagt. **Cineastisch** würde eure Gruppe wirken wie aus einem Zeitreise-Thriller:
-  Szenenwechsel zwischen Weber, die am Hofe Ludwig XIV. taktiert, Nikolai, der im Schatten die Muskeln
+  oft präventiv zuschlagt. **Cineastisch** würde eure Gruppe wirken wie aus einem Zeitreise-
+  Thriller:
+  Szenenwechsel zwischen Weber, die am Hofe Ludwig XIV. taktiert, Nikolai, der im Schatten die
+  Muskeln
   spielen lässt, Mira, die ein Napoleonic-Era-Telegramm abhört, und Julian, der eine mysteriöse
   Krankheit im Jahr 2120 analysiert. Solche Unterschiede machen das Spiel spannend!
 
@@ -599,7 +651,8 @@ Chrononauten mit jeder Mission wachsen, auch wenn nur der Kodex ihre Taten verme
 
 _Euer Name gehoert nicht der Geschichte – sondern dem Kodex._
 
-Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten werden schnell vergessen.
+Chrononauten hinterlassen keine Spuren in den Epochen. Selbst groesste Taten werden schnell
+vergessen.
 
 > **Epochen erinnern Ereignisse. Nicht Personen.**
 
@@ -614,14 +667,23 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 
 ### Pregens {#pregens}
 
-| Name | Rolle | Rasse | Basiswerte (18) | Rassenmods | Finale Attribute | SYS-Last |
-| --- | --- | --- | --- | --- | --- | --- |
-| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
-| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
-| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 2/2 |
-| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 3/3 |
-| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) | 2/2/5/3/5/1 | GES+1 SYS+1 CHA−1 INT−1 | 2/3/4/2/5/2 | 2/2 |
-| Henry Walsh | Undercover-Spion | Homo sapiens novus | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
+| Name | Rolle | Rasse |
+| --- | --- | --- |
+| Dr. Elise Weber | Historikerin/Diplomatin | Homo sapiens sapiens |
+| Mira Nguyen | Zukunfts-Tech-Operative | Denisova-Mensch |
+| Nikolai Volkov | Temporal-Soldat | Homo neanderthalensis |
+| Sabine Kessler | Tech-Ingenieurin | Homo floresiensis |
+| Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) |
+| Henry Walsh | Undercover-Spion | Homo sapiens novus |
+
+| Name | Basiswerte (18) | Rassenmods | Finale Attribute | SYS-Last |
+| --- | --- | --- | --- | --- |
+| Dr. Elise Weber | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
+| Mira Nguyen | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
+| Nikolai Volkov | 3/4/3/3/3/2 | STR+2 INT−1 CHA−1 | 5/4/2/2/3/2 | 2/2 |
+| Sabine Kessler | 4/3/4/2/2/3 | STR−2 GES+2 | 2/5/4/2/2/3 | 3/3 |
+| Dr. Julian Richter | 2/2/5/3/5/1 | GES+1 SYS+1 CHA−1 INT−1 | 2/3/4/2/5/2 | 2/2 |
+| Henry Walsh | 2/5/3/3/2/3 | STR−1 GES−1 INT+1 CHA+1 TEMP+1 SYS−1 | 1/4/4/4/3/2 | 2/2 |
 
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.

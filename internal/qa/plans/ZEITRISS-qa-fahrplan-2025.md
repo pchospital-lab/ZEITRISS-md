@@ -163,9 +163,9 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
 - [x] `characters/hud-system.md` auf Tabellen- und Fließtext-Umbrüche geprüft
       und unter die 100-Zeichen-Vorgabe gebracht.
-- [ ] `characters/charaktererschaffung-optionen.md` mit Spezies-Tabelle und
+- [x] `characters/charaktererschaffung-optionen.md` mit Spezies-Tabelle und
       Archetypen-Bullets neu umbrechen.
-- [ ] `characters/zustaende.md` (Zustandsbeschreibungen, Px/PP-Tabellen) an die
+- [x] `characters/zustaende.md` (Zustandsbeschreibungen, Px/PP-Tabellen) an die
       Zeilenlängenvorgabe anpassen.
 - [ ] QA-/Log-Dokumente unter `internal/qa/` aufbreite Tabellen prüfen und
       kürzen.
