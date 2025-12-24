@@ -3068,6 +3068,7 @@ function ensure_campaign(){
   if (!Array.isArray(state.campaign.rift_seeds)){
     state.campaign.rift_seeds = [];
   }
+  state.campaign.rift_seeds = normalize_rift_seed_list(state.campaign.rift_seeds);
   if (!Array.isArray(state.campaign.rift_blueprints)){
     state.campaign.rift_blueprints = [];
   }
@@ -3361,25 +3362,64 @@ function incrementParadoxon(delta = 1){
   return next;
 }
 
-function ClusterCreate(){
+function ClusterCreate(ctx = {}){
   ensure_campaign();
   if ((state.campaign.paradoxon_index ?? 0) < 5) return state.campaign.paradoxon_index;
+  const pxBefore = Number.isFinite(ctx.px_before)
+    ? clamp(ctx.px_before, 0, 5)
+    : clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+  const pxAfter = Number.isFinite(ctx.px_after)
+    ? clamp(ctx.px_after, 0, 5)
+    : clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+  const seedsBefore = normalize_rift_seed_list(state.campaign.rift_seeds);
   const count = 1 + Math.floor(Math.random() * 2);
-  const seeds = [];
+  const created = [];
   for (let i = 0; i < count; i++){
     const id = `R-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
-    seeds.push({
+    created.push(normalize_rift_seed_entry({
       id,
-      name: 'Uncharted Rift',
-      severity: 1 + Math.floor(Math.random() * 3),
+      label: 'Uncharted Rift',
+      seed_tier: 'early',
       status: 'open'
-    });
+    }));
   }
-  state.campaign.rift_seeds = [...state.campaign.rift_seeds, ...seeds];
+  const merged = normalize_rift_seed_list([...seedsBefore, ...created]);
+  state.campaign.rift_seeds = merged;
   state.campaign.px_reset_pending = true;
   state.campaign.px_reset_confirm = false;
   state.campaign.px_reset_scheduled_at = new Date().toISOString();
-  writeLine(`ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`);
+  const message = `ClusterCreate() aktiv – ${count} Rift-Seeds sichtbar.`;
+  writeLine(message);
+  const episode = Number.isFinite(ctx.episode)
+    ? Math.max(1, Math.floor(ctx.episode))
+    : state.campaign.episode ?? null;
+  const mission = Number.isFinite(ctx.mission)
+    ? Math.max(1, Math.floor(ctx.mission))
+    : state.campaign.mission ?? null;
+  const missionInEpisode = Number.isFinite(ctx.mission_in_episode)
+    ? Math.max(1, Math.floor(ctx.mission_in_episode))
+    : state.campaign.mission_in_episode ?? null;
+  const location = typeof ctx.location === 'string'
+    ? ctx.location
+    : typeof state.location === 'string'
+      ? state.location
+      : null;
+  const phase = typeof ctx.phase === 'string'
+    ? ctx.phase
+    : state.campaign.phase || state.phase || null;
+  record_trace('cluster_create', {
+    channel: 'PX',
+    px_before: pxBefore,
+    px_after: pxAfter,
+    seeds_added: created.length,
+    seed_ids: created.map((seed) => seed.id),
+    open_seeds: merged.filter((seed) => seed.status === 'open').length,
+    episode,
+    mission,
+    mission_in_episode: missionInEpisode,
+    location,
+    phase
+  });
   return state.campaign.paradoxon_index;
 }
 
@@ -3430,10 +3470,19 @@ function completeMission(summary = {}){
     events.push(`Kodex: Mission stabilisiert (${progress}/${required} für Px+1).`);
     if (progress >= required){
       state.campaign.missions_since_px = 0;
+      const pxBefore = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
       const after = incrementParadoxon(1);
       events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
       if (after >= 5){
-        ClusterCreate();
+        ClusterCreate({
+          px_before: pxBefore,
+          px_after: after,
+          episode: state.campaign.episode,
+          mission: state.campaign.mission,
+          mission_in_episode: missionInEpisode,
+          location: state.location,
+          phase: state.campaign.phase || state.phase
+        });
         events.push('Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. Px-Reset folgt nach Missionsende.');
       }
     }
@@ -3497,7 +3546,7 @@ function apply_px_reset_if_ready(reason = 'hq'){
   state.campaign.px_reset_pending = false;
   state.campaign.px_reset_confirm = true;
   state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
-  const note = 'Paradoxon-Index zurückgesetzt – Episode startet bei 0/5.';
+  const note = 'Px Reset → 0';
   hud_toast(note, 'PX');
   record_trace('px_reset', {
     channel: 'PX',

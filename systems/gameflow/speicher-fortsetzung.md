@@ -1036,12 +1036,16 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
 
 - Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
-- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus und markiert den
-  Px-Reset als „anhängig“ (`px_reset_pending=true`, `px_reset_confirm=false`).
+- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus, normalisiert den
+  Pool als Objekt-Liste und markiert den Px-Reset als „anhängig“
+  (`px_reset_pending=true`, `px_reset_confirm=false`). Das Trace `cluster_create`
+  hält px_before/after, `seed_ids`, Episode/Mission/Loc sowie die aktuelle Anzahl
+  offener Seeds fest.
 - Rift-Seeds sind erst nach Episodenende spielbar.
 - Nach der Rift-Phase setzt der Debrief im HQ den Index auf 0, schreibt ein
   `logs.trace[]`-Event (`px_reset`) und bestätigt den Reset via
-  `px_reset_confirm=true` und HUD-Toast, sobald die Crew im HQ ankommt.
+  `px_reset_confirm=true` und HUD-Toast „Px Reset → 0“, sobald die Crew im HQ
+  ankommt.
 
 **Single-Source-Paradoxon-Effekte:**
 
