@@ -3100,6 +3100,11 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
      `campaign.mode = 'trigger'`, `state.start.seed_mode = 'trigger'`.
    - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`,
      `campaign.mode = 'preserve'`.
+   - Fehlen die Klammern oder passt die Startsyntax nicht → Hinweis
+     „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
+     [klassisch|schnell]). Klammern sind Pflicht.“ ausgeben und einmalig pro
+     Session `record_trace('dispatch_hint', …)` mit `reason='start_syntax'`
+     schreiben.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
    - `npc-team`: NPC‑Begleiter 0–4 (Team gesamt 1–5); bei Fehler →
