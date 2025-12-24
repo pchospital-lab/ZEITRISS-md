@@ -153,10 +153,6 @@ euch das Maintainer-Dokument.
 - `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
   Test-Tools bleiben lokal im Repo und werden **nicht** in produktive
   Wissensspeicher hochgeladen.
-- QA-Aufträge, Acceptance-Smoke-Listen und Beta-GPT-Prompts gehören in das
-  Tester-Briefing (`docs/qa/tester-playtest-briefing.md`) und werden bei Bedarf
-  manuell in QA-Sessions gepostet, **nicht** als Wissensspeicher-Modul
-  hinterlegt.
 - Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als
   Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis
   (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
