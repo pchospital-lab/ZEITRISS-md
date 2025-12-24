@@ -6,7 +6,7 @@ Es ist eine Ära verborgener Schlachten im unsichtbaren Geflecht der Jahrtausend
 Reiche aufsteigen und vergehen, wuchern unerkannte Wunden in der Chronik der Menschheit.
 Risse, kaum breiter als ein Atemzug, doch tief genug, um Welten zu verschlingen.
 
-Im Verborgenen wacht das *Institut für Temporale Intervention*. Seine Chrononauten –
+Im Verborgenen wacht das _Institut für Temporale Intervention_. Seine Chrononauten –
 ausgebildet in Tarnung, Sabotage und der Kunst, mit einem einzigen Wort Geschichte
 umzuschreiben – tragen die Verantwortung, das fragile Kontinuum zu schützen. Jeder Einsatz
 führt sie an Grenzen, die keine Karte kennt: zu Bibliotheken, deren Bücher noch nicht
@@ -21,8 +21,8 @@ Flüstern, ob der nächste Morgen dämmert, oder die Nacht nie enden wird.
 
 Paradoxa schweben wie Damoklesschwerter. Ein überhastetes Eingreifen kann Jahrhunderte in
 Flammen setzen, ein zögerlicher Blick die Welt in bösartiger Stille erstarren lassen.
-*Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
-geschehen musste.*
+_Also hinterlasse keine Spur – nur die Gewissheit, dass alles genau so geschah, wie es
+geschehen musste._
 
 Die Stunde schlägt. Das nächste Sprungfenster öffnet sich. Wer den Mut besitzt, den Pfad
 der Chrononauten zu beschreiten, tritt durch dieses Tor – wissend, dass ein einziger

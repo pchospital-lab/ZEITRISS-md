@@ -21,6 +21,7 @@ tags: [meta]
 → [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 
 ## Inhaltsverzeichnis
+
 1. [Schnellstart-Spickzettel](#schnellstart-spickzettel)
    1. [Agenda für Session 0](#agenda-session-0)
    1. [Wahrscheinlichkeits-Übersicht](#wahrscheinlichkeits-uebersicht)
@@ -48,18 +49,20 @@ tags: [meta]
 1. [Spielmodi](#spielmodi)
 1. [Generator-Utilities](#generator-utilities)
 1. [Glossar](#glossar)
-    1. [Huminen](#huminen)
-    1. [Begriffsklärung](#begriffsklärung)
-    1. [Zeiteinheiten](#zeiteinheiten)
-    1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
+   1. [Huminen](#huminen)
+   1. [Begriffsklärung](#begriffsklärung)
+   1. [Zeiteinheiten](#zeiteinheiten)
+   1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
 1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
 
 <!-- Macro: ShowComplianceOnce -->
+
 {% macro ShowComplianceOnce() -%}
 Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
 {%- endmacro %}
 
 <!-- Macro: StoreCompliance (Alias) -->
+
 {% macro StoreCompliance() -%}
 {{ ShowComplianceOnce() }} {# Alias für Legacy-Prompts, bitte ShowComplianceOnce bevorzugen. #}
 {%- endmacro %}
@@ -127,26 +130,26 @@ euch das Maintainer-Dokument.
 
 ### Runtime-Module im Wissensspeicher
 
-| Kategorie    | Datei |
-|--------------|-------|
-| **characters** | `characters/ausruestung-cyberware.md` |
-|              | `characters/charaktererschaffung-grundlagen.md` |
-|              | `characters/charaktererschaffung-optionen.md` |
-|              | `characters/zustaende.md` |
-|              | `characters/hud-system.md` |
-| **core**     | `core/wuerfelmechanik.md` |
-|              | `core/zeitriss-core.md` |
-| **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
-|              | `gameplay/kampagnenstruktur.md` |
-|              | `gameplay/kampagnenuebersicht.md` |
-|              | `gameplay/kreative-generatoren-begegnungen.md` |
-|              | `gameplay/kreative-generatoren-missionen.md` |
-|              | `gameplay/massenkonflikte.md` |
-| **systems**  | `systems/currency/cu-waehrungssystem.md` |
-|              | `systems/gameflow/cinematic-start.md` |
-|              | `systems/gameflow/speicher-fortsetzung.md` |
-|              | `systems/kp-kraefte-psi.md` |
-|              | `systems/toolkit-gpt-spielleiter.md` |
+| Kategorie      | Datei                                           |
+| -------------- | ----------------------------------------------- |
+| **characters** | `characters/ausruestung-cyberware.md`           |
+|                | `characters/charaktererschaffung-grundlagen.md` |
+|                | `characters/charaktererschaffung-optionen.md`   |
+|                | `characters/zustaende.md`                       |
+|                | `characters/hud-system.md`                      |
+| **core**       | `core/wuerfelmechanik.md`                       |
+|                | `core/zeitriss-core.md`                         |
+| **gameplay**   | `gameplay/fahrzeuge-konflikte.md`               |
+|                | `gameplay/kampagnenstruktur.md`                 |
+|                | `gameplay/kampagnenuebersicht.md`               |
+|                | `gameplay/kreative-generatoren-begegnungen.md`  |
+|                | `gameplay/kreative-generatoren-missionen.md`    |
+|                | `gameplay/massenkonflikte.md`                   |
+| **systems**    | `systems/currency/cu-waehrungssystem.md`        |
+|                | `systems/gameflow/cinematic-start.md`           |
+|                | `systems/gameflow/speicher-fortsetzung.md`      |
+|                | `systems/kp-kraefte-psi.md`                     |
+|                | `systems/toolkit-gpt-spielleiter.md`            |
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
@@ -193,11 +196,12 @@ ZEITRISS-md/
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
+
 > **ZEITRISS**: Eine Elite‑Zelle des ITI springt durch die Jahrhunderte, um
 > kritische Linienbrüche zu stoppen.
 > Kein Schicksal, kein Mysterien‑Blabla – nur harte Einsätze, High‑Tech und
 > Sekunden­entscheidungen.
-_Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
+> _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
 Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
 
@@ -217,6 +221,7 @@ ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 Die ersten Schritte in unter zwei Minuten:
 
 - Standardstil: Cinematic/Verbose mit aktivem Kodex. PRECISION optional für Taktikphasen.
+
 1. **Einstieg wählen** – klassisch = volle Charaktererschaffung, schnell = Rolle + Kurzprofil.
 2. **Nach der Erstellung entscheiden** – HQ-Rundgang mit Kodex (Tour + Regelframe) oder direkt ins Briefing.
 3. **Briefing:** Mission ziehen (Seed aus dem Generator) und drei klar nummerierte Ziele formulieren.
@@ -236,22 +241,22 @@ Die ersten Schritte in unter zwei Minuten:
    `!tk ready` hebt die Sperre nach dem Cooldown auf.
 10. **Chrono-Units** – Einheitliche Formel für Core **und** Rift:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
-   (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
-   `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
-10. **Debrief & HQ** – Nach jeder Mission im HQ: CU ausschütten, Loot-Recap
+    (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
+    `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
+11. **Debrief & HQ** – Nach jeder Mission im HQ: CU ausschütten, Loot-Recap
     nennen, XP/Ruf vergeben, Level-Up & Skill-Picks festhalten, dann Save.
     Überblick im [Gameflow-Spickzettel](gameplay/kampagnenstruktur.md#gameflow-spickzettel).
-11. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
+12. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
     [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
     Die Missionsbeispiele folgen dort dem einheitlichen 12‑Szenen‑Ablauf.
-12. **Filmischer Einstieg** – das Modul
+13. **Filmischer Einstieg** – das Modul
     [Cinematic Start](systems/gameflow/cinematic-start.md)
     beschreibt einen sofort spielbaren Auftakt.
-13. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
+14. **Demo-Mission „Feuerkette 1410"** – 45-Min-Sabotage im 12‑Szenen-Format.
     [Zum Modul](gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-14. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
+15. **Epilog** – `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
-    Cluster +… · Fraktion +…`.
+Cluster +… · Fraktion +…`.
 
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 
@@ -290,11 +295,12 @@ nicht.
   dem Seed-Katalog nach.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus) und erlaubt `!arena
-  resume` ohne erneute Gebühr aus dem HQ.
+resume` ohne erneute Gebühr aus dem HQ.
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
 Siehe auch:
+
 - [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 - [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
 - [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
@@ -308,19 +314,21 @@ Siehe auch:
 `Spiel starten (solo schnell) – Rolle: Sniper Alleingänger`
 
 **SL (MyGPT):**
+
 > **Briefingraum**. Projektionen flackern.
 > **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
 > **Defaults:** GES-Fokus, Sidearm (SD), Sniper (SD), Basic-Medikit.
 > **Legende:** ziviler Gutachter.
 > **Fraktionslage:** ruhig.
 > —
-> *Kurzes Briefing* (3 Ziele). *Dann:* „Szene 1 – Zugangspunkt?“
+> _Kurzes Briefing_ (3 Ziele). _Dann:_ „Szene 1 – Zugangspunkt?“
 
 </details>
 
 <details><summary>Gruppe – Schnelleinstieg (gemischt, 2 Saves + 1 Rolle)</summary>
 
 **Spieler:**
+
 ```text
 Spiel starten (gruppe schnell)
 [A] – Save posten
@@ -329,6 +337,7 @@ Spiel starten (gruppe schnell)
 ```
 
 **SL (MyGPT):**
+
 > **Kodex-Archiv – Rückkehrprotokoll aktiviert.**
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
 > Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
@@ -425,15 +434,16 @@ Debrief und Save (HQ-only).
 
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
+
 - **PSI:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` –
   Psi-Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt
   nach jedem Konflikt auf 0.
 - **Non-PSI:** `Ammo 12 · SYS 1/4 (free 3) · Stress 1 · Px █░░░░ (1/5)` –
   führt keinen Psi-Heat-Track.
-In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
-In Szene 1 hängt `FR:Status` an.
-`ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
-auf schmalen Zeilen blendet das System den Rank automatisch aus.
+  In der Exfil-Phase kommen `ANCR Ort · RW mm:ss` hinzu.
+  In Szene 1 hängt `FR:Status` an.
+  `ui.mode_display` wechselt zwischen `label`, `emoji` oder `both`;
+  auf schmalen Zeilen blendet das System den Rank automatisch aus.
 
 Mission-Fokus ist der Standard (oft "Operator-Stil" genannt).
 Kämpfe richten sich gegen Fremdfraktionen, nicht gegeneinander.
@@ -443,6 +453,7 @@ während Rift-Ops sich ganz auf die jeweilige Anomalie konzentrieren.
 Core-Ops dauern durchschnittlich **60–75 Minuten** und umfassen **12 Szenen**.
 Rift-Ops strecken sich über etwa **90–120 Minuten** mit **14 Szenen**.
 Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
+
 ### Agenda für Session 0 {#agenda-session-0}
 
 1. **Ton & Modus** – Thriller vs. Stealth-Heist, Mission-Fokus an/aus.
@@ -455,12 +466,12 @@ Siehe [Missionsdauer-Tabelle](gameplay/kampagnenstruktur.md#missionsdauer).
 
 ### Wahrscheinlichkeits-Übersicht {#wahrscheinlichkeits-uebersicht}
 
-| SG | W6 expl. | W10 expl. | Δ (W10–W6) |
-|---:|---------:|----------:|-----------:|
-| 5  | 83 %     | 90 %      | +7 %       |
-| 7  | 67 %     | 77 %      | +10 %      |
-| 8  | 50 %     | 65 %      | +15 %      |
-| 10 | 33 %     | 53 %      | +20 %      |
+|  SG | W6 expl. | W10 expl. | Δ (W10–W6) |
+| --: | -------: | --------: | ---------: |
+|   5 |     83 % |      90 % |       +7 % |
+|   7 |     67 % |      77 % |      +10 % |
+|   8 |     50 % |      65 % |      +15 % |
+|  10 |     33 % |      53 % |      +20 % |
 
 ### Chat-Kurzbefehle {#chat-kurzbefehle}
 
@@ -489,6 +500,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 
 **Akzeptierte Zusätze:**
+
 - Nach `solo`/`npc-team`/`gruppe` darf optional `klassisch` oder `schnell` folgen
   (auch `classic|fast`).
 - `npc-team` akzeptiert `0–4` NPC‑Begleiter (Team gesamt 1–5); Arena nutzt dieselbe Obergrenze.
@@ -499,16 +511,19 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `!ALIAS`, `!Radio Log` usw.).
 
 **Fehlertexte:**
+
 - `npc-team 5` → „NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).“
 - `gruppe 3` → „Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)“
 
 **Semver (Save-Laden):**
+
 - Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt;
   Patch-Level wird ignoriert.
 - Mismatch → „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
   HQ-Migration veranlassen.“
 
 **Save v6 – Pflichtfelder & Kompatibilität**
+
 - _Single Source:_ Das vollständige Schema steht in
   `systems/gameflow/speicher-fortsetzung.md`. README und Toolkit zitieren nur
   Auszüge; neue Saves benutzen ausschließlich die v6-Struktur mit
@@ -564,8 +579,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
      weitere Werte aus `attributes{}` nur ergänzen, niemals überschreiben.
   4. Optionale Felder wie `modes[]`, `self_reflection` oder `lvl` ebenfalls in
      `character{}` verschieben, sofern sie vorher an der Wurzel lagen.
-  Auf diese Weise steht dem GPT immer das vollständige Save-v6-Schema zur
-  Verfügung, auch ohne die lokale `runtime.js`.
+     Auf diese Weise steht dem GPT immer das vollständige Save-v6-Schema zur
+     Verfügung, auch ohne die lokale `runtime.js`.
 
 **Quick-Hilfe:** `!help start` – listet alle vier Befehle mit Kurzbeschreibung.
 
@@ -788,9 +803,10 @@ filmische Callouts für das HUD.
 - Lvl 1–10: +1 Level pro Mission.
 - Lvl 11–15: 2 Missionen/Level.
 - Lvl 16+: 3 Missionen/Level.
-Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
-Ab Attribut 11 wechselt das Würfelsystem auf W10.
-Siehe [Core-Ops CU-Belohnungen](systems/currency/cu-waehrungssystem.md#core-ops-belohnungen).
+  Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
+  Ab Attribut 11 wechselt das Würfelsystem auf W10.
+  Siehe [Core-Ops CU-Belohnungen](systems/currency/cu-waehrungssystem.md#core-ops-belohnungen).
+
 ## Regelreferenz
 
 ### Proben & Schwierigkeitsgrad
@@ -819,18 +835,20 @@ Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 | ☆☆☆       | +3          |
 | ☆☆☆☆      | +4          |
 | ☆☆☆☆☆     | +5          |
-| ☆☆☆☆☆+   | +6 und mehr |
+| ☆☆☆☆☆+    | +6 und mehr |
 
 Paramonster verwenden Totenkopf-Icons (💀) als eigenen
 Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
+
 Makros siehe
 [speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick),
 den Abschnitt zum
 [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index) und zum
 [Immersiven Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden):
+
 - `ClusterCreate()`
 - `ClusterDashboard()`
 - `launch_rift(id)` – startet nach der Episode eine eigenständige
@@ -848,16 +866,17 @@ den Abschnitt zum
 | Aufklärung | Hinweise finden | Foreshadow-Hinweis    |
 | Konflikt   | Spannung        | Exploding 6 nutzen    |
 | Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
+
 ### Modulübersicht
 
-| Regelmodul | Muss | Soll | Kann | Kurzinfo / Link |
-|------------|:----:|:----:|:----:|-----------------|
-| [Grundwürfelsystem (W6)](core/wuerfelmechanik.md) | ✅ | | | Kernmechanik – explodierende Würfel |
-| [Paradoxon-Index](core/zeitriss-core.md) | ✅ | | | Kampagnen-Fortschritt |
-| [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md) | ✅ | | | Mini- & Episoden-Boss nach Missionsnummern |
-| [Stress-System](characters/zustaende.md) | | ✅ | | Für psychische Belastung und Druck |
-| [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) | | ✅ | | Breitere Würfelspanne für große Missionen |
-| [Psi-Kräfte / Psi-Heat](systems/kp-kraefte-psi.md) | | ✅ | | Standardmodul, wissenschaftlich erklärbar |
+| Regelmodul                                             | Muss | Soll | Kann | Kurzinfo / Link                            |
+| ------------------------------------------------------ | :--: | :--: | :--: | ------------------------------------------ |
+| [Grundwürfelsystem (W6)](core/wuerfelmechanik.md)      |  ✅  |      |      | Kernmechanik – explodierende Würfel        |
+| [Paradoxon-Index](core/zeitriss-core.md)               |  ✅  |      |      | Kampagnen-Fortschritt                      |
+| [Boss-Rhythmus 5/10](gameplay/kampagnenstruktur.md)    |  ✅  |      |      | Mini- & Episoden-Boss nach Missionsnummern |
+| [Stress-System](characters/zustaende.md)               |      |  ✅  |      | Für psychische Belastung und Druck         |
+| [W10-Variante ab Attribut 11](core/wuerfelmechanik.md) |      |  ✅  |      | Breitere Würfelspanne für große Missionen  |
+| [Psi-Kräfte / Psi-Heat](systems/kp-kraefte-psi.md)     |      |  ✅  |      | Standardmodul, wissenschaftlich erklärbar  |
 
 ### Standardausrüstung {#standardausruestung}
 
@@ -875,9 +894,9 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 - Basiswaffe nach Einsatzprofil
 - Universelles Werkzeug oder Scanner
 
-*Details zur Hardware siehe*
+_Details zur Hardware siehe_
 [HUD & Comms – Spezifikation](characters/hud-system.md#hud-comms-spec).
-*HUD-Zustände & optionale Event-Icons:* [HUD-Icons](characters/hud-system.md#hud-icons).
+_HUD-Zustände & optionale Event-Icons:_ [HUD-Icons](characters/hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Armbänder sind erlaubt, projizieren aber
@@ -893,6 +912,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 > antwortet erst nach Re-Link).
 
 #### Mini-FAQ
+
 - _Muss ich laden?_ → Nein, **keine Batterien**; autark.
 - _Geht HUD ohne Kodex?_ → Ja, **lokal** (Edge-Compute).
   [HUD-Spec](characters/hud-system.md#hud-comms-spec)
@@ -912,6 +932,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 (Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
 
 ## Grundidee
+
 **ZEITRISS 4.2.5** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
@@ -930,12 +951,13 @@ In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärunge
 Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.
 In **Rift-Ops** hingegen treten echte Anomalien auf – inklusive Parawesen,
 Artefakten und temporaler Abweichungen.
+
 > **Future Setting:** In futuristischen Schauplätzen achten wir auf einen klaren Stilbruch:
 > **Core-Ops** bleiben rational und technisch geprägt – selbst bizarre Vorfälle
 > (z. B. durch Zeitanomalien ausgelöste Raptorensichtungen auf einem
 > Raumschiff) haben eine wissenschaftliche Erklärung.
 > **Rift-Ops** im Zukunftssetting hingegen schlagen einen subtilen Horror-Ton an
-> (à la *Event Horizon*), ohne ins Fantastische abzugleiten.
+> (à la _Event Horizon_), ohne ins Fantastische abzugleiten.
 
 #### Agenten-Thriller-Ton 2026-02 – Leitplanken
 
@@ -947,7 +969,7 @@ Artefakten und temporaler Abweichungen.
   protokolliert Comms-Hardware als `HARDWARE`-Toast; der Stilwächter läuft
   default und sperrt Digitalraum-Vokabeln (z. B. „Matrix/Holodeck“).
 - **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
-  gm_third_person`). Entscheidungsprompts dürfen die Spielenden adressieren,
+gm_third_person`). Entscheidungsprompts dürfen die Spielenden adressieren,
   Erzählsätze und Beschreibungen bleiben in 3rd Person.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
@@ -961,7 +983,7 @@ Artefakten und temporaler Abweichungen.
   ein.
 - **Core-Ziele mischen:** Briefings kombinieren einen **Anchor** mit einem
   Auftragstyp (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize |
-  document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
+document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
   Personen, Einfluss oder Schutz statt reiner Objekt-Raubzüge.
 - **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab – Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Skip-Flag
@@ -985,11 +1007,12 @@ Artefakten und temporaler Abweichungen.
   Fraktionsintervention als `logs.fr_interventions[]` mit Szene/Episode/Mission mit.
 
 **Was ist eine Anomalie?**
+
 - Ein Seed markiert eine Störung im Zeitfluss.
 - Paranormale Phänomene fühlen sich real an, werden aber über Zeit­effekte erklärt
   (z.B. Poltergeist → instabile Gravitation).
 - Jeder bewusste Eingriff in die Geschichte gilt ebenfalls als Anomalie.
-Weitere Beispiele liefert der _Temporale Anomalien-Generator_.
+  Weitere Beispiele liefert der _Temporale Anomalien-Generator_.
 
 Der **Kernkonflikt**: Das **ITI** verteidigt den dokumentierten Geschichtsverlauf.
 Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
@@ -1033,17 +1056,17 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 
 ## Loot-Matrix
 
-| Mission  | Standard-Loot                                       | Boss-Loot               | Artefakt     |
-| -------- | --------------------------------------------------- | ----------------------- | ------------ |
-| **Core** | Forschungsergebnisse · Datenchips · Cash · Upgrades | Spezialwaffe / Gear-Mod | ✘            |
+| Mission  | Standard-Loot                                       | Boss-Loot               | Artefakt      |
+| -------- | --------------------------------------------------- | ----------------------- | ------------- |
+| **Core** | Forschungsergebnisse · Datenchips · Cash · Upgrades | Spezialwaffe / Gear-Mod | ✘             |
 | **Rift** | Relikte · Ermittlungsakten · experimentelle Gear    | Artefakt-Wurf bei Boss  | ✔ (nur hier) |
 
 ## Loot-Quickref
 
-| Mission-Typ | Roll-Macro / Tabelle         | Ergebnis-Typen              |
-|-------------|------------------------------|-----------------------------|
-| Core-Op     | `roll_from("ItemTable")`     | ITEM · UPGRADE · CASH       |
-| Rift-Op†    | `roll_legendary()` | ARTEFAKT (bei 1W6 = 6)      |
+| Mission-Typ | Roll-Macro / Tabelle     | Ergebnis-Typen         |
+| ----------- | ------------------------ | ---------------------- |
+| Core-Op     | `roll_from("ItemTable")` | ITEM · UPGRADE · CASH  |
+| Rift-Op†    | `roll_legendary()`       | ARTEFAKT (bei 1W6 = 6) |
 
 † Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
 Relikte zählen als Story-Items und nutzen den normalen Generator.
@@ -1069,31 +1092,31 @@ Die folgende Tabelle listet alle Regelmodule. Quickref und andere Unterabschnitt
 sind der Übersicht halber aufgeführt.
 `README.md` und `master-index.json` dienen nur zur Orientierung:
 
-| Datei | Inhalt |
-| --- | --- |
-| [README.md](README.md) | Überblick über Projekt und Workflow |
-| [core/zeitriss-core.md](core/zeitriss-core.md) | Grundregeln und Setting |
-| [core/wuerfelmechanik.md](core/wuerfelmechanik.md) | Würfelsystem & Proben |
-| [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle) | Psi- & Konflikt-Quickref |
-| [characters/charaktererschaffung-grundlagen.md](characters/charaktererschaffung-grundlagen.md) | Charaktererschaffung (Grundlagen) |
-| [characters/charaktererschaffung-optionen.md](characters/charaktererschaffung-optionen.md) | Optionen, Archetypen & Teamrollen |
-| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md) | Ausrüstung, Waffen & Implantate |
-| [characters/zustaende.md](characters/zustaende.md) | Zustände, Paradoxon & Statusregeln |
-| [characters/hud-system.md](characters/hud-system.md) | HUD-Interface & Anzeige-Logik |
-| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md) | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
-| [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md) | Fahrzeuge & Konfliktsystem |
-| [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md) | Mission & Kampagnen-Generatoren |
-| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md) | NPC & Encounter-Gen |
-| [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition |
-| [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator) | Mini-, Arc- und Rift-Bosse |
-| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md) | Verfolgungsjagden & Massenkonflikte |
-| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md) | Kampagnenübersicht |
-| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md) | Psi-Kräfte, Talente & Regeln |
-| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md) | Speicher-/Fortsetzungssystem |
-| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md) | Cinematic-Gruppenstart |
-| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md) | CU-Währungssystem |
-| [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md) | Toolkit für die KI-Spielleitung |
-| [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden) | Beispiel-Episoden & Rift-Op |
+| Datei                                                                                           | Inhalt                                        |
+| ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| [README.md](README.md)                                                                          | Überblick über Projekt und Workflow           |
+| [core/zeitriss-core.md](core/zeitriss-core.md)                                                  | Grundregeln und Setting                       |
+| [core/wuerfelmechanik.md](core/wuerfelmechanik.md)                                              | Würfelsystem & Proben                         |
+| [Quickref](core/wuerfelmechanik.md#schwierigkeits-benchmark-tabelle)                            | Psi- & Konflikt-Quickref                      |
+| [characters/charaktererschaffung-grundlagen.md](characters/charaktererschaffung-grundlagen.md)  | Charaktererschaffung (Grundlagen)             |
+| [characters/charaktererschaffung-optionen.md](characters/charaktererschaffung-optionen.md)      | Optionen, Archetypen & Teamrollen             |
+| [characters/ausruestung-cyberware.md](characters/ausruestung-cyberware.md)                      | Ausrüstung, Waffen & Implantate               |
+| [characters/zustaende.md](characters/zustaende.md)                                              | Zustände, Paradoxon & Statusregeln            |
+| [characters/hud-system.md](characters/hud-system.md)                                            | HUD-Interface & Anzeige-Logik                 |
+| [gameplay/kampagnenstruktur.md](gameplay/kampagnenstruktur.md)                                  | Kampagnenaufbau, Preserve vs Trigger & ITI-HQ |
+| [gameplay/fahrzeuge-konflikte.md](gameplay/fahrzeuge-konflikte.md)                              | Fahrzeuge & Konfliktsystem                    |
+| [kreative-generatoren-missionen.md](gameplay/kreative-generatoren-missionen.md)                 | Mission & Kampagnen-Generatoren               |
+| [gen-begegnungen.md](gameplay/kreative-generatoren-begegnungen.md)                              | NPC & Encounter-Gen                           |
+| [Para-Creature-Generator](gameplay/kreative-generatoren-begegnungen.md#para-creature-generator) | Urban Myth Edition                            |
+| [Boss-Generator](gameplay/kreative-generatoren-begegnungen.md#boss-generator)                   | Mini-, Arc- und Rift-Bosse                    |
+| [gameplay/massenkonflikte.md](gameplay/massenkonflikte.md)                                      | Verfolgungsjagden & Massenkonflikte           |
+| [gameplay/kampagnenuebersicht.md](gameplay/kampagnenuebersicht.md)                              | Kampagnenübersicht                            |
+| [systems/kp-kraefte-psi.md](systems/kp-kraefte-psi.md)                                          | Psi-Kräfte, Talente & Regeln                  |
+| [systems/gameflow/speicher-fortsetzung.md](systems/gameflow/speicher-fortsetzung.md)            | Speicher-/Fortsetzungssystem                  |
+| [systems/gameflow/cinematic-start.md](systems/gameflow/cinematic-start.md)                      | Cinematic-Gruppenstart                        |
+| [systems/currency/cu-waehrungssystem.md](systems/currency/cu-waehrungssystem.md)                | CU-Währungssystem                             |
+| [systems/toolkit-gpt-spielleiter.md](systems/toolkit-gpt-spielleiter.md)                        | Toolkit für die KI-Spielleitung               |
+| [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#beispiel-episoden)                         | Beispiel-Episoden & Rift-Op                   |
 
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6
 folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
@@ -1113,8 +1136,8 @@ fasst die wichtigsten Effekte zusammen.
 Ausführliche Hintergründe liefert das Modul
 [Cinematisches HUD-Overlay](characters/hud-system.md#cinematisches-hud-overlay).
 
-| Konflikt   | Spannung        | Exploding 6 nutzen    |
-| Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
+| Konflikt | Spannung | Exploding 6 nutzen |
+| Auswertung | Konsequenzen | Rufpunkte, Ressourcen |
 
 ### Lines & Veils (optional)
 
@@ -1126,13 +1149,13 @@ möchte, kann den Abschnitt einfach überspringen.
 
 #### Safety Sheet
 
-| Thema | Line (Tabu) | Veil (Off-Screen) |
-|-------|-------------|-------------------|
-| Sexualisierte Gewalt | ✔ | – |
-| Kindesgefährdung | – | ✔ |
-| Body Horror | – | ✔ |
+| Thema                | Line (Tabu) | Veil (Off-Screen) |
+| -------------------- | ----------- | ----------------- |
+| Sexualisierte Gewalt | ✔          | –                 |
+| Kindesgefährdung     | –           | ✔                |
+| Body Horror          | –           | ✔                |
 
-Der SL kann Szenen jederzeit *cutten*. Als Ingame-Begründung dient eine
+Der SL kann Szenen jederzeit _cutten_. Als Ingame-Begründung dient eine
 Index-Senke im Kodex.
 
 ### ZEITRISS – Einleitung
@@ -1295,8 +1318,6 @@ Schema und muss im Save-Preview enthalten sein.
 Das Feld `modes` speichert alle aktiven Erzählstile und wird beim Laden mit
 `modus <name>` reaktiviert.
 
-
-
 Diese Befehle können frei eingegeben werden.
 Sie dienen dazu, zwischen Einzel- und Gruppenspiel sowie Neu- oder Fortsetzung zu wählen.
 Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das taktische HUD-Menü.
@@ -1334,11 +1355,11 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
     Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
     markiert. Die erste Warnung wird dabei intern vermerkt, damit das Banner beim
     späteren Stadteintritt nur einmal erscheint.
-  Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
-  setzt `logs.flags.chronopolis_unlocked=true` plus
-  `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
-  (Level/Quelle) und blendet den HUD-Toast
-  `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein.
+    Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
+    setzt `logs.flags.chronopolis_unlocked=true` plus
+    `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
+    (Level/Quelle) und blendet den HUD-Toast
+    `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
@@ -1411,7 +1432,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 - **Deterministische Verteilung.** `Wallet-Split (n×)` listet alle IDs in
   Roster-Reihenfolge, verteilt Rundungsreste von oben nach unten und schließt
   mit einem einzigen Hinweis auf den verbleibenden HQ-Pool (`Rest … CU im
-  HQ-Pool`).
+HQ-Pool`).
 - **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.cu`) und
   Wallets (`economy.wallets{}`) akzeptieren numerische Strings wie `"1500"` und
   wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
@@ -1425,16 +1446,16 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
 Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen. **Hard Sci-Fi** bildet den nüchternen Grundton;
 alle weiteren Modi sind optionale Zusätze:
-| Modus           | Kurzbeschreibung |
-| ---             | --- |
+| Modus | Kurzbeschreibung |
+| --- | --- |
 | **Hard Sci-Fi** | Bodennaher Stil ohne Visionen, nüchterne Technik. |
-| **Film**        | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
-| **Klassik**     | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
-| **Covert-Ops**  | Minimale Paradoxon-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
+| **Film** | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
+| **Klassik** | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
+| **Covert-Ops** | Minimale Paradoxon-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
-| **Suggest**     | Kodex schlägt auf Wunsch Handlungsoptionen vor. |
-| **Precision**   | Extrem knappe Beschreibungen, Fokus auf Fakten. |
-| **Verbose**     | Blumige und ausführliche Darstellung, mehr Atmosphäre. |
+| **Suggest** | Kodex schlägt auf Wunsch Handlungsoptionen vor. |
+| **Precision** | Extrem knappe Beschreibungen, Fokus auf Fakten. |
+| **Verbose** | Blumige und ausführliche Darstellung, mehr Atmosphäre. |
 | **Mission-Fokus** | Strikte Einsätze ohne Visionen, konzentriert auf klare Ziele. |
 
 Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
@@ -1462,17 +1483,18 @@ Mission-Fokus wird beim Spielstart automatisch aktiviert;
 Gefechte richten sich gegen NSCs, nicht gegeneinander.
 Core-Ops involvieren meist Rivalen aus externen Machtblöcken,
 während Rift-Ops primär das jeweilige Pararift untersuchen.
+
 ```yaml
 phase: core
 year: 1962
 place: Karibik
 objective: Black Saturday – Funkspruch der B-59 unterdrücken (kein Torpedoabschuss)
 ```
+
 Rift-Seeds nutzen `phase: rift`.
 
 `phase` markiert die Missionsphase: `core` für den Einsatz vor Ort,
 `transfer` für An- und Abreise sowie `rift` für Paradoxon-Sprünge.
-
 
 Die Paradoxon-Mechanik ist standardmäßig aktiv. Über `modus paradoxon off` lässt
 sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
@@ -1519,11 +1541,11 @@ Kurze Erklärungen wichtiger Abkürzungen:
   Risk-Level, Boss-Gates, `SF-OFF`), dokumentiert in der
   [HUD-&-Comms-Spec](characters/hud-system.md#risk-level-badges).
 
-| Begriff | Bedeutung |
-| ------- | ------------------------------------------------------------ |
-| **Agenten-Level** | Fortschrittswert; Level-Ups folgen der EP-Kurve (`EP` = Erfahrungspunkte). |
+| Begriff             | Bedeutung                                                                         |
+| ------------------- | --------------------------------------------------------------------------------- |
+| **Agenten-Level**   | Fortschrittswert; Level-Ups folgen der EP-Kurve (`EP` = Erfahrungspunkte).        |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1–2 Rifts werden sichtbar, danach springt der Index auf 0. |
-| **Kodex** | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD. |
+| **Kodex**           | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD.        |
 
 ### Huminen
 
@@ -1536,13 +1558,13 @@ Chrononauten, ist aber keine eigene Fraktion.
 
 Diese Zuordnung hilft, klassische Begriffe intern konsistent zu deuten.
 
-| Ursprünglicher Begriff | Interne Bedeutung |
-|-----------------------|-------------------|
-| Missionstyp           | Interventionsform |
-| Zielperson            | Zielperson (gleichbleibend) |
-| Verstärkung           | Automatisch aktivierte Einsatzkräfte |
-| Paradoxon             | Temporale Resonanzanzeige für Rifts – steigt nur bei Erfolgen |
-| Kodexzugriff          | Direkter Zugriff auf das Entscheidungssystem |
+| Ursprünglicher Begriff | Interne Bedeutung                                             |
+| ---------------------- | ------------------------------------------------------------- |
+| Missionstyp            | Interventionsform                                             |
+| Zielperson             | Zielperson (gleichbleibend)                                   |
+| Verstärkung            | Automatisch aktivierte Einsatzkräfte                          |
+| Paradoxon              | Temporale Resonanzanzeige für Rifts – steigt nur bei Erfolgen |
+| Kodexzugriff           | Direkter Zugriff auf das Entscheidungssystem                  |
 
 ### Noir-Lexikon (Terminologie)
 
@@ -1550,16 +1572,16 @@ Damit der Tech-Noir-Ton physisch bleibt, werden digitale Begriffe in
 spielerfreundliche Noir-Varianten übersetzt.
 
 | Technischer Begriff | Noir-Variante (Bevorzugt) |
-|--------------------|---------------------------|
-| Knoten / Node | Schaltpunkt / Relaispunkt |
-| Vault | Archivkammer / Tresor |
-| Holo / Hologramm | Lichtbild / Projektion |
-| Debug | Fehlerspur / Diagnose |
-| Link / Uplink | Leitung / Funkverbindung |
+| ------------------- | ------------------------- |
+| Knoten / Node       | Schaltpunkt / Relaispunkt |
+| Vault               | Archivkammer / Tresor     |
+| Holo / Hologramm    | Lichtbild / Projektion    |
+| Debug               | Fehlerspur / Diagnose     |
+| Link / Uplink       | Leitung / Funkverbindung  |
 
 ### Zeiteinheiten
 
-  - **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 12, Rift-Ops 14 Szenen
+- **Szene** – ca. 5–10 Min. Spielzeit. Core-Ops nutzen 12, Rift-Ops 14 Szenen
   ([Missionsdauer](gameplay/kampagnenstruktur.md#missionsdauer),
   [HUD-Macros](systems/toolkit-gpt-spielleiter.md#startscene--endscene-macros)).
 - **Kampfrunde** – kurzer Aktionszyklus im Kampf; Grundlage für Initiative,
@@ -1568,14 +1590,14 @@ spielerfreundliche Noir-Varianten übersetzt.
 
 ### Zeitgebundene Effekte
 
-| Name | Effekt / Dauer | Zeiteinheit |
-| ---- | -------------- | ----------- |
-| [Stim-Reg Cap-Injector][stim-reg] | +2 GES für 1 Szene, danach –1 TEMP | Szene |
-| [Burst-Slot][burst-slot] | Temporärer SYS-Punkt für 1 Szene | Szene |
-| [Adrenalinschub][adrenalinschub] | +2 STR/GES 1 Szene; 1× pro Mission | Mission |
-| [Notfall-Stimulanz][notfall-stimulanz] | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission |
-| [PP-Regeneration][psi-pp-regeneration] | 1 PP pro 3 TEMP nach jeder Kampfrunde | Kampfrunde |
-| [Psi-Heat sink][psi-heat-track] | Psi-Heat −1 nach jeder Kampfrunde (Probe) | Kampfrunde |
+| Name                                   | Effekt / Dauer                              | Zeiteinheit |
+| -------------------------------------- | ------------------------------------------- | ----------- |
+| [Stim-Reg Cap-Injector][stim-reg]      | +2 GES für 1 Szene, danach –1 TEMP          | Szene       |
+| [Burst-Slot][burst-slot]               | Temporärer SYS-Punkt für 1 Szene            | Szene       |
+| [Adrenalinschub][adrenalinschub]       | +2 STR/GES 1 Szene; 1× pro Mission          | Mission     |
+| [Notfall-Stimulanz][notfall-stimulanz] | Bei 0 LP 1 Runde kampffähig; 1× pro Mission | Mission     |
+| [PP-Regeneration][psi-pp-regeneration] | 1 PP pro 3 TEMP nach jeder Kampfrunde       | Kampfrunde  |
+| [Psi-Heat sink][psi-heat-track]        | Psi-Heat −1 nach jeder Kampfrunde (Probe)   | Kampfrunde  |
 
 [stim-reg]: characters/ausruestung-cyberware.md#stim-reg-cap-injector
 [burst-slot]: systems/kp-kraefte-psi.md#burst-slot
@@ -1586,7 +1608,6 @@ spielerfreundliche Noir-Varianten übersetzt.
 [psi-heat-track]: systems/kp-kraefte-psi.md#psi-heat-track
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 [llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
-
 
 ## Wie du beitragen kannst
 
