@@ -153,6 +153,10 @@ euch das Maintainer-Dokument.
 - `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
   Test-Tools bleiben lokal im Repo und werden **nicht** in produktive
   Wissensspeicher hochgeladen.
+- QA-Aufträge, Acceptance-Smoke-Listen und Beta-GPT-Prompts gehören in das
+  Tester-Briefing (`docs/qa/tester-playtest-briefing.md`) und werden bei Bedarf
+  manuell in QA-Sessions gepostet, **nicht** als Wissensspeicher-Modul
+  hinterlegt.
 - Spiegle relevante Laufzeitlogik (z. B. Foreshadow-Persistenz, HUD-Badges) als
   Regelwerk, Prozessbeschreibung oder Pseudocode innerhalb der Wissensbasis
   (README, `kb/`-Äquivalente, Runtime-Module), damit produktive GPTs ohne
@@ -369,6 +373,10 @@ Spiel starten (gruppe schnell)
   „Px Reset → 0“ bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
   schreibt ein `cluster_create`-Trace (px_before/after, Seeds, Episode/Mission/
   Loc) und normalisiert `campaign.rift_seeds` als Objekt-Liste.
+  HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
+  Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
+  und kein Budget verbrauchen. Im QA-Mode landet jede Unterdrückung als
+  `toast_suppressed`-Trace inkl. Snapshot von `logs.flags.hud_scene_usage`.
 
 ### Boss-Gates & HUD-Badges
 

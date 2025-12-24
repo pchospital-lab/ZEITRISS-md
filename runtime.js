@@ -66,6 +66,7 @@ const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
 const PHYSICALITY_LOG_LIMIT = 16;
 const HUD_SCENE_TOAST_LIMIT = 2;
+const HUD_PRIORITY_TAGS = new Set(['ARENA', 'BOSS', 'GATE', 'FS', 'FORESHADOW']);
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
@@ -2748,32 +2749,73 @@ function reset_hud_usage(){
   state.logs.flags.hud_scene_usage = {};
 }
 
-function register_hud_usage(tag){
+function register_hud_usage(tag, options = {}){
+  const { priority = false } = options;
   ensure_logs();
   const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
   if (sceneIndex === null) return;
   const usage = state.logs.flags.hud_scene_usage;
   const key = String(sceneIndex);
   const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
-  record.count = (record.count || 0) + 1;
+  const increment = priority ? 0 : 1;
+  record.count = Math.max(0, Number.isFinite(record.count) ? Math.floor(record.count) : 0) + increment;
   record.limit = HUD_SCENE_TOAST_LIMIT;
-  if (!record.tags || typeof record.tags !== 'object'){
+  if (!record.tags || typeof record.tags !== 'object' || Array.isArray(record.tags)){
     record.tags = {};
   }
   record.tags[tag] = (record.tags[tag] || 0) + 1;
   usage[key] = record;
 }
 
+function ensure_hud_usage_record(sceneIndex){
+  ensure_logs();
+  if (!Number.isFinite(sceneIndex)) return null;
+  const usage = state.logs.flags.hud_scene_usage;
+  const key = String(sceneIndex);
+  const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
+  const tags = record.tags && typeof record.tags === 'object' && !Array.isArray(record.tags)
+    ? { ...record.tags }
+    : {};
+  const normalized = {
+    count: Math.max(0, Number.isFinite(record.count) ? Math.floor(record.count) : 0),
+    limit: HUD_SCENE_TOAST_LIMIT,
+    tags
+  };
+  usage[key] = normalized;
+  return normalized;
+}
+
 function hud_toast(message, tag = 'HUD'){
   const log = ensure_logs();
+  const normalizedTag = typeof tag === 'string' && tag.trim() ? tag.trim() : 'HUD';
+  const cleanedMessage = (message ?? '').toString().trim();
+  const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
+  const usage = ensure_hud_usage_record(sceneIndex);
+  const isPriorityToast = HUD_PRIORITY_TAGS.has(normalizedTag.toUpperCase());
+  if (usage && usage.count >= HUD_SCENE_TOAST_LIMIT && !isPriorityToast){
+    const action = usage.tags[normalizedTag] ? 'merged' : 'suppressed';
+    if (state.logs.flags.qa_mode){
+      record_trace('toast_suppressed', {
+        tag: normalizedTag,
+        message: cleanedMessage.slice(0, 200),
+        action,
+        hud_scene_usage: {
+          count: usage.count,
+          limit: usage.limit,
+          tags: { ...usage.tags }
+        }
+      });
+    }
+    return { id: null, tag: normalizedTag, message: cleanedMessage, suppressed: true, action };
+  }
   hudSequence = (hudSequence + 1) % 10000;
-  const entry = { id: `hud-${hudSequence.toString().padStart(4, '0')}`, tag, message };
+  const entry = { id: `hud-${hudSequence.toString().padStart(4, '0')}`, tag: normalizedTag, message };
   log.push(entry);
   if (log.length > 32){
     log.splice(0, log.length - 32);
   }
-  register_hud_usage(tag);
-  writeLine(`[${tag}] ${message}`);
+  register_hud_usage(normalizedTag, { priority: isPriorityToast });
+  writeLine(`[${normalizedTag}] ${message}`);
   return entry;
 }
 
@@ -2863,6 +2905,18 @@ function record_trace(event, details = {}){
   }
   if (details.economy_audit && typeof details.economy_audit === 'object'){
     trace.economy_audit = clone_plain_object(details.economy_audit);
+  }
+  if (details.hud_scene_usage && typeof details.hud_scene_usage === 'object' && !Array.isArray(details.hud_scene_usage)){
+    const hudUsage = {
+      count: Number.isFinite(details.hud_scene_usage.count) ? Math.max(0, Math.floor(details.hud_scene_usage.count)) : 0,
+      limit: Number.isFinite(details.hud_scene_usage.limit)
+        ? Math.max(0, Math.floor(details.hud_scene_usage.limit))
+        : HUD_SCENE_TOAST_LIMIT,
+      tags: details.hud_scene_usage.tags && typeof details.hud_scene_usage.tags === 'object' && !Array.isArray(details.hud_scene_usage.tags)
+        ? { ...details.hud_scene_usage.tags }
+        : {}
+    };
+    trace.hud_scene_usage = hudUsage;
   }
   state.logs.trace.push(trace);
   if (state.logs.trace.length > 64){
