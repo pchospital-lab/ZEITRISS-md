@@ -615,7 +615,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
   Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
   (`economy.cu`) und im Credits-Fallback (`economy.credits`) geführt;
-  `sync_primary_currency()` hält beide Felder deckungsgleich.
+  `sync_primary_currency()` hält beide Felder deckungsgleich und protokolliert
+  bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces
+  mit Delta und Grund.
 
 ## Mini-FAQ
 
