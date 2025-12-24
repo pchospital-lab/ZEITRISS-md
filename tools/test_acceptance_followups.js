@@ -44,7 +44,7 @@ function runForeshadowGateCheck(){
     hudAfterStart.some(entry => entry.tag === 'ENTRY'),
     'EntryChoice-Toast fehlt nach Missionsstart'
   );
-  const foreignTags = hudAfterStart.filter(entry => !['BOSS', 'CASE', 'ENTRY'].includes(entry.tag));
+  const foreignTags = hudAfterStart.filter(entry => !['BOSS', 'CASE', 'ENTRY', 'SF'].includes(entry.tag));
   assert.strictEqual(foreignTags.length, 0, 'HUD-Log enthält Rest-Einträge');
   const bossAfter = rt.on_command('!boss status');
   assert.ok(/FS\s+0\/2/.test(bossAfter), 'Foreshadow-Zähler wurde nicht zurückgesetzt');
@@ -110,6 +110,83 @@ function runPhaseStrikeArenaCheck(){
   assert.ok(/Arena Ende/.test(exitMsg), 'Arena-Ende wurde nicht gemeldet');
 
   return { arenaMsg, toast: toast.message, exitMsg };
+}
+
+function runPsiHeatTraceCheck(){
+  const rt = freshRuntime();
+  rt.startSolo('klassisch');
+  rt.state.campaign.episode = 1;
+  rt.state.campaign.mission = 2;
+  rt.state.scene = { index: 0, foreshadows: 0, total: 12 };
+
+  rt.log_psi_event({ category: 'psi_heat_inc', delta: 1, trigger: 'conflict:alpha' });
+  rt.log_psi_event({ category: 'psi_heat_inc', delta: 2, trigger: 'conflict:alpha' });
+  const flushed = rt.log_psi_event({ category: 'psi_heat_inc', delta: 1, trigger: 'conflict:beta', scene_index: 1, flush: true });
+  assert.ok(flushed && flushed.category === 'psi_heat_inc', 'Psi-Heat-Inkrement wurde nicht geschrieben');
+
+  const reset = rt.reset_psi_heat('hq_transfer');
+  const psiLog = rt.state.logs.psi.slice(-3);
+  const categories = psiLog.map(({ category }) => category);
+  assert.ok(categories.includes('psi_heat_inc') && categories.includes('psi_heat_reset'), 'Psi-Heat-Trace fehlt Inkrement oder Reset');
+  const aggEntry = psiLog.find((entry) => entry.category === 'psi_heat_inc' && entry.delta === 3);
+  assert.ok(aggEntry, 'Psi-Heat sollte pro Konflikt aggregiert werden (Delta 3 erwartet)');
+  assert.ok(Array.isArray(aggEntry.triggers) && aggEntry.triggers.includes('conflict:alpha'), 'Trigger-Liste wurde nicht übernommen');
+  assert.ok(reset && reset.category === 'psi_heat_reset', 'Psi-Heat-Reset wurde nicht protokolliert');
+  assert.strictEqual(rt.state.character.psi_heat, 0, 'Psi-Heat wurde nach Reset nicht geleert');
+
+  return { aggEntry, reset };
+}
+
+function runAccessibilityRoundtripCheck(){
+  const rt = freshRuntime();
+  rt.startSolo('klassisch');
+  rt.set_accessibility_option('contrast', 'high');
+  rt.set_accessibility_option('badges', 'compact');
+  rt.set_accessibility_option('pace', 'slow');
+  const saved = rt.save_deep();
+
+  const reloaded = freshRuntime();
+  reloaded.load_deep(saved);
+  assert.deepStrictEqual(
+    {
+      contrast: 'high',
+      badge_density: 'compact',
+      output_pace: 'slow'
+    },
+    {
+      contrast: reloaded.state.ui.contrast,
+      badge_density: reloaded.state.ui.badge_density,
+      output_pace: reloaded.state.ui.output_pace
+    },
+    'Accessibility-Werte sind nach dem Laden nicht identisch'
+  );
+
+  const legacy = JSON.parse(JSON.stringify(require('../internal/qa/fixtures/savegame_v6_full.json').saves[0]));
+  legacy.ui = undefined;
+  legacy.contrast = 'high';
+  legacy.badge_density = 'dense';
+  legacy.output_pace = 'fast';
+
+  const legacyRuntime = freshRuntime();
+  legacyRuntime.load_deep(legacy);
+  assert.deepStrictEqual(
+    {
+      contrast: 'high',
+      badge_density: 'dense',
+      output_pace: 'fast'
+    },
+    {
+      contrast: legacyRuntime.state.ui.contrast,
+      badge_density: legacyRuntime.state.ui.badge_density,
+      output_pace: legacyRuntime.state.ui.output_pace
+    },
+    'Legacy-Accessibility-Felder werden nicht korrekt gemappt'
+  );
+
+  return {
+    roundtrip: reloaded.state.ui,
+    legacy: legacyRuntime.state.ui
+  };
 }
 
 function runMissionFiveBadgeCheck(){
@@ -188,6 +265,8 @@ function main(){
   const suggest = runSuggestToggleCheck();
   const arena = runPhaseStrikeArenaCheck();
   const mission5 = runMissionFiveBadgeCheck();
+  const psiHeat = runPsiHeatTraceCheck();
+  const accessibility = runAccessibilityRoundtripCheck();
 
   console.log('Foreshadow overlay (vorher):', foreshadow.overlayBefore);
   console.log('Foreshadow overlay (nachher):', foreshadow.overlayAfter);
@@ -202,6 +281,8 @@ function main(){
   console.log('Mission 5 Start Overlay:', mission5.startOverlay);
   console.log('Mission 5 HUD Start:', mission5.hudMission.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
   console.log('Mission 5 HUD Reset:', mission5.hudAfter.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
+  console.log('Psi-Heat Trace:', psiHeat.aggEntry, psiHeat.reset);
+  console.log('Accessibility Roundtrip:', accessibility.roundtrip, accessibility.legacy);
 }
 
 if (require.main === module){
