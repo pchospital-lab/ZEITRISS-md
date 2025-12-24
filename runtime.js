@@ -1211,7 +1211,16 @@ function log_market_purchase(item, cost, options = {}){
   if (!normalized){
     throw new Error('MarketLog: Ungültiger Eintrag.');
   }
+  const costValue = normalize_primary_currency(normalized.cost_cu);
+  if (costValue !== null && costValue > 0){
+    const economy = ensure_economy();
+    const before = resolve_primary_currency(economy);
+    const next = Math.max(0, before - costValue);
+    economy.cu = next;
+    sync_primary_currency(economy, next, { reason: 'market_purchase', note: normalized.item || null });
+  }
   marketLog.push(normalized);
+  state.logs.market = marketLog;
   if (marketLog.length > MARKET_LOG_LIMIT){
     marketLog.splice(0, marketLog.length - MARKET_LOG_LIMIT);
   }
@@ -2055,10 +2064,31 @@ function resolve_primary_currency(economy){
   return 0;
 }
 
-function sync_primary_currency(economy, override){
+function record_currency_sync(reason, before, after, meta = {}){
+  const reasonText = typeof reason === 'string' && reason.trim() ? reason.trim() : null;
+  if (!reasonText) return null;
+  const previous = normalize_primary_currency(before);
+  const next = normalize_primary_currency(after);
+  const beforeAmount = previous === null ? 0 : previous;
+  const afterAmount = next === null ? 0 : next;
+  if (beforeAmount === afterAmount) return null;
+  const payload = { reason: reasonText, before: beforeAmount, after: afterAmount, delta: afterAmount - beforeAmount };
+  if (meta && typeof meta === 'object' && !Array.isArray(meta)){
+    const cleanMeta = {};
+    if (typeof meta.note === 'string' && meta.note.trim()) cleanMeta.note = meta.note.trim();
+    if (typeof meta.source === 'string' && meta.source.trim()) cleanMeta.source = meta.source.trim();
+    if (Object.keys(cleanMeta).length){
+      payload.meta = cleanMeta;
+    }
+  }
+  return record_trace('currency_sync', payload);
+}
+
+function sync_primary_currency(economy, override, trace){
   if (!economy || typeof economy !== 'object'){
     return 0;
   }
+  const before = resolve_primary_currency(economy);
   let amount = null;
   if (override !== undefined){
     amount = normalize_primary_currency(override);
@@ -2071,6 +2101,10 @@ function sync_primary_currency(economy, override){
   }
   economy.cu = amount;
   economy.credits = amount;
+  const traceReason = typeof trace === 'object' && !Array.isArray(trace)
+    ? trace.reason || trace.event || trace.type
+    : trace;
+  record_currency_sync(traceReason, before, amount, typeof trace === 'object' ? trace : null);
   return amount;
 }
 
@@ -4542,8 +4576,10 @@ function apply_wallet_split(outcome, cuReward){
   const hazardSource = outcome?.economy?.hazard_pay ?? outcome?.hazard_pay ?? outcome?.economy?.hazard;
   const hazardPay = normalize_cu(hazardSource);
   const lines = [];
+  const startBalance = resolve_primary_currency(economy);
   if (hazardPay !== null && hazardPay > 0){
     economy.cu = Math.max(0, Math.round(economy.cu) + hazardPay);
+    record_currency_sync('hazard_pay', startBalance, economy.cu, { source: 'debrief' });
     lines.push(`Hazard-Pay: ${hazardPay} CU priorisiert (HQ-Pool).`);
   }
   const reward = normalize_cu(cuReward);
@@ -4571,7 +4607,7 @@ function apply_wallet_split(outcome, cuReward){
     const summary = allocations.map((entry) => `${entry.label || entry.id} +${entry.amount} CU`).join(' | ');
     lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
   }
-  sync_primary_currency(economy, economy.cu);
+  sync_primary_currency(economy, economy.cu, { reason: 'wallet_split', source: 'debrief' });
   const hqBalance = Math.max(0, Math.round(economy.cu));
   const remainderText = leftover > 0 ? ` (Rest ${leftover} CU im HQ-Pool)` : '';
   lines.push(`HQ-Pool: ${hqBalance} CU verfügbar${remainderText}.`);
@@ -5266,12 +5302,13 @@ function readArenaCurrency(){
   return { key: 'credits', value: synced };
 }
 
-function writeArenaCurrency(key, value){
+function writeArenaCurrency(key, value, reason = null){
   const economy = ensure_economy();
   const normalized = normalize_primary_currency(value);
   const amount = normalized === null ? 0 : normalized;
   economy[key] = amount;
-  sync_primary_currency(economy, amount);
+  const trace = reason ? { reason, source: 'arena' } : undefined;
+  sync_primary_currency(economy, amount, trace);
 }
 
 function getArenaFee(currency = 0){
@@ -5373,7 +5410,7 @@ function arenaStart(options = {}){
   const teamSize = clamp_team_size(options.teamSize, { allowZero: false });
   const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
   const scenario = nextArenaScenario();
-  writeArenaCurrency(key, value - fee);
+  writeArenaCurrency(key, value - fee, 'arena_fee');
   const currentEpisode = state.campaign?.episode ?? null;
   const previousMode = typeof state.campaign?.mode === 'string' ? state.campaign.mode : null;
   arena.active = true;
