@@ -588,7 +588,9 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    `Wallet-Split` in den HUD-Logs. `logs.arena_psi[]` dokumentiert parallel den
    zuvor aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
    stammen immer aus `economy.cu`/`wallets{}` – Credits nie per Hand direkt
-   setzen.
+   setzen. Jeder Abzug oder Zufluss aus Arena-Gebühren, Hazard-Pay, Wallet-Split
+   oder Markt-Kauf erzeugt einen `currency_sync`-Trace mit Vorher-/Nachher-Wert
+   und Delta.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
    `arena.previous_mode` und `arena.phase='active'`, markiert `location='ARENA'`
    und blockiert Save-Versuche bis zum Arena-Exit. Während der Serie blockiert

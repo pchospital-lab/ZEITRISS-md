@@ -42,7 +42,9 @@ aus dem Gleichgewicht bringen – das ITI reguliert streng den Geldfluss.
 - `sync_primary_currency()` sorgt nach jeder Buchung dafür, dass beide Felder denselben Betrag
   tragen. Der Helper ermittelt den gültigen Wert anhand der Primärschlüssel (`credits`, `cu`,
   `balance`, `assets`) und setzt anschließend `economy.cu` **und** `economy.credits` auf den
-  ermittelten Betrag.
+  ermittelten Betrag. Bei Änderungen mit Grund (`arena_fee`, `wallet_split`, `hazard_pay`,
+  `market_purchase`) legt er zusätzlich `logs.trace[].currency_sync` mit Vorher-/Nachher-Wert und
+  Delta an.
 - `writeArenaCurrency()` nutzt `sync_primary_currency()`, damit Arena-Gebühren, Wallet-Splits und
   Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert
   der Helper divergierende Saves automatisch.
