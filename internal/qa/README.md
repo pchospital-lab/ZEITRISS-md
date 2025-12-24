@@ -12,14 +12,24 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
 
 ## Verzeichnisstruktur
 
-| Ordner         | Inhalt                                                                | Zweck                                                                         |
-| -------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `audits/`      | `ZEITRISS-qa-audit-2025.md`                                           | Bewertet abgeschlossene Testreihen und dokumentiert Maßnahmenstatus.          |
-| `plans/`       | `ZEITRISS-qa-fahrplan-2025.md`                                        | Priorisierte Aufgabenliste inklusive Übergaben an Codex und Maintainer:innen. |
-| `evidence/`    | `README.md`, `2025-beta-gpt-evidenz.md`                               | Ablage für HUD-/Save-/Dispatcher-Nachweise zu den Beta-GPT-Läufen.            |
-| `transcripts/` | `start-transcripts.md`                                                | Referenztranskripte für Startszenarien (Solo, Gruppe, NPC-Team).              |
-| `logs/`        | `2025-beta-qa-log.md`, `ZEITRISS-vereinheitlichungs-fahrplan-2025.md` | Vollständige Chatprotokolle und begleitende Vereinheitlichungs-Logs.          |
-| `../docs/qa/`  | `tester-playtest-briefing.md`                                         | Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-GPT/MyGPT.    |
+- `audits/`
+  - Inhalt: `ZEITRISS-qa-audit-2025.md`
+  - Zweck: Bewertet abgeschlossene Testreihen und dokumentiert den Maßnahmenstatus.
+- `plans/`
+  - Inhalt: `ZEITRISS-qa-fahrplan-2025.md`
+  - Zweck: Priorisierte Aufgabenliste inklusive Übergaben an Codex und Maintainer:innen.
+- `evidence/`
+  - Inhalt: `README.md`, `2025-beta-gpt-evidenz.md`
+  - Zweck: Ablage für HUD-/Save-/Dispatcher-Nachweise zu den Beta-GPT-Läufen.
+- `transcripts/`
+  - Inhalt: `start-transcripts.md`
+  - Zweck: Referenztranskripte für Startszenarien (Solo, Gruppe, NPC-Team).
+- `logs/`
+  - Inhalt: `2025-beta-qa-log.md`, `ZEITRISS-vereinheitlichungs-fahrplan-2025.md`
+  - Zweck: Vollständige Chatprotokolle und begleitende Vereinheitlichungs-Logs.
+- `../docs/qa/`
+  - Inhalt: `tester-playtest-briefing.md`
+  - Zweck: Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-GPT/MyGPT.
 
 ## Workflow-Knoten
 
