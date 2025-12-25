@@ -1255,6 +1255,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    `economy_audit()` als Helper pro HQ-Transfer/Debrief mit Level-Anker (120/512/900+) und
    Host-Vorrang für `economy.cu`; Wallet-Merge union-by-agent-id, Konflikte in
    `logs.flags.merge_conflicts`. QA: Import darf HQ-Pool nicht addieren, Audit-Range prüfen.
+   _Status: ✅ abgeschlossen – Host-HQ-Pool bleibt beim Merge dominant, Wallets werden union-by-id
+   zusammengeführt und Konflikte landen in `merge_conflicts` (2027-01-20)._
 9. **Issue #9 – Arena/PvP Resume-Token & Mode-Restore stabilisieren**
    `reset_arena_after_load()` auf `arena.previous_mode`/`resume_token` priorisieren, damit
    Kampagnenmodus nach Arena korrekt zurückkehrt. SaveGuard blockt Arena-Saves, Merge-Konflikt-

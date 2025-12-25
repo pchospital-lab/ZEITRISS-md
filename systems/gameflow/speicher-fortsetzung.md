@@ -630,7 +630,11 @@ und wird als Host-Wert beibehalten; `load_deep()` schreibt ergänzend ein
 Reset-/Resume-Markern, `conflict_fields`, `conflicts_added` und Gesamtzähler.
 Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen
 automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
-`merge_conflicts.rift_merge` abgelegt.
+`merge_conflicts.rift_merge` abgelegt. Der HQ-Pool (`economy.cu`) bleibt stets
+Host-priorisiert; Importwerte erzeugen nur einen Merge-Konflikt und werden
+verworfen. Wallets werden **union-by-id** zusammengeführt: Host-Wallets haben
+Vorrang, neue IDs aus dem Import ergänzen den Satz, abweichende Balances/Labels
+landen als Konflikt in `logs.flags.merge_conflicts[]`.
 Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
 HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
 Arena-Guards scharfgeschaltet werden.

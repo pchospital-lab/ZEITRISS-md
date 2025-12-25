@@ -377,7 +377,8 @@ Spiel starten (gruppe schnell)
   übernimmt alle Save-Flags.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
-  aktiv.
+  aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
+  werden union-by-id angehängt, Konflikte landen in `logs.flags.merge_conflicts`.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach

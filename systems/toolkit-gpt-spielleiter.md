@@ -588,7 +588,9 @@ if not char.get("psi") and not char.get("has_psi"):
     Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level, HQ-Pool,
     Wallet-Summe, Richtwerte, Chronopolis-Sinks); ein HUD-Toast erscheint nur
-    bei Abweichungen.
+    bei Abweichungen. Beim Laden behalten Host-HQ-Pool und Host-Wallets Vorrang;
+    Import-Wallets werden union-by-id angefügt und abweichende Balances/Labels
+    als Merge-Konflikte markiert.
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_
