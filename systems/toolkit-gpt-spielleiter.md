@@ -539,7 +539,9 @@ if not char.get("psi") and not char.get("has_psi"):
   nach der Mission im HQ auf der [Raumzeitkarte](../characters/zustaende.md#raumzeitkarte),
   sind aber erst **nach Episodenabschluss** spielbar.
   Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
-  Einträge gehen automatisch an ITI-NPC-Teams und erscheinen im Merge-Trace.
+  Einträge gehen automatisch an ITI-NPC-Teams und erscheinen sowohl im
+  Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
+  Merge-Trace (`merge_conflicts.rift_merge`).
   Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
   Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
   (`Px sinkt auf …`).

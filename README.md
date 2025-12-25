@@ -557,9 +557,11 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
   Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und dedupliziert
   identische Konflikt-Records, damit Cross-Mode-Imports einheitliche Belege
-  liefern. Offene `campaign.rift_seeds[]` werden beim Merge auf 12 gedeckelt;
-  überschüssige Seeds gehen automatisch an ITI-NPC-Teams und erscheinen im
-  Trace (`merge_conflicts.rift_merge`). Arena-Resets setzen immer einen
+  liefern. Solo-/Px‑5‑Runs stapeln offene `campaign.rift_seeds[]` ohne Hard-
+  Limit; beim HQ-Merge deckelt die Runtime den offenen Pool auf 12, schiebt
+  Überschüsse an ITI-NPC-Teams und schreibt sowohl ein
+  `rift_seed_merge_cap_applied`-Trace (kept/overflow) als auch einen
+  `merge_conflicts`-Eintrag (`rift_merge`). Arena-Resets setzen immer einen
   HUD-Toast „Merge-Konflikt: Arena-Status verworfen“ und hinterlegen den
   Konflikt im Trace.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die

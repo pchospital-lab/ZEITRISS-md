@@ -109,3 +109,57 @@ const incompatible = {
 
 assert.throws(() => rt.load_deep(incompatible), /Kodex-Archiv: Datensatz v3.9 nicht kompatibel mit v4.2/);
 console.log('version-guard');
+
+const hostSeeds = Array.from({ length: 10 }, (_, idx) => ({ id: `R-H-${idx + 1}` }));
+const incomingSeeds = Array.from({ length: 6 }, (_, idx) => ({ id: `R-I-${idx + 1}` }));
+rt.state.location = 'HQ';
+rt.state.campaign = { rift_seeds: hostSeeds, mode: 'preserve', seed_source: 'preserve' };
+rt.state.character = {
+  id: 'HOST',
+  stress: 0,
+  psi_heat: 0,
+  cooldowns: {},
+  attributes: { SYS_max: 1, SYS_used: 1 }
+};
+rt.state.team = { members: [] };
+rt.state.party = { characters: [] };
+rt.state.loadout = {};
+rt.state.economy = {};
+rt.state.arc_dashboard = { offene_seeds: [], fraktionen: {}, fragen: [] };
+rt.state.logs = { flags: {} };
+const mergeSave = {
+  save_version: 6,
+  location: 'HQ',
+  phase: 'core',
+  campaign: { rift_seeds: incomingSeeds, px: 0, paradoxon_index: 0 },
+  character: {
+    id: 'IMPORT',
+    stress: 0,
+    psi_heat: 0,
+    cooldowns: {},
+    attributes: { SYS_max: 1, SYS_used: 1 }
+  },
+  team: { members: [] },
+  party: { characters: [] },
+  loadout: {},
+  economy: {},
+  logs: { flags: {} },
+  ui: { gm_style: 'verbose' },
+  arc_dashboard: { offene_seeds: [] }
+};
+
+const mergeRes = rt.load_deep(mergeSave);
+assert.equal(mergeRes.status, 'ok');
+assert.equal(rt.state.campaign.rift_seeds.length, 12);
+const keptIds = rt.state.campaign.rift_seeds.map((seed) => seed.id);
+assert.deepStrictEqual(keptIds, [
+  'R-H-1', 'R-H-2', 'R-H-3', 'R-H-4', 'R-H-5', 'R-H-6', 'R-H-7', 'R-H-8', 'R-H-9',
+  'R-H-10', 'R-I-1', 'R-I-2'
+]);
+const conflict = rt.state.logs.flags.merge_conflicts.find((entry) => entry.field === 'campaign.rift_seeds');
+assert.ok(conflict, 'Rift-Seed-Merge-Konflikt fehlt.');
+assert.ok(
+  rt.state.logs.trace.some((entry) => entry.event === 'rift_seed_merge_cap_applied'),
+  'Trace rift_seed_merge_cap_applied fehlt.'
+);
+console.log('rift-merge-cap');

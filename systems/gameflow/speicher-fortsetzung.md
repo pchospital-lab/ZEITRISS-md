@@ -239,6 +239,10 @@ Phase-Strike-Events separat vom regulären `logs.psi[]`.
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
+Solo-/Px‑5‑Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift eine
+Deckelung auf 12 offene Seeds; überschüssige Seeds gehen als Hand-off an ITI-
+NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
+(kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge`.
 
 **Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
