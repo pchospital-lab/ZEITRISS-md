@@ -502,22 +502,23 @@ Routen zu passenden Proben.
 mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 `campaign.px`.
 
-**Mission 5 Auto-Reset (Self-Reflection-Beispiel)**
+**Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
 
 ```json
 {
   "logs": {
     "hud": ["SF-OFF (Mission 5)", "GATE 2/2", "SF-ON (post-M5 reset)"],
     "self_reflection_history": [
-      {"mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z"}
+      {"mission_ref": "EP04-MS05", "reason": "mission5_end", "ts": "2025-11-26T22:10:00Z"},
+      {"mission_ref": "EP04-MS10", "reason": "mission10_end", "ts": "2025-11-27T22:10:00Z"}
     ],
     "flags": {
       "foreshadow_gate_m5_seen": true,
       "self_reflection": true,
       "self_reflection_off": false,
       "self_reflection_auto_reset_at": "2025-11-26T22:10:00Z",
-      "self_reflection_auto_reset_reason": "mission5_end",
-      "self_reflection_last_change_reason": "mission5_end",
+      "self_reflection_auto_reset_reason": "mission10_end",
+      "self_reflection_last_change_reason": "mission10_end",
       "last_mission_end_reason": "aborted"
     }
   },
@@ -526,7 +527,7 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 }
 ```
 
-Das Beispiel zeigt den automatischen Reset nach Mission 5: HUD-Badge `SF-OFF`
+Das Beispiel zeigt den automatischen Reset nach Mission 5 und 10: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
 den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`), die optionale
 `self_reflection_history[]` hält jeden Reset chronologisch fest. Nach dem
@@ -536,14 +537,14 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 **Self-Reflection-Priorität & Helper**
 - Runtime und HUD lesen ausschließlich `character.self_reflection`; Log-Flags
   spiegeln den Charakterwert, ersetzen ihn aber nie.
-- `set_self_reflection(enabled:boolean, reason?: string)` setzt
-  `character.self_reflection` und `logs.flags.self_reflection` synchron, legt
-  `self_reflection_changed_at/_reason` an, plant den Auto-Reset nach
-  Mission 5 (`self_reflection_auto_reset_*`) und hängt auf Wunsch einen Eintrag
-  an `logs.self_reflection_history[]` an, damit Wiederholungen nachvollziehbar
-  bleiben.
-- Auto-Reset feuert nach Mission 5 immer, egal ob Abschluss oder Abbruch, und
-  setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück.
+- `set_self_reflection(enabled:boolean, reason?: string)` ist die einzige
+  Schnittstelle, die `character.self_reflection` und `logs.flags.self_reflection`
+  synchron setzt, `self_reflection_changed_at/_reason` pflegt und auf Wunsch
+  einen Eintrag an `logs.self_reflection_history[]` anhängt, damit Wiederholungen
+  nachvollziehbar bleiben.
+- Auto-Reset feuert nach Mission 5 **und 10** immer, egal ob Abschluss oder
+  Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
+  füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
 - Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,

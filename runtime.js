@@ -3031,7 +3031,9 @@ function set_self_reflection(on, opts = {}){
     ? 'Self-Reflection aktiv – introspektive Sequenzen frei.'
     : 'Self-Reflection deaktiviert – Fokus bleibt extern.';
   const message = options.message || defaultMessage;
-  const timestamp = new Date().toISOString();
+  const timestamp = typeof options.timestamp === 'string'
+    ? options.timestamp
+    : new Date().toISOString();
   flags.self_reflection = enabled;
   flags.self_reflection_off = !enabled;
   flags.self_reflection_changed_at = timestamp;
@@ -3039,7 +3041,51 @@ function set_self_reflection(on, opts = {}){
   if (!options.silent){
     hud_toast(message, statusTag);
   }
-  return { status: statusTag, message };
+  return { status: statusTag, message, timestamp };
+}
+
+function auto_reset_self_reflection(reason = 'mission_end', opts = {}){
+  const options = opts && typeof opts === 'object' ? opts : {};
+  const timestamp = typeof options.timestamp === 'string'
+    ? options.timestamp
+    : new Date().toISOString();
+  const message = options.message || 'SF-ON (auto-reset)';
+  const tag = options.tag || 'SF-ON';
+  const episode = Number.isFinite(state.campaign?.episode)
+    ? Math.max(0, Math.floor(state.campaign.episode))
+    : null;
+  const mission = Number.isFinite(state.campaign?.mission)
+    ? Math.max(0, Math.floor(state.campaign.mission))
+    : null;
+  const missionRef = episode && mission
+    ? `EP${String(episode).padStart(2, '0')}-MS${String(mission).padStart(2, '0')}`
+    : null;
+
+  set_self_reflection(true, {
+    ...options,
+    reason,
+    tag,
+    message,
+    timestamp,
+    silent: options.silent === true ? true : options.silent === false ? false : true
+  });
+
+  ensure_logs();
+  const flags = state.logs.flags;
+  flags.self_reflection_auto_reset_at = timestamp;
+  flags.self_reflection_auto_reset_reason = reason;
+
+  if (options.history_entry !== false && missionRef){
+    const history = Array.isArray(state.logs.self_reflection_history)
+      ? state.logs.self_reflection_history
+      : [];
+    if (!Array.isArray(state.logs.self_reflection_history)){
+      state.logs.self_reflection_history = history;
+    }
+    history.push({ mission_ref: missionRef, reason, ts: timestamp });
+  }
+
+  return { mission_ref: missionRef, timestamp };
 }
 
 function suggest_mode_enabled(){
@@ -3961,17 +4007,16 @@ function completeMission(summary = {}){
     flags.foreshadow_gate_expected = false;
     flags.last_mission_end_reason = missionEndReason;
     if (
-      Number.isFinite(missionNumber) &&
-      missionNumber === 5 &&
-      (missionEndReason === 'completed' || missionEndReason === 'aborted')
+      Number.isFinite(missionNumber)
+      && (missionNumber === 5 || missionNumber === 10)
+      && (missionEndReason === 'completed' || missionEndReason === 'aborted')
     ){
-      set_self_reflection(true, {
-        message: 'SF-ON (post-M5 reset)',
+      auto_reset_self_reflection(missionEndReason, {
+        message: `SF-ON (post-M${missionNumber} reset)`,
         tag: 'SF-ON',
-        reason: missionEndReason
+        timestamp: nowIso,
+        silent: false
       });
-      flags.self_reflection_auto_reset_at = nowIso;
-      flags.self_reflection_auto_reset_reason = missionEndReason;
     }
   }
   state.campaign.last_mission_end_reason = missionEndReason;
@@ -6681,8 +6726,17 @@ function StartMission(){
     state.campaign.episode_completed = false;
   }
   if (Number.isFinite(missionNumber) && missionNumber >= 6 && !self_reflection_enabled()){
-    set_self_reflection(true);
-    state.logs.flags.self_reflection_auto_reset_at = new Date().toISOString();
+    const existingReset = state.logs.flags.self_reflection_auto_reset_at;
+    const timestamp = existingReset || new Date().toISOString();
+    set_self_reflection(true, {
+      silent: true,
+      reason: state.logs.flags.self_reflection_last_change_reason || 'auto_recover_post_boss',
+      timestamp
+    });
+    if (!existingReset){
+      state.logs.flags.self_reflection_auto_reset_at = timestamp;
+      state.logs.flags.self_reflection_auto_reset_reason = 'auto_recover_post_boss';
+    }
   }
   let bossToast = null;
   let bossDrToast = null;
@@ -8950,17 +9004,20 @@ function startSolo(mode='klassisch'){
     modes: DEFAULT_MODES.slice()
   };
   ensure_logs();
-  state.logs.flags.compliance_shown_today = false;
-  state.logs.flags.chronopolis_warn_seen = false;
-  state.logs.flags.self_reflection = true;
-  state.logs.flags.foreshadow_gate_progress = 0;
-  state.logs.flags.foreshadow_gate_snapshot = 0;
-  state.logs.flags.foreshadow_gate_expected = false;
-  state.logs.flags.dispatch_syntax_hint_seen = false;
-  state.logs.flags.qa_dispatch_seen = false;
-  state.logs.flags.qa_player_count = null;
-  state.logs.flags.qa_addressing = null;
-  state.logs.flags.qa_debrief = false;
+  set_self_reflection(true, { silent: true, reason: 'start_solo' });
+  const flags = state.logs.flags;
+  flags.compliance_shown_today = false;
+  flags.chronopolis_warn_seen = false;
+  flags.self_reflection_auto_reset_at = null;
+  flags.self_reflection_auto_reset_reason = null;
+  flags.foreshadow_gate_progress = 0;
+  flags.foreshadow_gate_snapshot = 0;
+  flags.foreshadow_gate_expected = false;
+  flags.dispatch_syntax_hint_seen = false;
+  flags.qa_dispatch_seen = false;
+  flags.qa_player_count = null;
+  flags.qa_addressing = null;
+  flags.qa_debrief = false;
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;
@@ -8999,17 +9056,20 @@ function startGroup(mode='klassisch'){
   state.campaign.team_size = 5;
   state.team = { size: 5 };
   ensure_logs();
-  state.logs.flags.compliance_shown_today = false;
-  state.logs.flags.chronopolis_warn_seen = false;
-  state.logs.flags.self_reflection = true;
-  state.logs.flags.foreshadow_gate_progress = 0;
-  state.logs.flags.foreshadow_gate_snapshot = 0;
-  state.logs.flags.foreshadow_gate_expected = false;
-  state.logs.flags.dispatch_syntax_hint_seen = false;
-  state.logs.flags.qa_dispatch_seen = false;
-  state.logs.flags.qa_player_count = null;
-  state.logs.flags.qa_addressing = null;
-  state.logs.flags.qa_debrief = false;
+  set_self_reflection(true, { silent: true, reason: 'start_group' });
+  const flags = state.logs.flags;
+  flags.compliance_shown_today = false;
+  flags.chronopolis_warn_seen = false;
+  flags.self_reflection_auto_reset_at = null;
+  flags.self_reflection_auto_reset_reason = null;
+  flags.foreshadow_gate_progress = 0;
+  flags.foreshadow_gate_snapshot = 0;
+  flags.foreshadow_gate_expected = false;
+  flags.dispatch_syntax_hint_seen = false;
+  flags.qa_dispatch_seen = false;
+  flags.qa_player_count = null;
+  flags.qa_addressing = null;
+  flags.qa_debrief = false;
   state.campaign.compliance_shown_today = false;
   state.campaign.mode = normalizedSeed;
   state.campaign.seed_source = normalizedSeed;

@@ -227,6 +227,14 @@ function runMissionFiveBadgeCheck(){
     Object.entries(mission5Fixture.flag_checks).forEach(([key, expected]) => {
       assert.strictEqual(flags[key], expected, `Flag ${key} entspricht nicht dem Snapshot`);
     });
+    const mission5History = Array.isArray(rt.state.logs.self_reflection_history)
+      ? rt.state.logs.self_reflection_history
+      : [];
+    const historyMatch = mission5History.find((entry) => (
+      entry && entry.mission_ref === mission5Fixture.history_entry.mission_ref
+      && entry.reason === mission5Fixture.history_entry.reason
+    ));
+    assert.ok(historyMatch, 'History-Eintrag für Mission 5 fehlt oder stimmt nicht');
     assert.ok(
       typeof flags.self_reflection_auto_reset_at === 'string' && flags.self_reflection_auto_reset_at.trim(),
       'Flag self_reflection_auto_reset_at fehlt nach Mission 5'
@@ -249,6 +257,14 @@ function runMissionFiveBadgeCheck(){
     Object.entries(mission5Fixture.flag_checks).forEach(([key, expected]) => {
       assert.strictEqual(loadFlags[key], expected, `Load-Flag ${key} entspricht nicht dem Snapshot`);
     });
+    const loadHistory = Array.isArray(reloaded.state.logs.self_reflection_history)
+      ? reloaded.state.logs.self_reflection_history
+      : [];
+    const loadHistoryMatch = loadHistory.find((entry) => (
+      entry && entry.mission_ref === mission5Fixture.history_entry.mission_ref
+      && entry.reason === mission5Fixture.history_entry.reason
+    ));
+    assert.ok(loadHistoryMatch, 'History-Eintrag für Mission 5 fehlt nach Load');
     assert.ok(
       typeof loadFlags.self_reflection_auto_reset_at === 'string' && loadFlags.self_reflection_auto_reset_at.trim(),
       'Flag self_reflection_auto_reset_at fehlt nach Load'
@@ -260,6 +276,42 @@ function runMissionFiveBadgeCheck(){
   }
 }
 
+function runMissionTenSelfReflectionResetCheck(){
+  const rt = freshRuntime();
+  rt.startGroup('klassisch');
+  rt.state.campaign.episode = 3;
+  rt.state.campaign.mission = 10;
+  rt.state.campaign.type = 'core';
+  rt.state.scene = { index: 0, foreshadows: 0, total: 12 };
+
+  const sfOff = rt.on_command('!sf off');
+  assert.ok(sfOff.includes('SF-OFF'), 'SF-OFF-Toast für Mission 10 fehlt');
+
+  rt.StartMission();
+  rt.state.scene.index = 10;
+  rt.completeMission({ reason: 'completed' });
+
+  const flags = rt.state.logs.flags;
+  assert.strictEqual(flags.self_reflection, true, 'Mission 10 Auto-Reset setzt SF nicht auf ON');
+  assert.strictEqual(
+    flags.self_reflection_auto_reset_reason,
+    'completed',
+    'Mission 10 Auto-Reset nutzt keinen Abschluss-Reason'
+  );
+  assert.ok(
+    typeof flags.self_reflection_auto_reset_at === 'string' && flags.self_reflection_auto_reset_at.trim(),
+    'Mission 10 Auto-Reset setzt kein Timestamp'
+  );
+
+  const history = Array.isArray(rt.state.logs.self_reflection_history)
+    ? rt.state.logs.self_reflection_history
+    : [];
+  const historyEntry = history.find((entry) => entry && /MS10$/.test(entry.mission_ref));
+  assert.ok(historyEntry, 'History enthält keinen Eintrag für Mission 10');
+
+  return { autoResetReason: flags.self_reflection_auto_reset_reason, historyRef: historyEntry?.mission_ref };
+}
+
 function main(){
   const foreshadow = runForeshadowGateCheck();
   const suggest = runSuggestToggleCheck();
@@ -267,6 +319,7 @@ function main(){
   const mission5 = runMissionFiveBadgeCheck();
   const psiHeat = runPsiHeatTraceCheck();
   const accessibility = runAccessibilityRoundtripCheck();
+  const mission10 = runMissionTenSelfReflectionResetCheck();
 
   console.log('Foreshadow overlay (vorher):', foreshadow.overlayBefore);
   console.log('Foreshadow overlay (nachher):', foreshadow.overlayAfter);
@@ -281,6 +334,7 @@ function main(){
   console.log('Mission 5 Start Overlay:', mission5.startOverlay);
   console.log('Mission 5 HUD Start:', mission5.hudMission.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
   console.log('Mission 5 HUD Reset:', mission5.hudAfter.map(({ tag, message }) => `[${tag}] ${message}`).join(' | '));
+  console.log('Mission 10 Auto-Reset:', mission10.autoResetReason, mission10.historyRef);
   console.log('Psi-Heat Trace:', psiHeat.aggEntry, psiHeat.reset);
   console.log('Accessibility Roundtrip:', accessibility.roundtrip, accessibility.legacy);
 }
