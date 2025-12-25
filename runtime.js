@@ -3369,7 +3369,10 @@ function record_trace(event, details = {}){
     state.logs.trace = [];
   }
   const eventName = typeof event === 'string' && event.trim() ? event.trim() : 'event';
-  const nowIso = new Date().toISOString();
+  const overrideAt = typeof details.at === 'string' && details.at.trim()
+    ? details.at.trim()
+    : null;
+  const nowIso = overrideAt || new Date().toISOString();
   const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
   const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
   const episode = Number.isFinite(state.campaign?.episode) ? state.campaign.episode : null;
@@ -7720,10 +7723,12 @@ function normalize_hud_entry(entry, fallbackTimestamp){
   return Object.keys(record).length ? record : null;
 }
 
-function prepare_save_logs(logs){
+function prepare_save_logs(logs, options = {}){
   const base = clone_plain_object(logs);
+  const hudTimestamp = typeof options.hudTimestamp === 'string' && options.hudTimestamp.trim()
+    ? options.hudTimestamp.trim()
+    : new Date().toISOString();
   if (Array.isArray(base.hud)){
-    const hudTimestamp = new Date().toISOString();
     base.hud = base.hud
       .map(entry => normalize_hud_entry(entry, hudTimestamp))
       .filter(Boolean)
@@ -7871,9 +7876,13 @@ function prepare_save_logs(logs){
   if (!base.flags.runtime_version){
     base.flags.runtime_version = ZR_VERSION;
   }
+  const lastSaveAt = typeof base.flags.last_save_at === 'string' && base.flags.last_save_at.trim()
+    ? base.flags.last_save_at.trim()
+    : null;
   base.flags.compliance_shown_today = !!base.flags.compliance_shown_today;
   base.flags.dispatch_syntax_hint_seen = !!base.flags.dispatch_syntax_hint_seen;
   base.flags.chronopolis_warn_seen = !!base.flags.chronopolis_warn_seen;
+  base.flags.last_save_at = lastSaveAt || hudTimestamp;
   const offlineLastScene = typeof base.flags.offline_help_last_scene === 'string'
     ? base.flags.offline_help_last_scene.trim()
     : null;
@@ -8315,7 +8324,27 @@ const HQ_ONLY_SAVE_REASON =
   'Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.';
 const HQ_ONLY_SAVE_TEXT = toast_save_block(HQ_ONLY_SAVE_REASON);
 
-function select_state_for_save(s){
+function resolve_save_timestamp(sourceState){
+  const candidate = typeof sourceState?.logs?.flags?.last_save_at === 'string'
+    && sourceState.logs.flags.last_save_at.trim()
+    ? sourceState.logs.flags.last_save_at.trim()
+    : null;
+  if (candidate){
+    return candidate;
+  }
+  const fallback = new Date().toISOString();
+  if (sourceState?.logs?.flags && typeof sourceState.logs.flags === 'object'){
+    sourceState.logs.flags.last_save_at = fallback;
+  }
+  ensure_logs();
+  state.logs.flags.last_save_at = fallback;
+  return fallback;
+}
+
+function select_state_for_save(s, options = {}){
+  const saveTimestamp = typeof options.saveTimestamp === 'string' && options.saveTimestamp.trim()
+    ? options.saveTimestamp.trim()
+    : null;
   const arcDashboard = s === state
     ? prepare_save_arc_dashboard(ensure_arc_dashboard())
     : prepare_save_arc_dashboard(s.arc_dashboard);
@@ -8331,7 +8360,7 @@ function select_state_for_save(s){
     party: prepare_save_party(s.party, s.team),
     loadout: prepare_save_loadout(s.loadout),
     economy: prepare_save_economy(s.economy),
-    logs: prepare_save_logs(s.logs),
+    logs: prepare_save_logs(s.logs, { hudTimestamp: saveTimestamp }),
     ui,
     arena: prepare_save_arena(s.arena),
     arc_dashboard: arcDashboard
@@ -8403,14 +8432,16 @@ function save_deep(s=state){
   }
   ensure_atmosphere_contract();
   assert_atmosphere_contract_capture();
+  const saveTimestamp = resolve_save_timestamp(s);
   const economyAudit = build_economy_audit(s);
   record_trace('economy_audit', {
     channel: 'SAVE',
     economy_audit: economyAudit,
-    note: 'hq_save'
+    note: 'hq_save',
+    at: saveTimestamp
   });
   maybe_toast_economy_audit(economyAudit);
-  const payload = select_state_for_save(s);
+  const payload = select_state_for_save(s, { saveTimestamp });
   return JSON.stringify(payload);
 }
 
@@ -8541,7 +8572,11 @@ function migrate_save(data){
   data.character = prepare_save_character(data.character, { requireId: false });
   data.campaign = prepare_save_campaign(data.campaign);
   data.economy = prepare_save_economy(data.economy);
-  data.logs = prepare_save_logs(data.logs);
+  const saveTimestamp = typeof data?.logs?.flags?.last_save_at === 'string'
+    && data.logs.flags.last_save_at.trim()
+    ? data.logs.flags.last_save_at.trim()
+    : null;
+  data.logs = prepare_save_logs(data.logs, { hudTimestamp: saveTimestamp });
   data.arc_dashboard = prepare_save_arc_dashboard(data.arc_dashboard);
   data.initiative = sanitizeSnapshotInitiative(data.initiative);
   data.hud = sanitizeSnapshotHud(data.hud);

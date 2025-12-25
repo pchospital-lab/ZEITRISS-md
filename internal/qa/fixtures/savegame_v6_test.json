@@ -14,7 +14,9 @@
     "seed_source": "preserve",
     "seed_id": "P-0002",
     "objective": "Stabilisiere Reaktor Brunsbüttel, verhindere Kühlverlust.",
-    "hq_moments_used": ["BASTION"],
+    "hq_moments_used": [
+      "BASTION"
+    ],
     "hq_moment_last": "BASTION",
     "rift_seeds": [
       {
@@ -68,12 +70,21 @@
       "hp": 11,
       "hp_max": 11
     },
-    "modes": ["mission_focus", "covert_ops_technoir"],
+    "modes": [
+      "mission_focus",
+      "covert_ops_technoir"
+    ],
     "self_reflection": false,
     "has_psi": false,
     "psi_buffer": true,
-    "talents": ["Schleichprofi", "Pistolenschütze"],
-    "skills": ["Infiltration", "Taktische Analyse"],
+    "talents": [
+      "Schleichprofi",
+      "Pistolenschütze"
+    ],
+    "skills": [
+      "Infiltration",
+      "Taktische Analyse"
+    ],
     "implants": [
       {
         "name": "Retina-HUD-Kontaktlinse",
@@ -92,21 +103,33 @@
       }
     ],
     "inventory": {
-      "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
-      "armor": ["Kevlar-Weste Stufe II"],
+      "weapons": [
+        "CQB-Kampfpistole (SD)",
+        "Tactical Fighting Knife"
+      ],
+      "armor": [
+        "Kevlar-Weste Stufe II"
+      ],
       "gadgets": [
         "Multi-Tool Wraith",
         "Faseroptik-Kabelkamera",
         "Rauchgranate Mk I",
         "Micro-Breacher"
       ],
-      "consumables": ["Med-Patch"],
-      "special": ["Notfall-Transponder"]
+      "consumables": [
+        "Med-Patch"
+      ],
+      "special": [
+        "Notfall-Transponder"
+      ]
     },
     "quarters": {
       "id": "QTR-T01",
       "preset": "custom",
-      "layout_tags": ["stealth", "urban_ghost"],
+      "layout_tags": [
+        "stealth",
+        "urban_ghost"
+      ],
       "deck": "HQ-A",
       "notes": "Kleines Einzelquartier mit schallgedämmter Tür."
     },
@@ -214,7 +237,12 @@
         "stress": 1,
         "at": "2025-11-26T20:45:00Z"
       },
-      "Boss-DR aktiviert – −X Schaden pro Treffer"
+      "Boss-DR aktiviert – −X Schaden pro Treffer",
+      {
+        "event": "vehicle_clash",
+        "tempo": "mittel",
+        "stress": 1
+      }
     ],
     "trace": [
       {
@@ -224,14 +252,27 @@
         "phase": "core",
         "mission_type": "core",
         "campaign_mode": "preserve",
-        "scene": {"episode": 1, "mission": 5, "index": 0, "total": 12},
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
         "hud": "EP 01 · MS 05 · SC 0/12 · MODE verbose · Objective: Stabilisiere Reaktor",
         "channel": "HUD",
-        "foreshadow": {"progress": 0, "required": 4, "tokens": 0, "expected": true},
+        "foreshadow": {
+          "progress": 0,
+          "required": 4,
+          "tokens": 0,
+          "expected": true
+        },
         "radio_count": 0,
         "kodex_count": 0,
         "alias_count": 1,
-        "economy": {"cu": 1200, "wallets": 2},
+        "economy": {
+          "cu": 1200,
+          "wallets": 2
+        },
         "fr_bias": "normal",
         "intervention": "none",
         "note": "Boss-DR aktiviert – −2 Schaden pro Treffer"
@@ -243,32 +284,118 @@
         "phase": "core",
         "mission_type": "core",
         "campaign_mode": "pvp",
-        "scene": {"episode": 1, "mission": 5, "index": 0, "total": 12},
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
         "hud": "Arena initiiert · Tier 1 · Gebühr 200 CU",
         "channel": "ARENA",
-        "foreshadow": {"progress": 0, "required": 4, "tokens": 0, "expected": false},
+        "foreshadow": {
+          "progress": 0,
+          "required": 4,
+          "tokens": 0,
+          "expected": false
+        },
         "radio_count": 0,
         "kodex_count": 0,
         "alias_count": 1,
-        "economy": {"cu": 1000, "wallets": 2},
+        "economy": {
+          "cu": 1000,
+          "wallets": 2
+        },
         "fr_bias": "normal",
         "intervention": "none",
-        "arena": {"scenario": "Chronopolis Patrol", "tier": 1, "team_size": 2},
+        "arena": {
+          "scenario": "Chronopolis Patrol",
+          "tier": 1,
+          "team_size": 2
+        },
         "note": "Px-Bonus verfügbar"
+      },
+      {
+        "event": "chronopolis_unlock",
+        "at": "2025-11-26T21:40:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "preserve",
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
+        "hud": "Chronopolis-Schlüssel aktiv – Level 10+ erreicht.",
+        "channel": "HUD",
+        "economy": {
+          "cu": 2100,
+          "wallets": 1
+        },
+        "note": "Unlock nach Level 10",
+        "qa_mode": true
+      },
+      {
+        "event": "economy_audit",
+        "at": "2025-11-26T22:00:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "preserve",
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
+        "channel": "SAVE",
+        "economy_audit": {
+          "level": 3,
+          "hq_pool": 2100,
+          "wallets": 1,
+          "expected_floor": 120,
+          "expected_ceiling": 900
+        },
+        "note": "hq_save",
+        "qa_mode": true
       }
     ],
-    "arena_psi": [],
+    "arena_psi": [
+      {
+        "ts": "2025-11-26T20:05:00Z",
+        "source": "phase_strike_tax_reset",
+        "effect": "-1 Phase-Strike-Tax"
+      }
+    ],
     "psi": [
       {
         "ts": "2025-11-26T21:10:00Z",
         "mode_previous": "preserve",
         "note": "Arena-Run solo"
+      },
+      {
+        "ts": "2025-11-26T21:20:00Z",
+        "mode_previous": "pvp",
+        "note": "Post-Arena Cooldown"
       }
     ],
     "foreshadow": [
-      {"scene": 5, "label": "Steg fällt ein", "mission_ref": "EP01-MS05"},
-      {"scene": 9, "label": "Foreshadow: Click", "mission_ref": "EP01-MS05"},
-      {"scene": 10, "label": "Boss-Toast", "mission_ref": "EP01-MS05"}
+      {
+        "scene": 5,
+        "label": "Steg fällt ein",
+        "mission_ref": "EP01-MS05"
+      },
+      {
+        "scene": 9,
+        "label": "Foreshadow: Click",
+        "mission_ref": "EP01-MS05"
+      },
+      {
+        "scene": 10,
+        "label": "Boss-Toast",
+        "mission_ref": "EP01-MS05"
+      }
     ],
     "fr_interventions": [
       {
@@ -286,11 +413,123 @@
       "self_reflection_off": true,
       "self_reflection_auto_reset_at": null,
       "self_reflection_auto_reset_reason": null,
-      "last_mission_end_reason": null,
+      "last_mission_end_reason": "completed",
       "foreshadow_gate_m5_seen": true,
       "foreshadow_gate_m10_seen": false,
-      "merge_conflicts": [],
-      "output_pace_suggestion": null
+      "merge_conflicts": [
+        {
+          "field": "arena.state",
+          "source": "load",
+          "value": "reset-after-merge"
+        }
+      ],
+      "output_pace_suggestion": null,
+      "qa_mode": true,
+      "qa_addressing": "du",
+      "qa_player_count": 2,
+      "qa_dispatch_seen": true,
+      "qa_debrief": true,
+      "chronopolis_unlocked": true,
+      "chronopolis_unlock_logged": true,
+      "chronopolis_unlock_level": 10,
+      "last_save_at": "2025-11-26T22:00:00Z",
+      "hud_scene_usage": {
+        "10": {
+          "count": 3,
+          "limit": 5,
+          "tags": {
+            "HUD": 2,
+            "FS": 1
+          }
+        }
+      },
+      "platform_action_contract": {
+        "action_mode": "konform",
+        "pattern": "intent-cut-result",
+        "loot_policy": "outcome_only",
+        "body_handling": "none"
+      },
+      "atmosphere_contract": {
+        "voice_profile": "gm_third_person",
+        "physicality_guard": true,
+        "default_modes": [
+          "mission_focus",
+          "covert_ops_technoir"
+        ],
+        "hud_limit": {
+          "per_scene": 5,
+          "narrative_ratio": "80/20"
+        },
+        "banned_terms": [
+          "cyberspace",
+          "virtueller raum",
+          "digitalraum",
+          "matrix",
+          "holodeck"
+        ]
+      },
+      "atmosphere_contract_capture": {
+        "core": {
+          "lines": [
+            "Spannung: Thriller, keine Comedy.",
+            "Metaphern sparsam, keine Slapstickbeats.",
+            "Ton: dichte Gegenwartsaction.",
+            "Immersion Vorrang vor Meta.",
+            "Verbote: keine Matrix, kein Holodeck.",
+            "Dialoge knapp, keine Meme-Referenzen.",
+            "Action im Präsens schildern.",
+            "Cliffhanger statt Happy End."
+          ],
+          "banned_terms": {
+            "status": "PASS",
+            "hits": []
+          },
+          "hud_toasts": 1,
+          "captured_at": "2025-11-26T17:00:00Z"
+        },
+        "transfer": {
+          "lines": [
+            "Transfer: Fokus auf Druck und Risiko.",
+            "Keine Slapstick-Teleports.",
+            "Sensorik knapp halten.",
+            "Teamfunk mit Callouts, keine Witze.",
+            "Verbote gelten wie im Kern.",
+            "Stadt-Noise nur andeuten.",
+            "Offene Fragen parken, kein Lore-Dump.",
+            "Stil bleibt nüchtern."
+          ],
+          "banned_terms": {
+            "status": "PASS",
+            "hits": []
+          },
+          "hud_toasts": 1,
+          "captured_at": "2025-11-26T17:10:00Z"
+        },
+        "rift": {
+          "lines": [
+            "Rift: keine Retro-Sci-Fi-Anklänge.",
+            "Paradoxa sachlich erklären.",
+            "Körperlichkeit sichern.",
+            "Tempo hochhalten, keine Filler.",
+            "Verbote gelten fort.",
+            "Sprache: knapp, präzise.",
+            "Bedrohung betonen, keine Slapsticknotizen.",
+            "Toasts nur bei Impact."
+          ],
+          "banned_terms": {
+            "status": "PASS",
+            "hits": []
+          },
+          "hud_toasts": 2,
+          "captured_at": "2025-11-26T17:20:00Z"
+        }
+      },
+      "howto_guard_hits": [
+        {
+          "id": "hq_save",
+          "count": 1
+        }
+      ]
     }
   },
   "arc_dashboard": {
@@ -324,7 +563,15 @@
         "epoch": "1971",
         "label": "Apollo 15 Guidance stabilisiert",
         "stability": 2
+      },
+      {
+        "id": "TL-CHRONO-LOCK",
+        "epoch": "2026",
+        "label": "Chronopolis-Schlüssel initiiert"
       }
+    ],
+    "fragen": [
+      "Wie sichern wir Arc Brunsbüttel?"
     ]
   },
   "ui": {
@@ -351,10 +598,18 @@
     "damage_dampener": true,
     "team_size": 4,
     "fee": 200,
-    "scenario": "Scrimmage Montauk",
+    "scenario": {
+      "label": "Scrimmage Montauk",
+      "tier": 2
+    },
     "started_episode": 1,
     "last_reward_episode": 1,
-    "policy_players": ["AGENT-TEST"],
+    "policy_players": [
+      {
+        "id": "AGENT-TEST",
+        "role": "pilot"
+      }
+    ],
     "audit": [
       {
         "ts": "2025-11-26T21:30:00Z",

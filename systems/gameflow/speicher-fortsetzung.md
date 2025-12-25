@@ -104,6 +104,12 @@ SaveGuard + folgendem Pfadbaum:
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat`, `team_size` hart 1–5)
 
+`logs.flags.last_save_at` hält den Zeitstempel für deterministische Saves fest. Der Serializer nutzt
+den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
+`economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen. QA-Fixtures wie
+`internal/qa/fixtures/savegame_v6_test.json` bringen `last_save_at` und vollständige
+Atmosphere-Capture-Blöcke bereits mit.
+
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
 

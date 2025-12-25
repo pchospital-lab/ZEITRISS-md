@@ -73,9 +73,11 @@ betont.
 ## Referenzen & Fixtures
 
 - **Vollständiges Test-Save (v6):** `internal/qa/fixtures/savegame_v6_test.json` enthält Cross-Mode-
-  und Arena-Spuren, `logs.trace[]`, `logs.psi[]`, `logs.arena_psi[]`, `economy.wallets{}` sowie
-  `campaign.rift_seeds[]`. Es dient den Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und wird bei
-  Schema-Updates gespiegelt.
+  und Arena-Spuren, Chronopolis-Unlock/HUD-Events, `logs.trace[]`, `logs.psi[]`, `logs.arena_psi[]`,
+  `economy.wallets{}` sowie `campaign.rift_seeds[]`. Atmosphere-Contract-Capture und
+  `logs.flags.last_save_at` halten Save-/HUD-Timestamps deterministisch, sodass Import→Export ohne
+  Containerverluste diffbar bleibt. Es dient den Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und
+  wird bei Schema-Updates gespiegelt.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische Save-Schema
   ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
   `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung im Repo und wird
