@@ -60,3 +60,27 @@ const lastTrace = rt.state.logs.trace[rt.state.logs.trace.length - 1];
 assert.strictEqual(lastTrace.event, 'toast_suppressed', 'Suppression-Trace fehlt.');
 assert.strictEqual(lastTrace.hud_scene_usage.count, 2, 'HUD-Usage-Snapshot fehlt im Trace.');
 console.log('hud-toast-budget-ok');
+
+// HUD-Events: strukturierte Einträge validieren, numerische Felder normalisieren und fehlende Timestamps ergänzen.
+console.log = () => {};
+rt.StartMission();
+console.log = originalLog;
+rt.state.logs.hud = [
+  { event: 'mass_conflict', chaos: '2', stress: '1' }
+];
+rt.state.logs.flags = { hud_scene_usage: {} };
+rt.state.scene = { index: 1, total: 12 };
+const beforeHudLength = rt.state.logs.hud.length;
+const clash = rt.hud_event('vehicle_clash', { tempo: '120.5', stress: 3, damage: '2' });
+assert.ok(clash, 'HUD-Event wurde verworfen.');
+assert.strictEqual(clash.event, 'vehicle_clash');
+assert.strictEqual(clash.damage, 2, 'Schaden nicht numerisch normalisiert.');
+assert.strictEqual(clash.tempo, 120.5, 'Tempo nicht numerisch normalisiert.');
+const conflict = rt.state.logs.hud.find((entry) => entry.event === 'mass_conflict');
+assert.ok(conflict, 'Mass-Conflict-Event fehlt.');
+assert.ok(typeof conflict.at === 'string' && conflict.at.includes('T'), 'Timestamp nicht ergänzt.');
+assert.strictEqual(conflict.chaos, 2, 'Chaos nicht numerisch normalisiert.');
+const invalid = rt.hud_event('unknown_event', { chaos: 1 });
+assert.strictEqual(invalid, null, 'Unbekanntes Event darf nicht übernommen werden.');
+assert.strictEqual(rt.state.logs.hud.length, beforeHudLength + 1, 'Ungültige Events dürfen die Länge nicht erhöhen.');
+console.log('hud-events-ok');

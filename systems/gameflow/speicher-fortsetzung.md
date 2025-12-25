@@ -66,10 +66,11 @@ Pflichtcontainer fehlen oder die Typen nicht passen.
 Die Schema-Datei wird nicht in den Wissensspeicher geladen.
 
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
-schreiben optionale Event-Records wie `{event:"vehicle_clash", tempo, stress,
-damage, at}` bzw. `{event:"mass_conflict", chaos, break_sg, stress, at}`. Diese
-Einträge ergänzen die Toast-Strings und bleiben für Replay maschinenlesbar.
-Fehlt `at`, ergänzt der Serializer beim HQ-Save einen ISO-Zeitstempel.
+laufen über `hud_event(event, details)` und akzeptieren ausschließlich
+`vehicle_clash` (Felder `tempo`, `stress`, `damage`) oder `mass_conflict`
+(`chaos`, `break_sg`, `stress`). Der Helper normalisiert numerische Felder und
+ergänzt fehlende `at`-Timestamps automatisch; die Einträge ergänzen Toasts und
+bleiben für Replays maschinenlesbar.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`

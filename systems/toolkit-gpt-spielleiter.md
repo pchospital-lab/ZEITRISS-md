@@ -1356,28 +1356,14 @@ Decision: {{ text }}?
 <!-- Macro: vehicle_overlay -->
 {% macro vehicle_overlay(env, speed='–', stress='–', dmg='–') -%}
 {% if env == "vehicle" -%}
-  {% set state.logs = state.logs or {} %}
-  {% set state.logs.hud = state.logs.hud | default([]) %}
-  {% set state.logs.hud = state.logs.hud + [{
-    'event': 'vehicle_clash',
-    'tempo': speed,
-    'stress': stress,
-    'damage': dmg
-  }] %}
+  {# Runtime: hud_event('vehicle_clash', {tempo: speed, stress: stress, damage: dmg}) #}
   {{ hud_tag('Tempo: ' ~ speed ~ ' · Stress: ' ~ stress ~ ' · Schaden: ' ~ dmg) }}
 {%- endif %}
 {%- endmacro %}
 
 <!-- Macro: mass_conflict_overlay -->
 {% macro mass_conflict_overlay(chaos='–', break_sg='–', stress='–') -%}
-  {% set state.logs = state.logs or {} %}
-  {% set state.logs.hud = state.logs.hud | default([]) %}
-  {% set state.logs.hud = state.logs.hud + [{
-    'event': 'mass_conflict',
-    'chaos': chaos,
-    'break_sg': break_sg,
-    'stress': stress
-  }] %}
+  {# Runtime: hud_event('mass_conflict', {chaos: chaos, break_sg: break_sg, stress: stress}) #}
   {{ hud_tag('Mass Conflict · Chaos: ' ~ chaos ~ ' · Break-SG: ' ~ break_sg ~ ' · Stress: ' ~ stress) }}
 {%- endmacro %}
 

@@ -108,6 +108,14 @@ const FR_INTERVENTION_LOG_LIMIT = 16;
 const PHYSICALITY_LOG_LIMIT = 16;
 const HUD_SCENE_TOAST_LIMIT = 2;
 const HUD_PRIORITY_TAGS = new Set(['ARENA', 'BOSS', 'GATE', 'FS', 'FORESHADOW', 'ENTRY']);
+const HUD_EVENT_SPECS = {
+  vehicle_clash: {
+    numeric: ['tempo', 'stress', 'damage']
+  },
+  mass_conflict: {
+    numeric: ['chaos', 'break_sg', 'stress']
+  }
+};
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
@@ -918,6 +926,75 @@ function sanitize_radio_entries(entries){
   return sanitized;
 }
 
+function normalize_hud_event_entry(entry, fallbackTimestamp){
+  if (!entry || typeof entry !== 'object') return null;
+  const rawEvent = pickString(entry.event, entry.type);
+  if (!rawEvent){
+    return null;
+  }
+  const normalizedEvent = rawEvent.toLowerCase();
+  const spec = HUD_EVENT_SPECS[normalizedEvent];
+  if (!spec){
+    return null;
+  }
+  const timestamp = isoTimestamp(entry.at)
+    || isoTimestamp(entry.timestamp)
+    || fallbackTimestamp
+    || new Date().toISOString();
+  const record = { event: normalizedEvent, at: timestamp };
+  spec.numeric.forEach((key) => {
+    const value = pickNumber(entry[key]);
+    if (value !== null){
+      const rounded = Number.isInteger(value) ? value : Math.round(value * 100) / 100;
+      record[key] = rounded;
+    }
+  });
+  return record;
+}
+
+function sanitize_hud_entries(entries){
+  if (!Array.isArray(entries)) return [];
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  for (const entry of entries){
+    if (entry && typeof entry === 'object'){
+      const normalizedEvent = normalize_hud_event_entry(entry, fallback);
+      if (normalizedEvent){
+        sanitized.push(normalizedEvent);
+        continue;
+      }
+      const tag = pickString(entry.tag);
+      const message = pickString(entry.message, entry.msg, entry.text);
+      if (tag || message){
+        const record = { tag: tag || 'HUD', message };
+        const id = pickString(entry.id, entry.entry_id);
+        if (id){
+          record.id = id;
+        }
+        if (entry.suppressed === true){
+          record.suppressed = true;
+        }
+        const action = pickString(entry.action);
+        if (action){
+          record.action = action;
+        }
+        sanitized.push(record);
+        continue;
+      }
+    }
+    if (typeof entry === 'string'){
+      const trimmed = entry.trim();
+      if (trimmed){
+        sanitized.push(trimmed);
+      }
+    }
+  }
+  if (sanitized.length > 64){
+    return sanitized.slice(sanitized.length - 64);
+  }
+  return sanitized;
+}
+
 const HQ_INTRO_LINES = [
   'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
   'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
@@ -984,6 +1061,8 @@ function ensure_logs(){
   state.logs.flags.dispatch_syntax_hint_seen = !!state.logs.flags.dispatch_syntax_hint_seen;
   if (!Array.isArray(state.logs.hud)){
     state.logs.hud = [];
+  } else {
+    state.logs.hud = sanitize_hud_entries(state.logs.hud);
   }
   if (!Array.isArray(state.logs.trace)){
     state.logs.trace = [];
@@ -3185,6 +3264,19 @@ function ensure_hud_usage_record(sceneIndex){
   return normalized;
 }
 
+function hud_event(event, details = {}){
+  ensure_logs();
+  const normalized = normalize_hud_event_entry({ ...details, event }, new Date().toISOString());
+  if (!normalized){
+    return null;
+  }
+  state.logs.hud.push(normalized);
+  if (state.logs.hud.length > 64){
+    state.logs.hud = state.logs.hud.slice(state.logs.hud.length - 64);
+  }
+  return normalized;
+}
+
 function hud_toast(message, tag = 'HUD'){
   const log = ensure_logs();
   const normalizedTag = typeof tag === 'string' && tag.trim() ? tag.trim() : 'HUD';
@@ -3214,9 +3306,10 @@ function hud_toast(message, tag = 'HUD'){
     tag: normalizedTag,
     message
   };
-  log.push(entry);
-  if (log.length > 32){
-    log.splice(0, log.length - 32);
+  const updated = sanitize_hud_entries([...log, entry]);
+  state.logs.hud = updated;
+  if (state.logs.hud.length > 32){
+    state.logs.hud.splice(0, state.logs.hud.length - 32);
   }
   register_hud_usage(normalizedTag, { priority: isPriorityToast });
   writeLine(`[${normalizedTag}] ${message}`);
@@ -9618,6 +9711,7 @@ module.exports = {
   px_tracker,
   StartMission,
   scene_overlay,
+  hud_event,
   completeMission,
   incrementParadoxon,
   ClusterCreate,

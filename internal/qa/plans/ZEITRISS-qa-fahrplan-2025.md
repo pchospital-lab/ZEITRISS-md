@@ -1249,6 +1249,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    `hud_event()`-Helper einführen, Objekt-Events validieren (Allowlist, numerische Felder) und
    fehlende `at`-Timestamps auto-füllen. QA: Je 1 Chase + 1 Massenkonflikt pro Run mit
    Objekt-Events in `logs.hud[]` prüfen.
+   _Status: ✅ abgeschlossen – hud_event-Helper, Allowlist/Auto-Timestamp und HUD-Log-Sanitizer
+   aktiv (2027-01-10)._ 
 8. **Issue #8 – Economy-Anker & Merge-Regeln auditieren**
    `economy_audit()` als Helper pro HQ-Transfer/Debrief mit Level-Anker (120/512/900+) und
    Host-Vorrang für `economy.cu`; Wallet-Merge union-by-agent-id, Konflikte in
