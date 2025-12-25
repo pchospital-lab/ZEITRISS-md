@@ -1161,7 +1161,7 @@ Index-Senke im Kodex.
 
 ### ZEITRISS – Einleitung
 
-In der Welt von ZEITRISS sind berühmte Verschwörungstheorien Realität. Das
+In der Welt von ZEITRISS sind berüchtigte Verschwörungstheorien Realität. Das
 Philadelphia-Experiment 1943 und das Montauk-Projekt 1983 – beide waren erfolgreich
 und rissen Löcher ins Gefüge der Zeit. Ein Kriegsschiff verschwand sekundenlang
 spurlos aus dem Hafen; Jahrzehnte später öffnete ein geheimes Radar-Experiment ein
