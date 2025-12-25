@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.14.0
+version: 1.15.0
 tags: [meta]
 ---
 
@@ -1199,3 +1199,60 @@ Pfad, Offline-Rate-Limit und HUD-Object-Events).
 | #9 | Economy: Currency-Sync Trace | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen. | ✅ abgeschlossen (Trace `currency_sync` für Arena/Wallet/Hazard/Markt aktiv 2026-11-05) |
 | #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; QA-Mode schreibt `toast_suppressed` Trace und `hud_scene_usage` pro Szene. Gate/FS/Boss priorisieren. | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06) |
 | #11 | Arena-Merge-Konflikt-Toast | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token. | ✅ abgeschlossen (Toast + Trace dedupliziert 2026-11-05) |
+
+## Maßnahmenpaket Copy-Paste-QA 2026-12 (Issues #1–#11, Fahrplan-Update)
+
+Der aktuelle Lauf des Tester-Briefings (Acceptance 1–15, Save v6) wurde in einer frischen Instanz
+kopiert und bestätigt. Alle Acceptance-Schritte 1–6 sind PASS, aber die Befunde sind string-sensitiv
+und drift-anfällig. Die folgenden Punkte bündeln die To-dos für die nächsten Durchläufe; sie sind
+offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
+
+1. **Issue #1 – Dispatcher-Strings zentralisieren & Hint deduplizieren**
+   Start-/Fehler-Strings liegen mehrfach (Dispatcher-Referenz, Toolkit). Eine zentrale
+   `dispatcher_strings`-Quelle einführen, Dispatcher-Hinweis „Klammern sind Pflicht“ nur 1× pro
+   Session als `dispatch_hint` tracen. QA: Golden-Files für Startsyntax, `npc-team 5`- und
+   `gruppe 3`-Fehlertexte sowie Negativpfad `Spiel starten solo` erweitern.
+2. **Issue #2 – Gruppen-Import vs. kanonischer Export trennen**
+   Speicher-Modul klarstellen: Loader akzeptiert Multi-JSON/Wrapper (`Charaktere`), kanonischer
+   DeepSave exportiert immer `party.characters[]`. Loader-Doku/Helper mit Hinweis „Wrapper nie als
+   Ausgabe erzeugen“ versehen, QA-Fixtures auf `party.characters[]` prüfen.
+3. **Issue #3 – SaveGuard-Required-Paths mit `arc_dashboard` abgleichen**
+   Guard-Pflichtliste enthält `ui`/`arena`, aber kein `arc_dashboard`, obwohl der Container als
+   Pflicht geführt wird. Entweder `arc_dashboard` vor Guard auto-initialisieren und als Required
+   ergänzen oder ausdrücklich dokumentieren, warum er fehlt. QA: Save ohne `arc_dashboard` muss
+   entweder auto-gefüllt oder geblockt werden, kein stilles Weglassen.
+4. **Issue #4 – Mission‑5 Self‑Reflection konsistent hooken**
+   Self-Reflection nur über `set_self_reflection()` setzen und am Missionsende (M5/M10) automatisch
+   auf `SF-ON` resetten; Flags `self_reflection_auto_reset_*` schreiben. QA: Golden-File für
+   Start (SF-OFF), Szene 10 (Boss-DR) und Ende (SF-ON + Flags) pflegen.
+5. **Issue #5 – Ask↔Suggest & HUD-Budget-Overflow tracciert halten**
+   `emit_toast()` Budget-Entscheidung zentralisieren, bei Unterdrückung immer
+   `toast_suppressed`-Trace plus Snapshot `logs.flags.hud_scene_usage` schreiben (QA-Mode Flag).
+   Gate/FS/Boss/Arena-Toasts bleiben budgetfrei. QA: Overflow-Szene mit 5 Low-Priority-Toasts,
+   1–2 sichtbar, Rest suppressed + Trace.
+6. **Issue #6 – Rift-Seed-Stacking vs. Merge-Cap dokumentieren**
+   README/Save-Doku präzisieren: Solo-Px5 stapelt Seeds ohne Hard-Limit, Merge deckelt offene
+   Seeds auf 12 und gibt Überschuss an ITI-NPC-Teams. Trace `rift_seed_merge_cap_applied` mit
+   kept/overflow + `merge_conflicts`-Eintrag, QA: Cross-Mode-Import 14→12 Seeds belegen.
+7. **Issue #7 – HUD-Events `vehicle_clash`/`mass_conflict` strukturieren**
+   `hud_event()`-Helper einführen, Objekt-Events validieren (Allowlist, numerische Felder) und
+   fehlende `at`-Timestamps auto-füllen. QA: Je 1 Chase + 1 Massenkonflikt pro Run mit
+   Objekt-Events in `logs.hud[]` prüfen.
+8. **Issue #8 – Economy-Anker & Merge-Regeln auditieren**
+   `economy_audit()` als Helper pro HQ-Transfer/Debrief mit Level-Anker (120/512/900+) und
+   Host-Vorrang für `economy.cu`; Wallet-Merge union-by-agent-id, Konflikte in
+   `logs.flags.merge_conflicts`. QA: Import darf HQ-Pool nicht addieren, Audit-Range prüfen.
+9. **Issue #9 – Arena/PvP Resume-Token & Mode-Restore stabilisieren**
+   `reset_arena_after_load()` auf `arena.previous_mode`/`resume_token` priorisieren, damit
+   Kampagnenmodus nach Arena korrekt zurückkehrt. SaveGuard blockt Arena-Saves, Merge-Konflikt-
+   Toast standardisieren. QA: PvP-Flow laden/entladen, Mode-Restore und Phase-Strike-Tax-Logs
+   prüfen.
+10. **Issue #10 – Chronopolis-Unlock vereinheitlichen**
+    Einheitlichen Unlock-Pfad bereitstellen (`chronopolis_unlocked`, Level/Key/Toast/Trace), HQ-
+    SaveGuard blockt CITY. Migration: wenn Key-Item vorhanden, fehlende Flags ergänzen. QA:
+    Level 9→10 Levelup → Toast/Flags/Trace; Save/Load stabil.
+11. **Issue #11 – Save v6 Fixture & Roundtrip sichern**
+    Test-Save enthält alle Pflichtcontainer (Seeds, Economy-Anker, Arena/Chronopolis/HUD-Events,
+    Atmosphere-Capture). Fixture als `savegame_v6_test.json`-Variante übernehmen, Exporter auf
+    deterministische Reihenfolge/Timestamps vorbereiten. QA: Import → Spiel laden → Export →
+    struktureller Diff ohne Containerverlust.
