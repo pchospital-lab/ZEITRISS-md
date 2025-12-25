@@ -1279,3 +1279,6 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
     Atmosphere-Capture). Fixture als `savegame_v6_test.json`-Variante übernehmen, Exporter auf
     deterministische Reihenfolge/Timestamps vorbereiten. QA: Import → Spiel laden → Export →
     struktureller Diff ohne Containerverlust.
+    _Status: ✅ abgeschlossen – Fixture `savegame_v6_test.json` trägt Chronopolis-, HUD- und
+    Atmosphere-Capture-Blöcke, `last_save_at` fixiert Save-/HUD-Timestamps und ein Roundtrip-Test
+    prüft den vollständigen Container-Erhalt (2027-03-05)._ 
