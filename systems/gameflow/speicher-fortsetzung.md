@@ -105,6 +105,11 @@ SaveGuard + folgendem Pfadbaum:
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
 
+Der Serializer befüllt `arc_dashboard` vor dem SaveGuard automatisch mit
+leeren Arrays/Objekten und setzt fehlende Dashboard-Blöcke nicht stillschweigend
+zurück: Pflichtpfade (`offene_seeds`, `fraktionen`, `fragen`, `timeline`) lösen
+einen SaveGuard-Fehler aus, falls sie fehlen oder `null` sind.
+
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
 spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
 oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit

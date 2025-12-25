@@ -1221,6 +1221,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Pflicht geführt wird. Entweder `arc_dashboard` vor Guard auto-initialisieren und als Required
    ergänzen oder ausdrücklich dokumentieren, warum er fehlt. QA: Save ohne `arc_dashboard` muss
    entweder auto-gefüllt oder geblockt werden, kein stilles Weglassen.
+   _Status: ✅ umgesetzt – `arc_dashboard` wird vor dem HQ-Save aufgefüllt, SaveGuard prüft alle
+   Dashboard-Pflichtpfade (2025-12-25)._ 
 4. **Issue #4 – Mission‑5 Self‑Reflection konsistent hooken**
    Self-Reflection nur über `set_self_reflection()` setzen und am Missionsende (M5/M10) automatisch
    auf `SF-ON` resetten; Flags `self_reflection_auto_reset_*` schreiben. QA: Golden-File für
