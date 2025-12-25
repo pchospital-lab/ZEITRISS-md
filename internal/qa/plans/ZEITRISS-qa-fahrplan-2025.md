@@ -171,9 +171,8 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       kürzen.
 - [x] Skripte (`scripts/`) auf überlange Strings/Kommentare prüfen und
       umbrechen.
-- [ ] `runtime.js` auf überlange Strings/Kommentare kontrollieren und bei
-      Bedarf umbrechen. (Teilumbruch: Offline-FAQ, Rift-Seeds, Psi-Buffer;
-      Rest offen.)
+- [x] `runtime.js` auf überlange Strings/Kommentare kontrolliert und
+      vollständig unter die Vorgabe gebracht (Rest-Umbrüche nachgezogen).
 
 ## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
 
