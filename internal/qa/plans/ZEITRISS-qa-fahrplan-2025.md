@@ -1266,10 +1266,14 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Kampagnenmodus nach Arena korrekt zurückkehrt. SaveGuard blockt Arena-Saves, Merge-Konflikt-
    Toast standardisieren. QA: PvP-Flow laden/entladen, Mode-Restore und Phase-Strike-Tax-Logs
    prüfen.
+   _Status: ✅ abgeschlossen – Load-Reset setzt Kampagnenmodus per previous/resume-Mode,
+   Phase-Strike-Tax=0, SaveGuard blockt CITY/Arena (2027-03-02)._ 
 10. **Issue #10 – Chronopolis-Unlock vereinheitlichen**
     Einheitlichen Unlock-Pfad bereitstellen (`chronopolis_unlocked`, Level/Key/Toast/Trace), HQ-
     SaveGuard blockt CITY. Migration: wenn Key-Item vorhanden, fehlende Flags ergänzen. QA:
     Level 9→10 Levelup → Toast/Flags/Trace; Save/Load stabil.
+    _Status: ✅ abgeschlossen – Unlock prüft Level/Key auch beim Laden, SaveGuard meldet
+    Chronopolis-Blocker, Trace/Toast werden nachgezogen (2027-03-02)._ 
 11. **Issue #11 – Save v6 Fixture & Roundtrip sichern**
     Test-Save enthält alle Pflichtcontainer (Seeds, Economy-Anker, Arena/Chronopolis/HUD-Events,
     Atmosphere-Capture). Fixture als `savegame_v6_test.json`-Variante übernehmen, Exporter auf

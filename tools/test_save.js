@@ -102,9 +102,8 @@ assert.throws(
   /SaveGuard: Arena aktiv/
 );
 
-assert.throws(
-  () => rt.save_deep({ ...base, arena: { queue_state: 'completed' } }),
-  /SaveGuard: Arena aktiv/
+assert.doesNotThrow(
+  () => rt.save_deep({ ...base, arena: { queue_state: 'completed' } })
 );
 
 const completedArena = JSON.parse(rt.save_deep({ ...base, arena: { phase: 'completed', queue_state: 'idle' } }));
@@ -170,9 +169,9 @@ assert.throws(
 );
 
 try {
-  rt.save_deep({ ...base, location: 'CITY' });
+  rt.save_deep({ ...base, location: 'CITY', phase: 'transfer' });
 } catch (e) {
-  console.log(e.message);
+  assert(/Chronopolis ist kein HQ-Savepunkt/.test(e.message));
 }
 
 const migrated = rt.migrate_save({});
@@ -242,6 +241,51 @@ assert.equal(rt.state.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 const roundtrip = JSON.parse(rt.save_deep(rt.state));
 assert.equal(roundtrip.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
 assert.equal(roundtrip.arc_dashboard.offene_seeds[1].id, 'Seed-88');
+const arenaLoad = {
+  ...roundtrip,
+  location: 'ARENA',
+  campaign: { ...roundtrip.campaign, mode: 'pvp' },
+  arena: {
+    active: true,
+    phase: 'active',
+    mode: 'single',
+    previous_mode: 'preserve',
+    queue_state: 'active',
+    phase_strike_tax: 5,
+    zone: 'combat'
+  }
+};
+rt.load_deep(JSON.stringify(arenaLoad));
+assert.equal(rt.state.campaign.mode, 'preserve');
+assert.equal(rt.state.arena.phase, 'completed');
+assert.equal(rt.state.arena.phase_strike_tax, 0);
+assert.equal(rt.state.arena.resume_token.previous_mode, 'preserve');
+const mergeConflicts = Array.isArray(rt.state.logs.flags.merge_conflicts)
+  ? rt.state.logs.flags.merge_conflicts
+  : [];
+assert(mergeConflicts.some((entry) => entry.field === 'arena.state'));
+const roundtripAfterArena = JSON.parse(rt.save_deep(rt.state));
+assert.equal(roundtripAfterArena.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
+assert.equal(roundtripAfterArena.arc_dashboard.offene_seeds[1].id, 'Seed-88');
+const chronoLoad = {
+  ...roundtrip,
+  character: { ...roundtrip.character, lvl: 12 },
+  logs: {
+    ...roundtrip.logs,
+    flags: { ...roundtrip.logs.flags, chronopolis_unlocked: false }
+  }
+};
+rt.load_deep(JSON.stringify(chronoLoad));
+assert.equal(rt.state.logs.flags.chronopolis_unlocked, true);
+assert.equal(rt.state.logs.flags.chronopolis_unlock_logged, true);
+const chronoToast = rt.state.logs.hud.find((entry) => {
+  if (typeof entry === 'string') return entry.includes('Chronopolis-Schlüssel aktiv');
+  return typeof entry?.message === 'string' && entry.message.includes('Chronopolis-Schlüssel aktiv');
+});
+assert(chronoToast);
+const roundtripAfterChrono = JSON.parse(rt.save_deep(rt.state));
+assert.equal(roundtripAfterChrono.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
+assert.equal(roundtripAfterChrono.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 // Hinweis (#4 Load-Flows): Toolkit-Makros spiegeln das Flag jetzt mit,
 // damit MyGPT-Läufe ohne runtime.js denselben Persistenzstatus liefern.
 
