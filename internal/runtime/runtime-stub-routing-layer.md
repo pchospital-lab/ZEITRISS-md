@@ -432,9 +432,47 @@ function sanitizeRadioEntries(entries = []) {
   return sanitized;
 }
 
+function normalizeHudEvent(entry, fallback) {
+  if (!entry || typeof entry !== "object") return null;
+  const allowed = {
+    vehicle_clash: ["tempo", "stress", "damage"],
+    mass_conflict: ["chaos", "break_sg", "stress"]
+  };
+  const event = (entry.event || entry.type || "").toString().toLowerCase();
+  if (!allowed[event]) return null;
+  const timestamp = isoTimestamp(entry.at) || isoTimestamp(entry.timestamp) || fallback;
+  const record = { event, at: timestamp };
+  for (const key of allowed[event]) {
+    const value = asNumber(entry[key]);
+    if (value !== null) record[key] = value;
+  }
+  return record;
+}
+
+function sanitizeHudEntries(entries = []) {
+  const fallback = new Date().toISOString();
+  const sanitized = [];
+  for (const entry of entries) {
+    const normalized = normalizeHudEvent(entry, fallback);
+    if (normalized) {
+      sanitized.push(normalized);
+      continue;
+    }
+    if (typeof entry === "object" && (entry.tag || entry.message)) {
+      sanitized.push({ tag: entry.tag || "HUD", message: entry.message || "" });
+      continue;
+    }
+    if (typeof entry === "string" && entry.trim()) {
+      sanitized.push(entry.trim());
+    }
+  }
+  if (sanitized.length > 64) sanitized.splice(0, sanitized.length - 64);
+  return sanitized;
+}
+
 function ensureLogs() {
   state.logs ||= {};
-  state.logs.hud = Array.isArray(state.logs.hud) ? state.logs.hud : [];
+  state.logs.hud = sanitizeHudEntries(state.logs.hud);
   state.logs.kodex = Array.isArray(state.logs.kodex) ? state.logs.kodex : [];
   state.logs.artifact_log = Array.isArray(state.logs.artifact_log) ? state.logs.artifact_log : [];
   state.logs.foreshadow = Array.isArray(state.logs.foreshadow)
@@ -457,6 +495,17 @@ function ensureLogs() {
   flags.offline_help_last = flags.offline_help_last_scene;
   flags.offline_help_count = Math.max(0, Math.floor(flags.offline_help_count || 0));
   return state.logs;
+}
+
+function hud_event(event, details = {}) {
+  const record = normalizeHudEvent({ ...details, event }, new Date().toISOString());
+  if (!record) return null;
+  const logs = ensureLogs();
+  logs.hud.push(record);
+  if (logs.hud.length > 64) {
+    logs.hud.splice(0, logs.hud.length - 64);
+  }
+  return record;
 }
 
 function hud_toast(message, tag = "HUD") {

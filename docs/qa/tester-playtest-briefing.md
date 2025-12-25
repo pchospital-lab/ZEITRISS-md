@@ -94,8 +94,9 @@ betont.
   Roundtrip-Tests und Loader-Dedupe.
 - **HUD-Overlays für Verfolgungen/Massenkonflikte:** Start-Overlay `EP·MS·SC · MODE · Gate/FS`
   setzen, Crash/Stress im HUD notieren und Massenkonflikte mit Flag `Mass Conflict` markieren.
-  Sonder-Overlays sollen zusätzlich strukturierte `logs.hud[]`-Events (`vehicle_clash`,
-  `mass_conflict`) enthalten, damit QA-Parser und Checks reproduzierbar bleiben.
+  Sonder-Overlays laufen über `hud_event()` mit Allowlist (`vehicle_clash`, `mass_conflict`),
+  normalisieren numerische Felder (`tempo`, `stress`, `damage`, `chaos`, `break_sg`) und füllen
+  fehlende `at`-Timestamps automatisch, damit QA-Parser und Checks reproduzierbar bleiben.
 - **Mission‑5 Badge-Snapshots:** `internal/qa/fixtures/mission5_badge_snapshots.json` enthält HUD-
   und Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up- Runner
   `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die manuelle
