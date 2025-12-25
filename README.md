@@ -235,7 +235,8 @@ Die ersten Schritte in unter zwei Minuten:
    (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
    `!sf on` stellt beides zurück. Vor Mission 5 unbedingt manuell toggeln,
    damit HUD-Badge und `scene_overlay()` den Status `SF-OFF` zeigen. Nach
-   Mission 5 stellt die Runtime Self-Reflection automatisch auf `SF-ON` zurück –
+   Mission 5 **und Mission 10** stellt die Runtime Self-Reflection automatisch
+   und ausschließlich über `set_self_reflection()` wieder auf `SF-ON` zurück –
    sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
 9. **TK-Nahkampf-Cooldown** – `!tk melee` markiert telekinetische
    Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
@@ -630,13 +631,17 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   (Rift: `FS 0/2`) als Badge und Toast. `ForeshadowHint()` erhöht nur den
   `FS`-Zähler, das Gate bleibt fest. In Szene 10 erscheint der Boss-Toast mit
   der Schadensreduktion (skaliert nach Teamgröße und Boss-Typ). Nach dem
-  Missionsende setzt die Runtime Self-Reflection wieder auf `SF-ON` zurück.
+  Missionsende feuert der Auto-Reset für Self-Reflection (Mission 5 **und**
+  Mission 10) und setzt den Status per Helper wieder auf `SF-ON`.
 - **Suggest-Modus.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`),
   `modus ask` schaltet zurück (`SUG-OFF`). Das SUG-Badge bleibt unabhängig von
   Self-Reflection aktiv.
 - **Self-Reflection.** Quelle bleibt stets `character.self_reflection`;
-  `logs.flags.self_reflection` spiegelt den Wert nur. `set_self_reflection()`
-  hält beide Felder synchron und protokolliert den Auto-Reset nach Mission 5.
+  `logs.flags.self_reflection` spiegelt den Wert nur. **Einzige
+  Schreib-Schnittstelle ist `set_self_reflection()`**, das sowohl Charakter-
+  als auch Flag-Wert setzt. Automatische Resets nach Mission 5 **und** 10
+  laufen über denselben Helper, schreiben `self_reflection_auto_reset_*`
+  (inkl. History-Eintrag pro Mission) und bleiben damit deterministisch.
 - **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis
   zum Exit und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul;
   Standardkampagnen laufen ohne Arena-Fokus weiter.
