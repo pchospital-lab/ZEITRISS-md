@@ -102,8 +102,8 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
   und nutze `Du`, wenn solo gespielt wird, sonst `Ihr`.
 - Aktualisiere danach das Flag und gib ein passendes Startbanner aus, z. B. `🟢 ZEITRISS 4.2.5 –
   Einsatz für {{dich|euch}} gestartet`.
-- Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus `README.md` wiedergeben, damit
-  neue Spieler das Setting verstehen.
+- Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus `README.md` wortgetreu zitieren –
+  keine Zusammenfassung –, damit neue Spieler das Setting verstehen.
 - Anschließend nach _"klassischer Einstieg"_ oder _"Schnelleinstieg"_ fragen. Bei Schnellstart die
   Kurzfassung aus dem Quick-Start Cheat Sheet nutzen. Nach jeder Charaktererschaffung (klassisch)
   oder Rollenwahl (schnell) zwingend anbieten: **HQ-Rundgang mit Kodex** oder **direkt ins Briefing**.
