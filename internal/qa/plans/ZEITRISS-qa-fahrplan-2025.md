@@ -167,7 +167,7 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       Archetypen-Bullets neu umbrechen.
 - [x] `characters/zustaende.md` (Zustandsbeschreibungen, Px/PP-Tabellen) an die
       Zeilenlängenvorgabe anpassen.
-- [ ] QA-/Log-Dokumente unter `internal/qa/` aufbreite Tabellen prüfen und
+- [x] QA-/Log-Dokumente unter `internal/qa/` aufbreite Tabellen prüfen und
       kürzen.
 - [ ] Skripte (`scripts/`, `runtime.js`) auf überlange Strings/Kommentare
       kontrollieren und bei Bedarf umbrechen.
