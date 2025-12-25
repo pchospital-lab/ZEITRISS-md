@@ -5672,18 +5672,40 @@ function reset_arena_after_load(){
   const hadCompleted = arena.phase === 'completed';
   const wasActive =
     !!arena.active || (arena.phase && arena.phase !== 'idle' && arena.phase !== 'completed');
+  const resumeTokenFromSave =
+    arena.resume_token && typeof arena.resume_token === 'object' && !Array.isArray(arena.resume_token)
+      ? clone_plain_object(arena.resume_token)
+      : null;
+  const previousMode = (() => {
+    const raw = pickString(arena.previous_mode, resumeTokenFromSave?.previous_mode, arena.mode);
+    return raw ? raw.trim() : null;
+  })();
   if (wasActive && !arena.previous_mode){
-    arena.previous_mode = typeof arena.mode === 'string' ? arena.mode : null;
+    arena.previous_mode = previousMode;
   }
-  let resume_token = null;
+  let resume_token = resumeTokenFromSave;
   if (wasActive){
     resume_token = build_arena_resume_token(arena);
+    if (previousMode){
+      resume_token.previous_mode = previousMode;
+    }
     arena.resume_token = resume_token;
+  } else if (resume_token && previousMode){
+    arena.resume_token.previous_mode = previousMode;
+  }
+  const campaign = ensure_campaign();
+  if (previousMode){
+    campaign.mode = previousMode;
+  } else if (wasActive && campaign.mode === 'pvp'){
+    delete campaign.mode;
+    ensure_campaign();
   }
   arena.active = false;
   arena.phase = hadCompleted || wasActive ? 'completed' : 'idle';
+  arena.queue_state = hadCompleted || wasActive ? 'completed' : 'idle';
+  arena.zone = 'safe';
   arena.phase_strike_tax = 0;
-  return { wasActive, resume_token };
+  return { wasActive, resume_token, previous_mode: previousMode };
 }
 
 function apply_arena_rules(ctx = state){
@@ -6519,13 +6541,24 @@ function chronopolis_unlock_if_ready(source = 'runtime'){
     ? Math.max(1, Math.floor(flags.chronopolis_unlock_level))
     : CHRONOPOLIS_UNLOCK_LEVEL;
   flags.chronopolis_unlock_level = required;
-  if (level >= required && !flags.chronopolis_unlocked){
+  const alreadyUnlocked = !!flags.chronopolis_unlocked;
+  const hasKey =
+    !!flags.chronopolis_key
+    || !!char.flags?.chronokey
+    || !!char.flags?.chronopolis_key;
+  const unlockable = level >= required || hasKey;
+  if (unlockable && (!alreadyUnlocked || !flags.chronopolis_unlock_logged)){
     flags.chronopolis_unlocked = true;
-    record_trace('chronopolis_unlock', { level, required, source });
+    flags.chronopolis_unlock_logged = true;
+    const payload = { level, required, source, key_item: hasKey || undefined };
+    record_trace('chronopolis_unlock', payload);
     hud_toast(`Chronopolis-Schlüssel aktiv – Level ${required}+ erreicht.`, 'CITY');
     return true;
   }
-  return false;
+  if (unlockable){
+    flags.chronopolis_unlocked = true;
+  }
+  return unlockable && alreadyUnlocked;
 }
 
 function chronopolis_reset(reason){
@@ -8324,7 +8357,7 @@ function save_deep(s=state){
     active: !!arenaState?.active,
     phase: arenaState?.phase
   });
-  const queueBlocked = queueState !== 'idle';
+  const queueBlocked = queueState !== 'idle' && queueState !== 'completed';
   const phaseActive = arenaState
     && arenaState.phase
     && arenaState.phase !== 'idle'
@@ -8332,15 +8365,20 @@ function save_deep(s=state){
   if (arenaState?.active || phaseActive || queueBlocked){
     throw new Error(toast_save_block('Arena aktiv'));
   }
-  if (s.location !== 'HQ'){
+  const location = typeof s.location === 'string' ? s.location.trim() : '';
+  if (location !== 'HQ'){
+    const cityBlock = location.toUpperCase() === 'CITY';
     record_trace('save_blocked', {
       channel: 'SAVE',
-      note: 'hq_only',
+      note: cityBlock ? 'chronopolis' : 'hq_only',
       arena: arenaState || null,
-      reason: 'hq_only',
+      reason: cityBlock ? 'chronopolis' : 'hq_only',
       link_state: linkState
     });
-    throw new Error(HQ_ONLY_SAVE_TEXT);
+    const guardNote = cityBlock
+      ? 'Chronopolis ist kein HQ-Savepunkt'
+      : HQ_ONLY_SAVE_REASON;
+    throw new Error(toast_save_block(guardNote));
   }
   if (s?.exfil?.active || s?.campaign?.exfil?.active){
     throw new Error(toast_save_block('Exfil aktiv'));
@@ -9110,6 +9148,7 @@ function load_deep(raw){
   reset_hud_usage();
   show_compliance_once();
   sync_foreshadow_progress();
+  chronopolis_unlock_if_ready('load');
   const hud = scene_overlay();
   if (hud){
     writeLine(hud);

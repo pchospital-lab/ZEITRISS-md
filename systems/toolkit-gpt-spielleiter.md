@@ -453,7 +453,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   `location='ARENA'`, merkt `campaign.previous_mode` und markiert Px-Belohnungen
   pro Episode; `arenaEnd()` stellt `campaign.mode` wieder her und leert den
   `previous_mode`-Puffer. `reset_arena_after_load()` hält den Ursprungsmodus über
-  `arena.previous_mode` fest, falls ein Save mitten in der Serie geladen wird.
+  `arena.previous_mode`/`resume_token.previous_mode`, setzt den Modus beim Laden
+  zurück und verhindert Phase-Strike-Tax-Reste, falls ein Save mitten in der
+  Serie geladen wird.
   PvP bleibt ein optionales Endgame-Modul außerhalb der Kernkampagne.
 
 > **Runtime-Hinweis:** Der Node-Runtime-Stack hängt nach Missionstart automatisch das

@@ -555,7 +555,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat` und klemmt Teamgrößen hart auf 1–5. Der SaveGuard wertet
   `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
-  `idle` ist; Matchmaking-States zählen als aktiv. Der Load-Merge
+  `idle` ist; Matchmaking-States zählen als aktiv. Saves aus Chronopolis/CITY
+  werden mit „SaveGuard: Chronopolis ist kein HQ-Savepunkt“ verworfen. Der
+  Load-Merge
   schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
   Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und dedupliziert
   identische Konflikt-Records, damit Cross-Mode-Imports einheitliche Belege
@@ -565,7 +567,9 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   `rift_seed_merge_cap_applied`-Trace (kept/overflow) als auch einen
   `merge_conflicts`-Eintrag (`rift_merge`). Arena-Resets setzen immer einen
   HUD-Toast „Merge-Konflikt: Arena-Status verworfen“ und hinterlegen den
-  Konflikt im Trace.
+  Konflikt im Trace; `reset_arena_after_load()` priorisiert `arena.previous_mode`
+  und `resume_token.previous_mode`, damit der Kampagnenmodus nach aktiven Läufen
+  auf den Ursprungswert zurückspringt.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
   Accessibility-Felder `contrast`, `badge_density` und `output_pace`. Migration
   und Serializer ergänzen fehlende Felder mit Defaults (`standard|normal`,
@@ -1381,7 +1385,9 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
     setzt `logs.flags.chronopolis_unlocked=true` plus
     `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
     (Level/Quelle) und blendet den HUD-Toast
-    `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein.
+    `Chronopolis-Schlüssel aktiv – Level 10+ erreicht.` ein. Fehlende Flags werden
+    beim Laden nachgezogen, falls Level oder Key-Item bereits vorliegen; Trace
+    und Toast werden dann einmalig nachgereicht.
 - **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
