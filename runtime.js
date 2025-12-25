@@ -15,27 +15,68 @@ const CHRONO_CATEGORY_LIMITS = {
 const OFFLINE_HELP_TOAST = 'Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.';
 const OFFLINE_HELP_GUIDE = [
   'Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):',
-  '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.',
+  [
+    '- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen –',
+    ' Kodex bleibt bis dahin stumm.'
+  ].join(''),
   '- Mission normal fortsetzen: HUD liefert lokale Logs; Offline gilt nur im Feld.',
-  '  Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard, bis der Re-Sync steht.',
+  [
+    '  Im HQ besteht immer Kodex-Uplink; nach Offline-Ende blockt der SaveGuard,',
+    ' bis der Re-Sync steht.'
+  ].join(''),
   '- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.'
 ];
 
 const RIFT_SEED_CATALOG = {
-  'R-010': { label: 'Echo-Train', seed_tier: 'early', hook: 'Verlorener Zug, resonante Frequenzen.' },
-  'R-015': { label: 'Dam Safety', seed_tier: 'early', hook: 'Dammleck, strukturelle Flutwarnungen.' },
-  'R-022': { label: 'Lost Signal', seed_tier: 'early', hook: 'Abgeschnittene Funkrelais, verschwundene Crew.' },
-  'R-085': { label: 'Chrono Butcher', seed_tier: 'mid', hook: 'Serienmorde im Nullzeit-Korridor.' },
-  'R-111': { label: 'Psi Bloom', seed_tier: 'mid', hook: 'Psi-Übersättigung, flackernde Neuro-Relays.' },
-  'R-404': { label: 'Black Sun', seed_tier: 'late', hook: 'Verfinsterter Himmel, Grav-Wellen im Zentrum.' },
-  'R-777': { label: 'Omega Spiral', seed_tier: 'late', hook: 'Spiralriss, Klang wie rückwärts laufende Stimmen.' },
-  'R-900': { label: 'White Signal', seed_tier: 'late', hook: 'Blendender Radiopuls, Sensoren im Overdrive.' }
+  'R-010': {
+    label: 'Echo-Train',
+    seed_tier: 'early',
+    hook: 'Verlorener Zug, resonante Frequenzen.'
+  },
+  'R-015': {
+    label: 'Dam Safety',
+    seed_tier: 'early',
+    hook: 'Dammleck, strukturelle Flutwarnungen.'
+  },
+  'R-022': {
+    label: 'Lost Signal',
+    seed_tier: 'early',
+    hook: 'Abgeschnittene Funkrelais, verschwundene Crew.'
+  },
+  'R-085': {
+    label: 'Chrono Butcher',
+    seed_tier: 'mid',
+    hook: 'Serienmorde im Nullzeit-Korridor.'
+  },
+  'R-111': {
+    label: 'Psi Bloom',
+    seed_tier: 'mid',
+    hook: 'Psi-Übersättigung, flackernde Neuro-Relays.'
+  },
+  'R-404': {
+    label: 'Black Sun',
+    seed_tier: 'late',
+    hook: 'Verfinsterter Himmel, Grav-Wellen im Zentrum.'
+  },
+  'R-777': {
+    label: 'Omega Spiral',
+    seed_tier: 'late',
+    hook: 'Spiralriss, Klang wie rückwärts laufende Stimmen.'
+  },
+  'R-900': {
+    label: 'White Signal',
+    seed_tier: 'late',
+    hook: 'Blendender Radiopuls, Sensoren im Overdrive.'
+  }
 };
 
 const RIFT_SEED_MERGE_CAP = 12;
 
 function helper_delay_text(){
-  return "DelayConflict(th=4, allow=[]): Konflikte ab Szene th. Setze allow='ambush|vehicle_chase' für Ausnahmen.";
+  return [
+    'DelayConflict(th=4, allow=[]): Konflikte ab Szene th.',
+    "Setze allow='ambush|vehicle_chase' für Ausnahmen."
+  ].join(' ');
 }
 
 function helper_comms_text(){
@@ -249,9 +290,18 @@ function isoTimestamp(value){
 
 function normalize_market_entry(entry, fallbackTimestamp){
   if (!entry || typeof entry !== 'object') return null;
-  const timestamp = isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const timestamp =
+    isoTimestamp(entry.timestamp) || fallbackTimestamp || new Date().toISOString();
   const item = pickString(entry.item, entry.name, entry.label) || 'Unbekannter Artikel';
-  const cost = pickNumber(entry.cost_cu, entry.cost, entry.price, entry.amount, entry.value, entry.cu, entry.credits);
+  const cost = pickNumber(
+    entry.cost_cu,
+    entry.cost,
+    entry.price,
+    entry.amount,
+    entry.value,
+    entry.cu,
+    entry.credits
+  );
   const quantity = pickNumber(entry.quantity, entry.qty, entry.count);
   const pxDelta = pickNumber(entry.px_delta, entry.delta_px, entry.pxDelta, entry.px);
   const pxClause = pickString(entry.px_clause, entry.pxClause, entry.px_note, entry.pxNote);
@@ -409,8 +459,15 @@ function normalize_intervention_entry(entry, fallbackTimestamp, options = {}){
   } else {
     return null;
   }
-  const timestamp = isoTimestamp(payload.timestamp) || fallbackTimestamp || new Date().toISOString();
-  const result = pickString(payload.result, payload.status, payload.outcome, payload.message, payload.note);
+  const timestamp =
+    isoTimestamp(payload.timestamp) || fallbackTimestamp || new Date().toISOString();
+  const result = pickString(
+    payload.result,
+    payload.status,
+    payload.outcome,
+    payload.message,
+    payload.note
+  );
   if (!result){
     return null;
   }
@@ -535,9 +592,15 @@ function sanitize_psi_entries(entries){
     const category = pickString(entry.category);
     const timestamp = isoTimestamp(entry.timestamp) || fallback;
     const location = pickString(entry.location) || state.location || null;
-    const mission = Number.isFinite(entry.mission) ? Math.floor(entry.mission) : state.campaign?.mission ?? null;
-    const episode = Number.isFinite(entry.episode) ? Math.floor(entry.episode) : state.campaign?.episode ?? null;
-    const sceneIndex = Number.isFinite(entry.scene_index) ? Math.max(0, Math.floor(entry.scene_index)) : null;
+    const mission = Number.isFinite(entry.mission)
+      ? Math.floor(entry.mission)
+      : state.campaign?.mission ?? null;
+    const episode = Number.isFinite(entry.episode)
+      ? Math.floor(entry.episode)
+      : state.campaign?.episode ?? null;
+    const sceneIndex = Number.isFinite(entry.scene_index)
+      ? Math.max(0, Math.floor(entry.scene_index))
+      : null;
     const sceneTotal = Number.isFinite(entry.scene_total)
       ? Math.max(1, Math.floor(entry.scene_total))
       : (Number.isFinite(state.scene?.total) ? state.scene.total : null);
@@ -581,7 +644,8 @@ function sanitize_psi_entries(entries){
     const tax = pickNumber(entry.tax, entry.tax_sys, entry.delta, entry.addition);
     const total = pickNumber(entry.total_cost, entry.total, entry.cost_total, entry.cost);
     const mode = pickString(entry.mode) || campaign_mode();
-    const arenaActive = entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
+    const arenaActive =
+      entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
     const gmStyle = pickString(entry.gm_style, entry.gmStyle);
     const reason = pickString(entry.reason, entry.note);
     const record = {
@@ -1170,7 +1234,9 @@ function log_fr_intervention(stage='mid', note=null){
   const result = state.fr_intervention || null;
   if (!result || result === 'none') return null;
   const timestamp = new Date().toISOString();
-  const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total();
+  const sceneTotal = Number.isFinite(state.scene?.total)
+    ? state.scene.total
+    : resolve_scene_total();
   const payload = normalize_intervention_entry({
     timestamp,
     result,
@@ -1232,7 +1298,11 @@ function ensure_psi_heat_buffer(){
   ensure_logs();
   const flags = state.logs.flags;
   const normalized = normalize_psi_heat_buffer(flags.psi_heat_buffer);
-  if (flags.psi_heat_buffer && typeof flags.psi_heat_buffer === 'object' && !Array.isArray(flags.psi_heat_buffer)){
+  if (
+    flags.psi_heat_buffer &&
+    typeof flags.psi_heat_buffer === 'object' &&
+    !Array.isArray(flags.psi_heat_buffer)
+  ){
     flags.psi_heat_buffer.scene_index = normalized.scene_index;
     flags.psi_heat_buffer.total = normalized.total;
     flags.psi_heat_buffer.triggers = normalized.triggers;
@@ -1304,11 +1374,16 @@ function log_psi_event(event = {}){
       ? Math.max(1, Math.floor(state.scene.total))
       : null;
 
-  if (category === 'psi_heat_inc'){
-    const buffer = ensure_psi_heat_buffer();
-    if (buffer.total > 0 && buffer.scene_index !== null && sceneIndex !== null && buffer.scene_index !== sceneIndex){
-      flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
-    }
+    if (category === 'psi_heat_inc'){
+      const buffer = ensure_psi_heat_buffer();
+      if (
+        buffer.total > 0 &&
+        buffer.scene_index !== null &&
+        sceneIndex !== null &&
+        buffer.scene_index !== sceneIndex
+      ){
+        flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
+      }
     if (sceneIndex !== null){
       buffer.scene_index = sceneIndex;
     }
