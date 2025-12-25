@@ -154,10 +154,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       Absatzumbrüche prüfen (Formatierungs-Review nach
       `systems/gameflow/speicher-fortsetzung.md` und
       `systems/gameflow/cinematic-start.md`).
-- [ ] Wissensmodule erneut auf QA-Aufträge oder Smoke-Listen prüfen und bei
-      Treffern in das Tester-Briefing
-      (`docs/qa/tester-playtest-briefing.md`) auslagern; Mirror und ggf. offene
-      Deltas im QA-Log dokumentieren.
+  - [x] Wissensmodule erneut auf QA-Aufträge oder Smoke-Listen prüfen und bei
+        Treffern in das Tester-Briefing
+        (`docs/qa/tester-playtest-briefing.md`) auslagern; Mirror und ggf. offene
+        Deltas im QA-Log dokumentieren.
 
 ### Offene Formatierungs-Tasks (Zeilenlänge ≤ 100)
 

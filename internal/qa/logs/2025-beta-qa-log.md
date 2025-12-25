@@ -6,6 +6,38 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-11-09 – Repo-Agent – QA-Hinweise HUD-Budget/QA-Mode gespiegelt (Build 4.2.5)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0
+- Auftrag: Eingebettete QA-/Smoke-Hinweise zu HUD-Budget und QA-Mode aus Runtime-Modulen in die
+  Acceptance-/Smoke-Checklisten gespiegelt und Fahrplan-Status geschlossen.
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] QA-Mode-HUD-Hinweise (`toast_suppressed` + HUD-Budget-Snapshot) aus Runtime-Modulen in die
+  Acceptance-Smoke-Checkliste übernommen.
+- [x] Spiegel im QA-Fahrplan dokumentiert und Task abgeschlossen.
+
+**Nachverfolgung**
+- Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Wissensmodule QA/Smoke-Scan (2025) abgeschlossen.
+
 ## 2026-11-08 – Repo-Agent – Nachcheck Format-/Umstrukturierung (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0

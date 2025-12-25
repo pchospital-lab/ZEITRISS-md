@@ -331,6 +331,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
    mit `!chronopolis ack` quittiert. Falls Informationen fehlen, gezielt nachfragen, bis alle
    Acceptance-Smoke-Punkte (inkl. Gear-Checks, `Spiel starten`-Varianten, HQ-Erweiterungen, Stadt-
    Diensten, Fraktionswechseln, Rufsystem, Boss-Gates, HUD-Badges, Psi-Heat) im Protokoll stehen.
+   **QA-Mode:** Erzwinge mindestens einen HUD-Budget-Overflow (Low-Priority-Toast wird
+   zusammengefasst) und prüfe, dass der Lauf den Trace `toast_suppressed` inklusive
+   `logs.flags.hud_scene_usage`-Snapshot schreibt.
 6. Prüfen, ob der GPT im `To-do – Codex`-Block konkrete Umsetzungsaufgaben benennt. Das
    Pflicht-Testpaket für Repo-Agent:innen ist in
    [CONTRIBUTING.md → Verpflichtende Prüfungen](../../CONTRIBUTING.md#verpflichtende-pruefungen)
@@ -364,6 +367,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 4. **Accessibility & Persistenz** – `!accessibility` speichert Kontrast, Badge-Dichte und
    Ausgabetempo, Toast notieren; nach erneutem Laden bleiben die Werte erhalten. Vollständige
    Wortlaute decken `doc.md` und das Tester-Briefing ab.
+5. **QA-Mode HUD-Budget** – Low-Priority-Overlays dürfen das HUD-Budget überschreiten, werden im
+   QA-Lauf bei Bedarf unterdrückt und müssen automatisch den Trace
+   `toast_suppressed` + `logs.flags.hud_scene_usage`-Snapshot hinterlassen (auch bei Cap-Überzug).
 
 **Stabile Flows (Regression-Basis)**
 
