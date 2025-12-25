@@ -60,7 +60,8 @@ GM_STYLE=precision node tools/test_foreshadow.js | grep "Foreshadow low"
 
 # CommsCheck message
 node tools/test_comms.js | grep "CommsCheck failed"
-node tools/test_comms_rx.js | grep 'CommsCheck failed: require valid device/range or relay/jammer override.'
+node tools/test_comms_rx.js \
+  | grep 'CommsCheck failed: require valid device/range or relay/jammer override.'
 
 # Alias- und Squad-Radio-Logs
 node tools/test_alias_trace.js | tee out/alias_trace.log

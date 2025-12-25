@@ -42,7 +42,9 @@ def rng_roll(num, sides, exploding=False):
 
 
 def roll_check(die_text, sg, total, parts, success, raw_rolls, local_debug=False):
-    overlay = f"{die_text} {' '.join(parts)} → {total} ≥ SG {sg} ({'Erfolg' if success else 'Fail'})"
+    parts_text = ' '.join(parts)
+    result_label = 'Erfolg' if success else 'Fail'
+    overlay = f"{die_text} {parts_text} → {total} ≥ SG {sg} ({result_label})"
     print(overlay)
     if not success and sg is not None and total == sg - 1:
         print('knapp daneben')
@@ -223,7 +225,11 @@ if __name__ == '__main__':
     tcfg = get_transfer_cfg(ctx)
     if should_show_transfer_enter(ctx, tcfg):
         transfer_out_from_hq(ctx, tcfg)
-    state = {'mission': {'mode': 'RIFT'}, 'exfil': {'active': True, 'ttl': 5, 'hot': False}, 'flags': {}}
+    state = {
+        'mission': {'mode': 'RIFT'},
+        'exfil': {'active': True, 'ttl': 5, 'hot': False},
+        'flags': {},
+    }
     transfer_back_to_hq(state, tcfg, hot=False)
     reset_exfil_state(state)
 
