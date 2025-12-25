@@ -323,8 +323,11 @@ Lösungsvorschlag
 
 To-do (abgeschlossen)
 
-* README-Linkanker auf `speicher-fortsetzung` ergänzt; Dispatcher-Load-Flow bestätigt: `load_deep()` setzt HQ-Recap ohne EntryChoice (`skip_entry_choice=true`).
-* QA: Dispatcher‑Punkt 7 erneut validiert – Syntax-Hinweis liefert einmalig `dispatch_hint` (channel `dispatcher`), Klammerpflicht-Fehlertext bleibt laut Runtime/README kanonisch.
+* README-Linkanker auf `speicher-fortsetzung` ergänzt; Dispatcher-Load-Flow bestätigt:
+  `load_deep()` setzt HQ-Recap ohne EntryChoice (`skip_entry_choice=true`).
+* QA: Dispatcher‑Punkt 7 erneut validiert – Syntax-Hinweis liefert einmalig
+  `dispatch_hint` (channel `dispatcher`), Klammerpflicht-Fehlertext bleibt laut
+  Runtime/README kanonisch.
 
 Nächste Schritte
 

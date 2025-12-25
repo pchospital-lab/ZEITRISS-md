@@ -30,11 +30,15 @@ Tool: ✅
 ```
 
 **Offene Punkte**
-- [x] Copy-Paste-QA #6: Suggest-Persistenz zwischen UI-Flag und `character.modes` sowie HUD-Tag `· SUG`
+- [x] Copy-Paste-QA #6: Suggest-Persistenz zwischen UI-Flag und `character.modes` sowie HUD-Tag `·
+  SUG`
       als deterministische Roundtrip-Kette validiert.
-- [x] Copy-Paste-QA #7: Offline-SaveGuard-Strings vereinheitlicht, FAQ/README-Spiegel mit HQ-Sperre aktualisiert.
-- [x] Copy-Paste-QA #9: `currency_sync`-Trace für Wallet-/Hazard-/Arena-/Markt-Flows im Fahrplan dokumentiert.
-- [x] Copy-Paste-QA #11: Arena-Merge-Konflikt-Toast + Trace-Dedupe gespiegelt und als abgeschlossen markiert.
+- [x] Copy-Paste-QA #7: Offline-SaveGuard-Strings vereinheitlicht, FAQ/README-Spiegel mit HQ-Sperre
+  aktualisiert.
+- [x] Copy-Paste-QA #9: `currency_sync`-Trace für Wallet-/Hazard-/Arena-/Markt-Flows im Fahrplan
+  dokumentiert.
+- [x] Copy-Paste-QA #11: Arena-Merge-Konflikt-Toast + Trace-Dedupe gespiegelt und als abgeschlossen
+  markiert.
 
 **Nachverfolgung**
 - Commit/PR: aktueller Commit im Branch (Copy-Paste-QA 2026-10 Sync #6/#7/#9/#11).
@@ -196,7 +200,8 @@ Tool: ✅
 
 **Nachverfolgung**
 - Commit/PR: aktueller Commit im Branch (Ergänze Action-Contract-Logging).
-- QA-Fahrplan: Maßnahmenpaket Plattform-Contract Action & Gewalt #6 (Status aktualisiert 2026-11-02).
+- QA-Fahrplan: Maßnahmenpaket Plattform-Contract Action & Gewalt #6 (Status aktualisiert
+  2026-11-02).
 
 ## 2026-10-30 – Repo-Agent – Action-Contract-Schalter & Outcome-Guard (Build 4.2.4)
 - Plattform: Lokales Repo-Run (QA-Skripte + Stil-Review)
@@ -292,7 +297,8 @@ Repo-Agent: `python3 scripts/lint_umlauts.py`
 
 **Offene Punkte**
 - [x] `logs.hud[]`-Events erhalten beim HQ-Save einen ISO-Timestamp, wenn `at` fehlt.
-- [x] `economy_audit`-Trace beim HQ-Save ergänzt (Level, HQ-Pool, Wallet-Summe, Richtwerte, Chronopolis-Sinks).
+- [x] `economy_audit`-Trace beim HQ-Save ergänzt (Level, HQ-Pool, Wallet-Summe, Richtwerte,
+  Chronopolis-Sinks).
 
 **Nachverfolgung**
 - Commit/PR: aktueller Commit im Branch (fix: economy audit & hud timestamps)
@@ -1260,12 +1266,14 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ## 2025-10-15 – Tester: Beta-GPT – Acceptance-/HUD-/Save-Drift
 - Plattform: Beta-GPT (Remote-Lauf via Maintainer-Script)
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit Stand 2025-07-20, QA-Fahrplan 1.6.1
-- Copy-&-Paste-Auftrag: Neues Maßnahmenpaket (Issues #1–#15) für Acceptance-Smoke, Save-Migration, HUD-Badges und Arena-/Accessibility-Prozesse anlegen, in Fahrplan & Audit verlinken.
+- Copy-&-Paste-Auftrag: Neues Maßnahmenpaket (Issues #1–#15) für Acceptance-Smoke, Save-Migration,
+  HUD-Badges und Arena-/Accessibility-Prozesse anlegen, in Fahrplan & Audit verlinken.
 - Rohdaten: [Beta-GPT Lauf 2025-10-15 – Rohprotokoll](2025-10-15-beta-gpt-delta.md)
 
 **Befunde (Kurzfassung)**
 1. Acceptance-Smoke-Liste endet bei Schritt 13, gefordert sind 15 Prüfpunkte (Dispatcher/README).
-2. Legacy-Gruppensaves (`"Charaktere"/"Gruppe"`, `zr_version 4.1.5`) kollidieren mit v6-Serializer (`party.characters[]`).
+2. Legacy-Gruppensaves (`"Charaktere"/"Gruppe"`, `zr_version 4.1.5`) kollidieren mit v6-Serializer
+   (`party.characters[]`).
 3. `StartMission()` setzt `AllowEntryChoice()` trotz `SkipEntryChoice()`-Flag nach Ladevorgängen.
 4. `SF-OFF`-Badge kehrt ohne Auto-Reset nicht zu `SF-ON` zurück.
 5. Gate-Badge `GATE 2/2` verliert Persistenz während M5/M10 trotz erfülltem Gate.
@@ -1281,13 +1289,19 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 15. Cinematic-Start stellt initialen HUD-Header nicht zwingend her.
 
 **To-dos**
-- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen. → QA-Fahrplan 1.8.2 (fortgeschrieben aus 1.8.0) dokumentiert alle Punkte als abgeschlossen.
-- [x] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit aktualisieren. → Audit-Update vom 20.10.2025 ergänzt die neuen Abschnitte.
-- [x] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-Transkripte) nach Umsetzung. → Nachweise liegen seit 2025-11-05 im Evidenz-Log `internal/qa/evidence/2025-beta-gpt-evidenz.md` (JSON-Hand-off).
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-10-15“ aufnehmen und Issues #1–#15 auf „offen“ setzen.
+  → QA-Fahrplan 1.8.2 (fortgeschrieben aus 1.8.0) dokumentiert alle Punkte als abgeschlossen.
+- [x] Audit: Neue Befunde in laufende Maßnahmenliste einpflegen, Referenzen auf README/Toolkit
+  aktualisieren. → Audit-Update vom 20.10.2025 ergänzt die neuen Abschnitte.
+- [x] QA-Referenzen: Maintainer:innen liefern Evidenz (HUD-Dumps, Save-Beispiele, Dispatcher-
+  Transkripte) nach Umsetzung. → Nachweise liegen seit 2025-11-05 im Evidenz-Log
+  `internal/qa/evidence/2025-beta-gpt-evidenz.md` (JSON-Hand-off).
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.8.2 führt das Maßnahmenpaket als abgeschlossen; Audit und Evidenzprotokoll wurden am 2025-11-05 per JSON-Hand-off aktualisiert.
-- README, Toolkit und Save-Module spiegeln die Kapitel (Stand 2025-10-20); Evidenzen liegen im Evidenz-Log vollständig vor.
+- QA-Fahrplan Version 1.8.2 führt das Maßnahmenpaket als abgeschlossen; Audit und Evidenzprotokoll
+  wurden am 2025-11-05 per JSON-Hand-off aktualisiert.
+- README, Toolkit und Save-Module spiegeln die Kapitel (Stand 2025-10-20); Evidenzen liegen im
+  Evidenz-Log vollständig vor.
 
 ## 2025-10-20 – Repo-Agent – Smoke-/Lint-Check & Offene Punkte
 - Plattform: Lokale CI-Simulation
@@ -1313,11 +1327,13 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
   HUD-Badges konsistent.
 
 **Offene Aufgaben (Stand 2025-10-20)**
-- [x] QA-Audit: Abschnitte für Beta-GPT 2025-07, 2025-07-18 und 2025-10-15 ergänzt (Update 20.10.2025).
+- [x] QA-Audit: Abschnitte für Beta-GPT 2025-07, 2025-07-18 und 2025-10-15 ergänzt (Update
+  20.10.2025).
 - [x] QA-Log: To-do-Checkboxen in den Läufen 2025-07-05 und 2025-10-15 mit Statusnotizen versehen.
 - [x] Maintainer:innen liefern die in Audit §Folgeaufgaben geforderten QA-Evidenzen
   (Dispatcher-Suite, Cross-Mode-Läufe, Debrief-Splits) sowie HUD-/Save-Dumps für die
-  jüngsten Beta-GPT-Runs; Vorlage siehe `internal/qa/evidence/2025-beta-gpt-evidenz.md` (aktualisiert via JSON-Hand-off 2025-11-05).
+  jüngsten Beta-GPT-Runs; Vorlage siehe `internal/qa/evidence/2025-beta-gpt-evidenz.md`
+  (aktualisiert via JSON-Hand-off 2025-11-05).
 
 **Nachverfolgung**
 - QA-Fahrplan 1.8.2 bestätigt den Abschluss aller Beta-GPT-Maßnahmenpakete;
@@ -1327,14 +1343,19 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ## 2025-07-20 – Repo-Agent – Beta-GPT 2025-07-18 Maßnahmen umgesetzt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Toolkit/Characters Stand 2025-07-20, QA-Fahrplan 1.6.1
-- Copy-&-Paste-Auftrag: Beta-GPT 2025-07-18 (#1–#12) final abhaken, Gate-Badge/Psi-Log-Doku spiegeln, Dispatcher-Text angleichen.
+- Copy-&-Paste-Auftrag: Beta-GPT 2025-07-18 (#1–#12) final abhaken, Gate-Badge/Psi-Log-Doku
+  spiegeln, Dispatcher-Text angleichen.
 
 **Maßnahmen**
-1. Toolkit (`systems/toolkit-gpt-spielleiter.md`): Tagsplit für `StartMission` (`|`/`,`) vereinheitlicht, Gate-Badge `GATE n/2`
-   dokumentiert und Runtime-Hinweis für `logs.psi[]` ergänzt; Dispatcher-Semver-Fehlertext mit README synchronisiert.
-2. HUD-Modul (`characters/hud-system.md`): Header-Spezifikation um `GATE {seen}/2` und Self-Reflection-Persistenz
+1. Toolkit (`systems/toolkit-gpt-spielleiter.md`): Tagsplit für `StartMission` (`|`/`,`)
+   vereinheitlicht, Gate-Badge `GATE n/2`
+   dokumentiert und Runtime-Hinweis für `logs.psi[]` ergänzt; Dispatcher-Semver-Fehlertext mit
+   README synchronisiert.
+2. HUD-Modul (`characters/hud-system.md`): Header-Spezifikation um `GATE {seen}/2` und Self-
+   Reflection-Persistenz
    erweitert.
-3. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`): Beta-GPT-Block 2025-07-18 auf ✅ gesetzt, Kurznotizen und
+3. QA-Fahrplan (`internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`): Beta-GPT-Block 2025-07-18 auf ✅
+   gesetzt, Kurznotizen und
    Referenzen auf Runtime/Wissensmodule ergänzt.
 4. QA-Log aktualisiert (dieser Eintrag) und auf Pflichttests verwiesen.
 
@@ -1350,7 +1371,8 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.6.1 markiert Beta-GPT 2025-07-18 als abgeschlossen; Referenzen auf README/Toolkit/HUD-Modul gesetzt.
+- QA-Fahrplan Version 1.6.1 markiert Beta-GPT 2025-07-18 als abgeschlossen; Referenzen auf
+  README/Toolkit/HUD-Modul gesetzt.
 - Wissensmodule spiegeln Runtime-Badges (`GATE`, `SF-OFF`) und Arena-Persistenz (`logs.psi[]`).
 
 ## 2025-07-19 – Repo-Agent – QA-Tooling Sync
@@ -1363,7 +1385,8 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 1. `.markdownlint.yaml` eingeführt (100-Zeichen-Profil inkl. Frontmatter-Ausnahme) und in
    das Python-basierte `npm run lint:md` integriert; Makefile & Pre-Commit-Hook rufen
    QA-Plan, QA-Audit und QA-Index (`internal/qa/README.md`) mit ab.
-2. `.prettierrc.json` ergänzt, beschränkt auf Dokumentationspfade (`docs/`, `internal/`, Root-Markdowns),
+2. `.prettierrc.json` ergänzt, beschränkt auf Dokumentationspfade (`docs/`, `internal/`, Root-
+   Markdowns),
    Runtime-Module bleiben von Auto-Rewraps unberührt.
 3. `package.json`-Skripte für Markdownlint & Prettier dokumentiert, Makefile `make lint` erweitert,
    Maintainer-Ops/CONTRIBUTING/QA-Fahrplan/Audit synchronisiert.
@@ -1388,7 +1411,8 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ## 2025-07-18 – Tester: Beta-GPT – Save/HUD/Compliance Regression
 - Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-07-10, QA-Fahrplan 1.5.0
-- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#12) für Exfil-SaveGuard, HUD-Badges, Persistenz-Flags und Dispatcher-Hinweise in Fahrplan & Audit spiegeln.
+- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#12) für Exfil-SaveGuard, HUD-Badges,
+  Persistenz-Flags und Dispatcher-Hinweise in Fahrplan & Audit spiegeln.
 - Rohdaten: [Beta-GPT Lauf 2025-07-18 – Rohprotokoll](2025-07-18-beta-gpt-delta.md)
 
 **Befunde (Kurzfassung)**
@@ -1406,19 +1430,23 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 12. Semver-Mismatch-Text unterscheidet sich zwischen README und Toolkit.
 
 **To-dos**
-- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-07-18“ mit Issues #1–#12 anlegen, Status initial offen lassen.
+- [x] Fahrplan: Maßnahmenpaket „Beta-GPT 2025-07-18“ mit Issues #1–#12 anlegen, Status initial offen
+  lassen.
 - [x] Audit: Befundliste übernehmen und Referenzen (HUD/Saves/Dispatcher) verknüpfen.
 - [x] QA-Referenzen: Maintainer:innen erstellen Evidenz (Screenshots, Logs) nach Umsetzung.
 
 **Nachverfolgung**
-- QA-Fahrplan Version 1.6.0 führt neuen Maßnahmenblock und verweist auf das Rohprotokoll; laut Repo-Agent-Eintrag vom 20.07.2025 sind alle Punkte abgeschlossen.
+- QA-Fahrplan Version 1.6.0 führt neuen Maßnahmenblock und verweist auf das Rohprotokoll; laut Repo-
+  Agent-Eintrag vom 20.07.2025 sind alle Punkte abgeschlossen.
 - Audit-Update 2025-11-05 verlinkt auf die vollständige Evidenz (§2025-07-18) aus dem JSON-Hand-off.
-- README/Toolkit-Sync für Gate-/Badge-/Compliance-Themen bleibt hinterlegt und verweist auf die aktualisierten Module.
+- README/Toolkit-Sync für Gate-/Badge-/Compliance-Themen bleibt hinterlegt und verweist auf die
+  aktualisierten Module.
 
 ## 2025-07-10 – Repo-Agent – Beta-GPT 2025-07 Maßnahmen umgesetzt
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-07-10, QA-Fahrplan 1.5.0
-- Copy-&-Paste-Auftrag: QA-Fahrplan 2025-07 Maßnahmenblock (#1–#15) vollständig schließen; Wissensmodule & README spiegeln.
+- Copy-&-Paste-Auftrag: QA-Fahrplan 2025-07 Maßnahmenblock (#1–#15) vollständig schließen;
+  Wissensmodule & README spiegeln.
 
 ```chatlog
 09:12 Repo-Agent: `make lint`
@@ -1431,24 +1459,31 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] Save-Version & Migration: Serializer/Migrationsleitfaden in `systems/gameflow/speicher-fortsetzung.md` auf `save_version: 6`
+- [x] Save-Version & Migration: Serializer/Migrationsleitfaden in `systems/gameflow/speicher-
+  fortsetzung.md` auf `save_version: 6`
   angehoben, README-Spiegel ergänzt.
-- [x] Foreshadow-Gate & Saisonstand: README & Toolkit unterscheiden Gate (2/2) und Saison (4/4) inkl. `scene_overlay()`/`!boss status`-Spec.
-- [x] Acceptance 12 (`SF-OFF`, Boss-Toast, Foreshadow-Reset) samt QA-Doppelbelegen dokumentiert; LINT-Anchor `FS_RESET_OK`
+- [x] Foreshadow-Gate & Saisonstand: README & Toolkit unterscheiden Gate (2/2) und Saison (4/4)
+  inkl. `scene_overlay()`/`!boss status`-Spec.
+- [x] Acceptance 12 (`SF-OFF`, Boss-Toast, Foreshadow-Reset) samt QA-Doppelbelegen dokumentiert;
+  LINT-Anchor `FS_RESET_OK`
   verankert und freigegeben.
-- [x] Arena-Start, SaveGuard & Koop-Wallet-Initialisierung in README/Systems beschrieben; Acceptance-Smoke um Accessibility/Offline
+- [x] Arena-Start, SaveGuard & Koop-Wallet-Initialisierung in README/Systems beschrieben;
+  Acceptance-Smoke um Accessibility/Offline
   sowie Chronopolis-Smoke ergänzt.
-- [x] QA-Fahrplan Maßnahmenpaket 2025-07 auf ✅ gesetzt; README, Toolkit, doc.md und `.lint/anchors.allow` synchronisiert.
+- [x] QA-Fahrplan Maßnahmenpaket 2025-07 auf ✅ gesetzt; README, Toolkit, doc.md und
+  `.lint/anchors.allow` synchronisiert.
 
 **Nachverfolgung**
 - QA-Fahrplan Version 1.5.0 spiegelt Abschluss aller Beta-GPT-2025-07-Issues inkl. Referenzen.
-- README & Systems liefern aktualisierte Laufzeitspiegel; `.lint/anchors.allow` enthält `LINT:FS_RESET_OK`.
+- README & Systems liefern aktualisierte Laufzeitspiegel; `.lint/anchors.allow` enthält
+  `LINT:FS_RESET_OK`.
 - Audit-Update 2025-11-05 bestätigt die JSON-basierten Evidenzen (§2025-07-05).
 
 ## 2025-07-05 – Tester: Beta-GPT – Schema-, HUD- und Arena-Deltas
 - Plattform: Beta-GPT (Remote-Lauf über Maintainer-Skript)
 - Wissensstand: `runtime.js` 4.2.2, README & Toolkit Stand 2025-06-30, QA-Fahrplan 1.4.0
-- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#15) für Save-Versionierung, Foreshadow-Status, Arena-/Comms-Makros und Acceptance-Texte in Fahrplan & Audit spiegeln.
+- Copy-&-Paste-Auftrag: Neuer Maßnahmenkatalog (Issues #1–#15) für Save-Versionierung, Foreshadow-
+  Status, Arena-/Comms-Makros und Acceptance-Texte in Fahrplan & Audit spiegeln.
 - Rohdaten: [Beta-GPT Lauf 2025-07-05 – Rohprotokoll](2025-07-05-beta-gpt-delta.md)
 
 **Befunde (Kurzfassung)**
@@ -1469,19 +1504,25 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 15. City/Chronopolis-Module haben keinen dedizierten Acceptance-Smoke-Test.
 
 **To-dos**
-- [x] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen. → Erledigt in QA-Fahrplan 1.8.2 (§„Maßnahmenpaket Beta-GPT 2025-07“).
-- [x] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan + README/Toolkit). → Update 2025-10-20 im QA-Audit dokumentiert.
-- [x] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-Smokes) nach Umsetzung. → Ablage aktualisiert 2025-11-05 (`internal/qa/evidence/2025-beta-gpt-evidenz.md`, JSON-Hand-off).
+- [x] Fahrplan: Neuen Maßnahmenblock „Beta-GPT 2025-07“ mit Status/Referenzen anlegen. → Erledigt in
+  QA-Fahrplan 1.8.2 (§„Maßnahmenpaket Beta-GPT 2025-07“).
+- [x] Audit: Issues #1–#15 unter laufenden Maßnahmen erfassen (Verlinkung zu Fahrplan +
+  README/Toolkit). → Update 2025-10-20 im QA-Audit dokumentiert.
+- [x] QA-Referenzen: Maintainer:innen erstellen QA-Evidenz (Migration 5→6, HUD-Logs, Arena-/City-
+  Smokes) nach Umsetzung. → Ablage aktualisiert 2025-11-05 (`internal/qa/evidence/2025-beta-gpt-
+  evidenz.md`, JSON-Hand-off).
 
 **Nachverfolgung**
-- Fahrplan-Version 1.5.0 führt Issues #1–#15 als offen geplante Maßnahmen mit QA-Verantwortlichkeiten.
+- Fahrplan-Version 1.5.0 führt Issues #1–#15 als offen geplante Maßnahmen mit QA-
+  Verantwortlichkeiten.
 - Audit-Update 2025-11-05 bestätigt die JSON-Hand-off-Evidenzen und verlinkt die
   abgeschlossenen Maßnahmen im Audit.
 
 ## 2025-06-29 – Repo-Agent – Save-Pflichtfelder Mirror
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-29, QA-Fahrplan 1.3.1
-- Copy-&-Paste-Auftrag: QA-Fahrplan §Maßnahmenpaket (Issue #1 – Save-Schema) – Pflichtfelder `logs.alias_trace`/`logs.squad_radio` in Wissensmodulen spiegeln und Lint erweitern.
+- Copy-&-Paste-Auftrag: QA-Fahrplan §Maßnahmenpaket (Issue #1 – Save-Schema) – Pflichtfelder
+  `logs.alias_trace`/`logs.squad_radio` in Wissensmodulen spiegeln und Lint erweitern.
 
 ```chatlog
 09:45 Repo-Agent: `make lint`
@@ -1495,12 +1536,15 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] Pflichtfelder `logs.alias_trace`/`logs.squad_radio` im Save-Pseudocode und JSON-Beispiel ergänzt; README spiegeln; Lint prüft die Felder.
+- [x] Pflichtfelder `logs.alias_trace`/`logs.squad_radio` im Save-Pseudocode und JSON-Beispiel
+  ergänzt; README spiegeln; Lint prüft die Felder.
 - [x] QA-Fahrplan-Referenz: Cluster A Issue #1 – Save-Schema bestätigt aktualisierte Wissensmodule.
 
 **Nachverfolgung**
-- QA-Fahrplan: Abschnitt „Maßnahmenpaket Beta-GPT 2025-06 – Issue-Fahrplan → Cluster A – Save-Contract & Persistenz“ verweist jetzt auf README + Modul 12 mit den zusätzlichen Pflichtfeldern.
-- Audit: Save-Contract-Abschnitt 2025-06 vermerkt identische Pflichtfelder (keine weiteren Maßnahmen erforderlich).
+- QA-Fahrplan: Abschnitt „Maßnahmenpaket Beta-GPT 2025-06 – Issue-Fahrplan → Cluster A – Save-
+  Contract & Persistenz“ verweist jetzt auf README + Modul 12 mit den zusätzlichen Pflichtfeldern.
+- Audit: Save-Contract-Abschnitt 2025-06 vermerkt identische Pflichtfelder (keine weiteren Maßnahmen
+  erforderlich).
 
 ## 2025-06-28 – Repo-Agent – Chronopolis Hochstufen-Stichprobe
 - Plattform: Lokale CI-Simulation
@@ -1519,8 +1563,10 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] `tools/test_chronopolis_high_tier.js` bestätigt Daily-Roll ohne 🔒-Locks (Chief + Research 4) und Px-Trace im Debrief.
-- [x] README, Systems-Module und QA-Fahrplan referenzieren den Hochstufen-Lauf; Audit-Abschnitt aktualisiert.
+- [x] `tools/test_chronopolis_high_tier.js` bestätigt Daily-Roll ohne 🔒-Locks (Chief + Research 4)
+  und Px-Trace im Debrief.
+- [x] README, Systems-Module und QA-Fahrplan referenzieren den Hochstufen-Lauf; Audit-Abschnitt
+  aktualisiert.
 
 **Nachverfolgung**
 - QA-Fahrplan: Cluster C #14 aktualisiert (Stand 2025-06-28) inklusive Script-Referenz.
@@ -1529,7 +1575,8 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ## 2025-06-27 – Repo-Agent – Mission 5 Gate & Arena QA
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-27, QA-Fahrplan 1.3.1
-- Copy-&-Paste-Auftrag: QA-Follow-ups #7/#11/#15/#16/#17 abschließen (Mission 5/10 Gate, Boss-Toast, Ask→Suggest, Vehikel-Overlay, Phase-Strike-Arena)
+- Copy-&-Paste-Auftrag: QA-Follow-ups #7/#11/#15/#16/#17 abschließen (Mission 5/10 Gate, Boss-Toast,
+  Ask→Suggest, Vehikel-Overlay, Phase-Strike-Arena)
 
 ```chatlog
 09:42 Repo-Agent: `make lint`
@@ -1543,21 +1590,32 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] QA-Follow-up #7 – Mission 5/10 Gate: `tools/test_acceptance_followups.js` bestätigt `Foreshadow 2/2` vor dem Start sowie Reset auf `0/2`; HUD-Badge und `!boss status` spiegeln den Reset.
-- [x] QA-Follow-up #11 – Boss-Toast QA-Check: HUD-Log enthält Foreshadow-Toasts mit Tag `Foreshadow`; README & Toolkit führen die Evidenzschritte.
-- [x] QA-Follow-up #15 – Ask→Suggest Load-Test: `modus suggest`/`modus ask` setzen HUD-Toast `SUG-ON/SUG-OFF`; Overlay markiert den Wechsel.
-- [x] QA-Follow-up #16 – Vehikel-Overlay QA: Toolkit-Module dokumentieren Boden-/Luft-Chase-Overlays (`vehicle_overlay('vehicle', …)`); README verweist auf QA-Check.
-- [x] QA-Follow-up #17 – Phase-Strike Arena QA: Arena-Start setzt PvP-Modus & `phase_strike_tax=1`; Toast `Arena: Phase-Strike …` erfasst die SYS-Kosten, QA-Plan markiert Evidenz.
+- [x] QA-Follow-up #7 – Mission 5/10 Gate: `tools/test_acceptance_followups.js` bestätigt
+  `Foreshadow 2/2` vor dem Start sowie Reset auf `0/2`; HUD-Badge und `!boss status` spiegeln den
+  Reset.
+- [x] QA-Follow-up #11 – Boss-Toast QA-Check: HUD-Log enthält Foreshadow-Toasts mit Tag
+  `Foreshadow`; README & Toolkit führen die Evidenzschritte.
+- [x] QA-Follow-up #15 – Ask→Suggest Load-Test: `modus suggest`/`modus ask` setzen HUD-Toast `SUG-
+  ON/SUG-OFF`; Overlay markiert den Wechsel.
+- [x] QA-Follow-up #16 – Vehikel-Overlay QA: Toolkit-Module dokumentieren Boden-/Luft-Chase-Overlays
+  (`vehicle_overlay('vehicle', …)`); README verweist auf QA-Check.
+- [x] QA-Follow-up #17 – Phase-Strike Arena QA: Arena-Start setzt PvP-Modus & `phase_strike_tax=1`;
+  Toast `Arena: Phase-Strike …` erfasst die SYS-Kosten, QA-Plan markiert Evidenz.
 
 **Nachverfolgung**
-- QA-Fahrplan: Cluster C #7/#11/#15/#16/#17 auf ✅ gesetzt, „Nächste Schritte“ um Abschlussnotizen (2025-06-27) ergänzt.
-- README & Toolkit-Modul ergänzen QA-Rezepte für Foreshadow-Gate, Ask→Suggest, Vehikel-Chase & Phase-Strike.
-- Neues QA-Skript `tools/test_acceptance_followups.js` liefert Node-basierte Evidenz für Mission- und Arena-Prüfungen.
+- QA-Fahrplan: Cluster C #7/#11/#15/#16/#17 auf ✅ gesetzt, „Nächste Schritte“ um Abschlussnotizen
+  (2025-06-27) ergänzt.
+- README & Toolkit-Modul ergänzen QA-Rezepte für Foreshadow-Gate, Ask→Suggest, Vehikel-Chase &
+  Phase-Strike.
+- Neues QA-Skript `tools/test_acceptance_followups.js` liefert Node-basierte Evidenz für Mission-
+  und Arena-Prüfungen.
 
 ## 2025-06-24 – Repo-Agent – Arc-Dashboard QA-Tools
 - Plattform: Lokale CI-Simulation
-- Wissensstand: `runtime.js` 4.2.2 (Arc-Dashboard Status), README/Systems Stand 2025-06-24, QA-Fahrplan 1.3.1
-- Copy-&-Paste-Auftrag: QA-Follow-up #6 abschließen, Arc-Dashboard-Status für QA exportierbar machen und Dokumentation spiegeln
+- Wissensstand: `runtime.js` 4.2.2 (Arc-Dashboard Status), README/Systems Stand 2025-06-24, QA-
+  Fahrplan 1.3.1
+- Copy-&-Paste-Auftrag: QA-Follow-up #6 abschließen, Arc-Dashboard-Status für QA exportierbar machen
+  und Dokumentation spiegeln
 
 ```chatlog
 09:58 Repo-Agent: `make lint`
@@ -1571,18 +1629,21 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] `!dashboard status` liefert Seeds, Fraktionsmeldungen und offene Fragen als Text-Snapshot für QA-Protokolle.
+- [x] `!dashboard status` liefert Seeds, Fraktionsmeldungen und offene Fragen als Text-Snapshot für
+  QA-Protokolle.
 - [x] README und Systems-Module nennen den neuen QA-Befehl; Toolkit weist auf den Evidenzexport hin.
 - [x] QA-Fahrplan Cluster C #6 auf ✅ gesetzt, Nächste-Schritte-Abschnitt datiert.
 
 **Nachverfolgung**
-- QA-Fahrplan: Cluster C #6 sowie Abschnitt „Nächste Schritte“ mit Abschlussvermerk (2025-06-24) aktualisiert.
+- QA-Fahrplan: Cluster C #6 sowie Abschnitt „Nächste Schritte“ mit Abschlussvermerk (2025-06-24)
+  aktualisiert.
 - README & Systems spiegeln Arc-Dashboard-Befehl; QA-Plan referenziert Runtime- und Doku-Updates.
 
 ## 2025-06-22 – Repo-Agent – QA-Fahrplan Sync
 - Plattform: Lokale CI-Simulation
 - Wissensstand: `runtime.js` 4.2.2, README/Systems Stand 2025-06-22, QA-Fahrplan 1.3.1
-- Copy-&-Paste-Auftrag: Deepcheck-Sessions 2025-06-11–2025-06-16 abschließen, Maßnahmenblöcke abhaken, QA-Artefakte spiegeln
+- Copy-&-Paste-Auftrag: Deepcheck-Sessions 2025-06-11–2025-06-16 abschließen, Maßnahmenblöcke
+  abhaken, QA-Artefakte spiegeln
 
 ```chatlog
 10:02 Repo-Agent: `make lint`
@@ -1601,13 +1662,16 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 - [x] QA-Log-Eintrag 2025-06-22 erstellt und in Fahrplan/README verlinkt.
 
 **Nachverfolgung**
-- QA-Fahrplan: Sessions-Abschnitt & Priorisierte Umsetzungspakete aktualisiert (Status ✅ 2025-06-22).
+- QA-Fahrplan: Sessions-Abschnitt & Priorisierte Umsetzungspakete aktualisiert (Status ✅
+  2025-06-22).
 - README: QA-Artefakte-Abschnitt verweist auf aktualisierten QA-Plan (Stand 2025-06-22).
 
 ## 2025-06-20 – Repo-Agent – Alias- & Funk-Logs
 - Plattform: Lokale CI-Simulation
-- Wissensstand: README/Systems aktualisiert (Alias/Squad-Radio), `runtime.js` Branch Alias-Trace, Toolkit Stand 2025-06-20
-- Copy-&-Paste-Auftrag: QA-Follow-ups #12/#13 abschließen, Alias-/Funk-Logs persistieren und Dokumentation spiegeln
+- Wissensstand: README/Systems aktualisiert (Alias/Squad-Radio), `runtime.js` Branch Alias-Trace,
+  Toolkit Stand 2025-06-20
+- Copy-&-Paste-Auftrag: QA-Follow-ups #12/#13 abschließen, Alias-/Funk-Logs persistieren und
+  Dokumentation spiegeln
 
 ```chatlog
 11:45 Repo-Agent: `make lint`
@@ -1621,13 +1685,18 @@ PYTHONPATH=. python3 scripts/lint_umlauts.py
 ```
 
 **Offene Punkte**
-- [x] Alias-Trace über `!alias log`/`!alias status` implementiert (`logs.alias_trace[]`, Debrief-Zeile `Alias-Trace (n×)`).
-- [x] Squad-Radio-Log via `!radio log`/`!radio status` bereitgestellt (`logs.squad_radio[]`, Debrief-Zeile `Squad-Radio (n×)`).
-- [x] Wissensmodule (README, Systems) spiegeln Alias-/Funk-Workflow inkl. Toolkit-Hinweisen; QA-Fahrplan Cluster C #12/#13 auf ✅ gesetzt.
+- [x] Alias-Trace über `!alias log`/`!alias status` implementiert (`logs.alias_trace[]`, Debrief-
+  Zeile `Alias-Trace (n×)`).
+- [x] Squad-Radio-Log via `!radio log`/`!radio status` bereitgestellt (`logs.squad_radio[]`,
+  Debrief-Zeile `Squad-Radio (n×)`).
+- [x] Wissensmodule (README, Systems) spiegeln Alias-/Funk-Workflow inkl. Toolkit-Hinweisen; QA-
+  Fahrplan Cluster C #12/#13 auf ✅ gesetzt.
 
 **Nachverfolgung**
-- QA-Fahrplan: Cluster C #12/#13 sowie Abschnitt „Nächste Schritte“ aktualisiert (Status ✅, Datum 2025-06-20).
-- QA-Plan verweist auf `runtime.js`, README und Systems-Module für Alias/Funk; QA-Log ergänzt Alias-/Funk-Testlauf.
+- QA-Fahrplan: Cluster C #12/#13 sowie Abschnitt „Nächste Schritte“ aktualisiert (Status ✅, Datum
+  2025-06-20).
+- QA-Plan verweist auf `runtime.js`, README und Systems-Module für Alias/Funk; QA-Log ergänzt
+  Alias-/Funk-Testlauf.
 
 ## Zweck
 Dieses Log sammelt unveränderte Ergebnisse aus Beta-GPT- und MyGPT-Testläufen. Es
@@ -1655,11 +1724,13 @@ nachzuvollziehen.
 
 ## 2025-06-19 – Repo-Agent – Pre-City-Hub Dokumentation
 - Plattform: Lokale CI-Simulation
-- Wissensstand: README v4.2.2 (HQ/Chronopolis), `gameplay/kampagnenuebersicht.md` Modul 10, Toolkit Stand 2025-06-16
+- Wissensstand: README v4.2.2 (HQ/Chronopolis), `gameplay/kampagnenuebersicht.md` Modul 10, Toolkit
+  Stand 2025-06-16
 - Copy-&-Paste-Auftrag: QA-Fahrplan QA-Follow-up #8 – Pre-City-Hub Dokumentation synchronisieren
 
 ```chatlog
-10:05 Repo-Agent: `rg "Pre-City-Hub" README.md gameplay/kampagnenuebersicht.md systems/toolkit-gpt-spielleiter.md`
+10:05 Repo-Agent: `rg "Pre-City-Hub" README.md gameplay/kampagnenuebersicht.md
+  systems/toolkit-gpt-spielleiter.md`
 10:07 Repo-Agent: `sed -n '890,940p' README.md`
 10:09 Repo-Agent: `sed -n '60,140p' gameplay/kampagnenuebersicht.md`
 10:11 Repo-Agent: `sed -n '2960,3005p' systems/toolkit-gpt-spielleiter.md`
@@ -1672,11 +1743,13 @@ nachzuvollziehen.
 
 **Nachverfolgung**
 - QA-Fahrplan: Session „Codex-Pre-Hub-Doku“ (2025-06-19) ergänzt, QA-Follow-up #8 auf ✅ gesetzt.
-- QA-Plan Cluster C Row #8 aktualisiert (README §HQ/Chronopolis, Modul 10 Pre-Hub, Toolkit §HQ-Phase Workflow).
+- QA-Plan Cluster C Row #8 aktualisiert (README §HQ/Chronopolis, Modul 10 Pre-Hub, Toolkit §HQ-Phase
+  Workflow).
 
 ## 2025-06-17 – Repo-Agent – Koop-Debrief Wallet-Split
 - Plattform: Lokale CI-Simulation
-- Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Koop-Debrief), Systems-Module synchronisiert
+- Wissensstand: README v4.2.2, `runtime.js` aktueller Branch (Koop-Debrief), Systems-Module
+  synchronisiert
 - Copy-&-Paste-Auftrag: QA-Fahrplan Issue #11 – Debrief-Split & Wallet-Logik implementieren
 
 ```chatlog
@@ -1812,31 +1885,57 @@ console.log('Rendered protocol:', render_offline_protocol());
 NODE`
 08:40 Tool: `[OFFLINE] Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten.`
 08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
-08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
-08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
-08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln,
+  Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin
+  erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung
+  abwarten.`
 08:40 Tool: ``
-08:40 Tool: `Offline-Protokoll (1×): Fallback · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
-08:40 Tool: `require_uplink error: Kodex-Uplink getrennt – Mission läuft weiter mit HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.`
+08:40 Tool: `Offline-Protokoll (1×): Fallback · Gerät comlink · Jammer frei · Reichweite 5000m ·
+  Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `require_uplink error: Kodex-Uplink getrennt – Mission läuft weiter mit
+  HUD-Lokaldaten. !offline zeigt das Feldprotokoll bis zum HQ-Re-Sync.`
 08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
-08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
-08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
-08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln,
+  Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin
+  erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung
+  abwarten.`
 08:40 Tool: ``
-08:40 Tool: `Offline-Protokoll (3×): jammer · Gerät comlink · Jammer aktiv · Reichweite 1500m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `Offline-Protokoll (3×): jammer · Gerät comlink · Jammer aktiv · Reichweite 1500m ·
+  Relais 0 · Szene 3/12 · EP 3 · MS 5`
 08:40 Tool: `Kodex Offline-FAQ (ITI↔Kodex-Uplink im Einsatz gekappt):`
-08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln, Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
-08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin erst zurück im HQ.`
-08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung abwarten.`
+08:40 Tool: `- Terminal oder Hardline suchen, Relay koppeln,
+  Jammer-Override prüfen – Kodex bleibt bis dahin stumm.`
+08:40 Tool: `- Mission normal fortsetzen: HUD liefert lokale Logs, neue Saves gibt es weiterhin
+  erst zurück im HQ.`
+08:40 Tool: `- Ask→Suggest-Fallback nutzen: Aktionen als „Vorschlag:“ markieren und Bestätigung
+  abwarten.`
 08:40 Tool: ``
-08:40 Tool: `Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei · Reichweite 5000m ·
+  Relais 0 · Szene 3/12 · EP 3 · MS 5`
 08:40 Tool: `Offline log entries: [`
-08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.344Z","reason":"auto","status":"offline","device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":1,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
-08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.345Z","reason":"auto","status":"offline","device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":2,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
-08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.346Z","reason":"jammer","status":"offline","device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":3,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"},`
-08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.347Z","reason":"resume","status":"offline","device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":4,"scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core","gm_style":"verbose"}`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.344Z","reason":"auto","status":"offline",
+  "device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":1,"scene_index":3,
+  "scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core",
+  "gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.345Z","reason":"auto","status":"offline",
+  "device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":2,"scene_index":3,
+  "scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core",
+  "gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.346Z","reason":"jammer","status":"offline",
+  "device":"comlink","jammed":true,"range_m":1500,"relays":0,"count":3,"scene_index":3,
+  "scene_total":12,"episode":3,"mission":5,"location":"Einsatzort","phase":"core",
+  "gm_style":"verbose"},`
+08:40 Tool: `  {"timestamp":"2025-10-12T14:26:44.347Z","reason":"resume","status":"offline",
+  "device":"comlink","jammed":false,"range_m":5000,"relays":0,"count":4,
+  "scene_index":3,"scene_total":12,"episode":3,"mission":5,"location":"Einsatzort",
+  "phase":"core","gm_style":"verbose"}`
 08:40 Tool: `]`
-08:40 Tool: `Rendered protocol: Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei · Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
+08:40 Tool: `Rendered protocol: Offline-Protokoll (4×): resume · Gerät comlink · Jammer frei ·
+  Reichweite 5000m · Relais 0 · Szene 3/12 · EP 3 · MS 5`
 ```
 
 **Ergebnisse**
@@ -1851,8 +1950,10 @@ NODE`
 
 ## 2025-06-17 – Repo-Agent – Debrief-Trace Linter
 - Plattform: Lokale CI-Simulation
-- Wissensstand: README v4.2.2 (Debrief-Trace-Erweiterung), `runtime.js` aktueller Branch, `systems/gameflow/speicher-fortsetzung.md`
-- Copy-&-Paste-Auftrag: QA-Follow-up #9 – Debrief-Linter (Issue #16) für Chronopolis-/Foreshadow-/Offline-Traces umsetzen
+- Wissensstand: README v4.2.2 (Debrief-Trace-Erweiterung), `runtime.js` aktueller Branch,
+  `systems/gameflow/speicher-fortsetzung.md`
+- Copy-&-Paste-Auftrag: QA-Follow-up #9 – Debrief-Linter (Issue #16) für
+  Chronopolis-/Foreshadow-/Offline-Traces umsetzen
 
 ```chatlog
 09:05 Repo-Agent: `python3 tools/lint_debrief_trace.py`
@@ -1877,13 +1978,17 @@ NODE`
 ```
 
 **Ergebnisse**
-- [x] Debrief rendert `Chronopolis-Trace`, `Foreshadow-Log`, `Offline-Protokoll` und `Runtime-Flags` mit QA-relevanten Feldern.
-- [x] Neues Tool `python3 tools/lint_debrief_trace.py` validiert die Trace-Zeilen und läuft automatisiert im Smoke-Test.
-- [x] README sowie Runtime-Module spiegeln die Debrief-Ausgabeformate (Chronopolis, Offline, Foreshadow, Flags).
+- [x] Debrief rendert `Chronopolis-Trace`, `Foreshadow-Log`, `Offline-Protokoll` und `Runtime-Flags`
+  mit QA-relevanten Feldern.
+- [x] Neues Tool `python3 tools/lint_debrief_trace.py` validiert die Trace-Zeilen und läuft
+  automatisiert im Smoke-Test.
+- [x] README sowie Runtime-Module spiegeln die Debrief-Ausgabeformate (Chronopolis, Offline,
+  Foreshadow, Flags).
 
 **Nachverfolgung**
 - QA-Fahrplan: QA-Follow-up #9 (Debrief-Linter) – Tests & Wissensspiegel dokumentiert 2025-06-17.
-- Docs: README §„ITI-HQ & Chronopolis“, `systems/gameflow/speicher-fortsetzung.md`, `systems/currency/cu-waehrungssystem.md` aktualisiert.
+- Docs: README §„ITI-HQ & Chronopolis“, `systems/gameflow/speicher-fortsetzung.md`,
+  `systems/currency/cu-waehrungssystem.md` aktualisiert.
 
 ## 2025-04-02 – Maintainer-Team – Regressionstestplanung
 - Plattform: OpenAI MyGPT (Beta-Klon) – Planungsrunde
@@ -1930,11 +2035,13 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 — Temporal Ships —
 🔒 Timesloop-Schooner · 5200 CU (Rank Lead · Research 3)
 
-14:06 Tool: `{ timestamp: '2025-06-21T12:00:00.000Z', item: 'Quantum-Flashbang', cost_cu: 500, px_delta: -2, px_clause: 'Px -2', note: 'Beta-Run Rabatt' }`
+14:06 Tool: `{ timestamp: '2025-06-21T12:00:00.000Z', item: 'Quantum-Flashbang',
+  cost_cu: 500, px_delta: -2, px_clause: 'Px -2', note: 'Beta-Run Rabatt' }`
 ```
 
 **Offene Punkte**
-- [x] Hochstufen-Stichprobe mit Lead + Research 3 durchführen, um alle Kategorien freizuschalten und Px-Klauseln mit echten Käufen zu prüfen (Lauf 2025-06-28, siehe Abschnitt 2025-06-28).
+- [x] Hochstufen-Stichprobe mit Lead + Research 3 durchführen, um alle Kategorien freizuschalten und
+  Px-Klauseln mit echten Käufen zu prüfen (Lauf 2025-06-28, siehe Abschnitt 2025-06-28).
 
 **Nachverfolgung**
 - Commit/PR: pending (dieser Commit).
@@ -1944,7 +2051,8 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ## 2025-06-28 – MyGPT – Regressionstest Q2 2025 (Save/Load & Spiegelprozesse)
 - Plattform: OpenAI MyGPT (Beta-Klon)
 - Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Toolkit-Makros 2025-06-28
-- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q2 (Save/Load, Compliance-Flag #4, Chronopolis-Hochstufung)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q2 (Save/Load, Compliance-Flag #4,
+  Chronopolis-Hochstufung)
 
 ```chatlog
 09:32 Repo-Agent: `node tools/test_save.js`
@@ -1958,9 +2066,12 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ```
 
 **Ergebnisse**
-- [x] Save/Load-Serializer setzt `logs.flags.compliance_shown_today` korrekt und spiegelt Toolkit-Status.
-- [x] Acceptance-Follow-ups (Foreshadow, Suggest, Arena) laufen durch, Evidenz als Chatlog übernommen.
-- [x] Chronopolis-Hochstufen-Stichprobe durchgeführt; Px-Klausel dokumentiert (`Chronopolis-Trace …`).
+- [x] Save/Load-Serializer setzt `logs.flags.compliance_shown_today` korrekt und spiegelt Toolkit-
+  Status.
+- [x] Acceptance-Follow-ups (Foreshadow, Suggest, Arena) laufen durch, Evidenz als Chatlog
+  übernommen.
+- [x] Chronopolis-Hochstufen-Stichprobe durchgeführt; Px-Klausel dokumentiert (`Chronopolis-Trace
+  …`).
 
 **Nachverfolgung**
 - QA-Fahrplan: Regressionstermine Q2 ✅ (Stand 2025-06-28).
@@ -1970,7 +2081,8 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ## 2025-09-11 – MyGPT – Regressionstest Q3 2025 (Arena & Großteam)
 - Plattform: OpenAI MyGPT (Beta-Klon)
 - Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Arena-Debrief Notes 2025-09-11
-- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q3 (Arena-Serien, Funkkanäle, Jammer-Fallback)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q3 (Arena-Serien, Funkkanäle,
+  Jammer-Fallback)
 
 ```chatlog
 11:02 Repo-Agent: `node tools/test_arena.js`
@@ -1994,7 +2106,8 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ## 2025-12-10 – MyGPT – Regressionstest Q4 2025 (Jahresabschluss & Spiegelkontrolle)
 - Plattform: OpenAI MyGPT (Beta-Klon)
 - Wissensstand: README v4.2.2, Runtime-Module 4.2.2 (18), Debrief/Triage Notes 2025-12-10
-- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q4 (Debrief, Suspend/Resume, Intro-Mirroring)
+- Copy-&-Paste-Auftrag: QA-Fahrplan Sprint 3 – MyGPT-Regression Q4 (Debrief, Suspend/Resume, Intro-
+  Mirroring)
 
 ```chatlog
 10:05 Repo-Agent: `node tools/test_debrief.js`
@@ -2065,10 +2178,13 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 03:05 Tool: `Foreshadow low: 0/2`
 03:06 Repo-Agent: `node - <<'NODE' … !sf off → scene_overlay`
 03:06 Tool: `[SF-OFF] Self-Reflection deaktiviert – Fokus bleibt extern.`
-03:07 Tool: `EP 0 · MS 0 · SC 0/12 · MODE verbose · Objective: ? · ANCR ? · RW 08:00 · Px 0 · SYS 0 · Lvl - · FR:beobachter · SF-OFF`
+03:07 Tool: `EP 0 · MS 0 · SC 0/12 · MODE verbose · Objective: ? · ANCR ? · RW 08:00 ·
+  Px 0 · SYS 0 · Lvl - · FR:beobachter · SF-OFF`
 03:08 Repo-Agent: `node - <<'NODE' … psi_heat=1 → save_deep()`
 03:08 Tool: `SaveGuard: Psi-Heat > 0.`
-03:10 Repo-Agent: Laufzeitscan `runtime.scene_overlay()` / `assert_foreshadow()` / `migrate_save()`; Abgleich mit [Acceptance-Smoke](../../../docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
+03:10 Repo-Agent: Laufzeitscan `runtime.scene_overlay()` / `assert_foreshadow()` /
+  `migrate_save()`; Abgleich mit
+  [Acceptance-Smoke](../../../docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
 03:12 Repo-Agent: Ergebnis → Checkliste deckt Skripte ab, QA-Fahrplan aktualisieren.
 ```
 
@@ -2077,7 +2193,8 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
       verifizieren (Logeintrag ergänzt).
 
 **Nachverfolgung**
-- Commits: e4d2872 (docs: acceptance smoke abgleich), e5da4ad (docs: korrigiere markdown-zeilenumbrueche).
+- Commits: e4d2872 (docs: acceptance smoke abgleich), e5da4ad (docs: korrigiere markdown-
+  zeilenumbrueche).
 - QA-Fahrplan: Sprint 2 – Acceptance-Smoke-Checkliste (Status: abgeschlossen 2025-03-23).
 
 ## 2025-03-17 – Beta GPT – Build 4.2.2
@@ -2094,12 +2211,16 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 ```
 
 **Offene Punkte**
-- [x] README um direkte Links zu QA-Fahrplan, Audit und Beta-QA-Log ergänzen. → umgesetzt in README "QA-Artefakte & Nachverfolgung" (Sprint 1).
-- [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen aktuellen QA-Zyklus tauschen. → aktualisiert mit Log-/Audit-Pfaden und Synchronisationsschritt.
-- [x] QA-Log initialisieren und Beta-Protokoll verlinken. → dieser Eintrag dokumentiert den Startpunkt.
+- [x] README um direkte Links zu QA-Fahrplan, Audit und Beta-QA-Log ergänzen. → umgesetzt in README
+  "QA-Artefakte & Nachverfolgung" (Sprint 1).
+- [x] CONTRIBUTING-Abschnitt "Beta-GPT & QA-Übergaben" gegen aktuellen QA-Zyklus tauschen. →
+  aktualisiert mit Log-/Audit-Pfaden und Synchronisationsschritt.
+- [x] QA-Log initialisieren und Beta-Protokoll verlinken. → dieser Eintrag dokumentiert den
+  Startpunkt.
 
 **Nachverfolgung**
-- Commits: 131046d (docs: synchronisiere qa-workflow-dokumente), 03dad05 (docs: schärfe rollen für qa-übergaben), e5da4ad (docs: korrigiere markdown-zeilenumbrueche).
+- Commits: 131046d (docs: synchronisiere qa-workflow-dokumente), 03dad05 (docs: schärfe rollen für
+  qa-übergaben), e5da4ad (docs: korrigiere markdown-zeilenumbrueche).
 - QA-Fahrplan: Sprint 1 – README-Querverweise, QA-Log initialisieren, CONTRIBUTING anpassen.
 - Maintainer-Ops: Version 1.2.0 dokumentiert MyGPT als alleinige QA-Plattform und den Spiegelprozess
   (Sprint 2 – Spiegelprozesse).
