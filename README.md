@@ -801,9 +801,11 @@ Speichern außerhalb des HQs meldet „SaveGuard: Speichern nur im HQ – HQ-Sav
 - `!exfil status` – fasst Anchor, RW und Armierung als Text zusammen.
 
 Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
-Sonder-Overlays für Verfolgungen und Massenkonflikte schreiben zusätzlich strukturierte Einträge
-(`event: vehicle_clash` / `mass_conflict`) in `logs.hud`. Fehlt ein `at`, ergänzt
-der HQ-Serializer beim Speichern einen ISO-Zeitstempel.
+Sonder-Overlays für Verfolgungen und Massenkonflikte nutzen den Helper
+`hud_event(event, details)`: Er akzeptiert ausschließlich `vehicle_clash` oder
+`mass_conflict`, normalisiert numerische Felder (`tempo`, `stress`, `damage`,
+`chaos`, `break_sg`) und ergänzt fehlende `at`-Timestamps automatisch, bevor der
+HQ-Serializer die Events übernimmt.
 
 ### HUD-Schnellhilfe (`/help`)
 
