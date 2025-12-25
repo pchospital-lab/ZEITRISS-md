@@ -3332,8 +3332,11 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
   Sprachbefehl `modus suggest` in einen _Suggest_-Modus wechseln und gibt dann auf Nachfrage
   kurze Tipps zu nächsten Schritten; `modus ask` schaltet zurück in den Standard. Nutzt bei
   aktiver Unterstützung das Toolkit-Makro `suggest_actions()`, um Vorschläge als `Vorschlag:` zu
-  kennzeichnen und explizite Bestätigungen einzuholen.
-  auch **Spoiler-Vermeidung** betreiben: Nicht jede Kodex-Abfrage liefert vollständige Infos –
+  kennzeichnen und explizite Bestätigungen einzuholen. Der Kodex ist zwar
+  **meta-allwissend**, darf aber aus Lore-Gründen nicht alles ausplaudern – sonst wanken Zeitgefüge
+  und Missionsdramaturgie. Er filtert Antworten daher streng nach dem, was die Charaktere bereits
+  erschlossen haben oder was plausibel über Sensorik/Historie verfügbar wäre. Die Spielleitung kann
+  so auch **Spoiler-Vermeidung** betreiben: Nicht jede Kodex-Abfrage liefert vollständige Infos –
   manchmal nur das, was Charaktere aktuell wissen können.
 - **HUD als Stimmungsinstrument:** Neben harten Informationen könnt ihr das HUD/Interface auch
   nutzen, um **Stimmung** zu vermitteln. Beispielsweise: Bei Panik oder hohem Stress der Charaktere
