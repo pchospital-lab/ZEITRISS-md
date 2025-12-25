@@ -913,14 +913,14 @@ die Debrief-Zeilen.
 Beim Laden sorgt `normalize_save_v6()` selbst für den Sync: `ui.suggest_mode`
 und `character.modes` werden vereinigt, `suggest`-Einträge landen in beiden
 Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
-(`mission_focus`, `transparenz` usw.) bleiben wie gewohnt erhalten.
+(`klassik`, `mission_focus`, `transparenz` usw.) bleiben wie gewohnt erhalten.
 
 **Save-Beispiel mit `modes` inkl. `suggest`**
 
 ```json
 {
   "ui": {"suggest_mode": true, "gm_style": "verbose", "action_mode": "konform"},
-  "character": {"modes": ["mission_focus", "covert_ops_technoir", "suggest"]},
+  "character": {"modes": ["klassik", "mission_focus", "covert_ops_technoir", "suggest"]},
   "logs": {"hud": ["· SUG", "Mission-Fokus"]}
 }
 ```
@@ -928,6 +928,10 @@ Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
 Der Save hält sowohl die aktivierten Erzählmodi (`modes[]`) als auch den UI-Flag
 `suggest_mode` und den Action-Contract. Beim Laden setzt GPT `modus suggest`
 und spiegelt das HUD-Tag `· SUG` samt Mission-Fokus-Badge.
+
+Das UI speichert außerdem `dice.debug_rolls` (Default `true` für offene Würfel).
+Neue Sessions starten dadurch automatisch mit sichtbaren Würfen, bis ihr per
+`/roll hidden|manual` umschaltet.
 
 ## Session-Suspend (Temporärer Snapshot) {#session-suspend}
 

@@ -116,7 +116,7 @@ const WEIRDNESS_LOG_LIMIT = 12;
 const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
 const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
-const DEFAULT_MODES = ['film', 'mission_focus', 'covert_ops_technoir'];
+const DEFAULT_MODES = ['klassik', 'mission_focus', 'covert_ops_technoir'];
 const DEFAULT_ACTION_MODE = 'konform';
 const ATMOSPHERE_BANNED_TERMS = [
   'cyberspace',
@@ -2235,6 +2235,7 @@ function ensure_ui(){
       gm_style: 'verbose',
       intro_seen: false,
       suggest_mode: false,
+      dice: { debug_rolls: true },
       contrast: 'standard',
       badge_density: 'standard',
       output_pace: 'normal',
@@ -2249,6 +2250,10 @@ function ensure_ui(){
   if (typeof state.ui.suggest_mode !== 'boolean'){
     state.ui.suggest_mode = false;
   }
+  if (!state.ui.dice || typeof state.ui.dice !== 'object'){
+    state.ui.dice = { debug_rolls: true };
+  }
+  state.ui.dice.debug_rolls = state.ui.dice.debug_rolls !== false;
   const contrast = typeof state.ui.contrast === 'string'
     ? state.ui.contrast.trim().toLowerCase()
     : '';
@@ -7824,6 +7829,9 @@ function prepare_save_ui(ui){
   base.gm_style = typeof base.gm_style === 'string' ? base.gm_style : 'verbose';
   base.intro_seen = !!base.intro_seen;
   base.suggest_mode = !!base.suggest_mode;
+  const dice = base.dice && typeof base.dice === 'object' ? base.dice : {};
+  dice.debug_rolls = dice.debug_rolls !== false;
+  base.dice = { debug_rolls: dice.debug_rolls };
   const contrast = typeof base.contrast === 'string' ? base.contrast.trim().toLowerCase() : '';
   base.contrast = ['standard', 'high'].includes(contrast) ? contrast : 'standard';
   base.badge_density = normalize_badge_density(base.badge_density);
