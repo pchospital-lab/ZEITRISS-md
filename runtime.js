@@ -2592,6 +2592,48 @@ function ensure_wallets(){
   return normalized;
 }
 
+function merge_wallet_sets(hostWallets, incomingWallets, noteConflict){
+  const merged = {};
+  const hostEntries = hostWallets && typeof hostWallets === 'object' && !Array.isArray(hostWallets)
+    ? Object.entries(hostWallets)
+    : [];
+  const incomingEntries = incomingWallets
+    && typeof incomingWallets === 'object'
+    && !Array.isArray(incomingWallets)
+      ? Object.entries(incomingWallets)
+      : [];
+
+  for (const [id, record] of hostEntries){
+    if (!id) continue;
+    merged[id] = { ...record };
+  }
+
+  for (const [id, record] of incomingEntries){
+    if (!id) continue;
+    const target = merged[id];
+    if (!target){
+      merged[id] = { ...record };
+      continue;
+    }
+    const hostBalance = Number.isFinite(target.balance) ? target.balance : 0;
+    const incomingBalance = Number.isFinite(record.balance) ? record.balance : 0;
+    const hostName = typeof target.name === 'string' && target.name.trim() ? target.name.trim() : null;
+    const incomingName = typeof record.name === 'string' && record.name.trim() ? record.name.trim() : null;
+    const differs = hostBalance !== incomingBalance || (incomingName && incomingName !== hostName);
+    if (differs && typeof noteConflict === 'function'){
+      noteConflict({
+        field: `economy.wallets.${id}`,
+        source: { balance: incomingBalance, name: incomingName },
+        target: { balance: hostBalance, name: hostName },
+        mode: 'merge',
+        note: 'Wallet union: Host-Werte bevorzugt'
+      });
+    }
+  }
+
+  return merged;
+}
+
 function wallet_lookup(){
   ensure_wallets();
   const economy = state.economy;
@@ -8763,6 +8805,7 @@ function load_deep(raw){
     || (state?.party && Array.isArray(state.party.characters) && state.party.characters.length > 0);
   const hostCampaign = hostHasState && state?.campaign ? clone_plain_object(state.campaign) : null;
   const hostUi = hostHasState && state?.ui ? prepare_save_ui(state.ui) : null;
+  const hostEconomy = hostHasState && state?.economy ? prepare_save_economy(state.economy) : null;
   const normalized = normalize_save_v6(source);
   const migrated = migrate_save(normalized);
   migrated.zr_version = migrated.zr_version || migrated.ZR_VERSION || ZR_VERSION;
@@ -8893,6 +8936,24 @@ function load_deep(raw){
       }
     }
   }
+  const incomingEconomy = prepare_save_economy(migrated.economy);
+  if (hostEconomy){
+    const hostCu = resolve_primary_currency(hostEconomy);
+    const incomingCu = resolve_primary_currency(incomingEconomy);
+    if (Number.isFinite(hostCu) && Number.isFinite(incomingCu) && hostCu !== incomingCu){
+      noteConflict({
+        field: 'economy.cu',
+        source: incomingCu,
+        target: hostCu,
+        mode: 'merge',
+        note: 'Host-HQ-Pool behält Vorrang'
+      });
+    }
+    incomingEconomy.cu = hostCu;
+    incomingEconomy.credits = hostCu;
+    incomingEconomy.wallets = merge_wallet_sets(hostEconomy.wallets, incomingEconomy.wallets, noteConflict);
+  }
+  migrated.economy = incomingEconomy;
   const incomingUi = prepare_save_ui(migrated.ui);
   if (hostUi){
     const uiKeys = ['gm_style', 'contrast', 'badge_density', 'output_pace'];
