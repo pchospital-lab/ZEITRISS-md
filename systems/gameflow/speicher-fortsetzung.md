@@ -57,7 +57,8 @@ assert serializer_bereit(required)
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
 aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
-`CITY`-Status und ist **kein** HQ:
+`CITY`-Status und ist **kein** HQ: Saves aus der City brechen mit
+„SaveGuard: Chronopolis ist kein HQ-Savepunkt – HQ-Save gesperrt.“ ab.
 
 Das versionierte JSON-Schema liegt unter
 `systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
@@ -613,10 +614,12 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    Kampagnenmodus wird temporär auf `pvp` gesetzt, `campaign.previous_mode`
    sichert den alten Wert (`preserve`/`trigger`). Beim Exit schreibt die Runtime
    `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg), stellt
-   `campaign.mode = previous_mode` wieder her, leert `previous_mode` und erlaubt
-   erneut HQ-Saves. `reset_arena_after_load()` bewahrt den letzten Modus über
-   `arena.previous_mode`, falls mitten in einer Serie geladen wird, damit der
-   Exit konsistent auf den Ursprungsmodus zurückspringt.
+  `campaign.mode = previous_mode` wieder her, leert `previous_mode` und erlaubt
+  erneut HQ-Saves. `reset_arena_after_load()` bewahrt den letzten Modus über
+  `arena.previous_mode` bzw. `resume_token.previous_mode`, setzt beim Laden den
+  Kampagnenmodus zurück und hält `phase_strike_tax` auf 0, falls mitten in einer
+  Serie geladen wird, damit der Exit konsistent auf den Ursprungsmodus
+  zurückspringt.
 
 **Host-Regel für Mehrfach-Import:** Sobald mehrere Saves zusammengeführt
 werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen weder
@@ -812,7 +815,8 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   Übergang mit `chronopolis_unlocked=true` und schreibt beim ersten Erreichen
   ein Trace-Event `chronopolis_unlock` (Quelle + Level). Der HUD-Toast
   „Chronopolis-Schlüssel aktiv – Level 10+ erreicht.“ dient als sichtbarer
-  Hinweis im HUD.
+  Hinweis im HUD. Beim Laden zieht die Runtime fehlende Flags nach (Level oder
+  Key-Item) und liefert Trace/Toast nach, falls das Unlock bislang fehlte.
 - **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
   `logs.offline[]` auf zwölf Einträge (Trigger, Gerät, Jammer, Reichweite,
   Relais, Szene/Episode). `render_offline_protocol()` fasst sie als
