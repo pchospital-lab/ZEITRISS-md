@@ -1212,6 +1212,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    `dispatcher_strings`-Quelle einführen, Dispatcher-Hinweis „Klammern sind Pflicht“ nur 1× pro
    Session als `dispatch_hint` tracen. QA: Golden-Files für Startsyntax, `npc-team 5`- und
    `gruppe 3`-Fehlertexte sowie Negativpfad `Spiel starten solo` erweitern.
+   _Status: ✅ abgeschlossen – `dispatcher_strings` als Runtime-Export + Fixture gespiegelt;
+   Hint-Trace 1×/Session, QA-Runner nutzt die Golden-Strings (2025-12-30)._
 2. **Issue #2 – Gruppen-Import vs. kanonischer Export trennen**
    Speicher-Modul klarstellen: Loader akzeptiert Multi-JSON/Wrapper (`Charaktere`), kanonischer
    DeepSave exportiert immer `party.characters[]`. Loader-Doku/Helper mit Hinweis „Wrapper nie als

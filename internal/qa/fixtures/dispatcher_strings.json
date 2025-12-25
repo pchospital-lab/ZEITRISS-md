@@ -1,0 +1,15 @@
+{
+  "strings": {
+    "start_hint": "Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]). Klammern sind Pflicht.",
+    "npc_team_size_error": "NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).",
+    "group_number_error": "Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)"
+  },
+  "negativpfade": {
+    "spiel_starten_solo": "start_hint"
+  },
+  "trace": {
+    "event": "dispatch_hint",
+    "channel": "dispatcher",
+    "reason": "start_syntax"
+  }
+}

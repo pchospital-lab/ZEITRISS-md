@@ -494,6 +494,10 @@ saveGame({...})
 höchstens einmal pro Session `dispatch_hint` (channel `dispatcher`). `Spiel laden` überspringt
 EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in Missionen blockt mit
 „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
+- **Golden-Strings:** Dispatcher-Referenz und QA-Runner ziehen dieselben Texte aus
+  `dispatcher_strings` (Runtime) sowie der Fixture
+  `internal/qa/fixtures/dispatcher_strings.json` (Start-Hint, `npc-team 5`-,
+  `gruppe 3`-Fehlertexte, Negativpfad `Spiel starten solo`).
 
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
