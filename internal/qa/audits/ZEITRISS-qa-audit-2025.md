@@ -6,6 +6,17 @@ tags: [meta, qa]
 
 # ZEITRISS QA-Audit 2025
 
+## Update 2027-03-06 – Copy-Paste-QA 2026-12 abgeschlossen
+
+- QA-Fahrplan 1.15.0 und QA-Log 0.4.28 markieren alle elf Copy-Paste-QA 2026-12-Issues als
+  erledigt (Dispatcher-Strings, Wrapper-Import, arc_dashboard-Guard, Self-Reflection-M5/M10,
+  HUD-Events, Toast-Budget, Rift-Seed-Cap, Economy/Arena/Chronopolis-Load, deterministische
+  Save-/Trace-Timestamps).
+- Regressionstests sichern die deterministischen Zeitmarken, HUD-Autostamps, Chronopolis-Trace
+  sowie Economy- und Arena-Merge ab; der Gold-Roundtrip bleibt ohne Containerverlust.
+- Wissensmodule und Runtime-Doku spiegeln HUD/Self-Reflection/Seed-Cap/Economy-Guards; offene
+  Compliance- oder Format-Themen bestehen nicht.
+
 ## Kontext und Auftrag
 Die QA-Crew hat den Systemtest zu **ZEITRISS 4.2.2** mit Schwerpunkt auf
 Systemkohärenz, Balance, HQ-Abläufe und urbane Interaktionen dokumentiert. Dieses
