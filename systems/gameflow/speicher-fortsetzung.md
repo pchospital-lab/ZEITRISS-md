@@ -569,7 +569,9 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
 - `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
-  normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise.
+  normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise
+  (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge –
+  GPT erzeugt sie nie als Output.
 - Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
   `party.characters[]` gehoben; anschließend legt
   `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und

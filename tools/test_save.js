@@ -182,6 +182,31 @@ assert.equal(migrated.ui.gm_style, 'verbose');
 assert.equal(migrated.ui.intro_seen, false);
 assert.equal(migrated.logs.flags.runtime_version, rt.ZR_VERSION);
 
+const wrapperRosterSource = {
+  ...data,
+  party: {},
+  team: {},
+  Charaktere: [
+    { id: 'alpha', callsign: 'Alpha' },
+    { id: 'beta', callsign: 'Beta' }
+  ]
+};
+const wrapperNormalized = rt.migrate_save(wrapperRosterSource);
+assert.deepStrictEqual(
+  wrapperNormalized.party.characters.map(entry => entry.id),
+  ['alpha', 'beta']
+);
+assert.deepStrictEqual(
+  wrapperNormalized.team.members.map(entry => entry.id),
+  ['alpha', 'beta']
+);
+const wrapperSaved = JSON.parse(rt.save_deep(wrapperNormalized));
+assert.deepStrictEqual(
+  wrapperSaved.party.characters.map(entry => entry.id),
+  ['alpha', 'beta']
+);
+assert.equal(Object.prototype.hasOwnProperty.call(wrapperSaved, 'Charaktere'), false);
+
 const loadInput = {
   ...data,
   logs: {
