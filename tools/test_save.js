@@ -1,6 +1,7 @@
 const rt = require('../runtime');
 const assert = require('assert');
 const pkg = require('../package.json');
+const saveFixture = require('../internal/qa/fixtures/savegame_v6_test.json');
 
 const base = {
   location: 'HQ',
@@ -288,6 +289,30 @@ assert.equal(roundtripAfterChrono.arc_dashboard.offene_seeds[0], 'Kontakt: Altes
 assert.equal(roundtripAfterChrono.arc_dashboard.offene_seeds[1].id, 'Seed-88');
 // Hinweis (#4 Load-Flows): Toolkit-Makros spiegeln das Flag jetzt mit,
 // damit MyGPT-Läufe ohne runtime.js denselben Persistenzstatus liefern.
+
+const saveFixtureClone = JSON.parse(JSON.stringify(saveFixture));
+rt.load_deep(JSON.stringify(saveFixtureClone));
+const savedFixture = JSON.parse(rt.save_deep());
+assert.equal(savedFixture.logs.flags.last_save_at, saveFixtureClone.logs.flags.last_save_at);
+const fixtureAudit = savedFixture.logs.trace.find(entry => entry.event === 'economy_audit');
+assert(fixtureAudit);
+assert.equal(fixtureAudit.at, saveFixtureClone.logs.flags.last_save_at);
+const fixtureChrono = savedFixture.logs.trace.find(entry => entry.event === 'chronopolis_unlock');
+assert(fixtureChrono && fixtureChrono.at);
+const hudAutofill = savedFixture.logs.hud.find(
+  (entry) => (
+    entry.event === 'vehicle_clash'
+      && typeof entry.at === 'string'
+      && entry.at.startsWith(saveFixtureClone.logs.flags.last_save_at.slice(0, 19))
+  )
+);
+assert(hudAutofill);
+assert.equal(savedFixture.arc_dashboard.fragen[0], saveFixtureClone.arc_dashboard.fragen[0]);
+assert.equal(
+  savedFixture.logs.flags.atmosphere_contract_capture.rift.banned_terms.status,
+  'PASS'
+);
+assert(savedFixture.logs.flags.hud_scene_usage);
 
 // Wallet-Split: Verhältnis 1:2 verteilt CU gewichtet
 rt.state.character = { id: 'ghost', callsign: 'Ghost' };
