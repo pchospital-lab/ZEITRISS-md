@@ -689,7 +689,9 @@ function sanitize_arena_psi_entries(entries){
     const total = pickNumber(entry.total_cost, entry.total, entry.cost_total, entry.cost);
     const mode = pickString(entry.mode) || campaign_mode();
     const location = pickString(entry.location) || state.location || null;
-    const arenaActive = entry.arena_active !== undefined ? !!entry.arena_active : !!state.arena?.active;
+    const arenaActive = entry.arena_active !== undefined
+      ? !!entry.arena_active
+      : !!state.arena?.active;
     const gmStyle = pickString(entry.gm_style, entry.gmStyle);
     const reason = pickString(entry.reason, entry.note);
     const category = pickString(entry.category) || 'arena_phase_strike';
@@ -998,7 +1000,9 @@ function ensure_logs(){
       const rawToken = entry.token.trim();
       if (!rawToken) continue;
       const token = rawToken.toLowerCase();
-      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const tag = typeof entry.tag === 'string' && entry.tag.trim()
+        ? entry.tag.trim()
+        : 'Foreshadow';
       const message = typeof entry.message === 'string' ? entry.message.trim() : '';
       const sceneIndex = Number(entry.scene);
       const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
@@ -1382,7 +1386,10 @@ function log_psi_event(event = {}){
         sceneIndex !== null &&
         buffer.scene_index !== sceneIndex
       ){
-        flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
+        flush_psi_heat_buffer(
+          { scene_index: sceneIndex, scene_total: sceneTotal },
+          buffer
+        );
       }
     if (sceneIndex !== null){
       buffer.scene_index = sceneIndex;
@@ -1400,7 +1407,10 @@ function log_psi_event(event = {}){
       }
     }
     if (payload.flush === true){
-      const entry = flush_psi_heat_buffer({ scene_index: sceneIndex, scene_total: sceneTotal }, buffer);
+      const entry = flush_psi_heat_buffer(
+        { scene_index: sceneIndex, scene_total: sceneTotal },
+        buffer
+      );
       state.logs.flags.psi_heat_buffer = buffer;
       return entry;
     }
@@ -1508,7 +1518,11 @@ function log_market_purchase(item, cost, options = {}){
     const before = resolve_primary_currency(economy);
     const next = Math.max(0, before - costValue);
     economy.cu = next;
-    sync_primary_currency(economy, next, { reason: 'market_purchase', note: normalized.item || null });
+    sync_primary_currency(
+      economy,
+      next,
+      { reason: 'market_purchase', note: normalized.item || null }
+    );
   }
   marketLog.push(normalized);
   state.logs.market = marketLog;
@@ -1526,9 +1540,10 @@ function log_phase_strike_event(ctx = state, details = {}){
   const total = Number.isFinite(details.total) ? Number(details.total) : base + tax;
   const mode = campaign_mode(ctx);
   const arenaActive = !!(ctx?.arena?.active);
-  const previousMode = typeof ctx?.arena?.previous_mode === 'string' && ctx.arena.previous_mode.trim()
-    ? ctx.arena.previous_mode.trim()
-    : null;
+  const previousMode = typeof ctx?.arena?.previous_mode === 'string' &&
+    ctx.arena.previous_mode.trim()
+      ? ctx.arena.previous_mode.trim()
+      : null;
   const entry = {
     ability: 'phase_strike',
     timestamp: now,
@@ -1724,7 +1739,9 @@ function render_squad_radio_summary(limit = 5){
 function strip_quotes(value){
   if (typeof value !== 'string') return value;
   const trimmed = value.trim();
-  if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))){
+  const quotedDouble = trimmed.startsWith('"') && trimmed.endsWith('"');
+  const quotedSingle = trimmed.startsWith("'") && trimmed.endsWith("'");
+  if (quotedDouble || quotedSingle){
     return trimmed.slice(1, -1).trim();
   }
   return trimmed;
@@ -1985,7 +2002,12 @@ function foreshadow_requirement(ctx = state){
   if (rawType === 'rift' || (!rawType && phase === 'rift')){
     return 2;
   }
-  if (rawType === 'core' || rawType === 'preserve' || rawType === 'story' || (!rawType && phase === 'core')){
+  if (
+    rawType === 'core' ||
+    rawType === 'preserve' ||
+    rawType === 'story' ||
+    (!rawType && phase === 'core')
+  ){
     if (campaign.boss_allowed === false) return 0;
     return 4;
   }
@@ -2038,7 +2060,9 @@ function register_foreshadow(token, details = {}){
   const now = new Date().toISOString();
   let entry = entries.find(item => item.token === normalized);
   const message = typeof details.message === 'string' ? details.message.trim() : '';
-  const tag = typeof details.tag === 'string' && details.tag.trim() ? details.tag.trim() : 'Foreshadow';
+  const tag = typeof details.tag === 'string' && details.tag.trim()
+    ? details.tag.trim()
+    : 'Foreshadow';
   const sceneIndex = Number.isFinite(details.scene)
     ? Number(details.scene)
     : Number.isFinite(state.scene?.index)
@@ -2094,10 +2118,22 @@ function normalize_action_mode(value, fallback = DEFAULT_ACTION_MODE){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
   if (!normalized) return fallback;
   if (['frei', 'free', 'full', 'open', 'uncut', 'gewalt'].includes(normalized)) return 'frei';
-  if (
-    ['konform', 'compliance', 'safe', 'standard', 'fsk12', 'fsk-12', 'fsk 12', 'teen', 'pg-13', 'off', 'aus', 'none', 'zero']
-      .includes(normalized)
-  ){
+  const actionModes = [
+    'konform',
+    'compliance',
+    'safe',
+    'standard',
+    'fsk12',
+    'fsk-12',
+    'fsk 12',
+    'teen',
+    'pg-13',
+    'off',
+    'aus',
+    'none',
+    'zero'
+  ];
+  if (actionModes.includes(normalized)){
     return 'konform';
   }
   return fallback;
@@ -2213,7 +2249,9 @@ function ensure_ui(){
   if (typeof state.ui.suggest_mode !== 'boolean'){
     state.ui.suggest_mode = false;
   }
-  const contrast = typeof state.ui.contrast === 'string' ? state.ui.contrast.trim().toLowerCase() : '';
+  const contrast = typeof state.ui.contrast === 'string'
+    ? state.ui.contrast.trim().toLowerCase()
+    : '';
   if (!['standard', 'high'].includes(contrast)){
     state.ui.contrast = 'standard';
   } else {
@@ -2273,7 +2311,9 @@ function log_action_contract_guard(note, opts = {}){
   const overrideMode = normalize_action_mode(options.action_mode || options.mode, null);
   const entry = {
     note: message,
-    action_mode: overrideMode || contract?.action_mode || normalize_action_mode(state.ui?.action_mode),
+    action_mode: overrideMode
+      || contract?.action_mode
+      || normalize_action_mode(state.ui?.action_mode),
     captured_at: new Date().toISOString()
   };
   if (phase) entry.phase = phase;
@@ -2312,7 +2352,10 @@ function set_accessibility_option(option, value){
         throw new Error('Kontrastoption unbekannt – nutze `standard` oder `high`.');
       }
       ui.contrast = normalizedValue;
-      hud_toast(normalizedValue === 'high' ? 'HUD-Kontrast erhöht.' : 'HUD-Kontrast normal.', 'ACCESS');
+      hud_toast(
+        normalizedValue === 'high' ? 'HUD-Kontrast erhöht.' : 'HUD-Kontrast normal.',
+        'ACCESS'
+      );
       break;
     case 'badges':
     case 'badge':
@@ -2366,11 +2409,20 @@ function record_currency_sync(reason, before, after, meta = {}){
   const beforeAmount = previous === null ? 0 : previous;
   const afterAmount = next === null ? 0 : next;
   if (beforeAmount === afterAmount) return null;
-  const payload = { reason: reasonText, before: beforeAmount, after: afterAmount, delta: afterAmount - beforeAmount };
+  const payload = {
+    reason: reasonText,
+    before: beforeAmount,
+    after: afterAmount,
+    delta: afterAmount - beforeAmount
+  };
   if (meta && typeof meta === 'object' && !Array.isArray(meta)){
     const cleanMeta = {};
-    if (typeof meta.note === 'string' && meta.note.trim()) cleanMeta.note = meta.note.trim();
-    if (typeof meta.source === 'string' && meta.source.trim()) cleanMeta.source = meta.source.trim();
+    if (typeof meta.note === 'string' && meta.note.trim()){
+      cleanMeta.note = meta.note.trim();
+    }
+    if (typeof meta.source === 'string' && meta.source.trim()){
+      cleanMeta.source = meta.source.trim();
+    }
     if (Object.keys(cleanMeta).length){
       payload.meta = cleanMeta;
     }
@@ -2578,16 +2630,17 @@ function ensure_arc_dashboard(){
     for (const [key, value] of Object.entries(dash.fraktionen)){
       const record = value && typeof value === 'object' ? clone_plain_object(value) : {};
       if (Array.isArray(record.interventions)){
-        record.interventions = sanitize_intervention_entries(record.interventions).map(entry => ({ ...entry }));
+        record.interventions = sanitize_intervention_entries(record.interventions)
+          .map(entry => ({ ...entry }));
       } else {
         record.interventions = [];
       }
-        if (record.last_intervention){
-          const last = normalize_intervention_entry(
-            record.last_intervention,
-            record.last_intervention?.timestamp,
-            { fillDefaults: false }
-          );
+      if (record.last_intervention){
+        const last = normalize_intervention_entry(
+          record.last_intervention,
+          record.last_intervention?.timestamp,
+          { fillDefaults: false }
+        );
         record.last_intervention = last || null;
       } else {
         record.last_intervention = null;
@@ -2787,9 +2840,11 @@ function normalize_atmosphere_contract_capture(raw){
           .filter(Boolean)
           .slice(0, 12)
       : [];
-    const bannedTerms = record.banned_terms && typeof record.banned_terms === 'object' && !Array.isArray(record.banned_terms)
-      ? record.banned_terms
-      : {};
+    const bannedTerms = record.banned_terms
+      && typeof record.banned_terms === 'object'
+      && !Array.isArray(record.banned_terms)
+        ? record.banned_terms
+        : {};
     const statusRaw = typeof bannedTerms.status === 'string'
       ? bannedTerms.status.trim().toUpperCase()
       : '';
@@ -2899,7 +2954,9 @@ function ensure_atmosphere_contract(){
     hud_limit: { per_scene: HUD_SCENE_TOAST_LIMIT, narrative_ratio: '80/20' },
     banned_terms: ATMOSPHERE_BANNED_TERMS
   };
-  const capture = normalize_atmosphere_contract_capture(state.logs.flags.atmosphere_contract_capture);
+  const capture = normalize_atmosphere_contract_capture(
+    state.logs.flags.atmosphere_contract_capture
+  );
   if (capture){
     state.logs.flags.atmosphere_contract_capture = capture;
   } else if (state.logs.flags.atmosphere_contract_capture !== undefined){
@@ -3042,10 +3099,13 @@ function register_hud_usage(tag, options = {}){
   if (sceneIndex === null) return;
   const usage = state.logs.flags.hud_scene_usage;
   const key = String(sceneIndex);
-  const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
+  const record = usage[key] && typeof usage[key] === 'object'
+    ? { ...usage[key] }
+    : { count: 0, tags: {} };
   const isEntry = tag && tag.toUpperCase() === 'ENTRY';
   const increment = priority && !isEntry ? 0 : 1;
-  record.count = Math.max(0, Number.isFinite(record.count) ? Math.floor(record.count) : 0) + increment;
+  record.count = Math.max(0, Number.isFinite(record.count) ? Math.floor(record.count) : 0)
+    + increment;
   record.limit = HUD_SCENE_TOAST_LIMIT;
   if (!record.tags || typeof record.tags !== 'object' || Array.isArray(record.tags)){
     record.tags = {};
@@ -3059,7 +3119,9 @@ function ensure_hud_usage_record(sceneIndex){
   if (!Number.isFinite(sceneIndex)) return null;
   const usage = state.logs.flags.hud_scene_usage;
   const key = String(sceneIndex);
-  const record = usage[key] && typeof usage[key] === 'object' ? { ...usage[key] } : { count: 0, tags: {} };
+  const record = usage[key] && typeof usage[key] === 'object'
+    ? { ...usage[key] }
+    : { count: 0, tags: {} };
   const tags = record.tags && typeof record.tags === 'object' && !Array.isArray(record.tags)
     ? { ...record.tags }
     : {};
@@ -3096,7 +3158,11 @@ function hud_toast(message, tag = 'HUD'){
     return { id: null, tag: normalizedTag, message: cleanedMessage, suppressed: true, action };
   }
   hudSequence = (hudSequence + 1) % 10000;
-  const entry = { id: `hud-${hudSequence.toString().padStart(4, '0')}`, tag: normalizedTag, message };
+  const entry = {
+    id: `hud-${hudSequence.toString().padStart(4, '0')}`,
+    tag: normalizedTag,
+    message
+  };
   log.push(entry);
   if (log.length > 32){
     log.splice(0, log.length - 32);
@@ -3161,7 +3227,9 @@ function record_trace(event, details = {}){
     intervention: state.fr_intervention || null,
     note: typeof details.note === 'string' && details.note.trim() ? details.note.trim() : null
   };
-  const reason = typeof details.reason === 'string' && details.reason.trim() ? details.reason.trim() : null;
+  const reason = typeof details.reason === 'string' && details.reason.trim()
+    ? details.reason.trim()
+    : null;
   if (reason){
     trace.reason = reason;
   }
@@ -3193,15 +3261,23 @@ function record_trace(event, details = {}){
   if (details.economy_audit && typeof details.economy_audit === 'object'){
     trace.economy_audit = clone_plain_object(details.economy_audit);
   }
-  if (details.hud_scene_usage && typeof details.hud_scene_usage === 'object' && !Array.isArray(details.hud_scene_usage)){
+  if (
+    details.hud_scene_usage
+    && typeof details.hud_scene_usage === 'object'
+    && !Array.isArray(details.hud_scene_usage)
+  ){
     const hudUsage = {
-      count: Number.isFinite(details.hud_scene_usage.count) ? Math.max(0, Math.floor(details.hud_scene_usage.count)) : 0,
+      count: Number.isFinite(details.hud_scene_usage.count)
+        ? Math.max(0, Math.floor(details.hud_scene_usage.count))
+        : 0,
       limit: Number.isFinite(details.hud_scene_usage.limit)
         ? Math.max(0, Math.floor(details.hud_scene_usage.limit))
         : HUD_SCENE_TOAST_LIMIT,
-      tags: details.hud_scene_usage.tags && typeof details.hud_scene_usage.tags === 'object' && !Array.isArray(details.hud_scene_usage.tags)
-        ? { ...details.hud_scene_usage.tags }
-        : {}
+      tags: details.hud_scene_usage.tags
+        && typeof details.hud_scene_usage.tags === 'object'
+        && !Array.isArray(details.hud_scene_usage.tags)
+          ? { ...details.hud_scene_usage.tags }
+          : {}
     };
     trace.hud_scene_usage = hudUsage;
   }
@@ -3465,7 +3541,8 @@ function ensure_campaign(){
 function lookup_seed_catalog_entry(id){
   if (!id || typeof id !== 'string') return null;
   const normalizedId = id.trim().toLowerCase();
-  const match = Object.entries(RIFT_SEED_CATALOG).find(([key]) => key.toLowerCase() === normalizedId);
+  const match = Object.entries(RIFT_SEED_CATALOG)
+    .find(([key]) => key.toLowerCase() === normalizedId);
   if (!match) return null;
   const [, entry] = match;
   return { ...entry, id: match[0] };
@@ -3541,7 +3618,9 @@ function merge_rift_seed_pools(hostSeeds, incomingSeeds, cap = RIFT_SEED_MERGE_C
   const openSeeds = combined.filter((seed) => seed.status !== 'closed');
   const keptOpen = openSeeds.slice(0, cap);
   const keptIds = new Set(keptOpen.map((seed) => seed.id.toLowerCase()));
-  const kept = combined.filter((seed) => seed.status === 'closed' || keptIds.has(seed.id.toLowerCase()));
+  const kept = combined.filter(
+    (seed) => seed.status === 'closed' || keptIds.has(seed.id.toLowerCase())
+  );
   const overflow = openSeeds.slice(cap);
   return {
     seeds: kept,
@@ -3576,8 +3655,12 @@ function ensure_campaign_exfil(){
   exfil.hot = !!exfil.hot;
   exfil.sweeps = Number.isFinite(exfil.sweeps) ? Math.max(0, Math.floor(exfil.sweeps)) : 0;
   exfil.stress = Number.isFinite(exfil.stress) ? Math.max(0, Math.floor(exfil.stress)) : 0;
-  exfil.anchor = typeof exfil.anchor === 'string' && exfil.anchor.trim() ? exfil.anchor.trim() : null;
-  exfil.alt_anchor = typeof exfil.alt_anchor === 'string' && exfil.alt_anchor.trim() ? exfil.alt_anchor.trim() : null;
+  exfil.anchor = typeof exfil.anchor === 'string' && exfil.anchor.trim()
+    ? exfil.anchor.trim()
+    : null;
+  exfil.alt_anchor = typeof exfil.alt_anchor === 'string' && exfil.alt_anchor.trim()
+    ? exfil.alt_anchor.trim()
+    : null;
   exfil.ttl = Number.isFinite(exfil.ttl) ? Math.max(0, Number(exfil.ttl)) : 0;
   if (state.location === 'HQ'){
     exfil.active = false;
@@ -3622,7 +3705,10 @@ function sync_campaign_exfil(source = state.exfil){
     typeof source.alt_anchor === 'string' && source.alt_anchor.trim()
       ? source.alt_anchor.trim()
       : null;
-  const ttlMinutes = Math.max(0, (Number(source.ttl_min) || 0) + (Number(source.ttl_sec) || 0) / 60);
+  const ttlMinutes = Math.max(
+    0,
+    (Number(source.ttl_min) || 0) + (Number(source.ttl_sec) || 0) / 60
+  );
   exfil.ttl = ttlMinutes;
   return exfil;
 }
@@ -3671,7 +3757,9 @@ function phase_strike_cost(ctx = state, baseOrOptions = 2, maybeOptions = {}){
   const feedback = options.feedback !== false;
   const persist = options.persist !== false;
   if (feedback && tax > 0){
-    const customMessage = typeof options.toast_message === 'string' ? options.toast_message.trim() : '';
+    const customMessage = typeof options.toast_message === 'string'
+      ? options.toast_message.trim()
+      : '';
     const toast = customMessage || `Arena: Phase-Strike belastet +${tax} SYS (Kosten ${total})`;
     hud_toast(toast, 'ARENA');
   }
@@ -3785,11 +3873,20 @@ function completeMission(summary = {}){
     : Number.isFinite(missionNumber)
       ? ((Math.max(1, Math.floor(missionNumber)) - 1) % 10) + 1
       : null;
-  const reasonCandidate = pickString(summary.reason, summary.completed, summary.outcome, summary.status);
-  const normalizedReason = typeof reasonCandidate === 'string' ? reasonCandidate.trim().toLowerCase() : '';
+  const reasonCandidate = pickString(
+    summary.reason,
+    summary.completed,
+    summary.outcome,
+    summary.status
+  );
+  const normalizedReason = typeof reasonCandidate === 'string'
+    ? reasonCandidate.trim().toLowerCase()
+    : '';
   const abortedToken =
     typeof summary.aborted === 'string' ? summary.aborted.trim().toLowerCase() : '';
-  const abortedFlag = asBoolean(summary.aborted) === true || abortedToken === 'aborted' || abortedToken === 'abort';
+  const abortedFlag = asBoolean(summary.aborted) === true
+    || abortedToken === 'aborted'
+    || abortedToken === 'abort';
   const stabilizedFlag = asBoolean(summary.stabilized);
   const successFlag = asBoolean(summary.success);
   const completedFlag = asBoolean(summary.completed);
@@ -3834,7 +3931,10 @@ function completeMission(summary = {}){
           location: state.location,
           phase: state.campaign.phase || state.phase
         });
-        events.push('Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. Px-Reset folgt nach Missionsende.');
+        events.push(
+          'Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. '
+          + 'Px-Reset folgt nach Missionsende.'
+        );
       }
     }
   }
@@ -3874,7 +3974,8 @@ function completeMission(summary = {}){
   if (state.campaign.px_reset_pending){
     state.campaign.px_reset_pending = true;
     state.campaign.px_reset_confirm = false;
-    state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
+    state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at
+      || new Date().toISOString();
     events.push('Kodex: Px-Reset geplant – Debrief im HQ bestätigt den Rücksetzer.');
   }
   return {
@@ -3896,7 +3997,8 @@ function apply_px_reset_if_ready(reason = 'hq'){
   state.campaign.missions_since_px = 0;
   state.campaign.px_reset_pending = false;
   state.campaign.px_reset_confirm = true;
-  state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at || new Date().toISOString();
+  state.campaign.px_reset_scheduled_at = state.campaign.px_reset_scheduled_at
+    || new Date().toISOString();
   const note = 'Px Reset → 0';
   hud_toast(note, 'PX');
   record_trace('px_reset', {
@@ -4043,7 +4145,9 @@ function log_intervention(result, context = {}){
   }
   update_arc_dashboard_intervention(normalized);
   const shouldToast = base.toast !== false;
-  const toastTag = typeof base.toast_tag === 'string' && base.toast_tag.trim() ? base.toast_tag.trim() : 'FR-INTRV';
+  const toastTag = typeof base.toast_tag === 'string' && base.toast_tag.trim()
+    ? base.toast_tag.trim()
+    : 'FR-INTRV';
   if (shouldToast){
     hud_toast(`FR-INTRV: ${normalized.result}`, toastTag);
   }
@@ -4067,7 +4171,9 @@ function get_intervention_log(filter = {}){
   return entries
     .filter((entry) => {
       if (factions.length){
-        const factionKey = typeof entry.faction === 'string' ? entry.faction.trim().toLowerCase() : '';
+        const factionKey = typeof entry.faction === 'string'
+          ? entry.faction.trim().toLowerCase()
+          : '';
         if (!factions.includes(factionKey)){
           return false;
         }
@@ -4109,12 +4215,24 @@ function describe_arc_seed(entry){
   if (typeof entry !== 'object'){
     return String(entry);
   }
-  const id = typeof entry.id === 'string' && entry.id.trim() ? entry.id.trim() : null;
-  const key = typeof entry.key === 'string' && entry.key.trim() ? entry.key.trim() : null;
-  const title = typeof entry.title === 'string' && entry.title.trim() ? entry.title.trim() : null;
-  const hook = typeof entry.hook === 'string' && entry.hook.trim() ? entry.hook.trim() : null;
-  const epoch = typeof entry.epoch === 'string' && entry.epoch.trim() ? entry.epoch.trim() : null;
-  const status = typeof entry.status === 'string' && entry.status.trim() ? entry.status.trim() : null;
+  const id = typeof entry.id === 'string' && entry.id.trim()
+    ? entry.id.trim()
+    : null;
+  const key = typeof entry.key === 'string' && entry.key.trim()
+    ? entry.key.trim()
+    : null;
+  const title = typeof entry.title === 'string' && entry.title.trim()
+    ? entry.title.trim()
+    : null;
+  const hook = typeof entry.hook === 'string' && entry.hook.trim()
+    ? entry.hook.trim()
+    : null;
+  const epoch = typeof entry.epoch === 'string' && entry.epoch.trim()
+    ? entry.epoch.trim()
+    : null;
+  const status = typeof entry.status === 'string' && entry.status.trim()
+    ? entry.status.trim()
+    : null;
   const severity = entry.severity !== undefined && entry.severity !== null
     ? entry.severity
     : (entry.level !== undefined ? entry.level : null);
@@ -4157,7 +4275,9 @@ function describe_arc_seed(entry){
     tagParts.push(entry.priority.trim());
   }
   const label = labelParts.join(' · ');
-  return tagParts.length ? `${label} · ${tagParts.join(' · ')}` : label;
+  return tagParts.length
+    ? `${label} · ${tagParts.join(' · ')}`
+    : label;
 }
 
 function describe_arc_question(entry){
@@ -4177,10 +4297,14 @@ function describe_arc_question(entry){
   const identifier = ['id', 'key', 'ref']
     .map((key) => typeof entry[key] === 'string' && entry[key].trim() ? entry[key].trim() : null)
     .find(Boolean);
-  const status = typeof entry.status === 'string' && entry.status.trim() ? entry.status.trim() : null;
+  const status = typeof entry.status === 'string' && entry.status.trim()
+    ? entry.status.trim()
+    : null;
   const owner = typeof entry.owner === 'string' && entry.owner.trim()
     ? entry.owner.trim()
-    : (typeof entry.assignee === 'string' && entry.assignee.trim() ? entry.assignee.trim() : null);
+    : (typeof entry.assignee === 'string' && entry.assignee.trim()
+      ? entry.assignee.trim()
+      : null);
   const episode = Number.isFinite(entry.episode) ? `E${entry.episode}` : null;
   const mission = Number.isFinite(entry.mission) ? `M${entry.mission}` : null;
   const labelParts = [];
@@ -4194,7 +4318,9 @@ function describe_arc_question(entry){
     labelParts.push('Frage');
   }
   const tagParts = [status, owner, episode, mission].filter(Boolean);
-  return tagParts.length ? `${labelParts.join(' · ')} · ${tagParts.join(' · ')}` : labelParts.join(' · ');
+  return tagParts.length
+    ? `${labelParts.join(' · ')} · ${tagParts.join(' · ')}`
+    : labelParts.join(' · ');
 }
 
 function render_arc_dashboard_status(){
@@ -4214,9 +4340,11 @@ function render_arc_dashboard_status(){
     lines.push('Seeds: keine offenen Seeds.');
   }
 
-  const factions = dash.fraktionen && typeof dash.fraktionen === 'object' && !Array.isArray(dash.fraktionen)
-    ? Object.values(dash.fraktionen)
-    : [];
+  const factions = dash.fraktionen
+    && typeof dash.fraktionen === 'object'
+    && !Array.isArray(dash.fraktionen)
+      ? Object.values(dash.fraktionen)
+      : [];
   const factionRecords = factions
     .filter((record) => record && typeof record === 'object')
     .map((record) => ({ ...record }));
@@ -4429,7 +4557,11 @@ function render_runtime_flags_summary(){
     parts.push(`Runtime ${flags.runtime_version.trim()}`);
   }
   parts.push(flags.compliance_shown_today ? 'Compliance gezeigt' : 'Compliance offen');
-  parts.push(flags.chronopolis_warn_seen ? 'Chronopolis-Warnung quittiert' : 'Chronopolis-Warnung offen');
+  parts.push(
+    flags.chronopolis_warn_seen
+      ? 'Chronopolis-Warnung quittiert'
+      : 'Chronopolis-Warnung offen'
+  );
   if (Number.isFinite(flags.offline_help_count) && flags.offline_help_count > 0){
     parts.push(`Offline-Hilfe ${Math.max(0, Math.floor(flags.offline_help_count))}×`);
   }
@@ -4440,7 +4572,9 @@ function render_runtime_flags_summary(){
     parts.push(`Offline zuletzt ${offlineLast}`);
   }
   const actionContract = flags.platform_action_contract;
-  const actionMode = typeof actionContract?.action_mode === 'string' ? actionContract.action_mode.trim() : '';
+  const actionMode = typeof actionContract?.action_mode === 'string'
+    ? actionContract.action_mode.trim()
+    : '';
   if (actionMode){
     parts.push(`Action-Contract ${actionMode.toUpperCase()}`);
   }
@@ -4596,9 +4730,13 @@ function resolve_risk_level(outcome = {}){
 }
 
 function resolve_completion_tier(outcome = {}){
-  const boolBonus = outcome?.bonus === true || outcome?.bonus_objectives === true || outcome?.bonusAchieved === true;
+  const boolBonus = outcome?.bonus === true
+    || outcome?.bonus_objectives === true
+    || outcome?.bonusAchieved === true;
   const boolPartial = outcome?.partial === true || outcome?.teil_erfolg === true;
-  const boolFail = outcome?.failed === true || outcome?.aborted === true || outcome?.failure === true;
+  const boolFail = outcome?.failed === true
+    || outcome?.aborted === true
+    || outcome?.failure === true;
   const candidates = [
     outcome?.result,
     outcome?.status,
@@ -4607,10 +4745,14 @@ function resolve_completion_tier(outcome = {}){
     outcome?.mission_result,
     outcome?.mission?.result
   ].map((value) => (typeof value === 'string' ? value.trim().toLowerCase() : ''));
-  if (boolBonus || candidates.some((value) => value.includes('bonus') || value.includes('perfect') || value.includes('voll'))){
+  if (
+    boolBonus || candidates.some((value) => value.includes('bonus') || value.includes('perfect') || value.includes('voll'))
+  ){
     return 'bonus';
   }
-  if (boolFail || candidates.some((value) => value.includes('fail') || value.includes('aborted') || value.includes('scheiter'))){
+  if (
+    boolFail || candidates.some((value) => value.includes('fail') || value.includes('aborted') || value.includes('scheiter'))
+  ){
     return 'fail';
   }
   if (boolPartial || candidates.some((value) => value.includes('teil') || value.includes('partial'))){
@@ -4627,7 +4769,9 @@ function compute_default_cu_reward(outcome = {}){
   const multiplierMap = { partial: 0.6, success: 1.0, bonus: 1.2, fail: 0.3 };
   const multiplier = multiplierMap[tier] ?? 1.0;
   let reward = base * multiplier;
-  const teamSize = asNumber(outcome?.team_size ?? outcome?.team?.size ?? state.team?.size ?? state.team?.members?.length);
+  const teamSize = asNumber(
+    outcome?.team_size ?? outcome?.team?.size ?? state.team?.size ?? state.team?.members?.length
+  );
   if (teamSize !== null && teamSize > 0 && teamSize < 3){
     reward *= 1.5;
   }
@@ -4647,7 +4791,17 @@ function extractCuReward(outcome){
     outcome?.economy?.delta,
     outcome?.economy?.change
   ];
-  const keys = ['cu_reward', 'chrono_units', 'chronounits', 'chronounit', 'cu', 'credits', 'payout', 'amount', 'value'];
+  const keys = [
+    'cu_reward',
+    'chrono_units',
+    'chronounits',
+    'chronounit',
+    'cu',
+    'credits',
+    'payout',
+    'amount',
+    'value'
+  ];
   for (const source of sources){
     if (!source) continue;
     if (Array.isArray(source)){
@@ -4738,18 +4892,24 @@ function render_rewards(outcome = {}, missionResult = {}){
     segments.push(`Level ${lvlAfter}`);
   }
 
-  const px = clamp(asNumber(missionResult?.paradoxon_index) ?? asNumber(state.campaign?.paradoxon_index) ?? 0, 0, 5);
-    const progress = Math.max(
-      0,
-      asNumber(missionResult?.missions_since_px) ??
-        asNumber(state.campaign?.missions_since_px) ??
-        0
-    );
-    const required = Math.max(
-      1,
-      asNumber(missionResult?.required) ??
-        missions_required(asNumber(outcome?.temp) ?? mission_temp())
-    );
+  const px = clamp(
+    asNumber(missionResult?.paradoxon_index)
+      ?? asNumber(state.campaign?.paradoxon_index)
+      ?? 0,
+    0,
+    5
+  );
+  const progress = Math.max(
+    0,
+    asNumber(missionResult?.missions_since_px)
+      ?? asNumber(state.campaign?.missions_since_px)
+      ?? 0
+  );
+  const required = Math.max(
+    1,
+    asNumber(missionResult?.required)
+      ?? missions_required(asNumber(outcome?.temp) ?? mission_temp())
+  );
   const remaining = Math.max(0, required - progress);
   segments.push(`Resonanz Px ${px}/5 (${remaining}/${required} bis Px+1)`);
 
@@ -4765,9 +4925,16 @@ function build_wallet_roster(){
   const roster = [];
   const indexById = new Map();
   const register = (candidate = {}, fallbackLabel) => {
-    const rawId = typeof candidate.id === 'string' && candidate.id.trim() ? candidate.id.trim() : null;
-    const labels = [candidate.callsign, candidate.name, candidate.alias, candidate.handle, fallbackLabel]
-      .filter((value) => typeof value === 'string' && value.trim());
+    const rawId = typeof candidate.id === 'string' && candidate.id.trim()
+      ? candidate.id.trim()
+      : null;
+    const labels = [
+      candidate.callsign,
+      candidate.name,
+      candidate.alias,
+      candidate.handle,
+      fallbackLabel
+    ].filter((value) => typeof value === 'string' && value.trim());
     const label = labels.length ? labels[0].trim() : null;
     let id = rawId;
     if (!id && label){
@@ -4833,8 +5000,12 @@ function normalize_wallet_instruction(entry, fallbackMember, rosterInfo){
   if (typeof payload !== 'object' || Array.isArray(payload)){
     return null;
   }
-  let id = typeof payload.id === 'string' && payload.id.trim() ? payload.id.trim() : null;
-  let label = typeof payload.label === 'string' && payload.label.trim() ? payload.label.trim() : null;
+  let id = typeof payload.id === 'string' && payload.id.trim()
+    ? payload.id.trim()
+    : null;
+  let label = typeof payload.label === 'string' && payload.label.trim()
+    ? payload.label.trim()
+    : null;
   if (!label && typeof payload.name === 'string' && payload.name.trim()){
     label = payload.name.trim();
   }
@@ -4848,16 +5019,18 @@ function normalize_wallet_instruction(entry, fallbackMember, rosterInfo){
   if (!label && rosterInfo.indexById.has(id)){
     label = rosterInfo.roster[rosterInfo.indexById.get(id)].label;
   }
-    const amount = normalize_cu(
-      payload.amount ??
-        payload.share ??
-        payload.value ??
-        payload.cu ??
-        payload.payout ??
-        payload.delta ??
-        payload.balance
-    );
-  const weightSource = asNumber(payload.ratio ?? payload.weight ?? payload.share_ratio ?? payload.portion);
+  const amount = normalize_cu(
+    payload.amount
+      ?? payload.share
+      ?? payload.value
+      ?? payload.cu
+      ?? payload.payout
+      ?? payload.delta
+      ?? payload.balance
+  );
+  const weightSource = asNumber(
+    payload.ratio ?? payload.weight ?? payload.share_ratio ?? payload.portion
+  );
   let ratio = null;
   if (weightSource !== null){
     ratio = Math.max(0, weightSource);
@@ -4973,7 +5146,11 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
   aggregated.forEach((entry) => {
     if (available <= 0) return;
     if (entry.amount > 0){
-      const assigned = addAllocation(entry.id, entry.label, Math.min(available, Math.round(entry.amount)));
+      const assigned = addAllocation(
+        entry.id,
+        entry.label,
+        Math.min(available, Math.round(entry.amount))
+      );
       available -= assigned;
     }
   });
@@ -5004,7 +5181,9 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
   }
 
   if (available > 0 && instructions.length === 0){
-    const recipients = rosterInfo.roster.length ? rosterInfo.roster : [{ id: 'agent-1', label: 'Agent' }];
+    const recipients = rosterInfo.roster.length
+      ? rosterInfo.roster
+      : [{ id: 'agent-1', label: 'Agent' }];
     const baseShare = Math.floor(available / recipients.length);
     let remainder = available - baseShare * recipients.length;
     recipients.forEach((member) => {
@@ -5026,7 +5205,9 @@ function compute_wallet_allocations(totalCu, rosterInfo, instructions){
 
 function apply_wallet_split(outcome, cuReward){
   const economy = ensure_economy();
-  const hazardSource = outcome?.economy?.hazard_pay ?? outcome?.hazard_pay ?? outcome?.economy?.hazard;
+  const hazardSource = outcome?.economy?.hazard_pay
+    ?? outcome?.hazard_pay
+    ?? outcome?.economy?.hazard;
   const hazardPay = normalize_cu(hazardSource);
   const lines = [];
   const startBalance = resolve_primary_currency(economy);
@@ -5043,7 +5224,11 @@ function apply_wallet_split(outcome, cuReward){
   }
   const rosterInfo = build_wallet_roster();
   const instructions = gather_wallet_instructions(outcome, rosterInfo);
-  const { allocations, totalAssigned, leftover } = compute_wallet_allocations(reward, rosterInfo, instructions);
+  const { allocations, totalAssigned, leftover } = compute_wallet_allocations(
+    reward,
+    rosterInfo,
+    instructions
+  );
   economy.cu = Math.max(0, Math.round(economy.cu) + reward);
   allocations.forEach((entry) => {
     const record = get_wallet_record(entry.id, entry.label);
@@ -5057,7 +5242,9 @@ function apply_wallet_split(outcome, cuReward){
     economy.cu = Math.max(0, Math.round(economy.cu) - totalAssigned);
   }
   if (allocations.length){
-    const summary = allocations.map((entry) => `${entry.label || entry.id} +${entry.amount} CU`).join(' | ');
+    const summary = allocations
+      .map((entry) => `${entry.label || entry.id} +${entry.amount} CU`)
+      .join(' | ');
     lines.push(`Wallet-Split (${allocations.length}×): ${summary}`);
   }
   sync_primary_currency(economy, economy.cu, { reason: 'wallet_split', source: 'debrief' });
@@ -5222,7 +5409,11 @@ function ensure_arena(){
         )
         .filter(Boolean)
     : undefined;
-  if (!arena.resume_token || typeof arena.resume_token !== 'object' || Array.isArray(arena.resume_token)){
+  if (
+    !arena.resume_token
+    || typeof arena.resume_token !== 'object'
+    || Array.isArray(arena.resume_token)
+  ){
     arena.resume_token = null;
   }
   apply_arena_rules(state);
@@ -5263,7 +5454,9 @@ function build_arena_resume_token(arena){
         : 1,
     fee_paid: Number.isFinite(arena.fee) ? Math.max(0, Math.floor(arena.fee)) : 0,
     audit: Array.isArray(arena.audit) ? arena.audit.slice() : [],
-    started_episode: Number.isFinite(arena.started_episode) ? Math.floor(arena.started_episode) : null,
+    started_episode: Number.isFinite(arena.started_episode)
+      ? Math.floor(arena.started_episode)
+      : null,
     policy_players: policyPlayers.length ? policyPlayers : undefined,
   };
 }
