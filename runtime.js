@@ -7982,6 +7982,11 @@ const SAVE_REQUIRED_PATHS = [
   ['ui', 'badge_density'],
   ['ui', 'output_pace'],
   ['ui', 'action_mode'],
+  ['arc_dashboard'],
+  ['arc_dashboard', 'offene_seeds'],
+  ['arc_dashboard', 'fraktionen'],
+  ['arc_dashboard', 'fragen'],
+  ['arc_dashboard', 'timeline'],
   ['arena']
 ];
 
@@ -8081,6 +8086,9 @@ const HQ_ONLY_SAVE_REASON =
 const HQ_ONLY_SAVE_TEXT = toast_save_block(HQ_ONLY_SAVE_REASON);
 
 function select_state_for_save(s){
+  const arcDashboard = s === state
+    ? prepare_save_arc_dashboard(ensure_arc_dashboard())
+    : prepare_save_arc_dashboard(s.arc_dashboard);
   const ui = prepare_save_ui({ ...ensure_ui(), ...clone_plain_object(s.ui) });
   const payload = {
     save_version: 6,
@@ -8096,7 +8104,7 @@ function select_state_for_save(s){
     logs: prepare_save_logs(s.logs),
     ui,
     arena: prepare_save_arena(s.arena),
-    arc_dashboard: prepare_save_arc_dashboard(s.arc_dashboard)
+    arc_dashboard: arcDashboard
   };
   enforce_required_save_fields(payload);
   return payload;
