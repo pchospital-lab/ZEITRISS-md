@@ -919,6 +919,10 @@ Rift-Seeds landen konsolidiert in `campaign.rift_seeds[]`; der Loader hebt
 Strings auf Objektform (`id`/`label`/`status`, optional `seed_tier` und
 Cluster-/Level-Hints) und setzt fehlende Status auf `open`. Rift-Starts sind
 HQ-gebunden (`location='HQ'`) und brechen ab, solange die Arena aktiv ist.
+Solo-/Px‑5‑Runs stapeln Seeds ohne Hard-Limit; beim HQ-Merge deckelt der Loader
+offene Seeds auf 12, schiebt Überschuss an ITI-NPC-Teams und schreibt ein
+Trace `rift_seed_merge_cap_applied` sowie einen `merge_conflicts`-Record
+(`rift_merge`).
 
 ## 8 | PVP-ARENA – Matchmaking-Stub
 

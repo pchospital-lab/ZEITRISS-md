@@ -8690,6 +8690,7 @@ function load_deep(raw){
   const initialConflictCount = mergeConflicts.length;
   let mergeConflictsChanged = false;
   let riftMergeReport = null;
+  let riftMergeCapTrace = null;
   const noteConflict = (payload) => {
     const before = mergeConflicts.length;
     mergeConflicts = push_merge_conflict(mergeConflicts, payload);
@@ -8762,6 +8763,7 @@ function load_deep(raw){
       const normalizedHost = normalize_rift_seed_list(hostSeeds);
       const normalizedIncoming = normalize_rift_seed_list(incomingSeeds);
       const mergeResult = merge_rift_seed_pools(normalizedHost, normalizedIncoming);
+      const capApplied = mergeResult.overflow.length > 0;
       const overflowCount = mergeResult.overflow.length;
       const incomingHasSeeds = normalizedIncoming.length > 0;
       const diff = incomingHasSeeds
@@ -8784,6 +8786,15 @@ function load_deep(raw){
           open_total: mergeResult.open_total,
           kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
           handoff_seed_ids: mergeResult.overflow.map((seed) => seed.id),
+          handoff_to: 'ITI-NPC-Teams'
+        };
+      }
+      if (capApplied){
+        riftMergeCapTrace = {
+          cap: mergeResult.cap,
+          open_total: mergeResult.open_total,
+          kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
+          overflow_seed_ids: mergeResult.overflow.map((seed) => seed.id),
           handoff_to: 'ITI-NPC-Teams'
         };
       }
@@ -8952,6 +8963,13 @@ function load_deep(raw){
   }
   if (arenaConflictLogged){
     hud_toast('Merge-Konflikt: Arena-Status verworfen', 'HUD');
+  }
+  if (riftMergeCapTrace){
+    record_trace('rift_seed_merge_cap_applied', {
+      channel: 'LOAD',
+      ...riftMergeCapTrace,
+      conflict_fields: mergeConflicts.map((entry) => entry.field).filter(Boolean)
+    });
   }
   const conflictCount = mergeConflicts.length;
   const conflictsAdded = Math.max(0, conflictCount - initialConflictCount);

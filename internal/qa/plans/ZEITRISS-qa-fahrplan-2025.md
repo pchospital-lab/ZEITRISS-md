@@ -1243,6 +1243,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    README/Save-Doku präzisieren: Solo-Px5 stapelt Seeds ohne Hard-Limit, Merge deckelt offene
    Seeds auf 12 und gibt Überschuss an ITI-NPC-Teams. Trace `rift_seed_merge_cap_applied` mit
    kept/overflow + `merge_conflicts`-Eintrag, QA: Cross-Mode-Import 14→12 Seeds belegen.
+   _Status: ✅ abgeschlossen – Merge-Cap-Trace (`rift_seed_merge_cap_applied`), Konflikt-Record
+   und Doku-Update (2026-12-31)._ 
 7. **Issue #7 – HUD-Events `vehicle_clash`/`mass_conflict` strukturieren**
    `hud_event()`-Helper einführen, Objekt-Events validieren (Allowlist, numerische Felder) und
    fehlende `at`-Timestamps auto-füllen. QA: Je 1 Chase + 1 Massenkonflikt pro Run mit
