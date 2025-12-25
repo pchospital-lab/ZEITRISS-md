@@ -1,10 +1,36 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.26
+version: 0.4.27
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-11-10 – Repo-Agent – Finaler Feinschliff (Build 4.2.5)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0
+- Auftrag: Letzter QS-Durchlauf vor Beta-Start; Link-/Markdown-Lints erneut bestätigt und Runtime-
+  Header-Check ohne Abweichungen.
+
+```chatlog
+Repo-Agent: `npm run lint:links`
+Tool: ✅
+Repo-Agent: `npm run lint:md`
+Tool: ✅
+Repo-Agent: `npm run lint:rt`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Keine weiteren QA-Maßnahmen erforderlich; Fahrplan & Audit bleiben unverändert.
+
+**Nachverfolgung**
+- Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Bestätigt, keine neuen Tasks (Stand 1.14.0).
 
 ## 2026-11-09 – Repo-Agent – QA-Hinweise HUD-Budget/QA-Mode gespiegelt (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte)
