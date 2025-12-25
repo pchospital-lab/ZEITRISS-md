@@ -44,7 +44,7 @@ assert.deepStrictEqual(rt.state.logs.flags.hud_scene_usage, {
 });
 const startContract = rt.state.logs.flags.atmosphere_contract;
 assert.strictEqual(startContract.voice_profile, 'gm_third_person');
-assert.deepStrictEqual(startContract.default_modes, ['mission_focus', 'covert_ops_technoir']);
+assert.deepStrictEqual(startContract.default_modes, ['film', 'mission_focus', 'covert_ops_technoir']);
 assert.ok(startContract.banned_terms.includes('holodeck'));
 assert.deepStrictEqual(rt.state.logs.flags.atmosphere_contract_capture, {
   core: {
@@ -111,7 +111,7 @@ const legacySave = {
 const loadResult = rt.load_deep(legacySave);
 assert.strictEqual(loadResult.status, 'ok');
 assert.strictEqual(rt.state.ui.voice_profile, 'gm_third_person');
-assert.deepStrictEqual(rt.state.character.modes, ['mission_focus', 'covert_ops_technoir', 'stealth']);
+assert.deepStrictEqual(rt.state.character.modes, ['film', 'mission_focus', 'covert_ops_technoir', 'stealth']);
 assert.deepStrictEqual(rt.state.logs.flags.hud_scene_usage, {});
 const loadContract = rt.state.logs.flags.atmosphere_contract;
 assert.strictEqual(loadContract.voice_profile, 'gm_third_person');

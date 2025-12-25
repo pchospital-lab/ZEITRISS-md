@@ -116,7 +116,7 @@ const WEIRDNESS_LOG_LIMIT = 12;
 const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
 const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
-const DEFAULT_MODES = ['mission_focus', 'covert_ops_technoir'];
+const DEFAULT_MODES = ['film', 'mission_focus', 'covert_ops_technoir'];
 const DEFAULT_ACTION_MODE = 'konform';
 const ATMOSPHERE_BANNED_TERMS = [
   'cyberspace',
