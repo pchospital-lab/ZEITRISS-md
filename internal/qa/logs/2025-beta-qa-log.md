@@ -1,10 +1,40 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.27
+version: 0.4.28
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-06 – Repo-Agent – Copy-Paste-QA 2026-12 abgeschlossen
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.15.0
+- Auftrag: Abschluss aller Copy-Paste-QA 2026-12-Issues (#1–#11) plus Spiegel in Plan/Docs;
+  deterministische Save-/HUD-Zeitmarken und Chronopolis/Arena/Economy-Guards bestätigt.
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Keine; Copy-Paste-QA 2026-12 vollständig erledigt und im Fahrplan markiert.
+
+**Nachverfolgung**
+- Commits: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Version 1.15.0 mit Status ✅ für Issues #1–#11.
 
 ## 2026-11-10 – Repo-Agent – Finaler Feinschliff (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte)
