@@ -429,8 +429,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Beschreibungen auf das Overlay (`FS x/y`) für Klarheit am Tisch. Das HUD-Budget
   liegt bei 2 Toasts pro Szene; Gate/FS/Boss/Arena-Toasts verbrauchen kein Budget
   und dürfen das Cap übersteuern, während Low-Priority-Meldungen bei Bedarf
-  zusammengefasst/unterdrückt werden. Im QA-Mode schreibt die Runtime dann
-  `toast_suppressed` mit Snapshot von `logs.flags.hud_scene_usage`.
+  zusammengefasst/unterdrückt werden. Jede Unterdrückung schreibt
+  `toast_suppressed` mit Snapshot von `logs.flags.hud_scene_usage` und `qa_mode`.
 - **Ask↔Suggest.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`, Overlay `· SUG`).
   Wechselt bei Bedarf mit `modus ask` zurück zu klassischem Fragenmodus (`SUG-OFF`).
   Standardmäßig ist der Kodex ohnehin aktiv (HUD, Regelfakten); Suggest dient

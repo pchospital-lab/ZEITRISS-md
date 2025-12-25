@@ -58,8 +58,29 @@ assert(offlineGuide.includes('Terminal'), 'Offline-Guide wurde nicht geliefert.'
 assert.strictEqual(rt.state.logs.hud.length, 0, 'Toast hätte wegen Cap nicht erscheinen dürfen.');
 const lastTrace = rt.state.logs.trace[rt.state.logs.trace.length - 1];
 assert.strictEqual(lastTrace.event, 'toast_suppressed', 'Suppression-Trace fehlt.');
+assert.strictEqual(lastTrace.qa_mode, true, 'QA-Flag fehlt im Suppression-Trace.');
 assert.strictEqual(lastTrace.hud_scene_usage.count, 2, 'HUD-Usage-Snapshot fehlt im Trace.');
 console.log('hud-toast-budget-ok');
+
+// HUD-Toast-Budget: Unterdrückungen schreiben auch außerhalb des QA-Modes einen Trace.
+rt.state.logs = { hud: [], trace: [], flags: { hud_scene_usage: {} } };
+rt.state.scene = { index: 2, total: 8 };
+rt.state.campaign = { episode: 1, mission: 2 };
+const toastResults = [];
+for (let i = 0; i < 5; i += 1){
+  toastResults.push(rt.hud_toast(`Low-Priority-${i + 1}`, 'HUD'));
+}
+const visibleToasts = toastResults.filter((entry) => !entry.suppressed);
+assert.strictEqual(visibleToasts.length, 2, 'Nur zwei Toasts dürfen sichtbar sein.');
+assert.strictEqual(rt.state.logs.hud.length, 2, 'HUD-Log muss das Budget respektieren.');
+const suppression = rt.state.logs.trace.filter((entry) => entry.event === 'toast_suppressed');
+assert.strictEqual(suppression.length, 3, 'Drei Suppression-Traces erwartet.');
+suppression.forEach((entry) => {
+  assert.strictEqual(entry.qa_mode, false, 'Suppression-Trace muss QA-Flag spiegeln.');
+  assert.ok(entry.hud_scene_usage, 'HUD-Usage-Snapshot fehlt.');
+  assert.strictEqual(entry.hud_scene_usage.count, 2, 'Usage-Count muss das Cap spiegeln.');
+});
+console.log('hud-toast-budget-outside-qa-ok');
 
 // HUD-Events: strukturierte Einträge validieren, numerische Felder normalisieren und fehlende Timestamps ergänzen.
 console.log = () => {};

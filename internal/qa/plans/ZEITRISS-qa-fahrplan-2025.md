@@ -1197,7 +1197,7 @@ Pfad, Offline-Rate-Limit und HUD-Object-Events).
 | #7 | Offline-FAQ & SaveGuard | README/FAQ-Text auf „HQ-Deepsave erst nach Re-Sync; SaveGuard blockt Offline-Ende“ angleichen; SaveGuard-Meldung mit Suffix „– HQ-Save gesperrt.“ und Trace `save_blocked` standardisieren. | ✅ abgeschlossen (Runtime-Strings & Wissensmodule vereinheitlicht 2026-11-05) |
 | #8 | Accessibility-Roundtrip | UI-Block (`contrast/badge_density/output_pace` etc.) vollständig speichern/ laden; Legacy-Mapping unit-testen; Acceptance 14/15 Runner um Diff-Check erweitern. | ✅ abgeschlossen (2026-11-07) |
 | #9 | Economy: Currency-Sync Trace | `sync_primary_currency()` loggt `currency_sync` (before/after, reason) bei Wallet-Split, Hazard-Pay, Arena-Fee, Markt-Kauf; Ankerwerte 120/512/900+ im QA-Runner prüfen. | ✅ abgeschlossen (Trace `currency_sync` für Arena/Wallet/Hazard/Markt aktiv 2026-11-05) |
-| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; QA-Mode schreibt `toast_suppressed` Trace und `hud_scene_usage` pro Szene. Gate/FS/Boss priorisieren. | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06) |
+| #10 | HUD-Toast-Budget | `hud_toast()` mit Scene-Cap: bei Cap Merge/Suppress von Low-Priority-Toast; Suppressions tracen `toast_suppressed` inkl. `hud_scene_usage` und `qa_mode`. Gate/FS/Boss priorisieren. | ✅ abgeschlossen (HUD-Budget/Trace aktualisiert 2026-11-06) |
 | #11 | Arena-Merge-Konflikt-Toast | `reset_arena_after_load()` erzwingt Toast „Merge-Konflikt: Arena-Status verworfen“ bei jeder Verwerfung des Arena-Blocks, plus `merge_conflicts[]` Record; Dedupe per Token. | ✅ abgeschlossen (Toast + Trace dedupliziert 2026-11-05) |
 
 ## Maßnahmenpaket Copy-Paste-QA 2026-12 (Issues #1–#11, Fahrplan-Update)
@@ -1236,9 +1236,13 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    History und QA-Check._
 5. **Issue #5 – Ask↔Suggest & HUD-Budget-Overflow tracciert halten**
    `emit_toast()` Budget-Entscheidung zentralisieren, bei Unterdrückung immer
-   `toast_suppressed`-Trace plus Snapshot `logs.flags.hud_scene_usage` schreiben (QA-Mode Flag).
-   Gate/FS/Boss/Arena-Toasts bleiben budgetfrei. QA: Overflow-Szene mit 5 Low-Priority-Toasts,
-   1–2 sichtbar, Rest suppressed + Trace.
+   `toast_suppressed`-Trace plus Snapshot `logs.flags.hud_scene_usage` schreiben
+   (inkl. QA-Mode-Flag). Gate/FS/Boss/Arena-Toasts bleiben budgetfrei. QA:
+   Overflow-Szene mit 5 Low-Priority-Toasts, 1–2 sichtbar, Rest suppressed +
+   Trace.
+   _Status: ✅ abgeschlossen – `emit_toast()` schreibt jede Suppression inkl.
+   HUD-Usage- und `qa_mode`-Snapshot; Budget greift nur für Low-Priority-Toasts
+   (2027-02-11)._
 6. **Issue #6 – Rift-Seed-Stacking vs. Merge-Cap dokumentieren**
    README/Save-Doku präzisieren: Solo-Px5 stapelt Seeds ohne Hard-Limit, Merge deckelt offene
    Seeds auf 12 und gibt Überschuss an ITI-NPC-Teams. Trace `rift_seed_merge_cap_applied` mit
