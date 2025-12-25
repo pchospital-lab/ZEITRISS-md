@@ -357,6 +357,10 @@ Spiel starten (gruppe schnell)
   `gruppe` plus die Zusätze `klassisch` oder `schnell`. `npc-team` verlangt eine
   Zahl `0–4` (NPC‑Begleiter; Team gesamt 1–5), `gruppe` ignoriert Zahlen.
   Ungültige Kombinationen liefern die passenden Fehltexte.
+- **Zentrale Strings.** Start-/Fehlertexte liegen in
+  `dispatcher_strings` (Runtime-Export + Fixture
+  `internal/qa/fixtures/dispatcher_strings.json`) und werden vom
+  QA-Runner als Golden-Referenz gespiegelt.
 - **Syntax-Hinweis.** Startbefehle ohne Klammern oder mit fehlerhaftem Muster
   antworten mit „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
   [klassisch|schnell]). Klammern sind Pflicht.“ und schreiben höchstens einmal

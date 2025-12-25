@@ -29,6 +29,9 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 
 ### Dispatcher-Starts & Speicherpfade
 
+- Golden-Referenz: Start-/Fehlertexte kommen aus `dispatcher_strings` (Runtime)
+  und der Fixture `internal/qa/fixtures/dispatcher_strings.json`.
+
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs (3) → Briefing

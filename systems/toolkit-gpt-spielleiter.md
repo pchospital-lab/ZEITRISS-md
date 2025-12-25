@@ -3112,6 +3112,9 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
      [klassisch|schnell]). Klammern sind Pflicht.“ ausgeben und einmalig pro
      Session `record_trace('dispatch_hint', …)` mit `reason='start_syntax'`
      schreiben.
+   - Start-/Fehlertexte liegen zentral in `dispatcher_strings` (Runtime) und
+     werden als Fixture `internal/qa/fixtures/dispatcher_strings.json`
+     gespiegelt, damit Dispatcher-Referenz und Toolkit dieselbe Quelle nutzen.
    - Fehlt Modus → einmalig fragen: „klassisch oder schnell?“
    - `solo`: Ansprache **Du**, `player_count = 1`, keine Nachfrage nach Spielerzahl.
    - `npc-team`: NPC‑Begleiter 0–4 (Team gesamt 1–5); bei Fehler →

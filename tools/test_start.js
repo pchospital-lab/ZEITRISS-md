@@ -1,16 +1,24 @@
 const rt = require('../runtime');
 const assert = require('assert');
+const dispatcherFixture = require('../internal/qa/fixtures/dispatcher_strings.json');
+
+const dispatcherStrings = rt.DISPATCHER_STRINGS;
+assert.deepStrictEqual(dispatcherStrings, dispatcherFixture.strings);
 
 let response = rt.on_command('spiel starten solo');
-assert.strictEqual(response, rt.DISPATCHER_START_SYNTAX_HINT);
+assert.strictEqual(
+  response,
+  dispatcherStrings[dispatcherFixture.negativpfade.spiel_starten_solo]
+);
 const traceLength = rt.state.logs.trace.length;
 const lastTrace = rt.state.logs.trace[traceLength - 1];
 assert.strictEqual(lastTrace.event, 'dispatch_hint');
+assert.strictEqual(lastTrace.channel, dispatcherFixture.trace.channel);
 assert.strictEqual(lastTrace.reason, 'start_syntax');
 assert.strictEqual(rt.state.logs.flags.dispatch_syntax_hint_seen, true);
 
 response = rt.on_command('spiel starten solo');
-assert.strictEqual(response, rt.DISPATCHER_START_SYNTAX_HINT);
+assert.strictEqual(response, dispatcherStrings.start_hint);
 assert.strictEqual(rt.state.logs.trace.length, traceLength);
 
 response = rt.on_command('spiel starten (solo trigger schnell)');
@@ -44,15 +52,12 @@ assert.strictEqual(rt.state.campaign.team_size, 4);
 assert.strictEqual(rt.state.team.members.length, 3);
 
 let error = rt.on_command('spiel starten (npc-team 5)');
-assert.strictEqual(
-  error,
-  'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).'
-);
+assert.strictEqual(error, dispatcherStrings.npc_team_size_error);
 assert.strictEqual(rt.state.start.type, 'npc-team');
 assert.strictEqual(rt.state.team.size, 4);
 
 error = rt.on_command('spiel starten (gruppe 3)');
-assert.strictEqual(error, 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)');
+assert.strictEqual(error, dispatcherStrings.group_number_error);
 assert.strictEqual(rt.state.start.type, 'npc-team');
 
 response = rt.on_command('spiel starten (gruppe trigger fast)');

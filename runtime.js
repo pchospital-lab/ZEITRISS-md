@@ -9013,7 +9013,6 @@ function startSolo(mode='klassisch'){
   flags.foreshadow_gate_progress = 0;
   flags.foreshadow_gate_snapshot = 0;
   flags.foreshadow_gate_expected = false;
-  flags.dispatch_syntax_hint_seen = false;
   flags.qa_dispatch_seen = false;
   flags.qa_player_count = null;
   flags.qa_addressing = null;
@@ -9065,7 +9064,6 @@ function startGroup(mode='klassisch'){
   flags.foreshadow_gate_progress = 0;
   flags.foreshadow_gate_snapshot = 0;
   flags.foreshadow_gate_expected = false;
-  flags.dispatch_syntax_hint_seen = false;
   flags.qa_dispatch_seen = false;
   flags.qa_player_count = null;
   flags.qa_addressing = null;
@@ -9197,14 +9195,18 @@ function debrief(st){
   return lines.join('\n');
 }
 
-const NPC_TEAM_SIZE_ERROR =
-  'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).';
-const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
-const DISPATCHER_START_SYNTAX_HINT =
-  [
+const DISPATCHER_STRINGS = Object.freeze({
+  start_hint: [
     'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]).',
     'Klammern sind Pflicht.'
-  ].join(' ');
+  ].join(' '),
+  npc_team_size_error:
+    'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).',
+  group_number_error: 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)'
+});
+const DISPATCHER_START_SYNTAX_HINT = DISPATCHER_STRINGS.start_hint;
+const NPC_TEAM_SIZE_ERROR = DISPATCHER_STRINGS.npc_team_size_error;
+const GROUP_NUMBER_ERROR = DISPATCHER_STRINGS.group_number_error;
 
 function normalize_psi_heat_buffer(value){
   if (!value || typeof value !== 'object' || Array.isArray(value)){
@@ -9575,6 +9577,7 @@ function on_command(command){
 
 module.exports = {
   ZR_VERSION,
+  DISPATCHER_STRINGS,
   DISPATCHER_START_SYNTAX_HINT,
   state,
   on_command,
