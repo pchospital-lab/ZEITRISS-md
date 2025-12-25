@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.25
+version: 0.4.26
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-11-08 – Repo-Agent – Nachcheck Format-/Umstrukturierung (Build 4.2.5)
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0
+- Auftrag: Nachcheck nach Abschluss der Formatierungs- und Umstrukturierungsrunde; vollständige Regression laut Pflichtsuite.
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Regression ohne Abweichungen abgeschlossen; keine zusätzlichen Maßnahmen erforderlich.
 
 ## 2026-11-05 – Repo-Agent – Copy-Paste-QA 2026-10 Sync (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte + Fahrplan-Sync)
