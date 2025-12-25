@@ -75,9 +75,9 @@ Der Standard-Header zeigt:
 - HUD-Usage: Runtime zählt Toasts pro Szene (`logs.flags.hud_scene_usage`),
   Ziel 80 % Szene/20 % HUD, Limit 2 Toasts. Low-Priority-Overlays (z. B.
   OFFLINE) werden bei Cap zusammengeführt/unterdrückt; Gate/FS/Boss/Arena bleiben
-  vorrangig, verbrauchen kein Budget und dürfen über das Cap hinausgehen. Im QA-
-  Mode landet jede Unterdrückung als `toast_suppressed`-Trace inkl. HUD-Usage-
-  Snapshot.
+  vorrangig, verbrauchen kein Budget und dürfen über das Cap hinausgehen. Jede
+  Unterdrückung landet als `toast_suppressed`-Trace inkl. HUD-Usage-Snapshot und
+  `qa_mode`-Flag.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge

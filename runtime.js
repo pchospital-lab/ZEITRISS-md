@@ -3319,27 +3319,28 @@ function hud_event(event, details = {}){
   return normalized;
 }
 
-function hud_toast(message, tag = 'HUD'){
+function emit_toast(message, tag = 'HUD', options = {}){
+  const { respect_budget = true, priority = false } = options;
   const log = ensure_logs();
   const normalizedTag = typeof tag === 'string' && tag.trim() ? tag.trim() : 'HUD';
   const cleanedMessage = (message ?? '').toString().trim();
   const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
   const usage = ensure_hud_usage_record(sceneIndex);
-  const isPriorityToast = HUD_PRIORITY_TAGS.has(normalizedTag.toUpperCase());
-  if (usage && usage.count >= HUD_SCENE_TOAST_LIMIT && !isPriorityToast){
+  const isPriorityToast = priority || HUD_PRIORITY_TAGS.has(normalizedTag.toUpperCase());
+  const applyBudget = respect_budget && usage && !isPriorityToast;
+  if (applyBudget && usage.count >= HUD_SCENE_TOAST_LIMIT){
     const action = usage.tags[normalizedTag] ? 'merged' : 'suppressed';
-    if (state.logs.flags.qa_mode){
-      record_trace('toast_suppressed', {
-        tag: normalizedTag,
-        message: cleanedMessage.slice(0, 200),
-        action,
-        hud_scene_usage: {
-          count: usage.count,
-          limit: usage.limit,
-          tags: { ...usage.tags }
-        }
-      });
-    }
+    record_trace('toast_suppressed', {
+      tag: normalizedTag,
+      message: cleanedMessage.slice(0, 200),
+      action,
+      qa_mode: !!state.logs?.flags?.qa_mode,
+      hud_scene_usage: {
+        count: usage.count,
+        limit: usage.limit,
+        tags: { ...usage.tags }
+      }
+    });
     return { id: null, tag: normalizedTag, message: cleanedMessage, suppressed: true, action };
   }
   hudSequence = (hudSequence + 1) % 10000;
@@ -3356,6 +3357,10 @@ function hud_toast(message, tag = 'HUD'){
   register_hud_usage(normalizedTag, { priority: isPriorityToast });
   writeLine(`[${normalizedTag}] ${message}`);
   return entry;
+}
+
+function hud_toast(message, tag = 'HUD'){
+  return emit_toast(message, tag);
 }
 
 function record_trace(event, details = {}){
@@ -3424,6 +3429,9 @@ function record_trace(event, details = {}){
     : null;
   if (commandExcerpt){
     trace.command = commandExcerpt;
+  }
+  if (typeof details.qa_mode === 'boolean'){
+    trace.qa_mode = details.qa_mode;
   }
   if (sceneIndex !== null){
     maybe_log_intervention_stage(sceneIndex, sceneTotal);
@@ -9772,6 +9780,8 @@ module.exports = {
   px_tracker,
   StartMission,
   scene_overlay,
+  emit_toast,
+  hud_toast,
   hud_event,
   completeMission,
   incrementParadoxon,
