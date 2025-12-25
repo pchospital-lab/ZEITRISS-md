@@ -1227,6 +1227,8 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Self-Reflection nur über `set_self_reflection()` setzen und am Missionsende (M5/M10) automatisch
    auf `SF-ON` resetten; Flags `self_reflection_auto_reset_*` schreiben. QA: Golden-File für
    Start (SF-OFF), Szene 10 (Boss-DR) und Ende (SF-ON + Flags) pflegen.
+   _Status: ✅ abgeschlossen – Auto-Reset M5/M10 nutzt nur noch `set_self_reflection()` inkl.
+   History und QA-Check._
 5. **Issue #5 – Ask↔Suggest & HUD-Budget-Overflow tracciert halten**
    `emit_toast()` Budget-Entscheidung zentralisieren, bei Unterdrückung immer
    `toast_suppressed`-Trace plus Snapshot `logs.flags.hud_scene_usage` schreiben (QA-Mode Flag).

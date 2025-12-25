@@ -83,8 +83,9 @@ Der Standard-Header zeigt:
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge
   **und** Boss-Toast synchron, `!boss status` spiegelt denselben Snapshot. Der
   Gate-Wert bleibt im Save erhalten und kehrt nach einem Load sofort zurück.
-  Nach Mission 5 setzt die Runtime Self-Reflection automatisch auf `SF-ON`
-  zurück – sowohl bei Missionsabschluss als auch bei Abbruch
+  Nach Mission 5 **und Mission 10** setzt die Runtime Self-Reflection automatisch
+  über den Helper `set_self_reflection()`/`auto_reset_self_reflection()` auf
+  `SF-ON` zurück – sowohl bei Missionsabschluss als auch bei Abbruch
   (`logs.flags.last_mission_end_reason`).
   Der Boss-DR-Toast staffelt sich nach Teamgröße (1–2 = 1, 3–4 = 2,
   Teamgröße 5 = 3 (Mini) bzw. 4 (Arc/Rift)) und nutzt den gleichen Wert im HUD
@@ -98,11 +99,11 @@ Der Standard-Header zeigt:
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
   und `logs.flags.self_reflection_auto_reset_reason`. Wiederholte Resets hängen optional
   Einträge in `logs.self_reflection_history[]` an (z. B. `{ mission_ref, reason, ts }`), damit
-  mehrere Mission‑5-Durchläufe nachvollziehbar bleiben. Quelle ist stets
+  mehrere Mission‑5/Mission‑10-Durchläufe nachvollziehbar bleiben. Quelle ist stets
   `character.self_reflection`; Log-Flags spiegeln diesen Wert und dürfen ihn nicht
-  überschreiben. Nutze `set_self_reflection(enabled, reason?)`, um Charakterwert
-  und Log synchron zu halten; der Auto-Reset nach Mission 5 greift immer. Der
-  Suggest-Modus (`SUG`) bleibt davon unabhängig aktiv.
+  überschreiben. Nutze **ausschließlich** `set_self_reflection(enabled, reason?)`, um Charakterwert
+  und Log synchron zu halten; die Auto-Resets nach Mission 5/10 greifen immer.
+  Der Suggest-Modus (`SUG`) bleibt davon unabhängig aktiv.
 - `ui.mode_display` steuert die Modus-Ausgabe – `label`, `emoji` oder `both` (Standard `label`).
 - Auf schmalen Zeilen blendet das HUD den **Rank** automatisch aus,
   `Lvl` bleibt sichtbar. `ui.suppress_rank_on_narrow` deaktiviert dies

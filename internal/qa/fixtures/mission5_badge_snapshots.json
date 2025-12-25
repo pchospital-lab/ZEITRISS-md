@@ -21,6 +21,11 @@
     "foreshadow_gate_snapshot": 0,
     "foreshadow_gate_progress": 0,
     "foreshadow_gate_expected": false,
-    "self_reflection_auto_reset_reason": "completed"
+    "self_reflection_auto_reset_reason": "completed",
+    "self_reflection_last_change_reason": "completed"
+  },
+  "history_entry": {
+    "mission_ref": "EP02-MS05",
+    "reason": "completed"
   }
 }
