@@ -227,6 +227,10 @@ default_modus: mission-fokus
 - **Mode-Preset:** Charaktere führen `modes = [mission_focus,
   covert_ops_technoir]`; Normalizer ergänzt Legacy-Saves, Noir-Preset vor
   Szene 0 ins HUD bringen.
+- **Modus-Start & Würfel:** Neue Sitzungen laufen im Modus `klassik` mit offen
+  sichtbaren Würfen (`ui.dice.debug_rolls = true`). Film bleibt optional für
+  cineastisches Tempo und lässt sich via `/mode film` oder `/mode klassik`
+  umschalten.
 - **Action-Contract-Schalter:** `ui.action_mode = konform|frei`.
   Default ist `konform` (GPT-konforme Actionfilm-Cuts, keine Schritt-für-Schritt-How-tos);
   `frei` bleibt filmisch ohne How-to-Details und versteht den Alias „uncut“.

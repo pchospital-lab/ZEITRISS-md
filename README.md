@@ -96,7 +96,8 @@ Details findest du in [LICENSE](LICENSE).
    `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende. Danach springt
    der Px für den nächsten Zyklus auf 0; weitere Px‑5‑Treffer stapeln zusätzliche
    Seeds im Pool.
-5. **Film-Stil als Default.** Cinematic/Verbose mit aktivem Kodex; Hard Sci-Fi bleibt als nüchterne Alternative.
+5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
+   für cineastisches Tempo.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
    Mission 10 der Episoden-Boss. Rift-Operationen führen ihren Endgegner im
    finalen Akt ein (meist um Szene 10). Das Toolkit löst `generate_boss()` an
@@ -1444,15 +1445,16 @@ HQ-Pool`).
 ## Spielmodi {#spielmodi}
 
 Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
-umschalten lassen. **Film** bildet den Standard-Grundton (cineastisch, flüssig),
-der Kodex bleibt immer als Assistenz aktiv. Die GPT-Spielleitung verkörpert alle
+umschalten lassen. **Klassik** läuft standardmäßig (filmisch mit mehr Taktik und
+Realismus), der Kodex bleibt immer als Assistenz aktiv. Film bleibt als
+optionale Cineastik-Schicht verfügbar. Die GPT-Spielleitung verkörpert alle
 Rollen (NSCs, Umwelt, Kodex-HUD); der Kodex ist nur eine ihrer Stimmen – nicht
 die Spielleitung selbst. Alle weiteren Modi sind optionale Zusätze:
 | Modus | Kurzbeschreibung |
 | --- | --- |
-| **Film (Standard)** | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
+| **Klassik (Standard)** | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
+| **Film** | Schnelle Regeneration und cineastische Initiative für flüssige Action. |
 | **Hard Sci-Fi** | Bodennaher Stil ohne Visionen, nüchterne Technik als Alternative zum Film-Look. |
-| **Klassik** | Mischung aus filmischen und taktischen Regeln; realistischere, langsamere Variante. |
 | **Covert-Ops** | Minimale Paradoxon-Effekte; Risse nur als Sensorrauschen, keine Kreaturen. |
 | **Transparenz** | Offene Würfe für volle Nachvollziehbarkeit. |
 | **Suggest** | Einsteigerhilfe: Ergänzt die normalen 3+frei-Szenenvorschläge um nummerierte Tipps auf Abruf. |
@@ -1462,6 +1464,10 @@ die Spielleitung selbst. Alle weiteren Modi sind optionale Zusätze:
 
 Mehrere Modi können parallel aktiv sein, etwa `precision` plus `transparenz`.
 
+Beim Start aktiviert die Runtime **Klassik** plus die Missions- und Covert-Ops-
+Filter (`mission_focus`, `covert_ops_technoir`). Film wird nur auf Wunsch
+zugeschaltet.
+
 Der Suggest-Modus wird mit `modus suggest` aktiviert und mit `modus ask` wieder deaktiviert.
 Er ist als Noob-/Einsteigerhilfe gedacht; der normale Kodex bleibt davon
 unabhängig aktiv (Regelhinweise, HUD, Logs).
@@ -1470,7 +1476,8 @@ und wartet auf ein bestätigendes oder korrigierendes Spieler-Feedback, bevor er
 Die üblichen 3 + frei-Ideen nach einer Szene bleiben dabei bestehen; Suggest ergänzt sie nur
 um spontane, nummerierte Mikro-Vorschläge auf Zuruf.
 
-**Würfel-Ausgabe & Manual Mode.** Standard sind offene Würfel. Die Anzeige lässt
+**Würfel-Ausgabe & Manual Mode.** Standard sind offene Würfel – die Runtime
+startet neue Sessions direkt mit sichtbaren Würfen. Die Anzeige lässt
 sich per `/roll open|hidden|manual` steuern: `hidden` blendet Ergebnisse aus
 (nur Erfolgsabstand), `manual` nennt nur den benötigten Würfel samt Exploding-
 Hinweis; ihr würfelt analog/digital und gebt das Ergebnis zurück. `/roll open`
