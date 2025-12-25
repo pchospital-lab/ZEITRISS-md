@@ -1218,6 +1218,9 @@ offen und müssen in Runtime, Wissensmodulen und QA-Runner gespiegelt werden.
    Speicher-Modul klarstellen: Loader akzeptiert Multi-JSON/Wrapper (`Charaktere`), kanonischer
    DeepSave exportiert immer `party.characters[]`. Loader-Doku/Helper mit Hinweis „Wrapper nie als
    Ausgabe erzeugen“ versehen, QA-Fixtures auf `party.characters[]` prüfen.
+   _Status: ✅ abgeschlossen – Loader hebt Wrapper (`Charaktere`/`characters`) auf
+   `party.characters[]`/`team.members[]`, Serializer exportiert ausschließlich das
+   kanonische Roster (2025-12-30)._
 3. **Issue #3 – SaveGuard-Required-Paths mit `arc_dashboard` abgleichen**
    Guard-Pflichtliste enthält `ui`/`arena`, aber kein `arc_dashboard`, obwohl der Container als
    Pflicht geführt wird. Entweder `arc_dashboard` vor Guard auto-initialisieren und als Required

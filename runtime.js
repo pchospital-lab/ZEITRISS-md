@@ -8263,6 +8263,13 @@ function normalize_party_roster(data){
       candidateArrays.push(arr);
     }
   };
+  const wrapperKeys = new Set([
+    'charaktere',
+    'characters',
+    'character',
+    'gruppe',
+    'group'
+  ]);
   pushArray(party.characters);
   pushArray(team.members);
   pushArray(team.roster);
@@ -8275,6 +8282,12 @@ function normalize_party_roster(data){
   pushArray(data.npc_team);
   pushArray(data.npcs);
   pushArray(data.roster);
+  Object.entries(data).forEach(([key, value]) => {
+    const normalizedKey = typeof key === 'string' ? key.trim().toLowerCase() : '';
+    if (wrapperKeys.has(normalizedKey)){
+      pushArray(value);
+    }
+  });
   const seen = new Set();
   const canonical = [];
   let fallbackIndex = 0;
