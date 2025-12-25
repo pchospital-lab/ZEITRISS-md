@@ -4746,16 +4746,29 @@ function resolve_completion_tier(outcome = {}){
     outcome?.mission?.result
   ].map((value) => (typeof value === 'string' ? value.trim().toLowerCase() : ''));
   if (
-    boolBonus || candidates.some((value) => value.includes('bonus') || value.includes('perfect') || value.includes('voll'))
+    boolBonus
+    || candidates.some((value) => (
+      value.includes('bonus')
+      || value.includes('perfect')
+      || value.includes('voll')
+    ))
   ){
     return 'bonus';
   }
   if (
-    boolFail || candidates.some((value) => value.includes('fail') || value.includes('aborted') || value.includes('scheiter'))
+    boolFail
+    || candidates.some((value) => (
+      value.includes('fail')
+      || value.includes('aborted')
+      || value.includes('scheiter')
+    ))
   ){
     return 'fail';
   }
-  if (boolPartial || candidates.some((value) => value.includes('teil') || value.includes('partial'))){
+  if (
+    boolPartial
+    || candidates.some((value) => value.includes('teil') || value.includes('partial'))
+  ){
     return 'partial';
   }
   return 'success';
@@ -5693,13 +5706,19 @@ function resume_snapshot(){
   state.campaign.episode = raw.campaign?.episode ?? state.campaign.episode;
   state.campaign.phase = normalize_phase_value(raw.campaign?.phase, state.campaign.phase);
   const sceneIndex = raw.campaign?.scene ?? state.scene?.index ?? state.campaign.scene;
-  const fallbackTotal = Number.isFinite(state.scene?.total) ? state.scene.total : resolve_scene_total();
+  const fallbackTotal = Number.isFinite(state.scene?.total)
+    ? state.scene.total
+    : resolve_scene_total();
   const sceneTotalSource = raw.campaign?.scene_total;
   const sceneTotal = Number.isFinite(sceneTotalSource)
     ? Math.max(1, Math.floor(sceneTotalSource))
     : fallbackTotal;
   state.campaign.scene = sceneIndex;
-  state.scene = { index: sceneIndex, foreshadows: state.scene?.foreshadows ?? 0, total: sceneTotal };
+  state.scene = {
+    index: sceneIndex,
+    foreshadows: state.scene?.foreshadows ?? 0,
+    total: sceneTotal
+  };
   const mission = ensure_mission();
   if (raw.mission){
     mission.id = raw.mission.id ?? mission.id ?? null;
@@ -5740,7 +5759,9 @@ function resolveSuspendPath(){
 }
 
 function ensureArray(value){
-  if (Array.isArray(value)) return value.filter(item => item !== undefined && item !== null && item !== '');
+  if (Array.isArray(value)){
+    return value.filter(item => item !== undefined && item !== null && item !== '');
+  }
   if (value === undefined || value === null || value === '') return [];
   return [value];
 }
@@ -5869,7 +5890,9 @@ function enforceLoadoutBudget(loadout, limit, auditLog, label){
     }
     const kept = items.slice(0, remaining);
     const removed = items.slice(remaining);
-    removed.forEach(item => auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`));
+    removed.forEach((item) => {
+      auditLog.push(`${label}: Loadout-Budget erreicht – '${item}' aus ${key} entfernt`);
+    });
     loadout[key] = kept;
     remaining = 0;
   }
@@ -6261,7 +6284,9 @@ function chrono_research_level(){
   ensure_campaign();
   const char = ensure_character();
   const charResearch = Number.isFinite(char.research_level) ? char.research_level : 0;
-  const campaignResearch = Number.isFinite(state.campaign.research_level) ? state.campaign.research_level : 0;
+  const campaignResearch = Number.isFinite(state.campaign.research_level)
+    ? state.campaign.research_level
+    : 0;
   return Math.max(charResearch, campaignResearch);
 }
 
@@ -6408,7 +6433,9 @@ function chronopolisProgressAfterMission(summary){
   }
   const modulo = state.campaign.chronopolis_tick_modulo;
   if (modulo > 0){
-    state.campaign.chronopolis_missions_since_reset = (state.campaign.chronopolis_missions_since_reset || 0) + 1;
+    state.campaign.chronopolis_missions_since_reset = (
+      state.campaign.chronopolis_missions_since_reset || 0
+    ) + 1;
     if (state.campaign.chronopolis_missions_since_reset >= modulo){
       state.campaign.chronopolis_missions_since_reset = 0;
       chronopolis_reset('mission-cycle');
@@ -6430,11 +6457,16 @@ function acknowledge_chronopolis_warning(){
 function render_shop_tiers(level=1, faction_rep=0, rift_blueprints=[]){
   const t1 = level >= 1;
   const t2 = level >= 6;
-  const count = Array.isArray(rift_blueprints) ? rift_blueprints.length : (rift_blueprints ? 1 : 0);
+  const count = Array.isArray(rift_blueprints)
+    ? rift_blueprints.length
+    : (rift_blueprints ? 1 : 0);
   const hasBlueprint = count > 0;
   const t3 = level >= 11 && faction_rep >= 3 && hasBlueprint;
   const bp = count;
-  return `Shop-Tiers: T1:${t1 ? 'true' : 'false'} T2:${t2 ? 'true' : 'false'} T3:${t3 ? 'true' : 'false'} · BP:${bp}`;
+  return [
+    `Shop-Tiers: T1:${t1 ? 'true' : 'false'} T2:${t2 ? 'true' : 'false'}`,
+    `T3:${t3 ? 'true' : 'false'} · BP:${bp}`
+  ].join(' ');
 }
 
 function ttl_fmt(min=0, sec=0){
@@ -6801,7 +6833,10 @@ function scene_overlay(scene){
 
 function expected_casefile_stage(sceneIndex, sceneTotal){
   if (resolve_mission_type() !== 'rift') return null;
-  const total = Math.max(1, Math.floor(Number.isFinite(sceneTotal) ? sceneTotal : resolve_scene_total('rift')));
+  const total = Math.max(
+    1,
+    Math.floor(Number.isFinite(sceneTotal) ? sceneTotal : resolve_scene_total('rift'))
+  );
   const scene = Math.max(1, Math.floor(Number.isFinite(sceneIndex) ? sceneIndex : 0));
   if (scene <= Math.min(4, total)) return 'crime_scene';
   if (scene <= Math.min(10, total)) return 'leads';
@@ -6836,7 +6871,13 @@ function casefile_stage_label(){
 function set_casefile_stage(stage){
   if (resolve_mission_type() !== 'rift') return null;
   const key = typeof stage === 'string' ? stage.trim().toLowerCase() : '';
-  const map = { tatort: 'crime_scene', crime_scene: 'crime_scene', leads: 'leads', boss: 'boss', showdown: 'boss' };
+  const map = {
+    tatort: 'crime_scene',
+    crime_scene: 'crime_scene',
+    leads: 'leads',
+    boss: 'boss',
+    showdown: 'boss'
+  };
   const normalized = map[key];
   if (!normalized){
     throw new Error('Casefile-Stage unbekannt – nutze Tatort/Leads/Boss.');
@@ -6871,11 +6912,17 @@ function init_casefile_tracker(){
     return null;
   }
   ensure_logs();
-  state.casefile = state.casefile && typeof state.casefile === 'object' && !Array.isArray(state.casefile)
+  state.casefile = state.casefile
+    && typeof state.casefile === 'object'
+    && !Array.isArray(state.casefile)
     ? state.casefile
     : {};
-  state.casefile.stage = typeof state.casefile.stage === 'string' ? state.casefile.stage : 'crime_scene';
-  state.casefile.anomalies = Array.isArray(state.casefile.anomalies) ? state.casefile.anomalies : [];
+  state.casefile.stage = typeof state.casefile.stage === 'string'
+    ? state.casefile.stage
+    : 'crime_scene';
+  state.casefile.anomalies = Array.isArray(state.casefile.anomalies)
+    ? state.casefile.anomalies
+    : [];
   state.logs.casefile_stage = state.casefile.stage;
   state.logs.casefile ||= [];
   state.logs.casefile.push({
@@ -7097,7 +7144,9 @@ function normalize_comms_payload(input){
   if (normalized.range === undefined && range !== null){
     normalized.range = range;
   }
-  normalized.relays = relaysCandidate !== null ? Math.max(0, relaysCandidate) : (source.relays === true ? 1 : 0);
+  normalized.relays = relaysCandidate !== null
+    ? Math.max(0, relaysCandidate)
+    : (source.relays === true ? 1 : 0);
   if (jammerCandidate !== null){
     normalized.jammer = !!jammerCandidate;
   }
@@ -7114,7 +7163,8 @@ function comms_check(deviceOrOptions, maybeRange){
   const rangeFactor = state.comms?.rangeMod ?? 1;
   const okRng = Number.isFinite(range) && (range * rangeFactor) > 0;
   const jammed = normalized.jammer ?? !!state.comms?.jammed;
-  const hasRelay = device === 'relay' || (Number.isFinite(normalized.relays) && normalized.relays > 0);
+  const hasRelay = device === 'relay'
+    || (Number.isFinite(normalized.relays) && normalized.relays > 0);
   const ok = okDev && okRng && (
     !jammed || device === 'cable' || device === 'jammer_override' || hasRelay
   );
@@ -7158,12 +7208,17 @@ function offline_help(trigger='auto'){
   ensure_logs();
   const flags = state.logs.flags;
   const now = Date.now();
-  const last = typeof flags.offline_help_last === 'string' ? Date.parse(flags.offline_help_last) : NaN;
+  const last = typeof flags.offline_help_last === 'string'
+    ? Date.parse(flags.offline_help_last)
+    : NaN;
   const deltaMs = Number.isFinite(last) ? now - last : Infinity;
   if (trigger === 'command' && deltaMs < OFFLINE_HELP_MIN_INTERVAL_MS){
     const waitSeconds = Math.ceil((OFFLINE_HELP_MIN_INTERVAL_MS - deltaMs) / 1000);
     const lastScene = flags.offline_help_last_scene || flags.offline_help_last || 'n/a';
-    return `Offline-Protokoll bereits aktualisiert (${lastScene}) – erneut in ${waitSeconds}s erlaubt.`;
+    return [
+      `Offline-Protokoll bereits aktualisiert (${lastScene}) –`,
+      `erneut in ${waitSeconds}s erlaubt.`
+    ].join(' ');
   }
   const shouldToast = !Number.isFinite(last) || deltaMs > OFFLINE_HELP_MIN_INTERVAL_MS;
   if (shouldToast){
@@ -7209,14 +7264,20 @@ function must_comms(o){
 
 function radio_tx(o){
   const normalized = must_comms(o);
-  const ctx = { ...state, comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m } };
+  const ctx = {
+    ...state,
+    comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m }
+  };
   require_uplink(ctx, 'radio_tx');
   return 'tx';
 }
 
 function radio_rx(o){
   const normalized = must_comms(o);
-  const ctx = { ...state, comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m } };
+  const ctx = {
+    ...state,
+    comms: { ...state.comms, device: normalized.device, range_m: normalized.range_m }
+  };
   require_uplink(ctx, 'radio_rx');
   return 'rx';
 }
@@ -7307,15 +7368,29 @@ function prepare_save_arena(arena){
       : null,
     team_size: clamp_team_size(source.team_size, { allowZero: false }),
     tier: Number.isFinite(source.tier) ? Math.max(1, Math.floor(source.tier)) : 1,
-    proc_budget: Number.isFinite(source.proc_budget) ? Math.max(0, Math.floor(source.proc_budget)) : 0,
-    artifact_limit: Number.isFinite(source.artifact_limit) ? Math.max(0, Math.floor(source.artifact_limit)) : 0,
-    loadout_budget: Number.isFinite(source.loadout_budget) ? Math.max(0, Math.floor(source.loadout_budget)) : 0,
-    wins_player: Number.isFinite(source.wins_player) ? Math.max(0, Math.floor(source.wins_player)) : 0,
-    wins_opponent: Number.isFinite(source.wins_opponent) ? Math.max(0, Math.floor(source.wins_opponent)) : 0,
+    proc_budget: Number.isFinite(source.proc_budget)
+      ? Math.max(0, Math.floor(source.proc_budget))
+      : 0,
+    artifact_limit: Number.isFinite(source.artifact_limit)
+      ? Math.max(0, Math.floor(source.artifact_limit))
+      : 0,
+    loadout_budget: Number.isFinite(source.loadout_budget)
+      ? Math.max(0, Math.floor(source.loadout_budget))
+      : 0,
+    wins_player: Number.isFinite(source.wins_player)
+      ? Math.max(0, Math.floor(source.wins_player))
+      : 0,
+    wins_opponent: Number.isFinite(source.wins_opponent)
+      ? Math.max(0, Math.floor(source.wins_opponent))
+      : 0,
     fee: Number.isFinite(source.fee) ? Math.max(0, Math.floor(source.fee)) : 0,
-    phase_strike_tax: Number.isFinite(source.phase_strike_tax) ? Math.max(0, Math.floor(source.phase_strike_tax)) : 0,
+    phase_strike_tax: Number.isFinite(source.phase_strike_tax)
+      ? Math.max(0, Math.floor(source.phase_strike_tax))
+      : 0,
     damage_dampener: source.damage_dampener !== false,
-    started_episode: Number.isFinite(source.started_episode) ? Math.floor(source.started_episode) : null,
+    started_episode: Number.isFinite(source.started_episode)
+      ? Math.floor(source.started_episode)
+      : null,
     last_reward_episode: Number.isFinite(source.last_reward_episode)
       ? Math.floor(source.last_reward_episode)
       : null,
@@ -7385,7 +7460,9 @@ function normalize_hud_entry(entry, fallbackTimestamp){
   if (id) record.id = id;
   const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : null;
   if (tag) record.tag = tag;
-  const message = typeof entry.message === 'string' && entry.message.trim() ? entry.message.trim() : null;
+  const message = typeof entry.message === 'string' && entry.message.trim()
+    ? entry.message.trim()
+    : null;
   if (message) record.message = message;
   const event = typeof entry.event === 'string' && entry.event.trim() ? entry.event.trim() : null;
   if (event) record.event = event;
@@ -7438,7 +7515,9 @@ function prepare_save_logs(logs){
       const rawToken = entry.token.trim();
       if (!rawToken) continue;
       const token = rawToken.toLowerCase();
-      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const tag = typeof entry.tag === 'string' && entry.tag.trim()
+        ? entry.tag.trim()
+        : 'Foreshadow';
       const message = typeof entry.message === 'string' ? entry.message.trim() : '';
       const sceneIndex = Number(entry.scene);
       const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
@@ -7502,7 +7581,8 @@ function prepare_save_logs(logs){
     base.offline = [];
   }
   if (Array.isArray(base.fr_interventions)){
-    base.fr_interventions = sanitize_intervention_entries(base.fr_interventions).map(entry => ({ ...entry }));
+    base.fr_interventions = sanitize_intervention_entries(base.fr_interventions)
+      .map(entry => ({ ...entry }));
   } else {
     base.fr_interventions = [];
   }
@@ -7571,7 +7651,10 @@ function prepare_save_logs(logs){
   base.flags.offline_help_count = Number.isFinite(offlineCount) && offlineCount > 0
     ? Math.floor(offlineCount)
     : 0;
-  if (!base.flags.hud_scene_usage || typeof base.flags.hud_scene_usage !== 'object' || Array.isArray(base.flags.hud_scene_usage)){
+  const hasSceneUsage = base.flags.hud_scene_usage
+    && typeof base.flags.hud_scene_usage === 'object'
+    && !Array.isArray(base.flags.hud_scene_usage);
+  if (!hasSceneUsage){
     base.flags.hud_scene_usage = {};
   } else {
     const usage = {};
@@ -7579,8 +7662,12 @@ function prepare_save_logs(logs){
       const count = Number.isFinite(raw?.count) ? Math.max(0, Math.floor(raw.count)) : 0;
       const tags = raw?.tags && typeof raw.tags === 'object' && !Array.isArray(raw.tags)
         ? Object.fromEntries(
-            Object.entries(raw.tags).map(([tag, value]) => [tag, Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0])
-          )
+          Object.entries(raw.tags)
+            .map(([tag, value]) => [
+              tag,
+              Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0
+            ])
+        )
         : {};
       usage[sceneIndex] = { count, tags, limit: HUD_SCENE_TOAST_LIMIT };
     }
@@ -7592,14 +7679,17 @@ function prepare_save_logs(logs){
   base.flags.self_reflection_changed_at = typeof base.flags.self_reflection_changed_at === 'string'
     ? base.flags.self_reflection_changed_at
     : null;
-  base.flags.self_reflection_last_change_reason = typeof base.flags.self_reflection_last_change_reason === 'string'
-    ? base.flags.self_reflection_last_change_reason.trim() || null
+  const lastChangeReason = base.flags.self_reflection_last_change_reason;
+  base.flags.self_reflection_last_change_reason = typeof lastChangeReason === 'string'
+    ? lastChangeReason.trim() || null
     : null;
-  base.flags.self_reflection_auto_reset_at = typeof base.flags.self_reflection_auto_reset_at === 'string'
-    ? base.flags.self_reflection_auto_reset_at
+  const autoResetAt = base.flags.self_reflection_auto_reset_at;
+  base.flags.self_reflection_auto_reset_at = typeof autoResetAt === 'string'
+    ? autoResetAt
     : null;
-  base.flags.self_reflection_auto_reset_reason = typeof base.flags.self_reflection_auto_reset_reason === 'string'
-    ? base.flags.self_reflection_auto_reset_reason.trim() || null
+  const autoResetReason = base.flags.self_reflection_auto_reset_reason;
+  base.flags.self_reflection_auto_reset_reason = typeof autoResetReason === 'string'
+    ? autoResetReason.trim() || null
     : null;
   base.flags.last_mission_end_reason = typeof base.flags.last_mission_end_reason === 'string'
     ? base.flags.last_mission_end_reason.trim() || null
@@ -7619,7 +7709,8 @@ function prepare_save_logs(logs){
   base.flags.foreshadow_gate_m10_seen = !!base.flags.foreshadow_gate_m10_seen;
   base.flags.psi_heat_buffer = normalize_psi_heat_buffer(base.flags.psi_heat_buffer);
   base.flags.acceptance_12_missing_sf_off = !!base.flags.acceptance_12_missing_sf_off;
-  const contract = base.flags.atmosphere_contract && typeof base.flags.atmosphere_contract === 'object'
+  const contract = base.flags.atmosphere_contract
+    && typeof base.flags.atmosphere_contract === 'object'
     ? { ...base.flags.atmosphere_contract }
     : {};
   contract.voice_profile = normalize_voice_profile(contract.voice_profile);
@@ -7634,7 +7725,8 @@ function prepare_save_logs(logs){
   } else {
     delete base.flags.atmosphere_contract_capture;
   }
-  const actionContract = base.flags.platform_action_contract && typeof base.flags.platform_action_contract === 'object'
+  const actionContract = base.flags.platform_action_contract
+    && typeof base.flags.platform_action_contract === 'object'
     ? { ...base.flags.platform_action_contract }
     : {};
   actionContract.action_mode = normalize_action_mode(actionContract.action_mode);
@@ -7677,7 +7769,8 @@ function prepare_save_arc_dashboard(dashboard){
     for (const [key, value] of Object.entries(base.fraktionen)){
       const record = value && typeof value === 'object' ? clone_plain_object(value) : {};
       if (Array.isArray(record.interventions)){
-        record.interventions = sanitize_intervention_entries(record.interventions).map(entry => ({ ...entry }));
+        record.interventions = sanitize_intervention_entries(record.interventions)
+          .map(entry => ({ ...entry }));
       } else {
         record.interventions = [];
       }
@@ -7925,7 +8018,11 @@ function validate_schema_node(value, schema, pathLabel){
   if (typeList.length){
     const matches = typeList.some(type => validate_type(value, type));
     if (!matches){
-      throw new Error(`Save-Schema (saveGame.v6): ${pathLabel} hat Typ ${typeof value}, erwartet ${typeList.join('|')}.`);
+      const expectedTypes = typeList.join('|');
+      throw new Error(
+        `Save-Schema (saveGame.v6): ${pathLabel} hat Typ ${typeof value},`
+          + ` erwartet ${expectedTypes}.`
+      );
     }
   }
   if (schema.const !== undefined && value !== schema.const){
@@ -7946,7 +8043,9 @@ function validate_schema_node(value, schema, pathLabel){
     }
   }
   if (schema.items && validate_type(value, 'array')){
-    value.forEach((item, index) => validate_schema_node(item, schema.items, `${pathLabel}[${index}]`));
+    value.forEach((item, index) => {
+      validate_schema_node(item, schema.items, `${pathLabel}[${index}]`);
+    });
   }
 }
 
@@ -8013,7 +8112,10 @@ function save_deep(s=state){
     phase: arenaState?.phase
   });
   const queueBlocked = queueState !== 'idle';
-  const phaseActive = arenaState && arenaState.phase && arenaState.phase !== 'idle' && arenaState.phase !== 'completed';
+  const phaseActive = arenaState
+    && arenaState.phase
+    && arenaState.phase !== 'idle'
+    && arenaState.phase !== 'completed';
   if (arenaState?.active || phaseActive || queueBlocked){
     throw new Error(toast_save_block('Arena aktiv'));
   }
@@ -8227,16 +8329,24 @@ function hydrate_state(data){
   ensure_arc_dashboard();
   ensure_initiative();
   ensure_hud_state();
-  state.flags = data.flags && typeof data.flags === 'object' ? JSON.parse(JSON.stringify(data.flags)) : { runtime: {} };
+  state.flags = data.flags && typeof data.flags === 'object'
+    ? JSON.parse(JSON.stringify(data.flags))
+    : { runtime: {} };
   ensure_runtime_flags();
   state.roll = { open: false };
-  state.arena = data.arena && typeof data.arena === 'object' ? { ...data.arena } : {};
+  state.arena = data.arena && typeof data.arena === 'object'
+    ? { ...data.arena }
+    : {};
   ensure_arena();
   state.ui = prepare_save_ui(data.ui);
   ensure_ui();
-  state.party = data.party && typeof data.party === 'object' ? JSON.parse(JSON.stringify(data.party)) : {};
+  state.party = data.party && typeof data.party === 'object'
+    ? JSON.parse(JSON.stringify(data.party))
+    : {};
   const party = ensure_party();
-  const roster = Array.isArray(party.characters) ? party.characters.map(entry => clone_plain_object(entry)) : [];
+  const roster = Array.isArray(party.characters)
+    ? party.characters.map(entry => clone_plain_object(entry))
+    : [];
   const normalizedRoster = roster.map(entry => {
     const clone = clone_plain_object(entry);
     if (clone.loadout){
@@ -8258,7 +8368,11 @@ function hydrate_state(data){
 function normalize_save_v6(data){
   if (!data || typeof data !== 'object') return data;
   const normalized = data;
-  const ensureObject = (value) => (value && typeof value === 'object' && !Array.isArray(value) ? value : {});
+  const ensureObject = (value) => (
+    value && typeof value === 'object' && !Array.isArray(value)
+      ? value
+      : {}
+  );
   normalized.character = ensureObject(normalized.character);
   const character = normalized.character;
   const assignString = (targetKey, ...sourceKeys) => {
@@ -8310,13 +8424,27 @@ function normalize_save_v6(data){
     character.self_reflection = !!normalized.self_reflection;
     delete normalized.self_reflection;
   }
-  const ensurePlainObject = (value) => (value && typeof value === 'object' && !Array.isArray(value) ? value : {});
-  if (!character.cooldowns || typeof character.cooldowns !== 'object' || Array.isArray(character.cooldowns)){
+  const ensurePlainObject = (value) => (
+    value && typeof value === 'object' && !Array.isArray(value)
+      ? value
+      : {}
+  );
+  const cooldownIsObject = character.cooldowns
+    && typeof character.cooldowns === 'object'
+    && !Array.isArray(character.cooldowns);
+  if (!cooldownIsObject){
     character.cooldowns = ensurePlainObject(normalized.cooldowns);
-    if (!character.cooldowns || typeof character.cooldowns !== 'object' || Array.isArray(character.cooldowns)){
+    const normalizedCooldowns = character.cooldowns
+      && typeof character.cooldowns === 'object'
+      && !Array.isArray(character.cooldowns);
+    if (!normalizedCooldowns){
       character.cooldowns = {};
     }
-  } else if (normalized.cooldowns && typeof normalized.cooldowns === 'object' && !Array.isArray(normalized.cooldowns)){
+  } else if (
+    normalized.cooldowns
+    && typeof normalized.cooldowns === 'object'
+    && !Array.isArray(normalized.cooldowns)
+  ){
     const source = normalized.cooldowns;
     for (const [key, value] of Object.entries(source)){
       if (!(key in character.cooldowns)){
@@ -8347,7 +8475,11 @@ function normalize_save_v6(data){
       if (key in normalized) delete normalized[key];
     });
   };
-  if (normalized.attributes && typeof normalized.attributes === 'object' && !Array.isArray(normalized.attributes)){
+  if (
+    normalized.attributes
+    && typeof normalized.attributes === 'object'
+    && !Array.isArray(normalized.attributes)
+  ){
     for (const [key, value] of Object.entries(normalized.attributes)){
       if (!(key in attributes)){
         attributes[key] = value;
@@ -8359,7 +8491,11 @@ function normalize_save_v6(data){
   assignAttributeNumber('SYS_installed', 'sys_installed');
   assignAttributeNumber('SYS_runtime', 'sys_runtime');
   assignAttributeNumber('SYS_used', 'sys_used');
-  if (character.attributes && typeof character.attributes === 'object' && !Array.isArray(character.attributes)){
+  if (
+    character.attributes
+    && typeof character.attributes === 'object'
+    && !Array.isArray(character.attributes)
+  ){
     for (const [key, value] of Object.entries(character.attributes)){
       if (!(key in attributes)){
         attributes[key] = value;
@@ -8374,7 +8510,12 @@ function normalize_save_v6(data){
   }
   const uiRaw = ensureObject(normalized.ui);
   const accessibility = ensureObject(normalized.accessibility);
-  const legacyContrast = pickString(uiRaw.contrast, accessibility.contrast, normalized.contrast, normalized.ui_contrast);
+  const legacyContrast = pickString(
+    uiRaw.contrast,
+    accessibility.contrast,
+    normalized.contrast,
+    normalized.ui_contrast
+  );
   if (legacyContrast){
     uiRaw.contrast = legacyContrast;
   }
@@ -8411,8 +8552,16 @@ function normalize_save_v6(data){
   if (!suggestEnabled && suggestFromModes){
     character.modes = normalize_modes_list(normalizedModes.filter((entry) => entry !== 'suggest'));
   }
-  ['contrast', 'badge_density', 'output_pace', 'ui_contrast', 'ui_badges', 'ui_pace', 'badges', 'pace']
-    .forEach((key) => { if (key in normalized) delete normalized[key]; });
+  [
+    'contrast',
+    'badge_density',
+    'output_pace',
+    'ui_contrast',
+    'ui_badges',
+    'ui_pace',
+    'badges',
+    'pace'
+  ].forEach((key) => { if (key in normalized) delete normalized[key]; });
   if ('accessibility' in normalized){
     delete normalized.accessibility;
   }
@@ -8465,7 +8614,9 @@ function load_deep(raw){
       mergeConflictsChanged = true;
     }
   };
-  const incomingLocation = typeof normalized.location === 'string' ? normalized.location : migrated.location;
+  const incomingLocation = typeof normalized.location === 'string'
+    ? normalized.location
+    : migrated.location;
   if (incomingLocation && incomingLocation !== 'HQ'){
     noteConflict({
       field: 'location',
@@ -8559,16 +8710,20 @@ function load_deep(raw){
   if (hostUi){
     const uiKeys = ['gm_style', 'contrast', 'badge_density', 'output_pace'];
     uiKeys.forEach((key) => {
-      if (hostUi[key] !== undefined && incomingUi[key] !== undefined && hostUi[key] !== incomingUi[key]){
-        noteConflict({
-          field: `ui.${key}`,
-          source: incomingUi[key],
-          target: hostUi[key],
-          mode: 'merge',
-          note: 'UI-Host-Preference'
-        });
-        incomingUi[key] = hostUi[key];
-      }
+      const hostValue = hostUi[key];
+      const incomingValue = incomingUi[key];
+      const differs = hostValue !== undefined
+        && incomingValue !== undefined
+        && hostValue !== incomingValue;
+      if (!differs) return;
+      noteConflict({
+        field: `ui.${key}`,
+        source: incomingValue,
+        target: hostValue,
+        mode: 'merge',
+        note: 'UI-Host-Preference'
+      });
+      incomingUi[key] = hostValue;
     });
   }
   migrated.ui = incomingUi;
@@ -8604,7 +8759,9 @@ function load_deep(raw){
       const rawToken = entry.token.trim();
       if (!rawToken) continue;
       const token = rawToken.toLowerCase();
-      const tag = typeof entry.tag === 'string' && entry.tag.trim() ? entry.tag.trim() : 'Foreshadow';
+      const tag = typeof entry.tag === 'string' && entry.tag.trim()
+        ? entry.tag.trim()
+        : 'Foreshadow';
       const message = typeof entry.message === 'string' ? entry.message.trim() : '';
       const sceneIndex = Number(entry.scene);
       const scene = Number.isFinite(sceneIndex) ? sceneIndex : null;
@@ -8657,16 +8814,20 @@ function load_deep(raw){
   } else {
     migrated.logs.flags.chronopolis_warn_seen = !!migrated.logs.flags.chronopolis_warn_seen;
   }
-  const migratedOfflineLastScene = typeof migrated.logs.flags.offline_help_last_scene === 'string'
-    ? migrated.logs.flags.offline_help_last_scene.trim()
+  const offlineLastSceneRaw = migrated.logs.flags.offline_help_last_scene;
+  const migratedOfflineLastScene = typeof offlineLastSceneRaw === 'string'
+    ? offlineLastSceneRaw.trim()
     : null;
-  const migratedOfflineLast = typeof migrated.logs.flags.offline_help_last === 'string'
-    ? migrated.logs.flags.offline_help_last.trim()
+  const offlineLastRaw = migrated.logs.flags.offline_help_last;
+  const migratedOfflineLast = typeof offlineLastRaw === 'string'
+    ? offlineLastRaw.trim()
     : null;
-  migrated.logs.flags.offline_help_last_scene = migratedOfflineLastScene || migratedOfflineLast || null;
+  migrated.logs.flags.offline_help_last_scene =
+    migratedOfflineLastScene || migratedOfflineLast || null;
   migrated.logs.flags.offline_help_last = migrated.logs.flags.offline_help_last_scene;
   const migratedOfflineCount = Number(migrated.logs.flags.offline_help_count);
-  migrated.logs.flags.offline_help_count = Number.isFinite(migratedOfflineCount) && migratedOfflineCount > 0
+  const hasOfflineCount = Number.isFinite(migratedOfflineCount) && migratedOfflineCount > 0;
+  migrated.logs.flags.offline_help_count = hasOfflineCount
     ? Math.floor(migratedOfflineCount)
     : 0;
   if (
@@ -8964,7 +9125,10 @@ const NPC_TEAM_SIZE_ERROR =
   'NPC-Begleiter: 0–4 (Team gesamt 1–5). Bitte erneut eingeben (z. B. npc-team 3).';
 const GROUP_NUMBER_ERROR = 'Bei gruppe keine Zahl angeben. (klassisch/schnell sind erlaubt)';
 const DISPATCHER_START_SYNTAX_HINT =
-  'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]). Klammern sind Pflicht.';
+  [
+    'Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe [klassisch|schnell]).',
+    'Klammern sind Pflicht.'
+  ].join(' ');
 
 function normalize_psi_heat_buffer(value){
   if (!value || typeof value !== 'object' || Array.isArray(value)){
@@ -9038,7 +9202,8 @@ function on_command(command){
         return err.message;
       }
     }
-    const missingStartBrackets = cmd.startsWith('spiel starten') && (!cmd.includes('(') || !cmd.includes(')'));
+    const missingStartBrackets = cmd.startsWith('spiel starten')
+      && (!cmd.includes('(') || !cmd.includes(')'));
     if (missingStartBrackets){
       record_dispatch_syntax_hint(command);
       return DISPATCHER_START_SYNTAX_HINT;
@@ -9063,8 +9228,11 @@ function on_command(command){
         if (token === 'trigger' || token === 'preserve') legacySeed = token;
       });
       if (legacySeed){
-        return 'Startsyntax aktualisiert: Kampagnenmodus im HQ setzen (z. B. `!kampagnenmodus trigger`). ' +
-          'In den Start-Klammern nur `klassisch` oder `schnell` nutzen.';
+        return [
+          'Startsyntax aktualisiert: Kampagnenmodus im HQ setzen',
+          '(z. B. `!kampagnenmodus trigger`).',
+          'In den Start-Klammern nur `klassisch` oder `schnell` nutzen.'
+        ].join(' ');
       }
       return startSolo(mode);
     }
@@ -9088,8 +9256,11 @@ function on_command(command){
         }
       });
       if (legacySeed){
-        return 'Kampagnenmodus wird nicht mehr im Startbefehl gesetzt. Nutze `!kampagnenmodus preserve|trigger` ' +
-          'im HQ und wiederhole den Start mit `klassisch` oder `schnell`.';
+        return [
+          'Kampagnenmodus wird nicht mehr im Startbefehl gesetzt.',
+          'Nutze `!kampagnenmodus preserve|trigger` im HQ und wiederhole den Start',
+          'mit `klassisch` oder `schnell`.'
+        ].join(' ');
       }
       if (size > 4){
         return NPC_TEAM_SIZE_ERROR;
@@ -9119,7 +9290,11 @@ function on_command(command){
       record_dispatch_syntax_hint(command);
       return DISPATCHER_START_SYNTAX_HINT;
     }
-    if (cmd === '!kampagnenmodus' || cmd.startsWith('!kampagnenmodus ') || cmd === '!campaign-mode'){
+    if (
+      cmd === '!kampagnenmodus'
+      || cmd.startsWith('!kampagnenmodus ')
+      || cmd === '!campaign-mode'
+    ){
       const tokens = command.trim().split(/\s+/);
       const choice = tokens[1];
       return set_campaign_mode_command(choice);
@@ -9136,20 +9311,31 @@ function on_command(command){
     if (cmd === '!help start' || cmd === '/help start'){
         return [
           'Startbefehle:',
-          '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, damit Funk- und Alias-Logs frisch sind.',
+          '- Vor jedem Einsatz: !radio clear und !alias clear ausführen, '
+            + 'damit Funk- und Alias-Logs frisch sind.',
           '- Spiel starten (solo [klassisch|schnell])',
           '- Spiel starten (npc-team [0–4] [klassisch|schnell])',
           '- Spiel starten (gruppe [klassisch|schnell])',
           '- Spiel laden',
           'Kampagnenmodus separat setzen: !kampagnenmodus preserve|trigger (persistiert im Save).',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
-          'SaveGuard: Speichern nur im HQ – HQ-Save gesperrt. Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
+          'SaveGuard: Speichern nur im HQ – HQ-Save gesperrt. '
+            + 'Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
         ].join('\n');
       }
-    if (cmd === '!offline' || cmd === '!help offline' || cmd === '/help offline' || cmd === 'offline hilfe'){
-        return offline_help('command');
-      }
-    if (cmd === '!accessibility' || cmd === '!accessibility status' || cmd === '/help accessibility'){
+    if (
+      cmd === '!offline'
+      || cmd === '!help offline'
+      || cmd === '/help offline'
+      || cmd === 'offline hilfe'
+    ){
+      return offline_help('command');
+    }
+    if (
+      cmd === '!accessibility'
+      || cmd === '!accessibility status'
+      || cmd === '/help accessibility'
+    ){
       return accessibility_status();
     }
     if (cmd.startsWith('!accessibility ')){
@@ -9168,8 +9354,10 @@ function on_command(command){
           'Urban Quick-Card:',
           'Deckung: Offen 0 · Teildeckung +1 SG · Volldeckung +2 SG (Peek kostet 1 Aktion).',
           'Mobile Deckung (Schild/Drohne) +1 SG, zerfällt nach 2 Treffern oder 1 Krit.',
-          'Verfolgungsjagd: Distanzstufen 0–3. Erfolg +1, Stunt (SG +2) → +2 oder Komplikation für Gegner.',
-          'Speed-Delta π = Fahrstufen-Differenz × 2 m pro Szene; Doppel-Fail → Crashbeat & Distanz −2.',
+          'Verfolgungsjagd: Distanzstufen 0–3. Erfolg +1, Stunt (SG +2) → +2 '
+            + 'oder Komplikation für Gegner.',
+          'Speed-Delta π = Fahrstufen-Differenz × 2 m pro Szene; '
+            + 'Doppel-Fail → Crashbeat & Distanz −2.',
           'HUD-Tags: COVER · PURSUIT · MOVE – Toasts maximal 6 Wörter, haltet sie filmisch.'
         ].join('\n');
       }
@@ -9222,7 +9410,10 @@ function on_command(command){
       return render_arc_dashboard_status();
     }
     if (cmd === '!help dashboard'){
-      return 'Arc-Dashboard: !dashboard status fasst Seeds, Fraktionsmeldungen und offene Fragen als Text zusammen.';
+      return [
+        'Arc-Dashboard: !dashboard status fasst Seeds, Fraktionsmeldungen',
+        'und offene Fragen als Text zusammen.'
+      ].join(' ');
     }
     if (cmd === '!px'){
       return render_px_tracker();
@@ -9255,11 +9446,21 @@ function on_command(command){
     const result = set_suggest_mode(false);
     return `${result.status} – Kodex wartet auf direkte Fragen.`;
   }
-  if (cmd === '!sf off' || cmd === 'sf off' || cmd === 'self reflection off' || cmd === 'self-reflection off'){
+  if (
+    cmd === '!sf off'
+    || cmd === 'sf off'
+    || cmd === 'self reflection off'
+    || cmd === 'self-reflection off'
+  ){
     const result = set_self_reflection(false);
     return `${result.status} – introspektive Sequenzen gesperrt.`;
   }
-  if (cmd === '!sf on' || cmd === 'sf on' || cmd === 'self reflection on' || cmd === 'self-reflection on'){
+  if (
+    cmd === '!sf on'
+    || cmd === 'sf on'
+    || cmd === 'self reflection on'
+    || cmd === 'self-reflection on'
+  ){
     const result = set_self_reflection(true);
     return `${result.status} – introspektive Sequenzen freigegeben.`;
   }
