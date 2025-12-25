@@ -389,8 +389,9 @@ Spiel starten (gruppe schnell)
   `campaign.rift_seeds` beim Lauf und beim Laden als Objekt-Liste.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
   Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
-  und kein Budget verbrauchen. Im QA-Mode landet jede Unterdrückung als
-  `toast_suppressed`-Trace inkl. Snapshot von `logs.flags.hud_scene_usage`.
+  und kein Budget verbrauchen. Jede Unterdrückung schreibt einen
+  `toast_suppressed`-Trace inkl. Snapshot von `logs.flags.hud_scene_usage` und
+  `qa_mode`-Flag.
 
 ### Boss-Gates & HUD-Badges
 
