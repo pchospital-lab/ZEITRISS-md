@@ -135,7 +135,8 @@ def _check_twist_ids(text: str) -> int:
     ids = [twist.get("id") for twist in twists if isinstance(twist, dict)]
     duplicates = [item for item, count in Counter(ids).items() if count > 1]
     if duplicates:
-        log.error("[FAIL] Twist-IDs doppelt vergeben: %s", ", ".join(sorted(filter(None, duplicates))))
+        duplicate_labels = ", ".join(sorted(filter(None, duplicates)))
+        log.error("[FAIL] Twist-IDs doppelt vergeben: %s", duplicate_labels)
         return 1
     log.info("[ OK ] Twist-Pool IDs eindeutig (%d)", len(ids))
     return 0

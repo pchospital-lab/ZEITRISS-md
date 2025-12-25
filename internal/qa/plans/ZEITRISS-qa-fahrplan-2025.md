@@ -169,8 +169,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
       Zeilenlängenvorgabe anpassen.
 - [x] QA-/Log-Dokumente unter `internal/qa/` aufbreite Tabellen prüfen und
       kürzen.
-- [ ] Skripte (`scripts/`, `runtime.js`) auf überlange Strings/Kommentare
-      kontrollieren und bei Bedarf umbrechen.
+- [x] Skripte (`scripts/`) auf überlange Strings/Kommentare prüfen und
+      umbrechen.
+- [ ] `runtime.js` auf überlange Strings/Kommentare kontrollieren und bei
+      Bedarf umbrechen.
 
 ## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
 

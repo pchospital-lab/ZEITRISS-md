@@ -75,7 +75,13 @@ def check_file(path: Path, limit: int) -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Lint Markdown files for ZEITRISS rules")
     parser.add_argument("patterns", nargs="+", help="Glob patterns to lint")
-    parser.add_argument("--config", "-c", type=Path, default=None, help="Optional markdownlint config")
+    parser.add_argument(
+        "--config",
+        "-c",
+        type=Path,
+        default=None,
+        help="Optional markdownlint config"
+    )
     args = parser.parse_args()
 
     limit = parse_line_length(args.config)

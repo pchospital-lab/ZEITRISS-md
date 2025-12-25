@@ -57,7 +57,11 @@ def main() -> int:
     sv = root / "systems" / "gameflow" / "speicher-fortsetzung.md"
     if sv.exists():
         sv_text = read_text(sv)
-        if re.search(r"state\.location\s*==\s*['\"]HQ['\"]|campaign\.loc\s*==\s*['\"]HQ['\"]", sv_text, re.S):
+        pattern_hq_save = (
+            r"state\.location\s*==\s*['\"]HQ['\"]|"
+            r"campaign\.loc\s*==\s*['\"]HQ['\"]"
+        )
+        if re.search(pattern_hq_save, sv_text, re.S):
             print("[ OK ] HQ-only save guard present in save module")
         else:
             print("[FAIL] HQ-only save guard missing in save module")
