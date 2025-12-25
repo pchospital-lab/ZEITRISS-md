@@ -535,6 +535,10 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Auszüge; neue Saves benutzen ausschließlich die v6-Struktur mit
   `party.characters[]` als kanonischem Roster (Legacy-Mirror
   `team.members[]` bleibt nur für Import/Export erhalten).
+- Loader akzeptiert Wrapper-Felder wie `Charaktere`/`characters` und hebt sie
+  beim Import auf `party.characters[]`/`team.members[]`; der Serializer gibt
+  ausschließlich das kanonische Roster aus und erzeugt keine Wrapper-Struktur
+  in Saves oder HQ-Exports.
 - `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
