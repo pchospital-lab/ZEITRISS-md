@@ -152,6 +152,11 @@ euch das Maintainer-Dokument.
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
+**Slot-Kennzeichnung im Index:** In `master-index.json` sind alle 20
+Wissensmodule (README, master-index und die 18 Runtime-Module) mit
+`"slot": true` markiert. Meta- oder Varianten-Einträge tragen `"slot": false`
+und zählen nicht als eigener Wissensspeicher-Slot.
+
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
 - `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
