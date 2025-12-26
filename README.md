@@ -739,7 +739,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `location: "HQ" | "FIELD" | "ARENA"`
 - `campaign: { episode, mission_in_episode, scene, px,`
   `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
-- `phase: "core"|"transfer"|"rift"` (immer lowercase, Seeds liefern nur den Typ)
+- `phase: "core"|"transfer"|"rift"|"pvp"` (immer lowercase, Seeds liefern nur den Typ)
 - `character: { name, level, stress, psi_heat, cooldowns:{},`
   `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},`
   `talents:[], ... }`
@@ -749,12 +749,13 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 - `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
   `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
   `fr_interventions:[], arena_psi:[], psi:[], flags:{} }`
-- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[] }`
+- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[], timeline:[] }`
   (`offene_seeds[]` akzeptiert Strings oder Objekte)
 - `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
   `suggest_mode:boolean, contrast:"standard"|"high",`
   `badge_density:"standard"|"dense"|"compact",`
-  `output_pace:"normal"|"fast"|"slow" }`
+  `output_pace:"normal"|"fast"|"slow",`
+  `voice_profile:"gm_third_person"|"gm_observer" }`
 - `arena: { active, phase, mode, previous_mode, wins_player,`
   `wins_opponent, tier, proc_budget, artifact_limit,`
   `loadout_budget, phase_strike_tax, team_size, fee,`
