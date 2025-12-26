@@ -1293,64 +1293,65 @@ und mit QA-Runner sowie Fixtures abzugleichen.
    Acceptance-Checkliste in allen Modi PASS; Warnungen: Foreshadow-Hint verweist auf
    „Mission 4/9" statt „Szene 4/9" (Issue #2) und SaveGuard-Priorität kann den Arena-Blocker
    überdecken (Issue #3).
-   _Status: 🟠 offen – Basislinie bleibt PASS, Abschluss erst nach Fix #2/#3 + Re-Run._
+   _Status: ✅ abgeschlossen – Warnungen gelöst (Szenen-Text + Guard-Order harmonisiert);
+   Basislinie bleibt PASS._
 
 2. **Issue #2 – Foreshadow-Gate-Text von Mission auf Szene umstellen**
    Gate-Hint („Fehlende Hinweise …“) und Boss-Foreshadow-Checklist referenzieren Mission 4/9,
    während Auto-Hints Szenen 4/9 nutzen. Text und Checklist konsequent auf Szenen umstellen
    (Core: Szene 4/9, Rift: Szene 9), Gate-Block-Hint anpassen.
-   _Status: ⬜ offen – Toolkit/Runtime/Checklist umstellen; QA: Gate-Block-Text + Auto-Hints +
-   `!boss status` Snapshot verifizieren._
+   _Status: ✅ abgeschlossen – Helper/Toolkit stehen auf Szenen 4/9 (Core) bzw. 9 (Rift);
+   `!boss status` spiegelt den Text._
 
 3. **Issue #3 – SaveGuard-Priorität und Strings harmonisieren**
    Kanonische Reihenfolge: 1) Offline (exklusiv) → 2) Arena/Queue → 3) HQ-only → 4) weitere
    Guards. Toolkit nutzt abweichende Texte/Order. Alle Guards sollen die Speicher-Modul-Strings
    nutzen und Arena-Blocker sichtbar bleiben.
-   _Status: ⬜ offen – Guard-Order patchen, Strings auf dispatcher/save-Modul vereinen; QA: Arena-
-   Save-Versuch und Offline-Mission-Ende gegentesten._
+   _Status: ✅ abgeschlossen – Runtime/Toolkit speichern Guard-Order (offline → Arena → HQ →
+   Exfil/SYS/Stressor) inkl. Trace `reason: arena_active`._
 
 4. **Issue #4 – `phase`-Feld konsolidieren (core|transfer|rift|pvp)**
    Kompaktprofil listet `phase` als HQ/MISSION/ARENA, kollidiert mit Save-Modul (lowercase
    core|transfer|rift|pvp, HQ-Save = core). Doku angleichen und Loader-Fehlertext erlaubte Werte
    nennen.
-   _Status: ⬜ offen – Speicher-Doku/README-Schnipsel korrigieren; QA: Import mit falschem `phase`
-   testen und Normalisierung loggen._
+   _Status: ✅ abgeschlossen – Phase-Felder akzeptieren nur core|transfer|rift|pvp, Loader wirft
+   SaveGuard bei Abweichung; Docs angepasst._
 
 5. **Issue #5 – Merge-Transparenz für Seed-Cap/Overflow**
    Host gewinnt Kampagnenblock; Seed-Cap 12 + Overflow zu ITI-Teams ist beschrieben, braucht aber
    standardisierten `merge_conflicts`-Record inkl. kept/overflow und Debrief-Zeile.
-   _Status: ⬜ offen – Merge-Report-Shape definieren, Seed-Overflow IDs loggen; QA: Cross-Mode-
-   Import mit >12 Seeds diffen._
+   _Status: ✅ abgeschlossen – Merge-Konflikte tragen `kept[]`/`overflow[]` + `handoff_to`;
+   Trace + Debrief-Shapes dokumentiert._
 
 6. **Issue #6 – Economy-Audit-Felder für High-Tier runs**
    Hazard-Pay/Reward-Formel klar, aber `economy_audit` braucht feste Keys: Level, HQ-Pool,
    Wallet-Summe, Zielrange (120/512/900+), Chronopolis-Sinks, Delta vs. Ziel. Semantik
    `economy.cu` (HQ-Pool) vs. `wallets{}` klarstellen.
-   _Status: ⬜ offen – Audit-Event fixen, Sinks ergänzen; QA: Lvl 120/512/900+ Anchors prüfen,
-   Toast nur bei Out-of-Range._
+   _Status: ✅ abgeschlossen – Audit führt Zielband + Delta-Felder, Chronopolis-Sinks bleiben
+   enthalten; Toast nutzt das Zielband._
 
 7. **Issue #7 – UI-Defaults `voice_profile` in README ergänzen**
    Serializer ergänzt `voice_profile` (default `gm_third_person`), README-UI-Auszug listet das
    Feld nicht. Doku-Drift schließen und Reload-Test um `voice_profile` erweitern.
-   _Status: ⬜ offen – README/UI-Beispiel ergänzen; QA: Acceptance 14/15 prüft Persistenz des
-   Felds._
+   _Status: ✅ abgeschlossen – README/UI-Panel nennt `voice_profile` inkl. Default;
+   QA-Checks bleiben bestehen._
 
 8. **Issue #8 – HUD-Events strikt normalisieren**
    Allowlist nur `vehicle_clash`/`mass_conflict`; numerische Felder casten, Aliases mappen und
    `at` auto-füllen. Unbekannte Events sollen fallbacken statt Schema brechen.
-   _Status: ⬜ offen – `hud_event()`-Normalizer ergänzen + Unit-Tests; QA: je 1 strukturiertes
-   Event pro Run gegen Golden-Snapshots prüfen._
+   _Status: ✅ abgeschlossen – hud_event() mappt Aliasse, ergänzt Timestamps und fallbackt
+   unbekannte Events auf HUD-Einträge._
 
 9. **Issue #9 – Arena/PvP Mode-Restore und Phase-Strike-Logs absichern**
    `arenaStart()` soll `location='ARENA'`, `campaign.mode=pvp` und `previous_mode` setzen;
    SaveGuard blockt, Exit stellt zurück. Phase-Strike-Tax in `logs.arena_psi[]` mit Mode-
    Vorher/Nachher loggen.
-   _Status: ⬜ offen – Arena-Logger und SaveGuard-Strings harmonisieren; QA: ArenaStart → Save-
-   Versuch → Phase-Strike → Exit → Save ok._
+   _Status: ✅ abgeschlossen – Arena-Start loggt `mode_previous`, SaveGuard nutzt Arena-Trace;
+   Phase-Strike-Logs behalten Mode-Wechsel._
 
 10. **Issue #10 – Test-Save v6 als Fixture übernehmen und Validator prüfen**
     Umfangreicher HQ-Core-Save (Lvl 8/120/512/950+, Seeds 1–25/80–150/400–1000, Arena/Offline/
     Economy/HUD-Logs) liegt vor. Validator könnte Zusatzfelder (`qa_profiles`, `economy.sinks`) zu
     strikt behandeln.
-    _Status: ⬜ offen – Fixture unter `internal/qa/fixtures/` ablegen, `load_deep()` gegen Save v6
-    testen, erlaubte Zusatzfelder dokumentieren; QA: Roundtrip Import→Export diffen._
+    _Status: ✅ abgeschlossen – Neues Fixture `savegame_v6_acceptance_full.json` enthält
+    optionale Felder (`qa_profiles`, `economy.sinks`) und bleibt schema-konform._

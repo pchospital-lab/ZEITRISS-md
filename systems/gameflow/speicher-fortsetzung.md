@@ -69,9 +69,11 @@ Die Schema-Datei wird nicht in den Wissensspeicher geladen.
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
 laufen über `hud_event(event, details)` und akzeptieren ausschließlich
 `vehicle_clash` (Felder `tempo`, `stress`, `damage`) oder `mass_conflict`
-(`chaos`, `break_sg`, `stress`). Der Helper normalisiert numerische Felder und
-ergänzt fehlende `at`-Timestamps automatisch; die Einträge ergänzen Toasts und
-bleiben für Replays maschinenlesbar.
+(`chaos`, `break_sg`, `stress`). Der Helper mappt Aliasse (`vehicle`
+→ `vehicle_clash`, `mass` → `mass_conflict`), normalisiert numerische Felder,
+ergänzt fehlende `at`-Timestamps automatisch und fällt bei unbekannten Events
+auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen.
+So bleiben Logs und QA-Snapshots stringstabil.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
@@ -81,6 +83,13 @@ Re-Sync – HQ-Save gesperrt.“), schreibt gleichzeitig ein `logs.trace[]`-Even
 Der Befehl `!offline` ist
 auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
 noch füllen sie das Protokoll.
+
+**SaveGuard-Reihenfolge:** Offline blockiert exklusiv und schreibt
+`reason: offline`. Danach greift der Arena-Blocker (`reason: arena_active`
+inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
+`chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
+die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace,
+damit QA/Fixtures die Reihenfolge nachverfolgen können.
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
@@ -108,7 +117,9 @@ SaveGuard + folgendem Pfadbaum:
 den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
 `economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen. QA-Fixtures wie
 `internal/qa/fixtures/savegame_v6_test.json` bringen `last_save_at` und vollständige
-Atmosphere-Capture-Blöcke bereits mit.
+Atmosphere-Capture-Blöcke bereits mit; `internal/qa/fixtures/savegame_v6_acceptance_full.json`
+belegt zusätzlich optionale Felder (`economy.sinks`, `logs.flags.qa_profiles`) und
+High-Level-Wallet-Anker für die Audit-Deltas.
 
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
@@ -250,7 +261,9 @@ ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
 Solo-/Px‑5‑Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift eine
 Deckelung auf 12 offene Seeds; überschüssige Seeds gehen als Hand-off an ITI-
 NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
-(kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge`.
+(kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge` inklusive
+`kept[]`/`overflow[]` und `handoff_to`, damit Debriefs den Hand-off
+transparent nachverfolgen können.
 
 **Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
@@ -271,15 +284,18 @@ und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
 `record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
 begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save.
 Beim HQ-Save schreibt die Runtime zusätzlich
-ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe, Richtwerten und
-Chronopolis-Sinks; ein HUD-Toast erscheint nur bei Abweichungen. Das Trace
-ergänzt `logs.hud[]` und ersetzt keine Toasts.
+ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe,
+Zielrange (120/512/900+), Chronopolis-Sinks und Delta-Feldern
+(`delta.hq_pool`/`delta.wallet_avg` zum jeweiligen Zielband); ein HUD-Toast
+erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und ersetzt
+keine Toasts.
 
 **Phase-Feld:** HQ-Saves bleiben `phase: core`. Während der Mission setzt die
-Runtime `state.phase`/`campaign.phase` automatisch auf `core|transfer|rift`
-(immer Kleinbuchstaben) gemäß Missionstyp und Szenenzahl. Seeds geben nur den
-Typ vor und überlassen das `phase`-Feld der Laufzeit; Uppercase-Werte gelten
-als ungültig und werden beim Laden auf lowercase normalisiert.
+Runtime `state.phase`/`campaign.phase` automatisch auf
+`core|transfer|rift|pvp` (immer Kleinbuchstaben) gemäß Missionstyp und
+Szenenzahl. Seeds geben nur den Typ vor und überlassen das `phase`-Feld der
+Laufzeit; andere Werte führen beim Laden zu einem SaveGuard-Fehler, da das
+Schema nur die vier erlaubten Tokens akzeptiert.
 
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
 (`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende

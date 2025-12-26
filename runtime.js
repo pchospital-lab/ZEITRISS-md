@@ -93,7 +93,7 @@ function helper_comms_text(){
 
 function helper_boss_text(){
   return [
-    'Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
+    'Boss-Foreshadow: Core – Szene 4 und 9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
     'Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`',
     'und `scene.foreshadows` den Fortschritt persistieren.',
     'Gate 2/2 steht ab Missionsstart; Szene 10 öffnet nur bei FS 4/4 (Core) oder 2/2 (Rift).',
@@ -116,6 +116,16 @@ const HUD_EVENT_SPECS = {
     numeric: ['chaos', 'break_sg', 'stress']
   }
 };
+const HUD_EVENT_ALIASES = {
+  vehicle: 'vehicle_clash',
+  'vehicle-clash': 'vehicle_clash',
+  'vehicle clash': 'vehicle_clash',
+  'vehicle_clash': 'vehicle_clash',
+  mass: 'mass_conflict',
+  'mass-conflict': 'mass_conflict',
+  'mass conflict': 'mass_conflict',
+  'mass_conflict': 'mass_conflict'
+};
 const FORESHADOW_GATE_REQUIRED = 2;
 const PSI_LOG_LIMIT = 16;
 const ALIAS_TRACE_LIMIT = 24;
@@ -126,6 +136,7 @@ const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
 const DEFAULT_MODES = ['klassik', 'mission_focus', 'covert_ops_technoir'];
 const DEFAULT_ACTION_MODE = 'konform';
+const ALLOWED_PHASES = ['core', 'transfer', 'rift', 'pvp'];
 const ATMOSPHERE_BANNED_TERMS = [
   'cyberspace',
   'virtueller raum',
@@ -745,6 +756,13 @@ function sanitize_merge_conflicts(entries){
     const note = pickString(entry.note, entry.reason, entry.description);
     const timestamp = isoTimestamp(entry.timestamp);
     const resolved = entry.resolved === true;
+    const kept = Array.isArray(entry.kept)
+      ? entry.kept.map((seed) => pickString(seed, seed?.id)).filter(Boolean)
+      : [];
+    const overflow = Array.isArray(entry.overflow)
+      ? entry.overflow.map((seed) => pickString(seed, seed?.id)).filter(Boolean)
+      : [];
+    const handoffTo = pickString(entry.handoff_to, entry.handoff);
     if (!field) return;
     const record = { field };
     if (source){
@@ -762,6 +780,15 @@ function sanitize_merge_conflicts(entries){
     if (note){
       record.note = note;
     }
+    if (kept.length){
+      record.kept = kept;
+    }
+    if (overflow.length){
+      record.overflow = overflow;
+    }
+    if (handoffTo){
+      record.handoff_to = handoffTo;
+    }
     record.resolved = resolved;
     sanitized.push(record);
   });
@@ -771,7 +798,7 @@ function sanitize_merge_conflicts(entries){
   return sanitized;
 }
 
-function push_merge_conflict(list, { field, source, target, mode, note, resolved=false }){
+function push_merge_conflict(list, { field, source, target, mode, note, kept, overflow, handoff_to, resolved=false }){
   if (!Array.isArray(list)) return [];
   const record = { field };
   const stringify = (value) => {
@@ -787,6 +814,11 @@ function push_merge_conflict(list, { field, source, target, mode, note, resolved
   const ctx = stringify(mode);
   const description = stringify(note);
   if (!record.field || typeof record.field !== 'string') return list;
+  const canonList = (value) =>
+    Array.isArray(value) ? value.map((entry) => String(entry)).filter(Boolean) : [];
+  const keptList = canonList(kept);
+  const overflowList = canonList(overflow);
+  const handoff = stringify(handoff_to);
   const exists = list.some((entry) =>
     entry
     && typeof entry === 'object'
@@ -796,6 +828,9 @@ function push_merge_conflict(list, { field, source, target, mode, note, resolved
     && entry.mode === ctx
     && entry.note === description
     && entry.resolved === (resolved === true)
+    && JSON.stringify(canonList(entry.kept)) === JSON.stringify(keptList)
+    && JSON.stringify(canonList(entry.overflow)) === JSON.stringify(overflowList)
+    && (entry.handoff_to || '') === (handoff || '')
   );
   if (exists){
     return list;
@@ -804,6 +839,15 @@ function push_merge_conflict(list, { field, source, target, mode, note, resolved
   if (tgt){ record.target = tgt; }
   if (ctx){ record.mode = ctx; }
   if (description){ record.note = description; }
+  if (keptList.length){
+    record.kept = keptList;
+  }
+  if (overflowList.length){
+    record.overflow = overflowList;
+  }
+  if (handoff){
+    record.handoff_to = handoff;
+  }
   record.resolved = resolved === true;
   list.push(record);
   return sanitize_merge_conflicts(list);
@@ -932,16 +976,23 @@ function normalize_hud_event_entry(entry, fallbackTimestamp){
   if (!rawEvent){
     return null;
   }
-  const normalizedEvent = rawEvent.toLowerCase();
-  const spec = HUD_EVENT_SPECS[normalizedEvent];
-  if (!spec){
-    return null;
-  }
+  const normalizedEvent = rawEvent.toLowerCase().replace(/\s+/g, '_');
+  const canonicalEvent = HUD_EVENT_ALIASES[normalizedEvent] || normalizedEvent;
+  const spec = HUD_EVENT_SPECS[canonicalEvent];
   const timestamp = isoTimestamp(entry.at)
     || isoTimestamp(entry.timestamp)
     || fallbackTimestamp
     || new Date().toISOString();
-  const record = { event: normalizedEvent, at: timestamp };
+  if (!spec){
+    return {
+      event: canonicalEvent,
+      tag: 'HUD',
+      message: `HUD-Event (${canonicalEvent})`,
+      at: timestamp,
+      fallback: true
+    };
+  }
+  const record = { event: canonicalEvent, at: timestamp };
   spec.numeric.forEach((key) => {
     const value = pickNumber(entry[key]);
     if (value !== null){
@@ -2278,7 +2329,14 @@ function normalize_arena_zone(value, { active = false } = {}){
 
 function normalize_phase_value(value, fallback = ''){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
-  return normalized || fallback;
+  if (!normalized) return fallback;
+  if (ALLOWED_PHASES.includes(normalized)) return normalized;
+  if (fallback){
+    return fallback;
+  }
+  throw new Error(
+    'SaveGuard: phase erwartet einen der Werte core|transfer|rift|pvp.'
+  );
 }
 
 function normalize_voice_profile(value){
@@ -5540,9 +5598,11 @@ function economy_audit_guidelines(level, walletCount){
     : null;
   return {
     level_band: band,
-    hq_pool: { min: hqMin, max: hqMax },
-    wallet_avg: { min: walletMin, max: walletMax },
-    wallet_total: walletTotal
+    targets: {
+      hq_pool: { min: hqMin, max: hqMax },
+      wallet_avg: { min: walletMin, max: walletMax },
+      wallet_total: walletTotal
+    }
   };
 }
 
@@ -5554,23 +5614,35 @@ function build_economy_audit(s){
   const level = asNumber(s?.character?.lvl ?? s?.character?.level ?? s?.campaign?.level);
   const guidelines = economy_audit_guidelines(level, walletCount);
   const chronopolis = sum_market_spend(s?.logs);
-  let outOfRange = null;
-  if (guidelines){
-    const hqOut = hqPool < guidelines.hq_pool.min || hqPool > guidelines.hq_pool.max;
-    const walletOut = walletAvg !== null
-      ? walletAvg < guidelines.wallet_avg.min || walletAvg > guidelines.wallet_avg.max
-      : false;
-    if (hqOut || walletOut){
-      outOfRange = { hq_pool: hqOut, wallet_avg: walletOut };
+  const targetRange = guidelines
+    ? { ...guidelines.targets, level_band: guidelines.level_band }
+    : null;
+  const deltaFor = (value, range) => {
+    if (!range || value === null || value === undefined) return null;
+    if (value < range.min) return value - range.min;
+    if (value > range.max) return value - range.max;
+    return 0;
+  };
+  const delta = targetRange
+    ? {
+      hq_pool: deltaFor(hqPool, targetRange.hq_pool),
+      wallet_avg: deltaFor(walletAvg, targetRange.wallet_avg)
     }
-  }
+    : null;
+  const outOfRange = delta
+    ? {
+      hq_pool: delta.hq_pool !== null && delta.hq_pool !== 0,
+      wallet_avg: delta.wallet_avg !== null && delta.wallet_avg !== 0
+    }
+    : null;
   return {
     level,
     hq_pool: hqPool,
     wallet_sum: walletSum,
     wallet_count: walletCount,
     wallet_avg: walletAvg,
-    guidelines,
+    target_range: targetRange,
+    delta,
     chronopolis_sinks: chronopolis,
     out_of_range: outOfRange
   };
@@ -5582,7 +5654,9 @@ function maybe_toast_economy_audit(audit){
   if (audit.out_of_range.hq_pool) parts.push('HQ-Pool');
   if (audit.out_of_range.wallet_avg) parts.push('Wallets');
   const scope = parts.length ? parts.join('/') : 'Ökonomie';
-  const band = audit.guidelines?.level_band ? `Lvl ${audit.guidelines.level_band}` : 'Endgame';
+  const band = audit.target_range && audit.target_range.hq_pool
+    ? `Lvl ${audit.target_range?.level_band || audit.level || 'n/a'}`
+    : 'Endgame';
   hud_toast(`Economy-Audit: ${scope} außerhalb Richtwerten (${band}).`, 'HQ');
 }
 
@@ -6339,7 +6413,8 @@ function arenaStart(options = {}){
       tier: tierRule.tier,
       team_size: teamSize,
       queue_state: arena.queue_state,
-      zone: arena.zone
+      zone: arena.zone,
+      mode_previous: previousMode
     },
     note: pxNote
   });
@@ -7538,6 +7613,7 @@ function prepare_save_campaign(campaign){
     const px = Number(base.paradoxon_index);
     base.paradoxon_index = Number.isFinite(px) ? px : 0;
   }
+  base.phase = normalize_phase_value(base.phase, state.phase || 'core');
   const pxValue = Number.isFinite(base.px)
     ? base.px
     : Number.isFinite(base.paradoxon_index)
@@ -7576,7 +7652,9 @@ function prepare_save_campaign(campaign){
 
 function prepare_save_arena(arena){
   const source = clone_plain_object(arena);
-  const providedPhase = normalize_phase_value(source.phase);
+  const providedPhase = typeof source.phase === 'string'
+    ? source.phase.trim().toLowerCase()
+    : '';
   const providedQueue = source.queue_state;
   const baseActive = !!source.active;
   const provisionalQueue = normalize_arena_queue_state(providedQueue, {
@@ -8320,6 +8398,15 @@ function toast_save_block(reason){
     : 'SaveGuard: HQ-Save gesperrt.';
 }
 
+function record_save_block(reason, payload = {}){
+  ensure_logs();
+  record_trace('save_blocked', {
+    channel: 'SAVE',
+    reason,
+    ...payload
+  });
+}
+
 const HQ_ONLY_SAVE_REASON =
   'Speichern nur im HQ. Missionszustände sind flüchtig und werden nicht persistiert.';
 const HQ_ONLY_SAVE_TEXT = toast_save_block(HQ_ONLY_SAVE_REASON);
@@ -8349,11 +8436,12 @@ function select_state_for_save(s, options = {}){
     ? prepare_save_arc_dashboard(ensure_arc_dashboard())
     : prepare_save_arc_dashboard(s.arc_dashboard);
   const ui = prepare_save_ui({ ...ensure_ui(), ...clone_plain_object(s.ui) });
+  const phase = normalize_phase_value(s.phase, 'core');
   const payload = {
     save_version: 6,
     zr_version: ZR_VERSION,
     location: s.location,
-    phase: s.phase,
+    phase,
     campaign: prepare_save_campaign(s.campaign),
     character: prepare_save_character(s.character),
     team: prepare_save_team(s.team),
@@ -8373,11 +8461,9 @@ function save_deep(s=state){
   const arenaState = s?.arena;
   const linkState = kodex_link_state(s);
   if (linkState !== 'uplink'){
-    record_trace('save_blocked', {
-      channel: 'SAVE',
+    record_save_block('offline', {
       note: 'offline',
       arena: arenaState || null,
-      reason: 'offline',
       link_state: linkState
     });
     throw new Error(toast_save_block('Offline – HQ-Deepsave erst nach Re-Sync'));
@@ -8392,16 +8478,23 @@ function save_deep(s=state){
     && arenaState.phase !== 'idle'
     && arenaState.phase !== 'completed';
   if (arenaState?.active || phaseActive || queueBlocked){
+    record_save_block('arena_active', {
+      arena: {
+        active: !!arenaState?.active,
+        queue_state: queueState,
+        phase: arenaState?.phase || null,
+        zone: arenaState?.zone || null
+      },
+      link_state: linkState
+    });
     throw new Error(toast_save_block('Arena aktiv'));
   }
   const location = typeof s.location === 'string' ? s.location.trim() : '';
   if (location !== 'HQ'){
     const cityBlock = location.toUpperCase() === 'CITY';
-    record_trace('save_blocked', {
-      channel: 'SAVE',
+    record_save_block(cityBlock ? 'chronopolis' : 'hq_only', {
       note: cityBlock ? 'chronopolis' : 'hq_only',
       arena: arenaState || null,
-      reason: cityBlock ? 'chronopolis' : 'hq_only',
       link_state: linkState
     });
     const guardNote = cityBlock
@@ -8410,6 +8503,10 @@ function save_deep(s=state){
     throw new Error(toast_save_block(guardNote));
   }
   if (s?.exfil?.active || s?.campaign?.exfil?.active){
+    record_save_block('exfil_active', {
+      arena: arenaState || null,
+      link_state: linkState
+    });
     throw new Error(toast_save_block('Exfil aktiv'));
   }
   const c = s.character || {};
@@ -8423,11 +8520,24 @@ function save_deep(s=state){
   const sysRuntime = Number.isFinite(a.SYS_runtime)
     ? Number(a.SYS_runtime)
     : sysInstalled;
-  if (c.stress !== 0) throw new Error(toast_save_block('Stress aktiv'));
-  if ((c.psi_heat ?? 0) !== 0) throw new Error(toast_save_block('Psi-Heat aktiv'));
-  if (sysInstalled > sysMax) throw new Error(toast_save_block('SYS overflow'));
-  if (sysRuntime > sysInstalled) throw new Error(toast_save_block('SYS runtime overflow'));
+  if (c.stress !== 0){
+    record_save_block('stress_active', { arena: arenaState || null, link_state: linkState });
+    throw new Error(toast_save_block('Stress aktiv'));
+  }
+  if ((c.psi_heat ?? 0) !== 0){
+    record_save_block('psi_heat_active', { arena: arenaState || null, link_state: linkState });
+    throw new Error(toast_save_block('Psi-Heat aktiv'));
+  }
+  if (sysInstalled > sysMax){
+    record_save_block('sys_overflow', { arena: arenaState || null, link_state: linkState });
+    throw new Error(toast_save_block('SYS overflow'));
+  }
+  if (sysRuntime > sysInstalled){
+    record_save_block('sys_runtime_overflow', { arena: arenaState || null, link_state: linkState });
+    throw new Error(toast_save_block('SYS runtime overflow'));
+  }
   if (sysInstalled !== sysMax){
+    record_save_block('sys_not_full', { arena: arenaState || null, link_state: linkState });
     throw new Error(toast_save_block('SYS nicht voll installiert'));
   }
   ensure_atmosphere_contract();
@@ -8993,7 +9103,10 @@ function load_deep(raw){
           mode: 'merge',
           note: overflowCount
             ? `Rift-Pool gekappt (${mergeResult.cap}) – Überschuss an ITI-NPC-Teams`
-            : 'Host-Seeds priorisiert'
+            : 'Host-Seeds priorisiert',
+          kept: mergeResult.kept_open.map((seed) => seed.id),
+          overflow: mergeResult.overflow.map((seed) => seed.id),
+          handoff_to: overflowCount ? 'ITI-NPC-Teams' : undefined
         });
       }
       migrated.campaign.rift_seeds = mergeResult.seeds;

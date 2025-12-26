@@ -99,7 +99,14 @@ assert.equal(data.character.quarters.preset, 'custom');
 assert.equal(data.character.quarters.layout_tags[1], 'analyst_cell');
 
 assert.throws(
-  () => rt.save_deep({ ...base, arena: { queue_state: 'searching' } }),
+  () => {
+    try {
+      rt.save_deep({ ...base, arena: { queue_state: 'searching' } });
+    } catch (err){
+      console.log(err.message);
+      throw err;
+    }
+  },
   /SaveGuard: Arena aktiv/
 );
 
