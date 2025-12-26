@@ -395,14 +395,14 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 **Dispatcher-Smoke-Basislinie**
 
-| Schritt | Inhalt | Status |
-| ------ | ----------------------------- | -------- |
-| 1 | Spielstart solo klassisch/schnell | ✅ stabil |
-| 2 | NPC-Team 0–4 erstellt (Team gesamt 1–5) | ✅ stabil |
-| 3 | Gruppe klassisch/schnell (Fehlertext bei Zahl) | ✅ stabil |
-| 4 | Spiel laden → HQ-Recap & Overlay | ✅ stabil |
-| 5 | Missions-Blocker verhindern Saves | ✅ stabil |
-| 6 | Gear-Armband bleibt erhalten & Px 5 Hinweis sichtbar | ✅ stabil |
+| Schritt | Inhalt                                               | Status    |
+| ------- | ---------------------------------------------------- | --------- |
+| 1       | Spielstart solo klassisch/schnell                    | ✅ stabil |
+| 2       | NPC-Team 0–4 erstellt (Team gesamt 1–5)              | ✅ stabil |
+| 3       | Gruppe klassisch/schnell (Fehlertext bei Zahl)       | ✅ stabil |
+| 4       | Spiel laden → HQ-Recap & Overlay                     | ✅ stabil |
+| 5       | Missions-Blocker verhindern Saves                    | ✅ stabil |
+| 6       | Gear-Armband bleibt erhalten & Px 5 Hinweis sichtbar | ✅ stabil |
 
 ## Boss-Gate-Status & Terminologie (Referenzstrings)
 
@@ -508,6 +508,7 @@ saveGame({...})
 höchstens einmal pro Session `dispatch_hint` (channel `dispatcher`). `Spiel laden` überspringt
 EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in Missionen blockt mit
 „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
+
 - **Golden-Strings:** Dispatcher-Referenz und QA-Runner ziehen dieselben Texte aus
   `dispatcher_strings` (Runtime) sowie der Fixture
   `internal/qa/fixtures/dispatcher_strings.json` (Start-Hint, `npc-team 5`-,
