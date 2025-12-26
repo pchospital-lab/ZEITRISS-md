@@ -400,8 +400,8 @@ Spiel starten (gruppe schnell)
 
 ### Boss-Gates & HUD-Badges
 
-`!helper boss` listet Foreshadow-Hinweise für Mission 5 und Mission 10; das Gate
-ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
+`!helper boss` listet die Foreshadow-Hinweise für Szene 4 und Szene 9 (Mission 5
+und Mission 10); das Gate ist ab Missionsstart fest auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start
 `GATE 2/2 · FS 0/4` (Core) bzw. `GATE 2/2 · FS 0/2` (Rift); Foreshadow-Hinweise
 zählen nur den `FS`-Block hoch. In Szene 10 erscheint automatisch der Toast mit
 dem aktiven Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach
@@ -423,9 +423,10 @@ Der Befehl `!accessibility` öffnet das UI-Panel (Kontrast, Badge-Dichte,
 Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“
 und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
 Block ab (`gm_style`, `suggest_mode`, `action_mode`, `contrast`, `badge_density`,
-`output_pace`), füllt fehlende Felder automatisch mit `standard|normal` plus
-`action_mode=konform` und stellt sie beim Laden sofort wieder her (z. B.
-`contrast: high`, `badge_density: dense`, `output_pace: slow`).
+`output_pace`, `voice_profile`), füllt fehlende Felder automatisch mit
+`standard|normal|gm_third_person` plus `action_mode=konform` und stellt sie beim
+Laden sofort wieder her (z. B. `contrast: high`, `badge_density: dense`,
+`output_pace: slow`).
 Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
 `default|steady` → `normal`.
 
@@ -1323,8 +1324,8 @@ separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und
 HUD-Overlay, sodass der Run nachvollziehbar bleibt.
 Beim HQ-Save ergänzt die Runtime außerdem ein `economy_audit`-Trace mit Level,
-HQ-Pool, Wallet-Summe, Richtwerten und Chronopolis-Sinks (Toast nur bei
-Abweichungen).
+HQ-Pool, Wallet-Summe, Zielband (120/512/900+), Delta-Feldern und
+Chronopolis-Sinks (Toast nur bei Abweichungen).
 Das kanonische JSON-Schema `systems/gameflow/saveGame.v6.schema.json` bildet
 alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
 `Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
