@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.3.9
+version: 1.4.1
 tags: [meta]
 ---
 
@@ -78,11 +78,21 @@ betont.
   `logs.flags.last_save_at` halten Save-/HUD-Timestamps deterministisch, sodass Import→Export ohne
   Containerverluste diffbar bleibt. Es dient den Acceptance-Prüfpunkten 4 und 10 als Save-Quelle und
   wird bei Schema-Updates gespiegelt.
+- **Acceptance-Save (vollständige Runde):**
+  `internal/qa/fixtures/savegame_v6_acceptance_full.json` enthält HQ/Core-Progression mit Seeds
+  1–25/80–150/400–1000, Arena-/PvP-/Offline-Traces, Economy-Audit (120/512/900+),
+  `rift_seed_merge_cap_applied` samt `merge_conflicts.rift_merge` (kept/overflow/handoff),
+  strukturierte HUD-Events (`vehicle_clash`/`mass_conflict` mit `at`-Stempel) und QA-Profile.
+  Nutze das Fixture für Merge-Transparenz, HUD-Event-Roundtrip und Arena-Restore. **Das JSON selbst
+  wird nicht in den Wissensspeicher geladen**; für Copy-/Paste im QA-Chat genügen Auszüge mit den
+  relevanten Containern (z. B. `logs.hud[]`, `merge_conflicts`), das vollständige File bleibt
+  lokal als Quelle für CI-Checks und Parser.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische Save-Schema
   ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
-  `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung im Repo und wird
-  **nicht** in den Wissensspeicher geladen – für GPT-Validierung gilt das Kompakt-Profil in
-  `systems/gameflow/speicher-fortsetzung.md` („Kompakt-Profil für GPT (Save v6)“).
+  `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung (z. B. Loader/CI) im Repo
+  und wird **nicht** in den Wissensspeicher geladen – für GPT-Validierung gilt das Kompakt-Profil in
+  `systems/gameflow/speicher-fortsetzung.md` („Kompakt-Profil für GPT (Save v6)“), falls das Schema
+  den Prompt sprengen würde.
 - **QA-Runner:** `npm run test:acceptance` sowie `tools/test_acceptance_followups.js` prüfen die
   Mission‑5/HUD-Golden-Files aus `internal/qa/fixtures/mission5_badge_snapshots.json`. Beide Läufe
   gehören zu den Pflichttests und werden im QA-Log referenziert.
@@ -541,6 +551,18 @@ EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in 
     `standard|compact` gemappt.
 15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind persistiert (`contrast: high`,
     `badge_density: dense|compact`, `output_pace: slow`).
+
+**Zusatzbelege (Merge/HUD/Arena):**
+
+- Acceptance-Save laden → Seeds 14→12 zusammenführen: Trace
+  `rift_seed_merge_cap_applied` mit `kept[]`/`overflow[]` sowie
+  `merge_conflicts.rift_merge.handoff_to` dokumentieren.
+- HUD-Event-Log prüfen: `vehicle_clash`/`mass_conflict` laufen über `hud_event()`
+  (Allowlist, numerische Felder, auto-`at`). Unbekannte Events fallen auf
+  HUD-Standard zurück, brechen aber kein Schema.
+- Arena-Resume: Aktiven PvP-Lauf laden → Merge-Toast „Arena-Status verworfen“
+  erscheint, `arena.previous_mode`/`resume_token.previous_mode` stellt den Kampagnenmodus
+  wieder her.
 
 ### QA-Abgleich 2025-03-23
 
