@@ -24,13 +24,13 @@
     "save_version": { "type": "integer", "const": 6 },
     "zr_version": { "type": "string" },
     "location": { "type": "string" },
-    "phase": { "type": "string", "enum": ["core", "transfer", "rift"] },
+    "phase": { "type": "string", "enum": ["core", "transfer", "rift", "pvp"] },
     "campaign": {
       "type": "object",
       "additionalProperties": true,
       "required": ["px", "exfil"],
       "properties": {
-        "phase": { "type": "string", "enum": ["core", "transfer", "rift"] },
+        "phase": { "type": "string", "enum": ["core", "transfer", "rift", "pvp"] },
         "episode": { "type": "integer" },
         "mission_in_episode": { "type": "integer" },
         "scene": { "type": ["integer", "null"] },
@@ -222,14 +222,15 @@
     "arc_dashboard": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["offene_seeds", "fraktionen"],
+      "required": ["offene_seeds", "fraktionen", "fragen", "timeline"],
       "properties": {
         "offene_seeds": {
           "type": "array",
           "items": { "type": ["object", "string"] }
         },
         "fraktionen": { "type": "object" },
-        "fragen": { "type": "array", "items": { "type": ["object", "string"] } }
+        "fragen": { "type": "array", "items": { "type": ["object", "string"] } },
+        "timeline": { "type": "array", "items": { "type": ["object", "string"] } }
       }
     }
   }

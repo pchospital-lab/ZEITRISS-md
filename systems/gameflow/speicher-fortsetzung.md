@@ -108,7 +108,7 @@ SaveGuard + folgendem Pfadbaum:
     hud_scene_usage,platform_action_contract}`
   - `flags.merge_conflicts[]`
   - `flags.howto_guard_hits[]`
-- `arc_dashboard{offene_seeds[],fraktionen{}}`
+- `arc_dashboard{offene_seeds[],fraktionen{},fragen[],timeline[]}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat`, `team_size` hart 1–5)
@@ -207,7 +207,9 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
   },
   "arc_dashboard": {
     "offene_seeds": [],
-    "fraktionen": {}
+    "fraktionen": {},
+    "fragen": [],
+    "timeline": []
   },
   "ui": {
     "gm_style": "verbose",
@@ -713,7 +715,12 @@ Arena-Guards scharfgeschaltet werden.
       "howto_guard_hits": []
     }
   },
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}},
+  "arc_dashboard": {
+    "offene_seeds": [],
+    "fraktionen": {},
+    "fragen": [],
+    "timeline": []
+  },
   "ui": {
     "gm_style": "verbose",
     "intro_seen": true,
