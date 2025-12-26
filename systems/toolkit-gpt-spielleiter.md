@@ -511,6 +511,15 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   und `zone=safe|combat`; Teamgrößen werden hart auf 1–5 geklemmt. Phase-Strike-
   Kosten landen dediziert in `logs.arena_psi[]` (Kategorie
   `arena_phase_strike`), nicht im regulären `logs.psi[]`.
+  **SaveGuard-Reihenfolge:**
+  1. Offline blockiert exklusiv (Trace `save_blocked`, Reason `offline`).
+  2. Arena/Queue-State sperrt Saves mit „SaveGuard: Arena aktiv – HQ-Save
+     gesperrt.“ plus Trace `reason: arena_active` inklusive Queue/Phase/Zone.
+  3. HQ-only-Check (`location != HQ`, inkl. CITY) nutzt denselben SaveGuard-Text
+     und trägt `reason: hq_only|chronopolis` in `logs.trace[]` ein.
+  4. Danach folgen Exfil, SYS-, Stress- und Psi-Heat-Guards mit identischen
+     Strings. Tooling nutzt dieselben Texte, damit QA-Goldenfiles stabil
+     bleiben.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -1701,7 +1710,7 @@ total=None, role="", env=None) -%}
       {% set campaign.foreshadow_gate_warned = true %}
     {% endif %}
     {% if campaign.type == 'core' %}
-      {{ hud_tag('Fehlende Hinweise: Mission 4 und Mission 9 liefern je zwei Foreshadows vor Szene 10.') }}
+      {{ hud_tag('Fehlende Hinweise: Szene 4 und Szene 9 liefern je zwei Foreshadows vor Szene 10.') }}
     {% else %}
       {{ hud_tag('Fehlende Hinweise: Szene 9 muss zwei Foreshadows setzen, bevor Szene 10 öffnet.') }}
     {% endif %}
