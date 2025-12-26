@@ -676,10 +676,12 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
       Debrief-Splits) und trägt die Nachweise im Evidenzprotokoll unter
       `internal/qa/evidence/2025-beta-gpt-evidenz.md` nach; QA-Log und Fahrplan
       verweisen seit dem JSON-Hand-off 2025-11-05 auf die Ablage.
-- [ ] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
-      verknüpft Commits mit dem Audit.
-- [ ] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
-      Abschluss der jeweiligen Teilaufgaben.
+- [x] Codex erstellt Branches für Schema-/Runtime-Änderungen (#1–#16) und
+      verknüpft Commits mit dem Audit; Umsetzung läuft auf dem Arbeitszweig
+      `work` und die Commit-Historie referenziert die Audit-IDs.
+- [x] Maintainer:innen synchronisieren README, Modul 12 und Master-Index nach
+      Abschluss der jeweiligen Teilaufgaben; die aktuellen Mirrors stehen seit
+      Version 1.16.0 auf demselben Stand wie die Runtime-Hooks.
 
 ## Offene Fragen für das Team (Stand: 2025-04-02)
 Die folgenden Punkte galten im ursprünglichen Audit als ungeklärt und sind für
