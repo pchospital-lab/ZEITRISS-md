@@ -384,6 +384,11 @@ Spiel starten (gruppe schnell)
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
   werden union-by-id angehängt, Konflikte landen in `logs.flags.merge_conflicts`.
+  Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
+  (120/512/900+), Zielband für HQ-Pool und Wallet-Durchschnitt, Delta-Flags
+  (`delta`, `out_of_range`) sowie Chronopolis-Sinks. Weichen HQ-Pool oder Wallet
+  vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
+  Richtwerten (Lvl 120|512|900+).“.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach

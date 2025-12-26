@@ -121,6 +121,16 @@ Atmosphere-Capture-Blöcke bereits mit; `internal/qa/fixtures/savegame_v6_accept
 belegt zusätzlich optionale Felder (`economy.sinks`, `logs.flags.qa_profiles`) und
 High-Level-Wallet-Anker für die Audit-Deltas.
 
+`economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `hq_pool`,
+`wallet_sum`, `wallet_count`, `wallet_avg`, `chronopolis_sinks`, `target_range`, `delta` und
+`out_of_range`. `target_range` nutzt fixe Level-Bänder **120** (HQ 8 000–10 000 CU,
+Wallet Ø 1 000–2 000 CU), **512** (HQ 25 000–30 000 CU, Wallet Ø 3 000–5 000 CU) und **900+**
+(HQ 45 000–60 000 CU, Wallet Ø 6 000–10 000 CU) und skaliert `wallet_total` über alle
+Wallets. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt boolesche Flags und löst
+den Toast „Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+).“ aus.
+Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
+Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
+
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
 das Klartext-Profil als maßgebliche Struktur.
 
