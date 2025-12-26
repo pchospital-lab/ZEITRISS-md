@@ -407,10 +407,10 @@ DR-Wert kampagnenweit als `campaign.boss_dr` ab. Diese Vorgabe ersetzt
 Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 übermäßig zu strecken.
 
-### Boss-Foreshadow Checklist (Zeitpunkte unverändert) {#boss-foreshadow}
+### Boss-Foreshadow Checklist (Szenen unverändert) {#boss-foreshadow}
 - Core-Ops:
-  - Mission 4: **zwei** Foreshadows (z. B. Signatur-Waffe, Fluchtweg).
-  - Mission 9: **zwei** Foreshadows (z. B. Gegnerdoktrin, Umgebungsrisiko).
+  - Szene 4: **zwei** Foreshadows (z. B. Signatur-Waffe, Fluchtweg).
+  - Szene 9: **zwei** Foreshadows (z. B. Gegnerdoktrin, Umgebungsrisiko).
 - Rift-Ops:
   - Szene 9: **zwei** Foreshadows (z. B. Sensor-Anomalie, Boss-Schwächehinweis).
 
