@@ -59,6 +59,9 @@ dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
 aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
 `CITY`-Status und ist **kein** HQ: Saves aus der City brechen mit
 „SaveGuard: Chronopolis ist kein HQ-Savepunkt – HQ-Save gesperrt.“ ab.
+`flags.runtime.skip_entry_choice` bleibt ein reines Laufzeit-Flag und gehört
+nicht ins Save; Persistenzanker sind ausschließlich
+`campaign.entry_choice_skipped` und `ui.intro_seen`.
 
 Das versionierte JSON-Schema liegt unter
 `systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
@@ -74,10 +77,10 @@ laufen über `hud_event(event, details)` und akzeptieren ausschließlich
 (`chaos`, `break_sg`, `stress`). Der Helper mappt Aliasse (`vehicle`
 → `vehicle_clash`, `mass` → `mass_conflict`), normalisiert numerische Felder,
 ergänzt fehlende `at`-Timestamps automatisch und fällt bei unbekannten Events
-auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen.
-So bleiben Logs und QA-Snapshots stringstabil; Acceptance-/Follow-up-Runner
-prüfen den Roundtrip explizit mit `vehicle_clash`/`mass_conflict`-Objekten und
-setzen die Budget-Guards (2 Toasts/ Szene, Gate/FS/Boss ausgenommen) voraus.
+auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen. Die
+Objektform folgt `{event, scene?, details{…}, at?}`; fehlende Felder werden bei
+`save_deep()` ergänzt. Budget-Guards (2 Toasts/ Szene, Gate/FS/Boss ausgenommen)
+und tracebare Unterdrückungen sichern konsistente Roundtrips für beide Events.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
@@ -93,7 +96,7 @@ noch füllen sie das Protokoll.
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
 die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace,
-damit QA/Fixtures die Reihenfolge nachverfolgen können.
+damit die Reihenfolge nachvollziehbar bleibt.
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
@@ -119,11 +122,7 @@ SaveGuard + folgendem Pfadbaum:
 
 `logs.flags.last_save_at` hält den Zeitstempel für deterministische Saves fest. Der Serializer nutzt
 den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
-`economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen. QA-Fixtures wie
-`internal/qa/fixtures/savegame_v6_test.json` bringen `last_save_at` und vollständige
-Atmosphere-Capture-Blöcke bereits mit; `internal/qa/fixtures/savegame_v6_acceptance_full.json`
-belegt zusätzlich optionale Felder (`economy.sinks`, `logs.flags.qa_profiles`) und
-High-Level-Wallet-Anker für die Audit-Deltas.
+`economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen.
 
 `economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `hq_pool`,
 `wallet_sum`, `wallet_count`, `wallet_avg`, `chronopolis_sinks`, `target_range`, `delta` und
@@ -673,9 +672,12 @@ Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehe
 automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
 `merge_conflicts.rift_merge` abgelegt. Der HQ-Pool (`economy.cu`) bleibt stets
 Host-priorisiert; Importwerte erzeugen nur einen Merge-Konflikt und werden
-verworfen. Wallets werden **union-by-id** zusammengeführt: Host-Wallets haben
-Vorrang, neue IDs aus dem Import ergänzen den Satz, abweichende Balances/Labels
-landen als Konflikt in `logs.flags.merge_conflicts[]`.
+verworfen. Wallets werden **union-by-id** als Map `id → {name,balance}`
+zusammengeführt: Host-Wallets haben Vorrang, neue IDs aus dem Import ergänzen
+den Satz, abweichende Balances/Labels landen als Konflikt in
+`logs.flags.merge_conflicts[]`. Der Merge schreibt parallel ein
+`merge_conflicts`-Trace (Quelle/Ziel/kept/handoff), damit Host-Vorrang und
+Rest-Verteilung pro Lauf nachvollziehbar bleiben.
 Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
 HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
 Arena-Guards scharfgeschaltet werden.
@@ -742,7 +744,8 @@ Arena-Guards scharfgeschaltet werden.
     "action_mode": "konform",
     "contrast": "high",
     "badge_density": "compact",
-    "output_pace": "slow"
+    "output_pace": "slow",
+    "voice_profile": "gm_third_person"
   },
   "arena": {
     "active": false,
@@ -1155,8 +1158,8 @@ und werden beim Laden ignoriert.
 ### Legacy-Kompatibilität (Gear-Labels)
 
 > Hinweis für die Spielleitung: Gear-Bezeichnungen bleiben beim Laden erhalten.
-> Es gibt keine automatische Normalisierung oder erzwungene Umbenennung. QA-
-> Snapshots spiegeln Loadouts 1:1; Namensabweichungen deuten auf einen
+> Es gibt keine automatische Normalisierung oder erzwungene Umbenennung.
+> Loadouts bleiben 1:1 erhalten; Namensabweichungen deuten auf einen
 > fehlerhaften Normalizer hin.
 
 ### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}

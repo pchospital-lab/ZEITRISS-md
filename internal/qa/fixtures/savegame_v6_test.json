@@ -41,7 +41,8 @@
       "stress": 0,
       "anchor": null,
       "alt_anchor": null
-    }
+    },
+    "entry_choice_skipped": true
   },
   "character": {
     "id": "AGENT-TEST",
@@ -204,17 +205,29 @@
     "offline": [
       {
         "ts": "2025-11-26T18:30:00Z",
-        "scene": "HQ",
+        "scene": "MS03:SC06",
+        "device": "Comlink",
+        "range_m": 2500,
+        "jammer": true,
+        "relay": false,
         "context": "Jammer HQ-West",
-        "note": "Hud-Only, Funk down"
+        "note": "HUD-only, Funk down"
       }
     ],
-    "kodex": [],
+    "kodex": [
+      {
+        "ts": "2025-11-26T20:30:00Z",
+        "message": "Paradoxon-Index 3/5 – ClusterCreate wahrscheinlich bei nächster stabiler Phase.",
+        "scene": "MS04:SC10"
+      }
+    ],
     "alias_trace": [
       {
         "ts": "2025-11-26T18:35:00Z",
-        "alias": "Echo",
-        "message": "Alias gesetzt"
+        "persona": "Dr. Lehmann",
+        "cover": "Sicherheitsinspekteur",
+        "status": "aktiv",
+        "mission": "Brunsbüttel Blockage"
       }
     ],
     "squad_radio": [],
@@ -225,23 +238,21 @@
       "Arena-Gebühr 200 CU abgebucht",
       {
         "event": "vehicle_clash",
-        "tempo": "hoch",
-        "stress": 2,
-        "damage": 1,
+        "scene": "EP01-MS04-SC06",
+        "details": {"tempo": "hoch", "stress": 2, "damage": 1},
         "at": "2025-11-26T20:30:00Z"
       },
       {
         "event": "mass_conflict",
-        "chaos": 2,
-        "break_sg": 12,
-        "stress": 1,
+        "scene": "EP01-MS04-SC10",
+        "details": {"chaos": 2, "break_sg": 12, "stress": 1},
         "at": "2025-11-26T20:45:00Z"
       },
       "Boss-DR aktiviert – −X Schaden pro Treffer",
       {
         "event": "vehicle_clash",
-        "tempo": "mittel",
-        "stress": 1
+        "scene": "EP01-MS04-SC12",
+        "details": {"tempo": "mittel", "stress": 1}
       }
     ],
     "trace": [
@@ -276,6 +287,26 @@
         "fr_bias": "normal",
         "intervention": "none",
         "note": "Boss-DR aktiviert – −2 Schaden pro Treffer"
+      },
+      {
+        "event": "cluster_create",
+        "at": "2025-11-26T18:40:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "preserve",
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
+        "seed_ids": ["RIFT-011", "RIFT-015"],
+        "px_before": 5,
+        "px_after": 3,
+        "open_seeds_count": 2,
+        "campaign_type": "core",
+        "note": "Px 5 erreicht – Seeds erzeugt, Px sinkt auf 3"
       },
       {
         "event": "arena_start",
@@ -313,6 +344,25 @@
           "team_size": 2
         },
         "note": "Px-Bonus verfügbar"
+      },
+      {
+        "event": "rift_seed_merge_cap_applied",
+        "at": "2025-11-26T20:10:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "mission_type": "core",
+        "campaign_mode": "preserve",
+        "scene": {
+          "episode": 1,
+          "mission": 5,
+          "index": 0,
+          "total": 12
+        },
+        "kept": ["RIFT-011", "RIFT-015"],
+        "overflow": [],
+        "handoff_to": [],
+        "note": "Merge-Cap geprüft (12 Slots bleiben frei)",
+        "qa_mode": true
       },
       {
         "event": "chronopolis_unlock",
@@ -364,13 +414,22 @@
     "arena_psi": [
       {
         "ts": "2025-11-26T20:05:00Z",
-        "source": "phase_strike_tax_reset",
-        "effect": "-1 Phase-Strike-Tax"
+        "ability": "phase_strike",
+        "base_cost": 2,
+        "tax": 1,
+        "total_cost": 3,
+        "mode": "pvp",
+        "arena_active": true,
+        "location": "ARENA",
+        "gm_style": "verbose",
+        "reason": "Arena-Smoke-Test"
       }
     ],
     "psi": [
       {
         "ts": "2025-11-26T21:10:00Z",
+        "ability": "focus_reinforce",
+        "delta": -1,
         "mode_previous": "preserve",
         "note": "Arena-Run solo"
       },
@@ -419,8 +478,11 @@
       "merge_conflicts": [
         {
           "field": "arena.state",
-          "source": "load",
-          "value": "reset-after-merge"
+          "source": "import",
+          "target": "host",
+          "mode": "pvp→preserve",
+          "note": "Arena-Status verworfen, HQ-Snapshot maßgeblich",
+          "resolved": false
         }
       ],
       "output_pace_suggestion": null,
@@ -578,6 +640,7 @@
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
+    "action_mode": "konform",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
