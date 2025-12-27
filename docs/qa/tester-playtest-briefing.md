@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.4.2
+version: 1.4.3
 tags: [meta]
 ---
 
@@ -48,6 +48,9 @@ Findings an Maintainer:innen und den Repo-Agenten übergeben.
 - Startkommandos übergeben in QA-Läufen automatisch `qa_addressing` und `qa_player_count` an die
   Dispatcher-Logs.
 - Der Debrief setzt `logs.flags.qa_debrief=true`, damit QA-Parser vollständige Läufe erkennen.
+- Action-Contract-Default: QA-Läufe starten mit `modus action konform` (sicherer Schnitt). Für
+  lokale "uncut"-Runs stellst du bei Bedarf manuell auf `modus action frei` um; der
+  Copy-&-Paste-Auftrag ändert den Default nicht automatisch.
 
 Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
 der Masterprompt als System-Prompt unterhalb des 8000-Zeichen-Fensters bleibt, damit alle
