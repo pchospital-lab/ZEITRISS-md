@@ -93,7 +93,7 @@ function helper_comms_text(){
 
 function helper_boss_text(){
   return [
-    'Boss-Foreshadow: Core – M4/M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
+    'Boss-Foreshadow: Core – Szene 4/9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
     'Gate 2/2 ist ab Missionsstart gesetzt; Szene 10 öffnet nur bei erfülltem Zähler',
     '(FS 4/4 Core, FS 2/2 Rift). Foreshadow-Hinweise erhöhen nur das FS-Badge.',
     'HUD-Badges: `GATE 2/2 · FS x/y` (Foreshadow-Log spiegelt `scene.foreshadows`).',
