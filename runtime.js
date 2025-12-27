@@ -1017,23 +1017,35 @@ function normalize_hud_event_entry(entry, fallbackTimestamp){
     || isoTimestamp(entry.timestamp)
     || fallbackTimestamp
     || new Date().toISOString();
+  const sceneIndex = Number.isFinite(entry.scene)
+    ? Math.floor(entry.scene)
+    : (Number.isFinite(state.scene?.index) ? Math.floor(state.scene.index) : null);
   if (!spec){
     return {
       event: canonicalEvent,
       tag: 'HUD',
       message: `HUD-Event (${canonicalEvent})`,
       at: timestamp,
-      fallback: true
+      fallback: true,
+      ...(sceneIndex !== null ? { scene: sceneIndex } : {})
     };
   }
   const record = { event: canonicalEvent, at: timestamp };
+  if (sceneIndex !== null){
+    record.scene = sceneIndex;
+  }
+  const details = typeof entry.details === 'object' && entry.details !== null && !Array.isArray(entry.details)
+    ? { ...entry.details }
+    : {};
   spec.numeric.forEach((key) => {
-    const value = pickNumber(entry[key]);
+    const value = pickNumber(entry[key], details[key]);
     if (value !== null){
       const rounded = Number.isInteger(value) ? value : Math.round(value * 100) / 100;
+      details[key] = rounded;
       record[key] = rounded;
     }
   });
+  record.details = details;
   return record;
 }
 
@@ -3423,6 +3435,7 @@ function hud_event(event, details = {}){
   if (state.logs.hud.length > 64){
     state.logs.hud = state.logs.hud.slice(state.logs.hud.length - 64);
   }
+  record_trace('hud_event', normalized);
   return normalized;
 }
 
