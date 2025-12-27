@@ -698,7 +698,7 @@ nächsten Durchläufe einzuplanen.
 | #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | ✅ erledigt |
 | #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | 🟢 pass |
 | #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | 🟢 pass |
-| #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | 🟢 pass |
+| #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | ✅ erledigt |
 | #10 | HUD-Events/QA-Budget | Schema auf `logs.hud` Objekt-Events prüfen oder Trace-Spiegel definieren; QA-Runner um Roundtrip für `vehicle_clash`/`mass_conflict` erweitern. | ✅ erledigt |
 | #11 | Arena/PvP Resume | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten. | 🟢 pass |
 | #12 | Psi-Heat Reset | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen. | 🟢 pass |
