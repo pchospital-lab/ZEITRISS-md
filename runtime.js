@@ -3465,6 +3465,12 @@ function record_trace(event, details = {}){
     ? details.at.trim()
     : null;
   const nowIso = overrideAt || new Date().toISOString();
+  const location = typeof details.location === 'string' && details.location.trim()
+    ? details.location.trim()
+    : state.location || null;
+  const phase = typeof details.phase === 'string' && details.phase.trim()
+    ? details.phase.trim()
+    : state.phase || state.campaign?.phase || null;
   const sceneIndex = Number.isFinite(state.scene?.index) ? state.scene.index : null;
   const sceneTotal = Number.isFinite(state.scene?.total) ? state.scene.total : null;
   const episode = Number.isFinite(state.campaign?.episode) ? state.campaign.episode : null;
@@ -3484,8 +3490,8 @@ function record_trace(event, details = {}){
   const trace = {
     event: eventName,
     at: nowIso,
-    location: state.location || null,
-    phase: state.phase || state.campaign?.phase || null,
+    location: location || null,
+    phase: phase || null,
     mission_type: missionType,
     campaign_mode: campaignMode,
     scene: {
@@ -3535,7 +3541,11 @@ function record_trace(event, details = {}){
     trace.arena = {
       scenario: details.arena.scenario || null,
       tier: details.arena.tier ?? null,
-      team_size: details.arena.team_size ?? resolve_team_size()
+      team_size: details.arena.team_size ?? resolve_team_size(),
+      active: details.arena.active ?? null,
+      queue_state: details.arena.queue_state ?? null,
+      phase: details.arena.phase || null,
+      zone: details.arena.zone || null
     };
   }
   if (details.seed && typeof details.seed === 'object'){
@@ -3549,6 +3559,9 @@ function record_trace(event, details = {}){
   }
   if (details.economy_audit && typeof details.economy_audit === 'object'){
     trace.economy_audit = clone_plain_object(details.economy_audit);
+  }
+  if (details.link_state && typeof details.link_state === 'string'){
+    trace.link_state = details.link_state.trim();
   }
   if (
     details.hud_scene_usage
@@ -8445,6 +8458,9 @@ function record_save_block(reason, payload = {}, sourceState = state){
       ? sourceState.location.trim()
       : null);
   const phase = payloadPhase
+    || (typeof sourceState?.phase === 'string'
+      ? sourceState.phase.trim()
+      : null)
     || (typeof sourceState?.campaign?.phase === 'string'
       ? sourceState.campaign.phase.trim()
       : null);
