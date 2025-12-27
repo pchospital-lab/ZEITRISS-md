@@ -850,9 +850,10 @@ Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-
 Overlays synchron. Sonder-Overlays für Verfolgungen und Massenkonflikte nutzen
 den Helper `hud_event(event, details)`: Er akzeptiert ausschließlich
 `vehicle_clash` oder `mass_conflict`, normalisiert numerische Felder
-(`tempo`, `stress`, `damage`, `chaos`, `break_sg`) und ergänzt fehlende
-`at`-Timestamps automatisch, bevor der HQ-Serializer die Events übernimmt.
-Strukturierte HUD-Events folgen der Form `{event, scene?, details{…}, at?}`.
+(`tempo`, `stress`, `damage`, `chaos`, `break_sg`), setzt fehlende Szenenindizes
+auf den aktuellen Szenencounter und ergänzt fehlende ISO-Zeitstempel. Jede
+Erzeugung legt parallel einen Trace `hud_event` ab. Strukturierte HUD-Events
+folgen der Form `{event, scene?, details{…}, at?}`.
 
 ### HUD-Schnellhilfe (`/help`)
 
