@@ -708,6 +708,17 @@ nächsten Durchläufe einzuplanen.
 | #16 | Onboarding Intro | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat. | ✅ erledigt |
 | #17 | Save v6 Fixture (bereitgestellt) | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen. | ✅ erledigt |
 
+**Fixture-Spiegel (Copy-Paste-QA 2025-12-27)**
+
+- Neues Vollschema-Beispiel
+  `internal/qa/fixtures/savegame_v6_copy_paste_2025-12-27.json` spiegelt den Acceptance-Lauf:
+  Persistenzanker `campaign.entry_choice_skipped/ui.intro_seen`, HUD-Events
+  `vehicle_clash`/`mass_conflict`, Wallet-Union (`id → {name,balance}`) plus deterministische
+  `merge_conflicts`-Traces und Offline-Hilfe-Guard.
+- QA-Roundtrip: Fixture laden → HQ-Recap (Skip EntryChoice) → Koop- und PvP-Reimport;
+  HUD-Events, SaveGuard-Reihenfolge und Merge-Trace (`merge_conflicts` +
+  `rift_seed_merge_cap_applied` sofern Seeds abweichen) gegentesten.
+
 Legende: 🟢 pass = kein Fix, als Golden-Check festhalten; 🟠 offen = Doku/Schemata präzisieren.
 
 ## Maßnahmenpaket Maintainer 2025-12-03 (Issues #1–#3)
