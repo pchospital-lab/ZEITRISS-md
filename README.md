@@ -375,11 +375,15 @@ Spiel starten (gruppe schnell)
   überspringt sie. Solo übernimmt Ansprache **Du** ohne Nachfrage nach der
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
-- **HQ-Kurzintro (Runtime).** Kurze, stimmige Zusammenfassung (1–3 Sätze) statt
-  Vollzitat; die Schlusszeile kann sinngemäß anklingen.
+- **HQ-Intro (Runtime).** Volles HQ-Intro 1:1 ausspielen – keine Kürzungen, die
+  Schlusszeile gehört dazu. QA-Fixtures spiegeln das Langzitat als Golden-
+  Referenz.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay, überspringt Einstiegsprompts/EntryChoice und
-  übernimmt alle Save-Flags.
+  übernimmt alle Save-Flags. Der Persistenzanker liegt auf
+  `campaign.entry_choice_skipped=true` plus `ui.intro_seen=true`; das
+  Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient und dient
+  nur dem aktiven Run.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
@@ -390,7 +394,9 @@ Spiel starten (gruppe schnell)
   vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).“.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
-  Armbänder sind zulässig (keine Handgelenk-Projektionen). Erreicht der
+  Armbänder sind zulässig (keine Handgelenk-Projektionen). QA-Snapshots dürfen
+  deshalb Loadout-Namen unverändert erwarten; Normalisierer lassen die Labels
+  unangetastet. Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
   Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
   „Px Reset → 0“ bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
