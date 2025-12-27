@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.16.0
+version: 1.17.0
 tags: [meta]
 ---
 
@@ -681,6 +681,34 @@ und Rift-Einsätze inkl. Seeds/Hazard-Pay ab. Cross-Mode-Saves führen strukturi
 - SaveGuard-Full-Matrix: Fixture `savegame_v6_matrix` und `savegame_v6_highlevel.json` prüfen die
   Pflichtcontainer (`logs.arena_psi[]`, `logs.flags.merge_conflicts[]` usw.), Unknown Fields werden
   toleriert.
+
+## Maßnahmenpaket Copy-Paste-QA 2025-12-27 (Issues #1–#17)
+
+Der erneute Copy-Paste-Lauf (Acceptance 1–15, Save v6 Import/Export) bestätigt den grünen Status
+der Runtime, deckt aber mehrere Doku- und Schema-Divergenzen auf. Die folgenden Punkte sind für die
+nächsten Durchläufe einzuplanen.
+
+| Issue | Thema | Fahrplan/Nächste Schritte | Status |
+| ----- | ------------------------------ | -------------------------------------------- | ------ |
+| #1 | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren. | 🟢 pass |
+| #2 | Load-Flow Flags | Persistenzquelle auf `campaign.entry_choice_skipped`/`ui.intro_seen` festlegen; `flags.runtime.skip_entry_choice` als transient dokumentieren. | 🟠 offen |
+| #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | 🟢 pass |
+| #4 | Gear-Label Stabilität | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen. | 🟠 offen |
+| #5 | Paradoxon-Cluster/Merge-Cap | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren. | 🟠 offen |
+| #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | 🟢 pass |
+| #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | 🟢 pass |
+| #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | 🟢 pass |
+| #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | 🟢 pass |
+| #10 | HUD-Events/QA-Budget | Schema auf `logs.hud` Objekt-Events prüfen oder Trace-Spiegel definieren; QA-Runner um Roundtrip für `vehicle_clash`/`mass_conflict` erweitern. | 🟠 offen |
+| #11 | Arena/PvP Resume | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten. | 🟢 pass |
+| #12 | Psi-Heat Reset | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen. | 🟢 pass |
+| #13 | Accessibility Persistenz | Speicher-Snippet (`speicher-fortsetzung.md`) erweitert um `contrast`/`badge_density`/`output_pace`; Hinweis „Snippet gekürzt“ falls Beispiel minimal bleibt. | 🟠 offen |
+| #14 | Economy-Audit High-Tier | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen. | 🟢 pass |
+| #15 | Wallet-/Merge-Shape | Wallets auf ID→{name,balance} festlegen; Ablageort `merge_conflicts` (Trace vs. `logs.flags`) kanonisieren und Migrationshinweis ergänzen. | 🟠 offen |
+| #16 | Onboarding Intro | README klarstellen: Kurzintro (1–3 Sätze) vs. Vollzitat; QA-Fixtures auf kanonische Variante ausrichten. | 🟠 offen |
+| #17 | Save v6 Fixture (bereitgestellt) | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen. | 🟠 offen |
+
+Legende: 🟢 pass = kein Fix, als Golden-Check festhalten; 🟠 offen = Doku/Schemata präzisieren.
 
 ## Maßnahmenpaket Maintainer 2025-12-03 (Issues #1–#3)
 
