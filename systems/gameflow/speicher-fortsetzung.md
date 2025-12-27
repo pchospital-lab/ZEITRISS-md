@@ -318,9 +318,11 @@ Schema nur die vier erlaubten Tokens akzeptiert.
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
 (`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende
 Felder für `contrast`, `badge_density`, `output_pace` und `voice_profile` mit
-Defaults (`standard`/`standard`/`normal`/`gm_third_person`). `action_mode`
-landet standardmäßig auf `konform`. Saves dürfen diese Felder weglassen, ohne
-Persistenz zu verlieren; die Defaults greifen automatisch.
+Defaults (`standard`/`standard`/`normal`/`gm_third_person`). `voice_profile`
+erlaubt ausschließlich `gm_third_person` oder `gm_observer`; unbekannte Werte
+fallen auf das Default zurück. `action_mode` landet standardmäßig auf
+`konform`. Saves dürfen diese Felder weglassen, ohne Persistenz zu verlieren;
+die Defaults greifen automatisch.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 

@@ -450,7 +450,8 @@ Block ab (`gm_style`, `suggest_mode`, `action_mode`, `contrast`, `badge_density`
 `output_pace`, `voice_profile`), füllt fehlende Felder automatisch mit
 `standard|normal|gm_third_person` plus `action_mode=konform` und stellt sie beim
 Laden sofort wieder her (z. B. `contrast: high`, `badge_density: dense`,
-`output_pace: slow`).
+`output_pace: slow`). `voice_profile` akzeptiert nur `gm_third_person` (Default)
+oder `gm_observer`; alle anderen Eingaben werden auf das Default gehoben.
 Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
 `default|steady` → `normal`.
 
