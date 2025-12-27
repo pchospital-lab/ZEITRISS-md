@@ -610,8 +610,9 @@ if not char.get("psi") and not char.get("has_psi"):
     `target_range` für HQ-Pool+Wallet-Schnitt, Wallet-Summe,
     `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein HUD-Toast erscheint
     nur bei Abweichungen. Beim Laden behalten Host-HQ-Pool und Host-Wallets
-    Vorrang; Import-Wallets werden union-by-id angefügt und abweichende
-    Balances/Labels als Merge-Konflikte markiert.
+    Vorrang; Import-Wallets werden union-by-id angefügt, fehlende Labels aus dem
+    Import ergänzt und abweichende Balances/Labels als Merge-Konflikte
+    markiert (`logs.flags.merge_conflicts[]` + Trace `merge_conflicts`).
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_

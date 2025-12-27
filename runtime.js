@@ -2686,32 +2686,47 @@ function ensure_wallets(){
 
 function merge_wallet_sets(hostWallets, incomingWallets, noteConflict){
   const merged = {};
+  const normalizeEntry = ([id, record]) => {
+    const normalizedId = normalize_wallet_id(id);
+    const normalizedRecord = normalize_wallet_record(record);
+    if (!normalizedId || !normalizedRecord){
+      return null;
+    }
+    return [normalizedId, normalizedRecord];
+  };
+
   const hostEntries = hostWallets && typeof hostWallets === 'object' && !Array.isArray(hostWallets)
-    ? Object.entries(hostWallets)
+    ? Object.entries(hostWallets).map(normalizeEntry).filter(Boolean)
     : [];
   const incomingEntries = incomingWallets
     && typeof incomingWallets === 'object'
     && !Array.isArray(incomingWallets)
-      ? Object.entries(incomingWallets)
+      ? Object.entries(incomingWallets).map(normalizeEntry).filter(Boolean)
       : [];
 
   for (const [id, record] of hostEntries){
-    if (!id) continue;
     merged[id] = { ...record };
   }
 
   for (const [id, record] of incomingEntries){
-    if (!id) continue;
     const target = merged[id];
     if (!target){
       merged[id] = { ...record };
       continue;
     }
+
     const hostBalance = Number.isFinite(target.balance) ? target.balance : 0;
     const incomingBalance = Number.isFinite(record.balance) ? record.balance : 0;
     const hostName = typeof target.name === 'string' && target.name.trim() ? target.name.trim() : null;
     const incomingName = typeof record.name === 'string' && record.name.trim() ? record.name.trim() : null;
+    const resolvedName = hostName || incomingName || null;
     const differs = hostBalance !== incomingBalance || (incomingName && incomingName !== hostName);
+
+    merged[id] = {
+      balance: hostBalance,
+      name: resolvedName
+    };
+
     if (differs && typeof noteConflict === 'function'){
       noteConflict({
         field: `economy.wallets.${id}`,
