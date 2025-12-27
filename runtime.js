@@ -93,12 +93,46 @@ function helper_comms_text(){
 
 function helper_boss_text(){
   return [
-    'Boss-Foreshadow: Core – Szene 4 und 9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
-    'Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`',
-    'und `scene.foreshadows` den Fortschritt persistieren.',
-    'Gate 2/2 steht ab Missionsstart; Szene 10 öffnet nur bei FS 4/4 (Core) oder 2/2 (Rift).',
-    'Gate-Toast zeigt fehlende Foreshadows: `Gate blockiert – FS x/y (Gate 2/2 bleibt)`.'
+    'Boss-Foreshadow: Core – M4/M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.',
+    'Gate 2/2 ist ab Missionsstart gesetzt; Szene 10 öffnet nur bei erfülltem Zähler',
+    '(FS 4/4 Core, FS 2/2 Rift). Foreshadow-Hinweise erhöhen nur das FS-Badge.',
+    'HUD-Badges: `GATE 2/2 · FS x/y` (Foreshadow-Log spiegelt `scene.foreshadows`).',
+    'Boss-Trace hält DR + Teamgröße (1–5, geklemmt) fest, DR skaliert nach Boss-Typ.'
   ].join('\n');
+}
+
+function helper_boss(){
+  const text = helper_boss_text();
+  const fsRequired = foreshadow_requirement();
+  const fsCount = foreshadow_count();
+  const fsBadge = `FS ${fsCount}/${fsRequired}`;
+  const gateBadge = `GATE ${FORESHADOW_GATE_REQUIRED}/${FORESHADOW_GATE_REQUIRED}`;
+  const missionNumber = Number(state.campaign?.mission);
+  const missionType = resolve_mission_type();
+  const teamSize = resolve_team_size();
+  const bossType = Number.isFinite(missionNumber) && missionNumber >= 5
+    ? missionNumber % 10 === 0
+      ? (missionType === 'rift' ? 'rift' : 'arc')
+      : missionNumber % 5 === 0
+        ? 'mini'
+        : null
+    : null;
+  const bossDr = bossType ? resolve_boss_dr(teamSize, bossType) : null;
+  record_trace('helper_boss', {
+    channel: 'HUD',
+    mission: Number.isFinite(missionNumber) ? missionNumber : null,
+    gate: {
+      badge: gateBadge,
+      required: FORESHADOW_GATE_REQUIRED
+    },
+    foreshadow: {
+      badge: fsBadge,
+      count: fsCount,
+      required: fsRequired
+    },
+    boss: bossType ? { type: bossType, dr: bossDr, team_size: teamSize } : null
+  });
+  return text;
 }
 
 const OFFLINE_HELP_MIN_INTERVAL_MS = 60 * 1000;
@@ -9780,7 +9814,7 @@ function on_command(command){
       return helper_comms_text();
     }
     if (cmd === '!helper boss'){
-      return helper_boss_text();
+      return helper_boss();
     }
     if (cmd === '!help start' || cmd === '/help start'){
         return [

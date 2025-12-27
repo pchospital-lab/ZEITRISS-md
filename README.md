@@ -417,13 +417,14 @@ Spiel starten (gruppe schnell)
 ### Boss-Gates & HUD-Badges
 
 `!helper boss` listet die Foreshadow-Hinweise für Szene 4 und Szene 9 (Core;
-Rift nutzt Szene 9 als Pflichthinweisszene). Das Gate ist ab Missionsstart fest
-auf `GATE 2/2` gesetzt. Das HUD zeigt zum Start `GATE 2/2 · FS 0/4` (Core) bzw.
-`GATE 2/2 · FS 0/2` (Rift); Foreshadow-Hinweise zählen nur den `FS`-Block hoch.
-In Szene 10 erscheint automatisch der Toast mit dem aktiven
-Boss-Schadensreduktionswert (`−X` Schadensreduktion, skaliert nach Teamgröße 1–5
-(Werte >5 werden geklemmt) und Boss-Typ gemäß
-[Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)). Nach
+Rift nutzt Szene 9 als Pflichthinweisszene) und spiegelt die Gate-Logik als
+Golden-String: `GATE 2/2 · FS x/y` (Foreshadow-Hinweise zählen nur den `FS`-
+Block hoch). Gate 2/2 ist ab Missionsstart gesetzt; Szene 10 öffnet erst, wenn
+der Foreshadow-Zähler erfüllt ist (Core 4/4, Rift 2/2). Der Boss-Trace hält
+Teamgröße und DR skaliert nach Boss-Typ (geklammert auf 1–5) fest, sodass QA-
+Runner und Fixtures dieselben Werte prüfen können. In Szene 10 erscheint
+automatisch der Toast mit dem aktiven Schadensreduktionswert
+([Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); nach
 dem Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig
 davon, ob die Mission abgeschlossen oder abgebrochen wurde.
 
