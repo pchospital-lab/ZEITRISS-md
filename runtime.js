@@ -8398,11 +8398,27 @@ function toast_save_block(reason){
     : 'SaveGuard: HQ-Save gesperrt.';
 }
 
-function record_save_block(reason, payload = {}){
+function record_save_block(reason, payload = {}, sourceState = state){
   ensure_logs();
+  const payloadLocation = typeof payload.location === 'string'
+    ? payload.location
+    : null;
+  const payloadPhase = typeof payload.phase === 'string'
+    ? payload.phase
+    : null;
+  const location = payloadLocation
+    || (typeof sourceState?.location === 'string'
+      ? sourceState.location.trim()
+      : null);
+  const phase = payloadPhase
+    || (typeof sourceState?.campaign?.phase === 'string'
+      ? sourceState.campaign.phase.trim()
+      : null);
   record_trace('save_blocked', {
     channel: 'SAVE',
     reason,
+    location: location || null,
+    phase: phase || null,
     ...payload
   });
 }
