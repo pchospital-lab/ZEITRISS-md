@@ -363,8 +363,8 @@ Spiel starten (gruppe schnell)
   Zahl `0–4` (NPC‑Begleiter; Team gesamt 1–5), `gruppe` ignoriert Zahlen.
   Ungültige Kombinationen liefern die passenden Fehltexte.
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
-  `dispatcher_strings` (Runtime-Export + Fixture
-  `internal/qa/fixtures/dispatcher_strings.json`).
+  `dispatcher_strings` (Runtime-Export). Goldenfiles und Smoke-Referenzen
+  sind im QA-Briefing dokumentiert.
 - **Syntax-Hinweis.** Startbefehle ohne Klammern oder mit fehlerhaftem Muster
   antworten mit „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
   [klassisch|schnell]). Klammern sind Pflicht.“ und schreiben höchstens einmal
@@ -375,7 +375,9 @@ Spiel starten (gruppe schnell)
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
 - **HQ-Intro (Runtime).** Volles HQ-Intro 1:1 ausspielen – keine Kürzungen, die
-  Schlusszeile gehört dazu.
+  Schlusszeile gehört dazu. Das Langzitat ist in
+  `internal/qa/transcripts/start-transcripts.md` abgelegt und dient als
+  Referenztext.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay, überspringt Einstiegsprompts/EntryChoice und
   übernimmt alle Save-Flags. Der Persistenzanker liegt auf
@@ -387,13 +389,17 @@ Spiel starten (gruppe schnell)
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
   werden union-by-id angehängt, Konflikte landen in `logs.flags.merge_conflicts`.
   Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
-  (120/512/900+), Zielband für HQ-Pool und Wallet-Durchschnitt, Delta-Flags
-  (`delta`, `out_of_range`) sowie Chronopolis-Sinks. Weichen HQ-Pool oder Wallet
+  (120/512/900+), `target_range` (HQ-Pool + Wallet-Richtwert), Delta-Flags
+  (`delta`, `out_of_range`), `chronopolis_sinks` (Liste der angesetzten Sinks)
+  sowie dem berechneten Wallet-Durchschnitt. Weichen HQ-Pool oder Wallet
   vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).“.
   SaveGuards loggen `save_blocked` mit Grund, Standort (`location`) und Phase
-  (`phase`), damit die Reihenfolge und der Auslöser in Snapshots und QA-Runnern
-  sichtbar bleiben.
+  (`phase`), damit die Reihenfolge und der Auslöser nachvollziehbar bleiben.
+  Arena-Resumes schreiben `resume_token.previous_mode` und
+  `merge_conflicts.arena_resume[]` deterministisch, wenn ein Save zwischen
+  PvP/Arena und HQ wechselt; Guard-Strings bleiben identisch zu den
+  Dispatcher-/SaveGuard-Fehlertexten.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Normalisierer lassen
   die Labels unangetastet. Erreicht der
@@ -421,12 +427,12 @@ Rift nutzt Szene 9 als Pflichthinweisszene) und spiegelt die Gate-Logik als
 Golden-String: `GATE 2/2 · FS x/y` (Foreshadow-Hinweise zählen nur den `FS`-
 Block hoch). Gate 2/2 ist ab Missionsstart gesetzt; Szene 10 öffnet erst, wenn
 der Foreshadow-Zähler erfüllt ist (Core 4/4, Rift 2/2). Der Boss-Trace hält
-Teamgröße und DR skaliert nach Boss-Typ (geklammert auf 1–5) fest, sodass QA-
-Runner und Fixtures dieselben Werte prüfen können. In Szene 10 erscheint
-automatisch der Toast mit dem aktiven Schadensreduktionswert
+Teamgröße und DR skaliert nach Boss-Typ (geklammert auf 1–5) fest. In Szene 10
+erscheint automatisch der Toast mit dem aktiven Schadensreduktionswert
 ([Boss-DR-Skala](gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode)); nach
 dem Debrief setzt die Runtime Self-Reflection auf `SF-ON` zurück – unabhängig
-davon, ob die Mission abgeschlossen oder abgebrochen wurde.
+davon, ob die Mission abgeschlossen oder abgebrochen wurde. Mission 10 nutzt
+denselben Auto-Reset.
 
 ### Psi-Heat & Ressourcen-Reset
 
