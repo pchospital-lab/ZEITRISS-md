@@ -219,8 +219,9 @@ default_modus: mission-fokus
   bleibt physisch. Stilwächter default, Banned Terms (z.B. Matrix/Holodeck)
   blocken.
 - **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
-  gm_third_person`). Entscheidungsprompts dürfen Spieler:innen ansprechen,
-  Beschreibungen bleiben in 3rd Person.
+  gm_third_person`), alternativ `gm_observer` falls ausdrücklich gewünscht.
+  Entscheidungsprompts dürfen Spieler:innen ansprechen, Beschreibungen bleiben
+  in 3rd Person; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
   **Casefile** aus dem HQ. Seeds bleiben HQ-only bis zur Episodepause.
