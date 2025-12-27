@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.4.1
+version: 1.4.2
 tags: [meta]
 ---
 
@@ -113,6 +113,22 @@ betont.
   und Flag-Referenzen (Gate 2/2, FS 0/4, SF‑OFF/SF‑ON, Boss‑DR). Der Follow-up- Runner
   `tools/test_acceptance_followups.js` prüft die Strings automatisiert, die manuelle
   Mission‑5-Dokumentation bleibt Teil des Abschluss-Reports.
+- **Golden-Referenzen (Dispatcher/HUD/Gear/Saves):**
+  - Dispatcher-Start- und Fehltexte sind in `dispatcher_strings` gespiegelt (Runtime-Export +
+    `internal/qa/fixtures/dispatcher_strings.json`) und dienen als Goldenfile für QA-Runs.
+  - Das HQ-Intro läuft vollständig (inklusive Schlusszeile); Abweichungen vom Langzitat gelten als
+    Fehler und werden gegen das Goldenfile geprüft.
+  - Gear-Labels bleiben unverändert – keine automatische Normalisierung. QA-Snapshots wie
+    `savegame_v6_test.json` erwarten identische Loadout-Namen; jede Umbenennung deutet auf einen
+    Normalizer-Fehler hin.
+  - HUD-Sonderoverlays laufen ausschließlich über `hud_event()` mit `vehicle_clash` oder
+    `mass_conflict`, normalisieren Zahlen, füllen fehlende `at`-Timestamps und unterliegen dem
+    Budget (2 Toasts pro Szene; Gate/FS/Boss/Arena ausgenommen). QA-Runs prüfen den Roundtrip der
+    Objektform (`event`, `scene`, `details{…}`, `at`) und protokollieren unterdrückte Toasts.
+  - SaveGuards schreiben immer einen `save_blocked`-Trace, damit die Reihenfolge (offline →
+    arena_active → hq_only/chronopolis → Exfil/SYS/Stress/Psi-Heat) nachvollziehbar bleibt.
+    `logs.flags.last_save_at` hält den deterministischen Zeitstempel für Save- und HUD-Events;
+    Fixtures verwenden denselben Wert für diffbare Roundtrips.
 
 ## Testumfang und Meilensteine
 

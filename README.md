@@ -364,8 +364,7 @@ Spiel starten (gruppe schnell)
   Ungültige Kombinationen liefern die passenden Fehltexte.
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
   `dispatcher_strings` (Runtime-Export + Fixture
-  `internal/qa/fixtures/dispatcher_strings.json`) und werden vom
-  QA-Runner als Golden-Referenz gespiegelt.
+  `internal/qa/fixtures/dispatcher_strings.json`).
 - **Syntax-Hinweis.** Startbefehle ohne Klammern oder mit fehlerhaftem Muster
   antworten mit „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
   [klassisch|schnell]). Klammern sind Pflicht.“ und schreiben höchstens einmal
@@ -376,14 +375,13 @@ Spiel starten (gruppe schnell)
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
 - **HQ-Intro (Runtime).** Volles HQ-Intro 1:1 ausspielen – keine Kürzungen, die
-  Schlusszeile gehört dazu. QA-Fixtures spiegeln das Langzitat als Golden-
-  Referenz.
+  Schlusszeile gehört dazu.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay, überspringt Einstiegsprompts/EntryChoice und
   übernimmt alle Save-Flags. Der Persistenzanker liegt auf
   `campaign.entry_choice_skipped=true` plus `ui.intro_seen=true`; das
-  Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient und dient
-  nur dem aktiven Run.
+  Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient, wird nicht
+  serialisiert und dient nur dem aktiven Run.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
@@ -394,15 +392,19 @@ Spiel starten (gruppe schnell)
   vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).“.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
-  Armbänder sind zulässig (keine Handgelenk-Projektionen). QA-Snapshots dürfen
-  deshalb Loadout-Namen unverändert erwarten; Normalisierer lassen die Labels
-  unangetastet. Erreicht der
+  Armbänder sind zulässig (keine Handgelenk-Projektionen). Normalisierer lassen
+  die Labels unangetastet. Erreicht der
   Paradoxon-Index Px 5, informiert der Kodex, dass neue Seeds erst nach
   Episodenende spielbar sind; der Px-Reset wird im Debrief/HQ mit dem HUD-Toast
   „Px Reset → 0“ bestätigt (`px_reset_pending/confirm`). `ClusterCreate()`
   schreibt ein `cluster_create`-Trace (px_before/after, Seeds,
-  Episode/Mission/Scene/Loc + campaign_type) und normalisiert
-  `campaign.rift_seeds` beim Lauf und beim Laden als Objekt-Liste.
+  Episode/Mission/Scene/Loc + campaign_type, `open_seeds_count`) und
+  normalisiert `campaign.rift_seeds` beim Lauf und beim Laden als
+  Objekt-Liste. Solo-/Px-5-Runs stapeln Seeds ohne Hard-Limit; das Cap 12
+  greift ausschließlich beim HQ-Merge. Der Merge schreibt neben
+  `rift_seed_merge_cap_applied` (kept/overflow/handoff) auch einen
+  `merge_conflicts`-Eintrag mit denselben Feldern, damit Trace und Flags
+  synchron bleiben.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
   Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
   und kein Budget verbrauchen. Jede Unterdrückung schreibt einen
@@ -589,10 +591,11 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   und `resume_token.previous_mode`, damit der Kampagnenmodus nach aktiven Läufen
   auf den Ursprungswert zurückspringt.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
-  Accessibility-Felder `contrast`, `badge_density` und `output_pace`. Migration
-  und Serializer ergänzen fehlende Felder mit Defaults (`standard|normal`,
-  `action_mode=konform`), sodass der SaveGuard den normalisierten UI-Block
-  prüft. `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
+  Accessibility-Felder `contrast`, `badge_density` und `output_pace` sowie das
+  optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
+  mit Defaults (`standard|normal|gm_third_person`, `action_mode=konform`),
+  sodass der SaveGuard den normalisierten UI-Block prüft.
+  `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
   `character.modes`: Sobald eine Seite `suggest` gesetzt hat, aktiviert der
   Save beide Flags und rendert das HUD-Tag `· SUG` deterministisch.
 - Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
@@ -601,6 +604,11 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - Serializer und Migration erzwingen `save_version: 6` – auch Legacy-Saves
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
+- Wallets sind Maps `wallets{id → {name,balance}}`; Arrays oder namenlose
+  Guthaben gelten als fehlerhaft und wandern in `logs.flags.merge_conflicts[]`.
+  Host-Vorrang bleibt erhalten, die Rest-Verteilung wird im
+  `merge_conflicts`-Trace gespiegelt (`source`/`target`/`kept`/`handoff`), damit
+  Wallet-Splits in Solo→Koop→PvP-Runs nachvollziehbar bleiben.
 - **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
   Wurzel-Schlüssel wie `sys`, `sys_used`, `sys_installed`, `sys_runtime`,
   `stress`, `psi_heat` oder `cooldowns` besitzt, legt die Spielleitung beim
@@ -825,12 +833,13 @@ Speichern außerhalb des HQs meldet „SaveGuard: Speichern nur im HQ – HQ-Sav
 - `!exfil tick mm:ss` – aktualisiert den RW-Timer und loggt die Restzeit im HUD-Protokoll.
 - `!exfil status` – fasst Anchor, RW und Armierung als Text zusammen.
 
-Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-Overlays synchron.
-Sonder-Overlays für Verfolgungen und Massenkonflikte nutzen den Helper
-`hud_event(event, details)`: Er akzeptiert ausschließlich `vehicle_clash` oder
-`mass_conflict`, normalisiert numerische Felder (`tempo`, `stress`, `damage`,
-`chaos`, `break_sg`) und ergänzt fehlende `at`-Timestamps automatisch, bevor der
-HQ-Serializer die Events übernimmt.
+Alle Befehle füllen das HUD-Log (`logs.hud`) automatisch und halten die Szene-
+Overlays synchron. Sonder-Overlays für Verfolgungen und Massenkonflikte nutzen
+den Helper `hud_event(event, details)`: Er akzeptiert ausschließlich
+`vehicle_clash` oder `mass_conflict`, normalisiert numerische Felder
+(`tempo`, `stress`, `damage`, `chaos`, `break_sg`) und ergänzt fehlende
+`at`-Timestamps automatisch, bevor der HQ-Serializer die Events übernimmt.
+Strukturierte HUD-Events folgen der Form `{event, scene?, details{…}, at?}`.
 
 ### HUD-Schnellhilfe (`/help`)
 
