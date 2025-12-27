@@ -96,8 +96,10 @@ noch füllen sie das Protokoll.
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
 die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace
-mit `reason`, `location` und `phase`, damit Reihenfolge und Auslöser in
-Snapshots transparent bleiben.
+mit `reason`, `location` und `phase` (Fallback auf `state.phase`, falls
+`campaign.phase` fehlt), damit Reihenfolge und Auslöser in Snapshots
+transparent bleiben. Der QA-Test `test_saveguard_order.js` prüft die Kette
+offline → Arena → HQ-only/Chronopolis inklusive Trace-Payload.
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
