@@ -695,7 +695,7 @@ nächsten Durchläufe einzuplanen.
 | #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | ✅ erledigt |
 | #4 | Gear-Label Stabilität | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen. | ✅ erledigt |
 | #5 | Paradoxon-Cluster/Merge-Cap | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren. | ✅ erledigt |
-| #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | 🟢 pass |
+| #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | ✅ erledigt |
 | #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | 🟢 pass |
 | #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | 🟢 pass |
 | #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | 🟢 pass |
