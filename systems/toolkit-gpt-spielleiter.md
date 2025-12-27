@@ -409,8 +409,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
 - Gear-Bezeichnungen bleiben erhalten; keine automatische Normalisierung von
-  Armbändern oder Tools. QA-Snapshots prüfen Loadouts 1:1; Runtime-Guards
-  rühren Labels nicht an und führen kein Re-Labelling beim Laden durch.
+  Armbändern oder Tools. Runtime-Guards rühren Labels nicht an und führen kein
+  Re-Labelling beim Laden durch.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
   (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
   bei Bedarf zusätzlich im Missionslog.
@@ -442,10 +442,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
   Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events; fehlt `at`,
-  ergänzt der HQ-Save einen ISO-Zeitstempel. QA-Runner spiegeln den Roundtrip
-  für `vehicle_clash`/`mass_conflict` als Objekt-Events (`event`, `scene`,
-  `details{…}`) und erwarten Budget-konforme Toaster, während Gate/FS/Boss
-  weiterhin außerhalb des Budgets laufen.
+  ergänzt der HQ-Save einen ISO-Zeitstempel. Roundtrips für
+  `vehicle_clash`/`mass_conflict` bleiben als Objekt-Events (`event`, `scene`,
+  `details{…}`) budgetkonform, während Gate/FS/Boss weiterhin außerhalb des
+  Budgets laufen.
   - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
     und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
     blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
@@ -522,8 +522,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   3. HQ-only-Check (`location != HQ`, inkl. CITY) nutzt denselben SaveGuard-Text
      und trägt `reason: hq_only|chronopolis` in `logs.trace[]` ein.
   4. Danach folgen Exfil, SYS-, Stress- und Psi-Heat-Guards mit identischen
-     Strings. Tooling nutzt dieselben Texte, damit QA-Goldenfiles stabil
-     bleiben.
+     Strings. Tooling nutzt dieselben Texte, damit Goldenfiles stabil bleiben.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -3132,8 +3131,7 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
    - Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst
      dann das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
    - **HQ-Intro:** vollständiges HQ-Intro unverändert abspielen, inklusive
-     Schlusszeile; keine Kürzungen oder Umschreibungen. QA-Fixtures nutzen das
-     Langzitat als Referenz.
+     Schlusszeile; keine Kürzungen oder Umschreibungen.
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
