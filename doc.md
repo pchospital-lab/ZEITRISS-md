@@ -46,9 +46,9 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
 
 ### Boss-Gates & HUD-Badges
 
-10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
-    `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`, bis Hinweise erfüllt
-    sind.
+10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD bleibt
+    auf dem Golden-String `GATE 2/2 · FS x/y` (Foreshadow zählt nur den FS-Block
+    hoch) und der Trace hält Teamgröße sowie DR-Basis fest.
 11. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet

@@ -1848,10 +1848,11 @@ Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override 
 Reichweite anpassen. `!offline` zeigt das Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft.
 {%- endmacro %}
 {% macro helper_boss() -%}
-Boss-Foreshadow: Core – M4 und M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
-Nutze `ForeshadowHint()` oder automatische Seeds, damit `state.logs.foreshadow`
-und `scene.foreshadows` den Fortschritt persistieren.
-Szene 10 öffnet erst, wenn der Foreshadow-Zähler erfüllt ist.
+Boss-Foreshadow: Core – M4/M9 je zwei Hinweise, Rift – Szene 9 zwei Hinweise.
+Gate 2/2 ist ab Missionsstart gesetzt; Szene 10 öffnet nur bei erfülltem Zähler
+(FS 4/4 Core, FS 2/2 Rift). Foreshadow-Hinweise erhöhen nur das FS-Badge.
+HUD-Badges: `GATE 2/2 · FS x/y` (Foreshadow-Log spiegelt `scene.foreshadows`).
+Boss-Trace hält DR + Teamgröße (1–5, geklemmt) fest, DR skaliert nach Boss-Typ.
 {%- endmacro %}
 {% macro fr_help() -%}
 FR: ruhig/beobachter/aktiv – wirkt auf Eingriffe in Szene 1.
