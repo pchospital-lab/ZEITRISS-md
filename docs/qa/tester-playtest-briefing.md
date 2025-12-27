@@ -369,8 +369,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 1. **Dispatcher & Speicherpfade** – Spielstart solo klassisch/schnell, NPC-Teams (`npc-team 3|5`),
    Gruppe (Fehlertext bei Zahl), Gruppe schnell (2 Saves + 1 Rolle), `Spiel laden` → Kodex-Overlay,
-   Save-Blocker in Mission, Gear-Check (Armband bleibt) und Px 5 Hinweis („Seeds nach Episodenende
-   spielbar“).
+   Save-Blocker in Mission und Px 5 Hinweis („Seeds nach Episodenende spielbar“).
 2. **Boss-Gates & HUD** – `!helper boss` nach Mission 4 kündigt Szene 5/10 und `Gate 2/2` an;
    Mission 5 startet mit Schritt 0 `!sf off`, blendet `Boss-Encounter in Szene 10`, `GATE 2/2` und
    ggf. `SF-OFF` ein, Szene 10 triggert `Boss-DR aktiviert – −X Schaden` mit Auto-Reset `SF-ON` zum
@@ -391,7 +390,6 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   stabil.
 - Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in Solo/NPC/Koop/PvP
   identisch.
-- Gear-Bezeichnungen bleiben erhalten; Armbänder werden nicht normalisiert.
 
 **Dispatcher-Smoke-Basislinie**
 
@@ -402,7 +400,6 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 | 3       | Gruppe klassisch/schnell (Fehlertext bei Zahl)       | ✅ stabil |
 | 4       | Spiel laden → HQ-Recap & Overlay                     | ✅ stabil |
 | 5       | Missions-Blocker verhindern Saves                    | ✅ stabil |
-| 6       | Gear-Armband bleibt erhalten & Px 5 Hinweis sichtbar | ✅ stabil |
 
 ## Boss-Gate-Status & Terminologie (Referenzstrings)
 
@@ -524,14 +521,13 @@ EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in 
    erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
-9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
-10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+9. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges
 
-11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
+10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
     `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`, bis Hinweise erfüllt sind.
-12. Mission 5 starten → HUD meldet den Encounter-Hinweis `Boss-Encounter in Szene 10`, zeigt
+11. Mission 5 starten → HUD meldet den Encounter-Hinweis `Boss-Encounter in Szene 10`, zeigt
     `GATE 2/2` und – falls zuvor deaktiviert – `SF-OFF`. Der Foreshadow-Zähler startet bei `FS 0/4`
     und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −X Schaden pro Treffer` (DR
     nach Teamgröße laut
@@ -541,16 +537,16 @@ EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in 
 
 ### Psi-Heat & Ressourcen-Reset
 
-13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet `Psi-Heat +1`; nach Konflikt
+12. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet `Psi-Heat +1`; nach Konflikt
     springt Psi-Heat automatisch auf 0. HQ-Transfer setzt SYS/Stress/Psi-Heat zurück.
 
 ### Accessibility & UI-Persistenz
 
-14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`, `Badges: dense` oder `compact`
+13. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`, `Badges: dense` oder `compact`
     und `Output pace: slow` bestätigen; HUD-Toast „Accessibility aktualisiert …“ notieren und die
     aktualisierten UI-Felder im Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
     `standard|compact` gemappt.
-15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind persistiert (`contrast: high`,
+14. Save laden → `!accessibility` erneut öffnen → Einstellungen sind persistiert (`contrast: high`,
     `badge_density: dense|compact`, `output_pace: slow`).
 
 **Zusatzbelege (Merge/HUD/Arena):**
