@@ -403,7 +403,8 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 **Stabile Flows (Regression-Basis)**
 
 - Ask→Suggest-Overlay bleibt getrennt von Self-Reflection und läuft in Solo, NPC, Koop und PvP
-  stabil.
+  stabil; das HUD-Suffix `· SUG` bleibt nach Load/Resume unverändert (Acceptance 8
+  Snapshot-Runner).
 - Offline-FAQ (`!offline`) sowie Alias-/Squad-Radio-Logs bestehen den Smoke in Solo/NPC/Koop/PvP
   identisch.
 
@@ -525,7 +526,8 @@ EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in 
 - **Golden-Strings:** Dispatcher-Referenz und QA-Runner ziehen dieselben Texte aus
   `dispatcher_strings` (Runtime) sowie der Fixture
   `internal/qa/fixtures/dispatcher_strings.json` (Start-Hint, `npc-team 5`-,
-  `gruppe 3`-Fehlertexte, Negativpfad `Spiel starten solo`).
+  `gruppe 3`-Fehlertexte, Negativpfad `Spiel starten solo`). CI/`scripts/smoke.sh`
+  erzwingt die Acceptance-Schritte 1–6 gegen dieses Goldenfile.
 
 1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
@@ -540,6 +542,9 @@ EntryChoice/Startfragen (HQ-Recap via `skip_entry_choice=true`), `Speichern` in 
 9. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges
+
+QA-Schritt 0 für Mission 5: `!sf off` vor dem Start setzen, Warn-Toast notieren,
+Symmetrie-Reset auf `SF-ON` am Ende bestätigen (gilt für Mission 5 und 10).
 
 10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
     `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`, bis Hinweise erfüllt sind.

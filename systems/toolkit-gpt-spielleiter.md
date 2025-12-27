@@ -438,7 +438,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   als Einsteiger-Autopilot für Gruppen ohne eigenes Optionsgefühl und ergänzt
   die regulären 3 + frei-Ideen nach einer Szene um spontane, nummerierte
   Mikro-Tipps auf Abruf. Self-Reflection hat keinen Einfluss auf `SUG`; das
-  Badge bleibt unabhängig von `SF-ON`/`SF-OFF` sichtbar.
+  Badge bleibt unabhängig von `SF-ON`/`SF-OFF` sichtbar. Der Overlay-Suffix
+  `· SUG` bleibt auch nach Load/Resume deterministisch erhalten; Snapshot-
+  Runner prüfen den exakten String ohne Varianten, damit Acceptance 8 stabil
+  bleibt.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
   Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events; fehlt `at`,
@@ -480,11 +483,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   kein Szenenzähler; das Overlay ist ausschließlich für Missionen/Rifts gedacht. Nach `StartMission()` wird `FS 0/4`
   (Core) bzw. `FS 0/2` (Rift) erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert
   wurde. Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) – unabhängig davon, ob die
-  Mission beendet oder abgebrochen wurde. Toolkit-Spielleiter:innen spiegeln dies mit `set_self_reflection(true)` und
-  protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie `logs.flags.last_mission_end_reason`
-  (`completed`/`aborted`). Startet Mission 5 ohne `SF-OFF`, loggt die Runtime einen Warn-Toast, setzt
-  `logs.flags.acceptance_12_missing_sf_off=true` und führt den Hinweis im Debrief unter Runtime-Flags. Das Flag
-  `foreshadow_gate_m5_seen` bleibt im Save erhalten und wird beim Laden normalisiert.
+  Mission beendet oder abgebrochen wurde. Mission 10 erhält denselben Auto-Reset. Toolkit-Spielleiter:innen spiegeln dies
+  mit `set_self_reflection(true)` und protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie
+  `logs.flags.last_mission_end_reason` (`completed`/`aborted`). Das Flag `foreshadow_gate_m5_seen` bleibt im Save erhalten
+  und wird beim Laden normalisiert.
 - **`set_self_reflection(enabled: boolean)`** – Aktiviert oder deaktiviert
   Self-Reflection, schreibt den HUD-Toast (`SF-ON`/`SF-OFF`) und persistiert das
   Flag in `character.self_reflection` sowie `logs.flags.self_reflection`. Die
@@ -523,6 +525,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
      und trägt `reason: hq_only|chronopolis` in `logs.trace[]` ein.
   4. Danach folgen Exfil, SYS-, Stress- und Psi-Heat-Guards mit identischen
      Strings. Tooling nutzt dieselben Texte, damit Goldenfiles stabil bleiben.
+     `resume_token.previous_mode` plus `merge_conflicts.arena_resume[]` halten
+     den Übergang zurück ins HQ fest, wenn mitten in einer Arena-Session geladen
+     wird.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -600,11 +605,12 @@ if not char.get("psi") and not char.get("has_psi"):
     gleichmäßig.
   - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
     Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
-  - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level, HQ-Pool,
-    Wallet-Summe, Richtwerte, Chronopolis-Sinks); ein HUD-Toast erscheint nur
-    bei Abweichungen. Beim Laden behalten Host-HQ-Pool und Host-Wallets Vorrang;
-    Import-Wallets werden union-by-id angefügt und abweichende Balances/Labels
-    als Merge-Konflikte markiert.
+  - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
+    `target_range` für HQ-Pool+Wallet-Schnitt, Wallet-Summe,
+    `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein HUD-Toast erscheint
+    nur bei Abweichungen. Beim Laden behalten Host-HQ-Pool und Host-Wallets
+    Vorrang; Import-Wallets werden union-by-id angefügt und abweichende
+    Balances/Labels als Merge-Konflikte markiert.
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_
@@ -3132,7 +3138,9 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
    - Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst
      dann das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
    - **HQ-Intro:** vollständiges HQ-Intro unverändert abspielen, inklusive
-     Schlusszeile; keine Kürzungen oder Umschreibungen.
+     Schlusszeile; keine Kürzungen oder Umschreibungen. Das Langzitat liegt als
+     Referenz in `internal/qa/transcripts/start-transcripts.md` und spiegelt die
+     QA-Fixtures.
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
