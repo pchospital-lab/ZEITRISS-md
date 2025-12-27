@@ -298,7 +298,7 @@ den nächsten Umsetzungszyklus einzuplanen. Sie sind priorisiert nach Impact auf
 
 - Runtime-Gear-Alias entfernt; Armbänder sind reguläres Gear ohne
   Normalisierung.
-- QA: Acceptance 9 prüft, dass „Multi-Tool-Armband“ im Loadout bleibt.
+- QA-Check zu Armband-Loadouts entfällt (Thema obsolet, bleibt nur in den Alt-Protokollen).
 
 ### 8. Offline/Ask→Suggest/Alias/Squad-Radio als stabil vermerken (✅ erledigt)
 
@@ -328,7 +328,7 @@ halten die nächsten Schritte für Folge-Läufe fest.
 | #1 | Paradoxon-Intro invertiert | Einleitungstext korrigieren: Px steigt nur bei sauberer Stabilisierung; hartes Eingreifen lässt Px stagnieren oder sinken. QA: Einleitung/Start-Text gegen README spiegeln. | ✅ erledigt |
 | #2 | Doppelte Zeile in Acceptance #6 | Duplicate in `docs/qa/tester-playtest-briefing.md` und `doc.md` entfernt; QA-Parser bleibt auf kanonische Fehltexte aus Runtime/Toolkit ausgerichtet. | ✅ erledigt |
 | #3 | `arc_dashboard` optional vs. Pflichtcontainer | Speicherdoku/README/QA-Briefing harmonisiert; Save-Preview immer mit `arc_dashboard`. QA: Cross-Mode-Import mit Pflichtcontainer prüfen. | ✅ erledigt |
-| #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA: Loadout mit Armband bleibt unverändert. | ✅ erledigt |
+| #4 | Armbänder erlaubt, keine Normalisierung | Gear-Alias entfernen, Armbänder zulassen; Runtime + README + HUD + Toolkit + Speicher-Doku synchronisieren. QA-Check auf Armband-Loadouts entfällt (Thema abgeschlossen). | ✅ erledigt |
 | #5 | `seed_source` (trigger vs. trigger_pool) | Toolkit auf `seed_source = preserve|trigger` gespiegelt, Fixture angepasst; Pools bleiben `preserve_pool`/`trigger_pool`. | ✅ erledigt |
 | #6 | Boss-Gate/DR-Logs | PASS; optional `logs.trace[].boss` standardisieren (Typ/DR) für Snapshot-Stabilität. QA: Mission 5 Abschluss/Abbruch prüfen. | ✅ pass |
 | #7 | Ask↔Suggest | PASS; Overlay-Parser akzeptiert `· SUG` als optionales Suffix. QA: `SUG-ON/OFF` Toasts prüfen. | ✅ pass |
@@ -705,7 +705,7 @@ nächsten Durchläufe einzuplanen.
 | #13 | Accessibility Persistenz | Speicher-Snippet (`speicher-fortsetzung.md`) erweitert um `contrast`/`badge_density`/`output_pace`; Hinweis „Snippet gekürzt“ falls Beispiel minimal bleibt. | 🟠 offen |
 | #14 | Economy-Audit High-Tier | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen. | 🟢 pass |
 | #15 | Wallet-/Merge-Shape | Wallets auf ID→{name,balance} festlegen; Ablageort `merge_conflicts` (Trace vs. `logs.flags`) kanonisieren und Migrationshinweis ergänzen. | 🟠 offen |
-| #16 | Onboarding Intro | README klarstellen: Kurzintro (1–3 Sätze) vs. Vollzitat; QA-Fixtures auf kanonische Variante ausrichten. | 🟠 offen |
+| #16 | Onboarding Intro | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat. | 🟢 pass |
 | #17 | Save v6 Fixture (bereitgestellt) | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen. | 🟠 offen |
 
 Legende: 🟢 pass = kein Fix, als Golden-Check festhalten; 🟠 offen = Doku/Schemata präzisieren.
@@ -736,7 +736,7 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
 | #2 | Save-Schema v6 vs. README (Single Source, `field_notes`, `team.members`) | ✅ abgeschlossen – README & Modul 12 verweisen auf einheitliches Schema | M12; R |
 | #3 | Mission 5 Auto-Reset-Toast und QA-Schritt 0 „SF toggeln“ verankern | ✅ abgeschlossen – QA-Briefing führt Schritt 0 `!sf off`, HUD-Reset bleibt dokumentiert | RT; HUD; BRF |
 | #4 | SaveGuard-Copy vereinheitlichen (`toast_save_block(reason)`) | ✅ abgeschlossen – HQ-/Arena-/Exfil-Blocker teilen denselben Text | RT; R |
-| #5 | Gear-Armband als eigenes Gear | ✅ abgeschlossen – keine Normalisierung, Armbänder bleiben erhalten | RT; TK(16); R |
+| #5 | Gear-Armband als eigenes Gear | ✅ abgeschlossen – keine Normalisierung, keine weiteren QA-Checks zu Armbändern | RT; TK(16); R |
 | #6 | Dispatcher-Fehlertexte Startoptionen auf Acceptance-Strings trimmen | ✅ abgeschlossen – Gruppe/NPC-Fehler ohne Markdown | RT; TK(16) |
 | #7 | Gruppensave-Doku auf v6-kanonisch (Legacy nur Import) festziehen | ✅ abgeschlossen – `party.characters[]` ist die einzige Quelle, Legacy-Spiegel dokumentiert | M12; R |
 | #8 | `logs.field_notes[]` Pflicht vs. optional entscheiden und spiegeln | ✅ abgeschlossen – Feld optional, Serializer/Docs spiegeln leere Arrays | M12; R |
@@ -757,8 +757,6 @@ SF-OFF vor Start, Gate 2/2, Boss-DR-Toast in Szene 10, Auto-Reset auf SF-ON bei 
   `self_reflection_auto_reset_reason` gesetzt.
 - Smoke #8 SaveGuard: „Speichern nur im HQ“-Toast vs. Mission/Exfil/Arena-Blocker,
   Snapshot-Toleranz prüfen.
-- Smoke #9 Gear-Check: Command „Multi-Tool-Armband ausrüsten“ bleibt im Loadout, optional
-  `logs.hud[]` für PX/Seed-Hinweis.
 - Dispatcher-Smoke #4/#6: Startoptionen `npc-team 5` bzw. `gruppe 3` ohne Markdown, Strings
   Acceptance-konform.
 - Economy/Rift/Wallet: CU-Formel für identische Mission in Core vs. Rift (Seeds/Hazard-Pay),

@@ -42,15 +42,14 @@ Binde die Makros über `systems/toolkit-gpt-spielleiter.md` ein. Setze das Flag
    (klassisch/schnell sind erlaubt)“
 7. `Spiel laden` + kompatibler Save → Kodex-Recap-Overlay → HQ/Briefing (keine Startfrage)
 8. `Speichern` während Mission → Blocker „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“
-9. Gear-Check: „Multi-Tool-Armband ausrüsten“ bleibt als Armband im Loadout
-10. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
+9. „Px 5“ triggern → Hinweis: Seeds erzeugt, spielbar nach Episodenende, Reset danach
 
 ### Boss-Gates & HUD-Badges
 
-11. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
+10. `!helper boss` nach Mission 4 → Foreshadow-Liste zeigt Szene 5/10. HUD-Toast
     `Gate blockiert – FS 0/4 (Gate 2/2 bleibt gesetzt)`, bis Hinweise erfüllt
     sind.
-12. Mission 5 starten → HUD meldet den Encounter-Hinweis
+11. Mission 5 starten → HUD meldet den Encounter-Hinweis
     `Boss-Encounter in Szene 10`, zeigt `GATE 2/2` und – falls zuvor deaktiviert –
     `SF-OFF` (Suggest-Badge bleibt davon unberührt). Der Foreshadow-Zähler startet
     bei `FS 0/4` und zählt hoch. In Szene 10 erscheint der Toast `Boss-DR aktiviert – −X
@@ -61,18 +60,18 @@ Schaden pro Treffer` (DR nach Teamgröße/Boss-Typ laut
 
 ### Psi-Heat & Ressourcen-Reset
 
-13. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
+12. Psi-Charakter in Konflikt schicken, Psi-Aktion nutzen → HUD meldet
     `Psi-Heat +1`; nach Konflikt springt Psi-Heat automatisch auf 0. HQ-Transfer
     setzt SYS/Stress/Psi-Heat zurück.
 
 ### Accessibility & UI-Persistenz
 
-14. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
+13. `!accessibility` auslösen → Dialog öffnet sich. `High Contrast`,
     `Badges: dense` oder `compact` und `Output pace: slow` bestätigen; HUD-Toast
     „Accessibility aktualisiert …“ notieren und die aktualisierten UI-Felder im
     Save-Preview sichern. Legacy-Werte `full|minimal` werden auf
     `standard|compact` gemappt.
-15. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
+14. Save laden → `!accessibility` erneut öffnen → Einstellungen sind
     persistiert (`contrast: high`, `badge_density: dense|compact`,
     `output_pace: slow`).
 

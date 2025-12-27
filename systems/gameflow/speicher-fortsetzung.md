@@ -75,7 +75,9 @@ laufen über `hud_event(event, details)` und akzeptieren ausschließlich
 → `vehicle_clash`, `mass` → `mass_conflict`), normalisiert numerische Felder,
 ergänzt fehlende `at`-Timestamps automatisch und fällt bei unbekannten Events
 auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen.
-So bleiben Logs und QA-Snapshots stringstabil.
+So bleiben Logs und QA-Snapshots stringstabil; Acceptance-/Follow-up-Runner
+prüfen den Roundtrip explizit mit `vehicle_clash`/`mass_conflict`-Objekten und
+setzen die Budget-Guards (2 Toasts/ Szene, Gate/FS/Boss ausgenommen) voraus.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
@@ -766,6 +768,9 @@ Arena-Guards scharfgeschaltet werden.
 }
 ```
 
+_Snippet gekürzt: Fokus auf UI-Persistenz (`contrast`, `badge_density`,
+`output_pace`); vollständige Pflichtcontainer siehe Vollsave unten._
+
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
@@ -1150,7 +1155,9 @@ und werden beim Laden ignoriert.
 ### Legacy-Kompatibilität (Gear-Labels)
 
 > Hinweis für die Spielleitung: Gear-Bezeichnungen bleiben beim Laden erhalten.
-> Es gibt keine automatische Normalisierung oder erzwungene Umbenennung.
+> Es gibt keine automatische Normalisierung oder erzwungene Umbenennung. QA-
+> Snapshots spiegeln Loadouts 1:1; Namensabweichungen deuten auf einen
+> fehlerhaften Normalizer hin.
 
 ### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}
 
@@ -1873,7 +1880,9 @@ niemand wird dupliziert.
   zusätzlich `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der
   Einstieg übersprungen und kein HQ-Intro erneut ausgespielt wird. `SkipEntryChoice()` setzt
   parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg dokumentiert
-  bleibt – `StartMission()` respektiert ein bereits gesetztes Flag.
+  bleibt – `StartMission()` respektiert ein bereits gesetztes Flag. Das Runtime-Flag ist
+  ausschließlich transient; Persistenzanker bleiben `campaign.entry_choice_skipped` und
+  `ui.intro_seen`.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg**: Kein klassisch/schnell nach dem Load; der Flow endet nach Recap direkt im

@@ -409,7 +409,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   jüngsten Meldungen; `!radio clear` setzt das Funk-Log vor Missionsbeginn
   zurück.
 - Gear-Bezeichnungen bleiben erhalten; keine automatische Normalisierung von
-  Armbändern oder Tools.
+  Armbändern oder Tools. QA-Snapshots prüfen Loadouts 1:1; Runtime-Guards
+  rühren Labels nicht an und führen kein Re-Labelling beim Laden durch.
 - Beide Logs erscheinen im Debrief als `Alias-Trace (n×)` bzw. `Squad-Radio
   (n×)` und dienen als transparentes Einsatzprotokoll. Markiert Besonderheiten
   bei Bedarf zusätzlich im Missionslog.
@@ -441,7 +442,10 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
   Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events; fehlt `at`,
-  ergänzt der HQ-Save einen ISO-Zeitstempel.
+  ergänzt der HQ-Save einen ISO-Zeitstempel. QA-Runner spiegeln den Roundtrip
+  für `vehicle_clash`/`mass_conflict` als Objekt-Events (`event`, `scene`,
+  `details{…}`) und erwarten Budget-konforme Toaster, während Gate/FS/Boss
+  weiterhin außerhalb des Budgets laufen.
   - **Phase-Strike Arena.** `arenaStart(options)` schaltet auf PvP, setzt `phase_strike_tax = 1`
     und löst bei `phase_strike_cost()` den Toast „Arena: Phase-Strike …“ aus. Während der Arena
     blockiert das System HQ-Saves; der HUD-Hinweis benennt Tier, Szenario und Px-Status. Jede
@@ -3127,8 +3131,9 @@ sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits 
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
    - Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst
      dann das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
-   - **HQ-Kurzintro:** kurze, stimmige Zusammenfassung (1–3 Sätze) statt
-     Vollzitat; die Schlusszeile kann sinngemäß anklingen.
+   - **HQ-Intro:** vollständiges HQ-Intro unverändert abspielen, inklusive
+     Schlusszeile; keine Kürzungen oder Umschreibungen. QA-Fixtures nutzen das
+     Langzitat als Referenz.
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
@@ -3149,12 +3154,14 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
 `BeginNewGame()` folgt dem Ablauf aus [`cinematic-start.md`](gameflow/cinematic-start.md).
 `LoadSave()` nutzt [`speicher-fortsetzung.md`](gameflow/speicher-fortsetzung.md).
   - Setzt unmittelbar nach `hydrate_state()` `SkipEntryChoice()`, damit der
-    Einstieg übersprungen wird.
-  - Markiert `campaign.entry_choice_skipped=true` und `ui.intro_seen=true`, damit nach dem Load
-    kein HQ-Intro erneut läuft und keine Einstiegsauswahl erscheint.
+    Einstieg übersprungen wird; das Flag lebt ausschließlich in
+    `flags.runtime.skip_entry_choice` und ist damit transient.
+  - Persistenz erfolgt über `campaign.entry_choice_skipped=true` plus
+    `ui.intro_seen=true`, damit nach dem Load kein HQ-Intro erneut läuft und
+    keine Einstiegsauswahl erscheint.
   - `StartMission()` setzt `skip_entry_choice` nur dann auf `false`, wenn kein
     Überspringen dokumentiert ist; nach einem aktiven `SkipEntryChoice()` bleibt
-    der Nachweis erhalten.
+    der Nachweis erhalten, auch wenn das Runtime-Flag nicht in den Save serialisiert wird.
 
 ### Mission Resolution
 
