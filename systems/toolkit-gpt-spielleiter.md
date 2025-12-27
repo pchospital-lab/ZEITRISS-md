@@ -445,8 +445,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   bleibt.
 - **Vehikel-Overlay.** Für Boden- oder Luft-Verfolgungen `vehicle_overlay('vehicle', tempo, stress, schaden)`
   einsetzen. Tempo, Stress und Schaden dienen als sofortige Orientierung für den Verlauf.
-  Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events; fehlt `at`,
-  ergänzt der HQ-Save einen ISO-Zeitstempel. Roundtrips für
+  Die Overlay-Makros schreiben strukturierte `logs.hud[]`-Events, setzen fehlende
+  Szenenindizes auf die aktuelle Szene und ergänzen ISO-Zeitstempel automatisch.
+  Jede Erzeugung spiegelt einen Trace `hud_event`. Roundtrips für
   `vehicle_clash`/`mass_conflict` bleiben als Objekt-Events (`event`, `scene`,
   `details{…}`) budgetkonform, während Gate/FS/Boss weiterhin außerhalb des
   Budgets laufen.
