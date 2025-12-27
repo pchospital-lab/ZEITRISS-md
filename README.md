@@ -387,7 +387,9 @@ Spiel starten (gruppe schnell)
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
-  werden union-by-id angehängt, Konflikte landen in `logs.flags.merge_conflicts`.
+  werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
+  Konflikte landen in `logs.flags.merge_conflicts` plus dem Trace
+  `merge_conflicts`.
   Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
   (120/512/900+), `target_range` (HQ-Pool + Wallet-Richtwert), Delta-Flags
   (`delta`, `out_of_range`), `chronopolis_sinks` (Liste der angesetzten Sinks)

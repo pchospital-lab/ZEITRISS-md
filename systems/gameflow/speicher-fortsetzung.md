@@ -911,7 +911,13 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
-  ein Objekt – ggf. `{}`.
+  ein Objekt – ggf. `{}`. Beim Laden bleiben Host-Wallets maßgeblich, Import-
+  Wallets werden als Union-by-id angehängt; abweichende Beträge landen in
+  `logs.flags.merge_conflicts[]` und im Trace `merge_conflicts`. Alle Wallets
+  folgen dem Schema `id → {balance, name}`. Fehlende Namen ergänzt der
+  Serializer zuerst aus dem Import-Record, andernfalls aus
+  `team.members[]`/`party.characters[]`, damit Labels in Debrief und Import
+  übereinstimmen, während die Host-Balance Vorrang behält.
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
