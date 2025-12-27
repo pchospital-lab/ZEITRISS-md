@@ -87,6 +87,11 @@ betont.
   wird nicht in den Wissensspeicher geladen**; für Copy-/Paste im QA-Chat genügen Auszüge mit den
   relevanten Containern (z. B. `logs.hud[]`, `merge_conflicts`), das vollständige File bleibt
   lokal als Quelle für CI-Checks und Parser.
+- **Copy-Paste-QA 2025-12-27:** `internal/qa/fixtures/savegame_v6_copy_paste_2025-12-27.json`
+  verankert den letzten Acceptance-Lauf: HQ-Recap mit `campaign.entry_choice_skipped`/`ui.intro_seen`,
+  deterministische HUD-Events (`vehicle_clash`/`mass_conflict`), Wallet-Union per ID-Map und
+  Merge-/SaveGuard-Traces (`merge_conflicts` plus Offline-Hilfe-Hints). Dient als Roundtrip-Basis
+  Solo→Koop→PvP, inklusive Arena-Resume-Token und Skip-EntryChoice-Regression.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische Save-Schema
   ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
   `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung (z. B. Loader/CI) im Repo

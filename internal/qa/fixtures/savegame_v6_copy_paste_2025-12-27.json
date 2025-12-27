@@ -1,0 +1,138 @@
+{
+  "save_version": 6,
+  "zr_version": "4.2.5",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 12,
+    "mission": 5,
+    "mission_in_episode": 5,
+    "scene": 0,
+    "type": "core",
+    "mode": "preserve",
+    "px": 2,
+    "seed_source": "preserve",
+    "seed_id": "ARC-051",
+    "objective": "Sichere die Chronopolis-Schleuse und neutralisiere Psi-Echos.",
+    "entry_choice_skipped": true,
+    "hq_moments_used": ["BASTION"],
+    "hq_moment_last": "BASTION",
+    "rift_seeds": [
+      {"id": "RIFT-011", "epoch": "1983", "label": "Oko False Alarm", "status": "open", "seed_tier": "early"},
+      {"id": "RIFT-085", "epoch": "1953", "label": "Chrono Butcher", "status": "open", "seed_tier": "mid"},
+      {"id": "RIFT-404", "epoch": "2201", "label": "Deep Archive", "status": "open", "seed_tier": "late", "cluster_hint": "Paradoxon"}
+    ],
+    "exfil": {"active": false, "armed": false, "hot": false, "ttl": 0, "sweeps": 0, "stress": 0, "anchor": null, "alt_anchor": null},
+    "entry_choice_prompted": true
+  },
+  "character": {
+    "id": "CHR-2727",
+    "name": "Iris",
+    "rank": "Operator II",
+    "level": 12,
+    "xp": 1840,
+    "origin": {"epoch": "2089", "role": "Recon"},
+    "stress": 1,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "attributes": {
+      "STR": 4,
+      "GES": 6,
+      "INT": 5,
+      "CHA": 4,
+      "TEMP": 3,
+      "SYS_max": 6,
+      "SYS_installed": 6,
+      "SYS_runtime": 6,
+      "SYS_used": 6,
+      "hp": 13,
+      "hp_max": 13
+    },
+    "modes": ["mission_focus", "covert_ops_technoir"],
+    "self_reflection": true,
+    "has_psi": true,
+    "psi_buffer": true
+  },
+  "team": {"members": []},
+  "party": {"characters": []},
+  "loadout": {
+    "primary": "Gleiter Mk2",
+    "secondary": "Sidearm SD",
+    "armband": "Chrono-Brace"
+  },
+  "economy": {
+    "cu": 2400,
+    "credits": 2400,
+    "wallets": {
+      "iris": {"name": "Iris", "balance": 1200},
+      "hq_pool": {"name": "HQ-Pool", "balance": 1200}
+    }
+  },
+  "logs": {
+    "hud": [
+      {"event": "vehicle_clash", "at": "2025-12-27T12:00:00Z", "tempo": 5, "stress": 2, "damage": 1, "tag": "ARENA"},
+      {"event": "mass_conflict", "at": "2025-12-27T12:01:00Z", "chaos": 3, "break_sg": 1, "stress": 1, "tag": "BOSS"}
+    ],
+    "trace": [
+      {"event": "merge_conflicts", "channel": "LOAD", "note": "Host-Vorrang beim Merge", "merge_conflicts": 2, "conflict_fields": ["location", "economy.wallets.hq_pool"]},
+      {"event": "hud_event", "channel": "HUD", "event_kind": "vehicle_clash", "at": "2025-12-27T12:00:00Z", "scene": "HQ:Recap"}
+    ],
+    "foreshadow": [],
+    "artifact_log": [],
+    "market": [],
+    "offline": [
+      {"scene": "HQ:1", "topic": "Offline-Guide", "result": "pass", "hint": "Syntax-Hinweis"}
+    ],
+    "kodex": [],
+    "alias_trace": [],
+    "squad_radio": [],
+    "fr_interventions": [],
+    "arena_psi": [],
+    "psi": [],
+    "flags": {
+      "runtime_version": "4.2.5",
+      "chronopolis_warn_seen": true,
+      "compliance_shown_today": true,
+      "howto_guard_hits": ["offline:syntax"],
+      "offline_help_last_scene": "HQ:1",
+      "offline_help_count": 1,
+      "foreshadow_gate_progress": 2,
+      "merge_conflicts": [
+        {"field": "location", "source": "ARENA", "target": "HQ", "mode": "load", "note": "HQ-only: Standort zurückgesetzt"},
+        {"field": "economy.wallets.hq_pool", "source": {"balance": 1600, "name": "HQ"}, "target": {"balance": 1200, "name": "HQ-Pool"}, "mode": "merge", "note": "Wallet union: Host-Werte bevorzugt"}
+      ]
+    }
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "suggest_mode": false,
+    "action_mode": "konform",
+    "contrast": "high",
+    "badge_density": "compact",
+    "output_pace": "normal",
+    "voice_profile": "gm_third_person"
+  },
+  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": [], "timeline": []},
+  "arena": {
+    "active": false,
+    "phase": "completed",
+    "mode": "single",
+    "previous_mode": "klassisch",
+    "wins_player": 1,
+    "wins_opponent": 0,
+    "tier": 1,
+    "proc_budget": 2,
+    "artifact_limit": 1,
+    "loadout_budget": 3,
+    "phase_strike_tax": 0,
+    "damage_dampener": true,
+    "team_size": 1,
+    "fee": 0,
+    "scenario": "chronopolis_gate",
+    "started_episode": 12,
+    "last_reward_episode": 12,
+    "policy_players": ["Iris"],
+    "audit": []
+  }
+}
