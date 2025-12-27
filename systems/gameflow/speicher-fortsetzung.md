@@ -68,8 +68,8 @@ Das versionierte JSON-Schema liegt unter
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
 Die Schema-Datei wird nicht in den Wissensspeicher geladen und bleibt primär
-für Loader-/CI-Validierungen bestehen; für GPT-Läufe genügt das Klartextprofil
-unten.
+für Loader-/CI-Validierungen bestehen; für GPT-Läufe genügt das
+Klartextprofil unten.
 
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
 laufen über `hud_event(event, details)` und akzeptieren ausschließlich
@@ -95,8 +95,9 @@ noch füllen sie das Protokoll.
 `reason: offline`. Danach greift der Arena-Blocker (`reason: arena_active`
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,
-die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace,
-damit die Reihenfolge nachvollziehbar bleibt.
+die dieselben Guard-Strings nutzen. Alle Guards landen als `save_blocked`-Trace
+mit `reason`, `location` und `phase`, damit Reihenfolge und Auslöser in
+Snapshots transparent bleiben.
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es

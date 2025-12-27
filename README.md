@@ -391,6 +391,9 @@ Spiel starten (gruppe schnell)
   (`delta`, `out_of_range`) sowie Chronopolis-Sinks. Weichen HQ-Pool oder Wallet
   vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).“.
+  SaveGuards loggen `save_blocked` mit Grund, Standort (`location`) und Phase
+  (`phase`), damit die Reihenfolge und der Auslöser in Snapshots und QA-Runnern
+  sichtbar bleiben.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Normalisierer lassen
   die Labels unangetastet. Erreicht der
