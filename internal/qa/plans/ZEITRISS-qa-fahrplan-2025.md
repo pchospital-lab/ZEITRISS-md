@@ -692,7 +692,7 @@ nächsten Durchläufe einzuplanen.
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
 | #1 | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren. | 🟢 pass |
 | #2 | Load-Flow Flags | Persistenzquelle auf `campaign.entry_choice_skipped`/`ui.intro_seen` festlegen; `flags.runtime.skip_entry_choice` als transient dokumentieren. | ✅ erledigt |
-| #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | 🟢 pass |
+| #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | ✅ erledigt |
 | #4 | Gear-Label Stabilität | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen. | ✅ erledigt |
 | #5 | Paradoxon-Cluster/Merge-Cap | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren. | ✅ erledigt |
 | #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | 🟢 pass |
