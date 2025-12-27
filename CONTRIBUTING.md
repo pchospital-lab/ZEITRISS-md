@@ -66,6 +66,16 @@ Vielen Dank für deine Mithilfe!
 
 Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder Toolkit stehen.
 
+## QA-Inhalte trennen
+
+- QA- und Acceptance-Anweisungen landen in
+  `docs/qa/tester-playtest-briefing.md`, `docs/maintainer-ops.md` oder den
+  QA-Logs (`internal/qa/**`). Runtime-Module und Wissensspeicher bleiben frei
+  von QA-Prompts, damit der Spielablauf nicht mit Abnahmelisten vermischt wird.
+- Verweise auf Goldenfiles oder Smoke-Checks im Runtime-Bereich reduzieren und
+  stattdessen in den QA-Dokumenten bündeln. Nur zwingend nötige Runtime-Hinweise
+  (z. B. SaveGuards, HUD-Verhalten) bleiben in README/Toolkit.
+
 ## Wissensspeicher-Workflow
 
 - Die operative Plattformpflege liegt bei den Maintainer:innen. Sie folgen der Checkliste aus

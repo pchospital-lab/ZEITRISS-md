@@ -690,22 +690,22 @@ nächsten Durchläufe einzuplanen.
 
 | Issue | Thema | Fahrplan/Nächste Schritte | Status |
 | ----- | ------------------------------ | -------------------------------------------- | ------ |
-| #1 | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren. | 🟢 pass |
+| #1 | Dispatcher-Smoke (Acceptance 1–6) | Golden-Strings/Hint als Single Source halten; README ↔ Fixtures diffen; Smoke 1–6 in CI forcieren. | ✅ erledigt |
 | #2 | Load-Flow Flags | Persistenzquelle auf `campaign.entry_choice_skipped`/`ui.intro_seen` festlegen; `flags.runtime.skip_entry_choice` als transient dokumentieren. | ✅ erledigt |
 | #3 | SaveGuard-Reihenfolge | Guard-Strings als Golden-Strings zentralisieren; `log_save_blocked()` immer mit `reason`+`phase/location`. | ✅ erledigt |
 | #4 | Gear-Label Stabilität | Doku ergänzen: Gear-Namen werden nicht normalisiert; optional Snapshot-Test für Loadout-Namen. | ✅ erledigt |
 | #5 | Paradoxon-Cluster/Merge-Cap | Klarstellung: kein Hard-Limit beim Erzeugen, Cap 12 nur beim Merge; Trace-Payload (`cluster_create`, `rift_seed_merge_cap_applied`) harmonisieren. | ✅ erledigt |
 | #6 | Boss-Helper/Foreshadow | `!helper boss` Output (Gate+FS) stringstabil halten; DR/Teamgröße im Trace erzwingen. | ✅ erledigt |
-| #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | 🟢 pass |
-| #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | 🟢 pass |
+| #7 | Mission-5 Badge Auto-Reset | SF-OFF Schritt 0 dokumentiert; Auto-Reset M5/M10 Flags symmetrisch prüfen, Badge-Strings als Golden-Checks halten. | ✅ erledigt |
+| #8 | Modus Ask↔Suggest | Overlay-Suffix `· SUG` nach Load deterministisch; Snapshot-Runner ergänzen. | ✅ erledigt |
 | #9 | Offline-Flow | Rate-Limit/Hints beibehalten; SaveGuard-Order (offline→arena→hq_only→chronopolis) testen, offline-log Schema stabilisieren. | ✅ erledigt |
 | #10 | HUD-Events/QA-Budget | Schema auf `logs.hud` Objekt-Events prüfen oder Trace-Spiegel definieren; QA-Runner um Roundtrip für `vehicle_clash`/`mass_conflict` erweitern. | ✅ erledigt |
-| #11 | Arena/PvP Resume | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten. | 🟢 pass |
-| #12 | Psi-Heat Reset | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen. | 🟢 pass |
+| #11 | Arena/PvP Resume | Arena-Guard-Strings fixieren; Resume-Token + `merge_conflicts` Trace stabil halten. | ✅ erledigt |
+| #12 | Psi-Heat Reset | Konflikt-/HQ-Reset deterministisch halten; Acceptance 13 Solo & Arena testen. | ✅ erledigt |
 | #13 | Accessibility Persistenz | Speicher-Snippet (`speicher-fortsetzung.md`) erweitert um `contrast`/`badge_density`/`output_pace`; Hinweis „Snippet gekürzt“ falls Beispiel minimal bleibt. | ✅ erledigt |
-| #14 | Economy-Audit High-Tier | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen. | 🟢 pass |
+| #14 | Economy-Audit High-Tier | Trace-Payload (`target_range`, `chronopolis_sinks`) stabilisieren; Anchor-Tests 120/512/900+ in QA belassen. | ✅ erledigt |
 | #15 | Wallet-/Merge-Shape | Wallets auf ID→{name,balance} festlegen; Ablageort `merge_conflicts` (Trace vs. `logs.flags`) kanonisieren und Migrationshinweis ergänzen. | ✅ erledigt |
-| #16 | Onboarding Intro | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat. | 🟢 pass |
+| #16 | Onboarding Intro | HQ-Intro als Vollzitat verankert; README/Toolkit spiegeln die Langform, QA-Fixtures nutzen das vollständige Zitat. | ✅ erledigt |
 | #17 | Save v6 Fixture (bereitgestellt) | Fixture in `internal/qa/fixtures/` spiegeln und gegen Validator laufen lassen; Reimport-Roundtrip Solo→Koop→PvP prüfen. | ✅ erledigt |
 
 Legende: 🟢 pass = kein Fix, als Golden-Check festhalten; 🟠 offen = Doku/Schemata präzisieren.
