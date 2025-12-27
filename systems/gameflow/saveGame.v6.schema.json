@@ -185,7 +185,10 @@
         "contrast": { "type": "string", "enum": ["standard", "high"] },
         "badge_density": { "type": "string", "enum": ["standard", "dense", "compact"] },
         "output_pace": { "type": "string", "enum": ["normal", "fast", "slow"] },
-        "voice_profile": { "type": "string" }
+        "voice_profile": {
+          "type": "string",
+          "enum": ["gm_third_person", "gm_observer"]
+        }
       }
     },
     "arena": {
