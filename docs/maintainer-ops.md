@@ -209,6 +209,21 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
    der freigegebene Stand geladen wird, und notiere Abweichungen bei Bedarf im
    QA-Log.
 
+### Lokales LM Studio (RTX 4090)
+1. Modell/Quant: **Qwen2.5-32B-Instruct Q4_K_M** (ggf. Q5_K_M für mehr Tiefe). GPU-Offload und KV
+   Cache auf Maximum; 24 GB VRAM reichen. Thread-Pool 12–16, Kontext 8–12k.
+2. Sampling-Defaults: Temperatur 0,6–0,7; Top-p 0,9; Top-k 50–60; Repetition Penalty 1,02–1,05. Für
+   mehr Stringenz Temp 0,55–0,6 + Top-k 30–40.
+3. Prompting: **System Prompt = kompletter `meta/masterprompt_v6.md`**, Prompt-Template leer lassen.
+   Der Starter „Spiel starten (solo | gruppe, klassisch | schnell)“ setzt automatisch Anrede/Anzahl;
+   keine zusätzliche Rückfrage nötig.
+4. Wissensspeicher: die üblichen 20 Slots (README, master-index, 18 Runtime-Module). `meta/` bleibt
+   System-Prompt; für vollständige Attributfragen den Slot
+   `characters/charaktererschaffung-grundlagen.md` sicher laden.
+5. Flow-Erwartung: Compliance-Hinweis → Startbanner → wortgetreue README-Einleitung → Wahl
+   klassisch/schnell; bei klassisch Charakterbau mit sechs Basis-Attributen (STR, GES, INT, CHA,
+   TEMP, SYS) und 18-Punkte-Budget (Endwerte ≥ 1) vor HQ/Briefing.
+
 ### Spiegelprozess nach QA-Freigabe
 
 1. Prüfe im QA-Fahrplan, dass der relevante Abschnitt als abgeschlossen markiert und mit Commit-ID
