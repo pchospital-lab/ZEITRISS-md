@@ -117,10 +117,11 @@ euch das Maintainer-Dokument.
 
 ### Wissensspeicher laden
 
-1. **Dateien importieren:** Lade `README.md`, `master-index.json` sowie alle
-   unten aufgeführten 18 Runtime-Module in den Wissensspeicher deiner
-   Zielplattform. Diese 20 Slots sind exklusiv für die Runtime-Dokumentation
-   reserviert; andere Repo-Dateien dürfen nicht in den Wissensspeicher wandern.
+1. **Dateien importieren:** Lade `README.md`, `master-index.json` (alternativ
+   `master-index.md` als Markdown-Spiegel) sowie alle unten aufgeführten 18
+   Runtime-Module in den Wissensspeicher deiner Zielplattform. Diese 20 Slots
+   sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien
+   dürfen nicht in den Wissensspeicher wandern.
 2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als
    Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste Chatnachricht,
    OpenWebUI: Instruktionsfeld). Optional kannst du den Masterprompt zusätzlich
@@ -152,10 +153,11 @@ euch das Maintainer-Dokument.
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
-**Slot-Kennzeichnung im Index:** In `master-index.json` sind alle 20
-Wissensmodule (README, master-index und die 18 Runtime-Module) mit
-`"slot": true` markiert. Meta- oder Varianten-Einträge tragen `"slot": false`
-und zählen nicht als eigener Wissensspeicher-Slot.
+**Slot-Kennzeichnung im Index:** In `master-index.json` (identische Inhalte in
+`master-index.md` für Markdown-only-Plattformen) sind alle 20 Wissensmodule
+(README, master-index und die 18 Runtime-Module) mit `"slot": true` markiert.
+Meta- oder Varianten-Einträge tragen `"slot": false` und zählen nicht als
+eigener Wissensspeicher-Slot.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
@@ -185,7 +187,8 @@ ZEITRISS-md/
 ├─ docs/                    # Maintainer-Ops, Starttranskripte
 │                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
-└─ master-index.json        # Übersicht aller Module und Slugs
+├─ master-index.json        # Übersicht aller Module und Slugs
+└─ master-index.md          # Markdown-Spiegel des Modul-Index für LM Studio & Co.
 ```
 
 ### Dokumenten-Landkarte {#dokumenten-landkarte}
