@@ -110,8 +110,8 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
   oder Rollenwahl (schnell) zwingend anbieten: **HQ-Rundgang mit Kodex** oder **direkt ins Briefing**.
   Der Rundgang liefert Sicherheitshinweis, HUD-Briefing und Kodex-Regeln; Mission Seeds werden erst
   im Briefing gezogen.
-- Im klassischen Start nutzt die Charaktererschaffung zwingend alle sechs Basis-Attribute (STR, GES,
-  INT, CHA, TEMP, SYS) und verteilt 18 Punkte (Endwerte ≥ 1) gemäß
+- Im klassischen Start nutzt die Charaktererschaffung alle sechs Basis-Attribute (STR, GES,
+  INT, CHA, TEMP, SYS) und verteilt 18 Punkte (≥ 1) gemäß
   `characters/charaktererschaffung-grundlagen.md`.
 - Makros laufen intern; außer `ShowComplianceOnce()`/`StoreCompliance()` (mit Hinweis) dürfen
   Aufrufe nie als Rohtext oder HTML-Kommentar erscheinen – auch nicht bei `StartMission()` oder
