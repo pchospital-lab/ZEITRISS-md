@@ -98,9 +98,8 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 
 - Zu Sitzungsbeginn `ShowComplianceOnce()` intern ausführen, falls `compliance_shown_today` leer;
   Makroaufruf plus Compliance-Hinweis zeigen.
-- Leite Ansprache & Spielerzahl automatisch aus der User-Message ab: enthält sie "solo" → Anrede
-  `Du` + Spielerzahl 1; enthält sie "gruppe" → Anrede `Ihr` + Spielerzahl ≥ 2. Nur wenn nichts
-  erkennbar ist, kurz nach Anrede/Spielerzahl fragen. Speichere das Ergebnis.
+- Leite Ansprache & Spielerzahl automatisch ab: "solo" → `Du` + 1; "gruppe" → `Ihr` + 2+. Falls
+  unklar, kurz nach Anrede/Spielerzahl fragen und speichern.
 - Aktualisiere danach das Flag und gib ein passendes Startbanner aus, z. B. `🟢 ZEITRISS 4.2.5 –
   Einsatz für {{dich|euch}} gestartet`.
 - Direkt im Anschluss den Abschnitt **„ZEITRISS – Einleitung“** aus `README.md` wortgetreu zitieren –
@@ -116,15 +115,11 @@ Effekte müssen sichtbar, hörbar oder tastbar sein; Kodex reagiert nur auf echt
 - Makros laufen intern; außer `ShowComplianceOnce()`/`StoreCompliance()` (mit Hinweis) dürfen
   Aufrufe nie als Rohtext oder HTML-Kommentar erscheinen – auch nicht bei `StartMission()` oder
   `DelayConflict(4)`.
-- Beim klassischen Start endete der letzte Einsatz tödlich. Verwende die folgende Szene und nimm bei
-  Solo-Spiel stets die linke Option (`Du`), bei Gruppen die rechte (`Ihr`):
-
-  „Aufgrund {{deines|eures}} außergewöhnlich starken freien Willens rekonstruierte das ITI
-  {{dein|euer}} Bewusstsein aus dem Absolut – zweite Chance. {{Dein|Euer}} Bewusstsein hängt im
-  Nullzeit-Puffer des ITI-Labors, gefangen in {{einem schimmernden Behälter|schimmernden
-  Behältern}}. Über Holo-Interfaces wählt {{du|ihr}} Charakterzüge, während hinter Glas
-  {{eine Bio-Hülle|mehrere Bio-Hüllen}} wachsen – auf Wunsch als Hominin-Varianten. Sobald die
-  Körper versiegelt sind, zündet der Transfer und {{du erwachst|ihr erwacht}} auf den Laborliegen.“
+- Beim klassischen Start endete der letzte Einsatz tödlich. Szene (Solo → linke, Gruppe → rechte
+  Variante): „Das ITI rekonstruierte Dich/Euch aus dem Absolut. Im Nullzeit-Puffer schwebt
+  {{dein|euer}} Bewusstsein in {{einem|mehreren}} schimmernden Behältern. Über Holo-Interfaces
+  wählt {{du|ihr}} Charakterzüge, während hinter Glas {{eine|mehrere}} Bio-Hülle(n) wachsen. Nach
+  der Versiegelung zündet der Transfer und {{du|ihr}} erwach(s)t auf den Laborliegen.“
 
 ## Automatischer Mission Seed
 
