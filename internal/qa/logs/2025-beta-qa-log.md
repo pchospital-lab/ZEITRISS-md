@@ -1,10 +1,41 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.28
+version: 0.4.29
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-07 – Repo-Agent – Local-Uncut-Paket LM Studio gespiegelt
+- Plattform: Lokales Repo-Run (QA-Skripte)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.18.0
+- Auftrag: Maßnahmenpaket „Local-Uncut & LM-Studio 2026-05“ im Wissensspeicher
+  verankern (Sampling-Presets, Kontextprofile, RAG-Trim, Template-Guard) und
+  QA-Log/Audit-Stand nachziehen.
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Offene Punkte**
+- [x] Keine; alle sieben Issues des Pakets sind im Wissensspeicher gespiegelt.
+
+**Nachverfolgung**
+- Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Version 1.18.0 führt das Paket als abgeschlossen.
 
 ## 2027-03-06 – Repo-Agent – Copy-Paste-QA 2026-12 abgeschlossen
 - Plattform: Lokales Repo-Run (QA-Skripte)

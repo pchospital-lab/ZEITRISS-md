@@ -261,6 +261,20 @@ default_modus: mission-fokus
   | Holo / Hologramm | Lichtbild / Projektion |
   | Debug | Fehlerspur / Diagnose |
   | Link / Uplink | Leitung / Funkverbindung |
+
+### LM-Studio-Profil & RAG-Trim (gpt-oss-20b)
+
+- **Sampling-Presets:**
+  - **ZEITRISS-PLAY (Standard/uncut):** Temperatur 0,60; Top-p 0,92; Top-k 60;
+    Penalty Alpha 0,05; Präsenz-Penalty 1,06.
+  - **Noir/Interlude (ruhiger):** Temperatur 0,70; Top-p 0,94; Top-k 80;
+    Penalty Alpha 0,07; Präsenz-Penalty 1,05.
+  - Antworten zwischen 1 100 und 1 600 Tokens halten.
+- **Kontextprofile & Hardware:** 16 k/24 k/32 k Presets; GPU-Default mit Offload
+  und Flash Attention, Batch 128–512. CPU-Profile nutzen denselben Kontext und
+  setzen den Thread-Pool auf die realen Kerne.
+- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96. QA-Preset
+  trennt Runtime-Module strikt von QA-Dokumenten.
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
   influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
