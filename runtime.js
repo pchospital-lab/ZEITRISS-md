@@ -169,7 +169,7 @@ const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active',
 const ARENA_ZONES = ['safe', 'combat'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
 const DEFAULT_MODES = ['klassik', 'mission_focus', 'covert_ops_technoir'];
-const DEFAULT_ACTION_MODE = 'konform';
+const DEFAULT_ACTION_MODE = 'uncut';
 const ALLOWED_PHASES = ['core', 'transfer', 'rift', 'pvp'];
 const ATMOSPHERE_BANNED_TERMS = [
   'cyberspace',
@@ -2293,7 +2293,7 @@ function normalize_output_pace(value, fallback = 'normal'){
 function normalize_action_mode(value, fallback = DEFAULT_ACTION_MODE){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
   if (!normalized) return fallback;
-  if (['frei', 'free', 'full', 'open', 'uncut', 'gewalt'].includes(normalized)) return 'frei';
+  if (['frei', 'free', 'full', 'open', 'uncut', 'gewalt'].includes(normalized)) return 'uncut';
   const actionModes = [
     'konform',
     'compliance',
@@ -2473,9 +2473,9 @@ function ensure_action_contract(){
   ui.action_mode = actionMode;
   flags.platform_action_contract = {
     action_mode: actionMode,
-    pattern: 'intent-cut-result',
-    loot_policy: 'outcome_only',
-    body_handling: 'none'
+    pattern: 'full_scene',
+    loot_policy: 'full_loot',
+    body_handling: 'protocol'
   };
   flags.howto_guard_hits = normalize_howto_guard_hits(flags.howto_guard_hits);
   return flags.platform_action_contract;
@@ -8127,9 +8127,9 @@ function prepare_save_logs(logs, options = {}){
     ? { ...base.flags.platform_action_contract }
     : {};
   actionContract.action_mode = normalize_action_mode(actionContract.action_mode);
-  actionContract.pattern = 'intent-cut-result';
-  actionContract.loot_policy = 'outcome_only';
-  actionContract.body_handling = 'none';
+  actionContract.pattern = 'full_scene';
+  actionContract.loot_policy = 'full_loot';
+  actionContract.body_handling = 'protocol';
   base.flags.platform_action_contract = actionContract;
   base.flags.howto_guard_hits = normalize_howto_guard_hits(base.flags.howto_guard_hits);
   const qaFlags = normalize_qa_flags(base.flags);
