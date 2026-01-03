@@ -50,6 +50,11 @@ Das ZEITRISS-System unterscheidet klar vier Ebenen:
   Szenen und füllt fehlende Abschnitte mit Twists oder Gegenangriffen auf, bis der Zielkorridor
   (12 Core / 14 Rift) erreicht ist. **Kurzschnitte zählen nicht** – jede Szene muss eine Phase
   oder klare Wendung abbilden, damit das Gate nicht zum Aufsplitten von Missionen verleitet.
+- **Loot/Cleanup/Exfil gehören zum Flow:** Loot-Blöcke listen regulär Waffen/Tools,
+  Keys/Daten, Wert/CU und Hinweise; „heißes Loot“ wird markiert. Cleanup bleibt
+  ein Risiko- oder Protokoll-Entscheid (Zeit, Stress, Noise/Heat) statt
+  Schritt-für-Schritt-Anleitung. Exfil-Fenster sollen sichtbar bleiben und als
+  Optionen mit Risiken präsentiert werden.
 
 ## Kampagnenplanung im ZEITRISS-Stil
 

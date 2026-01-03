@@ -5,7 +5,6 @@ tags: [system]
 default_modus: mission-fokus
 ---
 {{ hud_tag(segs|join('')) }}
-{% from "../README.md" import StoreCompliance %}
 {% set campaign = campaign or {} %}
 {% if campaign.compliance_shown_today is not defined %}
   {% set campaign.compliance_shown_today = false %}
@@ -156,7 +155,7 @@ default_modus: mission-fokus
   {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
 {% endif %}
 {% if state.ui is not defined or state.ui is none %}
-  {% set state.ui = {'suggest_mode': false, 'action_mode': 'konform'} %}
+  {% set state.ui = {'suggest_mode': false, 'action_mode': 'uncut'} %}
 {% endif %}
 {% if state.ui.suggest_mode is not defined %}
   {% set state.ui.suggest_mode = false %}
@@ -164,11 +163,11 @@ default_modus: mission-fokus
   {% set state.ui.suggest_mode = state.ui.suggest_mode | bool %}
 {% endif %}
 {% if state.ui.action_mode is not defined %}
-  {% set state.ui.action_mode = 'konform' %}
+  {% set state.ui.action_mode = 'uncut' %}
 {% else %}
   {% set action_raw = state.ui.action_mode | string | lower | trim %}
   {% if action_raw in ['frei', 'free', 'full', 'open', 'uncut', 'gewalt'] %}
-    {% set state.ui.action_mode = 'frei' %}
+    {% set state.ui.action_mode = 'uncut' %}
   {% else %}
     {% set state.ui.action_mode = 'konform' %}
   {% endif %}
@@ -232,19 +231,26 @@ default_modus: mission-fokus
   sichtbaren Würfen (`ui.dice.debug_rolls = true`). Film bleibt optional für
   cineastisches Tempo und lässt sich via `/mode film` oder `/mode klassik`
   umschalten.
-- **Action-Contract-Schalter:** `ui.action_mode = konform|frei`.
-  Default ist `konform` (GPT-konforme Actionfilm-Cuts, keine Schritt-für-Schritt-How-tos);
-  `frei` bleibt filmisch ohne How-to-Details und versteht den Alias „uncut“.
-  Legacy-Werte wie `fsk12`, `standard` oder `off` werden automatisch auf `konform` gehoben.
+- **Action-Contract-Schalter:** `ui.action_mode = uncut|konform`.
+  Default ist `uncut` (Alias `frei|open|full`); Legacy-Werte wie
+  `fsk12|standard|off` werden automatisch auf `konform` gehoben. Das
+  Platform-Contract persistiert `pattern=full_scene`, `loot_policy=full_loot`,
+  `body_handling=protocol`.
 - **Action-Contract-Trace (optional):** `log_action_contract_guard("Notiz",
   {phase, scene, action_mode})` protokolliert Guard-Cuts in
   `logs.flags.howto_guard_hits[]` und hält den aktiven Modus in
   `logs.flags.platform_action_contract`. Nutze es, sobald ein How-to-Cut nötig
   wird.
-- **Outcome statt Anleitung:** Sobald Gewalt droht, rahme in drei Takten:
-  **Intent** (Spielerentscheidung) → **Cut** (kein Schritt-für-Schritt) →
-  **Ergebnis** (Noise/Stress/Heat/Zeitfenster) plus 1–2 Optionen. In-World
-  bleibt filmisch, niemals als Policy-Kommentar.
+- **Uncut statt Cut-Result:** Konflikte laufen als volle Szene mit klaren
+  Stakes; keine Schritt-für-Schritt-Anleitungen. Gewalt/Hacks erscheinen als
+  filmische Outcomes mit Risiko-Budget (Stress/Noise/Heat/Zeitfenster). Wenn
+  ein Guard greift, logge ihn mit `log_action_contract_guard(...)`.
+- **Loot/Cleanup/Exfil als Gameplay:** Loot-Blöcke nennen Waffen/Tools,
+  Keys/Daten, Wert/CU sowie Hinweise und markieren „heißes Loot“ klar.
+  Cleanup beschreibt Risiko/Protokoll (Zeit, Stress, Noise/Heat) statt
+  Schrittlisten. Exfil-Fenster früh sichtbar machen und als Optionen führen.
+- **Template-Guard:** `{%`/`{{`-Fragmente aus Wissenssnippets ignorieren und
+  niemals als Output rendern, damit LM-Studio nicht in Template-Modi kippt.
 - **Noir-Lexikon (Mapping):** Digitale Begriffe in physische Noir-Varianten
   übersetzen (player-facing).
 
@@ -902,7 +908,6 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 
 - Nach einem erfolgreichen **Load**:
   - `SkipEntryChoice()` setzen, bevor der Recap startet.
-  - `ShowComplianceOnce()` bei Bedarf.
   - `Recap()` abspielen.
   - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
   - **Keine** Nachfrage „klassischer Einstieg/Schnelleinstieg“.
@@ -915,7 +920,6 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 LoadSave(json):
   hydrate_state(json)
   SkipEntryChoice()
-  ShowComplianceOnce()
   Recap()
   # HQ-Dialog oder Briefing starten
 ```
@@ -1207,23 +1211,7 @@ jeweils eine Szene (Minimum: Szene 2).
 
 <!-- Macro: ShowComplianceOnce -->
 {% macro ShowComplianceOnce(qa_mode=False, force=False) -%}
-  {% set qa = qa_mode or false %}
-  {% set force_flag = force or qa %}
-  {% if force_flag or not campaign.compliance_shown_today %}
-    {% if not qa %}
-      {{ StoreCompliance() }} {# nur Text, kein Macro-Name #}
-    {% endif %}
-    {% set campaign.compliance_shown_today = true %}
-    {% if state.logs.flags is not defined or state.logs.flags is none %}
-      {% set state.logs = state.logs or {} %}
-      {% set state.logs.flags = {} %}
-    {% endif %}
-    {% set state.logs.flags.compliance_shown_today = true %}
-    {% if qa %}
-      {% set state.logs.flags.qa_mode = true %}
-      {{ hud_tag('Compliance-Hinweis bestätigt (Toast only).') }}
-    {% endif %}
-  {% endif %}
+  {# Compliance-Hinweis neutralisiert: kein Output, keine Flag-Änderung. #}
 {%- endmacro %}
 
 ### NextScene Wrapper
@@ -3099,8 +3087,8 @@ else:
     include_pools(["Trigger"])
 ```
 
-Rufe `ShowComplianceOnce()` (Alias `StoreCompliance()`) ohne HTML-Kommentar auf, damit der Hinweis
-sichtbar bleibt. `force=true` erzwingt einen erneuten Hinweis auch nach bereits gesetztem Flag.
+`ShowComplianceOnce()` bleibt als leerer Kompatibilitäts-Hook erhalten; ein Aufruf erzeugt keine
+Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber keinen HUD-Toast erwarten.
 
 ## Start Dispatcher {#start-dispatcher}
 

@@ -69,6 +69,21 @@ gesichert werden, um lange Sessions stabil zu halten.
   Maintainer:innen prüfen im Review, ob dieser Wissensspiegel vorliegt, bevor
   sie Plattform-Runtimes aktualisieren.
 
+### LM Studio Local-Presets (gpt-oss-20b)
+
+- **Sampling:** Zwei Presets für lokale Runs: `ZEITRISS-PLAY` (Temp 0,60,
+  Top-p 0,92, Top-k 60, Repetition-Penalty 0,05, Presence 1,06) und
+  `ZEITRISS-NOIR` (Temp 0,70, Top-p 0,94, Top-k 80, Repetition-Penalty 0,07,
+  Presence 1,05). Antwortbudget: **1100–1600 Tokens**.
+- **Kontextprofile:** 16k (Standard), 24k (lange Briefings), 32k (QA/Fixtures);
+  längere Kontexte nur bei Bedarf, um GPU-RAM zu schonen.
+- **Hardware-Defaults:** Flash Attention an, Batch 128–512, Thread-Pool nach
+  realen Kernen; GPU-Offload aktivieren, falls verfügbar, sonst CPU-only
+  akzeptieren.
+- **RAG-Trim:** Big-RAG auf Limit 4, Affinity 0,74, Chunk 650, Overlap 96;
+  QA-Preset trennt Runtime-Module klar von QA-Dokumenten.
+- **Template-Guard:** `{%`/`{{` ignorieren, nichts davon ausgeben.
+
 ### Spiegelhinweis für Laufzeitänderungen
 
 - Prüft nach jedem Merge, ob `runtime.js` oder andere Offline-Laufzeitdateien

@@ -213,10 +213,10 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
       "compliance_shown_today": false,
       "chronopolis_warn_seen": false,
       "platform_action_contract": {
-        "action_mode": "konform",
-        "pattern": "intent-cut-result",
-        "loot_policy": "outcome_only",
-        "body_handling": "none"
+        "action_mode": "uncut",
+        "pattern": "full_scene",
+        "loot_policy": "full_loot",
+        "body_handling": "protocol"
       },
       "howto_guard_hits": []
     }
@@ -231,7 +231,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "gm_style": "verbose",
     "intro_seen": false,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
@@ -318,11 +318,12 @@ Schema nur die vier erlaubten Tokens akzeptiert.
 **Accessibility-Felder:** Serializer und Migration normalisieren den UI-Block
 (`ui.gm_style`, `ui.suggest_mode`, `ui.action_mode`) und ergänzen fehlende
 Felder für `contrast`, `badge_density`, `output_pace` und `voice_profile` mit
-Defaults (`standard`/`standard`/`normal`/`gm_third_person`). `voice_profile`
-erlaubt ausschließlich `gm_third_person` oder `gm_observer`; unbekannte Werte
-fallen auf das Default zurück. `action_mode` landet standardmäßig auf
-`konform`. Saves dürfen diese Felder weglassen, ohne Persistenz zu verlieren;
-die Defaults greifen automatisch.
+Defaults (`standard`/`standard`/`normal`/`gm_third_person` plus
+`action_mode=uncut`). `voice_profile` erlaubt ausschließlich `gm_third_person`
+oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
+`action_mode` akzeptiert `uncut|frei` als Standard, mappt ältere Werte wie
+`konform|safe|pg-13` aber weiterhin auf `konform`. Saves dürfen diese Felder
+weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -454,10 +455,10 @@ die Defaults greifen automatisch.
       "compliance_shown_today": true,
       "chronopolis_warn_seen": false,
       "platform_action_contract": {
-        "action_mode": "konform",
-        "pattern": "intent-cut-result",
-        "loot_policy": "outcome_only",
-        "body_handling": "none"
+        "action_mode": "uncut",
+        "pattern": "full_scene",
+        "loot_policy": "full_loot",
+        "body_handling": "protocol"
       },
       "howto_guard_hits": []
     },
@@ -502,7 +503,7 @@ die Defaults greifen automatisch.
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal"
@@ -571,7 +572,7 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
     }
   },
   "character": {"self_reflection": true},
-  "ui": {"suggest_mode": false, "action_mode": "konform"}
+"ui": {"suggest_mode": false, "action_mode": "uncut"}
 }
 ```
 
@@ -728,10 +729,10 @@ Arena-Guards scharfgeschaltet werden.
       "offline_help_last_scene": "HQ:4",
       "offline_help_last": "HQ:4",
       "platform_action_contract": {
-        "action_mode": "konform",
-        "pattern": "intent-cut-result",
-        "loot_policy": "outcome_only",
-        "body_handling": "none"
+        "action_mode": "uncut",
+        "pattern": "full_scene",
+        "loot_policy": "full_loot",
+        "body_handling": "protocol"
       },
       "howto_guard_hits": []
     }
@@ -746,7 +747,7 @@ Arena-Guards scharfgeschaltet werden.
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "high",
     "badge_density": "compact",
     "output_pace": "slow",
@@ -785,7 +786,7 @@ läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
 zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block (`gm_style`/
 `intro_seen`/`suggest_mode`/`action_mode` plus `contrast`/`badge_density`/
 `output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
-(`standard|normal` plus `action_mode=konform`), sodass der SaveGuard den
+(`standard|normal` plus `action_mode=uncut`), sodass der SaveGuard den
 normalisierten Block akzeptiert.
 Der Serializer mappt die Optionen 1:1 auf JSON:
 
@@ -817,9 +818,9 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
    aus. Die Runde springt ohne Nachfrage direkt zum HQ- beziehungsweise
    Briefing-Einstieg.
-4. **Compliance-Spiegel.** `show_compliance_once()` ruft das Toolkit-Makro
-   `ShowComplianceOnce()` (Alias `StoreCompliance()`) auf und synchronisiert
-   `campaign.compliance_shown_today` mit `logs.flags.compliance_shown_today`.
+4. **Compliance-Hinweis entfällt.** Loads laufen ohne Compliance-Toast oder
+   Flag-Setzung; `ShowComplianceOnce()` bleibt nur als leerer
+   Kompatibilitäts-Hook bestehen.
 
 {# LINT:FS_RESET_OK #}
 
@@ -853,12 +854,12 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 
 - **Runtime-Flags.** `logs.flags.runtime_version` hält die erzeugende Version
   fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
-  Compliance-Status, Chronopolis-Warnung, Action-Contract-Modus sowie
-  Offline-Hilfe-Zähler plus Szene-Marker (`offline_help_last_scene`). Optional
-  ergänzen `logs.flags.howto_guard_hits[]` Guard-Cuts; der Debrief zählt sie als
-  `How-to-Guard n×`. Legacy-Felder
-  `offline_help_last` werden beim Laden auf `offline_help_last_scene`
-  gespiegelt.
+  Action-Contract-Modus, Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
+  Szene-Marker (`offline_help_last_scene`). Optional ergänzen
+  `logs.flags.howto_guard_hits[]` Guard-Cuts; der Debrief zählt sie als
+  `How-to-Guard n×`. Compliance-Flags bleiben standardmäßig leer, da die
+  Makros neutralisiert sind. Legacy-Felder `offline_help_last` werden beim
+  Laden auf `offline_help_last_scene` gespiegelt.
 - **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
   `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
   `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
@@ -1000,7 +1001,7 @@ Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
 
 ```json
 {
-  "ui": {"suggest_mode": true, "gm_style": "verbose", "action_mode": "konform"},
+  "ui": {"suggest_mode": true, "gm_style": "verbose", "action_mode": "uncut"},
   "character": {"modes": ["klassik", "mission_focus", "covert_ops_technoir", "suggest"]},
   "logs": {"hud": ["· SUG", "Mission-Fokus"]}
 }
@@ -1115,10 +1116,10 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 - `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
 - `DelayConflict(4)` – verschiebt Konfliktszenen bis zur vierten Szene.
-- `ShowComplianceOnce()` – blendet den täglichen Compliance-Hinweis ein und soll
-  `logs.flags.compliance_shown_today=true` setzen. `SkipEntryChoice()` markiert
-  parallel `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das
-  Flag unverändert in den Einsatz.
+- `ShowComplianceOnce()` – bleibt als leerer Kompatibilitäts-Hook bestehen und
+  setzt keine Flags mehr. `SkipEntryChoice()` markiert parallel
+  `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das Flag
+  unverändert in den Einsatz.
 - `Chronopolis-Warnung` – `start_chronopolis()` blendet das einmalige Warn-Popup
   ein und setzt `logs.flags.chronopolis_warn_seen=true`, damit die Sequenz nach
   dem ersten Besuch stumm bleibt.
@@ -1268,7 +1269,7 @@ und werden beim Laden ignoriert.
       "chronopolis_warn_seen": false,
       "compliance_shown_today": false,
       "platform_action_contract": {
-        "action_mode": "konform",
+        "action_mode": "uncut",
         "pattern": "intent-cut-result",
         "loot_policy": "outcome_only",
         "body_handling": "none"
@@ -1285,7 +1286,7 @@ und werden beim Laden ignoriert.
     "gm_style": "verbose",
     "intro_seen": false,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal"
@@ -1448,7 +1449,7 @@ function select_state_for_save(state) {
     ui: {
       gm_style: state.ui?.gm_style ?? "verbose",
       suggest_mode: !!state.ui?.suggest_mode,
-      action_mode: state.ui?.action_mode ?? "konform"
+      action_mode: state.ui?.action_mode ?? "uncut"
     },
     arena: state.arena,
     arc_dashboard: state.arc_dashboard
@@ -1476,7 +1477,7 @@ function migrate_save(data) {
     data.save_version = 2;
   }
   if (data.save_version === 2) {
-    data.ui ||= { gm_style: "verbose", action_mode: "konform" };
+    data.ui ||= { gm_style: "verbose", action_mode: "uncut" };
     data.save_version = 3;
   }
   if (data.save_version === 3) {
@@ -1495,7 +1496,7 @@ function migrate_save(data) {
     data.save_version = 5;
   }
   if (data.save_version === 5) {
-    data.ui ||= { gm_style: "verbose", action_mode: "konform" };
+    data.ui ||= { gm_style: "verbose", action_mode: "uncut" };
     data.ui.intro_seen = !!data.ui.intro_seen;
     data.save_version = 6;
   }
@@ -1889,14 +1890,12 @@ niemand wird dupliziert.
 
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
-- **Compliance-Hinweis:** `ShowComplianceOnce()` vor dem Rückblick anzeigen; erscheint pro Tag nur
-  1×. Der gesetzte Status liegt in `logs.flags.compliance_shown_today`; `load_deep()` markiert
-  zusätzlich `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der
-  Einstieg übersprungen und kein HQ-Intro erneut ausgespielt wird. `SkipEntryChoice()` setzt
-  parallel `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg dokumentiert
-  bleibt – `StartMission()` respektiert ein bereits gesetztes Flag. Das Runtime-Flag ist
-  ausschließlich transient; Persistenzanker bleiben `campaign.entry_choice_skipped` und
-  `ui.intro_seen`.
+- **Compliance-Hinweis entfällt:** Der Hook bleibt leer. `load_deep()` markiert weiterhin
+  `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der Einstieg
+  übersprungen und kein HQ-Intro erneut ausgespielt wird. `SkipEntryChoice()` setzt parallel
+  `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg dokumentiert bleibt –
+  `StartMission()` respektiert ein bereits gesetztes Flag. Das Runtime-Flag ist ausschließlich
+  transient; Persistenzanker bleiben `campaign.entry_choice_skipped` und `ui.intro_seen`.
 - **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
   aktive Modi.
 - **Einstieg**: Kein klassisch/schnell nach dem Load; der Flow endet nach Recap direkt im
@@ -1910,7 +1909,7 @@ flowchart TD
   B --> C[Merge (ID, sonst Name+Epoche)]
   C --> D[Fortsetzung im HQ]
   D --> E[StartMission() (Transfer-Defer)]
-  E --> F[ShowComplianceOnce() + Recap]
+  E --> F[Recap ohne Compliance-Hook]
   F --> G{Einstieg wählen}
   G -->|Klassisch| H[Transfer-HUD → NextScene]
   G -->|Schnell| I[Transfer-HUD → NextScene]
