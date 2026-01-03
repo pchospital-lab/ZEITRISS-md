@@ -124,9 +124,10 @@ euch das Maintainer-Dokument.
    dürfen nicht in den Wissensspeicher wandern.
 2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` (Local-Uncut
    4.2.5) als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste
-   Chatnachricht, OpenWebUI: Instruktionsfeld). Optional kannst du den
-   Masterprompt zusätzlich als Wissensspeicher-Modul ablegen. Die vorherige
-   Fassung liegt archiviert in `meta/archive/masterprompt_v6_legacy.md`.
+   Chatnachricht, OpenWebUI: Instruktionsfeld). Der Masterprompt gehört nicht
+   in den Wissensspeicher; er wird ausschließlich als Systemfeld bzw. erste
+   Nachricht geladen. Die vorherige Fassung liegt archiviert in
+   `meta/archive/masterprompt_v6_legacy.md`.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
    wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
@@ -162,9 +163,22 @@ eigener Wissensspeicher-Slot.
 
 ### Plattform-Setup
 
-- Plattform- und Modell-Presets (z. B. LM Studio) liegen ausschließlich in den
-  Maintainer-Ops (`docs/maintainer-ops.md`, tags: [meta]) und gehören **nicht**
-  in den Wissensspeicher.
+- Installations- und Upload-Wege liegen weiterhin in den Maintainer-Ops
+  (`docs/maintainer-ops.md`, tags: [meta]). Laufzeitrelevante Presets sind hier
+  gespiegelt, damit lokale Runs ohne Nachschlagen starten können.
+- **LM-Studio-Sampling (gpt-oss-20b):**
+  - **ZEITRISS-PLAY (Standard/uncut):** Temperatur 0,60; Top-p 0,92; Top-k 60;
+    Penalty Alpha 0,05; Präsenz-Penalty 1,06.
+  - **Noir/Interlude (ruhiger):** Temperatur 0,70; Top-p 0,94; Top-k 80;
+    Penalty Alpha 0,07; Präsenz-Penalty 1,05.
+  - Antwortfenster 1 100–1 600 Tokens halten.
+- **Kontextprofile & Hardware:** 16 k/24 k/32 k Profile; GPU-Default mit
+  Offload + Flash Attention, Batching 128–512. CPU-Profile nutzen denselben
+  Kontext, Thread-Pool auf reale Kerne setzen.
+- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96; QA-Preset
+  trennt Runtime-Module strikt von QA-Dokumenten.
+- **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
+  ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 

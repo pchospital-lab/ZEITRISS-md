@@ -13,13 +13,14 @@ Plattform-Listings synchron bleiben.
 ## Wissensspeicher & Grundsetup
 
 Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
-Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen.
-Die 20 verfügbaren Slots sind ausschließlich für diese Dateien reserviert –
-Repo-Hilfsdateien bleiben offline:
+Bestandteilen. Die 20 verfügbaren Wissensspeicher-Slots sind ausschließlich für
+README, Master-Index und die 18 Runtime-Module reserviert – der Masterprompt
+bleibt im Systemfeld (oder als erste Chatnachricht), Repo-Hilfsdateien bleiben
+offline:
 
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.5, Systemfeld
-   bzw. erste Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
-   Die Vorversion liegt als Referenz in `meta/archive/masterprompt_v6_legacy.md`.
+   bzw. erste Nachricht). Die Vorversion liegt als Referenz in
+   `meta/archive/masterprompt_v6_legacy.md`.
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
 3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
    den Runtime-Verzeichnissen.
@@ -48,9 +49,6 @@ Repo-Hilfsdateien bleiben offline:
 |              | `systems/gameflow/speicher-fortsetzung.md` |
 |              | `systems/kp-kraefte-psi.md` |
 |              | `systems/toolkit-gpt-spielleiter.md` |
-
-Optional kann der Masterprompt zusätzlich als Wissensspeicher-Eintrag
-gesichert werden, um lange Sessions stabil zu halten.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
@@ -193,15 +191,13 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
    Bedarf in `meta/archive/masterprompt_v6_legacy.md`.
 4. `README.md`, `master-index.json` sowie alle 16 Runtime-Module (ohne
    Runtime-Stub) in den Wissensspeicher hochladen.
-5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
-   längere Sessions stabil bleiben.
-6. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.5] beta** nennen.
-7. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Die Plattform
+5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.5] beta** nennen.
+6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Die Plattform
    läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
    QA-Log.
-8. QA und Publishing erst freigeben, wenn die Chat-Historie keine
+7. QA und Publishing erst freigeben, wenn die Chat-Historie keine
    personenbezogenen Daten enthält.
-9. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
+8. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
    das Store-Listing aktualisieren. Vermerkt die Spiegelung mit Verweis auf den
    QA-Log-Eintrag des grünen Runs.
 
@@ -211,10 +207,9 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 2. `meta/masterprompt_v6.md` (Local-Uncut 4.2.5), `README.md`,
    `master-index.json` und alle Runtime-Module (ohne Runtime-Stub) über die
    Büroklammer hochladen. Legacy-Prompt: `meta/archive/masterprompt_v6_legacy.md`.
-3. Optional alle Dateien in den Wissensspeicher übernehmen.
-4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
-   Beginn fixiert ist.
-5. Plattform wird aktuell nicht separat optimiert; dokumentiere nur
+3. README, Master-Index und Runtime-Module in den Wissensspeicher übernehmen;
+   der Masterprompt bleibt als Systemnachricht im Chat.
+4. Plattform wird aktuell nicht separat optimiert; dokumentiere nur
    Abweichungen, falls LUMO den freigegebenen Stand nicht übernimmt, und
    verlinke sie im QA-Log.
 
@@ -228,8 +223,8 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
    QA-Log.
 
 ### Lokales LM Studio (RTX 4090)
-1. Modell/Quant: **Qwen2.5-32B-Instruct Q4_K_M** (ggf. Q5_K_M für mehr Tiefe). GPU-Offload und KV
-   Cache auf Maximum; 24 GB VRAM reichen. Thread-Pool 12–16, Kontext 8–12k.
+1. Modell/Quant: Nutze das vom Maintainer freigegebene LM-Studio-Preset (GPU-Offload
+   und KV-Cache auf Maximum; 24 GB VRAM reichen). Thread-Pool 12–16, Kontext 8–12k.
 2. Sampling-Defaults: Temperatur 0,6–0,7; Top-p 0,9; Top-k 50–60; Repetition Penalty 1,02–1,05. Für
    mehr Stringenz Temp 0,55–0,6 + Top-k 30–40.
 3. Prompting: **System Prompt = kompletter `meta/masterprompt_v6.md`**, Prompt-Template leer lassen.
@@ -246,8 +241,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 
 1. Prüfe im QA-Fahrplan, dass der relevante Abschnitt als abgeschlossen markiert und mit Commit-ID
    versehen ist.
-2. Exportiere den Wissensspeicher aus dem MyGPT-Beta-Klon (Masterprompt, README, master-index und
-   Runtime-Module).
+2. Exportiere den Wissensspeicher aus dem MyGPT-Beta-Klon (README, master-index und Runtime-Module).
 3. Übertrage den Stand unverändert in den produktiven MyGPT und dokumentiere
    Datum sowie QA-Log-Referenz.
 4. Spiegele denselben Export im Anschluss auf Store-GPT, Proton LUMO und lokale
