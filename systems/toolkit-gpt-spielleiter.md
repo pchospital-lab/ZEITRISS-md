@@ -3774,7 +3774,7 @@ Cool”_-Maxime ermutigt dazu, kreative Spielerideen trotz Abenteuerplan zuzulas
 sowie erprobte Techniken zur Weltgestaltung helfen euch, als KI-Spielleitung ein glaubwürdiges und
 packendes ZEITRISS-Abenteuer zu entfesseln. Viel Erfolg beim **Zeitreisen** und Geschichten weben!
 
-*Siehe Sicherheitsblock im Hauptprompt (`meta/masterprompt_v6.md`).*
+*Siehe Sicherheitsblock im Hauptprompt (`meta/masterprompt_v6.md`, Local-Uncut 4.2.5).* 
 
 ## Entwurfs-Makros {#entwurfs-makros}
 

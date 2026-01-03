@@ -17,8 +17,9 @@ Bestandteilen und wird in jeder Zielplattform in den Wissensspeicher geladen.
 Die 20 verfügbaren Slots sind ausschließlich für diese Dateien reserviert –
 Repo-Hilfsdateien bleiben offline:
 
-1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld bzw. erste
-   Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
+1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.5, Systemfeld
+   bzw. erste Nachricht; optional zusätzlich als Wissensspeicher-Eintrag).
+   Die Vorversion liegt als Referenz in `meta/archive/masterprompt_v6_legacy.md`.
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
 3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
    den Runtime-Verzeichnissen.
@@ -172,8 +173,9 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. „Zeitreise-RPG mit
    Kodex-HUD, explosiven Würfeln und Solo/Coop-Balancing. Keine echten Daten,
    mehr Infos auf https://zeitriss.org/“.
-3. `meta/masterprompt_v6.md` vollständig in das Masterprompt-Feld kopieren und
-   speichern.
+3. `meta/masterprompt_v6.md` (Local-Uncut 4.2.5) vollständig in das
+   Masterprompt-Feld kopieren und speichern. Die Legacy-Fassung liegt bei
+   Bedarf in `meta/archive/masterprompt_v6_legacy.md`.
 4. `README.md`, `master-index.json` sowie alle 16 Runtime-Module (ohne
    Runtime-Stub) in den Wissensspeicher hochladen.
 5. Optional den Masterprompt zusätzlich im Wissensspeicher sichern, damit
@@ -191,8 +193,9 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 ### Proton LUMO (verschlüsselter Chat)
 1. Nach erfolgreicher MyGPT-Abnahme die LUMO-App starten und einen neuen Chat
    öffnen.
-2. `meta/masterprompt_v6.md`, `README.md`, `master-index.json` und alle
-   Runtime-Module (ohne Runtime-Stub) über die Büroklammer hochladen.
+2. `meta/masterprompt_v6.md` (Local-Uncut 4.2.5), `README.md`,
+   `master-index.json` und alle Runtime-Module (ohne Runtime-Stub) über die
+   Büroklammer hochladen. Legacy-Prompt: `meta/archive/masterprompt_v6_legacy.md`.
 3. Optional alle Dateien in den Wissensspeicher übernehmen.
 4. Den Masterprompt zusätzlich als Chatnachricht einfügen, damit die Rolle zu
    Beginn fixiert ist.
