@@ -1,10 +1,22 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.4
+version: 1.0.5
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-07 – Local-Uncut & LM-Studio 2026-05 gespiegelt
+
+- QA-Fahrplan 1.18.0 führt das Maßnahmenpaket „Local-Uncut & LM-Studio 2026-05"
+  als abgeschlossen; Wissensmodule spiegeln Sampling-Presets, RAG-Trim und den
+  Template-Guard für LM-Studio lokal.
+- README und Toolkit dokumentieren die beiden gpt-oss-20b-Presets (ZEITRISS-
+  PLAY, Noir/Interlude), Kontextprofile 16k/24k/32k mit GPU-/CPU-Defaults sowie
+  das Big-RAG-Limit 4 (Affinity 0,74, Chunk 650, Overlap 96). Template-Braces
+  werden als No-Op behandelt, um lokale Modelle vor Syntax-Ausgaben zu schützen.
+- QA-Log 0.4.29 hält die Pflichtsuite fest; nach dem Merge sind keine offenen
+  Punkte aus dem Paket mehr zu verfolgen.
 
 ## Update 2027-03-06 – Copy-Paste-QA 2026-12 abgeschlossen
 

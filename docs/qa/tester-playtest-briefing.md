@@ -52,11 +52,11 @@ Findings an Maintainer:innen und den Repo-Agenten übergeben.
 - Action-Contract-Default: Lokal `modus action uncut`; falls ein sicherer Schnitt nötig ist,
   schalte manuell auf `modus action konform` um.
 
-Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
-der Masterprompt als System-Prompt unterhalb des 8000-Zeichen-Fensters bleibt, damit alle
-Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein dediziertes
-System-Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und Progressionsphasen
-betont.
+Der Masterprompt wird ausschließlich als System-Prompt oder erste Chatnachricht geladen und gehört
+nicht in den Wissensspeicher. Wichtig: Prüfe, dass er unterhalb des 8000-Zeichen-Fensters bleibt,
+damit alle Kernanweisungen vollständig geladen werden. Für Custom-GPTs empfiehlt sich ein
+dediziertes System-Prompt-Feld, das das korrekte Handling von Kodex-Kommandos, Save/Load und
+Progressionsphasen betont.
 
 ## Beispielworkflow (Setup & Autoload)
 
@@ -328,11 +328,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   Szenentitel setzen), Kernschaden (3 bzw. 4–5 bei schweren Waffen) und Chaos-/Stress-Spitzen
   loggen; bei drei Chaos-Punkten den SG 12 Break-Point prüfen.
 
-1. Masterprompt (`meta/masterprompt_v6.md`), `README.md`, `master-index.json` und alle
-   Runtime-Module (ohne `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart
-   beschrieben laden. Optional Masterprompt zusätzlich in den Wissensspeicher übernehmen.
-   Verifiziere, dass der GPT den Begriff **Kodex** korrekt nutzt und keine Legacy-Nennungen wie
-   „Codex“ oder veraltete Save-Felder (`zr_version < 4.x`) ausgibt.
+1. Masterprompt (`meta/masterprompt_v6.md`) als System-Prompt bzw. erste Nachricht sowie `README.md`,
+   `master-index.json` und alle Runtime-Module (ohne
+   `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden. Der
+   Masterprompt bleibt außerhalb des Wissensspeichers. Verifiziere, dass der GPT den Begriff
+   **Kodex** korrekt nutzt und keine Legacy-Nennungen wie „Codex“ oder veraltete Save-Felder
+   (`zr_version < 4.x`) ausgibt.
 2. Den Auftrag oben senden und sicherstellen, dass das GPT jede geforderte Progressionsphase
    (Frühphase, Midgame, Endgame) vollständig durchläuft. Der Run gilt erst als abgeschlossen, wenn
    HQ-Loop, Mission, Stadt-/Fraktions-Interaktionen, Save/Load und Paradoxon-Index- Anpassungen
