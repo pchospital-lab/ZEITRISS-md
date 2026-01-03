@@ -44,14 +44,13 @@ Findings an Maintainer:innen und den Repo-Agenten übergeben.
 
 ### QA-Modus und Protokolle
 
-- QA-Sessions verwenden `ShowComplianceOnce(qa_mode=true)`: Der Compliance-Hinweis bleibt als
-  HUD-Toast, `logs.flags.qa_mode` markiert den Lauf.
+- Compliance-Hinweis entfällt: `ShowComplianceOnce()` ist neutralisiert und muss nicht mehr
+  aufgerufen werden; QA-Flag wird nicht gesetzt.
 - Startkommandos übergeben in QA-Läufen automatisch `qa_addressing` und `qa_player_count` an die
   Dispatcher-Logs.
 - Der Debrief setzt `logs.flags.qa_debrief=true`, damit QA-Parser vollständige Läufe erkennen.
-- Action-Contract-Default: QA-Läufe starten mit `modus action konform` (sicherer Schnitt). Für
-  lokale "uncut"-Runs stellst du bei Bedarf manuell auf `modus action frei` um; der
-  Copy-&-Paste-Auftrag ändert den Default nicht automatisch.
+- Action-Contract-Default: Lokal `modus action uncut`; falls ein sicherer Schnitt nötig ist,
+  schalte manuell auf `modus action konform` um.
 
 Optional kann der Masterprompt zusätzlich im Wissensspeicher gesichert werden. Wichtig: Prüfe, dass
 der Masterprompt als System-Prompt unterhalb des 8000-Zeichen-Fensters bleibt, damit alle
@@ -307,9 +306,8 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 
 ### Compliance-Hinweis im QA-Lauf
 
-- Nutze `ShowComplianceOnce(qa_mode=true)`, um nur den HUD-Toast zu setzen und den Chat von
-  Compliance-Text freizuhalten. Der Start-Dispatcher übernimmt Ansprache und Player-Count aus dem
-  Kommando.
+- Compliance-Toast entfällt; `ShowComplianceOnce()` ist leer. Der Start-Dispatcher übernimmt
+  Ansprache und Player-Count aus dem Kommando.
 
 ### QA-Flags & Zusatzmarker
 

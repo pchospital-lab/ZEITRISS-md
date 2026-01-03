@@ -58,13 +58,13 @@ tags: [meta]
 <!-- Macro: ShowComplianceOnce -->
 
 {% macro ShowComplianceOnce() -%}
-Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.
+{# Compliance-Hinweis neutralisiert; Hook bleibt für Legacy-Prompts bestehen. #}
 {%- endmacro %}
 
 <!-- Macro: StoreCompliance (Alias) -->
 
 {% macro StoreCompliance() -%}
-{{ ShowComplianceOnce() }} {# Alias für Legacy-Prompts, bitte ShowComplianceOnce bevorzugen. #}
+{# Alias bleibt leer; Compliance-Hinweis entfällt. #}
 {%- endmacro %}
 
 ## Überblick
@@ -160,6 +160,12 @@ euch das Maintainer-Dokument.
 Meta- oder Varianten-Einträge tragen `"slot": false` und zählen nicht als
 eigener Wissensspeicher-Slot.
 
+### Plattform-Setup
+
+- Plattform- und Modell-Presets (z. B. LM Studio) liegen ausschließlich in den
+  Maintainer-Ops (`docs/maintainer-ops.md`, tags: [meta]) und gehören **nicht**
+  in den Wissensspeicher.
+
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
 - `internal/runtime/runtime-stub-routing-layer.md`, `runtime.js`, Hilfsskripte und
@@ -215,7 +221,7 @@ ZEITRISS-md/
 
 Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
 
-Nach Compliance-Hinweis und Einleitung fragt das System nach
+Nach Einleitung (Compliance-Hook entfällt) fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_ – es sei denn, der Startbefehl
 enthält den Modus bereits.
 Bei **klassisch** folgt die volle Charaktererschaffung.
@@ -454,7 +460,7 @@ Ausgabetempo). Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert
 und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
 Block ab (`gm_style`, `suggest_mode`, `action_mode`, `contrast`, `badge_density`,
 `output_pace`, `voice_profile`), füllt fehlende Felder automatisch mit
-`standard|normal|gm_third_person` plus `action_mode=konform` und stellt sie beim
+`standard|normal|gm_third_person` plus `action_mode=uncut` und stellt sie beim
 Laden sofort wieder her (z. B. `contrast: high`, `badge_density: dense`,
 `output_pace: slow`). `voice_profile` akzeptiert nur `gm_third_person` (Default)
 oder `gm_observer`; alle anderen Eingaben werden auf das Default gehoben.
@@ -610,7 +616,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
   Accessibility-Felder `contrast`, `badge_density` und `output_pace` sowie das
   optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
-  mit Defaults (`standard|normal|gm_third_person`, `action_mode=konform`),
+  mit Defaults (`standard|normal|gm_third_person`, `action_mode=uncut`),
   sodass der SaveGuard den normalisierten UI-Block prüft.
   `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
   `character.modes`: Sobald eine Seite `suggest` gesetzt hat, aktiviert der
@@ -1306,7 +1312,7 @@ Drucktanks verstummen, entlädt sich ein Transferblitz, Sensoren flackern auf un
 dein Bewusstsein fährt in den Körper. Erst jetzt öffnest du die Augen in einer
 klinisch weißen Kammer.
 
-Nach Compliance-Hinweis und Einleitung wählst du zwischen
+Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
 
 - _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper.
@@ -1338,10 +1344,8 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
 Abzweigungen laufen. Legacy-Starts mit `preserve|trigger` in den Klammern werden
 mit einem Hinweis abgebrochen.
 
-Vor dem ersten Befehl blendet GPT kurz den Hinweis ein:
-{{ ShowComplianceOnce() }}
-Danach fragt die Spielleitung nach gewünschter Ansprache und Spielerzahl oder übernimmt
-beides direkt aus dem Startbefehl.
+Der Compliance-Hinweis entfällt; die Spielleitung fragt direkt nach gewünschter
+Ansprache und Spielerzahl oder übernimmt beides aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
 Beispiel: `🟢 ZEITRISS 4.2.5 – Einsatz für {{dich|euch}} gestartet`.
@@ -1559,16 +1563,18 @@ Hinweis; ihr würfelt analog/digital und gebt das Ergebnis zurück. `/roll open`
 schaltet die sichtbare Ausgabe wieder ein.
 
 **Action-Contract-Schalter.** Für Plattformwechsel gibt es einen Gewalt-Regler:
-`modus action|gewalt konform|frei` (Alias: `uncut` → `frei`). Standard ist
-`konform` als GPT-freundlicher Actionfilm-Cut (Intent → Schnitt → Ergebnis). Das
-schont How-to-Details, liefert filmische Konsequenzen und lässt Legacy-Werte
-(`fsk12`, `standard`, `off`) automatisch auf `konform` fallen. `frei` liefert
-das ungekürzte Feeling ohne How-to-Details.
-Grundregel: Keine Schritt-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen
-laufen über Noise, Stress, Heat oder enge Zeitfenster.
-Optional kann `log_action_contract_guard("Notiz", {phase, scene})` genutzt
-werden; der Save hält `logs.flags.platform_action_contract` und
-`logs.flags.howto_guard_hits[]`.
+`modus action|gewalt konform|uncut` (Alias: `frei|open|full`). Standard ist
+`uncut`; Legacy-Werte wie `fsk12|standard|off` fallen automatisch auf
+`konform`. Das Platform-Contract persistiert `pattern=full_scene`,
+`loot_policy=full_loot`, `body_handling=protocol`. Grundregel: keine Schritt-
+für-Schritt-Gewalt, kein Body-Handling; Konsequenzen laufen über Noise, Stress,
+Heat oder enge Zeitfenster. Optional kann `log_action_contract_guard("Notiz",
+{phase, scene})` genutzt werden; der Save hält `logs.flags.platform_action_contract`
+und `logs.flags.howto_guard_hits[]`.
+Loot-Blöcke sind wieder regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
+Wert/CU, Hinweise, „heißes Loot“ markieren). Cleanup beschreibt nur Risiko und
+Protokoll (Zeit, Stress, Noise/Heat) statt Schrittlisten; Exfil-Fenster bleiben
+sichtbar und werden als Optionen geführt.
 
 `noir_soft()` ist ein optionales HUD-Filter. Es zählt nicht als eigener Modus und lässt sich
 mit jedem Stil kombinieren; aktiv wird es nur, wenn der Spielleiter den Macro aufruft.

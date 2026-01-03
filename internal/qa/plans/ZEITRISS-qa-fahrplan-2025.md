@@ -1041,26 +1041,26 @@ Aufgaben inkl. Fundstellen zusammen.
 | | | Noir/Interlude 0,70/0,94/80/0,07/1,05) plus Antwort-Limit 1100–1600
 | | | Tokens; Kontextprofile 16k/24k/32k dokumentieren und GPU/CPU-Defaults
 | | | (Offload, Flash Attention, Batch 128–512, Thread-Pool nach Kernen)
-| | | in README/Toolkit spiegeln. | 🟡 offen |
+| | | in README/Toolkit spiegeln. | ✅ erledigt |
 | #2 | RAG-Settings entschlacken | Big-RAG auf Limit 4, Affinity 0,74, Chunk 650, Overlap 96
 | | | trimmen; QA-Preset trennt Runtime-Module von QA-Dokumenten. Fundstelle:
-| | | aktuelle RAG-Werte in LM-Studio-Preset/Tooling. | 🟡 offen |
+| | | aktuelle RAG-Werte in LM-Studio-Preset/Tooling. | ✅ erledigt |
 | #3 | Compliance-Makros neutralisieren | `ShowComplianceOnce`/`StoreCompliance` in README und
 | | | `systems/toolkit-gpt-spielleiter.md` zu No-Ops umbauen oder entfernen;
 | | | `systems/gameflow/speicher-fortsetzung.md` entbindet Loads von der
-| | | Pflicht, den Hinweis auszugeben. | 🟡 offen |
+| | | Pflicht, den Hinweis auszugeben. | ✅ erledigt |
 | #4 | Action-Contract Default auf „uncut“ | Save-/UI-Defaults auf `action_mode=frei|uncut`,
 | | | Pattern `full_scene` (statt intent-cut-result), `loot_policy=full_loot`,
 | | | `body_handling=protocol` umstellen; Schema-/Beispielblöcke in
-| | | `systems/gameflow/speicher-fortsetzung.md` und README anpassen. | 🟡 offen |
+| | | `systems/gameflow/speicher-fortsetzung.md` und README anpassen. | ✅ erledigt |
 | #5 | Loot/Cleanup/Exfil als Gameplay | Loot-Blöcke wieder standardisieren (Waffen/Tools,
 | | | Keys/Daten, Wert/CU, Hinweise, „heißes Loot“ markiert) ohne Body-Search-
 | | | Anleitung; Cleanup als Risiko/Protokoll mit Kosten (Zeit, Stress,
 | | | Noise/Heat) beschreiben; Exfil-Fenster wieder hervorheben. Spiegel in
-| | | README, Toolkit und kampagnenstruktur. | 🟡 offen |
+| | | README, Toolkit und kampagnenstruktur. | ✅ erledigt |
 | #6 | Template-Syntax-Guard | Systemprompt/Toolkit ergänzen: `{%`/`{{` ignorieren, keine
 | | | Template-Klammern ausgeben; Fokus auf Klartext-Regeln, um oss-20b
-| | | Verwirrung zu vermeiden. | 🟡 offen |
+| | | Verwirrung zu vermeiden. | ✅ erledigt |
 | #7 | Neuer Systemprompt & Presets | Systemprompt „ZEITRISS 4.2.5 – LOCAL UNCUT“ liegt in
 | | | `meta/masterprompt_v6.md` (Legacy in `meta/archive/masterprompt_v6_legacy.md`),
 | | | Hinweise in README/Toolkit/Debrief aktualisiert. LM-Studio-Presets weiter
