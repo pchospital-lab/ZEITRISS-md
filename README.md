@@ -122,10 +122,11 @@ euch das Maintainer-Dokument.
    Runtime-Module in den Wissensspeicher deiner Zielplattform. Diese 20 Slots
    sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien
    dürfen nicht in den Wissensspeicher wandern.
-2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` als
-   Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste Chatnachricht,
-   OpenWebUI: Instruktionsfeld). Optional kannst du den Masterprompt zusätzlich
-   als Wissensspeicher-Modul ablegen.
+2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` (Local-Uncut
+   4.2.5) als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste
+   Chatnachricht, OpenWebUI: Instruktionsfeld). Optional kannst du den
+   Masterprompt zusätzlich als Wissensspeicher-Modul ablegen. Die vorherige
+   Fassung liegt archiviert in `meta/archive/masterprompt_v6_legacy.md`.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
    wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
@@ -1196,9 +1197,11 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 18 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
 mit `README.md` und `master-index.json` umfasst das Regelwerk **20** Dateien –
 die Wissensspeicher-Slots sind damit vollständig belegt.
-`meta/masterprompt_v6.md` wird separat per Copy-Paste genutzt. Im
-`master-index.json` erscheinen **25** Slugs, weil manche Einträge Kurz- und
-Langfassungen desselben Moduls auflisten.
+`meta/masterprompt_v6.md` (Local-Uncut 4.2.5) wird separat per Copy-Paste
+genutzt. Die Legacy-Fassung liegt unter
+`meta/archive/masterprompt_v6_legacy.md`. Im `master-index.json` erscheinen
+**25** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls
+auflisten.
 Eine kompakte
 [HUD-Übersicht zu Health, Stress und Zuständen](characters/hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
