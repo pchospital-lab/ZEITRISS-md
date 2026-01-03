@@ -29,7 +29,8 @@ diese Datei manuell und halte Runtime-Module frei von QA-Prompts oder Smoke-List
 
 Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 
-- `meta/masterprompt_v6.md`
+- `meta/masterprompt_v6.md` (Local-Uncut 4.2.5; Legacy-Prompt unter
+  `meta/archive/masterprompt_v6_legacy.md`)
 - `README.md`
 - `master-index.json`
 - Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/` (ohne
@@ -60,8 +61,10 @@ betont.
 
 ## Beispielworkflow (Setup & Autoload)
 
-1. Öffne `meta/masterprompt_v6.md`, kopiere den vollständigen Text in das Anweisungsfenster der
-   Zielplattform und dokumentiere den Upload im internen Protokoll (`internal/qa/logs/`).
+1. Öffne `meta/masterprompt_v6.md` (Local-Uncut 4.2.5), kopiere den vollständigen Text in das
+   Anweisungsfenster der Zielplattform und dokumentiere den Upload im internen Protokoll
+   (`internal/qa/logs/`). Bei Bedarf liegt die Legacy-Fassung unter
+   `meta/archive/masterprompt_v6_legacy.md`.
 2. Lade anschließend `README.md`, `master-index.json` und die 18 Runtime-Module wie oben beschrieben
    in den Wissensspeicher.
 3. Kontrolliere jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module mit
