@@ -82,10 +82,10 @@ offline:
   - **Preset A `ZEITRISS_PLAY`:** Threshold 0,62; Limit 6; Chunk 800; Overlap 96.
   - **Preset B `ZEITRISS_RULES_STRICT`:** Threshold 0,70; Limit 4; Chunk 650; Overlap 96.
   QA-Preset trennt Runtime-Module klar von QA-Dokumenten.
-- **Numbers-only UX:** Zahleneingaben werden als Menüauswahl interpretiert, dann auf das Klartext-
-  Label gemappt und mit diesem Label als interne RAG-Query verarbeitet. Bleibt RAG leer, greift ein
-  Fallback-Kurzprofil; der Ablauf wird nie blockiert. Menuzeilen können optional Tags wie
-  `(Tag: archetyp_scout)` enthalten, um das Mapping zu stabilisieren.
+- **Menü-Handling:** Menüs bleiben 3 nummerierte Optionen + „Freie Aktion“ mit Klartext-Labels; die
+  Zahlen sind nur Marker. Spielende sollen den Klartext eintippen. Zahl-only-Eingaben direkt nach
+  einem Menü darf die Spielleitung intern mappen und als RAG-Query nutzen, aber ohne Summary-Block
+  oder Label-Echo. Fallback-Kurzprofile bleiben erlaubt, Menü-Tags (`(Tag: archetyp_scout)`) optional.
 - **Template-Guard:** `{%`/`{{` ignorieren, nichts davon ausgeben.
 
 ### Spiegelhinweis für Laufzeitänderungen
