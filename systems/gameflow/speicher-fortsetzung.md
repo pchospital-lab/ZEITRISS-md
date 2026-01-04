@@ -11,6 +11,24 @@ tags: [system]
 > Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
+## Save-Prompts im HQ-Flow
+- **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
+  Missionen, Arenawarteschlangen oder Chronopolis.
+- **Empfohlene Trigger (chronologisch):**
+  - Direkt nach Charaktererstellung beim ersten Betreten des HQ („Erster HQ-Stand, bitte DeepSave“).
+  - Nach jedem Debrief, sobald die Belohnungen verbucht sind und die Crew wieder frei im HQ steht.
+  - Vor jedem neuen Briefing/Absprung (Core, Rift, PVP-Arena): erst speichern, dann Briefing
+    anfordern/mission locken, damit der Save im HQ startet und kein offenes Missions-Block im JSON
+    landet.
+  - Bei langen HQ-Freeplay-Phasen: kurz erinnern, sobald eine neue freie Runde beginnt (z. B. nach
+    Arena-Matches oder Side-Activities), aber nur wenn `arena.queue_state == idle`.
+- **Chronopolis & Arena:** Chronopolis zählt als City und blockiert Save-Prompts; erst zurück im HQ
+  erneut anregen. PVP-Arena speichert nicht – Save-Prompt erst nach Rückkehr ins HQ bei
+  `queue_state=idle|completed`.
+- **Chat-Hygiene:** Empfohlen ist ein frischer Chat pro HQ→Mission→HQ-Zyklus. Leite nach dem Save
+  an: „Nächster Chat? JSON importieren, dann weiter.“ So bleibt der Deepsave die einzige Quelle der
+  Wahrheit.
+
 **SaveGuard (Pseudocode)**
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
