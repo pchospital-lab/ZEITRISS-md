@@ -78,8 +78,14 @@ offline:
 - **Hardware-Defaults:** Flash Attention an, Batch 128–512, Thread-Pool nach
   realen Kernen; GPU-Offload aktivieren, falls verfügbar, sonst CPU-only
   akzeptieren.
-- **RAG-Trim:** Big-RAG auf Limit 4, Affinity 0,74, Chunk 650, Overlap 96;
+- **RAG-Trim-Presets:**
+  - **Preset A `ZEITRISS_PLAY`:** Threshold 0,62; Limit 6; Chunk 800; Overlap 96.
+  - **Preset B `ZEITRISS_RULES_STRICT`:** Threshold 0,70; Limit 4; Chunk 650; Overlap 96.
   QA-Preset trennt Runtime-Module klar von QA-Dokumenten.
+- **Numbers-only UX:** Zahleneingaben werden als Menüauswahl interpretiert, dann auf das Klartext-
+  Label gemappt und mit diesem Label als interne RAG-Query verarbeitet. Bleibt RAG leer, greift ein
+  Fallback-Kurzprofil; der Ablauf wird nie blockiert. Menuzeilen können optional Tags wie
+  `(Tag: archetyp_scout)` enthalten, um das Mapping zu stabilisieren.
 - **Template-Guard:** `{%`/`{{` ignorieren, nichts davon ausgeben.
 
 ### Spiegelhinweis für Laufzeitänderungen
