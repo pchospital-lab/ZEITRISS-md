@@ -3177,19 +3177,16 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
     Überspringen dokumentiert ist; nach einem aktiven `SkipEntryChoice()` bleibt
     der Nachweis erhalten, auch wenn das Runtime-Flag nicht in den Save serialisiert wird.
 
-### Numbers-only UX + RAG-Anker
+### Menü-Handling (Klartext vor Zahl)
 
-- Zahleneingaben (z. B. `6`) gelten immer als Menüauswahl aus dem zuletzt
-  ausgegebenen Menü. Keine Nachfragen, kein Halt im Flow.
-- Mappe die Zahl auf den Menütext (z. B. `6 → Scout – Aufklärung und schnelle
-  Manöver`) und nutze diesen Klartext als interne RAG-Query (z. B. „Archetyp
-  Scout Aufklärung Startprofil Ausrüstung Regeln STR GES …“).
-- Wenn RAG keinen Treffer liefert, verwende ein stimmiges Fallback-Kurzprofil
-  und gehe weiter; RAG-Ausfall darf den Ablauf nie blockieren.
-- Wiederhole in der Antwort einmal das Klartext-Label der gewählten Option, um
-  den Kontext für spätere Queries zu verankern.
-- Optional: Ergänze Menüzeilen um schlanke Tags (z. B. `6 Scout – … (Tag:
-  archetyp_scout)`), damit die Mapping-Query stabil bleibt.
+- Menüs zeigen weiterhin 3 nummerierte Optionen plus „Freie Aktion“, aber der
+  Klartext ist die maßgebliche Auswahl. Zahlen sind nur Marker.
+- Spielende sollen den Klartext eintippen; Zahl-only-Eingaben direkt nach einem
+  Menü darfst du intern auf das Label mappen und als RAG-Query nutzen, ohne
+  Summary-Block oder Label-Echo. Flow nicht anhalten.
+- Bleibt RAG leer, nutze ein stimmiges Kurzprofil; kein Abbruch. Optionale Tags
+  in Menüzeilen (`(Tag: archetyp_scout)`) bleiben erlaubt, um das Mapping zu
+  stabilisieren.
 
 ### Mission Resolution
 
