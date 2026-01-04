@@ -21,6 +21,8 @@ tags: [meta]
 - Alias-/Funk-Logs (`!alias log`, `!radio log`) samt `!alias clear`/`!radio clear`, Persistenz und
   Debrief-Zeilen sind in README und Toolkit dokumentiert; QA-Fahrplan & Evidenz spiegeln die neuen
   Dispatcher-Hinweise.
+- Masterprompt (Local Uncut) vereint Einleitungszitat, HQ-Flow und klare Wissensspeicher-Anbindung
+  für LM-Studio-Runs; Start-, Briefing- und Charakterlogik aus Legacy übernommen.
 - SaveGuard verhindert HQ-Deepsaves mit unvoller Systemlast (Fehler „SaveGuard: SYS nicht voll.“);
   README, Toolkit und Speicher-Modul bestätigen weiterhin volle SYS-Beispiele (5/5, 6/6).
 - Runtime spiegelt Rift-Missionsdaten: `StartMission()`/`reset_mission_state()` übernehmen
