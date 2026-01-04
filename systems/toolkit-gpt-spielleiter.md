@@ -273,8 +273,10 @@ default_modus: mission-fokus
 - **Kontextprofile & Hardware:** 16 k/24 k/32 k Presets; GPU-Default mit Offload
   und Flash Attention, Batch 128–512. CPU-Profile nutzen denselben Kontext und
   setzen den Thread-Pool auf die realen Kerne.
-- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96. QA-Preset
-  trennt Runtime-Module strikt von QA-Dokumenten.
+- **RAG-Trim-Presets:**
+  - **Preset A `ZEITRISS_PLAY`:** Threshold 0,62; Limit 6; Chunk 800; Overlap 96.
+  - **Preset B `ZEITRISS_RULES_STRICT`:** Threshold 0,70; Limit 4; Chunk 650; Overlap 96.
+  QA-Preset trennt Runtime-Module strikt von QA-Dokumenten.
 - **Core-Ziele mischen:** Briefings kombinieren **Anchor** + Auftragstyp
   (`protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document |
   influence | prevent`). Priorisiere Personen-/Einflussziele (≈ 60 %) vor reinen
@@ -3174,6 +3176,20 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
   - `StartMission()` setzt `skip_entry_choice` nur dann auf `false`, wenn kein
     Überspringen dokumentiert ist; nach einem aktiven `SkipEntryChoice()` bleibt
     der Nachweis erhalten, auch wenn das Runtime-Flag nicht in den Save serialisiert wird.
+
+### Numbers-only UX + RAG-Anker
+
+- Zahleneingaben (z. B. `6`) gelten immer als Menüauswahl aus dem zuletzt
+  ausgegebenen Menü. Keine Nachfragen, kein Halt im Flow.
+- Mappe die Zahl auf den Menütext (z. B. `6 → Scout – Aufklärung und schnelle
+  Manöver`) und nutze diesen Klartext als interne RAG-Query (z. B. „Archetyp
+  Scout Aufklärung Startprofil Ausrüstung Regeln STR GES …“).
+- Wenn RAG keinen Treffer liefert, verwende ein stimmiges Fallback-Kurzprofil
+  und gehe weiter; RAG-Ausfall darf den Ablauf nie blockieren.
+- Wiederhole in der Antwort einmal das Klartext-Label der gewählten Option, um
+  den Kontext für spätere Queries zu verankern.
+- Optional: Ergänze Menüzeilen um schlanke Tags (z. B. `6 Scout – … (Tag:
+  archetyp_scout)`), damit die Mapping-Query stabil bleibt.
 
 ### Mission Resolution
 
