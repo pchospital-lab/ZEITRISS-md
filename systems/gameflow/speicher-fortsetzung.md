@@ -1150,6 +1150,9 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
 
 - Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
+- Px steigt, wenn die Zelle das dokumentierte Hauptereignis einer Mission
+  stabilisiert – egal ob subtil oder brachial. Nur grobe Paradoxa oder
+  verlorene Kernziele lassen die Resonanz stagnieren oder selten um 1 fallen.
 - Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus, normalisiert den
   Pool (auch beim Laden) als Objekt-Liste und markiert den Px-Reset als
   „anhängig“ (`px_reset_pending=true`, `px_reset_confirm=false`). Das Trace

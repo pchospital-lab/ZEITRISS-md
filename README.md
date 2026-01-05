@@ -89,13 +89,13 @@ Details findest du in [LICENSE](LICENSE).
    Intel/Konflikt → Exfiltration → Debrief – insgesamt zwölf Szenen. Rift-Ops sind
    eigenständige Filme in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** steigt, wenn ihr historische Abläufe intakt haltet.
-   Sorgfältiges, unauffälliges Eingreifen erhöht den Px, schlampiges oder
-   brachiales Vorgehen lässt ihn stagnieren oder senkt ihn (ein schwerer Fail oder
-   Patzer zieht den Index z. B. um 1 nach unten). Erreicht der Px Stufe 5, verrät
-   `ClusterCreate()` 1–2 Rift-Seeds – spielbar nach Episodenende. Danach springt
-   der Px für den nächsten Zyklus auf 0; weitere Px‑5‑Treffer stapeln zusätzliche
-   Seeds im Pool.
+4. **Paradoxon-Index (Px)** ist der Resonanz-Index der Chrononauten. Er steigt,
+   wenn ihr den dokumentierten Verlauf eines Hauptereignisses stabilisiert – auch
+   mit robusten Mitteln. Präzises, unauffälliges Vorgehen beschleunigt den Anstieg;
+   massive Patzer lassen den Px stagnieren oder in seltenen Fällen um 1 fallen.
+   Erreicht der Px Stufe 5, verrät `ClusterCreate()` 1–2 Rift-Seeds – spielbar
+   nach Episodenende. Danach springt der Px für den nächsten Zyklus auf 0;
+   weitere Px‑5‑Treffer stapeln zusätzliche Seeds im Pool.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
@@ -1110,8 +1110,9 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 **Jede Mission entscheidet, wessen Version von Geschichte sich durchsetzt.**
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
-Der **Paradoxon-Index** steigt **nur durch erfolgreiche Stabilisierungseinsätze** –
-er misst nicht Fehler, sondern Resonanz. Misslingt eine Mission oder entstehen grobe Paradoxa,
+Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten und steigt,
+wenn ihr das dokumentierte Hauptereignis einer Mission intakt haltet – ob
+subtil oder brachial. Misslingt eine Mission oder entstehen grobe Paradoxa,
 bleibt der Index stehen oder sinkt in seltenen Fällen um **–1** (Px–1).
 Sobald **Paradoxon 5** erreicht ist, erkennt das HQ mittels `ClusterCreate()`
 **1–2 neue Rift-Signaturen** und setzt den Index zurück.

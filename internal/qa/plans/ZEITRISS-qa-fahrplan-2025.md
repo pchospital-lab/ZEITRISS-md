@@ -174,6 +174,15 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 - [x] `runtime.js` auf überlange Strings/Kommentare kontrolliert und
       vollständig unter die Vorgabe gebracht (Rest-Umbrüche nachgezogen).
 
+### Lore & Px-Klarstellungen
+
+- [ ] Lore-Module (u.a. `systems/gameflow/cinematic-start.md`,
+      `core/wuerfelmechanik.md`, `systems/kp-kraefte-psi.md`) auf Px-Resonanz-
+      Framing und Missionsfreiheit prüfen und vereinheitlichen.
+- [ ] Briefing-/HUD-Texte angleichen, damit das Hauptereignis einer Mission im
+      bekannten Verlauf bleibt und robuste Methoden explizit erlaubt sind, wenn
+      die Zeitlinie stabil bleibt.
+
 ## Maßnahmen – Wissensspeicher 20-Slot-Optimierung (Entwurf 2025-12-28)
 
 **Zielbild:** Retrieval-Leistung der Wissensmodule erhöhen, indem sehr kurze Module
