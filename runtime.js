@@ -1099,7 +1099,7 @@ const HQ_CLASSIC_INTRO_LINES = [
   'Während du Attribute und Rolle festlegst, koppelt das HUD die Slots für Waffen, Bioware, Cyberware und Gear.',
   'Sobald Rolle, Waffen und Implantate fix sind, finalisiert das ITI die Hülle – erst dann koppelt es dein Bewusstsein an.',
   'Wenn die Drucktanks verstummen, entlädt sich der Transferblitz; Sensoren flackern, dein Bewusstsein fährt in den Körper.',
-  'Die Schleusen öffnen sich; du trittst ins Quarzatrium. Das Nullzeit-HQ pulsiert wie ein eigenes Zion, Chronopolis wartet dahinter.',
+  'Die Schleusen öffnen sich; du trittst ins Quarzatrium. Das Nullzeit-HQ ist der gigantische ITI-Kern; Chronopolis bleibt bis zum Stadtschlüssel (Level 10+) versiegelt.',
   'Commander Renier bietet HQ-Rundgang (Quarzatrium → Med-Lab → Chrono-Portal) oder direktes Briefing an.',
   'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
 ];

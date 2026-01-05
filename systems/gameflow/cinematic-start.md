@@ -67,6 +67,9 @@ hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
 *(Details zur Hardware: siehe
 [HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec)).*
 
+Das Nullzeit-HQ bildet den gigantischen Kern des ITI; Chronopolis bleibt bis zum Stadtschlüssel
+(Level 10+) versiegelt und wird erst dann zum nächsten Ankerpunkt.
+
 Noch bevor sich die Halle öffnet, schiebt der Kodex eine dezente Hinweiszeile
 ins Sichtfeld:
 
