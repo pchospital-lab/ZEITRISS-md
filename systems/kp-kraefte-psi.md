@@ -846,26 +846,29 @@ Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzäh
 notieren könnte).
 
 **Paradoxon-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
-den Zeitstrom stören. Ein Resonanz-Check ist jedoch nur bei weitreichenden Eingriffen nötig –
-insbesondere bei Chronokinese. Er wird fällig, wenn der Ablauf der Geschichte massiv
-verändert wird. Über `modus paradoxon off` lässt sich die Paradoxon-Regel komplett
-deaktivieren; wird sie verwendet, funktioniert sie identisch für Pro- und Contra-Agenten.
-Psionik steht grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder
-alternativ ihren natürlichen Widerstand gegen mentale Kräfte betonen. Wer den
-„Pfad der Erleuchtung" meidet, ist schwerer zu beeinflussen, verzichtet aber nicht
-zwingend auf Psi-Kräfte. Gewöhnliche Anwendungen wie Telepathie oder kurz
-manifestierte Psi-Waffen erzeugen kaum Paradoxon. Beispiel: Ein Chrononaut sieht in
-einer präkognitiven Vision, dass in einer Stunde ein Attentat auf eine wichtige
-Person erfolgreich ist (historisch belegtes Ereignis). Er interveniert telepathisch
-und warnt das Opfer rechtzeitig, wodurch das Attentat scheitert. Jetzt wurde die
-bekannte Geschichte verändert – ein klassisches Paradoxon. In den Regeln könnte man
-hierfür eine Art „Resonanzpunkt" vergeben. Diese Punkte entstehen schrittweise
-während einer Mission, wenn Eingriffe den bekannten Verlauf stärken.
+den Zeitstrom stören. Der Paradoxon-Index fungiert als **Resonanz-Index** der
+Chrononauten: Er steigt, solange ihr das dokumentierte Hauptereignis stabilisiert –
+auch wenn ihr dabei harte Psi- oder Tech-Eingriffe nutzt. Ein Resonanz-Check ist nur
+bei weitreichenden Eingriffen nötig, insbesondere bei Chronokinese oder wenn ihr den
+Kernverlauf zu kippen droht. Scheitert die Mission oder erzwingt ihr ein grobes
+Paradoxon, stagniert der Index oder fällt ausnahmsweise um 1. Über
+`modus paradoxon off` lässt sich die Paradoxon-Regel komplett deaktivieren; wird sie
+verwendet, funktioniert sie identisch für Pro- und Contra-Agenten. Psionik steht
+grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder alternativ ihren
+natürlichen Widerstand gegen mentale Kräfte betonen. Wer den „Pfad der Erleuchtung"
+meidet, ist schwerer zu beeinflussen, verzichtet aber nicht zwingend auf Psi-Kräfte.
+Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen
+kaum Paradoxon. Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in
+einer Stunde ein Attentat auf eine wichtige Person erfolgreich ist (historisch
+belegtes Ereignis). Er interveniert telepathisch und warnt das Opfer rechtzeitig,
+wodurch das Attentat scheitert. Jetzt wurde die bekannte Geschichte verändert – ein
+klassisches Paradoxon. Solche Fehlverläufe bremsen den Resonanzaufbau deutlich.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
-Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index auf 0.
-Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten nicht als Strafe.
-Mechanisch sollte Paradoxon-Spiel immer in Händen der SL bleiben. Vorsätzlicher Missbrauch von
-Fähigkeiten erhöht das Risiko erheblich und kann zu drastischen Konsequenzen führen.
+Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
+auf 0. Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten
+nicht als Strafe. Mechanisch sollte Paradoxon-Spiel immer in Händen der SL bleiben.
+Vorsätzlicher Missbrauch von Fähigkeiten erhöht das Risiko erheblich und kann zu
+drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um
 unterschiedliche Zeiten geht. Hier ein paar Leitlinien, die als Regeln oder Faustregeln gelten:
 Telepathie erlaubt kein gezieltes Kommunizieren quer durch die Jahrhunderte – es sei denn, beide

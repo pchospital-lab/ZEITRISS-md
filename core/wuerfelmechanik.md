@@ -529,15 +529,16 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 4     | Tempowelle (+2 Initiative auf nächste Aktion) |
 | 5     | ClusterCreate() im HQ      |
 
-Der Index steigt vor allem, wenn ihr Missionen voranbringt oder Anomalien stabilisiert.
-Scheitert ein Auftrag oder wird abgebrochen, bleibt der Wert stehen.
-Gravierende Fehlentscheidungen oder Paradoxa können den Index in Ausnahmefällen
-um **–1** senken (Px–1).
+Der Index fungiert als **Resonanz-Index** der Chrononauten: Er wächst, wenn ihr das
+dokumentierte Hauptereignis einer Mission stabilisiert – auch mit robusten Methoden,
+solange ihr grobe Paradoxa vermeidet. Scheitert ein Auftrag oder wird abgebrochen,
+bleibt der Wert stehen; ein seltenes **Px – 1** entsteht nur bei massiven Fehlverläufen
+oder ausgelösten Paradoxa.
 Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
 
 > **Paradoxon-Pro-Tip:**
-> *Jeder gelöste Hauptauftrag erhöht den Index um +1 bei **TEMP 14+**, entsprechend langsamer bei weniger.*
-> *Scheitert ein Auftrag oder wird abgebrochen, bleibt der Wert stehen.*
+> *Stabilisiert zuerst das Hauptereignis der Mission: Jeder gesicherte Kernschritt baut Px als Resonanz auf.*
+> *Fehlschläge frieren den Stand ein, nur grobe Paradoxa drücken ihn ausnahmsweise um 1.*
 > Riskantere Nebenaufgaben können Rifts schneller freischalten – das Team entscheidet.
 
 ### Seed-Counter im HUD
