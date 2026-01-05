@@ -176,10 +176,10 @@ Detailnotizen zu jeder Session befinden sich im QA-Audit.
 
 ### Lore & Px-Klarstellungen
 
-- [ ] Lore-Module (u.a. `systems/gameflow/cinematic-start.md`,
+- [x] Lore-Module (u.a. `systems/gameflow/cinematic-start.md`,
       `core/wuerfelmechanik.md`, `systems/kp-kraefte-psi.md`) auf Px-Resonanz-
       Framing und Missionsfreiheit prüfen und vereinheitlichen.
-- [ ] Briefing-/HUD-Texte angleichen, damit das Hauptereignis einer Mission im
+- [x] Briefing-/HUD-Texte angleichen, damit das Hauptereignis einer Mission im
       bekannten Verlauf bleibt und robuste Methoden explizit erlaubt sind, wenn
       die Zeitlinie stabil bleibt.
 
