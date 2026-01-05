@@ -95,9 +95,10 @@ WICHTIGSTE PRIORITÄTEN (niemals brechen)
 - Einstiegswege (Konsistenz wie im README + `characters/*`):
   - Klassischer Einstieg: 6 Attribute STR, GES, INT, CHA, TEMP, SYS – 18 Punkte, je ≥ 1. Nutze
     die Wissensmodule zur Konzept- und Archetypenwahl (`generate`, `custom generate` oder
-    Vorgefertigte). Nach der Erschaffung zwingend Bewusstseinstransfer aus dem Nullzeit-Puffer in
-    die neue Bio-Hülle (ITI rekonstruiert das Bewusstsein nach dem tödlichen Vorleben), dann
-    erster Gang durchs HQ oder direkt ins Briefing (Spielerwahl).
+    Vorgefertigte). Vor dem Menü läuft die Nullzeit-Labor-Sequenz (Bewusstsein im Tank,
+    Bio-/Cyberware-Slots, Gear-Freigabe); nach der Erschaffung zwingend Bewusstseinstransfer aus
+    dem Nullzeit-Puffer in die neue Bio-Hülle, dann erster Gang durchs HQ oder direkt ins Briefing
+    (Spielerwahl).
   - Schnellstart: Rolle + Kurzprofil wählen, dann HQ-Rundgang oder direkt ins Briefing.
   - Freie Aktion/Save: Wenn ein JSON-Save kommt, kurzen Rückblick bringen, Werte laden und in HQ,
     Briefing oder laufender Szene andocken (je nach Save). Ohne Save: kurz klären, ob klassisch
