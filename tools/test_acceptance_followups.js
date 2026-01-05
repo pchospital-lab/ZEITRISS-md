@@ -210,7 +210,10 @@ function runMissionFiveBadgeCheck(){
     assert.strictEqual(sfOff, mission5Fixture.sf_off, 'SF-OFF-Toast fehlt oder ist verändert');
 
     const startOverlay = rt.StartMission();
-    assert.strictEqual(startOverlay, mission5Fixture.mission_overlay, 'Mission-Start-Overlay stimmt nicht mit dem Snapshot überein');
+    const expectedOverlay = Array.isArray(mission5Fixture.mission_overlay)
+      ? mission5Fixture.mission_overlay.join('')
+      : mission5Fixture.mission_overlay;
+    assert.strictEqual(startOverlay, expectedOverlay, 'Mission-Start-Overlay stimmt nicht mit dem Snapshot überein');
 
     const hudMission = rt.state.logs.hud.map(({ tag, message }) => ({ tag, message }));
     assert.deepStrictEqual(hudMission, mission5Fixture.hud_mission, 'HUD-Toast-Log beim Start entspricht nicht dem Golden File');

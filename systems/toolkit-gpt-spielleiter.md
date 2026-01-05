@@ -3142,12 +3142,15 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
    - `gruppe`: Ansprache **Ihr**, keine Zahl akzeptieren; Fehler → „Bei gruppe keine Zahl angeben.
      (klassisch/schnell sind erlaubt)“. Spielerzahl wird im Charakterbau mitgezählt.
    - Mischrunden bei `gruppe` erlaubt (Saves + neue Rollen).
-   - Nach Abschluss der Erschaffung baut das HQ die Bio-Hülle und lädt erst
-     dann das rekonstruierte Bewusstsein hinein; die Ankunft im HQ folgt darauf.
+   - Während der Erschaffung bleibt die Hülle unvollständig; erst wenn Rolle,
+     Waffen sowie Bio-/Cyberware stehen, baut das HQ die Bio-Hülle final und
+     lädt das Bewusstsein hinein. Danach folgt der HQ-Einstieg.
    - **HQ-Intro:** vollständiges HQ-Intro unverändert abspielen, inklusive
      Schlusszeile; keine Kürzungen oder Umschreibungen. Das Langzitat liegt als
      Referenz in `internal/qa/transcripts/start-transcripts.md` und spiegelt die
      QA-Fixtures.
+    - **HQ-Kurzintro (schnell):** Stimme = Kodex; HUD-Banner konsequent als
+      Inline-Code ausgeben.
 
 **Missionsstart:**
 - Nach erfolgreichem Start `StartMission(total=12|14, type='core'|'rift')` ausführen – der Call gibt
