@@ -285,7 +285,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 ### Atmosphere Contract (Stil-Check)
 
 - Contract-Inhalte: 3rd-Person-Narration (`voice_profile = gm_third_person`), Physicality-Guard
-  inkl. Banned Terms (keine Digitalräume/Matrix/Holodeck), Rift = Casefile-Monster-Hunt, Core
+  inkl. Banned Terms (keine Digitalräume oder holosimulationsartige Decks), Rift = Casefile-Monster-Hunt, Core
   rational/noir, HUD schlank (Ziel 80 % Szene/20 % HUD, max. 2 Toasts/Szene).
 - Die Runtime exportiert den Contract als `logs.flags.atmosphere_contract`. In QA-Mode
   (`logs.flags.qa_mode=true`) ist pro Phase ein 8–12-zeiliger Exzerpt-Block Pflicht:
