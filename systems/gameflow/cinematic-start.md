@@ -36,15 +36,17 @@ Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die
 Chrononauten erhalten eine handfeste Geschichtsmission, die sie mitten in eine
 Verschwörung führt.
-Ihr Eingreifen steigert den Paradoxon-Index. Bei Stufe 5 verrät das HQ laut
+Ihr Eingreifen baut den Paradoxon-Index (Px) als **Resonanz-Index** der
+Chrononauten auf. Solange ihr das dokumentierte Hauptereignis stabilisiert,
+zählt auch robustes Vorgehen – nur grobe Paradoxa oder verlorene Kernziele
+bremsen den Anstieg. Bei Stufe 5 verrät das HQ laut
 [Zeitriss‑Core – Paradoxon & Pararifts](../../core/zeitriss-core.md#paradoxon--pararifts)
 per `ClusterCreate()` einen neuen Rift-Standort – ein rein administrativer
-Vorgang. Auf der
-[Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
-erscheinen 1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind.
-Der Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode.
-Die Spieler können ein Rift offen lassen und die Core-Operation fortsetzen.
-Sie riskieren während des Arcs keinen höheren SG.
+Vorgang. Auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
+erscheinen 1–2 Rift-Seeds, die erst nach Episodenende erreichbar sind. Der
+Bonus auf Schwierigkeitsgrad und Loot greift erst nach der Episode. Die Spieler
+können ein Rift offen lassen und die Core-Operation fortsetzen. Sie riskieren
+während des Arcs keinen höheren SG.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
@@ -729,11 +731,12 @@ sicherstellen, bevor sie die Zeitlinie destabilisiert.
   geschmuggelt und sollen an eine Gang verkauft werden. Die Agenten müssen die
   Datenträger aufspüren und sichern, bevor ein Deal mit einer rivalisierenden
   Zeitfraktion den gefährlichen Technologiesprung auslöst.
-Wer bei den Ermittlungen zu stark vom offiziellen Geschichtsverlauf abkommt,
-steigert den Paradoxon-Index kaum.
-Erreicht dieser Stufe 5, legt das HQ gemäß
-[Zeitriss‑Core](../../core/zeitriss-core.md#paradoxon--pararifts) automatisch neue
-Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
+Wer den dokumentierten Verlauf des Hauptereignisses stabil hält – ob vorsichtig
+oder mit hartem Zugriff –, baut den Resonanz-Index (Px) planmäßig auf. Grobe
+Abweichungen oder verpatzte Kernziele lassen den Px höchstens pausieren.
+Erreicht der Index Stufe 5, legt das HQ gemäß
+[Zeitriss‑Core](../../core/zeitriss-core.md#paradoxon--pararifts) automatisch
+neue Rift-Seeds auf der [Raumzeitkarte](../../characters/zustaende.md#raumzeitkarte)
 an. Die Bedrohung zeigt sich während der Mission nur als instabile Effekte. Die
 Szene spielt in den neonbeleuchteten Schatten von _Neo Berlin 2085_ – einer
 futuristischen Metropole voller Cyberpunk-Flair. In engen Gassen und auf
