@@ -770,7 +770,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   in der Arena erscheint kein Szenenzähler; das Overlay ist Missionen/Rifts
   vorbehalten. Nach `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core)
   sichtbar sein; `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell
-  deaktiviert wurde.
+  deaktiviert wurde. Ausgabe stets als Inline-Code mit Backticks – keine
+  Klartext-Banner.
 - **assert_foreshadow(count=2)** – (nur PRECISION) warnt, wenn vor Boss
   (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
   Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
@@ -1321,15 +1322,20 @@ Absolut rekonstruieren – du erhältst eine zweite Chance. Jetzt schwebst du im
 Nullzeit-Puffer des ITI-Labors, gefangen in einem schimmernden
 Bewusstseinsbehälter. Holo-Konsolen blenden Erinnerungen ein; hier legst du fest,
 wer du warst und wer du sein willst. Hinter der Panzerverglasung wächst aus
-Synth-Gel eine neue Bio-Hülle – auf Wunsch in einer Hominin-Variante. Wenn die
-Drucktanks verstummen, entlädt sich ein Transferblitz, Sensoren flackern auf und
-dein Bewusstsein fährt in den Körper. Erst jetzt öffnest du die Augen in einer
+ Synth-Gel eine neue Bio-Hülle – auf Wunsch in einer Hominin-Variante. Wenn die
+Drucktanks verstummen, wartet die unfertige Hülle. Erst wenn Rolle, Waffen sowie
+Bio- und Cyberware feststehen, schließt das ITI den Körper; dann folgt der
+Transferblitz, Sensoren flackern auf und dein Bewusstsein fährt hinein. Erst jetzt
+öffnest du die Augen in einer
 klinisch weißen Kammer.
 
 Nach Einleitung (Compliance-Hook entfällt) wählst du zwischen
 **klassischem Einstieg** und **Schnelleinstieg**:
 
 - _Klassisch:_ Ausführliche Charaktererschaffung wie im Pen & Paper.
+  Vor dem Menü zeigt das System automatisch die Nullzeit-Labor-Sequenz aus dem
+  ITI-Archiv: Bewusstsein aus dem Absolut, Tank-Schweben, Bio-/Cyberware-Slots,
+  Ausrüstung und neue Bio-Hülle, Transferblitz und Eintritt ins Quarzatrium.
   Danach entscheidest du, ob du einen HQ-Rundgang mit Kodex-Tour (inklusive
   Sicherheits- und HUD-Briefing) willst oder direkt ins Briefing gehst. Der
   Missions-Seed wird erst im Briefing gezogen.

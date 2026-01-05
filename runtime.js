@@ -1092,9 +1092,21 @@ function sanitize_hud_entries(entries){
   return sanitized;
 }
 
-const HQ_INTRO_LINES = [
-  'HQ-Kurzintro – Nullzeit-Puffer flutet Euch zurück in Eure Körper.',
-  'Sensorhallen öffnen sich, Soras Stimmennetz gleitet wie Regenlicht über die Decks.',
+const HQ_CLASSIC_INTRO_LINES = [
+  'Nullzeit-Labor (klassisch): Dein letzter Einsatz endete tödlich; das ITI rekonstruierte dein Bewusstsein aus dem Absolut.',
+  'Du schwebst im Nullzeit-Puffer, Holo-Konsolen blenden Erinnerungen ein: Hier definierst du, wer du warst und wer du sein willst.',
+  'Hinter Panzerverglasung wächst aus Synth-Gel eine neue Bio-Hülle; Bio-/Cyberware und Ausrüstung warten auf Freigabe.',
+  'Während du Attribute und Rolle festlegst, koppelt das HUD die Slots für Waffen, Bioware, Cyberware und Gear.',
+  'Sobald Rolle, Waffen und Implantate fix sind, finalisiert das ITI die Hülle – erst dann koppelt es dein Bewusstsein an.',
+  'Wenn die Drucktanks verstummen, entlädt sich der Transferblitz; Sensoren flackern, dein Bewusstsein fährt in den Körper.',
+  'Die Schleusen öffnen sich; du trittst ins Quarzatrium. Das Nullzeit-HQ pulsiert wie ein eigenes Zion, Chronopolis wartet dahinter.',
+  'Commander Renier bietet HQ-Rundgang (Quarzatrium → Med-Lab → Chrono-Portal) oder direktes Briefing an.',
+  'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
+];
+
+const HQ_QUICK_INTRO_LINES = [
+  'HQ-Kurzintro – Nullzeit-Puffer koppelt dich an deine Hülle.',
+  'Die Kodex-Stimme gleitet wie Regenlicht über die Decks.',
   'Commander Renier: „Briefingraum in drei Minuten. Rollen wählen, Fokus halten.“',
   'Die Nullzeit kennt keinen Countdown. Das ITI schon.'
 ];
@@ -3707,11 +3719,13 @@ function show_compliance_once(options = {}){
   return !alreadyShown || force;
 }
 
-function play_hq_intro(force = false){
+function play_hq_intro(force = false, mode = 'klassisch'){
   const ui = ensure_ui();
   show_compliance_once();
   if (ui.intro_seen && !force) return false;
-  writeLine(HQ_INTRO_LINES.join('\n'));
+  const normalized = mode === 'schnell' || mode === 'fast' ? 'schnell' : 'klassisch';
+  const lines = normalized === 'schnell' ? HQ_QUICK_INTRO_LINES : HQ_CLASSIC_INTRO_LINES;
+  writeLine(lines.join('\n'));
   ui.intro_seen = true;
   return true;
 }
@@ -7216,7 +7230,7 @@ function scene_overlay(scene){
     if (tkCooldown > 0){
       h += ` · TK🌀 ${tkCooldown}`;
     }
-  return h;
+  return `\`${h}\``;
 }
 
 function expected_casefile_stage(sceneIndex, sceneTotal){
@@ -9497,7 +9511,7 @@ function startSolo(mode='klassisch'){
   ensure_runtime_flags().skip_entry_choice = false;
   ensure_atmosphere_contract();
   sync_compliance_flags();
-  play_hq_intro();
+  play_hq_intro(false, mode);
   apply_qa_dispatch_meta('du', state.campaign.team_size);
   return normalizedSeed === 'preserve' ? `solo-${mode}` : `solo-${normalizedSeed}-${mode}`;
 }
@@ -9549,7 +9563,7 @@ function startGroup(mode='klassisch'){
   ensure_atmosphere_contract();
   sync_compliance_flags();
   initialize_wallets_from_roster();
-  play_hq_intro();
+  play_hq_intro(false, mode);
   apply_qa_dispatch_meta('ihr', state.campaign.team_size);
   return normalizedSeed === 'preserve' ? `gruppe-${mode}` : `gruppe-${normalizedSeed}-${mode}`;
 }
