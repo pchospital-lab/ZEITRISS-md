@@ -22,14 +22,6 @@ damit Slug-Liste, Slot-Kennzeichnung und Pfade identisch bleiben.
       "slot": true
     },
     {
-      "slug": "dpma-dossier",
-      "path": "docs/trademark.md",
-      "title": "DPMA-Markeneintragung ZEITRISS",
-      "category": "Meta",
-      "level": "muss",
-      "slot": false
-    },
-    {
       "slug": "core",
       "path": "core/zeitriss-core.md",
       "title": "ZEITRISS 4.2.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem",
