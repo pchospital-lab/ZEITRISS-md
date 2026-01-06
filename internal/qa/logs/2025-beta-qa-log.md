@@ -8,7 +8,7 @@ tags: [meta]
 
 ## 2027-03-08 – Repo-Agent – Allgemeiner Bug-/Optimierungscheck
 - Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
-- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.18.0
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.0
 - Auftrag: Gesamtcheck auf Bugs, Verständnislücken und Optimierungspotenzial; Statusbericht für
   Folgezyklen erstellen.
 
@@ -29,7 +29,7 @@ Tool: ✅
       Konsolidierungsgewinne überprüfen und priorisieren.
 
 **Nachverfolgung**
-- QA-Fahrplan: Neues Deepcheck-Kürzel ergänzen (Stand 1.18.0).
+- QA-Fahrplan 1.19.0: Deepcheck-Kürzel 2027-03-08 ergänzt und mit QA-Log synchronisiert.
 
 ## 2027-03-07 – Repo-Agent – Local-Uncut-Paket LM Studio gespiegelt
 - Plattform: Lokales Repo-Run (QA-Skripte)
