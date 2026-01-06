@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.18.0
+version: 1.19.0
 tags: [meta]
 ---
 
@@ -61,6 +61,7 @@ Checks in einem Schritt.
 
 | Datum | Schwerpunkt | Referenzen |
 | ----------- | ------------------------------ | ---------- |
+| 2027-03-08 | Bug-/Optimierungscheck, Pflichtpaket grün | QA-Log 2027-03-08 |
 | 2025-06-11 | Repo-Analyse & Maßnahmenplan | README §QA-Artefakte; QA-Log 2025-06-22 |
 | 2025-06-12 | Runtime-Stubs & Routing-Layer | SR; QA-Log 2025-06-22 |
 | 2025-06-13 | Beta-GPT-Nachlauf | QA-Log 2025-06-13; Maßnahmenpaket Beta-GPT 2025-06 |
