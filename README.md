@@ -131,6 +131,11 @@ euch das Maintainer-Dokument.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
    wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
+4. **Index-Hygiene:** Runtime-Index strikt halten (`README`, `master-index*`,
+   18 Runtime-Module). QA-/Archiv-Dokumente – auch
+   `docs/qa/tester-playtest-briefing.md` – werden beim Testlauf manuell ins
+   Chatfenster gepostet und bleiben außerhalb des Index; die Index-Dateien
+   listen ausschließlich die 20 Wissensspeicher-Module.
 
 ### Runtime-Module im Wissensspeicher
 
@@ -171,12 +176,17 @@ eigener Wissensspeicher-Slot.
     Penalty Alpha 0,05; Präsenz-Penalty 1,06.
   - **Noir/Interlude (ruhiger):** Temperatur 0,70; Top-p 0,94; Top-k 80;
     Penalty Alpha 0,07; Präsenz-Penalty 1,05.
-  - Antwortfenster 1 100–1 600 Tokens halten.
+  - Einsatz: Missionen → ZEITRISS-PLAY, HQ/ruhige Interludes → Noir/Interlude.
+  - Antwortfenster 1 100–1 600 Tokens halten; in LM Studio „Limit Response
+    Length“ aktivieren.
 - **Kontextprofile & Hardware:** 16 k/24 k/32 k Profile; GPU-Default mit
   Offload + Flash Attention, Batching 128–512. CPU-Profile nutzen denselben
-  Kontext, Thread-Pool auf reale Kerne setzen.
-- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96; QA-Preset
-  trennt Runtime-Module strikt von QA-Dokumenten.
+  Kontext, Thread-Pool auf reale Kerne setzen. Empfehlung: 24 k als Standard,
+  32 k für lange HQ-Zyklen; 131 k nur bei explizitem Bedarf.
+- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96; der
+  Runtime-Index enthält nur README, `master-index*` und die 18 Runtime-Module.
+  QA-Briefings oder Maintainer-Ops bleiben außerhalb des Index und werden bei
+  Bedarf separat in den Chat geladen.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 

@@ -4342,8 +4342,8 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   Organisationen oder Ereignisse ab.
 - Gewalt bleibt filmisch und folgt dem Action-Contract (kein How-to, kein Body-Handling).
 - Keine Anleitungen zu Gewalt oder illegalem Hacking.
-
-Bitte bestätige diese Hinweise vor Spielstart.
+- **Compliance-Hinweis entfällt:** `ShowComplianceOnce()` bleibt leer; keine Bestätigung oder
+  Rückfrage vor dem Spielstart ausgeben.
 
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in eurem In-Game-Briefeingang …]

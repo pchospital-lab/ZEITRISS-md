@@ -1439,3 +1439,39 @@ und mit QA-Runner sowie Fixtures abzugleichen.
     strikt behandeln.
     _Status: ✅ abgeschlossen – Neues Fixture `savegame_v6_acceptance_full.json` enthält
     optionale Felder (`qa_profiles`, `economy.sinks`) und bleibt schema-konform._
+
+## Maßnahmenpaket Dispatcher/Index-Glättung 2027-XX (Local-Uncut & LM Studio)
+
+1. **Issue #1 – Dispatcher-Priorität vor „Neustart/Save?“**
+   Masterprompt soll Start- und Load-Befehle zuerst erkennen und nur ohne Treffer „Neustart oder
+   Save laden?“ anbieten (Solo/Gruppe automatisch setzen).
+   _Status: ✅ umgesetzt – Masterprompt verankert Dispatcher-Check vor der Frage und präzisiert die
+   Start-/Load-Ableitung._
+
+2. **Issue #2 – Compliance-Bestätigung aus Toolkit entfernen**
+   „Bitte bestätigen…“-Hinweis im Toolkit kollidiert mit leerem `ShowComplianceOnce()` und darf
+   nicht mehr im Laufzeitfluss landen.
+   _Status: ✅ bereinigt – Toolkit-Abschnitt markiert den Compliance-Hinweis als entfallen und
+   unterbindet Bestätigungsaufforderungen._
+
+3. **Issue #3 – Load-Flow ohne Modus-Abfrage spiegeln**
+   Load soll Recap → HQ/Briefing ohne Nachfrage „klassisch/schnell“ laufen; fehlende JSONs via
+   Kodex-Loader einsammeln.
+   _Status: ✅ dokumentiert – Masterprompt nennt Modusfreiheit nach Load und den Kodex-Collector für
+   fehlende JSONs._
+
+4. **Issue #4 – Index-Hygiene Runtime vs. QA**
+   QA-Briefings und Archivdateien dürfen nicht in den Runtime-Index; Index listet ausschließlich
+   die 20 Wissensspeicher-Module (README, master-index*, 18 Runtime-Docs).
+   _Status: ✅ dokumentiert – README stellt klar, dass QA-Briefings separat gepostet und nicht
+   indiziert werden._
+
+5. **Issue #5 – Sampling-Presets bewusst trennen**
+   Missionen sollen das ZEITRISS-PLAY-Profil nutzen, HQ/ruhige Szenen Noir/Interlude; Response-
+   Window aktiv limitieren.
+   _Status: ✅ dokumentiert – README listet Einsatzregeln und Response-Limit-Schalter._
+
+6. **Issue #6 – Kontextprofil auf 24k/32k statt 131k**
+   Empfehlung: 24k als Default (32k bei langen HQ-Zyklen), 131k nur bei Spezialfällen; Tests gegen
+   Tokens/s und Retrieval-Stabilität.
+   _Status: ✅ dokumentiert – README nennt 24k/32k-Empfehlung und relativiert 131k._
