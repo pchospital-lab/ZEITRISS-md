@@ -1476,3 +1476,88 @@ und mit QA-Runner sowie Fixtures abzugleichen.
    Empfehlung: 24k als Default (32k bei langen HQ-Zyklen), 131k nur bei Spezialfällen; Tests gegen
    Tokens/s und Retrieval-Stabilität.
    _Status: ✅ dokumentiert – README nennt 24k/32k-Empfehlung und relativiert 131k._
+
+## Maßnahmenpaket Beta-GPT Playtest 2026-XX (Issues #1–#12)
+
+Der aktuelle Beta-GPT-Lauf (Tester-Briefing) liefert 11 dokumentierte Findings plus eine
+Design-Korrektur: Preserve/Trigger sollen **nicht** strikt getrennt bleiben, sondern gemischt
+spielbar sein. Die Punkte müssen in Runtime, Wissensmodulen und QA-Runner/Fahrplan sauber
+nachvollzogen werden. Referenz: der mitgelieferte Save v6 (Multi-Level-Roster 8/120/512/905,
+Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-Reset).
+
+1. **Issue #1 – Acceptance-Smoke-Checkliste #15 (Offline) fixieren**
+   QA-Briefing/Acceptance-Liste auf exakt 15 Punkte normalisieren; Offline als eigener
+   Acceptance-Schritt #15 ausweisen. Zusatz-Checks (Vehicle Clash/Mass Conflict/Arena) klar als
+   „Nicht-Acceptance“ labeln. QA: Runner/Parser tolerieren 1–15 und taggen Offline separat.
+   _Status: ⏳ offen._
+
+2. **Issue #2 – Save v6 Wallet-Beispiel in `zeitriss-core` korrigieren**
+   `economy.wallets` im Beispiel auf Objektstruktur `{balance, name}` umstellen oder klar als
+   nicht schema-valide Kurzform markieren. Doku-Hinweis „Schema v6“ ergänzen; Import-Test alt vs.
+   neu (Fehler/PASS) definieren.
+   _Status: ⏳ offen._
+
+3. **Issue #3 – Boss-DR konsolidieren (Teamgrößen-Skala)**
+   `gameplay/kampagnenstruktur.md` als kanonisch setzen (Mini/Arc/Rift nach Teamgröße),
+   `systems/wuerfelmechanik.md` und Generator-Snippets darauf harmonisieren. Boss-Toast nutzt
+   berechneten DR. QA: Mission 5/10 Snapshot-Fixtures (Teamgröße 1–5) prüfen.
+   _Status: ⏳ offen._
+
+4. **Issue #4 – Rift-Artefaktwurf: Boss-only Default + Variante**
+   Artefakt-Drops als Default ausschließlich am Rift-Boss (Szene 10) definieren; optionaler
+   Startwurf als Hausregel/Variant-Flag (`rift_artifact_variant=start_roll`) dokumentieren.
+   QA: Rift-Lauf-Assertions (max. 1 Artefakt/Mission, Quelle = Boss).
+   _Status: ⏳ offen._
+
+5. **Issue #5 – `!sf off|on` als offizielles HUD-Kommando**
+   `systems/hud-system.md`/README-Kommandoliste um `!sf off|on` ergänzen, inkl. exakter
+   Badge-/Toast-Strings (`SF-OFF`/`SF-ON`) und Log-Feld
+   `self_reflection_last_change_reason`. Auto-Reset am Missionsende für complete/abort fixieren.
+   QA: Acceptance 11 (M5 Start) + Abbruchpfad testen.
+   _Status: ⏳ offen._
+
+6. **Issue #6 – `merge_conflicts`-Katalog für Cross-Mode-Imports**
+   Allowlist + Mindestfelder festlegen (`wallet`, `rift_merge`, `arena_resume`,
+   `campaign_mode`, `phase_bridge`, `location_bridge`). Jeder Cross-Mode-Merge schreibt Trace +
+   Conflict-Entry. `systems/gameflow/speicher-fortsetzung.md` um 2–3 Beispiele ergänzen.
+   QA: Roundtrip Solo→Koop→PvP→HQ mit Diff auf `merge_conflicts[]`.
+   _Status: ⏳ offen._
+
+7. **Issue #7 – Economy-Audit Levelband-Regel in Koop**
+   Regel festlegen: Band-Auswahl (z. B. Host-Level vs. Median) und `wallet_avg`-Scope
+   (`team.members` vs. alle `economy.wallets`). Audit speichert `band_reason`/`wallet_avg_scope`.
+   QA: Fixture mit 8/120/512/905 Mischteam deterministisch prüfen.
+   _Status: ⏳ offen._
+
+8. **Issue #8 – PvP-Policy: Cross-Alignment klären**
+   Arena-Policy definieren (Sim/Range vs. Lore-Kampf), `arena.match_policy` ins Save aufnehmen,
+   Regeltext in `gameplay/kampagnenuebersicht`/Arena-Doku ergänzen. QA: Pro-vs-Contra PvP
+   durchführen, HUD/Save muss Policy zeigen.
+   _Status: ⏳ offen._
+
+9. **Issue #9 – HQ Loop Contract (Debrief → Freeplay)**
+   Pflichtschablone für Debrief: Auto-Loot → CU/Wallet-Split → EP/Skill-Prompt → expliziter
+   Freeplay-Menüanker (Bar/Werkstatt/Archiv + 1 Gerücht). Optional Flag
+   `logs.flags.hq_freeplay_prompted=true` für QA.
+   _Status: ⏳ offen._
+
+10. **Issue #10 – HUD-Toast-Suppression im Log spiegeln**
+    Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit
+    `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
+    3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
+    _Status: ⏳ offen._
+
+11. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
+    Report-Format (Steps 1–15 PASS/FAIL + Links auf `logs.trace`/`logs.hud`) fixieren;
+    Offline numerisch als #15. Beigefügten Save v6 als Copy/Paste-Fixture aufnehmen
+    (Self-Reflection Auto-Reset, toast_suppressed, rift_seed_merge_cap_applied, Arena-Resume).
+    QA: Reimport-Tests Solo→Koop→PvP mit Diff auf `economy.wallets{}`, `merge_conflicts[]`, `ui`,
+    `arena`, `campaign.rift_seeds[]`.
+    _Status: ⏳ offen._
+
+12. **Issue #12 – Preserve/Trigger nicht strikt trennen (Mixed-Play)**
+    Kampagnenmodus soll gemischt spielbar sein; keine harte Trennung zwischen `preserve` und
+    `trigger`. Doku/Toolkit/Mission-Generator prüfen: Pool-Logik, UI-Ansage und Save-Felder
+    (`campaign.mode`, `seed_source`) so anpassen, dass gemischtes Spielen als Standard erlaubt ist.
+    QA: Runs mit wechselnden Seeds (Preserve/Trigger gemischt) ohne Konflikt-Fehlermeldung.
+    _Status: ⏳ offen._
