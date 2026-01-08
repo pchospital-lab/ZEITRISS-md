@@ -55,7 +55,9 @@ rt.state.scene = { index: 0, total: 12 };
 rt.state.campaign = { episode: 1, mission: 1 };
 const offlineGuide = rt.offline_help('command');
 assert(offlineGuide.includes('Terminal'), 'Offline-Guide wurde nicht geliefert.');
-assert.strictEqual(rt.state.logs.hud.length, 0, 'Toast hätte wegen Cap nicht erscheinen dürfen.');
+assert.strictEqual(rt.state.logs.hud.length, 1, 'Suppressed-Toast muss im HUD-Log landen.');
+assert.strictEqual(rt.state.logs.hud[0].suppressed, true, 'Suppressed-Flag fehlt im HUD-Log.');
+assert.strictEqual(rt.state.logs.hud[0].reason, 'budget', 'Suppression-Reason fehlt im HUD-Log.');
 const lastTrace = rt.state.logs.trace[rt.state.logs.trace.length - 1];
 assert.strictEqual(lastTrace.event, 'toast_suppressed', 'Suppression-Trace fehlt.');
 assert.strictEqual(lastTrace.qa_mode, true, 'QA-Flag fehlt im Suppression-Trace.');
@@ -72,7 +74,12 @@ for (let i = 0; i < 5; i += 1){
 }
 const visibleToasts = toastResults.filter((entry) => !entry.suppressed);
 assert.strictEqual(visibleToasts.length, 2, 'Nur zwei Toasts dürfen sichtbar sein.');
-assert.strictEqual(rt.state.logs.hud.length, 2, 'HUD-Log muss das Budget respektieren.');
+assert.strictEqual(rt.state.logs.hud.length, 5, 'HUD-Log soll Suppressions mitführen.');
+const suppressedHud = rt.state.logs.hud.filter((entry) => entry.suppressed);
+assert.strictEqual(suppressedHud.length, 3, 'Suppressed-HUD-Einträge fehlen.');
+suppressedHud.forEach((entry) => {
+  assert.strictEqual(entry.reason, 'budget', 'Suppression-Reason fehlt im HUD-Log.');
+});
 const suppression = rt.state.logs.trace.filter((entry) => entry.event === 'toast_suppressed');
 assert.strictEqual(suppression.length, 3, 'Drei Suppression-Traces erwartet.');
 suppression.forEach((entry) => {

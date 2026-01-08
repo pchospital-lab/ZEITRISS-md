@@ -132,10 +132,8 @@ euch das Maintainer-Dokument.
    alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
    wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
 4. **Index-Hygiene:** Runtime-Index strikt halten (`README`, `master-index*`,
-   18 Runtime-Module). QA-/Archiv-Dokumente – auch
-   `docs/qa/tester-playtest-briefing.md` – werden beim Testlauf manuell ins
-   Chatfenster gepostet und bleiben außerhalb des Index; die Index-Dateien
-   listen ausschließlich die 20 Wissensspeicher-Module.
+   18 Runtime-Module). Der Index listet ausschließlich die 20
+   Wissensspeicher-Module.
 
 ### Runtime-Module im Wissensspeicher
 
@@ -185,8 +183,6 @@ eigener Wissensspeicher-Slot.
   32 k für lange HQ-Zyklen; 131 k nur bei explizitem Bedarf.
 - **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96; der
   Runtime-Index enthält nur README, `master-index*` und die 18 Runtime-Module.
-  QA-Briefings oder Maintainer-Ops bleiben außerhalb des Index und werden bei
-  Bedarf separat in den Chat geladen.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 
@@ -272,7 +268,9 @@ Die ersten Schritte in unter zwei Minuten:
 7. **Paradoxon** – Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
 8. **Self-Reflection Off** – `!sf off` setzt das globale Flag
    (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
-   `!sf on` stellt beides zurück. Vor Mission 5 unbedingt manuell toggeln,
+   `!sf on` stellt beides zurück. Beide Befehle setzen
+   `logs.flags.self_reflection_last_change_reason` auf
+   `hud_command_sf_off`/`hud_command_sf_on`. Vor Mission 5 unbedingt manuell toggeln,
    damit HUD-Badge und `scene_overlay()` den Status `SF-OFF` zeigen. Nach
    Mission 5 **und Mission 10** stellt die Runtime Self-Reflection automatisch
    und ausschließlich über `set_self_reflection()` wieder auf `SF-ON` zurück –
@@ -397,8 +395,7 @@ Spiel starten (gruppe schnell)
   Zahl `0–4` (NPC‑Begleiter; Team gesamt 1–5), `gruppe` ignoriert Zahlen.
   Ungültige Kombinationen liefern die passenden Fehltexte.
 - **Zentrale Strings.** Start-/Fehlertexte liegen in
-  `dispatcher_strings` (Runtime-Export). Goldenfiles und Smoke-Referenzen
-  sind im QA-Briefing dokumentiert.
+  `dispatcher_strings` (Runtime-Export).
 - **Syntax-Hinweis.** Startbefehle ohne Klammern oder mit fehlerhaftem Muster
   antworten mit „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
   [klassisch|schnell]). Klammern sind Pflicht.“ und schreiben höchstens einmal
@@ -409,9 +406,7 @@ Spiel starten (gruppe schnell)
   Spielerzahl; Gruppen zählen sich während der Erschaffung. NPC-Teams werden bei
   Bedarf automatisch erzeugt und skaliert.
 - **HQ-Intro (Runtime).** Volles HQ-Intro 1:1 ausspielen – keine Kürzungen, die
-  Schlusszeile gehört dazu. Das Langzitat ist in
-  `internal/qa/transcripts/start-transcripts.md` abgelegt und dient als
-  Referenztext.
+  Schlusszeile gehört dazu.
 - **Spiel laden.** `Spiel laden` springt ohne Moduswahl in das HQ-Recap,
   aktiviert das Kodex-Overlay, überspringt Einstiegsprompts/EntryChoice und
   übernimmt alle Save-Flags. Der Persistenzanker liegt auf
@@ -454,7 +449,8 @@ Spiel starten (gruppe schnell)
   Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
   und kein Budget verbrauchen. Jede Unterdrückung schreibt einen
   `toast_suppressed`-Trace inkl. Snapshot von `logs.flags.hud_scene_usage` und
-  `qa_mode`-Flag.
+  `qa_mode`-Flag. Unterdrückte Einträge landen zusätzlich in `logs.hud[]` mit
+  `suppressed:true` und `reason:"budget"`.
 
 ### Boss-Gates & HUD-Badges
 
@@ -801,6 +797,8 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft. Reichweite
   anpassen.
 - `!helper boss` – zeigt die Boss-Foreshadow-Checkliste.
+- `!sf off`/`!sf on` – schaltet Self-Reflection um, Toast `SF-OFF`/`SF-ON`,
+  protokolliert `self_reflection_last_change_reason`.
 
 ### Runtime-State (Kurzreferenz)
 

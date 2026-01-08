@@ -1075,6 +1075,10 @@ function sanitize_hud_entries(entries){
         if (action){
           record.action = action;
         }
+        const reason = pickString(entry.reason);
+        if (reason){
+          record.reason = reason;
+        }
         sanitized.push(record);
         continue;
       }
@@ -3462,10 +3466,18 @@ function emit_toast(message, tag = 'HUD', options = {}){
   const applyBudget = respect_budget && usage && !isPriorityToast;
   if (applyBudget && usage.count >= HUD_SCENE_TOAST_LIMIT){
     const action = usage.tags[normalizedTag] ? 'merged' : 'suppressed';
+    const suppressionEntry = {
+      tag: normalizedTag,
+      message: cleanedMessage,
+      suppressed: true,
+      action,
+      reason: 'budget'
+    };
     record_trace('toast_suppressed', {
       tag: normalizedTag,
       message: cleanedMessage.slice(0, 200),
       action,
+      reason: 'budget',
       qa_mode: !!state.logs?.flags?.qa_mode,
       hud_scene_usage: {
         count: usage.count,
@@ -3473,7 +3485,9 @@ function emit_toast(message, tag = 'HUD', options = {}){
         tags: { ...usage.tags }
       }
     });
-    return { id: null, tag: normalizedTag, message: cleanedMessage, suppressed: true, action };
+    const updated = sanitize_hud_entries([...log, suppressionEntry]);
+    state.logs.hud = updated;
+    return { id: null, ...suppressionEntry };
   }
   hudSequence = (hudSequence + 1) % 10000;
   const entry = {
@@ -10018,7 +10032,7 @@ function on_command(command){
     || cmd === 'self reflection off'
     || cmd === 'self-reflection off'
   ){
-    const result = set_self_reflection(false);
+    const result = set_self_reflection(false, { reason: 'hud_command_sf_off' });
     return `${result.status} – introspektive Sequenzen gesperrt.`;
   }
   if (
@@ -10027,7 +10041,7 @@ function on_command(command){
     || cmd === 'self reflection on'
     || cmd === 'self-reflection on'
   ){
-    const result = set_self_reflection(true);
+    const result = set_self_reflection(true, { reason: 'hud_command_sf_on' });
     return `${result.status} – introspektive Sequenzen freigegeben.`;
   }
   if (cmd === '!sf' || cmd === '!sf status' || cmd === 'sf status'){

@@ -99,6 +99,8 @@ auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen. Die
 Objektform folgt `{event, scene?, details{…}, at?}`; fehlende Felder werden bei
 `save_deep()` ergänzt. Budget-Guards (2 Toasts/ Szene, Gate/FS/Boss ausgenommen)
 und tracebare Unterdrückungen sichern konsistente Roundtrips für beide Events.
+Unterdrückte Toasts landen zusätzlich in `logs.hud[]` als `{tag, message,
+suppressed:true, reason:"budget", action:"suppressed|merged"}`.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
