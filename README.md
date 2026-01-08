@@ -310,9 +310,11 @@ Cluster +… · Fraktion +…`.
 - `Spiel laden` – Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
-Kampagnenmodus (`preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
-`!kampagnenmodus preserve|trigger`. Der Wert landet in `campaign.mode`/`seed_source` und
-wirkt auf weitere Starts, Cross-Mode-Saves und Arena-Rücksprünge.
+Kampagnenmodus (`mixed|preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
+`!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed`: Preserve- und Trigger-Seeds
+dürfen rotieren, `campaign.seed_source` markiert den aktiven Seed-Typ pro Mission. Der Wert
+landet in `campaign.mode`/`seed_source` und wirkt auf weitere Starts, Cross-Mode-Saves und
+Arena-Rücksprünge.
 
 **Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo`
 nicht.
@@ -1037,7 +1039,9 @@ Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
 
-Historische Einsätze sind strikt getrennt in:
+Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist **mixed**,
+also eine rotierende Auswahl aus beiden Pools; der Seed-Typ wird pro Mission als
+`campaign.seed_source` markiert.
 
 - **Preserve-Missionen** – sichern beinahe entglittene Ereignisse
 - **Trigger-Missionen** – garantieren dokumentierte Tragödien
@@ -1168,8 +1172,10 @@ Regelmodule – **es belohnt Kontrolle, nicht Chaos.**
 | Core-Op     | `roll_from("ItemTable")` | ITEM · UPGRADE · CASH  |
 | Rift-Op†    | `roll_legendary()`       | ARTEFAKT (bei 1W6 = 6) |
 
-† Das Artefakt-Wurfskript greift in Szene 11–13 des Rift-Bosskampfs automatisch.
-Relikte zählen als Story-Items und nutzen den normalen Generator.
+† Das Artefakt-Wurfskript greift standardmäßig in Szene 10 (Rift-Boss) automatisch.
+  Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
+  bei **max. 1 Artefakt pro Mission**. Relikte zählen als Story-Items und nutzen
+  den normalen Generator.
 
 **Artefakt-Sink:** Artefakte bleiben handelbar wie Gear (Tausch, Schenkung oder
 Verkauf zulässig), aber die Abrechnung läuft über Research-/Archivwerte statt
@@ -1368,10 +1374,10 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter – ohne Auswahlmenü für `klassisch`/`schnell`.
 
-`preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Der Modus wird in
-`campaign.mode` und `campaign.seed_source` hinterlegt, bevor Starts oder Arena-
-Abzweigungen laufen. Legacy-Starts mit `preserve|trigger` in den Klammern werden
-mit einem Hinweis abgebrochen.
+`mixed|preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Standard ist `mixed`;
+der Modus wird in `campaign.mode` und `campaign.seed_source` hinterlegt, bevor Starts
+oder Arena-Abzweigungen laufen. Legacy-Starts mit `preserve|trigger` in den
+Klammern werden mit einem Hinweis abgebrochen.
 
 Der Compliance-Hinweis entfällt; die Spielleitung fragt direkt nach gewünschter
 Ansprache und Spielerzahl oder übernimmt beides aus dem Startbefehl.

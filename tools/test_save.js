@@ -257,17 +257,17 @@ const arenaLoad = {
     active: true,
     phase: 'active',
     mode: 'single',
-    previous_mode: 'preserve',
+    previous_mode: 'mixed',
     queue_state: 'active',
     phase_strike_tax: 5,
     zone: 'combat'
   }
 };
 rt.load_deep(JSON.stringify(arenaLoad));
-assert.equal(rt.state.campaign.mode, 'preserve');
+assert.equal(rt.state.campaign.mode, 'mixed');
 assert.equal(rt.state.arena.phase, 'completed');
 assert.equal(rt.state.arena.phase_strike_tax, 0);
-assert.equal(rt.state.arena.resume_token.previous_mode, 'preserve');
+assert.equal(rt.state.arena.resume_token.previous_mode, 'mixed');
 const mergeConflicts = Array.isArray(rt.state.logs.flags.merge_conflicts)
   ? rt.state.logs.flags.merge_conflicts
   : [];

@@ -197,8 +197,10 @@ heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
 
 > **Preserve** schützt Beinahe-Katastrophen,
 > **Trigger** erzwingt historisch belegte Tragödien.
-> Die Generatoren halten separate Pools, damit sich die Szenarien nicht überlappen.
-> Alle Twists beziehen sich auf **Nicht-ITI-Fraktionen** (siehe `kampagnenuebersicht.md`).
+> Die Generatoren halten separate Pools für klare Themen, aber der Standardmodus
+> `mixed` darf zwischen beiden rotieren. Der aktive Seed-Typ wird pro Mission als
+> `campaign.seed_source` markiert. Alle Twists beziehen sich auf
+> **Nicht-ITI-Fraktionen** (siehe `kampagnenuebersicht.md`).
 
 ```yaml
 preserve_pool:

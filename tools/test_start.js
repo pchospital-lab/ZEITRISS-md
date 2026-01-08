@@ -75,7 +75,7 @@ assert.strictEqual(rt.state.campaign.mode, 'trigger');
 assert.strictEqual(rt.state.campaign.seed_source, 'trigger');
 
 const help = rt.on_command('!help start');
-assert(help.includes('!kampagnenmodus preserve|trigger'));
+assert(help.includes('!kampagnenmodus mixed|preserve|trigger'));
 
 rt.on_command('begin mission');
 assert.notEqual(rt.state.exfil, null);

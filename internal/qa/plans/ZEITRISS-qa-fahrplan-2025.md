@@ -1501,13 +1501,13 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    `gameplay/kampagnenstruktur.md` als kanonisch setzen (Mini/Arc/Rift nach Teamgröße),
    `systems/wuerfelmechanik.md` und Generator-Snippets darauf harmonisieren. Boss-Toast nutzt
    berechneten DR. QA: Mission 5/10 Snapshot-Fixtures (Teamgröße 1–5) prüfen.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Würfelmechanik/Generatoren auf Team-DR gespiegelt._
 
 4. **Issue #4 – Rift-Artefaktwurf: Boss-only Default + Variante**
    Artefakt-Drops als Default ausschließlich am Rift-Boss (Szene 10) definieren; optionaler
    Startwurf als Hausregel/Variant-Flag (`rift_artifact_variant=start_roll`) dokumentieren.
    QA: Rift-Lauf-Assertions (max. 1 Artefakt/Mission, Quelle = Boss).
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Boss-only Default + Startwurf-Variante dokumentiert._
 
 5. **Issue #5 – `!sf off|on` als offizielles HUD-Kommando**
    `systems/hud-system.md`/README-Kommandoliste um `!sf off|on` ergänzen, inkl. exakter
@@ -1560,4 +1560,4 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
     `trigger`. Doku/Toolkit/Mission-Generator prüfen: Pool-Logik, UI-Ansage und Save-Felder
     (`campaign.mode`, `seed_source`) so anpassen, dass gemischtes Spielen als Standard erlaubt ist.
     QA: Runs mit wechselnden Seeds (Preserve/Trigger gemischt) ohne Konflikt-Fehlermeldung.
-    _Status: ⏳ offen._
+    _Status: ✅ erledigt – Mixed-Default + Seed-Quelle pro Mission dokumentiert._
