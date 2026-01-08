@@ -1809,9 +1809,11 @@ function log_squad_radio(details = {}){
 function record_npc_autoradio(size, mode){
   const normalizedSize = Number.isFinite(size) ? Math.max(0, Math.floor(size)) : 0;
   const presetParts = [`NPC-Autoradio aktiv (${normalizedSize}× Squad)`];
-  const normalizedMode = typeof mode === 'string' ? mode.trim().toLowerCase() : 'preserve';
+  const normalizedMode = typeof mode === 'string' ? mode.trim().toLowerCase() : 'mixed';
   if (normalizedMode === 'trigger'){
     presetParts.push('Trigger-Seeds bereit');
+  } else if (normalizedMode === 'mixed'){
+    presetParts.push('Mixed-Seeds bereit');
   }
   log_squad_radio({
     speaker: 'Kodex',
@@ -3884,7 +3886,7 @@ function ensure_campaign(){
     state.campaign.id = String(base).trim() || 'campaign';
   }
   if (typeof state.campaign.mode !== 'string' || !state.campaign.mode.trim()){
-    state.campaign.mode = 'preserve';
+    state.campaign.mode = 'mixed';
   }
   const complianceFlag = !!(state.logs?.flags?.compliance_shown_today);
   if (typeof state.campaign.compliance_shown_today !== 'boolean'){
@@ -4075,7 +4077,7 @@ function campaign_mode(ctx = state){
   const fallback = state.campaign?.mode;
   const raw = ctx?.campaign?.mode ?? fallback;
   if (typeof raw !== 'string' || !raw.trim()){
-    return 'preserve';
+    return 'mixed';
   }
   const normalized = raw.trim().toLowerCase();
   if (['pvp', 'arena', 'sparring'].includes(normalized)){
@@ -9527,7 +9529,9 @@ function startSolo(mode='klassisch'){
   sync_compliance_flags();
   play_hq_intro(false, mode);
   apply_qa_dispatch_meta('du', state.campaign.team_size);
-  return normalizedSeed === 'preserve' ? `solo-${mode}` : `solo-${normalizedSeed}-${mode}`;
+  return ['preserve', 'mixed'].includes(normalizedSeed)
+    ? `solo-${mode}`
+    : `solo-${normalizedSeed}-${mode}`;
 }
 
 function setupNpcTeam(size=0){
@@ -9544,7 +9548,7 @@ function setupNpcTeam(size=0){
     state.campaign.team_size = total;
   }
   initialize_wallets_from_roster();
-  record_npc_autoradio(npcCount, state.campaign?.mode || 'preserve');
+  record_npc_autoradio(npcCount, state.campaign?.mode || 'mixed');
   apply_qa_dispatch_meta('du', total);
 }
 
@@ -9579,18 +9583,21 @@ function startGroup(mode='klassisch'){
   initialize_wallets_from_roster();
   play_hq_intro(false, mode);
   apply_qa_dispatch_meta('ihr', state.campaign.team_size);
-  return normalizedSeed === 'preserve' ? `gruppe-${mode}` : `gruppe-${normalizedSeed}-${mode}`;
+  return ['preserve', 'mixed'].includes(normalizedSeed)
+    ? `gruppe-${mode}`
+    : `gruppe-${normalizedSeed}-${mode}`;
 }
 
 function set_campaign_mode_command(raw){
   const normalized = typeof raw === 'string' ? raw.trim().toLowerCase() : '';
-  if (!['preserve', 'trigger'].includes(normalized)){
-    return 'Kampagnenmodus setzen: `!kampagnenmodus preserve|trigger`.';
+  const mode = normalized === 'mix' ? 'mixed' : normalized;
+  if (!['preserve', 'trigger', 'mixed'].includes(mode)){
+    return 'Kampagnenmodus setzen: `!kampagnenmodus mixed|preserve|trigger`.';
   }
   ensure_campaign();
-  state.campaign.mode = normalized;
-  state.campaign.seed_source = normalized;
-  return `Kampagnenmodus gesetzt: ${normalized.toUpperCase()} (persistiert im HQ-Save).`;
+  state.campaign.mode = mode;
+  state.campaign.seed_source = mode;
+  return `Kampagnenmodus gesetzt: ${mode.toUpperCase()} (persistiert im HQ-Save).`;
 }
 
 function launch_mission(){
@@ -9838,7 +9845,7 @@ function on_command(command){
       if (legacySeed){
         return [
           'Kampagnenmodus wird nicht mehr im Startbefehl gesetzt.',
-          'Nutze `!kampagnenmodus preserve|trigger` im HQ und wiederhole den Start',
+          'Nutze `!kampagnenmodus mixed|preserve|trigger` im HQ und wiederhole den Start',
           'mit `klassisch` oder `schnell`.'
         ].join(' ');
       }
@@ -9861,7 +9868,7 @@ function on_command(command){
         if (token === 'trigger' || token === 'preserve') legacySeed = token;
       });
       if (legacySeed){
-        return 'Kampagnenmodus separat setzen: `!kampagnenmodus preserve|trigger`. ' +
+        return 'Kampagnenmodus separat setzen: `!kampagnenmodus mixed|preserve|trigger`. ' +
           'Start-Klammern verwenden nur `klassisch` oder `schnell`.';
       }
       return startGroup(mode);
@@ -9897,7 +9904,8 @@ function on_command(command){
           '- Spiel starten (npc-team [0–4] [klassisch|schnell])',
           '- Spiel starten (gruppe [klassisch|schnell])',
           '- Spiel laden',
-          'Kampagnenmodus separat setzen: !kampagnenmodus preserve|trigger (persistiert im Save).',
+          'Kampagnenmodus separat setzen: !kampagnenmodus mixed|preserve|trigger'
+            + ' (persistiert im Save).',
           'Klammern sind Pflicht. Rollen-Kurzformen: infil/tech/face/cqb/psi.',
           'SaveGuard: Speichern nur im HQ – HQ-Save gesperrt. '
             + 'Px 5 ⇒ ClusterCreate() (Rift-Seeds nach Episodenende).'
