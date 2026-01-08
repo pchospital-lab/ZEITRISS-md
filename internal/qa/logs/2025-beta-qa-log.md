@@ -6,6 +6,27 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2027-03-09 – Repo-Agent – Review Entwurf 2025-12-28 (Phase 1–2 Konsolidierung)
+- Plattform: Lokaler Repo-Lauf (Dokumentenprüfung)
+- Wissensstand: QA-Fahrplan 1.19.1, Wissensmodule unverändert
+- Auftrag: Entwurf „Wissensspeicher 20-Slot-Optimierung“ (2025-12-28) prüfen und
+  Konsolidierungs-/Kürzungspotenziale für Phase 1–2 bewerten.
+
+**Entscheidungsblock Phase 1–2 (beibehalten/zusammenführen/streichen)**
+- `characters/ausruestung-cyberware.md`: **beibehalten** (Regel- und Legalitätsanker
+  sind bereits konsolidiert; weitere Kürzung würde Runtime-Regeln tangieren).
+- `systems/kp-kraefte-psi.md`: **beibehalten** (Talente + Kernmechanik zusammen, keine
+  redundanten Blöcke für sichere Kürzung).
+- `characters/zustaende.md` + `characters/hud-system.md`: **beibehalten** (Split bleibt
+  retrieval-klar; Zusammenführung würde HUD-Regeln verwässern).
+- `characters/charaktererschaffung-grundlagen.md` +
+  `characters/charaktererschaffung-optionen.md`: **beibehalten** (Trennung reduziert
+  Komplexität; Kürzung ohne Regelverlust nicht möglich).
+
+**Nachverfolgung**
+- QA-Fahrplan: Phase-1–2-Review im Maßnahmenblock ergänzt; keine Zusammenführung/Kürzung
+  notwendig.
+
 ## 2026-01-09 – Repo-Agent – Beta-GPT Playtest 2026-XX Folgearbeiten (Issues #6–#9)
 - Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
 - Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.1
