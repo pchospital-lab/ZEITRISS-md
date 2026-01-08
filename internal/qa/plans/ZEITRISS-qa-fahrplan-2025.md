@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.19.0
+version: 1.19.1
 tags: [meta]
 ---
 
@@ -1495,7 +1495,7 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    `economy.wallets` im Beispiel auf Objektstruktur `{balance, name}` umstellen oder klar als
    nicht schema-valide Kurzform markieren. Doku-Hinweis „Schema v6“ ergänzen; Import-Test alt vs.
    neu (Fehler/PASS) definieren.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Beispiel auf v6-Objektstruktur korrigiert, Schema-Hinweis ergänzt._
 
 3. **Issue #3 – Boss-DR konsolidieren (Teamgrößen-Skala)**
    `gameplay/kampagnenstruktur.md` als kanonisch setzen (Mini/Arc/Rift nach Teamgröße),
@@ -1514,7 +1514,7 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    Badge-/Toast-Strings (`SF-OFF`/`SF-ON`) und Log-Feld
    `self_reflection_last_change_reason`. Auto-Reset am Missionsende für complete/abort fixieren.
    QA: Acceptance 11 (M5 Start) + Abbruchpfad testen.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – HUD/README-Kommandolisten ergänzt, Reason-Flag dokumentiert._
 
 6. **Issue #6 – `merge_conflicts`-Katalog für Cross-Mode-Imports**
    Allowlist + Mindestfelder festlegen (`wallet`, `rift_merge`, `arena_resume`,
@@ -1542,10 +1542,10 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    _Status: ⏳ offen._
 
 10. **Issue #10 – HUD-Toast-Suppression im Log spiegeln**
-    Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit
-    `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
-    3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
-    _Status: ⏳ offen._
+   Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit
+   `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
+   3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
+   _Status: ✅ erledigt – Suppressed-Entries in `logs.hud[]` mit `reason:"budget"`._
 
 11. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
     Report-Format (Steps 1–15 PASS/FAIL + Links auf `logs.trace`/`logs.hud`) fixieren;

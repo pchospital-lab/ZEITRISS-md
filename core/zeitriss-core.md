@@ -621,7 +621,7 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v6, gekürzt):
   },
   "team": {"members": []},
   "loadout": {},
-  "economy": {"cu": 320, "wallets": {"Alex": 120}},
+  "economy": {"cu": 320, "wallets": {"Alex": {"balance": 120, "name": "Alex"}}},
   "logs": {
     "hud": [],
     "trace": [],
@@ -644,8 +644,10 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v6, gekürzt):
 ```
 
 _Erläuterung:_ Der v6-Block enthält alle Laufzeitfelder (Kampagnenstand, Party,
-Logs, UI, Arena, Arc-Dashboard). Details zur Vollstruktur sind im Modul
-**Speicherstand & Fortsetzung** dokumentiert.
+Logs, UI, Arena, Arc-Dashboard). Wallets folgen dem Schema v6
+`wallets{id → {name,balance}}`; Kurzformen wie `"Alex": 120` sind nicht valide.
+Details zur Vollstruktur sind im Modul **Speicherstand & Fortsetzung**
+dokumentiert.
 
 Dieses Format ist kompakt genug, um es direkt im Chat zu verwenden, und zugleich eindeutig für das
 KI-Modell. Für die Spieler bedeutet es, dass ihr Fortschritt sauber festgehalten wird – der

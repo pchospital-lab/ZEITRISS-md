@@ -455,6 +455,8 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   und dürfen das Cap übersteuern, während Low-Priority-Meldungen bei Bedarf
   zusammengefasst/unterdrückt werden. Jede Unterdrückung schreibt
   `toast_suppressed` mit Snapshot von `logs.flags.hud_scene_usage` und `qa_mode`.
+  Unterdrückte Meldungen landen zusätzlich in `logs.hud[]` mit
+  `suppressed:true` und `reason:"budget"`.
 - **Ask↔Suggest.** `modus suggest` aktiviert beratende Vorschläge (`SUG-ON`, Overlay `· SUG`).
   Wechselt bei Bedarf mit `modus ask` zurück zu klassischem Fragenmodus (`SUG-OFF`).
   Standardmäßig ist der Kodex ohnehin aktiv (HUD, Regelfakten); Suggest dient

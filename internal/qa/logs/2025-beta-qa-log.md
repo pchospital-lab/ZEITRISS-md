@@ -6,6 +6,38 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-01-08 – Repo-Agent – Beta-GPT Playtest 2026-XX Folgearbeiten
+- Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.1
+- Auftrag: Issues #2, #5 und #10 aus dem Maßnahmenpaket „Beta-GPT Playtest 2026-XX“
+  abschließen (Wallet-Beispiel, HUD-SF-Kommandos, Toast-Suppression-Logs).
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Feststellungen**
+- Wallet-Beispiel in `core/zeitriss-core.md` ist v6-konform (`wallets{id → {name,balance}}`).
+- `!sf off`/`!sf on` dokumentiert, Toasts/Reason-Flags gespiegelt.
+- Suppressed-Toasts landen zusätzlich in `logs.hud[]` mit `suppressed:true` und `reason:"budget"`.
+
+**Nachverfolgung**
+- Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Version 1.19.1 mit erledigten Issues #2, #5, #10.
+
 ## 2027-03-08 – Repo-Agent – Allgemeiner Bug-/Optimierungscheck
 - Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
 - Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.0
