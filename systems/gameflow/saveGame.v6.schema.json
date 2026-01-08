@@ -213,6 +213,7 @@
         },
         "zone": { "type": "string", "enum": ["safe", "combat"] },
         "team_size": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "match_policy": { "type": "string", "enum": ["sim", "lore"] },
         "fee": { "type": "integer" },
         "scenario": { "type": ["object", "null"] },
         "started_episode": { "type": ["integer", "null"] },

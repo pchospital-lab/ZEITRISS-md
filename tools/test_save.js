@@ -271,7 +271,7 @@ assert.equal(rt.state.arena.resume_token.previous_mode, 'mixed');
 const mergeConflicts = Array.isArray(rt.state.logs.flags.merge_conflicts)
   ? rt.state.logs.flags.merge_conflicts
   : [];
-assert(mergeConflicts.some((entry) => entry.field === 'arena.state'));
+assert(mergeConflicts.some((entry) => entry.field === 'arena_resume'));
 const roundtripAfterArena = JSON.parse(rt.save_deep(rt.state));
 assert.equal(roundtripAfterArena.arc_dashboard.offene_seeds[0], 'Kontakt: Altes Archiv');
 assert.equal(roundtripAfterArena.arc_dashboard.offene_seeds[1].id, 'Seed-88');

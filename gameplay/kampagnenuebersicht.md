@@ -45,6 +45,12 @@ Falls eure Runde Fahrzeugwerte oder Regeln für große Gefechte benötigt, siehe
 [Modul 7](fahrzeuge-konflikte.md) und [Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
 Dort finden sich Manöver, Upgrades und Massenkampfregeln.
 
+**Arena-Policy (Cross-Alignment):** Die ITI‑Arena ist grundsätzlich ein
+Trainingsmodul. Standard ist `arena.match_policy=sim` (Sim/Range) – PvP bleibt
+nicht‑kanonisch und dient dem Skilltest. Für erzählerische Rivalitäten kann die
+Spielleitung `arena.match_policy=lore` setzen: Cross-Alignment ist erlaubt,
+doch der Kampf gilt als offizieller Lore‑Showdown mit Ruf- und Fraktions‑Echo.
+
 
 ### Safety Tools
 

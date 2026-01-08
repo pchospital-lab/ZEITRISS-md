@@ -62,9 +62,11 @@ assert.strictEqual(wallets.host.name, 'Host');
 assert.strictEqual(wallets.guest.balance, 200, 'Import-Wallet muss übernommen werden.');
 
 const conflicts = rt.state.logs.flags.merge_conflicts || [];
-const walletConflict = conflicts.find((entry) => entry.field === 'economy.wallets.host');
-const hqConflict = conflicts.find((entry) => entry.field === 'economy.cu');
-assert.ok(walletConflict, 'Wallet-Konflikt fehlt.');
-assert.ok(hqConflict, 'HQ-Pool-Konflikt fehlt.');
+const walletConflicts = conflicts.filter((entry) => entry.field === 'wallet');
+const hasWalletConflict = walletConflicts.some((entry) => entry.note && entry.note.includes('Wallet union'));
+const hasHqConflict = walletConflicts.some((entry) => entry.note && entry.note.includes('HQ-Pool'));
+assert.ok(walletConflicts.length >= 2, 'Wallet-Konflikte fehlen.');
+assert.ok(hasWalletConflict, 'Wallet-Konflikt (Union) fehlt.');
+assert.ok(hasHqConflict, 'HQ-Pool-Konflikt fehlt.');
 
 console.log('economy-merge-ok');

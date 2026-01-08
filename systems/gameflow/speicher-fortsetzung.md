@@ -141,18 +141,22 @@ SaveGuard + folgendem Pfadbaum:
 - `arc_dashboard{offene_seeds[],fraktionen{},fragen[],timeline[]}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat`, `team_size` hart 1–5)
+  `zone=safe|combat`, `team_size` hart 1–5, `match_policy=sim|lore`)
 
 `logs.flags.last_save_at` hält den Zeitstempel für deterministische Saves fest. Der Serializer nutzt
 den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
 `economy_audit`, damit Roundtrips keine neuen Zeitmarken erzeugen.
 
-`economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `hq_pool`,
-`wallet_sum`, `wallet_count`, `wallet_avg`, `chronopolis_sinks`, `target_range`, `delta` und
-`out_of_range`. `target_range` nutzt fixe Level-Bänder **120** (HQ 8 000–10 000 CU,
-Wallet Ø 1 000–2 000 CU), **512** (HQ 25 000–30 000 CU, Wallet Ø 3 000–5 000 CU) und **900+**
-(HQ 45 000–60 000 CU, Wallet Ø 6 000–10 000 CU) und skaliert `wallet_total` über alle
-Wallets. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt boolesche Flags und löst
+`economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `band_reason`,
+`hq_pool`, `wallet_sum`, `wallet_count`, `wallet_avg`, `wallet_avg_scope`,
+`chronopolis_sinks`, `target_range`, `delta` und `out_of_range`. `target_range` nutzt fixe
+Level-Bänder **120** (HQ 8 000–10 000 CU, Wallet Ø 1 000–2 000 CU), **512** (HQ 25 000–30 000 CU,
+Wallet Ø 3 000–5 000 CU) und **900+** (HQ 45 000–60 000 CU, Wallet Ø 6 000–10 000 CU) und skaliert
+`wallet_total` über alle Wallets. Die Band-Auswahl folgt dem Host-Level
+(`character.lvl|level` oder `campaign.level`); fehlt dieser, nutzt der Audit die Medianstufe der
+Party/Team-Roster und schreibt `band_reason=host_level|roster_median|unknown`. `wallet_avg_scope`
+steht immer auf `economy.wallets`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
+boolesche Flags und löst
 den Toast „Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+).“ aus.
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
 Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
@@ -261,6 +265,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
     "active": false,
     "phase": "idle",
     "mode": "single",
+    "match_policy": "sim",
     "previous_mode": null,
     "wins_player": 0,
     "wins_opponent": 0,
@@ -323,7 +328,7 @@ und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
 begrenzt die Liste auf 64 Einträge und spiegelt die Snapshots im HQ-Save.
 Beim HQ-Save schreibt die Runtime zusätzlich
 ein `economy_audit`-Event mit Level, HQ-Pool, Wallet-Summe,
-Zielrange (120/512/900+), Chronopolis-Sinks und Delta-Feldern
+Zielrange (120/512/900+), `band_reason`, `wallet_avg_scope`, Chronopolis-Sinks und Delta-Feldern
 (`delta.hq_pool`/`delta.wallet_avg` zum jeweiligen Zielband); ein HUD-Toast
 erscheint nur bei Abweichungen. Das Trace ergänzt `logs.hud[]` und ersetzt
 keine Toasts.
@@ -532,6 +537,7 @@ weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
     "active": false,
     "phase": "idle",
     "mode": "single",
+    "match_policy": "sim",
     "previous_mode": null,
     "wins_player": 0,
     "wins_opponent": 0,
@@ -689,11 +695,14 @@ werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen wede
 `campaign.mode` noch `campaign.rift_seeds[]` oder Episoden-/Missionszähler
 überschreiben. Der Merge-Pfad zieht lediglich Charaktere, Loadouts und Wallets
 heran und protokolliert abweichende Seeds im HUD/Debrief. Jeder abweichende
-Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, UI-Optionen,
-Arena- oder Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]`
-und wird als Host-Wert beibehalten; `load_deep()` schreibt ergänzend ein
-`logs.trace[]`-Event `merge_conflicts` mit Arena-Phase/Queue-State/Zone,
-Reset-/Resume-Markern, `conflict_fields`, `conflicts_added` und Gesamtzähler.
+Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, Arena- oder
+Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]` gemäß
+Allowlist-Feldern (`rift_merge`, `phase_bridge`, `campaign_mode`,
+`arena_resume`, `location_bridge`, `wallet`) und wird als Host-Wert
+beibehalten. UI-Optionen werden weiterhin Host-seitig erzwungen, aber nicht als
+Merge-Konflikt geloggt. `load_deep()` schreibt ergänzend ein `logs.trace[]`-Event
+`merge_conflicts` mit Arena-Phase/Queue-State/Zone, Reset-/Resume-Markern,
+`conflict_fields`, `conflicts_added` und Gesamtzähler.
 Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen
 automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
 `merge_conflicts.rift_merge` abgelegt. Der HQ-Pool (`economy.cu`) bleibt stets
@@ -777,6 +786,7 @@ Arena-Guards scharfgeschaltet werden.
     "active": false,
     "phase": "idle",
     "mode": "single",
+    "match_policy": "sim",
     "previous_mode": null,
     "wins_player": 0,
     "wins_opponent": 0,
@@ -928,7 +938,7 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
   zurückgesetzt.“); die letzte Runde bleibt über `arena.previous_mode`
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
-  `arena.resume_token` (Tier, Teamgröße, Modus, Szenario, `previous_mode`),
+  `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`, Szenario, `previous_mode`),
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
   `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
@@ -942,6 +952,20 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
+
+## HQ-Loop-Contract (Debrief → Freeplay)
+
+Nach jedem Einsatz folgt ein deterministischer HQ-Loop. Diese Reihenfolge ist
+verpflichtend und wird im Debrief sichtbar dokumentiert:
+
+1. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
+2. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
+3. **EP/Skills** (Level-Up/Skill-Picks aktiv abfragen).
+4. **Freeplay-Anker** – explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
+   plus **1 Gerücht** (kurzer Hook) anbieten.
+
+Optional für QA: `logs.flags.hq_freeplay_prompted=true` setzen, sobald Schritt 4
+gespielt wurde.
 
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
@@ -1318,6 +1342,7 @@ und werden beim Laden ignoriert.
     "active": false,
     "phase": "idle",
     "mode": "single",
+    "match_policy": "sim",
     "previous_mode": null,
     "wins_player": 0,
     "wins_opponent": 0,
@@ -1901,15 +1926,24 @@ niemand wird dupliziert.
 - **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
 - Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
 - Merge-Konflikte (z. B. Wallet-Delta, Modus-Wechsel, offene Seeds) landen
-  **verpflichtend** in `logs.flags.merge_conflicts[]` mit `{field, source, target,
-  mode?, note?, resolved:false}`. Seeds, Kampagnenzähler (Mission, Episode,
-  Szene, Seed-Quelle), UI-Präferenzen (`gm_style`, `contrast`,
-  `badge_density`, `output_pace`) und Arena-/HQ-Kontexte werden immer mit
-  Host-Vorrang geloggt und behalten die Host-Werte. Bei Arena-Ladevorgängen
-  erscheint zusätzlich ein HUD-Toast („Merge-Konflikt: Arena-Status
-  verworfen“), das den Reset auf HQ dokumentiert. Dedupe-Regeln halten
-  identische Konflikte pro Load-Lauf klein und nutzen das Resume-Token als
-  Anker, falls es bereitgestellt wird.
+  **verpflichtend** in `logs.flags.merge_conflicts[]` mit Mindestfeldern
+  `{field, source, target}`; `mode`/`note` bleiben optional. `field` ist
+  allowlist-gebunden und darf **nur** `wallet`, `rift_merge`, `arena_resume`,
+  `campaign_mode`, `phase_bridge` oder `location_bridge` sein. UI-Präferenzen
+  (`gm_style`, `contrast`, `badge_density`, `output_pace`) werden weiterhin
+  Host-seitig erzwungen, erzeugen aber keinen Merge-Konflikt. Bei
+  Arena-Ladevorgängen erscheint zusätzlich ein HUD-Toast („Merge-Konflikt:
+  Arena-Status verworfen“), das den Reset auf HQ dokumentiert. Dedupe-Regeln
+  halten identische Konflikte pro Load-Lauf klein und nutzen das Resume-Token
+  als Anker, falls es bereitgestellt wird.
+
+  **Beispiele (Merge-Conflicts):**
+
+  ```json
+  {"field":"location_bridge","source":"ARENA","target":"HQ","mode":"load","note":"HQ-only: Standort zurückgesetzt","resolved":false}
+  {"field":"wallet","source":"1500","target":"3200","mode":"merge","note":"HQ-Pool (economy.cu): Host-Vorrang","resolved":false}
+  {"field":"rift_merge","source":"18","target":"12","mode":"merge","note":"Rift-Pool gekappt (12) – Überschuss an ITI-NPC-Teams","kept":["R-011","R-044"],"overflow":["R-201"],"handoff_to":"ITI-NPC-Teams","resolved":false}
+  ```
 
 ### Recap & Start
 - **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
