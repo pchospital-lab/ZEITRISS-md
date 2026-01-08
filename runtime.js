@@ -167,6 +167,7 @@ const SQUAD_RADIO_LOG_LIMIT = 24;
 const WEIRDNESS_LOG_LIMIT = 12;
 const ARENA_QUEUE_STATES = ['idle', 'searching', 'matched', 'staging', 'active', 'completed'];
 const ARENA_ZONES = ['safe', 'combat'];
+const ARENA_MATCH_POLICIES = ['sim', 'lore'];
 const CHRONOPOLIS_UNLOCK_LEVEL = 10;
 const DEFAULT_MODES = ['klassik', 'mission_focus', 'covert_ops_technoir'];
 const DEFAULT_ACTION_MODE = 'uncut';
@@ -777,15 +778,38 @@ function sanitize_arena_psi_entries(entries){
   return sanitized;
 }
 
+const MERGE_CONFLICT_ALLOWLIST = new Set([
+  'wallet',
+  'rift_merge',
+  'arena_resume',
+  'campaign_mode',
+  'phase_bridge',
+  'location_bridge'
+]);
+
+function stringify_merge_value(value){
+  if (value === undefined || value === null) return '';
+  if (typeof value === 'string') return value.trim();
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  if (Array.isArray(value)){
+    return value.map(stringify_merge_value).filter(Boolean).join(', ');
+  }
+  if (typeof value === 'object') return JSON.stringify(value);
+  return '';
+}
+
 function sanitize_merge_conflicts(entries){
   if (!Array.isArray(entries)) return [];
   const sanitized = [];
   const limit = 50;
   entries.forEach((entry) => {
     if (!entry || typeof entry !== 'object') return;
-    const field = pickString(entry.field, entry.key, entry.path);
-    const source = pickString(entry.source, entry.source_value, entry.incoming);
-    const target = pickString(entry.target, entry.target_value, entry.existing);
+    const rawField = pickString(entry.field, entry.key, entry.path);
+    const field = rawField ? rawField.trim().toLowerCase() : '';
+    if (!field || !MERGE_CONFLICT_ALLOWLIST.has(field)) return;
+    const source = stringify_merge_value(entry.source ?? entry.source_value ?? entry.incoming);
+    const target = stringify_merge_value(entry.target ?? entry.target_value ?? entry.existing);
+    if (!source || !target) return;
     const mode = pickString(entry.mode, entry.context);
     const note = pickString(entry.note, entry.reason, entry.description);
     const timestamp = isoTimestamp(entry.timestamp);
@@ -797,14 +821,7 @@ function sanitize_merge_conflicts(entries){
       ? entry.overflow.map((seed) => pickString(seed, seed?.id)).filter(Boolean)
       : [];
     const handoffTo = pickString(entry.handoff_to, entry.handoff);
-    if (!field) return;
-    const record = { field };
-    if (source){
-      record.source = source;
-    }
-    if (target){
-      record.target = target;
-    }
+    const record = { field, source, target };
     if (mode){
       record.mode = mode;
     }
@@ -834,33 +851,29 @@ function sanitize_merge_conflicts(entries){
 
 function push_merge_conflict(list, { field, source, target, mode, note, kept, overflow, handoff_to, resolved=false }){
   if (!Array.isArray(list)) return [];
-  const record = { field };
-  const stringify = (value) => {
-    if (value === undefined || value === null) return undefined;
-    if (typeof value === 'string') return value;
-    if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-    if (Array.isArray(value)) return value.map(stringify).filter(Boolean).join(', ');
-    if (typeof value === 'object') return JSON.stringify(value);
-    return undefined;
-  };
-  const src = stringify(source);
-  const tgt = stringify(target);
-  const ctx = stringify(mode);
-  const description = stringify(note);
-  if (!record.field || typeof record.field !== 'string') return list;
+  const fieldKey = typeof field === 'string' ? field.trim().toLowerCase() : '';
+  if (!fieldKey || !MERGE_CONFLICT_ALLOWLIST.has(fieldKey)) return list;
+  const src = stringify_merge_value(source);
+  const tgt = stringify_merge_value(target);
+  const ctx = stringify_merge_value(mode);
+  const description = stringify_merge_value(note);
+  const ctxValue = ctx || undefined;
+  const descriptionValue = description || undefined;
+  if (!src || !tgt) return list;
+  const record = { field: fieldKey, source: src, target: tgt };
   const canonList = (value) =>
     Array.isArray(value) ? value.map((entry) => String(entry)).filter(Boolean) : [];
   const keptList = canonList(kept);
   const overflowList = canonList(overflow);
-  const handoff = stringify(handoff_to);
+  const handoff = stringify_merge_value(handoff_to);
   const exists = list.some((entry) =>
     entry
     && typeof entry === 'object'
     && entry.field === record.field
     && entry.source === src
     && entry.target === tgt
-    && entry.mode === ctx
-    && entry.note === description
+    && entry.mode === ctxValue
+    && entry.note === descriptionValue
     && entry.resolved === (resolved === true)
     && JSON.stringify(canonList(entry.kept)) === JSON.stringify(keptList)
     && JSON.stringify(canonList(entry.overflow)) === JSON.stringify(overflowList)
@@ -871,8 +884,8 @@ function push_merge_conflict(list, { field, source, target, mode, note, kept, ov
   }
   if (src){ record.source = src; }
   if (tgt){ record.target = tgt; }
-  if (ctx){ record.mode = ctx; }
-  if (description){ record.note = description; }
+  if (ctxValue){ record.mode = ctxValue; }
+  if (descriptionValue){ record.note = descriptionValue; }
   if (keptList.length){
     record.kept = keptList;
   }
@@ -2391,6 +2404,20 @@ function normalize_arena_zone(value, { active = false } = {}){
   return active ? 'combat' : 'safe';
 }
 
+function normalize_arena_match_policy(value){
+  const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
+  if (ARENA_MATCH_POLICIES.includes(normalized)){
+    return normalized;
+  }
+  if (['range', 'sim_range', 'simulation'].includes(normalized)){
+    return 'sim';
+  }
+  if (['story', 'lore_fight', 'lore-kampf'].includes(normalized)){
+    return 'lore';
+  }
+  return 'sim';
+}
+
 function normalize_phase_value(value, fallback = ''){
   const normalized = typeof value === 'string' ? value.trim().toLowerCase() : '';
   if (!normalized) return fallback;
@@ -2759,11 +2786,11 @@ function merge_wallet_sets(hostWallets, incomingWallets, noteConflict){
 
     if (differs && typeof noteConflict === 'function'){
       noteConflict({
-        field: `economy.wallets.${id}`,
+        field: 'wallet',
         source: { balance: incomingBalance, name: incomingName },
         target: { balance: hostBalance, name: hostName },
         mode: 'merge',
-        note: 'Wallet union: Host-Werte bevorzugt'
+        note: `Wallet union: Host-Werte bevorzugt (${id})`
       });
     }
   }
@@ -5711,12 +5738,37 @@ function economy_audit_guidelines(level, walletCount){
   };
 }
 
+function resolve_economy_audit_level(snapshot){
+  const hostLevel = asNumber(snapshot?.character?.lvl ?? snapshot?.character?.level ?? snapshot?.campaign?.level);
+  if (hostLevel !== null){
+    return { level: hostLevel, band_reason: 'host_level' };
+  }
+  const roster = Array.isArray(snapshot?.party?.characters)
+    ? snapshot.party.characters
+    : Array.isArray(snapshot?.team?.members)
+      ? snapshot.team.members
+      : [];
+  const levels = roster
+    .map((entry) => asNumber(entry?.lvl ?? entry?.level))
+    .filter((value) => Number.isFinite(value));
+  if (!levels.length){
+    return { level: null, band_reason: 'unknown' };
+  }
+  const sorted = levels.slice().sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  const median = sorted.length % 2 === 0
+    ? Math.round((sorted[mid - 1] + sorted[mid]) / 2)
+    : sorted[mid];
+  return { level: median, band_reason: 'roster_median' };
+}
+
 function build_economy_audit(s){
   const economy = s?.economy || {};
   const hqPool = Number.isFinite(economy.cu) ? Math.max(0, Math.round(economy.cu)) : 0;
   const { total: walletSum, count: walletCount } = sum_wallet_balances(economy.wallets);
   const walletAvg = walletCount > 0 ? Math.round(walletSum / walletCount) : null;
-  const level = asNumber(s?.character?.lvl ?? s?.character?.level ?? s?.campaign?.level);
+  const { level, band_reason: bandReason } = resolve_economy_audit_level(s);
+  const walletAvgScope = 'economy.wallets';
   const guidelines = economy_audit_guidelines(level, walletCount);
   const chronopolis = sum_market_spend(s?.logs);
   const targetRange = guidelines
@@ -5742,10 +5794,12 @@ function build_economy_audit(s){
     : null;
   return {
     level,
+    band_reason: bandReason,
     hq_pool: hqPool,
     wallet_sum: walletSum,
     wallet_count: walletCount,
     wallet_avg: walletAvg,
+    wallet_avg_scope: walletAvgScope,
     target_range: targetRange,
     delta,
     chronopolis_sinks: chronopolis,
@@ -5782,6 +5836,7 @@ function ensure_arena(){
   arena.damage_dampener = arena.damage_dampener !== false;
   arena.team_size = clamp_team_size(arena.team_size, { allowZero: false });
   arena.mode = typeof arena.mode === 'string' ? arena.mode : 'single';
+  arena.match_policy = normalize_arena_match_policy(arena.match_policy);
   arena.phase_strike_tax = Number.isFinite(arena.phase_strike_tax) ? arena.phase_strike_tax : 0;
   arena.previous_mode = typeof arena.previous_mode === 'string' ? arena.previous_mode : null;
   arena.phase = typeof arena.phase === 'string' ? arena.phase : (arena.active ? 'active' : 'idle');
@@ -5835,6 +5890,7 @@ function build_arena_resume_token(arena){
     scenario,
     team_size: clamp_team_size(arena.team_size, { allowZero: false }),
     mode: typeof arena.mode === 'string' ? arena.mode : 'single',
+    match_policy: normalize_arena_match_policy(arena.match_policy),
     previous_mode: typeof arena.previous_mode === 'string' ? arena.previous_mode : null,
     tier:
       Number.isFinite(arena.tier) && arena.tier > 0
@@ -6401,6 +6457,7 @@ function arenaResume(){
   }
   const teamSize = clamp_team_size(token.team_size, { allowZero: false });
   const mode = typeof token.mode === 'string' ? token.mode : 'single';
+  const matchPolicy = normalize_arena_match_policy(token.match_policy ?? arena.match_policy);
   const tier =
     Number.isFinite(token.tier) && token.tier > 0 ? Math.min(Math.floor(token.tier), 3) : 1;
   const policyPlayers = Array.isArray(token.policy_players)
@@ -6440,6 +6497,7 @@ function arenaResume(){
   arena.damage_dampener = true;
   arena.team_size = teamSize;
   arena.mode = mode;
+  arena.match_policy = matchPolicy;
   arena.previous_mode = previousMode;
   arena.policy_players = policyPlayers;
   arena.started_episode = currentEpisode;
@@ -6451,7 +6509,8 @@ function arenaResume(){
   const pxLocked =
     arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
   const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
-  const baseMessage = `Arena Resume · Tier ${arena.tier}`;
+  const policyLabel = matchPolicy === 'lore' ? 'Lore-Kampf' : 'Sim/Range';
+  const baseMessage = `Arena Resume · Tier ${arena.tier} · Policy ${policyLabel}`;
   hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
   if (audit.length){
     hud_toast(`Arena-Audit reaktiviert: ${audit.length} Hinweise.`, 'ARENA');
@@ -6475,6 +6534,9 @@ function arenaStart(options = {}){
   const { players: sanitisedPlayers, audit } = applyArenaTierPolicy(players, tierRule);
   const teamSize = clamp_team_size(options.teamSize, { allowZero: false });
   const mode = typeof options.mode === 'string' ? options.mode.toLowerCase() : 'single';
+  const matchPolicy = normalize_arena_match_policy(
+    options.matchPolicy ?? options.match_policy ?? arena.match_policy
+  );
   const scenario = nextArenaScenario();
   writeArenaCurrency(key, value - fee, 'arena_fee');
   const currentEpisode = state.campaign?.episode ?? null;
@@ -6495,6 +6557,7 @@ function arenaStart(options = {}){
   arena.damage_dampener = true;
   arena.team_size = teamSize;
   arena.mode = mode;
+  arena.match_policy = matchPolicy;
   arena.previous_mode = previousMode;
   arena.policy_players = sanitisedPlayers;
   arena.started_episode = currentEpisode;
@@ -6505,7 +6568,8 @@ function arenaStart(options = {}){
   const pxLocked =
     arena.last_reward_episode !== null && arena.last_reward_episode === currentEpisode;
   const pxNote = pxLocked ? 'Px-Bonus dieser Episode bereits verbraucht' : 'Px-Bonus verfügbar';
-  const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU`;
+  const policyLabel = matchPolicy === 'lore' ? 'Lore-Kampf' : 'Sim/Range';
+  const baseMessage = `Arena initiiert · Tier ${tierRule.tier} · Gebühr ${fee} CU · Policy ${policyLabel}`;
   hud_toast(`${baseMessage} · ${pxNote}`, 'ARENA');
   if (audit.length){
     hud_toast(`Arena-Loadout angepasst: ${audit.length} Eingriffe.`, 'ARENA');
@@ -6519,6 +6583,7 @@ function arenaStart(options = {}){
       team_size: teamSize,
       queue_state: arena.queue_state,
       zone: arena.zone,
+      match_policy: matchPolicy,
       mode_previous: previousMode
     },
     note: pxNote
@@ -7784,6 +7849,7 @@ function prepare_save_arena(arena){
     queue_state,
     zone: normalize_arena_zone(source.zone, { active }),
     mode: typeof source.mode === 'string' && source.mode.trim() ? source.mode.trim() : 'single',
+    match_policy: normalize_arena_match_policy(source.match_policy),
     previous_mode: typeof source.previous_mode === 'string' && source.previous_mode.trim()
       ? source.previous_mode.trim()
       : null,
@@ -9154,7 +9220,7 @@ function load_deep(raw){
     : migrated.location;
   if (incomingLocation && incomingLocation !== 'HQ'){
     noteConflict({
-      field: 'location',
+      field: 'location_bridge',
       source: incomingLocation,
       target: 'HQ',
       mode: 'load',
@@ -9168,7 +9234,7 @@ function load_deep(raw){
   const arenaConflictLogged = arenaActive;
   if (arenaActive){
     noteConflict({
-      field: 'arena.state',
+      field: 'arena_resume',
       source: arenaSource.phase || 'active',
       target: 'reset:completed',
       mode: 'load',
@@ -9176,15 +9242,13 @@ function load_deep(raw){
     });
   }
   if (hostCampaign && migrated.campaign){
-    const counters = [
+    const phaseKeys = [
       'mission',
       'mission_in_episode',
       'episode',
-      'scene',
-      'mode',
-      'seed_source'
+      'scene'
     ];
-    counters.forEach((key) => {
+    phaseKeys.forEach((key) => {
       const hostValue = hostCampaign[key];
       const incomingValue = migrated.campaign[key];
       if (
@@ -9195,11 +9259,32 @@ function load_deep(raw){
         && hostValue !== incomingValue
       ){
         noteConflict({
-          field: `campaign.${key}`,
+          field: 'phase_bridge',
           source: incomingValue,
           target: hostValue,
           mode: 'merge',
-          note: 'Host-Kampagnenzähler behalten'
+          note: `Host-Kampagnenzähler behalten (${key})`
+        });
+        migrated.campaign[key] = hostValue;
+      }
+    });
+    const modeKeys = ['mode', 'seed_source'];
+    modeKeys.forEach((key) => {
+      const hostValue = hostCampaign[key];
+      const incomingValue = migrated.campaign[key];
+      if (
+        hostValue !== undefined
+        && hostValue !== null
+        && incomingValue !== undefined
+        && incomingValue !== null
+        && hostValue !== incomingValue
+      ){
+        noteConflict({
+          field: 'campaign_mode',
+          source: incomingValue,
+          target: hostValue,
+          mode: 'merge',
+          note: `Host-Kampagnenmodus behalten (${key})`
         });
         migrated.campaign[key] = hostValue;
       }
@@ -9221,7 +9306,7 @@ function load_deep(raw){
         && JSON.stringify(normalizedHost) !== JSON.stringify(normalizedIncoming);
       if (diff || overflowCount){
         noteConflict({
-          field: 'campaign.rift_seeds',
+          field: 'rift_merge',
           source: normalizedIncoming.length,
           target: normalizedHost.length,
           mode: 'merge',
@@ -9260,11 +9345,11 @@ function load_deep(raw){
     const incomingCu = resolve_primary_currency(incomingEconomy);
     if (Number.isFinite(hostCu) && Number.isFinite(incomingCu) && hostCu !== incomingCu){
       noteConflict({
-        field: 'economy.cu',
+        field: 'wallet',
         source: incomingCu,
         target: hostCu,
         mode: 'merge',
-        note: 'Host-HQ-Pool behält Vorrang'
+        note: 'HQ-Pool (economy.cu): Host-Vorrang'
       });
     }
     incomingEconomy.cu = hostCu;
@@ -9282,13 +9367,6 @@ function load_deep(raw){
         && incomingValue !== undefined
         && hostValue !== incomingValue;
       if (!differs) return;
-      noteConflict({
-        field: `ui.${key}`,
-        source: incomingValue,
-        target: hostValue,
-        mode: 'merge',
-        note: 'UI-Host-Preference'
-      });
       incomingUi[key] = hostValue;
     });
   }
