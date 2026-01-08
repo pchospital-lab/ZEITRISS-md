@@ -1144,7 +1144,7 @@ const state = {
     suggest_mode: false,
     action_mode: DEFAULT_ACTION_MODE
   },
-  arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
+  arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [], timeline: [] },
   initiative: { order: [], active_id: null },
   hud: { timers: [] },
   exfil: null,
@@ -2894,6 +2894,31 @@ function resolve_team_size(ctx = state){
   return 1;
 }
 
+function normalize_arc_timeline_entries(entries){
+  if (!Array.isArray(entries)){
+    return [];
+  }
+  return entries
+    .map((entry) => {
+      if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return null;
+      const record = clone_plain_object(entry);
+      const id = typeof record.id === 'string' && record.id.trim() ? record.id.trim() : null;
+      const epoch = typeof record.epoch === 'string' && record.epoch.trim()
+        ? record.epoch.trim()
+        : null;
+      const label = typeof record.label === 'string' && record.label.trim()
+        ? record.label.trim()
+        : null;
+      if (!id && !epoch && !label) return null;
+      const normalized = {};
+      if (id) normalized.id = id;
+      if (epoch) normalized.epoch = epoch;
+      if (label) normalized.label = label;
+      return normalized;
+    })
+    .filter(Boolean);
+}
+
 function ensure_arc_dashboard(){
   state.arc_dashboard ||= {};
   const dash = state.arc_dashboard;
@@ -2948,6 +2973,7 @@ function ensure_arc_dashboard(){
         : entry
     ));
   }
+  dash.timeline = normalize_arc_timeline_entries(dash.timeline);
   return dash;
 }
 
@@ -8286,29 +8312,7 @@ function prepare_save_arc_dashboard(dashboard){
         entry && typeof entry === 'object' ? clone_plain_object(entry) : entry
       ))
     : [];
-  if (Array.isArray(base.timeline)){
-    base.timeline = base.timeline
-      .map((entry) => {
-        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return null;
-        const record = clone_plain_object(entry);
-        const id = typeof record.id === 'string' && record.id.trim() ? record.id.trim() : null;
-        const epoch = typeof record.epoch === 'string' && record.epoch.trim()
-          ? record.epoch.trim()
-          : null;
-        const label = typeof record.label === 'string' && record.label.trim()
-          ? record.label.trim()
-          : null;
-        if (!id && !epoch && !label) return null;
-        const normalized = {};
-        if (id) normalized.id = id;
-        if (epoch) normalized.epoch = epoch;
-        if (label) normalized.label = label;
-        return normalized;
-      })
-      .filter(Boolean);
-  } else {
-    base.timeline = [];
-  }
+  base.timeline = normalize_arc_timeline_entries(base.timeline);
   return base;
 }
 
