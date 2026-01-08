@@ -155,7 +155,8 @@ Optionen:
 
 **Arena & Boss-Dämpfer:** PvP-Arena und Bosskämpfe aktivieren zusätzlich einen
 obligatorischen Exploding-Dämpfer. Das Toolkit halbiert Overflow-Werte (Arena)
-und vergibt feste Boss-Schadensreduktionen (Mini-Boss = DR 2, Arc/Rift = DR 3).
+und staffelt die Boss-Schadensreduktion nach Teamgröße. Mini-Bosse starten bei
+DR 1–3, Arc-/Rift-Bosse bei DR 2–4 (Teamgröße 1–2 → 1/2, 3–4 → 2/3, 5 → 3/4).
 Die HUD-Hinweise greifen automatisch, damit Exploding-Ergebnisse erzählerisch
 wirken, ohne das Balancing zu sprengen.
 

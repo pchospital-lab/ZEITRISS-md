@@ -676,24 +676,29 @@ Spiegelparadoxa bleiben deaktiviert, damit sich jede Szene auf taktische
 Planung und technische Herausforderungen konzentriert. Dramatische
 Entscheidungen entstehen aus konkreten Handlungen, nicht aus
 existenziellen Fragen.
-In historischen Szenarien bestimmt der Modus, ob die Mission aus dem `preserve_pool` oder dem
-`trigger_pool` stammt. Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte
-Tragödien. Der Modus wird im Save als `campaign.seed_source` mit `preserve|trigger` gespiegelt –
-die Poolnamen bleiben intern `preserve_pool`/`trigger_pool`.
-Der Missionstyp wird im Briefing genannt und bleibt während der gesamten Kampagne konsistent.
-{% set _campaign_mode_raw = campaign.mode | default('preserve') %}
+In historischen Szenarien bestimmt der Modus, wie der Seed-Pool gewählt wird.
+`mixed` rotiert zwischen `preserve_pool` und `trigger_pool`, während `preserve`/`trigger`
+den Fokus fixieren. Preserve sichert Beinahe-Katastrophen; Trigger garantiert dokumentierte
+Tragödien. Der Modus wird im Save als `campaign.mode` gespiegelt; pro Mission hält
+`campaign.seed_source` die Herkunft (`preserve`/`trigger`) fest. Die Poolnamen bleiben intern
+`preserve_pool`/`trigger_pool`.
+Der Seed-Typ wird im Briefing genannt und bleibt während der Mission konsistent.
+{% set _campaign_mode_raw = campaign.mode | default('mixed') %}
 {% set _campaign_mode = _campaign_mode_raw|string %}
 {% set _campaign_mode = _campaign_mode|trim|lower %}
 {% if _campaign_mode in ['arena', 'sparring'] %}
   {% set _campaign_mode = 'pvp' %}
 {% endif %}
-{% set campaign.mode = _campaign_mode or 'preserve' %}
+{% set campaign.mode = _campaign_mode or 'mixed' %}
 {% set is_pvp_mode = campaign.mode == 'pvp' or (arena is defined and arena and arena.active) %}
 {% if campaign.mode == 'preserve' %}
   {% set campaign.seed_source = 'preserve' %}
 {% elif campaign.mode == 'trigger' %}
   {% set campaign.seed_source = 'trigger' %}
   {{ hud_tag('Briefing: kleineres Übel sichern (Trigger).') }}
+{% elif campaign.mode == 'mixed' %}
+  {% set campaign.seed_source = campaign.seed_source or 'preserve' %}
+  {{ hud_tag('Mixed-Pool aktiv – Seed-Typ pro Mission festlegen.') }}
 {% elif is_pvp_mode %}
   {% set campaign.seed_source = 'preserve' %}
   {{ hud_tag('Arena-Sparring aktiv – PvP-Modus gebunden. Seeds bleiben deaktiviert.') }}
@@ -2586,8 +2591,9 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   {{ kodex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) }}
 {%- endmacro %}
 
-Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – typischerweise in Szene 11–13
-nach einem Para-Kreaturen-Drop.
+Aufruf: `{% set artifact = generate_para_artifact(current_creature) %}` – standardmäßig direkt
+nach dem Rift-Boss (Szene 10). Optional erlaubt `rift_artifact_variant=start_roll` einen
+Startwurf; setze dann `campaign.rift_loot_prompted=true`, um Doppel-Drops zu vermeiden.
 
 ### on_rift_boss_down() Macro
 Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendären Wurf.
@@ -2599,7 +2605,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
   {% endif %}
   {% set campaign.boss_defeated = true %}
   {% if campaign.rift_loot_prompted %}
-    {{ hud_ping('Loot-Protokoll bereits abgewickelt – Legendary-Wurf bei Bedarf in Szene 11–13 wiederholen.') }}
+    {{ hud_ping('Loot-Protokoll bereits abgewickelt – Legendary-Wurf bei Bedarf direkt nach dem Boss wiederholen.') }}
     {% return %}
   {% endif %}
   {% set campaign.rift_loot_prompted = true %}
@@ -2621,7 +2627,7 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
   {% do campaign.loot_log.append(entry) %}
   {% set campaign.last_rift_loot_entry = entry %}
   {% set campaign.legendary_roll_pending = true %}
-  {{ hud_ping('Legendärer Drop: 1W6, nur bei 6 – roll_legendary() in Szene 11–13 ausführen.') }}
+  {{ hud_ping('Legendärer Drop: 1W6, nur bei 6 – roll_legendary() direkt nach dem Boss ausführen.') }}
 {%- endmacro %}
 
 ### Paradoxon / Rifts (neue Guards)
@@ -3123,10 +3129,10 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 2. Enthält `Spiel starten (solo|npc-team|gruppe)` → **Start-Flow**.
    - `klassisch|classic` erwähnt → klassischer Einstieg.
    - `schnell|fast` erwähnt → Schnelleinstieg.
-   - `trigger` erwähnt → Seeds aus dem `trigger_pool`,
-     `campaign.mode = 'trigger'`, `state.start.seed_mode = 'trigger'`.
-   - `preserve` erwähnt oder Default → Seeds aus dem `preserve_pool`,
-     `campaign.mode = 'preserve'`.
+   - Kampagnenmodus wird vor dem Start im HQ gesetzt:
+     `!kampagnenmodus mixed|preserve|trigger`. Default ist `mixed`.
+   - Legacy-Start mit `preserve|trigger` in den Klammern → Hinweis, dass der
+     Modus separat im HQ gesetzt wird.
    - Fehlen die Klammern oder passt die Startsyntax nicht → Hinweis
      „Startsyntax: Spiel starten (solo|npc-team [0–4]|gruppe
      [klassisch|schnell]). Klammern sind Pflicht.“ ausgeben und einmalig pro

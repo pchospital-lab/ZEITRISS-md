@@ -166,8 +166,9 @@ Zwei kurze Beispielmissionen zeigen den Unterschied der beiden Modi:
 - **Trigger-Beispiel:** Ein rivalisierendes Team soll den Mauerfall vorantreiben.
   Die Agenten stiften Unruhe, sabotieren Patrouillen und setzen auf Provokation.
 
-Beide Skizzen stammen aus getrennten Pools und verdeutlichen, dass eine Mission
-von Beginn an entweder Preserve oder Trigger ist.
+Beide Skizzen stammen aus getrennten Pools und verdeutlichen, dass der Seed-Typ
+pro Mission feststeht – im Standardmodus `mixed` darf die Kampagne dennoch zwischen
+Preserve und Trigger rotieren.
 
 ## Filmische Techniken für einen epischen Start
 

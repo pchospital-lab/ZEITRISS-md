@@ -198,19 +198,18 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 ### Preserve-vs-Trigger-Logik
 
-Eine Kampagne startet entweder im **Preserve**- oder **Trigger-Modus**.
-Pro-Spielende übernehmen Preserve-Missionen, Contra-Spielende Trigger-Missionen.
-Preserve-Missionen sichern Beinahe-Katastrophen,
-während Trigger-Missionen dokumentierte Tragödien gewährleisten.
-Die Seeds stammen aus getrennten Pools (`preserve_pool` bzw. `trigger_pool`).
-Im Briefing nennt das HUD Zeit und Ort einer Instabilität;
-welches Ereignis betroffen ist, deckt die Investigation auf.
-Zur Auswertung nutzt die KI-Spielleitung je nach Modus
-`history_ok_preserve()` oder `history_ok_trigger()`.
-Pro entspricht Preserve, Contra steht für Trigger – beide Seiten arbeiten letztlich
-am Erhalt einer stabilen Zeitlinie. Eine Kampagne läuft jedoch strikt in einem
-einzigen Modus; gemischte Pools oder parallele Preserve/Trigger-Läufe sind
-ausgeschlossen.
+Eine Kampagne startet standardmäßig im **Mixed-Modus** und darf Preserve- und
+Trigger-Seeds mischen. Preserve-Missionen sichern Beinahe-Katastrophen,
+während Trigger-Missionen dokumentierte Tragödien gewährleisten. Die Seeds
+bleiben in getrennten Pools (`preserve_pool`/`trigger_pool`), damit die Themen
+klar bleiben, aber der Einsatz darf rotieren. `campaign.mode` steuert den Fokus
+(`mixed`, `preserve`, `trigger`), während `campaign.seed_source` pro Mission
+festhält, ob der aktuelle Seed aus Preserve oder Trigger stammt.
+Im Briefing nennt das HUD Zeit und Ort einer Instabilität; welches Ereignis
+betroffen ist, deckt die Investigation auf. Zur Auswertung nutzt die
+KI-Spielleitung je nach `seed_source` `history_ok_preserve()` oder
+`history_ok_trigger()`. Pro entspricht Preserve, Contra steht für Trigger – beide
+Seiten arbeiten letztlich am Erhalt einer stabilen Zeitlinie.
 Eine kurze Zusammenfassung der Abläufe bietet das README.
 > **Hinweis:** In **Trigger-Missionen** müssen die dokumentierten Tragödien
 > historisch korrekt eintreten; ihre Verhinderung würde eine deutlich schlimmere
@@ -230,18 +229,18 @@ Eine kurze Zusammenfassung der Abläufe bietet das README.
 #### Entscheidungsroutine Preserve vs. Trigger {#preserve-trigger-ablauf}
 
 1. **Session 0 abfragen:** Die SL ermittelt pro Person die Präferenz (Pro = Preserve,
-   Contra = Trigger) und dokumentiert sie im Kampagnenlog. Bei Uneinigkeit wird ein
-   Kampagnenmodus festgelegt (Konsens oder SL-Entscheid); der jeweils andere Modus
-   entfällt für diese Kampagne.
-2. **Seed-Pool fixieren:** Ab dem Start zieht die Runde ausschließlich aus dem gewählten
-   Pool (`preserve_pool` oder `trigger_pool`). Es gibt keine Rotationen oder
-   Parallelmissionen zwischen den Modi.
-3. **Sitzungsstart-Checkliste:** Pool wählen → Mission-Seed ziehen → Modus im HUD markieren
-   (`[PRESERVE]` oder `[TRIGGER]`) → Briefing fahren.
-4. **Einsatz ausspielen:** Während der Mission bleibt der Modus fix; die SL nutzt passende
-   Complications und NSC-Haltungen (Preserve defensiv, Trigger konfrontativ).
-5. **Debrief:** Beim Auswertungsschritt ruft die SL ausschließlich den passenden Call zum
-   gewählten Modus auf – `history_ok_preserve()` oder `history_ok_trigger()`.
+   Contra = Trigger) und dokumentiert sie im Kampagnenlog. Wenn ein klarer Fokus
+   gewünscht ist, setzt das HQ `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+   Ohne Fokus bleibt `mixed` aktiv.
+2. **Seed-Pool wählen:** Pro Mission zieht Kodex einen Seed aus dem passenden Pool.
+   In `mixed` darf frei rotiert werden; der Seed schreibt `campaign.seed_source`
+   (`preserve` oder `trigger`).
+3. **Sitzungsstart-Checkliste:** Pool wählen → Mission-Seed ziehen → Seed-Typ im HUD
+   markieren (`[PRESERVE]` oder `[TRIGGER]`) → Briefing fahren.
+4. **Einsatz ausspielen:** Während der Mission bleibt der Seed-Typ fix; die SL nutzt
+   passende Complications und NSC-Haltungen (Preserve defensiv, Trigger konfrontativ).
+5. **Debrief:** Beim Auswertungsschritt ruft die SL den passenden Call des aktiven
+   Seeds auf – `history_ok_preserve()` oder `history_ok_trigger()`.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
@@ -296,8 +295,10 @@ Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
 [Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
 enthalten immer eine Anomalie mit Para-Wesen. Sie nutzen den regulären Gear-Loot-Pool
 der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschließlich
-nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar);
-Epiloge bleiben würfelfrei, Stoppuhr-Artefakte gelten nur als Plot-Schwachstellen.
+nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).
+Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
+bei **max. 1 Artefakt pro Mission**. Epiloge bleiben würfelfrei, Stoppuhr-Artefakte
+gelten nur als Plot-Schwachstellen.
 Diese Einsätze laufen außerhalb der aktuellen Episode und zählen nicht zur regulären
 Missionszahl.
 
@@ -373,8 +374,10 @@ gestartet werden darf.
   Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefakt-Drops nur am Rift-Boss:** Core-Ops liefern Relikte und regulären Gear-Loot; Rift-Ops
   nutzen denselben Gear-Pool, bekommen aber **nur nach dem Boss (Szene 10)** einen Artefaktwurf
-  (z. B. `1W6 → 6` = seltenes Artefakt). Stoppuhr-Artefakte bleiben als Plot-Schwachstellen
-  möglich, ersetzen aber den Boss-Loot nicht. Relikte bleiben Core-exklusiv.
+  (z. B. `1W6 → 6` = seltenes Artefakt). Optional erlaubt die Hausregel
+  `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber bei **max. 1 Artefakt pro Mission**.
+  Stoppuhr-Artefakte bleiben als Plot-Schwachstellen möglich, ersetzen aber den Boss-Loot nicht.
+  Relikte bleiben Core-exklusiv.
 - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
   zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradoxon-Subsystem
   steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
@@ -724,9 +727,10 @@ Stilhinweise:
 - Paramonster bildet den Kern der Handlung.
 - Ereignisse beeinflussen den Core‑Arc nicht.
 - Relikte bleiben Core-Beute; Rift-Ops gewähren regulären Gear-Loot **plus** einen
-  Artefaktwurf ausschließlich nach dem Boss (Szene 10). Stoppuhr-Artefakte sind als
-  Schwachstelle/Timer-Gerät erlaubt, ersetzen aber den Boss-Drop nicht; im Epilog wird
-  nicht zusätzlich gewürfelt.
+  Artefaktwurf ausschließlich nach dem Boss (Szene 10). Optional erlaubt
+  `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber bei **max. 1 Artefakt
+  pro Mission**. Stoppuhr-Artefakte sind als Schwachstelle/Timer-Gerät erlaubt, ersetzen
+  aber den Boss-Drop nicht; im Epilog wird nicht zusätzlich gewürfelt.
 - **Default-Fall:** Rift-Ops spielen sich wie eine urbane Legende. Die Anomalie rührt von
   einem konkreten Para-Wesen her (z. B. Zeitfresser, Echo-Ripper, schattenhafter
   Pendler) oder wird von ihm ausgelöst. Auftrag ist fast immer: Wesen aufspüren,

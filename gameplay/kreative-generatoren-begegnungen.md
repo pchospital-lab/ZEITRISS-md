@@ -760,8 +760,9 @@ boss_template:
 ```
 
 **Schadensdämpfer:** `dr` steht für die verpflichtende Boss-Schadensreduktion.
-Mini-Bosse starten bei **DR 2**, Arc- und Rift-Bosse bei **DR 3**. Das Toolkit setzt
-den Wert beim Spawn automatisch und loggt ihn im HUD.
+Der Wert richtet sich nach der Teamgröße (1–2 → Mini DR 1 / Arc/Rift DR 2,
+3–4 → 2/3, 5 → 3/4). Das Toolkit setzt den Wert beim Spawn automatisch und
+loggt ihn im HUD.
 
 ### core_mini_pool
 
