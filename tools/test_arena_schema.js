@@ -38,6 +38,7 @@ rt.state.arena = {
   phase: 'completed',
   queue_state: 'idle',
   mode: 'team',
+  match_policy: 'lore',
   previous_mode: 'single',
   team_size: 4,
   tier: 3,
@@ -65,6 +66,7 @@ const arena = saved.arena;
 assert.strictEqual(arena.active, false);
 assert.strictEqual(arena.phase, 'completed');
 assert.strictEqual(arena.mode, 'team');
+assert.strictEqual(arena.match_policy, 'lore');
 assert.strictEqual(arena.previous_mode, 'single');
 assert.strictEqual(arena.team_size, 4);
 assert.strictEqual(arena.policy_players.length, 2);
@@ -73,6 +75,7 @@ assert.strictEqual(arena.audit[0].id, 'AUD-1');
 rt.load_deep(savedJson);
 assert.strictEqual(rt.state.arena.active, false);
 assert.strictEqual(rt.state.arena.phase, 'completed');
+assert.strictEqual(rt.state.arena.match_policy, 'lore');
 assert.strictEqual(rt.state.arena.previous_mode, 'single');
 assert.strictEqual(Array.isArray(rt.state.arena.policy_players), true);
 assert.strictEqual(rt.state.arena.policy_players.length, 2);

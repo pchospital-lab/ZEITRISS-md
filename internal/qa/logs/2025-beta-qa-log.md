@@ -6,6 +6,39 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-01-09 – Repo-Agent – Beta-GPT Playtest 2026-XX Folgearbeiten (Issues #6–#9)
+- Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
+- Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.1
+- Auftrag: Issues #6–#9 aus dem Maßnahmenpaket „Beta-GPT Playtest 2026-XX“ abschließen
+  (Merge-Conflicts-Allowlist, Economy-Audit-Regel, PvP-Policy, HQ-Loop-Contract).
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
+
+**Feststellungen**
+- Merge-Conflicts-Allowlist + Mindestfelder umgesetzt; Beispiele im Gameflow-Modul ergänzt.
+- Economy-Audit nutzt Host-Level (Median-Fallback), `band_reason`/`wallet_avg_scope` gespiegelt.
+- Arena-Policy (`arena.match_policy`) in Save/HUD dokumentiert; HQ-Loop-Contract als Pflichtschablone ergänzt.
+- Erstlauf `make lint` wies auf MD013 (Line > 100) im QA-Fahrplan hin; behoben und erfolgreich wiederholt.
+
+**Nachverfolgung**
+- Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
+- QA-Fahrplan: Version 1.19.1 mit Issues #6–#9 als erledigt markiert.
+
 ## 2026-01-08 – Repo-Agent – Beta-GPT Playtest 2026-XX Folgearbeiten
 - Plattform: Lokaler Repo-Lauf (Pflicht-Testpaket)
 - Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.19.1

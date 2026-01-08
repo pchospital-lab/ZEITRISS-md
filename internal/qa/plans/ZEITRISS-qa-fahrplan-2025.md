@@ -1521,25 +1521,25 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    `campaign_mode`, `phase_bridge`, `location_bridge`). Jeder Cross-Mode-Merge schreibt Trace +
    Conflict-Entry. `systems/gameflow/speicher-fortsetzung.md` um 2–3 Beispiele ergänzen.
    QA: Roundtrip Solo→Koop→PvP→HQ mit Diff auf `merge_conflicts[]`.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Allowlist/Mindestfelder, Beispiele ergänzt, Tests angepasst._
 
 7. **Issue #7 – Economy-Audit Levelband-Regel in Koop**
    Regel festlegen: Band-Auswahl (z. B. Host-Level vs. Median) und `wallet_avg`-Scope
    (`team.members` vs. alle `economy.wallets`). Audit speichert `band_reason`/`wallet_avg_scope`.
    QA: Fixture mit 8/120/512/905 Mischteam deterministisch prüfen.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Host-Level-Regel + Median-Fallback dokumentiert, Scope gespiegelt._
 
 8. **Issue #8 – PvP-Policy: Cross-Alignment klären**
    Arena-Policy definieren (Sim/Range vs. Lore-Kampf), `arena.match_policy` ins Save aufnehmen,
    Regeltext in `gameplay/kampagnenuebersicht`/Arena-Doku ergänzen. QA: Pro-vs-Contra PvP
    durchführen, HUD/Save muss Policy zeigen.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – Policy definiert, Save-Feld/HUD ergänzt, Docs gespiegelt._
 
 9. **Issue #9 – HQ Loop Contract (Debrief → Freeplay)**
    Pflichtschablone für Debrief: Auto-Loot → CU/Wallet-Split → EP/Skill-Prompt → expliziter
    Freeplay-Menüanker (Bar/Werkstatt/Archiv + 1 Gerücht). Optional Flag
    `logs.flags.hq_freeplay_prompted=true` für QA.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt – HQ-Loop dokumentiert und in Wissensmodulen gespiegelt._
 
 10. **Issue #10 – HUD-Toast-Suppression im Log spiegeln**
    Unterdrückte Toasts nicht im Player-HUD, aber als `logs.hud[]`-Eintrag mit

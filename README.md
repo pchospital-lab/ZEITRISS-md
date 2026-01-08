@@ -282,8 +282,10 @@ Die ersten Schritte in unter zwei Minuten:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
     (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
     `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
-11. **Debrief & HQ** – Nach jeder Mission im HQ: CU ausschütten, Loot-Recap
-    nennen, XP/Ruf vergeben, Level-Up & Skill-Picks festhalten, dann Save.
+11. **Debrief & HQ** – Nach jeder Mission im HQ: Auto-Loot nennen, CU/Wallet-Split
+    durchführen, XP/Ruf vergeben, Level-Up & Skill-Picks aktiv abfragen und
+    danach ein Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht) anbieten,
+    anschließend Save. Optional `logs.flags.hq_freeplay_prompted=true` setzen.
     Überblick im [Gameflow-Spickzettel](gameplay/kampagnenstruktur.md#gameflow-spickzettel).
 12. **Mini-Walkthrough** – siehe Abschnitt "Mauerbau 1961" in
     [kampagnenstruktur.md](gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
@@ -335,8 +337,8 @@ nicht.
   Normalizer hebt Legacy-Strings an und zieht fehlende Label/Hook/Seed-Tier aus
   dem Seed-Katalog nach.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
-  `arena.resume_token` (Tier, Teamgröße, Modus) und erlaubt `!arena
-resume` ohne erneute Gebühr aus dem HQ.
+  `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`) und erlaubt
+  `!arena resume` ohne erneute Gebühr aus dem HQ.
 - **Semver-Toleranz** – Laden klappt, solange `major.minor` aus `zr_version`
   mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
 
@@ -419,20 +421,23 @@ Spiel starten (gruppe schnell)
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
   werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
-  Konflikte landen in `logs.flags.merge_conflicts` plus dem Trace
-  `merge_conflicts`.
+  Konflikte landen in `logs.flags.merge_conflicts` (Allowlist:
+  `wallet|rift_merge|arena_resume|campaign_mode|phase_bridge|location_bridge`)
+  plus dem Trace `merge_conflicts`.
   Jeder HQ-Save schreibt ein `economy_audit`-Trace mit Level-Band
-  (120/512/900+), `target_range` (HQ-Pool + Wallet-Richtwert), Delta-Flags
-  (`delta`, `out_of_range`), `chronopolis_sinks` (Liste der angesetzten Sinks)
-  sowie dem berechneten Wallet-Durchschnitt. Weichen HQ-Pool oder Wallet
+  (120/512/900+), `band_reason`, `wallet_avg_scope`, `target_range` (HQ-Pool +
+  Wallet-Richtwert), Delta-Flags (`delta`, `out_of_range`),
+  `chronopolis_sinks` (Liste der angesetzten Sinks) sowie dem berechneten
+  Wallet-Durchschnitt. Die Band-Auswahl nutzt den Host-Level; fehlt dieser,
+  greift der Median der Party/Team-Roster. Weichen HQ-Pool oder Wallet
   vom Ziel ab, erscheint der Toast „Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).“.
   SaveGuards loggen `save_blocked` mit Grund, Standort (`location`) und Phase
   (`phase`), damit die Reihenfolge und der Auslöser nachvollziehbar bleiben.
-  Arena-Resumes schreiben `resume_token.previous_mode` und
-  `merge_conflicts.arena_resume[]` deterministisch, wenn ein Save zwischen
-  PvP/Arena und HQ wechselt; Guard-Strings bleiben identisch zu den
-  Dispatcher-/SaveGuard-Fehlertexten.
+  Arena-Resumes schreiben `resume_token.previous_mode` und einen
+  `merge_conflicts`-Eintrag (`field='arena_resume'`) deterministisch, wenn ein
+  Save zwischen PvP/Arena und HQ wechselt; Guard-Strings bleiben identisch zu
+  den Dispatcher-/SaveGuard-Fehlertexten.
 - **Gear & Px.** Gear-Bezeichnungen werden nicht automatisch normalisiert;
   Armbänder sind zulässig (keine Handgelenk-Projektionen). Normalisierer lassen
   die Labels unangetastet. Erreicht der
@@ -445,8 +450,8 @@ Spiel starten (gruppe schnell)
   Objekt-Liste. Solo-/Px-5-Runs stapeln Seeds ohne Hard-Limit; das Cap 12
   greift ausschließlich beim HQ-Merge. Der Merge schreibt neben
   `rift_seed_merge_cap_applied` (kept/overflow/handoff) auch einen
-  `merge_conflicts`-Eintrag mit denselben Feldern, damit Trace und Flags
-  synchron bleiben.
+  `merge_conflicts`-Eintrag (`field='rift_merge'`) mit denselben Feldern, damit
+  Trace und Flags synchron bleiben.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
   Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
   und kein Budget verbrauchen. Jede Unterdrückung schreibt einen
@@ -618,8 +623,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
   Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
   fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat` und klemmt Teamgrößen hart auf 1–5. Der SaveGuard wertet
-  `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
+  `zone=safe|combat`, `match_policy=sim|lore` und klemmt Teamgrößen hart auf 1–5.
+  Der SaveGuard wertet `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
   `idle` ist; Matchmaking-States zählen als aktiv. Saves aus Chronopolis/CITY
   werden mit „SaveGuard: Chronopolis ist kein HQ-Savepunkt“ verworfen. Der
   Load-Merge
@@ -630,7 +635,7 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   Limit; beim HQ-Merge deckelt die Runtime den offenen Pool auf 12, schiebt
   Überschüsse an ITI-NPC-Teams und schreibt sowohl ein
   `rift_seed_merge_cap_applied`-Trace (kept/overflow) als auch einen
-  `merge_conflicts`-Eintrag (`rift_merge`). Arena-Resets setzen immer einen
+  `merge_conflicts`-Eintrag (`field='rift_merge'`). Arena-Resets setzen immer einen
   HUD-Toast „Merge-Konflikt: Arena-Status verworfen“ und hinterlegen den
   Konflikt im Trace; `reset_arena_after_load()` priorisiert `arena.previous_mode`
   und `resume_token.previous_mode`, damit der Kampagnenmodus nach aktiven Läufen
@@ -650,7 +655,8 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
   als boolesches Feld.
 - Wallets sind Maps `wallets{id → {name,balance}}`; Arrays oder namenlose
-  Guthaben gelten als fehlerhaft und wandern in `logs.flags.merge_conflicts[]`.
+  Guthaben gelten als fehlerhaft und wandern in `logs.flags.merge_conflicts[]`
+  (`field='wallet'`).
   Host-Vorrang bleibt erhalten, die Rest-Verteilung wird im
   `merge_conflicts`-Trace gespiegelt (`source`/`target`/`kept`/`handoff`), damit
   Wallet-Splits in Solo→Koop→PvP-Runs nachvollziehbar bleiben.
@@ -730,11 +736,14 @@ Siehe das [Mini-Einsatzhandbuch](#mini-einsatzhandbuch) für Startbefehle.
   laufen über denselben Helper, schreiben `self_reflection_auto_reset_*`
   (inkl. History-Eintrag pro Mission) und bleiben damit deterministisch.
 - **PvP-Arena.** `arenaStart()` setzt `location='ARENA'`, blockiert HQ-Saves bis
-  zum Exit und markiert Px-Boni pro Episode. PvP ist optionales Endgame-Modul;
-  Standardkampagnen laufen ohne Arena-Fokus weiter.
+  zum Exit, markiert Px-Boni pro Episode und hält die PvP-Policy im Save
+  (`arena.match_policy=sim|lore`). `sim` steht für Sim/Range-Training,
+  `lore` erlaubt Cross-Alignment als Lore-Kampf; der HUD-Toast nennt die
+  aktive Policy. PvP ist optionales Endgame-Modul; Standardkampagnen laufen
+  ohne Arena-Fokus weiter.
 - **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
   `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
-  Szenario sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
+  Szenario, Policy sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
   (`economy.cu`) und im Credits-Fallback (`economy.credits`) geführt;
   `sync_primary_currency()` hält beide Felder deckungsgleich und protokolliert
   bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces
@@ -785,10 +794,11 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
 - **ForeshadowHint(text, tag='Foreshadow')** – legt einen Foreshadow-Hinweis samt HUD-Toast an
   und erhöht den Gate-Zähler. Nutzt das Makro für manuelle Andeutungen vor dem Boss.
-- **arenaStart(options)** – schaltet den Kampagnenmodus auf PvP, zieht die
-  Arena-Gebühr aus `economy`, setzt `phase_strike_tax = 1`, aktiviert die
-  SaveGuards (`save_deep` wirft bei aktiver Arena) und meldet Tier, Szenario,
-  Gebühr sowie Px-Status per HUD-Toast.
+- **arenaStart(options)** – Optionen: `teamSize`, `mode`, `matchPolicy`. Schaltet den
+  Kampagnenmodus auf PvP, zieht die Arena-Gebühr aus `economy`, setzt
+  `phase_strike_tax = 1`, aktiviert die SaveGuards (`save_deep` wirft bei
+  aktiver Arena) und meldet Tier, Szenario, Policy, Gebühr sowie Px-Status per
+  HUD-Toast.
 
 **Chat-Kurzbefehle**
 

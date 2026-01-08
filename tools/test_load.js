@@ -156,7 +156,7 @@ assert.deepStrictEqual(keptIds, [
   'R-H-1', 'R-H-2', 'R-H-3', 'R-H-4', 'R-H-5', 'R-H-6', 'R-H-7', 'R-H-8', 'R-H-9',
   'R-H-10', 'R-I-1', 'R-I-2'
 ]);
-const conflict = rt.state.logs.flags.merge_conflicts.find((entry) => entry.field === 'campaign.rift_seeds');
+const conflict = rt.state.logs.flags.merge_conflicts.find((entry) => entry.field === 'rift_merge');
 assert.ok(conflict, 'Rift-Seed-Merge-Konflikt fehlt.');
 assert.ok(
   rt.state.logs.trace.some((entry) => entry.event === 'rift_seed_merge_cap_applied'),

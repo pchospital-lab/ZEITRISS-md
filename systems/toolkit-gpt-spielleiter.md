@@ -525,12 +525,14 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Hinweise, Rift = 2) und dient als Saison-Indikator.
   Dokumentiere Gate-Badge (`GATE 2/2` im HUD) und Saisonstand (`Mission FS 0/4` nach dem Reset) für eure Einsatznotizen.
 - **`arenaStart(options)`** – Erwartet ein Objekt mit optional `teamSize`
-  (1–4) und `mode` (`single`/`squad` …). Zieht die Arena-Gebühr aus
+  (1–4), `mode` (`single`/`squad` …) und `matchPolicy` (`sim`/`lore`). Zieht die
+  Arena-Gebühr aus
   `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
   `economy.cu` und `economy.credits`, setzt `state.campaign.mode = 'pvp'`,
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
-  Szenario und Px-Status aus. HQ-DeepSaves verlangen vollständig installierte
+  Szenario, Policy (`arena.match_policy`) und Px-Status aus. HQ-DeepSaves
+  verlangen vollständig installierte
   Systeme (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb der
   installierten Slots, sonst meldet die Runtime „SaveGuard: SYS nicht voll
   installiert – HQ-Save gesperrt.“ bzw. „SaveGuard: SYS runtime overflow –
@@ -551,9 +553,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
      und trägt `reason: hq_only|chronopolis` in `logs.trace[]` ein.
   4. Danach folgen Exfil, SYS-, Stress- und Psi-Heat-Guards mit identischen
      Strings. Tooling nutzt dieselben Texte, damit Goldenfiles stabil bleiben.
-     `resume_token.previous_mode` plus `merge_conflicts.arena_resume[]` halten
-     den Übergang zurück ins HQ fest, wenn mitten in einer Arena-Session geladen
-     wird.
+     `resume_token.previous_mode` plus `merge_conflicts`-Eintrag
+     (`field='arena_resume'`) halten den Übergang zurück ins HQ fest, wenn
+     mitten in einer Arena-Session geladen wird.
 
 ```
 Kodex: "Comms nur über **Ohr-Comlink**. Jammer blockiert; setzt **Relais/Kabel** oder nähert euch an.
@@ -586,7 +588,7 @@ if not char.get("psi") and not char.get("has_psi"):
   Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
   Einträge gehen automatisch an ITI-NPC-Teams und erscheinen sowohl im
   Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
-  Merge-Trace (`merge_conflicts.rift_merge`).
+  Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`.
   Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
   Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
   (`Px sinkt auf …`).
@@ -632,12 +634,13 @@ if not char.get("psi") and not char.get("has_psi"):
   - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
     Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
-    `target_range` für HQ-Pool+Wallet-Schnitt, Wallet-Summe,
-    `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein HUD-Toast erscheint
-    nur bei Abweichungen. Beim Laden behalten Host-HQ-Pool und Host-Wallets
-    Vorrang; Import-Wallets werden union-by-id angefügt, fehlende Labels aus dem
-    Import ergänzt und abweichende Balances/Labels als Merge-Konflikte
-    markiert (`logs.flags.merge_conflicts[]` + Trace `merge_conflicts`).
+    `band_reason`, `wallet_avg_scope`, `target_range` für HQ-Pool+Wallet-Schnitt,
+    Wallet-Summe, `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein
+    HUD-Toast erscheint nur bei Abweichungen. Beim Laden behalten Host-HQ-Pool
+    und Host-Wallets Vorrang; Import-Wallets werden union-by-id angefügt,
+    fehlende Labels aus dem Import ergänzt und abweichende Balances/Labels als
+    Merge-Konflikte markiert (`logs.flags.merge_conflicts[]` + Trace
+    `merge_conflicts`, `field='wallet'`).
   - Dialogvorschlag: _„Standardaufteilung: Nova, Ghost, Wrench je 200 CU.
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen.“_
@@ -650,6 +653,9 @@ if not char.get("psi") and not char.get("has_psi"):
       `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile;
       nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0–1
       bzw. 0–100 % normiert.
+- **HQ-Loop-Contract (Debrief → Freeplay):** Auto-Loot → CU/Wallet-Split →
+  EP/Skill-Prompt → explizites Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht).
+  Für QA optional `logs.flags.hq_freeplay_prompted=true` setzen.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
   Header, etwa `🎯 CORE-MISSION:` oder `🎯 RIFT-MISSION:`.

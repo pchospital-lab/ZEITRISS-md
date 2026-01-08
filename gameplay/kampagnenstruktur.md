@@ -593,11 +593,12 @@ flowchart TD
 | Boss-Rhythmus            | Mini-Boss Mission 5, Episoden-Boss Mission 10           | Boss in Szene 10 jeder Rift-Op                               |
 | Loot/Belohnungen         | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU| Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief    |
 | Paradoxon & Seeds        | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen   |
-| HQ-Pflichtschritte       | Debrief: CU ausschütten, Loot recap, XP/Ruf vergeben, Level/Skills ziehen, Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
+| HQ-Pflichtschritte       | Debrief: Auto-Loot, CU ausschütten, Loot-Recap, XP/Ruf vergeben, Level/Skills ziehen, Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
 
 **HQ-Kurzcheck nach jeder Mission:**
-- Debrief durchführen (CU auszahlen, Loot benennen, XP/Ruf, Level-Up & Skills festhalten).
+- Debrief durchführen (Auto-Loot, CU auszahlen, Loot benennen, XP/Ruf, Level-Up & Skills festhalten).
 - Offene Seeds und Paradoxon-Index eintragen; Seed-Multi fürs Episodenende im Blick behalten.
+- Freeplay-Menü anbieten (Bar/Werkstatt/Archiv + 1 Gerücht).
 - Rest/Research/Shop/Briefing auswählen (manuell, Schnell-HQ oder Auto-HQ & Save).
 
 #### Offene Rifts
@@ -1700,6 +1701,13 @@ als **MR-Overlay** im Visor, sind aber an reale Props, Rigs und Marker
 gekoppelt. Ein Beacon‑Gitter liefert allen Teilnehmenden denselben
 Referenz‑Raster, sodass jede Projektion für alle gleich sitzt – nichts ist
 „nur im Kopf“.
+
+**PvP-Policy (Cross-Alignment):** Jede Serie läuft mit einer klaren Policy,
+die im Save als `arena.match_policy` gespiegelt und im HUD genannt wird.
+Standard ist `sim` (**Sim/Range**): offizielles Training ohne Lore-Folgen,
+Fraktionen dürfen gemischt werden. Alternativ `lore` (**Lore‑Kampf**):
+Cross-Alignment ist erlaubt, aber die Rivalität gilt als kanonischer
+Stellvertreter-Konflikt mit narrativem Echo (Dialoge, Ruf, Folgeaufträge).
 
 **Eintrittsbild:** In der Schleuse knacken Magnetfelder an, die Anzüge ziehen
 kurz an Schultern und Hüfte, die Halle brummt. Im Staging‑Bereich blinken die
