@@ -1489,7 +1489,7 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    QA-Briefing/Acceptance-Liste auf exakt 15 Punkte normalisieren; Offline als eigener
    Acceptance-Schritt #15 ausweisen. Zusatz-Checks (Vehicle Clash/Mass Conflict/Arena) klar als
    „Nicht-Acceptance“ labeln. QA: Runner/Parser tolerieren 1–15 und taggen Offline separat.
-   _Status: ⏳ offen._
+   _Status: ✅ erledigt._
 
 2. **Issue #2 – Save v6 Wallet-Beispiel in `zeitriss-core` korrigieren**
    `economy.wallets` im Beispiel auf Objektstruktur `{balance, name}` umstellen oder klar als
@@ -1553,7 +1553,7 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
     (Self-Reflection Auto-Reset, toast_suppressed, rift_seed_merge_cap_applied, Arena-Resume).
     QA: Reimport-Tests Solo→Koop→PvP mit Diff auf `economy.wallets{}`, `merge_conflicts[]`, `ui`,
     `arena`, `campaign.rift_seeds[]`.
-    _Status: ⏳ offen._
+    _Status: ✅ erledigt._
 
 12. **Issue #12 – Preserve/Trigger nicht strikt trennen (Mixed-Play)**
     Kampagnenmodus soll gemischt spielbar sein; keine harte Trennung zwischen `preserve` und

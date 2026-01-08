@@ -94,7 +94,8 @@ Progressionsphasen betont.
   lokal als Quelle für CI-Checks und Parser.
 - **Copy-Paste-QA 2025-12-27:** `internal/qa/fixtures/savegame_v6_copy_paste_2025-12-27.json`
   verankert den letzten Acceptance-Lauf: HQ-Recap mit `campaign.entry_choice_skipped`/`ui.intro_seen`,
-  deterministische HUD-Events (`vehicle_clash`/`mass_conflict`), Wallet-Union per ID-Map und
+  deterministische HUD-Events (`vehicle_clash`/`mass_conflict`), Self-Reflection-Auto-Reset,
+  `toast_suppressed`-Einträge, `rift_seed_merge_cap_applied` sowie Wallet-Union per ID-Map und
   Merge-/SaveGuard-Traces (`merge_conflicts` plus Offline-Hilfe-Hints). Dient als Roundtrip-Basis
   Solo→Koop→PvP, inklusive Arena-Resume-Token und Skip-EntryChoice-Regression.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische Save-Schema
@@ -465,9 +466,11 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   den automatischen Reset auf `SF-ON` nach Missionsende – sowohl bei Abschluss als auch bei Abbruch.
   Das Flag wird ausschließlich durch `!sf off` gesetzt; `scene_overlay()` (`… · SF-OFF`) und
   HUD-Badge protokollieren Start & Reset.
-- **Accessibility/Offline Acceptance.** Ergänze `!help offline`/`offline_help()` sowie
-  Accessibility-Menü-Checks (`/help access`, HUD-Kontrast) als Pflichtschritte – Acceptance 14/15
-  verlangen HUD-Toast + Persistenzkontrolle.
+- **Accessibility Acceptance.** Ergänze `/help access`/`!accessibility`-Checks (HUD-Kontrast,
+  Badge-Dichte, Output-Pace) als Pflichtschritte – Acceptance 13/14 verlangen HUD-Toast +
+  Persistenzkontrolle.
+- **Offline Acceptance.** Ergänze `!help offline`/`offline_help()` als eigenen Pflichtschritt
+  (Acceptance 15) inklusive Hinweis auf Offline-Save-Blocker und Resync-Hinweis.
 - **Chronopolis Acceptance-Smoketest.** `tools/test_chronopolis_high_tier.js` bildet Markt-Limits,
   Px-Trace und Hochstufen-Angebote ab; Debrief-Zeilen im QA-Log 2025-06-28 verlinken.
 - **Automatisierter Beleg.** `tools/test_acceptance_followups.js` reproduziert Foreshadow-Reset,
@@ -493,6 +496,23 @@ Nächste-Schritte-Blöcke)
 
 ## Save/Load-Beleg
 saveGame({...})
+
+## Acceptance-Report (Schritte 1–15)
+- Schritt 1: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]` (z. B. `dispatch_hint`).
+- Schritt 2: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 3: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 4: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 5: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 6: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 7: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 8: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 9: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 10: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 11: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 12: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 13: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 14: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]`.
+- Schritt 15: PASS/FAIL – Verweis auf `logs.trace[]`/`logs.hud[]` (Offline).
 
 ## Eigene Anmerkungen
 - (Optionale Ergänzung)
@@ -579,8 +599,11 @@ Symmetrie-Reset auf `SF-ON` am Ende bestätigen (gilt für Mission 5 und 10).
     `standard|compact` gemappt.
 14. Save laden → `!accessibility` erneut öffnen → Einstellungen sind persistiert (`contrast: high`,
     `badge_density: dense|compact`, `output_pace: slow`).
+15. `!help offline` oder `offline_help()` auslösen → Offline-Hinweis erscheint, inkl. Save-Blocker
+    (`save-blocked: offline` im Trace) und Resync-Ansage.
 
-**Zusatzbelege (Merge/HUD/Arena):**
+**Zusatzbelege (Nicht-Acceptance):** Diese Checks gehören nicht zur 1–15-Abnahme, sie liefern nur
+Regressionstiefe für Logs/Parser.
 
 - Acceptance-Save laden → Seeds 14→12 zusammenführen: Trace
   `rift_seed_merge_cap_applied` mit `kept[]`/`overflow[]` sowie
