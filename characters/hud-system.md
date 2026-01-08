@@ -77,7 +77,8 @@ Der Standard-Header zeigt:
   OFFLINE) werden bei Cap zusammengeführt/unterdrückt; Gate/FS/Boss/Arena bleiben
   vorrangig, verbrauchen kein Budget und dürfen über das Cap hinausgehen. Jede
   Unterdrückung landet als `toast_suppressed`-Trace inkl. HUD-Usage-Snapshot und
-  `qa_mode`-Flag.
+  `qa_mode`-Flag sowie als `logs.hud[]`-Eintrag mit `suppressed:true` und
+  `reason:"budget"`.
 
 - `GATE {gate_seen}/2` erscheint in Mission 5/10 und steht ab Missionsstart
   fest auf `GATE 2/2 · FS 0/4` (Rift: `FS 0/2`). Die Runtime setzt Gate-Badge
@@ -96,6 +97,8 @@ Der Standard-Header zeigt:
   `logs.flags.self_reflection`
   und `character.self_reflection`. Beim Laden sorgt die Runtime für den Mirror und aktualisiert
   `logs.flags.self_reflection_changed_at` sowie `logs.flags.self_reflection_last_change_reason`.
+  `!sf off`/`!sf on` setzen `self_reflection_last_change_reason` auf
+  `hud_command_sf_off` bzw. `hud_command_sf_on`.
   Automatische Resets protokollieren zusätzlich `logs.flags.self_reflection_auto_reset_at`
   und `logs.flags.self_reflection_auto_reset_reason`. Wiederholte Resets hängen optional
   Einträge in `logs.self_reflection_history[]` an (z. B. `{ mission_ref, reason, ts }`), damit
@@ -554,6 +557,8 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
 | `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
+| `!sf off`   | SF aus, Toast `SF-OFF`, Reason `hud_command_sf_off` |
+| `!sf on`    | SF an, Toast `SF-ON`, Reason `hud_command_sf_on` |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |
 | `faq [x]`   | Schickt ein Stichwort an den Kodex und zeigt eine Kurzantwort      |
 | `kodex [x]` | Fragt Weltwissen oder Regeln ab – abhängig von Kodex-Verfügbarkeit |
