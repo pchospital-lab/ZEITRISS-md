@@ -222,6 +222,17 @@ Fragmentierung zu erzeugen.
 **Ergebnis Phase 2:** Lange Module werden in semantisch saubere Teile zerlegt,
 ohne Querbezüge zu verlieren.
 
+### Review 2027-03-09 – Phase 1–2 Konsolidierungscheck
+
+- `characters/ausruestung-cyberware.md`: **beibehalten** (keine sichere Kürzung ohne
+  Regelverlust).
+- `systems/kp-kraefte-psi.md`: **beibehalten** (keine redundanten Regelblöcke).
+- `characters/zustaende.md` + `characters/hud-system.md`: **beibehalten** (Split bleibt
+  retrieval-klar).
+- `characters/charaktererschaffung-grundlagen.md` +
+  `characters/charaktererschaffung-optionen.md`: **beibehalten** (Trennung reduziert
+  Komplexität).
+
 ### Phase 3 – Sync & QA
 
 - **Querverweise aktualisieren:** alle Links/Anker in Runtime-Modulen, README und
