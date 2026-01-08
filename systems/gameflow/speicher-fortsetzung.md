@@ -575,7 +575,9 @@ Routen zu passenden Proben.
 
 **Timeline-Notizen:** `arc_dashboard.timeline[]` speichert bedeutende Einsätze
 mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
-`campaign.px`.
+`campaign.px`. Die Runtime normalisiert Einträge auf Objekte mit
+`{id, epoch, label}`, entfernt leere/ungültige Datensätze und setzt fehlende
+Timeline-Listen automatisch auf `[]`.
 
 **Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
 
