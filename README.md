@@ -82,6 +82,18 @@ unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), der
 Programmcode unter der [MIT-Lizenz](https://opensource.org/licenses/MIT).
 Details findest du in [LICENSE](LICENSE).
 
+## Lizenz & Nutzung (Kurzfassung)
+
+- **Privatnutzung:** Kostenlos für private Einzelspiel- oder Gruppenrunden.
+  Anpassungen sind erlaubt, solange die CC BY-NC 4.0 eingehalten und
+  „ZEITRISS® – pchospital“ genannt wird.
+- **Kommerzielle Nutzung:** Jede Nutzung in kommerziellen Produkten,
+  Plattformen oder Services erfordert eine schriftliche Lizenzvereinbarung.
+  Details und Anfragen laufen über die im Repository genannten
+  Maintainer-Kanäle (siehe [LICENSE](LICENSE)).
+- **Marke & Altersfreigabe:** ZEITRISS® ist markenrechtlich geschützt, die
+  Inhalte richten sich ausschließlich an Erwachsene (18+).
+
 ## TL;DR – ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
@@ -211,7 +223,7 @@ ZEITRISS-md/
 ├─ internal/qa/             # Interne Pläne/Logs (Meta-Artefakte)
 ├─ internal/runtime/        # Entwickler-Stubs (`runtime-stub-routing-layer.md`) & lokale Runtimes
 ├─ meta/                    # Masterprompts, Hintergrundbriefe, Dev-only Inhalte
-├─ docs/                    # Maintainer-Ops, Starttranskripte
+├─ docs/                    # Maintainer-Ops, Lizenznotizen, Hosting-Strategie
 │                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
 ├─ master-index.json        # Übersicht aller Module und Slugs
@@ -228,6 +240,10 @@ ZEITRISS-md/
   vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
 - **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen
   der Maintainer:innen.
+- **`docs/zeitriss-lizenzmodell-notizen.md`** – Interne Lizenz- und
+  Monetarisierungsnotizen (nicht in den Wissensspeicher laden).
+- **`docs/zeitriss-verteilung-hosting.md`** – Internes Memo zu Verteilung,
+  Hosting und Plattform-Strategie (nicht in den Wissensspeicher laden).
 - **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
   dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
 
