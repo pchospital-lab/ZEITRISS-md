@@ -12,9 +12,8 @@ tags: [meta]
 > Tech-Noir-Zeitreise-RPG mit KI-Spielleitung, explodierenden Würfeln und
 > JSON-Charakterbögen.
 > **Markenhinweis:** ZEITRISS® ist eine eingetragene Marke von Florian Michler.
-> **DPMA-Dossier:** Der vollständige Registerauszug liegt im
-> [Markenbriefing](docs/trademark.md); haltet das Aktenzeichen 30 2025 215 671.9
-> bereit.
+> **DPMA-Dossier:** Der vollständige Registerauszug liegt repo-intern vor;
+> haltet das Aktenzeichen 30 2025 215 671.9 bereit.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
@@ -120,8 +119,7 @@ Einstiegshilfe.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
-Die komplette Operator-Checkliste liegt in
-[docs/maintainer-ops.md](docs/maintainer-ops.md). Dort findet ihr die
+Die komplette Operator-Checkliste liegt repo-intern vor. Dort findet ihr die
 Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
 Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README listet nur die
 Laufzeitreferenz – bei Fragen zum Hochladen, Synchronisieren oder Testen führt
@@ -179,8 +177,8 @@ eigener Wissensspeicher-Slot.
 ### Plattform-Setup
 
 - Installations- und Upload-Wege liegen weiterhin in den Maintainer-Ops
-  (`docs/maintainer-ops.md`, tags: [meta]). Laufzeitrelevante Presets sind hier
-  gespiegelt, damit lokale Runs ohne Nachschlagen starten können.
+  (repo-intern, tags: [meta]). Laufzeitrelevante Presets sind hier gespiegelt,
+  damit lokale Runs ohne Nachschlagen starten können.
 - **LM-Studio-Sampling (gpt-oss-20b):**
   - **ZEITRISS-PLAY (Standard/uncut):** Temperatur 0,60; Top-p 0,92; Top-k 60;
     Penalty Alpha 0,05; Präsenz-Penalty 1,06.
@@ -232,20 +230,16 @@ ZEITRISS-md/
 
 ### Dokumenten-Landkarte {#dokumenten-landkarte}
 
-- **`README.md`** – Einstieg für alle Rollen. Führt Runtime-Referenzen, Kurzbefehle sowie die
-  Dokumenten-Landkarte und verweist auf weiterführende Leitfäden.
-- **`AGENTS.md`** – Arbeitsgrundlage für den Repo-Agenten (Programmier-KI). Skizziert Rollen,
-  Übergaben und verweist auf die verbindlichen Prüfpfade in `CONTRIBUTING.md`.
-- **`CONTRIBUTING.md`** – Richtlinien für Beitragende. Bündelt Workflow, Formatierung sowie die
-  vollständige Prüf-, Link- und Compliance-Checkliste inklusive Pflicht-Tests.
-- **`docs/maintainer-ops.md`** – Operatives Handbuch für Plattformpflege und Runtime-Spiegelungen
-  der Maintainer:innen.
-- **`docs/zeitriss-lizenzmodell-notizen.md`** – Interne Lizenz- und
-  Monetarisierungsnotizen (nicht in den Wissensspeicher laden).
-- **`docs/zeitriss-verteilung-hosting.md`** – Internes Memo zu Verteilung,
-  Hosting und Plattform-Strategie (nicht in den Wissensspeicher laden).
-- **`meta/masterprompt_*.md`** – Laufzeit-Briefings für MyGPT. Werden im Repo aktiv gepflegt,
-  dienen der Spielleitung als Grundlage und enthalten keine Dev-Vorgaben wie `AGENTS.md`.
+- **README (Wissenspaket)** – Einstieg für alle Rollen, Runtime-Referenzen,
+  Kurzbefehle und Plattform-Setup.
+- **Beitrags- & Agentenrichtlinien (repo-intern)** – Arbeitsgrundlage für
+  Beitragende und Repo-Agenten, inkl. Prüfpfade, Compliance und QA-Hinweise.
+- **Maintainer-Handbuch (repo-intern)** – Upload-Workflows, Plattformpflege und
+  Runtime-Spiegelungen.
+- **Hintergrund- & Strategie-Notizen (repo-intern)** – Lizenz-,
+  Hosting- und Entwicklungsnotizen, nicht für den Wissensspeicher gedacht.
+- **Masterprompts (repo-intern)** – Laufzeit-Briefings für MyGPT; enthalten
+  keine Dev-Vorgaben wie Agentenregeln.
 
 ## Schnellstart-Spickzettel {#schnellstart-spickzettel}
 
@@ -1505,7 +1499,7 @@ Kampagne fort – der Sprung gilt damit als abgeschlossen.
   den "Chronopolis‑Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
   `CITY`, Speichern bleibt blockiert.
 - **Maintainer-Blueprint:** Map-Layout, Performance-Ziele und Build-Roadmap
-  stehen in `docs/dev/chronopolis-map-blueprint.md` für Art/Tech-Abgleiche bereit.
+  liegen repo-intern für Art/Tech-Abgleiche bereit.
 - In Chronopolis sind **offizielle** FR-Kontakte untersagt – keine direkten
   Fraktionsmeetings, keine diplomatischen Übergaben. Fraktionen wirken dort nur
   indirekt über Gerüchte, Auftragsgeräusche und HUD-Briefings. Rifts lassen sich
@@ -1772,9 +1766,8 @@ spielerfreundliche Noir-Varianten übersetzt.
 
 ## Wie du beitragen kannst
 
-Siehe [CONTRIBUTING.md](CONTRIBUTING.md) für Hinweise zum
-Einreichen von Änderungen; beachte insbesondere die
-[Umlaut-Richtlinie](CONTRIBUTING.md#schreibweise-umlaute).
+Hinweise zum Einreichen von Änderungen sowie Schreibregeln
+liegen repo-intern in den Beitragsrichtlinien vor.
 Für lokale Checks nutze die dort beschriebene `pre-commit`-Integration.
 
 Die Inhalte stehen für private kreative Nutzung bereit.
