@@ -6,6 +6,21 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-01-14 – Repo-Agent – Fahrplan-Umsetzung (Issues #1–#7, #9)
+- Fokus: Rift-Casefile-Map/Stage-Overlay, Pre-City-Save-Regel, Tester-Briefing (Kompakt-Profil +
+  Szenario-Varianz), Rift-Seed-Merge-Determinismus (`selection_rule`), SaveGuard-Prioritäten,
+  UI-Host-Override-Trace, Critical-Toast-Prioritäten, Dummy-Fixture für QA.
+- Artefakte: `qa_save_v6_dummy.json` ergänzt, QA-Plan/Audit synchronisiert.
+
+**Checks (Repo-Agent Pflichtpaket)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
 ## 2026-01-14 – Repo-Agent – Beta-GPT Playtest 2026-01-14 (QA-Übernahme)
 - Plattform: Beta ZEITRISS-GPT (Tester-Briefing)
 - Wissensstand: Runtime/README 4.2.5 (Save v6 Beispiel), QA-Fahrplan 1.20.0

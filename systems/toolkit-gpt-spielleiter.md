@@ -295,7 +295,7 @@ default_modus: mission-fokus
   Debrief betont, wie der Alltag wieder normal wird (Pendler kehren zurück, Fluss beruhigt
   sich, Opferliste stoppt).
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template, mit
-  Casefile-Overlay (Tatort → Leads → Boss) und genau **einem** Anomalie-Element
+  Casefile-Overlay (Tatort → Leads → Boss-Encounter → Auflösung) und genau **einem** Anomalie-Element
   pro Rift; restliche Effekte bleiben physisch/rational.
 - **EntryChoice prompten:** Szene 0/1 fragt aktiv nach dem Einstieg – Core
   `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Falls
@@ -349,11 +349,11 @@ default_modus: mission-fokus
 
 - `init_casefile_tracker()` startet Rift-Casefiles auf `Tatort`; HUD zeigt
   `CASE STAGE` und hält den Wechsel in `logs.casefile[]` fest.
-- Verankere das 14er-Template ausdrücklich: **Tatort → Leads → Boss**.
+- Verankere das 14er-Template ausdrücklich: **Tatort → Leads → Boss-Encounter → Auflösung**.
   Die Runtime zieht die Stufen automatisch aus dem Szenenzähler (1–4 Tatort,
-  5–10 Leads, 11–14 Boss); bei Sprüngen kannst du mit
-  `set_casefile_stage('leads'|'boss')` nachziehen und Stage/Hooks im HUD nennen
-  (`MODE RIFT · CASE … · HOOK … · STAGE …`).
+  5–9 Leads, 10 Boss-Encounter, 11–14 Auflösung); bei Sprüngen kannst du mit
+  `set_casefile_stage('leads'|'boss'|'resolution')` nachziehen und Stage/Hooks
+  im HUD nennen (`MODE RIFT · CASE … · HOOK … · STAGE …`).
 
 #### One-Weird-Thing-Budget
 
@@ -588,7 +588,8 @@ if not char.get("psi") and not char.get("has_psi"):
   Beim Merge/Group-Import deckelt die Runtime offene Seeds auf 12; überschüssige
   Einträge gehen automatisch an ITI-NPC-Teams und erscheinen sowohl im
   Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
-  Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`.
+  Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`
+  inklusive `selection_rule`.
   Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
   Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
   (`Px sinkt auf …`).
