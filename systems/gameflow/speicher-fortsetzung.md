@@ -97,8 +97,9 @@ laufen über `hud_event(event, details)` und akzeptieren ausschließlich
 ergänzt fehlende `at`-Timestamps automatisch und fällt bei unbekannten Events
 auf einen generischen HUD-Eintrag zurück, statt die Struktur zu verwerfen. Die
 Objektform folgt `{event, scene?, details{…}, at?}`; fehlende Felder werden bei
-`save_deep()` ergänzt. Budget-Guards (2 Toasts/ Szene, Gate/FS/Boss ausgenommen)
-und tracebare Unterdrückungen sichern konsistente Roundtrips für beide Events.
+`save_deep()` ergänzt. Budget-Guards (2 Toasts/ Szene, Critical-Tags wie
+OFFLINE/SAVE/SCHEMA/ARENA/GATE/FS/BOSS/ENTRY ausgenommen) und tracebare
+Unterdrückungen sichern konsistente Roundtrips für beide Events.
 Unterdrückte Toasts landen zusätzlich in `logs.hud[]` als `{tag, message,
 suppressed:true, reason:"budget", action:"suppressed|merged"}`.
 
@@ -120,6 +121,16 @@ mit `reason`, `location` und `phase` (Fallback auf `state.phase`, falls
 `campaign.phase` fehlt), damit Reihenfolge und Auslöser in Snapshots
 transparent bleiben. Der QA-Test `test_saveguard_order.js` prüft die Kette
 offline → Arena → HQ-only/Chronopolis inklusive Trace-Payload.
+
+| Priorität | Guard | Trace-Reason | Hinweis |
+| --- | --- | --- | --- |
+| 1 | Offline | `offline` | Exklusiv; kein weiterer Guard danach. |
+| 2 | Arena aktiv | `arena_active` | `queue_state`/`phase`/`zone` im Trace. |
+| 3 | HQ-only/Chronopolis | `hq_only`/`chronopolis` | Pre-City-Hub zählt als HQ. |
+| 4 | Exfil aktiv | `exfil_active` | Blockt HQ-Save bis Rückkehr. |
+| 5 | SYS-Checks | `sys_not_full`/`sys_overflow`/`sys_runtime_overflow` | Vollinstallation + Runtime-Limit. |
+| 6 | Stress aktiv | `stress_active` | Blockt bis Stress 0. |
+| 7 | Psi-Heat aktiv | `psi_heat_active` | Blockt bis Psi‑Heat 0. |
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
@@ -291,10 +302,11 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
 und kann optional `seed_tier: early|mid|late` sowie Metadaten `cluster_hint`
-(1-25/80-150/400-1000) und freies `level_hint` tragen (reine Balance-
-Hinweise, keine Gating-Logik). Der Normalizer hebt Legacy-Strings oder
-uneinheitliche Felder auf Objektform und setzt unbekannte Status auf
-`open`. Launch-Guards erwarten `location='HQ'` und lehnen Starts mit
+(1-25/80-150/400-1000), `time_marker`, optionales `discovered_at` sowie freies
+`level_hint` tragen (reine Balance-Hinweise, keine Gating-Logik). Der
+Normalizer hebt Legacy-Strings oder uneinheitliche Felder auf Objektform und
+setzt unbekannte Status auf `open`. Launch-Guards erwarten `location='HQ'` und
+lehnen Starts mit
 aktiver Arena oder fehlenden Seeds ab. `logs.arena_psi[]` spiegelt
 Phase-Strike-Events separat vom regulären `logs.psi[]`.
 `arc_dashboard.offene_seeds[]` bildet diese Liste nur ab; der Normalizer
@@ -305,7 +317,8 @@ Solo-/Px‑5‑Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift ein
 Deckelung auf 12 offene Seeds; überschüssige Seeds gehen als Hand-off an ITI-
 NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
 (kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge` inklusive
-`kept[]`/`overflow[]` und `handoff_to`, damit Debriefs den Hand-off
+`kept[]`/`overflow[]`, `handoff_to` und `selection_rule`, damit Debriefs den
+Hand-off
 transparent nachverfolgen können.
 
 **Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
@@ -704,10 +717,12 @@ Allowlist-Feldern (`rift_merge`, `phase_bridge`, `campaign_mode`,
 beibehalten. UI-Optionen werden weiterhin Host-seitig erzwungen, aber nicht als
 Merge-Konflikt geloggt. `load_deep()` schreibt ergänzend ein `logs.trace[]`-Event
 `merge_conflicts` mit Arena-Phase/Queue-State/Zone, Reset-/Resume-Markern,
-`conflict_fields`, `conflicts_added` und Gesamtzähler.
+`conflict_fields`, `conflicts_added` und Gesamtzähler sowie ein separates
+`ui_host_override`-Event mit den überschriebenen UI/Accessibility-Schlüsseln.
 Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen
 automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
-`merge_conflicts.rift_merge` abgelegt. Der HQ-Pool (`economy.cu`) bleibt stets
+`merge_conflicts.rift_merge` samt `selection_rule` abgelegt. Der HQ-Pool
+(`economy.cu`) bleibt stets
 Host-priorisiert; Importwerte erzeugen nur einen Merge-Konflikt und werden
 verworfen. Wallets werden **union-by-id** als Map `id → {name,balance}`
 zusammengeführt: Host-Wallets haben Vorrang, neue IDs aus dem Import ergänzen

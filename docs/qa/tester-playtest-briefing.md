@@ -11,9 +11,12 @@ eine strukturierte Testmatrix für Solo-, Koop- und PvP-Szenarien. Die Standardp
 darin, ein Custom-GPT mit dem Wissenspaket aufzusetzen, den untenstehenden Auftrag zu kopieren und
 das GPT den kompletten Ablauf autonom (inklusive Squad-, Koop- und PvP-Simulationen) durchspielen zu
 lassen. Das resultierende Protokoll liefert automatisch strukturierte `ISSUE`, `Lösungsvorschlag`,
-`To-do`- und `Nächste Schritte`-Blöcke für Codex und wird unverändert in das Codex-Fenster
-(Programmier-KI) übertragen. Tester:innen posten den Auftrag genau einmal; das GPT simuliert alle
-benötigten Läufe eigenständig und fasst sie im beschriebenen Format zusammen.
+`To-do`- und `Nächste Schritte`-Blöcke für **Codex** (Repo-Agent) und wird unverändert in das
+Codex-Fenster (Programmier-KI) übertragen. **Kodex** bezeichnet die _ingame_ KI des ITI; der
+Spielleiter ist das GPT selbst und übernimmt **alle Rollen**, inklusive Kodex.
+Tester:innen posten den Auftrag genau einmal; das GPT simuliert alle
+benötigten Läufe eigenständig, **denkt sich pro Phase neue Szenarien aus** und fasst sie im
+beschriebenen Format zusammen.
 
 QA- und Acceptance-Anweisungen liegen ausschließlich in diesem Briefing und werden nicht in
 Runtime-Module gespiegelt, damit produktive Wissensspeicher schlank bleiben. Lade für QA-Sessions
@@ -100,10 +103,12 @@ Progressionsphasen betont.
   Solo→Koop→PvP, inklusive Arena-Resume-Token und Skip-EntryChoice-Regression.
 - **Schema-Referenz:** `systems/gameflow/saveGame.v6.schema.json` bildet das kanonische Save-Schema
   ab; `load_deep()` validiert Saves dagegen und bricht bei fehlenden Containern mit
-  `Save-Schema (saveGame.v6)` ab. Die Datei liegt nur für Tool-Validierung (z. B. Loader/CI) im Repo
-  und wird **nicht** in den Wissensspeicher geladen – für GPT-Validierung gilt das Kompakt-Profil in
-  `systems/gameflow/speicher-fortsetzung.md` („Kompakt-Profil für GPT (Save v6)“), falls das Schema
-  den Prompt sprengen würde.
+  `Save-Schema (saveGame.v6)` ab. Die Datei ist **nur optionale CI-/Tool-Referenz** und wird nicht
+  in den Wissensspeicher geladen – für GPT-Validierung gilt das Kompakt-Profil in
+  `systems/gameflow/speicher-fortsetzung.md` („Kompakt-Profil für GPT (Save v6)“).
+- **Dummy-Save (QA v6):** `internal/qa/fixtures/qa_save_v6_dummy.json` enthält absichtlich
+  ergänzte `logs.flags.qa_profiles` und HUD-Events ohne `at`, um Normalizer und Trace-Stabilität
+  zu prüfen. Das File bleibt ausschließlich in CI/QA, nicht im Wissensspeicher.
 - **QA-Runner:** `npm run test:acceptance` sowie `tools/test_acceptance_followups.js` prüfen die
   Mission‑5/HUD-Golden-Files aus `internal/qa/fixtures/mission5_badge_snapshots.json`. Beide Läufe
   gehören zu den Pflichttests und werden im QA-Log referenziert.
@@ -332,9 +337,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 1. Masterprompt (`meta/masterprompt_v6.md`) als System-Prompt bzw. erste Nachricht sowie `README.md`,
    `master-index.json` und alle Runtime-Module (ohne
    `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden. Der
-   Masterprompt bleibt außerhalb des Wissensspeichers. Verifiziere, dass der GPT den Begriff
-   **Kodex** korrekt nutzt und keine Legacy-Nennungen wie „Codex“ oder veraltete Save-Felder
-   (`zr_version < 4.x`) ausgibt.
+   Masterprompt bleibt außerhalb des Wissensspeichers. Verifiziere, dass der GPT als Spielleiter
+   **Kodex** nur als ingame ITI‑KI führt (keine separate Rolle), und **Codex** ausschließlich als
+   Repo-Agent/Programmier-KI in den Übergabe-Blöcken erscheint; außerdem keine veralteten
+   Save-Felder (`zr_version < 4.x`).
 2. Den Auftrag oben senden und sicherstellen, dass das GPT jede geforderte Progressionsphase
    (Frühphase, Midgame, Endgame) vollständig durchläuft. Der Run gilt erst als abgeschlossen, wenn
    HQ-Loop, Mission, Stadt-/Fraktions-Interaktionen, Save/Load und Paradoxon-Index- Anpassungen
@@ -348,7 +354,7 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
      Stadt-Services reagieren. `!kampagnenmodus trigger` vor dem Start muss das Seed-Feld
      (`campaign.seed_source = trigger`) spiegeln und das Autoteam korrekt skalieren.
    - **Simuliertes Koop-Team:** Kommunikations- und Sync-Prompts, gemeinsame Save-Blöcke,
-     Quest-Skalierung sowie Codex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
+     Quest-Skalierung sowie Kodex-Rollenverteilung validieren. Cross-Session-Saves (Host ↔
      Mitspieler:in) müssen im Protokoll auftauchen. Der Gruppenstart
      `Spiel starten (gruppe schnell)` darf keine zusätzliche Zahlenabfrage zulassen und übernimmt
      den vorher gesetzten Kampagnenmodus in `campaign.mode`/`campaign.seed_source`.
@@ -359,7 +365,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
      konsistent sind. Prüfen, wie Kodex und HUD auf wiederholte Schleifen reagieren.
 4. Manueller Save/Load-Test: `saveGame({...})` anfordern, lokal sichern, neuen Chat starten und den
    Reimport prüfen. Der GPT muss `zr_version`, Kodex-Archivdaten und alle Charakterwerte sauber
-   rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden). Der
+   rekonstruieren. Zusätzlich Cross-Mode-Prüfung durchführen (z. B. Solo-Save in Koop laden).
+   **Erwartung:** Host-UI/Accessibility überschreibt Importwerte (kein `merge_conflicts`), Trace
+   `ui_host_override` muss erscheinen. Der
    Abschnitt `Test-Save (JSON)` aus der GPT-Antwort dient als Referenz und Import-Block für den
    automatisierten Gegencheck in einer frischen ZEITRISS-Instanz; nur dieser JSON-Block wird in die
    zweite Instanz kopiert, das restliche Protokoll bleibt dem QA-Log vorbehalten.

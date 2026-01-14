@@ -345,7 +345,8 @@ nicht.
   (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
   (`campaign.episode_completed` oder `mission_in_episode ≥ 10`) und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
-  (id/label/status/seed_tier/hook, optionale cluster-/level-Hints) zurück; der
+  (id/label/status/seed_tier/hook/time_marker, optional `discovered_at`,
+  cluster-/level-Hints) zurück; der
   Normalizer hebt Legacy-Strings an und zieht fehlende Label/Hook/Seed-Tier aus
   dem Seed-Katalog nach.
 - **Arena-Resume** – Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
@@ -428,7 +429,9 @@ Spiel starten (gruppe schnell)
   übernimmt alle Save-Flags. Der Persistenzanker liegt auf
   `campaign.entry_choice_skipped=true` plus `ui.intro_seen=true`; das
   Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient, wird nicht
-  serialisiert und dient nur dem aktiven Run.
+  serialisiert und dient nur dem aktiven Run. UI-/Accessibility-Overrides aus
+  dem Host bleiben erwartetes Verhalten und werden als Trace
+  `ui_host_override` protokolliert.
 - **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
   „SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“ und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
@@ -462,11 +465,12 @@ Spiel starten (gruppe schnell)
   Objekt-Liste. Solo-/Px-5-Runs stapeln Seeds ohne Hard-Limit; das Cap 12
   greift ausschließlich beim HQ-Merge. Der Merge schreibt neben
   `rift_seed_merge_cap_applied` (kept/overflow/handoff) auch einen
-  `merge_conflicts`-Eintrag (`field='rift_merge'`) mit denselben Feldern, damit
-  Trace und Flags synchron bleiben.
+  `merge_conflicts`-Eintrag (`field='rift_merge'`) mit denselben Feldern plus
+  `selection_rule`, damit Trace und Flags synchron bleiben.
   HUD-Toasts folgen einem Budget von 2 pro Szene; Überschreitungen suppressen
-  Low-Priority-Texte, während Gate/FS/Boss- und Arena-Prompts vorrangig bleiben
-  und kein Budget verbrauchen. Jede Unterdrückung schreibt einen
+  Low-Priority-Texte, während Critical-Tags (u. a. OFFLINE/SAVE/SCHEMA/ARENA/
+  GATE/FS/BOSS/ENTRY) vorrangig bleiben und kein Budget verbrauchen. Jede
+  Unterdrückung schreibt einen
   `toast_suppressed`-Trace inkl. Snapshot von `logs.flags.hud_scene_usage` und
   `qa_mode`-Flag. Unterdrückte Einträge landen zusätzlich in `logs.hud[]` mit
   `suppressed:true` und `reason:"budget"`.
@@ -1099,8 +1103,9 @@ gm_third_person`). Entscheidungsprompts dürfen die Spielenden adressieren,
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
-  `STAGE Tatort/Leads/Boss`; die Runtime zieht die Stages automatisch aus der
-  14-Szenen-Map (Sz 1–4 Tatort, 5–10 Leads, 11–14 Boss). HQ-only für Rift-
+  `STAGE Tatort/Leads/Boss/Auflösung`; die Runtime zieht die Stages automatisch
+  aus der 14-Szenen-Map (Sz 1–4 Tatort, 5–9 Leads, 10 Boss‑Encounter,
+  11–14 Auflösung). HQ-only für Rift-
   Seeds; kein paralleler Rift-Betrieb.
 - **Mode-Preset:** Charaktere starten und laden mit `modes` =
   `[mission_focus, covert_ops_technoir]`. Der Normalizer ergänzt Legacy-Saves
@@ -1115,8 +1120,8 @@ document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
   respektieren (`state.flags.runtime.skip_entry_choice`).
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template mit
   Pflicht-Casefile-Overlay, genau **einem** Anomalie-Element und einem Twist.
-  Tatort → Leads → Boss, alles physisch belegbar und als `CASE STAGE` im HUD
-  nachverfolgbar.
+  Tatort → Leads → Boss‑Encounter → Auflösung, alles physisch belegbar und als
+  `CASE STAGE` im HUD nachverfolgbar.
 - **One-Weird-Thing-Rule:** Core bleibt ohne echte Anomalien (nur rationale
   Täuschungen). Rift erlaubt höchstens **1** Para-Element; restliche Effekte
   sind wissenschaftlich erklärbar. Runtime meldet Budgetverstöße via

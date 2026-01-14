@@ -1568,37 +1568,37 @@ Referenz: QA-Log 2026-01-14.
 1. **Issue #1 – Rift-Casefile-Szenenmap konsolidieren**
    README-Rift-Map auf kanonische Szenenfolge (1–4 Tatort, 5–9 Leads,
    10 Boss-Encounter, 11–14 Auflösung) harmonisieren und Stage-Overlay spiegeln.
-   _Status: offen._
+   _Status: ✅ erledigt – README/Runtime/Toolkit auf 14er-Map + Stage-Overlay aktualisiert._
 
 2. **Issue #2 – Pre-City-Hub Save-Regel klären**
    Entscheidung zwischen HQ-savebar vs. Transit-Guard dokumentieren; SaveGuard
    und Kampagnenübersicht synchronisieren.
-   _Status: offen._
+   _Status: ✅ erledigt – Pre-City-Hub als HQ-savebar fixiert, Kampagnenübersicht gespiegelt._
 
 3. **Issue #3 – Testerauftrag: Kompakt-Profil + Kodex-Terminologie**
    Testerprompt auf Kompakt-Profil (Modul 12) verankern und „Codex“ durch
    „Kodex“ ersetzen; Schema-Datei nur als optionale CI-Referenz.
-   _Status: offen._
+   _Status: ✅ erledigt – Tester-Briefing auf Kompakt-Profil + Kodex-Terminologie angepasst._
 
 4. **Issue #4 – Rift-Seed-Merge deterministisch beschreiben**
    Auswahlregel für kept/overflow definieren (Tier/Timestamp) und Trace-Feld
    `selection_rule` ergänzen, damit QA reproduzierbar bleibt.
-   _Status: offen._
+   _Status: ✅ erledigt – Merge-Regel (Tier/Discovered/Timestamp) + `selection_rule` dokumentiert._
 
 5. **Issue #5 – SaveGuard-Prioritäten in Modul 12 spiegeln**
    Kanonische Reihenfolge (offline > arena > hq_only > exfil > sys > stress >
    psi_heat) als Tabelle/Verweis im Speichermodul festhalten.
-   _Status: offen._
+   _Status: ✅ erledigt – Prioritätstabelle in Modul 12 ergänzt._
 
 6. **Issue #6 – UI/Accessibility-Override im Cross-Mode-Import markieren**
    Erwartungssatz im Testerprompt ergänzen; optional Trace `ui_host_override`
    für QA-Nachvollziehbarkeit.
-   _Status: offen._
+   _Status: ✅ erledigt – Testerprompt + Trace `ui_host_override` ergänzt._
 
 7. **Issue #7 – HUD-Toast-Prioritäten definieren**
    Critical-Toast-Policy ergänzen, damit SaveGuard/Offline/Schema/Arena nicht
    durch Budget-Suppression verschwinden.
-   _Status: offen._
+   _Status: ✅ erledigt – Critical-Tags dokumentiert und Runtime-Prioritäten erweitert._
 
 8. **Issue #8 – Safety-Review Generator-Objectives**
    Hinweis des Auftraggebers: nicht anwendbar (Self-Hosted, 18+, kein Store);
@@ -1609,7 +1609,7 @@ Referenz: QA-Log 2026-01-14.
    Dummy-Save als Fixture (z. B. `qa_save_v6_dummy.json`) übernehmen; Loader
    toleriert Zusatzfelder in `logs.flags.qa_profiles` und normalisiert
    fehlende `hud_event.at`.
-   _Status: offen._
+   _Status: ✅ erledigt – Dummy-Save-Fixture ergänzt, Normalizer-Regel dokumentiert._
 
 11. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
     Report-Format (Steps 1–15 PASS/FAIL + Links auf `logs.trace`/`logs.hud`) fixieren;

@@ -141,7 +141,17 @@ const OFFLINE_LOG_LIMIT = 12;
 const FR_INTERVENTION_LOG_LIMIT = 16;
 const PHYSICALITY_LOG_LIMIT = 16;
 const HUD_SCENE_TOAST_LIMIT = 2;
-const HUD_PRIORITY_TAGS = new Set(['ARENA', 'BOSS', 'GATE', 'FS', 'FORESHADOW', 'ENTRY']);
+const HUD_PRIORITY_TAGS = new Set([
+  'ARENA',
+  'BOSS',
+  'ENTRY',
+  'FORESHADOW',
+  'FS',
+  'GATE',
+  'OFFLINE',
+  'SAVE',
+  'SCHEMA'
+]);
 const HUD_EVENT_SPECS = {
   vehicle_clash: {
     numeric: ['tempo', 'stress', 'damage']
@@ -4006,6 +4016,22 @@ function normalize_rift_seed_entry(entry){
   } else {
     normalized.hook = 'Hook ausstehend – Casefile ergänzen.';
   }
+  const timeMarker = pickString(entry.time_marker, entry.timeMarker, entry.marker);
+  if (timeMarker){
+    normalized.time_marker = timeMarker;
+  } else if (catalog?.time_marker){
+    normalized.time_marker = catalog.time_marker;
+  }
+  const discoveredAt = pickString(
+    entry.discovered_at,
+    entry.discoveredAt,
+    entry.created_at,
+    entry.created,
+    entry.timestamp
+  );
+  if (discoveredAt){
+    normalized.discovered_at = discoveredAt;
+  }
   return normalized;
 }
 
@@ -4028,19 +4054,59 @@ function merge_rift_seed_pools(hostSeeds, incomingSeeds, cap = RIFT_SEED_MERGE_C
   };
   normalize_rift_seed_list(hostSeeds).forEach(pushSeed);
   normalize_rift_seed_list(incomingSeeds).forEach(pushSeed);
-  const openSeeds = combined.filter((seed) => seed.status !== 'closed');
-  const keptOpen = openSeeds.slice(0, cap);
+  const openSeeds = combined
+    .map((seed, index) => ({ seed, index }))
+    .filter(({ seed }) => seed.status !== 'closed');
+  const tierWeight = (seed) => {
+    const tier = typeof seed.seed_tier === 'string' ? seed.seed_tier.trim().toLowerCase() : '';
+    if (tier === 'late') return 3;
+    if (tier === 'mid') return 2;
+    if (tier === 'early') return 1;
+    return 0;
+  };
+  const parseDiscoveredAt = (seed) => {
+    const raw = typeof seed.discovered_at === 'string' ? seed.discovered_at.trim() : '';
+    if (!raw) return null;
+    const parsed = Date.parse(raw);
+    return Number.isFinite(parsed) ? parsed : null;
+  };
+  const openSorted = [...openSeeds].sort((a, b) => {
+    const tierDiff = tierWeight(b.seed) - tierWeight(a.seed);
+    if (tierDiff) return tierDiff;
+    const aDiscovered = parseDiscoveredAt(a.seed);
+    const bDiscovered = parseDiscoveredAt(b.seed);
+    if (aDiscovered !== null || bDiscovered !== null){
+      if (aDiscovered === null) return 1;
+      if (bDiscovered === null) return -1;
+      if (aDiscovered !== bDiscovered) return aDiscovered - bDiscovered;
+    }
+    const aMarker = typeof a.seed.time_marker === 'string' ? a.seed.time_marker : '';
+    const bMarker = typeof b.seed.time_marker === 'string' ? b.seed.time_marker : '';
+    if (aMarker !== bMarker){
+      return aMarker.localeCompare(bMarker, 'de');
+    }
+    const aId = typeof a.seed.id === 'string' ? a.seed.id : '';
+    const bId = typeof b.seed.id === 'string' ? b.seed.id : '';
+    if (aId !== bId){
+      return aId.localeCompare(bId, 'de');
+    }
+    return a.index - b.index;
+  });
+  const keptOpen = openSorted.slice(0, cap).map((entry) => entry.seed);
   const keptIds = new Set(keptOpen.map((seed) => seed.id.toLowerCase()));
   const kept = combined.filter(
     (seed) => seed.status === 'closed' || keptIds.has(seed.id.toLowerCase())
   );
-  const overflow = openSeeds.slice(cap);
+  const overflow = openSorted.slice(cap).map((entry) => entry.seed);
+  const selectionRule =
+    'seed_tier: late>mid>early · discovered_at (asc) · time_marker · id · host_order';
   return {
     seeds: kept,
     kept_open: keptOpen,
     overflow,
     open_total: openSeeds.length,
-    cap
+    cap,
+    selection_rule: selectionRule
   };
 }
 
@@ -7348,8 +7414,10 @@ function expected_casefile_stage(sceneIndex, sceneTotal){
   );
   const scene = Math.max(1, Math.floor(Number.isFinite(sceneIndex) ? sceneIndex : 0));
   if (scene <= Math.min(4, total)) return 'crime_scene';
-  if (scene <= Math.min(10, total)) return 'leads';
-  return 'boss';
+  if (scene <= Math.min(9, total)) return 'leads';
+  if (scene <= Math.min(10, total)) return 'boss';
+  if (total <= 10) return 'boss';
+  return 'resolution';
 }
 
 function sync_casefile_stage_by_scene(sceneIndex, sceneTotal){
@@ -7372,7 +7440,10 @@ function casefile_stage_label(){
     tatort: 'Tatort',
     leads: 'Leads',
     boss: 'Boss',
-    showdown: 'Boss'
+    showdown: 'Boss',
+    resolution: 'Auflösung',
+    aufloesung: 'Auflösung',
+    auflösung: 'Auflösung'
   };
   return map[raw] || raw;
 }
@@ -7385,11 +7456,14 @@ function set_casefile_stage(stage){
     crime_scene: 'crime_scene',
     leads: 'leads',
     boss: 'boss',
-    showdown: 'boss'
+    showdown: 'boss',
+    resolution: 'resolution',
+    aufloesung: 'resolution',
+    auflösung: 'resolution'
   };
   const normalized = map[key];
   if (!normalized){
-    throw new Error('Casefile-Stage unbekannt – nutze Tatort/Leads/Boss.');
+    throw new Error('Casefile-Stage unbekannt – nutze Tatort/Leads/Boss/Auflösung.');
   }
   ensure_logs();
   state.casefile ||= {};
@@ -7444,7 +7518,7 @@ function init_casefile_tracker(){
   if (state.logs.casefile.length > 12){
     state.logs.casefile.splice(0, state.logs.casefile.length - 12);
   }
-  hud_toast('CASE STAGE · Tatort → Leads → Boss', 'CASE');
+  hud_toast('CASE STAGE · Tatort → Leads → Boss → Auflösung', 'CASE');
   return state.casefile.stage;
 }
 
@@ -9319,6 +9393,7 @@ function load_deep(raw){
             : 'Host-Seeds priorisiert',
           kept: mergeResult.kept_open.map((seed) => seed.id),
           overflow: mergeResult.overflow.map((seed) => seed.id),
+          selection_rule: mergeResult.selection_rule,
           handoff_to: overflowCount ? 'ITI-NPC-Teams' : undefined
         });
       }
@@ -9329,6 +9404,7 @@ function load_deep(raw){
           open_total: mergeResult.open_total,
           kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
           handoff_seed_ids: mergeResult.overflow.map((seed) => seed.id),
+          selection_rule: mergeResult.selection_rule,
           handoff_to: 'ITI-NPC-Teams'
         };
       }
@@ -9338,6 +9414,7 @@ function load_deep(raw){
           open_total: mergeResult.open_total,
           kept_seed_ids: mergeResult.kept_open.map((seed) => seed.id),
           overflow_seed_ids: mergeResult.overflow.map((seed) => seed.id),
+          selection_rule: mergeResult.selection_rule,
           handoff_to: 'ITI-NPC-Teams'
         };
       }
@@ -9362,6 +9439,7 @@ function load_deep(raw){
   }
   migrated.economy = incomingEconomy;
   const incomingUi = prepare_save_ui(migrated.ui);
+  const uiHostOverrides = [];
   if (hostUi){
     const uiKeys = ['gm_style', 'contrast', 'badge_density', 'output_pace'];
     uiKeys.forEach((key) => {
@@ -9372,6 +9450,11 @@ function load_deep(raw){
         && hostValue !== incomingValue;
       if (!differs) return;
       incomingUi[key] = hostValue;
+      uiHostOverrides.push({
+        key,
+        host: hostValue,
+        incoming: incomingValue
+      });
     });
   }
   migrated.ui = incomingUi;
@@ -9549,6 +9632,13 @@ function load_deep(raw){
       merge_conflicts: conflictCount,
       conflicts_added: conflictsAdded,
       conflict_fields: conflictFields
+    });
+  }
+  if (uiHostOverrides.length){
+    record_trace('ui_host_override', {
+      channel: 'LOAD',
+      keys: uiHostOverrides.map((entry) => entry.key),
+      overrides: uiHostOverrides
     });
   }
   return { status: 'ok', state, hud };

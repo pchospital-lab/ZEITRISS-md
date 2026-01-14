@@ -45,7 +45,7 @@ assert.strictEqual(rt.state.phase, 'rift', 'Rift-Phase in state.phase fehlt.');
 assert.strictEqual(rt.state.campaign.phase, 'rift', 'Rift-Phase in campaign.phase fehlt.');
 assert.strictEqual(rt.state.scene.total, 14, 'Rift-Szenenanzahl nicht übernommen.');
 
-// HUD-Toast-Budget: Low-Priority-Toasts werden im QA-Mode unterdrückt und protokolliert.
+// HUD-Toast-Budget: Critical-Tags (z. B. OFFLINE) werden nicht unterdrückt.
 rt.state.logs = {
   hud: [],
   trace: [],
@@ -55,14 +55,11 @@ rt.state.scene = { index: 0, total: 12 };
 rt.state.campaign = { episode: 1, mission: 1 };
 const offlineGuide = rt.offline_help('command');
 assert(offlineGuide.includes('Terminal'), 'Offline-Guide wurde nicht geliefert.');
-assert.strictEqual(rt.state.logs.hud.length, 1, 'Suppressed-Toast muss im HUD-Log landen.');
-assert.strictEqual(rt.state.logs.hud[0].suppressed, true, 'Suppressed-Flag fehlt im HUD-Log.');
-assert.strictEqual(rt.state.logs.hud[0].reason, 'budget', 'Suppression-Reason fehlt im HUD-Log.');
+assert.strictEqual(rt.state.logs.hud.length, 1, 'Critical-Toast muss im HUD-Log landen.');
+assert.ok(!rt.state.logs.hud[0].suppressed, 'Critical-Toast darf nicht suppressed werden.');
 const lastTrace = rt.state.logs.trace[rt.state.logs.trace.length - 1];
-assert.strictEqual(lastTrace.event, 'toast_suppressed', 'Suppression-Trace fehlt.');
-assert.strictEqual(lastTrace.qa_mode, true, 'QA-Flag fehlt im Suppression-Trace.');
-assert.strictEqual(lastTrace.hud_scene_usage.count, 2, 'HUD-Usage-Snapshot fehlt im Trace.');
-console.log('hud-toast-budget-ok');
+assert.ok(!lastTrace || lastTrace.event !== 'toast_suppressed', 'Suppression-Trace ist unerwartet.');
+console.log('hud-toast-critical-ok');
 
 // HUD-Toast-Budget: Unterdrückungen schreiben auch außerhalb des QA-Modes einen Trace.
 rt.state.logs = { hud: [], trace: [], flags: { hud_scene_usage: {} } };

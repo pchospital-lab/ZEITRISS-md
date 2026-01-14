@@ -706,6 +706,24 @@ Analyse- und Maßnahmenstand ab. Alle Punkte wurden in den QA-Fahrplan
       Abschluss der jeweiligen Teilaufgaben; die aktuellen Mirrors stehen seit
       Version 1.16.0 auf demselben Stand wie die Runtime-Hooks.
 
+## Update 2026-01-14 – Repo-Agent (Fahrplan Issues #1–#7, #9)
+
+- **Status:** [x] Erledigt
+- **Umsetzungskern:**
+  - Rift-Casefile-Map auf 14-Szenen-Standard (1–4 Tatort, 5–9 Leads, 10 Boss,
+    11–14 Auflösung) konsolidiert und Stage-Overlay gespiegelt.
+  - Pre-City-Hub als HQ-savebar fixiert; Kampagnenübersicht angepasst.
+  - Tester-Briefing auf Kompakt-Profil + Kodex-Terminologie aktualisiert,
+    Szenario-Varianz eingefordert, UI-Host-Override als Erwartung ergänzt.
+  - Rift-Seed-Merge deterministisch: Auswahlregel (Tier/Discovered/Marker) +
+    `selection_rule` in Merge-Trace und Flags dokumentiert.
+  - SaveGuard-Prioritäten als Tabelle in Modul 12 verankert.
+  - HUD-Prioritäten erweitert (Critical-Tags) und UI-Override-Trace
+    `ui_host_override` ergänzt.
+  - Dummy-Fixture `qa_save_v6_dummy.json` ergänzt (QA-Profile + fehlendes `at`).
+- **Referenzen:** QA-Log 2026-01-14, README, Modul 12, Toolkit, Runtime.
+- **Tests:** Pflichtpaket ausgeführt (siehe QA-Log/Commit).
+
 ## Offene Fragen für das Team (Stand: 2025-04-02)
 Die folgenden Punkte galten im ursprünglichen Audit als ungeklärt und sind für
 den Live-Gang bewertet:
