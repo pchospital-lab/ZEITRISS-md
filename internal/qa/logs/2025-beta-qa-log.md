@@ -1,10 +1,26 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.31
+version: 0.4.32
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-01-14 – Repo-Agent – Action-Contract (filmische Konflikte)
+- Fokus: Action-Contract präzisiert (filmische Beats, abstrakte Technik, kein
+  How-to), No-Go-Zonen-Formulierung geschärft, QA-Testprompt fordert explizit
+  neue Szenarien und Konfliktvariation pro Phase.
+- Artefakte: README, Toolkit, Kampagnenstruktur, Tester-Briefing, QA-Fahrplan
+  und QA-Audit synchronisiert.
+
+**Checks (Repo-Agent Pflichtpaket)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2026-01-14 – Repo-Agent – Fahrplan-Umsetzung (Issues #1–#7, #9)
 - Fokus: Rift-Casefile-Map/Stage-Overlay, Pre-City-Save-Regel, Tester-Briefing (Kompakt-Profil +

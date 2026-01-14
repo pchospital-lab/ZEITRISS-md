@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
+version: 4.2.6
 tags: [gameplay, core]
 ---
 
-# ZEITRISS 4.2.5 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
+# ZEITRISS 4.2.6 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen
 
 ## Gameplay-Index
 
@@ -1910,7 +1910,8 @@ _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenz
 - **Keine Variablen Stadtgeometrie** – Gebäude bleiben identisch, nur Personen wechseln.
 - **Keine Auto-Paradoxon-Explosion** beim Betreten; Chronopolis ist _zeitverankert_.
 - **Keine Schritt-für-Schritt-Gewalt** oder Body-Handling; Konflikte laufen als
-  Actionfilm-Cut (Intent → Schnitt → Ergebnis).
+  Actionfilm-Beat (Setup → Moment → Konsequenz) mit filmischen, aber abstrakten
+  Details.
 - **Konsequenzen statt Detailprozeduren:** Noise, Stress, Heat oder enge Zeitfenster
   spiegeln Risiken und Eskalation.
 
