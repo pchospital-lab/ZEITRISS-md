@@ -134,11 +134,11 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
   Kabel/Relays/Terminal – Mixed-Reality-HUD über die Linse statt losgelöster
   VR-Räume oder Projektor-UIs.
 
-### Rift-Casefiles: Tatort → Leads → Boss
+### Rift-Casefiles: Tatort → Leads → Boss-Encounter → Auflösung
 
 - Das 14er-Template folgt der Ermittlungslogik: **Tatort (1–4)** → **Leads
   (5–9)** → **Boss-Encounter (10)** → **Boss-Resolution (11–14)**.
-- HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss`; der
+- HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss/Auflösung`; der
   Casefile-Tracker spiegelt den Wechsel. Die Runtime setzt die Stufe automatisch
   anhand des Szenenzählers (1–4 Tatort, 5–9 Leads, 10 Boss-Encounter, 11–14
   Boss-Resolution).
@@ -2202,7 +2202,7 @@ und mappe ihn direkt auf das 14-Szenen-Template.
 7. **LEADS PRIVATE** – 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
 8. **BOSS PRIVATE** – Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
 
-**14-Szenen-Map (Tatort → Leads → Boss)**
+**14-Szenen-Map (Tatort → Leads → Boss-Encounter → Auflösung)**
 
 - **Tatort (1–4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
 - **Leads (5–9):** Drei Würfel-Checks aus „Leads Private“ platzieren, je einer deckt den

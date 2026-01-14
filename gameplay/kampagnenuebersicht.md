@@ -97,8 +97,8 @@ Sie verbindet das sichere HQ mit der künftigen Stadtsphäre und vermittelt, wel
   ob die Gruppe eine kurze Vorschau nutzen möchte. Das Setting wirkt wie ein unterirdischer Andockring mit Startliften,
   Sicherheits-Schleusen und Sichtfenstern auf die ringförmige Metropole.
 - **Inhalt:** Der GPT zeigt pro HQ-Zyklus maximal zwei Händler-Vorschauen (z. B. "Archiv-Labor" oder "PX-Schmiede"),
-  kurze Radiomeldungen über aktuelle Fraktionskonflikte und ein Protokoll über offene Stadtaufträge. Einkauf, Rufgewinn
-  und Save-Aktionen bleiben deaktiviert – die Vorschau dient nur als atmosphärische Brücke.
+  kurze Radiomeldungen über aktuelle Fraktionskonflikte und ein Protokoll über offene Stadtaufträge. Einkauf und
+  Rufgewinn bleiben deaktiviert, **HQ-Saves sind erlaubt** – die Vorschau dient nur als atmosphärische Brücke.
 - **Persistenz & Warnung:** Sobald Kodex erstmals auf die Risiken des Stadteintritts hinweist, merkt sich das System diese
   Warnung, damit beim späteren Zugang kein doppeltes Banner erscheint.
 - **Kampagnen-Nutzen:** Nutzt den Pre-Hub, um Fraktionsinterventionen oder Arc-Dashboard-Updates vorzubereiten. Der GPT kann
