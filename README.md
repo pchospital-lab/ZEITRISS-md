@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS-md Zeitreise RPG"
-version: 4.2.5
+version: 4.2.6
 tags: [meta]
 ---
 
@@ -1629,10 +1629,12 @@ schaltet die sichtbare Ausgabe wieder ein.
 `uncut`; Legacy-Werte wie `fsk12|standard|off` fallen automatisch auf
 `konform`. Das Platform-Contract persistiert `pattern=full_scene`,
 `loot_policy=full_loot`, `body_handling=protocol`. Grundregel: keine Schritt-
-für-Schritt-Gewalt, kein Body-Handling; Konsequenzen laufen über Noise, Stress,
-Heat oder enge Zeitfenster. Optional kann `log_action_contract_guard("Notiz",
-{phase, scene})` genutzt werden; der Save hält `logs.flags.platform_action_contract`
-und `logs.flags.howto_guard_hits[]`.
+für-Schritt-Gewalt, kein Body-Handling. Kämpfe, Hacking und Gewalt bleiben
+**filmisch**: Beschreibe Beats, Dynamik, Geräusche, Licht, Impact und Risiko,
+aber abstrahiere die Technik. Konsequenzen laufen über Noise, Stress, Heat oder
+enge Zeitfenster. Optional kann `log_action_contract_guard("Notiz",
+{phase, scene})` genutzt werden; der Save hält
+`logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]`.
 Loot-Blöcke sind wieder regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
 Wert/CU, Hinweise, „heißes Loot“ markieren). Cleanup beschreibt nur Risiko und
 Protokoll (Zeit, Stress, Noise/Heat) statt Schrittlisten; Exfil-Fenster bleiben

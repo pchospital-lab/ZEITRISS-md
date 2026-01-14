@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.0
+version: 1.20.1
 tags: [meta]
 ---
 
@@ -1600,10 +1600,13 @@ Referenz: QA-Log 2026-01-14.
    durch Budget-Suppression verschwinden.
    _Status: ✅ erledigt – Critical-Tags dokumentiert und Runtime-Prioritäten erweitert._
 
-8. **Issue #8 – Safety-Review Generator-Objectives**
-   Hinweis des Auftraggebers: nicht anwendbar (Self-Hosted, 18+, kein Store);
-   daher kein QA-Arbeitspaket im Fahrplan.
-   _Status: ⛔ nicht anwendbar (Auftraggeber-Entscheid)._
+8. **Issue #8 – Action-Contract filmisch präzisieren**
+   Filmische Action bleibt erlaubt, aber ohne Schritt-für-Schritt-Anleitungen:
+   Beats/Impact/Risiko statt technischer Prozeduren. Leitplanken in README,
+   Toolkit und Kampagnenstruktur verankern, damit Kämpfe „filmisch cool“
+   beschrieben werden, ohne How-to-Charakter.
+   _Status: ✅ erledigt – README/Toolkit/Kampagnenstruktur auf filmische, abstrakte
+   Beats ausgerichtet._
 
 9. **Issue #9 – Test-Save v6 als CI-Fixture**
    Dummy-Save als Fixture (z. B. `qa_save_v6_dummy.json`) übernehmen; Loader
