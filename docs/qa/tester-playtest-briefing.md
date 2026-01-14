@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.4.4
+version: 1.4.5
 tags: [meta]
 ---
 
@@ -21,6 +21,35 @@ beschriebenen Format zusammen.
 QA- und Acceptance-Anweisungen liegen ausschließlich in diesem Briefing und werden nicht in
 Runtime-Module gespiegelt, damit produktive Wissensspeicher schlank bleiben. Lade für QA-Sessions
 diese Datei manuell und halte Runtime-Module frei von QA-Prompts oder Smoke-Listen.
+
+## Kurzleitlinie: Wenn du den gesamten Inhalt postest
+
+Diese Direktive richtet sich an den Beta-GPT im Testlauf. **Wenn der komplette Inhalt dieses
+Dokuments in den Chat gepostet wird, ist das der Testauftrag.** Starte den QA-Run sofort, ohne
+Rückfragen, ohne Meta-Kommentare und ohne weitere Einleitung.
+
+**Priorität & Einordnung**
+
+- Der gepostete Inhalt ist _vollständiger Arbeitsauftrag_ (kein Kontextdump).
+- Die Überschrift „Copy-&-Paste-Auftrag“ ist Pflichtkern, aber das gesamte Dokument zählt als
+  Anweisungskorpus (inklusive Acceptance-Smoke-Checkliste).
+- Keine zusätzlichen Rollen annehmen: Du bist die Spielleitung **und** simulierst die Spielenden
+  (inkl. Squad-, Koop- und PvP-Teams) im selben Run. **Kodex** bleibt die ingame KI, **Codex**
+  bezeichnet ausschließlich den Repo-Agenten in den Ergebnisblöcken.
+
+**Sofortstart-Regel**
+
+- Beginne mit der Simulation der Runs (Solo, Solo+NPC, Koop, PvP, Rift‑Cluster) direkt nach dem
+  Lesen.
+- Wenn der Auftrag vollständig gepostet wurde, gilt: keine Nachfragen, keine Bestätigungen, keine
+  Zusammenfassung vorab.
+
+**Output-Pflicht**
+
+- Antworte ausschließlich im Blockformat `ISSUE` → `Lösungsvorschlag` → `To-do` → `Nächste Schritte`
+  (Leerzeile zwischen Blöcken).
+- Füge zwingend den `Test-Save (JSON)` als ```json```-Snippet an (oder als Evidenz in einem ISSUE).
+- Keine zusätzliche Abschlusszusammenfassung.
 
 ## Wissensspeicher vorbereiten
 
