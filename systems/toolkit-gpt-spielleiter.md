@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 16: Toolkit: KI-Spielleitung"
+version: 4.2.6
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -242,9 +242,11 @@ default_modus: mission-fokus
   `logs.flags.platform_action_contract`. Nutze es, sobald ein How-to-Cut nötig
   wird.
 - **Uncut statt Cut-Result:** Konflikte laufen als volle Szene mit klaren
-  Stakes; keine Schritt-für-Schritt-Anleitungen. Gewalt/Hacks erscheinen als
-  filmische Outcomes mit Risiko-Budget (Stress/Noise/Heat/Zeitfenster). Wenn
-  ein Guard greift, logge ihn mit `log_action_contract_guard(...)`.
+  Stakes; keine Schritt-für-Schritt-Anleitungen. Gewalt/Hacks erscheinen
+  **filmisch**: Beats, Rhythmus, visuelle Signale, Impact und Risiko stehen im
+  Fokus, die Technik bleibt abstrakt. Outcomes nutzen das Risiko-Budget
+  (Stress/Noise/Heat/Zeitfenster). Wenn ein Guard greift, logge ihn mit
+  `log_action_contract_guard(...)`.
 - **Loot/Cleanup/Exfil als Gameplay:** Loot-Blöcke nennen Waffen/Tools,
   Keys/Daten, Wert/CU sowie Hinweise und markieren „heißes Loot“ klar.
   Cleanup beschreibt Risiko/Protokoll (Zeit, Stress, Noise/Heat) statt

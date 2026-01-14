@@ -1,6 +1,6 @@
 ---
 title: "Tester-Playtest-Briefing"
-version: 1.4.3
+version: 1.4.4
 tags: [meta]
 ---
 
@@ -201,11 +201,12 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 > Squad, Koop mit einem voll simulierten Spielerteam (inkl. Absprache, Rollen- und Loot-Verteilung)
 > sowie PvP-Gefechte zwischen zwei simulierten Fraktionen. Für jede Phase (Frühphase, Midgame,
 > Endgame) müssen HQ-Briefing, Mission, Stadt-/Fraktionsmodule, Paradoxon-Index-Handling und Kodex-
-> HUD demonstriert werden. Führe zusätzlich Rifts in mindestens drei Level-Clustern durch (z. B.
-> 1–25, 80–150, 400–1000), inklusive Loop-Reset, Seed-Öffnung, Artefaktwirtschaft und Auswirkungen
-> auf Paradoxon-Index und Kodex. Stelle sicher, dass alle Squad-Mitglieder und PvP-Gegner
-> glaubwürdig agieren (inkl. Chat-/Voice-Callouts) und dokumentiere Sync-, Save- und
-> Konfliktauflösungen.
+> HUD demonstriert werden. Denke dir pro Phase neue Szenarien aus und variiere Konfliktarten
+> (Kampf, Infiltration, Verhandlung, Verfolgung). Führe zusätzlich Rifts in mindestens drei
+> Level-Clustern durch (z. B. 1–25, 80–150, 400–1000), inklusive Loop-Reset, Seed-Öffnung,
+> Artefaktwirtschaft und Auswirkungen auf Paradoxon-Index und Kodex. Stelle sicher, dass alle
+> Squad-Mitglieder und PvP-Gegner glaubwürdig agieren (inkl. Chat-/Voice-Callouts) und
+> dokumentiere Sync-, Save- und Konfliktauflösungen.
 >
 > **Output strikt:** Antworte ausschließlich im Blockformat `ISSUE`, `Lösungsvorschlag`, `To-do`,
 > `Nächste Schritte` (eine Leerzeile zwischen den Blöcken). Keine Zusatzkommentare außerhalb dieser

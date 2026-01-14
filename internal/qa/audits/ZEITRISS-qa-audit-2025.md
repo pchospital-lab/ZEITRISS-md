@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.6
+version: 1.0.7
 tags: [meta, qa]
 ---
 
@@ -16,6 +16,16 @@ tags: [meta, qa]
 - Offene Punkte: Dokument-Drift Rift-Map, Pre-City-Hub Save-Regel, Seed-Merge-
   Auswahlregel, SaveGuard-Prioritäten, Toast-Prioritäten, UI-Override-Hinweis,
   Test-Save-Integration.
+
+## Update 2026-01-14 – Repo-Agent – Action-Contract filmisch geschärft
+
+- Action-Contract präzisiert: filmische Beats, abstrakte Technik, keine
+  Schritt-für-Schritt-Anleitungen. Änderungen in README, Toolkit und
+  Kampagnenstruktur gespiegelt.
+- QA-Testprompt ergänzt: pro Phase neue Szenarien und Konfliktvarianten.
+- QA-Fahrplan 1.20.1 und QA-Log 0.4.32 synchronisiert.
+- **Referenzen:** README, Toolkit, Kampagnenstruktur, Tester-Briefing,
+  QA-Fahrplan/QA-Log.
 
 ## Update 2027-03-07 – Local-Uncut & LM-Studio 2026-05 gespiegelt
 
