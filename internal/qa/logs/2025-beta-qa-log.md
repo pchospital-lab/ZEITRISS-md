@@ -1,10 +1,818 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.30
+version: 0.4.31
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-01-14 – Repo-Agent – Beta-GPT Playtest 2026-01-14 (QA-Übernahme)
+- Plattform: Beta ZEITRISS-GPT (Tester-Briefing)
+- Wissensstand: Runtime/README 4.2.5 (Save v6 Beispiel), QA-Fahrplan 1.20.0
+- Auftrag: Playtest-Output unverändert archivieren, Issues in Fahrplan/Audit übernehmen.
+- Hinweis Auftraggeber: Issue #8 ist nicht anwendbar (kein Store, Self-Hosted, 18+).
+
+```chatlog
+EP 00 · MS 00 · SC 0/12 · PHASE Debrief · MODE CORE · COMMS OK · Px 0/5 · Stress 0/12 · Obj QA-Matrix + Testauftrag-Audit · Exfil —
+
+Im ITI‑Nullzeit‑Hub steht der Briefingraum im Halbdunkel. Eine Glaswand, dahinter die kalte Geometrie des HQ‑Korridors. Der Kodex projiziert kein Missionsvideo, sondern eine saubere, nüchterne QA‑Tafel: Logs, Save‑Pfade, Gate‑Zähler, Seed‑Listen.
+
+Neben dem Projektor liegen drei Sim‑Dossiers: Solo‑Run, Squad‑Run, Arena‑Run. Ein viertes: Rift‑Casefile in drei Cluster‑Bändern. Alles wirkt wie nach einem Einsatz – nur dass hier nicht Blut, sondern Inkonsistenzen an den Handschuhen kleben.
+
+**Intel / Risiken / Zeitfenster**
+
+* Abgedeckt: Dispatcher‑Startvarianten (Solo/NPC/Gruppe), Save/Load‑Pfad v6, HUD‑Budget + `hud_event`, Boss‑Gate + SF‑Badge, Psi‑Heat‑Reset, Accessibility‑Persistenz, Offline‑FAQ, Rift‑Seeds (1‑25 / 80‑150 / 400‑1000), Arena‑Start + Phase‑Strike‑Log.
+* Auffälligkeiten: Rift‑Szenen‑Map (Dokument‑Drift), Pre‑City‑Hub Save‑Regel (Widerspruch), Seed‑Merge‑Deckel ohne deterministische Auswahlregel, Testauftrag‑Kleinstdetails (Schema‑Quelle, “Codex” vs “Kodex”).
+
+---
+
+ISSUE #1
+
+* **Beobachtung:** Die Rift‑Casefile‑Szenenmap ist über die Doku hinweg inkonsistent: Ein Teil beschreibt Leads bis Szene 10 und Boss ab Szene 11, andere Stellen fixieren den Boss‑Encounter explizit auf Szene 10. Das reißt Gate‑Timing (Foreshadow‑Sperre), Casefile‑Stage‑Overlay und Testerwartungen auseinander.
+* **Diagnose:** Dokument‑Drift zwischen README‑Segment (“14‑Szenen‑Map … 5–10 Leads, 11–14 Boss”) und den kanonischen Rift‑Timings (Boss‑Encounter Szene 10).
+* **Evidenz:**
+
+  * README beschreibt 14‑Szenen‑Map mit Leads 5–10 und Boss 11–14.
+  * Kampagnenstruktur nennt Rift‑Boss als Ausnahme in Szene 10.
+  * Generator‑Map fixiert “10. Boss‑Encounter” und “11–14 Boss‑Auflösung”.
+  * Toolkit beschreibt Rift‑Boss (Szene 10) als den Artefakt‑Roll‑Punkt.
+
+Lösungsvorschlag
+
+* **Ansatz:** README‑Riftmap auf das kanonische Raster bringen: **1–4 Tatort**, **5–9 Leads**, **10 Boss‑Encounter**, **11–14 Boss‑Auflösung/Nachspiel/Epilog**. Casefile‑Stage‑Labels entsprechend mappen (Stage=LEADS endet vor SC10).
+* **Risiken:** Bestehende Testskripte/“Golden Strings” könnten auf “Boss ab 11” abgestimmt sein und müssen mitgezogen werden.
+
+To-do
+
+* **Kodex:** Rift‑Overlay/Stage‑Mapping in den HUD‑Tags prüfen (LEADS→BOSS exakt bei SC10).
+* **QA:** Regression: `assert_foreshadow(count=2)`‑Gate vor SC10 im Riftlauf; Verify: SC10 blockiert bis 2 Foreshadows, danach Boss‑Start.
+
+Nächste Schritte
+
+* **Maintainer:innen:** README‑Abschnitt “Rift‑Ops / 14‑Szenen‑Map” korrigieren; Referenzen (Toolkit/Generator) als Single‑Source verlinken.
+* **Notizen:** Diese Diskrepanz wirkt direkt auf den Testerprompt: “Boss‑Szene” muss eindeutig sein, sonst sind Gate‑Checks uneindeutig.
+
+---
+
+ISSUE #2
+
+* **Beobachtung:** Pre‑City‑Hub ist in der HQ‑Definition enthalten, gleichzeitig wird er als Sequenz beschrieben, in der “Save‑Aktionen deaktiviert” bleiben. Das kollidiert mit “Speichern nur im HQ” und kann zu widersprüchlichen SaveGuard‑Erwartungen führen.
+* **Diagnose:** Zwei Dokumente definieren Pre‑City‑Hub unterschiedlich: einmal als HQ‑Teil (damit prinzipiell Save‑fähig), einmal als atmosphärische Brücke mit explizit deaktivierten Saves.
+* **Evidenz:**
+
+  * README: HQ umfasst ITI‑Hub, Decks **und Pre‑City‑Hub**; Chronopolis ist `CITY`.
+  * Kampagnenübersicht: Pre‑City‑Hub‑Vorschau – “Einkauf, Rufgewinn **und Save‑Aktionen bleiben deaktiviert**”.
+  * Save‑System: “Speichern ist ausschließlich in der HQ‑Phase zulässig … Pre‑City‑Hub zählt zum HQ”.
+
+Lösungsvorschlag
+
+* **Ansatz:** Eine kanonische Regel festnageln und technisch spiegeln:
+
+  1. **Option A (einfach):** Pre‑City‑Hub ist HQ ⇒ Save erlaubt; Kampagnenübersicht anpassen (nur Shop/Ruf deaktiviert).
+  2. **Option B (strenger):** Pre‑City‑Hub ist “HQ‑nah, aber transit” ⇒ SaveGuard‑Reason “Transit/Pre‑City‑Hub” ergänzen + klar dokumentieren.
+* **Risiken:** Option B benötigt einen neuen Guard‑Grund und QA‑Update; Option A beeinflusst Flow‑Design (Save‑Scumming in Transit).
+
+To-do
+
+* **Kodex:** Wenn Option B: SaveGuard‑Priorität um “Transit” ergänzen (unterhalb Offline/Arena, oberhalb HQ‑Only).
+* **QA:** Zwei Checks: Save‑Attempt im Pre‑City‑Hub (erwartetes Verhalten), danach Load‑Roundtrip v6.
+
+Nächste Schritte
+
+* **Maintainer:innen:** README + Kampagnenübersicht angleichen; eine Stelle als Single‑Source markieren.
+* **Notizen:** Das ist ein echter Spieler‑Pain‑Point: “Bin ich gerade im HQ oder nicht?” wird sonst unklar.
+
+---
+
+ISSUE #3
+
+* **Beobachtung:** Der Testerauftrag fordert implizit Schema‑Validierung, aber die Runtime‑Doku sagt explizit: Schema‑Datei ist nicht im Wissensspeicher; für GPT‑Läufe gilt das Klartext‑Kompaktprofil. Zusätzlich enthält der Tester‑Block selbst eine Legacy‑Schreibweise (“Codex”) in einer Stelle, obwohl der Begriff “Kodex” kanonisch ist.
+* **Diagnose:** Testauftrag ist weitgehend passend, aber zwei Formulierungen sind nicht “spielgerecht”: (a) Validierungsquelle, (b) Terminologie‑Sauberkeit.
+* **Evidenz:**
+
+  * Speichermodul: JSON‑Schema existiert repo‑intern, wird aber **nicht** in den Wissensspeicher geladen; “für GPT‑Läufe genügt das Klartextprofil”.
+  * Speichermodul liefert explizit “Kompakt‑Profil für GPT” (Pfadbaum + Pflichtfelder).
+  * README/Spielkanon nutzt “Kodex” als Systembegriff (durchgehend im HQ/Pre‑City‑Hub‑Flow).
+
+Lösungsvorschlag
+
+* **Ansatz:** Testerauftrag anpassen:
+
+  * “Validiere gegen Kompakt‑Profil (Modul 12)”, Schema‑Datei nur als optionale CI‑Referenz erwähnen.
+  * Template‑Label “Codex” → “Kodex” (damit die QA‑Ausgabe keine Legacy‑Nennung erzwingt).
+* **Risiken:** Externe Parser, die exakt auf “Codex:” getrimmt sind, müssten angepasst werden.
+
+To-do
+
+* **Kodex:** N/A (Dokument/Prompt‑Fix).
+* **QA:** Testerprompt‑Lint: Terminologie‑Check (“Kodex” statt “Codex”) + Schema‑Quelle.
+
+Nächste Schritte
+
+* **Maintainer:innen:** Testerprompt‑Text an den Kompakt‑Profil‑Abschnitt koppeln; die Kompakt‑Profil‑Pfadliste als “Pflicht‑Checkliste” übernehmen.
+* **Notizen:** Der Prompt ist ansonsten gut: er trifft Chronopolis‑Unlock‑Flags, `hud_event`‑Allowlist und Economy‑Audit‑Levelbänder.
+
+---
+
+ISSUE #4
+
+* **Beobachtung:** Rift‑Seed‑Deckelung (12 offene Seeds beim HQ‑Merge) ist klar, aber die Auswahlregel “welche 12 werden behalten” ist nicht deterministisch beschrieben. Das macht Testcases mit “14→12” schwierig: kept/overflow kann sich ohne klare Sortierregel ändern.
+* **Diagnose:** Spezifikation beschreibt Cap + Trace‑Felder, aber nicht die Priorisierung (Zeitstempel? Tier? Deadline?).
+* **Evidenz:**
+
+  * Kanon: Seeds stapeln ohne Hard‑Limit; beim HQ‑Merge Cap auf 12, Overflow geht an ITI‑NPC‑Teams; Trace `rift_seed_merge_cap_applied` + `merge_conflicts`‑Record mit `kept[]/overflow[]/handoff_to`.
+  * README beschreibt denselben Cap + Trace‑Pfad.
+
+Lösungsvorschlag
+
+* **Ansatz:** Deterministische Auswahl dokumentieren (und im Merge implementieren): z. B. “behalte nach `discovered_at` (älteste zuerst) + Tier‑Priorität”, oder “Tier zuerst, dann discovered_at”. Hauptsache: stabil und dokumentiert.
+* **Risiken:** Jede Priorisierung ist ein Balance‑Eingriff; muss mit Design abgestimmt werden (welche Seeds sind “wertvoller”?).
+
+To-do
+
+* **Kodex:** Merge‑Routine: Sortierkriterium + Trace‑Feld `selection_rule` ergänzen (damit QA exakt prüfen kann).
+* **QA:** Seed‑Merge‑Test: 14 Seeds mit gemischten `seed_tier`/Timestamps; prüfen, dass kept/overflow reproduzierbar ist.
+
+Nächste Schritte
+
+* **Maintainer:innen:** Speichermodul um “Cap‑Selection‑Rule” Absatz ergänzen.
+* **Notizen:** Ohne Regel wirkt kept/overflow “zufällig” und erzeugt Bug‑Reports, obwohl es nur fehlende Spezifikation ist.
+
+---
+
+ISSUE #5
+
+* **Beobachtung:** SaveGuard‑Prioritäten sind im Toolkit explizit (Offline exklusiv → Arena aktiv → HQ‑Only → Exfil …). Der Save‑Pseudo‑Code‑Ausschnitt wird leicht als “vollständig” gelesen, obwohl er die frühe Priorisierung nicht abbildet. Das kann in QA zu falschem Erwartungsmanagement führen (falscher Reason‑String).
+* **Diagnose:** Dokumentations‑Darstellung: eine Stelle ist vollständig (Toolkit‑Reihenfolge), eine ist ein verkürzter Ausschnitt.
+* **Evidenz:**
+
+  * Toolkit: “SaveGuard‑Prio: offline > arena > hq_only > exfil > sys > stress > psi_heat” und “offline ist exklusiv … Speichern blockiert”.
+  * Speichermodul zeigt Guards und Pfadbaum, aber ein einzelner Code‑Ausschnitt kann missverstanden werden.
+
+Lösungsvorschlag
+
+* **Ansatz:** In Modul 12 die SaveGuard‑Prioritätsliste als “kanonische Reihenfolge” einmal explizit aufnehmen (oder direkt auf Toolkit‑Abschnitt verlinken).
+* **Risiken:** Gering – reine Doku‑Klärung.
+
+To-do
+
+* **Kodex:** N/A (Doku‑Fix).
+* **QA:** Negativtests: Save‑Attempt im HQ bei Offline → Reason=Offline; Save‑Attempt im HQ bei Arena aktiv → Reason=Arena aktiv; Save‑Attempt in City → Reason=Chronopolis kein HQ‑Savepunkt.
+
+Nächste Schritte
+
+* **Maintainer:innen:** SaveGuard‑Prio als Tabelle in Modul 12 ergänzen (inkl. “offline exklusiv”).
+* **Notizen:** Das stabilisiert auch den Testerprompt (Reason‑Strings/Erwartung).
+
+---
+
+ISSUE #6
+
+* **Beobachtung:** UI‑ und Accessibility‑Settings werden bei Cross‑Mode‑Load host‑seitig erzwungen und **nicht** als Merge‑Konflikt geführt. Das ist design‑mäßig ok, wirkt aber für Tester:innen wie “Bug: meine Einstellungen wurden überschrieben”, wenn der Prompt das nicht als expected behavior markiert.
+* **Diagnose:** Erwartungs‑Lücke im Testerauftrag: Merge‑Konflikte sind explizit auf eine Allowlist begrenzt; UI ist ausdrücklich kein Merge‑Konfliktfeld.
+* **Evidenz:**
+
+  * Speichermodul: “UI‑/Accessibility‑Settings … werden host‑seitig erzwungen … erzeugen keinen Merge‑Konflikt; last_loaded‑Snapshot”.
+  * UI‑Felder werden beim Serializer normalisiert/ergänzt (contrast/badge_density/output_pace/voice_profile).
+
+Lösungsvorschlag
+
+* **Ansatz:** Testerprompt ergänzt einen expliziten Erwartungssatz: “UI‑Settings werden vom Host übernommen; keine merge_conflicts.” Optional: ein HUD‑Toast beim Override (“Host‑UI angewandt”).
+* **Risiken:** Ein zusätzlicher Toast kann HUD‑Budget belasten (siehe nächste Issue).
+
+To-do
+
+* **Kodex:** Optionaler Trace‑Eintrag `ui_host_override` (nicht als merge_conflict), um QA‑Nachvollziehbarkeit zu erhöhen.
+* **QA:** Cross‑Mode‑Test: Save A (contrast=high) wird von Host B (standard) geladen → verify host wins + persisted.
+
+Nächste Schritte
+
+* **Maintainer:innen:** Testerprompt: Abschnitt “Cross‑Mode Save Import” um UI‑Override ergänzen.
+* **Notizen:** Das ist nicht “Bug”, sondern “kommuniziere das Design”.
+
+---
+
+ISSUE #7
+
+* **Beobachtung:** HUD‑Toast‑Budget & Suppression sind sauber spezifiziert (2 Toasts/Scene, Gate/FS/Boss/Arena ausgenommen; suppressed wird geloggt). Aber es fehlt eine klare “Critical‑Toast”‑Policy: SaveGuard/Offline‑Resync‑Hinweise sollten praktisch nicht durch Budget‑Noise verschwinden.
+* **Diagnose:** Fehlende Prioritätsklassifikation: “low‑priority suppressed” ist beschrieben, aber nicht, welche Toast‑Tags niemals suppressed werden dürfen.
+* **Evidenz:**
+
+  * README: Budget‑Regel + “low‑priority Toasts” können unterdrückt werden; `toast_suppressed`‑Trace & snapshot `hud_scene_usage`.
+  * HUD‑Event‑Spezifikation: Unterdrückte Toasts landen zusätzlich als `{tag,message,suppressed:true,reason:"budget"...}` in `logs.hud[]`.
+
+Lösungsvorschlag
+
+* **Ansatz:** Eine kleine Prioritätsliste dokumentieren:
+
+  * **Critical (nie suppress):** SaveGuard‑Blocker, Offline‑Status/Resync, Schema‑Fehler, Arena‑Lock.
+  * **System (allowlist):** Gate/FS/Boss/Arena (bereits ausgenommen).
+  * **Flavor:** Atmos‑Snippets, optionale Reminder.
+* **Risiken:** Mehr “Critical” reduziert die Wirkung des Budgets; muss minimal bleiben.
+
+To-do
+
+* **Kodex:** Toast‑Emitter: Tag‑basierte Priorität implementieren; suppression‑Log enthält `priority`.
+* **QA:** Forced‑Overflow‑Test: 5 Toast‑Quellen in einer Szene; verify Critical bleibt sichtbar, Flavor suppressed + geloggt.
+
+Nächste Schritte
+
+* **Maintainer:innen:** README/HUD‑System um “Toast‑Prioritäten” ergänzen.
+* **Notizen:** Das verhindert “Ich konnte nicht speichern, aber hab’s nicht gesehen”‑Reports.
+
+---
+
+ISSUE #8
+
+* **Beobachtung:** In den kreativen Missionsgeneratoren sind mehrere Objectives so konkret formuliert, dass sie wie reale “How‑to”‑Sabotage‑Anleitungen wirken könnten (kritische Infrastruktur / Schadensszenarien). Das kollidiert mit dem eigenen Style‑No‑Go “keine Schritt‑für‑Schritt‑Gewalt/Procedures” und erhöht Safety‑Risiko.
+* **Diagnose:** Generator‑Tabellen enthalten zu prozedurale, alltagsnahe Handlungsanweisungen statt outcome‑basierter Thriller‑Begriffe.
+* **Evidenz:** Beispiele finden sich in den Generator‑Objectives (Abschnitt mit konkreten Sabotage‑Handlungen); Kampagnenstruktur betont explizit “keine Schritt‑für‑Schritt‑Gewalt … Konsequenzen statt Detailprozeduren”.
+
+Lösungsvorschlag
+
+* **Ansatz:** Objectives in Outcome‑Sprache umschreiben (Intent → Cut → Ergebnis), ohne reale Prozeduren/Details. Statt “wie” nur “was” + “Risiko/Heat/Stress‑Folgen”.
+* **Risiken:** Zu abstrakt kann Design‑Klarheit kosten; daher in‑game als “Kodex‑Briefing‑Snippet” mit klaren Stakes, aber ohne Verfahren.
+
+To-do
+
+* **Kodex:** Generator‑Strings refactoren: prozedurale Verben entfernen; stattdessen Stakes/Consequences + abstrakte Ziele.
+* **QA:** Safety‑Lint auf Generator‑Texte: “kritische Infrastruktur + prozedurales Verb” markieren.
+
+Nächste Schritte
+
+* **Maintainer:innen:** Generator‑Datei reviewen, insbesondere Objectives‑Listen; Style‑No‑Go als Gate in CI/Review aufnehmen.
+* **Notizen:** Das ist nicht nur QA‑Kosmetik; es reduziert Moderationsrisiko.
+
+---
+
+ISSUE #9
+
+* **Beobachtung:** Test‑Save v6 (Dummy) inkl. mindestens zwei (hier: vier) Level‑Varianten und drei Rift‑Cluster‑Seeds, plus HUD/Trace‑Belege für die Smoke‑Checklist‑Punkte (Startvarianten, SaveGuard, Px‑5/ClusterCreate, Boss‑Gate/SF, Psi‑Heat‑Reset, Accessibility, Offline‑FAQ, `hud_event` vehicle/mass, Arena/Phase‑Strike, Economy‑Audit).
+* **Diagnose:** N/A (Lieferartefakt).
+* **Evidenz:**
+
+  * Pflichtpfade (Kompakt‑Profil) inkl. `last_save_at`, `platform_action_contract`, `howto_guard_hits`, vollständigem `arc_dashboard` etc. sind befüllt.
+  * `hud_event` nutzt ausschließlich `vehicle_clash` und `mass_conflict` und folgt der Objektform.
+  * Economy‑Audit‑Ranges (Lvl 120/512/900+) sind als Trace‑Events im Save enthalten.
+  * Chronopolis‑Unlock‑Flags/Trace‑Pattern sind berücksichtigt.
+
+**Test-Save (JSON)**
+
+```json
+{
+  "save_version": 6,
+  "zr_version": "4.2.5",
+  "location": "HQ",
+  "phase": "core",
+  "character": {
+    "id": "CHR-HIGH-0512",
+    "name": "Mara Voss",
+    "callsign": "VANTA",
+    "rank": "Operator X",
+    "lvl": 512,
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {},
+    "self_reflection": true,
+    "modes": ["suggest"],
+    "attributes": {
+      "SYS_max": 6,
+      "SYS_installed": 6,
+      "SYS_runtime": 6,
+      "SYS_used": 6
+    }
+  },
+  "campaign": {
+    "episode": 10,
+    "mission_in_episode": 0,
+    "scene": 0,
+    "px": 0,
+    "px_reset_pending": false,
+    "px_reset_confirm": true,
+    "entry_choice_skipped": true,
+    "rift_seeds": [
+      {
+        "id": "RIFT-LOW-0001",
+        "epoch": "1912-Nordmeer",
+        "label": "Eisfracht / Flüstern im Pack",
+        "status": "open",
+        "seed_tier": "early",
+        "cluster_hint": "1-25",
+        "level_hint": "<10",
+        "hook": "Ein verschwundener Konvoi taucht in den Logbüchern wieder auf – aber mit Zeitstempeln, die nicht stimmen."
+      },
+      {
+        "id": "RIFT-MID-0088",
+        "epoch": "1969-Küstenstadt",
+        "label": "Küstenfunk / Echo im Relais",
+        "status": "open",
+        "seed_tier": "mid",
+        "cluster_hint": "80-150",
+        "level_hint": "120",
+        "hook": "Ein Notruf läuft im Kreis. Jede Wiederholung enthält neue Namen – und einen davon kennt die Zelle."
+      },
+      {
+        "id": "RIFT-HIGH-0501",
+        "epoch": "2099-Sprawl",
+        "label": "Neon-Sprawl / Nullzeit-Riss",
+        "status": "open",
+        "seed_tier": "late",
+        "cluster_hint": "400-1000",
+        "level_hint": "500+",
+        "hook": "Ein ganzer Block existiert in zwei Versionen. Beide beanspruchen, die echte zu sein."
+      },
+      {
+        "id": "RIFT-CLOSED-0210",
+        "epoch": "1883-Inselkette",
+        "label": "Aschehimmel / Abgesiegelter Korridor",
+        "status": "closed",
+        "seed_tier": "mid",
+        "cluster_hint": "80-150",
+        "level_hint": "120",
+        "hook": "Die Karte zeigt einen Korridor, der gestern noch nicht da war – jetzt ist er zugeschweißt."
+      }
+    ],
+    "exfil": {
+      "active": false,
+      "armed": false,
+      "hot": false,
+      "sweeps": 0,
+      "stress": 0,
+      "ttl": 0,
+      "anchor": null,
+      "alt_anchor": null
+    }
+  },
+  "party": {
+    "characters": [
+      {
+        "id": "CHR-LOW-0007",
+        "name": "Ivo Kern",
+        "callsign": "DUST",
+        "rank": "Operator I",
+        "lvl": 7,
+        "has_psi": false
+      },
+      {
+        "id": "CHR-MID-0120",
+        "name": "Lina Park",
+        "callsign": "KEYSTONE",
+        "rank": "Operator V",
+        "lvl": 120,
+        "has_psi": true
+      },
+      {
+        "id": "CHR-HIGH-0512",
+        "name": "Mara Voss",
+        "callsign": "VANTA",
+        "rank": "Operator X",
+        "lvl": 512,
+        "has_psi": true
+      },
+      {
+        "id": "CHR-END-0905",
+        "name": "Noah Reiss",
+        "callsign": "BLACKTIDE",
+        "rank": "Operator XII",
+        "lvl": 905,
+        "has_psi": true
+      }
+    ]
+  },
+  "team": {
+    "members": [
+      { "id": "CHR-HIGH-0512", "role": "lead", "status": "active" },
+      { "id": "CHR-MID-0120", "role": "psi", "status": "active" },
+      { "id": "CHR-LOW-0007", "role": "infil", "status": "standby" },
+      { "id": "CHR-END-0905", "role": "overwatch", "status": "standby" }
+    ]
+  },
+  "loadout": {
+    "primary": "Suppressed SMG",
+    "secondary": "Compact Sidearm",
+    "tools": ["Comlink", "Jammer", "Handscanner", "Fiber-Cam", "Field Kit"],
+    "armor": "Soft Armor",
+    "notes": "QA-Dummy. Keine realweltlichen Prozeduren; nur Labels."
+  },
+  "economy": {
+    "cu": 18200,
+    "credits": 18200,
+    "wallets": {
+      "CHR-LOW-0007": { "name": "Ivo Kern", "balance": 1200 },
+      "CHR-MID-0120": { "name": "Lina Park", "balance": 6400 },
+      "CHR-HIGH-0512": { "name": "Mara Voss", "balance": 9800 },
+      "CHR-END-0905": { "name": "Noah Reiss", "balance": 12500 }
+    }
+  },
+  "logs": {
+    "hud": [
+      "Dispatch: Solo klassisch",
+      "Dispatch: Solo schnell",
+      "Dispatch: NPC-Team 3 schnell",
+      {
+        "tag": "Dispatch",
+        "message": "NPC-Begleiter: 0–4 erlaubt. Nutze z.B. Spiel starten (npc-team 3 schnell).",
+        "at": "2026-01-14T20:10:00Z"
+      },
+      {
+        "tag": "Dispatch",
+        "message": "Gruppe: keine Zahl angeben. Nutze z.B. Spiel starten (gruppe schnell).",
+        "at": "2026-01-14T20:12:00Z"
+      },
+      "SUG-ON",
+      "GATE 2/2",
+      "FS 0/4",
+      "SF-OFF",
+      {
+        "event": "vehicle_clash",
+        "details": { "tempo": 2, "stress": 1, "damage": 1 },
+        "at": "2026-01-14T20:44:10Z",
+        "scene": { "episode": 10, "mission": 4, "index": 11, "total": 12 }
+      },
+      {
+        "event": "mass_conflict",
+        "details": { "chaos": 3, "break_sg": 12, "stress": 2 },
+        "at": "2026-01-14T20:48:55Z",
+        "scene": { "episode": 10, "mission": 4, "index": 12, "total": 12 }
+      },
+      {
+        "tag": "HUD",
+        "message": "Flavor-Toast unterdrückt",
+        "suppressed": true,
+        "reason": "budget",
+        "action": "suppressed",
+        "at": "2026-01-14T20:49:01Z"
+      }
+    ],
+    "trace": [
+      {
+        "event": "dispatcher_start",
+        "at": "2026-01-14T20:00:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "solo_classic",
+        "scene": { "episode": 1, "mission": 0, "index": 0, "total": 12 }
+      },
+      {
+        "event": "dispatcher_start",
+        "at": "2026-01-14T20:03:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "solo_fast",
+        "scene": { "episode": 1, "mission": 0, "index": 0, "total": 12 }
+      },
+      {
+        "event": "dispatcher_start",
+        "at": "2026-01-14T20:06:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "npc_team_fast",
+        "meta": { "npc_count": 3 }
+      },
+      {
+        "event": "dispatcher_error",
+        "at": "2026-01-14T20:10:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "npc_team_fast",
+        "meta": { "npc_count": 5, "reason": "npc_out_of_range" }
+      },
+      {
+        "event": "dispatcher_start",
+        "at": "2026-01-14T20:11:30Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "group_fast",
+        "meta": { "players": 2, "saves_loaded": 2, "new_roles": 1 }
+      },
+      {
+        "event": "dispatcher_error",
+        "at": "2026-01-14T20:12:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "campaign_mode": "group_fast",
+        "meta": { "players": 3, "reason": "group_count_not_allowed" }
+      },
+      {
+        "event": "save_blocked",
+        "at": "2026-01-14T20:20:00Z",
+        "location": "FIELD",
+        "phase": "core",
+        "meta": { "reason": "hq_only" }
+      },
+      {
+        "event": "cluster_create",
+        "at": "2026-01-14T20:33:00Z",
+        "location": "FIELD",
+        "phase": "core",
+        "meta": { "px_before": 5, "px_after": 5, "seed_ids": ["RIFT-LOW-0001", "RIFT-MID-0088"] }
+      },
+      {
+        "event": "StartMission",
+        "at": "2026-01-14T20:38:00Z",
+        "location": "FIELD",
+        "phase": "core",
+        "scene": { "episode": 10, "mission": 5, "index": 0, "total": 12 },
+        "foreshadow": { "progress": 0, "required": 4, "tokens": "FS 0/4", "expected": "GATE 2/2" },
+        "boss": { "type": "mini", "dr": 4, "toast": true }
+      },
+      {
+        "event": "self_reflection_auto_reset",
+        "at": "2026-01-14T20:58:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "meta": { "result": "completed", "badge": "SF-ON" }
+      },
+      {
+        "event": "launch_rift",
+        "at": "2026-01-14T21:10:00Z",
+        "location": "HQ",
+        "phase": "rift",
+        "meta": { "seed_id": "RIFT-HIGH-0501", "cluster_hint": "400-1000" },
+        "foreshadow": { "progress": 2, "required": 2 }
+      },
+      {
+        "event": "arenaStart",
+        "at": "2026-01-14T21:25:00Z",
+        "location": "HQ",
+        "phase": "pvp",
+        "meta": { "team_size": 2, "match_policy": "sim" }
+      },
+      {
+        "event": "economy_audit",
+        "at": "2026-01-14T21:30:00Z",
+        "location": "HQ",
+        "phase": "core",
+        "meta": {
+          "level": 512,
+          "band_reason": "host_level",
+          "hq_pool": 18200,
+          "wallet_sum": 29900,
+          "wallet_count": 4,
+          "wallet_avg": 7475,
+          "wallet_avg_scope": "economy.wallets",
+          "target_range": "512",
+          "delta": { "hq_pool": -6800, "wallet_avg": 2475 },
+          "out_of_range": { "hq_pool": true, "wallet_avg": true }
+        }
+      },
+      {
+        "event": "toast_suppressed",
+        "at": "2026-01-14T20:49:01Z",
+        "location": "FIELD",
+        "phase": "core",
+        "meta": {
+          "reason": "budget",
+          "qa_mode": true,
+          "hud_scene_usage_snapshot": { "EP10.M4.SC12": 2 }
+        }
+      }
+    ],
+    "artifact_log": [
+      {
+        "at": "2026-01-14T21:18:00Z",
+        "seed_id": "RIFT-HIGH-0501",
+        "artifact_id": "ART-NULLGLASS-01",
+        "roll": 6,
+        "bonus": "Temporal Stabilizer (Dummy)",
+        "note": "Boss-Roll in Rift-Encounter (QA)."
+      }
+    ],
+    "market": [
+      {
+        "at": "2026-01-14T21:05:00Z",
+        "item": "Chronopolis: Era-Skin (Dummy)",
+        "cost_cu": 200,
+        "px_clause": "0",
+        "source": "chrono_stock"
+      }
+    ],
+    "offline": [
+      {
+        "at": "2026-01-14T20:22:00Z",
+        "trigger": "comms_drop",
+        "device": "comlink",
+        "jammer": "unknown",
+        "range": "degraded",
+        "relay": "fallback",
+        "scene": { "episode": 10, "mission": 3, "index": 6 }
+      }
+    ],
+    "kodex": [
+      { "at": "2026-01-14T20:00:05Z", "msg": "Dispatch-Hinweis: Menü/Modus/Save in HQ verfügbar." },
+      { "at": "2026-01-14T21:00:00Z", "msg": "Chronopolis-Status geprüft: Key aktiv, Warnbanner einmalig." }
+    ],
+    "alias_trace": [
+      { "at": "2026-01-14T20:46:00Z", "alias": "VANTA", "heat": 1, "note": "Cover-Name in Funkschnitt gefallen." }
+    ],
+    "squad_radio": [
+      { "at": "2026-01-14T20:47:10Z", "from": "ITI-Relay", "msg": "Fenster eng. Keine zweite Runde." }
+    ],
+    "foreshadow": [
+      { "tag": "FS-1", "text": "Ein zweiter Schatten im Kamerafeed.", "scene": { "episode": 10, "mission": 4, "index": 7 } },
+      { "tag": "FS-2", "text": "Das Wappen am Gürtel – falsche Zeit, echter Rang.", "scene": { "episode": 10, "mission": 4, "index": 8 } },
+      { "tag": "FS-3", "text": "Der Safe ist leer, aber der Raum ist warm.", "scene": { "episode": 10, "mission": 4, "index": 9 } },
+      { "tag": "FS-4", "text": "Eine Stimme, die den Namen kennt.", "scene": { "episode": 10, "mission": 4, "index": 10 } }
+    ],
+    "fr_interventions": [
+      { "at": "2026-01-14T20:55:00Z", "faction": "Nullmarkt", "result": "shadow_help", "scene": { "episode": 10, "mission": 5, "index": 9 } }
+    ],
+    "psi": [
+      { "at": "2026-01-14T20:52:00Z", "ability": "psi_action_dummy", "psi_heat_delta": 1, "note": "Psi eingesetzt." },
+      { "at": "2026-01-14T20:59:00Z", "ability": "psi_heat_reset", "psi_heat_delta": -1, "note": "Nach Konflikt/HQ-Transfer zurückgesetzt." }
+    ],
+    "arena_psi": [
+      {
+        "at": "2026-01-14T21:26:00Z",
+        "ability": "phase_strike",
+        "base_cost": 1,
+        "tax": 1,
+        "total_cost": 2,
+        "mode": "pvp",
+        "arena_active": true,
+        "category": "arena_phase_strike",
+        "reason": "QA-phase-strike-tax"
+      }
+    ],
+    "flags": {
+      "runtime_version": "4.2.5",
+      "compliance_shown_today": false,
+      "chronopolis_warn_seen": true,
+      "chronopolis_unlock_level": 10,
+      "chronopolis_unlocked": true,
+      "atmosphere_contract": {
+        "tone": "covert-ops-technoir",
+        "camera": "third_person",
+        "hud_density": "standard"
+      },
+      "hud_scene_usage": {
+        "EP10.M4.SC12": 2,
+        "EP10.M5.SC0": 1
+      },
+      "platform_action_contract": {
+        "action_mode": "uncut",
+        "pattern": "full_scene",
+        "loot_policy": "full_loot",
+        "body_handling": "protocol"
+      },
+      "howto_guard_hits": [],
+      "last_save_at": "2026-01-14T21:30:00Z",
+      "merge_conflicts": [
+        {
+          "field": "rift_merge",
+          "at": "2026-01-14T21:02:00Z",
+          "kept": ["RIFT-LOW-0001", "RIFT-MID-0088", "RIFT-HIGH-0501"],
+          "overflow": ["RIFT-EXTRA-9001"],
+          "handoff_to": ["ITI-NPC-TEAM-DELTA"]
+        },
+        {
+          "field": "wallet",
+          "at": "2026-01-14T21:03:00Z",
+          "resolution": "union",
+          "note": "Wallets zusammengeführt (Dummy)."
+        },
+        {
+          "field": "arena_resume",
+          "at": "2026-01-14T21:28:00Z",
+          "resolution": "resume_token_written"
+        }
+      ],
+      "self_reflection_auto_reset_completed": true,
+      "self_reflection_auto_reset_aborted": true,
+      "self_reflection_auto_reset_at": "2026-01-14T20:58:00Z",
+      "last_mission_end_reason": "completed",
+      "qa_mode": true,
+      "qa_profiles": {
+        "low": { "lvl": 7, "cluster_hint": "1-25", "seed_id": "RIFT-LOW-0001" },
+        "mid": { "lvl": 120, "cluster_hint": "80-150", "seed_id": "RIFT-MID-0088" },
+        "high": { "lvl": 512, "cluster_hint": "400-1000", "seed_id": "RIFT-HIGH-0501" },
+        "end": { "lvl": 905, "cluster_hint": "400-1000", "seed_id": "RIFT-HIGH-0501" }
+      }
+    }
+  },
+  "ui": {
+    "gm_style": "verbose",
+    "intro_seen": true,
+    "suggest_mode": true,
+    "action_mode": "uncut",
+    "contrast": "high",
+    "badge_density": "dense",
+    "output_pace": "slow",
+    "voice_profile": "gm_third_person",
+    "mode_display": "label"
+  },
+  "arena": {
+    "active": false,
+    "phase": "idle",
+    "mode": "single",
+    "match_policy": "sim",
+    "previous_mode": null,
+    "wins_player": 1,
+    "wins_opponent": 0,
+    "tier": 2,
+    "proc_budget": 2,
+    "artifact_limit": 1,
+    "loadout_budget": 1,
+    "phase_strike_tax": 1,
+    "damage_dampener": true,
+    "team_size": 2,
+    "queue_state": "completed",
+    "zone": "safe",
+    "fee": 0,
+    "scenario": "QA-SIM",
+    "started_episode": 10,
+    "last_reward_episode": 10,
+    "policy_players": ["simulated"],
+    "audit": [
+      { "at": "2026-01-14T21:25:00Z", "event": "arenaStart", "note": "QA-run" }
+    ]
+  },
+  "arc_dashboard": {
+    "offene_seeds": ["RIFT-LOW-0001", "RIFT-MID-0088", "RIFT-HIGH-0501"],
+    "fraktionen": {
+      "ITI": { "rep": 12, "tier": 2 },
+      "Chronopolis": { "rep": -3, "tier": 1 },
+      "Nullmarkt": { "rep": 5, "tier": 1 }
+    },
+    "fragen": [
+      { "id": "Q-001", "text": "Wer zieht die Fäden hinter den Seeds?" },
+      { "id": "Q-002", "text": "Warum kennt der Relaisfunk Namen, die nie gesendet wurden?" }
+    ],
+    "timeline": [
+      { "at": "2026-01-14T20:33:00Z", "event": "Px=5 → ClusterCreate; Seeds sichtbar." },
+      { "at": "2026-01-14T21:10:00Z", "event": "Rift-Op gestartet (Seed RIFT-HIGH-0501)." },
+      { "at": "2026-01-14T21:30:00Z", "event": "HQ-Save + Economy-Audit geschrieben." }
+    ]
+  }
+}
+```
+
+Lösungsvorschlag
+
+* **Ansatz:** Save als “Roundtrip‑Anker” nutzen: Load → Nullzeit‑Menü → `economy_audit` → Cross‑Mode‑Import → Seed‑Merge → ArenaStart → Save.
+* **Risiken:** Dummy‑Daten sind absichtlich teils “out of range” (Audit‑Toast provozieren) – nicht als Balance‑Wunsch missverstehen.
+
+To-do
+
+* **Kodex:** Loader‑Robustheit: unbekannte Zusatzfelder in `logs.flags.qa_profiles` tolerieren; `hud_event`‑Normalizer ergänzt fehlende `at` anhand `last_save_at`.
+* **QA:** Import‑Probe: Prüfen, dass `campaign.rift_seeds[]` kanonisch ist und `arc_dashboard.offene_seeds[]` nur spiegelt.
+
+Nächste Schritte
+
+* **Maintainer:innen:** Test‑Save in CI‑Fixture übernehmen (z. B. “qa_save_v6_dummy.json”), damit Regressionen reproduzierbar werden.
+* **Notizen:** Wenn du willst, kann der nächste QA‑Pass als “Live‑Run” erfolgen: 1 Core‑Mission (12 Szenen) + 1 Rift‑Casefile (14 Szenen) mit exakt den HUD‑Markers/Traces aus dem Save.
+
+---
+
+1. **Dokument‑Fix‑Sprint:** Rift‑Map + Pre‑City‑Hub Save‑Regel + SaveGuard‑Prio konsolidieren und dann denselben QA‑Pass erneut laufen lassen.
+2. **Seed‑Merge‑Determinismus:** Auswahlregel für kept/overflow festlegen, dann “14→12” Regression‑Suite definieren.
+3. **Safety‑Review Generatoren:** Objectives outcome‑basiert umformulieren und per Lint‑Regel absichern.
+
+**Freie Aktion:** Sag “Priorität 1/2/3”, oder gib mir eine konkrete Build‑Zielsetzung (z. B. “nur Rift‑Loop & Economy”, “nur Cross‑Mode + Arena”).
+
+Und hier noch der Abgleich vom Speicher json. Das passiert, wenn man ihn in eine frische Instanz kopiert:
+`EP 10 · MS 0 · SC 0/12 · PHASE Debrief · MODE CORE · COMMS OK · Px 0/5 · Stress 0/9 · Obj HQ: Nächsten Schritt wählen · Exfil <--`
+
+Das ITI-HQ liegt still wie ein Operationssaal zwischen den Sekunden. Kaltes, sauberes Licht auf Beton, Glas, Stahl. Mara Voss – **VANTA** – steht wieder im Quarzatrium, die Linse fährt das Overlay hoch, der Ohr-Comlink klickt einmal leise in den Sitz. Kein Alarm. Kein Timer. Nur das Summen der Nullzeit-Felder, die alles draußen halten.
+
+Im Hintergrund: drei Schatten an den Rändern der Halle. **DUST** (standby) lehnt am Geländer des oberen Umlaufs, die Hände tief in den Taschen, Blick wach. **KEYSTONE** (active) sitzt auf einer Bank nahe dem Briefingkorridor, die Finger trommeln einen Rhythmus, als würde sie noch Restspannung aus den Nerven drücken. **BLACKTIDE** (standby) steht dort, wo die Kameras sich schneiden – als hätte er die Winkel geplant, bevor er atmet.
+
+Das **Arc-Dashboard** zeigt offene Narben im Zeitstrom – drei Seeds sind **offen**, einer **abgesiegelt**. Die Einträge sind sauber, aber sie stören das Bild wie Kratzer auf Glas: *1912 Nordmeer*, *1969 Küstenstadt*, *2099 Sprawl*. Der letzte Rift-Einsatz hat ein Artefakt in die Logs gespült (*ART-NULLGLASS-01*), und der Audit hat eure Ökonomie markiert: HQ-Pool und Wallets liegen **außerhalb** der Richtwerte für das Band. Keine Sirene – nur ein stilles „im Blick behalten“.
+
+Ein Funklog hängt noch nach: *„Fenster eng. Keine zweite Runde.“* – ITI-Relay. Das ist keine Drohung. Das ist eine Erinnerung.
+
+**Intel / Risiken / Zeitfenster**
+
+* Offene Rift-Seeds: **RIFT-LOW-0001**, **RIFT-MID-0088**, **RIFT-HIGH-0501** (RIFT-CLOSED-0210 ist zu)
+* Chronopolis: **freigeschaltet** (Key aktiv; Warnbanner bereits gesehen)
+* Arena: zuletzt **completed**, aktuell **idle/safe**
+* Ökonomie-Audit: Abweichung erkannt (kein unmittelbarer Lock, aber Konsequenzen bei großen Käufen möglich)
+
+1. **Briefing anfordern (Core-Mission EP10/MS1)** – neues Ziel, neuer Seed, sauberer Start aus dem HQ.
+2. **Rift-Board prüfen** – Seeds durchgehen, Prioritäten festlegen, Loadout/Team anpassen (ohne sofortigen Launch).
+3. **Chronopolis-Run** – Händler/Services/Research-Sinks, Wallets/HQ-Pool glätten, Gerüchte ziehen.
+
+**Freie Aktion:** Sag, was VANTA im HQ als Nächstes macht (z. B. Team zusammenrufen, Ausrüstung ändern, jemandem eine Frage stellen, Log-Details auf den Tisch ziehen).
+```
+
+**Repo-Checks (Pflichtpaket)**
+
+```chatlog
+Repo-Agent: `make lint`
+Tool: ✅
+Repo-Agent: `make test`
+Tool: ✅
+Repo-Agent: `bash scripts/smoke.sh`
+Tool: ✅
+Repo-Agent: `python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `GM_STYLE=verbose python3 tools/lint_runtime.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_doc_links.py`
+Tool: ✅
+Repo-Agent: `python3 scripts/lint_umlauts.py`
+Tool: ✅
+```
 
 ## 2027-03-09 – Repo-Agent – Review Entwurf 2025-12-28 (Phase 1–2 Konsolidierung)
 - Plattform: Lokaler Repo-Lauf (Dokumentenprüfung)
