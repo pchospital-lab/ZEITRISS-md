@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.19.1
+version: 1.20.0
 tags: [meta]
 ---
 
@@ -62,6 +62,7 @@ Checks in einem Schritt.
 | Datum | Schwerpunkt | Referenzen |
 | ----------- | ------------------------------ | ---------- |
 | 2027-03-08 | Bug-/Optimierungscheck, Pflichtpaket grün | QA-Log 2027-03-08 |
+| 2026-01-14 | Beta-GPT Playtest 2026-01-14 übernommen | QA-Log 2026-01-14 |
 | 2025-06-11 | Repo-Analyse & Maßnahmenplan | README §QA-Artefakte; QA-Log 2025-06-22 |
 | 2025-06-12 | Runtime-Stubs & Routing-Layer | SR; QA-Log 2025-06-22 |
 | 2025-06-13 | Beta-GPT-Nachlauf | QA-Log 2025-06-13; Maßnahmenpaket Beta-GPT 2025-06 |
@@ -1557,6 +1558,58 @@ Seeds 1–25/80–150/400–1000, Mission‑5 Badge-Check, Offline-Trace, Arena-
    `suppressed:true` + Grund speichern; Trace `toast_suppressed` bleibt Pflicht. QA:
    3–4 Low-Priority-Overlays, 2 sichtbar, Rest suppressed + Trace.
    _Status: ✅ erledigt – Suppressed-Entries in `logs.hud[]` mit `reason:"budget"`._
+
+## Maßnahmenpaket Beta-GPT Playtest 2026-01-14 (Issues #1–#9)
+
+Der Beta-GPT-Lauf vom 2026-01-14 liefert neun dokumentierte Punkte inklusive
+Test-Save v6 (Multi-Level-Roster 7/120/512/905, Rift-Cluster 1–25/80–150/400–1000).
+Referenz: QA-Log 2026-01-14.
+
+1. **Issue #1 – Rift-Casefile-Szenenmap konsolidieren**
+   README-Rift-Map auf kanonische Szenenfolge (1–4 Tatort, 5–9 Leads,
+   10 Boss-Encounter, 11–14 Auflösung) harmonisieren und Stage-Overlay spiegeln.
+   _Status: offen._
+
+2. **Issue #2 – Pre-City-Hub Save-Regel klären**
+   Entscheidung zwischen HQ-savebar vs. Transit-Guard dokumentieren; SaveGuard
+   und Kampagnenübersicht synchronisieren.
+   _Status: offen._
+
+3. **Issue #3 – Testerauftrag: Kompakt-Profil + Kodex-Terminologie**
+   Testerprompt auf Kompakt-Profil (Modul 12) verankern und „Codex“ durch
+   „Kodex“ ersetzen; Schema-Datei nur als optionale CI-Referenz.
+   _Status: offen._
+
+4. **Issue #4 – Rift-Seed-Merge deterministisch beschreiben**
+   Auswahlregel für kept/overflow definieren (Tier/Timestamp) und Trace-Feld
+   `selection_rule` ergänzen, damit QA reproduzierbar bleibt.
+   _Status: offen._
+
+5. **Issue #5 – SaveGuard-Prioritäten in Modul 12 spiegeln**
+   Kanonische Reihenfolge (offline > arena > hq_only > exfil > sys > stress >
+   psi_heat) als Tabelle/Verweis im Speichermodul festhalten.
+   _Status: offen._
+
+6. **Issue #6 – UI/Accessibility-Override im Cross-Mode-Import markieren**
+   Erwartungssatz im Testerprompt ergänzen; optional Trace `ui_host_override`
+   für QA-Nachvollziehbarkeit.
+   _Status: offen._
+
+7. **Issue #7 – HUD-Toast-Prioritäten definieren**
+   Critical-Toast-Policy ergänzen, damit SaveGuard/Offline/Schema/Arena nicht
+   durch Budget-Suppression verschwinden.
+   _Status: offen._
+
+8. **Issue #8 – Safety-Review Generator-Objectives**
+   Hinweis des Auftraggebers: nicht anwendbar (Self-Hosted, 18+, kein Store);
+   daher kein QA-Arbeitspaket im Fahrplan.
+   _Status: ⛔ nicht anwendbar (Auftraggeber-Entscheid)._
+
+9. **Issue #9 – Test-Save v6 als CI-Fixture**
+   Dummy-Save als Fixture (z. B. `qa_save_v6_dummy.json`) übernehmen; Loader
+   toleriert Zusatzfelder in `logs.flags.qa_profiles` und normalisiert
+   fehlende `hud_event.at`.
+   _Status: offen._
 
 11. **Issue #11 – Acceptance-Report standardisieren + Save-Fixture**
     Report-Format (Steps 1–15 PASS/FAIL + Links auf `logs.trace`/`logs.hud`) fixieren;

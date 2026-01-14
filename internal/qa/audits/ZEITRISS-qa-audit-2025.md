@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.5
+version: 1.0.6
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2026-01-14 – Beta-GPT Playtest 2026-01-14 übernommen
+
+- QA-Log 0.4.31 archiviert das vollständige Playtest-Protokoll inkl. Test-Save
+  v6, HUD/Trace-Belegen und dem HQ-Abgleich nach Import.
+- QA-Fahrplan 1.20.0 ergänzt das Maßnahmenpaket 2026-01-14 mit Issues #1–#9 und
+  markiert Issue #8 als nicht anwendbar (Auftraggeber-Entscheid, Self-Hosted,
+  kein Store, 18+).
+- Offene Punkte: Dokument-Drift Rift-Map, Pre-City-Hub Save-Regel, Seed-Merge-
+  Auswahlregel, SaveGuard-Prioritäten, Toast-Prioritäten, UI-Override-Hinweis,
+  Test-Save-Integration.
 
 ## Update 2027-03-07 – Local-Uncut & LM-Studio 2026-05 gespiegelt
 
