@@ -238,6 +238,8 @@ ZEITRISS-md/
   Beitragende und Repo-Agenten, inkl. Prüfpfade, Compliance und QA-Hinweise.
 - **Maintainer-Handbuch (repo-intern)** – Upload-Workflows, Plattformpflege und
   Runtime-Spiegelungen.
+- **Impressum (repo-intern)** – Rechtliche Pflichtangaben und Kontakt für
+  Lizenzanfragen.
 - **Hintergrund- & Strategie-Notizen (repo-intern)** – Lizenz-,
   Hosting- und Entwicklungsnotizen, nicht für den Wissensspeicher gedacht.
 - **Masterprompts (repo-intern)** – Laufzeit-Briefings für MyGPT; enthalten
