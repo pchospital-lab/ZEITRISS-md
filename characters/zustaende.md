@@ -327,6 +327,19 @@ Lebenspunkte hinausgehen:
   kurze Meditation über zwei Runden reduziert **3 Punkte**. Stress bleibt nach dem Kampf bestehen
   und kann nur in Ruhe oder im HQ abgebaut werden.
 - **Stress als Ressource:** 5 Punkte erlauben einen Reroll.
+
+### Paradoxon-Index — Das Belohnungssystem
+
+> **Kernregel:** Der Paradoxon-Index ist **kein Strafmechanismus**. Er belohnt
+> stilvolles Spielen mit Zugang zu Bonus-Content (Rift-Ops, Paramonster, Artefakte).
+
+**Die einfache Wahrheit:**
+- Spielt gut → Index steigt → bei 5 gibt’s Bonus-Missionen.
+- Spielt chaotisch → Index stagniert → keine Bonus-Missionen.
+- Spielt katastrophal (selten) → Index sinkt um 1.
+
+Das ist alles. Keine mystische Zeitinstabilität, keine existenzielle Bedrohung.
+Einfach ein Fortschrittsbalken für cooles Gameplay.
 - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst temporale Spuren und steigt
   situativ während einer Mission. Niedrige **Temporale Affinität** füllt ihn langsam, hohe TEMP
   beschleunigt. Scheitern oder massive Paradoxa halten den Wert; Extremfälle senken ihn um **–1**
@@ -336,7 +349,7 @@ Lebenspunkte hinausgehen:
   Seit Version 4.1.4 blendet ein Balken-Meter (1–5 Segmente) den Fortschritt zum nächsten Riss ein.
   GPT kann beschreiben: _„Euer HUD meldet: Paradoxon-Index 3 – Resonanzpegel steigt, erste
   Risskoordinaten rücken näher.“_ Der Index baut **Spannung** auf: Das Team entscheidet, ob es
-  kontrollierter vorgeht, damit Stufe 5 zum passenden Zeitpunkt eintritt.
+  kontrollierter vorgeht, damit Stufe 5 als **Belohnung** zum passenden Zeitpunkt eintritt.
     _Auswirkungen:_ Steigende Werte erzeugen kleine, positive Resonanzeffekte. Bei **Level 1**
     verliert die Gruppe einmalig **1 Stresspunkt**. Auf **2** heilt das Team **1 HP**. Bei **3** ist
     die nächste Probe um **–1 SG** erleichtert. Auf **4** sorgt ein Adrenalinrausch für **+2
@@ -359,8 +372,8 @@ erzeugt**. Clevere Chrononauten haben vielleicht Geräte oder Talente, um Parado
 zu reduzieren** (z.B. einen tragbaren Paradoxon-Detektor, der früh Alarm schlägt, oder einen
 Temporallogiker im Team, der durch kluge Entscheidungen Stabilität zurückgewinnt). Behutsames,
 stilvolles Vorgehen steigert den Index zusätzlich, während grobe Aktionen keinerlei Auswirkungen
-haben. Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir müssen
-aufpassen, sonst…“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission
+  haben. Setzt dieses Element mit Bedacht ein – es soll **Handlungsanreize** bieten („Wir pushen Px,
+  um Rift-Ops freizuschalten.“), aber nicht jedes Abenteuer dominieren. Wenn es passt, kann eine ganze Mission
 darauf ausgelegt sein, **eine temporale Anomalie zu beheben** (z.B. einen Fehler in der
 Vergangenheit zu korrigieren).
 
