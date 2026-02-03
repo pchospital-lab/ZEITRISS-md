@@ -309,6 +309,11 @@ trägt: Echos, Loops, Deja-vus oder Verzögerungen, die zeigen, dass der
 Geschichtsfluss instabil ist. Sobald die Agenten das Phänomen neutralisieren,
 verschwindet der Seed: Die Legende ist aufgeklärt, der „Riss“ schließt sich.
 
+> **Spieler-Perspektive:** Rift-Ops sind Bonus-Content. Ihr habt sie euch durch
+> gutes Spielen verdient. Stellt euch das wie Freischalt-Missionen in einem
+> Videospiel vor: Sammelt genug Resonanz (Px 5), bekommt einen Rift-Seed,
+> spielt die X-Files-Mission, lootet Artefakte. Es ist eine Belohnung, kein Problem.
+
 Rifts bringen häufig sogenannte **Paramonster** hervor – temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle

@@ -415,7 +415,7 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
   der ein nahezu unmögliches Ziel automatisch trifft. Eine Zeitagentin nutzt einen **„Zeitsprung-
   Impuls“**, um einen Augenblick die Zeit anzuhalten. Signature-Aktionen sollten klar umrissen sein und
   zum Charakter passen. Ihre Nutzung geht oft mit Kosten oder Risiken einher (Erschöpfung,
-  **SYS-Verbrauch**, Paradoxon-Gefahr) und bleibt so eine dramatische _Trumpfkarte_. **Flow:** Sie bringen
+  **SYS-Verbrauch**, Paradoxon-Stand) und bleibt so eine dramatische _Trumpfkarte_. **Flow:** Sie bringen
   spektakuläre Höhepunkte, ohne das Spiel dauerhaft zu dominieren. **Balance:** Die Begrenzung (z.B.
   einmal pro Mission) hält sie zu seltenen Highlights; Gegner können eigene Manöver besitzen, damit die
   Waage gewahrt bleibt. **Storytelling:** Diese einzigartigen Aktionen unterstreichen den Stil der

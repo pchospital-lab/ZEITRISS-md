@@ -910,7 +910,7 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
       "d24": 21,
       "Seed": "Mokele-Mbembe",
       "Hook": "Monster im Sumpf des Kongo – Expedition sichern, Kreatur einfangen",
-      "hiddenCause": "Parawesen: Relikt-Dinosaurier Mokele-Mbembe aus Zeitriss bedroht Dorf"
+      "hiddenCause": "Parawesen: Relikt-Dinosaurier Mokele-Mbembe – Rift-Seed wird enthüllt, Dorf bedroht"
     },
     {
       "d24": 22,

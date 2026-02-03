@@ -516,31 +516,34 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | 12            | Deaktivierung eines Zeitbomben-Prototyps |
 | 15+           | Absprung von einem abstürzenden Zeppelin |
 
-### Paradoxon-Index
+### Paradoxon-Index (Belohnungssystem)
 
 *Siehe auch das*
 *[Paradoxon-Subsystem](../characters/zustaende.md#paradox-subsystem)*
 *für eine ausführliche Beschreibung.*
 
-| Stufe | Effekt                     |
-| ----- | -------------------------- |
-| 0–1   | Stabil                     |
-| 2     | Resonanzimpuls (−1 Stress) |
-| 3     | Zeitflimmern (Team heilt 1 HP) |
-| 4     | Tempowelle (+2 Initiative auf nächste Aktion) |
-| 5     | ClusterCreate() im HQ      |
+| Stufe | Effekt | Bedeutung |
+| ----- | ------ | --------- |
+| 0–1   | Stabil | Sammelt Resonanz |
+| 2     | −1 Stress (Team) | Kleine Belohnung |
+| 3     | Team heilt 1 HP | Mittlere Belohnung |
+| 4     | +2 Initiative | Große Belohnung |
+| **5** | **ClusterCreate()** | 1–2 Rift-Seeds enthüllt, Px → 0 |
 
-Der Index fungiert als **Resonanz-Index** der Chrononauten: Er wächst, wenn ihr das
-dokumentierte Hauptereignis einer Mission stabilisiert – auch mit robusten Methoden,
-solange ihr grobe Paradoxa vermeidet. Scheitert ein Auftrag oder wird abgebrochen,
-bleibt der Wert stehen; ein seltenes **Px – 1** entsteht nur bei massiven Fehlverläufen
-oder ausgelösten Paradoxa.
+**So funktioniert’s:** Stilvolles, professionelles Vorgehen lässt den Index steigen.
+Bei Px 5 schaltet ihr Bonus-Missionen (Rift-Ops) frei – X-Files-Abenteuer mit
+Paramonstern und Artefakt-Loot. Der Index ist ein Fortschrittsbalken, keine Gefahr.
+
+**Px steigt durch:** Elegante Lösungen, Missionsziele erreichen, Zeitlinie stabilisieren.  
+**Px stagniert bei:** Chaos, lautes Vorgehen, Missionsabbruch.  
+**Px −1 (selten):** Nur bei extremen Fehlern (Zivilopfer, zerstörte Kern-Anker).
+
 Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
 
 > **Paradoxon-Pro-Tip:**
-> *Stabilisiert zuerst das Hauptereignis der Mission: Jeder gesicherte Kernschritt baut Px als Resonanz auf.*
-> *Fehlschläge frieren den Stand ein, nur grobe Paradoxa drücken ihn ausnahmsweise um 1.*
-> Riskantere Nebenaufgaben können Rifts schneller freischalten – das Team entscheidet.
+> *Stilvolle Kernschritte lassen den Index sichtbar wachsen – saubere Lösungen zahlen sich aus.*
+> *Chaos friert den Stand ein, nur grobe Paradoxa drücken ihn ausnahmsweise um 1.*
+> Riskantere Nebenaufgaben können Rift-Seeds schneller freischalten – das Team entscheidet.
 
 ### Seed-Counter im HUD
 
