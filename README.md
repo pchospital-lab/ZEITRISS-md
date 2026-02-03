@@ -102,13 +102,12 @@ Details findest du in [LICENSE](LICENSE).
    Intel/Konflikt → Exfiltration → Debrief – insgesamt zwölf Szenen. Rift-Ops sind
    eigenständige Filme in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** ist der Resonanz-Index der Chrononauten. Er steigt,
-   wenn ihr den dokumentierten Verlauf eines Hauptereignisses stabilisiert – auch
-   mit robusten Mitteln. Präzises, unauffälliges Vorgehen beschleunigt den Anstieg;
-   massive Patzer lassen den Px stagnieren oder in seltenen Fällen um 1 fallen.
-   Erreicht der Px Stufe 5, verrät `ClusterCreate()` 1–2 Rift-Seeds – spielbar
-   nach Episodenende. Danach springt der Px für den nächsten Zyklus auf 0;
-   weitere Px‑5‑Treffer stapeln zusätzliche Seeds im Pool.
+4. **Paradoxon-Index (Px)** misst eure temporale Resonanz – ein **Belohnungssystem**.
+   Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
+   `ClusterCreate()` 1–2 Rift-Seeds auf der Raumzeitkarte – Bonus-Missionen mit
+   Paramonstern und Artefakten. Danach springt der Px für den nächsten Zyklus auf 0;
+   weitere Px‑5‑Treffer stapeln zusätzliche Seeds im Pool. Chaos oder grobe Paradoxa
+   halten den Index niedrig; in Extremfällen kostet das ausnahmsweise **−1 Px**.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
@@ -118,6 +117,32 @@ Details findest du in [LICENSE](LICENSE).
 
 Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte
 Einstiegshilfe.
+
+## Was erwartet euch als Spieler?
+
+**Die kurze Antwort:** Ihr seid Elite-Agenten, die durch die Zeit springen, um
+Jobs zu erledigen. Denkt an Shadowrun meets James Bond meets X-Files.
+
+**Core-Ops (Standard-Missionen):**
+- Historische Heists, Sabotage, Infiltration.
+- Ihr springt in eine Epoche, erledigt den Auftrag, springt zurück.
+- Keine Zeitschwurbelei – Zeit ist euer Setting, nicht euer Puzzle.
+- Beispiel: Bankjob während eines echten historischen Überfalls.
+
+**Rift-Ops (Bonus-Missionen):**
+- Freigeschaltet durch Px 5 (gutes Spielen → Belohnung).
+- Paramonster jagen, Artefakte looten.
+- X-Files-Atmosphäre in historischem Setting.
+
+**HQ (Zwischen den Missionen):**
+- Sicherer Hafen in der Nullzeit.
+- Ausrüsten, Feilschen, Upgrades kaufen.
+- Nach jeder Mission: Zurück ins HQ, durchatmen, wieder raus.
+
+**Kodex (Eure KI):**
+- Immer dabei als AR-Overlay (denkt an Jarvis).
+- Gibt Infos, zeigt HUD, protokolliert alles.
+- Fällt nur bei Jammer/Störung aus.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 

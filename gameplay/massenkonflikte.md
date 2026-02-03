@@ -41,7 +41,7 @@ Siehe hierzu auch das Modul
   Taktische Entscheidungen der Helden beeinflussen dabei den Schlachtausgang.
 - **KI-Integration (Kodex & HUD):** Ideen, wie der **Kodex**, das KI-Assistenzsystem des ITI, und
   die HUD-Overlays der Agenten für taktische Übersichten, Einsatzsteuerung und Immersion genutzt
-  werden können – von Missionsdaten bis zu Paradoxon-Warnungen.
+  werden können – von Missionsdaten bis zu Resonanz-Updates.
 - **Tabellen und Beispielwerte:** Praktische Übersichten zu Fahrzeugtypen, Konfliktarten und
   beispielhaften Spielwerten, um die neuen Regeln schnell anzuwenden.
 

@@ -321,6 +321,10 @@ NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
 Hand-off
 transparent nachverfolgen können.
 
+> **Spieler-Sprache:** `ClusterCreate()` ist der Moment, wo ihr eure Belohnung
+> bekommt. Px 5 erreicht → 1–2 neue Rift-Missionen erscheinen auf der Karte →
+> nach der aktuellen Episode könnt ihr sie spielen. Das ist der Loot für gutes Spielen.
+
 **Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
 Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
