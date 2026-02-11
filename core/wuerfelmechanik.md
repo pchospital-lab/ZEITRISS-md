@@ -16,7 +16,7 @@ tags: [core, advanced]
 
 \*Mit letzter Kraft erhebt sich Chrononaut Leon aus dem Trümmerfeld, während um ihn eine epische
 Schlacht tobt. Sein HUD überschlägt sich mit Warnmeldungen - **_Vitalstatus kritisch: 10%_**,
-**_Paradoxon-Index +1_** -, doch er blendet die Alarme aus. Jetzt zählt nur noch dieser eine
+**_Paradoxon-Index −1_** –, doch er blendet die Alarme aus. Jetzt zählt nur noch dieser eine
 verzweifelte Versuch. Leon schultert die Energie-Lanze eines gefallenen Mech-Piloten, legt an und
 drückt ab. Ein gleißender Strahl zerfetzt die angreifende Zeitanomalie - ein schier unmöglicher
 Treffer, zustande gekommen durch eine Prise Heldenmut und Würfelglück. Der Kodex protokolliert
