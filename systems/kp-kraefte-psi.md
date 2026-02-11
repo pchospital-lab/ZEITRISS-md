@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 11: Psi-Fähigkeiten"
+title: "ZEITRISS 4.2.6 - Modul 11: Psi-Fähigkeiten"
 version: 4.2.6
 tags: [system, psi, optional]
 ---
 
-# ZEITRISS 4.2.6 – Modul 11: Psi-Fähigkeiten
+# ZEITRISS 4.2.6 - Modul 11: Psi-Fähigkeiten
 
 ## Inhalt
 
@@ -19,8 +19,8 @@ tags: [system, psi, optional]
 
 - Effekt unter 1 Sekunde kostet 0 SYS.
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
-- Telepathie und Telekinese: Nah 0–3 m, Mittel 3–15 m mit +1 auf die Schwelle, Fern 15–50 m nur erzaehlerisch.
-- Nahkampf-Telekinese nutzt [TK-Melee()](toolkit-gpt-spielleiter.md#tk-melee-macro); SR ≥ 2 erhöht die SG um +1.
+- Telepathie und Telekinese: Nah 0-3 m, Mittel 3-15 m mit +1 auf die Schwelle, Fern 15-50 m nur erzaehlerisch.
+- Nahkampf-Telekinese nutzt [TK-Melee()](toolkit-gpt-spielleiter.md#tk-melee-macro); SR ≥ 2 erhöht die SG um +1.
 - PP-Pool = Temporale Affinität (TEMP). Kosten: stark 3, mittel 2, gering 1; Cooldown 3/2/1 Runden.
 - Soft-Cap: Ab Attribut 12 zählt jeder weitere Punkt nur noch als **+½ Effektstufe** (abgerundet).
 - Chronokinese oder Eingriffe in feste Ereignisse verlangen einen Resonanz-Check.
@@ -32,17 +32,17 @@ _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 
 #### Beispiel: Telekinetischer Stoß
 
-Agentin Nova (TEMP 6, PP 6/6, SYS 4, Psi-Heat 0) stößt einen Gegner fünf Meter zurück.
-SG laut Tabelle: **Telekinese-Stoß 12**.
-Wurf: `1W6` (5) + TEMP 6 (3) + Talentbonus Telekinetischer Stoß (4) = **12** → Erfolg.
-PP sinken auf **4**, Psi-Heat steigt auf **1**. Der Stoß ist <1 Sekunde, daher **0 SYS**.
+Agentin Nova (TEMP 6, PP 6/6, SYS 4, Psi-Heat 0) stößt einen Gegner fünf Meter zurück.
+SG laut Tabelle: **Telekinese-Stoß 12**.
+Wurf: `1W6` (5) + TEMP 6 (3) + Talentbonus Telekinetischer Stoß (4) = **12** → Erfolg.
+PP sinken auf **4**, Psi-Heat steigt auf **1**. Der Stoß ist <1 Sekunde, daher **0 SYS**.
 Cooldown: **2 Runden** (mittlere Kraft).
 
 **Typische SGs**
 
-- **Leicht (SG 9):** kurze Eindrücke oder minimale Bewegung.
-- **Mittel (SG 12):** spürbarer Effekt, z.B. Gegner wegstoßen.
-- **Schwer (SG 15):** massiver Eingriff wie starkes Telekinese-Feld.
+- **Leicht (SG 9):** kurze Eindrücke oder minimale Bewegung.
+- **Mittel (SG 12):** spürbarer Effekt, z.B. Gegner wegstoßen.
+- **Schwer (SG 15):** massiver Eingriff wie starkes Telekinese-Feld.
 
 Psi fungiert als rationaler Ersatz für klassische Magie. Alle scheinbaren Wunder
 lassen sich entweder wissenschaftlich erklären oder auf temporale Effekte
@@ -73,25 +73,25 @@ Neben Technik und Genetik gibt es Gerüchte über eine dritte Kategorie von Verb
 Macht des **Geistes**. _Psi-Fähigkeiten_ sind in ZEITRISS ein optionales System für Runden, die einen
 Hauch Übersinnliches integrieren möchten. Dabei handelt es sich um mentale Kräfte, die durch den
 Kontakt mit dem Zeitstrom oder besondere Veranlagung einiger Individuen geweckt wurden. Nur sehr
-wenige Chrononauten entwickeln Psionik – oft erst nach zahlreichen Reisen und Erfahrungen, manchmal
+wenige Chrononauten entwickeln Psionik - oft erst nach zahlreichen Reisen und Erfahrungen, manchmal
 getriggert durch ein einschneidendes temporales Ereignis. Psi-Kräfte können von **Telepathie**
 (Gedanken und Gefühle wahrnehmen/übermitteln) über **Präkognition** (vage Vorahnung der Zukunft) bis
 zu Formen der **Chronokinese** (Zeitfluss leicht beeinflussen, z.B. kurzfristig verlangsamen)
 reichen. Auch Empathie über die Zeit oder das Aufspüren von Zeitanomalien zählen dazu. Im Sinne des
 ZEITRISS-Leitbilds sind diese Fähigkeiten keine Magie im klassischen Sinn, sondern lassen sich stets
 als erweiterte Neurotechnik oder als Reaktion auf temporale Effekte deuten. Der umfassende
-Regelkern folgt in diesem Modul; die Kurzfassung aus Modul 4C bleibt als Einstieg erhalten.
+Regelkern folgt in diesem Modul; die Kurzfassung aus Modul 4C bleibt als Einstieg erhalten.
 
 Grundsätzlich kann jeder Chrononaut psionische Talente entwickeln. Gruppen, die den **contra**-
 Ansatz verfolgen, dürfen Psionik ebenfalls nutzen oder stattdessen einen natürlichen Widerstand
-gegen mentale Einflüsse wählen. Viele Contra-Agenten blockieren bewusst den „Fluss der
-Erleuchtung“, sodass ihr Geist schwerer zu manipulieren ist, verzichten aber nicht zwingend auf
+gegen mentale Einflüsse wählen. Viele Contra-Agenten blockieren bewusst den "Fluss der
+Erleuchtung", sodass ihr Geist schwerer zu manipulieren ist, verzichten aber nicht zwingend auf
 Psi-Kräfte.
 
-Spieltechnisch sind Psi-Fähigkeiten potente Werkzeuge – daher **streng limitiert**. Ihr Einsatz
+Spieltechnisch sind Psi-Fähigkeiten potente Werkzeuge - daher **streng limitiert**. Ihr Einsatz
 fordert enorme Konzentration und **blockiert einen Teil der Systemlast**, da Körper und Geist stark
 beansprucht werden. **Jede psionische Kraft hat einen SYS-Kostenwert.** Solange eine Fähigkeit aktiv
-ist, „belegt“ sie entsprechend viele SYS-Punkte. Die Summe aller aktuell genutzten Mods (Cyber, Bio
+ist, "belegt" sie entsprechend viele SYS-Punkte. Die Summe aller aktuell genutzten Mods (Cyber, Bio
 und aktiver Psi) darf den SYS-Wert des Charakters nicht überschreiten. Tut sie es doch, kommt es zur
 **Überlastung**: Der Charakter erleidet mentale und körperliche Zusammenbrüche, Implantate fallen
 aus, vielleicht blutet er sogar aus der Nase und verliert für längere Zeit die Fähigkeit, Psi zu
@@ -99,18 +99,18 @@ nutzen. Praktisch bedeutet das: Will ein Chrononaut mit voller Cyberausstattung 
 muss er andere Systeme zunächst herunterregeln oder mit abgeschwächter Kraft arbeiten.
 
 **Charakterbogen-Notiz:** Listet aktive Psi-Kräfte in einer Mini-Tabelle. Steigen ihre SYS-Kosten
-über euren Wert, blendet das HUD eine Fortschrittsanzeige ein. Dann erleidet ihr **−2** auf alle
+über euren Wert, blendet das HUD eine Fortschrittsanzeige ein. Dann erleidet ihr **-2** auf alle
 Proben, bis die Last reduziert ist.
 
 Viele Psi-Kräfte sind zudem **nicht dauerhaft**, sondern müssen aktiviert werden und halten nur
 kurz an. Oft wird ein Wurf auf **Temporale Affinität (TEMP)** verlangt, um die Kraft zu fokussieren
-– je schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat
+- je schwieriger der Effekt, desto höher der SG. Misslingt der Wurf, verpufft die Kraft (oder hat
 ggf. nach SL-Gusto eine unkontrollierte Nebenwirkung).
 
 Da Psionik massiv ins Gefüge der Zeit eingreift, sollte ihre **Balance** sorgfältig beachtet
 werden. In niedrigen Stufen bieten Psi-Kräfte eher subtile Vorteile (z.B. ein kurzer Gedankenimpuls,
 ein vages Bauchgefühl als Vorahnung). Große Effekte wie das Anhalten der Zeit oder mächtige
-Telekinese sollten _höchstens_ erfahrenen Charakteren mit hoher TEMP und SYS vorbehalten sein – und
+Telekinese sollten _höchstens_ erfahrenen Charakteren mit hoher TEMP und SYS vorbehalten sein - und
 selbst dann Risiken bergen. Ein guter Weg, Psi ins Spiel einzuführen, ist ein storybasiertes
 Erwachen: Der Spielercharakter spürt nach einer speziellen Missions-Begegnung zum ersten Mal eine
 psionische Regung. Danach kann er (in Absprache mit der SL) einen Teil seiner Erfahrung investieren,
@@ -127,20 +127,20 @@ So bleibt Psionik etwas Besonderes und belohnt charakterzentrierte Geschichten.
 | Psi-Schild         | 14 |
 | Mentale Maskierung | 11 |
 
-**Rechenbeispiel:** Agentin Rhea (TEMP 5 → PP 5/5, SYS 4, Heat 0) nutzt _Gedankenlesen_
-(SG 9, Talentstufe 3).
+**Rechenbeispiel:** Agentin Rhea (TEMP 5 → PP 5/5, SYS 4, Heat 0) nutzt _Gedankenlesen_
+(SG 9, Talentstufe 3).
 
-1. `1W6` (4) + TEMP 5 (2) + Talentstufe 3 = **9** → Erfolg.
-2. Wirkung <1 Sekunde, daher **0 SYS**; PP sinken auf **4**.
-3. **Heat +1** → aktuelles Heat 1/6.
+1. `1W6` (4) + TEMP 5 (2) + Talentstufe 3 = **9** → Erfolg.
+2. Wirkung <1 Sekunde, daher **0 SYS**; PP sinken auf **4**.
+3. **Heat +1** → aktuelles Heat 1/6.
 4. Misslingt die Probe bei hohem Heat, kann die Backlash-Tabelle greifen.
 5. Talente oder Ausrüstung (z.B. Neuralverstärker **+1**) addieren sich vor dem Wurf.
 
-**Reset-Regel:** Nach jedem Konflikt springt Psi-Heat automatisch auf 0. Das HQ setzt zusätzlich
+**Reset-Regel:** Nach jedem Konflikt springt Psi-Heat automatisch auf 0. Das HQ setzt zusätzlich
 Stress, SYS und Psi-Heat auf die gespeicherten Basiswerte zurück. HQ-Saves erzwingen daher
 `psi_heat=0`; läuft noch Arena oder Mission, verweigert der Guard den Save. Arena-Niederlagen
 setzen **keinen** Paradoxon-Reset: `campaign.px` bleibt unverändert, der Reset folgt nur auf
-Px 5 + Debrief/HQ.
+Px 5 + Debrief/HQ.
 
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
@@ -174,7 +174,7 @@ _Balance-Hinweis (Psi):_
 ### Vorberechnete Psi-Drosselstufen {#psi-drossel}
 
 Um den Spielfluss zu beschleunigen, hat jede Kraft drei feste Leistungsstufen. Die Systemlast (SYS)
-ist bereits einkalkuliert – die SL wählt nur noch den passenden Output:
+ist bereits einkalkuliert - die SL wählt nur noch den passenden Output:
 
 | Stufe | SYS-Kosten | Effektbeispiel Telepathie |
 | ----- | ---------- | ------------------------- |
@@ -182,28 +182,28 @@ ist bereits einkalkuliert – die SL wählt nur noch den passenden Output:
 | **Medium** | 2 | klarer Gedankenfunk, kurze Sätze |
 | **High** | 3 | tiefer Zugriff, ganze Gespräche |
 
-Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert). Die Agenten wissen
+Andere Kräfte folgen demselben Muster (1/2/3 SYS oder ±1 zum Basiskostenwert). Die Agenten wissen
 so sofort, welche Intensität sie aufrufen können, ohne im Gefecht nachrechnen zu müssen.
 
 ### Backlash-Tabelle (kritischer Patzer) {#backlash-tabelle-kritischer-patzer}
 
 | Patzerwert | Effekt |
 |-----------:|--------|
-| 1–3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
-| 4–6 | Disruption: Verlust von PP = doppelte Talentkosten. |
-| 7–9 | Feedback-Schock: 1 Stufe „Verwundet“ (siehe Zustände). |
+| 1-3 | Migräne: -1 auf alle Psi-Proben (bis nächste Ruhephase). |
+| 4-6 | Disruption: Verlust von PP = doppelte Talentkosten. |
+| 7-9 | Feedback-Schock: 1 Stufe "Verwundet" (siehe Zustände). |
 | 10 | Rift-Feedback: Paradoxon-Index +1 **oder** HQ meldet ein neues Rift (außerhalb der Mission). |
 
 ### Squad-Scaling-Regel
 
 - Man kann so viele Personen buffen, wie der eigene Wert in _Temporaler Affinität_ hergibt.
-- Keine zusätzlichen Kosten – gleich wie beim Einzelbuff.
+- Keine zusätzlichen Kosten - gleich wie beim Einzelbuff.
 
-> *Beispiel:* TEMP 5 bufft bis zu fünf Teammitglieder.
+> *Beispiel:* TEMP 5 bufft bis zu fünf Teammitglieder.
 
 ### Resonanz {#resonanz}
 
-_Resonanz_ beschreibt das feine Gespür eines Psi‑Agents für temporale Nachbilder. Hohe Werte in
+_Resonanz_ beschreibt das feine Gespür eines Psi-Agents für temporale Nachbilder. Hohe Werte in
 **TEMP** deuten auf eine starke Resonanz hin und erleichtern das Wahrnehmen subtiler Anomalien.
 
 ## Talente & Spezialisierungen
@@ -222,11 +222,11 @@ In **ZEITRISS 4.2.6** unterscheiden wir Talente in **passive** und **aktive**:
 
 - **Passive Talente (P):** Dauerhafte Vorteile oder Boni, die immer wirken, wenn der Anwendungsfall
   kommt. Beispiel: _Waffenmeister_ verleiht stets +2 auf Angriffe mit bestimmten Waffen. Diese
-  Talente muss man nicht „einsetzen“ – sie sind Teil der Figur.
+  Talente muss man nicht "einsetzen" - sie sind Teil der Figur.
 - **Aktive Talente (A):** Diese Fähigkeiten kann der Spieler gezielt einsetzen, oft begrenzt auf
   **einmal pro Kampf** oder **einmal pro Sitzung**, da sie besondere Aktionen darstellen. Beispiel:
   _Taktiker_ erlaubt einmal pro Kampf, die Initiative neu zu würfeln und taktische Vorteile zu geben.
-  Aktive Talente erfordern meist die Ansage des Spielers („Ich nutze jetzt meinen Adrenalinschub“),
+  Aktive Talente erfordern meist die Ansage des Spielers ("Ich nutze jetzt meinen Adrenalinschub"),
   manche eventuell eine Probe, und haben einen starken Effekt mit Abklingzeit.
 
 **Quick-Reference:** Für den Spieltisch lohnt sich eine kompakte Übersicht aller Talente. Markiere
@@ -235,7 +235,7 @@ So erkennt die SL sofort, ob ein Talent ständig wirkt oder erst angesagt werden
 
 **Modulare Erweiterungen:** Das Talent-System lässt sich modular ausbauen. GMs können _Talentränge_
 einführen, sodass Talente steigerbar sind (z.B. **Scharfschütze I**: +1 auf Fernkampf, **Scharfschütze
-II**: +2 und Ignorieren von 1 Punkt Deckung). Alternativ können **Kombinationen** zugelassen werden –
+II**: +2 und Ignorieren von 1 Punkt Deckung). Alternativ können **Kombinationen** zugelassen werden -
 etwa erlangt ein Charakter mit _Mechaniker_ und _Improvisationsingenieur_ zusätzliche Synergien
 beim Bauen von Geräten. Solche Hausregeln sollten klar kommuniziert werden, um Fairness zu wahren.
 
@@ -244,7 +244,7 @@ beim Bauen von Geräten. Solche Hausregeln sollten klar kommuniziert werden, um 
 optional jedem Archetyp ein einzigartiges Talent oder _Archetypen-Feature_ geben, um ihre Rolle zu
 unterstreichen. Beispielsweise hatte der Temporal-Soldat Nikolai das Talent _Schmerzresistenz_,
 während die Hackerin Mira _Techno-Mancer_ und _Drohnensteuerung_ als Kernfähigkeiten hatte. Solche
-Talente sind nicht exklusiv – auch andere Charaktere könnten sie lernen – aber sie definieren das
+Talente sind nicht exklusiv - auch andere Charaktere könnten sie lernen - aber sie definieren das
 Archetypenkonzept. Wenn die Gruppe mit eigenen Charakteren spielt, können diese Archetypen als
 **Richtwert fürs Balancing** dienen. Keine Figur sollte deutlich stärker oder schwächer sein als die
 Archetypen-Vorbilder, ansonsten justiert man Attribut- und Talentverteilungen.
@@ -261,7 +261,7 @@ _P_ markiert passive, _A_ aktive Talente.
   Anweisungen ruft.
 - **Schmerzresistenz** (P): Abgehärtet gegen Wunden. Selbst schwere Treffer bringen den Charakter
   nicht so leicht aus der Fassung. _Effekt:_ Wundabzüge durch erlittenen Schaden werden um **1 Punkt**
-  reduziert (leichte Wunden ignoriert er komplett, mittlere geben nur –1 statt –2 etc.).
+  reduziert (leichte Wunden ignoriert er komplett, mittlere geben nur -1 statt -2 etc.).
 - **Techno-Mancer** (P): Überragendes Technik- und Computerverständnis, speziell mit zukünftiger
   Technologie. Verleiht **+2 auf alle Hacken- und Programmieren-Proben**; selbst altertümliche
   Systeme aus dem 20. Jh. erscheinen dem Charakter simpel.
@@ -277,15 +277,15 @@ _P_ markiert passive, _A_ aktive Talente.
   Charakter für eine Szene seine körperlichen Attribute steigern (**+2 auf STR und GES** z.B. für
   1 Kampfrunde oder 1 dramatische Aktion). Er kann so Übermenschliches leisten (z.B. einstürzende
   Trümmer hochstemmen, einen superschnellen Feind einholen). Danach tritt Erschöpfung ein: für die
-  nächste Szene **–1 auf alle Proben**.
+  nächste Szene **-1 auf alle Proben**.
 - **Sprengstoffexperte** (P): Fachkundig in allem was _bumm_ macht. Der Charakter kennt sich mit
   Bomben, Minen und Chemikalien aus. Er kann Sprengsätze **schneller und sicherer entschärfen oder
   anbringen**. In der Regel benötigt er für Standard-Sprengfallen **keine Probe** (außer Zeitdruck),
-  und bei komplexen Bomben gibt’s +2 auf Entschärfen. Außerdem schätzt er Sprengkraft und Radius
+  und bei komplexen Bomben gibt's +2 auf Entschärfen. Außerdem schätzt er Sprengkraft und Radius
   intuitiv gut ein.
 - **Sprachgenie** (P): Polyglott und kulturell bewandert. Dieser Chrononaut spricht mehrere Sprachen
   fließend (auch historische oder Alien-Sprachen, je nach Kampagne) und lernt neue rasch. _Effekt:_
-  Verständigung ist selten ein Problem – bekannte Sprachen **versteht** er ohne Probe, und einfache
+  Verständigung ist selten ein Problem - bekannte Sprachen **versteht** er ohne Probe, und einfache
   Phrasen neuer Sprachen nach kurzem Hören ebenfalls. Gibt in sozialen Interaktionen einen enormen
   Vorteil, da er auch Redewendungen und Dialekte imitiert.
 - **Psioniker** (P/A): _(Optional, siehe Psi-Kapitel)_ Der Charakter hat eine latente psionische
@@ -303,7 +303,7 @@ _P_ markiert passive, _A_ aktive Talente.
 
 _Zum Abschluss:_ Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen Chrononauten
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die
-**Spielbalance** erhalten bleibt – kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar
+**Spielbalance** erhalten bleibt - kein Gegenstand und kein Talent sollte die Gruppe unbesiegbar
 machen.
 - **Telekinese + Muskelstärkung:** Kombiniert steigt die Schwierigkeit aller Proben um +1 oder die
   Aktion benötigt eine Cooldown-Runde.
@@ -313,9 +313,9 @@ Darstellung** aktiv: Lasst z.B. das HUD aufleuchten, wenn ein Charakter seinen A
 (_Herzpuls und Muskelkraftanzeige steigen im HUD drastisch_), oder beschreibt, wie das
 _Zeitterminal_ beim Hacken eines Zukunftscomputers unterstützend Daten einblendet. Die KI-
 Spielleitung (GPT) steht bereit, um mit dynamischen Beschreibungen all diese Elemente zu einem
-stimmigen Ganzen zu verweben – sei es durch atmosphärische **HUD-Overlays** oder durch das
-Einbeziehen von Talenten in die Erzählung (\*„Dank eurer Fähigkeit **_Verkleidungskünstler_** nickt
-der Wachposten euch arglos zu, überzeugt, ihr wärt der örtliche Baron.“\*). In diesem Sinne: Mögen
+stimmigen Ganzen zu verweben - sei es durch atmosphärische **HUD-Overlays** oder durch das
+Einbeziehen von Talenten in die Erzählung (\*"Dank eurer Fähigkeit **_Verkleidungskünstler_** nickt
+der Wachposten euch arglos zu, überzeugt, ihr wärt der örtliche Baron."\*). In diesem Sinne: Mögen
 eure Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gewappnet die Zeit
 beschützen.
 
@@ -323,7 +323,7 @@ Eine vollständige Übersicht aller Kräfte folgt im weiteren Verlauf dieses Mod
 
 ## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 
-_Abb. 1: Künstlerische Darstellung neuronaler Verbindungen im Gehirn – einige Theorien vermuten,
+_Abb. 1: Künstlerische Darstellung neuronaler Verbindungen im Gehirn - einige Theorien vermuten,
 dass bislang unbekannte Quanteneffekte im Gehirn außergewöhnliche Bewusstseinsphänomene
 ermöglichen._
 
@@ -332,25 +332,25 @@ etablierte Wissenschaft lehnt Parapsychologie bis heute weitgehend als Pseudowis
 trotz über einhundert Jahren Forschung kein eindeutiger Nachweis für übersinnliche Fähigkeiten
 erbracht wurde. Zwar gab es immer wieder Experimente mit Zufallsgeneratoren, sensorischer Isolation
 (Ganzfeld-Versuche) und anderen Methoden, um **außersinnliche Wahrnehmung** oder Psychokinese
-statistisch nachzuweisen. Diese Studien erbrachten bisweilen leichte Abweichungen vom Zufall – etwa
+statistisch nachzuweisen. Diese Studien erbrachten bisweilen leichte Abweichungen vom Zufall - etwa
 signifikante Trefferquoten in Telepathie-Tests unter strengen Bedingungen oder unbewusste
 Vorahnungen zukünftiger Reize in sogenannten _Presentiment_-Experimenten. Doch oft ließen sich
 solche Effekte in Wiederholungsversuchen nicht konsistent bestätigen. Entsprechend bleiben viele
 Fachleute skeptisch, ob es Psi-Kräfte wirklich gibt, zumal die Phänomene meist klein und schwer
 reproduzierbar sind.
 
-Trotz der Kontroversen hielt sich das Interesse – befeuert von Berichten und Geheimprojekten. In den
+Trotz der Kontroversen hielt sich das Interesse - befeuert von Berichten und Geheimprojekten. In den
 1970er- und 80er-Jahren untersuchten sowohl westliche als auch östliche Geheimdienste paranormale
 Fähigkeiten für Spionagezwecke. Das bekannteste Beispiel ist das US-Programm _Stargate_, in dem über
-20 Millionen Dollar investiert wurden, um **Remote Viewing** (das „Hellsehen“ ferner Orte)
+20 Millionen Dollar investiert wurden, um **Remote Viewing** (das "Hellsehen" ferner Orte)
 militärisch nutzbar zu machen. Die Ergebnisse blieben jedoch unbefriedigend: 1995 wurde Stargate
 eingestellt, nachdem eine Auswertung ergab, dass die Hellseher keine verlässlichen
 nachrichtendienstlichen Informationen lieferten. Ähnlich erging es sowjetischen Projekten, die
-Telekinese-Medien wie Nina Kulagina untersuchten – faszinierende Einzelfälle, aber ohne solide
+Telekinese-Medien wie Nina Kulagina untersuchten - faszinierende Einzelfälle, aber ohne solide
 wissenschaftliche Erklärung. Solche Vorfälle und Programme zeigen jedoch, dass die Möglichkeit von
 Psi nie völlig ausgeschlossen wurde. Einzelne Wissenschaftler und Institutionen führten die
 Forschung fort: So behauptet etwa der Biologe Rupert Sheldrake, dass sogenannte **morphische
-Felder** Informationen speichern, auf die Lebewesen – und damit vielleicht telepathische Gehirne –
+Felder** Informationen speichern, auf die Lebewesen - und damit vielleicht telepathische Gehirne -
 zugreifen könnten. Auch in der modernen Physik gibt es Mutmaßungen, die Bewusstsein mit bisher
 unbekannten Prozessen verknüpfen. Beispielsweise haben angesehene Forscher wie Roger Penrose
 vorgeschlagen, dass quantenmechanische Effekte in den Neuronen (etwa in den Mikrotubuli der
@@ -359,7 +359,7 @@ Wahrnehmung Phänomene aufweisen, die mit der klassischen Neurobiologie allein n
 Könnten dieselben exotischen Effekte auch **Psi-Fähigkeiten** ermöglichen? Die Idee dahinter:
 Vielleicht existiert ein natürliches Feld oder ein bisher unentdeckter Mechanismus, über den
 Informationen jenseits der bekannten Sinne übertragen werden – sei es durch Quantenverschränkung,
-höhere Dimensionen oder ein globales „Noosphären“-Netz aus Bewusstsein.
+höhere Dimensionen oder ein globales „Noosphären"-Netz aus Bewusstsein.
 
 Im Universum von _ZEITRISS_ wird genau dieser _Was-wäre-wenn_–Ansatz verfolgt. **Angenommen, Psi ist
 real:** Dann ließe es sich als seltene, schwer messbare Fähigkeit erklären, die an neuronale
@@ -369,7 +369,7 @@ Strahlung oder temporalen Energie ausgesetzt werden, welche latente Psi-Begabung
 ist auch, dass das Reisen durch die Nullzeit zwischen den Epochen eine Art Bewusstseinserweiterung
 bewirkt, indem das Gehirn kurzzeitig außerhalb der normalen Raumzeit operiert. In dieser Spielwelt
 existiert also eine halb-wissenschaftliche Grundlage für Psi: Man stellt sich vor, dass das Gehirn
-ein „Empfänger“ für Psi-Signale ist und spezielle Neuronencluster oder Implantate als Antennen
+ein „Empfänger" für Psi-Signale ist und spezielle Neuronencluster oder Implantate als Antennen
 dienen. Offiziell mag die Forschung noch in den Kinderschuhen stecken, aber es genügt, um
 paranormale Kräfte **glaubwürdig** in die Spielwelt einzubetten. Wichtig ist: Diese Kräfte bleiben
 selten, subtil und mit Aufwand verbunden – weit entfernt von klassischer Magie. Sie fügen sich als
@@ -377,32 +377,71 @@ besondere Phänomene in das sonst wissenschaftlich-technische Grundgerüst von _
 nach dem Motto: _Was wäre, wenn die alten Psi-Legenden einen wahren Kern hätten und wir ihn mit
 zukünftiger Technologie entschlüsseln könnten?_
 
+#### Das Projektionsmodell (ITI-Forschungshypothese „Absolut-7")
+
+In den abgeschirmten Laboren des Forschungszentrums existiert eine theoretische
+Arbeit, die unter dem Kürzel **Absolut-7** geführt wird. Die meisten
+Chrononauten kennen sie nicht; wer darauf stößt, hält sie zunächst für
+spekulative Grundlagenforschung. Ihre Kernthesen:
+
+1. **Das Absolut:** Unterhalb der beobachtbaren Raumzeit liegt ein
+   informationeller Grundzustand — das „Absolut". Es enthält keine Materie,
+   keine Zeit, kein Raum — nur reine, ungerichtete Information.
+2. **Projektion durch Bewusstsein:** Bewusstsein — gleich ob biologisch,
+   augmentiert oder synthetisch — fungiert als Projektor. Es erhebt sich durch
+   einen Akt freien Willens aus dem Absolut und wandelt flache, zweidimensionale
+   Informationsmuster in das dreidimensionale Erleben um, das wir „Realität"
+   nennen.
+3. **Überlappung erzeugt die Welt:** Die gemeinsame, stabile Realität entsteht
+   durch die Überlappung unzähliger Bewusstseinsprojektionen. Jeder bewusste
+   Beobachter — Mensch, Post-Humaner, KI — projiziert seine Version und dort,
+   wo sich die Projektionen decken, verdichtet sich die Zeitlinie.
+4. **Psi als Interferenz:** Psi-Fähigkeiten entstehen, wenn ein Bewusstsein
+   seine Projektionsfrequenz gezielt verschiebt und so direkt in die
+   Überlappungszone anderer Bewusstseine eingreift. Telepathie, Präkognition
+   und temporale Manipulation sind demnach keine übernatürlichen Kräfte,
+   sondern Interferenzmuster zwischen Projektoren.
+
+Die praktischen Implikationen sind enorm — und beunruhigend. Wenn Realität eine
+Konsensfunktion aus Bewusstseinsprojektionen ist, dann *ändert* jeder
+Zeitsprung nicht nur die Geschichte, sondern die Projektionsmatrix aller
+beteiligten Beobachter. Der Paradoxon-Index misst in diesem Modell nicht
+temporale Instabilität, sondern den **Grad der Projektionsdivergenz** zwischen
+dem Team und der restlichen Zeitlinie.
+
+> **Spielleitung:** Absolut-7 ist optionaler Deep Lore. Nutze es als
+> Kodex-Archiv-Fund, als Gesprächsfetzen zwischen ITI-Forschern oder als
+> Endgame-Enthüllung, die erklärt, warum Psi funktioniert und warum der
+> Paradoxon-Index wirklich steigt. Halte es kurz und atmosphärisch —
+> ein paar Sätze eines nervösen Forschers im Labor reichen. Kein
+> philosophischer Monolog.
+
 ## Überblick: Realistische Psi-Fähigkeiten
 
 Welche **Psi-Fähigkeiten** können Chrononauten im Spiel entwickeln oder antreffen? Im Folgenden eine
 Übersicht glaubwürdiger mentaler Kräfte, die an realweltliche Parapsychologie angelehnt sind.
-Diese Fähigkeiten manifestieren sich dezent – als feine Wahrnehmungen oder begrenzte Einflüsse –
+Diese Fähigkeiten manifestieren sich dezent - als feine Wahrnehmungen oder begrenzte Einflüsse -
  und folgen intern konsistenten Regeln statt wildem Fantasy-Zauber. Zeitkreaturen tauchen erst auf,
-wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Covert-Ops**-Modus bleiben sie verborgen.
+wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Covert-Ops**-Modus bleiben sie verborgen.
 
-- **Intuition („sechster Sinn“):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
+- **Intuition ("sechster Sinn"):** Eine unterschwellige Eingebung, die über normales Bauchgefühl
   hinausgeht. Charaktere mit starker Intuition erspüren Gefahren oder richtige Entscheidungen, ohne es
-  rational zu begründen. Im Spiel kann sich das durch spontane Warnungen oder Ahnungen zeigen – etwa
+  rational zu begründen. Im Spiel kann sich das durch spontane Warnungen oder Ahnungen zeigen - etwa
   ein Chrononaut, der _weiß_, dass hinter der nächsten Ecke etwas lauert, bevor es Anzeichen dafür
   gibt. Wissenschaftlich könnte dies als unbewusste Wahrnehmung kleinster Hinweise gedeutet werden
   oder als Presentiment-Effekt, bei dem der Körper Sekundenbruchteile vor einem Ereignis reagiert.
   Intuition verleiht keinen garantierten Wissensvorsprung, aber die Spielleitung kann einem intuitiven
   Charakter gelegentlich subtile Tipps oder Vorahnungs-Hinweise geben.
 - **Telepathie (Gedanken- und Gefühlswahrnehmung):** Die Fähigkeit, Eindrücke aus dem Geist anderer
-  zu empfangen – und mit Training vielleicht auch zu senden. In der Praxis äußert sich Telepathie eher
-  als Empathie oder Gedankenflüstern denn als wortwörtliches „Lesen“ ganzer Gedanken. Ein Telepath im
+  zu empfangen - und mit Training vielleicht auch zu senden. In der Praxis äußert sich Telepathie eher
+  als Empathie oder Gedankenflüstern denn als wortwörtliches "Lesen" ganzer Gedanken. Ein Telepath im
   Team spürt z.B. die Emotionen eines NPC und merkt, dass dessen Worte nicht mit seinem wahren Gefühl
-  übereinstimmen. Oder er fängt bruchstückhaft einen Gedanken auf („Verrat…“ huscht ihm durch den
+  übereinstimmen. Oder er fängt bruchstückhaft einen Gedanken auf ("Verrat…" huscht ihm durch den
   Kopf, als er dem Verdächtigen in die Augen sieht). Reichweite und Präzision sind begrenzt: Oft muss
   direkter Kontakt oder Blickkontakt bestehen oder der Telepath befindet sich in einem meditativen
-  Zustand. Als Daumenregel wirkt Telepathie **zuverlässig im Nahbereich** (0–3 m). Jenseits der
-  **Mittelzone** (3–15 m) erhöht sich die Schwelle um +1, darüber hinaus nur noch erzählerisch.
-  Interessanterweise scheint die Distanz nicht das entscheidende Kriterium zu sein – manche Telepathen
+  Zustand. Als Daumenregel wirkt Telepathie **zuverlässig im Nahbereich** (0-3 m). Jenseits der
+  **Mittelzone** (3-15 m) erhöht sich die Schwelle um +1, darüber hinaus nur noch erzählerisch.
+  Interessanterweise scheint die Distanz nicht das entscheidende Kriterium zu sein - manche Telepathen
   berichten, sie könnten vertraute Personen über Tausende Kilometer spüren. In der _ZEITRISS_-Welt wird
   sogar diskutiert, ob telepathische Eindrücke **zeitunabhängig** sein können, also ob ein starker
   Telepath z.B. in der Nullzeit die Gedanken einer Person spürt, die in einer anderen Epoche lebt.
@@ -410,51 +449,51 @@ wenn `ClusterCreate()` bei Paradoxon-Stufe 5 ein Rift sichtbar macht; im **Cove
   Telepathie auf den selben Zeitrahmen beschränkt.
 - **Hellsehen/Fernwahrnehmung:** Verwandt mit Telepathie ist die **Spontanwahrnehmung** von
   entfernten Orten, Objekten oder Ereignissen. Ein Chrononaut kann sich in Trance versetzen und danach
-  einen Raum beschreiben, in dem er physisch gar nicht anwesend ist – vergleichbar mit Remote Viewing.
+  einen Raum beschreiben, in dem er physisch gar nicht anwesend ist - vergleichbar mit Remote Viewing.
   Die Informationen bleiben unscharf wie verwackelte Aufnahmen. Hellsehen erfordert häufig
   Fokussierungs-Hilfen (etwa einen persönlichen Gegenstand) und ist fehleranfällig. Die Spielleitung
   liefert daher nur kurze Sinneseindrücke oder Datenfetzen, die die Gruppe selbst deuten muss, damit
   die Fähigkeit nicht zu mächtig wirkt.
-- **Psychometrie:** Die Gabe, durch Berühren eines Objekts dessen „emotionalen Abdruck“ oder
+- **Psychometrie:** Die Gabe, durch Berühren eines Objekts dessen "emotionalen Abdruck" oder
   Vergangenheit zu erspüren. In der _ZEITRISS_-Welt erklärt man sich dieses Phänomen damit, dass
-  bedeutende Ereignisse energetische Spuren in Materie hinterlassen – eine Idee, die auch in realen
+  bedeutende Ereignisse energetische Spuren in Materie hinterlassen - eine Idee, die auch in realen
   Spukberichten oft vorkommt. Ein Psychometrie-begabter Chrononaut hebt etwa einen alten Dolch auf und
-  bekommt flüchtige Eindrücke: Blut auf einer Kriegsflagge, ein Schrei, das Gesicht eines Monarchen –
+  bekommt flüchtige Eindrücke: Blut auf einer Kriegsflagge, ein Schrei, das Gesicht eines Monarchen -
   Hinweise auf die historische Bedeutung der Waffe. Solche Wahrnehmungen sind nie so konkret wie eine
   Videoaufnahme; sie vermitteln Stimmungen, Fragmente von Bildern oder Gefühlen. Mechanisch kann die
   SL (Spielleitung) einem erfolgreichen Psychometrie-Einsatz ein oder zwei nützliche Schlagworte oder
-  Andeutungen geben, die mit dem Objekt zusammenhängen (z.B. „Verrat“, „Krönung in Aachen“ etc.).
+  Andeutungen geben, die mit dem Objekt zusammenhängen (z.B. "Verrat", "Krönung in Aachen" etc.).
   Diese Fähigkeit eignet sich hervorragend, um Rätsel mit Artefakten anzureichern und die Atmosphäre
   zu verdichten.
-- **Präkognition:** Flüchtige Blicke in die **Zukunft** – meist unkontrolliert in Form kurzer
+- **Präkognition:** Flüchtige Blicke in die **Zukunft** - meist unkontrolliert in Form kurzer
   Sinneseindrücke oder Déjà-vus. Ein Chrononaut mit dieser Gabe erhält kurz vor einer Gefahr
   einen schnellen Eindruck der kommenden Szene: vielleicht ein mentales Standbild, wie ein
   Kameraschwenk, der einen einstürzenden Dachbalken zeigt, Sekunden bevor es passiert. Diese Vorahnung
   kann ihm einen kleinen Vorsprung verschaffen (im Regelmechanismus etwa einen Initiativebonus im
   Kampf). Allerdings bleiben präkognitive Eindrücke mehrdeutig. Im Spiel sollte kein Bild volle
-  Gewissheit über die Zukunft geben – die _Zeitlinie_ ist im Fluss
+  Gewissheit über die Zukunft geben - die _Zeitlinie_ ist im Fluss
   und liefert nur **eine Möglichkeit**.
   Ändern die Spieler ihr Verhalten basierend auf dieser Eingebung, kann dies die Zukunft schon
   verändern. Hier lauert auch das Resonanzrisiko (siehe weiter unten): Wer
-  durch Präkognition Ereignisse verhindert, die „eigentlich“ passieren sollten, erzeugt womöglich
+  durch Präkognition Ereignisse verhindert, die "eigentlich" passieren sollten, erzeugt womöglich
   einen Zeitzweig. Daher behandelt das ITI solche Fähigkeiten mit Vorsicht. Präkognition im Spiel lebt
   von Andeutung: Die SL kann einen kurzen Ausblick schildern, der Unheil ankündigt, ohne gleich alles
   zu verraten. So bleibt es spannend, und die Spieler können versuchen, die Warnung richtig zu deuten.
 - **Telekinese:** Die Kunst, Materie mit Willenskraft zu beeinflussen. Anders als in fantasylastigen
-  Settings kann Telekinese hier keine tonnenschweren Objekte durch die Luft wirbeln – die Effekte sind
+  Settings kann Telekinese hier keine tonnenschweren Objekte durch die Luft wirbeln - die Effekte sind
   **klein und lokal**. Beispielsweise könnte ein telekinetisch begabter Chrononaut ein lose auf dem
   Tisch liegendes Dokument schweben lassen, um es aus der Ferne zu sich zu holen, oder er manipuliert
   ein analoges Türschloss, indem er die Metallstifte minimal bewegt. Auch das Auslösen eines Schalters
   oder das Stoppen eines kleinen Mechanismus aus der Distanz ist denkbar. Telekinese funktioniert
-  **sicher im Nahbereich** (0–3 m). In der **Mittelzone** (3–15 m) steigt die Schwelle um +1, alles
+  **sicher im Nahbereich** (0-3 m). In der **Mittelzone** (3-15 m) steigt die Schwelle um +1, alles
   darüber hinaus gilt als Fernwirkung und ist nur mit SL-Erlaubnis möglich. Solche Anwendungen erfordern
   hohe Konzentration und gelingen nur mit viel Übung. Bei Stress (etwa im Kampf) ist Telekinese
-  äußerst schwierig einzusetzen – eventuell erlaubt die SL einen Versuch, eine einzelne Waffe aus der
+  äußerst schwierig einzusetzen - eventuell erlaubt die SL einen Versuch, eine einzelne Waffe aus der
   Hand des Gegners zu stoßen oder Ähnliches, aber immer mit erheblichem Malus oder Vorbereitungszeit.
-  Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden – als hielte der
+  Mit viel Konzentration kann so sogar ein Nahkampf aus der Distanz geführt werden - als hielte der
   Telekinet eine unsichtbare Waffe. Dieser Trick kostet **1 SYS**, und Schadenswürfe dieser
-  Psi-Waffe verzichten auf Exploding 6. Hat das Ziel eine Rüstung mit **SR ≥ 2**, steigt die
-  Schwelle um **+1** – der Makro `TK-Melee` prüft diese Rüstung automatisch. Außerdem darf der Angriff
+  Psi-Waffe verzichten auf Exploding 6. Hat das Ziel eine Rüstung mit **SR ≥ 2**, steigt die
+  Schwelle um **+1** - der Makro `TK-Melee` prüft diese Rüstung automatisch. Außerdem darf der Angriff
   pro Szene nur einmal erfolgen, um Missbrauch zu verhindern.
 ```pseudo
 if attack_type == "TK-Melee" and target.armor >= 2:
@@ -465,7 +504,7 @@ if attack_type == "TK-Melee" and target.armor >= 2:
   Dafür kann Telekinese auf subtilere Weise nützlich sein: Ein geübter Telekinet kann z.B. die
   **Elektronik** minimal beeinflussen (Stichwort _Psychokinese_), um Sensoren zu stören oder kurze
   Stromstöße zu verursachen. In Laborexperimenten der Zukunft wurden winzige Abweichungen in
-  Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten – im Spiel kann man
+  Zufallszahlen-Generatoren gemessen, die auf mikroskopische PK-Effekte hindeuten - im Spiel kann man
   daraus ableiten, dass Telekinese vor allem im **Mikrobereich** verlässlich ist (z.B. elektronische
   Würfel oder digitale Systeme minimal beeinflussen). Größere Effekte sind erzählerisch möglich, aber
   sollten selten und folgenreich sein (siehe Paradoxon-Effekte).
@@ -483,7 +522,7 @@ den Zugriff im dedizierten Trace `logs.arena_psi[]` (Eintrag mit
 `ability='phase_strike'`, `base_cost`, `tax`, `total_cost`, `mode`,
 `arena_active`, `category='arena_phase_strike'` sowie optionalem
 `mode_previous`/`location`/`gm_style`/`reason`). Misslingt der Einsatz, verliert das Team
-**1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
+**1 Px**. Bei gravierenden Eingriffen springt der Index ohne ClusterCreate
 auf **0**.
 
 ```typescript
@@ -502,21 +541,21 @@ Zur Orientierung gelten drei Distanzbänder für Telepathie und Telekinese:
 
 | Zone   | Entfernung |
 | ------ | ---------- |
-| Nah    | 0–3 m      |
-| Mittel | 3–15 m     |
-| Fern   | 15–50 m    |
+| Nah    | 0-3 m      |
+| Mittel | 3-15 m     |
+| Fern   | 15-50 m    |
 
 Aktionen außerhalb des Fernbereichs sind nur erzählerisch möglich und erhalten mindestens **+1** auf die
 Schwelle.
 
 ### ITI-Basisprotokoll: Psi-Puffer
 
-Alle ITI-Standardanzüge führen seit Revision 4.2.6 einen **Psi-Puffer** mit –
+Alle ITI-Standardanzüge führen seit Revision 4.2.6 einen **Psi-Puffer** mit -
 ein fein abgestimmtes Interferenzfeld, das fremde Psi-Eingriffe ablenkt. Das
 Toolkit setzt dafür automatisch den Flag `psi_buffer = true`. Der Puffer
-liefert **+2 SG** gegen telepathische Angriffe und `mind_control`-Makros –
+liefert **+2 SG** gegen telepathische Angriffe und `mind_control`-Makros -
 Angreifende müssen also um **+2** höher treffen; es gibt keinen versteckten
-−2‑Bonus für die Verteidigung. Phase-Strike-Treffer werden auf **+0 Schaden**
+-2-Bonus für die Verteidigung. Phase-Strike-Treffer werden auf **+0 Schaden**
 reduziert, sofern das Ziel keinen eigenen Psi-Fokus besitzt
 (`target.has_psi === false`). Im PvP sorgt der Runtime-Helfer
 `apply_arena_rules()` dafür, dass alle aktiven Arena-Teilnehmer den Puffer
@@ -536,11 +575,11 @@ In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
 
 ### Arena-Psi-Bundle (Phase-Strike & Tax) {#arena-psi}
 
-- Basis-Kosten: 2 SYS in Story/Koop, Arena-Tax hebt `phase_strike_cost()` auf
-  3 SYS und setzt `state.arena.phase_strike_tax = 1`.
+- Basis-Kosten: 2 SYS in Story/Koop, Arena-Tax hebt `phase_strike_cost()` auf
+  3 SYS und setzt `state.arena.phase_strike_tax = 1`.
 - Psi-Puffer: `psi_buffer=true` dämpft Phase-Strike-Schaden auf +0 bei
   Nicht-Psi-Zielen und erhöht die SG für Angreifende um +2 bei
-  Telepathie/`mind_control` (kein −2‑Bonus für die Verteidigung).
+  Telepathie/`mind_control` (kein -2-Bonus für die Verteidigung).
 - Logging: Jeder Arena-Einsatz schreibt `logs.arena_psi[]` (`ability`,
   `base_cost`, `tax`, `total_cost`, `arena_active`, optional
   `mode_previous/location`).
@@ -548,7 +587,7 @@ In narrativen Szenen darf die Spielleitung den Puffer als flimmerndes HUD-Icon
 
 ### Anti-Psi-Gitter
 
-Einige Einrichtungen verfügen über **Anti-Psi-Gitter** – feinmaschige Metallstreifen
+Einige Einrichtungen verfügen über **Anti-Psi-Gitter** - feinmaschige Metallstreifen
 oder spezielle Feldgeneratoren, die telekinetische Kräfte streuen. Befindet sich ein
 Ziel hinter solch einer Barriere, erhöht sich die Schwelle für Psi-Effekte um +2
 und Nahkampf-Telekinese wirkt nicht durch das Gitter hindurch. Diese Technik ist
@@ -557,7 +596,7 @@ teuer und wird oft nur in Hochsicherheits-Labors oder Gefängnissen verbaut.
 Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panzerglas oder Anti-Psi-Barriere steht.
 - **Chronokinese:** Eine besonders exotische Fähigkeit, die direkt mit der Zeit selbst spielt.
   Chronokinetiker können im minimalen Umfang lokale Zeitströme beeinflussen. Zum Beispiel könnte ein
-  Chrononaut seinen eigenen Zeitablauf für ein, zwei Sekunden beschleunigen – für Außenstehende bewegt
+  Chrononaut seinen eigenen Zeitablauf für ein, zwei Sekunden beschleunigen - für Außenstehende bewegt
   er sich dann für Augenblicke übermenschlich schnell (oder alles um ihn herum scheint zu
   verlangsamen). Umgekehrt könnte er einen kleinen Gegenstand um Jahre altern lassen, indem er ein
   begrenztes Feld temporaler Energie darauf fokussiert (etwa um eine Tür brüchig zu machen). Solche
@@ -566,13 +605,13 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   Nebenwirkungen haben kann. Im Spiel sollte Chronokinese daher sehr restriktiv gehandhabt werden:
   Vielleicht nur als höchste Ausprägung psionischer Macht, die einzelnen erfahrenen NSCs oder den
   Spielercharakteren auf hohem Level zugänglich ist. Jeder Einsatz könnte unmittelbar eine Paradoxon-
-  Warnung hervorrufen. Dafür ist der atmosphärische Effekt enorm – etwa wenn ein Antagonist in einer
-  Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche Kugel „wegkürzt“.
+  Warnung hervorrufen. Dafür ist der atmosphärische Effekt enorm - etwa wenn ein Antagonist in einer
+  Schlüsselszene die Zeit anhält oder der Held im letzten Moment eine tödliche Kugel "wegkürzt".
   **Wichtig:** Chronokinese sollte nie trivial sein; sie bietet großes Kino, muss aber dramatisch
   passend und ausgewogen eingesetzt werden.
   Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
   Ein zweiter Einsatz in derselben Szene ist nur mit sofortiger **Erschöpfung**
-  (–1 auf alle Würfe bis Szenenende) und einem Resonanzverlust um **−1** möglich.
+  (-1 auf alle Würfe bis Szenenende) und einem Resonanzverlust um **-1** möglich.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
@@ -582,19 +621,19 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   bevor sie als Psi-Waffe verfügbar sind. _Kosten:_ **1 SYS**.
   Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
-  direkt beeinflussen – manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
+  direkt beeinflussen - manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
   Heilung**: Einige wenige Begabte können durch Handauflegen oder pure Konzentration den
   Heilungsprozess eines anderen beschleunigen, Schmerzen lindern oder den eigenen Körper in Trance
   regenerieren. Realweltliche Berichte von Wunderheilern oder _Chi_-Meistern bilden hier die Vorlage.
   In Spielbegriffen könnte ein psi-begabter Sanitäter z.B. pro Tag eine Verletzung um einen
   zusätzlichen LP heilen oder dem Patienten einen temporären Schub an Endorphinen geben, der Schmerzen
   betäubt. Auf der dunklen Seite dieser Medaille gibt es **bioenergetische Attacken**: Das Prinzip,
-  jemandem mit Willenskraft zu schaden – sei es durch Erzeugen heftiger Migräne, kurzfristiges Lähmen
+  jemandem mit Willenskraft zu schaden - sei es durch Erzeugen heftiger Migräne, kurzfristiges Lähmen
   von Gliedmaßen oder im Extremfall das _Stoppen eines Herzens_ (eine Legende, die z.B. über eine
   sowjetische Telekinetin berichtet wurde). Solche Angriffe sind schwer und moralisch fragwürdig; sie
   sollten nur in dramaturgisch passenden Momenten auftreten (etwa bei einem Endgegner-Psi, der diese
   Fähigkeit zum Schrecken aller einsetzt). Im Allgemeinen sind Bioenergie-Effekte subtiler als jede
-  Waffe – oft spürt das Opfer nur unerklärliche Übelkeit oder Kraftlosigkeit. Die _ZEITRISS_-Techniker
+  Waffe - oft spürt das Opfer nur unerklärliche Übelkeit oder Kraftlosigkeit. Die _ZEITRISS_-Techniker
   könnten dieses Phänomen als Störung elektromagnetischer Felder im Körper erklären, hervorgerufen
   durch fokussierte Psi-Impulse. Auch Tiere reagieren manchmal sensibel auf Psi: Ein empathisch
   Begabter kann etwa Aggression bei Tieren mindern oder einen Hund beruhigen, indem er mental ein
@@ -603,7 +642,7 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
 _Atmosphärische Note:_ All diese Fähigkeiten sollten im Spiel nicht inflationär eingesetzt werden.
 Ihre Stärke liegt in der Mystik und dem Überraschungsmoment. Wenn ein Chrononaut einmal pro Session
 einen wirklich verblüffenden Psi-Effekt zeigt, prägt sich das den Beteiligten ein. Die Spieler
-sollten diese Kräfte als besonderes Werkzeug verstehen – nützlich, aber nicht allmächtig. Außerdem
+sollten diese Kräfte als besonderes Werkzeug verstehen - nützlich, aber nicht allmächtig. Außerdem
 haben Psi-Kräfte ihren Preis, wie der nächste Abschnitt zeigt.
 
 ## Gedankenkontrolle & Übernahme
@@ -627,118 +666,118 @@ setzen den regungslosen Körper des Anwenders dem Risiko aus.
 
 ## Integration in die Spielwelt: historische Wurzeln & Kontroversen
 
-**Historische Wurzeln:** Psi-Phänomene durchziehen die Menschheitsgeschichte – von antiken Orakeln
+**Historische Wurzeln:** Psi-Phänomene durchziehen die Menschheitsgeschichte - von antiken Orakeln
 über mittelalterliche Visionäre bis hin zu modernen Medien. In der Spielwelt von _ZEITRISS_ lässt
 sich dies nahtlos einbinden: Chrononauten, die in vergangene Epochen reisen, begegnen vielleicht
-berühmten „Wundermenschen“ oder Hellsehern. Beispielsweise könnte Nostradamus tatsächlich ein
+berühmten "Wundermenschen" oder Hellsehern. Beispielsweise könnte Nostradamus tatsächlich ein
 schwacher Präkognitiver gewesen sein, dessen verschwommene Zukunftsvisionen im Kontext des Spiels
 real sind. Oder man trifft auf Mitglieder des historischen Hellfire Clubs, Spiritisten im
-viktorianischen Zeitalter oder auf Gerüchte über Hitler’scher Astrologen – alles Anknüpfungspunkte,
+viktorianischen Zeitalter oder auf Gerüchte über Hitler'scher Astrologen - alles Anknüpfungspunkte,
 die auf **echte Berichte** beruhen, aber im Spiel subtil anders gedeutet werden können (_Was wäre,
 wenn deren Erfolge auf echter Psi beruhen?_). Zugleich sind auch die realen Skeptiker präsent: Seit
 dem 19. Jh. gibt es Organisationen, die paranormale Behauptungen entlarven wollen. Im 20. Jh.
 streiten sich wissenschaftliche Institute und Skeptikervereinigungen über jedes angebliche Psi-
 Resultat. Diese Kontroverse spiegelt sich im Spiel wider: **In-Game** gibt es Universitäten und
 Forschungsteams (v.a. ab dem späten 20. und 21. Jahrhundert), die parapsychologische Studien
-durchführen – teils mit vorsichtig positiven Hinweisen, teils mit dem Ergebnis, dass alles Betrug
-war. Die Spielercharaktere finden im Kodex vielleicht Einträge à la _“Projekt RHINE, Duke University
-1935: Versuch zur Telepathie mit Zener-Karten – Ergebnis statistisch signifikant, aber umstritten”_.
+durchführen - teils mit vorsichtig positiven Hinweisen, teils mit dem Ergebnis, dass alles Betrug
+war. Die Spielercharaktere finden im Kodex vielleicht Einträge à la _"Projekt RHINE, Duke University
+1935: Versuch zur Telepathie mit Zener-Karten - Ergebnis statistisch signifikant, aber umstritten"_.
 Solches Hintergrundwissen verankert Psi glaubwürdig in der Geschichte. Gleichzeitig erklärt es,
 warum Psi bislang im Verborgenen blieb: Die Effekte waren zu gering und selten, um im großen Stil
 aufzufallen, und viele Ereignisse wurden als Trick oder Zufall abgetan. Erst durch die Arbeit von
 Zukunfts-Institutionen wie dem ITI konnten klare Beweise gesammelt werden.
 
-**Durchbruch und Kontroverse in der Zukunft:** Im Zeitreise-Zeitalter von _ZEITRISS 4.2.6_ – grob die
-nahe Zukunft unserer Realität – steht Psi immer noch am Rande der offiziellen Wissenschaft. Zwar
+**Durchbruch und Kontroverse in der Zukunft:** Im Zeitreise-Zeitalter von _ZEITRISS 4.2.6_ - grob die
+nahe Zukunft unserer Realität - steht Psi immer noch am Rande der offiziellen Wissenschaft. Zwar
 haben Forward-thinkende Institute durch verbessere Messtechnik und KI-gestützte Datenanalyse
 Anomalien nachgewiesen (z.B. stabile Presentiment-Effekte in Versuchsreihen). Auch im geheimen
 Wettrüsten gewisser Zukunftsmächte spielt Psi-Forschung eine Rolle: Megakonzerne finanzieren Labore,
 um Methoden zu finden, die Trefferquote von Remote Viewern zu erhöhen, und Militärs testen Neuro-
 Enhancer an Soldaten. Dennoch bleibt **Kontroversen**: Für jeden positiven Befund gibt es
-Gegenstimmen, die von Messfehler oder Zufall sprechen. Diese Zwiespältigkeit ist gewollt – sie
+Gegenstimmen, die von Messfehler oder Zufall sprechen. Diese Zwiespältigkeit ist gewollt - sie
 erhält das _Was-wäre-wenn_-Flair. In der Spielwelt haben die meisten Menschen zwar von Telepathie
 und Co. gehört, halten es aber für Aberglauben oder Sci-Fi. Nur Eingeweihte (wie die Chrononauten
 und ihre Widersacher) wissen, dass hinter dem Vorhang tatsächlich etwas vor sich geht. Das ITI
 selbst publiziert keine Psi-Forschung in offenen Journals, vieles ist **geheim** oder nur als
-Gerücht bekannt. So können die Spieler die Welt noch als „normale“ Realität erleben, in der Psi
-nicht an jeder Ecke auftaucht – außer, _wenn_ es auftaucht, und dann sorgt es für umso größere
+Gerücht bekannt. So können die Spieler die Welt noch als "normale" Realität erleben, in der Psi
+nicht an jeder Ecke auftaucht - außer, _wenn_ es auftaucht, und dann sorgt es für umso größere
 Verwunderung.
 
 **Rolle innerhalb des ITI:** Das **Institut für Temporale Intervention (ITI)** behandelt Psi-
 Phänomene mit wissenschaftlicher Neugier, aber auch mit Vorsicht. Innerhalb des ITI gibt es eine
 kleine spezialisierte Abteilung (inoffiziell das _Noetik-Labor_ genannt), die Berichte über Psi
 dokumentiert und talentierte Individuen untersucht. Chrononauten, bei denen nach einigen Missionen
-Anzeichen von Psi-Begabung auftreten, werden behutsam gefördert – z.B. erhalten sie Training in
+Anzeichen von Psi-Begabung auftreten, werden behutsam gefördert - z.B. erhalten sie Training in
 Meditationstechniken oder leichte Neuro-Implantate, um ihre Konzentration zu stärken. Offiziell
 bleibt das ITI neutral: Psi ist weder verpönt noch besonders glorifiziert, es gilt als ein weiteres
-_Werkzeug_, um den Zeitstrom zu verstehen. In Briefings mag es heißen: _„Agentin Y hat eine
-ungewöhnliche intuitive Trefferquote bei Missionsentscheidungen – möglicher Psi-Faktor,
-beobachten.“_ Oder der Kodex vermerkt nach einem Abenteuer: _„Artefakt XY zeigte psionische
-Resonanz, weitere Forschung empfohlen.“_ Innerhalb des ITI gibt es natürlich auch Skeptiker: Einige
+_Werkzeug_, um den Zeitstrom zu verstehen. In Briefings mag es heißen: _"Agentin Y hat eine
+ungewöhnliche intuitive Trefferquote bei Missionsentscheidungen - möglicher Psi-Faktor,
+beobachten."_ Oder der Kodex vermerkt nach einem Abenteuer: _"Artefakt XY zeigte psionische
+Resonanz, weitere Forschung empfohlen."_ Innerhalb des ITI gibt es natürlich auch Skeptiker: Einige
 Wissenschaftler halten Psi für Zufall und jeden Aufwand dafür für Verschwendung. Das führt intern zu
 Diskussionen und verleiht der Organisation eine glaubwürdige Tiefe. Für die Spielercharaktere
-bedeutet das, dass sie nicht automatisch allen im ITI von ihren Fähigkeiten erzählen – vielleicht
+bedeutet das, dass sie nicht automatisch allen im ITI von ihren Fähigkeiten erzählen - vielleicht
 wissen es nur ihre direkten Vorgesetzten oder ein Mentor im HQ, während andere Kollegen argwöhnisch
 oder unwissend sind. Dieser spielinterne Konflikt kann ausgespielt werden (Misstrauen vs.
 Faszination). Wichtig: Das ITI unterbindet **unverantwortlichen Psi-Einsatz**. Einen historischen
 König per Telepathie zu manipulieren, um eine Mission zu erleichtern, würde als grober Verstoß gegen
-die Zeit-Ethik gelten. Solche Aktionen könnten Disziplinarmaßnahmen nach sich ziehen – in der
+die Zeit-Ethik gelten. Solche Aktionen könnten Disziplinarmaßnahmen nach sich ziehen - in der
 Spielwelt etwa, dass der Charakter von sensiblen Missionen abgezogen wird oder nur noch unter
 Aufsicht reist.
 
-**Gegnerische Fraktionen und Psi:** Auch die Widersacher des ITI – ob offene Feinde oder graue
-Eminenzen – haben das Potenzial von Psi erkannt. Unterschiedliche Fraktionen stehen jedoch in
+**Gegnerische Fraktionen und Psi:** Auch die Widersacher des ITI - ob offene Feinde oder graue
+Eminenzen - haben das Potenzial von Psi erkannt. Unterschiedliche Fraktionen stehen jedoch in
 verschiedenem Verhältnis zu paranormalen Kräften:
 
 - Die **Kausalklingen** fungieren als militante Zeitpolizei und betrachten Psi als potentielle Gefahr
   für die Kausalität. Sie beobachten massive oder wiederholte Eingriffe genau und greifen erst ein,
   wenn sich das Paradoxon spürbar aufbaut. Einzelne Manipulationen ziehen meist nur Überwachung nach
   sich. Hin und wieder helfen sie beim Schließen eines Zeitrisses, falls eine Gruppe ihn nahezu
-  außer Kontrolle bringt – das bleibt jedoch eine seltene Ausnahme.
+  außer Kontrolle bringt - das bleibt jedoch eine seltene Ausnahme.
   Manche Offiziere sind beauftragt, bekannte Psi-Aktivisten zu rekrutieren oder auszuschalten und
   verfügen angeblich über eigene Trainingsprogramme. Treffen die Spieler auf Kausalklingen, sollten
-  Psi-Begabte lieber unauffällig bleiben – sonst werden sie leicht zum vorrangigen Ziel.
+  Psi-Begabte lieber unauffällig bleiben - sonst werden sie leicht zum vorrangigen Ziel.
 - Der **Ordo Mnemonika** (Orden der Chronisten) interessiert sich brennend für Psi, allerdings aus
   Wissensdurst. Dieser Geheimbund bewahrt Erinnerungen aller Zeiten auf und würde alles darum geben,
   verschollene Informationen durch Hellseher oder Psychometriker zu erhalten. Mitglieder des Ordo
-  Mnemonika könnten den Chrononauten Angebote machen: _„Bringt uns jenes mysteriöse Amulett aus dem
-  Jahr 1920 und unseren Orakel-Meistern, und wir teilen mit euch wertvolles Wissen.“_ Es ist gut
+  Mnemonika könnten den Chrononauten Angebote machen: _"Bringt uns jenes mysteriöse Amulett aus dem
+  Jahr 1920 und unseren Orakel-Meistern, und wir teilen mit euch wertvolles Wissen."_ Es ist gut
   möglich, dass der Orden über ein Netzwerk von Sehern verfügt, die in verborgenen Bibliotheken sitzen
   und in Büchern blättern, nur um plötzlich in Trance Inhalte aufzuspüren, die nicht schriftlich dort
-  stehen. Allerdings ist der Orden eigenständig – er kooperiert zwar manchmal mit dem ITI (etwa durch
+  stehen. Allerdings ist der Orden eigenständig - er kooperiert zwar manchmal mit dem ITI (etwa durch
   Wissensaustausch, der Kodex könnte mit ihren Archiven vernetzt sein), verfolgt aber seine eigenen
   Ziele. Ein Ordo-Seher könnte z.B. den Spielern eine vage Prophezeiung über ihre nächste Mission
   geben, die diese mit Vorsicht genießen sollten. Der Orden hütet auch Geheimnisse über Psi in der
-  Vergangenheit – eventuell besitzen sie Aufzeichnungen über jeden historisch dokumentierten Fall von
+  Vergangenheit - eventuell besitzen sie Aufzeichnungen über jeden historisch dokumentierten Fall von
   Telepathie. Es liegt an der SL, dies als Lore einzubringen.
 - **Megakonzerne der Zukunft:** In der Welt von _ZEITRISS_ operieren im Hintergrund mächtige Firmen,
-  die von der Entdeckung der Zeitreisen Wind bekommen haben. Einige dieser Konzerne – man denke an
-  etwas wie _ChronoDyne Industries_ oder _Nova Cognition_ – haben eigene Psi-Forschungsabteilungen.
+  die von der Entdeckung der Zeitreisen Wind bekommen haben. Einige dieser Konzerne - man denke an
+  etwas wie _ChronoDyne Industries_ oder _Nova Cognition_ - haben eigene Psi-Forschungsabteilungen.
   Deren Ziel ist weniger philosophisch als praktisch: **Psi-Technologie** gewinnbringend machen. Sie
   entwickeln zum Beispiel Geräte, die latente Psi-Fähigkeiten messbar machen (Psi-Scanner, die
   Gehirnwellenmuster erkennen, welche mit Telepathie einhergehen), oder sogar Waffen, die Psi- Energie
   nutzen (etwa EMP-artige Impulse, welche das Gehirn des Ziels überreizen). Möglicherweise hat ein
   Konzern einen Prototyp für einen _Psi-Verstärker_-Helm gebaut, der einem Normalmenschen kurzzeitig
-  telepathische Kräfte gibt – mit dem Nebeneffekt, dass der Nutzer danach wochenlang erschöpft ist.
+  telepathische Kräfte gibt - mit dem Nebeneffekt, dass der Nutzer danach wochenlang erschöpft ist.
   Solche Gerätschaften könnten in die Hände der Spieler fallen (was spannende Moralfragen aufwirft:
   Will man so ein Ding benutzen?) oder von Gegnern eingesetzt werden. Stellt euch einen Antagonisten
   vor, der kein eigener Psi-Begabter ist, aber dank einer neuralen Krone die Gedanken der
   Spielercharaktere mithört. Diese Fraktionen machen Psi zu einem **Tech-Thema**: Es gibt einen
   Schwarzmarkt für Psi-Enhancer, Drogen, die angeblich das dritte Auge öffnen, und Hacker, die
   versuchen, telepathische Verbindungen zu knacken wie WLAN-Netze. Das ITI steht diesen Machenschaften
-  kritisch gegenüber und versucht, ihnen zuvorzukommen – vielleicht ist eine Mission der Chrononauten,
+  kritisch gegenüber und versucht, ihnen zuvorzukommen - vielleicht ist eine Mission der Chrononauten,
   ein illegales Psi-Labor in der Zukunft auszuheben, bevor deren Experimente irreparable
   Zeitparadoxien erzeugen.
 - **Kleine Kulte und Geheimbünde:** Neben den großen Playern existieren unzählige Splittergruppen,
   die Psi entweder religiös verehren oder fanatisch bekämpfen. Einige Beispiele: Eine Neo-Druiden-
   Sekte im 22. Jahrhundert glaubt, Psi sei die Rückkehr alter Magie und zelebriert Telepathie- Rituale
-  in Steinkreisen – harmlos, bis sie eines Tages tatsächlich einen temporalen Nexus heraufbeschwören.
+  in Steinkreisen - harmlos, bis sie eines Tages tatsächlich einen temporalen Nexus heraufbeschwören.
   In der Gegenwart (21. Jh) gibt es vielleicht eine Untergrundloge skeptischer Wissenschaftler, die es
-  sich zum Ziel gemacht hat, alle „Psi-Menschen“ zu enttarnen und bloßzustellen (weil sie glauben, es
+  sich zum Ziel gemacht hat, alle "Psi-Menschen" zu enttarnen und bloßzustellen (weil sie glauben, es
   handle sich immer um Betrüger). Diese könnten den Chrononauten unerwartet in die Quere kommen, wenn
   etwa ein Agent mit Heilkräften in der Öffentlichkeit auffällt. Und in längst vergangenen Zeiten?
   Vielleicht stoßen die Spieler im alten Babylon auf einen Kult, der einen zeitreisenden Telepathen
-  als Gottkönig verehrt – oder sie müssen im Mittelalter eine unschuldige Frau vor der Hexenverfolgung
+  als Gottkönig verehrt - oder sie müssen im Mittelalter eine unschuldige Frau vor der Hexenverfolgung
   retten, die tatsächlich übersinnliche Wahrnehmungen hat. Solche Begegnungen verleihen der Kampagne
   Tiefe und zeigen Psi aus verschiedenen Blickwinkeln.
 
@@ -746,7 +785,7 @@ Zusammengefasst bereichert Psi die _ZEITRISS_-Welt um eine weitere Dimension, di
 Zeilen der bekannten Geschichte verläuft. Historische Personen, Organisationen und Ereignisse lassen
 sich mit einem Hauch Paranormalem neu interpretieren, ohne die Glaubwürdigkeit zu verlieren. Wichtig
 ist dabei immer die **Subtilität**: Psi wirkt im Verborgenen, seine Akteure agieren im Schatten
-großer Ereignisse. Dadurch bleibt der Grundton – ein historisch fundierter Sci-Fi-Thriller –
+großer Ereignisse. Dadurch bleibt der Grundton - ein historisch fundierter Sci-Fi-Thriller -
 erhalten, während dennoch mysteriöse Akzente gesetzt werden.
 
 ## Spielmechaniken: Anwendung und Begrenzung von Psi-Kräften
@@ -756,7 +795,7 @@ für ihre Anwendung. Diese Regeln balancieren die Kräfte, bringen Risiko ins Sp
 in den bestehenden Systems von _ZEITRISS 4.2.6_.
 
 **Aktivierung und Konzentration:** Eine Psi-Fähigkeit einzusetzen erfordert in der Regel bewusste
-Konzentration des Charakters. Im Spiel bedeutet das, dass ein **Aktionsaufwand** nötig ist – z.B. im
+Konzentration des Charakters. Im Spiel bedeutet das, dass ein **Aktionsaufwand** nötig ist - z.B. im
 Kampf eine Aktion, um sich zu fokussieren, oder außerhalb des Kampfes wenigstens einige Sekunden
 intensiver Gedankensammlung. Die Spielleitung kann bei einer Psi-Aktion häufig einen Wurf verlangen,
 typischerweise auf **Charisma** (Willenskraft) oder einen speziellen Psi-Talentwert.
@@ -767,14 +806,14 @@ Feuergefechts zu senden, wäre enorm schwer (hoher Malus oder gar nicht erst mö
 und Stress wirken sich stark negativ aus. Mechanisch kann man dies auch so lösen, dass jede
 ablenkende Einflussgröße (Schmerz, Lärm, Zeitdruck) den Effekt abschwächt oder die
 Erfolgswahrscheinlichkeit senkt. Außerdem können die Spieler entscheiden, wie **stark** sie eine
-Fähigkeit einsetzen wollen – ein sanfter Telepathie-Versuch (nur Stimmungen lesen) könnte
+Fähigkeit einsetzen wollen - ein sanfter Telepathie-Versuch (nur Stimmungen lesen) könnte
 automatisch klappen, während ein tiefer Gedankengriff (versteckte Geheimnisse herausfischen) einen
 Wurf mit Risiko braucht. Diese Abstufung ermutigt kreative Anwendungen, ohne dass jede Kleinigkeit
 zu einem Glücksspiel wird.
 
 **Systemlast und Erschöpfung:** _ZEITRISS_ nutzt das Konzept der **Systemlast (SYS)**, um die
 Belastung von Chrononauten durch Modifikationen abzubilden. Psi-Fähigkeiten sind hier eingebunden:
-Jede aktiv aufrechterhaltene psionische Kraft „blockiert“ einen Teil der Systemlast-Kapazität des
+Jede aktiv aufrechterhaltene psionische Kraft "blockiert" einen Teil der Systemlast-Kapazität des
 Charakters. Das heißt, ähnlich wie ein Cyberimplantat oder ein Exoskelett-Suit, kostet auch z.B. die
 Aufrechterhaltung einer Telepathie-Verbindung für eine kurze Szene einen bestimmten SYS-Wert. Ist die
 Summe aller aktiven Mods und Psi-Kräfte größer als der persönliche Systemlast-Wert, gerät der
@@ -783,10 +822,10 @@ Charakter in **Überlastung**. Die Folgen davon sind drastisch: Der Körper und 
 führt. In Extremfällen kann der Charakter das Bewusstsein verlieren oder dauerhafte neuronale
 Schäden riskieren. Regeln im Detail: Bleibt ein Charakter innerhalb seiner Systemlast-Grenze, kann
 er seine Fähigkeiten gefahrlos nutzen. Überschreitet er sie _knapp_ (z.B. 1 Punkt drüber), könnte
-die SL zunächst milde Symptome schildern – ein Rauschen im HUD, blutende Nase, etc. Überschreitet er
+die SL zunächst milde Symptome schildern - ein Rauschen im HUD, blutende Nase, etc. Überschreitet er
 sie deutlich, sollte unmittelbar eine Konsequenz folgen: Entweder schaltet automatisch ein Implantat
-ab, um Ressourcen zu sparen (die KI des Anzugs könnte z.B. eine Warnung anzeigen: **“Systemlast
-kritisch – nicht lebensnotwendige Module werden heruntergefahren”**), oder der Psi-Effekt reißt ab
+ab, um Ressourcen zu sparen (die KI des Anzugs könnte z.B. eine Warnung anzeigen: **"Systemlast
+kritisch - nicht lebensnotwendige Module werden heruntergefahren"**), oder der Psi-Effekt reißt ab
 mit einem schmerzhaften Feedback. Die Charaktere lernen so im Spiel organisch ihre Grenzen kennen.
 Sie können on-the-fly entscheiden, andere Mods zu drosseln, um für einen Psi-Effekt _Platz zu
 schaffen_. Beispiel: Ein Chrononaut mit SYS 4, der bereits diverse Cyberware aktiv hat, möchte
@@ -794,14 +833,14 @@ Telekinese nutzen. Seine HUD zeigt an, dass dafür 2 Systemlast-Punkte nötig w�
 sein taktisches Visier (1 Punkt) und das Körperstabilisator-Implantat (1 Punkt) temporär
 herunterzufahren, um die Telekinese sicher zu aktivieren. Nach der Aktion kann er die Hardware wieder
 hochfahren. Diese Mechanik fördert interessante Entscheidungen und verhindert zugleich, dass Psi
-ständig auf Maximalstärke läuft – man muss haushalten und Prioritäten setzen.
+ständig auf Maximalstärke läuft - man muss haushalten und Prioritäten setzen.
 ### Overload-Stufen im Überblick {#overload}
 
 | Stufe | Effekt |
 | --- | --- |
-| SYS +1 | Überhitzung – Implantat warnt vor Temperaturanstieg |
-| SYS +2 | Zittern – feine Motorik -1, Aktionen erschwert |
-| SYS +3 | Blackout – kurzer Systemausfall, handlungsunfähig |
+| SYS +1 | Überhitzung - Implantat warnt vor Temperaturanstieg |
+| SYS +2 | Zittern - feine Motorik -1, Aktionen erschwert |
+| SYS +3 | Blackout - kurzer Systemausfall, handlungsunfähig |
 
 
 > **Warum drosselt das ITI Psi-Hardware?**
@@ -820,65 +859,65 @@ Implantate herunterregeln zu müssen.
 
 | Effektart                  | SYS | Hinweis                           |
 |----------------------------|-----|----------------------------------|
-| Impuls unter 1 Sekunde     | 0   | kein Slotverbrauch               |
-| Aktiv bis 1 Runde          | 1   | blockiert 1 SYS während der Wirkzeit |
-| Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten |
+| Impuls unter 1 Sekunde     | 0   | kein Slotverbrauch               |
+| Aktiv bis 1 Runde          | 1   | blockiert 1 SYS während der Wirkzeit |
+| Aufrechterhalten > 1 Runde | +1 pro Runde | kumulativ zu anderen Kosten |
 
 Beispielausgabe bei einer Aktivierung:
 
-`{{ hud_tag('SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ ' – ' ~ kraftname) }}`
+`{{ hud_tag('SYS ' ~ char.sys ~ '/' ~ char.sys_max ~ ' - ' ~ kraftname) }}`
 
 Jede Psi-Ausgabe nutzt dieses Overlay und prüft vor der Ausführung `char.sys`.
 
 **Risiko und Misserfolg:** Nicht jeder Psi-Versuch glückt. Was passiert, wenn der Charakter die
-Probe nicht schafft oder seine Konzentration verliert? Hier sollte die SL nicht einfach „nichts
-passiert“ sagen, sondern **komplexe Fehlschläge** anbieten – ganz im Sinne des filmischen Stils.
+Probe nicht schafft oder seine Konzentration verliert? Hier sollte die SL nicht einfach "nichts
+passiert" sagen, sondern **komplexe Fehlschläge** anbieten - ganz im Sinne des filmischen Stils.
 Möglichkeiten: Ein fehlgeschlagener Telepathie-Versuch könnte einen mentalen _Feedbackschock_
-verursachen – der Charakter hört plötzlich ein aufdringliches Rauschen im Kopf oder fängt
+verursachen - der Charakter hört plötzlich ein aufdringliches Rauschen im Kopf oder fängt
 irrelevante Gedankenfetzen aller Anwesenden zugleich auf, was ihn für ein paar Runden
 handlungsunfähig macht. Ein missglückter Telekinese-Versuch könnte außer Kontrolle geraten: Statt
 das gewünschte Objekt bewegt ein anderes sich ruckartig (vielleicht fliegen lose Werkzeuge
-unkontrolliert umher). Bei Präkognition ist der „Fehlschlag“ eher ein **falsches oder
+unkontrolliert umher). Bei Präkognition ist der "Fehlschlag" eher ein **falsches oder
 unvollständiges Bild**: Die Vision tritt ein, aber anders als erwartet, was die Gruppe fehlleitet.
-Wichtig ist, dass das Scheitern von Psi spannend bleibt – es soll Konsequenzen haben, die Geschichte
+Wichtig ist, dass das Scheitern von Psi spannend bleibt - es soll Konsequenzen haben, die Geschichte
 aber vorantreiben. Zudem lernt der Spielercharakter daraus vielleicht etwas (z.B. dass starke
-Emotionen des Ziels seine Telepathie stören – eine Erkenntnis, die man erzählerisch im Kodex
+Emotionen des Ziels seine Telepathie stören - eine Erkenntnis, die man erzählerisch im Kodex
 notieren könnte).
 
 **Paradoxon-Effekte und temporale Konsequenzen:** Psi kann im ZEITRISS-Zeitreise-Setting
 den Zeitstrom stören. Der Paradoxon-Index fungiert als **Resonanz-Index** der
-Chrononauten: Er steigt, solange ihr das dokumentierte Hauptereignis stabilisiert –
+Chrononauten: Er steigt, solange ihr das dokumentierte Hauptereignis stabilisiert -
 auch wenn ihr dabei harte Psi- oder Tech-Eingriffe nutzt. Ein Resonanz-Check ist nur
 bei weitreichenden Eingriffen nötig, insbesondere bei Chronokinese oder wenn ihr den
 Kernverlauf zu kippen droht. Scheitert die Mission oder erzwingt ihr ein grobes
-Paradoxon, stagniert der Index oder fällt ausnahmsweise um 1. Über
+Paradoxon, stagniert der Index oder fällt ausnahmsweise um 1. Über
 `modus paradoxon off` lässt sich die Paradoxon-Regel komplett deaktivieren; wird sie
 verwendet, funktioniert sie identisch für Pro- und Contra-Agenten. Psionik steht
 grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder alternativ ihren
-natürlichen Widerstand gegen mentale Kräfte betonen. Wer den „Pfad der Erleuchtung"
+natürlichen Widerstand gegen mentale Kräfte betonen. Wer den "Pfad der Erleuchtung"
 meidet, ist schwerer zu beeinflussen, verzichtet aber nicht zwingend auf Psi-Kräfte.
 Gewöhnliche Anwendungen wie Telepathie oder kurz manifestierte Psi-Waffen erzeugen
 kaum Paradoxon. Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, dass in
 einer Stunde ein Attentat auf eine wichtige Person erfolgreich ist (historisch
 belegtes Ereignis). Er interveniert telepathisch und warnt das Opfer rechtzeitig,
-wodurch das Attentat scheitert. Jetzt wurde die bekannte Geschichte verändert – ein
+wodurch das Attentat scheitert. Jetzt wurde die bekannte Geschichte verändert - ein
 klassisches Paradoxon. Solche Fehlverläufe bremsen den Resonanzaufbau deutlich.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
-Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
-auf 0. Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten
+Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
+auf 0. Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten
 nicht als Strafe. Mechanisch sollte Paradoxon-Spiel immer in Händen der SL bleiben.
 Vorsätzlicher Missbrauch von Fähigkeiten erhöht das Risiko erheblich und kann zu
 drastischen Konsequenzen führen.
 **Temporale Grenzen:** Einige Psi-Fähigkeiten stoßen natürlich an Grenzen, wenn es um
 unterschiedliche Zeiten geht. Hier ein paar Leitlinien, die als Regeln oder Faustregeln gelten:
-Telepathie erlaubt kein gezieltes Kommunizieren quer durch die Jahrhunderte – es sei denn, beide
+Telepathie erlaubt kein gezieltes Kommunizieren quer durch die Jahrhunderte - es sei denn, beide
 Telepathen befinden sich in der Nullzeit oder haben irgendwelche technischen Verstärker in den
 jeweiligen Zeiten installiert. Hellsehen liefert keine Live-Bilder aus der Zukunft, sondern eher
 Wahrscheinlichkeits-Intuitionen für die **nahe** Zukunft (Sekunden, Minuten). Will ein
 Spielercharakter z.B. mit Präkognition die Ereignisse in 100 Jahren erspüren, sollte das schlicht
 unmöglich sein oder nur unter Verwendung eines mächtigen Artefakts denkbar sein. Psychometrie kann
 nur Informationen aus der Vergangenheit eines Objekts liefern, nicht aus dessen Zukunft (logisch).
-Und Chronokinese wirkt lokal begrenzt – man kann nicht in Jahr 2025 einen Effekt erzielen, der 1805
+Und Chronokinese wirkt lokal begrenzt - man kann nicht in Jahr 2025 einen Effekt erzielen, der 1805
 jemanden beeinflussst, zumindest nicht direkt. Diese Limits stellt auch das Ingame-Wissen des ITI so
 dar: Der Kodex erläutert, dass Psi-Kräfte an den Zeitfluss gebunden sind und man sie nicht als
 Abkürzung fürs Zeitreisen missverstehen darf.
@@ -891,7 +930,7 @@ Verantwortung verbunden.
 
 ### Power-Punkte = Temporale Affinität {#power-punkte-temp}
 
-| TEMP‑Wert | PP‑Pool | Stark (3) | Mittel (2) | Gering (1) |
+| TEMP-Wert | PP-Pool | Stark (3) | Mittel (2) | Gering (1) |
 |:-------:|:-------:|:---------:|:----------:|:----------:|
 | 6 | 6 | 2 | 3 | 6 |
 | 7 | 7 | 2 | 3 | 7 |
@@ -901,11 +940,11 @@ Verantwortung verbunden.
 | 11 | 11 | 3 | 5 | 11 |
 | 12 | 12 | 4 | 6 | 12 |
 
-*PP‑Pool = TEMP* — mehr nicht.
+*PP-Pool = TEMP* - mehr nicht.
 
 #### Cooldown
 
-| Kraftstufe | PP‑Kosten | Cooldown (Runden) |
+| Kraftstufe | PP-Kosten | Cooldown (Runden) |
 |------------|----------:|------------------:|
 | Stark | 3 | 3 |
 | Mittel | 2 | 2 |
@@ -913,55 +952,55 @@ Verantwortung verbunden.
 
 #### Regeneration {#psi-pp-regeneration}
 
-- **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**,
+- **Nach jeder Kampfrunde:** Regeneriert pro **3 TEMP** **1 PP**,
   sofern eine Willenskraftprobe (CHA) gegen den doppelten
   Psi-Heat-Level gelingt.
 - **Nach jedem Kampf** → **PP voll**
 - **Lange Ruhe** (Mission beendet) → **PP voll**
-  > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung – unabhängig vom TEMP.
+  > Beispiel: Nach einem Gefecht steht der Pool sofort wieder voll zur Verfügung - unabhängig vom TEMP.
 
 #### Temporal Anchor
 
-TEMP 3 schenkt **den ersten pro Szene ausgegebenen PP** von Paradoxon-Nebenwirkungen.
-Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als sicher usw.
+TEMP 3 schenkt **den ersten pro Szene ausgegebenen PP** von Paradoxon-Nebenwirkungen.
+Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als sicher usw.
 
-#### Überziehen („Burn“)
+#### Überziehen ("Burn")
 
-Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
-- Preis: **−1 Px** pro verbranntem PP.
-> Px = Paradoxon‑Index‑Punkte (siehe core).
-> **Nie** mehr Burn‑PP als TEMP – die Zeit reißt sonst sofort (SL‑Ereignis).
+Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
+- Preis: **-1 Px** pro verbranntem PP.
+> Px = Paradoxon-Index-Punkte (siehe core).
+> **Nie** mehr Burn-PP als TEMP - die Zeit reißt sonst sofort (SL-Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als euer aktueller **TEMP**-Wert.
 
 ### Balance-Kurzübersicht
 
-| Typische Rolle | TEMP | PP | Starke Kräfte pro Mission* |
+| Typische Rolle | TEMP | PP | Starke Kräfte pro Mission* |
 | -------------- | -: | -: | --------------------------: |
-| Rookie‑Psi     |  7 |  7 |             2 (plus 1 Burn) |
-| Veteran‑Psi    |  9 |  9 |                           3 |
-| Elite‑Psi      | 11 | 11 |                         3–4 |
+| Rookie-Psi     |  7 |  7 |             2 (plus 1 Burn) |
+| Veteran-Psi    |  9 |  9 |                           3 |
+| Elite-Psi      | 11 | 11 |                         3-4 |
 
-\* Annahme: Kurze Erholung nach jedem Kampf.
+\* Annahme: Kurze Erholung nach jedem Kampf.
 
 Ergebnis: **Höhere TEMP gibt linear mehr Juice**, aber Cooldowns deckeln
-Spamm‑Risiko; Burn‑Option koppelt Überschreitung klar an den Paradoxon-Stand (−Px oder Reset je nach Ausreizung).
+Spamm-Risiko; Burn-Option koppelt Überschreitung klar an den Paradoxon-Stand (-Px oder Reset je nach Ausreizung).
 
 ### Psi-Heat-Track {#psi-heat-track}
 
 - Psi-Heat betrifft nur **psi-begabte** Charaktere.
-- In Konfliktszenen baut jede **aktive Psi-Aktion** **Psi-Heat +1** auf (außer der Talenttext sagt
+- In Konfliktszenen baut jede **aktive Psi-Aktion** **Psi-Heat +1** auf (außer der Talenttext sagt
   etwas anderes).
-- Psi-Heat > 4 → −1 Initiative.
-- Psi-Heat ≥ 5 → **SG +4** auf alle Proben.
-- Psi-Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
+- Psi-Heat > 4 → -1 Initiative.
+- Psi-Heat ≥ 5 → **SG +4** auf alle Proben.
+- Psi-Heat = 6 → **System-Reboot**: Charakter verliert 1 Runde,
   Psi-Heat springt auf 0.
 - Psi-Heat sinkt um **1**, nach jeder Kampfrunde, wenn eine
   Willenskraftprobe (CHA)
   gegen den doppelten Psi-Heat-Level gelingt. Kühl-Gear kann Psi-Heat sofort senken.
-  Nach jedem Kampf oder Konfliktblock springt Psi-Heat automatisch auf 0.
+  Nach jedem Kampf oder Konfliktblock springt Psi-Heat automatisch auf 0.
 
 
-Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** – sei es durch steigende
+Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** - sei es durch steigende
 Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.2.6_
 integriert Psi-Entwicklung in sein Level- und Fortschrittssystem, damit sich psi-begabte
 Chrononauten organisch weiterentwickeln, vergleichbar mit anderen Spezialisierungen (Tech, Kampf,
@@ -969,23 +1008,23 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
 
 - **Talente und Fähigkeitenstufen:** Beim Levelaufstieg oder durch Erfahrungspunkte können Spieler
   spezielle **Psi-Talente** wählen. Diese fungieren wie Feats oder Perks, die eine bestimmte Facette
-  der Psi-Nutzung verbessern. Beispiele: _“Telepathie I”_ erlaubt dem Charakter, grundlegende
-  Gedankenfetzen und Emotionen zu empfangen. Mit _“Telepathie II”_ kann er gezielt kurze Nachrichten
-  mental übermitteln. _“Präkognition I”_ gibt gelegentlich intuitive Warnungen, _“Präkognition II”_
+  der Psi-Nutzung verbessern. Beispiele: _"Telepathie I"_ erlaubt dem Charakter, grundlegende
+  Gedankenfetzen und Emotionen zu empfangen. Mit _"Telepathie II"_ kann er gezielt kurze Nachrichten
+  mental übermitteln. _"Präkognition I"_ gibt gelegentlich intuitive Warnungen, _"Präkognition II"_
   erweitert dies zu klareren Vorahnungsträumen. Solche Talentbäume ermöglichen es, dass ein Charakter
   langsam vom sensitiven Anfänger zum erfahrenen Psi-Adept aufsteigen kann. Im Regelmodul könnten für
   jede Fähigkeit 3 Stufen definiert sein (Basis, Fortgeschritten, Experte), eventuell mit einer
   Voraussetzung an Charakterlevel oder Attributswerten. Zudem kann es **generische Psi- Talente**
-  geben wie _“Starke Psyche”_ (reduziert Systemlast-Kosten von Psi um 1) oder _“Schnellmeditation”_
+  geben wie _"Starke Psyche"_ (reduziert Systemlast-Kosten von Psi um 1) oder _"Schnellmeditation"_
   (verkürzt die Fokussierungszeit). Diese geben den Spielern Kontrolle darüber, wie sie ihren Psi-
-  Charakter formen – ob breit aufgestellt (viele Basisfähigkeiten) oder spezialisiert (eine Fähigkeit
+  Charakter formen - ob breit aufgestellt (viele Basisfähigkeiten) oder spezialisiert (eine Fähigkeit
   meisterhaft). Die SL sollte im Auge behalten, dass hochstufige Psi- Kräfte das Balancing nicht
   sprengen: Talente können etwa Kosten haben (z.B. braucht Präkognition II einen freien Talent-Slot
   und erhöht den Systemlast-Verbrauch wegen höherer Belastung). Insgesamt aber ist es für die
-  Spieler motivierend, klare Entwicklungsstufen zu sehen – es macht Psi greifbar und planbar.
+  Spieler motivierend, klare Entwicklungsstufen zu sehen - es macht Psi greifbar und planbar.
 
 - **Spezialtraining und Mentoren:** Nicht alles lässt sich allein durch EP-Verteilung erreichen. In
-  der Spielwelt macht es Sinn, dass Psi sich durch **Training** verbessert – ähnlich wie ein
+  der Spielwelt macht es Sinn, dass Psi sich durch **Training** verbessert - ähnlich wie ein
   Schwertkämpfer bei einem Meister trainiert. Das ITI kann etwa wöchentliche Psi-Workshops im HQ
   anbieten, geleitet von einem erfahrenen psionischen Berater (vielleicht ein geheimnisvoller
   Zeitagent im Ruhestand, der selbst starke intuitive Fähigkeiten besitzt). Die Spieler können
@@ -995,7 +1034,7 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   telepathischen Fähigkeiten, könnten sie von ihm etwas lernen. Die SL kann dafür Belohnungen
   außerhalb des Levelsystems vergeben, z.B. _temporäre Psi-Boni_ oder das Entfernen eines Malus, wenn
   der Charakter diese Lehre annimmt. Auch das Abschließen bestimmter Abenteuer kann neue Psi-
-  Möglichkeiten eröffnen – etwa wenn die Gruppe ein altes Manuskript findet, das **mentale Techniken**
+  Möglichkeiten eröffnen - etwa wenn die Gruppe ein altes Manuskript findet, das **mentale Techniken**
   beschreibt (z.B. das fiktive _Manuskript der Gedanken von Atlantis_), könnten sie danach Zugriff auf
   eine neue Psi-Fähigkeit bekommen, sofern sie das Manuskript studieren. Solche Ingame-Methoden der
   Entwicklung fördern das erzählerische Eintauchen: Nicht nur Zahlen steigen, sondern die Geschichte
@@ -1006,13 +1045,13 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
   schützen, um Psi-Effekte zu erleichtern. Ein Beispiel ist der _Thalamus-Regulator_, ein kleines
   Implantat am Schädel, das störende Sinneseindrücke filtert und dem Benutzer +1 auf alle Telepathie-
   Proben gibt, weil er sich besser fokussieren kann. Oder der _Neuroverstärker Mk I_, welcher die
-  elektrische Aktivität in den Synapsen synchronisiert – das könnte den Effekt haben, dass ein
+  elektrische Aktivität in den Synapsen synchronisiert - das könnte den Effekt haben, dass ein
   Charakter eine Stufe stärker wirkt, als er eigentlich ist (z.B. Telekinese-Kraft etwas erhöht),
   allerdings auf Kosten von höherer Systemlast. **Bioware**-Modifikationen sind ebenfalls denkbar:
   genetische Tweaks, die z.B. den Frontallappen vergrößern oder die Produktion bestimmter
   Neurotransmitter steigern. Diese könnten im Spiel als teure Upgrades erhältlich sein (nur im HQ,
   hohe CU-Kosten und Freigabe durch ITI-Leitung erforderlich). Regeltechnisch lassen sich Psi-
-  Implantate analog zu anderen Ausrüstungsmodifikationen behandeln – sie haben etwa einen festen
+  Implantate analog zu anderen Ausrüstungsmodifikationen behandeln - sie haben etwa einen festen
   Systemlast-Wert, evtl. brauchen sie Wartung oder haben Nebenwirkungen. Wichtig: Im Gegensatz zu
   Talent-Steigerungen, die die **natürliche** Begabung verbessern, geben Implantate einen
   **technischen Boost**, der allerdings immer Abhängigkeiten schafft. Vielleicht muss der Charakter
@@ -1029,22 +1068,22 @@ etc.). Hier einige Wege, wie Psi im Spiel aufsteigen kann:
     Gehirnwellen ausliest und gezielte Impulse zurücksendet, um latent telepathische Kommunikation zu
     ermöglichen. Damit könnten selbst nicht-telepathische Teammitglieder an einer rudimentären
     Gedankenkommunikation teilnehmen (im Prinzip wie ein lokaler Funk über Gedanken). Nachteil: Das
-    Gerät ist störanfällig – in einer Epoche ohne entsprechende Infrastruktur kann es Rauschen geben –
+    Gerät ist störanfällig - in einer Epoche ohne entsprechende Infrastruktur kann es Rauschen geben -
     und bei Missbrauch könnte es zu Bewusstseinsverwirrungen kommen (die SL könnte beschreiben, wie zwei
     Charaktere verwirrt die Gedanken tauschen, wer bin ich?).
   - _Neuro-Drugs:_ Spezielle **Medikamente oder Drogen**, die kurzzeitig Psi-Kräfte pushen.
-    Beispielsweise eine Injektion _“MN-Delta”_, die die Wahrnehmung so steigert,
+    Beispielsweise eine Injektion _"MN-Delta"_, die die Wahrnehmung so steigert,
     dass in der nächsten Szene jede Intuitionsprobe kritisch erleichtert ist und
     sogar ein normaler Mensch leichte außersinnliche Wahrnehmung erfährt.
     Allerdings drohen Nebenwirkungen: Nachwirkung als Erschöpfung,
     Suchtgefahr oder Halluzinationen. Diese Mittel sollten rar und teuer sein (vielleicht als Belohnung
     nach einer Mission erhältlich oder auf dem Schwarzmarkt der Zukunft zu beschaffen). Die Spieler
     könnten in kritischen Momenten darauf zurückgreifen, aber es sollte klar sein, dass das keine
-    nachhaltige Lösung ist – eher ein **letzter Ausweg** mit Preis.
+    nachhaltige Lösung ist - eher ein **letzter Ausweg** mit Preis.
   - _Psi-Fokus-Artefakte:_ Im Laufe der Zeitreisen könnten die Chrononauten auch **Artefakte**
     finden, die Psi-Fähigkeiten verstärken. Etwa ein altes Ornament aus einer zukünftigen Marskolonie,
     das in seinem Kern einen Kristall enthält, der Psi-Energien resonant bündelt. Hält ein Telepath
-    dieses Artefakt, vergrößert sich die Reichweite seiner Telepathie enorm – aber sobald er es
+    dieses Artefakt, vergrößert sich die Reichweite seiner Telepathie enorm - aber sobald er es
     loslässt, ist der Effekt weg. Solche Artefakte können an bestimmte Bedingungen gebunden sein (nur
     wirksam während eines bestimmten Kometenstandes, oder nur für denjenigen, der es in einem Ritual
     gebunden hat). Sie dienen vor allem narrativen Zwecken und können ein Plot- Motor sein (z.B. jagt
@@ -1055,8 +1094,8 @@ Die **Balance** der Psi-Entwicklung liegt darin, Fortschritt spürbar zu machen,
 nicht zu Göttern mutieren zu lassen. Jede neue Stufe, jedes Implantat öffnet zwar Möglichkeiten,
 trägt aber auch _Kosten_ in Form von Ressourcen, Systemlast oder neuen Risiken. Dadurch bleibt die
 Spannung erhalten. Ein voll ausgestatteter Psi-Spezialist auf hohem Level in _ZEITRISS_ kann
-vielleicht beeindruckende Dinge tun – Gedankenkommunikation über das Schlachtfeld, eine Kugel im
-Flug ablenken, einen verwundeten Kameraden durch schiere Willenskraft stabilisieren – aber er wird
+vielleicht beeindruckende Dinge tun - Gedankenkommunikation über das Schlachtfeld, eine Kugel im
+Flug ablenken, einen verwundeten Kameraden durch schiere Willenskraft stabilisieren - aber er wird
 immer noch kalkulieren müssen, wann und wie er diese Kräfte einsetzt. Denn Übermut könnte ihn teuer
 zu stehen kommen.
 
@@ -1069,33 +1108,33 @@ Tipps, wie man Psi im Spiel atmosphärisch in Szene setzt, ohne den immersiven S
 **Sinnesnahe Beschreibungen:** Psi-Effekte sollten möglichst aus der Perspektive der Charaktere
 erfahrbar sein. Statt außerhalb der Spielwelt zu erklären "_Ihr seid telepathisch und lest seinen
 Geist._", schildert man die _Wahrnehmung_: _"Während ihr dem Wachmann in die Augen seht,
-verschwimmt für einen Moment euer Blick. Ein fremder Gedanke – nicht eurer – blitzt in eurem Geist
-auf, flüchtig wie ein Traumfetzen: ‚…Er lügt.…‘."_ Solche Beschreibungen machen klar, was passiert,
+verschwimmt für einen Moment euer Blick. Ein fremder Gedanke - nicht eurer - blitzt in eurem Geist
+auf, flüchtig wie ein Traumfetzen: '…Er lügt.…'."_ Solche Beschreibungen machen klar, was passiert,
 ohne das Kopfkino zu zerstören. Für den Charakter fühlt es sich vielleicht an wie ein Déjà-vu, ein
 Ziehen im Bauch oder ein plötzliches Geräusch im Kopf. Man kann ruhig kreativ werden: Telepathische
 Kommunikation könnte sich z.B. so anfühlen, als würde man die Stimme des anderen direkt neben sich
-hören, obwohl dessen Lippen sich nicht bewegen. Präkognitive Ahnungen kann man filmisch darstellen –
+hören, obwohl dessen Lippen sich nicht bewegen. Präkognitive Ahnungen kann man filmisch darstellen -
 eventuell wechselt die Perspektive kurz: _"Für einen Sekundenbruchteil scheint die Zeit
 stillzustehen; vor eurem inneren Auge seht ihr den Kronleuchter über euch bedrohlich wackeln… dann
 seid ihr wieder im Moment."_ Je plastischer die Schilderung, desto besser können die Spieler
-eintauchen. Wichtig ist, dass die Beschreibung immer _unsicher_ oder fragmentarisch bleibt – das
+eintauchen. Wichtig ist, dass die Beschreibung immer _unsicher_ oder fragmentarisch bleibt - das
 fördert die subtile Stimmung.
 
 **HUD-Signale als Stilmittel:** Die Chrononauten verfügen über ein **Heads-up-Display (HUD)** in
 ihren Kontaktlinsen oder Implantaten, das normalerweise Infos wie Vitalwerte, Missionsdaten oder
 Warnungen einblendet. Dieses HUD kann von der SL genutzt werden, um Psi-Phänomene elegant ins Spiel
 zu integrieren. Beispiel: Wenn ein Charakter eine aufziehende temporale Anomalie spürt (eine Art
-intuitives Zeitgefühl), könnte dies im HUD als flackerndes Icon auftauchen – vielleicht ein kleines
-Psi-Symbol (Ψ) oder ein Warndreieck mit dem Schriftzug _“Temporal Anomaly”_. So merkt der Spieler,
+intuitives Zeitgefühl), könnte dies im HUD als flackerndes Icon auftauchen - vielleicht ein kleines
+Psi-Symbol (Ψ) oder ein Warndreieck mit dem Schriftzug _"Temporal Anomaly"_. So merkt der Spieler,
 aha, da passiert etwas Übersinnliches, aber aus Charaktersicht ist es plausibel, denn das ITI-HUD
 interpretiert die biologischen Daten. Ein telepathischer Kontakt könnte vom Anzug als erhöhter
-neuraler Aktivität erkannt werden, woraufhin eine dezente Anzeige erscheint: _“Synapsen-Kohärenz 85%
-– Externe Einflüsse erkannt”_. Solche **HUD-Einblendungen** sollte man sparsam einsetzen, aber sie
+neuraler Aktivität erkannt werden, woraufhin eine dezente Anzeige erscheint: _"Synapsen-Kohärenz 85%
+- Externe Einflüsse erkannt"_. Solche **HUD-Einblendungen** sollte man sparsam einsetzen, aber sie
 können helfen, das Unsichtbare sichtbar zu machen, ohne die Immersion zu brechen. Außerdem
 unterstreichen sie den halb-wissenschaftlichen Anstrich: Das System _misst_ etwas, was es nicht ganz
 versteht. Die Spieler bekommen Feedback, dass ihre Fähigkeit wirkt (oder dass etwas auf sie wirkt).
 Ein weiteres Beispiel: Bei einem missglückten Psi-Versuch könnte das HUD kurz rot aufleuchten und
-_“Neuronale Instabilität”_ warnen, gepaart mit einem schrillen Ton – der Charakter spürt dies als
+_"Neuronale Instabilität"_ warnen, gepaart mit einem schrillen Ton - der Charakter spürt dies als
 Kopfschmerz. Die Verzahnung von Psi und Technologie auf diese Art verstärkt das Sci-Fi-Flair.
 
 **Kodex-Hinweise und Hintergrundwissen:** Der **Kodex** des ITI ist das Ingame-Lexikon, das
@@ -1103,72 +1142,72 @@ fortlaufend mit Informationen gefüttert wird. Die KI-Spielleitung kann ihn nutz
 auf subtile Weise Wissen über Psi zukommen zu lassen. Zum Beispiel, wenn die Gruppe das erste Mal
 einem echten Telepathen begegnet und misstrauisch ist, könnten sie den Kodex befragen: _"Kodex,
 Kategorie Paraphänomene: Berichte von Telepathie."_ Daraufhin könnte die KI einen kurzen, sachlichen
-Eintrag präsentieren, etwa: \*„**_Kodex-Eintrag_**: Telepathie – Übertragung von Informationen
+Eintrag präsentieren, etwa: \*"**_Kodex-Eintrag_**: Telepathie - Übertragung von Informationen
 zwischen Gehirnen ohne bekannte physische Vermittlung. Status: unbestätigt. Historische Notizen:
-CIA-Projekt ‚Stargate‘ (1975–95) untersuchte Remote Viewing; statistische Abweichungen festgestellt,
+CIA-Projekt 'Stargate' (1975-95) untersuchte Remote Viewing; statistische Abweichungen festgestellt,
 jedoch keine konsistent verwertbaren Resultate. ITI-intern: Siehe Fallakte \#Psi-7 'Vorfall Roswell-
-Temporal' (Zugriff Eingeschränkt).“_ Solche Kodex-Auszüge erfüllen mehrere Zwecke: Sie
+Temporal' (Zugriff Eingeschränkt)."_ Solche Kodex-Auszüge erfüllen mehrere Zwecke: Sie
 **informieren** die Spieler (und erinnern an die Real-World-Basis), sie schaffen Authentizität durch
 Fachjargon und Aktennummern, und sie können Foreshadowing betreiben (z.B. Erwähnung einer Fallakte,
-die später wichtig wird). Die KI sollte Kodex-Infos dosiert anbieten – idealerweise ausgelöst durch
+die später wichtig wird). Die KI sollte Kodex-Infos dosiert anbieten - idealerweise ausgelöst durch
 Spielerfragen oder als Reaktion auf Ereignisse. Ein netter Trick ist auch, bei bestimmten
-Ereignissen automatisch einen Kodex-Hinweis einzublenden, z.B.: _„(Kodex update: Ihre jüngste
-Erfahrung wurde aufgezeichnet – neues Stichwort ‘Psi-Eruption 1893’ verfügbar.)“\* Wenn Spieler das
+Ereignissen automatisch einen Kodex-Hinweis einzublenden, z.B.: _"(Kodex update: Ihre jüngste
+Erfahrung wurde aufgezeichnet - neues Stichwort 'Psi-Eruption 1893' verfügbar.)"\* Wenn Spieler das
 lesen, können sie neugierig im Kodex nachschlagen, was es damit auf sich hat, und die SL kann einen
 vorbereiteten Infotext liefern (vielleicht ein historischer Bericht über einen spontanen Psi-
 Ausbruch in jener Epoche, der Parallelen zur aktuellen Situation hat). Dies alles trägt zur dichten
-Atmosphäre bei – die Welt fühlt sich lebendig an, es gibt mehr zu entdecken jenseits der
+Atmosphäre bei - die Welt fühlt sich lebendig an, es gibt mehr zu entdecken jenseits der
 unmittelbaren Handlung.
 
 **Subtilität bewahren:** Die KI-Spielleitung sollte stets darauf achten, dass Psi im Ton der
 Kampagne bleibt: mysteriös, selten, aber real. Das bedeutet, NPCs reagieren glaubwürdig darauf. Ein
 normaler Mensch im Jahr 1800, der Zeuge eines Telekinese-Effekts wird, sollte erschrecken oder es
-sich nicht erklären können („Teufelswerk!“ rufen, oder es als Trick abtun). Selbst in der Zukunft
+sich nicht erklären können ("Teufelswerk!" rufen, oder es als Trick abtun). Selbst in der Zukunft
 könnte ein uninformierter NSC skeptisch sein, wenn ein Spielercharakter von Vorahnungen spricht.
 Dieses **Wider(spiel)** der Umwelt hält Psi geerdet. Es kann hilfreich sein, Zweifler in der Gruppe
-der NSCs zu haben, die die Spieler ständig challengen: „Ihr behauptet, ihr hättet das gewusst, bevor
-es passierte? Purer Zufall, wenn ihr mich fragt.“ – Solche Dialoge, von der KI initiiert, geben den
+der NSCs zu haben, die die Spieler ständig challengen: "Ihr behauptet, ihr hättet das gewusst, bevor
+es passierte? Purer Zufall, wenn ihr mich fragt." - Solche Dialoge, von der KI initiiert, geben den
 Spielercharakteren Gelegenheit, ihre Fähigkeiten zu verteidigen oder geheimzuhalten, was zu
 Rollenspiel führt. Ebenso kann man NSCs einführen, die **selbst Psi nutzen**, aber es verbergen. Ein
 Beispiel: Der altgediente ITI-Offizier, der immer genau im richtigen Moment auftaucht, um die Gruppe
-zu unterstützen – irgendwann stellt sich heraus, dass er geringe Präkognition hat und dadurch
+zu unterstützen - irgendwann stellt sich heraus, dass er geringe Präkognition hat und dadurch
 brenzlige Situationen erahnte. Durch solche subtilen NSC-Nutzen zeigt die SL den Spielern auch, dass
 Psi ein integraler, wenn auch diskreter Teil der Welt ist.
 
 **Filmische Inszenierung:** _ZEITRISS_ hat einen cineastischen Anspruch, und den kann man bei Psi
-voll ausspielen. Bei wichtigen psionischen Momenten darf die KI ruhig die „Kameraeinstellung“
-wechseln oder Effekte beschreiben, fast als sähe man es in einem Film: _"Close-Up auf Alex’ Augen,
+voll ausspielen. Bei wichtigen psionischen Momenten darf die KI ruhig die "Kameraeinstellung"
+wechseln oder Effekte beschreiben, fast als sähe man es in einem Film: _"Close-Up auf Alex' Augen,
 wie sie sich glasig trüben, während er versucht, den Gedanken des Attentäters zu folgen. Ein hoher
-Ton – war er real oder nur in Alex’ Kopf? – legt sich über die Tonspur. Die Welt um ihn scheint kurz
+Ton - war er real oder nur in Alex' Kopf? - legt sich über die Tonspur. Die Welt um ihn scheint kurz
 zu verschwimmen… Dann schießt ein Bild vor seinem inneren Auge empor: die Silhouette des Angreifers
 auf dem Dachfirst."_ Solche Wechsel ins Filmische sollten sparsam für dramatische Höhepunkte
 reserviert bleiben (z.B. erstes klares Vorzeichen eines Charakters, oder der Moment, in dem ein
 Spieler zum ersten Mal erfolgreich jemanden mental beeinflusst). Sie erzeugen Gänsehaut-Momente. Da
-_ZEITRISS_ sogar über eine „Film ab!“-Funktion für Zusammenfassungen verfügt, kann man überlegen, ob
+_ZEITRISS_ sogar über eine "Film ab!"-Funktion für Zusammenfassungen verfügt, kann man überlegen, ob
 man manche Psi-Erlebnisse wie kurze Flashbacks oder Flashforwards behandelt. Etwa nach einer
 Mission, in der viel Psi vorkam, könnte die KI eine _Zusammenfassung_ in Form eines fiktiven
-Dossiers geben: _„Rückblick: Missionslog 27 – ‚Der stumme Flüsteraar‘. (Wir sehen in monochromen
+Dossiers geben: _"Rückblick: Missionslog 27 - 'Der stumme Flüsteraar'. (Wir sehen in monochromen
 Bildern, wie Elena im 17. Jh. heimlich per Telepathie mit einer Hexenprozess-Angeklagten
-kommuniziert…)“_ – Solche Nachbereitungen im Kodex oder als Erzählerstimme können das Erlebte
+kommuniziert…)"_ - Solche Nachbereitungen im Kodex oder als Erzählerstimme können das Erlebte
 nochmals verstärken.
 
 **Spielerführung und Fairness:** Bei aller Atmosphäre darf die KI die **Regelaspekte** nicht
 vergessen. Die Spieler sollten jederzeit verstehen, welche Auswirkungen ihre Entscheidungen haben.
 Das heißt, die SL-KI sollte ihnen Feedback geben, wenn z.B. Systemlast ein kritisches Level
-erreicht: _„Ihr spürt ein Flimmern in eurem Neuro-Interface – offenbar gerät euer System an die
-Belastungsgrenze (SYS-Warnung auf 5/5).“_. Oder wenn ein Paradoxon droht, kann die KI ruhig out-of-
-character anmerken: _„(Achtung: Eure Veränderung könnte ein Paradoxon erzeugen, das spürt insbesondere
-der Psi-aktive Charakter XY.)“_ Vielleicht hat der Psi-Charakter dann sogar eine Meta-Vorahnung, die
+erreicht: _"Ihr spürt ein Flimmern in eurem Neuro-Interface - offenbar gerät euer System an die
+Belastungsgrenze (SYS-Warnung auf 5/5)."_. Oder wenn ein Paradoxon droht, kann die KI ruhig out-of-
+character anmerken: _"(Achtung: Eure Veränderung könnte ein Paradoxon erzeugen, das spürt insbesondere
+der Psi-aktive Charakter XY.)"_ Vielleicht hat der Psi-Charakter dann sogar eine Meta-Vorahnung, die
 man ihm mitteilt. Ziel ist, dass die Spieler die Konsequenzen ihres Psi-Einsatzes steuern können,
 bevor es zu spät ist. Die KI sollte also das Unsichtbare sichtbar machen, ohne den Schleier der
-Geschichte völlig wegzureißen – ein schmaler Grat.
+Geschichte völlig wegzureißen - ein schmaler Grat.
 
 Abschließend: **Atmosphäre first.** Psi in _ZEITRISS 4.2.6_ entfaltet seine volle Wirkung, wenn die
 Spieler das Gefühl haben, Teil eines Mysteriums zu sein. Jede mentale Kraft ist ein Schlüssel zu
 etwas Größerem, Unbekannten. Die KI als Spielleitung fungiert hier als Erzähler einer _Science-
 Fiction-Mystery_, der feine Andeutungen streut und die Spieler staunen lässt, was wohl noch alles
 möglich ist. Mit den hier vorgestellten Regeln und Tipps lässt sich Paranormales glaubwürdig in
-Szene setzen – als wäre es wirklich da, verborgen in den Schatten der Zeit, darauf wartend, von
+Szene setzen - als wäre es wirklich da, verborgen in den Schatten der Zeit, darauf wartend, von
 mutigen Chrononauten entdeckt zu werden.
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
