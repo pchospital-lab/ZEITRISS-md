@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer"
+version: 4.2.6
 tags: [system]
 ---
 
-# ZEITRISS 4.2.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
+# ZEITRISS 4.2.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer
 
 - Einleitung: Ein flexibler, filmreifer Auftakt
 - Filmische Techniken für einen epischen Start
@@ -114,7 +114,7 @@ Abenteuer sein…
 
 ## Einleitung: Ein flexibler, filmreifer Auftakt
 
-**Willkommen zu Modul 13 von ZEITRISS 4.2.5**, der überarbeiteten und erweiterten
+**Willkommen zu Modul 13 von ZEITRISS 4.2.6**, der überarbeiteten und erweiterten
 Fassung des cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt
 das frühere fixe Einstiegsszenario durch einen **flexiblen Baukasten**, der
 Spielleiter\*innen dabei hilft, einen maßgeschneiderten, filmreifen Start in die

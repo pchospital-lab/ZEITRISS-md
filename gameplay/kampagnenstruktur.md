@@ -22,7 +22,7 @@ Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an 
 
 ## Einführung
 
-**ZEITRISS 4.2.5** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
+**ZEITRISS 4.2.6** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
 Spieler*innen hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
 Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung eines gemeinsamen
 Hauptquartiers (HQ) und die Pflege von Beziehungen im Verlauf der Kampagne. Alle Elemente sind
@@ -259,7 +259,7 @@ flowchart LR
 title: "Trigger-Mission Titanic 1912"
 id: EX-TRIG-1912-TIT
 trigger_only: true
-version: 4.2.5
+version: 4.2.6
 ```
 
 **Ereignis:** Untergang der Titanic.
@@ -805,7 +805,7 @@ title: "Mini-Walkthrough London-Arc"
 id: EX-PRES-1851-LON
 type: core_op            # wichtig: nicht rift_op
 preserve_only: true
-version: 4.2.5
+version: 4.2.6
 ```
 
 **Mission 1 – Chrono Heist**
@@ -862,7 +862,7 @@ version: 4.2.5
 title: "Mini-Walkthrough Mauerbau 1961"
 id: EX-TRIG-1961-BER
 trigger_only: true  # eindeutiger Modus
-version: 4.2.5
+version: 4.2.6
 ```
 
 **Mission 1 – Erste Kontakte**
@@ -916,7 +916,7 @@ title: "Preserve-Arc Salamis 480 v. Chr."
 id: EX-PRES-0480-SAL
 type: core_op
 preserve_only: true
-version: 4.2.5
+version: 4.2.6
 ```
 
 **Epoche:** Klassisches Griechenland & Perserkriege
@@ -1291,7 +1291,7 @@ stets im Zentrum der Erzählung und wächst organisch mit der Geschichte mit.
 
 ## Beziehungen zu NSCs, Fraktionen und Mitagenten
 
-Cineastische Kampagnen leben von starken **Charakterbindungen**. In ZEITRISS 4.2.5 sind es nicht nur
+Cineastische Kampagnen leben von starken **Charakterbindungen**. In ZEITRISS 4.2.6 sind es nicht nur
 die Ereignisse der Zeitreise, die fesseln, sondern auch die persönlichen Verbindungen der Agenten zu
 wichtigen Figuren der Welt – seien es **NSCs**, **Fraktionen** oder die eigenen **Mitstreiter**.
 Dieses Modul bietet Ansätze, wie man diese Beziehungen entwickeln und mechanisch wie narrativ
@@ -1632,7 +1632,7 @@ Zeit verstreicht entsprechend in der Spielwelt.
 
 Nicht jede Minute einer Kampagne muss mit Missionen und Konflikten gefüllt sein. Im Gegenteil:
 **Erzählpausen** – ruhigere Phasen zwischen den großen Einsätzen – verleihen der Geschichte erst die
-richtige Würze. In ZEITRISS 4.2.5 bietet das HQ den perfekten Schauplatz für **Freizeitaktivitäten und
+richtige Würze. In ZEITRISS 4.2.6 bietet das HQ den perfekten Schauplatz für **Freizeitaktivitäten und
 soziale Interaktionen** der Agenten. Solche Momente machen die Welt glaubwürdiger und die Charaktere
 menschlicher. Außerdem erlauben sie es der Runde, mal durchzuatmen, bevor das nächste Zeitportal
 geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
@@ -1996,7 +1996,7 @@ benötigen.
 
 ## Fazit
 
-**ZEITRISS 4.2.5** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
+**ZEITRISS 4.2.6** bietet mit diesem Regel- und Inspirationsmodul einen umfangreichen Werkzeugkasten,
 um aus einer Kampagne ein filmreifes Epos zu machen. Durch die **Arc-Struktur** mit verzweigten
 Zeitlinien bleibt die Handlung flexibel und doch fokussiert. Das ausbaubare **Hauptquartier**
 verwandelt sich von einer simplen Basis zu einem lebendigen Mittelpunkt, an dem Fortschritt und

@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)"
+version: 4.2.6
 tags: [characters]
 ---
 
-# ZEITRISS 4.2.5 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)
+# ZEITRISS 4.2.6 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)
 
 ## Inhalt
 
@@ -14,7 +14,7 @@ tags: [characters]
 - Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 - Baseline-Kit & HQ-Einstieg
 
-**Einleitung:** In _ZEITRISS 4.2.5_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
+**Einleitung:** In _ZEITRISS 4.2.6_ erschafft ihr einen _Chrononauten_, einen Zeitreise-Agenten im
 Dienst des ITI (Institut für Temporale Interventionen), der Missionen quer durch die Epochen
 erlebt. Dieses Modul liefert euch eine **Schritt-für-Schritt-Anleitung** zur Charaktererschaffung und
 erklärt, wie eure Figur im Verlauf des Spiels **fortschreitet** – vom Level-Aufstieg über das
