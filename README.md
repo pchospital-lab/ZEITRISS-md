@@ -160,7 +160,7 @@ euch das Maintainer-Dokument.
    sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien
    dürfen nicht in den Wissensspeicher wandern.
 2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` (Local-Uncut
-   4.2.5) als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste
+   4.2.6) als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste
    Chatnachricht, OpenWebUI: Instruktionsfeld). Der Masterprompt gehört nicht
    in den Wissensspeicher; er wird ausschließlich als Systemfeld bzw. erste
    Nachricht geladen. Die vorherige Fassung liegt archiviert in
@@ -1087,7 +1087,7 @@ HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
 
 ## Grundidee
 
-**ZEITRISS 4.2.5** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
+**ZEITRISS 4.2.6** ist in erster Linie ein historisch inspirierter Agenten-Thriller.
 Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
@@ -1287,7 +1287,7 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 18 Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien. Zusammen
 mit `README.md` und `master-index.json` umfasst das Regelwerk **20** Dateien –
 die Wissensspeicher-Slots sind damit vollständig belegt.
-`meta/masterprompt_v6.md` (Local-Uncut 4.2.5) wird separat per Copy-Paste
+`meta/masterprompt_v6.md` (Local-Uncut 4.2.6) wird separat per Copy-Paste
 genutzt. Die Legacy-Fassung liegt unter
 `meta/archive/masterprompt_v6_legacy.md`. Im `master-index.json` erscheinen
 **25** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls
@@ -1437,7 +1437,7 @@ Der Compliance-Hinweis entfällt; die Spielleitung fragt direkt nach gewünschte
 Ansprache und Spielerzahl oder übernimmt beides aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
-Beispiel: `🟢 ZEITRISS 4.2.5 – Einsatz für {{dich|euch}} gestartet`.
+Beispiel: `🟢 ZEITRISS 4.2.6 – Einsatz für {{dich|euch}} gestartet`.
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](systems/gameflow/cinematic-start.md)).

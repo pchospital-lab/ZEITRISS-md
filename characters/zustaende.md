@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 5A: Zustände & erweiterte Systeme"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 5A: Zustände & erweiterte Systeme"
+version: 4.2.6
 tags: [characters, optional]
 ---
 
-# ZEITRISS 4.2.5 – Modul 5A: Zustände & erweiterte Systeme
+# ZEITRISS 4.2.6 – Modul 5A: Zustände & erweiterte Systeme
 
 ## Inhalt
 

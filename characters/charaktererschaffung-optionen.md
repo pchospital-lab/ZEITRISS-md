@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 3B: Charakteroptionen & Archetypen"
-version: 4.2.5
+title: "ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen & Archetypen"
+version: 4.2.6
 tags: [characters]
 ---
 
-# ZEITRISS 4.2.5 – Modul 3B: Charakteroptionen & Archetypen
+# ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen & Archetypen
 
 ## Inhalt
 
@@ -638,7 +638,7 @@ Teamkomposition**:
   spielen lässt, Mira, die ein Napoleonic-Era-Telegramm abhört, und Julian, der eine mysteriöse
   Krankheit im Jahr 2120 analysiert. Solche Unterschiede machen das Spiel spannend!
 
-Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.2.5 soll ein
+Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.2.6 soll ein
 filmisch-packendes Erlebnis sein, kein Zahlenspiel. Die Zahlen und Werte – von Attributen über
 Talente bis Ruf – sind Werkzeuge, um euren Charakter greifbarer zu machen und fair zu bleiben. Die
 KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch
