@@ -158,18 +158,27 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   dass der Charakter schneller an seine Grenzen kommt, wenn er mit Implantaten vollgestopft ist oder
   intensive Psionik wirkt.
 
-**Attributswerte:** Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
-außergewöhnlich und markiert einen Topwert - diese Schwelle bildet das offizielle **Attributs-Cap**
-der Startkampagnen. Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
+**Attributswerte und Caps:**
+
+> **Attributs-Caps auf einen Blick:**
+> - **Start:** Max. ~5–6 pro Attribut (aus 18 Punkten verteilt)
+> - **Reguläres Level-Up:** bis **10** (menschliches Maximum)
+> - **Nach Prestige-Aufstieg:** bis **14** (übermenschlich, erfordert Story-Meilensteine)
+> - Ab Attribut **11** wechselt der Würfel auf W10 (Exploding 10).
+> - Ab Attribut **14** kommt der Heldenwürfel hinzu.
+
+Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
+außergewöhnlich und markiert das menschliche Maximum.
+Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
 tragt direkt die **Boni/Mali eurer Bio-Hülle** ein (diese können Zwischenwerte unter 0 erzeugen) und
-verteilt anschließend **18 freie Punkte** - jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
+verteilt anschließend **18 freie Punkte** — jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
 kein Attribut unter **1** liegen; 3 bleibt der Orientierungswert für Durchschnittlichkeit, typische
-Startbereiche sind 2-5. Kein Start-Attribut sollte höher als ~6 sein, damit Ihr nicht bereits im
-Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere -
+Startbereiche sind 2–5. Kein Start-Attribut sollte höher als ~6 sein, damit ihr nicht bereits im
+Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere —
 spezialisierte Experten oder vielseitige Allrounder. Werte über 10 werden erst nach einem
 **Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet; bis dahin bleibt das
-Cap unverrückbar. Sobald Ihr Prestige erreicht, öffnet Ihr die Tür zu qualitativen Perks, die
-einzelne Attribute punktuell über die Zehn hinausheben und dabei neue Erzählhaken auslösen.
+Cap unverrückbar. Das absolute Maximum liegt bei **14** — solche Werte erfordern bedeutende
+Kampagnen-Meilensteine und sind extrem selten.
 
 **Beispiel:** Agent Alex (Standardmensch ohne Modifikatoren) startet alle Werte bei 0, fügt keine
 Rassenanpassungen hinzu und verteilt 18 Punkte: STR 3, GES 4, INT 4, CHA 2, TEMP 3, SYS 2. Alex ist
@@ -344,10 +353,11 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 #### Attribut- und Talentsteigerungen
 
 - **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
-  erhöht werden. Ein Attributswert von **10** stellt bereits ein sehr hohes Niveau dar. Menschliche
-  Spitzenwerte liegen ungefähr bei **12**; alles darüber wirkt klar übermenschlich. _Neu:_ Das
-  reguläre Level-Up endet bei **10** - jede weitere Steigerung erfordert einen Prestige-Perk oder ein
-  spezielles Story-Ereignis. Sobald Ihr Prestige freischaltet, erhaltet Ihr anstelle des +1-Pflichtbonus
+  erhöht werden. Das reguläre Level-Up endet bei **10** (menschliches Maximum). Jede weitere
+  Steigerung erfordert einen **Prestige-Aufstieg** oder ein spezielles Story-Ereignis. Ab **11**
+  wechselt der Probewürfel auf W10, ab **14** kommt der Heldenwürfel hinzu.
+  Das absolute Maximum liegt bei **14** — solche Werte sind extrem selten und erfordern
+  bedeutende Kampagnen-Meilensteine. Sobald Ihr Prestige freischaltet, erhaltet Ihr anstelle des +1-Pflichtbonus
   einen **qualitativen Prestige-Perk**: z. B. ein ikonisches Manöver, ein Situationsbonus oder ein
   begrenzter Attributsschub auf 11-12, der mit einer erzählerischen Konsequenz verknüpft ist. _Nutzen:_
   **Flow:** Ihr erlebt weiter Fortschritt, doch die neuen Kräfte erzählen eine Szene, statt nur Zahlen
@@ -373,17 +383,16 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   _kombiniert_ beides: vorgegebene Fortschrittspunkte _und_ Raum für organische, storybasierte Talente.
   Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
 
-- **[Erweiterung] Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
-  Limits sinnvoll abzubilden, führen wir die **Heldenwürfel**-Mechanik ein. Erreicht ein Wert
-  **11 oder mehr**, erhält der Charakter bei Proben auf diesem Attribut **automatisch einen
-  zusätzlichen W6** - er würfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
-  _Heldenwürfel_ sorgt dafür, dass ein Wert über 10 nicht bloss **"+1"** bringt, sondern einen
-  **qualitativen Sprung** darstellt. Übermenschliche Werte erhöhen die Erfolgschancen, ohne die
-  Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiter pro Würfel separat und
-  erlaubt selten legendäre Ergebnisse.) **Flow:** Der Heldenwürfel bringt dramatische Höhepunkte,
-  ohne dass statische Boni dominieren. **Balance:** Durch die Begrenzung bleibt er ein seltenes
-  Highlight. **Storytelling:** Er unterstreicht, wie außergewöhnlich Werte jenseits der 10 sind
-  und erlaubt Szenen fast übernatürlicher Meisterschaft.
+- **[Erweiterung] Würfel-Upgrade & Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
+  Limits sinnvoll abzubilden, nutzt ZEITRISS ein zweistufiges System:
+  - **Ab Attribut 11:** Der Würfel wechselt von W6 auf **W10** (Exploding 10 mit Burst-Cap).
+    Das HUD blendet einmalig `W10 aktiv` ein. Dies sorgt für einen **qualitativen Sprung** —
+    mehr Varianz, bessere Chancen gegen hohe SGs.
+  - **Ab Attribut 14:** Der **Heldenwürfel** wird freigeschaltet. Er erlaubt dem Charakter,
+    den Probewürfel erneut zu werfen und das bessere Ergebnis zu nehmen.
+    Der Heldenwürfel kann **ebenfalls explodieren** (Burst-Cap).
+  Beide Mechaniken unterstreichen, wie außergewöhnlich Werte jenseits der 10 sind — solche Attribute
+  erfordern einen Prestige-Aufstieg und bedeutende Story-Meilensteine.
 
 #### Prestige-Perks & Legendenpfade
 
