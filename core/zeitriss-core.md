@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem"
+title: "ZEITRISS 4.2.5 - Modul 1: Immersives Zeitreise-Rollenspielsystem"
 version: 4.2.5
 tags: [core]
 ---
 
-# ZEITRISS 4.2.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem
+# ZEITRISS 4.2.5 - Modul 1: Immersives Zeitreise-Rollenspielsystem
 
 ## Inhalt
 
@@ -17,14 +17,14 @@ tags: [core]
 
 Stellt euch vor, ein Riss in der Zeit öffnet sich und ermöglicht Reisen in vergangene Epochen **und**
 ferne Zukünfte. **ZEITRISS** ist ein textbasiertes Pen-&-Paper-Rollenspiel, in dem eine KI (GPT) als
-Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Gruppe – die Spieler
+Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Gruppe - die Spieler
 übernehmen die Rollen von **Chrononauten**, Zeitagenten, die vom **Institut für Temporale
 Intervention (ITI)** auf Missionen geschickt werden. Jede Mission führt in eine andere historische
 oder zukünftige Epoche mit eigenen Herausforderungen, doch alle Ereignisse finden auf einer
-gemeinsamen, fortlaufenden **Hauptzeitlinie** statt. Die Hauptzeitlinie bleibt intakt – historische
-Eckdaten werden nicht ausgelöscht –, auch wenn Entscheidungen temporäre „Was-wäre-wenn“-Zweige
+gemeinsamen, fortlaufenden **Hauptzeitlinie** statt. Die Hauptzeitlinie bleibt intakt - historische
+Eckdaten werden nicht ausgelöscht -, auch wenn Entscheidungen temporäre "Was-wäre-wenn"-Zweige
 öffnen können. Was die Charaktere in einer Epoche bewirken, beeinflusst die Geschichte nachhaltig:
-Entscheidungen haben Konsequenzen – technologische Eingriffe, kulturelles Auftreten und moralische
+Entscheidungen haben Konsequenzen - technologische Eingriffe, kulturelles Auftreten und moralische
 Handlungen der Chrononauten können den Verlauf der Zeitlinie spürbar verändern. Die Agenten
 versuchen dabei meist, die **Integrität der Geschichte** zu wahren und große Widersprüche zu
 vermeiden, damit über dutzende Missionen hinweg ein konsistentes Gesamtbild entsteht.
@@ -41,7 +41,7 @@ etwa bei Treffen um 22:00 Uhr 1943.
 
 Der Ton des Spiels ist düster-atmosphärisch, mysteriös und historisch stimmig. Man taucht
 vollständig in die jeweilige Zeit ein, löst Rätsel, besteht Abenteuer und erlebt die Welt durch die
-Augen der Charaktere. Gleichzeitig fühlt es sich an wie ein cineastischer Sci-Fi-Thriller – stilvoll
+Augen der Charaktere. Gleichzeitig fühlt es sich an wie ein cineastischer Sci-Fi-Thriller - stilvoll
 und spannend, ohne ins Überzogene oder Parodistische abzudriften.
 
 \*Jeder Chrononaut nutzt eine **AR-Kontaktlinse (Retina-HUD)** und ein
@@ -55,15 +55,15 @@ Armbänder oder externen Projektoren.\*
 
 ### Tonalität & Immersion
 
-ZEITRISS verbindet filmische Erzählweise mit klaren Regeln. Die Stimme des Systems – der Erzähler,
-verkörpert durch die KI-Spielleitung – beschreibt Szenerien, Stimmungen und Hintergründe, ohne
-selbst Teil der Spielwelt zu sein. Diese Erzählerstimme „flüstert“ gewissermaßen Schicksal und
+ZEITRISS verbindet filmische Erzählweise mit klaren Regeln. Die Stimme des Systems - der Erzähler,
+verkörpert durch die KI-Spielleitung - beschreibt Szenerien, Stimmungen und Hintergründe, ohne
+selbst Teil der Spielwelt zu sein. Diese Erzählerstimme "flüstert" gewissermaßen Schicksal und
 Atmosphäre in die Geschichte, während die NSC-Stimmen (Nichtspielercharaktere) innerhalb der Welt
 agieren. Diese Trennung wahrt die Immersion: Was die Spielleitung beschreibt, nehmen die Charaktere
 als indirekte Eindrücke wahr, nicht als Worte eines allwissenden Erzählers. Die Spielercharaktere
-hören also z. B. das entfernte Donnergrollen und spüren ein unerklärliches Unbehagen (Systemstimme),
-aber wenn ein Dorfbewohner ruft: „Hilfe, rettet mein Kind!“, dann ist das ein tatsächlicher Dialog
-innerhalb der Welt. Erzählebene und Spielebene greifen ineinander, ohne sich zu vermischen – so
+hören also z. B. das entfernte Donnergrollen und spüren ein unerklärliches Unbehagen (Systemstimme),
+aber wenn ein Dorfbewohner ruft: "Hilfe, rettet mein Kind!", dann ist das ein tatsächlicher Dialog
+innerhalb der Welt. Erzählebene und Spielebene greifen ineinander, ohne sich zu vermischen - so
 bleibt die Illusion einer lebendigen Welt erhalten.
 
 Gleichzeitig bleiben Fairness und Transparenz gewahrt. Die Spielleitung wird wichtige Proben und
@@ -73,31 +73,31 @@ und die Spieler können sich auf die Geschichte konzentrieren, statt die Mechani
 
 ### Charaktere & Werte
 
-Jede Spielerfigur – jeder **Chrononaut** – wird durch eine Reihe von Charakterdaten beschrieben, die
+Jede Spielerfigur - jeder **Chrononaut** - wird durch eine Reihe von Charakterdaten beschrieben, die
 seine Fähigkeiten, Ressourcen und Persönlichkeit abbilden. Diese Werte sind wichtig für die
 Spielmechanik und werden auf einem Charakterbogen festgehalten. Über längere Kampagnen hinweg
 bleiben Charaktere persistent: Das Spiel verwendet Speicherstände (Savegames), um Fortschritt und
 Werte zwischen Spielsessions zu übertragen (siehe Abschnitt **Speicherstand & Fortsetzung**). Die
 Spieler identifizieren sich so mit ihren Charakteren, die sich logisch und kontinuierlich
-weiterentwickeln – von Level 1 bis theoretisch Level 1000 – ohne dass die Welt an Glaubwürdigkeit
+weiterentwickeln - von Level 1 bis theoretisch Level 1000 - ohne dass die Welt an Glaubwürdigkeit
 verliert.
 
 ### Hintergrund & Konzept
 
 Bevor Zahlenwerte verteilt werden, lohnt es sich, das **Konzept** des Charakters festzulegen. Ein
-Chrononaut ist mehr als nur seine Werte – er hat eine Herkunft und Persönlichkeit, welche die Rolle
+Chrononaut ist mehr als nur seine Werte - er hat eine Herkunft und Persönlichkeit, welche die Rolle
 prägen. Wichtige Aspekte bei der Erstellung eines Charakters sind unter anderem:
 
 - **Epoche der Herkunft:** Aus welcher Zeit stammt der Charakter ursprünglich? Die Missionen in
-  ZEITRISS können in verschiedensten Zeitaltern spielen – vom alten Mesopotamien bis zur
+  ZEITRISS können in verschiedensten Zeitaltern spielen - vom alten Mesopotamien bis zur
   futuristischen Marskolonie. Genauso vielfältig kann die Heimatzeit der Chrononauten sein. Vielleicht
   wurde ein Ritter des Mittelalters vom ITI rekrutiert, oder ein Hacker aus dem 21. Jahrhundert hat
   sich den Zeitagenten angeschlossen. Die Heimatzeit prägt das kulturelle Wissen, den technologischen
   Hintergrund und möglicherweise die Sprache des Charakters.
 - **Beruf/Expertise:** Welchen sozialen Stand oder Beruf hatte der Chrononaut vor seinem Einstieg
   beim ITI? Ein Arzt aus der Renaissance, eine Spionin aus dem Kalten Krieg oder ein Ex-Söldner aus
-  der nahen Zukunft – der ursprüngliche Beruf definiert Grundkenntnisse und Fertigkeiten. Diese
-  fließen oft in Talente ein (z. B. hat ein ehemaliger Schmied das Talent _„Handwerkskunst“_, ein
+  der nahen Zukunft - der ursprüngliche Beruf definiert Grundkenntnisse und Fertigkeiten. Diese
+  fließen oft in Talente ein (z. B. hat ein ehemaliger Schmied das Talent _"Handwerkskunst"_, ein
   Soldat besitzt Kampferfahrung als Talent).
 - **Persönlichkeit:** Welche Wesenszüge hat der Charakter? Mutig und idealistisch, oder misstrauisch
   und analytisch? Solche Beschreibungen helfen der Spielleitung dabei, den richtigen Ton für die Figur
@@ -105,7 +105,7 @@ prägen. Wichtige Aspekte bei der Erstellung eines Charakters sind unter anderem
   Chrononaut agiert anders als ein zynischer Opportunist. Dies kann den Spielverlauf subtil lenken,
   ohne direkt in Zahlen ausgedrückt zu sein.
 - **Motivation:** Warum reist der Charakter durch die Zeit? Mögliche Motive: Pflichtbewusstsein im
-  Auftrag des ITI, persönliche Neugier auf fremde Epochen, der Drang, die Geschichte zu bewahren –
+  Auftrag des ITI, persönliche Neugier auf fremde Epochen, der Drang, die Geschichte zu bewahren -
   oder zu verändern. Vielleicht verfolgt er sogar eine eigene geheime Agenda (etwa die Suche nach
   einer in der Zeit verschollenen Person). Die Motivation gibt dem Charakter Antrieb und dient als
   Leitfaden in Entscheidungsmomenten.
@@ -113,7 +113,7 @@ prägen. Wichtige Aspekte bei der Erstellung eines Charakters sind unter anderem
   Wohl anderer über sein eigenes (_altruistisch_) oder ordnet er alles dem Missionsziel unter, koste
   es was es wolle (_pragmatisch_)? Diese Grundhaltung spiegelt sich später im **Moralprofil** des
   Charakters und im **Ruf bei Fraktionen** wider. (Im Spiel wird dieser Ruf messbar in einem Wert von
-  **–5** bis **+5** je ITI‑Fraktion dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
+  **-5** bis **+5** je ITI-Fraktion dargestellt.) ZEITRISS legt Wert auf spürbare Konsequenzen
   moralischer Entscheidungen: Ein Idealist wird einen anderen Ruf entwickeln als jemand, der
   kaltblütig Opfer in Kauf nimmt.
 
@@ -127,7 +127,7 @@ Jeder Chrononaut besitzt sechs **Hauptattribute**, die seine grundlegenden Stär
 festlegen. Bei ungewissen oder risikobehafteten Aktionen werden diese Attribute herangezogen, um die
 Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 
-- **Stärke (STR):** Körperkraft und Ausdauer. Relevant für physische Kraftakte – z. B. schwere
+- **Stärke (STR):** Körperkraft und Ausdauer. Relevant für physische Kraftakte - z. B. schwere
   Objekte heben, Türen eintreten, im Nahkampf zuschlagen oder lange Märsche durchhalten. Ein hoher
   STR-Wert erhöht die Erfolgswahrscheinlichkeit bei solchen Aktionen und steigert den Schaden im
   waffenlosen Nahkampf.
@@ -144,11 +144,11 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   zu verführen, einzuschüchtern oder allgemein Einfluss auf Personen zu nehmen. Ein charismatischer
   Charakter knüpft leichter Kontakte und kann das Verhalten von NSCs durch Worte beeinflussen. CHA ist
   außerdem das Maß für Psi- und Stressproben.
-- **Temporale Affinität (TEMP):** Die Affinität zur Zeit – Sensibilität für temporale Phänomene und
+- **Temporale Affinität (TEMP):** Die Affinität zur Zeit - Sensibilität für temporale Phänomene und
   Widerstand gegen Zeitmanipulation. Ein Charakter mit hoher TEMP spürt Anomalien oder Veränderungen
-  der Zeitlinie als einer der Ersten und ist resistenter gegen negative Zeiteffekte (z. B. Zeitschocks
+  der Zeitlinie als einer der Ersten und ist resistenter gegen negative Zeiteffekte (z. B. Zeitschocks
   oder Änderungen der Realität). Temporale Affinität ermöglicht es in begrenztem Maße sogar, latente
-  Zeitkräfte einzusetzen – etwa einen kurzen Blick in die unmittelbare Zukunft zu erhaschen oder sich
+  Zeitkräfte einzusetzen - etwa einen kurzen Blick in die unmittelbare Zukunft zu erhaschen oder sich
   gegen das Umschreiben der eigenen Erinnerungen bei Zeitlinienänderungen zu wehren.
 - **Systemlast (SYS):** Die Kapazität des Charakters, technologische und psionische Modifikationen
   zu tragen und zu kontrollieren. Systemlast repräsentiert die Belastungsgrenze von Körper und Geist
@@ -159,13 +159,13 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   intensive Psionik wirkt.
 
 **Attributswerte:** Werte um 3 gelten als durchschnittlich menschlich. 1 ist sehr gering, 10 ist
-außergewöhnlich und markiert einen Topwert – diese Schwelle bildet das offizielle **Attributs-Cap**
+außergewöhnlich und markiert einen Topwert - diese Schwelle bildet das offizielle **Attributs-Cap**
 der Startkampagnen. Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
 tragt direkt die **Boni/Mali eurer Bio-Hülle** ein (diese können Zwischenwerte unter 0 erzeugen) und
-verteilt anschließend **18 freie Punkte** – jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
+verteilt anschließend **18 freie Punkte** - jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
 kein Attribut unter **1** liegen; 3 bleibt der Orientierungswert für Durchschnittlichkeit, typische
-Startbereiche sind 2–5. Kein Start-Attribut sollte höher als ~6 sein, damit Ihr nicht bereits im
-Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere –
+Startbereiche sind 2-5. Kein Start-Attribut sollte höher als ~6 sein, damit Ihr nicht bereits im
+Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere -
 spezialisierte Experten oder vielseitige Allrounder. Werte über 10 werden erst nach einem
 **Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet; bis dahin bleibt das
 Cap unverrückbar. Sobald Ihr Prestige erreicht, öffnet Ihr die Tür zu qualitativen Perks, die
@@ -189,35 +189,35 @@ seinem Bereich narrative und oft auch mechanische Vorteile.
 
 **Beispiele für Talente/Fertigkeiten:**
 
-- **Wissen & Sprachen:** z. B. historische Sprachen (Latein, Sumerisch), wissenschaftliche
+- **Wissen & Sprachen:** z. B. historische Sprachen (Latein, Sumerisch), wissenschaftliche
   Expertise, medizinisches Wissen oder Okkultismus. Solche Kenntnisse gehen über einen bloßen INT-
   Wert hinaus und erlauben besondere Informationen oder Aktionen. _(Beispiel: Das Talent
-  „Altgriechisch“ ermöglicht es, antike Texte zu lesen, ohne dafür eine Probe ablegen zu müssen.)_
+  "Altgriechisch" ermöglicht es, antike Texte zu lesen, ohne dafür eine Probe ablegen zu müssen.)_
 - **Kampffertigkeiten:** Spezielle Kampfstile oder Waffenmeisterschaften, die im Kampf Vorteile
-  bringen. _(Beispiel: Talent „Scharfschütze“ gewährt +2 auf Fernkampf-Angriffe; Talent
-  „Schwertmeister“ erleichtert Paraden im Nahkampf.)_
-- **Technische/Handwerkliche Fertigkeiten:** z. B. Hacker, Sprengstoffexperte, Mechaniker,
+  bringen. _(Beispiel: Talent "Scharfschütze" gewährt +2 auf Fernkampf-Angriffe; Talent
+  "Schwertmeister" erleichtert Paraden im Nahkampf.)_
+- **Technische/Handwerkliche Fertigkeiten:** z. B. Hacker, Sprengstoffexperte, Mechaniker,
   Alchemist. Solche Talente erlauben es dem Charakter, komplexe Aufgaben in ihrem Fachgebiet zu
   meistern, die anderen ohne dieses Können verwehrt bleiben.
 - **Zeitreise-Fähigkeiten:** Außergewöhnliche Kräfte, die durch den Kontakt mit dem Zeitstrom oder
-  spezielles Training entstanden sind. Dazu zählen **Psionik** oder temporale Manipulationen – etwa
+  spezielles Training entstanden sind. Dazu zählen **Psionik** oder temporale Manipulationen - etwa
   eine kurze Verlangsamung der Zeit für ein paar Sekunden, eine instinktive Vorahnung kommender
   Ereignisse (_Präkognition_) oder das Spüren von Zeitschocks aus der Ferne. Diese Fähigkeiten sind
   äußerst selten und erfordern eine hohe Temporale Affinität; oft entwickeln sie sich erst spät im
   Kampagnenverlauf und nur bei sehr erfahrenen Chrononauten. (Nur Charaktere auf den höchsten Stufen
-  haben überhaupt eine Chance, solche Kräfte zu meistern – wenn überhaupt.)
+  haben überhaupt eine Chance, solche Kräfte zu meistern - wenn überhaupt.)
 - **Soziale & Sonstige Fertigkeiten:** Alles, was zum Konzept der Figur passt, aber nicht unter die
-  obigen Kategorien fällt – z. B. Meisterdetektiv (kombiniert Scharfsinn und Menschenkenntnis, um
+  obigen Kategorien fällt - z. B. Meisterdetektiv (kombiniert Scharfsinn und Menschenkenntnis, um
   Kriminalfälle zu lösen), Wüstenführer (Experte im Überleben in der Wüste) oder Täuscher (besonders
   gut im Lügen und in Verkleidung). Der Fantasie sind kaum Grenzen gesetzt, solange es in die
   plausible Spielwelt von ZEITRISS passt.
 
 Talente werden zu Beginn entsprechend dem Charakterkonzept festgelegt oder im Laufe der Kampagne
 durch Erlebnisse erworben. Sie bieten in ihrem Bereich klare Vorteile. Mechanisch können Talente
-z. B. einen Bonus auf passende Würfelproben geben, den Einsatz bestimmter Ausrüstung erleichtern
+z. B. einen Bonus auf passende Würfelproben geben, den Einsatz bestimmter Ausrüstung erleichtern
 oder sogar bewirken, dass man manche Aktionen **ohne Probe** automatisch schafft, wenn es logisch
-zur Expertise passt. _(Beispiel: Jemand mit dem Talent „Schlösserknacker“ muss vielleicht gar nicht
-würfeln, um ein einfaches Schloss zu öffnen – er hat es einfach im Gefühl.)_ Die Spielleitung wird
+zur Expertise passt. _(Beispiel: Jemand mit dem Talent "Schlösserknacker" muss vielleicht gar nicht
+würfeln, um ein einfaches Schloss zu öffnen - er hat es einfach im Gefühl.)_ Die Spielleitung wird
 Talente im Spiel berücksichtigen und belohnen, indem entsprechende Herausforderungen für kundige
 Charaktere einfacher zu bewältigen sind oder alternative Lösungswege offenstehen.
 
@@ -227,7 +227,7 @@ Im ZEITRISS-Universum existieren neben historischen Gegebenheiten auch futuristi
 und außergewöhnliche Begabungen, die einen Chrononauten verbessern oder verändern können.
 **Cyberware** und **Bioware** stehen für technische bzw. biologische Modifikationen des Körpers,
 während **Psionik** spezielle mentale Fähigkeiten bezeichnet. Diese Erweiterungen erlauben dem
-Charakter neue Möglichkeiten – sind aber mit Vorsicht und Grenzen verbunden.
+Charakter neue Möglichkeiten - sind aber mit Vorsicht und Grenzen verbunden.
 
 - **Cyberware:** Technologische Implantate und Prothesen, die direkt im Körper des Chrononauten
   integriert sind. _Beispiele:_ ein kybernetischer Arm (erhöht Stärke und Schlagkraft), ein
@@ -235,47 +235,47 @@ Charakter neue Möglichkeiten – sind aber mit Vorsicht und Grenzen verbunden.
   ein Datenchip im Gehirn (ermöglicht Zugriff auf gespeichertes Wissen oder kabellose Kommunikation
   mit Geräten). Cyberware kann bestehende Fähigkeiten verbessern oder ganz neue schaffen. Allerdings
   beansprucht jedes Implantat einen Teil der Systemlast-Kapazität (SYS) des Charakters. Außerdem
-  erfordern fortschrittliche Implantate die richtigen Ressourcen und medizinische Ausrüstung im ITI –
-  man kann sie nicht einfach irgendwo _„im Feld”_ einsetzen.
+  erfordern fortschrittliche Implantate die richtigen Ressourcen und medizinische Ausrüstung im ITI -
+  man kann sie nicht einfach irgendwo _"im Feld"_ einsetzen.
 - **Bioware:** Biotechnologische Verbesserungen des Körpers, meist durch genetische Modifikation
   oder bio-organische Implantate. _Beispiele:_ ein optimiertes Immunsystem (Resistenz gegen Gifte und
   Krankheiten), künstliche Muskelfasern (steigern Stärke oder Geschicklichkeit), ein erweitertes
-  Nervensystem (schnellere Reflexe, z. B. Bonus auf Initiative/GES). Bioware ist oft subtiler als
-  Cyberware – weniger mechanisch sichtbar – und wird vom Körper etwas besser akzeptiert, beansprucht
+  Nervensystem (schnellere Reflexe, z. B. Bonus auf Initiative/GES). Bioware ist oft subtiler als
+  Cyberware - weniger mechanisch sichtbar - und wird vom Körper etwas besser akzeptiert, beansprucht
   aber ebenfalls Systemlast. Auch Bioware-Implantate können nur im ITI-Labor mit entsprechender
   Ausstattung hergestellt und eingebaut werden.
 - **Psionik:** Mentale Fähigkeiten des Chrononauten, die über normales menschliches Können
   hinausgehen. Oft werden diese Begabungen erst durch Zeitreisen oder besondere Veranlagung geweckt.
-  Psionische Kräfte in ZEITRISS sind z. B. Telepathie (Gedanken/Gefühle über Distanz oder Zeit
-  wahrnehmen), Präkognition (flüchtige Visionen der unmittelbaren Zukunft – etwa eine Sekunde
+  Psionische Kräfte in ZEITRISS sind z. B. Telepathie (Gedanken/Gefühle über Distanz oder Zeit
+  wahrnehmen), Präkognition (flüchtige Visionen der unmittelbaren Zukunft - etwa eine Sekunde
   Vorausahnung, was im Kampf einen kleinen Initiative-Vorteil gibt), Telekinese in geringem Umfang
   (kleine Objekte bewegen oder Maschinen aus der Ferne bedienen) oder Chronokinese (lokale Zeitströme
-  minimal beeinflussen, z. B. einen Gegenstand für Sekunden altern lassen oder den eigenen Ablauf
+  minimal beeinflussen, z. B. einen Gegenstand für Sekunden altern lassen oder den eigenen Ablauf
   kurzzeitig beschleunigen/verlangsamen). Psionik kann sehr mächtig sein, ist aber streng limitiert:
   Der Einsatz solcher Kräfte kostet große Konzentration und _blockiert_ einen Teil der Systemlast, da
   Körper und Geist stark beansprucht werden.
 
-**Systemlast-Mechanik:** Jeder Charakter hat einen **Systemlast-Wert (SYS)**, der – wie oben
-beschrieben – bestimmt, wie viel geballte _„Fremdleistung“_ sein Körper und Geist verkraften können.
+**Systemlast-Mechanik:** Jeder Charakter hat einen **Systemlast-Wert (SYS)**, der - wie oben
+beschrieben - bestimmt, wie viel geballte _"Fremdleistung"_ sein Körper und Geist verkraften können.
 Jedes aktive Implantat und jede aktiv genutzte psionische Kraft hat einen bestimmten Systemlast-
 Kostenwert. Die Summe der aktuell _gleichzeitig_ genutzten Modifikationen darf den SYS-Wert des
-Charakters nicht überschreiten – andernfalls kommt es zur **Überlastung**. Eine Überlastung äußert
+Charakters nicht überschreiten - andernfalls kommt es zur **Überlastung**. Eine Überlastung äußert
 sich darin, dass Implantate Fehlfunktionen zeigen oder abschalten, der Charakter starke Erschöpfung,
-Schmerz oder Kontrollverlust erleidet oder im schlimmsten Fall sein System versagt (z. B.
+Schmerz oder Kontrollverlust erleidet oder im schlimmsten Fall sein System versagt (z. B.
 Notabschaltung von Cyberware oder Kollaps durch neuronale Überreizung).
 
-Praktisch heißt das: Ein Charakter mit Systemlast 5 könnte z. B. problemlos fünf kleinere Implantate
+Praktisch heißt das: Ein Charakter mit Systemlast 5 könnte z. B. problemlos fünf kleinere Implantate
 gleichzeitig nutzen (jedes kostet 1 Punkt) oder ein paar größere Mods (etwa einen Cyberarm mit
 Kosten 2 und ein Neuro-Interface mit Kosten 3). Möchte er darüber hinaus noch eine psionische
-Fähigkeit aktivieren, müsste er zuerst eine andere Modifikation deaktivieren – oder er riskiert die
-Überlastung. Nicht alle Implantate oder Fähigkeiten müssen permanent _„an“_ sein – der Charakter
+Fähigkeit aktivieren, müsste er zuerst eine andere Modifikation deaktivieren - oder er riskiert die
+Überlastung. Nicht alle Implantate oder Fähigkeiten müssen permanent _"an"_ sein - der Charakter
 kann entscheiden, welche er aktuell aktiv hält, um innerhalb seiner Grenze zu bleiben. Die
-Spielleitung achtet auf die Systemlast und wird ggf. im Spiel warnen: „Ihr spürt ein gefährliches
-Kribbeln an der Schädelbasis – euer Interface ist überlastet. Mehr Schub verkraftet euer System
-nicht…“
+Spielleitung achtet auf die Systemlast und wird ggf. im Spiel warnen: "Ihr spürt ein gefährliches
+Kribbeln an der Schädelbasis - euer Interface ist überlastet. Mehr Schub verkraftet euer System
+nicht…"
 
 Durch die Systemlast-Beschränkung balanciert sich ein Charakter automatisch aus: Wer viel Cyber- und
-Bioware in sich trägt, hat weniger Kapazität für Psionik – und umgekehrt. Extrem mächtige
+Bioware in sich trägt, hat weniger Kapazität für Psionik - und umgekehrt. Extrem mächtige
 zeitmanipulierende Fähigkeiten werden so ohnehin erst möglich, wenn der Charakter im Laufe der Level
 genügend Systemlast **und** Temporale Affinität aufgebaut hat. Diese Mechanik stellt sicher, dass
 Chrononauten zwar zu beeindruckenden Agenten werden können, aber keine allmächtigen Wesen sind, die
@@ -287,10 +287,10 @@ und sorgfältiges SYS-Management.
 
 ### Levelaufstieg & Fortschritt
 
-#### Regelupdate: Progressionssystem Level 1–1000
+#### Regelupdate: Progressionssystem Level 1-1000
 
 **Ziel:** Dieses Update überarbeitet das Fortschrittssystem von **ZEITRISS 4.2.5**,
-um von Level 1 bis 1000 dauerhaft Spielspaß zu gewährleisten –
+um von Level 1 bis 1000 dauerhaft Spielspaß zu gewährleisten -
 mit klaren Meilensteinen und horizontalen Erweiterungen.
 Es vermeidet entgleisenden _Power Creep_.
 Die Änderungen sind nachfolgend in **[Austausch]** (ersetzt bestehende Regel)
@@ -307,7 +307,7 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
   erreicht wird_. _Nutzen:_ Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
   sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange spannend bleibt.
   **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere zu rasch extrem hohe Stufen
-  erreichen, ohne sie jedoch künstlich auszubremsen – _"immer eine nächste Stufe in Reichweite"_.
+  erreichen, ohne sie jedoch künstlich auszubremsen - _"immer eine nächste Stufe in Reichweite"_.
   **Storytelling:** Spielleiter können Level-Aufstiege mit größeren Zeitabständen planen, was Raum
   für ausgedehntere Handlungsbögen lässt, während regelmäßige Fortschritte die Motivation
   hochhalten.
@@ -319,11 +319,11 @@ Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Story
   **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **Sonderstatus** im ITI. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
-  einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). _Nutzen:_ **Flow:**
-  Klare Meilensteine geben den Spielern greifbare Fernziele – das nächste „große Ziel“ ist nie weit,
+  einhergehen (z. B. Spezialausrüstung oder Ressourcenbonus als Anerkennung). _Nutzen:_ **Flow:**
+  Klare Meilensteine geben den Spielern greifbare Fernziele - das nächste "große Ziel" ist nie weit,
   was die **Langzeitmotivation** stärkt. **Balance:** Die Belohnungen sind überwiegend erzählerisch
   oder qualitativ (neue Möglichkeiten statt bloßer Zahlensteigerung), um _exponentiellen
-  Machtzuwachs zu vermeiden_. **Storytelling:** Meilensteine erweitern ihre Befugnisse im ITI –
+  Machtzuwachs zu vermeiden_. **Storytelling:** Meilensteine erweitern ihre Befugnisse im ITI -
   Chrononauten bleiben dennoch namenlose Werkzeuge, die von den Epochen vergessen werden
 
 
@@ -337,7 +337,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
-  Sie erhalten dadurch weitreichende Befugnisse – ein spürbarer Höhepunkt im HQ-Ausbau.
+  Sie erhalten dadurch weitreichende Befugnisse - ein spürbarer Höhepunkt im HQ-Ausbau.
 - **Level 100 → Interner Legendenstatus:** Nur wenige erreichen diesen Rang. Im ITI gelten sie als
   herausragende Koryphäen, bleiben in den Epochen jedoch namenlos.
 
@@ -346,28 +346,28 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 - **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
   erhöht werden. Ein Attributswert von **10** stellt bereits ein sehr hohes Niveau dar. Menschliche
   Spitzenwerte liegen ungefähr bei **12**; alles darüber wirkt klar übermenschlich. _Neu:_ Das
-  reguläre Level-Up endet bei **10** – jede weitere Steigerung erfordert einen Prestige-Perk oder ein
+  reguläre Level-Up endet bei **10** - jede weitere Steigerung erfordert einen Prestige-Perk oder ein
   spezielles Story-Ereignis. Sobald Ihr Prestige freischaltet, erhaltet Ihr anstelle des +1-Pflichtbonus
-  einen **qualitativen Prestige-Perk**: z. B. ein ikonisches Manöver, ein Situationsbonus oder ein
-  begrenzter Attributsschub auf 11–12, der mit einer erzählerischen Konsequenz verknüpft ist. _Nutzen:_
+  einen **qualitativen Prestige-Perk**: z. B. ein ikonisches Manöver, ein Situationsbonus oder ein
+  begrenzter Attributsschub auf 11-12, der mit einer erzählerischen Konsequenz verknüpft ist. _Nutzen:_
   **Flow:** Ihr erlebt weiter Fortschritt, doch die neuen Kräfte erzählen eine Szene, statt nur Zahlen
   aufzublähen. **Balance:** Die _weiche Attributs-Obergrenze_ bleibt intakt, denn Prestige-Perks
   verlangen bewusste Entscheidungen und halten das Spielfeld zwischen Psi, Tech und blanker Physis
-  fair. **Storytelling:** Prestige-Perks sind gebaute Legendenmomente – die Szene beschreibt, welches
+  fair. **Storytelling:** Prestige-Perks sind gebaute Legendenmomente - die Szene beschreibt, welches
   Opfer oder welche Offenbarung Euch über die Zehn hinaus trägt.
 
 - **[Austausch] Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
   zur Spezialisierung. Bisher konnten neue Talente _gelegentlich nach Absprache_ freigeschaltet
-  werden – zukünftig erfolgt dies **strukturierter**: _Etwa alle 3–5 Level_ (im Schnitt **2 Talente
+  werden - zukünftig erfolgt dies **strukturierter**: _Etwa alle 3-5 Level_ (im Schnitt **2 Talente
   pro 10 Stufen**) darf der Spieler ein neues Talent wählen oder ein bestehendes erweitern, soweit es
-  zur Geschichte passt. Die Tabelle für Level 1–10 zeigt bereits Beispiele (Level 4: Option auf neues
+  zur Geschichte passt. Die Tabelle für Level 1-10 zeigt bereits Beispiele (Level 4: Option auf neues
   Talent; Level 8: weiteres Talent/Upgrade). Dieses Prinzip wird fortgeführt, um regelmäßig frische
   Fähigkeiten zu integrieren. Zwischen diesen festen Punkten können natürlich weiterhin
-  _improvisierte Talentgewinne_ durch besondere Erlebnisse stattfinden (z. B. erlernt ein Charakter nach
-  einem Dschungel-Abenteuer das Talent **„Kräuterkunde"** in-Game). _Nutzen:_ **Flow:** Planbare
+  _improvisierte Talentgewinne_ durch besondere Erlebnisse stattfinden (z. B. erlernt ein Charakter nach
+  einem Dschungel-Abenteuer das Talent **"Kräuterkunde"** in-Game). _Nutzen:_ **Flow:** Planbare
   Talent-Freischaltungen geben Spielern **Gestaltungsfreiheit**, ihren Helden stetig vielfältiger zu
   machen, was den Spielfluss bereichert (neue Tricks kommen ins Repertoire). **Balance:** Durch
-  moderates Verteilen von Talenten bleibt jeder Zugewinn **bedeutsam**, aber kontrolliert – Helden
+  moderates Verteilen von Talenten bleibt jeder Zugewinn **bedeutsam**, aber kontrolliert - Helden
   können sich spezialisieren, ohne allzu schnell _alles zu können_. **Storytelling:** Talente sind oft
   eng mit der Narrative verknüpft (Hintergrund, Missions-Erfahrungen). Das strukturierte System
   _kombiniert_ beides: vorgegebene Fortschrittspunkte _und_ Raum für organische, storybasierte Talente.
@@ -376,7 +376,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 - **[Erweiterung] Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
   Limits sinnvoll abzubilden, führen wir die **Heldenwürfel**-Mechanik ein. Erreicht ein Wert
   **11 oder mehr**, erhält der Charakter bei Proben auf diesem Attribut **automatisch einen
-  zusätzlichen W6** – er würfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
+  zusätzlichen W6** - er würfelt also **zweimal und nimmt das bessere Ergebnis**. Dieser
   _Heldenwürfel_ sorgt dafür, dass ein Wert über 10 nicht bloss **"+1"** bringt, sondern einen
   **qualitativen Sprung** darstellt. Übermenschliche Werte erhöhen die Erfolgschancen, ohne die
   Grundmechanik auszuhebeln. (Die **Exploding-Dice**-Regel gilt weiter pro Würfel separat und
@@ -387,10 +387,10 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 #### Prestige-Perks & Legendenpfade
 
-Sobald Ihr **Prestige-Level** (z. B. 100, 200, 300 …) erreicht, öffnet sich ein Legendenpfad, der
+Sobald Ihr **Prestige-Level** (z. B. 100, 200, 300 …) erreicht, öffnet sich ein Legendenpfad, der
 den Standard-Aufstieg ablöst.
 
-- **Prestige-Trigger:** Der Aufstieg wird im HQ als feierlicher Akt festgehalten – Ihr kehrt ins ITI
+- **Prestige-Trigger:** Der Aufstieg wird im HQ als feierlicher Akt festgehalten - Ihr kehrt ins ITI
   zurück, absolviert einen Rite-of-Passage und entscheidet Euch für einen Prestige-Pfad. Erst danach
   dürfen einzelne Attribute erzählerisch auf 11 oder 12 springen.
 - **Perk-Design:** Prestige-Perks liefern qualitative Macht. Beispiele: *Temporal Anchor* (einmal pro
@@ -399,7 +399,7 @@ den Standard-Aufstieg ablöst.
   legen). Jeder Perk bindet Euch an Verbündete, Feinde oder Ressourcen.
 - **Mechanik & Balance:** Der Prestige-Pfad ersetzt den Standard-Attributsbonus. Ihr entscheidet aktiv,
   welcher Perk Eure Rolle schärft. Attribute bleiben dabei innerhalb des Caps, solange kein Prestige-
-  Perk sie freischaltet – so bleibt das Spielfeld zwischen Tech, Psi und roher Kraft ausgewogen.
+  Perk sie freischaltet - so bleibt das Spielfeld zwischen Tech, Psi und roher Kraft ausgewogen.
 
 Prestige-Perks sind bewusst filmisch inszeniert: Ihr spürt in der Szene, wie das Zeitgefüge kurz
 zittert, während das ITI Euren Namen in die Annalen brennt. Diese Momente definieren Eure Chrononauten
@@ -408,12 +408,12 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 #### Signature-Aktionen (individuelle Heldentricks)
 
 - **[Erweiterung] Signature-Aktionen:** Jeder Charakter kann im Laufe der Karriere **eine einzigartige
-  Spezialaktion** entwickeln – ein **Signature Move**, der ihn legendär macht. Ab einem hohen Level
-  (z. B. **50+**) oder bei entsprechendem Prestige-Rang definiert der Spieler zusammen mit der SL eine
+  Spezialaktion** entwickeln - ein **Signature Move**, der ihn legendär macht. Ab einem hohen Level
+  (z. B. **50+**) oder bei entsprechendem Prestige-Rang definiert der Spieler zusammen mit der SL eine
   solche Aktion. Sie kann **nur begrenzt eingesetzt** werden, etwa einmal pro Mission, entfaltet dann
   aber **durchschlagende Wirkung**. Beispiele: Ein Scharfschütze erhält einen "**Perfekten Schuss**",
-  der ein nahezu unmögliches Ziel automatisch trifft. Eine Zeitagentin nutzt einen **„Zeitsprung-
-  Impuls“**, um einen Augenblick die Zeit anzuhalten. Signature-Aktionen sollten klar umrissen sein und
+  der ein nahezu unmögliches Ziel automatisch trifft. Eine Zeitagentin nutzt einen **"Zeitsprung-
+  Impuls"**, um einen Augenblick die Zeit anzuhalten. Signature-Aktionen sollten klar umrissen sein und
   zum Charakter passen. Ihre Nutzung geht oft mit Kosten oder Risiken einher (Erschöpfung,
   **SYS-Verbrauch**, Paradoxon-Stand) und bleibt so eine dramatische _Trumpfkarte_. **Flow:** Sie bringen
   spektakuläre Höhepunkte, ohne das Spiel dauerhaft zu dominieren. **Balance:** Die Begrenzung (z.B.
@@ -424,17 +424,17 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 #### Team-Perks & Gruppenvorteile
 
 - **[Erweiterung] Team-Perks in der Progression:** Neben individueller Entwicklung kann eine Gruppe
-  gemeinsame Spezialisierungen freischalten. Nach 3–5 gemeinsamen Missionen wählt das Team seinen
-  ersten Perk, etwa **„Diplomatenteam“** oder **„Kampfverbund"**. Weitere Perks folgen nach
+  gemeinsame Spezialisierungen freischalten. Nach 3-5 gemeinsamen Missionen wählt das Team seinen
+  ersten Perk, etwa **"Diplomatenteam"** oder **"Kampfverbund"**. Weitere Perks folgen nach
   bedeutenden Erfolgen, wobei immer nur einer aktiv ist. Bedingungen und Kosten legt die Spielrunde
   fest. **Flow:** Team-Perks fördern Zusammenarbeit. **Balance:** Sie ergänzen individuelle
   Fähigkeiten, ohne sie zu ersetzen. **Storytelling:** Die Chrononauten wachsen zusammen und werden
-  als Team intern anerkannt – ausserhalb des ITI bleiben sie unbekannt.
+  als Team intern anerkannt - ausserhalb des ITI bleiben sie unbekannt.
 
 #### Prestige-Stufen & Interner Aufstieg
 
   - **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
-    Prestige-Stufen ein – etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
+    Prestige-Stufen ein - etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
     einen Titel im ITI und darf einen besonderen _Prestige-Perk_ wählen. Beispiele: ein zusätzlicher
     Heldenwürfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
     Attributslimit geringfügig nach oben. **Flow:** Prestige dient als motivierender Meilenstein. **Balance:**
@@ -457,32 +457,33 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 Standardmäßig nutzt ZEITRISS einen sechsseitigen Würfel (**W6**) für Proben. Führt ein Charakter
 eine ungewisse oder risikoreiche Aktion aus, legt die Spielleitung einen **Schwierigkeitsgrad (SG)**
-fest, der als Zielwert dient. Dann wird gewürfelt und der relevante Attributswert des Charakters
-addiert:
+fest, der als Zielwert dient. Dann wird gewürfelt und der halbe Attributswert (abgerundet) des Charakters
+addiert, plus eventuelle Talent- und Ausrüstungsboni:
 
-- **Wurf:** 1W6 + passendes Attribut des Charakters
+- **Probenformel:** `Endwert = 1W6 + ⌊Attribut / 2⌋ + Talent + Gear`
 - **Vergleich mit SG:** Ergebnis ≥ SG bedeutet Erfolg, Ergebnis \< SG bedeutet Misserfolg.
+- **Talentboni** sind nach dem Attributsbonus auf **+5** begrenzt.
 
 Die erzielte Summe wird mit dem SG verglichen, um das Ergebnis festzustellen. GPT (die KI-
 Spielleitung) wird das Würfelergebnis **offen** mit den Spielern teilen, um Fairness und Transparenz
 zu gewährleisten. Üblich ist die Notation in eckigen Klammern innerhalb der Erzählung. _Beispiel:_
 
-„Alex springt über die brüchige Brücke… **\[Wurf 4 + GES 5 = 9 → Misserfolg\]** … das morsche Brett
-bricht und Alex hängt nun an der Kante!“
+„Alex springt über die brüchige Brücke… **\[Wurf 4 + ⌊GES 5 / 2⌋ = 4 + 2 = 6 → Misserfolg\]** … das morsche Brett
+bricht und Alex hängt nun an der Kante!"
 
-Hier sieht man, dass der SG vermutlich 10 war und Alex ihn mit 9 knapp nicht erreicht hat. Je höher
-das Ergebnis aus Würfel + Attribut **über** dem SG liegt, desto besser gelingt die Aktion. Die
+Hier sieht man, dass der SG vermutlich 8 war und Alex ihn mit 6 nicht erreicht hat. Je höher
+das Ergebnis **über** dem SG liegt, desto besser gelingt die Aktion. Die
 Spielleitung interpretiert herausragende Erfolge erzählerisch als besonders eindrucksvoll oder mit
 Bonuswirkung. Umgekehrt kann ein knappes Scheitern einen **Teilerfolg mit Konsequenz** bedeuten
-(z. B. man erreicht zwar das Ziel, aber es ergibt sich ein neues Problem).
+(z. B. man erreicht zwar das Ziel, aber es ergibt sich ein neues Problem).
 
 Der SG orientiert sich an der objektiven Schwierigkeit der Aufgabe:
 
 - **Leicht** (SG ~5): Sehr hohe Erfolgschance, selbst mit geringem Attribut. _Beispiel:_ Eine nur
   angelehnte Tür eintreten (STR), oder aus dem Stand an einen niedrigen Ast springen (GES).
-- **Mittel** (SG ~8–9): Gewöhnliche Alltags-Herausforderung oder typische Action-Szene. _Beispiel:_
+- **Mittel** (SG ~8-9): Gewöhnliche Alltags-Herausforderung oder typische Action-Szene. _Beispiel:_
   Über einen schmalen Graben springen (GES), oder ein einfaches Bilderrätsel lösen (INT).
-- **Schwierig** (SG ~12): Anspruchsvoll – man braucht schon gutes Können oder etwas Glück.
+- **Schwierig** (SG ~12): Anspruchsvoll - man braucht schon gutes Können oder etwas Glück.
   _Beispiel:_ Einen hitzigen Streit schlichten und beide Parteien überzeugen (CHA), oder eine komplexe
   mechanische Vorrichtung bedienen (INT).
 - **Sehr schwer** (SG 15+): Nur mit herausragendem Wert, exzellenter Ausrüstung oder brillanter Idee
@@ -490,15 +491,15 @@ Der SG orientiert sich an der objektiven Schwierigkeit der Aufgabe:
   uraltes, stark verschlüsseltes Manuskript entziffern (INT).
 
 Gelegentlich tritt man nicht gegen einen fixen SG an, sondern gegen einen **aktiven Widersacher**.
-In solchen Fällen gibt es einen Oppositionswurf: Beide Seiten würfeln 1W6 + passendes Attribut, und
+In solchen Fällen gibt es einen Oppositionswurf: Beide Seiten würfeln nach der Standard-Probenformel, und
 die Ergebnisse werden verglichen. Wer höher rollt, gewinnt den Vergleich. _Beispiel:_ Alex feilscht
-mit einem Händler um den Preis → Alex würfelt CHA + W6 gegen das CHA + W6 des Händlers. Gewinnt
+mit einem Händler um den Preis → Alex würfelt `1W6 + ⌊CHA / 2⌋` gegen den gleichen Wurf des Händlers. Gewinnt
 Alex, lässt der Händler mit sich handeln; gewinnt der Händler, bleibt er stur. (Oppositionswürfe
-kommen auch im Kampf vor – siehe unten.)
+kommen auch im Kampf vor - siehe unten.)
 
-Wichtig: Ein Misserfolg bei einer Probe bedeutet nicht, dass die Geschichte stehenbleibt – im
+Wichtig: Ein Misserfolg bei einer Probe bedeutet nicht, dass die Geschichte stehenbleibt - im
 Gegenteil, **Scheitern treibt die Handlung voran**, weil neue Probleme auftauchen oder sich andere
-Wege eröffnen. Die Spielleitung wird nie einfach sagen „Nein, das geht nicht, versuch’s nochmal“,
+Wege eröffnen. Die Spielleitung wird nie einfach sagen "Nein, das geht nicht, versuch's nochmal",
 sondern jeder Fehlschlag hat Konsequenzen in der Geschichte. So bleibt das Spiel spannend und
 unvorhersehbar.
 
@@ -508,16 +509,16 @@ Kampfabläufe in ZEITRISS folgen denselben Würfelprinzipien wie andere Proben, 
 Besonderheiten. Ob ein Angriff trifft, hängt von einem Vergleich zwischen Angreifer und Verteidiger
 ab:
 
-- Der **Angriffswurf** des Spielers (z. B. 1W6 + entsprechendes Attribut wie STR für Nahkampf oder
-  GES für Fernkampf) wird entweder gegen einen **festen SG** (für einfachere Gegner) oder gegen einen
+- Der **Angriffswurf** des Spielers (nach der Standard-Probenformel, z. B. `1W6 + ⌊STR / 2⌋ + Talent` für Nahkampf oder
+  `1W6 + ⌊GES / 2⌋ + Talent` für Fernkampf) wird entweder gegen einen **festen SG** (für einfachere Gegner) oder gegen einen
   **Verteidigungswurf** des Gegners verglichen.
-- Nicht jeder NSC würfelt zur Verteidigung – unwichtige Gegner haben eventuell einen statischen
+- Nicht jeder NSC würfelt zur Verteidigung - unwichtige Gegner haben eventuell einen statischen
   Abwehr-SG, der sich aus ihrer Rüstung oder Deckung ergibt. Wichtige Kontrahenten hingegen würfeln
   zurück, um dramatische Duelle zu ermöglichen.
 
-Trifft der Angreifer (d. h. sein Ergebnis ist mindestens so hoch wie das des Verteidigers oder er
+Trifft der Angreifer (d. h. sein Ergebnis ist mindestens so hoch wie das des Verteidigers oder er
 übertrifft den statischen SG), richtet er **Schaden** am Ziel an. Verfehlt der Angriff, entsteht
-keine direkte Wirkung – narrativ weicht das Ziel aus, blockt den Schlag ab oder der Schuss geht
+keine direkte Wirkung - narrativ weicht das Ziel aus, blockt den Schlag ab oder der Schuss geht
 daneben.
 
 **Schaden & Heilung:** Jeder Chrononaut startet mit etwa 10 LP.
@@ -528,7 +529,7 @@ Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findet ihr im Modul
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere
 Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung (GPT) nicht dauerhaft alle
 Details vergangener Sitzungen behalten kann, wird am Ende **jeder Mission** ein maschinenlesbarer
-Speicherstand erstellt – idealerweise als strukturierter JSON- oder YAML-Block im Chat. Dieser
+Speicherstand erstellt - idealerweise als strukturierter JSON- oder YAML-Block im Chat. Dieser
 Speicherblock kann entweder direkt im Spieldokument eingebettet oder als separate Datei gespeichert
 werden. Wichtig ist, dass das Format standardisiert und eindeutig lesbar ist (sowohl für Menschen
 als auch für das KI-System). Auf diese Weise erkennt das System den Spielstand zuverlässig wieder
@@ -548,31 +549,31 @@ insbesondere:
 - **Talente & Fähigkeiten:** Alle besonderen Talente, Fertigkeiten oder Zeitreise-Kräfte, die der
   Charakter besitzt.
 - **Moralprofil/Ruf:** Eine kurze Notiz zur Gesinnung bzw. moralischen Tendenz des Charakters und zu
-  seinem Ruf bei wichtigen Fraktionen. _Beispiel:_ _„Moral: altruistisch, riskiert sein Leben für
+  seinem Ruf bei wichtigen Fraktionen. _Beispiel:_ _"Moral: altruistisch, riskiert sein Leben für
   Unschuldige. Ruf: Vertrauenswürdiger Agent im ITI; von den Kausalklingen misstrauisch beäugt nach
-  Vorfall X.“_
+  Vorfall X."_
 - **Ausrüstung (Inventar):** Alle wichtigen Gegenstände, Waffen und Artefakte, die der Charakter
   besitzt, ggf. mit Anmerkungen zu besonderen Funktionen oder Einschränkungen. (Triviale Kleinigkeiten
   können weggelassen werden, damit die Liste übersichtlich bleibt.)
 - **Implantate/Modifikationen:** Eingebaute Cyberware/Bioware sowie aktive psionische Fähigkeiten,
   inklusive Hinweis, wie viel Systemlast sie etwa beanspruchen (falls relevant).
 - **Errungenschaften:** Wichtige Erfolge, Titel oder Meilensteine, die der Charakter erreicht hat.
-  _(Beispiel: „Retter von Pompeji“ – wenn er in einer Mission etwas Herausragendes geleistet hat.)_
+  _(Beispiel: "Retter von Pompeji" - wenn er in einer Mission etwas Herausragendes geleistet hat.)_
 - **Kodex-Wissen:** Stichpunkte zu historischen Fakten oder Geheimnissen, die der Charakter im
   Verlauf gelernt hat, falls das später relevant sein könnte. Dies dient auch als Gedächtnisstütze für
-  die KI. _(Beispiel: „Weiß um die geheime Identität des viktorianischen Diebs ‘Mr. Raven’.“ / „Kennt
-  den wahren Ablauf der Schlacht von Aquitanien 1356.“)_
+  die KI. _(Beispiel: "Weiß um die geheime Identität des viktorianischen Diebs 'Mr. Raven'." / "Kennt
+  den wahren Ablauf der Schlacht von Aquitanien 1356.")_
 - **Statistiken:** Optionale Zahlenwerte wie Anzahl absolvierte Missionen, gelöste Rätsel, besiegte
-  Gegner etc. – rein informativ als kleine Details ohne Regelwirkung (also reiner _Fluff_).
+  Gegner etc. - rein informativ als kleine Details ohne Regelwirkung (also reiner _Fluff_).
 
-Nicht gespeichert werden kleinteilige Ereignisse oder komplette Dialoge der Mission – jede neue
+Nicht gespeichert werden kleinteilige Ereignisse oder komplette Dialoge der Mission - jede neue
 Mission beginnt erzählerisch _sauber_. Vergangene Ereignisse fließen nur durch die obigen
 zusammengefassten Einträge ein. Das hält den Kontext schlank und relevant.
 
 **Format:** Damit die KI den Speicherstand zuverlässig versteht, sollte das Format einheitlich und
 maschinenlesbar sein, aber auch für Menschen lesbar bleiben. Empfohlen wird ein strukturierter Code-
 Block (JSON oder YAML). Im Speichertext sollten keine versteckten Befehle oder missverständlichen
-Pronomen stehen – nur klare, beschreibende Daten in der dritten Person.
+Pronomen stehen - nur klare, beschreibende Daten in der dritten Person.
 
 Ein **Beispiel** für einen Speicherstand im JSON-Format (v6, gekürzt):
 
@@ -650,14 +651,14 @@ Details zur Vollstruktur sind im Modul **Speicherstand & Fortsetzung**
 dokumentiert.
 
 Dieses Format ist kompakt genug, um es direkt im Chat zu verwenden, und zugleich eindeutig für das
-KI-Modell. Für die Spieler bedeutet es, dass ihr Fortschritt sauber festgehalten wird – der
+KI-Modell. Für die Spieler bedeutet es, dass ihr Fortschritt sauber festgehalten wird - der
 Charakter fühlt sich persistent an, weil nichts Wichtiges vergessen geht.
 
 **Speichern & Laden in der Praxis:** Am Ende einer Mission erstellt die Spielleitung (oder auf
 Wunsch auch die Spieler) einen Savegame-Eintrag nach obigem Schema. Vor dem Start der nächsten
 Mission kopiert man diesen Block in den neuen Chat-Kontext. Die KI liest den Speicherstand ein und
-hat dadurch sofort alle wichtigen Fakten zur Hand – Fähigkeiten, Inventar, vergangene Ereignisse –
-ohne sich alles _„merken“_ zu müssen.
+hat dadurch sofort alle wichtigen Fakten zur Hand - Fähigkeiten, Inventar, vergangene Ereignisse -
+ohne sich alles _"merken"_ zu müssen.
 
 **Gruppen-Spielstände:** Ein einzelner Speicherblock kann mehrere
 Spielercharaktere enthalten. Dafür ist `party.characters[]` der kanonische
@@ -685,7 +686,7 @@ Chrononauten oder eine ganze Gruppe umfasst, und setzt das Spiel entsprechend fo
 
 Durch dieses Speicherstand-System bleibt der Fortschritt über viele Spielabende hinweg erhalten und
 abrufbar. Die Spieler können zu jedem neuen Einsatz mit genau den Werten, Erinnerungen und
-Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine Unterbrechung gegeben.
+Konsequenzen weitermachen, die sie sich erarbeitet haben - als hätte es keine Unterbrechung gegeben.
 
 ## Teil 2: Spielwelt & Kampagne
 
@@ -693,7 +694,7 @@ Konsequenzen weitermachen, die sie sich erarbeitet haben – als hätte es keine
 
 In den Datenbanken des ITI wird die **Hauptzeitlinie** als ein zusammenhängendes
 **Raumzeitkonstrukt** beschrieben. Wissenschaftler visualisieren dieses Geflecht
-als pulsierende 4D-Kugel, in der jedes bewusste Wesen einen Knoten bildet –
+als pulsierende 4D-Kugel, in der jedes bewusste Wesen einen Knoten bildet -
 ähnlich den Synapsen eines Gehirns. Jede Intervention der Chrononauten verändert
 das Muster sofort und beeinflusst benachbarte Knoten. Aus Sicht des
 Hauptquartiers existiert der Zeitfluss lediglich als Abfolge von
@@ -726,7 +727,7 @@ Außenwelt Zeit vergeht.
 - **Werkstätten & Arsenal:** Lager für Ausrüstung und Chrono-Units-Konten (siehe
   Modul _Chrono Units_).
 - **Zero Time Lounge:** Eine Bar, in der die Zeit minimal verlangsamt ist und ein
-  Roboterarm präzise Cocktails mixt – perfekt zum Austausch unter Agenten.
+  Roboterarm präzise Cocktails mixt - perfekt zum Austausch unter Agenten.
 
 #### Beschränkter Zugang zu Zukunftstechnologie
 
@@ -744,16 +745,16 @@ wieder auf Zeitreise geht.
 
 #### Wichtige Ansprechpartner
 
-- **Commander Arnaud Renier** – Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
+- **Commander Arnaud Renier** - Einsatzleiter, der fraktionsübergreifende Operationen koordiniert.
   Sein Bio-Sheath basiert auf Homo sapiens novus.
   Er ist meist erstes Gesicht bei der Ankunft im Quarzatrium und bleibt die
   Stimme für Eskalationen, Gesamtbriefings und Schlüsselmeilensteine.
-- **Archivare des Kodex** – betreuen das Wissensarchiv und helfen bei
+- **Archivare des Kodex** - betreuen das Wissensarchiv und helfen bei
   Recherchen.
-- **Tech-Operatives** – Ingenieursteam für Portale und Ausrüstung.
-- **Med-Personal** – Ärzte und Biotech-Spezialisten in den Kliniken.
-- **Quartiermeister** – verwalten CUs und persönliche Ausrüstung.
-- **Fraktions-Liaisons** – je Fraktion gibt es im HQ eine Kontaktperson.
+- **Tech-Operatives** - Ingenieursteam für Portale und Ausrüstung.
+- **Med-Personal** - Ärzte und Biotech-Spezialisten in den Kliniken.
+- **Quartiermeister** - verwalten CUs und persönliche Ausrüstung.
+- **Fraktions-Liaisons** - je Fraktion gibt es im HQ eine Kontaktperson.
   Chrono-Symmetriker: Pater Lorian (H. heidelbergensis);
   Ordo Mnemonika: Archivarin Mira (H. floresiensis);
   Kausalklingen: Offizier Vargas (H. erectus spät);
@@ -768,7 +769,7 @@ um das Zentrum des ITI windet. Zwischen schimmernden Transpariumtürmen flackern
 Werbeflächen aus Zeitaltern, die noch gar nicht existieren. Über den Straßen
 schweben Bahntrassen und Lieferdrohnen, während neutrale Sicherheitsbots darauf
 achten, dass die hier geltende Waffenruhe nie gebrochen wird. Wer zwischen den
-Stationen schlendert, trifft immer wieder dieselben Gesichter – ein kauziger
+Stationen schlendert, trifft immer wieder dieselben Gesichter - ein kauziger
 Barkeeper in der Zero Time Lounge, quirlige Technikerinnen am Portal oder
 Händler, die seit Anbeginn im zeitlosen Hafen verweilen. Diese NSCs altern nicht
 und bleiben von Ereignissen außerhalb der Nullzeit unberührt, was ihnen den Ruf
@@ -791,9 +792,9 @@ und landen im Nullzeit-HQ, ohne Tunnelgefühl.
 
      - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.
      - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
-      1. **Pfad fortsetzen** – sie kehren in _denselben_ Riss zurück und
+      1. **Pfad fortsetzen** - sie kehren in _denselben_ Riss zurück und
          setzen die laufende Mission fort.
-      2. **Neuen Pfad wählen** – sie legen ein anderes Zielzeit-Koordinatenset fest
+      2. **Neuen Pfad wählen** - sie legen ein anderes Zielzeit-Koordinatenset fest
          **(neue Mission / Kampagne)**.
       - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
       - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**;
@@ -807,23 +808,23 @@ und landen im Nullzeit-HQ, ohne Tunnelgefühl.
         Verpasst das Team dieses Zeitfenster, muss es auf den nächsten
         temporalen Peak warten und so lange in der Epoche improvisieren.
 
-> Bei Paradoxon-Index 5 legt das HQ trotzdem 1–2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
+> Bei Paradoxon-Index 5 legt das HQ trotzdem 1-2 Seeds an. Sie erscheinen erst nach der Rückkehr im HQ.
   3. **Notfall-Rückholung**
      - Gerät eine Mission in totale Eskalation (z.B. Total Party Kill), zieht ein
       **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
       Wahlmöglichkeiten wie oben.
 
- Im digitalen Spielsystem öffnet ein Trigger **„on Zeitsprung“** automatisch ein Nullzeit-Menü. Dort
-beginnt immer eine kurze HQ-Phase mit Shop, Skill‑Upgrades und Save-System. Erst danach können die
+ Im digitalen Spielsystem öffnet ein Trigger **"on Zeitsprung"** automatisch ein Nullzeit-Menü. Dort
+beginnt immer eine kurze HQ-Phase mit Shop, Skill-Upgrades und Save-System. Erst danach können die
 Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**. Entscheiden sie sich für Letzteres, wird der
 bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss samt Missions-Manifest
-geöffnet und die verlassene Zeitlinie als „versiegelt“ markiert – keine weiteren Änderungen sind
+geöffnet und die verlassene Zeitlinie als "versiegelt" markiert - keine weiteren Änderungen sind
 dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und
 in einen neuen Kampagnenstrang führt.
 
 ## Paradoxon & Pararifts {#paradoxon--pararifts}
 
-Erreicht der **Paradoxon-Index** Stufe 5, notiert das ITI 1–2 neue **Rift-Seeds**.
+Erreicht der **Paradoxon-Index** Stufe 5, notiert das ITI 1-2 neue **Rift-Seeds**.
 Sie erscheinen nach der Mission im HQ auf der Raumzeitkarte, sind aber erst
 nach **Episodenabschluss** spielbar. Der Reset des Index wird im Debrief/HQ
 bestätigt (`px_reset_pending/confirm`).
@@ -832,7 +833,7 @@ bestätigt (`px_reset_pending/confirm`).
 
 Der **Paradoxon-Index** misst nicht, wie instabil die Zeit wird,
 sondern **wie viel Resonanz euer Team bereits aufbaut**. Je höher der Wert,
-desto besser versteht das ITI die laufende Operation – und desto näher
+desto besser versteht das ITI die laufende Operation - und desto näher
 rückt der Zugriff auf seltene Rift-Ressourcen.
 
 Die Umrechnung erfolgt erst im Debrief und in der HQ-Phase: Kleine
@@ -841,41 +842,41 @@ Operation; während der Mission existieren keine zusätzlichen Mid-Scene-
 Effekte.
 
 Spielende wollen den Index **bewusst steigern**, denn jeder Punkt bringt
-neue **Rift-Seeds** in Reichweite. Ein **Paradoxon −1** bremst den
+neue **Rift-Seeds** in Reichweite. Ein **Paradoxon -1** bremst den
 Fortschritt spürbar.
 
 _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
 **Temporaler Affinität (TEMP)** sammeln langsamer Resonanz, bei hohen
 Werten steigert sich der Index rasant. Als Richtwert gilt:
-TEMP 1–3 erzeugen meist alle fünf Missionen +1, TEMP 4–7 etwa alle vier,
-TEMP 8–10 alle drei, TEMP 11–13 alle zwei und TEMP 14+ fast jede Mission.
+TEMP 1-3 erzeugen meist alle fünf Missionen +1, TEMP 4-7 etwa alle vier,
+TEMP 8-10 alle drei, TEMP 11-13 alle zwei und TEMP 14+ fast jede Mission.
 
 | Stufe | HUD-Farbe | Bedeutung                       | Effekt (Debrief/HQ)                   |
 |-----:|-----------|---------------------------------|--------------------------------------|
 | 0    | ▢ rot     | Leerlauf                       | Keine Resonanz                       |
-| 1–2  | ▢ rot     | Basis-Resonanz                  | +10 % Kodex-Analyse im Debrief       |
-| 3–4  | ▢ gelb    | Hochlauf – wertvolle Telemetrie | +1 Loot-Wurf in der HQ-Auswertung    |
-| **5**| ▢ grün    | **Voll / ClusterCreate**        | 1–2 Rift-Seeds vorgemerkt, Index → 0 |
+| 1-2  | ▢ rot     | Basis-Resonanz                  | +10 % Kodex-Analyse im Debrief       |
+| 3-4  | ▢ gelb    | Hochlauf - wertvolle Telemetrie | +1 Loot-Wurf in der HQ-Auswertung    |
+| **5**| ▢ grün    | **Voll / ClusterCreate**        | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
 
 > **ClusterCreate:** Bei Stufe 5 pulsiert das HUD grün.
-> Das ITI merkt nach Missionsende 1–2 Rift-Seeds vor (spielbar nach
+> Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (spielbar nach
 > Episodenabschluss). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
 > Reset auf **0**, danach beginnt der Loop erneut.
 **Design-Ziel:** Teams sollen Paradoxon *anstreben*, um Zugriff auf
 Artefakte, High-Tech-Belohnungen und besondere Missions-Hooks zu erhalten.
-Ein niedriger Index ist kein „Safety Score“, sondern verschenktes Potenzial.
+Ein niedriger Index ist kein "Safety Score", sondern verschenktes Potenzial.
 > **Legendary-Limit:** Ein Agent führt pro Mission nur **ein** aktives Artefakt.
 > Aktivierung = freie Aktion; Fehlbenutzung senkt den Paradoxon-Index um 1.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für
 Temporale Intervention (ITI)** dient zu Beginn als Heimatbasis der Agenten, und zahlreiche andere
-Kräfte wirken – teils sichtbar, teils im Verborgenen – über die Zeitlinie hinweg. Im Folgenden
+Kräfte wirken - teils sichtbar, teils im Verborgenen - über die Zeitlinie hinweg. Im Folgenden
 werden das **HQ des ITI** sowie wichtige Fraktionen und der Aufbau der Kampagne beschrieben.
 Später schaltet die Gruppe nach und nach weitere Zugangs-**Stufen** in ihrem Fraktionskomplex im ITI frei;
 ein separates Hauptquartier außerhalb der Nullzeit ist nicht vorgesehen.
 
-Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** – einem Bereich _außerhalb_ des
+Das ITI-Hauptquartier existiert in der sogenannten **Nullzeit** - einem Bereich _außerhalb_ des
 normalen Zeitstroms, der als sicherer Hafen für Zeitreisende genutzt wird. Von hier aus können die
 Agenten zu beliebigen Punkten der Hauptzeitlinie reisen, ohne selbst zu altern, und hierher kehren
 sie nach Einsätzen zurück. Innerhalb des HQ gibt es eine lebendige Infrastruktur, die den
@@ -884,7 +885,7 @@ sind unter anderem:
 
 - **Unterkünfte & Quartiere:** Die persönlichen Zimmer oder Wohnbereiche der Agenten.
   Hier können sie sich ausruhen und persönliche Gegenstände lagern. Dieser Bereich begleitet die
-  Chrononauten unabhängig vom Standort ihres HQs – ob im ITI oder in einer späteren eigenen Basis.
+  Chrononauten unabhängig vom Standort ihres HQs - ob im ITI oder in einer späteren eigenen Basis.
   Die Quartiere bieten Gelegenheit für Charakterszenen, etwa wenn ein Agent ein Souvenir der letzten
   Mission betrachtet oder zwei Teammitglieder im Gemeinschaftsraum über mysteriöse Zeitphänomene
   diskutieren.
@@ -893,9 +894,9 @@ sind unter anderem:
   der Kantine tauschen Agenten Geschichten aus vergangenen Epochen aus; an der Bar fließt
   synthetischer Whiskey und man spielt Karten mit Kameraden. Wer Trost oder Ablenkung sucht, findet im
   Vergnügungsbereich jemanden zum Reden (oder mehr). Solche Orte machen das HQ zu einem lebendigen
-  Schauplatz jenseits der Missionen – die Spielercharaktere können hier in Ruhe mit NSCs interagieren,
+  Schauplatz jenseits der Missionen - die Spielercharaktere können hier in Ruhe mit NSCs interagieren,
   Gerüchte über neue Einsätze und rätselhafte Vorgänge aufschnappen oder einfach die Atmosphäre genießen.
-- **Missionskontrolle & Briefingraum:** Ein zentraler Saal – oft _Quarzatrium_ genannt – in dem sich
+- **Missionskontrolle & Briefingraum:** Ein zentraler Saal - oft _Quarzatrium_ genannt - in dem sich
   die Portale für Zeitreisen befinden. Hier erhalten die Chrononauten ihre Einsatzbesprechungen vom
   Missionsleiter. Meist führt eine KI-Stimme (möglicherweise identisch mit dem Kodex) oder ein
   erfahrener Offizier des ITI die Briefings durch. Holografische Anzeigen und andere hochentwickelte
@@ -911,11 +912,11 @@ sind unter anderem:
   nicht sofort experimentelle Hochtechnologie implantiert. Die Labore dienen zudem dazu, geborgene
   Artefakte aus der Zeit zu analysieren und zu sichern.
 - **Forschungszentrum & Kodex-Archiv:** Eine Bibliothek und Datenbank-Halle, in der der **Kodex**
-  verwaltet wird – das ständig wachsende Wissensarchiv des ZEITRISS-Programms. Hier können die
-  Spielercharaktere Nachforschungen anstellen: z. B. historische Fakten über die nächste Epoche
+  verwaltet wird - das ständig wachsende Wissensarchiv des ZEITRISS-Programms. Hier können die
+  Spielercharaktere Nachforschungen anstellen: z. B. historische Fakten über die nächste Epoche
   abrufen, Berichte früherer Missionen lesen oder Theorien zu temporalen Phänomenen prüfen. Das
   Zentrum wird von Archivaren betreut (möglicherweise Mitglieder des **Ordo Mnemonika**, siehe
-  Fraktionen). Zwischen Missionen können die Chrononauten den Kodex befragen, um sich vorzubereiten –
+  Fraktionen). Zwischen Missionen können die Chrononauten den Kodex befragen, um sich vorzubereiten -
   die KI liefert dann Auszüge mit relevanten Informationen. Der Kodex speichert auch fortlaufend die
   Ergebnisse der Abenteuer: wichtige Ereignisse, Personen, Veränderungen der Zeitlinie und neue
   Erkenntnisse, sodass ein Gedächtnis der Kampagne entsteht.
@@ -925,11 +926,11 @@ sind unter anderem:
   Planungsübungen, während körperliches Training stets mit echtem Einsatz erfolgt. Für psionisch
   begabte Agenten existieren abgeschirmte Meditationszellen, in denen sie ihre temporalen
   Fähigkeiten gefahrlos vertiefen. Neue Rekruten absolvieren hier häufig eine kurze **Tutorial-
-  Mission** – ein echter Probeeinsatz mit begrenztem Risiko, der ihnen die wichtigsten Regeln
+  Mission** - ein echter Probeeinsatz mit begrenztem Risiko, der ihnen die wichtigsten Regeln
   beibringt und zugleich Konsequenzen besitzt.
 - **Werkstätten & Arsenal:** Werkstätten zur Wartung, Reparatur und Anpassung von Ausrüstung sowie
   ein zentrales Arsenal, in dem die Chrononauten ihre Ausrüstung lagern und neue Gegenstände
-  beschaffen können. Das ITI hat hierfür eine einheitliche epochenübergreifende Währung eingeführt –
+  beschaffen können. Das ITI hat hierfür eine einheitliche epochenübergreifende Währung eingeführt -
   die **Chrono Units (CU)**. Diese elektronischen Kreditpunkte existieren in der Nullzeit-Datenbank
   des ITI und werden den Agenten auf persönlichen Konten gutgeschrieben. In der Spielwelt können sich
   Chrononauten CUs als Mischung aus Sold (für absolvierte Missionen) und Prämienpunkten vorstellen.
@@ -940,15 +941,15 @@ sind unter anderem:
   einer Mission Geld in einer bestimmten Epoche, stellt das ITI ihm den entsprechenden Betrag in der
   lokalen Währung bereit und zieht die äquivalenten CUs von seinem Konto ein. Umgekehrt werden am
   Missionsende eingesammelte historische Wertsachen erfasst und in CUs umgewandelt. Auf diese Weise
-  läuft sämtlicher Handel zentral über das ITI, egal in welcher Zeit die Agenten agieren –
+  läuft sämtlicher Handel zentral über das ITI, egal in welcher Zeit die Agenten agieren -
   unkontrollierte Reichtümer in einer Epoche anzuhäufen oder das Wirtschaftssystem einer Zeitlinie zu
   stören, wird dadurch vermieden.
 
 Das HQ dient insgesamt als **Sandbox-Hub** zwischen den Einsätzen. **Im Hauptquartier können die
-Spielercharaktere nach Belieben agieren** – ihre Figuren ausspielen, mit NSCs plaudern, neue
+Spielercharaktere nach Belieben agieren** - ihre Figuren ausspielen, mit NSCs plaudern, neue
 Ausrüstung anschaffen oder vorhandene verbessern, oder einfach ausspannen. Alle **wichtigen**
 Veränderungen am Charakter (neue Implantate, Ausrüstungswechsel, Missionsvorbereitungen) finden hier
-im HQ statt – es fungiert als **sicherer Hafen** zum Planen und Verbessern, bevor es wieder ins
+im HQ statt - es fungiert als **sicherer Hafen** zum Planen und Verbessern, bevor es wieder ins
 Ungewisse der nächsten Zeitreise geht. Der Aufenthalt im HQ ist freiwillig und kann auf Wunsch
 übersprungen werden, aber diese _Downtime_-Phase bietet viel Atmosphäre und Charakterspiel, um die
 Welt **jenseits der Missionen** zu erkunden.
@@ -966,12 +967,12 @@ KI-Spielleitung_.
 
 ### Wichtige Fraktionen
 
-Die Welt von ZEITRISS (bzw. die gesamte Zeitlinie) wird von mehreren großen Fraktionen beeinflusst –
+Die Welt von ZEITRISS (bzw. die gesamte Zeitlinie) wird von mehreren großen Fraktionen beeinflusst -
 neben dem neutralen ITI, dem die Spielercharaktere angehören. Einige Organisationen operieren offen,
 die meisten aber im Verborgenen über verschiedene Zeitalter hinweg. Spieler wählen zu Beginn eine
 Fraktion, für die sie Ruf sammeln, kennen jedoch nur Bruchstücke der langfristigen Pläne. Jede Gruppe
 verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen sollen. Hinweise auf
-diese Ziele tauchen im Laufe der Missionen auf – etwa durch verschlüsselte Befehle oder Begegnungen mit
+diese Ziele tauchen im Laufe der Missionen auf - etwa durch verschlüsselte Befehle oder Begegnungen mit
 höheren Mitgliedern.
 
 Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder
@@ -985,7 +986,7 @@ Eine weitere Spielbalance betrifft die **Psionik**: Grundsätzlich steht sie all
 Chrononauten offen. Wer den Contra-Weg wählt, kann Psionik auf eigene Gefahr
 ebenfalls einsetzen oder sie bewusst meiden und stattdessen einen natürlichen
 Widerstand gegen mentale Einflüsse entwickeln. Ihr Geist wehrt die
-„Erleuchtung“ des Zeitstroms dann leichter ab, was telepathische Angriffe
+"Erleuchtung" des Zeitstroms dann leichter ab, was telepathische Angriffe
 erschwert.
 
 **Wichtig:** Pro- und Contra-Agenten bleiben unter sich.
@@ -1027,14 +1028,14 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   Ansprechperson im HQ: **Archivarin Mira**.
   Sie betreiben gigantische Archive außerhalb der normalen Welt
   und sehen sich als Hüter allen Wissens über die Zeitalter hinweg. Ihr Ziel ist es, Erinnerung zu
-  bewahren – selbst von Ereignissen oder ganzen Zeitlinien, die ausgelöscht wurden. Meist beobachten
+  bewahren - selbst von Ereignissen oder ganzen Zeitlinien, die ausgelöscht wurden. Meist beobachten
   sie nur und greifen nicht aktiv ein, es sei denn, Wissen steht auf dem Spiel. Die Spieler könnten
   vom Ordo Mnemonika wertvolle Informationen erhalten, denn möglicherweise wird der ITI-Kodex
   teilweise mit ihrem uralten Wissen gefüttert. Allerdings hat auch dieser Orden seine eigene Agenda
   und teilt sein Wissen nur gegen entsprechende Gefälligkeiten. Ihre Mitglieder wirken oft weltfremd
   oder unheimlich wissend.
 - Ihr wahres Zeitziel enthüllt sich nur bruchstückhaft über alte Datenfragmente im Kodex.
-  - **Kausalklingen:** Ein militarisierter Bund – quasi die **Zeitpolizei**.
+  - **Kausalklingen:** Ein militarisierter Bund - quasi die **Zeitpolizei**.
     Ansprechperson im HQ: **Offizier Vargas**.
     Die "Klingen der Kausalität" schneiden jeden "Zeit-Zweig" ab, der den
     Fluss der Zeit unkontrolliert verändert. Kausalklingen-Agenten sind streng geschult, schwer
@@ -1042,14 +1043,14 @@ Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
   korrigieren. Tauchen die Kausalklingen im Spiel auf, bedeutet das meist Ärger: Entweder haben die
   Spieler (oder jemand anderes) etwas Dramatisches an der Geschichte verändert, oder ein gefährlicher
   Zeitverbrecher ist am Werk. Man kann eventuell mit ihnen kooperieren, doch ihre Methoden sind
-  radikal – im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls auch eine Person), als
+  radikal - im Zweifel eliminieren sie lieber eine Quelle der Störung (notfalls auch eine Person), als
   ein Risiko für die Zeitlinie einzugehen.
 - Ihr langfristiger Plan wird nur in Andeutungen sichtbar, etwa wenn ein Offizier von einer
   "reinen" Hauptzeitlinie spricht, die sie wiederherstellen wollen.
 - **Zerbrechliche Ewigkeit:** Hinter diesem poetischen Namen verbirgt sich ein Kult von Zeitveränderern.
   Ansprechperson im HQ: **Agentin Narella**.
   Die Kultisten vermuten, dass die offizielle Zeitlinie vielleicht erst durch ihre eigenen Eingriffe entstand.
-  Ob sie Unsterblichkeit suchen, eine _„perfekte"_ Zukunft formen oder reine Anarchie anstreben –
+  Ob sie Unsterblichkeit suchen, eine _"perfekte"_ Zukunft formen oder reine Anarchie anstreben -
   sie operieren im Verborgenen und stoßen Ereignisse gezielt an, um ein geheimes Muster zu vollenden.
   Daher bleibt unklar, ob Katastrophen zufällig geschehen oder von ihnen provoziert wurden.
   Möglich, dass sie hinter den rätselhaften Anomalien stecken, denen die Chrononauten nachjagen.
@@ -1065,7 +1066,7 @@ dieser Gruppen im Spiel auftauchen, hängt vom Verlauf der Kampagne ab. Die Spie
 passende Fraktionen ins Geschehen einführen, wenn sie relevant werden, und deren Haltung zu den
 Spielern dynamisch entwickeln.
 
-Wichtig ist, dass keine dieser Mächte allmächtig ist – sie alle spielen nach den Regeln der Zeit (so
+Wichtig ist, dass keine dieser Mächte allmächtig ist - sie alle spielen nach den Regeln der Zeit (so
 verschieden ihre Ziele auch sein mögen). Die Chrononauten der Spieler sind in diesem Geflecht nicht
 machtlos, aber sie sind auch nicht allein auf der Bühne:
 Die Welt fühlt sich lebendig an, mit Verbündeten, Rivalen und Feinden, die kommen und gehen.
@@ -1083,7 +1084,7 @@ Störungen erinnern daran, dass jede Reise ihren Preis hat.
 
 **ZEITRISS** ist als offene Kampagne konzipiert. Zwischen den Missionen im HQ können die Spieler oft
 wählen, welcher Spur sie als nächstes folgen wollen. Das ITI erhält ständig Berichte über
-historische Unstimmigkeiten oder Machenschaften in verschiedenen Zeitzonen – den Chrononauten werden
+historische Unstimmigkeiten oder Machenschaften in verschiedenen Zeitzonen - den Chrononauten werden
 möglicherweise mehrere **Einsatzmöglichkeiten** präsentiert. Dieses Missionsauswahlsystem gibt den
 Spielern echte Freiheit und ermöglicht es ihnen, den Verlauf der Geschichte mitzubestimmen: Sie
 steuern mit ihren Interessen den Pfad der Geschichte.
@@ -1091,7 +1092,7 @@ steuern mit ihren Interessen den Pfad der Geschichte.
 Beispielsweise könnten am Ende eines Einsatzes drei Hinweise vorliegen, die zu unterschiedlichen
 Folge-Missionen einladen:
 
-- **Pompeji 79 n. Chr.:** Kurz vor dem Vesuv-Ausbruch soll ein Gelehrter gerettet werden. Die Agenten
+- **Pompeji 79 n. Chr.:** Kurz vor dem Vesuv-Ausbruch soll ein Gelehrter gerettet werden. Die Agenten
   müssen entscheiden, ob sie eingreifen oder den Ablauf bewahren.
 - **Lakehurst 1937:** Ein Forscher plant, an Bord der **Hindenburg** zu gehen. Die Chrononauten sollen
   ihn unauffällig davon abhalten, damit die historische Tragödie ihren Lauf nimmt.
@@ -1110,20 +1111,20 @@ Sandbox-Gameplay: Weichen die Chrononauten vom geplanten Missionspfad ab oder pr
 unvorhergesehene Aktionen, improvisiert die KI-Spielleitung passende Szenen. Solange es logisch in
 die Epoche passt, kann praktisch alles versucht werden. Der SL nutzt sein Wissen (und den Kodex)
 über die Welt, um auch abseits der Hauptstory glaubwürdige Begegnungen und Orte zu erschaffen. Die
-Spieler sollen nie das Gefühl haben, auf unsichtbaren Schienen zu laufen – sie können Theorien
+Spieler sollen nie das Gefühl haben, auf unsichtbaren Schienen zu laufen - sie können Theorien
 testen, Nebenquests verfolgen oder sogar eigene Sprünge unternehmen, wenn sie die Mittel dazu
 bekommen. Die Chrononauten steuern das Schiff; die Spielleitung ist der Wind in den Segeln und das
 Meer, auf dem sie fahren.
 
-Natürlich gibt es dennoch oft einen roten Faden und meist einen übergreifenden Plot (z. B. die
+Natürlich gibt es dennoch oft einen roten Faden und meist einen übergreifenden Plot (z. B. die
 Bedrohung durch die Zerbrechliche Ewigkeit). Dieser Meta-Plot sorgt für Zusammenhang und steigende
 Spannung über viele Missionen hinweg. Aber er soll die Spielerfreiheiten nie einschränken, sondern
 eher als flexibler Hintergrund dienen, der immer wieder Anknüpfungspunkte bietet. Die Spieler können
 
-den Kurs selbst bestimmen – die Kampagnenstruktur passt sich ihrem Tempo und ihren Entscheidungen
+den Kurs selbst bestimmen - die Kampagnenstruktur passt sich ihrem Tempo und ihren Entscheidungen
 an. Auf diese Weise entsteht ein episches Zeitreise-Abenteuer, das gleichermaßen spannend geführt
 und frei erkundet werden kann.
 
-**Willkommen bei ZEITRISS 4.2.5 – eure Reise durch die Zeit beginnt jetzt!**
+**Willkommen bei ZEITRISS 4.2.5 - eure Reise durch die Zeit beginnt jetzt!**
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
