@@ -30,7 +30,8 @@ versuchen dabei meist, die **Integrität der Geschichte** zu wahren und große W
 vermeiden, damit über dutzende Missionen hinweg ein konsistentes Gesamtbild entsteht.
 
 Alles Übernatürliche entpuppt sich als geheime Technik oder experimentelle Bio- und Cyberware.
-Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen.
+Zeitphänomene gelten lediglich als seltene Nebenwirkungen von Zeitreisen. Selbst
+scheinbar außerirdische Begegnungen haben ihren Ursprung in der Zeitlinie selbst.
 Chrononauten decken diese Hintergründe auf, während Zeitgenossen sie fälschlich für Wunder halten.
 
 ### Zeitreisen = Ortswechsel
@@ -755,6 +756,36 @@ Mächtige Zivilisationen jenseits des Menschen beobachten die Zeitlinien und
 dulden zwar menschliche Einmischung, verweigern aber jede Weitergabe ihres
 Wissens. Das ITI arbeitet deshalb mit rein menschlicher Technik und ist auf die
 Forschungen seines eigenen Personals angewiesen.
+
+Was das ITI nicht öffentlich diskutiert: Interne Analysten vermuten seit
+Jahrzehnten, dass diese „Zivilisationen jenseits des Menschen" gar keine
+Außerirdischen sind — sondern **post-humane Zeitreisende aus der fernen Zukunft**.
+Ihre Bio-Sheaths haben sich über Jahrhunderttausende so weit von der
+menschlichen Grundform entfernt, dass sie für zeitgenössische Beobachter
+außerirdisch *wirken*. Je fortschrittlicher die Technologie, desto weiter der
+Ursprungspunkt in der Zukunft.
+
+Historische „Alien-Sichtungen" — Roswell 1947, die Foo-Fighter-Berichte des
+Zweiten Weltkriegs, die Rendlesham-Forest-Begegnung 1980 — tauchen in
+ITI-Akten als **temporale Vorfälle** auf: abgestürzte Chrononauten in exotischen
+Hüllen, fehlgeschlagene Extraktionen, oder gezielte Beobachtungsoperationen
+von Fraktionen, die das ITI noch nicht einmal benennen kann. Area 51 wird in
+internen Memos als „frühe Bergungsinfrastruktur" geführt — lange bevor das ITI
+selbst existierte.
+
+Offiziell bleibt das Thema unter Verschluss. Die Kodex-Archive enthalten
+Fragmente — ein Obduktionsbericht mit humaner DNA-Grundstruktur, Wrackteile
+mit Legierungen, die erst in Jahrhunderten synthetisierbar werden, Funksignale
+in Sprachen, die grammatisch menschlichen Mustern folgen. Die Puzzleteile liegen
+vor den Chrononauten. Ob und wann sie den Zusammenhang erkennen, bestimmt der
+Verlauf ihrer Kampagne.
+
+> **Spielleitung:** Diese Erkenntnis eignet sich als Mid- oder Late-Campaign-Reveal.
+> Streue früh subtile Hinweise (humane DNA in „Alien"-Proben, vertraute
+> Schriftzeichen auf fremder Technologie, ein „außerirdisches" Gerät, das auf
+> ITI-Frequenzen antwortet). Der volle Reveal — *es gibt keine Aliens, nur
+> die Zukunft* — sollte ein Schlüsselmoment sein, der das Weltbild der
+> Spieler auf den Kopf stellt.
 
 #### Alltag im HQ
 
