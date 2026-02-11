@@ -135,7 +135,7 @@ Countdown-Timer ein, um den Druck sichtbar zu machen.
 > **Optionale Hausvarianten (nicht Standard):**
 > Gruppen, die den Würfelswing weiter anpassen wollen, können folgende Alternativen ausprobieren.
 > Diese sind **nicht Teil der Standardregeln** und nur für erfahrene Runden gedacht:
-> - **Soft Explode:** Zusatzwürfel liefern höchstens 1–3 Punkte statt des vollen Ergebnisses.
+> - **Soft Explode:** Zusatzwürfel liefern höchstens 1-3 Punkte statt des vollen Ergebnisses.
 > - **Gatekeep:** Ein W6 explodiert nur, wenn der Attributsbonus mindestens +1 beträgt.
 > - **Heroic Gate:** Heldenwürfel dürfen erst eingesetzt werden, wenn ein Würfel explodiert ist.
 
@@ -213,22 +213,21 @@ Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wu
 
 ### Heldenwürfel (ab Attribut 14)
 
-- Ein zusätzlicher W10 darf einmal pro Szene als Reroll verwendet werden.
-- **Exploding 10er-Regel:** Zeigt der Reroll eine 10, wird erneut geworfen.
+- Der Probewürfel darf **erneut geworfen** werden - das bessere Ergebnis zählt.
+- **Burst-Cap gilt:** Zeigt der Reroll das Maximum (10 auf W10), explodiert er einmal.
 - **Beispiel:** Agent Nyx hat SCHLEICHEN 14.
-  Erstwurf: 7 auf dem W10. Er nimmt den Heldenwürfel und erhält eine 10; diese
-  explodiert zu einer 6 → Gesamtergebnis 16.
-
+  Erstwurf: 3 auf dem W10. Heldenwürfel-Reroll: 10 - explodiert zu 10 + 6 = 16.
+  Nyx nimmt den Reroll (16 > 3).
 
 Diese Mechanik belohnt außergewöhnliche Werte, ohne die Balance zu sprengen.
-Zuvor ändern sich nur die Würfelgrößen:
+Die Stufen im Überblick:
 
 | Attribut | Würfelgröße |
 |---------:|-------------|
 | 1-10     | W6 |
 | 11+      | W10 |
 
-Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen einmaligen Reroll pro Szene.
+Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen Reroll (besseres Ergebnis zählt).
 - **Px Burn:** 1 Punkt für einen weiteren Reroll (jeder Charakter oder NSC)
 
 ### Attribut → Ø-Erfolgsrate (SG 8)
@@ -648,8 +647,8 @@ Diese knappe Übersicht hilft beim schnellen Nachschlagen während des Spiels.
 | Situation   | Standard                                | High-Attribut (≥ 11) |
 |-----------|----------------------------------------|----------------------|
 | Würfeltyp | W6 (Attribut 1-10)                     | W10 |
-| Bonus     | -                                      | Heldenwürfel ab 14 |
-| Exploding | Jede 6 bzw. 10 explodiert einmal        |                      |
+| Bonus     | –                                      | Heldenwürfel ab 14 (Reroll, besseres zählt) |
+| Exploding | Burst-Cap: 6 bzw. 10 explodiert einmal  |                      |
 | SG-Beispiele | Leicht 5 · Mittel 8-9 · Schwer 12 · Extrem 15+ | |
 | HUD-Alerts | Kurz halten, max. 6 Wörter             | |
 
@@ -770,7 +769,7 @@ kleinen Einsatzteams.
 Standardziel 5. Der W10 ändert die Schwelle nicht.
 
 **Heldenwürfel**
-Einmal pro Szene als Reroll. Nur bei Attribut 14+.
+Reroll bei Attribut 14+ (besseres Ergebnis zählt).
 
 ### Druckbare Kurzreferenz (2 Seiten) {#druckreferenz}
 
