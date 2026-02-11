@@ -530,9 +530,20 @@ Trifft der Angreifer (d. h. sein Ergebnis ist mindestens so hoch wie das des Ver
 keine direkte Wirkung - narrativ weicht das Ziel aus, blockt den Schlag ab oder der Schuss geht
 daneben.
 
-**Schaden & Heilung:** Jeder Chrononaut startet mit etwa 10 LP.
-Ausfuehrliche Regeln zu Verwundungsstufen und Notrueckholung findet ihr im Modul
-[Zustände & HUD](../characters/hud-system.md#vitalstatus).
+**Schaden & Heilung:** Jeder Chrononaut startet mit **10 LP (Lebenspunkte)**. Die LP bestimmen
+gleichzeitig die **Verletzungsstufe** des Charakters:
+
+> **LP → Verletzungsstufe:**
+> | LP | Stufe | Malus | Beschreibung |
+> |---:|-------|------:|--------------|
+> | 10 | Unverletzt | 0 | Volle Einsatzfähigkeit |
+> | 7–9 | Leicht verletzt | –1 | Kratzer, Prellungen — Adrenalin hält einen auf den Beinen |
+> | 4–6 | Mittel verletzt | –2 | Tiefe Schnitte, Verstauchungen — spürbar eingeschränkt |
+> | 1–3 | Schwer verletzt | –3 | Lebensbedrohlich — nur grundlegende Aktionen möglich |
+> | 0 | Kritisch | — | Bewusstlos/sterbend — automatische Not-Rückholung durch das ITI |
+
+Der Malus gilt auf alle Proben. Ausführliche Regeln zu Verwundungsstufen, Heilung und
+Not-Rückholung findet ihr im Modul [Zustände & HUD](../characters/hud-system.md#vitalstatus).
 
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere

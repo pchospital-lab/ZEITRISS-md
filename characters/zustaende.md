@@ -29,9 +29,17 @@ Verletzungen, Erschöpfung, temporale **Destabilisierung** oder psychische **Tra
 Zustände wirken sich sowohl erzählerisch als auch regeltechnisch aus. Hier die wichtigsten Zustände
 im Überblick:
 
-- - **Verwundungsstufen:** ZEITRISS nutzt ein **stufenbasiertes Verletzungssystem (5
-  Schweregrade)**, um Wunden cineastisch abzubilden. Jede Stufe hat typische Symptome und **Mali**,
+- - **Verwundungsstufen:** ZEITRISS nutzt **10 LP (Lebenspunkte)** als Basis, die gleichzeitig die
+  **Verletzungsstufe** bestimmen. Jede Stufe hat typische Symptome und **Mali**,
   die die Leistungsfähigkeit beeinträchtigen, sowie entsprechende Erholungszeiten:
+
+  > | LP | Stufe | Malus |
+  > |---:|-------|------:|
+  > | 10 | Unverletzt | 0 |
+  > | 7–9 | Leicht verletzt | –1 |
+  > | 4–6 | Mittel verletzt | –2 |
+  > | 1–3 | Schwer verletzt | –3 |
+  > | 0 | Kritisch | — (keine Aktionen, Not-Rückholung) |
 
   - - **Unverletzt:** Keine nennenswerten Wunden – vielleicht ein Kratzer oder blauer Fleck, aber
     **nichts, was den Charakter einschränkt**. _System:_ **Keinerlei Abzüge**; alle Aktionen und
