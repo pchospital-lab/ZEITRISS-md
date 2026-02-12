@@ -1777,6 +1777,13 @@ und synchronisiert `phase_strike_tax` mit dem PvP-Modus. Außerhalb aktiver Läu
 füllt der Helper fehlende `psi_buffer`-Flags ebenfalls automatisch auf, sodass
 auch HQ-Szenen den Standard-Kernschutz führen.
 
+**Mode-Reset nach Arena-Exit:** Beim Start setzt `arenaStart()` den
+Kampagnenmodus temporär auf `pvp` und merkt den alten Wert in
+`campaign.previous_mode`. Beim Verlassen stellt `arenaEnd()` den
+Ursprungsmodus (`preserve`/`trigger`/`mixed`) wieder her und leert
+`previous_mode`. Fehlt `previous_mode` (z. B. bei Legacy-Saves), fällt der
+Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
+
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das
 `arena_episode_stamp` hängt im HQ in der Gatehall aus; sobald Kodex es setzt,

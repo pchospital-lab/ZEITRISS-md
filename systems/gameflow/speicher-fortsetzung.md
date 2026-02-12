@@ -962,6 +962,16 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `psi_heat_reset` mit Trigger (`hq_transfer`) in `logs.psi[]`. `reset_psi_heat()`
   leert Charakter- und Team-Psi-Heat beim Debrief, die Runtime-Flags führen
   die Aggregation fort.
+- **Arena-Mode-State-Machine (`campaign.mode`):**
+  1. **Start:** `arenaStart()` merkt `campaign.previous_mode = campaign.mode`,
+     setzt `campaign.mode = 'pvp'`.
+  2. **Exit:** `arenaEnd()` stellt `campaign.mode = previous_mode` wieder her,
+     leert `previous_mode = null`.
+  3. **Load während Arena:** `reset_arena_after_load()` nutzt
+     `arena.previous_mode` / `resume_token.previous_mode`, setzt
+     `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
+     fällt der Reset auf `'preserve'` zurück.
+  Arena ist **kein** dauerhaft eigener Kampagnenmodus – PvP gilt nur temporär.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
