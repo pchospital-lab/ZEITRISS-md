@@ -148,35 +148,48 @@ euch das Maintainer-Dokument.
 
 ### Wissensspeicher laden
 
-1. **Dateien importieren:** Lade `README.md`, `master-index.json` (alternativ
-   `master-index.md` als Markdown-Spiegel) sowie alle unten aufgeführten 18
-   Runtime-Module in den Wissensspeicher deiner Zielplattform. Diese 20 Slots
-   sind exklusiv für die Runtime-Dokumentation reserviert; andere Repo-Dateien
-   dürfen nicht in den Wissensspeicher wandern.
-2. **Masterprompt spiegeln:** Kopiere `meta/masterprompt_v6.md` (Local-Uncut
-   4.2.6) als Systemprompt (MyGPT: Masterprompt-Feld, Proton LUMO: erste
-   Chatnachricht, OpenWebUI: Instruktionsfeld). Der Masterprompt gehört nicht
-   in den Wissensspeicher; er wird ausschließlich als Systemfeld bzw. erste
-   Nachricht geladen. Die vorherige Fassung liegt archiviert in
-   `meta/archive/masterprompt_v6_legacy.md`.
+**Am schnellsten (OpenWebUI):** Führe das Setup-Script aus — es erledigt alles
+automatisch:
+
+```bash
+git clone https://github.com/pchospital-lab/ZEITRISS-md.git
+cd ZEITRISS-md
+./scripts/setup-openwebui.sh
+```
+
+Das Script erstellt die Knowledge Base, lädt alle 20 Module hoch, richtet das
+Preset mit Masterprompt ein und testet welches Modell verfügbar ist. Danach:
+Browser auf, Modell „ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten
+(solo schnell)` tippen.
+
+**Manuell (MyGPT, LM Studio, LUMO, andere Plattformen):**
+
+1. **20 Dateien in den Wissensspeicher laden:** `README.md` plus alle 19
+   Runtime-Module (siehe Tabelle unten). Diese 20 Slots sind exklusiv für die
+   Runtime-Dokumentation reserviert; andere Repo-Dateien gehören nicht in den
+   Wissensspeicher. Die Datei `master-index.json` steuert das Setup-Script,
+   wird aber selbst **nicht** in den Wissensspeicher geladen.
+2. **Masterprompt als System-Prompt:** Kopiere `meta/masterprompt_v6.md`
+   (Local-Uncut 4.2.6) als Systemprompt (MyGPT: Anweisungsfeld, Proton LUMO:
+   erste Chatnachricht, OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
+   **nicht** in den Wissensspeicher — er wird ausschließlich als Systemfeld
+   geladen.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
-   alle 20 Module weiterhin geladen sind. Falls ein Modul fehlt oder veraltet
-   wirkt, fordere explizit das korrekte Markdown nach und lade es erneut.
-4. **Index-Hygiene:** Runtime-Index strikt halten (`README`, `master-index*`,
-   18 Runtime-Module). Der Index listet ausschließlich die 20
-   Wissensspeicher-Module.
+   alle 20 Module weiterhin geladen sind.
 
 ### Runtime-Module im Wissensspeicher
 
 | Kategorie      | Datei                                           |
 | -------------- | ----------------------------------------------- |
+| **meta**       | `README.md`                                     |
+| **core**       | `core/zeitriss-core.md`                         |
+|                | `core/wuerfelmechanik.md`                       |
+|                | `core/sl-referenz.md` *(Dispatcher, Regeln, Tabellen)* |
 | **characters** | `characters/ausruestung-cyberware.md`           |
 |                | `characters/charaktererschaffung-grundlagen.md` |
 |                | `characters/charaktererschaffung-optionen.md`   |
 |                | `characters/zustaende.md`                       |
 |                | `characters/hud-system.md`                      |
-| **core**       | `core/wuerfelmechanik.md`                       |
-|                | `core/zeitriss-core.md`                         |
 | **gameplay**   | `gameplay/fahrzeuge-konflikte.md`               |
 |                | `gameplay/kampagnenstruktur.md`                 |
 |                | `gameplay/kampagnenuebersicht.md`               |
@@ -189,31 +202,23 @@ euch das Maintainer-Dokument.
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
-**Slot-Kennzeichnung im Index:** In `master-index.json` (identische Inhalte in
-`master-index.md` für Markdown-only-Plattformen) sind alle 20 Wissensmodule
-(README, master-index und die 18 Runtime-Module) mit `"slot": true` markiert.
-Meta- oder Varianten-Einträge tragen `"slot": false` und zählen nicht als
-eigener Wissensspeicher-Slot.
+**Slot-Kennzeichnung:** In `master-index.json` sind alle 20 Wissensmodule mit
+`"slot": true` markiert. Meta- oder Varianten-Einträge tragen `"slot": false`
+und zählen nicht als Wissensspeicher-Slot.
 
 ### Plattform-Setup
 
-- Installations- und Upload-Wege liegen weiterhin in den Maintainer-Ops
-  (repo-intern, tags: [meta]). Laufzeitrelevante Presets sind hier gespiegelt,
-  damit lokale Runs ohne Nachschlagen starten können.
-- **LM-Studio-Sampling (gpt-oss-20b):**
+- **OpenWebUI + OpenRouter:** Setup-Script (s.o.) oder manuell: Modelle unter
+  Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
+  erstellen. Empfohlenes Modell: `anthropic/claude-sonnet-4` (Temperatur 0.8).
+- **MyGPT (OpenAI):** 20 Dateien in den Wissensspeicher, Masterprompt ins
+  Anweisungsfeld. Achtung: OpenAI Content-Filter kann 18+-Inhalte einschränken.
+- **LM-Studio (lokal):**
   - **ZEITRISS-PLAY (Standard/uncut):** Temperatur 0,60; Top-p 0,92; Top-k 60;
     Penalty Alpha 0,05; Präsenz-Penalty 1,06.
   - **Noir/Interlude (ruhiger):** Temperatur 0,70; Top-p 0,94; Top-k 80;
     Penalty Alpha 0,07; Präsenz-Penalty 1,05.
-  - Einsatz: Missionen → ZEITRISS-PLAY, HQ/ruhige Interludes → Noir/Interlude.
-  - Antwortfenster 1 100-1 600 Tokens halten; in LM Studio "Limit Response
-    Length" aktivieren.
-- **Kontextprofile & Hardware:** 16 k/24 k/32 k Profile; GPU-Default mit
-  Offload + Flash Attention, Batching 128-512. CPU-Profile nutzen denselben
-  Kontext, Thread-Pool auf reale Kerne setzen. Empfehlung: 24 k als Standard,
-  32 k für lange HQ-Zyklen; 131 k nur bei explizitem Bedarf.
-- **RAG-Trim:** Big-RAG Limit 4, Affinity 0,74, Chunk 650, Overlap 96; der
-  Runtime-Index enthält nur README, `master-index*` und die 18 Runtime-Module.
+  - Empfehlung: 24k Kontext als Standard, 32k für lange HQ-Zyklen.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 
