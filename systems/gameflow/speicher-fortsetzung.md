@@ -781,6 +781,72 @@ Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
 HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
 Arena-Guards scharfgeschaltet werden.
 
+### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
+
+Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
+übernommen, verworfen oder zusammengeführt werden.
+
+#### Transferregeln pro Richtung
+
+| Richtung | Übernommene Felder | Verworfene/Zurückgesetzte Felder | Besonderheiten |
+| --- | --- | --- | --- |
+| **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `economy.wallets{eigener}`. | Gast-`campaign`, Gast-`economy.cu`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. Gast-Wallets werden per Union-by-id ergänzt. |
+| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `economy.wallets{eigener}`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, Team/Party auf Solo-Roster reduziert, `economy.cu` auf Solo-Default. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
+| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | — | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
+| **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU, Px) werden verbucht. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
+
+#### Merge-Konflikte bei Cross-Mode-Transfer
+
+Bei **jedem** Cross-Mode-Transfer werden Konflikte im `merge_conflicts[]`-Array
+dokumentiert. Jeder Eintrag enthält mindestens:
+
+```json
+{
+  "field": "<allowlist-feld>",
+  "host_value": "<Wert aus Host/Ziel-Modus>",
+  "guest_value": "<Wert aus Quell-Modus>",
+  "resolution": "<host_wins|guest_wins|merged|default>"
+}
+```
+
+Die `field`-Werte folgen der bestehenden Allowlist: `wallet`, `rift_merge`,
+`arena_resume`, `campaign_mode`, `phase_bridge`, `location_bridge`.
+
+Zusätzlich erlaubte Felder für Cross-Mode-Transfers:
+- `cross_mode_campaign` – für campaign-Block-Konflikte bei Solo↔Koop
+- `cross_mode_economy` – für economy.cu-Differenzen
+- `cross_mode_roster` – für party.characters[]-Divergenzen
+
+#### Trace-Protokollierung
+
+Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
+
+```json
+{
+  "event": "cross_mode_transfer",
+  "at": "<ISO-Timestamp>",
+  "from_mode": "<solo|coop|pvp>",
+  "to_mode": "<solo|coop|pvp>",
+  "host_id": "<character.id des Hosts>",
+  "conflicts_count": 0,
+  "conflict_fields": [],
+  "location": "HQ",
+  "phase": "core"
+}
+```
+
+Der Trace stellt sicher, dass jeder Moduswechsel lückenlos nachvollziehbar ist
+– sowohl für Debriefs als auch für QA-Prüfungen.
+
+#### Solo-Defaults (Referenz für Koop→Solo)
+
+Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
+- `campaign.mode`: Ursprungsmodus des Spielers (aus Save oder Fallback `"preserve"`)
+- `campaign.team_size`: `1`
+- `party.characters[]`: nur der extrahierte Spieler-Character
+- `team.members[]`: Spiegel von `party.characters[]`
+- `economy.cu`: Spieler-Wallet-Balance (aus `economy.wallets{eigener}`)
+
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
 ```json
