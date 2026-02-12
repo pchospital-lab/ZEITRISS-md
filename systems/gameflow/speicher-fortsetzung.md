@@ -78,7 +78,25 @@ required = [
   "arena"
 ]
 assert serializer_bereit(required)
+
+# UI-Felder sind persistent – Pflichtschreibung beim Save
+ui_persistent = [
+  "ui.suggest_mode",
+  "ui.contrast",
+  "ui.badge_density",
+  "ui.output_pace"
+]
+for field in ui_persistent:
+  assert state.resolve(field) is not None, (
+    f"SaveGuard: UI-Feld {field} fehlt – UI-Persistenz verletzt."
+  )
 ```
+
+> **Regel: UI-Felder sind persistent.** Was der Spieler einstellt, bleibt.
+> Die Felder `ui.suggest_mode`, `ui.contrast`, `ui.badge_density` und
+> `ui.output_pace` werden beim Speichern **IMMER** geschrieben – kein
+> Weglassen, kein Fallback auf Defaults. Der SaveGuard bricht ab, wenn
+> eines dieser Felder `null` oder nicht vorhanden ist.
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
@@ -372,8 +390,25 @@ Defaults (`standard`/`standard`/`normal`/`gm_third_person` plus
 `action_mode=uncut`). `voice_profile` erlaubt ausschließlich `gm_third_person`
 oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
 `action_mode` akzeptiert `uncut|frei` als Standard, mappt ältere Werte wie
-`konform|safe|pg-13` aber weiterhin auf `konform`. Saves dürfen diese Felder
-weglassen, ohne Persistenz zu verlieren; die Defaults greifen automatisch.
+`konform|safe|pg-13` aber weiterhin auf `konform`.
+
+> **UI-Persistenz-Regel (Testrun 3, #008):** Die vier Felder `ui.suggest_mode`,
+> `ui.contrast`, `ui.badge_density` und `ui.output_pace` sind **persistent**.
+> Beim Speichern schreibt der Serializer sie IMMER explizit in den Save-Block.
+> Beim Laden restauriert `load_deep()` sie IMMER 1:1 aus dem Save – kein
+> Fallback auf Defaults für vorhandene Werte. Nur bei fehlenden Feldern in
+> alten Saves (Legacy/pre-v6) setzt der Normalizer folgende Defaults ein:
+>
+> | Feld | Default für alte Saves |
+> | --- | --- |
+> | `suggest_mode` | `false` |
+> | `contrast` | `"standard"` |
+> | `badge_density` | `"standard"` |
+> | `output_pace` | `"normal"` |
+>
+> Diese Defaults gelten ausschließlich als Auffangnetz für Migrationsfälle.
+> Aktuelle Saves (v6) müssen alle vier Felder enthalten – der SaveGuard
+> bricht andernfalls ab.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
@@ -873,11 +908,20 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
    migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
-3. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
+3. **UI-Felder restaurieren.** Beim Laden werden `ui.suggest_mode`,
+   `ui.contrast`, `ui.badge_density` und `ui.output_pace` **IMMER** aus dem
+   Save restauriert – kein Fallback auf Defaults. Die gespeicherten Werte
+   überschreiben den Laufzeitzustand 1:1. Fehlen diese Felder in einem
+   älteren Save (pre-v6 oder Legacy), greift der Normalizer und setzt
+   Defaults ein: `suggest_mode: false`, `contrast: "standard"`,
+   `badge_density: "standard"`, `output_pace: "normal"`. Diese Defaults
+   gelten **nur** für fehlende Felder in alten Saves, niemals als Fallback
+   für vorhandene Werte.
+4. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
    aus. Die Runde springt ohne Nachfrage direkt zum HQ- beziehungsweise
    Briefing-Einstieg.
-4. **Compliance-Hinweis entfällt.** Loads laufen ohne Compliance-Toast oder
+5. **Compliance-Hinweis entfällt.** Loads laufen ohne Compliance-Toast oder
    Flag-Setzung; `ShowComplianceOnce()` bleibt nur als leerer
    Kompatibilitäts-Hook bestehen.
 
