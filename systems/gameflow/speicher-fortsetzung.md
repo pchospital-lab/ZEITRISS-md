@@ -11,6 +11,14 @@ tags: [system]
 > Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
+**Referenz-Fixture (Test-Save v6):** Ein vollständig ausgefüllter Teststand mit
+allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`economy.wallets{}`,
+`logs.psi[]`, `arc_dashboard.offene_seeds`, `arena.phase_strike_tax`) liegt als
+kanonisches Fixture unter
+[`internal/qa/fixtures/savegame_v6_test.json`](../../internal/qa/fixtures/savegame_v6_test.json).
+Acceptance-Smoke-Prüfpunkte 4 (HQ-Save-Guard) und 10 (Cross-Mode-Saves) nutzen
+diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
+
 ## Save-Prompts im HQ-Flow
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis.
@@ -879,6 +887,16 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 > Spielleitungen. Die beigelegte `runtime.js` dient nur als Test-Spiegel für
 > lokale Runs und wird nicht in produktive Wissensspeicher geladen.
 
+**Multi-Save-Import (Gruppenschnellstart):** Werden vor einem neuen Briefing
+mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), gilt
+der **zuerst gepostete Save als Host**. Sein Kampagnenblock (`episode`,
+`mission`, `mode`, `seed_source`, `rift_seeds[]`, `px`) gewinnt bei Konflikten;
+weitere Saves liefern ausschließlich Charaktere, Loadouts und Wallets.
+Abweichende Seeds, Episoden- oder Missionszähler landen in
+`logs.flags.merge_conflicts[]` und werden als Host-Wert beibehalten. Der HQ-
+Pool (`economy.cu`) bleibt Host-priorisiert; Import-Wallets ergänzen per
+Union-by-id.
+
 **Mid-Session-Merge:** Für laufende Einsätze nutzt GPT statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
@@ -954,6 +972,16 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `psi_heat_reset` mit Trigger (`hq_transfer`) in `logs.psi[]`. `reset_psi_heat()`
   leert Charakter- und Team-Psi-Heat beim Debrief, die Runtime-Flags führen
   die Aggregation fort.
+- **Arena-Mode-State-Machine (`campaign.mode`):**
+  1. **Start:** `arenaStart()` merkt `campaign.previous_mode = campaign.mode`,
+     setzt `campaign.mode = 'pvp'`.
+  2. **Exit:** `arenaEnd()` stellt `campaign.mode = previous_mode` wieder her,
+     leert `previous_mode = null`.
+  3. **Load während Arena:** `reset_arena_after_load()` nutzt
+     `arena.previous_mode` / `resume_token.previous_mode`, setzt
+     `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
+     fällt der Reset auf `'preserve'` zurück.
+  Arena ist **kein** dauerhaft eigener Kampagnenmodus – PvP gilt nur temporär.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
   Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ

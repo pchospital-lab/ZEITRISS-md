@@ -8,7 +8,7 @@
   "saves": [
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {
@@ -43,7 +43,7 @@
     },
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {
@@ -78,7 +78,7 @@
     },
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {

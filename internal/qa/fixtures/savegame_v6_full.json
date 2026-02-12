@@ -8,7 +8,7 @@
   "saves": [
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {
@@ -201,7 +201,7 @@
         "arena_psi": [],
         "psi": [],
         "flags": {
-          "runtime_version": "4.2.5",
+          "runtime_version": "4.2.6",
           "compliance_shown_today": true,
           "chronopolis_warn_seen": false,
           "hud_scene_usage": {},
@@ -310,7 +310,7 @@
     },
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {
@@ -475,7 +475,7 @@
           { "ts": "2025-12-14T10:18:00Z", "mode_previous": "preserve", "note": "Arena-Run" }
         ],
         "flags": {
-          "runtime_version": "4.2.5",
+          "runtime_version": "4.2.6",
           "compliance_shown_today": true,
           "chronopolis_warn_seen": true,
           "hud_scene_usage": {},
@@ -581,7 +581,7 @@
     },
     {
       "save_version": 6,
-      "zr_version": "4.2.5",
+      "zr_version": "4.2.6",
       "location": "HQ",
       "phase": "core",
       "campaign": {
@@ -800,7 +800,7 @@
           { "ts": "2025-12-14T11:28:00Z", "mode_previous": "trigger", "note": "Psi-Heat Check" }
         ],
         "flags": {
-          "runtime_version": "4.2.5",
+          "runtime_version": "4.2.6",
           "compliance_shown_today": true,
           "chronopolis_warn_seen": true,
           "hud_scene_usage": {},

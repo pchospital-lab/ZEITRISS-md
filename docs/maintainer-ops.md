@@ -7,7 +7,7 @@ tags: [meta]
 # Maintainer-Ops
 
 Dieses Memo bündelt alle internen Abläufe für den Betrieb von
-**ZEITRISS 4.2.5**. Haltet die Schritte strikt ein, damit QA, Releases und
+**ZEITRISS 4.2.6**. Haltet die Schritte strikt ein, damit QA, Releases und
 Plattform-Listings synchron bleiben.
 
 ## Wissensspeicher & Grundsetup
@@ -18,7 +18,7 @@ README, Master-Index und die 18 Runtime-Module reserviert – der Masterprompt
 bleibt im Systemfeld (oder als erste Chatnachricht), Repo-Hilfsdateien bleiben
 offline:
 
-1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.5, Systemfeld
+1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.6, Systemfeld
    bzw. erste Nachricht). Die Vorversion liegt als Referenz in
    `meta/archive/masterprompt_v6_legacy.md`.
 2. **Dokumentationsanker:** `README.md` und `master-index.json`.
@@ -114,7 +114,7 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Plattformstrategie
 
-- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.5]** auf
+- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.6]** auf
   OpenAI-MyGPT ist die einzige Instanz für aktive QA-Läufe. Alle
   Regressionstests, Acceptance-Smokes und Save/Load-Prüfungen werden hier
   durchgeführt und anschließend im QA-Log abgelegt.
@@ -188,16 +188,16 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
-1. Einen Custom GPT **ZEITRISS [Ver. 4.2.5]** erstellen.
+1. Einen Custom GPT **ZEITRISS [Ver. 4.2.6]** erstellen.
 2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. „Zeitreise-RPG mit
    Kodex-HUD, explosiven Würfeln und Solo/Coop-Balancing. Keine echten Daten,
    mehr Infos auf https://zeitriss.org/“.
-3. `meta/masterprompt_v6.md` (Local-Uncut 4.2.5) vollständig in das
+3. `meta/masterprompt_v6.md` (Local-Uncut 4.2.6) vollständig in das
    Masterprompt-Feld kopieren und speichern. Die Legacy-Fassung liegt bei
    Bedarf in `meta/archive/masterprompt_v6_legacy.md`.
 4. `README.md`, `master-index.json` sowie alle 16 Runtime-Module (ohne
    Runtime-Stub) in den Wissensspeicher hochladen.
-5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.5] beta** nennen.
+5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.6] beta** nennen.
 6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Die Plattform
    läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
    QA-Log.
@@ -210,7 +210,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 ### Proton LUMO (verschlüsselter Chat)
 1. Nach erfolgreicher MyGPT-Abnahme die LUMO-App starten und einen neuen Chat
    öffnen.
-2. `meta/masterprompt_v6.md` (Local-Uncut 4.2.5), `README.md`,
+2. `meta/masterprompt_v6.md` (Local-Uncut 4.2.6), `README.md`,
    `master-index.json` und alle Runtime-Module (ohne Runtime-Stub) über die
    Büroklammer hochladen. Legacy-Prompt: `meta/archive/masterprompt_v6_legacy.md`.
 3. README, Master-Index und Runtime-Module in den Wissensspeicher übernehmen;
@@ -269,7 +269,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 - Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
-## Go-Live-Checkliste (Build 4.2.5)
+## Go-Live-Checkliste (Build 4.2.6)
 Vor der Spiegelung auf produktive Plattformen sind die folgenden Schritte
 abzuschließen und im QA-Log zu dokumentieren:
 
@@ -305,7 +305,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 
 ### Beta-GPT & Playtests
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
-   **ZEITRISS [Ver. 4.2.5] beta**.
+   **ZEITRISS [Ver. 4.2.6] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
    `docs/qa/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
    den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
@@ -353,7 +353,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 ### Regressionstest-Zeitplan 2025
 
 - **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
-  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.5) mit Save/Load.
+  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.6) mit Save/Load.
   - Status: ✅ abgeschlossen.
   - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
 - **Q2 2025 (09.–13.06.2025)**

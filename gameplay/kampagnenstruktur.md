@@ -451,6 +451,14 @@ vorhersehbar bleibt.
 
 #### Cluster-Erzeugung
 
+Seeds werden ausschließlich in `campaign.rift_seeds[]` abgelegt.
+Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
+`status` (open/closed); optional `seed_tier`, `cluster_hint`,
+`time_marker`, `discovered_at` und `level_hint`.
+`arc_dashboard.offene_seeds[]` wird beim Laden/Schreiben
+automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
+nie manuell editiert werden.
+
 ```pseudocode
 threshold = 5
 if jitter_on:
@@ -460,8 +468,11 @@ if paradox_level >= threshold:
     num = roll(1,2)
     cluster = []
     for i in range(num):
-        cluster.append(roll_from("RiftSeedTable", focus="external"))
-    save_to_saveblock(cluster)
+        seed = roll_from("RiftSeedTable", focus="external")
+        cluster.append({id: seed.id, epoch: seed.epoch,
+                        label: seed.label, status: "open"})
+    campaign.rift_seeds.extend(cluster)
+    arc_dashboard.offene_seeds = campaign.rift_seeds  # Spiegel
     paradox_level = 0
 ```
 
@@ -1765,6 +1776,13 @@ bleiben Lucky Shots dramatisch, ohne 20+ Spitzen zu erzeugen. Der Runtime-Helper
 und synchronisiert `phase_strike_tax` mit dem PvP-Modus. Außerhalb aktiver Läufe
 füllt der Helper fehlende `psi_buffer`-Flags ebenfalls automatisch auf, sodass
 auch HQ-Szenen den Standard-Kernschutz führen.
+
+**Mode-Reset nach Arena-Exit:** Beim Start setzt `arenaStart()` den
+Kampagnenmodus temporär auf `pvp` und merkt den alten Wert in
+`campaign.previous_mode`. Beim Verlassen stellt `arenaEnd()` den
+Ursprungsmodus (`preserve`/`trigger`/`mixed`) wieder her und leert
+`previous_mode`. Fehlt `previous_mode` (z. B. bei Legacy-Saves), fällt der
+Reset auf `preserve` zurück. Arena ist **kein** dauerhafter Kampagnenmodus.
 
 Die PvP-Arena eignet sich, um Kampffertigkeiten zu testen oder Rivalitäten
 zwischen Fraktionen auszutragen, ohne die Zeitlinie zu gefährden. Das

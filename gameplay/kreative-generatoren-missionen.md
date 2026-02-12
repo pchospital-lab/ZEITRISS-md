@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 8A: Kreative Generatoren – Missionen"
+title: "ZEITRISS 4.2.6 - Modul 8A: Kreative Generatoren - Missionen"
 version: 4.2.6
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.6 – Modul 8A: **Kreative Generatoren – Missionen**
+# ZEITRISS 4.2.6 - Modul 8A: **Kreative Generatoren - Missionen**
 
 ```yaml
 arc_generator_default: true
@@ -41,13 +41,13 @@ Dieses Modul 8A verzahnt die Kampagnenleitfäden aus Modul 6 mit dem nachgereich
 - Historische Wendepunkte-Generator: Auslöser und Folgen
 - Random-Epochen-Generator: Wann und wo?
 
-Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen – vor allem nicht
+Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen - vor allem nicht
 im offenen Sandkasten-Spiel. Hier kommen **kreative Generatoren** ins Spiel: strukturierte
 Zufallstabellen oder Ideensammlungen, die mit wenigen Würfen oder Stichworten frische Einfälle
 liefern. GPT als KI-Spielleiter hat den Vorteil, riesiges Wissen parat zu haben; dennoch ist es
 hilfreich, ihm klare Vorgaben zu geben, was für einen Inhalt man gerade braucht. Die folgenden
 Generatoren dienen als Starthilfe für improvisierte Orte, Charaktere, Missionen und Kuriositäten.
-Ihr könnt sie klassisch per Würfel nutzen (z. B. W6 oder W20) oder frei nach Gefühl auswählen – je
+Ihr könnt sie klassisch per Würfel nutzen (z. B. W6 oder W20) oder frei nach Gefühl auswählen - je
 nachdem, was zur Situation passt.
 
 _Hinweis:_ Diese Generatoren sind ausdrücklich erweiterbar und anpassbar. Ihr könnt eigene Einträge
@@ -125,22 +125,22 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 
 ### Core-Briefing-Baukasten (Anchor + Auftragstyp)
 
-- **Anchor bestimmen:** Person, Ort oder Objekt setzt den Kernkonflikt (z. B.
+- **Anchor bestimmen:** Person, Ort oder Objekt setzt den Kernkonflikt (z. B.
   Informant, Relais-Knoten, Archivkiste).
 - **Auftragstyp wählen:** `protect | extract (Evakuierung/Schutzaufnahme) | neutralize | document | influence | prevent`.
-- **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
+- **People first:** Mindestens 60 % der Core-Briefings drehen sich um Personen-
   oder Einflussziele (Schutz, Exfil, Umstimmen) statt reiner Objekt-Raids.
 - **Physische Near-Future-Tech:** Scans, Hacks, Comms laufen über Linse/Sensor/
-  Kabel/Relays/Terminal – Mixed-Reality-HUD über die Linse statt losgelöster
+  Kabel/Relays/Terminal - Mixed-Reality-HUD über die Linse statt losgelöster
   VR-Räume oder Projektor-UIs.
 
 ### Rift-Casefiles: Tatort → Leads → Boss-Encounter → Auflösung
 
-- Das 14er-Template folgt der Ermittlungslogik: **Tatort (1–4)** → **Leads
-  (5–9)** → **Boss-Encounter (10)** → **Boss-Resolution (11–14)**.
+- Das 14er-Template folgt der Ermittlungslogik: **Tatort (1-4)** → **Leads
+  (5-9)** → **Boss-Encounter (10)** → **Boss-Resolution (11-14)**.
 - HUD führt `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss/Auflösung`; der
   Casefile-Tracker spiegelt den Wechsel. Die Runtime setzt die Stufe automatisch
-  anhand des Szenenzählers (1–4 Tatort, 5–9 Leads, 10 Boss-Encounter, 11–14
+  anhand des Szenenzählers (1-4 Tatort, 5-9 Leads, 10 Boss-Encounter, 11-14
   Boss-Resolution).
 - One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
   restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
@@ -148,25 +148,25 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 ### Einstiegsmodi und Pflichtphasen {#undercover-einstieg}
 
 - **Undercover-Start** bedeutet nicht, dass die Handlung übersprungen wird: Auch wenn das Team schon
-  "drin" ist, durchläuft es die **vollen Phasen 3–9** (Auftakt → Infiltration → Kontakt → Konflikt I
-  → Intel Twist → Konflikt II → Sicherung). Erst danach öffnet die Runtime Flucht/Verfolgung.
+  "drin" ist, durchläuft es die **vollen Phasen 3-9** (Auftakt → Infiltration → Kontakt → Konflikt I
+  → Intel Twist → Konflikt II → Sicherung). Erst danach öffnet die Runtime Flucht/Verfolgung.
 - **Gate statt Sprung:** Der Missions-Generator schaltet `Sicherung`, `Flucht` und `Rücksprung`
-  erst frei, wenn mindestens **6–7 Szenen** im Log stehen. Es zählen nur **vollwertige Szenen**
+  erst frei, wenn mindestens **6-7 Szenen** im Log stehen. Es zählen nur **vollwertige Szenen**
   (eigene Phase oder klarer Twist); Mikroschnitte oder Doppeldokumentation derselben Szene heben
-  das Gate nicht auf. Ein Undercover-Briefing darf also nicht direkt in Szene 9 einsteigen.
+  das Gate nicht auf. Ein Undercover-Briefing darf also nicht direkt in Szene 9 einsteigen.
 - **Pflicht-Hürden:** Bei Undercover wird mindestens eine **Hürde** (Misstrauen, Scan, Schichtwechsel
-  o. Ä.) in der Infiltrations- oder Kontaktphase verankert, die aktiv ausgespielt werden muss.
-- **Fail-Forward-Backfill:** Läuft eine Mission zu schnell, fügt die Runtime automatisch **2–3
-  Zusatzszenen** ein (z. B. unerwartete Patrouille, Gegenangriff, lokale Komplikation am Ziel), bis
-  der Zielkorridor **12 (Core) bzw. 14 (Rift) Szenen** erreicht ist. Diese Szenen nutzen bevorzugt
+  o. Ä.) in der Infiltrations- oder Kontaktphase verankert, die aktiv ausgespielt werden muss.
+- **Fail-Forward-Backfill:** Läuft eine Mission zu schnell, fügt die Runtime automatisch **2-3
+  Zusatzszenen** ein (z. B. unerwartete Patrouille, Gegenangriff, lokale Komplikation am Ziel), bis
+  der Zielkorridor **12 (Core) bzw. 14 (Rift) Szenen** erreicht ist. Diese Szenen nutzen bevorzugt
   offene Twists oder Fraktionsinterventionen, damit die Spannung organisch steigt.
 - **Stressaufbau:** In den Backfill-Szenen erhöht jede Verzögerung den Stress, damit Undercover
   nicht zur risikofreien Abkürzung wird.
 ### Mission Economy
 
-Belohnungen folgen einer einheitlichen Formel:
+**Verbindliche Formel (Core und Rift):**
 
-`Belohnung = Risiko-Basis × Erfolgs-Multiplikator`
+`Belohnung = Basiswert(Risiko) × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`
 
 | Risiko | Basiswert (CU) |
 |--------|----------------|
@@ -174,15 +174,26 @@ Belohnungen folgen einer einheitlichen Formel:
 | Mid | 500 |
 | High | 600 |
 
-| Ergebnis | Multiplikator | Beispiel (Mid) |
-|----------|---------------|----------------|
+| Ergebnis | Multiplikator | Beispiel (Mid, keine Seeds, kein Hazard) |
+|----------|---------------|------------------------------------------|
+| Fail | 0.3 | 150 CU |
 | Teil-Erfolg | 0.6 | 300 CU |
 | Erfolg | 1.0 | 500 CU |
 | Erfolg + Bonus | 1.2 | 600 CU |
 
+- **Seed-Multi:** `1 + 0,2 × offene Seeds` (Minimum 1,0).
+- **Hazard-Pay:** Solo/Buddy-Teams (< 3 Agent:innen) erhalten **1,5×**.
+- **Bonusziele:** Optionale Zusatzaufgaben als Festbetrag oder Multiplikator-
+  Aufschlag; Quelle im Debrief dokumentieren.
+
+> **Abgrenzung:** Die ältere Kurzformel **10 × Spielerlevel CU** ist
+> ausschließlich eine **Budget-Faustregel für die Kampagnenplanung** und
+> ersetzt keine Ingame-Auszahlung. Verbindlich für Debriefs und Runtime ist
+> die obige dynamische Formel. Details im
+> [CU-Modul](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen).
+
 Die Runtime verwendet dieselben Werte, wenn kein konkreter Betrag im Debrief
-übergeben wird. Solo- oder Buddy-Läufe lösen zusätzlich Hazard-Pay
-(`+50 %` auf die Basis) aus.
+übergeben wird.
 
 ## Automatischer Mission Seed
 
@@ -224,7 +235,7 @@ preserve_pool:
     year: 1995
     place: "Barentssee"
     title: "Norway Rocket Alert"
-    objective: "Halte Jelzins Atomkoffer geschlossen – Fehlsignal darf nicht eskalieren."
+    objective: "Halte Jelzins Atomkoffer geschlossen - Fehlsignal darf nicht eskalieren."
     antagonist: null
     antagonist_goal: null
     twist: "Abtrünniger NATO-Tech setzt falsche Telemetrie."
@@ -288,7 +299,7 @@ preserve_pool:
     year: 1962
     place: "Karibik"
     title: "Black Saturday"
-    objective: "Funkspruch von B-59-Sub unterdrücken – kein Torpedo-Launch."
+    objective: "Funkspruch von B-59-Sub unterdrücken - kein Torpedo-Launch."
     antagonist: null
     antagonist_goal: null
     twist: "Ein gegnerischer Agent fälscht den abgehörten Morse-Code."
@@ -336,7 +347,7 @@ preserve_pool:
     year: 1943
     place: "London"
     title: "V-Bomb DUD"
-    objective: "Stelle Sicherung defekter V-1 wieder her – Blindgänger darf nicht detonieren."
+    objective: "Stelle Sicherung defekter V-1 wieder her - Blindgänger darf nicht detonieren."
     antagonist: null
     antagonist_goal: null
     twist: "Zeit-Dieb will Steuerservos klauen."
@@ -368,7 +379,7 @@ preserve_pool:
     year: 1971
     place: "Utah"
     title: "Apollo 15 Abort Call"
-    objective: "Übermittle korrigierte Guidance-Daten – Landung darf nicht scheitern."
+    objective: "Übermittle korrigierte Guidance-Daten - Landung darf nicht scheitern."
     antagonist: null
     antagonist_goal: null
     twist: "Antagonist stört Deep-Space-Net."
@@ -507,7 +518,7 @@ trigger_pool:
     year: 1989
     place: "Exxon Valdez"
     title: "Bligh Reef Spill"
-    objective: "Besteche Hafenlotse – Tanker läuft auf Riff."
+    objective: "Besteche Hafenlotse - Tanker läuft auf Riff."
     antagonist: null
     antagonist_goal: null
     twist: "Öko-Gruppierung will Radar-Ping aktivieren."
@@ -684,7 +695,7 @@ trigger_pool:
     year: 1995
     place: "Seoul"
     title: "Sampoong Collapse"
-    objective: "Sabotiere Evakuierung – Einsturz muss erfolgen."
+    objective: "Sabotiere Evakuierung - Einsturz muss erfolgen."
     antagonist: null
     antagonist_goal: null
     twist: "Aktien-Short-Spekulanten warnen vor der Instabilität."
@@ -693,7 +704,7 @@ trigger_pool:
 
 Der anschließende Missionsgenerator erstellt eine **Phasenliste** mit
 mindestens **30** Einträgen. Bei langen Einsätzen darf die Liste bis zu
-**50** Szenen umfassen. Nutzt YAML‑Gewichte, um Nebenszenen aufzufüllen
+**50** Szenen umfassen. Nutzt YAML-Gewichte, um Nebenszenen aufzufüllen
 und so das Ziel zu erreichen.
 
 _Regel:_ Eintragstexte dürfen nicht wortgleich in `objective` und `twist` stehen.
@@ -705,17 +716,17 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T28",
         "label": "Schallmauer-Poker",
-        "effect": "Ein Düsenjäger-Testflug droht eure Infiltration zu übertönen – perfekte Tarnung oder Absturztimer?"
+        "effect": "Ein Düsenjäger-Testflug droht eure Infiltration zu übertönen - perfekte Tarnung oder Absturztimer?"
       },
       {
         "id": "T29",
         "label": "Parallel-Konklave",
-        "effect": "Ein Doppelgänger-Team taucht auf – gleiche Ziele, andere Agenda. Rivalen, Söldner oder Backup?"
+        "effect": "Ein Doppelgänger-Team taucht auf - gleiche Ziele, andere Agenda. Rivalen, Söldner oder Backup?"
       },
       {
         "id": "T30",
         "label": "Rabies-X Outbreak",
-        "effect": "Mutierte Tollwut in versiegelter Basis: Soldaten wie Zombies – Antiserum oder Flammenwerfer?"
+        "effect": "Mutierte Tollwut in versiegelter Basis: Soldaten wie Zombies - Antiserum oder Flammenwerfer?"
       },
       {
         "id": "T31",
@@ -725,12 +736,12 @@ Streiche doppelte Seeds oder variiere sie.
       {
         "id": "T32",
         "label": "Kaltes Singularitätstor",
-        "effect": "Gefrorener Energiepuls hält ein Mikro-Wurmloch offen – perfekter Schmuggelkanal oder tickende Uhr?"
+        "effect": "Gefrorener Energiepuls hält ein Mikro-Wurmloch offen - perfekter Schmuggelkanal oder tickende Uhr?"
       },
       {
         "id": "T33",
         "label": "Silencer-Protokoll",
-        "effect": "HQ bricht ab, Kodex schweigt. Ihr baut eine Funkboje – bis dahin analoges Hacking und Risiko."
+        "effect": "HQ bricht ab, Kodex schweigt. Ihr baut eine Funkboje - bis dahin analoges Hacking und Risiko."
       },
       {
         "id": "T34",
@@ -789,145 +800,145 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
     {
       "d24": 1,
       "Seed": "Schreie im Moor",
-      "Hook": "Klagelaute im Sumpf – Ursprung ermitteln, Fluch brechen",
+      "Hook": "Klagelaute im Sumpf - Ursprung ermitteln, Fluch brechen",
       "hiddenCause": "Parawesen: Todesfee (Banshee) warnt mit tödlichen Schreien vor Unheil"
     },
     {
       "d24": 2,
       "Seed": "Totenbrücke Chongqing",
-      "Hook": "Geisterbus im Zeitfeld – Stau räumen, Showdown auf der Brücke",
-      "hiddenCause": "Parawesen: Untoter Fahrer spukt mit verfluchtem Bus – verursacht Zeitanomalie"
+      "Hook": "Geisterbus im Zeitfeld - Stau räumen, Showdown auf der Brücke",
+      "hiddenCause": "Parawesen: Untoter Fahrer spukt mit verfluchtem Bus - verursacht Zeitanomalie"
     },
     {
       "d24": 3,
       "Seed": "Skinwalker-Attacke",
-      "Hook": "Formwandler terrorisiert Dorf – Spuren verfolgen, Kreatur stellen",
+      "Hook": "Formwandler terrorisiert Dorf - Spuren verfolgen, Kreatur stellen",
       "hiddenCause": "Parawesen: Navajo-Hexer in Tiergestalt (Skinwalker) nimmt Rache an Eindringlingen"
     },
     {
       "d24": 4,
       "Seed": "Night Train 666",
-      "Hook": "Führerloser Geisterzug – aufspringen und Blackbox sichern",
+      "Hook": "Führerloser Geisterzug - aufspringen und Blackbox sichern",
       "hiddenCause": "Parawesen: Geist des Lokführers von 1912, gebunden an entgleiste Lok (Zeitriss-Effekt)"
     },
     {
       "d24": 5,
       "Seed": "Goatman von Maryland",
-      "Hook": "Monster mit Axt terrorisiert Pärchen – Teenager schützen, Bestie fassen",
-      "hiddenCause": "Parawesen: mutierter Hybrid (Goatman) – entkam Labor und sinnt auf blutige Rache"
+      "Hook": "Monster mit Axt terrorisiert Pärchen - Teenager schützen, Bestie fassen",
+      "hiddenCause": "Parawesen: mutierter Hybrid (Goatman) - entkam Labor und sinnt auf blutige Rache"
     },
     {
       "d24": 6,
       "Seed": "Wolfsplage Dacia",
-      "Hook": "Gen-Rudel – Vollmond-Dorf-Horror, Serum stehlen",
+      "Hook": "Gen-Rudel - Vollmond-Dorf-Horror, Serum stehlen",
       "hiddenCause": "Lykan-Virus aus Zukunftslabor"
     },
     {
       "d24": 7,
       "Seed": "Fluch des Wendigo",
-      "Hook": "Wintercamp wird kannibalisch – Ritual aufdecken, Infizierte stoppen",
+      "Hook": "Wintercamp wird kannibalisch - Ritual aufdecken, Infizierte stoppen",
       "hiddenCause": "Parawesen: Wendigo-Geist (Kannibalenfluch) entfesselt unstillbaren Hunger in Menschen"
     },
     {
       "d24": 8,
       "Seed": "Chupacabra-Angriffe",
-      "Hook": "Farmtiere blutleer aufgefunden – Lockvogel einsetzen, Kreatur erlegen",
-      "hiddenCause": "Parawesen: unbekannter Blutsauger (Chupacabra) – reißt Vieh nachts und versetzt Dorf in Angst"
+      "Hook": "Farmtiere blutleer aufgefunden - Lockvogel einsetzen, Kreatur erlegen",
+      "hiddenCause": "Parawesen: unbekannter Blutsauger (Chupacabra) - reißt Vieh nachts und versetzt Dorf in Angst"
     },
     {
       "d24": 9,
       "Seed": "Ungeheuer von Loch Ness",
-      "Hook": "Sonar-Sichtung im See – Tauchteam entsenden, Kreatur verfolgen",
+      "Hook": "Sonar-Sichtung im See - Tauchteam entsenden, Kreatur verfolgen",
       "hiddenCause": "Parawesen: Plesiosaurier-Monster (Nessie) durch Zeitriss in Gegenwart aufgetaucht"
     },
     {
       "d24": 10,
       "Seed": "Chrono Butcher",
-      "Hook": "Serienmorde mit Frame-Sprüngen – Ermittlungsakte sichern, Butcher stellen",
+      "Hook": "Serienmorde mit Frame-Sprüngen - Ermittlungsakte sichern, Butcher stellen",
       "hiddenCause": "Parakiller in Stutter-Schleife, gebunden an blutgetränkte Taschenuhr des ersten Opfers"
     },
     {
       "d24": 11,
       "Seed": "Nightcrawler",
-      "Hook": "CCTV-Video zeigt Kreatur – Spurensuche einleiten, Ursprung ermitteln",
-      "hiddenCause": "Parawesen: Fremdartiges Nachtwesen (Nightcrawler) – huscht durch Kamerasicht, Herkunft unbekannt"
+      "Hook": "CCTV-Video zeigt Kreatur - Spurensuche einleiten, Ursprung ermitteln",
+      "hiddenCause": "Parawesen: Fremdartiges Nachtwesen (Nightcrawler) - huscht durch Kamerasicht, Herkunft unbekannt"
     },
     {
       "d24": 12,
       "Seed": "Sasquatch im Yukon",
-      "Hook": "Bestie greift Trapper an – Fährte verfolgen",
+      "Hook": "Bestie greift Trapper an - Fährte verfolgen",
       "hiddenCause": "Zeitriss entlässt Mutanten-Bären"
     },
     {
       "d24": 13,
       "Seed": "Mothman-Sichtung",
-      "Hook": "Unheil über Brücke – Absturz bergen",
+      "Hook": "Unheil über Brücke - Absturz bergen",
       "hiddenCause": "Bote aus paralleler Zukunft warnt vor Brückeneinsturz"
     },
     {
       "d24": 14,
       "Seed": "Blutorden",
-      "Hook": "Opfer blutleer – Kult zerschlagen",
+      "Hook": "Opfer blutleer - Kult zerschlagen",
       "hiddenCause": "Zeitkult extrahiert Energie für Riss-Stabilisierung"
     },
     {
       "d24": 15,
       "Seed": "Diablos Katakomben",
-      "Hook": "Dämonische Schreie – Kultstätte schließen",
+      "Hook": "Dämonische Schreie - Kultstätte schließen",
       "hiddenCause": "versiegelter Psi-Kristall bricht wieder auf"
     },
       {
         "d24": 16,
         "Seed": "Waheela-Rudel",
-        "Hook": "Jäger verschwinden in arktischer Wildnis – Spur aufnehmen, Bestien ausschalten",
-        "hiddenCause": "Parawesen: Urzeitliche Waheela-Wölfe dringen aus Riss – extrem aggressiv"
+        "Hook": "Jäger verschwinden in arktischer Wildnis - Spur aufnehmen, Bestien ausschalten",
+        "hiddenCause": "Parawesen: Urzeitliche Waheela-Wölfe dringen aus Riss - extrem aggressiv"
       },
     {
       "d24": 17,
       "Seed": "Spring-Heeled Jack",
-      "Hook": "Feuerspuckender Unhold terrorisiert London – über die Dächer hetzen, Opfer schützen",
+      "Hook": "Feuerspuckender Unhold terrorisiert London - über die Dächer hetzen, Opfer schützen",
       "hiddenCause": "Parawesen: Feuerteufel springt über Dächer und versetzt London in Angst"
     },
       {
         "d24": 18,
         "Seed": "Geister-Galeere",
-        "Hook": "Leuchtende Ruderer sichten – Hafen sperren, Fluch brechen",
-        "hiddenCause": "Parawesen: Quantum-Sirenen hypnotisieren Seeleute – sammeln Lebensenergie"
+        "Hook": "Leuchtende Ruderer sichten - Hafen sperren, Fluch brechen",
+        "hiddenCause": "Parawesen: Quantum-Sirenen hypnotisieren Seeleute - sammeln Lebensenergie"
       },
       {
         "d24": 19,
         "Seed": "Spiegelkabinett",
-        "Hook": "Doppelgänger im Spiegelkabinett – Besucher verschwinden, Irrgarten sichern",
-        "hiddenCause": "Parawesen: Photonik-Parasiten kopieren Besucher – Spiegelnetz dient als Portal"
+        "Hook": "Doppelgänger im Spiegelkabinett - Besucher verschwinden, Irrgarten sichern",
+        "hiddenCause": "Parawesen: Photonik-Parasiten kopieren Besucher - Spiegelnetz dient als Portal"
       },
       {
         "d24": 20,
         "Seed": "Phantom-Katakomben",
-        "Hook": "Flüsternde Stimmen unter Paris – Katakomben erkunden, Störsignal orten",
-        "hiddenCause": "Parawesen: Ätherische \"Whisperer\" – Schallfeld erzeugt Massenhalluzinationen"
+        "Hook": "Flüsternde Stimmen unter Paris - Katakomben erkunden, Störsignal orten",
+        "hiddenCause": "Parawesen: Ätherische \"Whisperer\" - Schallfeld erzeugt Massenhalluzinationen"
     },
     {
       "d24": 21,
       "Seed": "Mokele-Mbembe",
-      "Hook": "Monster im Sumpf des Kongo – Expedition sichern, Kreatur einfangen",
-      "hiddenCause": "Parawesen: Relikt-Dinosaurier Mokele-Mbembe – Rift-Seed wird enthüllt, Dorf bedroht"
+      "Hook": "Monster im Sumpf des Kongo - Expedition sichern, Kreatur einfangen",
+      "hiddenCause": "Parawesen: Relikt-Dinosaurier Mokele-Mbembe - Rift-Seed wird enthüllt, Dorf bedroht"
     },
     {
       "d24": 22,
       "Seed": "Aswang-Nacht",
-      "Hook": "Schwangere spurlos verschwunden – Dorf patrouillieren, fliegende Hexe stellen",
+      "Hook": "Schwangere spurlos verschwunden - Dorf patrouillieren, fliegende Hexe stellen",
       "hiddenCause": "Parawesen: Vampir-Hexe (Aswang) ernährt sich von Ungeborenen im Dorf"
     },
     {
       "d24": 23,
       "Seed": "Thunderbird-Sichtung",
-      "Hook": "Kind von Riesenvogel entführt – Nest finden, Kreatur sichern",
+      "Hook": "Kind von Riesenvogel entführt - Nest finden, Kreatur sichern",
       "hiddenCause": "Parawesen: Donneradler (Thunderbird) entfacht Stürme und entführt Kinder"
     },
     {
       "d24": 24,
       "Seed": "Jersey Devil",
-      "Hook": "Flügelschlag über Pine Barrens – Flugbahn analysieren, Nest zerstören",
+      "Hook": "Flügelschlag über Pine Barrens - Flugbahn analysieren, Nest zerstören",
       "hiddenCause": "Para-Kreatur (Loop-Marker) kreist um Kupfer-Ei im Wald, terrorisiert Siedler"
     }
   ]
@@ -936,19 +947,19 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
 
 ## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}
 
-Nicht jede Session ist ein großes Story-Kapitel – manchmal möchten die Spieler im freien Spiel einen
+Nicht jede Session ist ein großes Story-Kapitel - manchmal möchten die Spieler im freien Spiel einen
 kurzen Auftrag angehen oder euer GPT improvisiert einen Nebenquest. Der Missions-Generator liefert
 schnelle **Missionsideen** mit einem eingebauten Twist oder Dilemma, damit auch kleine Einsätze
 dramatisch und interessant verlaufen.
 
 ### Load-out-Pack-Generator
 
-| Pack | Inhalt | CU‐Preis |
+| Pack | Inhalt | CU-Preis |
 |------|--------|---------|
-| **Stealth‑Kit** | Chamäleon‑Overall, Geräuschdämpfer‑Set, Mini‑Holo‑Bypass, Nano‑Kabel (20 m) | 950 CU |
-| **Heavy‑Ops** | Smart‑Assault‑Rifle, Sub‑Derm‑Kevlar, Adren‑Shot ×2, Flash‑Charges ×3 | 1 350 CU |
-| **Tech‑Recon** | Quanten‑Sniffer‑Rig, Drohne „Pixie“, EMP‑Patch ×2, Data‑Spike‑Protokoll | 1 100 CU |
-*SL‑Tipp*: Jede zusätzliche Sonderausrüstung erhöht das Missionsbudget; nicht verwendete CU fließt in Belohnungen.
+| **Stealth-Kit** | Chamäleon-Overall, Geräuschdämpfer-Set, Mini-Holo-Bypass, Nano-Kabel (20 m) | 950 CU |
+| **Heavy-Ops** | Smart-Assault-Rifle, Sub-Derm-Kevlar, Adren-Shot ×2, Flash-Charges ×3 | 1 350 CU |
+| **Tech-Recon** | Quanten-Sniffer-Rig, Drohne "Pixie", EMP-Patch ×2, Data-Spike-Protokoll | 1 100 CU |
+*SL-Tipp*: Jede zusätzliche Sonderausrüstung erhöht das Missionsbudget; nicht verwendete CU fließt in Belohnungen.
 
 ### Missionstypen
 
@@ -957,11 +968,11 @@ Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Artefa
 selten automatisch auf, vergleichbar mit legendären Funden. Spieler können ihr Auftreten nicht
 gezielt beeinflussen. Die Missionstypen gliedern sich in fünf Kategorien:
 
-- **Schutzaufnahme/Evakuierung** – Zielpersonen aus Gefahrenlagen herausführen und sichern.
-- **Einflüstern** – Einfluss auf NSCs durch Täuschung oder Manipulation.
-- **Verdunkeln** – Spuren verwischen und Beweise stehlen.
-- **Verhindern** – Anschläge, Putsche oder Deals stoppen.
-- **Dokumentieren** – Geheime Beweise für das ITI sichern.
+- **Schutzaufnahme/Evakuierung** - Zielpersonen aus Gefahrenlagen herausführen und sichern.
+- **Einflüstern** - Einfluss auf NSCs durch Täuschung oder Manipulation.
+- **Verdunkeln** - Spuren verwischen und Beweise stehlen.
+- **Verhindern** - Anschläge, Putsche oder Deals stoppen.
+- **Dokumentieren** - Geheime Beweise für das ITI sichern.
 
 Kombiniert die Tabellen nach Belieben und erstellt eure eigenen Einsätze. Für
 größere Handlungsbögen könnt ihr mehrere Aufträge verbinden oder den
@@ -981,7 +992,7 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 
 - **Schauplatz/Epoche:**
 
-  1. Auf einem **Kriegsschauplatz** (Schlacht, Belagerung o. Ä.).
+  1. Auf einem **Kriegsschauplatz** (Schlacht, Belagerung o. Ä.).
   2. An einem **Königshof** oder Regierungssitz.
   3. In einer **kleinen Ortschaft** oder Wildnis.
   4. In einem **Forschungslabor** oder einer Werkstatt.
@@ -990,13 +1001,13 @@ Wählt jeweils eine Option aus **Auftrag**, **Schauplatz** und **Twist**:
 
 - **Twist/Dilemma:**
 
-  1. Jemand, den ihr schützen oder dem ihr helfen sollt, ist **nicht der, der er zu sein scheint** –
+  1. Jemand, den ihr schützen oder dem ihr helfen sollt, ist **nicht der, der er zu sein scheint** -
      und verrät euch vielleicht.
   2. Die **erfolgreiche Erfüllung** des Auftrags **verändert die Geschichte gefährlich** (Dilemma:
      Auftrag ausführen oder scheitern lassen?).
-  3. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen – wen bevorzugt
+  3. **Moralisches Dilemma:** Ihr könnt **nicht alle retten** oder zufriedenstellen - wen bevorzugt
      ihr, wen lasst ihr im Stich?
-  4. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt – ein Wettlauf gegen
+  4. Der Auftrag wird **von einer rivalisierenden Gruppe** ebenfalls verfolgt - ein Wettlauf gegen
      konkurrierende Zeitreisende entbrennt.
   5. Ein **temporales Phänomen** erschwert alles: Zeitstürme, Anachronismus-Erscheinungen etc.
      treten auf.
@@ -1006,14 +1017,14 @@ Direkte Begegnungen mit eigenen Versionen sind ein starker dramaturgischer
 Kniff, aber kein Standardbestandteil des Spiels. Sie kommen nur zum Einsatz,
 wenn alle Spieler dem ausdrücklich zustimmen, und selbst dann höchstens als
 seltene Ausnahme. Oft genügt es, die Agenten an einen früheren Einsatzort
-zurückkehren zu lassen, um dort Hinweise auf ihr zukünftiges Handeln zu finden –
+zurückkehren zu lassen, um dort Hinweise auf ihr zukünftiges Handeln zu finden -
 ohne sich selbst unmittelbar zu treffen.
 
 Ihr könnt natürlich alle Elemente nach Belieben kombinieren. Wichtig ist, dass fast **jeder Auftrag
 mit einem Twist** deutlich interessanter wird. So werden selbst Nebenmissionen zu denkwürdigen
-Episoden und nicht bloß „Hole X, bringe Y“.
+Episoden und nicht bloß "Hole X, bringe Y".
 
-**Optional – Belohnungs-Generator:** Ebenso könnt ihr auswürfeln oder wählen, welche **Belohnung
+**Optional - Belohnungs-Generator:** Ebenso könnt ihr auswürfeln oder wählen, welche **Belohnung
 oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfolgreich sie sind):
 
 - **Belohnung/Ergebnis:**
@@ -1022,16 +1033,16 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
      (historisch oder futuristisch), das neue Möglichkeiten eröffnet.
   2. **Wissen & Aufklärung:** Durch den Auftrag erhalten sie entscheidende Informationen oder lüften
      ein Geheimnis, das im weiteren Verlauf der Kampagne hilft.
-  3. **Ansehen & Verbündete:** Ihr Erfolg verschafft ihnen Ansehen und neue Alliierte – z. B.
+  3. **Ansehen & Verbündete:** Ihr Erfolg verschafft ihnen Ansehen und neue Alliierte - z. B.
      Dankbarkeit einer geretteten Person oder gar einer Fraktion (vielleicht winkt eine Beförderung im
      ITI oder ein Bündnis mit den Zeitrebellen von _Tempus Liber_).
   4. **Technologischer Vorteil:** Als Lohn stellt man ihnen neue Ausrüstung oder experimentelle
      Technik zur Verfügung (etwa ein verbessertes Zeitreise-Gadget oder Unterstützung durch das HQ).
   5. **Stabilisierte Zeit:** Ihr Eingreifen bewahrt den Verlauf der Geschichte und rettet
-     Unschuldige – eine ideelle Belohnung. (Möglicherweise stellt sich sogar ein kleiner positiver
+     Unschuldige - eine ideelle Belohnung. (Möglicherweise stellt sich sogar ein kleiner positiver
      Schmetterlingseffekt ein, der den Helden zugutekommt.)
   6. **Neue Erkenntnisse:** Anstatt reicher zu werden, stoßen sie auf einen Hinweis zu einem
-     größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag – eine „Belohnung“ in Form
+     größeren Rätsel. Ihr Erfolg enthüllt den nächsten, noch größeren Auftrag - eine "Belohnung" in Form
     eines neuen Abenteuers, das auf sie wartet.
 
 
@@ -1052,7 +1063,7 @@ ganze Handlungsbögen. Kombiniert je einen Eintrag aus **Bedrohung**, **Schlüss
 **Finale Wendung** und baut darum herum eure große Story.
 
 Ein einzelnes historisches Ereignis lässt sich auch in mehrere Einsätze
-aufteilen. Teilt eine Katastrophe chronologisch auf – zum Beispiel
+aufteilen. Teilt eine Katastrophe chronologisch auf - zum Beispiel
 Vorbereitungen, erster Angriff, Eskalation und Nachspiel. Jede Etappe bildet
 eine Mission, sodass ein kompletter Arc zehn Szenenfolgen derselben
 Zeitperiode umfasst.
@@ -1129,7 +1140,7 @@ unfreiwillig einen historischen Moment auslösen oder verhindern. Wählt eine
 Kombination aus **Ereignis**, **Aktion** und **Konsequenz**:
 
 1. **Ereignis:**
-   1. Ein großes Unglück steht kurz bevor (z. B. eine Explosion oder ein Absturz).
+   1. Ein großes Unglück steht kurz bevor (z. B. eine Explosion oder ein Absturz).
    2. Ein gefeierter Durchbruch der Wissenschaft soll präsentiert werden.
    3. Eine wichtige Krönung oder Wahl entscheidet über den Lauf der Geschichte.
    4. Eine Revolution brodelt und sucht nur noch den Funken zur Entzündung.
@@ -1145,14 +1156,14 @@ Kombination aus **Ereignis**, **Aktion** und **Konsequenz**:
 3. **Konsequenz:**
    1. Das historische Ereignis findet nur dank ihres Eingreifens statt.
    2. Der Verlauf verändert sich subtil und führt zu einem bekannten Ergebnis.
-   3. Ihr Eingreifen verhindert die Katastrophe – eine andere tritt an ihre Stelle.
+   3. Ihr Eingreifen verhindert die Katastrophe - eine andere tritt an ihre Stelle.
    4. Eine Nebenfigur wird berühmt und beeinflusst später die Zeitlinie.
    5. Die Öffentlichkeit erfährt nichts; nur der Kodex notiert die Veränderung.
    6. Eine Fraktion nutzt das Resultat heimlich für ihre eigenen Ziele.
 
 Mit diesem Baukasten entstehen Missionen, bei denen die Agenten scheinbar nur
 eine Kleinigkeit erledigen. Erst im Nachhinein erkennen sie, dass ihr Handeln den
-geschichtlichen Wendepunkt überhaupt ermöglicht hat – oder dass sie ihn, ohne es
+geschichtlichen Wendepunkt überhaupt ermöglicht hat - oder dass sie ihn, ohne es
 zu wollen, verhindert haben.
 
 ### Historische Anomalien: Trigger-Liste
@@ -1163,127 +1174,127 @@ Anomalie abweicht. **Vorphase** beschreibt den Moment knapp vor dem Auslöser,
 **Nachphase** die Lage, sobald die Anomalie sich voll entfaltet. Wählt oder
 würfelt einen Eintrag als Missionsstart.
 
-1. **London 1666 – Großer Brand** \| Vorphase: Funken im Bäckerladen.
+1. **London 1666 - Großer Brand** \| Vorphase: Funken im Bäckerladen.
    \| Nachphase: Stadt steht in Flammen.
-2. **Boston 1773 – Tea Party** \| Vorphase: Heimliche Treffen in Tavernen.
+2. **Boston 1773 - Tea Party** \| Vorphase: Heimliche Treffen in Tavernen.
    \| Nachphase: Kisten treiben im Hafen.
-3. **Paris 1789 – Sturm auf die Bastille** \| Vorphase: Gerüchte über Waffenlager.
+3. **Paris 1789 - Sturm auf die Bastille** \| Vorphase: Gerüchte über Waffenlager.
    \| Nachphase: Aufgebrachte Menge stürmt das Gefängnis.
-4. **New Orleans 1812 – Großer Brand** \| Vorphase: Kerzenstummel fällt um.
+4. **New Orleans 1812 - Großer Brand** \| Vorphase: Kerzenstummel fällt um.
    \| Nachphase: Viertel lichterloh.
-5. **Waterloo 1815 – Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder.
+5. **Waterloo 1815 - Letzte Schlacht Napoleons** \| Vorphase: Verregnete Felder.
    \| Nachphase: Truppen brechen panisch.
-6. **Berlin 1848 – Märzrevolution** \| Vorphase: Flugblätter im Umlauf.
+6. **Berlin 1848 - Märzrevolution** \| Vorphase: Flugblätter im Umlauf.
    \| Nachphase: Barrikadenkämpfe.
-7. **London 1851 – Great Exhibition** \| Vorphase: Weltneuheiten reisen an.
+7. **London 1851 - Great Exhibition** \| Vorphase: Weltneuheiten reisen an.
    \| Nachphase: Rivalen kämpfen um Erfindungen.
-8. **Florenz 1867 – Laborunfall** \| Vorphase: Experimente mit Äthergas.
+8. **Florenz 1867 - Laborunfall** \| Vorphase: Experimente mit Äthergas.
    \| Nachphase: Halle explodiert, Rauchschwaden.
-9. **London 1888 – Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln.
+9. **London 1888 - Letztes Opfer des Rippers** \| Vorphase: Polizei tappt im Dunkeln.
    \| Nachphase: Spur führt zu einem Zeitreisenden.
-10. **Paris 1889 – Weltausstellung** \| Vorphase: Eiffelturm im Bau.
+10. **Paris 1889 - Weltausstellung** \| Vorphase: Eiffelturm im Bau.
     \| Nachphase: Spione jagen neue Technik.
-11. **Chicago 1893 – Weltausstellung** \| Vorphase: Besucher strömen herbei.
+11. **Chicago 1893 - Weltausstellung** \| Vorphase: Besucher strömen herbei.
     \| Nachphase: Stromnetz bricht zusammen.
-12. **Sankt Petersburg 1905 – Blutsonntag** \| Vorphase: Friedlicher Marsch.
+12. **Sankt Petersburg 1905 - Blutsonntag** \| Vorphase: Friedlicher Marsch.
     \| Nachphase: Soldaten schießen in die Menge.
-13. **San Francisco 1906 – Erdbeben** \| Vorphase: Tiere verhalten sich unruhig.
+13. **San Francisco 1906 - Erdbeben** \| Vorphase: Tiere verhalten sich unruhig.
     \| Nachphase: Stadtteile versinken in Flammen.
-14. **Sarajevo 1914 – Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich.
+14. **Sarajevo 1914 - Attentat auf Franz Ferdinand** \| Vorphase: Autokolonne formiert sich.
     \| Nachphase: Europa steht vor dem Krieg.
-15. **Galizien 1916 – Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab.
+15. **Galizien 1916 - Verschollenes U-Boot** \| Vorphase: Funkkontakt reißt ab.
     \| Nachphase: U-Boot taucht Jahre später wieder auf.
-16. **New York 1929 – Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge.
+16. **New York 1929 - Börsencrash** \| Vorphase: Ungewöhnliche Kursausschläge.
     \| Nachphase: Broker geraten in Panik.
-17. **Berlin 1936 – Olympische Spiele** \| Vorphase: Propagandashow läuft.
+17. **Berlin 1936 - Olympische Spiele** \| Vorphase: Propagandashow läuft.
     \| Nachphase: Geheime Aufrüstung fliegt auf.
-18. **Hindenburg 1937 – Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
+18. **Hindenburg 1937 - Zeppelin** \| Vorphase: Wartungstrupp meldet seltsamen Geruch.
     \| Nachphase: Luftschiff in Flammen.
-19. **New York 1939 – World’s Fair** \| Vorphase: Futuristische Vorführungen.
+19. **New York 1939 - World's Fair** \| Vorphase: Futuristische Vorführungen.
     \| Nachphase: Tarnprojekt enttarnt.
-20. **Los Alamos 1945 – Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
+20. **Los Alamos 1945 - Trinity-Test** \| Vorphase: Wissenschaftler diskutieren Risiken.
     \| Nachphase: Greller Blitz, Messgeräte spielen verrückt.
-21. **Roswell 1947 – Absturz** \| Vorphase: Radarempfang gestört.
+21. **Roswell 1947 - Absturz** \| Vorphase: Radarempfang gestört.
     \| Nachphase: Militär riegelt die Absturzstelle ab.
-22. **Berlin 1961 – Mauerbau** \| Vorphase: Geheimtreffen der Führung.
+22. **Berlin 1961 - Mauerbau** \| Vorphase: Geheimtreffen der Führung.
     \| Nachphase: Straßen plötzlich blockiert.
-23. **Dallas 1963 – Kennedy-Attentat** \| Vorphase: Wagenkolonne startet.
+23. **Dallas 1963 - Kennedy-Attentat** \| Vorphase: Wagenkolonne startet.
     \| Nachphase: Chaos auf der Dealey Plaza.
-24. **Woodstock 1969 – Musikfestival** \| Vorphase: Technikprobleme auf der Bühne.
+24. **Woodstock 1969 - Musikfestival** \| Vorphase: Technikprobleme auf der Bühne.
     \| Nachphase: Massen strömen unkontrolliert.
-25. **Apollo 13 1970 – Raumflug** \| Vorphase: Routinefunksprüche.
-    \| Nachphase: Funkspruch „Houston, we’ve had a problem“.
-26. **Osaka 1970 – Expo ’70** \| Vorphase: Kalter Krieg mischt mit.
+25. **Apollo 13 1970 - Raumflug** \| Vorphase: Routinefunksprüche.
+    \| Nachphase: Funkspruch "Houston, we've had a problem".
+26. **Osaka 1970 - Expo '70** \| Vorphase: Kalter Krieg mischt mit.
     \| Nachphase: Futuristische Show gerät außer Kontrolle.
-27. **München 1972 – Olympia** \| Vorphase: Verdächtige sichten das Dorf.
+27. **München 1972 - Olympia** \| Vorphase: Verdächtige sichten das Dorf.
     \| Nachphase: Geiselnahme und Belagerung.
-28. **Three Mile Island 1979 – Reaktorstörung** \| Vorphase: Ventile melden Fehler.
+28. **Three Mile Island 1979 - Reaktorstörung** \| Vorphase: Ventile melden Fehler.
     \| Nachphase: Kühlsystem versagt.
-29. **Los Angeles 1984 – Olympisches Finale** \| Vorphase: Kameraübertragung flackert.
+29. **Los Angeles 1984 - Olympisches Finale** \| Vorphase: Kameraübertragung flackert.
     \| Nachphase: Stromausfall im Stadion.
-30. **Tschernobyl 1986 – Reaktor 4** \| Vorphase: Testlauf ohne Freigabe.
+30. **Tschernobyl 1986 - Reaktor 4** \| Vorphase: Testlauf ohne Freigabe.
     \| Nachphase: Kernschmelze und Evakuierung.
-31. **Berlin 1989 – Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz.
+31. **Berlin 1989 - Mauerfall** \| Vorphase: Verwirrte Meldungen in der Pressekonferenz.
     \| Nachphase: Menschenmassen reißen Mauern ein.
-32. **Oslo 1991 – Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert.
+32. **Oslo 1991 - Friedensnobelpreis** \| Vorphase: Bewerberlisten manipuliert.
     \| Nachphase: Zeremonie endet im Skandal.
-33. **Tokio 1995 – Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler.
+33. **Tokio 1995 - Sarin-Anschlag** \| Vorphase: U-Bahn voller Pendler.
     \| Nachphase: Giftgasalarm.
-34. **Seattle 1999 – WTO-Proteste** \| Vorphase: Demonstranten sammeln sich.
+34. **Seattle 1999 - WTO-Proteste** \| Vorphase: Demonstranten sammeln sich.
     \| Nachphase: Straßenschlachten eskalieren.
-35. **New York 2001 – 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab.
+35. **New York 2001 - 9/11** \| Vorphase: Flugzeuge weichen vom Kurs ab.
     \| Nachphase: Türme stürzen ein.
-36. **Bagdad 2003 – Museumsplünderung** \| Vorphase: Chaos nach Einmarsch.
+36. **Bagdad 2003 - Museumsplünderung** \| Vorphase: Chaos nach Einmarsch.
     \| Nachphase: Artefakte verschwunden.
-37. **Jakarta 2004 – Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus.
+37. **Jakarta 2004 - Tsunamiwarnung** \| Vorphase: Seismografen schlagen aus.
     \| Nachphase: Küsten verwüstet.
-38. **Berlin 2006 – Stromausfall** \| Vorphase: Netzschwankungen.
+38. **Berlin 2006 - Stromausfall** \| Vorphase: Netzschwankungen.
     \| Nachphase: U-Bahnen bleiben stehen.
-39. **Peking 2008 – Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien.
+39. **Peking 2008 - Eröffnungsfeier** \| Vorphase: Wetterkontrolle testet Chemikalien.
     \| Nachphase: Künstlicher Regen setzt ein.
-40. **Haiti 2010 – Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere.
+40. **Haiti 2010 - Erdbeben** \| Vorphase: Tiere fliehen ins Landesinnere.
     \| Nachphase: Hauptstadt in Trümmern.
-41. **Fukushima 2011 – Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv.
+41. **Fukushima 2011 - Tsunami trifft AKW** \| Vorphase: Notfallprotokolle aktiv.
     \| Nachphase: Strahlungswerte steigen.
-42. **London 2012 – Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren.
+42. **London 2012 - Olympia** \| Vorphase: Sicherheitsdrohnen patrouillieren.
     \| Nachphase: Drohnen spielen verrückt.
-43. **Moskau 2013 – Meteorit** \| Vorphase: Himmelsleuchten.
+43. **Moskau 2013 - Meteorit** \| Vorphase: Himmelsleuchten.
     \| Nachphase: Druckwelle zerstört Fenster.
-44. **Genf 2015 – Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen.
+44. **Genf 2015 - Teilchenbeschleuniger** \| Vorphase: Magnetringe überhitzen.
     \| Nachphase: Zeitfenster blitzt kurz auf.
-45. **Paris 2016 – Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz.
+45. **Paris 2016 - Stromausfall im Louvre** \| Vorphase: Wartungsarbeiten am Netz.
     \| Nachphase: Kostbare Exponate verschwinden.
-46. **Houston 2017 – Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung.
+46. **Houston 2017 - Hurricane Harvey** \| Vorphase: Satellitenbilder zeigen extreme Wolkenbildung.
     \| Nachphase: Straßen überflutet.
-47. **Bangkok 2018 – Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle.
+47. **Bangkok 2018 - Höhlenrettung** \| Vorphase: Junge Fußballer erkunden Höhle.
     \| Nachphase: Monsunregen schneidet den Rückweg ab.
-48. **Notre-Dame 2019 – Großbrand** \| Vorphase: Baugerüst wackelt.
+48. **Notre-Dame 2019 - Großbrand** \| Vorphase: Baugerüst wackelt.
     \| Nachphase: Dachstuhl in Flammen.
-49. **Wuhan 2019 – High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt.
+49. **Wuhan 2019 - High-Tech-Expo** \| Vorphase: Prototypen-Drohnen werden vorgestellt.
     \| Nachphase: Steuerung fällt aus, Drohnen stürzen ab.
-50. **Beirut 2020 – Hafenexplosion** \| Vorphase: Rauch über Lagerhalle.
+50. **Beirut 2020 - Hafenexplosion** \| Vorphase: Rauch über Lagerhalle.
     \| Nachphase: Schockwelle legt Gebäude in Schutt.
-51. **Tokio 2021 – Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer.
+51. **Tokio 2021 - Olympische Spiele** \| Vorphase: Experimentelles KI-Maskottchen begrüßt die Zuschauer.
     \| Nachphase: Fehlfunktion löst gefährliche Zwischenfälle aus.
-52. **Glasgow 2021 – Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen.
+52. **Glasgow 2021 - Klimagipfel** \| Vorphase: Aktivisten blockieren Straßen.
     \| Nachphase: Unerklärliche Stromsenke legt Viertel lahm.
-53. **Texas 2022 – Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch.
+53. **Texas 2022 - Stromnetz-Kollaps** \| Vorphase: Kälteeinbruch.
     \| Nachphase: Blackout und Versorgungsnotstand.
-54. **Genf 2023 – KI-Konferenz** \| Vorphase: Prototype läuft heiß.
+54. **Genf 2023 - KI-Konferenz** \| Vorphase: Prototype läuft heiß.
     \| Nachphase: Selbstlernende Drohne entweicht.
-55. **Kapstadt 2024 – Wasserkrise** \| Vorphase: Reservoirs fast leer.
+55. **Kapstadt 2024 - Wasserkrise** \| Vorphase: Reservoirs fast leer.
     \| Nachphase: Rationierung eskaliert Unruhen.
-56. **Mars – Gesicht von Cydonia** \| Vorphase: Rover meldet mysteriöse Struktur.
+56. **Mars - Gesicht von Cydonia** \| Vorphase: Rover meldet mysteriöse Struktur.
     \| Nachphase: Basis gerät in Aufruhr.
-57. **Phobos – Der Basilisk** \| Vorphase: Mission entdeckt Turm.
+57. **Phobos - Der Basilisk** \| Vorphase: Mission entdeckt Turm.
     \| Nachphase: Crew verliert Kontakt.
-58. **Rückseite des Mondes – Die wahre Madonna** \| Vorphase: Crash-Signal eines Notfunksenders wird geortet.
+58. **Rückseite des Mondes - Die wahre Madonna** \| Vorphase: Crash-Signal eines Notfunksenders wird geortet.
     \| Nachphase: Hybride Kreatur erwacht.
-59. **Saturnmond Titan – Fremdes Leben** \| Vorphase: Sonden liefern seltsame Daten.
+59. **Saturnmond Titan - Fremdes Leben** \| Vorphase: Sonden liefern seltsame Daten.
     \| Nachphase: Methanmeere brodeln.
-60. **Antarktis – Versiegelte Anlagen** \| Vorphase: Bohrung stößt auf Metall.
+60. **Antarktis - Versiegelte Anlagen** \| Vorphase: Bohrung stößt auf Metall.
     \| Nachphase: Alte Technologie erwacht.
-61. **Kapustin Jar – Aktives Zeitportal** \| Vorphase: Testlauf steht bevor.
+61. **Kapustin Jar - Aktives Zeitportal** \| Vorphase: Testlauf steht bevor.
 
 \| Nachphase: Portal reißt sich auf.
 ### Preserve-Liste (Near-Misses)
@@ -1294,60 +1305,60 @@ Siehe `preserve_pool` oben.
 ZEITRISS-Missionen können prinzipiell in jeder Epoche der echten oder fiktiven Geschichte spielen.
 Wenn ihr spontan ein neues Setting braucht oder die Spieler unerwartet irgendwo auftauchen, liefert
 dieser Generator einen schnellen Rahmen. Er kombiniert einen **Zeitort** (Epoche/Setting) mit einem
-markanten **Ereignis oder Konflikt**, das dort gerade passiert. Würfelt z. B. 1W6 für einen Zeitort
+markanten **Ereignis oder Konflikt**, das dort gerade passiert. Würfelt z. B. 1W6 für einen Zeitort
 **und** 1W6 für ein besonderes Ereignis, oder nutzt eine der folgenden vordefinierten Kombinationen:
 
 _Regel für die Kühlung der Epochengewichte:_
 1. Notiere nach jedem Zufallswurf die gezogene Epoche als `last_epoch`.
-2. Verringere ihr Gewicht in der Tabelle um den **Cooling-Wert** (Standard 0.05), jedoch nie unter 1 %.
+2. Verringere ihr Gewicht in der Tabelle um den **Cooling-Wert** (Standard 0.05), jedoch nie unter 1 %.
 3. Normiere anschließend alle Gewichte, sodass ihre Summe wieder 1 ergibt.
 4. Würfle die nächste Epoche anhand der aktualisierten Wahrscheinlichkeiten.
 
-1. **Steinzeitliche Wildnis** (ca. 10.000 v.Chr.) – _Setting:_ Weite prähistorische Landschaft mit
+1. **Steinzeitliche Wildnis** (ca. 10.000 v.Chr.) - _Setting:_ Weite prähistorische Landschaft mit
    Megafauna (Mammutherden, Säbelzahntiger) und nomadischen Stämmen. **Besonderheit:** Ein kleines Dorf
    ist in einer Zeitschleife gefangen: Jeden Morgen geht die Sonne nicht auf. Fackeln brennen ewig,
    Tiere wirken verwirrt. Höhlenmalereien deuten auf einen temporalen Meteor hin, der hier einst
    einschlug. Die Chrononauten müssen das prähistorische Paradoxon beheben, während misstrauische
    Schamanen und hungrige Bestien ihnen zusetzen.
-2. **Ägyptisches Neues Reich** (1250 v.Chr.) – _Setting:_ Glühende Wüstensonne, monumentale Tempel
+2. **Ägyptisches Neues Reich** (1250 v.Chr.) - _Setting:_ Glühende Wüstensonne, monumentale Tempel
    und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Artefakt in einer
    Pyramide verehrt, angeblich ein Geschenk der Götter. Tatsächlich stammt es aus der Zukunft und
    strahlt ungewöhnliche Energie ab. Die Agenten müssen entscheiden: Stehlen sie das Artefakt, um die
-   Zeitlinie zu schützen – riskieren aber, die lokale Religion zu erschüttern? Oder lassen sie es in
+   Zeitlinie zu schützen - riskieren aber, die lokale Religion zu erschüttern? Oder lassen sie es in
    der Geschichte, mit unbekannten Folgen? Intrigante Hohepriester und ein misstrauischer Wesir machen
    jede Aktion zum Balanceakt.
-3. **Mittelalterliche Hafenstadt** (14. Jh.) – _Setting:_ Hansekoggen im Hafen, geschäftiges
+3. **Mittelalterliche Hafenstadt** (14. Jh.) - _Setting:_ Hansekoggen im Hafen, geschäftiges
    Markttreiben, Tavernenlärm und abendrötliche Gassen. **Besonderheit:** Gerüchte gehen um von einem
    Geisterschiff, das bei Vollmond im Hafen erscheint und genauso plötzlich verschwindet. Eine
    temporale Erscheinung? Vielleicht ein Zeitschiff aus der Zukunft, das hier festsitzt. Die
-   Chrononauten könnten in einen lokalen Machtkampf zwischen Gilden geraten (wer das “Wunder” für sich
+   Chrononauten könnten in einen lokalen Machtkampf zwischen Gilden geraten (wer das "Wunder" für sich
    nutzen kann, gewinnt Ansehen), während sie das Geheimnis des Schiff-Geists lüften. Ist es ein
    Hilferuf aus einer anderen Zeit?
-4. **Victorianisches London** (1888) – _Setting:_ Neblige Gassen, Kutschenräder auf
+4. **Victorianisches London** (1888) - _Setting:_ Neblige Gassen, Kutschenräder auf
    Kopfsteinpflaster, flackernde Gaslaternen. Jack the Ripper treibt sein Unwesen. **Besonderheit:**
    Durch einen Zeitriss tauchen ab und zu Gestalten aus anderen Epochen in Whitechapel auf. Die
    Behörden schieben es auf Wahnsinn oder Verkleidungen. Die Helden müssen nicht nur den berüchtigten
    Ripper finden, sondern auch erklären, warum sein letztes Opfer ein römischer Gladiator war, der
    plötzlich in den Gassen stand. Ein grimmiger Zeitsprung-Krimi beginnt.
-5. **Pazifik während des Zweiten Weltkriegs** (1942) – _Setting:_ Tropische Insel mit
+5. **Pazifik während des Zweiten Weltkriegs** (1942) - _Setting:_ Tropische Insel mit
    Militärstützpunkt, dröhnende Flugzeuge, Morse-Funk im Radio. **Besonderheit:** _Zeitkapsel-
-   Konflikt:_ Auf der Insel erscheint ein Objekt aus der Zukunft – eine High-Tech-Drohne – und sowohl
+   Konflikt:_ Auf der Insel erscheint ein Objekt aus der Zukunft - eine High-Tech-Drohne - und sowohl
    die Alliierten als auch die Achsenmächte bekommen Wind davon. Die Helden müssen verhindern, dass
    diese Technik den Krieg beeinflusst. Doch wem vertrauen sie vor Ort? Eine gefährliche Spionage-
    Mission, bei der sie vielleicht vorgeben müssen, für eine Seite zu arbeiten, um an die Drohne zu
    gelangen.
-6. **Mars-Kolonie** (2097) – _Setting:_ Ein Habitat unter Kuppeln, rote Wüstenlandschaft draußen,
-   futuristische Labore. **Besonderheit:** _Erster Kontakt_ – aber nicht mit Aliens, sondern mit
+6. **Mars-Kolonie** (2097) - _Setting:_ Ein Habitat unter Kuppeln, rote Wüstenlandschaft draußen,
+   futuristische Labore. **Besonderheit:** _Erster Kontakt_ - aber nicht mit Aliens, sondern mit
    Zeitreisenden: Die Mars-Siedler empfangen ein Notrufsignal von einem beschädigten
    Transceiver aus dem Jahr 2300. Die
    Zukunftsmenschen sind gestrandet und flehen um Hilfe. Die Chrononauten müssen koordinieren, wie man
    diese temporale Notlage löst, ohne dass die fragile Mars-Gesellschaft des Jahres 2097 kollabiert
-   (schon allein die Nachricht “die Mission wird aufgegeben werden” könnte Panik auslösen). Eine
+   (schon allein die Nachricht "die Mission wird aufgegeben werden" könnte Panik auslösen). Eine
    Episode voll Sci-Fi-Philosophie: Darf man Leuten aus der eigenen Zukunft helfen, wenn es bedeutet,
    dass man sein eigenes Schicksal kennt?
 
 _Tipp:_ Ihr könnt natürlich jede Epoche und jedes Ereignis nach Belieben austauschen. Die obigen
-sechs Kombinationen dienen vor allem als inspirierende Beispiele – z. B. **Steampunk-Paris 1889 +
+sechs Kombinationen dienen vor allem als inspirierende Beispiele - z. B. **Steampunk-Paris 1889 +
 ein Monster aus einem Zeitlabor** ergeben ebenfalls einen spannenden Schauplatz!
 ### Rift-Seeds (automatisch)
 Rifts erscheinen bei Paradoxon 5. Das HQ notiert sie hier als `phase: rift` ohne Episodennummer.
@@ -1367,7 +1378,7 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: heist_pool
   title: "Brandstifter-Trupp"
-  pitch: "Legt Nitrobeschleuniger unter Mrs O’Learys Scheune, ohne Zeugen."
+  pitch: "Legt Nitrobeschleuniger unter Mrs O'Learys Scheune, ohne Zeugen."
   timeslot: "+0 h"
 
 - arc_id: "Chicago1871"
@@ -1381,7 +1392,7 @@ thema: Beispiel-Rift
   arc_step: 3
   pool: heist_pool
   title: "Raubzug beim Juwelier"
-  pitch: "Stehlt Diamanten im Wert von 200.000 $, während die ersten Unruhen toben."
+  pitch: "Stehlt Diamanten im Wert von 200.000 $, während die ersten Unruhen toben."
   timeslot: "+3 h"
 
 - arc_id: "Chicago1871"
@@ -1437,14 +1448,14 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: black_ops_pool
   title: "Kaiserlicher Goldzug"
-  pitch: "Entert den gepanzerten Geldzug – Zukunftsagenten wollen Qing-Finanzen an Warlords umleiten."
+  pitch: "Entert den gepanzerten Geldzug - Zukunftsagenten wollen Qing-Finanzen an Warlords umleiten."
   timeslot: "Day-1 Dawn"
 
 - arc_id: "Peking1908"
   arc_step: 2
   pool: black_ops_pool
   title: "Tesla-Boxer-Labor"
-  pitch: "Zerstört eine geheime Coilgun-Anlage – Chrono-Techniker rüsten Boxer-Rebellen auf."
+  pitch: "Zerstört eine geheime Coilgun-Anlage - Chrono-Techniker rüsten Boxer-Rebellen auf."
   timeslot: "Day-1 Noon"
 
 - arc_id: "Peking1908"
@@ -1458,7 +1469,7 @@ thema: Beispiel-Rift
   arc_step: 4
   pool: black_ops_pool
   title: "Attentat bei der Oper"
-  pitch: "Verhindert das Attentat auf einen britischen Attaché – Gegner will internationalen Konflikt forcieren."
+  pitch: "Verhindert das Attentat auf einen britischen Attaché - Gegner will internationalen Konflikt forcieren."
   timeslot: "Day-1 Night"
 
 - arc_id: "Peking1908"
@@ -1472,7 +1483,7 @@ thema: Beispiel-Rift
   arc_step: 6
   pool: black_ops_pool
   title: "Fenghuang-Flugtest"
-  pitch: "Testet ein Proto-Ornithopter – geplanter Technologietransfer aus der Zukunft."
+  pitch: "Testet ein Proto-Ornithopter - geplanter Technologietransfer aus der Zukunft."
   timeslot: "Day-2 Noon"
 
 - arc_id: "Peking1908"
@@ -1493,7 +1504,7 @@ thema: Beispiel-Rift
   arc_step: 9
   pool: black_ops_pool
   title: "Blutschriftrollen-Auktion"
-  pitch: "Tauscht ein angeblich verfluchtes Dokument aus – tatsächlich ein zeitgeladenes Schriftstück."
+  pitch: "Tauscht ein angeblich verfluchtes Dokument aus - tatsächlich ein zeitgeladenes Schriftstück."
   timeslot: "Day-2 Midnight"
 
 - arc_id: "Peking1908"
@@ -1507,7 +1518,7 @@ thema: Beispiel-Rift
   arc_step: 1
   pool: future_pool
   title: "Mondaufzug-Raubzug"
-  pitch: "Kapert eine Lastkabine am Aufzugskabel in 70 km Höhe."
+  pitch: "Kapert eine Lastkabine am Aufzugskabel in 70 km Höhe."
   timeslot: "T-4 h"
 
 - arc_id: "Orbital2220"
@@ -1528,14 +1539,14 @@ thema: Beispiel-Rift
   arc_step: 4
   pool: future_pool
   title: "Geisel im Grünen Ring"
-  pitch: "Befreit ein Biotech-Gewächshaus, das bei 0,8 G rotiert."
+  pitch: "Befreit ein Biotech-Gewächshaus, das bei 0,8 G rotiert."
   timeslot: "T + 5 h"
 
 - arc_id: "Orbital2220"
   arc_step: 5
   pool: future_pool
   title: "Quanten-Börsenhack"
-  pitch: "Schleust einen falschen Algorithmus in ein 0,25‑s-Latenz-Fenster ein."
+  pitch: "Schleust einen falschen Algorithmus in ein 0,25-s-Latenz-Fenster ein."
   timeslot: "T + 8 h"
 
 - arc_id: "Orbital2220"
@@ -1549,7 +1560,7 @@ thema: Beispiel-Rift
   arc_step: 7
   pool: future_pool
   title: "Trümmer-Schrotflinte"
-  pitch: "Manövriert durch die Kessler-Wolke, um einen Überläufer bei 800 m/s zu retten."
+  pitch: "Manövriert durch die Kessler-Wolke, um einen Überläufer bei 800 m/s zu retten."
   timeslot: "T + 18 h"
 
 - arc_id: "Orbital2220"
@@ -1573,82 +1584,82 @@ thema: Beispiel-Rift
   pitch: "Stürzt in einer Einsatztkapsel frei zum Pazifik hinab und stört dabei alle Tracker."
   timeslot: "T + 30 h"
 # ─────────────────────────────────────────────────────────────
-# CORE‑ARC 4 – BERLIN 1961 “Mauerschatten”
-# Pool: heist_pool  – Spionage‑Heist im Kalten Krieg
+# CORE-ARC 4 - BERLIN 1961 "Mauerschatten"
+# Pool: heist_pool  - Spionage-Heist im Kalten Krieg
 # ─────────────────────────────────────────────────────────────
 - arc_id: "Berlin1961"
   arc_step: 1
   pool: heist_pool
-  title: "Stromausfall‑Geister"
+  title: "Stromausfall-Geister"
   pitch: "Sabotiere das Umspannwerk Treptow, um die Sektorgrenze in Dunkelheit zu legen."
   timeslot: "13.08.61 02:30"
 
 - arc_id: "Berlin1961"
   arc_step: 2
   pool: heist_pool
-  title: "Tunnel‑Einbruch"
-  pitch: "Sprenge verdeckt einen Abwasser‑Blindschacht als Fluchttunnel‑Zugang."
+  title: "Tunnel-Einbruch"
+  pitch: "Sprenge verdeckt einen Abwasser-Blindschacht als Fluchttunnel-Zugang."
   timeslot: "+3 h"
 
 - arc_id: "Berlin1961"
   arc_step: 3
   pool: heist_pool
-  title: "Aktenzug ‘Topas’"
-  pitch: "Stehle STASI‑Abschriften westlicher Informanten aus Bezirksamt Mitte."
+  title: "Aktenzug 'Topas'"
+  pitch: "Stehle STASI-Abschriften westlicher Informanten aus Bezirksamt Mitte."
   timeslot: "+6 h"
 
 - arc_id: "Berlin1961"
   arc_step: 4
   pool: heist_pool
-  title: "Mauer‑Kran‑Kidnapping"
-  pitch: "Entführe einen Grenzkran samt Bauplan – 20 m über Niemandsland."
+  title: "Mauer-Kran-Kidnapping"
+  pitch: "Entführe einen Grenzkran samt Bauplan - 20 m über Niemandsland."
   timeslot: "+10 h"
 
 - arc_id: "Berlin1961"
   arc_step: 5
   pool: heist_pool
   title: "Zementsprengung"
-  pitch: "Unterlaufe Vopo‑Patrouille und mische Schwell‑Sprengstoff in Betonmischer."
+  pitch: "Unterlaufe Vopo-Patrouille und mische Schwell-Sprengstoff in Betonmischer."
   timeslot: "+14 h"
 
 - arc_id: "Berlin1961"
   arc_step: 6
   pool: heist_pool
-  title: "Radio‑Funkpirat"
-  pitch: "Kapere eine mobile RIAS‑Antenne und sende Desinfo für 17 Minuten."
+  title: "Radio-Funkpirat"
+  pitch: "Kapere eine mobile RIAS-Antenne und sende Desinfo für 17 Minuten."
   timeslot: "+18 h"
 
 - arc_id: "Berlin1961"
   arc_step: 7
   pool: heist_pool
-  title: "Checkpoint Shadow‑Swap"
-  pitch: "Tausche gefälschte Pass‑Sets unter Scheinwerferlicht von Checkpoint Charlie."
+  title: "Checkpoint Shadow-Swap"
+  pitch: "Tausche gefälschte Pass-Sets unter Scheinwerferlicht von Checkpoint Charlie."
   timeslot: "+22 h"
 
 - arc_id: "Berlin1961"
   arc_step: 8
   pool: heist_pool
-  title: "Gleisbett‑Himmelstürmer"
-  pitch: "Nutze aufgegebene S‑Bahn‑Gleise als Flucht‑Rampe auf britischen Hubschrauber."
+  title: "Gleisbett-Himmelstürmer"
+  pitch: "Nutze aufgegebene S-Bahn-Gleise als Flucht-Rampe auf britischen Hubschrauber."
   timeslot: "+26 h"
 
 - arc_id: "Berlin1961"
   arc_step: 9
   pool: heist_pool
   title: "Zwischenlager NVA"
-  pitch: "Befreie westliche Doppelagentin aus improvisierter Turnhallen‑Zelle."
+  pitch: "Befreie westliche Doppelagentin aus improvisierter Turnhallen-Zelle."
   timeslot: "+30 h"
 
 - arc_id: "Berlin1961"
   arc_step: 10
   pool: heist_pool
-  title: "Vorhang‑Finale"
-  pitch: "Zünde Ablenkungs‑Feuerwerk entlang der Bernauer Straße, um Rückzug zu decken."
+  title: "Vorhang-Finale"
+  pitch: "Zünde Ablenkungs-Feuerwerk entlang der Bernauer Straße, um Rückzug zu decken."
   timeslot: "+34 h"
 
 # ─────────────────────────────────────────────────────────────
-# CORE‑ARC 5 – MARS 2287 “Red Horizon”
-# Pool: future_pool – 10 forward-only Missionen (12 Szenen pro Job)
+# CORE-ARC 5 - MARS 2287 "Red Horizon"
+# Pool: future_pool - 10 forward-only Missionen (12 Szenen pro Job)
 # ─────────────────────────────────────────────────────────────
 - arc_id: "Mars2287"
   arc_step: 1
@@ -1689,7 +1700,7 @@ thema: Beispiel-Rift
   arc_step: 6
   pool: future_pool
   title: "Königin-Falle"
-  pitch: "Setze Pheromon-Beacon, um Schwarm in Nebenkaverne zu locken – Sprengfalle vorbereiten."
+  pitch: "Setze Pheromon-Beacon, um Schwarm in Nebenkaverne zu locken - Sprengfalle vorbereiten."
   timeslot: "+12 h"
 
 - arc_id: "Mars2287"
@@ -1703,7 +1714,7 @@ thema: Beispiel-Rift
   arc_step: 8
   pool: future_pool
   title: "Labor Eos-Zero"
-  pitch: "Enthülle, dass Thrynn Einheits-Genpool-Tests waren – Option: Datensätze stehlen oder löschen."
+  pitch: "Enthülle, dass Thrynn Einheits-Genpool-Tests waren - Option: Datensätze stehlen oder löschen."
   timeslot: "+18 h"
 
 - arc_id: "Mars2287"
@@ -1717,31 +1728,31 @@ thema: Beispiel-Rift
   arc_step: 10
   pool: future_pool
   title: "Roter Exodus"
-  pitch: "Sprint zurück zur Oberfläche – Schwarmflut, fallende Drucktore, Start eines Sandorkan-Shuttles."
+  pitch: "Sprint zurück zur Oberfläche - Schwarmflut, fallende Drucktore, Start eines Sandorkan-Shuttles."
   timeslot: "+24 h"
 
 # ─────────────────────────────────────────────────────────────
-# CORE‑ARC 6 – SEIDENSTRASSE 1280 “Wüsten‑Caravan Noir”
-# Pool: black_ops_pool  – Mittelalter‑Heist mit Steampunk‑Twist
+# CORE-ARC 6 - SEIDENSTRASSE 1280 "Wüsten-Caravan Noir"
+# Pool: black_ops_pool  - Mittelalter-Heist mit Steampunk-Twist
 # ─────────────────────────────────────────────────────────────
 - arc_id: "Silk1280"
   arc_step: 1
   pool: black_ops_pool
-  title: "Karakorum‑Falschfracht"
+  title: "Karakorum-Falschfracht"
   pitch: "Schmuggelt euch als Teppichhändler in einen mongolischen Steuerkonvoi."
   timeslot: "Tag 0 Morgengrauen"
 
 - arc_id: "Silk1280"
   arc_step: 2
   pool: black_ops_pool
-  title: "Falke‑im‑Wind"
-  pitch: "Stiehl Code‑Botschaft von Yam‑Boten mittels trainiertem Jagdfalken."
+  title: "Falke-im-Wind"
+  pitch: "Stiehl Code-Botschaft von Yam-Boten mittels trainiertem Jagdfalken."
   timeslot: "+6 h"
 
 - arc_id: "Silk1280"
   arc_step: 3
   pool: black_ops_pool
-  title: "Oasen‑Signal"
+  title: "Oasen-Signal"
   pitch: "Leg toxische Nebelkerzen in Händlerlager, um Wachen auszuschalten; defekter
     Funkmast sendet permanent Notrufe."
   timeslot: "+12 h"
@@ -1749,56 +1760,56 @@ thema: Beispiel-Rift
 - arc_id: "Silk1280"
   arc_step: 4
   pool: black_ops_pool
-  title: "Kupfer‑Automaton"
-  pitch: "Repariere heimlich einen Uhrwerk‑Golem, lasse ihn Tor aufbrechen."
+  title: "Kupfer-Automaton"
+  pitch: "Repariere heimlich einen Uhrwerk-Golem, lasse ihn Tor aufbrechen."
   timeslot: "+18 h"
 
 - arc_id: "Silk1280"
   arc_step: 5
   pool: black_ops_pool
-  title: "Sandsturm‑Abzweig"
+  title: "Sandsturm-Abzweig"
   pitch: "Leite Karawane mittels gefälschtem Sternenkompass in Seitenschlucht."
   timeslot: "+22 h"
 
 - arc_id: "Silk1280"
   arc_step: 6
   pool: black_ops_pool
-  title: "Dschinn‑Gerücht"
-  pitch: "Nutze Holo‑Illusion, um Gerüchte über Wüstengeist zu schüren – Moralbruch."
+  title: "Dschinn-Gerücht"
+  pitch: "Nutze Holo-Illusion, um Gerüchte über Wüstengeist zu schüren - Moralbruch."
   meta_introspection: true
   timeslot: "+26 h"
 
 - arc_id: "Silk1280"
   arc_step: 7
   pool: black_ops_pool
-  title: "Sattel‑Sprengfalle"
-  pitch: "Platziere Pulverbeutel in Lastkamel‑Sattel, zünde bei Stadttor."
+  title: "Sattel-Sprengfalle"
+  pitch: "Platziere Pulverbeutel in Lastkamel-Sattel, zünde bei Stadttor."
   timeslot: "+30 h"
 
 - arc_id: "Silk1280"
   arc_step: 8
   pool: black_ops_pool
-  title: "Karawanserai‑Schatten"
-  pitch: "Entführe vergifteten Diplomaten zur Wüstenklinik – verdeckte Heilung."
+  title: "Karawanserai-Schatten"
+  pitch: "Entführe vergifteten Diplomaten zur Wüstenklinik - verdeckte Heilung."
   timeslot: "+34 h"
 
 - arc_id: "Silk1280"
   arc_step: 9
   pool: black_ops_pool
-  title: "Schmelzofen‑Hehler"
+  title: "Schmelzofen-Hehler"
   pitch: "Zwinge Waffenschmiede, geraubtes Gold sofort einzuschmelzen."
   timeslot: "+38 h"
 
 - arc_id: "Silk1280"
   arc_step: 10
   pool: black_ops_pool
-  title: "Kometen‑Signal"
-  pitch: "Projiziere künstlichen Kometen via Ballon‑Spiegel als Zeichen zum Abzug."
+  title: "Kometen-Signal"
+  pitch: "Projiziere künstlichen Kometen via Ballon-Spiegel als Zeichen zum Abzug."
   timeslot: "+42 h"
-# —————————————————————————
-# CORE‑ARC 7 – TSCHERNOBYL 1986 "KAIROS Collapse"
-# Pool: heist_pool – Reaktorunfall sichern
-# —————————————————————————
+# -------------------------
+# CORE-ARC 7 - TSCHERNOBYL 1986 "KAIROS Collapse"
+# Pool: heist_pool - Reaktorunfall sichern
+# -------------------------
 Dieser zehnteilige Preserve-Arc begleitet den Reaktor von frühen
 Bauvorbereitungen über die fatale Nacht bis zur Vertuschung. Jede Mission
 knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
@@ -1885,17 +1896,17 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 | Humine | Sensorimplantate, Chitinpanzer | Gruppenunterstützung und Späher |
 
 # ─────────────────────────────────────────────────────────────
-# PRESERVE‑ARC – ABLE ARCHER ’83
-# Pool: heist_pool – nukleare Fehldeutung verhindern
-# Gegnerfraktion: CHRONOTECH Genesis – biogenetischer Zeit‑Megakon
+# PRESERVE-ARC - ABLE ARCHER '83
+# Pool: heist_pool - nukleare Fehldeutung verhindern
+# Gegnerfraktion: CHRONOTECH Genesis - biogenetischer Zeit-Megakon
 # ─────────────────────────────────────────────────────────────
 - arc_id: "AbleArcher83"
   arc_step: 1
   pool: heist_pool
   title: "Red Tape"
   pitch: >
-  NATO–UDSSR Hotline stabilisieren; 3 Neandertaler‑Bruiser und Urwolf‑Tracker
-  sabotieren Glasfaser – Nahkampf im Kabelschacht.
+  NATO-UDSSR Hotline stabilisieren; 3 Neandertaler-Bruiser und Urwolf-Tracker
+  sabotieren Glasfaser - Nahkampf im Kabelschacht.
   timeslot: "1977-03-18"
 
 - arc_id: "AbleArcher83"
@@ -1903,8 +1914,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "NORAD 40/15"
   pitch: >
-  Alarm‑Bug patchen (darf nicht feuern); CT‑NetSec‑Team mit Cyber‑Samurai‑Bodyguard
-  hackt NORAD‑Mainframe – Feuergefecht & Matrix‑Duel.
+  Alarm-Bug patchen (darf nicht feuern); CT-NetSec-Team mit Cyber-Samurai-Bodyguard
+  hackt NORAD-Mainframe - Feuergefecht & Matrix-Duel.
   timeslot: "1979-11-09"
 
 - arc_id: "AbleArcher83"
@@ -1912,8 +1923,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "SAMURAI Key"
   pitch: >
-  Samurai Shimada Gorō rekrutieren; Extraction‑Spezialisten und Urwolf zur Fährtensuche
-  – Katana‑Duel im Frachtlift.
+  Samurai Shimada Gorō rekrutieren; Extraction-Spezialisten und Urwolf zur Fährtensuche
+  - Katana-Duel im Frachtlift.
   timeslot: "1980-06-12"
 
 - arc_id: "AbleArcher83"
@@ -1921,8 +1932,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Solar Flare"
   pitch: >
-  Schutzcode in Satellit laden; CT‑Rigger‑Duo mit Spreng‑Drohnen
-  stört Panel‑Zugriff – Roof‑Gunfight.
+  Schutzcode in Satellit laden; CT-Rigger-Duo mit Spreng-Drohnen
+  stört Panel-Zugriff - Roof-Gunfight.
   timeslot: "1981-01-21"
 
 - arc_id: "AbleArcher83"
@@ -1930,8 +1941,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Black Bear"
   pitch: >
-  Ersatz‑Kosmos‑1382 hochbringen; Neandertaler‑Saboteure überfallen Konvoi, Urwolf spürt Route auf
-  – Truck‑Ambush.
+  Ersatz-Kosmos-1382 hochbringen; Neandertaler-Saboteure überfallen Konvoi, Urwolf spürt Route auf
+  - Truck-Ambush.
   timeslot: "1982-02-22"
 
 - arc_id: "AbleArcher83"
@@ -1939,8 +1950,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Able Brief"
   pitch: >
-  Leak echter Manöverdaten sichern; CT‑Face plus Assault‑Mercs
-  stehlen Diskette – Archiv‑Shootout.
+  Leak echter Manöverdaten sichern; CT-Face plus Assault-Mercs
+  stehlen Diskette - Archiv-Shootout.
   timeslot: "1983-11-07 08:00"
 
 - arc_id: "AbleArcher83"
@@ -1948,8 +1959,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Ghost Silos"
   pitch: >
-  Autorisierung gegen Hack schützen; CT‑Combat‑Team bohrt Datenleitung, Urwolf bewacht Perimeter
-  – Nahkampf am Silo‑Tor.
+  Autorisierung gegen Hack schützen; CT-Combat-Team bohrt Datenleitung, Urwolf bewacht Perimeter
+  - Nahkampf am Silo-Tor.
   timeslot: "1983-11-07 19:00"
 
 - arc_id: "AbleArcher83"
@@ -1957,8 +1968,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Signal Down"
   pitch: >
-  Untersee‑Kabel reparieren; Rigger mit Mini‑U‑Boot und Tauch‑Mercs
-  zünden Sprengsatz – Sturm‑Taucher‑Gefechte.
+  Untersee-Kabel reparieren; Rigger mit Mini-U-Boot und Tauch-Mercs
+  zünden Sprengsatz - Sturm-Taucher-Gefechte.
   timeslot: "1983-11-08 02:00"
 
 - arc_id: "AbleArcher83"
@@ -1966,8 +1977,8 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Petrov Guard"
   pitch: >
-  Oberst Petrov beschützen; Kill‑Cell mit Bruiser, Urwolf und Sniper
-  stürmt Wohnung – CQB‑Fight.
+  Oberst Petrov beschützen; Kill-Cell mit Bruiser, Urwolf und Sniper
+  stürmt Wohnung - CQB-Fight.
   timeslot: "1983-11-09 16:00"
 
 - arc_id: "AbleArcher83"
@@ -1975,47 +1986,47 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   pool: heist_pool
   title: "Blue Silence"
   pitch: >
-  Sim‑Signal eines Trainingssenders als ‘Übung’ kennzeichnen; CT‑Elite‑Handler und
-  Heavy‑Merc‑Squad greifen an
-  – finale Mehr­ebenen‑Schlacht (Gorō als Ally).
+  Sim-Signal eines Trainingssenders als 'Übung' kennzeichnen; CT-Elite-Handler und
+  Heavy-Merc-Squad greifen an
+  - finale Mehr­ebenen-Schlacht (Gorō als Ally).
   timeslot: "1983-11-11 00:00"
 
 ---
 
-#### Gegner‑Einheiten (kompakt)
+#### Gegner-Einheiten (kompakt)
 
-| Einheit                     | Kern‑Rolle          | Stichworte\*                    |
+| Einheit                     | Kern-Rolle          | Stichworte\*                    |
 | --------------------------- | ------------------- | ------------------------------- |
-| **Neandertaler‑Bruiser**    | Breacher            | STR 7, Keule W⁶+2, Resilienz    |
-| **Urwolf‑Bluthund**         | Spür‑ & Schock­hund | Geruch +3, Biss W⁶, Furcht‑Aura |
-| **Cyber‑Samurai‑Bodyguard** | Elite‑Melee         | Katana T2, Reflex‑Booster       |
-| **CT‑NetSec‑Hacker**        | Matrix              | Cyberdeck T2, Shock‑Pistol      |
-| **Assault‑Merc**            | Ranged DPS          | MP7‑SD, Ballistik‑Mantel        |
-| **Rigger / Drone‑Op**       | Support             | Mini‑Drohnen (Recon/Spreng)     |
-| **Elite‑Handler** (Finale)  | Commander           | CHA 6, Tact‑Link, Gel‑Ruger     |
+| **Neandertaler-Bruiser**    | Breacher            | STR 7, Keule W⁶+2, Resilienz    |
+| **Urwolf-Bluthund**         | Spür- & Schock­hund | Geruch +3, Biss W⁶, Furcht-Aura |
+| **Cyber-Samurai-Bodyguard** | Elite-Melee         | Katana T2, Reflex-Booster       |
+| **CT-NetSec-Hacker**        | Matrix              | Cyberdeck T2, Shock-Pistol      |
+| **Assault-Merc**            | Ranged DPS          | MP7-SD, Ballistik-Mantel        |
+| **Rigger / Drone-Op**       | Support             | Mini-Drohnen (Recon/Spreng)     |
+| **Elite-Handler** (Finale)  | Commander           | CHA 6, Tact-Link, Gel-Ruger     |
 
-- _Schaden & SG laut ZEITRISS‑Core; Urwolf bleibt einziges Tier‑Hybrid._
+- _Schaden & SG laut ZEITRISS-Core; Urwolf bleibt einziges Tier-Hybrid._
 
 ---
 
-### Stil‑Reminder
+### Stil-Reminder
 
-- **Urwolf** tritt nur 1‑2× pro Mission als Spur‑ oder Schock­einheit auf –
-  Aha‑Effekt bleibt erhalten, kein Overload.
-- Kämpfe bleiben chrompunk‑artig: Chrom‑Bodyguards, Matrix‑Support, schnelle,
+- **Urwolf** tritt nur 1-2× pro Mission als Spur- oder Schock­einheit auf -
+  Aha-Effekt bleibt erhalten, kein Overload.
+- Kämpfe bleiben chrompunk-artig: Chrom-Bodyguards, Matrix-Support, schnelle,
   harte Feuer­gefechte.
-- **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2,
-  einmal pro Szene Riposte‑Konter).
-- **Paradoxon** stagniert oder sinkt ausschließlich, wenn CT‑Genesis kurz davor
+- **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2,
+  einmal pro Szene Riposte-Konter).
+- **Paradoxon** stagniert oder sinkt ausschließlich, wenn CT-Genesis kurz davor
   ist, den Atomkrieg auszulösen.
 
 Damit habt ihr denselben Able-Archer-Preserve-Bogen, **nur mit dem Urwolf als ikonischem Hybrid**,
-sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITRISS-Feeling.
+sonst reine Humanoiden-Gefechte - perfekt dosiert für euer gewünschtes ZEITRISS-Feeling.
 
 # ─────────────────────────────────────────────────────────────
-# PRESERVE‑ARC – SALAMIS 480 v. Chr.
-# Pool: heist_pool – Seesieg sichern
-# Gegnerfraktion: ARGOS Venture – transtemporaler Megakon
+# PRESERVE-ARC - SALAMIS 480 v. Chr.
+# Pool: heist_pool - Seesieg sichern
+# Gegnerfraktion: ARGOS Venture - transtemporaler Megakon
 # ─────────────────────────────────────────────────────────────
 - arc_id: "Salamis480"
   arc_step: 1
@@ -2027,13 +2038,13 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITR
   arc_step: 2
   pool: heist_pool
   title: "Copper Quill"
-  pitch: "Orakelrolle fälschen – Text muss 'Seemauern retten Hellas' lauten; Face und Hack-Monk säen Panik."
+  pitch: "Orakelrolle fälschen - Text muss 'Seemauern retten Hellas' lauten; Face und Hack-Monk säen Panik."
   timeslot: "480-08-27"
 - arc_id: "Salamis480"
   arc_step: 3
   pool: heist_pool
   title: "Phalanx Key"
-  pitch: "Sparta zu 50 Triremen überreden; Silver-Tongue besticht den Rat – Rededuell."
+  pitch: "Sparta zu 50 Triremen überreden; Silver-Tongue besticht den Rat - Rededuell."
   timeslot: "480-08-31"
 - arc_id: "Salamis480"
   arc_step: 4
@@ -2045,7 +2056,7 @@ sonst reine Humanoiden-Gefechte – perfekt dosiert für euer gewünschtes ZEITR
   arc_step: 5
   pool: heist_pool
   title: "Iron Marble"
-  pitch: "Ballista-Vorräte vernichten; ARGOS-Söldner tarnen sich als Bauern – Lagerbrand."
+  pitch: "Ballista-Vorräte vernichten; ARGOS-Söldner tarnen sich als Bauern - Lagerbrand."
   timeslot: "480-09-10"
 - arc_id: "Salamis480"
   arc_step: 6
@@ -2087,11 +2098,11 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   epoch: "Warschau 1997"
   label: "Chrono Butcher"
   seed_tier: mid
-  hook: "Serienmorde im Nullzeit-Korridor – Ermittlungsakte sichern, Killer stoppen"
+  hook: "Serienmorde im Nullzeit-Korridor - Ermittlungsakte sichern, Killer stoppen"
   time_marker: Stutter
   briefing_public:
     - Tatorte zeigen Blutspuren, die sich kurz zurückziehen
-    - Letzte Opfer funken „Er ist schon wieder hier“ bevor Verbindung bricht
+    - Letzte Opfer funken "Er ist schon wieder hier" bevor Verbindung bricht
     - Ermittlungsakte mit Taschenuhr des ersten Opfers verschwunden
     - Zeugen hören Stimmfragmente aus den Fluren
   leads:
@@ -2108,7 +2119,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   epoch: "New Jersey 1909"
   label: "Jersey Devil"
   seed_tier: low
-  hook: "Flügelschlag im Pine Barren – Nest ausheben"
+  hook: "Flügelschlag im Pine Barren - Nest ausheben"
   time_marker: Loop
   briefing_public:
     - Viehrisse bei Vollmond, kreisförmige Kratzspuren
@@ -2120,7 +2131,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     - Investigation 11: Flugbahn wiederholt Baumaufschlag
   boss_private:
     truth: Para-Chimäre kreist um verfluchte Familienreste
-    weakness: Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11)
+    weakness: Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11)
     anomaly: Loop Reset (setzt Ini zurück, Anchor schützt)
     boss_stat_hint: "HP 8 | Armor 1 | Agi 4d6 | Psi-Sig 2d6"
 
@@ -2128,7 +2139,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   epoch: "Chongqing 2032"
   label: "Totenbrücke"
   seed_tier: mid
-  hook: "Geisterbus stoppt Verkehr – Ursache finden, Brücke freiräumen"
+  hook: "Geisterbus stoppt Verkehr - Ursache finden, Brücke freiräumen"
   time_marker: Echo
   briefing_public:
     - Bus erscheint jede Stunde, keine Fahrer
@@ -2148,7 +2159,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   epoch: "Amazonas 1899"
   label: "Blood Orchid"
   seed_tier: mid
-  hook: "Kurierteam verschollen – Symbionten-Parasit stoppen"
+  hook: "Kurierteam verschollen - Symbionten-Parasit stoppen"
   time_marker: Slip
   briefing_public:
     - Expedition meldet Halluzinationen, dann Funkstille
@@ -2168,7 +2179,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   epoch: "Luna Far-Side 2266"
   label: "Void Howler"
   seed_tier: high
-  hook: "Funkspalte auf Mondbasis – Null-G-Raubtier jagt Crew"
+  hook: "Funkspalte auf Mondbasis - Null-G-Raubtier jagt Crew"
   time_marker: Stutter
   briefing_public:
     - Kameras verlieren alle 3 Frames Bild
@@ -2181,41 +2192,41 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Null-G-Raubtier springt phasenweise, jagt auf Atemluft
     weakness: Druckschott schließen + Psi-Signatur spiegeln (Mind 13)
-    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Px −1 bei W6=6)
+    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Px -1 bei W6=6)
     boss_stat_hint: "HP 14 | Armor 2 | Agi 5d6 | Psi-Sig 4d6"
 ```
 
 ### Rift-Casefile Builder
 
 Schablone für vollständige Fallakten mit exakt **einer** Weirdness (Guard bleibt aktiv, keine
-zweite Anomalie und keine „es war nur Tech“-Auflösung). Nutze den Builder für Low/Mid/High-Seeds
+zweite Anomalie und keine "es war nur Tech"-Auflösung). Nutze den Builder für Low/Mid/High-Seeds
 und mappe ihn direkt auf das 14-Szenen-Template.
 
-1. **CASE** – `ID | Epoche | Seed-Tier | time_marker`.
-2. **VISUAL HOOK** – 1 Satz mit Anchor + Marker, der sofort im HUD auftaucht.
-3. **BRIEFING PUBLIC** – max. 5 Bullets; Witness + Gefahrenhinweis, keine zweite Weirdness.
-4. **OBJECTIVES** – `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover
+1. **CASE** - `ID | Epoche | Seed-Tier | time_marker`.
+2. **VISUAL HOOK** - 1 Satz mit Anchor + Marker, der sofort im HUD auftaucht.
+3. **BRIEFING PUBLIC** - max. 5 Bullets; Witness + Gefahrenhinweis, keine zweite Weirdness.
+4. **OBJECTIVES** - `Secure Anchor`, `Trace Leads`, `Neutralize Weakness`, optional `Recover
    Sample`.
-5. **CASE OVERLAY** – HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` +
+5. **CASE OVERLAY** - HUD `MODE RIFT · CASE <ID> · HOOK <Label> · WEIRD 1/1` +
    `register_anomaly()` nur einmal.
-6. **TRUTH** – kurzer Absatz, warum Marker aktiv bleibt.
-7. **LEADS PRIVATE** – 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
-8. **BOSS PRIVATE** – Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
+6. **TRUTH** - kurzer Absatz, warum Marker aktiv bleibt.
+7. **LEADS PRIVATE** - 3 Checks (Fachwürfe) + klarer Pointer zu Anchor/Weakness.
+8. **BOSS PRIVATE** - Stat-Hinweis + **eine** Zeitfähigkeit; Weakness namentlich.
 
 **14-Szenen-Map (Tatort → Leads → Boss-Encounter → Auflösung)**
 
-- **Tatort (1–4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
-- **Leads (5–9):** Drei Würfel-Checks aus „Leads Private“ platzieren, je einer deckt den
+- **Tatort (1-4):** Einstieg + erster Hinweis auf Anchor/Marker, Witness-Bullet anspielen.
+- **Leads (5-9):** Drei Würfel-Checks aus "Leads Private" platzieren, je einer deckt den
   Anchor, den Marker und die Weakness ab; Fraktionsinterventionen loggen `logs.fr_interventions[]`.
 - **Boss-Encounter (10):** Weakness sichtbar machen, Marker-Bedingung für Abschluss prüfen,
   Boss-Fähigkeit (Weirdness) maximal einmal pro Runde einsetzen.
-- **Boss-Resolution (11–14):** Flucht-/Nachbeben, Cleanup, Konsequenzen, Abschluss (HUD bleibt
+- **Boss-Resolution (11-14):** Flucht-/Nachbeben, Cleanup, Konsequenzen, Abschluss (HUD bleibt
   im Boss-Stage-Modus).
 
 **Builder-Template (Beispielraster)**
 
 ```markdown
-CASE <ID> — <Epoche> — <Seed-Tier> — time_marker <Marker>
+CASE <ID> - <Epoche> - <Seed-Tier> - time_marker <Marker>
 VISUAL HOOK: <Anchor + Marker>
 BRIEFING PUBLIC: • <Bullet 1> • <Bullet 2> • <Bullet 3> (max. 5)
 OBJECTIVES: Secure Anchor · Trace Leads · Neutralize Weakness · Recover Sample (optional)
@@ -2228,4 +2239,4 @@ LEADS PRIVATE:
 BOSS PRIVATE: <Stat-Hinweis> · <eine Zeitfähigkeit> · Weakness: <klarer Schritt>
 ```
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.

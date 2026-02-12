@@ -61,7 +61,7 @@ Rückfragen, ohne Meta-Kommentare und ohne weitere Einleitung.
 
 Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 
-- `meta/masterprompt_v6.md` (Local-Uncut 4.2.5; Legacy-Prompt unter
+- `meta/masterprompt_v6.md` (Local-Uncut 4.2.6; Legacy-Prompt unter
   `meta/archive/masterprompt_v6_legacy.md`)
 - `README.md`
 - `master-index.json`
@@ -92,7 +92,7 @@ Progressionsphasen betont.
 
 ## Beispielworkflow (Setup & Autoload)
 
-1. Öffne `meta/masterprompt_v6.md` (Local-Uncut 4.2.5), kopiere den vollständigen Text in das
+1. Öffne `meta/masterprompt_v6.md` (Local-Uncut 4.2.6), kopiere den vollständigen Text in das
    Anweisungsfenster der Zielplattform und dokumentiere den Upload im internen Protokoll
    (`internal/qa/logs/`). Bei Bedarf liegt die Legacy-Fassung unter
    `meta/archive/masterprompt_v6_legacy.md`.
@@ -523,7 +523,7 @@ Wir freuen uns über Rückmeldungen zu Flow und Regelfragen. Scanne den QR-Code 
 
 ```text
 # Playtest-Report ZEITRISS
-- Version: (z. B. 4.2.5 beta)
+- Version: (z. B. 4.2.6 beta)
 - Testplattform: OpenAI (MyGPT Beta)
 - Datum & Uhrzeit: (lokal)
 - Tester:in: (Alias)

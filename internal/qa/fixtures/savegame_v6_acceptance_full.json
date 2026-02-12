@@ -1,6 +1,6 @@
 {
   "save_version": 6,
-  "zr_version": "4.2.5",
+  "zr_version": "4.2.6",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -450,7 +450,7 @@
       }
     ],
     "flags": {
-      "runtime_version": "4.2.5",
+      "runtime_version": "4.2.6",
       "compliance_shown_today": true,
       "chronopolis_warn_seen": false,
       "self_reflection": false,

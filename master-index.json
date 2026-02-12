@@ -17,7 +17,7 @@
     {
       "slug": "core",
       "path": "core/zeitriss-core.md",
-      "title": "ZEITRISS 4.2.5 – Modul 1: Immersives Zeitreise-Rollenspielsystem",
+      "title": "ZEITRISS 4.2.6 – Modul 1: Immersives Zeitreise-Rollenspielsystem",
       "category": "Core",
       "level": "muss",
       "slot": true
@@ -25,7 +25,7 @@
     {
       "slug": "dice",
       "path": "core/wuerfelmechanik.md",
-      "title": "ZEITRISS 4.2.5 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten",
+      "title": "ZEITRISS 4.2.6 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten",
       "category": "Core",
       "href": "#schwierigkeits-benchmark-tabelle",
       "level": "muss",
@@ -34,21 +34,21 @@
     {
       "slug": "chars-basics",
       "path": "characters/charaktererschaffung-grundlagen.md",
-      "title": "ZEITRISS 4.2.5 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)",
+      "title": "ZEITRISS 4.2.6 – Modul 3A: Charaktererschaffung (Grundlagen & Fortschritt)",
       "category": "Characters",
       "slot": true
     },
     {
       "slug": "chars-options",
       "path": "characters/charaktererschaffung-optionen.md",
-      "title": "ZEITRISS 4.2.5 – Modul 3B: Charakteroptionen & Archetypen",
+      "title": "ZEITRISS 4.2.6 – Modul 3B: Charakteroptionen & Archetypen",
       "category": "Characters",
       "slot": true
     },
     {
       "slug": "cyber-short",
       "path": "characters/ausruestung-cyberware.md",
-      "title": "ZEITRISS 4.2.5 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung",
+      "title": "ZEITRISS 4.2.6 – Modul 4: Erweiterte Charakterausstattung & Spezialisierung",
       "category": "Cyber",
       "variantType": "short",
       "slot": false,
@@ -57,7 +57,7 @@
     {
       "slug": "cyber-full",
       "path": "characters/ausruestung-cyberware.md",
-      "title": "ZEITRISS 4.2.5 – Modul 4B: Cyberware & Bioware",
+      "title": "ZEITRISS 4.2.6 – Modul 4B: Cyberware & Bioware",
       "category": "Cyber",
       "variantType": "full",
       "href": "#cyberware-bioware",
@@ -66,7 +66,7 @@
     {
       "slug": "psi-short",
       "path": "systems/kp-kraefte-psi.md",
-      "title": "ZEITRISS 4.2.5 – Modul 4C: Psi-Fähigkeiten & Talente",
+      "title": "ZEITRISS 4.2.6 – Modul 4C: Psi-Fähigkeiten & Talente",
       "category": "Psi",
       "variantType": "short",
       "href": "#psi-talente",
@@ -76,7 +76,7 @@
     {
       "slug": "psi-full",
       "path": "systems/kp-kraefte-psi.md",
-      "title": "ZEITRISS 4.2.5 – Modul 11: Psi-Fähigkeiten",
+      "title": "ZEITRISS 4.2.6 – Modul 11: Psi-Fähigkeiten",
       "category": "Psi",
       "variantType": "full",
       "href": "#power-punkte-temp",
@@ -86,7 +86,7 @@
     {
       "slug": "states",
       "path": "characters/zustaende.md",
-      "title": "ZEITRISS 4.2.5 – Modul 5A: Zustände & erweiterte Systeme",
+      "title": "ZEITRISS 4.2.6 – Modul 5A: Zustände & erweiterte Systeme",
       "category": "Characters",
       "level": "soll",
       "slot": true
@@ -94,7 +94,7 @@
     {
       "slug": "hud",
       "path": "characters/hud-system.md",
-      "title": "ZEITRISS 4.2.5 – Modul 5B: Cinematisches HUD & Interface-System",
+      "title": "ZEITRISS 4.2.6 – Modul 5B: Cinematisches HUD & Interface-System",
       "category": "Characters",
       "level": "soll",
       "slot": true
@@ -102,7 +102,7 @@
     {
       "slug": "kampagnenstruktur",
       "path": "gameplay/kampagnenstruktur.md",
-      "title": "ZEITRISS 4.2.5 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen",
+      "title": "ZEITRISS 4.2.6 – Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen",
       "category": "Gameplay",
       "level": "muss",
       "slot": true
@@ -110,21 +110,21 @@
     {
       "slug": "kampagnenuebersicht",
       "path": "gameplay/kampagnenuebersicht.md",
-      "title": "ZEITRISS 4.2.5 – Modul 10: Im Schatten des Montauk-Projekts",
+      "title": "ZEITRISS 4.2.6 – Modul 10: Im Schatten des Montauk-Projekts",
       "category": "Gameplay",
       "slot": true
     },
     {
       "slug": "generatoren-missionen",
       "path": "gameplay/kreative-generatoren-missionen.md",
-      "title": "ZEITRISS 4.2.5 – Modul 8A: Kreative Generatoren – Missionen",
+      "title": "ZEITRISS 4.2.6 – Modul 8A: Kreative Generatoren – Missionen",
       "category": "Gameplay",
       "slot": true
     },
     {
       "slug": "generatoren-begegnungen",
       "path": "gameplay/kreative-generatoren-begegnungen.md",
-      "title": "ZEITRISS 4.2.5 – Modul 8B: Kreative Generatoren – Begegnungen",
+      "title": "ZEITRISS 4.2.6 – Modul 8B: Kreative Generatoren – Begegnungen",
       "category": "Gameplay",
       "href": "#artefakt-generator",
       "slot": true
@@ -148,14 +148,14 @@
     {
       "slug": "vehicles",
       "path": "gameplay/fahrzeuge-konflikte.md",
-      "title": "ZEITRISS 4.2.5 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren",
+      "title": "ZEITRISS 4.2.6 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren",
       "category": "Gameplay",
       "slot": true
     },
     {
       "slug": "mass",
       "path": "gameplay/massenkonflikte.md",
-      "title": "ZEITRISS 4.2.5 – Modul 9: Verfolgungsjagden & Massenkonflikte",
+      "title": "ZEITRISS 4.2.6 – Modul 9: Verfolgungsjagden & Massenkonflikte",
       "category": "Gameplay",
       "href": "#rift-kreaturen-stat-blocks",
       "slot": true
@@ -163,28 +163,28 @@
     {
       "slug": "currency",
       "path": "systems/currency/cu-waehrungssystem.md",
-      "title": "ZEITRISS 4.2.5 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem",
+      "title": "ZEITRISS 4.2.6 – Modul 15: Chrono Units – Das zeitübergreifende Währungssystem",
       "category": "System",
       "slot": true
     },
     {
       "slug": "save",
       "path": "systems/gameflow/speicher-fortsetzung.md",
-      "title": "ZEITRISS 4.2.5 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)",
+      "title": "ZEITRISS 4.2.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)",
       "category": "System",
       "slot": true
     },
     {
       "slug": "cinematic",
       "path": "systems/gameflow/cinematic-start.md",
-      "title": "ZEITRISS 4.2.5 – Modul 13: Cineastischer Einstieg ins erste Abenteuer",
+      "title": "ZEITRISS 4.2.6 – Modul 13: Cineastischer Einstieg ins erste Abenteuer",
       "category": "System",
       "slot": true
     },
     {
       "slug": "toolkit",
       "path": "systems/toolkit-gpt-spielleiter.md",
-      "title": "ZEITRISS 4.2.5 – Modul 16: Toolkit: KI-Spielleitung",
+      "title": "ZEITRISS 4.2.6 – Modul 16: Toolkit: KI-Spielleitung",
       "category": "System",
       "slot": true
     }
