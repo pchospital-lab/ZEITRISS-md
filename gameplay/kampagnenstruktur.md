@@ -493,6 +493,24 @@ Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
 automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
 nie manuell editiert werden.
 
+> **Seed-Sperre bis Episodenende (Testrun 3, #002):**
+> `ClusterCreate()` erzeugt Seeds und speichert sie in
+> `campaign.rift_seeds[]`. Seeds sind **GESPERRT** bis zum
+> Episodenende. Die Spielleitung darf Seeds vor Episodenende
+> **NICHT** anbieten, auch nicht als Vorschau oder Teaser.
+> Neu erzeugte Seeds erhalten `status: "locked_until_episode_end"`.
+> Dieser Status kann **nicht** vor Episodenende auf `"available"`
+> oder `"open"` gesetzt werden. Erst nach Abschluss der Episode
+> (`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`)
+> wandelt die Runtime alle `locked_until_episode_end`-Seeds in
+> `status: "open"` um.
+>
+> **SaveGuard-Hinweis:** Seeds mit `status: locked_until_episode_end`
+> können nicht vor Episodenende auf `available` gesetzt werden.
+> Der Serializer bricht mit einem Guard-Fehler ab, wenn ein Seed
+> mit diesem Status und `campaign.episode_completed == false`
+> einen anderen Status als `locked_until_episode_end` führt.
+
 ```pseudocode
 threshold = 5
 if jitter_on:
@@ -504,10 +522,17 @@ if paradox_level >= threshold:
     for i in range(num):
         seed = roll_from("RiftSeedTable", focus="external")
         cluster.append({id: seed.id, epoch: seed.epoch,
-                        label: seed.label, status: "open"})
+                        label: seed.label,
+                        status: "locked_until_episode_end"})
     campaign.rift_seeds.extend(cluster)
     arc_dashboard.offene_seeds = campaign.rift_seeds  # Spiegel
     paradox_level = 0
+
+# Episodenende: Seeds freischalten
+if episode_completed:
+    for seed in campaign.rift_seeds:
+        if seed.status == "locked_until_episode_end":
+            seed.status = "open"
 ```
 
 #### Mission-Schema
