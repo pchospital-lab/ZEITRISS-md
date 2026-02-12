@@ -983,6 +983,13 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
    `badge_density: "standard"`, `output_pace: "normal"`. Diese Defaults
    gelten **nur** für fehlende Felder in alten Saves, niemals als Fallback
    für vorhandene Werte.
+   **Ask→Suggest-Reaktivierung (Pflicht):** Wenn `ui.suggest_mode = true` im
+   geladenen Save steht, MUSS die Spielleitung nach dem Laden den Suggest-Modus
+   aktiv schalten: `toggle_suggest(true)` aufrufen, HUD-Tag `· SUG` ins Overlay
+   setzen und den Toast „Suggest-Modus aktiv" anzeigen. Der Toolkit-Init darf
+   einen im Save gespeicherten `suggest_mode: true` Wert NICHT auf `false`
+   zurücksetzen. Reihenfolge: Save lesen → UI-Felder setzen → Toolkit-Init
+   prüft ob `suggest_mode` bereits aus dem Save stammt → wenn ja, beibehalten.
 4. **Rückblende & HUD.** `scene_overlay()` erscheint nur in Missionen/Rifts; im
    HQ (inklusive Charaktererstellung) und in der Arena bleibt der Szenenzähler
    aus. Die Runde springt ohne Nachfrage direkt zum HQ- beziehungsweise
