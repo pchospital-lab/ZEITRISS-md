@@ -1,10 +1,23 @@
 ---
 title: "Changelog"
-version: 4.2.5
+version: 4.2.6
 tags: [meta]
 ---
 
 # Changelog
+
+## 4.2.6 – QA-Testprompt-Fixes
+
+- Versionierung auf 4.2.6 vereinheitlicht (README, master-index, Fixtures,
+  Maintainer-Ops, Tester-Briefing).
+- v6-Referenz-Save als Fixture verlinkt und aktualisiert.
+- Self-Reflection-Status konsistent dokumentiert.
+- Rift-Seeds: `campaign.rift_seeds[]` als Single Source of Truth definiert.
+- Arena-Mode-Reset (`campaign.mode`) nach Exit dokumentiert.
+- Host-Regel für Multi-Save-Import ergänzt.
+- CU-Ökonomie: Formelvorrang klargestellt (10×Level nur als Faustregel).
+- Boss-DR an Teamgröße gekoppelt.
+- Acceptance-Smoke-Checkliste in Runtime-Modul (Toolkit) gespiegelt.
 
 ## [Unveröffentlicht]
 
@@ -28,7 +41,7 @@ tags: [meta]
 - Runtime spiegelt Rift-Missionsdaten: `StartMission()`/`reset_mission_state()` übernehmen
   `campaign.scene_total`, setzen `phase` auf `core`/`rift` und zeigen Rift-Ops korrekt mit `SC …/14`
   im HUD sowie in Saves; Toolkit-Docs vermerken den Mirror.
-- Versionseinträge konsolidiert: README/runtime stehen auf 4.2.5, QA-Fahrplan 1.10.0 ist im QA-Log
+- Versionseinträge konsolidiert: README/runtime stehen auf 4.2.6, QA-Fahrplan 1.10.0 ist im QA-Log
   gespiegelt.
 - Wissensspeicher-Konsolidierung: Cyberware/Bioware in `ausruestung-cyberware.md` gebündelt,
   Psi-Talente in `systems/kp-kraefte-psi.md` integriert; zwei Slots bleiben frei.
