@@ -1411,6 +1411,43 @@ Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes 
 Bei Stresswürfen ohne Team darf der Agent sich selbst sammeln (_Selbst-Rally_) bei **TN +1**.
 Die Drohne zählt nicht als vollwertiger Spielercharakter, bietet aber narrative Hilfe.
 
+### NPC-Squad-Kodex {#npc-squad-kodex}
+
+Begleit-NPCs (Squad-Mitglieder, Kontakte, temporäre Verbündete) sind **Unterstützer,
+nicht Protagonisten**. Die folgenden Regeln sichern die Spieler-Agency und verhindern,
+dass NPCs Konflikte dominieren.
+
+1. **Mali auf alle Proben:** NPCs würfeln mit **-1** auf sämtliche Proben
+   (Kampf, Social, Tech, Psi). Sie sind Begleiter, nicht Helden.
+2. **Kein Killing Blow auf Bosse:** NPCs dürfen Bosse (Mini-Boss, Arc-Boss,
+   Rift-Boss) nicht den letzten Treffer versetzen. Würde ein NPC-Angriff
+   den Boss auf 0 LP bringen, bleibt der Boss stattdessen bei **1 LP** stehen —
+   der finale Schlag gehört den Spielercharakteren.
+3. **Unterstützende Rollen:** NPCs handeln primär unterstützend:
+   - **Flanken & Ablenkung** — Gegner binden, Deckung gewähren, Feinde
+     in ungünstige Positionen locken.
+   - **Heilung & Versorgung** — Medizinische Hilfe leisten, Munition oder
+     Ausrüstung bereitstellen.
+   - **Intel & Aufklärung** — Informationen liefern, Scouting übernehmen,
+     Komms offenhalten.
+   - NPCs agieren **nicht** als Hauptkämpfer, Primär-Hacker oder
+     Solo-Problemlöser.
+4. **Spotlight-Verstärker:** Die Spielleitung nutzt NPCs, um den Spotlight
+   auf die Spielercharaktere zu lenken — nicht, um ihn ihnen zu nehmen.
+   Beispiele:
+   - Ein NPC ruft: *„Die Schaltung ist zu komplex — das schaffst nur du, Alex!"*
+   - Ein NPC hält den Feind hin, damit der Spielercharakter den
+     entscheidenden Hack durchführen kann.
+   - Ein NPC liefert den Hinweis, aber die Spieler treffen die Entscheidung.
+5. **Keine eigenständigen Plotlösungen:** NPCs lösen keine Rätsel, knacken
+   keine Schlüsselcodes und verhandeln keine kritischen Deals selbstständig.
+   Wenn ein NPC über relevantes Wissen verfügt, gibt er es als **Hinweis
+   an die Spieler weiter**, statt selbst zu handeln.
+
+> **Spielleitung-Kurzregel:** Wenn du dir unsicher bist, ob ein NPC zu viel tut,
+> stell dir die Frage: *Würde diese Aktion in einer Serie dem Nebendarsteller
+> oder dem Hauptcharakter gehören?* Wenn Hauptcharakter → Spieler machen lassen.
+
 ### Nicht-temporale Beobachterinstanzen {#beobachterinstanzen}
 
 Ab Kampagnenstufe 3–5 treten Gruppen auf, die Zeitphaenomene untersuchen, ohne selbst springen zu koennen.
