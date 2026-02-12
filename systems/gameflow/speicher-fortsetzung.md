@@ -11,6 +11,14 @@ tags: [system]
 > Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
+**Referenz-Fixture (Test-Save v6):** Ein vollständig ausgefüllter Teststand mit
+allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`economy.wallets{}`,
+`logs.psi[]`, `arc_dashboard.offene_seeds`, `arena.phase_strike_tax`) liegt als
+kanonisches Fixture unter
+[`internal/qa/fixtures/savegame_v6_test.json`](../../internal/qa/fixtures/savegame_v6_test.json).
+Acceptance-Smoke-Prüfpunkte 4 (HQ-Save-Guard) und 10 (Cross-Mode-Saves) nutzen
+diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
+
 ## Save-Prompts im HQ-Flow
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis.
