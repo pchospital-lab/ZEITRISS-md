@@ -1867,6 +1867,71 @@ Hooks die Kostenentwicklung belegen können.
 **Optionales Duell:** Auf Wunsch können zwei Agenten ein 1v1-Duell austragen.
 Kodex moderiert neutral und stellt keine KI-Gegner.
 
+### Arena-Ökonomie-Regeln {#arena-oekonomie}
+
+Die folgenden Regeln steuern das Belohnungssystem der PvP-Arena und verhindern
+exzessives Grinding, während sie geschicktes Spiel gegen anspruchsvolle Gegner
+belohnen.
+
+#### Belohnungsformel
+
+Arena-CU werden **nicht flat** vergeben, sondern skalieren mit dem Gegner-Tier:
+
+```
+Arena-CU = Basis-CU × Gegner-Tier-Multiplikator
+```
+
+| Gegner-Tier | Multiplikator | Beispiel (Basis 100 CU) |
+| ----------- | ------------- | ----------------------- |
+| Tier 1      | ×1,0          | 100 CU                  |
+| Tier 2      | ×1,5          | 150 CU                  |
+| Tier 3      | ×2,0          | 200 CU                  |
+| Tier 4      | ×2,5          | 250 CU                  |
+| Tier 5      | ×3,0          | 300 CU                  |
+
+Die Basis-CU richten sich nach dem Durchschnittslevel der Spielenden
+(analog zur regulären CU-Formel).
+
+#### Anti-Grinding: Cooldown
+
+Pro Episode sind maximal **3 Arena-Matches** erlaubt. Kodex führt einen
+Zähler in `arena.matches_this_episode` und verweigert den Eintritt nach
+dem dritten Lauf mit dem HUD-Toast: *„Arena-Kontingent erschöpft — nächste
+Episode freigegeben."*
+
+#### Diminishing Returns
+
+Wiederholte Siege gegen **denselben Gegnertyp** (gleiche Fraktion + Tier)
+bringen ab dem zweiten Sieg nur noch **50 % der regulären Belohnung**.
+Kodex trackt die Typen in `arena.defeated_types[]` und setzt die Liste
+beim Episodenwechsel zurück.
+
+```typescript
+const reward = base_cu * tier_multi;
+if (arena.defeated_types.includes(enemy_type)) {
+  return Math.floor(reward * 0.5);
+}
+arena.defeated_types.push(enemy_type);
+return reward;
+```
+
+#### First-Win-Bonus
+
+Die **ersten 3 Arena-Siege pro Gegner-Tier** gewähren einen einmaligen
+Bonus von **+50 % CU** auf die reguläre Belohnung. Kodex speichert
+abgeschlossene Tiers in `arena.first_wins[tier]` (Zähler 0–3).
+
+| Sieg Nr. (pro Tier) | Bonus     |
+| -------------------- | --------- |
+| 1–3                  | +50 % CU  |
+| 4+                   | kein Bonus|
+
+> **Zusammenspiel:** Diminishing Returns und First-Win-Bonus schließen sich
+> nicht gegenseitig aus. Ist es der erste Sieg gegen einen Tier, greift der
+> Bonus. Ist derselbe Gegnertyp bereits besiegt, greift stattdessen der
+> 50-%-Malus — selbst wenn der Tier-Bonus noch verfügbar wäre.
+> First-Win-Bonus hat **Vorrang**, solange der Zähler unter 3 liegt.
+
 ## Chronopolis – Endgame-Hub
 
 _Implementations-Package für Code, Art & Content_
