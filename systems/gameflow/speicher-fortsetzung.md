@@ -887,6 +887,16 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 > Spielleitungen. Die beigelegte `runtime.js` dient nur als Test-Spiegel für
 > lokale Runs und wird nicht in produktive Wissensspeicher geladen.
 
+**Multi-Save-Import (Gruppenschnellstart):** Werden vor einem neuen Briefing
+mehrere HQ-Saves gleichzeitig gepostet (`Spiel starten (gruppe schnell)`), gilt
+der **zuerst gepostete Save als Host**. Sein Kampagnenblock (`episode`,
+`mission`, `mode`, `seed_source`, `rift_seeds[]`, `px`) gewinnt bei Konflikten;
+weitere Saves liefern ausschließlich Charaktere, Loadouts und Wallets.
+Abweichende Seeds, Episoden- oder Missionszähler landen in
+`logs.flags.merge_conflicts[]` und werden als Host-Wert beibehalten. Der HQ-
+Pool (`economy.cu`) bleibt Host-priorisiert; Import-Wallets ergänzen per
+Union-by-id.
+
 **Mid-Session-Merge:** Für laufende Einsätze nutzt GPT statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.

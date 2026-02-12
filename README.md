@@ -421,12 +421,19 @@ Spiel starten (gruppe schnell)
 
 **SL (MyGPT):**
 
-> **Kodex-Archiv - Rückkehrprotokoll aktiviert.**
+> **Kodex-Archiv – Rückkehrprotokoll aktiviert.**
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
 > Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
 > Paradoxon-Index: █░░░░ (0/5).
 > **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.
-> "Führung festlegen? (optional)"
+> „Führung festlegen? (optional)"
+
+**Host-Regel:** Der zuerst gepostete Save bestimmt `campaign` (Episode,
+Mission, Mode, Seeds), `economy` (HQ-Pool) und globale `logs`. Weitere Saves
+liefern nur Charaktere (`party.characters[]`), Loadouts und Wallets;
+abweichende Kampagnenfelder werden ignoriert und als Konflikt in
+`logs.flags.merge_conflicts[]` protokolliert. Details im
+[Speicher-Modul](systems/gameflow/speicher-fortsetzung.md#cross-mode-import).
 
 </details>
 
