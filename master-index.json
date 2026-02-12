@@ -12,7 +12,7 @@
       "path": "master-index.json",
       "title": "Modul-Index & Slot-Kontrolle",
       "category": "Meta",
-      "slot": true
+      "slot": false
     },
     {
       "slug": "core",
@@ -28,6 +28,14 @@
       "title": "ZEITRISS 4.2.6 – Modul 2: Explodierende Würfel, HUD-Alerts & cineastische Schlachten",
       "category": "Core",
       "href": "#schwierigkeits-benchmark-tabelle",
+      "level": "muss",
+      "slot": true
+    },
+    {
+      "slug": "sl-referenz",
+      "path": "core/sl-referenz.md",
+      "title": "ZEITRISS 4.2.6 – SL-Referenz: Dispatcher, Regeln & Systemtabellen",
+      "category": "Core",
       "level": "muss",
       "slot": true
     },
