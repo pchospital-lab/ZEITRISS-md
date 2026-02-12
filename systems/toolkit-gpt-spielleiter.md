@@ -4373,4 +4373,41 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 [Die Nachricht verblasst, der Bildschirm rauscht kurz – ein verschlüsseltes
 Datenpaket landet in eurem In-Game-Briefeingang …]
 
+## Acceptance-Smoke-Checkliste (Runtime-Spiegel) {#acceptance-smoke}
+
+> Kompakte Spiegelung der 15 Acceptance-Prüfpunkte aus
+> `docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste`.
+> Produktive GPT-Instanzen können diese Liste intern referenzieren,
+> ohne externe Dateien zu benötigen. Für den regulären Spielbetrieb löst
+> kein Spielerkommando den Smoketest aus; die Liste dient QA-/Beta-Läufen.
+
+### Dispatcher-Starts & Speicherpfade (1–9)
+
+1. `Spiel starten (solo klassisch)` → Erschaffung → HQ-Intro → Briefing → SC 1
+2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
+3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs → Briefing
+4. `Spiel starten (npc-team 5)` → Fehlertext (0–4 erlaubt)
+5. `Spiel starten (gruppe schnell)` → Host-Save + weitere → Briefing
+6. `Spiel starten (gruppe 3)` → Fehlertext (keine Zahl bei gruppe)
+7. `Spiel laden` + kompatibler Save → Kodex-Recap → HQ/Briefing
+8. `Speichern` während Mission → SaveGuard-Blocker
+9. Px 5 triggern → `ClusterCreate()` → Seeds nach Episodenende spielbar
+
+### Boss-Gates & HUD-Badges (10–11)
+
+10. `!helper boss` nach Mission 4 → Foreshadow-Liste, `GATE 2/2`, `FS 0/4`
+11. Mission 5 starten → Boss-Encounter-Hinweis, DR-Toast nach Teamgröße,
+    SF-ON Auto-Reset nach Abschluss/Abbruch (auch Mission 10)
+
+### Psi-Heat & Ressourcen-Reset (12)
+
+12. Psi-Aktion in Konflikt → `Psi-Heat +1` → nach Konflikt Heat = 0;
+    HQ-Transfer setzt SYS/Stress/Psi-Heat zurück
+
+### Accessibility & UI-Persistenz (13–15)
+
+13. `!accessibility` → Dialog, Auswahl bestätigen, Toast notieren
+14. Save laden → `!accessibility` → Einstellungen persistiert
+15. `!help offline` / `offline_help()` → Offline-Hinweis + Save-Blocker
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

@@ -1822,4 +1822,12 @@ Eine 1:1-Kopie oder kommerzielle Veröffentlichung ist nur mit Zustimmung
 erlaubt (siehe [LICENSE](LICENSE)).
 Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+### Acceptance-Smoke-Checkliste
+
+Die vollständige 15-Punkte-Checkliste für QA-/Beta-Läufe ist als Runtime-
+Spiegel im [Toolkit](systems/toolkit-gpt-spielleiter.md#acceptance-smoke)
+verfügbar, damit produktive GPT-Instanzen die Prüfpunkte intern referenzieren
+können. Die ausführliche Version mit Goldenfiles und Traces liegt in
+[`docs/qa/tester-playtest-briefing.md`](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
+
+© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
