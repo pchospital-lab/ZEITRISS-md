@@ -2756,6 +2756,14 @@ Ergebnis-Tag oder im Debrief-Recap („Keycard erhalten“, „Intel gesichert�
 Keine „Durchsuchen“-Prozeduren, kein Body-Handling; falls nötig, nutze den
 Actionfilm-Cut und gib die Konsequenzen (Noise/Stress/Heat/Zeitfenster) aus.
 
+{# Boss-DR-Skala nach Teamgröße – Referenztabelle in
+   gameplay/kampagnenstruktur.md#boss-rhythmus-pro-episode.
+   Teamgröße → Mini-Boss DR / Arc-/Rift-Boss DR:
+     1–2 → 1 / 2
+     3–4 → 2 / 3
+     5   → 3 / 4
+   team_size wird aus party.characters/team.members ermittelt und auf 1–5
+   geklemmt. #}
 {% macro boss_dr_for_team_size(team_size, tier='arc') -%}
   {% set size = [team_size|int, 5]|min %}
   {% if size <= 0 %}
