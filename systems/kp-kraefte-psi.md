@@ -999,6 +999,46 @@ Spamm-Risiko; Burn-Option koppelt Überschreitung klar an den Paradoxon-Stand (-
   gegen den doppelten Psi-Heat-Level gelingt. Kühl-Gear kann Psi-Heat sofort senken.
   Nach jedem Kampf oder Konfliktblock springt Psi-Heat automatisch auf 0.
 
+#### Psi-Toleranz-Scaling {#psi-toleranz-scaling}
+
+Erfahrene Psioniker mit hoher **Temporaler Affinität (TEMP)** haben eine
+erhöhte Toleranz gegenüber Psi-Heat. Die Grundkosten der Kräfte (1/2/3 PP)
+bleiben unverändert — stattdessen verschiebt sich die **Overload-Schwelle**
+nach oben.
+
+| TEMP-Wert | Heat-Toleranz | Overload (System-Reboot) bei | Effekt |
+| --------- | ------------- | ---------------------------- | ------ |
+| 1–7       | ±0            | Heat = 6                     | Standard-Regeln |
+| 8–11      | +1            | Heat = **7**                 | SG +4 erst ab Heat ≥ 6; Initiative-Malus erst ab Heat > 5 |
+| 12+       | +2            | Heat = **8**                 | SG +4 erst ab Heat ≥ 7; Initiative-Malus erst ab Heat > 6 |
+
+**Mechanik:** Alle Heat-Schwellen verschieben sich um den Toleranz-Bonus:
+
+```
+heat_overload = 6 + heat_toleranz
+heat_sg_penalty = 5 + heat_toleranz
+heat_init_malus = 4 + heat_toleranz
+```
+
+```pseudo
+if char.temp >= 12:
+    heat_toleranz = 2
+elif char.temp >= 8:
+    heat_toleranz = 1
+else:
+    heat_toleranz = 0
+
+overload_threshold = 6 + heat_toleranz
+```
+
+> **Design-Intention:** Das Scaling belohnt Psi-Spezialisierung (hohe TEMP-Investition),
+> ohne die Grundkosten der Kräfte zu senken. Ein Rookie-Psi (TEMP 6) spürt den Heat
+> früh, ein Elite-Psi (TEMP 12) kann 2 Aktionen mehr durchhalten, bevor der Reboot
+> droht. Die Kosten pro Kraft bleiben identisch — nur der Spielraum wächst.
+
+**HUD-Anzeige:** Das Toolkit zeigt die angepasste Schwelle im Heat-Overlay:
+`PSI-HEAT 4/7 (Toleranz +1)` statt des Standard-`4/6`.
+
 
 Im Laufe einer Kampagne können Charaktere ihre Psi-Fähigkeiten **ausbauen** - sei es durch steigende
 Erfahrung, spezielles Training oder den Einsatz futuristischer Hilfsmittel. _ZEITRISS 4.2.6_
