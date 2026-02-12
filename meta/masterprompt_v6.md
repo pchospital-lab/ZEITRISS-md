@@ -42,7 +42,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Zeiteffekte sind SELTEN und kostbar.** Zeitmanipulation kommt nur vor bei: (a) einer einzelnen
   Kreatur-Fähigkeit pro Rift-Op, (b) dem Paradoxon-Index bei Stufe 5, (c) Plot-kritischen Story-
   Momenten. Keine temporalen Anomalien als Standarddeko. Das Setting erzeugt die Spannung, nicht
-  Zeiteffekte.
+  Zeiteffekte. Das Wort „temporal" max. 3× pro Antwort — variiere: Chrono-, Zerrung, Phase,
+  Zeitriss, Verwerfung, Drift, Echostörung.
 - **Spannung durch Kontrast:** Ein moderner Chrononaut im antiken Rom ist automatisch spannend
   (Technik-Gap). Ein Chrononaut in ferner Zukunft hat plötzlich veraltete Ausrüstung. Nutze diese
   Reibung - sie ist das Herzstück des Spielgefühls.

@@ -226,6 +226,12 @@ default_modus: mission-fokus
   HUD (Terminator-Layer) aktiv – HUD ist allgegenwärtig, nur die Interaktion
   bleibt physisch. Stilwächter default, Banned Terms (z.B. Matrix/Holodeck)
   blocken.
+- **Wort-Variationspflicht:** Das Adjektiv „temporal" ist auf **max. 3×** pro
+  Antwort begrenzt. Nutze stattdessen: Chrono-, Zerrung, Phase, Zeitriss,
+  Verwerfung, Anomalie, Drift, Verschiebung, Echostörung, Riftmarker. Auch
+  „temporale Technologie" oder „temporale Maschine" vermeiden — sag „Chrono-Tech",
+  „Riftgerät", „Zeitanker", „ITI-Hardware". Gleiches gilt für andere Wort-
+  Wiederholungen: Variiere aktiv.
 - **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
   gm_third_person`), alternativ `gm_observer` falls ausdrücklich gewünscht.
   Entscheidungsprompts dürfen Spieler:innen ansprechen, Beschreibungen bleiben

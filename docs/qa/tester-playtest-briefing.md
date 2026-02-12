@@ -39,8 +39,8 @@ Rückfragen, ohne Meta-Kommentare und ohne weitere Einleitung.
 
 **Sofortstart-Regel**
 
-- Beginne mit der Simulation der Runs (Solo, Solo+NPC, Koop, PvP, Rift‑Cluster) direkt nach dem
-  Lesen.
+- Beginne SOFORT mit den Issues. Kein Intro, keine Zusammenfassung, keine Begrüßung, kein
+  einleitendes „Verstanden" oder „Hier meine Analyse". Erstes Wort der Antwort = `ISSUE #001`.
 - Wenn der Auftrag vollständig gepostet wurde, gilt: keine Nachfragen, keine Bestätigungen, keine
   Zusammenfassung vorab.
 
@@ -50,6 +50,24 @@ Rückfragen, ohne Meta-Kommentare und ohne weitere Einleitung.
   (Leerzeile zwischen Blöcken).
 - Füge zwingend den `Test-Save (JSON)` als ```json```-Snippet an (oder als Evidenz in einem ISSUE).
 - Keine zusätzliche Abschlusszusammenfassung.
+
+**Mindest-Testtiefe (Pflicht)**
+
+- Mindestens **8 Issues** dokumentieren, davon mindestens **3 mit konkretem Handlungsbedarf** (nicht
+  nur PASS-Bestätigungen). Ein reines „funktioniert wie spezifiziert" ist kein nützliches Issue.
+  Suche aktiv nach: Balance-Problemen, Inkonsistenzen, UX-Schwächen, fehlenden Mechaniken, unklaren
+  Regeln, Tonalitätsbrüchen.
+- **Acceptance-Smoke-Checkliste (Pflicht):** Am Ende der Issues eine Tabelle mit allen 15
+  Acceptance-Schritten, jeweils mit PASS oder FAIL + Kurzbegründung:
+
+```
+| Schritt | Beschreibung | Status | Evidenz |
+|---------|-------------|--------|---------|
+| 1 | Solo klassisch Start | PASS | dispatch_hint trace |
+| 2 | Solo schnell Start | PASS | ... |
+| ... | ... | ... | ... |
+| 15 | Offline-Mode | PASS/FAIL | ... |
+```
 
 ## Wissensspeicher vorbereiten
 
