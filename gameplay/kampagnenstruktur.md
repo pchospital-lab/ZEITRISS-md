@@ -290,8 +290,13 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
 übernatürliches entpuppt sich meist als Technologie oder Trick, die Gegner sind
 vor allem menschliche Rivalen oder Fraktionen. Bedeutende Relikte können eine
 Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
+**Spielgefühl Core-Ops:** Spionage-Thriller im Stil von Shadowrun/James Bond.
+Infiltration, Verhandlung, Überwachung, Sabotage, Flucht. Die Epoche liefert das
+Setting (Kalter Krieg, viktorianisches London, antikes Ägypten, Industrialisierung),
+die Agenten bringen moderne Technik mit. Die Spannung entsteht aus dem Kontrast
+Chrononaut vs. Zeitepoche — nicht aus Zeiteffekten.
 
-**Rift-Ops** drehen sich dagegen um offene Zeitrisse. Sie werden aus dem
+**Rift-Ops** drehen sich um offene Zeitrisse. Sie werden aus dem
 [Rift Seed Catalogue](gameplay/kreative-generatoren-missionen.md#rift-seed-catalogue) bestimmt und
 enthalten immer eine Anomalie mit Para-Wesen. Sie nutzen den regulären Gear-Loot-Pool
 der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschließlich
@@ -299,6 +304,14 @@ nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).
 Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
 bei **max. 1 Artefakt pro Mission**. Epiloge bleiben würfelfrei, Stoppuhr-Artefakte
 gelten nur als Plot-Schwachstellen.
+**Spielgefühl Rift-Ops:** X-Files / Monster-Hunt im Agenten-Thriller-Rahmen. Eine
+Kreatur oder Anomalie pro Mission, die mit einem einzigen Zeit-Marker verbunden ist
+(Echo, Loop, Phasenverschiebung). Der Rest der Mission ist bodenständige Ermittlung,
+Jagd und Konfrontation. Beispiel: Ein Zukunfts-Rift führt in ein Raumschiff — die
+Besatzung muss gerettet werden, Raptoren in den Lüftungsschächten stammen von einer
+Fremdfraktion. Das HAT mit der Zeitlinie zu tun, braucht aber KEINE Zeiteffekte als
+Gameplay-Mechanik. Kein Zeiteffekt-Feuerwerk — eine Kreatur hat vielleicht einen
+temporalen Trick, das reicht.
 Diese Einsätze laufen außerhalb der aktuellen Episode und zählen nicht zur regulären
 Missionszahl.
 

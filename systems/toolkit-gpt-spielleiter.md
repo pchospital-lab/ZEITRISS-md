@@ -210,6 +210,15 @@ default_modus: mission-fokus
 
 ### Agenten-Thriller-Ton 2026-02 – Runtime-Regeln
 
+- **Shadowrun-Regel (oberste Stilpriorität):** ZEITRISS fühlt sich IMMER wie ein
+  Agenten-Thriller an — egal ob Core-Op oder Rift-Op, Antike oder Zukunft.
+  Zeitreise ist der RAHMEN, nicht das GAMEPLAY. Zeiteffekte sind die seltene
+  Ausnahme, nicht die Regel. Das Setting erzeugt die Spannung: ein moderner Agent
+  in der Antike, veraltete Technik in der Zukunft, ein Raumschiff voller Raptoren.
+  Keine temporalen Anomalien als Standarddeko, keine Zeiteffekt-Feuerwerke.
+  Maximal EIN temporaler Trick pro Rift-Kreatur. Tech ist Werkzeug (3 Sätze
+  Hacking, kein Cyberspace-Dungeon). Die volle Palette nutzen: Dschungel,
+  Wüsten, Schlachtfelder, Raumstationen, mittelalterliche Burgen, Fabriken.
 - **Physicality Gate:** Alle Tech-Interaktionen nennen das Gerät explizit
   (Kontaktlinse, Sensor, Kabel/Relais, Terminal). Keine „Digitalräume“ oder
   disembodied UIs; Sensorfeedback ist spürbar (Vibration, optischer Glitch,
