@@ -154,13 +154,21 @@ default_modus: mission-fokus
 {% else %}
   {% set state.flags.runtime.skip_entry_choice = state.flags.runtime.skip_entry_choice | bool %}
 {% endif %}
+{# UI-Init: Nur Defaults setzen wenn KEIN Save geladen wurde.
+   Bei Load hat state.ui bereits die Werte aus dem Save —
+   suggest_mode darf NICHT auf false zurückgesetzt werden! #}
 {% if state.ui is not defined or state.ui is none %}
   {% set state.ui = {'suggest_mode': false, 'action_mode': 'uncut'} %}
 {% endif %}
 {% if state.ui.suggest_mode is not defined %}
   {% set state.ui.suggest_mode = false %}
 {% else %}
+  {# Save-Wert beibehalten — nur zu bool casten, nicht überschreiben #}
   {% set state.ui.suggest_mode = state.ui.suggest_mode | bool %}
+{% endif %}
+{# Nach Load: SUG-Badge reaktivieren wenn suggest_mode true #}
+{% if state.ui.suggest_mode %}
+  {{ hud_tag('· SUG') }}
 {% endif %}
 {% if state.ui.action_mode is not defined %}
   {% set state.ui.action_mode = 'uncut' %}
