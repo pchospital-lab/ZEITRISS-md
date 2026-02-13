@@ -2,6 +2,7 @@
 # ╔══════════════════════════════════════════════════════════════════╗
 # ║  ZEITRISS – OpenWebUI Setup Script                              ║
 # ║  Richtet die komplette Spielumgebung automatisch ein.           ║
+# ║  Idempotent: Kann beliebig oft ausgeführt werden.               ║
 # ║                                                                  ║
 # ║  Voraussetzungen:                                               ║
 # ║    • OpenWebUI läuft (Standard: http://localhost:3000)          ║
@@ -34,6 +35,11 @@ info()  { echo -e "${CYAN}ℹ${NC}  $*"; }
 ok()    { echo -e "${GREEN}✓${NC}  $*"; }
 warn()  { echo -e "${YELLOW}⚠${NC}  $*"; }
 fail()  { echo -e "${RED}✗${NC}  $*"; exit 1; }
+
+# Helper: API-Call mit Auth-Header
+api_get()  { curl -s "$OPENWEBUI_URL$1" -H "Authorization: Bearer $OPENWEBUI_API_KEY" 2>/dev/null; }
+api_post() { curl -s "$OPENWEBUI_URL$1" -H "Authorization: Bearer $OPENWEBUI_API_KEY" -H "Content-Type: application/json" -d "$2" 2>/dev/null; }
+api_del()  { curl -s -X DELETE "$OPENWEBUI_URL$1" -H "Authorization: Bearer $OPENWEBUI_API_KEY" 2>/dev/null; }
 
 # ── Repo-Root finden ────────────────────────────────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -128,23 +134,7 @@ else
 fi
 ok "Base Model: $BASE_MODEL"
 
-# ── Knowledge Base erstellen ────────────────────────────────────────
-echo ""
-info "Knowledge Base erstellen..."
-
-KB_ID=$(curl -s "$OPENWEBUI_URL/api/v1/knowledge/create" \
-  -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"name": "ZEITRISS 4.2.6 Regelwerk", "description": "Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6"}' \
-  | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null)
-
-if [ -z "$KB_ID" ]; then
-  fail "Knowledge Base konnte nicht erstellt werden."
-fi
-ok "Knowledge Base erstellt (ID: ${KB_ID:0:12}...)"
-
-# ── Wissensspeicher-Dateien hochladen ──────────────────────────────
-# Alle slot:true Module aus master-index.json
+# ── Slot-Dateien ermitteln ──────────────────────────────────────────
 FILES=$(python3 -c "
 import json
 with open('$REPO/master-index.json') as f:
@@ -153,8 +143,74 @@ for m in data['modules']:
     if m.get('slot'):
         print(m['path'])
 ")
-
 TOTAL=$(echo "$FILES" | wc -l)
+
+# Dateinamen für Cleanup sammeln
+SLOT_FILENAMES=$(echo "$FILES" | while IFS= read -r f; do basename "$f"; done)
+
+# ── Knowledge Base (idempotent) ─────────────────────────────────────
+echo ""
+KB_NAME="ZEITRISS 4.2.6 Regelwerk"
+
+info "Knowledge Base prüfen..."
+
+# Alle existierenden KBs mit diesem Namen finden und löschen
+EXISTING_KB_IDS=$(api_get "/api/v1/knowledge/" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+for item in data.get('items', []):
+    if item.get('name') == '$KB_NAME':
+        print(item['id'])
+" 2>/dev/null || echo "")
+
+if [ -n "$EXISTING_KB_IDS" ]; then
+  KB_COUNT=$(echo "$EXISTING_KB_IDS" | grep -c . || true)
+  info "Entferne $KB_COUNT existierende Knowledge Base(s)..."
+  while IFS= read -r OLD_KB_ID; do
+    [ -z "$OLD_KB_ID" ] && continue
+    curl -s -X DELETE "$OPENWEBUI_URL/api/v1/knowledge/$OLD_KB_ID/delete" \
+      -H "Authorization: Bearer $OPENWEBUI_API_KEY" >/dev/null 2>&1
+  done <<< "$EXISTING_KB_IDS"
+
+  # Alte ZEITRISS-Dateien aufräumen (Duplikate aus früheren Runs)
+  info "Räume alte Dateien auf..."
+  CLEANUP_RESULT=$(api_get "/api/v1/files/" | SLOT_FILENAMES="$SLOT_FILENAMES" python3 -c "
+import sys, json, os
+slot_names = set(os.environ.get('SLOT_FILENAMES', '').strip().split('\n'))
+files = json.load(sys.stdin)
+deleted = 0
+for f in files:
+    if f.get('filename', '') in slot_names:
+        print(f['id'])
+        deleted += 1
+print(f'COUNT:{deleted}', file=sys.stderr)
+" 2>/tmp/zeitriss_cleanup_count)
+  CLEANUP_COUNT=$(grep -oP 'COUNT:\K\d+' /tmp/zeitriss_cleanup_count 2>/dev/null || echo "0")
+
+  if [ -n "$CLEANUP_RESULT" ]; then
+    while IFS= read -r DEL_FILE_ID; do
+      [ -z "$DEL_FILE_ID" ] && continue
+      api_del "/api/v1/files/$DEL_FILE_ID" >/dev/null 2>&1
+    done <<< "$CLEANUP_RESULT"
+    ok "$CLEANUP_COUNT alte Dateien entfernt"
+  fi
+  KB_MODE="aktualisiert"
+else
+  KB_MODE="erstellt"
+fi
+
+# Neue KB erstellen
+info "Knowledge Base erstellen..."
+KB_ID=$(api_post "/api/v1/knowledge/create" \
+  "{\"name\": \"$KB_NAME\", \"description\": \"Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6\"}" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin).get('id',''))" 2>/dev/null)
+
+if [ -z "$KB_ID" ]; then
+  fail "Knowledge Base konnte nicht erstellt werden."
+fi
+ok "Knowledge Base $KB_MODE (ID: ${KB_ID:0:12}...)"
+
+# ── Wissensspeicher-Dateien hochladen ──────────────────────────────
 COUNT=0
 ERRORS=0
 
@@ -163,7 +219,6 @@ echo ""
 
 while IFS= read -r FILE; do
   FILEPATH="$REPO/$FILE"
-  FILENAME=$(basename "$FILE")
   COUNT=$((COUNT + 1))
 
   if [ ! -f "$FILEPATH" ]; then
@@ -185,12 +240,14 @@ while IFS= read -r FILE; do
   fi
 
   # Link to KB
-  LINK_RESULT=$(curl -s "$OPENWEBUI_URL/api/v1/knowledge/$KB_ID/file/add" \
-    -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d "{\"file_id\": \"$FILE_ID\"}" 2>/dev/null)
+  LINK_RESULT=$(api_post "/api/v1/knowledge/$KB_ID/file/add" "{\"file_id\": \"$FILE_ID\"}" 2>/dev/null)
+  LINK_ERROR=$(echo "$LINK_RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('detail',''))" 2>/dev/null || echo "")
 
-  echo -e "  ${GREEN}✓${NC} [$COUNT/$TOTAL] $FILE"
+  if [ -n "$LINK_ERROR" ]; then
+    echo -e "  ${YELLOW}⚠${NC} [$COUNT/$TOTAL] $FILE (Verknüpfung: $LINK_ERROR)"
+  else
+    echo -e "  ${GREEN}✓${NC} [$COUNT/$TOTAL] $FILE"
+  fi
 done <<< "$FILES"
 
 echo ""
@@ -200,30 +257,31 @@ else
   ok "Alle $TOTAL Dateien geladen"
 fi
 
-# ── System-Prompt laden ─────────────────────────────────────────────
-info "Model-Preset erstellen..."
+# ── Model-Preset (idempotent) ───────────────────────────────────────
+info "Model-Preset prüfen..."
 
-SYSTEM_PROMPT=$(cat "$REPO/meta/masterprompt_v6.md")
-
-# Preset erstellen via API
-python3 -c "
-import json, os, urllib.request
+PRESET_RESULT=$(REPO="$REPO" BASE_MODEL="$BASE_MODEL" KB_ID="$KB_ID" python3 -c "
+import json, os, urllib.request, urllib.error, sys
 
 url = os.environ['OPENWEBUI_URL']
 key = os.environ['OPENWEBUI_API_KEY']
+repo = os.environ['REPO']
+base_model = os.environ['BASE_MODEL']
+kb_id = os.environ['KB_ID']
+preset_id = 'zeitriss-v426-local-uncut'
 
-with open('$REPO/meta/masterprompt_v6.md', 'r') as f:
+with open(os.path.join(repo, 'meta/masterprompt_v6.md'), 'r') as f:
     system_prompt = f.read()
 
 payload = {
-    'id': 'zeitriss-v426-local-uncut',
+    'id': preset_id,
     'name': 'ZEITRISS v4.2.6 – Local Uncut',
-    'base_model_id': '$BASE_MODEL',
+    'base_model_id': base_model,
     'meta': {
         'description': 'Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.',
         'profile_image_url': '',
         'capabilities': {'vision': False, 'usage': False},
-        'knowledge': [{'id': '$KB_ID', 'name': 'ZEITRISS 4.2.6 Regelwerk'}],
+        'knowledge': [{'id': kb_id, 'name': 'ZEITRISS 4.2.6 Regelwerk'}],
         'suggestion_prompts': [
             {'content': 'Spiel starten (solo schnell)'},
             {'content': 'Spiel starten (solo klassisch)'},
@@ -236,39 +294,57 @@ payload = {
     }
 }
 
+# Prüfen ob Model existiert
+model_exists = False
+try:
+    req = urllib.request.Request(
+        f'{url}/api/models',
+        headers={'Authorization': f'Bearer {key}'}
+    )
+    with urllib.request.urlopen(req) as resp:
+        models = json.loads(resp.read())
+        if isinstance(models, dict) and 'data' in models:
+            models = models['data']
+        if isinstance(models, list):
+            model_exists = any(m.get('id') == preset_id for m in models)
+except Exception:
+    pass
+
 data = json.dumps(payload).encode()
-req = urllib.request.Request(
-    f'{url}/api/v1/models/create',
-    data=data,
-    headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
-    method='POST'
-)
 
 try:
-    with urllib.request.urlopen(req) as resp:
-        result = json.loads(resp.read())
-        print(f'OK:{result.get(\"id\",\"?\")}')
-except urllib.error.HTTPError as e:
-    body = e.read().decode()
-    if '409' in str(e.code) or 'already exists' in body.lower():
-        # Model exists, try update
-        req2 = urllib.request.Request(
-            f'{url}/api/v1/models/model/update',
+    if model_exists:
+        req = urllib.request.Request(
+            f'{url}/api/v1/models/model/update?id={preset_id}',
             data=data,
             headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
             method='POST'
         )
-        with urllib.request.urlopen(req2) as resp2:
-            result2 = json.loads(resp2.read())
-            print(f'OK:{result2.get(\"id\",\"?\")}')
+        with urllib.request.urlopen(req) as resp:
+            result = json.loads(resp.read())
+            print(f'UPDATED:{result.get(\"id\",\"?\")}')
     else:
-        print(f'ERROR:{body[:200]}')
-" 2>/dev/null | while IFS= read -r line; do
-  case "$line" in
-    OK:*)  ok "Preset erstellt: ${line#OK:}" ;;
-    ERROR:*) fail "Preset-Erstellung fehlgeschlagen: ${line#ERROR:}" ;;
-  esac
-done
+        req = urllib.request.Request(
+            f'{url}/api/v1/models/create',
+            data=data,
+            headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
+            method='POST'
+        )
+        with urllib.request.urlopen(req) as resp:
+            result = json.loads(resp.read())
+            print(f'CREATED:{result.get(\"id\",\"?\")}')
+except urllib.error.HTTPError as e:
+    body = e.read().decode()
+    print(f'ERROR:{body[:200]}')
+    sys.exit(1)
+" 2>/dev/null)
+
+case "$PRESET_RESULT" in
+  CREATED:*)  ok "Preset erstellt: ${PRESET_RESULT#CREATED:}" ;;
+  UPDATED:*)  ok "Preset aktualisiert: ${PRESET_RESULT#UPDATED:}" ;;
+  ERROR:*)    fail "Preset fehlgeschlagen: ${PRESET_RESULT#ERROR:}" ;;
+  *)          fail "Preset: Unerwartetes Ergebnis: $PRESET_RESULT" ;;
+esac
 
 # ── Zusammenfassung ─────────────────────────────────────────────────
 echo ""
