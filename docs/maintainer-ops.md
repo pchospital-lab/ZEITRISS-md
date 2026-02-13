@@ -7,14 +7,14 @@ tags: [meta]
 # Maintainer-Ops
 
 Dieses Memo bündelt alle internen Abläufe für den Betrieb von
-**ZEITRISS 4.2.6**. Haltet die Schritte strikt ein, damit QA, Releases und
+**ZEITRISS 4.2.6**. Haltet die Schritte strikt ein, damit QA, Releases und
 Plattform-Listings synchron bleiben.
 
 ## Wissensspeicher & Grundsetup
 
 Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
 Bestandteilen. Die Wissensspeicher-Slots sind für `README.md` plus die 19 Runtime-Module
-reserviert – der Masterprompt bleibt im Systemfeld (oder als erste
+reserviert - der Masterprompt bleibt im Systemfeld (oder als erste
 Chatnachricht), Repo-Hilfsdateien bleiben offline:
 
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.6, Systemfeld
@@ -59,7 +59,7 @@ Chatnachricht), Repo-Hilfsdateien bleiben offline:
   Tools verbleiben ausschließlich im Repo.
 - **Repo-Agent:innen verpflichten sich, jede bestätigte Laufzeitänderung
   unmittelbar als Regelwerk, Prozessbeschreibung oder Pseudocode in den
-  Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher).
+  Wissensspeicher-Modulen zu spiegeln** (z. B. README, Runtime-Handbücher).
   Nur so erreichen produktive GPTs denselben Funktionsumfang ohne lokale
   Skripte.
 - Halte einen Abgleich im QA-Journal fest (`internal/qa/logs/`), sobald du eine
@@ -76,7 +76,7 @@ Chatnachricht), Repo-Hilfsdateien bleiben offline:
   angepasst wurden.
 - Übertragt bestätigte Änderungen manuell in die produktive Runtime der
   Plattform (MyGPT/Store-GPT) gemäß Abschnitt
-  [„Spiegelprozess nach QA-Freigabe“](#spiegelprozess-nach-qa-freigabe).
+  ["Spiegelprozess nach QA-Freigabe"](#spiegelprozess-nach-qa-freigabe).
   Grundlage ist stets der durch den Repo-Agenten bereits vollständig
   gespiegelte Wissensstand.
 - Dokumentiert den Mirror im QA-Log inkl. Commit-ID, Datum und Hinweis darauf,
@@ -86,7 +86,7 @@ Chatnachricht), Repo-Hilfsdateien bleiben offline:
 Hinweise zum Rollenmodell (Repo-Agent, MyGPT, Beta-GPT, Kodex) stehen in
 `AGENTS.md`. Eine Dokumenten-Landkarte mit Zielgruppen und Übergabepunkten
 findest du im Abschnitt
-[„Dokumenten-Landkarte“](../README.md#dokumenten-landkarte) des README. Diese
+[„Dokumenten-Landkarte"](setup-guide.md#dokumenten-landkarte) des Setup-Guides. Diese
 Datei konzentriert sich auf ausführbare Abläufe.
 
 **Grundsatz:** Alle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta-Klon
@@ -95,11 +95,11 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Plattformstrategie
 
-- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.6]** auf
+- **Referenz-Plattform:** Der Beta-Klon von **ZEITRISS [Ver. 4.2.6]** auf
   OpenAI-MyGPT ist die einzige Instanz für aktive QA-Läufe. Alle
   Regressionstests, Acceptance-Smokes und Save/Load-Prüfungen werden hier
   durchgeführt und anschließend im QA-Log abgelegt.
-- **Freigabebedingung:** Erst nachdem der Beta-Klon die QA als „grün“ meldet
+- **Freigabebedingung:** Erst nachdem der Beta-Klon die QA als "grün" meldet
   und Codex die Nachverfolgung im QA-Fahrplan geschlossen hat, darf der
   Wissensstand auf weitere Plattformen gespiegelt werden.
 - **Spiegelroutine:** Store-GPT und OpenWebUI-Installationen erhalten
@@ -111,16 +111,16 @@ Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Artefakte & Nachverfolgung
 
-- [QA-Fahrplan 2025](../internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) –
+- [QA-Fahrplan 2025](../internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md) -
   priorisierte Maßnahmenliste mit Status-Tracking und Commit-Verweisen.
-- [QA-Audit 2025](../internal/qa/audits/ZEITRISS-qa-audit-2025.md) –
+- [QA-Audit 2025](../internal/qa/audits/ZEITRISS-qa-audit-2025.md) -
   Zusammenfassung der Testläufe inklusive Bewertungsmatrix.
-- [Beta-QA-Log 2025](../internal/qa/logs/2025-beta-qa-log.md) – vollständige
+- [Beta-QA-Log 2025](../internal/qa/logs/2025-beta-qa-log.md) - vollständige
   Copy-&-Paste-Protokolle aus Beta-GPT/MyGPT mit Nachverfolgung.
-- [Tester-Playtest-Briefing](./qa/tester-playtest-briefing.md) –
+- [Tester-Playtest-Briefing](./qa/tester-playtest-briefing.md) -
   Standardauftrag für Beta-/MyGPT-Läufe inklusive Acceptance-Smoke.
 
-Stand 2025-06-22: Deepcheck-Sessions 2025-06-11–2025-06-16 abgeschlossen,
+Stand 2025-06-22: Deepcheck-Sessions 2025-06-11-2025-06-16 abgeschlossen,
 Maßnahmenblöcke (Save, HUD/UX, PvP/Arena) auf ✅ gesetzt; siehe QA-Fahrplan &
 QA-Log 2025-06-22.
 
@@ -163,22 +163,22 @@ Schritt für Schritt abarbeitet und nur Repo-Artefakte aktualisiert:
 > und halte die Trennung zwischen Runtime-Stubs (runtime.js, routing-layer) und
 > den GPT-Laufzeitdateien strikt ein.`
 
-Der Zusatz stellt klar, dass lokale Hilfsskripte (z. B. `runtime.js`) nur für
+Der Zusatz stellt klar, dass lokale Hilfsskripte (z. B. `runtime.js`) nur für
 Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 
 ## Plattform-Workflows
 
 ### OpenAI MyGPT & GPT-Store
-1. Einen Custom GPT **ZEITRISS [Ver. 4.2.6]** erstellen.
-2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. „Zeitreise-RPG mit
+1. Einen Custom GPT **ZEITRISS [Ver. 4.2.6]** erstellen.
+2. Einen Pitch mit max. 300 Zeichen hinterlegen, z. B. "Zeitreise-RPG mit
    Kodex-HUD, explosiven Würfeln und Solo/Coop-Balancing. Keine echten Daten,
-   mehr Infos auf https://zeitriss.org/“.
+   mehr Infos auf https://zeitriss.org/".
 3. `meta/masterprompt_v6.md` (Local-Uncut 4.2.6) vollständig in das
    Masterprompt-Feld kopieren und speichern. Die Legacy-Fassung liegt bei
    Bedarf in `meta/archive/masterprompt_v6_legacy.md`.
 4. `README.md` und alle 19 Runtime-Module (ohne Runtime-Stub) in den
    Wissensspeicher hochladen. `master-index.json` nicht hochladen.
-5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.6] beta** nennen.
+5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.6] beta** nennen.
 6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen und Verhalten
    im QA-Log dokumentieren.
 7. QA und Publishing erst freigeben, wenn die Chat-Historie keine
@@ -218,7 +218,7 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 - Für Schnelltests die Checkliste aus
   [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
   nutzen und Ergebnisse hier protokollieren.
-- Detailablauf für Uploads siehe Abschnitt „Beispielworkflow“ im README; dort
+- Detailablauf für Uploads siehe Abschnitt "Beispielworkflow" im README; dort
   stehen die Datei-Checks, die beim Laden kontrolliert werden.
 
 ## Go-Live-Checkliste (Build 4.2.6)
@@ -229,7 +229,7 @@ abzuschließen und im QA-Log zu dokumentieren:
    - `make lint` (inkl. doppeltem Runtime-Lint, Doc-Link- und Umlaut-Checks sowie
      Markdownlint für Wissensmodule)
    - `make test`
-   - `npm run test:acceptance` (Mission‑5‑Badge-/HUD-Snapshots gegen Golden File)
+   - `npm run test:acceptance` (Mission-5-Badge-/HUD-Snapshots gegen Golden File)
    - `npm run test:hud`
    - `npm run test:debrief`
    - `npm run test:comms`
@@ -238,7 +238,7 @@ abzuschließen und im QA-Log zu dokumentieren:
 2. **Dokumentationsabgleich**
    - Audit, Fahrplan und Maintainer-Ops auf denselben Stand bringen (Versionen
      prüfen, offene Fragen schließen, QA-Referenzen ergänzen).
-   - README-Sektion „QA-Artefakte & Nachverfolgung“ auf aktuelle Links testen.
+   - README-Sektion "QA-Artefakte & Nachverfolgung" auf aktuelle Links testen.
 3. **QA-Log & Freigabe**
   - Acceptance-Smoke gegen
     [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
@@ -257,7 +257,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 
 ### Beta-GPT & Playtests
 1. Klone nach jedem Release-Kandidaten den produktiven MyGPT zu
-   **ZEITRISS [Ver. 4.2.6] beta**.
+   **ZEITRISS [Ver. 4.2.6] beta**.
 2. Starte Playtests ausschließlich im Beta-Klon, füge den Auftrag aus
    `docs/qa/tester-playtest-briefing.md` in die erste Chat-Nachricht ein und lasse
    den GPT den kompletten QA-Run ohne weitere Eingriffe simulieren.
@@ -303,19 +303,19 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 
 ### Regressionstest-Zeitplan 2025
 
-- **Q1 2025 (19.03.2025 – Acceptance-Smoke-Abgleich)**
-  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.6) mit Save/Load.
+- **Q1 2025 (19.03.2025 - Acceptance-Smoke-Abgleich)**
+  - Schwerpunkt: Vollständiger Regressionstest (Build 4.2.6) mit Save/Load.
   - Status: ✅ abgeschlossen.
   - QA-Log: `internal/qa/logs/2025-beta-qa-log.md`, Abschnitt 2025-03-19.
-- **Q2 2025 (09.–13.06.2025)**
+- **Q2 2025 (09.-13.06.2025)**
   - Schwerpunkt: Spiegelprozesse, Save/Load-Regression und Upload-Checks.
   - Status: 🗓️ geplant.
   - QA-Log: Eintrag folgt nach Lauf.
-- **Q3 2025 (08.–12.09.2025)**
+- **Q3 2025 (08.-12.09.2025)**
   - Schwerpunkt: Arena-Großteam-Regression, HUD-Badges und Timer.
   - Status: 🗓️ geplant.
   - QA-Log: Eintrag folgt nach Lauf.
-- **Q4 2025 (08.–12.12.2025)**
+- **Q4 2025 (08.-12.12.2025)**
   - Schwerpunkt: Jahresabschluss-Regression mit Spiegelkontrolle.
   - Status: 🗓️ geplant.
   - QA-Log: Eintrag folgt nach Lauf.
@@ -340,7 +340,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
 - `make lint`, `make test` und `scripts/smoke.sh` ausführen; Ergebnisse im
   QA-Log vermerken.
 - Vor Freigabe sicherstellen, dass auf jeder Plattform exakt 20
-  Wissensmodule (README + 19 Runtime-Module) plus Masterprompt vorliegen –
+  Wissensmodule (README + 19 Runtime-Module) plus Masterprompt vorliegen -
   ohne den Runtime-Stub und ohne `master-index.json` im Wissensspeicher.
 - Erst releasen, wenn der Beta-GPT auf MyGPT grün meldet. Danach Store-GPT aktualisieren und den freigegebenen Stand lokal in
   OpenWebUI spiegeln. Siehe
