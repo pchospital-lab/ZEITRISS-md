@@ -732,4 +732,14 @@ spielerfreundliche Noir-Varianten übersetzt.
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 [llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
 
+## Feedback & Beiträge
+
+**Pull Requests werden nicht angenommen.** Das Projekt wird vom Maintainer
+direkt gepflegt. Wenn dir etwas auffällt — Regelfehler, Balancing-Probleme,
+Ideen, Tippfehler — erstelle bitte ein
+[Issue](https://github.com/pchospital-lab/ZEITRISS-md/issues) mit einer kurzen
+Beschreibung. Feedback wird gesammelt und gebündelt umgesetzt.
+
+Danke für dein Interesse an ZEITRISS. 🕐
+
 © 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
