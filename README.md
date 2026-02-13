@@ -304,6 +304,14 @@ geändert werden, diese Linkliste im README direkt mitziehen.
 
 ## Mini-FAQ
 
+**Muss ich nach jeder Mission einen neuen Chat öffnen?**
+Empfohlen: Ja. Die KI-Spielleitung arbeitet mit einem begrenzten Kontextfenster —
+je länger ein Chat läuft, desto weniger zuverlässig greift sie auf die Regeln zu.
+Der beste Workflow: Mission abschließen → im HQ alles erledigen (Debrief, Shoppen,
+Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` mit dem
+Speicherstand. So startet die nächste Mission mit vollem Regelzugriff und frischem
+Kontext. Innerhalb einer Mission einfach weiterspielen.
+
 **Warum nur HQ-Saves?**
 Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nicht
 festgeschrieben werden.
