@@ -1,6 +1,6 @@
 ---
 title: "Maintainer-Ops"
-version: 1.2.1
+version: 1.2.2
 tags: [meta]
 ---
 
@@ -13,21 +13,23 @@ Plattform-Listings synchron bleiben.
 ## Wissensspeicher & Grundsetup
 
 Der vollständige Datensatz für GPTs und Custom-AIs besteht aus folgenden
-Bestandteilen. Die 20 verfügbaren Wissensspeicher-Slots sind ausschließlich für
-README, Master-Index und die 18 Runtime-Module reserviert – der Masterprompt
-bleibt im Systemfeld (oder als erste Chatnachricht), Repo-Hilfsdateien bleiben
-offline:
+Bestandteilen. Die Wissensspeicher-Slots sind für `README.md` plus die 19 Runtime-Module
+reserviert – der Masterprompt bleibt im Systemfeld (oder als erste
+Chatnachricht), Repo-Hilfsdateien bleiben offline:
 
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Local-Uncut 4.2.6, Systemfeld
    bzw. erste Nachricht). Die Vorversion liegt als Referenz in
    `meta/archive/masterprompt_v6_legacy.md`.
-2. **Dokumentationsanker:** `README.md` und `master-index.json`.
-3. **Runtime-Module:** Exakt die unten aufgelisteten 18 Markdown-Dateien aus
-   den Runtime-Verzeichnissen.
+2. **README:** `README.md` als Wissensmodul für Einstieg, Einleitung und
+   Betriebsnavigation hochladen.
+3. **Runtime-Module:** Exakt die unten aufgelisteten 19 Markdown-Dateien aus
+   den Runtime-Verzeichnissen (`core/`, `characters/`, `gameplay/`, `systems/`).
+4. **Nicht hochladen:** `master-index.json` bleibt ein repo-internes
+   Steuerdokument für Setup-Automation und QA.
 
 > **Slot-Kontrolle:** Nach jedem Upload, Export oder Speicherstand prüfen, ob
-> alle 20 Module geladen sind. Fehlende oder veraltete Module unverzüglich
-> nachfordern und erneut hochladen.
+> alle 20 Wissensmodule (README + 19 Runtime-Module) geladen sind.
+> Fehlende oder veraltete Module unverzüglich nachfordern und erneut hochladen.
 
 | Kategorie    | Datei |
 |--------------|-------|
@@ -38,6 +40,7 @@ offline:
 |              | `characters/hud-system.md` |
 | **core**     | `core/wuerfelmechanik.md` |
 |              | `core/zeitriss-core.md` |
+|              | `core/sl-referenz.md` |
 | **gameplay** | `gameplay/fahrzeuge-konflikte.md` |
 |              | `gameplay/kampagnenstruktur.md` |
 |              | `gameplay/kampagnenuebersicht.md` |
@@ -67,27 +70,6 @@ offline:
   Maintainer:innen prüfen im Review, ob dieser Wissensspiegel vorliegt, bevor
   sie Plattform-Runtimes aktualisieren.
 
-### LM Studio Local-Presets (gpt-oss-20b)
-
-- **Sampling:** Zwei Presets für lokale Runs: `ZEITRISS-PLAY` (Temp 0,60,
-  Top-p 0,92, Top-k 60, Repetition-Penalty 0,05, Presence 1,06) und
-  `ZEITRISS-NOIR` (Temp 0,70, Top-p 0,94, Top-k 80, Repetition-Penalty 0,07,
-  Presence 1,05). Antwortbudget: **1100–1600 Tokens**.
-- **Kontextprofile:** 16k (Standard), 24k (lange Briefings), 32k (QA/Fixtures);
-  längere Kontexte nur bei Bedarf, um GPU-RAM zu schonen.
-- **Hardware-Defaults:** Flash Attention an, Batch 128–512, Thread-Pool nach
-  realen Kernen; GPU-Offload aktivieren, falls verfügbar, sonst CPU-only
-  akzeptieren.
-- **RAG-Trim-Presets:**
-  - **Preset A `ZEITRISS_PLAY`:** Threshold 0,62; Limit 6; Chunk 800; Overlap 96.
-  - **Preset B `ZEITRISS_RULES_STRICT`:** Threshold 0,70; Limit 4; Chunk 650; Overlap 96.
-  QA-Preset trennt Runtime-Module klar von QA-Dokumenten.
-- **Menü-Handling:** Menüs bleiben 3 nummerierte Optionen + „Freie Aktion“ mit Klartext-Labels; die
-  Zahlen sind nur Marker. Spielende sollen den Klartext eintippen. Zahl-only-Eingaben direkt nach
-  einem Menü darf die Spielleitung intern mappen und als RAG-Query nutzen, aber ohne Summary-Block
-  oder Label-Echo. Fallback-Kurzprofile bleiben erlaubt, Menü-Tags (`(Tag: archetyp_scout)`) optional.
-- **Template-Guard:** `{%`/`{{` ignorieren, nichts davon ausgeben.
-
 ### Spiegelhinweis für Laufzeitänderungen
 
 - Prüft nach jedem Merge, ob `runtime.js` oder andere Offline-Laufzeitdateien
@@ -108,8 +90,7 @@ findest du im Abschnitt
 Datei konzentriert sich auf ausführbare Abläufe.
 
 **Grundsatz:** Alle QA-Läufe finden ausschließlich im OpenAI-MyGPT-Beta-Klon
-statt. Erst nach einer grünen Abnahme werden Store-GPT, Proton LUMO und lokale
-Instanzen mit genau diesem Stand gespiegelt; separate Optimierungen für andere
+statt. Erst nach einer grünen Abnahme werden Store-GPT und OpenWebUI-Instanzen mit genau diesem Stand gespiegelt; separate Optimierungen für andere
 Plattformen sind derzeit nicht vorgesehen.
 
 ## QA-Plattformstrategie
@@ -121,7 +102,7 @@ Plattformen sind derzeit nicht vorgesehen.
 - **Freigabebedingung:** Erst nachdem der Beta-Klon die QA als „grün“ meldet
   und Codex die Nachverfolgung im QA-Fahrplan geschlossen hat, darf der
   Wissensstand auf weitere Plattformen gespiegelt werden.
-- **Spiegelroutine:** Store-GPT, Proton LUMO und lokale Installationen erhalten
+- **Spiegelroutine:** Store-GPT und OpenWebUI-Installationen erhalten
   ausschließlich den freigegebenen Stand. Abweichungen oder Ergänzungen werden
   nicht eigenständig ausprobiert, sondern als Findings an Codex zurückgegeben.
 - **Dokumentation:** Jede Spiegelung wird mit Datum, Zielplattform und Verweis
@@ -148,9 +129,9 @@ und aktualisiere Audit sowie Fahrplan nach dem Merge. Aktuelle QA-Läufe finden
 ausschließlich im OpenAI-MyGPT-Beta statt. Der Standardprompt aus dem
 Tester-Playtest-Briefing lässt den GPT den gesamten QA-Lauf autonom simulieren
 und liefert strukturierte `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und
-`Nächste Schritte`-Blöcke für Codex. Store-GPT, Proton LUMO und lokale
-Instanzen spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne
-zusätzliche Plattformoptimierung.
+`Nächste Schritte`-Blöcke für Codex. Store-GPT und OpenWebUI-Instanzen
+spiegeln erst nach erfolgreicher MyGPT-Abnahme denselben Stand ohne zusätzliche
+Plattformoptimierung.
 
 ### Solo-Maintainer-Workflow (Stand 2025)
 
@@ -195,74 +176,45 @@ Tests dienen und alle ingame-relevanten Inhalte in die Wissensmodule gehören.
 3. `meta/masterprompt_v6.md` (Local-Uncut 4.2.6) vollständig in das
    Masterprompt-Feld kopieren und speichern. Die Legacy-Fassung liegt bei
    Bedarf in `meta/archive/masterprompt_v6_legacy.md`.
-4. `README.md`, `master-index.json` sowie alle 16 Runtime-Module (ohne
-   Runtime-Stub) in den Wissensspeicher hochladen.
+4. `README.md` und alle 19 Runtime-Module (ohne Runtime-Stub) in den
+   Wissensspeicher hochladen. `master-index.json` nicht hochladen.
 5. Den GPT direkt klonen und **ZEITRISS [Ver. 4.2.6] beta** nennen.
-6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen. Die Plattform
-   läuft online, besitzt aber kein Web-Tool; dokumentiert das Verhalten im
-   QA-Log.
+6. Sämtliche QA-Sessions ausschließlich im Beta-Klon durchführen und Verhalten
+   im QA-Log dokumentieren.
 7. QA und Publishing erst freigeben, wenn die Chat-Historie keine
    personenbezogenen Daten enthält.
 8. Nach bestandener QA den Stand in den Haupt-GPT übertragen und erst danach
    das Store-Listing aktualisieren. Vermerkt die Spiegelung mit Verweis auf den
    QA-Log-Eintrag des grünen Runs.
 
-### Proton LUMO (verschlüsselter Chat)
-1. Nach erfolgreicher MyGPT-Abnahme die LUMO-App starten und einen neuen Chat
-   öffnen.
-2. `meta/masterprompt_v6.md` (Local-Uncut 4.2.6), `README.md`,
-   `master-index.json` und alle Runtime-Module (ohne Runtime-Stub) über die
-   Büroklammer hochladen. Legacy-Prompt: `meta/archive/masterprompt_v6_legacy.md`.
-3. README, Master-Index und Runtime-Module in den Wissensspeicher übernehmen;
-   der Masterprompt bleibt als Systemnachricht im Chat.
-4. Plattform wird aktuell nicht separat optimiert; dokumentiere nur
-   Abweichungen, falls LUMO den freigegebenen Stand nicht übernimmt, und
-   verlinke sie im QA-Log.
-
 ### Lokaler Betrieb (Ollama + OpenWebUI)
 1. Nach erfolgreicher MyGPT-Abnahme Ollama mit dem gewünschten Modell
    installieren und OpenWebUI lokal verbinden.
-2. Masterprompt, README, Master-Index und alle Runtime-Module importieren
-   (Upload oder Wissensbibliothek).
+2. Entweder `./scripts/setup-openwebui.sh` ausführen oder manuell
+   Masterprompt plus 20 Wissensmodule (README + 19 Runtime-Module) importieren.
 3. Es erfolgen derzeit keine dedizierten lokalen Optimierungen; prüfe nur, ob
-   der freigegebene Stand geladen wird, und notiere Abweichungen bei Bedarf im
-   QA-Log.
-
-### Lokales LM Studio (RTX 4090)
-1. Modell/Quant: Nutze das vom Maintainer freigegebene LM-Studio-Preset (GPU-Offload
-   und KV-Cache auf Maximum; 24 GB VRAM reichen). Thread-Pool 12–16, Kontext 8–12k.
-2. Sampling-Defaults: Temperatur 0,6–0,7; Top-p 0,9; Top-k 50–60; Repetition Penalty 1,02–1,05. Für
-   mehr Stringenz Temp 0,55–0,6 + Top-k 30–40.
-3. Prompting: **System Prompt = kompletter `meta/masterprompt_v6.md`**, Prompt-Template leer lassen.
-   Der Starter „Spiel starten (solo | gruppe, klassisch | schnell)“ setzt automatisch Anrede/Anzahl;
-   keine zusätzliche Rückfrage nötig.
-4. Wissensspeicher: die üblichen 20 Slots (README, master-index, 18 Runtime-Module). `meta/` bleibt
-   System-Prompt; für vollständige Attributfragen den Slot
-   `characters/charaktererschaffung-grundlagen.md` sicher laden.
-5. Flow-Erwartung: Compliance-Hinweis → Startbanner → wortgetreue README-Einleitung → Wahl
-   klassisch/schnell; bei klassisch Charakterbau mit sechs Basis-Attributen (STR, GES, INT, CHA,
-   TEMP, SYS) und 18-Punkte-Budget (Endwerte ≥ 1) vor HQ/Briefing.
+   der freigegebene Stand geladen wird, und notiere Abweichungen im QA-Log.
 
 ### Spiegelprozess nach QA-Freigabe
 
 1. Prüfe im QA-Fahrplan, dass der relevante Abschnitt als abgeschlossen markiert und mit Commit-ID
    versehen ist.
-2. Exportiere den Wissensspeicher aus dem MyGPT-Beta-Klon (README, master-index und Runtime-Module).
+2. Exportiere den Wissensspeicher aus dem MyGPT-Beta-Klon (README + 19 Runtime-Module).
 3. Übertrage den Stand unverändert in den produktiven MyGPT und dokumentiere
    Datum sowie QA-Log-Referenz.
-4. Spiegele denselben Export im Anschluss auf Store-GPT, Proton LUMO und lokale
-   Instanzen in dieser Reihenfolge. Jede Plattform erhält exakt denselben
-   Datei-Satz.
+4. Spiegele denselben Export im Anschluss auf Store-GPT und lokale
+   OpenWebUI-Instanzen in dieser Reihenfolge. Jede Plattform erhält exakt
+   denselben Datei-Satz.
 5. Ergänze im QA-Log einen kurzen Spiegelvermerk (Plattform, Datum,
    verantwortliche Person). Abweichungen werden als neue Findings festgehalten.
 
 ### Sync-Checks & Beispielworkflow
 
 - Nach jedem freigegebenen Update bestätigen, dass MyGPT und Store-GPT denselben
-  Stand führen (Masterprompt, README, Module) und den Release anschließend auf
-  LUMO sowie lokal spiegeln.
-- Sicherstellen, dass exakt 16 Runtime-Module plus `master-index.json` geladen
-  sind; der Runtime-Stub bleibt außen vor.
+  Stand führen (Masterprompt + README + 19 Runtime-Module) und den Release
+  anschließend auf OpenWebUI spiegeln.
+- Sicherstellen, dass exakt 20 Wissensmodule geladen sind; der Runtime-Stub
+  bleibt außen vor.
 - Für Schnelltests die Checkliste aus
   [Acceptance-Smoke](./qa/tester-playtest-briefing.md#acceptance-smoke-checkliste)
   nutzen und Ergebnisse hier protokollieren.
@@ -296,7 +248,7 @@ abzuschließen und im QA-Log zu dokumentieren:
      verantwortlichen Commit).
 4. **Spiegelentscheidung**
    - Erst wenn alle obigen Schritte grün sind, Beta-GPT → Produktiv-GPT →
-     Store-GPT → Proton LUMO → lokale Instanzen spiegeln.
+     Store-GPT → lokale OpenWebUI-Instanzen spiegeln.
    - Jede Spiegelung mit Datum, Plattform und QA-Log-Verweis festhalten.
 
 ## QA-Loop & Speicherstände
@@ -332,8 +284,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
    `internal/qa/audits/ZEITRISS-qa-audit-2025.md` im
    Repo.
 4. Nachdem Codex die QA-Dokumente aktualisiert und alle Findings abgearbeitet
-   hat, spiegelst du den freigegebenen Stand auf Store-GPT, Proton LUMO und
-   lokale Instanzen. Dokumentiere Abweichungen ausschließlich dann, wenn sie
+   hat, spiegelst du den freigegebenen Stand auf Store-GPT und lokale OpenWebUI-Instanzen. Dokumentiere Abweichungen ausschließlich dann, wenn sie
    vom MyGPT-Referenzlauf abweichen.
 
 ### Zusätzliche QA-Pflichten
@@ -377,9 +328,7 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
   Speicherstände nur via Copy & Paste.
 - Save-Funktionen laufen ausschließlich über das HQ. Missionen lassen sich
   abbrechen, aber nicht zwischen-speichern.
-- MyGPT und Store-GPT laufen online ohne Webtool. LUMO bietet
-  Ende-zu-Ende-Verschlüsselung; Ollama/OpenWebUI bleiben vollständig offline und
-  ohne Webtools.
+- MyGPT und Store-GPT laufen online ohne Webtool. Ollama/OpenWebUI bleiben vollständig offline und ohne Webtools.
 - DSGVO-konforme Chats sicherstellen: keine realen personenbezogenen Daten
   posten, keine unverschlüsselten Log-Transkripte.
 
@@ -390,9 +339,9 @@ Halte für QA und Save/Load-Checks den Übergabeprozess in
   Markenverweise im README).
 - `make lint`, `make test` und `scripts/smoke.sh` ausführen; Ergebnisse im
   QA-Log vermerken.
-- Vor Freigabe sicherstellen, dass auf jeder Plattform exakt 18
-  Runtime-Module plus `master-index.json` und Masterprompt vorliegen – ohne den
-  Runtime-Stub.
-- Erst releasen, wenn der Beta-GPT auf MyGPT grün meldet. Danach Store-GPT
-  aktualisieren und den freigegebenen Stand auf LUMO sowie lokal spiegeln. Siehe
+- Vor Freigabe sicherstellen, dass auf jeder Plattform exakt 20
+  Wissensmodule (README + 19 Runtime-Module) plus Masterprompt vorliegen –
+  ohne den Runtime-Stub und ohne `master-index.json` im Wissensspeicher.
+- Erst releasen, wenn der Beta-GPT auf MyGPT grün meldet. Danach Store-GPT aktualisieren und den freigegebenen Stand lokal in
+  OpenWebUI spiegeln. Siehe
   `CONTRIBUTING.md#beta-gpt-qa-uebergaben` für die Übergabe an Codex.

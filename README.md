@@ -18,34 +18,21 @@
 ## Inhaltsverzeichnis
 
 1. [Schnellstart-Spickzettel](#schnellstart-spickzettel)
-   1. [Agenda für Session 0](#agenda-session-0)
-   1. [Wahrscheinlichkeits-Übersicht](#wahrscheinlichkeits-uebersicht)
 1. [Wissensspeicher & Plattform-Setup](#wissensspeicher--plattform-setup)
+   1. [Wissensspeicher laden](#wissensspeicher-laden)
+   1. [Runtime-Module im Wissensspeicher](#runtime-module-im-wissensspeicher)
+   1. [Plattform-Setup](#plattform-setup)
 1. [Repo-Map](#repo-map)
    1. [Dokumenten-Landkarte](#dokumenten-landkarte)
-1. [Mini-Einsatzhandbuch](#mini-einsatzhandbuch)
-1. [Start-Transkripte (Kurz)](#start-transkripte)
-1. [Chat-Kurzbefehle](#chat-kurzbefehle)
-1. [Exfil-Fenster & Sweeps](#exfil-fenster--sweeps)
-1. [Level & EP-Kurve](#level--ep-kurve)
-1. [Regelreferenz](#regelreferenz)
-   1. [Proben & Schwierigkeitsgrad](#proben--schwierigkeitsgrad)
-   1. [Difficulty-Konverter](#difficulty-konverter)
-   1. [Wichtige Makros](#wichtige-makros)
-   1. [KPI-Cheat-Sheet pro Phase](#kpi-cheat-sheet-pro-phase)
-   1. [Modulübersicht](#modulübersicht)
-1. [Standardausrüstung](#standardausruestung)
+1. [Schnellzugriff auf ausgelagerte Regelteile](#schnellzugriff-auf-ausgelagerte-regelteile)
+1. [Mini-FAQ](#mini-faq)
+1. [Runtime-State (Kurzreferenz)](#runtime-state-kurzreferenz)
+1. [ZEITRISS - Einleitung](#zeitriss---einleitung)
 1. [Grundidee](#grundidee)
-1. [Loot-Matrix](#loot-matrix)
-1. [Loot-Quickref](#loot-quickref)
-1. [Kampagnenhierarchie](#kampagnenhierarchie)
-1. [Struktur](#struktur)
-1. [Spielstart](#spielstart)
-1. [Spielmodi](#spielmodi)
-1. [Generator-Utilities](#generator-utilities)
 1. [Glossar](#glossar)
    1. [Huminen](#huminen)
-   1. [Begriffsklärung](#begriffsklärung)
+   1. [Begriffsklärung](#begriffsklarung)
+   1. [Noir-Lexikon (Terminologie)](#noir-lexikon-terminologie)
    1. [Zeiteinheiten](#zeiteinheiten)
    1. [Zeitgebundene Effekte](#zeitgebundene-effekte)
 1. [Wie du beitragen kannst](#wie-du-beitragen-kannst)
@@ -157,25 +144,23 @@ cd ZEITRISS-md
 ./scripts/setup-openwebui.sh
 ```
 
-Das Script erstellt die Knowledge Base, lädt alle 20 Module hoch, richtet das
-Preset mit Masterprompt ein und testet welches Modell verfügbar ist. Danach:
+Das Script erstellt die Knowledge Base, lädt README + 19 Runtime-Module hoch, richtet das
+Preset mit Masterprompt ein und testet, welches Modell verfügbar ist. Danach:
 Browser auf, Modell „ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten
 (solo schnell)` tippen.
 
-**Manuell (MyGPT, LM Studio, LUMO, andere Plattformen):**
+**Manuell (MyGPT, OpenWebUI, andere Plattformen):**
 
-1. **20 Dateien in den Wissensspeicher laden:** `README.md` plus alle 19
-   Runtime-Module (siehe Tabelle unten). Diese 20 Slots sind exklusiv für die
-   Runtime-Dokumentation reserviert; andere Repo-Dateien gehören nicht in den
-   Wissensspeicher. Die Datei `master-index.json` steuert das Setup-Script,
-   wird aber selbst **nicht** in den Wissensspeicher geladen.
+1. **20 Dateien in den Wissensspeicher laden:** `README.md` plus alle
+   19 Runtime-Module aus der Tabelle unten. `master-index.json` bleibt ein
+   repo-internes Steuerdokument und gehört **nicht** in den Wissensspeicher.
 2. **Masterprompt als System-Prompt:** Kopiere `meta/masterprompt_v6.md`
-   (Local-Uncut 4.2.6) als Systemprompt (MyGPT: Anweisungsfeld, Proton LUMO:
-   erste Chatnachricht, OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
+   (Local-Uncut 4.2.6) als Systemprompt (MyGPT: Anweisungsfeld,
+   OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
    **nicht** in den Wissensspeicher — er wird ausschließlich als Systemfeld
    geladen.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
-   alle 20 Module weiterhin geladen sind.
+   alle 20 Wissensmodule (README + 19 Runtime-Module) weiterhin geladen sind.
 
 ### Runtime-Module im Wissensspeicher
 
@@ -202,23 +187,18 @@ Browser auf, Modell „ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
-**Slot-Kennzeichnung:** In `master-index.json` sind alle 20 Wissensmodule mit
-`"slot": true` markiert. Meta- oder Varianten-Einträge tragen `"slot": false`
-und zählen nicht als Wissensspeicher-Slot.
+**Slot-Kennzeichnung:** In `master-index.json` sind README und die 19
+Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
+`"slot": false` und zählen nicht als Wissensspeicher-Slot.
 
 ### Plattform-Setup
 
 - **OpenWebUI + OpenRouter:** Setup-Script (s.o.) oder manuell: Modelle unter
   Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
   erstellen. Empfohlenes Modell: `anthropic/claude-sonnet-4` (Temperatur 0.8).
-- **MyGPT (OpenAI):** 20 Dateien in den Wissensspeicher, Masterprompt ins
-  Anweisungsfeld. Achtung: OpenAI Content-Filter kann 18+-Inhalte einschränken.
-- **LM-Studio (lokal):**
-  - **ZEITRISS-PLAY (Standard/uncut):** Temperatur 0,60; Top-p 0,92; Top-k 60;
-    Penalty Alpha 0,05; Präsenz-Penalty 1,06.
-  - **Noir/Interlude (ruhiger):** Temperatur 0,70; Top-p 0,94; Top-k 80;
-    Penalty Alpha 0,07; Präsenz-Penalty 1,05.
-  - Empfehlung: 24k Kontext als Standard, 32k für lange HQ-Zyklen.
+- **MyGPT (OpenAI):** 20 Wissensmodule (README + 19 Runtime-Module) in den
+  Wissensspeicher, Masterprompt ins Anweisungsfeld. Achtung: OpenAI
+  Content-Filter kann 18+-Inhalte einschränken.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 
@@ -239,7 +219,7 @@ und zählen nicht als Wissensspeicher-Slot.
 
 ```
 ZEITRISS-md/
-├─ README.md                # Laufzeit-Referenz & Plattform-Hinweise
+├─ README.md                # Portal, Runtime-Referenz & Plattform-Hinweise
 ├─ core/                    # Grundregeln & Zeitriss-Mechaniken (Runtime)
 ├─ characters/              # Charaktererschaffung, Ausrüstung, Zustände (Runtime)
 ├─ gameplay/                # Kampagnenstruktur, Generatoren, Missionsbau (Runtime)
@@ -250,14 +230,13 @@ ZEITRISS-md/
 ├─ docs/                    # Maintainer-Ops, Lizenznotizen, Hosting-Strategie
 │                           # (tags: [meta]; inkl. Fahrplan & Protokoll)
 ├─ scripts/, tools/         # Hilfsprogramme & Linter (Dev-only)
-├─ master-index.json        # Übersicht aller Module und Slugs
-└─ master-index.md          # Markdown-Spiegel des Modul-Index für LM Studio & Co.
+└─ master-index.json        # Übersicht aller Module/Slugs & Setup-Steuerung
 ```
 
 ### Dokumenten-Landkarte {#dokumenten-landkarte}
 
-- **README (Wissenspaket)** - Einstieg für alle Rollen, Runtime-Referenzen,
-  Kurzbefehle und Plattform-Setup.
+- **README (Portal & Runtime-Referenz)** - Einstieg für alle Rollen,
+  Plattform-Setup und Deep-Links in die Runtime-Module.
 - **Beitrags- & Agentenrichtlinien (repo-intern)** - Arbeitsgrundlage für
   Beitragende und Repo-Agenten, inkl. Prüfpfade, Compliance und QA-Hinweise.
 - **Maintainer-Handbuch (repo-intern)** - Upload-Workflows, Plattformpflege und
@@ -277,7 +256,7 @@ ZEITRISS-md/
 > Sekunden­entscheidungen.
 > _Die folgenden Punkte bündeln Phasenablauf und Würfelregeln für einen schnellen Einstieg._
 
-Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](#chat-kurzbefehle).
+Autoload-Hinweis siehe Abschnitt [Chat-Kurzbefehle](core/sl-referenz.md#chat-kurzbefehle).
 
 Nach Einleitung (Compliance-Hook entfällt) fragt das System nach
 _"klassischer Einstieg"_ oder _"Schnelleinstieg"_ - es sei denn, der Startbefehl
@@ -435,6 +414,23 @@ abweichende Kampagnenfelder werden ignoriert und als Konflikt in
 [Speicher-Modul](systems/gameflow/speicher-fortsetzung.md#cross-mode-import).
 
 </details>
+
+## Schnellzugriff auf ausgelagerte Regelteile
+
+Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](core/sl-referenz.md).
+
+_Wartungshinweis:_ Wenn Navigation oder Überschriften in `core/sl-referenz.md`
+geändert werden, diese Linkliste im README direkt mitziehen.
+
+- [Agenda für Session 0](core/sl-referenz.md#agenda-session-0)
+- [Wahrscheinlichkeits-Übersicht](core/sl-referenz.md#wahrscheinlichkeits-uebersicht)
+- [Chat-Kurzbefehle](core/sl-referenz.md#chat-kurzbefehle)
+- [Exfil-Fenster & Sweeps](core/sl-referenz.md#exfil-fenster--sweeps)
+- [Level & EP-Kurve](core/sl-referenz.md#level--ep-kurve)
+- [Regelreferenz](core/sl-referenz.md#regelreferenz)
+- [Spielstart](core/sl-referenz.md#spielstart)
+- [Spielmodi](core/sl-referenz.md#spielmodi)
+- [Generator-Utilities](core/sl-referenz.md#generator-utilities)
 
 ## Mini-FAQ
 
@@ -763,9 +759,9 @@ Regelmodule - **es belohnt Kontrolle, nicht Chaos.**
 Kurze Erklärungen wichtiger Abkürzungen:
 
 - **CU** - Chrono-Units, universelle Missionswährung.
-- **Retina-HUD (AR-Kontaktlinse)** - [Standardausrüstung](#standardausruestung) /
+- **Retina-HUD (AR-Kontaktlinse)** - [Standardausrüstung](core/sl-referenz.md#standardausruestung) /
   [HUD-&-Comms-Spec](characters/hud-system.md#hud-comms-spec).
-- **Comlink (Ohrstöpsel)** - [Standardausrüstung](#standardausruestung) /
+- **Comlink (Ohrstöpsel)** - [Standardausrüstung](core/sl-referenz.md#standardausruestung) /
   [HUD-&-Comms-Spec](characters/hud-system.md#hud-comms-spec) /
   [`comms_check`](systems/toolkit-gpt-spielleiter.md#comms-check).
 - **ITI** - Institut für Temporale Intervention.
