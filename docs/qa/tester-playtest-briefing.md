@@ -81,10 +81,10 @@ Vor dem Testlauf werden identische Datenquellen in jeder Plattform geladen:
 
 - `meta/masterprompt_v6.md` (Local-Uncut 4.2.6; Legacy-Prompt unter
   `meta/archive/masterprompt_v6_legacy.md`)
-- `README.md`
-- `master-index.json`
-- Alle 18 Runtime-Module aus `core/`, `gameplay/`, `characters/` und `systems/` (ohne
-  `internal/runtime/runtime-stub-routing-layer.md`).
+- `README.md` plus alle 19 Runtime-Module aus `core/`, `gameplay/`, `characters/` und
+  `systems/` (ohne `internal/runtime/runtime-stub-routing-layer.md`).
+- `master-index.json` bleibt repo-internes Arbeitsdokument und wird nicht in
+  produktive Wissensspeicher geladen.
 - Diese QA-Briefing-Datei (`docs/qa/tester-playtest-briefing.md`) bleibt nur für QA- Sessions (z. B.
   Beta-GPT). Sie wird nicht in produktive Wissensspeicher geladen.
 
@@ -114,8 +114,8 @@ Progressionsphasen betont.
    Anweisungsfenster der Zielplattform und dokumentiere den Upload im internen Protokoll
    (`internal/qa/logs/`). Bei Bedarf liegt die Legacy-Fassung unter
    `meta/archive/masterprompt_v6_legacy.md`.
-2. Lade anschließend `README.md`, `master-index.json` und die 18 Runtime-Module wie oben beschrieben
-   in den Wissensspeicher.
+2. Lade anschließend `README.md` plus die 19 Runtime-Module wie oben beschrieben
+   in den Wissensspeicher (ohne `master-index.json`).
 3. Kontrolliere jeden YAML-Header auf `title`, `version` und konsistente `tags`. Nur Module mit
    gültigem Header werden vom GPT sicher erkannt.
 4. Führe bei Bedarf den Abnahme-Smoketest (Abschnitt [Abnahme-Smoketest](#abnahme-smoketest)) durch
@@ -382,9 +382,10 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
   Szenentitel setzen), Kernschaden (3 bzw. 4–5 bei schweren Waffen) und Chaos-/Stress-Spitzen
   loggen; bei drei Chaos-Punkten den SG 12 Break-Point prüfen.
 
-1. Masterprompt (`meta/masterprompt_v6.md`) als System-Prompt bzw. erste Nachricht sowie `README.md`,
-   `master-index.json` und alle Runtime-Module (ohne
-   `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden. Der
+1. Masterprompt (`meta/masterprompt_v6.md`) als System-Prompt bzw. erste Nachricht sowie
+   `README.md` plus alle 19 Runtime-Module (ohne
+   `internal/runtime/runtime-stub-routing-layer.md`) wie im Quickstart beschrieben laden
+   (`master-index.json` nicht hochladen). Der
    Masterprompt bleibt außerhalb des Wissensspeichers. Verifiziere, dass der GPT als Spielleiter
    **Kodex** nur als ingame ITI‑KI führt (keine separate Rolle), und **Codex** ausschließlich als
    Repo-Agent/Programmier-KI in den Übergabe-Blöcken erscheint; außerdem keine veralteten
@@ -585,7 +586,7 @@ saveGame({...})
   nachvollziehbar bleibt.
 - Weitere Durchläufe mit alternativen Solo-Builds oder Gruppen-Saves nutzen denselben Auftrag. Die
   Ansprache, Kodex-Hinweise und Offline-Optionen bleiben dadurch konsistent. Spiegelplattformen
-  (Store-GPT, LUMO, lokal) erhalten den freigegebenen Stand ohne eigene QA-Optimierung; dokumentiere
+  (Store-GPT, OpenWebUI lokal) erhalten den freigegebenen Stand ohne eigene QA-Optimierung; dokumentiere
   nur Abweichungen bei Bedarf.
 - Menschliche Gruppen können optional nachziehen, sind aber nicht Teil des Standard-Workflows.
   Primär dient der Auftrag dazu, dass das GPT sämtliche Multiplayer- und Progressionspfade autonom
