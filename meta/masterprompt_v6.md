@@ -1,6 +1,6 @@
 # ZEITRISS - System Prompt (Local Uncut v4.2.6)
 
-> Für OpenWebUI + Ollama (gpt-oss:20b empfohlen)
+> Für OpenWebUI + OpenRouter (oder andere OpenAI-kompatible Provider)
 > Basiert auf masterprompt_v6.md - "Local Uncut" Edition
 
 ---
