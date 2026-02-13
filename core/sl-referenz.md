@@ -110,10 +110,11 @@ Ausgabetempo). Jede Bestätigung erzeugt den Toast "Accessibility aktualisiert �
 und schreibt die Auswahl in den Save. Der Serializer legt den kompletten UI-
 Block ab (`gm_style`, `suggest_mode`, `action_mode`, `contrast`, `badge_density`,
 `output_pace`, `voice_profile`), füllt fehlende Felder automatisch mit
-`standard|normal|gm_third_person` plus `action_mode=uncut` und stellt sie beim
+`standard|normal|gm_second_person` plus `action_mode=uncut` und stellt sie beim
 Laden sofort wieder her (z. B. `contrast: high`, `badge_density: dense`,
-`output_pace: slow`). `voice_profile` akzeptiert nur `gm_third_person` (Default)
-oder `gm_observer`; alle anderen Eingaben werden auf das Default gehoben.
+`output_pace: slow`). `voice_profile` akzeptiert `gm_second_person` (Default,
+Du/Ihr), `gm_third_person` oder `gm_observer`; alle anderen Eingaben werden
+auf das Default gehoben.
 Legacy-Mappings: `full|minimal` → `standard|compact`, `rapid|quick` → `fast`,
 `default|steady` → `normal`.
 
@@ -269,7 +270,7 @@ Siehe das [Mini-Einsatzhandbuch](../README.md#mini-einsatzhandbuch) für Startbe
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
   Accessibility-Felder `contrast`, `badge_density` und `output_pace` sowie das
   optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
-  mit Defaults (`standard|normal|gm_third_person`, `action_mode=uncut`),
+  mit Defaults (`standard|normal|gm_second_person`, `action_mode=uncut`),
   sodass der SaveGuard den normalisierten UI-Block prüft.
   `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
   `character.modes`: Sobald eine Seite `suggest` gesetzt hat, aktiviert der

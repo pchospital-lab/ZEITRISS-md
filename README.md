@@ -394,7 +394,7 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
   `suggest_mode:boolean, contrast:"standard"|"high",`
   `badge_density:"standard"|"dense"|"compact",`
   `output_pace:"normal"|"fast"|"slow",`
-  `voice_profile:"gm_third_person"|"gm_observer" }`
+  `voice_profile:"gm_second_person"|"gm_third_person"|"gm_observer" }`
 - `arena: { active, phase, mode, previous_mode, wins_player,`
   `wins_opponent, tier, proc_budget, artifact_limit,`
   `loadout_budget, phase_strike_tax, team_size, fee,`
@@ -544,9 +544,8 @@ Artefakten und temporaler Abweichungen.
   Geräteangaben über `require_scan_device()/require_hack_device()` und
   protokolliert Comms-Hardware als `HARDWARE`-Toast; der Stilwächter läuft
   default und sperrt Digitalraum-Vokabeln (z. B. "Matrix/Holodeck").
-- **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
-gm_third_person`). Entscheidungsprompts dürfen die Spielenden adressieren,
-  Erzählsätze und Beschreibungen bleiben in 3rd Person.
+- **Voice-Lock:** Erzählinstanz = zweite Person (`Du`/`Ihr`). Solo nutzt `Du`,
+  Gruppe nutzt `Ihr`. Konsistent durchhalten — kein Wechsel mitten in der Szene.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
