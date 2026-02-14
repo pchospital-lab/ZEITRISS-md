@@ -218,7 +218,7 @@ default_modus: mission-fokus
 
 ### Agenten-Thriller-Ton 2026-02 – Runtime-Regeln
 
-- **Shadowrun-Regel (oberste Stilpriorität):** ZEITRISS fühlt sich IMMER wie ein
+- **Agentenfilm-Regel (oberste Stilpriorität):** ZEITRISS fühlt sich IMMER wie ein
   Agenten-Thriller an — egal ob Core-Op oder Rift-Op, Antike oder Zukunft.
   Zeitreise ist der RAHMEN, nicht das GAMEPLAY. Zeiteffekte sind die seltene
   Ausnahme, nicht die Regel. Das Setting erzeugt die Spannung: ein moderner Agent

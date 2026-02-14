@@ -516,7 +516,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 | **5** | **ClusterCreate()** | 1-2 Rift-Seeds enthüllt, Px → 0 |
 
 **So funktioniert's:** Stilvolles, professionelles Vorgehen lässt den Index steigen.
-Bei Px 5 schaltet ihr Bonus-Missionen (Rift-Ops) frei - X-Files-Abenteuer mit
+Bei Px 5 schaltet ihr Bonus-Missionen (Rift-Ops) frei - Mystery-Casefile-Abenteuer mit
 Paramonstern und Artefakt-Loot. Der Index ist ein Fortschrittsbalken, keine Gefahr.
 
 **Px steigt durch:** Elegante Lösungen, Missionsziele erreichen, Zeitlinie stabilisieren.

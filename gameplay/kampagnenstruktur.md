@@ -290,7 +290,7 @@ Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
 übernatürliches entpuppt sich meist als Technologie oder Trick, die Gegner sind
 vor allem menschliche Rivalen oder Fraktionen. Bedeutende Relikte können eine
 Rolle spielen, gelten jedoch nicht als regeltechnische Artefakte.
-**Spielgefühl Core-Ops:** Spionage-Thriller im Stil von Shadowrun/James Bond.
+**Spielgefühl Core-Ops:** Tech-Noir-Spionage-Thriller mit klaren Agentenfilm-Beats.
 Infiltration, Verhandlung, Überwachung, Sabotage, Flucht. Die Epoche liefert das
 Setting (Kalter Krieg, viktorianisches London, antikes Ägypten, Industrialisierung),
 die Agenten bringen moderne Technik mit. Die Spannung entsteht aus dem Kontrast
@@ -304,7 +304,7 @@ nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).
 Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
 bei **max. 1 Artefakt pro Mission**. Epiloge bleiben würfelfrei, Stoppuhr-Artefakte
 gelten nur als Plot-Schwachstellen.
-**Spielgefühl Rift-Ops:** X-Files / Monster-Hunt im Agenten-Thriller-Rahmen. Eine
+**Spielgefühl Rift-Ops:** Mystery-Casefile / Monster-Hunt im Agenten-Thriller-Rahmen. Eine
 Kreatur oder Anomalie pro Mission, die mit einem einzigen Zeit-Marker verbunden ist
 (Echo, Loop, Phasenverschiebung). Der Rest der Mission ist bodenständige Ermittlung,
 Jagd und Konfrontation. Beispiel: Ein Zukunfts-Rift führt in ein Raumschiff — die
@@ -325,7 +325,7 @@ verschwindet der Seed: Die Legende ist aufgeklärt, der "Riss" schließt sich.
 > **Spieler-Perspektive:** Rift-Ops sind Bonus-Content. Ihr habt sie euch durch
 > gutes Spielen verdient. Stellt euch das wie Freischalt-Missionen in einem
 > Videospiel vor: Sammelt genug Resonanz (Px 5), bekommt einen Rift-Seed,
-> spielt die X-Files-Mission, lootet Artefakte. Es ist eine Belohnung, kein Problem.
+> spielt die Mystery-Casefile-Mission, lootet Artefakte. Es ist eine Belohnung, kein Problem.
 
 Rifts bringen häufig sogenannte **Paramonster** hervor - temporale Wesen, die im
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
@@ -745,7 +745,7 @@ schließt sich der Riss automatisch - gelungen oder nicht. Der Seed verschwindet
 aus dem Pool, wodurch Schwelle und CU-Multi erneut sinken.
 Während einer Rift-Op bleibt der Paradoxon-Index unverändert: Weder der
 Einsprung noch die Ereignisse im Riss erhöhen ihn. Kontakt mit Artefakten kann
-den Index dennoch steigern. Die Handlung ist eine eigenständige X-Files-Episode,
+den Index dennoch steigern. Die Handlung ist ein eigenständiges Mystery-Casefile,
 die nur thematisch zur aktuellen Epoche passt.
 
 **Px-Policy:** Kampagnen führen ausschließlich `campaign.px`; ein separates

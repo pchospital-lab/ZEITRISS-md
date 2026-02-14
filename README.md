@@ -69,6 +69,19 @@ Details findest du in [LICENSE](LICENSE).
 - **Marke & Altersfreigabe:** ZEITRISS® ist markenrechtlich geschützt, die
   Inhalte richten sich ausschließlich an Erwachsene (18+).
 
+## Release- und Hosting-Modell (Public Repo)
+
+- **Keine vorgefertigten gehosteten GPT-Builds:** Dieses Repository stellt
+  Regeln, Runtime-Module und Werkzeuge bereit, aber keine dauerhaft
+  betriebenen Fremdinstanzen.
+- **Self-Hosting auf eigene Verantwortung:** Nutzung erfolgt lokal oder im
+  eigenen Hosting-Stack (z. B. OpenWebUI/Ollama oder kompatible Setups).
+- **Setup-Option:** Für lokale Installationen steht
+  [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit.
+- **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
+  individuellen Endnutzer-Support und keine SLA für private Nutzung (Details in
+  [LICENSE](LICENSE)).
+
 ## TL;DR - ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
@@ -95,7 +108,7 @@ Einstiegshilfe.
 ## Was erwartet euch als Spieler?
 
 **Die kurze Antwort:** Ihr seid Elite-Agenten, die durch die Zeit springen, um
-Jobs zu erledigen. Denkt an Shadowrun meets James Bond meets X-Files.
+Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefiles.
 
 **Core-Ops (Standard-Missionen):**
 - Historische Heists, Sabotage, Infiltration.
@@ -106,7 +119,7 @@ Jobs zu erledigen. Denkt an Shadowrun meets James Bond meets X-Files.
 **Rift-Ops (Bonus-Missionen):**
 - Freigeschaltet durch Px 5 (gutes Spielen → Belohnung).
 - Paramonster jagen, Artefakte looten.
-- X-Files-Atmosphäre in historischem Setting.
+- Mystery-Casefile-Atmosphäre in historischem Setting.
 
 **HQ (Zwischen den Missionen):**
 - Sicherer Hafen in der Nullzeit.
@@ -114,7 +127,7 @@ Jobs zu erledigen. Denkt an Shadowrun meets James Bond meets X-Files.
 - Nach jeder Mission: Zurück ins HQ, durchatmen, wieder raus.
 
 **Kodex (Eure KI):**
-- Immer dabei als AR-Overlay (denkt an Jarvis).
+- Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
 - Gibt Infos, zeigt HUD, protokolliert alles.
 - Fällt nur bei Jammer/Störung aus.
 
@@ -739,6 +752,11 @@ direkt gepflegt. Wenn dir etwas auffällt — Regelfehler, Balancing-Probleme,
 Ideen, Tippfehler — erstelle bitte ein
 [Issue](https://github.com/pchospital-lab/ZEITRISS-md/issues) mit einer kurzen
 Beschreibung. Feedback wird gesammelt und gebündelt umgesetzt.
+
+Die verbindliche Public-Policy (Issue-Kanal, kein SLA, Umsetzung nach
+Maintainer-Ermessen) steht in [`docs/community-policy.md`](docs/community-policy.md).
+
+Sicherheitsmeldungen bitte gemäß [`SECURITY.md`](SECURITY.md) einreichen.
 
 Danke für dein Interesse an ZEITRISS. 🕐
 

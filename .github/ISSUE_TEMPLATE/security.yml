@@ -1,0 +1,37 @@
+name: Security Report
+description: Sicherheitsrelevantes Problem melden (nicht für akute 0-day Offenlegung)
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Für akute, ausnutzbare Schwachstellen bitte bevorzugt direkt per Mail an
+        chrononaut@zeitriss.org melden.
+  - type: input
+    id: component
+    attributes:
+      label: Betroffene Komponente
+      description: Datei, Modul oder Workflow
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Kurzbeschreibung
+      description: Was ist das Sicherheitsproblem?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduktion
+      description: Schritte, PoC-Hinweise, Voraussetzungen
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Mögliche Auswirkungen (z. B. Datenabfluss, Rechteausweitung)
+    validations:
+      required: true
