@@ -10,7 +10,7 @@ tags: [system]
 - Filmische Techniken für einen epischen Start
 - Anpassung an Gruppe, Epoche und Tonalität
 - Stil: harter Agenten-Thriller mit historisch fundierten Verschwörungen
-- Rifts bringen X-Files-artigen Para-Horror, keine Gadget-MacGuffins
+- Rifts bringen Mystery-Casefile-artigen Para-Horror, keine Gadget-MacGuffins
 - Varianten für den Beginn des ersten Abenteuers
 - Mögliche Einstiegsmissionen (Skizzen)
 - Fazit: Bühne frei für euer ZEITRISS-Abenteuer
@@ -134,7 +134,7 @@ Der Einstieg folgt dem Grundton von **ZEITRISS**: ein harter Agenten-Thriller
 mit historisch fundierten Verschwörungen. Bei steigendem Paradoxon-Index können
 in jeder Epoche leichte Symptome wie Funkflackern oder ein **Kurz-Nachhall**
 auftreten. Stärkere paranormale Phänomene entstehen jedoch erst in Rifts und
-erinnern an **X-Files**. Es gibt keine magischen Erklärungen oder
+erinnern an klassische Mystery-Procedurals. Es gibt keine magischen Erklärungen oder
 Gadget-MacGuffins – Technik und menschliche Intrigen stehen im Mittelpunkt.
 
 Dabei gilt: Jede Spielgruppe ist anders. Modul 13 zeigt, wie man den ersten

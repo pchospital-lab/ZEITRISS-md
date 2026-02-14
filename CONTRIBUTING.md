@@ -1,6 +1,6 @@
 ---
 title: "Beitragsrichtlinien"
-version: 1.1.0
+version: 1.2.0
 tags: [meta]
 ---
 
@@ -78,42 +78,47 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 
 ## Wissensspeicher-Workflow
 
-- Die operative Plattformpflege liegt bei den Maintainer:innen. Sie folgen der Checkliste aus
-  [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup) und führen alle
-  Uploads sowie QA-Läufe ausschließlich im OpenAI-MyGPT-Beta-Klon durch.
-- Der Repo-Agent (Codex) arbeitet anhand der gelieferten Ergebnisse. Proton LUMO und lokale
-  Instanzen erhalten erst nach einer grünen MyGPT-Abnahme denselben Stand; zusätzliche Optimierungen
-  erfolgen nicht im Repo.
-- Dokumentiere Plattform-Uploads und Save/Load-Befunde in den QA-Dokumenten
+- Die operative Plattformpflege liegt bei den Maintainer:innen. Grundlage ist
+  [docs/maintainer-ops.md](docs/maintainer-ops.md#wissensspeicher--grundsetup).
+- **Referenzbetrieb ist lokal/self-hosted** (z. B. OpenWebUI + OpenRouter/Ollama).
+  Externe GPT-Plattformen sind optional und werden nur bei Bedarf nachgezogen.
+- Das Repository veröffentlicht keine vorgebauten gehosteten GPT-Instanzen.
+  Nutzer:innen laden den Stand aus dem Repo und betreiben ihn eigenverantwortlich.
+- Dokumentiere Setup-, Upload- und Save/Load-Befunde in den QA-Dokumenten
   `internal/qa/audits/ZEITRISS-qa-audit-2025.md` sowie
   `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`, sobald entsprechende
   Informationen aus den Playtests vorliegen.
-- QA-Artefakte (QA-Aufträge, Acceptance-Smoke-Listen, Beta-GPT-Prompts) bleiben im Tester-Briefing
-  [`docs/qa/tester-playtest-briefing.md`](docs/qa/tester-playtest-briefing.md) und werden bei Bedarf
-  manuell in QA-Sessions gepostet. Sie gehören nicht in die Wissensspeicher-Slots.
-- Verweise für Missions-, Encounter- und Arc-Generatoren den GPT direkt auf die Module unter
-  `gameplay/`. Kopien in PRs sind nicht zulässig.
+- QA-Artefakte (QA-Aufträge, Acceptance-Smoke-Listen, Testprompts) bleiben im
+  Tester-Briefing
+  [`docs/qa/tester-playtest-briefing.md`](docs/qa/tester-playtest-briefing.md)
+  und werden bei Bedarf manuell in QA-Sessions gepostet. Sie gehören nicht in
+  die Wissensspeicher-Slots.
+- Verweise für Missions-, Encounter- und Arc-Generatoren den GPT direkt auf die
+  Module unter `gameplay/`. Kopien in PRs sind nicht zulässig.
 
 <a id="beta-gpt-qa-uebergaben"></a>
 
 ## Beta-GPT & QA-Übergaben
 
-- Maintainer:innen spielen den MyGPT-Beta-Klon gemäß
-  [docs/maintainer-ops.md](docs/maintainer-ops.md#beta-gpt--playtests), lassen den GPT den kompletten
-  QA-Run selbst simulieren, exportieren das vollständige Chatlog und liefern es mitsamt der automatisch
-  erzeugten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke an Codex.
+- Automatisierte QA-Läufe können lokal über Presets (z. B. OpenWebUI) oder
+  optional über Beta-GPT-Setups ausgeführt werden.
+- Maintainer:innen liefern dem Repo-Agenten das vollständige Chatlog sowie die
+  erzeugten `ISSUE`-, `Lösungsvorschlag`-, `To-do`- und `Nächste Schritte`-Blöcke.
 - Sobald das Material vorliegt, erledigt der Repo-Agent folgende Schritte:
-  1. Chatlog unverändert in `internal/qa/logs/2025-beta-qa-log.md` archivieren und Plattform, Build sowie
-     Wissensstand notieren.
-  2. Die strukturierten Blöcke in `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` übernehmen, priorisieren und den
-     Log-Abschnitt verlinken.
-  3. Tickets branchweise abarbeiten; Tests und Referenzen in den Commits dokumentieren.
-  4. Nach dem Merge `internal/qa/audits/ZEITRISS-qa-audit-2025.md` mit Datum, Commit-Link und Ergebnis ergänzen.
-- Vergleichs-KIs (z. B. ARXION) lesen denselben Repo-Stand, prüfen Diffs und liefern bei Bedarf
-  zusätzliche Reports. Abarbeitung und Dokumentation der Findings liegen ebenfalls beim Repo-Agenten.
-- Den Plattform-Sync (Store-GPT, Proton LUMO, lokale Instanzen) übernehmen die Maintainer:innen erst
-  nach grüner MyGPT-Abnahme. Im Repo muss nur sichergestellt sein, dass alle QA-Dokumente denselben
-  Status führen.
+  1. Chatlog unverändert in `internal/qa/logs/2025-beta-qa-log.md` archivieren
+     und Plattform, Build sowie Wissensstand notieren.
+  2. Die strukturierten Blöcke in
+     `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` übernehmen,
+     priorisieren und den Log-Abschnitt verlinken.
+  3. Tickets branchweise abarbeiten; Tests und Referenzen in den Commits
+     dokumentieren.
+  4. Nach dem Merge `internal/qa/audits/ZEITRISS-qa-audit-2025.md` mit Datum,
+     Commit-Link und Ergebnis ergänzen.
+- Vergleichs-KIs (z. B. ARXION) lesen denselben Repo-Stand, prüfen Diffs und
+  liefern bei Bedarf zusätzliche Reports. Abarbeitung und Dokumentation der
+  Findings liegen ebenfalls beim Repo-Agenten.
+- Plattform-Syncs bleiben optional; maßgeblich ist, dass QA-Dokumente und
+  Repo-Stand denselben Freigabestatus führen.
 
 ## GM-Stil & Linting
 

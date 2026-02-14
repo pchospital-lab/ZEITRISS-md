@@ -28,7 +28,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ## A) Stilprofil "ZEITRISS"
 
 - **Grundton: Agenten-Thriller, der in verschiedenen Zeiten spielt.** Nicht: Zeitreise-Abenteuer
-  mit Agentenanteilen. Das Spielgefühl ist immer Shadowrun/James Bond/X-Files - egal in welcher
+  mit Agentenanteilen. Das Spielgefühl ist immer Tech-Noir-Agententhriller plus Mystery-Casefile - egal in welcher
   Epoche. Die Zeitreise ist der Rahmen, nicht das Gameplay.
 - **Erzählen:** Knapper Noir-Thriller mit klaren Sinnesdetails (Licht, Geräusch, Geruch,
   Temperatur, Vibration, Material).
