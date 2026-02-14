@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Allgemeine Fragen & Nutzungshinweise
+    url: https://github.com/pchospital-lab/ZEITRISS-md/blob/main/README.md
+    about: Bitte zuerst README, Setup-Guide und Community-Policy prüfen.
+  - name: Community-Policy (keine PRs, Issue-basierter Feedback-Kanal)
+    url: https://github.com/pchospital-lab/ZEITRISS-md/blob/main/docs/community-policy.md
+    about: Vorschläge und Fehlermeldungen laufen über Issues.
+  - name: Security-Meldung (privat per E-Mail)
+    url: mailto:chrononaut@zeitriss.org?subject=SECURITY:%20kurze%20Beschreibung
+    about: Akut ausnutzbare Schwachstellen nicht öffentlich posten.
