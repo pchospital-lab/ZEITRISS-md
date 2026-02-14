@@ -81,6 +81,9 @@ Details findest du in [LICENSE](LICENSE).
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
   individuellen Endnutzer-Support und keine SLA für private Nutzung (Details in
   [LICENSE](LICENSE)).
+- **GitHub-GUI-Feinschliff:** Eine kurze Maintainer-Checkliste für finale
+  Public-Settings liegt unter
+  [`docs/github-public-checkliste.md`](docs/github-public-checkliste.md).
 
 ## TL;DR - ZEITRISS in 6 Punkten
 

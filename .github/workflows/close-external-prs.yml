@@ -1,0 +1,33 @@
+name: Close external pull requests
+
+on:
+  pull_request_target:
+    types: [opened, reopened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close-external-pr:
+    if: ${{ !contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.pull_request.author_association) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment and close PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const number = context.payload.pull_request.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const body = [
+              'Danke für deinen Beitrag! 🙏',
+              '',
+              'Dieses Repository wird bewusst solo gepflegt; externe Pull Requests werden nicht angenommen.',
+              'Bitte nutze stattdessen ein GitHub-Issue für Fehlerberichte, Vorschläge oder Diskussionen.',
+              '',
+              '- Bug/Content-Issue: `.github/ISSUE_TEMPLATE/content-bug.yml`',
+              '- Security: siehe `SECURITY.md` (private Meldung per Mail)',
+            ].join('\n');
+
+            await github.rest.issues.createComment({ owner, repo, issue_number: number, body });
+            await github.rest.pulls.update({ owner, repo, pull_number: number, state: 'closed' });

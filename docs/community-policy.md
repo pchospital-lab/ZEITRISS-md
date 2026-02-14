@@ -15,6 +15,8 @@ von Änderungen nach eigenem Ermessen.
 ## Beiträge
 
 - **Pull Requests werden nicht angenommen.**
+- Externe Pull Requests können automatisiert mit Verweis auf den Issue-Kanal
+  geschlossen werden.
 - Feedback, Fehlerberichte und Vorschläge laufen über GitHub-Issues.
 - Es gibt keine Zusage, dass jedes Issue beantwortet oder umgesetzt wird.
 
