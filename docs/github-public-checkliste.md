@@ -92,13 +92,13 @@ Stand: 2026-02-15 (GitHub-GUI manuell geprüft)
 
 - [x] Ruleset `main – Solo, agent-freundlich` auf Default-Branch `main`
 - [x] Bypass list leer
-- [ ] Enforcement aktiv (**derzeit: Disabled**, bei Private/Free ggf. nicht enforcebar)
+- [x] Enforcement aktiv (**Hinweis:** auf Private/Free zeitweise ggf. nicht enforcebar)
 - [x] Restrict deletions
 - [x] Block force pushes
 - [x] Require linear history
 - [x] Require a pull request before merging (Required approvals: `0`)
 - [x] Allowed merge methods: **Squash only**
-- [x] Require status checks: **ZEITRISS Offline Smoke**
+- [x] Require status checks: **ZEITRISS Offline Smoke** (Source: GitHub Actions)
 
 ### Repo-Artefakte (statisch vorhanden)
 
@@ -113,9 +113,26 @@ Stand: Diese Liste ergänzt die bestehenden Repo-Dokumente und ist bewusst GUI-o
 
 ## 10) Actions-Sicherheit
 
-- [ ] Default `GITHUB_TOKEN` auf read-only setzen.
+- [x] Default `GITHUB_TOKEN` auf read-only setzen (`contents` + `packages`).
 - [ ] Workflows mit expliziten `permissions` auf Least Privilege trimmen.
 - [ ] `pull_request_target` nur für klar begrenzte, sichere Workflows nutzen.
+- [x] Fork-PR-Workflows deaktiviert.
+- [x] „Actions can create and approve pull requests“ deaktiviert.
+
+## 11) Advanced Security (Pre-Public)
+
+- [x] Dependency Graph aktiviert.
+- [x] Dependabot Alerts aktiviert.
+- [x] Dependabot Security-/Version-Updates bewusst deaktiviert (kein Bot-PR-Noise).
+- [x] `SECURITY.md` wird im Security-Tab als Security Policy erkannt.
+
+## 12) Direkt nach Public umsetzen
+
+- [ ] **Enable Secret scanning**
+- [ ] **Enable Private vulnerability reporting**
+- [ ] **Push protection** aktivieren (optional erst nach 1–2 Test-PRs).
+- [ ] Kurztest: direkter Push auf `main` wird geblockt.
+- [ ] Kurztest: PR erzwingt den Smoke-Check.
 
 ## Public-Go/No-Go (P0)
 
