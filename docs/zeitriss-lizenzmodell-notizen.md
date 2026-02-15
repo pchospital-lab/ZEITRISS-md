@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Lizenzmodell-Notizen"
-version: 0.1.0
+version: 0.2.0
 tags: [meta]
 ---
 
@@ -274,11 +274,9 @@ gestattet.
 
 ---
 
-pchospital – Florian Michler (Einzelunternehmer)  
-Leharstr. 15, 81243 München  
-UST-ID: DE298000821  
-Steuer-Nr.: 14521060833  
-E-Mail: chrononaut@zeitriss.org
+Kontakt für Lizenzanfragen: `chrononaut@zeitriss.org`  
+Pflichtangaben (Anbieter, Anschrift, steuerliche Daten) stehen zentral in
+[IMPRESSUM.md](../IMPRESSUM.md).
 
 Fazit: ZEITRISS® ist das erste KI-native Rollenspielsystem, das sich sowohl
 privat frei genießen lässt, als auch kommerziell sinnvoll lizenzieren lässt.

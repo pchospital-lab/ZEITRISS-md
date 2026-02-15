@@ -1,6 +1,6 @@
 ---
 title: "DPMA-Markeneintragung ZEITRISS"
-version: 1.3.0
+version: 1.4.0
 tags: [meta]
 ---
 
@@ -13,9 +13,9 @@ Bewahrt dieses Dossier im HQ, damit jede Mission die rechtliche Deckung behält.
 Das DPMA bestätigt, dass gegen die Eintragung kein Widerspruch nach § 42 MarkenG
 eingegangen ist. Die Benutzungsschonfrist beginnt am **20.12.2025**.
 
-### Amtlicher Wortlaut
+### Amtlicher Wortlaut (gekürzt)
 > Deutsches Patent- und Markenamt • 80297 München  
-> Herrn Florian Michler, Leharstr. 15, 81243 München  
+> Zustellung an den Markeninhaber (Details im internen Originaldossier)  
 >  
 > **Ihre Wortmarke 30 2025 215 671 „ZEITRISS“**  
 >  
@@ -33,12 +33,12 @@ eingegangen ist. Die Benutzungsschonfrist beginnt am **20.12.2025**.
 - Deutsches Patent- und Markenamt, 80297 München
 - Sachbearbeitung: Tarifbeschäftigter Graf, Markenstelle für Klasse 09
 - Datum: 19.01.2026
-- Zustellung an: Florian Michler, Leharstr. 15, 81243 München
+- Zustellung an: Markeninhaber (postalische Details im internen Dossier)
 - Hinweis: Registerangaben und Inhaber bei sämtlichen Eingaben und Zahlungen angeben
 
-### Amtlicher Wortlaut
+### Amtlicher Wortlaut (gekürzt)
 > Deutsches Patent- und Markenamt • 80297 München  
-> Herrn Florian Michler, Leharstr. 15, 81243 München  
+> Zustellung an den Markeninhaber (Details im internen Originaldossier)  
 >  
 > Bitte Aktenzeichen und Inhaber bei allen Eingaben und Zahlungen angeben!  
 >  
@@ -57,7 +57,7 @@ eingegangen ist. Die Benutzungsschonfrist beginnt am **20.12.2025**.
 ### Begleitschreiben
 - Deutsches Patent- und Markenamt, 80297 München
 - Sachbearbeitung: Tarifbeschäftigte Rohmeyer, Markenstelle für Klasse 09
-- Zustellung an: Florian Michler, Leharstr. 15, 81243 München
+- Zustellung an: Markeninhaber (postalische Details im internen Dossier)
 - Hinweis: Aktenzeichen und Inhaber bei sämtlichen Eingaben und Zahlungen angeben
 
 ### Registerauszug – Kerndaten
@@ -70,7 +70,7 @@ eingegangen ist. Die Benutzungsschonfrist beginnt am **20.12.2025**.
 - Leitklasse: 09 (Spielsoftware, herunterladbare und aufgezeichnete Daten)
 - Weitere Klassen: 28 (Brettspiele, Rollenspiele), 41 (Online-Videospiele,
   Unterhaltung mit Computer- und Videospielen)
-- Inhaber: Florian Michler, Leharstr. 15, 81243 München
+- Inhaber: Florian Michler
 - Status: Marke eingetragen, kein Widerspruch nach § 42 MarkenG
   (Mitteilung 19.01.2026)
 - Schutzdauer: 19.04.2025 bis 19.04.2035; Verlängerung in Zehn-Jahres-Schritten
