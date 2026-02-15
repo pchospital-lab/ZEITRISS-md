@@ -91,46 +91,55 @@ fi
 ok "API-Key gültig"
 
 # ── Base Model bestimmen ───────────────────────────────────────────
-DEFAULT_MODELS=(
-  "anthropic/claude-sonnet-4"
-  "anthropic/claude-3.7-sonnet"
-  "anthropic/claude-3.5-sonnet"
-  "anthropic/claude-sonnet-4.5"
-  "openai/gpt-4o"
-  "google/gemini-2.5-pro-preview"
-  "deepseek/deepseek-chat-v3-0324"
-  "meta-llama/llama-4-maverick"
-)
+DEFAULT_REMOTE_MODEL="anthropic/claude-sonnet-4"
+
+prompt_manual_model() {
+  echo ""
+  echo "  Verfügbare Modelle findest du unter:"
+  echo "  $OPENWEBUI_URL → Neuer Chat → Modell-Dropdown"
+  echo ""
+  read -rp "  Model-ID eingeben (z.B. anthropic/claude-sonnet-4): " BASE_MODEL
+  if [ -z "$BASE_MODEL" ]; then
+    fail "Kein Modell angegeben. Abbruch."
+  fi
+}
 
 if [ -n "${ZEITRISS_MODEL:-}" ]; then
   BASE_MODEL="$ZEITRISS_MODEL"
-  info "Base Model (manuell): $BASE_MODEL"
+  info "Base Model (ZEITRISS_MODEL): $BASE_MODEL"
 else
-  info "Suche passendes Base Model..."
-  BASE_MODEL=""
-  for MODEL in "${DEFAULT_MODELS[@]}"; do
-    TEST_HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 \
-      "$OPENWEBUI_URL/api/chat/completions" \
-      -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
-      -H "Content-Type: application/json" \
-      -d "{\"model\": \"$MODEL\", \"messages\": [{\"role\": \"user\", \"content\": \"OK\"}], \"max_tokens\": 5, \"stream\": false}" 2>/dev/null)
-    if [ "$TEST_HTTP" = "200" ]; then
-      BASE_MODEL="$MODEL"
-      break
-    fi
-  done
+  echo ""
+  echo -e "${BOLD}Modell-Auswahl${NC}"
+  echo "  ZEITRISS läuft provider-neutral, das Modell wählst du selbst."
+  echo "  Hinweis: Remote-Modelle können Kosten verursachen und Eingaben an"
+  echo "  Drittanbieter übermitteln. Nutze keine sensiblen Daten in Prompts."
+  echo ""
+  echo "  [1] Empfohlen (Remote): $DEFAULT_REMOTE_MODEL"
+  echo "  [2] Model-ID manuell eingeben"
+  read -rp "  Auswahl [1/2] (Standard 1): " MODEL_CHOICE
+  MODEL_CHOICE="${MODEL_CHOICE:-1}"
 
-  if [ -z "$BASE_MODEL" ]; then
-    warn "Kein Standard-Modell verfügbar. Bitte manuell angeben."
-    echo ""
-    echo "  Verfügbare Modelle findest du unter:"
-    echo "  $OPENWEBUI_URL → Neuer Chat → Modell-Dropdown"
-    echo ""
-    read -rp "  Model-ID eingeben (z.B. anthropic/claude-3.5-sonnet): " BASE_MODEL
-    if [ -z "$BASE_MODEL" ]; then
-      fail "Kein Modell angegeben. Abbruch."
-    fi
-  fi
+  case "$MODEL_CHOICE" in
+    1)
+      BASE_MODEL="$DEFAULT_REMOTE_MODEL"
+      info "Prüfe empfohlenes Modell: $BASE_MODEL"
+      TEST_HTTP=$(curl -s -o /dev/null -w "%{http_code}" --max-time 15 \
+        "$OPENWEBUI_URL/api/chat/completions" \
+        -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d "{\"model\": \"$BASE_MODEL\", \"messages\": [{\"role\": \"user\", \"content\": \"OK\"}], \"max_tokens\": 5, \"stream\": false}" 2>/dev/null)
+      if [ "$TEST_HTTP" != "200" ]; then
+        warn "Empfohlenes Modell ist nicht erreichbar (HTTP $TEST_HTTP)."
+        prompt_manual_model
+      fi
+      ;;
+    2)
+      prompt_manual_model
+      ;;
+    *)
+      fail "Ungültige Auswahl '$MODEL_CHOICE'. Bitte Script erneut starten."
+      ;;
+  esac
 fi
 ok "Base Model: $BASE_MODEL"
 
