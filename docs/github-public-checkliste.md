@@ -1,6 +1,6 @@
 ---
 title: "GitHub Public-Checkliste (Solo-Maintainer)"
-version: 1.2.0
+version: 1.2.1
 tags: [meta]
 ---
 
@@ -114,10 +114,18 @@ Stand: Diese Liste ergänzt die bestehenden Repo-Dokumente und ist bewusst GUI-o
 ## 10) Actions-Sicherheit
 
 - [x] Default `GITHUB_TOKEN` auf read-only setzen (`contents` + `packages`).
-- [ ] Workflows mit expliziten `permissions` auf Least Privilege trimmen.
-- [ ] `pull_request_target` nur für klar begrenzte, sichere Workflows nutzen.
+- [x] Workflows mit expliziten `permissions` auf Least Privilege trimmen.
+- [x] `pull_request_target` nur für klar begrenzte, sichere Workflows nutzen.
 - [x] Fork-PR-Workflows deaktiviert.
 - [x] „Actions can create and approve pull requests“ deaktiviert.
+
+Audit-Notiz (2026-02-15, YAML-Review):
+
+- [x] `.github/workflows/smoke.yml` nutzt Top-Level-`permissions: { contents: read }`.
+- [x] `.github/workflows/close-external-prs.yml` nutzt minimale Rechte
+      (`contents: read`, `issues: write`, `pull-requests: write`).
+- [x] Nur `close-external-prs.yml` verwendet `pull_request_target`; der Workflow führt kein
+      `actions/checkout` aus und verarbeitet keinen PR-Code.
 
 ## 11) Advanced Security (Pre-Public)
 
