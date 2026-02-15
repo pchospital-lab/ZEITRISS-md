@@ -1,12 +1,14 @@
 ---
 title: "ZEITRISS Setup & Repository Guide"
-version: 4.2.6
+version: 4.2.7
 tags: [meta, setup]
 ---
 
 # ZEITRISS Setup & Repository Guide
 
-Dieses Dokument beschreibt Setup, Plattform-Konfiguration und Repository-Struktur für ZEITRISS 4.2.6. Spielinhalte und Regeln findest du in der [README](../README.md).
+Dieses Dokument beschreibt Setup, Plattform-Konfiguration und
+Repository-Struktur für ZEITRISS 4.2.6. Spielinhalte und Regeln findest du in
+der [README](../README.md).
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
@@ -27,10 +29,12 @@ cd ZEITRISS-md
 ./scripts/setup-openwebui.sh
 ```
 
-Das Script erstellt die Knowledge Base, lädt README + 19 Runtime-Module hoch, richtet das
-Preset mit Masterprompt ein und testet, welches Modell verfügbar ist. Danach:
-Browser auf, Modell „ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten
-(solo schnell)` tippen.
+Das Script erstellt die Knowledge Base, lädt README + 19 Runtime-Module hoch und
+richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
+welches Base-Modell genutzt werden soll: Standard ist
+`anthropic/claude-sonnet-4`, alternativ kannst du eine Model-ID manuell
+eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
+„ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten (solo schnell)` tippen.
 
 **Manuell (MyGPT, OpenWebUI, andere Plattformen):**
 
@@ -79,11 +83,36 @@ Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
 - **OpenWebUI + OpenRouter:** Setup-Script (s.o.) oder manuell: Modelle unter
   Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
   erstellen. Empfohlenes Modell: `anthropic/claude-sonnet-4` (Temperatur 0.8).
+  Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
+  Auswahl explizit ab.
 - **MyGPT (OpenAI):** 20 Wissensmodule (README + 19 Runtime-Module) in den
   Wissensspeicher, Masterprompt ins Anweisungsfeld. Achtung: OpenAI
   Content-Filter kann 18+-Inhalte einschränken.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
+
+
+
+### Sicherheitsdefaults für OpenWebUI
+
+- **Header-Forwarding aus lassen:** `ENABLE_FORWARD_USER_INFO_HEADERS` nur in
+  bewusst kontrollierten Enterprise-Setups aktivieren.
+- **API-Keys getrennt halten:** Keine geteilten Admin-Tokens für Spielgruppen.
+  Nutze pro Person/Account eigene Schlüssel.
+- **RBAC aktiv pflegen:** Bei Mehrnutzerbetrieb Rollen und Gruppen explizit
+  setzen; keine impliziten Admin-Pfade offen lassen.
+- **Auth vor Netzfreigabe:** OpenWebUI nie ohne Login ins Internet hängen
+  (insb. bei Reverse-Proxy/Portforwarding).
+- **Remote-Provider bewusst einsetzen:** Externe Modellanbieter können Kosten
+  verursachen und Eingaben verarbeiten. Keine sensiblen Daten in Prompts.
+
+### Key-Notfallpfad (wenn versehentlich committed)
+
+1. API-Key sofort beim Provider oder in OpenWebUI rotieren/revoken.
+2. Betroffene Datei bereinigen und lokal gespeicherte Kopien prüfen.
+3. Falls der Commit bereits gepusht wurde: History-Cleanup durchführen und den
+   Vorgang als Security-Fall dokumentieren.
+4. Danach Secret-Scanning/Push-Protection im Ziel-Repo prüfen.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 

@@ -1,0 +1,27 @@
+# Secrets / lokale Konfiguration
+.env
+.env.*
+secrets.*
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Lokale Laufzeitartefakte
+*.local
+*.tmp
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node
+node_modules/
+
+# Betriebssystem
+.DS_Store
+
+# Test-Artefakte
+out/
