@@ -1,6 +1,6 @@
 ---
 title: "GitHub Public-Checkliste (Solo-Maintainer)"
-version: 1.0.0
+version: 1.1.0
 tags: [meta]
 ---
 
@@ -58,5 +58,46 @@ Zielbild: **Lesen, herunterladen, Issues melden** – keine externe PR-Pipeline.
 - [ ] GitHub-Benachrichtigungen für neue Issues aktiv halten.
 - [ ] Labels standardisieren (`bug`, `content`, `security`, `question`, `wontfix`).
 - [ ] Default-Issue-Template im Team kommunizieren (falls Tester:innen mitarbeiten).
+
+## 9) Freigabeprotokoll (Ist-Stand)
+
+Stand: 2026-02-15 (GitHub-GUI manuell geprüft)
+
+### Settings → General → Features
+
+- [x] Issues: **an**
+- [x] Pull requests: **an**
+  - [x] PR Creation: **Collaborators only**
+- [x] Discussions: **aus**
+- [x] Projects: **aus**
+- [x] Wiki: **aus / nicht genutzt**
+
+### Settings → General → Pull Requests (Merge)
+
+- [x] Allow squash merging: **an**
+- [x] Allow merge commits: **aus**
+- [x] Allow rebase merging: **aus**
+- [x] Auto-merge: **aus**
+- [x] Automatically delete head branches: **an**
+
+### Settings → Rules → Rulesets
+
+- [x] Ruleset `main – Solo, agent-freundlich` auf Default-Branch `main`
+- [x] Bypass list leer
+- [ ] Enforcement aktiv (**derzeit: Disabled**, bei Private/Free ggf. nicht enforcebar)
+- [x] Restrict deletions
+- [x] Block force pushes
+- [x] Require linear history
+- [x] Require a pull request before merging (Required approvals: `0`)
+- [x] Allowed merge methods: **Squash only**
+- [x] Require status checks: **ZEITRISS Offline Smoke**
+
+### Repo-Artefakte (statisch vorhanden)
+
+- [x] PR-Hinweis: `.github/PULL_REQUEST_TEMPLATE.md`
+- [x] Externe PRs schließen: `.github/workflows/close-external-prs.yml`
+- [x] Issue-Steuerung: `.github/ISSUE_TEMPLATE/config.yml`
+- [x] Security-Prozess: `SECURITY.md`, `.github/ISSUE_TEMPLATE/security.yml`
+- [x] Community-Policy: `docs/community-policy.md`
 
 Stand: Diese Liste ergänzt die bestehenden Repo-Dokumente und ist bewusst GUI-orientiert.
