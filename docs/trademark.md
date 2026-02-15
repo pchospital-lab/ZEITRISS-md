@@ -100,6 +100,8 @@ Präsidentin Eva Schewior zeichnet das Dokument.
 3. Widerspruchsstatus dokumentieren; Benutzungsschonfrist ab 20.12.2025 beachten.
 4. Reminder für Verlängerung setzen (Fristende 19.04.2035, Verlängerungsfenster
    19.10.2034–19.04.2035).
+- Öffentliche Formulierungen zu Inspiration/Abgrenzung stehen zusätzlich im
+  [README](../README.md#markenhinweis--inspiration).
 
 © 2025 pchospital – ZEITRISS® – Texte unter CC BY-NC 4.0, Code unter MIT. Siehe
 LICENSE.

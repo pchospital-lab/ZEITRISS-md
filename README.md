@@ -66,6 +66,9 @@ Details findest du in [LICENSE](LICENSE).
   Plattformen oder Services erfordert eine schriftliche Lizenzvereinbarung.
   Details und Anfragen laufen über die im Repository genannten
   Maintainer-Kanäle (siehe [LICENSE](LICENSE)).
+- **Creator-Nutzung:** Monetarisierte Gameplay-Videos/Streams sind über die
+  Zusatzfreigabe in [`docs/creator-license.md`](docs/creator-license.md) erlaubt
+  (inkl. Attribution und Markenleitplanken).
 - **Marke & Altersfreigabe:** ZEITRISS® ist markenrechtlich geschützt, die
   Inhalte richten sich ausschließlich an Erwachsene (18+).
 
@@ -76,14 +79,25 @@ Details findest du in [LICENSE](LICENSE).
   betriebenen Fremdinstanzen.
 - **Self-Hosting auf eigene Verantwortung:** Nutzung erfolgt lokal oder im
   eigenen Hosting-Stack (z. B. OpenWebUI/Ollama oder kompatible Setups).
+  Sicherheitsdefaults für OpenWebUI stehen im
+  [`docs/setup-guide.md`](docs/setup-guide.md#sicherheitsdefaults-fur-openwebui).
 - **Setup-Option:** Für lokale Installationen steht
-  [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit.
+  [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
+  (provider-neutral mit expliziter Modellwahl; Sonnet als empfohlener Default).
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
   individuellen Endnutzer-Support und keine SLA für private Nutzung (Details in
   [LICENSE](LICENSE)).
 - **GitHub-GUI-Feinschliff:** Eine kurze Maintainer-Checkliste für finale
   Public-Settings liegt unter
   [`docs/github-public-checkliste.md`](docs/github-public-checkliste.md).
+
+
+## Markenhinweis / Inspiration
+
+- Vergleiche mit bekannten Franchises dienen nur der stilistischen Einordnung.
+- Es besteht keine Verbindung, Kooperation oder Empfehlung durch Drittmarken.
+- Namen und Logos Dritter dürfen nicht als Produktkennzeichen für ZEITRISS
+  verwendet werden.
 
 ## TL;DR - ZEITRISS in 6 Punkten
 

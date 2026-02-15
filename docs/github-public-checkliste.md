@@ -1,6 +1,6 @@
 ---
 title: "GitHub Public-Checkliste (Solo-Maintainer)"
-version: 1.1.0
+version: 1.2.0
 tags: [meta]
 ---
 
@@ -18,7 +18,8 @@ Zielbild: **Lesen, herunterladen, Issues melden** – keine externe PR-Pipeline.
 
 ## 2) Pull-Request-Kanal minimieren
 
-- [ ] PR-Template vorhanden (`.github/PULL_REQUEST_TEMPLATE.md`) mit Hinweis auf Issue-Only-Feedback.
+- [ ] PR-Template vorhanden (`.github/PULL_REQUEST_TEMPLATE.md`) mit
+  Hinweis auf Issue-Only-Feedback.
 - [ ] Workflow zum Schließen externer PRs aktiv (`.github/workflows/close-external-prs.yml`).
 - [ ] Community-Policy verweist klar auf Issue-basiertes Feedback.
 
@@ -32,13 +33,19 @@ Zielbild: **Lesen, herunterladen, Issues melden** – keine externe PR-Pipeline.
 ## 4) Security & Vertrauen
 
 - [ ] **Private vulnerability reporting** in GitHub-Settings aktivieren.
+- [ ] Secret Scanning aktivieren (Public-Repos).
+- [ ] Push Protection aktivieren (Public-Repos).
+- [ ] Dependabot Alerts aktivieren (falls Dependencies vorhanden).
 - [ ] `SECURITY.md` enthält Mailkontakt und gewünschte Meldedaten.
 - [ ] In Issue-Templates steht ein Hinweis, akute Schwachstellen nicht öffentlich zu posten.
 
 ## 5) Branch- und Schreibschutz
 
 - [ ] Branch protection auf `main` aktivieren.
-- [ ] Optional: „Require a pull request before merging" aktivieren, damit direkte Fremd-Commits ausgeschlossen sind.
+- [ ] Ruleset-Enforcement aktivieren (oder begründen, warum technisch nicht möglich).
+- [ ] Force-Pushes und Branch-Deletions blockieren.
+- [ ] Optional: „Require a pull request before merging" aktivieren, damit
+  direkte Fremd-Commits ausgeschlossen sind.
 - [ ] Optional: Nur Maintainer darf mergen/pushen.
 
 ## 6) Maintenance-Signale
@@ -49,7 +56,8 @@ Zielbild: **Lesen, herunterladen, Issues melden** – keine externe PR-Pipeline.
 
 ## 7) Einmaliger Public-Preflight
 
-- [ ] Prüfen, ob wirklich nur gewünschte Dateien öffentlich sind (insb. `internal/`, `docs/dev/`, QA-Artefakte).
+- [ ] Prüfen, ob wirklich nur gewünschte Dateien öffentlich sind
+  (insb. `internal/`, `docs/dev/`, QA-Artefakte).
 - [ ] Keine Secrets/API-Keys/Private Keys im Repo-History-Stand.
 - [ ] Kontakt-/Impressumsdaten nur dort, wo sie bewusst und nötig sind.
 
@@ -101,3 +109,16 @@ Stand: 2026-02-15 (GitHub-GUI manuell geprüft)
 - [x] Community-Policy: `docs/community-policy.md`
 
 Stand: Diese Liste ergänzt die bestehenden Repo-Dokumente und ist bewusst GUI-orientiert.
+
+
+## 10) Actions-Sicherheit
+
+- [ ] Default `GITHUB_TOKEN` auf read-only setzen.
+- [ ] Workflows mit expliziten `permissions` auf Least Privilege trimmen.
+- [ ] `pull_request_target` nur für klar begrenzte, sichere Workflows nutzen.
+
+## Public-Go/No-Go (P0)
+
+- [ ] Alle P0-Sicherheitsboxen sind grün (Ruleset + Secrets + Push Protection).
+- [ ] Keine offenen Blocker in Setup/License/Trademark-Kommunikation.
+- [ ] Erst dann: Visibility auf Public umstellen und Release taggen.
