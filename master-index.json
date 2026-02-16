@@ -5,6 +5,14 @@
       "path": "README.md",
       "title": "ZEITRISS-md Zeitreise RPG",
       "category": "Meta",
+      "slot": false
+    },
+    {
+      "slug": "spieler-handbuch",
+      "path": "core/spieler-handbuch.md",
+      "title": "ZEITRISS 4.2.6 – Spieler-Handbuch",
+      "category": "Core",
+      "level": "muss",
       "slot": true
     },
     {
