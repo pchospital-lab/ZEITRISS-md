@@ -1044,8 +1044,9 @@ einfaches Gespräch sofort eine interessante kulturelle Note!
   SL streut diese Momente organisch ein, **ohne sie zu erklären**. Wer aufmerksam
   ist, bemerkt das Muster. Wer lange genug spielt, versteht die Implikation.
 
-  1. Ein HQ-Techniker erwähnt beiläufig ein Produkt, das es nicht gibt ("Absolut 7
-     war besser, bevor wir den Casablanca-Job gemacht haben").
+  1. Ein HQ-Techniker erwähnt beiläufig ein Produkt, das sich verändert hat
+     ("Fruit Loops hieß doch mal Froot Loops - oder war das vor dem
+     Casablanca-Job?").
   2. Ein Zeitungsartikel in einer Epoche berichtet über ein Ereignis, das in der
      aktuellen Zeitlinie nie stattgefunden hat.
   3. Ein NSC erinnert sich an den Tod einer berühmten Person - die aber noch lebt.

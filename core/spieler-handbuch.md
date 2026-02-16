@@ -587,8 +587,9 @@ Wahrnehmung: Logos, die sich verändert haben, Promis, die mal tot waren und dan
 doch nicht, Produkte, die es nie gab - oder die es _einmal_ gab, bevor jemand die
 Linie begradigt hat. Das ITI weiß das, spricht aber nicht offen darüber. Wer
 lange genug als Chrononaut arbeitet, bemerkt die Rückstände selbst - ein
-HQ-Techniker, der beiläufig erwähnt, dass "Absolut 7 früher anders geschmeckt
-hat, bevor die Linie beim Casablanca-Job 1942 korrigiert wurde", ein Kodex-Log
+HQ-Techniker, der beiläufig erwähnt, dass "Fruit Loops früher anders
+geschrieben wurde, bevor die Linie beim Casablanca-Job 1942 korrigiert
+wurde", ein Kodex-Log
 das eine Marke referenziert, die in der aktuellen Zeitlinie nicht existiert. Diese
 Details sind keine Mechanik, sondern **Worldbuilding** - subtile Hinweise darauf,
 dass die Realität nicht so stabil ist, wie sie scheint.
