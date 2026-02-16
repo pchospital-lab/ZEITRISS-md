@@ -12,8 +12,8 @@ bearbeitest.
 ## Grundregeln
 
 - Jeder Abschnitt beginnt mit einem YAML-Header (`title`, `version`, `tags`).
-- Ausnahme: Der Masterprompt (`meta/masterprompt_*.md`) wird seit Version 4.2.2 ohne
-  YAML-Header gepflegt und muss unter 8 000 Zeichen (≈ 8 k Window) bleiben.
+- Ausnahme: Der Masterprompt (`meta/masterprompt_*.md`) wird seit Version 4.2.2 ohne
+  YAML-Header gepflegt und muss unter 8 000 Zeichen (≈ 8 k Window) bleiben.
 - Halte Zeilenlängen bei maximal 100 Zeichen und speichere Dateien in UTF-8.
 - Pull Requests aktualisieren bestehende Dateien oder ergänzen neue Module.
 - Schreibe prägnante Commit-Nachrichten im Imperativ und öffne PRs stets gegen den
@@ -48,7 +48,7 @@ Vielen Dank für deine Mithilfe!
 - [ ] YAML-Header vorhanden, aktualisiert und syntaktisch korrekt (Ausnahme: Masterprompt).
 - [ ] Strukturregeln eingehalten: Core-Ops mit 12 Szenen, Rift-Ops mit 14 Szenen in drei Akten und
       Pflichtfelder pro Szene gefüllt.
-- [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`, `SceneCounter`).
+- [ ] Terminologie konsistent (z. B. `Rift-Seeds`, `HQ`, `SceneCounter`).
 - [ ] Stilprüfung bestanden: filmischer Ton im Runtime-Content (Ihr-Form), Du-Ansprache im
       Masterprompt, sachlicher Stil in Dev-Dokumenten.
 - [ ] Interne Links geprüft (`scripts/lint_doc_links.py`) und keine Dev-Verweise in Runtime-Modulen.
@@ -59,12 +59,12 @@ Vielen Dank für deine Mithilfe!
 ## Quellen der Wahrheit zur Laufzeit
 
 - **Runtime-fähig** (wird im Spiel geladen):
-  - `README.md` – Kurzreferenzen, Chat-Shortcodes, HUD-Hinweise.
-  - `systems/toolkit-gpt-spielleiter.md` – Makros, Guards, Router, Runtime-Logik.
+  - `core/spieler-handbuch.md` - Einleitung, Lore, Schnellstart, FAQ, Glossar, Runtime-Referenz.
+  - `systems/toolkit-gpt-spielleiter.md` - Makros, Guards, Router, Runtime-Logik.
 - **Dev-Dokumentation** (wirkt nicht zur Laufzeit):
-  - `doc.md`, `/docs/**` – CI/PR-Review, Linter, Beispiele.
+  - `README.md`, `doc.md`, `/docs/**` - GitHub-Landingpage, CI/PR-Review, Linter, Beispiele.
 
-Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder Toolkit stehen.
+Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS im Spieler-Handbuch oder Toolkit stehen.
 
 ## QA-Inhalte trennen
 
@@ -74,7 +74,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   von QA-Prompts, damit der Spielablauf nicht mit Abnahmelisten vermischt wird.
 - Verweise auf Goldenfiles oder Smoke-Checks im Runtime-Bereich reduzieren und
   stattdessen in den QA-Dokumenten bündeln. Nur zwingend nötige Runtime-Hinweise
-  (z. B. SaveGuards, HUD-Verhalten) bleiben in README/Toolkit.
+  (z. B. SaveGuards, HUD-Verhalten) bleiben im Spieler-Handbuch/Toolkit.
 
 ## Wissensspeicher-Workflow
 
@@ -128,7 +128,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
 
 ## Pflicht-Invarianten (nicht brechen)
 
-- Boss-Timing: Core-Mission 5 (Mini), Mission 10 (Boss); Rift-Szene 10.
+- Boss-Timing: Core-Mission 5 (Mini), Mission 10 (Boss); Rift-Szene 10.
 - Signalspace: Hardwarepflicht (Comlink/Kabel/Relais/Jammer).
 - HUD: Einheitliche Reihenfolge, TTL `mm:ss`; Exfil zeigt Sweeps & Stress.
 
@@ -140,7 +140,7 @@ Merksatz: Alles, was ingame sichtbar oder aktiv sein soll, MUSS in README oder T
   `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`,
   `npm run lint:links`, `npm run lint:md` und `npm run lint:presets` aus)
 - `make test` (ruft `npm run test` auf, inklusive `npm run test:acceptance` mit den
-  Mission‑5‑Golden‑Files)
+  Mission-5-Golden-Files)
 - `bash scripts/smoke.sh` (inkl. `node tools/test_alias_trace.js` für Alias-/Funk-Logs)
 - `python3 tools/lint_runtime.py`
 - `GM_STYLE=verbose python3 tools/lint_runtime.py`
@@ -153,9 +153,9 @@ und verhindern, dass sich Inkonsistenzen in den Wissensspeicher einschleichen.
 
 ### Erweiterte QA & optionale Checks
 
-- `python3 tools/lint_debrief_trace.py` – verifiziert Debrief-Trace-Ausgaben (Chronopolis, Foreshadow, Offline, Runtime-Flags).
+- `python3 tools/lint_debrief_trace.py` - verifiziert Debrief-Trace-Ausgaben (Chronopolis, Foreshadow, Offline, Runtime-Flags).
 - `node tools/test_save.js`, `node tools/test_load.js`
-- `npm run format:docs:check` – optionaler Prettier-Check für Dokumentation
+- `npm run format:docs:check` - optionaler Prettier-Check für Dokumentation
   (lokale Installation von `prettier` erforderlich).
 - Dispatcher-Smoke-Tests siehe
   [Acceptance-Smoke](docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
@@ -206,12 +206,12 @@ _kursiv_ und **fett**
 
 <a id="schreibweise-umlaute"></a>
 
-## Schreibweise – Umlaute (kanonisch)
+## Schreibweise - Umlaute (kanonisch)
 
 - **Fließtext:** Verwende die deutschen Umlaute **ä/ö/ü/ß**.
 - **ASCII-Ersatz** (`ae/oe/ue/ss`) ist nur in Code, IDs, Dateinamen oder technischen Kontexten
-  erlaubt (z. B. Anker-IDs, Regex, Slugs).
-- **Beispiele (kanonisch im Text):** „Heldenwürfel“, „Würfelmechanik“, „Überblick“.
+  erlaubt (z. B. Anker-IDs, Regex, Slugs).
+- **Beispiele (kanonisch im Text):** "Heldenwürfel", "Würfelmechanik", "Überblick".
 - **Qualitätssicherung:** `scripts/lint_umlauts.py` prüft kanonische Schreibweisen und meldet
   Fehler als `[FAIL]`. Siehe Mapping `CANON` im Skript.
 - **Tests lokal:** `python3 scripts/lint_umlauts.py` oder `make smoke`.
@@ -236,8 +236,8 @@ _kursiv_ und **fett**
 
 - **ITI-HQ** stellt Shop, Clinic, Workshop, Briefing und Fraktionskontakte bereit und erlaubt
   Speichern.
-- **Chronopolis** ist eine optionale City ab Level 10, freischaltbar über den
-  „Chronopolis-Schlüssel“. Speichern und FR-Kontakte sind dort blockiert; Rifts lassen sich nicht
+- **Chronopolis** ist eine optionale City ab Level 10, freischaltbar über den
+  "Chronopolis-Schlüssel". Speichern und FR-Kontakte sind dort blockiert; Rifts lassen sich nicht
   starten.
 - Zutritt zum HQ nur für ITI-Agenten; Gäste benötigen `guest_custody`.
 - Signalraum bleibt deaktiviert; Aktionen erfordern reale Geräte wie Terminal, Kabel oder Comlink.
@@ -248,10 +248,10 @@ _kursiv_ und **fett**
   keine CU-Belohnung.
 - Runden & Timer: Best-of-N, bei 0 Sudden Death, OOB-Strafe eskaliert.
 - Fairness: Loadout-Budget 5 Punkte, Psi nach Policy, Fahrzeuge optional.
-- Signalpflicht: Hack/Jam nur mit Gerät; 2 km Reichweite, Jammer beachten.
+- Signalpflicht: Hack/Jam nur mit Gerät; 2 km Reichweite, Jammer beachten.
 - Speichern während einer Arena ist blockiert.
 - State-Safety: SYS/PP/Psi-Heat/Stress/Cooldowns werden nach dem Match restauriert.
 - Killswitch: `arena_abort()` stellt den Zustand wieder her.
 - Logging: Ergebnis landet im Kodex oder HUD.
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.

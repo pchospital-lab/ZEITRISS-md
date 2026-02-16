@@ -29,8 +29,8 @@ cd ZEITRISS-md
 ./scripts/setup-openwebui.sh
 ```
 
-Das Script erstellt die Knowledge Base, lädt README + 19 Runtime-Module hoch und
-richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
+Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 19 Runtime-Module
+hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
 welches Base-Modell genutzt werden soll: Standard ist
 `anthropic/claude-sonnet-4`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
@@ -38,22 +38,24 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 
 **Manuell (MyGPT, OpenWebUI, andere Plattformen):**
 
-1. **20 Dateien in den Wissensspeicher laden:** `README.md` plus alle
-   19 Runtime-Module aus der Tabelle unten. `master-index.json` bleibt ein
+1. **20 Dateien in den Wissensspeicher laden:** `core/spieler-handbuch.md` plus
+   alle 19 Runtime-Module aus der Tabelle unten. `master-index.json` bleibt ein
    repo-internes Steuerdokument und gehört **nicht** in den Wissensspeicher.
+   `README.md` ist die GitHub-Landingpage und gehört ebenfalls **nicht** in den
+   Wissensspeicher.
 2. **Masterprompt als System-Prompt:** Kopiere `meta/masterprompt_v6.md`
    (Local-Uncut 4.2.6) als Systemprompt (MyGPT: Anweisungsfeld,
    OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
    **nicht** in den Wissensspeicher — er wird ausschließlich als Systemfeld
    geladen.
 3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
-   alle 20 Wissensmodule (README + 19 Runtime-Module) weiterhin geladen sind.
+   alle 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module) weiterhin geladen sind.
 
 ### Runtime-Module im Wissensspeicher
 
 | Kategorie      | Datei                                           |
 | -------------- | ----------------------------------------------- |
-| **meta**       | `README.md`                                     |
+| **core**       | `core/spieler-handbuch.md` *(Einleitung, Lore, Schnellstart, FAQ, Glossar)* |
 | **core**       | `core/zeitriss-core.md`                         |
 |                | `core/wuerfelmechanik.md`                       |
 |                | `core/sl-referenz.md` *(Dispatcher, Regeln, Tabellen)* |
@@ -74,8 +76,8 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 |                | `systems/kp-kraefte-psi.md`                     |
 |                | `systems/toolkit-gpt-spielleiter.md`            |
 
-**Slot-Kennzeichnung:** In `master-index.json` sind README und die 19
-Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
+**Slot-Kennzeichnung:** In `master-index.json` sind das Spieler-Handbuch und die
+19 Runtime-Module mit `"slot": true` markiert. Varianten-/Alias-Einträge tragen
 `"slot": false` und zählen nicht als Wissensspeicher-Slot.
 
 ### Plattform-Setup
