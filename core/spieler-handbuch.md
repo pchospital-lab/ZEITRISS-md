@@ -579,6 +579,20 @@ gilt als aufgeklärt, der "Riss" verschwindet von der Karte.
 **Offene Rifts steigern Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.**
 Im **Covert-Ops-Modus** erscheinen sie lediglich als subtile Sensorstörungen.
 
+**Mandela-Effekte & temporale Rückstände:** Was die Zivilbevölkerung als
+"Mandela-Effekt" kennt - kollektive Fehl-Erinnerungen an Markennamen, historische
+Ereignisse, Filmzitate - sind in Wahrheit **temporale Rückstände** vergangener
+Zeiteingriffe. Jede korrigierte Zeitlinie hinterlässt Echos in der kollektiven
+Wahrnehmung: Logos, die sich verändert haben, Promis, die mal tot waren und dann
+doch nicht, Produkte, die es nie gab - oder die es _einmal_ gab, bevor jemand die
+Linie begradigt hat. Das ITI weiß das, spricht aber nicht offen darüber. Wer
+lange genug als Chrononaut arbeitet, bemerkt die Rückstände selbst - ein
+HQ-Techniker, der beiläufig erwähnt, dass "Absolut 7 früher anders geschmeckt
+hat, bevor die Linie beim Casablanca-Job 1942 korrigiert wurde", ein Kodex-Log
+das eine Marke referenziert, die in der aktuellen Zeitlinie nicht existiert. Diese
+Details sind keine Mechanik, sondern **Worldbuilding** - subtile Hinweise darauf,
+dass die Realität nicht so stabil ist, wie sie scheint.
+
 Dieses Fortschrittssystem bildet den standardisierten Hintergrund für alle
 Regelmodule - **es belohnt Kontrolle, nicht Chaos.**
 

@@ -1035,6 +1035,26 @@ Grund: Man glaubt, Worte beschwören Realität. Die Chrononauten merken das deut
 zusammenzuckt, weil einer von ihnen unbekümmert **“diavolo”** gesagt hat. – Schon bekommt ein
 einfaches Gespräch sofort eine interessante kulturelle Note!
 
+- **Mandela-Effekte (temporale Rückstände):**
+
+  Subtile Hinweise darauf, dass jemand an der Zeitlinie geschraubt hat. Diese
+  Details tauchen beiläufig auf - ein NSC erwähnt etwas, das "falsch" klingt, ein
+  Schild zeigt einen Markennamen, den es in der aktuellen Zeitlinie nicht gibt, ein
+  Techniker im HQ murmelt über Produkte, die "vor der Korrektur" anders waren. Die
+  SL streut diese Momente organisch ein, **ohne sie zu erklären**. Wer aufmerksam
+  ist, bemerkt das Muster. Wer lange genug spielt, versteht die Implikation.
+
+  1. Ein HQ-Techniker erwähnt beiläufig ein Produkt, das es nicht gibt ("Absolut 7
+     war besser, bevor wir den Casablanca-Job gemacht haben").
+  2. Ein Zeitungsartikel in einer Epoche berichtet über ein Ereignis, das in der
+     aktuellen Zeitlinie nie stattgefunden hat.
+  3. Ein NSC erinnert sich an den Tod einer berühmten Person - die aber noch lebt.
+  4. Ein Markenlogo sieht subtil anders aus als erwartet. Niemand sonst bemerkt es.
+  5. Ein Kodex-Archiveintrag referenziert eine Mission, die laut offiziellem Log nie
+     existiert hat.
+  6. Zwei Chrononauten im HQ streiten sich über ein historisches Detail - beide
+     haben "Recht", je nachdem welche Zeitlinie man fragt.
+
 Solche Kulturfragmente lassen die Welt lebendig und eigen wirken. Die Helden merken: **Jede Epoche
 hat ihre Eigenheiten**, und wenn sie sich klug darauf einlassen (bzw. GPT sie daran erinnert),
 können sie so manch unnötigen Konflikt vermeiden oder Sympathien gewinnen. Vielleicht machen sie bei
