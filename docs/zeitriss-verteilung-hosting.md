@@ -28,9 +28,9 @@ hervorgehoben werden.
 
 ## Einfacher Solo-Betrieb (One-Build-Strategie)
 
-- **Ein Regelwerk, überall identisch:** Das Repository (insbesondere README
-  und die Runtime-Module in `characters/`, `core/`, `gameplay/`, `systems/`)
-  bildet die einzige Quellenbasis.
+- **Ein Regelwerk, überall identisch:** Das Repository (insbesondere das
+  Spieler-Handbuch und die Runtime-Module in `characters/`, `core/`, `gameplay/`,
+  `systems/`) bildet die einzige Quellenbasis.
 - **Einmal ändern, überall spiegeln:** Änderungen am Regelwerk oder an
   Mechaniken werden einmalig im Repo durchgeführt und anschließend auf allen
   Zielplattformen (ChatGPT-Instanz, Proton LUMO, lokale Runner)
@@ -109,16 +109,16 @@ hervorgehoben werden.
   Importanleitungen bereitgestellt:
   - **OpenAI GPT (MyGPT/Store):** Custom-GPT anlegen,
     `meta/masterprompt_v6.md` vollständig ins Systemprompt-Feld kopieren.
-    Danach `README.md`, `master-index.json` und alle 18 Module in den
+    Danach `core/spieler-handbuch.md` und alle 19 Runtime-Module in den
     Wissensspeicher hochladen (Details in `docs/maintainer-ops.md`).
   - **Proton LUMO:** Neuen verschlüsselten Chat starten,
     `meta/masterprompt_v6.md` als erste Nachricht einfügen. Anschließend
-    README, Master-Index und Module via Büroklammer hochladen und dem
+    Spieler-Handbuch und Module via Büroklammer hochladen und dem
     Wissensspeicher hinzufügen.
   - **Lokale Runner (LM Studio, Ollama, Oobabooga etc.):** Lokales Modell
     (mind. 20B Parameter empfohlen) laden. Inhalt von
     `meta/masterprompt_v6.md` als System-/Instruktionsprompt einsetzen.
-    Alle Markdown-Module sowie `README.md` in das Wissenssystem importieren
+    Alle Markdown-Module sowie `core/spieler-handbuch.md` in das Wissenssystem importieren
     (via UI oder Scripts). Danach kann die Sitzung im Chat starten.
   - **Sprach-Plugin (optional):** Für maximale Immersion kann ein
     Whisper-basiertes Speech-to-Text-Plugin eingesetzt werden. Ausgabe via

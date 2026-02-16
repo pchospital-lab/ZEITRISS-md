@@ -15,19 +15,19 @@ optional.
 Der Datensatz für Runtime-nahe GPT-Setups besteht aus:
 
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld oder erste Nachricht).
-2. **README:** `README.md`.
+2. **Spieler-Handbuch:** `core/spieler-handbuch.md`.
 3. **Runtime-Module:** exakt die 19 Module aus `core/`, `characters/`,
    `gameplay/`, `systems/`.
 4. **Nicht laden:** `master-index.json` und Dev-/QA-Dokumente.
 
-> **Slot-Kontrolle:** Immer 20 Wissensmodule (README + 19 Runtime-Module)
+> **Slot-Kontrolle:** Immer 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module)
 > prüfen.
 
 ### Runtimes & Tests außerhalb des Wissensspeichers
 
 - `runtime.js`, `tools/`, `scripts/`, `internal/runtime/` bleiben repo-intern.
 - Jede Laufzeitänderung wird vom Repo-Agenten parallel in Wissensmodulen
-  gespiegelt (README/Runtime-Markdowns/Toolkit).
+  gespiegelt (Spieler-Handbuch/Runtime-Markdowns/Toolkit).
 - Mirror-Nachweis mit Commit-ID im QA-Log dokumentieren.
 
 ### Spiegelhinweis für Laufzeitänderungen

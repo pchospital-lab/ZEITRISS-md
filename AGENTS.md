@@ -12,7 +12,7 @@ in Prompts oder Spielsysteme übernommen werden.**
 - Prüfe vor jedem Eingriff, ob unterhalb des Zielpfads zusätzliche Richtlinien existieren.
 - Halte Dev-Dokumente (`tags: [meta]`, `docs/`, `meta/` außerhalb des Masterprompts) strikt von
   Runtime-Content getrennt.
-- **Spiegle jede Laufzeitänderung (runtime.js, Tools) sofort in den Wissensmodulen (README,
+- **Spiegle jede Laufzeitänderung (runtime.js, Tools) sofort in den Wissensmodulen (Spieler-Handbuch,
   Runtime-Markdowns, Toolkit-Makros)** und dokumentiere den Mirror in Commit/PR sowie – falls
   noch offen – im QA-Log.
 - Das Pflicht-Testpaket für Repo-Agent:innen ist ausschließlich in
