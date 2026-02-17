@@ -473,8 +473,9 @@ Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 | ☆☆☆☆☆     | +5          |
 | ☆☆☆☆☆+    | +6 und mehr |
 
-Paramonster verwenden Totenkopf-Icons (💀) als eigenen
-Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
+Paramonster und Bosse verwenden Totenkopf-Icons (💀) als eigenen
+Schwierigkeitswert. Das HUD blendet 💀 **kontextsensitiv bei Boss-Encounters**
+ein (Szene 10 Core/Rift). Diese Angabe hilft bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
@@ -565,7 +566,13 @@ _HUD-Zustände & optionale Event-Icons:_ [HUD-Icons](../characters/hud-system.md
   bis der Re-Sync erfolgt.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
-(Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
+(Feature-Flag). ☆ und 💀 erscheinen **kontextsensitiv** im HUD:
+- **💀** wird bei **Boss-Encounters** eingeblendet (Szene 10 Core/Rift) und zeigt
+  die Bedrohungsstufe des Gegners an.
+- **☆** wird **nach Episodenabschluss** eingeblendet und zeigt den SG-Bonus und
+  Loot-Multiplikator durch offene Rifts an.
+Beide Icons werden nicht durchgehend angezeigt, sondern nur wenn der jeweilige
+Kontext es verlangt — wie das gesamte HUD.
 
 ## Loot-Matrix
 
