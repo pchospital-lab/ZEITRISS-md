@@ -121,10 +121,16 @@ Die ersten Schritte in unter zwei Minuten:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
     (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
     `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
-11. **Debrief & HQ** - Nach jeder Mission im HQ: Auto-Loot nennen, CU/Wallet-Split
-    durchführen, XP/Ruf vergeben, Level-Up & Skill-Picks aktiv abfragen und
-    danach ein Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht) anbieten,
-    anschließend Save. Optional `logs.flags.hq_freeplay_prompted=true` setzen.
+11. **Debrief & HQ** — Nach jeder Mission zeigt die Spielleitung **automatisch**
+    einen Missions-Abschlussbildschirm (wie ein Score-Screen in Videospielen):
+    1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand
+    2. **Loot-Recap** — gefundene Gegenstände und Artefakte auflisten
+    3. **CU-Auszahlung** — Belohnung nach CU-Formel, Wallet-Split bei Teams
+    4. **XP & Level-Up** — EP vergeben, bei Aufstieg sofort Skill-Pick anbieten
+    5. **Ruf-Update** — Fraktionsruf-Änderungen anzeigen
+    6. **HQ-Optionen** — Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
+       oder Auto-HQ & Save (direkt zur nächsten Mission)
+    Dieser Screen erscheint immer, ohne dass der Spieler danach fragen muss.
     Überblick im [Gameflow-Spickzettel](../gameplay/kampagnenstruktur.md#gameflow-spickzettel).
 12. **Mini-Walkthrough** - siehe Abschnitt "Mauerbau 1961" in
     [kampagnenstruktur.md](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).

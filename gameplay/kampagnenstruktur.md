@@ -637,17 +637,25 @@ B -->|Level 5| D[Rift-Pool]
 E --> A
 ```
 
-Nach jeder Mission hält das System in einem kurzen **Nullzeit-Menü** an.
-Dort entscheidet die Runde stets, wie ausführlich die HQ-Phase sein soll.
-Die Optionen *Rest*, *Research*, *Shop* und *Briefing* stehen immer bereit.
-Anschließend vergibt die SL **Belohnungen (CU), Loot-Recap, XP/Ruf sowie
-Level-Ups/Skill-Picks** im Debrief, bevor der folgende Einsatz startet.
-Zur Wahl stehen drei Wege:
+Nach jeder Mission zeigt die Spielleitung **automatisch** einen
+**Missions-Abschlussbildschirm** — der Spieler muss nicht danach fragen.
+Dieser Screen läuft in fester Reihenfolge ab:
 
-1. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
-   Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
-2. **Schnell-HQ** - wenige Menüklicks genügen, um Heilung und Einkauf zu erledigen.
-3. **Auto-HQ & Save** - automatische Abwicklung, dann direkt zur nächsten Mission.
+1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand anzeigen
+2. **Loot-Recap** — alle gefundenen Gegenstände und Artefakte auflisten
+3. **CU-Auszahlung** — Belohnung nach CU-Formel berechnen und ausschütten,
+   bei Teams Wallet-Split durchführen
+4. **XP & Level-Up** — EP vergeben; bei Aufstieg sofort Attribut- oder
+   Skill-Pick anbieten (Spieler wählt aktiv)
+5. **Ruf-Update** — Fraktionsruf-Änderungen nennen
+
+Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
+
+1. **Schnell-HQ** — Heilen + Shoppen in wenigen Klicks, schnell
+   wieder einsatzbereit.
+2. **HQ manuell erkunden** — volle HQ-Szenen mit Shopbesuchen,
+   Kodex-Begleitung, Fraktions-RP, Feilschen und Quartierausbau.
+3. **Auto-HQ & Save** — automatische Abwicklung, direkt zur nächsten Mission.
 
 
 #### Gameflow-Spickzettel (Core vs Rift) {#gameflow-spickzettel}
@@ -676,13 +684,12 @@ flowchart TD
 | Boss-Rhythmus            | Mini-Boss Mission 5, Episoden-Boss Mission 10           | Boss in Szene 10 jeder Rift-Op                               |
 | Loot/Belohnungen         | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU| Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief    |
 | Paradoxon & Seeds        | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen   |
-| HQ-Pflichtschritte       | Debrief: Auto-Loot, CU ausschütten, Loot-Recap, XP/Ruf vergeben, Level/Skills ziehen, Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
+| HQ-Pflichtschritte       | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → Ruf; dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
 
 **HQ-Kurzcheck nach jeder Mission:**
-- Debrief durchführen (Auto-Loot, CU auszahlen, Loot benennen, XP/Ruf, Level-Up & Skills festhalten).
-- Offene Seeds und Paradoxon-Index eintragen; Seed-Multi fürs Episodenende im Blick behalten.
-- Freeplay-Menü anbieten (Bar/Werkstatt/Archiv + 1 Gerücht).
-- Rest/Research/Shop/Briefing auswählen (manuell, Schnell-HQ oder Auto-HQ & Save).
+- Auto-Screen zeigen (Bewertung → Loot → CU → XP/Level-Up → Ruf) — **immer automatisch**.
+- Offene Seeds und Paradoxon-Index anzeigen; Seed-Multi fürs Episodenende im Blick behalten.
+- HQ-Menü anbieten: Schnell-HQ (schnell wieder raus), Manuell (volle Szenen) oder Auto & Save.
 
 #### Offene Rifts
 In der HQ-Phase, nach Abschluss der Episode, entscheidet das Team pro Seed,
