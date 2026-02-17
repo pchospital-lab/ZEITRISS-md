@@ -297,32 +297,35 @@ und sorgfältiges SYS-Management.
 
 ### Levelaufstieg & Fortschritt
 
-#### Regelupdate: Progressionssystem Level 1-1000
+#### Progressionssystem Level 1-1000
 
-**Ziel:** Dieses Update überarbeitet das Fortschrittssystem von **ZEITRISS 4.2.6**,
-um von Level 1 bis 1000 dauerhaft Spielspaß zu gewährleisten -
-mit klaren Meilensteinen und horizontalen Erweiterungen.
-Es vermeidet entgleisenden _Power Creep_.
-Die Änderungen sind nachfolgend in **[Austausch]** (ersetzt bestehende Regel)
-und **[Erweiterung]** (fügt Neues hinzu) kategorisiert.
-Jede Änderung wird kurz mit ihrem Nutzen für **Flow**, **Balance** und **Storytelling** begründet.
+Das Fortschrittssystem von **ZEITRISS 4.2.6** ist darauf ausgelegt, von Level 1
+bis 1000 dauerhaft Spielspaß zu gewährleisten — mit klaren Meilensteinen und
+horizontalen Erweiterungen. Es vermeidet entgleisenden _Power Creep_ und
+gliedert sich in zwei Phasen:
+
+- **Phase 1 (Level 1-10):** Schneller Einstieg — jede abgeschlossene Mission
+  bringt sofort ein Level-Up. So lernen Spieler die Mechaniken und bauen ihren
+  Charakter auf, ohne auf Belohnungen warten zu müssen.
+- **Phase 2 (ab Level 11):** Gestaffelte Progression — der EP-Bedarf steigt
+  moderat an, Fortschritt erfolgt zunehmend horizontal über Prestige-Perks,
+  Signature-Aktionen und Team-Perks statt nur über Zahlenwachstum.
 
 #### Erfahrungspunkte & Stufenaufstieg
 
-- **[Austausch] EP-Kurve:** _Die EP-Anforderungen pro Stufe steigen moderat an_, um hohe
-  Levelbereiche auszudehnen. Beispielsweise bringen anfangs **10 EP** ein Level-Up (Level 2 bei 10
-  EP, Level 3 bei 20 EP etc.), während für höhere Stufen sukzessive mehr EP nötig sind. Nach
-  Level 10 erhöht sich der EP-Bedarf pro Stufe schrittweise (etwa auf \~15 EP bis Level 50,
-  \~20 EP bis Level 100 usw.), sodass _Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell
-  erreicht wird_. _Nutzen:_ Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
-  sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange spannend bleibt.
-  **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere zu rasch extrem hohe Stufen
-  erreichen, ohne sie jedoch künstlich auszubremsen - _"immer eine nächste Stufe in Reichweite"_.
-  **Storytelling:** Spielleiter können Level-Aufstiege mit größeren Zeitabständen planen, was Raum
-  für ausgedehntere Handlungsbögen lässt, während regelmäßige Fortschritte die Motivation
-  hochhalten.
+- **EP-Kurve:** Level 1-10 folgt dem vereinfachten System: Jede abgeschlossene
+  Mission bringt sofort ein Level-Up. Ab Level 11 steigen die EP-Anforderungen
+  pro Stufe moderat an (etwa \~15 EP bis Level 50, \~20 EP bis Level 100 usw.),
+  sodass _Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell erreicht
+  wird_. Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
+  sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange
+  spannend bleibt. **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere
+  zu rasch extrem hohe Stufen erreichen, ohne sie jedoch künstlich auszubremsen —
+  _"immer eine nächste Stufe in Reichweite"_. **Storytelling:** Level-Aufstiege
+  passen sich dem Tempo der Handlungsbögen an, während regelmäßige Fortschritte
+  die Motivation hochhalten.
 
-- **[Erweiterung] Meilenstein-Stufen:** \*Bestimmte Level werden als **Meilensteine\*** definiert, an
+- **Meilenstein-Stufen:** \*Bestimmte Level werden als **Meilensteine\*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
   **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
   hochwertigerer Ausrüstung),
@@ -353,7 +356,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 #### Attribut- und Talentsteigerungen
 
-- **[Austausch] Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
+- **Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
   erhöht werden. Das reguläre Level-Up endet bei **10** (menschliches Maximum). Jede weitere
   Steigerung erfordert einen **Prestige-Aufstieg** oder ein spezielles Story-Ereignis. Ab **11**
   wechselt der Probewürfel auf W10, ab **14** kommt der Heldenwürfel hinzu.
@@ -367,7 +370,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   fair. **Storytelling:** Prestige-Perks sind gebaute Legendenmomente - die Szene beschreibt, welches
   Opfer oder welche Offenbarung Euch über die Zehn hinaus trägt.
 
-- **[Austausch] Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
+- **Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
   zur Spezialisierung. Bisher konnten neue Talente _gelegentlich nach Absprache_ freigeschaltet
   werden - zukünftig erfolgt dies **strukturierter**: _Etwa alle 3-5 Level_ (im Schnitt **2 Talente
   pro 10 Stufen**) darf der Spieler ein neues Talent wählen oder ein bestehendes erweitern, soweit es
@@ -384,7 +387,7 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   _kombiniert_ beides: vorgegebene Fortschrittspunkte _und_ Raum für organische, storybasierte Talente.
   Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
 
-- **[Erweiterung] Würfel-Upgrade & Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
+- **Würfel-Upgrade & Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
   Limits sinnvoll abzubilden, nutzt ZEITRISS ein zweistufiges System:
   - **Ab Attribut 11:** Der Würfel wechselt von W6 auf **W10** (Exploding 10 mit Burst-Cap).
     Das HUD blendet einmalig `W10 aktiv` ein. Dies sorgt für einen **qualitativen Sprung** —
@@ -417,7 +420,7 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Signature-Aktionen (individuelle Heldentricks)
 
-- **[Erweiterung] Signature-Aktionen:** Jeder Charakter kann im Laufe der Karriere **eine einzigartige
+- **Signature-Aktionen:** Jeder Charakter kann im Laufe der Karriere **eine einzigartige
   Spezialaktion** entwickeln - ein **Signature Move**, der ihn legendär macht. Ab einem hohen Level
   (z. B. **50+**) oder bei entsprechendem Prestige-Rang definiert der Spieler zusammen mit der SL eine
   solche Aktion. Sie kann **nur begrenzt eingesetzt** werden, etwa einmal pro Mission, entfaltet dann
@@ -433,7 +436,7 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Team-Perks & Gruppenvorteile
 
-- **[Erweiterung] Team-Perks in der Progression:** Neben individueller Entwicklung kann eine Gruppe
+- **Team-Perks in der Progression:** Neben individueller Entwicklung kann eine Gruppe
   gemeinsame Spezialisierungen freischalten. Nach 3-5 gemeinsamen Missionen wählt das Team seinen
   ersten Perk, etwa **"Diplomatenteam"** oder **"Kampfverbund"**. Weitere Perks folgen nach
   bedeutenden Erfolgen, wobei immer nur einer aktiv ist. Bedingungen und Kosten legt die Spielrunde
@@ -443,7 +446,7 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Prestige-Stufen & Interner Aufstieg
 
-  - **[Erweiterung] Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
+  - **Prestige-Stufen:** Um lange Kampagnen zu gliedern, führt ZEITRISS optionale
     Prestige-Stufen ein - etwa alle 100 Level. Bei Erreichen einer solchen Stufe erhält der Chrononaut
     einen Titel im ITI und darf einen besonderen _Prestige-Perk_ wählen. Beispiele: ein zusätzlicher
     Heldenwürfel pro Einsatz oder ein kleiner psionischer Durchbruch. Zugleich verschiebt sich das
@@ -453,7 +456,7 @@ als Legenden, ohne die Progression in bloße Zahlen zu ersticken.
 
 #### Endgame-Inhalte & Langzeit-Herausforderungen
 
-- **[Erweiterung] Endgame-Content:** Auch jenseits von Level 100 bietet ZEITRISS
+- **Endgame-Content:** Auch jenseits von Level 100 bietet ZEITRISS
   neue Herausforderungen. Die Missionen erreichen epische Dimensionen, alte
   Entscheidungen haben weitreichende Folgen und Paradoxon-Risse bedrohen ganze
   Epochen. Spieler können ihre Macht ausleben, muessen aber kreative Lösungen
