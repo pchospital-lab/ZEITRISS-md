@@ -556,7 +556,7 @@ So sehen Chrononauten sofort, welche Spielmodi derzeit gelten.
 | `autosave hq` | Schaltet Auto-Save im HQ um                              |
 | `regelcheck` | Lädt das benannte Regelmodul neu und fasst es kurz zusammen |
 | `regelreset` | Zeigt Warnhinweis, setzt Regelkontext zurück und lädt alle Module neu |
-| `modus`     | Erzählstil wählen, siehe [Spielmodi](../README.md#spielmodi) |
+| `modus`     | Erzählstil wählen, siehe [Spielmodi](../core/sl-referenz.md#spielmodi) |
 | `!sf off`   | SF aus, Toast `SF-OFF`, Reason `hud_command_sf_off` |
 | `!sf on`    | SF an, Toast `SF-ON`, Reason `hud_command_sf_on` |
 | `hilfe`     | Listet alle Befehle und HUD-Kommandos auf                          |

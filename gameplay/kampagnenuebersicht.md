@@ -55,7 +55,7 @@ doch der Kampf gilt als offizieller Lore‑Showdown mit Ruf- und Fraktions‑Ech
 ### Safety Tools
 
 Um einen sicheren Spielrahmen zu schaffen, empfiehlt das ITI die Nutzung von
-[Lines & Veils](../README.md#lines--veils-optional), der **X‑Card** sowie einem
+[Lines & Veils](../core/sl-referenz.md#lines--veils-optional), der **X‑Card** sowie einem
 knappen Session‑0‑Bogen. Legt fest, welche Themen tabu sind oder nur angedeutet
 werden. Die X‑Card erlaubt allen, eine Szene sofort zu beenden. Im Chat reicht
 ein einfaches **"X"**, worauf der Director pausiert, nachfragt und die Szene bei
@@ -73,7 +73,7 @@ den Schlüssel. Chronopolis wird bei jedem Besuch frisch instanziiert, sodass si
 und Ambient-Quests dynamisch an die laufende Kampagne anpassen; die Händler- und Service-Knoten
 spiegeln dabei die aktiven HQ-Module, während Kernprozesse wie Shop, Klinik und Speicherpunkte im
 ITI-HQ verankert bleiben. Für erweiterte Übergaben können die optionalen Wrapper-Services aus dem
-[README](../README.md) eingebunden werden – der Stadthub verweist lediglich darauf, ohne deren
+[Spieler-Handbuch](../core/spieler-handbuch.md) eingebunden werden – der Stadthub verweist lediglich darauf, ohne deren
 Details zu replizieren.
 Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.
 Jeder Chrononaut besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
