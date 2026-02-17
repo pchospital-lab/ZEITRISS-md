@@ -1371,14 +1371,14 @@ Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert
 setzt `sg_bonus` sowie `cu_multi = 1 + 0,2 × offene Seeds`, damit der Pool
 gezielt als Schwellen- oder Loot-Hebel genutzt werden kann.
 
-Die Px-Boni wirken ausschließlich im Debrief/HQ: Analyse‑ und Loot‑Boosts
-werden dort aus `campaign.px` berechnet und beeinflussen die nächste
-Operation; während der Mission existieren keine separaten Mid-Scene-Buffs
-mehr, damit Seed-Stacking und Px-Anzeige dieselbe Quelle teilen.
+Zwischen-Stufen (Px 1-4) liefern keine mechanischen Boni — der Px ist eine
+Fortschrittsanzeige mit Payoff bei Stufe 5 (ClusterCreate). HUD-Farbe und
+Score-Screen zeigen den Fortschritt; CU-, Loot- oder Analyse-Boni pro
+Zwischen-Stufe existieren nicht.
 
-Toolkit, Runtime und README referenzieren ausschließlich diese Tabelle; Legacy-
-Varianten (Arc-spezifische Px, zusätzliche Stresswürfe) gelten als verworfen
-und werden beim Laden ignoriert.
+Toolkit, Runtime und Spieler-Handbuch referenzieren ausschließlich diese
+Tabelle; Legacy-Varianten (Arc-spezifische Px, Zwischen-Stufen-Boni,
+zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 
 ### Legacy-Kompatibilität (Gear-Labels)
 
