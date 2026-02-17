@@ -222,6 +222,7 @@ ok "Knowledge Base $KB_MODE (ID: ${KB_ID:0:12}...)"
 # ── Wissensspeicher-Dateien hochladen ──────────────────────────────
 COUNT=0
 ERRORS=0
+UPLOADED_IDS=()
 
 info "Lade $TOTAL Dateien in den Wissensspeicher..."
 echo ""
@@ -248,22 +249,36 @@ while IFS= read -r FILE; do
     continue
   fi
 
-  # Link to KB
-  LINK_RESULT=$(api_post "/api/v1/knowledge/$KB_ID/file/add" "{\"file_id\": \"$FILE_ID\"}" 2>/dev/null)
-  LINK_ERROR=$(echo "$LINK_RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('detail',''))" 2>/dev/null || echo "")
-
-  if [ -n "$LINK_ERROR" ]; then
-    echo -e "  ${YELLOW}⚠${NC} [$COUNT/$TOTAL] $FILE (Verknüpfung: $LINK_ERROR)"
-  else
-    echo -e "  ${GREEN}✓${NC} [$COUNT/$TOTAL] $FILE"
-  fi
+  UPLOADED_IDS+=("$FILE_ID")
+  echo -e "  ${GREEN}✓${NC} [$COUNT/$TOTAL] $FILE"
 done <<< "$FILES"
 
 echo ""
 if [ $ERRORS -gt 0 ]; then
-  warn "$((TOTAL - ERRORS))/$TOTAL Dateien geladen ($ERRORS Fehler)"
+  warn "$((TOTAL - ERRORS))/$TOTAL Dateien hochgeladen ($ERRORS Fehler)"
 else
-  ok "Alle $TOTAL Dateien geladen"
+  ok "Alle $TOTAL Dateien hochgeladen"
+fi
+
+# ── Dateien mit Knowledge Base verknüpfen (0.8.3+ kompatibel) ──────
+info "Verknüpfe Dateien mit Knowledge Base..."
+FILE_IDS_JSON=$(printf '%s\n' "${UPLOADED_IDS[@]}" | python3 -c "import sys,json; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))")
+
+LINK_RESULT=$(api_post "/api/v1/knowledge/$KB_ID/update" \
+  "{\"name\": \"$KB_NAME\", \"description\": \"Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6\", \"file_ids\": $FILE_IDS_JSON}")
+
+LINKED_COUNT=$(echo "$LINK_RESULT" | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+files=d.get('files') or []
+names=set(f.get('meta',{}).get('name','') for f in files)
+print(len(names))
+" 2>/dev/null || echo "0")
+
+if [ "$LINKED_COUNT" -ge "$TOTAL" ]; then
+  ok "$LINKED_COUNT Dateien verknüpft"
+else
+  warn "Nur $LINKED_COUNT/$TOTAL Dateien verknüpft — bitte in OpenWebUI prüfen"
 fi
 
 # ── Model-Preset (idempotent) ───────────────────────────────────────

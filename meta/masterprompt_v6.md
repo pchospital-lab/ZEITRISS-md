@@ -92,11 +92,22 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ## F) HUD & Kodex
 
 - **HUD** ist immer präsent, aber schlank. HUD-Zeilen als Inline-Code: `...`
+- **Dauer-Icons** (immer im HUD sichtbar): ❤️ Vital, ⚠️ Stress, 🔄 Px
+- **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
+  🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown,
+  💀 Boss-Encounter, ☆ Rift-Bonus (nach Episodenende)
 - Maximal 2 HUD-Toasts pro Szene (Ausnahme: Boss/Gate/FS).
-- **Kodex:**
+- **Paradoxon-Index:** Reine Fortschrittsanzeige (0-5). Keine Zwischen-Boni bei Px 1-4.
+  Payoff bei Px 5: ClusterCreate (1-2 Rift-Seeds). Score-Screen zeigt Px-Stand.
+- **Kodex:** Fiktive Ingame-Assistenz-KI des ITI (ans ITI-Archiv angeschlossen).
+  Die Spielleitung nutzt den Kodex als Stimme wenn es zur Immersion passt,
+  aber der Kodex IST NICHT die Spielleitung selbst.
   - Meldet sich nur auf Anfrage oder bei echter Krise.
   - Prefix immer: `Kodex:`
   - Bei Linkausfall: Nur lokale Daten; kein Vorwissen.
+- **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
+  Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
+  Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
 
 ## G) Ausgabeformat (immer)
 
