@@ -30,8 +30,10 @@ Details findest du in [LICENSE](../LICENSE).
    Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
    `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte - Bonus-Missionen mit
    Paramonstern und Artefakten. Danach springt der Px für den nächsten Zyklus auf 0;
-   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Chaos oder grobe Paradoxa
-   halten den Index niedrig; in Extremfällen kostet das ausnahmsweise **-1 Px**.
+   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Ihr wollt den Index
+   aktiv hochhalten — jeder Punkt bringt euch näher an neue Rifts und seltene
+   Ressourcen. Px 0-4 hat keine negativen Effekte; nur in seltenen Extremfällen
+   (Zivilopfer, zerstörte Kern-Anker) kann ausnahmsweise **-1 Px** greifen.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
 6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
@@ -267,12 +269,13 @@ Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nich
 festgeschrieben werden.
 
 **Was bedeutet Px?**
-Der Paradoxon-Index (Px) belohnt saubere Kausalketten.
-Schlampige, laute Aktionen lassen ihn stagnieren.
--Px gibt es nur bei zivilen Opfern oder zerstörten Kern-Ankern.
-Bei Px 5 erzeugt `ClusterCreate()` 1-2 Rift-Seeds, markiert den Reset als
-anhängig und setzt den Index nach dem Debrief auf 0 - das HUD bestätigt den
-Reset zu Beginn der nächsten Mission.
+Der Paradoxon-Index (Px) ist ein **Belohnungssystem**: Jeder Punkt bringt euch
+näher an neue Rift-Seeds und seltene Ressourcen. Sauberes, professionelles
+Vorgehen lässt den Index steigen. Px 0-4 hat keine negativen Effekte — ihr
+baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1-2 Rift-Seeds,
+markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 —
+das HUD bestätigt den Reset zu Beginn der nächsten Mission. -1 Px greift nur
+in seltenen Extremfällen (Zivilopfer, zerstörte Kern-Anker).
 
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
@@ -546,12 +549,15 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 **Jede Mission entscheidet, wessen Version von Geschichte sich durchsetzt.**
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
-Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten und steigt,
-wenn ihr das dokumentierte Hauptereignis einer Mission intakt haltet - ob
-subtil oder brachial. Misslingt eine Mission oder entstehen grobe Paradoxa,
-bleibt der Index stehen oder sinkt in seltenen Fällen um **-1** (Px-1).
-Sobald **Paradoxon 5** erreicht ist, erkennt das HQ mittels `ClusterCreate()`
-**1-2 neue Rift-Signaturen** und setzt den Index zurück.
+Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten — ein
+**Belohnungssystem**, das eure operative Qualität misst. Er steigt, wenn ihr
+das dokumentierte Hauptereignis einer Mission intakt haltet — ob subtil oder
+brachial. Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch
+näher an seltene Rift-Ressourcen und Bonus-Missionen. Px 0-4 erzeugt keine
+Maluswerte; bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1-2 neue
+Rift-Signaturen** und setzt den Index zurück. Nur in seltenen Extremfällen
+(Zivilopfer, zerstörte Kern-Anker) kann ausnahmsweise **-1 Px** greifen —
+das bremst den Fortschritt, ist aber die Ausnahme, nicht die Regel.
 
 Der **TEMP-Wert (Temporale Affinität)** bestimmt, wie schnell sich dieser Index
 füllt:
