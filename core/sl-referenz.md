@@ -436,12 +436,18 @@ filmische Callouts für das HUD.
 
 ## Level & EP-Kurve {#level--ep-kurve}
 
-- Lvl 1-10: +1 Level pro Mission.
-- Lvl 11-15: 2 Missionen/Level.
-- Lvl 16+: 3 Missionen/Level.
-  Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
-  Ab Attribut 11 wechselt das Würfelsystem auf W10.
-  Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen).
+Das Progressionssystem gliedert sich in zwei Phasen:
+
+- **Phase 1 (Lvl 1-10):** Jede abgeschlossene Mission = sofort +1 Level.
+  Schneller Einstieg, maximale Motivation.
+- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve — der Bedarf steigt moderat
+  an (~15 EP bis Lvl 50, ~20 EP bis Lvl 100). Fortschritt erfolgt zunehmend
+  horizontal über Prestige-Perks und Meilensteine.
+
+Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
+Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
+Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen)
+und [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt) für Details.
 
 ## Regelreferenz
 
