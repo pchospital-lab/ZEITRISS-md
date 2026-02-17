@@ -199,7 +199,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 ### Start & Load - LLM-Dispatcher (ohne externe Runtime)
 
-Siehe das [Mini-Einsatzhandbuch](../README.md#mini-einsatzhandbuch) für Startbefehle.
+Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für Startbefehle.
 
 **Akzeptierte Zusätze:**
 
@@ -473,8 +473,9 @@ Mehr als fünf Seeds können als `☆☆☆☆☆+` notiert werden.
 | ☆☆☆☆☆     | +5          |
 | ☆☆☆☆☆+    | +6 und mehr |
 
-Paramonster verwenden Totenkopf-Icons (💀) als eigenen
-Schwierigkeitswert. Diese Angabe hilft nur bei der Einschätzung des
+Paramonster und Bosse verwenden Totenkopf-Icons (💀) als eigenen
+Schwierigkeitswert. Das HUD blendet 💀 **kontextsensitiv bei Boss-Encounters**
+ein (Szene 10 Core/Rift). Diese Angabe hilft bei der Einschätzung des
 Kampfpotenzials und verändert **nicht** den SG einer Mission.
 
 ### Wichtige Makros
@@ -565,7 +566,13 @@ _HUD-Zustände & optionale Event-Icons:_ [HUD-Icons](../characters/hud-system.md
   bis der Re-Sync erfolgt.
 
 HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
-(Feature-Flag). ☆ und 💀 dienen als Regelnotation und gehören nicht zum HUD.
+(Feature-Flag). ☆ und 💀 erscheinen **kontextsensitiv** im HUD:
+- **💀** wird bei **Boss-Encounters** eingeblendet (Szene 10 Core/Rift) und zeigt
+  die Bedrohungsstufe des Gegners an.
+- **☆** wird **nach Episodenabschluss** eingeblendet und zeigt den SG-Bonus und
+  Loot-Multiplikator durch offene Rifts an.
+Beide Icons werden nicht durchgehend angezeigt, sondern nur wenn der jeweilige
+Kontext es verlangt — wie das gesamte HUD.
 
 ## Loot-Matrix
 
@@ -603,16 +610,17 @@ Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begrif
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-_Wartungshinweis:_ Bei Änderungen an Modulpfaden oder Ankern auch `../README.md`
-und `../master-index.json` synchronisieren.
+_Wartungshinweis:_ Bei Änderungen an Modulpfaden oder Ankern auch `core/spieler-handbuch.md`
+und `../master-index.json` synchronisieren. `../README.md` ist nur die GitHub-Landingpage
+und nicht Teil des Wissensspeichers.
 
 Die folgende Tabelle listet alle Regelmodule. Quickref und andere Unterabschnitte
 sind der Übersicht halber aufgeführt.
-`../README.md` wird in den Wissensspeicher geladen; `../master-index.json` dient nur als Setup-Steuerung und bleibt außerhalb des Wissensspeichers:
+`../README.md` ist die GitHub-Landingpage und wird **nicht** in den Wissensspeicher geladen. `../master-index.json` dient nur als Setup-Steuerung und bleibt ebenfalls außerhalb des Wissensspeichers. Slot 1 belegt `core/spieler-handbuch.md`:
 
 | Datei                                                                                           | Inhalt                                        |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [README.md](../README.md)                                                                          | Überblick über Projekt und Workflow           |
+| [core/spieler-handbuch.md](spieler-handbuch.md)                                                    | Spieler-Handbuch (Slot 1, Regeln & Einstieg)  |
 | [core/zeitriss-core.md](zeitriss-core.md)                                                  | Grundregeln und Setting                       |
 | [core/wuerfelmechanik.md](wuerfelmechanik.md)                                              | Würfelsystem & Proben                         |
 | [Quickref](wuerfelmechanik.md#schwierigkeits-benchmark-tabelle)                            | Psi- & Konflikt-Quickref                      |
@@ -643,7 +651,7 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 
 **Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
 19 Runtime-Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien.
-Das Wissenspaket umfasst damit **20** Dateien (README + 19 Runtime-Module) -
+Das Wissenspaket umfasst damit **20** Dateien (Spieler-Handbuch + 19 Runtime-Module) -
 die Wissensspeicher-Slots sind damit vollständig belegt.
 `meta/masterprompt_v6.md` (Local-Uncut 4.2.6) wird separat per Copy-Paste
 genutzt. Die Legacy-Fassung liegt unter
@@ -680,7 +688,7 @@ Index-Senke im Kodex.
 
 ### ZEITRISS - Einleitung
 
-> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht in der [README](../README.md#zeitriss---einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
+> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im [Spieler-Handbuch](spieler-handbuch.md#zeitriss---einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
 
 ## Spielstart
 
