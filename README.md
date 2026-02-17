@@ -74,7 +74,7 @@ und die Runtime-Referenz.
 - **Self-Hosting auf eigene Verantwortung:** Nutzung erfolgt lokal oder im
   eigenen Hosting-Stack (z. B. OpenWebUI/Ollama oder kompatible Setups).
   Sicherheitsdefaults für OpenWebUI stehen im
-  [`docs/setup-guide.md`](docs/setup-guide.md#sicherheitsdefaults-fur-openwebui).
+  [`docs/setup-guide.md`](docs/setup-guide.md#sicherheitsdefaults-für-openwebui).
 - **Setup-Option:** Für lokale Installationen steht
   [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
   (provider-neutral mit expliziter Modellwahl; Sonnet als empfohlener Default).

@@ -95,7 +95,7 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 
 
 
-### Sicherheitsdefaults für OpenWebUI
+### Sicherheitsdefaults für OpenWebUI {#sicherheitsdefaults-fur-openwebui}
 
 - **Header-Forwarding aus lassen:** `ENABLE_FORWARD_USER_INFO_HEADERS` nur in
   bewusst kontrollierten Enterprise-Setups aktivieren.

@@ -369,7 +369,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator) für
   Stat- und Schadenswerte.
   Wer einen puristischen Thriller bevorzugt, kann
-  [im **Covert-Ops-Modus**](../README.md#spielmodi) spielen, bei dem Rifts nur als dezentes
+  [im **Covert-Ops-Modus**](../core/sl-referenz.md#spielmodi) spielen, bei dem Rifts nur als dezentes
   Sensorrauschen auftreten. Optional zeigt das HUD ab Stufe 4 einen sanften Resonanzpuls und blendet
   die Zahl offener Seeds ein: `Seeds 3 · 🔄 Paradoxon 4/5`. Ein Foreshadow-Pulse warnt dezent vor
   nahen Rissen. Die Paradoxon-Mechanik ist standardmäßig aktiv, lässt sich aber jederzeit mit
@@ -413,7 +413,7 @@ wird. Aus dem HQ können die Chrononauten über ihr **ITI-Terminal** direkt ein 
 Karte anwählen. Im Einsatz blendet die AR-Kontaktlinse verkleinerte Auszüge der Karte ein, um Risse
 oder Missionsziele zu lokalisieren.
 
-_Optional kann [eine Covert-Ops-Variante](../README.md#spielmodi) gespielt werden,_ bei der keine
+_Optional kann [eine Covert-Ops-Variante](../core/sl-referenz.md#spielmodi) gespielt werden,_ bei der keine
 Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**

@@ -376,7 +376,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces
   mit Delta und Grund.
 
-## Exfil-Fenster & Sweeps
+## Exfil-Fenster & Sweeps {#exfil-fenster--sweeps}
 
 Sobald das **Primärziel** erreicht ist, öffnet sich ein
 **Exfil-Fenster** mit einer **Ablaufzeit (RW)**.
@@ -434,7 +434,7 @@ folgen der Form `{event, scene?, details{…}, at?}`.
 Alle Quick-Cards halten die Toasts auf sechs Wörter begrenzt und liefern
 filmische Callouts für das HUD.
 
-## Level & EP-Kurve
+## Level & EP-Kurve {#level--ep-kurve}
 
 - Lvl 1-10: +1 Level pro Mission.
 - Lvl 11-15: 2 Missionen/Level.
@@ -667,7 +667,7 @@ Ausführliche Hintergründe liefert das Modul
 | Konflikt | Spannung | Exploding 6 nutzen |
 | Auswertung | Konsequenzen | Rufpunkte, Ressourcen |
 
-### Lines & Veils (optional)
+### Lines & Veils (optional) {#lines--veils-optional}
 
 Gruppen können vor Spielbeginn gemeinsame Grenzen festlegen. **Lines** sind
 Inhalte, die komplett ausgespart werden. **Veils** lassen Szenen bei Bedarf

@@ -55,14 +55,14 @@ Keine Visionen, keine Selbstbegegnungen aus der Zukunft.
 
 Präkognition liefert höchstens kurze taktische Ahnungen.
 Der Kodex gibt keine prophetischen Hinweise.
-Weitere Stilmodi findet ihr in [README](../README.md#spielmodi).
+Weitere Stilmodi findet ihr in [README](../core/sl-referenz.md#spielmodi).
 
 ### Stiloption: Covert-Ops Technoir
 
 Psi erscheint hier als taktisches Werkzeug.
 Telepathische Hacks und kurze Telekinese-Schübe unterstützen
 verdeckte Einsätze, alles bleibt düster und hardwarebetont.
-Weitere Spielmodi findet ihr in [README](../README.md#spielmodi).
+Weitere Spielmodi findet ihr in [README](../core/sl-referenz.md#spielmodi).
 
 <a id="psi-talente"></a>
 ## Psi-Fähigkeiten & Talente (Modul 4C)

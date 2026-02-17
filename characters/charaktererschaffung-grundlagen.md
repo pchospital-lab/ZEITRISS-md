@@ -210,7 +210,7 @@ freigeschaltet.
 
 ### Basis-Kit {#baseline-kit}
 Das ITI stellt zu Beginn die **Standardausrüstung** bereit: siehe
-[README – Standardausrüstung](../README.md#standardausruestung).
+[README – Standardausrüstung](../core/sl-referenz.md#standardausruestung).
 Alle haben vergleichbare **Baseline-Kits**, bestehend aus Anzug mit integrierter
 **AR-Kontaktlinse (Retina-HUD)** und **Comlink (Ohrstöpsel, ≈ 2 km)** – beide
 energieautark, mit eigener Mikro-CPU für den Offline-Betrieb, ein paar
