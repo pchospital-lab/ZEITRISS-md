@@ -776,13 +776,17 @@ Der Befehl `menü` (engl. `menu`, alternativ `optionen`) öffnet jederzeit das t
 Clients ohne Unicode setzen `settings.ascii_only = true`, um eine ASCII-Version zu erhalten.
 Im Menü lässt sich über `modus` der Erzählstil wechseln,
 z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
-Nach jedem Zeitsprung und nach jeder Mission öffnet sich ein
-**Nullzeit-Menü**. Hier bestimmt die Gruppe, wie ausführlich die
-HQ-Phase ablaufen soll. Zur Wahl stehen drei Optionen:
+Nach jeder Mission zeigt die Spielleitung **automatisch** einen
+**Missions-Abschlussbildschirm** (Score-Screen):
+Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
+Dieser Screen erscheint immer — der Spieler muss nicht danach fragen.
 
-1. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
+Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
+
+1. **Schnell-HQ** - Heilen + Shoppen in wenigen Klicks, schnell wieder
+   einsatzbereit.
+2. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
    Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
-2. **Schnell-HQ** - wenige Klicks für Heilung und Einkauf.
 3. **Auto-HQ & Save** - automatische Abwicklung, dann direkt zur nächsten Mission.
 
 Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
