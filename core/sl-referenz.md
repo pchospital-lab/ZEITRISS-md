@@ -539,7 +539,7 @@ Chrononauten starten mit einer einheitlichen Grundausrüstung:
 
 _Details zur Hardware siehe_
 [HUD & Comms - Spezifikation](../characters/hud-system.md#hud-comms-spec).
-_HUD-Zustände & optionale Event-Icons:_ [HUD-Icons](../characters/hud-system.md#hud-icons).
+_HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.md#hud-icons).
 
 > **Hardwareprinzip:** Alle Signalinteraktionen erfordern reale Geräte
 > (Kontaktlinse/Comlink/Kabel/Relais). Armbänder sind erlaubt, projizieren aber
@@ -571,14 +571,15 @@ _HUD-Zustände & optionale Event-Icons:_ [HUD-Icons](../characters/hud-system.md
   steht. Endet eine Mission offline, blockt der SaveGuard jeden HQ-Deepsave,
   bis der Re-Sync erfolgt.
 
-HUD-Zustände erscheinen als Backticks; Event-Icons sind optional
-(Feature-Flag). ☆ und 💀 erscheinen **kontextsensitiv** im HUD:
-- **💀** wird bei **Boss-Encounters** eingeblendet (Szene 10 Core/Rift) und zeigt
-  die Bedrohungsstufe des Gegners an.
-- **☆** wird **nach Episodenabschluss** eingeblendet und zeigt den SG-Bonus und
-  Loot-Multiplikator durch offene Rifts an.
-Beide Icons werden nicht durchgehend angezeigt, sondern nur wenn der jeweilige
-Kontext es verlangt — wie das gesamte HUD.
+HUD-Zustände erscheinen als Backticks. Alle Icons sind **kontextsensitiv** und
+werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt:
+- **Dauer-Anzeige** (immer sichtbar): ❤️ Vital, ⚠️ Stress, 🔄 Paradoxon
+- **Zustands-Icons** (bei Eintritt → bei Ende weg): 🩸 Blutung, ☠️ Vergiftung,
+  ⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown
+- **Situations-Icons**: 💀 bei Boss-Encounters (Szene 10 Core/Rift),
+  ☆ nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts)
+
+Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant ist.
 
 ## Loot-Matrix
 

@@ -150,9 +150,12 @@ Mali. Mehr Details im Kodex.
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
-Das HUD zeigt standardmäßig nur **vier Symbole** (Vital, Stress, Tarnung, Paradoxon); weitere
-Statusanzeigen lassen sich per Swipe-Geste oder Sprachbefehl einblenden. Diese
-Einschränkung sorgt für Spannung und hält die Balance. **HUD-Blenden dürfen
+Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️, Stress ⚠️, Tarnung, Paradoxon 🔄),
+die immer sichtbar sind. Alle weiteren Icons (🩸 Blutung, ☠️ Vergiftung,
+⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown, 💀 Boss-Encounter, ☆ Rift-Bonus)
+erscheinen **kontextsensitiv** — sie werden automatisch eingeblendet, wenn der
+jeweilige Zustand eintritt, und verschwinden, sobald er endet. So bleibt das
+HUD clean, zeigt aber alles Spielrelevante. **HUD-Blenden dürfen
 maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
 
 Der Szenenheader zeigt nach der Episoden- und Szenenzeile dauerhaft
@@ -304,16 +307,25 @@ _Kodex:_
 
 #### HUD-Icons auf einen Blick {#hud-icons}
 
+**Dauer-Anzeige** (immer sichtbar):
+
 | Symbol | Bedeutung |
 | ------ | --------- |
 | ❤️ | Vitalstatus |
 | ⚠️ | Stresslevel |
 | 🔄 | Paradoxon-Index |
-| 🩸 | Blutung |
-| ☠️ | Vergiftung |
-| ⏱️ | Countdown/Timer |
-| 🛡️ | Abwehr bereit |
-| 🌀 | TK-Nahkampf im Cooldown – Eure Linse sperrt telekinetische Schläge, bis der Puls abklingt. |
+
+**Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
+
+| Symbol | Bedeutung | Erscheint wenn… |
+| ------ | --------- | --------------- |
+| 🩸 | Blutung | Charakter blutet |
+| ☠️ | Vergiftung | Charakter vergiftet |
+| ⏱️ | Countdown/Timer | Zeitkritische Situation aktiv |
+| 🛡️ | Abwehr bereit | Defensive Haltung/Deckung aktiv |
+| 🌀 | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre) |
+| 💀 | Boss-Encounter | Boss-Szene aktiv (Szene 10 Core/Rift) |
+| ☆ | Rift-Bonus | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
 
 #### Risk-Level-Badges {#risk-level-badges}
 
