@@ -603,16 +603,17 @@ Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begrif
 ## Struktur
 
 Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-_Wartungshinweis:_ Bei Änderungen an Modulpfaden oder Ankern auch `../README.md`
-und `../master-index.json` synchronisieren.
+_Wartungshinweis:_ Bei Änderungen an Modulpfaden oder Ankern auch `core/spieler-handbuch.md`
+und `../master-index.json` synchronisieren. `../README.md` ist nur die GitHub-Landingpage
+und nicht Teil des Wissensspeichers.
 
 Die folgende Tabelle listet alle Regelmodule. Quickref und andere Unterabschnitte
 sind der Übersicht halber aufgeführt.
-`../README.md` wird in den Wissensspeicher geladen; `../master-index.json` dient nur als Setup-Steuerung und bleibt außerhalb des Wissensspeichers:
+`../README.md` ist die GitHub-Landingpage und wird **nicht** in den Wissensspeicher geladen. `../master-index.json` dient nur als Setup-Steuerung und bleibt ebenfalls außerhalb des Wissensspeichers. Slot 1 belegt `core/spieler-handbuch.md`:
 
 | Datei                                                                                           | Inhalt                                        |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| [README.md](../README.md)                                                                          | Überblick über Projekt und Workflow           |
+| [core/spieler-handbuch.md](spieler-handbuch.md)                                                    | Spieler-Handbuch (Slot 1, Regeln & Einstieg)  |
 | [core/zeitriss-core.md](zeitriss-core.md)                                                  | Grundregeln und Setting                       |
 | [core/wuerfelmechanik.md](wuerfelmechanik.md)                                              | Würfelsystem & Proben                         |
 | [Quickref](wuerfelmechanik.md#schwierigkeits-benchmark-tabelle)                            | Psi- & Konflikt-Quickref                      |
@@ -643,7 +644,7 @@ Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS auto
 
 **Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
 19 Runtime-Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien.
-Das Wissenspaket umfasst damit **20** Dateien (README + 19 Runtime-Module) -
+Das Wissenspaket umfasst damit **20** Dateien (Spieler-Handbuch + 19 Runtime-Module) -
 die Wissensspeicher-Slots sind damit vollständig belegt.
 `meta/masterprompt_v6.md` (Local-Uncut 4.2.6) wird separat per Copy-Paste
 genutzt. Die Legacy-Fassung liegt unter
