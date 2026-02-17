@@ -461,16 +461,17 @@ dramaturgisch dosiert einzusetzen: Es sollte in spannenden Momenten helfen (z.�
 kurzes Aufleuchten im richtigen Moment – „Warnung: Temporalinstabilität steigt!“ – kann die
 Dringlichkeit einer Lage unterstreichen, ohne vom Wesentlichen abzulenken.
 
-**Kodex-Unterstützung & Einsatzsteuerung:** Der Kodex selbst ist die KI-Stimme im Hintergrund. Im HQ
-führt er durch Briefings; im Feld liefert er Daten und kann begrenzte Analysen durchführen. Er ist
-jedoch **kein Orakel**: Das HUD zeigt nur, was technisch erfassbar ist. Beispiel: Der Kodex wird
-nicht direkt verraten, ob ein NPC lügt – dafür gibt es keinen Sensor. Hat aber ein Agent einen
-tragbaren Herzschlagdetektor aktiv, könnte das HUD einen erhöhten Puls des Gesprächspartners
-anzeigen, den die Spieler interpretieren müssen.
-Ebenso entdeckt das HUD nicht automatisch Fallen oder
-Rätsel-Lösungen, außer die Charaktere haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz:
-**Die KI liefert Kontext und Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Sie ist
-ein Werkzeug, kein Autopilot.
+**Kodex-Unterstützung & Einsatzsteuerung:** Der Kodex ist die fiktive Ingame-Assistenz-KI des ITI,
+angeschlossen an das ITI-Archiv. Er ist **nicht** die Spielleitung selbst, sondern eine ihrer
+Stimmen — die KI-Spielleitung nutzt den Kodex, wenn es zur Immersion passt und Fragen der Spieler
+über das ITI-Archiv beantwortet werden können. Im HQ führt der Kodex durch Briefings; im Feld
+liefert er Daten und kann begrenzte Analysen durchführen. Er ist jedoch **kein Orakel**: Das HUD
+zeigt nur, was technisch erfassbar ist. Beispiel: Der Kodex wird nicht direkt verraten, ob ein NPC
+lügt – dafür gibt es keinen Sensor. Hat aber ein Agent einen tragbaren Herzschlagdetektor aktiv,
+könnte das HUD einen erhöhten Puls des Gesprächspartners anzeigen, den die Spieler interpretieren
+müssen. Ebenso entdeckt das HUD nicht automatisch Fallen oder Rätsel-Lösungen, außer die Charaktere
+haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz: **Der Kodex liefert Kontext und
+Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Er ist ein Werkzeug, kein Autopilot.
 
 Die Spielleitung (oder GPT als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
 Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: „Wie viele HP habe ich noch?“,
