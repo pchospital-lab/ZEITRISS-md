@@ -199,7 +199,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
 
 ### Start & Load - LLM-Dispatcher (ohne externe Runtime)
 
-Siehe das [Mini-Einsatzhandbuch](../README.md#mini-einsatzhandbuch) für Startbefehle.
+Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für Startbefehle.
 
 **Akzeptierte Zusätze:**
 
@@ -681,7 +681,7 @@ Index-Senke im Kodex.
 
 ### ZEITRISS - Einleitung
 
-> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht in der [README](../README.md#zeitriss---einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
+> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im [Spieler-Handbuch](spieler-handbuch.md#zeitriss---einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
 
 ## Spielstart
 
