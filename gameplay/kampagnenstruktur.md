@@ -208,9 +208,17 @@ festhält, ob der aktuelle Seed aus Preserve oder Trigger stammt.
 Im Briefing nennt das HUD Zeit und Ort einer Instabilität; welches Ereignis
 betroffen ist, deckt die Investigation auf. Zur Auswertung nutzt die
 KI-Spielleitung je nach `seed_source` `history_ok_preserve()` oder
-`history_ok_trigger()`. Pro entspricht Preserve, Contra steht für Trigger - beide
-Seiten arbeiten letztlich am Erhalt einer stabilen Zeitlinie.
-Eine kurze Zusammenfassung der Abläufe bietet das README.
+`history_ok_trigger()`. Pro entspricht Preserve, Contra steht für Trigger.
+**Beide Seiten arbeiten für das ITI und verfolgen dasselbe Ziel: den
+dokumentierten Geschichtsverlauf wahren.** Preserve-Agenten verhindern
+Katastrophen, die nicht hätten passieren sollen. Trigger-Agenten stellen
+sicher, dass dokumentierte Katastrophen stattfinden — weil deren Verhinderung
+eine schlimmere Kettenreaktion auslösen würde. Der Gegner sind stets
+**Fremdfraktionen**, die den Geschichtsverlauf manipulieren wollen:
+Bei Preserve will eine Fremdfraktion die Katastrophe auslösen, bei Trigger
+will eine Fremdfraktion sie verhindern. Preserve und Trigger kämpfen zusammen
+gegen diese äußeren Bedrohungen — sie sind Verbündete, keine Rivalen.
+Eine kurze Zusammenfassung der Abläufe bietet das Spieler-Handbuch.
 > **Hinweis:** In **Trigger-Missionen** müssen die dokumentierten Tragödien
 > historisch korrekt eintreten; ihre Verhinderung würde eine deutlich schlimmere
 > Katastrophe auslösen. Dieses Framing hält die Entscheidungen der Agenten
