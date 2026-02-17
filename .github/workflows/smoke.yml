@@ -1,29 +1,40 @@
-name: ZEITRISS Offline Smoke
-on: [push, pull_request]
+name: ZEITRISS CI Smoke
+
+on:
+  push:
+  pull_request:
+
 permissions:
   contents: read
+
 jobs:
-  smoke:
+  ci_smoke:
+    name: ci_smoke
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: "3.x"
+
       - name: Run unit tests
         run: python3 -m unittest -q
-      - run: bash scripts/smoke.sh | tee smoke.log
+
+      - name: Run smoke
+        run: bash scripts/smoke.sh | tee smoke.log
+
       - name: Generate LINT catalog
         run: python3 scripts/generate_lint_catalog.py
 
       - name: Show LINT catalog diff (non-blocking)
         run: git diff -- docs/LINT-CATALOG.md --exit-code || true
 
-      - if: always()
-        name: Upload smoke artifacts
+      - name: Upload smoke artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: smoke-logs
+          name: ci-smoke-logs
           path: |
             smoke.log
             docs/LINT-CATALOG.md
