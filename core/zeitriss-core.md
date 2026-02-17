@@ -935,9 +935,9 @@ Chrononauten als Zuhause, Trainingslager und Ausrüstungsdepot dient. Wichtige B
 sind unter anderem:
 
 - **Unterkünfte & Quartiere:** Die persönlichen Zimmer oder Wohnbereiche der Agenten.
-  Hier können sie sich ausruhen und persönliche Gegenstände lagern. Dieser Bereich begleitet die
-  Chrononauten unabhängig vom Standort ihres HQs - ob im ITI oder in einer späteren eigenen Basis.
-  Die Quartiere bieten Gelegenheit für Charakterszenen, etwa wenn ein Agent ein Souvenir der letzten
+  Hier können sie sich ausruhen und persönliche Gegenstände lagern. Die Quartiere sind fester
+  Bestandteil des ITI und wachsen mit den freigeschalteten Fraktions-Ausbaustufen.
+  Sie bieten Gelegenheit für Charakterszenen, etwa wenn ein Agent ein Souvenir der letzten
   Mission betrachtet oder zwei Teammitglieder im Gemeinschaftsraum über mysteriöse Zeitphänomene
   diskutieren.
 - **Soziale Treffpunkte:** Dazu zählen eine Kantine/Mensa, eine Bar und sogar ein kleines, diskret
