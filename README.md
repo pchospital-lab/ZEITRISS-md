@@ -15,18 +15,6 @@
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
 → [Makros im Überblick](systems/gameflow/speicher-fortsetzung.md#makros-im-ueberblick)
 
-<!-- Macro: ShowComplianceOnce -->
-
-{% macro ShowComplianceOnce() -%}
-{# Compliance-Hinweis neutralisiert; Hook bleibt für Legacy-Prompts bestehen. #}
-{%- endmacro %}
-
-<!-- Macro: StoreCompliance (Alias) -->
-
-{% macro StoreCompliance() -%}
-{# Alias bleibt leer; Compliance-Hinweis entfällt. #}
-{%- endmacro %}
-
 ## TL;DR - ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
