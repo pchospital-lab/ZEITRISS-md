@@ -65,7 +65,8 @@ und die Runtime-Referenz.
   [`docs/setup-guide.md`](docs/setup-guide.md#sicherheitsdefaults-für-openwebui).
 - **Setup-Option:** Für lokale Installationen steht
   [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
-  (provider-neutral mit expliziter Modellwahl; Sonnet als empfohlener Default).
+  (provider-neutral mit expliziter Modellwahl; DeepSeek V3 als empfohlener Default,
+  Sonnet 4 als Premium-Alternative).
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
   individuellen Endnutzer-Support und keine SLA für private Nutzung (Details in
   [LICENSE](LICENSE)).
