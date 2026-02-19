@@ -39,7 +39,8 @@ tags: [core, reference, gm]
   serialisiert und dient nur dem aktiven Run. UI-/Accessibility-Overrides aus
   dem Host bleiben erwartetes Verhalten und werden als Trace
   `ui_host_override` protokolliert.
-- **Speichern.** Einsätze lassen kein Speichern zu; der Dispatcher meldet
+- **Speichern.** *(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz.)*
+  Einsätze lassen kein Speichern zu; der Dispatcher meldet
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission
   aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
   werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
@@ -395,6 +396,8 @@ Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Sch
 **Ziel:** Freiraum für Erkundung - unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern
 weiterhin ausschließlich im **HQ**.)
+
+*(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz und nicht für Spieler gedacht.)*
 
 Die Runtime spiegelt das Fenster parallel nach
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`.

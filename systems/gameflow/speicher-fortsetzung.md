@@ -6,6 +6,18 @@ tags: [system]
 
 # ZEITRISS 4.2.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
+## Speichern & Laden — Kurzreferenz
+
+> **Für Spieler:** Hier das Wichtigste in 30 Sekunden.
+>
+> - **Speichern** geht nur im HQ (nach Missionen, vor dem nächsten Einsatz).
+> - Befehl: `!save` — der Kodex erzeugt einen JSON-Block zum Kopieren.
+> - **Laden:** `Spiel laden` im neuen Chat, dann JSON einfügen.
+> - **In Missionen wird nicht gespeichert** — das erhöht die Spannung.
+> - **Neuer Chat pro Mission** empfohlen: Mission abschließen → HQ → Save → neuer Chat → Laden.
+>
+> *Technische Details für die KI-Spielleitung folgen unten.*
+
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
 > Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
@@ -38,6 +50,10 @@ diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
   Wahrheit.
 
 **SaveGuard (Pseudocode)**
+
+> *Die folgenden Strings und Codeblöcke sind KI-Spielleiter-Referenz und nicht
+> für Spieler gedacht.*
+
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert state.location == "HQ", (
@@ -138,7 +154,7 @@ Der Befehl `!offline` ist
 auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
 noch füllen sie das Protokoll.
 
-**SaveGuard-Reihenfolge:** Offline blockiert exklusiv und schreibt
+**SaveGuard-Reihenfolge** *(KI-Spielleiter-Referenz)*: Offline blockiert exklusiv und schreibt
 `reason: offline`. Danach greift der Arena-Blocker (`reason: arena_active`
 inkl. `queue_state`/`phase`/`zone`), anschließend HQ-only (`hq_only` oder
 `chronopolis`). Erst danach folgen Exfil-, SYS-, Stress- und Psi-Heat-Checks,

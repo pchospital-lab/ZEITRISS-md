@@ -91,6 +91,11 @@ Der Standard-Header zeigt:
   Der Boss-DR-Toast staffelt sich nach Teamgröße (1–2 = 1, 3–4 = 2,
   Teamgröße 5 = 3 (Mini) bzw. 4 (Arc/Rift)) und nutzt den gleichen Wert im HUD
   und Debrief.
+- **Self-Reflection (SF) — Kurzversion:** Wenn aktiv, gibt der Kodex ungefragt
+  taktische Tipps und Regelhinweise. `!sf off` schaltet es ab, `!sf on` wieder
+  an. Nach Mission 5 und 10 wird es automatisch reaktiviert. Das war's — der
+  Rest unten ist technische Spezifikation für die KI-Spielleitung.
+
 - `SF-OFF` (Self-Reflection deaktiviert) bleibt als Badge sichtbar, bis `!sf on`
   das Flag `logs.flags.self_reflection_off` zurücksetzt;
   `set_self_reflection(enabled: boolean)` schreibt parallel

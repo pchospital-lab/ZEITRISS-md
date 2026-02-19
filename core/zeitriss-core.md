@@ -569,6 +569,42 @@ Der Malus gilt auf alle Proben. Diese Kurzfassung dient als Referenz — die
 **kanonische Verwundungstabelle** mit vollständigen Regeln zu Heilung, Erholung und
 Not-Rückholung liegt in [Zustände & erweiterte Systeme](../characters/zustaende.md).
 
+## Kampfablauf — Kurzübersicht
+
+Ein Kampf in ZEITRISS folgt sechs Schritten. Dieser Abschnitt fasst den
+kompletten Ablauf zusammen — Details stecken in den verlinkten Modulen.
+
+1. **Initiative:** `1W6 + GES` (voller Wert, keine Halbierung). Höchster Wert
+   beginnt. Bei Gleichstand entscheidet TEMP, dann ein Stichwurf.
+   → Details: [Initiative-Systeme](../characters/zustaende.md#initiative-systeme)
+
+2. **Angriffswurf:** Standard-Probenformel `1W6 + ⌊Attribut/2⌋ + Talent + Gear ≥ SG`.
+   STR für Nahkampf, GES für Fernkampf. Wichtige Gegner würfeln zurück
+   (Oppositionswurf), Statisten haben einen festen Abwehr-SG.
+   → Details: [Würfelmechanik](wuerfelmechanik.md)
+
+3. **Schaden:** Waffe hat einen festen Schadenswert. Rüstungs-DR wird abgezogen:
+   `Schaden − DR = LP-Verlust`. Kein Schadenswurf — der Angriffswurf entscheidet,
+   ob getroffen wird; die Waffe bestimmt die Wucht.
+   → Details: [Ausrüstung & Cyberware](../characters/ausruestung-cyberware.md)
+
+4. **Verletzungsstufen:** Der aktuelle LP-Stand bestimmt Stufe und Mali
+   (Unverletzt → Leicht → Mittel → Schwer → Kritisch). Mali wirken auf alle
+   weiteren Proben.
+   → Details: [Zustände](../characters/zustaende.md)
+
+5. **Stress:** Kampf kann Stress auslösen — besonders bei kritischen Treffern,
+   Verlust von Teammitgliedern oder übermächtigen Gegnern. Hoher Stress
+   verschlechtert soziale und präzise Proben.
+   → Details: [Stress-System](../characters/zustaende.md#stress-system)
+
+6. **Quick-Fight:** Für schnelle Kämpfe gegen unterlegene Gegner gibt es einen
+   vereinfachten Ablauf mit einer einzigen Probe statt rundenweiser Auflösung.
+   → Details: [Quick-Fight Walkthrough](wuerfelmechanik.md#quick-fight-walkthrough)
+
+> **Merke:** Kampfregeln verteilen sich auf mehrere Module. Dieser Abschnitt ist
+> die Navigationshilfe — folge den Links für die vollständigen Regeln.
+
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere
 Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung (GPT) nicht dauerhaft alle
