@@ -84,9 +84,17 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 
 - **OpenWebUI + OpenRouter:** Setup-Script (s.o.) oder manuell: Modelle unter
   Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
-  erstellen. Empfohlenes Modell: `anthropic/claude-sonnet-4` (Temperatur 0.8).
-  Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
+  erstellen. Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
   Auswahl explizit ab.
+
+  **Empfohlene Modelle:**
+  | Modell | Typ | Preis/1M Token | Stärke |
+  |--------|-----|----------------|--------|
+  | `deepseek/deepseek-chat-v3-0324` | **Default** | ~$0.27/$1.10 | Regeltreu, starker Noir-Ton, günstig — beste Preis-Leistung |
+  | `anthropic/claude-sonnet-4` | Premium | ~$3/$15 | Solider Allrounder, höherer Preis |
+  | `meta-llama/llama-3.3-70b-instruct` | Free | Kostenlos (OpenRouter) | Gratis-Option, weniger Flair |
+
+  Temperatur: **0.8** für alle Modelle.
 - **MyGPT (OpenAI):** 20 Wissensmodule (README + 19 Runtime-Module) in den
   Wissensspeicher, Masterprompt ins Anweisungsfeld. Achtung: OpenAI
   Content-Filter kann 18+-Inhalte einschränken.

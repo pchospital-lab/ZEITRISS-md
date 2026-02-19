@@ -91,14 +91,14 @@ fi
 ok "API-Key gültig"
 
 # ── Base Model bestimmen ───────────────────────────────────────────
-DEFAULT_REMOTE_MODEL="anthropic/claude-sonnet-4"
+DEFAULT_REMOTE_MODEL="deepseek/deepseek-chat-v3-0324"
 
 prompt_manual_model() {
   echo ""
   echo "  Verfügbare Modelle findest du unter:"
   echo "  $OPENWEBUI_URL → Neuer Chat → Modell-Dropdown"
   echo ""
-  read -rp "  Model-ID eingeben (z.B. anthropic/claude-sonnet-4): " BASE_MODEL
+  read -rp "  Model-ID eingeben (z.B. deepseek/deepseek-chat-v3-0324): " BASE_MODEL
   if [ -z "$BASE_MODEL" ]; then
     fail "Kein Modell angegeben. Abbruch."
   fi
