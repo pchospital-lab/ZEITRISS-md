@@ -107,8 +107,20 @@ anpassen. Preise sind in **_CU_** (Chrono-Units, die zeitübergreifende Währung
 Zugang zu High-Tech-Ausrüstung kann vom Rang oder Ruf des Agenten abhängen: Ein frisch rekrutierter
 Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear ausgestattet. Solche
 Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes Ansehen verdienen.\*
+**Tier-Lizenzen — Preistabelle:**
+
+| Tier | Ruf-Anforderung | Lizenzkosten |
+|------|-----------------|-------------|
+| 0 | — | Frei |
+| I | Ruf +1 | 200 CU |
+| II | Ruf +2 | 500 CU |
+| III | Ruf +3 | 1.500 CU |
+| IV | Ruf +4 | 3.000 CU |
+| V | Ruf +5 | Questbelohnung (nicht kaufbar) |
+
 Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
 manchmal geheime Depots mit exklusiven Prototypen.
+Kanonische Tabelle: siehe [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausrüstung--cyberware-hq-phase).
 ## Waffen: Arsenal der Zeitalter
 
 Ob Klingen, Kugeln oder Laser – Chrononauten greifen auf ein breites Spektrum an Waffen zurück,

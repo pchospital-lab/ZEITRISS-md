@@ -438,16 +438,26 @@ filmische Callouts für das HUD.
 
 Das Progressionssystem gliedert sich in zwei Phasen:
 
-- **Phase 1 (Lvl 1-10):** Jede abgeschlossene Mission = sofort +1 Level.
+- **Phase 1 (Lvl 1–10):** Jede abgeschlossene Mission = sofort +1 Level.
   Schneller Einstieg, maximale Motivation.
-- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve — der Bedarf steigt moderat
-  an (~15 EP bis Lvl 50, ~20 EP bis Lvl 100). Fortschritt erfolgt zunehmend
-  horizontal über Prestige-Perks und Meilensteine.
+- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve:
+
+| Level | EP pro Level | Kumulativ |
+|-------|-------------|-----------|
+| 1–10 | 1 EP (= 1 Mission) | 10 EP |
+| 11–20 | 2 EP | 30 EP |
+| 21–30 | 3 EP | 60 EP |
+| 31–50 | 4 EP | 140 EP |
+| 51–100 | 5 EP | 390 EP |
+
+**Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
+75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
+Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt).
 
 Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
 Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
 Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen)
-und [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt) für Details.
+für wirtschaftliche Details.
 
 ## Regelreferenz
 

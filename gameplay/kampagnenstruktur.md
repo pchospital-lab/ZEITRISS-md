@@ -1533,23 +1533,32 @@ Eine gut entwickelte Teamdynamik erhöht die Immersion enorm: Die Spieler fühle
 echten Agentengruppe. Bei Erfolgserlebnissen feiern sie zusammen, bei Rückschlägen trösten sie sich
 gegenseitig - genau solche Momente machen eine langfristige Kampagne unvergesslich.
 
-### Team-Perks {#team-perks}
+### Team-Perks — Katalog {#team-perks}
 
-Nach einigen gemeinsamen Missionen kann die Gruppe **Team-Perks** freischalten. Diese Spezialisierungen
-repräsentieren eingespielte Taktiken oder besondere Ausrüstung und werden im HQ erworben.
+Nach einigen gemeinsamen Missionen kann die Gruppe **Team-Perks** freischalten. Diese
+Spezialisierungen repräsentieren eingespielte Taktiken oder besondere Ausrüstung und
+werden im HQ erworben. Sie sind an Teamzusammensetzung und Archetypen-Kombinationen
+gekoppelt und liefern **echte Mechanik**, nicht nur Flavor.
 
-**Beispielhafte Perks**
+**Regeln:**
+- Ein Team hat **maximal 2 aktive Perks** gleichzeitig.
+- Ein Perk kostet **500 CU** und erfordert mindestens **3 gemeinsame Missionen**.
+- Perks können im HQ gewechselt werden (Kosten: 200 CU Umschulung).
 
-- **Diplomatenteam** - verbessert den ersten Eindruck; eine Sozialprobe pro Begegnung erhält Vorteil.
-- **Datenverbund** - dauerhafte Vernetzung, +1 auf koordinierte Aktionen.
-- **Kampfverbund** - +1 auf Angriff und Abwehr, einmal pro Kampf einen Gegner gemeinsam ausschalten.
-- **Fahrzeug-Crew** - +2 auf Fahrzeugwürfe, solange ein Mitglied unterstützt.
-- **Feldklinik** - nach Gefechten regeneriert jeder zusätzlich 1 Treffer.
-- **Geistertruppe** - Vorteil bei Infiltrationen und Sabotage.
-- **Ballistische Optik 2.0** - +1 Erfolg auf Distanz von vorbereiteter Position.
-- **Ricochet Tag** - markiert ein Ziel per Abpraller; der nächste Schuss ignoriert Telekinese-Deckung.
-
-Ein Perk kostet meist Ressourcen oder Training. Aktiv sein sollte immer nur ein Bonus gleichzeitig.
+| # | Perk | Voraussetzung | Mechanik |
+|---|------|---------------|----------|
+| 1 | **Diplomatenteam** | Mind. 1 Face-Archetyp | 1×/Begegnung: eine Sozialprobe erhält **Vorteil** (besserer von 2 Würfen zählt). |
+| 2 | **Datenverbund** | Mind. 1 Tech-Archetyp | Dauerhafte Vernetzung: **+1** auf koordinierte Aktionen (Tandem-Proben). |
+| 3 | **Kampfverbund** | Mind. 2 Kampf-Archetypen | **+1** auf Angriff und Abwehr; 1×/Kampf dürfen zwei Agenten einen Gegner mit kombiniertem Angriff ausschalten (kein separater SG). |
+| 4 | **Fahrzeug-Crew** | Mind. 1 Agent mit Drohnensteuerung/Fahrzeug-Talent | **+2** auf Fahrzeugwürfe, solange ein Mitglied aktiv unterstützt. |
+| 5 | **Feldklinik** | Mind. 1 Medic-Archetyp | Nach jedem Gefecht regeneriert jeder Agent **+1 LP** automatisch. |
+| 6 | **Geistertruppe** | Mind. 2 Infiltrations-Archetypen | **Vorteil** auf die erste Infiltrations- oder Sabotage-Probe pro Szene. |
+| 7 | **Ballistische Optik 2.0** | Mind. 1 Sniper-Archetyp | 1×/Mission: **+2** auf einen Fernkampfwurf von vorbereiteter Position. |
+| 8 | **Ricochet Tag** | Mind. 1 CQB + 1 Fernkämpfer | Markiert ein Ziel per Abpraller-Schuss; der nächste Angriff gegen das Ziel ignoriert **1 Punkt Deckung/DR**. |
+| 9 | **Psi-Resonanzfeld** | Mind. 2 Agenten mit `has_psi` | 1×/Mission: alle Psi-Proben in einer Szene erhalten **+1**; danach +1 Psi-Heat für alle Beteiligten. |
+| 10 | **Temporale Synergie** | Mind. 1 Agent mit TEMP ≥ 8 | 1×/Episode: das Team darf einen **Px Burn** durchführen, ohne tatsächlich 1 Px zu verlieren (Phantom-Burn). |
+| 11 | **Sprachgitter** | Mind. 1 Polyglott-Talent im Team | Das Team erhält automatisch Basis-Übersetzung für die aktuelle Epoche — keine Probe nötig für einfache Verständigung. |
+| 12 | **Sturmbrecher** | Teamgröße 4+ | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt). |
 ### Solo Ops {#solo-ops}
 
 Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes Template:

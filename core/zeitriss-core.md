@@ -315,11 +315,28 @@ gliedert sich in zwei Phasen:
 
 #### Erfahrungspunkte & Stufenaufstieg
 
-- **EP-Kurve:** Level 1-10 folgt dem vereinfachten System: Jede abgeschlossene
+- **EP-Kurve:** Level 1–10 folgt dem vereinfachten System: Jede abgeschlossene
   Mission bringt sofort ein Level-Up. Ab Level 11 steigen die EP-Anforderungen
-  pro Stufe moderat an (etwa \~15 EP bis Level 50, \~20 EP bis Level 100 usw.),
-  sodass _Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell erreicht
-  wird_. Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
+  pro Stufe moderat an. Die konkrete Tabelle:
+
+  | Level | EP pro Level | Kumulativ |
+  |-------|-------------|-----------|
+  | 1–10 | 1 EP (= 1 Mission) | 10 EP |
+  | 11–20 | 2 EP | 30 EP |
+  | 21–30 | 3 EP | 60 EP |
+  | 31–50 | 4 EP | 140 EP |
+  | 51–100 | 5 EP | 390 EP |
+
+  **Prestige-Meilensteine:**
+
+  | Level | Meilenstein |
+  |-------|-------------|
+  | 25 | Titel: *Bewährter Agent* — kosmetisches HUD-Abzeichen |
+  | 50 | Titel: *Veteran* — eigener Fraktionssektor im HQ |
+  | 75 | Titel: *Koryphäe* — Zugang zu Prestige-Perks |
+  | 100 | Titel: *Legende* — ITI-Legendenstatus, umfassende Privilegien |
+
+  Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
   sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange
   spannend bleibt. **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere
   zu rasch extrem hohe Stufen erreichen, ohne sie jedoch künstlich auszubremsen —

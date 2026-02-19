@@ -511,8 +511,16 @@ Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission
 Höhere **Tier-Stufen** werden über kostenpflichtige **Lizenzen** freigeschaltet.
 Je teurer die Lizenz, desto hochwertiger die verfügbare Ausrüstung.
 Zusätzlich koppelt das ITI den Zugriff an euren **Ruf**:
-- **Ruf 1** erlaubt den Kauf von Tier-1-Lizenzen,
-- **Ruf 2** schaltet Tier 2 frei und so weiter.
+
+| Tier | Ruf-Anforderung | Lizenzkosten |
+|------|-----------------|-------------|
+| 0 | — | Frei |
+| I | Ruf +1 | 200 CU |
+| II | Ruf +2 | 500 CU |
+| III | Ruf +3 | 1.500 CU |
+| IV | Ruf +4 | 3.000 CU |
+| V | Ruf +5 | Questbelohnung (nicht kaufbar) |
+
 Lizenzen müssen dennoch erworben werden, sobald die passende Rufstufe erreicht ist.
 
 typischerweise eine Ressourcengutschrift - sei es in Form von **Credits (CU)** oder logistischen
