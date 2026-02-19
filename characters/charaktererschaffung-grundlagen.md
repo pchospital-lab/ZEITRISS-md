@@ -421,16 +421,16 @@ standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: *
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
 euren aktuellen ITI-Rang zeigt.
 
-**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch den
-**Befähigungsindex** ein. Letzterer basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
+**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch die
+**Rufstufe** ein. Letztere basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
 Unter dem Namen läuft ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten Level ist.
-Euer Charakter würde nie laut verkünden "Ich hab Level 3 erreicht" - innerhalb der Spielwelt gilt
-nur der Befähigungsindex als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
+Euer Charakter würde nie laut verkünden "Ich hab Level 3 erreicht" — innerhalb der Spielwelt gilt
+nur die Rufstufe als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
 exakten Fortschritt nennen, z.B.: _"Euer HUD zeigt Level 3 (70 % bis Level 4) und
-Befähigungsindex +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
-HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** - Rang +1 (Level 3, 71 % bis Level 4); Vital:
+Rufstufe +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
+HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** — Rang +1 (Level 3, 71 % bis Level 4); Vital:
 100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
-Bereich."\* - daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
+Bereich."\* — daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen - in der sogenannten **HQ-Phase** - habt ihr
 Gelegenheit, euren Fortschritt auszuspielen. Typische **Downtime-Aktivitäten** sind Training,
