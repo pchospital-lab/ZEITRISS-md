@@ -504,11 +504,8 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 
 | Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
 | ----- | --------------------------------------- | -------------------------------------------- |
-| 0-1   | Stabil                                 | -                                            |
-| 2     | einmalig -1 Stress                     | -                                            |
-| 3     | Gruppe heilt 1 HP                      | -                                            |
-| 4     | +2 Initiative auf nächste Handlung     | "Riss-Vorstufe"-Flag                         |
-| **5** | Heat-Reset, 2 PP, Zustände weg          | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
+| 0-4   | Stabil — keine mechanischen Effekte     | Fortschritt über HUD-Farbe sichtbar          |
+| **5** | Psi-Heat 0, 2 PP, Zustände weg          | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
 
 Der Index wird kampagnenweit verfolgt. Bei Stufe 5 macht `ClusterCreate()` 1-2 neue
 Rift-Seeds sichtbar.

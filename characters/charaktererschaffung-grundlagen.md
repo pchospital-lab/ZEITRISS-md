@@ -154,7 +154,17 @@ freigeschaltet.
     erzählerisch gefärbt sein - solange klar bleibt, welche Probe sie typischerweise beeinflussen.
 
 4.  **SYS-Verteilung & Implantate:** Das **SYS-Attribut** repräsentiert, wie viel _Cyberware_ oder
-    technische Upgrades euer Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
+    technische Upgrades euer Agent verkraften bzw. betreiben kann.
+
+    **Die vier SYS-Felder auf einen Blick:**
+    - **SYS_max** = euer Attributswert — das Gesamtbudget.
+    - **SYS_installed** = permanent belegte Slots (Cyber-/Bioware).
+    - **SYS_runtime** = aktuell aktive Last (installed + temporäre Psi-Effekte).
+    - **SYS_used** = Kurzzeit-Peak für Überlastungschecks.
+    - **Faustregel:** `installed ≤ max`. Wenn `runtime > max` → Überlastung.
+    Das HUD zeigt immer `SYS runtime/max (free X)`.
+    Save-Schema-Details und technische Interna gehören in die
+    [SL-Referenz](../core/sl-referenz.md). Viele Chrononauten besitzen bereits
     zu Missionsbeginn ein oder zwei Implantate - technische Verbesserungen, die besondere Fähigkeiten
     verleihen. Nun entscheidet ihr, ob und welche **Implantate** euer Charakter erhält. Jedes Implantat
     hat einen **SYS-Kostenwert**, der eure verfügbare Systemkapazität entsprechend belegt. Die Summe

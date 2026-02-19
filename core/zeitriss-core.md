@@ -134,8 +134,10 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   waffenlosen Nahkampf.
 - **Geschicklichkeit (GES):** Behändigkeit, Schnelligkeit und Fingerfertigkeit. Wichtig für
   Klettern, Balancieren, Schleichen, Schlösser knacken, Taschendiebstahl oder geschicktes Ausweichen
-  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die Initiative in kämpferischen
-  Situationen.
+  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die **Initiative** in
+  kämpferischen Situationen. _Wichtig:_ Initiative nutzt den **vollen GES-Wert**
+  (`1W6 + GES`), keine Halbierung — Initiative ist kein Check, sondern eine Reaktionsmessung.
+  Normale Proben verwenden dagegen `1W6 + ⌊Attribut / 2⌋`.
 - **Intelligenz (INT):** Geistige Fähigkeiten wie Logik, Bildung, Erinnerungsvermögen und
   analytisches Denken. Benötigt zum Lösen von Rätseln, Entziffern alter Schriften, Planen komplexer
   Taktiken oder wissenschaftliches Vorgehen. Ein hoher INT-Wert hilft dabei, Hinweise zu verknüpfen
