@@ -245,15 +245,24 @@ Spielleitung kann z.B. verkünden: _"Euer HUD kalibriert und zeigt euren Status:
 100% (grün); Paradoxon 0 - Temporale Stabilität gegeben. Ausrüstungssysteme online."_ - So erfahrt ihr
 die harten Fakten **diegetisch**, ohne Tabellen wälzen zu müssen.
 
-7. **Hauptfraktion wählen:** Direkt nach dem Profil-Upload legt ihr im HQ fest,
-   welcher der großen ITI-Fraktionen ihr euch vorrangig anschließen möchtet -
-   den **Chrono-Symmetriker** _(Preserve)_, dem **Ordo Mnemonika** _(Neutral - Zugriff auf Preserve
-   und Trigger)_, den **Kausalklingen** _(Preserve)_ oder der **Zerbrechlichen Ewigkeit** _(Trigger)_.
-   Diese Zuordnung bestimmt automatisch, ob ihr **Pro**, **Contra** oder **Neutral** agiert.
-   Der Kodex speichert die Wahl permanent; euer HUD markiert sie farblich (Blau = Preserve,
-   Rot = Trigger, Grau = Neutral). Die Entscheidung fällt **vor dem ersten Briefing**
-   und noch während der HQ-Einweisung, damit eure Betreuung klar zugeordnet ist.
-   Ein späterer Wechsel ist nur einmal möglich und sollte gut überlegt sein.
+7. **Fraktionszuordnung — Ordo Mnemonika:** Nach dem Profil-Upload registriert
+   der Kodex jeden neuen Chrononauten automatisch als Agenten des
+   **Ordo Mnemonika** _(Neutral)_. Euer HUD markiert die Zugehörigkeit grau.
+   Als Neutrale spielt ihr den **Mischpool** — Preserve- und Trigger-Seeds
+   rotieren frei, und ihr könnt in Teams beider Haltungen mitarbeiten.
+
+   Im Laufe eurer Karriere stellt das ITI euch die drei weiteren Fraktionen
+   vor: die **Chrono-Symmetriker** _(Preserve)_, die **Kausalklingen**
+   _(Preserve)_ und die **Zerbrechliche Ewigkeit** _(Trigger)_. Ein
+   **Fraktionsübertritt** ist jederzeit im Spielverlauf möglich — aber
+   endgültig. Es gibt keinen Weg zurück zum Ordo und keinen Wechsel
+   zwischen Preserve und Trigger. Wer übertritt, erhält fortan nur noch
+   Seeds der gewählten Haltung. Ruf und HQ-Ausbaustufen bleiben erhalten.
+   Wer bewusst neutral bleibt, kann beim Ordo Mnemonika aufsteigen und
+   weiterhin den Mischpool spielen.
+
+   Bei der Charaktererstellung gibt es **keinen Fraktionswahlzwang**. Die
+   Orientierung entwickelt sich im Spiel.
 
 Jetzt seid ihr bereit für die erste Mission!
 
@@ -261,63 +270,78 @@ Jetzt seid ihr bereit für die erste Mission!
 
 Direkt im Anschluss führt die Spielleitung die frisch gebackenen Chrononauten in das
 **Institut für Temporale Intervention (ITI)**. Die erste Einweisung übernimmt
-Commander Renier persönlich, bevor er die Betreuung an die Fraktionskontakte übergibt.
-Dieses Hauptquartier liegt in einer
-gewaltigen Megacity innerhalb der **Nullzeit** - ein schwebender Knotenpunkt jenseits
+Commander Renier persönlich. Dieses Hauptquartier liegt in einer
+gewaltigen Megacity innerhalb der **Nullzeit** — ein schwebender Knotenpunkt jenseits
 des normalen Zeitstroms. In dieser High-Tech-Enklave,
 die wie eine düstere Untergrundmetropole voller Neonlichter und Schatten wirkt,
 erhalten die Agenten eine Einführung: Welche Rolle
 spielen sie im Schutz der Zeitlinie, welche Einrichtungen stehen ihnen offen und
-welche Fraktionen operieren im Hintergrund? Kurz werden unter anderem die
-**Chrono-Symmetriker**, der **Ordo Mnemonika**, die **Kausalklingen** und die
-**Zerbrechliche Ewigkeit** erwähnt, damit die Spieler wissen, welche Mächte das
-Zeitgeflecht beeinflussen.
+welche Fraktionen operieren im Hintergrund?
 
-An dieser Stelle erklärt die Spielleitung die wichtigsten Fraktionen und weist
-darauf hin, dass jede*r Agent*in im Anschluss eine **Hauptfraktion** wählt und
-ob er oder sie **pro** oder **contra** agiert (siehe Schritt 7 oben). Unabhängig
-von dieser Wahl kann die Gruppe die Paradoxon-Mechanik per `modus paradoxon off`
-deaktivieren und bei Bedarf identisch wieder einschalten - häufig geschieht
-dieser Ansatz in Allianz mit der Zerbrechlichen Ewigkeit.
+Commander Renier stellt die vier ITI-Fraktionen als Orientierung vor —
+**Chrono-Symmetriker** _(Preserve)_, **Ordo Mnemonika** _(Neutral)_,
+**Kausalklingen** _(Preserve)_ und **Zerbrechliche Ewigkeit** _(Trigger)_.
+Alle vier verfolgen denselben Auftrag: den natürlichen Verlauf der Geschichte
+wahren und Fremdfraktionen daran hindern einzugreifen. Die Vorstellung dient
+als Kontext, nicht als Wahlzwang — alle Neulinge starten beim Ordo Mnemonika
+(siehe Schritt 7).
 
-Nach der Wahl eurer Hauptfraktion stellt euch das ITI eine feste Kontaktperson vor:
-Pater Lorian (Chrono-Symmetriker), Archivarin Mira (Ordo Mnemonika),
-Offizier Vargas (Kausalklingen) oder Agentin Narella (Zerbrechliche Ewigkeit).
-Alle vier besitzen unterschiedliche Hominin-Bio-Sheaths:
-- Pater Lorian - Homo heidelbergensis
-- Archivarin Mira - Homo floresiensis
-- Offizier Vargas - Homo erectus (spät)
-- Agentin Narella - Denisova-Mensch
-Diese Liaisons betreuen euch im HQ, übernehmen ab jetzt **Briefings und Debriefings**
-und vermitteln Missionen aus dem gemeinsamen Auftragspool. Sie halten zudem optionale
-Spezialaufträge ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
+Unabhängig von der Fraktionszugehörigkeit kann die Gruppe die Paradoxon-Mechanik
+per `modus paradoxon off` deaktivieren und bei Bedarf identisch wieder
+einschalten.
+
+Im HQ stellt euch das ITI vier Fraktionskontakte vor:
+- **Archivarin Mira** (Ordo Mnemonika) — Homo floresiensis
+- Pater Lorian (Chrono-Symmetriker) — Homo heidelbergensis
+- Offizier Vargas (Kausalklingen) — Homo erectus (spät)
+- Agentin Narella (Zerbrechliche Ewigkeit) — Denisova-Mensch
+
+**Archivarin Mira ist die erste Betreuerin für alle Neulinge.** Sie übernimmt
+Briefings und Debriefings und vermittelt Missionen aus dem Mischpool. Die anderen
+drei Kontakte werden relevant, sobald ein Agent zu ihrer Fraktion übertritt —
+dann übernimmt die jeweilige Kontaktperson die Betreuung und schaltet den
+fokussierten Missionspool frei. Alle vier halten zudem optionale Spezialaufträge
+ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
 und tritt vor allem bei fraktionsübergreifenden Einsätzen, Eskalationen oder
 Schlüsselmeilensteinen auf.
 ### Haltung, Teams und Missionspools
 
-Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Alle neuen Chrononauten starten als **Neutrale** beim Ordo Mnemonika und spielen
+den **Mischpool** — Preserve- und Trigger-Seeds rotieren frei.
+
+**Team-Kompatibilität:**
+- **Neutral + Preserve** = erlaubt (der Neutrale spielt im Preserve-Team mit)
+- **Neutral + Trigger** = erlaubt (der Neutrale spielt im Trigger-Team mit)
+- **Neutral + Neutral** = erlaubt (Mischpool)
+- **Preserve + Preserve** = erlaubt
+- **Trigger + Trigger** = erlaubt
+- **Preserve + Trigger** = **nicht erlaubt** (nur innerhalb derselben Haltung)
+- **Alle gemeinsam gegen Fremdfraktionen** = immer, unabhängig von Haltung
+
 Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
 Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
 Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
-des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
-Fremdfraktionen stehen alle zusammen.
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte.
 
 Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
 **Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
 
 **Missionspools:**
-- **Mischpool (Standard):** Das Team erhält Missionen aus beiden Pools —
+- **Mischpool (Standard):** Neutrale erhalten Missionen aus beiden Pools —
   Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
   Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
-- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
-  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
-  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
-  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+- **Fokussierter Pool:** Wer zu einer Preserve- oder Trigger-Fraktion
+  **übertritt**, erhält fortan ausschließlich Seeds der gewählten Haltung.
+  Der Missionspool ändert sich nur durch Fraktionsübertritt, nicht bei
+  der Charaktererstellung.
+  HQ-Befehl (erst nach Übertritt relevant): `!kampagnenmodus preserve`
+  oder `!kampagnenmodus trigger`.
 
-Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich — aber nur einmal
-und mit Bedacht.
+**Fraktionsübertritt:** Jederzeit im Spielverlauf möglich, aber endgültig —
+kein Weg zurück zum Ordo und kein Wechsel zwischen Preserve und Trigger.
 Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
-Ein späterer Wechsel zwischen Pro, Contra und Neutral ist ausgeschlossen.
+Wer bewusst neutral bleibt, kann beim Ordo Mnemonika aufsteigen und
+weiterhin den Mischpool spielen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
 persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann (rein
@@ -453,10 +477,11 @@ echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdi
 
 Im Mittelpunkt steht euer Ruf innerhalb des ITI. Für jede der vier **ITI-Fraktionen** kann die SL einen
 Rufwert zwischen **-5** und **+5** tracken. Null ist neutral, positive Werte bedeuten Vertrauen, negative
-Misstrauen. Zu Kampagnenbeginn wählt ihr, bei welcher dieser Fraktionen ihr langfristig Ansehen
-aufbauen wollt. Die Zuordnung bestimmt zugleich eure Haltung: **Chrono-Symmetriker** und **Kausalklingen**
-handeln nach dem Preserve-Ansatz, der **Ordo Mnemonika** bleibt neutral, die **Zerbrechliche Ewigkeit**
-folgt dem Trigger-Prinzip.
+Misstrauen. Zu Beginn sammelt ihr als Agenten des **Ordo Mnemonika** Ansehen im Mischpool.
+Im Spielverlauf könnt ihr zu einer Preserve- oder Trigger-Fraktion übertreten und dort
+langfristig Ansehen aufbauen: **Chrono-Symmetriker** und **Kausalklingen**
+handeln nach dem Preserve-Ansatz, die **Zerbrechliche Ewigkeit**
+folgt dem Trigger-Prinzip. Wer neutral bleibt, steigt beim Ordo auf.
 Anschließend sammelt ihr über viele Einsätze hinweg langsam Rufpunkte. Die nötigen
 Missionserfolge pro Stufe findet ihr in der folgenden Tabelle. Die Werte sind Richtlinien und
 können von der Spielleitung jederzeit angepasst werden.
