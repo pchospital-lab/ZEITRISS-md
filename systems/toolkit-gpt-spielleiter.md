@@ -112,7 +112,7 @@ default_modus: mission-fokus
   if env.GM_STYLE is defined and env.GM_STYLE
   else state.gm_style
   if state.gm_style is defined
-  else 'verbose' %}
+  else 'klassik' %}
 {% set state.gm_style = gm_style %}
 {% if scene is not defined %}{% set scene = {} %}{% endif %}
 {% if state.logs is not defined or state.logs is none %}
