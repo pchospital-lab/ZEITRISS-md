@@ -283,19 +283,39 @@ und vermitteln Missionen aus dem gemeinsamen Auftragspool. Sie halten zudem opti
 Spezialaufträge ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
 und tritt vor allem bei fraktionsübergreifenden Einsätzen, Eskalationen oder
 Schlüsselmeilensteinen auf.
-Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung
-zusammen.
-Agenten unterschiedlicher Haltung mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
-Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich - aber nur einmal
+### Haltung, Teams und Missionspools
+
+Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
+Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
+Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
+Fremdfraktionen stehen alle zusammen.
+
+Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
+**Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
+
+**Missionspools:**
+- **Mischpool (Standard):** Das Team erhält Missionen aus beiden Pools —
+  Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
+  Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
+- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
+  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
+  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
+  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+
+Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich — aber nur einmal
 und mit Bedacht.
 Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
 Ein späterer Wechsel zwischen Pro, Contra und Neutral ist ausgeschlossen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
-persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
-kauft ihr euch zusätzliche Zugangs-**Stufen** im Fraktionskomplex des ITI.
-Ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen.
-Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
+persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann (rein
+narrativ — keine mechanischen Boni). Später kauft ihr euch zusätzliche
+Zugangs-**Stufen** im Fraktionskomplex des ITI. Ein eigener Stützpunkt
+außerhalb der Nullzeit ist nicht vorgesehen. Details zum dreistufigen
+HQ-System (ITI-HQ, Quartier, Fuhrpark) und die Ausbautabelle findet ihr in
+[HQ-Verwaltung und Ausbau](../gameplay/kampagnenstruktur.md#hq-verwaltung-und-ausbau).
 Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
 Wunden versorgt und der nächste Auftrag vorbereitet - die Heimkehr ist also ein
 regelmäßiges, aber freiwilliges Element des Spielablaufs.

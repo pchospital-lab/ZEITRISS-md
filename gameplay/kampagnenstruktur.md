@@ -198,7 +198,31 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 ### Preserve-vs-Trigger-Logik
 
-Eine Kampagne startet standardmäßig im **Mixed-Modus** und darf Preserve- und
+#### Haltung, Teams und Missionspools
+
+Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
+Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
+Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
+Fremdfraktionen stehen alle zusammen.
+
+Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
+**Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
+
+**Missionspools:**
+- **Mischpool-Modus (Standard):** Das Team erhält Missionen aus beiden Pools —
+  Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
+  Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
+- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
+  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
+  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
+  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+- **Gemeinsamer Feind:** Der Gegner sind stets **Fremdfraktionen**, die den
+  Geschichtsverlauf manipulieren wollen. Preserve und Trigger kämpfen
+  zusammen gegen diese äußeren Bedrohungen.
+
+Eine Kampagne startet standardmäßig im **Mischpool-Modus** und darf Preserve- und
 Trigger-Seeds mischen. Preserve-Missionen sichern Beinahe-Katastrophen,
 während Trigger-Missionen dokumentierte Tragödien gewährleisten. Die Seeds
 bleiben in getrennten Pools (`preserve_pool`/`trigger_pool`), damit die Themen
@@ -1280,12 +1304,63 @@ tun.
 
 ### Ausbaustufen und Einrichtungen
 
+Das HQ-System gliedert sich in **drei Ebenen**:
+
+#### Ebene 1: ITI-HQ (Team-Ebene)
+
 Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
 Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI.
 Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
 Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen**.
 So erhalten sie Zugang zu bereits bestehenden Einrichtungen oder erweitern diese.
 Jede Freischaltung gilt als Investition in die eigene Fraktion.
+
+**HQ-Ausbau nach Rufstufe:**
+
+| Rufstufe | Freischaltung | CU-Kosten |
+|----------|---------------|-----------|
+| 0 (Start) | Kommandozentrale (Basis), Quartiere (Basis), Fuhrpark (1 Slot) | — |
+| +1 | Werkstatt Stufe 1, Klinik Stufe 1 | 500 CU |
+| +2 | Labor, Arena, Archiv (sensible Bereiche) | 1.000 CU |
+| +3 | Alle Stufe 2, Fuhrpark erweitert | 2.000 CU |
+| +4 | Alle Stufe 3, Spezialeinrichtungen | 4.000 CU |
+
+#### Ebene 2: Persönliches Quartier (Charakter-Ebene)
+
+Jeder Chrononaut hat ein **eigenes Quartier** im HQ. Dieses ist rein
+**narrativ/kosmetisch** — es liefert keine mechanischen Boni. Upgrades
+erfolgen über CU, aber nur als Flavor: Einrichtung, Dekoration,
+persönlicher Stash. Alles im HQ ist schnell erreichbar — das Quartier
+ist ein Rückzugsort, keine separate Basis.
+
+#### Ebene 3: Fuhrpark (HQ-Facility) {#fuhrpark}
+
+Der Fuhrpark ist **Teil des HQ**, nicht separat. Das ITI stellt
+Basisfahrzeuge bereit; die verfügbare Fahrzeug-Tier richtet sich nach
+dem Fuhrpark-Ausbau. Spieler können eigene Fahrzeuge kaufen und dort
+einlagern. Fuhrpark-Ausbau = mehr Slots + höhere Tier-Fahrzeuge verfügbar.
+
+| Fuhrpark-Stufe | Slots | Max. Fahrzeug-Tier | Verfügbar ab |
+|----------------|-------|--------------------|--------------|
+| Basis (Ruf 0) | 1 | Tech I | Start |
+| Erweitert (Ruf +3) | 3 | Tech III | HQ-Ausbau +3 |
+| Voll (Ruf +4) | 5 | Tech IV | HQ-Ausbau +4 |
+
+**Fahrzeug-Grundkäufe (Richtwerte):**
+
+| Fahrzeug-Typ | Tech-Stufe | CU-Kosten |
+|-------------|-----------|-----------|
+| Pferd / Kutsche | Tech I | 100 CU |
+| Motorrad / Jeep | Tech II | 500 CU |
+| Gepanzertes Fahrzeug | Tech III | 1.500 CU |
+| Hover-Gleiter | Tech IV | 4.000 CU |
+| Chrono-Shuttle (Prototyp) | Tech V | Questbelohnung |
+
+Details zu Fahrzeug-Mechaniken und Verfolgungsjagden:
+[Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
+
+#### Einrichtungen im Detail
+
 Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
 HQ:
 
@@ -1311,12 +1386,13 @@ HQ:
   **Kodex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
   neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
-  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet - ein eigener
+  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet — ein eigener
   Stützpunkt außerhalb des ITI ist nicht vorgesehen.
-  Dieser persönliche Rückzugsort bleibt erhalten. Erinnerungsstücke an vergangene Missionen
-  lassen das HQ zum Tagebuch der Gruppe werden. Ausbaustufen können zusätzlichen Komfort oder Sicherheit
-  bieten, z. B. einen privaten Tresor für persönliche Gegenstände oder einen Ort zur Meditation,
-  was im Spiel beispielsweise Stress abbauen kann.
+  Quartier-Upgrades sind rein **narrativ/kosmetisch** und liefern keine mechanischen Boni.
+  Erinnerungsstücke an vergangene Missionen lassen das HQ zum Tagebuch der Gruppe werden.
+  Investitionen in CU bringen Flavor: bessere Einrichtung, Dekoration, persönlicher Stash —
+  aber keine Würfelboni. Das Quartier ist ein Rückzugsort, keine separate Basis.
+  Siehe [Ebene 2: Persönliches Quartier](#ebene-2-persönliches-quartier-charakter-ebene) oben.
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
   Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
   Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte

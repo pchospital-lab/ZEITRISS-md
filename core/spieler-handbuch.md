@@ -472,12 +472,17 @@ Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
 
-Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist **mixed**,
-also eine rotierende Auswahl aus beiden Pools; der Seed-Typ wird pro Mission als
-`campaign.seed_source` markiert.
+Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist der
+**Mischpool-Modus** (`mixed`), also eine rotierende Auswahl aus beiden Pools;
+der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
-- **Preserve-Missionen** - sichern beinahe entglittene Ereignisse
-- **Trigger-Missionen** - garantieren dokumentierte Tragödien
+- **Preserve-Missionen** — sichern beinahe entglittene Ereignisse.
+- **Trigger-Missionen** — garantieren dokumentierte Tragödien.
+- **Beide Seiten sind Verbündete innerhalb des ITI.** Teams bestehen aus
+  Agenten derselben Haltung — nicht aus Feindschaft, sondern als operatives
+  Zellenprinzip. Gegen Fremdfraktionen stehen alle zusammen.
+  Details zu Teams und Missionspools: siehe
+  [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
 Spielende wählen ihre Fraktion **nach der Charaktererschaffung im ITI**
 (Profil-Upload, dann Fraktionswahl vor dem ersten Briefing) und erhalten Zugriff
