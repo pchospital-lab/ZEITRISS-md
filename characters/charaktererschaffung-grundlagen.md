@@ -41,7 +41,7 @@ Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Be
    Weitere Hinweise und Symboltabellen findet ihr im Abschnitt
    [Cinematisches HUD-Overlay](hud-system.md#cinematisches-hud-overlay).
 8. Teamrolle festlegen (optional, siehe
-   [Team-Zusammenstellung](charaktererschaffung-optionen.md#team-zusammenstellung--rollenverteilung-optional))
+   [Team-Zusammenstellung](charaktererschaffung-optionen.md#team-zusammenstellung-rollenverteilung-optional))
 9. Dossier skizzieren (Lebenslauf, Tod, Anker, Hook)
 10. Erste Mission planen
 
@@ -405,7 +405,7 @@ schneller Einstieg, maximale Motivation. Eine Standardkampagne mit zehn
 Missionen führt alle Agenten auf Level 10.
 **Ab Level 11:** Die EP-Anforderungen steigen moderat an und der Fortschritt
 erfolgt zunehmend über Prestige-Perks, Meilensteine und horizontale
-Erweiterungen (Details im [Progressionssystem](../core/zeitriss-core.md#levelaufstieg--fortschritt)).
+Erweiterungen (Details im [Progressionssystem](../core/zeitriss-core.md#levelaufstieg-fortschritt)).
 
 **Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass euer Agent dazulernt und an Erfahrung
 gewinnt. Anstatt dies abstrakt zu handhaben, bettet ZEITRISS den Fortschritt ins Narrativ ein. Wenn

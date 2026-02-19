@@ -676,7 +676,7 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 | Dr. Julian Richter | Wissenschaftler/Medic | Homo erectus (spät) |
 | Henry Walsh | Undercover-Spion | Homo sapiens novus |
 
-| Name | Basiswerte (18) | Rassenmods | Finale Attribute | SYS-Last |
+| Name | Basiswerte (18): STR/GES/INT/CHA/TEMP/SYS | Rassenmods | Finale Attribute: STR/GES/INT/CHA/TEMP/SYS | SYS-Last |
 | --- | --- | --- | --- | --- |
 | Dr. Elise Weber | 1/2/5/4/4/2 | keine | 1/2/5/4/4/2 | 2/2 |
 | Mira Nguyen | 1/4/5/3/3/2 | STR+1 TEMP+1 CHA−1 INT−1 | 2/4/4/2/4/2 | 2/2 |
