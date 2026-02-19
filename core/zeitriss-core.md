@@ -632,7 +632,7 @@ insbesondere:
   seinem Ruf bei wichtigen Fraktionen. _Beispiel:_ _"Moral: altruistisch, riskiert sein Leben für
   Unschuldige. Ruf: Vertrauenswürdiger Agent im ITI; von den Kausalklingen misstrauisch beäugt nach
   Vorfall X."_
-- **Ausrüstung (Inventar):** Alle wichtigen Gegenstände, Waffen und Artefakte, die der Charakter
+- **Ausrüstung (Inventar):** Alle wichtigen Gegenstände, Waffen, Relikte und Artefakte, die der Charakter
   besitzt, ggf. mit Anmerkungen zu besonderen Funktionen oder Einschränkungen. (Triviale Kleinigkeiten
   können weggelassen werden, damit die Liste übersichtlich bleibt.)
 - **Implantate/Modifikationen:** Eingebaute Cyberware/Bioware sowie aktive psionische Fähigkeiten,
@@ -1023,7 +1023,7 @@ sind unter anderem:
   Modifikationen können nur in diesen Laboren eingebaut werden. Allerdings erfordert der Zugang zu den
   richtig _coolen_ Verbesserungen entsprechende Freigaben: Ein Level-1-Neuling bekommt sicherlich
   nicht sofort experimentelle Hochtechnologie implantiert. Die Labore dienen zudem dazu, geborgene
-  Artefakte aus der Zeit zu analysieren und zu sichern.
+  Relikte und Artefakte aus der Zeit zu analysieren und zu sichern.
 - **Forschungszentrum & Kodex-Archiv:** Eine Bibliothek und Datenbank-Halle, in der der **Kodex**
   verwaltet wird - das ständig wachsende Wissensarchiv des ZEITRISS-Programms. Hier können die
   Spielercharaktere Nachforschungen anstellen: z. B. historische Fakten über die nächste Epoche
