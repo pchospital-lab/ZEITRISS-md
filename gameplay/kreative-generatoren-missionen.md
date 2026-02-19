@@ -70,7 +70,7 @@ und kann als Faustregel dienen, wenn keine eigene Erklärung parat ist.
 - Große Handlungsbögen → Arc-Generator und Historische Wendepunkte
 - Historische Settings → Random-Epochen-Generator
 - Spontane NSCs und Gegner → NSC- & Kreaturen-Generator
-- Stimmung & Loot → Artefakte und Kulturfragmente
+- Stimmung & Loot → Relikte, Artefakte und Kulturfragmente
 - Seltene Effekte → Temporale Anomalien
 
 ## Missionsstruktur (Taktische Vorlage)
@@ -964,7 +964,7 @@ dramatisch und interessant verlaufen.
 ### Missionstypen
 
 Diese Übersicht fasst die gängigen Einsatzarten zusammen. Der Schwerpunkt liegt auf realen
-Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Artefakte tauchen nur
+Schauplätzen, heimlichen Zugriffszielen und subtilen Zeitinterventionen. Relikte und Artefakte tauchen nur
 selten automatisch auf, vergleichbar mit legendären Funden. Spieler können ihr Auftreten nicht
 gezielt beeinflussen. Die Missionstypen gliedern sich in fünf Kategorien:
 
@@ -1029,7 +1029,7 @@ oder Konsequenz** eine Mission für die Helden bereithält (je nachdem, wie erfo
 
 - **Belohnung/Ergebnis:**
 
-  1. **Seltener Fund:** Die Gruppe erbeutet ein wertvolles Artefakt oder technisches Gerät
+  1. **Seltener Fund:** Die Gruppe erbeutet ein wertvolles Relikt oder technisches Gerät
      (historisch oder futuristisch), das neue Möglichkeiten eröffnet.
   2. **Wissen & Aufklärung:** Durch den Auftrag erhalten sie entscheidende Informationen oder lüften
      ein Geheimnis, das im weiteren Verlauf der Kampagne hilft.
@@ -1101,7 +1101,7 @@ Zeitperiode umfasst.
 - **Finale Wendung:**
 
   1. Der scheinbare Verbündete entpuppt sich als Drahtzieher der Krise.
-  2. Das Artefakt, das alles retten soll, verursacht erst recht Chaos.
+  2. Das Relikt, das alles retten soll, verursacht erst recht Chaos.
   3. Die Helden müssen ein persönliches Opfer bringen, um die Zeit zu heilen.
   4. Eine andere Fraktion kommt ihnen zuvor und dreht den Spieß um.
   5. Die Mission führt zu einer komplett neuen Zeitlinie mit ungewissem Ausgang.
@@ -1321,9 +1321,9 @@ _Regel für die Kühlung der Epochengewichte:_
    einschlug. Die Chrononauten müssen das prähistorische Paradoxon beheben, während misstrauische
    Schamanen und hungrige Bestien ihnen zusetzen.
 2. **Ägyptisches Neues Reich** (1250 v.Chr.) - _Setting:_ Glühende Wüstensonne, monumentale Tempel
-   und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Artefakt in einer
+   und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Relikt in einer
    Pyramide verehrt, angeblich ein Geschenk der Götter. Tatsächlich stammt es aus der Zukunft und
-   strahlt ungewöhnliche Energie ab. Die Agenten müssen entscheiden: Stehlen sie das Artefakt, um die
+   strahlt ungewöhnliche Energie ab. Die Agenten müssen entscheiden: Stehlen sie das Relikt, um die
    Zeitlinie zu schützen - riskieren aber, die lokale Religion zu erschüttern? Oder lassen sie es in
    der Geschichte, mit unbekannten Folgen? Intrigante Hohepriester und ein misstrauischer Wesir machen
    jede Aktion zum Balanceakt.
