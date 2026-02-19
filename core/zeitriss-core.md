@@ -1052,27 +1052,30 @@ verfolgt ein verborgenes **Zeitziel** und teilt den Agenten nur, was sie wissen 
 diese Ziele tauchen im Laufe der Missionen auf - etwa durch verschlüsselte Befehle oder Begegnungen mit
 höheren Mitgliedern.
 
-Spieler entscheiden sich dabei von Beginn an klar für eine **pro** oder
-**contra** Haltung zur offiziellen Zeitlinie.
-Unabhängig davon lässt sich die Paradoxon-Mechanik über `modus paradoxon off` komplett abschalten
-und mit `modus paradoxon on` wieder aktivieren. Wer den radikalen Neubau der Geschichte
-bevorzugt, nutzt diesen Schalter häufig in Allianz mit der **Zerbrechlichen Ewigkeit**.
-Standardmäßig bleibt die Mechanik aktiv.
+Alle neuen Chrononauten starten beim **Ordo Mnemonika (Neutral)** und spielen
+den Mischpool — Preserve- und Trigger-Seeds rotieren. Im Spielverlauf können
+Agenten zu einer Preserve- oder Trigger-Fraktion übertreten; der Ruf wird
+mitgenommen. Wer neutral bleibt, steigt beim Ordo auf. Ein Übertritt ist
+endgültig — kein Zurück und kein Wechsel zwischen Preserve und Trigger.
 
-Eine weitere Spielbalance betrifft die **Psionik**: Grundsätzlich steht sie allen
-Chrononauten offen. Wer den Contra-Weg wählt, kann Psionik auf eigene Gefahr
-ebenfalls einsetzen oder sie bewusst meiden und stattdessen einen natürlichen
-Widerstand gegen mentale Einflüsse entwickeln. Ihr Geist wehrt die
-"Erleuchtung" des Zeitstroms dann leichter ab, was telepathische Angriffe
-erschwert.
+**Team-Kompatibilität:** Neutrale Agenten können sowohl in Preserve- als auch
+in Trigger-Teams mitspielen. Preserve- und Trigger-Agenten operieren dagegen
+nur untereinander — nicht aus Feindschaft, sondern als ITI-Zellenprinzip.
+In der PvP-Arena gilt keine Haltungstrennung: Jede Kombination ist erlaubt.
+Details zu Teams und Missionspools:
+[Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
-**Wichtig:** Pro- und Contra-Agenten bleiben unter sich.
-Missionsteams setzen sich immer aus Charakteren derselben Haltung zusammen.
-Mischgruppen sind nicht vorgesehen.
-Ein Wechsel der Fraktion ist nur innerhalb der eigenen Ausrichtung möglich und sollte gut überlegt sein.
-Wer sich einmal umentscheidet, behält erworbene **Rufwerte** und **Ausbaustufen**.
-Diesen Schritt darf man jedoch nur ein einziges Mal vollziehen.
-Ein Seitenwechsel von pro zu contra (oder umgekehrt) ist ausgeschlossen.
+Unabhängig davon lässt sich die Paradoxon-Mechanik über `modus paradoxon off`
+komplett abschalten und mit `modus paradoxon on` wieder aktivieren.
+Bei deaktiviertem Paradoxon bleibt der Index auf 0, es werden keine Rift-Seeds
+generiert und alle Px-bezogenen Effekte entfallen — die Kampagne läuft als
+reiner Agenten-Thriller ohne paranormale Bonusmissionen. Standardmäßig bleibt
+die Mechanik aktiv.
+
+Die **Psionik** steht allen Chrononauten offen, unabhängig von der Haltung.
+Agenten können Psionik bewusst meiden und stattdessen einen natürlichen
+Widerstand gegen mentale Einflüsse entwickeln — ihr Geist wehrt telepathische
+Angriffe dann leichter ab.
 
 Im HQ des ITI gilt dennoch absolute Waffenruhe.
 Jede Fraktion besitzt einen abgeschirmten Komplex in der Nullzeit, den nur Mitglieder betreten dürfen.
