@@ -723,10 +723,13 @@ Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in d
   GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
   Rückblick nahtlos weiter - ohne Auswahlmenü für `klassisch`/`schnell`.
 
-`mixed|preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Standard ist `mixed`;
-der Modus wird in `campaign.mode` und `campaign.seed_source` hinterlegt, bevor Starts
-oder Arena-Abzweigungen laufen. Legacy-Starts mit `preserve|trigger` in den
-Klammern werden mit einem Hinweis abgebrochen.
+`mixed|preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Standard ist `mixed`
+(alle Chrononauten starten beim Ordo Mnemonika im Mischpool). Der fokussierte Modus
+(`preserve` oder `trigger`) ist erst nach einem **Fraktionsübertritt** relevant —
+vorher bleibt `mixed` aktiv. Der Modus wird in `campaign.mode` und
+`campaign.seed_source` hinterlegt, bevor Starts oder Arena-Abzweigungen laufen.
+Legacy-Starts mit `preserve|trigger` in den Klammern werden mit einem Hinweis
+abgebrochen.
 
 Der Compliance-Hinweis entfällt; die Spielleitung fragt direkt nach gewünschter
 Ansprache und Spielerzahl oder übernimmt beides aus dem Startbefehl.

@@ -157,9 +157,11 @@ Cluster +… · Fraktion +…`.
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
-Kampagnenmodus (`mixed|preserve|trigger`) wird einmalig im HQ gesetzt und im Save gespiegelt:
-`!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed`: Preserve- und Trigger-Seeds
-dürfen rotieren, `campaign.seed_source` markiert den aktiven Seed-Typ pro Mission. Der Wert
+Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
+`!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
+beim Ordo Mnemonika im Mischpool). Der fokussierte Modus (`preserve` oder `trigger`)
+ist erst nach einem **Fraktionsübertritt** relevant — vorher bleibt `mixed` aktiv.
+`campaign.seed_source` markiert den aktiven Seed-Typ pro Mission. Der Wert
 landet in `campaign.mode`/`seed_source` und wirkt auf weitere Starts, Cross-Mode-Saves und
 Arena-Rücksprünge.
 
@@ -405,15 +407,18 @@ der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
 - **Preserve-Missionen** — sichern beinahe entglittene Ereignisse.
 - **Trigger-Missionen** — garantieren dokumentierte Tragödien.
-- **Beide Seiten sind Verbündete innerhalb des ITI.** Teams bestehen aus
-  Agenten derselben Haltung — nicht aus Feindschaft, sondern als operatives
-  Zellenprinzip. Gegen Fremdfraktionen stehen alle zusammen.
+- **Beide Seiten sind Verbündete innerhalb des ITI.** Neutrale können
+  in Teams beider Haltungen mitspielen. Preserve und Trigger operieren
+  nur innerhalb derselben Haltung zusammen — nicht aus Feindschaft,
+  sondern als operatives Zellenprinzip. Gegen Fremdfraktionen stehen
+  alle gemeinsam.
   Details zu Teams und Missionspools: siehe
   [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
-Spielende wählen ihre Fraktion **nach der Charaktererschaffung im ITI**
-(Profil-Upload, dann Fraktionswahl vor dem ersten Briefing) und erhalten Zugriff
-auf entsprechend ausgerichtete Kampagnenpfade.
+Alle Chrononauten starten als Agenten des **Ordo Mnemonika** _(Neutral)_
+und spielen den Mischpool. Im Spielverlauf können sie zu einer Preserve-
+oder Trigger-Fraktion übertreten — der Übertritt ist endgültig und schaltet
+den fokussierten Missionspool frei.
 
 In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärungen:
 Geheime Technologien, Bio-Cyberware oder manipulative Kommunikation.

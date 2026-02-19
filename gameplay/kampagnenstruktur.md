@@ -200,24 +200,36 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 #### Haltung, Teams und Missionspools
 
-Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Alle neuen Chrononauten starten als **Neutrale** beim Ordo Mnemonika und spielen
+den **Mischpool** — Preserve- und Trigger-Seeds rotieren frei.
+
+**Team-Kompatibilität:**
+- **Neutral + Preserve** = erlaubt (der Neutrale spielt im Preserve-Team mit)
+- **Neutral + Trigger** = erlaubt (der Neutrale spielt im Trigger-Team mit)
+- **Neutral + Neutral** = erlaubt (Mischpool)
+- **Preserve + Preserve** = erlaubt
+- **Trigger + Trigger** = erlaubt
+- **Preserve + Trigger** = **nicht erlaubt** (nur innerhalb derselben Haltung)
+- **Alle gemeinsam gegen Fremdfraktionen** = immer, unabhängig von Haltung
+
 Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
 Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
 Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
-des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
-Fremdfraktionen stehen alle zusammen.
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte.
 
 Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
 **Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
 
 **Missionspools:**
-- **Mischpool-Modus (Standard):** Das Team erhält Missionen aus beiden Pools —
+- **Mischpool-Modus (Standard):** Neutrale erhalten Missionen aus beiden Pools —
   Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
   Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
-- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
-  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
-  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
-  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+- **Fokussierter Pool:** Wer zu einer Preserve- oder Trigger-Fraktion
+  **übertritt**, erhält fortan ausschließlich Seeds der gewählten Haltung.
+  Der Missionspool ändert sich nur durch Fraktionsübertritt, nicht bei
+  der Charaktererstellung.
+  HQ-Befehl (erst nach Übertritt relevant): `!kampagnenmodus preserve`
+  oder `!kampagnenmodus trigger`.
 - **Gemeinsamer Feind:** Der Gegner sind stets **Fremdfraktionen**, die den
   Geschichtsverlauf manipulieren wollen. Preserve und Trigger kämpfen
   zusammen gegen diese äußeren Bedrohungen.
@@ -260,10 +272,11 @@ Eine kurze Zusammenfassung der Abläufe bietet das Spieler-Handbuch.
 
 #### Entscheidungsroutine Preserve vs. Trigger {#preserve-trigger-ablauf}
 
-1. **Session 0 abfragen:** Die SL ermittelt pro Person die Präferenz (Pro = Preserve,
-   Contra = Trigger) und dokumentiert sie im Kampagnenlog. Wenn ein klarer Fokus
-   gewünscht ist, setzt das HQ `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
-   Ohne Fokus bleibt `mixed` aktiv.
+1. **Start als Neutrale:** Alle Chrononauten beginnen beim Ordo Mnemonika im
+   **Mischpool** (`mixed`). Die Haltung entwickelt sich im Spielverlauf —
+   es gibt keine Abfrage bei Session 0. Erst nach einem Fraktionsübertritt
+   setzt das HQ `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+   Ohne Übertritt bleibt `mixed` aktiv.
 2. **Seed-Pool wählen:** Pro Mission zieht Kodex einen Seed aus dem passenden Pool.
    In `mixed` darf frei rotiert werden; der Seed schreibt `campaign.seed_source`
    (`preserve` oder `trigger`).
@@ -272,7 +285,7 @@ Eine kurze Zusammenfassung der Abläufe bietet das Spieler-Handbuch.
 4. **Einsatz ausspielen:** Während der Mission bleibt der Seed-Typ fix; die SL nutzt
    passende Complications und NSC-Haltungen (Preserve defensiv, Trigger konfrontativ).
 5. **Debrief:** Beim Auswertungsschritt ruft die SL den passenden Call des aktiven
-   Seeds auf - `history_ok_preserve()` oder `history_ok_trigger()`.
+   Seeds auf — `history_ok_preserve()` oder `history_ok_trigger()`.
 #### Missionsablauf auf einen Blick {#mission-chart}
 ```mermaid
 flowchart LR
@@ -1333,17 +1346,24 @@ ist ein Rückzugsort, keine separate Basis.
 #### Ebene 3: Fuhrpark (HQ-Facility) {#fuhrpark}
 
 Der Fuhrpark ist **Teil des HQ**, nicht separat. Das ITI stellt
-Basisfahrzeuge bereit; die verfügbare Fahrzeug-Tier richtet sich nach
-dem Fuhrpark-Ausbau. Spieler können eigene Fahrzeuge kaufen und dort
-einlagern. Fuhrpark-Ausbau = mehr Slots + höhere Tier-Fahrzeuge verfügbar.
+missionsgerechte Fahrzeuge bereit — die Fahrzeug-Auswahl richtet sich
+nach dem **Einsatzort und der Epoche**, nicht nach dem Ruf. Das ITI
+operiert in der Nullzeit und hat Zugang zu allen Epochen; ein Chrononaut
+bekommt für eine Mission im viktorianischen London eine Kutsche, für
+einen Einsatz 2090 einen Hover-Gleiter — unabhängig von der Karrierestufe.
 
-| Fuhrpark-Stufe | Slots | Max. Fahrzeug-Tier | Verfügbar ab |
-|----------------|-------|--------------------|--------------|
-| Basis (Ruf 0) | 1 | Tech I | Start |
-| Erweitert (Ruf +3) | 3 | Tech III | HQ-Ausbau +3 |
-| Voll (Ruf +4) | 5 | Tech IV | HQ-Ausbau +4 |
+Ruf bestimmt nur die Anzahl der **Stellplätze für eigene Fahrzeuge**.
+Spieler können eigene Fahrzeuge mit CU kaufen und im Fuhrpark einlagern.
+
+| Fuhrpark-Stufe | Slots | Verfügbar ab |
+|----------------|-------|--------------|
+| Basis | 1 | Start |
+| Erweitert | 3 | Ruf +3, HQ-Ausbau +3 |
+| Voll | 5 | Ruf +4, HQ-Ausbau +4 |
 
 **Fahrzeug-Grundkäufe (Richtwerte):**
+Alle Fahrzeuge sind frei mit CU kaufbar — die Tech-Stufe ist eine
+Preisfrage, kein Ruf-Gate.
 
 | Fahrzeug-Typ | Tech-Stufe | CU-Kosten |
 |-------------|-----------|-----------|
@@ -1917,6 +1937,10 @@ Standard ist `sim` (**Sim/Range**): offizielles Training ohne Lore-Folgen,
 Fraktionen dürfen gemischt werden. Alternativ `lore` (**Lore-Kampf**):
 Cross-Alignment ist erlaubt, aber die Rivalität gilt als kanonischer
 Stellvertreter-Konflikt mit narrativem Echo (Dialoge, Ruf, Folgeaufträge).
+Die Arena kennt bewusst **keine Haltungstrennung** — Preserve gegen Trigger,
+Neutrale gegen alle, jede Kombination ist erlaubt. Das lockert das
+Haltungssystem sympathisch auf und gibt allen Fraktionen einen Raum
+für direktes Kräftemessen.
 
 **Eintrittsbild:** In der Schleuse knacken Magnetfelder an, die Anzüge ziehen
 kurz an Schultern und Hüfte, die Halle brummt. Im Staging-Bereich blinken die
