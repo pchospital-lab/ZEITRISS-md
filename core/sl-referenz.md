@@ -438,16 +438,26 @@ filmische Callouts für das HUD.
 
 Das Progressionssystem gliedert sich in zwei Phasen:
 
-- **Phase 1 (Lvl 1-10):** Jede abgeschlossene Mission = sofort +1 Level.
+- **Phase 1 (Lvl 1–10):** Jede abgeschlossene Mission = sofort +1 Level.
   Schneller Einstieg, maximale Motivation.
-- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve — der Bedarf steigt moderat
-  an (~15 EP bis Lvl 50, ~20 EP bis Lvl 100). Fortschritt erfolgt zunehmend
-  horizontal über Prestige-Perks und Meilensteine.
+- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve:
+
+| Level | EP pro Level | Kumulativ |
+|-------|-------------|-----------|
+| 1–10 | 1 EP (= 1 Mission) | 10 EP |
+| 11–20 | 2 EP | 30 EP |
+| 21–30 | 3 EP | 60 EP |
+| 31–50 | 4 EP | 140 EP |
+| 51–100 | 5 EP | 390 EP |
+
+**Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
+75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
+Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt).
 
 Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
 Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
 Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen)
-und [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt) für Details.
+für wirtschaftliche Details.
 
 ## Regelreferenz
 
@@ -607,12 +617,12 @@ Marktpreis. Archivieren zieht sie endgültig aus der Wirtschaft, CUs fließen nu
 
 ## Kampagnenhierarchie
 
-Damit ihr den Umfang eurer Abenteuer besser einschätzen könnt, hier die Begriffe im Überblick:
+Kurzfassung — kanonische Details: [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#kampagnenhierarchie).
 
-- **Mission** - einzelner Einsatz von etwa 12 Szenen.
-- **Episode/Fall** - sammelt rund zehn Missionen im gleichen Setting.
-- **Arc** - mehrere Episoden bilden einen Handlungsbogen.
-- **Kampagne** - verknüpft mehrere Arcs zur Gesamtgeschichte.
+- **Mission** — einzelner Einsatz von etwa 12 Szenen.
+- **Episode/Fall** — sammelt rund zehn Missionen im gleichen Setting.
+- **Arc** — mehrere Episoden bilden einen Handlungsbogen.
+- **Kampagne** — verknüpft mehrere Arcs zur Gesamtgeschichte.
 
 ## Struktur
 
@@ -981,6 +991,64 @@ sich das Feature jedoch jederzeit deaktivieren und mit `modus paradoxon on`
 wieder einschalten. Siehe auch
 [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md) und
 [Zeitriss-Core](zeitriss-core.md) für weitere Hinweise.
+
+## Technical Reference {#technical-reference}
+
+> Dieser Abschnitt enthält Runtime-Interna, die **nur für die SL/KI-Spielleitung**
+> relevant sind. Spieler brauchen diese Details nicht.
+
+### Runtime Helper — Kurzreferenz
+
+- **DelayConflict(threshold=4, allow=[])** — Verzögert Konfliktszenen bis zur Szene
+  `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
+  (Minimum: Szene 2). `allow` bleibt standardmäßig leer.
+- **comms_check(device, range_m, …)** — Pflicht vor `radio_tx/rx`:
+  akzeptiert `device` (`comlink|cable|relay|jammer_override`) und eine
+  Reichweite in Metern. `must_comms()` normalisiert die Eingaben.
+- **scene_overlay(total?, pressure?, env?)** — erzeugt das HUD-Banner `EP·MS·SC`
+  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`.
+- **assert_foreshadow(count=2)** — (nur PRECISION) warnt, wenn vor Boss
+  weniger als `count` Hinweise gesetzt wurden.
+- **ForeshadowHint(text, tag='Foreshadow')** — legt einen Foreshadow-Hinweis an
+  und erhöht den Gate-Zähler.
+- **arenaStart(options)** — Schaltet den Kampagnenmodus auf PvP, zieht die
+  Arena-Gebühr, setzt `phase_strike_tax = 1`, aktiviert SaveGuards.
+
+### Runtime-State (Schema)
+
+```text
+location: "HQ" | "FIELD" | "ARENA"
+campaign: { episode, mission_in_episode, scene, px,
+  paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }
+phase: "core"|"transfer"|"rift"|"pvp"
+character: { name, level, stress, psi_heat, cooldowns:{},
+  attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},
+  talents:[], ... }
+team: { name, members:[...] }, party: { characters:[...] }
+loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }
+economy: { cu, wallets:{} }
+logs: { artifact_log:[], market:[], offline:[], kodex:[],
+  alias_trace:[], squad_radio:[], hud:[], foreshadow:[],
+  fr_interventions:[], arena_psi:[], psi:[], flags:{} }
+arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[], timeline:[] }
+ui: { gm_style, intro_seen, suggest_mode, contrast, badge_density,
+  output_pace, voice_profile }
+arena: { active, phase, mode, previous_mode, wins_player,
+  wins_opponent, tier, proc_budget, artifact_limit,
+  loadout_budget, phase_strike_tax, team_size, fee,
+  scenario, started_episode, last_reward_episode,
+  policy_players:[], audit:[] }
+exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }
+fr_intervention: "ruhig"|"beobachter"|"aktiv"
+comms: { jammed:boolean, relays:number, rangeMod:number }
+```
+
+### Px-Policy (Runtime)
+
+`campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und Progression.
+Rifts führen kein separates `rift_px`; Importpfade verwerfen abweichende Felder.
+Px 0–4 erzeugt keine Maluswerte, Px 5 triggert `ClusterCreate()` und setzt
+nach der Rift-Op auf 0 zurück.
 
 ## Generator-Utilities
 

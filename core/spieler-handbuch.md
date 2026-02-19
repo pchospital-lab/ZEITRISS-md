@@ -286,90 +286,17 @@ in seltenen Extremfällen (Zivilopfer, zerstörte Kern-Anker).
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 
-#### Runtime Helper - Kurzreferenz
+#### Spieler-relevante Chat-Kurzbefehle
 
-- **DelayConflict(threshold=4, allow=[])** - Verzögert Konfliktszenen bis zur Szene
-  `threshold`. Missions-Tags `heist`/`street` senken den Schwellenwert je um eins
-  (Minimum: Szene 2). `allow` bleibt standardmäßig leer; setze z. B.
-  `allow='ambush|vehicle_chase'`, wenn frühe Überfälle oder Verfolgungen erlaubt
-  sein sollen.
-- **comms_check(device, range_m, …)** - Pflicht vor `radio_tx/rx`:
-  akzeptiert `device` (`comlink|cable|relay|jammer_override`, Groß-/Kleinschreibung
-  egal) und eine Reichweite in Metern. Optional nimmt der Guard `range_km`,
-  `jammer` und `relays` entgegen. `must_comms()` normalisiert die Eingaben,
-  wandelt Kilometer in Meter um und schlägt fehl, wenn ein Jammer ohne Kabel,
-  Relay oder Override überbrückt werden soll. In dem Fall löst der Guard den
-  Offline-Hinweis aus.
-  Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen /
-  Jammer-Override aktivieren; Reichweite anpassen.
-- **scene_overlay(total?, pressure?, env?)** - erzeugt das HUD-Banner `EP·MS·SC`
-  mit Missionsziel, Px/SYS/Lvl, Exfil-Daten und `FS count/required`. Im HQ und
-  in der Arena erscheint kein Szenenzähler; das Overlay ist Missionen/Rifts
-  vorbehalten. Nach `StartMission()` muss `FS 0/2` (Rift) bzw. `FS 0/4` (Core)
-  sichtbar sein; `SF-OFF` erscheint nur, wenn Self-Reflection vorher manuell
-  deaktiviert wurde. Ausgabe stets als Inline-Code mit Backticks - keine
-  Klartext-Banner.
-- **assert_foreshadow(count=2)** - (nur PRECISION) warnt, wenn vor Boss
-  (Core: M5/M10 · Rift: Szene 10) weniger als `count` Hinweise gesetzt wurden;
-  Szene 10 bleibt gesperrt, bis vier (Core) bzw. zwei (Rift) Foreshadows registriert sind.
-- **ForeshadowHint(text, tag='Foreshadow')** - legt einen Foreshadow-Hinweis samt HUD-Toast an
-  und erhöht den Gate-Zähler. Nutzt das Makro für manuelle Andeutungen vor dem Boss.
-- **arenaStart(options)** - Optionen: `teamSize`, `mode`, `matchPolicy`. Schaltet den
-  Kampagnenmodus auf PvP, zieht die Arena-Gebühr aus `economy`, setzt
-  `phase_strike_tax = 1`, aktiviert die SaveGuards (`save_deep` wirft bei
-  aktiver Arena) und meldet Tier, Szenario, Policy, Gebühr sowie Px-Status per
-  HUD-Toast.
+- `!helper delay` — erklärt, warum Konflikte manchmal verzögert starten.
+- `!helper comms` — erklärt Funk und Reichweiten; `!offline` zeigt das Feldprotokoll.
+- `!helper boss` — zeigt die Boss-Foreshadow-Checkliste.
+- `!sf off`/`!sf on` — schaltet Self-Reflection um (Toast `SF-OFF`/`SF-ON`).
 
-**Chat-Kurzbefehle**
-
-- `!helper delay` - erklärt `DelayConflict` kurz.
-- `!helper comms` - erklärt `comms_check`, akzeptierte Geräte (lowercase) und
-  die Meter/Kilometer-Normalisierung. Tipp: Terminal suchen / Comlink koppeln /
-  Kabel/Relais nutzen / Jammer-Override aktivieren; `!offline` zeigt das
-  Feldprotokoll, während die Mission mit HUD-Lokaldaten weiterläuft. Reichweite
-  anpassen.
-- `!helper boss` - zeigt die Boss-Foreshadow-Checkliste.
-- `!sf off`/`!sf on` - schaltet Self-Reflection um, Toast `SF-OFF`/`SF-ON`,
-  protokolliert `self_reflection_last_change_reason`.
-
-### Runtime-State (Kurzreferenz)
-
-- `location: "HQ" | "FIELD" | "ARENA"`
-- `campaign: { episode, mission_in_episode, scene, px,`
-  `paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }`
-- `phase: "core"|"transfer"|"rift"|"pvp"` (immer lowercase, Seeds liefern nur den Typ)
-- `character: { name, level, stress, psi_heat, cooldowns:{},`
-  `attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},`
-  `talents:[], ... }`
-- `team: { name, members:[...] }`, `party: { characters:[...] }`
-- `loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }`
-- `economy: { cu, wallets:{} }`
-- `logs: { artifact_log:[], market:[], offline:[], kodex:[],`
-  `alias_trace:[], squad_radio:[], hud:[], foreshadow:[],`
-  `fr_interventions:[], arena_psi:[], psi:[], flags:{} }`
-- `arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[], timeline:[] }`
-  (`offene_seeds[]` akzeptiert Strings oder Objekte)
-- `ui: { gm_style:"verbose"|"precision", intro_seen:boolean,`
-  `suggest_mode:boolean, contrast:"standard"|"high",`
-  `badge_density:"standard"|"dense"|"compact",`
-  `output_pace:"normal"|"fast"|"slow",`
-  `voice_profile:"gm_second_person"|"gm_third_person"|"gm_observer" }`
-- `arena: { active, phase, mode, previous_mode, wins_player,`
-  `wins_opponent, tier, proc_budget, artifact_limit,`
-  `loadout_budget, phase_strike_tax, team_size, fee,`
-  `scenario, started_episode, last_reward_episode,`
-  `policy_players:[], audit:[] }`
-- `exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }`
-- `fr_intervention: "ruhig"|"beobachter"|"aktiv"`
-- `comms: { jammed:boolean, relays:number, rangeMod:number }`
-
-**Px-Policy:** `campaign.px` bleibt die einzige Quelle für Paradoxon-Stand und
-Progression. Rifts führen kein separates `rift_px`; Importpfade verwerfen
-abweichende Felder, Loader und Toolkit spiegeln ausschließlich `campaign.px`.
-Die Paradoxon-Effekte sind zentral in
-[`systems/gameflow/speicher-fortsetzung.md`](../systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
-festgelegt: Px 0-4 erzeugt keine Maluswerte, Px 5 triggert `ClusterCreate()`
-und setzt nach der Rift-Op auf 0 zurück.
+> **Technical Reference:** Runtime-Helper (DelayConflict, comms_check,
+> scene_overlay, assert_foreshadow, arenaStart), Runtime-State-Schema und
+> Px-Policy sind SL-/Entwickler-Interna. Details in der
+> [SL-Referenz](sl-referenz.md#technical-reference).
 
 ### ZEITRISS - Einleitung
 
@@ -472,12 +399,17 @@ Zeitreisen dienen als taktisches Mittel, um reale Verschwörungen zu untersuchen
 und bedeutende Wendepunkte zu beeinflussen. Der Fokus liegt auf **Infiltration,
 Spurensuche und operativer Einflussnahme**.
 
-Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist **mixed**,
-also eine rotierende Auswahl aus beiden Pools; der Seed-Typ wird pro Mission als
-`campaign.seed_source` markiert.
+Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist der
+**Mischpool-Modus** (`mixed`), also eine rotierende Auswahl aus beiden Pools;
+der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
-- **Preserve-Missionen** - sichern beinahe entglittene Ereignisse
-- **Trigger-Missionen** - garantieren dokumentierte Tragödien
+- **Preserve-Missionen** — sichern beinahe entglittene Ereignisse.
+- **Trigger-Missionen** — garantieren dokumentierte Tragödien.
+- **Beide Seiten sind Verbündete innerhalb des ITI.** Teams bestehen aus
+  Agenten derselben Haltung — nicht aus Feindschaft, sondern als operatives
+  Zellenprinzip. Gegen Fremdfraktionen stehen alle zusammen.
+  Details zu Teams und Missionspools: siehe
+  [Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
 Spielende wählen ihre Fraktion **nach der Charaktererschaffung im ITI**
 (Profil-Upload, dann Fraktionswahl vor dem ersten Briefing) und erhalten Zugriff

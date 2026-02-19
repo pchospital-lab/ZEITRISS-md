@@ -134,8 +134,10 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
   waffenlosen Nahkampf.
 - **Geschicklichkeit (GES):** Behändigkeit, Schnelligkeit und Fingerfertigkeit. Wichtig für
   Klettern, Balancieren, Schleichen, Schlösser knacken, Taschendiebstahl oder geschicktes Ausweichen
-  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die Initiative in kämpferischen
-  Situationen.
+  im Kampf. GES beeinflusst auch den Umgang mit Fernkampfwaffen und die **Initiative** in
+  kämpferischen Situationen. _Wichtig:_ Initiative nutzt den **vollen GES-Wert**
+  (`1W6 + GES`), keine Halbierung — Initiative ist kein Check, sondern eine Reaktionsmessung.
+  Normale Proben verwenden dagegen `1W6 + ⌊Attribut / 2⌋`.
 - **Intelligenz (INT):** Geistige Fähigkeiten wie Logik, Bildung, Erinnerungsvermögen und
   analytisches Denken. Benötigt zum Lösen von Rätseln, Entziffern alter Schriften, Planen komplexer
   Taktiken oder wissenschaftliches Vorgehen. Ein hoher INT-Wert hilft dabei, Hinweise zu verknüpfen
@@ -313,11 +315,28 @@ gliedert sich in zwei Phasen:
 
 #### Erfahrungspunkte & Stufenaufstieg
 
-- **EP-Kurve:** Level 1-10 folgt dem vereinfachten System: Jede abgeschlossene
+- **EP-Kurve:** Level 1–10 folgt dem vereinfachten System: Jede abgeschlossene
   Mission bringt sofort ein Level-Up. Ab Level 11 steigen die EP-Anforderungen
-  pro Stufe moderat an (etwa \~15 EP bis Level 50, \~20 EP bis Level 100 usw.),
-  sodass _Fortschritt spürbar bleibt, ohne dass Stufe 1000 zu schnell erreicht
-  wird_. Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
+  pro Stufe moderat an. Die konkrete Tabelle:
+
+  | Level | EP pro Level | Kumulativ |
+  |-------|-------------|-----------|
+  | 1–10 | 1 EP (= 1 Mission) | 10 EP |
+  | 11–20 | 2 EP | 30 EP |
+  | 21–30 | 3 EP | 60 EP |
+  | 31–50 | 4 EP | 140 EP |
+  | 51–100 | 5 EP | 390 EP |
+
+  **Prestige-Meilensteine:**
+
+  | Level | Meilenstein |
+  |-------|-------------|
+  | 25 | Titel: *Bewährter Agent* — kosmetisches HUD-Abzeichen |
+  | 50 | Titel: *Veteran* — eigener Fraktionssektor im HQ |
+  | 75 | Titel: *Koryphäe* — Zugang zu Prestige-Perks |
+  | 100 | Titel: *Legende* — ITI-Legendenstatus, umfassende Privilegien |
+
+  Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
   sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange
   spannend bleibt. **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere
   zu rasch extrem hohe Stufen erreichen, ohne sie jedoch künstlich auszubremsen —
@@ -546,8 +565,9 @@ gleichzeitig die **Verletzungsstufe** des Charakters:
 > | 1–3 | Schwer verletzt | –3 | Lebensbedrohlich — nur grundlegende Aktionen möglich |
 > | 0 | Kritisch | — | Bewusstlos/sterbend — automatische Not-Rückholung durch das ITI |
 
-Der Malus gilt auf alle Proben. Ausführliche Regeln zu Verwundungsstufen, Heilung und
-Not-Rückholung findet ihr im Modul [Zustände & HUD](../characters/hud-system.md#vitalstatus).
+Der Malus gilt auf alle Proben. Diese Kurzfassung dient als Referenz — die
+**kanonische Verwundungstabelle** mit vollständigen Regeln zu Heilung, Erholung und
+Not-Rückholung liegt in [Zustände & erweiterte Systeme](../characters/zustaende.md).
 
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere

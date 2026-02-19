@@ -230,17 +230,22 @@ Die Stufen im Überblick:
 Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen Reroll (besseres Ergebnis zählt).
 - **Px Burn:** 1 Punkt für einen weiteren Reroll (jeder Charakter oder NSC)
 
-### Attribut → Ø-Erfolgsrate (SG 8)
+### Attribut → Ø-Erfolgsrate (SG 8, nur Attribut-Basis) {#erfolgsraten-sg8}
 
-| Attribut | Erfolg W6 | Hinweis |
-|---------:|----------:| ------- |
-| 1 | 0 % | Benötigt 7+ |
-| 2 | 17 % | Benötigt 6 |
-| 3 | 33 % | Benötigt 5+ |
-| 4 | 50 % | Benötigt 4+ |
-| 5 | 67 % | Benötigt 3+ |
-| 6 | 83 % | Benötigt 2+ |
-| 7+ | 100 % | Automatischer Erfolg |
+Formel: `1W6 + ⌊Attribut / 2⌋` ≥ 8 (Burst-Cap Exploding berücksichtigt).
+Talente und Gear erhöhen die Chancen weiter, sind hier aber nicht eingerechnet.
+
+| Attribut | ⌊A/2⌋ | Benötigt Wurf ≥ | Erfolg (W6) | Hinweis |
+|---------:|------:|-----------:|----------:|---------|
+| 1 | 0 | 8 | 13,9 % | Nur via Exploding |
+| 2–3 | 1 | 7 | 16,7 % | Nur via Exploding |
+| 4–5 | 2 | 6 | 16,7 % | Nur via Exploding (benötigt 6+x) |
+| 6–7 | 3 | 5 | 33,3 % | Ab 5 direkt möglich |
+| 8–9 | 4 | 4 | 50,0 % | Coin-Flip |
+| 10 | 5 | 3 | 66,7 % | Menschliches Maximum |
+| 11 | 5 | 3 | 66,7 % | W10 aktiv (→ bessere Chancen bei höheren SG) |
+| 12–13 | 6 | 2 | 83,3 % | Fast sicher |
+| 14 | 7 | 1 | 100 % | Heldenwürfel + Auto-Erfolg |
 
 Sobald ein Attribut den Wert 11 erreicht, blendet das HUD **"`W10 aktiv`"** ein.
 Ab 14 weist es zusätzlich auf den Heldenwürfel hin. Dieser erlaubt einen
@@ -304,8 +309,9 @@ Spannung** bis zum Schluss erhalten bleibt.
 | 10 | 40.8 | 100 % | 100 % | 100 % |
 ### Quick-Fight Walkthrough
 
-1. **Initiative:** Jeder wirft `1W6 + GES` (Boni aus Talenten oder Cyberware addieren);
-   der höchste Wert beginnt.
+1. **Initiative:** Jeder wirft `1W6 + GES` (voller Attributswert, **keine
+   Halbierung** — Initiative ist kein Check, sondern eine Reaktionsmessung).
+   Boni aus Talenten oder Cyberware addieren; der höchste Wert beginnt.
 2. **Angriffswurf:** Beispiel: 6 auf dem W6 + STR 3 = 9 gegen SG 8.
 3. **Treffer:** 9 übertrifft den SG, also gelingt der Schlag.
 4. **Schaden:** Laut Tabelle zählt der Hieb als mittlere Verletzung (~3 LP).
@@ -509,10 +515,7 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 
 | Stufe | Effekt | Bedeutung |
 | ----- | ------ | --------- |
-| 0-1   | Stabil | Sammelt Resonanz |
-| 2     | -1 Stress (Team) | Kleine Belohnung |
-| 3     | Team heilt 1 HP | Mittlere Belohnung |
-| 4     | +2 Initiative | Große Belohnung |
+| 0-4   | Stabil, keine mechanischen Effekte | Fortschritt über HUD-Farbe sichtbar |
 | **5** | **ClusterCreate()** | 1-2 Rift-Seeds enthüllt, Px → 0 |
 
 **So funktioniert's:** Stilvolles, professionelles Vorgehen lässt den Index steigen.

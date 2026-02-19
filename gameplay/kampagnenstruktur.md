@@ -198,7 +198,31 @@ lebendig zu gestalten, sollten diese Fraktionen aktiv in die Handlungsbögen ein
 
 ### Preserve-vs-Trigger-Logik
 
-Eine Kampagne startet standardmäßig im **Mixed-Modus** und darf Preserve- und
+#### Haltung, Teams und Missionspools
+
+Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
+Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
+Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
+Fremdfraktionen stehen alle zusammen.
+
+Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
+**Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
+
+**Missionspools:**
+- **Mischpool-Modus (Standard):** Das Team erhält Missionen aus beiden Pools —
+  Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
+  Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
+- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
+  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
+  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
+  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+- **Gemeinsamer Feind:** Der Gegner sind stets **Fremdfraktionen**, die den
+  Geschichtsverlauf manipulieren wollen. Preserve und Trigger kämpfen
+  zusammen gegen diese äußeren Bedrohungen.
+
+Eine Kampagne startet standardmäßig im **Mischpool-Modus** und darf Preserve- und
 Trigger-Seeds mischen. Preserve-Missionen sichern Beinahe-Katastrophen,
 während Trigger-Missionen dokumentierte Tragödien gewährleisten. Die Seeds
 bleiben in getrennten Pools (`preserve_pool`/`trigger_pool`), damit die Themen
@@ -480,11 +504,8 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 
 | Stufe | In-Mission-Effekt                       | HQ-Effekt                                    |
 | ----- | --------------------------------------- | -------------------------------------------- |
-| 0-1   | Stabil                                 | -                                            |
-| 2     | einmalig -1 Stress                     | -                                            |
-| 3     | Gruppe heilt 1 HP                      | -                                            |
-| 4     | +2 Initiative auf nächste Handlung     | "Riss-Vorstufe"-Flag                         |
-| **5** | Heat-Reset, 2 PP, Zustände weg          | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
+| 0-4   | Stabil — keine mechanischen Effekte     | Fortschritt über HUD-Farbe sichtbar          |
+| **5** | Psi-Heat 0, 2 PP, Zustände weg          | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
 
 Der Index wird kampagnenweit verfolgt. Bei Stufe 5 macht `ClusterCreate()` 1-2 neue
 Rift-Seeds sichtbar.
@@ -1280,12 +1301,63 @@ tun.
 
 ### Ausbaustufen und Einrichtungen
 
+Das HQ-System gliedert sich in **drei Ebenen**:
+
+#### Ebene 1: ITI-HQ (Team-Ebene)
+
 Zu Beginn nutzen die Agenten das **ITI-Hauptquartier** in der Nullzeit als Basis für ihre Einsätze.
 Im Laufe der Kampagne erwerben sie Zugangs-**Stufen** innerhalb ihres Fraktionskomplexes im ITI.
 Ein eigenständiges HQ außerhalb der Nullzeit ist nicht vorgesehen.
 Durch Erfolge und Ressourcen können sie diese Stufen **freikaufen**.
 So erhalten sie Zugang zu bereits bestehenden Einrichtungen oder erweitern diese.
 Jede Freischaltung gilt als Investition in die eigene Fraktion.
+
+**HQ-Ausbau nach Rufstufe:**
+
+| Rufstufe | Freischaltung | CU-Kosten |
+|----------|---------------|-----------|
+| 0 (Start) | Kommandozentrale (Basis), Quartiere (Basis), Fuhrpark (1 Slot) | — |
+| +1 | Werkstatt Stufe 1, Klinik Stufe 1 | 500 CU |
+| +2 | Labor, Arena, Archiv (sensible Bereiche) | 1.000 CU |
+| +3 | Alle Stufe 2, Fuhrpark erweitert | 2.000 CU |
+| +4 | Alle Stufe 3, Spezialeinrichtungen | 4.000 CU |
+
+#### Ebene 2: Persönliches Quartier (Charakter-Ebene)
+
+Jeder Chrononaut hat ein **eigenes Quartier** im HQ. Dieses ist rein
+**narrativ/kosmetisch** — es liefert keine mechanischen Boni. Upgrades
+erfolgen über CU, aber nur als Flavor: Einrichtung, Dekoration,
+persönlicher Stash. Alles im HQ ist schnell erreichbar — das Quartier
+ist ein Rückzugsort, keine separate Basis.
+
+#### Ebene 3: Fuhrpark (HQ-Facility) {#fuhrpark}
+
+Der Fuhrpark ist **Teil des HQ**, nicht separat. Das ITI stellt
+Basisfahrzeuge bereit; die verfügbare Fahrzeug-Tier richtet sich nach
+dem Fuhrpark-Ausbau. Spieler können eigene Fahrzeuge kaufen und dort
+einlagern. Fuhrpark-Ausbau = mehr Slots + höhere Tier-Fahrzeuge verfügbar.
+
+| Fuhrpark-Stufe | Slots | Max. Fahrzeug-Tier | Verfügbar ab |
+|----------------|-------|--------------------|--------------|
+| Basis (Ruf 0) | 1 | Tech I | Start |
+| Erweitert (Ruf +3) | 3 | Tech III | HQ-Ausbau +3 |
+| Voll (Ruf +4) | 5 | Tech IV | HQ-Ausbau +4 |
+
+**Fahrzeug-Grundkäufe (Richtwerte):**
+
+| Fahrzeug-Typ | Tech-Stufe | CU-Kosten |
+|-------------|-----------|-----------|
+| Pferd / Kutsche | Tech I | 100 CU |
+| Motorrad / Jeep | Tech II | 500 CU |
+| Gepanzertes Fahrzeug | Tech III | 1.500 CU |
+| Hover-Gleiter | Tech IV | 4.000 CU |
+| Chrono-Shuttle (Prototyp) | Tech V | Questbelohnung |
+
+Details zu Fahrzeug-Mechaniken und Verfolgungsjagden:
+[Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
+
+#### Einrichtungen im Detail
+
 Beispiele für Bereiche, zu denen Stufen erworben werden können, sind im
 HQ:
 
@@ -1311,12 +1383,13 @@ HQ:
   **Kodex** moderiert die Matches und blendet Punktestände ein. Durch intensives Training lassen sich
   neue Fertigkeiten freischalten oder Boni auf passende Proben erzielen.
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
-  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet - ein eigener
+  personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet — ein eigener
   Stützpunkt außerhalb des ITI ist nicht vorgesehen.
-  Dieser persönliche Rückzugsort bleibt erhalten. Erinnerungsstücke an vergangene Missionen
-  lassen das HQ zum Tagebuch der Gruppe werden. Ausbaustufen können zusätzlichen Komfort oder Sicherheit
-  bieten, z. B. einen privaten Tresor für persönliche Gegenstände oder einen Ort zur Meditation,
-  was im Spiel beispielsweise Stress abbauen kann.
+  Quartier-Upgrades sind rein **narrativ/kosmetisch** und liefern keine mechanischen Boni.
+  Erinnerungsstücke an vergangene Missionen lassen das HQ zum Tagebuch der Gruppe werden.
+  Investitionen in CU bringen Flavor: bessere Einrichtung, Dekoration, persönlicher Stash —
+  aber keine Würfelboni. Das Quartier ist ein Rückzugsort, keine separate Basis.
+  Siehe [Ebene 2: Persönliches Quartier](#ebene-2-persönliches-quartier-charakter-ebene) oben.
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
   Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der
   Agenten können zwischen Abenteuern schneller geheilt werden. Zudem können **zeitbedingte
@@ -1460,23 +1533,32 @@ Eine gut entwickelte Teamdynamik erhöht die Immersion enorm: Die Spieler fühle
 echten Agentengruppe. Bei Erfolgserlebnissen feiern sie zusammen, bei Rückschlägen trösten sie sich
 gegenseitig - genau solche Momente machen eine langfristige Kampagne unvergesslich.
 
-### Team-Perks {#team-perks}
+### Team-Perks — Katalog {#team-perks}
 
-Nach einigen gemeinsamen Missionen kann die Gruppe **Team-Perks** freischalten. Diese Spezialisierungen
-repräsentieren eingespielte Taktiken oder besondere Ausrüstung und werden im HQ erworben.
+Nach einigen gemeinsamen Missionen kann die Gruppe **Team-Perks** freischalten. Diese
+Spezialisierungen repräsentieren eingespielte Taktiken oder besondere Ausrüstung und
+werden im HQ erworben. Sie sind an Teamzusammensetzung und Archetypen-Kombinationen
+gekoppelt und liefern **echte Mechanik**, nicht nur Flavor.
 
-**Beispielhafte Perks**
+**Regeln:**
+- Ein Team hat **maximal 2 aktive Perks** gleichzeitig.
+- Ein Perk kostet **500 CU** und erfordert mindestens **3 gemeinsame Missionen**.
+- Perks können im HQ gewechselt werden (Kosten: 200 CU Umschulung).
 
-- **Diplomatenteam** - verbessert den ersten Eindruck; eine Sozialprobe pro Begegnung erhält Vorteil.
-- **Datenverbund** - dauerhafte Vernetzung, +1 auf koordinierte Aktionen.
-- **Kampfverbund** - +1 auf Angriff und Abwehr, einmal pro Kampf einen Gegner gemeinsam ausschalten.
-- **Fahrzeug-Crew** - +2 auf Fahrzeugwürfe, solange ein Mitglied unterstützt.
-- **Feldklinik** - nach Gefechten regeneriert jeder zusätzlich 1 Treffer.
-- **Geistertruppe** - Vorteil bei Infiltrationen und Sabotage.
-- **Ballistische Optik 2.0** - +1 Erfolg auf Distanz von vorbereiteter Position.
-- **Ricochet Tag** - markiert ein Ziel per Abpraller; der nächste Schuss ignoriert Telekinese-Deckung.
-
-Ein Perk kostet meist Ressourcen oder Training. Aktiv sein sollte immer nur ein Bonus gleichzeitig.
+| # | Perk | Voraussetzung | Mechanik |
+|---|------|---------------|----------|
+| 1 | **Diplomatenteam** | Mind. 1 Face-Archetyp | 1×/Begegnung: eine Sozialprobe erhält **Vorteil** (besserer von 2 Würfen zählt). |
+| 2 | **Datenverbund** | Mind. 1 Tech-Archetyp | Dauerhafte Vernetzung: **+1** auf koordinierte Aktionen (Tandem-Proben). |
+| 3 | **Kampfverbund** | Mind. 2 Kampf-Archetypen | **+1** auf Angriff und Abwehr; 1×/Kampf dürfen zwei Agenten einen Gegner mit kombiniertem Angriff ausschalten (kein separater SG). |
+| 4 | **Fahrzeug-Crew** | Mind. 1 Agent mit Drohnensteuerung/Fahrzeug-Talent | **+2** auf Fahrzeugwürfe, solange ein Mitglied aktiv unterstützt. |
+| 5 | **Feldklinik** | Mind. 1 Medic-Archetyp | Nach jedem Gefecht regeneriert jeder Agent **+1 LP** automatisch. |
+| 6 | **Geistertruppe** | Mind. 2 Infiltrations-Archetypen | **Vorteil** auf die erste Infiltrations- oder Sabotage-Probe pro Szene. |
+| 7 | **Ballistische Optik 2.0** | Mind. 1 Sniper-Archetyp | 1×/Mission: **+2** auf einen Fernkampfwurf von vorbereiteter Position. |
+| 8 | **Ricochet Tag** | Mind. 1 CQB + 1 Fernkämpfer | Markiert ein Ziel per Abpraller-Schuss; der nächste Angriff gegen das Ziel ignoriert **1 Punkt Deckung/DR**. |
+| 9 | **Psi-Resonanzfeld** | Mind. 2 Agenten mit `has_psi` | 1×/Mission: alle Psi-Proben in einer Szene erhalten **+1**; danach +1 Psi-Heat für alle Beteiligten. |
+| 10 | **Temporale Synergie** | Mind. 1 Agent mit TEMP ≥ 8 | 1×/Episode: das Team darf einen **Px Burn** durchführen, ohne tatsächlich 1 Px zu verlieren (Phantom-Burn). |
+| 11 | **Sprachgitter** | Mind. 1 Polyglott-Talent im Team | Das Team erhält automatisch Basis-Übersetzung für die aktuelle Epoche — keine Probe nötig für einfache Verständigung. |
+| 12 | **Sturmbrecher** | Teamgröße 4+ | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt). |
 ### Solo Ops {#solo-ops}
 
 Solo-Spieler erhalten eine taktische Begleitdrohne als Wingman. Nutze folgendes Template:

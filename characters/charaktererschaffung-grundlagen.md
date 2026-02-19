@@ -154,7 +154,17 @@ freigeschaltet.
     erzählerisch gefärbt sein - solange klar bleibt, welche Probe sie typischerweise beeinflussen.
 
 4.  **SYS-Verteilung & Implantate:** Das **SYS-Attribut** repräsentiert, wie viel _Cyberware_ oder
-    technische Upgrades euer Agent verkraften bzw. betreiben kann. Viele Chrononauten besitzen bereits
+    technische Upgrades euer Agent verkraften bzw. betreiben kann.
+
+    **Die vier SYS-Felder auf einen Blick:**
+    - **SYS_max** = euer Attributswert — das Gesamtbudget.
+    - **SYS_installed** = permanent belegte Slots (Cyber-/Bioware).
+    - **SYS_runtime** = aktuell aktive Last (installed + temporäre Psi-Effekte).
+    - **SYS_used** = Kurzzeit-Peak für Überlastungschecks.
+    - **Faustregel:** `installed ≤ max`. Wenn `runtime > max` → Überlastung.
+    Das HUD zeigt immer `SYS runtime/max (free X)`.
+    Save-Schema-Details und technische Interna gehören in die
+    [SL-Referenz](../core/sl-referenz.md). Viele Chrononauten besitzen bereits
     zu Missionsbeginn ein oder zwei Implantate - technische Verbesserungen, die besondere Fähigkeiten
     verleihen. Nun entscheidet ihr, ob und welche **Implantate** euer Charakter erhält. Jedes Implantat
     hat einen **SYS-Kostenwert**, der eure verfügbare Systemkapazität entsprechend belegt. Die Summe
@@ -283,19 +293,39 @@ und vermitteln Missionen aus dem gemeinsamen Auftragspool. Sie halten zudem opti
 Spezialaufträge ihrer Fraktion bereit. Commander Renier bleibt der **Gesamtkoordinator**
 und tritt vor allem bei fraktionsübergreifenden Einsätzen, Eskalationen oder
 Schlüsselmeilensteinen auf.
-Direkt zu Beginn gilt: Ein Team setzt sich ausschließlich aus Charakteren derselben Haltung
-zusammen.
-Agenten unterschiedlicher Haltung mischen sich nicht, sondern reisen jeweils getrennt durch die Risse.
-Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich - aber nur einmal
+### Haltung, Teams und Missionspools
+
+Ein operatives Team setzt sich aus Charakteren **derselben Haltung** zusammen.
+Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
+Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
+Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
+des ITI** — Meinungsverschiedenheiten bleiben interne Debatte. Gegen
+Fremdfraktionen stehen alle zusammen.
+
+Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
+**Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
+
+**Missionspools:**
+- **Mischpool (Standard):** Das Team erhält Missionen aus beiden Pools —
+  Preserve-Seeds und Trigger-Seeds rotieren. So stellt das ITI operative
+  Flexibilität sicher. Im Save steht `campaign.mode = "mixed"`.
+- **Missionsfokus festlegen:** Bei der Charaktererstellung kann das Team
+  seinen Pool auf eine Haltung einschränken (`"preserve"` oder `"trigger"`).
+  Das beeinflusst die **Art der Seeds**, nicht die Teamzusammensetzung.
+  HQ-Befehl: `!kampagnenmodus preserve` oder `!kampagnenmodus trigger`.
+
+Innerhalb der gewählten Haltung ist ein Fraktionswechsel möglich — aber nur einmal
 und mit Bedacht.
 Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
 Ein späterer Wechsel zwischen Pro, Contra und Neutral ist ausgeschlossen.
 
 Zu Beginn dient das ITI als euer Hauptquartier. Jeder Agent bezieht dort ein
-persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann. Später
-kauft ihr euch zusätzliche Zugangs-**Stufen** im Fraktionskomplex des ITI.
-Ein eigener Stützpunkt außerhalb der Nullzeit ist nicht vorgesehen.
-Eure persönlichen Bereiche folgen diesen Freischaltungen automatisch.
+persönliches Quartier, das nach eigenen Vorlieben gestaltet werden kann (rein
+narrativ — keine mechanischen Boni). Später kauft ihr euch zusätzliche
+Zugangs-**Stufen** im Fraktionskomplex des ITI. Ein eigener Stützpunkt
+außerhalb der Nullzeit ist nicht vorgesehen. Details zum dreistufigen
+HQ-System (ITI-HQ, Quartier, Fuhrpark) und die Ausbautabelle findet ihr in
+[HQ-Verwaltung und Ausbau](../gameplay/kampagnenstruktur.md#hq-verwaltung-und-ausbau).
 Nach jeder Mission bietet das ITI an, dorthin zurückzukehren. Dort werden
 Wunden versorgt und der nächste Auftrag vorbereitet - die Heimkehr ist also ein
 regelmäßiges, aber freiwilliges Element des Spielablaufs.
@@ -391,16 +421,16 @@ standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: *
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
 euren aktuellen ITI-Rang zeigt.
 
-**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch den
-**Befähigungsindex** ein. Letzterer basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
+**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch die
+**Rufstufe** ein. Letztere basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
 Unter dem Namen läuft ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten Level ist.
-Euer Charakter würde nie laut verkünden "Ich hab Level 3 erreicht" - innerhalb der Spielwelt gilt
-nur der Befähigungsindex als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
+Euer Charakter würde nie laut verkünden "Ich hab Level 3 erreicht" — innerhalb der Spielwelt gilt
+nur die Rufstufe als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
 exakten Fortschritt nennen, z.B.: _"Euer HUD zeigt Level 3 (70 % bis Level 4) und
-Befähigungsindex +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
-HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** - Rang +1 (Level 3, 71 % bis Level 4); Vital:
+Rufstufe +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
+HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** — Rang +1 (Level 3, 71 % bis Level 4); Vital:
 100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
-Bereich."\* - daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
+Bereich."\* — daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen - in der sogenannten **HQ-Phase** - habt ihr
 Gelegenheit, euren Fortschritt auszuspielen. Typische **Downtime-Aktivitäten** sind Training,
@@ -481,8 +511,16 @@ Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission
 Höhere **Tier-Stufen** werden über kostenpflichtige **Lizenzen** freigeschaltet.
 Je teurer die Lizenz, desto hochwertiger die verfügbare Ausrüstung.
 Zusätzlich koppelt das ITI den Zugriff an euren **Ruf**:
-- **Ruf 1** erlaubt den Kauf von Tier-1-Lizenzen,
-- **Ruf 2** schaltet Tier 2 frei und so weiter.
+
+| Tier | Ruf-Anforderung | Lizenzkosten |
+|------|-----------------|-------------|
+| 0 | — | Frei |
+| I | Ruf +1 | 200 CU |
+| II | Ruf +2 | 500 CU |
+| III | Ruf +3 | 1.500 CU |
+| IV | Ruf +4 | 3.000 CU |
+| V | Ruf +5 | Questbelohnung (nicht kaufbar) |
+
 Lizenzen müssen dennoch erworben werden, sobald die passende Rufstufe erreicht ist.
 
 typischerweise eine Ressourcengutschrift - sei es in Form von **Credits (CU)** oder logistischen

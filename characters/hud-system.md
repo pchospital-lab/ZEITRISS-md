@@ -342,9 +342,9 @@ _Kodex:_
 | ------- | --------- |
 | `HP 100%` | Charakter unverletzt |
 | `HP <50%` | Verwundet (−1 auf Aktionen) |
-| `Stress 1–5` | leichte Anspannung |
-| `Stress 6–9` | starke Belastung (−1) |
-| `Stress 10` | Zusammenbruch |
+| `Stress 1–4` | leichte Anspannung |
+| `Stress 5–9` | Angespannt (−1 auf soziale/präzise Proben) |
+| `Stress 10` | Zusammenbruch / Panik |
 | 🩸 | Blutung – jede Runde 1 Schaden |
 | ☠️ | Vergiftung – SG +2 auf Proben |
 | `SC n/N` | aktuelle Szene / Budget |
