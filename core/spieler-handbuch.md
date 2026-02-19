@@ -144,6 +144,133 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
 Cluster +… · Fraktion +…`.
 
+## Cheatsheet — Alle Kernregeln auf einen Blick {#cheatsheet}
+
+### Probenformel
+`Endwert = 1W6 + ⌊Attribut / 2⌋ + Talent + Gear ≥ SG`
+- **Exploding:** Bei 6 nochmal würfeln, addieren (Burst-Cap: einmal)
+- **Ab Attribut 11:** W10 statt W6 (Exploding bei 10)
+- **Ab Attribut 14:** Heldenwürfel (1× Reroll pro Szene, besseres zählt)
+- **Talentbonus-Cap:** max. +5 nach Attributsbonus
+
+| SG | Schwierigkeit | Beispiel |
+|---:|---------------|----------|
+| 5 | Leicht | Tür eintreten, triviales Hacken |
+| 8–9 | Mittel | Schloss knacken, Überwachung umgehen |
+| 12 | Schwer | High-Security-Alarm umgehen |
+| 15+ | Extrem | Laserfeld im Sprint passieren |
+
+### Attribute (6 Stück, Budget 18 Punkte)
+
+| Kürzel | Name | Einsatz |
+|--------|------|---------|
+| STR | Stärke | Nahkampf, Kraftakte |
+| GES | Geschicklichkeit | Fernkampf, Schleichen, Initiative |
+| INT | Intelligenz | Rätsel, Technik, Wissen |
+| CHA | Charisma | Soziales, Willenskraft, Stressproben |
+| TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP) |
+| SYS | Systemlast | Cyber-/Bioware-Kapazität |
+
+- **Start:** 2–5 pro Attribut, Summe = 18, Minimum 1
+- **Reguläres Cap:** 10 · **Prestige-Cap:** 14
+
+### Initiative
+`1W6 + GES` (voller Wert, **keine** Halbierung) · Gleichstand → TEMP, dann Stichwurf
+
+### Kampf-Kurzablauf
+1. **Initiative** — `1W6 + GES`, höchster Wert beginnt
+2. **Angriff** — Probenformel (STR Nah / GES Fern) ≥ SG oder Oppositionswurf
+3. **Schaden** — Waffenwert − Rüstungs-DR = LP-Verlust
+4. **Verletzung** — LP-Stand bestimmt Stufe & Malus (siehe unten)
+5. **Stress** — Kampf kann Stress auslösen (krit. Treffer, Verluste)
+6. **Quick-Fight** — Gegen Unterlegene: eine einzige Probe statt Runden
+
+### LP & Verletzungsstufen (10 LP)
+
+| LP | Stufe | Malus |
+|---:|-------|------:|
+| 10 | Unverletzt | 0 |
+| 7–9 | Leicht verletzt | −1 |
+| 4–6 | Mittel verletzt | −2 |
+| 1–3 | Schwer verletzt | −3 |
+| 0 | Kritisch (Not-Rückholung) | — |
+
+### Stress (0–10)
+
+| Stress | Effekt |
+|-------:|--------|
+| 0–4 | Keine Mali |
+| 5–9 | −1 auf soziale & präzise Proben |
+| 10 | Panik / Zusammenbruch |
+
+Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
+
+### Psi (Kurzversion)
+- **PP-Pool** = TEMP-Wert · Kosten: stark 3 / mittel 2 / gering 1 PP
+- **Cooldown:** 3 / 2 / 1 Runden · **Regen:** nach Konflikt → Pool voll
+- **Psi-Heat:** 0 Pristine · 1–2 Warm · 3–4 Hot (−1 Ini) · 5 Overload (SG +4) · 6 Reboot (Runde aus, Heat → 0)
+- **SYS-Last:** Effekt <1 s = 0 SYS · ≤1 Runde = 1 SYS · länger +1/Runde
+
+### Paradoxon-Index (Px) — Belohnungssystem
+
+| Px | Effekt |
+|---:|--------|
+| 0–4 | Stabil, Fortschritt über HUD-Farbe sichtbar |
+| **5** | **ClusterCreate()** → 1–2 Rift-Seeds enthüllt, Px → 0 |
+
+- **Steigt durch:** Stilvolles Vorgehen, Missionsziele, Zeitlinie stabilisieren
+- **Stagniert bei:** Chaos, lautes Vorgehen, Missionsabbruch
+- **Px −1 (selten):** Nur bei extremen Fehlern (Zivilopfer, Kern-Anker zerstört)
+- **Px Burn:** 1 Punkt → 1 Reroll (auch NSC)
+- **TEMP beeinflusst Füllgeschwindigkeit** (höher = schneller)
+
+### CU-Belohnung
+`Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
+
+| Faktor | Werte |
+|--------|-------|
+| Basiswert | Low 400 · Mid 500 · High 600 CU |
+| Ergebnis | Fail 0,3 · Partial 0,6 · Success 1,0 · Bonus 1,2 |
+| Seed-Multi | `1 + 0,2 × offene Seeds` |
+| Hazard-Pay | Solo/Buddy (<3 Agenten) → ×1,5 |
+
+### Tier-Lizenzen (Ausrüstungszugang)
+
+| Tier | Ruf | Lizenzkosten |
+|------|----:|--------------|
+| 0 | — | Frei |
+| I | +1 | 200 CU |
+| II | +2 | 500 CU |
+| III | +3 | 1.500 CU |
+| IV | +4 | 3.000 CU |
+| V | +5 | Questbelohnung |
+
+### EP-Kurve
+
+| Level | EP pro Level |
+|------:|--------------|
+| 1–10 | 1 EP (= 1 Mission) |
+| 11–20 | 2 EP |
+| 21–30 | 3 EP |
+| 31–50 | 4 EP |
+| 51–100 | 5 EP |
+
+### HUD-Icons
+
+**Dauer (immer sichtbar):** ❤️‍🩹 Vital · 🧠 Stress · 🔄 Paradoxon · 👁️ Tarnung
+
+**Kontextsensitiv:** 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · 🌀 TK-Cooldown · 💀 Boss · ⚡ Rift-Bonus
+
+### Wichtige Befehle
+
+| Befehl | Wirkung |
+|--------|---------|
+| `!save` | Speicherstand erzeugen (nur HQ) |
+| `!sf off` / `!sf on` | Self-Reflection aus/an |
+| `!kampagnenmodus` | Pool wechseln (preserve/trigger) |
+| `!offline` | Kodex-Offline-FAQ (1×/Min) |
+| `kodex [thema]` | Weltwissen/Regeln abfragen |
+
 ## Mini-Einsatzhandbuch {#mini-einsatzhandbuch}
 
 **Startbefehle (Klammern Pflicht):**
