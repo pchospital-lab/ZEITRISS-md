@@ -95,7 +95,7 @@ ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 
 Die ersten Schritte in unter zwei Minuten:
 
-- Standardstil: Cinematic/Verbose mit aktivem Kodex. PRECISION optional für Taktikphasen.
+- Standardstil: Klassik (Mischform aus filmisch und taktisch). PRECISION optional für Taktikphasen.
 
 1. **Einstieg wählen** - klassisch = volle Charaktererschaffung, schnell = Rolle + Kurzprofil.
 2. **Nach der Erstellung entscheiden** - HQ-Rundgang mit Kodex (Tour + Regelframe) oder direkt ins Briefing.
