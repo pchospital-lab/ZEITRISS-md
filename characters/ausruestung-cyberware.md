@@ -120,7 +120,7 @@ Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes An
 
 Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
 manchmal geheime Depots mit exklusiven Prototypen.
-Kanonische Tabelle: siehe [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausrüstung--cyberware-hq-phase).
+Kanonische Tabelle: siehe [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausrüstung-cyberware-hq-phase).
 ## Waffen: Arsenal der Zeitalter
 
 Ob Klingen, Kugeln oder Laser – Chrononauten greifen auf ein breites Spektrum an Waffen zurück,

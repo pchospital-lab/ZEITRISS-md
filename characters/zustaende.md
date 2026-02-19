@@ -336,6 +336,17 @@ Lebenspunkte hinausgehen:
   und kann nur in Ruhe oder im HQ abgebaut werden.
 - **Stress als Ressource:** 5 Punkte erlauben einen Reroll.
 
+> **Stress vs. Psi-Heat — Abgrenzung:**
+>
+> | | Stress | Psi-Heat |
+> |---|--------|----------|
+> | **Was** | Mentale Belastung | Psi-Überanstrengung |
+> | **Skala** | 0–10 | 0–6 |
+> | **Steigt durch** | Kampf, Trauma, Zeitdruck | Aktive Psi-Nutzung |
+> | **Malus ab** | Stress 5 | Psi-Heat 5 (SG +4) |
+> | **Maximum** | 10 → Panik | 6 → Psi-Reboot |
+> | **Reset** | HQ-Phase → 0; im Feld: CHA-Probe oder 1 Runde Pause (−1) | Nach jedem Konflikt → 0; im Feld: −1 pro Kampfrunde (Probe) |
+
 ### Paradoxon-Index - Das Belohnungssystem
 
 > **Kernregel:** Der Paradoxon-Index ist **kein Strafmechanismus**. Er belohnt

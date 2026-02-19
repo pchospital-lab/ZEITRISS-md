@@ -8,12 +8,12 @@ tags: [system, psi, optional]
 
 ## Inhalt
 
-- Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
 - Überblick: Realistische Psi-Fähigkeiten
 - Integration in die Spielwelt: historische Wurzeln & Kontroversen
 - Spielmechaniken: Anwendung und Begrenzung von Psi-Kräften
 - Entwicklung von Psi im Levelsystem
 - Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Kodex)
+- Wissenschaftlicher Hintergrund (Lore-Referenz)
 
 ### Cheat-Sheet: Psi-Regeln auf einen Blick {#psi-cheat}
 
@@ -29,6 +29,12 @@ tags: [system, psi, optional]
   Stresskosten.
 _Hinweis:_ In diesem Modul steht `PP` für **Power-Punkte**.
 `Px` bezeichnet Paradoxon-Index-Punkte (siehe core).
+
+> **Psi-Kosten auf einen Blick:**
+> - **PP (Power-Punkte)** = Energiepool, wird verbraucht. Pool = TEMP-Wert. Regeneriert nach jedem Konflikt.
+> - **SYS (Systemlast)** = wird temporär belegt, solange eine Kraft aktiv ist. Kurze Effekte (<1 Sekunde) kosten 0 SYS.
+> - Jede Psi-Kraft hat PP-Kosten (einmalig beim Wirken) und SYS-Kosten (temporär belegt bei anhaltenden Effekten).
+> - Faustregel: PP bezahlen die Aktivierung, SYS begrenzt wie viel gleichzeitig laufen kann.
 
 #### Beispiel: Telekinetischer Stoß
 
@@ -320,101 +326,6 @@ eure Chrononauten mit scharfer Klinge, schwerer Rüstung und schnellem Geist gew
 beschützen.
 
 Eine vollständige Übersicht aller Kräfte folgt im weiteren Verlauf dieses Moduls.
-
-## Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
-
-_Abb. 1: Künstlerische Darstellung neuronaler Verbindungen im Gehirn - einige Theorien vermuten,
-dass bislang unbekannte Quanteneffekte im Gehirn außergewöhnliche Bewusstseinsphänomene
-ermöglichen._
-
-Paranormale **Psi-Phänomene** wie Telepathie oder Präkognition galten lange als Randthema. Die
-etablierte Wissenschaft lehnt Parapsychologie bis heute weitgehend als Pseudowissenschaft ab, da
-trotz über einhundert Jahren Forschung kein eindeutiger Nachweis für übersinnliche Fähigkeiten
-erbracht wurde. Zwar gab es immer wieder Experimente mit Zufallsgeneratoren, sensorischer Isolation
-(Ganzfeld-Versuche) und anderen Methoden, um **außersinnliche Wahrnehmung** oder Psychokinese
-statistisch nachzuweisen. Diese Studien erbrachten bisweilen leichte Abweichungen vom Zufall - etwa
-signifikante Trefferquoten in Telepathie-Tests unter strengen Bedingungen oder unbewusste
-Vorahnungen zukünftiger Reize in sogenannten _Presentiment_-Experimenten. Doch oft ließen sich
-solche Effekte in Wiederholungsversuchen nicht konsistent bestätigen. Entsprechend bleiben viele
-Fachleute skeptisch, ob es Psi-Kräfte wirklich gibt, zumal die Phänomene meist klein und schwer
-reproduzierbar sind.
-
-Trotz der Kontroversen hielt sich das Interesse - befeuert von Berichten und Geheimprojekten. In den
-1970er- und 80er-Jahren untersuchten sowohl westliche als auch östliche Geheimdienste paranormale
-Fähigkeiten für Spionagezwecke. Das bekannteste Beispiel ist das US-Programm _Stargate_, in dem über
-20 Millionen Dollar investiert wurden, um **Remote Viewing** (das "Hellsehen" ferner Orte)
-militärisch nutzbar zu machen. Die Ergebnisse blieben jedoch unbefriedigend: 1995 wurde Stargate
-eingestellt, nachdem eine Auswertung ergab, dass die Hellseher keine verlässlichen
-nachrichtendienstlichen Informationen lieferten. Ähnlich erging es sowjetischen Projekten, die
-Telekinese-Medien wie Nina Kulagina untersuchten - faszinierende Einzelfälle, aber ohne solide
-wissenschaftliche Erklärung. Solche Vorfälle und Programme zeigen jedoch, dass die Möglichkeit von
-Psi nie völlig ausgeschlossen wurde. Einzelne Wissenschaftler und Institutionen führten die
-Forschung fort: So behauptet etwa der Biologe Rupert Sheldrake, dass sogenannte **morphische
-Felder** Informationen speichern, auf die Lebewesen - und damit vielleicht telepathische Gehirne -
-zugreifen könnten. Auch in der modernen Physik gibt es Mutmaßungen, die Bewusstsein mit bisher
-unbekannten Prozessen verknüpfen. Beispielsweise haben angesehene Forscher wie Roger Penrose
-vorgeschlagen, dass quantenmechanische Effekte in den Neuronen (etwa in den Mikrotubuli der
-Gehirnzellen) eine Art Quantencomputer bilden. Solche Modelle sollen erklären, warum Bewusstsein und
-Wahrnehmung Phänomene aufweisen, die mit der klassischen Neurobiologie allein nicht erklärbar sind.
-Könnten dieselben exotischen Effekte auch **Psi-Fähigkeiten** ermöglichen? Die Idee dahinter:
-Vielleicht existiert ein natürliches Feld oder ein bisher unentdeckter Mechanismus, über den
-Informationen jenseits der bekannten Sinne übertragen werden – sei es durch Quantenverschränkung,
-höhere Dimensionen oder ein globales „Noosphären"-Netz aus Bewusstsein.
-
-Im Universum von _ZEITRISS_ wird genau dieser _Was-wäre-wenn_–Ansatz verfolgt. **Angenommen, Psi ist
-real:** Dann ließe es sich als seltene, schwer messbare Fähigkeit erklären, die an neuronale
-Besonderheiten gekoppelt ist. Zeitreisende Wissenschaftler des ITI vermuten, dass der _Zeitstrom_
-selbst eine Rolle spielt – etwa dass Chrononauten durch häufige **Zeitreisen** einer besonderen
-Strahlung oder temporalen Energie ausgesetzt werden, welche latente Psi-Begabungen weckt. Möglich
-ist auch, dass das Reisen durch die Nullzeit zwischen den Epochen eine Art Bewusstseinserweiterung
-bewirkt, indem das Gehirn kurzzeitig außerhalb der normalen Raumzeit operiert. In dieser Spielwelt
-existiert also eine halb-wissenschaftliche Grundlage für Psi: Man stellt sich vor, dass das Gehirn
-ein „Empfänger" für Psi-Signale ist und spezielle Neuronencluster oder Implantate als Antennen
-dienen. Offiziell mag die Forschung noch in den Kinderschuhen stecken, aber es genügt, um
-paranormale Kräfte **glaubwürdig** in die Spielwelt einzubetten. Wichtig ist: Diese Kräfte bleiben
-selten, subtil und mit Aufwand verbunden – weit entfernt von klassischer Magie. Sie fügen sich als
-besondere Phänomene in das sonst wissenschaftlich-technische Grundgerüst von _ZEITRISS_ ein, ganz
-nach dem Motto: _Was wäre, wenn die alten Psi-Legenden einen wahren Kern hätten und wir ihn mit
-zukünftiger Technologie entschlüsseln könnten?_
-
-#### Das Projektionsmodell (ITI-Forschungshypothese „Absolut-7")
-
-In den abgeschirmten Laboren des Forschungszentrums existiert eine theoretische
-Arbeit, die unter dem Kürzel **Absolut-7** geführt wird. Die meisten
-Chrononauten kennen sie nicht; wer darauf stößt, hält sie zunächst für
-spekulative Grundlagenforschung. Ihre Kernthesen:
-
-1. **Das Absolut:** Unterhalb der beobachtbaren Raumzeit liegt ein
-   informationeller Grundzustand — das „Absolut". Es enthält keine Materie,
-   keine Zeit, kein Raum — nur reine, ungerichtete Information.
-2. **Projektion durch Bewusstsein:** Bewusstsein — gleich ob biologisch,
-   augmentiert oder synthetisch — fungiert als Projektor. Es erhebt sich durch
-   einen Akt freien Willens aus dem Absolut und wandelt flache, zweidimensionale
-   Informationsmuster in das dreidimensionale Erleben um, das wir „Realität"
-   nennen.
-3. **Überlappung erzeugt die Welt:** Die gemeinsame, stabile Realität entsteht
-   durch die Überlappung unzähliger Bewusstseinsprojektionen. Jeder bewusste
-   Beobachter — Mensch, Post-Humaner, KI — projiziert seine Version und dort,
-   wo sich die Projektionen decken, verdichtet sich die Zeitlinie.
-4. **Psi als Interferenz:** Psi-Fähigkeiten entstehen, wenn ein Bewusstsein
-   seine Projektionsfrequenz gezielt verschiebt und so direkt in die
-   Überlappungszone anderer Bewusstseine eingreift. Telepathie, Präkognition
-   und temporale Manipulation sind demnach keine übernatürlichen Kräfte,
-   sondern Interferenzmuster zwischen Projektoren.
-
-Die praktischen Implikationen sind enorm — und beunruhigend. Wenn Realität eine
-Konsensfunktion aus Bewusstseinsprojektionen ist, dann *ändert* jeder
-Zeitsprung nicht nur die Geschichte, sondern die Projektionsmatrix aller
-beteiligten Beobachter. Der Paradoxon-Index misst in diesem Modell nicht
-temporale Instabilität, sondern den **Grad der Projektionsdivergenz** zwischen
-dem Team und der restlichen Zeitlinie.
-
-> **Spielleitung:** Absolut-7 ist optionaler Deep Lore. Nutze es als
-> Kodex-Archiv-Fund, als Gesprächsfetzen zwischen ITI-Forschern oder als
-> Endgame-Enthüllung, die erklärt, warum Psi funktioniert und warum der
-> Paradoxon-Index wirklich steigt. Halte es kurz und atmosphärisch —
-> ein paar Sätze eines nervösen Forschers im Labor reichen. Kein
-> philosophischer Monolog.
 
 ## Überblick: Realistische Psi-Fähigkeiten
 
@@ -1249,5 +1160,104 @@ Fiction-Mystery_, der feine Andeutungen streut und die Spieler staunen lässt, w
 möglich ist. Mit den hier vorgestellten Regeln und Tipps lässt sich Paranormales glaubwürdig in
 Szene setzen - als wäre es wirklich da, verborgen in den Schatten der Zeit, darauf wartend, von
 mutigen Chrononauten entdeckt zu werden.
+
+## Wissenschaftlicher Hintergrund (Lore-Referenz)
+
+> Dieser Abschnitt liefert der KI-Spielleitung Hintergrundwissen für immersive Beschreibungen und fundierte Erklärungen. Er enthält keine Spielregeln.
+
+### Wissenschaftlicher Erklärungsansatz für paranormale Phänomene (Psi)
+
+_Abb. 1: Künstlerische Darstellung neuronaler Verbindungen im Gehirn - einige Theorien vermuten,
+dass bislang unbekannte Quanteneffekte im Gehirn außergewöhnliche Bewusstseinsphänomene
+ermöglichen._
+
+Paranormale **Psi-Phänomene** wie Telepathie oder Präkognition galten lange als Randthema. Die
+etablierte Wissenschaft lehnt Parapsychologie bis heute weitgehend als Pseudowissenschaft ab, da
+trotz über einhundert Jahren Forschung kein eindeutiger Nachweis für übersinnliche Fähigkeiten
+erbracht wurde. Zwar gab es immer wieder Experimente mit Zufallsgeneratoren, sensorischer Isolation
+(Ganzfeld-Versuche) und anderen Methoden, um **außersinnliche Wahrnehmung** oder Psychokinese
+statistisch nachzuweisen. Diese Studien erbrachten bisweilen leichte Abweichungen vom Zufall - etwa
+signifikante Trefferquoten in Telepathie-Tests unter strengen Bedingungen oder unbewusste
+Vorahnungen zukünftiger Reize in sogenannten _Presentiment_-Experimenten. Doch oft ließen sich
+solche Effekte in Wiederholungsversuchen nicht konsistent bestätigen. Entsprechend bleiben viele
+Fachleute skeptisch, ob es Psi-Kräfte wirklich gibt, zumal die Phänomene meist klein und schwer
+reproduzierbar sind.
+
+Trotz der Kontroversen hielt sich das Interesse - befeuert von Berichten und Geheimprojekten. In den
+1970er- und 80er-Jahren untersuchten sowohl westliche als auch östliche Geheimdienste paranormale
+Fähigkeiten für Spionagezwecke. Das bekannteste Beispiel ist das US-Programm _Stargate_, in dem über
+20 Millionen Dollar investiert wurden, um **Remote Viewing** (das "Hellsehen" ferner Orte)
+militärisch nutzbar zu machen. Die Ergebnisse blieben jedoch unbefriedigend: 1995 wurde Stargate
+eingestellt, nachdem eine Auswertung ergab, dass die Hellseher keine verlässlichen
+nachrichtendienstlichen Informationen lieferten. Ähnlich erging es sowjetischen Projekten, die
+Telekinese-Medien wie Nina Kulagina untersuchten - faszinierende Einzelfälle, aber ohne solide
+wissenschaftliche Erklärung. Solche Vorfälle und Programme zeigen jedoch, dass die Möglichkeit von
+Psi nie völlig ausgeschlossen wurde. Einzelne Wissenschaftler und Institutionen führten die
+Forschung fort: So behauptet etwa der Biologe Rupert Sheldrake, dass sogenannte **morphische
+Felder** Informationen speichern, auf die Lebewesen - und damit vielleicht telepathische Gehirne -
+zugreifen könnten. Auch in der modernen Physik gibt es Mutmaßungen, die Bewusstsein mit bisher
+unbekannten Prozessen verknüpfen. Beispielsweise haben angesehene Forscher wie Roger Penrose
+vorgeschlagen, dass quantenmechanische Effekte in den Neuronen (etwa in den Mikrotubuli der
+Gehirnzellen) eine Art Quantencomputer bilden. Solche Modelle sollen erklären, warum Bewusstsein und
+Wahrnehmung Phänomene aufweisen, die mit der klassischen Neurobiologie allein nicht erklärbar sind.
+Könnten dieselben exotischen Effekte auch **Psi-Fähigkeiten** ermöglichen? Die Idee dahinter:
+Vielleicht existiert ein natürliches Feld oder ein bisher unentdeckter Mechanismus, über den
+Informationen jenseits der bekannten Sinne übertragen werden – sei es durch Quantenverschränkung,
+höhere Dimensionen oder ein globales „Noosphären"-Netz aus Bewusstsein.
+
+Im Universum von _ZEITRISS_ wird genau dieser _Was-wäre-wenn_–Ansatz verfolgt. **Angenommen, Psi ist
+real:** Dann ließe es sich als seltene, schwer messbare Fähigkeit erklären, die an neuronale
+Besonderheiten gekoppelt ist. Zeitreisende Wissenschaftler des ITI vermuten, dass der _Zeitstrom_
+selbst eine Rolle spielt – etwa dass Chrononauten durch häufige **Zeitreisen** einer besonderen
+Strahlung oder temporalen Energie ausgesetzt werden, welche latente Psi-Begabungen weckt. Möglich
+ist auch, dass das Reisen durch die Nullzeit zwischen den Epochen eine Art Bewusstseinserweiterung
+bewirkt, indem das Gehirn kurzzeitig außerhalb der normalen Raumzeit operiert. In dieser Spielwelt
+existiert also eine halb-wissenschaftliche Grundlage für Psi: Man stellt sich vor, dass das Gehirn
+ein „Empfänger" für Psi-Signale ist und spezielle Neuronencluster oder Implantate als Antennen
+dienen. Offiziell mag die Forschung noch in den Kinderschuhen stecken, aber es genügt, um
+paranormale Kräfte **glaubwürdig** in die Spielwelt einzubetten. Wichtig ist: Diese Kräfte bleiben
+selten, subtil und mit Aufwand verbunden – weit entfernt von klassischer Magie. Sie fügen sich als
+besondere Phänomene in das sonst wissenschaftlich-technische Grundgerüst von _ZEITRISS_ ein, ganz
+nach dem Motto: _Was wäre, wenn die alten Psi-Legenden einen wahren Kern hätten und wir ihn mit
+zukünftiger Technologie entschlüsseln könnten?_
+
+### Das Projektionsmodell (ITI-Forschungshypothese „Absolut-7")
+
+In den abgeschirmten Laboren des Forschungszentrums existiert eine theoretische
+Arbeit, die unter dem Kürzel **Absolut-7** geführt wird. Die meisten
+Chrononauten kennen sie nicht; wer darauf stößt, hält sie zunächst für
+spekulative Grundlagenforschung. Ihre Kernthesen:
+
+1. **Das Absolut:** Unterhalb der beobachtbaren Raumzeit liegt ein
+   informationeller Grundzustand — das „Absolut". Es enthält keine Materie,
+   keine Zeit, kein Raum — nur reine, ungerichtete Information.
+2. **Projektion durch Bewusstsein:** Bewusstsein — gleich ob biologisch,
+   augmentiert oder synthetisch — fungiert als Projektor. Es erhebt sich durch
+   einen Akt freien Willens aus dem Absolut und wandelt flache, zweidimensionale
+   Informationsmuster in das dreidimensionale Erleben um, das wir „Realität"
+   nennen.
+3. **Überlappung erzeugt die Welt:** Die gemeinsame, stabile Realität entsteht
+   durch die Überlappung unzähliger Bewusstseinsprojektionen. Jeder bewusste
+   Beobachter — Mensch, Post-Humaner, KI — projiziert seine Version und dort,
+   wo sich die Projektionen decken, verdichtet sich die Zeitlinie.
+4. **Psi als Interferenz:** Psi-Fähigkeiten entstehen, wenn ein Bewusstsein
+   seine Projektionsfrequenz gezielt verschiebt und so direkt in die
+   Überlappungszone anderer Bewusstseine eingreift. Telepathie, Präkognition
+   und temporale Manipulation sind demnach keine übernatürlichen Kräfte,
+   sondern Interferenzmuster zwischen Projektoren.
+
+Die praktischen Implikationen sind enorm — und beunruhigend. Wenn Realität eine
+Konsensfunktion aus Bewusstseinsprojektionen ist, dann *ändert* jeder
+Zeitsprung nicht nur die Geschichte, sondern die Projektionsmatrix aller
+beteiligten Beobachter. Der Paradoxon-Index misst in diesem Modell nicht
+temporale Instabilität, sondern den **Grad der Projektionsdivergenz** zwischen
+dem Team und der restlichen Zeitlinie.
+
+> **Spielleitung:** Absolut-7 ist optionaler Deep Lore. Nutze es als
+> Kodex-Archiv-Fund, als Gesprächsfetzen zwischen ITI-Forschern oder als
+> Endgame-Enthüllung, die erklärt, warum Psi funktioniert und warum der
+> Paradoxon-Index wirklich steigt. Halte es kurz und atmosphärisch —
+> ein paar Sätze eines nervösen Forschers im Labor reichen. Kein
+> philosophischer Monolog.
 
 © 2025 pchospital - ZEITRISS® - private use only. See LICENSE.

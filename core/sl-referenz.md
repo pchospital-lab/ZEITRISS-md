@@ -391,7 +391,7 @@ Misslingt dieser deutlich, kann bei aktivierter Px-Verlust-Regel ein
 **Resonanzverlust (Px-1)** greifen.
 Standardmäßig bleibt der Paradoxon-Index stabil; die Strafe ist als Opt-in-Schalter verfügbar.
 **0-2 Sweeps empfohlen:** 1 = Low-Risk Bonus, 2 = spürbares Tikken,
-3+ = Hot-Exfil-Gefahr. [Details](../gameplay/kampagnenstruktur.md#post-op-sweep)
+3+ = Hot-Exfil-Gefahr. [Details](../gameplay/kampagnenstruktur.md#post-op-sweep-optional)
 **Ziel:** Freiraum für Erkundung - unter spürbarem Zeit- und Nerven-Druck.
 **HUD** zeigt ab Zielerfüllung `ANCR Ort · RW mm:ss` und `Stress`. (Speichern
 weiterhin ausschließlich im **HQ**.)
@@ -452,7 +452,7 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 
 **Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
 75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
-Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg--fortschritt).
+Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg-fortschritt).
 
 Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
 Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
@@ -705,7 +705,7 @@ Index-Senke im Kodex.
 
 ### ZEITRISS - Einleitung
 
-> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im [Spieler-Handbuch](spieler-handbuch.md#zeitriss---einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
+> Die vollständige Einleitung (Setting, ITI-Hintergrund, Einstiegsoptionen) steht im [Spieler-Handbuch](spieler-handbuch.md#zeitriss-einleitung). Dieses Modul konzentriert sich auf SL-Regeln und Systemtabellen.
 
 ## Spielstart
 
