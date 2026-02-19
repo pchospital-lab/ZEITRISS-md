@@ -565,8 +565,9 @@ gleichzeitig die **Verletzungsstufe** des Charakters:
 > | 1–3 | Schwer verletzt | –3 | Lebensbedrohlich — nur grundlegende Aktionen möglich |
 > | 0 | Kritisch | — | Bewusstlos/sterbend — automatische Not-Rückholung durch das ITI |
 
-Der Malus gilt auf alle Proben. Ausführliche Regeln zu Verwundungsstufen, Heilung und
-Not-Rückholung findet ihr im Modul [Zustände & HUD](../characters/hud-system.md#vitalstatus).
+Der Malus gilt auf alle Proben. Diese Kurzfassung dient als Referenz — die
+**kanonische Verwundungstabelle** mit vollständigen Regeln zu Heilung, Erholung und
+Not-Rückholung liegt in [Zustände & erweiterte Systeme](../characters/zustaende.md).
 
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere

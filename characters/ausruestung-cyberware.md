@@ -492,6 +492,11 @@ installiert hat – also drei belegte Slots.
 <a id="optional-hominin-bio-sheaths"></a>
 ### Optional: Hominin-Bio-Sheaths
 
+> **Kanonische Homininen-Tabelle:** Die vollständige Liste mit Attributsmodifikatoren
+> und Balancing-Regeln findet sich in
+> [Charaktererschaffung-Optionen](charaktererschaffung-optionen.md#historische-homininen-bio-sheaths).
+> Die folgende Übersicht dient als Kurzreferenz im Ausrüstungskontext.
+
 Die ITI-Forschung erlaubt es, ein Bewusstsein in eine **polyclonale Bio-Hülle** zu implantieren.
 Diese Körper basieren auf fossiler DNA, ergänzt durch Nanografting. Spieler können so statt eines
 modernen Menschen einen urzeitlichen Homininen körpern. Der Ansatz bleibt reine Sci-Fi ohne
