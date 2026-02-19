@@ -155,9 +155,9 @@ Mali. Mehr Details im Kodex.
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
-Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️, Stress ⚠️, Tarnung, Paradoxon 🔄),
+Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️, Paradoxon 🔄),
 die immer sichtbar sind. Alle weiteren Icons (🩸 Blutung, ☠️ Vergiftung,
-⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown, 💀 Boss-Encounter, ☆ Rift-Bonus)
+⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown, 💀 Boss-Encounter, ⚡ Rift-Bonus)
 erscheinen **kontextsensitiv** — sie werden automatisch eingeblendet, wenn der
 jeweilige Zustand eintritt, und verschwinden, sobald er endet. So bleibt das
 HUD clean, zeigt aber alles Spielrelevante. **HUD-Blenden dürfen
@@ -215,7 +215,7 @@ die Augen der Figur.
   - **0** laut, aber ohne gravierende Spuren
   - **−1** Backlash, grobe Störung, Anker kompromittiert oder Zivilisten gefährdet
 - Banner erscheint immer am Szenenende. Farben:
-  - rot 0–2 · gelb 3–4 · grün 5
+  - grau 0–1 · cyan 2–3 · grün 4–5
 
 > _Resonanzanzeige für Rissverfolgung_  
 > _Kodex-Modul: `CLSTR:TRACE.MONITOR`_
@@ -316,9 +316,10 @@ _Kodex:_
 
 | Symbol | Bedeutung |
 | ------ | --------- |
-| ❤️ | Vitalstatus |
-| ⚠️ | Stresslevel |
+| ❤️‍🩹 | Vitalstatus |
+| 🧠 | Stresslevel |
 | 🔄 | Paradoxon-Index |
+| 👁️ | Tarnung/Sichtbarkeit |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
 
@@ -330,7 +331,7 @@ _Kodex:_
 | 🛡️ | Abwehr bereit | Defensive Haltung/Deckung aktiv |
 | 🌀 | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre) |
 | 💀 | Boss-Encounter | Boss-Szene aktiv (Szene 10 Core/Rift) |
-| ☆ | Rift-Bonus | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
+| ⚡ | Rift-Bonus aktiv | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
 
 #### Risk-Level-Badges {#risk-level-badges}
 
@@ -350,8 +351,8 @@ _Kodex:_
 | `Stress 1–4` | leichte Anspannung |
 | `Stress 5–9` | Angespannt (−1 auf soziale/präzise Proben) |
 | `Stress 10` | Zusammenbruch / Panik |
-| 🩸 | Blutung – jede Runde 1 Schaden |
-| ☠️ | Vergiftung – SG +2 auf Proben |
+| Blutung | jede Runde 1 Schaden (Icon siehe [HUD-Icons](#hud-icons)) |
+| Vergiftung | SG +2 auf Proben (Icon siehe [HUD-Icons](#hud-icons)) |
 | `SC n/N` | aktuelle Szene / Budget |
 
 #### HUD-Snippets (Kurzmeldungen)
@@ -402,8 +403,8 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
 - **Riss-Tracker (temporaler Resonator):**[^riss-tracker] Der **Paradoxon-Index**
   ist euer Wegweiser zu wertvollen Anomalien und belegt daher eine prominente
   Stelle im HUD. Er erscheint als **Skala mit Zeit-Symbol**, Farblogik umgekehrt:
-  rot = Start, gelb = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein
-  rotes ⏳. Steigt der Index, wechselt es auf gelb/orange ebenfalls mit ⏳; bei 5
+  grau = Start, cyan = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein
+  graues ⏳. Steigt der Index, wechselt es auf cyan/türkis ebenfalls mit ⏳; bei 5
   leuchtet es grün und kündigt den `ClusterCreate()`-Moment an. Steigt der Index
   weiter, pulsiert das Symbol, bis sich der Wert wieder beruhigt. GPT kann diesen
   Anstieg inszenieren: _„Euer HUD flackert und springt auf Paradoxon-Index 4 –
@@ -413,8 +414,8 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   gemeldet werden (_„Temporale Fluktuation detektiert“_ bei Level 1–2, evtl.
   begleitet von einem leichten Glitzern oder farbigen Schimmern im HUD).
   Das HUD macht die **Zeitchancen** direkt erlebbar. Ein dauerhafter 0–5-Balken
-  zeigt dabei den aktuellen Fortschritt. Ab Stufe **3** färbt sich die Anzeige
-  gelb, bei **5** leuchtet sie grün. Nach einem automatischen
+  zeigt dabei den aktuellen Fortschritt. Ab Stufe **2** färbt sich die Anzeige
+  cyan, bei **4** leuchtet sie grün. Nach einem automatischen
   `ClusterCreate()` setzt ein kurzer Weiß-Flash mit Signalton den Wert zurück.
   Bei jedem Anstieg wird der neue Wert direkt im Kodex-Log vermerkt.
 
