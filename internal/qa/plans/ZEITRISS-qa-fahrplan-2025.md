@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.3
+version: 1.20.5
 tags: [meta]
 ---
 
@@ -1658,12 +1658,25 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 1
 - [x] Glossar/Zeiteinheiten im Spieler-Handbuch um Episode/Arc/Kampagne
   ergänzt, damit Mission/Episode/Szene konsistent referenzierbar sind.
 
+
+### Teilumsetzung 2026-02-20 – Speichersystem-Pass (Pass 3, Korrektur)
+
+Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
+(Speichersystem).
+
+### Umgesetzte Punkte
+
+- [x] `core/wuerfelmechanik.md` von „Nightly Auto-Save" auf klare HQ-only-Autosave-Regel umgestellt.
+- [x] `core/zeitriss-core.md` Nullzeit-Menü präzisiert: `Pfad fortsetzen`
+  bedeutet Episodenverlauf, nicht Mid-Mission-Rückkehr aus dem HQ.
+- [x] `characters/hud-system.md` Nullzeit-Menü analog angepasst; kein Mid-Mission-Load aus HQ.
+
 ### Offene Folgeaufgaben (nächste Durchläufe)
 
 - [x] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlicht
   (README + Spieler-Handbuch auf kanonische Hierarchie abgeglichen).
-- [ ] Speichersystem-Pass abschließen (HQ-only/Autosave/Suspend-Definition
-  in allen Modulen angleichen).
+- [x] Speichersystem-Pass abgeschlossen (HQ-only/Autosave-Definition
+  in allen Modulen angeglichen).
 - [ ] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
   rechtliche Hinweise nachgelagert).
 - [ ] Template-Guard-Pass in Wissensmodulen (Template-Syntax entfernen oder
