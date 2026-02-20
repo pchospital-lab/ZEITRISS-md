@@ -1772,15 +1772,27 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   bedeutet Episodenverlauf, nicht Mid-Mission-Rückkehr aus dem HQ.
 - [x] `characters/hud-system.md` Nullzeit-Menü analog angepasst; kein Mid-Mission-Load aus HQ.
 
-### Offene Folgeaufgaben (nächste Durchläufe)
+### Folgeaufgaben-Status (konsolidiert)
 
 - [x] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlicht
   (README + Spieler-Handbuch auf kanonische Hierarchie abgeglichen).
 - [x] Speichersystem-Pass abgeschlossen (HQ-only/Autosave-Definition
   in allen Modulen angeglichen).
-- [ ] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
-  rechtliche Hinweise nachgelagert).
-- [ ] Template-Guard-Pass in Wissensmodulen (Template-Syntax entfernen oder
-  intern kapseln).
-- [ ] Setup-/Versionierungsdrift (inkl. Changelog-Regel) in einem separaten
-  Release-Durchlauf schließen.
+- [x] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
+  rechtliche Hinweise nachgelagert). _(Statusabgleich 2027-03-11: README führt
+  den 5-Minuten-Quickstart vor Lizenz-/Rechtsteilen.)_
+- [x] Template-Guard-Pass in Wissensmodulen (Template-Syntax entfernen oder
+  intern kapseln). _(Abschluss über Läufe T1-T4 vom 2027-03-10; offene Delimiter
+  in Runtime-/Toolkit-Modulen bereinigt.)_
+- [x] Setup-/Versionierungsdrift (inkl. Changelog-Regel) in einem separaten
+  Release-Durchlauf schließen. _(Abschluss über T5 vom 2027-03-10; Setup-Guide
+  auf 4.2.6 harmonisiert, Changelog im Root vorhanden.)_
+
+### Aktiver Rest-Backlog (für die nächsten Zyklen)
+
+- [ ] Arena-Smoke-Baseline reparieren: `[FAIL] Device requirement text present`
+  in `make test`/`bash scripts/smoke.sh` beheben oder als formales Known-Issue
+  mit Ticket-ID + Exit-Kriterium führen.
+- [ ] Tiefenanalyse-Upload in einen strukturierten Maßnahmenkatalog überführen
+  (nur verbleibende Punkte), damit Upload-Artefakte nicht mehr als operative
+  To-do-Liste dienen.

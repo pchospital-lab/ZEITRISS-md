@@ -6,6 +6,30 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2027-03-11 – Repo-Agent – Ordnungslauf: Backlog-Konsolidierung & Upload-Ablage
+- Fokus: QA-/Fahrplan-Status nach T4/T5 konsolidieren, widersprüchliche
+  Rest-Checkboxen bereinigen und Upload-Ablage als Eingangs-/Archivpfad klären.
+- Scope: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, `uploads/README.md`.
+- Ergebnis: Tiefenanalyse-Folgeaufgaben sind als erledigt markiert, ein kleiner
+  aktiver Rest-Backlog ist separat ausgewiesen; Upload-Artefakt trägt jetzt
+  einen Archivhinweis.
+
+**Rest-Backlog (aktiv)**
+1. Arena-Smoke-Baseline (`[FAIL] Device requirement text present`) beheben oder
+   als formales Known-Issue mit Exit-Kriterium führen.
+2. Verbleibende Tiefenanalyse-Punkte als kompakten Maßnahmenkatalog in
+   `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` weiterpflegen.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-11)**
+- `make lint` → OK
+- `make test` → FAIL (`[FAIL] Device requirement text present` im Arena-Smoke)
+- `bash scripts/smoke.sh` → FAIL (`[FAIL] Device requirement text present`)
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
 ## 2027-03-10 – Repo-Agent – Runtime-Neutralisierung Lauf 2 (T4–T5)
 - Fokus: Abschluss der offenen Backlog-Punkte aus dem Tiefenanalyse-Nachtrag
   (Toolkit-Delimiter-Entzerrung + Versionsharmonisierung).
