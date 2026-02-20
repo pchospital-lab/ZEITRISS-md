@@ -363,8 +363,8 @@ und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speiche
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
 
-**Nightly Auto-Save:** Nach jeder Missionsphase aktualisiert der Kodex automatisch den gespeicherten
-Spielzustand. So geht selbst bei Unterbrechungen oder spontanen Pausen kein Fortschritt verloren.
+**Auto-Save im HQ:** Der Kodex schreibt automatische Saves ausschließlich in der HQ-Phase
+(`autosave hq`). Laufende Missionen bleiben davon ausgenommen.
 
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
 
