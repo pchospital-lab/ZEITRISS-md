@@ -21,12 +21,12 @@ Details findest du in [LICENSE](../LICENSE).
 
 ## TL;DR - ZEITRISS in 6 Punkten
 
-1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-2. **Mission Phases.** Eine **Mission** läuft über Briefing → Infiltration →
+1. **Agenten.** Als Chrononauten deckt ihr Zeitverschwörungen auf.
+2. **Missionsphasen.** Eine **Mission** läuft über Briefing → Infiltration →
    Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
    sind Sondermissionen in drei Akten mit vierzehn Szenen.
-3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
+3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
    Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
    `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte - Bonus-Missionen mit
