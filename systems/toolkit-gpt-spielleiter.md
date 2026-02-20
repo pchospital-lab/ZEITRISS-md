@@ -3473,7 +3473,9 @@ Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendäre
     {% endif %}
   {% endfor %}
   {% set n = open_seeds|length %}
-  {% set campaign.next_episode = {'sg_bonus': n, 'cu_multi': 1.0 + 0.2*n} %}
+  {% set sg_bonus = [n, 3]|min %}
+  {% set cu_multi = [1.0 + 0.2*n, 1.6]|min %}
+  {% set campaign.next_episode = {'sg_bonus': sg_bonus, 'cu_multi': cu_multi} %}
 {%- endmacro %}
 
 ### launch_rift Macro (Gate: nur im HQ & nach Episodenende)
