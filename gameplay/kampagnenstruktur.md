@@ -1733,9 +1733,9 @@ seine Sorge um die Tochter - Paradoxon +1.
 
 | Kategorie | Gegner-Beispiele | Risiko |
 | --------- | ---------------- | ------ |
-| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | {{SG_AUTO}} |
-| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | {{SG_AUTO}} |
-| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | {{SG_AUTO}} |
+| CORE OPS | Wachen, Konzern-Söldner, autonome Drohnen | SG dynamisch (Seed-Bonus) |
+| RIFT OPS | Parakreaturen, Zeitanomalien, Cluster-Söldner | SG dynamisch (Seed-Bonus) |
+| FIELD DOWNTIME | Zivilisten, Schmuggler, lokale Miliz | SG dynamisch (Seed-Bonus) |
 
 Diese Tabelle kann ausgedruckt werden und bietet der SL einen schnellen Überblick.
 Die genauen SG-Werte setzt das System erst zur Laufzeit anhand offener Rifts ein.

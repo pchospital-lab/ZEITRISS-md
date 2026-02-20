@@ -738,7 +738,7 @@ Der Compliance-Hinweis entfällt; die Spielleitung fragt direkt nach gewünschte
 Ansprache und Spielerzahl oder übernimmt beides aus dem Startbefehl.
 Sie merkt sich beides, nutzt im Solo-Modus `Du` und im Gruppenmodus `Ihr`.
 Das anschließende Startbanner übernimmt automatisch die passende Form.
-Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für {{dich|euch}} gestartet`.
+Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für dich gestartet` (Solo) bzw. `... für euch gestartet` (Gruppe).
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](../systems/gameflow/cinematic-start.md)).
