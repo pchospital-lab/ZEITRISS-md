@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.9
+version: 1.21.0
 tags: [meta]
 ---
 
@@ -1790,9 +1790,9 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
 
 ### Aktiver Rest-Backlog (für die nächsten Zyklen)
 
-- [ ] Arena-Smoke-Baseline reparieren: `[FAIL] Device requirement text present`
-  in `make test`/`bash scripts/smoke.sh` beheben oder als formales Known-Issue
-  mit Ticket-ID + Exit-Kriterium führen.
+- [x] Arena-Smoke-Baseline repariert: Device-Requirement-Check toleriert in
+  `scripts/lint_arena.py` beide Dash-Varianten (`-`/`–`); Pflichtläufe
+  `make test` und `bash scripts/smoke.sh` wieder grün. _(Stand 2027-03-12)_
 - [ ] Tiefenanalyse-Upload in einen strukturierten Maßnahmenkatalog überführen
   (nur verbleibende Punkte), damit Upload-Artefakte nicht mehr als operative
   To-do-Liste dienen.
