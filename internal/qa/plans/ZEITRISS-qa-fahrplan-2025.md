@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.5
+version: 1.20.6
 tags: [meta]
 ---
 
@@ -47,6 +47,17 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-08 – Seed-Caps & Intro-Wording
+
+- **#A1 – Rift-Skalierung deckeln** ✅ abgeschlossen.
+  `sg_bonus` ist jetzt auf +3 gedeckelt; `cu_multi` auf 1,6.
+  Referenzen: `gameplay/kampagnenstruktur.md`,
+  `systems/gameflow/speicher-fortsetzung.md`,
+  `systems/toolkit-gpt-spielleiter.md`.
+- **#A2 – Core-Einführung korrigieren** ✅ abgeschlossen.
+  Epochen-Hinweis von „jede Mission“ auf „jede Episode“ umgestellt.
+  Referenz: `core/zeitriss-core.md`.
 
 ## Rollen & Übergabe
 

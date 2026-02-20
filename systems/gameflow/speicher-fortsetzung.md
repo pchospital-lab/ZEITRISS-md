@@ -1384,8 +1384,9 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert nicht.
 `apply_rift_mods_next_episode()` liest ausschließlich **offene** Seeds aus und
-setzt `sg_bonus` sowie `cu_multi = 1 + 0,2 × offene Seeds`, damit der Pool
-gezielt als Schwellen- oder Loot-Hebel genutzt werden kann.
+setzt `sg_bonus = min(3; offene Seeds)` sowie
+`cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`, damit der Pool gezielt als
+Schwellen- oder Loot-Hebel genutzt werden kann.
 
 Zwischen-Stufen (Px 1-4) liefern keine mechanischen Boni — der Px ist eine
 Fortschrittsanzeige mit Payoff bei Stufe 5 (ClusterCreate). HUD-Farbe und

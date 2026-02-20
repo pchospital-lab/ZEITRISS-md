@@ -19,7 +19,7 @@ Stellt euch vor, ein Riss in der Zeit öffnet sich und ermöglicht Reisen in ver
 ferne Zukünfte. **ZEITRISS** ist ein textbasiertes Pen-&-Paper-Rollenspiel, in dem eine KI (GPT) als
 Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Gruppe - die Spieler
 übernehmen die Rollen von **Chrononauten**, Zeitagenten, die vom **Institut für Temporale
-Intervention (ITI)** auf Missionen geschickt werden. Jede Mission führt in eine andere historische
+Intervention (ITI)** auf Missionen geschickt werden. Jede Episode führt in eine andere historische
 oder zukünftige Epoche mit eigenen Herausforderungen, doch alle Ereignisse finden auf einer
 gemeinsamen, fortlaufenden **Hauptzeitlinie** statt. Die Hauptzeitlinie bleibt intakt - historische
 Eckdaten werden nicht ausgelöscht -, auch wenn Entscheidungen temporäre "Was-wäre-wenn"-Zweige
