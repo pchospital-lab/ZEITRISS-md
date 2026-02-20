@@ -22,9 +22,10 @@ Details findest du in [LICENSE](../LICENSE).
 ## TL;DR - ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-2. **Mission Phases.** Core-Ops verlaufen wie Episoden: Briefing → Infiltration →
-   Intel/Konflikt → Exfiltration → Debrief - insgesamt zwölf Szenen. Rift-Ops sind
-   eigenständige Filme in drei Akten mit vierzehn Szenen.
+2. **Mission Phases.** Eine **Mission** läuft über Briefing → Infiltration →
+   Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
+   Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
+   sind Sondermissionen in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
    Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
@@ -36,10 +37,10 @@ Details findest du in [LICENSE](../LICENSE).
    (Zivilopfer, zerstörte Kern-Anker) kann ausnahmsweise **-1 Px** greifen.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
-6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
-   Mission 10 der Episoden-Boss. Rift-Operationen führen ihren Endgegner im
-   finalen Akt ein (meist um Szene 10). Das Toolkit löst `generate_boss()` an
-   diesen Punkten automatisch aus.
+6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
+   Mini-Boss, in der **10. Mission** der Episoden-Boss. Rift-Operationen
+   führen ihren Endgegner im finalen Akt ein (meist um Szene 10). Das Toolkit
+   löst `generate_boss()` an diesen Punkten automatisch aus.
 
 Siehe den [Schnellstart-Spickzettel](#schnellstart-spickzettel) für eine kompakte
 Einstiegshilfe.
@@ -686,6 +687,12 @@ Kurze Erklärungen wichtiger Abkürzungen:
   [`comms_check`](../systems/toolkit-gpt-spielleiter.md#comms-check).
 - **ITI** - Institut für Temporale Intervention.
 - **Seed-ID** - Kennziffer eines Missions-Seeds.
+- **Szene** - kleinste Spieleinheit innerhalb einer Mission (Core meist 12,
+  Rift meist 14 Szenen).
+- **Mission** - ein kompletter Einsatz vom Briefing bis zum Rücksprung.
+- **Episode/Fall** - Bündel aus rund zehn Missionen derselben Epoche.
+- **Arc** - übergeordneter Handlungsbogen aus mehreren Episoden.
+- **Kampagne** - fortlaufende Gesamtstory aus mehreren Arcs.
 - **Epoch-Lock** - fixiert eine Epoche, bis alle Seeds erledigt sind.
 - **CI** - Continuum Integrity, Stabilität der Hauptzeitlinie.
 - **Rift** - Zeit-Anomalie; löst eine spezielle Rift-Op aus.
@@ -753,6 +760,7 @@ spielerfreundliche Noir-Varianten übersetzt.
 - **Kampfrunde** - kurzer Aktionszyklus im Kampf; Grundlage für Initiative,
   PP-Regeneration und Psi-Heat-Reduktion.
 - **Mission** - kompletter Einsatz vom Briefing bis zum Rücksprung.
+- **Episode/Fall** - umfasst rund zehn Missionen innerhalb derselben Epoche.
 
 ### Zeitgebundene Effekte
 

@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.2
+version: 1.20.3
 tags: [meta]
 ---
 
@@ -1645,10 +1645,23 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 3
 - [x] Toolkit-Wording bereinigt (`Px-Fortschritt` statt
   `Px-Belohnungen`).
 
+### Teilumsetzung 2026-02-20 – Terminologie-Pass Mission/Episode/Szene (Pass 2)
+
+Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 1
+(Kampagnen-Hierarchie).
+
+### Umgesetzte Punkte
+
+- [x] TL;DR in `README.md` auf kanonische Begriffe umgestellt
+  (Mission = 12 Szenen, Episode = ~10 Missionen).
+- [x] TL;DR im `core/spieler-handbuch.md` mit identischer Formel gespiegelt.
+- [x] Glossar/Zeiteinheiten im Spieler-Handbuch um Episode/Arc/Kampagne
+  ergänzt, damit Mission/Episode/Szene konsistent referenzierbar sind.
+
 ### Offene Folgeaufgaben (nächste Durchläufe)
 
-- [ ] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlichen
-  (inkl. README und Spieler-Handbuch).
+- [x] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlicht
+  (README + Spieler-Handbuch auf kanonische Hierarchie abgeglichen).
 - [ ] Speichersystem-Pass abschließen (HQ-only/Autosave/Suspend-Definition
   in allen Modulen angleichen).
 - [ ] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
