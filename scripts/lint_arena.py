@@ -50,7 +50,9 @@ def main() -> int:
         all_ok &= ok(tag, f"{tag} present", tk)
     all_ok &= ok(r"arena_action\(", "ArenaAction macro exists", tk)
     all_ok &= ok(
-        r"Aktion blockiert – Gerät angeben", "Device requirement text present", tk
+        r"Aktion blockiert\s*[–-]\s*Gerät angeben",
+        "Device requirement text present",
+        tk,
     )
     all_ok &= ok(r"Jammer aktiv", "Jammer action present", tk)
     all_ok &= ok(r"ARENA·", "Arena HUD label present", tk)

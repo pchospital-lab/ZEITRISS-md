@@ -1,10 +1,32 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.35
+version: 0.4.36
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-12 – Repo-Agent – Arena-Smoke-Baseline stabilisiert
+- Fokus: Bekannten Arena-Smoke-Fehler (`[FAIL] Device requirement text present`)
+  auflösen und Pflichtpaket wieder vollständig grün fahren.
+- Scope: `scripts/lint_arena.py`, `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`.
+- Ergebnis: Device-Requirement-Prüfung akzeptiert jetzt konsistent beide
+  Dash-Varianten (`-` und `–`); `make test` und `bash scripts/smoke.sh` laufen
+  wieder ohne Arena-Fehlstatus durch.
+
+**Backlog-Status**
+1. Arena-Smoke-Baseline: **geschlossen** (Regex robust gegen typografische
+   Dash-Variante).
+2. Tiefenanalyse-Maßnahmenkatalog bleibt als aktiver Folgepunkt im Fahrplan.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-12)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-11 – Repo-Agent – Ordnungslauf: Backlog-Konsolidierung & Upload-Ablage
 - Fokus: QA-/Fahrplan-Status nach T4/T5 konsolidieren, widersprüchliche
