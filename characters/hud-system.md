@@ -203,7 +203,7 @@ die Augen der Figur.
 ### Paradoxon-Statusanzeige [0–5]
 
 #### HUD-Banner · Paradoxon
-██ Paradoxon 3/5 – Resonanz stabil · Loot +1 ██  
+██ Paradoxon 3/5 – Resonanz stabil · Fortschritt sichtbar ██  
 ██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██  
 `Paradoxon 3/5 · Resonanz ↑`  
 `Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`  
@@ -279,13 +279,13 @@ _Kodex:_
 
 🎖 Optional:
 > Seeds können fürs HQ notiert und später genutzt werden.  
-> Offene Rifts erhöhen Schwierigkeitsgrad und Loot-Multiplikator erst nach der Episode.
+> Offene Rifts erhöhen erst nach der Episode den Druck auf die Einsatzplanung.
 
 ### Zusatzregel
 > Jeder Paradoxonpunkt symbolisiert ein Stück temporaler Nähe zu einem instabilen Raum.  
 > Der TEMP-Wert bestimmt die Geschwindigkeit,  
 > der Erfolg die Richtung –  
-> und CLUSTERCREATE den Zugang zur Beute.
+> und CLUSTERCREATE den Zugang zu neuen Rift-Ops.
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch
   **Ressourcen** und **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben
   erwähnte Ausdauer-System nutzt oder den PP-Pool sichtbar machen wollt, könnte
