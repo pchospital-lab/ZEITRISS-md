@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Setup & Repository Guide"
-version: 4.2.7
+version: 4.2.6
 tags: [meta, setup]
 ---
 
@@ -10,9 +10,8 @@ Dieses Dokument beschreibt Setup, Plattform-Konfiguration und
 Repository-Struktur für den aktuellen ZEITRISS-Stand. Spielinhalte und Regeln
 findest du in der [README](../README.md).
 
-**Versionshinweis:** Die Dokumentversion ist `4.2.7`; Preset- und
-Masterprompt-Namen können aus Kompatibilitätsgründen weiterhin `v4.2.6`
-enthalten, solange die zugehörigen Artefakte noch nicht umbenannt wurden.
+**Versionshinweis:** Die Dokumentversion ist `4.2.6`; Preset- und
+Masterprompt-Namen bleiben auf `v4.2.6` harmonisiert.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 

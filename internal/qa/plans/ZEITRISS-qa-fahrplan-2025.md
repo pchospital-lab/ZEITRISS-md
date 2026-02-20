@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.8
+version: 1.20.9
 tags: [meta]
 ---
 
@@ -131,9 +131,23 @@ Umsetzungsfokus dieses Laufs: T1–T3 in priorisierten Runtime-Dateien ausgefüh
   `core/sl-referenz.md` auf runtime-neutrale Formulierungen umgestellt.
 
 **Offen für Folgeläufe**
-- **T4 (mittel):** `systems/toolkit-gpt-spielleiter.md` enthält weiterhin umfangreiche
-  Delimiter-Fragmente; Bewertung/Entzerrung in separatem Paket nötig.
-- **T5 (mittel):** Versionsharmonisierung 4.2.6/4.2.7 bleibt separat geplant.
+- **T4 (mittel):** in Lauf 2 umgesetzt (Template-Delimiter im Toolkit auf
+  template-neutrale Pseudocode-Notation umgestellt).
+- **T5 (mittel):** in Lauf 2 umgesetzt (Versionsharmonisierung in
+  `docs/setup-guide.md` auf 4.2.6).
+
+## Nachtrag 2027-03-10 – Lauf 2: Toolkit-Entzerrung (T4) & Versionsharmonisierung (T5)
+
+Umsetzungsfokus dieses Laufs: Abschluss der offenen Punkte T4 und T5 aus dem
+Tiefenanalyse-Backlog.
+
+- **T4 (mittel):** `systems/toolkit-gpt-spielleiter.md` vollständig von
+  auswertbaren Delimitern bereinigt (`{{ ... }}` / `{% ... %}` / `{# ... #}` →
+  template-neutrale Pseudocode-Klammernotation).
+- **T5 (mittel):** `docs/setup-guide.md` auf konsistente Versionsführung 4.2.6
+  harmonisiert (Frontmatter + Lauftext).
+- **Mirror-Status:** Keine Runtime-JS-/Tooling-Änderung; Lauf betrifft
+  Wissensmodule + Meta-Dokumentation.
 
 ## Rollen & Übergabe
 
