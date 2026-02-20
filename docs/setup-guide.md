@@ -7,8 +7,12 @@ tags: [meta, setup]
 # ZEITRISS Setup & Repository Guide
 
 Dieses Dokument beschreibt Setup, Plattform-Konfiguration und
-Repository-Struktur für ZEITRISS 4.2.7. Spielinhalte und Regeln findest du in
-der [README](../README.md).
+Repository-Struktur für den aktuellen ZEITRISS-Stand. Spielinhalte und Regeln
+findest du in der [README](../README.md).
+
+**Versionshinweis:** Die Dokumentversion ist `4.2.7`; Preset- und
+Masterprompt-Namen können aus Kompatibilitätsgründen weiterhin `v4.2.6`
+enthalten, solange die zugehörigen Artefakte noch nicht umbenannt wurden.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
@@ -34,7 +38,7 @@ hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Scrip
 welches Base-Modell genutzt werden soll: Standard ist
 `deepseek/deepseek-chat-v3-0324`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
-„ZEITRISS v4.2.6 – Local Uncut" wählen, dann möglichst
+„ZEITRISS v4.2.6 – Local Uncut" (aktueller Preset-Name) wählen, dann möglichst
 `Spiel starten (solo klassisch)` tippen.
 
 **Manuell (MyGPT, OpenWebUI, andere Plattformen):**
@@ -45,7 +49,7 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
    `README.md` ist die GitHub-Landingpage und gehört ebenfalls **nicht** in den
    Wissensspeicher.
 2. **Masterprompt als System-Prompt:** Kopiere `meta/masterprompt_v6.md`
-   (Local-Uncut 4.2.6) als Systemprompt (MyGPT: Anweisungsfeld,
+   (Local-Uncut v4.2.6, aktueller Dateiname) als Systemprompt (MyGPT: Anweisungsfeld,
    OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
    **nicht** in den Wissensspeicher — er wird ausschließlich als Systemfeld
    geladen.
@@ -91,9 +95,9 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
   **Empfohlene Modelle:**
   | Modell | Typ | Preis/1M Token | Stärke |
   |--------|-----|----------------|--------|
-  | `deepseek/deepseek-chat-v3-0324` | **Default** | ~$0.27/$1.10 | Regeltreu, starker Noir-Ton, günstig — beste Preis-Leistung |
-  | `anthropic/claude-sonnet-4` | Premium | ~$3/$15 | Solider Allrounder, höherer Preis |
-  | `meta-llama/llama-3.3-70b-instruct` | Free | Kostenlos (OpenRouter) | Gratis-Option, weniger Flair |
+  | `deepseek/deepseek-chat-v3-0324` | **Default** | ~$0.27/$1.10 | Regeltreu, stabiler Noir-Ton, sehr günstig — klare Hauptempfehlung |
+  | `meta-llama/llama-3.3-70b-instruct` | **Free-Empfehlung** | Kostenlos (OpenRouter) | Beste Gratis-Option für Einstieg, solide Regelstabilität |
+  | `anthropic/claude-sonnet-4` | Optional | ~$3/$15 | Nutzbar, aber deutlich teurer und aktuell nicht bevorzugt |
 
   Temperatur: **0.8** für alle Modelle.
 - **MyGPT (OpenAI, optional):** Funktionell derzeit nicht als Primärpfad empfohlen,

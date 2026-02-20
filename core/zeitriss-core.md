@@ -1128,8 +1128,10 @@ kritische Paradoxon-Schwelle überschreiten. Aus dieser Abmachung resultiert der
 auf pro- wie auch contraorientierte Agenten.
 
 Hier ein Überblick der wichtigsten Gruppen:
-Insgesamt existieren drei dem ITI verbundene Pro-Fraktionen und eine dominierende Contra-Fraktion.
-Die mächtigste Gegnerin ist die Zerbrechliche Ewigkeit.
+Regelbasis ist ein neutraler Start beim **Ordo Mnemonika**; von dort aus wechseln
+Agenten bei Bedarf dauerhaft in Preserve- oder Trigger-Fraktionen.
+Preserve, Trigger und Zerbrechliche Ewigkeit bleiben ITI-intern verbündet
+(Zellenprinzip), wenn es gegen externe Fremdfraktionen geht.
 
   - **Chrono-Symmetriker:** Eine geheime Gemeinschaft von "Zeitwächtern",
     die das Gleichgewicht der Zeit wahren wollen.
