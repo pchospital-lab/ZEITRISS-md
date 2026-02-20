@@ -1,10 +1,46 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.32
+version: 0.4.33
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-09 – Repo-Agent – Tiefenanalyse-Fortsetzung (Policy-Klärung Pseudocode vs. Template)
+- Fokus: Rückfrage aus Deep-Dive geklärt und als verbindliche Repo-Policy dokumentiert.
+  Ziel ist konsistenter Runtime-Mirror ohne ausführbare Template-Delimiters in Wissensslots.
+- Quelle/Bezug: `uploads/tiefenanalyse-regelwerk-und-onboarding.md` (Template-/Macro-Risiko),
+  Maintainer-Rückfrage zur Einordnung „Pseudocode behalten oder löschen?“.
+- Ergebnis: **Pseudocode bleibt**, aber **Jinja-artige Syntax im Runtime-Content wird schrittweise
+  entfernt/neutralisiert**; Implementierungsdetails bleiben in `runtime.js`/`tools`/`scripts`.
+
+**Policy-Entscheid (kanonisch für Folgeläufe)**
+- Runtime-Wissensmodule sollen Regelwirkung transportieren, nicht eine konkrete Template-Engine.
+- `{{ ... }}` / `{% ... %}` gelten im Wissensslot als Risikoformat und werden migriert.
+- Ersatzformat: Klartext-Pseudocode, Entscheidungsregeln, strukturierte Beispiele, Testhinweise.
+
+**Arbeitsaufträge (für nächste Läufe direkt referenzierbar)**
+1. Inventur aller Runtime-Fundstellen mit Delimiters und Priorisierung (hoch/mittel/niedrig).
+2. Migration in template-neutrale Runtime-Beschreibung bei identischer Regelwirkung.
+3. Spiegelprüfung: Bei jeder Runtime-/Tooländerung bleibt die Wissensmodul-Version synchron.
+4. Abschlussdoku im QA-Log inkl. Pflichttest-Paket je Änderungslauf.
+
+**Inventur-Snapshot (aktueller Stand aus Repo-Scan)**
+- `characters/hud-system.md`: enthält Macro-Block für HUD-Menü (`{% macro ... %}` + `{{ ... }}`).
+- `gameplay/kreative-generatoren-begegnungen.md`: enthält Generator-Macros/Funktionsaufrufe.
+- `systems/toolkit-gpt-spielleiter.md`: enthält umfangreiche Template-Fragmente.
+- Ergänzende Treffer mit Platzhaltern (`{{SG_AUTO}}`) in
+  `gameplay/kreative-generatoren-missionen.md` und `gameplay/kampagnenstruktur.md`.
+
+**Checks (Analyse-/Dokudurchlauf)**
+- `rg -n "\{\{|\{%" core characters gameplay systems | head -n 50` → Trefferliste erzeugt.
+- `sed -n '1,260p' internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` → Fahrplan-Kontext geprüft.
+- `sed -n '1,260p' internal/qa/logs/2025-beta-qa-log.md` → Logstruktur geprüft.
+
+**Nachverfolgung**
+- QA-Fahrplan: Nachtrag **2027-03-09 – Tiefenanalyse-Mirror** ergänzt.
+- Offene TODOs: T1–T5 im Fahrplan (Prioritäten + Zielformat) sind für die nächsten Läufe bindend.
+- Commit/PR: folgt nach Pflicht-Testpaket.
 
 ## 2026-01-14 – Repo-Agent – Action-Contract (filmische Konflikte)
 - Fokus: Action-Contract präzisiert (filmische Beats, abstrakte Technik, kein
