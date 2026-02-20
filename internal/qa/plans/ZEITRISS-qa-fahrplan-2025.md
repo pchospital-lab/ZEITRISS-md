@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.6
+version: 1.20.7
 tags: [meta]
 ---
 
@@ -58,6 +58,59 @@ Checks in einem Schritt.
 - **#A2 – Core-Einführung korrigieren** ✅ abgeschlossen.
   Epochen-Hinweis von „jede Mission“ auf „jede Episode“ umgestellt.
   Referenz: `core/zeitriss-core.md`.
+
+## Nachtrag 2027-03-09 – Tiefenanalyse-Mirror: Runtime-Pseudocode-Policy & Inventur
+
+Kontext: Umsetzung der Tiefenanalyse aus `uploads/tiefenanalyse-regelwerk-und-onboarding.md` mit
+Fokus auf konsistente Wissensmodule ohne auswertbare Template-Delimiters im Runtime-Content.
+
+### Verbindliche Policy (ab sofort)
+
+- **Pseudocode bleibt Pflicht** in Runtime-Wissensmodulen, wenn er Runtime-/Tool-Logik spiegelt.
+- **Template-Syntax `{{ ... }}` / `{% ... %}` ist in Runtime-Wissensmodulen unzulässig**, weil
+  Plattformen Fragmente als ausführbare Template-Logik interpretieren können.
+- Runtime-Module enthalten stattdessen **template-neutrale Formen**:
+  - Regeltext (normativ),
+  - Schrittlisten/Flows,
+  - JSON-/YAML-Beispiele,
+  - nicht-ausführbare Funktionssignaturen in Klartext.
+- Engine-nahe Implementierungsdetails bleiben in `runtime.js`, `tools/`, `scripts/` oder
+  internen Dev-Dokumenten (`docs/dev/`, `internal/`).
+
+### Umsetzungsplan (Tiefenanalyse-Paket A)
+
+1. **Inventur**
+   - Runtime-Pfade (`core/`, `characters/`, `gameplay/`, `systems/`) nach `{{`/`{%` durchsuchen.
+   - Pro Fundstelle markieren: _neutral umschreiben_ vs. _in Dev/Tooling auslagern_.
+2. **Migration**
+   - Regel-/Spielwirkung im Runtime-Modul behalten (Mirror-Pflicht).
+   - Template-Delimiters entfernen und in robuste, lesbare Pseudocode-Form überführen.
+3. **Synchronisierung**
+   - Bei Strukturänderungen README-Dokumentenlandkarte, `master-index.json` und Toolkit-Verweise
+     mitpflegen.
+4. **QA-Dokumentation**
+   - Jede Session mit Befehlen, Ergebnis und Rest-Risiken im QA-Log dokumentieren.
+
+### Priorisierter Backlog für Folgeläufe
+
+- **T1 (hoch):** Runtime-Template-Inventur komplettieren und in QA-Log als Checkliste ablegen.
+- **T2 (hoch):** `characters/hud-system.md` Macro-Blöcke in template-neutrale Runtime-Spezifikation
+  umformen; Engine-Details in Tooling/Dev referenzieren.
+- **T3 (hoch):** `gameplay/kreative-generatoren-begegnungen.md` ausführbare Macro-Snippets
+  in regelhafte Generatorbeschreibung + Beispielausgaben überführen.
+- **T4 (mittel):** `systems/toolkit-gpt-spielleiter.md` Template-Fragmente auf Runtime-Relevanz
+  prüfen und nur die normative, modellunabhängige Darstellung im Wissensslot belassen.
+- **T5 (mittel):** Versionsdrift 4.2.6/4.2.7 in separatem Paket harmonisieren (kein Mischstand
+  zwischen Frontmatter und Lauftext).
+
+### Definition „zulässig / unzulässig“ (Kurzbeispiele)
+
+- ✅ Zulässig: `Wenn Px == 5: ClusterCreate auslösen, Index auf 0 setzen.`
+- ✅ Zulässig: JSON-Beispiel `{ "px": 5, "clustercreate": true }`.
+- ❌ Unzulässig im Runtime-Slot: `{% if campaign.px == 5 %}...{% endif %}`.
+- ❌ Unzulässig im Runtime-Slot: `{{ hud_tag('Px 5/5') }}`.
+
+Referenzbeleg: QA-Log-Eintrag **2027-03-09 – Repo-Agent – Tiefenanalyse-Fortsetzung**.
 
 ## Rollen & Übergabe
 
