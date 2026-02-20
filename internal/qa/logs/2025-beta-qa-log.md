@@ -1,10 +1,38 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.34
+version: 0.4.35
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-10 – Repo-Agent – Runtime-Neutralisierung Lauf 2 (T4–T5)
+- Fokus: Abschluss der offenen Backlog-Punkte aus dem Tiefenanalyse-Nachtrag
+  (Toolkit-Delimiter-Entzerrung + Versionsharmonisierung).
+- Scope: `systems/toolkit-gpt-spielleiter.md`, `docs/setup-guide.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`.
+- Ergebnis: Template-Delimiter wurden im Toolkit vollständig in
+  template-neutrale Pseudocode-Klammern überführt; Version-Mischstand 4.2.6/
+  4.2.7 im Setup-Guide ist harmonisiert.
+
+**Inventur-/Migrationsstand**
+1. `{{ ... }}`, `{% ... %}` und `{# ... #}` kommen im Toolkit nicht mehr als
+   ausführbare Delimiter vor.
+2. Setup-Guide führt Frontmatter und Versionshinweis konsistent auf 4.2.6.
+3. Fahrplan dokumentiert Lauf 2 als Abschluss von T4 und T5.
+
+Hinweis: Der Fehlstatus bei `make test`/`smoke.sh` entspricht weiterhin dem bekannten
+Arena-Smoke-Defekt (`[FAIL] Device requirement text present`) und wurde durch
+Lauf 2 nicht neu eingeführt.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-10)**
+- `make lint` → OK
+- `make test` → FAIL (`[FAIL] Device requirement text present` im Arena-Smoke)
+- `bash scripts/smoke.sh` → FAIL (`[FAIL] Device requirement text present`)
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-10 – Repo-Agent – Runtime-Neutralisierung Lauf 1 (T1–T3)
 - Fokus: Priorisierte Migration von Template-Delimiters in Runtime-Modulen gemäß
