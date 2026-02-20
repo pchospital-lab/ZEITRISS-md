@@ -18,9 +18,10 @@
 ## TL;DR - ZEITRISS in 6 Punkten
 
 1. **Agents.** Chrononauten decken Zeitverschwörungen auf.
-2. **Mission Phases.** Core-Ops verlaufen wie Episoden: Briefing → Infiltration →
-   Intel/Konflikt → Exfiltration → Debrief - insgesamt zwölf Szenen. Rift-Ops sind
-   eigenständige Filme in drei Akten mit vierzehn Szenen.
+2. **Mission Phases.** Eine **Mission** läuft über Briefing → Infiltration →
+   Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
+   Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
+   sind Sondermissionen in drei Akten mit vierzehn Szenen.
 3. **Exploding Dice.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
    Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
@@ -30,10 +31,10 @@
    halten den Index niedrig; in Extremfällen kostet das ausnahmsweise **-1 Px**.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
-6. **Boss-Rhythmus.** In Mission 5 einer Episode erscheint ein Mini-Boss, in
-   Mission 10 der Episoden-Boss. Rift-Operationen führen ihren Endgegner im
-   finalen Akt ein (meist um Szene 10). Das Toolkit löst `generate_boss()` an
-   diesen Punkten automatisch aus.
+6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
+   Mini-Boss, in der **10. Mission** der Episoden-Boss. Rift-Operationen
+   führen ihren Endgegner im finalen Akt ein (meist um Szene 10). Das Toolkit
+   löst `generate_boss()` an diesen Punkten automatisch aus.
 
 → Das vollständige **[Spieler-Handbuch](core/spieler-handbuch.md)** enthält
 Einleitung, Lore, Schnellstart-Spickzettel, Mini-Einsatzhandbuch, FAQ, Glossar
