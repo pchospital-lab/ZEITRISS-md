@@ -14,20 +14,24 @@
 
 ## In 5 Minuten starten
 
-### Nur kurz reinschauen (Schnellstart für Ungeduldige)
-
-1. Öffnet das [Spieler-Handbuch](core/spieler-handbuch.md).
-2. Nutzt den Schnellstart und erstellt eure Chrononauten.
-3. Startet direkt mit `Spiel starten (solo schnell)`.
-4. Für die volle Experience wechselt danach auf den klassischen Start.
-
-### Empfohlener Weg: OpenWebUI + OpenRouter
+### Installation & Start (empfohlener Standardpfad)
 
 1. Installiert OpenWebUI und richtet ein OpenRouter-Konto ein.
 2. Folgt dem [Setup-Guide](docs/setup-guide.md) oder startet direkt mit
    `./scripts/setup-openwebui.sh`.
 3. Hinterlegt im Setup eure Keys und wählt ein Modell.
-4. Startet im Preset am besten mit `Spiel starten (solo klassisch)`.
+4. Betretet die Welt von ZEITRISS mit `Spiel starten (solo klassisch)`.
+
+_(Für sofortigen Start ist `Spiel starten (solo schnell)` als Kurzmodus verfügbar.)_
+
+### Modell-Empfehlung
+
+- **Empfohlen (Preis-Leistung):** `deepseek/deepseek-chat-v3-0324`
+  (sehr günstig, regeltreu, stabiler Noir-Ton).
+- **Empfohlen (Free):** `meta-llama/llama-3.3-70b-instruct`
+  (kostenlose OpenRouter-Option für Testläufe).
+- **Hinweis zu Sonnet:** `anthropic/claude-sonnet-4` ist deutlich teurer und
+  derzeit nicht die bevorzugte Empfehlung für ZEITRISS.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
@@ -88,8 +92,8 @@ und die Runtime-Referenz.
   meist zu fordernd; empfohlen sind starke Remote-Modelle.
 - **Setup-Option:** Für lokale Installationen steht
   [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
-  (provider-neutral mit expliziter Modellwahl; DeepSeek V3 als empfohlener Default,
-  Sonnet 4 als Premium-Alternative).
+  (provider-neutral mit expliziter Modellwahl; DeepSeek V3 als empfohlener
+  Preis-Leistungs-Default, Llama 3.3 70B als empfohlene Free-Option).
 - **Multiplayer-Hinweis:** Lokal oder online mit Gruppe möglich; Save-Stand und
   Chatlog können zwischen Sessions geteilt werden.
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
