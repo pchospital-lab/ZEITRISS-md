@@ -902,14 +902,15 @@ und landen im Nullzeit-HQ, ohne Tunnelgefühl.
 
      - Skillpunkte verteilen, Ausrüstung/Cyberware anpassen, Forschung betreiben, Missions-Debriefing.
      - Danach wählen die Spieler einen von **zwei Sprungpfaden**:
-      1. **Pfad fortsetzen** - sie kehren in _denselben_ Riss zurück und
-         setzen die laufende Mission fort.
+      1. **Pfad fortsetzen** - die Kampagne bleibt im gleichen Verlauf
+         (nächste Mission derselben Episode).
       2. **Neuen Pfad wählen** - sie legen ein anderes Zielzeit-Koordinatenset fest
          **(neue Mission / Kampagne)**.
       - **Wichtig:** Sobald dieser neue Riss geöffnet wird, **schließt sich der alte endgültig**.
       - Die verlassene Zeitlinie ist **abgeschlossen und unveränderlich**;
         ein Zurückkehren ist nicht möglich.
        - Für die Spielrunde beginnt damit faktisch ein **neuer Kampagnen-Strang**.
+      - Laufende Einsätze werden nicht aus dem HQ heraus wieder aufgenommen.
 
    - **Direkt weiterspringen (ohne HQ-Stop)**
        - Der Riss führt die Gruppe sofort an den zuletzt gewählten Zielzeitpunkt.
@@ -924,13 +925,14 @@ und landen im Nullzeit-HQ, ohne Tunnelgefühl.
       **automatisches Rückholprotokoll** das Team in die Nullzeit; anschließend gelten dieselben
       Wahlmöglichkeiten wie oben.
 
- Im digitalen Spielsystem öffnet ein Trigger **"on Zeitsprung"** automatisch ein Nullzeit-Menü. Dort
+Im digitalen Spielsystem öffnet ein Trigger **"on Zeitsprung"** automatisch ein Nullzeit-Menü. Dort
 beginnt immer eine kurze HQ-Phase mit Shop, Skill-Upgrades und Save-System. Erst danach können die
-Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**. Entscheiden sie sich für Letzteres, wird der
-bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss samt Missions-Manifest
-geöffnet und die verlassene Zeitlinie als "versiegelt" markiert - keine weiteren Änderungen sind
-dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf endgültig beendet und
-in einen neuen Kampagnenstrang führt.
+Spieler **Pfad fortsetzen** oder **Neuen Pfad wählen**. **Pfad fortsetzen** bedeutet den Verlauf der
+Episode beizubehalten, nicht die laufende Mission aus dem HQ zurückzuladen. Entscheiden sie sich für
+Letzteres, wird der bisherige Missions-Context als _abgeschlossen_ archiviert, ein neuer Riss samt
+Missions-Manifest geöffnet und die verlassene Zeitlinie als "versiegelt" markiert - keine weiteren
+Änderungen sind dann möglich. Damit ist klar geregelt, dass ein Pfadwechsel den alten Verlauf
+endgültig beendet und in einen neuen Kampagnenstrang führt.
 
 ## Paradoxon & Pararifts {#paradoxon--pararifts}
 
