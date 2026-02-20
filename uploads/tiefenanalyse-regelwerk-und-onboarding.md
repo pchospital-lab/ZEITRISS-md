@@ -1,3 +1,13 @@
+# Status (Archivhinweis)
+
+Stand 2027-03-11: Diese Tiefenanalyse ist als **eingehendes Review-Artefakt**
+archiviert. Bereits umgesetzte Punkte wurden in QA-Fahrplan und QA-Log
+übernommen; operative Restarbeiten werden dort weitergeführt.
+
+Leitquellen für den aktuellen Arbeitsstand:
+- `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`
+- `internal/qa/logs/2025-beta-qa-log.md`
+
 # Tiefenanalyse ZEITRISS-md Regelwerk und Repo-Onboarding
 
 ## Kontext, Zielbild und Datenbasis
