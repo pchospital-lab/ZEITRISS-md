@@ -99,7 +99,8 @@ dynamische Formel (Core **und** Rift):
 
 - **Basiswert:** Risikoabhängig (Low = 400, Mid = 500, High = 600 CU).
 - **Ergebnis:** fail 0,3 · partial 0,6 · success 1,0 · bonus 1,2.
-- **Seed-Multi:** `1 + 0,2 × offene Seeds` (Rift-Pool), Minimum 1,0.
+- **Seed-Multi:** `min(1,6; 1 + 0,2 × offene Seeds)` (Rift-Pool),
+  Minimum 1,0, Cap 1,6.
 - **Hazard-Pay:** Solo/Buddy-Bonus 1,5×, sobald das Team aus weniger als drei
   Agent:innen besteht.
 - **Bonusziele:** Optionale Zusatzaufgaben erhöhen den Multiplikator oder ergänzen
@@ -160,13 +161,13 @@ um das Wirtschaftssystem spannend zu halten.
 
 Die Save-v6-Formel skaliert auch im Endgame. Nutze die Tabelle, um Belohnungen und
 Ausgaben pro Missionsband zu planen; Werte referenzieren Solo/Buddy mit
-Hazard-Pay sowie `seed_multi = 1 + 0,2 × offene Seeds`.
+Hazard-Pay sowie `seed_multi = min(1,6; 1 + 0,2 × offene Seeds)`.
 
 | Level | Richtwert Belohnung* | Typische Kosten/Sinks |
 | --- | --- | --- |
 | 100 | 400-720 CU (Low-High) | Implantate 300-800 CU; Chronopolis 150-300 CU |
-| 400 | 1,6k-2,8k CU (Seed-Multi ≈ 1,8) | HQ-Ausbau, Loadouts 2-3k CU, Research 500+ CU |
-| 1000 | 4k-7k CU (High-Risk, Seed-Multi 2,0+) | Fraktionsprojekte/Legendary Gear 5k+ CU |
+| 400 | 1,6k-2,4k CU (Seed-Multi-Cap 1,6) | HQ-Ausbau, Loadouts 2-3k CU, Research 500+ CU |
+| 1000 | 4k-5,8k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU |
 
 *Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
 Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).

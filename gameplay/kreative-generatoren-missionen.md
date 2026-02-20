@@ -181,7 +181,7 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 | Erfolg | 1.0 | 500 CU |
 | Erfolg + Bonus | 1.2 | 600 CU |
 
-- **Seed-Multi:** `1 + 0,2 × offene Seeds` (Minimum 1,0).
+- **Seed-Multi:** `min(1,6; 1 + 0,2 × offene Seeds)` (Minimum 1,0, Cap 1,6).
 - **Hazard-Pay:** Solo/Buddy-Teams (< 3 Agent:innen) erhalten **1,5×**.
 - **Bonusziele:** Optionale Zusatzaufgaben als Festbetrag oder Multiplikator-
   Aufschlag; Quelle im Debrief dokumentieren.

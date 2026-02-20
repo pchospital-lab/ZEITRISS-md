@@ -121,7 +121,7 @@ Die ersten Schritte in unter zwei Minuten:
 10. **Chrono-Units** - Einheitliche Formel für Core **und** Rift:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
     (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
-    `Seed-Multi = 1 + 0,2 × offene Seeds`, Solo/Buddy = 1,5×).
+    `Seed-Multi = min(1,6; 1 + 0,2 × offene Seeds)`, Solo/Buddy = 1,5×).
 11. **Debrief & HQ** — Nach jeder Mission zeigt die Spielleitung **automatisch**
     einen Missions-Abschlussbildschirm (wie ein Score-Screen in Videospielen):
     1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand
@@ -232,7 +232,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 |--------|-------|
 | Basiswert | Low 400 · Mid 500 · High 600 CU |
 | Ergebnis | Fail 0,3 · Partial 0,6 · Success 1,0 · Bonus 1,2 |
-| Seed-Multi | `1 + 0,2 × offene Seeds` |
+| Seed-Multi | `min(1,6; 1 + 0,2 × offene Seeds)` |
 | Hazard-Pay | Solo/Buddy (<3 Agenten) → ×1,5 |
 
 ### Tier-Lizenzen (Ausrüstungszugang)

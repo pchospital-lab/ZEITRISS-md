@@ -1,10 +1,20 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.7
+version: 1.0.8
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-08 – Seed-Caps & Core-Intro-Wording
+
+- Runtime-Spiegel präzisiert: Rift-Mods deckeln ab sofort sowohl den
+  Schwellenbonus (`sg_bonus = min(3; offene Seeds)`) als auch den Loot-Multi
+  (`cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`).
+- Kampagnenstruktur, Save-/Fortsetzungsmodul und Toolkit-Makro `apply_rift_mods_next_episode()`
+  sind auf dieselbe Cap-Logik synchronisiert.
+- `core/zeitriss-core.md` korrigiert in der Einführung den Epochenbezug auf
+  „jede Episode", damit Missions-/Episodenhierarchie konsistent bleibt.
 
 ## Update 2026-01-14 – Beta-GPT Playtest 2026-01-14 übernommen
 

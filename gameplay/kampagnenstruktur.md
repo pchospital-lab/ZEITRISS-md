@@ -444,8 +444,8 @@ Normalizer ergänzt fehlende Felder aus dem Seed-Katalog, damit Casefile-Overlay
 Solange Seeds offen sind, sammeln sie sich im Rift-Pool. Schwelle und CU-Belohnung steigen erst nach der Episode.
 Nach einer Rift-Op verschwindet der zugehörige Seed, und die Boni sinken entsprechend.
 `apply_rift_mods_next_episode()` zählt ausschließlich **offene** Seeds für
-`sg_bonus` und `cu_multi = 1 + 0,2 × offene Seeds`, sodass Gruppen ihren Schwellen-
-und Loot-Faktor bewusst über gelagerte Seeds steuern können.
+`sg_bonus = min(3; offene Seeds)` und `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`,
+sodass Gruppen ihren Schwellen- und Loot-Faktor bewusst über gelagerte Seeds steuern können.
 `launch_rift()` bleibt bis zum Episodenabschluss gesperrt: Runtime und Toolkit prüfen
 `campaign.episode_completed` bzw. `mission_in_episode ≥ 10`, bevor ein Seed
 gestartet werden darf.
@@ -736,16 +736,18 @@ Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed en
 | 0            | 0                | 1.0            |
 | 1            | +1               | 1.2            |
 | 2            | +2               | 1.4            |
+| 3+           | +3 (Cap)         | 1.6 (Cap)      |
 
-Weitere Seeds werden linear addiert. Wer stylisch spielt und den natürlichen
-Ablauf der Geschichte wahrt, generiert mehr Paradoxon-Punkte; plumpes Vorgehen
-senkt den Zähler schneller.
+Weitere Seeds erhöhen den Wert bis zum Cap von **+3 / 1,6** (ab drei offenen Seeds).
+Wer stylisch spielt und den natürlichen Ablauf der Geschichte wahrt, generiert
+mehr Paradoxon-Punkte; plumpes Vorgehen senkt den Zähler schneller.
 
 Einheitliche CU-Formel (Core **und** Rift):
 `Belohnung = Basiswert(Risiko) × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`.
 Basiswerte sind 400/500/600 CU (Low/Mid/High), Ergebnis-Multiplikatoren liegen
 bei 0,3/0,6/1,0/1,2 (fail/partial/success/bonus), `Seed-Multi = 1 + 0,2 ×
-offene Seeds` (Minimum 1,0) und Hazard-Pay gewährt Solo/Buddy-Teams **1,5×**.
+offene Seeds` mit Cap `min(1,6; …)` (Minimum 1,0) und Hazard-Pay gewährt
+Solo/Buddy-Teams **1,5×**.
 
 ##### Rifts sammeln {#rifts-sammeln}
 
