@@ -7,7 +7,7 @@ tags: [meta, setup]
 # ZEITRISS Setup & Repository Guide
 
 Dieses Dokument beschreibt Setup, Plattform-Konfiguration und
-Repository-Struktur für ZEITRISS 4.2.6. Spielinhalte und Regeln findest du in
+Repository-Struktur für ZEITRISS 4.2.7. Spielinhalte und Regeln findest du in
 der [README](../README.md).
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
@@ -32,9 +32,10 @@ cd ZEITRISS-md
 Das Script erstellt die Knowledge Base, lädt das Spieler-Handbuch + 19 Runtime-Module
 hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Script aktiv,
 welches Base-Modell genutzt werden soll: Standard ist
-`anthropic/claude-sonnet-4`, alternativ kannst du eine Model-ID manuell
+`deepseek/deepseek-chat-v3-0324`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
-„ZEITRISS v4.2.6 – Local Uncut" wählen, `Spiel starten (solo schnell)` tippen.
+„ZEITRISS v4.2.6 – Local Uncut" wählen, dann möglichst
+`Spiel starten (solo klassisch)` tippen.
 
 **Manuell (MyGPT, OpenWebUI, andere Plattformen):**
 
@@ -82,10 +83,10 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 
 ### Plattform-Setup
 
-- **OpenWebUI + OpenRouter:** Setup-Script (s.o.) oder manuell: Modelle unter
+- **OpenWebUI + OpenRouter (empfohlen):** Setup-Script (s.o.) oder manuell: Modelle unter
   Einstellungen → Verbindungen anbinden, dann Dateien hochladen und Preset
   erstellen. Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
-  Auswahl explizit ab.
+  Auswahl explizit ab. API-Keys werden beim Setup interaktiv abgefragt.
 
   **Empfohlene Modelle:**
   | Modell | Typ | Preis/1M Token | Stärke |
@@ -95,9 +96,11 @@ eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
   | `meta-llama/llama-3.3-70b-instruct` | Free | Kostenlos (OpenRouter) | Gratis-Option, weniger Flair |
 
   Temperatur: **0.8** für alle Modelle.
-- **MyGPT (OpenAI):** 20 Wissensmodule (README + 19 Runtime-Module) in den
-  Wissensspeicher, Masterprompt ins Anweisungsfeld. Achtung: OpenAI
-  Content-Filter kann 18+-Inhalte einschränken.
+- **MyGPT (OpenAI, optional):** Funktionell derzeit nicht als Primärpfad empfohlen,
+  weil Content-Filter häufiger eingreifen (`redacted`) und große Masterprompts in
+  der Praxis limitieren können.
+- **Lokale Modelle (Offline):** Perspektivisch interessant, aktuell für ZEITRISS oft
+  noch zu leistungslimitiert. Für stabile Runs besser starke Remote-Modelle nutzen.
 - **Template-Guard:** `{%`/`{{` aus Wissenssnippets ignorieren und niemals
   ausgeben, damit lokale Modelle nicht in Template-Modi kippen.
 
