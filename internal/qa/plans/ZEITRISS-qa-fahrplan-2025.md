@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.1
+version: 1.20.2
 tags: [meta]
 ---
 
@@ -1628,3 +1628,32 @@ Referenz: QA-Log 2026-01-14.
     (`campaign.mode`, `seed_source`) so anpassen, dass gemischtes Spielen als Standard erlaubt ist.
     QA: Runs mit wechselnden Seeds (Preserve/Trigger gemischt) ohne Konflikt-Fehlermeldung.
     _Status: ✅ erledigt – Mixed-Default + Seed-Quelle pro Mission dokumentiert._
+
+
+## Teilumsetzung 2026-02-20 – Paradoxon als Reward-Balken (Pass 1)
+
+Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 3
+(Paradoxon-Index).
+
+### Umgesetzte Punkte
+
+- [x] Paradoxon-Subsystem auf reinen Fortschrittsbalken geschärft:
+  keine Heil-, PP- oder Zustands-Boni auf Px-Stufen.
+- [x] `ClusterCreate()` bei Px 5 als einziger mechanischer Payoff in
+  Zustands-/Kampagnenmodul konsolidiert.
+- [x] HUD-Textbeispiele bereinigt (kein `Loot +1` auf Zwischenstufen).
+- [x] Toolkit-Wording bereinigt (`Px-Fortschritt` statt
+  `Px-Belohnungen`).
+
+### Offene Folgeaufgaben (nächste Durchläufe)
+
+- [ ] Terminologie-Pass Mission/Episode/Szene repo-weit vereinheitlichen
+  (inkl. README und Spieler-Handbuch).
+- [ ] Speichersystem-Pass abschließen (HQ-only/Autosave/Suspend-Definition
+  in allen Modulen angleichen).
+- [ ] README-Onboarding nach Spielerfluss umbauen (Quickstart zuerst,
+  rechtliche Hinweise nachgelagert).
+- [ ] Template-Guard-Pass in Wissensmodulen (Template-Syntax entfernen oder
+  intern kapseln).
+- [ ] Setup-/Versionierungsdrift (inkl. Changelog-Regel) in einem separaten
+  Release-Durchlauf schließen.

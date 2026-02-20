@@ -371,7 +371,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   kontrollierter vorgeht, damit Stufe 5 als **Belohnung** zum passenden Zeitpunkt eintritt.
     _Auswirkungen:_ Px 0–4 liefert **keine mechanischen Boni** — der Fortschritt
     ist über HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Stufe 5:
-    Psi-Heat 0, 2 PP, Zustände weg, und `ClusterCreate()` enthüllt 1–2 Rift-Seeds.
+    `ClusterCreate()` enthüllt 1–2 Rift-Seeds.
   Anschließend springt der Index auf 0. Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index;
   Seeds zählen für alle, das Fülltempo richtet sich nach dem höchsten TEMP-Wert im Team.
   Zeitkreaturen können Teil dieser Risse sein - siehe
@@ -400,13 +400,13 @@ liegen - die erste setzt lediglich eine Warnung. Erreicht der Index Stufe 5, akt
 
 ### Paradoxon-Subsystem {#paradox-subsystem}
 
-Das vereinfachte Paradoxon-Subsystem orientiert sich an der Kampagnenstruktur und zeigt, welche
-Effekte bei welchen Stufen auftreten. Steigende Resonanz belohnt das Team mit kleinen Boni.
+Das vereinfachte Paradoxon-Subsystem orientiert sich an der Kampagnenstruktur und zeigt den
+reinen Fortschrittsfluss ohne Heil- oder Gruppenboni.
 
-| Stufe | In-Mission-Effekt                      | HQ-Effekt                                    |
-| ----- | -------------------------------------- | -------------------------------------------- |
-| 0-4   | Stabil - keine mechanischen Effekte    | Fortschritt über HUD-Farbe sichtbar          |
-| **5** | Psi-Heat 0; 2 PP; Zustände weg         | **ClusterCreate()** enthüllt 1-2 Rifts; Index 0 |
+| Stufe | In-Mission-Effekt                   | HQ-Effekt                                        |
+| ----- | ----------------------------------- | ------------------------------------------------ |
+| 0-4   | Stabil - keine mechanischen Effekte | Fortschritt über HUD-Farbe sichtbar              |
+| **5** | Resonanzpeak erreicht               | **ClusterCreate()** enthüllt 1-2 Rifts; Index 0 |
 
 Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon-Index auf 0 und legt 1-2 neue Rift-Seeds auf der
 Raumzeitkarte ab. Diese sind erst nach Episodenende vom HQ aus erreichbar.
@@ -424,11 +424,15 @@ Risse oder Zeitkreaturen erscheinen.
 
 **Mini-Beispiele**
 
-1. 1. *Mittelalter:* Ein Runensymbol pulsiert - die Gruppe verliert **1 Stress**. 2.
-   *Viktorianisch:* Euer Monokel-HUD leuchtet kurz und heilt **1 HP**. 3. *Zweiter Weltkrieg:*
-   Funkgerät surrt, die nächste Probe ist **-1 SG** leichter. 4. *Kalter Krieg:* Ein Adrenalinrausch
-   verleiht **+2 Initiative**. 5. *Cyber-Future:* Psi-Heat sinkt auf 0 und das Team erhält **2 PP**;
-   negative Zustände lösen sich auf.
+Das Retina-HUD der Chrononauten bleibt über alle Epochen hinweg gleich und läuft
+auch ohne Funk autonom (Kinetik + Körperwärme). In funklosen oder gejamten
+Zonen fehlt nur der Kodex-Link; HUD/Logs funktionieren unverändert weiter.
+
+- Einsatz läuft sauber: HUD zeigt **Px 2/5** (`Paradoxon 2/5 · Resonanz ↑`).
+- Nächste Stabilisierung: HUD springt auf **Px 3/5**.
+- Backlash nach Patzer: HUD meldet **Px 2/5** (`Paradoxon -1 · Backlash`).
+- Team stabilisiert erneut: HUD zeigt **Px 4/5**.
+- Resonanzpeak: **Px 5/5**, `ClusterCreate()` legt 1-2 neue Rift-Seeds an.
 
 > **Reminder:** Paradoxon-Index nach jeder Zeitlinien-Änderung aktualisieren.
 
