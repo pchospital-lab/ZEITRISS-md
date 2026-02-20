@@ -428,7 +428,7 @@ Zeitperiode stärker zu betonen.
 ### Kurzereignisse (d6) {#kurzereignisse}
 
 Spontane Zwischenfälle lockern eine Mission auf. Würfle 1W6 oder nutze das
-Macro `rand_event()`.
+Kurzschema `rand_event`.
 
 | W6 | Zwischenfall |
 | -- | ------------------------------------------- |
@@ -439,19 +439,11 @@ Macro `rand_event()`.
 | 5 | **Spur auftaucht** – Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu? |
 | 6 | **Feindaktivität in Sichtweite** – Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen? |
 
-```md
-<!-- Macro: rand_event -->
-{% macro rand_event() -%}
-{% set t = [
-"Funkstörung – Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich.",
-"Technik-Glitch – Ein Gadget reagiert verzögert oder falsch. Scanner zeigt leeren Raum, Zielhilfe zuckt.",
-"Wetter kippt – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, Heimlichkeit +1.",
-"Zivilkontakt – Unbeteiligter kommt ins Bild. Klärt sich nicht sofort.",
-"Spur auftaucht – Mikrofilm, USB, Patronenhülse oder Chip liegt offen sichtbar.",
-"Feindaktivität in Sichtweite – Sicherungsteam, Drohne oder Gegnertrupp wird früh entdeckt."
-] %}
-{{ random.choice(t) }}
-{%- endmacro %}
+```text
+Funktion rand_event:
+1) Lege eine Liste mit 6 Zwischenfällen an.
+2) Würfle 1W6 oder ziehe einen gleichverteilten Zufallsindex.
+3) Gib den passenden Eintrag als Klartext aus.
 ```
 
 ## Kreaturen- & Gestalten-Generator: Begegnungen der ungewöhnlichen Art {#kreaturen-generator}
@@ -855,32 +847,21 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 
 > **Risk-Level (HUD-Badges):** R1 🟢 Niedrig – Warnhinweis · R2 🟡 Moderat – spürbarer Malus · R3 🟠 Hoch – droht Verlust oder harter Debuff · R4 🔴 Kritisch – massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
 
-### Makro-Update (Toolkit)
+### Ablauf-Update (Legendary-Roll, runtime-neutral)
 
-```jinja
-{% macro roll_legendary() -%}
-  {% set gate_data = rng_roll(1,6) %}
-  {% set gate = gate_data[0][0] %}
-  {{ roll_check(gate_data[1], 6, gate, gate == 6, gate_data[0]) }}
-  {% if gate != 6 %}{% return %}{% endif %}
-  {% set pick_data = rng_roll(1,14) %}
-  {% set r = pick_data[0][0] %}
-  {% set art = artifact_pool_v3[r-1] %}
-  {{ artifact_overlay(art.name, art.effect, art.risk) }}
-{%- endmacro %}
+```text
+Funktion roll_legendary:
+1) Gate-Wurf 1W6 durchführen und das Ergebnis im HUD-Check ausgeben.
+2) Nur bei Gate = 6 fortfahren; sonst Ende ohne Artefakt.
+3) Bei Erfolg 1W14 würfeln, Artefakt aus artifact_pool_v3 auswählen.
+4) Overlay mit Name, Effekt und Risiko anzeigen.
 ```
 
-Macro wird wie bisher in **Rift-Mission Szene 11–13** aufgerufen:
+Auslösung wie bisher in **Rift-Mission Szene 11–13**: genau ein
+Legendary-Roll pro zulässiger Szene.
 
-```jinja
-{{ roll_legendary() }}
-```
-
-Para-Kreaturen können zusätzliche Artefakte hinterlassen:
-
-```jinja
-{% set artifact = generate_para_artifact(current_creature) %}
-```
+Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
+`generate_para_artifact(current_creature)` auslösen.
 
 ### JSON-Lookup (Kodex-HUD)
 
@@ -964,9 +945,7 @@ Para-Kreaturen können zusätzliche Artefakte hinterlassen:
 
 > Legendary-Limit: 1 Artefakt / Agent (unverändert).
 
-```jinja
-{% set artifact = generate_para_artifact(current_creature) %}
-```
+`Drop-Prüfung: artifact = generate_para_artifact(current_creature)`
 
 ## Kulturfragmente-Generator: Farbe für die Epochen {#kulturfragmente}
 

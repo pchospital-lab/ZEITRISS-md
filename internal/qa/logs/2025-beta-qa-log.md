@@ -1,10 +1,39 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.33
+version: 0.4.34
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-10 – Repo-Agent – Runtime-Neutralisierung Lauf 1 (T1–T3)
+- Fokus: Priorisierte Migration von Template-Delimiters in Runtime-Modulen gemäß
+  Tiefenanalyse-Policy vom 2027-03-09-Nachtrag.
+- Scope: `characters/hud-system.md`,
+  `gameplay/kreative-generatoren-begegnungen.md`,
+  `gameplay/kampagnenstruktur.md`, `gameplay/kreative-generatoren-missionen.md`,
+  `systems/kp-kraefte-psi.md`, `core/sl-referenz.md`.
+- Ergebnis: Alle bearbeiteten Snippets sind nun template-neutral formuliert;
+  Regelwirkung bleibt als Pseudocode/Ablaufbeschreibung erhalten.
+
+**Inventur-/Migrationsstand**
+1. HUD-Menü-Macro durch klaren Schaltlogik-Text (`settings.ascii_only`) ersetzt.
+2. Generator-Macros (`rand_event`, `roll_legendary`) in nicht-ausführbare
+   Schrittfolgen überführt.
+3. SG-/HUD-/Startbanner-Beispiele ohne `{{...}}` dargestellt.
+4. Toolkit-Datei (`systems/toolkit-gpt-spielleiter.md`) weiter offen für T4.
+
+Hinweis: Der Fehlstatus bei `make test`/`smoke.sh` entspricht einem bereits bekannten
+Smoke-Defekt (Arena-Device-Requirement-Text) und wurde durch diesen Lauf nicht neu eingeführt.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-10)**
+- `make lint` → OK
+- `make test` → FAIL (`[FAIL] Device requirement text present` im Arena-Smoke)
+- `bash scripts/smoke.sh` → FAIL (`[FAIL] Device requirement text present`)
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-09 – Repo-Agent – Tiefenanalyse-Fortsetzung (Policy-Klärung Pseudocode vs. Template)
 - Fokus: Rückfrage aus Deep-Dive geklärt und als verbindliche Repo-Policy dokumentiert.
