@@ -301,7 +301,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
     `mode_previous`/`location`/`gm_style`/`reason`). Toolkit-Leitungen nutzen die `tax`-Angabe, um
   den Arena-Zuschlag im Debrief zu bestätigen, und das `mode`-Feld, um Cross-Mode-Wechsel
   (z. B. Solo→PvP) transparent zu protokollieren. `arenaStart()` setzt
-  `location='ARENA'`, merkt `campaign.previous_mode` und markiert Px-Belohnungen
+  `location='ARENA'`, merkt `campaign.previous_mode` und markiert den Px-Fortschritt
   pro Episode; `arenaEnd()` stellt `campaign.mode` wieder her und leert den
   `previous_mode`-Puffer. `reset_arena_after_load()` hält den Ursprungsmodus über
   `arena.previous_mode`/`resume_token.previous_mode`, setzt den Modus beim Laden
