@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.21.0
+version: 1.22.1
 tags: [meta]
 ---
 
@@ -1793,6 +1793,11 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
 - [x] Arena-Smoke-Baseline repariert: Device-Requirement-Check toleriert in
   `scripts/lint_arena.py` beide Dash-Varianten (`-`/`–`); Pflichtläufe
   `make test` und `bash scripts/smoke.sh` wieder grün. _(Stand 2027-03-12)_
-- [ ] Tiefenanalyse-Upload in einen strukturierten Maßnahmenkatalog überführen
+- [x] Tiefenanalyse-Upload in einen strukturierten Maßnahmenkatalog überführt
   (nur verbleibende Punkte), damit Upload-Artefakte nicht mehr als operative
-  To-do-Liste dienen.
+  To-do-Liste dienen. _(Erfasst in
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
+  2027-03-13.)_
+- [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte,
+  KI-First-Onboardingpfad, Economy-/Scaling-Checkliste, Stil-Feinschliff)
+  und pro Zyklus im QA-Log dokumentieren.

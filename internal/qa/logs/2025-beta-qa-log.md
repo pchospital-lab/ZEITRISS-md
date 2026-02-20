@@ -1,10 +1,45 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.36
+version: 0.4.38
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-13 – Repo-Agent – Restkatalog-Klarstellung (KI-First)
+- Fokus: Missverständliche Formulierung im Restkatalog korrigieren,
+  damit ZEITRISS explizit als KI-geleitetes Chatfenster-Spiel geführt bleibt.
+- Scope: `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`.
+- Ergebnis: Restpunkt 2 wurde von „spielbar ohne KI“-Pfad auf
+  „KI-First-Onboardingpfad“ umgestellt und auf README/Setup/Toolkit ausgerichtet.
+
+**Backlog-Status**
+1. Arena-Smoke-Baseline: **bleibt geschlossen**.
+2. Tiefenanalyse-Restkatalog: **aktiv**, jetzt mit KI-First-Formulierung.
+
+## 2027-03-13 – Repo-Agent – Tiefenanalyse-Restkatalog operationalisiert
+- Fokus: Offenen Tiefenanalyse-Folgepunkt aus dem Fahrplan in ein eigenes,
+  operatives Maßnahmenblatt überführen.
+- Scope: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`.
+- Ergebnis: Restpunkte sind als strukturierter 4-Punkte-Katalog aus dem
+  Upload-Artefakt extrahiert; Fahrplan referenziert jetzt den Katalog statt
+  eines unstrukturierten Upload-To-dos.
+
+**Backlog-Status**
+1. Arena-Smoke-Baseline: **bleibt geschlossen**.
+2. Tiefenanalyse-Restpunkte: **als operativer Restkatalog aktiv**
+   (`ZEITRISS-tiefenanalyse-restkatalog-2027.md`).
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-13)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-12 – Repo-Agent – Arena-Smoke-Baseline stabilisiert
 - Fokus: Bekannten Arena-Smoke-Fehler (`[FAIL] Device requirement text present`)
@@ -469,7 +504,8 @@ ISSUE #9
         "seed_tier": "early",
         "cluster_hint": "1-25",
         "level_hint": "<10",
-        "hook": "Ein verschwundener Konvoi taucht in den Logbüchern wieder auf – aber mit Zeitstempeln, die nicht stimmen."
+        "hook": "Ein verschwundener Konvoi taucht in den Logbüchern wieder auf –
+                 aber mit Zeitstempeln, die nicht stimmen."
       },
       {
         "id": "RIFT-MID-0088",
@@ -479,7 +515,8 @@ ISSUE #9
         "seed_tier": "mid",
         "cluster_hint": "80-150",
         "level_hint": "120",
-        "hook": "Ein Notruf läuft im Kreis. Jede Wiederholung enthält neue Namen – und einen davon kennt die Zelle."
+        "hook": "Ein Notruf läuft im Kreis. Jede Wiederholung enthält neue
+                 Namen – und einen davon kennt die Zelle."
       },
       {
         "id": "RIFT-HIGH-0501",
@@ -489,7 +526,8 @@ ISSUE #9
         "seed_tier": "late",
         "cluster_hint": "400-1000",
         "level_hint": "500+",
-        "hook": "Ein ganzer Block existiert in zwei Versionen. Beide beanspruchen, die echte zu sein."
+        "hook": "Ein ganzer Block existiert in zwei Versionen. Beide
+                 beanspruchen, die echte zu sein."
       },
       {
         "id": "RIFT-CLOSED-0210",
@@ -499,7 +537,8 @@ ISSUE #9
         "seed_tier": "mid",
         "cluster_hint": "80-150",
         "level_hint": "120",
-        "hook": "Die Karte zeigt einen Korridor, der gestern noch nicht da war – jetzt ist er zugeschweißt."
+        "hook": "Die Karte zeigt einen Korridor, der gestern noch nicht da war –
+                 jetzt ist er zugeschweißt."
       }
     ],
     "exfil": {
@@ -770,26 +809,38 @@ ISSUE #9
     ],
     "kodex": [
       { "at": "2026-01-14T20:00:05Z", "msg": "Dispatch-Hinweis: Menü/Modus/Save in HQ verfügbar." },
-      { "at": "2026-01-14T21:00:00Z", "msg": "Chronopolis-Status geprüft: Key aktiv, Warnbanner einmalig." }
+      { "at": "2026-01-14T21:00:00Z",
+        "msg": "Chronopolis-Status geprüft: Key aktiv, Warnbanner einmalig." }
     ],
     "alias_trace": [
-      { "at": "2026-01-14T20:46:00Z", "alias": "VANTA", "heat": 1, "note": "Cover-Name in Funkschnitt gefallen." }
+      { "at": "2026-01-14T20:46:00Z", "alias": "VANTA", "heat": 1,
+        "note": "Cover-Name in Funkschnitt gefallen." }
     ],
     "squad_radio": [
-      { "at": "2026-01-14T20:47:10Z", "from": "ITI-Relay", "msg": "Fenster eng. Keine zweite Runde." }
+      { "at": "2026-01-14T20:47:10Z", "from": "ITI-Relay",
+        "msg": "Fenster eng. Keine zweite Runde." }
     ],
     "foreshadow": [
-      { "tag": "FS-1", "text": "Ein zweiter Schatten im Kamerafeed.", "scene": { "episode": 10, "mission": 4, "index": 7 } },
-      { "tag": "FS-2", "text": "Das Wappen am Gürtel – falsche Zeit, echter Rang.", "scene": { "episode": 10, "mission": 4, "index": 8 } },
-      { "tag": "FS-3", "text": "Der Safe ist leer, aber der Raum ist warm.", "scene": { "episode": 10, "mission": 4, "index": 9 } },
-      { "tag": "FS-4", "text": "Eine Stimme, die den Namen kennt.", "scene": { "episode": 10, "mission": 4, "index": 10 } }
+      { "tag": "FS-1", "text": "Ein zweiter Schatten im Kamerafeed.",
+        "scene": { "episode": 10, "mission": 4, "index": 7 } },
+      { "tag": "FS-2", "text": "Das Wappen am Gürtel – falsche Zeit,
+        echter Rang.", "scene": { "episode": 10, "mission": 4, "index": 8 } },
+      { "tag": "FS-3", "text": "Der Safe ist leer, aber der Raum ist warm.",
+        "scene": { "episode": 10, "mission": 4, "index": 9 } },
+      { "tag": "FS-4", "text": "Eine Stimme, die den Namen kennt.",
+        "scene": { "episode": 10, "mission": 4, "index": 10 } }
     ],
     "fr_interventions": [
-      { "at": "2026-01-14T20:55:00Z", "faction": "Nullmarkt", "result": "shadow_help", "scene": { "episode": 10, "mission": 5, "index": 9 } }
+      { "at": "2026-01-14T20:55:00Z", "faction": "Nullmarkt",
+        "result": "shadow_help",
+        "scene": { "episode": 10, "mission": 5, "index": 9 } }
     ],
     "psi": [
-      { "at": "2026-01-14T20:52:00Z", "ability": "psi_action_dummy", "psi_heat_delta": 1, "note": "Psi eingesetzt." },
-      { "at": "2026-01-14T20:59:00Z", "ability": "psi_heat_reset", "psi_heat_delta": -1, "note": "Nach Konflikt/HQ-Transfer zurückgesetzt." }
+      { "at": "2026-01-14T20:52:00Z", "ability": "psi_action_dummy",
+        "psi_heat_delta": 1, "note": "Psi eingesetzt." },
+      { "at": "2026-01-14T20:59:00Z", "ability": "psi_heat_reset",
+        "psi_heat_delta": -1,
+        "note": "Nach Konflikt/HQ-Transfer zurückgesetzt." }
     ],
     "arena_psi": [
       {
@@ -1031,8 +1082,10 @@ Tool: ✅
 **Feststellungen**
 - Merge-Conflicts-Allowlist + Mindestfelder umgesetzt; Beispiele im Gameflow-Modul ergänzt.
 - Economy-Audit nutzt Host-Level (Median-Fallback), `band_reason`/`wallet_avg_scope` gespiegelt.
-- Arena-Policy (`arena.match_policy`) in Save/HUD dokumentiert; HQ-Loop-Contract als Pflichtschablone ergänzt.
-- Erstlauf `make lint` wies auf MD013 (Line > 100) im QA-Fahrplan hin; behoben und erfolgreich wiederholt.
+- Arena-Policy (`arena.match_policy`) in Save/HUD dokumentiert;
+  HQ-Loop-Contract als Pflichtschablone ergänzt.
+- Erstlauf `make lint` wies auf MD013 (Line > 100) im QA-Fahrplan hin;
+  behoben und erfolgreich wiederholt.
 
 **Nachverfolgung**
 - Commit/PR: HEAD (Branch work; Hash im PR-Text referenziert).
@@ -1217,7 +1270,8 @@ Tool: ✅
 ## 2026-11-08 – Repo-Agent – Nachcheck Format-/Umstrukturierung (Build 4.2.5)
 - Plattform: Lokales Repo-Run (QA-Skripte)
 - Wissensstand: Runtime/README 4.2.5, QA-Fahrplan 1.14.0
-- Auftrag: Nachcheck nach Abschluss der Formatierungs- und Umstrukturierungsrunde; vollständige Regression laut Pflichtsuite.
+- Auftrag: Nachcheck nach Abschluss der Formatierungs- und
+  Umstrukturierungsrunde; vollständige Regression laut Pflichtsuite.
 
 ```chatlog
 Repo-Agent: `make lint`
