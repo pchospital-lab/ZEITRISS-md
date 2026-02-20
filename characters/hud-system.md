@@ -504,9 +504,12 @@ oder Isolation.
 
 ### Systemfenster: Taktisches HUD-Menü
 
-<!-- Macro: hud_menu -->
-{% macro hud_menu() -%}
-{% if settings.ascii_only %}
+Die Runtime nutzt zwei feste Darstellungen. Welche gezeigt wird, entscheidet
+die Einstellung `settings.ascii_only`.
+
+- Bei `settings.ascii_only = true` gilt die kompakte ASCII-Ansicht:
+
+```text
 +------------------------------+
 |  Taktisches HUD-Menue        |
 | Signalquelle: AR-Kontaktlinse |
@@ -521,7 +524,11 @@ oder Isolation.
 |------------------------------|
 | Kodex-Zugriff: kodex [thema] |
 +------------------------------+
-{% else %}
+```
+
+- Bei `settings.ascii_only = false` gilt die Standard-Ansicht:
+
+```text
 ╔══════════════════════════════════════════════════════╗
 ║                ∎  Taktisches HUD-Menü  ∎             ║
 ║     `Signalquelle: AR-Kontaktlinse lokal`            ║
@@ -544,14 +551,10 @@ oder Isolation.
 ║ Unterbrechung, Paradoxon oder EMP voll nutzbar.       ║
 ║ Es ist physisch mit eurer AR-Kontaktlinse gekoppelt.  ║
 ╚══════════════════════════════════════════════════════╝
-{% endif %}
-{%- endmacro %}
-
-```text
-{{ hud_menu() }}
 ```
 
-Setze `settings.ascii_only = true`, um die ASCII-Variante des Menüs zu erzwingen.
+Setze `settings.ascii_only = true`, um die ASCII-Variante des Menüs zu
+erzwingen. Ohne Flag wird die Standard-Ansicht verwendet.
 
 Beim Start oder nach `load` blendet das HUD über dem Menü eine kurze
 Statuszeile ein:

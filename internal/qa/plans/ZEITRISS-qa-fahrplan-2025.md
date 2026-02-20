@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.20.7
+version: 1.20.8
 tags: [meta]
 ---
 
@@ -111,6 +111,29 @@ Fokus auf konsistente Wissensmodule ohne auswertbare Template-Delimiters im Runt
 - ❌ Unzulässig im Runtime-Slot: `{{ hud_tag('Px 5/5') }}`.
 
 Referenzbeleg: QA-Log-Eintrag **2027-03-09 – Repo-Agent – Tiefenanalyse-Fortsetzung**.
+
+
+## Nachtrag 2027-03-10 – Lauf 1: Runtime-Neutralisierung umgesetzt
+
+Umsetzungsfokus dieses Laufs: T1–T3 in priorisierten Runtime-Dateien ausgeführt
+(ohne Runtime-Code-/Tooling-Änderungen).
+
+- **T1 (hoch):** Inventur erneut ausgeführt und Spot-Fixes in den identifizierten
+  Kernmodulen vorgenommen (`characters/`, `gameplay/`, `core/`, `systems/`).
+- **T2 (hoch):** `characters/hud-system.md` Macro-Block in klare
+  Anzeige-Spezifikation (ASCII vs. Standard-Ansicht) überführt.
+- **T3 (hoch):** `gameplay/kreative-generatoren-begegnungen.md`
+  Macro-Snippets in template-neutrale Ablaufbeschreibungen (`rand_event`,
+  `roll_legendary`) migriert.
+- **Zusätzliche Neutralisierung:** `{{SG_AUTO}}`-Platzhalter sowie
+  Template-Beispiele in `gameplay/kampagnenstruktur.md`,
+  `gameplay/kreative-generatoren-missionen.md`, `systems/kp-kraefte-psi.md` und
+  `core/sl-referenz.md` auf runtime-neutrale Formulierungen umgestellt.
+
+**Offen für Folgeläufe**
+- **T4 (mittel):** `systems/toolkit-gpt-spielleiter.md` enthält weiterhin umfangreiche
+  Delimiter-Fragmente; Bewertung/Entzerrung in separatem Paket nötig.
+- **T5 (mittel):** Versionsharmonisierung 4.2.6/4.2.7 bleibt separat geplant.
 
 ## Rollen & Übergabe
 
