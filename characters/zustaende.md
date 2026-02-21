@@ -380,7 +380,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   Wer einen puristischen Thriller bevorzugt, kann
   [im **Covert-Ops-Modus**](../core/sl-referenz.md#spielmodi) spielen, bei dem Rifts nur als dezentes
   Sensorrauschen auftreten. Optional zeigt das HUD ab Stufe 4 einen sanften Resonanzpuls und blendet
-  die Zahl offener Seeds ein: `Seeds 3 · 🔄 Paradoxon 4/5`. Ein Foreshadow-Pulse warnt dezent vor
+  die Zahl offener Seeds ein: `Seeds 3 · 🌀 Paradoxon 4/5`. Ein Foreshadow-Pulse warnt dezent vor
   nahen Rissen. Die Paradoxon-Mechanik ist standardmäßig aktiv, lässt sich aber jederzeit mit
   `modus paradoxon off` abschalten - mit `modus paradoxon on` wieder aktivieren.
 

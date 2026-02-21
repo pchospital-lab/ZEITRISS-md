@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.10
+version: 1.23.13
 tags: [meta]
 ---
 
@@ -47,6 +47,47 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-23 – SSOT-Nachlauf 8 (Paradoxon-Portal-Icon & TK-Entkopplung)
+
+Nach Nutzerfeedback zur Symbolwirkung wurde das zentrale Paradoxon-Icon
+gezielt als Portalmarker gesetzt.
+
+- **Paradoxon-Icon:** `🌀` ist wieder das primäre Spieler-Signal für
+  Px/Rift-Progress.
+- **TK-Cooldown-Icon:** auf `✋` verschoben, um die Symbolrollen nicht zu
+  vermischen.
+- **Konsistenzpass:** Core/HUD/Gameplay/Toolkit/Zustände auf dieselbe
+  Icon-Logik harmonisiert.
+- **Folgeschritt:** historisierte QA-/Briefing-Beispiele auf Icon-Drift prüfen.
+
+## Nachtrag 2027-03-22 – SSOT-Nachlauf 7 (Core-Meilensteine + Icon-Konsolidierung)
+
+Anschlusslauf auf Basis der offenen Rückmeldung: nicht nur Quickformate,
+sondern auch HUD-/Beispielmodule wurden auf dieselbe Symbol- und Gate-Logik
+gezogen.
+
+- **Chronopolis-Gate erweitert:** Core-Meilensteine nennen den Level-10-
+  Schlüsselübergabepunkt jetzt explizit.
+- **HUD-Symbolik konsolidiert:** Rift-Bonus überall als `☆`; `🌀` nicht mehr
+  für Paradoxon verwendet.
+- **Icon-Entzerrung fixiert:** `🌀` bleibt TK-Cooldown, `🔄` bleibt Paradoxon.
+- **Folgeschritt:** dedizierter Icon-Audit-Pass für narrative Beispiele in
+  weiteren Runtime-Modulen (Stil-/Sprachkonsistenz-Track).
+
+## Nachtrag 2027-03-21 – SSOT-Nachlauf (Chronopolis-Key, Startrollentrennung, Stern-Notation)
+
+Direkter Folgepass nach der Closure-Nachschärfung: gezielte Konsistenzkorrektur
+für drei gemeldete Driftpunkte in den Core-Quickformaten.
+
+- **Chronopolis-Zugangsanker:** Spieler-Handbuch nennt jetzt explizit die
+  Schlüsselübergabe bei Level 10 als CITY-Gate.
+- **Rollenabgrenzung Spielstart:** SL-Referenz führt nur Dispatcher-/Runtime-
+  Invarianten; spielerseitige Eingabebeispiele bleiben im Handbuch.
+- **Difficulty-Notation:** Rift-Bonusdarstellung wieder auf weiße Sterne (☆)
+  vereinheitlicht (keine Blitz-Notation in den Quickformaten).
+- **Folgeschritt:** Stil-/Sprachkonsistenz-Pass erweitert um repo-weiten
+  Stern-/Symbolabgleich außerhalb der Core-Quickformate.
 
 ## Nachtrag 2027-03-20b – Closure-Nachschärfung (Runtime-Entkopplung von Setup-Hinweisen)
 

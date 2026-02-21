@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.50
+version: 0.4.53
 tags: [meta]
 ---
 
@@ -29,6 +29,99 @@ tags: [meta]
 3. Stil- und Sprachkonsistenz: **offen**.
 
 **Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-20b)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
+## 2027-03-23 – Repo-Agent – SSOT-Nachlauf 8 (Paradoxon-Portal-Icon)
+- Fokus: Zentrales Spieler-Symbol für Paradoxon/Rift visuell aufwerten und
+  zugleich die Icon-Rollen eindeutig halten.
+- Scope: `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `characters/hud-system.md`, `characters/zustaende.md`,
+  `gameplay/kampagnenstruktur.md`, `systems/toolkit-gpt-spielleiter.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Paradoxon-Index wieder auf `🌀` als Portal-Marker gesetzt.
+  2. TK-Cooldown auf `✋` verschoben (Doppelbelegung aufgelöst).
+  3. Core-/HUD-/Beispielmodule auf identisches Mapping harmonisiert.
+  4. Folge-Backlog für historische QA-/Briefing-Icondrift dokumentiert.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **abgeschlossen** (Nachlauf 8 konsolidiert).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **in Umsetzung** (historischer Icon-Audit offen).
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-23)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
+## 2027-03-22 – Repo-Agent – SSOT-Nachlauf 7 (Icon-/Meilenstein-Konsolidierung)
+- Fokus: Repo-weite Nachschärfung aus Review-Finding: Chronopolis-Gate im
+  Core-Meilensteinfluss, HUD-Icon-Konsistenz und Auflösung der `🌀`-
+  Doppelbelegung in Beispielen.
+- Scope: `core/sl-referenz.md`, `core/zeitriss-core.md`,
+  `characters/hud-system.md`, `gameplay/kampagnenstruktur.md`,
+  `systems/toolkit-gpt-spielleiter.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Level-10-Chronopolis-Schlüssel im Core-Meilensteintext explizit ergänzt.
+  2. HUD-Doku von ⚡ auf ☆ umgestellt und Icon-Belegung eindeutig fixiert.
+  3. Paradoxon-Beispiele mit `🔄` harmonisiert; `🌀` bleibt TK-Cooldown.
+  4. Folgeauftrag angelegt: Icon-Audit-Pass über narrative Beispielstellen.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **abgeschlossen** (Nachlauf 7 konsolidiert).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **in Umsetzung** (Icon-Audit-Pass offen).
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-22)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
+## 2027-03-21 – Repo-Agent – SSOT-Nachlauf 6 (Core-Konsistenz)
+- Fokus: Nach Closure gezielte Driftpunkte aus den letzten Findings bereinigen
+  (Chronopolis-Key, Rollenabgrenzung Spielstart, Schwierigkeitssymbole).
+- Scope: `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Chronopolis-Schlüssel bei Level 10 im Spieler-Handbuch an HQ/Startlogik
+     sichtbar verankert.
+  2. Spielstart in der SL-Referenz auf Dispatcher-Invarianten verdichtet;
+     Spieler-Eingaben bleiben kanonisch im Handbuch.
+  3. Rift-/Schwierigkeitsdarstellung in Quickformaten auf Stern-Notation (☆)
+     vereinheitlicht.
+  4. Folgeauftrag dokumentiert: repo-weiter Symbol-/Stilpass außerhalb der
+     Core-Quickformate.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **abgeschlossen** (Nachlauf 6 dokumentiert).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **in Umsetzung** (Stern-/Symbolabgleich offen).
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-21)**
 - `make lint` → OK
 - `make test` → OK
 - `bash scripts/smoke.sh` → OK
