@@ -1,10 +1,68 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.45
+version: 0.4.47
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-18 – Repo-Agent – SSOT-Durchlauf 3a (Artefakt-Balance-Fix)
+- Fokus: Rückmeldung zur Gameplay-Balance umsetzen und die Hausregel für
+  Rift-Artefakt-Startwürfe entfernen, damit die Belohnungslogik stabil bleibt.
+- Scope: `gameplay/kampagnenstruktur.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Artefakt-Drop in Rift-Ops als Boss-only-Mechanik (Szene 10) konsolidiert.
+  2. `rift_artifact_variant=start_roll`/Hausregel aus dem Gameplay-Regeltext entfernt.
+  3. SSOT-Status bleibt **in Umsetzung**; Systems-Pass weiterhin nächster Schritt.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **in Umsetzung** (Durchlauf 3a nachgeschärft).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-18)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
+## 2027-03-18 – Repo-Agent – SSOT-Pipeline Durchlauf 3 (Gameplay-Pass)
+- Fokus: Den Gameplay-Pass sequenziell gegen den extrahierten Core-Kanon
+  abschließen, bevor der Systems-Pass startet.
+- Scope: `gameplay/kampagnenuebersicht.md`,
+  `gameplay/kampagnenstruktur.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Quickstart in `kampagnenuebersicht.md` als optionaler Zugriffspfad ohne
+     Regeländerung explizit auf den Core-Kanon gebunden.
+  2. `kampagnenstruktur.md` um SSOT-Anker für MUSS/SOLL/KANN ergänzt
+     (Px/`ClusterCreate()`, CU-Formel, Boss-Rhythmus).
+  3. Restkatalog-Durchlauf 3 auf **abgeschlossen** gesetzt; nächster Schritt
+     ist der Systems-Pass.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **in Umsetzung** (Durchlauf 3 abgeschlossen).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-18)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-17 – Repo-Agent – SSOT-Pipeline Durchlauf 2 (Anker-Sync README/Core)
 - Fokus: Den zweiten Pipeline-Schritt sequenziell abschließen und README exakt

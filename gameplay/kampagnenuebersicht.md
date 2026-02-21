@@ -28,6 +28,11 @@ Anspruch auf historische Genauigkeit (Fiktion, ab 18 Jahren).
 
 ### Quickstart
 
+> **SSOT-Anker (Gameplay-Pass):** Dieser Schnellstart ist ein optionaler
+> Zugriffspfad. Er ändert keine Kernregeln aus den Core-Quickformaten
+> (`core/sl-referenz.md`, `core/spieler-handbuch.md`), sondern verdichtet sie
+> nur für den schnelleren Einstieg.
+
 Im Kern starten die Charaktere als frisch rekrutierte ITI-Agenten. Das Institut spürt
 außergewöhnlich starke "Bewusstseine" nach ihrem Ableben im Zeitstrom auf und bietet
 ihnen als Chrononauten eine zweite Chance, sich zu beweisen. Innerhalb der Spielwelt gilt
