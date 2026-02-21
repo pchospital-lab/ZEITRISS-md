@@ -323,7 +323,7 @@ Kriege.
 8. Twist - Saboteur deckt die Agenten auf, kurzer Nahkampf.
 9. Exfiltration - Rettungsboote beobachten, Chaos zulassen.
 10. Konflikt - Gegner versucht weiterhin, Passagiere zu retten.
-11. Exfiltration - Via Portal oder Rettungsboot entkommen.
+11. Exfiltration - Via Zeitriss oder Rettungsboot entkommen.
 12. Debrief - Titanic sinkt, Zeitlinie stabil.
 
 
@@ -951,7 +951,7 @@ version: 4.2.6
 8. Konflikt - Saboteure legen Brandfalle.
 9. Konflikt - Wache löst Alarm aus, Feuerwerk entzündet sich fast.
 10. Exfiltration - Flucht über Dachrinne in den Park.
-11. Exfiltration - Portal im Kutschenschuppen erreichen.
+11. Exfiltration - Zeitriss im Kutschenschuppen erreichen.
 12. Debrief - Index 2/5, ARGOS bleibt aktiv.
 
 **HQ-Phase 1** - Paradoxon < 5, kein ClusterCreate().
@@ -967,7 +967,7 @@ version: 4.2.6
 8. Konflikt - Scharfschütze auf Kran hält Team in Schach.
 9. Konflikt - Gasleitung schließen, Gegner stören.
 10. Exfiltration - Rauch zieht auf, Besucherpanik.
-11. Exfiltration - Team springt ins offene Portal.
+11. Exfiltration - Team springt durch den offenen Zeitriss.
 12. Debrief - ClusterCreate() löst Seed R-089, Index 0/5.
 
 **HQ-Phase 2** - Seed bleibt offen; Schwelle +1, CU ×1.2.
@@ -983,7 +983,7 @@ version: 4.2.6
 8. Konflikt - Feuergefecht im Maschinenraum.
 9. Konflikt - Saboteur versucht Brand erneut.
 10. Exfiltration - Gefangene sichern, per Kutsche raus.
-11. Exfiltration - Portal aktiviert, Seed bleibt offen.
+11. Exfiltration - Zeitriss aktiviert, Seed bleibt offen.
 12. Debrief - Crystal Palace intakt, Arc abgeschlossen.
 
 **Epilog** - Seed R-089 weiter offen für spätere Rift-Op.
@@ -1008,7 +1008,7 @@ version: 4.2.6
 8. Konflikt - Kneipenschlägerei lenkt Wachtrupp ab.
 9. Konflikt - Saboteure beschädigen Baufahrzeuge.
 10. Exfiltration - Rückzug über Kanalrohr.
-11. Exfiltration - Portal im Lagerhaus nutzen.
+11. Exfiltration - Zeitriss im Lagerhaus nutzen.
 12. Debrief - Index 1/5, Lage weiter gespannt.
 
 **Mission 2 - Pläne sichern**
@@ -1022,7 +1022,7 @@ version: 4.2.6
 8. Konflikt - Zeitsoldaten greifen ein, Index steigt.
 9. Konflikt - Verfolgung über den Alexanderplatz.
 10. Exfiltration - Flussfähre Richtung Westen.
-11. Exfiltration - Portal im U-Bahn-Tunnel erreichen.
+11. Exfiltration - Zeitriss im U-Bahn-Tunnel erreichen.
 12. Debrief - Seed offen, Index 3/5.
 
 **Mission 3 - Aufruhr entfachen**
@@ -1036,7 +1036,7 @@ version: 4.2.6
 8. Konflikt - Straßenkampf mit Loyalisten.
 9. Konflikt - Demonstration eskaliert vor dem Tor.
 10. Exfiltration - Untertauchen in der Menge.
-11. Exfiltration - Portal unter Bahnhof nutzen.
+11. Exfiltration - Zeitriss unter Bahnhof nutzen.
 12. Debrief - Mauerbau beschleunigt, Zeitlinie stabil.
 
 **Epilog** - Grenzanlagen entstehen 12./13. August, Fluchtwege reißen ab.
@@ -1148,7 +1148,7 @@ antagonist_goal: "Signalkette auslösen und Verstärkung rufen"
 | 7 | Turmaufstieg | feindlicher Bogenschütze | Auf Wehrgang gelangen | Belagerer rücken an | 7 |
 | 8 | Wehrgang Ost | Patrouille kreuzt | Zündvorrichtung sabotieren | Rauchwolke im Tal | 8 |
 | 9 | Wehrgang West | Kreuzritter rufen Hilfe | Fluchtweg sichern | Kanister mit Öl | 7 |
-| 10 | Hofpassage | Ritter greifen an | Portal erreichen | Pferde scheuen | 8 |
+| 10 | Hofpassage | Ritter greifen an | Zeitriss erreichen | Pferde scheuen | 8 |
 | 11 | Waldrand | Verfolger abschütteln | Rücksprungpunkt erreichen | Turm brennt nicht | 6 |
 | 12 | Debrief im HQ | - | Bericht abliefern | Orden sucht Täter | - |
 ##### Kurzabenteuer "Operation GLASLÄUFER" {#operation-glaslaeufer}
@@ -1235,8 +1235,8 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 9. Tunnel unter der Brücke entdecken.
 10. Seismische Stöße reißen Mauerstücke weg.
 11. Mothman-Sichtung am Brückenbogen.
-12. Kampf gegen Kultisten, die Portal stabilisieren wollen.
-13. Portal schließen oder abstürzende Brücke riskieren.
+12. Kampf gegen Kultisten, die Zeitriss stabilisieren wollen.
+13. Zeitriss schließen oder abstürzende Brücke riskieren.
 14. Debrief - 800 CU, Paradoxon sinkt auf 0.
 
 #### Dev-Check-Liste
@@ -1416,8 +1416,8 @@ HQ:
   erhält, Anomalien zu analysieren.
 - **Werkstatt & Maschinenraum:** Die Werkstatt erlaubt es, Ausrüstung zu reparieren, maßzuschneidern
   oder sogar Zeitreise-Geräte zu modifizieren. Je besser ausgestattet die Werkstatt, desto effizienter
-  können z. B. beschädigte Zeitgeräte wiederhergestellt oder Fahrzeuge (Zeitshuttle, Chrono-Anzug
-  etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
+  können z. B. beschädigte Zeitgeräte wiederhergestellt oder epochen-spezifische
+  Ausrüstung (Chrono-Anzug, Tarnvorrichtungen etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
   Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI-Arena** zur Verfügung.
   Projektionsmodule ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
@@ -1882,7 +1882,7 @@ Nicht jede Minute einer Kampagne muss mit Missionen und Konflikten gefüllt sein
 **Erzählpausen** - ruhigere Phasen zwischen den großen Einsätzen - verleihen der Geschichte erst die
 richtige Würze. In ZEITRISS 4.2.6 bietet das HQ den perfekten Schauplatz für **Freizeitaktivitäten und
 soziale Interaktionen** der Agenten. Solche Momente machen die Welt glaubwürdiger und die Charaktere
-menschlicher. Außerdem erlauben sie es der Runde, mal durchzuatmen, bevor das nächste Zeitportal
+menschlicher. Außerdem erlauben sie es der Runde, mal durchzuatmen, bevor der nächste Zeitriss
 geöffnet wird. Hier ein paar Anregungen, wie man diese Pausen gestaltet:
 
 - **Alltagsszenen im HQ:** Zeigt den Agenten bei alltäglichen Tätigkeiten in ihrem Hauptquartier.

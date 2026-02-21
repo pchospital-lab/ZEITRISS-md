@@ -1294,9 +1294,9 @@ würfelt einen Eintrag als Missionsstart.
     \| Nachphase: Methanmeere brodeln.
 60. **Antarktis - Versiegelte Anlagen** \| Vorphase: Bohrung stößt auf Metall.
     \| Nachphase: Alte Technologie erwacht.
-61. **Kapustin Jar - Aktives Zeitportal** \| Vorphase: Testlauf steht bevor.
+61. **Kapustin Jar - Aktiver Zeitriss** \| Vorphase: Testlauf steht bevor.
 
-\| Nachphase: Portal reißt sich auf.
+\| Nachphase: Zeitriss reißt sich auf.
 ### Preserve-Liste (Near-Misses)
 Siehe `preserve_pool` oben.
 

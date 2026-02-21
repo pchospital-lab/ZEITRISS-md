@@ -568,7 +568,7 @@ So wird Munitionsverschwendung vermieden und taktische Planung gefördert.
 
 Neben konventioneller Ausrüstung stellen die **Zeitreise-Technologien** die vielleicht wichtigste
 „Ausrüstung“ der Chrononauten dar. Einige dieser Geräte sind fest im HQ installiert (z.B. die großen
-**Portal-Generatoren** im Quarzatrium), andere werden als **tragbare Geräte** mitgeführt, um im Feld
+**Riss-Generatoren** im Quarzatrium), andere werden als **tragbare Geräte** mitgeführt, um im Feld
 zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 
 - **Persönliches Zeitterminal (PZT):** Ein tablet- oder Clip-Gerät, das
@@ -598,7 +598,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
     sondern wird erst vom HQ aus als Seed anwählbar. Natürlich ist es keine allwissende
     Prophezeiung, doch es erkennt mächtige Temporalsignaturen, etwa wenn historische
     Schlüsselereignisse berührt werden.
-- **Portal-Notöffner:** Ein experimentelles Gerät, das wie ein Griff mit Abzug aussieht. Im
+- **Riss-Notöffner:** Ein experimentelles Gerät, das wie ein Griff mit Abzug aussieht. Im
   absoluten Notfall kann ein Agent damit einen _kleinen, instabilen Zeitriss_ zu einer
   voreingestellten Zeit (typisch: Nullzeit HQ, **nur Rückreise**) öffnen. Dieser Riss hält wenige
   Sekunden – genug, um hindurchzuspringen. Aufgrund der potenziellen Gefahren (Ortungsrisiko,
@@ -709,7 +709,7 @@ gleichzeitig mitführen; weitere Exemplare müssen im persönlichen Quartier ein
    Sekunden. Kosten: 450 CU. `altSkin: "Ballon-Apparat 1783"`
 5. **DNA-Tarnchip** – Verändert kurzfristig biologische Merkmale, bietet +2 auf Verkleidungsproben.
    Preis: 300 CU. Perfekt bei Undercover-Einsätzen. `altSkin: "Maskenset 1600"`
-6. **Portal-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
+6. **Riss-Stabilisator** – Ein handgroßes Gerät, das instabile Zeitrisse für 30 Sekunden stabil
    hält. Oft Teil von Paradoxon-Notfalleinsätzen. Wert: 600 CU. `altSkin: "Runenstein 500"`
 
 ## Einbindung in CUs & Missionen
