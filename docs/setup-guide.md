@@ -57,7 +57,7 @@ hoch und richtet das Preset mit Masterprompt ein. Vor dem Preset fragt das Scrip
 welches Base-Modell genutzt werden soll: Standard ist
 `deepseek/deepseek-chat-v3-0324`, alternativ kannst du eine Model-ID manuell
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
-„ZEITRISS v4.2.6 – Local Uncut" (aktueller Preset-Name) wählen, dann möglichst
+„ZEITRISS v4.2.6 Uncut" (aktueller Preset-Name) wählen, dann möglichst
 `Spiel starten (solo klassisch)` tippen.
 
 Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
@@ -118,9 +118,9 @@ dem neuesten Repo-Stand bleiben.
   **Empfohlene Modelle:**
   | Modell | Typ | Preis/1M Token | Stärke |
   |--------|-----|----------------|--------|
-  | `deepseek/deepseek-chat-v3-0324` | **Default** | ~$0.27/$1.10 | Regeltreu, stabiler Noir-Ton, sehr günstig — klare Hauptempfehlung |
-  | `meta-llama/llama-3.3-70b-instruct` | **Free-Empfehlung** | Kostenlos (OpenRouter) | Beste Gratis-Option für Einstieg, solide Regelstabilität |
-  | `anthropic/claude-sonnet-4` | Optional | ~$3/$15 | Nutzbar, aber deutlich teurer und aktuell nicht bevorzugt |
+  | `anthropic/claude-sonnet-4.6` | **Premium** | ~$3/$15 | Regeltreuster Output, stärkster Noir-Ton, sauberste HUD-Struktur |
+  | `deepseek/deepseek-chat-v3-0324` | **Standard** | ~$0.27/$1.10 | Regeltreu, stabiler Noir-Ton, sehr günstig — klare Hauptempfehlung |
+  | `qwen/qwen3.5-397b-a17b` | **Budget** | ~$0.15/$1 | MoE-Modell, starke Atmosphäre und korrekte Regelumsetzung, near-free |
 
   Temperatur: **0.8** für alle Modelle.
 - **MyGPT (OpenAI, optional):** Funktionell derzeit nicht als Primärpfad empfohlen,

@@ -1,7 +1,7 @@
-# ZEITRISS - System Prompt (Local Uncut v4.2.6)
+# ZEITRISS - System Prompt (Uncut v4.2.6)
 
 > Für OpenWebUI + OpenRouter (oder andere OpenAI-kompatible Provider)
-> Basiert auf masterprompt_v6.md - "Local Uncut" Edition
+> Basiert auf masterprompt_v6.md - "Uncut" Edition
 
 ---
 
