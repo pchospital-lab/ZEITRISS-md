@@ -1,10 +1,24 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.13
+version: 1.0.14
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-17 – SSOT-Pipeline Durchlauf 2 abgeschlossen (Anker-Sync README/Core)
+
+- Der README-Spiegel folgt jetzt dem zuvor extrahierten Core-Kanon: Px bleibt
+  Belohnungssystem, Px 5 triggert `ClusterCreate()` und die CU-Formel ist für
+  Core/Rift identisch benannt.
+- Optionalität ist in der Landingpage klar als zusätzlicher Zugriffspfad
+  markiert; bindende Kernregeln (Boss-Timing, SaveGuard HQ-only) bleiben
+  unverändert.
+- Muss/Soll/Kann ist als Redaktionsnorm in README ergänzt und dient als
+  semantischer Anker für die nächsten Modul-Pässe.
+- Der Restpunkt verbleibt auf „in Umsetzung", bis Gameplay- und Systems-Pass
+  plus Closure-Gate abgeschlossen sind.
+
 
 ## Update 2027-03-16 – SSOT-Pipeline Durchlauf 1 abgeschlossen (Kanon-Extraktion)
 

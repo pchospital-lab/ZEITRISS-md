@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.4
+version: 0.3.5
 tags: [meta, qa]
 ---
 
@@ -41,10 +41,12 @@ Definitionen, nicht umgekehrt.
      Muss/Soll/Kann-Semantik.
    - Status: _abgeschlossen_ (Kanon-Mini-Glossar extrahiert, 2027-03-16)
 2. **Anker-Sync README/Core (Session 1–2)**
-   - Ziel: README-Abschnitte auf den Kanon aus den Core-Quickformaten
-     harmonisieren.
-   - Gate: keine abweichende Begriffs- oder Prioritätslogik zwischen README
-     und den beiden Core-Dateien.
+  - Ziel: README-Abschnitte auf den Kanon aus den Core-Quickformaten
+    harmonisieren.
+  - Gate: keine abweichende Begriffs- oder Prioritätslogik zwischen README
+    und den beiden Core-Dateien.
+  - Status: _abgeschlossen_ (Belohnungslogik + Optionalitätssemantik im README
+    auf den Core-Kanon harmonisiert, 2027-03-17)
 3. **Gameplay-Pass (Session 2–3)**
    - Zielmodule: `gameplay/kampagnenuebersicht.md`,
      `gameplay/kampagnenstruktur.md`.
@@ -84,10 +86,11 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
   - **KANN:** optionale Komfort-/Darstellungsvariante ohne Regeländerung
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
-### Nächster Schritt (Session 1–2)
+### Nächster Schritt (Session 2–3)
 
-- Anker-Sync README/Core: README-Formulierungen zu Px-/Rift-Belohnung,
-  Optionalität und Muss/Soll/Kann gegen dieses Glossar harmonisieren.
+- Gameplay-Pass: `gameplay/kampagnenuebersicht.md` und
+  `gameplay/kampagnenstruktur.md` gegen Glossaranker prüfen
+  (Rift-Risiko/Belohnung, Optionalität, Muss/Soll/Kann-Wording).
 
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →
