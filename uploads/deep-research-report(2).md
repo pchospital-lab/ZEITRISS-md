@@ -1,5 +1,11 @@
 # ZEITRISS-md – Next-Pass Konsistenz-Audit & Release-Readiness Plan
 
+> [!WARNING]
+> **Archivstatus (2027-03-25):** Dieses Upload-Dokument ist ein Eingangsartefakt.
+> Die operative Umsetzung wurde in `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`
+> und `internal/qa/logs/2025-beta-qa-log.md` überführt. Für Folge-Runs gelten
+> ausschließlich diese QA-Dokumente als Arbeitsgrundlage.
+
 ## Executive Summary
 
 Im Repo hast du im Vergleich zu dem „vorherigen Problemprofil“ spürbar nachgeschärft: **Mission/Episode** ist jetzt sauber definiert (Mission ≈ 12 Szenen, Episode ≈ 10 Missionen; Rift-Ops ≈ 14 Szenen) und das **HQ-only Save** ist stark gehärtet inklusive klarer „SSOT“-Ansprüche und dem neuen **Suspend/Resume** als *flüchtigem* Pausenmechanismus. Das wirkt in den Kern-Bausteinen wie eine echte Konsolidierung. Beispielhaft ist der Systems-Pass im Speichermodul: „**SaveGuard bleibt HQ-only**“ und „**Session-Suspend (Temporärer Snapshot)**“ sind klare Leitplanken. `systems/gameflow/speicher-fortsetzung.md`: „SaveGuard bleibt HQ-only“ / „`!suspend` schreibt einen flüchtigen Snapshot, `!resume` setzt ihn exakt einmal fort“.  
