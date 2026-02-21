@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.7
+version: 0.3.8
 tags: [meta, qa]
 ---
 
@@ -59,6 +59,8 @@ Definitionen, nicht umgekehrt.
      `systems/toolkit-gpt-spielleiter.md`.
    - Fokus: Economy-/Scaling-Aussagen und Pflicht-/Optional-Markierung gegen
      Core-Kanon prüfen.
+   - Status: _abgeschlossen_ (Systems-Module mit SSOT-Anker MUSS/SOLL/KANN
+     harmonisiert, 2027-03-19)
 5. **Konfliktprüfung & Closure (Session 4)**
    - Suchanker: `optional`, `Pflicht`, `empfohlen`, `Rift`, `Belohnung`, `CU`,
      `Scaling`.
@@ -88,12 +90,12 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
   - **KANN:** optionale Komfort-/Darstellungsvariante ohne Regeländerung
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
-### Nächster Schritt (Session 3–4)
+### Nächster Schritt (Session 4)
 
-- Systems-Pass: `systems/currency/cu-waehrungssystem.md`,
-  `systems/gameflow/speicher-fortsetzung.md` und
-  `systems/toolkit-gpt-spielleiter.md` gegen Glossaranker prüfen
-  (Belohnungs- und Optionalitätssemantik, Muss/Soll/Kann-Wording).
+- Konfliktprüfung & Closure: Suchanker `optional`, `Pflicht`, `empfohlen`,
+  `Rift`, `Belohnung`, `CU`, `Scaling` repo-weit gegen den Glossaranker
+  prüfen und danach den Restpunkt erst mit synchronisiertem
+  Fahrplan/Audit/QA-Log auf _abgeschlossen_ setzen.
 
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →

@@ -6,6 +6,19 @@ tags: [system]
 
 # ZEITRISS 4.2.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
+## SSOT-Anker (Systems-Pass)
+
+- **MUSS:** SaveGuard bleibt HQ-only; Missionen, Arena-Warteschlange und
+  Chronopolis sind keine gültigen Speicherkontexte.
+- **MUSS:** Px bleibt einheitlich (`campaign.px` als Quelle). Bei Px 5 löst
+  ausschließlich `ClusterCreate()` aus; der Reset erfolgt via HQ-Bestätigung.
+- **MUSS:** Economy-Sync bleibt konsistent (`economy.cu` als Primäranker,
+  `economy.credits` als Legacy-Fallback via Synchronisierung).
+- **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
+  ohne als harte Regel formuliert zu werden.
+- **KANN:** Optionale QA-/Trace-Felder dürfen ergänzt werden, sofern sie keine
+  Kernregeln (SaveGuard, Px-Flow, Belohnungslogik) verändern.
+
 ## Speichern & Laden — Kurzreferenz
 
 > **Für Spieler:** Hier das Wichtigste in 30 Sekunden.
