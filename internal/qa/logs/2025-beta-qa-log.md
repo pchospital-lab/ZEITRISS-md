@@ -1,10 +1,41 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.42
+version: 0.4.43
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-15 – Repo-Agent – SSOT-Modulpipeline für finalen Restpunkt aufgesetzt
+- Fokus: Den letzten großen Restpunkt nicht ad hoc, sondern als reproduzierbare
+  Step-by-Step-Pipeline aufsetzen, damit Altmodule und neue Quickformate
+  dauerhaft synchron bleiben.
+- Scope: `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Restkatalog-Punkt 1 von „offen" auf „in Umsetzung" gestellt und als
+     5-stufige Modulpipeline dokumentiert.
+  2. Kanonische Quellenpriorität festgezogen:
+     `core/sl-referenz.md` + `core/spieler-handbuch.md` führen,
+     README/Gameplay/Systems spiegeln.
+  3. Feste Modulreihenfolge und Closure-Gate im Fahrplan verankert, damit die
+     nächsten Läufe reproduzierbar nacheinander abgearbeitet werden.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **in Umsetzung** (Pipeline aktiv).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-15)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-15 – Repo-Agent – Onboarding-Entkopplung final abgeschlossen
 - Fokus: Nach dem Entfernen der Onboarding-UX aus dem Spielleiter-Toolkit den
