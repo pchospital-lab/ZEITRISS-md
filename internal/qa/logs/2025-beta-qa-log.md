@@ -1,10 +1,43 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.54
+version: 0.4.55
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-25 – Repo-Agent – Deep-Research-Übernahme (Fahrplan + QA-Lock)
+- Fokus: Nutzerentscheidung aus dem Deep-Research-Upload verbindlich in den
+  operativen QA-Zyklus überführen, damit Folge-Runs ohne erneute Report-Debatte
+  direkt weiterarbeiten.
+- Scope: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`,
+  `uploads/deep-research-report(2).md`.
+- Ergebnis:
+  1. Policy-Lock dokumentiert: TEMP beschleunigt Px nur nach erfolgreicher
+     Mission.
+  2. Px-Burn als Zielzustand vollständig entfernt (Backlog für Mirror-Pass in
+     Runtime/Handbuch/HUD fixiert).
+  3. `resolve_rifts(ids)` bleibt erlaubt, aber ohne `CU × Spielerlevel`-
+     Sonderökonomie.
+  4. Save-Flow klargestellt: `speichern`/`!save`, HQ-only-Guard, vollständiger
+     JSON-DeepSave für Chat-Wechsel.
+  5. Upload-Report als archivierter Eingang markiert; operative Referenz ist ab
+     jetzt Fahrplan + QA-Log.
+
+**Backlog-Status (nächste Runs)**
+1. Run A – Policy-Lock in SSOT-Quellen: **offen**.
+2. Run B – Mirror-Propagation in Wissensmodulen: **offen**.
+3. Run C – Regression/Playcheck + Drift-Scan: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-25)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-24 – Repo-Agent – SSOT-Nachlauf 9 (HUD-Levelanker & Px-Kontextanzeige)
 - Fokus: HUD-Motivation erhöhen (Level immer sichtbar) und gleichzeitig
