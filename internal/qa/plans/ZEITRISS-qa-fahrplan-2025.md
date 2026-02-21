@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.14
+version: 1.23.15
 tags: [meta]
 ---
 
@@ -16,6 +16,43 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 - Beta-GPT- und MyGPT-Läufe liefern konsistente QA-Protokolle.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
+
+## Nachtrag 2027-03-25 – Deep-Research-Triage in operativen QA-Fahrplan überführt
+
+Die Abstimmung zum Upload-Artefakt
+`uploads/deep-research-report(2).md` ist abgeschlossen. Der operative Zustand
+liegt ab jetzt ausschließlich in diesem Fahrplan + QA-Log; der Upload bleibt als
+Archiv-Eingang erhalten und wird nicht mehr als direkte Arbeitsgrundlage
+referenziert.
+
+### Verbindliche Entscheidungen (Policy-Lock)
+
+- **Px-Fortschritt:** TEMP darf die Füllgeschwindigkeit nach _erfolgreicher_
+  Mission erhöhen.
+- **Px Burn:** entfällt vollständig (keine Burn-Mechanik in Runtime,
+  Handbuch, HUD oder Tooling).
+- **`resolve_rifts(ids)`:** bleibt als Option erhalten, aber ohne Sonderpfad
+  `CU × Spielerlevel`; Ökonomie muss auf der kanonischen CU-Formel bleiben.
+- **Save UX:** Chat-Befehle `speichern` und `!save`; außerhalb HQ wird
+  geblockt, im HQ erzeugt der Flow einen vollständigen JSON-DeepSave (Char,
+  Gruppe, Fortschritt, Wallets, Logs, Flags).
+
+### Abarbeitungsreihenfolge für die nächsten Durchläufe
+
+1. **Run A – Lock:** Policy-Entscheidungen in SSOT-Texten fixieren
+   (`systems/gameflow/speicher-fortsetzung.md`, `core/spieler-handbuch.md`).
+2. **Run B – Propagation:** Mirror in HUD/Core/Gameplay/Toolkit vollständig
+   nachziehen (inkl. `resolve_rifts(ids)`-Ökonomiepfad).
+3. **Run C – Regression:** Drift-Suche + Playcheck; nur noch Restabweichungen
+   dokumentieren.
+
+### Definition of Done (DoD)
+
+- Repo-weit kein aktiver Px-Burn-Mechanikpfad mehr.
+- Repo-weit kein aktiver CU×Level-Sonderlootpfad mehr.
+- SaveGuard überall konsistent: außerhalb HQ blockiert, im HQ vollständiger
+  DeepSave.
+- Mirror-Nachweis in Fahrplan, QA-Log und Commit/PR dokumentiert.
 
 ## QA-Zyklus
 
