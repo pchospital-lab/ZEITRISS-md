@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.2.0
+version: 0.3.1
 tags: [meta, qa]
 ---
 
@@ -30,15 +30,15 @@ damit Upload-Artefakte keine aktive To-do-Liste mehr sind.
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →
      Toolkit-Nutzung) für KI-geleitetes Spiel explizit und konsistent machen.
-   - Artefakte: README, `docs/setup-guide.md`,
-     `systems/toolkit-gpt-spielleiter.md`.
-   - Status: _offen_
+   - Artefakte: README, `docs/setup-guide.md`.
+   - Status: _in Umsetzung_ (Onboardingroute in README/Setup als
+     Referenzfluss gespiegelt, 2027-03-14; Toolkit bewusst ausgenommen)
 
 3. **Economy-/Scaling-Sicherungen als QA-Checkliste bündeln**
    - Ziel: Risiko von Drift zwischen Regeltext und Runtime-Parametern senken
      (CU, Seed-Multiplikatoren, Gate-/Foreshadow-Regeln).
    - Artefakte: QA-Plan, QA-Audit, gezielte Testfälle in `tools/`.
-   - Status: _offen_
+   - Status: _in Umsetzung_ (Checkliste im QA-Plan/Audit ergänzt, 2027-03-14)
 
 4. **Stil- und Sprachkonsistenz (Feinschliff)**
    - Ziel: Vereinheitlichung von Begriffswahl und Tonlage in

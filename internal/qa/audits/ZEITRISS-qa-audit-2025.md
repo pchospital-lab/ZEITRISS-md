@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.8
+version: 1.0.10
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checkliste
+
+- README und Setup-Guide führen den KI-First-Onboardingfluss
+  (Setup → Wissensslots → Sessionstart → HQ-zentrierter Loop) als
+  Referenzstrecke; Toolkit bleibt auf Spielleitlogik fokussiert.
+- QA-Fahrplan bündelt Economy-/Scaling-Sicherungen als verpflichtende
+  Checkliste (Seed-Caps/Merge, Foreshadow-Gates, Save/Load-Trace,
+  Runtime-Lintläufe).
+- Restkatalog 2027 markiert Punkt 2 und 3 als „in Umsetzung" und verweist auf
+  diesen Zyklus.
 
 ## Update 2027-03-08 – Seed-Caps & Core-Intro-Wording
 

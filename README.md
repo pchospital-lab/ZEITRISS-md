@@ -14,15 +14,31 @@
 
 ## In 5 Minuten starten
 
-### Installation & Start (empfohlener Standardpfad)
+### Standardpfad (empfohlen): Script-Setup in OpenWebUI
 
-1. Installiert OpenWebUI und richtet ein OpenRouter-Konto ein.
-2. Folgt dem [Setup-Guide](docs/setup-guide.md) oder startet direkt mit
-   `./scripts/setup-openwebui.sh`.
-3. Hinterlegt im Setup eure Keys und wählt ein Modell.
-4. Betretet die Welt von ZEITRISS mit `Spiel starten (solo klassisch)`.
+1. **Einmalig vorbereiten:** OpenWebUI installieren und OpenRouter-Konto
+   erstellen.
+2. **Aktuellen Repo-Stand holen:**
+   - per Git: `git clone ...` (danach vor Sessions `git pull`), oder
+   - per GitHub-Download (ZIP), entpacken und in den Projektordner wechseln.
+3. **Setup-Script ausführen:** `./scripts/setup-openwebui.sh`
+   (legt Preset + Wissensspeicher an und synchronisiert den aktuellen Stand).
+4. **Vor dem Spiel kurz prüfen:**
+   - Masterprompt ist im Systemfeld gesetzt,
+   - Wissensspeicher ist sauber verknüpft (20 Slots),
+   - dann mit `Spiel starten (solo klassisch)` starten.
 
-_(Für sofortigen Start ist `Spiel starten (solo schnell)` als Kurzmodus verfügbar.)_
+**Session-Update-Standard:** Vor jeder Runde neuesten Repo-Stand laden und das
+Setup-Script erneut starten. Bei laufendem OpenWebUI aktualisiert das den
+ZEITRISS-Stand im üblichen Workflow.
+
+### Manuelle Alternative (wenn ohne Script gearbeitet wird)
+
+- 20 Wissensmodule laden (`core/spieler-handbuch.md` + 19 Runtime-Module).
+- `meta/masterprompt_v6.md` nur als Systemprompt setzen (nicht als Wissensdatei).
+- Verknüpfung nach jeder Änderung prüfen (Slots + Preset).
+
+_(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
 
 ### Modell-Empfehlung
 
