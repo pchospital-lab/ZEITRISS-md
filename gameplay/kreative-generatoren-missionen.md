@@ -2192,7 +2192,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Null-G-Raubtier springt phasenweise, jagt auf Atemluft
     weakness: Druckschott schließen + Psi-Signatur spiegeln (Mind 13)
-    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Px -1 bei W6=6)
+    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Stress+2 bei W6=6)
     boss_stat_hint: "HP 14 | Armor 2 | Agi 5d6 | Psi-Sig 4d6"
 ```
 

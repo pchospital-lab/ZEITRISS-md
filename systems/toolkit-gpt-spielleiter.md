@@ -3402,10 +3402,10 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
       "Stress+1","Psi-Heat+1","SYS-1","Flashblind",
       "Item breaks","Enemy +1 INI"][side_roll-1] %⟩
   ⟨% set name = part ~ ' von ' ~ creature.name %⟩
-  ⟪ artifact_overlay(name, effect, side ~ ' · Px-1') ⟫
+  ⟪ artifact_overlay(name, effect, side) ⟫
   ⟨% if char.artifact_log is none %⟩⟨% set char.artifact_log = [] %⟩⟨% endif %⟩
   ⟨% if name not in char.artifact_log %⟩⟨% do char.artifact_log.append(name) %⟩⟨% endif %⟩
-  ⟪ kodex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) ⟫
+  ⟪ kodex_log_artifact(name, {'effect': effect, 'risk': side}) ⟫
 ⟨%- endmacro %⟩
 
 Aufruf: `⟨% set artifact = generate_para_artifact(current_creature) %⟩` - ausschließlich direkt

@@ -894,7 +894,7 @@ Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
 \* Annahme: Kurze Erholung nach jedem Kampf.
 
 Ergebnis: **Höhere TEMP gibt linear mehr Juice**, aber Cooldowns deckeln
-Spamm-Risiko; Burn-Option koppelt Überschreitung klar an den Paradoxon-Stand (-Px oder Reset je nach Ausreizung).
+Spamm-Risiko; Overload (Heat 5+) koppelt Überschreitung an spürbare Mali (SG +4, Reboot-Runde).
 
 ### Psi-Heat-Track {#psi-heat-track}
 
