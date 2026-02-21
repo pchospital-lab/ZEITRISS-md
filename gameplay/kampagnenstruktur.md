@@ -1358,33 +1358,44 @@ ist ein Rückzugsort, keine separate Basis.
 
 #### Ebene 3: Fuhrpark (HQ-Facility) {#fuhrpark}
 
-Der Fuhrpark ist **Teil des HQ**, nicht separat. Das ITI stellt
-missionsgerechte Fahrzeuge bereit — die Fahrzeug-Auswahl richtet sich
-nach dem **Einsatzort und der Epoche**, nicht nach dem Ruf. Das ITI
-operiert in der Nullzeit und hat Zugang zu allen Epochen; ein Chrononaut
-bekommt für eine Mission im viktorianischen London eine Kutsche, für
-einen Einsatz 2090 einen Hover-Gleiter — unabhängig von der Karrierestufe.
+Der Fuhrpark ist **Teil des HQ**. Chrononauten können keine Fahrzeuge
+durch Zeitrisse mitnehmen — futuristische Technik in vergangenen Epochen
+würde den Zeitstrom massiv stören. Stattdessen nutzt das ITI **subtile
+Kausalitätsmanipulation**: Kleine Eingriffe in der Vergangenheit sorgen
+dafür, dass ein passendes Fahrzeug "natürlich" in der Zielepoche
+existiert. Eine Schraube hier, ein Bauteil dort — und 70 Jahre später
+hat ein Hobbybastler genau das richtige Auto in seiner Garage nahe dem
+Einsatzort. In der Zukunft steht das Fahrzeug vielleicht gerade zur
+Verladung im Museum oder wartet in einem Depot.
 
-Ruf bestimmt nur die Anzahl der **Stellplätze für eigene Fahrzeuge**.
-Spieler können eigene Fahrzeuge mit CU kaufen und im Fuhrpark einlagern.
+**TEMP bestimmt die Verfügbarkeit** (analog zur Px-Füllung):
 
-| Fuhrpark-Stufe | Slots | Verfügbar ab |
-|----------------|-------|--------------|
-| Basis | 1 | Start |
-| Erweitert | 3 | Ruf +3, HQ-Ausbau +3 |
-| Voll | 5 | Ruf +4, HQ-Ausbau +4 |
+| TEMP | Fahrzeug verfügbar | Exaktheit |
+|-----:|-------------------|-----------|
+| 1–3 | Alle 5 Missionen | Ungefähr passend, improvisiert |
+| 4–7 | Alle 4 Missionen | Überwiegend passend |
+| 8–10 | Alle 3 Missionen | Gute Übereinstimmung |
+| 11–13 | Alle 2 Missionen | Fast exakt wie gewünscht |
+| 14+ | Fast jede Mission | Exakt das gewünschte Fahrzeug |
 
-**Fahrzeug-Grundkäufe (Richtwerte):**
-Alle Fahrzeuge sind frei mit CU kaufbar — die Tech-Stufe ist eine
-Preisfrage, kein Ruf-Gate.
+**Grundregeln:**
+- **Vergangenheit:** Nur epochen-passende Fahrzeuge. Ein Oldtimer in die
+  Zukunft ist möglich (fällt aber auf), ein Zukunftsauto in die
+  Vergangenheit nie.
+- **Rift-Ops: Keine Fahrzeuge.** Casefile-Ermittlungen laufen zu Fuß.
+- Das Fahrzeug muss nicht exakt dem HQ-Modell entsprechen — je höher
+  TEMP, desto besser die Übereinstimmung.
+- Spieler können im HQ ein **Wunschfahrzeug konfigurieren** (CU-Kosten
+  für Basis + Mods), das ITI versucht es in der Zielepoche bereitzustellen.
 
-| Fahrzeug-Typ | Tech-Stufe | CU-Kosten |
+**Fahrzeug-Konfiguration (Richtwerte):**
+
+| Fahrzeug-Typ | CU-Kosten | Beispiele |
 |-------------|-----------|-----------|
-| Pferd / Kutsche | Tech I | 100 CU |
-| Motorrad / Jeep | Tech II | 500 CU |
-| Gepanzertes Fahrzeug | Tech III | 1.500 CU |
-| Hover-Gleiter | Tech IV | 4.000 CU |
-| Chrono-Shuttle (Prototyp) | Tech V | Questbelohnung |
+| Einfach | 100 CU | Pferd, Kutsche, Fahrrad |
+| Standard | 500 CU | Motorrad, Jeep, Limousine |
+| Schwer | 1.500 CU | Gepanzertes Fahrzeug, Truck |
+| High-Tech | 4.000 CU | Hover-Gleiter, Zukunftsmodell |
 
 Details zu Fahrzeug-Mechaniken und Verfolgungsjagden:
 [Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).

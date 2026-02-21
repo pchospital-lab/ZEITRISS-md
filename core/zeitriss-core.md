@@ -347,7 +347,7 @@ gliedert sich in zwei Phasen:
 - **Meilenstein-Stufen:** \*Bestimmte Level werden als **Meilensteine\*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
   **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen,
-  hochwertigerer Ausrüstung und Übergabe des **Chronopolis-Schlüssels**),
+  hochwertigerer Ausrüstung und Freischaltung des **digitalen Chronopolis-Schlüssels**),
   **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **Sonderstatus** im ITI. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
@@ -364,9 +364,11 @@ gliedert sich in zwei Phasen:
 Der Ruf eines Chrononauten wächst mit dessen Erfolgen. In Verbindung mit den oben genannten
 Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
-- **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an,
-  gewährt breiteren Zugriff auf Ausrüstung und überreicht den **Chronopolis-Schlüssel**
-  (optionaler City-Zugang ab diesem Punkt).
+- **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an
+  und gewährt breiteren Zugriff auf Ausrüstung. Ab Level 10 hat der Chrononaut genug
+  Verbindung mit der Nullzeit aufgebaut, dass Kodex den **digitalen Chronopolis-Schlüssel**
+  freischalten kann — eine kryptographische Signatur, die der Chrononaut bei jedem
+  Durchgang durch die Chronopolis-Schleuse live dechiffriert bekommt.
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
@@ -793,9 +795,10 @@ Außenwelt Zeit vergeht.
 
 #### Einrichtungen und Bereiche
 
-- **Quarzatrium:** Portalhalle und Briefingraum in einem. Ankommende Agenten
+- **Quarzatrium:** Sprungkammer und Briefingraum in einem. Ankommende Agenten
   werden von Laserscannern erfasst, während holografische Displays die Zielzeit
-  anzeigen. Commander _Renier_ übernimmt die erste Einweisung und übergibt die
+  anzeigen. Hier öffnen sich die kontrollierten Zeitrisse für den Absprung.
+  Commander _Renier_ übernimmt die erste Einweisung und übergibt die
   laufenden Briefings/Debriefs danach an die zuständigen Fraktions-Liaisons.
 - **Unterkünfte:** Persönliche Quartiere, in denen Erinnerungsstücke früherer
   Missionen lagern und Raum für Charakterszenen bleibt.
@@ -862,7 +865,7 @@ wieder auf Zeitreise geht.
   Stimme für Eskalationen, Gesamtbriefings und Schlüsselmeilensteine.
 - **Archivare des Kodex** - betreuen das Wissensarchiv und helfen bei
   Recherchen.
-- **Tech-Operatives** - Ingenieursteam für Portale und Ausrüstung.
+- **Tech-Operatives** - Ingenieursteam für Zeitrisse und Ausrüstung.
 - **Med-Personal** - Ärzte und Biotech-Spezialisten in den Kliniken.
 - **Quartiermeister** - verwalten CUs und persönliche Ausrüstung.
 - **Fraktions-Liaisons** - je Fraktion gibt es im HQ eine Kontaktperson.
@@ -881,7 +884,7 @@ Werbeflächen aus Zeitaltern, die noch gar nicht existieren. Über den Straßen
 schweben Bahntrassen und Lieferdrohnen, während neutrale Sicherheitsbots darauf
 achten, dass die hier geltende Waffenruhe nie gebrochen wird. Wer zwischen den
 Stationen schlendert, trifft immer wieder dieselben Gesichter - ein kauziger
-Barkeeper in der Zero Time Lounge, quirlige Technikerinnen am Portal oder
+Barkeeper in der Zero Time Lounge, quirlige Technikerinnen an der Sprungkammer oder
 Händler, die seit Anbeginn im zeitlosen Hafen verweilen. Diese NSCs altern nicht
 und bleiben von Ereignissen außerhalb der Nullzeit unberührt, was ihnen den Ruf
 unsterblicher Fixpunkte verleiht. So bietet die Megacity eine konstante Kulisse,
@@ -889,8 +892,17 @@ in der die Chrononauten nach jeder Mission vertraute Anlaufstellen vorfinden,
 ganz gleich, wie sehr sich die Welt draußen verändert.
 
 ### Nullzeit-Sprungfenster & ITI-Hub
-Ein Sprung reißt einen gleißenden Spalt auf. Die Agenten treten hinein
-und landen im Nullzeit-HQ, ohne Tunnelgefühl.
+
+Ein Zeitriss ist kein Portal im klassischen Sinne — kein Tunnel, kein Tor,
+kein Stargate. Er sieht aus wie ein Riss in der Tapete der Realität: ein
+schmaler, schimmernder Spalt, durch den die andere Epoche hindurchscheint.
+Risse erscheinen an unberechenbaren Stellen — zwei Meter über dem Boden an
+einer Hauswand, im Asphalt einer Kreuzung, halb eingebettet in eine
+Leitplanke. Der Austrittswinkel ist nie vorhersagbar: Wer unachtsam
+hindurchtritt, landet auf den Knien, kopfüber oder seitlich im Gestrüpp.
+Erfahrene Chrononauten tasten den Riss ab, bevor sie hindurchgehen.
+Ein kurzer Luftzug, ein Flackern im HUD — dann schließt sich der Spalt
+hinter ihnen.
 
 **Ablauf & Optionen**
 
@@ -1013,12 +1025,12 @@ sind unter anderem:
   Schauplatz jenseits der Missionen - die Spielercharaktere können hier in Ruhe mit NSCs interagieren,
   Gerüchte über neue Einsätze und rätselhafte Vorgänge aufschnappen oder einfach die Atmosphäre genießen.
 - **Missionskontrolle & Briefingraum:** Ein zentraler Saal - oft _Quarzatrium_ genannt - in dem sich
-  die Portale für Zeitreisen befinden. Hier erhalten die Chrononauten ihre Einsatzbesprechungen vom
-  Missionsleiter. Meist führt eine KI-Stimme (möglicherweise identisch mit dem Kodex) oder ein
-  erfahrener Offizier des ITI die Briefings durch. Holografische Anzeigen und andere hochentwickelte
-  Projektionen zeigen die Zielzeit und Missionsdetails an. Von diesem Raum aus treten die Helden dann
-  durch einen kontrollierten Zeitriss ihre Reise an. (Das Portal wird nach Missionsende auch genutzt,
-  um sie wieder zurückzuholen.)
+  die kontrollierten Zeitrisse geöffnet werden. Hier erhalten die Chrononauten
+  ihre Einsatzbesprechungen vom Missionsleiter. Meist führt Kodex oder ein
+  erfahrener Offizier des ITI die Briefings durch. Holografische Anzeigen
+  zeigen die Zielzeit und Missionsdetails an. Von diesem Raum aus treten die
+  Agenten durch einen kontrollierten Zeitriss ihre Reise an. (Rückholungen
+  nutzen denselben Mechanismus — ein neuer Riss öffnet sich am Einsatzort.)
 - **Kliniken & Laboratorien:** Medizinische Abteilungen, in denen Verletzungen versorgt und
   Implantate (Cyberware/Bioware) eingesetzt oder gewartet werden. Hier arbeiten Ärzte, Wissenschaftler
   und _Zeitmechaniker_ daran, die Agenten nach harten Einsätzen wiederherzustellen oder mit Upgrades

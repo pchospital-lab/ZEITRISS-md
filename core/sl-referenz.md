@@ -453,9 +453,10 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 | 31–50 | 4 EP | 140 EP |
 | 51–100 | 5 EP | 390 EP |
 
-**Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 wird der
-**Chronopolis-Schlüssel** im HQ vergeben; erst danach ist der optionale
-City-Zugang freigeschaltet.
+**Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
+**digitalen Chronopolis-Schlüssel** frei — eine kryptographische Signatur,
+die bei jedem Schleusendurchgang live dechiffriert wird. Erst danach ist der
+optionale City-Zugang freigeschaltet.
 
 **Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
 75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
@@ -813,16 +814,32 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
     Radiodurchsagen oder HUD-Einblendungen werden als "Briefing-Snippets"
     markiert. Die erste Warnung wird dabei intern vermerkt, damit das Banner beim
     späteren Stadteintritt nur einmal erscheint.
-    Ab Level 10 schaltet die Runtime automatisch den Chronopolis-Schlüssel frei,
+    Ab Level 10 schaltet die Runtime automatisch den digitalen Chronopolis-Schlüssel frei,
     setzt `logs.flags.chronopolis_unlocked=true` plus
     `chronopolis_unlock_level=10`, schreibt ein `chronopolis_unlock`-Trace-Event
     (Level/Quelle) und blendet den HUD-Toast
     `Chronopolis-Schlüssel aktiv - Level 10+ erreicht.` ein. Fehlende Flags werden
     beim Laden nachgezogen, falls Level oder Key-Item bereits vorliegen; Trace
     und Toast werden dann einmalig nachgereicht.
-- **Chronopolis** ist ein optionaler City-Anbau ab Level 10 und wird über
-  den "Chronopolis-Schlüssel" freigeschaltet. `campaign.loc` wechselt auf
-  `CITY`, Speichern bleibt blockiert.
+- **Chronopolis** ist ein optionaler City-Anbau ab Level 10. Der Zugang läuft
+  über einen **digitalen Schlüssel**, den Kodex bei jedem Schleusendurchgang
+  live dechiffriert — ab Level 10 hat der Chrononaut genug Verbindung mit der
+  Nullzeit aufgebaut, damit Kodex die nötige Signatur berechnen kann.
+  `campaign.loc` wechselt auf `CITY`, Speichern bleibt blockiert.
+- **Stimmungswechsel:** Chronopolis hat immer die gleiche Stadtstruktur, aber
+  Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven
+  Episode. Zeitlich spielt die Stadt ein Szenario *nach der aktuellen Mission,
+  als wäre sie gescheitert* — die Charaktere sehen, was mit der Welt passiert,
+  wenn sie ihren Auftrag nicht schaffen. Das erzeugt Motivation und erlaubt
+  gleichzeitig, ohne Missionsdruck in die jeweilige Epoche einzutauchen.
+- **Kodex-Lore:** ITI-Forscher vermuten, dass Kodex durch das riesige Archiv
+  ein Verständnis des Zeitstroms erlangt hat und temporäre Parallelrealitäten
+  erschaffen kann, die "noch nicht fixiert" sind. Chronopolis existiert in
+  diesem instabilen Zustand — real genug zum Handeln, aber ohne permanente
+  Auswirkungen auf die Hauptzeitlinie.
+- **Funktion:** Epochen-passende Ausrüstung beschaffen, Informationen über die
+  aktive Epoche sammeln, NSCs aus der Zielzeit treffen — alles ohne den Druck
+  einer laufenden Mission.
 - **Maintainer-Blueprint:** Map-Layout, Performance-Ziele und Build-Roadmap
   liegen repo-intern für Art/Tech-Abgleiche bereit.
 - In Chronopolis sind **offizielle** FR-Kontakte untersagt - keine direkten

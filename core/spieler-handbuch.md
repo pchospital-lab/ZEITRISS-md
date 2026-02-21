@@ -64,8 +64,12 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 **HQ (Zwischen den Missionen):**
 - Sicherer Hafen in der Nullzeit.
 - Ausrüsten, Feilschen, Upgrades kaufen.
-- Bis inklusive **Level 9** bleibt Chronopolis gesperrt; bei **Level 10**
-  überreicht das ITI den **Chronopolis-Schlüssel** für den City-Zugang.
+- Bis inklusive **Level 9** bleibt Chronopolis gesperrt. Bei **Level 10**
+  schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei — ab dann
+  dechiffriert Kodex bei jedem Schleusendurchgang die Signatur.
+- Chronopolis wechselt Stimmung und Bevölkerung passend zur aktiven Episode
+  und zeigt ein "Was wäre wenn"-Szenario: die Epoche, als wäre die aktuelle
+  Mission gescheitert. Ideal zum Epochen-Shopping und Informationen sammeln.
 - Nach jeder Mission: Zurück ins HQ, durchatmen, wieder raus.
 
 **Kodex (Eure KI):**
@@ -287,8 +291,8 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
 Chronopolis bleibt bis Level 10 ein gesperrter CITY-Knoten. Beim Erreichen
-von Level 10 überreicht das ITI den **Chronopolis-Schlüssel**; erst danach ist
-der Stadteintritt freigegeben.
+von Level 10 schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei;
+erst danach ist der Stadteintritt freigegeben.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
