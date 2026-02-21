@@ -1,10 +1,39 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.43
+version: 0.4.44
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-16 – Repo-Agent – SSOT-Pipeline Durchlauf 1 (Kanon-Extraktion)
+- Fokus: Den ersten Pipeline-Schritt sauber abschließen, bevor README/Gameplay/
+  Systems harmonisiert werden.
+- Scope: `core/sl-referenz.md`, `core/spieler-handbuch.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Session-1-Kanon extrahiert und als Mini-Glossar fixiert
+     (Rift-Risiko, Belohnung, Optionalität, Muss/Soll/Kann).
+  2. SSOT-Restpunkt bleibt auf **in Umsetzung**, Closure-Gate unverändert aktiv.
+  3. Folgeschritt für Session 1-2 festgelegt: Anker-Sync README/Core gegen den
+     extrahierten Glossar-Kanon.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **in Umsetzung** (Durchlauf 1 abgeschlossen).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-16)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-15 – Repo-Agent – SSOT-Modulpipeline für finalen Restpunkt aufgesetzt
 - Fokus: Den letzten großen Restpunkt nicht ad hoc, sondern als reproduzierbare
