@@ -368,9 +368,9 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   Seit Version 4.1.4 blendet ein Balken-Meter (1-5 Segmente) den Fortschritt zum nächsten Riss ein.
   GPT kann beschreiben: _"Euer HUD meldet: Paradoxon-Index 3 - Resonanzpegel steigt, erste
   Risskoordinaten rücken näher."_ Der Index baut **Spannung** auf: Das Team entscheidet, ob es
-  kontrollierter vorgeht, damit Stufe 5 als **Belohnung** zum passenden Zeitpunkt eintritt.
+  kontrollierter vorgeht, damit Px 5 als **Belohnung** zum passenden Zeitpunkt eintritt.
     _Auswirkungen:_ Px 0–4 liefert **keine mechanischen Boni** — der Fortschritt
-    ist über HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Stufe 5:
+    ist über HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Px 5:
     `ClusterCreate()` enthüllt 1–2 Rift-Seeds.
   Anschließend springt der Index auf 0. Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index;
   Seeds zählen für alle, das Fülltempo richtet sich nach dem höchsten TEMP-Wert im Team.
@@ -379,7 +379,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   Stat- und Schadenswerte.
   Wer einen puristischen Thriller bevorzugt, kann
   [im **Covert-Ops-Modus**](../core/sl-referenz.md#spielmodi) spielen, bei dem Rifts nur als dezentes
-  Sensorrauschen auftreten. Optional zeigt das HUD ab Stufe 4 einen sanften Resonanzpuls und blendet
+  Sensorrauschen auftreten. Optional zeigt das HUD ab Px 4 einen sanften Resonanzpuls und blendet
   die Zahl offener Seeds ein: `Seeds 3 · 🌀 Paradoxon 4/5`. Ein Foreshadow-Pulse warnt dezent vor
   nahen Rissen. Die Paradoxon-Mechanik ist standardmäßig aktiv, lässt sich aber jederzeit mit
   `modus paradoxon off` abschalten - mit `modus paradoxon on` wieder aktivieren.
@@ -395,7 +395,7 @@ darauf ausgelegt sein, **eine temporale Anomalie zu beheben** (z.B. einen Fehler
 Vergangenheit zu korrigieren).
 
 _Resonanzpuffer:_ Der Index steigt nur noch, wenn bereits **zwei Resonanz-Marken** in der Szene
-liegen - die erste setzt lediglich eine Warnung. Erreicht der Index Stufe 5, aktiviert
+liegen - die erste setzt lediglich eine Warnung. Erreicht der Index Px 5, aktiviert
 `ClusterCreate()` 1-2 Seeds und setzt den Wert zurück.
 
 ### Paradoxon-Subsystem {#paradox-subsystem}
@@ -408,7 +408,7 @@ reinen Fortschrittsfluss ohne Heil- oder Gruppenboni.
 | 0-4   | Stabil - keine mechanischen Effekte | Fortschritt über HUD-Farbe sichtbar              |
 | **5** | Resonanzpeak erreicht               | **ClusterCreate()** enthüllt 1-2 Rifts; Index 0 |
 
-Nach Stufe 5 setzt `ClusterCreate()` den Paradoxon-Index auf 0 und legt 1-2 neue Rift-Seeds auf der
+Nach Px 5 setzt `ClusterCreate()` den Paradoxon-Index auf 0 und legt 1-2 neue Rift-Seeds auf der
 Raumzeitkarte ab. Diese sind erst nach Episodenende vom HQ aus erreichbar.
 
 ### Raumzeitkarte {#raumzeitkarte}

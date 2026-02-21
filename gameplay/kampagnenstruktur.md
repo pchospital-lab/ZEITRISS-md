@@ -389,7 +389,7 @@ Rifts bringen häufig sogenannte **Paramonster** hervor - temporale Wesen, die i
 [Generator-Modul](kreative-generatoren-begegnungen.md#kreaturen-generator) beschrieben sind.
 Die Resonanz (Paradoxon-Index) steigt gemäß TEMP-Progresstabelle
 ([Regelkern](../core/zeitriss-core.md#paradoxon-index-positive-feedback-gauge)).
-Erreicht sie Stufe 5, enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt Index und Resonanz
+Erreicht sie Px 5, enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt Index und Resonanz
 zurück. Offene Risse landen im Spielstand als `rift_seeds` und lassen sich über das
 **ClusterDashboard** einsehen. Jede weitere Px-5-Stufe **stapelt** zusätzliche Seeds
 im Pool; beim Merge/Group-Import greift eine Deckelung (max. 12 offene Seeds),
@@ -466,7 +466,7 @@ gestartet werden darf.
 #### Kurzübersicht: Missions-Rhythmus und Artefakt-Plot
 
 - **Paradoxon-Index/Resonanz 0-5:** Anstieg gemäß TEMP-Progresstabelle.
-  Bei Stufe 5 enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt beide Werte auf 0.
+  Bei Px 5 enthüllt `ClusterCreate()` 1-2 neue Seeds und setzt beide Werte auf 0.
 - **Rift-Pool:** Offene Seeds erhöhen Schwelle und CU-Belohnung erst nach Episodenende.
   Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefakt-Drops nur am Rift-Boss:** Core-Ops liefern Relikte und regulären Gear-Loot; Rift-Ops
@@ -532,7 +532,7 @@ Dieses Kapitel fasst die Effekte kurz zusammen:
 | 0-4   | Stabil — keine mechanischen Effekte     | Fortschritt über HUD-Farbe sichtbar          |
 | **5** | Resonanzpeak erreicht                    | **ClusterCreate()** → 1-2 Seeds; Paradoxon = 0 |
 
-Der Index wird kampagnenweit verfolgt. Bei Stufe 5 macht `ClusterCreate()` 1-2 neue
+Der Index wird kampagnenweit verfolgt. Bei Px 5 macht `ClusterCreate()` 1-2 neue
 Rift-Seeds sichtbar.
 Optional kann ein leichter ±1-Jitter aktiv sein, damit die Schwelle nicht exakt
 vorhersehbar bleibt.

@@ -937,7 +937,7 @@ endgültig beendet und in einen neuen Kampagnenstrang führt.
 
 ## Paradoxon & Pararifts {#paradoxon--pararifts}
 
-Erreicht der **Paradoxon-Index** Stufe 5, notiert das ITI 1-2 neue **Rift-Seeds**.
+Erreicht der **Paradoxon-Index** Px 5, notiert das ITI 1-2 neue **Rift-Seeds**.
 Sie erscheinen nach der Mission im HQ auf der Raumzeitkarte, sind aber erst
 nach **Episodenabschluss** spielbar. Der Reset des Index wird im Debrief/HQ
 bestätigt (`px_reset_pending/confirm`).
@@ -949,9 +949,9 @@ sondern **wie viel Resonanz euer Team bereits aufbaut**. Je höher der Wert,
 desto besser versteht das ITI die laufende Operation - und desto näher
 rückt der Zugriff auf seltene Rift-Ressourcen.
 
-Der Px-Stand wird im Debrief-Score-Screen angezeigt. Zwischen-Stufen
+Der Px-Stand wird im Debrief-Score-Screen angezeigt. Zwischen-Werte
 (Px 1-4) liefern keine mechanischen Boni — der Fortschritt ist über
-HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Stufe 5.
+HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Px 5.
 
 Spielende wollen den Index **bewusst steigern**, denn jeder Punkt bringt
 neue **Rift-Seeds** in Reichweite. Ein **Paradoxon -1** bremst den
@@ -970,19 +970,19 @@ TEMP 8-10 alle drei, TEMP 11-13 alle zwei und TEMP 14+ fast jede Mission.
 | 3-4  | ▢ gelb    | `Px X/5 — Hochlauf`            | Keiner (Fortschritt sichtbar)        |
 | **5**| ▢ grün    | `Px 5/5 — ClusterCreate!`      | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
 
-> **ClusterCreate:** Bei Stufe 5 pulsiert das HUD grün.
+> **ClusterCreate:** Bei Px 5 pulsiert das HUD grün.
 > Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (spielbar nach
 > Episodenabschluss). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
 > Reset auf **0**, danach beginnt der Loop erneut.
 
 **Design-Ziel:** Der Px ist eine Fortschrittsanzeige mit einem klaren Payoff
-bei Stufe 5. Zwischen-Stufen liefern kein CU, keine Loot-Boni und keine
+bei Px 5. Zwischen-Werte liefern kein CU, keine Loot-Boni und keine
 Analyse-Buffs — der steigende Balken und die Farbwechsel im HUD sind das
 Feedback. Der eigentliche Reward sind die Rift-Seeds: Zugang zu Artefakten,
 Paramonstern und besonderen Missions-Hooks. Teams sollen Paradoxon *anstreben* —
 ein niedriger Index ist verschenktes Potenzial, kein "Safety Score".
 > **Legendary-Limit:** Ein Agent führt pro Mission nur **ein** aktives Artefakt.
-> Aktivierung = freie Aktion; Fehlbenutzung senkt den Paradoxon-Index um 1.
+> Aktivierung = freie Aktion; Fehlbenutzung erzeugt Stress+1 und einen Cooldown von 1 Szene.
 
 Die Abenteuer der Chrononauten drehen sich nicht nur um die historischen Epochen, sondern auch um
 die Organisation und die verborgene Welt im Hintergrund, von der aus sie agieren. Das **Institut für

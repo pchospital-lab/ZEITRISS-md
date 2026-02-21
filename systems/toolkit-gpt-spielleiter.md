@@ -447,7 +447,7 @@ if not char.get("psi") and not char.get("has_psi"):
   Kodex: Mission stabilisiert (1/2 für Px+1).
   ```
 
-- Erreicht der Index Stufe 5, löst die Runtime `ClusterCreate()` aus,
+- Erreicht der Index Px 5, löst die Runtime `ClusterCreate()` aus,
   markiert den Reset als **pending** (`px_reset_pending=true`,
   `px_reset_confirm=false`) und schreibt die neuen Rift-Seeds nach
   `campaign.rift_seeds` (alle Einträge werden als Objekte mit id/label/status

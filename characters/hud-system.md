@@ -144,7 +144,7 @@ verloren geht.
 
 Bei Totalausfall liefert eine Systemmeldung ein Kurzregel-Backup. Kurzfassung:
 Telekinese = Attribut + Erfolgsstufen, Reichweite 5 m. Paradoxon-Index 0-5; bei
-Stufe 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
+Px 5 triggert ClusterCreate(). Stress bis 9: handlungsfähig, ab 10 gibt es
 Mali. Mehr Details im Kodex.
 
 > **Dünnes Overlay, physischer Träger.** HUD-Zeilen erscheinen in Backticks als
