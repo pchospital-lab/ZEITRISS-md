@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.3
+version: 0.3.4
 tags: [meta, qa]
 ---
 
@@ -39,6 +39,7 @@ Definitionen, nicht umgekehrt.
    - Quelle: `core/sl-referenz.md`, `core/spieler-handbuch.md`.
    - Ergebnis: Mini-Glossar für Rift-Risiko, Belohnung, optionale Module,
      Muss/Soll/Kann-Semantik.
+   - Status: _abgeschlossen_ (Kanon-Mini-Glossar extrahiert, 2027-03-16)
 2. **Anker-Sync README/Core (Session 1–2)**
    - Ziel: README-Abschnitte auf den Kanon aus den Core-Quickformaten
      harmonisieren.
@@ -59,6 +60,34 @@ Definitionen, nicht umgekehrt.
      `Scaling`.
    - Abschluss: Statuswechsel auf _abgeschlossen_ erst nach Fahrplan-/Audit- und
      QA-Log-Synchronisierung inkl. Pflichttestpaket.
+
+### Kanon-Mini-Glossar (Ergebnis Session 1 am 2027-03-16)
+
+Extraktionsquelle ist ausschließlich `core/sl-referenz.md` plus
+`core/spieler-handbuch.md`. Dieses Glossar dient als verbindlicher Anker für
+die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
+
+- **Rift-Risiko:** Rift-Seeds sind Bonus-Missionen mit höherer Gefahrenlage
+  (Paramonster, höhere Einsatzlast), aber ohne Änderung am Boss-Timing der
+  Core-Episoden.
+- **Belohnung (kanonisch):** Px ist ein Belohnungssystem. Bei Px 5 löst
+  `ClusterCreate()` 1-2 Rift-Seeds aus; die CU-Formel bleibt in Core und Rift
+  identisch (`Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`).
+- **Optionale Module:** Optional heißt nur „zusätzlicher Zugriffspfad" (z. B.
+  Schnellstart/Film-Modus), nicht „abweichende Grundregel". Kernabläufe
+  (Debrief, HQ, SaveGuard, Boss-Rhythmus) bleiben unberührt.
+- **Muss/Soll/Kann-Semantik (für Folgemodule):**
+  - **MUSS:** invariant und bindend (Boss-Timing, SaveGuard HQ-only,
+    Px-5-ClusterCreate, einheitliche CU-Formel).
+  - **SOLL:** empfohlener Standardpfad ohne harte Sperre (klassischer Start,
+    neuer Chat pro Mission).
+  - **KANN:** optionale Komfort-/Darstellungsvariante ohne Regeländerung
+    (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
+
+### Nächster Schritt (Session 1–2)
+
+- Anker-Sync README/Core: README-Formulierungen zu Px-/Rift-Belohnung,
+  Optionalität und Muss/Soll/Kann gegen dieses Glossar harmonisieren.
 
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →
