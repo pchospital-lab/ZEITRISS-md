@@ -1,10 +1,30 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.41
+version: 0.4.42
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-15 – Repo-Agent – Onboarding-Entkopplung final abgeschlossen
+- Fokus: Nach dem Entfernen der Onboarding-UX aus dem Spielleiter-Toolkit den
+  Abschlussstatus in den QA-Artefakten konsolidieren, damit kein
+  Folge-Backlog zu Punkt "KI-First-Onboardingpfad" offen bleibt.
+- Scope: `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Restkatalog-Punkt 2 auf **abgeschlossen** gesetzt
+     (README/Setup als Referenzfluss, Toolkit onboardingfrei).
+  2. QA-Fahrplan-Backlog präzisiert: offen bleiben nur
+     Single-Source-of-Truth-Restpunkte und Stil-Feinschliff.
+  3. QA-Audit spiegelt den Abschluss als eigenen Update-Block.
+
+**Backlog-Status**
+1. KI-First-Onboardingpfad: **abgeschlossen**.
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Single-Source-of-Truth + Stil-Feinschliff: **offen**.
 
 ## 2027-03-14 – Repo-Agent – Toolkit entkoppelt von Onboarding-UX
 - Fokus: Rückmeldung umgesetzt, dass KI-First-Onboardinghinweise nicht im
