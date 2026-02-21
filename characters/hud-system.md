@@ -32,11 +32,17 @@ Regelmodule zu Zuständen, Heilung und Paradoxon liegen im separaten Modul
 > - Bei Link-Ausfall bleibt das HUD lokal aktiv; Funk hat reale Reichweite/Jammer-Risiken.
 
 **Zugriffsmatrix Kodex ↔ HUD**
-- **HQ/ITI:** Vollzugriff, Kodex aktiv, HUD läuft parallel.
+- **HQ/ITI:** Vollzugriff, Kodex aktiv (volles ITI-Archiv), HUD läuft parallel.
 - **Funkepochen:** Kodex aktiv innerhalb einer **ca. 2 km Bubble ab Einstiegspunkt**; Relais/Kabel
   erweitern den Radius. Jammer/Gelände können den Link kappen.
-- **Funklose Ären (z.B. Mittelalter) oder gejammt:** Nur HUD/Logs ("codex-light"). Kodex schweigt,
-  bis Hardware-Link steht. `!offline` höchstens **1×/Minute** erlaubt das Offline-FAQ.
+- **Funklose Ären (z.B. Mittelalter) oder gejammt:** Nur lokales HUD ("edge-mode").
+  Die Mikro-CPU der Kontaktlinse übernimmt rudimentäre HUD-Verwaltung (Vitalwerte,
+  Logs, Timer), aber ohne Zugriff auf das ITI-Archiv — keine Regelauskünfte,
+  keine Missionsdaten, kein Kodex-Dialog. `!offline` höchstens **1×/Minute**
+  erlaubt das Offline-FAQ.
+- **Informationssicherheit:** Auch bei aktivem Uplink verrät Kodex nur, was den
+  Verlauf der Hauptzeitlinie nicht gefährdet. Missionsrelevante Spoiler oder
+  Zukunftswissen werden systematisch zurückgehalten.
 #### Quick-Diag: HUD/Comms Zustände
 | Code | HUD-Vocab (Makro) | Bedeutung | Wirkung (erzählerisch) |
 |------|-------------------|-----------|------------------------|
