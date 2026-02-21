@@ -65,10 +65,13 @@ _(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
    Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
    `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte - Bonus-Missionen mit
    Paramonstern und Artefakten. Danach springt der Px für den nächsten Zyklus auf 0;
-   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Chaos oder grobe Paradoxa
-   halten den Index niedrig; in Extremfällen kostet das ausnahmsweise **-1 Px**.
+   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Die CU-Formel bleibt in
+   Core und Rift identisch (`Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`).
+   Chaos oder grobe Paradoxa halten den Index niedrig; in Extremfällen kostet das
+   ausnahmsweise **-1 Px**.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln;
-   Schnellstart dient nur dem schnellen Eindruck.
+   Schnellstart ist ein optionaler Zugriffspfad für den schnellen Eindruck,
+   ändert aber keine Kernregeln.
 6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
    Mini-Boss, in der **10. Mission** der Episoden-Boss. Rift-Operationen
    führen ihren Endgegner im finalen Akt ein (meist um Szene 10). Das Toolkit
@@ -77,6 +80,15 @@ _(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
 → Das vollständige **[Spieler-Handbuch](core/spieler-handbuch.md)** enthält
 Einleitung, Lore, Schnellstart-Spickzettel, Mini-Einsatzhandbuch, FAQ, Glossar
 und die Runtime-Referenz.
+
+### Normsprache für Module (SSOT-Anker)
+
+- **MUSS:** bindende Invarianten wie Boss-Timing, SaveGuard (HQ-only),
+  Px-5-`ClusterCreate()` und die einheitliche CU-Formel.
+- **SOLL:** empfohlener Standardpfad ohne harte Sperre (klassischer Start,
+  neuer Chat pro Mission).
+- **KANN:** optionale Komfort- oder Darstellungsvarianten ohne Regeländerung
+  (z. B. Schnellstart/Film-Modus).
 
 ## Lizenz & Nutzung (Kurzfassung)
 

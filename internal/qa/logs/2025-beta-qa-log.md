@@ -1,10 +1,41 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.44
+version: 0.4.45
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-17 – Repo-Agent – SSOT-Pipeline Durchlauf 2 (Anker-Sync README/Core)
+- Fokus: Den zweiten Pipeline-Schritt sequenziell abschließen und README exakt
+  auf den extrahierten Core-Kanon harmonisieren.
+- Scope: `README.md`, `core/sl-referenz.md`, `core/spieler-handbuch.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. README-Belohnungslogik mit Core synchronisiert
+     (`ClusterCreate()` bei Px 5 + identische CU-Formel Core/Rift).
+  2. Optionalitätssemantik im README geschärft
+     (Schnellstart = optionaler Zugriffspfad ohne Regeländerung).
+  3. Muss/Soll/Kann als verbindliche Normsprache im README ergänzt.
+  4. SSOT-Restpunkt bleibt auf **in Umsetzung**; nächster Schritt ist der
+     Gameplay-Pass laut fester Modulreihenfolge.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **in Umsetzung** (Durchlauf 2 abgeschlossen).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-17)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-16 – Repo-Agent – SSOT-Pipeline Durchlauf 1 (Kanon-Extraktion)
 - Fokus: Den ersten Pipeline-Schritt sauber abschließen, bevor README/Gameplay/
