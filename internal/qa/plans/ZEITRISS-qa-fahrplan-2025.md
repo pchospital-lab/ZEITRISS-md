@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.13
+version: 1.23.14
 tags: [meta]
 ---
 
@@ -47,6 +47,22 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-24 – SSOT-Nachlauf 9 (HUD-Levelanker & Px-Kontextlogik)
+
+Folgelauf auf UX-Motivationsfeedback: Das HUD soll das Charakterlevel dauerhaft
+zeigen, während Paradoxon nur dann sichtbar ist, wenn es mechanisch relevant
+ist.
+
+- **Daueranker erweitert:** `Lvl` ist in Core/HUD als persistentes HUD-Element
+  festgelegt.
+- **Px-Anzeige geschärft:** `🌀` wird als kontextsensitives Signal geführt
+  (Px-relevante Zustände, Resonanz/Backlash, ClusterCreate), nicht als
+  Dauer-Icon.
+- **SSOT-Mirror:** `core/spieler-handbuch.md`, `core/sl-referenz.md` und
+  `characters/hud-system.md` auf dieselbe Icon- und Headerlogik synchronisiert.
+- **Folgeschritt:** Historischer Icon-Audit bleibt offen, die aktive
+  Runtime-Spezifikation ist konsistent.
 
 ## Nachtrag 2027-03-23 – SSOT-Nachlauf 8 (Paradoxon-Portal-Icon & TK-Entkopplung)
 

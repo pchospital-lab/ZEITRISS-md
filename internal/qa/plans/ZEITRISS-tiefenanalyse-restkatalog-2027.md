@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.13
+version: 0.3.14
 tags: [meta, qa]
 ---
 
@@ -94,6 +94,17 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
 ### Ergebnis Session 4 (Konfliktprüfung & Closure am 2027-03-20)
+
+### Nachtrag 2027-03-24 (SSOT-Nachlauf 9: HUD-Level dauerhaft, Px kontextsensitiv)
+
+- HUD-SSOT nach Motivationsfeedback präzisiert: Charakterlevel (`Lvl`) ist als
+  dauerhafter Spieleranker fest sichtbar.
+- Paradoxon-Icon `🌀` bleibt semantisch Portal-/Rift-Marker, wird jedoch nur
+  bei Px-relevanten Zuständen eingeblendet (Resonanz, Backlash,
+  ClusterCreate-Meldung statt Daueranzeige).
+- Core-Quickformate (`core/spieler-handbuch.md`, `core/sl-referenz.md`) und
+  HUD-Referenz (`characters/hud-system.md`) erneut synchronisiert, damit
+  HUD-Header, Quickrefs und Symboltabellen dieselbe Anzeige-Logik tragen.
 
 ### Nachtrag 2027-03-23 (SSOT-Nachlauf 8: Paradoxon-Portal-Icon)
 
