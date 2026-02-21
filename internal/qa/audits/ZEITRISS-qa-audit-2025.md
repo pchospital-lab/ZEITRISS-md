@@ -1,10 +1,20 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.10
+version: 1.0.11
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-15 – Onboarding-Entkopplung abgeschlossen
+
+- Restkatalog 2027 führt den KI-First-Onboardingpfad jetzt als **abgeschlossen**:
+  Referenzfluss bleibt in README + Setup-Guide, das Toolkit bleibt frei von
+  Setup-/Bedienanweisungen.
+- QA-Fahrplan-Backlog wurde entsprechend geschärft; offen bleiben nur
+  Single-Source-of-Truth-Restpunkte und Stil-/Sprach-Feinschliff.
+- Der Abschlussstatus ist im QA-Log dokumentiert und als Folgeanker für die
+  nächsten Restkatalog-Zyklen referenziert.
 
 ## Update 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checkliste
 
