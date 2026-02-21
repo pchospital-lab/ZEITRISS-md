@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.5
+version: 0.3.7
 tags: [meta, qa]
 ---
 
@@ -51,6 +51,8 @@ Definitionen, nicht umgekehrt.
    - Zielmodule: `gameplay/kampagnenuebersicht.md`,
      `gameplay/kampagnenstruktur.md`.
    - Fokus: Rift-Risiko/Belohnung, optionale Module, Gate-Wording.
+   - Status: _abgeschlossen_ (Gameplay-Module auf SSOT-Anker harmonisiert,
+     2027-03-18; Artefakt-Hausregel entfernt, Boss-only-Drop fixiert)
 4. **Systems-Pass (Session 3–4)**
    - Zielmodule: `systems/currency/cu-waehrungssystem.md`,
      `systems/gameflow/speicher-fortsetzung.md`,
@@ -86,11 +88,12 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
   - **KANN:** optionale Komfort-/Darstellungsvariante ohne Regeländerung
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
-### Nächster Schritt (Session 2–3)
+### Nächster Schritt (Session 3–4)
 
-- Gameplay-Pass: `gameplay/kampagnenuebersicht.md` und
-  `gameplay/kampagnenstruktur.md` gegen Glossaranker prüfen
-  (Rift-Risiko/Belohnung, Optionalität, Muss/Soll/Kann-Wording).
+- Systems-Pass: `systems/currency/cu-waehrungssystem.md`,
+  `systems/gameflow/speicher-fortsetzung.md` und
+  `systems/toolkit-gpt-spielleiter.md` gegen Glossaranker prüfen
+  (Belohnungs- und Optionalitätssemantik, Muss/Soll/Kann-Wording).
 
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →

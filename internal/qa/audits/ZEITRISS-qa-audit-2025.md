@@ -1,10 +1,31 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.14
+version: 1.0.16
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-18 – SSOT-Durchlauf 3a (Artefakt-Balance nachgeschärft)
+
+- Die Gameplay-Regeln führen Rift-Artefaktwürfe wieder eindeutig als
+  Boss-only-Mechanik (Szene 10).
+- Die zuvor erwähnte Startwurf-Hausregel wurde aus dem Regeltext entfernt, um
+  Balancing-Drift zwischen Runs zu vermeiden.
+- Stoppuhr-Artefakte bleiben als Plot-Element zulässig, ohne den Boss-Drop zu
+  ersetzen.
+
+
+## Update 2027-03-18 – SSOT-Pipeline Durchlauf 3 abgeschlossen (Gameplay-Pass)
+
+- `gameplay/kampagnenuebersicht.md` führt den Quickstart jetzt explizit als
+  optionalen Zugriffspfad ohne Regeländerung und spiegelt damit den Core-Kanon.
+- `gameplay/kampagnenstruktur.md` ergänzt einen SSOT-Ankerblock mit
+  MUSS/SOLL/KANN; damit sind Boss-Rhythmus, Px-5-`ClusterCreate()` und
+  CU-Formel als Invarianten direkt im Gameplay-Loop markiert.
+- Der Restpunkt bleibt auf „in Umsetzung", da der Systems-Pass und die
+  abschließende Konfliktprüfung/Closure noch ausstehen.
+
 
 ## Update 2027-03-17 – SSOT-Pipeline Durchlauf 2 abgeschlossen (Anker-Sync README/Core)
 
