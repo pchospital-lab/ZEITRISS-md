@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.1
+version: 1.23.2
 tags: [meta]
 ---
 
@@ -1793,6 +1793,7 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
 - KI-First-Onboardingpfad in README und Setup-Guide als identischer
   4-Schritte-Referenzfluss gespiegelt (Setup → Wissensslots → Sessionstart →
   HQ-zentrierter Session-Loop). Toolkit bleibt frei von Onboarding-UX-Texten.
+  _Folgestand 2027-03-15: abgeschlossen; Restkatalog-Punkt 2 geschlossen._
 - Economy-/Scaling-Checks als bindende QA-Liste gebündelt:
   1. `node tools/test_economy_merge.js` (Seed-Caps, Merge-Deckel).
   2. `node tools/test_acceptance_followups.js` (Mission-5/Boss/Foreshadow-Gates).
@@ -1811,8 +1812,7 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   To-do-Liste dienen. _(Erfasst in
   `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
   2027-03-13.)_
-- [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte,
-  KI-First-Onboardingpfad finalisieren, Stil-Feinschliff) und pro Zyklus im
-  QA-Log dokumentieren.
+- [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte und
+  Stil-Feinschliff) und pro Zyklus im QA-Log dokumentieren.
 - [x] Economy-/Scaling-Sicherungen als gebündelte QA-Checkliste im Fahrplan
   verankert (Stand 2027-03-14).
