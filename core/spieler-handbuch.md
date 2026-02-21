@@ -260,9 +260,9 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 ### HUD-Icons
 
-**Dauer (immer sichtbar):** ❤️‍🩹 Vital · 🧠 Stress · 🌀 Paradoxon · 👁️ Tarnung
+**Dauer (immer sichtbar):** Lvl · ❤️‍🩹 Vital · 🧠 Stress · 👁️ Tarnung
 
-**Kontextsensitiv:** 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
+**Kontextsensitiv:** 🌀 Paradoxon (bei Px-relevanten Zuständen) · 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
 
 ### Wichtige Befehle
 

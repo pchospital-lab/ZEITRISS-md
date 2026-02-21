@@ -1,10 +1,19 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.22
+version: 1.0.23
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Audit-Update 2027-03-24 – SSOT-Nachlauf (HUD-Level sichtbar, Px situativ)
+
+- UX-Forderung erfolgreich gespiegelt: Charakterlevel bleibt als dauerhafte
+  HUD-Information sichtbar.
+- Paradoxon-Anzeige wurde auf situative Einblendung umgestellt; `🌀` erscheint
+  nur bei Px-relevanten Ereignissen statt permanent im Basis-Overlay.
+- Core-Quickrefs und HUD-Referenztabellen sind wieder deckungsgleich
+  (Handbuch/SL-Referenz/HUD-System).
 
 ## Audit-Update 2027-03-23 – SSOT-Nachlauf (Paradoxon-Portal-Icon)
 

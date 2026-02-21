@@ -590,9 +590,9 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
 
 HUD-Zustände erscheinen als Backticks. Alle Icons sind **kontextsensitiv** und
 werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt:
-- **Dauer-Anzeige** (immer sichtbar): ❤️‍🩹 Vital, 🧠 Stress, 🌀 Paradoxon, 👁️ Tarnung
-- **Zustands-Icons** (bei Eintritt → bei Ende weg): 🩸 Blutung, ☠️ Vergiftung,
-  ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown
+- **Dauer-Anzeige** (immer sichtbar): Lvl, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
+- **Zustands-Icons** (bei Eintritt → bei Ende weg): 🌀 Paradoxon (Px-relevant),
+  🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown
 - **Situations-Icons**: 💀 bei Boss-Encounters (Szene 10 Core/Rift),
   ☆ nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts)
 
