@@ -228,7 +228,6 @@ Die Stufen im Überblick:
 | 11+      | W10 |
 
 Heldenwürfel gibt es ab Attribut 14. Er ermöglicht einen Reroll (besseres Ergebnis zählt).
-- **Px Burn:** 1 Punkt für einen weiteren Reroll (jeder Charakter oder NSC)
 
 ### Attribut → Ø-Erfolgsrate (SG 8, nur Attribut-Basis) {#erfolgsraten-sg8}
 
@@ -662,7 +661,6 @@ Pro Wurf zählt maximal **ein** starker Bonus (z.B. Psi-Impuls, Bluff-Push, Foku
 **Paradoxon-Index (Px)** - 0-2 = rot ⏳, 3-4 = gelb ⏳, 5 = grün ⌛ → `ClusterCreate()`
 und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 **Px +0,1-0,3:** Missionsfortschritt laut Tabelle (Stabilisierung nur gering) |
-**Px Burn:** 1 Punkt für einen Reroll (auch NSC). Mögliche Nebenwirkungen bestimmt die SL situativ.
 **Psi-Heat-Track** - 0 Pristine, 1-2 Warm, 3-4 Hot (-1 Ini), 5 Overload (SG +4 auf alle Proben),
 6 Reboot → Runde aussetzen & Psi-Heat 0
 

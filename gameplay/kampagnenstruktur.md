@@ -1589,7 +1589,7 @@ gekoppelt und liefern **echte Mechanik**, nicht nur Flavor.
 | 7 | **Ballistische Optik 2.0** | Mind. 1 Sniper-Archetyp | 1×/Mission: **+2** auf einen Fernkampfwurf von vorbereiteter Position. |
 | 8 | **Ricochet Tag** | Mind. 1 CQB + 1 Fernkämpfer | Markiert ein Ziel per Abpraller-Schuss; der nächste Angriff gegen das Ziel ignoriert **1 Punkt Deckung/DR**. |
 | 9 | **Psi-Resonanzfeld** | Mind. 2 Agenten mit `has_psi` | 1×/Mission: alle Psi-Proben in einer Szene erhalten **+1**; danach +1 Psi-Heat für alle Beteiligten. |
-| 10 | **Temporale Synergie** | Mind. 1 Agent mit TEMP ≥ 8 | 1×/Episode: das Team darf einen **Px Burn** durchführen, ohne tatsächlich 1 Px zu verlieren (Phantom-Burn). |
+| 10 | **Temporale Synergie** | Mind. 1 Agent mit TEMP ≥ 8 | 1×/Episode: ein Agent darf eine **misslungene TEMP-Probe** wiederholen (Reroll, besseres zählt). |
 | 11 | **Sprachgitter** | Mind. 1 Polyglott-Talent im Team | Das Team erhält automatisch Basis-Übersetzung für die aktuelle Epoche — keine Probe nötig für einfache Verständigung. |
 | 12 | **Sturmbrecher** | Teamgröße 4+ | 1×/Mission: das Team ignoriert eine feindliche **Fraktionsintervention** komplett (Würfelwurf entfällt). |
 ### Solo Ops {#solo-ops}

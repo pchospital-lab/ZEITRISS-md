@@ -224,7 +224,6 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 - **Steigt durch:** Stilvolles Vorgehen, Missionsziele, Zeitlinie stabilisieren
 - **Stagniert bei:** Chaos, lautes Vorgehen, Missionsabbruch
 - **Px −1 (selten):** Nur bei extremen Fehlern (Zivilopfer, Kern-Anker zerstört)
-- **Px Burn:** 1 Punkt → 1 Reroll (auch NSC)
 - **TEMP beeinflusst Füllgeschwindigkeit** (höher = schneller)
 
 ### CU-Belohnung
@@ -708,7 +707,6 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Stress** - Mentale Belastung (0-10). 10 ⇒ Zustand Panik.
 - **Px** - Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue
   Rifts und setzt den Wert auf 0.
-- **Px Burn** - 1 Punkt verbrennen = ein Reroll für jeden Charakter oder NSC.
 - **Tier-Gate** - Lizenzschranke im HUD; blockiert Ausrüstung oberhalb der
   freigeschalteten Tier-Stufe, bis Ruf und Lizenz passen (siehe
   [Charaktererschaffung][char-gear]).

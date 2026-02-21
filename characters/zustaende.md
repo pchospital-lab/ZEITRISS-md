@@ -362,7 +362,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
 - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst temporale Spuren und steigt
   situativ während einer Mission. Niedrige **Temporale Affinität** füllt ihn langsam, hohe TEMP
   beschleunigt. Scheitern oder massive Paradoxa halten den Wert; Extremfälle senken ihn um **-1**
-  (Px-1). Bei **Level 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und setzt den Zähler auf 0.
+  (Px-1). Bei **Px 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und setzt den Zähler auf 0.
   Offene Rifts steigern Schwelle und Loot-Faktor erst nach der Episode. Das **HUD** zeigt die
   Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 blendet ein Balken-Meter (1-5 Segmente) den Fortschritt zum nächsten Riss ein.
