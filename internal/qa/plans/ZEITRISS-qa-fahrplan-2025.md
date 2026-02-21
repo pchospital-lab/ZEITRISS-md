@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.8
+version: 1.23.10
 tags: [meta]
 ---
 
@@ -47,6 +47,39 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-20b – Closure-Nachschärfung (Runtime-Entkopplung von Setup-Hinweisen)
+
+Direktes Follow-up nach Durchlauf 5: In den Core-Wissensmodulen verbliebene
+Meta-/Wartungshinweise wurden entfernt, damit Laufzeit-Content und
+Betriebsdokumentation klar getrennt bleiben.
+
+- `core/sl-referenz.md`: Struktur-Abschnitt auf reine Regelmodul-Navigation
+  reduziert; Verweise auf Wissensspeicher-Bestückung, `master-index.json` und
+  Landingpage-Betrieb entfernt.
+- `core/spieler-handbuch.md`: Wartungshinweis zur README-Mitsynchronisierung aus
+  dem Runtime-Abschnitt gestrichen.
+- Wirkung: Die Spielleitung erhält in Runtime-Slots nur noch
+  regel-/szenenrelevante Inhalte; Setup bleibt in README/`docs/setup-guide.md`.
+
+## Nachtrag 2027-03-20 – SSOT-Pipeline Durchlauf 5 (Konfliktprüfung & Closure)
+
+Der fünfte Pipeline-Durchlauf ist abgeschlossen. Die Suchanker-Prüfung
+(`optional`, `Pflicht`, `empfohlen`, `Rift`, `Belohnung`, `CU`, `Scaling`) wurde
+gegen Core/README/Gameplay/Systems durchgeführt und der Restpunkt ist jetzt
+formal geschlossen.
+
+- **Konfliktfund aufgelöst:** Verbliebene Startwurf-Referenzen
+  (`rift_artifact_variant=start_roll`) wurden in `core/sl-referenz.md` und
+  `systems/toolkit-gpt-spielleiter.md` entfernt; Artefakt-Drops bleiben
+  boss-only (Rift-Boss, Szene 10).
+- **Kanonanker bestätigt:** CU-Formel, Px-5-`ClusterCreate()`, SaveGuard HQ-only
+  und MUSS/SOLL/KANN sind weiterhin konsistent gespiegelt.
+- **Closure-Gate erfüllt:** Restkatalog, Fahrplan, Audit und QA-Log wurden im
+  selben Lauf synchronisiert; Pflichttestpaket vollständig grün.
+
+Nächster Fokus: Restkatalog-Punkt 3 (Economy-/Scaling-Checkliste) und
+Punkt 4 (Stil-/Sprachkonsistenz) weiterführen.
 
 ## Nachtrag 2027-03-19 – SSOT-Pipeline Durchlauf 4 (Systems-Pass)
 

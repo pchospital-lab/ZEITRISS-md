@@ -1,10 +1,72 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.48
+version: 0.4.50
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-20 – Repo-Agent – Closure-Nachschärfung (Runtime-Entkopplung Setup)
+- Fokus: Verbleibende Meta-/Wartungshinweise aus Runtime-Wissensmodulen
+  entfernen, damit die KI-Spielleitung nicht mit Repo-/Bestückungslogik
+  belastet wird.
+- Scope: `core/sl-referenz.md`, `core/spieler-handbuch.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Strukturabschnitt in `core/sl-referenz.md` auf runtime-relevante
+     Modulnavigation reduziert; Setup-/Slot-/Index-Hinweise entfernt.
+  2. Wartungshinweis in `core/spieler-handbuch.md` aus dem Runtime-Teil
+     entfernt.
+  3. QA-Artefakte synchronisiert, damit die Entkopplung als eigener
+     Closure-Nachschärfungslauf nachvollziehbar bleibt.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **abgeschlossen**.
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-20b)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
+
+## 2027-03-20 – Repo-Agent – SSOT-Pipeline Durchlauf 5 (Konfliktprüfung & Closure)
+- Fokus: Den finalen Closure-Schritt sequenziell abschließen und verbleibende
+  SSOT-Konflikte zwischen Core/Gameplay/Systems bereinigen.
+- Scope: `core/sl-referenz.md`, `systems/toolkit-gpt-spielleiter.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Suchanker-Prüfung (`optional`, `Pflicht`, `empfohlen`, `Rift`,
+     `Belohnung`, `CU`, `Scaling`) durchgeführt; verbliebene Drift identifiziert.
+  2. Startwurf-Hausregel (`rift_artifact_variant=start_roll`) in Core-Quickref
+     und Toolkit-Aufruftext entfernt; Artefakt-Drops sind jetzt überall
+     boss-only (Rift-Boss, Szene 10).
+  3. Restkatalog-Punkt „Single-Source-of-Truth-Pass" auf **abgeschlossen**
+     gesetzt und Fahrplan/Audit/Log synchronisiert.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Pass: **abgeschlossen** (Durchlauf 5 + Closure-Gate erfüllt).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Stil- und Sprachkonsistenz: **offen**.
+
+**Checks (Repo-Agent Pflichtpaket, Lauf 2027-03-20)**
+- `make lint` → OK
+- `make test` → OK
+- `bash scripts/smoke.sh` → OK
+- `python3 tools/lint_runtime.py` → OK
+- `GM_STYLE=verbose python3 tools/lint_runtime.py` → OK
+- `python3 scripts/lint_doc_links.py` → OK
+- `python3 scripts/lint_umlauts.py` → OK
 
 ## 2027-03-19 – Repo-Agent – SSOT-Pipeline Durchlauf 4 (Systems-Pass)
 - Fokus: Den Systems-Pass sequenziell abschließen, damit Economy-/Save-/Toolkit-
