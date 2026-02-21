@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.5
+version: 1.23.7
 tags: [meta]
 ---
 
@@ -47,6 +47,40 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-18 – SSOT-Pipeline Durchlauf 3a (Balance-Nachschärfung Artefakte)
+
+Nach dem Gameplay-Pass wurde die Artefakt-Policy gezielt nachgeschärft, um
+Balancing-Drift auszuschließen.
+
+- **Boss-only fixiert:** Rift-Artefaktwürfe erfolgen wieder ausschließlich nach
+  dem Rift-Boss in Szene 10.
+- **Hausregel entfernt:** Die Startwurf-Variante
+  (`rift_artifact_variant=start_roll`) ist aus den Gameplay-Regeln entfernt.
+- **Balance-Anker geschärft:** Stoppuhr-Artefakte bleiben reine
+  Plot-Schwachstellen und ersetzen den Boss-Drop nicht.
+
+Nächster Durchlauf bleibt unverändert: **Systems-Pass** gemäß Modulreihenfolge.
+
+## Nachtrag 2027-03-18 – SSOT-Pipeline Durchlauf 3 (Gameplay-Pass)
+
+Der dritte Pipeline-Durchlauf ist abgeschlossen. Die Gameplay-Module
+`gameplay/kampagnenuebersicht.md` und `gameplay/kampagnenstruktur.md` spiegeln
+den Core-Kanon jetzt explizit.
+
+- **Optionalitätsanker gespiegelt:** Quickstart ist als optionaler
+  Zugriffspfad markiert und ändert keine Kernregeln.
+- **Belohnungsanker gespiegelt:** Der Gameplay-Loop führt Px weiter als
+  Belohnungssystem mit `ClusterCreate()` bei Px 5.
+- **Normsprache gespiegelt:** Im Core-/Rift-Loop sind MUSS/SOLL/KANN als
+  semantische Leitlinie für Invarianten, Standardpfad und Varianten ergänzt.
+- **Closure-Gate bleibt aktiv:** Restpunkt „Single-Source-of-Truth-Pass" bleibt
+  bis nach Systems-Pass plus Konfliktprüfung auf _in Umsetzung_.
+
+Nächster Durchlauf: **Systems-Pass** gemäß Modulreihenfolge
+(`systems/currency/cu-waehrungssystem.md`,
+`systems/gameflow/speicher-fortsetzung.md`,
+`systems/toolkit-gpt-spielleiter.md`).
 
 ## Nachtrag 2027-03-17 – SSOT-Pipeline Durchlauf 2 (Anker-Sync README/Core)
 

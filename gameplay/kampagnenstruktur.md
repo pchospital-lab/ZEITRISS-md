@@ -331,6 +331,20 @@ Kriege.
 
 Das Kampagnenspiel wechselt zwischen **Core-Ops** und **Rift-Ops**.
 
+#### SSOT-Anker für Core-/Rift-Loop (Gameplay-Pass)
+
+- **MUSS:** Px bleibt ein Belohnungssystem; bei Px 5 löst `ClusterCreate()`
+  1-2 Rift-Seeds aus und der Index wird für den nächsten Zyklus zurückgesetzt.
+- **MUSS:** Die CU-Formel bleibt in Core- und Rift-Ops identisch:
+  `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`.
+- **MUSS:** Der Boss-Rhythmus bleibt invariant (Core: Mini-Boss Mission 5,
+  Episoden-Boss Mission 10; Rift: Boss in Szene 10).
+- **SOLL:** Core-Ops bilden den Standardpfad innerhalb einer Episode;
+  Rift-Ops folgen als Bonus-Missionen nach Episodenabschluss.
+- **KANN:** Optionale Darstellungsvarianten (z. B. Tonalität oder
+  Präsentationsdetails) sind zulässig, solange keine der MUSS-Invarianten
+  verändert wird.
+
 **Core-Ops** sind historische Spionagemissionen ohne echte Anomalien. Scheinbar
 übernatürliches entpuppt sich meist als Technologie oder Trick, die Gegner sind
 vor allem menschliche Rivalen oder Fraktionen. Bedeutende Relikte können eine
@@ -346,9 +360,8 @@ Chrononaut vs. Zeitepoche — nicht aus Zeiteffekten.
 enthalten immer eine Anomalie mit Para-Wesen. Sie nutzen den regulären Gear-Loot-Pool
 der Core-Ops; Relikte bleiben Core-exklusiv. Ein Artefaktwurf erfolgt ausschließlich
 nach dem Rift-Boss in Szene 10 (Katalog + Generator, frei handelbar/verkaufbar).
-Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
-bei **max. 1 Artefakt pro Mission**. Epiloge bleiben würfelfrei, Stoppuhr-Artefakte
-gelten nur als Plot-Schwachstellen.
+Epiloge bleiben würfelfrei, Stoppuhr-Artefakte gelten nur als Plot-Schwachstellen.
+Damit bleibt die Belohnungslogik über alle Rift-Ops hinweg balancestabil.
 **Spielgefühl Rift-Ops:** Mystery-Casefile / Monster-Hunt im Agenten-Thriller-Rahmen. Eine
 Kreatur oder Anomalie pro Mission, die mit einem einzigen Zeit-Marker verbunden ist
 (Echo, Loop, Phasenverschiebung). Der Rest der Mission ist bodenständige Ermittlung,
@@ -458,10 +471,9 @@ gestartet werden darf.
   Ein Seed lässt sich dann via `launch_rift(seed_id)` als eigenständige Rift-Op starten.
 - **Artefakt-Drops nur am Rift-Boss:** Core-Ops liefern Relikte und regulären Gear-Loot; Rift-Ops
   nutzen denselben Gear-Pool, bekommen aber **nur nach dem Boss (Szene 10)** einen Artefaktwurf
-  (z. B. `1W6 → 6` = seltenes Artefakt). Optional erlaubt die Hausregel
-  `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber bei **max. 1 Artefakt pro Mission**.
-  Stoppuhr-Artefakte bleiben als Plot-Schwachstellen möglich, ersetzen aber den Boss-Loot nicht.
-  Relikte bleiben Core-exklusiv.
+  (z. B. `1W6 → 6` = seltenes Artefakt). Stoppuhr-Artefakte bleiben als Plot-
+  Schwachstellen möglich, ersetzen aber den Boss-Loot nicht. Relikte bleiben
+  Core-exklusiv.
 - **Kurzmissionen** lassen den Paradoxon-Index langsamer steigen und
   zählen erst nach zwei Einsätzen als **+1**. Bei aktivem Paradoxon-Subsystem
   steigt der Index nur bei jedem zweiten erfolgreichen Stabilisierungseinsatz um **+1**.
@@ -854,10 +866,9 @@ Stilhinweise:
 - Paramonster bildet den Kern der Handlung.
 - Ereignisse beeinflussen den Core-Arc nicht.
 - Relikte bleiben Core-Beute; Rift-Ops gewähren regulären Gear-Loot **plus** einen
-  Artefaktwurf ausschließlich nach dem Boss (Szene 10). Optional erlaubt
-  `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber bei **max. 1 Artefakt
-  pro Mission**. Stoppuhr-Artefakte sind als Schwachstelle/Timer-Gerät erlaubt, ersetzen
-  aber den Boss-Drop nicht; im Epilog wird nicht zusätzlich gewürfelt.
+  Artefaktwurf ausschließlich nach dem Boss (Szene 10). Stoppuhr-Artefakte sind
+  als Schwachstelle/Timer-Gerät erlaubt, ersetzen aber den Boss-Drop nicht; im
+  Epilog wird nicht zusätzlich gewürfelt.
 - **Default-Fall:** Rift-Ops spielen sich wie eine urbane Legende. Die Anomalie rührt von
   einem konkreten Para-Wesen her (z. B. Zeitfresser, Echo-Ripper, schattenhafter
   Pendler) oder wird von ihm ausgelöst. Auftrag ist fast immer: Wesen aufspüren,
