@@ -1,10 +1,32 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.17
+version: 1.0.19
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-20b – Runtime-Entkopplung von Setup-/Wartungshinweisen
+
+- `core/sl-referenz.md` bereinigt den Strukturteil um Repo-/Setup-Hinweise
+  (`master-index.json`, Wissensspeicher-Bestückung, Landingpage-Betrieb), um
+  Runtime-Fokus der Spielleitung zu sichern.
+- `core/spieler-handbuch.md` entfernt den Wartungshinweis zur README-Pflege aus
+  dem Schnellzugriff auf Regelteile.
+- Ergebnis: Trennung zwischen Runtime-Content und Betriebsdokumentation ist
+  wieder konsistent; operative Setup-Anweisungen verbleiben außerhalb der
+  Wissensmodule.
+
+## Update 2027-03-20 – SSOT-Pipeline Durchlauf 5 abgeschlossen (Konfliktprüfung & Closure)
+
+- Suchanker-Set (`optional`, `Pflicht`, `empfohlen`, `Rift`, `Belohnung`,
+  `CU`, `Scaling`) wurde gegen Core/README/Gameplay/Systems geprüft.
+- Dabei gefundene Restdrift wurde bereinigt: Startwurf-Verweise
+  (`rift_artifact_variant=start_roll`) sind aus `core/sl-referenz.md` und
+  `systems/toolkit-gpt-spielleiter.md` entfernt; der Artefakt-Drop bleibt
+  konsistent boss-only in Szene 10.
+- Restpunkt „Single-Source-of-Truth-Pass" wechselt auf **abgeschlossen**, da
+  Closure-Gate (Plan/Audit/Log-Sync + Pflichttestpaket) erfüllt ist.
 
 ## Update 2027-03-19 – SSOT-Pipeline Durchlauf 4 abgeschlossen (Systems-Pass)
 

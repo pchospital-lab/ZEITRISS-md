@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.8
+version: 0.3.10
 tags: [meta, qa]
 ---
 
@@ -26,8 +26,8 @@ damit Upload-Artefakte keine aktive To-do-Liste mehr sind.
      optionale Module auflösen.
    - Artefakte: `core/sl-referenz.md`, `core/spieler-handbuch.md`, README,
      Kampagnen-/Economy-Module.
-   - Status: _in Umsetzung_ (modulsequenzieller Durchlaufplan angelegt,
-     2027-03-15)
+   - Status: _abgeschlossen_ (Durchlauf 5 Konfliktprüfung/Closure abgeschlossen,
+     2027-03-20)
 
 ### Durchlaufplan 2027-03-15 (für die nächsten QA-Sessions bindend)
 
@@ -64,8 +64,10 @@ Definitionen, nicht umgekehrt.
 5. **Konfliktprüfung & Closure (Session 4)**
    - Suchanker: `optional`, `Pflicht`, `empfohlen`, `Rift`, `Belohnung`, `CU`,
      `Scaling`.
-   - Abschluss: Statuswechsel auf _abgeschlossen_ erst nach Fahrplan-/Audit- und
-     QA-Log-Synchronisierung inkl. Pflichttestpaket.
+   - Status: _abgeschlossen_ (Suchanker-Prüfung durchgeführt; verbliebene
+     Startwurf-Referenzen in `core/sl-referenz.md` und
+     `systems/toolkit-gpt-spielleiter.md` auf Boss-only harmonisiert,
+     2027-03-20).
 
 ### Kanon-Mini-Glossar (Ergebnis Session 1 am 2027-03-16)
 
@@ -90,12 +92,26 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
   - **KANN:** optionale Komfort-/Darstellungsvariante ohne Regeländerung
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
-### Nächster Schritt (Session 4)
+### Ergebnis Session 4 (Konfliktprüfung & Closure am 2027-03-20)
 
-- Konfliktprüfung & Closure: Suchanker `optional`, `Pflicht`, `empfohlen`,
-  `Rift`, `Belohnung`, `CU`, `Scaling` repo-weit gegen den Glossaranker
-  prüfen und danach den Restpunkt erst mit synchronisiertem
-  Fahrplan/Audit/QA-Log auf _abgeschlossen_ setzen.
+### Nachtrag 2027-03-20b (Closure-Nachschärfung Runtime-Fokus)
+
+- Meta-/Setup-Wording aus `core/sl-referenz.md` (Struktur-Abschnitt) entfernt,
+  damit die laufende Spielleitung keine Repo-/Wissensspeicher-Operatorik als
+  Runtime-Regel interpretiert.
+- Wartungshinweis aus `core/spieler-handbuch.md` gestrichen; der Schnellzugriff
+  bleibt rein spielleitungsorientiert.
+- Ergebnis: Wissensmodule bleiben auf Laufzeitregeln fokussiert;
+  Setup-/Bestückungsanweisungen liegen ausschließlich in README/Setup-Dokumenten.
+
+
+- Repo-weite Suchanker-Prüfung abgeschlossen (`optional`, `Pflicht`,
+  `empfohlen`, `Rift`, `Belohnung`, `CU`, `Scaling`).
+- Konfliktfund bereinigt: optionale Startwurf-Hausregel für Artefakt-Drops aus
+  Core-Quickref und Toolkit-Aufruftext entfernt; Boss-only-Anker (Szene 10)
+  bleibt in Core, Gameplay und Systems deckungsgleich.
+- Closure-Gate erfüllt: Fahrplan, Audit und QA-Log sind synchronisiert;
+  Pflichttestpaket ist dokumentiert und grün.
 
 2. **KI-First-Onboardingpfad finalisieren**
    - Ziel: Eine durchgehende Einstiegsstrecke (Quickstart → Session-Ablauf →

@@ -377,9 +377,6 @@ abweichende Kampagnenfelder werden ignoriert und als Konflikt in
 
 Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](sl-referenz.md).
 
-_Wartungshinweis:_ Wenn Navigation oder Überschriften in `core/sl-referenz.md`
-geändert werden, diese Linkliste im README direkt mitziehen.
-
 - [Agenda für Session 0](sl-referenz.md#agenda-session-0)
 - [Wahrscheinlichkeits-Übersicht](sl-referenz.md#wahrscheinlichkeits-uebersicht)
 - [Chat-Kurzbefehle](sl-referenz.md#chat-kurzbefehle)
