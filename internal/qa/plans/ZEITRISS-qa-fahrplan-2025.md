@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.7
+version: 1.23.8
 tags: [meta]
 ---
 
@@ -47,6 +47,26 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-19 – SSOT-Pipeline Durchlauf 4 (Systems-Pass)
+
+Der vierte Pipeline-Durchlauf ist abgeschlossen. Die Systems-Module
+`systems/currency/cu-waehrungssystem.md`,
+`systems/gameflow/speicher-fortsetzung.md` und
+`systems/toolkit-gpt-spielleiter.md` spiegeln den Core-Kanon jetzt explizit.
+
+- **Normsprache gespiegelt:** In allen drei Zielmodulen sind SSOT-Anker mit
+  MUSS/SOLL/KANN ergänzt, damit Pflicht- und Optionalitätslogik konsistent
+  bleibt.
+- **Belohnungsanker gespiegelt:** CU-Formel sowie Px-5-`ClusterCreate()` bleiben
+  als systemweite Invarianten markiert; es gibt keine alternativen Triggerpfade.
+- **Optionalitätsanker gespiegelt:** Komfortpfade (z. B. Filmmodus,
+  Zusatz-Trace, QA-Felder) bleiben klar als KANN/optional gekennzeichnet.
+- **Closure-Gate bleibt aktiv:** Restpunkt „Single-Source-of-Truth-Pass" bleibt
+  bis zur Konfliktprüfung/Closure auf _in Umsetzung_.
+
+Nächster Durchlauf: **Konfliktprüfung & Closure** gemäß Suchanker-Set
+(`optional`, `Pflicht`, `empfohlen`, `Rift`, `Belohnung`, `CU`, `Scaling`).
 
 ## Nachtrag 2027-03-18 – SSOT-Pipeline Durchlauf 3a (Balance-Nachschärfung Artefakte)
 

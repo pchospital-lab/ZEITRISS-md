@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.16
+version: 1.0.17
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-19 – SSOT-Pipeline Durchlauf 4 abgeschlossen (Systems-Pass)
+
+- `systems/currency/cu-waehrungssystem.md` markiert die CU-Formel und Px-5-
+  `ClusterCreate()` jetzt explizit als MUSS-Invarianten.
+- `systems/gameflow/speicher-fortsetzung.md` verankert SaveGuard HQ-only,
+  Px-Quelle/Reset-Logik und Currency-Sync als bindende SSOT-Anker.
+- `systems/toolkit-gpt-spielleiter.md` führt MUSS/SOLL/KANN für optionale
+  Komfortpfade vs. Kerninvarianten aus, damit der Spielleiter-Loop nicht driftet.
+- Restpunkt bleibt auf „in Umsetzung", da die abschließende Konfliktprüfung/
+  Closure als letzter Pipeline-Schritt noch aussteht.
 
 ## Update 2027-03-18 – SSOT-Durchlauf 3a (Artefakt-Balance nachgeschärft)
 
