@@ -1889,7 +1889,7 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 | Rolle | Kern-Loadout | Taktik |
 | ----- | ------------ | ------ |
 | Baupionier | Hydraulik-Hämmer, Ballistikmantel | Nahkampf, Gelände-Kontrolle |
-| Hack-Rigger | Cyberdeck T2, Shock-Pistol | Matrixangriffe, Drohnen-Steuerung |
+| Hack-Rigger | Cyberdeck T2, Shock-Pistol | Netzangriffe, Drohnen-Steuerung |
 | Samurai | Historischer Samurai mit Bioware-Verstärkung | Blitzschnelle Klingenstürme |
 | Sniper | Gauss-Precision Rifle, Chamäleon-Cloak | Fernfeuer, Drohnen-Barrage |
 | Spin-Doctor | Voice-Mod, Fake-Creds, Gel-Ruger | Social-Manipulation, Rückfallebene |
@@ -1915,7 +1915,7 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
   title: "NORAD 40/15"
   pitch: >
   Alarm-Bug patchen (darf nicht feuern); CT-NetSec-Team mit Cyber-Samurai-Bodyguard
-  hackt NORAD-Mainframe - Feuergefecht & Matrix-Duel.
+  hackt NORAD-Mainframe - Feuergefecht & Netz-Duel.
   timeslot: "1979-11-09"
 
 - arc_id: "AbleArcher83"
@@ -2000,7 +2000,7 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 | **Neandertaler-Bruiser**    | Breacher            | STR 7, Keule W⁶+2, Resilienz    |
 | **Urwolf-Bluthund**         | Spür- & Schock­hund | Geruch +3, Biss W⁶, Furcht-Aura |
 | **Cyber-Samurai-Bodyguard** | Elite-Melee         | Katana T2, Reflex-Booster       |
-| **CT-NetSec-Hacker**        | Matrix              | Cyberdeck T2, Shock-Pistol      |
+| **CT-NetSec-Hacker**        | Netzkampf              | Cyberdeck T2, Shock-Pistol      |
 | **Assault-Merc**            | Ranged DPS          | MP7-SD, Ballistik-Mantel        |
 | **Rigger / Drone-Op**       | Support             | Mini-Drohnen (Recon/Spreng)     |
 | **Elite-Handler** (Finale)  | Commander           | CHA 6, Tact-Link, Gel-Ruger     |
@@ -2013,7 +2013,7 @@ knüpft direkt an die vorherige an und lässt die Agenten mehrfach eingreifen.
 
 - **Urwolf** tritt nur 1-2× pro Mission als Spur- oder Schock­einheit auf -
   Aha-Effekt bleibt erhalten, kein Overload.
-- Kämpfe bleiben chrompunk-artig: Chrom-Bodyguards, Matrix-Support, schnelle,
+- Kämpfe bleiben chrompunk-artig: Chrom-Bodyguards, Netz-Support, schnelle,
   harte Feuer­gefechte.
 - **Samurai Shimada Gorō** begleitet die Gruppe ab Mission 3 (Katana T2,
   einmal pro Szene Riposte-Konter).

@@ -1401,10 +1401,10 @@ setzt `sg_bonus = min(3; offene Seeds)` sowie
 `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`, damit der Pool gezielt als
 Schwellen- oder Loot-Hebel genutzt werden kann.
 
-Zwischen-Stufen (Px 1-4) liefern keine mechanischen Boni — der Px ist eine
-Fortschrittsanzeige mit Payoff bei Stufe 5 (ClusterCreate). HUD-Farbe und
+Zwischen-Werte (Px 1-4) liefern keine mechanischen Boni — der Px ist eine
+Fortschrittsanzeige mit Payoff bei Px 5 (ClusterCreate). HUD-Farbe und
 Score-Screen zeigen den Fortschritt; CU-, Loot- oder Analyse-Boni pro
-Zwischen-Stufe existieren nicht.
+Zwischen-Wert existieren nicht.
 
 Toolkit, Runtime und Spieler-Handbuch referenzieren ausschließlich diese
 Tabelle; Legacy-Varianten (Arc-spezifische Px, Zwischen-Stufen-Boni,
