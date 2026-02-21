@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.2
+version: 1.23.3
 tags: [meta]
 ---
 
@@ -1802,6 +1802,27 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   4. Pflicht-Läufe `python3 tools/lint_runtime.py` +
      `GM_STYLE=verbose python3 tools/lint_runtime.py` (Runtime-Regelabgleich).
 
+
+### Zyklus 2027-03-15 – SSOT-Modulpipeline (Vorbereitung auf Step-by-Step-Durchläufe)
+
+- Kanonische Priorität verbindlich festgelegt: `core/sl-referenz.md` und
+  `core/spieler-handbuch.md` sind Primärquelle für Quickformat-Regeln;
+  README, Gameplay- und Systems-Module spiegeln diese Definitionen.
+- Restkatalog-Punkt 1 in eine 5-stufige Modulpipeline überführt:
+  1. Kanon-Extraktion (Glossar + Muss/Soll/Kann-Semantik),
+  2. README/Core-Anker-Sync,
+  3. Gameplay-Pass,
+  4. Systems-Pass,
+  5. Konfliktprüfung mit Suchankern + Closure-Gate.
+- Durchlaufreihenfolge für die nächsten Sessions festgezurrt:
+  `README.md` → `gameplay/kampagnenuebersicht.md` →
+  `gameplay/kampagnenstruktur.md` → `systems/currency/cu-waehrungssystem.md`
+  → `systems/gameflow/speicher-fortsetzung.md` →
+  `systems/toolkit-gpt-spielleiter.md`.
+- Abschlusskriterium für den Restpunkt: Statuswechsel auf „abgeschlossen“ erst
+  nach synchronem Update in Restkatalog, Fahrplan, Audit und QA-Log inkl.
+  Pflichttestpaket.
+
 ### Aktiver Rest-Backlog (für die nächsten Zyklen)
 
 - [x] Arena-Smoke-Baseline repariert: Device-Requirement-Check toleriert in
@@ -1813,6 +1834,7 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
   2027-03-13.)_
 - [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte und
-  Stil-Feinschliff) und pro Zyklus im QA-Log dokumentieren.
+  Stil-Feinschliff) entlang der 5-stufigen SSOT-Modulpipeline und pro Zyklus
+  im QA-Log dokumentieren.
 - [x] Economy-/Scaling-Sicherungen als gebündelte QA-Checkliste im Fahrplan
   verankert (Stand 2027-03-14).

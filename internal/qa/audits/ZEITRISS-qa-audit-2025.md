@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.11
+version: 1.0.12
 tags: [meta, qa]
 ---
 
@@ -15,6 +15,19 @@ tags: [meta, qa]
   Single-Source-of-Truth-Restpunkte und Stil-/Sprach-Feinschliff.
 - Der Abschlussstatus ist im QA-Log dokumentiert und als Folgeanker für die
   nächsten Restkatalog-Zyklen referenziert.
+
+## Update 2027-03-15 – SSOT-Modulpipeline für den letzten Restpunkt gestartet
+
+- Für den verbleibenden Restkatalog-Punkt „Single-Source-of-Truth-Pass"
+  existiert jetzt ein verbindlicher, sequenzieller Durchlauf (5 Stufen), damit
+  alte und neue Regelmodule nicht mehr gegeneinander driften.
+- Kanonische Quellenreihenfolge ist festgelegt: `core/sl-referenz.md` und
+  `core/spieler-handbuch.md` definieren das Quickformat; README, Gameplay- und
+  Systems-Module werden entlang dieser Quelle harmonisiert.
+- Der Fahrplan führt die feste Modulreihenfolge für die nächsten QA-Zyklen; der
+  Restpunkt darf erst auf „abgeschlossen" wechseln, wenn Restkatalog, Fahrplan,
+  Audit und QA-Log synchron aktualisiert sind und das Pflichttestpaket grün ist.
+
 
 ## Update 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checkliste
 
