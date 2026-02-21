@@ -1,10 +1,42 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.19
+version: 1.0.22
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Audit-Update 2027-03-23 – SSOT-Nachlauf (Paradoxon-Portal-Icon)
+
+- Symbolik nach UX-Feedback nachgeschärft: Paradoxon nutzt durchgängig `🌀`
+  als Portal-/Rift-Marker.
+- TK-Cooldown wurde auf `✋` entkoppelt, sodass keine visuelle Doppelbelegung
+  mit dem zentralen Progress-Signal besteht.
+- Konsistenz über Core/HUD/Gameplay/Toolkit/Zustände bestätigt; Folgeauftrag
+  für historische QA- und Briefing-Beispiele angelegt.
+
+## Audit-Update 2027-03-22 – SSOT-Nachlauf (Icon-/Meilenstein-Drift)
+
+- Rückmeldungsbasierter Vollscan über Core/HUD/Gameplay/Toolkit durchgeführt;
+  verbliebene Driftstellen für Chronopolis-Level-10-Anker und Iconbelegung
+  bereinigt.
+- Core-Meilensteintexte führen den Chronopolis-Schlüssel nun explizit als
+  Level-10-Übergabe.
+- HUD-Symbolik wurde auf Stern-Notation (`☆`) für Rift-Bonus harmonisiert und
+  als Zwischenstand mit eindeutiger Icon-Belegung dokumentiert.
+- Folgeauftrag protokolliert: repo-weiter Icon-Audit über narrative Samples,
+  um Restdrift außerhalb der zentralen Tabellen systematisch zu schließen.
+
+## Audit-Update 2027-03-21 – SSOT-Nachlauf (Core-Konsistenz)
+
+- Core-Quickformate nach Closure erneut geprüft und gezielt nachgeschärft:
+  Chronopolis-Schlüssel bei Level 10 im Spielerfluss ergänzt,
+  Spielstart-Textblöcke zwischen Handbuch (Spielerinput) und SL-Referenz
+  (Dispatcher-Invarianten) sauber getrennt.
+- Schwierigkeit/Rift-Bonus-Visualisierung in den Quickformaten auf weiße
+  Sterne (☆) vereinheitlicht; Blitzdarstellung als Driftquelle entfernt.
+- QA-Folgeauftrag angelegt: repo-weiter Symbol-/Stilabgleich für verbleibende
+  Difficulty-Darstellungen außerhalb der Core-Quickformate.
 
 ## Update 2027-03-20b – Runtime-Entkopplung von Setup-/Wartungshinweisen
 

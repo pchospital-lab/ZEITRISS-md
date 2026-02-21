@@ -453,6 +453,10 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 | 31–50 | 4 EP | 140 EP |
 | 51–100 | 5 EP | 390 EP |
 
+**Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 wird der
+**Chronopolis-Schlüssel** im HQ vergeben; erst danach ist der optionale
+City-Zugang freigeschaltet.
+
 **Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
 75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
 Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg-fortschritt).
@@ -586,11 +590,11 @@ _HUD-Zustände & kontextsensitive Icons:_ [HUD-Icons](../characters/hud-system.m
 
 HUD-Zustände erscheinen als Backticks. Alle Icons sind **kontextsensitiv** und
 werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt:
-- **Dauer-Anzeige** (immer sichtbar): ❤️‍🩹 Vital, 🧠 Stress, 🔄 Paradoxon, 👁️ Tarnung
+- **Dauer-Anzeige** (immer sichtbar): ❤️‍🩹 Vital, 🧠 Stress, 🌀 Paradoxon, 👁️ Tarnung
 - **Zustands-Icons** (bei Eintritt → bei Ende weg): 🩸 Blutung, ☠️ Vergiftung,
-  ⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown
+  ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown
 - **Situations-Icons**: 💀 bei Boss-Encounters (Szene 10 Core/Rift),
-  ⚡ nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts)
+  ☆ nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts)
 
 Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant ist.
 
@@ -697,19 +701,16 @@ Index-Senke im Kodex.
 
 ## Spielstart
 
-Um ein Abenteuer mit GPT zu beginnen, tippe einen der folgenden Kurzbefehle in dein Chatfenster
-(Icons sind optional):
+Kanonische Spielertexte und Startbeispiele stehen im
+[Spieler-Handbuch](spieler-handbuch.md#mini-einsatzhandbuch). Diese Referenz
+führt nur die Dispatcher-/Runtime-Invarianten für die Spielleitung.
 
-- **`Spiel starten (solo [klassisch|schnell])`** - Einzelner Chrononaut; GPT führt
-  die NSCs.
-- **`Spiel starten (npc-team [0-4] [klassisch|schnell])`** - GPT stellt
-  NPC-Begleiter bereit (Team gesamt 1-5).
-- **`Spiel starten (gruppe [klassisch|schnell])`** - Mehrere reale Spieler laden
-  ihre eigenen Speicherstände oder erstellen gemeinsam neue Charaktere; GPT
-  koordiniert die Szene.
-- **`Spiel laden`** - Lädt einen vorhandenen Gruppen- oder Solo-Spielstand.
-  GPT fordert den Speicher-Code an und führt dich oder die Gruppe nach einem
-  Rückblick nahtlos weiter - ohne Auswahlmenü für `klassisch`/`schnell`.
+- Akzeptierte Startmuster: `Spiel starten (solo|npc-team [0-4]|gruppe
+  [klassisch|schnell])` sowie `Spiel laden`.
+- `Spiel laden` fordert ohne JSON-Block den Save an und setzt nicht aus dem
+  Nichts fort.
+- Legacy-Starts mit `preserve|trigger` in Klammern brechen mit Hinweis ab;
+  Kampagnenmodus wird im HQ per `!kampagnenmodus` gesetzt.
 
 `mixed|preserve|trigger` wählst du im HQ via `!kampagnenmodus`. Standard ist `mixed`
 (alle Chrononauten starten beim Ordo Mnemonika im Mischpool). Der fokussierte Modus

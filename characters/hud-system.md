@@ -155,9 +155,9 @@ Mali. Mehr Details im Kodex.
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
-Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️, Paradoxon 🔄),
+Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️, Paradoxon 🌀),
 die immer sichtbar sind. Alle weiteren Icons (🩸 Blutung, ☠️ Vergiftung,
-⏱️ Countdown, 🛡️ Abwehr, 🌀 TK-Cooldown, 💀 Boss-Encounter, ⚡ Rift-Bonus)
+⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter, ☆ Rift-Bonus
 erscheinen **kontextsensitiv** — sie werden automatisch eingeblendet, wenn der
 jeweilige Zustand eintritt, und verschwinden, sobald er endet. So bleibt das
 HUD clean, zeigt aber alles Spielrelevante. **HUD-Blenden dürfen
@@ -329,9 +329,12 @@ _Kodex:_
 | ☠️ | Vergiftung | Charakter vergiftet |
 | ⏱️ | Countdown/Timer | Zeitkritische Situation aktiv |
 | 🛡️ | Abwehr bereit | Defensive Haltung/Deckung aktiv |
-| 🌀 | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre) |
+| ✋ | TK-Nahkampf im Cooldown | Nach telekinetischem Nahkampf (1 Runde Sperre) |
 | 💀 | Boss-Encounter | Boss-Szene aktiv (Szene 10 Core/Rift) |
-| ⚡ | Rift-Bonus aktiv | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
+| ☆ | Rift-Bonus aktiv | Nach Episodenabschluss (SG-Bonus/Loot-Multi durch offene Rifts) |
+
+**Icon-Klarheit (SSOT):** `🌀` steht exklusiv für den Paradoxon-Index;
+`✋` markiert den TK-Nahkampf-Cooldown.
 
 #### Risk-Level-Badges {#risk-level-badges}
 
