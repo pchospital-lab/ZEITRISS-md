@@ -292,14 +292,14 @@ key = os.environ['OPENWEBUI_API_KEY']
 repo = os.environ['REPO']
 base_model = os.environ['BASE_MODEL']
 kb_id = os.environ['KB_ID']
-preset_id = 'zeitriss-v426-local-uncut'
+preset_id = 'zeitriss-v426-uncut'
 
 with open(os.path.join(repo, 'meta/masterprompt_v6.md'), 'r') as f:
     system_prompt = f.read()
 
 payload = {
     'id': preset_id,
-    'name': 'ZEITRISS v4.2.6 – Local Uncut',
+    'name': 'ZEITRISS v4.2.6 Uncut',
     'base_model_id': base_model,
     'meta': {
         'description': 'Tech-Noir Zeitreise-RPG mit KI-Spielleitung. Chrononauten, explodierende Würfel, cinematisches HUD. 18+.',
@@ -376,7 +376,7 @@ echo -e "${BOLD}╔════════════════════�
 echo -e "${BOLD}║   Setup abgeschlossen!                 ║${NC}"
 echo -e "${BOLD}╚════════════════════════════════════════╝${NC}"
 echo ""
-echo -e "  ${CYAN}Preset:${NC}      ZEITRISS v4.2.6 – Local Uncut"
+echo -e "  ${CYAN}Preset:${NC}      ZEITRISS v4.2.6 Uncut"
 echo -e "  ${CYAN}Base Model:${NC}  $BASE_MODEL"
 echo -e "  ${CYAN}Knowledge:${NC}   $TOTAL Dateien"
 echo -e "  ${CYAN}Temperatur:${NC}  0.8"
@@ -384,7 +384,7 @@ echo ""
 echo -e "  ${BOLD}So geht's weiter:${NC}"
 echo -e "  1. Öffne ${CYAN}$OPENWEBUI_URL${NC} im Browser"
 echo -e "  2. Starte einen ${BOLD}neuen Chat${NC}"
-echo -e "  3. Wähle das Modell ${BOLD}\"ZEITRISS v4.2.6 – Local Uncut\"${NC}"
+echo -e "  3. Wähle das Modell ${BOLD}\"ZEITRISS v4.2.6 Uncut\"${NC}"
 echo -e "  4. Tippe: ${GREEN}Spiel starten (solo schnell)${NC}"
 echo ""
 echo -e "  ${YELLOW}Viel Spaß, Chrononaut. Die Nullzeit wartet.${NC}"

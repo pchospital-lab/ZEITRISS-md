@@ -42,12 +42,15 @@ _(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
 
 ### Modell-Empfehlung
 
-- **Empfohlen (Preis-Leistung):** `deepseek/deepseek-chat-v3-0324`
-  (sehr günstig, regeltreu, stabiler Noir-Ton).
-- **Empfohlen (Free):** `meta-llama/llama-3.3-70b-instruct`
-  (kostenlose OpenRouter-Option für Testläufe).
-- **Hinweis zu Sonnet:** `anthropic/claude-sonnet-4` ist deutlich teurer und
-  derzeit nicht die bevorzugte Empfehlung für ZEITRISS.
+- **Premium (beste Qualität):** `anthropic/claude-sonnet-4.6`
+  (~$3/$15 pro 1M Token). Regeltreuster Output, stärkster Noir-Ton,
+  sauberste HUD-Struktur.
+- **Standard (Preis-Leistung):** `deepseek/deepseek-chat-v3-0324`
+  (~$0.27/$1.10). Regeltreu, stabiler Noir-Ton, sehr günstig — klare
+  Hauptempfehlung für reguläre Sessions.
+- **Budget (Near-Free):** `qwen/qwen3.5-397b-a17b`
+  (~$0.15/$1). MoE-Modell mit starker Atmosphäre und korrekter
+  Regelumsetzung zum Bruchteil der Kosten.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
@@ -121,7 +124,7 @@ und die Runtime-Referenz.
 - **Setup-Option:** Für lokale Installationen steht
   [`scripts/setup-openwebui.sh`](scripts/setup-openwebui.sh) als Hilfsskript bereit
   (provider-neutral mit expliziter Modellwahl; DeepSeek V3 als empfohlener
-  Preis-Leistungs-Default, Llama 3.3 70B als empfohlene Free-Option).
+  Preis-Leistungs-Default).
 - **Multiplayer-Hinweis:** Lokal oder online mit Gruppe möglich; Save-Stand und
   Chatlog können zwischen Sessions geteilt werden.
 - **Betriebshinweis:** Es gibt keine zugesicherte Verfügbarkeit, keinen
