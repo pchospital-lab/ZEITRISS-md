@@ -608,10 +608,9 @@ Das HUD bleibt clean — nie alle Icons gleichzeitig, nur was gerade relevant is
 | Core-Op     | `roll_from("ItemTable")` | ITEM · UPGRADE · CASH  |
 | Rift-Op†    | `roll_legendary()`       | ARTEFAKT (bei 1W6 = 6) |
 
-† Das Artefakt-Wurfskript greift standardmäßig in Szene 10 (Rift-Boss) automatisch.
-  Optional erlaubt `rift_artifact_variant=start_roll` einen Startwurf, bleibt aber
-  bei **max. 1 Artefakt pro Mission**. Relikte zählen als Story-Items und nutzen
-  den normalen Generator.
+† Das Artefakt-Wurfskript greift ausschließlich in Szene 10 (Rift-Boss)
+  automatisch und bleibt bei **max. 1 Artefakt pro Mission**. Relikte zählen
+  als Story-Items und nutzen den normalen Generator.
 
 **Artefakt-Sink:** Artefakte bleiben handelbar wie Gear (Tausch, Schenkung oder
 Verkauf zulässig), aber die Abrechnung läuft über Research-/Archivwerte statt
@@ -629,14 +628,8 @@ Kurzfassung — kanonische Details: [Kampagnenstruktur](../gameplay/kampagnenstr
 
 ## Struktur
 
-Alle Regeln liegen als einzelne Markdown-Dateien vor und werden einzeln in das KI-Tool geladen.
-_Wartungshinweis:_ Bei Änderungen an Modulpfaden oder Ankern auch `core/spieler-handbuch.md`
-und `../master-index.json` synchronisieren. `../README.md` ist nur die GitHub-Landingpage
-und nicht Teil des Wissensspeichers.
-
-Die folgende Tabelle listet alle Regelmodule. Quickref und andere Unterabschnitte
-sind der Übersicht halber aufgeführt.
-`../README.md` ist die GitHub-Landingpage und wird **nicht** in den Wissensspeicher geladen. `../master-index.json` dient nur als Setup-Steuerung und bleibt ebenfalls außerhalb des Wissensspeichers. Slot 1 belegt `core/spieler-handbuch.md`:
+Die folgende Tabelle listet die zentralen Regelmodule und Schnellzugriffe.
+Quickrefs und Unterabschnitte sind zur schnellen Orientierung mit aufgeführt.
 
 | Datei                                                                                           | Inhalt                                        |
 | ----------------------------------------------------------------------------------------------- | --------------------------------------------- |
@@ -667,17 +660,9 @@ sind der Übersicht halber aufgeführt.
 Die Modulnummern spiegeln die Veröffentlichungshistorie wider. Nach Modul 6
 folgt das nun veröffentlichte Modul 7, anschließend 8A und 8B.
 
-Die Dateien können als Trainingsgrundlage für ein LLM dienen, um ZEITRISS autonom zu leiten.
-
-**Hinweis:** Das Spiel besteht aus **25** Regelmodulen. Sie verteilen sich auf
-19 Runtime-Markdown-Dateien; mehrere Module sind Abschnitte anderer Dateien.
-Das Wissenspaket umfasst damit **20** Dateien (Spieler-Handbuch + 19 Runtime-Module) -
-die Wissensspeicher-Slots sind damit vollständig belegt.
-`meta/masterprompt_v6.md` (Local-Uncut 4.2.6) wird separat per Copy-Paste
-genutzt. Die Legacy-Fassung liegt unter
-`meta/archive/masterprompt_v6_legacy.md`. Im `master-index.json` erscheinen
-**25** Slugs, weil manche Einträge Kurz- und Langfassungen desselben Moduls
-auflisten.
+Diese Referenz bündelt die wichtigsten Regelpfade, damit die Spielleitung
+während der Session schnell zwischen Core-, Gameplay- und Systems-Regeln
+wechseln kann.
 Eine kompakte
 [HUD-Übersicht zu Health, Stress und Zuständen](../characters/hud-system.md#hud-quickref)
 fasst die wichtigsten Effekte zusammen.
@@ -1061,4 +1046,3 @@ nach der Rift-Op auf 0 zurück.
 Neuer Eintrag? Prüfe kurz, ob der Text bereits in einer anderen Liste steht.
 `objective` und `twist` sollten sich nicht doppeln. Falls du denselben Satz in
 beiden Feldern findest, wähle eine Variante oder streiche ihn.
-

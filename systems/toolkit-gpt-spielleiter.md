@@ -3408,9 +3408,8 @@ Erzeugt ein para-spezifisches Artefakt aus Körperteil und Buff-Matrix.
   ⟪ kodex_log_artifact(name, {'effect': effect, 'risk': side ~ ' · Px-1'}) ⟫
 ⟨%- endmacro %⟩
 
-Aufruf: `⟨% set artifact = generate_para_artifact(current_creature) %⟩` - standardmäßig direkt
-nach dem Rift-Boss (Szene 10). Optional erlaubt `rift_artifact_variant=start_roll` einen
-Startwurf; setze dann `campaign.rift_loot_prompted=true`, um Doppel-Drops zu vermeiden.
+Aufruf: `⟨% set artifact = generate_para_artifact(current_creature) %⟩` - ausschließlich direkt
+nach dem Rift-Boss (Szene 10). Für Boss-only gilt weiterhin: **max. 1 Artefakt pro Mission**.
 
 ### on_rift_boss_down() Macro
 Automatisiert den Loot-Reminder nach einem Rift-Boss und markiert den legendären Wurf.
@@ -4453,5 +4452,4 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   ⟨% set arena.teamB = [player2] %⟩
   ⟪ arena_start_round() ⟫
 ⟨%- endmacro %⟩
-
 
