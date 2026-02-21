@@ -169,6 +169,59 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
 - Missionen: Save blockiert (HQ-only), außer Wissenspaket erlaubt Ausnahmen.
 - Chronopolis keine Saves; PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
+- **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
+  Werte aus dem aktuellen Spielstand füllen):
+
+```json
+{
+  "zr_version": "4.2.6",
+  "save_version": 6,
+  "location": "HQ",
+  "phase": "core",
+  "character": {
+    "id": "CHR-XXXX",
+    "name": "Callsign",
+    "level": 1,
+    "attributes": {
+      "STR": 0, "GES": 0, "INT": 0, "CHA": 0, "TEMP": 0,
+      "SYS_max": 0, "SYS_installed": 0, "SYS_runtime": 0, "SYS_used": 0
+    },
+    "talents": [],
+    "bioware": [],
+    "equipment": {
+      "primary": null, "secondary": null,
+      "armor": [], "gadgets": []
+    },
+    "stress": 0,
+    "psi_heat": 0,
+    "cooldowns": {}
+  },
+  "campaign": {
+    "episode": 1,
+    "mission_in_episode": 0,
+    "scene": 0,
+    "px": 0,
+    "mode": "mixed",
+    "rift_seeds": []
+  },
+  "party": { "characters": [] },
+  "economy": { "cu": 0, "wallets": {} },
+  "logs": {
+    "hud": [], "foreshadow": [], "artifact_log": [],
+    "market": [], "psi": [], "arena_psi": [],
+    "flags": {}
+  },
+  "arc_dashboard": { "offene_seeds": [], "fraktionen": {} },
+  "ui": {
+    "gm_style": "verbose",
+    "suggest_mode": false,
+    "action_mode": "uncut"
+  },
+  "arena": { "active": false }
+}
+```
+  Felder mit echten Werten füllen. Leere Arrays/Objekte nur wenn noch nichts passiert ist.
+  **Kein Freitext-Save, kein eigenes Format.** Immer dieses Schema.
 
 ### HQ & Sprung
 - Nullzeit-HQ ist sicher, entspannt, klare Routinen; HUD meldet Link-Status knapp.
