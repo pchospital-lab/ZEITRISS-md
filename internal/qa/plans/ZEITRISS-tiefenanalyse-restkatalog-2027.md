@@ -1,6 +1,6 @@
 ---
 title: "Tiefenanalyse – Restkatalog 2027"
-version: 0.3.10
+version: 0.3.13
 tags: [meta, qa]
 ---
 
@@ -27,7 +27,8 @@ damit Upload-Artefakte keine aktive To-do-Liste mehr sind.
    - Artefakte: `core/sl-referenz.md`, `core/spieler-handbuch.md`, README,
      Kampagnen-/Economy-Module.
    - Status: _abgeschlossen_ (Durchlauf 5 Konfliktprüfung/Closure abgeschlossen,
-     2027-03-20)
+     2027-03-20; Nachlauf 2027-03-21 abgeschlossen: Chronopolis-Schlüssel,
+     Startbefehl-Rollenabgrenzung und Stern-Notation harmonisiert)
 
 ### Durchlaufplan 2027-03-15 (für die nächsten QA-Sessions bindend)
 
@@ -93,6 +94,41 @@ die nachfolgenden Sync-Pässe (README/Gameplay/Systems).
     (Film-Modus, zusätzliche Metadatenfelder, manuelle statt Script-Setup).
 
 ### Ergebnis Session 4 (Konfliktprüfung & Closure am 2027-03-20)
+
+### Nachtrag 2027-03-23 (SSOT-Nachlauf 8: Paradoxon-Portal-Icon)
+
+- Zentrales Paradoxon-Symbol auf `🌀` als Portal-Marker umgestellt
+  (Core/HUD/Gameplay/Toolkit/Zustände), da es als primärer Spieleranker
+  visuell stärker wirken soll.
+- TK-Cooldown entkoppelt auf `✋`, damit das Portal-Icon exklusiv für
+  Paradoxon/Rift-Progress steht.
+- Folge-Backlog (offen): Icon-Audit auf historische QA-Beispielscreens und
+  externe Playtest-Briefings erweitern, damit Doku-/Runtime-Beispiele identisch
+  bleiben.
+
+### Nachtrag 2027-03-22 (SSOT-Nachlauf 7: Icon-/Meilenstein-Konsolidierung)
+
+- Core-Meilensteine in `core/sl-referenz.md` und `core/zeitriss-core.md` um den
+  Level-10-Übergabepunkt (**Chronopolis-Schlüssel**) ergänzt.
+- HUD-/Icon-Referenzen in `characters/hud-system.md` auf Stern-Notation (`☆`)
+  vereinheitlicht und die eindeutige Belegung festgezogen:
+  `🌀` = TK-Cooldown, `🔄` = Paradoxon.
+- Driftstellen in Beispielen harmonisiert:
+  `gameplay/kampagnenstruktur.md` und `systems/toolkit-gpt-spielleiter.md`
+  nutzen für Paradoxon-Anzeigen nun `🔄` statt `🌀`.
+- Folge-Backlog (offen): repo-weiter Icon-Audit-Pass für alle narrativen
+  Beispielblöcke außerhalb der zentralen HUD-/Core-Referenztabellen.
+
+### Nachtrag 2027-03-21 (SSOT-Nachlauf: Rollenabgrenzung & Darstellungskonsistenz)
+
+- `core/spieler-handbuch.md` ergänzt den Chronopolis-Zugang als klaren
+  Level-10-Schlüsselanker im HQ-/Startkontext.
+- `core/sl-referenz.md` reduziert den Spielstart-Kopf auf Dispatcher-Invarianten
+  und verweist für Spieler-Eingaben auf das Handbuch (Doppelpflege gesenkt).
+- Schwierigkeitsdarstellung wurde in den Quickformaten auf weiße Sterne (☆)
+  vereinheitlicht; Blitz-Notation als Rift-Bonusmarker entfernt.
+- Folge-Backlog (offen): Stern-/Difficulty-Notation außerhalb der Quickformate
+  repo-weit prüfen und bei Bedarf in einem dedizierten Stilpass nachziehen.
 
 ### Nachtrag 2027-03-20b (Closure-Nachschärfung Runtime-Fokus)
 

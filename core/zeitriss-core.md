@@ -346,8 +346,8 @@ gliedert sich in zwei Phasen:
 
 - **Meilenstein-Stufen:** \*Bestimmte Level werden als **Meilensteine\*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
-  **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen und
-  hochwertigerer Ausrüstung),
+  **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen,
+  hochwertigerer Ausrüstung und Übergabe des **Chronopolis-Schlüssels**),
   **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **Sonderstatus** im ITI. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
@@ -364,8 +364,9 @@ gliedert sich in zwei Phasen:
 Der Ruf eines Chrononauten wächst mit dessen Erfolgen. In Verbindung mit den oben genannten
 Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
-- **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an und
-  gewährt breiteren Zugriff auf Ausrüstung.
+- **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an,
+  gewährt breiteren Zugriff auf Ausrüstung und überreicht den **Chronopolis-Schlüssel**
+  (optionaler City-Zugang ab diesem Punkt).
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.

@@ -64,6 +64,8 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 **HQ (Zwischen den Missionen):**
 - Sicherer Hafen in der Nullzeit.
 - Ausrüsten, Feilschen, Upgrades kaufen.
+- Bis inklusive **Level 9** bleibt Chronopolis gesperrt; bei **Level 10**
+  überreicht das ITI den **Chronopolis-Schlüssel** für den City-Zugang.
 - Nach jeder Mission: Zurück ins HQ, durchatmen, wieder raus.
 
 **Kodex (Eure KI):**
@@ -116,7 +118,7 @@ Die ersten Schritte in unter zwei Minuten:
    und ausschließlich über `set_self_reflection()` wieder auf `SF-ON` zurück -
    sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
 9. **TK-Nahkampf-Cooldown** - `!tk melee` markiert telekinetische
-   Nahkampfangriffe, blendet `TK🌀` im HUD ein und sperrt eine Runde;
+   Nahkampfangriffe, blendet `TK✋` im HUD ein und sperrt eine Runde;
    `!tk ready` hebt die Sperre nach dem Cooldown auf.
 10. **Chrono-Units** - Einheitliche Formel für Core **und** Rift:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
@@ -258,9 +260,9 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 ### HUD-Icons
 
-**Dauer (immer sichtbar):** ❤️‍🩹 Vital · 🧠 Stress · 🔄 Paradoxon · 👁️ Tarnung
+**Dauer (immer sichtbar):** ❤️‍🩹 Vital · 🧠 Stress · 🌀 Paradoxon · 👁️ Tarnung
 
-**Kontextsensitiv:** 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · 🌀 TK-Cooldown · 💀 Boss · ⚡ Rift-Bonus
+**Kontextsensitiv:** 🩸 Blutung · 🩹 Heilung · ☠️ Vergiftung · ⏱️ Countdown · 🛡️ Abwehr · ✋ TK-Cooldown · 💀 Boss · ☆ Rift-Bonus
 
 ### Wichtige Befehle
 
@@ -284,6 +286,10 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
   posten oder Rolle nennen
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
+
+Chronopolis bleibt bis Level 10 ein gesperrter CITY-Knoten. Beim Erreichen
+von Level 10 überreicht das ITI den **Chronopolis-Schlüssel**; erst danach ist
+der Stadteintritt freigegeben.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
@@ -383,7 +389,6 @@ Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](sl-referenz.md).
 - [Exfil-Fenster & Sweeps](sl-referenz.md#exfil-fenster--sweeps)
 - [Level & EP-Kurve](sl-referenz.md#level--ep-kurve)
 - [Regelreferenz](sl-referenz.md#regelreferenz)
-- [Spielstart](sl-referenz.md#spielstart)
 - [Spielmodi](sl-referenz.md#spielmodi)
 - [Generator-Utilities](sl-referenz.md#generator-utilities)
 
