@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.12
+version: 1.0.13
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Update 2027-03-16 – SSOT-Pipeline Durchlauf 1 abgeschlossen (Kanon-Extraktion)
+
+- Der erste Durchlauf der SSOT-Pipeline ist durchgeführt und als Kanon-Mini-Glossar im
+  Restkatalog dokumentiert (Rift-Risiko, Belohnung, optionale Module, Muss/Soll/Kann).
+- Als kanonische Quellen bleiben `core/sl-referenz.md` und `core/spieler-handbuch.md`;
+  README/Gameplay/Systems werden in den Folgedurchläufen ausschließlich gegen diese
+  Begriffe harmonisiert.
+- Der Restpunkt bleibt bewusst auf "in Umsetzung", bis die nachgelagerten Sync-Pässe
+  inklusive Closure-Gate und Pflichttestpaket abgeschlossen sind.
+
 
 ## Update 2027-03-15 – Onboarding-Entkopplung abgeschlossen
 

@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.3
+version: 1.23.4
 tags: [meta]
 ---
 
@@ -47,6 +47,26 @@ Die aktuelle Beschreibung liegt zusätzlich in
 [`CONTRIBUTING.md`](../../../CONTRIBUTING.md#verpflichtende-pruefungen).
 `make lint` bündelt beide Runtime-Läufe sowie Doc-Link-, Umlaut- und Markdown-
 Checks in einem Schritt.
+
+## Nachtrag 2027-03-16 – SSOT-Pipeline Durchlauf 1 (Kanon-Extraktion)
+
+Der erste Pipeline-Durchlauf ist abgeschlossen und extrahiert den kanonischen
+Anker für die Folgeschritte aus `core/sl-referenz.md` und
+`core/spieler-handbuch.md`.
+
+- **Kernkanon Belohnung/Rift:** Px bleibt Belohnungssystem; Px 5 erzeugt via
+  `ClusterCreate()` 1-2 Rift-Seeds. Die CU-Formel gilt identisch für Core und
+  Rift (`Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`).
+- **Semantikanker Optionalität:** Optional bedeutet ergänzender Pfad ohne
+  Änderung der Kerninvarianten (Boss-Timing, SaveGuard HQ-only, Debrief/HQ-
+  Flow).
+- **Normsprache für Folgeläufe:** Muss/Soll/Kann als verbindliche
+  Redaktionslogik eingeführt (MUSS = invariant, SOLL = Standardpfad,
+  KANN = Komfortvariante ohne Regeländerung).
+- **Closure-Gate bleibt aktiv:** Restpunkt „Single-Source-of-Truth-Pass" bleibt
+  bis nach README/Core-Sync + Gameplay- und Systems-Pass auf _in Umsetzung_.
+
+Nächster Durchlauf: **Anker-Sync README/Core** gemäß extrahiertem Glossar.
 
 ## Nachtrag 2027-03-08 – Seed-Caps & Intro-Wording
 
