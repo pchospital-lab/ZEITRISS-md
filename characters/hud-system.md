@@ -155,12 +155,15 @@ Mali. Mehr Details im Kodex.
 > Boss mit genau einem Anomalie-Element und führen `CASE <ID>: <Label> · HOOK …`.
 > Szene 0/1 triggert einen Entry-Toast (`MODE … · EntryChoice Cover/Silent/Asset`
 > bzw. `Agent/Investigator/Forensik`), sofern das Skip-Flag nicht aktiv ist.
-Das HUD zeigt **vier Dauer-Symbole** (Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️, Paradoxon 🌀),
-die immer sichtbar sind. Alle weiteren Icons (🩸 Blutung, ☠️ Vergiftung,
-⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter, ☆ Rift-Bonus
-erscheinen **kontextsensitiv** — sie werden automatisch eingeblendet, wenn der
-jeweilige Zustand eintritt, und verschwinden, sobald er endet. So bleibt das
-HUD clean, zeigt aber alles Spielrelevante. **HUD-Blenden dürfen
+Das HUD zeigt **vier Dauer-Elemente** (Lvl, Vital ❤️‍🩹, Stress 🧠, Tarnung 👁️),
+die immer sichtbar sind. Das Paradoxon-Icon 🌀 ist **kontextsensitiv** und
+erscheint nur, wenn ein Px-relevanter Zustand aktiv ist (z. B. Px > 0,
+Resonanz-/Backlash-Hinweis, ClusterCreate-Meldung). Alle weiteren Icons
+(🩸 Blutung, ☠️ Vergiftung, ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown,
+💀 Boss-Encounter, ☆ Rift-Bonus) erscheinen ebenfalls **kontextsensitiv** —
+sie werden automatisch eingeblendet, wenn der jeweilige Zustand eintritt, und
+verschwinden, sobald er endet. So bleibt das HUD clean, zeigt aber alles
+Spielrelevante. **HUD-Blenden dürfen
 maximal sechs Wörter enthalten**; ausführliche Effekte stehen im Anhang:
 
 Der Szenenheader zeigt nach der Episoden- und Szenenzeile dauerhaft
@@ -318,8 +321,9 @@ _Kodex:_
 | ------ | --------- |
 | ❤️‍🩹 | Vitalstatus |
 | 🧠 | Stresslevel |
-| 🔄 | Paradoxon-Index |
+| Lvl | Charakterlevel |
 | 👁️ | Tarnung/Sichtbarkeit |
+| 🌀 | Paradoxon-Index (kontextsensitiv) |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):
 
