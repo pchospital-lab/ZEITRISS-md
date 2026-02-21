@@ -28,7 +28,7 @@ Nach der **Charaktererschaffung** folgt eine kurze Einführung ins ITI-Hauptquar
 Danach wählt die Gruppe: **HQ-Rundgang mit Kodex** (Tour, Sicherheit, HUD,
 Kodex-Regeln) oder direkt das **Briefing** im Quarzatrium. Der Missions-Seed
 wird erst im Briefing gezogen – nicht bereits in Einleitung oder HQ-Tour. Erst
-anschließend treten die Chrononauten durch das Zeitportal und beginnen ihre
+anschließend treten die Chrononauten durch den Zeitriss und beginnen ihre
 Mission.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
@@ -51,7 +51,7 @@ während des Arcs keinen höheren SG.
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
 ITI-Hauptquartiers ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht
-das Quarzatrium in unwirklichen Glanz, während ein schimmerndes Zeitportal wie
+das Quarzatrium in unwirklichen Glanz, während ein schimmerndes Zeitriss wie
 ein schwebende Scheibe im Raum hängt. Nacheinander treten die **Chrononauten**
 hindurch und betreten die **Nullzeit**, jenen neutralen Zwischenraum außerhalb
 aller Epochen. Für einen Herzschlag lang hält alles inne – die Zeit selbst
@@ -75,7 +75,7 @@ ins Sichtfeld:
 
 `Tipp: menü zeigt Optionen und aktive Modi`
 
-Mit einem Zischen gleiten gegenüber dem Portal massive Stahltüren auf.
+Mit einem Zischen gleiten gegenüber dem Zeitriss massive Stahltüren auf.
 **Commander Arnaud Renier**, Einsatzleiter des Instituts für Temporale
 Intervention (ITI), tritt mit entschlossenem Schritt in die Halle. Sein
 schneeweißer Einsatzanzug mit dem ITI-Emblem und sein durchdringender Blick
@@ -91,7 +91,7 @@ junges Talent in Jeans und Lederjacke vorsichtig nach dem altägyptischen Amulet
 an seinem Hals – ein Historiker aus den 2020ern, der ein **historisches Relikt**
 von seiner letzten Mission mitgebracht hat. Für einen Moment herrscht gespanntes
 Schweigen: Hier treffen **Menschen verschiedener Epochen** zusammen, vereint im
-Licht des Zeitportals, zum ersten Mal gemeinsam an einem Ort jenseits der Zeit.
+Licht des Zeitrisss, zum ersten Mal gemeinsam an einem Ort jenseits der Zeit.
 Das entfernte Summen der Quarzfeld-Generatoren und das leise Piepen des
 Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film,
 voller Bedeutung und Erwartung.
@@ -194,7 +194,7 @@ erstrahlen zu lassen:
   etablieren. Im Rollenspiel wird daraus eine **bildhafte Beschreibung der
   Umgebung**. Nehmt euch Zeit, die Szenerie des Einstiegs auszumalen: das Panorama
   einer historischen Stadt bei Sonnenuntergang, das endlose Schwarz der Nullzeit
-  mit schwebenden Zeitportal-Fragmenten – flüchtige Lichtreflexe vergangener
+  mit schwebenden Zeitriss-Fragmenten – flüchtige Lichtreflexe vergangener
   Sprünge –, oder das dichte Neonleuchten einer futuristischen Megacity im Regen.
   Ein stimmungsvoller **Establishing Shot** zieht alle sofort in die Welt hinein.
   Details zu Licht, Wetter, Geräuschen und Gerüchen schaffen Immersion. Beispiel:
@@ -358,7 +358,7 @@ Bedürfnisse anpasst:
   Spielmoment nicht zwingend dort spielen. Alternativen: Die Charaktere könnten
   sich **schon vor ZEITRISS kennen** (etwa weil das ITI sie in ihrer Zeit
   beobachtet hat) und werden in einer gemeinsamen Vorepisode angeworben, bevor
-  sie den Schritt durchs Portal tun. Oder man spielt, wie erwähnt, direkt eine
+  sie den Schritt durch den Zeitriss tun. Oder man spielt, wie erwähnt, direkt eine
   kurze **Vormissions-Sequenz** in der Zielzeit, die abrupt abbricht, um mit einem
   Zeitsprung ins HQ zu wechseln – quasi ein **kalter Sprung** ins Abenteuer und
   dann zurück zur Vorbereitung. Beide Wege haben Vor- und Nachteile: Das HQ als
@@ -489,7 +489,7 @@ mit den oben beschriebenen filmischen Techniken ausschmücken:
 ITI begrüßt. Diese Variante ist klassisch, da sie den gemeinsamen **Startpunkt aller Chrononauten**
 markiert. Die Szene aus dem Modul-Einstieg oben ist ein Beispiel dafür: Ankunft im Quarzatrium,
 Begrüßung durch Commander Renier, erste Orientierung. Danach startet ein **geführter HQ‑Rundgang**
-(Quarzatrium → Med‑Lab → Chrono‑Portal) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
+(Quarzatrium → Med‑Lab → Chrono‑Riss) inklusive kurzer HUD‑Tutorial‑Hinweise zu Würfelmechanik
 und System-Slots. Sobald die Fraktionswahl steht, übernehmen die jeweiligen
 Fraktionskontaktpersonen die regulären Briefings und Debriefs.
 Diese Einführungsmission ist bewusst nicht scheiterbar und führt linear durch die
@@ -510,7 +510,7 @@ Abschließen könnte Option 1 z.B. mit einem **Trainings-Szenario** (siehe Missi
 direkten Briefing zur ersten echten Mission.
 
 **Variationen:** Falls bereits bekannt ist, dass alle Charaktere aus der gleichen Epoche kommen
-(z.B. alle aus dem 21. Jh.), könnte man ihren **gemeinsamen Schritt durchs Portal** in einer kurzen
+(z.B. alle aus dem 21. Jh.), könnte man ihren **gemeinsamen Schritt durch den Zeitriss** in einer kurzen
 Vignette schildern – z.B. wie sie gemeinsam rekrutiert wurden. Umgekehrt, bei völlig verschiedenen
 Epochen, kann man **mini-Prologe** voranstellen und im HQ zusammenführen (siehe Option 3). Der
 klassische HQ-Start lässt sich auch dramatisieren: Man könnte das **Hauptquartier unter Druck**
@@ -558,7 +558,7 @@ Action zu zeigen** (ähnlich wie viele Heist-Movies beginnen, indem jedes Teammi
 individuellen Spezialgebiet gezeigt wird). Dazu könntet ihr für jede\*n einen Mini-Spotlight-Moment
 planen – z.B. der Hacker 2085 ist gerade in einem digitalen Duell mit einer KI, die Archäologin 1920
 kämpft in einer Grabkammer gegen Grabräuber – und _zack_, im entscheidenden Moment öffnet sich
-jeweils ein Zeitportal und zieht sie ins HQ. Dann treffen sie zusammen (im Grunde eine Montage aus
+jeweils ein Zeitriss und zieht sie ins HQ. Dann treffen sie zusammen (im Grunde eine Montage aus
 Option 3 mit Action kombiniert). Dieses Vorgehen ist aufwendig zu leiten, kann aber sehr **filmisch
 und unvergesslich** sein.
 
@@ -572,7 +572,7 @@ nacheinander kurze Szenen in den jeweiligen Herkunftszeiten gespielt werden, in 
 die Bastille – ein wagemutiger Spion verhindert einen zeitreisenden Saboteur daran, Marie Antoinette
 vorzeitig zu ermorden._ Oder: _Mondbasis 2177 – eine Technikerin rettet durch Geistesgegenwart ihre
 Crew vor einem mysteriösen Zeitphänomen._ In jedem Prolog erscheint am Ende ein ITI-Agent oder ein
-Zeitportal, durch das der Held/die Heldin ins HQ eingeladen wird. Sobald alle eingefangen sind, geht
+Zeitriss, durch das der Held/die Heldin ins HQ eingeladen wird. Sobald alle eingefangen sind, geht
 es über zur gemeinsamen Szene (oft dann Ankunft im HQ, siehe Option 1). Diese **Origin Stories**
 bringen viel Flair und bieten reichlich Gesprächsstoff fürs erste Aufeinandertreffen („Ihr habt
 _was_ getan? Wie krass!“). Allerdings kosten sie Zeit – man sollte aufpassen, dass es sich nicht
@@ -609,7 +609,7 @@ auch persönlichste Art, zu beginnen.
 das Abenteuer mit einer **Vorblende (Flashforward)** – einer Szene, die eigentlich in der Zukunft
 (innerhalb der Storychronologie) liegt, und springt dann zurück an den Anfang. Beispiel: Die
 allererste Szene zeigt einen dramatischen Moment _nach_ der ersten Mission – vielleicht hängen die
-Charaktere verzweifelt an einer Klippe, während unter ihnen ein Zeitportal ins Bodenlose reißt, oder
+Charaktere verzweifelt an einer Klippe, während unter ihnen ein Zeitriss ins Bodenlose reißt, oder
 der Antagonist hält in der Zukunft die letzte Zeitsprung-Energiezelle in Händen und lacht
 diabolisch. _Cut!_ Danach blendet ein Titel ein: „ein Tag zuvor…“ und wir finden uns bei der
 Missionsbesprechung im HQ wieder, bevor alles begann. Diese Technik erzeugt sofort eine **drückende
@@ -676,7 +676,7 @@ Alarmlichter rot aufblitzen, vielleicht ein dramatischer Zoom auf Reniers angesp
 Schneidet akustisch von ruhigen Hintergrundgeräuschen zu Alarm-Sirenen. So ein **Whiplash-Effekt**
 reißt alle mit. Wichtig ist gutes **Improvisationsvermögen** der SL, da Notfallsituationen chaotisch
 sind – beschreibt das Chaos, aber lasst die Spieler Akteure bleiben: sie dürfen entscheiden, ob sie
-z.B. einem verletzten Techniker helfen, eine Konsole bedienen, um das Notportal zu stabilisieren,
+z.B. einem verletzten Techniker helfen, eine Konsole bedienen, um das Not-Zeitriss zu stabilisieren,
 oder gleich mitziehen, wohin Renier sie schickt. Die Szene sollte cinematografisch den Beginn eines
 Katastrophenfilms oder Actionthrillers widerspiegeln.
 
@@ -762,7 +762,7 @@ sind.
   plötzlich mit einer „Donnerwaffe“ Überfälle begeht – ebenfalls dramatisch!
   **Gefahrenniveau:** Für ein eher pulpiges Spiel könnt ihr die Gegner relativ
   leicht besiegbar machen und den Schwerpunkt auf coole Stunts legen (z.B. ein
-  Charakter springt mit einem **Seil durch ein Zeitportal** hinter dem flüchtenden
+  Charakter springt mit einem **Seil durch ein Zeitriss** hinter dem flüchtenden
   Feind her). Für einen härteren Ton gestaltet die Bande als echte Bedrohung:
   bewaffnet, organisiert, mit Geiseln vielleicht. **Spieleranzahl:** Mit wenigen
   Spielern kann ein NSC (wie ein erfahrener Agent) als Backup dabei sein; mit
@@ -855,7 +855,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   gegnerische Zeitfraktion hat bemerkt, dass ihr altes Gerät wieder aktiv ist und
   schickt Trupps hindurch, doch der Defekt entstellt sie. Im Finale müssen die
   Agenten hinabsteigen und die Maschine abschalten, während fanatische Kultisten
-  und verstörte Zeitsoldaten sie angreifen. Funken aus dem Portal werfen
+  und verstörte Zeitsoldaten sie angreifen. Funken aus dem Zeitriss werfen
   Dämonenschatten an die Wände, was die Szene unheimlich, aber technisch erklärbar
   macht. Schließlich gelingt es dem Team, die Anomalie zu schließen – gerade
   rechtzeitig, bevor sie zu einem ausgewachsenen Paradoxon heranwächst.

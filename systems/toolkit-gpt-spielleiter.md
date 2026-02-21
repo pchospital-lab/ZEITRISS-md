@@ -528,7 +528,7 @@ Der Seed-Typ wird im Briefing genannt und bleibt während der Mission konsistent
 
 ### Einsatzbeispiele
 
-- **Systemsabotage:** Die Agenten hacken ein Zeitportal-Terminal, um eine gegnerische Operation zu
+- **Systemsabotage:** Die Agenten hacken ein Zeitriss-Terminal, um eine gegnerische Operation zu
   stören.
 
 - **Rettungsmission:** Ein Forschungsteam sitzt in einer instabilen Zeitblase fest.
@@ -953,7 +953,7 @@ das System "Regeln neu geladen".
   Höhe- oder Wendepunkt **abzubrechen**, so dass eine dringende Frage offen bleibt (z. B. ob eine
   Bombe detoniert, wer durch die Tür kommt, ob ein Zeitsprung geglückt ist). Formuliere den letzten
   Satz so, dass er das Publikum _schockiert oder extrem neugierig_ zurücklässt. _Beispiel:_ \*"Das
-  Portal öffnet sich - eine Silhouette tritt heraus. Ihr erkennt ungläubig, wer dort steht: Es ist…
+  Riss öffnet sich - eine Silhouette tritt heraus. Ihr erkennt ungläubig, wer dort steht: Es ist…
   **_Verbindung unterbrochen_**.\*"\_ (Hier würde die Sitzung enden, Auflösung erst beim nächsten Mal.)
   Baut Cliffhanger **nicht zu oft** ein, damit sie ihre Wirkung behalten, aber scheut euch nicht,
   einen Abend mit einem fiesen Cliffhanger zu beschließen - es ist eine bewährte Methode, um Spannung

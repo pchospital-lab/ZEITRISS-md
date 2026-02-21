@@ -227,7 +227,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - Nullzeit-HQ ist sicher, entspannt, klare Routinen; HUD meldet Link-Status knapp.
 - Vor jeder Mission immer ein ausführliches Briefing im HQ-Briefingraum.
 - Nach Briefing den Absprung als "Sprung" mit Kamera, Körpergefühl und HUD-Handshake beschreiben
-  - keine Portale oder Metaphern, nur Technik und Gravität.
+  - keine Tunnel oder Metaphern, nur Technik und Gravität.
 
 ## J) Anti-Verwirrung
 

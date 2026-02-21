@@ -252,7 +252,7 @@ einmaligen Reroll und kann ebenfalls explodieren.
 
 **Beispiel:** \*Chrononaut Carlos hat dank zahlreicher Abenteuer seine Geschicklichkeit auf 14
 gesteigert - ein Wert jenseits normaler menschlicher Limits. Als er nun versucht, in letzter Sekunde
-durch ein sich schließendes Portal zu hechten, würfelt er mit einem W10 **und** dem Heldenwürfel.
+durch einen sich schließenden Zeitriss zu hechten, würfelt er mit einem W10 **und** dem Heldenwürfel.
 Er erzielt eine 5 und eine 7; dank des Heldenwürfels nimmt er die 7 - gerade genug, um hindurch zu
 kommen. Hätte er nur den W10 geworfen, wäre vielleicht die 5 geblieben und Carlos gestrandet.
 In einer späteren Szene
