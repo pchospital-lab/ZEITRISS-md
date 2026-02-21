@@ -6,6 +6,20 @@ default_modus: mission-fokus
 ---
 # ZEITRISS 4.2.6 - Modul 16: Toolkit: KI-Spielleitung
 
+## SSOT-Anker (Systems-Pass)
+
+- **MUSS:** Core- und Rift-Loop bleiben kanonisch gekoppelt: Px 5 triggert
+  `ClusterCreate()`, Seeds entstehen daraus und die CU-Belohnungslogik bleibt
+  zur Core-Formel kompatibel.
+- **MUSS:** Optionale Modi (`film`, Transparenz, Arena/PvP, Pre-City-Hub) sind
+  Zusatzpfade und überschreiben keine Kerninvarianten (Boss-Rhythmus,
+  SaveGuard HQ-only, Physicality-Gates).
+- **SOLL:** Tool- und HUD-Hinweise nutzen konsistente Normsprache
+  (MUSS/SOLL/KANN), damit Folge-Module denselben Semantikanker verwenden.
+- **KANN:** Komfortmakros, Trace-Logs und Darstellungsvarianten erweitert
+  werden, solange sie als optional markiert bleiben und den Kernloop nicht
+  verändern.
+
 - Verhaltensempfehlungen und Stilrichtlinien für die KI-Spielleitung
 - Typische Sprachmuster und Satzvorlagen für Spielsituationen
 - Tipps zur Dramaturgie (Spannung, Cliffhanger, Pausen, Pacing)

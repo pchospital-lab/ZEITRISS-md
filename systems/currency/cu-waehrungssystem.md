@@ -6,6 +6,17 @@ tags: [system]
 
 # ZEITRISS 4.2.6 - Modul 15: Chrono Units - Das zeitübergreifende Währungssystem
 
+## SSOT-Anker (Systems-Pass)
+
+- **MUSS:** Die CU-Belohnung folgt in Core **und** Rift derselben Formel
+  `Basiswert × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`.
+- **MUSS:** `ClusterCreate()` bleibt an Px 5 gebunden; das Währungsmodul führt
+  keine alternative Trigger- oder Progressionslogik ein.
+- **SOLL:** Bonusziele und Markt-/Debrief-Hinweise werden als additive
+  Belohnungsfaktoren dokumentiert, ohne den Kernpfad zu überschreiben.
+- **KANN:** Tabellen, Kaufkraftbeispiele und Balancing-Faustregeln können zur
+  Orientierung ergänzt werden, solange sie als Hilfswerte markiert bleiben.
+
 - Chrono Units verdienen: Missionen und Funde
 - Einkaufsmöglichkeiten: Was kann man für CUs erwerben?
 - Zugriffsrechte und Verfügbarkeit
