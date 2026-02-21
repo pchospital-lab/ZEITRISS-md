@@ -1211,101 +1211,33 @@ Missionen, gibt jeder Figur eine eigene Stimme und führt sie durch Briefings un
 Einsätze. So entsteht das Gefühl eines vollwertigen Gruppenabenteuers - auch wenn
 nur ein Spieler beteiligt ist.
 
-## ITI-Zentrum - Text-Map & Dynamic-Content Guide
+## ITI-HQ — Bereiche & HQ-Phase
 
-Das folgende Schema eignet sich für textbasiertes Solo- oder Gruppenplay. Es
-skizziert einen kompakten **Hub** mit klarem Navigationskonzept und minimalen
-Raum-Beschreibungen. GPT kann hier unkompliziert NSCs und Ereignisse
-dazugenerieren.
+Das Nullzeit-HQ hat sechs Hauptbereiche. Spieler navigieren frei per
+natürlichsprachlicher Eingabe ("Ich gehe ins Forschungslabor", "Kodex, was
+liegt an?"). Die SL beschreibt jeden Bereich filmisch mit
+Atmosphäre-Hook und aktiven NSCs.
 
-### Strukturelles Konzept
+**Bereiche:**
 
-```text
-[ITI-HUB]
- ├─ [Gatehall]
- │    ├─ [Mission-Briefing-Pod]
- │    └↘
- ├─ [Research-Wing]
- │    ├─ [Lab-Alpha]
- │    └─ [Workshop-Beta]
- ├─ [Operations-Deck]
- │    ├─ [Time-Shard-Vault]
- │    └─ [Seed-Scanner]
- ├─ [Crew-Quarters]
- │    ├─ [Common-Room]
- │    └─ [Sleep-Capsules]
- └─ [Hangar-Axis]
-      ├─ [Jump-Pads]
-      └─ [Maintenance-Bay]
-```
-
-Jeder Knoten lässt sich in wenigen Sätzen beschreiben und bei Bedarf mit
-Subknoten erweitern.
-
-### Navigations-Syntax (GPT-Prompts)
-
-| Spieler-Eingabe        | Bedeutung                              |
-| ---------------------- | -------------------------------------- |
-| `> go research`        | Wechselt zu `[Research-Wing]`.         |
-| `> look`               | Zeigt Raum-Text und offene Subknoten.  |
-| `> npc speak Dr. Voss` | Triggert Dialog mit NPC-ID `npc_voss`. |
-| `> use seed-scanner`   | Führt die Raum-Aktion aus.             |
-
-### Raum-Template (max. 5 Sätze)
-
-```
-[ROOM-NAME]
-<Atmosphäre-Hook 1 Satz>
-<Inventar / Kontrollpult Kurzbeschreibung>
-<GPT-Sockets: npc[], event[], hint[]>
-<Interaktiver Hauptrahmen>
-```
-
-Beispiel **Gatehall**:
-
-```
-Das Atrium hallt unter hohen Phi-Bögen aus poliertem Carbonglas.
-Grellblaue Leitlichter pulsieren zum Takt des Zentral-Reaktors.
-npc[sgt_keller] patrouilliert, event[routine_alarm] dormant.
-> boarding mission | > talk keller | > access briefing-pod
-```
-
-### Dynamic-Population-Logik
-
-```json
-{
-  "room_id": "Research-Wing",
-  "seed": 1696851500,
-  "sockets": {
-    "npc": 2,
-    "event": 1
-  }
-}
-```
-
-GPT erzeugt dazu zwei kurze NSC-Profile und ein Ereignis für den Raum.
-
-### Standard-Sockets je Raum
-
-| Raum                 | npc | event | special            |
-| -------------------- | --- | ----- | ------------------ |
-| Gatehall             | 1   | 1     | `boarding_control` |
-| Research-Wing        | 2   | 1     | `lab_console`      |
-| Operations-Deck      | 1   | 2     | `seed_scanner`     |
-| Crew-Quarters        | 2   | 0     | `rest`             |
-| Hangar-Axis          | 1   | 1     | `jump_pad`         |
-| Mission-Briefing-Pod | 0   | 1     | `briefing_screen`  |
+- **Gatehall** — Empfangsbereich, Sicherheitscheck, Zugang zum Briefing-Pod.
+- **Research-Wing** — Labore und Werkstätten. Upgrades, Analysen, Artefakt-Scans.
+- **Operations-Deck** — Seed-Scanner, Paradoxon-Anzeige, Missionsplanung.
+- **Crew-Quarters** — Ruhebereich. Stress-Reset, persönliche Quartiere.
+- **Hangar-Axis** — Sprungplattformen, Fahrzeugwartung, Rift-Starts.
+- **Mission-Briefing-Pod** — Einsatz-Briefings, Dispatcher-Konsole.
 
 ### HQ-Phase Workflow
 
-Nach jeder Mission blendet das System ein kurzes **Nullzeit-Menü** ein.
-Dort wählt das Team: *Rest*, *Research*, *Shop* oder *Briefing*.
-1. Rückkehr in die Gatehall.
-2. `> go operations` zeigt Seed-Status und Paradoxon-Index.
-3. `> use seed-scanner` listet offene Rifts.
-4. `> go hangar` und `> jump rift-ID` starten Side-Ops.
-5. `> rest` in den Crew-Quarters setzt Stress zurück.
-6. `> briefing new-mission` liefert den nächsten Einsatz.
+Nach jeder Mission zeigt die SL den Debrief-Score-Screen (automatisch),
+danach öffnet sich das HQ-Menü:
+1. Rückkehr ins HQ (Gatehall-Szene).
+2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ & Save.
+3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
+   NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
+4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
+5. Im Hangar startet auf Wunsch eine Rift-Op (nach Episodenende).
+6. Ruhe in den Crew-Quarters setzt Stress zurück.
 
 #### Pre-City-Hub Transit (Optional)
 
@@ -1320,78 +1252,6 @@ Dort wählt das Team: *Rest*, *Research*, *Shop* oder *Briefing*.
   des Stadteintritts ausgesprochen wurde. Halte `campaign.loc` weiterhin auf `HQ`, bis der echte Schlüssel aktiv ist.
 - **Abbruch:** Bricht die Gruppe den Transit ab oder lehnt ihn ab, notiere dies im Debrief
   (`Chronopolis-Vorschau abgelehnt`). Fahre mit dem regulären HQ-Menü fort.
-
-### NPC-Micro-Template
-
-```
-npc_id: npc_voss
-role: Senior Temporal Engineer
-quirk: spricht im 19-Hz-Metronom-Rhythmus
-hook: bietet Upgrade auf Quantum Flashbang (500 CU)
-dialog: "Zeit ist kein Fluss, Agent. Sie ist ein Tresor."
-```
-
-### Event-Micro-Template
-
-```
-event_id: lab_overload
-trigger: Spieler betritt Research-Wing
-skill_gate: Tech 12
-on_fail: Px stagniert, mini-explosion (1 W6 Schaden)
-on_success: 200 CU Bonus
-```
-
-### Beispiel-Interaktion
-
-```
-> look
-[Gatehall]
-Das Atrium hallt unter hohen Phi-Bögen ...
-Sgt. Keller salutiert knapp.
-> talk keller
-"Kartuschen aufgefüllt, Sir. Aber das Scanner-Deck glüht rot."
-> go operations
-[Operations-Deck]
-Hologramme tanzen über dem Seed-Scanner.
-Rift-Seeds: 1  |  Paradoxon-Index: 3
-> use seed-scanner
-Rift-ID #LND-1851 »Steam Wraith« - Status: OPEN
-Side-Op? (y/n)
-> y
-"Kurze Warnung: Schwelle +1 bleibt bis Schließung bestehen."
-> go hangar
-[Hangar-Axis]
-Jump-Pad pulsiert violett.
-> jump LND-1851
--- Side-Op startet --
-```
-
-### Implementierte Dev-Features
-
-Die folgenden Punkte sind im Modul **Runtime Stub & Routing Layer (Text-Edition)**
-umgesetzt und dienen als Vorlage für die Integration in das MyGPT-Spiel:
-
-- Text-Router mit Raum-IDs und Aliasen.
-- API-Endpoint `getRoomPopulation`.
-- Persistente Paradoxon- und Seed-Statistik.
-- Side-Op-Starter über `jump rift-ID`.
-- Ruhen in den Crew-Quarters zum Reset von HP & Stress.
-
-### Meta-Kommandos
-
-- `/stress open` oder `/stress hidden` - zeigt bzw. verbirgt den Stress-Balken.
-
-### Macro-Sheet Beispiel
-```json
-{
-  "roll(mode)": ["hidden","open","manual"],
-  "px_index": 2,
-  "scene_timer": 37
-}
-```
-
-- `/reject <grund>` - aktiviert das Ablehnen-Schema. Erkläre knapp,
-  warum ein Wunsch nicht umsetzbar ist und schlage eine Alternative vor.
 
 ## Quick-Reference-Macro `/qr`
 
