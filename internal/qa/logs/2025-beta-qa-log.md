@@ -1,10 +1,70 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.38
+version: 0.4.41
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2027-03-14 – Repo-Agent – Toolkit entkoppelt von Onboarding-UX
+- Fokus: Rückmeldung umgesetzt, dass KI-First-Onboardinghinweise nicht im
+  Spielleiter-Toolkit stehen sollen, um Runtime-Wissensmodule nicht mit
+  Setup-/Bedienpfaden zu vermischen.
+- Scope: `systems/toolkit-gpt-spielleiter.md`, `README.md`,
+  `docs/setup-guide.md`, `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`.
+- Ergebnis:
+  1. Abschnitt `KI-First-Onboardingflow (verbindlich)` aus dem Toolkit entfernt.
+  2. Onboarding-Referenzfluss bleibt in README + Setup-Guide als User-Dokumentation.
+  3. QA-Plan/Audit/Restkatalog auf den entkoppelten Zuschnitt aktualisiert.
+
+**Backlog-Status**
+1. KI-First-Onboardingpfad: **in Umsetzung** (UX in README/Setup, kein Toolkit-Mirror).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Single-Source-of-Truth + Stil-Feinschliff: **offen**.
+
+## 2027-03-14 – Repo-Agent – Onboarding-UX-Nachschärfung (Script vs. manuell)
+- Fokus: Doppelte/unklare Einstiegsdarstellung in README/Setup auflösen,
+  damit Nutzer:innen den Standardpfad (Script) und die manuelle Alternative
+  eindeutig unterscheiden können.
+- Scope: `README.md`, `docs/setup-guide.md`.
+- Ergebnis:
+  1. README führt jetzt einen klaren Standardpfad mit OpenWebUI/OpenRouter,
+     Repo-Download, Script-Ausführung und Start-Checks (Masterprompt +
+     Wissensslots).
+  2. README ergänzt den Session-Update-Standard (vor jeder Runde Repo aktualisieren
+     + Script erneut ausführen) ohne Doppelstruktur.
+  3. Setup-Guide spiegelt den Ablauf inkl. „Vor jeder Session aktualisieren“
+     und Hinweis auf den Script-basierten Update-Weg.
+
+**Backlog-Status**
+1. KI-First-Onboardingpfad: **in Umsetzung** (UX-Flow klarer, Folgeabgleich offen).
+2. Economy-/Scaling-Checkliste: **in Umsetzung**.
+3. Single-Source-of-Truth + Stil-Feinschliff: **offen**.
+
+## 2027-03-14 – Repo-Agent – Restkatalog-Zyklus 1 (KI-First + QA-Checkliste)
+- Fokus: Operativen Restkatalog konkret weiterführen, ohne Schnellschüsse:
+  KI-First-Onboardingroute explizit spiegeln und Economy-/Scaling-Prüfpfad in
+  QA-Dokumenten bündeln.
+- Scope: `README.md`, `docs/setup-guide.md`,
+  `systems/toolkit-gpt-spielleiter.md`,
+  `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`,
+  `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/audits/ZEITRISS-qa-audit-2025.md`.
+- Ergebnis:
+  1. KI-First-Onboarding als synchroner 4-Schritte-Flow in README/Setup/Toolkit
+     verankert.
+  2. Economy-/Scaling-Checks im QA-Fahrplan als bindende Checkliste mit
+     konkreten Testkommandos ergänzt.
+  3. Restkatalog-Punkte #2 und #3 auf „in Umsetzung" gesetzt; Audit spiegelt den
+     Zyklusstatus.
+
+**Backlog-Status**
+1. Single-Source-of-Truth-Restpunkte: **offen**.
+2. KI-First-Onboardingpfad: **in Umsetzung** (Referenzfluss gespiegelt).
+3. Economy-/Scaling-Checkliste: **in Umsetzung** (QA-Plan/Audit gebündelt).
+4. Stil- und Sprachkonsistenz: **offen**.
 
 ## 2027-03-13 – Repo-Agent – Restkatalog-Klarstellung (KI-First)
 - Fokus: Missverständliche Formulierung im Restkatalog korrigieren,

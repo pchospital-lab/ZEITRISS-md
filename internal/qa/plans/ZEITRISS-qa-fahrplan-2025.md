@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.22.1
+version: 1.23.1
 tags: [meta]
 ---
 
@@ -1788,6 +1788,19 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   Release-Durchlauf schließen. _(Abschluss über T5 vom 2027-03-10; Setup-Guide
   auf 4.2.6 harmonisiert, Changelog im Root vorhanden.)_
 
+### Zyklus 2027-03-14 – KI-First-Onboarding & Economy-/Scaling-Checks
+
+- KI-First-Onboardingpfad in README und Setup-Guide als identischer
+  4-Schritte-Referenzfluss gespiegelt (Setup → Wissensslots → Sessionstart →
+  HQ-zentrierter Session-Loop). Toolkit bleibt frei von Onboarding-UX-Texten.
+- Economy-/Scaling-Checks als bindende QA-Liste gebündelt:
+  1. `node tools/test_economy_merge.js` (Seed-Caps, Merge-Deckel).
+  2. `node tools/test_acceptance_followups.js` (Mission-5/Boss/Foreshadow-Gates).
+  3. `node tools/test_save.js && node tools/test_load.js` (Save/Load inkl.
+     `economy_audit`-Trace und Wallet-Pfade).
+  4. Pflicht-Läufe `python3 tools/lint_runtime.py` +
+     `GM_STYLE=verbose python3 tools/lint_runtime.py` (Runtime-Regelabgleich).
+
 ### Aktiver Rest-Backlog (für die nächsten Zyklen)
 
 - [x] Arena-Smoke-Baseline repariert: Device-Requirement-Check toleriert in
@@ -1799,5 +1812,7 @@ Referenz: `uploads/tiefenanalyse-regelwerk-und-onboarding.md`, Punkt 2
   `internal/qa/plans/ZEITRISS-tiefenanalyse-restkatalog-2027.md`, Stand
   2027-03-13.)_
 - [ ] Restkatalog iterativ abarbeiten (Single-Source-of-Truth-Restpunkte,
-  KI-First-Onboardingpfad, Economy-/Scaling-Checkliste, Stil-Feinschliff)
-  und pro Zyklus im QA-Log dokumentieren.
+  KI-First-Onboardingpfad finalisieren, Stil-Feinschliff) und pro Zyklus im
+  QA-Log dokumentieren.
+- [x] Economy-/Scaling-Sicherungen als gebündelte QA-Checkliste im Fahrplan
+  verankert (Stand 2027-03-14).

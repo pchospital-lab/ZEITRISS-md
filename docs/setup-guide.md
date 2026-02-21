@@ -15,6 +15,26 @@ Masterprompt-Namen bleiben auf `v4.2.6` harmonisiert.
 
 ## Wissensspeicher & Plattform-Setup {#wissensspeicher--plattform-setup}
 
+### KI-First-Onboarding (kanonischer Ablauf)
+
+1. **Voraussetzungen:** OpenWebUI installieren und OpenRouter-Zugang
+   vorbereiten.
+2. **Aktuelles Repo bereitstellen:** Git-Clone oder GitHub-ZIP herunterladen,
+   entpacken und in den Repo-Ordner wechseln.
+3. **Script-Setup ausführen:** `./scripts/setup-openwebui.sh`.
+4. **Start-Checks:** Masterprompt im Systemfeld + 20 Wissensslots geprüft,
+   dann `Spiel starten (solo klassisch)`.
+
+Dieser Ablauf ist der Referenzpfad für ZEITRISS im KI-Chatbetrieb und bleibt
+zwischen README und Setup-Guide synchron.
+
+### Vor jeder Session aktualisieren (Standard)
+
+- Neuesten Repo-Stand ziehen (`git pull`) oder frischen ZIP-Stand entpacken.
+- Setup-Script erneut starten (`./scripts/setup-openwebui.sh`).
+- In OpenWebUI prüfen: Preset aktiv, Masterprompt gesetzt, Wissensspeicher mit
+  20 Modulen verknüpft.
+
 Die komplette Operator-Checkliste liegt repo-intern vor. Dort findet ihr die
 Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
 Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README listet nur die
@@ -39,6 +59,10 @@ welches Base-Modell genutzt werden soll: Standard ist
 eintragen oder über `ZEITRISS_MODEL` vorgeben. Danach: Browser auf, Modell
 „ZEITRISS v4.2.6 – Local Uncut" (aktueller Preset-Name) wählen, dann möglichst
 `Spiel starten (solo klassisch)` tippen.
+
+Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
+bevorzugte Update-Weg, damit Preset, Masterprompt-Feld und Wissensspeicher auf
+dem neuesten Repo-Stand bleiben.
 
 **Manuell (MyGPT, OpenWebUI, andere Plattformen):**
 
