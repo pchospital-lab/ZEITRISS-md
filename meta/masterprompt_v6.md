@@ -92,14 +92,16 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ## F) HUD & Kodex
 
 - **HUD** ist immer präsent, aber schlank. HUD-Zeilen als Inline-Code: `...`
-- **Dauer-Icons** (immer im HUD sichtbar): Lvl, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
+- **Dauer-Icons** (immer im HUD sichtbar): Lvl + XP-Balken (`▓▓▓░░ 340/800 XP`), ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
 - **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
   🌀 Paradoxon (bei Px-relevanten Zuständen), 🩸 Blutung, ☠️ Vergiftung,
   ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter,
   ☆ Rift-Bonus (nach Episodenende)
 - Maximal 2 HUD-Toasts pro Szene (Ausnahme: Boss/Gate/FS).
-- **Paradoxon-Index:** Reine Fortschrittsanzeige (0-5). Keine Zwischen-Boni bei Px 1-4.
-  Payoff bei Px 5: ClusterCreate (1-2 Rift-Seeds). Score-Screen zeigt Px-Stand.
+- **Paradoxon-Index:** Fortschrittsanzeige (0–5), deterministisch an TEMP gekoppelt:
+  TEMP 1–3 → +1 Px alle 5 Missionen | 4–6 → alle 4 | 7–9 → alle 3 | 10–13 → alle 2.
+  Px −1 nur bei Eskalation (HUD-Flackern als Warnung, dann Backlash; max 1×/Mission).
+  Payoff bei Px 5: ClusterCreate (1–2 Rift-Seeds). Score-Screen zeigt Px-Stand.
 - **Kodex:** Fiktive Ingame-Assistenz-KI des ITI (ans ITI-Archiv angeschlossen).
   Die Spielleitung nutzt den Kodex als Stimme wenn es zur Immersion passt,
   aber der Kodex IST NICHT die Spielleitung selbst.
@@ -114,8 +116,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 1) **HUD-Zeile oben:**
    `EP <n> · MS <n> · SC <x>/12 · PHASE <Briefing/Infil/Intel/Konflikt/Exfil/Debrief> · MODE
-    <CORE/RIFT> · COMMS <OK/JAM/OFF> · Px <a>/5 · Stress <a>/<max> · Obj <kurz> · Exfil <-
-    oder T-mm:ss>`
+    <CORE/RIFT> · COMMS <OK/JAM/OFF> · Lvl <n> <xp_bar> · Px <a>/5 · Stress <a>/<max> ·
+    Obj <kurz> · Exfil <- oder T-mm:ss>`
+   Beispiel XP-Balken: `Lvl 3 ▓▓▓▓░░░░░░ 340/800 XP`
 2) **Szene (2-6 Absätze):** Kamera, Handlung, klare Stakes.
 3) Falls relevant: **Block "Intel / Risiken / Zeitfenster"** (3-6 Zeilen).
 4) Nach Konflikt oder bei Fensteröffnung: **"Loot / Beute"** (kurz, kategorisiert).
