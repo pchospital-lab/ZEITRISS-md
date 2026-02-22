@@ -64,20 +64,33 @@ Hinweis für laufenden Betrieb: Das erneute Ausführen des Scripts ist der
 bevorzugte Update-Weg, damit Preset, Masterprompt-Feld und Wissensspeicher auf
 dem neuesten Repo-Stand bleiben.
 
-**Manuell (MyGPT, OpenWebUI, andere Plattformen):**
+**Manuell (OpenWebUI ohne Script, andere Plattformen):**
 
-1. **20 Dateien in den Wissensspeicher laden:** `core/spieler-handbuch.md` plus
-   alle 19 Runtime-Module aus der Tabelle unten. `master-index.json` bleibt ein
-   repo-internes Steuerdokument und gehört **nicht** in den Wissensspeicher.
-   `README.md` ist die GitHub-Landingpage und gehört ebenfalls **nicht** in den
-   Wissensspeicher.
-2. **Masterprompt als System-Prompt:** Kopiere `meta/masterprompt_v6.md`
-   (Local-Uncut v4.2.6, aktueller Dateiname) als Systemprompt (MyGPT: Anweisungsfeld,
-   OpenWebUI: Instruktionsfeld). Der Masterprompt gehört
-   **nicht** in den Wissensspeicher — er wird ausschließlich als Systemfeld
-   geladen.
-3. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
+1. **Knowledge Base erstellen:** In OpenWebUI unter Wissensspeicher →
+   „Neue Wissensbasis" → Name: `ZEITRISS 4.2.6 Regelwerk`.
+2. **20 Dateien hochladen:** `core/spieler-handbuch.md` plus alle 19
+   Runtime-Module aus der Tabelle unten in diese Knowledge Base laden.
+   **NICHT** in den Wissensspeicher gehören: `README.md` (GitHub-Landingpage),
+   `master-index.json` (Steuerungsdatei), `speicher-fortsetzung.legacy.md`
+   (historisches Archiv, veraltet).
+3. **Modell-Preset erstellen:** Unter Modelle → Neues Modell:
+   - **Name:** `ZEITRISS v4.2.6 Uncut – [Modellname]`
+   - **Base-Modell:** Eines der empfohlenen Modelle (siehe Tabelle oben)
+   - **System-Prompt:** Inhalt von `meta/masterprompt_v6.md` komplett einfügen.
+     Der Masterprompt gehört **nicht** in den Wissensspeicher — er wird
+     ausschließlich als Systemfeld geladen.
+   - **Wissensbasis:** Die eben erstellte `ZEITRISS 4.2.6 Regelwerk` verknüpfen
+   - **Parameter (unter Erweiterte Einstellungen):**
+     - Temperature: `0.8`
+     - Top-P: `0.9`
+     - Frequency Penalty: `0.3`
+     - Max Tokens: `4096`
+   - **Capabilities:** Vision und Usage **aus**
+   - **Tools/Filter:** Keine nötig
+   - **Vorschläge:** `Spiel starten (solo schnell)`, `Spiel starten (solo klassisch)`, `Spiel laden`
+4. **Slot-Kontrolle:** Prüfe nach jedem Speicherstand oder Plattform-Export, ob
    alle 20 Wissensmodule (Spieler-Handbuch + 19 Runtime-Module) weiterhin geladen sind.
+5. **Spielen:** Neuen Chat öffnen → Preset wählen → `Spiel starten (solo schnell)` tippen.
 
 ### Runtime-Module im Wissensspeicher
 
@@ -122,7 +135,17 @@ dem neuesten Repo-Stand bleiben.
   | `deepseek/deepseek-chat-v3-0324` | **Standard** | ~$0.27/$1.10 | Regeltreu, stabiler Noir-Ton, sehr günstig — klare Hauptempfehlung |
   | `qwen/qwen3.5-397b-a17b` | **Budget** | ~$0.15/$1 | MoE-Modell, starke Atmosphäre und korrekte Regelumsetzung, near-free |
 
-  Temperatur: **0.8** für alle Modelle.
+  **Optimale Parameter (für alle Modelle):**
+
+  | Parameter | Wert | Warum |
+  |-----------|------|-------|
+  | Temperature | **0.8** | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue |
+  | Top-P | **0.9** | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen |
+  | Frequency Penalty | **0.3** | Verhindert Wiederholungen in langen Sessions |
+  | Max Tokens | **4096** | Antworten werden nicht mitten in der Szene abgeschnitten |
+
+  Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
+  die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.
 - **MyGPT (OpenAI, optional):** Funktionell derzeit nicht als Primärpfad empfohlen,
   weil Content-Filter häufiger eingreifen (`redacted`) und große Masterprompts in
   der Praxis limitieren können.
