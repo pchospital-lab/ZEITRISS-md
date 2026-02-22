@@ -2142,12 +2142,15 @@ _Implementations-Package für Code, Art & Content_
 
 ### 1 | High-Level-Pitch
 
-> **Chronopolis** ist eine **statische Megastruktur** aus einer _möglichen Zukunft, die nie eintreten wird_.
-> Architektur & Straßenzüge bleiben unverändert.
-> **Bewohner, Händler und Begegnungen werden bei jedem Betreten vollständig neu instanziiert** -
-> so wirkt die Stadt stets frisch,
-> ohne dass wir mehr als **eine** Map modellieren müssen.
-> Die ringförmige Stadt schmiegt sich wie ein Wurm um das zentrale ITI-Hauptquartier.
+> **Chronopolis** ist die **gescheiterte Zeitlinie der aktuellen Episode** —
+> so sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instabil, gefährlich.
+> Die Stadt wird bei jedem Betreten **frisch instanziert** (gelockt auf die Episodenepoche),
+> mit neuen Bewohnern, Händlern und Begegnungen.
+> Die ringförmige Stadt schmiegt sich um das zentrale ITI-Hauptquartier.
+> **Keine Waffenruhe** — hier passiert alles, ohne Szenencount.
+> **Tod = Aufwachen im HQ**, alle Chronopolis-Items dieses Runs verloren.
+> Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
+> Chronopolis ist eine temporäre Instanz, erschaffen von Kodex. Kein Speichern möglich.
 
 ### 2 | Freischalt-Logik
 

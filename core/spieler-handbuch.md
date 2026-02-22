@@ -7,12 +7,12 @@ tags: [core]
 ## Überblick
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
-spielt operative Chrononauten - Agenten des ITI - in taktisch optimierten
-Biohüllen. Bereits zu Beginn entscheidet ihr euch für eine genetische
+spielt operative Chrononauten — Agenten des ITI — in euren echten, physischen
+Körpern. Bereits zu Beginn entscheidet ihr euch für eine genetische
 Grundform: Entweder Homo sapiens oder ein abgeleiteter Hominin-Typ wie
 Neandertaler, Denisova oder Atlanter-Vorläufer. Diese Wahl prägt eure
-Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente. Eure
-Hülle ist keine Tarnung - sie ist euer Körper. Ihr erkundet historische Epochen
+Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente.
+Implantate erweitern euren Körper — sie ersetzen ihn nicht. Ihr erkundet historische Epochen
 und beseitigt Anomalien. Das System verwendet explodierende Würfel und
 protokolliert Zustände im JSON-Charakterbogen. Texte und Illustrationen stehen
 unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), der
@@ -67,10 +67,13 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Bis inklusive **Level 9** bleibt Chronopolis gesperrt. Bei **Level 10**
   schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei — ab dann
   dechiffriert Kodex bei jedem Schleusendurchgang die Signatur.
-- Chronopolis wechselt Stimmung und Bevölkerung passend zur aktiven Episode
-  und zeigt ein "Was wäre wenn"-Szenario: die Epoche, als wäre die aktuelle
-  Mission gescheitert. Ideal zum Epochen-Shopping und Informationen sammeln.
-- Nach jeder Mission: Zurück ins HQ, durchatmen, wieder raus.
+- **Chronopolis** zeigt die gescheiterte Zeitlinie der aktuellen Episode — so
+  sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instanziert bei
+  jedem Besuch, keine Waffenruhe. Items die man lebend rausbringt: behalten.
+  Tod = Aufwachen im HQ, alle Chronopolis-Items dieses Runs verloren. Kein
+  Speichern, keine Auswirkungen auf die echte Zeitlinie. Roguelike-Risiko.
+- **HQ** ist der sichere Hafen — Nullzeit-Blase. Friedlich, konstant, überall
+  speichern. Kein Kampf, kein Risiko. Zurück ins HQ, durchatmen, wieder raus.
 
 **Kodex (Eure KI):**
 - Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
@@ -301,9 +304,11 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 - `Spiel laden` - Deepsave → Kodex-Recap → HQ/Briefing (EntryChoice übersprungen,
   `campaign.entry_choice_skipped=true`, `ui.intro_seen=true`)
 
-Chronopolis bleibt bis Level 10 ein gesperrter CITY-Knoten. Beim Erreichen
-von Level 10 schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei;
-erst danach ist der Stadteintritt freigegeben.
+Chronopolis bleibt bis Level 10 gesperrt. Beim Erreichen von Level 10 schaltet
+Kodex den **Chronopolis-Schlüssel** frei. Chronopolis ist die **gescheiterte
+Zeitlinie** der aktuellen Episode — düster, gefährlich, bei jedem Besuch frisch
+instanziert. Keine Waffenruhe, kein Speichern. Tod = Aufwachen im HQ, alle
+Items dieses Runs verloren. Items die man lebend rausbringt: behalten.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
