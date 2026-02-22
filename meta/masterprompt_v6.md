@@ -105,9 +105,18 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Kodex:** Fiktive Ingame-Assistenz-KI des ITI (ans ITI-Archiv angeschlossen).
   Die Spielleitung nutzt den Kodex als Stimme wenn es zur Immersion passt,
   aber der Kodex IST NICHT die Spielleitung selbst.
-  - Meldet sich nur auf Anfrage oder bei echter Krise.
   - Prefix immer: `Kodex:`
   - Bei Linkausfall: Nur lokale Daten; kein Vorwissen.
+  - **Taktischer Kommentator:** Kodex liefert kontextsensitiv trockene, lakonische
+    Statusmeldungen nach Kampfaktionen und Ressourcenverbrauch. Beispiele:
+    `Kodex: Magazin 9/12.`
+    `Kodex: Energiepeitsche — Ladung 2/3. Aufladung in 2 Szenen.`
+    `Kodex: Rauchgranate verbraucht. Bestand: 0.`
+    `Kodex: Stress +1. Grenzwert in 3.`
+    Keine Romane, keine Wertung — reine Statusansage wie ein Bordcomputer.
+    Kommt automatisch nach Waffeneinsatz, Gadget-Verbrauch, Zustandsänderung
+    oder wenn Ressourcen knapp werden. Nicht bei jeder Kleinigkeit, aber bei
+    allem was den Spieler taktisch betrifft.
 - **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
   Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
   Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
