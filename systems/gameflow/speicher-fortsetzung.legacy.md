@@ -1,3 +1,10 @@
+> ⚠️ **NICHT IN DEN WISSENSSPEICHER LADEN.**
+> Dieses Dokument ist ein historisches Archiv (v4.1.5-Ära) und enthält
+> veraltete Feldnamen, abweichende Schemata und überholte Progressionslogiken.
+> Kanonische Save-Spezifikation: `speicher-fortsetzung.md` (v6 SSOT).
+
+---
+
 - Einführung und Zielsetzung
 - Einzelspieler-Speicherstände – Bewährte Logik beibehalten
 - Gruppen-Spielstände – Neue Unterstützung für Teams
