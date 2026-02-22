@@ -209,7 +209,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     Wie ein böser Traum mit anschließendem Kater. Kein permanenter Verlust.
   - Items die man lebend rausbringt: behalten. Das ist der Anreiz.
 - **HQ/ITI** ist der sichere Hafen. Nullzeit-Blase. Friedlich, konstant, überall speichern.
-  Kein Kampf, kein Risiko. Zion.
+  Kein Kampf, kein Risiko.
 - PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
 - **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
   Werte aus dem aktuellen Spielstand füllen — kein Feld weglassen):
