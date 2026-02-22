@@ -93,7 +93,6 @@
       "runtime_version": "4.2.6",
       "chronopolis_warn_seen": true,
       "compliance_shown_today": true,
-      "howto_guard_hits": ["offline:syntax"],
       "offline_help_last_scene": "HQ:1",
       "offline_help_count": 1,
       "foreshadow_gate_progress": 2,
@@ -107,7 +106,7 @@
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "high",
     "badge_density": "compact",
     "output_pace": "normal",
@@ -129,10 +128,10 @@
     "damage_dampener": true,
     "team_size": 1,
     "fee": 0,
-    "scenario": "chronopolis_gate",
+    "scenario": {"label": "chronopolis_gate", "tier": 1},
     "started_episode": 12,
     "last_reward_episode": 12,
-    "policy_players": ["Iris"],
+    "policy_players": [{"id": "IRIS-01", "role": "operator"}],
     "audit": []
   }
 }

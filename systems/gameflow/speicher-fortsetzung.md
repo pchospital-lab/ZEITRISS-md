@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+title: "ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
 version: 4.2.6
 tags: [system]
 ---
 
-# ZEITRISS 4.2.6 – Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## SSOT-Anker (Systems-Pass)
 
@@ -19,14 +19,14 @@ tags: [system]
 - **KANN:** Optionale QA-/Trace-Felder dürfen ergänzt werden, sofern sie keine
   Kernregeln (SaveGuard, Px-Flow, Belohnungslogik) verändern.
 
-## Speichern & Laden — Kurzreferenz
+## Speichern & Laden - Kurzreferenz
 
 > **Für Spieler:** Hier das Wichtigste in 30 Sekunden.
 >
 > - **Speichern** geht nur im HQ (nach Missionen, vor dem nächsten Einsatz).
-> - Befehl: `!save` — der Kodex erzeugt einen JSON-Block zum Kopieren.
+> - Befehl: `!save` - der Kodex erzeugt einen JSON-Block zum Kopieren.
 > - **Laden:** `Spiel laden` im neuen Chat, dann JSON einfügen.
-> - **In Missionen wird nicht gespeichert** — das erhöht die Spannung.
+> - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
 > - **Neuer Chat pro Mission** empfohlen: Mission abschließen → HQ → Save → neuer Chat → Laden.
 >
 > *Technische Details für die KI-Spielleitung folgen unten.*
@@ -48,18 +48,18 @@ diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis.
 - **Empfohlene Trigger (chronologisch):**
-  - Direkt nach Charaktererstellung beim ersten Betreten des HQ („Erster HQ-Stand, bitte DeepSave“).
+  - Direkt nach Charaktererstellung beim ersten Betreten des HQ ("Erster HQ-Stand, bitte DeepSave").
   - Nach jedem Debrief, sobald die Belohnungen verbucht sind und die Crew wieder frei im HQ steht.
   - Vor jedem neuen Briefing/Absprung (Core, Rift, PVP-Arena): erst speichern, dann Briefing
     anfordern/mission locken, damit der Save im HQ startet und kein offenes Missions-Block im JSON
     landet.
-  - Bei langen HQ-Freeplay-Phasen: kurz erinnern, sobald eine neue freie Runde beginnt (z. B. nach
+  - Bei langen HQ-Freeplay-Phasen: kurz erinnern, sobald eine neue freie Runde beginnt (z. B. nach
     Arena-Matches oder Side-Activities), aber nur wenn `arena.queue_state == idle`.
 - **Chronopolis & Arena:** Chronopolis zählt als City und blockiert Save-Prompts; erst zurück im HQ
-  erneut anregen. PVP-Arena speichert nicht – Save-Prompt erst nach Rückkehr ins HQ bei
+  erneut anregen. PVP-Arena speichert nicht - Save-Prompt erst nach Rückkehr ins HQ bei
   `queue_state=idle|completed`.
 - **Chat-Hygiene:** Empfohlen ist ein frischer Chat pro HQ→Mission→HQ-Zyklus. Leite nach dem Save
-  an: „Nächster Chat? JSON importieren, dann weiter.“ So bleibt der Deepsave die einzige Quelle der
+  an: "Nächster Chat? JSON importieren, dann weiter." So bleibt der Deepsave die einzige Quelle der
   Wahrheit.
 
 **SaveGuard (Pseudocode)**
@@ -70,7 +70,7 @@ diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
 assert state.location == "HQ", (
-  "SaveGuard: Speichern nur im HQ – HQ-Save gesperrt."
+  "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt."
 )
 assert state.character.attributes.SYS_installed == state.character.attributes.SYS_max
 assert state.character.attributes.SYS_runtime <= state.character.attributes.SYS_installed
@@ -108,7 +108,7 @@ required = [
 ]
 assert serializer_bereit(required)
 
-# UI-Felder sind persistent – Pflichtschreibung beim Save
+# UI-Felder sind persistent - Pflichtschreibung beim Save
 ui_persistent = [
   "ui.suggest_mode",
   "ui.contrast",
@@ -117,13 +117,13 @@ ui_persistent = [
 ]
 for field in ui_persistent:
   assert state.resolve(field) is not None, (
-    f"SaveGuard: UI-Feld {field} fehlt – UI-Persistenz verletzt."
+    f"SaveGuard: UI-Feld {field} fehlt - UI-Persistenz verletzt."
   )
 ```
 
 > **Regel: UI-Felder sind persistent.** Was der Spieler einstellt, bleibt.
 > Die Felder `ui.suggest_mode`, `ui.contrast`, `ui.badge_density` und
-> `ui.output_pace` werden beim Speichern **IMMER** geschrieben – kein
+> `ui.output_pace` werden beim Speichern **IMMER** geschrieben - kein
 > Weglassen, kein Fallback auf Defaults. Der SaveGuard bricht ab, wenn
 > eines dieser Felder `null` oder nicht vorhanden ist.
 
@@ -131,7 +131,7 @@ Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
 dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
 aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
 `CITY`-Status und ist **kein** HQ: Saves aus der City brechen mit
-„SaveGuard: Chronopolis ist kein HQ-Savepunkt – HQ-Save gesperrt.“ ab.
+"SaveGuard: Chronopolis ist kein HQ-Savepunkt - HQ-Save gesperrt." ab.
 `flags.runtime.skip_entry_choice` bleibt ein reines Laufzeit-Flag und gehört
 nicht ins Save; Persistenzanker sind ausschließlich
 `campaign.entry_choice_skipped` und `ui.intro_seen`.
@@ -160,11 +160,11 @@ suppressed:true, reason:"budget", action:"suppressed|merged"}`.
 
 Offline-Fallbacks gelten nur während Missionen: Im HQ besteht immer
 Kodex-Uplink. Falls ein Einsatz im Offline-Modus endet, sperrt `save_deep()`
-den HQ-Save bis zum Re-Sync („SaveGuard: Offline – HQ-Deepsave erst nach
-Re-Sync – HQ-Save gesperrt.“), schreibt gleichzeitig ein `logs.trace[]`-Event
+den HQ-Save bis zum Re-Sync ("SaveGuard: Offline - HQ-Deepsave erst nach
+Re-Sync - HQ-Save gesperrt."), schreibt gleichzeitig ein `logs.trace[]`-Event
 `save_blocked` (`reason: offline`) und führt keine weiteren Save-Guards aus.
 Der Befehl `!offline` ist
-auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
+auf 60 s getaktet; Rate-Limit-Meldungen zählen weder den Offline-Counter hoch
 noch füllen sie das Protokoll.
 
 **SaveGuard-Reihenfolge** *(KI-Spielleiter-Referenz)*: Offline blockiert exklusiv und schreibt
@@ -184,8 +184,8 @@ offline → Arena → HQ-only/Chronopolis inklusive Trace-Payload.
 | 3 | HQ-only/Chronopolis | `hq_only`/`chronopolis` | Pre-City-Hub zählt als HQ. |
 | 4 | Exfil aktiv | `exfil_active` | Blockt HQ-Save bis Rückkehr. |
 | 5 | SYS-Checks | `sys_not_full`/`sys_overflow`/`sys_runtime_overflow` | Vollinstallation + Runtime-Limit. |
-| 6 | Stress aktiv | `stress_active` | Blockt bis Stress 0. |
-| 7 | Psi-Heat aktiv | `psi_heat_active` | Blockt bis Psi‑Heat 0. |
+| 6 | Stress aktiv | `stress_active` | Blockt bis Stress 0. |
+| 7 | Psi-Heat aktiv | `psi_heat_active` | Blockt bis Psi-Heat 0. |
 
 ### Kompakt-Profil für GPT (Save v6)
 Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
@@ -199,15 +199,14 @@ SaveGuard + folgendem Pfadbaum:
 - `logs` mit folgenden Pfaden:
   - `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `hud`, `psi`,
     `arena_psi`, `foreshadow`, `fr_interventions`
-  - `flags{runtime_version,compliance_shown_today,chronopolis_warn_seen,
+  - `flags{runtime_version,chronopolis_warn_seen,
     chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,
-    hud_scene_usage,platform_action_contract}`
+    hud_scene_usage}`
   - `flags.merge_conflicts[]`
-  - `flags.howto_guard_hits[]`
 - `arc_dashboard{offene_seeds[],fraktionen{},fragen[],timeline[]}`
 - `ui` (vollständiger UI-Block)
 - `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat`, `team_size` hart 1–5, `match_policy=sim|lore`)
+  `zone=safe|combat`, `team_size` hart 1-5, `match_policy=sim|lore`)
 
 `logs.flags.last_save_at` hält den Zeitstempel für deterministische Saves fest. Der Serializer nutzt
 den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
@@ -216,14 +215,14 @@ den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für
 `economy_audit()` dokumentiert jeden HQ-Save mit stabilen Feldern: `level`, `band_reason`,
 `hq_pool`, `wallet_sum`, `wallet_count`, `wallet_avg`, `wallet_avg_scope`,
 `chronopolis_sinks`, `target_range`, `delta` und `out_of_range`. `target_range` nutzt fixe
-Level-Bänder **120** (HQ 8 000–10 000 CU, Wallet Ø 1 000–2 000 CU), **512** (HQ 25 000–30 000 CU,
-Wallet Ø 3 000–5 000 CU) und **900+** (HQ 45 000–60 000 CU, Wallet Ø 6 000–10 000 CU) und skaliert
+Level-Bänder **120** (HQ 8 000-10 000 CU, Wallet Ø 1 000-2 000 CU), **512** (HQ 25 000-30 000 CU,
+Wallet Ø 3 000-5 000 CU) und **900+** (HQ 45 000-60 000 CU, Wallet Ø 6 000-10 000 CU) und skaliert
 `wallet_total` über alle Wallets. Die Band-Auswahl folgt dem Host-Level
 (`character.lvl|level` oder `campaign.level`); fehlt dieser, nutzt der Audit die Medianstufe der
 Party/Team-Roster und schreibt `band_reason=host_level|roster_median|unknown`. `wallet_avg_scope`
 steht immer auf `economy.wallets`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
 boolesche Flags und löst
-den Toast „Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+).“ aus.
+den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
 Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
 
@@ -238,22 +237,22 @@ einen SaveGuard-Fehler aus, falls sie fehlen oder `null` sind.
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
 spiegelt den Zustand des Exfil-Fensters. Solange `campaign.exfil.active`
 oder `state.exfil.active` wahr ist, blockiert der Serializer den HQ-Save mit
-„SaveGuard: Exfil aktiv – HQ-Save gesperrt.“. Arena- und HQ-Blocker nutzen
+"SaveGuard: Exfil aktiv - HQ-Save gesperrt.". Arena- und HQ-Blocker nutzen
 denselben Text via `toast_save_block(reason)`. Sobald die Crew ins HQ
 zurückkehrt, setzt die Runtime alle Exfil-Felder automatisch zurück.
 
-Alle SaveGuards hängen ihren Grund konsistent an das Suffix „– HQ-Save
-gesperrt.“ an: Offline-Reasons und Arena-Locks teilen sich den Klammertext,
+Alle SaveGuards hängen ihren Grund konsistent an das Suffix "- HQ-Save
+gesperrt." an: Offline-Reasons und Arena-Locks teilen sich den Klammertext,
 SYS-Guards nutzen dieselbe Formulierung bei Overflow-Checks und fehlender
 Vollinstallation; Stress und Psi-Heat brechen ebenfalls mit diesem Suffix ab,
 damit die Guard-Matrix konsistent bleibt. **HQ-only** nutzt denselben
-SaveGuard-String („SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.“) und
+SaveGuard-String ("SaveGuard: Speichern nur im HQ - HQ-Save gesperrt.") und
 loggt zusätzlich `logs.trace[]` mit `reason: hq_only`.
 
 Arena-Matchmaking (`queue_state=searching|matched|staging|active`) zählt als
 aktiver Modus. `save_deep()` liest den Queue-Status aus, setzt `arena.active`
 und `arena.phase` im Serializer auf `active` und blockiert den HQ-Save mit
-„SaveGuard: Arena aktiv – HQ-Save gesperrt.“, bis `queue_state` wieder `idle`
+"SaveGuard: Arena aktiv - HQ-Save gesperrt.", bis `queue_state` wieder `idle`
 erreicht (auch `completed` bleibt gespeichert, aber blockiert den Save).
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
@@ -304,11 +303,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
       "chronopolis_warn_seen": false,
       "platform_action_contract": {
         "action_mode": "uncut",
-        "pattern": "full_scene",
-        "loot_policy": "full_loot",
-        "body_handling": "protocol"
-      },
-      "howto_guard_hits": []
+        }
     }
   },
   "arc_dashboard": {
@@ -368,7 +363,7 @@ Phase-Strike-Events separat vom regulären `logs.psi[]`.
 führt beide Blöcke beim Laden zusammen und schreibt sie gemeinsam zurück.
 Toolkit-Generatoren tragen Seeds ausschließlich in `campaign.rift_seeds[]`
 ein, damit Dispatcher, Arc-Dashboard und Debrief dieselbe Quelle nutzen.
-Solo-/Px‑5‑Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift eine
+Solo-/Px-5-Runs stapeln neue Seeds ohne Hard-Limit. Beim HQ-Merge greift eine
 Deckelung auf 12 offene Seeds; überschüssige Seeds gehen als Hand-off an ITI-
 NPC-Teams. Der Merge schreibt dazu ein Trace `rift_seed_merge_cap_applied`
 (kept/overflow) und einen `merge_conflicts`-Record mit `rift_merge` inklusive
@@ -377,10 +372,10 @@ Hand-off
 transparent nachverfolgen können.
 
 > **Spieler-Sprache:** `ClusterCreate()` ist der Moment, wo ihr eure Belohnung
-> bekommt. Px 5 erreicht → 1–2 neue Rift-Missionen erscheinen auf der Karte →
+> bekommt. Px 5 erreicht → 1-2 neue Rift-Missionen erscheinen auf der Karte →
 > nach der aktuellen Episode könnt ihr sie spielen. Das ist der Loot für gutes Spielen.
 
-**Single Source „Save v6“:** Modul 12 führt das _einzige_ kanonische Schema für
+**Single Source "Save v6":** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
 Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
 `team.members[]`) sind reine Import-Aliase; neue Saves entstehen ausschließlich
@@ -418,13 +413,13 @@ Felder für `contrast`, `badge_density`, `output_pace` und `voice_profile` mit
 Defaults (`standard`/`standard`/`normal`/`gm_third_person` plus
 `action_mode=uncut`). `voice_profile` erlaubt ausschließlich `gm_third_person`
 oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
-`action_mode` akzeptiert `uncut|frei` als Standard, mappt ältere Werte wie
-`konform|safe|pg-13` aber weiterhin auf `konform`.
+`action_mode` ist immer `uncut` (18+ Tech-Noir). Legacy-Werte wie
+`konform|frei|safe|pg-13` werden beim Laden auf `uncut` normalisiert.
 
 > **UI-Persistenz-Regel (Testrun 3, #008):** Die vier Felder `ui.suggest_mode`,
 > `ui.contrast`, `ui.badge_density` und `ui.output_pace` sind **persistent**.
 > Beim Speichern schreibt der Serializer sie IMMER explizit in den Save-Block.
-> Beim Laden restauriert `load_deep()` sie IMMER 1:1 aus dem Save – kein
+> Beim Laden restauriert `load_deep()` sie IMMER 1:1 aus dem Save - kein
 > Fallback auf Defaults für vorhandene Werte. Nur bei fehlenden Feldern in
 > alten Saves (Legacy/pre-v6) setzt der Normalizer folgende Defaults ein:
 >
@@ -436,7 +431,7 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
 > | `output_pace` | `"normal"` |
 >
 > Diese Defaults gelten ausschließlich als Auffangnetz für Migrationsfälle.
-> Aktuelle Saves (v6) müssen alle vier Felder enthalten – der SaveGuard
+> Aktuelle Saves (v6) müssen alle vier Felder enthalten - der SaveGuard
 > bricht andernfalls ab.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
@@ -570,16 +565,12 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
       "chronopolis_warn_seen": false,
       "platform_action_contract": {
         "action_mode": "uncut",
-        "pattern": "full_scene",
-        "loot_policy": "full_loot",
-        "body_handling": "protocol"
-      },
-      "howto_guard_hits": []
+        }
     },
     "field_notes": [
       {
         "agent_id": "AGENT-01",
-        "mission": "Sydney 2000 – Maskottchen-Alarm",
+        "mission": "Sydney 2000 - Maskottchen-Alarm",
         "timestamp": "2000-09-15T20:30:00Z",
         "note": "Kontaminationsalarm im Logistikbereich eingedämmt; Probenbestand gesichert."
       },
@@ -668,7 +659,7 @@ mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
 `{id, epoch, label}`, entfernt leere/ungültige Datensätze und setzt fehlende
 Timeline-Listen automatisch auf `[]`.
 
-**Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
+**Mission 5/10 Auto-Reset (Self-Reflection-Beispiel)**
 
 ```json
 {
@@ -693,7 +684,7 @@ Timeline-Listen automatisch auf `[]`.
 }
 ```
 
-Das Beispiel zeigt den automatischen Reset nach Mission 5 und 10: HUD-Badge `SF-OFF`
+Das Beispiel zeigt den automatischen Reset nach Mission 5 und 10: HUD-Badge `SF-OFF`
 bleibt bis zur Rückkehr sichtbar, `self_reflection_auto_reset_*` dokumentiert
 den Zeitpunkt und den Missionsausgang (`completed` oder `aborted`), die optionale
 `self_reflection_history[]` hält jeden Reset chronologisch fest. Nach dem
@@ -708,7 +699,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   synchron setzt, `self_reflection_changed_at/_reason` pflegt und auf Wunsch
   einen Eintrag an `logs.self_reflection_history[]` anhängt, damit Wiederholungen
   nachvollziehbar bleiben.
-- Auto-Reset feuert nach Mission 5 **und 10** immer, egal ob Abschluss oder
+- Auto-Reset feuert nach Mission 5 **und 10** immer, egal ob Abschluss oder
   Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
   füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
@@ -723,7 +714,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
-- Optionales Feld: `modes` – Liste aktivierter Erzählmodi.
+- Optionales Feld: `modes` - Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_installed` und
   `character.attributes.SYS_max` deckungsgleich, `SYS_runtime` liegt höchstens
   bei der installierten Last, `stress = 0`, `psi_heat = 0`. Das Speichern
@@ -736,15 +727,15 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
   normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise
-  (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge –
+  (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge -
   GPT erzeugt sie nie als Output.
 - Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
   `party.characters[]` gehoben; anschließend legt
   `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und
-  meldet den Schritt im HUD („Wallets initialisiert …“). `team.members[]`
+  meldet den Schritt im HUD ("Wallets initialisiert …"). `team.members[]`
   bleibt ausschließlich Migration und erscheint nicht in neuen Beispielblöcken.
 
-### Cross-Mode Import – Solo → Koop/Arena {#cross-mode-import}
+### Cross-Mode Import - Solo → Koop/Arena {#cross-mode-import}
 
 Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
 `load_save()` → `initialize_wallets_from_roster()` → `sync_primary_currency()` →
@@ -761,7 +752,7 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
    `Wallet-Split` in den HUD-Logs. `logs.arena_psi[]` dokumentiert parallel den
    zuvor aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
-   stammen immer aus `economy.cu`/`wallets{}` – Credits nie per Hand direkt
+   stammen immer aus `economy.cu`/`wallets{}` - Credits nie per Hand direkt
    setzen. Jeder Abzug oder Zufluss aus Arena-Gebühren, Hazard-Pay, Wallet-Split
    oder Markt-Kauf erzeugt einen `currency_sync`-Trace mit Vorher-/Nachher-Wert
    und Delta.
@@ -821,7 +812,7 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 | --- | --- | --- | --- |
 | **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `economy.wallets{eigener}`. | Gast-`campaign`, Gast-`economy.cu`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. Gast-Wallets werden per Union-by-id ergänzt. |
 | **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `economy.wallets{eigener}`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, Team/Party auf Solo-Roster reduziert, `economy.cu` auf Solo-Default. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
-| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | — | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
+| **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | - | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
 | **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU, Px) werden verbucht. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
@@ -842,9 +833,9 @@ Die `field`-Werte folgen der bestehenden Allowlist: `wallet`, `rift_merge`,
 `arena_resume`, `campaign_mode`, `phase_bridge`, `location_bridge`.
 
 Zusätzlich erlaubte Felder für Cross-Mode-Transfers:
-- `cross_mode_campaign` – für campaign-Block-Konflikte bei Solo↔Koop
-- `cross_mode_economy` – für economy.cu-Differenzen
-- `cross_mode_roster` – für party.characters[]-Divergenzen
+- `cross_mode_campaign` - für campaign-Block-Konflikte bei Solo↔Koop
+- `cross_mode_economy` - für economy.cu-Differenzen
+- `cross_mode_roster` - für party.characters[]-Divergenzen
 
 #### Trace-Protokollierung
 
@@ -865,7 +856,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
 ```
 
 Der Trace stellt sicher, dass jeder Moduswechsel lückenlos nachvollziehbar ist
-– sowohl für Debriefs als auch für QA-Prüfungen.
+- sowohl für Debriefs als auch für QA-Prüfungen.
 
 #### Solo-Defaults (Referenz für Koop→Solo)
 
@@ -918,11 +909,7 @@ Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
       "offline_help_last": "HQ:4",
       "platform_action_contract": {
         "action_mode": "uncut",
-        "pattern": "full_scene",
-        "loot_policy": "full_loot",
-        "body_handling": "protocol"
-      },
-      "howto_guard_hits": []
+        }
     }
   },
   "arc_dashboard": {
@@ -988,7 +975,7 @@ Legacy-Felder (`contrast`, `badge_density`, `output_pace`, `ui_contrast`,
 `ui`-Block. Acceptance 14/15 prüft den Roundtrip und vergleicht die geladenen
 UI-Werte gegen den gespeicherten Block.
 
-Jede Bestätigung erzeugt den Toast „Accessibility aktualisiert …“ und schreibt
+Jede Bestätigung erzeugt den Toast "Accessibility aktualisiert …" und schreibt
 die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 `standard|compact` gemappt; `rapid|quick` landen auf `fast`, `default|steady` auf
 `normal`. Saves ohne Badge-Feld setzen automatisch auf `standard`.
@@ -998,14 +985,14 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 ### Ablauf nach `!load`
 
 1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
-   Eingabe mit „Kodex: Poste Speicherstand als JSON.“
+   Eingabe mit "Kodex: Poste Speicherstand als JSON."
 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
    migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
 3. **UI-Felder restaurieren.** Beim Laden werden `ui.suggest_mode`,
    `ui.contrast`, `ui.badge_density` und `ui.output_pace` **IMMER** aus dem
-   Save restauriert – kein Fallback auf Defaults. Die gespeicherten Werte
+   Save restauriert - kein Fallback auf Defaults. Die gespeicherten Werte
    überschreiben den Laufzeitzustand 1:1. Fehlen diese Felder in einem
    älteren Save (pre-v6 oder Legacy), greift der Normalizer und setzt
    Defaults ein: `suggest_mode: false`, `contrast: "standard"`,
@@ -1015,7 +1002,7 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
    **Ask→Suggest-Reaktivierung (Pflicht):** Wenn `ui.suggest_mode = true` im
    geladenen Save steht, MUSS die Spielleitung nach dem Laden den Suggest-Modus
    aktiv schalten: `toggle_suggest(true)` aufrufen, HUD-Tag `· SUG` ins Overlay
-   setzen und den Toast „Suggest-Modus aktiv" anzeigen. Der Toolkit-Init darf
+   setzen und den Toast "Suggest-Modus aktiv" anzeigen. Der Toolkit-Init darf
    einen im Save gespeicherten `suggest_mode: true` Wert NICHT auf `false`
    zurücksetzen. Reihenfolge: Save lesen → UI-Felder setzen → Toolkit-Init
    prüft ob `suggest_mode` bereits aus dem Save stammt → wenn ja, beibehalten.
@@ -1056,11 +1043,11 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 - Version-Mismatch liefert `Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit
   vA.B. Bitte HQ-Migration veranlassen.`
 - `campaign.exfil.active` oder `state.exfil.active` blockieren den HQ-Save mit
-  „SaveGuard: Exfil aktiv – HQ-Save gesperrt.“
+  "SaveGuard: Exfil aktiv - HQ-Save gesperrt."
 - Pflichtblöcke dürfen nicht geschätzt werden; der Serializer ersetzt fehlende
   Strukturen mit sicheren Defaults (Wallets `{}`, Logs als leere Arrays,
   `ui.gm_style="verbose"`).
-- Story-Beispiel für den HQ-Guard: Abbruch kurz vor Mission 5-Boss → HUD meldet
+- Story-Beispiel für den HQ-Guard: Abbruch kurz vor Mission 5-Boss → HUD meldet
   `BOSS`+`GATE 2/2`, Debrief schreibt `last_mission_end_reason=aborted`,
   Self-Reflection springt automatisch auf `SF-ON` und der Save bleibt bis zur
   Rückkehr ins HQ gesperrt.
@@ -1069,22 +1056,19 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 
 - **Runtime-Flags.** `logs.flags.runtime_version` hält die erzeugende Version
   fest. Der Debrief bündelt sie unter `Runtime-Flags: …` inklusive
-  Action-Contract-Modus, Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
-  Szene-Marker (`offline_help_last_scene`). Optional ergänzen
-  `logs.flags.howto_guard_hits[]` Guard-Cuts; der Debrief zählt sie als
-  `How-to-Guard n×`. Compliance-Flags bleiben standardmäßig leer, da die
-  Makros neutralisiert sind. Legacy-Felder `offline_help_last` werden beim
-  Laden auf `offline_help_last_scene` gespiegelt.
+  Chronopolis-Warnung sowie Offline-Hilfe-Zähler plus
+  Szene-Marker (`offline_help_last_scene`). Legacy-Felder `offline_help_last`
+  werden beim Laden auf `offline_help_last_scene` gespiegelt.
 - **Chronopolis & Markt.** `log_market_purchase()` schreibt Einkäufe nach
   `logs.market[]` (ISO-Timestamp, Artikel, Kosten, Px-Klausel).
   `render_market_trace()` erzeugt `Chronopolis-Trace (n×): …`.
   `chronopolis_warn_seen` bleibt beim Laden gesetzt und sorgt dafür, dass die
-  City-Warnblende nur einmal auftaucht – auch nach Pre-City-Warncuts. Der
-  Chronopolis-Schlüssel schaltet ab Level 10 frei: Der Serializer hält das
+  City-Warnblende nur einmal auftaucht - auch nach Pre-City-Warncuts. Der
+  Chronopolis-Schlüssel schaltet ab Level 10 frei: Der Serializer hält das
   erwartete Level unter `logs.flags.chronopolis_unlock_level=10`, markiert den
   Übergang mit `chronopolis_unlocked=true` und schreibt beim ersten Erreichen
   ein Trace-Event `chronopolis_unlock` (Quelle + Level). Der HUD-Toast
-  „Chronopolis-Schlüssel aktiv – Level 10+ erreicht.“ dient als sichtbarer
+  "Chronopolis-Schlüssel aktiv - Level 10+ erreicht." dient als sichtbarer
   Hinweis im HUD. Beim Laden zieht die Runtime fehlende Flags nach (Level oder
   Key-Item) und liefert Trace/Toast nach, falls das Unlock bislang fehlte.
 - **Offline & Foreshadow.** `sanitize_offline_entries()` begrenzt
@@ -1101,8 +1085,8 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   `Squad-Radio (n×): …`.
 - **HQ-Rituale.** `campaign.hq_moments_used: string[]` dokumentiert Buffs
   (FOCUS/BASTION/SPARK/CALM/PULSE). Fehlt das Feld, setzt der Serializer `[]`;
-  Debriefs nennen „HQ-Moments (n×)“ entsprechend. HUD-Logs übernehmen das
-  jeweils gültige `hud_tag` (z. B. `HQ:CALM · Psi +1 (Mission)` bei CALM) und
+  Debriefs nennen "HQ-Moments (n×)" entsprechend. HUD-Logs übernehmen das
+  jeweils gültige `hud_tag` (z. B. `HQ:CALM · Psi +1 (Mission)` bei CALM) und
   spiegeln so den aktiven Effekt.
 - **Arena & Psi.** `ensure_arena()` konserviert PvP-Status, Phasen,
   Serienstände, Budget-Limits sowie `phase_strike_tax`. Sobald
@@ -1127,17 +1111,17 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
      `arena.previous_mode` / `resume_token.previous_mode`, setzt
      `campaign.mode` auf den Ursprungswert zurück. Fehlt `previous_mode`,
      fällt der Reset auf `'preserve'` zurück.
-  Arena ist **kein** dauerhaft eigener Kampagnenmodus – PvP gilt nur temporär.
+  Arena ist **kein** dauerhaft eigener Kampagnenmodus - PvP gilt nur temporär.
 - **Arena-Reset nach Load.** `load_deep()` setzt `location='HQ'`,
   deaktiviert aktive Arena-Flags und kippt die Phase auf `completed` (falls ein
-  Run lief) oder `idle`. Der Reset wird explizit genannt („Arena-Zustand auf HQ
-  zurückgesetzt.“); die letzte Runde bleibt über `arena.previous_mode`
+  Run lief) oder `idle`. Der Reset wird explizit genannt ("Arena-Zustand auf HQ
+  zurückgesetzt."); die letzte Runde bleibt über `arena.previous_mode`
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`, Szenario, `previous_mode`),
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
-  `economy.wallets{}` (Toast „Wallets initialisiert (n×)“). Saves führen immer
-  ein Objekt – ggf. `{}`. Beim Laden bleiben Host-Wallets maßgeblich, Import-
+  `economy.wallets{}` (Toast "Wallets initialisiert (n×)"). Saves führen immer
+  ein Objekt - ggf. `{}`. Beim Laden bleiben Host-Wallets maßgeblich, Import-
   Wallets werden als Union-by-id angehängt; abweichende Beträge landen in
   `logs.flags.merge_conflicts[]` und im Trace `merge_conflicts`. Alle Wallets
   folgen dem Schema `id → {balance, name}`. Fehlende Namen ergänzt der
@@ -1156,10 +1140,10 @@ verpflichtend und wird im Debrief sichtbar dokumentiert:
 1. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
 2. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
 3. **EP/Skills** (Level-Up/Skill-Picks aktiv abfragen).
-4. **Freeplay-Anker** – explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
+4. **Freeplay-Anker** - explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
    plus **1 Gerücht** (kurzer Hook) anbieten.
 
-Optional für QA: `logs.flags.hq_freeplay_prompted=true` setzen, sobald Schritt 4
+Optional für QA: `logs.flags.hq_freeplay_prompted=true` setzen, sobald Schritt 4
 gespielt wurde.
 
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
@@ -1189,11 +1173,11 @@ die Debrief-Zeilen.
    `initialize_wallets_from_roster()` leere Wallets für alle `party.characters[]`
    und verschiebt Solo-Guthaben in den HQ-Pool.
 3. **Spezialschemata.** Sonderregeln kommen über `economy.split`/`wallet_split`.
-   Prozentwerte (`percent`, `percent_share`) nutzt GPT als 0–1 bzw. 0–100 %.
+   Prozentwerte (`percent`, `percent_share`) nutzt GPT als 0-1 bzw. 0-100 %.
    Verhältnisangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben
    relative Anteile. Nicht zugewiesene CU verbleiben im HQ-Pool.
-4. **Dialogführung.** Kodex nennt Standard und Alternativen (_„Standardaufteilung
-   je 200 CU …“_) und dokumentiert Entscheidungen in Debrief oder
+4. **Dialogführung.** Kodex nennt Standard und Alternativen (_"Standardaufteilung
+   je 200 CU …"_) und dokumentiert Entscheidungen in Debrief oder
    Einsatzprotokoll.
 
 ### Persistenz & IDs
@@ -1208,7 +1192,7 @@ die Debrief-Zeilen.
 
 **Legacy-Normalisierung (ohne runtime.js)**
 
-- Encounter mit Alt-Saves laufen vollständig im LLM – es gibt keine
+- Encounter mit Alt-Saves laufen vollständig im LLM - es gibt keine
   JavaScript-Hooks im Produktivbetrieb. Deshalb erstellt die Spielleitung bei
   Legacy-Daten den `character{}`-Block manuell, bevor irgendetwas geladen oder
   geprüft wird:
@@ -1219,7 +1203,7 @@ die Debrief-Zeilen.
      `character`-Block übernehmen; `cooldowns{}` immer als Objekt führen.
   3. `character.attributes{SYS_max,SYS_installed,SYS_runtime,SYS_used}` aus
      `sys`/`sys_max`, `sys_installed`, `sys_runtime` bzw. `sys_used` bilden und
-     dabei bestehende Werte aus `attributes{}` nur ergänzen – niemals
+     dabei bestehende Werte aus `attributes{}` nur ergänzen - niemals
      überschreiben. Fehlt `SYS_installed`, setze es auf `SYS_used` oder den
      Maximalwert; `SYS_runtime` darf höchstens die installierte Last tragen.
   4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
@@ -1260,7 +1244,7 @@ Neue Sessions starten dadurch automatisch mit sichtbaren Würfen, bis ihr per
 > `!suspend` schreibt einen flüchtigen Snapshot, `!resume` setzt ihn exakt einmal fort.
 
 Der Suspend-Snapshot friert den laufenden Einsatz für eine Pause ein.
-Er lebt außerhalb der regulären Save-Pipeline und verfällt nach 24 Stunden.
+Er lebt außerhalb der regulären Save-Pipeline und verfällt nach 24 Stunden.
 Der Deepsave im HQ bleibt weiterhin Pflicht, sobald Ihr die Episode wirklich abschließt.
 
 **SuspendGuard (Pseudocode)**
@@ -1334,8 +1318,8 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 - `!resume` ist nur einmal pro Snapshot erlaubt; der Datensatz wird nach dem Laden gelöscht.
 - Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen
   gesichert bleiben.
-- Bei Ablauf des Snapshots informiert das HUD: „Suspend-Fenster verstrichen. Bitte
-  HQ-Deepsave laden.“
+- Bei Ablauf des Snapshots informiert das HUD: "Suspend-Fenster verstrichen. Bitte
+  HQ-Deepsave laden."
 - Der Snapshot konserviert Initiative-Reihenfolge und HUD-Timer, damit Konfliktszenen
   nach `!resume` lückenlos weiterlaufen.
 
@@ -1353,47 +1337,62 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 - Verlasst Euch nicht dauerhaft darauf: Der Snapshot ersetzt keinen Story-Fortschritts-Save im HQ.
 ## Makros im Überblick {#makros-im-ueberblick}
 
-- `StartMission(total=12|14, type="core"|"rift")` – initiiert den Missionsfluss nach dem Load.
-- `DelayConflict(4)` – verschiebt Konfliktszenen bis zur vierten Szene.
-- `ShowComplianceOnce()` – bleibt als leerer Kompatibilitäts-Hook bestehen und
+- `StartMission(total=12|14, type="core"|"rift")` - initiiert den Missionsfluss nach dem Load.
+- `DelayConflict(4)` - verschiebt Konfliktszenen bis zur vierten Szene.
+- `ShowComplianceOnce()` - bleibt als leerer Kompatibilitäts-Hook bestehen und
   setzt keine Flags mehr. `SkipEntryChoice()` markiert parallel
   `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das Flag
   unverändert in den Einsatz.
-- `Chronopolis-Warnung` – `start_chronopolis()` blendet das einmalige Warn-Popup
+- `Chronopolis-Warnung` - `start_chronopolis()` blendet das einmalige Warn-Popup
   ein und setzt `logs.flags.chronopolis_warn_seen=true`, damit die Sequenz nach
   dem ersten Besuch stumm bleibt.
-- `ClusterCreate()` – legt bei Paradoxon 5 neue Rift-Seeds an.
-- `ClusterDashboard()` – zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
-- `launch_rift(id)` – startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
-- `resolve_rifts(ids)` – markiert Seeds als geschlossen und passt Belohnungen an.
-- `seed_to_hook(id)` – liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
+- `ClusterCreate()` - legt bei Paradoxon 5 neue Rift-Seeds an.
+- `ClusterDashboard()` - zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
+- `launch_rift(id)` - startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
+- `resolve_rifts(ids)` - markiert Seeds als geschlossen und passt Belohnungen an.
+- `seed_to_hook(id)` - liefert drei Kurz-Hooks als Einsprungpunkte für die nächste Sitzung.
 
 ### Paradoxon-Index & Rift-Seeds (Kernlogik) {#paradoxon-index}
 
-- Der Paradoxon-Index misst die Resonanz der Zelle mit dem Zeitstrom.
-- Px steigt, wenn die Zelle das dokumentierte Hauptereignis einer Mission
-  stabilisiert – egal ob subtil oder brachial. Nur grobe Paradoxa oder
-  verlorene Kernziele lassen die Resonanz stagnieren oder selten um 1 fallen.
-- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus, normalisiert den
+- Der Paradoxon-Index misst die temporale Resonanz der Zelle — ein
+  **Belohnungssystem** mit deterministischer Progression.
+
+**Px-Anstieg (fix gekoppelt an TEMP):**
+
+| TEMP | Px +1 alle … |
+|-----:|:-------------|
+| 1–3 | 5 erfolgreiche Missionen |
+| 4–6 | 4 erfolgreiche Missionen |
+| 7–9 | 3 erfolgreiche Missionen |
+| 10–13 | 2 erfolgreiche Missionen |
+
+Der Zähler läuft pro Charakter und wird im HUD als Fortschrittsbalken
+angezeigt. Nur erfolgreich abgeschlossene Missionen zählen.
+
+**Px −1 (Eskalation):** Bei grobem Fehlverhalten (Zivilopfer, Kern-Anker
+zerstört, massive Zeitlinien-Schäden) flackert zunächst das HUD als Warnung.
+Eskaliert die Situation weiter → **−1 Px** und Backlash-Toast. Maximal einmal
+pro Mission.
+
+- Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus, normalisiert den
   Pool (auch beim Laden) als Objekt-Liste und markiert den Px-Reset als
-  „anhängig“ (`px_reset_pending=true`, `px_reset_confirm=false`). Das Trace
+  „anhängig" (`px_reset_pending=true`, `px_reset_confirm=false`). Das Trace
   `cluster_create` hält px_before/after, `seed_ids`, Episode/Mission/Scene/Loc +
   `campaign_type` sowie die aktuelle Anzahl offener Seeds fest.
 - Rift-Seeds sind erst nach Episodenende spielbar.
-- Nach der Rift-Phase setzt der Debrief im HQ den Index auf 0, schreibt ein
+- Nach der Rift-Phase setzt der Debrief im HQ den Index auf 0, schreibt ein
   `logs.trace[]`-Event (`px_reset`) und bestätigt den Reset via
-  `px_reset_confirm=true` und HUD-Toast „Px Reset → 0“, sobald die Crew im HQ
+  `px_reset_confirm=true` und HUD-Toast „Px Reset → 0", sobald die Crew im HQ
   ankommt.
 
-**Single-Source-Paradoxon-Effekte:**
+**Px-Effekte:**
 
-- **Px-Stand 0–4:** Keine Maluswerte oder Sonderregeln. HUD zeigt den aktuellen
-  Balken und nutzt `campaign.px` als einzige Quelle. Die optionale Px-Verlust-
-  Regel greift nur, wenn sie bewusst aktiviert wurde (z. B. misslungene Hot-Exfil).
-- **Px-Stand 5:** `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als
-  ausstehend und verhindert weitere Px-Anstiege. HUD/Debrief notieren
-  „Paradoxon-Index 5 erreicht – neue Rifts sichtbar“. Nach der Rift-Op springt
-  der Wert auf 0 und der Reset-Toast bestätigt dies.
+- **Px 0–4:** Keine Maluswerte. HUD zeigt den aktuellen Balken kontextsensitiv
+  und nutzt `campaign.px` als einzige Quelle.
+- **Px 5:** `ClusterCreate()` erzeugt 1–2 Seeds, markiert den Reset als
+  ausstehend. HUD/Debrief notieren „Paradoxon-Index 5 erreicht – neue Rifts
+  sichtbar". Nach der Rift-Op springt der Wert auf 0 und der Reset-Toast
+  bestätigt dies.
 
 Jeder weitere Px‑5‑Treffer **stapelt** Seeds im Pool – ein Limit existiert nicht.
 `apply_rift_mods_next_episode()` liest ausschließlich **offene** Seeds aus und
@@ -1401,10 +1400,9 @@ setzt `sg_bonus = min(3; offene Seeds)` sowie
 `cu_multi = min(1,6; 1 + 0,2 × offene Seeds)`, damit der Pool gezielt als
 Schwellen- oder Loot-Hebel genutzt werden kann.
 
-Zwischen-Werte (Px 1-4) liefern keine mechanischen Boni — der Px ist eine
+Zwischen-Werte (Px 1–4) liefern keine mechanischen Boni — der Px ist eine
 Fortschrittsanzeige mit Payoff bei Px 5 (ClusterCreate). HUD-Farbe und
-Score-Screen zeigen den Fortschritt; CU-, Loot- oder Analyse-Boni pro
-Zwischen-Wert existieren nicht.
+Score-Screen zeigen den Fortschritt.
 
 Toolkit, Runtime und Spieler-Handbuch referenzieren ausschließlich diese
 Tabelle; Legacy-Varianten (Arc-spezifische Px, Zwischen-Stufen-Boni,
@@ -1419,13 +1417,13 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 
 ### Immersiver Ladevorgang (In-World-Protokoll) {#immersives-laden}
 
-- Kollektive Ansprache im Gruppenmodus („Rückkehrprotokoll für Agententeam …“).
-- Synchronisierungs-Hinweis („Kodex synchronisiert Einsatzdaten aller Teammitglieder …“).
+- Kollektive Ansprache im Gruppenmodus ("Rückkehrprotokoll für Agententeam …").
+- Synchronisierungs-Hinweis ("Kodex synchronisiert Einsatzdaten aller Teammitglieder …").
 - Kurze Rückblende der letzten Ereignisse aus Sicht der Beteiligten.
 - Individuelle Logbucheinträge sind erlaubt (ein Satz pro Char).
 
-> **Kodex-Archiv** – Rückkehrprotokoll aktiviert.
-> Synchronisiere Einsatzdaten: **Alex** (Lvl 3), **Mia** (Lvl 2).
+> **Kodex-Archiv** - Rückkehrprotokoll aktiviert.
+> Synchronisiere Einsatzdaten: **Alex** (Lvl 3), **Mia** (Lvl 2).
 > Letzte Einsätze konsolidiert. Paradoxon-Index: █░░░░ (1/5).
 > Willkommen im HQ. Befehle? (Briefing, Shop, Training, Speichern)
 
@@ -1434,10 +1432,10 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 - Leichte Formatfehler: als Kodex-Anomalie melden und in-world nachfragen.
 - Inkonsistenzen: als Anomalie melden und einen Vorschlag zur Bereinigung anbieten.
 - Unbekannte oder veraltete Felder: still ignorieren oder als Archivnotiz kennzeichnen.
-- Semver-Mismatch: „Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
-  HQ-Migration veranlassen.“
-- Ambige Saves: „Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil*
-  oder *Teamprofil* geladen werden?“
+- Semver-Mismatch: "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
+  HQ-Migration veranlassen."
+- Ambige Saves: "Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil*
+  oder *Teamprofil* geladen werden?"
 
 ### Kanonisches DeepSave-Schema (Kurzfassung)
 
@@ -1452,7 +1450,6 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
     "mission_in_episode": 2,
     "scene": 0,
     "px": 1,
-    "paradoxon_index": 0,
     "fr_bias": "normal"
   },
   "character": {
@@ -1512,12 +1509,8 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
       "chronopolis_warn_seen": false,
       "compliance_shown_today": false,
       "platform_action_contract": {
-        "action_mode": "uncut",
-        "pattern": "intent-cut-result",
-        "loot_policy": "outcome_only",
-        "body_handling": "none"
-      },
-      "howto_guard_hits": []
+        "action_mode": "uncut"
+      }
     }
   },
   "arc_dashboard": {
@@ -1565,15 +1558,15 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 `arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist im Schema
 verpflichtend, wird aber vom Serializer automatisch nachgezogen und strukturiert:
 
-- **`offene_seeds[]`** – Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
-  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein. Optionales
+- **`offene_seeds[]`** - Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
+  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein. Optionales
   Feld `seed_tier` dient als Balancing-Hinweis (`early|mid|late`) ohne Freischalt-
-  oder Sperrwirkung; alle Seeds bleiben ab Level 1 spielbar.
-- **`fraktionen{}`** – Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
+  oder Sperrwirkung; alle Seeds bleiben ab Level 1 spielbar.
+- **`fraktionen{}`** - Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
   letzte Aktionen. Die Runtime ergänzt `last_intervention`, `last_result`, `last_updated` sowie
   `interventions[]` (max. sechs Snapshots aus `logs.fr_interventions[]` inklusive Wirkung/Notiz),
   sodass HQ-Dashboard, Kampagnenlog und Runtime denselben Stand anzeigen.
-- **`fragen[]`** – Offene Forschungs- oder Storyfragen als kurze Strings oder Objekte.
+- **`fragen[]`** - Offene Forschungs- oder Storyfragen als kurze Strings oder Objekte.
 
 Beim Laden normalisiert `load_deep()` das Objekt, entfernt Nullwerte und stellt sicher, dass alle
 Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
@@ -1587,584 +1580,10 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
   `party.characters[]` gespiegelt. Doppelte Einträge erkennt `load_deep()`
   anhand von IDs, Callsigns oder Namen und entfernt sie.
 - Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach
-  `team.members[]`, um Kompatibilität mit älteren Tools zu bewahren – ohne
+  `team.members[]`, um Kompatibilität mit älteren Tools zu bewahren - ohne
   voneinander abweichende Arrays. `team.members[]` ist somit immer eine
   1:1-Kopie des kanonischen `party.characters[]`. GPT ergänzt neue
   Koop-Mitglieder ausschließlich im `party`-Block; `team.members[]` wird nur
   vom Serializer gespiegelt, damit Saves aus Solo- und Koop-Läufen keine
   widersprüchlichen Listen mehr besitzen.
 
-- Einführung und Zielsetzung
-- Einzelspieler-Speicherstände – Bewährte Logik beibehalten
-- Gruppen-Spielstände – Neue Unterstützung für Teams
-- Zeitlinien-Tracker und Paradoxon-Index
-- Immersiver Ladevorgang: Rückblenden und Anschluss in der Erzählung
-- Umgang mit fehlerhaften oder abweichenden Speicherständen
-- Spielleitung bleibt in-world (Immersion der Spielleitung)
-- Praxis-Beispiele für Speicherblöcke (Solo & Gruppe)
-- Fazit
-
-## Einführung und Zielsetzung
-
-Das Speicherstand- und Fortsetzungssystem von **ZEITRISS 4.2.6** wird in Modul 12 vollständig
-überarbeitet. Ziel ist es, eine klare, GPT-kompatible Speicher- und Fortsetzungsmechanik zu
-gewährleisten, die langfristiges Spielen mit einer hohen Spielerzahl unterstützt – **ohne die
-Immersion zu beeinträchtigen**. Die grundlegende **Save/Load-Logik** bleibt erhalten, wird aber
-durch neue Funktionen erweitert. Entwickler:innen erhalten damit ein robustes, transparentes und
-flexibles Speichersystem für Einzel- und Gruppenspiele mit GPT als Spielleitung.
-
-**Wichtige Schwerpunkte der Überarbeitung sind unter anderem:**
-
-- **Integration eines Zeitlinien-Trackers & Paradoxon-Index:** Jede Stabilisierung eines
-  historischen Ereignisses wird im Speicher protokolliert (ID, Epoche,
-  Kurzbeschreibung und ein Stabilitätswert von 3 bis 0). Erreicht ein Eintrag den
-  Wert 3, steigt der Paradoxon-Index um +1.
-- **Trennung von Einzelspieler- und Gruppen-Spielständen:** Klare Definition, wie Einzelcharakter-
-  Speicherstände vs. Gruppenspielstände aufgebaut und gehandhabt werden.
-- **Standardisiertes, maschinenlesbares Format (JSON) mit narrativer Einbettung:** Einführung
-  eines einheitlichen Formats mit allen notwendigen Feldern (Name, Attribute, EP, Talente,
-  Inventar, Kodex-Wissen etc.), damit der KI-Spielleiter (GPT) die Daten fehlerfrei
-  einlesen kann. Das Format wird **In-World** präsentiert (etwa als Kodex-Archiv),
-  sodass die Technik für Spieler unsichtbar bleibt.
-- **Integration des Gruppen-Spielsystems:** Mechaniken zum Import vorhandener Einzelcharaktere in
-  eine Gruppe, Export einzelner Gruppenmitglieder sowie nahtloses Hinzufügen oder Entfernen von
-  Spielern aus laufenden Gruppen.
-- **Fortsetzungs-Logik für GPT:** Formatregeln sorgen dafür, dass GPT den Speicherblock bei jedem
-  Laden sicher erkennt, korrekt interpretiert und die Geschichte konsistent fortsetzt.
-- **Automatische Rückblenden & Anschluss an vorherige Mission:** Ingame-Mechanismen (Logbuch, Déjà-
-  vu, Kodex-Archiv) ermöglichen eine kurze Zusammenfassung der letzten Ereignisse – jetzt auch aus
-  Sicht aller Gruppenmitglieder – beim Laden eines Spielstands, um den Übergang in die neue Mission
-  atmosphärisch zu gestalten.
-- **Umgang mit fehlerhaften Speicherständen:** Richtlinien dafür, wie die KI-Spielleitung auf
-  abweichende oder beschädigte Savegames reagieren kann (etwa durch korrigierende Vorschläge oder
-  Ingame-Nachfragen) – ohne die Immersion zu brechen.
-- **In-World-Spielleitung:** Die Spielleitung durch GPT bleibt vollständig in der
-  Spielwelt verankert. Sämtliche Erklärungen zum Laden/Speichern erfolgen durch
-  Ingame-Elemente (z.B. den Kodex, NSCs oder ein „Nullzeit-Log“) und nicht als
-  außenstehende Systemkommentare.
-- **Beispiel-Speicherblöcke:** Bereitstellung von kommentierten Beispielen für typische
-  Speicherstände (sowohl Solo- als auch Gruppen-Spielstände) im standardisierten Format, die als
-  Vorlage dienen können.
-- **Token-Lite-Modus:** Missionslog mit max. 15 Einträgen. Archivierte Rifts lassen
-  sich auslagern, um Token zu sparen.
-- **Archiv-ZIP:** Erledigte Missions-JSON lassen sich gebündelt zippen, um
-  Langzeitkampagnen schlank zu halten.
-
-Im Folgenden werden diese Punkte im Detail ausgeführt und das neue System erläutert.
-Um Speicherplatz zu sparen, darf die SL erledigte Missionslogs gebündelt als ZIP-Archiv auslagern.
-Beim Laden ladet ihr zuerst euren aktuellen Speicherstand.
-Danach folgt, falls nötig, die ZIP-Datei. GPT erkennt so den bisherigen Missionsverlauf.
-- Nach dem Laden zwingend `StartMission()` ausführen; Details siehe Abschnitt „Load-Pipeline“.
-
-Speichern ist ausschließlich im **HQ** erlaubt. `cmdSave()` setzt dabei das
-Exfil-Fenster zurück, leert Stress und schreibt Level, Rank, Würfelmodus,
-offene Seeds sowie den ☆-Bonus in den JSON-Block.
-
-### Deep Save {#deep-save}
-
-`speichern` gibt stets einen vollständigen JSON-Block mit allen relevanten
-Feldern aus. Wird das Kontextlimit überschritten, teile den Block in mehrere
-Codefelder und sende sie nacheinander.
-
-**DeepSave(state)**
-
-1. Wandle den gesamten Zustand in einen JSON-Snapshot um.
-2. Gib diesen Snapshot vollständig aus und ersetze damit jeden vorherigen Stand.
-
-Incrementelle oder partielle Saves sind nicht vorgesehen; jeder Speichervorgang
-überschreibt den gesamten vorherigen Zustand.
-
-```javascript
-function select_state_for_save(state) {
-  return {
-    zr_version": "4.2.6",
-    save_version: 6,
-    location: state.location,
-    phase: state.phase,
-    campaign: state.campaign,
-    character: state.character,
-    team: state.team,
-    party: {
-      characters: state.party?.characters ?? state.team?.members ?? []
-    },
-    loadout: state.loadout,
-    economy: state.economy,
-    logs: state.logs,
-    ui: {
-      gm_style: state.ui?.gm_style ?? "verbose",
-      suggest_mode: !!state.ui?.suggest_mode,
-      action_mode: state.ui?.action_mode ?? "uncut"
-    },
-    arena: state.arena,
-    arc_dashboard: state.arc_dashboard
-  };
-}
-
-function save_deep(state) {
-  if (state.location !== "HQ") {
-    throw new Error("SaveGuard: Speichern nur im HQ – HQ-Save gesperrt.");
-  }
-  const payload = select_state_for_save(state);
-  payload.checksum = sha256(JSON.stringify(payload)); // optional
-  return JSON.stringify(payload);
-}
-
-function load_deep(json) {
-  const data = JSON.parse(json);
-  return hydrate_state(migrate_save(data));
-}
-
-function migrate_save(data) {
-  if (!data.save_version) data.save_version = 1;
-  if (data.save_version === 1) {
-    data.campaign ||= {};
-    data.save_version = 2;
-  }
-  if (data.save_version === 2) {
-    data.ui ||= { gm_style: "verbose", action_mode: "uncut" };
-    data.save_version = 3;
-  }
-  if (data.save_version === 3) {
-    data.phase ||= "core";
-    data.save_version = 4;
-  }
-  if (data.save_version === 4) {
-    const character = data.character ||= {};
-    const carryHeat = character.psi_heat ?? character.heat ?? 0;
-    character.psi_heat = Number.isFinite(carryHeat) ? carryHeat : 0;
-    if (character.psi_heat_max === undefined && character.heat_max !== undefined) {
-      character.psi_heat_max = character.heat_max;
-    }
-    delete character.heat;
-    delete character.heat_max;
-    data.save_version = 5;
-  }
-  if (data.save_version === 5) {
-    data.ui ||= { gm_style: "verbose", action_mode: "uncut" };
-    data.ui.intro_seen = !!data.ui.intro_seen;
-    data.save_version = 6;
-  }
-  return data;
-}
-```
-
-`sha256()` dient lediglich der Entwicklungsprüfung; im regulären Spielbetrieb darf die
-Checksumme entfallen.
-
-## Einzelspieler-Speicherstände – Bewährte Logik beibehalten
-
-Für **Einzelspieler-Runden** (ein Chrononaut als Spielercharakter) bleibt die bisherige
-Speichermechanik im Kern bestehen. Am Ende jeder Mission erzeugt das Spiel einen maschinell lesbaren
-**Speicherblock** – idealerweise als strukturierten JSON-Code im Chat (z.B. in einem Code-Feld).
-Entscheidend ist, dass das Format einheitlich und klar lesbar ist, sowohl für
-Menschen als auch für das KI-Modell. Dadurch erkennt GPT zuverlässig, dass es sich um einen
-Spielstand handelt, und kann alle relevanten Daten übernehmen, sobald der Speicherstand in eine neue
-Spielsitzung geladen wird.
-
-**Struktur und Inhalt eines Einzel-Speicherstands:** Der Speicherstand wird als zusammenhängender
-Datenblock (z.B. in einem Code-Feld) dargestellt. Er enthält die wichtigsten Charakterdaten in
-**beschreibender, narrativ eingebetteter Form**, aber **keine versteckten Befehle** oder unklare
-Formulierungen. Alles ist neutral in der dritten Person gehalten, damit GPT es problemlos
-interpretieren kann. Typische Felder eines Speicherstands sind unter anderem:
-
-- **Grunddaten:** Name des Charakters, Herkunftsepoche (Zeit/Hintergrund), Level und
-  Erfahrungspunkte (EP) bzw. Fortschritt.
-- **Attribute:** Werte für Stärke, Geschicklichkeit, Intelligenz, Charisma etc. (inklusive
-  Spezialattribute wie _Temporale Affinität_ oder _Systemlast_ für Chrononauten).
-- **Fähigkeiten und Talente:** Eine Liste besonderer Talente, Fertigkeiten oder Ausbildungen der
-  Figur.
-- **Ausrüstung:** Inventarlisten, ggf. inklusive besonderer Gegenstände, Implantate, psionischer
-  Fähigkeiten etc.
-- **Charakterprofil:** Besondere Merkmale wie moralische Ausrichtung, Ruf oder Zugehörigkeiten (z.B.
-  _„altruistisch“_, Rang im ITI, Beziehungen zu Fraktionen).
-- **Errungenschaften:** Wichtige Erfolge aus vergangenen Missionen.
-- **Kodex-Wissen:** Relevantes Wissen, das der Charakter im Kodex gespeichert hat – z.B.
-  Erkenntnisse aus vergangenen Missionen, enthüllte Geheimnisse, bekannte NPCs oder historische
-  Fakten, an die er sich erinnert.
-- **Statistiken (optional):** Dinge wie absolvierte Missionen, gelöste Rätsel, besiegte Gegner usw.,
-  falls für den Spielfortschritt von Belang.
-- **Zeitlinien-Veränderungen (optional):** Wichtige Abweichungen im historischen Verlauf,
-  die durch die Aktionen des Charakters verursacht wurden, inklusive Angabe eines
-  Stabilitätsgrads der Änderung (siehe _Zeitlinien-Tracker_ weiter unten).
-
-Nicht im Speicherstand enthalten sind in der Regel detailreiche Situationsbeschreibungen oder
-komplette Dialogverläufe vergangener Missionen. Der Speicherstand soll **kompakt** bleiben –
-ausreichend, um den Charakter konsistent weiterzuspielen, aber ohne den neuen Missionskontext mit
-irrelevanten Altlasten zu überfrachten. Jede neue Mission beginnt erzählerisch „frisch“, und der
-Spielstand liefert nur die nötigsten Zusammenfassungen der Vorgeschichte. So bleibt der Chat-Kontext
-schlank, und GPT kann die Fortsetzung konsistent gestalten, ohne durch Rauschen alter Dialoge
-verwirrt zu werden.
-
-**Beispiel: JSON-Speicherstand für einen einzelnen Charakter.** Angenommen, Agent Alex hat Mission 1
-abgeschlossen. Sein Speicherstand könnte folgendermaßen aussehen:
-
-_{
-  "Name": "Alex",
-  "Epoche": "Gegenwart (2025)",
-  "Level": 2,
-  "Erfahrung": 15,
-  "zr_version": "4.1.5",
-  "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
-  "Attribute": {"Stärke": 4, "Geschicklichkeit": 5, "Intelligenz": 5, "Charisma": 3},
-  "Talente": ["Pistolenschütze", "Kryptographie"],
-  "Inventar": ["Dietrich-Set", "Heiltrank", "Zeitscanner-Tablet"],
-  "Kodex": ["Schlacht von Aquitanien 1356", "Chronomant Moros"],
-  "Errungenschaften": ["Retter von Aquitanien"]
-_}
-
-_Erläuterung:_ In diesem Speicherblock sind alle zentralen Daten von Alex nach
-seiner ersten Mission enthalten.
-Zum Beispiel hat er das Talent _Kryptographie_, besitzt ein Neuro-Link-Implantat,
-ein Inventar mit
-
-Gegenständen (Dietrich-Set, Heiltrank, Zeitscanner-Tablet)
-und im **Kodex** stehen Einträge, die an
-seine Erlebnisse aus einer Anfangsmission erinnern (Schlacht von Aquitanien 1356
-etc.). Diese Informationen
-reichen aus, um Alex in einer zukünftigen Mission konsistent weiterzuspielen. GPT kann daraus
-entnehmen, **wer Alex ist, was er kann und was er erlebt hat**, ohne dass jedes Detail der ersten
-Mission erneut im Prompt geladen werden muss.
-
-```json
-"field_notes": [
-  {
-    "agent_id": "ZE-A12",
-    "mission": "Operation Cold Swap",
-    "timestamp": "1958-06-02T14:07Z",
-    "note": "Funkraum mit Ventil-Schalter entdeckt. PZ-2.5 aktiv."
-  }
-]
-```
-
-_Beispiel:_ Dieses optionale Feld sammelt kurze Einsatzmemos und hat keinerlei
-Regelwirkung. Der Serializer legt ein leeres Array an, wenn keine Notizen
-vorliegen; Validatoren akzeptieren auch Saves ohne `field_notes[]`.
-
-Bestehende Einzelspieler-Spielstände aus früheren Versionen behalten dieses Format bei und
-funktionieren weiterhin unverändert. Wer also bisher Solo-Abenteuer mit ZEITRISS gespielt hat, muss
-nichts an alten Savegames ändern – sie können in ZEITRISS 4.2.6 direkt weitergenutzt werden.
-
-## Gruppen-Spielstände – Neue Unterstützung für Teams
-
-**Neu** im aktualisierten System ist die offizielle Unterstützung von **Gruppen-Spielständen**. Ein
-einzelner Speicherblock kann nun mehrere Spielercharaktere umfassen. Dadurch lassen sich Gruppen von
-Chrononauten gemeinsam speichern und laden, ohne die etablierte Einzelspieler-Mechanik zu stören.
-Die bereits bekannte Datenstruktur eines Charakter-Datensatzes bleibt dabei erhalten und wird
-lediglich erweitert: Statt eines einzelnen Charakter-Objekts können nun mehrere solcher Objekte im
-Speicher vorhanden sein.
-
-### Struktur eines Gruppen-Speicherstands
-
-Um mehrere Charaktere in einem Savegame abzubilden, gibt es zwei naheliegende Ansätze im JSON-
-Format:
-
-- **Array von Charakterobjekten:** Der Speicherblock besteht aus einer Liste _\[...\]_, in der jedes
-  Element ein vollständiges Charakter-Datenobjekt (wie oben beschrieben) ist.
-- **Wrapper-Objekt mit Charakterliste:** Der Speicherblock ist ein JSON-Objekt mit einem
-  Feld (z.B. _"Charaktere"_ oder _"Gruppe"_), das eine Liste aller Charakterobjekte
-  enthält. Optional kann dieses Objekt zusätzliche gruppenweite Felder wie einen
-  Gruppennamen enthalten.
-
-Beide Varianten sind technisch handhabbar. Wichtig ist vor allem, dass GPT zuverlässig erkennt, dass
-mehrere Charaktere vorliegen. Aus Gründen der Klarheit verwenden wir im Folgenden einen Wrapper-
-Ansatz: ein JSON-Objekt mit dem Feld _"Charaktere"_, das eine Liste von Charakteren enthält, sowie
-optional ein Feld für den **Gruppennamen**.
-
-**Beispiel: JSON-Gruppenspielstand mit zwei Charakteren.** Angenommen, zwei Spieler (oder ein
-Spieler mit zwei aktiven Charakteren) möchten ihre Figuren Alex und Mia gemeinsam als Team
-speichern. Ein Gruppen-Spielstand im JSON-Format könnte so aussehen:
-
-_{_
-
-{
-  "Gruppe": "Team Chronos",
-  "zr_version": "4.1.5",
-  "version_hash": "4.1",
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}, "fragen": []},
-  "Charaktere": [
-    { "Name": "Alex", "Epoche": "Gegenwart (2025)", "Level": 2 },
-    { "Name": "Mia", "Epoche": "Victorianisches Zeitalter (1888)", "Level": 1 }
-  ]
-}
-
-Hier besteht das Agenten-Team **“Team Chronos”** aus zwei Mitgliedern: Alex und Mia. Jeder Charakter
-wird als separates Objekt mit all seinen Datenfeldern aufgeführt (der Übersicht halber sind oben
-nicht alle Felder ausgeschrieben, aber in einem echten Save würden analog zu Alex auch Mias
-Attribute, Talente, Inventar etc. vollständig aufgeführt sein). Das optionale Feld _"Gruppe"_ dient
-als Teamname oder Identifikator der Gruppe. Es ist _nicht zwingend erforderlich_ – die Präsenz
-mehrerer Objekte in _"Charaktere"_ signalisiert GPT bereits, dass es sich um einen Gruppen-
-Spielstand handelt. Dennoch kann ein Gruppenname atmosphärisch hilfreich sein und vom Spielleiter in
-Dialogen verwendet werden (z.B. _„Agententeam Chronos...“_).
-
-Entscheidend ist: Die **Struktur pro Charakter bleibt identisch** zu einem Einzelspieler-
-Speicherstand. Es gehen also keine Datenfelder verloren und es werden keine neuen speziellen Formate
-pro Charakter erfunden – wir haben lediglich eine zusätzliche Ebene drumherum gesetzt, um mehrere
-Datensätze zusammenzuhalten. Somit ist auch die **Abwärtskompatibilität** gegeben: Ein Einzel-
-Charakter-Save sieht für GPT praktisch genauso aus wie ein Gruppen-Save, nur ohne die äußere Liste.
-
-### Erkennung von Einzel- vs. Gruppen-Spielständen
-
-Der KI-Spielleiter (GPT) muss sofort erkennen können, ob ein geladener Speicherblock einen einzelnen
-Charakter enthält oder eine Gruppe. Diese Unterscheidung erfolgt **allein durch die JSON-Struktur**:
-
-- **Einzelspieler-Speicherstand:** Besteht typischerweise aus **einem einzigen JSON-Objekt** mit
-  Charakterdaten – kein äußerer Array und kein _"Charaktere"_-Feld. Auf oberster Ebene steht z.B.
-  direkt _"Name": "Alex"_. GPT liest diese Struktur und sieht nur einen
-  Charaktereintrag – damit ist klar, dass es sich um einen Solo-Spielstand
-  handelt. _Beispiel:_ _{ "Name": "Alex", "Level": 2, ... }_ – kein Array, keine
-  weiteren Objekte auf Top-Level außer diesem einen Charakter →
-  **Einzelcharakter-Save**.
-- **Gruppen-Speicherstand:** Erkennbar an **mehreren Charakterdatensätzen** in einem Container. Das
-  kann eine JSON-Liste _\[ {...}, {...} \]_ sein oder ein Objekt mit einem Feld
-  _"Charaktere"_ (bzw. analog), welches ein Array enthält. Sobald GPT mehr als ein
-  Charakterobjekt findet, ist klar: Dieser Spielstand umfasst mehrere Figuren.
-  Ein optionales Feld _"Gruppe"_/_"Team"_ kann die Gruppennatur untermauern, wird
-  aber zur reinen Erkennung nicht benötigt. _Beispiel:_ _{ "Charaktere": \[
-  {Char1-Daten}, {Char2-Daten} \] }_ – mehrere Objekte im Array → **Gruppen-Save**.
-
-Im Klartext prüft GPT beim Laden eines Spielstands einfach die oberste Struktur: Ein einzelnes
-Datenobjekt bedeutet Solo-Spiel; eine Liste oder ein _"Charaktere"_-Feld mit mehreren Objekten
-bedeutet Gruppe. Diese Prüfung ist trivial und benötigt keine extra Kennzeichnung, solange wir das
-Format konsequent einhalten.
-
-### Eindeutige Identifikation von Charakteren (Metadaten)
-
-Wenn mehrere Charaktere in einem Savegame enthalten sind, kann es hilfreich sein, jeden Eintrag mit
-einer eindeutigen **ID** oder ähnlichen Metadaten zu versehen. Dies dient der robusten
-Identifikation, insbesondere falls Charaktere ähnliche Namen haben oder sich über die Zeit ändern.
-Ein optionales Feld wie _"ID"_ pro Charakter kann z.B. eine eindeutige Kennung (UUID oder ein
-anderer einmaliger Code) enthalten.
-
-_Beispiel eines Charakters mit ID:_
-
-_{_
-
-_"Name": "Alex",_
-
-_"ID": "CHR-7f3a9b2e",_
-
-_"Epoche": "Gegenwart (2025)",_
-
-_..._
-
-_}_
-
-In einem Gruppenstand hätte dann jeder Charaktereintrag seine eigene ID. **Wozu das?** Bei der
-Zusammenführung mehrerer Speicherstände oder dem späteren Aktualisieren einzelner Charaktere
-innerhalb einer Gruppe kann GPT anhand der ID erkennen, ob ein Charakter bereits existiert oder neu
-hinzukommt. So werden Duplikate vermieden:
-
-- **Mit ID:** Lädt man einen neuen Speicherstand von Alex in eine bestehende Gruppe,
-  in der Alex mit gleicher ID schon existiert, weiß das System, dass es
-  **denselben Charakter** updaten soll (anstatt einen zweiten „Alex“ hinzuzufügen).
-  Gleiches gilt beim erneuten Laden eines fortgeschrittenen Savegames: Die ID
-  signalisiert GPT, welcher bestehende Gruppencharakter aktualisiert werden muss.
-- **Ohne ID:** Versucht GPT, Charaktere anhand von Name + Epoche o. ä. zu unterscheiden. Das kann in
-  vielen Fällen funktionieren, ist aber fehleranfälliger (z.B. könnten zwei Spieler zufällig beide
-einen Charakter namens „Alex“ spielen, oder ein Charakter ändert seinen Decknamen zwischenzeitlich).
-
-#### Konfliktfall ohne ID
-
-Treffen zwei Einträge ohne ID aufeinander und stimmen **Name** sowie
-**Epoche** überein, fragt das System nach. Entweder wird eine neue ID vergeben
-oder der vorhandene Datensatz bewusst überschrieben. Auf diese Weise lassen sich
-Duplikate vermeiden, ohne dass IDs zwingend erforderlich sind.
-
-Eine technische UUID als ID ist daher **empfehlenswert** für langfristige, große Kampagnen, aber das
-Feld bleibt optional. Das System funktioniert auch ohne – es verlässt sich dann ganz auf die
-eindeutigen Namen oder Konstellationen. (In unseren obigen Beispielen haben wir der Einfachheit
-halber keine IDs angegeben, um die Darstellung nicht zu verkomplizieren; in der Praxis könnte man
-sie jedoch hinzufügen, um maximale Eindeutigkeit zu erzielen.)
-
-### Laden und Zusammenführen von Speicherständen
-
-Speichern bleibt strikt HQ-only. **Gruppen-Merges** dürfen aber auch mitten in einer
-laufenden Mission passieren: Spielende posten ihre letzten HQ-Saves in den Chat,
-GPT liest die Charakterblöcke ein und fügt sie ohne Timer- oder Szenen-Reset in
-die aktive Gruppe ein. Der laufende Einsatz bleibt eingefroren, bis die neuen
-Agent:innen eingegliedert sind. **Je nach Situation passiert Folgendes:**
-
-- **Solo-Spielstand laden (ein Charakter):** Wird ein einzelner Charakter-Speicherstand
-  im HQ geladen (Format wie Alex im Beispiel oben), verfährt die Spielleitung wie
-  gewohnt: GPT liest die Charakterdaten ein und setzt die Geschichte nahtlos mit
-  **diesem einen Chrononauten** fort. Für den Spieler fühlt es sich an, als würde
-  er genau dort weitermachen, wo er mit seinem Charakter aufgehört hat. Alle
-  Werte, Inventargegenstände und Kodex-Einträge aus dem Save stehen zur Verfügung,
-  und die neue Mission kann mit dem bekannten Helden beginnen. _(Dieser Ablauf
-  entspricht dem bisherigen Fortsetzungsprozess in ZEITRISS.)_
-- **Von Solo zu Gruppe (Charaktere hinzufügen):** Wer aus einem Solo-Spiel eine
-  Gruppe bilden möchte, erledigt das spätestens im Briefing: Zuerst wird wie
-  üblich der Solo-Charakter A geladen, anschließend folgt der Speicherblock von
-  Charakter B. GPT erkennt die getrennten Datensätze und erzeugt daraus einen
-  **Gruppen-Spielstand**. Charakter B wird als neues Gruppenmitglied ergänzt,
-  ohne Charakter A zu überschreiben. Der Eintritt kann beim Briefing oder – falls
-  die Mission schon läuft – als filmischer Drop-in in der aktuellen Szene
-  passieren (z. B. Ankunft per Gate oder Funk-Handshake). Die Mission selbst
-  wird dabei **nicht** zurückgesetzt.
-- **Gruppenstart (mehrere Charaktere gemeinsam laden):** Mehrere Speicherstände
-  können zum Session-Start hintereinander (oder gesammelt) ins HQ gepostet werden,
-  wenn mehrere Spieler ihre Soloruns zu einem Team bündeln wollen. GPT konsolidiert
-  diese Informationen zu **einem einzigen Gruppenstand**: Alle Charakterdaten
-  bleiben separat erhalten, bilden aber nun ein gemeinsames Team. Kein Charakter
-  überschreibt einen anderen; doppelte Saves derselben ID erkennt GPT und
-  aktualisiert nur. Die Reihenfolge der Blöcke ist egal. Nach dem Zusammenführen
-  setzt GPT Paradoxon-Index und offene Rifts auf **0**, damit der neue Run sauber
-  im HQ beginnt. Das Toolkit zeigt den Reset-Pseudocode in
-  `systems/toolkit-gpt-spielleiter.md` (Snippet `StartGroupMode()`); interne
-  Dev-Stubs sind dafür nicht erforderlich.
-
-> **Mid-Session-Beitritt:** Ein Missionsteam darf jederzeit neue HQ-Saves einwerfen. GPT friert die
-> Szene kurz ein, mapt die neuen Charaktere auf `party.characters[]`, normalisiert Wallets und fährt
-> dann mit unveränderten Timern/Clocks fort. Speichern bleibt dennoch HQ-only;
-> ein Ausstieg mitten in der Mission erzeugt **keinen** neuen Save, sondern
-> verweist auf den letzten HQ-Save oder einen temporären `!suspend`-Snapshot.
-
-**Zusammengefasst:** Ein einzelner Savegame-Block ergibt einen einzelnen Charakter; mehrere
-Savegame-Blöcke (gleichzeitig oder sukzessive) ergeben die Bildung bzw. Erweiterung einer Gruppe.
-GPT erkennt das automatisch anhand der Formatstruktur und passt sein Vorgehen entsprechend an –
-**ohne** dass der Spielleiter außerhalb der Welt eingreifen muss.
-
-### Hinzufügen, Aktualisieren und Entfernen von Gruppenmitgliedern
-
-Sobald ein Spiel im Gruppenmodus läuft, gelten einfache **Regeln für den Umgang mit Gruppen-
-Spielständen**, damit GPT als Spielleiter nichts durcheinanderbringt:
-
-- **Neuen Charakter hinzufügen:** Jeder zusätzliche Charakter-Datensatz, der in der
-  aktuellen Gruppe noch nicht vorhanden war, wird als neues Gruppenmitglied
-  ergänzt. GPT erzeugt intern einen neuen Charaktereintrag und übernimmt alle
-  Werte aus dessen Savegame. _Beispiel:_ Die Gruppe bestand bisher nur aus Alex.
-  Nun wird Mias Speicherstand hinzugefügt. Mia (neuer Name/ID) wird von GPT als
-  neues Mitglied erkannt. Ergebnis: Gruppe = \[Alex, Mia\]. Beide stehen mit ihren
-  vollen Daten zur Verfügung.
-- **Bestehenden Charakter aktualisieren:** Wird ein Speicherstand geladen, der zu
-  einem Charakter gehört, der bereits in der Gruppe existiert, so werden dessen
-  Daten **aktualisiert**, nicht dupliziert. Hier kommt das Metadaten-Feld (ID) ins
-  Spiel: GPT vergleicht die IDs (falls vorhanden) oder ersatzweise Name/Epoche.
-  Stimmen diese überein, nimmt es an, dass es derselbe Charakter ist. _Beispiel:_
-  In einer laufenden Gruppe aus Alex und Mia werden zu Beginn der nächsten Mission
-  beide aktualisierten Savegames neu geladen. GPT erkennt an Alex’ ID oder Namen,
-  dass Alex schon Teil der Gruppe ist – also wird **kein zweiter Alex**
-  hinzugefügt, sondern Alex’ bestehender Eintrag mit den aktuellen Werten versehen
-  (die ohnehin dem Save entsprechen). Genauso für Mia. Die Gruppe \[Alex, Mia\]
-  bleibt bestehen, nur dass nun beide auf dem neuesten Stand sind.
-- **Keine Konflikte durch unterschiedliche Felder:** Charaktere können
-  unterschiedliche Felder oder Listen in ihren Daten haben, ohne Probleme zu
-  verursachen. Hat Charakter A z.B. ein Feld _"Psionik": \[\]_ (weil er keine
-  psionischen Fähigkeiten hat) und Charakter B gar kein Feld _"Psionik"_ (weil es
-  für sie nie relevant war), führt das zu keinerlei Konflikt. GPT interpretiert
-  einfach jeden Charakterblock für sich. Fehlt ein Feld bei einer Figur, bedeutet
-  das nur, dass diese Figur dazu keine Angaben hat – es ist kein globales Problem.
-  Es gibt also keine Fehlermeldung oder Störung, sondern jeder Charakterdatensatz
-  wird individuell vollständig gelesen.
-- **Optionale gemeinsame Elemente:** Das System ist primär so ausgelegt, dass jede
-  Figur **getrennte Daten** hat. Falls gewünscht, kann man aber auch gruppenweite
-  Felder definieren – etwa ein gemeinsames _"Gruppeninventar"_ oder einen
-  aktuellen _"Missionsstatus"_, die außerhalb der einzelnen Charakterobjekte im
-  JSON stehen. Solche Felder gelten dann für die **gesamte Gruppe**. GPT würde sie
-  als von allen geteilt interpretieren. _Beispiel:_ Man könnte dem Gruppen-JSON
-  ein Feld _"Mission": "Paris 1943 – Einsatzbeginn"_ auf oberster Ebene
-  hinzufügen. GPT weiß dann, dass alle Charaktere sich zu Beginn von Mission X
-  (hier Paris 1943) befinden. Solche globalen Felder sind optional und sollten
-  sparsam verwendet werden, um die Trennung der Charakterdaten klar zu halten.
-- **Charaktere entfernen:** Wenn ein Charakter die Gruppe dauerhaft verlassen
-  soll, kann dies einfach dadurch geschehen, dass sein Datenblock im nächsten
-  Speicherstand **weggelassen** wird. GPT wird beim Laden merken, dass ein zuvor
-  vorhandener Charaktereintrag nicht mehr vorhanden ist. Die Konsequenz in der
-  Spielwelt wäre, dass diese Figur nicht mehr Teil der aktiven Gruppe ist.
-  Idealerweise wird dies narrativ untermauert – etwa indem zuvor in der Geschichte
-  erklärt wird, **warum** der Charakter die Gruppe verlässt (Ruhestand, eigene
-  Mission, Tod etc.). Beim nächsten Laden fehlen seine Daten; GPT interpretiert
-  das so, dass nur die verbleibenden Charaktere weitermachen. _(Hinweis: Der
-  letzte gespeicherte Stand des entfernten Charakters kann selbstverständlich als
-  Einzel-Save separat archiviert werden, falls er später wiederkommt oder solo
-  weiterspielt – die Formatkompatibilität macht’s möglich.)_
-
-Durch diese Regeln können Gruppen dynamisch **wachsen oder schrumpfen**, ohne Chaos im Speicherstand
-zu verursachen.
-
-**Beispiel – Zusammenführung Schritt für Schritt:** Spieler 1 und Spieler 2 haben jeweils einen
-Chrononauten (Charakter A und B) in Solo-Missionen gespielt und Savegames erstellt. Für ein
-gemeinsames Abenteuer laden sie beide Speicherblöcke in den neuen Chat. GPT sieht Charakter A und
-Charakter B – unterschiedliche Namen/IDs, keine Überschneidungen – und formt intern ein Team
-**\[A, B\]**. Anschließend begrüßt der Spielleiter diese neue Gruppe im Spiel (dazu mehr im
-Abschnitt _Immersiver Ladevorgang_). Kommt später Spieler 3 mit Charakter C dazu, fügt man einfach
-dessen Speicherstand hinzu: GPT erkennt C als neu → Gruppe wächst zu **\[A, B, C\]**. Falls hingegen
-Spieler 2 vor der nächsten Mission seinen **aktualisierten** B-Speicher einfügt (z.B. nach einem
-Level-Up), erkennt GPT an B’s ID/Name, dass dieser schon in \[A, B, C\] existiert, und
-**aktualisiert nur B’s Werte**, anstatt einen zweiten B hinzuzufügen. Die Gruppe bleibt konsistent,
-niemand wird dupliziert.
-
-## Load-Pipeline (Autoload, Multi-JSON, Gruppen-Merge)
-
-**Ziel:** Saves laden (Solo oder Gruppe), migrieren, im **HQ** fortsetzen und
-`StartMission()` automatisch initialisieren.
-
-### Autoload & Intents
-- Erkennt *automatisch* gepostete JSON-Saves (Heuristik: `zr_version` plus Felder wie
-  `character`, `Charaktere`, `team` oder `campaign`).
-- Befehle: `!load`, „Spiel laden“, „Spielstand laden“, „Load“. Ohne JSON → Prompt:
-  `Kodex: Load-Modus aktiv. Poste 1–N Speicherstände (Solo oder Gruppe).`
-  `"Fertig" startet den Merge.`
-
-### Multi-JSON Collector
-- Akzeptiert mehrere JSON-Blöcke in **einer** oder **mehreren** Nachrichten.
-- Sammelphase endet auf **„Fertig“** – oder bei Autoload sofort, wenn genau **ein** Save erkannt
-  wurde.
-
-### Validierung & Migration
-- Wende `migrate_save()` auf jeden Block an (`save_version` hochsetzen, Defaults ergänzen).
-- **Fortsetzung** erzwingen: `location = "HQ"` (Load-Guard; Speichern bleibt HQ-only).
-
-### Merge-Regeln (Gruppe)
-- Primärschlüssel: `character.id` → Update statt Duplikat.
-- Fallback: `(name, epoche)` → Kollision: `Kodex: Doppelter Agent erkannt. Überschreiben [Ja/Nein]?`
-- **CU**-Konten bleiben **pro Agent** separat; die Summe darf im Recap erscheinen.
-- Team-NSCs werden additiv zusammengeführt (Duplikate pro Name max. 1×).
-- Merge-Konflikte (z. B. Wallet-Delta, Modus-Wechsel, offene Seeds) landen
-  **verpflichtend** in `logs.flags.merge_conflicts[]` mit Mindestfeldern
-  `{field, source, target}`; `mode`/`note` bleiben optional. `field` ist
-  allowlist-gebunden und darf **nur** `wallet`, `rift_merge`, `arena_resume`,
-  `campaign_mode`, `phase_bridge` oder `location_bridge` sein. UI-Präferenzen
-  (`gm_style`, `contrast`, `badge_density`, `output_pace`) werden weiterhin
-  Host-seitig erzwungen, erzeugen aber keinen Merge-Konflikt. Bei
-  Arena-Ladevorgängen erscheint zusätzlich ein HUD-Toast („Merge-Konflikt:
-  Arena-Status verworfen“), das den Reset auf HQ dokumentiert. Dedupe-Regeln
-  halten identische Konflikte pro Load-Lauf klein und nutzen das Resume-Token
-  als Anker, falls es bereitgestellt wird.
-
-  **Beispiele (Merge-Conflicts):**
-
-  ```json
-  {"field":"location_bridge","source":"ARENA","target":"HQ","mode":"load","note":"HQ-only: Standort zurückgesetzt","resolved":false}
-  {"field":"wallet","source":"1500","target":"3200","mode":"merge","note":"HQ-Pool (economy.cu): Host-Vorrang","resolved":false}
-  {"field":"rift_merge","source":"18","target":"12","mode":"merge","note":"Rift-Pool gekappt (12) – Überschuss an ITI-NPC-Teams","kept":["R-011","R-044"],"overflow":["R-201"],"handoff_to":"ITI-NPC-Teams","resolved":false}
-  ```
-
-### Recap & Start
-- **StartMission()** direkt nach dem Load auslösen (Transfer ggf. temporär unterdrücken).
-- **Compliance-Hinweis entfällt:** Der Hook bleibt leer. `load_deep()` markiert weiterhin
-  `campaign.entry_choice_skipped=true` und setzt `ui.intro_seen=true`, damit der Einstieg
-  übersprungen und kein HQ-Intro erneut ausgespielt wird. `SkipEntryChoice()` setzt parallel
-  `flags.runtime.skip_entry_choice=true`, damit der übersprungene Einstieg dokumentiert bleibt –
-  `StartMission()` respektiert ein bereits gesetztes Flag. Das Runtime-Flag ist ausschließlich
-  transient; Persistenzanker bleiben `campaign.entry_choice_skipped` und `ui.intro_seen`.
-- **Kurzrückblick**: letzte Missionslogs, Paradoxon, offene Seeds, CU pro Agent und Summe,
-  aktive Modi.
-- **Einstieg**: Kein klassisch/schnell nach dem Load; der Flow endet nach Recap direkt im
-  HQ/Briefing.
-  - HQ-Interlude nur als Text; kein `NextScene("HQ")`.
-  - Danach Transfer-HUD einblenden und direkt `NextScene(loc=<Ziel>, role="Ankunft")`.
-
-```mermaid
-flowchart TD
-  A[JSON erkannt ODER !load] -->|Multi-JSON| B[Migration]
-  B --> C[Merge (ID, sonst Name+Epoche)]
-  C --> D[Fortsetzung im HQ]
-  D --> E[StartMission() (Transfer-Defer)]
-  E --> F[Recap ohne Compliance-Hook]
-  F --> G{Einstieg wählen}
-  G -->|Klassisch| H[Transfer-HUD → NextScene]
-  G -->|Schnell| I[Transfer-HUD → NextScene]
-
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.

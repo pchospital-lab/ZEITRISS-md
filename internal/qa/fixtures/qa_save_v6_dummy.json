@@ -532,10 +532,7 @@
         }
       },
       "platform_action_contract": {
-        "action_mode": "konform",
-        "pattern": "intent-cut-result",
-        "loot_policy": "outcome_only",
-        "body_handling": "none"
+        "action_mode": "uncut"
       },
       "atmosphere_contract": {
         "voice_profile": "gm_third_person",
@@ -612,12 +609,6 @@
           "captured_at": "2025-11-26T17:20:00Z"
         }
       },
-      "howto_guard_hits": [
-        {
-          "id": "hq_save",
-          "count": 1
-        }
-      ],
       "qa_profiles": {
         "profile": "dummy",
         "scenario_set": "regression",
@@ -671,7 +662,7 @@
     "gm_style": "verbose",
     "intro_seen": true,
     "suggest_mode": false,
-    "action_mode": "konform",
+    "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal",
