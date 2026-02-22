@@ -208,16 +208,16 @@ den Toolkit-Makros.
 _Getter-Helpers (pseudo JS):_
 
 ```javascript
-export const getParadoxon = () => state.paradoxon_index;
+export const getParadoxon = () => state.campaign.px;
 export const getOpenSeeds = () => state.open_seeds.length;
 export const incrementParadoxon = (pp = 1) => {
-  state.paradoxon_index += pp;
+  state.campaign.px += pp;
   ParadoxonPing();
   autoSave();
 };
 export const closeSeed = (id) => { ... };
 export function ClusterCreate() {
-  if (state.paradoxon_index < 5) return;
+  if (state.campaign.px < 5) return;
   const count = 1 + Math.floor(Math.random() * 2);
   for (let i = 0; i < count; i++) {
     state.open_seeds.push({
@@ -227,7 +227,7 @@ export function ClusterCreate() {
       deadline: Date.now() + 72 * 3600 * 1000,
     });
   }
-  state.paradoxon_index = 0;
+  state.campaign.px = 0;
   writeLine(`ClusterCreate spawned ${count} Rift-Seeds.`);
   autoSave();
 }
@@ -1434,7 +1434,7 @@ meldet „Arena Resume · Tier …“.
 function startGroupMode(players = []) {
   // Wird nach dem Einlesen mehrerer Savegames aufgerufen.
   // Schwierigkeitsgrad angleichen: Paradoxon-Index und offene Rifts zurücksetzen
-  state.paradoxon_index = 0;
+  state.campaign.px = 0;
   state.open_seeds = [];
   deepSave();
   writeLine(`Group mode initiated for ${players.length} players. Paradoxon-Index reset.`);

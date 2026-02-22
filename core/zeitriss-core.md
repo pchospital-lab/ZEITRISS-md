@@ -971,9 +971,18 @@ Fortschritt spürbar.
 
 _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
 **Temporaler Affinität (TEMP)** sammeln langsamer Resonanz, bei hohen
-Werten steigert sich der Index rasant. Als Richtwert gilt:
-TEMP 1-3 erzeugen meist alle fünf Missionen +1, TEMP 4-7 etwa alle vier,
-TEMP 8-10 alle drei, TEMP 11-13 alle zwei und TEMP 14+ fast jede Mission.
+Werten steigert sich der Index rasant. Die Frequenz ist fix an TEMP gekoppelt:
+
+| TEMP | Px +1 alle … |
+|-----:|:-------------|
+| 1–3 | 5 erfolgreiche Missionen |
+| 4–6 | 4 erfolgreiche Missionen |
+| 7–9 | 3 erfolgreiche Missionen |
+| 10–13 | 2 erfolgreiche Missionen |
+
+Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD
+als Warnung. Eskaliert die Situation weiter → **−1 Px** (Backlash), maximal
+einmal pro Mission.
 
 | Stufe | HUD-Farbe | Score-Screen zeigt              | Mechanischer Effekt                  |
 |-----:|-----------|---------------------------------|--------------------------------------|

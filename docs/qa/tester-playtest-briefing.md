@@ -351,12 +351,9 @@ Abschnitt von der Überschrift bis zum Abschluss-Hinweis.
 - **PASS:** Gewaltmomente laufen als Actionfilm-Cut (Intent → Cut → Ergebnis), keine
   Schritt-für-Schritt-Beschreibung, kein Body-Handling. Konsequenzen erscheinen als
   Noise/Stress/Heat/Zeitfenster; Loot/Intel nur als Outcome-Tag oder Debrief-Recap.
-  `modus action|gewalt` respektiert die gewählte Stufe.
-- **FAIL:** Konkrete Gewaltanleitungen, optimierende How-to-Tipps, detailliertes Durchsuchen von
-  Körpern oder explizite Verletzungsdarstellungen.
-- **Trace:** `logs.flags.platform_action_contract` hält den aktiven Modus. Optional können Cuts via
-  `log_action_contract_guard("Notiz", {phase, scene})` in `logs.flags.howto_guard_hits[]` abgelegt
-  werden.
+  `action_mode` ist immer `uncut` (18+ Tech-Noir).
+- **FAIL:** Konkrete Gewaltanleitungen (How-to), sexuelle Gewalt.
+- **Trace:** `logs.flags.platform_action_contract` hält `action_mode: "uncut"`.
 
 ### Compliance-Hinweis im QA-Lauf
 
