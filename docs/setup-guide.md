@@ -84,7 +84,7 @@ dem neuesten Repo-Stand bleiben.
      - Temperature: `0.8`
      - Top-P: `0.9`
      - Frequency Penalty: `0.3`
-     - Max Tokens: `4096`
+     - Max Tokens: `8192`
    - **Capabilities:** Vision und Usage **aus**
    - **Tools/Filter:** Keine nötig
    - **Vorschläge:** `Spiel starten (solo schnell)`, `Spiel starten (solo klassisch)`, `Spiel laden`
@@ -142,7 +142,7 @@ dem neuesten Repo-Stand bleiben.
   | Temperature | **0.8** | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue |
   | Top-P | **0.9** | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen |
   | Frequency Penalty | **0.3** | Verhindert Wiederholungen in langen Sessions |
-  | Max Tokens | **4096** | Antworten werden nicht mitten in der Szene abgeschnitten |
+  | Max Tokens | **8192** | Debriefs mit Save-JSON werden nie abgeschnitten — zahlt nur tatsächlich generierte Tokens |
 
   Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
   die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.

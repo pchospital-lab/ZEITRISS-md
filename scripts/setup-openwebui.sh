@@ -317,7 +317,7 @@ payload = {
         'temperature': 0.8,
         'top_p': 0.9,
         'frequency_penalty': 0.3,
-        'max_tokens': 4096
+        'max_tokens': 8192
     }
 }
 
@@ -385,7 +385,7 @@ echo -e "  ${CYAN}Knowledge:${NC}   $TOTAL Dateien"
 echo -e "  ${CYAN}Temperatur:${NC}  0.8"
 echo -e "  ${CYAN}Top-P:${NC}       0.9"
 echo -e "  ${CYAN}Freq-Penalty:${NC} 0.3"
-echo -e "  ${CYAN}Max Tokens:${NC}  4096"
+echo -e "  ${CYAN}Max Tokens:${NC}  8192"
 echo ""
 echo -e "  ${BOLD}So geht's weiter:${NC}"
 echo -e "  1. Öffne ${CYAN}$OPENWEBUI_URL${NC} im Browser"
