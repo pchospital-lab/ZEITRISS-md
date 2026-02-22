@@ -71,7 +71,12 @@ Für Funk-Checks nutze `comms_check()`. Vokabeln: siehe
 Der Standard-Header zeigt:
 `EP {ep} · MS {ms} · SC {sc}/{total} · MODE {CORE|RIFT} · Objective: {objective}`
 `· TTL {mm:ss?} · GATE {gate_seen}/2 · FS {fs_seen}/{fs_total} · Stress {cur} · Px {px_bar}`
-`· Lvl {lvl} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
+`· Lvl {lvl} {xp_bar} · Rank {rank} · SYS {sys_used}/{sys_max} (free {sys_free})`.
+
+**Level-Fortschrittsleiste:** `{xp_bar}` zeigt den XP-Fortschritt zum nächsten
+Level als Balken: `▓▓▓▓░░░░░░ (340/800 XP)`. Die Leiste ist **permanent
+sichtbar** und aktualisiert sich nach jeder Mission im Debrief. Sie motiviert
+durch sichtbaren Fortschritt — analog zum Px-Balken, aber immer eingeblendet.
 
 - Rift-Casefiles hängen `CASE <ID>: <Label> · HOOK … · STAGE Tatort/Leads/Boss` an
   den Header, damit der Ermittlungsstand (Tatort → Leads → Boss) sichtbar bleibt.
@@ -212,19 +217,19 @@ die Augen der Figur.
 ### Paradoxon-Statusanzeige [0-5]
 
 #### HUD-Banner · Paradoxon
-██ Paradoxon 3/5 - Resonanz stabil · Fortschritt sichtbar ██
-██ Paradoxon 5/5 - ClusterCreate! Neue Rifts gescannt ██
+██ Paradoxon 3/5 – Resonanz stabil · Fortschritt sichtbar ██
+██ Paradoxon 5/5 – ClusterCreate! Neue Rifts gescannt ██
 `Paradoxon 3/5 · Resonanz ↑`
-`Paradoxon 5/5 · ClusterCreate - Rifts sichtbar`
-`Paradoxon: ▓▓▓░░ · TEMP 11 · +1 nach 2 Missionen`
-`Paradoxon -1 · Backlash`
+`Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
+`Paradoxon: ▓▓▓░░ (3/5) · nächster +1 in 2 Missionen`
+`Paradoxon −1 · ⚠ HUD-Flackern → Backlash`
 
-- **Beispielwerte:**
-  - **+1** sauber/leise (Gerät gesichert, diskrete Exfil)
-  - **0** laut, aber ohne gravierende Spuren
-  - **-1** Backlash, grobe Störung, Anker kompromittiert oder Zivilisten gefährdet
-- Banner erscheint immer am Szenenende. Farben:
-  - grau 0-1 · cyan 2-3 · grün 4-5
+- **Px +1:** Automatisch nach X erfolgreichen Missionen (abhängig von TEMP-Stufe,
+  siehe TEMP→Px-Tabelle in Spieler-Handbuch/Speicher-Modul).
+- **Px −1 (Eskalation):** HUD flackert bei grobem Fehlverhalten (Warnung).
+  Eskaliert weiter → Backlash (−1 Px). Max. einmal pro Mission.
+- **Banner** erscheint kontextsensitiv (bei Px-relevanten Zuständen). Farben:
+  - grau 0–1 · cyan 2–3 · grün 4–5
 
 > _Resonanzanzeige für Rissverfolgung_
 > _Kodex-Modul: `CLSTR:TRACE.MONITOR`_
@@ -326,7 +331,7 @@ _Kodex:_
 | ------ | --------- |
 | ❤️‍🩹 | Vitalstatus |
 | 🧠 | Stresslevel |
-| Lvl | Charakterlevel |
+| Lvl + XP-Balken | Charakterlevel mit Fortschrittsleiste (`▓▓▓░░ 340/800 XP`) |
 | 👁️ | Tarnung/Sichtbarkeit |
 
 **Kontextsensitiv** (erscheint automatisch bei Zustandseintritt, verschwindet bei Ende):

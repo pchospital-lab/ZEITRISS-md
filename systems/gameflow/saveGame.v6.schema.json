@@ -156,15 +156,11 @@
             "merge_conflicts": { "type": "array", "items": { "type": "object" } },
             "platform_action_contract": {
               "type": "object",
-              "additionalProperties": true,
+              "additionalProperties": false,
               "properties": {
-                "action_mode": { "type": "string", "enum": ["frei", "konform"] },
-                "pattern": { "type": "string" },
-                "loot_policy": { "type": "string" },
-                "body_handling": { "type": "string" }
+                "action_mode": { "type": "string", "const": "uncut" }
               }
-            },
-            "howto_guard_hits": { "type": "array", "items": { "type": ["object", "string"] } }
+            }
           }
         }
       }
@@ -181,7 +177,7 @@
         "gm_style": { "type": "string" },
         "intro_seen": { "type": "boolean" },
         "suggest_mode": { "type": "boolean" },
-        "action_mode": { "type": "string", "enum": ["frei", "konform"] },
+        "action_mode": { "type": "string", "const": "uncut" },
         "contrast": { "type": "string", "enum": ["standard", "high"] },
         "badge_density": { "type": "string", "enum": ["standard", "dense", "compact"] },
         "output_pace": { "type": "string", "enum": ["normal", "fast", "slow"] },

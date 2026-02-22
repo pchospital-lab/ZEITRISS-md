@@ -76,16 +76,9 @@ default_modus: mission-fokus
   sichtbaren Würfen (`ui.dice.debug_rolls = true`). Film bleibt optional für
   cineastisches Tempo und lässt sich via `/mode film` oder `/mode klassik`
   umschalten.
-- **Action-Contract-Schalter:** `ui.action_mode = uncut|konform`.
-  Default ist `uncut` (Alias `frei|open|full`); Legacy-Werte wie
-  `fsk12|standard|off` werden automatisch auf `konform` gehoben. Das
-  Platform-Contract persistiert `pattern=full_scene`, `loot_policy=full_loot`,
-  `body_handling=protocol`.
-- **Action-Contract-Trace (optional):** `log_action_contract_guard("Notiz",
-  {phase, scene, action_mode})` protokolliert Guard-Cuts in
-  `logs.flags.howto_guard_hits[]` und hält den aktiven Modus in
-  `logs.flags.platform_action_contract`. Nutze es, sobald ein How-to-Cut nötig
-  wird.
+- **Action-Contract:** `ui.action_mode` ist immer `uncut` (18+ Tech-Noir).
+  Legacy-Werte werden beim Laden auf `uncut` normalisiert. Keine
+  Schritt-für-Schritt-Gewaltanleitungen, keine sexuelle Gewalt.
 - **Uncut statt Cut-Result:** Konflikte laufen als volle Szene mit klaren
   Stakes; keine Schritt-für-Schritt-Anleitungen. Gewalt/Hacks erscheinen
   **filmisch**: Beats, Rhythmus, visuelle Signale, Impact und Risiko stehen im
@@ -1184,7 +1177,7 @@ Gruppendynamik zu erleben.
 ```pseudo
 macro StartGroupMode(players = [], keep_scene = false):
   hud_tag("GRP · Linking …")
-  state.paradoxon_index = 0
+  state.campaign.px = 0
   state.open_seeds = []
   normalize_wallets(players)
   if keep_scene:
@@ -1577,16 +1570,7 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 ⟨% if state.ui.suggest_mode %⟩
   ⟪ hud_tag('· SUG') ⟫
 ⟨% endif %⟩
-⟨% if state.ui.action_mode is not defined %⟩
-  ⟨% set state.ui.action_mode = 'uncut' %⟩
-⟨% else %⟩
-  ⟨% set action_raw = state.ui.action_mode | string | lower | trim %⟩
-  ⟨% if action_raw in ['frei', 'free', 'full', 'open', 'uncut', 'gewalt'] %⟩
-    ⟨% set state.ui.action_mode = 'uncut' %⟩
-  ⟨% else %⟩
-    ⟨% set state.ui.action_mode = 'konform' %⟩
-  ⟨% endif %⟩
-⟨% endif %⟩
+⟨% set state.ui.action_mode = 'uncut' %⟩
 ⟨% if state.scene is not defined or state.scene is none %⟩
   ⟨% set state.scene = {} %⟩
 ⟨% endif %⟩

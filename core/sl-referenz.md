@@ -959,18 +959,12 @@ sich per `/roll open|hidden|manual` steuern: `hidden` blendet Ergebnisse aus
 Hinweis; ihr würfelt analog/digital und gebt das Ergebnis zurück. `/roll open`
 schaltet die sichtbare Ausgabe wieder ein.
 
-**Action-Contract-Schalter.** Für Plattformwechsel gibt es einen Gewalt-Regler:
-`modus action|gewalt konform|uncut` (Alias: `frei|open|full`). Standard ist
-`uncut`; Legacy-Werte wie `fsk12|standard|off` fallen automatisch auf
-`konform`. Das Platform-Contract persistiert `pattern=full_scene`,
-`loot_policy=full_loot`, `body_handling=protocol`. Grundregel: keine Schritt-
-für-Schritt-Gewalt, kein Body-Handling. Kämpfe, Hacking und Gewalt bleiben
-**filmisch**: Beschreibe Beats, Dynamik, Geräusche, Licht, Impact und Risiko,
-aber abstrahiere die Technik. Konsequenzen laufen über Noise, Stress, Heat oder
-enge Zeitfenster. Optional kann `log_action_contract_guard("Notiz",
-{phase, scene})` genutzt werden; der Save hält
-`logs.flags.platform_action_contract` und `logs.flags.howto_guard_hits[]`.
-Loot-Blöcke sind wieder regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
+**Action-Contract.** ZEITRISS ist ein 18+ Tech-Noir-RPG. `action_mode` ist
+immer `uncut`. Kämpfe, Hacking und Gewalt bleiben **filmisch**: Beschreibe
+Beats, Dynamik, Geräusche, Licht, Impact und Risiko, aber abstrahiere die
+Technik. Keine Schritt-für-Schritt-Gewaltanleitungen, keine sexuelle Gewalt.
+Konsequenzen laufen über Noise, Stress, Heat oder enge Zeitfenster.
+Loot-Blöcke sind regulär Teil des Gameplays (Waffen/Tools, Keys/Daten,
 Wert/CU, Hinweise, "heißes Loot" markieren). Cleanup beschreibt nur Risiko und
 Protokoll (Zeit, Stress, Noise/Heat) statt Schrittlisten; Exfil-Fenster bleiben
 sichtbar und werden als Optionen geführt.
@@ -1027,8 +1021,8 @@ wieder einschalten. Siehe auch
 
 ```text
 location: "HQ" | "FIELD" | "ARENA"
-campaign: { episode, mission_in_episode, scene, px,
-  paradoxon_index:0..5, fr_bias:"normal"|"easy"|"hard" }
+campaign: { episode, mission_in_episode, scene, px:0..5,
+  fr_bias:"normal"|"easy"|"hard" }
 phase: "core"|"transfer"|"rift"|"pvp"
 character: { name, level, stress, psi_heat, cooldowns:{},
   attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},

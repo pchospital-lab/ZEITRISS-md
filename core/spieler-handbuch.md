@@ -27,14 +27,14 @@ Details findest du in [LICENSE](../LICENSE).
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
    sind Sondermissionen in drei Akten mit vierzehn Szenen.
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
-   Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
-   `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte - Bonus-Missionen mit
-   Paramonstern und Artefakten. Danach springt der Px für den nächsten Zyklus auf 0;
-   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Ihr wollt den Index
-   aktiv hochhalten — jeder Punkt bringt euch näher an neue Rifts und seltene
-   Ressourcen. Px 0-4 hat keine negativen Effekte; nur in seltenen Extremfällen
-   (Zivilopfer, zerstörte Kern-Anker) kann ausnahmsweise **-1 Px** greifen.
+4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
+   Nach einer festen Anzahl erfolgreicher Missionen (abhängig von TEMP) steigt
+   der Index um +1. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds auf der
+   Raumzeitkarte — Bonus-Missionen mit Paramonstern und Artefakten. Danach
+   springt der Px auf 0; weitere Px-5-Treffer stapeln zusätzliche Seeds im
+   Pool. Px 0–4 hat keine negativen Effekte. Bei extremem Fehlverhalten
+   (Zivilopfer, zerstörte Kern-Anker) flackert das HUD als Warnung —
+   eskaliert es weiter, greift **−1 Px**.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
 6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
@@ -222,13 +222,24 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 | Px | Effekt |
 |---:|--------|
-| 0–4 | Stabil, Fortschritt über HUD-Farbe sichtbar |
+| 0–4 | Fortschritt über HUD-Balken und -Farbe sichtbar |
 | **5** | **ClusterCreate()** → 1–2 Rift-Seeds enthüllt, Px → 0 |
 
-- **Steigt durch:** Stilvolles Vorgehen, Missionsziele, Zeitlinie stabilisieren
-- **Stagniert bei:** Chaos, lautes Vorgehen, Missionsabbruch
-- **Px −1 (selten):** Nur bei extremen Fehlern (Zivilopfer, Kern-Anker zerstört)
-- **TEMP beeinflusst Füllgeschwindigkeit** (höher = schneller)
+**Px-Anstieg (fix gekoppelt an TEMP):**
+
+| TEMP | Px +1 alle … |
+|-----:|:-------------|
+| 1–3 | 5 Missionen |
+| 4–6 | 4 Missionen |
+| 7–9 | 3 Missionen |
+| 10–13 | 2 Missionen |
+
+- **Px +1** bei jeder **erfolgreich abgeschlossenen Mission** gemäß obiger
+  Frequenz. Zähler läuft pro Charakter und wird im HUD als Fortschrittsbalken
+  angezeigt.
+- **Px −1 (Eskalation):** Erst flackert das HUD (Warnung bei grobem Fehlverhalten
+  wie Zivilopfer, zerstörte Kern-Anker). Eskaliert die Situation weiter → **−1 Px**
+  und Backlash-Toast im HUD. Nur einmal pro Mission möglich.
 
 ### CU-Belohnung
 `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
@@ -410,13 +421,14 @@ Speichern ist im HQ erlaubt, damit Einsätze spannend bleiben und Verläufe nich
 festgeschrieben werden.
 
 **Was bedeutet Px?**
-Der Paradoxon-Index (Px) ist ein **Belohnungssystem**: Jeder Punkt bringt euch
-näher an neue Rift-Seeds und seltene Ressourcen. Sauberes, professionelles
-Vorgehen lässt den Index steigen. Px 0-4 hat keine negativen Effekte — ihr
-baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1-2 Rift-Seeds,
+Der Paradoxon-Index (Px) ist ein **Belohnungssystem** mit fester Progression:
+Nach einer bestimmten Anzahl erfolgreicher Missionen (abhängig von TEMP-Stufe)
+steigt der Index automatisch um +1. Px 0–4 hat keine negativen Effekte — ihr
+baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds,
 markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 —
-das HUD bestätigt den Reset zu Beginn der nächsten Mission. -1 Px greift nur
-in seltenen Extremfällen (Zivilopfer, zerstörte Kern-Anker).
+das HUD bestätigt den Reset zu Beginn der nächsten Mission. Bei grobem
+Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD; eskaliert
+die Situation weiter → −1 Px.
 
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
@@ -482,8 +494,9 @@ Ops-Pool.
 
 Die Nullzeit kennt keinen Countdown. Das ITI schon.
 
-**Paradoxon:** Der Index (Px) steigt, wenn ihr stabil und präzise eingreift.
-Zu hartes Vorgehen lässt ihn stagnieren oder sinken. Bei Px 5 erzeugt
+**Paradoxon:** Der Index (Px) steigt automatisch nach einer festen Anzahl
+erfolgreicher Missionen (abhängig von TEMP). Grobes Fehlverhalten lässt das HUD
+flackern und kann bei Eskalation −1 Px auslösen. Bei Px 5 erzeugt
 `ClusterCreate()` neue Rift-Seeds und setzt den Index zurück.
 
 Wie willst du einsteigen?
@@ -626,23 +639,23 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
 Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten — ein
-**Belohnungssystem**, das eure operative Qualität misst. Er steigt, wenn ihr
-das dokumentierte Hauptereignis einer Mission intakt haltet — ob subtil oder
-brachial. Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch
-näher an seltene Rift-Ressourcen und Bonus-Missionen. Px 0-4 erzeugt keine
-Maluswerte; bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1-2 neue
-Rift-Signaturen** und setzt den Index zurück. Nur in seltenen Extremfällen
-(Zivilopfer, zerstörte Kern-Anker) kann ausnahmsweise **-1 Px** greifen —
-das bremst den Fortschritt, ist aber die Ausnahme, nicht die Regel.
+**Belohnungssystem** mit fester, deterministischer Progression. Nach einer
+bestimmten Anzahl erfolgreicher Missionen steigt der Index automatisch um +1.
+Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch näher an
+seltene Rift-Ressourcen und Bonus-Missionen. Px 0–4 erzeugt keine Maluswerte;
+bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1–2 neue Rift-Signaturen**
+und setzt den Index zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte
+Kern-Anker) flackert das HUD als Warnung — eskaliert die Situation weiter →
+**−1 Px**.
 
-Der **TEMP-Wert (Temporale Affinität)** bestimmt, wie schnell sich dieser Index
-füllt:
+Der **TEMP-Wert (Temporale Affinität)** bestimmt die Frequenz:
 
-- TEMP 1-3: +1 Paradoxonpunkt alle 5 Missionen
-- TEMP 4-7: alle 4 Missionen
-- TEMP 8-10: alle 3 Missionen
-- TEMP 11-13: alle 2 Missionen
-- TEMP 14+: praktisch jede Mission
+| TEMP | Px +1 alle … |
+|-----:|:-------------|
+| 1–3 | 5 erfolgreiche Missionen |
+| 4–6 | 4 erfolgreiche Missionen |
+| 7–9 | 3 erfolgreiche Missionen |
+| 10–13 | 2 erfolgreiche Missionen |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
