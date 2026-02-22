@@ -365,10 +365,10 @@ Der Ruf eines Chrononauten wächst mit dessen Erfolgen. In Verbindung mit den ob
 Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an
-  und gewährt breiteren Zugriff auf Ausrüstung. Ab Level 10 hat der Chrononaut genug
-  Verbindung mit der Nullzeit aufgebaut, dass Kodex den **digitalen Chronopolis-Schlüssel**
-  freischalten kann — eine kryptographische Signatur, die der Chrononaut bei jedem
-  Durchgang durch die Chronopolis-Schleuse live dechiffriert bekommt.
+  und gewährt breiteren Zugriff auf Ausrüstung. Ab Level 10 schaltet Kodex den
+  **Chronopolis-Schlüssel** frei — Zugang zur gescheiterten Zeitlinie der aktuellen
+  Episode. Chronopolis ist düster, instanziert, ohne Waffenruhe. Tod dort = Aufwachen
+  im HQ, Items des Runs verloren. Was man lebend rausbringt: behalten.
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
