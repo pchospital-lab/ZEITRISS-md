@@ -15,6 +15,7 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): als **Mirror ohne Runtime-Auslagerung** weitergeführt (Toolkit bleibt Laufzeitquelle).
 - ZR-007 (Heilung/Medkit, LP≠HP): abgeschlossen (LP-Terminologie vereinheitlicht; Medikit auf 1W6 LP mit Missionslimit harmonisiert).
 - ZR-008 („Alien"-Wortwahl/Cover-Lore): abgeschlossen (Default-Lore auf Fremdfraktions-/Gerüchtestatus harmonisiert).
+- ZR-009 (Level-Up-Regel Attribut/Talent/SYS): abgeschlossen (SSOT auf 1 Wahl pro Stufe konsolidiert).
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
@@ -41,6 +42,11 @@ Nachtrag ZR-008 (2026-02-23): Alien-Begriffe in den priorisierten
 Gameplay-Modulen wurden auf Cover-Lore/Fremdfraktions-Logik zurückgeführt,
 damit der Hard-Sci-Fi-Defaultton ohne verpflichtenden Alien-Kanon erhalten
 bleibt.
+
+Nachtrag ZR-009 (2026-02-23): Die Level-Up-Regel wurde in den priorisierten
+Progressionsmodulen auf einen eindeutigen SSOT gezogen: pro Stufe genau eine
+Wahl (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`). Frühere
+Doppel-Upgrade-Lesarten wurden im Standard entfernt.
 
 Aktivierte Connectoren: **github**.
 

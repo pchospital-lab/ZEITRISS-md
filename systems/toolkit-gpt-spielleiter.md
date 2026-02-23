@@ -484,7 +484,7 @@ if not char.get("psi") and not char.get("has_psi"):
       nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0-1
       bzw. 0-100 % normiert.
 - **HQ-Loop-Contract (Debrief → Freeplay):** Auto-Loot → CU/Wallet-Split →
-  XP/Skill-Prompt → explizites Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht).
+  XP/Upgrade-Prompt (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`) → explizites Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht).
   Für QA optional `logs.flags.hq_freeplay_prompted=true` setzen.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
@@ -2950,7 +2950,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   'armed': false
 } %⟩
 ⟨% if char.lvl < 10 %⟩
-  ⟪ hud_tag('Level-Up: +1 Attribut verfügbar') ⟫
+  ⟪ hud_tag('Level-Up: Wähle +1 Attribut, Talent/Upgrade oder +1 SYS') ⟫
 ⟨% endif %⟩
 ⟪ chrono_grant_key_if_lvl10() ⟫
 ⟪ kodex_summary(closed_seed_ids, cluster_gain, faction_delta) ⟫
