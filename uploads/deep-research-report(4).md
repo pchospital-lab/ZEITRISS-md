@@ -1,5 +1,24 @@
 # Deep-Research-Audit: pchospital-lab/ZEITRISS-md (Spielinhalte, Regelkonsistenz, Fix-Backlog)
 
+## Archivhinweis (Status 2026-02-23, nachgezogen)
+
+Dieses Upload-Artefakt ist als **Eingangsquelle abgeschlossen**. Die priorisierten
+P0/P1-Startpunkte aus diesem Report wurden für den ersten Umsetzungsblock
+bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
+
+- ZR-001 (Exploding/Burst-Cap): abgeschlossen.
+- ZR-002 (Px-Semantik ohne Default-Strafabzug): abgeschlossen.
+- ZR-003 (Px-Scope solo/npc-team vs. gruppe): abgeschlossen.
+- ZR-004 (HQ-Loop-Invariante, kein Default-Skip): abgeschlossen.
+
+Verbindliche Nachverfolgung liegt ab jetzt in:
+
+- `internal/qa/plans/2026-02-23-regelupdate-followup.md`
+- `internal/qa/logs/2025-beta-qa-log.md`
+
+Hinweis: Weitere, nicht im ersten Block umgesetzte Deep-Research-Tickets
+(z. B. ZR-005, ZR-010) bleiben als separate Folgeaufträge bestehen.
+
 Aktivierte Connectoren: **github**.
 
 ## Executive Summary
