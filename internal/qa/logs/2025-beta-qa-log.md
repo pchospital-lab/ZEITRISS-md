@@ -1,10 +1,38 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.62
+version: 0.4.63
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-008 Tonalitätspass (Fremdfraktion als Cover-Lore)
+- Fokus: Nach Abschluss der P0/P1-Tickets den nächsten sinnvollen Upload-Punkt
+  aus `uploads/deep-research-report(4).md` umsetzen: harte Alien-Kanon-Lesart
+  in den Gameplay-Modulen entschärfen, ohne optionale Mystery-Lore zu verlieren.
+- Scope: `gameplay/kampagnenuebersicht.md`,
+  `gameplay/kreative-generatoren-missionen.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Kampagnenübersicht auf Cover-Logik geschärft: „außerirdisch" und
+     „Galaktische Föderation" gelten im Standardspiel als Gerücht/Decknarrativ,
+     bis Ingame-Beweise vorliegen.
+  2. Generator-Begriffe harmonisiert: Alienvolk/Alien-Relikt/Fremdes Leben →
+     Fremdfraktion/Fremd-Relikt/Unbekannte Signaturen.
+  3. Fahrplan + Upload-Artefakt synchronisiert, damit ZR-008 im operativen Pfad
+     nachvollziehbar als abgeschlossen geführt wird.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
 
 ## 2026-02-23 – Repo-Agent – ZR-007 Balance-Closure (Medikit auf LP-Skala)
 - Fokus: Nach dem Terminologiepass den verbleibenden optionalen Balance-Punkt aus
