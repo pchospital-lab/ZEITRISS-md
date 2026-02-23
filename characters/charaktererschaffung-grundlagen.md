@@ -419,22 +419,17 @@ Szenen kosten kein zusätzliches In-Game-Geld oder Ressourcen, nur Zeit im HQ (d
 relativ frei fließt).
 
 **Verbesserungen pro Stufe:** Bei jedem Level-Aufstieg dürft ihr euren Charakter **mechanisch
-verbessern**. Üblicherweise bedeutet das:
+verbessern**. Dabei gilt als Standard pro Stufe genau **eine** Wahl:
 
-- **+1 Attributspunkt** (steigert ein Attribut eurer Wahl um _eins_, bis max. 14 möglich; ab 11
-  würfelt ihr mit einem W10, ab 14 erhaltet ihr zusätzlich einen Heldenwürfel) **oder** erlernt
-  **ein neues Talent**. Sprecht mit der SL, was für eure Figur sinnvoller ist - Kämpfer investieren
-  vielleicht erst in Stärke, Forscher eher in neue Spezialtalente. Je höher das Level, desto _langsamer_
-  sollten Attributssteigerungen stattfinden, um die Balance zu wahren (z.B. nicht jedes Level ein
-  Attribut erhöhen, sondern abwechselnd mit Talent freischalten).
-- **Optional/auf höheren Leveln:** Ab bestimmten Meilensteinen könnte die SL auch _beides_ erlauben
-  (z.B. auf Level 5 gibt es +1 Attr und ein Talent). Dies hängt jedoch vom Power-Niveau der Kampagne
-  ab. Generell gilt: **Werte über 10 sind außergewöhnlich** - ab 11 wechselt der Basiswürfel auf W10
-  und ab 14 kommt der Heldenwürfel ins Spiel. Obwohl der theoretische Höchstwert bei 14 liegt,
-  sollten solche Spitzenwerte selten und erst bei sehr erfahrenen Chrononauten vorkommen. Talente kann
-  man dagegen fast unbegrenzt ansammeln, solange sie das Konzept erweitern und nicht brechen. Die
-  Archetypen liefern viele Ideen für Talente, sodass
-  ihr später neue auswählen oder eigene kreieren könnt.
+- **`+1 Attribut`** (ein Attribut eurer Wahl um +1; ab 11 W10 statt W6, ab 14 zusätzlich
+  Heldenwürfel),
+- **`Talent/Upgrade`** (neues Talent oder Ausbau eines bestehenden Talents),
+- **`+1 SYS`** (mehr Systemkapazität für Cyber-/Bioware/Psi-Last).
+
+Diese Wahl wird in der HQ-Phase als Trainings- oder Forschungsfortschritt ausgespielt.
+Generell gilt: **Werte über 10 sind außergewöhnlich**. Obwohl der theoretische
+Höchstwert bei 14 liegt, sollten solche Spitzenwerte selten und erst bei sehr
+erfahrenen Chrononauten vorkommen.
 
 **Lebensenergie und andere Steigerungen:** ZEITRISS verwendet anstelle klassischer Trefferpunkte ein
 **Verletzungsstufen-System** - das heißt, eure Lebensenergie steigt nicht direkt mit dem Level,

@@ -138,7 +138,8 @@ Die ersten Schritte in unter zwei Minuten:
     1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand
     2. **Loot-Recap** — gefundene Gegenstände und Artefakte auflisten
     3. **CU-Auszahlung** — Belohnung nach CU-Formel, Wallet-Split bei Teams
-    4. **XP & Level-Up** — XP vergeben, bei Aufstieg sofort Skill-Pick anbieten
+    4. **XP & Level-Up** — XP vergeben, bei Aufstieg sofort Upgrade-Wahl anbieten
+       (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`)
     5. **Ruf-Update** — Fraktionsruf-Änderungen anzeigen
     6. **HQ-Optionen** — Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
        oder Auto-HQ & Save (HQ-Pflichtschritte werden automatisch abgewickelt,

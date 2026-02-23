@@ -99,3 +99,25 @@ Als nächster sinnvoller Deep-Research-Folgeschritt wurde die Tonalitätsfrage a
 
 Damit ist ZR-008 im laufenden Follow-up als abgeschlossen nachgezogen; die
 P0/P1-Closure bleibt unverändert, ergänzt um diesen P2-Konsistenzpass.
+
+
+## Nachzug ZR-009 – Level-Up-Regel konsolidiert (2026-02-23)
+
+Als nächster sinnvoller Deep-Research-Folgeschritt wurde die offene
+Progressions-Drift (Attribut vs. Talent vs. SYS) im Runtime-Textkorpus
+vereinheitlicht.
+
+- `core/zeitriss-core.md`: Aufstiegsregel als SSOT präzisiert:
+  pro Stufe genau **eine** Wahl (`+1 Attribut` **oder** `Talent/Upgrade`
+  **oder** `+1 SYS`).
+- `characters/charaktererschaffung-grundlagen.md`: Level-Up-Abschnitt auf
+  dieselbe Dreifach-Wahl harmonisiert; frühere "optional beides"-Lesart
+  entfernt.
+- `core/sl-referenz.md`: Default ohne Doppel-Upgrades pro Level klargestellt.
+- Spiegelung in Wissens-/Runtime-Modulen nachgezogen:
+  `core/spieler-handbuch.md` (Debrief-Upgrade-Hinweis) und
+  `systems/toolkit-gpt-spielleiter.md` (HQ-Loop + Level-Up-HUD-Toast).
+
+Damit ist ZR-009 aus `uploads/deep-research-report(4).md` im laufenden
+Follow-up als abgeschlossen nachgezogen; der Upload-Block bleibt damit
+konsistent im SSOT-Pfad dokumentiert.

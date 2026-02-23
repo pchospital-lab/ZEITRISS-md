@@ -1,10 +1,39 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.63
+version: 0.4.64
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-009 Level-Up-SSOT (Attribut/Talent/SYS)
+- Fokus: Nach ZR-008 den nächsten offenen Deep-Research-Punkt aus
+  `uploads/deep-research-report(4).md` schließen: uneinheitliche
+  Aufstiegslogik im Runtime-Text (Attribut vs Talent vs SYS) konsolidieren.
+- Scope: `core/zeitriss-core.md`,
+  `characters/charaktererschaffung-grundlagen.md`, `core/sl-referenz.md`,
+  `core/spieler-handbuch.md`, `systems/toolkit-gpt-spielleiter.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. SSOT festgezogen: pro Level-Up genau **eine** Wahl
+     (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`).
+  2. Frühere Driftformulierung („optional beides") in
+     `characters/charaktererschaffung-grundlagen.md` entfernt.
+  3. Spiegelung in Spieler-Handbuch und Toolkit nachgezogen
+     (Debrief-Upgrade-Hinweis + HUD-Toast im EndMission-Flow).
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-009: **abgeschlossen**.
+10. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
 
 ## 2026-02-23 – Repo-Agent – ZR-008 Tonalitätspass (Fremdfraktion als Cover-Lore)
 - Fokus: Nach Abschluss der P0/P1-Tickets den nächsten sinnvollen Upload-Punkt
