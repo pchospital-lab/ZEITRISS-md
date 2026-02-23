@@ -1,10 +1,33 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.61
+version: 0.4.62
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-007 Balance-Closure (Medikit auf LP-Skala)
+- Fokus: Nach dem Terminologiepass den verbleibenden optionalen Balance-Punkt aus
+  `uploads/deep-research-report(4).md` konkret schließen, damit Heilung/Verbrauch
+  zur 10-LP-Skala passt.
+- Scope: `characters/ausruestung-cyberware.md`, `characters/zustaende.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Medikit-Standard auf **1W6 LP** außerhalb des Kampfes harmonisiert.
+  2. Missionslimit präzisiert: **maximal 1× pro Charakter und Mission**.
+  3. Wissensmodul-Spiegelung in `characters/zustaende.md` ergänzt und
+     QA-/Upload-Dokumente auf „ZR-007 abgeschlossen" synchronisiert.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
 
 ## 2026-02-23 – Repo-Agent – ZR-006 Physicality-Gate konsolidiert (Tracker ja, HUD nein)
 - Fokus: Nächsten sinnvollen Deep-Research-Folgeschritt aus

@@ -258,8 +258,9 @@ fehlende Ausrüstung, bevor das Team durch den Zeitriss tritt. Hier einige gäng
 Ausrüstungsgegenstände:
 
 - **Medikit (Erste-Hilfe-Set):** Standard-Notfallausrüstung mit Verbänden, Desinfektionsmittel und
-  Schmerzmitteln. Heilt **2W6 LP** außerhalb des Kampfes (einmalig pro Einsatz verwendbar); bei
-  sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. _Kosten:_ 30 CU. _(tier: 0)_
+  Schmerzmitteln. Heilt **1W6 LP** außerhalb des Kampfes (maximal 1× pro Charakter und Mission);
+  bei sofortiger Anwendung im Kampf kann ein Verwundeter stabilisiert werden. _Kosten:_ 30 CU.
+  _(tier: 0)_
 - **Kletterausrüstung:** Seile, Haken, ein kompakter mechanischer Seilwerfer und Karabiner.
   Erleichtert Klettern und Abseilen erheblich (Proben +2 oder automatische Erfolge bei einfachen
   Kletterpartien). _Kosten:_ 40 CU. _(tier: 0)_
