@@ -16,6 +16,7 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-007 (Heilung/Medkit, LP≠HP): abgeschlossen (LP-Terminologie vereinheitlicht; Medikit auf 1W6 LP mit Missionslimit harmonisiert).
 - ZR-008 („Alien"-Wortwahl/Cover-Lore): abgeschlossen (Default-Lore auf Fremdfraktions-/Gerüchtestatus harmonisiert).
 - ZR-009 (Level-Up-Regel Attribut/Talent/SYS): abgeschlossen (SSOT auf 1 Wahl pro Stufe konsolidiert).
+- ZR-013 (Glossar/Terminologie-Guide): abgeschlossen (im Spieler-Handbuch als zentrale Glossar-SSOT gebündelt und in Runtime-Module verlinkt).
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
@@ -47,6 +48,10 @@ Nachtrag ZR-009 (2026-02-23): Die Level-Up-Regel wurde in den priorisierten
 Progressionsmodulen auf einen eindeutigen SSOT gezogen: pro Stufe genau eine
 Wahl (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`). Frühere
 Doppel-Upgrade-Lesarten wurden im Standard entfernt.
+
+Nachtrag ZR-013 (2026-02-23): Terminologie wurde im Glossar des
+Spieler-Handbuchs als kompaktes SSOT gebündelt (SG, LP, SYS, PP, TEMP +
+Loop-Kürzel) und in HUD-Modul sowie Kampagnenstruktur als Referenz verlinkt.
 
 Aktivierte Connectoren: **github**.
 
@@ -146,7 +151,7 @@ Effort: **S** (≤1h), **M** (½–1 Tag), **L** (1–3 Tage), **XL** (>3 Tage).
 | ZR-010 | Toolkit entkoppeln: „Regeltext“ vs „Runtime‑Makros“ in getrennte Dateien | P1 | L | `systems/toolkit-gpt-spielleiter.md` + neue `internal/runtime/*` | Wartbarkeit + Qualität |
 | ZR-011 | HUD-Modul entschlacken: nur UX-Standard, keine abweichenden Kernregeln | P2 | M | `characters/hud-system.md` | „Anzeige“ ≠ Regel |
 | ZR-012 | Kampagnenstruktur: seed-status normalisieren (open/closed) | P2 | S | `gameplay/kampagnenstruktur.md`, ggf. Save‑Modul | Merge/Normalizer |
-| ZR-013 | Glossar/Terminologie-Guide (SG, LP, SYS, PP, TEMP) als 1 Seite | P2 | M | neues `core/glossar-ssot.md` + Links | reduziert Drift |
+| ZR-013 | Glossar/Terminologie-Guide (SG, LP, SYS, PP, TEMP) als 1 Seite | P2 | M | `core/spieler-handbuch.md#glossar` + Links | reduziert Drift |
 | ZR-014 | Generatoren: Sensitivitäts-Schalter (harte Realereignisse) dokumentieren | P3 | S | `gameplay/kreative-generatoren-missionen.md` | Gruppenkomfort |
 | ZR-015 | Interne QA-„Known Issues“ in GitHub Issues spiegeln (triage) | P3 | M | `internal/qa/process/known-issues.md` | Backlog sauber |
 
