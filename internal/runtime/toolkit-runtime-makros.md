@@ -8,9 +8,10 @@ tags: [meta]
 
 Dieser Mirror enthält den technischen Makro-/Runtime-Block aus
 `systems/toolkit-gpt-spielleiter.md` als dediziertes Entwicklungsartefakt.
-Die Spielleitung bleibt weiterhin im Toolkit lesbar; Runtime-Änderungen werden
-hier parallel gespiegelt, um Regeltext und Implementierungsdetails sauberer zu
-trennen.
+Die Spielleitung und der vollständige Runtime-Block bleiben weiterhin im
+Toolkit (`systems/toolkit-gpt-spielleiter.md`) als GPT-Laufzeitquelle.
+Runtime-Änderungen werden hier ausschließlich parallel gespiegelt, damit QA und
+Reviews technische Diffs getrennt prüfen können.
 
 ## Technische Makros & Runtime-Definitionen (KI-Spielleiter-Interna)
 
