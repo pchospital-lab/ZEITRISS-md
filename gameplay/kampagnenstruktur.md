@@ -635,7 +635,7 @@ Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Min
 3. **Interruption-Check** bei aktivem Druck (z.B. Patrouille, Sirene). Fail-Forward → Chase oder kleiner Tradeoff.
 4. **Nullzeit-Beat Pflicht:** Vor dem HQ-Cut immer der kurze Transfer-Moment (Kälte, Licht, 3…2…1).
 
-**TTL ≤ 0 ⇒ Hot-Exfil:** 2-3 kurze, harte Szenen; Misslingen löst nur bei aktivierter Px-Verlust-Regel ein **Px-1** aus.
+**TTL ≤ 0 ⇒ Hot-Exfil:** 2-3 kurze, harte Szenen; Misslingen zieht im Default keinen automatischen Px-Abzug nach sich, sondern eskaliert Stress/Heat/CU- und Storyfolgen (optional kann die Runde eine Px-Verlust-Regel aktivieren).
 
 Empfehlung: **0-2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das Risiko.
 **Speichern** bleibt **HQ-exklusiv**.
@@ -752,7 +752,7 @@ Danach wird der Wert für alle Missionen berechnet und sinkt, sobald ein Seed en
 
 Weitere Seeds erhöhen den Wert bis zum Cap von **+3 / 1,6** (ab drei offenen Seeds).
 Wer stylisch spielt und den natürlichen Ablauf der Geschichte wahrt, generiert
-mehr Paradoxon-Punkte; plumpes Vorgehen senkt den Zähler schneller.
+mehr Paradoxon-Punkte; plumpes Vorgehen bremst den Aufbau, ohne im Default automatisch Px abzuziehen.
 
 Einheitliche CU-Formel (Core **und** Rift):
 `Belohnung = Basiswert(Risiko) × Ergebnis-Multiplikator × Seed-Multi × Hazard-Pay`.
@@ -2221,8 +2221,8 @@ _→ Engine erstellt Instanz; Cache gilt bis Spieler Zone verlässt._
 
 | Kategorie             | Nutzen                                   | Preis    | Paradoxon-Risiko           |
 | --------------------- | ---------------------------------------- | -------- | -------------------------- |
-| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | -1 Px bei Erstflug         |
-| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | -1 Px bei öffentl. Nutzung |
+| **Temporal Ships**    | Inter-Epoch Travel / Schnell-Exfil       | 5 000 CU | Stress +1 bei riskanter Nutzung (Default) |
+| **Never-Was Gadgets** | Einmal-Buffs (z. B. "Quantum Flashbang") | 500 CU   | Heat +1 bei öffentl. Nutzung (Default) |
 | **Era-Skins**         | Kosmetisch                               | 200 CU   | 0                          |
 
 _Px = Paradoxon-Index-Punkte. Tabelle direkt in `cu_waehrungssystem.md` referenzieren._
