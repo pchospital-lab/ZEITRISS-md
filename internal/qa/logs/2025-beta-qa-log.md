@@ -1,10 +1,42 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.66
+version: 0.4.67
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – Nachcheck & Pflege vor neuem Search-Lauf
+- Fokus: Abschlusskontrolle für `uploads/deep-research-report(4).md` vor dem
+  nächsten externen Search-Lauf; insbesondere den letzten Meta-Punkt ZR-015
+  sauber in den QA-Prozess überführen.
+- Scope: `internal/qa/process/known-issues.md`, `internal/qa/README.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Prozessartefakt `internal/qa/process/known-issues.md` erstellt und
+     ZR-015 als abgeschlossen dokumentiert.
+  2. QA-Index um den neuen Prozessknoten ergänzt, damit Übergaben eindeutig
+     über Fahrplan/Log/Prozess referenzierbar sind.
+  3. Follow-up-Fahrplan und Upload-Archivhinweis synchronisiert: kein offener
+     Restpunkt mehr aus dem Report(4)-Block.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-009: **abgeschlossen**.
+10. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
+11. ZR-011: **abgeschlossen**.
+12. ZR-012: **abgeschlossen**.
+13. ZR-013: **abgeschlossen**.
+14. ZR-014: **nicht übernommen** (Produktentscheidung: kein Safety-Toggle).
+15. ZR-015: **abgeschlossen** (Triage-Prozess dokumentiert).
 
 ## 2026-02-23 – Repo-Agent – Korrektur zu ZR-014 + Chronopolis-Wording
 - Fokus: Nutzerfeedback auf den letzten Diff umsetzen: kein Sensitivitäts-
@@ -36,7 +68,7 @@ tags: [meta]
 12. ZR-012: **abgeschlossen**.
 13. ZR-013: **abgeschlossen**.
 14. ZR-014: **nicht übernommen** (Produktentscheidung: kein Safety-Toggle).
-15. ZR-015: **offen** (Prozess-/Issue-Triage außerhalb Runtime-Content).
+15. ZR-015: **abgeschlossen** (Triage-Prozess dokumentiert in `internal/qa/process/known-issues.md`).
 
 ## 2026-02-23 – Repo-Agent – ZR-011/012/014 Konsistenzpass (HUD/Seeds/Sensitivität)
 - Fokus: Nach ZR-013 die nächsten sinnvollen Deep-Research-Punkte aus
@@ -73,7 +105,7 @@ tags: [meta]
 12. ZR-012: **abgeschlossen**.
 13. ZR-013: **abgeschlossen**.
 14. ZR-014: **nicht übernommen** (Produktentscheidung: kein Safety-Toggle).
-15. ZR-015: **offen** (Prozess-/Issue-Triage außerhalb Runtime-Content).
+15. ZR-015: **abgeschlossen** (Triage-Prozess dokumentiert in `internal/qa/process/known-issues.md`).
 
 ## 2026-02-23 – Repo-Agent – ZR-013 Glossar-SSOT & Link-Mirror
 - Fokus: Nach Abschluss von ZR-009 den nächsten offenen Deep-Research-Punkt
