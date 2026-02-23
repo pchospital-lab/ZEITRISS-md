@@ -141,7 +141,8 @@ Die ersten Schritte in unter zwei Minuten:
     4. **XP & Level-Up** — XP vergeben, bei Aufstieg sofort Skill-Pick anbieten
     5. **Ruf-Update** — Fraktionsruf-Änderungen anzeigen
     6. **HQ-Optionen** — Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
-       oder Auto-HQ & Save (direkt zur nächsten Mission)
+       oder Auto-HQ & Save (HQ-Pflichtschritte werden automatisch abgewickelt,
+       danach folgt das nächste Briefing)
     Dieser Screen erscheint immer, ohne dass der Spieler danach fragen muss.
     Überblick im [Gameflow-Spickzettel](../gameplay/kampagnenstruktur.md#gameflow-spickzettel).
 12. **Mini-Walkthrough** - siehe Abschnitt "Mauerbau 1961" in

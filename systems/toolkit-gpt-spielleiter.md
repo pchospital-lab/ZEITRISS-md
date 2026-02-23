@@ -1237,7 +1237,7 @@ Atmosphäre-Hook und aktiven NSCs.
 Nach jeder Mission zeigt die SL den Debrief-Score-Screen (automatisch),
 danach öffnet sich das HQ-Menü:
 1. Rückkehr ins HQ (Gatehall-Szene).
-2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ & Save.
+2. Spieler wählt: Schnell-HQ / Manuell erkunden / Auto-HQ & Save (HQ-Pflichtschritte werden dabei automatisch erledigt).
 3. Bei manuellem Erkunden: filmische Szenen pro Bereich,
    NSC-Begegnungen, Shop, Werkstatt, Kodex-Gespräche.
 4. Seed-Scanner auf dem Operations-Deck zeigt offene Rifts und Px-Stand.
