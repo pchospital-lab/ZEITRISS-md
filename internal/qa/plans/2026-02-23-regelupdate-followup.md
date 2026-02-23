@@ -34,3 +34,5 @@ Steuerung erfolgt ausschließlich über `internal/qa/plans/` und
 - ✅ ZR-003: Px-Scope für solo/npc-team vs. gruppe präzisiert.
 - ✅ ZR-004: HQ-Rückkehr als Loop-Invariante durchgezogen.
 - ✅ ZR-005: Chronopolis-Todesregel ohne Free-Respawn vereinheitlicht.
+
+- ✅ ZR-010: Toolkit-Entkopplung gestartet (Runtime-Makros zusätzlich unter `internal/runtime/toolkit-runtime-makros.md` gespiegelt; Toolkit enthält Mirror-Hinweis).

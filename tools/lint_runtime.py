@@ -173,6 +173,13 @@ def main() -> int:
         tk = ""
 
     try:
+        tk_runtime = read_text(root / "internal" / "runtime" / "toolkit-runtime-makros.md")
+    except FileNotFoundError:
+        tk_runtime = ""
+
+    tk_bundle = "\n\n".join(part for part in (tk, tk_runtime) if part)
+
+    try:
         sv = read_text(root / "systems" / "gameflow" / "speicher-fortsetzung.md")
     except FileNotFoundError as e:
         log.error(str(e))
@@ -182,51 +189,51 @@ def main() -> int:
     gm_style = os.getenv("GM_STYLE", "precision")
 
     # Mission-Invarianten & Gates
-    req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)
-    req(r"scene_total\s*=\s*12", tk, "Core: 12 Szenen gesetzt", fails)
-    req(r"scene_total\s*=\s*14", tk, "Rift: 14 Szenen gesetzt", fails)
-    req(r"LINT:BOSS_SCENE10_RIFT", tk, "Boss-Hook vorhanden", fails)
-    req(r"LINT:CORE_BOSS_M05_M10", tk, "Core-Boss nur in Mission 5/10 erlaubt", fails)
+    req(r"StartMission\([^\)]*type=\"core\"", tk_bundle, "StartMission: type core path", fails)
+    req(r"scene_total\s*=\s*12", tk_bundle, "Core: 12 Szenen gesetzt", fails)
+    req(r"scene_total\s*=\s*14", tk_bundle, "Rift: 14 Szenen gesetzt", fails)
+    req(r"LINT:BOSS_SCENE10_RIFT", tk_bundle, "Boss-Hook vorhanden", fails)
+    req(r"LINT:CORE_BOSS_M05_M10", tk_bundle, "Core-Boss nur in Mission 5/10 erlaubt", fails)
 
     # DelayConflict & Finale
-    req(r"DelayConflict\(\s*4\s*\)", tk, "DelayConflict(4) aktiv", fails)
-    req(r"Finale blockiert", tk, "Finale-Guard-Text vorhanden", fails)
+    req(r"DelayConflict\(\s*4\s*\)", tk_bundle, "DelayConflict(4) aktiv", fails)
+    req(r"Finale blockiert", tk_bundle, "Finale-Guard-Text vorhanden", fails)
 
     # PRECISION-Validator
-    req(r"SceneHeader\(", tk, "SceneHeader-Macro vorhanden", fails)
-    req(r"Decision\(", tk, "Decision-Macro vorhanden", fails)
+    req(r"SceneHeader\(", tk_bundle, "SceneHeader-Macro vorhanden", fails)
+    req(r"Decision\(", tk_bundle, "Decision-Macro vorhanden", fails)
     if gm_style == "precision":
-        req(r"PRECISION fehlend", tk, "PRECISION-Warnung vorhanden", fails)
+        req(r"PRECISION fehlend", tk_bundle, "PRECISION-Warnung vorhanden", fails)
 
     # Px-HUD
-    req(r"Px[:\s]+[▓░]{5}", tk, "Px-Balken dargestellt", fails)
-    req(r"TEMP", tk, "TEMP im HUD", fails)
-    req(r"ETA \+1 in\s+\d", tk, "ETA bis nächster Px-Punkt", fails)
+    req(r"Px[:\s]+[▓░]{5}", tk_bundle, "Px-Balken dargestellt", fails)
+    req(r"TEMP", tk_bundle, "TEMP im HUD", fails)
+    req(r"ETA \+1 in\s+\d", tk_bundle, "ETA bis nächster Px-Punkt", fails)
 
     # Seeds & Episode-Gate
-    req(r"LINT:PX5_SEED_GATE", tk, "Px5-HUD Tag", fails)
-    req(r"can_launch_rift", tk, "can_launch_rift Macro vorhanden", fails)
-    req(r"episode_completed\s*=\s*true", tk, "Episodenabschluss markiert", fails)
-    req(r"apply_rift_mods_next_episode", tk, "Episoden-Boni werden gequeued", fails)
-    req(r"launch_rift", tk, "launch_rift Gate vorhanden", fails)
+    req(r"LINT:PX5_SEED_GATE", tk_bundle, "Px5-HUD Tag", fails)
+    req(r"can_launch_rift", tk_bundle, "can_launch_rift Macro vorhanden", fails)
+    req(r"episode_completed\s*=\s*true", tk_bundle, "Episodenabschluss markiert", fails)
+    req(r"apply_rift_mods_next_episode", tk_bundle, "Episoden-Boni werden gequeued", fails)
+    req(r"launch_rift", tk_bundle, "launch_rift Gate vorhanden", fails)
 
     # Artefakt-Gate
-    req(r"artifact_allowed", tk, "Artefakt-Gate-Flag vorhanden", fails)
-    req(r"LINT:RIFT_ARTIFACT_11_13_D6", tk, "Artefakt-Gate-Block vorhanden", fails)
+    req(r"artifact_allowed", tk_bundle, "Artefakt-Gate-Flag vorhanden", fails)
+    req(r"LINT:RIFT_ARTIFACT_11_13_D6", tk_bundle, "Artefakt-Gate-Block vorhanden", fails)
 
     # FR-Intervention
-    req(r"LINT:FR_INTERVENTION", tk, "Fraktionsintervention HUD-Tag vorhanden", fails)
+    req(r"LINT:FR_INTERVENTION", tk_bundle, "Fraktionsintervention HUD-Tag vorhanden", fails)
 
     # Signal & Comms
-    req(r"validate_signal", tk, "Runtime Signal-Guard vorhanden", fails)
+    req(r"validate_signal", tk_bundle, "Runtime Signal-Guard vorhanden", fails)
     req(
         r"CommsCheck failed: require valid device/range or relay/jammer override.",
-        tk,
+        tk_bundle,
         "Comms einheitliche Fehlermeldung",
         fails,
     )
-    req(r"macro radio_tx[\s\S]*must_comms", tk, "radio_tx nutzt must_comms", fails)
-    req(r"macro radio_rx", tk, "radio_rx Macro vorhanden", fails)
+    req(r"macro radio_tx[\s\S]*must_comms", tk_bundle, "radio_tx nutzt must_comms", fails)
+    req(r"macro radio_rx", tk_bundle, "radio_rx Macro vorhanden", fails)
 
     # HQ Save Guard
     if sv:
@@ -249,12 +256,12 @@ def main() -> int:
     )
 
     # Conflict Gate Helper
-    req(r"can_open_conflict", tk, "can_open_conflict Macro vorhanden", fails)
+    req(r"can_open_conflict", tk_bundle, "can_open_conflict Macro vorhanden", fails)
 
     # Preserve/Trigger Marker
-    req(r"campaign\.mode", tk, "Preserve/Trigger-Flag gesetzt", fails)
-    req(r"preserve_pool|trigger_pool", tk, "Seed-Pools referenziert", fails)
-    req(r"Briefing:\s*kleineres Übel sichern", tk, "Trigger-Pflichtsatz im Briefing", fails)
+    req(r"campaign\.mode", tk_bundle, "Preserve/Trigger-Flag gesetzt", fails)
+    req(r"preserve_pool|trigger_pool", tk_bundle, "Seed-Pools referenziert", fails)
+    req(r"Briefing:\s*kleineres Übel sichern", tk_bundle, "Trigger-Pflichtsatz im Briefing", fails)
 
     log.log(25, "Summary: %s", "OK" if not fails else f"FAIL ({len(fails)})")
     return 0 if not fails else 1
