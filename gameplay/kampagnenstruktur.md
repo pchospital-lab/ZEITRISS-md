@@ -2148,7 +2148,11 @@ _Implementations-Package für Code, Art & Content_
 > mit neuen Bewohnern, Händlern und Begegnungen.
 > Die ringförmige Stadt schmiegt sich um das zentrale ITI-Hauptquartier.
 > **Keine Waffenruhe** — hier passiert alles, ohne Szenencount.
-> **Tod = Aufwachen im HQ**, alle Chronopolis-Items dieses Runs verloren.
+> **Tod folgt auch in Chronopolis der Core-/Rift-Regel:** kein Sonder-Respawn,
+> kein Traum-Reset. Im Gruppenmodus greift die verpflichtende
+> Todesentscheidung (_Tod bleibt Kanon_ oder _Reload vom letzten
+> Gruppen-DeepSave_). Chronopolis-Items gehen nur verloren, wenn ihr den Run
+> nicht lebend verlasst.
 > Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
 > Chronopolis ist eine temporäre Instanz, erschaffen von Kodex. Kein Speichern möglich.
 

@@ -75,10 +75,13 @@ Die **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis **Level 
 verschlossen. Dann erhalten die Chrononauten einen **Stadtschlüssel**. Chronopolis
 zeigt die **gescheiterte Zeitlinie** der aktuellen Episode — so sieht die Welt aus,
 wenn die Mission fehlschlägt. Die Stadt wird bei jedem Besuch frisch instanziiert
-(gelockt auf die Episodenepoche). Keine Waffenruhe, kein Speichern. Tod =
-Aufwachen im HQ, alle Items dieses Runs verloren. Items die man lebend rausbringt:
-behalten. Die Chronopolis ist eine temporäre Instanz von Kodex — keine Auswirkungen
-auf die echte Zeitlinie. HQ-Kernprozesse (Shop, Klinik, Speicherpunkte) bleiben
+(gelockt auf die Episodenepoche). Keine Waffenruhe, kein Speichern.
+Tod folgt denselben Konsequenzen wie in Core/Rift: kein Sonder-Respawn,
+kein Traum-Reset. In Gruppen greift die verbindliche Todesentscheidung
+(_Tod bleibt Kanon_ oder _Reload vom letzten Gruppen-DeepSave_). Items,
+die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
+temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
+HQ-Kernprozesse (Shop, Klinik, Speicherpunkte) bleiben
 im sicheren ITI-HQ verankert. Für erweiterte Übergaben können die optionalen Wrapper-Services aus dem
 [Spieler-Handbuch](../core/spieler-handbuch.md) eingebunden werden - der Stadthub verweist lediglich darauf, ohne deren
 Details zu replizieren.

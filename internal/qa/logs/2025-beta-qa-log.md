@@ -1,10 +1,34 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.56
+version: 0.4.57
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-005 Chronopolis-Todesregel vereinheitlicht
+- Fokus: Widerspruch bei Chronopolis-Tod ("Aufwachen im HQ" vs. Gruppen-
+  Todesentscheid) in Runtime-Wissensmodulen entfernen.
+- Scope: `gameplay/kampagnenuebersicht.md`,
+  `gameplay/kampagnenstruktur.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`,
+  `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Chronopolis-Abschnitte auf einheitlichen Standard gestellt: kein
+     Sonder-Respawn, kein Traum-Reset, Gruppen-Todesentscheid bleibt Pflicht.
+  2. Formulierung in Kampagnenübersicht und Kampagnenstruktur auf
+     Core/Rift-Regel abgeglichen (Stakes bleiben konsistent).
+  3. Upload-Archivhinweis und Follow-up-Fahrplan aktualisiert: ZR-005 als
+     abgeschlossen markiert.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-010: **offen** (separater Folgeauftrag).
 
 ## 2026-02-23 – Repo-Agent – Deep-Research(4)-Closure (Fahrplan + Uploads)
 - Fokus: Umgesetzte Starttickets aus `uploads/deep-research-report(4).md`
@@ -25,7 +49,7 @@ tags: [meta]
 2. ZR-002: **abgeschlossen**.
 3. ZR-003: **abgeschlossen**.
 4. ZR-004: **abgeschlossen**.
-5. ZR-005/ZR-010: **offen** (separate Folgeaufträge).
+5. ZR-005/ZR-010: **offen** (Stand vor ZR-005-Follow-up).
 
 ## 2027-03-25 – Repo-Agent – Deep-Research-Übernahme (Fahrplan + QA-Lock)
 - Fokus: Nutzerentscheidung aus dem Deep-Research-Upload verbindlich in den

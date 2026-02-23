@@ -10,6 +10,7 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-002 (Px-Semantik ohne Default-Strafabzug): abgeschlossen.
 - ZR-003 (Px-Scope solo/npc-team vs. gruppe): abgeschlossen.
 - ZR-004 (HQ-Loop-Invariante, kein Default-Skip): abgeschlossen.
+- ZR-005 (Chronopolis/Tod ohne Free-Respawn): abgeschlossen.
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
@@ -17,7 +18,7 @@ Verbindliche Nachverfolgung liegt ab jetzt in:
 - `internal/qa/logs/2025-beta-qa-log.md`
 
 Hinweis: Weitere, nicht im ersten Block umgesetzte Deep-Research-Tickets
-(z. B. ZR-005, ZR-010) bleiben als separate Folgeaufträge bestehen.
+(z. B. ZR-010) bleiben als separate Folgeaufträge bestehen.
 
 Aktivierte Connectoren: **github**.
 
