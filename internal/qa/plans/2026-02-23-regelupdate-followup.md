@@ -159,3 +159,19 @@ und Core-Texten zu reduzieren.
 
 Damit ist ZR-013 aus `uploads/deep-research-report(4).md` im laufenden
 Follow-up als abgeschlossen dokumentiert.
+
+
+## Nachcheck & Pflege (2026-02-23, Abschluss vor neuem Search-Lauf)
+
+Vor dem nächsten Search-Lauf wurde der Upload-Block nochmals gegen Fahrplan +
+QA-Log gegengeprüft, inklusive Meta-Prozesspunkt ZR-015.
+
+- `internal/qa/process/known-issues.md` als kanonischer Triage-Einstieg
+  angelegt (Statusführung für nicht-runtimebezogene Findings).
+- `internal/qa/README.md` um den neuen Prozesspfad ergänzt.
+- Upload-Archivhinweis und QA-Log synchronisiert: ZR-015 ist jetzt als
+  **abgeschlossen** markiert.
+
+Damit ist der Deep-Research-Block aus `uploads/deep-research-report(4).md`
+vollständig nachverfolgt; offen bleiben nur künftige neue Findings aus
+nachgelagerten Search-/Playtest-Läufen.
