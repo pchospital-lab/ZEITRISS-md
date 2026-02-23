@@ -33,3 +33,4 @@ Steuerung erfolgt ausschließlich über `internal/qa/plans/` und
 - ✅ ZR-002: Px-Default ohne automatischen Strafabzug vereinheitlicht.
 - ✅ ZR-003: Px-Scope für solo/npc-team vs. gruppe präzisiert.
 - ✅ ZR-004: HQ-Rückkehr als Loop-Invariante durchgezogen.
+- ✅ ZR-005: Chronopolis-Todesregel ohne Free-Respawn vereinheitlicht.
