@@ -1,3 +1,9 @@
+---
+title: "Speicher & Fortsetzung (Legacy-Archiv)"
+version: 4.1.5
+tags: [meta, archive]
+---
+
 > ⚠️ **NICHT IN DEN WISSENSSPEICHER LADEN.**
 > Dieses Dokument ist ein historisches Archiv (v4.1.5-Ära) und enthält
 > veraltete Feldnamen, abweichende Schemata und überholte Progressionslogiken.

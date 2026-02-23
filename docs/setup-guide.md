@@ -71,7 +71,8 @@ dem neuesten Repo-Stand bleiben.
 2. **20 Dateien hochladen:** `core/spieler-handbuch.md` plus alle 19
    Runtime-Module aus der Tabelle unten in diese Knowledge Base laden.
    **NICHT** in den Wissensspeicher gehören: `README.md` (GitHub-Landingpage),
-   `master-index.json` (Steuerungsdatei), `speicher-fortsetzung.legacy.md`
+   `master-index.json` (Steuerungsdatei),
+   `meta/archive/speicher-fortsetzung.legacy.md`
    (historisches Archiv, veraltet).
 3. **Modell-Preset erstellen:** Unter Modelle → Neues Modell:
    - **Name:** `ZEITRISS v4.2.6 Uncut – [Modellname]`

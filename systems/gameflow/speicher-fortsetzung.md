@@ -730,6 +730,8 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise
   (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge -
   GPT erzeugt sie nie als Output.
+- Die Load-Pipeline nutzt dafür explizit `migrate_save()` als Legacy-Bridge,
+  bevor `load_deep()` Pflichtfelder validiert und Defaults ergänzt.
 - Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
   `party.characters[]` gehoben; anschließend legt
   `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und
@@ -1600,4 +1602,3 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
   Koop-Mitglieder ausschließlich im `party`-Block; `team.members[]` wird nur
   vom Serializer gespiegelt, damit Saves aus Solo- und Koop-Läufen keine
   widersprüchlichen Listen mehr besitzen.
-
