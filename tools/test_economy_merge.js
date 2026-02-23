@@ -47,7 +47,7 @@ const incomingSave = {
   },
   logs: { hud: [], trace: [], flags: { merge_conflicts: [] } },
   loadout: {},
-  ui: { gm_style: 'verbose', intro_seen: true, suggest_mode: false, action_mode: 'konform' },
+  ui: { gm_style: 'verbose', intro_seen: true, suggest_mode: false, action_mode: 'uncut' },
   arc_dashboard: { offene_seeds: [], fraktionen: {}, fragen: [] },
   party: { characters: [] },
   team: { members: [] }
