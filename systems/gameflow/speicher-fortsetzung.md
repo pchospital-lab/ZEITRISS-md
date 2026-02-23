@@ -351,7 +351,7 @@ installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
 ```
 
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
-Struktur enthält mindestens `id`, `epoch`, `label` und `status` (open/closed)
+Struktur enthält mindestens `id`, `epoch`, `label` und `status` (`locked_until_episode_end`/open/closed)
 und kann optional `seed_tier: early|mid|late` sowie Metadaten `cluster_hint`
 (1-25/80-150/400-1000), `time_marker`, optionales `discovered_at` sowie freies
 `level_hint` tragen (reine Balance-Hinweise, keine Gating-Logik). Der

@@ -203,8 +203,9 @@ Bei der Umsetzung orientiert sich die KI an der **Briefing-Vorlage (Layered)**
 aus dem Toolkit: Zeit & Ort, eine mögliche Abnormalität und die Risikostufe werden
 im ersten Briefing genannt. **Der gezogene Twist bleibt vorerst geheim** und dient
 als Notiz für den Spielleiter, bis im Laufe der Mission passende Hinweise auftauchen.
-Ein optionaler **Tonal-Safety-Toggle** filtert extrem düstere oder humorige Seeds
-heraus, falls die Gruppe einen einheitlichen Stil bevorzugt.
+Die Tonalität der Generatoren bleibt im ZEITRISS-Standard bewusst hart,
+erwachsen und direkt. Reale Einschnitte dürfen klar benannt werden; die
+Spielleitung bleibt filmisch, respektvoll und ohne unnötigen Voyeurismus.
 
 > **Preserve** schützt Beinahe-Katastrophen,
 > **Trigger** erzwingt historisch belegte Tragödien.
