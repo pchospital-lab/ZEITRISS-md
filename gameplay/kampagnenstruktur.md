@@ -701,7 +701,7 @@ Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
    wieder einsatzbereit.
 2. **HQ manuell erkunden** — volle HQ-Szenen mit Shopbesuchen,
    Kodex-Begleitung, Fraktions-RP, Feilschen und Quartierausbau.
-3. **Auto-HQ & Save** — automatische Abwicklung, direkt zur nächsten Mission.
+3. **Auto-HQ & Save** — automatische Abwicklung der HQ-Pflichtschritte; danach startet das nächste Briefing.
 
 
 #### Gameflow-Spickzettel (Core vs Rift) {#gameflow-spickzettel}
@@ -1322,8 +1322,8 @@ Ressourcen und Szenen für Rollenspiel. Um das HQ fühlbar wachsen zu lassen, bi
 
 Nach jedem Auftrag bietet die Spielleitung an, ins sichere ITI-Hauptquartier zurückzukehren. Dort
 finden Debriefing, Heilung und Planung der nächsten Schritte statt. Diese Rückkehr ist fester
-Bestandteil des Spielrhythmus, bleibt aber freiwillig: Wer sofort weiterspringen will, kann das
-tun.
+Bestandteil des Spielrhythmus und damit verpflichtend. Die Rückkehr kann erzählerisch als
+Kurzmontage abgehandelt werden, die HQ-Schritte bleiben jedoch verbindlich.
 
 ### Ausbaustufen und Einrichtungen
 

@@ -815,7 +815,8 @@ Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
    einsatzbereit.
 2. **HQ manuell erkunden** - volle HQ-Szenen mit Shopbesuchen, Kodex-Begleitung,
    Fraktions-RP, Feilschen und ausführlichem Briefing/Quartierausbau.
-3. **Auto-HQ & Save** - automatische Abwicklung, dann direkt zur nächsten Mission.
+3. **Auto-HQ & Save** - automatische Abwicklung der HQ-Pflichtschritte,
+   danach folgt das nächste Briefing.
 
 Anschließend kann die Gruppe den aktuellen Pfad fortsetzen oder einen
 neuen Missionspfad wählen. Nach der Auswahl führt das HUD die
