@@ -1,6 +1,6 @@
 ---
 title: "QA-Index"
-version: 1.0.0
+version: 1.0.1
 tags: [meta, qa]
 ---
 
@@ -27,6 +27,9 @@ Playtests, Beta-GPT-Durchläufe oder Deepchecks anstehen.
 - `logs/`
   - Inhalt: `2025-beta-qa-log.md`, `ZEITRISS-vereinheitlichungs-fahrplan-2025.md`
   - Zweck: Vollständige Chatprotokolle und begleitende Vereinheitlichungs-Logs.
+- `process/`
+  - Inhalt: `known-issues.md`
+  - Zweck: Triage-Workflow für Meta-/Prozess-Funde inkl. Statusführung.
 - `../docs/qa/`
   - Inhalt: `tester-playtest-briefing.md`
   - Zweck: Copy-&-Paste-Auftrag inkl. Acceptance-Smoke-Checkliste für Beta-GPT/MyGPT.

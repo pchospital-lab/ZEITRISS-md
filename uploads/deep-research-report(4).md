@@ -26,8 +26,8 @@ Verbindliche Nachverfolgung liegt ab jetzt in:
 - `internal/qa/plans/2026-02-23-regelupdate-followup.md`
 - `internal/qa/logs/2025-beta-qa-log.md`
 
-Offener Restpunkt aus der Tabelle bleibt ZR-015 (Issue-Triage-Prozess in
-`internal/qa/process/known-issues.md`), da er keine Runtime-Module betrifft.
+ZR-015 (Issue-Triage-Prozess) ist inzwischen ebenfalls nachgezogen und in
+`internal/qa/process/known-issues.md` als Meta-Prozessartefakt dokumentiert.
 
 Hinweis: ZR-010 läuft nach Kurskorrektur als wartbarer Mirror-Pfad weiter: Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/` dient nur der QA-/Review-Spiegelung.
 
