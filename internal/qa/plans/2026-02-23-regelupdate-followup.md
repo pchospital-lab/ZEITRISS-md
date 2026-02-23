@@ -52,20 +52,22 @@ SSOT-Entscheidung festgezogen und in Runtime + Wissensmodule gespiegelt:
 - „Forward-only mode“ wird **nicht** als Default oder Pflichtmodus
   nachgezogen; der Hinweis im Upload bleibt reine Audit-Frage ohne Umsetzung.
 
-## Nachzug ZR-007 – LP/HP-Terminologie in Heil- und Zustandsmodulen (2026-02-23)
+## Nachzug ZR-007 – Heilungs-Balance & LP-Terminologie (2026-02-23)
 
 Im Zuge der weiteren Abarbeitung von `uploads/deep-research-report(4).md`
-wurde der offene Terminologiepunkt ZR-007 (LP ≠ HP) im Runtime-Content
-nachgezogen.
+wurde ZR-007 im Runtime-Content vollständig nachgezogen (Terminologie +
+Heilungs-Balance im Medikit-Standard).
 
-- `characters/ausruestung-cyberware.md`: Tabelleneintrag „Nano-Bindepflaster"
-  von „4 HP sofort" auf „4 LP sofort" korrigiert.
+- `characters/ausruestung-cyberware.md`: „Nano-Bindepflaster" wurde bereits auf
+  **4 LP sofort** vereinheitlicht; zusätzlich wurde das **Medikit** auf **1W6 LP**
+  (außerhalb des Kampfes) mit Limit **max. 1× pro Charakter und Mission**
+  gesetzt.
 - `characters/zustaende.md`: Stress-/Heilungsabschnitt sprachlich auf LP
-  vereinheitlicht („Spieler achten auf LP ...").
+  vereinheitlicht („Spieler achten auf LP ...") und der Medikit-Standard
+  (1W6 LP, 1× pro Charakter/Mission) explizit gespiegelt.
 
-Damit ist der nächste sinnvolle Konsistenz-Schritt im Bereich
-Heil-/Zustandsbezeichnungen umgesetzt; die eigentliche Balance-Feinjustierung
-bleibt bei Bedarf als separater Lauf möglich.
+Damit ist ZR-007 im Upload-Block inhaltlich abgeschlossen; ein optionaler
+Feinschliff bleibt nur für zukünftige Meta-Balance-Läufe vorbehalten.
 
 ## Nachzug ZR-006 – Physicality Gate (Tracker ja, Handgelenk-HUD nein)
 
@@ -79,5 +81,5 @@ HUD-/Toolkit-Regelwerk zur Gerätephysik bereinigt.
   ausgeschlossen.
 
 Damit ist ZR-006 als inhaltlicher Terminologie-/Regelabgleich abgeschlossen;
-offen bleibt aus dem Upload-Block nur noch der optionale Balance-Feinschliff zu
-ZR-007.
+damit sind alle priorisierten Upload-Punkte (ZR-001 bis ZR-007 sowie ZR-010) im
+aktuellen Follow-up als abgeschlossen dokumentiert.
