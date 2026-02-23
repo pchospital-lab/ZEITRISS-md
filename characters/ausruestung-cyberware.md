@@ -75,7 +75,7 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen 
 | Netz-Spoofer | fälscht Kamera-Feed 1 Szene | 300 |
 | Adrenalin-Shot | −2 Stress oder Fatigue ignorieren (1 Szene) | 60 |
 | Lichtbild-Köder | 1‑Szene Decoy; Heimlichkeit +2 | 90 |
-| Nano-Bindepflaster | 4 HP sofort; kein Med‑Bay | 70 |
+| Nano-Bindepflaster | 4 LP sofort; kein Med‑Bay | 70 |
 
 | Ausrüstung (Tier 3 – ca. 600 CU) | Effekt | Kosten (CU) |
 | --- | --- | --- |

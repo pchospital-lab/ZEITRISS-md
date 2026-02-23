@@ -49,3 +49,18 @@ SSOT-Entscheidung festgezogen und in Runtime + Wissensmodule gespiegelt:
   Fahrzeug-Verfügbarkeit).
 - „Forward-only mode“ wird **nicht** als Default oder Pflichtmodus
   nachgezogen; der Hinweis im Upload bleibt reine Audit-Frage ohne Umsetzung.
+
+## Nachzug ZR-007 – LP/HP-Terminologie in Heil- und Zustandsmodulen (2026-02-23)
+
+Im Zuge der weiteren Abarbeitung von `uploads/deep-research-report(4).md`
+wurde der offene Terminologiepunkt ZR-007 (LP ≠ HP) im Runtime-Content
+nachgezogen.
+
+- `characters/ausruestung-cyberware.md`: Tabelleneintrag „Nano-Bindepflaster"
+  von „4 HP sofort" auf „4 LP sofort" korrigiert.
+- `characters/zustaende.md`: Stress-/Heilungsabschnitt sprachlich auf LP
+  vereinheitlicht („Spieler achten auf LP ...").
+
+Damit ist der nächste sinnvolle Konsistenz-Schritt im Bereich
+Heil-/Zustandsbezeichnungen umgesetzt; die eigentliche Balance-Feinjustierung
+bleibt bei Bedarf als separater Lauf möglich.
