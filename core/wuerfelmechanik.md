@@ -763,7 +763,7 @@ kleinen Einsatzteams.
 
 | Attribut | Würfel | Besonderheiten |
 |---------:|-------|----------------|
-| 1-10 | 1×W6 | Exploding 6, Burst-Cap 3 |
+| 1-10 | 1×W6 | Exploding 6, Burst-Cap 1 pro Würfel |
 | 11+  | 1×W10 | 10 explodiert einmal |
 
 **Erfolgsschwelle**

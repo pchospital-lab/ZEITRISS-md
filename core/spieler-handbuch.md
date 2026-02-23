@@ -160,7 +160,7 @@ Cluster +… · Fraktion +…`.
 
 ### Probenformel
 `Endwert = 1W6 + ⌊Attribut / 2⌋ + Talent + Gear ≥ SG`
-- **Exploding:** Bei 6 nochmal würfeln, addieren (Burst-Cap: einmal)
+- **Exploding:** Jeder Würfel darf bei 6 genau einmal explodieren (Burst-Cap 1 pro Würfel)
 - **Ab Attribut 11:** W10 statt W6 (Exploding bei 10)
 - **Ab Attribut 14:** Heldenwürfel (1× Reroll pro Szene, besseres zählt)
 - **Talentbonus-Cap:** max. +5 nach Attributsbonus

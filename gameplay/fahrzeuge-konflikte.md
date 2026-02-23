@@ -213,7 +213,7 @@ lebendiger Teil der Story und verkommt nicht zum reinen Zahlenkatalog.
 
 ### Schadenswürfel beim Fahrzeugkampf
 
-Beim Fahrzeugschaden explodiert nur der erste Wurf.
+Beim Fahrzeugschaden darf jeder beteiligte Würfel beim Maximalwert genau einmal explodieren.
 
 > **Hinweis:** Ab Attribut 11 wird im Nahkampf ein W10 gewürfelt (Exploding 10). Den Heldenwürfel
 > gibt es erst ab 14 als einmaligen Reroll.
