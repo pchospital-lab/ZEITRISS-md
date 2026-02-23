@@ -32,9 +32,9 @@ Details findest du in [LICENSE](../LICENSE).
    der Index um +1. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds auf der
    Raumzeitkarte — Bonus-Missionen mit Paramonstern und Artefakten. Danach
    springt der Px auf 0; weitere Px-5-Treffer stapeln zusätzliche Seeds im
-   Pool. Px 0–4 hat keine negativen Effekte. Bei extremem Fehlverhalten
-   (Zivilopfer, zerstörte Kern-Anker) flackert das HUD als Warnung —
-   eskaliert es weiter, greift **−1 Px**.
+   Pool. Px 0–4 hat keine negativen Effekte. Scheitert ein Einsatz, verliert
+   ihr im Default **keinen Px** — Konsequenzen laufen über CU, Stress, Heat und
+   offene Story-Folgen.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
 6. **Boss-Rhythmus.** In der **5. Mission einer Episode** erscheint ein
@@ -242,9 +242,12 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 - **Px +1** bei jeder **erfolgreich abgeschlossenen Mission** gemäß obiger
   Frequenz. Zähler läuft pro Charakter und wird im HUD als Fortschrittsbalken
   angezeigt.
-- **Px −1 (Eskalation):** Erst flackert das HUD (Warnung bei grobem Fehlverhalten
-  wie Zivilopfer, zerstörte Kern-Anker). Eskaliert die Situation weiter → **−1 Px**
-  und Backlash-Toast im HUD. Nur einmal pro Mission möglich.
+- **Default bei Fehlschlag:** kein Px-Abzug. Stattdessen greifen Konsequenzen
+  über Ressourcen und Lagebild (z. B. weniger CU, mehr Stress/Heat,
+  verschärfte Missionsfolgen).
+- **Option „Hardcore-Resonanz“ (KANN):** Bei absichtlich paradoxen
+  Extremaktionen kann die Spielleitung einmalig **−1 Px** als Sonderregel
+  auslösen. Diese Option ist nicht Teil des Standardmodus.
 
 ### CU-Belohnung
 `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
@@ -442,9 +445,11 @@ Nach einer bestimmten Anzahl erfolgreicher Missionen (abhängig von TEMP-Stufe)
 steigt der Index automatisch um +1. Px 0–4 hat keine negativen Effekte — ihr
 baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds,
 markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 —
-das HUD bestätigt den Reset zu Beginn der nächsten Mission. Bei grobem
-Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD; eskaliert
-die Situation weiter → −1 Px.
+das HUD bestätigt den Reset zu Beginn der nächsten Mission. Fehlschläge ziehen
+im Default **keinen Px-Abzug** nach sich; stattdessen verschärfen sie die Lage
+(CU, Stress/Heat, Storydruck). Optional kann die Spielleitung in einer
+expliziten Hardcore-Variante bei vorsätzlichen Extrem-Paradoxien einen
+einmaligen Px-Abzug nutzen.
 
 **Warum Klammern Pflicht?**
 Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
