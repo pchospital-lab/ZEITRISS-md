@@ -83,3 +83,19 @@ HUD-/Toolkit-Regelwerk zur Gerätephysik bereinigt.
 Damit ist ZR-006 als inhaltlicher Terminologie-/Regelabgleich abgeschlossen;
 damit sind alle priorisierten Upload-Punkte (ZR-001 bis ZR-007 sowie ZR-010) im
 aktuellen Follow-up als abgeschlossen dokumentiert.
+
+## Nachzug ZR-008 – Fremdfraktion statt harter Alien-Kanon (2026-02-23)
+
+Als nächster sinnvoller Deep-Research-Folgeschritt wurde die Tonalitätsfrage aus
+`uploads/deep-research-report(4).md` (ZR-008) in den Gameplay-Modulen bereinigt.
+
+- `gameplay/kampagnenuebersicht.md`: Lore-Text zu „außerirdischem Kontakt" und
+  „Galaktischer Föderation" auf **Cover-/Gerüchte-Status** gestellt, damit der
+  Default-Sci-Fi-Thriller konsistent bleibt und optionale Fremdlore nicht als
+  harter Kanon gelesen wird.
+- `gameplay/kreative-generatoren-missionen.md`: Einzelne Generator-Beispiele von
+  „Alienvolk/Alien-Relikt/Fremdes Leben" auf **Fremdfraktion**, **Fremd-Relikt**
+  und **Unbekannte Signaturen** harmonisiert.
+
+Damit ist ZR-008 im laufenden Follow-up als abgeschlossen nachgezogen; die
+P0/P1-Closure bleibt unverändert, ergänzt um diesen P2-Konsistenzpass.

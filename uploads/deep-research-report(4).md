@@ -14,6 +14,7 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-006 (Physicality-Gate: Armbänder-Regel): abgeschlossen (Armbänder nur als Tracker, kein Handgelenk-HUD).
 - ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): als **Mirror ohne Runtime-Auslagerung** weitergeführt (Toolkit bleibt Laufzeitquelle).
 - ZR-007 (Heilung/Medkit, LP≠HP): abgeschlossen (LP-Terminologie vereinheitlicht; Medikit auf 1W6 LP mit Missionslimit harmonisiert).
+- ZR-008 („Alien"-Wortwahl/Cover-Lore): abgeschlossen (Default-Lore auf Fremdfraktions-/Gerüchtestatus harmonisiert).
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
@@ -35,6 +36,11 @@ Nachtrag ZR-007 (2026-02-23): LP/HP-Schreibweise in den priorisierten Heil-
 und Zustandsmodulen wurde auf **LP** vereinheitlicht und der Medikit-Standard
 auf **1W6 LP** (max. 1× pro Charakter/Mission) nachgezogen; der priorisierte
 Upload-Punkt gilt damit als abgeschlossen.
+
+Nachtrag ZR-008 (2026-02-23): Alien-Begriffe in den priorisierten
+Gameplay-Modulen wurden auf Cover-Lore/Fremdfraktions-Logik zurückgeführt,
+damit der Hard-Sci-Fi-Defaultton ohne verpflichtenden Alien-Kanon erhalten
+bleibt.
 
 Aktivierte Connectoren: **github**.
 

@@ -1079,7 +1079,7 @@ Zeitperiode umfasst.
   3. Ein außer Kontrolle geratenes Experiment droht die Realität zu zerreißen.
      - epochTag: "2030er Quantenlabors"
      - historyHook: "verbirgt eine Fehlkalibrierung im CERN 2035"
-  4. Ein verstecktes Alienvolk plant, die Menschheit aus der Geschichte zu löschen.
+  4. Eine versteckte Fremdfraktion plant, die Menschheit aus der Geschichte zu löschen.
      - epochTag: "präkolumbisches Südamerika"
      - historyHook: "manipuliert Inka-Sonnenkulte für Opferrituale"
   5. Ein rivalisierendes Zeitreise-Team sabotiert gezielt die Einsätze der Helden.
@@ -1290,7 +1290,7 @@ würfelt einen Eintrag als Missionsstart.
     \| Nachphase: Crew verliert Kontakt.
 58. **Rückseite des Mondes - Die wahre Madonna** \| Vorphase: Crash-Signal eines Notfunksenders wird geortet.
     \| Nachphase: Hybride Kreatur erwacht.
-59. **Saturnmond Titan - Fremdes Leben** \| Vorphase: Sonden liefern seltsame Daten.
+59. **Saturnmond Titan - Unbekannte Signaturen** \| Vorphase: Sonden liefern seltsame Daten.
     \| Nachphase: Methanmeere brodeln.
 60. **Antarktis - Versiegelte Anlagen** \| Vorphase: Bohrung stößt auf Metall.
     \| Nachphase: Alte Technologie erwacht.
@@ -1321,7 +1321,7 @@ _Regel für die Kühlung der Epochengewichte:_
    einschlug. Die Chrononauten müssen das prähistorische Paradoxon beheben, während misstrauische
    Schamanen und hungrige Bestien ihnen zusetzen.
 2. **Ägyptisches Neues Reich** (1250 v.Chr.) - _Setting:_ Glühende Wüstensonne, monumentale Tempel
-   und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Alien-Relikt in einer
+   und der Hof von Pharao Ramses II. **Besonderheit:** Im Verborgenen wird ein Fremd-Relikt in einer
    Pyramide verehrt, angeblich ein Geschenk der Götter. Tatsächlich stammt es aus der Zukunft und
    strahlt ungewöhnliche Energie ab. Die Agenten müssen entscheiden: Stehlen sie das Relikt, um die
    Zeitlinie zu schützen - riskieren aber, die lokale Religion zu erschüttern? Oder lassen sie es in
