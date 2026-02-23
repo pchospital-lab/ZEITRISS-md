@@ -160,7 +160,7 @@ geändert werden, diese Linkliste direkt mitziehen.
 - [Wahrscheinlichkeits-Übersicht](core/sl-referenz.md#wahrscheinlichkeits-uebersicht)
 - [Chat-Kurzbefehle](core/sl-referenz.md#chat-kurzbefehle)
 - [Exfil-Fenster & Sweeps](core/sl-referenz.md#exfil-fenster--sweeps)
-- [Level & EP-Kurve](core/sl-referenz.md#level--ep-kurve)
+- [Level & XP-Kurve](core/sl-referenz.md#level--ep-kurve)
 - [Regelreferenz](core/sl-referenz.md#regelreferenz)
 - [Spielstart](core/sl-referenz.md#spielstart)
 - [Spielmodi](core/sl-referenz.md#spielmodi)
