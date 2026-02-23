@@ -201,7 +201,9 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
 
   - - Im **Feldeinsatz** ermöglichen **Erste-Hilfe-Maßnahmen** das Stabilisieren Verwundeter. Ein
     Charakter mit Medikit oder medizinischem Talent kann z.B. **Blutungen stillen**, Schock
-    behandeln oder sogar einen bewusstlosen Kollegen reanimieren. Gelingt eine entsprechende Probe
+    behandeln oder sogar einen bewusstlosen Kollegen reanimieren. Das Standard-Medikit stellt dabei
+    außerhalb des Kampfes **1W6 LP** wieder her (maximal 1× pro Charakter und Mission), damit
+    Heilung zur 10-LP-Skala passt. Gelingt eine entsprechende Probe
     (z.B. Medizinwissen), kann der SL entscheiden, dass die Verletzungsstufe **um 1 verbessert**
     wird (aus "schwer" wird "mittel" etc.) oder dass zumindest der Sterbende bis zur Rettung
     **stabil bleibt**. Dadurch gewinnen die anderen Zeit, den Verletzten zum nächsten Zeitfenster
