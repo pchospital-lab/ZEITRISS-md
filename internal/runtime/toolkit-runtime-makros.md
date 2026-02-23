@@ -1179,13 +1179,29 @@ FR: ruhig/beobachter/aktiv - wirkt auf Eingriffe in Szene 1.
   ⟨% set required = foreshadow_requirement() %⟩
 Foreshadow ⟪ count ⟫⟨% if required > 0 %⟩/⟪ required ⟫⟨% endif %⟩
 ⟨%- endmacro %⟩
-⟨% macro show_px() -%⟩
-  ⟨% set temp_src = 0 %⟩
-  ⟨% if state.temp is defined and state.temp is not none %⟩
-    ⟨% set temp_src = state.temp %⟩
-  ⟨% elif campaign.temp is defined and campaign.temp is not none %⟩
-    ⟨% set temp_src = campaign.temp %⟩
+⟨% macro resolve_temp_for_px() -%⟩
+  ⟨% if game_mode == 'gruppe' and campaign.team is defined and campaign.team.members is defined and campaign.team.members %⟩
+    ⟨% set ns = namespace(total=0, count=0) %⟩
+    ⟨% for member in campaign.team.members %⟩
+      ⟨% set member_temp = member.temp|default(0, true) %⟩
+      ⟨% set ns.total = ns.total + member_temp %⟩
+      ⟨% set ns.count = ns.count + 1 %⟩
+    ⟨% endfor %⟩
+    ⟨% if ns.count > 0 %⟩
+      ⟪ ((ns.total + ns.count - 1) // ns.count) ⟫
+      ⟨% return %⟩
+    ⟨% endif %⟩
   ⟨% endif %⟩
+  ⟨% if state.temp is defined and state.temp is not none %⟩
+    ⟪ state.temp ⟫
+  ⟨% elif campaign.temp is defined and campaign.temp is not none %⟩
+    ⟪ campaign.temp ⟫
+  ⟨% else %⟩
+    ⟪ 0 ⟫
+  ⟨% endif %⟩
+⟨%- endmacro %⟩
+⟨% macro show_px() -%⟩
+  ⟨% set temp_src = resolve_temp_for_px() %⟩
   ⟪ px_tracker(temp_src) ⟫
 ⟨%- endmacro %⟩
 ⟨% macro render_shop_tiers(level, faction_rep, rift_blueprints) -%⟩
@@ -1204,12 +1220,7 @@ Foreshadow ⟪ count ⟫⟨% if required > 0 %⟩/⟪ required ⟫⟨% endif %�
 ⟨%- endmacro %⟩
 ⟨% macro debrief() -%⟩
   ⟪ render_rewards() ⟫
-  ⟨% set temp_src = 0 %⟩
-  ⟨% if state.temp is defined and state.temp is not none %⟩
-    ⟨% set temp_src = state.temp %⟩
-  ⟨% elif campaign.temp is defined and campaign.temp is not none %⟩
-    ⟨% set temp_src = campaign.temp %⟩
-  ⟨% endif %⟩
+  ⟨% set temp_src = resolve_temp_for_px() %⟩
   ⟪ px_tracker(temp_src) ⟫
 ⟨%- endmacro %⟩
 ⟨% macro on_command(cmd) -%⟩
@@ -1538,14 +1549,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
 ⟨% endif %⟩
 ⟪ chrono_grant_key_if_lvl10() ⟫
 ⟪ kodex_summary(closed_seed_ids, cluster_gain, faction_delta) ⟫
-⟨% set temp_src = 0 %⟩
-⟨% if char.temp is defined and char.temp is not none %⟩
-  ⟨% set temp_src = char.temp %⟩
-⟨% elif state.temp is defined and state.temp is not none %⟩
-  ⟨% set temp_src = state.temp %⟩
-⟨% elif campaign.temp is defined and campaign.temp is not none %⟩
-  ⟨% set temp_src = campaign.temp %⟩
-⟨% endif %⟩
+⟨% set temp_src = resolve_temp_for_px() %⟩
 ⟪ px_tracker(temp_src) ⟫
 ⟨% if intervention_result %⟩⟪ log_intervention(intervention_result) ⟫⟨% endif %⟩
 ⟨% if campaign.fr_observer_note %⟩⟪ log_intervention('FR-Echo: SG +1 auf einen Check') ⟫⟨% endif %⟩

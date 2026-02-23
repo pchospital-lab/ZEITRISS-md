@@ -36,3 +36,16 @@ Steuerung erfolgt ausschließlich über `internal/qa/plans/` und
 - ✅ ZR-005: Chronopolis-Todesregel ohne Free-Respawn vereinheitlicht.
 
 - ✅ ZR-010: Korrigiert auf "Mirror ohne Auslagerung" (Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/toolkit-runtime-makros.md` bleibt reiner QA-/Review-Spiegel).
+
+## Nachzug Entscheidung GRP/TEMP (2026-02-23)
+
+Deep-Research-Punkt „Team-TEMP im Gruppenspiel unklar“ ist jetzt als
+SSOT-Entscheidung festgezogen und in Runtime + Wissensmodule gespiegelt:
+
+- **GRP = Gruppe**.
+- **Team-TEMP** im Modus `gruppe` wird als **aufgerundeter Durchschnitt**
+  geführt: `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`.
+- Der Teamwert steuert **Px-ETA** und TEMP-basierte Frequenzen (z. B.
+  Fahrzeug-Verfügbarkeit).
+- „Forward-only mode“ wird **nicht** als Default oder Pflichtmodus
+  nachgezogen; der Hinweis im Upload bleibt reine Audit-Frage ohne Umsetzung.
