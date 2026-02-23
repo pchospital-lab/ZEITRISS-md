@@ -541,7 +541,7 @@ vorhersehbar bleibt.
 
 Seeds werden ausschließlich in `campaign.rift_seeds[]` abgelegt.
 Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
-`status` (open/closed); optional `seed_tier`, `cluster_hint`,
+`status` (`locked_until_episode_end`/open/closed); optional `seed_tier`, `cluster_hint`,
 `time_marker`, `discovered_at` und `level_hint`.
 `arc_dashboard.offene_seeds[]` wird beim Laden/Schreiben
 automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
@@ -553,7 +553,7 @@ nie manuell editiert werden.
 > Episodenende. Die Spielleitung darf Seeds vor Episodenende
 > **NICHT** anbieten, auch nicht als Vorschau oder Teaser.
 > Neu erzeugte Seeds erhalten `status: "locked_until_episode_end"`.
-> Dieser Status kann **nicht** vor Episodenende auf `"available"`
+> Dieser Status kann **nicht** vor Episodenende auf `"closed"`
 > oder `"open"` gesetzt werden. Erst nach Abschluss der Episode
 > (`campaign.episode_completed` bzw. `mission_in_episode ≥ 10`)
 > wandelt die Runtime alle `locked_until_episode_end`-Seeds in
@@ -1245,7 +1245,8 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 
 - Paradoxon-Tracker 0-5 bleibt bestehen.
 - Bei Level 5 `roll(1d2)` Seeds im aktuellen `epoch_id` anlegen.
-- Rift-Pool als Array: `seed_id` und `status(open/closed)`.
+- Rift-Pool als Array: `seed_id` und
+  `status(locked_until_episode_end/open/closed)`.
 - Schwierigkeit = `base_dc + open_seeds`.
 - CU = `base_cu * (1 + open_seeds*0.2)`.
 - High-Level-Ökonomie: Modul 15 listet Richtwerte für Level 100/400/1000
