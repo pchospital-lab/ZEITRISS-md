@@ -856,7 +856,7 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   `campaign.loc` wechselt auf `CITY`, Speichern bleibt blockiert.
 - **Stimmungswechsel:** Chronopolis hat immer die gleiche Stadtstruktur, aber
   Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven
-  Episode. Zeitlich spielt die Stadt ein Szenario *nach der aktuellen Mission,
+  Episode. Zeitlich spielt die Stadt ein Szenario *nach der aktuellen Episode,
   als wäre sie gescheitert* — die Charaktere sehen, was mit der Welt passiert,
   wenn sie ihren Auftrag nicht schaffen. Das erzeugt Motivation und erlaubt
   gleichzeitig, ohne Missionsdruck in die jeweilige Epoche einzutauchen.

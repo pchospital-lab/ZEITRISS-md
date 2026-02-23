@@ -17,11 +17,17 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-008 („Alien"-Wortwahl/Cover-Lore): abgeschlossen (Default-Lore auf Fremdfraktions-/Gerüchtestatus harmonisiert).
 - ZR-009 (Level-Up-Regel Attribut/Talent/SYS): abgeschlossen (SSOT auf 1 Wahl pro Stufe konsolidiert).
 - ZR-013 (Glossar/Terminologie-Guide): abgeschlossen (im Spieler-Handbuch als zentrale Glossar-SSOT gebündelt und in Runtime-Module verlinkt).
+- ZR-011 (HUD-Modul als UX-SSOT ohne abweichende Kernregeln): abgeschlossen.
+- ZR-012 (Seed-Status normalisiert inkl. Episoden-Lock): abgeschlossen.
+- ZR-014 (Generator-Sensitivitäts-Schalter): **nicht übernommen** (Produktentscheidung: ZEITRISS bleibt standardmäßig hartes 18+-Setting ohne Safety-Toggle).
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
 - `internal/qa/plans/2026-02-23-regelupdate-followup.md`
 - `internal/qa/logs/2025-beta-qa-log.md`
+
+Offener Restpunkt aus der Tabelle bleibt ZR-015 (Issue-Triage-Prozess in
+`internal/qa/process/known-issues.md`), da er keine Runtime-Module betrifft.
 
 Hinweis: ZR-010 läuft nach Kurskorrektur als wartbarer Mirror-Pfad weiter: Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/` dient nur der QA-/Review-Spiegelung.
 

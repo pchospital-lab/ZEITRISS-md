@@ -223,14 +223,19 @@ die Augen der Figur.
 `Paradoxon 3/5 · Resonanz ↑`
 `Paradoxon 5/5 · ClusterCreate – Rifts sichtbar`
 `Paradoxon: ▓▓▓░░ (3/5) · nächster +1 in 2 Missionen`
-`Paradoxon −1 · ⚠ HUD-Flackern → Backlash`
+`Paradoxon-Alarm · ⚠ HUD-Flackern`
 
 - **Px +1:** Automatisch nach X erfolgreichen Missionen (abhängig von TEMP-Stufe,
   siehe TEMP→Px-Tabelle in Spieler-Handbuch/Speicher-Modul).
-- **Px −1 (Eskalation):** HUD flackert bei grobem Fehlverhalten (Warnung).
-  Eskaliert weiter → Backlash (−1 Px). Max. einmal pro Mission.
+- **Kein Default-Malus:** HUD-Warnungen zeigen Instabilität an, ändern aber
+  den Px-Wert nicht automatisch.
 - **Banner** erscheint kontextsensitiv (bei Px-relevanten Zuständen). Farben:
   - grau 0–1 · cyan 2–3 · grün 4–5
+
+_Regel-SSOT:_ Die verbindliche Px-Logik (Belohnungssystem, Scope,
+Cluster-Freischaltung) steht im
+[Spieler-Handbuch](../core/spieler-handbuch.md#paradoxon-index-px--rift-fortschritt).
+Dieses HUD-Modul beschreibt nur Anzeige, Stimmung und UX-Signale.
 
 > _Resonanzanzeige für Rissverfolgung_
 > _Kodex-Modul: `CLSTR:TRACE.MONITOR`_

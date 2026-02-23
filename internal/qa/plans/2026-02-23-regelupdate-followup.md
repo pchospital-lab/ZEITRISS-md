@@ -17,6 +17,25 @@ Dieses Follow-up protokolliert offene QA-Befunde aus dem Regelupdate-Lauf
   schema-konformes `incomingSave.ui.action_mode="uncut"`; `make test` läuft
   wieder grün.
 
+## Nachzug ZR-011/ZR-012 + Kurskorrektur ZR-014 – HUD-UX, Seed-Status, Tonalität
+
+Als nächster Deep-Research-Folgeschritt nach ZR-013 wurde der verbleibende
+P2/P3-Regeldrift in Runtime-Modulen reduziert:
+
+- `characters/hud-system.md`: Paradoxon-Abschnitt auf **HUD-UX statt
+  Kernregel** geschärft (kein Default-Px-Malus im Anzeige-Modul; SSOT-Verweis
+  ins Spieler-Handbuch).
+- `gameplay/kampagnenstruktur.md` +
+  `systems/gameflow/speicher-fortsetzung.md`: Seed-Status normalisiert auf
+  `locked_until_episode_end/open/closed`, inklusive Dev-Checkliste und
+  Save-Schema-Text.
+- `gameplay/kreative-generatoren-missionen.md`: Kurskorrektur umgesetzt;
+  zusätzlicher Sensitivitäts-Schalter entfernt und ZEITRISS-Standard als
+  hartes 18+-Setting textlich klargestellt (kein optionaler Safety-Toggle).
+
+Damit gelten ZR-011 und ZR-012 als nachgezogen; ZR-014 wurde als
+Produktentscheidung **nicht übernommen** (kein Runtime-Requirement).
+
 ## Abschlussstand
 Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
 Pflichtprüfungs-Punkte mehr aus dem Regelupdate-Lauf vom 2026-02-23.

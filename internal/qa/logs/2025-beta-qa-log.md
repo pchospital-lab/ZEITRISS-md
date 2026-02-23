@@ -1,10 +1,79 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.64
+version: 0.4.66
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – Korrektur zu ZR-014 + Chronopolis-Wording
+- Fokus: Nutzerfeedback auf den letzten Diff umsetzen: kein Sensitivitäts-
+  Schalter im Generator, sowie Chronopolis-Wording einheitlich auf
+  "aktuelle Episode" ziehen.
+- Scope: `gameplay/kreative-generatoren-missionen.md`, `core/sl-referenz.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Generator-Modul: Sensitivitäts-Abschnitt entfernt; Tonalität explizit als
+     harter Erwachsenenton (18+) ohne Safety-Toggle geführt.
+  2. Chronopolis-Text in der SL-Referenz von "aktuelle Mission" auf
+     "aktuelle Episode" vereinheitlicht.
+  3. QA-/Upload-Dokumentation korrigiert: ZR-014 als "nicht übernommen"
+     vermerkt (Designentscheidung statt offener Runtime-Befund).
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-009: **abgeschlossen**.
+10. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
+11. ZR-011: **abgeschlossen**.
+12. ZR-012: **abgeschlossen**.
+13. ZR-013: **abgeschlossen**.
+14. ZR-014: **nicht übernommen** (Produktentscheidung: kein Safety-Toggle).
+15. ZR-015: **offen** (Prozess-/Issue-Triage außerhalb Runtime-Content).
+
+## 2026-02-23 – Repo-Agent – ZR-011/012/014 Konsistenzpass (HUD/Seeds/Sensitivität)
+- Fokus: Nach ZR-013 die nächsten sinnvollen Deep-Research-Punkte aus
+  `uploads/deep-research-report(4).md` nachziehen: HUD-Regelgrenze,
+  Seed-Status-Normalisierung; der zuvor ergänzte Sensitivitäts-Schalter wurde
+  später per Kurskorrektur wieder entfernt.
+- Scope: `characters/hud-system.md`,
+  `gameplay/kampagnenstruktur.md`,
+  `systems/gameflow/speicher-fortsetzung.md`,
+  `gameplay/kreative-generatoren-missionen.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. HUD-Modul auf Anzeige-SSOT geschärft: kein automatischer Px-Malus im
+     HUD-Text, klarer Verweis auf Spieler-Handbuch für Kernregeln.
+  2. Seed-Status vereinheitlicht: `locked_until_episode_end/open/closed` in
+     Kampagnenstruktur und Save-Schema synchronisiert.
+  3. Historischer Hinweis: Der zwischenzeitlich ergänzte Sensitivitäts-
+     Schalter (`strict/standard/hard`) wurde in der nachfolgenden
+     Kurskorrektur wieder entfernt (Produktentscheidung).
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-009: **abgeschlossen**.
+10. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
+11. ZR-011: **abgeschlossen**.
+12. ZR-012: **abgeschlossen**.
+13. ZR-013: **abgeschlossen**.
+14. ZR-014: **nicht übernommen** (Produktentscheidung: kein Safety-Toggle).
+15. ZR-015: **offen** (Prozess-/Issue-Triage außerhalb Runtime-Content).
 
 ## 2026-02-23 – Repo-Agent – ZR-013 Glossar-SSOT & Link-Mirror
 - Fokus: Nach Abschluss von ZR-009 den nächsten offenen Deep-Research-Punkt
