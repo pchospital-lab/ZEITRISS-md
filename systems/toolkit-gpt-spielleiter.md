@@ -888,8 +888,9 @@ Unterbefehle `contrast`, `badges`, `pace` setzen persistente Werte in
 
 Je nach Missionstyp ruft die Engine `history_ok_preserve()` oder
 `history_ok_trigger()` auf. **Stabile, historisch passende Verläufe**
-füllen den Px-Balken; Abweichungen lassen ihn stehen oder führen bei
-schweren Kollateralschäden zu Px-1.
+füllen den Px-Balken; Abweichungen lassen ihn stehen.
+Standardfolgen bei Fehlverlauf laufen über CU/Stress/Heat/Storydruck,
+nicht über automatische Px-Abzüge.
 
 ### !seed Command
 Gibt einen zufälligen Mission Seed aus dem passenden Pool aus.
@@ -3591,7 +3592,7 @@ Jeder Datensatz enthält **Schwäche**, **Stil** und **Seed-Bezug**.
 ⟨% if reward > risk %⟩
 Resonanz +1
 ⟨% elif reward < risk %⟩
-Risiko: Resonanzverlust (Px-1)
+Risiko: Kein Px-Fortschritt · Konsequenz über Stress/CU/Heat
 ⟨% else %⟩
 Paradoxon unverändert - Resonanz stagniert
 ⟨% endif %⟩

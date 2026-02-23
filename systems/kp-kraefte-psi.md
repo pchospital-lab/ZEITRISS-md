@@ -522,7 +522,8 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   passend und ausgewogen eingesetzt werden.
   Als Obergrenze gilt maximal **eine Sekunde Zeitstillstand pro Einsatz**.
   Ein zweiter Einsatz in derselben Szene ist nur mit sofortiger **Erschöpfung**
-  (-1 auf alle Würfe bis Szenenende) und einem Resonanzverlust um **-1** möglich.
+  (-1 auf alle Würfe bis Szenenende) und klaren Folgekosten (z. B. Stress/Heat oder
+  narrative Eskalation) möglich.
 
 - **Psi-Waffenmanifestation:** Ein Psioniker kann eine Nah- oder Fernkampfwaffe,
   mit der er längere Zeit trainierte,
@@ -801,7 +802,8 @@ Chrononauten: Er steigt, solange ihr das dokumentierte Hauptereignis stabilisier
 auch wenn ihr dabei harte Psi- oder Tech-Eingriffe nutzt. Ein Resonanz-Check ist nur
 bei weitreichenden Eingriffen nötig, insbesondere bei Chronokinese oder wenn ihr den
 Kernverlauf zu kippen droht. Scheitert die Mission oder erzwingt ihr ein grobes
-Paradoxon, stagniert der Index oder fällt ausnahmsweise um 1. Über
+Paradoxon, stagniert der Index im Default; Konsequenzen laufen über
+CU/Stress/Heat und verschärfte Lage statt über einen automatischen Px-Abzug. Über
 `modus paradoxon off` lässt sich die Paradoxon-Regel komplett deaktivieren; wird sie
 verwendet, funktioniert sie identisch für Pro- und Contra-Agenten. Psionik steht
 grundsätzlich allen offen. Contra-Agenten dürfen sie einsetzen oder alternativ ihren
@@ -812,7 +814,8 @@ kaum Paradoxon. Beispiel: Ein Chrononaut sieht in einer präkognitiven Vision, d
 einer Stunde ein Attentat auf eine wichtige Person erfolgreich ist (historisch
 belegtes Ereignis). Er interveniert telepathisch und warnt das Opfer rechtzeitig,
 wodurch das Attentat scheitert. Jetzt wurde die bekannte Geschichte verändert - ein
-klassisches Paradoxon. Solche Fehlverläufe bremsen den Resonanzaufbau deutlich.
+klassisches Paradoxon. Solche Fehlverläufe bremsen den Resonanzaufbau deutlich,
+ohne im Standardmodus automatisch Px abzuziehen.
 Niedrige **Temporale Affinität** verlangsamt den Aufbau, hohe TEMP beschleunigt ihn.
 Ab **Level 5** macht `ClusterCreate()` bis zu zwei Rifts sichtbar und setzt den Index
 auf 0. Offene Rifts erhöhen den Schwierigkeitsgrad erst nach dem Core-Arc und gelten
