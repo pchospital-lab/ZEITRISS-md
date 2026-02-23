@@ -881,8 +881,9 @@ Bei TEMP 6 gelten die ersten **zwei**, bei TEMP 9 die ersten **drei** PP als sic
 #### Überziehen ("Burn")
 
 Ihr dürft **bis zu TEMP PP** zusätzlich ausgeben, sobald euer Pool leer ist.
-- Preis: **-1 Px** pro verbranntem PP.
-> Px = Paradoxon-Index-Punkte (siehe core).
+- Preis: **Psi-Heat +1** und **Stress +1** pro verbranntem PP (Default).
+> Optionaler Hardcore-Schalter (KANN): statt Stress kann die SL einmalig **Px-1** ansetzen, wenn der Burn
+> eine absichtlich paradoxe Intervention mit sichtbaren Zeitschäden auslöst.
 > **Nie** mehr Burn-PP als TEMP - die Zeit reißt sonst sofort (SL-Ereignis).
 > **Psi-Talentstufe** darf nicht höher sein als euer aktueller **TEMP**-Wert.
 

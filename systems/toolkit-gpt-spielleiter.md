@@ -415,9 +415,9 @@ if not char.get("psi") and not char.get("has_psi"):
   Trace-Event `rift_seed_merge_cap_applied` (kept/overflow) als auch im
   Merge-Trace (`merge_conflicts.rift_merge`) plus Merge-Konflikt `field='rift_merge'`
   inklusive `selection_rule`.
-  Kritische Fehlschläge oder Patzer senken den Index um 1 und setzen den
-  Fortschritt `missions_since_px` zurück; dokumentiere den Verlust im Debrief
-  (`Px sinkt auf …`).
+  Kritische Fehlschläge oder Patzer lassen den Px-Stand im Default unverändert und
+  setzen keinen automatischen Resonanzverlust aus; dokumentiere stattdessen
+  Konsequenzen über Stress/Heat/CU/Storydruck im Debrief.
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und geschätztem ETA bis zum
   nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · ETA +1 in 2 Missionen`.
