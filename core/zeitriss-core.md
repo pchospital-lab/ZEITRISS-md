@@ -381,8 +381,10 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 #### Attribut- und Talentsteigerungen
 
-- **Attributsfortschritt:** Pro Stufenaufstieg darf in der Regel **ein Attribut um +1**
-  erhöht werden. Das reguläre Level-Up endet bei **10** (menschliches Maximum). Jede weitere
+- **Aufstiegswahl pro Stufe (SSOT):** Pro Stufenaufstieg genau **eine** Wahl:
+  `+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`.
+- **Attributsfortschritt:** Wenn die Wahl auf Attribut fällt, wird **ein Attribut um +1**
+  erhöht. Das reguläre Level-Up endet bei **10** (menschliches Maximum). Jede weitere
   Steigerung erfordert einen **Prestige-Aufstieg** oder ein spezielles Story-Ereignis. Ab **11**
   wechselt der Probewürfel auf W10, ab **14** kommt der Heldenwürfel hinzu.
   Das absolute Maximum liegt bei **14** — solche Werte sind extrem selten und erfordern
@@ -395,22 +397,10 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
   fair. **Storytelling:** Prestige-Perks sind gebaute Legendenmomente - die Szene beschreibt, welches
   Opfer oder welche Offenbarung Euch über die Zehn hinaus trägt.
 
-- **Talententwicklung:** Neben Attributen erhalten Charaktere auch **Talente/Fertigkeiten**
-  zur Spezialisierung. Bisher konnten neue Talente _gelegentlich nach Absprache_ freigeschaltet
-  werden - zukünftig erfolgt dies **strukturierter**: _Etwa alle 3-5 Level_ (im Schnitt **2 Talente
-  pro 10 Stufen**) darf der Spieler ein neues Talent wählen oder ein bestehendes erweitern, soweit es
-  zur Geschichte passt. Die Tabelle für Level 1-10 zeigt bereits Beispiele (Level 4: Option auf neues
-  Talent; Level 8: weiteres Talent/Upgrade). Dieses Prinzip wird fortgeführt, um regelmäßig frische
-  Fähigkeiten zu integrieren. Zwischen diesen festen Punkten können natürlich weiterhin
-  _improvisierte Talentgewinne_ durch besondere Erlebnisse stattfinden (z. B. erlernt ein Charakter nach
-  einem Dschungel-Abenteuer das Talent **"Kräuterkunde"** in-Game). _Nutzen:_ **Flow:** Planbare
-  Talent-Freischaltungen geben Spielern **Gestaltungsfreiheit**, ihren Helden stetig vielfältiger zu
-  machen, was den Spielfluss bereichert (neue Tricks kommen ins Repertoire). **Balance:** Durch
-  moderates Verteilen von Talenten bleibt jeder Zugewinn **bedeutsam**, aber kontrolliert - Helden
-  können sich spezialisieren, ohne allzu schnell _alles zu können_. **Storytelling:** Talente sind oft
-  eng mit der Narrative verknüpft (Hintergrund, Missions-Erfahrungen). Das strukturierte System
-  _kombiniert_ beides: vorgegebene Fortschrittspunkte _und_ Raum für organische, storybasierte Talente.
-  Jeder Talentgewinn erzählt eine Geschichte über den Werdegang des Charakters.
+- **Talententwicklung:** Fällt die Aufstiegswahl auf `Talent/Upgrade`, kann der Spieler
+  ein neues Talent wählen oder ein bestehendes erweitern, soweit es zur Geschichte passt.
+  Talente bleiben eng mit der Narrative verknüpft (Hintergrund, Missions-Erfahrungen)
+  und werden in der HQ-Phase als Trainings-/Forschungsfortschritt ausgespielt.
 
 - **Würfel-Upgrade & Heldenwürfel (hohe Attribute):** Um hohe Attribute jenseits der menschlichen
   Limits sinnvoll abzubilden, nutzt ZEITRISS ein zweistufiges System:

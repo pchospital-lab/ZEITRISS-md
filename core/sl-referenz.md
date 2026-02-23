@@ -465,6 +465,8 @@ optionale City-Zugang freigeschaltet.
 Kanonische Details: [Progressionssystem](zeitriss-core.md#levelaufstieg-fortschritt).
 
 Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
+Doppelte Gratis-Upgrades im selben Level sind im Standard ausgeschlossen;
+Ausnahmen nur als explizite Sonderregel der Kampagne.
 Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
 Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen)
 für wirtschaftliche Details.
