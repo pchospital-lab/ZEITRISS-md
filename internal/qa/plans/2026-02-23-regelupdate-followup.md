@@ -121,3 +121,22 @@ vereinheitlicht.
 Damit ist ZR-009 aus `uploads/deep-research-report(4).md` im laufenden
 Follow-up als abgeschlossen nachgezogen; der Upload-Block bleibt damit
 konsistent im SSOT-Pfad dokumentiert.
+
+## Nachzug ZR-013 – Glossar-SSOT & Terminologie-Links (2026-02-23)
+
+Als nächster sinnvoller Deep-Research-Folgeschritt wurde die offene
+Terminologie-Bündelung (ZR-013) umgesetzt, um Drift zwischen HUD, Kampagnen-
+und Core-Texten zu reduzieren.
+
+- Glossar-SSOT in `core/spieler-handbuch.md` gebündelt (Kernkürzel SG, LP, SYS,
+  PP, TEMP sowie Loop-Kürzel Px, CU, FS, IA, RW inkl. Team-TEMP-Formel).
+- Spiegelung in Wissensmodulen ergänzt:
+  `core/spieler-handbuch.md`, `characters/hud-system.md` und
+  `gameplay/kampagnenstruktur.md` verlinken nun explizit auf das Glossar-SSOT.
+- `gameplay/kampagnenstruktur.md` wurde zusätzlich auf die konsolidierte
+  Level-Up-Wahl (`+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`) nachgezogen.
+- Struktur-/Linkpfad aktualisiert: `README.md`, `characters/hud-system.md` und
+  `gameplay/kampagnenstruktur.md` verweisen auf das Glossar im Spieler-Handbuch.
+
+Damit ist ZR-013 aus `uploads/deep-research-report(4).md` im laufenden
+Follow-up als abgeschlossen dokumentiert.

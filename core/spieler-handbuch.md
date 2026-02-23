@@ -728,6 +728,15 @@ Regelmodule - **es belohnt Kontrolle, nicht Chaos.**
 
 Kurze Erklärungen wichtiger Abkürzungen:
 
+- **SSOT-Hinweis:** Dieses Glossar ist die zentrale Referenz für Begriffe in Runtime-Modulen.
+- **SG** - Schwierigkeitsgrad (Zielwert einer Probe).
+- **LP** - Lebenspunkte (Gesundheitsskala, Standard 10 LP).
+- **SYS** - Systemlast (Kapazität für Cyber-/Bioware und Runtime-Last).
+- **TEMP** - Temporale Affinität (steuert Zeitresistenz, PP-Basis und Px-Frequenz).
+- **PP** - Power-Punkte; Standardregel: `PP = TEMP`.
+- **FS** - Foreshadow-Score als Marker für Boss-/Gate-Freischaltungen.
+- **IA** - Insertion Anchor, Missions-Einstiegspunkt.
+- **RW** - Return Window, Zeitfenster für den Rücksprung.
 - **CU** - Chrono-Units, universelle Missionswährung.
 - **Retina-HUD (AR-Kontaktlinse)** - [Standardausrüstung](sl-referenz.md#standardausruestung) /
   [HUD-&-Comms-Spec](../characters/hud-system.md#hud-comms-spec).
@@ -748,7 +757,6 @@ Kurze Erklärungen wichtiger Abkürzungen:
 - **Huminen** - Sammelbegriff für alle menschlichen Abstammungslinien, inklusive
   T- und N-Stufe der Neumenschen.
 
-- **PP** - Power-Punkte (Psi-Energie) für Psi-Kräfte.
 - **Psi-Heat** - temporärer Psi-Stress (0-6), steigt pro aktiver Psi-Aktion
   und fällt nach Konflikt- oder HQ-Reset auf 0; ab 5 folgt SG +4, bei 6 greift
   der Reboot.

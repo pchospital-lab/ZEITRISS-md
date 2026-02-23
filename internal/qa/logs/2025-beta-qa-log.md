@@ -6,6 +6,39 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-02-23 – Repo-Agent – ZR-013 Glossar-SSOT & Link-Mirror
+- Fokus: Nach Abschluss von ZR-009 den nächsten offenen Deep-Research-Punkt
+  aus `uploads/deep-research-report(4).md` umsetzen: Terminologie als kompakte
+  SSOT-Seite bündeln und in Runtime-Wissensmodule verlinken.
+- Scope: `README.md`, `core/spieler-handbuch.md`,
+  `characters/hud-system.md`,
+  `gameplay/kampagnenstruktur.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Glossar-SSOT im `core/spieler-handbuch.md` konsolidiert (SG, LP, SYS,
+     PP, TEMP plus Px/CU/FS/IA/RW und Team-TEMP-Formel).
+  2. Mirror-Links in Spieler-Handbuch, HUD-Modul und Kampagnenstruktur gesetzt,
+     damit Kürzel-Drift über Runtime-Module reduziert wird.
+  3. Offene Formulierung in Kampagnenstruktur beim Debrief-Loop auf die
+     konsolidierte Upgrade-Wahl (`+1 Attribut` oder `Talent/Upgrade` oder
+     `+1 SYS`) nachgezogen.
+  4. Linkpfad aktualisiert (`README.md`, HUD-Modul, Kampagnenstruktur) und
+     Follow-up-Fahrplan auf „ZR-013 abgeschlossen" ergänzt.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **abgeschlossen**.
+8. ZR-008: **abgeschlossen**.
+9. ZR-009: **abgeschlossen**.
+10. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
+11. ZR-013: **abgeschlossen**.
+
 ## 2026-02-23 – Repo-Agent – ZR-009 Level-Up-SSOT (Attribut/Talent/SYS)
 - Fokus: Nach ZR-008 den nächsten offenen Deep-Research-Punkt aus
   `uploads/deep-research-report(4).md` schließen: uneinheitliche
