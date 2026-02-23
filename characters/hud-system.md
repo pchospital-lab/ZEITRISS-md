@@ -20,6 +20,7 @@ Spezifikation, Anzeige-Logik, Menüs und die in-world HUD-Kommandos der ZEITRISS
 Referenz für alle HUD-Ausgaben, vom Headline-Overlay bis zur Nullzeit-Navigation. Die
 Regelmodule zu Zuständen, Heilung und Paradoxon liegen im separaten Modul
 [Zustände & erweiterte Systeme](zustaende.md).
+Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](../core/spieler-handbuch.md#glossar).
 
 <a id="hud-comms-spec"></a>
 > **HUD & Comms - Hardware-Spezifikation {#hud-comms-spec}**

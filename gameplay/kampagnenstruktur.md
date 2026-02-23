@@ -623,6 +623,8 @@ Nach Primärziel öffnet sich das **Exfil-Fenster**. Übliche Start-TTL: **8 Min
 - **IA - Insertion Anchor:** Einstiegspunkt der Mission.
 - **RW - Return Window:** Zeitfenster für den Rücksprung.
 
+Weitere Kürzel und SSOT-Definitionen stehen im [Glossar des Spieler-Handbuchs](../core/spieler-handbuch.md#glossar).
+
 **Ablauf:**
 
 1. **Standard-Rücksprung nur vom IA.** Das Team kehrt dorthin zurück und armiert das RW.
@@ -691,8 +693,8 @@ Dieser Screen läuft in fester Reihenfolge ab:
 2. **Loot-Recap** — alle gefundenen Gegenstände und Artefakte auflisten
 3. **CU-Auszahlung** — Belohnung nach CU-Formel berechnen und ausschütten,
    bei Teams Wallet-Split durchführen
-4. **XP & Level-Up** — EP vergeben; bei Aufstieg sofort Attribut- oder
-   Skill-Pick anbieten (Spieler wählt aktiv)
+4. **XP & Level-Up** — EP vergeben; bei Aufstieg genau eine Upgrade-Wahl
+   anbieten (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`).
 5. **Ruf-Update** — Fraktionsruf-Änderungen nennen
 
 Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
