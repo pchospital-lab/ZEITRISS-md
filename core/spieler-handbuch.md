@@ -70,8 +70,10 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - **Chronopolis** zeigt die gescheiterte Zeitlinie der aktuellen Episode — so
   sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instanziert bei
   jedem Besuch, keine Waffenruhe. Items die man lebend rausbringt: behalten.
-  Tod = Aufwachen im HQ, alle Chronopolis-Items dieses Runs verloren. Kein
-  Speichern, keine Auswirkungen auf die echte Zeitlinie. Roguelike-Risiko.
+  **Tod folgt denselben Konsequenzen wie in Core/Rift-Einsätzen** (kein
+  Traum-Reset, kein kostenloses Aufwachen). Vor jedem Schleuseneintritt fragt
+  Kodex daher explizit, ob ihr im HQ noch einen DeepSave anlegen wollt.
+  Speichern in Chronopolis bleibt gesperrt.
 - **HQ** ist der sichere Hafen — Nullzeit-Blase. Friedlich, konstant, überall
   speichern. Kein Kampf, kein Risiko. Zurück ins HQ, durchatmen, wieder raus.
 
@@ -136,7 +138,7 @@ Die ersten Schritte in unter zwei Minuten:
     1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand
     2. **Loot-Recap** — gefundene Gegenstände und Artefakte auflisten
     3. **CU-Auszahlung** — Belohnung nach CU-Formel, Wallet-Split bei Teams
-    4. **XP & Level-Up** — EP vergeben, bei Aufstieg sofort Skill-Pick anbieten
+    4. **XP & Level-Up** — XP vergeben, bei Aufstieg sofort Skill-Pick anbieten
     5. **Ruf-Update** — Fraktionsruf-Änderungen anzeigen
     6. **HQ-Optionen** — Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
        oder Auto-HQ & Save (direkt zur nächsten Mission)
@@ -265,15 +267,15 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 | IV | +4 | 3.000 CU |
 | V | +5 | Questbelohnung |
 
-### EP-Kurve
+### XP-Kurve
 
-| Level | EP pro Level |
+| Level | XP pro Level |
 |------:|--------------|
-| 1–10 | 1 EP (= 1 Mission) |
-| 11–20 | 2 EP |
-| 21–30 | 3 EP |
-| 31–50 | 4 EP |
-| 51–100 | 5 EP |
+| 1–10 | 1 XP (= 1 Mission) |
+| 11–20 | 2 XP |
+| 21–30 | 3 XP |
+| 31–50 | 4 XP |
+| 51–100 | 5 XP |
 
 ### HUD-Icons
 
@@ -307,8 +309,17 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 Chronopolis bleibt bis Level 10 gesperrt. Beim Erreichen von Level 10 schaltet
 Kodex den **Chronopolis-Schlüssel** frei. Chronopolis ist die **gescheiterte
 Zeitlinie** der aktuellen Episode — düster, gefährlich, bei jedem Besuch frisch
-instanziert. Keine Waffenruhe, kein Speichern. Tod = Aufwachen im HQ, alle
-Items dieses Runs verloren. Items die man lebend rausbringt: behalten.
+instanziert. Keine Waffenruhe, kein Speichern. Vor der Schleuse fragt Kodex
+verbindlich nach einem HQ-DeepSave. Tod folgt denselben Konsequenzen wie in
+Core/Rift-Missionen (kein Traum-Reset). Items, die man lebend rausbringt,
+bleiben erhalten.
+
+**Gruppenregel bei Tod eines Spielers (Core/Rift/Chronopolis):**
+Im Gruppenchat stoppt Kodex die Szene und fragt die Gruppe verbindlich:
+1) „Tod bleibt Kanon der Geschichte“ oder
+2) „Neuladen vom letzten Gruppen-DeepSave“.
+Bei Option 2: neues Chatfenster öffnen, letzten Gruppenspeicher laden,
+Einsatz erneut starten.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
@@ -406,7 +417,7 @@ Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](sl-referenz.md).
 - [Wahrscheinlichkeits-Übersicht](sl-referenz.md#wahrscheinlichkeits-uebersicht)
 - [Chat-Kurzbefehle](sl-referenz.md#chat-kurzbefehle)
 - [Exfil-Fenster & Sweeps](sl-referenz.md#exfil-fenster--sweeps)
-- [Level & EP-Kurve](sl-referenz.md#level--ep-kurve)
+- [Level & XP-Kurve](sl-referenz.md#level--ep-kurve)
 - [Regelreferenz](sl-referenz.md#regelreferenz)
 - [Spielmodi](sl-referenz.md#spielmodi)
 - [Generator-Utilities](sl-referenz.md#generator-utilities)
@@ -738,7 +749,7 @@ Kurze Erklärungen wichtiger Abkürzungen:
 
 | Begriff             | Bedeutung                                                                         |
 | ------------------- | --------------------------------------------------------------------------------- |
-| **Agenten-Level**   | Fortschrittswert; Level-Ups folgen der EP-Kurve (`EP` = Erfahrungspunkte).        |
+| **Agenten-Level**   | Fortschrittswert; Level-Ups folgen der XP-Kurve (`XP` = Erfahrungspunkte).        |
 | **ClusterCreate()** | Aktiv bei Paradoxon 5: 1-2 Rifts werden sichtbar, danach springt der Index auf 0. |
 | **Kodex**           | KI-Unterstützung des ITI; liefert Regelhinweise und Missionsdaten via HUD.        |
 

@@ -138,6 +138,8 @@ Debrief und Save (HQ-only).
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
 
+Im HUD bedeutet `EP` immer **Episode**. Erfahrungspunkte werden als **XP** geführt.
+
 - **PSI:** `PP 6/8 · Psi-Heat 2 · SYS 2/6 (free 4) · Stress 1 · Px █░░░░ (1/5)` -
   Psi-Heat baut sich pro aktiver Psi-Aktion in Konflikten auf und springt
   nach jedem Konflikt auf 0.
@@ -437,21 +439,21 @@ folgen der Form `{event, scene?, details{…}, at?}`.
 Alle Quick-Cards halten die Toasts auf sechs Wörter begrenzt und liefern
 filmische Callouts für das HUD.
 
-## Level & EP-Kurve {#level--ep-kurve}
+## Level & XP-Kurve {#level--ep-kurve}
 
 Das Progressionssystem gliedert sich in zwei Phasen:
 
 - **Phase 1 (Lvl 1–10):** Jede abgeschlossene Mission = sofort +1 Level.
   Schneller Einstieg, maximale Motivation.
-- **Phase 2 (ab Lvl 11):** Gestaffelte EP-Kurve:
+- **Phase 2 (ab Lvl 11):** Gestaffelte XP-Kurve:
 
-| Level | EP pro Level | Kumulativ |
+| Level | XP pro Level | Kumulativ |
 |-------|-------------|-----------|
-| 1–10 | 1 EP (= 1 Mission) | 10 EP |
-| 11–20 | 2 EP | 30 EP |
-| 21–30 | 3 EP | 60 EP |
-| 31–50 | 4 EP | 140 EP |
-| 51–100 | 5 EP | 390 EP |
+| 1–10 | 1 XP (= 1 Mission) | 10 XP |
+| 11–20 | 2 XP | 30 XP |
+| 21–30 | 3 XP | 60 XP |
+| 31–50 | 4 XP | 140 XP |
+| 51–100 | 5 XP | 390 XP |
 
 **Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
 **digitalen Chronopolis-Schlüssel** frei — eine kryptographische Signatur,
@@ -466,6 +468,29 @@ Pro Aufstieg genau eines: `+1 Attribut` oder `Talent/Upgrade` oder `+1 SYS`.
 Ab Attribut 11 wechselt das Würfelsystem auf W10, ab 14 kommt der Heldenwürfel.
 Siehe [Core-Ops CU-Belohnungen](../systems/currency/cu-waehrungssystem.md#core-ops-belohnungen)
 für wirtschaftliche Details.
+
+## Save-Taktung (verbindlich)
+
+Kodex setzt Save-Prompts im HQ an festen Checkpoints:
+
+1. vor jedem Briefing/Absprung,
+2. nach jedem Debriefing,
+3. nach längeren HQ-Freerun-Phasen (Shop/Clinic/Werkstatt),
+4. vor Chronopolis-Schleuseneintritt,
+5. nach Chronopolis-Rückkehr ins HQ.
+
+Für Stabilität gilt: pro HQ→Einsatz→HQ-Zyklus ein frischer Chat mit DeepSave-Import.
+
+## Gruppen-Todesentscheid (Core/Rift/Chronopolis)
+
+Im Modus `gruppe` stoppt Kodex bei einem Spieler-Tod die Szene und fordert eine
+verbindliche Entscheidung:
+
+- **Tod bleibt Kanon der Geschichte**, oder
+- **Neuladen vom letzten Gruppen-DeepSave** (neues Chatfenster, Save posten,
+  Einsatz neu starten).
+
+Ohne diese Gruppenentscheidung wird die Geschichte nicht fortgesetzt.
 
 ## Regelreferenz
 
