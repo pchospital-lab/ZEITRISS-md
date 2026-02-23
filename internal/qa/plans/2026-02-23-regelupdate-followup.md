@@ -20,3 +20,16 @@ Dieses Follow-up protokolliert offene QA-Befunde aus dem Regelupdate-Lauf
 ## Abschlussstand
 Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
 Pflichtprüfungs-Punkte mehr aus dem Regelupdate-Lauf vom 2026-02-23.
+
+## Nachtrag Upload-Abgleich (Deep-Research-Report(4))
+
+Die im Upload `uploads/deep-research-report(4).md` priorisierten Starttickets
+wurden gegen den aktuellen Repo-Stand gegengeprüft und als abgeschlossen
+markiert. Der Upload ist damit als Eingangsdokument archiviert; operative
+Steuerung erfolgt ausschließlich über `internal/qa/plans/` und
+`internal/qa/logs/`.
+
+- ✅ ZR-001: Exploding-/Burst-Cap-SSOT vereinheitlicht.
+- ✅ ZR-002: Px-Default ohne automatischen Strafabzug vereinheitlicht.
+- ✅ ZR-003: Px-Scope für solo/npc-team vs. gruppe präzisiert.
+- ✅ ZR-004: HQ-Rückkehr als Loop-Invariante durchgezogen.
