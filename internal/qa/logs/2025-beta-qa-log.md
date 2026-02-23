@@ -1,10 +1,31 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.55
+version: 0.4.56
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – Deep-Research(4)-Closure (Fahrplan + Uploads)
+- Fokus: Umgesetzte Starttickets aus `uploads/deep-research-report(4).md`
+  formal in Fahrplan/QA-Log nachziehen und den Upload als erledigte
+  Eingangsquelle kennzeichnen.
+- Scope: `uploads/deep-research-report(4).md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Upload-Artefakt als abgeschlossen markiert (operativer Status nicht mehr
+     im Upload, sondern in `internal/qa/`).
+  2. Fahrplan-Nachtrag ergänzt: ZR-001 bis ZR-004 als erledigt verankert.
+  3. QA-Log konsolidiert: Deep-Research-Startblock sauber abgeschlossen und für
+     Folgeschritte vorbereitet.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005/ZR-010: **offen** (separate Folgeaufträge).
 
 ## 2027-03-25 – Repo-Agent – Deep-Research-Übernahme (Fahrplan + QA-Lock)
 - Fokus: Nutzerentscheidung aus dem Deep-Research-Upload verbindlich in den
