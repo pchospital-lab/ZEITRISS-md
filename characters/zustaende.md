@@ -355,14 +355,16 @@ Lebenspunkte hinausgehen:
 **Die einfache Wahrheit:**
 - Spielt gut → Index steigt → bei 5 gibt's Bonus-Missionen.
 - Spielt chaotisch → Index stagniert → keine Bonus-Missionen.
-- Spielt katastrophal (selten) → Index sinkt um 1.
+- Spielt katastrophal (selten) → der Index steigt **nicht**, Konsequenzen laufen
+  über Stress, Heat, Ressourcen und Storydruck.
 
 Das ist alles. Keine mystische Zeitinstabilität, keine existenzielle Bedrohung.
 Einfach ein Fortschrittsbalken für cooles Gameplay.
 - **Paradoxon-Resonanz & temporale Stabilität:** Der Index misst temporale Spuren und steigt
   situativ während einer Mission. Niedrige **Temporale Affinität** füllt ihn langsam, hohe TEMP
-  beschleunigt. Scheitern oder massive Paradoxa halten den Wert; Extremfälle senken ihn um **-1**
-  (Px-1). Bei **Px 5** enthüllt `ClusterCreate()` bis zu zwei Rifts und setzt den Zähler auf 0.
+  beschleunigt. Scheitern oder massive Paradoxa halten den Wert; Konsequenzen laufen über
+  Stress/Heat/Ressourcen statt über automatische Px-Abzüge. Bei **Px 5** enthüllt
+  `ClusterCreate()` bis zu zwei Rifts und setzt den Zähler auf 0.
   Offene Rifts steigern Schwelle und Loot-Faktor erst nach der Episode. Das **HUD** zeigt die
   Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 blendet ein Balken-Meter (1-5 Segmente) den Fortschritt zum nächsten Riss ein.
@@ -372,8 +374,10 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
     _Auswirkungen:_ Px 0–4 liefert **keine mechanischen Boni** — der Fortschritt
     ist über HUD-Farbe und Score-Screen sichtbar. Der Payoff kommt bei Px 5:
     `ClusterCreate()` enthüllt 1–2 Rift-Seeds.
-  Anschließend springt der Index auf 0. Im Gruppenspiel verwaltet ihr **einen** gemeinsamen Index;
-  Seeds zählen für alle, das Fülltempo richtet sich nach dem höchsten TEMP-Wert im Team.
+  Anschließend springt der Index auf 0.
+  **Scope:** In `solo` und `npc-team` gehört der Wert zum jeweiligen Run;
+  im Modus `gruppe` verwaltet ihr **einen** gemeinsamen Kampagnen-Index
+  (`campaign.px`, Host-Save führend).
   Zeitkreaturen können Teil dieser Risse sein - siehe
   [Kreaturen-Generator](../gameplay/kreative-generatoren-begegnungen.md#kreaturen-generator) für
   Stat- und Schadenswerte.
@@ -430,7 +434,7 @@ Zonen fehlt nur der Kodex-Link; HUD/Logs funktionieren unverändert weiter.
 
 - Einsatz läuft sauber: HUD zeigt **Px 2/5** (`Paradoxon 2/5 · Resonanz ↑`).
 - Nächste Stabilisierung: HUD springt auf **Px 3/5**.
-- Backlash nach Patzer: HUD meldet **Px 2/5** (`Paradoxon -1 · Backlash`).
+- Backlash nach Patzer: HUD meldet **Px unverändert**; Konsequenzen erscheinen über Stress/Heat/Storydruck.
 - Team stabilisiert erneut: HUD zeigt **Px 4/5**.
 - Resonanzpeak: **Px 5/5**, `ClusterCreate()` legt 1-2 neue Rift-Seeds an.
 

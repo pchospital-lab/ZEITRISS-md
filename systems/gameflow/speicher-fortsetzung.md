@@ -1382,13 +1382,13 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 | 7–9 | 3 erfolgreiche Missionen |
 | 10–13 | 2 erfolgreiche Missionen |
 
-Der Zähler läuft pro Charakter und wird im HUD als Fortschrittsbalken
-angezeigt. Nur erfolgreich abgeschlossene Missionen zählen.
+Der Scope ist modusabhängig und nutzt immer `campaign.px` als Quelle:
+- **solo / npc-team:** Der Px-Wert gehört zum jeweiligen Run.
+- **gruppe:** Der Px-Wert ist kampagnenweit gemeinsam und folgt dem Host-Save.
 
-**Px −1 (Eskalation):** Bei grobem Fehlverhalten (Zivilopfer, Kern-Anker
-zerstört, massive Zeitlinien-Schäden) flackert zunächst das HUD als Warnung.
-Eskaliert die Situation weiter → **−1 Px** und Backlash-Toast. Maximal einmal
-pro Mission.
+Nur erfolgreich abgeschlossene Missionen zählen. Fehlschläge oder Eskalationen
+lösen im Default **keinen** automatischen Px-Abzug aus; Konsequenzen laufen über
+Stress, Heat, Ressourcen und Storydruck.
 
 - Bei Stufe 5 löst `ClusterCreate()` 1–2 neue Rift-Seeds aus, normalisiert den
   Pool (auch beim Laden) als Objekt-Liste und markiert den Px-Reset als
