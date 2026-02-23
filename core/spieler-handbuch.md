@@ -240,8 +240,11 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 | 10–13 | 2 Missionen |
 
 - **Px +1** bei jeder **erfolgreich abgeschlossenen Mission** gemäß obiger
-  Frequenz. Zähler läuft pro Charakter und wird im HUD als Fortschrittsbalken
-  angezeigt.
+  Frequenz.
+  - **solo / npc-team:** Der Zähler gehört zu eurem Run (Agentenlauf) und wird
+    im HUD als Fortschrittsbalken angezeigt.
+  - **gruppe:** Die Kampagne nutzt einen gemeinsamen Px-Wert
+    (`campaign.px`/Host-Save als führende Quelle).
 - **Default bei Fehlschlag:** kein Px-Abzug. Stattdessen greifen Konsequenzen
   über Ressourcen und Lagebild (z. B. weniger CU, mehr Stress/Heat,
   verschärfte Missionsfolgen).
@@ -743,8 +746,9 @@ Kurze Erklärungen wichtiger Abkürzungen:
   und fällt nach Konflikt- oder HQ-Reset auf 0; ab 5 folgt SG +4, bei 6 greift
   der Reboot.
 - **Stress** - Mentale Belastung (0-10). 10 ⇒ Zustand Panik.
-- **Px** - Paradoxon-Index (kampagnenweit). Bei 5 verrät `ClusterCreate()` neue
-  Rifts und setzt den Wert auf 0.
+- **Px** - Paradoxon-Index: in `solo`/`npc-team` runbezogen, in `gruppe`
+  kampagnenweit. Bei 5 verrät `ClusterCreate()` neue Rifts und setzt den Wert
+  auf 0.
 - **Tier-Gate** - Lizenzschranke im HUD; blockiert Ausrüstung oberhalb der
   freigeschalteten Tier-Stufe, bis Ruf und Lizenz passen (siehe
   [Charaktererschaffung][char-gear]).
