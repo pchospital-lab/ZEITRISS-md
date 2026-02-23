@@ -1269,7 +1269,8 @@ danach öffnet sich das HQ-Menü:
 ### Würfelbefehl mit Audit-Trail
 
 `/roll 1d6 e6` → 6 → explode → +5 = 11 (Log-ID #abc123)
-Nur der **erste** W6 einer Probe darf erneut geworfen werden. Weitere 6er zählen ohne Explosion.
+Jeder Würfel darf bei einem Maximalwert genau **einmal** explodieren (Burst-Cap 1 pro Würfel).
+Weitere Maximalwerte im Exploding-Zusatzwurf zählen normal und lösen keine neue Explosion aus.
 
 Die Log-ID gehört in den Save-Block
 ([speicher-fortsetzung.md](gameflow/speicher-fortsetzung.md)),
@@ -4308,4 +4309,3 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
   ⟨% set arena.teamB = [player2] %⟩
   ⟪ arena_start_round() ⟫
 ⟨%- endmacro %⟩
-
