@@ -20,6 +20,11 @@ Verbindliche Nachverfolgung liegt ab jetzt in:
 
 Hinweis: ZR-010 läuft nach Kurskorrektur als wartbarer Mirror-Pfad weiter: Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/` dient nur der QA-/Review-Spiegelung.
 
+Nachtrag zur offenen Audit-Frage „Team-TEMP im Gruppenspiel":
+entschieden als `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`
+(GRP = Gruppe). „Forward-only mode“ wurde nicht beauftragt und daher nicht als
+Runtime-Standard übernommen.
+
 Aktivierte Connectoren: **github**.
 
 ## Executive Summary

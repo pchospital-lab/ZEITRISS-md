@@ -246,6 +246,11 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
     im HUD als Fortschrittsbalken angezeigt.
   - **gruppe:** Die Kampagne nutzt einen gemeinsamen Px-Wert
     (`campaign.px`/Host-Save als führende Quelle).
+- **Gruppen-TEMP (SSOT):** In `gruppe` wird für Px-ETA, Fahrzeug-Verfügbarkeit
+  und TEMP-basierte Runtime-Frequenzen ein gemeinsamer Teamwert verwendet:
+  `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`. Fehlt ein
+  Charakterwert, zählt er als 0; liegt kein Team-Array vor, nutzt die Runtime
+  den vorhandenen Fallback (`state.temp`, sonst `campaign.temp`).
 - **Default bei Fehlschlag:** kein Px-Abzug. Stattdessen greifen Konsequenzen
   über Ressourcen und Lagebild (z. B. weniger CU, mehr Stress/Heat,
   verschärfte Missionsfolgen).

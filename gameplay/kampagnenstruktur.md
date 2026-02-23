@@ -1370,6 +1370,11 @@ Verladung im Museum oder wartet in einem Depot.
 
 **TEMP bestimmt die Verfügbarkeit** (analog zur Px-Füllung):
 
+Im Modus `gruppe` gilt dafür ein gemeinsamer Teamwert:
+`TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`. Dieser
+aufgerundete Durchschnitt steuert die Frequenz identisch für die gesamte
+Gruppe (Host-Save führend).
+
 | TEMP | Fahrzeug verfügbar | Exaktheit |
 |-----:|-------------------|-----------|
 | 1–3 | Alle 5 Missionen | Ungefähr passend, improvisiert |
