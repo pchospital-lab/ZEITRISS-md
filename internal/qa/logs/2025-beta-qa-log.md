@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.57
+version: 0.4.58
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-010 Toolkit/Runtime entkoppelt (Mirror-Schritt)
+- Fokus: Den offenen Deep-Research-Folgeauftrag ZR-010 anfahren, damit
+  Runtime-Makros getrennt von Leitfaden-Text nachverfolgbar sind.
+- Scope: `systems/toolkit-gpt-spielleiter.md`,
+  `internal/runtime/toolkit-runtime-makros.md`,
+  `tools/lint_runtime.py`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`,
+  `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Runtime-Makroblock als dedizierter Mirror in
+     `internal/runtime/toolkit-runtime-makros.md` abgelegt.
+  2. Toolkit mit explizitem Mirror-Hinweis ergänzt, damit Wartungspfad und
+     Rollenabgrenzung nachvollziehbar bleiben.
+  3. `tools/lint_runtime.py` liest Toolkit + Runtime-Mirror als gemeinsames
+     Prüf-Bundle, damit Guard-Checks bei der Entkopplung stabil bleiben.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-010: **in Umsetzung** (Mirror-Schritt abgeschlossen, Resthärtung offen).
 
 ## 2026-02-23 – Repo-Agent – ZR-005 Chronopolis-Todesregel vereinheitlicht
 - Fokus: Widerspruch bei Chronopolis-Tod ("Aufwachen im HQ" vs. Gruppen-

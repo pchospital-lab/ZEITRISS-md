@@ -11,14 +11,14 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-003 (Px-Scope solo/npc-team vs. gruppe): abgeschlossen.
 - ZR-004 (HQ-Loop-Invariante, kein Default-Skip): abgeschlossen.
 - ZR-005 (Chronopolis/Tod ohne Free-Respawn): abgeschlossen.
+- ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): im Mirror-Schritt umgesetzt.
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
 - `internal/qa/plans/2026-02-23-regelupdate-followup.md`
 - `internal/qa/logs/2025-beta-qa-log.md`
 
-Hinweis: Weitere, nicht im ersten Block umgesetzte Deep-Research-Tickets
-(z. B. ZR-010) bleiben als separate Folgeaufträge bestehen.
+Hinweis: Der erste Entkopplungs-Schritt zu ZR-010 ist umgesetzt (Runtime-Mirror unter `internal/runtime/`); Resthärtung bleibt als Wartungsaufgabe im QA-Pfad.
 
 Aktivierte Connectoren: **github**.
 
