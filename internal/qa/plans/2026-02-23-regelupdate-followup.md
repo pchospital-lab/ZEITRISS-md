@@ -13,11 +13,10 @@ Dieses Follow-up protokolliert offene QA-Befunde aus dem Regelupdate-Lauf
 - ✅ Erledigt: `make lint`, `bash scripts/smoke.sh`,
   `python3 scripts/lint_doc_links.py` und `python3 scripts/lint_umlauts.py`
   laufen vollständig durch.
-- ⚠️ Offen: `make test` scheitert weiterhin in `tools/test_economy_merge.js`
-  mit dem vorbestehenden Schema-Fehler
-  `saveGame.ui.action_mode erwartet Wert uncut` beim Laden des Test-Saves.
+- ✅ Erledigt: `tools/test_economy_merge.js` nutzt im Merge-Test jetzt ein
+  schema-konformes `incomingSave.ui.action_mode="uncut"`; `make test` läuft
+  wieder grün.
 
-## Nächster Durchlauf
-1. Testfixture bzw. Testpfad in `tools/test_economy_merge.js` gegen das
-   aktuelle Save-Schema prüfen (`ui.action_mode='uncut'` als verbindlicher Wert).
-2. Danach `make test` erneut laufen lassen und das Ergebnis hier ergänzen.
+## Abschlussstand
+Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
+Pflichtprüfungs-Punkte mehr aus dem Regelupdate-Lauf vom 2026-02-23.
