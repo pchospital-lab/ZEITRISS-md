@@ -34,6 +34,8 @@ Steuerung erfolgt ausschließlich über `internal/qa/plans/` und
 - ✅ ZR-003: Px-Scope für solo/npc-team vs. gruppe präzisiert.
 - ✅ ZR-004: HQ-Rückkehr als Loop-Invariante durchgezogen.
 - ✅ ZR-005: Chronopolis-Todesregel ohne Free-Respawn vereinheitlicht.
+- ✅ ZR-006: Physicality-Gate vereinheitlicht (Armbänder nur als Tracker,
+  kein Handgelenk-HUD).
 
 - ✅ ZR-010: Korrigiert auf "Mirror ohne Auslagerung" (Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/toolkit-runtime-makros.md` bleibt reiner QA-/Review-Spiegel).
 
@@ -64,3 +66,18 @@ nachgezogen.
 Damit ist der nächste sinnvolle Konsistenz-Schritt im Bereich
 Heil-/Zustandsbezeichnungen umgesetzt; die eigentliche Balance-Feinjustierung
 bleibt bei Bedarf als separater Lauf möglich.
+
+## Nachzug ZR-006 – Physicality Gate (Tracker ja, Handgelenk-HUD nein)
+
+Im nächsten Schritt der Upload-Abarbeitung wurde der Drift zwischen Core- und
+HUD-/Toolkit-Regelwerk zur Gerätephysik bereinigt.
+
+- `core/zeitriss-core.md`: Hardware-Abschnitt auf den SSOT aus
+  `characters/hud-system.md` und `systems/toolkit-gpt-spielleiter.md`
+  gezogen. Armbänder bleiben als Tracker zulässig, HUD-Projektion bleibt
+  exklusiv auf Linse/Comlink/Terminal; externe Projektoren bleiben
+  ausgeschlossen.
+
+Damit ist ZR-006 als inhaltlicher Terminologie-/Regelabgleich abgeschlossen;
+offen bleibt aus dem Upload-Block nur noch der optionale Balance-Feinschliff zu
+ZR-007.
