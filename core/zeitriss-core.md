@@ -309,23 +309,23 @@ gliedert sich in zwei Phasen:
 - **Phase 1 (Level 1-10):** Schneller Einstieg — jede abgeschlossene Mission
   bringt sofort ein Level-Up. So lernen Spieler die Mechaniken und bauen ihren
   Charakter auf, ohne auf Belohnungen warten zu müssen.
-- **Phase 2 (ab Level 11):** Gestaffelte Progression — der EP-Bedarf steigt
+- **Phase 2 (ab Level 11):** Gestaffelte Progression — der XP-Bedarf steigt
   moderat an, Fortschritt erfolgt zunehmend horizontal über Prestige-Perks,
   Signature-Aktionen und Team-Perks statt nur über Zahlenwachstum.
 
 #### Erfahrungspunkte & Stufenaufstieg
 
-- **EP-Kurve:** Level 1–10 folgt dem vereinfachten System: Jede abgeschlossene
-  Mission bringt sofort ein Level-Up. Ab Level 11 steigen die EP-Anforderungen
+- **XP-Kurve:** Level 1–10 folgt dem vereinfachten System: Jede abgeschlossene
+  Mission bringt sofort ein Level-Up. Ab Level 11 steigen die XP-Anforderungen
   pro Stufe moderat an. Die konkrete Tabelle:
 
-  | Level | EP pro Level | Kumulativ |
+  | Level | XP pro Level | Kumulativ |
   |-------|-------------|-----------|
-  | 1–10 | 1 EP (= 1 Mission) | 10 EP |
-  | 11–20 | 2 EP | 30 EP |
-  | 21–30 | 3 EP | 60 EP |
-  | 31–50 | 4 EP | 140 EP |
-  | 51–100 | 5 EP | 390 EP |
+  | 1–10 | 1 XP (= 1 Mission) | 10 XP |
+  | 11–20 | 2 XP | 30 XP |
+  | 21–30 | 3 XP | 60 XP |
+  | 31–50 | 4 XP | 140 XP |
+  | 51–100 | 5 XP | 390 XP |
 
   **Prestige-Meilensteine:**
 
@@ -338,7 +338,7 @@ gliedert sich in zwei Phasen:
 
   Das **Spielfluss**-Tempo bleibt anfangs zügig (neue Helden entwickeln
   sich schnell) und verlangsamt sich später behutsam, damit die Kampagne lange
-  spannend bleibt. **Balance:** Die steigende EP-Kurve verhindert, dass Charaktere
+  spannend bleibt. **Balance:** Die steigende XP-Kurve verhindert, dass Charaktere
   zu rasch extrem hohe Stufen erreichen, ohne sie jedoch künstlich auszubremsen —
   _"immer eine nächste Stufe in Reichweite"_. **Storytelling:** Level-Aufstiege
   passen sich dem Tempo der Handlungsbögen an, während regelmäßige Fortschritte
@@ -367,8 +367,10 @@ Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 - **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an
   und gewährt breiteren Zugriff auf Ausrüstung. Ab Level 10 schaltet Kodex den
   **Chronopolis-Schlüssel** frei — Zugang zur gescheiterten Zeitlinie der aktuellen
-  Episode. Chronopolis ist düster, instanziert, ohne Waffenruhe. Tod dort = Aufwachen
-  im HQ, Items des Runs verloren. Was man lebend rausbringt: behalten.
+  Episode. Chronopolis ist düster, instanziert, ohne Waffenruhe. Vor dem
+  Schleuseneintritt fragt Kodex verbindlich nach einem HQ-DeepSave. Tod dort folgt
+  denselben Konsequenzen wie in Core/Rift-Missionen (kein Traum-Reset). Was man
+  lebend rausbringt: behalten.
 - **Level 50 → Eigener Fraktionssektor im HQ:**
   Auf diesem Rang erhalten die Chrononauten oftmals eine eigene Kommandozentrale
   innerhalb ihres Fraktionskomplexes.
@@ -627,7 +629,7 @@ insbesondere:
   Herkunftsepoche.
 - **Attribute:** Alle aktuellen Attributswerte des Charakters (inklusive durch Level-Ups
   verbesserter Werte oder temporärer Modifikatoren).
-- **Level & EP:** Die aktuelle Stufe und die angesammelten Erfahrungspunkte, um den Fortschritt im
+- **Level & XP:** Die aktuelle Stufe und die angesammelten Erfahrungspunkte, um den Fortschritt im
   Blick zu haben.
 - **Talente & Fähigkeiten:** Alle besonderen Talente, Fertigkeiten oder Zeitreise-Kräfte, die der
   Charakter besitzt.

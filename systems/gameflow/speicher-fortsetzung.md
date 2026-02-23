@@ -47,16 +47,17 @@ diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
 ## Save-Prompts im HQ-Flow
 - **Grundregel:** Save-Prompts nur, wenn die Crew frei im HQ ist oder es verlassen will; niemals in
   Missionen, Arenawarteschlangen oder Chronopolis.
-- **Empfohlene Trigger (chronologisch):**
-  - Direkt nach Charaktererstellung beim ersten Betreten des HQ ("Erster HQ-Stand, bitte DeepSave").
-  - Nach jedem Debrief, sobald die Belohnungen verbucht sind und die Crew wieder frei im HQ steht.
-  - Vor jedem neuen Briefing/Absprung (Core, Rift, PVP-Arena): erst speichern, dann Briefing
-    anfordern/mission locken, damit der Save im HQ startet und kein offenes Missions-Block im JSON
-    landet.
-  - Bei langen HQ-Freeplay-Phasen: kurz erinnern, sobald eine neue freie Runde beginnt (z. B. nach
-    Arena-Matches oder Side-Activities), aber nur wenn `arena.queue_state == idle`.
-- **Chronopolis & Arena:** Chronopolis zählt als City und blockiert Save-Prompts; erst zurück im HQ
-  erneut anregen. PVP-Arena speichert nicht - Save-Prompt erst nach Rückkehr ins HQ bei
+- **Verbindliche Trigger (chronologisch):**
+  - **Vor dem Briefing/Absprung** (Core, Rift, PVP-Arena): erst speichern, dann Briefing anfordern,
+    damit der Save im HQ startet und kein offener Missionsblock im JSON landet.
+  - **Nach jedem Debriefing**: sobald Belohnungen verbucht sind und die Crew wieder frei im HQ steht.
+  - **Nach längeren HQ-Freerun-Phasen**: sobald ein größerer Umbau/Shop/Clinic-/Werkstatt-Block
+    abgeschlossen ist (insbesondere vor einem Themenwechsel im Chat).
+  - **Vor Chronopolis-Schleuseneintritt**: Kodex fragt verpflichtend „Jetzt HQ-DeepSave erstellen?“,
+    erst danach startet die Schleuse.
+  - **Nach Chronopolis-Rückkehr ins HQ**: sofortiger Save-Prompt, damit Runs entkoppelt bleiben.
+- **Chronopolis & Arena:** Chronopolis zählt als City und blockiert Saves. PVP-Arena speichert
+  ebenfalls nicht - Save-Prompts greifen erst nach Rückkehr ins HQ bei
   `queue_state=idle|completed`.
 - **Chat-Hygiene:** Empfohlen ist ein frischer Chat pro HQ→Mission→HQ-Zyklus. Leite nach dem Save
   an: "Nächster Chat? JSON importieren, dann weiter." So bleibt der Deepsave die einzige Quelle der
@@ -1139,12 +1140,25 @@ verpflichtend und wird im Debrief sichtbar dokumentiert:
 
 1. **Auto-Loot** (Loot/Artefakte/Relikte automatisch zählen & loggen).
 2. **CU & Wallet-Split** (HQ-Pool aktualisieren, Wallets verteilen).
-3. **EP/Skills** (Level-Up/Skill-Picks aktiv abfragen).
+3. **XP/Skills** (Level-Up/Skill-Picks aktiv abfragen).
 4. **Freeplay-Anker** - explizites Menü mit **Bar**, **Werkstatt**, **Archiv**
    plus **1 Gerücht** (kurzer Hook) anbieten.
 
 Optional für QA: `logs.flags.hq_freeplay_prompted=true` setzen, sobald Schritt 4
 gespielt wurde.
+
+### Gruppenregel bei Todesfällen (Core/Rift/Chronopolis)
+
+Im Modus `gruppe` wird bei einem Spieler-Tod die Szene sofort gestoppt. Kodex
+stellt dann verbindlich eine Gruppenentscheidung:
+
+1. **Tod bleibt Kanon.** Die Geschichte läuft mit dem Verlust weiter; Debrief
+   und Logs markieren den Tod als narrative Konsequenz.
+2. **Neu laden.** Die Gruppe öffnet ein neues Chatfenster, lädt den letzten
+   **Gruppen-DeepSave** und startet den Einsatz erneut.
+
+Diese Abfrage gilt identisch in Core-, Rift- und Chronopolis-Einsätzen.
+Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
 
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 

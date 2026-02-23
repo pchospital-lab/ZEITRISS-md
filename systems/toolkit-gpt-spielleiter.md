@@ -480,7 +480,7 @@ if not char.get("psi") and not char.get("has_psi"):
       nur Felder mit Prozent-Bezug (`percent`, `percent_share`) werden auf 0-1
       bzw. 0-100 % normiert.
 - **HQ-Loop-Contract (Debrief → Freeplay):** Auto-Loot → CU/Wallet-Split →
-  EP/Skill-Prompt → explizites Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht).
+  XP/Skill-Prompt → explizites Freeplay-Menü (Bar/Werkstatt/Archiv + 1 Gerücht).
   Für QA optional `logs.flags.hq_freeplay_prompted=true` setzen.
 - `NextScene()` erhöht `campaign.scene` über das interne `EndScene()`.
   Core-Ops nutzen **12** Szenen, Rift-Ops **14**. Kennzeichne den Missionstyp im
@@ -686,7 +686,7 @@ Rohtext oder HTML-Kommentar im Chat erscheinen.
 ### SceneCounter Macro
 Früher nutzte man `SceneCounter++`. Jetzt übernimmt `NextScene()` das Erhöhen
 von `campaign.scene` über das interne `EndScene()`. Das HUD zeigt `EP xx · MS yy ·
-SC zz/<total>` - `EP` ist die Episode, `MS` die Mission in dieser Episode und
+SC zz/<total>` - `EP` steht ausschließlich für Episode, `MS` für die Mission in dieser Episode und
 `SC` die Szene; die Gesamtzahl wird beim Aufruf von `NextScene()` übergeben.
 Core-Ops spielen mit **12** Szenen, Rift-Ops mit **14**. Bei Erreichen des
 Limits folgt ein Cliffhanger oder Cut.
@@ -724,6 +724,17 @@ Makros wie `DelayConflict` auswerten. Alternativ lässt sich
 > leeren Werten auf `core` zurück. Füttere Makros, Seeds und Resume-Inputs
 > nur mit `core|transfer|rift` in Kleinbuchstaben, damit HUD, Save und
 > E2E-Trace synchron bleiben.
+
+### Gruppen-Todesentscheid (Pflichtdialog)
+
+Im Modus `gruppe` gilt bei Todesfällen (Core, Rift, Chronopolis) immer derselbe
+Dialogblock. Die Spielleitung stoppt die Szene und fragt:
+
+1. **Tod bleibt Kanon** (Story läuft mit Verlust weiter), oder
+2. **Neu laden** (neues Chatfenster öffnen, letzten Gruppen-DeepSave laden,
+   Einsatz erneut starten).
+
+Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
 
 ### Load → HQ-Phase oder Briefing
 
@@ -2653,8 +2664,8 @@ HQ-Overlay).
 
 ⟨% macro chrono_warn_once() -%⟩
   ⟨% if not state.logs.flags.chronopolis_warn_seen %⟩
-    ⟪ hud_tag('Chronopolis entzieht sich jeder bekannten Zeitlinie. ' ~
-      'Nur wer die Konsequenzen akzeptiert, tritt ein.') ⟫
+    ⟪ hud_tag('Chronopolis folgt Einsatzregeln: Tod ist endgültig. ' ~
+      'Vor Schleuseneintritt jetzt HQ-DeepSave anbieten.') ⟫
     ⟨% set state.logs.flags.chronopolis_warn_seen = true %⟩
   ⟨% endif %⟩
 ⟨%- endmacro %⟩
@@ -2668,6 +2679,7 @@ HQ-Overlay).
     ⟪ hud_tag('Zugang verweigert - Chronopolis-Schlüssel ab Level 10 erforderlich') ⟫⟨% return %⟩
   ⟨% endif %⟩
   ⟪ chrono_warn_once() ⟫
+  ⟪ hud_tag('Vor Chronopolis: HQ-DeepSave bestätigen oder bewusst ohne Save fortfahren') ⟫
   ⟨% set campaign.loc = 'CITY' %⟩
   ⟨% set chrono = {
     'active': true, 'district': district, 'epoch': ep,
@@ -2766,7 +2778,7 @@ HQ-Overlay).
 ⟨% macro chrono_hud(phase="") -%⟩
 ⟨% set segs = [
   "CHRONOPOLIS·", chrono.district,
-  " · EP ", (chrono.epoch or "-"),
+  " · EPOCHE ", (chrono.epoch or "-"),
   " · PRC×", chrono.price_mod,
   " · BLK×", chrono.black_mod
 ] %⟩
