@@ -146,30 +146,35 @@ Montauk-Projekt von 1983 sind in der Welt von _Zeitriss_ real. Geheim durchgefü
 des Militärs versuchten bereits im 20. Jahrhundert, Teleportation und Unsichtbarkeit zu
 ermöglichen - angeblich wurde der Zerstörer **USS _Eldridge_** in Philadelphia unsichtbar
 gemacht und kurzzeitig durch Raum und Zeit versetzt. Die Montauk-Forschungen der 1980er knüpften
-daran an und umfassten _Zeitreisen_, _Teleportation_, _Gedankenkontrolle_ und sogar _Kontakt
-mit außerirdischem Leben_. Unbemerkt von der Öffentlichkeit öffneten diese Experimente ein
+daran an und umfassten _Zeitreisen_, _Teleportation_, _Gedankenkontrolle_ und sogar angeblichen
+_Kontakt mit außerirdischem Leben_. Im ITI gilt diese Erzählung als Deckbegriff für
+zeitversetzte Signaturen oder fehlklassifizierte Psi-Effekte, bis harte Beweise vorliegen.
+Unbemerkt von der Öffentlichkeit öffneten diese Experimente ein
 Tor zu etwas, das größer ist als alle zuvor dagewesenen Technologien: ein Riss in der Zeit
 selbst - ein _Zeitriss_, der verschiedene Epochen miteinander verbindet.
 
 Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des **Instituts für
 Temporale Intervention (ITI)**. Eine internationale Koalition rief das ITI ins Leben, um solche
-Paradoxien einzudämmen und künftige Zeitrisse zu überwachen. Im größeren Kontext existiert
-eine **Galaktische Föderation** mit 56 Alienarten, die die Menschheit lediglich beobachten. Das
-ITI entstand rein durch menschliche Initiative und vereint Pro- sowie Contra-Fraktionen. Ein Rat
-leitet das Institut; Bündnisse mit Aliens sind nicht möglich. Erst bei höherem Bewusstsein
-wird eine Spezies Gesprächspartner - Menschen gelten bislang als unwichtig.
+Paradoxien einzudämmen und künftige Zeitrisse zu überwachen. In beschlagnahmten Dossiers
+tauchen Hinweise auf eine **Galaktische Föderation** mit 56 Spezies auf, doch das ITI
+behandelt diese Spur als unbestätigte Legende, bis belastbare Beweise vorliegen. Das ITI entstand rein
+durch menschliche Initiative und vereint Pro- sowie Contra-Fraktionen. Ein Rat leitet das
+Institut; verbindliche Bündnisse mit nicht verifizierten Fremdakteuren gibt es nicht.
 
 ### Beispielkampagne: ChronTech-Komplott
 
 Eine mögliche Storyline dreht sich um den Megakonzern **ChronTech**. Die Helden infiltrieren
 zu Beginn eine geheime ChronTech-Operation und stoßen dabei auf den Versuch, den Verlauf der
-Geschichte dramatisch zu verändern. Dahinter steht ein charismatischer CEO, der ohne echte
-Alienunterstützung die Zeitlinie zu seinen Gunsten formen will. Folgende Fraktionen können
+Geschichte dramatisch zu verändern. Dahinter steht ein charismatischer CEO, der mit
+Gerüchten über „fremde Unterstützer" die Zeitlinie zu seinen Gunsten formen will.
+Folgende Fraktionen können
 dabei eine Rolle spielen:
 
 - **Projekt _Phoenix_** - ein Zirkel ehemaliger Montauk-Veteranen,
   der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
-- **Die Grauen** - technikaffine Aliens mit rätselhaften Hinterlassenschaften; die Föderation ignoriert die Menschheit.
+- **Die Grauen** - Deckname für eine technikaffine Fremdfraktion mit rätselhaften
+  Hinterlassenschaften; ob dahinter Menschen, Zeitversetzte oder etwas anderes steht,
+  bleibt offen.
 - **Der Alte Orden** - Geheimgesellschaften mit Wurzeln in antiken Kulturen,
   die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** - Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.
@@ -178,7 +183,8 @@ dabei eine Rolle spielen:
 mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über besondere
 Fähigkeiten wie Telepathie, Telekinese, präkognitive Visionen oder Gedankenkontrolle. Diese
 Psi-Kräfte sind das Ergebnis genetischer Experimente, intensiven Trainings oder der
-Einwirkung außerirdischer Technologie. Begabte Psioniker können etwa Gedanken lesen oder
+Einwirkung experimenteller oder zeitversetzter Technologie. Begabte Psioniker können etwa
+Gedanken lesen oder
 Gegner mittels Telekinese entwaffnen. Technologische Hilfsmittel verstärken oder blockieren
 Psionik: Gedankenhemmer, Psi-Verstärker und neuronale Implantate sind Teil der Spielwelt. In
 der Kampagne begegnen die Helden psionisch begabten Widersachern - vom Montauk-Telepathen,
