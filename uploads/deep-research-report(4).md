@@ -11,14 +11,14 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-003 (Px-Scope solo/npc-team vs. gruppe): abgeschlossen.
 - ZR-004 (HQ-Loop-Invariante, kein Default-Skip): abgeschlossen.
 - ZR-005 (Chronopolis/Tod ohne Free-Respawn): abgeschlossen.
-- ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): im Mirror-Schritt umgesetzt.
+- ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): als **Mirror ohne Runtime-Auslagerung** weitergeführt (Toolkit bleibt Laufzeitquelle).
 
 Verbindliche Nachverfolgung liegt ab jetzt in:
 
 - `internal/qa/plans/2026-02-23-regelupdate-followup.md`
 - `internal/qa/logs/2025-beta-qa-log.md`
 
-Hinweis: Der erste Entkopplungs-Schritt zu ZR-010 ist umgesetzt (Runtime-Mirror unter `internal/runtime/`); Resthärtung bleibt als Wartungsaufgabe im QA-Pfad.
+Hinweis: ZR-010 läuft nach Kurskorrektur als wartbarer Mirror-Pfad weiter: Runtime-Makros bleiben vollständig im Toolkit; `internal/runtime/` dient nur der QA-/Review-Spiegelung.
 
 Aktivierte Connectoren: **github**.
 
@@ -211,14 +211,14 @@ Effort: **S** (≤1h), **M** (½–1 Tag), **L** (1–3 Tage), **XL** (>3 Tage).
 **Problem:** `systems/toolkit-gpt-spielleiter.md` enthält zugleich Regel-/Stiltext und massiven Runtime‑Code/Template‑Fragmente. Das erzeugt Drift und erhöht das Risiko, dass „Makros im Chat erscheinen“ – was der Text selbst verbietet.
 
 **Fix-Vorschlag:**
-- Split:
-  - `systems/toolkit-gpt-spielleiter.md` bleibt „Human‑Readable“ (Stil, Leitplanken, SSOT‑Anker).
-  - Neuer Ordner `internal/runtime/` (oder `internal/templates/`) für Makros/Code.
-  - Toolkit referenziert diese Dateien nur noch knapp („siehe internal/runtime/...“).
+- Mirror-first statt Auslagerung:
+  - `systems/toolkit-gpt-spielleiter.md` bleibt **Human-Readable + vollständige Runtime-Quelle** für die GPT-Spielleitung.
+  - `internal/runtime/` führt Makros nur als Spiegel für QA/Review-Diffs.
+  - Toolkit darf den Runtime-Block nicht auf externe Dateien verweisen oder davon abhängig machen.
 
 **Severity:** P1  
 **Effort:** L  
-**Commit Message:** `refactor(toolkit): split docs vs runtime-macros into internal/runtime`
+**Commit Message:** `fix(toolkit): keep runtime macros in toolkit, use internal mirror for QA only`
 
 ---
 

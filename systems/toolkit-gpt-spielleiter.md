@@ -1415,9 +1415,11 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 > der Regeltext steht oben. Makros laufen intern und dürfen nie als
 > Rohtext im Chat erscheinen.
 >
-> Mirror (ZR-010): `internal/runtime/toolkit-runtime-makros.md` führt diesen
-> Runtime-Block als separates Entwicklungsartefakt, damit technische Makros
-> und Leitfaden-Text synchron, aber entkoppelt gepflegt werden können.
+> Mirror (ZR-010): `internal/runtime/toolkit-runtime-makros.md` spiegelt diesen
+> Runtime-Block als internes Entwicklungsartefakt. **Der vollständige
+> Runtime-Block bleibt verpflichtend in diesem Toolkit enthalten** (GPT-Laufzeit-
+> Quelle); der Mirror dient nur QA/Review und darf den Toolkit-Inhalt nie
+> ersetzen.
 
 ⟨# === Init-Block: Variablen & Defaults === #⟩
 ⟪ hud_tag(segs|join('')) ⟫

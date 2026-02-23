@@ -1,10 +1,36 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.58
+version: 0.4.59
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-010 Kurskorrektur (Toolkit bleibt Runtime-Quelle)
+- Fokus: Rückmeldung aus dem laufenden Deep-Research-Follow-up umsetzen:
+  Runtime-Makros dürfen nicht aus `systems/toolkit-gpt-spielleiter.md`
+  herausgelöst werden, weil die GPT-Spielleitung den Toolkit-Block direkt
+  benötigt.
+- Scope: `systems/toolkit-gpt-spielleiter.md`,
+  `internal/runtime/toolkit-runtime-makros.md`,
+  `tools/lint_runtime.py`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`,
+  `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Mirror-Text geschärft: Runtime bleibt verpflichtend im Toolkit; Mirror ist
+     nur QA-/Review-Artefakt.
+  2. Runtime-Lint wieder auf Toolkit als Primärquelle gehärtet (Makro-/Guard-
+     Checks prüfen den Toolkit-Inhalt direkt).
+  3. QA-/Upload-Tracking auf den korrigierten ZR-010-Status synchronisiert.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-010: **in Umsetzung** (Mirror bleibt, Runtime bleibt im Toolkit; keine Auslagerung).
 
 ## 2026-02-23 – Repo-Agent – ZR-010 Toolkit/Runtime entkoppelt (Mirror-Schritt)
 - Fokus: Den offenen Deep-Research-Folgeauftrag ZR-010 anfahren, damit
