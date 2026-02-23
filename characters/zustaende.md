@@ -321,7 +321,7 @@ Lebenspunkte hinausgehen:
     Punkten droht ein **Kurzzeit-Zusammenbruch** - Panik, Flucht oder Starre. Stress sinkt in
     HQ-Phasen durch **Entspannung** (ruhige HQ-Phase setzt das Konto auf **0**) oder durch
   **rollenspielerische Maßnahmen**: Gespräch mit einem NSC, Meditationstraining oder ein Abend in
-  der Bar. Das Modul verleiht Psyche Gewicht: Spieler achten auf HP **und** auf Pausen zum
+  der Bar. Das Modul verleiht Psyche Gewicht: Spieler achten auf LP **und** auf Pausen zum
   Durchatmen.
   Stress sollte **nicht überstrapaziert** werden - es ist ein Drama-Element, kein dauerhafter
   Malus-Hagel. Die SL kann Stresspunkte verdeckt führen und nur Effekte beschreiben

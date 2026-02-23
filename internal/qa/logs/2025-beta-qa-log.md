@@ -6,6 +6,28 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+## 2026-02-23 – Repo-Agent – ZR-007 Terminologiepass (LP statt HP in Heilmodulen)
+- Fokus: Nächsten Folgepunkt aus `uploads/deep-research-report(4).md` umsetzen:
+  LP/HP-Begriffe in Heil-/Zustandsmodulen konsistent halten.
+- Scope: `characters/ausruestung-cyberware.md`, `characters/zustaende.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Ausrüstungstabelle korrigiert: „Nano-Bindepflaster" heilt jetzt konsistent
+     **4 LP** (statt HP).
+  2. Zustandsmodul im Stress-/Heilungstext sprachlich auf **LP** vereinheitlicht.
+  3. Follow-up-Fahrplan + Upload-Hinweis nachgezogen, damit der nächste
+     Deep-Research-Folgeschritt transparent dokumentiert ist.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-007: **teilweise abgeschlossen** (Terminologie bereinigt; Balance-Feinschliff optional).
+7. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
+
 ## 2026-02-23 – Repo-Agent – GRP/TEMP-SSOT (Gruppenmittel aufgerundet)
 - Fokus: Offene Auslegungsfrage aus `uploads/deep-research-report(4).md`
   abschließen: Wie wird TEMP im Modus `gruppe` berechnet.
