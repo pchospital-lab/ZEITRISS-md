@@ -51,8 +51,9 @@ Körperwärme) und besitzen eigene Mikro-CPUs, sodass HUD und Logging auch
 ohne aktive Kodex-Verbindung funktionieren. Die Kontaktlinse projiziert
 Seed- oder Cluster-IDs, Vitalwerte, Missionsziele und Stabilitätshinweise
 direkt ins Sichtfeld. Das Comlink übernimmt die Kodex-Synchronisation;
-fällt die Verbindung aus, bleibt das HUD lokal aktiv. **Keine**
-Armbänder oder externen Projektoren.\*
+fällt die Verbindung aus, bleibt das HUD lokal aktiv. **Armbänder sind
+als Tracker erlaubt**, projizieren aber kein HUD; **externe Projektoren
+bleiben ausgeschlossen**.\*
 
 ### Tonalität & Immersion
 

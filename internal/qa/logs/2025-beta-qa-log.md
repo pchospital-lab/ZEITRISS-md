@@ -1,10 +1,35 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.60
+version: 0.4.61
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-23 – Repo-Agent – ZR-006 Physicality-Gate konsolidiert (Tracker ja, HUD nein)
+- Fokus: Nächsten sinnvollen Deep-Research-Folgeschritt aus
+  `uploads/deep-research-report(4).md` umsetzen und den Hardware-Standard für
+  HUD/Signalgeräte ohne Widerspruch führen.
+- Scope: `core/zeitriss-core.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(4).md`.
+- Ergebnis:
+  1. Core-Hardwaretext mit HUD-/Toolkit-SSOT harmonisiert:
+     Armbänder sind als Tracker erlaubt, aber ohne Handgelenk-HUD.
+  2. Externe Projektoren bleiben ausgeschlossen; Linse/Comlink/Terminal bleiben
+     die einzigen HUD-Träger.
+  3. Fahrplan + Upload-Archivhinweis synchronisiert, damit der ZR-006-Status
+     im operativen Pfad nachvollziehbar bleibt.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-001: **abgeschlossen**.
+2. ZR-002: **abgeschlossen**.
+3. ZR-003: **abgeschlossen**.
+4. ZR-004: **abgeschlossen**.
+5. ZR-005: **abgeschlossen**.
+6. ZR-006: **abgeschlossen**.
+7. ZR-007: **teilweise abgeschlossen** (Terminologie bereinigt; Balance-Feinschliff optional).
+8. ZR-010: **abgeschlossen** (Mirror ohne Runtime-Auslagerung).
 
 ## 2026-02-23 – Repo-Agent – ZR-007 Terminologiepass (LP statt HP in Heilmodulen)
 - Fokus: Nächsten Folgepunkt aus `uploads/deep-research-report(4).md` umsetzen:

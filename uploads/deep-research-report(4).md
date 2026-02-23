@@ -11,6 +11,7 @@ bereits im Repo abgearbeitet und im operativen QA-Pfad dokumentiert.
 - ZR-003 (Px-Scope solo/npc-team vs. gruppe): abgeschlossen.
 - ZR-004 (HQ-Loop-Invariante, kein Default-Skip): abgeschlossen.
 - ZR-005 (Chronopolis/Tod ohne Free-Respawn): abgeschlossen.
+- ZR-006 (Physicality-Gate: Armbänder-Regel): abgeschlossen (Armbänder nur als Tracker, kein Handgelenk-HUD).
 - ZR-010 (Toolkit: Regeltext vs. Runtime-Makros entkoppeln): als **Mirror ohne Runtime-Auslagerung** weitergeführt (Toolkit bleibt Laufzeitquelle).
 - ZR-007 (Heilung/Medkit, LP≠HP): Terminologiepass nachgezogen (LP vereinheitlicht in Ausrüstung/Zustände); numerischer Balance-Feinschliff bleibt optionaler Folgepunkt.
 
@@ -25,6 +26,10 @@ Nachtrag zur offenen Audit-Frage „Team-TEMP im Gruppenspiel":
 entschieden als `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`
 (GRP = Gruppe). „Forward-only mode“ wurde nicht beauftragt und daher nicht als
 Runtime-Standard übernommen.
+
+Nachtrag ZR-006 (2026-02-23): Hardware-Physicality konsolidiert; Armbänder sind als
+Tracker zulässig, projizieren aber kein HUD. Externe Projektoren bleiben
+ausgeschlossen.
 
 Nachtrag ZR-007 (2026-02-23): LP/HP-Schreibweise in den priorisierten Heil-
 und Zustandsmodulen wurde auf **LP** vereinheitlicht (Terminologie-Closure);
