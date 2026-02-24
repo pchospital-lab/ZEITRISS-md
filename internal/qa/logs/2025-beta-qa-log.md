@@ -1,10 +1,34 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.67
+version: 0.4.68
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-24 – Repo-Agent – Transfer/Schleusen-SSOT aus Deep-Research-Report(5)
+- Fokus: Upload `uploads/deep-research-report(5).md` in Runtime- und
+  Wissensmodule überführen (Rissbild, Sortiermoment, Passagierlogik,
+  Chronopolis-Schleusenbeats, Savepflicht-Stimmung).
+- Scope: `core/zeitriss-core.md`, `systems/gameflow/cinematic-start.md`,
+  `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `gameplay/kampagnenstruktur.md`, `systems/gameflow/speicher-fortsetzung.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(5).md`.
+- Ergebnis:
+  1. Transferdarstellung auf „Riss + Sog + Auswurf + Sortieren" konsolidiert
+     (Core, Einstieg, SL-Referenz, Spieler-Handbuch).
+  2. Chronopolis-Schleusenprotokoll inkl. Erlösungsbeat und kompaktem
+     Schleusen-Debrief ergänzt.
+  3. Savefrage vor Chronopolis als dramaturgischer Textbaustein gespiegelt.
+
+**Backlog-Status (aus diesem Upload-Block)**
+1. ZR-TRF-001: **abgeschlossen**.
+2. ZR-TRF-002: **abgeschlossen**.
+3. ZR-TRF-003: **abgeschlossen**.
+4. ZR-CHRON-001: **abgeschlossen**.
+5. ZR-CHRON-002: **abgeschlossen**.
+6. ZR-CHRON-003: **abgeschlossen**.
 
 ## 2026-02-23 – Repo-Agent – Nachcheck & Pflege vor neuem Search-Lauf
 - Fokus: Abschlusskontrolle für `uploads/deep-research-report(4).md` vor dem

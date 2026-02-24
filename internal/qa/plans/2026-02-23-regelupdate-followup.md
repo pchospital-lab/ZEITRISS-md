@@ -175,3 +175,24 @@ QA-Log gegengeprüft, inklusive Meta-Prozesspunkt ZR-015.
 Damit ist der Deep-Research-Block aus `uploads/deep-research-report(4).md`
 vollständig nachverfolgt; offen bleiben nur künftige neue Findings aus
 nachgelagerten Search-/Playtest-Läufen.
+
+## Nachzug Deep-Research-Report(5) – Transfer & Chronopolis-Schleuse (2026-02-24)
+
+Der neue Upload `uploads/deep-research-report(5).md` wurde als SSOT-Folgepaket
+für Immersionstexte umgesetzt (ohne neue Mechaniken).
+
+- `core/zeitriss-core.md`: Transferbild auf Riss/Sog/Auswurf/Sortieren
+  geschärft; Passagierlogik und Team-Geometrie als In-World-Regel ergänzt.
+- `systems/gameflow/cinematic-start.md`: HQ-Empfang + Sprungframe auf
+  körperlichen Riss-Beat harmonisiert (kein Portal-/Scheiben-Vibe).
+- `core/spieler-handbuch.md` + `core/sl-referenz.md`: identischer
+  Transfer-Beat für Spieler- und SL-Sicht gespiegelt.
+- `gameplay/kampagnenstruktur.md`: Schleusenprotokoll ITI ↔ Chronopolis
+  inkl. Eintrittsangst, Rückkehr-Erlösung und kompaktem Schleusen-Debrief
+  ergänzt.
+- `systems/gameflow/speicher-fortsetzung.md`: Savepflicht vor Chronopolis
+  als dramaturgischer Textbaustein dokumentiert.
+
+Damit ist der Upload-Block (ZR-TRF-001 bis ZR-CHRON-003) vollständig
+als abgeschlossen nachgezogen und über QA-Log + Upload-Archivhinweis
+verlinkt.

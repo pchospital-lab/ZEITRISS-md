@@ -523,6 +523,23 @@ in dem deine neue Bio-Hülle andockt. Erst wenn Körper und Retina-Linse
 hochfahren, koppelt sich das HUD ein und zieht den Einsatzcode aus dem offenen
 Ops-Pool.
 
+#### Der Sprung durch den Zeitriss (so fühlt es sich an)
+
+Ein Zeitriss ist kein Portal, durch das man einfach hindurchgeht. Wenn er
+aufreißt, zieht er. Das HUD zählt runter, dann kommt dieser kurze, unangenehme
+Sog — als wollte die Zielrealität dich fordern, während die Nullzeit dich nicht
+loslassen will.
+
+Auf der anderen Seite kann dich der Riss in einem schiefen Winkel auswerfen:
+kniend, seitlich, fast stürzend. Das ist normal. Der Riss schließt sofort, und
+ihr braucht als Team immer einen Atemzug, um euch zu sortieren.
+
+Spielleitung: Hohe TEMP-Werte wirken dabei kontrollierter (schnellere
+Orientierung, sauberere Landung), niedrige TEMP-Werte rauer — als Feeling,
+nicht als Zusatzregel.
+
+Wichtig im Team: Steht beim Sprung eng beieinander. Der Riss wartet nicht.
+
 Die Nullzeit kennt keinen Countdown. Das ITI schon.
 
 **Paradoxon:** Der Index (Px) steigt automatisch nach einer festen Anzahl

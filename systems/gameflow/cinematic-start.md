@@ -33,6 +33,10 @@ Mission.
 Beim Sprung zeigt das HUD stets:
 `Nullzeit-Puffer · Transfer 3…2…1 · Redirect: +6h (Self-Collision Guard)`.
 Kältezug und Druck auf den Ohren begleiten das kurze Umschalten.
+Der Riss reißt auf — zu nah, zu hell, zu kalt. Ihr werdet mit einem Ruck
+mitgenommen, die Welt kippt einmal über sich selbst, und die Zielrealität
+spuckt euch schief aus. Ein Atemzug Sortieren, dann erst beginnt der
+Establishing Shot der Epoche.
 Bereits im ersten Auftrag geht es um mehr als eine reine Einführung. Die
 Chrononauten erhalten eine handfeste Geschichtsmission, die sie mitten in eine
 Verschwörung führt.
@@ -50,12 +54,15 @@ während des Arcs keinen höheren SG.
 
 #### HQ-Empfang & Sync {#cinematic-hq-comm}
 Ein tiefes Dröhnen erfüllt die Stille, als sich mitten in der Ankunftshalle des
-ITI-Hauptquartiers ein gleißender Riss auftut. Kaltes, bläuliches Licht taucht
-das Quarzatrium in unwirklichen Glanz, während ein schimmerndes Zeitriss wie
-ein schwebende Scheibe im Raum hängt. Nacheinander treten die **Chrononauten**
-hindurch und betreten die **Nullzeit**, jenen neutralen Zwischenraum außerhalb
-aller Epochen. Für einen Herzschlag lang hält alles inne – die Zeit selbst
-scheint den Atem anzuhalten. Dann erwachen die Sinneseindrücke: klinisch reine,
+ITI-Hauptquartiers ein schmaler, gleißender Riss auftut — kein Tor, keine
+Scheibe, sondern ein Schnitt in der Luft. Kaltes, bläuliches Licht taucht das
+Quarzatrium in unwirklichen Glanz.
+
+Dann greift der Sog. Nacheinander — oder als enger Teamblock — werden die
+**Chrononauten** durch den Riss gerissen und in die **Nullzeit** geworfen,
+jenen neutralen Zwischenraum außerhalb aller Epochen. Für einen Herzschlag
+lang hält alles inne: Ohren unter Druck, Magen im Aufstand, ein grelles
+Flackern im Sichtfeld. Dann erwachen die Sinneseindrücke: klinisch reine,
 unbewegte Luft ohne jeden Windhauch; holografische Anzeigen, die am Rande des
 Sichtfelds flüchtige Daten zu Ankunftskoordinaten, Vitalwerten und temporalen
 Stabilitätswerten aufleuchten lassen. Ein automatisch ablaufendes
