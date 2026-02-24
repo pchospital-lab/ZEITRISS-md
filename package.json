@@ -5,7 +5,7 @@
   "scripts": {
     "lint:rt": "python3 tools/lint_runtime.py",
     "lint:debrief": "python3 tools/lint_debrief_trace.py",
-    "lint:links": "python3 tools/lint_links.py README.md docs internal/qa",
+    "lint:links": "python3 tools/lint_links.py README.md docs internal/qa uploads",
     "lint:presets": "python3 tools/validate_presets.py",
     "smoke": "bash scripts/smoke.sh",
     "test:save": "node tools/test_save.js",
