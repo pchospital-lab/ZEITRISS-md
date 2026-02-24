@@ -1545,7 +1545,7 @@ Schließt eine Mission ab, setzt Levelaufstieg und protokolliert Abschlussdaten.
   'armed': false
 } %⟩
 ⟨% if char.lvl < 10 %⟩
-  ⟪ hud_tag('Level-Up: +1 Attribut verfügbar') ⟫
+  ⟪ hud_tag('Level-Up: Wähle +1 Attribut, Talent/Upgrade oder +1 SYS') ⟫
 ⟨% endif %⟩
 ⟪ chrono_grant_key_if_lvl10() ⟫
 ⟪ kodex_summary(closed_seed_ids, cluster_gain, faction_delta) ⟫
