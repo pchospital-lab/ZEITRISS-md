@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.15
+version: 1.23.16
 tags: [meta]
 ---
 
@@ -16,6 +16,28 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 - Beta-GPT- und MyGPT-Läufe liefern konsistente QA-Protokolle.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
+
+## Nachtrag 2026-02-24 – Onboarding-Reduktion aus Deep-Research-Report(6)
+
+Die Abstimmung zu `uploads/deep-research-report(6).md` wurde als
+Onboarding-/Copy-Pass in den operativen Pfad übernommen. Fokus ist ein
+schlanker Einstieg ohne Regelaufblähung.
+
+### Umsetzungsziele
+
+- README-Hero schärfen: Portabler JSON-Save als Kernnutzen
+  („Bring-Your-Character").
+- Setup-Text vereinfachen: klare Reihenfolge (Provider + API-Key + Script),
+  plus Fallback ohne Systemfeld (Masterprompt als erste Chatnachricht).
+- Multiplayer-Loop konkretisieren: Host → `!save` im HQ → JSON teilen →
+  Solo/Koop-Fortsetzung.
+
+### Nachweis & Spiegelung
+
+- Runtime-Logik bleibt unverändert; es handelt sich um einen
+  Dokumentations-/Onboarding-Pass.
+- Spiegelung und Abarbeitungsstatus werden in
+  `internal/qa/logs/2025-beta-qa-log.md` geführt.
 
 ## Nachtrag 2027-03-25 – Deep-Research-Triage in operativen QA-Fahrplan überführt
 

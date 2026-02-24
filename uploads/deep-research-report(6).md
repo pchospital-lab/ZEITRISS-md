@@ -1,5 +1,14 @@
 # ZEITRISS®-md: Plattform‑Onboarding, portable JSON‑Saves und README‑Neuschliff
 
+## Archivhinweis (Status 2026-02-24, abgeschlossen)
+
+Dieses Upload-Artefakt wurde in einen schlanken Onboarding-Pass überführt.
+
+- README: Save-Ownership, Setup-Fallback ohne Systemfeld und kompakter
+  Multiplayer-Loop umgesetzt.
+- Nachverfolgung: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` und
+  `internal/qa/logs/2025-beta-qa-log.md`.
+
 ## Executive Summary
 
 Das Repository positioniert **ZEITRISS®-md** bereits klar als KI‑geleitetes Tech‑Noir‑Zeitreise‑RPG mit **explodierenden Würfeln** und **JSON‑Charakterbögen** sowie einem schnellen Einstieg über **Script‑Setup in OpenWebUI**. fileciteturn8file7L1-L33  

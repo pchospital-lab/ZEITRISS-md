@@ -12,12 +12,25 @@
 → [Spieler-Handbuch (Regeln, Einleitung, Schnellstart)](core/spieler-handbuch.md)
 → [Setup-Guide (lokales Hosting)](docs/setup-guide.md)
 
+## Das Besondere: Dein Save IST dein Charakter
+
+ZEITRISS läuft im Chat, aber dein Fortschritt hängt nicht an einem
+Server-Account. Dein Charakter liegt als versionierter JSON-Speicherstand vor.
+
+- **Mitnehmbar:** Du kannst denselben Charakter plattformübergreifend laden.
+- **Teilbar:** Gruppen können nach einer Session den Save splitten und später
+  solo oder im Team weiterspielen.
+- **Besitz bei dir:** Wenn du deinen Save hast, bleibt dein Charakter portabel.
+
+Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer ohne proprietären
+Charakter-Lock-in.
+
 ## In 5 Minuten starten
 
 ### Standardpfad (empfohlen): Script-Setup in OpenWebUI
 
 1. **Einmalig vorbereiten:** OpenWebUI installieren und OpenRouter-Konto
-   erstellen.
+   erstellen, Provider verbinden und in OpenWebUI einen API-Key anlegen.
 2. **Aktuellen Repo-Stand holen:**
    - per Git: `git clone ...` (danach vor Sessions `git pull`), oder
    - per GitHub-Download (ZIP), entpacken und in den Projektordner wechseln.
@@ -27,6 +40,10 @@
    - Masterprompt ist im Systemfeld gesetzt,
    - Wissensspeicher ist sauber verknüpft (20 Slots),
    - dann mit `Spiel starten (solo klassisch)` starten.
+
+**Falls die Plattform kein eigenes Systemfeld anbietet:**
+`meta/masterprompt_v6.md` als **erste Chatnachricht** senden und erst danach
+`Spiel starten (solo klassisch)` oder `Spiel laden` nutzen.
 
 **Session-Update-Standard:** Vor jeder Runde neuesten Repo-Stand laden und das
 Setup-Script erneut starten. Bei laufendem OpenWebUI aktualisiert das den
@@ -135,6 +152,16 @@ und die Runtime-Referenz.
 - **GitHub-GUI-Feinschliff:** Eine kurze Maintainer-Checkliste für finale
   Public-Settings liegt unter
   [`docs/github-public-checkliste.md`](docs/github-public-checkliste.md).
+
+## Multiplayer ohne Server: Bring-Your-Character
+
+- Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
+- Im HQ speichert ihr mit `!save` und teilt den JSON-Block.
+- Danach kann jede Person den Gruppenstand weiter nutzen oder einen eigenen
+  Fortsetzungs-Stand daraus starten.
+
+Damit bleibt der Koop-Loop einfach: spielen, speichern, teilen, später wieder
+einsteigen.
 
 ## Markenhinweis / Inspiration
 
