@@ -893,9 +893,25 @@ Risse erscheinen an unberechenbaren Stellen — zwei Meter über dem Boden an
 einer Hauswand, im Asphalt einer Kreuzung, halb eingebettet in eine
 Leitplanke. Der Austrittswinkel ist nie vorhersagbar: Wer unachtsam
 hindurchtritt, landet auf den Knien, kopfüber oder seitlich im Gestrüpp.
-Erfahrene Chrononauten tasten den Riss ab, bevor sie hindurchgehen.
-Ein kurzer Luftzug, ein Flackern im HUD — dann schließt sich der Spalt
-hinter ihnen.
+Der Sprung fühlt sich nie sauber an: kurzer Sog, Druck auf den Ohren,
+Kälte im Brustkorb, dann ein harter Versatz im Körpergefühl.
+Der Riss schließt sofort hinter dem Team. Kein Nachschauen, kein Verhandeln.
+
+**Transfer-SSOT (ohne Zusatzregeln):**
+
+- Riss reißt auf: Schnitt in der Luft, nicht „Portal".
+- Sog setzt sofort ein: kurz, unangenehm, kompromisslos.
+- Auswurf im schiefen Winkel, Riss sofort zu.
+- Ein Atemzug Sortieren, dann erst taktisches Handeln.
+- TEMP bleibt Vibe-Regler: hohe Werte wirken kontrollierter,
+  niedrige Werte ruppiger — ohne neue Würfelmechanik.
+
+**Team-Geometrie & Passagiere (In-World):**
+
+- Beim Sprung eng stehen, anfassen, sichern. Der Riss wartet nicht.
+- Nicht-Zeitreisende werden allein kaum „adressiert".
+- In direktem Kontakt (Gurt/Griff/Harness) können Chrononauten
+  Passagiere mit hindurchziehen.
 
 **Ablauf & Optionen**
 
