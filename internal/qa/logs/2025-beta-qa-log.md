@@ -1,10 +1,24 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.68
+version: 0.4.69
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+## 2026-02-24 – Repo-Agent – Onboarding-Pass aus Deep-Research-Report(6)
+- Fokus: Einstiegshürde im öffentlichen Einstieg senken, ohne neue Regeln oder
+  Runtime-Pfade einzuführen.
+- Quelle: `uploads/deep-research-report(6).md`.
+- Scope: `README.md`, `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`, `uploads/deep-research-report(6).md`.
+- Ergebnis:
+  1. README um die Kernbotschaft „Save = portabler Charakter" ergänzt
+     (Bring-Your-Character als Nutzenanker).
+  2. Setup-Flow präzisiert (Provider/API-Key/Script) plus Fallback für
+     Plattformen ohne Systemfeld (Masterprompt als erste Chatnachricht).
+  3. Multiplayer-Loop kompakt operationalisiert (Host, HQ-`!save`, JSON teilen,
+     Solo/Koop-Fortsetzung).
 
 ## 2026-02-24 – Repo-Agent – Transfer/Schleusen-SSOT aus Deep-Research-Report(5)
 - Fokus: Upload `uploads/deep-research-report(5).md` in Runtime- und
