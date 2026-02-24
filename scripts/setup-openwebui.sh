@@ -260,25 +260,32 @@ else
   ok "Alle $TOTAL Dateien hochgeladen"
 fi
 
-# ── Dateien mit Knowledge Base verknüpfen (0.8.3+ kompatibel) ──────
+# ── Dateien mit Knowledge Base verknüpfen (0.8.3+ / 0.8.5+) ───────
 info "Verknüpfe Dateien mit Knowledge Base..."
-FILE_IDS_JSON=$(printf '%s\n' "${UPLOADED_IDS[@]}" | python3 -c "import sys,json; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))")
 
-LINK_RESULT=$(api_post "/api/v1/knowledge/$KB_ID/update" \
-  "{\"name\": \"$KB_NAME\", \"description\": \"Vollständiges Regelwerk für das ZEITRISS Zeitreise-RPG v4.2.6\", \"file_ids\": $FILE_IDS_JSON}")
+LINK_OK=0
+LINK_FAIL=0
 
-LINKED_COUNT=$(echo "$LINK_RESULT" | python3 -c "
+for FILE_ID in "${UPLOADED_IDS[@]}"; do
+  LINK_RESULT=$(api_post "/api/v1/knowledge/$KB_ID/file/add" \
+    "{\"file_id\": \"$FILE_ID\"}")
+  LINKED_COUNT=$(echo "$LINK_RESULT" | python3 -c "
 import sys,json
 d=json.load(sys.stdin)
 files=d.get('files') or []
-names=set(f.get('meta',{}).get('name','') for f in files)
-print(len(names))
+print(len(files))
 " 2>/dev/null || echo "0")
+  if [ "$LINKED_COUNT" -gt 0 ]; then
+    LINK_OK=$((LINK_OK + 1))
+  else
+    LINK_FAIL=$((LINK_FAIL + 1))
+  fi
+done
 
-if [ "$LINKED_COUNT" -ge "$TOTAL" ]; then
-  ok "$LINKED_COUNT Dateien verknüpft"
+if [ $LINK_FAIL -eq 0 ]; then
+  ok "Alle $LINK_OK Dateien verknüpft"
 else
-  warn "Nur $LINKED_COUNT/$TOTAL Dateien verknüpft — bitte in OpenWebUI prüfen"
+  warn "$LINK_OK/$TOTAL Dateien verknüpft ($LINK_FAIL Fehler) — bitte in OpenWebUI prüfen"
 fi
 
 # ── Model-Preset (idempotent) ───────────────────────────────────────
@@ -342,7 +349,7 @@ data = json.dumps(payload).encode()
 try:
     if model_exists:
         req = urllib.request.Request(
-            f'{url}/api/v1/models/model/update?id={preset_id}',
+            f'{url}/api/v1/models/model/update',
             data=data,
             headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
             method='POST'
