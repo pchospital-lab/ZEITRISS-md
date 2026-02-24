@@ -63,6 +63,26 @@ diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
   an: "Nächster Chat? JSON importieren, dann weiter." So bleibt der Deepsave die einzige Quelle der
   Wahrheit.
 
+#### Textbaustein: Vor Chronopolis-Schleuseneintritt (Savepflicht als Stimmung)
+
+Spielleitung: Nutzt die Savefrage nicht als nüchternes Menü, sondern als
+letztes „Bist du sicher?", bevor das Tor öffnet.
+
+Beispieltext:
+Die Schleuse verriegelt. Ein rotes Statuslicht läuft über die Kanten der Tür,
+als würde das ITI selbst tief Luft holen.
+
+Im Ohr klickt der Kodex trocken:
+„Chronopolis-Zugang erkannt. Signaturprüfung erforderlich."
+
+Eine Pause — lang genug, um nicht mehr nur technisch zu wirken.
+
+Dann:
+„Verbindlicher Check: HQ-DeepSave jetzt erstellen?"
+
+Macht klar: Das ist kein Komfort-Button. Das ist die letzte saubere Linie,
+bevor ihr in eine Stadt tretet, die sich anfühlt wie euer Scheitern.
+
 **SaveGuard (Pseudocode)**
 
 > *Die folgenden Strings und Codeblöcke sind KI-Spielleiter-Referenz und nicht

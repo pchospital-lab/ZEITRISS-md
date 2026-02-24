@@ -135,6 +135,13 @@ Debrief und Save (HQ-only).
 > Px-Verlust-Regel ein **Px-1**.
 > **HUD** nach Zielerfüllung: `TTL` & `Stress`. **Speichern** nur im **HQ**.
 
+**Spielleitung – Transfer-Beat (SSOT, ohne Zusatzregeln):**
+- Riss reißt als Schnitt auf, nicht als Portal.
+- Kurzer Sog, Ohrendruck, Kälte, dann harter Versatz.
+- Auswurf im Winkel, Riss sofort zu, ein Atemzug Sortieren.
+- TEMP nur als Vibe: hohe Werte kontrollierter, niedrige Werte ruppiger.
+- Team eng halten; Passagiere nur im direkten Griff/Harness mitziehen.
+
 Der HUD-Header zeigt `EP · MS · SC/total · MODE · Objective` plus
 klassenabhängige Ressourcen:
 

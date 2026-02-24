@@ -2164,6 +2164,45 @@ _Implementations-Package für Code, Art & Content_
 > Items die man lebend rausbringt: behalten. Keine Auswirkungen auf die echte Zeitlinie.
 > Chronopolis ist eine temporäre Instanz, erschaffen von Kodex. Kein Speichern möglich.
 
+### Schleusenprotokoll ITI ↔ Chronopolis (Erzähl-SSOT)
+
+Chronopolis erreichst du nicht wie einen Raum nebenan, sondern über eine
+Schleuse. Der Moment bleibt jedes Mal ein psychologischer Engpass.
+
+#### Eintritt (ITI → Chronopolis)
+
+Im Pre-City-Hub verriegelt die Schleuse mit einem metallischen Schlag. Luft
+zischt, HUD-Overlays fahren hoch, der Kodex liest Signaturen trocken und ohne
+Trost. Das Tor bleibt einen Herzschlag zu lange geschlossen.
+
+Spielleitung: Spielt diese Sekunden langsam. Nicht weil Zeit da ist, sondern
+weil Angst Zeit macht.
+
+Dann löst sich die Verriegelung. Das Tor geht auf, und niemand weiß, welche
+Stimmung hinter der Schwelle wartet: Instabilität, Jagd, Ruinen oder Lockruf.
+
+#### Rückkehr (Chronopolis → ITI)
+
+Rückkehr ist keine Abreise, sondern Flucht nach Hause. Das Team erreicht die
+Schleuse oft unter Druck. Sobald Spieler oder Gruppe drin sind — zu Fuß oder mit Fahrzeug — verriegeln die massiven Schleusentore sofort mit einem schweren Schlag.
+
+Der Lärm bricht schlagartig ab. Erst jetzt kommt der Atem zurück.
+
+Spielleitung: Das ist der Erlösungsbeat. Gebt ihm eine volle Sekunde, bevor ihr
+in Routine, Debrief und HQ-Menü wechselt.
+
+### Schleusen-Debrief (Chronopolis-Exit, kompakt)
+
+Nach Chronopolis nutzt die Spielleitung einen kurzen Sonder-Debrief mit fester
+Reihenfolge:
+
+1. **Status:** Zurück in der Nullzeit (vollständig, verletzt, Schock).
+2. **Asset-Check:** Physisch mitgebrachte Funde und geloggte Erwerbe.
+3. **Chronopolis-Trace:** Käufe/Services inkl. Kosten und Notizen.
+4. **Highlight:** Gesichertes Schlüsselobjekt (z. B. Temporal Ship).
+5. **Reset & Stabilisierung:** Stress/Psi-Heat/SYS auf HQ-Basis.
+6. **HQ-Menü:** Schnell-HQ, manuell oder Auto-HQ & Save.
+
 ### 2 | Freischalt-Logik
 
 | Flag            | Wert                                                              |

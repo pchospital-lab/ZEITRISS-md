@@ -1,5 +1,23 @@
 # Deep-Research-Patch: Zeitriss-Transfer und Chronopolis-Schleuse
 
+## Archivhinweis (Status 2026-02-24, in Umsetzung)
+
+Dieses Upload-Artefakt ist als **Eingangsquelle aktiv** und wird über den
+operativen QA-Pfad schrittweise umgesetzt.
+
+- ZR-TRF-001 (Rissbild statt Portal-Vibe): **abgeschlossen**.
+- ZR-TRF-002 (Sortiermoment als SSOT-Beat): **abgeschlossen**.
+- ZR-TRF-003 (Passagiere/Nicht-Zeitreisende): **abgeschlossen**.
+- ZR-CHRON-001 (Schleusenangst beim Eintritt): **abgeschlossen**.
+- ZR-CHRON-002 (Erlösungsbeat + Schleusen-Debrief): **abgeschlossen**.
+- ZR-CHRON-003 (Savepflicht als dramaturgischer Schleusenmoment):
+  **abgeschlossen**.
+
+Verbindliche Nachverfolgung:
+
+- `internal/qa/plans/2026-02-23-regelupdate-followup.md`
+- `internal/qa/logs/2025-beta-qa-log.md`
+
 ## Executive Summary
 
 Im aktuellen Repo-Stand existieren mehrere, leicht auseinanderdriftende Darstellungen des Übergangs **Nullzeit ↔ Realität** (Sprung/Return) und eine funktionale, aber noch nicht „in die Magengrube gehende“ Beschreibung des **Chronopolis-Zugangs**. Besonders auffällig sind (a) ein Ton-Mismatch („vorsichtig durchtasten“ vs. gewünschter „unangenehmer Sog“), (b) Bildsprache, die stellenweise wieder Richtung „Portal“ kippt, und (c) fehlende Textbausteine, die den Moment **vor** dem Öffnen der Chronopolis-Tore und den **Erlösungsmoment** beim Rückzug in die Schleuse als *epische* Beats zuverlässig reproduzierbar machen. Evidenzpunkte liegen vor allem in `core/zeitriss-core.md` (Abschnitt zur Nullzeit und Zeitriss-Logik), `systems/gameflow/cinematic-start.md` (HQ-Ankunft/Startästhetik), `core/sl-referenz.md` (Transfer-HUD-Frames + Save-Taktung), `systems/gameflow/speicher-fortsetzung.md` (Chronopolis-Schleusen-Savepflicht) und `gameplay/kampagnenstruktur.md` (Chronopolis-Package + Cutscene/Flow).  
