@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.23
+version: 1.0.24
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Audit-Update 2026-02-26 – Fahrzeugfenster-Closure verifiziert
+
+- Runtime-Härtung für Fahrzeugkontexte bestätigt: Alias-Felder und
+  verschachtelte Payloads lösen die Chronopolis-/Temporal-Ausnahme zuverlässig
+  aus.
+- Rift-Guard bestätigt: Bei aktiven Rift-Ops bleiben temporale und
+  Chronopolis-Legenden blockiert („Rift-Protokoll aktiv“), inklusive Debrief-
+  Spiegel.
+- QA-Dokumentation ist jetzt vollständig synchron (QA-Log, Fahrplan und Audit
+  führen denselben Closure-Stand).
 
 ## Audit-Update 2027-03-24 – SSOT-Nachlauf (HUD-Level sichtbar, Px situativ)
 
