@@ -4332,6 +4332,23 @@ function resolve_vehicle_window_context(outcome = null){
 }
 
 function vehicle_window_status(temp, context = null){
+  const missionType = typeof state.campaign?.type === 'string'
+    ? state.campaign.type.trim().toLowerCase()
+    : '';
+  if (is_temporal_ship_context(context) && missionType === 'rift'){
+    return {
+      cadence: 0,
+      slot: 0,
+      ready: false,
+      mission: Number.isFinite(state.campaign?.mission)
+        ? Math.max(1, Math.floor(state.campaign.mission))
+        : 1,
+      next_in: 0,
+      exceptional: false,
+      blocked: true,
+      note: 'Rift-Op-Sicherheitsprotokoll: keine Chrononauten-Fahrzeuge im Rissfenster, auch keine temporalen Schiffe aus Chronopolis (Tech IV).'
+    };
+  }
   if (is_temporal_ship_context(context)){
     return {
       cadence: 0,
@@ -4342,6 +4359,7 @@ function vehicle_window_status(temp, context = null){
         : 1,
       next_in: 0,
       exceptional: true,
+      blocked: false,
       note: 'Legendäres temporales Schiff aus Chronopolis (Tech IV): eigenständiger Zeitriss-Transit als Fraktions-Asset (zusätzlicher Garagen-Slot, streng überwacht).'
     };
   }
@@ -4358,7 +4376,8 @@ function vehicle_window_status(temp, context = null){
     ready,
     mission: missionCount,
     next_in: ready ? 0 : (cadence - slot),
-    exceptional: false
+    exceptional: false,
+    blocked: false
   };
 }
 
@@ -4654,6 +4673,14 @@ function render_px_tracker(temp){
 function render_vehicle_window(temp, context = null){
   const t = Number.isFinite(temp) ? Number(temp) : mission_temp();
   const window = vehicle_window_status(t, context);
+  if (window.blocked){
+    return [
+      'Fahrzeugfenster',
+      'Rift-Protokoll aktiv',
+      window.note,
+      'Rift-Einsätze laufen ohne Chrononauten-Fahrzeuge; Anreise ausschließlich über ITI-Riftverfahren.'
+    ].join(' · ');
+  }
   if (window.exceptional){
     return [
       'Fahrzeugfenster',
