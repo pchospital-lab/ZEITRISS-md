@@ -17,6 +17,38 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
 
+## Nachtrag 2027-03-26 – Fahrzeug-SSOT/TEMP-Rhythmus harmonisiert
+
+Die Fahrzeuglogik wurde als geschlossener SSOT-Pass über Runtime-Spiegel,
+Toolkits und Wissensmodule vereinheitlicht.
+
+### Umgesetzte Leitplanken
+
+- Pro Charakter genau ein HQ-Technoir-Fahrzeug (slotbasiert).
+- Standardfahrzeuge springen nicht physisch durch den Zeitriss; das ITI
+  manipuliert den Zeitstrang, bis eine epochenpassende Einsatzform
+  bereitsteht.
+- TEMP steuert zusätzlich das Missions-Fahrzeugfenster (4/3/2/1 Rhythmus).
+- Nur temporale Schiffe der Tech-IV-Klasse dürfen den Zeitriss selbst aktiv
+  nutzen (UFO-Lore).
+
+### QA-Nachcheck (gezielt)
+
+1. **TEMP-Quelle prüfen:** Solo (`character.attributes.TEMP`) vs. Gruppe
+   (`party.characters[]` → Fallback `team.members[]`) liefert denselben
+   aufgerundeten Teamwert in HUD, Debrief und Traces.
+2. **Fahrzeugfenster prüfen:** Debrief zeigt korrekten Rhythmus für TEMP
+   1/3/6/9 inklusive „wieder in n Missionen“.
+3. **Epochenform prüfen:** Bei identischem HQ-Fahrzeug stimmen vergangene,
+   moderne und Nullzeit-Form mit der Plausibilitätsgrenze überein.
+4. **Merge-Konflikte prüfen:** Multi-Save-Import mit kollidierenden
+   Fahrzeugslots protokolliert Host-Vorrang reproduzierbar.
+5. **Tech-IV-Ausnahme prüfen:** Nur temporale Schiffe dürfen eigenständig
+   Zeitriss-Nutzung triggern; Standardfahrzeuge bleiben im ITI-
+   Zeitstrang-Manipulationspfad.
+6. **Pechfenster prüfen:** Niedrige TEMP-Stufen dürfen ungünstige Fundorte
+   erzeugen (z. B. Museums-Oldtimer), ohne die HQ-Basisplattform zu wechseln.
+
 ## Nachtrag 2026-02-24 – Onboarding-Reduktion aus Deep-Research-Report(6)
 
 Die Abstimmung zu `uploads/deep-research-report(6).md` wurde als

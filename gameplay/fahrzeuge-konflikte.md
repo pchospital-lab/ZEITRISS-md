@@ -52,6 +52,32 @@ Macht euch bereit für ein noch lebendigeres Zeitreise-Erlebnis. Im Folgenden st
 - Rammen/Blocken: Erfolgreicher SG → Gegner bremst aus, HUD notiert `Vehicle Clash`.
 - Ausstieg: Nach Crash → kurzer Stunt (Sprung, Abrollen) mit SG 10; bei Fehlschlag Stress +1.
 
+### SSOT-Ergänzung: Besitz, Zeitriss und Epochenform {#ssot-besitz-zeitriss-epochenform}
+
+- **Besitzgrenze (verbindlich):** Jede Spielfigur besitzt im HQ genau **ein**
+  persönliches Fahrzeug als Technoir-Basisplattform.
+- **Upgrade-Logik:** Upgrades werden an dieser HQ-Basis geführt und bleiben über
+  Missionen erhalten.
+- **Zeitriss-Logik für Standardfahrzeuge:** Der Charakter springt durch den
+  Riss; das Standardfahrzeug nicht. Das ITI manipuliert den Zeitstrang
+  kleinteilig (Bauteile hier, Schrauben dort, Werkstattkette später), sodass in
+  der Zielzeit eine passende Einsatzform derselben Plattform auftaucht.
+- **Form-Mapping pro Zeitband:**
+  - Vergangenheit → historische Variante,
+  - Gegenwart/nahe Zukunft → moderne Variante,
+  - Nullzeit/HQ → Technoir-Original.
+- **Plausibilitätsgrenze:** Nur Fahrzeugtypen, die in der Zielzeit als Form
+  grundsätzlich möglich sind, dürfen dargestellt werden.
+- **TEMP-gesteuertes Einsatzfenster:** Fahrzeugzugriff folgt dem
+  Missionsrhythmus über TEMP (1–2: alle 4, 3–5: alle 3, 6–8: alle 2, ab 9:
+  jede Mission). In Gruppen zählt der aufgerundete Teammittelwert.
+- **Niedriger TEMP – Pechfenster:** Bei niedriger TEMP kann die gewünschte
+  Form ungünstig bereitstehen (z. B. als Oldtimer im Museum statt direkt in der
+  Garage), bleibt aber derselben HQ-Basisplattform zugeordnet.
+- **Ausnahmeklasse:** Nur temporale Schiffe (Tech IV, temporale Klasse) können
+  den Zeitriss eigenständig nutzen; sie erklären die sichtbaren
+  „UFO“-Phänomene in der Lore.
+
 ## Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 
 **Mehr als nur Fortbewegung:** In ZEITRISS reisen nicht nur Menschen durch die Zeit – auch Fahrzeuge
