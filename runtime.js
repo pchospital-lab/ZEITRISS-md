@@ -4253,12 +4253,18 @@ function mission_temp(){
 }
 
 function missions_required(temp){
-  const t = Number.isFinite(temp) ? temp : 0;
-  if (t <= 3) return 5;
-  if (t <= 7) return 4;
-  if (t <= 10) return 3;
-  if (t <= 13) return 2;
+  const gain = px_gain_per_mission(temp);
+  if (gain <= 0) return 5;
   return 1;
+}
+
+function px_gain_per_mission(temp){
+  const t = Number.isFinite(temp) ? temp : 0;
+  if (t <= 2) return 1;
+  if (t <= 5) return 2;
+  if (t <= 8) return 3;
+  if (t <= 11) return 4;
+  return 5;
 }
 
 function incrementParadoxon(delta = 1){
@@ -4345,6 +4351,7 @@ function completeMission(summary = {}){
   ensure_campaign();
   const events = [];
   const temp = typeof summary.temp === 'number' ? summary.temp : mission_temp();
+  const pxGain = px_gain_per_mission(temp);
   const required = missions_required(temp);
   const missionNumber = Number(state.campaign?.mission);
   const missionInEpisode = Number.isFinite(state.campaign?.mission_in_episode)
@@ -4392,29 +4399,25 @@ function completeMission(summary = {}){
     events.push(`Kodex: ${note} – Px sinkt auf ${after}/5 (vorher ${before}/5).`);
   }
   if (stabilized){
-    state.campaign.missions_since_px = (state.campaign.missions_since_px ?? 0) + 1;
-    const progress = state.campaign.missions_since_px;
-    events.push(`Kodex: Mission stabilisiert (${progress}/${required} für Px+1).`);
-    if (progress >= required){
-      state.campaign.missions_since_px = 0;
-      const pxBefore = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
-      const after = incrementParadoxon(1);
-      events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
-      if (after >= 5){
-        ClusterCreate({
-          px_before: pxBefore,
-          px_after: after,
-          episode: state.campaign.episode,
-          mission: state.campaign.mission,
-          mission_in_episode: missionInEpisode,
-          location: state.location,
-          phase: state.campaign.phase || state.phase
-        });
-        events.push(
-          'Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. '
-          + 'Px-Reset folgt nach Missionsende.'
-        );
-      }
+    state.campaign.missions_since_px = 0;
+    events.push(`Kodex: Mission stabilisiert (+${pxGain} Px bei TEMP ${temp}).`);
+    const pxBefore = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+    const after = incrementParadoxon(pxGain);
+    events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
+    if (after >= 5){
+      ClusterCreate({
+        px_before: pxBefore,
+        px_after: after,
+        episode: state.campaign.episode,
+        mission: state.campaign.mission,
+        mission_in_episode: missionInEpisode,
+        location: state.location,
+        phase: state.campaign.phase || state.phase
+      });
+      events.push(
+        'Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. '
+        + 'Px-Reset folgt nach Missionsende.'
+      );
     }
   }
   const chronoReset = chronopolisProgressAfterMission(summary);
@@ -4459,6 +4462,7 @@ function completeMission(summary = {}){
   return {
     events,
     required,
+    px_gain: pxGain,
     missions_since_px: state.campaign.missions_since_px ?? 0,
     paradoxon_index: state.campaign.paradoxon_index ?? 0
   };
@@ -4531,11 +4535,10 @@ function render_px_tracker(temp){
   ensure_campaign();
   const n = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
   const t = temp ?? mission_temp();
-  const required = missions_required(t);
-  const progress = clamp(state.campaign?.missions_since_px ?? 0, 0, required);
-  const remaining = Math.max(0, required - progress);
+  const gain = px_gain_per_mission(t);
+  const remaining = gain > 0 ? 1 : 5;
   const eta = `${remaining} Mission${remaining === 1 ? '' : 'en'}`;
-  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · ETA (Heuristik) +1 in ${eta}`;
+  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · +${gain} Px/Mission · ETA (Heuristik) +1 in ${eta}`;
 }
 
 const px_tracker = render_px_tracker;
@@ -5390,19 +5393,12 @@ function render_rewards(outcome = {}, missionResult = {}){
     0,
     5
   );
-  const progress = Math.max(
+  const pxGain = Math.max(
     0,
-    asNumber(missionResult?.missions_since_px)
-      ?? asNumber(state.campaign?.missions_since_px)
-      ?? 0
+    asNumber(missionResult?.px_gain)
+      ?? px_gain_per_mission(asNumber(outcome?.temp) ?? mission_temp())
   );
-  const required = Math.max(
-    1,
-    asNumber(missionResult?.required)
-      ?? missions_required(asNumber(outcome?.temp) ?? mission_temp())
-  );
-  const remaining = Math.max(0, required - progress);
-  segments.push(`Resonanz Px ${px}/5 (${remaining}/${required} bis Px+1)`);
+  segments.push(`Resonanz Px ${px}/5 (+${pxGain} pro Mission)`);
 
   const rank = state.character?.rank || state.character?.callsign;
   if (rank){
