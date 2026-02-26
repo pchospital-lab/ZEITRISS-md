@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)"
-version: 4.2.6
+title: "ZEITRISS 4.2.8 – Runtime-Makros (Mirror aus Toolkit)"
+version: 4.2.8
 tags: [meta]
 ---
 
-# ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)
+# ZEITRISS 4.2.8 – Runtime-Makros (Mirror aus Toolkit)
 
 Dieser Mirror enthält den technischen Makro-/Runtime-Block aus
 `systems/toolkit-gpt-spielleiter.md` als dediziertes Entwicklungsartefakt.
@@ -693,7 +693,13 @@ Decision: ⟪ text ⟫?
 ⟨% macro vehicle_cadence(temp) -%⟩
   ⟨%- if temp <= 2 -%⟩4⟨%- elif temp <= 5 -%⟩3⟨%- elif temp <= 8 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
 ⟨%- endmacro %⟩
-⟨% macro vehicle_window(temp, mission) -%⟩
+⟨% macro vehicle_window(temp, mission, vehicle_class='standard', source='') -%⟩
+  ⟨% set klass = vehicle_class|default('standard')|lower %⟩
+  ⟨% set src = source|default('')|lower %⟩
+  ⟨% if klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary' %⟩
+    ⟪ hud_tag('Fahrzeugfenster · Ausnahme aktiv · Legendäres temporales Schiff (Chronopolis/Tech IV) nutzt den Zeitriss eigenständig · Fraktions-Asset im Zusatzslot (gemeinsam gepflegt/überwacht) · Standardfahrzeuge bleiben TEMP-gebunden (4/3/2/1).') ⟫
+    ⟨% return %⟩
+  ⟨% endif %⟩
   ⟨% set cadence = vehicle_cadence(temp) | int %⟩
   ⟨% set mission_safe = mission|default(1)|int %⟩
   ⟨% if mission_safe < 1 %⟩⟨% set mission_safe = 1 %⟩⟨% endif %⟩

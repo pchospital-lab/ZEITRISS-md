@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.16
+version: 1.23.18
 tags: [meta]
 ---
 
@@ -16,6 +16,30 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 - Beta-GPT- und MyGPT-Läufe liefern konsistente QA-Protokolle.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
+
+## Nachtrag 2027-03-27 – Chronopolis-Legenden nachgeschärft
+
+Nach dem SSOT-Nachcheck wurde die Ausnahme für temporale Schiffe präzisiert:
+Sie gilt nur für legendäre Chronopolis-Schiffe (Tech IV), bleibt extrem selten
+und kostenintensiv und überschreibt die normale TEMP-Fensterlogik nicht.
+
+### Präzisierungen
+
+- Runtime/Toolkit unterstützen jetzt explizit einen Ausnahme-Kontext für
+  `temporal_ship`/`tech_iv_temporal`/`chronopolis_legendary`.
+- Debrief/HUD kennzeichnen die Ausnahme deutlich als Sonderfall.
+- Wissensmodule nennen die Chronopolis-Legenden als Endgame-Ausnahme;
+  Standard-Nullzeitgefährte bleiben epochengebunden.
+
+### QA-Nachcheck (ergänzt)
+
+1. **Ausnahmekennzeichnung prüfen:** HUD/Debrief zeigt bei gesetztem
+   Kontext (`chronopolis_legendary`) den Ausnahmehinweis statt Slot-Rhythmus.
+2. **Nicht-Ausnahme prüfen:** Ohne Kontext bleibt die normale 4/3/2/1-Logik
+   unverändert aktiv.
+3. **Garage-/Fraktionsregel prüfen:** Persönlicher Fahrzeugslot bleibt
+   erhalten; legendäre Schiffe laufen als Zusatzslot und werden als
+   Fraktions-Asset geführt.
 
 ## Nachtrag 2027-03-26 – Fahrzeug-SSOT/TEMP-Rhythmus harmonisiert
 
