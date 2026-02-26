@@ -234,15 +234,16 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
-| TEMP | Px +1 alle … |
-|-----:|:-------------|
-| 1–3 | 5 Missionen |
-| 4–6 | 4 Missionen |
-| 7–9 | 3 Missionen |
-| 10–13 | 2 Missionen |
+| TEMP | Px pro erfolgreicher Mission |
+|-----:|:-----------------------------|
+| 1–2 | +1 Px |
+| 3–5 | +2 Px |
+| 6–8 | +3 Px |
+| 9–11 | +4 Px |
+| 12–14 | +5 Px |
 
-- **Px +1** bei jeder **erfolgreich abgeschlossenen Mission** gemäß obiger
-  Frequenz.
+- **Px-Anstieg pro Mission**: Jede **erfolgreich abgeschlossene Mission** gibt
+  sofort Px gemäß obiger TEMP-Staffel.
   - **solo / npc-team:** Der Zähler gehört zu eurem Run (Agentenlauf) und wird
     im HUD als Fortschrittsbalken angezeigt.
   - **gruppe:** Die Kampagne nutzt einen gemeinsamen Px-Wert
@@ -687,8 +688,8 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
 Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten — ein
-**Belohnungssystem** mit fester, deterministischer Progression. Nach einer
-bestimmten Anzahl erfolgreicher Missionen steigt der Index automatisch um +1.
+**Belohnungssystem** mit fester, deterministischer Progression. Er steigt nach
+jeder erfolgreichen Mission sofort an und richtet sich nach der TEMP-Staffel.
 Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch näher an
 seltene Rift-Ressourcen und Bonus-Missionen. Px 0–4 erzeugt keine Maluswerte;
 bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1–2 neue Rift-Signaturen**
@@ -696,14 +697,16 @@ und setzt den Index zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte
 Kern-Anker) flackert das HUD als Warnung — eskaliert die Situation weiter →
 **−1 Px**.
 
-Der **TEMP-Wert (Temporale Affinität)** bestimmt die Frequenz:
+Der **TEMP-Wert (Temporale Affinität)** bestimmt den direkten Px-Zuwachs pro
+erfolgreicher Mission:
 
-| TEMP | Px +1 alle … |
-|-----:|:-------------|
-| 1–3 | 5 erfolgreiche Missionen |
-| 4–6 | 4 erfolgreiche Missionen |
-| 7–9 | 3 erfolgreiche Missionen |
-| 10–13 | 2 erfolgreiche Missionen |
+| TEMP | Px pro erfolgreicher Mission |
+|-----:|:-----------------------------|
+| 1–2 | +1 Px |
+| 3–5 | +2 Px |
+| 6–8 | +3 Px |
+| 9–11 | +4 Px |
+| 12–14 | +5 Px |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach

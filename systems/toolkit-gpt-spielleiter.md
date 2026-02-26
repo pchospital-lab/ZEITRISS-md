@@ -420,9 +420,9 @@ if not char.get("psi") and not char.get("has_psi"):
   Konsequenzen über Stress/Heat/CU/Storydruck im Debrief.
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und geschätztem ETA bis zum
-  nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · ETA +1 in 2 Missionen`.
+  nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +4 Px/Mission · ETA +1 in 1 Mission`.
   Ein optionales `px_tracker(temp)`-Makro berechnet diese TEMP-basierte
-  Prognose automatisch.
+  Staffel automatisch.
 - Modus `gruppe` nutzt dafür den SSOT-Teamwert
   `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`.
   Dieser aufgerundete Durchschnitt steuert Px-ETA und TEMP-basierte
@@ -440,8 +440,8 @@ if not char.get("psi") and not char.get("has_psi"):
 
   ```text
   Rewards rendered
-  Px ███░░ (3/5) · TEMP 11 · ETA +1 in 2 Missionen
-  Kodex: Mission stabilisiert (1/2 für Px+1).
+  Px ███░░ (3/5) · TEMP 11 · +4 Px/Mission · ETA +1 in 1 Mission
+  Kodex: Mission stabilisiert (+4 Px bei TEMP 11).
   ```
 
 - Erreicht der Index Px 5, löst die Runtime `ClusterCreate()` aus,
@@ -2093,10 +2093,11 @@ Decision: ⟪ text ⟫?
   ⟨% set px = campaign.px or 0 %⟩
   ⟨% set temp_val = temp or 0 %⟩
   ⟨% set eta = px_eta(temp_val) %⟩
-  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · ETA +1 in ' ~ eta ~ ' Missionen') ⟫
+  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · +' ~ px_gain(temp_val) ~ ' Px/Mission · ETA +1 in ' ~ eta ~ ' Missionen') ⟫
 ⟨%- endmacro %⟩
-⟨% macro px_eta(temp) -%⟩
-  ⟨%- if temp<=3 -%⟩5⟨%- elif temp<=7 -%⟩4⟨%- elif temp<=10 -%⟩3⟨%- elif temp<=13 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
+⟨% macro px_eta(temp) -%⟩1⟨%- endmacro %⟩
+⟨% macro px_gain(temp) -%⟩
+  ⟨%- if temp<=2 -%⟩1⟨%- elif temp<=5 -%⟩2⟨%- elif temp<=8 -%⟩3⟨%- elif temp<=11 -%⟩4⟨%- else -%⟩5⟨%- endif -%⟩
 ⟨%- endmacro %⟩
 ⟨% macro assert_foreshadow(count_needed=2) -%⟩
   ⟨% if gm_style == 'precision' %⟩

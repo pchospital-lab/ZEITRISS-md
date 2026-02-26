@@ -979,15 +979,16 @@ neue **Rift-Seeds** in Reichweite. Ein **Paradoxon -1** bremst den
 Fortschritt spürbar.
 
 _Mehr TEMP bedeutet schnelleren Anstieg:_ Chrononauten mit niedriger
-**Temporaler Affinität (TEMP)** sammeln langsamer Resonanz, bei hohen
-Werten steigert sich der Index rasant. Die Frequenz ist fix an TEMP gekoppelt:
+**Temporaler Affinität (TEMP)** erhalten kleinere, bei hohen Werten größere
+Sprünge. Die Staffel ist fix an TEMP gekoppelt:
 
-| TEMP | Px +1 alle … |
-|-----:|:-------------|
-| 1–3 | 5 erfolgreiche Missionen |
-| 4–6 | 4 erfolgreiche Missionen |
-| 7–9 | 3 erfolgreiche Missionen |
-| 10–13 | 2 erfolgreiche Missionen |
+| TEMP | Px pro erfolgreicher Mission |
+|-----:|:-----------------------------|
+| 1–2 | +1 Px |
+| 3–5 | +2 Px |
+| 6–8 | +3 Px |
+| 9–11 | +4 Px |
+| 12–14 | +5 Px |
 
 Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD
 als Warnung. Eskaliert die Situation weiter → **−1 Px** (Backlash), maximal

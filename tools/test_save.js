@@ -401,17 +401,17 @@ assert.equal(rt.state.campaign.last_mission_end_reason, 'failed');
 
 resetMissionTestState();
 rt.completeMission({ temp: 1, stabilized: 'YES' });
-assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.missions_since_px, 0);
 assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
 
 resetMissionTestState();
 rt.completeMission({ temp: 1, success: 'true' });
-assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.missions_since_px, 0);
 assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
 
 resetMissionTestState();
 rt.completeMission({ temp: 1, completed: 'Stabilized' });
-assert.equal(rt.state.campaign.missions_since_px, 1);
+assert.equal(rt.state.campaign.missions_since_px, 0);
 assert.equal(rt.state.campaign.last_mission_end_reason, 'completed');
 
 rt.state.economy = { cu: '1500', wallets: {} };
