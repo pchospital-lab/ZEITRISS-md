@@ -904,6 +904,12 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   TEMP (1–2: alle 4 Missionen, 3–5: alle 3, 6–8: alle 2, ab 9: jede Mission).
   In `gruppe` zählt `TEMP_gruppe = ceil(sum(TEMP)/n)` aus
   `party.characters[]` (Fallback `team.members[]`).
+- Debrief-Ausnahme-Trigger für Chronopolis-Legenden: Übergib den
+  Kontext bevorzugt als `vehicle_context` oder `vehicle` (z. B.
+  `vehicle_class=tech_iv_temporal`, `vehicle_type=temporal_ship` oder
+  `source=chronopolis_legendary`), damit die HUD-Zeile
+  `Fahrzeugfenster · Ausnahme aktiv` zuverlässig statt des Slot-Rhythmus
+  erscheint.
 - Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
   `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
   freigeschaltete Stadt und hält den Status im Save.

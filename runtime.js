@@ -4297,11 +4297,38 @@ function vehicle_cadence_for_temp(temp){
 
 function is_temporal_ship_context(context = null){
   if (!context || typeof context !== 'object') return false;
-  if (context.temporal_ship === true) return true;
+  if (context.temporal_ship === true || context.is_temporal_ship === true) return true;
   const type = typeof context.type === 'string' ? context.type.toLowerCase() : '';
+  const vehicleType = typeof context.vehicle_type === 'string'
+    ? context.vehicle_type.toLowerCase()
+    : '';
   const klass = typeof context.class === 'string' ? context.class.toLowerCase() : '';
+  const vehicleClass = typeof context.vehicle_class === 'string'
+    ? context.vehicle_class.toLowerCase()
+    : '';
   const source = typeof context.source === 'string' ? context.source.toLowerCase() : '';
-  return type === 'temporal_ship' || klass === 'tech_iv_temporal' || source === 'chronopolis_legendary';
+  return [type, vehicleType, klass, vehicleClass].includes('temporal_ship')
+    || [klass, vehicleClass].includes('tech_iv_temporal')
+    || source === 'chronopolis_legendary';
+}
+
+function resolve_vehicle_window_context(outcome = null){
+  const payload = outcome && typeof outcome === 'object' ? outcome : {};
+  const nested = payload.vehicle_context && typeof payload.vehicle_context === 'object'
+    ? payload.vehicle_context
+    : payload.vehicle && typeof payload.vehicle === 'object'
+      ? payload.vehicle
+      : null;
+  if (nested) return nested;
+  return {
+    temporal_ship: payload.temporal_ship,
+    is_temporal_ship: payload.is_temporal_ship,
+    type: payload.type,
+    vehicle_type: payload.vehicle_type,
+    class: payload.class,
+    vehicle_class: payload.vehicle_class,
+    source: payload.source
+  };
 }
 
 function vehicle_window_status(temp, context = null){
@@ -9949,7 +9976,7 @@ function debrief(st){
   }
   const tempValue = asNumber(outcome.temp) ?? mission_temp();
   lines.push(render_px_tracker(tempValue));
-  lines.push(render_vehicle_window(tempValue));
+  lines.push(render_vehicle_window(tempValue, resolve_vehicle_window_context(outcome)));
   const marketTrace = render_market_trace();
   if (marketTrace){
     lines.push(marketTrace);

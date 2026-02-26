@@ -694,6 +694,7 @@ Decision: ⟪ text ⟫?
   ⟨%- if temp <= 2 -%⟩4⟨%- elif temp <= 5 -%⟩3⟨%- elif temp <= 8 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
 ⟨%- endmacro %⟩
 ⟨% macro vehicle_window(temp, mission, vehicle_class='standard', source='') -%⟩
+  ⟨# Debrief-Kontext: vehicle_context.* / vehicle.* / top-level (vehicle_class, vehicle_type, source) #⟩
   ⟨% set klass = vehicle_class|default('standard')|lower %⟩
   ⟨% set src = source|default('')|lower %⟩
   ⟨% if klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary' %⟩
