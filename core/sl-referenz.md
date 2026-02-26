@@ -889,6 +889,17 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   gated Slots, `!chrono tick` steuert den Missionsrhythmus der Rotation.
 - Slot-Matrix pro Tag: 1 Temporal Ship, 3 Never-Was Gadgets und 4 Era-Skins
   rollen gleichzeitig; die Runtime spiegelt exakt diese Verteilung im Save.
+- Fahrzeug-SSOT (Leitung): pro Charakter genau ein HQ-Technoir-Fahrzeug.
+  Standardfahrzeuge springen nicht physisch durch den Riss; das ITI manipuliert
+  stattdessen den Zeitstrang kleinteilig (Bauteile, Verfügbarkeit,
+  Werkstattketten), bis eine epochenpassende Einsatzform bereitsteht. Bei
+  niedrigem TEMP sind auch „Pechfälle" möglich (z. B. Fahrzeug landet als
+  Museums-Oldtimer im Zugriffspfad). Nur temporale Schiffe der Tech-IV-Klasse
+  dürfen den Zeitriss selbst aktiv nutzen (UFO-Lore-Sichtungen).
+- TEMP-gekoppeltes Fahrzeugfenster: Verfügbarkeit pro Mission via Team-/Solo-
+  TEMP (1–2: alle 4 Missionen, 3–5: alle 3, 6–8: alle 2, ab 9: jede Mission).
+  In `gruppe` zählt `TEMP_gruppe = ceil(sum(TEMP)/n)` aus
+  `party.characters[]` (Fallback `team.members[]`).
 - Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
   `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
   freigeschaltete Stadt und hält den Status im Save.

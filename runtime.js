@@ -4248,8 +4248,68 @@ function phase_strike_cost(ctx = state, baseOrOptions = 2, maybeOptions = {}){
   return total;
 }
 
+function resolve_group_temp(){
+  const roster = Array.isArray(state.party?.characters) && state.party.characters.length
+    ? state.party.characters
+    : (Array.isArray(state.team?.members) ? state.team.members : []);
+  if (!roster.length){
+    return null;
+  }
+  let total = 0;
+  let count = 0;
+  roster.forEach((member) => {
+    const value = Number.isFinite(member?.attributes?.TEMP)
+      ? Number(member.attributes.TEMP)
+      : (Number.isFinite(member?.temp) ? Number(member.temp) : 0);
+    total += value;
+    count += 1;
+  });
+  if (!count){
+    return null;
+  }
+  return Math.ceil(total / count);
+}
+
 function mission_temp(){
-  return state.character?.attributes?.TEMP ?? 0;
+  const groupTemp = resolve_group_temp();
+  if (groupTemp !== null){
+    return groupTemp;
+  }
+  if (Number.isFinite(state.character?.attributes?.TEMP)){
+    return Number(state.character.attributes.TEMP);
+  }
+  if (Number.isFinite(state.temp)){
+    return Number(state.temp);
+  }
+  if (Number.isFinite(state.campaign?.temp)){
+    return Number(state.campaign.temp);
+  }
+  return 0;
+}
+
+function vehicle_cadence_for_temp(temp){
+  const t = Number.isFinite(temp) ? Number(temp) : 0;
+  if (t <= 2) return 4;
+  if (t <= 5) return 3;
+  if (t <= 8) return 2;
+  return 1;
+}
+
+function vehicle_window_status(temp){
+  ensure_campaign();
+  const cadence = vehicle_cadence_for_temp(temp);
+  const missionCount = Number.isFinite(state.campaign?.mission)
+    ? Math.max(1, Math.floor(state.campaign.mission))
+    : 1;
+  const slot = ((missionCount - 1) % cadence) + 1;
+  const ready = slot === cadence;
+  return {
+    cadence,
+    slot,
+    ready,
+    mission: missionCount,
+    next_in: ready ? 0 : (cadence - slot)
+  };
 }
 
 function missions_required(temp){
@@ -4539,6 +4599,21 @@ function render_px_tracker(temp){
   const remaining = gain > 0 ? 1 : 5;
   const eta = `${remaining} Mission${remaining === 1 ? '' : 'en'}`;
   return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · +${gain} Px/Mission · ETA (Heuristik) +1 in ${eta}`;
+}
+
+function render_vehicle_window(temp){
+  const t = Number.isFinite(temp) ? Number(temp) : mission_temp();
+  const window = vehicle_window_status(t);
+  const stateLabel = window.ready
+    ? 'verfügbar'
+    : `wieder in ${window.next_in} Mission${window.next_in === 1 ? '' : 'en'}`;
+  return [
+    'Fahrzeugfenster',
+    `TEMP ${t}`,
+    `Rhythmus ${window.cadence}`,
+    `Missions-Slot ${window.slot}/${window.cadence}`,
+    stateLabel
+  ].join(' · ');
 }
 
 const px_tracker = render_px_tracker;
@@ -9841,7 +9916,9 @@ function debrief(st){
       lines.push(...split.lines);
     }
   }
-  lines.push(render_px_tracker(outcome.temp || mission_temp()));
+  const tempValue = asNumber(outcome.temp) ?? mission_temp();
+  lines.push(render_px_tracker(tempValue));
+  lines.push(render_vehicle_window(tempValue));
   const marketTrace = render_market_trace();
   if (marketTrace){
     lines.push(marketTrace);

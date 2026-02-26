@@ -217,6 +217,8 @@ SaveGuard + folgendem Pfadbaum:
 - `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
 - `campaign.{episode,scene,px,rift_seeds[]}`
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
+- `vehicles` mit Charakter-Slots (1 HQ-Technoir-Basisfahrzeug pro
+  Charakter-ID) und optionalem `active_vehicle_slot` pro Mission.
 - `logs` mit folgenden Pfaden:
   - `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `hud`, `psi`,
     `arena_psi`, `foreshadow`, `fr_interventions`
@@ -823,6 +825,14 @@ Rest-Verteilung pro Lauf nachvollziehbar bleiben.
 Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
 HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
 Arena-Guards scharfgeschaltet werden.
+
+**Fahrzeug-Importregel (SSOT):** `vehicles` wird slotbasiert pro
+`character.id` geführt. Pro Charakter ist genau ein HQ-Basisslot zulässig.
+Bei Mehrfach-Importen gilt Host-Vorrang für kollidierende Fahrzeug-Slots;
+abweichende Importwerte werden als `merge_conflicts` protokolliert. Das
+missionsbezogene Einsatzfenster bleibt TEMP-gesteuert (Solo: Charakter-TEMP,
+Gruppe: `ceil(sum(TEMP)/n)` über `party.characters[]`, Fallback
+`team.members[]`).
 
 ### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
 

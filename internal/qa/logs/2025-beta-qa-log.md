@@ -4443,3 +4443,29 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
   Hinweis ("Korrigiert am …").
 - Sobald alle offenen Punkte erledigt sind, markiere den Abschnitt als
   abgeschlossen und dokumentiere das Datum.
+
+## 2027-03-26 – SSOT-Pass Fahrzeuglogik/TEMP-Fenster – Build 4.2.6
+- Plattform: Repo-Implementierung (Codex)
+- Scope: `runtime.js`, `internal/runtime/toolkit-runtime-makros.md`,
+  `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `gameplay/fahrzeuge-konflikte.md`, `systems/gameflow/speicher-fortsetzung.md`
+
+**Umgesetzt**
+- [x] TEMP-Quelle in Runtime auf Solo/Gruppe harmonisiert (Gruppenmittel via
+  `party.characters[]`, Fallback `team.members[]`, danach `state.temp`/`campaign.temp`).
+- [x] TEMP-gebundenes Fahrzeugfenster (4/3/2/1 Missionsrhythmus) in Runtime +
+  Toolkit + Wissensmodulen gespiegelt.
+- [x] Fahrzeug-SSOT fixiert: 1 HQ-Technoir-Fahrzeug je Charakter,
+  Zeitstrang-Manipulationspfad statt physischem Standardfahrzeug-Transfer.
+- [x] Ausnahmeklasse festgeschrieben: nur temporale Schiffe (Tech IV) dürfen
+  Zeitrisse eigenständig nutzen.
+
+**Offene Nachchecks (gezielt)**
+- [ ] Debrief-Regression mit TEMP 1/3/6/9 auf korrekte Fahrzeugfenster-Formulierung.
+- [ ] Gruppenimport-Test mit kollidierenden Fahrzeugslots (Host-Vorrang/Trace).
+- [ ] Lore-Playcheck zur Epochenform-Plausibilität (Vergangenheit/Moderne/Nullzeit).
+- [ ] Pechfenster-Playcheck bei niedriger TEMP (z. B. Museums-Oldtimer als Fundortpfad).
+
+**Nachverfolgung**
+- QA-Fahrplan: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` (Nachtrag 2027-03-26)
+- Commit/PR: folgt im selben Lauf.
