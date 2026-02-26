@@ -6,6 +6,24 @@ tags: [meta]
 
 # ZEITRISS Beta-QA Log 2025
 
+
+## 2026-02-26 – Repo-Agent – Fahrzeugfenster-Closure (Kontext-Mapping & Regression)
+- Fokus: Debrief-/HUD-Ausnahmepfad für legendäre Chronopolis-Schiffe robust
+  gegen unterschiedliche Kontext-Payloads machen und per Test absichern.
+- Scope: `runtime.js`, `tools/test_vehicle_window.js`, `package.json`,
+  `core/sl-referenz.md`, `internal/runtime/toolkit-runtime-makros.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Runtime akzeptiert jetzt Alias-Felder (`vehicle_class`, `vehicle_type`,
+     `is_temporal_ship`) sowie verschachtelte Payloads (`vehicle_context`,
+     `vehicle`) für den Ausnahme-Trigger.
+  2. Debrief übergibt den Fahrzeugkontext explizit an die
+     Fahrzeugfenster-Auswertung, damit die Zeile „Ausnahme aktiv" stabil im
+     Abschlussbericht erscheint.
+  3. Neuer Regressionstest `tools/test_vehicle_window.js` deckt Normalfall,
+     Top-Level-Context und verschachtelte Kontexte ab; `npm test` bindet den
+     Lauf verbindlich ein.
+
 ## 2026-02-24 – Repo-Agent – Onboarding-Pass aus Deep-Research-Report(6)
 - Fokus: Einstiegshürde im öffentlichen Einstieg senken, ohne neue Regeln oder
   Runtime-Pfade einzuführen.
