@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.69
+version: 0.4.71
 tags: [meta]
 ---
 
@@ -4443,6 +4443,27 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
   Hinweis ("Korrigiert am …").
 - Sobald alle offenen Punkte erledigt sind, markiere den Abschnitt als
   abgeschlossen und dokumentiere das Datum.
+
+## 2027-03-27 – Nachcheck Chronopolis-Legenden (Tech-IV-Ausnahme) – Build 4.2.7
+- Plattform: Repo-Implementierung (Codex)
+- Scope: `runtime.js`, `internal/runtime/toolkit-runtime-makros.md`,
+  `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `gameplay/fahrzeuge-konflikte.md`, `systems/gameflow/speicher-fortsetzung.md`
+
+**Ergebnis Nachschärfung**
+- [x] Ausnahme eingegrenzt: nur legendäre temporale Chronopolis-Schiffe (Tech IV)
+  dürfen Zeitrisse eigenständig durchqueren.
+- [x] Normalfall klargestellt: Nullzeitgefährte der Chrononauten bleiben an
+  Epochenform + TEMP-Fahrzeugfenster gebunden.
+- [x] Runtime/HUD ergänzt: Sonderkontext zeigt expliziten Ausnahmehinweis.
+- [x] Garage-Regel ergänzt: legendäre Chronopolis-Schiffe laufen als
+  zusätzlicher Fraktions-Slot und ersetzen kein persönliches Fahrzeug.
+
+**Offen für Playtest**
+- [ ] Lore-Playcheck: Ausnahme wirklich selten halten (nicht inflationär als
+  Standardtransport nutzen).
+- [ ] Wirtschafts-Playcheck: Kosten-/Zugangsbarriere in Chronopolis-Runs
+  nachvollziehbar kommunizieren.
 
 ## 2027-03-26 – SSOT-Pass Fahrzeuglogik/TEMP-Fenster – Build 4.2.6
 - Plattform: Repo-Implementierung (Codex)

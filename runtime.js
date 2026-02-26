@@ -4295,7 +4295,29 @@ function vehicle_cadence_for_temp(temp){
   return 1;
 }
 
-function vehicle_window_status(temp){
+function is_temporal_ship_context(context = null){
+  if (!context || typeof context !== 'object') return false;
+  if (context.temporal_ship === true) return true;
+  const type = typeof context.type === 'string' ? context.type.toLowerCase() : '';
+  const klass = typeof context.class === 'string' ? context.class.toLowerCase() : '';
+  const source = typeof context.source === 'string' ? context.source.toLowerCase() : '';
+  return type === 'temporal_ship' || klass === 'tech_iv_temporal' || source === 'chronopolis_legendary';
+}
+
+function vehicle_window_status(temp, context = null){
+  if (is_temporal_ship_context(context)){
+    return {
+      cadence: 0,
+      slot: 0,
+      ready: true,
+      mission: Number.isFinite(state.campaign?.mission)
+        ? Math.max(1, Math.floor(state.campaign.mission))
+        : 1,
+      next_in: 0,
+      exceptional: true,
+      note: 'Legendäres temporales Schiff aus Chronopolis (Tech IV): eigenständiger Zeitriss-Transit als Fraktions-Asset (zusätzlicher Garagen-Slot, streng überwacht).'
+    };
+  }
   ensure_campaign();
   const cadence = vehicle_cadence_for_temp(temp);
   const missionCount = Number.isFinite(state.campaign?.mission)
@@ -4308,7 +4330,8 @@ function vehicle_window_status(temp){
     slot,
     ready,
     mission: missionCount,
-    next_in: ready ? 0 : (cadence - slot)
+    next_in: ready ? 0 : (cadence - slot),
+    exceptional: false
   };
 }
 
@@ -4601,9 +4624,17 @@ function render_px_tracker(temp){
   return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · +${gain} Px/Mission · ETA (Heuristik) +1 in ${eta}`;
 }
 
-function render_vehicle_window(temp){
+function render_vehicle_window(temp, context = null){
   const t = Number.isFinite(temp) ? Number(temp) : mission_temp();
-  const window = vehicle_window_status(t);
+  const window = vehicle_window_status(t, context);
+  if (window.exceptional){
+    return [
+      'Fahrzeugfenster',
+      'Ausnahme aktiv',
+      window.note,
+      'Standardfahrzeuge bleiben TEMP-gebunden (Rhythmus 4/3/2/1).'
+    ].join(' · ');
+  }
   const stateLabel = window.ready
     ? 'verfügbar'
     : `wieder in ${window.next_in} Mission${window.next_in === 1 ? '' : 'en'}`;

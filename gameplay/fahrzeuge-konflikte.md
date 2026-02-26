@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
-version: 4.2.6
+title: "ZEITRISS 4.2.8 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren"
+version: 4.2.8
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.6 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
+# ZEITRISS 4.2.8 – Modul 7: Fahrzeuge, Konfliktsystem & Kreative Generatoren
 
 ## Inhalt
 
@@ -74,9 +74,18 @@ Macht euch bereit für ein noch lebendigeres Zeitreise-Erlebnis. Im Folgenden st
 - **Niedriger TEMP – Pechfenster:** Bei niedriger TEMP kann die gewünschte
   Form ungünstig bereitstehen (z. B. als Oldtimer im Museum statt direkt in der
   Garage), bleibt aber derselben HQ-Basisplattform zugeordnet.
-- **Ausnahmeklasse:** Nur temporale Schiffe (Tech IV, temporale Klasse) können
-  den Zeitriss eigenständig nutzen; sie erklären die sichtbaren
-  „UFO“-Phänomene in der Lore.
+- **Ausnahmeklasse (Legendär):** Nur legendäre temporale Schiffe aus
+  Chronopolis (Tech IV, temporale Klasse) können den Zeitriss eigenständig
+  nutzen. Das ist das höchste der Gefühle: selten, extrem kostenintensiv und
+  kein Standard für Chrononauten.
+- **Garage-Zusatzslot statt Ersatz:** Ein erbeutetes/erlangtes temporales Schiff
+  kommt zusätzlich zur persönlichen Basisplattform in die Garage.
+- **Fraktionsbetrieb:** In der Praxis wird das Schiff von der gesamten Fraktion
+  gepflegt, genutzt und gegenseitig überwacht, damit es nicht missbräuchlich
+  eingesetzt wird.
+- **Normalbetrieb:** Nullzeitgefährte bleiben im Regelfall der Zeitrealität
+  unterworfen und erscheinen als epochenpassende Variante derselben
+  HQ-Basisplattform.
 
 ## Fahrzeuge: Zeitreise auf Rädern, Kufen und Flügeln
 

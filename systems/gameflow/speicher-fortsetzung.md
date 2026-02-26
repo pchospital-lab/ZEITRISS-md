@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.6
+title: "ZEITRISS 4.2.8 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.8
 tags: [system]
 ---
 
-# ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.8 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## SSOT-Anker (Systems-Pass)
 
@@ -219,6 +219,8 @@ SaveGuard + folgendem Pfadbaum:
 - `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
 - `vehicles` mit Charakter-Slots (1 HQ-Technoir-Basisfahrzeug pro
   Charakter-ID) und optionalem `active_vehicle_slot` pro Mission.
+- Optional `vehicles.faction_temporal_assets[]` für legendäre Chronopolis-
+  Schiffe (Tech IV) als zusätzliche, fraktionsgebundene Garagen-Slots.
 - `logs` mit folgenden Pfaden:
   - `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `hud`, `psi`,
     `arena_psi`, `foreshadow`, `fr_interventions`
@@ -832,7 +834,12 @@ Bei Mehrfach-Importen gilt Host-Vorrang für kollidierende Fahrzeug-Slots;
 abweichende Importwerte werden als `merge_conflicts` protokolliert. Das
 missionsbezogene Einsatzfenster bleibt TEMP-gesteuert (Solo: Charakter-TEMP,
 Gruppe: `ceil(sum(TEMP)/n)` über `party.characters[]`, Fallback
-`team.members[]`).
+`team.members[]`). Einzig legendäre temporale Chronopolis-Schiffe
+(Tech IV/temporale Klasse) können als explizite Ausnahme den Zeitriss
+selbständig durchqueren; sie bleiben seltene Endgame-Artefakte und berühren
+den Standard-Importpfad nicht. Falls vorhanden, werden sie als
+`vehicles.faction_temporal_assets[]` geführt (Zusatzslot, Fraktionsaufsicht),
+während der persönliche Charakter-Slot unverändert bleibt.
 
 ### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
 
