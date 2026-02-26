@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS QA-Fahrplan 2025"
-version: 1.23.18
+version: 1.23.19
 tags: [meta]
 ---
 
@@ -16,6 +16,30 @@ verschoben, damit dieses Dokument den aktuellen Fokus abbildet.
 - Beta-GPT- und MyGPT-Läufe liefern konsistente QA-Protokolle.
 - Audit, Fahrplan und QA-Log spiegeln denselben Maßnahmen- und Wissensstand.
 - Wissensmodule dokumentieren jede Runtime-Änderung unmittelbar.
+
+## Nachtrag 2026-02-26 – Fahrzeugfenster-Closure in Fahrplan/Audit gespiegelt
+
+Der Runtime-Fix zur robusten Fahrzeugfenster-Ausnahme (Kontext-Mapping +
+Rift-Blockadepfad) war im QA-Log bereits dokumentiert und wird nun als
+verbindlicher Fahrplan-/Audit-Stand nachgezogen.
+
+### Abschlussstatus
+
+- Fahrzeugfenster-Härtung inklusive Alias- und Nested-Kontexte ist im
+  Runtime-Pfad abgeschlossen.
+- Rift-Protokoll bleibt für temporale und Chronopolis-Legenden aktiv und
+  blockiert Fahrzeugeinsätze im Rift-Debrief deterministisch.
+- Regression bleibt über `tools/test_vehicle_window.js` und `npm run
+  test:vehicle-window` abgesichert.
+
+### QA-Nachcheck (Closure-Gate)
+
+1. **Normalpfad:** Nicht-temporale Fahrzeuge folgen weiterhin dem
+   TEMP-Rhythmus (4/3/2/1) ohne Ausnahmehinweis.
+2. **Ausnahmepfad:** Chronopolis-/Tech-IV-/Temporal-Kontext triggert
+   „Ausnahme aktiv“ konsistent (Top-Level und Nested Payloads).
+3. **Rift-Guard:** Bei `campaign.type = rift` liefert die Auswertung
+   „Rift-Protokoll aktiv“ als Blockade-Status statt Fensterfreigabe.
 
 ## Nachtrag 2027-03-27 – Chronopolis-Legenden nachgeschärft
 
