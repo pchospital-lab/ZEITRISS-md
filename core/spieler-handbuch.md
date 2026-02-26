@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.6 – Spieler-Handbuch"
-version: 4.2.6
+title: "ZEITRISS 4.2.8 – Spieler-Handbuch"
+version: 4.2.8
 tags: [core]
 ---
 
@@ -453,9 +453,18 @@ abweichende Kampagnenfelder werden ignoriert und als Konflikt in
 - **Gruppenlogik:** In Gruppeneinsätzen bleibt pro Charakter der eigene
   Fahrzeugslot erhalten; der Host-Save bleibt führend für Kampagnenkontext und
   Konfliktauflösung.
-- **Tech-IV-Ausnahme:** Nur temporale Schiffe (Tech IV/temporale Klasse) können
-  den Zeitriss selbst aktiv nutzen. Diese Klasse deckt die beobachtbaren
-  „UFO“-Sichtungen am Himmel als Ingame-Lore ab.
+- **Tech-IV-Ausnahme (Chronopolis-Legenden):** Nur legendäre temporale
+  Schiffe aus Chronopolis (Tech IV/temporale Klasse) dürfen den Zeitriss
+  physisch und eigenständig durchfliegen. Das bleibt ein Ausnahmefall auf
+  Endgame-Niveau: extrem teuer, selten einsatzfähig und nur bei klarer
+  Missionsnotwendigkeit.
+- **Garage-Regel (Zusatzslot):** Das legendäre Schiff ersetzt niemals das
+  persönliche, epochengebundene Fahrzeug einer Figur. Es steht als zusätzlicher
+  Slot in der Garage und gilt als Fraktions-Asset.
+- **Fraktionsaufsicht:** Nutzung, Wartung und Freigabe liegen typischerweise bei
+  der ganzen Spielerfraktion; Missbrauchsschutz ist Teil der Ingame-Logik.
+- **Normalfall bleibt bindend:** Alle übrigen Chrononauten-Fahrzeuge bleiben
+  an den ITI-Standardpfad gebunden (epochenpassende Form + TEMP-Fenster).
 
 </details>
 

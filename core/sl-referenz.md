@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.6 – SL-Referenz: Dispatcher, Regeln & Systemtabellen"
-version: 4.2.6
+title: "ZEITRISS 4.2.8 – SL-Referenz: Dispatcher, Regeln & Systemtabellen"
+version: 4.2.8
 tags: [core, reference, gm]
 ---
 
-# ZEITRISS 4.2.6 – SL-Referenz
+# ZEITRISS 4.2.8 – SL-Referenz
 
 > Dieses Modul enthält alle Tabellen, Befehle und Systemreferenzen die
 > die KI-Spielleitung zur Laufzeit braucht. Es wird in den Wissensspeicher
@@ -894,8 +894,12 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   stattdessen den Zeitstrang kleinteilig (Bauteile, Verfügbarkeit,
   Werkstattketten), bis eine epochenpassende Einsatzform bereitsteht. Bei
   niedrigem TEMP sind auch „Pechfälle" möglich (z. B. Fahrzeug landet als
-  Museums-Oldtimer im Zugriffspfad). Nur temporale Schiffe der Tech-IV-Klasse
-  dürfen den Zeitriss selbst aktiv nutzen (UFO-Lore-Sichtungen).
+  Museums-Oldtimer im Zugriffspfad). Nur legendäre temporale Schiffe der Tech-IV-Klasse aus Chronopolis dürfen
+  den Zeitriss selbst aktiv nutzen (UFO-Lore-Sichtungen). Diese Ausnahme ist
+  extrem selten, kostenintensiv und ersetzt nicht die Standardlogik für
+  Nullzeitgefährte. Das Schiff läuft als zusätzlicher Garagen-Slot (kein
+  Ersatz des persönlichen Fahrzeugs) und gilt als gemeinsames Fraktions-Asset
+  mit Freigabe- und Aufsichtslogik.
 - TEMP-gekoppeltes Fahrzeugfenster: Verfügbarkeit pro Mission via Team-/Solo-
   TEMP (1–2: alle 4 Missionen, 3–5: alle 3, 6–8: alle 2, ab 9: jede Mission).
   In `gruppe` zählt `TEMP_gruppe = ceil(sum(TEMP)/n)` aus
