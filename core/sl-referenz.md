@@ -910,6 +910,10 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   `source=chronopolis_legendary`), damit die HUD-Zeile
   `Fahrzeugfenster · Ausnahme aktiv` zuverlässig statt des Slot-Rhythmus
   erscheint.
+- Rift-Override: Läuft die Mission als `campaign.type=rift`, hat das
+  Sicherheitsprotokoll immer Vorrang. Die HUD-Zeile wechselt auf
+  `Fahrzeugfenster · Rift-Protokoll aktiv`; Chrononauten-Fahrzeuge (auch
+  Chronopolis/Tech IV) bleiben außerhalb der Anomalie.
 - Warnbanner quittieren: `!chronopolis ack` bzw. `!chronopolis warn ack` setzt
   `logs.flags.chronopolis_warn_seen = true`, signalisiert per HUD-Toast die
   freigeschaltete Stadt und hält den Status im Save.

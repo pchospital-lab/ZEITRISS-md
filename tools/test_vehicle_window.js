@@ -55,4 +55,16 @@ const nestedContext = rt.debrief({
 assertMatch(nestedContext, 'Fahrzeugfenster · Ausnahme aktiv',
   'vehicle_context.vehicle_type muss Ausnahme aktivieren.');
 
+rt.state.campaign.type = 'rift';
+const blockedInRift = rt.debrief({
+  temp: 2,
+  cu_reward: 0,
+  stabilized: true,
+  vehicle_context: { vehicle_type: 'temporal_ship' }
+});
+assertMatch(blockedInRift, 'Fahrzeugfenster · Rift-Protokoll aktiv',
+  'Rift-Ops dürfen keine temporalen Schiffe im Fahrzeugfenster freigeben.');
+assertMatch(blockedInRift, 'ohne Chrononauten-Fahrzeuge',
+  'Rift-Protokoll muss den Ausschluss von Chrononauten-Fahrzeugen klar benennen.');
+
 console.log('test_vehicle_window: ok');
