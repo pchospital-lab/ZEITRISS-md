@@ -253,6 +253,16 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
   `TEMP_gruppe = ceil(sum(temp aller aktiven Charaktere) / anzahl)`. Fehlt ein
   Charakterwert, zählt er als 0; liegt kein Team-Array vor, nutzt die Runtime
   den vorhandenen Fallback (`state.temp`, sonst `campaign.temp`).
+- **TEMP-Quelle je Modus (SSOT):**
+  - **solo / npc-team:** `character.attributes.TEMP` ist führend.
+  - **gruppe:** zuerst `party.characters[].attributes.TEMP` (kanonisch),
+    sonst `team.members[].attributes.TEMP`; Ergebnis immer als aufgerundeter
+    Mittelwert (`ceil`).
+  - **Fallback:** falls kein Roster vorhanden ist, nutzt die Runtime
+    `state.temp`, danach `campaign.temp`, sonst 0.
+- **Fahrzeugfenster über TEMP:** Der gleiche TEMP-Wert steuert den
+  ITI-Fahrzeugrhythmus pro Mission (kein Verbrauchspool): TEMP 1–2 → alle 4
+  Missionen, 3–5 → alle 3, 6–8 → alle 2, ab 9 → jede Mission.
 - **Default bei Fehlschlag:** kein Px-Abzug. Stattdessen greifen Konsequenzen
   über Ressourcen und Lagebild (z. B. weniger CU, mehr Stress/Heat,
   verschärfte Missionsfolgen).
@@ -420,6 +430,32 @@ liefern nur Charaktere (`party.characters[]`), Loadouts und Wallets;
 abweichende Kampagnenfelder werden ignoriert und als Konflikt in
 `logs.flags.merge_conflicts[]` protokolliert. Details im
 [Speicher-Modul](../systems/gameflow/speicher-fortsetzung.md#cross-mode-import).
+
+### Fahrzeuglogik (Nullzeit ↔ Einsatzzeit) {#fahrzeuglogik-nullzeit-einsatzzeit}
+
+- **Besitzregel:** Jeder Charakter darf im HQ genau **ein eigenes Fahrzeug**
+  als Technoir-Basisfahrzeug führen (Upgrade-Pfad bleibt am Charakter hängen).
+- **Standardfahrzeuge vs. Zeitriss:** Normale Fahrzeuge passieren den Zeitriss
+  nicht physisch. Statt eines direkten Transports manipuliert das ITI den
+  Zeitstrang subtil (Bauteile, Verfügbarkeit, Zufälle), sodass in der
+  Zielzeit eine epochenpassende Einsatzform desselben Fahrzeugs bereitsteht.
+- **Formregel je Epoche:**
+  - Vergangenheit: historisch glaubwürdige Variante,
+  - Gegenwart/nahe Zukunft: moderne Variante,
+  - Nullzeit/HQ: Technoir-Basis mit allen freigeschalteten Upgrades.
+- **Plausibilitätsgrenze:** Die Einsatzform darf nur Vehikeltypen nutzen, die in
+  der Zielzeit grundsätzlich existieren können (kein Antigrav-Car in der
+  Antike als „normaler Straßenwagen“).
+- **Niedriger TEMP = mehr Reibung:** Bei geringer TEMP-Stufe kann die
+  Bereitstellung unvorteilhaft ausfallen (z. B. 2018 als geplanter
+  Einsatzzeitraum, aber das passende Chassis steht als Oldtimer im Museum und
+  muss erst als Hobbybastler-Route aktiviert werden).
+- **Gruppenlogik:** In Gruppeneinsätzen bleibt pro Charakter der eigene
+  Fahrzeugslot erhalten; der Host-Save bleibt führend für Kampagnenkontext und
+  Konfliktauflösung.
+- **Tech-IV-Ausnahme:** Nur temporale Schiffe (Tech IV/temporale Klasse) können
+  den Zeitriss selbst aktiv nutzen. Diese Klasse deckt die beobachtbaren
+  „UFO“-Sichtungen am Himmel als Ingame-Lore ab.
 
 </details>
 
