@@ -458,6 +458,11 @@ abweichende Kampagnenfelder werden ignoriert und als Konflikt in
   physisch und eigenständig durchfliegen. Das bleibt ein Ausnahmefall auf
   Endgame-Niveau: extrem teuer, selten einsatzfähig und nur bei klarer
   Missionsnotwendigkeit.
+- **Rift-Ops sind fahrzeugfrei:** In aktiven Rift-Einsätzen sind Chrononauten-
+  Fahrzeuge grundsätzlich ausgeschlossen - inklusive der Tech-IV-Ausnahme.
+  Der Eintritt erfolgt ausschließlich über ITI-Riftverfahren; ein
+  Schiffssprung in die Anomalie ist verboten, weil zusätzliche Rissbildung und
+  Selbst-Anomalie-Risiken auftreten können.
 - **Garage-Regel (Zusatzslot):** Das legendäre Schiff ersetzt niemals das
   persönliche, epochengebundene Fahrzeug einer Figur. Es steht als zusätzlicher
   Slot in der Garage und gilt als Fraktions-Asset.

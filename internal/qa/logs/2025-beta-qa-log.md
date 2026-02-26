@@ -4508,3 +4508,20 @@ Era-Skin: Æon-Nomadenmantel · 200 CU
 **Nachverfolgung**
 - QA-Fahrplan: `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md` (Nachtrag 2027-03-26)
 - Commit/PR: folgt im selben Lauf.
+
+
+## 2027-03-28 – Follow-up Rift-Fahrzeugprotokoll (Chronopolis-Ausnahme)
+- Plattform: Repo-Implementierung (Codex)
+- Scope: `runtime.js`, `tools/test_vehicle_window.js`,
+  `core/spieler-handbuch.md`, `core/sl-referenz.md`,
+  `internal/runtime/toolkit-runtime-makros.md`
+
+**Ergebnis Nachschärfung**
+- [x] Rift-Override ergänzt: `campaign.type=rift` blockiert Chrononauten-
+  Fahrzeuge im Debrief, auch bei Temporal-Ship-Aliasfeldern.
+- [x] HUD-/Debrief-Text präzisiert: `Fahrzeugfenster · Rift-Protokoll aktiv`
+  benennt das Verbot und verweist auf ITI-Riftverfahren.
+- [x] Regression erweitert: `tools/test_vehicle_window.js` prüft den
+  Blockadepfad explizit für Rift-Ops mit temporalem Fahrzeugkontext.
+- [x] Wissensmodule gespiegelt: Spieler-Handbuch, SL-Referenz und
+  Toolkit-Makros dokumentieren den Ausschluss in Rift-Ops.

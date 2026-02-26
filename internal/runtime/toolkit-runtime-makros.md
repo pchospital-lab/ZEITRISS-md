@@ -697,6 +697,10 @@ Decision: ⟪ text ⟫?
   ⟨# Debrief-Kontext: vehicle_context.* / vehicle.* / top-level (vehicle_class, vehicle_type, source) #⟩
   ⟨% set klass = vehicle_class|default('standard')|lower %⟩
   ⟨% set src = source|default('')|lower %⟩
+  ⟨% if mission|default(1)|int > 0 and campaign.type|default('core')|lower == 'rift' and (klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary') %⟩
+    ⟪ hud_tag('Fahrzeugfenster · Rift-Protokoll aktiv · Keine Chrononauten-Fahrzeuge im Rissfenster (inkl. Chronopolis/Tech IV) · Anreise nur via ITI-Riftverfahren.') ⟫
+    ⟨% return %⟩
+  ⟨% endif %⟩
   ⟨% if klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary' %⟩
     ⟪ hud_tag('Fahrzeugfenster · Ausnahme aktiv · Legendäres temporales Schiff (Chronopolis/Tech IV) nutzt den Zeitriss eigenständig · Fraktions-Asset im Zusatzslot (gemeinsam gepflegt/überwacht) · Standardfahrzeuge bleiben TEMP-gebunden (4/3/2/1).') ⟫
     ⟨% return %⟩
