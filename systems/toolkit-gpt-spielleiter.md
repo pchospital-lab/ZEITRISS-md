@@ -4104,6 +4104,14 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 ⟨% macro arena_start_round() -%⟩
   ⟨% set arena.round = arena.round + 1 %⟩
   ⟨% set arena.t_remaining = arena.time_limit_s %⟩
+  ⟨# Round-Reset: LP, SYS, PP, Cooldowns, Psi-Heat → Startwerte #⟩
+  ⟨% for c in arena.combatants %⟩
+    ⟨% set c.hp = c.hp_max %⟩
+    ⟨% set c.sys_runtime = 0 %⟩
+    ⟨% set c.pp = c.pp_max %⟩
+    ⟨% set c.psi_heat = 0 %⟩
+    ⟨% set c.cooldowns = {} %⟩
+  ⟨% endfor %⟩
   ⟨% if arena.large_team and arena.cycle_s %⟩
     ⟨% set arena.cycle_remaining = arena.cycle_s %⟩
     ⟨% set arena.moves_this_cycle = 0 %⟩

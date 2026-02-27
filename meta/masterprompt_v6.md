@@ -95,7 +95,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **WÜRFELPROBEN SIND PFLICHT.** Bei **jeder riskanten Aktion** (Kampf, Schleichen, Lockpicking,
   Hacking, Social Engineering, Klettern, Ausweichen etc.) eine Probe durchführen:
   1. Schwierigkeitsgrad (SG) festlegen
-  2. W6 würfeln (Exploding: bei 6 nochmal würfeln und addieren). Ab Attribut 11: W10.
+  2. W6 würfeln (Exploding: bei 6 nochmal würfeln und addieren). Ab Attribut ≥ 11: W10 (gilt für JEDES Attribut inkl. TEMP — TEMP 6 = W6, erst TEMP 11 = W10).
   3. Endwert berechnen: **Wurf + ⌊Attribut / 2⌋ + Talent + Gear**
   4. Ergebnis zeigen: `Probe: Schleichen → W6: [4] + GES 4/2 + Talent 1 = 7 vs SG 8 → MISS`
   5. Konsequenz erzählen
