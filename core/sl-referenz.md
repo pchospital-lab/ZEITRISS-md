@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.8 – SL-Referenz: Dispatcher, Regeln & Systemtabellen"
-version: 4.2.8
+title: "ZEITRISS 4.2.6 – SL-Referenz: Dispatcher, Regeln & Systemtabellen"
+version: 4.2.6
 tags: [core, reference, gm]
 ---
 
-# ZEITRISS 4.2.8 – SL-Referenz
+# ZEITRISS 4.2.6 – SL-Referenz
 
 > Dieses Modul enthält alle Tabellen, Befehle und Systemreferenzen die
 > die KI-Spielleitung zur Laufzeit braucht. Es wird in den Wissensspeicher

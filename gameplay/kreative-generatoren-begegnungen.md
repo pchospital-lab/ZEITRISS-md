@@ -843,7 +843,7 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 |13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px −1 |
 |14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px −1 |
 
-> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko senkt _Paradoxon-Index_, nicht erhöht.
+> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px −1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
 
 > **Risk-Level (HUD-Badges):** R1 🟢 Niedrig – Warnhinweis · R2 🟡 Moderat – spürbarer Malus · R3 🟠 Hoch – droht Verlust oder harter Debuff · R4 🔴 Kritisch – massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
 

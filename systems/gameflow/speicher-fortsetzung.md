@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.8 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
-version: 4.2.8
+title: "ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)"
+version: 4.2.6
 tags: [system]
 ---
 
-# ZEITRISS 4.2.8 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
+# ZEITRISS 4.2.6 - Modul 12: Speicher- und Fortsetzungssystem (überarbeitet)
 
 ## SSOT-Anker (Systems-Pass)
 

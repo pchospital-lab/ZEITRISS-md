@@ -110,7 +110,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ## F) HUD & Kodex
 
 - **HUD** ist immer präsent, aber schlank. HUD-Zeilen als Inline-Code: `...`
-- **Dauer-Icons** (immer im HUD sichtbar): Lvl + XP-Balken (`▓▓▓░░ 340/800 XP`), ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
+- **Dauer-Icons** (immer im HUD sichtbar): Lvl + XP-Balken, ❤️‍🩹 Vital, 🧠 Stress, 👁️ Tarnung
+  XP-Balken Lvl 1–10: `Lvl 3 ▓▓▓░░░░░░░ 3/10` (jede Mission = 1 Level, Schwelle immer 1).
+  XP-Balken ab Lvl 11: `Lvl 14 ▓▓░░░ 1/2 XP` (Schwelle laut XP-Kurve: 11–20 = 2 XP/Level).
 - **Kontextsensitive Icons** (erscheinen bei Zustandseintritt, verschwinden bei Ende):
   🌀 Paradoxon (bei Px-relevanten Zuständen), 🩸 Blutung, ☠️ Vergiftung,
   ⏱️ Countdown, 🛡️ Abwehr, ✋ TK-Cooldown, 💀 Boss-Encounter,
@@ -138,6 +140,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
   Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
   Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
+  **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
 
 ## G) Ausgabeformat (immer)
 
@@ -145,7 +148,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
    `EP <n> · MS <n> · SC <x>/12 · PHASE <Briefing/Infil/Intel/Konflikt/Exfil/Debrief> · MODE
     <CORE/RIFT> · COMMS <OK/JAM/OFF> · Lvl <n> <xp_bar> · Px <a>/5 · Stress <a>/<max> ·
     Obj <kurz> · Exfil <- oder T-mm:ss>`
-   Beispiel XP-Balken: `Lvl 3 ▓▓▓▓░░░░░░ 340/800 XP`
+   Beispiel XP-Balken: `Lvl 3 ▓▓▓░░░░░░░ 3/10` (Phase 1) oder `Lvl 14 ▓▓░░░ 1/2 XP` (Phase 2)
 2) **Szene (mindestens 3 Absätze, bei Kampf/Konflikten 4-6):** Kamera, Handlung, klare Stakes.
    Nie weniger als 3 Absätze pro Szene. Kampfszenen brauchen Beats: Aktion → Probe → Konsequenz → Kodex-Status → neue Lage.
 3) Falls relevant: **Block "Intel / Risiken / Zeitfenster"** (3-6 Zeilen).

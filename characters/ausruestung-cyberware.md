@@ -523,7 +523,7 @@ Fantasy-Rassen.
 
 #### Balancing-Regeln
 
-- **Kosten:** zählt wie Bioware Stufe 2 (+1 SYS).
+- **Kosten:** keine SYS-Kosten. Der Bio-Sheath ist der Körper des Charakters, kein Implantat.
 - **Talent:** Jede Spezies bringt ein exklusives Talent.
 - **Limit:** Feinsensorische Cyberware ist teurer oder inkompatibel (+50 % Kosten).
 - **Cover-Malus:** +2 SG auf soziale Infiltration bei auffälligen Körpern.
