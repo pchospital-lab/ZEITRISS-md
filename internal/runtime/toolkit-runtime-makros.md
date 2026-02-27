@@ -1,10 +1,10 @@
 ---
-title: "ZEITRISS 4.2.8 – Runtime-Makros (Mirror aus Toolkit)"
-version: 4.2.8
+title: "ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)"
+version: 4.2.6
 tags: [meta]
 ---
 
-# ZEITRISS 4.2.8 – Runtime-Makros (Mirror aus Toolkit)
+# ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)
 
 Dieser Mirror enthält den technischen Makro-/Runtime-Block aus
 `systems/toolkit-gpt-spielleiter.md` als dediziertes Entwicklungsartefakt.

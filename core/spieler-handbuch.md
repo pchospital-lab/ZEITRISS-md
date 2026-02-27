@@ -1,6 +1,6 @@
 ---
-title: "ZEITRISS 4.2.8 – Spieler-Handbuch"
-version: 4.2.8
+title: "ZEITRISS 4.2.6 – Spieler-Handbuch"
+version: 4.2.6
 tags: [core]
 ---
 
@@ -293,13 +293,17 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 ### XP-Kurve
 
-| Level | XP pro Level |
-|------:|--------------|
-| 1–10 | 1 XP (= 1 Mission) |
-| 11–20 | 2 XP |
-| 21–30 | 3 XP |
-| 31–50 | 4 XP |
-| 51–100 | 5 XP |
+| Level | XP pro Level | Kumulativ |
+|------:|-------------:|----------:|
+| 1–10 | 1 XP (= 1 Mission = auto Level-Up) | 10 XP |
+| 11–20 | 2 XP | 30 XP |
+| 21–30 | 3 XP | 60 XP |
+| 31–50 | 4 XP | 140 XP |
+| 51–100 | 5 XP | 390 XP |
+
+> **XP = abgeschlossene Missionen.** Level 1–10: Jede Mission = Level-Up (kein XP-Balken nötig).
+> Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
+> Pro Level-Up genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`.
 
 ### HUD-Icons
 
