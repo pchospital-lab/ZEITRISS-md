@@ -196,3 +196,23 @@ für Immersionstexte umgesetzt (ohne neue Mechaniken).
 Damit ist der Upload-Block (ZR-TRF-001 bis ZR-CHRON-003) vollständig
 als abgeschlossen nachgezogen und über QA-Log + Upload-Archivhinweis
 verlinkt.
+
+## Nachzug Deep-Research-Report(10) – Rift-Interface-Contract (2026-03-01)
+
+Der Upload `uploads/deep-research-report(10).md` wurde gegen den aktuellen
+Playtest-Befund (`internal/qa/evidence/playtest-2026-03-01/showcase-5er-rift-boss-sonnet-full.md`)
+geprüft und als chirurgischer Rift-Patch umgesetzt.
+
+- `gameplay/kampagnenstruktur.md`: SSOT-Ergänzung **Rift-Op Interface Contract**
+  (Zeitmarker-Disziplin, Ankertrennung IA/RW vs. Fallanker, Node nur physisch,
+  Hack nur mit Gerät + Schnittstelle + Signalpfad, No-Cable-Magic,
+  Zeithack-Guard über TEMP/PSI).
+- `systems/toolkit-gpt-spielleiter.md`: Spielleitregel für Rift-Interfaces
+  ergänzt; `chrono_terminal(action, device, target)` blockiert ohne benannte
+  Schnittstelle.
+- `internal/runtime/toolkit-runtime-makros.md`: Makro-Mirror deckungsgleich
+  nachgezogen.
+
+Status: **Teilpaket abgeschlossen** (Rift-Physik-/Interface-Gating).
+Weitere Feinschliffe erfolgen iterativ über neue Playtest-Evidenz.
+
