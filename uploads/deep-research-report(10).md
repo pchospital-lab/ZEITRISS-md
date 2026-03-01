@@ -1,5 +1,23 @@
 # Zeitriss: Rift-Ops „handfest“ machen ohne Matrix-Vibe
 
+## Repo-Gegencheck & Umsetzungsstatus (Repo-Agent, 2026-03-01)
+
+Der Report wurde gegen Runtime- und Wissensmodule gegengeprüft. Der Befund
+"freischwebende Rift-Semantik" + "Kabel als Generalschlüssel" ist valide und
+wurde als chirurgischer Patch in den SSOT-Modulen nachgezogen:
+
+- `gameplay/kampagnenstruktur.md`: neuer **Rift-Op Interface Contract**
+  (Zeitmarker/Anker/Node/Schnittstelle/Signalpfad/Zeithack-Guard).
+- `systems/toolkit-gpt-spielleiter.md`: Rift-Interface-Pflicht als
+  Spielleitregel ergänzt; `chrono_terminal(...)` verlangt jetzt zusätzlich
+  eine benannte Ziel-Schnittstelle.
+- `internal/runtime/toolkit-runtime-makros.md`: Makro-Mirror zum Toolkit
+  synchronisiert.
+
+Status: **Teilpaket umgesetzt (Rift-Physik/Interface-Gating).**
+Weitere Nachschärfungen können in Folgeschritten auf Basis neuer Playtests
+iterativ ergänzt werden.
+
 ## Ausgangslage im Repo
 
 Im Repo ist der gewünschte Ton und die gewünschte Physik eigentlich bereits sehr klar angelegt – an mehreren Stellen sogar explizit als Leitplanke:
