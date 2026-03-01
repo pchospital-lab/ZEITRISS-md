@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)"
-version: 4.2.6
+version: 4.2.7
 tags: [meta]
 ---
 
@@ -1543,11 +1543,14 @@ HQ-Overlay).
 ⟨%- endmacro %⟩
 
 ⟨# LINT:CHRONO_SIGNAL_GUARD #⟩
-⟨% macro chrono_terminal(action, device="Terminal") -%⟩
+⟨% macro chrono_terminal(action, device="Terminal", target="") -%⟩
   ⟨% if device not in ['Terminal','Kabel','Konsole','Comlink'] %⟩
     ⟪ hud_tag('Aktion blockiert - Gerät angeben (Terminal/Kabel/Comlink)') ⟫⟨% return %⟩
   ⟨% endif %⟩
-  ⟪ hud_tag('Terminal: ' ~ action ~ ' (Signalraum aus)') ⟫
+  ⟨% if not target %⟩
+    ⟪ hud_tag('Aktion blockiert - Schnittstelle benennen (Port/Buchse/Relais/Konsole)') ⟫⟨% return %⟩
+  ⟨% endif %⟩
+  ⟪ hud_tag('Terminal: ' ~ action ~ ' @ ' ~ target ~ ' (Signalraum aus)') ⟫
 ⟨%- endmacro %⟩
 
 ### kodex_summary() Macro

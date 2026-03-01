@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 - Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.2.6
+version: 4.2.7
 tags: [gameplay, core]
 ---
 
@@ -372,6 +372,32 @@ Gameplay-Mechanik. Kein Zeiteffekt-Feuerwerk — eine Kreatur hat vielleicht ein
 temporalen Trick, das reicht.
 Diese Einsätze laufen außerhalb der aktuellen Episode und zählen nicht zur regulären
 Missionszahl.
+
+#### Rift-Op Interface Contract (Anti-Freischweben)
+
+Damit Rift-Ops nachvollziehbar bleiben und nicht in Matrix-/Kabelmagie kippen,
+gilt für Briefing, Szenenleitung und Tech-Aktionen dieser Contract:
+
+- **Zeitmarker klar benennen:** Pro Rift-Op genau **ein** Zeitmarker
+  (`Echo`, `Loop` oder `Phasenverschiebung`) als Phänomen, nicht als
+  „Netzwerkebene".
+- **Anker-Begriffe trennen:**
+  - **IA/RW-Anker** = Einsatzfenster (Insertion Anchor/Return Window).
+  - **Fallanker** = konkreter Bezug im Fall (Objekt, Ort oder Person).
+  Die Szene nennt immer explizit, welche Ankerart gemeint ist.
+- **Node nur physisch:** „Node" ist kein abstrakter Zugriffspunkt,
+  sondern ein benennbares Objekt im Raum (z. B. Konsole, Relaiskasten,
+  Funkmast, Deckerbuchse, Wartungspanel).
+- **Hack-Gate in Rift-Ops:** Hardware **allein** reicht nicht.
+  Ein Hack braucht immer (1) Gerät, (2) benannte Schnittstelle am Ziel,
+  (3) plausiblen Signalpfad (Funkreichweite/Relais/Hardline).
+- **No Cable Magic:** „Kabel in Riss/Wand/Spalt" erzeugt **keinen**
+  Systemzugriff ohne ausgewiesene technische Schnittstelle.
+- **Zeithacking-Guard:** Zeitmanipulation ist kein Techniker-Standardhack,
+  sondern nur mit ausreichendem `TEMP` oder PSI-Freigabe zulässig.
+
+**Kurzformat pro Rift-Szene (Pflicht bei Tech-Moves):**
+`Zeitmarker · Fallanker · Schnittstelle · Signalpfad · Risiko bei Fehlschlag`
 
 Rift-Seeds sind **Narben früherer Fehlgriffe** - ob durch Fremdfraktionen,
 fehlgeleitete Chrono-Teams oder eigene Fehlentscheidungen. Sie erscheinen auf

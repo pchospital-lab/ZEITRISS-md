@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 - Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.6
+version: 4.2.7
 tags: [system]
 default_modus: mission-fokus
 ---
@@ -242,6 +242,13 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   Einträge, `!radio clear` setzt das Log vor neuen Einsätzen zurück.
 - **Remote-Hacks:** `comms_check()` erzwingt Comlink + Reichweite oder Terminal/Kabel/Relais.
   Ohne Hardware bricht der Kodex ab und fordert eine reale Verbindung.
+- **Rift-Interface-Contract (Pflicht in Rift-Ops):**
+  - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
+  - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).
+  - Ein Hack gilt nur mit **Gerät + benannter Schnittstelle + Signalpfad**.
+  - „Kabel in Wand/Riss" ist kein Zugriff ohne Port, Buchse, Konsole oder Relais.
+  - Zeithacks nur mit hoher TEMP-Affinität oder PSI-Freigabe, nie als Default-Techmove.
+  - **Ansageformat:** `Zeitmarker · Fallanker · Schnittstelle · Signalpfad · Risiko`.
   - **Siehe auch:** [HUD & Comms - Spezifikation](../characters/hud-system.md#hud-comms-spec)
     und [comms_check](#comms-check). Siehe auch: [HUD-Icons](../characters/hud-system.md#hud-icons)
     für passende Status-Overlays.
@@ -2913,11 +2920,14 @@ HQ-Overlay).
 ⟨%- endmacro %⟩
 
 ⟨# LINT:CHRONO_SIGNAL_GUARD #⟩
-⟨% macro chrono_terminal(action, device="Terminal") -%⟩
+⟨% macro chrono_terminal(action, device="Terminal", target="") -%⟩
   ⟨% if device not in ['Terminal','Kabel','Konsole','Comlink'] %⟩
     ⟪ hud_tag('Aktion blockiert - Gerät angeben (Terminal/Kabel/Comlink)') ⟫⟨% return %⟩
   ⟨% endif %⟩
-  ⟪ hud_tag('Terminal: ' ~ action ~ ' (Signalraum aus)') ⟫
+  ⟨% if not target %⟩
+    ⟪ hud_tag('Aktion blockiert - Schnittstelle benennen (Port/Buchse/Relais/Konsole)') ⟫⟨% return %⟩
+  ⟨% endif %⟩
+  ⟪ hud_tag('Terminal: ' ~ action ~ ' @ ' ~ target ~ ' (Signalraum aus)') ⟫
 ⟨%- endmacro %⟩
 
 ### kodex_summary() Macro

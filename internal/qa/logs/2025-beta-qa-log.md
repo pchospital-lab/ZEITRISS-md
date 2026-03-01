@@ -1,10 +1,31 @@
 ---
 title: "ZEITRISS Beta-QA Log 2025"
-version: 0.4.72
+version: 0.4.73
 tags: [meta]
 ---
 
 # ZEITRISS Beta-QA Log 2025
+
+
+## 2026-03-01 – Repo-Agent – Rift-Interface-Feinpatch (Deep-Research-Report(10))
+- Fokus: Rift-Ops in der Spielerwahrnehmung „handfester" machen und
+  Matrix-/Kabelmagie in der Spielleitung systematisch begrenzen.
+- Quelle: `uploads/deep-research-report(10).md` + Playtest-Evidenz
+  `internal/qa/evidence/playtest-2026-03-01/showcase-5er-rift-boss-sonnet-full.md`.
+- Scope: `gameplay/kampagnenstruktur.md`,
+  `systems/toolkit-gpt-spielleiter.md`,
+  `internal/runtime/toolkit-runtime-makros.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`,
+  `uploads/deep-research-report(10).md`.
+- Ergebnis:
+  1. Neuer **Rift-Op Interface Contract** in der Kampagnenstruktur (Zeitmarker,
+     Ankertrennung, physische Node-Definition, Hack-Gate, No-Cable-Magic,
+     Zeithack-Guard, Kurzformat pro Szene).
+  2. Toolkit-Regelteil um Rift-Interface-Pflicht ergänzt; `chrono_terminal`
+     fordert jetzt neben Gerät auch eine benannte Ziel-Schnittstelle.
+  3. Runtime-Mirror synchronisiert; Upload-Report mit Repo-Gegencheck und
+     Umsetzungsstatus ergänzt.
 
 
 ## 2026-02-26 – Repo-Agent – QA-Fahrplan/Audit auf Fahrzeugfenster-Closure synchronisiert
