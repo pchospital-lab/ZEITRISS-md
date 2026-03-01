@@ -66,6 +66,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 - Jede Tech-Interaktion nennt ein konkretes Gerät oder physischen Zugriffspunkt:
   Kontaktlinse/HUD, Handscanner, Kabel, Relais, Laptop/Terminal, Jammer, Dietrich, Sprengsatz.
+- Interface-Contract (global): Tech-Aktionen nur mit **Gerät + benannter Schnittstelle +
+  Signalpfad**. "Kabel allein" ist nie Vollzugriff. Ohne benannte Schnittstelle wird die
+  Aktion als Spur-/Setup-Beat gespielt (Schnittstelle finden, Signalpfad aufbauen).
 - Ohne Ausrüstung: bodenständige Alternativen (Beobachtung, Social Engineering, Diebstahl von
   Zugang, Strom abschalten, Umgehen).
 

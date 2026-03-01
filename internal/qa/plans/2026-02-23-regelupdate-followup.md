@@ -36,6 +36,18 @@ P2/P3-Regeldrift in Runtime-Modulen reduziert:
 Damit gelten ZR-011 und ZR-012 als nachgezogen; ZR-014 wurde als
 Produktentscheidung **nicht übernommen** (kein Runtime-Requirement).
 
+
+## Nachzug Interface-Contract (2026-03-01)
+
+Aus dem Rift-Feinpatch wurde der universelle Kern jetzt repo-weit nachgezogen
+(Spieler-Handbuch, HUD-Hinweise, Toolkit-Offline-Texte, Masterprompt).
+
+### Offener Restpunkt (nächster Step)
+- 🔶 Prüfen, ob weitere Tech-Makros neben `chrono_terminal()` dieselbe
+  Schnittstellenpflicht explizit als Guard-Blockade ausgeben sollten
+  (insbesondere Arena-/Comms-Pfade), damit die Fehlermeldungen im gesamten
+  Toolkit identisch bleiben.
+
 ## Abschlussstand
 Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
 Pflichtprüfungs-Punkte mehr aus dem Regelupdate-Lauf vom 2026-02-23.

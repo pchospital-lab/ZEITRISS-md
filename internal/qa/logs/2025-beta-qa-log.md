@@ -7,6 +7,27 @@ tags: [meta]
 # ZEITRISS Beta-QA Log 2025
 
 
+## 2026-03-01 – Repo-Agent – Interface-Contract globalisiert + Masterprompt-Spiegel
+- Fokus: Rift-spezifischen Guard-Kern auf den Gesamtbetrieb ausdehnen, ohne
+  Rift-Zeitregeln auf Core/PvP zu übertragen.
+- Quelle: Playtest-Follow-up aus Rift-Feinpatch + Repo-Gegencheck in
+  `meta/masterprompt_v6.md`.
+- Scope: `core/spieler-handbuch.md`, `gameplay/kampagnenstruktur.md`,
+  `systems/toolkit-gpt-spielleiter.md`, `characters/hud-system.md`,
+  `meta/masterprompt_v6.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. Globaler Interface-Contract explizit im Spieler-Handbuch verankert
+     (Gerät + Schnittstelle + Signalpfad).
+  2. Rift-Contract als Zusatzguard geschärft (Scope-Hinweis: globaler Kern
+     gilt überall; Rift ergänzt nur Zeitregeln).
+  3. Offline-/Fallback-Texte im HUD/Toolkit auf IFACE-Wording präzisiert
+     (keine Lesart „Kabel = Zugriff“).
+  4. Masterprompt um denselben Interface-Contract ergänzt; Fahrplan enthält
+     einen offenen Restpunkt zur Guard-Angleichung weiterer Tech-Makros.
+
+
 ## 2026-03-01 – Repo-Agent – Rift-Interface-Feinpatch (Deep-Research-Report(10))
 - Fokus: Rift-Ops in der Spielerwahrnehmung „handfester" machen und
   Matrix-/Kabelmagie in der Spielleitung systematisch begrenzen.
