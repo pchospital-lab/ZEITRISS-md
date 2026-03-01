@@ -1,10 +1,21 @@
 ---
 title: "ZEITRISS QA-Audit 2025"
-version: 1.0.24
+version: 1.0.25
 tags: [meta, qa]
 ---
 
 # ZEITRISS QA-Audit 2025
+
+## Audit-Update 2026-03-01 – Repo-Nachcheck vor Playtest
+
+- Vollständiger Repo-Nachcheck nach Pflichtsuite durchgeführt (`make lint`,
+  `make test`, `bash scripts/smoke.sh`, `python3 tools/lint_runtime.py`,
+  `GM_STYLE=verbose python3 tools/lint_runtime.py`,
+  `python3 scripts/lint_doc_links.py`, `python3 scripts/lint_umlauts.py`).
+- Ergebnis: keine neuen Befunde, keine Drift zwischen Runtime-Content,
+  Wissensmodulen und QA-Layern festgestellt.
+- Playtest-Freigabe aus Repo-Sicht unverändert grün; Follow-up erst bei neuen
+  Tester:innen-Logs erforderlich.
 
 ## Audit-Update 2026-02-26 – Fahrzeugfenster-Closure verifiziert
 
