@@ -42,11 +42,12 @@ Produktentscheidung **nicht übernommen** (kein Runtime-Requirement).
 Aus dem Rift-Feinpatch wurde der universelle Kern jetzt repo-weit nachgezogen
 (Spieler-Handbuch, HUD-Hinweise, Toolkit-Offline-Texte, Masterprompt).
 
-### Offener Restpunkt (nächster Step)
-- 🔶 Prüfen, ob weitere Tech-Makros neben `chrono_terminal()` dieselbe
-  Schnittstellenpflicht explizit als Guard-Blockade ausgeben sollten
-  (insbesondere Arena-/Comms-Pfade), damit die Fehlermeldungen im gesamten
-  Toolkit identisch bleiben.
+### Nachcheck Restpunkt (2026-03-01)
+- ✅ Erledigt: Arena-/Comms-Pfade auf identische Guard-Sprache gezogen.
+  `must_comms()` nennt jetzt explizit die benannte Schnittstelle
+  (Port/Buchse/Konsole/Relais), `validate_signal()` blockiert ohne
+  Gerät+Schnittstelle, und `arena_action(kind='hack')` verweigert Hacks ohne
+  benannte Ziel-Schnittstelle mit derselben HUD-Formulierung.
 
 ## Abschlussstand
 Der Follow-up-Block ist abgeschlossen; es bestehen aktuell keine offenen
@@ -227,4 +228,3 @@ geprüft und als chirurgischer Rift-Patch umgesetzt.
 
 Status: **Teilpaket abgeschlossen** (Rift-Physik-/Interface-Gating).
 Weitere Feinschliffe erfolgen iterativ über neue Playtest-Evidenz.
-

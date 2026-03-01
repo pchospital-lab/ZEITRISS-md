@@ -7,6 +7,26 @@ tags: [meta]
 # ZEITRISS Beta-QA Log 2025
 
 
+## 2026-03-01 – Repo-Agent – Interface-Contract Nachcheck (Arena/Comms-Guards)
+- Fokus: den im letzten Lauf offenen Restpunkt schließen und Guard-Texte in
+  zusätzlichen Tech-Makros mit dem globalen Interface-Contract synchronisieren.
+- Quelle: Restpunkt aus
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`.
+- Scope: `systems/toolkit-gpt-spielleiter.md`,
+  `internal/runtime/toolkit-runtime-makros.md`,
+  `internal/qa/plans/2026-02-23-regelupdate-followup.md`,
+  `internal/qa/logs/2025-beta-qa-log.md`.
+- Ergebnis:
+  1. `must_comms()` ergänzt den Guard-Tipp um die benannte Schnittstelle
+     (Port/Buchse/Konsole/Relais) und harmonisiert damit den Fehlerpfad mit
+     `chrono_terminal()`.
+  2. `validate_signal()` blockiert abstrakte Signalaktionen jetzt direkt mit
+     Gerät+Schnittstellenpflicht statt allgemeinem Hardware-Hinweis.
+  3. `arena_action(kind='hack')` verlangt explizit eine benannte
+     Ziel-Schnittstelle; ohne Ziel greift derselbe Blockadetext wie im
+     Terminal-Guard.
+
+
 ## 2026-03-01 – Repo-Agent – Interface-Contract globalisiert + Masterprompt-Spiegel
 - Fokus: Rift-spezifischen Guard-Kern auf den Gesamtbetrieb ausdehnen, ohne
   Rift-Zeitregeln auf Core/PvP zu übertragen.
