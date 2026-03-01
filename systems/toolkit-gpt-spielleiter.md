@@ -2494,7 +2494,8 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
   ⟨% if not ok %⟩
       ⟪ offline_help('auto') ⟫
       ⟪ raise('CommsCheck failed: require valid device/range or relay/jammer override. ' ~
-        'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / ' ~
+        'Tipp: benannte Schnittstelle (Port/Buchse/Konsole/Relais) lokalisieren, ' ~
+        'Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / ' ~
         'Jammer-Override aktivieren; Reichweite anpassen. ' ~
         '!offline zeigt das Feldprotokoll für den laufenden Einsatz.') ⟫
   ⟨% endif %⟩
@@ -2516,8 +2517,8 @@ km→m und löst bei Fehlern den Offline-Hinweis aus.
   ⟨% if forbidden|select('in', text)|list and not devices|select('in', text)|list %⟩
     ⟪
       hud_tag(
-        'Signalaktion ohne Hardware - Gerät wählen: '
-        ~ 'Comlink koppeln, Terminal suchen, Kabel/Relais nutzen oder abbrechen.'
+        'Signalaktion blockiert - Gerät + benannte Schnittstelle ' ~
+        '(Port/Buchse/Konsole/Relais) angeben.'
       )
     ⟫
   ⟨% endif %⟩
@@ -2923,7 +2924,7 @@ HQ-Overlay).
 ⟨# LINT:CHRONO_SIGNAL_GUARD #⟩
 ⟨% macro chrono_terminal(action, device="Terminal", target="") -%⟩
   ⟨% if device not in ['Terminal','Kabel','Konsole','Comlink'] %⟩
-    ⟪ hud_tag('Aktion blockiert - Gerät angeben (Terminal/Kabel/Comlink)') ⟫⟨% return %⟩
+    ⟪ hud_tag('Aktion blockiert - Gerät angeben (Terminal/Kabel/Konsole/Comlink)') ⟫⟨% return %⟩
   ⟨% endif %⟩
   ⟨% if not target %⟩
     ⟪ hud_tag('Aktion blockiert - Schnittstelle benennen (Port/Buchse/Relais/Konsole)') ⟫⟨% return %⟩
@@ -4216,7 +4217,11 @@ Hebt den Gerätezwang auf, sobald das Team ein physisches Field Kit oder eine Dr
 ⟨% macro arena_action(actor, kind, target=None, device=None) -%⟩
   ⟨% if kind in ['hack','jam'] %⟩
     ⟨% if not device or device not in ['Comlink','Jammer','Terminal','Kabel','Konsole'] %⟩
-      ⟪ arena_penalty(actor, 'Aktion blockiert - Gerät angeben (Comlink/Jammer/Terminal/Kabel)') ⟫
+      ⟪ arena_penalty(actor, 'Aktion blockiert - Gerät angeben (Comlink/Jammer/Terminal/Kabel/Konsole)') ⟫
+      ⟨% return %⟩
+    ⟨% endif %⟩
+    ⟨% if kind == 'hack' and not target %⟩
+      ⟪ arena_penalty(actor, 'Aktion blockiert - Schnittstelle benennen (Port/Buchse/Relais/Konsole)') ⟫
       ⟨% return %⟩
     ⟨% endif %⟩
     ⟨% set guard_device = {
