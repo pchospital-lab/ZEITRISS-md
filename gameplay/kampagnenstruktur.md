@@ -378,6 +378,10 @@ Missionszahl.
 Damit Rift-Ops nachvollziehbar bleiben und nicht in Matrix-/Kabelmagie kippen,
 gilt für Briefing, Szenenleitung und Tech-Aktionen dieser Contract:
 
+> **Scope-Hinweis:** Der globale Interface-Contract (Gerät + Schnittstelle +
+> Signalpfad) gilt in **allen** Modi. Rift-Ops ergänzen hier nur die
+> zeitspezifischen Zusatzguards.
+
 - **Zeitmarker klar benennen:** Pro Rift-Op genau **ein** Zeitmarker
   (`Echo`, `Loop` oder `Phasenverschiebung`) als Phänomen, nicht als
   „Netzwerkebene".

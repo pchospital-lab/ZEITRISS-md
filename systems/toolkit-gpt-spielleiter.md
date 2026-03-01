@@ -231,8 +231,9 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   für das Feldprotokoll auf. Mission läuft weiter mit HUD-Lokaldaten;
   der Befehl ist auf einen Aufruf pro Minute gedrosselt und gibt immer
   dieselben Schritte aus:
-  - Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen -
-    bis dahin bleibt der Kodex stumm.
+  - Terminal oder benannte Schnittstelle lokalisieren, Signalpfad
+    (Hardline/Relais/Funk) aufbauen und Jammer-Override prüfen - bis dahin
+    bleibt der Kodex stumm.
   - Mission normal fortsetzen: HUD liefert lokale Logs, Deepsaves/Cloud-Sync
     laufen erst wieder zurück im HQ.
   - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und
@@ -246,7 +247,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   - Nenne pro Szene genau **einen** Zeitmarker (`Echo`/`Loop`/`Phasenverschiebung`).
   - Trenne IA/RW-Anker (Einsatzfenster) von Fallankern (Objekt/Ort/Person).
   - Ein Hack gilt nur mit **Gerät + benannter Schnittstelle + Signalpfad**.
-  - „Kabel in Wand/Riss" ist kein Zugriff ohne Port, Buchse, Konsole oder Relais.
+  - „Kabel in Wand/Riss" ist kein Zugriff ohne benannte Schnittstelle (Port/Buchse/Konsole/Relais).
   - Zeithacks nur mit hoher TEMP-Affinität oder PSI-Freigabe, nie als Default-Techmove.
   - **Ansageformat:** `Zeitmarker · Fallanker · Schnittstelle · Signalpfad · Risiko`.
   - **Siehe auch:** [HUD & Comms - Spezifikation](../characters/hud-system.md#hud-comms-spec)

@@ -56,8 +56,9 @@ Begriffs-SSOT für Kürzel wie SG/LP/SYS/PP/TEMP: [Glossar im Spieler-Handbuch](
 
 `!offline` ruft bei `HUD:offline` höchstens einmal pro Minute das Kodex Offline-FAQ auf. Die
 Hinweise sind identisch mit der Runtime und helfen der Crew, den Uplink wiederherzustellen:
-- Terminal oder Hardline suchen, Relay koppeln und Jammer-Override prüfen - bis
-  dahin bleibt der Kodex stumm.
+- Terminal oder benannte Schnittstelle (Port/Buchse/Relais/Konsole)
+  lokalisieren, Signalpfad über Hardline/Relais/Funk aufbauen und
+  Jammer-Override prüfen - bis dahin bleibt der Kodex stumm.
 - Mission normal fortsetzen: HUD liefert lokale Logs; neue Saves bleiben bis zum HQ-Resync gesperrt.
 - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
   Bestätigung warten.
