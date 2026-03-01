@@ -683,6 +683,11 @@ Artefakten und temporaler Abweichungen.
 
 #### Agenten-Thriller-Ton 2026-02 - Leitplanken
 
+- **Globaler Interface-Contract (alle Modi):** Tech-Aktionen sind nur mit
+  **Gerät + benannter Schnittstelle + plausiblen Signalpfad** gültig. Kabel,
+  Relais oder Jammer sind Medien/Brücken, aber kein Allzugriff. Ohne
+  benannte Schnittstelle (Port/Buchse/Konsole/Relais/Implantatkontakt) wird
+  die Aktion als Spur-/Setup-Beat gespielt, nicht als sofortiger Hack.
 - **Physicality Gate:** Jeder Scan/Hack/Comms-Call bindet Hardware fest ein
   (Kontaktlinse, Sensor, Kabel/Relais). Keine abstrakten "Digitalräume" - das
   HUD bleibt das Retina-Holo der Linse (Mixed-Reality im Sichtfeld) statt
