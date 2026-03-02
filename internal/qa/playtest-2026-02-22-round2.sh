@@ -16,7 +16,7 @@ api_chat() {
   RESULT=$(curl -s "$OPENWEBUI_URL/api/chat/completions" \
     -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
     -H "Content-Type: application/json" \
-    -d "{\"model\":\"$model\",\"messages\":$messages,\"temperature\":0.8,\"top_p\":0.9,\"frequency_penalty\":0.3,\"max_tokens\":8192,\"stream\":false}" 2>/dev/null)
+    -d "{\"model\":\"$model\",\"messages\":$messages,\"temperature\":0.8,\"top_p\":0.9,\"frequency_penalty\":0.3,\"max_tokens\":16384,\"stream\":false}" 2>/dev/null)
   MSG=$(echo "$RESULT" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('choices',[{}])[0].get('message',{}).get('content','ERROR'))" 2>/dev/null)
   COST=$(echo "$RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin).get('usage',{}).get('cost',0))" 2>/dev/null)
   TOKENS=$(echo "$RESULT" | python3 -c "import sys,json; u=json.load(sys.stdin).get('usage',{}); print(f\"in:{u.get('prompt_tokens',0)} out:{u.get('completion_tokens',0)}\")" 2>/dev/null)

@@ -24,7 +24,7 @@ api_chat() {
       \"temperature\": 0.8,
       \"top_p\": 0.9,
       \"frequency_penalty\": 0.3,
-      \"max_tokens\": 8192,
+      \"max_tokens\": 16384,
       \"stream\": false
     }" 2>/dev/null)
   
