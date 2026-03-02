@@ -688,7 +688,7 @@ Decision: ⟪ text ⟫?
   ⟨% set px = campaign.px or 0 %⟩
   ⟨% set temp_val = temp or 0 %⟩
   ⟨% set eta = px_eta(temp_val) %⟩
-  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · ETA +1 in ' ~ eta ~ ' Missionen') ⟫
+  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · +' ~ px_gain(temp_val) ~ ' Px/Mission · ETA +1 in ' ~ eta ~ ' Mission') ⟫
 ⟨%- endmacro %⟩
 ⟨% macro vehicle_cadence(temp) -%⟩
   ⟨%- if temp <= 2 -%⟩4⟨%- elif temp <= 5 -%⟩3⟨%- elif temp <= 8 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
@@ -714,9 +714,10 @@ Decision: ⟪ text ⟫?
   ⟪ hud_tag('Fahrzeugfenster · TEMP ' ~ temp ~ ' · Rhythmus ' ~ cadence ~ ' · Slot ' ~ slot ~ '/' ~ cadence ~
     ' · ' ~ (ready and 'verfügbar' or ('wieder in ' ~ next_in ~ ' Missionen'))) ⟫
 ⟨%- endmacro %⟩
-⟨% macro px_eta(temp) -%⟩
-  ⟨%- if temp<=3 -%⟩5⟨%- elif temp<=7 -%⟩4⟨%- elif temp<=10 -%⟩3⟨%- elif temp<=13 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
+⟨% macro px_gain(temp) -%⟩
+  ⟨%- if temp<=2 -%⟩1⟨%- elif temp<=5 -%⟩2⟨%- elif temp<=8 -%⟩3⟨%- elif temp<=11 -%⟩4⟨%- else -%⟩5⟨%- endif -%⟩
 ⟨%- endmacro %⟩
+⟨% macro px_eta(temp) -%⟩1⟨%- endmacro %⟩
 ⟨% macro assert_foreshadow(count_needed=2) -%⟩
   ⟨% if gm_style == 'precision' %⟩
     ⟨% set c = scene.foreshadows|length if scene.foreshadows is defined else 0 %⟩
