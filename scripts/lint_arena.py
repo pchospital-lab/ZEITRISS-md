@@ -19,6 +19,10 @@ def assert_no_anchor_in_output_context(text: str, label: str) -> bool:
 def main() -> int:
     root = repo_root(Path(__file__))
     tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
+    try:
+        tk += "\n" + read_text(root / "internal" / "runtime" / "toolkit-runtime-makros.md")
+    except FileNotFoundError:
+        pass
 
     all_ok = True
     all_ok &= ok(r"LINT:ARENA_MODULE", "LINT anchors present (ARENA_MODULE)", tk)
