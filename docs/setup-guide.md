@@ -129,12 +129,16 @@ dem neuesten Repo-Stand bleiben.
   erstellen. Das Script zeigt dazu einen Kosten-/Datentransfer-Hinweis und fragt die
   Auswahl explizit ab. API-Keys werden beim Setup interaktiv abgefragt.
 
-  **Empfohlene Modelle:**
-  | Modell | Typ | Preis/1M Token | Stärke |
-  |--------|-----|----------------|--------|
-  | `anthropic/claude-sonnet-4.6` | **Premium** | ~$3/$15 | Regeltreuster Output, stärkster Noir-Ton, sauberste HUD-Struktur |
-  | `deepseek/deepseek-chat-v3-0324` | **Standard** | ~$0.27/$1.10 | Regeltreu, stabiler Noir-Ton, sehr günstig — klare Hauptempfehlung |
-  | `qwen/qwen3.5-397b-a17b` | **Budget** | ~$0.15/$1 | MoE-Modell, starke Atmosphäre und korrekte Regelumsetzung, near-free |
+  **Empfohlene Modelle (Stand März 2026):**
+
+  > Derzeit ist **Sonnet 4.6 das einzige Modell mit vollständiger Regeltreue.**
+  > Budget-Modelle erzählen atmosphärisch, erfinden aber eigene Würfelsysteme.
+
+  | Modell | Typ | Preis/1M Token | Output | Stärke |
+  |--------|-----|----------------|--------|--------|
+  | `anthropic/claude-sonnet-4.6` | **Empfohlen** | ~$3/$15 | 128K | Einziges Modell mit korrekter Würfelmechanik, HUD, Score-Screen und Px-Berechnung |
+  | `deepseek/deepseek-v3.2` | **Budget** | ~$0.25/$0.40 | 65K | Gute Atmosphäre, sehr günstig (~$0.002/Turn), Regeln teilweise abweichend |
+  | `z-ai/glm-4.6` | **Experimentell** | ~$0.40/$1.71 | 131K | Starker Noir-Ton, erfindet eigene Regeln — für Atmosphäre-Spieler |
 
   **Optimale Parameter (für alle Modelle):**
 
