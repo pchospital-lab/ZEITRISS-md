@@ -84,7 +84,7 @@ function helper_comms_text(){
     'comms_check(device,range_m,range_km?): Pflicht vor radio_tx/rx.',
     'Akzeptiert `comlink|cable|relay|jammer_override` (Groß-/Kleinschreibung egal)',
     'und Meterwerte; optional wandelt der Guard Kilometer in Meter um.',
-    'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren;',
+    'Tipp: benannte Schnittstelle (Port/Buchse/Konsole/Relais) lokalisieren, Terminal suchen / Comlink koppeln / Kabel/Relais nutzen / Jammer-Override aktivieren;',
     'Reichweite anpassen. Physicality Gate greift: Scan/Hack/Comms nennen immer ihr Gerät',
     '(Linse/Sensor/Kabel/Relay/Terminal). `!offline` zeigt das Feldprotokoll, während die Mission',
     'mit HUD-Lokaldaten weiterläuft.'
@@ -7743,7 +7743,7 @@ function require_physical_device(action, options = {}){
     const expected = allowed.length ? allowed.join('/') : 'Lens/Sensor/Terminal';
     throw new Error(
       `Physicality Gate: ${normalizedAction} benötigt Hardware (${expected}). ` +
-      'Setze device=Linse/Sensor/Terminal/Kabel/Relay und beschreibe das spürbare Feedback.'
+      'Signalaktion blockiert - Gerät + benannte Schnittstelle (Port/Buchse/Konsole/Relais) angeben.'
     );
   }
   const entry = record_physical_interaction(normalizedAction, device, {
@@ -7988,7 +7988,7 @@ function must_comms(o){
   if (!comms_check(normalized)){
     throw new Error(
       'CommsCheck failed: require valid device/range or relay/jammer override. ' +
-      'Tipp: Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / ' +
+      'Tipp: benannte Schnittstelle (Port/Buchse/Konsole/Relais) lokalisieren, Terminal suchen / Comlink koppeln / Kabel/Relay nutzen / ' +
       'Jammer-Override aktivieren; Reichweite anpassen. ' +
       'Mission läuft weiter mit HUD-Lokaldaten – !offline listet das Feldprotokoll.'
     );

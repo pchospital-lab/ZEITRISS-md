@@ -2101,11 +2101,34 @@ Decision: ⟪ text ⟫?
   ⟨% set px = campaign.px or 0 %⟩
   ⟨% set temp_val = temp or 0 %⟩
   ⟨% set eta = px_eta(temp_val) %⟩
-  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · +' ~ px_gain(temp_val) ~ ' Px/Mission · ETA +1 in ' ~ eta ~ ' Missionen') ⟫
+  ⟪ hud_tag('Px ' ~ px_bar(px) ~ ' (' ~ px ~ '/5) · TEMP ' ~ temp_val ~ ' · ETA +1 in ' ~ eta ~ ' Missionen') ⟫
 ⟨%- endmacro %⟩
-⟨% macro px_eta(temp) -%⟩1⟨%- endmacro %⟩
-⟨% macro px_gain(temp) -%⟩
-  ⟨%- if temp<=2 -%⟩1⟨%- elif temp<=5 -%⟩2⟨%- elif temp<=8 -%⟩3⟨%- elif temp<=11 -%⟩4⟨%- else -%⟩5⟨%- endif -%⟩
+⟨% macro vehicle_cadence(temp) -%⟩
+  ⟨%- if temp <= 2 -%⟩4⟨%- elif temp <= 5 -%⟩3⟨%- elif temp <= 8 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
+⟨%- endmacro %⟩
+⟨% macro vehicle_window(temp, mission, vehicle_class='standard', source='') -%⟩
+  ⟨# Debrief-Kontext: vehicle_context.* / vehicle.* / top-level (vehicle_class, vehicle_type, source) #⟩
+  ⟨% set klass = vehicle_class|default('standard')|lower %⟩
+  ⟨% set src = source|default('')|lower %⟩
+  ⟨% if mission|default(1)|int > 0 and campaign.type|default('core')|lower == 'rift' and (klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary') %⟩
+    ⟪ hud_tag('Fahrzeugfenster · Rift-Protokoll aktiv · Keine Chrononauten-Fahrzeuge im Rissfenster (inkl. Chronopolis/Tech IV) · Anreise nur via ITI-Riftverfahren.') ⟫
+    ⟨% return %⟩
+  ⟨% endif %⟩
+  ⟨% if klass in ['temporal_ship', 'tech_iv_temporal'] or src == 'chronopolis_legendary' %⟩
+    ⟪ hud_tag('Fahrzeugfenster · Ausnahme aktiv · Legendäres temporales Schiff (Chronopolis/Tech IV) nutzt den Zeitriss eigenständig · Fraktions-Asset im Zusatzslot (gemeinsam gepflegt/überwacht) · Standardfahrzeuge bleiben TEMP-gebunden (4/3/2/1).') ⟫
+    ⟨% return %⟩
+  ⟨% endif %⟩
+  ⟨% set cadence = vehicle_cadence(temp) | int %⟩
+  ⟨% set mission_safe = mission|default(1)|int %⟩
+  ⟨% if mission_safe < 1 %⟩⟨% set mission_safe = 1 %⟩⟨% endif %⟩
+  ⟨% set slot = ((mission_safe - 1) % cadence) + 1 %⟩
+  ⟨% set ready = slot == cadence %⟩
+  ⟨% set next_in = ready and 0 or (cadence - slot) %⟩
+  ⟪ hud_tag('Fahrzeugfenster · TEMP ' ~ temp ~ ' · Rhythmus ' ~ cadence ~ ' · Slot ' ~ slot ~ '/' ~ cadence ~
+    ' · ' ~ (ready and 'verfügbar' or ('wieder in ' ~ next_in ~ ' Missionen'))) ⟫
+⟨%- endmacro %⟩
+⟨% macro px_eta(temp) -%⟩
+  ⟨%- if temp<=3 -%⟩5⟨%- elif temp<=7 -%⟩4⟨%- elif temp<=10 -%⟩3⟨%- elif temp<=13 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
 ⟨%- endmacro %⟩
 ⟨% macro assert_foreshadow(count_needed=2) -%⟩
   ⟨% if gm_style == 'precision' %⟩
@@ -2595,10 +2618,22 @@ FR: ruhig/beobachter/aktiv - wirkt auf Eingriffe in Szene 1.
 Foreshadow ⟪ count ⟫⟨% if required > 0 %⟩/⟪ required ⟫⟨% endif %⟩
 ⟨%- endmacro %⟩
 ⟨% macro resolve_temp_for_px() -%⟩
+  ⟨% if game_mode == 'gruppe' and party is defined and party.characters is defined and party.characters %⟩
+    ⟨% set ns = namespace(total=0, count=0) %⟩
+    ⟨% for member in party.characters %⟩
+      ⟨% set member_temp = member.attributes.TEMP|default(member.temp|default(0, true), true) %⟩
+      ⟨% set ns.total = ns.total + member_temp %⟩
+      ⟨% set ns.count = ns.count + 1 %⟩
+    ⟨% endfor %⟩
+    ⟨% if ns.count > 0 %⟩
+      ⟪ ((ns.total + ns.count - 1) // ns.count) ⟫
+      ⟨% return %⟩
+    ⟨% endif %⟩
+  ⟨% endif %⟩
   ⟨% if game_mode == 'gruppe' and campaign.team is defined and campaign.team.members is defined and campaign.team.members %⟩
     ⟨% set ns = namespace(total=0, count=0) %⟩
     ⟨% for member in campaign.team.members %⟩
-      ⟨% set member_temp = member.temp|default(0, true) %⟩
+      ⟨% set member_temp = member.attributes.TEMP|default(member.temp|default(0, true), true) %⟩
       ⟨% set ns.total = ns.total + member_temp %⟩
       ⟨% set ns.count = ns.count + 1 %⟩
     ⟨% endfor %⟩
