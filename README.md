@@ -61,15 +61,25 @@ _(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
 
 ### Modell-Empfehlung
 
-- **Premium (beste Qualität):** `anthropic/claude-sonnet-4.6`
-  (~$3/$15 pro 1M Token). Regeltreuster Output, stärkster Noir-Ton,
-  sauberste HUD-Struktur.
-- **Standard (Preis-Leistung):** `deepseek/deepseek-chat-v3-0324`
-  (~$0.27/$1.10). Regeltreu, stabiler Noir-Ton, sehr günstig — klare
-  Hauptempfehlung für reguläre Sessions.
-- **Budget (Near-Free):** `qwen/qwen3.5-397b-a17b`
-  (~$0.15/$1). MoE-Modell mit starker Atmosphäre und korrekter
-  Regelumsetzung zum Bruchteil der Kosten.
+> **Stand März 2026:** Derzeit ist `anthropic/claude-sonnet-4.6` das einzige Modell,
+> das das ZEITRISS-Regelwerk zuverlässig umsetzt — korrekte Würfelmechanik
+> (W6+Attr/2+Talent, Exploding), saubere HUD-Struktur, vollständige Score-Screens
+> und regelgetreue Px/CU-Berechnung. Andere Modelle erzählen atmosphärisch gut,
+> erfinden aber eigene Regelsysteme statt dem Spieler-Handbuch zu folgen.
+
+- **Empfohlen:** `anthropic/claude-sonnet-4.6`
+  (~$3/$15 pro 1M Token · 128K Output). Einziges Modell mit vollständiger
+  Regeltreue — HUD, Würfelproben, Score-Screen, Px-Staffel, Interface-Contract.
+  Stärkster Noir-Ton, flüssiges Deutsch, sauberste Spielerfahrung.
+- **Budget-Alternative:** `deepseek/deepseek-v3.2`
+  (~$0.25/$0.40 · 65K Output). Gute Noir-Atmosphäre, korrekte HUD-Formate,
+  sehr günstig ($0.002 pro Turn). Würfelmechanik weicht teilweise ab —
+  spielbar, aber nicht regelgetreu. Für wen die Atmosphäre wichtiger ist als
+  exakte Proben.
+- **Experimentell:** `z-ai/glm-4.6`
+  (~$0.40/$1.71 · 131K Output). Starke Atmosphäre zum Niedrigpreis.
+  Erfindet eigene Regeln — nur für Spieler geeignet, die den Noir-Ton
+  genießen und über Regelabweichungen hinwegsehen.
 
 → [Paradoxon-Index](systems/gameflow/speicher-fortsetzung.md#paradoxon-index)
 → [Immersives Laden](systems/gameflow/speicher-fortsetzung.md#immersives-laden)
