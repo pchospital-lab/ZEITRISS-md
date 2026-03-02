@@ -158,7 +158,7 @@ print(json.dumps({
         'temperature': 0.8,
         'top_p': 0.9,
         'frequency_penalty': 0.3,
-        'max_tokens': 8192
+        'max_tokens': 16384
     }
 }))
 ")

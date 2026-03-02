@@ -15,7 +15,7 @@ api_chat() {
   RESULT=$(curl -s --max-time 180 "$OPENWEBUI_URL/api/chat/completions" \
     -H "Authorization: Bearer $OPENWEBUI_API_KEY" \
     -H "Content-Type: application/json" \
-    -d "{\"model\":\"$model\",\"messages\":$messages,\"temperature\":0.8,\"top_p\":0.9,\"frequency_penalty\":0.3,\"max_tokens\":8192,\"stream\":false}" 2>/dev/null)
+    -d "{\"model\":\"$model\",\"messages\":$messages,\"temperature\":0.8,\"top_p\":0.9,\"frequency_penalty\":0.3,\"max_tokens\":16384,\"stream\":false}" 2>/dev/null)
   if [ -z "$RESULT" ]; then
     echo "  ⏱️ TIMEOUT" && echo "# $label\n- TIMEOUT" > "$outfile" && return
   fi
