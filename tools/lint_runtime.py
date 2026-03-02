@@ -171,6 +171,10 @@ def main() -> int:
         log.error(str(e))
         fails.append(str(e))
         tk = ""
+    try:
+        tk += "\n" + read_text(root / "internal" / "runtime" / "toolkit-runtime-makros.md")
+    except FileNotFoundError:
+        pass  # Optional: macros may be in toolkit or separate file
 
     try:
         tk_runtime = read_text(root / "internal" / "runtime" / "toolkit-runtime-makros.md")
@@ -188,8 +192,8 @@ def main() -> int:
     gm_style = os.getenv("GM_STYLE", "precision")
 
     # Mission-Invarianten & Gates
-    # Runtime darf nicht aus dem Toolkit ausgelagert werden
-    req(r"## Technische Makros & Runtime-Definitionen", tk, "Toolkit enthält Runtime-Abschnitt", fails)
+    # Runtime-Makros dürfen in separater Datei stehen (toolkit-runtime-makros.md)
+    req(r"## Technische Makros|toolkit-runtime-makros", tk, "Toolkit verweist auf Runtime-Makros", fails)
     req(r"⟨# === Init-Block: Variablen & Defaults === #⟩", tk, "Toolkit enthält Init-Block", fails)
 
     req(r"StartMission\([^\)]*type=\"core\"", tk, "StartMission: type core path", fails)

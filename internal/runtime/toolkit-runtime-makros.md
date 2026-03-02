@@ -6,11 +6,11 @@ tags: [meta]
 
 # ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)
 
-Dieser Mirror enthält den technischen Makro-/Runtime-Block aus
-`systems/toolkit-gpt-spielleiter.md` als dediziertes Entwicklungsartefakt.
-Die Spielleitung und der vollständige Runtime-Block bleiben weiterhin im
-Toolkit (`systems/toolkit-gpt-spielleiter.md`) als GPT-Laufzeitquelle.
-Runtime-Änderungen werden hier ausschließlich parallel gespiegelt, damit QA und
+Dieser Mirror spiegelt den Runtime-Makro-Block aus
+`systems/toolkit-runtime-makros.md` als internes Entwicklungsartefakt.
+Der Regeltext steht weiterhin im Toolkit (`systems/toolkit-gpt-spielleiter.md`);
+die Makros wurden in eine eigene Datei (`systems/toolkit-runtime-makros.md`)
+ausgelagert. Runtime-Änderungen werden hier parallel gespiegelt, damit QA und
 Reviews technische Diffs getrennt prüfen können.
 
 ## Technische Makros & Runtime-Definitionen (KI-Spielleiter-Interna)

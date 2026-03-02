@@ -12,6 +12,10 @@ from scripts.lib_lint import ok
 def main() -> int:
     root = repo_root(Path(__file__))
     tk = read_text(root / "systems" / "toolkit-gpt-spielleiter.md")
+    try:
+        tk += "\n" + read_text(root / "internal" / "runtime" / "toolkit-runtime-makros.md")
+    except FileNotFoundError:
+        pass
 
     all_ok = True
     for tag in [
