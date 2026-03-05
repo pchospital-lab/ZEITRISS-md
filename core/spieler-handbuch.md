@@ -328,9 +328,7 @@ Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespieg
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
 beim Ordo Mnemonika im Mischpool). Der fokussierte Modus (`preserve` oder `trigger`)
 ist erst nach einem **Fraktionsübertritt** relevant - vorher bleibt `mixed` aktiv.
-`campaign.seed_source` markiert den aktiven Seed-Typ pro Mission. Der Wert
-landet in `campaign.mode`/`seed_source` und wirkt auf weitere Starts, Cross-Mode-Saves und
-Arena-Rücksprünge.
+Der Modus wird im Save gespeichert und bleibt zwischen Sessions erhalten.
 
 **Klammern sind Pflicht.** Beispiel: `Spiel starten (solo)` wird erkannt; `Spiel starten solo`
 nicht.
@@ -405,9 +403,8 @@ Spiel starten (gruppe schnell)
 
 **Host-Regel:** Der zuerst gepostete Save bestimmt `campaign` (Episode,
 Mission, Mode, Seeds), `economy` (HQ-Pool) und globale `logs`. Weitere Saves
-liefern nur Charaktere (`characters[]`) und deren Wallets;
-abweichende Kampagnenfelder werden ignoriert und als Konflikt in
-`logs.flags.merge_conflicts[]` protokolliert. Details im
+liefern nur Charaktere und deren Wallets;
+abweichende Kampagnenfelder werden ignoriert. Details im
 [Speicher-Modul](../systems/gameflow/speicher-fortsetzung.md#cross-mode-import).
 
 ### Fahrzeuglogik (Nullzeit ↔ Einsatzzeit) {#fahrzeuglogik-nullzeit-einsatzzeit}
@@ -688,8 +685,7 @@ Artefakten und temporaler Abweichungen.
 document | influence | prevent`). Mindestens 60 % der Core-Ops fokussieren
   Personen, Einfluss oder Schutz statt reiner Objekt-Raubzüge.
 - **EntryChoice sichtbar:** Szene 0/1 fragt die Vorgehensweise ab - Core
-  `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`. Skip-Flag
-  respektieren (`state.flags.runtime.skip_entry_choice`).
+  `Cover/Silent/Asset`, Rift `Agent/Investigator/Forensik`.
 - **Rift als Case Engine:** Rift-Arcs folgen dem 14-Szenen-Template mit
   Pflicht-Casefile-Overlay, genau **einem** Anomalie-Element und einem Twist.
   Tatort → Leads → Boss-Encounter → Auflösung, alles physisch belegbar und als

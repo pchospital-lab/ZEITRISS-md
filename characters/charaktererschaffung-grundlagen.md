@@ -308,22 +308,10 @@ Schlüsselmeilensteinen auf.
 Alle neuen Chrononauten starten als **Neutrale** beim Ordo Mnemonika und spielen
 den **Mischpool** — Preserve- und Trigger-Seeds rotieren frei.
 
-**Team-Kompatibilität:**
-- **Neutral + Preserve** = erlaubt (der Neutrale spielt im Preserve-Team mit)
-- **Neutral + Trigger** = erlaubt (der Neutrale spielt im Trigger-Team mit)
-- **Neutral + Neutral** = erlaubt (Mischpool)
-- **Preserve + Preserve** = erlaubt
-- **Trigger + Trigger** = erlaubt
-- **Preserve + Trigger** = **nicht erlaubt** (nur innerhalb derselben Haltung)
-- **Alle gemeinsam gegen Fremdfraktionen** = immer, unabhängig von Haltung
-
-Das ist kein Ausdruck von Feindschaft, sondern ein **ITI-Operationsprinzip**:
-Bei moralisch ambigen Zeitmanipulationen sollen interne Spannungen nicht den
-Einsatz gefährden. Preserve- und Trigger-Agenten sind **Verbündete innerhalb
-des ITI** — Meinungsverschiedenheiten bleiben interne Debatte.
-
-Gegenseitige Kontrolle zwischen Preserve und Trigger funktioniert auf
-**Organisationsebene** (Missionsberichte, Debriefings), nicht im Feld.
+**Team-Kompatibilität:** Neutrale Agenten können in Preserve- und Trigger-Teams
+mitspielen. Preserve + Trigger untereinander ist nicht erlaubt (ITI-Zellenprinzip).
+Gegen Fremdfraktionen kämpfen alle gemeinsam. → Vollständige Tabelle:
+[Kampagnenstruktur](../gameplay/kampagnenstruktur.md#haltung-teams-und-missionspools).
 
 **Missionspools:**
 - **Mischpool (Standard):** Neutrale erhalten Missionen aus beiden Pools —
