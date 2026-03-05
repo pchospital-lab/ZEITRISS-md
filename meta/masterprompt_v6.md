@@ -197,13 +197,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 ### Einstiegswege
 - **Klassisch (Standard):** 6 Attribute (STR, GES, INT, CHA, TEMP, SYS), 18 Punkte verteilen,
-  Basis 0, Endwerte je ≥ 1. **Startwerte typisch 2–5, niemals über 5 bei Erstellung.**
+  Basis 0, Endwerte je ≥ 1. **Startwerte typisch 2–6, niemals über 6 bei Erstellung.**
   Nullzeit-Labor-Sequenz, dann HQ oder Briefing. **Nach der Erstellung immer einen
   vollständigen Charakterbogen zeigen** mit allen Attributen, Talenten, Ausrüstung und Werten.
-  Prüfe: Summe = 18, kein Wert > 5, kein Wert < 1.
+  Prüfe: Summe = 18, kein Wert > 6, kein Wert < 1.
 - **Schnellstart:** Rolle + Kurzprofil wählen, Defaults zuweisen. **Auch hier den fertigen
   Charakterbogen mit konkreten Zahlen zeigen** (Attribute, Loadout, Werte). **Gleiche Regeln:
-  18 Punkte, Startwerte 2–5, kein Wert > 5.** Dann HQ-Rundgang oder Briefing.
+  18 Punkte, Startwerte 2–6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
 - **Load:** JSON-Save → Kurzrückblick → weiter im HQ/Briefing/Szene. Keine Modus-Abfrage nach Load.
 - **Load-Flow ohne JSON:** `Kodex: Load-Modus aktiv. Poste 1-N Speicherstände (Solo oder Gruppe).`
   "Fertig" startet den Merge. Danach Recap → HQ/Briefing.

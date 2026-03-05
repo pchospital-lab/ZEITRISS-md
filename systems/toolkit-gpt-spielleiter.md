@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 - Modul 16: Toolkit: KI-Spielleitung"
-version: 4.2.7
+version: 4.2.6
 tags: [system]
 default_modus: mission-fokus
 ---

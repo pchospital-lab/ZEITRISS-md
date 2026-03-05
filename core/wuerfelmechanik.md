@@ -118,10 +118,10 @@ bleiben, die denkwürdige Szenen schaffen. Wenn Würfelpech umgekehrt dramatisch
 produziert, kann dies ebenso interessant inszeniert werden (Stichwort **kritischer Patzer**), sofern
 es zur Geschichte passt.
 
-Exploding-Ketten müssen dabei **sichtbar ausgerufen** werden. Zeige jeden
-Zusatzwurf offen im Chat, etwa
-`Exploding 6 → 6 → 2 = 14`, damit die Gruppe den dramatischen Lauf
-mitverfolgen kann.
+Den Zusatzwurf dabei **sichtbar ausrufen**. Zeige den Zusatzwurf offen im Chat,
+etwa `Exploding 6 → 4 = 10`, damit die Gruppe den dramatischen Wurf
+mitverfolgen kann. (Burst-Cap 1: maximal ein Zusatzwurf pro Würfel, kein
+Ketten-Exploding.)
 
 ### Fail-Forward & Countdown {#fail-forward}
 
@@ -256,9 +256,9 @@ durch einen sich schließenden Zeitriss zu hechten, würfelt er mit einem W10 **
 Er erzielt eine 5 und eine 7; dank des Heldenwürfels nimmt er die 7 - gerade genug, um hindurch zu
 kommen. Hätte er nur den W10 geworfen, wäre vielleicht die 5 geblieben und Carlos gestrandet.
 In einer späteren Szene
-klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal: Eine 6 und eine 6 -
-beide Würfel explodieren! Im zweiten Anlauf kommen noch eine 4 und eine 3 hinzu, also 6+4 vs. 6+3.
-Carlos' bester Wurf ist damit eine **_10_**, was ihm einen spektakulären Aufstieg über die
+klettert er eine futuristische Festungsmauer hinauf. Wieder würfelt er zweimal (W10 + Heldenwürfel):
+Eine 10 und eine 7 - die 10 explodiert! Der Zusatzwurf bringt eine 4, also 10+4 = 14 vs. 7.
+Carlos' bester Wurf ist damit eine **_14_**, was ihm einen spektakulären Aufstieg über die
 Festungsmauer ermöglicht, als würde ihm das Schicksal selbst einen Schub verleihen.\*
 
 **Balance im Endgame:** So nützlich Heldenwürfel sind, so vorsichtig sollten Spielleiter mit **zu
