@@ -15,15 +15,15 @@
 ## Das Besondere: Dein Save IST dein Charakter
 
 ZEITRISS läuft im Chat, aber dein Fortschritt hängt nicht an einem
-Server-Account. Dein Charakter liegt als versionierter JSON-Speicherstand vor.
+Server-Account. Dein Charakter liegt als JSON-Speicherstand vor — wie ein
+Characterdatenblatt beim klassischen Pen & Paper.
 
-- **Mitnehmbar:** Du kannst denselben Charakter plattformübergreifend laden.
-- **Teilbar:** Gruppen können nach einer Session den Save splitten und später
-  solo oder im Team weiterspielen.
-- **Besitz bei dir:** Wenn du deinen Save hast, bleibt dein Charakter portabel.
+- **Mitnehmbar:** Du kannst denselben Charakter bei jeder KI-Spielleitung laden.
+- **Teilbar:** Gruppen splitten nach der Episode, spielen Rifts getrennt und
+  mergen danach — mit transparentem Merge-Protokoll.
+- **Besitz bei dir:** Dein Save, dein Charakter. Kein Account, kein Lock-in.
 
-Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer ohne proprietären
-Charakter-Lock-in.
+Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
 
 ## In 5 Minuten starten
 
@@ -91,16 +91,14 @@ _(Kurzmodus bleibt möglich: `Spiel starten (solo schnell)`.)_
 2. **Missionsphasen.** Eine **Mission** läuft über Briefing → Infiltration →
    Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
-   sind Sondermissionen in drei Akten mit vierzehn Szenen.
+   sind Sondermissionen in vier Stages mit vierzehn Szenen.
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
-   Stilvolles, professionelles Vorgehen lässt den Index steigen. Bei Px 5 enthüllt
-   `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte - Bonus-Missionen mit
-   Paramonstern und Artefakten. Danach springt der Px für den nächsten Zyklus auf 0;
-   weitere Px-5-Treffer stapeln zusätzliche Seeds im Pool. Die CU-Formel bleibt in
-   Core und Rift identisch (`Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`).
-   Chaos oder grobe Paradoxa halten den Index niedrig; in Extremfällen kostet das
-   ausnahmsweise **-1 Px**.
+4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
+   Je nach TEMP steigt Px pro Mission (niedrig = langsam, hoch = schnell). Bei Px 5
+   enthüllt `ClusterCreate()` 1-2 Rift-Seeds auf der Raumzeitkarte — Bonus-Missionen
+   mit Paramonstern und Artefakten. Danach Reset auf 0. Rift-Ops werden zwischen
+   Episoden gespielt — Seeds können akkumulieren für mehr Loot und höheren
+   Schwierigkeitsgrad.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln;
    Schnellstart ist ein optionaler Zugriffspfad für den schnellen Eindruck,
    ändert aber keine Kernregeln.
@@ -166,12 +164,16 @@ und die Runtime-Referenz.
 ## Multiplayer ohne Server: Bring-Your-Character
 
 - Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
-- Im HQ speichert ihr mit `!save` und teilt den JSON-Block.
+- Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
+- **Split:** Nach der Episode splittet die KI den Save auf Teilgruppen
+  (z.B. 3er + 2er für separate Rift-Ops in verschiedenen Chatfenstern).
+- **Merge:** Nach den Rifts fügt die KI die Saves wieder zusammen —
+  transparentes Protokoll zeigt, wie CU, Seeds und Px konsolidiert wurden.
 - Danach kann jede Person den Gruppenstand weiter nutzen oder einen eigenen
-  Fortsetzungs-Stand daraus starten.
+  Solo-Stand daraus starten.
 
-Damit bleibt der Koop-Loop einfach: spielen, speichern, teilen, später wieder
-einsteigen.
+Damit bleibt der Koop-Loop einfach: spielen, speichern, splitten, Rifts
+getrennt erleben, mergen, nächste Episode.
 
 ## Markenhinweis / Inspiration
 
@@ -221,4 +223,4 @@ Danke für dein Interesse an ZEITRISS. 🕐
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 [llm-ready-link]: systems/gameflow/speicher-fortsetzung.md#paradoxon-index
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
