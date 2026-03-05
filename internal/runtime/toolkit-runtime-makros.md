@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 – Runtime-Makros (Mirror aus Toolkit)"
-version: 4.2.7
+version: 4.2.6
 tags: [meta]
 ---
 

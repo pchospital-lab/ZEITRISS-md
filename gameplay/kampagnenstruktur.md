@@ -1,6 +1,6 @@
 ---
 title: "ZEITRISS 4.2.6 - Modul 6: Regel- und Inspirationsmodul für langfristige Kampagnen"
-version: 4.2.7
+version: 4.2.6
 tags: [gameplay, core]
 ---
 
