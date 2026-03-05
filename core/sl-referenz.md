@@ -1075,31 +1075,34 @@ wieder einschalten. Siehe auch
 - **arenaStart(options)** — Schaltet den Kampagnenmodus auf PvP, zieht die
   Arena-Gebühr, setzt `phase_strike_tax = 1`, aktiviert SaveGuards.
 
-### Runtime-State (Schema)
+### Persistentes Save-Schema (v7)
 
 ```text
-location: "HQ" | "FIELD" | "ARENA"
-campaign: { episode, mission_in_episode, scene, px:0..5,
-  fr_bias:"normal"|"easy"|"hard" }
-phase: "core"|"transfer"|"rift"|"pvp"
-character: { name, level, stress, psi_heat, cooldowns:{},
-  attributes:{STR,GES,INT,CHA,TEMP,SYS_max,SYS_installed,SYS_runtime,SYS_used},
-  talents:[], ... }
-team: { name, members:[...] }, party: { characters:[...] }
-loadout: { primary, secondary, cqb, armor:[], tools:[], support:[] }
-economy: { cu, wallets:{} }
-logs: { artifact_log:[], market:[], offline:[], kodex:[],
-  alias_trace:[], squad_radio:[], hud:[], foreshadow:[],
-  fr_interventions:[], arena_psi:[], psi:[], flags:{} }
-arc_dashboard: { offene_seeds:[], fraktionen:{}, fragen:[], timeline:[] }
-ui: { gm_style, intro_seen, suggest_mode, contrast, badge_density,
-  output_pace, voice_profile }
-arena: { active, phase, mode, previous_mode, wins_player,
-  wins_opponent, tier, proc_budget, artifact_limit,
-  loadout_budget, phase_strike_tax, team_size, fee,
-  scenario, started_episode, last_reward_episode,
-  policy_players:[], audit:[] }
-exfil: { sweeps, stress, ttl_min, ttl_sec, active, armed, anchor, alt_anchor }
+v: 7, zr: "4.2.6"
+campaign: { episode, mission, px:0..5, mode:"mixed"|"preserve"|"trigger"|"rift",
+  rift_seeds:[{id, epoch, label, status, tier}] }
+characters: [{                          // Array, Host = Index 0
+  id, name, callsign, rank, lvl, xp,
+  origin: {epoch, hominin, role},
+  attr: {STR, GES, INT, CHA, TEMP, SYS},  // SYS = SYS_max
+  hp, hp_max, stress,
+  has_psi,                              // wenn true: psi_heat, pp, psi_abilities[]
+  sys_installed,
+  talents:[], equipment:[{name,type,tier}], implants:[{name,sys_cost,effect}],
+  artifact?: {name, tier, effect},      // max 1, nur wenn vorhanden
+  reputation: {iti, faction, factions:{}},
+  wallet
+}]
+economy: { hq_pool }
+logs: { trace:[], market:[], artifact_log:[], notes:[], flags:{} }
+arc: { factions:{}, questions:[], hooks:[] }
+ui: { gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile }
+arena?: { wins, losses, tier }          // nur wenn Arena genutzt
+```
+
+> **Laufzeit-State** (location, phase, scene, exfil, cooldowns, SYS_runtime,
+> SYS_used, psi_buffer) wird NICHT gespeichert — nur zur Laufzeit gesetzt.
+> v6-Saves werden beim Laden via `save_version: 6` erkannt und migriert.
 fr_intervention: "ruhig"|"beobachter"|"aktiv"
 comms: { jammed:boolean, relays:number, rangeMod:number }
 ```
