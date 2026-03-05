@@ -827,27 +827,35 @@ IDs wandern nach dem Ziehen auf eine Cooldown-Liste. Ist der Pool leer, wird die
 neu gemischt und zurückgesetzt, wodurch Wiederholungen erst nach einem vollständigen Durchlauf
 auftreten.
 
-## Artefakt-Generator: Parawesen-Trophies (1W14) {#artefakt-generator}
+## Artefakt-Generator: Parawesen-Trophies (1W14 + TEMP-Bonus) {#artefakt-generator}
 
 _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Artefakt gleichzeitig führen._
-| 1W14 | Name | Effekt | Risiko / Cooldown |
-|----:|------|--------|-------------------|
-| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px -1 bei Fehlwurf |
-| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS -1, Px -1 |
-| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px -1 |
-| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px -1 |
-| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini -2 | R2: Leck Stress +1, Px -1 |
-| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px -1 |
-| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px -1 |
-| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px -1 |
-| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px -1 |
-|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px -1 |
-|11 | **Temporaler Knochenzahn** | SG -2 auf Fossil-Analysen | R1: Signal-Ping, Px -1 |
-|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px -1 |
-|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px -1 |
-|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px -1 |
+
+**TEMP-14-Bonus:** Bei TEMP ≥ 14 erhält der Artefaktwurf **+2**. Ergebnisse
+von 15-16 erreichen die **Mythic**-Stufe — seltene Artefakte, die über
+normalen Legendarys stehen. Der Bonus gilt für den 1W14-Wurf, nicht den Gate-Wurf.
+
+| Wurf | Tier | Name | Effekt | Risiko / Cooldown |
+|----:|:-----|------|--------|-------------------|
+| 1 | Legendary | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px -1 bei Fehlwurf |
+| 2 | Legendary | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS -1, Px -1 |
+| 3 | Legendary | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px -1 |
+| 4 | Legendary | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px -1 |
+| 5 | Legendary | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini -2 | R2: Leck Stress +1, Px -1 |
+| 6 | Legendary | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px -1 |
+| 7 | Legendary | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px -1 |
+| 8 | Legendary | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px -1 |
+| 9 | Legendary | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px -1 |
+|10 | Legendary | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px -1 |
+|11 | Legendary | **Temporaler Knochenzahn** | SG -2 auf Fossil-Analysen | R1: Signal-Ping, Px -1 |
+|12 | Legendary | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px -1 |
+|13 | Legendary | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px -1 |
+|14 | Legendary | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px -1 |
+|15 | **Mythic** | **Chrono-Herz** | +1 auf alle Attribute permanent, 1×/Episode Reroll eines beliebigen Wurfs | R3: Herzstillstand 1 Rd (CHA-Save SG 12), Px -1 |
+|16 | **Mythic** | **Nullzeit-Auge** | Sieht 10 Sek in die Zukunft (1×/Mission), alle Proben +2 für 1 Szene | R4: Zeitblindheit 1 Mission (Wahrnehmung -2), Px -1 |
 
 > **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px -1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
+> **Mythic:** Nur erreichbar mit TEMP ≥ 14 (+2 auf Artefaktwurf). Mythic-Artefakte sind der Endgame-Reward für maximale temporale Affinität.
 
 > **Risk-Level (HUD-Badges):** R1 🟢 Niedrig - Warnhinweis · R2 🟡 Moderat - spürbarer Malus · R3 🟠 Hoch - droht Verlust oder harter Debuff · R4 🔴 Kritisch - massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
 
@@ -857,8 +865,9 @@ _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophä
 Funktion roll_legendary:
 1) Gate-Wurf 1W6 durchführen und das Ergebnis im HUD-Check ausgeben.
 2) Nur bei Gate = 6 fortfahren; sonst Ende ohne Artefakt.
-3) Bei Erfolg 1W14 würfeln, Artefakt aus artifact_pool_v3 auswählen.
-4) Overlay mit Name, Effekt und Risiko anzeigen.
+3) Bei Erfolg 1W14 würfeln. Bei TEMP ≥ 14: +2 auf das Ergebnis.
+4) Ergebnis 1-14 = Legendary, 15-16 = Mythic (nur mit TEMP-Bonus erreichbar).
+5) Overlay mit Name, Tier, Effekt und Risiko anzeigen.
 ```
 
 Auslösung wie bisher in **Rift-Mission Szene 11-13**: genau ein

@@ -3,6 +3,7 @@ const rt = require('../runtime');
 rt.state.character = {
   lvl: 4,
   rank: 'Operator I',
+  reputation: 2,
   cooldowns: {},
   attributes: { TEMP: 2 }
 };

@@ -5565,6 +5565,13 @@ function render_rewards(outcome = {}, missionResult = {}){
     segments.push(`Rang ${rank}`);
   }
 
+  const reputation = asNumber(state.character?.reputation) ?? asNumber(state.character?.ruf);
+  if (reputation !== null){
+    const tierNames = ['0', 'I', 'II', 'III', 'IV', 'V'];
+    const tierLevel = Math.max(0, Math.min(5, reputation));
+    segments.push(`Ruf ${reputation >= 0 ? '+' : ''}${reputation} · Lizenz Tier ${tierNames[tierLevel] || '0'}`);
+  }
+
   return `Belohnungen · ${segments.join(' · ')}`;
 }
 
