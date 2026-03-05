@@ -1266,4 +1266,4 @@ dem Team und der restlichen Zeitlinie.
 > ein paar Sätze eines nervösen Forschers im Labor reichen. Kein
 > philosophischer Monolog.
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

@@ -220,4 +220,4 @@ um jederzeit neue Einsätze zu erstellen und die Kampagne dynamisch weiterzuentw
 Alle Episoden mit identischem `setting_id` lassen sich automatisch als Staffel darstellen.
 Der Renderer sammelt sie und erzeugt eine Tabelle mit Episodentiteln in Reihenfolge.
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

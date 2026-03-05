@@ -688,4 +688,4 @@ Chrononauten bleiben austauschbare Werkzeuge. Ruhm entsteht nur im Kodex und bei
 Diese sechs Charaktere decken typische Spezialisierungen ab und können direkt genutzt
 werden, falls die Gruppe ohne langen Aufbau starten möchte.
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.

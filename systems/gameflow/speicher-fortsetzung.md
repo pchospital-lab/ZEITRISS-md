@@ -779,7 +779,7 @@ Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
    enthält nur den Protagonisten. Nach dem Laden läuft
    `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
-   aktiven Agent:innen an. Die Person, die den Save bereitstellt, ist der Host:
+   aktiven Agenten an. Die Person, die den Save bereitstellt, ist der Host:
    Ihr Kampagnenblock (`episode`, `mission`, `mode`, `seed_source`,
    `rift_seeds[]`) gewinnt bei Konflikten den Vorrang; zusätzliche Crew-Saves
    dürfen nur Charaktere, Loadouts und Wallets beisteuern.
@@ -1006,7 +1006,7 @@ _Snippet gekürzt: Fokus auf UI-Persistenz (`contrast`, `badge_density`,
 
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
-läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer:innen sie im HQ
+läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer sie im HQ
 zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block (`gm_style`/
 `intro_seen`/`suggest_mode`/`action_mode` plus `contrast`/`badge_density`/
 `output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
@@ -1081,7 +1081,7 @@ Union-by-id.
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
-So können neue Agent:innen aufschlagen, während `state.location` auf Mission
+So können neue Agenten aufschlagen, während `state.location` auf Mission
 steht; gespeichert wird trotzdem erst wieder im HQ.
 
 ### Kompatibilität & Guards
@@ -1302,7 +1302,7 @@ die Debrief-Zeilen.
   4. Wenn ein Legacy-Save `modes[]` oder `self_reflection` direkt an der
      Wurzel notiert hatte, landen sie jetzt ebenfalls in `character{}`.
 - Abschließend kontrollierst du die Standard-Flags: **Psi-Puffer** gehören bei allen
-  Agent:innen zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}`
+  Agenten zur Grundausstattung. Fehlt `psi_buffer` in `character{}`, `team{}`
   oder `party.characters[]`, ergänze `true`.
 - Danach verhält sich der Save wie ein natives v6-Dokument. Guards wie der
   HQ-Serializer, Log-Sanitizer und das Semver-Gate operieren erst auf dieser

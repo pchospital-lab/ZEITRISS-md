@@ -115,7 +115,7 @@ dynamische Formel (Core **und** Rift):
 - **Seed-Multi:** `min(1,6; 1 + 0,2 × offene Seeds)` (Rift-Pool),
   Minimum 1,0, Cap 1,6.
 - **Hazard-Pay:** Solo/Buddy-Bonus 1,5×, sobald das Team aus weniger als drei
-  Agent:innen besteht.
+  Agenten besteht.
 - **Bonusziele:** Optionale Zusatzaufgaben erhöhen den Multiplikator oder ergänzen
   einen Festbetrag; dokumentiere die Quelle im Debrief.
 
@@ -395,7 +395,7 @@ beste Ausrüstung will **verdient** sein. Das ITI stellt nie einfach alles unein
 ### HQ-Basar & Chronopolis-Log
 
 Der Einkaufsknoten des ITI - intern meist als **Chronopolis-Basar** bezeichnet - wird technisch vom
-Runtime-Helper `log_market_purchase()` flankiert. Immer wenn Agent:innen Ware ordern, ruft das
+Runtime-Helper `log_market_purchase()` flankiert. Immer wenn Agenten Ware ordern, ruft das
 Toolkit diesen Helper auf. Er sorgt dafür, dass jeder Einkauf als strukturierter Datensatz in
 `logs.market[]` landet und so dauerhaft im Kampagnen-Save erhalten bleibt. Ein Markt-Eintrag enthält:
 
@@ -689,4 +689,4 @@ zwielichtigen Epochen-Bazaren feilscht oder diplomatisch um Fraktionsgunst wirbt
 Geschehen spannend, stimmig und Teil der großen Geschichte. Kein trockenes Zahlenspiel, sondern ein
 **lebendiges System**, das die Abenteuer der Chrononauten um aufregende Facetten erweitert.
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

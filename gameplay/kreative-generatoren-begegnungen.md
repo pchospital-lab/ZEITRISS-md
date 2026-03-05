@@ -284,7 +284,7 @@ um 1 reduzieren.
 12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
 13 Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
 
-_Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
+_Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. LP und Stress dürfen ±20 % variieren.
 
 ## Encounter-Paket "Asien im Kalten Krieg" {#asia-coldwar}
 
@@ -1245,4 +1245,4 @@ vorgesehenen Erfolgsbonus.
 | 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
 | 14 | Near-Future | QC-Archivkammer | Lichtzahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

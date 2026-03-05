@@ -485,4 +485,4 @@ selbst nur knapp entkommen, um das Unrecht später zu sühnen.
 
 \*(Fortsetzung in **_Teil 2_**: Kreative Generatoren ...)\*
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
