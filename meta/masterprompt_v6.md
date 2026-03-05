@@ -225,6 +225,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - KEIN Speichern in Chronopolis.
   - KEINE Auswirkungen auf die echte Zeitlinie (temporäre Instanz von Kodex).
   - **Tod in Chronopolis folgt denselben Konsequenzen wie in Core/Rift.**
+- **Tod-Handling:** Bei 0 LP → Szene stoppen. Spieler wählt:
+  (1) **Respawn:** Letzten Save laden (neuer Chat). Tod ungeschehen.
+  (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
+  + Abschlussbericht ausgeben. Bei Gruppen entscheidet die Gruppe.
   - Items die man lebend rausbringt: behalten. Das ist der Anreiz.
 - **HQ/ITI** ist der sichere Hafen — das Hauptquartier des ITI in der Nullzeit. Zeitlose
   Megacity mit Sprungkammer, Medbay, Arsenal, Trainingsarena und Zero Time Lounge.

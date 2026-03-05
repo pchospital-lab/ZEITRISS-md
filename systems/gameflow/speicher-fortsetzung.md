@@ -1207,6 +1207,38 @@ stellt dann verbindlich eine Gruppenentscheidung:
 Diese Abfrage gilt identisch in Core-, Rift- und Chronopolis-Einsätzen.
 Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
 
+## Team-Split & Team-Merge {#team-split-merge}
+
+### Split (Gruppe aufteilen)
+
+Nach einer Episode können Teams sich für separate Rift-Ops aufteilen.
+Die SL erstellt pro Teilgruppe einen eigenständigen Save:
+
+1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
+   Host des neuen Saves = erster Character im Array.
+2. **HQ-Pool aufteilen:** `economy.hq_pool` gleichmäßig verteilen
+   (oder nach Absprache). Persönliche `wallet`-Werte bleiben beim Character.
+3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds die sie spielen
+   will. Seed-Status wechselt auf `"active"`. Seeds die niemand nimmt bleiben
+   `"open"` und kommen in beide Saves.
+4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
+5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
+6. **campaign.px:** Px wird in beide Saves kopiert (nicht aufgeteilt).
+
+### Merge (Teams zusammenführen)
+
+Nach separaten Rift-Ops werden die Saves wieder zusammengeführt:
+
+1. **Characters mergen:** Alle `characters[]` in ein Array. Host = Index 0
+   (aus dem Save des Original-Hosts).
+2. **HQ-Pool summieren:** `economy.hq_pool` aus beiden Saves addieren.
+3. **Seeds: Union:** Alle Seeds beider Saves zusammenführen (closed + open).
+4. **Px: Maximum** nehmen (der höhere Wert gewinnt).
+5. **Logs mergen:** Trace-Events, Artifact-Logs und Notes zusammenführen.
+6. **arc mergen:** Factions, Questions, Hooks vereinigen. Bei Konflikten: beide behalten.
+7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle die jede
+   Entscheidung nachvollziehbar macht.
+
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
 Nach jeder Mission folgt auf den Belohnungsblock automatisch der Koop-Abschnitt.
