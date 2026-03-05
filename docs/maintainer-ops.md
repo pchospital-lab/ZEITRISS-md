@@ -12,7 +12,7 @@ optional.
 
 ## Wissensspeicher & Grundsetup
 
-Der Datensatz für Runtime-nahe GPT-Setups besteht aus:
+Der Datensatz für Runtime-nahe KI-Setups besteht aus:
 
 1. **Masterprompt:** `meta/masterprompt_v6.md` (Systemfeld oder erste Nachricht).
 2. **Spieler-Handbuch:** `core/spieler-handbuch.md`.
@@ -42,7 +42,7 @@ Der Datensatz für Runtime-nahe GPT-Setups besteht aus:
   Wissensstand aus diesem Repo.
 - **Automationspfad:** API-gesteuerte Testläufe (z. B. über Agenten wie Altair)
   sind erlaubt, solange vollständige Logs archiviert werden.
-- **Externe GPT-Plattformen:** optional; kein Release-Blocker.
+- **Externe KI-Plattformen:** optional; kein Release-Blocker.
 - **Grundsatz:** Das Repository liefert den kanonischen Stand. Der Betrieb
   erfolgt auf Verantwortung der nutzenden Person/Organisation.
 
@@ -62,7 +62,7 @@ Der Datensatz für Runtime-nahe GPT-Setups besteht aus:
 3. Alternativ manuell Masterprompt + Wissensmodule importieren.
 4. Nach jedem Merge Wissensmodule neu synchronisieren und Save/Load kurz prüfen.
 
-### OpenAI MyGPT & GPT-Store (optional)
+### OpenAI GPTs (optional, Legacy)
 
 - Nur bei explizitem Bedarf spiegeln.
 - Keine plattformspezifischen Sonderregeln in den Repo-Stand zurückschreiben,
@@ -80,9 +80,9 @@ Der Datensatz für Runtime-nahe GPT-Setups besteht aus:
 Halte den Übergabeprozess in
 `CONTRIBUTING.md#beta-gpt-qa-uebergaben` ein.
 
-## Beta-GPT & Playtests
+## Playtests
 
-- Beta-GPT- oder Plattformklone sind für Vergleichsläufe erlaubt, aber optional.
+- Plattformklone sind für Vergleichsläufe erlaubt, aber optional.
 - Maßgeblich für Freigaben ist ein dokumentierter, reproduzierbarer QA-Lauf.
 
 ## Übergabe an Codex & Dokumentation
@@ -104,4 +104,4 @@ Halte den Übergabeprozess in
 - Rechtliche Hinweise prüfen (`docs/trademark.md`, `LICENSE`, README).
 - `make lint`, `make test`, `bash scripts/smoke.sh` ausführen und dokumentieren.
 - Public Release = Repo-Download + Eigenbetrieb; keine verpflichtende
-  Bereitstellung vorgebauter gehosteter GPT-Instanzen.
+  Bereitstellung vorgebauter gehosteter KI-Instanzen.
