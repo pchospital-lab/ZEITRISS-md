@@ -428,7 +428,7 @@ if not char.get("psi") and not char.get("has_psi"):
   Konsequenzen über Stress/Heat/CU/Storydruck im Debrief.
 
 - Nach jeder Mission gib den Px-Stand inkl. TEMP und geschätztem ETA bis zum
-  nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +4 Px/Mission · ETA +1 in 1 Mission`.
+  nächsten Anstieg aus, z. B. `Px: ▓▓▓░░ · TEMP 11 · +2 Px/Mission · ETA +1 in 1 Mission`.
   Ein optionales `px_tracker(temp)`-Makro berechnet diese TEMP-basierte
   Staffel automatisch.
 - Modus `gruppe` nutzt dafür den SSOT-Teamwert
@@ -448,8 +448,8 @@ if not char.get("psi") and not char.get("has_psi"):
 
   ```text
   Rewards rendered
-  Px ███░░ (3/5) · TEMP 11 · +4 Px/Mission · ETA +1 in 1 Mission
-  Kodex: Mission stabilisiert (+4 Px bei TEMP 11).
+  Px ███░░ (3/5) · TEMP 11 · +2 Px/Mission · ETA +1 in 1 Mission
+  Kodex: Mission stabilisiert (+2 Px bei TEMP 11).
   ```
 
 - Erreicht der Index Px 5, löst die Runtime `ClusterCreate()` aus,

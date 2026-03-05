@@ -521,16 +521,15 @@ Diese Tabellen passen auf eine A6-Karte oder ins HUD.
 Bei Px 5 schaltet ihr Bonus-Missionen (Rift-Ops) frei - Mystery-Casefile-Abenteuer mit
 Paramonstern und Artefakt-Loot. Der Index ist ein Fortschrittsbalken, keine Gefahr.
 
-**Px steigt durch:** Elegante Lösungen, Missionsziele erreichen, Zeitlinie stabilisieren.
-**Px stagniert bei:** Chaos, lautes Vorgehen, Missionsabbruch.
+**Px steigt deterministisch** nach jeder erfolgreichen Mission gemäß der TEMP-Staffel
+(→ siehe Spieler-Handbuch oder zeitriss-core.md für die vollständige Tabelle).
 **Px -1 (selten):** Nur bei extremen Fehlern (Zivilopfer, zerstörte Kern-Anker).
-
-Einfache Begegnungen mit Zeitzeugen zählen nur, falls sie Resonanz im Szenario erzeugen.
+Missionsabbruch oder Scheitern = kein Px-Zuwachs, aber auch kein Abzug.
 
 > **Paradoxon-Pro-Tip:**
-> *Stilvolle Kernschritte lassen den Index sichtbar wachsen - saubere Lösungen zahlen sich aus.*
-> *Chaos friert den Stand ein, nur grobe Paradoxa drücken ihn ausnahmsweise um 1.*
-> Riskantere Nebenaufgaben können Rift-Seeds schneller freischalten - das Team entscheidet.
+> *Der Px-Anstieg ist fix an TEMP gekoppelt — jede erfolgreiche Mission zählt.*
+> *Grobe Paradoxa drücken den Index ausnahmsweise um 1.*
+> Höherer TEMP-Wert = schnellerer Px-Aufbau = mehr Rift-Seeds pro Episode.
 
 ### Seed-Counter im HUD
 
@@ -776,7 +775,7 @@ Reroll bei Attribut 14+ (besseres Ergebnis zählt).
 
 1. **Phasenablauf:** Briefing → Infiltration → Kontakt/Intel → Konflikt → Exfiltration → Debrief.
 2. **Würfel:** 1W6, ab Attribut 11 ein W10 (Exploding 10). Heldenwürfel ab 14.
-3. **Paradoxon-Index:** wächst mit Missionsfortschritt oder Stabilisierung; bei 5 löst `ClusterCreate()` aus.
+3. **Paradoxon-Index:** steigt deterministisch pro erfolgreicher Mission (TEMP-Staffel); bei 5 löst `ClusterCreate()` aus.
    Er setzt den Zähler auf 0. Neue Rift-Seeds sind erst nach Episodenende zugänglich.
 4. **Stress & Health:** reichen von 0 bis 10; Heilung erfolgt hauptsächlich in der
 HQ-Phase.
