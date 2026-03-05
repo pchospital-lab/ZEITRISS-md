@@ -29,6 +29,6 @@ von Änderungen nach eigenem Ermessen.
 
 ## Betrieb & Verantwortung
 
-- Das Projekt veröffentlicht keine vorgebauten gehosteten GPT-Instanzen.
+- Das Projekt veröffentlicht keine vorgebauten gehosteten KI-Instanzen.
 - Nutzung erfolgt über Repo-Download und Eigenbetrieb (lokal oder eigenes
   Hosting) auf eigene Verantwortung.

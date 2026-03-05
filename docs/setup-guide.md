@@ -37,7 +37,7 @@ zwischen README und Setup-Guide synchron.
 
 Die komplette Operator-Checkliste liegt repo-intern vor. Dort findet ihr die
 Plattform-Workflows, Upload-Notizen sowie die Rollenaufteilung zwischen
-Custom-GPT, Repo-Agent und Ingame-Kodex. Dieses README listet nur die
+Repo-Agent und Ingame-Kodex. Dieses README listet nur die
 Laufzeitreferenz - bei Fragen zum Hochladen, Synchronisieren oder Testen führt
 euch das Maintainer-Dokument.
 
@@ -151,7 +151,7 @@ dem neuesten Repo-Stand bleiben.
 
   Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
   die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.
-- **MyGPT (OpenAI, optional):** Funktionell derzeit nicht als Primärpfad empfohlen,
+- **OpenAI-GPTs (optional): Funktionell derzeit nicht als Primärpfad empfohlen,
   weil Content-Filter häufiger eingreifen (`redacted`) und große Masterprompts in
   der Praxis limitieren können.
 - **Lokale Modelle (Offline):** Perspektivisch interessant, aktuell für ZEITRISS oft
@@ -225,7 +225,7 @@ ZEITRISS-md/
   Lizenzanfragen.
 - **Hintergrund- & Strategie-Notizen (repo-intern)** - Lizenz-,
   Hosting- und Entwicklungsnotizen, nicht für den Wissensspeicher gedacht.
-- **Masterprompts (repo-intern)** - Laufzeit-Briefings für MyGPT; enthalten
+- **Masterprompts (repo-intern) – Laufzeit-Briefings für die KI-SL; enthalten
   keine Dev-Vorgaben wie Agentenregeln.
 
 ## Wie du beitragen kannst
@@ -244,6 +244,6 @@ Gemäß Lizenz richten sich diese Regeln ausschließlich an Erwachsene (18+).
 
 Die vollständige 15-Punkte-Checkliste für QA-/Beta-Läufe ist als Runtime-
 Spiegel im [Toolkit](../systems/toolkit-gpt-spielleiter.md#acceptance-smoke)
-verfügbar, damit produktive GPT-Instanzen die Prüfpunkte intern referenzieren
+verfügbar, damit KI-Spielleitungen die Prüfpunkte intern referenzieren
 können. Die ausführliche Version mit Goldenfiles und Traces liegt in
 [`docs/qa/tester-playtest-briefing.md`](qa/tester-playtest-briefing.md#acceptance-smoke-checkliste).
