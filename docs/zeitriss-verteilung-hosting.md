@@ -33,12 +33,12 @@ hervorgehoben werden.
   `systems/`) bildet die einzige Quellenbasis.
 - **Einmal ändern, überall spiegeln:** Änderungen am Regelwerk oder an
   Mechaniken werden einmalig im Repo durchgeführt und anschließend auf allen
-  Zielplattformen (ChatGPT-Instanz, Proton LUMO, lokale Runner)
+  Zielplattformen (OpenWebUI, lokale Runner)
   synchronisiert. Es gibt keine parallelen Varianten des Spiels.
 - **Plattform-Overhead minimieren:** Anstatt eine eigene App oder Server-
   Infrastruktur zu entwickeln, nutzt ZEITRISS bestehende Tools. LM Studio oder
   ähnliche lokale LLM-Umgebungen dienen als „Game-Engine“, Proton LUMO oder
-  Custom-GPT-Umgebungen als Alternativen. Updates werden durch das Teilen der
+  KI-Plattformen als Alternativen. Updates werden durch das Teilen der
   Wissensbasis realisiert, nicht durch App-Patches.
 - **Geschützter Betrieb:** Wo immer möglich, bleibt das Spiel offline oder
   Ende-zu-Ende-verschlüsselt. Die Spielerfahrung findet im privaten Rahmen
@@ -57,7 +57,7 @@ hervorgehoben werden.
   QA-Journal fest (`internal/qa/logs/...`).
 - **QA-Fahrplan & Tests:** Ein priorisierter Maßnahmenplan (siehe
   `internal/qa/plans/ZEITRISS-qa-fahrplan-2025.md`) definiert anstehende
-  Verbesserungen und Bugfixes. KI-gestützte Playtests (Beta-GPT in MyGPT)
+  Verbesserungen und Bugfixes. KI-gestützte Playtests
   prüfen neue Builds autonom – inklusive vollständiger Durchläufe mit Issue-
   und Lösungsvorschlag-Blöcken. Jede erkannte Schwachstelle wird vom Repo-
   Agenten in Code oder Regeltext übertragen und im Fahrplan abgehakt.
@@ -107,7 +107,7 @@ hervorgehoben werden.
   Lizenzierung).
 - **Import-Schritte (Kurzfassung):** Für gängige Umgebungen werden kurze
   Importanleitungen bereitgestellt:
-  - **OpenAI GPT (MyGPT/Store):** Custom-GPT anlegen,
+  - **OpenAI GPTs (optional, Legacy):
     `meta/masterprompt_v6.md` vollständig ins Systemprompt-Feld kopieren.
     Danach `core/spieler-handbuch.md` und alle 19 Runtime-Module in den
     Wissensspeicher hochladen (Details in `docs/maintainer-ops.md`).
@@ -168,7 +168,7 @@ internen Notizen).
   Für optimale Ergebnisse wird derzeit ein Modell der Größenordnung 20B
   Parameter genutzt (z. B. Llama-2-Chat-13B/70B je nach Hardware).
 - **OpenAI API/Store:** Für Test- und QA-Zwecke läuft ZEITRISS in einer
-  OpenAI-MyGPT-Instanz (GPT-4-basiert). Dies ist eher für Entwicklung gedacht,
+  OpenAI-Instanz (optional, Legacy). Dies ist eher für Entwicklung gedacht,
   da die Inhalte dort nicht E2EE sind. Produktiv bleibt die Nutzung der
   OpenAI-Plattform optional und erfordert Vorsicht (keine echten persönlichen
   Daten im Spiel, Beachtung der OpenAI-Nutzungsbedingungen).
