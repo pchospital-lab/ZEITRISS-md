@@ -767,9 +767,12 @@ Der **TEMP-Wert (Temporale Affinität)** bestimmt den Px-Zuwachs:
 | 12–14 | +3 Px pro Mission |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
-fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach
-Beendigung der Episode - Teams können Seeds "offen halten", um
-spätere Beutezüge zu planen.
+fortgeschrittener Fraktionsausrüstung. Rift-Ops werden **ausschließlich zwischen
+Episoden** gespielt — während einer laufenden Episode sind sie gesperrt.
+Teams können Seeds bewusst "offen halten" und über Episoden hinweg akkumulieren,
+um später mehr Loot abzugreifen und den Schwierigkeitsgrad selbst zu bestimmen
+(mehr offene Seeds = höhere SG-Schwelle, aber auch höherer CU-Multiplikator).
+Im **Gruppenspiel** bestimmt der **Host** die Seed-Epoche.
 
 **Raumzeitkarte & Urban-Legends-Logik:** Die auf der Raumzeitkarte sichtbaren
 Risse sind keine offenen Löcher im Gefüge, sondern **Marker für gescheiterte oder

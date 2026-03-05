@@ -311,9 +311,10 @@ Lebenspunkte hinausgehen:
 - **Stress-Reset:** Stress betrifft **alle Klassen**, nutzt eine feste Skala von **0–10**
   (`stress_max = 10`, nicht variabel) und steigt bei Druck oder Fehlschlägen. Im
   HQ oder der Medbay fällt der Zähler auf **0**; eine kurze Ruhephase senkt ihn um **1**.
-- **PP = TEMP:** Der PP-Pool entspricht der **Temporalen Affinität**. Ruhephasen und Talente wie
-  _Meditation_ oder _Verbesserte Meditation_ regenerieren **1-2 PP**; Gear oder Consumables können
-  situativ **+1-2 PP** gewähren.
+- **PP = TEMP:** Der PP-Pool entspricht der **Temporalen Affinität**.
+  **Nach jedem Kampf → PP voll.** Innerhalb eines Kampfes regeneriert
+  _Meditation_ (2 Runden) **1-2 PP**; Gear oder Consumables können
+  situativ **+1-2 PP** gewähren. Details → [KP & Psi](../systems/kp-kraefte-psi.md#pp-regeneration).
 - **Stresspunkte & Druck:** In turbulenten Missionen sammeln sich mitunter **mentaler Druck und
   Anspannung** an - durch Gefahr, Zeitdruck oder Konflikte. Die SL kann ein
   **Stresspunktekonto** einführen, das pro Charakter (oder fürs Team) mitläuft.

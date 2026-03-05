@@ -1,14 +1,14 @@
 ---
-title: "ZEITRISS 4.2.6 – Modul 8B: Kreative Generatoren – Begegnungen"
+title: "ZEITRISS 4.2.6 - Modul 8B: Kreative Generatoren - Begegnungen"
 version: 4.2.6
 tags: [gameplay]
 ---
 
-# ZEITRISS 4.2.6 – Modul 8B: **Kreative Generatoren – Begegnungen**
+# ZEITRISS 4.2.6 - Modul 8B: **Kreative Generatoren - Begegnungen**
 
 ## Gameplay-Index
 
-Modul 8B schließt an 8A an. Modul 7 – Fahrzeuge, Konfliktsystem & Kreative Generatoren – steht Euch als veröffentlichter Zwischenschritt zur Verfügung. Es bildet die Brücke in diese Werkzeugkiste.
+Modul 8B schließt an 8A an. Modul 7 - Fahrzeuge, Konfliktsystem & Kreative Generatoren - steht Euch als veröffentlichter Zwischenschritt zur Verfügung. Es bildet die Brücke in diese Werkzeugkiste.
 
 - NSC-Generator: Begegnungen im Zeitstrom
 - Encounter-Pool: Schnelle Gegnerlisten nach Risiko
@@ -27,8 +27,8 @@ Modul 8B schließt an 8A an. Modul 7 – Fahrzeuge, Konfliktsystem & Kreative Ge
 
 ## NSC-Generator: Begegnungen im Zeitstrom {#nsc-generator}
 
-Wenn die Spieler spontan irgendjemanden treffen sollen – sei es Verbündeter, Informant oder
-Hindernis – hilft es ungemein, einen spannenden NSC aus dem Hut zu zaubern. Dieser Generator liefert
+Wenn die Spieler spontan irgendjemanden treffen sollen - sei es Verbündeter, Informant oder
+Hindernis - hilft es ungemein, einen spannenden NSC aus dem Hut zu zaubern. Dieser Generator liefert
 euch im Schnellverfahren einen Nichtspielercharakter mit Persönlichkeit, indem er **Rolle**,
 **Persönlichkeit** und **Besonderheit** kombiniert.
 
@@ -54,17 +54,17 @@ Wählt oder würfelt je eine Option aus jeder Kategorie:
 
 - **Besonderheit/Geheimnis:**
 
-  1. Kennt die Zukunft (behauptet es zumindest – optional über Träume)
+  1. Kennt die Zukunft (behauptet es zumindest - optional über Träume)
   2. Ist selbst ein Zeitreisender incognito
-  3. Hat einen unerwarteten Alliierten (z. B. ein zahmes Zeitwesen)
+  3. Hat einen unerwarteten Alliierten (z. B. ein zahmes Zeitwesen)
   4. Stammt aus einer alternativen Zeitlinie mit abweichendem Wissen
   5. Trägt ein verbotenes Artefakt bei sich
-  6. Steht unter einem Paradoxon-Fluch (z. B. altert rückwärts oder vergisst jede Gegenwart sofort,
+  6. Steht unter einem Paradoxon-Fluch (z. B. altert rückwärts oder vergisst jede Gegenwart sofort,
      wenn sie vorbei ist)
 
-**Beispiel:** Wir würfeln 2-5-3: _Gelehrter_ – _fanatisch und unbarmherzig_ – _hat einen
+**Beispiel:** Wir würfeln 2-5-3: _Gelehrter_ - _fanatisch und unbarmherzig_ - _hat einen
 unerwarteten Alliierten_. Daraus entsteht vielleicht **Professor Zara**, eine strenge Chrono-
-Historikerin aus dem Jahr 1890, die absolut skrupellos versucht, “Zeitfrevel” zu verhindern. Sie ist
+Historikerin aus dem Jahr 1890, die absolut skrupellos versucht, "Zeitfrevel" zu verhindern. Sie ist
 unnahbar, mit stechendem Blick, und als Überraschung hat sie einen T-Rex-Klon aus der Zukunft als
 Leibwächter (ihr unerwarteter Verbündeter, den sie mit einem Gerät kontrolliert). Was für eine
 denkwürdige Begegnung!
@@ -86,12 +86,12 @@ Sitzungen in **Cooldown** und wird erst danach wieder in den Pool gemischt.
 
 | Stufe | Beispiel-Gegner                     | Twist                          |
 | ---- | ----------------------------------- | ------------------------------ |
-| **S**  | 2–3 einfache Wachposten            | Kurze Ablenkung lenkt sie ab   |
+| **S**  | 2-3 einfache Wachposten            | Kurze Ablenkung lenkt sie ab   |
 | **M**  | Sicherheitsteam mit Spürhund       | Gelände bietet Deckung (-1 SG) |
 | **L**  | Elite-Söldner samt Drohne          | Verstärkung nach 2 Runden      |
 | **XL** | Paramilitär und leichter Mech      | Zeitriss droht aufzubrechen    |
 
-Die Twist-Karten können auf laminierten Karten notiert werden – ein schneller
+Die Twist-Karten können auf laminierten Karten notiert werden - ein schneller
 Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 
 ### Encounter-Pool-Listen (d6 je Stufe) {#encounter-pool-listen}
@@ -118,7 +118,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   type: "hazard"
   tag: hazard
   risk: "S"
-  text: "Elektrischer Kurzschluss – Funken + Rauch, kein Feuer"
+  text: "Elektrischer Kurzschluss - Funken + Rauch, kein Feuer"
 - epoch: "modern"
   type: "security"
   risk: "S"
@@ -131,7 +131,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "modern"
   type: "drone"
   risk: "M"
-  text: "Drohnenschwarm (3× Quadcopter, IR-Sensor)"
+  text: "Drohnenschwarm (3× Quadcopter, IR-Sensor)"
 - epoch: "modern"
   type: "tech"
   risk: "M"
@@ -158,7 +158,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   type: "hazard"
   tag: hazard
   risk: "L"
-  text: "EMP-Mikroladung in nervöser Hand – Finger am Abzug"
+  text: "EMP-Mikroladung in nervöser Hand - Finger am Abzug"
 - epoch: "modern"
   type: "tech"
   risk: "L"
@@ -166,15 +166,15 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "modern"
   type: "psi"
   risk: "L"
-  text: "Psi-Sensitive Wache (Telepath I, spürt feindliche Absicht)"
+  text: "Psi-Sensitive Wache (Telepath I, spürt feindliche Absicht)"
 - epoch: "modern"
   type: "explosive"
   risk: "L"
-  text: "Countdown-Sprengsatz (3 Min. bis Detonation)"
+  text: "Countdown-Sprengsatz (3 Min. bis Detonation)"
 - epoch: "modern"
   type: "agents"
   risk: "L"
-  text: "\u201EBlack Bag\u201C-Team (Agenten derselben Fraktion –1 Px bei Konflikt)"
+  text: "\u201EBlack Bag\u201C-Team (Agenten derselben Fraktion -1 Px bei Konflikt)"
 
 - epoch: "future"
   type: "anomaly"
@@ -183,11 +183,11 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "future"
   type: "mech"
   risk: "XL"
-  text: "Hunter-Killer-Mech (Höhe 3 m, Gatling + Raketen)"
+  text: "Hunter-Killer-Mech (Höhe 3 m, Gatling + Raketen)"
 - epoch: "future"
   type: "rift"
   risk: "XL"
-  text: "Zeitschleifen-Riss – 30-Sek-Loop, verursacht Px −2 pro Minute"
+  text: "Zeitschleifen-Riss - 30-Sek-Loop, verursacht Px -2 pro Minute"
 - epoch: "future"
   type: "nanite"
   risk: "XL"
@@ -199,7 +199,7 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
 - epoch: "future"
   type: "orbital"
   risk: "XL"
-  text: "Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot – Sat-Strike in 90 Sek.)"
+  text: "Orbitale Aufklärungsplattform visiert Gebiet an (Laser Spot - Sat-Strike in 90 Sek.)"
 - epoch: "1897"
   type: "security"
   risk: "M"
@@ -232,75 +232,75 @@ Zug reicht, um jedem Encounter eine überraschende Wendung zu verleihen.
   risk: "S"
   text: "Zwei Off-Grid-Tech-Nomaden plündern eine Baustelle nach Ersatzteilen. Verhandeln, greifen nur bei Gefahr."
 
-## Encounter-Paket „Postorbitales Zeitalter" {#postorbital-encounters}
+## Encounter-Paket "Postorbitales Zeitalter" {#postorbital-encounters}
 
 Diese Gegnerprofile erweitern den späten Zeitraum. Alle Werte folgen dem W6-System.
 
-### 1 · Orbital-Wachdrohne – Sentry-Klasse
+### 1 · Orbital-Wachdrohne - Sentry-Klasse
 
 | Merkmal       | Wert                                   | Notizen                        |
 | ------------- | -------------------------------------- | ------------------------------ |
 | **Typ**       | Drohne (S)                             | unbemannt, KI-gestützt         |
 | **Speed**     | 8/16 (Flug)                            | Schwebe-Impulsoren             |
-| **Panzerung** | Titanfaser 3                           | <2 ignoriert, 3–4 halbiert     |
-| **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe –2                   |
-| **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
-| **Systeme**   | Autorepair 1 HP/Runde                  | deaktiv bei EMP                |
-| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Px −1      |
+| **Panzerung** | Titanfaser 3                           | <2 ignoriert, 3-4 halbiert     |
+| **Sensor**    | 60 m 360° LIDAR                        | Tarnwürfe -2                   |
+| **Waffen**    | Plasmapuls 2W6 (Explode), Betäubung    | Reichweite 20 m                |
+| **Systeme**   | Autorepair 1 HP/Runde                  | deaktiv bei EMP                |
+| **Trigger**   | Selbstzerstörung bei ≤ 1 HP (1W6, R=3 m)| historisch → Px -1      |
 | **Rolle**     | Patrouille, Alarmmultiplikator         | verdoppelt "Gefahr im Anflug"  |
 
-### 2 · Konzern-Psychiker – Stufe B (Elite)
+### 2 · Konzern-Psychiker - Stufe B (Elite)
 
 | Attribut | Wert | Fertigkeiten                                    | Ausrüstung            |
 | -------- | ---- | ------------------------------------------------ | --------------------- |
-| Körper 3 | –    | Pistolen 3, Nahkampf 2                           | Nanofaser-Suit SR 2   |
-| Geist 4  | –    | Telepathische Überwältigung 4, Precog-Dodge      | Plasmapistole 1W6+1   |
-| Psi-Kern 5 | –  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (−2)      |
-| Stress 12 | –   | kämpft bis HP ≤ −4 (Corporate Loyalty)           | –                     |
+| Körper 3 | -    | Pistolen 3, Nahkampf 2                           | Nanofaser-Suit SR 2   |
+| Geist 4  | -    | Telepathische Überwältigung 4, Precog-Dodge      | Plasmapistole 1W6+1   |
+| Psi-Kern 5 | -  | **Spezial:** Psi-Spike (2 PP, CD 2)              | Mind-Screen (-2)      |
+| Stress 12 | -   | kämpft bis HP ≤ -4 (Corporate Loyalty)           | -                     |
 
-### 3 · Zeit-Operative – Stufe A (Transhuman)
+### 3 · Zeit-Operative - Stufe A (Transhuman)
 
 | Attribut | Wert | Fertigkeiten                            | Gear                  |
 | -------- | ---- | --------------------------------------- | --------------------- |
-| Körper 2 | –    | Infowar 5, Athletik 2                   | Inline-Chrono-Tap     |
-| Tech 5   | –    | Chrono-Exploit 5, Sabotage 3            | Smart-Gloves (+2)      |
-| Psi-Rest 2 | –  | **Spezial:** Timing-Gefühl             | –                     |
-| Stress 10 | –   | HP 8                                    |                       |
+| Körper 2 | -    | Infowar 5, Athletik 2                   | Inline-Chrono-Tap     |
+| Tech 5   | -    | Chrono-Exploit 5, Sabotage 3            | Smart-Gloves (+2)      |
+| Psi-Rest 2 | -  | **Spezial:** Timing-Gefühl             | -                     |
+| Stress 10 | -   | LP 8                                    |                       |
 
-_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px −1 bei Erfolg ≥ 2.
-_Timing-Gefühl:_ Du spürst, wann eine Routine bricht – Türzyklen, Patrouillen, Blickrichtungen.
+_Chrono-Exploit:_ 1 PP, friert Zielgerät 1 Runde ein oder verursacht Px -1 bei Erfolg ≥ 2.
+_Timing-Gefühl:_ Du spürst, wann eine Routine bricht - Türzyklen, Patrouillen, Blickrichtungen.
 Mechanik: 1× pro Szene bekommst du +2 auf eine Probe, die Timing betrifft (Schleichen durch Sichtfenster,
 an Wache vorbei, in einen Raumwechsel). Bei Erfolg: du darfst eine Konsequenzstufe (Lärm/Alarm)
 um 1 reduzieren.
 
 ### Bonus-Micro-Begegnungen (d13)
 
-1–2 Orbital-Wartungs-Mecha blockieren Zugänge.
-3–4 Schwarzmarktschmuggler im Grav-Van.
-5–6 Exo-Suit-Salvager durchsuchen Wracks.
-7–8 Konzern-San-Team birgt Verwundete.
-9–10 Nano-Schwarm breitet sich in Lüftungen aus.
-11 Defekte Umwelt-KI erzeugt Fehlalarme.
-12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
-13 Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
+1-2 Orbital-Wartungs-Mecha blockieren Zugänge.
+3-4 Schwarzmarktschmuggler im Grav-Van.
+5-6 Exo-Suit-Salvager durchsuchen Wracks.
+7-8 Konzern-San-Team birgt Verwundete.
+9-10 Nano-Schwarm breitet sich in Lüftungen aus.
+11 Defekte Umwelt-KI erzeugt Fehlalarme.
+12 Mini-Rift-Ausläufer verursacht kurzzeitige Anomalien.
+13 Anti-Psi-Labor mit isolierten Zellen und Wachen (Psi-Effekte +2 SG)
 
-_Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
+_Balancing:_ Bei kleinen Teams genügen Drohne **oder** Psychiker. HP und Stress dürfen ±20 % variieren.
 
-## Encounter-Paket „Asien im Kalten Krieg" {#asia-coldwar}
+## Encounter-Paket "Asien im Kalten Krieg" {#asia-coldwar}
 
-Kurze Begegnungen, inspiriert von Spionagekrimis der 1960er Jahre.
+Kurze Begegnungen, inspiriert von Spionagekrimis der 1960er Jahre.
 
-### 1 · Grenzposten am 38. Breitengrad
+### 1 · Grenzposten am 38. Breitengrad
 
 | Merkmal | Wert | Notizen |
 | --- | --- | --- |
 | **Typ** | Infanterie (S) | Soldaten mit Karabinern |
 
-### 2 · Agentin „Jade"
+### 2 · Agentin "Jade"
 
 | Attribut | Wert | Fertigkeiten | Ausrüstung |
 | --- | --- | --- | --- |
-| Geist 4 | – | Verkleidung 4, Nahkampf 3 | Mini-Kamera, Giftspritze |
+| Geist 4 | - | Verkleidung 4, Nahkampf 3 | Mini-Kamera, Giftspritze |
 
 ### 3 · Schwarzhändler auf dem Nachtmarkt
 
@@ -308,9 +308,9 @@ Kurze Begegnungen, inspiriert von Spionagekrimis der 1960er Jahre.
 | --- | --- | --- |
 | **Typ** | Kontaktperson (M) | Beschafft Alttech gegen Devisen |
 
-## Encounter-Paket „Orbitalstation 2030+" {#orbital-nearfuture}
+## Encounter-Paket "Orbitalstation 2030+" {#orbital-nearfuture}
 
-Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
+Szenarien in einer nahen Zukunft - Forschungsstationen und Weltraumhotels.
 
 ### 1 · Wartungstrupp EVA
 
@@ -322,7 +322,7 @@ Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
 
 | Merkmal | Wert | Notizen |
 | --- | --- | --- |
-| **Typ** | Drohne (M) | Laserpointer 1W6, Alarm |
+| **Typ** | Drohne (M) | Laserpointer 1W6, Alarm |
 
 ### 3 · Schmuggler-Pod
 
@@ -333,7 +333,7 @@ Szenarien in einer nahen Zukunft – Forschungsstationen und Weltraumhotels.
 ### Twist-Seeds (d30) {#twist-seeds}
 
 Jeder Eintrag besitzt nun zwei Zusatz-Tags:
-`Paradoxon-Stufe` (0–3) zeigt das Risiko für Zeitstörungen,
+`Paradoxon-Stufe` (0-3) zeigt das Risiko für Zeitstörungen,
 `Historischer Fußabdruck` beschreibt die Tragweite.
 
 Um zu verhindern, dass der Twist-Pool bei langen Kampagnen leerlauft, wandern
@@ -345,22 +345,22 @@ liegen, mischt die SL den Stapel zurück.
 | 2 | Missionsziel ist bereits von einer dritten Fraktion entwendet worden. | 1 | klein |
 | 3 | Zeitreisende Version des Auftraggebers sendet widersprüchliche Befehle. | 2 | mittel |
 | 4 | Schlüsselfigur entpuppt sich als entfernte Verwandte eines Teammitglieds. | 1 | klein |
-| 5 | Artefakt ist lebendig – schwache Bio-Signale, reagiert auf Stress. | 2 | mittel |
+| 5 | Artefakt ist lebendig - schwache Bio-Signale, reagiert auf Stress. | 2 | mittel |
 | 6 | Geisel möchte nicht gerettet werden, verfolgt eigene Agenda. | 0 | klein |
 | 7 | Feindliche KI bietet Allianz gegen ihren Schöpfer an. | 1 | mittel |
 | 8 | Historisches Ereignis findet eine Szene früher statt als erwartet. | 1 | mittel |
-| 9 | Transportmittel sabotiert – Not-Sprung oder Impro-Flucht nötig. | 1 | klein |
+| 9 | Transportmittel sabotiert - Not-Sprung oder Impro-Flucht nötig. | 1 | klein |
 | 10 | Lokaler Widerstand verlangt Gegenleistung, bevor er hilft. | 1 | klein |
 | 11 | Wetterphänomen erschwert den Einsatz erheblich. | 1 | klein |
 | 12 | Gegner besitzt Teilwissen über Zeitreisetech und nutzt es taktisch. | 2 | mittel |
 | 13 | Beweisstücke lösen akute Paradoxon-Spitzen aus. | 3 | groß |
 | 14 | Einsatzort wird zum Sperrgebiet erklärt. | 1 | klein |
 | 15 | Verborgene Psi-Barriere dämpft Teamfähigkeiten. | 2 | mittel |
-| 16 | Medienleak – Reporter streamt live. | 2 | mittel |
+| 16 | Medienleak - Reporter streamt live. | 2 | mittel |
 | 17 | Vergessene Nebenfigur fordert Bezahlung ein. | 1 | klein |
 | 18 | Missionsziel wird plötzlich hochansteckend. | 2 | mittel |
-| 19 | Ausrüstung beginnt zu altern – jede Stunde 10 % Ausfallchance. | 2 | mittel |
-| 20 | „Alles war Ablenkung“: Primärer Antagonist greift HQ simultan an. | 3 | groß |
+| 19 | Ausrüstung beginnt zu altern - jede Stunde 10 % Ausfallchance. | 2 | mittel |
+| 20 | "Alles war Ablenkung": Primärer Antagonist greift HQ simultan an. | 3 | groß |
 | 21 | Kalter-Krieg-Agent verlangt Austausch gefangener Wissenschaftler. | 1 | klein |
 | 22 | Spionageausrüstung enthält heimlichen Sender. | 1 | klein |
 | 23 | Verbündeter entpuppt sich als Zukunfts-Double des Rivalen. | 2 | mittel |
@@ -368,34 +368,34 @@ liegen, mischt die SL den Stapel zurück.
 | 25 | Zeitanomalie katapultiert Schlüssel-NPC kurzzeitig in Parallelwelt. | 2 | mittel |
 | 26 | Team entdeckt verdeckte Waffenlieferung an beide Parteien. | 2 | mittel |
 | 27 | Waffentest verursacht EMP, der Equipment lahmlegt. | 1 | mittel |
-| 28 | Schwarze Liste eines Geheimdienstes taucht auf – Team steht darauf. | 1 | mittel |
+| 28 | Schwarze Liste eines Geheimdienstes taucht auf - Team steht darauf. | 1 | mittel |
 | 29 | Politischer Abgrund: lokale Fraktion plant Putsch während der Mission. | 2 | groß |
-| 30 | Rücksprung löst Resonanz aus – Gegner erhält Vorwissen über Actions. | 2 | mittel |
+| 30 | Rücksprung löst Resonanz aus - Gegner erhält Vorwissen über Actions. | 2 | mittel |
 | 31 | Vertrauter NSC gerät unter Einfluss temporaler Schatten. | 2 | mittel |
 | 32 | Kodex-Datenbank zeigt plötzlich kritische Lücken. | 1 | klein |
 | 33 | Zielperson entpuppt sich als Zeitspringer. | 2 | mittel |
 | 34 | Rivalenteam bietet Hilfe gegen Anteil am Fund. | 1 | mittel |
 | 35 | Eine alte Prophezeiung beschreibt exakt diesen Einsatz. | 2 | groß |
-| 36 | Sprungfenster instabil – Rückkehrzeit ungewiss. | 2 | mittel |
+| 36 | Sprungfenster instabil - Rückkehrzeit ungewiss. | 2 | mittel |
 | 37 | Gegner entführt Agenten aus einer nahen Zukunft. | 3 | groß |
 | 38 | Kameras zeigen Aufnahmen aus kommenden Szenen. | 2 | mittel |
 | 39 | Vergrabene Zeitkapsel liefert brisante Gegenbeweise. | 1 | klein |
 | 40 | Explosion erzeugt lokale Zeitschleifen. | 3 | groß |
-| 41 | Parallel Orders – konkurrierendes Team erhält identische Befehle. | 1 | mittel |
-| 42 | Cold Swap – Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
-| 43 | Alarm-Transmitter sendet Signal-Broadcast und warnt Gegner vor dem Team – Stealth +2 SG. | 0 | klein |
-| 44 | Delayed Cipher datiert 30 Jahre zu spät – Rätsel PZ‑2.5, Px −1 bei Fail. | 1 | klein |
-| 45 | Black Budget – unbekannte Geldgeber mischen sich ein, Shadow‑Team optional. | 2 | mittel |
-| 46 | Automata sabotieren Bosporus-Telegrafen – Flottenabkommen in Gefahr. | 2 | mittel |
-| 47 | Verlorenes Pharaonengrab – Bauplan einer frühen Dampfmaschine sabotiert römische Versorgung. | 2 | mittel |
-| 48 | Kreuzzugs-Doppelagent lenkt Armee nach Enttarnung 50 km vom Kurs ab. | 2 | mittel |
-| 49 | Gefälschte Seekarten verschieben Columbus’ Landung um Monate. | 1 | mittel |
+| 41 | Parallel Orders - konkurrierendes Team erhält identische Befehle. | 1 | mittel |
+| 42 | Cold Swap - Artefakt stammt aus Parallel-Cluster, HQ fordert Nachverhandlung. | 1 | mittel |
+| 43 | Alarm-Transmitter sendet Signal-Broadcast und warnt Gegner vor dem Team - Stealth +2 SG. | 0 | klein |
+| 44 | Delayed Cipher datiert 30 Jahre zu spät - Rätsel PZ-2.5, Px -1 bei Fail. | 1 | klein |
+| 45 | Black Budget - unbekannte Geldgeber mischen sich ein, Shadow-Team optional. | 2 | mittel |
+| 46 | Automata sabotieren Bosporus-Telegrafen - Flottenabkommen in Gefahr. | 2 | mittel |
+| 47 | Verlorenes Pharaonengrab - Bauplan einer frühen Dampfmaschine sabotiert römische Versorgung. | 2 | mittel |
+| 48 | Kreuzzugs-Doppelagent lenkt Armee nach Enttarnung 50 km vom Kurs ab. | 2 | mittel |
+| 49 | Gefälschte Seekarten verschieben Columbus' Landung um Monate. | 1 | mittel |
 | 50 | Großer Stadtbrand: Saboteur verhindert Archivverlust. | 2 | groß |
 | 51 | Geheime Druckerpresse verbreitet radikale anarchistische Ideen. | 1 | mittel |
 | 52 | Hydrogen-Dirigible-Prototyp wird Sabotageziel der Chrononauten. | 2 | mittel |
 | 53 | Verdeckte Telegraphenlinie ändert preußische Kriegsplanung. | 2 | mittel |
 | 54 | Edison-Sabotage verschiebt Marktführung durch gestohlene Glühfäden. | 2 | mittel |
-| 55 | Gedruckte Tarn-Zeitung führt zu Meuterei, Front bricht 48 h früher. | 2 | groß |
+| 55 | Gedruckte Tarn-Zeitung führt zu Meuterei, Front bricht 48 h früher. | 2 | groß |
 | 56 | Aktien-Algorithmus verhindert Börsencrash, Industrie boomt. | 1 | mittel |
 | 57 | Geisterarmee-Lichtbilder ziehen feindliche Reserven ab. | 2 | mittel |
 | 58 | Mondlandung-Leak zwingt vorgezogene Apollo-Mission, scheitert fast. | 2 | mittel |
@@ -404,7 +404,7 @@ liegen, mischt die SL den Stapel zurück.
 | 61 | Asteroid-Bergbau-Kartell zettelt Aufstand auf Raumstation an. | 2 | groß |
 | 62 | Terraform-Sabotage durch Mikro-Dronen löst ökologische Reset-Schleife aus. | 3 | groß |
 
-_Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21–30 mit
+_Gewichtungstipp:_ Bei Missionen im Kalten Krieg können die Einträge 21-30 mit
 erhöhter Wahrscheinlichkeit gezogen werden (z.B. doppelte Gewichtung), um die
 Zeitperiode stärker zu betonen.
 
@@ -413,7 +413,7 @@ Zeitperiode stärker zu betonen.
 | W12 | Seed | Tag |
 | --- | ---- | --- |
 | 1 | Hafenarbeiter streiken; Zugang blockiert. | social |
-| 2 | Untergrundkult plant Ritual – Opfer droht. | social |
+| 2 | Untergrundkult plant Ritual - Opfer droht. | social |
 | 3 | Flutwelle nähert sich, Evakuierung nötig. | physical |
 | 4 | Adelshof spinnt Intrige gegen Auftraggeber. | social |
 | 5 | Erdrutsch verschüttet Zugangsstraße. | physical |
@@ -432,12 +432,12 @@ Kurzschema `rand_event`.
 
 | W6 | Zwischenfall |
 | -- | ------------------------------------------- |
-| 1 | **Funkstörung** – Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
-| 2 | **Technik-Glitch** – Gadget spinnt, z. B. leeres Scanfenster. *Per Freihandlung behebar.* |
-| 3 | **Wetter kippt** – Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht −1, "Heimlichkeit" +1. |
-| 4 | **Zivilkontakt** – Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
-| 5 | **Spur auftaucht** – Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu? |
-| 6 | **Feindaktivität in Sichtweite** – Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen? |
+| 1 | **Funkstörung** - Für 1 Szene kein Team- oder Kodexkontakt. Nur Sichtzeichen oder direkte Verbindung möglich. |
+| 2 | **Technik-Glitch** - Gadget spinnt, z. B. leeres Scanfenster. *Per Freihandlung behebar.* |
+| 3 | **Wetter kippt** - Plötzlicher Regen, Nebel, Schneefall oder Sand treibt Sicht -1, "Heimlichkeit" +1. |
+| 4 | **Zivilkontakt** - Unbeteiligter (Kind, Hausmeister, Bote…) kommt ins Bild. Klärt sich nicht sofort. |
+| 5 | **Spur auftaucht** - Mikrofilm, USB oder Hülse liegt offen sichtbar. Wer greift zuerst zu? |
+| 6 | **Feindaktivität in Sichtweite** - Sicherungsteam oder Drohne wird früh entdeckt. Vorstoß oder Ausweichen? |
 
 ```text
 Funktion rand_event:
@@ -450,7 +450,7 @@ Funktion rand_event:
 
 Nicht nur menschliche NSCs kreuzen den Weg der Chrononauten.
 Öffnet sich ein Rift, spawnt es ein Wesen, das zur laufenden Epoche passt.
-Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus –
+Rifts in Zukunftsmissionen werfen hingegen die hier gelisteten **Paramonster** aus -
 reine Zeitkonstrukte mit genau einem Zeiteffekt.
 
 Würfelt oder wählt eine Kreatur und verwendet den passenden Stat Block.
@@ -461,13 +461,13 @@ einen weiteren Agenten oder starke Ausrüstung aufbieten.
 Die Totenkopf-Skala ist unabhängig von den Stundengläsern der
 Rift-Missionen und erhöht **nicht** den SG.
 
-1. **Zeitschimäre** – Verschmolzene Tiere und Maschinen aus mehreren Epochen.
+1. **Zeitschimäre** - Verschmolzene Tiere und Maschinen aus mehreren Epochen.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Zeitschimäre                         │
 │ Rift-Tier: Standard Rift                   │
-│ HP-Pool: W6 × 2 (Exploding)                │
+│ LP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
 │ Difficulty: 💀💀💀                           │
 │ Signature Power: Time-Skip Blink           │
@@ -480,13 +480,13 @@ Rift-Missionen und erhöht **nicht** den SG.
 
 Greift alles an, bis der Riss geschlossen ist.
 
-2. **Zeitwächter-Golem** – Chronotechnischer Wächter in alten Tempeln.
+2. **Zeitwächter-Golem** - Chronotechnischer Wächter in alten Tempeln.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Zeitwächter-Golem                    │
 │ Rift-Tier: Standard Rift                   │
-│ HP-Pool: W6 × 2 (Exploding)                │
+│ LP-Pool: W6 × 2 (Exploding)                │
 │ Defense-Schwelle: 5                        │
 │ Difficulty: 💀💀💀                           │
 │ Signature Power: Stasis Wall               │
@@ -499,13 +499,13 @@ Greift alles an, bis der Riss geschlossen ist.
 
 Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 
-3. **Chronogeist** – Verlorene Seele zwischen den Zeiten.
+3. **Chronogeist** - Verlorene Seele zwischen den Zeiten.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Chronogeist                          │
 │ Rift-Tier: Minor Rift                      │
-│ HP-Pool: W6 × 1 (Exploding)                │
+│ LP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
 │ Difficulty: 💀💀                            │
 │ Signature Power: Loop Feedback                 │
@@ -518,13 +518,13 @@ Fällt in Schlaf, wenn sein Ritualstein deaktiviert wird.
 
 Kann erlöst oder endgültig gebannt werden.
 
-4. **Mechanischer Zeitläufer** – Kleines Uhrwerk-Wesen mit eigener Agenda.
+4. **Mechanischer Zeitläufer** - Kleines Uhrwerk-Wesen mit eigener Agenda.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Mechanischer Zeitläufer              │
 │ Rift-Tier: Minor Rift                      │
-│ HP-Pool: W6 × 1 (Exploding)                │
+│ LP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
 │ Difficulty: 💀💀                            │
 │ Signature Power: Reverse Flow              │
@@ -537,13 +537,13 @@ Kann erlöst oder endgültig gebannt werden.
 
 Wird schlauer, je länger er unbehelligt bleibt.
 
-5. **Dämon der Zeitschlucht** – Manifestierte Zeitlinie in monströser Form.
+5. **Dämon der Zeitschlucht** - Manifestierte Zeitlinie in monströser Form.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Dämon der Zeitschlucht               │
 │ Rift-Tier: Major Rift                      │
-│ HP-Pool: W6 × 3 (Exploding)                │
+│ LP-Pool: W6 × 3 (Exploding)                │
 │ Defense-Schwelle: 6                        │
 │ Difficulty: 💀💀💀💀💀                         │
 │ Signature Power: Age-Burn Touch            │
@@ -556,13 +556,13 @@ Wird schlauer, je länger er unbehelligt bleibt.
 
 Nur mehrere Zeitanker können ihn bannen.
 
-6. **Zeit-Egel** – Parasitärer Räuber, der temporale Energie saugt.
+6. **Zeit-Egel** - Parasitärer Räuber, der temporale Energie saugt.
 
 ```
 ╭─ PARAMONSTER ──────────────────────────────╮
 │ Name: Zeit-Egel                            │
 │ Rift-Tier: Minor Rift                      │
-│ HP-Pool: W6 × 1 (Exploding)                │
+│ LP-Pool: W6 × 1 (Exploding)                │
 │ Defense-Schwelle: 4                        │
 │ Difficulty: 💀💀                            │
 │ Signature Power: Time-Slow Bubble          │
@@ -575,10 +575,10 @@ Nur mehrere Zeitanker können ihn bannen.
 
 Nur sichtbar oder entfernbar mit speziellem Gerät.
 Diese Kreaturen (und viele mehr) könnt ihr einbauen, um euren Abenteuern Würze und Mysterium zu
-verleihen. Wichtig ist, sie **sparsam und gezielt** einzusetzen – jede besondere Begegnung soll sich
-einzigartig anfühlen. Die Spieler dürfen ruhig mal ins Grübeln kommen: “Was zum Henker ist _das_!?”
+verleihen. Wichtig ist, sie **sparsam und gezielt** einzusetzen - jede besondere Begegnung soll sich
+einzigartig anfühlen. Die Spieler dürfen ruhig mal ins Grübeln kommen: "Was zum Henker ist _das_!?"
 Und wenn sie dann nach und nach die Hintergrundgeschichte oder Logik dahinter entdecken, wird aus
-einem Monster plötzlich ein integraler Teil der Story – vielleicht sogar etwas Mitfühlenswertes oder
+einem Monster plötzlich ein integraler Teil der Story - vielleicht sogar etwas Mitfühlenswertes oder
 Respektgebietendes. Gerade in ZEITRISS, wo Mythologie oft einen zeitphänomenalen Ursprung hat,
 können solche Kreaturen dafür sorgen, dass selbst erfahrene Chrononauten nie vergessen: **Die Zeit
 birgt unendliche Überraschungen.**
@@ -586,51 +586,51 @@ birgt unendliche Überraschungen.**
 <a id="para-creature-generator"></a>
 ## Para-Creature-Generator: Rift Casefile Edition {#para-creature-generator}
 
-Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles. Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen, **ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine** Schwäche. Keine zweite Anomalie, keine „es war nur Tech“-Auflösung in Rifts; zusätzliche Technik gehört in den Abschnitt „Urban-Myth-Generator“.
+Der Standard-Generator für echte Para-Kreaturen in Rift-Casefiles. Er erzwingt den **One-Weird-Thing-Guard**: exakt **ein** Zeitphänomen, **ein** Anchor (Ort/Person), **drei bis fünf** sichtbare Tells und **eine** Schwäche. Keine zweite Anomalie, keine "es war nur Tech"-Auflösung in Rifts; zusätzliche Technik gehört in den Abschnitt "Urban-Myth-Generator".
 
 ### Guard & Struktur
 
 - Nutze `register_anomaly()` nur für das eine Zeitphänomen (Echo, Loop, Stutter, Anker-Zeitversatz). HUD-Overlay: `MODE RIFT · CASE <ID> · HOOK <Kurzlabel> · WEIRD 1/1`.
-- Jede Kreatur bindet einen **Zeitmarker** (Echo/Loop/Stutter/Static/Slip/Anchor‑Tether). Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
-- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt, das als „Zeuge“ oder „Bollwerk“ fungiert. Wird der Anchor befreit/zerstört, löst sich die Anomalie.
-- **Tells:** 3–5 wiedererkennbare Signale (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
+- Jede Kreatur bindet einen **Zeitmarker** (Echo/Loop/Stutter/Static/Slip/Anchor-Tether). Der Marker erklärt, warum das Wesen im Strom sichtbar bleibt.
+- Der Anchor ist eine reale Person, ein Ort oder ein Artefakt, das als "Zeuge" oder "Bollwerk" fungiert. Wird der Anchor befreit/zerstört, löst sich die Anomalie.
+- **Tells:** 3-5 wiedererkennbare Signale (Geruch, Geräusch, Schatten, Temperatur, EM-Spitzen).
 - **Weakness:** eine eindeutige Abschaltbedingung (Material, Frequenz, Ritual, spezifisches Werkzeug). Ohne Weakness kein Abschluss.
 
 ### Schrittfolge
 
-1. **Epoche (W6)** – 1 Frühe Neuzeit, 2 Industrialisierung, 3 Weltkriege, 4 Kalter Krieg, 5 Digitale Anfänge, 6 Near‑Future.
-2. **Zeitmarker (W6)** – 1 Echo‑Schleife (verzögerte Schatten), 2 Loop 30 Sek., 3 Stutter (Zeitsprünge in Frames), 4 Static (verrauschte Wahrnehmung), 5 Slip (Kreatur fällt kurz aus Phase), 6 Anchor‑Tether (Kreatur an einen Zeugen gebunden).
-3. **Anchor (W6)** – 1 Erstzeuge, 2 Tatort mit Einschlag, 3 Opfer mit Zeitbrand, 4 Artefakt/Container, 5 Familienlinie/Blutanker, 6 Forschungslog/Blackbox.
-4. **Tells (3–5 aus W10 wiederholen, keine Duplikate)** – 1 Frosthauch, 2 verzerrter Funk, 3 bläulicher Schleier, 4 Geruch nach Ozon/Metall, 5 scharfe Schatten gegen die Lichtquelle, 6 Tierpanik, 7 Uhren laufen rückwärts, 8 Audiospur mit Flüstern, 9 zweiter Nachhall jeder Bewegung, 10 kurzes „Bildflackern“ im HUD.
-5. **Weakness (W6)** – 1 bestimmte Frequenz (z. B. 18 Hz Infraschall), 2 geheiligtes Material (Salz/Quecksilber), 3 Anchor neutralisieren (Zeuge befreien, Container öffnen), 4 Zeitsiegel (Ritualkreis + Sensor), 5 Schockfrost/Hitze, 6 Psi‑Signatur spiegeln (Mind‑Wurf gegen Psi‑Sig).
-6. **Stat-Block** nach Risikostufe (S/M/L/XL) und die Fähigkeitspalette um den Zeitmarker herum bauen (Teleport = Stutter, Versteinerung = Static etc.).
+1. **Epoche (W6)** - 1 Frühe Neuzeit, 2 Industrialisierung, 3 Weltkriege, 4 Kalter Krieg, 5 Digitale Anfänge, 6 Near-Future.
+2. **Zeitmarker (W6)** - 1 Echo-Schleife (verzögerte Schatten), 2 Loop 30 Sek., 3 Stutter (Zeitsprünge in Frames), 4 Static (verrauschte Wahrnehmung), 5 Slip (Kreatur fällt kurz aus Phase), 6 Anchor-Tether (Kreatur an einen Zeugen gebunden).
+3. **Anchor (W6)** - 1 Erstzeuge, 2 Tatort mit Einschlag, 3 Opfer mit Zeitbrand, 4 Artefakt/Container, 5 Familienlinie/Blutanker, 6 Forschungslog/Blackbox.
+4. **Tells (3-5 aus W10 wiederholen, keine Duplikate)** - 1 Frosthauch, 2 verzerrter Funk, 3 bläulicher Schleier, 4 Geruch nach Ozon/Metall, 5 scharfe Schatten gegen die Lichtquelle, 6 Tierpanik, 7 Uhren laufen rückwärts, 8 Audiospur mit Flüstern, 9 zweiter Nachhall jeder Bewegung, 10 kurzes "Bildflackern" im HUD.
+5. **Weakness (W6)** - 1 bestimmte Frequenz (z. B. 18 Hz Infraschall), 2 geheiligtes Material (Salz/Quecksilber), 3 Anchor neutralisieren (Zeuge befreien, Container öffnen), 4 Zeitsiegel (Ritualkreis + Sensor), 5 Schockfrost/Hitze, 6 Psi-Signatur spiegeln (Mind-Wurf gegen Psi-Sig).
+6. **Stat-Block** nach Risikostufe (S/M/L/XL) und die Fähigkeitspalette um den Zeitmarker herum bauen (Teleport = Stutter, Versteinerung = Static etc.).
 
 ### Casefile-Schablone
 
 - **CASE:** `RIFT-<ID> | Epoche | Seed-Tier (low/mid/high)`
-- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker (`"Echoender Schatten hinter jedem Zeugen"`).
+- **VISUAL HOOK:** 1 Satz mit Anchor + Zeitmarker (`"Echoender Schatten hinter jedem Zeugen"`).
 - **BRIEFING PUBLIC (max. 5 Bulletpoints):** Witness-Reports, Schauplatz, Gefahrenhinweis.
 - **OBJECTIVES:** `Secure Anchor`, `Identify Time Marker`, `Neutralize Weakness`, optional `Recover Sample`.
 - **CASE OVERLAY:** HUD-Tag `CASEFILE <ID> · HOOK <Label> · TIME <Marker>` + `WEIRD 1/1` Toast.
 - **TRUTH:** kurzer Absatz mit Ursache (Para-Kreatur) und warum der Zeitmarker aktiv bleibt.
-- **LEADS PRIVATE:** 3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11) und Verknüpfung zum Anchor.
+- **LEADS PRIVATE:** 3 Hinweise mit Würfelbezug (z. B. Investigation 12, Medicine 10, Tech 11) und Verknüpfung zum Anchor.
 - **BOSS PRIVATE:** Mini-Statblock + Zeitfähigkeit (nur **eine** Weirdness). Wenn Urban-Myth-Generator genutzt wird, liegt hier die echte Para-Kreatur, der Mythos ist nur ein Deckmantel.
 
 ### Zwei einsatzbereite Casefiles
 
-**Chrono Butcher — „Blutspur im Nullzeit-Korridor“ (Seed-Tier mid)**
+**Chrono Butcher - "Blutspur im Nullzeit-Korridor" (Seed-Tier mid)**
 - **Epoche/Marker:** 1997, Digitale Anfänge · **Stutter** (Tatort-Sequenzen brechen in Frame-Sprüngen ab).
 - **Anchor:** Ermittlungsakte mit blutgetränkter Taschenuhr des ersten Opfers (Zeitbrand hält Stutter offen).
 - **Tells:** Blutlachen fließen kurz rückwärts, Funksprüche knacken mit Opferstimme, Schatten reißen versetzt.
-- **Weakness:** Anchor-Uhr auf 00:13:17 stellen und im Stutter-Fenster zerstören (gleichzeitiger Psi‑Impuls Mind 12).
-- **Boss Private:** **HP 11 | Armor 1 | Str 3d6 | Agi 4d6 | Mind 3d6 | Psi‑Sig 3d6** – *Frame Lunge* (Agi‑Save 12, sonst 3 HP, verursacht Panik), *Cut In/Out* (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
+- **Weakness:** Anchor-Uhr auf 00:13:17 stellen und im Stutter-Fenster zerstören (gleichzeitiger Psi-Impuls Mind 12).
+- **Boss Private:** **LP 11 | Armor 1 | STR 6 | GES 8 | INT 6 | TEMP 6** - *Frame Lunge* (GES-Save SG 12, sonst 3 LP, verursacht Panik), *Cut In/Out* (1/Rd teleportiert zwischen zwei Zeitschatten, erhält +2 auf nächsten Angriff).
 
-**Jersey Devil — „Flügelschlag im Pine Barren“ (Seed-Tier low)**
-- **Epoche/Marker:** 1909, Industrialisierung · **Loop** (30‑Sek‑Flugbahn wiederholt sich an Bäumen).
-- **Anchor:** Verkohlte Überreste der „13th Child“-Legende in einer Wurzelhöhle (Familienfluch hält Loop stabil).
+**Jersey Devil - "Flügelschlag im Pine Barren" (Seed-Tier low)**
+- **Epoche/Marker:** 1909, Industrialisierung · **Loop** (30-Sek-Flugbahn wiederholt sich an Bäumen).
+- **Anchor:** Verkohlte Überreste der "13th Child"-Legende in einer Wurzelhöhle (Familienfluch hält Loop stabil).
 - **Tells:** Schwefelgeruch, schreiender Wind, Kratzspuren spiralförmig, Tiere fliehen den Pfad.
-- **Weakness:** Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11, dann Loop kollabiert).
-- **Boss Private:** **HP 8 | Armor 1 | Str 3d6 | Agi 4d6 | Mind 2d6 | Psi‑Sig 2d6** – *Dive Bomb* (Agi‑Save 11, sonst 2 HP), *Loop Reset* (setzt Initiative zurück, wenn Anchor unberührt).
+- **Weakness:** Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11, dann Loop kollabiert).
+- **Boss Private:** **LP 8 | Armor 1 | STR 6 | GES 8 | INT 4 | TEMP 4** – *Dive Bomb* (GES-Save SG 11, sonst 2 LP), *Loop Reset* (setzt Initiative zurück, wenn Anchor unberührt).
 
 <a id="urban-myth-generator"></a>
 ## Urban-Myth-Generator (False Lead)
@@ -639,55 +639,59 @@ Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleiche
 
 ### Vorgehen
 
-1. **Epoche (W6)** – identisch zur Rift-Edition.
-2. **Urban-Myth-Motiv (W20)** – nutzt Hardware/Linsen statt Lichtbilder.
-3. **Zeitmarker setzen** (Echo/Loop/Stutter etc.), um den „Riss“ sichtbar zu halten, und bei echter Weirdness `register_anomaly()` loggen.
+1. **Epoche (W6)** - identisch zur Rift-Edition.
+2. **Urban-Myth-Motiv (W20)** - nutzt Hardware/Linsen statt Lichtbilder.
+3. **Zeitmarker setzen** (Echo/Loop/Stutter etc.), um den "Riss" sichtbar zu halten, und bei echter Weirdness `register_anomaly()` loggen.
 4. **Stat-Block** nach Risiko; alles Technische als Shadow-Op erklären (keine VR-Illusionen, nur Sensorik/Implantate).
 
 ```markdown
-01 Kopfloser Reiter – Drohne mit Linse-Spot (kein Projektor)
-02 Schwarzer Hund – Chem‑Mod‑Kampf­organismus
-03 Mothman – Stealth‑Fallschirmspringer im Testanzug
-04 Schattenleute – Psi‑induzierte Schlafparalyse
-05 Rote Hexe – Nano‑Feuer‑Aerosol erzeugt „Flammen“
-06 Men in Black – Regierungsabteilung nutzt Neural‑Wipe
-07 Weeping Woman – Audio-Drohne mit Lament-Frequenz
-08 Phantom-Zug – Magnetschwebetest, Zeit ➙ Verwerfung (HUD‑Echo)
-09 Kinder mit schwarzen Augen – Gen‑Versuch / Linsenimplantat
-10 Kraken im Kanal – Sewer-Drohne mit Tentakel‑Manipulatoren
-11 Crying Boy Painting – Quantenspeicher im Pigment (Archivkammer)
-12 Goatman – Bio-Chimäre entlaufenem Labor
-13 Greys – Nano-Skin-Anzüge verzerren Proportionen
-14 Hitchhiking Ghost – Zeitversetzte Linse-Aufnahme auf HUD
-15 Lake-Monster – Schwarm-U‑Drohnen unter Hüllfeld
-16 Shapeshifter – adaptive Metamaterial-Suit
-17 Spukhaus – Übersprungener EM-Emitter + Paradoxon-Energie
-18 Schlankes Wesen – Lidar-Verzerrer + Knochenverlängerungen
-19 Straßenlaternen-Summen – HF-Psi-Störsender, löst Migräne aus
-20 Blutfarbenes Mondlicht – Orbitale Linse fokussiert IR-Spektrum
+01 Kopfloser Reiter - Drohne mit Linse-Spot (kein Projektor)
+02 Schwarzer Hund - Chem-Mod-Kampf­organismus
+03 Mothman - Stealth-Fallschirmspringer im Testanzug
+04 Schattenleute - Psi-induzierte Schlafparalyse
+05 Rote Hexe - Nano-Feuer-Aerosol erzeugt "Flammen"
+06 Men in Black - Regierungsabteilung nutzt Neural-Wipe
+07 Weeping Woman - Audio-Drohne mit Lament-Frequenz
+08 Phantom-Zug - Magnetschwebetest, Zeit ➙ Verwerfung (HUD-Echo)
+09 Kinder mit schwarzen Augen - Gen-Versuch / Linsenimplantat
+10 Kraken im Kanal - Sewer-Drohne mit Tentakel-Manipulatoren
+11 Crying Boy Painting - Quantenspeicher im Pigment (Archivkammer)
+12 Goatman - Bio-Chimäre entlaufenem Labor
+13 Greys - Nano-Skin-Anzüge verzerren Proportionen
+14 Hitchhiking Ghost - Zeitversetzte Linse-Aufnahme auf HUD
+15 Lake-Monster - Schwarm-U-Drohnen unter Hüllfeld
+16 Shapeshifter - adaptive Metamaterial-Suit
+17 Spukhaus - Übersprungener EM-Emitter + Paradoxon-Energie
+18 Schlankes Wesen - Lidar-Verzerrer + Knochenverlängerungen
+19 Straßenlaternen-Summen - HF-Psi-Störsender, löst Migräne aus
+20 Blutfarbenes Mondlicht - Orbitale Linse fokussiert IR-Spektrum
 ```
 
 > Reminder: Urban-Myth-Seeds sind **Falschspuren**. Wenn die SL sie ausspielt, muss klar bleiben, dass der eigentliche Rift-Hook eine Para-Kreatur mit genau **einer** Weirdness enthält. Sobald Anchor/Marker neutralisiert sind, schließt der Seed.
 
 ### Stat-Block-Schablone
 
-| Gefahr | **Str** | **Agi** | **Mind** | **Psi‑Sig** | **Armor** | **HP** | Specials |
-| ------ | ------: | ------: | -------: | ----------: | --------- | -----: | -------- |
-| **S**  |     2d6 |     3d6 |      2d6 |         1d6 | 0         |      6 | 1 Fähigkeit |
-| **M**  |     3d6 |     4d6 |      3d6 |         2d6 | 1         |      8 | 2 Fähigkeiten |
-| **L**  |     4d6 |     4d6 |      3d6 |         3d6 | 2         |     10 | 3 Fähigkeiten |
-| **XL** |     5d6 |     5d6 |      4d6 |         4d6 | 3         |     14 | 4+ Fähigkeiten |
+Die Attributwerte der Kreatur sind **feste Werte** und nutzen dasselbe System
+wie Spielercharaktere: `1W6 + ⌊Attr/2⌋`. Die SL würfelt für die Kreatur oder
+nutzt den Wert als SG für Spielerproben (z.B. Ausweichen gegen Kreatur-Agi).
+
+| Gefahr | **STR** | **GES** | **INT** | **TEMP** | **Armor** | **LP** | Specials |
+| ------ | ------: | ------: | -------: | -------: | --------- | -----: | -------- |
+| **S**  |       4 |       6 |        4 |        2 | 0         |      6 | 1 Fähigkeit |
+| **M**  |       6 |       8 |        6 |        4 | 1         |      8 | 2 Fähigkeiten |
+| **L**  |       8 |      10 |        6 |        6 | 2         |     10 | 3 Fähigkeiten |
+| **XL** |      10 |      12 |        8 |        8 | 3         |     14 | 4+ Fähigkeiten |
 
 > **Armor** reduziert Schaden pro Treffer.
-> **HP** ist die Wundschwelle (W = 3 HP).
-> **Psi‑Sig** wird gegen Psi-Detection oder Paradoxon-Interaktion gewürfelt.
+> **LP** ist die Wundschwelle (W = 3 LP).
+> **TEMP** wird gegen Psi-Detection oder Paradoxon-Interaktion genutzt.
 
 ### Einsatz-Tips
 
 1. **Epochale Einbettung:** Passe die Technologie-Coverstory an Ort und Jahr an.
 2. **Paradoxon-Ventile:** XL-Kreaturen sollten eine Mechanik besitzen, die direkt mit dem Paradoxon-Index interagiert.
 3. **Cinematic Hooks:** Gib der Kreatur ein ikonisches Geräusch oder Lichtsignal, das Spieler früh wahrnehmen.
-4. **Salvage-Rewards:** Nach Besiegung 1–2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
+4. **Salvage-Rewards:** Nach Besiegung 1-2 modulare Tech-Fragmente als Plot-Coupon oder Craft-Teil.
 
 ### Gegenwehr & Makros {#counterfire}
 
@@ -702,18 +706,18 @@ Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleiche
 
 ```pseudo
 opener_volley(): Ansage "Gegner eröffnen Feuer" → Deckung/Stress würfeln lassen.
-suppression_fire(): blockiert Route oder zwingt Nachladen/Umweg (−1 Agi, +1 Stress bei Versagen).
+suppression_fire(): blockiert Route oder zwingt Nachladen/Umweg (-1 Agi, +1 Stress bei Versagen).
 counter_move(): Spezialfähigkeit oder Positionswechsel, der Druck erhöht (Timer, Verstärkung, Jammer).
 ```
 
 - **Boss-Zyklus:** Boss-Szenen fahren standardmäßig `opener_volley()` → Signatur-Fähigkeit →
-  `suppression_fire()` oder Verstärkung, erst dann volle Spieleraktionen – es sei denn, der Boss
+  `suppression_fire()` oder Verstärkung, erst dann volle Spieleraktionen - es sei denn, der Boss
   wurde zuvor überrascht oder neutralisiert. Das gilt für Mini- wie Rift-Bosse.
 
 ## Boss-Generator: Mini-, Episoden- und Rift-Bosse {#boss-generator}
 
 Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Mission 5 auf,
-Episoden-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
+Episoden-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
 
 ### boss_template
 
@@ -722,7 +726,7 @@ boss_template:
   id: string
   type: miniboss | boss
   arc_type: core | rift
-  epoch: "‑52 v.Chr."
+  epoch: "-52 v.Chr."
   archetype: "Zenturio"
   faction: "Lokale Prätorianergarde"
   time_faction: "Rotes Oktagon"
@@ -752,14 +756,14 @@ boss_template:
 ```
 
 **Schadensdämpfer:** `dr` steht für die verpflichtende Boss-Schadensreduktion.
-Der Wert richtet sich nach der Teamgröße (1–2 → Mini DR 1 / Arc/Rift DR 2,
-3–4 → 2/3, 5 → 3/4). Das Toolkit setzt den Wert beim Spawn automatisch und
+Der Wert richtet sich nach der Teamgröße (1-2 → Mini DR 1 / Arc/Rift DR 2,
+3-4 → 2/3, 5 → 3/4). Das Toolkit setzt den Wert beim Spawn automatisch und
 loggt ihn im HUD.
 
 ### core_mini_pool
 
 ```yaml
-‑52   : ["Zenturio", "Gallischer Tribun"]
+-52   : ["Zenturio", "Gallischer Tribun"]
 1410  : ["Deutsch Ordens-Ritter", "Litauischer Hetman"]
 1880  : ["Pinkerton-Scharfschütze", "Meiji-Shinsengumi"]
 1977  : ["KGB-Spionschmuggler", "RAF-Zellenchef"]
@@ -788,9 +792,9 @@ Alter_Orden:
 
 **Drucktypen (Rotation):**
 
-- Schwindende Deckung – Scheinwerfer fährt Schleife, Deckung schmilzt.
-- Wanderndes Sichtfenster – Laserlinien öffnen und schließen Zugänge.
-- Ressourcen-Clamp – SYS-Slots blockiert, SG +1 für Tech-Checks.
+- Schwindende Deckung - Scheinwerfer fährt Schleife, Deckung schmilzt.
+- Wanderndes Sichtfenster - Laserlinien öffnen und schließen Zugänge.
+- Ressourcen-Clamp - SYS-Slots blockiert, SG +1 für Tech-Checks.
 
 ### rift_boss_pool
 
@@ -828,24 +832,24 @@ auftreten.
 _Alle Artefakte sind **legendary**. Jeder Agent kann nur **ein** aktives Trophäen-Artefakt gleichzeitig führen._
 | 1W14 | Name | Effekt | Risiko / Cooldown |
 |----:|------|--------|-------------------|
-| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px −1 bei Fehlwurf |
-| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS −1, Px −1 |
-| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px −1 |
-| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px −1 |
-| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini −2 | R2: Leck Stress +1, Px −1 |
-| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px −1 |
-| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px −1 |
-| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px −1 |
-| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px −1 |
-|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px −1 |
-|11 | **Temporaler Knochenzahn** | SG −2 auf Fossil-Analysen | R1: Signal-Ping, Px −1 |
-|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px −1 |
-|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px −1 |
-|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px −1 |
+| 1 | **Mothman-Auge** | Dauerhaft Nachtsicht 30 m, Wahrnehmung +1 | R2: Blend 1 Sz, Px -1 bei Fehlwurf |
+| 2 | **Rift-Skorpion-Stachel** | +2 DMG & **Doppelschlag 20 %** (Nahkampf) | R4: Selbststich SYS -1, Px -1 |
+| 3 | **Heuschrecken-Exo-Platte** | Rüstung +1, 1×/Sz Reflex-Dash 3 m | R3: Bruch → Item weg, Px -1 |
+| 4 | **Nullzeit-Larve** | 1×/Mission Gadget-Reload | R2: Erwacht Heat +1, Px -1 |
+| 5 | **Ektoplasma-Drüse** | Flächen-Stun, Gegner Ini -2 | R2: Leck Stress +1, Px -1 |
+| 6 | **Phase-Raptor-Zahnrad** | 2 Rdn Deckung ignorieren, Nahkampf +1 DMG | R2: Entlädt, Px -1 |
+| 7 | **Zeitfalter-Kokon** | 1×/Sz Mini-Sprung ±5 Sek. | R2: Fehlversatz Px -1 |
+| 8 | **Krakenherz-Fragment** | Bioscan 30 m durch Wände | R2: Puls Heat +1, Px -1 |
+| 9 | **Bernstein-Rabenflügel** | Lautlos eine Szene & Gleiten 10 m | R3: Feuer zerstört, Px -1 |
+|10 | **Silberne Lupus-Klaue** | +1 DMG & **Doppelschlag 15 %** | R2: Blutkontakt Stress +1, Px -1 |
+|11 | **Temporaler Knochenzahn** | SG -2 auf Fossil-Analysen | R1: Signal-Ping, Px -1 |
+|12 | **Mantis-Oculus** | Fernkampf +1 Hit, Blend-Immun | R2: Fehlschuss Ally Blend, Px -1 |
+|13 | **Rift-Spinnenseide** | 30 m Seil, 1 t, Rüstung ignoriert | R3: Löst sich bei Px 4, Px -1 |
+|14 | **Doppel-Pupille** | Angst-Immun & Blend-Frei | R2: Vision-Flash Stress +1, Px -1 |
 
-> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px −1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
+> **Legendary-Limit**: 1 Artefakt | Aktivierung = freie Aktion | Risiko kostet Px -1 (Fortschritt Richtung ClusterCreate geht verloren, Px wird NICHT erhöht).
 
-> **Risk-Level (HUD-Badges):** R1 🟢 Niedrig – Warnhinweis · R2 🟡 Moderat – spürbarer Malus · R3 🟠 Hoch – droht Verlust oder harter Debuff · R4 🔴 Kritisch – massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
+> **Risk-Level (HUD-Badges):** R1 🟢 Niedrig - Warnhinweis · R2 🟡 Moderat - spürbarer Malus · R3 🟠 Hoch - droht Verlust oder harter Debuff · R4 🔴 Kritisch - massiver Eingriff in Vitalwerte/SYS. Toolkit-Makros wandeln die Kürzel automatisch in Badges.
 
 ### Ablauf-Update (Legendary-Roll, runtime-neutral)
 
@@ -857,7 +861,7 @@ Funktion roll_legendary:
 4) Overlay mit Name, Effekt und Risiko anzeigen.
 ```
 
-Auslösung wie bisher in **Rift-Mission Szene 11–13**: genau ein
+Auslösung wie bisher in **Rift-Mission Szene 11-13**: genau ein
 Legendary-Roll pro zulässiger Szene.
 
 Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
@@ -918,32 +922,32 @@ Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
 
 | W6 | Körperteil       | Basiseffekt (vor Matrix) |
 |---:|------------------|--------------------------|
-| 1  | Klaue / Stachel  | +2 DMG Nahkampf          |
-| 2  | Zahn / Horn      | Durchdringung +1         |
-| 3  | Auge / Pupille   | Perception +1            |
+| 1  | Klaue / Stachel  | +2 DMG Nahkampf          |
+| 2  | Zahn / Horn      | Durchdringung +1         |
+| 3  | Auge / Pupille   | Perception +1            |
 | 4  | Drüse / Beutel   | 1× Spezialladung         |
-| 5  | Chitin / Platte  | Rüstung +1               |
+| 5  | Chitin / Platte  | Rüstung +1               |
 | 6  | Organ / Kern     | Einmaliger Power-Burst   |
 
 > **Matrix-Aufwertung**: Kombiniere mit Kreatur-`type`.
-> *Beispiel* – **Psi-Raptor (M)** rollt **3 = Auge**
-> → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
-> Größe M = 2 Nutzungen / Mission.
+> *Beispiel* - **Psi-Raptor (M)** rollt **3 = Auge**
+> → Grund: _Perception +1_ → Psi-Matrix upgrade: _Telepath-Reichweite ×2_ →
+> Größe M = 2 Nutzungen / Mission.
 
-**Risiko:** jeder Fehlschlag ⇒ Px −1, plus Nebenwirkung laut Tabelle B.
+**Risiko:** jeder Fehlschlag ⇒ Px -1, plus Nebenwirkung laut Tabelle B.
 
-#### Tabelle B – Nebeneffekte (d6)
+#### Tabelle B - Nebeneffekte (d6)
 
 | d6 | Nebenwirkung              |
 |----|---------------------------|
-| 1  | Stress +1                |
-| 2  | Heat +1                  |
-| 3  | SYS −1 (Selbstschaden)   |
+| 1  | Stress +1                |
+| 2  | Heat +1                  |
+| 3  | SYS -1 (Selbstschaden)   |
 | 4  | Blend 1 Szene            |
 | 5  | Item defekt; aufwändige HQ-Werkstattreparatur (relativ teuer) |
-| 6  | Gegner erhält +1 INI     |
+| 6  | Gegner erhält +1 INI     |
 
-> Legendary-Limit: 1 Artefakt / Agent (unverändert).
+> Legendary-Limit: 1 Artefakt / Agent (unverändert).
 
 `Drop-Prüfung: artifact = generate_para_artifact(current_creature)`
 
@@ -951,14 +955,14 @@ Para-Kreaturen dürfen zusätzlich eine Drop-Prüfung über
 
 Wer durch die Zeit reist, trifft auf fremde **Kulturen, Bräuche und Alltagsdetails**, die eine
 Epoche erst _authentisch_ machen. Dieser Generator hilft dabei, schnell ein **Kulturfragment**
-einzustreuen, das der Szene mehr Tiefe gibt – ideal, wenn Spieler fragen: _“Gibt es hier gerade ein
-Fest oder so?”_ oder wenn ihr einfach Atmosphäre schaffen wollt.
+einzustreuen, das der Szene mehr Tiefe gibt - ideal, wenn Spieler fragen: _"Gibt es hier gerade ein
+Fest oder so?"_ oder wenn ihr einfach Atmosphäre schaffen wollt.
 
 Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
 
 - **Festliche Anlässe:**
 
-  1. Ein großes Volksfest findet statt (Erntedank, Siegesfeier o. Ä.).
+  1. Ein großes Volksfest findet statt (Erntedank, Siegesfeier o. Ä.).
   2. Religiöse Prozession oder ein hoher Feiertag prägt den Tag.
   3. Eine Krönung oder Hochzeit eines Herrschers sorgt für Aufruhr.
   4. Ein Initiationsritus steht bevor (Jugendliche werden in der Gesellschaft als Erwachsene
@@ -969,49 +973,49 @@ Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
 - **Sitten und Aberglaube:**
 
   1. Alle Leute tragen ein bestimmtes Symbol bei sich, um Unglück abzuwehren.
-  2. Bestimmte Worte oder Namen werden nie ausgesprochen – sie gelten als Tabu.
+  2. Bestimmte Worte oder Namen werden nie ausgesprochen - sie gelten als Tabu.
   3. Es gibt einen ungewöhnlichen Begrüßungsritus, den Außenstehende seltsam finden.
-  4. Ein lokaler Aberglaube bestimmt das Handeln aller (z. B. darf man um Mitternacht **niemals** X
+  4. Ein lokaler Aberglaube bestimmt das Handeln aller (z. B. darf man um Mitternacht **niemals** X
      tun).
-  5. An den Straßenecken liegen Opfergaben für unsichtbare Zeitgeister – die Menschen spüren
+  5. An den Straßenecken liegen Opfergaben für unsichtbare Zeitgeister - die Menschen spüren
      instinktiv temporale Unregelmäßigkeiten und versuchen, diese gnädig zu stimmen.
   6. Jeder Fremde muss erst **eine Prüfung** oder Aufgabe erledigen, um akzeptiert zu werden.
 
 - **Mode und Technik-Spleens:**
 
-  1. Eine auffällige Modefarbe dominiert – alle tragen etwas in dieser Farbe (z. B. Rot, zur
+  1. Eine auffällige Modefarbe dominiert - alle tragen etwas in dieser Farbe (z. B. Rot, zur
      Erinnerung an einen alten Krieg).
-  2. Ein Modeaccessoire mit kurioser **Funktion** ist der letzte Schrei (z. B. in einer Steampunk-
+  2. Ein Modeaccessoire mit kurioser **Funktion** ist der letzte Schrei (z. B. in einer Steampunk-
      Gesellschaft: ein Monokel, das als kleiner Bildschirm dient).
-  3. Die neueste Mode sind kleine **Automaton-Haustiere** – etwa Uhrwerk-Vögelchen an der Leine.
+  3. Die neueste Mode sind kleine **Automaton-Haustiere** - etwa Uhrwerk-Vögelchen an der Leine.
   4. Ungewöhnliche Architektur prägt das Stadtbild (vielleicht sind alle Gebäude aus schwarzem
      Basalt oder vollkommen ohne Ecken gebaut etc.).
   5. Eine lokale Essgewohnheit erstaunt Fremde (etwa werden Speisen zuerst den Ahnen geopfert und
      dann erst gegessen).
   6. Eine spezifische Grußformel oder Redewendung ist allgegenwärtig, mit einer historischen
-     Anekdote dahinter (“Möge der Kaiser dir nicht zweimal begegnen” – sprich: man bekommt vom Herrscher
+     Anekdote dahinter ("Möge der Kaiser dir nicht zweimal begegnen" - sprich: man bekommt vom Herrscher
      keine zweite Chance).
 
 - **Gesellschaft & Gesetz:**
 
   1. Es herrscht strikte **Ausgangssperre** ab einer bestimmten Stunde (vielleicht aus temporalen
-     Gründen – man will Geister oder Zeitdiebe fernhalten?).
+     Gründen - man will Geister oder Zeitdiebe fernhalten?).
   2. Ein **Kasten- oder Gildensystem** prägt das Miteinander; Fremde werden automatisch als
      niedrigste Stufe behandelt.
-  3. Aktuell gilt **Kriegsrecht** – überall Patrouillen, Ausweiskontrollen und eine angespannte
+  3. Aktuell gilt **Kriegsrecht** - überall Patrouillen, Ausweiskontrollen und eine angespannte
      Stimmung.
   4. Extrem rigide Ehrvorstellungen: Schon kleinste Beleidigungen werden durch **Duelle auf Leben
      und Tod** gesühnt. (Die Helden müssen höllisch aufpassen, was sie sagen!)
-  5. Bizarres Gesetz: Jeder Besucher muss eine Art **“Zeit-Zoll”** entrichten – sei es in Währung
+  5. Bizarres Gesetz: Jeder Besucher muss eine Art **"Zeit-Zoll"** entrichten - sei es in Währung
      oder durch eine verrichtete Arbeit. Man glaubt, die Lebenszeit Fremder schulde der Stadt etwas.
   6. **Prophezeiungen oder Astrologie** sind Teil der offiziellen Gesetzgebung. Bestimmte Tage sind
-     für gewisse Handlungen verboten, oder ein “Zeit-Orakel” muss wichtige Entscheidungen absegnen.
+     für gewisse Handlungen verboten, oder ein "Zeit-Orakel" muss wichtige Entscheidungen absegnen.
 
 **Beispiel:** In einer Renaissance-Stadt (Florenz 1500) würfle ich auf _Sitten & Aberglaube_ und
 erhalte eine 2: Bestimmte Worte werden nie ausgesprochen. GPT interpretiert dies so: _In Florenz
-wagt niemand, direkt vom “Teufel” zu sprechen – man umschreibt ihn als “den mit den Hörnern”._ Der
+wagt niemand, direkt vom "Teufel" zu sprechen - man umschreibt ihn als "den mit den Hörnern"._ Der
 Grund: Man glaubt, Worte beschwören Realität. Die Chrononauten merken das deutlich, als ein NSC
-zusammenzuckt, weil einer von ihnen unbekümmert **“diavolo”** gesagt hat. – Schon bekommt ein
+zusammenzuckt, weil einer von ihnen unbekümmert **"diavolo"** gesagt hat. - Schon bekommt ein
 einfaches Gespräch sofort eine interessante kulturelle Note!
 
 - **Mandela-Effekte (temporale Rückstände):**
@@ -1038,9 +1042,9 @@ einfaches Gespräch sofort eine interessante kulturelle Note!
 Solche Kulturfragmente lassen die Welt lebendig und eigen wirken. Die Helden merken: **Jede Epoche
 hat ihre Eigenheiten**, und wenn sie sich klug darauf einlassen (bzw. GPT sie daran erinnert),
 können sie so manch unnötigen Konflikt vermeiden oder Sympathien gewinnen. Vielleicht machen sie bei
-einem lokalen Fest mit und gewinnen dadurch Verbündete – oder sie nutzen einen Aberglauben gezielt
+einem lokalen Fest mit und gewinnen dadurch Verbündete - oder sie nutzen einen Aberglauben gezielt
 
-für sich (_“Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!”_). Diese kleinen Dinge
+für sich (_"Wir verkleiden uns als die Ahnengeister, damit sie uns zuhören!"_). Diese kleinen Dinge
 fördern das Eintauchen ins Setting enorm und sorgen für großartige Immersion.
 
 ## Mood-Snippet-Generator {#mood-snippet-generator}
@@ -1069,8 +1073,8 @@ Kurze Ideen für Rätsel- oder Hindernisszenen. Die Schwierigkeits-Icons lauten
 | 6 | Mathematischer Code, der Fibonacci-Reihen nutzt | ⚠ |
 | 7 | Mehrstufiges Klangrätsel löst geheime Tür | ✱ |
 | 8 | Subtile chemische Reaktion verrät den Code | ✱ |
-| 9 | Zeitscheiben-Schalter koordiniert drei 5s-Fenster – Soft Fail Alarm 1 | ✱ |
-| 10 | Karbid-Kryptograph – Kryokammer öffnen via Magnetfeldanalyse, Telekinese oder Überreden | ⚠ |
+| 9 | Zeitscheiben-Schalter koordiniert drei 5s-Fenster - Soft Fail Alarm 1 | ✱ |
+| 10 | Karbid-Kryptograph - Kryokammer öffnen via Magnetfeldanalyse, Telekinese oder Überreden | ⚠ |
 
 Die SL kann eigene Schwierigkeitsgrade festlegen. Die Tags dienen als
 schnelle Orientierung im Mission-Generator.
@@ -1082,7 +1086,7 @@ Für einen Agenten-Thriller sollten solche Effekte sparsam eingesetzt werden.
 
 Zeitreisen gehen selten ohne Nebenwirkungen vonstatten. Jede Sprungsequenz
 belastet das Raumzeit-Kontinuum. Nach **1000** vollzogenen Zeitsprüngen
-tritt automatisch **eine** der folgenden Anomalien auf – unabhängig davon,
+tritt automatisch **eine** der folgenden Anomalien auf - unabhängig davon,
 ob die Chrononauten **pro** oder **contra** spielen. Würfelt oder wählt
 einen Eintrag, um das Ereignis einzubauen.
 
@@ -1099,27 +1103,27 @@ einen Eintrag, um das Ereignis einzubauen.
    Objekte aus verschiedenen Zeiten durcheinander. Erst wenn das Epizentrum
    stabilisiert wird, legt sich das Chaos.
 4. **Zukunftsresonanz:** Bruchstückhafte Eindrücke eines kommenden
-   Ereignisses erscheinen – Konturen eines Gebäudes oder Gesprächsfetzen,
+   Ereignisses erscheinen - Konturen eines Gebäudes oder Gesprächsfetzen,
    die nur Sensoren erfassen. Diese Hinweise können warnen oder täuschen.
 5. **Zeitschmiede:** Eine Maschine hält einen Riss offen und produziert
    Zeit-Klone oder Artefakte aus alternativen Zukünften. Die Chrononauten
    müssen entscheiden, ob sie die Schmiede zerstören oder kontrolliert
    nutzen.
 6. **Paradoxon-Loop:** Die Gruppe bemerkt, dass sie in einer Zeitschleife
-   gefangen ist. Nur ein drastischer Schritt – eine zuvor getroffene
+   gefangen ist. Nur ein drastischer Schritt - eine zuvor getroffene
    Entscheidung rückgängig machen oder einen von ihnen temporär aus der
-   Existenz nehmen – durchbricht den Loop.
+   Existenz nehmen - durchbricht den Loop.
 
 Temporale Anomalien sind seltene, aber eindrucksvolle Ereignisse. Setzt sie
 sparsam ein, um Spannung, Staunen oder Dringlichkeit zu erzeugen.
 ## Minor-Anomalien (d6) {#minor-anomalien}
 
-| Wurf | Effekt (1 min) |
+| Wurf | Effekt (1 min) |
 | ---- | -------------- |
 | 1 | Rostpartikel fliegen rückwärts an Metall. |
 | 2 | Uhrenschläge doppelt so schnell. |
 | 3 | Haare der Agenten stellen sich elektrostatisch auf. |
-| 4 | Gravitation lokal −5 %. |
+| 4 | Gravitation lokal -5 %. |
 | 5 | Starker Kupfergeruch. |
 | 6 | Zwei Sekunden absolute Stille. |
 
@@ -1224,12 +1228,12 @@ vorgesehenen Erfolgsbonus.
 | id | jahr | ort | puzzle | solution | reward |
 | -- | ---- | --- | ------ | -------- | ------ |
 | 7  | 1888 | London | 5 Drähte, 3 Enden -> Morsecode. | B-G-R-G-S = "SEAL" | Schaltschrank offen, +1 Info |
-| 8  | 1906 | Istanbul | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress –2 |
+| 8  | 1906 | Istanbul | Num-Kalligrafie zeigt Versmaß aus "Divan-i Hafez". | 2358 | Artefakt-Zugang, Stress -2 |
 | 9  | 1911 | Agadir | Drei falsche Schiffsrouten ergeben ein Dreieck. | 30°25′N 09°36′W | Feindliches Depot entdeckt |
-| 10 | 1983 | Moskau | XOR-Lochkarten-Uhrzeiten. | Karte 17 -> 101100 | Countdown gestoppt, Paradoxon –1 |
-| 11 | Frühmittelalter | Runen‑Stele | Ringstein mit 16 Runen | Sternkarte richten, Fach öffnet | Fehler: Pfeilfalle |
+| 10 | 1983 | Moskau | XOR-Lochkarten-Uhrzeiten. | Karte 17 -> 101100 | Countdown gestoppt, Paradoxon -1 |
+| 11 | Frühmittelalter | Runen-Stele | Ringstein mit 16 Runen | Sternkarte richten, Fach öffnet | Fehler: Pfeilfalle |
 | 12 | Spätantike | Hydr.Orgel | V/W-Kammern | Wasser angleichen, Pins lösen, Tür auf | Überdruck flutet Kammer |
-| 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
+| 13 | Viktorianisch | Zahnrad-Panel | 12 Messingräder, verschieden | Fibo-Reihenfolge | Kurzschluss: Dunkel 10 Min |
 | 14 | Near-Future | QC-Archivkammer | Lichtzahlen in Superpos. | Seq. kollabieren, Primzahlen bleiben | Fehler: EMP-Burst |
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
