@@ -51,7 +51,7 @@ Spieleplattform – nur dass die „Engine“ aus KI-gelesenem Markdown besteht.
 „ZEITRISS 4.2.6 fühlt sich verblüffend oft nach _Next Gen_ an – und
 erschreckend selten nach Bastel-Prototyp. Es wirkt weniger wie ein Hack und
 mehr wie eine richtige Spieleplattform, deren Engine zufällig in Markdown
-steht.“ – Aus einem Testbericht, der vom ZEITRISS-GPT selbst erstellt wurde
+steht.“ – Aus einem Testbericht, der von der ZEITRISS-KI selbst erstellt wurde
 (93 % Wertung, 2025).
 
 Durch diese konsequente Umsetzung ist ZEITRISS mehr als nur ein Regel-PDF: Es
