@@ -2114,8 +2114,8 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Zeitversetzter Serienmörder in Stutter-Schleife, an Uhr gebunden
     weakness: Anchor-Uhr exakt 00:13:17 stellen und im Stutter zerstören (Psi-Impuls Mind 12)
-    anomaly: Frame Lunge (Agi-Save 12, 3 HP + Panik)
-    boss_stat_hint: "HP 11 | Armor 1 | Agi 4d6 | Psi-Sig 3d6"
+    anomaly: Frame Lunge (GES-Save SG 12, 3 LP + Panik)
+    boss_stat_hint: "LP 11 | Armor 1 | GES 8 | TEMP 6"
 
 - rift_id: "RIFT-JDEV"
   epoch: "New Jersey 1909"
@@ -2135,7 +2135,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     truth: Para-Chimäre kreist um verfluchte Familienreste
     weakness: Anchor-Knochen mit geweihtem Kupferdraht fesseln und verbrennen (Survival 11 oder Tech 11)
     anomaly: Loop Reset (setzt Ini zurück, Anchor schützt)
-    boss_stat_hint: "HP 8 | Armor 1 | Agi 4d6 | Psi-Sig 2d6"
+    boss_stat_hint: "LP 8 | Armor 1 | GES 8 | TEMP 4"
 
 - rift_id: "RIFT-BRIDGE"
   epoch: "Chongqing 2032"
@@ -2155,7 +2155,7 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
     truth: Echo-Manifestation des Unfallbusses, gebunden an Fahrgast-Anker
     weakness: Blackbox bergen + Anker verarzten
     anomaly: Echo Surge (Psi-Save 12, Stress +1)
-    boss_stat_hint: "HP 9 | Armor 0 | Mind 3d6 | Psi-Sig 3d6"
+    boss_stat_hint: "LP 9 | Armor 0 | INT 6 | TEMP 6"
 
 - rift_id: "RIFT-ORCHID"
   epoch: "Amazonas 1899"
@@ -2174,8 +2174,8 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Symbionten-Schwarm springt zwischen Phasen
     weakness: Feuer + Stabilisierung des Zeitmarkers mit Salzlinie
-    anomaly: Slip Bloom (Agi-Save 12, immobilisiert 1 Rd.)
-    boss_stat_hint: "HP 12 | Armor 1 | Str 3d6 | Psi-Sig 3d6"
+    anomaly: Slip Bloom (GES-Save SG 12, immobilisiert 1 Rd.)
+    boss_stat_hint: "LP 12 | Armor 1 | STR 6 | TEMP 6"
 
 - rift_id: "RIFT-LUNAR"
   epoch: "Luna Far-Side 2266"
@@ -2194,8 +2194,8 @@ Kanonischer Pool für Casefiles mit **einem** Zeitphänomen. Briefings bestehen 
   boss_private:
     truth: Null-G-Raubtier springt phasenweise, jagt auf Atemluft
     weakness: Druckschott schließen + Psi-Signatur spiegeln (Mind 13)
-    anomaly: Stutter Pounce (Agi-Save 13, 3 HP, Stress+2 bei W6=6)
-    boss_stat_hint: "HP 14 | Armor 2 | Agi 5d6 | Psi-Sig 4d6"
+    anomaly: Stutter Pounce (GES-Save SG 13, 3 LP, Stress+2 bei W6=6)
+    boss_stat_hint: "LP 14 | Armor 2 | GES 12 | TEMP 8"
 ```
 
 ### Rift-Casefile Builder
