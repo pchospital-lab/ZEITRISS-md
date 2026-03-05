@@ -667,9 +667,9 @@ und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 
 **Psi-Effekte auf einen Blick**
 
-- **Telepathie (1 SYS)** - Gedanken lesen oder kurze Botschaften senden.
+- **Telepathie (1 PP / 1 SYS)** - Gedanken lesen oder kurze Botschaften senden.
   TEMP-Probe gegen die Willenskraft (CHA) des Ziels.
-- **Präkognition (2 SYS)** - einmalige Vorahnung; erlaubt einen Wurf zu wiederholen
+- **Präkognition (2 PP / 2 SYS)** - einmalige Vorahnung; erlaubt einen Wurf zu wiederholen
   oder gewährt einen hilfreichen Hinweis.
 - **Zeit verlangsamen (2 SYS)** - gewährt eine zusätzliche Aktion oder einen
   deutlichen Bonus auf eine Reaktion; kostet viel Konzentration.
@@ -687,7 +687,8 @@ und Reset auf 0. Offene Seeds steigern den SG um +1 pro Seed.
 4. **Erfolgspool prüfen** - erzielte Schlüsselszenen zählen als Punkte, die den Ausgang beeinflussen.
 5. **Folgen & Übergang** - nach jedem Durchlauf passen sich Moral, Ressourcen und Gelände an.
 
-_Orientierung:_ Kleine Gefechte brauchen 1-2 Punkte, mittlere Schlachten 3-5, große Konflikte 5+.
+_Orientierung:_ Richtwerte für benötigte Erfolgspunkte → siehe
+[Massenkonflikt-Kurzreferenz](../gameplay/massenkonflikte.md#mass-qa) (SSOT).
 
 ### Quickref: Rift-Überblick
 
