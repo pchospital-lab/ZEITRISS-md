@@ -236,44 +236,51 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 
 ```json
 {
-  "save_version": 6, "zr_version": "4.2.6",
-  "location": "HQ", "phase": "core",
-  "character": {
-    "id": "CHR-XXXX", "name": "", "rank": "", "lvl": 1, "xp": 0,
-    "stress": 0, "psi_heat": 0, "cooldowns": {},
-    "attributes": { "STR":0,"GES":0,"INT":0,"CHA":0,"TEMP":0,
-      "SYS_max":0,"SYS_installed":0,"SYS_runtime":0,"SYS_used":0,"hp":0,"hp_max":0 },
-    "talents": [], "skills": [], "implants": [],
-    "inventory": { "weapons":[],"armor":[],"gadgets":[],"consumables":[],"special":[] },
-    "stats": { "missions_completed":0,"deaths":0,"rifts_closed":0 }
-  },
+  "v": 7, "zr": "4.2.6",
   "campaign": {
-    "episode":1,"mission_in_episode":0,"scene":0,"px":0,"mode":"preserve",
-    "rift_seeds":[], "exfil":{"active":false,"armed":false,"hot":false,
-      "ttl":0,"sweeps":0,"stress":0,"anchor":null,"alt_anchor":null}
+    "episode": 1, "mission": 0, "px": 0, "mode": "mixed",
+    "rift_seeds": []
   },
-  "team": {"members":[]}, "party": {"characters":[]}, "loadout": {},
-  "economy": {"cu":0,"wallets":{}},
+  "characters": [{
+    "id": "CHR-XXXX", "name": "", "callsign": "", "rank": "Rekrut",
+    "lvl": 1, "xp": 0,
+    "origin": { "epoch": "", "hominin": "Homo sapiens sapiens", "role": "" },
+    "attr": { "STR":0, "GES":0, "INT":0, "CHA":0, "TEMP":0, "SYS":0 },
+    "hp": 10, "hp_max": 10, "stress": 0,
+    "has_psi": false,
+    "sys_installed": 0,
+    "talents": [],
+    "equipment": [],
+    "implants": [],
+    "reputation": {
+      "iti": 0, "faction": "Ordo Mnemonika",
+      "factions": { "ordo_mnemonika":0, "chrono_symmetriker":0,
+                    "kausalklingen":0, "zerbrechliche_ewigkeit":0 }
+    },
+    "wallet": 100
+  }],
+  "economy": { "hq_pool": 0 },
   "logs": {
-    "hud":[],"trace":[],"artifact_log":[],"market":[],"offline":[],
-    "kodex":[],"alias_trace":[],"squad_radio":[],"foreshadow":[],
-    "fr_interventions":[],"arena_psi":[],"psi":[],
-    "flags": {"runtime_version":"4.2.6","merge_conflicts":[],
-      "platform_action_contract":{"action_mode":"uncut"}}
+    "trace": [], "market": [], "artifact_log": [], "notes": [],
+    "flags": { "runtime_version": "4.2.6", "chronopolis_unlocked": false }
   },
-  "arc_dashboard": {"offene_seeds":[],"fraktionen":{},"fragen":[],"timeline":[]},
-  "ui": {"gm_style":"verbose","intro_seen":true,"suggest_mode":false,
-    "action_mode":"uncut","contrast":"standard","badge_density":"standard",
-    "output_pace":"normal"},
-  "arena": {"active":false,"phase":"idle","mode":"single","match_policy":"sim",
-    "previous_mode":null,"wins_player":0,"wins_opponent":0,"tier":1,
-    "proc_budget":0,"artifact_limit":0,"loadout_budget":0,"phase_strike_tax":0,
-    "damage_dampener":true,"team_size":1,"fee":0,"scenario":null,
-    "started_episode":null,"last_reward_episode":null,"policy_players":[],"audit":[]}
+  "arc": { "factions": {}, "questions": [], "hooks": [] },
+  "ui": { "gm_style": "verbose", "suggest_mode": false,
+    "contrast": "standard", "badge_density": "standard",
+    "output_pace": "normal", "voice_profile": "gm_third_person" }
 }
 ```
-  Felder mit echten Werten füllen. Leere Arrays/Objekte nur wenn noch nichts passiert ist.
-  **Kein Freitext-Save, kein eigenes Format.** Immer exakt dieses Schema — kein Feld weglassen.
+  **Schema v7 Regeln:**
+  - `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Host = Index 0.
+  - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
+  - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
+  - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` — max 1, nur wenn vorhanden.
+  - Equipment einheitlich: `{"name":"...", "type":"weapon|armor|gadget|consumable", "tier":1}`.
+  - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
+  - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
+  - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.
+  - **Kein Freitext-Save, kein eigenes Format.** Immer exakt dieses Schema.
+  - v6-Saves werden beim Laden automatisch migriert (Loader erkennt `save_version: 6`).
 
 ### HQ & Sprung
 - Nullzeit-HQ ist sicher, entspannt, klare Routinen; HUD meldet Link-Status knapp.
