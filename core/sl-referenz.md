@@ -499,6 +499,26 @@ verbindliche Entscheidung:
 
 Ohne diese Gruppenentscheidung wird die Geschichte nicht fortgesetzt.
 
+## Basis-NSC-Stat-Blocks {#basis-nsc}
+
+Standard-Gegner im Core-Probensystem. Die SL skaliert Werte nach Bedarf (±2).
+
+| NSC-Typ | STR | GES | INT | CHA | TEMP | LP | Armor | Ausrüstung |
+|---------|:---:|:---:|:---:|:---:|:----:|:--:|:-----:|------------|
+| **Wachmann** | 4 | 4 | 3 | 2 | 1 | 8 | 1 | Pistole (Tier 1), Funkgerät |
+| **Söldner** | 5 | 5 | 3 | 2 | 1 | 10 | 2 | Sturmgewehr (Tier 2), Granate ×1 |
+| **Wissenschaftler** | 2 | 3 | 6 | 3 | 2 | 6 | 0 | Tablet, Zugangspass |
+| **Informant** | 3 | 4 | 4 | 5 | 1 | 7 | 0 | Versteckte Pistole (Tier 1) |
+| **Elite-Operator** | 6 | 6 | 4 | 3 | 2 | 10 | 3 | Kampfgewehr (Tier 2), Kevlar, Comlink |
+| **Psi-Agent (Feind)** | 3 | 4 | 5 | 4 | 5 | 8 | 1 | Psi-Stab (Tier 2), Telepathie 1 PP/1 SYS |
+| **Zivilist** | 2 | 3 | 3 | 3 | 1 | 6 | 0 | Keine |
+| **Boss (Mini, M5)** | 7 | 7 | 5 | 4 | 3 | 12 | 3 | Schwere Waffe (Tier 3), 2 Fähigkeiten |
+| **Boss (Episode, M10)** | 8 | 8 | 6 | 5 | 4 | 14 | 4 | Signatur-Waffe (Tier 3), 3 Fähigkeiten |
+
+> Waffenschaden = fester Wert pro Waffentyp. Pistole: 2 LP, Sturmgewehr: 3 LP,
+> Schwere Waffe: 4 LP, Nahkampf: STR-basiert (⌊STR/2⌋ + Waffenbonus).
+> Armor reduziert Schaden pro Treffer.
+
 ## Regelreferenz
 
 ### Proben & Schwierigkeitsgrad

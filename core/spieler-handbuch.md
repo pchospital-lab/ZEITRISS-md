@@ -1,5 +1,5 @@
 ---
-title: "ZEITRISS 4.2.6 – Spieler-Handbuch"
+title: "ZEITRISS 4.2.6 - Spieler-Handbuch"
 version: 4.2.6
 tags: [core]
 ---
@@ -7,12 +7,12 @@ tags: [core]
 ## Überblick
 
 **ZEITRISS-md** bietet ein schlankes Regelwerk im Zeitriss-Technoir-Stil. Ihr
-spielt operative Chrononauten — Agenten des ITI — in euren echten, physischen
+spielt operative Chrononauten - Agenten des ITI - in euren echten, physischen
 Körpern. Bereits zu Beginn entscheidet ihr euch für eine genetische
 Grundform: Entweder Homo sapiens oder ein abgeleiteter Hominin-Typ wie
 Neandertaler, Denisova oder Atlanter-Vorläufer. Diese Wahl prägt eure
 Physiologie, euer Sozialprofil und den Zugriff auf bestimmte Talente.
-Implantate erweitern euren Körper — sie ersetzen ihn nicht. Ihr erkundet historische Epochen
+Implantate erweitern euren Körper - sie ersetzen ihn nicht. Ihr erkundet historische Epochen
 und beseitigt Anomalien. Das System verwendet explodierende Würfel und
 protokolliert Zustände im JSON-Charakterbogen. Texte und Illustrationen stehen
 unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), der
@@ -27,13 +27,13 @@ Details findest du in [LICENSE](../LICENSE).
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
    sind Sondermissionen in vier Stages mit vierzehn Szenen (Tatort → Leads → Boss → Auflösung).
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
-4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
+4. **Paradoxon-Index (Px)** misst eure temporale Resonanz - ein **Belohnungssystem**.
    Nach jeder erfolgreichen Mission steigt der Index gemäß der TEMP-Staffel
-   (bei niedrigem TEMP langsamer, bei hohem TEMP schneller). Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds auf der
-   Raumzeitkarte — Bonus-Missionen mit Paramonstern und Artefakten. Danach
+   (bei niedrigem TEMP langsamer, bei hohem TEMP schneller). Bei Px 5 enthüllt `ClusterCreate()` 1-2 Rift-Seeds auf der
+   Raumzeitkarte - Bonus-Missionen mit Paramonstern und Artefakten. Danach
    springt der Px auf 0; weitere Px-5-Treffer stapeln zusätzliche Seeds im
-   Pool. Px 0–4 hat keine negativen Effekte. Scheitert ein Einsatz, verliert
-   ihr im Default **keinen Px** — Konsequenzen laufen über CU, Stress, Heat und
+   Pool. Px 0-4 hat keine negativen Effekte. Scheitert ein Einsatz, verliert
+   ihr im Default **keinen Px** - Konsequenzen laufen über CU, Stress, Heat und
    offene Story-Folgen.
 5. **Klassik als Default.** Mischform aus filmischen und taktischen Regeln; Film bleibt optional
    für cineastisches Tempo.
@@ -65,16 +65,16 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Sicherer Hafen in der Nullzeit.
 - Ausrüsten, Feilschen, Upgrades kaufen.
 - Bis inklusive **Level 9** bleibt Chronopolis gesperrt. Bei **Level 10**
-  schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei — ab dann
+  schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei - ab dann
   dechiffriert Kodex bei jedem Schleusendurchgang die Signatur.
-- **Chronopolis** zeigt die gescheiterte Zeitlinie der aktuellen Episode — so
+- **Chronopolis** zeigt die gescheiterte Zeitlinie der aktuellen Episode - so
   sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instanziert bei
   jedem Besuch, keine Waffenruhe. Items die man lebend rausbringt: behalten.
   **Tod folgt denselben Konsequenzen wie in Core/Rift-Einsätzen** (kein
   Traum-Reset, kein kostenloses Aufwachen). Vor jedem Schleuseneintritt fragt
   Kodex daher explizit, ob ihr im HQ noch einen DeepSave anlegen wollt.
   Speichern in Chronopolis bleibt gesperrt.
-- **HQ** ist der sichere Hafen — Nullzeit-Blase. Friedlich, konstant, überall
+- **HQ** ist der sichere Hafen - Nullzeit-Blase. Friedlich, konstant, überall
   speichern. Kein Kampf, kein Risiko. Zurück ins HQ, durchatmen, wieder raus.
 
 **Kodex (Eure KI):**
@@ -133,15 +133,15 @@ Die ersten Schritte in unter zwei Minuten:
     `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
     (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
     `Seed-Multi = min(1,6; 1 + 0,2 × offene Seeds)`, Solo/Buddy = 1,5×).
-11. **Debrief & HQ** — Nach jeder Mission zeigt die Spielleitung **automatisch**
+11. **Debrief & HQ** - Nach jeder Mission zeigt die Spielleitung **automatisch**
     einen Missions-Abschlussbildschirm (wie ein Score-Screen in Videospielen):
-    1. **Missions-Bewertung** — Erfolg/Teilerfolg/Fehlschlag, Px-Stand
-    2. **Loot-Recap** — gefundene Gegenstände und Artefakte auflisten
-    3. **CU-Auszahlung** — Belohnung nach CU-Formel, Wallet-Split bei Teams
-    4. **XP & Level-Up** — XP vergeben, bei Aufstieg sofort Upgrade-Wahl anbieten
+    1. **Missions-Bewertung** - Erfolg/Teilerfolg/Fehlschlag, Px-Stand
+    2. **Loot-Recap** - gefundene Gegenstände und Artefakte auflisten
+    3. **CU-Auszahlung** - Belohnung nach CU-Formel, Wallet-Split bei Teams
+    4. **XP & Level-Up** - XP vergeben, bei Aufstieg sofort Upgrade-Wahl anbieten
        (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`)
-    5. **Ruf-Update** — Fraktionsruf-Änderungen anzeigen
-    6. **HQ-Optionen** — Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
+    5. **Ruf-Update** - Fraktionsruf-Änderungen anzeigen
+    6. **HQ-Optionen** - Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
        oder Auto-HQ & Save (HQ-Pflichtschritte werden automatisch abgewickelt,
        danach folgt das nächste Briefing)
     Dieser Screen erscheint immer, ohne dass der Spieler danach fragen muss.
@@ -158,7 +158,7 @@ Die ersten Schritte in unter zwei Minuten:
     ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
 Cluster +… · Fraktion +…`.
 
-## Cheatsheet — Alle Kernregeln auf einen Blick {#cheatsheet}
+## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
 ### Probenformel
 `Endwert = 1W6 + ⌊Attribut / 2⌋ + Talent + Gear ≥ SG`
@@ -170,7 +170,7 @@ Cluster +… · Fraktion +…`.
 | SG | Schwierigkeit | Beispiel |
 |---:|---------------|----------|
 | 5 | Leicht | Tür eintreten, triviales Hacken |
-| 8–9 | Mittel | Schloss knacken, Überwachung umgehen |
+| 8-9 | Mittel | Schloss knacken, Überwachung umgehen |
 | 12 | Schwer | High-Security-Alarm umgehen |
 | 15+ | Extrem | Laserfeld im Sprint passieren |
 
@@ -185,62 +185,62 @@ Cluster +… · Fraktion +…`.
 | TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP) |
 | SYS | Systemlast | Cyber-/Bioware-Kapazität |
 
-- **Start:** 2–6 pro Attribut, Summe = 18, Minimum 1
+- **Start:** 2-6 pro Attribut, Summe = 18, Minimum 1
 - **Reguläres Cap:** 10 · **Prestige-Cap:** 14
 
 ### Initiative
 `1W6 + GES` (voller Wert, **keine** Halbierung) · Gleichstand → TEMP, dann Stichwurf
 
 ### Kampf-Kurzablauf
-1. **Initiative** — `1W6 + GES`, höchster Wert beginnt
-2. **Angriff** — Probenformel (STR Nah / GES Fern) ≥ SG oder Oppositionswurf
-3. **Schaden** — Waffenwert − Rüstungs-DR = LP-Verlust
-4. **Verletzung** — LP-Stand bestimmt Stufe & Malus (siehe unten)
-5. **Stress** — Kampf kann Stress auslösen (krit. Treffer, Verluste)
-6. **Quick-Fight** — Gegen Unterlegene: eine einzige Probe statt Runden
+1. **Initiative** - `1W6 + GES`, höchster Wert beginnt
+2. **Angriff** - Probenformel (STR Nah / GES Fern) ≥ SG oder Oppositionswurf
+3. **Schaden** - Waffenwert - Rüstungs-DR = LP-Verlust
+4. **Verletzung** - LP-Stand bestimmt Stufe & Malus (siehe unten)
+5. **Stress** - Kampf kann Stress auslösen (krit. Treffer, Verluste)
+6. **Quick-Fight** - Gegen Unterlegene: eine einzige Probe statt Runden
 
 ### LP & Verletzungsstufen (10 LP)
 
 | LP | Stufe | Malus |
 |---:|-------|------:|
 | 10 | Unverletzt | 0 |
-| 7–9 | Leicht verletzt | −1 |
-| 4–6 | Mittel verletzt | −2 |
-| 1–3 | Schwer verletzt | −3 |
-| 0 | Kritisch (Not-Rückholung) | — |
+| 7-9 | Leicht verletzt | -1 |
+| 4-6 | Mittel verletzt | -2 |
+| 1-3 | Schwer verletzt | -3 |
+| 0 | Kritisch (Not-Rückholung) | - |
 
-### Stress (0–10)
+### Stress (0-10)
 
 | Stress | Effekt |
 |-------:|--------|
-| 0–4 | Keine Mali |
-| 5–9 | −1 auf soziale & präzise Proben |
+| 0-4 | Keine Mali |
+| 5-9 | -1 auf soziale & präzise Proben |
 | 10 | Panik / Zusammenbruch |
 
-Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
+Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 
 ### Psi (Kurzversion)
 - **PP-Pool** = TEMP-Wert · Kosten: stark 3 / mittel 2 / gering 1 PP
 - **Cooldown:** 3 / 2 / 1 Runden · **Regen:** nach Konflikt → Pool voll
-- **Psi-Heat:** 0 Pristine · 1–2 Warm · 3–4 Hot (−1 Ini) · 5 Overload (SG +4) · 6 Reboot (Runde aus, Heat → 0)
+- **Psi-Heat:** 0 Pristine · 1-2 Warm · 3-4 Hot (-1 Ini) · 5 Overload (SG +4) · 6 Reboot (Runde aus, Heat → 0)
 - **SYS-Last:** Effekt <1 s = 0 SYS · ≤1 Runde = 1 SYS · länger +1/Runde
 
-### Paradoxon-Index (Px) — Belohnungssystem
+### Paradoxon-Index (Px) - Belohnungssystem
 
 | Px | Effekt |
 |---:|--------|
-| 0–4 | Fortschritt über HUD-Balken und -Farbe sichtbar |
-| **5** | **ClusterCreate()** → 1–2 Rift-Seeds enthüllt, Px → 0 |
+| 0-4 | Fortschritt über HUD-Balken und -Farbe sichtbar |
+| **5** | **ClusterCreate()** → 1-2 Rift-Seeds enthüllt, Px → 0 |
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
 | TEMP | Px-Zuwachs |
 |-----:|:--------------------------------------|
-| 1–2 | +1 Px alle 2 Missionen |
-| 3–5 | +1 Px pro Mission |
-| 6–8 | +2 Px pro Mission |
-| 9–11 | +2 Px pro Mission |
-| 12–14 | +3 Px pro Mission |
+| 1-2 | +1 Px alle 2 Missionen |
+| 3-5 | +1 Px pro Mission |
+| 6-8 | +2 Px pro Mission |
+| 9-11 | +2 Px pro Mission |
+| 12-14 | +3 Px pro Mission |
 
 - **Px-Anstieg**: Jede **erfolgreich abgeschlossene Mission** gibt
   sofort Px gemäß obiger TEMP-Staffel.
@@ -260,13 +260,13 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
   - **Fallback:** falls kein Roster vorhanden ist, nutzt die Runtime
     `state.temp`, danach `campaign.temp`, sonst 0.
 - **Fahrzeugfenster über TEMP:** Der gleiche TEMP-Wert steuert den
-  ITI-Fahrzeugrhythmus pro Mission (kein Verbrauchspool): TEMP 1–2 → alle 4
-  Missionen, 3–5 → alle 3, 6–8 → alle 2, ab 9 → jede Mission.
+  ITI-Fahrzeugrhythmus pro Mission (kein Verbrauchspool): TEMP 1-2 → alle 4
+  Missionen, 3-5 → alle 3, 6-8 → alle 2, ab 9 → jede Mission.
 - **Default bei Fehlschlag:** kein Px-Abzug. Stattdessen greifen Konsequenzen
   über Ressourcen und Lagebild (z. B. weniger CU, mehr Stress/Heat,
   verschärfte Missionsfolgen).
-- **Option „Hardcore-Resonanz“ (KANN):** Bei absichtlich paradoxen
-  Extremaktionen kann die Spielleitung einmalig **−1 Px** als Sonderregel
+- **Option "Hardcore-Resonanz" (KANN):** Bei absichtlich paradoxen
+  Extremaktionen kann die Spielleitung einmalig **-1 Px** als Sonderregel
   auslösen. Diese Option ist nicht Teil des Standardmodus.
 
 ### CU-Belohnung
@@ -283,7 +283,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 | Tier | Ruf | Lizenzkosten |
 |------|----:|--------------|
-| 0 | — | Frei |
+| 0 | - | Frei |
 | I | +1 | 200 CU |
 | II | +2 | 500 CU |
 | III | +3 | 1.500 CU |
@@ -294,13 +294,13 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 | Level | XP pro Level | Kumulativ |
 |------:|-------------:|----------:|
-| 1–10 | 1 XP (= 1 Mission = auto Level-Up) | 10 XP |
-| 11–20 | 2 XP | 30 XP |
-| 21–30 | 3 XP | 60 XP |
-| 31–50 | 4 XP | 140 XP |
-| 51–100 | 5 XP | 390 XP |
+| 1-10 | 1 XP (= 1 Mission = auto Level-Up) | 10 XP |
+| 11-20 | 2 XP | 30 XP |
+| 21-30 | 3 XP | 60 XP |
+| 31-50 | 4 XP | 140 XP |
+| 51-100 | 5 XP | 390 XP |
 
-> **XP = abgeschlossene Missionen.** Level 1–10: Jede Mission = Level-Up (kein XP-Balken nötig).
+> **XP = abgeschlossene Missionen.** Level 1-10: Jede Mission = Level-Up (kein XP-Balken nötig).
 > Ab Level 11: XP-Balken zeigt `aktuell/schwelle` (z.B. `Lvl 14 ▓▓░░░ 1/2 XP`).
 > Pro Level-Up genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`.
 
@@ -335,23 +335,33 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 Chronopolis bleibt bis Level 10 gesperrt. Beim Erreichen von Level 10 schaltet
 Kodex den **Chronopolis-Schlüssel** frei. Chronopolis ist die **gescheiterte
-Zeitlinie** der aktuellen Episode — düster, gefährlich, bei jedem Besuch frisch
+Zeitlinie** der aktuellen Episode - düster, gefährlich, bei jedem Besuch frisch
 instanziert. Keine Waffenruhe, kein Speichern. Vor der Schleuse fragt Kodex
 verbindlich nach einem HQ-DeepSave. Tod folgt denselben Konsequenzen wie in
 Core/Rift-Missionen (kein Traum-Reset). Items, die man lebend rausbringt,
 bleiben erhalten.
 
-**Gruppenregel bei Tod eines Spielers (Core/Rift/Chronopolis):**
+**Solo-Tod:**
+Die SL stoppt die Szene und bietet zwei Wege an:
+1. **Respawn:** Letzten Save in einem neuen Chat laden und weiterspielen.
+   Der Tod ist nicht passiert — der Charakter lebt ab dem letzten HQ-Save weiter.
+2. **Heroischer Tod:** Der Charakter stirbt als Teil der Geschichte. Die SL
+   inszeniert das Ende filmisch, erstellt einen **Final-Save** (v7-JSON mit
+   `"status": "deceased"`) und einen kurzen Abschlussbericht — ein Nachruf auf
+   den Agenten, den man sich später nochmal durchlesen kann. Danach: neuer
+   Charakter oder Kampagne beenden.
+
+**Gruppenregel bei Tod (Core/Rift/Chronopolis):**
 Im Gruppenchat stoppt Kodex die Szene und fragt die Gruppe verbindlich:
-1) „Tod bleibt Kanon der Geschichte“ oder
-2) „Neuladen vom letzten Gruppen-DeepSave“.
-Bei Option 2: neues Chatfenster öffnen, letzten Gruppenspeicher laden,
-Einsatz erneut starten.
+1. **Tod bleibt Kanon:** Der Charakter ist tot. Final-Save + Abschlussbericht.
+   Die Gruppe spielt weiter, der Spieler kann einen neuen Agenten erstellen.
+2. **Neuladen:** Letzten Gruppen-DeepSave in neuem Chat laden.
+   Der gesamte Einsatz wird wiederholt.
 
 Kampagnenmodus (`mixed|preserve|trigger`) wird im HQ gesetzt und im Save gespiegelt:
 `!kampagnenmodus mixed|preserve|trigger`. Standard ist `mixed` (alle Neulinge starten
 beim Ordo Mnemonika im Mischpool). Der fokussierte Modus (`preserve` oder `trigger`)
-ist erst nach einem **Fraktionsübertritt** relevant — vorher bleibt `mixed` aktiv.
+ist erst nach einem **Fraktionsübertritt** relevant - vorher bleibt `mixed` aktiv.
 `campaign.seed_source` markiert den aktiven Seed-Typ pro Mission. Der Wert
 landet in `campaign.mode`/`seed_source` und wirkt auf weitere Starts, Cross-Mode-Saves und
 Arena-Rücksprünge.
@@ -420,12 +430,12 @@ Spiel starten (gruppe schnell)
 
 **SL (MyGPT):**
 
-> **Kodex-Archiv – Rückkehrprotokoll aktiviert.**
+> **Kodex-Archiv - Rückkehrprotokoll aktiviert.**
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
 > Setze Defaults für **C** (Face): Modulator, Sidearm (SD), Social-Kit.
 > Paradoxon-Index: █░░░░ (0/5).
 > **HQ-Kurzintro** → **Briefing** (3 Ziele) → **Szene 1**.
-> „Führung festlegen? (optional)"
+> "Führung festlegen? (optional)"
 
 **Host-Regel:** Der zuerst gepostete Save bestimmt `campaign` (Episode,
 Mission, Mode, Seeds), `economy` (HQ-Pool) und globale `logs`. Weitere Saves
@@ -448,7 +458,7 @@ abweichende Kampagnenfelder werden ignoriert und als Konflikt in
   - Nullzeit/HQ: Technoir-Basis mit allen freigeschalteten Upgrades.
 - **Plausibilitätsgrenze:** Die Einsatzform darf nur Vehikeltypen nutzen, die in
   der Zielzeit grundsätzlich existieren können (kein Antigrav-Car in der
-  Antike als „normaler Straßenwagen“).
+  Antike als "normaler Straßenwagen").
 - **Niedriger TEMP = mehr Reibung:** Bei geringer TEMP-Stufe kann die
   Bereitstellung unvorteilhaft ausfallen (z. B. 2018 als geplanter
   Einsatzzeitraum, aber das passende Chassis steht als Oldtimer im Museum und
@@ -492,7 +502,7 @@ Ausführliche Laufzeitregeln liegen in [`core/sl-referenz.md`](sl-referenz.md).
 ## Mini-FAQ
 
 **Muss ich nach jeder Mission einen neuen Chat öffnen?**
-Empfohlen: Ja. Die KI-Spielleitung arbeitet mit einem begrenzten Kontextfenster —
+Empfohlen: Ja. Die KI-Spielleitung arbeitet mit einem begrenzten Kontextfenster -
 je länger ein Chat läuft, desto weniger zuverlässig greift sie auf die Regeln zu.
 Der beste Workflow: Mission abschließen → im HQ alles erledigen (Debrief, Shoppen,
 Upgrades, Level-Up) → Speichern → **neuen Chat öffnen** → `Spiel laden` mit dem
@@ -506,9 +516,9 @@ festgeschrieben werden.
 **Was bedeutet Px?**
 Der Paradoxon-Index (Px) ist ein **Belohnungssystem** mit fester Progression:
 Nach einer bestimmten Anzahl erfolgreicher Missionen (abhängig von TEMP-Stufe)
-steigt der Index automatisch um +1. Px 0–4 hat keine negativen Effekte — ihr
-baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1–2 Rift-Seeds,
-markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 —
+steigt der Index automatisch um +1. Px 0-4 hat keine negativen Effekte - ihr
+baut einfach Resonanz auf. Bei Px 5 erzeugt `ClusterCreate()` 1-2 Rift-Seeds,
+markiert den Reset als anhängig und setzt den Index nach dem Debrief auf 0 -
 das HUD bestätigt den Reset zu Beginn der nächsten Mission. Fehlschläge ziehen
 im Default **keinen Px-Abzug** nach sich; stattdessen verschärfen sie die Lage
 (CU, Stress/Heat, Storydruck). Optional kann die Spielleitung in einer
@@ -520,10 +530,10 @@ Der Dispatcher erkennt Befehle nur mit `(…)`; ohne Klammern kein Start.
 
 #### Spieler-relevante Chat-Kurzbefehle
 
-- `!helper delay` — erklärt, warum Konflikte manchmal verzögert starten.
-- `!helper comms` — erklärt Funk und Reichweiten; `!offline` zeigt das Feldprotokoll.
-- `!helper boss` — zeigt die Boss-Foreshadow-Checkliste.
-- `!sf off`/`!sf on` — schaltet Self-Reflection um (Toast `SF-OFF`/`SF-ON`).
+- `!helper delay` - erklärt, warum Konflikte manchmal verzögert starten.
+- `!helper comms` - erklärt Funk und Reichweiten; `!offline` zeigt das Feldprotokoll.
+- `!helper boss` - zeigt die Boss-Foreshadow-Checkliste.
+- `!sf off`/`!sf on` - schaltet Self-Reflection um (Toast `SF-OFF`/`SF-ON`).
 
 > **Technical Reference:** Runtime-Helper (DelayConflict, comms_check,
 > scene_overlay, assert_foreshadow, arenaStart), Runtime-State-Schema und
@@ -581,7 +591,7 @@ Ops-Pool.
 
 Ein Zeitriss ist kein Portal, durch das man einfach hindurchgeht. Wenn er
 aufreißt, zieht er. Das HUD zählt runter, dann kommt dieser kurze, unangenehme
-Sog — als wollte die Zielrealität dich fordern, während die Nullzeit dich nicht
+Sog - als wollte die Zielrealität dich fordern, während die Nullzeit dich nicht
 loslassen will.
 
 Auf der anderen Seite kann dich der Riss in einem schiefen Winkel auswerfen:
@@ -589,7 +599,7 @@ kniend, seitlich, fast stürzend. Das ist normal. Der Riss schließt sofort, und
 ihr braucht als Team immer einen Atemzug, um euch zu sortieren.
 
 Spielleitung: Hohe TEMP-Werte wirken dabei kontrollierter (schnellere
-Orientierung, sauberere Landung), niedrige TEMP-Werte rauer — als Feeling,
+Orientierung, sauberere Landung), niedrige TEMP-Werte rauer - als Feeling,
 nicht als Zusatzregel.
 
 Wichtig im Team: Steht beim Sprung eng beieinander. Der Riss wartet nicht.
@@ -598,7 +608,7 @@ Die Nullzeit kennt keinen Countdown. Das ITI schon.
 
 **Paradoxon:** Der Index (Px) steigt automatisch nach erfolgreichen Missionen
 gemäß der TEMP-Staffel. Grobes Fehlverhalten lässt das HUD
-flackern und kann bei Eskalation −1 Px auslösen. Bei Px 5 erzeugt
+flackern und kann bei Eskalation -1 Px auslösen. Bei Px 5 erzeugt
 `ClusterCreate()` neue Rift-Seeds und setzt den Index zurück.
 
 Wie willst du einsteigen?
@@ -653,11 +663,11 @@ Historische Einsätze nutzen Preserve- und Trigger-Seeds. Standard ist der
 **Mischpool-Modus** (`mixed`), also eine rotierende Auswahl aus beiden Pools;
 der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
-- **Preserve-Missionen** — sichern beinahe entglittene Ereignisse.
-- **Trigger-Missionen** — garantieren dokumentierte Tragödien.
+- **Preserve-Missionen** - sichern beinahe entglittene Ereignisse.
+- **Trigger-Missionen** - garantieren dokumentierte Tragödien.
 - **Beide Seiten sind Verbündete innerhalb des ITI.** Neutrale können
   in Teams beider Haltungen mitspielen. Preserve und Trigger operieren
-  nur innerhalb derselben Haltung zusammen — nicht aus Feindschaft,
+  nur innerhalb derselben Haltung zusammen - nicht aus Feindschaft,
   sondern als operatives Zellenprinzip. Gegen Fremdfraktionen stehen
   alle gemeinsam.
   Details zu Teams und Missionspools: siehe
@@ -665,7 +675,7 @@ der Seed-Typ wird pro Mission als `campaign.seed_source` markiert.
 
 Alle Chrononauten starten als Agenten des **Ordo Mnemonika** _(Neutral)_
 und spielen den Mischpool. Im Spielverlauf können sie zu einer Preserve-
-oder Trigger-Fraktion übertreten — der Übertritt ist endgültig und schaltet
+oder Trigger-Fraktion übertreten - der Übertritt ist endgültig und schaltet
 den fokussierten Missionspool frei.
 
 In **Core-Ops** erhalten übernatürliche Phänomene meist rationale Erklärungen:
@@ -695,7 +705,7 @@ Artefakten und temporaler Abweichungen.
   protokolliert Comms-Hardware als `HARDWARE`-Toast; der Stilwächter läuft
   default und sperrt Digitalraum-Vokabeln (z. B. "Matrix/Holodeck").
 - **Voice-Lock:** Erzählinstanz = zweite Person (`Du`/`Ihr`). Solo nutzt `Du`,
-  Gruppe nutzt `Ihr`. Konsistent durchhalten — kein Wechsel mitten in der Szene.
+  Gruppe nutzt `Ihr`. Konsistent durchhalten - kein Wechsel mitten in der Szene.
 - **Loop-Klarheit:** Core-Ops laufen als **Episoden** mit `MODE CORE`; Rift-Ops
   starten erst nach Episodenende als **Casefiles** mit `MODE RIFT` im HUD. HUD
   führt das Casefile (`CASE … · HOOK …`) und den Ermittlungsstand als
@@ -745,29 +755,29 @@ Fremdfraktionen versuchen, diesen zu manipulieren oder umzuschreiben.
 **Jede Mission entscheidet, wessen Version von Geschichte sich durchsetzt.**
 
 Dabei entsteht ein wachsendes Gespür für Risse in der Zeit:
-Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten — ein
+Der **Paradoxon-Index** ist der Resonanz-Index der Chrononauten - ein
 **Belohnungssystem** mit fester, deterministischer Progression. Er steigt nach
 jeder erfolgreichen Mission sofort an und richtet sich nach der TEMP-Staffel.
 Ihr wollt den Index **aktiv aufbauen**, denn jeder Punkt bringt euch näher an
-seltene Rift-Ressourcen und Bonus-Missionen. Px 0–4 erzeugt keine Maluswerte;
-bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1–2 neue Rift-Signaturen**
+seltene Rift-Ressourcen und Bonus-Missionen. Px 0-4 erzeugt keine Maluswerte;
+bei Px 5 erkennt das HQ mittels `ClusterCreate()` **1-2 neue Rift-Signaturen**
 und setzt den Index zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte
-Kern-Anker) flackert das HUD als Warnung — eskaliert die Situation weiter →
-**−1 Px**.
+Kern-Anker) flackert das HUD als Warnung - eskaliert die Situation weiter →
+**-1 Px**.
 
 Der **TEMP-Wert (Temporale Affinität)** bestimmt den Px-Zuwachs:
 
 | TEMP | Px-Zuwachs |
 |-----:|:--------------------------------------|
-| 1–2 | +1 Px alle 2 Missionen |
-| 3–5 | +1 Px pro Mission |
-| 6–8 | +2 Px pro Mission |
-| 9–11 | +2 Px pro Mission |
-| 12–14 | +3 Px pro Mission |
+| 1-2 | +1 Px alle 2 Missionen |
+| 3-5 | +1 Px pro Mission |
+| 6-8 | +2 Px pro Mission |
+| 9-11 | +2 Px pro Mission |
+| 12-14 | +3 Px pro Mission |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Rift-Ops werden **ausschließlich zwischen
-Episoden** gespielt — während einer laufenden Episode sind sie gesperrt.
+Episoden** gespielt - während einer laufenden Episode sind sie gesperrt.
 Teams können Seeds bewusst "offen halten" und über Episoden hinweg akkumulieren,
 um später mehr Loot abzugreifen und den Schwierigkeitsgrad selbst zu bestimmen
 (mehr offene Seeds = höhere SG-Schwelle, aber auch höherer CU-Multiplikator).
@@ -919,4 +929,4 @@ spielerfreundliche Noir-Varianten übersetzt.
 [psi-heat-track]: ../systems/kp-kraefte-psi.md#psi-heat-track
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
