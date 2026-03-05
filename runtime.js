@@ -4382,18 +4382,18 @@ function vehicle_window_status(temp, context = null){
 }
 
 function missions_required(temp){
-  const gain = px_gain_per_mission(temp);
-  if (gain <= 0) return 5;
-  return 1;
+  const t = Number.isFinite(temp) ? temp : 0;
+  if (t <= 2) return 2;  // alle 2 Missionen
+  return 1;              // jede Mission
 }
 
 function px_gain_per_mission(temp){
   const t = Number.isFinite(temp) ? temp : 0;
-  if (t <= 2) return 1;
-  if (t <= 5) return 2;
-  if (t <= 8) return 3;
-  if (t <= 11) return 4;
-  return 5;
+  if (t <= 2) return 1;  // +1 Px alle 2 Missionen (via missions_required=2)
+  if (t <= 5) return 1;
+  if (t <= 8) return 2;
+  if (t <= 11) return 2;
+  return 3;
 }
 
 function incrementParadoxon(delta = 1){
@@ -4528,25 +4528,34 @@ function completeMission(summary = {}){
     events.push(`Kodex: ${note} – Px sinkt auf ${after}/5 (vorher ${before}/5).`);
   }
   if (stabilized){
-    state.campaign.missions_since_px = 0;
-    events.push(`Kodex: Mission stabilisiert (+${pxGain} Px bei TEMP ${temp}).`);
-    const pxBefore = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
-    const after = incrementParadoxon(pxGain);
-    events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
-    if (after >= 5){
-      ClusterCreate({
-        px_before: pxBefore,
-        px_after: after,
-        episode: state.campaign.episode,
-        mission: state.campaign.mission,
-        mission_in_episode: missionInEpisode,
-        location: state.location,
-        phase: state.campaign.phase || state.phase
-      });
-      events.push(
-        'Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. '
-        + 'Px-Reset folgt nach Missionsende.'
-      );
+    if (typeof state.campaign.missions_since_px !== 'number'){
+      state.campaign.missions_since_px = 0;
+    }
+    state.campaign.missions_since_px += 1;
+    const missionsNeeded = missions_required(temp);
+    if (state.campaign.missions_since_px >= missionsNeeded){
+      state.campaign.missions_since_px = 0;
+      events.push(`Kodex: Mission stabilisiert (+${pxGain} Px bei TEMP ${temp}).`);
+      const pxBefore = clamp(state.campaign.paradoxon_index ?? 0, 0, 5);
+      const after = incrementParadoxon(pxGain);
+      events.push(`Kodex: Paradoxon-Index steigt auf ${after}/5.`);
+      if (after >= 5){
+        ClusterCreate({
+          px_before: pxBefore,
+          px_after: after,
+          episode: state.campaign.episode,
+          mission: state.campaign.mission,
+          mission_in_episode: missionInEpisode,
+          location: state.location,
+          phase: state.campaign.phase || state.phase
+        });
+        events.push(
+          'Kodex: ClusterCreate() aktiv – neue Rift-Seeds verfügbar. '
+          + 'Px-Reset folgt nach Missionsende.'
+        );
+      }
+    } else {
+      events.push(`Kodex: Mission stabilisiert (TEMP ${temp} — Px steigt nach ${missionsNeeded - state.campaign.missions_since_px} weiteren Mission(en)).`);
     }
   }
   const chronoReset = chronopolisProgressAfterMission(summary);
@@ -4665,9 +4674,14 @@ function render_px_tracker(temp){
   const n = clamp(state.campaign?.paradoxon_index ?? 0, 0, 5);
   const t = temp ?? mission_temp();
   const gain = px_gain_per_mission(t);
-  const remaining = gain > 0 ? 1 : 5;
+  const needed = missions_required(t);
+  const since = state.campaign?.missions_since_px ?? 0;
+  const remaining = Math.max(1, needed - since);
+  const pxLabel = needed > 1
+    ? `+${gain} Px alle ${needed} Missionen`
+    : `+${gain} Px/Mission`;
   const eta = `${remaining} Mission${remaining === 1 ? '' : 'en'}`;
-  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · +${gain} Px/Mission · ETA (Heuristik) +1 in ${eta}`;
+  return `Px ${px_bar(n)} (${n}/5) · TEMP ${t} · ${pxLabel} · ETA +1 in ${eta}`;
 }
 
 function render_vehicle_window(temp, context = null){
