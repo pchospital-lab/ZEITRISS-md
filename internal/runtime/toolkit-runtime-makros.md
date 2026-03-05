@@ -715,9 +715,11 @@ Decision: ⟪ text ⟫?
     ' · ' ~ (ready and 'verfügbar' or ('wieder in ' ~ next_in ~ ' Missionen'))) ⟫
 ⟨%- endmacro %⟩
 ⟨% macro px_gain(temp) -%⟩
-  ⟨%- if temp<=2 -%⟩1⟨%- elif temp<=5 -%⟩2⟨%- elif temp<=8 -%⟩3⟨%- elif temp<=11 -%⟩4⟨%- else -%⟩5⟨%- endif -%⟩
+  ⟨%- if temp<=2 -%⟩0.5⟨%- elif temp<=5 -%⟩1⟨%- elif temp<=8 -%⟩2⟨%- elif temp<=11 -%⟩2⟨%- else -%⟩3⟨%- endif -%⟩
 ⟨%- endmacro %⟩
-⟨% macro px_eta(temp) -%⟩1⟨%- endmacro %⟩
+⟨% macro px_eta(temp) -%⟩
+  ⟨%- if temp<=2 -%⟩2⟨%- else -%⟩1⟨%- endif -%⟩
+⟨%- endmacro %⟩
 ⟨% macro assert_foreshadow(count_needed=2) -%⟩
   ⟨% if gm_style == 'precision' %⟩
     ⟨% set c = scene.foreshadows|length if scene.foreshadows is defined else 0 %⟩

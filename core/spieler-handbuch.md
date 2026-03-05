@@ -28,8 +28,8 @@ Details findest du in [LICENSE](../LICENSE).
    sind Sondermissionen in drei Akten mit vierzehn Szenen.
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
-   Nach einer festen Anzahl erfolgreicher Missionen (abhängig von TEMP) steigt
-   der Index um +1. Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds auf der
+   Nach jeder erfolgreichen Mission steigt der Index gemäß der TEMP-Staffel
+   (bei niedrigem TEMP langsamer, bei hohem TEMP schneller). Bei Px 5 enthüllt `ClusterCreate()` 1–2 Rift-Seeds auf der
    Raumzeitkarte — Bonus-Missionen mit Paramonstern und Artefakten. Danach
    springt der Px auf 0; weitere Px-5-Treffer stapeln zusätzliche Seeds im
    Pool. Px 0–4 hat keine negativen Effekte. Scheitert ein Einsatz, verliert
@@ -234,15 +234,15 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
-| TEMP | Px pro erfolgreicher Mission |
-|-----:|:-----------------------------|
-| 1–2 | +1 Px |
-| 3–5 | +2 Px |
-| 6–8 | +3 Px |
-| 9–11 | +4 Px |
-| 12–14 | +5 Px |
+| TEMP | Px-Zuwachs |
+|-----:|:--------------------------------------|
+| 1–2 | +1 Px alle 2 Missionen |
+| 3–5 | +1 Px pro Mission |
+| 6–8 | +2 Px pro Mission |
+| 9–11 | +2 Px pro Mission |
+| 12–14 | +3 Px pro Mission |
 
-- **Px-Anstieg pro Mission**: Jede **erfolgreich abgeschlossene Mission** gibt
+- **Px-Anstieg**: Jede **erfolgreich abgeschlossene Mission** gibt
   sofort Px gemäß obiger TEMP-Staffel.
   - **solo / npc-team:** Der Zähler gehört zu eurem Run (Agentenlauf) und wird
     im HUD als Fortschrittsbalken angezeigt.
@@ -597,8 +597,8 @@ Wichtig im Team: Steht beim Sprung eng beieinander. Der Riss wartet nicht.
 
 Die Nullzeit kennt keinen Countdown. Das ITI schon.
 
-**Paradoxon:** Der Index (Px) steigt automatisch nach einer festen Anzahl
-erfolgreicher Missionen (abhängig von TEMP). Grobes Fehlverhalten lässt das HUD
+**Paradoxon:** Der Index (Px) steigt automatisch nach erfolgreichen Missionen
+gemäß der TEMP-Staffel. Grobes Fehlverhalten lässt das HUD
 flackern und kann bei Eskalation −1 Px auslösen. Bei Px 5 erzeugt
 `ClusterCreate()` neue Rift-Seeds und setzt den Index zurück.
 
@@ -756,16 +756,15 @@ und setzt den Index zurück. Bei grobem Fehlverhalten (Zivilopfer, zerstörte
 Kern-Anker) flackert das HUD als Warnung — eskaliert die Situation weiter →
 **−1 Px**.
 
-Der **TEMP-Wert (Temporale Affinität)** bestimmt den direkten Px-Zuwachs pro
-erfolgreicher Mission:
+Der **TEMP-Wert (Temporale Affinität)** bestimmt den Px-Zuwachs:
 
-| TEMP | Px pro erfolgreicher Mission |
-|-----:|:-----------------------------|
-| 1–2 | +1 Px |
-| 3–5 | +2 Px |
-| 6–8 | +3 Px |
-| 9–11 | +4 Px |
-| 12–14 | +5 Px |
+| TEMP | Px-Zuwachs |
+|-----:|:--------------------------------------|
+| 1–2 | +1 Px alle 2 Missionen |
+| 3–5 | +1 Px pro Mission |
+| 6–8 | +2 Px pro Mission |
+| 9–11 | +2 Px pro Mission |
+| 12–14 | +3 Px pro Mission |
 
 Nur über diese Risse erhält das ITI Zugang zu Artefakten, Parawesen oder
 fortgeschrittener Fraktionsausrüstung. Solche Rift-Missionen starten erst nach

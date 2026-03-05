@@ -128,7 +128,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   ☆ Rift-Bonus (nach Episodenende)
 - Maximal 2 HUD-Toasts pro Szene (Ausnahme: Boss/Gate/FS).
 - **Paradoxon-Index:** Fortschrittsanzeige (0–5), deterministisch an TEMP gekoppelt:
-  TEMP 1–2 → +1 Px/Mission | 3–5 → +2 | 6–8 → +3 | 9–11 → +4 | 12–14 → +5.
+  TEMP 1–2 → +1 Px alle 2 Missionen | 3–5 → +1/Mission | 6–8 → +2 | 9–11 → +2 | 12–14 → +3.
   Px −1 nur bei Eskalation (HUD-Flackern als Warnung, dann Backlash; max 1×/Mission).
   Payoff bei Px 5: ClusterCreate (1–2 Rift-Seeds). Score-Screen zeigt Px-Stand.
 - **Kodex:** Fiktive Ingame-Assistenz-KI des ITI (ans ITI-Archiv angeschlossen).

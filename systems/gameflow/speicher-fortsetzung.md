@@ -1412,13 +1412,13 @@ toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " for
 
 **Px-Anstieg (fix gekoppelt an TEMP):**
 
-| TEMP | Px pro erfolgreicher Mission |
-|-----:|:-----------------------------|
-| 1–2 | +1 Px |
-| 3–5 | +2 Px |
-| 6–8 | +3 Px |
-| 9–11 | +4 Px |
-| 12–14 | +5 Px |
+| TEMP | Px-Zuwachs |
+|-----:|:--------------------------------------|
+| 1–2 | +1 Px alle 2 Missionen |
+| 3–5 | +1 Px pro Mission |
+| 6–8 | +2 Px pro Mission |
+| 9–11 | +2 Px pro Mission |
+| 12–14 | +3 Px pro Mission |
 
 Der Scope ist modusabhängig und nutzt immer `campaign.px` als Quelle:
 - **solo / npc-team:** Der Px-Wert gehört zum jeweiligen Run.
