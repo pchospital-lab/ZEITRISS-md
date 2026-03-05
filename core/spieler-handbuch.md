@@ -185,7 +185,7 @@ Cluster +… · Fraktion +…`.
 | TEMP | Temporale Affinität | Zeitphänomene, Psi-Pool (PP = TEMP) |
 | SYS | Systemlast | Cyber-/Bioware-Kapazität |
 
-- **Start:** 2–5 pro Attribut, Summe = 18, Minimum 1
+- **Start:** 2–6 pro Attribut, Summe = 18, Minimum 1
 - **Reguläres Cap:** 10 · **Prestige-Cap:** 14
 
 ### Initiative

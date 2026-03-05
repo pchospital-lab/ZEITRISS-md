@@ -165,7 +165,7 @@ Erfolgschance zu bestimmen. Die sechs Attribute und ihr Einsatzgebiet sind:
 **Attributswerte und Caps:**
 
 > **Attributs-Caps auf einen Blick:**
-> - **Start:** Max. ~5–6 pro Attribut (aus 18 Punkten verteilt)
+> - **Start:** Max. 6 pro Attribut (aus 18 Punkten verteilt)
 > - **Reguläres Level-Up:** bis **10** (menschliches Maximum)
 > - **Nach Prestige-Aufstieg:** bis **14** (übermenschlich, erfordert Story-Meilensteine)
 > - Ab Attribut **11** wechselt der Würfel auf W10 (Exploding 10).
@@ -177,7 +177,7 @@ Bei der Charaktererschaffung setzt ihr zunächst **alle sechs Attribute auf 0**,
 tragt direkt die **Boni/Mali eurer Bio-Hülle** ein (diese können Zwischenwerte unter 0 erzeugen) und
 verteilt anschließend **18 freie Punkte** — jeder Punkt erhöht einen Wert um genau +1. Am Ende darf
 kein Attribut unter **1** liegen; 3 bleibt der Orientierungswert für Durchschnittlichkeit, typische
-Startbereiche sind 2–5. Kein Start-Attribut sollte höher als ~6 sein, damit ihr nicht bereits im
+Startbereiche sind 2–6. Kein Start-Attribut darf höher als 6 sein, damit ihr nicht bereits im
 Prolog übermenschlich beginnt. Durch diese Verteilung entstehen unterschiedliche Startcharaktere —
 spezialisierte Experten oder vielseitige Allrounder. Werte über 10 werden erst nach einem
 **Prestige-Aufstieg** oder einer gleichwertigen Story-Belohnung freigeschaltet; bis dahin bleibt das

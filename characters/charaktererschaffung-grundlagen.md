@@ -98,13 +98,13 @@ freigeschaltet.
        wenn ihr überzieht oder Punkte unverteilt lasst.
     3. Nach der Verteilung muss **jeder Endwert mindestens 1** betragen (Rassenmali dürfen also nicht
        dazu führen, dass ihr bei **0 oder darunter** fertig werdet). Werte um **3** dienen nur als
-       Orientierung für Durchschnittlichkeit; typischer Startbereich sind **2-5**, extrem hohe
+       Orientierung für Durchschnittlichkeit; typischer Startbereich sind **2-6**, extrem hohe
        Spezialisierungen sollten durch Schwächen ausgeglichen sein.
 
-    Neue Agenten sind in der Regel kompetent, aber keine Übermenschen - extreme Ausprägungen (z.B. 5 in
+    Neue Agenten sind in der Regel kompetent, aber keine Übermenschen - extreme Ausprägungen (z.B. 6 in
     mehreren Attributen) sollten durch spürbare Schwächen an anderer Stelle ausbalanciert sein. Achtet
     darauf, dass die Summe bis zum Abschluss **18** ergibt.
-    Kein Startwert sollte normalerweise über **5** liegen oder unter **1** fallen. Die Beispiel-
+    Kein Startwert darf über **6** liegen oder unter **1** fallen. Die Beispiel-
     Archetypen etwa haben Gesamtwerte in einem ähnlichen Rahmen, sodass alle Charaktere auf
     vergleichbarem Power-Niveau starten. \*(Beispiel: Der **_Temporal-Soldat_** Nikolai fokussiert auf
     STR 5 und GES 4, während z.B. CHA 2 und SYS 2 eher niedrig bleiben. Die **_Historikerin_** Dr. Weber
