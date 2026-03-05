@@ -641,7 +641,7 @@ Teamkomposition**:
 Abschließend gilt: **Nutzt diese Regeln, um eure Geschichte zu bereichern.** ZEITRISS 4.2.6 soll ein
 filmisch-packendes Erlebnis sein, kein Zahlenspiel. Die Zahlen und Werte – von Attributen über
 Talente bis Ruf – sind Werkzeuge, um euren Charakter greifbarer zu machen und fair zu bleiben. Die
-KI-Spielleitung (GPT) hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch
+KI-Spielleitung hilft dabei, sie ins Narrativ einzubetten: durch das HUD-Overlay, das euch
 Informationen liefert, oder durch den Kodex, der Training und Fortschritt in Worte fasst. Ihr als
 Spieler sollt euch ganz auf die Story einlassen können, während das System unsichtbar im Hintergrund
 den Rahmen hält. In diesem Sinne – viel Erfolg bei der Charaktererschaffung und auf dass eure

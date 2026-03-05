@@ -202,10 +202,10 @@ Das HUD zeigt die aktuelle **Gesundheit** des Charakters meist als farbige
 kritisch - entsprechend der oben beschriebenen Verwundungsstufen. Ab **50 %** löst das HUD einen
 **gelben Voralarm** aus, bei **25 %** wechselt es auf Rot. Ein zusätzliches Warnsymbol hilft
 farbblinden Spielern. Zusätzlich kann eine **Prozentzahl** die verbleibenden Lebenspunkte anzeigen
-(z.B. "HP 75%"). Spezielle **Zustände** werden durch **Icons** verdeutlicht: Etwa ein
+(z.B. "LP 75%"). Spezielle **Zustände** werden durch **Icons** verdeutlicht: Etwa ein
 Tröpfchen-Symbol bei _Blutung_, ein gebrochenes Knochen-Icon bei _Beinverletzung_, ein Totenkopf bei
 _Vergiftung_. Die KI-Spielleitung nutzt diese Anzeige, um **Schaden und Zustand atmosphärisch zu
-vermitteln**: Statt plump "Ihr habt nur noch 2 HP" zu sagen, kann GPT formulieren: _"Euer HUD
+vermitteln**: Statt plump "Ihr habt nur noch 2 LP" zu sagen, kann die SL formulieren: _"Euer HUD
 blinkt Warnsymbole auf - der Gesundheitsbalken sinkt in den roten Bereich, kritischer
 Blutverlust!"_ Der Spieler begreift sofort, wie schlimm es seinem Charakter geht, **in-world** durch
 die Augen der Figur.
@@ -310,7 +310,7 @@ _Kodex:_
 - **Ausdauer, PP-Pool & Effekte:** Neben der Gesundheit können optional auch
   **Ressourcen** und **Buffs/Debuffs** im HUD erscheinen. Wenn ihr z.B. das oben
   erwähnte Ausdauer-System nutzt oder den PP-Pool sichtbar machen wollt, könnte
-  das HUD einen **Ausdauerbalken** unter der HP-Leiste einblenden oder eine
+  das HUD einen **Ausdauerbalken** unter der LP-Leiste einblenden oder eine
   **PP-Anzeige** in Prozent. Temporäre **Status-Effekte** - sei es durch
   Ausrüstung, Drogen oder Zustände - werden ebenfalls visualisiert. Beispiel:
   Ein Agent injiziert sich einen **Adrenalin-Stim**, der 60 Sekunden wirkt - im
@@ -318,7 +318,7 @@ _Kodex:_
   Oder der Charakter hat einen Malus "Bewegung verlangsamt" (etwa bei
   Beinverletzung) - ein kleines durchgestrichenes Laufsymbol taucht auf. Auf
   diese Weise verknüpft das HUD **Regelzustände mit dem Charaktererleben**: Der
-  Spieler _sieht_ vor seinem inneren Auge, was Sache ist. GPT kann etwa
+  Spieler _sieht_ vor seinem inneren Auge, was Sache ist. Die SL kann etwa
   beschreiben: _"Ein kleines Icon blinkt im Sichtfeld: euer Bein ist verletzt,
   ein Warnsymbol drosselt die Bewegungsanzeige."_ - Das klingt nach Sci-Fi-
   Interface, deckt sich aber mit dem Malus aus der Regel.
@@ -370,8 +370,8 @@ _Kodex:_
 
 | Anzeige | Bedeutung |
 | ------- | --------- |
-| `HP 100%` | Charakter unverletzt |
-| `HP <50%` | Verwundet (-1 auf Aktionen) |
+| `LP 100%` | Charakter unverletzt |
+| `LP <50%` | Verwundet (-1 auf Aktionen) |
 | `Stress 1-4` | leichte Anspannung |
 | `Stress 5-9` | Angespannt (-1 auf soziale/präzise Proben) |
 | `Stress 10` | Zusammenbruch / Panik |
@@ -401,7 +401,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   das HUD flexibler sein, vielleicht nur hervorheben: **"Ihr seid am Zug!"** (durch ein
   aufleuchtendes eigenes Icon) oder anzeigen, **wer aktuell agiert** (etwa ein roter Rahmen um dem
   Gegner-Avatar, der gerade feuert). Auch der **Team-Status** ist sichtbar: Jeder Chrononaut sieht
-  die Vitalwerte seiner Mitstreiter als kleine Anzeigen am Rand. So kann GPT z.B. erwähnen: _"Miras
+  die Vitalwerte seiner Mitstreiter als kleine Anzeigen am Rand. So kann die SL z.B. erwähnen: _"Miras
   Vitalwert steht bei 100% (grün) - sie ist unverletzt."_ oder _"Euer Team-Panel zeigt bei Nikolai
   nur noch 10% (blinkend rot) - er steht kurz vor dem Kollaps."_ Dadurch haben Spieler **Ingame-
   Information**, wer Hilfe braucht, ohne out-of-character nachfragen zu müssen. Ebenfalls praktisch:
@@ -411,7 +411,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   **Aktive Missionsziele** (Primär- und Nebenquests) können als Liste oder
   Texteinblendung erscheinen. Beispiel: _"Primärziel: Sabotiere die Kanonen
   (noch offen)"_, _"Optional: Artefakt sichern (falls vorhanden)"_. So behält
-  das Team im Eifer des Gefechts die **Objectives** im Blick. GPT sollte diese
+  das Team im Eifer des Gefechts die **Objectives** im Blick. Die SL sollte diese
   Infos sparsam und kontextsensitiv einblenden - etwa nur, **wenn die Spieler
   danach fragen** ("Ich schaue aufs HUD, welche Ziele noch offen sind") oder
   wenn es die Charaktere brauchen (z.B. nach einer langen Diskussion:
@@ -430,7 +430,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   grau = Start, cyan = Spannung, grün = endlich stabil. Bei Level 0 leuchtet ein
   graues ⏳. Steigt der Index, wechselt es auf cyan/türkis ebenfalls mit ⏳; bei 5
   leuchtet es grün und kündigt den `ClusterCreate()`-Moment an. Steigt der Index
-  weiter, pulsiert das Symbol, bis sich der Wert wieder beruhigt. GPT kann diesen
+  weiter, pulsiert das Symbol, bis sich der Wert wieder beruhigt. Die SL kann diesen
   Anstieg inszenieren: _"Euer HUD flackert und springt auf Paradoxon-Index 4 -
   die Umgebung wirkt fokussierter, als würden neue Koordinaten auf eurer
   Raumzeitkarte aufblitzen…"_. Die Spieler erkennen sofort, dass sich ein
@@ -452,14 +452,14 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Geräts. Schlüssel-Items einer Mission können ebenso angezeigt werden - hat das Team etwa ein
   **Artefakt** gesichert, könnten alle ein kleines Symbol "Artefakt X - Gesichert" sehen. Diese
   Anzeigen erlauben es, auch Ressourcendinge wie Munition oder Gadget-Abklingzeiten elegant ins
-  Spiel zu integrieren. GPT kann bei Nachfragen ins HUD blicken lassen: _"Euer HUD zeigt 2 Granaten
+  Spiel zu integrieren. Die SL kann bei Nachfragen ins HUD blicken lassen: _"Euer HUD zeigt 2 Granaten
   im Inventar-Slot an"_ anstatt einfach zu sagen "Ihr habt noch 2 Granaten". So bleiben wir im
   Charakter.
 - **Kodex-Steuerung & Einblendung:** Das HUD ist nicht ständig volldisplayt - die Agenten können es
   **nach Belieben ein- und ausblenden** oder einzelne Module aufrufen. Gesteuert wird es über den
   **Kodex**, das intelligente Expertensystem des ITI. In-world läuft das oft über
   Sprachbefehle oder Gedankensteuerung. Spieler können also im Spiel sagen:
-  _"Kodex, HUD-Übersicht!"_ - und die KI-Spielleitung (GPT) liefert daraufhin
+  _"Kodex, HUD-Übersicht!"_ - und die KI-Spielleitung liefert daraufhin
   eine **knappe Übersicht** aller relevanten Werte. Beispiel einer solchen
   Bildschirmlese: _"Vitals 78% (grün) • Paradoxon-Index 1 • Zeitstabilität 92%
   • Primärziel: teilweise erfüllt"_. Das sind keine out-of-character
@@ -476,7 +476,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
   Weitere Fragen in derselben Szene erhöhen den Stress des Teams um **+1**.
 - **Immersion bewahren:** Das HUD ist ein Werkzeug, kein Selbstzweck. Die KI-Spielleitung sollte
   darauf achten, **Metagame-Informationen ins HUD zu verlegen**, um die Immersion zu stärken. Fragt
-  ein Spieler z.B. außerhab der Spielwelt "Wie viele HP hab ich noch?", kann GPT antworten: _"Ihr
+  ein Spieler z.B. außerhab der Spielwelt "Wie viele LP hab ich noch?", kann die SL antworten: _"Ihr
   fühlt euch schwer angeschlagen - euer HUD zeigt euren Vitalstatus bei etwa 20%."_ So wird aus
   der abstrakten Zahl wieder ein Gefühl im Charakter. Gleiches gilt für Regeln: Statt "Euer TEMP-
   Wert ist kritisch niedrig" könnte man sagen _"Euer HUD meldet: TEMP-Wert kritisch."_ - was so
@@ -486,7 +486,7 @@ Diese Zähler aktualisieren sich nach jeder Szene und sofort nach `createRifts()
 
 **Beispiel - HUD in Aktion:** Stellen wir uns vor, das Team flieht aus einem
 brennenden Tempel, verfolgt von wütenden Kultisten. Der Soldat Nikolai wurde
-verwundet. GPT könnte die Situation so schildern:
+verwundet. Die SL könnte die Situation so schildern:
 \*"Während ihr keuchend durch den Rauch rennt, verschwimmt euch die Sicht -
 Blutverlust und Erschöpfung fordern ihren Tribut. Euer HUD flackert Warnungen:
 Vital 45%… 44%… Oben rechts blinkt ein rotes Herz-Icon. Ein Pfeil markiert den
@@ -500,7 +500,7 @@ der Figur.
 
 ```text
 ┌─STATUS────────────────────────────────────┐
-│ HP 12/18 │ PAR 2/5 │ SC 23/50 │ Time 37m │
+│ LP 12/18 │ PAR 2/5 │ SC 23/50 │ Time 37m │
 └───────────────────────────────────────────┘
 ```
 

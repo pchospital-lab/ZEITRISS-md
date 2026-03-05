@@ -201,9 +201,8 @@ kann wählen, was am besten passt, oder die Stile kombinieren:
 
   - - Im **Feldeinsatz** ermöglichen **Erste-Hilfe-Maßnahmen** das Stabilisieren Verwundeter. Ein
     Charakter mit Medikit oder medizinischem Talent kann z.B. **Blutungen stillen**, Schock
-    behandeln oder sogar einen bewusstlosen Kollegen reanimieren. Das Standard-Medikit stellt dabei
-    außerhalb des Kampfes **1W6 LP** wieder her (maximal 1× pro Charakter und Mission), damit
-    Heilung zur 10-LP-Skala passt. Gelingt eine entsprechende Probe
+    behandeln oder sogar einen bewusstlosen Kollegen reanimieren (Medikit-Werte
+    → [Ausrüstung & Cyberware](ausruestung-cyberware.md#medikit)). Gelingt eine entsprechende Probe
     (z.B. Medizinwissen), kann der SL entscheiden, dass die Verletzungsstufe **um 1 verbessert**
     wird (aus "schwer" wird "mittel" etc.) oder dass zumindest der Sterbende bis zur Rettung
     **stabil bleibt**. Dadurch gewinnen die anderen Zeit, den Verletzten zum nächsten Zeitfenster
@@ -370,7 +369,7 @@ Einfach ein Fortschrittsbalken für cooles Gameplay.
   Offene Rifts steigern Schwelle und Loot-Faktor erst nach der Episode. Das **HUD** zeigt die
   Resonanz über eine fünfstufige Skala.
   Seit Version 4.1.4 blendet ein Balken-Meter (1-5 Segmente) den Fortschritt zum nächsten Riss ein.
-  GPT kann beschreiben: _"Euer HUD meldet: Paradoxon-Index 3 - Resonanzpegel steigt, erste
+  Die SL kann beschreiben: _"Euer HUD meldet: Paradoxon-Index 3 - Resonanzpegel steigt, erste
   Risskoordinaten rücken näher."_ Der Index baut **Spannung** auf: Das Team entscheidet, ob es
   kontrollierter vorgeht, damit Px 5 als **Belohnung** zum passenden Zeitpunkt eintritt.
     _Auswirkungen:_ Px 0–4 liefert **keine mechanischen Boni** — der Fortschritt
@@ -534,7 +533,7 @@ und Actionszenen mehr **Lebendigkeit** zu verleihen:
 
 > **Zusammenspiel:** Unterbrechungen, Reaktionen und freie Aktionen sorgen gemeinsam dafür, dass >
 sich Action-Sequenzen **weniger rundenbasiert, sondern organischer** anfühlen. Die KI-Spielleitung >
-sollte diese Möglichkeiten präsent halten. Im Text kann GPT z.B. anregen: \*"Der Wachmann hebt die >
+sollte diese Möglichkeiten präsent halten. Im Text kann die SL z.B. anregen: \*"Der Wachmann hebt die >
 Pistole - möchtet ihr **_reagieren_** (z.B. in Deckung springen)?"_ oder _"Die Zeit scheint zu >
 stocken - falls ihr jetzt **_unterbrecht_** und den Zeit-Stasis-Gadget aktiviert, könntet ihr dem >
 Ereignis zuvorkommen…"\*. So werden Spieler ermutigt, kreativ mit dem Zeitstrom zu spielen.

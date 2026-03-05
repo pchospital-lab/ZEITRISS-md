@@ -25,7 +25,7 @@ Details findest du in [LICENSE](../LICENSE).
 2. **Missionsphasen.** Eine **Mission** läuft über Briefing → Infiltration →
    Intel/Konflikt → Exfiltration → Debrief und umfasst meist zwölf Szenen.
    Eine **Episode** bündelt rund zehn Missionen derselben Epoche; Rift-Ops
-   sind Sondermissionen in drei Akten mit vierzehn Szenen.
+   sind Sondermissionen in vier Stages mit vierzehn Szenen (Tatort → Leads → Boss → Auflösung).
 3. **Explodierende Würfel.** W6, ab Attribut 11 W10; Heldenwürfel erst ab 14.
 4. **Paradoxon-Index (Px)** misst eure temporale Resonanz — ein **Belohnungssystem**.
    Nach jeder erfolgreichen Mission steigt der Index gemäß der TEMP-Staffel

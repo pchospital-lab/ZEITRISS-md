@@ -162,7 +162,7 @@ Das versionierte JSON-Schema liegt unter
 dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
 Pflichtcontainer fehlen oder die Typen nicht passen.
 Die Schema-Datei wird nicht in den Wissensspeicher geladen und bleibt primär
-für Loader-/CI-Validierungen bestehen; für GPT-Läufe genügt das
+für Loader-/CI-Validierungen bestehen; für KI-Läufe genügt das
 Klartextprofil unten.
 
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
