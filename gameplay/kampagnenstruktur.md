@@ -452,10 +452,10 @@ Herausforderungen — nicht nur steigende Zahlenwerte.
 
 | Tier | Levelbreich | Seed-Tag   | Neue Mechaniken & Herausforderungen |
 | ---- | ----------- | ---------- | ----------------------------------- |
-| **1** | 1–25       | `early`    | Basis-Paramonster, einfache Anomalien; Fokus auf Erkundung und erste Rift-Erfahrung. |
-| **2** | 25–80      | `early-mid`| **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Umgebungseffekte (Zeitregen, Schwerkraft-Flimmern) als permanente Szenen-Modifier. Erste Cluster-Events möglich. |
-| **3** | 80–200     | `mid`      | Multi-Phase-Bosse mit Schwachstellen-Rotation; Rift-Instabilitäten erzwingen taktische Repositionierung; Seed-Kombinationen (zwei Seeds interagieren). |
-| **4** | 200–500    | `mid-late` | **Zwischenstufe:** Bosse nutzen eingeschränkte Chrono-Tricks (Zeitschleife einer Runde, Echo-Doppelgänger); Para-Fauna als permanente Begleittruppen; Cluster-Rifts mit parallelen Zielen (Containment + Neutralisierung). |
+| **1** | 1–24       | `early`    | Basis-Paramonster, einfache Anomalien; Fokus auf Erkundung und erste Rift-Erfahrung. |
+| **2** | 25–79      | `early-mid`| **Zwischenstufe:** Paramonster mit Phasen-Mechaniken (Enrage, Phasenwechsel); Umgebungseffekte (Zeitregen, Schwerkraft-Flimmern) als permanente Szenen-Modifier. Erste Cluster-Events möglich. |
+| **3** | 80–199     | `mid`      | Multi-Phase-Bosse mit Schwachstellen-Rotation; Rift-Instabilitäten erzwingen taktische Repositionierung; Seed-Kombinationen (zwei Seeds interagieren). |
+| **4** | 200–499    | `mid-late` | **Zwischenstufe:** Bosse nutzen eingeschränkte Chrono-Tricks (Zeitschleife einer Runde, Echo-Doppelgänger); Para-Fauna als permanente Begleittruppen; Cluster-Rifts mit parallelen Zielen (Containment + Neutralisierung). |
 | **5** | 500–1000   | `late`     | Apex-Paramonster mit voller Chrono-Suite; Seed-Ketten (Abschluss eines Seeds öffnet den nächsten); Rift-Kern-Zerstörung als Multi-Szenen-Showdown mit eigener Foreshadow-Sequenz. |
 
 ##### Tier-Übergangs-Regeln

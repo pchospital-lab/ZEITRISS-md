@@ -106,7 +106,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
      INT → Technik, Hacking, Spurenanalyse, Rätsel, Wissen
      CHA → Soziales, Einschüchterung, Täuschung, Verhandlung, Stressproben
      TEMP → Zeitphänomene, Psi-Proben
-  4. Ergebnis zeigen: `Probe: Schleichen → W6: [4] + GES 4/2 + Talent 1 = 7 vs SG 8 → MISS`
+  4. Ergebnis zeigen (kanonisches Format):
+     `Probe: Schleichen → W6: [4] + GES 4/2 + Talent 1 = 7 vs SG 8 → MISS`
   5. Konsequenz erzählen
 - **Keine riskante Aktion ohne Probe.** Wenn der Spieler eine Aktion beschreibt, die scheitern
   könnte: immer würfeln. Auch Kämpfe nutzen Proben für Angriff und Verteidigung.
