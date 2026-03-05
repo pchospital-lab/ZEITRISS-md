@@ -434,7 +434,7 @@ erfahrenen Chrononauten vorkommen.
 **Verletzungsstufen-System** - das heißt, eure Lebensenergie steigt nicht direkt mit dem Level,
 sondern ihr haltet mehr aus, weil ihr geschickter werdet im Umgang mit Gefahren. Ein hoher STR-Wert
 oder Talente wie _Schmerzresistenz_ steigern indirekt die Widerstandskraft. Wenn eure Gruppe lieber
-HP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
+LP verwendet, könnte man pro Level z.B. +5 LP gewähren, aber im Regelsystem ist das nicht
 standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: **Ruf** (siehe unten),
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
 euren aktuellen ITI-Rang zeigt.
