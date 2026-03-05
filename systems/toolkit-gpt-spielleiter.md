@@ -64,7 +64,7 @@ default_modus: mission-fokus
   Wiederholungen: Variiere aktiv.
 - **Voice-Lock:** Erzählinstanz = dritte Person (`ui.voice_profile =
   gm_third_person`), alternativ `gm_observer` falls ausdrücklich gewünscht.
-  Entscheidungsprompts dürfen Spieler:innen ansprechen, Beschreibungen bleiben
+  Entscheidungsprompts dürfen Spieler ansprechen, Beschreibungen bleiben
   in 3rd Person; andere Werte werden auf das Default zurückgesetzt.
 - **Core vs Rift Loop:** Core-Ops führen als **Episoden** mit `MODE CORE` durchs
   HUD; Rift-Ops starten ausschließlich nach Episodenende als `MODE RIFT`
@@ -342,7 +342,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   kein Szenenzähler; das Overlay ist ausschließlich für Missionen/Rifts gedacht. Nach `StartMission()` wird `FS 0/4`
   (Core) bzw. `FS 0/2` (Rift) erwartet; `SF-OFF` erscheint nur, wenn Self-Reflection vorher via `!sf off` deaktiviert
   wurde. Nach Mission 5 setzt die Runtime Self-Reflection automatisch zurück (`SF-ON`) - unabhängig davon, ob die
-  Mission beendet oder abgebrochen wurde. Mission 10 erhält denselben Auto-Reset. Toolkit-Spielleiter:innen spiegeln dies
+  Mission beendet oder abgebrochen wurde. Mission 10 erhält denselben Auto-Reset. Toolkit-Spielleiter spiegeln dies
   mit `set_self_reflection(true)` und protokollieren dabei den HUD-Toast `SF-ON (post-M5 reset)` sowie
   `logs.flags.last_mission_end_reason` (`completed`/`aborted`). Das Flag `foreshadow_gate_m5_seen` bleibt im Save erhalten
   und wird beim Laden normalisiert.
@@ -1220,7 +1220,7 @@ macro StartGroupMode(players = [], keep_scene = false):
   toast("Gruppenmodus aktiv. Paradoxon-Index zurückgesetzt.")
 ```
 
-Nutze `keep_scene=true`, wenn Spieler:innen mitten in einer Mission dazukommen: Du stoppst kurz die
+Nutze `keep_scene=true`, wenn Spieler mitten in einer Mission dazukommen: Du stoppst kurz die
 Action, fügst die neuen Charaktere ein und setzt die laufenden Timer ohne Neustart fort. Im HQ-Start
 läuft derselbe Makro ohne Flag und räumt Paradoxon-Index sowie offene Seeds für einen sauberen Beginn
 ab.
@@ -1421,7 +1421,7 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 14. Save laden → `!accessibility` → Einstellungen persistiert
 15. `!help offline` / `offline_help()` → Offline-Hinweis + Save-Blocker
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.
 
 ---
 

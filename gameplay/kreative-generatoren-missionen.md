@@ -182,7 +182,7 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
 | Erfolg + Bonus | 1.2 | 600 CU |
 
 - **Seed-Multi:** `min(1,6; 1 + 0,2 × offene Seeds)` (Minimum 1,0, Cap 1,6).
-- **Hazard-Pay:** Solo/Buddy-Teams (< 3 Agent:innen) erhalten **1,5×**.
+- **Hazard-Pay:** Solo/Buddy-Teams (< 3 Agenten) erhalten **1,5×**.
 - **Bonusziele:** Optionale Zusatzaufgaben als Festbetrag oder Multiplikator-
   Aufschlag; Quelle im Debrief dokumentieren.
 
@@ -2241,4 +2241,4 @@ LEADS PRIVATE:
 BOSS PRIVATE: <Stat-Hinweis> · <eine Zeitfähigkeit> · Weakness: <klarer Schritt>
 ```
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

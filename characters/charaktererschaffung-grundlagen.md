@@ -575,4 +575,4 @@ anderen Teams - nutzt sie, um euren Charakter jenseits der Action weiterzuentwic
 natürlich freiwillig und in dem Maß, das eurer Gruppe Spaß macht. Nichts davon soll die Hauptmission
 ersetzen, nur bereichern.)\*
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

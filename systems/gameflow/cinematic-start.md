@@ -288,7 +288,7 @@ Bedürfnisse anpasst:
   könnt ihr den Einstieg sehr persönlich halten – der/die Charakter*in steht
   allein im Zentrum der Kamera. In einem Solo-Einstieg lohnt es sich, Nebenfiguren
   (Mentoren wie Commander Renier, KI-Assistenten, Hologramm-Begleiter etc.)
-  stärker einzusetzen, damit der/die Spieler*in genug Interaktion hat.
+  stärker einzusetzen, damit der Spieler genug Interaktion hat.
   Beispielsweise könnte ein Alleinreisender vom Commander persönlich herumgeführt
   werden oder erhält einen **KI-Begleiter** an die Seite, der kommentiert (eine
   Gelegenheit, Lore zu vermitteln). In einer **Gruppe** hingegen verlagert sich
@@ -968,4 +968,4 @@ Weitere Tipps zur Team-Vorstellung bietet der Abschnitt
 
 [^zeitsplitter]: Zeitsplitter = fluechtige Zeitfragmente als atmosphaerischer Effekt.
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.

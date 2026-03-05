@@ -544,4 +544,4 @@ Runde passt, und variiert nach Belieben. In jedem Fall gilt: **Rule of Cool** un
 Spaß stehen über starren Regeln. Lasst die Reifen quietschen, die Schwerter blitzen und die
 Zeitlinien erbeben - eure Chrononauten sind bereit, Geschichte zu schreiben!
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

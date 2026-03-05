@@ -718,4 +718,4 @@ Atmosphäre. Die Regeln sind da, um _euch_ zu unterstützen, nicht umgekehrt. In
 Spaß beim Experimentieren mit Zuständen, Zeit und Technologie - möge euer nächster Einsatz ebenso
 **packend** wie erfolgreich sein!
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

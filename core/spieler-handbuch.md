@@ -891,4 +891,4 @@ spielerfreundliche Noir-Varianten übersetzt.
 [psi-heat-track]: ../systems/kp-kraefte-psi.md#psi-heat-track
 [llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

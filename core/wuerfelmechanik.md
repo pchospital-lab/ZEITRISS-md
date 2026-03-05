@@ -748,7 +748,7 @@ Diese Liste kann ausgedruckt werden, um den Spielablauf bei Funkstille zu erleic
 
 Wiederholte Tech-Lösungen erhöhen die Schwierigkeit späterer Tech-Proben. Der Zähler `tech_heat`
 startet bei 0 und das Limit hängt von der Einsatzgröße ab: Solo = 1, Duo = 2, drei oder mehr
-Agent:innen = 3. Nach jeder rein technischen Lösung gilt:
+Agenten = 3. Nach jeder rein technischen Lösung gilt:
 
 1. `tech_heat` + 1.
 2. Erreicht oder überschreitet der Zähler das Limit, steigt `tech_sg` um +1, `tech_heat` fällt auf 0
@@ -785,4 +785,4 @@ HQ-Phase.
 
 Diese Liste deckt die Kernmechaniken ab und passt auf zwei druckbare Seiten.
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

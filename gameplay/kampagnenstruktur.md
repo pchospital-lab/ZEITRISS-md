@@ -23,7 +23,7 @@ Diese Modulnummer führt die Hauptreihe nach Modul 5 fort und bindet nahtlos an 
 ## Einführung
 
 **ZEITRISS 4.2.6** präsentiert ein filmisches, immersives Kampagnensystem, das Spielleiter*innen und
-Spieler*innen hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
+Spieler hilft, epische **Langzeit-Abenteuer** zu gestalten. Dieses Modul bietet strukturierte
 Werkzeuge für die Planung mehrteiliger Handlungsbögen, die Weiterentwicklung eines gemeinsamen
 Hauptquartiers (HQ) und die Pflege von Beziehungen im Verlauf der Kampagne. Alle Elemente sind
 **klar strukturiert** und **modular anwendbar**, sodass sie je nach Bedarf der Gruppe eingesetzt
@@ -466,7 +466,7 @@ Herausforderungen — nicht nur steigende Zahlenwerte.
 - **Tier-Aufstieg:** Sobald das Squad-Level die Obergrenze eines Tiers
   überschreitet, erscheinen Seeds des nächsten Tiers bevorzugt in
   `ClusterCreate()`. Bereits offene Seeds behalten ihren ursprünglichen Tier-Tag.
-- **Skalierung:** Die Runtime skaliert Gegner-HP, DR und Spezialmechaniken
+- **Skalierung:** Die Runtime skaliert Gegner-LP, DR und Spezialmechaniken
   anhand des Seed-Tiers. Niedrig-Tier-Seeds in High-Level-Squads erhalten
   einen leichten Buff, bleiben aber unter dem Schwierigkeitsgrad des
   aktuellen Squad-Tiers.
@@ -2427,4 +2427,4 @@ Zeitreise-Serie zum Selbst-Erleben - voller cineastischer Momente, nachhallender
 dem Gefühl, Teil etwas Großem zu sein. Viel Erfolg und vor allem viel Spaß beim Gestalten eurer
 eigenen ZEITRISS-Saga!
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

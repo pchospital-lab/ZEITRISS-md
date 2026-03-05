@@ -1219,4 +1219,4 @@ und frei erkundet werden kann.
 
 **Willkommen bei ZEITRISS 4.2.6 - eure Reise durch die Zeit beginnt jetzt!**
 
-© 2025 pchospital - ZEITRISS® - private use only. See LICENSE.
+© 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

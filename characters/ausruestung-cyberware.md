@@ -737,7 +737,7 @@ Diese Tabellen sollen schnelle Inspiration liefern und zeigen, wie Loot, Mission
 CU-System in ZEITRISS 4.2.6 zusammenwirken. Würfelt frei oder wählt passende Gegenstände aus, um eure
 Chrononauten mit spannenden Funden zu belohnen.
 
-© 2025 pchospital – ZEITRISS® – private use only. See LICENSE.
+© 2025-2026 pchospital – ZEITRISS® – private use only. See LICENSE.
 
 ## Shop-Tiers & Gating
 
