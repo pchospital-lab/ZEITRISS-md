@@ -297,7 +297,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Host-Vorrang bleibt erhalten, die Rest-Verteilung wird im
   `merge_conflicts`-Trace gespiegelt (`source`/`target`/`kept`/`handoff`), damit
   Wallet-Splits in Solo→Koop→PvP-Runs nachvollziehbar bleiben.
-- **Legacy-Spiegel für GPT (ohne runtime.js):** Falls ein älterer Save noch
+- **Legacy-Spiegel für KI-SL (ohne runtime.js):** Falls ein älterer Save noch
   Wurzel-Schlüssel wie `sys`, `sys_used`, `sys_installed`, `sys_runtime`,
   `stress`, `psi_heat` oder `cooldowns` besitzt, legt die Spielleitung beim
   Laden vorab den Block `character{}` an:
@@ -311,7 +311,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
      weitere Werte aus `attributes{}` nur ergänzen, niemals überschreiben.
   4. Optionale Felder wie `modes[]`, `self_reflection` oder `lvl` ebenfalls in
      `character{}` verschieben, sofern sie vorher an der Wurzel lagen.
-     Auf diese Weise steht dem GPT immer das vollständige Save-v6-Schema zur
+     Auf diese Weise steht der KI-SL immer das vollständige Save-v6-Schema zur
      Verfügung, auch ohne die lokale `runtime.js`.
 
 **Quick-Hilfe:** `!help start` - listet alle vier Befehle mit Kurzbeschreibung.
@@ -766,7 +766,7 @@ Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für dich gestartet` (Solo) bzw. `... f
 - `Spiel laden` → Save einlesen → Rückblick → Mission fortsetzen
   ([speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md)).
 
-Wird `Spiel laden` ohne JSON-Block eingegeben, fordert GPT den Spielstand an
+Wird `Spiel laden` ohne JSON-Block eingegeben, fordert die SL den Spielstand an
 und setzt nicht aus dem Nichts fort.
 
 Details zum Speichersystem findest du in
@@ -959,7 +959,7 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   ausschließlich für Legacy-Migrationen reserviert.
   `initialize_wallets_from_roster()` verschiebt alte Solo-Guthaben vollständig
   in den HQ-Pool und öffnet anschließend die Wallets aller aktiven IDs. Ohne
-  Spezialvorgaben teilt der GPT die Prämie gleichmäßig und holt eine
+  Spezialvorgaben teilt die SL die Prämie gleichmäßig und holt eine
   Bestätigung ein, bevor Sonderwünsche umgesetzt werden. Alle Anpassungen am HQ-
   Pool spiegeln `economy.credits` automatisch, damit Arena- und Tool-Fallbacks
   denselben Kontostand sehen.
@@ -983,7 +983,7 @@ HQ-Pool`).
 Das HUD bietet mehrere Erzählstile, die sich jederzeit über den Befehl `modus`
 umschalten lassen. **Klassik** läuft standardmäßig (filmisch mit mehr Taktik und
 Realismus), der Kodex bleibt immer als Assistenz aktiv. Film bleibt als
-optionale Cineastik-Schicht verfügbar. Die GPT-Spielleitung verkörpert alle
+optionale Cineastik-Schicht verfügbar. Die KI-Spielleitung verkörpert alle
 Rollen (NSCs, Umwelt, Kodex-HUD); der Kodex ist nur eine ihrer Stimmen - nicht
 die Spielleitung selbst. Alle weiteren Modi sind optionale Zusätze:
 | Modus | Kurzbeschreibung |

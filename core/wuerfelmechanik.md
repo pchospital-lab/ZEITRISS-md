@@ -341,8 +341,8 @@ _4.1.4_ optional einen kurzen **Versions-Hash** im Save-Header. Dieser sechsstel
 Hexwert wird beim Speichern aus den wichtigsten Daten berechnet und verhindert,
 dass versehentlich ältere Spielstände überschrieben werden.
 
-**Beispiel - versionskompatibler Spielstand:** \*Angenommen, in Version 4.1.4 wird ein neues Attribut
-**_"Mentalstabilität"_** eingeführt, das in 4.1.3 noch nicht existiert. Ihr habt einen Kampagnen-
+**Hypothetisches Beispiel - versionskompatibler Spielstand:** \*Angenommen, in einer zukünftigen Version wird ein neues Attribut
+**_"Mentalstabilität"_** (fiktives Beispiel) eingeführt, das in der Vorgängerversion noch nicht existiert. Ihr habt einen Kampagnen-
 Spielstand aus Version 4.1.3. Ladet ihr diesen in der aktualisierten Anwendung, erkennt der Kodex
 anhand _"version": "4.1.3"_, dass **_Mentalstabilität_** fehlt. Beim Konvertieren des Standes auf
 4.1.4 wird automatisch das Feld _"mentalstabilität": 100_ (als Start- oder Standardwert) ergänzt. Eure
@@ -544,6 +544,7 @@ Der Counter zeigt die offenen Seeds an und beeinflusst Schwellen sowie CU-Multip
 | 0            | 0                | 1.0            |
 | 1            | +1               | 1.2            |
 | 2            | +2               | 1.4            |
+| 3+           | +3 (Cap)         | 1.6 (Cap)      |
 
 _Im HUD erscheint z.B. `Seeds 1 · Para 5`._ Die Schwelle jeder Mission -
 Die Schwelle jeder Mission nutzt diese Werte ab Episodenende und sinkt, sobald ein Seed verschwindet.
@@ -731,7 +732,7 @@ Kurzanleitung für Missionen ohne funktionierenden Kodex oder HUD.
 
 - **Angreifen:** `1W6 + Fertigkeit` gegen SG
 - **Hacken:** `TEMP oder TECH` gegen Sicherheit
-- **Heilung:** Verbandskasten = 1W6 HP in 10 Min
+- **Heilung:** Verbandskasten = 1W6 LP in 10 Min
 
 #### Wichtige Befehle
 

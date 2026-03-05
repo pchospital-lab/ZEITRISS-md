@@ -45,7 +45,7 @@ Wunsch auch eine experimentelle Hominin-Form - und lädt euer rekonstruiertes Be
 9. Dossier skizzieren (Lebenslauf, Tod, Anker, Hook)
 10. Erste Mission planen
 
-- GPT agiert als Spielleiter - vergleichbar mit einer klassischen Pen-&-Paper-Runde.
+- Die KI agiert als Spielleitung - vergleichbar mit einer klassischen Pen-&-Paper-Runde.
   Dabei schlüpft er in die Rolle des ITI-Kodex, der über das HUD um Hilfe gebeten werden
   kann. So bleiben die Spieler in der Welt, während Regeln dezent im Hintergrund wirken.
 
@@ -532,16 +532,12 @@ Höhere **Tier-Stufen** werden über kostenpflichtige **Lizenzen** freigeschalte
 Je teurer die Lizenz, desto hochwertiger die verfügbare Ausrüstung.
 Zusätzlich koppelt das ITI den Zugriff an euren **Ruf**:
 
-| Tier | Ruf-Anforderung | Lizenzkosten |
-|------|-----------------|-------------|
-| 0 | — | Frei |
-| I | Ruf +1 | 200 CU |
-| II | Ruf +2 | 500 CU |
-| III | Ruf +3 | 1.500 CU |
-| IV | Ruf +4 | 3.000 CU |
-| V | Ruf +5 | Questbelohnung (nicht kaufbar) |
+→ Vollständige Tier-Lizenztabelle: siehe
+[Ausrüstung & Cyberware](ausruestung-cyberware.md#tier-lizenzen) (SSOT).
 
-Lizenzen müssen dennoch erworben werden, sobald die passende Rufstufe erreicht ist.
+Lizenzen müssen erworben werden, sobald die passende Rufstufe erreicht ist.
+Der **Hauptfraktionsruf** (ITI/Ordo) ist der entscheidende Wert für Tier-Zugang —
+bei Fraktionswechsel wird der Ruf mitgenommen.
 
 typischerweise eine Ressourcengutschrift - sei es in Form von **Credits (CU)** oder logistischen
 Unterstützung. Damit könnt ihr **neue Ausrüstung kaufen, Upgrades vornehmen oder Cyberware

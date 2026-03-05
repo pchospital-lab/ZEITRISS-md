@@ -46,7 +46,7 @@ die Charakterentwicklung: neue aktive und passive Fähigkeiten, modulare Talent-
 optionale Archetypen-Talente, um jede Figur noch einzigartiger zu machen.
 Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinformationen
 werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und
-kreativer Einbindung der KI-Spielleitung (GPT) als allwissender Erzähler im Hintergrund.
+kreativer Einbindung der KI-Spielleitung als allwissender Erzähler im Hintergrund.
 
 **Item-DSL** (für neue Gegenstände):
 ```
@@ -609,7 +609,7 @@ zu unterstützen. Hier werden einige dieser spezialisierten Tools vorgestellt:
 
 _Atmosphärische Einbindung:_ All diese temporalen Tools können im Spiel für spannende Szenen sorgen.
 So könnte etwa das **HUD** des Chrononauten automatisch Epochen-Scanner-Daten einblenden, sobald
-eine Anomalie detektiert wird (_„HUD-Overlay: Temporal-Flux Detected!“_). Die KI-Spielleitung (GPT)
+eine Anomalie detektiert wird (_„HUD-Overlay: Temporal-Flux Detected!“_). Die KI-Spielleitung
 kann Hinweise liefern, wenn z.B. ein Riss-Tracker (temporaler Resonator) anspringt, indem sie ein gutes Gefühl oder ein
 Flackern im Zeitstrom beschreibt. Solche Elemente verstärken die Immersion, sollten aber sparsam und
 stimmungsvoll eingesetzt werden.

@@ -395,7 +395,7 @@ haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz: **Der Kodex liefer
 Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Er ist ein Werkzeug, kein Autopilot.
 
 Die Spielleitung (oder GPT als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
-Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: "Wie viele HP habe ich noch?",
+Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: "Wie viele LP habe ich noch?",
 kann die SL antworten: _"Ihr fühlt euch schwer angeschlagen - euer HUD zeigt euren
 Gesundheitsbalken bei ~20 %."_ So bleiben Zahlen greifbar, ohne die Immersion zu brechen. Regelwerte
 lassen sich in ITI-Fachbegriffe übertragen (statt "-3 auf Aktionen" blinkt eben ein roter
@@ -515,7 +515,7 @@ um 1. So behaltet ihr auch in großen Massenszenen den Überblick, ohne Buchhalt
 | **Chrono-Hound** (mittel) | 5 | +2 | **W10** | 8 | Time-Scent (spürt Agenten 30 m) |
 | **Paradoxon Titan** (groß) | 10 | 0 | W12×2 | 15 | Reality Rend (RR +2 pro Treffer) |
 
-Für größere Teams skaliert der HP-Pool der Gegner:
+Für größere Teams skaliert der LP-Pool der Gegner:
 
 ```pseudo
 effektive_HP = HP_Pool × ceil(team_size / 2)

@@ -16,7 +16,7 @@ tags: [core]
 ### Einführung & Leitbild
 
 Stellt euch vor, ein Riss in der Zeit öffnet sich und ermöglicht Reisen in vergangene Epochen **und**
-ferne Zukünfte. **ZEITRISS** ist ein textbasiertes Pen-&-Paper-Rollenspiel, in dem eine KI (GPT) als
+ferne Zukünfte. **ZEITRISS** ist ein textbasiertes Pen-&-Paper-Rollenspiel, in dem eine KI als
 Spielleitung fungiert. Ob alleine im Einzelspiel oder mit Freunden in einer Gruppe - die Spieler
 übernehmen die Rollen von **Chrononauten**, Zeitagenten, die vom **Institut für Temporale
 Intervention (ITI)** auf Missionen geschickt werden. Jede Episode führt in eine andere historische
@@ -492,7 +492,7 @@ addiert, plus eventuelle Talent- und Ausrüstungsboni:
 - **Vergleich mit SG:** Ergebnis ≥ SG bedeutet Erfolg, Ergebnis \< SG bedeutet Misserfolg.
 - **Talentboni** sind nach dem Attributsbonus auf **+5** begrenzt.
 
-Die erzielte Summe wird mit dem SG verglichen, um das Ergebnis festzustellen. GPT (die KI-
+Die erzielte Summe wird mit dem SG verglichen, um das Ergebnis festzustellen. Die KI-
 Spielleitung) wird das Würfelergebnis **offen** mit den Spielern teilen, um Fairness und Transparenz
 zu gewährleisten. Üblich ist die Notation in eckigen Klammern innerhalb der Erzählung. _Beispiel:_
 
@@ -603,7 +603,7 @@ kompletten Ablauf zusammen — Details stecken in den verlinkten Modulen.
 
 
 ZEITRISS nutzt ein Speicherstand-System (**Save/Load**), um lange Kampagnen über mehrere
-Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung (GPT) nicht dauerhaft alle
+Spielsessions hinweg nahtlos fortführen zu können. Da die KI-Spielleitung nicht dauerhaft alle
 Details vergangener Sitzungen behalten kann, wird am Ende **jeder Mission** ein maschinenlesbarer
 Speicherstand erstellt - idealerweise als strukturierter JSON- oder YAML-Block im Chat. Dieser
 Speicherblock kann entweder direkt im Spieldokument eingebettet oder als separate Datei gespeichert
