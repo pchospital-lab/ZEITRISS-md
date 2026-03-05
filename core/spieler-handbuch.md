@@ -107,56 +107,22 @@ ebenfalls zwischen HQ-Rundgang und sofortigem Briefing wählen.
 
 Die ersten Schritte in unter zwei Minuten:
 
-- Standardstil: Klassik (Mischform aus filmisch und taktisch). PRECISION optional für Taktikphasen.
+1. **Einstieg wählen** — klassisch (volle Charaktererschaffung) oder schnell (Rolle + Kurzprofil).
+2. **HQ oder Briefing** — nach der Erstellung: HQ-Rundgang mit Kodex oder direkt ins Briefing.
+3. **Proben** — `Wurf + ⌊Attribut / 2⌋ + Talent + Gear` vs. Schwierigkeitsgrad (SG).
+   W6 normal, W10 ab Attribut 11, Heldenwürfel ab 14. Exploding bei Maximum (Burst-Cap 1).
+4. **Mission** — 12 Szenen (Core) oder 14 Szenen (Rift). Boss in Szene 10.
+   Mini-Boss in Mission 5 der Episode, Episoden-Boss in Mission 10.
+5. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
+   1-2 Rift-Seeds. Das ist der Belohnungsmoment.
+6. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
+   Ruf + Lizenz-Tier. Danach HQ (Heilen, Shoppen, Speichern).
+7. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
 
-1. **Einstieg wählen** - klassisch = volle Charaktererschaffung, schnell = Rolle + Kurzprofil.
-2. **Nach der Erstellung entscheiden** - HQ-Rundgang mit Kodex (Tour + Regelframe) oder direkt ins Briefing.
-3. **Briefing:** Mission ziehen (Seed aus dem Generator) und drei klar nummerierte Ziele formulieren.
-4. **Proben** - Endwert = Wurf + ⌊Attribut / 2⌋ + Talent + Gear.
-5. **Success Table** - Erfolgsraten siehe [Würfelmechanik](wuerfelmechanik.md#w6-vs-w10).
-6. **Risiko** - misslingt ein Exploding-Wurf und der Gegner explodiert,
-   erhält er einen Vorteil.
-7. **Paradoxon** - Index bei 5? `ClusterCreate()` erzeugt neue Seeds.
-8. **Self-Reflection Off** - `!sf off` setzt das globale Flag
-   (`self_reflection: false`) samt Persistenz in `logs.flags.self_reflection`;
-   `!sf on` stellt beides zurück. Beide Befehle setzen
-   `logs.flags.self_reflection_last_change_reason` auf
-   `hud_command_sf_off`/`hud_command_sf_on`. Vor Mission 5 unbedingt manuell toggeln,
-   damit HUD-Badge und `scene_overlay()` den Status `SF-OFF` zeigen. Nach
-   Mission 5 **und Mission 10** stellt die Runtime Self-Reflection automatisch
-   und ausschließlich über `set_self_reflection()` wieder auf `SF-ON` zurück -
-   sowohl nach Abschluss als auch nach Abbruch (`logs.flags.last_mission_end_reason`).
-9. **TK-Nahkampf-Cooldown** - `!tk melee` markiert telekinetische
-   Nahkampfangriffe, blendet `TK✋` im HUD ein und sperrt eine Runde;
-   `!tk ready` hebt die Sperre nach dem Cooldown auf.
-10. **Chrono-Units** - Einheitliche Formel für Core **und** Rift:
-    `Belohnung = Basiswert × Ergebnis × Seed-Multi × Hazard-Pay`
-    (400/500/600 CU nach Risiko, Ergebnis 0,3/0,6/1,0/1,2,
-    `Seed-Multi = min(1,6; 1 + 0,2 × offene Seeds)`, Solo/Buddy = 1,5×).
-11. **Debrief & HQ** - Nach jeder Mission zeigt die Spielleitung **automatisch**
-    einen Missions-Abschlussbildschirm (wie ein Score-Screen in Videospielen):
-    1. **Missions-Bewertung** - Erfolg/Teilerfolg/Fehlschlag, Px-Stand
-    2. **Loot-Recap** - gefundene Gegenstände und Artefakte auflisten
-    3. **CU-Auszahlung** - Belohnung nach CU-Formel, Wallet-Split bei Teams
-    4. **XP & Level-Up** - XP vergeben, bei Aufstieg sofort Upgrade-Wahl anbieten
-       (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`)
-    5. **Ruf-Update** - Fraktionsruf-Änderungen anzeigen
-    6. **HQ-Optionen** - Schnell-HQ (Heilen + Shoppen), Manuell (volle Szenen)
-       oder Auto-HQ & Save (HQ-Pflichtschritte werden automatisch abgewickelt,
-       danach folgt das nächste Briefing)
-    Dieser Screen erscheint immer, ohne dass der Spieler danach fragen muss.
-    Überblick im [Gameflow-Spickzettel](../gameplay/kampagnenstruktur.md#gameflow-spickzettel).
-12. **Mini-Walkthrough** - siehe Abschnitt "Mauerbau 1961" in
-    [kampagnenstruktur.md](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961).
-    Die Missionsbeispiele folgen dort dem einheitlichen 12-Szenen-Ablauf.
-13. **Filmischer Einstieg** - das Modul
-    [Cinematic Start](../systems/gameflow/cinematic-start.md)
-    beschreibt einen sofort spielbaren Auftakt.
-14. **Demo-Mission "Feuerkette 1410"** - 45-Min-Sabotage im 12-Szenen-Format.
-    [Zum Modul](../gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410).
-15. **Epilog** - `EndMission(closed_seed_ids, cluster_gain, faction_delta)`
-    ruft `kodex_summary()` auf und loggt `Kodex: Seeds … geschlossen ·
-Cluster +… · Fraktion +…`.
+Weiterführend:
+- [Mini-Walkthrough "Mauerbau 1961"](../gameplay/kampagnenstruktur.md#mini-walkthrough-mauerbau-1961)
+- [Cinematic Start](../systems/gameflow/cinematic-start.md)
+- [Demo-Mission "Feuerkette 1410"](../gameplay/kampagnenstruktur.md#quick-mission-feuerkette-1410)
 
 ## Cheatsheet - Alle Kernregeln auf einen Blick {#cheatsheet}
 
