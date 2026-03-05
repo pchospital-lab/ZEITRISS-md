@@ -100,6 +100,12 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   1. Schwierigkeitsgrad (SG) festlegen
   2. W6 würfeln (Exploding: bei 6 nochmal würfeln und addieren). Ab Attribut ≥ 11: W10 statt W6 (Exploding: bei 10 nochmal würfeln und addieren). Die ≥11-Schwelle gilt einheitlich für alle Attribute — kein Sonderfall.
   3. Endwert berechnen: **Wurf + ⌊Attribut / 2⌋ + Talent + Gear**
+     **Attribut-Zuordnung (verbindlich, keine Ausnahmen):**
+     STR → Nahkampf, Kraftakte, Eintreten, Ringen
+     GES → Fernkampf, Schleichen, Schlösser, Ausweichen, Initiative (voller Wert)
+     INT → Technik, Hacking, Spurenanalyse, Rätsel, Wissen
+     CHA → Soziales, Einschüchterung, Täuschung, Verhandlung, Stressproben
+     TEMP → Zeitphänomene, Psi-Proben
   4. Ergebnis zeigen: `Probe: Schleichen → W6: [4] + GES 4/2 + Talent 1 = 7 vs SG 8 → MISS`
   5. Konsequenz erzählen
 - **Keine riskante Aktion ohne Probe.** Wenn der Spieler eine Aktion beschreibt, die scheitern

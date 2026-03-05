@@ -85,7 +85,7 @@ dem neuesten Repo-Stand bleiben.
      - Temperature: `0.8`
      - Top-P: `0.9`
      - Frequency Penalty: `0.3`
-     - Max Tokens: `16384`
+     - Max Tokens: `64000`
    - **Capabilities:** Vision und Usage **aus**
    - **Tools/Filter:** Keine nötig
    - **Vorschläge:** `Spiel starten (solo schnell)`, `Spiel starten (solo klassisch)`, `Spiel laden`
@@ -147,7 +147,7 @@ dem neuesten Repo-Stand bleiben.
   | Temperature | **0.8** | Guter Sweet-Spot: kreativ genug für Noir-Atmosphäre, stabil genug für Regeltreue |
   | Top-P | **0.9** | Schneidet die unwahrscheinlichsten Tokens ab, reduziert Halluzinationen |
   | Frequency Penalty | **0.3** | Verhindert Wiederholungen in langen Sessions |
-  | Max Tokens | **16384** | Debriefs mit Score-Screen und Save-JSON werden nie abgeschnitten — zahlt nur tatsächlich generierte Tokens |
+  | Max Tokens | **64000** | Sonnet 4.6 unterstützt bis 128K Output — 64K reicht für 5er-Gruppen-Saves + Debrief ohne Abschneiden |
 
   Das Setup-Script setzt diese Parameter automatisch. Bei manuellem Setup
   die Werte unter Modelle → Bearbeiten → Erweiterte Parameter eintragen.
