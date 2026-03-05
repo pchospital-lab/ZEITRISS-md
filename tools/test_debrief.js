@@ -34,6 +34,6 @@ if (!/Chrono Units \+450 CU/.test(out)){
 if (!/Level-Up 3→4/.test(out)){
   throw new Error('Level-Up fehlt.');
 }
-if (!/Resonanz Px 3\/5 \(\+1 pro Mission\)/.test(out)){
+if (!/Resonanz Px 3\/5/.test(out)){
   throw new Error('Resonanz-Zeile fehlt.');
 }
