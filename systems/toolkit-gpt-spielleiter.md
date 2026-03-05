@@ -447,10 +447,15 @@ if not char.get("psi") and not char.get("has_psi"):
   Werte erhöhen `missions_since_px` nicht.
 
   ```text
-  Rewards rendered
-  Px ███░░ (3/5) · TEMP 11 · +2 Px/Mission · ETA +1 in 1 Mission
-  Kodex: Mission stabilisiert (+2 Px bei TEMP 11).
+  Belohnungen · Chrono Units +450 CU · Level-Up 3→4 · Resonanz Px 3/5 (+1 pro Mission) · Rang Operator I · Ruf +2 · Lizenz Tier II
+  Px ███░░ (3/5) · TEMP 2 · +1 Px/Mission · ETA +1 in 1 Mission
+  Kodex: Mission stabilisiert (+1 Px bei TEMP 2).
   ```
+
+  Der Debrief-Score-Screen zeigt immer: **CU-Belohnung, Level, Px-Stand,
+  Rang, Ruf-Wert und aktuelle Lizenz-Stufe (Tier)**. Der Hauptfraktionsruf
+  (ITI/Ordo) bestimmt den Tier-Zugang (Ruf +1 = Tier I, +2 = Tier II usw.).
+  Zeige Ruf-Änderungen explizit an: `Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
 
 - Erreicht der Index Px 5, löst die Runtime `ClusterCreate()` aus,
   markiert den Reset als **pending** (`px_reset_pending=true`,

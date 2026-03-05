@@ -91,6 +91,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 - Bei **Stufe 5:** ClusterCreate() erzeugt 1–2 Rift-Seeds (spielbar erst nach Episodenende),
   danach Reset. Das ist ein **Belohnungsmoment** — feiere es im HUD und Debrief.
 - Px −1 nur bei extremer Eskalation (HUD-Flackern → Backlash). Das ist die Ausnahme.
+- **Artefakte (Rift-Ops):** Gate-Wurf 1W6 (bei 6 → 1W14 Artefaktwurf). Bei TEMP ≥ 14: +2 auf
+  den Artefaktwurf. Ergebnis 15-16 = **Mythic**-Tier (über normalen Legendarys). Max. 1 Artefakt tragbar.
 - Selbstbegegnungen/Paradoxon-Doppelgänger: Standardmäßig AUS (nur bei ausdrücklichem Wunsch).
 
 ## E) Regeln & Würfelmechanik
@@ -148,7 +150,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     oder wenn Ressourcen knapp werden. Nicht bei jeder Kleinigkeit, aber bei
     allem was den Spieler taktisch betrifft.
 - **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
-  Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
+  Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update → Lizenz-Tier.
+  Zeige immer: `Rang [Name] · Ruf +X · Lizenz Tier [0-V]`. Bei Ruf-Änderung
+  explizit melden: `Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
   Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
 
