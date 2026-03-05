@@ -154,8 +154,9 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 4. **Gate prüfen:** Erreicht das HUD die geforderte Zahl (Core 4/4, Rift 2/2), ist der
    Boss freigegeben. Verzögerte Konflikte bleiben möglich, wenn `DelayConflict` mit
    `allow=["ambush", "vehicle_chase"]` aktiviert ist.
-5. **Beispiel:** Vor dem Showdown zeigt das HUD `Foreshadow 2/4` (Core-Mission 4 erledigt);
-   nach Mission 9 stehen `Foreshadow 4/4` und der Boss-Gate öffnet.
+5. **Beispiel:** Innerhalb einer Core-Mission zeigt das HUD nach Szene 4
+   `Foreshadow 2/4` (zwei Marker gesetzt); nach Szene 9 stehen
+   `Foreshadow 4/4` und der Boss-Gate für Szene 10 öffnet.
 
 ### Fraktionsdynamik und -Konflikte
 
@@ -1410,11 +1411,13 @@ Gruppe (Host-Save führend).
 
 | TEMP | Fahrzeug verfügbar | Exaktheit |
 |-----:|-------------------|-----------|
-| 1–3 | Alle 5 Missionen | Ungefähr passend, improvisiert |
-| 4–7 | Alle 4 Missionen | Überwiegend passend |
-| 8–10 | Alle 3 Missionen | Gute Übereinstimmung |
-| 11–13 | Alle 2 Missionen | Fast exakt wie gewünscht |
-| 14+ | Fast jede Mission | Exakt das gewünschte Fahrzeug |
+| 1–2 | Alle 4 Missionen | Ungefähr passend, improvisiert |
+| 3–5 | Alle 3 Missionen | Überwiegend passend |
+| 6–8 | Alle 2 Missionen | Gute Übereinstimmung |
+| ab 9 | Jede Mission | Exakt das gewünschte Fahrzeug |
+
+> SSOT: Die kanonische Fahrzeug-TEMP-Tabelle steht in
+> [fahrzeuge-konflikte.md](../gameplay/fahrzeuge-konflikte.md#ssot-besitz-zeitriss-epochenform).
 
 **Grundregeln:**
 - **Vergangenheit:** Nur epochen-passende Fahrzeuge. Ein Oldtimer in die

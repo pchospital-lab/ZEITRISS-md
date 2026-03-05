@@ -151,20 +151,22 @@ Px 5 + Debrief/HQ.
 **Beispiel-Psikräfte:** _(Die folgenden Fähigkeiten sind beispielhaft; Psionik ist sehr variabel und
 sollte an die Kampagne angepasst werden.)_
 
-- **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels. _Kosten:_ 1 SYS; kurze
-  Botschaften möglich.
-- **Präkognition:** Sekundenkurzer Blick auf drohende Gefahr. _Kosten:_ 2 SYS; einmal pro Sitzung
-  Probe wiederholen.
-- **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig. _Kosten:_ 2 SYS; eine Zusatzaktion.
-- **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell. _Kosten:_
-  3 SYS.
-- **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden. _Kosten:_ 1 SYS permanent.
+- **Telepathie:** Liest flüchtige Gedanken oder Gefühle eines nahen Ziels.
+  _Kosten:_ 1 PP (gering) / 1 SYS; kurze Botschaften möglich.
+- **Präkognition:** Sekundenkurzer Blick auf drohende Gefahr.
+  _Kosten:_ 2 PP (mittel) / 2 SYS; einmal pro Sitzung Probe wiederholen.
+- **Zeit verlangsamen:** Verlangsamt Umgebung kurzzeitig.
+  _Kosten:_ 2 PP (mittel) / 2 SYS; eine Zusatzaktion.
+- **Temporaler Waffenimpuls:** Friert Umgebung kurz ein; Projektil trifft extrem schnell.
+  _Kosten:_ 3 PP (stark) / 3 SYS.
+- **Zeitsinn:** Warnt vor nahen Anomalien und Zeitreisenden.
+  _Kosten:_ 1 PP (gering) / 1 SYS permanent.
 - **Phase-Strike:** Versetzt den Körper für einen Schlag aus der Phase und ignoriert Rüstungen.
-  _Kosten:_ 2 SYS (PvP-Arena: 3 SYS via `phase_strike_cost()` / `phase_strike_tax`).
+  _Kosten:_ 2 PP (mittel) / 2 SYS (PvP-Arena: 3 SYS via `phase_strike_cost()` / `phase_strike_tax`).
 
 ### Mentale Maskierung {#mentale-maskierung}
 
-Verbirgt Gedanken für eine Szene. _Kosten:_ 2 SYS; erschwert fremde Telepathie +2 SG.
+Verbirgt Gedanken für eine Szene. _Kosten:_ 2 PP (mittel) / 2 SYS; erschwert fremde Telepathie +2 SG.
 
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt.
   _Kosten:_ 3 SYS.
