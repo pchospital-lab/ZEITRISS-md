@@ -68,12 +68,14 @@ So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` j
 konsistente Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich
 immer auf beide Felder aus und verhindern Ghost-Guthaben in den Ingame-Dialogen.
 
-Vor jedem Einsatz stellt das ITI ein **kostenloses Standard-Loadout**:
+**Startkapital:** Jeder neue Charakter erhält **100 CU** Wert an Ausrüstung
+(→ [Charaktererschaffung](../../characters/charaktererschaffung-grundlagen.md)).
+Vor jedem Einsatz stellt das ITI zusätzlich ein **kostenloses Standard-Loadout**:
 Basiswaffe, Werkzeug, **AR-Kontaktlinse (Retina-HUD)** und **Comlink
 (Ohrstöpsel, ≈ 2 km)**. Beide Geräte sind energieautark (Kinetik +
 Körperwärme) und besitzen eigene Mikro-CPUs für lokalen Betrieb, falls der
-Kodex-Link ausfällt. Zusätzliche Ausrüstung wird klar über Chrono Units
-abgerechnet.
+Kodex-Link ausfällt. Die 100 CU gelten **zusätzlich** zum Baseline-Kit.
+Weitere Ausrüstung wird über CU abgerechnet.
 
 > **Historische Kaufkraft-Faustregel**
 >

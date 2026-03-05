@@ -308,7 +308,8 @@ Neben physischen Bedrohungen können **Stress und Zeitparadoxa** an den Charakte
 optionalen Module erlauben es, **mentale und temporale Belastungen** abzubilden, die über bloße
 Lebenspunkte hinausgehen:
 
-- **Stress-Reset:** Stress betrifft **alle Klassen** und steigt bei Druck oder Fehlschlägen. Im
+- **Stress-Reset:** Stress betrifft **alle Klassen**, nutzt eine feste Skala von **0–10**
+  (`stress_max = 10`, nicht variabel) und steigt bei Druck oder Fehlschlägen. Im
   HQ oder der Medbay fällt der Zähler auf **0**; eine kurze Ruhephase senkt ihn um **1**.
 - **PP = TEMP:** Der PP-Pool entspricht der **Temporalen Affinität**. Ruhephasen und Talente wie
   _Meditation_ oder _Verbesserte Meditation_ regenerieren **1-2 PP**; Gear oder Consumables können

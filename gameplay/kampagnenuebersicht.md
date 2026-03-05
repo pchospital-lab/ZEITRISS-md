@@ -46,9 +46,10 @@ selten und stets rational erklärbar; sie dienen lediglich als Aufhänger für i
 Szenen. Wie sich die Geschichte entwickelt, hängt allein von den Entscheidungen der Gruppe ab. Der
 [Missions-Generator](kreative-generatoren-missionen.md#missions-generator)
 liefert hierfür jederzeit neue Einsatzorte und Dilemmata.
-Falls eure Runde Fahrzeugwerte oder Regeln für große Gefechte benötigt, siehe
-[Modul 7](fahrzeuge-konflikte.md) und [Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
-Dort finden sich Manöver, Upgrades und Massenkampfregeln.
+Falls eure Runde Fahrzeugwerte benötigt, siehe
+[Modul 7: Fahrzeuge & Konfliktsystem](fahrzeuge-konflikte.md).
+Für Verfolgungsjagden und Massenkonflikte:
+[Modul 9: Verfolgungsjagden & Massenkonflikte](massenkonflikte.md).
 
 **Arena-Policy (Cross-Alignment):** Die ITI-Arena ist grundsätzlich ein
 Trainingsmodul. Standard ist `arena.match_policy=sim` (Sim/Range) - PvP bleibt

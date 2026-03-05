@@ -992,7 +992,7 @@ Sprünge. Die Staffel ist fix an TEMP gekoppelt:
 
 Bei grobem Fehlverhalten (Zivilopfer, zerstörte Kern-Anker) flackert das HUD
 als Warnung. Eskaliert die Situation weiter → **−1 Px** (Backlash), maximal
-einmal pro Mission.
+einmal pro Mission. **Px kann nicht unter 0 fallen** (Floor = 0).
 
 | Stufe | HUD-Farbe | Score-Screen zeigt              | Mechanischer Effekt                  |
 |-----:|-----------|---------------------------------|--------------------------------------|
@@ -1001,10 +1001,10 @@ einmal pro Mission.
 | 3-4  | ▢ gelb    | `Px X/5 — Hochlauf`            | Keiner (Fortschritt sichtbar)        |
 | **5**| ▢ grün    | `Px 5/5 — ClusterCreate!`      | 1-2 Rift-Seeds vorgemerkt, Index → 0 |
 
-> **ClusterCreate:** Bei Px 5 pulsiert das HUD grün.
+> **ClusterCreate:** Bei Px ≥ 5 pulsiert das HUD grün.
 > Das ITI merkt nach Missionsende 1-2 Rift-Seeds vor (spielbar nach
 > Episodenabschluss). Der Rücksetzer erfolgt im Debrief/HQ und bestätigt den
-> Reset auf **0**, danach beginnt der Loop erneut.
+> Reset auf **0** — Überschuss über 5 verfällt. Danach beginnt der Loop erneut.
 
 **Design-Ziel:** Der Px ist eine Fortschrittsanzeige mit einem klaren Payoff
 bei Px 5. Zwischen-Werte liefern kein CU, keine Loot-Boni und keine

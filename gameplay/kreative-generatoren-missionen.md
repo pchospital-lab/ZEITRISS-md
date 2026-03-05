@@ -384,6 +384,7 @@ preserve_pool:
     antagonist: null
     antagonist_goal: null
     twist: "Antagonist stört Deep-Space-Net."
+  # P-0022: reserviert (entfernt wegen Balancing)
   - id: "P-0023"
     year: 1972
     place: "München"
@@ -419,11 +420,11 @@ preserve_pool:
   - id: "P-0027"
     year: 2008
     place: "Large Hadron Test"
-    title: "Cryo-Line Crack"
-    objective: "Seal crack, avert helium vent."
+    title: "Kryo-Leitungsriss"
+    objective: "Riss abdichten, Helium-Austritt verhindern."
     antagonist: null
     antagonist_goal: null
-    twist: "Rival will Mikro-Black-Hole Beweis."
+    twist: "Rivale will Mikro-Schwarzes-Loch als Beweis sichern."
   - id: "P-0028"
     year: 1999
     place: "Y2K"
