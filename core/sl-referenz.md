@@ -234,20 +234,18 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
   HQ-Migration veranlassen."
 
-**Save v6 – Pflichtfelder & Kompatibilität**
+**Save v7 – Pflichtfelder & Kompatibilität**
 
-- _Referenz-Fixture:_ Ein vollständig ausgefüllter v6-Teststand (inkl.
-  Cross-Mode-Pfaden, `logs.psi[]`, Arena-Trace) liegt unter
+- _Referenz-Fixture:_ Ein vollständig ausgefüllter v6-Teststand (für
+  Rückwärtskompatibilität) liegt unter
   [`internal/qa/fixtures/savegame_v6_test.json`](../internal/qa/fixtures/savegame_v6_test.json).
-- _Single Source:_ Das vollständige Schema steht in
-  `systems/gameflow/speicher-fortsetzung.md`. README und Toolkit zitieren nur
-  Auszüge; neue Saves benutzen ausschließlich die v6-Struktur mit
-  `party.characters[]` als kanonischem Roster (Legacy-Mirror
-  `team.members[]` bleibt nur für Import/Export erhalten).
-- Loader akzeptiert Wrapper-Felder wie `Charaktere`/`characters` und hebt sie
-  beim Import auf `party.characters[]`/`team.members[]`; der Serializer gibt
-  ausschließlich das kanonische Roster aus und erzeugt keine Wrapper-Struktur
-  in Saves oder HQ-Exports.
+- _Single Source:_ Das Schema-Template steht im **Masterprompt** (v7).
+  Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
+  Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
+  Roster-Container (Host = Index 0).
+- v6-Saves (erkennbar an `save_version: 6`) werden beim Laden automatisch
+  migriert: `party.characters[]` + `team.members[]` → `characters[]`,
+  `economy.cu` → `economy.hq_pool`, Laufzeit-Felder entfernt.
 - `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,

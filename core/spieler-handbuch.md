@@ -255,8 +255,7 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → −1 (CHA-Probe)
   den vorhandenen Fallback (`state.temp`, sonst `campaign.temp`).
 - **TEMP-Quelle je Modus (SSOT):**
   - **solo / npc-team:** `character.attributes.TEMP` ist führend.
-  - **gruppe:** zuerst `party.characters[].attributes.TEMP` (kanonisch),
-    sonst `team.members[].attributes.TEMP`; Ergebnis immer als aufgerundeter
+  - **gruppe:** `characters[].attr.TEMP` (alle Einträge); Ergebnis immer als aufgerundeter
     Mittelwert (`ceil`).
   - **Fallback:** falls kein Roster vorhanden ist, nutzt die Runtime
     `state.temp`, danach `campaign.temp`, sonst 0.
@@ -370,7 +369,7 @@ nicht.
   Episodenende; danach Reset). Jeder erneute Px-5-Treffer legt weitere Seeds oben
   drauf - es gibt **kein Hard-Limit**. Rift-Starts sind HQ-gebunden
   (`location='HQ'`), verlangen einen abgeschlossenen Episodenlauf
-  (`campaign.episode_completed` oder `mission_in_episode ≥ 10`) und greifen
+  (`campaign.episode_completed` oder `campaign.mission ≥ 10`) und greifen
   ausschließlich auf objektförmige `campaign.rift_seeds[]`
   (id/label/status/seed_tier/hook/time_marker, optional `discovered_at`,
   cluster-/level-Hints) zurück; der
@@ -430,7 +429,7 @@ Spiel starten (gruppe schnell)
 
 **Host-Regel:** Der zuerst gepostete Save bestimmt `campaign` (Episode,
 Mission, Mode, Seeds), `economy` (HQ-Pool) und globale `logs`. Weitere Saves
-liefern nur Charaktere (`party.characters[]`), Loadouts und Wallets;
+liefern nur Charaktere (`characters[]`) und deren Wallets;
 abweichende Kampagnenfelder werden ignoriert und als Konflikt in
 `logs.flags.merge_conflicts[]` protokolliert. Details im
 [Speicher-Modul](../systems/gameflow/speicher-fortsetzung.md#cross-mode-import).

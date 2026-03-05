@@ -651,114 +651,65 @@ maschinenlesbar sein, aber auch für Menschen lesbar bleiben. Empfohlen wird ein
 Block (JSON oder YAML). Im Speichertext sollten keine versteckten Befehle oder missverständlichen
 Pronomen stehen - nur klare, beschreibende Daten in der dritten Person.
 
-Ein **Beispiel** für einen Speicherstand im JSON-Format (v6, gekürzt):
+Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
 
 ```json
 {
-  "save_version": 6,
-  "zr_version": "4.2.6",
-  "location": "HQ",
-  "phase": "core",
-  "character": {
-    "id": "CHR-1234",
-    "name": "Alex",
-    "rank": "Operator I",
-    "stress": 0,
-    "psi_heat": 0,
-    "cooldowns": {},
-    "attributes": {
-      "SYS_max": 5,
-      "SYS_installed": 5,
-      "SYS_runtime": 5,
-      "SYS_used": 5
-    }
-  },
-  "campaign": {
-    "episode": 2,
-    "mission_in_episode": 3,
-    "scene": 0,
-    "px": 3,
-    "px_reset_pending": false,
-    "px_reset_confirm": false,
-    "exfil": {
-      "active": false,
-      "armed": false,
-      "hot": false,
-      "sweeps": 0,
-      "stress": 0,
-      "ttl": 0,
-      "anchor": null,
-      "alt_anchor": null
-    }
-  },
-  "party": {
-    "characters": [
-      {"id": "CHR-1234", "name": "Alex", "rank": "Operator I"}
-    ]
-  },
-  "team": {"members": []},
-  "loadout": {},
-  "economy": {"cu": 320, "wallets": {"Alex": {"balance": 120, "name": "Alex"}}},
-  "logs": {
-    "hud": [],
-    "trace": [],
-    "artifact_log": [],
-    "market": [],
-    "offline": [],
-    "kodex": [],
-    "alias_trace": [],
-    "squad_radio": [],
-    "foreshadow": [],
-    "fr_interventions": [],
-    "arena_psi": [],
-    "psi": [],
-    "flags": {"merge_conflicts": []}
-  },
-  "ui": {"gm_style": "verbose", "intro_seen": true, "suggest_mode": false},
-  "arena": {"active": false, "phase": "idle"},
-  "arc_dashboard": {"offene_seeds": [], "fraktionen": {}}
+  "v": 7, "zr": "4.2.6",
+  "campaign": { "episode": 2, "mission": 3, "px": 3, "mode": "mixed", "rift_seeds": [] },
+  "characters": [{
+    "id": "CHR-1234", "name": "Alex", "callsign": "Nova", "rank": "Operator I",
+    "lvl": 4, "xp": 4,
+    "origin": { "epoch": "2024", "hominin": "Homo sapiens sapiens", "role": "CQB-Operator" },
+    "attr": { "STR": 4, "GES": 5, "INT": 3, "CHA": 2, "TEMP": 2, "SYS": 3 },
+    "hp": 10, "hp_max": 10, "stress": 0,
+    "has_psi": false, "sys_installed": 2,
+    "talents": ["Schleichprofi", "Pistolenschütze"],
+    "equipment": [
+      {"name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1},
+      {"name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1, "dr": 2}
+    ],
+    "implants": [{"name": "Reflex-Boost", "sys_cost": 1, "effect": "+1 Initiative"}],
+    "reputation": {
+      "iti": 1, "faction": "Ordo Mnemonika",
+      "factions": {"ordo_mnemonika": 1, "chrono_symmetriker": 0, "kausalklingen": 0, "zerbrechliche_ewigkeit": 0}
+    },
+    "wallet": 320
+  }],
+  "economy": { "hq_pool": 0 },
+  "logs": { "trace": [], "market": [], "artifact_log": [], "notes": [], "flags": {"runtime_version": "4.2.6"} },
+  "arc": { "factions": {}, "questions": [], "hooks": [] },
+  "ui": { "gm_style": "verbose", "suggest_mode": false, "contrast": "standard",
+    "badge_density": "standard", "output_pace": "normal", "voice_profile": "gm_third_person" }
 }
 ```
 
-_Erläuterung:_ Der v6-Block enthält alle Laufzeitfelder (Kampagnenstand, Party,
-Logs, UI, Arena, Arc-Dashboard). Wallets folgen dem Schema v6
-`wallets{id → {name,balance}}`; Kurzformen wie `"Alex": 120` sind nicht valide.
-Details zur Vollstruktur sind im Modul **Speicherstand & Fortsetzung**
-dokumentiert.
+_Erläuterung:_ Das v7-Schema ist das Characterdatenblatt — wie ein P&P-Bogen, den
+man zum nächsten Spielleiter mitnimmt. `characters[]` enthält alle Agenten
+(Solo = 1 Eintrag, Gruppe = Array, Host = Index 0). Keine Laufzeit-Daten im Save
+(Exfil, Cooldowns, SYS_runtime sind Session-State). Details zur Vollstruktur
+im Modul **Speicherstand & Fortsetzung**.
 
-Dieses Format ist kompakt genug, um es direkt im Chat zu verwenden, und zugleich eindeutig für das
-KI-Modell. Für die Spieler bedeutet es, dass ihr Fortschritt sauber festgehalten wird - der
-Charakter fühlt sich persistent an, weil nichts Wichtiges vergessen geht.
+**Speichern & Laden in der Praxis:** Am Ende einer Mission erstellt die Spielleitung
+den Save nach dem Schema im Masterprompt. Vor der nächsten Session kopiert man
+den JSON in den neuen Chat-Kontext. Die KI liest den Speicherstand ein und hat
+sofort alle Fakten — Attribute, Equipment, Reputation, Story-Hooks.
 
-**Speichern & Laden in der Praxis:** Am Ende einer Mission erstellt die Spielleitung (oder auf
-Wunsch auch die Spieler) einen Savegame-Eintrag nach obigem Schema. Vor dem Start der nächsten
-Mission kopiert man diesen Block in den neuen Chat-Kontext. Die KI liest den Speicherstand ein und
-hat dadurch sofort alle wichtigen Fakten zur Hand - Fähigkeiten, Inventar, vergangene Ereignisse -
-ohne sich alles _"merken"_ zu müssen.
-
-**Gruppen-Spielstände:** Ein einzelner Speicherblock kann mehrere
-Spielercharaktere enthalten. Dafür ist `party.characters[]` der kanonische
-Container; `team.members[]` kann als Spiegel/Legacy-Roster mitgeführt werden.
+**Gruppen-Spielstände:** Alle Charaktere stehen in `characters[]`. Der Host
+(erster Eintrag) führt die `campaign`-Werte. Beim Split/Merge werden Characters
+einzeln aus dem Array entnommen oder zusammengeführt:
 
 ```json
 {
-  "party": {
-    "characters": [
-      {"id": "CHR-1234", "name": "Alex"},
-      {"id": "CHR-5678", "name": "Nova"}
-    ]
-  },
-  "team": {
-    "name": "Team Chronos",
-    "members": [{"id": "CHR-1234"}, {"id": "CHR-5678"}]
-  }
+  "characters": [
+    {"id": "CHR-1234", "name": "Alex", "rank": "Operator I", "lvl": 4, "wallet": 320},
+    {"id": "CHR-5678", "name": "Nova", "rank": "Rekrut", "lvl": 2, "wallet": 100}
+  ]
 }
 ```
 
-Auf diese Weise lassen sich auch zuvor getrennte Einzelspieler-Charaktere zu einem Team
-zusammenführen. Die Struktur pro Charakter bleibt identisch, sodass keine Informationen verloren
-gehen. Das ITI-System erkennt anhand der Formatierung, ob ein geladenes Savegame einen einzelnen
-Chrononauten oder eine ganze Gruppe umfasst, und setzt das Spiel entsprechend fort.
+Die Struktur pro Charakter bleibt identisch, sodass keine Informationen verloren
+gehen. Die KI erkennt anhand der Array-Länge, ob ein Solo- oder Gruppenspiel vorliegt.
 
 Durch dieses Speicherstand-System bleibt der Fortschritt über viele Spielabende hinweg erhalten und
 abrufbar. Die Spieler können zu jedem neuen Einsatz mit genau den Werten, Erinnerungen und
