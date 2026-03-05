@@ -677,7 +677,7 @@ Empfehlung: **0-2 Sweeps**. Mehr ist möglich, doch Stress & Zeit erhöhen das R
 
 Missionen entfalten ihre Wirkung erst durch einen ruhigen Einstieg. Plane zu Beginn
 mindestens zwei Szenen für Ankunft, Beobachtung oder Planung ein, bevor der erste
-große Konflikt losbricht. GPT darf die Länge flexibel erweitern und muss die Handlung
+große Konflikt losbricht. Die SL darf die Länge flexibel erweitern und muss die Handlung
 nicht übereilt vorantreiben. Mehr Szenen bedeuten mehr Raum für Spannung.
 Core-Ops sollen wie Folgen einer Streaming-Serie wirken, Rift-Ops eher wie einzelne
 Kinofilme. Vermeide es, schon in Szene 1 oder 2 das Finale einzuleiten.
@@ -1461,7 +1461,7 @@ HQ:
   Ausrüstung (Chrono-Anzug, Tarnvorrichtungen etc.) gewartet werden. Dies bietet einen **greifbaren Vorteil** in späteren Missionen, weil die
   Agenten dank guter Ausrüstung weniger improvisieren müssen.
 - **Trainingshalle & PvP-Arena:** Mit dieser Ausbaustufe steht den Agenten die **ITI-Arena** zur Verfügung.
-  Projektionsmodule ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. GPT übernimmt fehlende
+  Projektionsmodule ermöglichen Duelle oder Teamkämpfe ohne reales Risiko. Die SL übernimmt fehlende
   Teammitglieder und auch das gegnerische Aufgebot, sodass immer identische Teamgrößen antreten.
   Im Solo-Modus stammen diese Platzhalter aus eurer gewählten Fraktion. In Mehrspielerpartien
   wählt Kodex die Fraktion mit den meisten Teilnehmenden, um freie Slots zu besetzen.
@@ -2022,7 +2022,7 @@ Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
    Ausgangslage. Auf Wunsch wählt er eine Kulisse über den
    `#epochen-generator`. Kulisse meint ein modulares Trainingsset (Wände,
    Props, Licht, Nebel) plus MR-Overlay - kein echter Epochensprung.
-3. **Matchmaking:** GPT füllt fehlende Verbündete und Gegenspieler über den
+3. **Matchmaking:** Die SL füllt fehlende Verbündete und Gegenspieler über den
    NSC-Generator (`kreative-generatoren-begegnungen.md#nsc-generator`). Level
    und Ausrüstung orientieren sich am Durchschnitt der Spielenden. Eine
    optionale **Schwierigkeit** erlaubt es, Gegner schwächer oder stärker zu

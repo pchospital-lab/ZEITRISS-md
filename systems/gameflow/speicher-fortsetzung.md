@@ -12,7 +12,7 @@ tags: [system]
   Chronopolis sind keine gültigen Speicherkontexte.
 - **MUSS:** Px bleibt einheitlich (`campaign.px` als Quelle). Bei Px 5 löst
   ausschließlich `ClusterCreate()` aus; der Reset erfolgt via HQ-Bestätigung.
-- **MUSS:** Economy-Sync bleibt konsistent (`economy.cu` als Primäranker,
+- **MUSS:** Economy-Sync bleibt konsistent (`economy.hq_pool` als Primäranker,
   `economy.credits` als Legacy-Fallback via Synchronisierung).
 - **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
   ohne als harte Regel formuliert zu werden.
@@ -208,30 +208,32 @@ offline → Arena → HQ-only/Chronopolis inklusive Trace-Payload.
 | 6 | Stress aktiv | `stress_active` | Blockt bis Stress 0. |
 | 7 | Psi-Heat aktiv | `psi_heat_active` | Blockt bis Psi-Heat 0. |
 
-### Kompakt-Profil für GPT (Save v6)
-Das Schema ist zusätzlich als Klartext-Profil für MyGPT gespiegelt, damit es
-ohne Artefakt-Anhang in den Wissensspeicher passt. Orientiere dich an
-SaveGuard + folgendem Pfadbaum:
+### Kompakt-Profil (Save v7)
 
-- `save_version`, `zr_version`, `location`, `phase`
-- `character.{id,name,rank,stress,psi_heat,cooldowns,attributes.SYS_max|installed|runtime|used}`
-- `campaign.{episode,scene,px,rift_seeds[]}`
-- `team.members[]`, `party.characters[]`, `loadout`, `economy.{cu,wallets}`
-- `vehicles` mit Charakter-Slots (1 HQ-Technoir-Basisfahrzeug pro
-  Charakter-ID) und optionalem `active_vehicle_slot` pro Mission.
-- Optional `vehicles.faction_temporal_assets[]` für legendäre Chronopolis-
-  Schiffe (Tech IV) als zusätzliche, fraktionsgebundene Garagen-Slots.
-- `logs` mit folgenden Pfaden:
-  - `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`, `squad_radio`, `hud`, `psi`,
-    `arena_psi`, `foreshadow`, `fr_interventions`
-  - `flags{runtime_version,chronopolis_warn_seen,
-    chronopolis_unlock_level,chronopolis_unlocked,atmosphere_contract,
-    hud_scene_usage}`
-  - `flags.merge_conflicts[]`
-- `arc_dashboard{offene_seeds[],fraktionen{},fragen[],timeline[]}`
-- `ui` (vollständiger UI-Block)
-- `arena` (Status inkl. `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat`, `team_size` hart 1-5, `match_policy=sim|lore`)
+Das kanonische Schema-Template steht im **Masterprompt** (`meta/masterprompt_v6.md`).
+Orientiere dich an SaveGuard + folgendem Pfadbaum:
+
+- `v`, `zr` (Schema- und ZEITRISS-Version)
+- `campaign.{episode, mission, px, mode, rift_seeds[]}`
+- `characters[]` — Array, Host = Index 0. Pro Character:
+  - `{id, name, callsign, rank, lvl, xp}`
+  - `origin.{epoch, hominin, role}`
+  - `attr.{STR, GES, INT, CHA, TEMP, SYS}` (SYS = SYS_max)
+  - `hp, hp_max, stress, has_psi, sys_installed`
+  - wenn `has_psi`: `psi_heat, pp, psi_abilities[]`
+  - `talents[], equipment[{name,type,tier}], implants[{name,sys_cost,effect}]`
+  - `artifact?: {name, tier, effect}` (max 1)
+  - `reputation.{iti, faction, factions:{}}`
+  - `wallet`
+- `economy.{hq_pool}`
+- `logs.{trace[], market[], artifact_log[], notes[], flags:{}}`
+- `arc.{factions:{}, questions:[], hooks:[]}`
+- `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
+- `arena?` (nur wenn Arena genutzt: `{wins, losses, tier}`)
+
+> **Keine Laufzeit-Daten im Save:** location, phase, scene, exfil, cooldowns,
+> SYS_runtime, SYS_used werden zur Laufzeit gesetzt — nicht gespeichert.
+> v6-Saves werden beim Laden automatisch migriert (`save_version: 6` → `v: 7`).
 
 `logs.flags.last_save_at` hält den Zeitstempel für deterministische Saves fest. Der Serializer nutzt
 den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für den Save-Trace
@@ -251,7 +253,7 @@ den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|90
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
 Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
 
-Die JSON-Schema-Datei bleibt für Validierungstools bestehen; GPT nutzt
+Die JSON-Schema-Datei bleibt für Validierungstools bestehen; Die KI-SL nutzt
 das Klartext-Profil als maßgebliche Struktur.
 
 Der Serializer befüllt `arc_dashboard` vor dem SaveGuard automatisch mit
@@ -282,8 +284,14 @@ erreicht (auch `completed` bleibt gespeichert, aber blockiert den Save).
 
 In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
-Installation (`SYS_installed == SYS_max`) und eine Runtime-Last innerhalb des
-installierten Rahmens (`SYS_runtime ≤ SYS_installed`).
+Installation (`sys_installed ≤ attr.SYS`).
+
+> **⚠️ Schema-Hinweis:** Die JSON-Beispiele in diesem Dokument zeigen
+> teilweise noch das **v6-Format** (`save_version: 6`, `party.characters[]`,
+> `economy.cu`, `arc_dashboard`). Das aktuelle Schema ist **v7** — siehe
+> Masterprompt für das kanonische Template. v6-Saves werden beim Laden
+> automatisch migriert. Die v6-Beispiele hier dienen als Referenz für
+> die Migration und zeigen die vollständige Datenstruktur.
 
 ```json
 {
@@ -743,17 +751,17 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
 - Im HQ sind `character.attributes.SYS_installed` und
   `character.attributes.SYS_max` deckungsgleich, `SYS_runtime` liegt höchstens
   bei der installierten Last, `stress = 0`, `psi_heat = 0`. Das Speichern
-  erfasst diese Werte, damit GPT den Basiszustand prüfen kann. Die JSON-
+  erfasst diese Werte, damit die KI-SL den Basiszustand prüfen kann. Die JSON-
   Beispiele in diesem Modul zeigen weiterhin volle SYS-Werte (5/5 bzw. 6/6)
   und erfüllen damit den Guard.
-- GPT darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
+- Die KI-SL darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
 - `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
   `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
   normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise
   (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge -
-  GPT erzeugt sie nie als Output.
+  Die KI-SL erzeugt sie nie als Output.
 - Die Load-Pipeline nutzt dafür explizit `migrate_save()` als Legacy-Bridge,
   bevor `load_deep()` Pflichtfelder validiert und Defaults ergänzt.
 - Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
@@ -1056,7 +1064,7 @@ die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
 
 {# LINT:FS_RESET_OK #}
 
-> **Laufzeitabgleich:** Dieses Modul ist maßgeblich für GPT-basierte
+> **Laufzeitabgleich:** Dieses Modul ist maßgeblich für KI-basierte
 > Spielleitungen. Die beigelegte `runtime.js` dient nur als Test-Spiegel für
 > lokale Runs und wird nicht in produktive Wissensspeicher geladen.
 
@@ -1070,7 +1078,7 @@ Abweichende Seeds, Episoden- oder Missionszähler landen in
 Pool (`economy.cu`) bleibt Host-priorisiert; Import-Wallets ergänzen per
 Union-by-id.
 
-**Mid-Session-Merge:** Für laufende Einsätze nutzt GPT statt `load_deep()` einen
+**Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
 So können neue Agent:innen aufschlagen, während `state.location` auf Mission
@@ -1220,13 +1228,13 @@ die Debrief-Zeilen.
 
 ### Standard- und Sonderaufteilungen
 
-1. **Standardaufteilung.** Ohne Vorgaben verteilt der GPT die Auszahlung
+1. **Standardaufteilung.** Ohne Vorgaben verteilt die KI-SL die Auszahlung
    gleichmäßig (`Wallet-Split (n×): Ghost +200 CU | …`).
 2. **Solo→Koop.** Beim Moduswechsel initialisiert
    `initialize_wallets_from_roster()` leere Wallets für alle `party.characters[]`
    und verschiebt Solo-Guthaben in den HQ-Pool.
 3. **Spezialschemata.** Sonderregeln kommen über `economy.split`/`wallet_split`.
-   Prozentwerte (`percent`, `percent_share`) nutzt GPT als 0-1 bzw. 0-100 %.
+   Prozentwerte (`percent`, `percent_share`) nutzt die KI-SL als 0-1 bzw. 0-100 %.
    Verhältnisangaben (`ratio`, `weight`, `share_ratio`, `portion`) bleiben
    relative Anteile. Nicht zugewiesene CU verbleiben im HQ-Pool.
 4. **Dialogführung.** Kodex nennt Standard und Alternativen (_"Standardaufteilung
@@ -1236,10 +1244,10 @@ die Debrief-Zeilen.
 ### Persistenz & IDs
 
 - `economy.wallets{}` speichert Balances anhand der IDs aus
-  `party.characters[]`. Fehlt eine ID, erzeugt GPT einen Slug (`agent-nova`).
+  `party.characters[]`. Fehlt eine ID, erzeugt die KI-SL einen Slug (`agent-nova`).
 - Änderungen an Callsigns aktualisieren nur den Anzeigenamen; das Guthaben bleibt
   über die ID erhalten.
-- Ohne lokale Runtime müssen GPT-Leitungen dieselben Schritte manuell
+- Ohne lokale Runtime müssen KI-Spielleitungen dieselben Schritte manuell
   beschreiben und die Werte in den Saveblock übertragen, damit Koop-Teams ihre
   CU-Historie nachvollziehen können.
 
@@ -1284,7 +1292,7 @@ Blöcken und das HUD-Tag `· SUG` erscheint deterministisch. Andere Modi
 ```
 
 Der Save hält sowohl die aktivierten Erzählmodi (`modes[]`) als auch den UI-Flag
-`suggest_mode` und den Action-Contract. Beim Laden setzt GPT `modus suggest`
+`suggest_mode` und den Action-Contract. Beim Laden setzt die KI-SL `modus suggest`
 und spiegelt das HUD-Tag `· SUG` samt Mission-Fokus-Badge.
 
 Das UI speichert außerdem `dice.debug_rolls` (Default `true` für offene Würfel).
@@ -1636,7 +1644,7 @@ Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
 - Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach
   `team.members[]`, um Kompatibilität mit älteren Tools zu bewahren - ohne
   voneinander abweichende Arrays. `team.members[]` ist somit immer eine
-  1:1-Kopie des kanonischen `party.characters[]`. GPT ergänzt neue
+  1:1-Kopie des kanonischen `party.characters[]`. Die KI-SL ergänzt neue
   Koop-Mitglieder ausschließlich im `party`-Block; `team.members[]` wird nur
   vom Serializer gespiegelt, damit Saves aus Solo- und Koop-Läufen keine
   widersprüchlichen Listen mehr besitzen.

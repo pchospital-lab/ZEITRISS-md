@@ -169,7 +169,7 @@ sollte an die Kampagne angepasst werden.)_
 Verbirgt Gedanken für eine Szene. _Kosten:_ 2 PP (mittel) / 2 SYS; erschwert fremde Telepathie +2 SG.
 
 - **Psychische Schockwelle:** Stoß aus mentaler Energie, der Gegner im Nahbereich betäubt.
-  _Kosten:_ 3 SYS.
+  _Kosten:_ 3 PP (stark) / 3 SYS.
 
 _Balance-Hinweis (Psi):_
 - Psi ist kein Generalschlüssel. Jede Kraft hat klare Kosten / Limits.
@@ -305,9 +305,9 @@ _P_ markiert passive, _A_ aktive Talente.
   TEMP-Proben. Dieses Talent sollte nur in Kampagnen verwendet werden, die Psionik zulassen, und eng
   mit TEMP-Attribut und SYS-Belastung verknüpft sein, um Balance zu wahren.
 - **Team-Fokus** (A): Kurze Telepathie auf Sichtweite erlaubt lautlose Absprachen im Kampf.
-  _Kosten:_ 1 SYS pro Nutzung. _Effekt:_ alle Verbündeten erhalten +1 auf ihre nächste Aktion.
+  _Kosten:_ 1 PP (gering) / 1 SYS pro Nutzung. _Effekt:_ alle Verbündeten erhalten +1 auf ihre nächste Aktion.
 - **Intuitives Knacken** (A): Mit feinem Telekinese-Gespür lassen sich Schlösser und Codes
-  erspüren. _Kosten:_ 2 SYS. _Effekt:_ +2 auf Proben zum Öffnen oder Hacken von Sicherungen.
+  erspüren. _Kosten:_ 2 PP (mittel) / 2 SYS. _Effekt:_ +2 auf Proben zum Öffnen oder Hacken von Sicherungen.
 
 _Zum Abschluss:_ Dieses Modul liefert eine Fülle an Möglichkeiten, den eigenen Chrononauten
 auszurüsten und zu spezialisieren. Spieler und SL sollten gemeinsam darauf achten, dass die
@@ -320,7 +320,7 @@ Jede Stärke kann durch clevere Herausforderungen ausgeglichen werden. Nutzt die
 Darstellung** aktiv: Lasst z.B. das HUD aufleuchten, wenn ein Charakter seinen Adrenalinschub zündet
 (_Herzpuls und Muskelkraftanzeige steigen im HUD drastisch_), oder beschreibt, wie das
 _Zeitterminal_ beim Hacken eines Zukunftscomputers unterstützend Daten einblendet. Die KI-
-Spielleitung (GPT) steht bereit, um mit dynamischen Beschreibungen all diese Elemente zu einem
+Spielleitung steht bereit, um mit dynamischen Beschreibungen all diese Elemente zu einem
 stimmigen Ganzen zu verweben - sei es durch atmosphärische **HUD-Overlays** oder durch das
 Einbeziehen von Talenten in die Erzählung (\*"Dank eurer Fähigkeit **_Verkleidungskünstler_** nickt
 der Wachposten euch arglos zu, überzeugt, ihr wärt der örtliche Baron."\*). In diesem Sinne: Mögen
@@ -532,7 +532,7 @@ Telekinetische Nahkampfangriffe scheitern, wenn das Ziel hinter Materie wie Panz
   mental erschaffen und einsetzen, als hielte er sie real in der Hand.
   Die erschaffene Version entspricht der Grundvariante der Waffe. Verbesserte Modelle oder Mods müssen
   zunächst physisch genutzt werden,
-  bevor sie als Psi-Waffe verfügbar sind. _Kosten:_ **1 SYS**.
+  bevor sie als Psi-Waffe verfügbar sind. _Kosten:_ **1 PP (gering) / 1 SYS**.
   Nur dauerhaft aktive Psi-Kräfte belegen SYS-Punkte.
 - **Bioenergie-Effekte:** Unter diesem Sammelbegriff fallen Psi-Phänomene, die lebende Organismen
   direkt beeinflussen - manchmal auch als **Vital-Psionik** bezeichnet. Dazu zählt etwa **psychische
@@ -1059,7 +1059,7 @@ zu stehen kommen.
 ## Darstellungstipps für die KI-Spielleitung (Atmosphäre, HUD & Kodex)
 
 Gerade weil Psi-Phänomene subtil und mysteriös sein sollen, kommt der Darstellung durch die
-Spielleitung (hier: die KI, also GPT in der Rolle des SL) große Bedeutung zu. Einige praktische
+Spielleitung (hier: die KI-Spielleitung) große Bedeutung zu. Einige praktische
 Tipps, wie man Psi im Spiel atmosphärisch in Szene setzt, ohne den immersiven Stil zu brechen:
 
 **Sinnesnahe Beschreibungen:** Psi-Effekte sollten möglichst aus der Perspektive der Charaktere
