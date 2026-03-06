@@ -37,8 +37,8 @@ tags: [system]
 > Einziger Save-Typ: Deepsave (HQ-only).
 
 **Referenz-Fixture (Test-Save v6):** Ein vollständig ausgefüllter Teststand mit
-allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`economy.wallets{}`,
-`logs.psi[]`, `arc_dashboard.offene_seeds`, `arena.phase_strike_tax`) liegt als
+allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`characters[].wallet`,
+`logs.psi[]`, `arc.open_seeds`, `arena.phase_strike_tax`) liegt als
 kanonisches Fixture unter
 [`internal/qa/fixtures/savegame_v6_test.json`](../../internal/qa/fixtures/savegame_v6_test.json).
 Acceptance-Smoke-Prüfpunkte 4 (HQ-Save-Guard) und 10 (Cross-Mode-Saves) nutzen
@@ -108,7 +108,7 @@ required = [
   "character.cooldowns",
   "campaign.px",
   "economy",
-  "economy.wallets",
+  "characters.wallet",
   "logs",
   "logs.hud",
   "logs.trace",
@@ -244,10 +244,10 @@ den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für
 `chronopolis_sinks`, `target_range`, `delta` und `out_of_range`. `target_range` nutzt fixe
 Level-Bänder **120** (HQ 8 000-10 000 CU, Wallet Ø 1 000-2 000 CU), **512** (HQ 25 000-30 000 CU,
 Wallet Ø 3 000-5 000 CU) und **900+** (HQ 45 000-60 000 CU, Wallet Ø 6 000-10 000 CU) und skaliert
-`wallet_total` über alle Wallets. Die Band-Auswahl folgt dem Host-Level
+`wallet_total` über alle Charakter-Wallets. Die Band-Auswahl folgt dem Host-Level
 (`character.lvl|level` oder `campaign.level`); fehlt dieser, nutzt der Audit die Medianstufe der
-Party/Team-Roster und schreibt `band_reason=host_level|roster_median|unknown`. `wallet_avg_scope`
-steht immer auf `economy.wallets`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
+`characters[]`-Roster und schreibt `band_reason=host_level|roster_median|unknown`. `wallet_avg_scope`
+steht immer auf `characters[].wallet`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
 boolesche Flags und löst
 den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
@@ -256,9 +256,9 @@ Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; Die KI-SL nutzt
 das Klartext-Profil als maßgebliche Struktur.
 
-Der Serializer befüllt `arc_dashboard` vor dem SaveGuard automatisch mit
-leeren Arrays/Objekten und setzt fehlende Dashboard-Blöcke nicht stillschweigend
-zurück: Pflichtpfade (`offene_seeds`, `fraktionen`, `fragen`, `timeline`) lösen
+Der Serializer befüllt `arc` vor dem SaveGuard automatisch mit
+leeren Arrays/Objekten und setzt fehlende Arc-Blöcke nicht stillschweigend
+zurück: Pflichtpfade (`open_seeds`, `factions`, `questions`, `timeline`) lösen
 einen SaveGuard-Fehler aus, falls sie fehlen oder `null` sind.
 
 `campaign.exfil{active, armed, hot, ttl, sweeps, stress, anchor, alt_anchor}`
