@@ -134,6 +134,32 @@ def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
             log.info("[ OK ] Legacy-Standardformulierung fehlt wie erwartet: /%s/", pattern)
 
 
+def check_forbidden_terms_in_ssot(root: Path, fails: list[str]) -> None:
+    ssot_files: tuple[tuple[str, tuple[str, ...]], ...] = (
+        ("core/spieler-handbuch.md", (r"\bGPT\b", r"\bRecruit\b")),
+        ("core/sl-referenz.md", (r"\bGPT\b", r"\bRecruit\b")),
+        ("meta/masterprompt_v6.md", (r"\bGPT\b", r"\bRecruit\b")),
+    )
+
+    for rel_path, patterns in ssot_files:
+        target = root / rel_path
+        try:
+            text = read_text(target)
+        except FileNotFoundError as exc:
+            msg = f"{rel_path}: {exc}"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        for pattern in patterns:
+            if re.search(pattern, text):
+                msg = f"{rel_path}: verbotener Begriff gefunden: /{pattern}/"
+                log.error("[FAIL] %s", msg)
+                fails.append(msg)
+            else:
+                log.info("[ OK ] %s enthält keinen verbotenen Begriff /%s/", rel_path, pattern)
+
+
 def iter_runtime_markdown(root: Path) -> Iterable[Path]:
     for directory in RUNTIME_DIRS:
         base = root / directory
@@ -289,6 +315,8 @@ def main() -> int:
 
     if sl_ref:
         check_sl_reference_save_contract(sl_ref, fails)
+
+    check_forbidden_terms_in_ssot(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
