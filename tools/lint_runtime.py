@@ -103,6 +103,37 @@ def check_save_required_fields(text: str, fails: list[str]) -> None:
         )
 
 
+def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
+    marker_start = "**Save v7 – Pflichtfelder & Kompatibilität**"
+    marker_end = "**Quick-Hilfe:** `!help start`"
+
+    if marker_start not in text or marker_end not in text:
+        msg = "core/sl-referenz.md: Save-v7-Abschnitt nicht eindeutig auffindbar"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    section = text.split(marker_start, 1)[1].split(marker_end, 1)[0]
+
+    req(r"v:\s*7", section, "SL-Referenz benennt Save-Zielversion v7", fails)
+    req(r"characters\[\]\s*\.wallet|characters\[\]\s*`?\.wallet`?", section, "SL-Referenz nutzt Charakter-Wallets als Zielmodell", fails)
+    req(r"economy\.hq_pool", section, "SL-Referenz nutzt economy.hq_pool als HQ-Pool", fails)
+    req(r"\barc\.timeline\b", section, "SL-Referenz nutzt Arc-v7-Pfad", fails)
+
+    legacy_hard_fails: tuple[str, ...] = (
+        r"erzwingen\s+`?save_version:\s*6`?",
+        r"arc_dashboard\.timeline",
+        r"fehlende\s+Credits-Fallbacks\s*\(`?economy\.credits`?\)\s*auf\s+den\s+HQ-Pool\s+`?economy\.cu`?",
+    )
+    for pattern in legacy_hard_fails:
+        if re.search(pattern, section, re.S):
+            msg = f"SL-Referenz enthält Legacy-Standardformulierung im Save-v7-Abschnitt: /{pattern}/"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+        else:
+            log.info("[ OK ] Legacy-Standardformulierung fehlt wie erwartet: /%s/", pattern)
+
+
 def iter_runtime_markdown(root: Path) -> Iterable[Path]:
     for directory in RUNTIME_DIRS:
         base = root / directory
@@ -189,6 +220,13 @@ def main() -> int:
         fails.append(str(e))
         sv = ""
 
+    try:
+        sl_ref = read_text(root / "core" / "sl-referenz.md")
+    except FileNotFoundError as e:
+        log.error(str(e))
+        fails.append(str(e))
+        sl_ref = ""
+
     gm_style = os.getenv("GM_STYLE", "precision")
 
     # Mission-Invarianten & Gates
@@ -248,6 +286,9 @@ def main() -> int:
     # HQ Save Guard
     if sv:
         check_save_required_fields(sv, fails)
+
+    if sl_ref:
+        check_sl_reference_save_contract(sl_ref, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
