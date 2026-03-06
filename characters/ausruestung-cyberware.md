@@ -203,14 +203,20 @@ Schaden pro Treffer, schwerere Rüstungen mehr. Allerdings bringen Rüstungen au
 Gewichtsbelastung oder eingeschränkte Beweglichkeit. Die Tabelle zeigt Beispiele für Schutzkleidung
 und persönliche Schutzsysteme:
 
-#### Psi-Abschirmung der Kernanzüge
+#### Anomalie-Puffer der Kernanzüge
 
-Der aktuelle ITI-Kernanzug trägt eine schimmernde Faserlage, die als **Psi-Puffer** fungiert. Sobald
-der Einsatz startet, aktiviert Kodex automatisch das Feld – im HUD erscheint das Icon `PFIELD`.
-Mechanisch bedeutet das **+2 SG** gegen telepathische Angriffe sowie einen neutralisierten
-Phase-Strike-Bonus gegen Nicht-Psioniker (der zusätzliche +1 Schaden fällt weg). Der Puffer ist
-Standard ab Tier‑1-Rüstung, benötigt keine zusätzlichen SYS-Kosten und kann für infiltrative
-Operationen bewusst deaktiviert werden.
+Der aktuelle ITI-Kernanzug trägt eine schimmernde Faserlage als **Anomalie-Puffer**. Im
+Standardmodus wird das Feld nur bei bestätigter Anomalie- oder Psi-Lage zugeschaltet; im HUD
+erscheint dann das Icon `PFIELD` als technischer Schutzstatus.
+
+- **Standardmodus (`has_psi = false`):** keine dauerhafte Grundannahme von allgegenwärtiger
+  Psionik; das Feld gilt als situativer Resonanz-/Anomalieschutz.
+- **Psi-Aktiv-Modus (`has_psi = true`):** bei aktiver Psionik gilt mechanisch **+2 SG** gegen
+  telepathische Angriffe sowie ein neutralisierter Phase-Strike-Bonus gegen Nicht-Psioniker
+  (der zusätzliche +1 Schaden fällt weg).
+
+Der Puffer bleibt ab Tier‑1-Rüstung verfügbar, benötigt keine zusätzlichen SYS-Kosten und kann für
+infiltrative Operationen bewusst deaktiviert werden.
 
 **Beispiel-Schutzkleidung und Rüstungen:**
 

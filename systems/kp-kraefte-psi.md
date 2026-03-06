@@ -17,6 +17,12 @@ tags: [system, psi, optional]
 
 ### Cheat-Sheet: Psi-Regeln auf einen Blick {#psi-cheat}
 
+**Psi-Standard & Charakter-Gating (SSOT):**
+- **Weltstandard im Einsatzraum:** Psi ist primär den Zeitreisenden vorbehalten – Chrononauten sowie den zentralen Gegnerfraktionen rund um Zeitriss-Ereignisse.
+- **Ausnahmen in Epochen:** Einzelne Figuren (z. B. Schaman:innen, Orakel, Mystiker) können psi-nahe Phänomene zeigen, benennen sie aber kulturabhängig; mechanisch bleibt es dieselbe Psi-Logik.
+- **Charakter-Gating (`has_psi`):** Ob ein Charakter Psi-Kräfte aktiv nutzen kann, ist individuell und wird über `has_psi` gesteuert.
+- **Spielfluss:** Gruppen ohne aktive Psi-Charaktere bleiben voll spielbar; Schlüsselszenen benötigen stets mindestens einen nicht-psionischen Lösungsweg.
+
 - Effekt unter 1 Sekunde kostet 0 SYS.
 - Bis zu 1 Runde: 1 SYS; laengere Wirkungen +1 SYS pro Runde.
 - Telepathie und Telekinese: Nah 0-3 m, Mittel 3-15 m mit +1 auf die Schwelle, Fern 15-50 m nur erzaehlerisch.
