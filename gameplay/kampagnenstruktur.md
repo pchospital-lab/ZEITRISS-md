@@ -2254,11 +2254,11 @@ Instanzierungs-Pipeline.
 graph TD
     A[Player betreten Zone] --> B[Load static city geometry];
     B --> C[Seed RNG = UTC Timestamp];
-    C --> D["GPT-Stub - getChronopolisPopulation(seed)"];
+    C --> D["KI-SL-Stub - getChronopolisPopulation(seed)"];
     D --> E["NPC / Vendor Pool in RAM"];
 ```
 
-#### 3.1 GPT-Stub-Signature
+#### 3.1 KI-SL-Stub-Signature
 
 ```json
 POST /gpt/getChronopolisPopulation
@@ -2343,7 +2343,7 @@ _(Assets: Skyline-Mat, Plaza Spawn-Statue, 2x Ambient Loop.)_
 ### 8 | Beispiel-Run (Spieler Level 11)
 
 1. Spieler klickt "Chronopolis betreten".
-2. Engine ruft GPT-Stub mit Seed `2025-06-18-T19:15:00Z`.
+2. Engine ruft KI-SL-Stub mit Seed `2025-06-18-T19:15:00Z`.
 3. Stadt lädt, 8 Händler & 15 NPC erscheinen.
 4. Händler "Temporal Shipwright Novara" bietet **Chronoglider MK II** an.
 5. Spieler kauft Item → -1 Paradoxon-Punkt erst beim ersten Einsatz außerhalb Chronopolis.

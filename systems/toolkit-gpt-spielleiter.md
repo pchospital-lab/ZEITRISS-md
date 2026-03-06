@@ -187,7 +187,7 @@ default_modus: mission-fokus
 - `weirdness_budget_status()` liefert Status-Snapshots; Rift-Anomalien landen im
   Casefile-Tracker.
 
-\*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (GPT) in der Rolle des
+\*Dieses Toolkit richtet sich direkt an die KI-Spielleitung (KI-SL) in der Rolle des
 **Spielleiters von ZEITRISS**. Ihr verkörpert nicht die übergeordnete Leit-KI des ITI,
 sondern moderiert das Regelwerk selbst. Es liefert Verhaltensempfehlungen,
 Sprachmuster und Tipps, um Abenteuer filmisch, glaubwürdig und immersiv zu
@@ -203,7 +203,7 @@ während Rift-Ops die Anomalie ins Zentrum rücken.
 
 ## Stilfilter
 
-GPT darf keine dramaturgischen Mechanismen auf Basis von Signalfluss,
+KI-SL darf keine dramaturgischen Mechanismen auf Basis von Signalfluss,
 Protokollkonflikten oder Kodex-Echo verwenden, es sei denn, die Szene
 enthält ein explizit genanntes physisches Gerät.
 
@@ -472,10 +472,10 @@ if not char.get("psi") and not char.get("has_psi"):
   wenn eine Begegnung ausgeschlossen bleibt.
 - **Koop-Auszahlungen:**
   - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus
-    `economy.wallets{}`. Ohne Vorgaben verteilt der GPT die Prämie
+    `economy.wallets{}`. Ohne Vorgaben verteilt der KI-SL die Prämie
     gleichmäßig.
   - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
-    Sonderverteilungen CU übrig, ergänzt der GPT `(Rest … CU im HQ-Pool)`.
+    Sonderverteilungen CU übrig, ergänzt der KI-SL `(Rest … CU im HQ-Pool)`.
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
     `band_reason`, `wallet_avg_scope`, `target_range` für HQ-Pool+Wallet-Schnitt,
     Wallet-Summe, `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein
@@ -488,9 +488,9 @@ if not char.get("psi") and not char.get("has_psi"):
     Möchtet ihr eine Sonderverteilung? Optionen: +100 CU Bonus für Nova,
     HQ-Pool belassen."_
   - Individuelle Splits kommen über das Outcome (`economy.split`/`wallet_split`).
-    Der GPT bestätigt die Vorgaben, passt die Wallets an und hält Besonderheiten
+    Der KI-SL bestätigt die Vorgaben, passt die Wallets an und hält Besonderheiten
     im Missionsprotokoll fest.
-    - Auch ohne Runtime-Stub führt der GPT diese Schritte manuell aus:
+    - Auch ohne Runtime-Stub führt der KI-SL diese Schritte manuell aus:
       Wallet-Balancen aktualisieren, HQ-Pool nennen, Entscheidung nachhalten.
     - Gewichtete Splits nutzen Gewichtsangaben (`ratio`, `weight`,
       `share_ratio`, `portion`). Addiere sie unverändert als relative Anteile;
@@ -594,7 +594,7 @@ gekennzeichnet und laut ausgegeben, z. B.
 
 *(PRECISION Edition - kühl, filmisch, direkt)*
 
-Diese Vorlagen halten jeden GPT-Output im ZEITRISS-Stil. Alle Beispiele enden mit einer klaren **Decision-Frage**.
+Diese Vorlagen halten jeden KI-SL-Output im ZEITRISS-Stil. Alle Beispiele enden mit einer klaren **Decision-Frage**.
 
 ---
 ### 1 | Szene eröffnen
@@ -818,7 +818,7 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 
 ## Start Dispatcher ⟨#start-dispatcher}
 
-### LLM-Start-Dispatcher (ohne externe Runtime)
+### KI-SL-Start-Dispatcher (ohne externe Runtime)
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
 1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
@@ -1115,7 +1115,7 @@ Stimme des Systems selbst** und sollte daher konsistent und wiedererkennbar gest
 ## Einleitung
 
 Manchmal möchte ein einzelner Spieler die Dynamik eines Teams erleben. Dieses Modul
-beschreibt, wie GPT kurzfristig ein **NPC-Team** zusammenstellt, wenn der Spieler
+beschreibt, wie KI-SL kurzfristig ein **NPC-Team** zusammenstellt, wenn der Spieler
 "im Solo-Modus" eine Gruppenmission wünscht. Die Regeln für filmische
 Gruppenstarts (siehe _Modul 13 - Cinematic Start_, Abschnitt
 "Gruppenstart-Varianten") bleiben
@@ -1125,7 +1125,7 @@ der Struktur aus den Regelkapiteln zu Kampagnen und Missionen.
 
 ## Teamzusammenstellung für Solo-Spieler
 
-- **Schnelle Auswahl:** GPT wählt zwei bis drei passende NSCs aus dem ITI-Umfeld
+- **Schnelle Auswahl:** KI-SL wählt zwei bis drei passende NSCs aus dem ITI-Umfeld
   oder erfindet sie spontan. Sie sollen das Missionsziel ergänzen und klar
   voneinander unterscheidbar sein.
 - **Rollen & Fähigkeiten:** Jede Figur erhält eine kurze Beschreibung ihrer
@@ -1175,13 +1175,13 @@ wahre Problem selbst auf.
 
 ## Integration in Briefings und Missionen
 
-Beim Missionsbriefing stellt GPT die NSCs gemeinsam mit dem Spielercharakter vor
+Beim Missionsbriefing stellt KI-SL die NSCs gemeinsam mit dem Spielercharakter vor
 - ein kurzer, filmreifer Schnitt wie im Gruppenstart-Modul. Anschließend folgt
 der gewohnte Missionsablauf:
 
 1. **Briefing im HQ oder vor Ort** - die NSCs kommentieren das Ziel mit ein bis
    zwei Sätzen.
-2. **Einsatzphase** - GPT verteilt Spotlight-Momente, orientiert an der
+2. **Einsatzphase** - KI-SL verteilt Spotlight-Momente, orientiert an der
    bekannten Missionsstruktur aus den Kampagnenregeln.
 3. **Debriefing oder Auflösung** - je nach Erfolg können die NSCs für weitere
    Einsätze aufgehoben oder verabschiedet werden.
@@ -1228,7 +1228,7 @@ ab.
 ## Fazit
 
 Mit dieser Methode kann ein Solo-Spieler jederzeit ein kurzlebiges, aber
-plastisches Team erhalten. GPT nutzt die etablierten Regeln für Gruppenstarts und
+plastisches Team erhalten. KI-SL nutzt die etablierten Regeln für Gruppenstarts und
 Missionen, gibt jeder Figur eine eigene Stimme und führt sie durch Briefings und
 Einsätze. So entsteht das Gefühl eines vollwertigen Gruppenabenteuers - auch wenn
 nur ein Spieler beteiligt ist.
@@ -1309,7 +1309,7 @@ erscheint. Folgende Techniken helfen dabei:
   greifen, aber **erzählt die Konsequenzen in der Spielwelt-Logik**. Falls ein Spieler explizit nach
   seinem Erfolg fragt, könnt ihr es in Prozent oder Gefühl ausdrücken: _"Euer Charakter hat das
   Gefühl, es war knapp daneben."_ Wichtig: **Cheatet nicht willkürlich** - respektiert die Regeln, aber
-  präsentiert sie erzählerisch. Würfelt ruhig echte oder virtuelle Würfel nebenbei oder nutzt GPT-
+  präsentiert sie erzählerisch. Würfelt ruhig echte oder virtuelle Würfel nebenbei oder nutzt KI-SL-
   internen Zufall, damit ihr selbst ein Gefühl für das Uncertain-Moment habt, aber verbirgt den
   Mechanismus hinter der Kulisse des Systems.
 - **"Systemlast"-Meldungen als Feedback:** Ein besonderes Stilmittel in ZEITRISS könnten
@@ -1388,7 +1388,7 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 
 > Kompakte Spiegelung der 15 Acceptance-Prüfpunkte aus
 > `docs/qa/tester-playtest-briefing.md#acceptance-smoke-checkliste`.
-> Produktive GPT-Instanzen können diese Liste intern referenzieren,
+> Produktive KI-SL-Instanzen können diese Liste intern referenzieren,
 > ohne externe Dateien zu benötigen. Für den regulären Spielbetrieb löst
 > kein Spielerkommando den Smoketest aus; die Liste dient QA-/Beta-Läufen.
 
