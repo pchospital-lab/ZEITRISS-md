@@ -128,7 +128,7 @@ Ein kompletter Kampagnenzyklus nutzt mehrere Tabellen und Tools:
 - **Core-Ops:** Ziehen Ziele aus `CoreObjectiveTable`.
 - **Rift-Ops:** Nutzen Seeds aus dem "Rift Seed Catalogue"; offene Seeds erscheinen bei
   `ClusterCreate()`. `campaign.rift_seeds[]` führt den Pool als Single Source of
-  Truth; `arc_dashboard.offene_seeds[]` spiegelt ausschließlich diesen Block.
+  Truth; `arc.open_seeds[]` spiegelt ausschließlich diesen Block.
 - **Encounters:**
   - NSC-Generator und risikobasierte Encounter-Pools füllen Zwischenszenen.
   - Para-Creature-Generator (Urban Myth Edition) liefert urbane Legenden für historische
@@ -441,7 +441,7 @@ Optional kann ein **Index-Merge-Schalter** definieren, ob die Werte im HQ sofort
 zusammengeführt oder getrennt bleiben.
 
 **Single Source:** `campaign.rift_seeds[]` bleibt die führende Liste offener Risse;
-`arc_dashboard.offene_seeds[]` spiegelt sie nur. Merges respektieren immer den
+`arc.open_seeds[]` spiegelt sie nur. Merges respektieren immer den
 Host-Save, zusätzliche Importe ergänzen lediglich Charaktere, Loadouts und Wallets.
 
 #### Level-Hinweise & Rift-Tier-System {#rift-tier-system}
@@ -473,7 +473,7 @@ Herausforderungen — nicht nur steigende Zahlenwerte.
 
 Seeds landen im Save/Dashboard als:
 `campaign.rift_seeds[{id, epoch, label, status:'open', seed_tier:'early'}]`
-und spiegeln als `arc_dashboard.offene_seeds[]` denselben Eintrag.
+und spiegeln als `arc.open_seeds[]` denselben Eintrag.
 
 - **Cluster- & Level-Metadaten (optional):** Ergänze nach Bedarf
   `cluster_hint: 1-25|25-80|80-200|200-500|500-1000` und ein freies
@@ -537,7 +537,7 @@ Saves mit größeren Teams werden beim Laden auf 5 reduziert.
 
 Der HUD-Hinweis "Boss-DR aktiviert - -X Schaden pro Treffer" nutzt diesen Wert
 und kappen Exploding-Overflow konsequent. `campaign.team_size` übernimmt der
-Runtime-Start automatisch aus `party.characters`/`team.members` und legt den
+Runtime-Start automatisch aus `characters[]` und legt den
 DR-Wert kampagnenweit als `campaign.boss_dr` ab. Diese Vorgabe ersetzt
 Hausregeln und verhindert überzogene Burst-Spitzen, ohne Solo- oder Duo-Läufe
 übermäßig zu strecken.
@@ -574,7 +574,7 @@ Seeds werden ausschließlich in `campaign.rift_seeds[]` abgelegt.
 Jeder Eintrag enthält mindestens `id`, `epoch`, `label` und
 `status` (`locked_until_episode_end`/open/closed); optional `seed_tier`, `cluster_hint`,
 `time_marker`, `discovered_at` und `level_hint`.
-`arc_dashboard.offene_seeds[]` wird beim Laden/Schreiben
+`arc.open_seeds[]` wird beim Laden/Schreiben
 automatisch aus `campaign.rift_seeds[]` synchronisiert und darf
 nie manuell editiert werden.
 
@@ -610,7 +610,7 @@ if paradox_level >= threshold:
                         label: seed.label,
                         status: "locked_until_episode_end"})
     campaign.rift_seeds.extend(cluster)
-    arc_dashboard.offene_seeds = campaign.rift_seeds  # Spiegel
+    arc.open_seeds = campaign.rift_seeds  # Spiegel
     paradox_level = 0
 
 # Episodenende: Seeds freischalten
