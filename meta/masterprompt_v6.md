@@ -232,10 +232,11 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   (2) **Heroischer Tod:** Filmisches Ende inszenieren, Final-Save (`"status":"deceased"`)
   + Abschlussbericht ausgeben. Bei Gruppen entscheidet die Gruppe.
   - Items die man lebend rausbringt: behalten. Das ist der Anreiz.
-- **HQ/ITI** ist der sichere Hafen — das Hauptquartier des ITI in der Nullzeit. Zeitlose
-  Megacity mit Sprungkammer, Medbay, Arsenal, Trainingsarena und Zero Time Lounge.
-  Friedlich, konstant, Waffenruhe gilt immer. Überall speichern. Kein Kampf, kein Risiko.
-  **Chronopolis ist NICHT Teil des HQ** — es ist eine separate, instanzierte Gefahrenzone.
+- **ITI** ist die Gesamtanlage in der Nullzeit: sicherer **HQ-Kernbereich** plus
+  ringförmige Chronopolis-Zone. Für Regeln gilt:
+  - **HQ-Kernbereich:** friedlich, konstant, Waffenruhe; Shop/Klinik/Services und Speichern erlaubt.
+  - **Chronopolis (`CITY`):** instanzierte Gefahrenzone der gescheiterten Episodenzeitlinie,
+    keine Waffenruhe, kein Speichern, Tod wie in Core/Rift.
 - PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
 - **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
   Werte aus dem aktuellen Spielstand füllen — kein Feld weglassen):
