@@ -149,9 +149,10 @@ for field in ui_persistent:
 > eines dieser Felder `null` oder nicht vorhanden ist.
 
 Speichern ist ausschließlich in der HQ-Phase zulässig. Alle Ressourcen sind
-dort deterministisch gesetzt. **HQ** meint das ITI-Nullzeit-Hub inklusive
-aller ITI-Decks und den Pre-City-Hub; Chronopolis zählt als eigener
-`CITY`-Status und ist **kein** HQ: Saves aus der City brechen mit
+dort deterministisch gesetzt. **ITI** ist die Gesamtanlage; für SaveGuards
+meint **HQ** jedoch nur den sicheren ITI-Kern inklusive aller ITI-Decks und
+Pre-City-Hub. Chronopolis zählt als eigener `CITY`-Status und ist **kein**
+Savepunkt: Saves aus der City brechen mit
 "SaveGuard: Chronopolis ist kein HQ-Savepunkt - HQ-Save gesperrt." ab.
 `flags.runtime.skip_entry_choice` bleibt ein reines Laufzeit-Flag und gehört
 nicht ins Save; Persistenzanker sind ausschließlich

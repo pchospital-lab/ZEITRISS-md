@@ -71,19 +71,32 @@ zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
 ### Chronopolis & ITI-Struktur
 Nach ihrer Rekrutierung erwachen die Helden im Kern des **Instituts für Temporale Intervention (ITI)**.
 Forschungslabore, Trainingsareale und das zentrale **Arc-Dashboard** bilden den ersten Anlaufpunkt
-für neue Chrononauten.
+für neue Chrononauten. Das ITI ist der **Überbegriff** aus sicherem HQ-Kern
+(Nullzeit-Hub) und der ringförmigen Chronopolis-Zone.
 Die **Chronopolis** windet sich ringförmig um das ITI, bleibt aber bis **Level 10**
 verschlossen. Dann erhalten die Chrononauten einen **Stadtschlüssel**. Chronopolis
 zeigt die **gescheiterte Zeitlinie** der aktuellen Episode — so sieht die Welt aus,
 wenn die Mission fehlschlägt. Die Stadt wird bei jedem Besuch frisch instanziiert
-(gelockt auf die Episodenepoche). Keine Waffenruhe, kein Speichern.
+(gelockt auf die Episodenepoche). Ton und Zustand liegen bei der Spielleitung:
+verwüstet, opportunistisch, trügerisch geordnet oder gemischt. Keine Waffenruhe,
+kein Speichern.
 Tod folgt denselben Konsequenzen wie in Core/Rift: kein Sonder-Respawn,
 kein Traum-Reset. In Gruppen greift die verbindliche Todesentscheidung
 (_Tod bleibt Kanon_ oder _Reload vom letzten Gruppen-DeepSave_). Items,
 die man lebend rausbringt, bleiben erhalten. Die Chronopolis ist eine
 temporäre Instanz von Kodex — keine Auswirkungen auf die echte Zeitlinie.
-HQ-Kernprozesse (Shop, Klinik, Speicherpunkte) bleiben
-im sicheren ITI-HQ verankert. Für erweiterte Übergaben können die optionalen Wrapper-Services aus dem
+
+**Chronopolis-Instanzlogik (SSOT):**
+- **Instanzlokal (`CITY`)** bleiben Kampfzustände, lokale Ereignisse,
+  Spawn-Logik, Händlerrotationen und Situationsgerüchte.
+- **Persistenz in HQ-Kanon** entsteht erst beim lebenden Rücktransfer:
+  Inventar, zulässige Einkäufe, bestätigte Intel und Fraktionsspuren werden
+  im Debrief in den HQ-Kern gespiegelt.
+- **HQ-Kernprozesse bleiben HQ-exklusiv:** Shop-Freischaltungen,
+  Klinik-/Heilroutinen, Lizenzfortschritt und Speichern laufen im
+  ITI-HQ-Kern, nicht in der City-Instanz.
+
+Für erweiterte Übergaben können die optionalen Wrapper-Services aus dem
 [Spieler-Handbuch](../core/spieler-handbuch.md) eingebunden werden - der Stadthub verweist lediglich darauf, ohne deren
 Details zu replizieren.
 Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.

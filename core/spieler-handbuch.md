@@ -62,20 +62,24 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Mystery-Casefile-Atmosphäre in historischem Setting.
 
 **HQ (Zwischen den Missionen):**
-- Sicherer Hafen in der Nullzeit.
-- Ausrüsten, Feilschen, Upgrades kaufen.
-- Bis inklusive **Level 9** bleibt Chronopolis gesperrt. Bei **Level 10**
-  schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei - ab dann
-  dechiffriert Kodex bei jedem Schleusendurchgang die Signatur.
+- Die **ITI-Gesamtanlage** ist eure Basis in der Nullzeit: sicherer HQ-Kern
+  plus der ringförmige Chronopolis-Bereich.
+- **HQ-Kernbereich** = sicherer Hafen für Ausrüsten, Feilschen, Upgrades,
+  Klinik und Speichern.
+- Bis inklusive **Level 9** bleibt der Zugang zur Chronopolis verriegelt. Bei
+  **Level 10** schaltet Kodex den **digitalen Chronopolis-Schlüssel** frei -
+  ab dann dechiffriert Kodex bei jedem Schleusendurchgang die Signatur.
 - **Chronopolis** zeigt die gescheiterte Zeitlinie der aktuellen Episode - so
-  sieht die Welt aus, wenn die Mission fehlschlägt. Düster, instanziert bei
-  jedem Besuch, keine Waffenruhe. Items die man lebend rausbringt: behalten.
+  sieht die Welt aus, wenn die Mission fehlschlägt. Die Stimmung ist offen:
+  verwüstet, falsch geordnet, überraschend funktional oder alles zugleich,
+  je nach Darstellung der Spielleitung. Die Stadt wird pro Besuch instanziert,
+  hat keine Waffenruhe, und was ihr lebend herausbringt, bleibt erhalten.
   **Tod folgt denselben Konsequenzen wie in Core/Rift-Einsätzen** (kein
   Traum-Reset, kein kostenloses Aufwachen). Vor jedem Schleuseneintritt fragt
-  Kodex daher explizit, ob ihr im HQ noch einen DeepSave anlegen wollt.
+  Kodex daher explizit, ob ihr im HQ-Kern noch einen DeepSave anlegen wollt.
   Speichern in Chronopolis bleibt gesperrt.
-- **HQ** ist der sichere Hafen - Nullzeit-Blase. Friedlich, konstant, überall
-  speichern. Kein Kampf, kein Risiko. Zurück ins HQ, durchatmen, wieder raus.
+- **Merksatz:** ITI ist der Überbegriff; das **HQ** ist der sichere Kern,
+  Chronopolis der gefährliche Ringraum.
 
 **Kodex (Eure KI):**
 - Immer dabei als AR-Overlay (wie ein taktischer Bordassistent).
