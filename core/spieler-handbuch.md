@@ -369,7 +369,7 @@ Siehe auch:
 **Spieler:**
 `Spiel starten (solo schnell) - Rolle: Sniper Alleingänger`
 
-**SL (MyGPT):**
+**SL (KI-SL):**
 
 > **Briefingraum**. Projektionen flackern.
 > **Kodex-Header:** `EP 01 · MS 01 · SC 01/12 · MODE CORE · Objective: Primärziel sichern`
@@ -392,7 +392,7 @@ Spiel starten (gruppe schnell)
 [C] - Rolle: Face
 ```
 
-**SL (MyGPT):**
+**SL (KI-SL):**
 
 > **Kodex-Archiv - Rückkehrprotokoll aktiviert.**
 > Synchronisiere Einsatzdaten: **A** (Lvl 2), **B** (Lvl 2).
@@ -889,6 +889,6 @@ spielerfreundliche Noir-Varianten übersetzt.
 [char-gear]: ../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausruestung--cyberware-hq-phase
 [psi-pp-regeneration]: ../systems/kp-kraefte-psi.md#psi-pp-regeneration
 [psi-heat-track]: ../systems/kp-kraefte-psi.md#psi-heat-track
-[llm-ready-badge]: https://img.shields.io/badge/LLM--Ready-%E2%9C%85-success
+[llm-ready-badge]: https://img.shields.io/badge/KI-SL--Ready-%E2%9C%85-success
 
 © 2025-2026 pchospital - ZEITRISS® - private use only. See LICENSE.

@@ -34,7 +34,7 @@ machen, ohne das Pen-&-Paper-Flair zu verlieren.
   verlieren. Militärische Gefechte, diplomatische Verhandlungen, psychologische Machtspiele – all
   das wird spielbar, in cineastischer Manier.
 - **Kreative Generatoren:** Eine Toolbox an **Zufallstabellen** und Ideenlisten unterstützt die
-  Spielleitung (oder GPT als KI-Spielleiter) dabei, spontan Inhalte zu erschaffen. Sei es ein
+  Spielleitung (oder KI-SL als KI-Spielleiter) dabei, spontan Inhalte zu erschaffen. Sei es ein
   unvorhergesehener Abstecher in eine neue Epoche, ein schnell erdachter NPC, ein moralisches
   Dilemma oder ein kurioses Artefakt – mit diesen Generatoren zaubert ihr im Handumdrehen stimmige
   **Orte, NSCs, Missionsideen, Epochen-Stimmungen** und temporale Kuriositäten aus dem Hut. Ideal
@@ -298,7 +298,7 @@ vorstellen wie geistige Hitpoints, die das Selbstvertrauen oder die Standfestigk
 repräsentieren. Erreicht der Wert 0, ist eine Seite argumentativ besiegt oder überzeugt.
 
 - **Würfel & Rollenspiel Hand in Hand:** Die Spieler sollten aktiv ausspielen, _was_ ihre Figur sagt
-  – platte Zahlenwürfe allein überzeugen keinen NSC. Der SL (bzw. GPT als KI-Spielleiter) kann für
+  – platte Zahlenwürfe allein überzeugen keinen NSC. Der SL (bzw. KI-SL als KI-Spielleiter) kann für
   besonders treffende oder kreative Argumente situative **Boni oder Mali** auf die
   Überreden-/Überzeugen-Proben vergeben. So fließt das Rollenspiel in die Mechanik ein.
 

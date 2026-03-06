@@ -1285,7 +1285,7 @@ die Debrief-Zeilen.
 
 **Legacy-Normalisierung (ohne runtime.js)**
 
-- Encounter mit Alt-Saves laufen vollständig im LLM - es gibt keine
+- Encounter mit Alt-Saves laufen vollständig im KI-SL - es gibt keine
   JavaScript-Hooks im Produktivbetrieb. Deshalb erstellt die Spielleitung bei
   Legacy-Daten den `character{}`-Block manuell, bevor irgendetwas geladen oder
   geprüft wird:

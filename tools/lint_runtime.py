@@ -160,6 +160,32 @@ def check_forbidden_terms_in_ssot(root: Path, fails: list[str]) -> None:
                 log.info("[ OK ] %s enthält keinen verbotenen Begriff /%s/", rel_path, pattern)
 
 
+def check_forbidden_meta_terms_in_runtime(root: Path, fails: list[str]) -> None:
+    forbidden_patterns: tuple[str, ...] = (
+        r"\bGPT\b",
+        r"\bMyGPT\b",
+        r"\bLLM\b",
+        r"\bDirector\b",
+        r"\bDirectors\b",
+    )
+
+    for md_file in iter_runtime_markdown(root):
+        rel = md_file.relative_to(root)
+        try:
+            text = read_text(md_file)
+        except FileNotFoundError as exc:
+            msg = f"{rel}: {exc}"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        for pattern in forbidden_patterns:
+            if re.search(pattern, text):
+                msg = f"{rel}: verbotener Meta-Begriff gefunden: /{pattern}/"
+                log.error("[FAIL] %s", msg)
+                fails.append(msg)
+
+
 def iter_runtime_markdown(root: Path) -> Iterable[Path]:
     for directory in RUNTIME_DIRS:
         base = root / directory
@@ -317,6 +343,7 @@ def main() -> int:
         check_sl_reference_save_contract(sl_ref, fails)
 
     check_forbidden_terms_in_ssot(root, fails)
+    check_forbidden_meta_terms_in_runtime(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
