@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { version: ZR_VERSION = '4.2.6' } = require('./package.json');
 
-const RANK_ORDER = ['Recruit', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
+const RANK_ORDER = ['Rekrut', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
 const COMPLIANCE_NOTICE =
   'Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.';
 
@@ -252,7 +252,7 @@ const CHRONO_CATALOG = [
     name: 'Era-Skin: Æon-Nomadenmantel',
     category: 'Era-Skins',
     price: 200,
-    minRank: 'Recruit',
+    minRank: 'Rekrut',
     minResearch: 0
   },
   {
@@ -2847,7 +2847,7 @@ function ensure_character(){
     character.self_reflection = state.logs.flags.self_reflection;
   }
   if (!character.rank){
-    character.rank = 'Recruit';
+    character.rank = 'Rekrut';
   }
   if (!character.cooldowns || typeof character.cooldowns !== 'object'){
     character.cooldowns = {};
@@ -7008,6 +7008,7 @@ function handleArenaCommand(cmd){
 }
 
 function rankIndex(rank){
+  if (rank === 'Recruit') return 0;
   const idx = RANK_ORDER.indexOf(rank);
   return idx === -1 ? 0 : idx;
 }
@@ -7114,7 +7115,7 @@ function chronopolisStockReport(){
   const chrono = rollChronopolisStock();
   const char = ensure_character();
   const research = chrono_research_level();
-  const rankIdx = rankIndex(char.rank || 'Recruit');
+  const rankIdx = rankIndex(char.rank || 'Rekrut');
   const lines = [];
   lines.push(`Chronopolis · Tagesangebot ${chrono.day}`);
   const grouped = chrono.stock.reduce((acc, item) => {
@@ -7125,7 +7126,7 @@ function chronopolisStockReport(){
   Object.keys(grouped).sort().forEach((category) => {
     lines.push(`— ${category} —`);
     grouped[category].forEach((item) => {
-      const needRank = rankIndex(item.minRank || 'Recruit');
+      const needRank = rankIndex(item.minRank || 'Rekrut');
       const needResearch = Number.isFinite(item.minResearch) ? item.minResearch : 0;
       const rankOk = rankIdx >= needRank;
       const researchOk = research >= needResearch;
