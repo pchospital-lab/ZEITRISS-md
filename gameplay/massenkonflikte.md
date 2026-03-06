@@ -394,7 +394,7 @@ müssen. Ebenso entdeckt das HUD nicht automatisch Fallen oder Rätsel-Lösungen
 haben entsprechende Scanner oder Scanner-Drohnen dabei. Kurz: **Der Kodex liefert Kontext und
 Übersicht, ersetzt aber nie die Entscheidungen der Spieler.** Er ist ein Werkzeug, kein Autopilot.
 
-Die Spielleitung (oder GPT als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
+Die Spielleitung (oder KI-SL als KI-Spielleiter) kann das HUD nutzen, um **Meta-Informationen in die
 Spielwelt einzubetten**. Fragt ein Spieler etwa außerhalb der Rolle: "Wie viele LP habe ich noch?",
 kann die SL antworten: _"Ihr fühlt euch schwer angeschlagen - euer HUD zeigt euren
 Gesundheitsbalken bei ~20 %."_ So bleiben Zahlen greifbar, ohne die Immersion zu brechen. Regelwerte

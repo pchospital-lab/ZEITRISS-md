@@ -44,7 +44,7 @@ Dieses Modul 8A verzahnt die Kampagnenleitfäden aus Modul 6 mit dem nachgereich
 Auch der beste Spielleiter kann nicht jede mögliche Idee der Spieler vorausplanen - vor allem nicht
 im offenen Sandkasten-Spiel. Hier kommen **kreative Generatoren** ins Spiel: strukturierte
 Zufallstabellen oder Ideensammlungen, die mit wenigen Würfen oder Stichworten frische Einfälle
-liefern. GPT als KI-Spielleiter hat den Vorteil, riesiges Wissen parat zu haben; dennoch ist es
+liefern. KI-SL als KI-Spielleiter hat den Vorteil, riesiges Wissen parat zu haben; dennoch ist es
 hilfreich, ihm klare Vorgaben zu geben, was für einen Inhalt man gerade braucht. Die folgenden
 Generatoren dienen als Starthilfe für improvisierte Orte, Charaktere, Missionen und Kuriositäten.
 Ihr könnt sie klassisch per Würfel nutzen (z. B. W6 oder W20) oder frei nach Gefühl auswählen - je
@@ -52,7 +52,7 @@ nachdem, was zur Situation passt.
 
 _Hinweis:_ Diese Generatoren sind ausdrücklich erweiterbar und anpassbar. Ihr könnt eigene Einträge
 ergänzen oder die Tabellen auf eure Kampagne zuschneiden. Sie sollen vor allem zeigen, wie man mit
-ein paar Schlagworten einen ganzen Kosmos an Ideen entfesselt. GPT kann aus diesen Stichpunkten
+ein paar Schlagworten einen ganzen Kosmos an Ideen entfesselt. KI-SL kann aus diesen Stichpunkten
 detaillierte Beschreibungen, NSC-Porträts oder Plothooks entwickeln. Also nutzt sie, um euer
 ZEITRISS-Abenteuer bunt und lebendig zu halten!
 
@@ -198,7 +198,7 @@ Die Runtime verwendet dieselben Werte, wenn kein konkreter Betrag im Debrief
 ## Automatischer Mission Seed
 
 Dieses Start-Tool zieht zu Beginn einer Sitzung je einen Eintrag aus drei Listen
-und kombiniert sie zu einem knappen Briefing. GPT würfelt verdeckt und stellt das Ergebnis vor.
+und kombiniert sie zu einem knappen Briefing. KI-SL würfelt verdeckt und stellt das Ergebnis vor.
 Bei der Umsetzung orientiert sich die KI an der **Briefing-Vorlage (Layered)**
 aus dem Toolkit: Zeit & Ort, eine mögliche Abnormalität und die Risikostufe werden
 im ersten Briefing genannt. **Der gezogene Twist bleibt vorerst geheim** und dient
@@ -950,7 +950,7 @@ Der SG einer Mission richtet sich allein nach der Anzahl offener Seeds. Jedes �
 ## Missions-Generator: Kleine Aufträge und Dilemmata {#missions-generator}
 
 Nicht jede Session ist ein großes Story-Kapitel - manchmal möchten die Spieler im freien Spiel einen
-kurzen Auftrag angehen oder euer GPT improvisiert einen Nebenquest. Der Missions-Generator liefert
+kurzen Auftrag angehen oder euer KI-SL improvisiert einen Nebenquest. Der Missions-Generator liefert
 schnelle **Missionsideen** mit einem eingebauten Twist oder Dilemma, damit auch kleine Einsätze
 dramatisch und interessant verlaufen.
 

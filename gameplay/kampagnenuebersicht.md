@@ -64,7 +64,7 @@ Um einen sicheren Spielrahmen zu schaffen, empfiehlt das ITI die Nutzung von
 [Lines & Veils](../core/sl-referenz.md#lines--veils-optional), der **X-Card** sowie einem
 knappen Session-0-Bogen. Legt fest, welche Themen tabu sind oder nur angedeutet
 werden. Die X-Card erlaubt allen, eine Szene sofort zu beenden. Im Chat reicht
-ein einfaches **"X"**, worauf der Director pausiert, nachfragt und die Szene bei
+ein einfaches **"X"**, worauf die Spielleitung pausiert, nachfragt und die Szene bei
 Bedarf anpasst. Das Formular
 zur Session 0 klärt Erwartungen und Grenzen schon vor dem ersten Auftrag.
 
@@ -107,15 +107,15 @@ Sie verbindet das sichere HQ mit der künftigen Stadtsphäre und vermittelt, wel
 - **Ablauf:** Nach dem ersten Einsatz kehrt die Crew ins HQ zurück. Kodex kündigt optional den Transit an und fragt nach,
   ob die Gruppe eine kurze Vorschau nutzen möchte. Das Setting wirkt wie ein unterirdischer Andockring mit Startliften,
   Sicherheits-Schleusen und Sichtfenstern auf die ringförmige Metropole.
-- **Inhalt:** Der GPT zeigt pro HQ-Zyklus maximal zwei Händler-Vorschauen (z. B. "Archiv-Labor" oder "PX-Schmiede"),
+- **Inhalt:** Der KI-SL zeigt pro HQ-Zyklus maximal zwei Händler-Vorschauen (z. B. "Archiv-Labor" oder "PX-Schmiede"),
   kurze Radiomeldungen über aktuelle Fraktionskonflikte und ein Protokoll über offene Stadtaufträge. Einkauf und
   Rufgewinn bleiben deaktiviert, **HQ-Saves sind erlaubt** - die Vorschau dient nur als atmosphärische Brücke.
 - **Persistenz & Warnung:** Sobald Kodex erstmals auf die Risiken des Stadteintritts hinweist, merkt sich das System diese
   Warnung, damit beim späteren Zugang kein doppeltes Banner erscheint.
-- **Kampagnen-Nutzen:** Nutzt den Pre-Hub, um Fraktionsinterventionen oder Arc-Dashboard-Updates vorzubereiten. Der GPT kann
+- **Kampagnen-Nutzen:** Nutzt den Pre-Hub, um Fraktionsinterventionen oder Arc-Dashboard-Updates vorzubereiten. Der KI-SL kann
   hier Foreshadow-Snippets für kommende Missionen streuen oder Hinweise auf künftige Fraktionsquests platzieren.
 
-> **Hinweis für Directors:** Die Pre-Hub-Passage funktioniert auch in Gruppen, die Chronopolis langfristig meiden möchten.
+> **Hinweis für Spielleitungen:** Die Pre-Hub-Passage funktioniert auch in Gruppen, die Chronopolis langfristig meiden möchten.
 > In diesem Fall nutzt ihr den Transit als regelmäßiges Briefing-Setpiece, ohne den Stadtschlüssel jemals auszuhändigen.
 
 ### Bewusstsein, Absolut und Realität

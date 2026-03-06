@@ -1021,7 +1021,7 @@ Wählt einen Aspekt (oder mehrere), der die aktuelle Epoche prägt:
      für gewisse Handlungen verboten, oder ein "Zeit-Orakel" muss wichtige Entscheidungen absegnen.
 
 **Beispiel:** In einer Renaissance-Stadt (Florenz 1500) würfle ich auf _Sitten & Aberglaube_ und
-erhalte eine 2: Bestimmte Worte werden nie ausgesprochen. GPT interpretiert dies so: _In Florenz
+erhalte eine 2: Bestimmte Worte werden nie ausgesprochen. KI-SL interpretiert dies so: _In Florenz
 wagt niemand, direkt vom "Teufel" zu sprechen - man umschreibt ihn als "den mit den Hörnern"._ Der
 Grund: Man glaubt, Worte beschwören Realität. Die Chrononauten merken das deutlich, als ein NSC
 zusammenzuckt, weil einer von ihnen unbekümmert **"diavolo"** gesagt hat. - Schon bekommt ein
@@ -1049,7 +1049,7 @@ einfaches Gespräch sofort eine interessante kulturelle Note!
      haben "Recht", je nachdem welche Zeitlinie man fragt.
 
 Solche Kulturfragmente lassen die Welt lebendig und eigen wirken. Die Helden merken: **Jede Epoche
-hat ihre Eigenheiten**, und wenn sie sich klug darauf einlassen (bzw. GPT sie daran erinnert),
+hat ihre Eigenheiten**, und wenn sie sich klug darauf einlassen (bzw. KI-SL sie daran erinnert),
 können sie so manch unnötigen Konflikt vermeiden oder Sympathien gewinnen. Vielleicht machen sie bei
 einem lokalen Fest mit und gewinnen dadurch Verbündete - oder sie nutzen einen Aberglauben gezielt
 

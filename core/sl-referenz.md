@@ -207,7 +207,7 @@ Im Live-Chat kann nicht gescrollt werden. Diese Befehle rufen sofort Regeln ab:
   - Ask→Suggest-Fallback nutzen: Aktionen als "Vorschlag:" kennzeichnen und auf
     Bestätigung warten.
 
-### Start & Load - LLM-Dispatcher (ohne externe Runtime)
+### Start & Load - KI-SL-Dispatcher (ohne externe Runtime)
 
 Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für Startbefehle.
 
@@ -783,7 +783,7 @@ Chronopolis-Sinks (Toast nur bei Abweichungen).
 Das kanonische JSON-Schema `systems/gameflow/saveGame.v6.schema.json` bildet
 alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
 `Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
-Für MyGPT ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
+Für KI-SL ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
 ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
 Pflichtset und den Baum `save_version/zr_version/location/phase → character
 → campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
