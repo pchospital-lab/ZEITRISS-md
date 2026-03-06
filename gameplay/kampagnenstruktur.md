@@ -2031,17 +2031,16 @@ Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
    Punktestand und Rundenfortschritt. Nach jedem Duell kann eine Revanche
    gestartet oder die Arena verlassen werden. Wer nach einem Sieg weiterspielt
    und die Serie verliert, erhält keinen Bonus.
-5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren. Wer eine
-   Best-of-Three-Serie gewinnt und danach aussteigt, erhält **+1 Px**, sofern die
-   laufende Episode noch keinen Arena-Bonus verbucht hat. Kodex markiert den
-   Abschluss mit einem `arena_episode_stamp`. Die Startgebühr fällt bei jedem
-   neuen Lauf erneut an.
+5. **Belohnungen:** Siege bringen CU, Ruf und steigende Multiplikatoren.
+   Die Arena vergibt **kein Px** und verändert `campaign.px` nie direkt.
+   Kodex markiert den Abschluss mit einem `arena_episode_stamp`, damit
+   episodische Belohnungen (ohne Px) nachvollziehbar bleiben.
+   Die Startgebühr fällt bei jedem neuen Lauf erneut an.
 
 ```typescript
-// Paradoxon-Bonus der PvP-Arena - nur einmal pro Episode
+// Arena vergibt keine Paradoxon-Punkte; nur ökonomische/soziale Rewards
 const episode = campaign.episode ?? "freeplay";
-if (team_wins >= 2 && exit_arena && arena.last_reward_episode !== episode) {
-  group.paradox += 1;
+if (team_wins >= 2 && exit_arena) {
   arena.last_reward_episode = episode;
 }
 ```
