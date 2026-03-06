@@ -358,7 +358,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - **Phase-Strike Arena.** `arenaStart(options)` zieht die Arena-Gebühr aus
   `economy`, setzt `phase_strike_tax = 1`, blockiert HQ-Saves und meldet Tier,
   Szenario, Policy sowie Px-Status per HUD-Toast. Die Gebühr wird parallel im HQ-Pool
-  (`economy.cu`) und im Credits-Fallback (`economy.credits`) geführt;
+  (`economy.hq_pool`) geführt; der Credits-Fallback bleibt reiner Legacy-Importpfad;
   `sync_primary_currency()` hält beide Felder deckungsgleich und protokolliert
   bei Arena-Gebühren, Wallet-Splits und Markt-Käufen `currency_sync`-Traces
   mit Delta und Grund.
@@ -951,7 +951,7 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   protokollierten Cuts erscheint zusätzlich `How-to-Guard n×`.
 - Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche
   Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den
-  Restbestand (`economy.cu`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
+  Restbestand (`economy.hq_pool`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
   sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus
   `party.characters[]`; die Fallback-Struktur `team.members[]` bleibt
   ausschließlich für Legacy-Migrationen reserviert.
@@ -968,9 +968,9 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   Roster-Reihenfolge, verteilt Rundungsreste von oben nach unten und schließt
   mit einem einzigen Hinweis auf den verbleibenden HQ-Pool (`Rest … CU im
 HQ-Pool`).
-- **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.cu`) und
-  Wallets (`economy.wallets{}`) akzeptieren numerische Strings wie `"1500"` und
-  wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
+- **String-Eingaben für CU** bleiben erhalten: HQ-Pool (`economy.hq_pool`) und
+  Charakter-Wallets (`characters[].wallet`) akzeptieren numerische Strings wie `"1500"`
+  und wandeln sie automatisch in ganzzahlige Chrono-Units um; nur nichtnumerische
   Werte fallen auf `0` zurück.
 - **High-Level-Ökonomie:** Modul 15 enthält eine Tabelle für Level 100/400/1000
   (Belohnung vs. Sink). Hazard-Pay und `seed_multi` folgen der gleichen Formel,
