@@ -830,10 +830,11 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
 
 ## ITI-HQ & Chronopolis {#hq-chronopolis}
 
-- **ITI-HQ** bleibt das zentrale Hub mit Shop, Clinic, Workshop,
-  Briefing und Fraktionskontakten; hier darf gespeichert werden.
-- **HQ-Definition:** Zum HQ zählen das ITI-Nullzeit-Hub, alle ITI-Decks und der
-  Pre-City-Hub. Chronopolis gehört **nicht** dazu (eigener Status `CITY`).
+- **ITI** ist der Überbegriff für eure Basis in der Nullzeit:
+  HQ-Kern + Chronopolis-Ringstruktur.
+- **HQ-Definition (Save/Service):** Zum HQ zählen der sichere ITI-Kern,
+  alle ITI-Decks und der Pre-City-Hub. Chronopolis läuft als eigener
+  Status `CITY` und ist kein Savepunkt.
 - **Pre-City-Hub** dient als gesicherte Übergangszone zwischen HQ und Chronopolis.
   - Zugang erfolgt nach dem ersten HQ-Briefing: Kodex bietet den "Transitpfad" an,
     sobald `campaign.loc` erneut auf `HQ` gesetzt wurde und die Crew mindestens
