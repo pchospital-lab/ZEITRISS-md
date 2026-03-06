@@ -180,22 +180,21 @@ dabei eine Rolle spielen:
   die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** - Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.
 
-**Psionik als Werkzeug:** _Zeitriss_ nutzt fokussierte Gehirntrainings als **Psionik** - die
-mentalen Kräfte des Geistes. Einige Charaktere (Spieler und NPCs) verfügen über besondere
-Fähigkeiten wie Telepathie, Telekinese, präkognitive Visionen oder Gedankenkontrolle. Diese
-Psi-Kräfte sind das Ergebnis genetischer Experimente, intensiven Trainings oder der
-Einwirkung experimenteller oder zeitversetzter Technologie. Begabte Psioniker können etwa
-Gedanken lesen oder
-Gegner mittels Telekinese entwaffnen. Technologische Hilfsmittel verstärken oder blockieren
-Psionik: Gedankenhemmer, Psi-Verstärker und neuronale Implantate sind Teil der Spielwelt. In
-der Kampagne begegnen die Helden psionisch begabten Widersachern - vom Montauk-Telepathen,
-der Emotionen manipuliert, bis zum kybernetisch aufgerüsteten Konzern-Assassinen, der Telekinese
-einsetzt, um Kugeln in der Luft aufzuhalten. Die **Regelmechaniken** für Psionik können analog
-zu Magieregeln gehandhabt werden, mit Fokus auf Sci-Fi-Erklärungen (z. B. _Psi-Felder_ statt
-Magieaura). Dieses zentrale Element verleiht den Missionen einen technisch erklärten Vorteil
-und eröffnet kreative Lösungswege für die Spieler. Scheinbar magische Phänomene werden
-damit immer als Technologie, temporale Wirkung oder Psi-Effekt interpretiert (siehe Abschnitt
-"Grundidee" im README).
+**Psionik als Weltstandard mit Fokus auf Zeitreisende:** _Zeitriss_ verankert Psionik fest in der
+Weltlogik, aber vor allem im Umfeld von Zeitreisenden: Chrononauten und die zentralen
+Gegnerfraktionen sind die häufigsten Träger psi-basierter Phänomene. Ob ein eigener Charakter
+Psi-Kräfte aktiv nutzen kann, bleibt individuell und läuft über `has_psi`.
+
+In der Charaktererschaffung bleibt Psi bewusst weniger prominent, damit Entdeckung und Freischaltung
+im laufenden Spiel möglich bleiben. Wer gezielt einen Psi-Charakter bauen will, kann das von Anfang
+an einleiten; alternativ kann ein Charakter Psionik erst später über Training, Ereignisse oder
+Story-Fortschritt erschließen.
+
+Epochenfiguren außerhalb des Chrononauten-Kerns (z. B. Schaman:innen, Wahrsager:innen, lokale
+Mystiker) können in seltenen Fällen dieselben Effekte zeigen, benennen sie jedoch kulturell anders.
+Psi-Effekte werden insgesamt nüchtern als Neurotraining, Resonanzphänomen oder zeitversetzte
+Technologie gelesen. Gleichzeitig bleibt der Spielfluss robust: Schlüsselszenen bieten immer auch
+nicht-psionische Lösungswege.
 
 **Zeitreisen und alternative Zeitlinien:** Die Kampagne spielt mit dem Konzept des Zeitflusses und
 beantwortet ständig die Frage "Was wäre, wenn…?". Mithilfe experimenteller Zeitmaschinen
@@ -204,7 +203,7 @@ und instabiler _Zeitrisse_ werden die Spieler in verschiedene Epochen versetzt. 
 verändern. Die Helden erleben zum Beispiel eine Welt, in der fortschrittliche Zeppeline den Himmel
 beherrschen, oder einen verzweifelten Mars-Außenposten, der ohne Unterstützung von der Erde ums
 Überleben kämpft. Jede Mission präsentiert ein einzigartiges Setting und Szenario mit eigenen
-Herausforderungen, doch alle Fäden laufen schließlich wieder zusammen. Der Spielleiter (MyGPT)
+Herausforderungen, doch alle Fäden laufen schließlich wieder zusammen. Die Spielleitung (KI-SL)
 sollte darauf achten, dass größere Paradoxien begrenzt bleiben - kleinere Änderungen der
 Vergangenheit führen zu "Was-wäre-wenn"-Abenteuern, doch die Hauptrealität der Spieler
 bleibt durch Korrekturen oder natürliche Zeitkorrektur bestehen. Dieses Spannungsfeld aus
