@@ -8,7 +8,7 @@ tags: [core, advanced]
 
 ## Inhalt
 
-- Würfelmechanik: Explodierende 6 & W10-Variante
+- Würfelmechanik: Explodierende Würfel mit Burst-Cap
 - HUD-Management: Ereignis-Alerts & Info-Triage
 - Attributs-Skalierung: Heldenwürfel & Endgame-Balance
 - Speichersystem-Erweiterung: Versionskennzeichnung & Kompatibilität
@@ -34,10 +34,10 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
 
 **Dieses Modul enthält im Überblick:**
 
-- **Neue Würfelmechaniken:** Einführung der **"Exploding 6"**-Regel für W6-Proben, die bei einer
-  gewürfelten 6 einen zusätzlichen Wurf gewährt - für unerwartete Spitzenresultate. Außerdem eine
-  **optionale** Regelvariante, sämtliche Proben mit W10 statt W6 durchzuführen, um eine feinere
-  Granularität und ein breiteres Erfolgsspektrum zu ermöglichen.
+- **Neue Würfelmechaniken:** Einführung der **"Exploding"**-Regel mit
+  **Burst-Cap 1**: Jeder Würfel explodiert bei seinem Maximum genau einmal.
+  Proben nutzen standardmäßig W6, ab Attribut 11 automatisch W10 und ab
+  Attribut 14 zusätzlich den Heldenwürfel.
 - **HUD-Management & Alerts:** Ein ereignisgesteuertes Hinweis-System für das HUD der Chrononauten, das
   bei definierten kritischen Zuständen (z. B. Lebenspunkte \< 25 % oder wenn der Paradoxon-Index steigt)
   automatisch Meldungen einblendet. Dazu kommen Vorschläge für **Info-Triage**, damit in brenzligen
@@ -60,7 +60,7 @@ so filmisch wie im Kino zu gestalten. Kurzum: Mehr **Drama** und **Tiefe**, aber
   dargestellt, ohne an Dramatik einzubüßen - ganz im Stil eines mitreißenden Actionfilms, bei dem die
   Heldentaten den Ausschlag geben.
 
-## Würfelmechanik: Explodierende 6 & W10-Variante
+## Würfelmechanik: Exploding mit Burst-Cap
 
 Nervenzerfetzende Würfelwürfe gehören zum Kern von ZEITRISS. Die zentrale Mechanik ist
 **Burst-Cap Exploding**: **Jeder Würfel darf bei seinem Maximalwert genau einmal explodieren.**
@@ -78,12 +78,9 @@ ob dieses glücklichen Ausgangs.)_
 
 [[RULE]] Burst-Cap Exploding: Bei Maximum (6 bzw. 10) wird einmal erneut geworfen und addiert. Kein Ketten-Exploding. [[/RULE]]
 [[RULE]] Tooltip: "W10 ab 11, Heldenwürfel ab 14" [[/RULE]]
-**Optionale W10-Regel:** Für Gruppen, die eine feinere Abstufung bei Würfelergebnissen bevorzugen,
-bietet ZEITRISS alternativ den **Zehnseitigen Würfel (W10)** als Basis für Proben. Mit einem W10
-erstreckt sich der mögliche Wertebereich von 1-10 (anstatt 1-6), wodurch **Granularität** und
-Varianz zunehmen. Kleine Unterschiede in Attributen oder Fertigkeiten wirken sich damit etwas
-weniger stark absolut aus, was Proben **ausgewogener** machen kann. Die SL sollte die
-Schwierigkeitsgrade der Proben bei Verwendung von W10 im Blick behalten.
+**W10-Schwelle als Standard:** ZEITRISS nutzt als Baseline W6. Sobald ein
+Attribut **11+** erreicht, wird diese Probe mit W10 gewürfelt. So bleibt das
+Grundspiel schnell, während hohe Werte spürbar mehr Granularität erhalten.
 In der Regel kommen Aufgaben ohne Modifikator aus; die Zielzahlen bleiben gleich. Das
 additive Modell lautet:
 
@@ -99,16 +96,14 @@ Bei Remote-Runden können Würfe als JSON-Log geteilt werden.
 {"roll":"2d6","result":[5,6],"timestamp":"2024-01-01T12:00:00Z"}
 ```
 
-Spannungsbreite; ob man zusätzlich explodierende Würfel bei 10 einsetzt, kann die Gruppe nach
-gewünschter Dramaturgie entscheiden. In jedem Fall gilt: Beide Mechanismen - **Explodierende 6** und
-der **W10-Ersatz** - sind **optional** und sollten nur eingesetzt werden, wenn sie zum Stil der
-Runde passen. Sie bieten frischen Wind für erfahrene Runden, ohne das Grundsystem fundamental zu
-verändern.
+Spannungsbreite; die Burst-Cap-Regel gilt dabei für **beide** Würfeltypen
+(W6 und W10) identisch und ohne Sonderfälle.
 
-**Schwellen-Kalibrierung:** Standardproben nutzen einen W6. Als Basis gelten die Zielzahlen aus
-der Referenz unten: **Leicht 5**, **Mittel 8-9**, **Schwer 12** und **Extrem 15+**. Wer die optionale W10-
-Variante spielt, behält dieselben Zielwerte bei. Ein **Heldenwürfel** ermöglicht einmal pro Szene
-einen kostenlosen Reroll.
+**Schwellen-Kalibrierung:** Standardproben nutzen einen W6; ab Attribut 11
+läuft dieselbe Zielzahl-Logik mit W10 weiter. Als Basis gelten die Zielzahlen
+aus der Referenz unten: **Leicht 5**, **Mittel 8-9**, **Schwer 12** und
+**Extrem 15+**. Ein **Heldenwürfel** (ab 14) ermöglicht einmal pro Szene einen
+kostenlosen Reroll.
 
 **Hinweis:** Durch explodierende Würfel können gerade unwahrscheinliche Aktionen spektakulär
 gelingen. Die Spielleitung sollte dies erzählerisch hervorheben - z. B. durch cineastische
@@ -209,7 +204,7 @@ automatisch **+1 Attribut** an. Erreicht ein Wert **11**, wechselt der entsprech
 ins Spiel: der **Heldenwürfel**. Dieser besondere Würfel stellt sicher, dass **Attributswerte über 10**
 spürbar belohnt werden, ohne aber die Spielbalance zu sprengen.
 
-Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und schaltet auf Wunsch den W10 frei.
+Ein Wert oberhalb von 10 signalisiert echtes Endgame-Kaliber und aktiviert den W10 automatisch.
 
 ### Heldenwürfel (ab Attribut 14)
 
