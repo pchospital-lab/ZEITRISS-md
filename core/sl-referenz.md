@@ -243,74 +243,53 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
   Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
   Roster-Container (Host = Index 0).
-- v6-Saves (erkennbar an `save_version: 6`) werden beim Laden automatisch
-  migriert: `party.characters[]` + `team.members[]` → `characters[]`,
-  `economy.cu` → `economy.hq_pool`, Laufzeit-Felder entfernt.
+- v6-Saves (`save_version: 6`) bleiben reiner Importpfad und werden beim Laden
+  automatisch auf v7 gehoben (`v: 7`): Legacy-Roster (`party.characters[]`,
+  `team.members[]`) wird in `characters[]` zusammengeführt; Legacy-Pool
+  `economy.cu` wird auf `economy.hq_pool` normalisiert.
 - `character.id`, `character.attributes.SYS_max`,
   `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns` sind immer Teil des HQ-Deepsaves.
-- `campaign.px`, `economy` (inklusive `wallets{}`), `logs` (inklusive `hud`,
-  `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
+- `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `logs` (inklusive
+  `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
-  `flags`, `flags.merge_conflicts`) sowie `ui` und `arena` werden vom
+  `flags`, `flags.merge_conflicts`) sowie `ui`, `arena` und `arc` werden vom
   Serializer garantiert. `logs.field_notes[]` ist optional; fehlt der Block,
   legt der Serializer ein leeres Array an. `character.quarters` wird für HQ/
-  Profil-Infos mitgespeichert; `arc_dashboard.timeline` hält Kampagnenereignisse
-  fest. Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
-  `zone=safe|combat`, `match_policy=sim|lore` und klemmt Teamgrößen hart auf 1-5.
-  Der SaveGuard wertet `queue_state` mit und blockiert HQ-Deepsaves, solange der State nicht
-  `idle` ist; Matchmaking-States zählen als aktiv. Saves aus Chronopolis/CITY
-  werden mit "SaveGuard: Chronopolis ist kein HQ-Savepunkt" verworfen. Der
-  Load-Merge
-  schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone, Reset-/Resume-
-  Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und dedupliziert
-  identische Konflikt-Records, damit Cross-Mode-Imports einheitliche Belege
-  liefern. Solo-/Px-5-Runs stapeln offene `campaign.rift_seeds[]` ohne Hard-
-  Limit; beim HQ-Merge deckelt die Runtime den offenen Pool auf 12, schiebt
-  Überschüsse an ITI-NPC-Teams und schreibt sowohl ein
-  `rift_seed_merge_cap_applied`-Trace (kept/overflow) als auch einen
-  `merge_conflicts`-Eintrag (`field='rift_merge'`). Arena-Resets setzen immer einen
-  HUD-Toast "Merge-Konflikt: Arena-Status verworfen" und hinterlegen den
-  Konflikt im Trace; `reset_arena_after_load()` priorisiert `arena.previous_mode`
-  und `resume_token.previous_mode`, damit der Kampagnenmodus nach aktiven Läufen
-  auf den Ursprungswert zurückspringt.
+  Profil-Infos mitgespeichert; `arc.timeline` hält Kampagnenereignisse fest.
+- Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
+  `zone=safe|combat`, `match_policy=sim|lore` und klemmt Teamgrößen hart auf
+  1-5. Der SaveGuard wertet `queue_state` mit und blockiert HQ-Deepsaves,
+  solange der State nicht `idle` ist; Matchmaking-States zählen als aktiv.
+  Saves aus Chronopolis/CITY werden mit "SaveGuard: Chronopolis ist kein HQ-
+  Savepunkt" verworfen.
+- Load-Merge schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone,
+  Reset-/Resume-Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und
+  dedupliziert identische Konflikt-Records, damit Cross-Mode-Imports
+  einheitliche Belege liefern.
+- Solo-/Px-5-Runs stapeln offene `campaign.rift_seeds[]` ohne Hard-Limit; beim
+  HQ-Merge deckelt die Runtime den offenen Pool auf 12, schiebt Überschüsse an
+  ITI-NPC-Teams und schreibt sowohl ein `rift_seed_merge_cap_applied`-Trace
+  (kept/overflow) als auch einen `merge_conflicts`-Eintrag (`field='rift_merge'`).
+- Arena-Resets setzen immer einen HUD-Toast "Merge-Konflikt: Arena-Status
+  verworfen" und hinterlegen den Konflikt im Trace; `reset_arena_after_load()`
+  priorisiert `arena.previous_mode` und `resume_token.previous_mode`, damit der
+  Kampagnenmodus nach aktiven Läufen auf den Ursprungswert zurückspringt.
 - `ui` enthält neben `gm_style`/`intro_seen`/`suggest_mode`/`action_mode` die
   Accessibility-Felder `contrast`, `badge_density` und `output_pace` sowie das
   optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
   mit Defaults (`standard|normal|gm_second_person`, `action_mode=uncut`),
   sodass der SaveGuard den normalisierten UI-Block prüft.
-  `normalize_save_v6()` synchronisiert `ui.suggest_mode` und
-  `character.modes`: Sobald eine Seite `suggest` gesetzt hat, aktiviert der
-  Save beide Flags und rendert das HUD-Tag `· SUG` deterministisch.
-- Direkt nach dem Laden spiegelt `ensure_economy()` fehlende
-  Credits-Fallbacks (`economy.credits`) auf den HQ-Pool `economy.cu`, bevor
-  Wallets oder Arena-Guards greifen.
-- Serializer und Migration erzwingen `save_version: 6` - auch Legacy-Saves
-  landen nach `migrate_save()` auf dieser Version und ergänzen `ui.intro_seen`
-  als boolesches Feld.
-- Wallets sind Maps `wallets{id → {name,balance}}`; Arrays oder namenlose
-  Guthaben gelten als fehlerhaft und wandern in `logs.flags.merge_conflicts[]`
-  (`field='wallet'`).
-  Host-Vorrang bleibt erhalten, die Rest-Verteilung wird im
-  `merge_conflicts`-Trace gespiegelt (`source`/`target`/`kept`/`handoff`), damit
-  Wallet-Splits in Solo→Koop→PvP-Runs nachvollziehbar bleiben.
-- **Legacy-Spiegel für KI-SL (ohne runtime.js):** Falls ein älterer Save noch
-  Wurzel-Schlüssel wie `sys`, `sys_used`, `sys_installed`, `sys_runtime`,
-  `stress`, `psi_heat` oder `cooldowns` besitzt, legt die Spielleitung beim
-  Laden vorab den Block `character{}` an:
-  1. `character.id`, `character.name`, `character.rank`, `character.callsign`
-     aus gleichnamigen Root-Feldern übernehmen (falls belegt).
-  2. `character.stress`, `character.psi_heat` und `character.cooldowns`
-     aus den alten Root-Feldern kopieren und die Wurzelvarianten danach
-     verwerfen.
-  3. `character.attributes{SYS_max,SYS_installed,SYS_runtime,SYS_used}` aus
-     `sys`/`sys_max`, `sys_installed`, `sys_runtime` bzw. `sys_used` bilden;
-     weitere Werte aus `attributes{}` nur ergänzen, niemals überschreiben.
-  4. Optionale Felder wie `modes[]`, `self_reflection` oder `lvl` ebenfalls in
-     `character{}` verschieben, sofern sie vorher an der Wurzel lagen.
-     Auf diese Weise steht der KI-SL immer das vollständige Save-v6-Schema zur
-     Verfügung, auch ohne die lokale `runtime.js`.
+- Wallet-Audits arbeiten ausschließlich auf dem v7-Zielmodell: Host-HQ-Pool in
+  `economy.hq_pool`, persönliche Guthaben in `characters[].wallet`. Union-/Merge-
+  Konflikte werden über `logs.flags.merge_conflicts[]` (`field='wallet'`)
+  dokumentiert.
+- **Legacy-Spiegel für KI-SL (ohne runtime.js):** Alte Root-Schlüssel wie
+  `sys`, `sys_used`, `sys_installed`, `sys_runtime`, `stress`, `psi_heat` oder
+  `cooldowns` werden beim Import in `character{}` überführt. Diese Abbildung
+  ist reine Import-Kompatibilität und erzeugt anschließend stets das
+  vollständige Save-v7-Zielschema.
 
 **Quick-Hilfe:** `!help start` - listet alle vier Befehle mit Kurzbeschreibung.
 
