@@ -2014,8 +2014,8 @@ Visoreinblendungen nur als dünne Linien; sobald das Tor in die Combat-Zone
 
 1. **Eintritt:** Der Arenabesuch kostet **250 CU plus 1 % des aktuellen
    Vermögens**. Kodex zieht den Betrag aus dem primären Economy-Feld und
-   spiegelt ihn via `sync_primary_currency()` sofort auf `economy.cu` und
-   `economy.credits`, damit HQ-Pool und Credits-Fallback identische Werte führen.
+   schreibt ihn in `economy.hq_pool`; ein optionaler Credits-Fallback wird
+   nur für Legacy-Importe synchronisiert, damit der HQ-Stand konsistent bleibt.
    Vor dem Start legen die Teilnehmenden ihre gewünschte Teamgröße fest.
 2. **Szenario-Setup:** Kodex zieht das Arenenszenario aus
    `kreative-generatoren-missionen.md#missions-generator` und beschreibt die

@@ -361,7 +361,7 @@ Dieses Flag erzwingt Missionen ohne digitalen Signalraum.
   (1-4), `mode` (`single`/`squad` …) und `matchPolicy` (`sim`/`lore`). Zieht die
   Arena-Gebühr aus
   `economy`, synchronisiert den Betrag per `sync_primary_currency()` auf
-  `economy.cu` und `economy.credits`, setzt `state.campaign.mode = 'pvp'`,
+  `economy.hq_pool` und setzt `state.campaign.mode = 'pvp'`,
   `phase_strike_tax = 1`, markiert die Arena als aktiv, aktiviert SaveGuards
   (`save_deep` verweigert HQ-Saves) und gibt einen HUD-Toast mit Tier, Gebühr,
   Szenario, Policy (`arena.match_policy`) und Px-Status aus. HQ-DeepSaves
@@ -474,7 +474,7 @@ if not char.get("psi") and not char.get("has_psi"):
   - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus
     `economy.wallets{}`. Ohne Vorgaben verteilt der KI-SL die Prämie
     gleichmäßig.
-  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.cu`. Bleiben nach
+  - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.hq_pool`. Bleiben nach
     Sonderverteilungen CU übrig, ergänzt der KI-SL `(Rest … CU im HQ-Pool)`.
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
     `band_reason`, `wallet_avg_scope`, `target_range` für HQ-Pool+Wallet-Schnitt,
