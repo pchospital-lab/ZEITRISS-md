@@ -46,27 +46,20 @@ Agenten mit inflationären Währungsverwerfungen kämpfen müssen. Gleichzeitig 
 dass Chrononauten unkontrolliert Reichtümer anhäufen oder durch exzessiven Goldraub eine Zeitlinie
 aus dem Gleichgewicht bringen - das ITI reguliert streng den Geldfluss.
 
-### HQ-Pool & Credits-Fallback
+### HQ-Pool & Wallet-SSOT
 
-- `economy.cu` bildet das offizielle HQ-Hauptkonto. Das Fallback-Feld `economy.credits` sichert
-  Legacy-Saves ab, die nur einen generischen Credit-Wert führen.
-- `sync_primary_currency()` sorgt nach jeder Buchung dafür, dass beide Felder denselben Betrag
-  tragen. Der Helper ermittelt den gültigen Wert anhand der Primärschlüssel (`credits`, `cu`,
-  `balance`, `assets`) und setzt anschließend `economy.cu` **und** `economy.credits` auf den
-  ermittelten Betrag. Bei Änderungen mit Grund (`arena_fee`, `wallet_split`, `hazard_pay`,
-  `market_purchase`) legt er zusätzlich `logs.trace[].currency_sync` mit Vorher-/Nachher-Wert und
-  Delta an.
-- `writeArenaCurrency()` nutzt `sync_primary_currency()`, damit Arena-Gebühren, Wallet-Splits und
-  Bonuszahlungen zugleich im HQ-Pool und im Credits-Fallback landen. Auch beim Laden synchronisiert
-  der Helper divergierende Saves automatisch.
-- **Cross-Mode-Sequenz:** `load_save()` → `initialize_wallets_from_roster()` →
-  `sync_primary_currency()` → `arenaStart()` (Gebühr) → Debrief
-  `apply_wallet_split()`. Credits/Fallback-Werte niemals manuell setzen -
-  immer über `economy.cu` + Helper spiegeln.
+- `economy.hq_pool` ist das einzige kanonische HQ-Konto.
+- Persönliche Guthaben liegen ausschließlich in `characters[].wallet`.
+- Debrief-Reihenfolge: erst HQ-Buchung (`hazard_pay`, Missionserfolg,
+  Marktbewegungen), danach Wallet-Split auf die aktiven `characters[]`.
+- **Cross-Mode-Sequenz:** `load_save()` → Roster normalisieren auf
+  `characters[]` → `arenaStart()` (Gebühr aus `economy.hq_pool`) → Debrief
+  `apply_wallet_split()` (Ziel: `characters[].wallet`).
 
-So können MyGPT oder andere Plattform-Spielleitungen ohne lokale `runtime.js` jederzeit auf
-konsistente Kontostände zugreifen. Arena-Gebühren, Wallet-Splits oder Bonuszahlungen wirken sich
-immer auf beide Felder aus und verhindern Ghost-Guthaben in den Ingame-Dialogen.
+Legacy-Felder wie `economy.cu`, `economy.credits` oder `economy.wallets{}`
+gelten ausschließlich als Importpfad. Nach dem Laden werden sie in
+`economy.hq_pool` plus `characters[].wallet` überführt und nicht mehr als
+aktive Runtime-Struktur weitergeführt.
 
 **Startkapital:** Jeder neue Charakter erhält **100 CU** Wert an Ausrüstung
 (→ [Charaktererschaffung](../../characters/charaktererschaffung-grundlagen.md)).

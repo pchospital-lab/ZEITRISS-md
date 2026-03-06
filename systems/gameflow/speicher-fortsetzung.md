@@ -861,7 +861,7 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 | **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `economy.wallets{eigener}`. | Gast-`campaign`, Gast-`economy.cu`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. Gast-Wallets werden per Union-by-id ergänzt. |
 | **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `economy.wallets{eigener}`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, Team/Party auf Solo-Roster reduziert, `economy.cu` auf Solo-Default. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | - | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
-| **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU, Px) werden verbucht. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
+| **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
 
 #### Merge-Konflikte bei Cross-Mode-Transfer
 

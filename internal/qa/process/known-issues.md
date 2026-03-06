@@ -39,7 +39,7 @@ Runtime-Content gelöst werden (z. B. Tooling-, Workflow- oder Plattformfragen).
 | ID | Titel | Quelle | Priorität | Scope | Status | Notiz |
 | --- | --- | --- | --- | --- | --- | --- |
 | ZR-015 | Interne QA-Known-Issues in GitHub-Issue-Triage spiegeln | `uploads/deep-research-report(4).md` | P3 | Meta/Prozess | abgeschlossen | Diese Prozessseite ist der kanonische Startpunkt; operative Arbeit läuft weiterhin über Fahrplan + QA-Log. |
-| ZR-016 | Externer Codex-Issue-Pack in iterative Fahrplan-Cluster überführen | `uploads/ZEITRISS_codex_issue_pack.md` | P0 | Runtime/QA | in Umsetzung | Fahrplan unter `internal/qa/plans/issue-pack-durchlauf-01.md`, QA-Log in `internal/qa/logs/2026-03-06-issue-pack-durchlauf-01.md`. |
+| ZR-016 | Externer Codex-Issue-Pack in iterative Fahrplan-Cluster überführen | `uploads/ZEITRISS_codex_issue_pack.md` | P0 | Runtime/QA | in Umsetzung | Durchläufe dokumentiert unter `internal/qa/plans/issue-pack-durchlauf-01.md` und `internal/qa/plans/issue-pack-durchlauf-02.md`; QA-Logs unter `internal/qa/logs/2026-03-06-issue-pack-durchlauf-01.md` und `internal/qa/logs/2026-03-06-issue-pack-durchlauf-02.md`. |
 
 ## Pflegehinweis
 
