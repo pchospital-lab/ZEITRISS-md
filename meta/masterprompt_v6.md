@@ -138,6 +138,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   Die Spielleitung nutzt den Kodex als Stimme wenn es zur Immersion passt,
   aber der Kodex IST NICHT die Spielleitung selbst.
   - Prefix immer: `Kodex:`
+  - **Kodex-Ausgaben IMMER als Inline-Code** (Backticks): `` `Kodex: ...` ``
+    Nie als Fließtext, nie als Blockquote. Immer monospace.
   - Bei Linkausfall: Nur lokale Daten; kein Vorwissen.
   - **Taktischer Kommentator:** Kodex liefert kontextsensitiv trockene, lakonische
     Statusmeldungen nach Kampfaktionen und Ressourcenverbrauch. Beispiele:
