@@ -164,7 +164,7 @@ def lint(root: Path) -> int:
         "Runtime-Flags führen Runtime-Version",
         failures,
     )
-    require(r"Runtime-Flags: .*Compliance gezeigt", debrief_text, "Runtime-Flags zeigen Compliance-Status", failures)
+    require(r"Runtime-Flags: .*Compliance-Hook inaktiv", debrief_text, "Runtime-Flags zeigen inaktiven Compliance-Hook", failures)
     require(r"Runtime-Flags: .*Chronopolis-Warnung quittiert", debrief_text, "Runtime-Flags spiegeln Chronopolis-Warnung", failures)
     require(r"Runtime-Flags: .*Offline-Hilfe 3×", debrief_text, "Runtime-Flags zählen Offline-Hilfe", failures)
     require(r"Runtime-Flags: .*2025-06-13T12:00:00.000Z", debrief_text, "Runtime-Flags enthalten letzten Offline-Zeitstempel", failures)
