@@ -223,6 +223,10 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
   - `hp, hp_max, stress, has_psi, sys_installed`
   - wenn `has_psi`: `psi_heat, pp, psi_abilities[]`
   - `talents[], equipment[{name,type,tier}], implants[{name,sys_cost,effect}]`
+  - `history{background, milestones[]}`
+  - `carry[{name,type,tier}]` (max 6, missionsnah)
+  - `quarters_stash[{name,type,tier}]` (max 24, HQ-Lager je Charakter)
+  - `vehicles{epoch_vehicle, availability, legendary_temporal_ship?}`
   - `artifact?: {name, tier, effect}` (max 1)
   - `reputation.{iti, faction, factions:{}}`
   - `wallet`
@@ -1456,9 +1460,21 @@ Es ist kein zweites, paralleles Format erlaubt.
       "stress": 0,
       "psi_heat": 0,
       "cooldowns": {},
+      "talents": ["Schleichprofi"],
       "equipment": [
         { "name": "Resonanz-Sniper", "type": "waffe", "tier": 2 }
-      ]
+      ],
+      "implants": [],
+      "history": {"background": "ITI-Rekrut der 2. Kohorte", "milestones": []},
+      "carry": [],
+      "quarters_stash": [],
+      "vehicles": {
+        "epoch_vehicle": {
+          "id": "VEH-0001", "name": "Nachtfalter", "type": "vehicle", "tier": 1, "upgrades": []
+        },
+        "availability": {"ready_every_missions": 3, "next_ready_in": 0},
+        "legendary_temporal_ship": null
+      }
     }
   ],
   "economy": { "hq_pool": 0 },
@@ -1493,6 +1509,11 @@ Es ist kein zweites, paralleles Format erlaubt.
 ```
 
 > Gruppen- und Solo-Saves nutzen dieselbe Roster-Quelle: `characters[]`.
+
+
+> **Vollständigkeitshinweis:** `talents[]`, `history`, `carry`, `quarters_stash` und `vehicles` gehören im v7-Kanon in jeden Charaktereintrag (`characters[]`). Epochenfahrzeuge werden als `vehicles.epoch_vehicle` persistiert und folgen im Einsatz der TEMP-Tabelle; `legendary_temporal_ship` bleibt optionaler Zusatzslot.
+
+> **Carry/Quartier-Regel (merge-fest):** `carry[]` ist auf 6 Einträge begrenzt, `quarters_stash[]` auf 24 Einträge je Charakter. Bei Overflow müssen Einträge vor Save in `economy.hq_pool` verkauft, in Team-Trade übergeben oder narrativ verworfen werden.
 
 #### Arc-Objekt (`arc`)
 

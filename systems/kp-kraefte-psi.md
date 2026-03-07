@@ -19,7 +19,7 @@ tags: [system, psi, optional]
 
 **Psi-Standard & Charakter-Gating (SSOT):**
 - **Weltstandard im Einsatzraum:** Psi ist primär den Zeitreisenden vorbehalten – Chrononauten sowie den zentralen Gegnerfraktionen rund um Zeitriss-Ereignisse.
-- **Ausnahmen in Epochen:** Einzelne Figuren (z. B. Schaman:innen, Orakel, Mystiker) können psi-nahe Phänomene zeigen, benennen sie aber kulturabhängig; mechanisch bleibt es dieselbe Psi-Logik.
+- **Ausnahmen in Epochen:** Einzelne Figuren (z. B. Schamanen, Orakel, Mystiker) können psi-nahe Phänomene zeigen, benennen sie aber kulturabhängig; mechanisch bleibt es dieselbe Psi-Logik.
 - **Charakter-Gating (`has_psi`):** Ob ein Charakter Psi-Kräfte aktiv nutzen kann, ist individuell und wird über `has_psi` gesteuert.
 - **Spielfluss:** Gruppen ohne aktive Psi-Charaktere bleiben voll spielbar; Schlüsselszenen benötigen stets mindestens einen nicht-psionischen Lösungsweg.
 

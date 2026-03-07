@@ -251,7 +251,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
   `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
   `character.cooldowns` sind immer Teil des HQ-Deepsaves.
-- `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `logs` (inklusive
+- `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `characters[].history`,
+  `characters[].carry`, `characters[].quarters_stash`, `characters[].vehicles`, `logs` (inklusive
   `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,
   `squad_radio`, `foreshadow`, `fr_interventions`, `psi`, `arena_psi`,
   `flags`, `flags.merge_conflicts`) sowie `ui`, `arena` und `arc` werden vom
@@ -1089,6 +1090,14 @@ characters: [{                          // Array, Host = Index 0
   has_psi,                              // wenn true: psi_heat, pp, psi_abilities[]
   sys_installed,
   talents:[], equipment:[{name,type,tier}], implants:[{name,sys_cost,effect}],
+  history:{background, milestones:[]},  // Kurzbiografie + Schlüsselmomente
+  carry:[{name,type,tier}],              // max 6, missionsnah
+  quarters_stash:[{name,type,tier}],     // max 24, HQ-Lager je Charakter
+  vehicles:{
+    epoch_vehicle:{id,name,type,tier,upgrades:[]},
+    availability:{ready_every_missions,next_ready_in},
+    legendary_temporal_ship?:{id,name,type,tier,upgrades:[],shared}
+  },
   artifact?: {name, tier, effect},      // max 1, nur wenn vorhanden
   reputation: {iti, faction, factions:{}},
   wallet
