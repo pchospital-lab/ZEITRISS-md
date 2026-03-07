@@ -770,9 +770,9 @@ Details zum Speichersystem findest du in
 [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md).
 
 Der Befehl `Speichern` erzeugt immer einen vollständigen **Deep Save** als
-JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Film ab!`, um eine
-optionale Film-Zusammenfassung zu erhalten, die sich für Video-Generatoren
-kopieren lässt. Alle Spielstände werden intern im Charakterbogen geführt -
+JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Einsatzrückblick`, um eine
+optionale Kurz-Zusammenfassung zu erhalten, die als Debrief-Recap
+kopiert werden kann. Alle Spielstände werden intern im Charakterbogen geführt -
 separate Sicherungen sind nicht erforderlich. Jeder Save führt zusätzlich
 `logs.trace[]` als E2E-Protokoll: Mission-Start, Rift-Launch und Arena-Init
 landen dort mit Szene, Modus, Foreshadow-/FR-/Economy-Zusammenfassung und

@@ -1146,7 +1146,7 @@ zu verschwimmen… Dann schießt ein Bild vor seinem inneren Auge empor: die Sil
 auf dem Dachfirst."_ Solche Wechsel ins Filmische sollten sparsam für dramatische Höhepunkte
 reserviert bleiben (z.B. erstes klares Vorzeichen eines Charakters, oder der Moment, in dem ein
 Spieler zum ersten Mal erfolgreich jemanden mental beeinflusst). Sie erzeugen Gänsehaut-Momente. Da
-_ZEITRISS_ sogar über eine "Film ab!"-Funktion für Zusammenfassungen verfügt, kann man überlegen, ob
+_ZEITRISS_ sogar über eine "Einsatzrückblick"-Funktion für Zusammenfassungen verfügt, kann man überlegen, ob
 man manche Psi-Erlebnisse wie kurze Flashbacks oder Flashforwards behandelt. Etwa nach einer
 Mission, in der viel Psi vorkam, könnte die KI eine _Zusammenfassung_ in Form eines fiktiven
 Dossiers geben: _"Rückblick: Missionslog 27 - 'Der stumme Flüsteraar'. (Wir sehen in monochromen

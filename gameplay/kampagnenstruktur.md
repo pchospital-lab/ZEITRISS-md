@@ -2401,7 +2401,7 @@ auf die angedockten ITI-Schiffe - und endet acht Meter über der Paradoxon-Plaza
 
 Die vollständige Maintainer-Blaupause mit Asset-Budgets, Mod-Kit-Dateien und
 Build-Roadmap bleibt in `docs/dev/chronopolis-map-blueprint.md` dokumentiert.
-Hier konzentrieren wir uns auf die Informationen, die GPTs für das Leiten
+Hier konzentrieren wir uns auf die Informationen, die die KI-SL für das Leiten
 benötigen.
 
 ## Fazit

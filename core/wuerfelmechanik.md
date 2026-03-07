@@ -477,7 +477,7 @@ bereichern, und passt sie an euren Stil an. Ob eine unwahrscheinliche Würfelket
 der Kodex mit Warnmeldungen das Team vor dem Schlimmsten bewahrt oder die Chrononauten in einer
 gewaltigen Schlacht Geschichte schreiben - das Wichtigste ist, dass eure ZEITRISS-Runde
 unvergessliche gemeinsame Abenteuer erlebt. In diesem Sinne: _Würfel bereit, HUD kalibriert - und
-Film ab!_
+Einsatz läuft!_
 
 ## Cheat-Cards: Kompakte Referenz
 
