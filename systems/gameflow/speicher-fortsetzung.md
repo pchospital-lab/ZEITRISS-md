@@ -928,7 +928,7 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
    Eingabe mit "Kodex: Poste Speicherstand als JSON."
 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
-   migriert Legacy-Felder in die v6-Struktur, prüft Pflichtblöcke und setzt
+   migriert Legacy-Felder in die v7-Zielstruktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
    diesen Pfad, gehört aber **nicht** zum Wissensspeicher.
 3. **UI-Felder restaurieren.** Beim Laden werden `ui.suggest_mode`,
@@ -968,12 +968,12 @@ der **zuerst gepostete Save als Host**. Sein Kampagnenblock (`episode`,
 weitere Saves liefern ausschließlich Charaktere, Loadouts und Wallets.
 Abweichende Seeds, Episoden- oder Missionszähler landen in
 `logs.flags.merge_conflicts[]` und werden als Host-Wert beibehalten. Der HQ-
-Pool (`economy.cu`) bleibt Host-priorisiert; Import-Wallets ergänzen per
+Pool (`economy.hq_pool`) bleibt Host-priorisiert; Import-Wallets ergänzen per
 Union-by-id.
 
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
-`party.characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
+`characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
 So können neue Agenten aufschlagen, während `state.location` auf Mission
 steht; gespeichert wird trotzdem erst wieder im HQ.
 
@@ -1060,15 +1060,12 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   nachvollziehbar. Lief die Serie noch, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`, Szenario, `previous_mode`),
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
-- **Wallets.** `initialize_wallets_from_roster()` erzeugt fehlende Einträge in
-  `economy.wallets{}` (Toast "Wallets initialisiert (n×)"). Saves führen immer
-  ein Objekt - ggf. `{}`. Beim Laden bleiben Host-Wallets maßgeblich, Import-
-  Wallets werden als Union-by-id angehängt; abweichende Beträge landen in
-  `logs.flags.merge_conflicts[]` und im Trace `merge_conflicts`. Alle Wallets
-  folgen dem Schema `id → {balance, name}`. Fehlende Namen ergänzt der
-  Serializer zuerst aus dem Import-Record, andernfalls aus
-  `team.members[]`/`party.characters[]`, damit Labels in Debrief und Import
-  übereinstimmen, während die Host-Balance Vorrang behält.
+- **Wallets.** `initialize_wallets_from_roster()` stellt sicher, dass jeder
+  Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
+  (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Host-Wallets
+  maßgeblich; Import-Wallets werden per Charakter-ID auf fehlende Einträge
+  übertragen. Abweichende Beträge landen in `logs.flags.merge_conflicts[]`
+  und im Trace `merge_conflicts`, während die Host-Balance Vorrang behält.
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
@@ -1135,13 +1132,13 @@ Nach separaten Rift-Ops werden die Saves wieder zusammengeführt:
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
 Nach jeder Mission folgt auf den Belohnungsblock automatisch der Koop-Abschnitt.
-`apply_wallet_split()` spiegelt das Ergebnis in `economy.wallets{}` und erzeugt
+`apply_wallet_split()` spiegelt das Ergebnis in `characters[].wallet` und erzeugt
 die Debrief-Zeilen.
 
 ### Hazard-Pay & HQ-Pool
 
 - Enthält `outcome` ein `hazard_pay`-Feld (oder `economy.hazard_pay`), bucht die
-  Runtime den Betrag zuerst auf `economy.cu` und loggt `Hazard-Pay: … CU
+  Runtime den Betrag zuerst auf `economy.hq_pool` und loggt `Hazard-Pay: … CU
   priorisiert`.
 - Anschließend meldet `apply_wallet_split()` den HQ-Stand als
   `HQ-Pool: <Betrag> CU verfügbar`. Restbeträge erscheinen in Klammern
@@ -1156,7 +1153,7 @@ die Debrief-Zeilen.
 1. **Standardaufteilung.** Ohne Vorgaben verteilt die KI-SL die Auszahlung
    gleichmäßig (`Wallet-Split (n×): Ghost +200 CU | …`).
 2. **Solo→Koop.** Beim Moduswechsel initialisiert
-   `initialize_wallets_from_roster()` leere Wallets für alle `party.characters[]`
+   `initialize_wallets_from_roster()` leere Wallets für alle `characters[]`
    und verschiebt Solo-Guthaben in den HQ-Pool.
 3. **Spezialschemata.** Sonderregeln kommen über `economy.split`/`wallet_split`.
    Prozentwerte (`percent`, `percent_share`) nutzt die KI-SL als 0-1 bzw. 0-100 %.
@@ -1168,8 +1165,8 @@ die Debrief-Zeilen.
 
 ### Persistenz & IDs
 
-- `economy.wallets{}` speichert Balances anhand der IDs aus
-  `party.characters[]`. Fehlt eine ID, erzeugt die KI-SL einen Slug (`agent-nova`).
+- `characters[].wallet` speichert Balances pro Agenten-ID. Fehlt eine ID,
+  erzeugt die KI-SL einen Slug (`agent-nova`).
 - Änderungen an Callsigns aktualisieren nur den Anzeigenamen; das Guthaben bleibt
   über die ID erhalten.
 - Ohne lokale Runtime müssen KI-Spielleitungen dieselben Schritte manuell
