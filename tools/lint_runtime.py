@@ -171,6 +171,10 @@ def check_forbidden_editorial_aids(root: Path, fails: list[str]) -> None:
                 r"\bSoundtrack\b",
                 r"\bAkte\s?X\b",
                 r"\bam Set\b",
+                r"\bSora\b",
+                r"\bChatGPT\b",
+                r"\bVideo-KI\b",
+                r"\bFilm ab!?\b",
             ),
         ),
     )
@@ -196,6 +200,7 @@ def check_forbidden_editorial_aids(root: Path, fails: list[str]) -> None:
 def check_forbidden_meta_terms_in_runtime(root: Path, fails: list[str]) -> None:
     forbidden_patterns: tuple[str, ...] = (
         r"\bGPT\b",
+        r"\bChatGPT\b",
         r"\bMyGPT\b",
         r"\bLLM\b",
         r"\bDirector\b",
@@ -217,6 +222,40 @@ def check_forbidden_meta_terms_in_runtime(root: Path, fails: list[str]) -> None:
                 msg = f"{rel}: verbotener Meta-Begriff gefunden: /{pattern}/"
                 log.error("[FAIL] %s", msg)
                 fails.append(msg)
+
+
+
+
+def check_forbidden_gender_syntax_in_runtime(root: Path, fails: list[str]) -> None:
+    targets: tuple[tuple[str, tuple[str, ...]], ...] = (
+        (
+            "systems/gameflow/cinematic-start.md",
+            (
+                r"\w\*innen\b",
+                r"\w+:innen\b",
+                r"\bder/die\b",
+                r"\bjede/r\b",
+            ),
+        ),
+    )
+
+    for rel_path, patterns in targets:
+        target = root / rel_path
+        try:
+            text = read_text(target)
+        except FileNotFoundError as exc:
+            msg = f"{rel_path}: {exc}"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        for pattern in patterns:
+            if re.search(pattern, text):
+                msg = f"{rel_path}: unerwünschte Gender-Syntax gefunden: /{pattern}/"
+                log.error("[FAIL] %s", msg)
+                fails.append(msg)
+            else:
+                log.info("[ OK ] %s enthält keine Gender-Syntax /%s/", rel_path, pattern)
 
 
 def iter_runtime_markdown(root: Path) -> Iterable[Path]:
@@ -378,6 +417,7 @@ def main() -> int:
     check_forbidden_terms_in_ssot(root, fails)
     check_forbidden_meta_terms_in_runtime(root, fails)
     check_forbidden_editorial_aids(root, fails)
+    check_forbidden_gender_syntax_in_runtime(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"save_version", sv, "save_version im Save-Modul", fails)
