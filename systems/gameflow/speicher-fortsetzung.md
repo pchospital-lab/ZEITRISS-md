@@ -737,118 +737,50 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
   füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
-- Pflichtfelder: `character.id`, `character.attributes.SYS_max`,
-  `character.attributes.SYS_installed`, `character.attributes.SYS_runtime`,
-  `character.attributes.SYS_used`, `character.stress`, `character.psi_heat`,
-  `character.cooldowns`, `campaign.px`, `economy` (inklusive `wallets{}`),
-  `logs` (inklusive `hud`, `artifact_log`, `market`, `offline`, `kodex`,
-  `alias_trace`, `squad_radio`, `foreshadow`, `fr_interventions`, `psi`,
-  `flags`), `ui` und `arena`. Der Market-Trace hält maximal 24 Einträge und
-  schneidet ältere automatisch ab.
+- Pflichtfelder: `v`, `zr_version`, `location`, `phase`, `character.id`,
+  `character.attributes.SYS_max`, `character.attributes.SYS_installed`,
+  `character.attributes.SYS_runtime`, `character.attributes.SYS_used`,
+  `character.stress`, `character.psi_heat`, `character.cooldowns`,
+  `campaign.px`, `economy.hq_pool`, `characters[]` (inkl. `wallet`), `arc`,
+  `logs`, `ui` und `arena`.
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
 - Optionales Feld: `modes` - Liste aktivierter Erzählmodi.
 - Im HQ sind `character.attributes.SYS_installed` und
   `character.attributes.SYS_max` deckungsgleich, `SYS_runtime` liegt höchstens
-  bei der installierten Last, `stress = 0`, `psi_heat = 0`. Das Speichern
-  erfasst diese Werte, damit die KI-SL den Basiszustand prüfen kann. Die JSON-
-  Beispiele in diesem Modul zeigen weiterhin volle SYS-Werte (5/5 bzw. 6/6)
-  und erfüllen damit den Guard.
+  bei der installierten Last, `stress = 0`, `psi_heat = 0`.
 - Die KI-SL darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
-  fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.cu = 0`,
+  fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.hq_pool = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
-- `party.characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
-  `Charaktere` (DE) oder reinen Arrays werden beim Import auf diese Form
-  normalisiert; Exporte und Debriefs verwenden ausschließlich die EN-Schreibweise
-  (`party.characters[]`/`team.members[]`). Wrapper dienen nur als Import-Bridge -
-  Die KI-SL erzeugt sie nie als Output.
+- `characters[]` ist die kanonische Gruppenstruktur. Legacy-Saves mit
+  `party.characters[]`/`team.members[]` werden beim Import nach `characters[]`
+  normalisiert; Exporte und Debriefs nutzen ausschließlich `characters[]`.
 - Die Load-Pipeline nutzt dafür explizit `migrate_save()` als Legacy-Bridge,
   bevor `load_deep()` Pflichtfelder validiert und Defaults ergänzt.
-- Array-only-Gruppensaves (ohne Objektfelder) werden beim Laden auf
-  `party.characters[]` gehoben; anschließend legt
-  `initialize_wallets_from_roster()` automatisch Wallets für alle IDs an und
-  meldet den Schritt im HUD ("Wallets initialisiert …"). `team.members[]`
-  bleibt ausschließlich Migration und erscheint nicht in neuen Beispielblöcken.
 
 ### Cross-Mode Import - Solo → Koop/Arena {#cross-mode-import}
 
 Cross-Mode-Sequenz (Solo → Koop → Arena → Debrief):
-`load_save()` → `initialize_wallets_from_roster()` → `sync_primary_currency()` →
+`load_save()` → `normalize_roster_to_characters()` → `sync_hq_pool()` →
 Arena-Gebühr über `arenaStart()` → Debrief `apply_wallet_split()`.
 
-1. **Solo-Save laden.** `economy.wallets{}` ist zunächst leer; `party.characters[]`
-   enthält nur den Protagonisten. Nach dem Laden läuft
-   `initialize_wallets_from_roster()` automatisch und legt leere Wallets für alle
-   aktiven Agenten an. Die Person, die den Save bereitstellt, ist der Host:
-   Ihr Kampagnenblock (`episode`, `mission`, `mode`, `seed_source`,
-   `rift_seeds[]`) gewinnt bei Konflikten den Vorrang; zusätzliche Crew-Saves
-   dürfen nur Charaktere, Loadouts und Wallets beisteuern.
+1. **Solo-Save laden.** `characters[]` enthält initial den Protagonisten.
+   Zusätzliche Crew-Saves dürfen nur Charaktere (inkl. Wallet), Loadouts und
+   zulässige Inventar-/Statusfelder beisteuern.
 2. **Koop- oder Gruppeneinsatz starten.** Im Debrief erzeugt `apply_wallet_split()`
    für jedes Teammitglied eine Auszahlung und protokolliert den Vorgang als
-   `Wallet-Split` in den HUD-Logs. `logs.arena_psi[]` dokumentiert parallel den
-   zuvor aktiven Modus (`mode_previous`) für die Cross-Mode-Evidenz. Wallet-Werte
-   stammen immer aus `economy.cu`/`wallets{}` - Credits nie per Hand direkt
-   setzen. Jeder Abzug oder Zufluss aus Arena-Gebühren, Hazard-Pay, Wallet-Split
-   oder Markt-Kauf erzeugt einen `currency_sync`-Trace mit Vorher-/Nachher-Wert
-   und Delta.
+   `Wallet-Split` in den HUD-Logs.
 3. **Arena aktivieren.** `arenaStart()` setzt `arena.policy_players[]`,
    `arena.previous_mode` und `arena.phase='active'`, markiert `location='ARENA'`
-   und blockiert Save-Versuche bis zum Arena-Exit. Während der Serie blockiert
-   der HQ-Save-Guard (`SaveGuard: Arena aktiv`). Beim Start zieht die Routine die
-   Gebühr aus dem primären Economy-Feld und spiegelt sie via
-   `sync_primary_currency()` auf `economy.cu` und `economy.credits`. Der
-   Kampagnenmodus wird temporär auf `pvp` gesetzt, `campaign.previous_mode`
-   sichert den alten Wert (`preserve`/`trigger`). Beim Exit schreibt die Runtime
-   `arena.phase='completed'`, synchronisiert Px (+1 bei Sieg), stellt
-  `campaign.mode = previous_mode` wieder her, leert `previous_mode` und erlaubt
-  erneut HQ-Saves. `reset_arena_after_load()` bewahrt den letzten Modus über
-  `arena.previous_mode` bzw. `resume_token.previous_mode`, setzt beim Laden den
-  Kampagnenmodus zurück und hält `phase_strike_tax` auf 0, falls mitten in einer
-  Serie geladen wird, damit der Exit konsistent auf den Ursprungsmodus
-  zurückspringt.
+   und blockiert Save-Versuche bis zum Arena-Exit.
+4. **Zurück nach HQ.** Nach Arena-Exit bleibt `campaign.px` unverändert;
+   Rewards laufen über `economy.hq_pool` sowie optionale Wallet-Splits.
 
-**Host-Regel für Mehrfach-Import:** Sobald mehrere Saves zusammengeführt
-werden, bleibt der Kampagnenblock des Hosts maßgeblich. Fremdsaves dürfen weder
-`campaign.mode` noch `campaign.rift_seeds[]` oder Episoden-/Missionszähler
-überschreiben. Der Merge-Pfad zieht lediglich Charaktere, Loadouts und Wallets
-heran und protokolliert abweichende Seeds im HUD/Debrief. Jeder abweichende
-Wert (Seeds, Episoden-/Missions-/Szenenzähler, Seed-Quelle, Arena- oder
-Non-HQ-States) landet zusätzlich in `logs.flags.merge_conflicts[]` gemäß
-Allowlist-Feldern (`rift_merge`, `phase_bridge`, `campaign_mode`,
-`arena_resume`, `location_bridge`, `wallet`) und wird als Host-Wert
-beibehalten. UI-Optionen werden weiterhin Host-seitig erzwungen, aber nicht als
-Merge-Konflikt geloggt. `load_deep()` schreibt ergänzend ein `logs.trace[]`-Event
-`merge_conflicts` mit Arena-Phase/Queue-State/Zone, Reset-/Resume-Markern,
-`conflict_fields`, `conflicts_added` und Gesamtzähler sowie ein separates
-`ui_host_override`-Event mit den überschriebenen UI/Accessibility-Schlüsseln.
-Offene Rift-Seeds werden beim Merge auf 12 gedeckelt; überschüssige Seeds gehen
-automatisch an ITI-NPC-Teams. Die Auswahl (kept vs. handoff) wird im Trace als
-`merge_conflicts.rift_merge` samt `selection_rule` abgelegt. Der HQ-Pool
-(`economy.cu`) bleibt stets
-Host-priorisiert; Importwerte erzeugen nur einen Merge-Konflikt und werden
-verworfen. Wallets werden **union-by-id** als Map `id → {name,balance}`
-zusammengeführt: Host-Wallets haben Vorrang, neue IDs aus dem Import ergänzen
-den Satz, abweichende Balances/Labels landen als Konflikt in
-`logs.flags.merge_conflicts[]`. Der Merge schreibt parallel ein
-`merge_conflicts`-Trace (Quelle/Ziel/kept/handoff), damit Host-Vorrang und
-Rest-Verteilung pro Lauf nachvollziehbar bleiben.
-Unmittelbar nach dem Hydratisieren synchronisiert `ensure_economy()` den
-HQ-Pool (`economy.cu`) mit dem Credits-Fallback, bevor Wallets geöffnet oder
-Arena-Guards scharfgeschaltet werden.
-
-**Fahrzeug-Importregel (SSOT):** `vehicles` wird slotbasiert pro
-`character.id` geführt. Pro Charakter ist genau ein HQ-Basisslot zulässig.
-Bei Mehrfach-Importen gilt Host-Vorrang für kollidierende Fahrzeug-Slots;
-abweichende Importwerte werden als `merge_conflicts` protokolliert. Das
-missionsbezogene Einsatzfenster bleibt TEMP-gesteuert (Solo: Charakter-TEMP,
-Gruppe: `ceil(sum(TEMP)/n)` über `party.characters[]`, Fallback
-`team.members[]`). Einzig legendäre temporale Chronopolis-Schiffe
-(Tech IV/temporale Klasse) können als explizite Ausnahme den Zeitriss
-selbständig durchqueren; sie bleiben seltene Endgame-Artefakte und berühren
-den Standard-Importpfad nicht. Falls vorhanden, werden sie als
-`vehicles.faction_temporal_assets[]` geführt (Zusatzslot, Fraktionsaufsicht),
-während der persönliche Charakter-Slot unverändert bleibt.
+**Host-Priorität (SSOT):** Bei Merge/Import bleibt der Host führend für
+`campaign`, `economy.hq_pool`, `arc` und globale `logs.flags`. Gaststände
+liefern nur erlaubte Charakter-/Loadout-Anteile. Konflikte werden in
+`logs.flags.merge_conflicts[]` dokumentiert.
 
 ### Cross-Mode-Transfer-Matrix (Testrun 3, #003) {#cross-mode-transfer}
 
@@ -859,8 +791,8 @@ Die folgende Matrix regelt verbindlich, welche Daten bei einem Moduswechsel
 
 | Richtung | Übernommene Felder | Verworfene/Zurückgesetzte Felder | Besonderheiten |
 | --- | --- | --- | --- |
-| **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `economy.wallets{eigener}`. | Gast-`campaign`, Gast-`economy.cu`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. Gast-Wallets werden per Union-by-id ergänzt. |
-| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `economy.wallets{eigener}`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, Team/Party auf Solo-Roster reduziert, `economy.cu` auf Solo-Default. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
+| **Solo → Koop** | Host-Save bestimmt `campaign` komplett (episode, mission, mode, rift_seeds[], px). Gast-Saves liefern nur `character` + `loadout` + `wallet` innerhalb von `characters[]`. | Gast-`campaign`, Gast-`economy.hq_pool`, Gast-`logs` (außer merge_conflicts) | Host-Kampagnenblock hat Vorrang. |
+| **Koop → Solo** | Spieler-Character extrahieren (`character`, `loadout`, `wallet` aus `characters[]`). | Alles andere: `campaign` wird auf Solo-Defaults zurückgesetzt, `characters[]` auf Solo-Roster reduziert, `economy.hq_pool` bleibt Host-geführt. | `campaign.mode` wechselt zurück auf den Ursprungsmodus des Spielers. |
 | **Jeder Modus → PvP** | `arena.previous_mode = campaign.mode` speichern. Gesamter Spielstand bleibt erhalten, `campaign.mode` wechselt temporär auf `"pvp"`. | - | Nach Arena-Exit: `campaign.mode = arena.previous_mode`, dann `arena.previous_mode = null`. |
 | **PvP → zurück** | `campaign.mode = arena.previous_mode` restaurieren. Arena-Rewards (CU/Ruf/Training) werden verbucht. `campaign.px` bleibt unverändert. | `arena.previous_mode` wird auf `null` geleert. Arena-spezifische Laufzeitdaten zurücksetzen. | Fehlt `previous_mode` (Legacy), Fallback auf `"preserve"`. |
 
@@ -881,11 +813,6 @@ dokumentiert. Jeder Eintrag enthält mindestens:
 Die `field`-Werte folgen der bestehenden Allowlist: `wallet`, `rift_merge`,
 `arena_resume`, `campaign_mode`, `phase_bridge`, `location_bridge`.
 
-Zusätzlich erlaubte Felder für Cross-Mode-Transfers:
-- `cross_mode_campaign` - für campaign-Block-Konflikte bei Solo↔Koop
-- `cross_mode_economy` - für economy.cu-Differenzen
-- `cross_mode_roster` - für party.characters[]-Divergenzen
-
 #### Trace-Protokollierung
 
 Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
@@ -904,23 +831,11 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
 }
 ```
 
-Der Trace stellt sicher, dass jeder Moduswechsel lückenlos nachvollziehbar ist
-- sowohl für Debriefs als auch für QA-Prüfungen.
-
-#### Solo-Defaults (Referenz für Koop→Solo)
-
-Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
-- `campaign.mode`: Ursprungsmodus des Spielers (aus Save oder Fallback `"preserve"`)
-- `campaign.team_size`: `1`
-- `party.characters[]`: nur der extrahierte Spieler-Character
-- `team.members[]`: Spiegel von `party.characters[]`
-- `economy.cu`: Spieler-Wallet-Balance (aus `economy.wallets{eigener}`)
-
 ### Accessibility-Preset (zweites Muster) {#accessibility-save}
 
 ```json
 {
-  "save_version": 6,
+  "v": 7,
   "zr_version": "4.2.6",
   "location": "HQ",
   "phase": "core",
@@ -934,10 +849,11 @@ Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
     "attributes": {"SYS_max": 6, "SYS_installed": 6, "SYS_runtime": 6, "SYS_used": 6}
   },
   "campaign": {"episode": 12, "scene": 0, "px": 2},
-  "team": {"members": []},
-  "party": {"characters": []},
-  "loadout": {},
-  "economy": {"cu": 1200, "wallets": {"jade": {"balance": 1200, "name": "Jade"}}},
+  "characters": [
+    {"id": "CHR-7777", "name": "Jade", "wallet": 1200, "loadout": []}
+  ],
+  "economy": {"hq_pool": 1200},
+  "arc": {"open_seeds": [], "factions": {}, "questions": [], "timeline": []},
   "logs": {
     "artifact_log": [],
     "market": [],
@@ -951,21 +867,12 @@ Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
     "fr_interventions": [],
     "flags": {
       "runtime_version": "4.2.6",
-      "compliance_shown_today": true,
       "chronopolis_warn_seen": true,
       "offline_help_count": 1,
       "offline_help_last_scene": "HQ:4",
       "offline_help_last": "HQ:4",
-      "platform_action_contract": {
-        "action_mode": "uncut",
-        }
+      "platform_action_contract": {"action_mode": "uncut"}
     }
-  },
-  "arc_dashboard": {
-    "offene_seeds": [],
-    "fraktionen": {},
-    "fragen": [],
-    "timeline": []
   },
   "ui": {
     "gm_style": "verbose",
@@ -1002,32 +909,11 @@ Beim Rückfall auf Solo gelten folgende Defaults für den `campaign`-Block:
 }
 ```
 
-_Snippet gekürzt: Fokus auf UI-Persistenz (`contrast`, `badge_density`,
-`output_pace`); vollständige Pflichtcontainer siehe Vollsave unten._
-
 Das Preset illustriert, wie ein `!accessibility`-Dialog persistiert wird: Der
 Kontrast steht auf `high`, Badges nutzen das kompakte Layout und der Output
 läuft im `slow`-Takt. Diese Werte bleiben erhalten, bis Nutzer sie im HQ
-zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block (`gm_style`/
-`intro_seen`/`suggest_mode`/`action_mode` plus `contrast`/`badge_density`/
-`output_pace`); fehlen Felder, ergänzen Migration und Serializer Defaults
-(`standard|normal` plus `action_mode=uncut`), sodass der SaveGuard den
-normalisierten Block akzeptiert.
-Der Serializer mappt die Optionen 1:1 auf JSON:
+zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 
-- **Kontrast:** `contrast = standard|high`
-- **Badge-Dichte:** `badge_density = standard|dense|compact`
-- **Ausgabetempo:** `output_pace = normal|fast|slow`
-
-Legacy-Felder (`contrast`, `badge_density`, `output_pace`, `ui_contrast`,
-`ui_badges`, `ui_pace`, `badges`, `pace`) landen beim Laden automatisch im
-`ui`-Block. Acceptance 14/15 prüft den Roundtrip und vergleicht die geladenen
-UI-Werte gegen den gespeicherten Block.
-
-Jede Bestätigung erzeugt den Toast "Accessibility aktualisiert …" und schreibt
-die Auswahl in `ui {}`. Legacy-Werte `full|minimal` werden beim Laden auf
-`standard|compact` gemappt; `rapid|quick` landen auf `fast`, `default|steady` auf
-`normal`. Saves ohne Badge-Feld setzen automatisch auf `standard`.
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
