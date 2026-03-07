@@ -1418,12 +1418,15 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 - Ambige Saves: "Kodex-Archiv: Profilpluralität erkannt. Sollen *Einzelprofil*
   oder *Teamprofil* geladen werden?"
 
-### Kanonisches DeepSave-Schema (Kurzfassung)
+### Kanonisches Save-Exportformat (v7, einziges Format)
+
+Dieses Schema ist das **einzige** kanonische Exportformat für neue Saves (Solo und Koop).
+Es ist kein zweites, paralleles Format erlaubt.
 
 ```json
 {
+  "v": 7,
   "zr_version": "4.2.6",
-  "save_version": 6,
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -1433,46 +1436,38 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
     "px": 1,
     "fr_bias": "normal"
   },
-  "character": {
-    "id": "CHR-0001",
-    "name": "Agent Name",
-    "level": 3,
-    "attributes": {
-      "STR": 5,
-      "GES": 10,
-      "INT": 4,
-      "CHA": 4,
-      "TEMP": 2,
-      "SYS_max": 4,
-      "SYS_installed": 4,
-      "SYS_runtime": 4,
-      "SYS_used": 4
-    },
-    "talents": ["Scharfschütze II", "Soldat I"],
-    "bioware": ["Reflexverstärkung", "Muskelstärkung", "Stealth-Skin", "Adrenalin-Drüse"],
-    "synergy": "Adaptive Ligament",
-    "equipment": {
-      "primary": "Resonanz-Sniper (SD)",
-      "secondary": "Sidearm (SD)",
-      "armor": ["Kevlar", "Helm 360°"],
-      "gadgets": ["Medikit", "Nano-Bindepflaster"]
-    },
-    "ammo": 10,
-    "stress": 0,
-    "psi_heat": 0,
-    "cooldowns": {}
+  "characters": [
+    {
+      "id": "CHR-0001",
+      "name": "Agent Name",
+      "rank": "Rekrut",
+      "wallet": 0,
+      "attributes": {
+        "STR": 5,
+        "GES": 10,
+        "INT": 4,
+        "CHA": 4,
+        "TEMP": 2,
+        "SYS_max": 4,
+        "SYS_installed": 4,
+        "SYS_runtime": 4,
+        "SYS_used": 4
+      },
+      "stress": 0,
+      "psi_heat": 0,
+      "cooldowns": {},
+      "equipment": [
+        { "name": "Resonanz-Sniper", "type": "waffe", "tier": 2 }
+      ]
+    }
+  ],
+  "economy": { "hq_pool": 0 },
+  "arc": {
+    "open_seeds": [],
+    "factions": {},
+    "open_questions": [],
+    "timeline": []
   },
-  "team": { "name": "NPC-Zelle", "members": [] },
-  "party": { "characters": [] },
-  "loadout": {
-    "primary": "Resonanz-Sniper (SD)",
-    "secondary": "Sidearm (SD)",
-    "cqb": null,
-    "armor": ["Kevlar", "Helm 360°"],
-    "tools": ["Medikit", "Nano-Bindepflaster"],
-    "support": []
-  },
-  "economy": { "cu": 0, "wallets": {} },
   "logs": {
     "artifact_log": [],
     "market": [],
@@ -1480,90 +1475,41 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
     "kodex": [],
     "alias_trace": [],
     "squad_radio": [],
-    "hud": [],
-    "foreshadow": [],
-    "fr_interventions": [],
     "arena_psi": [],
-    "psi": [],
     "flags": {
       "runtime_version": "4.2.6",
-      "chronopolis_warn_seen": false,
-      "compliance_shown_today": false,
-      "platform_action_contract": {
-        "action_mode": "uncut"
-      }
+      "chronopolis_warn_seen": false
     }
-  },
-  "arc_dashboard": {
-    "offene_seeds": [],
-    "fraktionen": {},
-    "fragen": []
   },
   "ui": {
     "gm_style": "verbose",
     "intro_seen": false,
-    "suggest_mode": false,
     "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
     "output_pace": "normal"
-  },
-  "arena": {
-    "active": false,
-    "phase": "idle",
-    "mode": "single",
-    "match_policy": "sim",
-    "previous_mode": null,
-    "wins_player": 0,
-    "wins_opponent": 0,
-    "tier": 1,
-    "proc_budget": 0,
-    "artifact_limit": 0,
-    "loadout_budget": 0,
-    "phase_strike_tax": 0,
-    "team_size": 1,
-    "fee": 0,
-    "scenario": null,
-    "started_episode": null,
-    "last_reward_episode": null,
-    "policy_players": [],
-    "audit": []
   }
 }
 ```
 
-> Gruppen-Save analog mit `party.characters[]`. Kein zweites Schema mit anderen Feldnamen.
+> Gruppen- und Solo-Saves nutzen dieselbe Roster-Quelle: `characters[]`.
 
-#### Arc-Dashboard-Objekt
+#### Arc-Objekt (`arc`)
 
-`arc_dashboard` sammelt alle Story-Hub-Einträge aus dem HQ-Dashboard. Das Feld ist im Schema
-verpflichtend, wird aber vom Serializer automatisch nachgezogen und strukturiert:
+`arc` sammelt Story-Hub-Einträge und bleibt im v7-Kanon der einzige Arc-Pfad:
 
-- **`offene_seeds[]`** - Liste aktiver Missionsansätze. Einträge können Strings (Freitext-Notizen)
-  oder Objekte (z. B. mit `id`, `titel`, `status`, `deadline`) sein. Optionales
-  Feld `seed_tier` dient als Balancing-Hinweis (`early|mid|late`) ohne Freischalt-
-  oder Sperrwirkung; alle Seeds bleiben ab Level 1 spielbar.
-- **`fraktionen{}`** - Wörterbuch mit Fraktionsschlüsseln; Werte sind Objekte für Ruf, Haltung oder
-  letzte Aktionen. Die Runtime ergänzt `last_intervention`, `last_result`, `last_updated` sowie
-  `interventions[]` (max. sechs Snapshots aus `logs.fr_interventions[]` inklusive Wirkung/Notiz),
-  sodass HQ-Dashboard, Kampagnenlog und Runtime denselben Stand anzeigen.
-- **`fragen[]`** - Offene Forschungs- oder Storyfragen als kurze Strings oder Objekte.
+- **`open_seeds[]`** – Liste aktiver Missionsansätze (String oder Objekt).
+- **`factions{}`** – Fraktionsstatus inkl. optionaler Interventionsmetadaten.
+- **`open_questions[]`** – offene Forschungs-/Storyfragen.
+- **`timeline[]`** – bestätigte Folgen/Zeitriss-Einträge.
 
-Beim Laden normalisiert `load_deep()` das Objekt, entfernt Nullwerte und stellt sicher, dass alle
-Listen echte Arrays sind. Unbekannte Zusatzfelder bleiben erhalten.
+### Legacy-Importpfade (kein Runtime-Standard)
 
-### Legacy-Aliase & Normalisierung
-
-- `party.characters[]` ist die verbindliche Quelle für Gruppenroster. Laufzeit und
-  Serializer lesen ausschließlich daraus.
-- Historische Felder (`team.members[]`, `team.roster[]`, `group.characters[]`,
-  `party.members[]`, `npc_team[]`) werden beim Laden automatisch nach
-  `party.characters[]` gespiegelt. Doppelte Einträge erkennt `load_deep()`
-  anhand von IDs, Callsigns oder Namen und entfernt sie.
-- Beim Speichern repliziert der Serializer den bereinigten Cast zusätzlich nach
-  `team.members[]`, um Kompatibilität mit älteren Tools zu bewahren - ohne
-  voneinander abweichende Arrays. `team.members[]` ist somit immer eine
-  1:1-Kopie des kanonischen `party.characters[]`. Die KI-SL ergänzt neue
-  Koop-Mitglieder ausschließlich im `party`-Block; `team.members[]` wird nur
-  vom Serializer gespiegelt, damit Saves aus Solo- und Koop-Läufen keine
-  widersprüchlichen Listen mehr besitzen.
+- Historische Felder wie `save_version`, `party.characters[]`, `team.members[]`,
+  `economy.cu`, `economy.wallets` oder `arc_dashboard` gelten nur als
+  **Import-Bridge**.
+- `load_save()` migriert Legacy-Daten in das v7-Zielmodell (`v`, `characters[]`,
+  `economy.hq_pool`, `arc.*`).
+- `save_game()` exportiert ausschließlich das v7-Schema.
+- V6-Beispiele in diesem Dokument dienen ausschließlich der Migrationserklärung
+  und sind **kein** alternatives Speicherformat.
