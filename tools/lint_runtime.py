@@ -134,6 +134,42 @@ def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
             log.info("[ OK ] Legacy-Standardformulierung fehlt wie erwartet: /%s/", pattern)
 
 
+def check_save_v7_canonical_export_block(text: str, fails: list[str]) -> None:
+    marker = "### Kanonisches Save-Exportformat (v7, einziges Format)"
+    if marker not in text:
+        msg = "systems/gameflow/speicher-fortsetzung.md: v7-Exportformat-Block nicht gefunden"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    section = text.split(marker, 1)[1]
+    if "#### Arc-Objekt (`arc`)" in section:
+        section = section.split("#### Arc-Objekt (`arc`)", 1)[0]
+
+    req(r"\"v\"\s*:\s*7", section, "Save-Exportformat nutzt v: 7", fails)
+    req(r"\"characters\"\s*:\s*\[", section, "Save-Exportformat nutzt characters[]", fails)
+    req(r"\"wallet\"\s*:", section, "Save-Exportformat nutzt Charakter-Wallets", fails)
+    req(r"\"hq_pool\"\s*:", section, "Save-Exportformat nutzt economy.hq_pool", fails)
+    req(r"\"arc\"\s*:\s*\{", section, "Save-Exportformat nutzt arc-Objekt", fails)
+
+    forbidden = (
+        r"\"save_version\"",
+        r"\"character\"\s*:",
+        r"\"party\"\s*:",
+        r"\"team\"\s*:",
+        r"\"cu\"\s*:",
+        r"\"wallets\"\s*:",
+        r"arc_dashboard",
+    )
+    for pattern in forbidden:
+        if re.search(pattern, section):
+            msg = f"Save-v7-Exportformat enthält Legacy-Struktur: /{pattern}/"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+        else:
+            log.info("[ OK ] Save-v7-Exportformat ohne Legacy-Struktur /%s/", pattern)
+
+
 def check_forbidden_terms_in_ssot(root: Path, fails: list[str]) -> None:
     ssot_files: tuple[tuple[str, tuple[str, ...]], ...] = (
         ("core/spieler-handbuch.md", (r"\bGPTs?\b", r"\bRecruit\b")),
@@ -402,6 +438,7 @@ def main() -> int:
     # HQ Save Guard
     if sv:
         check_save_required_fields(sv, fails)
+        check_save_v7_canonical_export_block(sv, fails)
 
     if sl_ref:
         check_sl_reference_save_contract(sl_ref, fails)
@@ -412,7 +449,7 @@ def main() -> int:
     check_forbidden_gender_syntax_in_runtime(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
-    req(r"save_version", sv, "save_version im Save-Modul", fails)
+    req(r"\"v\"\s*:\s*7", sv, "v7-Version im Save-Modul dokumentiert", fails)
     req(r"migrate_save", sv, "migrate_save vorhanden", fails)
     req(
         r"SYS_installed[\s\S]*SYS_max",
