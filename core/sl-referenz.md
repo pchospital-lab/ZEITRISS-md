@@ -301,11 +301,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - `!save` - speichert einen Deepsave (nur im HQ; SaveGuard blockt bei Offline-
   Ende mit "SaveGuard: Offline - HQ-Deepsave erst nach Re-Sync - HQ-Save
   gesperrt.").
-- `!load` - lädt den letzten Deepsave.
-- `!suspend` - legt einen flüchtigen Szenen-Snapshot für eine Pause an.
-- `!resume` - setzt den letzten Suspend-Snapshot exakt einmal fort und stellt
-  Initiative-Leiste sowie HUD-Timer wieder her.
-- `!autosave hq` - schaltet Auto-Save im HQ.
+- `Spiel laden` (optional) - fordert den Save an; der HQ-Deepsave kann direkt als JSON eingefügt werden.
+- `!bogen` - gibt den Charakterbogen als lesbare HQ-Übersicht aus (kein JSON).
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"
@@ -739,9 +736,8 @@ Kanonische Spielertexte und Startbeispiele stehen im
 führt nur die Dispatcher-/Runtime-Invarianten für die Spielleitung.
 
 - Akzeptierte Startmuster: `Spiel starten (solo|npc-team [0-4]|gruppe
-  [klassisch|schnell])` sowie `Spiel laden`.
-- `Spiel laden` fordert ohne JSON-Block den Save an und setzt nicht aus dem
-  Nichts fort.
+  [klassisch|schnell])`; für Load genügt JSON-Copy-Paste (optional `Spiel laden` davor).
+- Ohne Save-JSON setzt die Spielleitung nicht aus dem Nichts fort und fordert den Spielstand aktiv an.
 - Legacy-Starts mit `preserve|trigger` in Klammern brechen mit Hinweis ab;
   Kampagnenmodus wird im HQ per `!kampagnenmodus` gesetzt.
 
@@ -761,16 +757,16 @@ Beispiel: `🟢 ZEITRISS 4.2.6 - Einsatz für dich gestartet` (Solo) bzw. `... f
 
 - `Spiel starten (...)` → Charaktererschaffung → HQ-Phase → Mission
   ([Cinematic Start](../systems/gameflow/cinematic-start.md)).
-- `Spiel laden` → Save einlesen → Rückblick → Mission fortsetzen
+- JSON einfügen (optional nach `Spiel laden`) → Save einlesen → Rückblick → Mission fortsetzen
   ([speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md)).
 
-Wird `Spiel laden` ohne JSON-Block eingegeben, fordert die SL den Spielstand an
+Wird ohne JSON gespeichertes Material weitergespielt, fordert die SL den Spielstand an
 und setzt nicht aus dem Nichts fort.
 
 Details zum Speichersystem findest du in
 [speicher-fortsetzung.md](../systems/gameflow/speicher-fortsetzung.md).
 
-Der Befehl `Speichern` erzeugt immer einen vollständigen **Deep Save** als
+Der Befehl `!save` erzeugt immer einen vollständigen **Deep Save** als
 JSON-Block, der alle Fortschrittsdaten enthält. Tippe `Einsatzrückblick`, um eine
 optionale Kurz-Zusammenfassung zu erhalten, die als Debrief-Recap
 kopiert werden kann. Alle Spielstände werden intern im Charakterbogen geführt -
