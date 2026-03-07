@@ -786,14 +786,13 @@ alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
 `Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
 Für KI-SL ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
 ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
-Pflichtset und den Baum `save_version/zr_version/location/phase → character
-→ campaign/campaign.rift_seeds → team/party/loadout/economy.wallets → logs.*
-→ arc_dashboard/ui/arena`, um den Speicherstand zu rekonstruieren. Die
+Pflichtset und den Baum `v/zr_version/location/phase → characters[]
+→ campaign/campaign.rift_seeds → loadout/economy.hq_pool → logs.*
+→ arc/ui/arena`, um den Speicherstand zu rekonstruieren. Die
 Schema-Datei selbst wird nicht in den Wissensspeicher geladen und dient primär
-der Validierung in Tools. `arc_dashboard` ist ein Pflichtcontainer im Schema;
-der SaveGuard initialisiert den Block vor dem HQ-Save automatisch und bricht
-mit Pflichtpfad-Fehlern ab, falls Dashboard-Felder fehlen oder verworfen
-wurden.
+der Validierung in Tools. Der SaveGuard erzwingt dabei den v7-Zielpfad
+`arc` inklusive Timeline/Factions/Hooks vor dem HQ-Save und bricht mit
+Pflichtpfad-Fehlern ab, falls diese Felder fehlen oder verworfen wurden.
 
 ```json
 {
@@ -902,7 +901,7 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
 - TEMP-gekoppeltes Fahrzeugfenster: Verfügbarkeit pro Mission via Team-/Solo-
   TEMP (1–2: alle 4 Missionen, 3–5: alle 3, 6–8: alle 2, ab 9: jede Mission).
   In `gruppe` zählt `TEMP_gruppe = ceil(sum(TEMP)/n)` aus
-  `party.characters[]` (Fallback `team.members[]`).
+  `characters[]` (Legacy-Aliase `party.characters[]`/`team.members[]` nur Importpfad).
 - Debrief-Ausnahme-Trigger für Chronopolis-Legenden: Übergib den
   Kontext bevorzugt als `vehicle_context` oder `vehicle` (z. B.
   `vehicle_class=tech_iv_temporal`, `vehicle_type=temporal_ship` oder
@@ -951,17 +950,16 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   sowie Offline-Hilfe-Zähler mit Timestamp des letzten Abrufs; bei
   protokollierten Cuts erscheint zusätzlich `How-to-Guard n×`.
 - Koop-Teams erhalten nach jeder Mission `Wallet-Split (n×): …` für persönliche
-  Auszahlungen (`economy.wallets{}`) und `HQ-Pool: … CU verfügbar` für den
+  Auszahlungen (`characters[].wallet`) und `HQ-Pool: … CU verfügbar` für den
   Restbestand (`economy.hq_pool`). Beim Umstieg von Solo auf Koop erzeugt die Runtime
   sofort (`Wallets initialisiert (n×)`-Toast) Einträge für alle Figuren aus
-  `party.characters[]`; die Fallback-Struktur `team.members[]` bleibt
-  ausschließlich für Legacy-Migrationen reserviert.
+  `characters[]`; Legacy-Aliase (`party.characters[]`/`team.members[]`) bleiben
+  ausschließlich Importpfad.
   `initialize_wallets_from_roster()` verschiebt alte Solo-Guthaben vollständig
   in den HQ-Pool und öffnet anschließend die Wallets aller aktiven IDs. Ohne
   Spezialvorgaben teilt die SL die Prämie gleichmäßig und holt eine
-  Bestätigung ein, bevor Sonderwünsche umgesetzt werden. Alle Anpassungen am HQ-
-  Pool spiegeln `economy.credits` automatisch, damit Arena- und Tool-Fallbacks
-  denselben Kontostand sehen.
+  Bestätigung ein, bevor Sonderwünsche umgesetzt werden. Der HQ-Pool bleibt
+  als `economy.hq_pool` der einzige kanonische Team-Kontostand.
 - **Hazard-Pay** wird vor dem Split verbucht: `hazard_pay`-Angaben im Debrief
   landen direkt im HQ-Pool (`Hazard-Pay: … CU priorisiert`), erst danach läuft
   die Wallet-Verteilung.
