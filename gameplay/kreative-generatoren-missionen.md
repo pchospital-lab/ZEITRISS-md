@@ -144,6 +144,8 @@ als auch beim Transfer-Back bzw. einer Hot-Exfil.
   Boss-Resolution).
 - One-Weird-Thing-Budget aktiv: genau **1** Anomalie (über `register_anomaly()`),
   restliche Effekte rationalisieren (Tech, Psi, Zeitphysik).
+- Rift-Casefiles sind abgeschlossene Sonderfälle und spielen als eigene
+  Einsatzfilme ohne Pflichtbezug zu laufender Core-Mission, Episode oder Arc.
 
 ### Einstiegsmodi und Pflichtphasen {#undercover-einstieg}
 
