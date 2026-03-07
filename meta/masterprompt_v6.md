@@ -259,6 +259,16 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     "talents": [],
     "equipment": [],
     "implants": [],
+    "history": {"background": "", "milestones": []},
+    "carry": [],
+    "quarters_stash": [],
+    "vehicles": {
+      "epoch_vehicle": {
+        "id": "VEH-XXXX", "name": "", "type": "vehicle", "tier": 1, "upgrades": []
+      },
+      "availability": {"ready_every_missions": 3, "next_ready_in": 0},
+      "legendary_temporal_ship": null
+    },
     "reputation": {
       "iti": 0, "faction": "Ordo Mnemonika",
       "factions": { "ordo_mnemonika":0, "chrono_symmetriker":0,
@@ -283,6 +293,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
   - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` — max 1, nur wenn vorhanden.
   - Equipment einheitlich: `{"name":"...", "type":"weapon|armor|gadget|consumable", "tier":1}`. Namen dürfen frei/generativ sein, wenn Wirkung und Tier plausibel bleiben.
+  - Charakterbogen-Minimum (persistiert): `history{background,milestones[]}`, `carry[]` (max 6), `quarters_stash[]` (max 24) und `vehicles{epoch_vehicle,availability,legendary_temporal_ship?}`.
+  - Fahrzeug-SSOT: `epoch_vehicle` ist pro Charakter Pflicht; `legendary_temporal_ship` ist optional und bleibt ein seltener Zusatzslot. Verfügbarkeit folgt TEMP-Tabelle (1–2 alle 4 Missionen, 3–5 alle 3, 6–8 alle 2, ab 9 jede Mission).
+  - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`; Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
   - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
   - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.

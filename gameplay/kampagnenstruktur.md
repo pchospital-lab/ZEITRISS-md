@@ -1470,10 +1470,12 @@ HQ:
 - **Persönliche Quartiere:** Jeder Agent verfügt über einen eigenen Raum oder Bereich, der nach und nach
   personalisiert werden kann. Egal in welchem Fraktionskomplex ihr euch befindet — ein eigener
   Stützpunkt außerhalb des ITI ist nicht vorgesehen.
-  Quartier-Upgrades sind rein **narrativ/kosmetisch** und liefern keine mechanischen Boni.
+  Quartier-Upgrades bleiben **primär narrativ/kosmetisch** und liefern keine Würfelboni.
+  Für Save-Konsistenz gilt jedoch ein kleiner Mechanik-Kern: persönlicher Stash pro Charakter
+  (`quarters_stash[]`) mit fester Obergrenze, damit Split/Merge stabil bleibt.
   Erinnerungsstücke an vergangene Missionen lassen das HQ zum Tagebuch der Gruppe werden.
   Investitionen in CU bringen Flavor: bessere Einrichtung, Dekoration, persönlicher Stash —
-  aber keine Würfelboni. Das Quartier ist ein Rückzugsort, keine separate Basis.
+  ohne Kampfvorteil. Das Quartier ist ein Rückzugsort, keine separate Basis.
   Siehe [Ebene 2: Persönliches Quartier](#ebene-2-persönliches-quartier-charakter-ebene) oben.
 - **Medizinisches Zentrum:** Ein Bereich mit Krankenstation und vielleicht sogar einer temporalen
   Stabilisierungskammer. Bei Ausbauten verbessert sich die medizinische Versorgung, Verletzungen der

@@ -18,7 +18,7 @@
 # ║  Umgebungsvariablen (optional):                                 ║
 # ║    OPENWEBUI_URL     – Standard: http://localhost:3000          ║
 # ║    OPENWEBUI_API_KEY – Wird interaktiv abgefragt falls leer    ║
-# ║    ZEITRISS_MODEL    – Base Model (Standard: siehe unten)       ║
+# ║    ZEITRISS_MODEL    – Base Model (Standard: Sonnet 4.6)       ║
 # ╚══════════════════════════════════════════════════════════════════╝
 
 set -euo pipefail
@@ -91,14 +91,14 @@ fi
 ok "API-Key gültig"
 
 # ── Base Model bestimmen ───────────────────────────────────────────
-DEFAULT_REMOTE_MODEL="deepseek/deepseek-chat-v3-0324"
+DEFAULT_REMOTE_MODEL="anthropic/claude-sonnet-4.6"
 
 prompt_manual_model() {
   echo ""
   echo "  Verfügbare Modelle findest du unter:"
   echo "  $OPENWEBUI_URL → Neuer Chat → Modell-Dropdown"
   echo ""
-  read -rp "  Model-ID eingeben (z.B. deepseek/deepseek-chat-v3-0324): " BASE_MODEL
+  read -rp "  Model-ID eingeben (z.B. anthropic/claude-sonnet-4.6): " BASE_MODEL
   if [ -z "$BASE_MODEL" ]; then
     fail "Kein Modell angegeben. Abbruch."
   fi

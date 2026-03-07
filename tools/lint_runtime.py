@@ -152,6 +152,12 @@ def check_save_v7_canonical_export_block(text: str, fails: list[str]) -> None:
     req(r"\"hq_pool\"\s*:", section, "Save-Exportformat nutzt economy.hq_pool", fails)
     req(r"\"arc\"\s*:\s*\{", section, "Save-Exportformat nutzt arc-Objekt", fails)
 
+    req(r"\"history\"\s*:\s*\{", section, "Save-Exportformat nutzt Charakter-History", fails)
+    req(r"\"carry\"\s*:\s*\[", section, "Save-Exportformat nutzt Carry-Liste", fails)
+    req(r"\"quarters_stash\"\s*:\s*\[", section, "Save-Exportformat nutzt Quartier-Stash", fails)
+    req(r"\"vehicles\"\s*:\s*\{", section, "Save-Exportformat nutzt Fahrzeug-Container", fails)
+    req(r"\"epoch_vehicle\"\s*:\s*\{", section, "Save-Exportformat nutzt epoch_vehicle", fails)
+
     forbidden = (
         r"\"save_version\"",
         r"\"character\"\s*:",

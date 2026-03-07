@@ -204,7 +204,7 @@ im laufenden Spiel möglich bleiben. Wer gezielt einen Psi-Charakter bauen will,
 an einleiten; alternativ kann ein Charakter Psionik erst später über Training, Ereignisse oder
 Story-Fortschritt erschließen.
 
-Epochenfiguren außerhalb des Chrononauten-Kerns (z. B. Schaman:innen, Wahrsager:innen, lokale
+Epochenfiguren außerhalb des Chrononauten-Kerns (z. B. Schamanen, Wahrsager und lokale
 Mystiker) können in seltenen Fällen dieselben Effekte zeigen, benennen sie jedoch kulturell anders.
 Psi-Effekte werden insgesamt nüchtern als Neurotraining, Resonanzphänomen oder zeitversetzte
 Technologie gelesen. Gleichzeitig bleibt der Spielfluss robust: Schlüsselszenen bieten immer auch
