@@ -3,8 +3,6 @@ const path = require('path');
 const { version: ZR_VERSION = '4.2.6' } = require('./package.json');
 
 const RANK_ORDER = ['Rekrut', 'Operator I', 'Operator II', 'Lead', 'Specialist', 'Chief'];
-const COMPLIANCE_NOTICE =
-  'Compliance-Hinweis: ZEITRISS ist ein Science-Fiction-Rollenspiel. Alle Ereignisse sind fiktiv.';
 
 const CHRONO_CATEGORY_LIMITS = {
   'Temporal Ships': 1,
@@ -3757,45 +3755,12 @@ function ForeshadowHint(text, tag = 'Foreshadow'){
 }
 
 function sync_compliance_flags(){
-  ensure_logs();
-  ensure_campaign();
-  const flags = state.logs.flags;
-  const combined = !!(flags.compliance_shown_today || state.campaign?.compliance_shown_today);
-  flags.compliance_shown_today = combined;
-  state.campaign.compliance_shown_today = combined;
-  return combined;
+  return false;
 }
 
 function show_compliance_once(options = {}){
-  const normalized = typeof options === 'boolean'
-    ? { force: options, qa_mode: false }
-    : (options || {});
-  const force = !!normalized.force;
-  const channel = typeof normalized.channel === 'string'
-    ? normalized.channel.toLowerCase()
-    : normalized.channel;
-  const qaMode = !!normalized.qa_mode || channel === 'hud';
-  ensure_logs();
-  ensure_campaign();
-  const flags = state.logs.flags;
-  const alreadyShown = !!flags.compliance_shown_today;
-  if (qaMode){
-    flags.qa_mode = true;
-    state.campaign.qa_mode = true;
-  }
-  if (alreadyShown && !force){
-    return false;
-  }
-  const toastOnly = qaMode;
-  if (!toastOnly){
-    writeLine(COMPLIANCE_NOTICE);
-  }
-  if (qaMode){
-    hud_toast(COMPLIANCE_NOTICE, 'HUD');
-  }
-  flags.compliance_shown_today = true;
-  sync_compliance_flags();
-  return !alreadyShown || force;
+  void options;
+  return false;
 }
 
 function play_hq_intro(force = false, mode = 'klassisch'){
@@ -5211,7 +5176,7 @@ function render_runtime_flags_summary(){
   if (typeof flags.runtime_version === 'string' && flags.runtime_version.trim()){
     parts.push(`Runtime ${flags.runtime_version.trim()}`);
   }
-  parts.push(flags.compliance_shown_today ? 'Compliance gezeigt' : 'Compliance offen');
+  parts.push('Compliance-Hook inaktiv');
   parts.push(
     flags.chronopolis_warn_seen
       ? 'Chronopolis-Warnung quittiert'
