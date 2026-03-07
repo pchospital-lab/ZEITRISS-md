@@ -282,7 +282,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
   - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
   - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` — max 1, nur wenn vorhanden.
-  - Equipment einheitlich: `{"name":"...", "type":"weapon|armor|gadget|consumable", "tier":1}`.
+  - Equipment einheitlich: `{"name":"...", "type":"weapon|armor|gadget|consumable", "tier":1}`. Namen dürfen frei/generativ sein, wenn Wirkung und Tier plausibel bleiben.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
   - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
   - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.
