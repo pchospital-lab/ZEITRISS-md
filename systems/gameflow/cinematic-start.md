@@ -70,7 +70,7 @@ Rückkehrprotokoll erfasst die Ankömmlinge mit einem Netz aus grünem Laserlich
 scannt sie auf Anomalien und signalisiert mit einem sanften Ton, dass alle
 **sicher in der Nullzeit** angekommen sind. Ein sanfter Ton erklingt im
 **Comlink (Ohrstöpsel)**, gleichzeitig fährt die **AR-Kontaktlinse** das Overlay
-hoch: `Willkommen, Agent*in. Kodex-Sync aktiv ...`
+hoch: `Willkommen, Agent. Kodex-Sync aktiv ...`
 *(Details zur Hardware: siehe
 [HUD & Comms – Spezifikation](../../characters/hud-system.md#hud-comms-spec)).*
 
@@ -104,7 +104,7 @@ Kodex-Systems sind die einzigen Geräusche – eine Szene wie aus einem Film,
 voller Bedeutung und Erwartung.
 
 Schließlich durchbricht Renier die Stille, seine Stimme hallt ruhig durch den
-hohen Raum: _„Willkommen im Herzen des ITI, Agents.“_ Während er spricht,
+hohen Raum: _„Willkommen im Herzen des ITI, Agenten.“_ Während er spricht,
 erscheint ein halbtransparentes Interface-Display neben ihm – der Kodex
 projiziert Ankunftsdaten und Profile. Renier fährt fort, während sein Blick
 über die versammelten Zeitreisenden schweift: \*„Sie befinden sich nun in der
@@ -124,7 +124,7 @@ Abenteuer sein…
 **Willkommen zu Modul 13 von ZEITRISS 4.2.6**, der überarbeiteten und erweiterten
 Fassung des cineastischen Einstiegs ins erste Abenteuer. Dieses Kapitel ersetzt
 das frühere fixe Einstiegsszenario durch einen **flexiblen Baukasten**, der
-Spielleiter\*innen dabei hilft, einen maßgeschneiderten, filmreifen Start in die
+Spielleiter dabei hilft, einen maßgeschneiderten, filmreifen Start in die
 Kampagne zu gestalten. Statt einer vorgegebenen Szene bietet Modul 13 zahlreiche
 **Optionen für Einstiege**, die individuell an Gruppe, Epoche und Tonalität
 angepasst werden können.
@@ -161,7 +161,7 @@ ZEITRISS-Abenteuer** ihrer Gruppe zu schaffen.
 
 Tauchen wir nun ein in die Welt des filmischen Erzählens und schauen wir uns an,
 mit welchen Techniken und Ideen man einen **cineastischen Einstieg**
-inszenieren kann. Licht aus, **Film ab** für euer Zeitreise-Abenteuer!
+inszenieren kann. Fokus an, Einsatzstart für euer Zeitreise-Abenteuer!
 
 ### Mini-Szenarien: Preserve vs Trigger
 
@@ -190,7 +190,7 @@ erstrahlen zu lassen:
   einer actiongeladenen Szene** starten wollt. Ähnlich wie ein Film, der ohne
   Vorlauf in einer Verfolgungsjagd oder einem Gefecht beginnt, kann ein
   ZEITRISS-Abenteuer die Charaktere unmittelbar in Schwierigkeiten werfen. Der
-  Effekt: Die Spieler\*innen sind sofort hellwach, Adrenalin liegt in der Luft.
+  Effekt: Die Spieler sind sofort hellwach, Adrenalin liegt in der Luft.
   Beispiel: Die Gruppe findet sich direkt beim **Showdown einer Mission** wieder
   – etwa eingekreist von Schergen eines Zeitverbrechers –, bevor die Handlung dann
   einen Schritt zurücktritt und erklärt, wie es dazu kam. Dieser Auftakt in medias
@@ -212,7 +212,7 @@ erstrahlen zu lassen:
 - **Close-ups und Details:** Nach der Totale lohnt es sich, den imaginären Fokus
   auf **prägnante Details** zu richten – wie ein Film, der von der weiten
   Einstellung in eine Nahaufnahme schneidet. Welche **Schlüsselbilder** sollen
-  den Spieler\*innen im Gedächtnis bleiben? Vielleicht eine Großaufnahme der
+  den Spieler im Gedächtnis bleiben? Vielleicht eine Großaufnahme der
   zitternden Hand des Agenten, der zum ersten Mal durch den Zeitriss greift. Oder
   der eindringliche Blick einer NPC-Mentorfigur, der die Dringlichkeit der Mission
   vermittelt. Solche „Close-ups“ in der Beschreibung lenken die Aufmerksamkeit
@@ -263,11 +263,10 @@ erstrahlen zu lassen:
   Technik-Check – um zu zeigen, wie die Neulinge sich fit machen. Solche
   **dynamischen Zeitsprünge** vermitteln viel Atmosphäre in kurzer Zeit.
 
-Diese Techniken sind das Handwerkszeug, um eure Spieler\*innen direkt zu fesseln. Nutzt sie je nach
+Diese Techniken sind das Handwerkszeug, um eure Spieler direkt zu fesseln. Nutzt sie je nach
 Geschmack und Erfahrung eurer Gruppe. Wichtig ist dabei, **_spielerzentriert_** zu bleiben: Lasst
 den Charakteren Raum, auf die Szenerie zu reagieren, und passt euer „Kamera-Skript“ spontan an ihre
-Handlungen an. So entsteht das Gefühl, gemeinsam einen Film zu „drehen“, in dem die Spieler\*innen
-die Hauptrollen innehaben.
+Handlungen an. So entsteht ein gemeinsamer Einsatzfluss, in dem die Spieler die Hauptrollen innehaben.
 
 ## Anpassung an Gruppe, Epoche und Tonalität
 
@@ -279,7 +278,7 @@ Bedürfnisse anpasst:
 ### Gruppengröße und Charakterfokus
 
 - **Einzelspieler vs. Gruppe:** Spielt ihr mit **einer einzelnen Hauptfigur**,
-  könnt ihr den Einstieg sehr persönlich halten – der/die Charakter*in steht
+  könnt ihr den Einstieg sehr persönlich halten – der Charakter steht
   allein im Zentrum der Kamera. In einem Solo-Einstieg lohnt es sich, Nebenfiguren
   (Mentoren wie Commander Renier, KI-Assistenten, Hologramm-Begleiter etc.)
   stärker einzusetzen, damit der Spieler genug Interaktion hat.
@@ -301,7 +300,7 @@ Bedürfnisse anpasst:
   oder variieren. Erfahrene Chrononauten brauchen vielleicht keine lange
   Orientierungsrede – stattdessen könnte man direkt mit einer
   Einsatzbesprechung oder einem Briefing als Auftaktszene starten. Für **völlig
-  neue Agenten** hingegen (und neue Spieler\*innen) ist ein **langsamerer
+  neue Agenten** hingegen (und neue Spieler) ist ein **langsamerer
   Einstieg** sinnvoll, der das Staunen und Entdecken in den Vordergrund rückt.
   Überlegt also, ob eure Charaktere schon wissen, worauf sie sich einlassen, oder
   ob sie buchstäblich gerade erst durch den Zeitriss _gezogen_ wurden und jetzt
@@ -317,13 +316,13 @@ Bedürfnisse anpasst:
   sich der Ritter über die seltsamen Hologramme im HQ, während der
   Cyberpunk-Hacker aus der Zukunft irritiert ist, dass im 21. Jh. noch mit
   Tastaturen gearbeitet wurde. Solche Momente lockern die Stimmung und verankern
-  gleich die Vielfalt der Hintergründe. Fragt die Spieler\*innen, was man ihren
+  gleich die Vielfalt der Hintergründe. Fragt die Spieler, was man ihren
   Charakteren ansieht – Kleidung, Sprache, Accessoires – und spielt darauf als SL
   mit neugierigen NPC-Reaktionen. So fühlt sich jede Herkunft **wertgeschätzt**
   und hat Einfluss auf die Story. Der erste Auftrag kann ebenfalls darauf Rücksicht
   nehmen: Hat man z.B. einen Mediziner aus dem 1. Weltkrieg in der Gruppe, könnte
   die erste Mission medizinische Hilfe in einem Konflikt erfordern, damit dieser
-  Charakter glänzen kann. Ein Einstieg ist dann gelungen, wenn **jede/r das Gefühl
+  Charakter glänzen kann. Ein Einstieg ist dann gelungen, wenn **jeder das Gefühl
   hat, Teil von etwas Großem** zu sein und die eigenen Fähigkeiten bald wichtig
   werden.
 
@@ -381,7 +380,7 @@ Bedürfnisse anpasst:
   markante Details, die sofort das Genre signalisieren (z.B. schwebende Autos und
   Neonreklamen für Cyberpunk, Pferdekutschen und Gaslampen für viktorianisch etc.).
   Passt also Setting und Epoche so an, dass sie eure gewünschte Story unterstützen
-  und die Spieler\*innen in genau _dieser_ Welt Abenteuer erleben möchten.
+  und die Spieler in genau _dieser_ Welt Abenteuer erleben möchten.
 
 ### Tonalität und Stimmung
 
@@ -403,7 +402,7 @@ Bedürfnisse anpasst:
   Dringlichkeit und Gefahr. **Kommuniziert den Ton** klar durch die Wortwahl und
   Bildsprache: Komik entsteht durch unerwartete Kontraste oder schräge
   Situationen, Spannung durch Andeutung von Risiken, Horror durch detaillierte
-  Schilderung des Unheimlichen usw. So wissen die Spieler\*innen, worauf sie sich
+  Schilderung des Unheimlichen usw. So wissen die Spieler, worauf sie sich
   einstellen können.
 - **Spielerische Freiheit vs. inszenierte Dramaturgie:** Ein cineastischer Einstieg
   balanciert zwischen **Leitfaden** und **spielerischer Freiheit**. Entscheidet, wie
@@ -432,42 +431,21 @@ Bedürfnisse anpasst:
   ziehen wir an einem Strang.“_ So entsteht **Meta-Kohärenz**: Die Figuren dürfen
   unterschiedlich ticken, aber die Story hat einen gemeinsamen Grundton.
 
-### Optionale Erweiterung: Sora und cineastische „Film ab!“-Momente
+### Optionale Erweiterung: Einsatz-Recap im Debrief
 
-Modul 13 konzentriert sich auf die **narrative** Inszenierung durch die Spielleitung.
-Doch es gibt im
-ZEITRISS-System auch technische Hilfsmittel, um das Kinoerlebnis zu verstärken. Eines davon –
-optional und nach Gruppenvorliebe – ist die **„Film ab!“-Funktion** der KI-Spielleitung, intern
-bekannt als **Sora**.
+Modul 13 bleibt auf den **narrativen Einstieg** fokussiert. Wenn eure Runde nach
+Missionen einen schnellen Rückblick möchte, nutzt im Debrief eine kurze,
+strukturierte Zusammenfassung im Kodex-Stil:
 
-_Sora_ kann auf Kommando ganze Szenen oder Missionen **filmisch zusammenfassen**. Stellt es euch wie
-einen In-Game-Trailer oder einen Erinnerungs-Holoclip vor, der wichtige Momente noch einmal in
-rascher Schnittfolge mit hoher Schlagzahl zeigt. Diese Funktion wurde in späteren Modulen (z.B.
-Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
-das: Wenn die Spieler\*innen es wünschen, könnte man Sora am Ende des ersten Abenteuers ein **kurzes
-„Recap“** liefern lassen – etwa als holografische Projektion im Briefing-Raum, die zeigt, was die
-Agenten geleistet haben, als wären sie die Helden eines Films. Schreibt nach einer Mission einfach
-`Film ab!`, um diese Zusammenfassung zu erhalten und bei Bedarf in eine Video-KI zu kopieren.
-Denkbar wäre sogar, Sora einen
-**Vorspann** erstellen zu lassen, bevor das Abenteuer beginnt: ein kurzes Video oder eine
-Beschreibung, die alle Charaktere mit Namen, Zeitherkunft und einem dramatischen Bild vorstellt
-(ähnlich einem Serien-Intro).
+- **Lage:** Was wurde stabilisiert, was ist offen?
+- **Belastung:** LP/SYS-Zustand und kritische Marker.
+- **Folgen:** neue Spuren, Fraktionen, offene Risiken.
+- **Nächster Schritt:** klare Handlungsoption für die nächste Szene.
 
-Wichtig: Sora und die „Film ab!“-Momente sind **kein Pflichtbestandteil** des Einstiegs. Sie sind
-eine **Spielerei für Atmosphäre**, die nur eingesetzt werden sollte, wenn alle Spaß daran haben.
-Manche Gruppen lieben es, solche Meta-Elemente einzubauen, andere bevorzugen es, komplett in der
-erzählten Szene zu bleiben. Fühlt also vor, was passt. Wenn eingesetzt, sollte Sora dosiert und
-stilvoll bleiben – denkt an die **Ästhetik eines Trailers**: kurze Schnitte, starke Bilder, keine
-lange Nacherzählung. So ein Highlight-Montage kann den cineastischen Anspruch untermauern und den
-Spieler\*innen das Gefühl geben, **Teil eines großen Films** zu sein. Aber auch ohne Sora könnt ihr
-mit guter Erzählung und vielleicht etwas Hintergrundmusik bereits alle nötigen Kino-Gefühle wecken.
-Die Technik ist optional – die **Magie entsteht am Spieltisch**.
-
-_(Hinweis: Die Sora-Videos werden in der Spielrealität als ITI-internes Feature erklärt – quasi die
-KI, die Missionsdaten aufbereitet. Außerhalb der Spielwelt können solche Videos oder narrativen
-Zusammenfassungen von der Spielleitung vorbereitet oder live von einer KI wie ChatGPT erstellt
-werden, um sie den Spielern zu präsentieren. Nutzt diese Möglichkeit nur, wenn sie euren Stil
-bereichert.)_
+Wichtig: Solche Recaps sind **optional** und kein eigener Spielmodus. Sie sollen
+nur Orientierung geben, ohne externe Tools, Meta-Referenzen oder zusätzliche
+Pflichtausgaben einzuführen. Der Kern bleibt die Szene am Tisch: Entscheidungen,
+Konsequenzen, Debrief.
 
 ## Varianten für den Beginn des ersten Abenteuers
 
@@ -528,7 +506,7 @@ eine dramatische **Rettungsaktion** sein, ein Kampf oder ein gefährlicher Diebs
 fordert das Team heraus. Erst nachdem der erste Adrenalin-Schub überstanden ist, folgt die
 Auflösung, wie es dazu kam (ähnlich wie bei einem Bond-Film, der mit einer actionreichen Mini-
 Mission beginnt, bevor die Hauptgeschichte startet). In ZEITRISS könntet ihr so vorgehen: Beginnt
-_in medias res_ in einer Zeitperiode, wo die Agents gerade **etwas Schiefgelaufenes reparieren**
+_in medias res_ in einer Zeitperiode, wo die Agenten gerade **etwas Schiefgelaufenes reparieren**
 müssen. Beispiel: _New York, 1929 – die Chrononauten jagen einen abtrünnigen Zeitagenten über die
 Dächer, um ein gestohlenes Relikt zurückzuholen._ Die Spieler wissen anfangs nicht viel Kontext,
 nur dass es wichtig ist. Nachdem die Szene gespielt ist (idealerweise erfolgreich), **schneidet**
@@ -577,7 +555,7 @@ Zeitriss, durch das der Held/die Heldin ins HQ eingeladen wird. Sobald alle eing
 es über zur gemeinsamen Szene (oft dann Ankunft im HQ, siehe Option 1). Diese **Origin Stories**
 bringen viel Flair und bieten reichlich Gesprächsstoff fürs erste Aufeinandertreffen („Ihr habt
 _was_ getan? Wie krass!“). Allerdings kosten sie Zeit – man sollte aufpassen, dass es sich nicht
-ewig hinzieht, damit alle Spieler\*innen bei allen Prologen beteiligt bleiben (ggf. können die
+ewig hinzieht, damit alle Spieler bei allen Prologen beteiligt bleiben (ggf. können die
 anderen als NSCs oder Gegenspieler mitwirken, um sie einzubinden).
 
 **Cineastische Tipps:** Gestaltet jeden Prolog wie eine eigene **Filmszene mit Genre-Anleihen**,
@@ -598,7 +576,7 @@ Spielerzahl wählt man die spannungsreichsten aus. Alternativ kann man die Prolo
 eigentlichen Spielsession** als Briefform oder Solo-Play spielen (z.B. in der Session 0 oder per
 E-Mail/Chat im Vorfeld), und die erste gemeinsame Sitzung startet dann im HQ mit dem Wissen um die
 individuellen Vorgeschichten. Diese Methode fordert einiges an Vorbereitung, liefert aber auch sehr
-**investierte Spieler**, da jede\*r bereits einen Moment hatte, sich zu profilieren. Tonal kann es
+**investierte Spieler**, da jeder bereits einen Moment hatte, sich zu profilieren. Tonal kann es
 eine Herausforderung sein, wenn die Prologe sehr unterschiedlich sind (z.B. Comedy-Szene vs.
 Tragödie) – hier muss die Spielleitung beim Zusammenführen einen **gemeinsamen Nenner** finden,
 damit der Ton des Hauptabenteuers konsistent wird. Insgesamt ist Option 3 die aufwändigste, aber
@@ -865,7 +843,7 @@ lüften, bevor die Anomalie außer Kontrolle gerät.
   Horror-Elemente einfließen lassen (aber vorsichtig dosiert für Session 1): Das Gefühl, dass die
   Charaktere etwas **Übernatürlichem** auf der Spur sind, das sich dann wissenschaftlich als
   Zeitphänomen erklärt, trifft genau den Sweet Spot von ZEITRISS zwischen
-  Science-Fiction und Mystery. Die Spieler\*innen haben Gelegenheit, ihre
+  Science-Fiction und Mystery. Die Spieler haben Gelegenheit, ihre
   Ermittlungsfähigkeiten zu zeigen, und es gibt Raum für Gruppendiskussionen
   („Was um alles in der Welt geht hier vor?“). Allerdings sollte im Finale
   dennoch eine **greifbare Herausforderung** stehen – sei es eine Kreatur, die
@@ -927,7 +905,7 @@ und bildet somit einen kompakten Zehnmissionsbogen.
 _Tonalität:_ Dieser Einstieg erklärt Clusterlogik und Rift-Phasen. Artefakte sind
 Belohnung, aber kein Pflichtschlüssel.
 
-Dies sind nur **einige von vielen** möglichen Einstiegsmissionen. Ihr kennt eure Spieler\*innen und
+Dies sind nur **einige von vielen** möglichen Einstiegsmissionen. Ihr kennt eure Spieler und
 ihre Vorlieben am besten – fühlt euch frei, Elemente zu mischen oder ganz eigene Ideen zu
 entwickeln. Wichtig für das erste Abenteuer ist, dass es **Neugier weckt, Rollen bietet und das
 Versprechen eurer Kampagne einlöst**. Ein guter Einstieg fühlt sich nach _„großem Kino“_ an, lässt
