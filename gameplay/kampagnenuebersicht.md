@@ -56,6 +56,7 @@ Trainingsmodul. Standard ist `arena.match_policy=sim` (Sim/Range) - PvP bleibt
 nicht-kanonisch und dient dem Skilltest. Für erzählerische Rivalitäten kann die
 Spielleitung `arena.match_policy=lore` setzen: Cross-Alignment ist erlaubt,
 doch der Kampf gilt als offizieller Lore-Showdown mit Ruf- und Fraktions-Echo.
+Auch im Lore-Modus bleibt PvP nicht-tödlich (Knockout/Aufgabe/Abbruch statt Tod).
 
 
 ### Safety Tools

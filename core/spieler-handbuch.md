@@ -60,6 +60,10 @@ Jobs zu erledigen. Denkt an einen Tech-Noir-Agententhriller mit Mystery-Casefile
 - Freigeschaltet durch Px 5 (gutes Spielen → Belohnung).
 - Paramonster jagen, Artefakte looten.
 - Mystery-Casefile-Atmosphäre in historischem Setting.
+- Jede Rift-Op ist ein eigenständiger Mystery-Casefile-Fallfilm:
+  kein Pflichtbezug zu laufender Core-Mission, Episode, Arc oder Kampagne.
+- Die Ursache kann auf einen Zeitriss zurückgeführt werden - oder
+  absichtlich mysteriös bleiben, wenn der Fall nicht vollständig geklärt wird.
 
 **HQ (Zwischen den Missionen):**
 - Die **ITI-Gesamtanlage** ist eure Basis in der Nullzeit: sicherer HQ-Kern
@@ -178,6 +182,22 @@ Weiterführend:
 | 4-6 | Mittel verletzt | -2 |
 | 1-3 | Schwer verletzt | -3 |
 | 0 | Kritisch (Not-Rückholung) | - |
+
+### Einsatzgewalt & Endzustände (Filmstandard)
+
+- **Core-Ops:** Gegner dürfen hart und filmisch ausgeschaltet werden; bei 0 LP
+  gelten sie in der Szene als dauerhaft kampfunfähig (kein sofortiges Zurückkommen
+  im selben Einsatz).
+- **Boss- und Mini-Boss-Standard:** Bei 0 LP gelten sie primär als **besiegt und
+  schwer verletzt**, werden dingfest gemacht und nach Möglichkeit dem ITI zur
+  Vorführung vor dem Richter überstellt.
+- **Todesentscheidungen** bleiben dramatische Ausnahmefälle für Schlüsselmomente
+  (z. B. finale Endlagen, Opferentscheidungen, nicht anders lösbare Eskalation).
+- **Rift-Ops:** Mystische Kreaturen können je nach Lage gebannt, neutralisiert
+  oder getötet werden; die Spielleitung priorisiert einen filmisch klaren Abschluss
+  des Casefiles.
+- **PvP/Arena:** kein Tod als Standardauflösung; Duelle enden über Aufgabe,
+  Knockout oder technischen Abbruch.
 
 ### Stress (0-10)
 
