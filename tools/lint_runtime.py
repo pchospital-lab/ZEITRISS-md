@@ -298,6 +298,33 @@ def check_wallet_roster_ssot_in_runtime_guides(root: Path, fails: list[str]) -> 
             else:
                 log.info("[ OK ] %s ohne SSOT-Rueckfall /%s/", rel_path, pattern)
 
+
+
+def check_no_v6_export_claims_in_save_module(root: Path, fails: list[str]) -> None:
+    rel_path = "systems/gameflow/speicher-fortsetzung.md"
+    target = root / rel_path
+    try:
+        text = read_text(target)
+    except FileNotFoundError as exc:
+        msg = f"{rel_path}: {exc}"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    forbidden_patterns: tuple[str, ...] = (
+        r"Aktuelle Saves \(v6\)",
+        r"Single Source \"Save v6\"",
+        r"neue Saves entstehen ausschließlich\s+im v6-Format",
+    )
+
+    for pattern in forbidden_patterns:
+        if re.search(pattern, text):
+            msg = f"{rel_path}: v6-Export-Behauptung gefunden: /{pattern}/"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+        else:
+            log.info("[ OK ] %s ohne v6-Export-Behauptung /%s/", rel_path, pattern)
+
 def check_forbidden_gender_syntax_in_runtime(root: Path, fails: list[str]) -> None:
     targets: tuple[tuple[str, tuple[str, ...]], ...] = (
         (
@@ -492,6 +519,7 @@ def main() -> int:
     check_forbidden_editorial_aids(root, fails)
     check_forbidden_gender_syntax_in_runtime(root, fails)
     check_wallet_roster_ssot_in_runtime_guides(root, fails)
+    check_no_v6_export_claims_in_save_module(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"\"v\"\s*:\s*7", sv, "v7-Version im Save-Modul dokumentiert", fails)
