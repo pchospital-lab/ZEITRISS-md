@@ -326,6 +326,38 @@ def check_no_v6_export_claims_in_save_module(root: Path, fails: list[str]) -> No
             log.info("[ OK ] %s ohne v6-Export-Behauptung /%s/", rel_path, pattern)
 
 
+def check_no_embedded_v6_json_examples_in_save_module(root: Path, fails: list[str]) -> None:
+    rel_path = "systems/gameflow/speicher-fortsetzung.md"
+    target = root / rel_path
+    try:
+        text = read_text(target)
+    except FileNotFoundError as exc:
+        msg = f"{rel_path}: {exc}"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    section_start = "### Kompakt-Profil (Save v7)"
+    section_end = "### E2E-Trace-Schema"
+    section = text
+    if section_start in text and section_end in text:
+        section = text.split(section_start, 1)[1].split(section_end, 1)[0]
+
+    forbidden_patterns: tuple[str, ...] = (
+        r'"save_version"\s*:\s*6',
+        r'"arc_dashboard"\s*:\s*\{',
+        r'"economy"\s*:\s*\{\s*"cu"\s*:',
+    )
+
+    for pattern in forbidden_patterns:
+        if re.search(pattern, section):
+            msg = f"{rel_path}: eingebettetes v6-JSON-Beispiel gefunden: /{pattern}/"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+        else:
+            log.info("[ OK ] %s ohne eingebettetes v6-JSON-Beispiel /%s/", rel_path, pattern)
+
+
 
 def check_runtime_compliance_hook_inactive(root: Path, fails: list[str]) -> None:
     rel_path = "runtime.js"
@@ -547,6 +579,7 @@ def main() -> int:
     check_forbidden_gender_syntax_in_runtime(root, fails)
     check_wallet_roster_ssot_in_runtime_guides(root, fails)
     check_no_v6_export_claims_in_save_module(root, fails)
+    check_no_embedded_v6_json_examples_in_save_module(root, fails)
     check_runtime_compliance_hook_inactive(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
