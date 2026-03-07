@@ -719,6 +719,11 @@ counter_move(): Spezialfähigkeit oder Positionswechsel, der Druck erhöht (Time
 Erzeugt skalierte Gegner je nach Missionsphase. Mini-Bosse treten in Core-Mission 5 auf,
 Episoden-Bosse in Mission 10. Rift-Bosse erscheinen in Szene 10 einer Rift-Op.
 
+**Endzustand-Policy (filmisch):**
+- Core-Mini-/Episodenbosse gelten bei **0 LP** als besiegt, schwer verletzt und
+  festsetzbar (standardmäßig ITI-Gewahrsam statt sofortigem Tod).
+- Tod bleibt Ausnahme für klar ausgespielte Schlüsselmomente.
+
 ### boss_template
 
 ```yaml
