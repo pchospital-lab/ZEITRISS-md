@@ -291,101 +291,10 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
 Installation (`sys_installed ≤ attr.SYS`).
 
-> **⚠️ Schema-Hinweis:** Die JSON-Beispiele in diesem Dokument zeigen
-> teilweise noch das **v6-Format** (`save_version: 6`, `party.characters[]`,
-> `economy.cu`, `arc_dashboard`). Das aktuelle Schema ist **v7** — siehe
-> Masterprompt für das kanonische Template. v6-Saves werden beim Laden
-> automatisch migriert. Die v6-Beispiele hier dienen als Referenz für
-> die Migration und zeigen die vollständige Datenstruktur.
-
-```json
-{
-  "save_version": 6,
-  "zr_version": "4.2.6",
-  "location": "HQ",
-  "phase": "core",
-  "character": {
-    "id": "CHR-1234",
-    "name": "Ghost",
-    "rank": "Operator I",
-    "stress": 0,
-    "psi_heat": 0,
-    "cooldowns": {},
-    "attributes": {
-      "SYS_max": 5,
-      "SYS_installed": 5,
-      "SYS_runtime": 5,
-      "SYS_used": 5
-    }
-  },
-  "campaign": {"episode": 4, "scene": 0, "px": 0},
-  "team": {"members": []},
-  "party": {"characters": []},
-  "loadout": {},
-  "economy": {"cu": 0, "wallets": {}},
-  "logs": {
-    "artifact_log": [],
-    "market": [],
-    "offline": [],
-    "kodex": [],
-    "alias_trace": [],
-    "squad_radio": [],
-    "hud": [],
-    "psi": [],
-    "arena_psi": [],
-    "foreshadow": [],
-    "fr_interventions": [],
-    "flags": {
-      "runtime_version": "4.2.6",
-      "compliance_shown_today": false,
-      "chronopolis_warn_seen": false,
-      "platform_action_contract": {
-        "action_mode": "uncut",
-        }
-    }
-  },
-  "arc_dashboard": {
-    "offene_seeds": [],
-    "fraktionen": {},
-    "fragen": [],
-    "timeline": []
-  },
-  "ui": {
-    "gm_style": "verbose",
-    "intro_seen": false,
-    "suggest_mode": false,
-    "action_mode": "uncut",
-    "contrast": "standard",
-    "badge_density": "standard",
-    "output_pace": "normal",
-    "voice_profile": "gm_third_person"
-  },
-  "arena": {
-    "active": false,
-    "phase": "idle",
-    "mode": "single",
-    "match_policy": "sim",
-    "previous_mode": null,
-    "wins_player": 0,
-    "wins_opponent": 0,
-    "tier": 1,
-    "proc_budget": 0,
-    "artifact_limit": 0,
-    "loadout_budget": 0,
-    "phase_strike_tax": 0,
-    "damage_dampener": true,
-    "team_size": 1,
-    "queue_state": "idle",
-    "zone": "safe",
-    "fee": 0,
-    "scenario": null,
-    "started_episode": null,
-    "last_reward_episode": null,
-    "policy_players": [],
-    "audit": []
-  }
-}
-```
+> **Migrations-Referenz (v6):** Historische Beispiel-Saves liegen nur noch in
+> internen/archivierten Dev-Artefakten. Im geladenen Runtime-Kanon gilt
+> ausschließlich das v7-Exportformat mit `v`, `characters[]`,
+> `characters[].wallet`, `economy.hq_pool` und `arc`.
 
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (`locked_until_episode_end`/open/closed)
