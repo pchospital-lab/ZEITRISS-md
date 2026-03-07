@@ -232,16 +232,10 @@ erstrahlen zu lassen:
   – ein offenes Geheimnis, ein unerwarteter Anruf, ein plötzlich aufleuchtender
   Alarm im HQ – sorgt dafür, dass sich das Erlebnis wie eine spannende Pilotfolge
   anfühlt und alle gespannt auf die Fortsetzung sind.
-- **Musik und Soundeffekte:** Was im Film der Soundtrack übernimmt, kann am
-  Spieltisch durch **passende Musik** oder Geräuschkulisse erreicht werden.
-  Untermalt eure Eingangsszene mit Hintergrundmusik, die zur Stimmung passt:
-  epische Orchesterklänge für den großen Auftritt, leises ambientes Summen für
-  die unheimliche Stille der Nullzeit oder ein treibender elektronischer Beat für
-  die Zukunftsmetropole. Auch Soundeffekte – das entfernte Donnern eines
-  Gewitters, Schüsse und Explosionen in der Ferne, oder das Ächzen alter
-  Holzdielen – bereichern die Vorstellungskraft. Viele Spielleiter\*innen
-  erstellen Playlists für ihre Kampagne. Richtig eingesetzt, **verstärkt Audio**
-  die cineastische Wirkung enorm.
+- **Akustische Signale in der Szene:** Nutzt In-World-Signale statt Meta-Hilfen:
+  Sirenen, Comms-Pings, Hall in Katakomben, Wind in Ruinen oder Maschinenlärm
+  in Industriearealen. Solche Hinweise vermitteln Lage und Gefahr direkt im
+  Geschehen, ohne dass externe Audio-Anweisungen nötig sind.
 - **„Kamera“-Bewegungen in der Beschreibung:** Stellt euch beim Vorbereiten der
   Szene ruhig vor, **wo die Kamera wäre**, und beschreibt entsprechend. Beispiel:
   _„Die ‘Kamera’ fährt langsam an den Gesichtern der Neuankömmlinge vorbei, während
@@ -401,7 +395,7 @@ Bedürfnisse anpasst:
   Commander trocken durch den Funk kommentiert: _„Willkommen im Arbeitsalltag.“_
   Ist eure Geschichte hingegen als **düsterer Thriller** oder ernstes Drama
   geplant, setzt ihr andere Akzente: Der Einstiegsort wirkt unheimlich oder
-  bedrohlich, die Musik ist spannungsvoll, NPCs begegnen den Neuen mit kühler
+  bedrohlich, Alarme heulen in der Ferne, NPCs begegnen den Neuen mit kühler
   Professionalität statt Scherzen. Ein Beispiel für einen dunklen Ton: Die
   Charaktere kommen im HQ an, doch etwas stimmt nicht – das Licht flackert, eine
   Warnsirene heult in der Ferne und Renier begrüßt sie mit grimmiger Eile, weil
@@ -412,7 +406,7 @@ Bedürfnisse anpasst:
   Schilderung des Unheimlichen usw. So wissen die Spieler\*innen, worauf sie sich
   einstellen können.
 - **Spielerische Freiheit vs. inszenierte Dramaturgie:** Ein cineastischer Einstieg
-  balanciert zwischen **Regie** und **spielerischer Freiheit**. Entscheidet, wie
+  balanciert zwischen **Leitfaden** und **spielerischer Freiheit**. Entscheidet, wie
   viel ihr _vorskriptet_ und wo ihr Raum für spontane Aktionen lasst. Wenn der Ton
   sehr **cinematic-linear** sein soll (ähnlich einem geskripteten Prolog in einem
   Videospiel), könnt ihr wichtige Beats vorab planen – z.B. dass es unweigerlich
@@ -448,7 +442,7 @@ bekannt als **Sora**.
 
 _Sora_ kann auf Kommando ganze Szenen oder Missionen **filmisch zusammenfassen**. Stellt es euch wie
 einen In-Game-Trailer oder einen Erinnerungs-Holoclip vor, der wichtige Momente noch einmal in
-rascher Schnittfolge mit dramatischer Musik zeigt. Diese Funktion wurde in späteren Modulen (z.B.
+rascher Schnittfolge mit hoher Schlagzahl zeigt. Diese Funktion wurde in späteren Modulen (z.B.
 Modul 7) eingeführt, um epische Handlungsbögen Revue passieren zu lassen. Für den Einstieg bedeutet
 das: Wenn die Spieler\*innen es wünschen, könnte man Sora am Ende des ersten Abenteuers ein **kurzes
 „Recap“** liefern lassen – etwa als holografische Projektion im Briefing-Raum, die zeigt, was die
@@ -546,7 +540,7 @@ Kennenlernen im HQ passiert _nach_ der Rückkehr (z.B. die Gruppe wurde in einer
 Notsituation ad hoc losgeschickt und erst nachher formell begrüßt).
 
 **Cineastische Tipps:** Hier ist Tempo alles. Wer Option 2 wählt, sollte mit **vollen Effekten**
-starten: laute Geräusche, schnelle Beschreibungen, gerne auch mit Soundtrack-Unterstützung. Greift
+starten: laute Geräusche, schnelle Beschreibungen und klaren Fokus auf unmittelbare Bedrohung. Greift
 tief in die Trickkiste: **Zeitsprünge oder Flashbacks** können stilistisch genutzt werden, um die
 Vorgeschichte häppchenweise nachzureichen. Zum Beispiel, während ein Charakter in Deckung geht,
 könnt ihr einen **kurzen Flashback** einstreuen, wie Renier ihm beim Briefing auf die Schulter
@@ -589,7 +583,7 @@ anderen als NSCs oder Gegenspieler mitwirken, um sie einzubinden).
 **Cineastische Tipps:** Gestaltet jeden Prolog wie eine eigene **Filmszene mit Genre-Anleihen**,
 passend zum Charakter. Ist jemand ein Wildwest-Sheriff aus dem 19. Jh., darf sein Prolog wie ein
 Western-Showdown in staubiger Abendsonne wirken. Ist jemand aus der Renaissance, vielleicht eine
-kunstvolle Intrigenszene an einem Fürstenhof inszenieren – mit barocker Musik im Hintergrund. Achtet
+kunstvolle Intrigenszene an einem Fürstenhof inszenieren – mit klarer Etikette und sozialem Druck. Achtet
 darauf, **visuell unterscheidbare Kapitel** zu erzeugen: verschiedene Farbstimmungen, Tempi,
 Kameraeinstellungen, die dann im HQ-Kontrast (kühles Neonlicht, futuristische Korridore)
 kulminieren. Es ist fast so, als hätte jede Figur ihren eigenen Trailer, der Lust auf mehr macht.
@@ -677,7 +671,7 @@ erst den Eindruck eines normalen Beginns, der dann jäh kippt.
 
 **Cineastische Tipps:** Ein **harter Kontrast** ist das Mittel der Wahl. Beginnt z.B. ganz friedlich
 mit einem Rundgang oder den ersten Dialogen – alles scheint in Ordnung (vielleicht fast schon zu
-ruhig). Dann nutzt ein plötzliches Ereignis: Licht flackert, die Musik wechselt, Explosionen oder
+ruhig). Dann nutzt ein plötzliches Ereignis: Licht flackert, Sirenen starten, Explosionen oder
 Risse auftauchen. Im Film wäre das der Moment, wo die Kamera ins Handgehaltene wechselt,
 Alarmlichter rot aufblitzen, vielleicht ein dramatischer Zoom auf Reniers angespanntes Gesicht.
 Schneidet akustisch von ruhigen Hintergrundgeräuschen zu Alarm-Sirenen. So ein **Whiplash-Effekt**
@@ -725,7 +719,7 @@ gestalten könnt.
 Falls ihr das Abenteuer wie einen neuen Fall eines Ermittlerteams aufziehen
 wollt, haltet das erste Briefing bewusst knapp. Gebt nur vage Hinweise – ein
 ungeklärter Vorfall, ein unbestätigter Zeugenbericht – und lasst Fragen offen.
-Ähnlich den frühen _Akte X_-Folgen entdecken die Agenten die Wahrheit erst
+Ähnlich klassischer Mystery-Fallserien entdecken die Agenten die Wahrheit erst
 Stück für Stück vor Ort: Zeugen widersprechen sich, Spuren sind bruchstückhaft,
 und jeder Fund öffnet ein neues Puzzleteil. Diese Methode funktioniert im
 Solo‑Spiel ebenso wie in der Gruppe und sorgt dafür, dass sich der Fall langsam
@@ -958,9 +952,9 @@ und baut eure eigene Vision zusammen. Egal ob bombastisches Spektakel oder leise
 straff geskriptet oder frei fließend – **Hauptsache, es packt eure Gruppe** und legt den Grundstein
 für viele weitere packende Sessions.
 
-Die erste Klappe ist gefallen, das Licht des Zeitrisses erlischt – **Action!** Jetzt liegt es an
-euch, diesen Auftakt mit Leben zu füllen. In den Worten von Commander Renier: _„Willkommen im Team…
-und willkommen am Set eures eigenen Zeitreise-Epos. Macht was Großes draus!“_ Viel Spaß und Erfolg
+Der Auftakt steht, das Licht des Zeitrisses erlischt – **Action!** Jetzt liegt es an
+euch, diesen Einsatz mit Leben zu füllen. In den Worten von Commander Renier: _„Willkommen im Team.
+Macht was Großes draus!“_ Viel Spaß und Erfolg
 bei eurem **filmreifen Start ins Abenteuer**!
 
 Weitere Tipps zur Team-Vorstellung bietet der Abschnitt
