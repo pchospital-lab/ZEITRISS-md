@@ -413,12 +413,13 @@ transparent nachverfolgen können.
 > bekommt. Px 5 erreicht → 1-2 neue Rift-Missionen erscheinen auf der Karte →
 > nach der aktuellen Episode könnt ihr sie spielen. Das ist der Loot für gutes Spielen.
 
-**Single Source "Save v6":** Modul 12 führt das _einzige_ kanonische Schema für
+**Single Source "Save v7":** Modul 12 führt das _einzige_ kanonische Schema für
 HQ-Deepsaves. README und Toolkit zitieren lediglich Auszüge, ohne abweichende
-Felder zu definieren. Legacy-Schlüssel (Root-Felder oder
-`team.members[]`) sind reine Import-Aliase; neue Saves entstehen ausschließlich
-im v6-Format mit `party.characters[]`. Divergierende Doppelstrukturen gelten als
-Fehler und werden beim Laden zusammengeführt.
+Felder zu definieren. Legacy-Schlüssel (`save_version`, `party.characters[]`,
+`team.members[]`, `economy.cu`, `arc_dashboard`) sind reine Import-Aliase; neue
+Saves entstehen ausschließlich im v7-Format mit `v`, `characters[]` und
+`economy.hq_pool`. Divergierende Doppelstrukturen gelten als Fehler und werden
+beim Laden zusammengeführt.
 
 ### E2E-Trace-Schema {#e2e-trace}
 
@@ -426,7 +427,7 @@ Fehler und werden beim Laden zusammengeführt.
 enthält mindestens `event`, `at` (ISO), `location`, `phase`,
 `mission_type`/`campaign_mode`, `scene{episode,mission,index,total}` sowie
 `foreshadow{progress,required,tokens,expected}`. Optionale Felder fassen HUD-
-Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{cu,wallets}`), FR-Bias
+Overlay, Radio-/Alias-/Kodex-Zähler, Ökonomie (`economy{hq_pool}` + Wallet-Summen), FR-Bias
 und Arena- oder Seed-Metadaten zusammen. Boss-Snapshots nutzen optional
 `boss{type,dr,toast}` (mini|arc|rift) beim Missionsstart. Die Runtime ruft
 `record_trace()` bei `StartMission()`, `launch_rift()` und `arenaStart()` auf,
@@ -469,7 +470,7 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
 > | `output_pace` | `"normal"` |
 >
 > Diese Defaults gelten ausschließlich als Auffangnetz für Migrationsfälle.
-> Aktuelle Saves (v6) müssen alle vier Felder enthalten - der SaveGuard
+> Aktuelle Saves (v7) müssen alle vier Felder enthalten - der SaveGuard
 > bricht andernfalls ab.
 
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
@@ -691,9 +692,10 @@ bleibt unterstützt; beide Formen können gemischt werden.
 Die Felder `tag` und `bonus` sind optional, helfen aber beim automatischen
 Routen zu passenden Proben.
 
-**Timeline-Notizen:** `arc_dashboard.timeline[]` speichert bedeutende Einsätze
+**Timeline-Notizen:** `arc.timeline[]` speichert bedeutende Einsätze
 mit optionalen Angaben zu ID, Epoche und Label; die Liste ist unabhängig von
-`campaign.px`. Die Runtime normalisiert Einträge auf Objekte mit
+`campaign.px`. Legacy-Importe aus `arc_dashboard.timeline[]` werden beim Laden
+auf `arc.timeline[]` gemappt. Die Runtime normalisiert Einträge auf Objekte mit
 `{id, epoch, label}`, entfernt leere/ungültige Datensätze und setzt fehlende
 Timeline-Listen automatisch auf `[]`.
 
