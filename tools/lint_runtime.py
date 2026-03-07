@@ -136,9 +136,9 @@ def check_sl_reference_save_contract(text: str, fails: list[str]) -> None:
 
 def check_forbidden_terms_in_ssot(root: Path, fails: list[str]) -> None:
     ssot_files: tuple[tuple[str, tuple[str, ...]], ...] = (
-        ("core/spieler-handbuch.md", (r"\bGPT\b", r"\bRecruit\b")),
-        ("core/sl-referenz.md", (r"\bGPT\b", r"\bRecruit\b")),
-        ("meta/masterprompt_v6.md", (r"\bGPT\b", r"\bRecruit\b")),
+        ("core/spieler-handbuch.md", (r"\bGPTs?\b", r"\bRecruit\b")),
+        ("core/sl-referenz.md", (r"\bGPTs?\b", r"\bRecruit\b")),
+        ("meta/masterprompt_v6.md", (r"\bGPTs?\b", r"\bRecruit\b")),
     )
 
     for rel_path, patterns in ssot_files:
@@ -163,43 +163,35 @@ def check_forbidden_terms_in_ssot(root: Path, fails: list[str]) -> None:
 
 
 def check_forbidden_editorial_aids(root: Path, fails: list[str]) -> None:
-    targets: tuple[tuple[str, tuple[str, ...]], ...] = (
-        (
-            "systems/gameflow/cinematic-start.md",
-            (
-                r"\bPlaylist\b",
-                r"\bSoundtrack\b",
-                r"\bAkte\s?X\b",
-                r"\bam Set\b",
-                r"\bSora\b",
-                r"\bChatGPT\b",
-                r"\bVideo-KI\b",
-                r"\bFilm ab!?\b",
-            ),
-        ),
+    forbidden_patterns: tuple[str, ...] = (
+        r"\bPlaylist\b",
+        r"\bSoundtrack\b",
+        r"\bAkte\s?X\b",
+        r"\bam Set\b",
+        r"\bSora\b",
+        r"\bVideo-KI\b",
+        r"\bFilm\s+ab!?\b",
     )
 
-    for rel_path, patterns in targets:
-        target = root / rel_path
+    for md_file in iter_runtime_markdown(root):
+        rel = md_file.relative_to(root)
         try:
-            text = read_text(target)
+            text = read_text(md_file)
         except FileNotFoundError as exc:
-            msg = f"{rel_path}: {exc}"
+            msg = f"{rel}: {exc}"
             log.error("[FAIL] %s", msg)
             fails.append(msg)
             continue
 
-        for pattern in patterns:
+        for pattern in forbidden_patterns:
             if re.search(pattern, text):
-                msg = f"{rel_path}: verbotene Editorial-Hilfe gefunden: /{pattern}/"
+                msg = f"{rel}: verbotene Editorial-Hilfe gefunden: /{pattern}/"
                 log.error("[FAIL] %s", msg)
                 fails.append(msg)
-            else:
-                log.info("[ OK ] %s enthält keine Editorial-Hilfe /%s/", rel_path, pattern)
 
 def check_forbidden_meta_terms_in_runtime(root: Path, fails: list[str]) -> None:
     forbidden_patterns: tuple[str, ...] = (
-        r"\bGPT\b",
+        r"\bGPTs?\b",
         r"\bChatGPT\b",
         r"\bMyGPT\b",
         r"\bLLM\b",
