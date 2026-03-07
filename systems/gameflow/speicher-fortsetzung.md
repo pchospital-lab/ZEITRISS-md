@@ -23,9 +23,9 @@ tags: [system]
 
 > **Für Spieler:** Hier das Wichtigste in 30 Sekunden.
 >
-> - **Speichern** geht nur im HQ (nach Missionen, vor dem nächsten Einsatz).
+> - **Speichern** geht nur im HQ (nach Missionen, vor dem nächsten Einsatz) und wird **ausschließlich** durch den Spielerbefehl `!save` ausgelöst.
 > - Befehl: `!save` - der Kodex erzeugt einen JSON-Block zum Kopieren.
-> - **Laden:** `Spiel laden` im neuen Chat, dann JSON einfügen.
+> - **Laden:** JSON-Block (oder mehrere JSON-Blöcke) in den Chat einfügen; `Spiel laden` ist optional.
 > - **In Missionen wird nicht gespeichert** - das erhöht die Spannung.
 > - **Neuer Chat pro Mission** empfohlen: Mission abschließen → HQ → Save → neuer Chat → Laden.
 >
@@ -33,7 +33,7 @@ tags: [system]
 
 ## HQ-JSON-Save {#json-schluesselfelder}
 > **Guard:** Speichern nur in der HQ-Phase; Pflichtwerte sind deterministisch.
-> Chat-Befehle: `!save`, `!load`, optional `!autosave hq`, `!suspend`, `!resume`.
+> Chat-Befehle im reinen Chatbetrieb: `!save` und `!bogen` (Alias `!charakterbogen`). Laden erfolgt über JSON-Paste im Chat; `Spiel laden` bleibt optionaler Prompt.
 > Einziger Save-Typ: Deepsave (HQ-only).
 
 **Referenz-Fixture (Test-Save v6):** Ein vollständig ausgefüllter Teststand mit
@@ -777,10 +777,9 @@ zurücksetzen. HQ-Deepsaves normalisieren den kompletten UI-Block.
 
 ## Laden & HQ-Rückkehr {#load-flow}
 
-### Ablauf nach `!load`
+### Ablauf beim Laden per JSON-Paste (mit oder ohne `Spiel laden`)
 
-1. **Save posten.** `!load` erwartet den HQ-Deepsave als JSON und quittiert die
-   Eingabe mit "Kodex: Poste Speicherstand als JSON."
+1. **JSON posten.** HQ-Deepsave als JSON einfügen (ein Save für Solo, mehrere Saves für Split/Merge). Optional kann davor `Spiel laden` gesendet werden.
 2. **Deserializer starten.** Das hier dokumentierte `load_deep()`-Schema
    migriert Legacy-Felder in die v7-Zielstruktur, prüft Pflichtblöcke und setzt
    `state.location='HQ'`. Die lokale `runtime.js` im Test-Container spiegelt
@@ -1075,103 +1074,22 @@ Das UI speichert außerdem `dice.debug_rolls` (Default `true` für offene Würfe
 Neue Sessions starten dadurch automatisch mit sichtbaren Würfen, bis ihr per
 `/roll hidden|manual` umschaltet.
 
-## Session-Suspend (Temporärer Snapshot) {#session-suspend}
+## Charakterbogen-Ansicht (`!bogen`) {#charakterbogen-ansicht}
 
-> **Ziel:** Ihr könnt eine laufende Sitzung pausieren, ohne den HQ-Deepsave zu verletzen.
-> `!suspend` schreibt einen flüchtigen Snapshot, `!resume` setzt ihn exakt einmal fort.
+`!bogen` (Alias `!charakterbogen`) erzeugt eine **lesbare Pen-&-Paper-Übersicht**
+mit Team-/Charakterwerten statt JSON. Der Befehl ist für den Live-Chat gedacht,
+wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 
-Der Suspend-Snapshot friert den laufenden Einsatz für eine Pause ein.
-Er lebt außerhalb der regulären Save-Pipeline und verfällt nach 24 Stunden.
-Der Deepsave im HQ bleibt weiterhin Pflicht, sobald Ihr die Episode wirklich abschließt.
+**Inhalt der Ausgabe**
 
-**SuspendGuard (Pseudocode)**
-```pseudo
-assert not state.get('open_roll'), "Suspend nur zwischen Szenen oder nach einem Wurf-Ergebnis."
-assert not state.get('exfil_active'), "Suspend blockiert während laufender Exfiltration."
-snapshot = {
-  "suspend_version": 1,
-  "zr_version": state.get('zr_version'),
-  "created_at": now(),
-  "expires_at": now() + 24h,
-  "volatile": true,
-  "campaign": {
-    "episode": state.campaign.episode,
-    "scene": state.campaign.scene,
-    "phase": state.campaign.phase
-  },
-  "mission": {
-    "id": state.mission.id,
-    "objective": state.mission.objective,
-    "clock": state.mission.clock,
-    "timers": state.mission.timers
-  },
-  "team": {
-    "stress": state.team.stress,
-    "psi_heat": state.team.psi_heat,
-    "status": state.team.status,
-    "cooldowns": state.team.cooldowns
-  },
-  "initiative": {
-    "order": state.initiative.order,
-    "active_id": state.initiative.active_id
-  },
-  "hud": {
-    "timers": state.hud.timers
-  },
-  "flags": state.flags.runtime
-}
-write_tmp("suspend/" + state.campaign.id + ".json", snapshot)
-toast("Suspend-Snapshot aktiv. Nutzt !resume, bevor 24h vergehen.")
-state.flags.runtime["suspend_active"] = true
-```
+- Kampagnenkopf (Episode/Mission)
+- Team-Ökonomie (`economy.hq_pool`)
+- pro Charakter: Name, Lvl, Rolle/Klasse, LP, Stress, Psi-Heat, Attribute, Wallet, Ausrüstung
 
-Der Snapshot speichert nur die taktisch relevanten Werte einer Szene.
-Inventar, Shop-Angebote und Episoden-Belohnungen bleiben Teil des HQ-Deepsaves.
-`volatile: true` stellt klar, dass der Snapshot nicht als vollwertiger Save gilt.
+> **Wichtig für OpenWebUI / reinen Chatbetrieb:** Der kanonische Pfad ist
+> `!save` im HQ (JSON-Export) und Laden über JSON-Copy-Paste. `Spiel laden` ist
+> optional und dient nur als Startsignal für den Load-Dialog.
 
-**ResumeFlow (Pseudocode)**
-```pseudo
-snapshot = read_tmp("suspend/" + state.campaign.id + ".json")
-assert snapshot, "Kein Suspend-Snapshot gefunden."
-assert now() < snapshot.expires_at, "Suspend-Snapshot abgelaufen. Bitte letzten HQ-Save laden."
-assert snapshot.zr_version.major_minor == state.zr_version.major_minor,
-       "Suspend-Version inkompatibel."
-apply(state.campaign.scene = snapshot.campaign.scene)
-apply(state.campaign.phase = snapshot.campaign.phase)
-apply(state.mission.clock = snapshot.mission.clock)
-apply(state.mission.timers = snapshot.mission.timers)
-apply(state.team.stress = snapshot.team.stress)
-apply(state.team.psi_heat = snapshot.team.psi_heat)
-apply(state.team.status = snapshot.team.status)
-apply(state.team.cooldowns = snapshot.team.cooldowns)
-apply(state.initiative.order = snapshot.initiative.order)
-apply(state.initiative.active_id = snapshot.initiative.active_id)
-apply(state.hud.timers = snapshot.hud.timers)
-state.flags.runtime.update(snapshot.flags)
-delete_tmp("suspend/" + state.campaign.id + ".json")
-toast("Suspend-Snapshot geladen. Fahrt an Szene " + state.campaign.scene + " fort.")
-```
-
-- `!resume` ist nur einmal pro Snapshot erlaubt; der Datensatz wird nach dem Laden gelöscht.
-- Nach der Rückkehr ins HQ erwartet Euch weiterhin `!save`, damit Episoden-Belohnungen
-  gesichert bleiben.
-- Bei Ablauf des Snapshots informiert das HUD: "Suspend-Fenster verstrichen. Bitte
-  HQ-Deepsave laden."
-- Der Snapshot konserviert Initiative-Reihenfolge und HUD-Timer, damit Konfliktszenen
-  nach `!resume` lückenlos weiterlaufen.
-
-**HUD-Feedback**
-
-- Nach `!suspend`: Toast `HUD → Session eingefroren · Ablauf <24h`.
-- Nach `!resume`: Overlay `Session fortgesetzt · Szene X/Y`.
-- Nach Ablauf: Benachrichtigung `Suspend verworfen · HQ-Save nötig`.
-
-**Best Practices**
-
-- Nutzt `!suspend`, wenn Ihr mitten im Konflikt aufhören müsst, aber den Flow bewahren wollt.
-- Legt direkt vor einer Pause eine Mini-Rekap an, damit `!resume` den Einstieg
-  filmisch anschließen kann.
-- Verlasst Euch nicht dauerhaft darauf: Der Snapshot ersetzt keinen Story-Fortschritts-Save im HQ.
 ## Makros im Überblick {#makros-im-ueberblick}
 
 - `StartMission(total=12|14, type="core"|"rift")` - initiiert den Missionsfluss nach dem Load.

@@ -190,7 +190,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ## I) Start, Charaktere, Save/Load
 
 ### Dispatcher-Priorität
-- `Spiel laden` + JSON → sofort Load-Flow
+- JSON-Save posten (einzeln oder mehrere hintereinander) → sofort Load-Flow
 - `Spiel starten (...)` → sofort Start-Flow
 - Sonst: "Neustart oder Save laden?" anbieten
 
@@ -212,8 +212,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   Charakterbogen mit konkreten Zahlen zeigen** (Attribute, Loadout, Werte). **Gleiche Regeln:
   18 Punkte, Startwerte 2–6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
 - **Load:** JSON-Save → Kurzrückblick → weiter im HQ/Briefing/Szene. Keine Modus-Abfrage nach Load.
-- **Load-Flow ohne JSON:** `Kodex: Load-Modus aktiv. Poste 1-N Speicherstände (Solo oder Gruppe).`
-  "Fertig" startet den Merge. Danach Recap → HQ/Briefing.
+- **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ/Briefing.
 
 ### Speichern
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
@@ -238,6 +237,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - **Chronopolis (`CITY`):** instanzierte Gefahrenzone der gescheiterten Episodenzeitlinie,
     keine Waffenruhe, kein Speichern, Tod wie in Core/Rift.
 - PvP-Arena speichert nicht. Neuer Chat pro HQ→Mission→HQ empfohlen.
+- **Expliziter Save-Trigger:** Der Save wird nur auf ausdrückliches `!save` erzeugt (kein Autosave, kein implizites Debrief-Anhängsel).
+- **Chat-only-Load-Standard:** Laden läuft über JSON-Copy-Paste (ein oder mehrere Saves); `Spiel laden` ist optional als Einleitungsbefehl.
 - **Bei `!save` oder `speichern` IMMER folgenden JSON-Block ausgeben** (alle Felder Pflicht,
   Werte aus dem aktuellen Spielstand füllen — kein Feld weglassen):
 
@@ -327,4 +328,4 @@ Warte auf Spielerkommando:
 - `Spiel starten (solo schnell)`
 - `Spiel starten (solo klassisch)`
 - `Spiel starten (gruppe schnell)`
-- `Spiel laden` + JSON-Block
+- JSON-Block posten (optional nach `Spiel laden`)

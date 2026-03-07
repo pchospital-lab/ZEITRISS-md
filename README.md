@@ -43,7 +43,7 @@ Kurz: ZEITRISS ist Drop-in/Drop-out-Multiplayer mit echtem Charakter-Besitz.
 
 **Falls die Plattform kein eigenes Systemfeld anbietet:**
 `meta/masterprompt_v6.md` als **erste Chatnachricht** senden und erst danach
-`Spiel starten (solo klassisch)` oder `Spiel laden` nutzen.
+`Spiel starten (solo klassisch)` nutzen; Load startet auch direkt über eingefügten Save-JSON (optional mit `Spiel laden`).
 
 **Session-Update-Standard:** Vor jeder Runde neuesten Repo-Stand laden und das
 Setup-Script erneut starten. Bei laufendem OpenWebUI aktualisiert das den
@@ -165,6 +165,7 @@ und die Runtime-Referenz.
 
 - Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
 - Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
+- `!bogen` zeigt den aktuellen Charakterbogen als lesbare Übersicht (kein JSON-Export).
 - **Split:** Nach der Episode splittet die KI den Save auf Teilgruppen
   (z.B. 3er + 2er für separate Rift-Ops in verschiedenen Chatfenstern).
 - **Merge:** Nach den Rifts fügt die KI die Saves wieder zusammen —
@@ -174,6 +175,8 @@ und die Runtime-Referenz.
 
 Damit bleibt der Koop-Loop einfach: spielen, speichern, splitten, Rifts
 getrennt erleben, mergen, nächste Episode.
+
+> **Wichtig für OpenWebUI / reinen Chatbetrieb:** Der harte Standard ist `!save` im HQ (JSON-Export) und Laden per JSON-Copy-Paste. `Spiel laden` ist optional; ein eingefügter Save-JSON reicht als Startsignal für den Load-Flow.
 
 ## Markenhinweis / Inspiration
 
