@@ -48,14 +48,32 @@ Alles wird präsentiert im typischen filmisch-immersiven ZEITRISS-Stil: Regelinf
 werden von atmosphärischen Beschreibungen begleitet, gern auch mit **HUD-Overlay-Bezug** und
 kreativer Einbindung der KI-Spielleitung als allwissender Erzähler im Hintergrund.
 
-**Item-DSL** (für neue Gegenstände):
-```
-<NAME> · Typ: Gear/Cyber/Bio/Consumable · Kosten: <CU> · SYS: <0/1/2>
-Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
-```
+**Generative Item-Leitplanken (SSOT)**
 
-**Guardrails:** Gear ohne SYS; Cyber/Bio mit SYS 1–2; Consumables einmalig,
+ZEITRISS bleibt bewusst offen: Die Spielleitung darf jederzeit neue, passende
+Items entwerfen (Shop, Klinik, Feld-Loot), solange sie zur Epoche, Lizenz,
+Mission und Balance passen. Die Tabellen in diesem Modul sind **Beispiele**,
+kein geschlossener Katalog.
+
+**Pflicht für Save/Load:**
+- Im Save bleibt das einheitliche Format `equipment[{name,type,tier}]`.
+- `name` darf frei und kreativ sein, wenn die Wirkung plausibel ist.
+
+**Leitplanken für freie Item-Erstellung:**
+- **Plausibilität:** Item passt zu Welt, Epoche und Situation.
+- **Lizenz-Fit:** Angebot folgt Tier-/Ruf-Rahmen statt beliebigem High-End.
+- **Tradeoff:** starke Effekte haben Kosten, Limits oder Risiken.
+- **Lesbarkeit:** Effekt in 1–2 Sätzen klar benennen (kein Regelnebel).
+- **Kompatibilität:** Bei Übergabe in Saves immer auf `{name,type,tier}` abbilden.
+
+**Guardrails:** Gear ohne SYS; Cyber/Bio mit SYS 1–2; Consumables einmalig,
 kleine PP/Heat-Effekte mit Tradeoff.
+
+**Item-DSL** (für neue Gegenstände, generativ nutzbar):
+```
+<NAME> · Typ: gear|weapon|armor|gadget|consumable|implant|bio|artifact · Tier: <0-5> · Kosten: <CU>
+SYS: <0/1/2> · Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
+```
 
 Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
 
