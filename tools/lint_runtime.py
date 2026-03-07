@@ -359,6 +359,59 @@ def check_no_embedded_v6_json_examples_in_save_module(root: Path, fails: list[st
 
 
 
+def check_full_hq_deepsave_block_uses_v7_ssot(root: Path, fails: list[str]) -> None:
+    rel_path = "systems/gameflow/speicher-fortsetzung.md"
+    target = root / rel_path
+    try:
+        text = read_text(target)
+    except FileNotFoundError as exc:
+        msg = f"{rel_path}: {exc}"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    start = "### Voller HQ-Deepsave (Solo/Gruppe)"
+    if start not in text:
+        msg = f"{rel_path}: Abschnitt 'Voller HQ-Deepsave' nicht gefunden"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    section = text.split(start, 1)[1]
+    block_match = re.search(r"```json\n([\s\S]*?)\n```", section)
+    if not block_match:
+        msg = f"{rel_path}: JSON-Block im HQ-Deepsave-Abschnitt nicht gefunden"
+        log.error("[FAIL] %s", msg)
+        fails.append(msg)
+        return
+
+    block = block_match.group(1)
+
+    req(r'"v"\s*:\s*7', block, "HQ-Deepsave nutzt v: 7", fails)
+    req(r'"characters"\s*:\s*\[', block, "HQ-Deepsave nutzt characters[]", fails)
+    req(r'"wallet"\s*:', block, "HQ-Deepsave nutzt Wallet im Charaktermodell", fails)
+    req(r'"hq_pool"\s*:', block, "HQ-Deepsave nutzt economy.hq_pool", fails)
+    req(r'"arc"\s*:\s*\{', block, "HQ-Deepsave nutzt arc-Objekt", fails)
+
+    forbidden_patterns: tuple[str, ...] = (
+        r'"save_version"\s*:',
+        r'"party"\s*:',
+        r'"team"\s*:',
+        r'"cu"\s*:',
+        r'"wallets"\s*:',
+        r'"arc_dashboard"\s*:',
+        r'compliance_shown_today',
+    )
+
+    for pattern in forbidden_patterns:
+        if re.search(pattern, block):
+            msg = f"{rel_path}: HQ-Deepsave enthält Legacy- oder Compliance-Rest: /{pattern}/"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+        else:
+            log.info("[ OK ] %s ohne Legacy-/Compliance-Rest im HQ-Deepsave /%s/", rel_path, pattern)
+
+
 def check_runtime_compliance_hook_inactive(root: Path, fails: list[str]) -> None:
     rel_path = "runtime.js"
     target = root / rel_path
@@ -580,6 +633,7 @@ def main() -> int:
     check_wallet_roster_ssot_in_runtime_guides(root, fails)
     check_no_v6_export_claims_in_save_module(root, fails)
     check_no_embedded_v6_json_examples_in_save_module(root, fails)
+    check_full_hq_deepsave_block_uses_v7_ssot(root, fails)
     check_runtime_compliance_hook_inactive(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)

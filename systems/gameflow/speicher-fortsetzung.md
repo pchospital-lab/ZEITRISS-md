@@ -391,7 +391,7 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
 
 ```json
 {
-  "save_version": 6,
+  "v": 7,
   "zr_version": "4.2.6",
   "location": "HQ",
   "phase": "core",
@@ -402,118 +402,104 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
     "scene": 0,
     "px": 2,
     "mode": "preserve",
-    "exfil": {
-      "active": false,
-      "armed": false,
-      "hot": false,
-      "ttl": 0,
-      "sweeps": 0,
-      "stress": 0,
-      "anchor": null,
-      "alt_anchor": null
-    }
+    "rift_seeds": []
   },
   "character": {
     "id": "AGENT-01",
-    "name": "Agent Nova",
-    "rank": "Operator I",
-    "level": 2,
-    "xp": 120,
-    "origin": {
-      "epoch": "ITI-Nullzeit",
-      "hominin": "Homo sapiens sapiens",
-      "role": "CQB-Operator"
+    "attributes": {
+      "SYS_max": 2,
+      "SYS_installed": 2,
+      "SYS_runtime": 2,
+      "SYS_used": 2
     },
     "stress": 0,
     "psi_heat": 0,
     "cooldowns": {},
-    "attributes": {
-      "STR": 3,
-      "GES": 6,
-      "INT": 4,
-      "CHA": 2,
-      "TEMP": 1,
-      "SYS_max": 2,
-      "SYS_installed": 2,
-      "SYS_runtime": 2,
-      "SYS_used": 2,
-      "hp": 10,
-      "hp_max": 10
-    },
-    "modes": ["mission_focus", "covert_ops_technoir"],
-    "self_reflection": true,
-    "talents": ["Schleichprofi", "Pistolenschütze", "Reaktionsschnell"],
-    "skills": ["CQB", "Taktische Analyse"],
-    "implants": [
-      {"name": "Reflex-Boost Microline", "sys_cost": 1, "effect": "+1 Initiative"},
-      {"name": "Taktisches Ohrimplantat Mk I", "sys_cost": 1, "effect": "+1 Gehör"}
-    ],
-    "inventory": {
-      "weapons": ["CQB-Kampfpistole (SD)", "Tactical Fighting Knife"],
-      "armor": ["Kevlar-Weste Stufe II"],
-      "gadgets": [
-        "Multi-Tool Wraith",
-        "Faseroptik-Kabelkamera",
-        "Rauchgranate Mk I",
-        "Micro-Breacher"
-      ],
-      "consumables": ["Med-Patch"],
-      "special": ["Notfall-Transponder"]
-    },
-    "quarters": {
-      "id": "QTR-A17",
-      "preset": "custom",
-      "layout_tags": ["cqb_ready", "urban_ghost", "analyst_cell"],
-      "deck": "HQ-A",
-      "notes": "Schallgedämmte CQB-Zelle mit Analysten-Setup"
-    },
-    "stats": {
-      "missions_completed": 2,
-      "deaths": 1,
-      "rifts_closed": 0,
-      "shots_fired": 2
-    }
+    "self_reflection": true
   },
-  "team": {"members": [{"id": "AGENT-01", "callsign": "Nova"}]},
-  "party": {"characters": [{"id": "AGENT-01", "callsign": "Nova"}]},
+  "characters": [
+    {
+      "id": "AGENT-01",
+      "name": "Agent Nova",
+      "callsign": "Nova",
+      "rank": "Operator I",
+      "lvl": 2,
+      "xp": 120,
+      "origin": {
+        "epoch": "ITI-Nullzeit",
+        "hominin": "Homo sapiens sapiens",
+        "role": "CQB-Operator"
+      },
+      "attributes": {
+        "STR": 3,
+        "GES": 6,
+        "INT": 4,
+        "CHA": 2,
+        "TEMP": 1,
+        "SYS_max": 2,
+        "SYS_installed": 2,
+        "SYS_runtime": 2,
+        "SYS_used": 2
+      },
+      "hp": 10,
+      "hp_max": 10,
+      "stress": 0,
+      "has_psi": false,
+      "psi_heat": 0,
+      "sys_installed": 2,
+      "talents": ["Schleichprofi", "Pistolenschütze", "Reaktionsschnell"],
+      "equipment": [
+        {"name": "CQB-Kampfpistole (SD)", "type": "weapon", "tier": 1},
+        {"name": "Kevlar-Weste Stufe II", "type": "armor", "tier": 1},
+        {"name": "Multi-Tool Wraith", "type": "tool", "tier": 1}
+      ],
+      "implants": [
+        {"name": "Reflex-Boost Microline", "sys_cost": 1, "effect": "+1 Initiative"},
+        {"name": "Taktisches Ohrimplantat Mk I", "sys_cost": 1, "effect": "+1 Gehör"}
+      ],
+      "history": {
+        "background": "Schallgedämmte CQB-Zelle mit Analysten-Setup",
+        "milestones": ["Olympia 2000 stabilisiert", "Apollo-15-Sabotage verhindert"]
+      },
+      "carry": [
+        {"name": "Rauchgranate Mk I", "type": "consumable", "tier": 1},
+        {"name": "Med-Patch", "type": "consumable", "tier": 1},
+        {"name": "Notfall-Transponder", "type": "gadget", "tier": 1}
+      ],
+      "quarters_stash": [
+        {"name": "Ersatzmagazin", "type": "consumable", "tier": 1},
+        {"name": "Faseroptik-Kabelkamera", "type": "tool", "tier": 1}
+      ],
+      "vehicles": {
+        "epoch_vehicle": {"id": "VEH-0001", "name": "Brough Superior SS100", "type": "vehicle", "tier": 1, "upgrades": []},
+        "availability": {"ready_every_missions": 4, "next_ready_in": 0},
+        "legendary_temporal_ship": null
+      },
+      "wallet": 1650
+    }
+  ],
   "loadout": {
     "AGENT-01": {
       "primary": "CQB-Kampfpistole (SD)",
       "secondary": "Tactical Fighting Knife",
       "armor": "Kevlar-Weste Stufe II",
-      "gear": [
-        "Multi-Tool Wraith",
-        "Faseroptik-Kabelkamera",
-        "Rauchgranate Mk I",
-        "Micro-Breacher",
-        "Ersatzmagazin"
-      ]
+      "gear": ["Multi-Tool Wraith", "Faseroptik-Kabelkamera", "Rauchgranate Mk I", "Micro-Breacher"]
     }
   },
-  "economy": {
-    "cu": 1650,
-    "wallets": {
-      "AGENT-01": {"name": "Agent Nova", "balance": 1650}
-    }
-  },
+  "economy": {"hq_pool": 1650},
   "logs": {
+    "trace": [],
     "artifact_log": [],
     "market": [],
     "offline": [],
     "kodex": [],
     "alias_trace": [],
     "squad_radio": [],
-    "hud": [],
-    "psi": [],
-    "foreshadow": [],
-    "fr_interventions": [],
+    "arena_psi": [],
     "flags": {
       "runtime_version": "4.2.6",
-      "compliance_shown_today": true,
       "chronopolis_warn_seen": false,
-      "platform_action_contract": {
-        "action_mode": "uncut",
-        }
+      "merge_conflicts": []
     },
     "field_notes": [
       {
@@ -521,35 +507,15 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
         "mission": "Sydney 2000 - Maskottchen-Alarm",
         "timestamp": "2000-09-15T20:30:00Z",
         "note": "Kontaminationsalarm im Logistikbereich eingedämmt; Probenbestand gesichert."
-      },
-      {
-        "agent_id": "AGENT-01",
-        "mission": "Apollo 15 Abort Call",
-        "timestamp": "1971-07-30T03:15:00Z",
-        "note": "Saboteur in Tunnel S-03 gefesselt, Guidance-Daten korrigiert."
       }
     ]
   },
-  "arc_dashboard": {
-    "offene_seeds": [],
-    "fraktionen": {
-      "ITI": 0,
-      "Ordo Mnemonika": 0,
-      "Kausalklingen": 0
-    },
+  "arc": {
+    "open_seeds": [],
+    "factions": {"ITI": 0, "Ordo Mnemonika": 0, "Kausalklingen": 0},
+    "open_questions": [],
     "timeline": [
-      {
-        "id": "TL-OLYMPICS-2000",
-        "epoch": "2000",
-        "label": "Kontaminationsalarm bei Olympia 2000 stabilisiert",
-        "stability": 4
-      },
-      {
-        "id": "TL-APOLLO15",
-        "epoch": "1971",
-        "label": "Apollo 15 Guidance stabilisiert",
-        "stability": 2
-      }
+      {"id": "TL-OLYMPICS-2000", "epoch": "2000", "label": "Kontaminationsalarm bei Olympia 2000 stabilisiert"}
     ]
   },
   "ui": {
@@ -559,30 +525,10 @@ oder `gm_observer`; unbekannte Werte fallen auf das Default zurück.
     "action_mode": "uncut",
     "contrast": "standard",
     "badge_density": "standard",
-    "output_pace": "normal"
+    "output_pace": "normal",
+    "voice_profile": "gm_third_person"
   },
-  "arena": {
-    "active": false,
-    "phase": "idle",
-    "mode": "single",
-    "match_policy": "sim",
-    "previous_mode": null,
-    "wins_player": 0,
-    "wins_opponent": 0,
-    "tier": 1,
-    "proc_budget": 0,
-    "artifact_limit": 0,
-    "loadout_budget": 0,
-    "phase_strike_tax": 0,
-    "damage_dampener": true,
-    "team_size": 1,
-    "fee": 0,
-    "scenario": null,
-    "started_episode": null,
-    "last_reward_episode": null,
-    "policy_players": [],
-    "audit": []
-  }
+  "arena": {"active": false, "phase": "idle", "mode": "single", "tier": 1}
 }
 ```
 
@@ -652,19 +598,18 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
   füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
-- Pflichtfelder: `v`, `zr_version`, `location`, `phase`, `character.id`,
-  `character.attributes.SYS_max`, `character.attributes.SYS_installed`,
-  `character.attributes.SYS_runtime`, `character.attributes.SYS_used`,
-  `character.stress`, `character.psi_heat`, `character.cooldowns`,
-  `campaign.px`, `economy.hq_pool`, `characters[]` (inkl. `wallet`), `arc`,
-  `logs`, `ui` und `arena`.
+- Pflichtfelder: `v`, `zr_version`, `location`, `phase`, `campaign.px`,
+  `character` (als aktiver Snapshot), `characters[]` (kanonischer Charakterbogen
+  inkl. `wallet`, `history`, `carry`, `quarters_stash`, `vehicles`),
+  `economy.hq_pool`, `arc`, `logs`, `ui` und optional `arena`.
 - **Paradoxon-Index:** `campaign.px` ist die einzige Quelle für Px-Stand und
   Progression. Rifts erzeugen kein separates `rift_px`; Importpfade verwerfen
   abweichende Felder und mappen Legacy-Keys zurück auf `campaign.px`.
 - Optionales Feld: `modes` - Liste aktivierter Erzählmodi.
-- Im HQ sind `character.attributes.SYS_installed` und
-  `character.attributes.SYS_max` deckungsgleich, `SYS_runtime` liegt höchstens
-  bei der installierten Last, `stress = 0`, `psi_heat = 0`.
+- Im HQ beschreibt `character` nur den aktiven Einsatz-Snapshot
+  (SYS-/Stress-/Heat-Stand), während der vollständige Charakterbogen in
+  `characters[]` liegt. Bei Solo gilt `character.id = characters[0].id`; in
+  Gruppen bleibt `characters[]` die einzige Roster-Quelle für Split/Merge.
 - Die KI-SL darf keine dieser Angaben ableiten oder weglassen. Der Serializer setzt
   fehlende Pflichtblöcke automatisch auf sichere Defaults (`economy.hq_pool = 0`,
   leere Logs mit `logs.flags`, `ui.gm_style = "verbose"`).
