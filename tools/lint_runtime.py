@@ -260,6 +260,44 @@ def check_forbidden_meta_terms_in_runtime(root: Path, fails: list[str]) -> None:
 
 
 
+
+
+def check_wallet_roster_ssot_in_runtime_guides(root: Path, fails: list[str]) -> None:
+    targets: tuple[tuple[str, tuple[str, ...]], ...] = (
+        (
+            "core/sl-referenz.md",
+            (
+                r"economy\.wallets\{\}",
+                r"economy\.credits",
+            ),
+        ),
+        (
+            "systems/toolkit-gpt-spielleiter.md",
+            (
+                r"economy\.wallets\{\}",
+                r"party\.characters\[\]",
+            ),
+        ),
+    )
+
+    for rel_path, patterns in targets:
+        target = root / rel_path
+        try:
+            text = read_text(target)
+        except FileNotFoundError as exc:
+            msg = f"{rel_path}: {exc}"
+            log.error("[FAIL] %s", msg)
+            fails.append(msg)
+            continue
+
+        for pattern in patterns:
+            if re.search(pattern, text):
+                msg = f"{rel_path}: verbotener SSOT-Rueckfall gefunden: /{pattern}/"
+                log.error("[FAIL] %s", msg)
+                fails.append(msg)
+            else:
+                log.info("[ OK ] %s ohne SSOT-Rueckfall /%s/", rel_path, pattern)
+
 def check_forbidden_gender_syntax_in_runtime(root: Path, fails: list[str]) -> None:
     targets: tuple[tuple[str, tuple[str, ...]], ...] = (
         (
@@ -453,6 +491,7 @@ def main() -> int:
     check_forbidden_meta_terms_in_runtime(root, fails)
     check_forbidden_editorial_aids(root, fails)
     check_forbidden_gender_syntax_in_runtime(root, fails)
+    check_wallet_roster_ssot_in_runtime_guides(root, fails)
 
     req(r"LINT:HQ_ONLY_SAVE", sv, "HQ-only Save Guard erwähnt", fails)
     req(r"\"v\"\s*:\s*7", sv, "v7-Version im Save-Modul dokumentiert", fails)

@@ -472,7 +472,7 @@ if not char.get("psi") and not char.get("has_psi"):
   wenn eine Begegnung ausgeschlossen bleibt.
 - **Koop-Auszahlungen:**
   - `Wallet-Split (n×): …` listet alle aktiven Agenten samt Gutschrift aus
-    `economy.wallets{}`. Ohne Vorgaben verteilt der KI-SL die Prämie
+    `characters[].wallet`. Ohne Vorgaben verteilt die KI-SL die Prämie
     gleichmäßig.
   - `HQ-Pool: … CU verfügbar` nennt den Rest in `economy.hq_pool`. Bleiben nach
     Sonderverteilungen CU übrig, ergänzt der KI-SL `(Rest … CU im HQ-Pool)`.
@@ -761,7 +761,7 @@ Erst nach dieser Gruppenentscheidung wird die Erzählung fortgesetzt.
   - Figuren im HQ platzieren oder direkt `Briefing()` aufrufen.
   - **Keine** Nachfrage "klassischer Einstieg/Schnelleinstieg".
     - Standard-Flags prüfen: Falls `character.psi_buffer`, `team.psi_buffer`
-      oder `party.characters[].psi_buffer` fehlen, setze sie auf `true`, damit
+      oder `characters[].psi_buffer` fehlen, setze sie auf `true`, damit
       der Grundschutz aktiv bleibt.
 
 **Beispiel:**
