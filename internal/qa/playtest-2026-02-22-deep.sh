@@ -41,7 +41,7 @@ MSGS_RIFT="[
   {\"role\":\"user\",\"content\":\"Spiel laden\"},
   {\"role\":\"assistant\",\"content\":\"Kodex: Load-Modus aktiv. Poste Speicherstand.\"},
   {\"role\":\"user\",\"content\":$SAVE_ESCAPED},
-  {\"role\":\"assistant\",\"content\":\"Kodex: Gruppe geladen. Hawk (Host, L89), Venom (L85), Iris (L91), Byte (L82), Ghost (L87). Episode 9. 3 offene Rift-Seeds. Px 4/5. Chronopolis freigeschaltet. HQ bereit.\"},
+  {\"role\":\"assistant\",\"content\":\"Kodex: Gruppe geladen. Hawk (Session-Anker, L89), Venom (L85), Iris (L91), Byte (L82), Ghost (L87). Episode 9. 3 offene Rift-Seeds. Px 4/5. Chronopolis freigeschaltet. HQ bereit.\"},
   {\"role\":\"user\",\"content\":\"Rift starten: RIFT-094 — Schwarzer-Tod-Anomalie, 1347. Der Pestdoktor. Volle Gruppe, Casefile-Format. Das wird ein harter Kampf.\"}
 ]"
 

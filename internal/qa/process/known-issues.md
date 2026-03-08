@@ -144,3 +144,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Runtime-Note-Wording Cleanup): `internal/qa/plans/issue-pack-durchlauf-92-runtime-note-wording-cleanup.md`
 - Log (Runtime-Note-Wording Cleanup): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-92-runtime-note-wording-cleanup.md`
+
+
+- **Durchlauf 93 (2026-03-08):** Abschluss-/Aufräumlauf für den Kontinuitäts-Strang: neue Statusmatrix `internal/qa/process/continuity-redesign-statusmatrix.md` bündelt Upload-Issues 1–8 (Status + Primärevidenz + Watchpoints) für schnelle Anschlussfähigkeit; zusätzlich wurden operative Playtest-Prompts in `internal/qa/playtest-2026-02-22.sh`, `internal/qa/playtest-2026-02-22-round2.sh` und `internal/qa/playtest-2026-02-22-deep.sh` auf Session-Anker-Wording harmonisiert. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Continuity Closure + QA-Aufräumen): `internal/qa/plans/issue-pack-durchlauf-93-continuity-closure-matrix-cleanup.md`
+- Log (Continuity Closure + QA-Aufräumen): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-93-continuity-closure-matrix-cleanup.md`
