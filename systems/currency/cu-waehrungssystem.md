@@ -163,17 +163,17 @@ So wird die Belohnung greifbar und direkt Teil der Geschichte.
 Hohe Einmalzahlungen sind selten - die meisten Missionen bringen moderate Beträge,
 um das Wirtschaftssystem spannend zu halten.
 
-### High-Level-Ökonomie (Lvl 100/400/1000)
+### High-Level-Ökonomie (Lvl 120/512/900+)
 
-Die Save-v6-Formel skaliert auch im Endgame. Nutze die Tabelle, um Belohnungen und
-Ausgaben pro Missionsband zu planen; Werte referenzieren Solo/Buddy mit
+Die Save-v7-Ökonomie skaliert auch im Endgame. Nutze die Tabelle, um Belohnungen
+und Ausgaben pro Missionsband zu planen; Werte referenzieren Solo/Buddy mit
 Hazard-Pay sowie `seed_multi = min(1,6; 1 + 0,2 × offene Seeds)`.
 
-| Level | Richtwert Belohnung* | Typische Kosten/Sinks |
+| Level-Band | Richtwert Belohnung* | Typische Kosten/Sinks |
 | --- | --- | --- |
-| 100 | 400-720 CU (Low-High) | Implantate 300-800 CU; Chronopolis 150-300 CU |
-| 400 | 1,6k-2,4k CU (Seed-Multi-Cap 1,6) | HQ-Ausbau, Loadouts 2-3k CU, Research 500+ CU |
-| 1000 | 4k-5,8k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU |
+| 120 | 450-850 CU (Low-High) | Implantate 300-900 CU; Chronopolis 150-400 CU |
+| 512 | 1,8k-2,8k CU (Seed-Multi-Cap 1,6) | HQ-Ausbau, Loadouts 2-4k CU, Research 700+ CU |
+| 900+ | 4,2k-6,2k CU (High-Risk, Seed-Multi-Cap 1,6) | Fraktionsprojekte/Legendary Gear 5k+ CU |
 
 *Faustregel: Basiswert × Ergebnis × Hazard-Pay × Seed-Multi; ohne Seeds bleiben die
 Stufen bei 400/500/600 CU × Ergebnis (0,3/0,6/1,0/1,2).

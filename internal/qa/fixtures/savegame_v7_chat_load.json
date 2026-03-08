@@ -1,0 +1,28 @@
+{
+  "v": 7,
+  "zr": "4.2.6",
+  "location": "HQ",
+  "phase": "core",
+  "campaign": {
+    "episode": 3,
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "preserve",
+    "rift_seeds": []
+  },
+  "characters": [
+    { "id": "AGENT-CHAT", "wallet": 1400 }
+  ],
+  "economy": { "hq_pool": 6400 },
+  "logs": {
+    "notes": [
+      "Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."
+    ],
+    "flags": {
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
+  }
+}

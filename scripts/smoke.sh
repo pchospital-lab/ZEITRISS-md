@@ -90,6 +90,10 @@ grep "chronopolis-ack-ok" out/chronopolis_ack.log
 node tools/test_arena_schema.js > out/arena_schema.log
 grep "arena-schema-ok" out/arena_schema.log
 
+# v7-Issue-Pack-Fixtures (5er/Split-Merge/OpenWebUI-Load)
+node tools/test_v7_issue_pack.js > out/v7_issue_pack.log
+grep "v7-issue-pack-ok" out/v7_issue_pack.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
