@@ -582,7 +582,7 @@ den Abschnitt zum
 | Briefing   | Klarheit & Hook | 5 Kerninfos, 1 Bild   |
 | Aufklärung | Hinweise finden | Foreshadow-Hinweis    |
 | Konflikt   | Spannung        | Exploding 6 nutzen    |
-| Auswertung | Konsequenzen    | Rufpunkte, Ressourcen |
+| Auswertung | Konsequenzen    | ITI-Ruf, Fraktionssignal, Ressourcen |
 
 ### Modulübersicht
 
@@ -731,7 +731,7 @@ Ausführliche Hintergründe liefert das Modul
 [Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
 
 | Konflikt | Spannung | Exploding 6 nutzen |
-| Auswertung | Konsequenzen | Rufpunkte, Ressourcen |
+| Auswertung | Konsequenzen | ITI-Ruf, Fraktionssignal, Ressourcen |
 
 ### Lines & Veils (optional) {#lines--veils-optional}
 
