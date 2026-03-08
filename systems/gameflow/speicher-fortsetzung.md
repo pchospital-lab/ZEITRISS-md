@@ -222,7 +222,7 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
 - `v`, `zr` (Schema- und ZEITRISS-Version)
 - `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)
 - `campaign.{episode, mission, px, px_state, mode, rift_seeds[]}`
-- `characters[]` — Array, Host = Index 0. Pro Character:
+- `characters[]` — Array, Session-Anker-Charakter = Index 0. Pro Character:
   - `{id, name, callsign, rank, lvl, xp}`
   - `origin.{epoch, hominin, role}`
   - `attr.{STR, GES, INT, CHA, TEMP, SYS}` (SYS = SYS_max)
@@ -257,9 +257,10 @@ den Wert für automatisch gestempelte HUD-Events (Fallback ohne `at`) sowie für
 `chronopolis_sinks`, `target_range`, `delta` und `out_of_range`. `target_range` nutzt fixe
 Level-Bänder **120** (HQ 8 000-10 000 CU, Wallet Ø 1 000-2 000 CU), **512** (HQ 25 000-30 000 CU,
 Wallet Ø 3 000-5 000 CU) und **900+** (HQ 45 000-60 000 CU, Wallet Ø 6 000-10 000 CU) und skaliert
-`wallet_total` über alle Charakter-Wallets. Die Band-Auswahl folgt dem Host-Level
-(`character.lvl|level` oder `campaign.level`); fehlt dieser, nutzt der Audit die Medianstufe der
-`characters[]`-Roster und schreibt `band_reason=host_level|roster_median|unknown`. `wallet_avg_scope`
+`wallet_total` über alle Charakter-Wallets. Die Band-Auswahl folgt dem
+Session-Anker-Level (`character.lvl|level` oder `campaign.level`); fehlt dieser,
+nutzt der Audit die Medianstufe der `characters[]`-Roster und schreibt
+`band_reason=session_anchor_level|roster_median|unknown`. `wallet_avg_scope`
 steht immer auf `characters[].wallet`. `delta` markiert Abweichungen pro Wert, `out_of_range` setzt
 boolesche Flags und löst
 den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
@@ -731,9 +732,9 @@ dokumentiert. Jeder Eintrag enthält mindestens:
 ```json
 {
   "field": "<allowlist-feld>",
-  "host_value": "<Wert aus Host/Ziel-Modus>",
+  "anchor_value": "<Wert aus Session-Anker/Ziel-Modus>",
   "guest_value": "<Wert aus Quell-Modus>",
-  "resolution": "<host_wins|guest_wins|merged|default>"
+  "resolution": "<anchor_wins|guest_wins|merged|default>"
 }
 ```
 
@@ -751,7 +752,7 @@ Jeder Cross-Mode-Transfer schreibt ein Event in `logs.trace[]`:
   "at": "<ISO-Timestamp>",
   "from_mode": "<solo|coop|pvp>",
   "to_mode": "<solo|coop|pvp>",
-  "host_id": "<character.id des Hosts>",
+  "session_anchor_id": "<character.id des Session-Ankers>",
   "conflicts_count": 0,
   "conflict_fields": [],
   "location": "HQ",
@@ -1023,10 +1024,10 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
   das `!arena resume` im HQ ohne erneute Gebühr reaktiviert.
 - **Wallets.** `initialize_wallets_from_roster()` stellt sicher, dass jeder
   Eintrag in `characters[]` ein numerisches `wallet`-Feld trägt
-  (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Host-Wallets
+  (Toast "Wallets initialisiert (n×)"). Beim Laden bleiben Session-Anker-Wallets
   maßgeblich; Import-Wallets werden per Charakter-ID auf fehlende Einträge
   übertragen. Abweichende Beträge landen in `logs.flags.merge_conflicts[]`
-  und im Trace `merge_conflicts`, während die Host-Balance Vorrang behält.
+  und im Trace `merge_conflicts`, während die Anker-Balance Vorrang behält.
 - **Self-Reflection.** `logs.flags` ergänzt Gate- und Reset-Felder
   (`foreshadow_gate_m5_seen`, `self_reflection_auto_reset_at`,
   `self_reflection_last_change_reason` usw.) für nachvollziehbare Debrief-Logs.
@@ -1066,7 +1067,7 @@ Split/Merge ist standardmäßig nur **nach Episodenende** für getrennte
 Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
 
 1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
-   Host des neuen Saves = erster Character im Array.
+   Session-Anker des neuen Saves = erster Character im Array.
 2. **HQ-Pool aufteilen:** `economy.hq_pool` gleichmäßig verteilen
    (oder nach Absprache). Persönliche `wallet`-Werte bleiben beim Character.
 3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds, die sie spielen
@@ -1080,8 +1081,9 @@ Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
 
 Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
 
-1. **Characters mergen:** Alle `characters[]` in ein Array. Host = Index 0
-   (aus dem Save des Original-Hosts).
+1. **Characters mergen:** Alle `characters[]` in ein Array.
+   Session-Anker-Charakter = Index 0 (aus dem Save des ursprünglichen
+   Session-Ankers).
 2. **HQ-Pool summieren:** `economy.hq_pool` aus beiden Saves addieren.
 3. **Seeds: Union:** Alle Seeds beider Saves zusammenführen (closed + open).
 4. **Px-State zuerst, dann Wert:** Priorität `consumed > pending_reset > stable`.
@@ -1291,7 +1293,8 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
 
 Der Scope ist modusabhängig und nutzt immer `campaign.px` als Quelle:
 - **solo / npc-team:** Der Px-Wert gehört zum jeweiligen Run.
-- **gruppe:** Der Px-Wert ist kampagnenweit gemeinsam und folgt dem Host-Save.
+- **gruppe:** Der Px-Wert ist kampagnenweit gemeinsam und folgt dem
+  Session-Anker-Save.
 
 Nur erfolgreich abgeschlossene Missionen zählen. Fehlschläge oder Eskalationen
 lösen im Default **keinen** automatischen Px-Abzug aus; Konsequenzen laufen über
