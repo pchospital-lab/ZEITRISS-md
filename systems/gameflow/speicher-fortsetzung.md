@@ -233,6 +233,7 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
   - `wallet`
 - `economy.{hq_pool}`
 - `logs.{trace[], market[], artifact_log[], notes[], flags:{}}`
+- `summaries.{summary_last_episode, summary_last_rift, summary_active_arcs}`
 - `arc.{factions:{}, questions:[], hooks:[]}`
 - `ui.{gm_style, suggest_mode, contrast, badge_density, output_pace, voice_profile}`
 - `arena?` (nur wenn Arena genutzt: `{wins, losses, tier}`)
@@ -258,6 +259,14 @@ boolesche Flags und löst
 den Toast "Economy-Audit: HQ-Pool/Wallets außerhalb Richtwerten (Lvl 120|512|900+)." aus.
 Der Save-Trace `economy_audit` landet in `logs.trace[]` und folgt der Save-Guard-Priorität, sodass
 Arena-/Offline-Blocker keine fehlerhaften Audit-Deltas erzeugen.
+
+**Save-Größenbudget (OpenWebUI robust):** Für HQ-Deepsaves gelten feste Rolling-Caps,
+damit Copy/Paste-Loads stabil bleiben: `logs.trace` max **64**, `logs.market` max **24**,
+`logs.artifact_log` max **32**, `logs.notes` max **24**, `arc.questions` max **18**,
+`arc.hooks` max **18** sowie `characters[].history.milestones` max **20** pro Charakter.
+Beim Pruning bleiben die neuesten Einträge erhalten; ältere Detailstände werden
+kompakt in `summaries.summary_last_episode`, `summaries.summary_last_rift` und
+`summaries.summary_active_arcs` verdichtet, statt still verloren zu gehen.
 
 Die JSON-Schema-Datei bleibt für Validierungstools bestehen; Die KI-SL nutzt
 das Klartext-Profil als maßgebliche Struktur.
