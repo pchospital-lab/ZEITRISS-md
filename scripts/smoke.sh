@@ -90,6 +90,10 @@ grep "chronopolis-ack-ok" out/chronopolis_ack.log
 node tools/test_arena_schema.js > out/arena_schema.log
 grep "arena-schema-ok" out/arena_schema.log
 
+
+# v7-SSOT-Driftguard (Legacy-Key-Regression)
+node tools/test_v7_schema_consistency.js > out/v7_schema_consistency.log
+grep "v7-schema-consistency-ok" out/v7_schema_consistency.log
 # v7-Issue-Pack-Fixtures (5er/Split-Merge/OpenWebUI-Load)
 node tools/test_v7_issue_pack.js > out/v7_issue_pack.log
 grep "v7-issue-pack-ok" out/v7_issue_pack.log

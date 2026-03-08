@@ -804,18 +804,17 @@ HUD-Overlay, sodass der Run nachvollziehbar bleibt.
 Beim HQ-Save ergänzt die Runtime außerdem ein `economy_audit`-Trace mit Level,
 HQ-Pool, Wallet-Summe, Zielband (120/512/900+), Delta-Feldern und
 Chronopolis-Sinks (Toast nur bei Abweichungen).
-Das kanonische JSON-Schema `systems/gameflow/saveGame.v6.schema.json` bildet
-alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
-`Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
-Für KI-SL ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
-ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
-Pflichtset und den Baum `v/zr → characters[]
+Für KI-SL ist der Export-Kanon ausschließlich das **Kompakt-Profil** im
+Wissensspeicher: Nutze die SaveGuard-Liste als Pflichtset und den Baum
+`v/zr → characters[]
 → campaign/campaign.rift_seeds → loadout/economy.hq_pool → logs.*
-→ arc/ui/arena`, um den Speicherstand zu rekonstruieren. Die
-Schema-Datei selbst wird nicht in den Wissensspeicher geladen und dient primär
-der Validierung in Tools. Der SaveGuard erzwingt dabei den v7-Zielpfad
-`arc` inklusive Timeline/Factions/Hooks vor dem HQ-Save und bricht mit
-Pflichtpfad-Fehlern ab, falls diese Felder fehlen oder verworfen wurden.
+→ arc/ui/arena`, um den Speicherstand zu rekonstruieren.
+Externe Schema-Dateien sind reine Runtime-/Tooling-Hilfen außerhalb des
+Wissensspeichers; Legacy-Imports können dort weiterhin als
+`Save-Schema (saveGame.v6)` fehlschlagen, bevor Altstände auf v7 migriert
+werden. Der SaveGuard erzwingt dabei den v7-Zielpfad `arc` inklusive
+Factions/Questions/Hooks vor dem HQ-Save und bricht mit Pflichtpfad-Fehlern ab,
+falls diese Felder fehlen oder verworfen wurden.
 
 ```json
 {
