@@ -101,9 +101,11 @@ Für erweiterte Übergaben können die optionalen Wrapper-Services aus dem
 [Spieler-Handbuch](../core/spieler-handbuch.md) eingebunden werden - der Stadthub verweist lediglich darauf, ohne deren
 Details zu replizieren.
 Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole.
-Jeder Chrononaut besitzt einen Kommunikationsknoten, über den Aufträge, Ausrüstung und Rufpunkte
-verwaltet werden.
-Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote nach eurem ITI-Rang und dem aktuellen Ruf.
+Jeder Chrononaut besitzt einen Kommunikationsknoten, über den Aufträge,
+Ausrüstung sowie **ITI-Ruf- und Fraktionssignale** verwaltet werden.
+Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote primär
+nach **ITI-Rang/ITI-Ruf** (formaler Lizenzpfad); **Fraktionsruf** wirkt
+zusätzlich als politisches Signal auf Preise, Zugang und Misstrauen.
 Kurze Infobriefe lassen sich direkt ins HUD streamen; sie markieren, welche Fraktion
 indirekt Einfluss nimmt oder Gerüchte streut, ohne formale Treffen in Chronopolis zu erzwingen.
 Weitere Infos zum HUD liefert das Modul

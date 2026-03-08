@@ -42,6 +42,10 @@ anschlussfähig dokumentieren.
 - **Durchlauf 58 (2026-03-08):** Restdrift im `core/spieler-handbuch.md`
   geschlossen (Debrief-Label auf **ITI-Ruf**, Tier V im Cheatsheet auf
   **5.000 CU** + Klartext zu kaufbaren Regulärpfaden ab Ruf +5).
+- **Durchlauf 59 (2026-03-08):** Watchpoint-Lauf auf Referenzstellen
+  abgeschlossen: Rufbegriffe in `gameplay/kampagnenuebersicht.md` und
+  `core/sl-referenz.md` auf SSOT (`ITI-Ruf`/Fraktionssignal) gehärtet sowie
+  Mystery-Tonlage in `core/zeitriss-core.md` ohne harten Alien-Fakt nachgezogen.
 
 ## Verknüpfung
 
@@ -49,4 +53,6 @@ anschlussfähig dokumentieren.
 - Log (Initiallauf): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-57-ruf-alien.md`
 - Fahrplan (Follow-up): `internal/qa/plans/issue-pack-durchlauf-58-ruf-alien-followup.md`
 - Log (Follow-up): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-58-ruf-alien-followup.md`
+- Fahrplan (Watchpoints): `internal/qa/plans/issue-pack-durchlauf-59-ruf-alien-watchpoints.md`
+- Log (Watchpoints): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-59-ruf-alien-watchpoints.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
