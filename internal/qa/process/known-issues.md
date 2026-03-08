@@ -129,3 +129,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Continuity-Output-Contract Guard): `internal/qa/plans/issue-pack-durchlauf-89-continuity-output-contract-guard.md`
 - Log (Continuity-Output-Contract Guard): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-89-continuity-output-contract-guard.md`
 
+
+- **Durchlauf 90 (2026-03-08):** Anschlusslauf zur Contract-Konsolidierung im Cross-Mode-Konfliktpfad abgeschlossen: `systems/gameflow/speicher-fortsetzung.md` nutzt im `merge_conflicts[]`-Minimalbeispiel jetzt den Runtime-konformen Payload (`field`, `source`, `target`, `mode`) statt eines veralteten `anchor_value|guest_value|resolution`-Schemas. Damit bleibt die Trennung zu `logs.flags.continuity_conflicts[]` eindeutig und Follow-up-QA kann deterministisch gegen denselben Datenvertrag prüfen. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Merge-Conflict-Contract Alignment): `internal/qa/plans/issue-pack-durchlauf-90-merge-conflict-contract-alignment.md`
+- Log (Merge-Conflict-Contract Alignment): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-90-merge-conflict-contract-alignment.md`
