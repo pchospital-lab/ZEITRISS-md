@@ -134,6 +134,11 @@ anschlussfähig dokumentieren.
   `#v6-v7-migrationsbeispiel-im-wissensspeicher`) und die
   `core/sl-referenz.md` auf diesen internen WS-Pfad umgestellt.
 
+- **Durchlauf 72 (2026-03-08):** Allgemeiner Abschlusscheck auf v7/Format/
+  Links durchgeführt: Pflicht-Smoke grün, Linklint grün, zusätzlicher
+  WS-Linkscope-Guard ohne Außenverweise (`ws-internal-link-guard-ok`);
+  Zeilenlängen-Scan als nicht-blockierender QA-Befund dokumentiert.
+
 
 ## Verknüpfung
 
@@ -174,3 +179,6 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (V6-Migrationsreferenz im Wissensspeicher): `internal/qa/plans/issue-pack-durchlauf-71-v6-migrationsreferenz-ws.md`
 - Log (V6-Migrationsreferenz im Wissensspeicher): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-71-v6-migrationsreferenz-ws.md`
+
+- Fahrplan (Abschlusscheck v7/Format/Links): `internal/qa/plans/issue-pack-durchlauf-72-abschlusscheck-v7-format-links.md`
+- Log (Abschlusscheck v7/Format/Links): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-72-abschlusscheck-v7-format-links.md`
