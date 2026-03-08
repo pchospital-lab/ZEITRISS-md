@@ -100,6 +100,13 @@ anschlussfähig dokumentieren.
   Watchguard in `tools/test_ruf_alien_watchguard.js` um das
   Rückfallmuster `ITI-Rang/ITI-Ruf` erweitert.
 
+- **Durchlauf 68 (2026-03-08):** Rangnamen-Konsistenz im
+  `core/spieler-handbuch.md` nachgezogen: kanonisches ITI-Rang-Mapping
+  (Ruf 0–5) und Debrief-Format (`Rang … · ITI-Ruf … · Lizenz Tier …`)
+  explizit ergänzt; Watchguard in `tools/test_ruf_alien_watchguard.js`
+  um Positiv-Check für das Handbuch-Debrief-Format erweitert.
+
+
 ## Verknüpfung
 
 - Fahrplan (Initiallauf): `internal/qa/plans/issue-pack-durchlauf-57-ruf-alien.md`
@@ -127,3 +134,6 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Chronopolis-Rufklarheit): `internal/qa/plans/issue-pack-durchlauf-67-ruf-alien-chronopolis-rufklarheit.md`
 - Log (Chronopolis-Rufklarheit): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-67-ruf-alien-chronopolis-rufklarheit.md`
+
+- Fahrplan (Rang-Mapping Handbuch): `internal/qa/plans/issue-pack-durchlauf-68-ruf-alien-rangmapping-handbuch.md`
+- Log (Rang-Mapping Handbuch): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-68-ruf-alien-rangmapping-handbuch.md`
