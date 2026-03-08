@@ -240,6 +240,11 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Rückwärtskompatibilität) liegt unter
   [`internal/qa/fixtures/savegame_v6_test.json`](../internal/qa/fixtures/savegame_v6_test.json).
 - _Single Source:_ Das Schema-Template steht im **Masterprompt** (v7).
+- v7-Lineage ist Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
+  Doppelte `save_id` im selben Merge-Lauf werden als Branch-Duplikat blockiert
+  (`logs.flags.duplicate_branch_detected=true`), doppelte `characters[].id`
+  als Charakter-Duplikat (`logs.flags.duplicate_character_detected=true`)
+  markiert und nicht still übernommen.
   Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
   Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
   Roster-Container (Host = Index 0).
@@ -267,6 +272,8 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   `arena.active=false`), damit der direkte PvP→HQ-Savepunkt stabil nutzbar ist.
   Saves aus Chronopolis/CITY werden mit "SaveGuard: Chronopolis ist kein HQ-
   Savepunkt" verworfen.
+- `logs.flags.imported_saves[]` protokolliert jeden Import mit mindestens
+  `save_id`, `branch_id`, `status` (`imported|blocked|conflict`) und `reason`.
 - Load-Merge schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone,
   Reset-/Resume-Marker, `conflict_fields`, `conflicts_added`, Gesamttally) und
   dedupliziert identische Konflikt-Records, damit Cross-Mode-Imports
