@@ -139,3 +139,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Runtime-Trace Anchor-Terminologie): `internal/qa/plans/issue-pack-durchlauf-91-runtime-trace-anchor-terminology.md`
 - Log (Runtime-Trace Anchor-Terminologie): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-91-runtime-trace-anchor-terminology.md`
+
+- **Durchlauf 92 (2026-03-08):** Anschlusslauf zur Restdrift in Runtime-Konfliktnotizen abgeschlossen: `runtime.js` nutzt in Wallet-/Campaign-/Rift-Merge-Notizen nun durchgehend Session-Anker-Wording (`Session-Anker-Werte bevorzugt`, `Session-Anker-Kampagnenzähler/-modus behalten`, `Session-Anker-Seeds priorisiert`); `tools/test_economy_merge.js` wurde beim Wallet-Label auf `Session-Anker` harmonisiert. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Runtime-Note-Wording Cleanup): `internal/qa/plans/issue-pack-durchlauf-92-runtime-note-wording-cleanup.md`
+- Log (Runtime-Note-Wording Cleanup): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-92-runtime-note-wording-cleanup.md`
