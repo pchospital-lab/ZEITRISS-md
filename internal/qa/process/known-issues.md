@@ -95,3 +95,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Kontinuitäts-Beats + Echo-Fortwirkung): `internal/qa/plans/issue-pack-durchlauf-83-continuity-beats-echo-followup.md`
 - Log (Kontinuitäts-Beats + Echo-Fortwirkung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-83-continuity-beats-echo-followup.md`
 
+
+- **Durchlauf 84 (2026-03-08):** QA-/Fixture-Layer auf Kontinuitäts-Redesign nachgezogen: `systems/gameflow/saveGame.v7.schema.json` dokumentiert jetzt den `continuity`-Rootblock (`last_seen`, `split`, `roster_echoes`, `shared_echoes`, `convergence_tags` inkl. Budgetgrenzen), alle `internal/qa/fixtures/savegame_v7_*.json` enthalten die Kontinuitätskapsel, und die Regression-Guards (`tools/test_v7_schema_consistency.js`, `tools/test_v7_issue_pack.js`) prüfen Presence/Budget sowie kanonische Core-Split-Konvergenz statt Parallel-Core-Refusal. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Continuity-Fixtures + Guard-Härtung): `internal/qa/plans/issue-pack-durchlauf-84-continuity-fixtures-guards.md`
+- Log (Continuity-Fixtures + Guard-Härtung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-84-continuity-fixtures-guards.md`

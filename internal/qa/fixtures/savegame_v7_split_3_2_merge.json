@@ -16,21 +16,78 @@
     "rift_seeds": []
   },
   "characters": [
-    { "id": "AGENT-1", "wallet": 2800 },
-    { "id": "AGENT-2", "wallet": 2600 },
-    { "id": "AGENT-3", "wallet": 2500 },
-    { "id": "AGENT-4", "wallet": 2400 },
-    { "id": "AGENT-5", "wallet": 2450 }
+    {
+      "id": "AGENT-1",
+      "wallet": 2800
+    },
+    {
+      "id": "AGENT-2",
+      "wallet": 2600
+    },
+    {
+      "id": "AGENT-3",
+      "wallet": 2500
+    },
+    {
+      "id": "AGENT-4",
+      "wallet": 2400
+    },
+    {
+      "id": "AGENT-5",
+      "wallet": 2450
+    }
   ],
-  "economy": { "hq_pool": 18300 },
+  "economy": {
+    "hq_pool": 18300
+  },
   "logs": {
     "flags": {
       "imported_saves": [
-        { "save_id": "SAVE-RIFT-A", "branch_id": "RIFT-A-3ER", "status": "merged" },
-        { "save_id": "SAVE-RIFT-B", "branch_id": "RIFT-B-2ER", "status": "merged" }
+        {
+          "save_id": "SAVE-RIFT-A",
+          "branch_id": "RIFT-A-3ER",
+          "status": "merged"
+        },
+        {
+          "save_id": "SAVE-RIFT-B",
+          "branch_id": "RIFT-B-2ER",
+          "status": "merged"
+        }
       ],
       "duplicate_branch_detected": false,
       "duplicate_character_detected": false
     }
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 7,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": "EP7-RIFT-FORK-01",
+      "thread_id": "HQ-MERGE",
+      "expected_threads": [
+        "RIFT-A-3ER",
+        "RIFT-B-2ER"
+      ],
+      "resolved_threads": [
+        "RIFT-A-3ER",
+        "RIFT-B-2ER"
+      ],
+      "convergence_ready": true
+    },
+    "roster_echoes": [],
+    "shared_echoes": [
+      {
+        "tag": "morgenrot",
+        "scope": "campaign",
+        "text": "Beide Threads bestätigten dasselbe Codewort in getrennten Zeitfenstern."
+      }
+    ],
+    "convergence_tags": [
+      "boss_tell:morgenrot"
+    ]
   }
 }

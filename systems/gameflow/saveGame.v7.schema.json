@@ -59,5 +59,70 @@
     "arena": { "type": "object" },
     "loadout": { "type": "object" },
     "summaries": { "type": "object", "additionalProperties": true }
+    ,
+    "continuity": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "last_seen": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "mode": { "type": "string" },
+            "episode": { "type": "integer" },
+            "mission": { "type": "integer" },
+            "location": { "type": "string" }
+          }
+        },
+        "split": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "family_id": { "type": ["string", "null"] },
+            "thread_id": { "type": ["string", "null"] },
+            "expected_threads": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "resolved_threads": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "convergence_ready": { "type": "boolean" }
+          }
+        },
+        "roster_echoes": {
+          "type": "array",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "char_id": { "type": "string" },
+              "tone": { "type": "string" },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "shared_echoes": {
+          "type": "array",
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "tag": { "type": "string" },
+              "scope": { "type": "string", "enum": ["shared", "rumor", "campaign", "personal"] },
+              "text": { "type": "string" }
+            }
+          }
+        },
+        "convergence_tags": {
+          "type": "array",
+          "maxItems": 4,
+          "items": { "type": "string" }
+        }
+      }
+    }
   }
 }

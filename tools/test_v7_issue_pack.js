@@ -29,6 +29,9 @@ const importedSplit = splitMerge.logs.flags.imported_saves || [];
 assert.strictEqual(importedSplit.length, 2, 'split-3-2: Beide Rift-Branches müssen protokolliert sein.');
 assert.ok(importedSplit.every((entry) => entry.status === 'merged'), 'split-3-2: Importstatus muss merged sein.');
 assert.ok(importedSplit.every((entry) => typeof entry.save_id === 'string' && typeof entry.branch_id === 'string'), 'split-3-2: imported_saves braucht save_id+branch_id.');
+assert.strictEqual(splitMerge.continuity?.split?.family_id, 'EP7-RIFT-FORK-01', 'split-3-2: split.family_id fehlt.');
+assert.strictEqual(splitMerge.continuity?.split?.convergence_ready, true, 'split-3-2: convergence_ready muss true sein.');
+assert.ok((splitMerge.continuity?.convergence_tags || []).includes('boss_tell:morgenrot'), 'split-3-2: convergence_tag-Nachweis fehlt.');
 
 const riftPvp = readJson('internal/qa/fixtures/savegame_v7_merge_rift_pvp.json');
 assertBaseV7(riftPvp, 'rift-pvp');
@@ -59,7 +62,7 @@ assertBaseV7(chatLoad, 'chat-load');
 assert.ok((chatLoad.logs.notes || []).some((note) => /JSON-Paste/i.test(note)), 'chat-load: Chat-Load-Hinweis fehlt.');
 
 const refusal = readJson('internal/qa/fixtures/v7_parallel_core_refusal.json');
-assert.strictEqual(refusal.supported, false, 'parallel-core-refusal: supported muss false sein.');
-assert.ok(/nicht als kanonischer Kampagnenfortschritt/i.test(refusal.refusal_text), 'parallel-core-refusal: Refusal-Text fehlt oder unklar.');
+assert.strictEqual(refusal.supported, true, 'parallel-core-refusal: supported muss true sein.');
+assert.ok(/kanonisch.*continuity\.split\.family_id/i.test(refusal.acceptance_text), 'parallel-core-refusal: Acceptance-Text fehlt oder unklar.');
 
 console.log('v7-issue-pack-ok');
