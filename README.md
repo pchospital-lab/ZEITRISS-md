@@ -166,10 +166,26 @@ und die Runtime-Referenz.
 - Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
 - Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
 - `!bogen` zeigt den aktuellen Charakterbogen als lesbare Übersicht (kein JSON-Export).
-- **Split:** Nach der Episode splittet die KI den Save auf Teilgruppen
-  (z.B. 3er + 2er für separate Rift-Ops in verschiedenen Chatfenstern).
-- **Merge:** Nach den Rifts fügt die KI die Saves wieder zusammen —
-  transparentes Protokoll zeigt, wie CU, Seeds und Px konsolidiert wurden.
+- **Kanonischer Split:** Split/Merge ist standardmäßig nur **nach Episodenende**
+  für getrennte Rift-Ops vorgesehen (z.B. 3er + 2er in separaten Chatfenstern).
+- **Kanonischer Merge:** Nach abgeschlossenen Rifts werden die HQ-Saves wieder
+  zusammengeführt — transparentes Protokoll zeigt, wie CU, Seeds und Px
+  konsolidiert wurden.
+- **Nicht-kanonisch ohne Branch-Protokoll:** Parallele Core-Missions-Branches
+  innerhalb derselben Episode sowie Misch-Splits (Rift/PvP/Chronopolis)
+  gelten als Hausregel und dürfen nicht stillschweigend als kanonischer
+  Kampagnenfortschritt übernommen werden.
+- **Klarfall 5er→3/2 mitten in der Episode:** Beide Gruppen können legitim
+  weiterspielen. Für jede Runde ist immer der eigene aktuelle Host-Save der
+  Hauptfortschritt. Erst wenn später gemerged wird, zählt fremder Verlauf als
+  Import (Charakterdaten/Wallet/Loadout statt Kampagnenfortschritt).
+- **Hopper-Betrieb (OpenWebUI-Realität):** Wer nach jeder Mission Hosts
+  wechselt, spielt im Lobby-Modell. Einfachregel: Pro Chat gilt genau ein
+  Host-Kanon; mitgebrachte Saves ergänzen Charakterdaten, nicht automatisch
+  Episode/Mission/Px aus anderen Linien.
+- **Leaver/Rejoin im HQ:** Leaver können nach jeder Mission im HQ einsteigen,
+  wenn sie den aktuellen Host-Stand laden. Sie setzen keine neue Episode frei,
+  sondern übernehmen den Missionsstand des Hosts.
 - Danach kann jede Person den Gruppenstand weiter nutzen oder einen eigenen
   Solo-Stand daraus starten.
 
