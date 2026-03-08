@@ -683,7 +683,7 @@ Ein **Beispiel** für einen Speicherstand im JSON-Format (v7, gekürzt):
   "logs": { "trace": [], "market": [], "artifact_log": [], "notes": [], "flags": {"runtime_version": "4.2.6"} },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false, "contrast": "standard",
-    "badge_density": "standard", "output_pace": "normal", "voice_profile": "gm_third_person" }
+    "badge_density": "standard", "output_pace": "normal", "voice_profile": "gm_second_person" }
 }
 ```
 

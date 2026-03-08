@@ -57,3 +57,5 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
   Signaturtell/Forensik-Dreieck). Dokumentiert in
   `internal/qa/plans/issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`
   und `internal/qa/logs/2026-03-08-issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`.
+
+- **Durchlauf 74 (2026-03-08):** Round-4-Abschluss-Restdrift nachgezogen: v7-Beispiel in `core/zeitriss-core.md` auf `ui.voice_profile = gm_second_person` harmonisiert und Dispatcher-Semver-Hinweis in `systems/toolkit-gpt-spielleiter.md` auf kanonisches `zr` (mit Legacy-Normalisierung von `zr_version`) umgestellt; Pflicht-Smoke und Linklint erneut grün.

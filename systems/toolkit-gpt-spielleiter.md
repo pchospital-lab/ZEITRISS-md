@@ -824,8 +824,9 @@ Ausgabe mehr. Ältere Prompts dürfen ihn weiterhin verwenden, müssen aber kein
 
 **Parsingregel (case-insensitive, natürliche Sprache):**
 1. Enthält die Eingabe `Spiel laden` + gültiges JSON → **Load-Flow**.
-   - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION`
-     übereinstimmt; Patch-Level wird ignoriert.
+   - Semver-Prüfung: Save lädt, wenn `major.minor` aus `zr` mit `ZR_VERSION`
+     übereinstimmt (Legacy-Importe mit `zr_version` werden vorher normalisiert);
+     Patch-Level wird ignoriert.
    - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
      HQ-Migration veranlassen."
    - Nach Erfolg: kurze Rückblende, dann HQ oder Briefing.

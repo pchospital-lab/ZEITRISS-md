@@ -195,3 +195,8 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Round4 SSOT-Harmonisierung): `internal/qa/plans/issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`
 - Log (Round4 SSOT-Harmonisierung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-73-round4-ssot-harmonisierung.md`
+
+- **Durchlauf 74 (2026-03-08):** Abschluss-Restdrift aus Round-4 nachgezogen: `core/zeitriss-core.md` v7-UI-Default auf `gm_second_person` harmonisiert und `systems/toolkit-gpt-spielleiter.md` beim Dispatcher-Semver-Hinweis auf kanonisches `zr` mit Legacy-Normalisierung (`zr_version`) geschärft; Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Abschluss-Restdrift): `internal/qa/plans/issue-pack-durchlauf-74-round4-abschluss-restdrift.md`
+- Log (Round4 Abschluss-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-74-round4-abschluss-restdrift.md`
