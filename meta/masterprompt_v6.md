@@ -252,6 +252,10 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 ```json
 {
   "v": 7, "zr": "4.2.6",
+  "save_id": "SAVE-2026-03-08T20:15:00Z-HQ-ALPHA",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "HOST-main",
   "campaign": {
     "episode": 1, "mission": 0, "px": 0, "mode": "mixed",
     "rift_seeds": []
@@ -287,7 +291,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   "economy": { "hq_pool": 0 },
   "logs": {
     "trace": [], "market": [], "artifact_log": [], "notes": [],
-    "flags": { "runtime_version": "4.2.6", "chronopolis_unlocked": false }
+    "flags": {
+      "runtime_version": "4.2.6",
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
+    }
   },
   "arc": { "factions": {}, "questions": [], "hooks": [] },
   "ui": { "gm_style": "verbose", "suggest_mode": false,
@@ -304,6 +314,9 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Charakterbogen-Minimum (persistiert): `history{background,milestones[]}`, `carry[]` (max 6), `quarters_stash[]` (max 24) und `vehicles{epoch_vehicle,availability,legendary_temporal_ship?}`.
   - Fahrzeug-SSOT: `epoch_vehicle` ist pro Charakter Pflicht; `legendary_temporal_ship` ist optional und bleibt ein seltener Zusatzslot. Verfügbarkeit folgt TEMP-Tabelle (1–2 alle 4 Missionen, 3–5 alle 3, 6–8 alle 2, ab 9 jede Mission).
   - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`; Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
+  - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
+  - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
+  - Charakter-Dedupe: Doppelte `characters[].id` werden nicht still zusammengeführt; Konflikt melden (`duplicate_character_detected=true`) und Klärung verlangen.
   - **Kanon-Grenze:** Ohne explizites Branch-Protokoll bleibt Split/Merge auf Rift-Ops nach Episodenende begrenzt.
     Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.

@@ -215,6 +215,7 @@ Das kanonische Schema-Template steht im **Masterprompt** (`meta/masterprompt_v6.
 Orientiere dich an SaveGuard + folgendem Pfadbaum:
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
+- `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)
 - `campaign.{episode, mission, px, mode, rift_seeds[]}`
 - `characters[]` — Array, Host = Index 0. Pro Character:
   - `{id, name, callsign, rank, lvl, xp}`
@@ -331,6 +332,17 @@ Felder zu definieren. Legacy-Schlüssel (`save_version`, `party.characters[]`,
 Saves entstehen ausschließlich im v7-Format mit `v`, `characters[]` und
 `economy.hq_pool`. Divergierende Doppelstrukturen gelten als Fehler und werden
 beim Laden zusammengeführt.
+
+**Lineage & Dedupe (Merge-Schutz):** Jeder v7-Save führt `save_id` als eindeutige
+Import-ID. `parent_save_id` zeigt auf den direkten Vorgänger, `merge_id` markiert
+gezielte Zusammenführungen und `branch_id` beschreibt den Branch-Kontext (z. B.
+`HOST-main`, `RIFT-A`). Bei JSON-Mehrfachimport gilt: doppeltes `save_id` im selben
+Load-Lauf wird als Branch-Duplikat verworfen (`logs.flags.duplicate_branch_detected=true`),
+doppelte `characters[].id` lösen einen Merge-Konflikt aus
+(`logs.flags.duplicate_character_detected=true`) und verlangen eine aktive
+Klärung statt stiller Überschreibung. Jeder verworfene oder konflikthafte Import
+läuft zusätzlich in `logs.flags.imported_saves[]` ein (mindestens `save_id`,
+`branch_id`, `status`, `reason`).
 
 ### E2E-Trace-Schema {#e2e-trace}
 
@@ -674,6 +686,7 @@ dokumentiert. Jeder Eintrag enthält mindestens:
 
 Die `field`-Werte folgen der bestehenden Allowlist: `wallet`, `rift_merge`,
 `arena_resume`, `campaign_mode`, `phase_bridge`, `location_bridge`.
+Dedupe-/Lineage-Funde ergänzen die Allowlist um `duplicate_branch` und `duplicate_character`.
 
 #### Trace-Protokollierung
 

@@ -166,6 +166,9 @@ und die Runtime-Referenz.
 - Eine Person hostet den Chat (lokal oder online per Stream/Screenshare).
 - Im HQ speichert ihr mit `!save` — der JSON enthält alle Charaktere.
 - `!bogen` zeigt den aktuellen Charakterbogen als lesbare Übersicht (kein JSON-Export).
+- **Merge-Schutz (Dedupe):** Bei Merge/Import gelten `save_id` + `branch_id`
+  als Lineage-Guard; doppelte Save-IDs oder doppelte Charakter-IDs werden nicht
+  still geschluckt, sondern als Konflikt markiert.
 - **Kanonischer Split:** Split/Merge ist standardmäßig nur **nach Episodenende**
   für getrennte Rift-Ops vorgesehen (z.B. 3er + 2er in separaten Chatfenstern).
 - **Kanonischer Merge:** Nach abgeschlossenen Rifts werden die HQ-Saves wieder
