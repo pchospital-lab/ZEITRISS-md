@@ -12,19 +12,48 @@
     "rift_seeds": []
   },
   "characters": [
-    { "id": "AGENT-CITY", "wallet": 5100 }
+    {
+      "id": "AGENT-CITY",
+      "wallet": 5100
+    }
   ],
-  "economy": { "hq_pool": 19800 },
+  "economy": {
+    "hq_pool": 19800
+  },
   "logs": {
     "trace": [
-      { "event": "chronopolis_enter" },
-      { "event": "chronopolis_return_hq" },
-      { "event": "save_hq" }
+      {
+        "event": "chronopolis_enter"
+      },
+      {
+        "event": "chronopolis_return_hq"
+      },
+      {
+        "event": "save_hq"
+      }
     ],
     "flags": {
       "imported_saves": [],
       "duplicate_branch_detected": false,
       "duplicate_character_detected": false
     }
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 10,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": []
   }
 }

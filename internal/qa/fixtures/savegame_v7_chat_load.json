@@ -12,9 +12,14 @@
     "rift_seeds": []
   },
   "characters": [
-    { "id": "AGENT-CHAT", "wallet": 1400 }
+    {
+      "id": "AGENT-CHAT",
+      "wallet": 1400
+    }
   ],
-  "economy": { "hq_pool": 6400 },
+  "economy": {
+    "hq_pool": 6400
+  },
   "logs": {
     "notes": [
       "Load-Pfad: Spiel laden + JSON-Paste im Chat (OpenWebUI-safe)."
@@ -24,5 +29,23 @@
       "duplicate_branch_detected": false,
       "duplicate_character_detected": false
     }
+  },
+  "continuity": {
+    "last_seen": {
+      "mode": "core",
+      "episode": 3,
+      "mission": 0,
+      "location": "HQ"
+    },
+    "split": {
+      "family_id": null,
+      "thread_id": null,
+      "expected_threads": [],
+      "resolved_threads": [],
+      "convergence_ready": false
+    },
+    "roster_echoes": [],
+    "shared_echoes": [],
+    "convergence_tags": []
   }
 }
