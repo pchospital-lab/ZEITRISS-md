@@ -194,6 +194,9 @@ sie im frühen Onboarding aber nicht als harte Welt-Tatsache.
 
 So bleibt der spätere Reveal stark: vermeintliche Fremdheit kippt in eine
 verstörend menschliche Zukunftsspur.
+Was im ersten Zugriff wie Fremdheit wirkt, entpuppt sich in ZEITRISS oft
+nicht als das Andere, sondern als etwas Verstörenderes: eine zu weit
+entfernte, aber immer noch menschliche Zukunft.
 
 ### Beispielkampagne: ChronTech-Komplott
 

@@ -215,3 +215,9 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Round4 Anschluss Chronopolis/Bridge): `internal/qa/plans/issue-pack-durchlauf-77-round4-anschluss-chronopolis-bridge.md`
 - Log (Round4 Anschluss Chronopolis/Bridge): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-77-round4-anschluss-chronopolis-bridge.md`
+
+- **Durchlauf 78 (2026-03-08):** Round-4-Anschlusslauf für den Mystery-Contract abgeschlossen: In `gameplay/kampagnenuebersicht.md` wurde der Signatursatz ergänzt ("Was im ersten Zugriff wie Fremdheit wirkt ... menschliche Zukunft"), um den gewünschten Aha-Pfad (Fremdheit → menschliche Fernzukunft) als Leitplanke explizit zu verankern; Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Mystery-Signatursatz): `internal/qa/plans/issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md`
+- Log (Round4 Mystery-Signatursatz): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md`
+
