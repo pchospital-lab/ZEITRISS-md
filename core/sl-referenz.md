@@ -229,7 +229,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 
 **Semver (Save-Laden):**
 
-- Save lädt, wenn `major.minor` aus `zr_version` mit `ZR_VERSION` übereinstimmt;
+- Save lädt, wenn `major.minor` aus `zr` mit `ZR_VERSION` übereinstimmt (Legacy-Importe mit `zr_version` werden vorher normalisiert);
   Patch-Level wird ignoriert.
 - Mismatch → "Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit vA.B. Bitte
   HQ-Migration veranlassen."
@@ -809,7 +809,7 @@ alle Pflichtcontainer ab; `load_deep()` prüft Saves dagegen und bricht mit
 `Save-Schema (saveGame.v6)` ab, wenn Felder fehlen oder Typen nicht passen.
 Für KI-SL ist das Schema zusätzlich als **Kompakt-Profil** hinterlegt, das
 ohne Binäranhang in den Wissensspeicher passt: Nutze die SaveGuard-Liste als
-Pflichtset und den Baum `v/zr_version/location/phase → characters[]
+Pflichtset und den Baum `v/zr → characters[]
 → campaign/campaign.rift_seeds → loadout/economy.hq_pool → logs.*
 → arc/ui/arena`, um den Speicherstand zu rekonstruieren. Die
 Schema-Datei selbst wird nicht in den Wissensspeicher geladen und dient primär

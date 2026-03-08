@@ -623,7 +623,7 @@ spiegeln diesen Zustand und weisen keine `self_reflection_off`-Reste mehr auf.
   Abbruch, setzt sowohl HUD-Badge als auch Charakterwert auf `SF-ON` zurück und
   füllt deterministisch `self_reflection_auto_reset_*` plus History-Eintrag.
 
-- Pflichtfelder: `v`, `zr_version`, `location`, `phase`, `campaign.px`,
+- Pflichtfelder: `v`, `zr`, `campaign.px`,
   `character` (als aktiver Snapshot), `characters[]` (kanonischer Charakterbogen
   inkl. `wallet`, `history`, `carry`, `quarters_stash`, `vehicles`),
   `economy.hq_pool`, `arc`, `logs`, `ui` und optional `arena`.
@@ -876,8 +876,8 @@ steht; gespeichert wird trotzdem erst wieder im HQ.
 
 ### Kompatibilität & Guards
 
-- Semver-Toleranz: Lädt, wenn `major.minor` der gespeicherten `zr_version` dem
-  aktuellen `ZR_VERSION` entspricht; Patch-Level sind egal.
+- Semver-Toleranz: Lädt, wenn `major.minor` der gespeicherten `zr` dem
+  aktuellen `ZR_VERSION` entspricht (Legacy-Importe mit `zr_version` werden vorher normalisiert); Patch-Level sind egal.
 - Version-Mismatch liefert `Kodex-Archiv: Datensatz vX.Y nicht kompatibel mit
   vA.B. Bitte HQ-Migration veranlassen.`
 - `campaign.exfil.active` oder `state.exfil.active` blockieren den HQ-Save mit
@@ -1303,80 +1303,85 @@ Es ist kein zweites, paralleles Format erlaubt.
 ```json
 {
   "v": 7,
-  "zr_version": "4.2.6",
-  "location": "HQ",
-  "phase": "core",
+  "zr": "4.2.6",
+  "save_id": "SAVE-2026-03-08T20:15:00Z-HQ-ALPHA",
+  "parent_save_id": null,
+  "merge_id": null,
+  "branch_id": "HOST-main",
   "campaign": {
     "episode": 1,
-    "mission_in_episode": 2,
-    "scene": 0,
-    "px": 1,
-    "fr_bias": "normal"
+    "mission": 0,
+    "px": 0,
+    "px_state": "stable",
+    "mode": "mixed",
+    "rift_seeds": []
   },
   "characters": [
     {
       "id": "CHR-0001",
       "name": "Agent Name",
+      "callsign": "Signal",
       "rank": "Rekrut",
-      "wallet": 0,
-      "attributes": {
-        "STR": 5,
-        "GES": 10,
-        "INT": 4,
-        "CHA": 4,
-        "TEMP": 2,
-        "SYS_max": 4,
-        "SYS_installed": 4,
-        "SYS_runtime": 4,
-        "SYS_used": 4
-      },
+      "lvl": 1,
+      "xp": 0,
+      "origin": { "epoch": "ITI-Nullzeit", "hominin": "Homo sapiens sapiens", "role": "Aufklärung" },
+      "attr": { "STR": 5, "GES": 10, "INT": 4, "CHA": 4, "TEMP": 2, "SYS": 4 },
+      "hp": 10,
+      "hp_max": 10,
       "stress": 0,
-      "psi_heat": 0,
-      "cooldowns": {},
+      "has_psi": false,
+      "sys_installed": 4,
       "talents": ["Schleichprofi"],
-      "equipment": [
-        { "name": "Resonanz-Sniper", "type": "waffe", "tier": 2 }
-      ],
+      "equipment": [{ "name": "Resonanz-Sniper", "type": "weapon", "tier": 2 }],
       "implants": [],
-      "history": {"background": "ITI-Rekrut der 2. Kohorte", "milestones": []},
+      "history": { "background": "ITI-Rekrut der 2. Kohorte", "milestones": [] },
       "carry": [],
       "quarters_stash": [],
       "vehicles": {
-        "epoch_vehicle": {
-          "id": "VEH-0001", "name": "Nachtfalter", "type": "vehicle", "tier": 1, "upgrades": []
-        },
-        "availability": {"ready_every_missions": 3, "next_ready_in": 0},
+        "epoch_vehicle": { "id": "VEH-0001", "name": "Nachtfalter", "type": "vehicle", "tier": 1, "upgrades": [] },
+        "availability": { "ready_every_missions": 3, "next_ready_in": 0 },
         "legendary_temporal_ship": null
-      }
+      },
+      "reputation": {
+        "iti": 0,
+        "faction": "Ordo Mnemonika",
+        "factions": {
+          "ordo_mnemonika": 0,
+          "chrono_symmetriker": 0,
+          "kausalklingen": 0,
+          "zerbrechliche_ewigkeit": 0
+        }
+      },
+      "wallet": 0
     }
   ],
   "economy": { "hq_pool": 0 },
-  "arc": {
-    "open_seeds": [],
-    "factions": {},
-    "open_questions": [],
-    "timeline": []
-  },
+  "arc": { "factions": {}, "questions": [], "hooks": [] },
   "logs": {
-    "artifact_log": [],
+    "trace": [],
     "market": [],
-    "offline": [],
-    "kodex": [],
-    "alias_trace": [],
-    "squad_radio": [],
-    "arena_psi": [],
+    "artifact_log": [],
+    "notes": [],
     "flags": {
       "runtime_version": "4.2.6",
-      "chronopolis_warn_seen": false
+      "chronopolis_unlocked": false,
+      "imported_saves": [],
+      "duplicate_branch_detected": false,
+      "duplicate_character_detected": false
     }
+  },
+  "summaries": {
+    "summary_last_episode": "",
+    "summary_last_rift": "",
+    "summary_active_arcs": ""
   },
   "ui": {
     "gm_style": "verbose",
-    "intro_seen": false,
-    "action_mode": "uncut",
+    "suggest_mode": false,
     "contrast": "standard",
     "badge_density": "standard",
-    "output_pace": "normal"
+    "output_pace": "normal",
+    "voice_profile": "gm_third_person"
   }
 }
 ```
@@ -1392,15 +1397,16 @@ Es ist kein zweites, paralleles Format erlaubt.
 
 `arc` sammelt Story-Hub-Einträge und bleibt im v7-Kanon der einzige Arc-Pfad:
 
-- **`open_seeds[]`** – Liste aktiver Missionsansätze (String oder Objekt).
 - **`factions{}`** – Fraktionsstatus inkl. optionaler Interventionsmetadaten.
-- **`open_questions[]`** – offene Forschungs-/Storyfragen.
-- **`timeline[]`** – bestätigte Folgen/Zeitriss-Einträge.
+- **`questions[]`** – offene Forschungs-/Storyfragen.
+- **`hooks[]`** – aktive Story-Hooks für kommende HQ-/Missionsübergänge.
 
 ### Legacy-Importpfade (kein Runtime-Standard)
 
 - Historische Felder wie `save_version`, `party.characters[]`, `team.members[]`,
-  `economy.cu`, `economy.wallets` oder `arc_dashboard` gelten nur als
+  `economy.cu`, `economy.wallets`, `zr_version`, `campaign.mission_in_episode`,
+  `characters[].attributes`, `arc.open_seeds`, `arc.open_questions`,
+  `arc.timeline` oder `arc_dashboard` gelten nur als
   **Import-Bridge**.
 - `load_save()` migriert Legacy-Daten in das v7-Zielmodell (`v`, `characters[]`,
   `economy.hq_pool`, `arc.*`).

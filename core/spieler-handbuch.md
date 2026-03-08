@@ -381,8 +381,8 @@ nicht.
 - **Arena-Resume** - Läuft beim Laden eine PvP-Serie, erzeugt die Runtime ein
   `arena.resume_token` (Tier, Teamgröße, Modus, `match_policy`) und erlaubt
   `!arena resume` ohne erneute Gebühr aus dem HQ.
-- **Semver-Toleranz** - Laden klappt, solange `major.minor` aus `zr_version`
-  mit `ZR_VERSION` übereinstimmt; Patch wird ignoriert.
+- **Semver-Toleranz** - Laden klappt, solange `major.minor` aus `zr`
+  mit `ZR_VERSION` übereinstimmt (Legacy-Importe mit `zr_version` werden vorab normalisiert); Patch wird ignoriert.
 
 Siehe auch:
 
