@@ -28,11 +28,19 @@ assertBaseV7(splitMerge, 'split-3-2');
 const importedSplit = splitMerge.logs.flags.imported_saves || [];
 assert.strictEqual(importedSplit.length, 2, 'split-3-2: Beide Rift-Branches müssen protokolliert sein.');
 assert.ok(importedSplit.every((entry) => entry.status === 'merged'), 'split-3-2: Importstatus muss merged sein.');
+assert.ok(importedSplit.every((entry) => typeof entry.save_id === 'string' && typeof entry.branch_id === 'string'), 'split-3-2: imported_saves braucht save_id+branch_id.');
 
 const riftPvp = readJson('internal/qa/fixtures/savegame_v7_merge_rift_pvp.json');
 assertBaseV7(riftPvp, 'rift-pvp');
 assert.strictEqual(riftPvp.arena.active, false, 'rift-pvp: Arena muss vor HQ-Save inaktiv sein.');
 assert.ok(['idle', 'completed'].includes(riftPvp.arena.queue_state), 'rift-pvp: queue_state muss idle|completed sein.');
+
+const mixedImported = riftPvp.logs.flags.imported_saves || [];
+assert.ok(mixedImported.length >= 2, 'rift-pvp: Mixed-Imports müssen protokolliert sein.');
+assert.ok(mixedImported.every((entry) => entry.reason === 'non_canonical_branch'), 'rift-pvp: Mixed-Imports brauchen reason=non_canonical_branch.');
+assert.ok(mixedImported.every((entry) => Array.isArray(entry.allowed_fields) && entry.allowed_fields.includes('wallet')), 'rift-pvp: Allowlist-Felder fehlen.');
+assert.ok((riftPvp.logs.market || []).some((entry) => entry.event === 'chronopolis_log'), 'rift-pvp: Chronopolis-Lognachweis fehlt.');
+assert.ok((riftPvp.logs.notes || []).some((note) => /Nicht-kanonischer Branch-Import/i.test(note)), 'rift-pvp: Hinweistext für nicht-kanonischen Import fehlt.');
 
 const chronopolis = readJson('internal/qa/fixtures/savegame_v7_chronopolis_roundtrip.json');
 assertBaseV7(chronopolis, 'chronopolis-roundtrip');
@@ -43,6 +51,8 @@ const abortResume = readJson('internal/qa/fixtures/savegame_v7_abort_resume.json
 assertBaseV7(abortResume, 'abort-resume');
 const abortEvents = (abortResume.logs.trace || []).map((entry) => entry.event);
 assert.ok(abortEvents.includes('abort_to_hq') && abortEvents.includes('resume_planned'), 'abort-resume: Abort/Resume-Pfad fehlt.');
+const abortImported = abortResume.logs.flags.imported_saves || [];
+assert.ok(abortImported.some((entry) => entry.reason === 'non_canonical_branch' && (entry.allowed_fields || []).includes('abort_marker')), 'abort-resume: non-canonical Abort-Import fehlt.');
 
 const chatLoad = readJson('internal/qa/fixtures/savegame_v7_chat_load.json');
 assertBaseV7(chatLoad, 'chat-load');

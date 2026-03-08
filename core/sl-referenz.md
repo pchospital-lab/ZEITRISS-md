@@ -320,6 +320,16 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Beim späteren Merge gilt weiter Host-SSOT: Episode/Mission/Px kommen vom
   aktiven Host, Joiner importieren primär Charakterdaten. Für Px gilt
   zusätzlich der Zustands-Guard `consumed > pending_reset > stable`.
+- **Mixed-Split-Präzedenz (ohne Branch-Protokoll):** Bei Mischpfaden
+  (Rift + PvP + Chronopolis + Abort) wird **kein** zusätzlicher
+  Kampagnenfortschritt kanonisiert. Merge läuft deterministisch als
+  Importmodell: (1) Host-`campaign`/`arc`/globale Flags bleiben führend,
+  (2) branch-lokale Effekte nur per Allowlist (`wallet`, `rift_merge`,
+  `arena_resume`, `chronopolis_log`, `abort_marker`),
+  (3) Charakter-Dedupe über `characters[].id`,
+  (4) Arena wird HQ-safe normalisiert (`active=false`, `queue_state=idle|completed`),
+  (5) Chronopolis-Nachweise bleiben in `logs.market[]`/`logs.trace[]`,
+  (6) Debrief-Ausgaben werden in `logs.notes[]` konsolidiert.
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"
