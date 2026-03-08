@@ -252,10 +252,15 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   automatisch auf v7 gehoben (`v: 7`): Legacy-Roster (`party.characters[]`,
   `team.members[]`) wird in `characters[]` zusammengeführt; Legacy-Pool
   `economy.cu` wird auf `economy.hq_pool` normalisiert.
-- `character.id`, `character.attributes.SYS_max`,
-  `character.attributes.SYS_installed`, `character.stress`, `character.psi_heat`
-  sind Teil des HQ-Deepsaves. Laufzeitwerte (`SYS_runtime`, `SYS_used`,
-  `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
+- Kanonischer HQ-Deepsave (v7) persistiert pro Eintrag in `characters[]`
+  mindestens `id`, `attr`, `sys_installed`, `stress` und (bei Psi-Charakteren)
+  `psi_heat`.
+  **Invariante:** Speichern nur im HQ; Debrief setzt `stress`/`psi_heat`/`SYS`
+  vorher auf HQ-Basis zurück. Die Felder bleiben im Save für expliziten
+  HQ-Status und stabile Legacy-Importe. Laufzeitwerte (`SYS_runtime`,
+  `SYS_used`, `cooldowns`) werden nicht persistiert und beim Laden neu gesetzt.
+- Legacy-Importe mit Root-`character{}`/`character.attributes{}` werden beim
+  Laden auf das v7-Zielschema (`characters[]` + `attr`) normalisiert.
 - `campaign.px`, `economy.hq_pool`, `characters[].wallet`, `characters[].history`,
   `characters[].carry`, `characters[].quarters_stash`, `characters[].vehicles`, `logs` (inklusive
   `hud`, `trace`, `artifact_log`, `market`, `offline`, `kodex`, `alias_trace`,

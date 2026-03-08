@@ -2288,7 +2288,7 @@ Reihenfolge:
 
 **Event-Definition `evt_enter_chronopolis()`** - Beim ersten Betreten von Chronopolis
 wird überprüft, ob Level ≥ 10 und das Key-Item vorhanden sind. Bei Erfolg löst das
-Event die Warn-Cutscene aus (siehe Abschnitt 7) und startet anschließend die
+Event den einmaligen In-World-Warnhinweis aus (siehe Abschnitt 7) und startet anschließend die
 Instanzierungs-Pipeline.
 
 ### 3 | Instanzierungs-Pipeline

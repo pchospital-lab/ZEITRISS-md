@@ -200,3 +200,13 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Round4 Abschluss-Restdrift): `internal/qa/plans/issue-pack-durchlauf-74-round4-abschluss-restdrift.md`
 - Log (Round4 Abschluss-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-74-round4-abschluss-restdrift.md`
+
+- **Durchlauf 75 (2026-03-08):** Round-4-Restklarheit nachgezogen: `core/sl-referenz.md` Persistenz-Bullet auf kanonische `characters[]`-Felder geschärft (Legacy-`character{}` nur als Import-Normalisierung), `systems/gameflow/speicher-fortsetzung.md` Legacy-HQ-Block explizit als nicht-kanonischen Neu-Export markiert und `gameplay/kampagnenstruktur.md` beim Chronopolis-Entry auf einmaligen In-World-Warnhinweis statt Warn-Cutscene harmonisiert; Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Restklarheit Save/Chronopolis): `internal/qa/plans/issue-pack-durchlauf-75-round4-restklarheit-save-chronopolis.md`
+- Log (Round4 Restklarheit Save/Chronopolis): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-75-round4-restklarheit-save-chronopolis.md`
+
+- **Durchlauf 76 (2026-03-08):** HQ-Save/Reset-Klarstellung über die drei SSOT-Orte gezogen: `meta/masterprompt_v6.md`, `core/sl-referenz.md` und `systems/gameflow/speicher-fortsetzung.md` benennen jetzt explizit die Invariante „Speichern nur im HQ; Debrief-Reset von `stress`/`psi_heat`/`SYS` vor Save“, inklusive Begründung, warum `stress`/`psi_heat` trotz Reset im v7-Schema verbleiben (expliziter HQ-Status + stabile Legacy-/Import-Normalisierung). Pflicht-Smoke erneut grün.
+
+- Fahrplan (HQ-Save/Reset Klarheit): `internal/qa/plans/issue-pack-durchlauf-76-hq-save-reset-clarity.md`
+- Log (HQ-Save/Reset Klarheit): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-76-hq-save-reset-clarity.md`

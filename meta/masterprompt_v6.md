@@ -361,6 +361,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     So kann ein bereits verbrauchter Px-5-Stand nicht durch Max-Merge
     aus Alt-Branches wieder auftauchen.
   - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.
+  - **HQ-Save-Invariante:** Speichern ist nur im HQ-Kernbereich erlaubt. Vor dem HQ-`!save` läuft der Debrief-Reset (`stress`/`psi_heat`/`SYS` auf HQ-Basis). `stress` und optional `psi_heat` bleiben dennoch Teil des Schemas, damit der gespeicherte HQ-Status explizit bleibt und Legacy-/Importpfade stabil bleiben.
   - **Kein Freitext-Save, kein eigenes Format.** Immer exakt dieses Schema.
   - v6-Saves werden beim Laden automatisch migriert (Loader erkennt `save_version: 6`).
 
