@@ -1246,7 +1246,7 @@ Im neuen Schema zählen rund zehn solcher Einsätze zu einer Episode bzw. einem 
 1. Briefing - Kolonisten 99 % tot, Anomalie stoppen.
 2. Dock-Schleuse: Vereiste Panels, Energie 3 %.
 3. Dunkel-Korridor, Leichensäcke treiben.
-4. Reaktor-Core, Alien-Raptoren (zeitversetzt) nagen Kabel.
+4. Reaktor-Core, scheinbar "Alien"-Raptoren (zeitversetzte Fauna) nagen Kabel.
 5. Sensor-Array - Windung außerhalb Schiffshülle.
 6. **Twist:** Gegenspieler nutzt Zeit-Leuchtboje, Risse im Rumpf.
 7. Kolonisten-Cryo-Deck - Restcrew befreien.
