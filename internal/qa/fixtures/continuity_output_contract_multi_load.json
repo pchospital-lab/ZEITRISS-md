@@ -1,0 +1,79 @@
+{
+  "scenario_id": "CONTINUITY-OUTPUT-CONTRACT-01",
+  "session_anchor": {
+    "save_id": "SAVE-ANCHOR-EP8-M2",
+    "branch_id": "ANCHOR-main",
+    "campaign": {
+      "episode": 8,
+      "mission": 2,
+      "location": "HQ"
+    }
+  },
+  "imports": [
+    {
+      "save_id": "SAVE-REJOIN-NYX-1989",
+      "char_id": "CHR-NYX",
+      "origin": "BERLIN-1989"
+    },
+    {
+      "save_id": "SAVE-REJOIN-ORA-1943",
+      "char_id": "CHR-ORA",
+      "origin": "BERLIN-1943"
+    }
+  ],
+  "continuity": {
+    "split": {
+      "family_id": "EP8-BERLIN-FORK-01",
+      "thread_id": "BERLIN-HQ-CONVERGENCE",
+      "expected_threads": ["BERLIN-1943", "BERLIN-1989"],
+      "resolved_threads": ["BERLIN-1943", "BERLIN-1989"],
+      "convergence_ready": true
+    },
+    "roster_echoes": [
+      {
+        "char_id": "CHR-NYX",
+        "tone": "respect",
+        "text": "Nyx bringt einen validierten Funknamen aus 1989 mit, den das HQ-Dossier bislang nur als Gerücht führte."
+      }
+    ],
+    "shared_echoes": [
+      {
+        "tag": "morgenrot",
+        "scope": "campaign",
+        "text": "Das Codewort MORGENROT taucht in beiden Branches auf und gilt als Boss-Tell für den nächsten Core-Einsatz."
+      }
+    ],
+    "convergence_tags": ["boss_tell:morgenrot"]
+  },
+  "output_contract": {
+    "continuity_recap": {
+      "session_anchor": "Die laufende Runde setzt auf SAVE-ANCHOR-EP8-M2 in HQ, Mission 2.",
+      "returnees": [
+        "Nyx kehrt aus BERLIN-1989 zurück und bringt den Funknamen als harte Spur mit.",
+        "Ora kehrt aus BERLIN-1943 zurück; die Archivgruppe bestätigt dieselbe Signatur auf analogem Träger."
+      ],
+      "shared_aftermath": [
+        "MORGENROT gilt jetzt als gruppenweite Leitspur.",
+        "Die Werkstatt priorisiert den Kanalabstieg als Alternativroute.",
+        "Kodex markiert Helene Voss als aktiv wiedererkennbares Kontaktziel."
+      ],
+      "convergence_consequence": "Konvergenz aktiv: Der nächste Briefing-Block enthält den Boss-Tell vor Szenenstart."
+    },
+    "beats": {
+      "split_beat": {
+        "played": true,
+        "handoff": "Die Gruppe trennt sich operativ in 1943/1989 und verteilt Hinweisketten je Thread."
+      },
+      "rejoin_hq_beat": {
+        "played": true,
+        "arrival": "Rückkehr über Schleuse B; sofortige Reaktion von Archiv und Einsatzleitung auf den Funknamen."
+      }
+    },
+    "echo_followup": {
+      "window_session_blocks": 2,
+      "imported_echo_ref": "shared:morgenrot",
+      "manifested_in_block": 1,
+      "manifested_as": "boss_tell"
+    }
+  }
+}

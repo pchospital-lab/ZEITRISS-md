@@ -102,6 +102,10 @@ grep "v7-schema-consistency-ok" out/v7_schema_consistency.log
 node tools/test_v7_issue_pack.js > out/v7_issue_pack.log
 grep "v7-issue-pack-ok" out/v7_issue_pack.log
 
+# Kontinuitäts-Output-Contract (Recap/Beats/Echo-Fortwirkung)
+node tools/test_continuity_output_contract.js > out/continuity_output_contract.log
+grep "continuity-output-contract-ok" out/continuity_output_contract.log
+
 echo ""
 echo "Manual Chronopolis Gate Smoke (60–90s):"
 echo " 1) Lvl10 ohne Key -> HQ betreten -> erwartet: HUD 'Schlüssel erteilt'"
