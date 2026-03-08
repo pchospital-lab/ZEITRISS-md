@@ -117,3 +117,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Continuity-Conflict Struktur + Lineage-Restdrift): `internal/qa/plans/issue-pack-durchlauf-87-continuity-conflict-structure.md`
 - Log (Continuity-Conflict Struktur + Lineage-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-87-continuity-conflict-structure.md`
+
+
+- **Durchlauf 88 (2026-03-08):** Anschlusslauf zur Template-/Toolkit-Restdrift abgeschlossen: `meta/masterprompt_v6.md` und `systems/gameflow/speicher-fortsetzung.md` nutzen in den kanonischen v7-Beispielen jetzt `branch_id: ANCHOR-main` statt `HOST-main`; `systems/toolkit-gpt-spielleiter.md` wurde in Merge-/Dispatcher-Formulierungen auf Session-Anker-Wording harmonisiert (`Session-Anker-HQ-Pool`, `Session-Anker-Wallets`, `Session-Anker-Save + weitere`). Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Anchor-Template + Toolkit-Restdrift): `internal/qa/plans/issue-pack-durchlauf-88-anchor-template-toolkit-restdrift.md`
+- Log (Anchor-Template + Toolkit-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-88-anchor-template-toolkit-restdrift.md`
