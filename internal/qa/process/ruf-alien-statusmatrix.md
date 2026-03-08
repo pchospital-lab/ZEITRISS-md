@@ -46,6 +46,11 @@ anschlussfähig dokumentieren.
   abgeschlossen: Rufbegriffe in `gameplay/kampagnenuebersicht.md` und
   `core/sl-referenz.md` auf SSOT (`ITI-Ruf`/Fraktionssignal) gehärtet sowie
   Mystery-Tonlage in `core/zeitriss-core.md` ohne harten Alien-Fakt nachgezogen.
+- **Durchlauf 60 (2026-03-08):** Restdrift im Beispielpfad
+  `gameplay/kampagnenstruktur.md` geschlossen: hartes Alien-Wording auf
+  Feldread-Formulierung (`scheinbar "Alien"-Raptoren` als zeitversetzte
+  Fauna) umgestellt, damit die Onboarding-Tonlage auch in Missionsbeispielen
+  konsistent bleibt.
 
 ## Verknüpfung
 
@@ -55,4 +60,6 @@ anschlussfähig dokumentieren.
 - Log (Follow-up): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-58-ruf-alien-followup.md`
 - Fahrplan (Watchpoints): `internal/qa/plans/issue-pack-durchlauf-59-ruf-alien-watchpoints.md`
 - Log (Watchpoints): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-59-ruf-alien-watchpoints.md`
+- Fahrplan (Restdrift): `internal/qa/plans/issue-pack-durchlauf-60-ruf-alien-restdrift.md`
+- Log (Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-60-ruf-alien-restdrift.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
