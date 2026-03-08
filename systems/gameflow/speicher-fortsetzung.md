@@ -88,7 +88,9 @@ bevor ihr in eine Stadt tretet, die sich anfühlt wie euer Scheitern.
 **SaveGuard (Pseudocode)**
 
 > *Die folgenden Strings und Codeblöcke sind KI-Spielleiter-Referenz und nicht
-> für Spieler gedacht.*
+> für Spieler gedacht. Der Block arbeitet auf der internen Runtime-/Import-Bridge
+> (inkl. Legacy-Feldern wie `character.attributes.*`/`cooldowns`) vor der
+> v7-Normalisierung und beschreibt **keinen** kanonischen Neu-Export.*
 
 {# LINT:HQ_ONLY_SAVE #}
 ```pseudo
@@ -1239,9 +1241,9 @@ wenn die Gruppe während einer Mission den aktuellen Stand als Bogen sehen will.
   setzt keine Flags mehr. `SkipEntryChoice()` markiert parallel
   `flags.runtime.skip_entry_choice=true`; die Runtime übernimmt das Flag
   unverändert in den Einsatz.
-- `Chronopolis-Warnung` - `start_chronopolis()` blendet das einmalige Warn-Popup
-  ein und setzt `logs.flags.chronopolis_warn_seen=true`, damit die Sequenz nach
-  dem ersten Besuch stumm bleibt.
+- `Chronopolis-Warnung` - `start_chronopolis()` erzeugt einmalig einen
+  In-World-Warnhinweis und setzt `logs.flags.chronopolis_warn_seen=true`, damit
+  der Hinweis nach dem ersten Besuch stumm bleibt.
 - `ClusterCreate()` - legt bei Paradoxon 5 neue Rift-Seeds an.
 - `ClusterDashboard()` - zeigt aktive Seeds mit Schweregrad und optionaler Deadline.
 - `launch_rift(id)` - startet eine Rift-Mission aus einem Seed (nur nach Episodenende).
