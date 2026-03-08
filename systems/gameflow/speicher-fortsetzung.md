@@ -444,7 +444,8 @@ zurück.
 ### Voller HQ-Deepsave (Solo/Gruppe) {#full-save}
 
 > **Legacy-/Import-Hinweis:** Der folgende Block dient als Bridge-Referenz für
-> Migration und QA. Kanonische Exporte folgen dem v7-Zielmodell
+> Migration und QA. **Nicht als kanonischen Neu-Export verwenden.**
+> Kanonische Exporte folgen dem v7-Zielmodell
 > (`v`, `zr`, `characters[]`, `attr`, `economy.hq_pool`, `arc.questions/hooks`).
 
 > Referenz-HQ-Block mit Quartier, Timeline, Squad und Feldnotizen. Alle
@@ -1337,6 +1338,11 @@ zusätzliche Stresswürfe) gelten als verworfen und werden beim Laden ignoriert.
 
 Dieses Schema ist das **einzige** kanonische Exportformat für neue Saves (Solo und Koop).
 Es ist kein zweites, paralleles Format erlaubt.
+
+**HQ-Save-Invariante:** Gespeichert wird ausschließlich im HQ-Kernbereich.
+Vor dem Speichern läuft der Debrief-Reset auf HQ-Basis (`stress`, `psi_heat`,
+`SYS`). Diese Felder bleiben im v7-Schema, damit der explizite HQ-Zustand im
+Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
 
 ```json
 {
