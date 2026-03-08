@@ -75,7 +75,7 @@ kleine PP/Heat-Effekte mit Tradeoff.
 SYS: <0/1/2> · Effekt: <kurz> · Limit: <x/Szene oder x/Mission> · Tradeoff: <klein>
 ```
 
-Die folgende Tabelle fasst typische Ausrüstungsbeispiele der vier Lizenzstufen zusammen (Preise in CU).
+Die folgende Tabelle fasst typische Ausrüstungsbeispiele entlang der Lizenzstufen zusammen (Preise in CU).
 
 
 | Ausrüstung (Tier 1 – ca. 100 CU) | Effekt | Kosten (CU) |
@@ -134,10 +134,14 @@ Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes An
 | II | Ruf +2 | 500 CU |
 | III | Ruf +3 | 1.500 CU |
 | IV | Ruf +4 | 3.000 CU |
-| V | Ruf +5 | Questbelohnung (nicht kaufbar) |
+| V | Ruf +5 | 5.000 CU |
 
-Ab **Ruf +3** (Skala **–5** bis **+5**) gewährt das ITI häufig kleinere Rabatte; ab **+4** öffnen sich
-manchmal geheime Depots mit exklusiven Prototypen.
+Ab **Ruf +5** stehen grundsätzlich alle regulären ITI-Lizenzpfade offen. Die eigentliche
+Begrenzung läuft dann über **CU**, Verfügbarkeit, Storyfreigaben und HQ-Ressourcen — nicht mehr
+über eine pauschale Tier-V-Sperre.
+
+Einzelne Artefakte, Schiffe oder Sondermodule können weiterhin als
+**Objekt-/Projektfreigabe** laufen, ohne das gesamte Tier V global zu sperren.
 Kanonische Tabelle: siehe [Charaktererschaffung](../characters/charaktererschaffung-grundlagen.md#zugang-zu-ausrüstung-cyberware-hq-phase).
 ## Waffen: Arsenal der Zeitalter
 

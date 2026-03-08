@@ -394,6 +394,13 @@ Missionen führt alle Agenten auf Level 10.
 erfolgt zunehmend über Prestige-Perks, Meilensteine und horizontale
 Erweiterungen (Details im [Progressionssystem](../core/zeitriss-core.md#levelaufstieg-fortschritt)).
 
+**Klarstellung:**
+Der **Level-10-Meilenstein** steht primär für **Vertrauen, Chronopolis-Freigabe und
+operative Verantwortung**. Der **formale Zugriff auf ITI-Ausrüstungslinien** läuft
+über **ITI-Ruf und Lizenz-Tier**.
+Level-Meilensteine und Ruf-Tiers dürfen sich dramaturgisch überschneiden,
+ersetzen sich aber nicht.
+
 **Level-Up in der Story:** Ein Stufenaufstieg bedeutet, dass euer Agent dazulernt und an Erfahrung
 gewinnt. Anstatt dies abstrakt zu handhaben, bettet ZEITRISS den Fortschritt ins Narrativ ein. Wenn
 die SL verkündet, dass eure Gruppe nach der letzten Mission ein Level aufsteigt, kann der **KI-
@@ -427,16 +434,18 @@ standardmäßig vorgesehen. Andere Dinge, die sich durch Erfahrung verbessern: *
 Zugang zu Ausrüstung (siehe HQ-Phase) und natürlich das **Dienstgrad-Rangabzeichen** im HUD, das
 euren aktuellen ITI-Rang zeigt.
 
-**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch die
-**Rufstufe** ein. Letztere basiert auf dem höchsten Rufwert bei einer ITI-Fraktion.
+**HUD-Anzeige der Erfahrung:** Das HUD blendet sowohl eure **Level-Zahl** als auch den
+**ITI-Ruf** ein. Der ITI-Ruf ist ein eigener operativer Wert (`reputation.iti`) und
+wird **nicht** automatisch aus Fraktionswerten abgeleitet.
 Unter dem Namen läuft ein **Exp-Balken**, der anzeigt, wie weit es bis zum nächsten Level ist.
 Euer Charakter würde nie laut verkünden "Ich hab Level 3 erreicht" — innerhalb der Spielwelt gilt
-nur die Rufstufe als offizieller Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
+vor allem der offizielle ITI-Dienstgrad. Auf Nachfrage kann die KI-Spielleitung den
 exakten Fortschritt nennen, z.B.: _"Euer HUD zeigt Level 3 (70 % bis Level 4) und
-Rufstufe +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
-HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** — Rang +1 (Level 3, 71 % bis Level 4); Vital:
-100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team: alle im grünen
-Bereich."\* — daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu fallen.
+ITI-Ruf +1."_ So bleiben die Meta-Infos im Rahmen der Spielwelt. Eine beispielhafte
+HUD-Zusammenfassung könnte lauten: \*"**_HUD-Status_** — Rang Operator I (Level 3, 71 % bis Level 4);
+ITI-Ruf +1; Vital: 100 % (grün); Paradoxon: 1 (stabil); Missionsziele: 2/3 erfüllt; Team:
+alle im grünen Bereich."\* — daran seht ihr auf einen Blick alles Wichtige, ohne aus der Rolle zu
+fallen.
 
 **Downtime & Weiterbildung:** Zwischen Missionen - in der sogenannten **HQ-Phase** - habt ihr
 Gelegenheit, euren Fortschritt auszuspielen. Typische **Downtime-Aktivitäten** sind Training,
@@ -452,79 +461,87 @@ Chrononauten.
 
 ## Rufsystem (Ansehen bei Fraktionen & ITI)
 
-**Grundregel zu Beginn:** Jede*r neu rekrutierte Chrononaut*in startet mit **Ruf 0** (neutral) bei
-allen Fraktionen **und** beim ITI. Hintergrundbeschreibungen sind rein erzählerisch und verleihen
-weder anfängliche Ruf-Boni noch Dienstgrade -
-echtes Ansehen wird bei erfolgreichen Missionen oder Trainingssimulationen verdient.
+**Grundregel zu Beginn:** Jede*r neu rekrutierte Chrononaut*in startet mit **ITI-Ruf 0**
+und **Fraktionsruf 0** bei allen gelisteten Strömungen. Hintergrundbeschreibungen sind rein
+erzählerisch und verleihen weder anfängliche Ruf-Boni noch Dienstgrade.
 
-Im Mittelpunkt steht euer Ruf innerhalb des ITI. Für jede der vier **ITI-Fraktionen** kann die SL einen
-Rufwert zwischen **-5** und **+5** tracken. Null ist neutral, positive Werte bedeuten Vertrauen, negative
-Misstrauen. Zu Beginn sammelt ihr als Agenten des **Ordo Mnemonika** Ansehen im Mischpool.
-Im Spielverlauf könnt ihr zu einer Preserve- oder Trigger-Fraktion übertreten und dort
-langfristig Ansehen aufbauen: **Chrono-Symmetriker** und **Kausalklingen**
-handeln nach dem Preserve-Ansatz, die **Zerbrechliche Ewigkeit**
-folgt dem Trigger-Prinzip. Wer neutral bleibt, steigt beim Ordo auf.
-Anschließend sammelt ihr über viele Einsätze hinweg langsam Rufpunkte. Die nötigen
-Missionserfolge pro Stufe findet ihr in der folgenden Tabelle. Die Werte sind Richtlinien und
-können von der Spielleitung jederzeit angepasst werden.
+### Rufsystem (ITI & Fraktionen)
 
-| Rufstufe | Missionserfolge gesamt (ca.) |
-| -------: | ---------------------------- |
-|        0 | Startwert                    |
-|       +1 | 10                           |
-|       +2 | 35                           |
-|       +3 | 100                          |
-|       +4 | 200                          |
-|       +5 | 400                          |
+ZEITRISS trennt sauber zwischen **operativem ITI-Ruf** und **Fraktionsruf**:
 
-Rufgewinn dauert also viele Missionen bzw. mehrere HQ-Phasen ingame. Rufverlust tritt nur bei gravierenden
-Verfehlungen ein. Die Spielleitung hält passende Kategorien fest (z.B. _"Chrono-Symmetriker: Ruf +2
-(anerkannt)", "Kausalklingen: Ruf -1 (skeptisch)"_). Dieses System macht die
-**Auswirkungen eurer Taten** greifbar, bleibt aber bewusst einfach, um Stimmungen und
-Beziehungen abzubilden.
+- **`reputation.iti`** = formaler Ruf beim Institut. Er steuert **Rang**,
+  **Lizenz-Tier**, offizielle **Freigaben** und den Zugriff auf hochwertigere ITI-Ressourcen.
+- **`reputation.factions.*`** = politisches und erzählerisches Standing bei einzelnen
+  Strömungen, Zellen und Machtblöcken. Dieser Ruf kann positiv oder negativ ausfallen,
+  ohne den formalen ITI-Ruf automatisch zu überschreiben.
 
-**Wirkung von Ruf:** Ein hoher Rufwert bringt narrative Boni - etwa Hilfsbereitschaft von NSCs,
-Rabatte auf dem Markt oder Zugang zu verschlossenen Bereichen. Negativer Ruf kann Hindernisse
-verursachen - misstrauische Wachen, Verrat, höhere Preise. Die SL entscheidet situativ, wie sich Ruf
-auswirkt. Es gibt keine starren Modifikatoren (obwohl +5 Ruf bei einer Fraktion ggf. einen
-Bonuswürfel auf Überreden rechtfertigt, während -5 vielleicht automatisch Kampf bedeutet). Wichtig
-ist, dass Ruf **logische Konsequenzen** eurer Aktionen widerspiegelt und das Rollenspiel bereichert.
-Er kann sich im Laufe eines Abenteuers stark ändern, je nachdem, ob ihr eher als edle Retter oder
-rücksichtlose Haudraufs auftretet - ein und dasselbe Team kann in Epoche X gefeiert, in Epoche Y
-aber gehasst sein.
+Damit gilt: Ein Chrononaut kann beim ITI als zuverlässig gelten, ohne von jeder
+Fraktion geliebt zu werden — und umgekehrt.
 
-**Darstellung im HUD:** Das HUD-Overlay eures Anzugs kann auch **Reputationsinformationen**
-anzeigen, soweit bekannt. Beispielsweise könnte auf Nachfrage im UI stehen: _"Ruf: Chrono-Symmetriker = +2
-(anerkannt), Kausalklingen = -1 (misstrauisch)"_. Das ITI-System erfasst also, wie euch wichtige
-Gruppen sehen. Die KI-Spielleitung kann diese Daten ins Spiel einfließen lassen, etwa: _"Euer HUD
-warnt: Die Dorfbewohner wirken euch gegenüber feindselig (Ruf -2)."_ - was dem Charakter implizit zu
-denken gibt, ohne direkt mit Zahlen um sich zu werfen. In-world kann man das als _"Sozial-Scan"_
-erklären, basierend auf Beobachtungen und Datenbanken. (Natürlich ist das HUD nicht hellseherisch -
-es liefert nur Infos, die das ITI plausibel hat. Die SL soll es sparsam einsetzen und nur bei klaren
-Tendenzen.)
+### ITI-Ruf – Standard-Progression (SSOT)
 
-**Ruf beim ITI (intern):** Eure Beförderungen richten sich nach eurem Ansehen bei den internen
-Fraktionen des Instituts. Dabei gilt: Euer ITI-Ruf ist immer so hoch wie der beste Rufwert, den ihr
-aktuell bei einer dieser Gruppen vorweisen könnt - etwa bei den Chrono-Symmetriker, dem Ordo
-Mnemonika, den Kausalklingen oder der Zerbrechlichen Ewigkeit. Steigt dieser Fraktionsruf, erhöht
-sich automatisch auch euer ITI-Ruf. Entsprechend nutzt das ITI dieselbe Skala von **-5** bis **+5**
-und die Missionserfolgswerte aus der Ruftabelle. Bei **Ruf +2** folgt für gewöhnlich die Beförderung
-zum _Feldagenten_, ab **+4** gilt euer Team als _Elitechrononauten_. Das absolute Maximum von **+5** bringt
-umfassende Privilegien.
+Der formale **ITI-Ruf** (`reputation.iti`) wächst im Standardmodus deterministisch über den
+Core-Loop:
+
+- **Start:** Ruf 0
+- **Erste erfolgreich abgeschlossene Core-Mission:** Ruf +1
+- **Danach:** Ruf +1 bei jedem erfolgreich abgeschlossenen Core-Boss
+  - **Mission 5:** Mini-Boss → +1
+  - **Mission 10:** Episoden-Boss → +1
+  - **Mission 15:** Mini-Boss → +1
+  - **Mission 20:** Episoden-Boss → +1
+
+Damit ergibt sich im Normalfall:
+
+- nach Mission 1 → **Ruf 1**
+- nach Mission 5 → **Ruf 2**
+- nach Mission 10 → **Ruf 3**
+- nach Mission 15 → **Ruf 4**
+- nach Mission 20 → **Ruf 5**
+
+**Wichtig:**
+
+- Nur **erfolgreich abgeschlossene Core-Missionen/Bossabschlüsse** zählen für diesen Pfad.
+- **Rift-Ops, Arena, Chronopolis, HQ-Freeruns und Training** verleihen standardmäßig
+  **keinen automatischen ITI-Ruf**.
+- **Fehlschläge oder Abbrüche** geben keinen Rufgewinn; Fraktionsruf und Storyfolgen können
+  sich trotzdem verändern.
+- **Cap:** `reputation.iti` maximal 5.
+
+### Rang-Mapping (SSOT)
+
+| ITI-Ruf | Rang |
+|--------:|------|
+| 0 | Rekrut |
+| 1 | Operator I |
+| 2 | Feldagent |
+| 3 | Senior-Feldagent |
+| 4 | Elitechrononaut |
+| 5 | Apex-Agent |
+
+**Debrief-Format:** `Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II`
+
+### Fraktionsruf als Story- und Politiksignal
+
+Fraktionsruf zeigt Vertrauen, Misstrauen, Rabatte, Zugänge und Reibung im
+Rollenspiel an. Hoher Fraktionsruf kann Sonderkontakte, bessere Konditionen
+oder politische Unterstützung eröffnen; negativer Ruf kann Kontrollen,
+Sperrungen oder Gegenschläge auslösen. Diese Effekte bleiben erzählerisch und
+situativ — sie ersetzen nicht den ITI-Lizenzpfad.
 
 ## Zugang zu Ausrüstung & Cyberware (HQ-Phase)
 
 Im **HQ** könnt ihr eure verdienten Belohnungen investieren. Nach jeder Mission erhaltet ihr vom ITI
 Höhere **Tier-Stufen** werden über kostenpflichtige **Lizenzen** freigeschaltet.
 Je teurer die Lizenz, desto hochwertiger die verfügbare Ausrüstung.
-Zusätzlich koppelt das ITI den Zugriff an euren **Ruf**:
+Zusätzlich koppelt das ITI den Zugriff an euren **ITI-Ruf** (`reputation.iti`):
 
 → Vollständige Tier-Lizenztabelle: siehe
 [Ausrüstung & Cyberware](ausruestung-cyberware.md#tier-lizenzen) (SSOT).
 
-Lizenzen müssen erworben werden, sobald die passende Rufstufe erreicht ist.
-Der **Hauptfraktionsruf** (ITI/Ordo) ist der entscheidende Wert für Tier-Zugang —
-bei Fraktionswechsel wird der Ruf mitgenommen.
+Lizenzen müssen erworben werden, sobald die passende ITI-Rufstufe erreicht ist.
+**Kein Hard-Link:** Der Tier-Zugang folgt `reputation.iti`, nicht `max(reputation.factions.*)`.
+Fraktionswechsel verändert daher nicht automatisch euren formalen ITI-Ruf.
 
 typischerweise eine Ressourcengutschrift - sei es in Form von **Credits (CU)** oder logistischen
 Unterstützung. Damit könnt ihr **neue Ausrüstung kaufen, Upgrades vornehmen oder Cyberware
@@ -554,13 +571,14 @@ die wichtigsten Punkte zusammen:
   wirklich mächtigen Toys (Experimentale Waffen, fortschrittlichste Implantate, Zeitmanipulations-
   Geräte) erfordert meist einen bestimmten **Dienstgrad/Ruf** des Agenten. Die Organisation stellt
   sicher, dass nur **erfahrene und vertrauenswürdige** Chrononauten solches Equipment erhalten. Im
-  Spiel bedeutet das: Bestimmte Items tauchen erst im "Shop" auf, wenn ihr Level X erreicht habt oder
-  euer ITI-Ansehen hoch genug ist. Die SL kann dies narrativ erklären - z.B. gibt der Kodex bekannt,
+  Spiel bedeutet das: Bestimmte Items tauchen erst im "Shop" auf, wenn ihr die passende
+  Lizenzstufe erreicht habt und genug CU investieren könnt. Die SL kann dies narrativ erklären - z.B.
+  gibt der Kodex bekannt,
   dass ein gewünschtes Gerät noch _"gesperrt"_ ist und erst nach mehreren Erfolgen freigegeben wird.
   Dieses Prinzip greift auch bei **Implantaten** (ein Neuling bekommt nicht direkt den
   Neuralbeschleuniger) und besonderen Missions-Gegenständen. So wird die Ressourcenschicht im HQ zu
-  einem **zusätzlichen Progressionspfad**: Mit steigendem Level und Ruf schaltet ihr neue
-  Möglichkeiten frei.
+  einem **zusätzlichen Progressionspfad**: Mit steigendem ITI-Ruf und freigeschalteten Lizenzen
+  öffnet ihr neue Möglichkeiten; Level bleibt der Build-Fortschritt.
 - **Cyberware-Installationen:** Möchtet ihr im HQ neue **Implantate** einbauen lassen (oder
   vorhandene upgraden), so ist das ebenfalls Teil eures Fortschritts. Cyberware kostet CUs und oft
   auch Zeit zur Genesung. Nach einem Level-Up bietet es sich an, darüber nachzudenken: Habt ihr euren

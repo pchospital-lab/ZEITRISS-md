@@ -834,7 +834,7 @@ Im Menü lässt sich über `modus` der Erzählstil wechseln,
 z.B. auf **Covert-Ops Technoir** oder den neuen **Suggest**-Modus.
 Nach jeder Mission zeigt die Spielleitung **automatisch** einen
 **Missions-Abschlussbildschirm** (Score-Screen):
-Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update.
+Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update.
 Dieser Screen erscheint immer — der Spieler muss nicht danach fragen.
 
 Erst danach öffnet sich das **HQ-Menü** mit drei Optionen:
