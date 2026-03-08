@@ -210,3 +210,8 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (HQ-Save/Reset Klarheit): `internal/qa/plans/issue-pack-durchlauf-76-hq-save-reset-clarity.md`
 - Log (HQ-Save/Reset Klarheit): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-76-hq-save-reset-clarity.md`
+
+- **Durchlauf 77 (2026-03-08):** Round-4-Anschlusslauf in `systems/gameflow/speicher-fortsetzung.md` durchgeführt: Chronopolis-Makrotext auf einmaligen In-World-Warnhinweis (statt Warn-Popup) harmonisiert und SaveGuard-Hinweis um die klare Einordnung als Runtime-/Legacy-Bridge vor v7-Normalisierung ergänzt (kein kanonischer Neu-Export). Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Anschluss Chronopolis/Bridge): `internal/qa/plans/issue-pack-durchlauf-77-round4-anschluss-chronopolis-bridge.md`
+- Log (Round4 Anschluss Chronopolis/Bridge): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-77-round4-anschluss-chronopolis-bridge.md`
