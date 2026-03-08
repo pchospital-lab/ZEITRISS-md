@@ -657,7 +657,7 @@ Backup für Technik- oder Coverstory-Falschspuren in Rifts. Er folgt dem gleiche
 10 Kraken im Kanal - Sewer-Drohne mit Tentakel-Manipulatoren
 11 Crying Boy Painting - Quantenspeicher im Pigment (Archivkammer)
 12 Goatman - Bio-Chimäre entlaufenem Labor
-13 Greys - Nano-Skin-Anzüge verzerren Proportionen
+13 Greys - posthumane Fernzukunfts-Menschen (jenseits T-/N-Stufe), oft Einsatzteams externer Zeitmanipulator-Fraktionen
 14 Hitchhiking Ghost - Zeitversetzte Linse-Aufnahme auf HUD
 15 Lake-Monster - Schwarm-U-Drohnen unter Hüllfeld
 16 Shapeshifter - adaptive Metamaterial-Suit
