@@ -37,12 +37,12 @@ tags: [core, reference, gm]
   `campaign.entry_choice_skipped=true` plus `ui.intro_seen=true`; das
   Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient, wird nicht
   serialisiert und dient nur dem aktiven Run. UI-/Accessibility-Overrides aus
-  dem Host bleiben erwartetes Verhalten und werden als Trace
+  dem Session-Anker bleiben erwartetes Verhalten und werden als Trace
   `ui_host_override` protokolliert.
 - **Speichern.** *(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz.)*
   Einsätze lassen kein Speichern zu; der Dispatcher meldet
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission
-  aktiv. Beim Laden bleibt der HQ-Pool des Hosts maßgeblich; Import-Wallets
+  aktiv. Beim Laden bleibt der HQ-Pool des Session-Ankers maßgeblich; Import-Wallets
   werden union-by-id angehängt, fehlende Labels aus dem Import ergänzt, und
   Konflikte landen in `logs.flags.merge_conflicts` (Allowlist:
   `wallet|rift_merge|arena_resume|campaign_mode|phase_bridge|location_bridge`)
@@ -51,7 +51,7 @@ tags: [core, reference, gm]
   (120/512/900+), `band_reason`, `wallet_avg_scope`, `target_range` (HQ-Pool +
   Wallet-Richtwert), Delta-Flags (`delta`, `out_of_range`),
   `chronopolis_sinks` (Liste der angesetzten Sinks) sowie dem berechneten
-  Wallet-Durchschnitt. Die Band-Auswahl nutzt den Host-Level; fehlt dieser,
+  Wallet-Durchschnitt. Die Band-Auswahl nutzt den Session-Anker-Level; fehlt dieser,
   greift der Median der Party/Team-Roster. Weichen HQ-Pool oder Wallet
   vom Ziel ab, erscheint der Toast "Economy-Audit: HQ-Pool/Wallets außerhalb
   Richtwerten (Lvl 120|512|900+).".
@@ -247,7 +247,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   divergente Pfade werden als `continuity_conflict` im Trace markiert.
   Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
   Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
-  Roster-Container (Host = Index 0).
+  Roster-Container (Session-Anker = Index 0).
 - v6-Saves (`save_version: 6`) bleiben reiner Importpfad und werden beim Laden
   automatisch auf v7 gehoben (`v: 7`): Legacy-Roster (`party.characters[]`,
   `team.members[]`) wird in `characters[]` zusammengeführt; Legacy-Pool
@@ -296,7 +296,7 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   optionale `voice_profile`. Migration und Serializer ergänzen fehlende Felder
   mit Defaults (`standard|normal|gm_second_person`, `action_mode=uncut`),
   sodass der SaveGuard den normalisierten UI-Block prüft.
-- Wallet-Audits arbeiten ausschließlich auf dem v7-Zielmodell: Host-HQ-Pool in
+- Wallet-Audits arbeiten ausschließlich auf dem v7-Zielmodell: Session-Anker-HQ-Pool in
   `economy.hq_pool`, persönliche Guthaben in `characters[].wallet`. Union-/Merge-
   Konflikte werden über `logs.flags.merge_conflicts[]` (`field='wallet'`)
   dokumentiert.
@@ -1113,7 +1113,7 @@ v: 7, zr: "4.2.6"
 campaign: { episode, mission, px:0..5, px_state:"stable"|"pending_reset"|"consumed",
   mode:"mixed"|"preserve"|"trigger"|"rift",
   rift_seeds:[{id, epoch, label, status, tier}] }
-characters: [{                          // Array, Host = Index 0
+characters: [{                          // Array, Session-Anker = Index 0
   id, name, callsign, rank, lvl, xp,
   origin: {epoch, hominin, role},
   attr: {STR, GES, INT, CHA, TEMP, SYS},  // SYS = SYS_max

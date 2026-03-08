@@ -334,7 +334,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
 }
 ```
   **Schema v7 Regeln:**
-  - `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Host = Index 0.
+  - `characters[]`: Solo = 1 Eintrag. Gruppe = Array, Session-Anker-Charakter = Index 0.
   - `attr.SYS` = SYS_max. Nur `sys_installed` als Zusatzfeld (permanent belegte Slots).
   - Psi nur wenn `has_psi: true`: dann `psi_heat`, `pp`, `psi_abilities[]` ergänzen.
   - Artefakt: `"artifact": {"name":"...", "tier":1, "effect":"..."}` — max 1, nur wenn vorhanden.

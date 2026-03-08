@@ -84,3 +84,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Kontinuitäts-Redesign): `internal/qa/plans/issue-pack-durchlauf-81-continuity-redesign.md`
 - Log (Kontinuitäts-Redesign): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-81-continuity-redesign.md`
+
+- **Durchlauf 82 (2026-03-08):** Session-Anker-Restdrift nach Durchlauf 81 abgeschlossen: `systems/gameflow/speicher-fortsetzung.md`, `meta/masterprompt_v6.md` und `core/sl-referenz.md` verwenden in Roster-/Merge-/Audit-Beschreibungen nun durchgehend Session-Anker-Semantik (u. a. `Session-Anker-Charakter = Index 0`, `session_anchor_level`, `anchor_value|anchor_wins`, `session_anchor_id`). Inhaltliche Regeln bleiben unverändert; Fokus war Terminologie-/SSOT-Konsistenz. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Session-Anker Restdrift): `internal/qa/plans/issue-pack-durchlauf-82-session-anchor-restdrift.md`
+- Log (Session-Anker Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-82-session-anchor-restdrift.md`
+
