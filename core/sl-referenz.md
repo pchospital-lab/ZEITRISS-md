@@ -325,6 +325,10 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   Gruppe hat ihren eigenen Session-Anker. Beim Rejoin bleiben Episode/Mission/Px
   am aktiven Anker, Joiner bringen persönliche Wahrheit + Kontinuitäts-Echos mit.
   Für Px gilt weiterhin `consumed > pending_reset > stable`.
+  **Szenenpflicht:** Split als kurzer Split-Beat (Übergabe je Thread), Rejoin
+  als kurzer Rejoin-HQ-Beat (Ankunft + unmittelbare Reaktion/Spur).
+  **Echo-Pflicht:** Mindestens ein importierter Echo-Eintrag muss in den
+  nächsten zwei Sitzungsblöcken konkret wieder auftauchen.
 - **Mixed-Split-Präzedenz (ohne Branch-Protokoll):** Bei Mischpfaden
   (Rift + PvP + Chronopolis + Abort) wird **kein** zusätzlicher
   Kampagnenfortschritt kanonisiert. Merge läuft deterministisch als

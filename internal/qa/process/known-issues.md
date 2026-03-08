@@ -90,3 +90,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 - Fahrplan (Session-Anker Restdrift): `internal/qa/plans/issue-pack-durchlauf-82-session-anchor-restdrift.md`
 - Log (Session-Anker Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-82-session-anchor-restdrift.md`
 
+- **Durchlauf 83 (2026-03-08):** Follow-up zum Kontinuitäts-Redesign abgeschlossen: `meta/masterprompt_v6.md`, `systems/gameflow/speicher-fortsetzung.md` und `core/sl-referenz.md` verankern jetzt explizit die Szenenpflicht für Split-Beat/Rejoin-HQ-Beat sowie die Echo-Fortwirkungspflicht (mindestens ein importierter Echo-Eintrag innerhalb der nächsten zwei Sitzungsblöcke). Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kontinuitäts-Beats + Echo-Fortwirkung): `internal/qa/plans/issue-pack-durchlauf-83-continuity-beats-echo-followup.md`
+- Log (Kontinuitäts-Beats + Echo-Fortwirkung): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-83-continuity-beats-echo-followup.md`
+
