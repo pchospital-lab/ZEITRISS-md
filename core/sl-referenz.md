@@ -467,7 +467,9 @@ Das Progressionssystem gliedert sich in zwei Phasen:
 **Level-10-Gate (Chronopolis):** Mit Erreichen von Level 10 schaltet Kodex den
 **digitalen Chronopolis-Schlüssel** frei — eine kryptographische Signatur,
 die bei jedem Schleusendurchgang live dechiffriert wird. Erst danach ist der
-optionale City-Zugang freigeschaltet.
+optionale City-Zugang freigeschaltet. Der Zugang folgt einem festen
+Schlauchlayout: Eintritt über die Eingangsschleuse, Transit durch den
+Chronopolis-Ring, Rückkehr über die gegenüberliegende Ausgangsschleuse.
 
 **Prestige-Meilensteine** bei Level 25 (*Bewährter Agent*), 50 (*Veteran*),
 75 (*Koryphäe*) und 100 (*Legende*) — kosmetisch + Titel.
@@ -880,6 +882,9 @@ Kampagne fort - der Sprung gilt damit als abgeschlossen.
   über einen **digitalen Schlüssel**, den Kodex bei jedem Schleusendurchgang
   live dechiffriert — ab Level 10 hat der Chrononaut genug Verbindung mit der
   Nullzeit aufgebaut, damit Kodex die nötige Signatur berechnen kann.
+  Die Wegführung ist absichtlich als **Schlauchlevel** gesetzt: Einstieg nur
+  über die Eingangsschleuse im Pre-City-Hub, Rückweg nur über die
+  gegenüberliegende Ausgangsschleuse nach vollständigem Ringlauf.
   `campaign.loc` wechselt auf `CITY`, Speichern bleibt blockiert.
 - **Stimmungswechsel:** Chronopolis hat immer die gleiche Stadtstruktur, aber
   Bevölkerung, Atmosphäre und Angebot wechseln in die Epoche der aktiven

@@ -347,8 +347,8 @@ gliedert sich in zwei Phasen:
 
 - **Meilenstein-Stufen:** \*Bestimmte Level werden als **Meilensteine\*** definiert, an
   denen es erzählerische oder spielmechanische **Bonus-Belohnungen** gibt. Beispielsweise könnte
-  **Level 10** eine **Beförderung im ITI** bedeuten (Zugang zu riskanteren Missionen,
-  hochwertigerer Ausrüstung und Freischaltung des **digitalen Chronopolis-Schlüssels**),
+  **Level 10** eine **Beförderung im ITI** bedeuten (mehr Verantwortung,
+  Zugang zu riskanteren Missionen und Freischaltung des **digitalen Chronopolis-Schlüssels**),
   **Level 50** die Freischaltung eines **eigenen Sektors mit Kommandozentrale im
   HQ** und **Level 100** einen **Sonderstatus** im ITI. Diese Meilensteine
   sind optional und narrativ zu verstehen, können aber auch mit kleinen mechanischen Vorteilen
@@ -366,9 +366,12 @@ Der Ruf eines Chrononauten wächst mit dessen Erfolgen. In Verbindung mit den ob
 Level-Meilensteinen lassen sich drei zentrale Schritte festhalten:
 
 - **Level 10 → Vertrauenswürdiger Agent:** Das ITI erkennt die Zuverlässigkeit des Teams an
-  und gewährt breiteren Zugriff auf Ausrüstung. Ab Level 10 schaltet Kodex den
+  und überträgt mehr operative Verantwortung. Ab Level 10 schaltet Kodex den
   **Chronopolis-Schlüssel** frei — Zugang zur gescheiterten Zeitlinie der aktuellen
-  Episode. Chronopolis ist düster, instanziert, ohne Waffenruhe. Vor dem
+  Episode. **Formale Ausrüstungsfreigaben** laufen weiterhin über **ITI-Ruf + Lizenz-Tier**,
+  nicht über das Level allein. Chronopolis ist düster, instanziert, ohne Waffenruhe
+  und als Schleusenlauf gebaut: Eintritt durch die Eingangsschleuse, einmal durch den
+  Ringkorridor und Rückkehr über die gegenüberliegende Ausgangsschleuse. Vor dem
   Schleuseneintritt fragt Kodex verbindlich nach einem HQ-DeepSave. Tod dort folgt
   denselben Konsequenzen wie in Core/Rift-Missionen (kein Traum-Reset). Was man
   lebend rausbringt: behalten.
