@@ -68,3 +68,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - **Durchlauf 78 (2026-03-08):** Round-4-Anschlusslauf zur Mystery-Tonverdichtung abgeschlossen: `gameplay/kampagnenuebersicht.md` im Abschnitt "Mystery-Contract von ZEITRISS" um den Signatursatz ergänzt ("Was im ersten Zugriff wie Fremdheit wirkt ... menschliche Zukunft"), um die gewünschte Erstlesart (Alien/Fremdheit) mit dem kanonischen Reveal (posthumane Fernzukunft) explizit zu bündeln; Pflicht-Smoke + Linklint erneut grün. Dokumentiert in `internal/qa/plans/issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md` und `internal/qa/logs/2026-03-08-issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md`.
 
+
+- **Durchlauf 79 (2026-03-08):** Round-4-Anschlusslauf für SSOT-Feldnamen abgeschlossen: `systems/toolkit-gpt-spielleiter.md` setzt im Gruppenreset jetzt kanonisch `state.campaign.rift_seeds = []` (inkl. Legacy-/Dashboard-Spiegel `state.arc.open_seeds = []`), und `gameplay/kampagnenstruktur.md` nutzt in der Dev-Checkliste konsistent `len(campaign.rift_seeds)` statt ungebundener `open_seeds`-Kurzform; Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 SSOT-Feldnamen-Restdrift): `internal/qa/plans/issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
+- Log (Round4 SSOT-Feldnamen-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`

@@ -221,3 +221,7 @@ anschlussfähig dokumentieren.
 - Fahrplan (Round4 Mystery-Signatursatz): `internal/qa/plans/issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md`
 - Log (Round4 Mystery-Signatursatz): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-78-round4-signatursatz-mystery-bridge.md`
 
+
+- **Durchlauf 79 (2026-03-08):** Round-4-Anschlusslauf (SSOT-Feldnamen) abgeschlossen: Toolkit-Gruppenreset nutzt kanonisch `campaign.rift_seeds` und die Dev-Checkliste in `gameplay/kampagnenstruktur.md` referenziert Seed-Zählung über `len(campaign.rift_seeds)` statt `open_seeds`-Kurzform. Pflicht-Smoke + Linklint grün.
+- Fahrplan: `internal/qa/plans/issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
+- Log: `internal/qa/logs/2026-03-08-issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
