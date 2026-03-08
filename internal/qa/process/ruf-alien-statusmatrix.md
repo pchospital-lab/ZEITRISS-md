@@ -37,6 +37,9 @@ anschlussfähig dokumentieren.
    Dossier oder Feldjargon formulieren.
 5. **Debrief/HQ-SSOT halten:** In Ablauftexten und Tabellen immer `ITI-Ruf-Update`
    sowie den formalen `reputation.iti`-Pfad für Freigaben verwenden.
+6. **Smoke-Guard aktiv halten:** `tools/test_ruf_alien_watchguard.js` bleibt im
+   Pflicht-Smoke und wird bei neuen Textmodulen bei Bedarf um präzise
+   Negativ-/Positivmuster ergänzt.
 
 
 ## Follow-up-Hinweis
@@ -78,6 +81,10 @@ anschlussfähig dokumentieren.
   `gameplay/kampagnenstruktur.md`; zusätzlich `core/zeitriss-core.md` bei
   Level-10-Meilenstein auf Verantwortung + Chronopolis-Schlüssel gehärtet
   und Shop-/Lizenzfreigaben weiter auf `ITI-Ruf + Lizenz-Tier` fixiert.
+- **Durchlauf 65 (2026-03-08):** Watchpoints als leichter Smoke-Guard
+  verstetigt (`tools/test_ruf_alien_watchguard.js` in `scripts/smoke.sh`):
+  Debrief-Disziplin (`ITI-Ruf-Update`), Tier-V-Rückfallblocker und
+  Onboarding-Ton-Guard gegen harte Alien-Faktbehauptungen.
 
 ## Verknüpfung
 
@@ -97,4 +104,6 @@ anschlussfähig dokumentieren.
 - Log (Debrief/HQ-SSOT): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-63-ruf-alien-debrief-hq-ssot.md`
 - Fahrplan (Chronopolis-Schlauchlevel): `internal/qa/plans/issue-pack-durchlauf-64-ruf-alien-chronopolis-schlauchlevel.md`
 - Log (Chronopolis-Schlauchlevel): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-64-ruf-alien-chronopolis-schlauchlevel.md`
+- Fahrplan (Watchguard): `internal/qa/plans/issue-pack-durchlauf-65-ruf-alien-watchguard.md`
+- Log (Watchguard): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-65-ruf-alien-watchguard.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)

@@ -91,6 +91,10 @@ node tools/test_arena_schema.js > out/arena_schema.log
 grep "arena-schema-ok" out/arena_schema.log
 
 
+# Ruf/Alien-SSOT-Watchguard (Debrief/Tier-V/Onboarding)
+node tools/test_ruf_alien_watchguard.js > out/ruf_alien_watchguard.log
+grep "ruf-alien-watchguard-ok" out/ruf_alien_watchguard.log
+
 # v7-SSOT-Driftguard (Legacy-Key-Regression)
 node tools/test_v7_schema_consistency.js > out/v7_schema_consistency.log
 grep "v7-schema-consistency-ok" out/v7_schema_consistency.log
