@@ -332,6 +332,16 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     `summaries.summary_active_arcs` verdichten.
   - **Kanon-Grenze:** Ohne explizites Branch-Protokoll bleibt Split/Merge auf Rift-Ops nach Episodenende begrenzt.
     Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
+  - **Mixed-Split ohne Branch-Protokoll (Importmodell):** Für Mischpfade (Rift/PvP/Chronopolis/Abort)
+    gilt ein fester Präzedenzgraph:
+    1) Host-`campaign`/`arc`/globale Flags bleiben SSOT.
+    2) Branch-lokale Fortschritte werden nur über Allowlist importiert
+       (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
+    3) Charakterdaten (`characters[]`) werden über `id` dedupliziert; Dubletten
+       bleiben Konflikt (`duplicate_character_detected=true`).
+    4) Arena/Resume wird HQ-safe normalisiert (`arena.active=false`, `queue_state=idle|completed`).
+    5) Chronopolis-Markt/City-Effekte bleiben Log-basiert (`logs.market[]`, `logs.trace[]`).
+    6) Debrief-Outputs werden in `logs.notes[]` konsolidiert.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
   - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
   - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:

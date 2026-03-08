@@ -179,6 +179,15 @@ und die Runtime-Referenz.
   innerhalb derselben Episode sowie Misch-Splits (Rift/PvP/Chronopolis)
   gelten als Hausregel und dürfen nicht stillschweigend als kanonischer
   Kampagnenfortschritt übernommen werden.
+- **Mixed-Split-Präzedenz (Importmodell):** Falls dennoch gemischte Branches
+  (z. B. Rift + PvP + Chronopolis + Abort) im HQ zusammengeführt werden,
+  gilt strikt: (1) Host-`campaign`/`arc`/globale Flags bleiben führend,
+  (2) branch-lokale Outcomes werden nur über Allowlist importiert
+  (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`),
+  (3) Charakterdaten werden dedupliziert über `characters[].id`,
+  (4) Arena/Resume wird auf HQ-safe normalisiert,
+  (5) Chronopolis/Market verbleibt als Log-Nachweis in `logs.market[]`,
+  (6) Debrief-Ausgaben landen in `logs.notes[]`.
 - **Klarfall 5er→3/2 mitten in der Episode:** Beide Gruppen können legitim
   weiterspielen. Für jede Runde ist immer der eigene aktuelle Host-Save der
   Hauptfortschritt. Erst wenn später gemerged wird, zählt fremder Verlauf als
