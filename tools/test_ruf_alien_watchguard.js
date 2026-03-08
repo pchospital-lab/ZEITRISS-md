@@ -32,6 +32,13 @@ expectIncludes(
 );
 
 
+
+expectIncludes(
+  'core/spieler-handbuch.md',
+  'Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II',
+  'Spieler-Handbuch soll das kanonische Debrief-Format mit ITI-Ruf führen.'
+);
+
 // Gating-Wording-Drift verhindern: kein Mischbegriff und kein Level-Tier-Header.
 
 expectNotMatch(
