@@ -17,7 +17,7 @@ und beseitigt Anomalien. Das System verwendet explodierende Würfel und
 protokolliert Zustände im JSON-Charakterbogen. Texte und Illustrationen stehen
 unter [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), der
 Programmcode unter der [MIT-Lizenz](https://opensource.org/licenses/MIT).
-Details findest du in [LICENSE](../LICENSE).
+Details findest du in der LICENSE-Datei im Repository.
 
 ## TL;DR - ZEITRISS in 6 Punkten
 
