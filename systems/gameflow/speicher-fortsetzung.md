@@ -12,6 +12,8 @@ tags: [system]
   Chronopolis sind keine gültigen Speicherkontexte.
 - **MUSS:** Px bleibt einheitlich (`campaign.px` als Quelle). Bei Px 5 löst
   ausschließlich `ClusterCreate()` aus; der Reset erfolgt via HQ-Bestätigung.
+  `campaign.px_state` bildet den Lebenszyklus (`stable|pending_reset|consumed`)
+  und verhindert Px-Reanimationen bei Split/Merge.
 - **MUSS:** Economy-Sync bleibt konsistent (`economy.hq_pool` als Primäranker,
   `economy.credits` als Legacy-Fallback via Synchronisierung).
 - **SOLL:** Neuer Chat pro Mission wird als empfohlener Stabilitätspfad geführt,
@@ -216,7 +218,7 @@ Orientiere dich an SaveGuard + folgendem Pfadbaum:
 
 - `v`, `zr` (Schema- und ZEITRISS-Version)
 - `save_id`, `parent_save_id`, `merge_id`, `branch_id` (Lineage + Dedupe-Guards)
-- `campaign.{episode, mission, px, mode, rift_seeds[]}`
+- `campaign.{episode, mission, px, px_state, mode, rift_seeds[]}`
 - `characters[]` — Array, Host = Index 0. Pro Character:
   - `{id, name, callsign, rank, lvl, xp}`
   - `origin.{epoch, hominin, role}`
@@ -1008,7 +1010,7 @@ Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
    `"open"` und kommen in beide Saves.
 4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
-6. **campaign.px:** Px wird in beide Saves kopiert (nicht aufgeteilt).
+6. **campaign.px + px_state:** Px und `px_state` werden in beide Saves kopiert (nicht aufgeteilt).
 
 ### Kanonischer Merge (Rift-only)
 
@@ -1018,7 +1020,9 @@ Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
    (aus dem Save des Original-Hosts).
 2. **HQ-Pool summieren:** `economy.hq_pool` aus beiden Saves addieren.
 3. **Seeds: Union:** Alle Seeds beider Saves zusammenführen (closed + open).
-4. **Px: Maximum** nehmen (der höhere Wert gewinnt).
+4. **Px-State zuerst, dann Wert:** Priorität `consumed > pending_reset > stable`.
+   Daraus folgt: `consumed => px=0`, `pending_reset => px=5`,
+   `stable => max(px aus stable-Branches, Bereich 0-4)`.
 5. **Logs mergen:** Trace-Events, Artifact-Logs und Notes zusammenführen.
 6. **arc mergen:** Factions, Questions, Hooks vereinigen. Bei Konflikten: beide behalten.
 7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle, die jede
@@ -1032,6 +1036,9 @@ Branch-Protokoll **nicht kanonisch**. In diesen Fällen gilt:
 
 - Host-Kampagnenblock bleibt führend (`campaign`/`arc`/globaler Verlauf).
 - Gast-Saves liefern nur Charakter-, Wallet- und Loadout-Daten.
+- `campaign.px_state` wird beim Import strikt beibehalten; ein bereits
+  verbrauchter Px-5-Stand (`consumed`) darf durch Alt-Branches nicht
+  wieder als offener Px-5-Cluster erscheinen.
 - Die SL muss den Hinweistext ausgeben: _"Nicht-kanonischer Branch-Import:
   Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden
   übernommen."_
