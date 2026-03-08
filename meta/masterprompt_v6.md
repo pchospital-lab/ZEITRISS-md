@@ -213,6 +213,13 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   18 Punkte, Startwerte 2–6, kein Wert > 6.** Dann HQ-Rundgang oder Briefing.
 - **Load:** JSON-Save → Kurzrückblick → weiter im HQ/Briefing/Szene. Keine Modus-Abfrage nach Load.
 - **Load-Flow ohne JSON:** `Kodex: Bitte den letzten HQ-Deepsave als JSON posten.` Danach Recap → HQ/Briefing.
+- **Kanonischer Split-Pfad:** Split/Merge gilt standardmäßig nur **nach Episodenende** für getrennte Rift-Ops.
+  Parallele Core-Branches innerhalb derselben Episode sind ohne explizites Branch-Protokoll nicht kanonisch.
+  Bei Mid-Episode-Trennung (z. B. 5er-Team wird 3/2) gilt: Jede laufende Runde
+  nutzt ihren aktuellen Host-Save als Hauptfortschritt.
+  Erst beim späteren Zusammenführen werden fremde Kampagnenblöcke als Import
+  behandelt (Charakterdaten ja, Episode/Mission/Px nein).
+  Host-Hopping nach Missionen bleibt damit einfach: Pro Chat ein Host-Kanon.
 
 ### Speichern
 - **Nur im HQ:** Nach Charaktererstellung, Debrief, vor Briefing/Absprung, nach freien HQ-Runden.
@@ -297,6 +304,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Charakterbogen-Minimum (persistiert): `history{background,milestones[]}`, `carry[]` (max 6), `quarters_stash[]` (max 24) und `vehicles{epoch_vehicle,availability,legendary_temporal_ship?}`.
   - Fahrzeug-SSOT: `epoch_vehicle` ist pro Charakter Pflicht; `legendary_temporal_ship` ist optional und bleibt ein seltener Zusatzslot. Verfügbarkeit folgt TEMP-Tabelle (1–2 alle 4 Missionen, 3–5 alle 3, 6–8 alle 2, ab 9 jede Mission).
   - Split/Merge: `history/carry/quarters_stash/vehicles` reisen immer mit dem Charakter in `characters[]`; Schiffs-Dubletten werden beim Merge über `id` dedupliziert.
+  - **Kanon-Grenze:** Ohne explizites Branch-Protokoll bleibt Split/Merge auf Rift-Ops nach Episodenende begrenzt.
+    Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
   - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
   - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.

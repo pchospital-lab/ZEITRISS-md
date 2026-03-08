@@ -303,6 +303,13 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   gesperrt.").
 - `Spiel laden` (optional) - fordert den Save an; der HQ-Deepsave kann direkt als JSON eingefügt werden.
 - `!bogen` - gibt den Charakterbogen als lesbare HQ-Übersicht aus (kein JSON).
+- **Split/Merge-Kanon:** Standardmäßig nur nach Episodenende für getrennte Rift-Ops.
+  Parallele Core-Missions-Branches innerhalb derselben Episode gelten ohne
+  aktives Branch-Protokoll als nicht-kanonische Hausregel.
+  Mid-Episode-Splits (z. B. 5er-Team trennt sich in 3/2): Jede Gruppe spielt
+  mit eigenem Host-Save als Hauptfortschritt weiter.
+  Beim späteren Merge gilt weiter Host-SSOT: Episode/Mission/Px kommen vom
+  aktiven Host, Joiner importieren primär Charakterdaten.
 - `!accessibility` - öffnet den Accessibility-Dialog (Kontrast, Badge-Dichte, Output-Takt).
   Optionen landen als `contrast=standard|high`, `badge_density=standard|dense|compact`,
   `output_pace=normal|fast|slow` im Save; der Toast "Accessibility aktualisiert …"

@@ -824,6 +824,24 @@ Abweichende Seeds, Episoden- oder Missionszähler landen in
 Pool (`economy.hq_pool`) bleibt Host-priorisiert; Import-Wallets ergänzen per
 Union-by-id.
 
+#### OpenWebUI-Lobbybetrieb (Hopper/Leaver)
+
+Für private OpenWebUI-Instanzen mit häufigen Gruppenwechseln gilt derselbe
+Host-SSOT ohne Sonderpfad:
+
+1. **Pro Chat genau ein kanonischer Host:** Der zuerst gepostete Save setzt
+   `campaign` (`episode`, `mission`, `px`, Seeds).
+2. **Joiner als Datenimport:** Nachrücker/Hopper bringen `characters[]`, Wallet
+   und Loadouts mit. Für den aktuellen Chat zählt dennoch nur der Host-
+   Kampagnenblock (`episode`/`mission`/`px`).
+3. **Leaver-Regel:** Wer den Chat verlässt und später zurückkommt, lädt den
+   aktuellen Host-Save und steigt auf dessen Episodenstand ein.
+4. **Kein impliziter Episodenwechsel:** Weder Hopper noch Leaver starten
+   automatisch eine neue Episode; Episode wechselt nur über regulären
+   Debrief-/Kampagnenfluss des Host-Runs.
+5. **Empfohlener Hinweistext der Spielleitung:** _"Lobby-Import erkannt:
+   Host-Kampagne bleibt führend; Charakterdaten der Joiner wurden übernommen."_
+
 **Mid-Session-Merge:** Für laufende Einsätze nutzt die KI-SL statt `load_deep()` einen
 leichten Merge-Pfad: Die Save-Blöcke werden ohne Location-Reset nach
 `characters[]` kopiert, Wallets normalisiert und HUD/Timer beibehalten.
@@ -952,25 +970,25 @@ Chronopolis besitzt dabei **keinen** Sonder-Respawn und keinen Traum-Reset.
 
 ## Team-Split & Team-Merge {#team-split-merge}
 
-### Split (Gruppe aufteilen)
+### Kanonischer Split-Standard
 
-Nach einer Episode können Teams sich für separate Rift-Ops aufteilen.
-Die SL erstellt pro Teilgruppe einen eigenständigen Save:
+Split/Merge ist standardmäßig nur **nach Episodenende** für getrennte
+Rift-Ops kanonisch. Die SL erstellt pro Teilgruppe einen eigenständigen Save:
 
 1. **Characters aufteilen:** Jede Teilgruppe bekommt ihre `characters[]`.
    Host des neuen Saves = erster Character im Array.
 2. **HQ-Pool aufteilen:** `economy.hq_pool` gleichmäßig verteilen
    (oder nach Absprache). Persönliche `wallet`-Werte bleiben beim Character.
-3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds die sie spielen
-   will. Seed-Status wechselt auf `"active"`. Seeds die niemand nimmt bleiben
+3. **Seeds zuweisen:** Jede Teilgruppe bekommt den/die Seeds, die sie spielen
+   will. Seed-Status wechselt auf `"active"`. Seeds, die niemand nimmt, bleiben
    `"open"` und kommen in beide Saves.
 4. **Trace loggen:** `{"event": "team_split", "note": "..."}` in beiden Saves.
 5. **arc-Block kopieren:** Beide Teams tragen das gemeinsame Story-Wissen mit.
 6. **campaign.px:** Px wird in beide Saves kopiert (nicht aufgeteilt).
 
-### Merge (Teams zusammenführen)
+### Kanonischer Merge (Rift-only)
 
-Nach separaten Rift-Ops werden die Saves wieder zusammengeführt:
+Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
 
 1. **Characters mergen:** Alle `characters[]` in ein Array. Host = Index 0
    (aus dem Save des Original-Hosts).
@@ -979,8 +997,37 @@ Nach separaten Rift-Ops werden die Saves wieder zusammengeführt:
 4. **Px: Maximum** nehmen (der höhere Wert gewinnt).
 5. **Logs mergen:** Trace-Events, Artifact-Logs und Notes zusammenführen.
 6. **arc mergen:** Factions, Questions, Hooks vereinigen. Bei Konflikten: beide behalten.
-7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle die jede
+7. **Transparentes Protokoll:** Die SL zeigt eine Merge-Tabelle, die jede
    Entscheidung nachvollziehbar macht.
+
+### Nicht-kanonische Branches ohne Protokoll
+
+Parallele Core-Missions-Branches innerhalb derselben Episode und gemischte
+Split-Pfade (z. B. Rift + PvP + Chronopolis) sind ohne explizites
+Branch-Protokoll **nicht kanonisch**. In diesen Fällen gilt:
+
+- Host-Kampagnenblock bleibt führend (`campaign`/`arc`/globaler Verlauf).
+- Gast-Saves liefern nur Charakter-, Wallet- und Loadout-Daten.
+- Die SL muss den Hinweistext ausgeben: _"Nicht-kanonischer Branch-Import:
+  Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden
+  übernommen."_
+
+#### Klarstellung: Mid-Episode-Trennung (5er → 3/2)
+
+Wenn sich ein Team nach Mission 1-2 innerhalb derselben Episode trennt und die
+2er-Gruppe in einem neuen Chat weiterläuft, gilt ohne Branch-Protokoll:
+
+1. **Beide Pfade sind spielbar:** 3er- und 2er-Gruppe können jeweils normal
+   weiterspielen.
+2. **Kanon pro aktiver Runde:** In jedem Chat ist der dort aktive Host-Save
+   der Hauptfortschritt.
+3. **Rejoin/Merge:** Treffen die Gruppen später wieder zusammen (HQ), bleibt der
+   Merge host-priorisiert für `campaign`; importiert werden vor allem
+   Charakter-/Wallet-/Loadout-Daten.
+4. **Kein verdeckter Episoden-Sprung:** Solist:innen starten nicht automatisch
+   eine neue Episode; sie folgen dem aktiven Host-Stand ihres Chats.
+5. **Mission-zu-Mission-Hopper:** Häufige Host-Wechsel sind erlaubt; die
+   Einfachregel bleibt: pro Chat ein Host-Kanon, andere Saves sind Imports.
 
 ## Koop-Debrief & Wallet-Split {#koop-wallet-split}
 
