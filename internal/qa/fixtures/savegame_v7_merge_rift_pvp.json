@@ -13,20 +13,60 @@
     "mode": "preserve",
     "rift_seeds": []
   },
-  "arena": { "active": false, "queue_state": "completed", "phase": "completed" },
+  "arena": {
+    "active": false,
+    "queue_state": "completed",
+    "phase": "completed"
+  },
   "characters": [
-    { "id": "AGENT-R", "wallet": 4200 },
-    { "id": "AGENT-P", "wallet": 3900 }
+    {
+      "id": "AGENT-R",
+      "wallet": 4200
+    },
+    {
+      "id": "AGENT-P",
+      "wallet": 3900
+    }
   ],
-  "economy": { "hq_pool": 22600 },
+  "economy": {
+    "hq_pool": 22600
+  },
   "logs": {
     "flags": {
       "imported_saves": [
-        { "save_id": "SAVE-RIFT-DELTA", "branch_id": "RIFT-DELTA", "status": "merged" },
-        { "save_id": "SAVE-PVP-OMEGA", "branch_id": "PVP-OMEGA", "status": "merged" }
+        {
+          "save_id": "SAVE-RIFT-DELTA",
+          "branch_id": "RIFT-DELTA",
+          "status": "merged",
+          "reason": "non_canonical_branch",
+          "allowed_fields": [
+            "wallet",
+            "rift_merge",
+            "arena_resume"
+          ]
+        },
+        {
+          "save_id": "SAVE-PVP-OMEGA",
+          "branch_id": "PVP-OMEGA",
+          "status": "merged",
+          "reason": "non_canonical_branch",
+          "allowed_fields": [
+            "wallet",
+            "arena_resume"
+          ]
+        }
       ],
       "duplicate_branch_detected": false,
       "duplicate_character_detected": false
-    }
+    },
+    "market": [
+      {
+        "event": "chronopolis_log",
+        "note": "City-Transaktion als Nachweis importiert, kein Kampagnenoverride."
+      }
+    ],
+    "notes": [
+      "Nicht-kanonischer Branch-Import: Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden übernommen."
+    ]
   }
 }

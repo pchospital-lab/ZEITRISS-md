@@ -1031,17 +1031,41 @@ Nach separaten Rift-Ops werden die Saves im HQ wieder zusammengeführt:
 ### Nicht-kanonische Branches ohne Protokoll
 
 Parallele Core-Missions-Branches innerhalb derselben Episode und gemischte
-Split-Pfade (z. B. Rift + PvP + Chronopolis) sind ohne explizites
-Branch-Protokoll **nicht kanonisch**. In diesen Fällen gilt:
+Split-Pfade (z. B. Rift + PvP + Chronopolis + Abort) sind ohne explizites
+Branch-Protokoll **nicht kanonisch**. In diesen Fällen gilt der folgende
+Merge-Präzedenzgraph (deterministisch, Host-SSOT):
 
-- Host-Kampagnenblock bleibt führend (`campaign`/`arc`/globaler Verlauf).
-- Gast-Saves liefern nur Charakter-, Wallet- und Loadout-Daten.
+1. **Globale Kampagne:** Host bleibt führend für `campaign`, `arc` und globale
+   `logs.flags`.
+2. **Branch-lokale Progression:** Import nur über Allowlist-Felder
+   `wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`.
+3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert;
+   Dubletten bleiben Konflikt (`duplicate_character_detected=true`).
+4. **Arena/Resume-Zustand:** Vor HQ-Save immer auf HQ-safe normalisieren
+   (`arena.active=false`, `queue_state=idle|completed`, `previous_mode` bereinigt).
+5. **Chronopolis-Markt/City-Logs:** bleiben als Nachweis in `logs.market[]`
+   und `logs.trace[]`, ohne Host-Kampagnenfortschritt zu überschreiben.
+6. **Debrief-Outputs:** Konsolidierung in `logs.notes[]` mit Merge-Hinweis.
+
+Zusatzregeln:
+
 - `campaign.px_state` wird beim Import strikt beibehalten; ein bereits
   verbrauchter Px-5-Stand (`consumed`) darf durch Alt-Branches nicht
   wieder als offener Px-5-Cluster erscheinen.
 - Die SL muss den Hinweistext ausgeben: _"Nicht-kanonischer Branch-Import:
   Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden
   übernommen."_
+- `logs.flags.imported_saves[]` muss pro Branch den `status` und `reason`
+  (`non_canonical_branch`) dokumentieren.
+
+#### Mischpfad-Beispiele (Dokustandard)
+
+- **Rift + PvP → Merge:** Host-Kampagne bleibt, Rift-Seeds/Wallets werden
+  importiert, Arena wird auf `idle|completed` normalisiert.
+- **Abort + HQ-Rückkehr → Save → Merge:** Abort-Branch liefert nur
+  `abort_marker` + Charakterzustand; kein Episoden-/Missionssprung.
+- **Chronopolis-Run + HQ-Branch → Merge:** Chronopolis-Ausgaben/Markt bleiben
+  als Log-Nachweis, Kampagnenfortschritt folgt weiterhin dem Host.
 
 #### Klarstellung: Mid-Episode-Trennung (5er → 3/2)
 
