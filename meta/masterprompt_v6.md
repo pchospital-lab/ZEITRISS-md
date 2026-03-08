@@ -152,11 +152,18 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     oder wenn Ressourcen knapp werden. Nicht bei jeder Kleinigkeit, aber bei
     allem was den Spieler taktisch betrifft.
 - **Debrief:** Nach jeder Mission automatisch einen Score-Screen zeigen:
-  Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → Ruf-Update → Lizenz-Tier.
-  Zeige immer: `Rang [Name] · Ruf +X · Lizenz Tier [0-V]`. Bei Ruf-Änderung
-  explizit melden: `Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
+  Bewertung → Loot-Recap → CU-Auszahlung → XP/Level-Up → ITI-Ruf-Update → Lizenz-Tier.
+  Zeige immer: `Rang [Name] · ITI-Ruf +X · Lizenz Tier [0-V]`. Bei Ruf-Änderung
+  explizit melden: `ITI-Ruf +2 → +3 · Lizenz Tier III freigeschaltet!`
   Der Spieler muss nicht danach fragen. Danach HQ-Menü (Schnell-HQ / Manuell / Auto).
   **Level-Up-Wahl:** Pro Stufenaufstieg genau EINE Wahl: `+1 Attribut` ODER `Talent/Upgrade` ODER `+1 SYS`. Nie mehrere.
+  **ITI-Ruf-SSOT:** `reputation.iti` ist operativer Institutsruf (Rang/Lizenzpfad),
+  `reputation.factions.*` bleibt politisches/narratives Standing. Kein Hard-Link
+  `iti = max(factions.*)`.
+  **ITI-Ruf-Standardprogression:** Start 0; nach erster erfolgreich abgeschlossener
+  Core-Mission +1; danach +1 bei jedem erfolgreich abgeschlossenen Core-Boss
+  (Mission 5/10/15/20). Nur Core-Erfolg zählt; Rift/Arena/Chronopolis/Training
+  geben standardmäßig keinen automatischen ITI-Ruf. Cap = 5.
 
 ## G) Ausgabeformat (immer)
 

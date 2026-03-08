@@ -171,10 +171,24 @@ selbst - ein _Zeitriss_, der verschiedene Epochen miteinander verbindet.
 Dieser Vorfall erschütterte die Welt und führte schließlich zur Gründung des **Instituts für
 Temporale Intervention (ITI)**. Eine internationale Koalition rief das ITI ins Leben, um solche
 Paradoxien einzudämmen und künftige Zeitrisse zu überwachen. In beschlagnahmten Dossiers
-tauchen Hinweise auf eine **Galaktische Föderation** mit 56 Spezies auf, doch das ITI
-behandelt diese Spur als unbestätigte Legende, bis belastbare Beweise vorliegen. Das ITI entstand rein
+tauchen Hinweise auf angebliche übermenschliche Bündnisse auf, doch das ITI
+behandelt diese Spuren als unbestätigte Legenden, bis belastbare Beweise vorliegen. Das ITI entstand rein
 durch menschliche Initiative und vereint Pro- sowie Contra-Fraktionen. Ein Rat leitet das
 Institut; verbindliche Bündnisse mit nicht verifizierten Fremdakteuren gibt es nicht.
+
+### Mystery-Contract von ZEITRISS
+
+ZEITRISS nutzt UFO-/Alien-Ikonographie bewusst als Spannungswerkzeug, bestätigt
+sie im frühen Onboarding aber nicht als harte Welt-Tatsache.
+
+- **Core-Ops:** Erst Eindruck, dann Spurarbeit, dann rationale Auflösung.
+- **Rift-Ops:** dürfen unheimlicher wirken, bleiben jedoch in einer physischen,
+  ZEITRISS-kompatiblen Logik.
+- **Graue/Greys:** sind Incident-Klasse und Feldjargon, kein gesicherter
+  Speziesbegriff.
+
+So bleibt der spätere Reveal stark: vermeintliche Fremdheit kippt in eine
+verstörend menschliche Zukunftsspur.
 
 ### Beispielkampagne: ChronTech-Komplott
 
@@ -187,9 +201,10 @@ dabei eine Rolle spielen:
 
 - **Projekt _Phoenix_** - ein Zirkel ehemaliger Montauk-Veteranen,
   der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
-- **Die Grauen** - Deckname für eine technikaffine Fremdfraktion mit rätselhaften
-  Hinterlassenschaften; ob dahinter Menschen, Zeitversetzte oder etwas anderes steht,
-  bleibt offen.
+- **Die Grauen / Greys** - ITI-Arbeits- und Deckname für Vorfälle mit wiederkehrender
+  Ikonographie (kleine glatte Körper, große Augen, sterile Fremdwirkung). Dahinter
+  können posthumane Bio-Hüllen, Fraktions-PsyOps, fehlklassifizierte Bergungsteams oder
+  bewusst gestreute Falschbilder stehen.
 - **Der Alte Orden** - Geheimgesellschaften mit Wurzeln in antiken Kulturen,
   die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** - Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.
