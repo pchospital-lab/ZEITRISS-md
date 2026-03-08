@@ -242,9 +242,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - _Single Source:_ Das Schema-Template steht im **Masterprompt** (v7).
 - v7-Lineage ist Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
   Doppelte `save_id` im selben Merge-Lauf werden als Branch-Duplikat blockiert
-  (`logs.flags.duplicate_branch_detected=true`), doppelte `characters[].id`
-  als Charakter-Duplikat (`logs.flags.duplicate_character_detected=true`)
-  markiert und nicht still übernommen.
+  (`logs.flags.duplicate_branch_detected=true`). Doppelte `characters[].id`
+  werden als Rejoin-Fall behandelt: neuester persönlicher Stand gewinnt,
+  divergente Pfade werden als `continuity_conflict` im Trace markiert.
   Die vollständige Doku steht in `systems/gameflow/speicher-fortsetzung.md`.
   Neue Saves benutzen ausschließlich v7 mit `characters[]` als einzigem
   Roster-Container (Host = Index 0).
@@ -317,18 +317,18 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
   gesperrt.").
 - `Spiel laden` (optional) - fordert den Save an; der HQ-Deepsave kann direkt als JSON eingefügt werden.
 - `!bogen` - gibt den Charakterbogen als lesbare HQ-Übersicht aus (kein JSON).
-- **Split/Merge-Kanon:** Standardmäßig nur nach Episodenende für getrennte Rift-Ops.
-  Parallele Core-Missions-Branches innerhalb derselben Episode gelten ohne
-  aktives Branch-Protokoll als nicht-kanonische Hausregel.
-  Mid-Episode-Splits (z. B. 5er-Team trennt sich in 3/2): Jede Gruppe spielt
-  mit eigenem Host-Save als Hauptfortschritt weiter.
-  Beim späteren Merge gilt weiter Host-SSOT: Episode/Mission/Px kommen vom
-  aktiven Host, Joiner importieren primär Charakterdaten. Für Px gilt
-  zusätzlich der Zustands-Guard `consumed > pending_reset > stable`.
+- **Split/Merge-Kanon:** Der erste gepostete Save setzt den Session-Anker
+  (aktueller Kampagnenrahmen). Core-Parallelpfade sind kanonisch, wenn
+  `continuity.split.family_id` gesetzt ist; Konvergenz greift bei
+  `resolved_threads == expected_threads` (`convergence_ready=true`).
+  Mid-Episode-Splits (z. B. 5er-Team trennt sich in 3/2) bleiben spielbar: jede
+  Gruppe hat ihren eigenen Session-Anker. Beim Rejoin bleiben Episode/Mission/Px
+  am aktiven Anker, Joiner bringen persönliche Wahrheit + Kontinuitäts-Echos mit.
+  Für Px gilt weiterhin `consumed > pending_reset > stable`.
 - **Mixed-Split-Präzedenz (ohne Branch-Protokoll):** Bei Mischpfaden
   (Rift + PvP + Chronopolis + Abort) wird **kein** zusätzlicher
   Kampagnenfortschritt kanonisiert. Merge läuft deterministisch als
-  Importmodell: (1) Host-`campaign`/`arc`/globale Flags bleiben führend,
+  Importmodell: (1) Session-Anker-`campaign`/`arc`/globale Flags bleiben führend,
   (2) branch-lokale Effekte nur per Allowlist (`wallet`, `rift_merge`,
   `arena_resume`, `chronopolis_log`, `abort_marker`),
   (3) Charakter-Dedupe über `characters[].id`,
