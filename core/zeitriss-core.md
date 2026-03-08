@@ -1152,11 +1152,12 @@ letztlich den gleichen Ausgang wie bei den Pro-Fraktionen haben.
 
 Daneben gibt es zahllose **kleinere Fraktionen und Akteure**: lokale Geheimbünde in einzelnen
 Epochen, mächtige Megakonzerne der Zukunft (mit Interesse an Zeitreise-Technologie, um in
-Vergangenheit oder Zukunft Profit zu machen) und mitunter sogar außerirdische Einflüsse in fernen
-Zukünften. Manche versuchen, die Hauptzeitlinie für ihre Zwecke zu manipulieren. Ob und welche
-dieser Gruppen im Spiel auftauchen, hängt vom Verlauf der Kampagne ab. Die Spielleitung wird
-passende Fraktionen ins Geschehen einführen, wenn sie relevant werden, und deren Haltung zu den
-Spielern dynamisch entwickeln.
+Vergangenheit oder Zukunft Profit zu machen) sowie Aktenlagen zu scheinbar fremden Einflüssen in
+fernen Zukünften. Im ITI gelten solche Spuren bis zur Verifikation als fehlklassifizierte
+Zeitphänomene, posthumane Operationen oder gezielte Falschbilder. Manche Gruppen versuchen, die
+Hauptzeitlinie für ihre Zwecke zu manipulieren. Ob und welche dieser Akteure im Spiel auftauchen,
+hängt vom Verlauf der Kampagne ab. Die Spielleitung wird passende Fraktionen ins Geschehen
+einführen, wenn sie relevant werden, und deren Haltung zu den Spielern dynamisch entwickeln.
 
 Wichtig ist, dass keine dieser Mächte allmächtig ist - sie alle spielen nach den Regeln der Zeit (so
 verschieden ihre Ziele auch sein mögen). Die Chrononauten der Spieler sind in diesem Geflecht nicht
