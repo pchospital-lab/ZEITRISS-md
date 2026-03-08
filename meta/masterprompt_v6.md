@@ -257,7 +257,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   "merge_id": null,
   "branch_id": "HOST-main",
   "campaign": {
-    "episode": 1, "mission": 0, "px": 0, "mode": "mixed",
+    "episode": 1, "mission": 0, "px": 0, "px_state": "stable", "mode": "mixed",
     "rift_seeds": []
   },
   "characters": [{
@@ -334,6 +334,15 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     Core-Parallelpfade (z. B. Mission 3→4 in getrennten Branches) werden als Hausregel behandelt und nicht als kanonische Kampagnenauflösung gemerged.
   - Arena nur wenn genutzt: `"arena": {"wins":0, "losses":0, "tier":1}`.
   - `campaign.rift_seeds[]` ist die einzige Seed-Quelle.
+  - `campaign.px_state` ist Pflicht und nutzt genau diese Zustände:
+    - `stable`: Normalbetrieb (Px 0-4).
+    - `pending_reset`: Px-5-Cluster wurde ausgelöst, Reset steht bis HQ-Debrief noch aus.
+    - `consumed`: Reset wurde verbucht; Px bleibt 0 bis neuer Aufbau beginnt.
+  - Merge-Reihenfolge für Px ist strikt: `consumed > pending_reset > stable`.
+    Danach wird `campaign.px` normalisiert: `consumed => 0`,
+    `pending_reset => 5`, `stable => max(import_px_0_bis_4)`.
+    So kann ein bereits verbrauchter Px-5-Stand nicht durch Max-Merge
+    aus Alt-Branches wieder auftauchen.
   - Keine Laufzeit-Daten (exfil, cooldowns, SYS_runtime, scene) — die werden zur Laufzeit gesetzt.
   - **Kein Freitext-Save, kein eigenes Format.** Immer exakt dieses Schema.
   - v6-Saves werden beim Laden automatisch migriert (Loader erkennt `save_version: 6`).
