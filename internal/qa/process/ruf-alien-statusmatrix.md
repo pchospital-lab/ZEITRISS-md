@@ -51,6 +51,20 @@ anschlussfähig dokumentieren.
   Feldread-Formulierung (`scheinbar "Alien"-Raptoren` als zeitversetzte
   Fauna) umgestellt, damit die Onboarding-Tonlage auch in Missionsbeispielen
   konsistent bleibt.
+- **Durchlauf 61 (2026-03-08):** Watchpoint-Wording in Randmodulen
+  nachgezogen: Ausrüstungs-Hinweistext in
+  `characters/ausruestung-cyberware.md` auf formalen
+  `ITI-Ruf`/`Lizenz-Tier`-Pfad gehärtet und `Greys` im
+  Urban-Myth-Generator (`gameplay/kreative-generatoren-begegnungen.md`)
+  explizit als `ITI-Deckname` markiert, um Falschspur-Lesart stabil zu
+  halten.
+- **Durchlauf 62 (2026-03-08):** Reviewer-Feedback auf Grey-Logik
+  eingearbeitet: Urban-Myth-Eintrag in
+  `gameplay/kreative-generatoren-begegnungen.md` von Nano-Anzug-/ITI-Only
+  auf posthumane Fernzukunfts-Herkunft (jenseits T-/N-Stufe) mit möglichen
+  externen Zeitmanipulator-Fraktionen korrigiert; flankierend in
+  `gameplay/kampagnenuebersicht.md` die Gegnerklarheit (`ITI` vs. externe
+  Zeitmanipulatoren) explizit gehalten.
 
 ## Verknüpfung
 
@@ -62,4 +76,8 @@ anschlussfähig dokumentieren.
 - Log (Watchpoints): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-59-ruf-alien-watchpoints.md`
 - Fahrplan (Restdrift): `internal/qa/plans/issue-pack-durchlauf-60-ruf-alien-restdrift.md`
 - Log (Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-60-ruf-alien-restdrift.md`
+- Fahrplan (Watchpoints II): `internal/qa/plans/issue-pack-durchlauf-61-ruf-alien-watchpoints-ii.md`
+- Log (Watchpoints II): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-61-ruf-alien-watchpoints-ii.md`
+- Fahrplan (Greys/Feindbild): `internal/qa/plans/issue-pack-durchlauf-62-ruf-alien-greys-feindbild.md`
+- Log (Greys/Feindbild): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-62-ruf-alien-greys-feindbild.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
