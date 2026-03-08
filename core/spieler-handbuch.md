@@ -145,7 +145,7 @@ Die ersten Schritte in unter zwei Minuten:
 5. **Paradoxon** — steigt nach jeder Mission (TEMP-Staffel). Bei Px 5 → `ClusterCreate()` →
    1-2 Rift-Seeds. Das ist der Belohnungsmoment.
 6. **Debrief** — nach jeder Mission automatisch: Score-Screen mit CU, XP, Level-Up,
-   Ruf + Lizenz-Tier. Danach HQ (Heilen, Shoppen, Speichern).
+   **ITI-Ruf** + Lizenz-Tier. Danach HQ (Heilen, Shoppen, Speichern).
 7. **Save** — `!save` im HQ. Dein JSON ist dein Characterdatenblatt. Mitnehmen, teilen, mergen.
 
 Weiterführend:
@@ -299,7 +299,11 @@ Reset im HQ → 0 · Im Feld: 1 Runde Pause → -1 (CHA-Probe)
 | II | +2 | 500 CU |
 | III | +3 | 1.500 CU |
 | IV | +4 | 3.000 CU |
-| V | +5 | Questbelohnung |
+| V | +5 | 5.000 CU |
+
+Ab **Ruf +5** sind alle regulären ITI-Lizenzpfade grundsätzlich kaufbar.
+Sonderfälle bleiben als objektbezogene Story- oder Projektfreigaben möglich,
+ohne Tier V global zu sperren.
 
 ### XP-Kurve
 
