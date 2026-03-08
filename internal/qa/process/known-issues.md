@@ -123,3 +123,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Anchor-Template + Toolkit-Restdrift): `internal/qa/plans/issue-pack-durchlauf-88-anchor-template-toolkit-restdrift.md`
 - Log (Anchor-Template + Toolkit-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-88-anchor-template-toolkit-restdrift.md`
+
+- **Durchlauf 89 (2026-03-08):** Anschlusslauf zur Guard-Härtung der erzählerischen Kontinuitäts-Pflichten abgeschlossen: Neue QA-Fixture `internal/qa/fixtures/continuity_output_contract_multi_load.json` deckt den Multi-Load-Output-Contract (Kontinuitätsrückblick mit 4 Pflichtblöcken, Split-Beat, Rejoin-HQ-Beat, Echo-Fortwirkung ≤ 2 Sitzungsblöcke) ab; neuer Guard `tools/test_continuity_output_contract.js` validiert diese Pflichten maschinenlesbar und ist im Pflicht-Smoke (`scripts/smoke.sh`) integriert. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Continuity-Output-Contract Guard): `internal/qa/plans/issue-pack-durchlauf-89-continuity-output-contract-guard.md`
+- Log (Continuity-Output-Contract Guard): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-89-continuity-output-contract-guard.md`
+
