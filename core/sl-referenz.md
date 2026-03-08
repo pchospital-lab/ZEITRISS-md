@@ -38,7 +38,7 @@ tags: [core, reference, gm]
   Laufzeit-Flag `flags.runtime.skip_entry_choice` bleibt transient, wird nicht
   serialisiert und dient nur dem aktiven Run. UI-/Accessibility-Overrides aus
   dem Session-Anker bleiben erwartetes Verhalten und werden als Trace
-  `ui_host_override` protokolliert.
+  `ui_session_anchor_override` protokolliert.
 - **Speichern.** *(Die folgenden SaveGuard-Strings sind KI-Spielleiter-Referenz.)*
   Einsätze lassen kein Speichern zu; der Dispatcher meldet
   "SaveGuard: Speichern nur im HQ - HQ-Save gesperrt." und hält die Mission

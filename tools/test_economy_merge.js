@@ -55,9 +55,9 @@ const incomingSave = {
 
 rt.load_deep(JSON.stringify(incomingSave));
 
-assert.strictEqual(rt.state.economy.cu, 3200, 'Host-HQ-Pool muss Vorrang haben.');
+assert.strictEqual(rt.state.economy.cu, 3200, 'Session-Anker-HQ-Pool muss Vorrang haben.');
 const wallets = rt.state.economy.wallets;
-assert.strictEqual(wallets.host.balance, 800, 'Host-Wallet darf nicht überschrieben werden.');
+assert.strictEqual(wallets.host.balance, 800, 'Session-Anker-Wallet darf nicht überschrieben werden.');
 assert.strictEqual(wallets.host.name, 'Host');
 assert.strictEqual(wallets.guest.balance, 200, 'Import-Wallet muss übernommen werden.');
 

@@ -134,3 +134,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Merge-Conflict-Contract Alignment): `internal/qa/plans/issue-pack-durchlauf-90-merge-conflict-contract-alignment.md`
 - Log (Merge-Conflict-Contract Alignment): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-90-merge-conflict-contract-alignment.md`
+
+- **Durchlauf 91 (2026-03-08):** Anschlusslauf zur Runtime-Terminologie-Drift nach dem Kontinuitäts-Redesign abgeschlossen: `runtime.js` nutzt jetzt Session-Anker-Wording in Merge-Notizen (`Session-Anker-Vorrang`, `HQ-Pool (economy.cu): Session-Anker-Vorrang`) und protokolliert UI-Overrides als `ui_session_anchor_override`; außerdem wurde der Economy-Audit-Bandgrund auf `session_anchor_level` harmonisiert. `core/sl-referenz.md` und `tools/test_economy_merge.js` wurden entsprechend nachgezogen. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Runtime-Trace Anchor-Terminologie): `internal/qa/plans/issue-pack-durchlauf-91-runtime-trace-anchor-terminology.md`
+- Log (Runtime-Trace Anchor-Terminologie): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-91-runtime-trace-anchor-terminology.md`
