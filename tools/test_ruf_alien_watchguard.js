@@ -39,6 +39,19 @@ expectIncludes(
   'Spieler-Handbuch soll das kanonische Debrief-Format mit ITI-Ruf führen.'
 );
 
+// Mystery-Kern regressionssicher halten: kein harter Alien-Fakt, aber klarer Reveal-Pfad.
+expectIncludes(
+  'core/zeitriss-core.md',
+  'es gibt keine Aliens, nur',
+  'Core-Modul soll den Reveal-Pfad "keine Aliens, nur Zukunft" explizit führen.'
+);
+
+expectIncludes(
+  'gameplay/kreative-generatoren-begegnungen.md',
+  'Greys - posthumane Fernzukunfts-Menschen',
+  'Generator-Eintrag soll Greys als posthumane Fernzukunfts-Lesart führen.'
+);
+
 // Gating-Wording-Drift verhindern: kein Mischbegriff und kein Level-Tier-Header.
 
 expectNotMatch(
