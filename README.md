@@ -194,6 +194,8 @@ getrennt erleben, mergen, nächste Episode.
 
 > **Wichtig für OpenWebUI / reinen Chatbetrieb:** Der harte Standard ist `!save` im HQ (JSON-Export) und Laden per JSON-Copy-Paste. `Spiel laden` ist optional; ein eingefügter Save-JSON reicht als Startsignal für den Load-Flow.
 
+**Betriebsstandard (chat-only):** ZEITRISS läuft im Spielbetrieb über den HQ-DeepSave (`!save`) und JSON-Copy-Paste; `Spiel laden` bleibt optionales Startsignal. Zusätzliche Snapshot-/AutoSave-Befehle sind nicht Teil des kanonischen Spielpfads.
+
 ## Markenhinweis / Inspiration
 
 - Vergleiche mit bekannten Franchises dienen nur der stilistischen Einordnung.

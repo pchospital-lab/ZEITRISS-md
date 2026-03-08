@@ -357,8 +357,8 @@ und euch auf neue Module stürzen, ohne Angst um eure mühsam erspielten Speiche
 müssen. Jede Mission, jede Entscheidung eurer Chrononauten bleibt erhalten und wird im Lichte neuer
 Regeln konsistent weitergeführt.
 
-**Auto-Save im HQ:** Der Kodex schreibt automatische Saves ausschließlich in der HQ-Phase
-(`autosave hq`). Laufende Missionen bleiben davon ausgenommen.
+**Save-Standard im HQ:** Gespeichert wird ausschließlich per `!save` in der HQ-Phase.
+Laufende Missionen bleiben davon ausgenommen.
 
 ## Cineastische Schlachten: Erfolgspools, Spotlight-Szenen & heroische Würfe
 
