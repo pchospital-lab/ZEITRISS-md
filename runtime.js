@@ -4064,7 +4064,7 @@ function merge_rift_seed_pools(hostSeeds, incomingSeeds, cap = RIFT_SEED_MERGE_C
   );
   const overflow = openSorted.slice(cap).map((entry) => entry.seed);
   const selectionRule =
-    'seed_tier: late>mid>early · discovered_at (asc) · time_marker · id · host_order';
+    'seed_tier: late>mid>early · discovered_at (asc) · time_marker · id · session_anchor_order';
   return {
     seeds: kept,
     kept_open: keptOpen,
@@ -5975,7 +5975,7 @@ function economy_audit_guidelines(level, walletCount){
 function resolve_economy_audit_level(snapshot){
   const hostLevel = asNumber(snapshot?.character?.lvl ?? snapshot?.character?.level ?? snapshot?.campaign?.level);
   if (hostLevel !== null){
-    return { level: hostLevel, band_reason: 'host_level' };
+    return { level: hostLevel, band_reason: 'session_anchor_level' };
   }
   const roster = Array.isArray(snapshot?.party?.characters)
     ? snapshot.party.characters
@@ -9573,7 +9573,7 @@ function load_deep(raw){
         source: incomingCu,
         target: hostCu,
         mode: 'merge',
-        note: 'HQ-Pool (economy.cu): Host-Vorrang'
+        note: 'HQ-Pool (economy.cu): Session-Anker-Vorrang'
       });
     }
     incomingEconomy.cu = hostCu;
@@ -9763,7 +9763,7 @@ function load_deep(raw){
   ){
     record_trace('merge_conflicts', {
       channel: 'LOAD',
-      note: arenaReset.wasActive ? 'Host-Vorrang + Arena-Reset' : 'Host-Vorrang beim Merge',
+      note: arenaReset.wasActive ? 'Session-Anker-Vorrang + Arena-Reset' : 'Session-Anker-Vorrang beim Merge',
       arena: {
         phase: state.arena?.phase || null,
         queue_state: state.arena?.queue_state || null,
@@ -9778,7 +9778,7 @@ function load_deep(raw){
     });
   }
   if (uiHostOverrides.length){
-    record_trace('ui_host_override', {
+    record_trace('ui_session_anchor_override', {
       channel: 'LOAD',
       keys: uiHostOverrides.map((entry) => entry.key),
       overrides: uiHostOverrides
