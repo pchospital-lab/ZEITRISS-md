@@ -79,3 +79,8 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Round4 Formatpflege Long-Lines): `internal/qa/plans/issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`
 - Log (Round4 Formatpflege Long-Lines): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`
+
+- **Durchlauf 81 (2026-03-08):** Kontinuitäts-Redesign aus dem Upload-Paket in die SSOT-Kernstellen gezogen: `README.md`, `meta/masterprompt_v6.md`, `systems/gameflow/speicher-fortsetzung.md` und `core/sl-referenz.md` nutzen jetzt Session-Anker-Semantik, `continuity`-Kapsel (inkl. `split.family_id`) sowie Pflicht-`Kontinuitätsrückblick` für Mehrfach-Loads; Duplicate-Character-Fälle laufen als Rejoin-/`continuity_conflict` statt reiner Hard-Block. Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Kontinuitäts-Redesign): `internal/qa/plans/issue-pack-durchlauf-81-continuity-redesign.md`
+- Log (Kontinuitäts-Redesign): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-81-continuity-redesign.md`
