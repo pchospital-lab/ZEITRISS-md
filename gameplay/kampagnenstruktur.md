@@ -726,7 +726,7 @@ Dieser Screen läuft in fester Reihenfolge ab:
    bei Teams Wallet-Split durchführen
 4. **XP & Level-Up** — EP vergeben; bei Aufstieg genau eine Upgrade-Wahl
    anbieten (`+1 Attribut` **oder** `Talent/Upgrade` **oder** `+1 SYS`).
-5. **Ruf-Update** — Fraktionsruf-Änderungen nennen
+5. **ITI-Ruf-Update** — formalen ITI-Ruf nennen; Fraktionssignale nur ergänzend ausweisen
 
 Erst **danach** folgt das **HQ-Menü** mit drei Optionen:
 
@@ -746,7 +746,7 @@ flowchart TD
     gate --> play[Mission-Loop]
     play --> boss[Boss-Sz. 10 (Core/Rift)]
     boss --> debrief[Debrief & HQ-Phase]
-    debrief --> rewards[CU · Loot-Recap · XP/Ruf · Level/Skills]
+    debrief --> rewards[CU · Loot-Recap · XP/ITI-Ruf · Level/Skills]
     rewards --> px[Paradoxon-Index & offene Seeds]
     px -->|Px 5| rift[Rift-Pool/ClusterCreate()]
     px --> next[Mission N+1]
@@ -763,10 +763,10 @@ flowchart TD
 | Boss-Rhythmus            | Mini-Boss Mission 5, Episoden-Boss Mission 10           | Boss in Szene 10 jeder Rift-Op                               |
 | Loot/Belohnungen         | Gear + Relikte; CU-Formel gilt; Debrief listet Loot & CU| Gear + Artefaktwurf am Boss; gleiche CU-Formel im Debrief    |
 | Paradoxon & Seeds        | Px 5 ⇒ `ClusterCreate()`; Seed-Multi wirkt ab Episodenende | Rift-Seeds liegen im Pool; Seed-Multi sinkt beim Schließen   |
-| HQ-Pflichtschritte       | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → Ruf; dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
+| HQ-Pflichtschritte       | Auto-Screen: Bewertung → Loot-Recap → CU → XP/Level-Up → ITI-Ruf-Update (optional Fraktionssignal); dann HQ-Menü (Schnell/Manuell/Auto), Save im HQ | identisch; Rift-Starts erst nach Episodenende                |
 
 **HQ-Kurzcheck nach jeder Mission:**
-- Auto-Screen zeigen (Bewertung → Loot → CU → XP/Level-Up → Ruf) — **immer automatisch**.
+- Auto-Screen zeigen (Bewertung → Loot → CU → XP/Level-Up → ITI-Ruf-Update) — **immer automatisch**.
 - Offene Seeds und Paradoxon-Index anzeigen; Seed-Multi fürs Episodenende im Blick behalten.
 - HQ-Menü anbieten: Schnell-HQ (schnell wieder raus), Manuell (volle Szenen) oder Auto & Save.
 
@@ -1498,12 +1498,14 @@ ausgegebener Ressource einen Ausbaupunkt erhalten, den sie investieren können).
 die Spieler _spüren_, wie ihr HQ wächst: Beschreibt neue Räume filmisch, betont den Stolz und die
 verbesserte Moral der dortigen Crew, und lasst neue spielerische Optionen entstehen.
 
-Einige höhere Ausbaustufen verlangen darüber hinaus einen entsprechenden **Rufwert** bei der gewählten Fraktion.
-In der Regel öffnen sich sensible Bereiche des Komplexes erst ab etwa **Ruf +2**.
-Der Ausrüstungsshop folgt demselben Prinzip: **Ruf 1** gewährt Tier-1-Lizenzen,
-**Ruf 2** schaltet Tier 2 frei usw., sobald die Kosten beglichen sind.
-Wechselt eine Gruppe innerhalb ihrer Ausrichtung die Fraktion, bleiben freigeschaltete Stufen erhalten.
-Auch angesammelter Ruf geht nicht verloren.
+Einige höhere Ausbaustufen verlangen darüber hinaus einen passenden **Fraktionsrufwert**
+für politische oder narrative Zugänge innerhalb eines Fraktionskomplexes.
+Formale ITI-Freigaben folgen dagegen dem **ITI-Ruf** (`reputation.iti`):
+Sensible ITI-Bereiche öffnen sich in der Regel ab etwa **ITI-Ruf +2**.
+Der Ausrüstungsshop nutzt denselben formalen Pfad: **ITI-Ruf +1** gewährt Tier-1-
+Lizenzen, **ITI-Ruf +2** schaltet Tier 2 frei usw., sobald die Kosten beglichen sind.
+Fraktionswechsel verändert daher nicht automatisch den formalen ITI-Ruf; Fraktionsruf
+bleibt ein politischer Modifikator für Beziehungen, Preise, Zugang und Misstrauen.
 
 ### Ressourcenmanagement
 
