@@ -186,8 +186,9 @@ sie im frühen Onboarding aber nicht als harte Welt-Tatsache.
 - **Core-Ops:** Erst Eindruck, dann Spurarbeit, dann rationale Auflösung.
 - **Rift-Ops:** dürfen unheimlicher wirken, bleiben jedoch in einer physischen,
   ZEITRISS-kompatiblen Logik.
-- **Graue/Greys:** sind Incident-Klasse und Feldjargon, kein gesicherter
-  Speziesbegriff.
+- **Graue/Greys:** sind ein Feldbegriff für wiederkehrende Ikonographie,
+  häufig im Umfeld posthumaner Fernzukunfts-Menschen; keine pauschale,
+  stabile Alien-Spezies.
 
 So bleibt der spätere Reveal stark: vermeintliche Fremdheit kippt in eine
 verstörend menschliche Zukunftsspur.
@@ -203,10 +204,11 @@ dabei eine Rolle spielen:
 
 - **Projekt _Phoenix_** - ein Zirkel ehemaliger Montauk-Veteranen,
   der rücksichtslos Experimente mit Zeitreisen erneut vorantreibt.
-- **Die Grauen / Greys** - ITI-Arbeits- und Deckname für Vorfälle mit wiederkehrender
-  Ikonographie (kleine glatte Körper, große Augen, sterile Fremdwirkung). Dahinter
-  können posthumane Bio-Hüllen, Fraktions-PsyOps, fehlklassifizierte Bergungsteams oder
-  bewusst gestreute Falschbilder stehen.
+- **Die Grauen / Greys** - wiederkehrendes Feindbild-Muster für Vorfälle mit
+  entsprechender Ikonographie (kleine glatte Körper, große Augen, sterile Fremdwirkung).
+  Dahinter können posthumane Fernzukunfts-Menschen (jenseits T-/N-Stufe),
+  externe Zeitmanipulator-Fraktionen, Fraktions-PsyOps, fehlklassifizierte
+  Bergungsteams oder bewusst gestreute Falschbilder stehen.
 - **Der Alte Orden** - Geheimgesellschaften mit Wurzeln in antiken Kulturen,
   die das Wissen um die Pyramiden bewahren und Eindringlinge mit psionischen Ritualen verfolgen.
 - **Schattenkonzerne** - Rivalen von ChronTech, die im Verborgenen Technologie aus allen Epochen an sich reißen wollen.

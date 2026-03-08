@@ -122,9 +122,10 @@ Die folgende Tabelle fasst typische Ausrüstungsbeispiele entlang der Lizenzstuf
 \*\> **_Hinweis:_** Alle Werte und Beispiele in diesem Modul sind Vorschläge, die auf Spielbalance
 geprüft sind. Die SL (Spielleitung) – ob Mensch oder KI – sollte diese an die eigene Kampagne
 anpassen. Preise sind in **_CU_** (Chrono-Units, die zeitübergreifende Währung des ITI) angegeben.
-Zugang zu High-Tech-Ausrüstung kann vom Rang oder Ruf des Agenten abhängen: Ein frisch rekrutierter
-Chrononaut auf Level 1 wird nicht sofort mit Prototypen oder Top-Secret-Gear ausgestattet. Solche
-Dinge müssen sich die Charaktere durch erfolgreiche Missionen und steigendes Ansehen verdienen.\*
+Der formale Zugang zu High-Tech-Ausrüstung folgt dem **ITI-Ruf** (`reputation.iti`) und dem
+passenden **Lizenz-Tier**: Ein frisch rekrutierter Chrononaut auf Level 1 wird nicht sofort mit
+Prototypen oder Top-Secret-Gear ausgestattet. Solche Dinge müssen sich die Charaktere über
+erfolgreiche Missionen, formalen ITI-Ruf-Aufstieg und erworbene Lizenzen verdienen.\*
 **Tier-Lizenzen — Preistabelle:**
 
 | Tier | Ruf-Anforderung | Lizenzkosten |
