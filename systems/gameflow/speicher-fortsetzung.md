@@ -42,7 +42,7 @@ tags: [system]
 allen Pflichtfeldern inklusive Cross-Mode-Pfaden (`characters[].wallet`,
 `logs.psi[]`, `arc.open_seeds`, `arena.phase_strike_tax`) liegt als
 kanonisches Fixture unter
-[`internal/qa/fixtures/savegame_v6_test.json`](../../internal/qa/fixtures/savegame_v6_test.json).
+`savegame_v6_test.json` im internen QA-Fixture-Ordner.
 Acceptance-Smoke-Prüfpunkte 4 (HQ-Save-Guard) und 10 (Cross-Mode-Saves) nutzen
 diesen Block als Eingabe für Solo-, Solo→Koop- und Koop→Arena-Tests.
 
@@ -306,10 +306,42 @@ In-Mission-Ausstieg ist erlaubt, aber es erfolgt kein Save; Ausrüstung darf
 übergeben werden, nächster Save erst im HQ. HQ-Saves verlangen vollständige
 Installation (`sys_installed ≤ attr.SYS`).
 
-> **Migrations-Referenz (v6):** Historische Beispiel-Saves liegen nur noch in
-> internen/archivierten Dev-Artefakten. Im geladenen Runtime-Kanon gilt
-> ausschließlich das v7-Exportformat mit `v`, `characters[]`,
-> `characters[].wallet`, `economy.hq_pool` und `arc`.
+> **Migrations-Referenz (v6):** Für die KI-SL liegt die kanonische
+> Legacy-Überführung direkt im Wissensspeicher (siehe
+> [V6→V7-Migrationsbeispiel](#v6-v7-migrationsbeispiel-im-wissensspeicher)).
+> Im Runtime-Kanon gilt beim Export ausschließlich das v7-Format mit `v`,
+> `characters[]`, `characters[].wallet`, `economy.hq_pool` und `arc`.
+
+
+
+### V6→V7-Migrationsbeispiel im Wissensspeicher {#v6-v7-migrationsbeispiel-im-wissensspeicher}
+
+Dieses Beispiel ist absichtlich kompakt, damit die **KI-SL ohne externe
+Repo-Dateien** alte Stände sicher umheben kann.
+
+**Legacy-Eingabe (v6, schematisch):**
+- `save_version = 6`
+- `zr_version = 4.2.6`
+- `party.characters = [agent-nova(wallet=320)]`
+- `team.members = [agent-rook(wallet=280)]`
+- `economy.cu = 540`
+- `arc_dashboard.offene_seeds = [RS-01@1947]`
+- `campaign.mission_in_episode = 5`
+
+**Ziel nach Migration (v7, kanonisch):**
+- `v = 7`, `zr = 4.2.6`
+- `characters = [agent-nova(wallet=320), agent-rook(wallet=280)]`
+- `economy.hq_pool = 540`
+- `campaign.mission = 5`
+- `campaign.rift_seeds = [RS-01@1947(status=open)]`
+- `arc = {questions[], hooks[], factions{}}`
+
+**Merke (SSOT):**
+- `save_version`/`zr_version` sind reine Importmarker.
+- `party.characters[]` und `team.members[]` werden in `characters[]` zusammengeführt.
+- `economy.cu` wird auf `economy.hq_pool` gehoben.
+- `arc_dashboard.offene_seeds[]` wird in den v7-Pfad (`campaign.rift_seeds[]`) überführt.
+- Exportiert wird anschließend **nur** das v7-Format.
 
 `campaign.rift_seeds[]` ist die **kanonische Quelle** für offene Seeds. Jede
 Struktur enthält mindestens `id`, `epoch`, `label` und `status` (`locked_until_episode_end`/open/closed)
