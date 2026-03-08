@@ -305,6 +305,19 @@ Ab **Ruf +5** sind alle regulären ITI-Lizenzpfade grundsätzlich kaufbar.
 Sonderfälle bleiben als objektbezogene Story- oder Projektfreigaben möglich,
 ohne Tier V global zu sperren.
 
+### ITI-Rang-Mapping (SSOT)
+
+| ITI-Ruf | Rang |
+|--------:|------|
+| 0 | Rekrut |
+| 1 | Operator I |
+| 2 | Feldagent |
+| 3 | Senior-Feldagent |
+| 4 | Elitechrononaut |
+| 5 | Apex-Agent |
+
+**Debrief-Format:** `Rang Feldagent · ITI-Ruf +2 · Lizenz Tier II`
+
 ### XP-Kurve
 
 | Level | XP pro Level | Kumulativ |
