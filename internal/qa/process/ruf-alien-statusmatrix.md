@@ -36,8 +36,17 @@ anschlussfähig dokumentieren.
 4. **Onboarding-Ton halten:** Frühe Spielertexte bei UFO/Greys stets als Spur,
    Dossier oder Feldjargon formulieren.
 
+
+## Follow-up-Hinweis
+
+- **Durchlauf 58 (2026-03-08):** Restdrift im `core/spieler-handbuch.md`
+  geschlossen (Debrief-Label auf **ITI-Ruf**, Tier V im Cheatsheet auf
+  **5.000 CU** + Klartext zu kaufbaren Regulärpfaden ab Ruf +5).
+
 ## Verknüpfung
 
-- Fahrplan: `internal/qa/plans/issue-pack-durchlauf-57-ruf-alien.md`
-- Log: `internal/qa/logs/2026-03-08-issue-pack-durchlauf-57-ruf-alien.md`
+- Fahrplan (Initiallauf): `internal/qa/plans/issue-pack-durchlauf-57-ruf-alien.md`
+- Log (Initiallauf): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-57-ruf-alien.md`
+- Fahrplan (Follow-up): `internal/qa/plans/issue-pack-durchlauf-58-ruf-alien-followup.md`
+- Log (Follow-up): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-58-ruf-alien-followup.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
