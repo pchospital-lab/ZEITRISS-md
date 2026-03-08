@@ -265,7 +265,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   "save_id": "SAVE-2026-03-08T20:15:00Z-HQ-ALPHA",
   "parent_save_id": null,
   "merge_id": null,
-  "branch_id": "HOST-main",
+  "branch_id": "ANCHOR-main",
   "campaign": {
     "episode": 1, "mission": 0, "px": 0, "px_state": "stable", "mode": "mixed",
     "rift_seeds": []

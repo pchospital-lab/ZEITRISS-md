@@ -481,8 +481,8 @@ if not char.get("psi") and not char.get("has_psi"):
   - Beim HQ-Save schreibt die Runtime ein `economy_audit`-Trace (Level,
     `band_reason`, `wallet_avg_scope`, `target_range` für HQ-Pool+Wallet-Schnitt,
     Wallet-Summe, `chronopolis_sinks` + Flags `delta`/`out_of_range`); ein
-    HUD-Toast erscheint nur bei Abweichungen. Beim Laden behalten Host-HQ-Pool
-    und Host-Wallets Vorrang; Import-Wallets werden union-by-id angefügt,
+    HUD-Toast erscheint nur bei Abweichungen. Beim Laden behalten Session-Anker-HQ-Pool
+    und Session-Anker-Wallets Vorrang; Import-Wallets werden union-by-id angefügt,
     fehlende Labels aus dem Import ergänzt und abweichende Balances/Labels als
     Merge-Konflikte markiert (`logs.flags.merge_conflicts[]` + Trace
     `merge_conflicts`, `field='wallet'`).
@@ -1402,7 +1402,7 @@ Datenpaket landet in eurem In-Game-Briefeingang …]
 2. `Spiel starten (solo schnell)` → Rolle → Defaults → Briefing/SC 1
 3. `Spiel starten (npc-team 3 schnell)` → Autogen-NSCs → Briefing
 4. `Spiel starten (npc-team 5)` → Fehlertext (0-4 erlaubt)
-5. `Spiel starten (gruppe schnell)` → Host-Save + weitere → Briefing
+5. `Spiel starten (gruppe schnell)` → Session-Anker-Save + weitere → Briefing
 6. `Spiel starten (gruppe 3)` → Fehlertext (keine Zahl bei gruppe)
 7. `Spiel laden` + kompatibler Save → Kodex-Recap → HQ/Briefing
 8. `Speichern` während Mission → SaveGuard-Blocker
