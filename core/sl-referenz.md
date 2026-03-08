@@ -262,7 +262,9 @@ Siehe das [Mini-Einsatzhandbuch](spieler-handbuch.md#mini-einsatzhandbuch) für 
 - Der Arena-Block kennt `queue_state=idle|searching|matched|staging|active|completed`,
   `zone=safe|combat`, `match_policy=sim|lore` und klemmt Teamgrößen hart auf
   1-5. Der SaveGuard wertet `queue_state` mit und blockiert HQ-Deepsaves,
-  solange der State nicht `idle` ist; Matchmaking-States zählen als aktiv.
+  solange Matchmaking/Run aktiv sind (`searching|matched|staging|active`).
+  Nach Arena-Ende bleibt Save im Abschlusszustand erlaubt (`idle|completed` bei
+  `arena.active=false`), damit der direkte PvP→HQ-Savepunkt stabil nutzbar ist.
   Saves aus Chronopolis/CITY werden mit "SaveGuard: Chronopolis ist kein HQ-
   Savepunkt" verworfen.
 - Load-Merge schreibt ein Trace-Event `merge_conflicts` (Queue-State/Zone,
