@@ -732,9 +732,9 @@ dokumentiert. Jeder Eintrag enthält mindestens:
 ```json
 {
   "field": "<allowlist-feld>",
-  "anchor_value": "<Wert aus Session-Anker/Ziel-Modus>",
-  "guest_value": "<Wert aus Quell-Modus>",
-  "resolution": "<anchor_wins|guest_wins|merged|default>"
+  "source": "<Wert aus Quell-Modus>",
+  "target": "<Wert aus Session-Anker/Ziel-Modus>",
+  "mode": "<anchor_priority|allowlist_merge|fallback_default>"
 }
 ```
 
