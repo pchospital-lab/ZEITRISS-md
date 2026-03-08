@@ -326,7 +326,7 @@ Gegen Fremdfraktionen kämpfen alle gemeinsam. → Vollständige Tabelle:
 
 **Fraktionsübertritt:** Jederzeit im Spielverlauf möglich, aber endgültig —
 kein Weg zurück zum Ordo und kein Wechsel zwischen Preserve und Trigger.
-Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
+ITI-Rufpunkte und bereits freigeschaltete **HQ-Ausbaustufen** bleiben erhalten.
 Wer bewusst neutral bleibt, kann beim Ordo Mnemonika aufsteigen und
 weiterhin den Mischpool spielen.
 
@@ -569,7 +569,7 @@ die wichtigsten Punkte zusammen:
 - **Beschränkte Verfügbarkeit:** Wie schon erwähnt, **nicht alles ist sofort für jeden verfügbar**.
   Das ITI wahrt die zeitliche Ordnung, indem es High-Tech nur kontrolliert herausgibt. Zugang zu den
   wirklich mächtigen Toys (Experimentale Waffen, fortschrittlichste Implantate, Zeitmanipulations-
-  Geräte) erfordert meist einen bestimmten **Dienstgrad/Ruf** des Agenten. Die Organisation stellt
+  Geräte) erfordert einen passenden **ITI-Ruf** und das entsprechende **Lizenz-Tier**. Die Organisation stellt
   sicher, dass nur **erfahrene und vertrauenswürdige** Chrononauten solches Equipment erhalten. Im
   Spiel bedeutet das: Bestimmte Items tauchen erst im "Shop" auf, wenn ihr die passende
   Lizenzstufe erreicht habt und genug CU investieren könnt. Die SL kann dies narrativ erklären - z.B.

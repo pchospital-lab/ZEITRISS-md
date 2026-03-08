@@ -85,6 +85,13 @@ anschlussfähig dokumentieren.
   verstetigt (`tools/test_ruf_alien_watchguard.js` in `scripts/smoke.sh`):
   Debrief-Disziplin (`ITI-Ruf-Update`), Tier-V-Rückfallblocker und
   Onboarding-Ton-Guard gegen harte Alien-Faktbehauptungen.
+- **Durchlauf 66 (2026-03-08):** Restdrift im Gating-Wording in
+  `characters/charaktererschaffung-grundlagen.md` und
+  `characters/ausruestung-cyberware.md` geschlossen: Mischbegriff
+  `Dienstgrad/Ruf` entfernt, Shop-Tier-Restabschnitt auf formalen
+  `ITI-Ruf + Lizenz-Tier`-Pfad (Level nur Build-Fortschritt) gehärtet;
+  Watchguard in `tools/test_ruf_alien_watchguard.js` um entsprechende
+  Rückfallmuster erweitert.
 
 ## Verknüpfung
 
@@ -107,3 +114,6 @@ anschlussfähig dokumentieren.
 - Fahrplan (Watchguard): `internal/qa/plans/issue-pack-durchlauf-65-ruf-alien-watchguard.md`
 - Log (Watchguard): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-65-ruf-alien-watchguard.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
+
+- Fahrplan (Gating-Restdrift): `internal/qa/plans/issue-pack-durchlauf-66-ruf-alien-gating-restdrift.md`
+- Log (Gating-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-66-ruf-alien-gating-restdrift.md`

@@ -31,6 +31,20 @@ expectIncludes(
   'Kampagnenablauf soll ITI-Ruf-Update explizit benennen.'
 );
 
+
+// Gating-Wording-Drift verhindern: kein Mischbegriff und kein Level-Tier-Header.
+expectNotMatch(
+  'characters/charaktererschaffung-grundlagen.md',
+  /Dienstgrad\s*\/\s*Ruf/i,
+  'Formale Freigaben sollen nicht als Mischbegriff "Dienstgrad/Ruf" auftauchen.'
+);
+
+expectNotMatch(
+  'characters/ausruestung-cyberware.md',
+  /\*\*Tier\s*[1-5IVX]+\s*\(Lv[^\n]*\):/i,
+  'Shop-Tier-Header dürfen nicht auf levelbasiertes Freigabe-Gating zurückfallen.'
+);
+
 // Tier-V-Rückfall verhindern: kein globales Quest-only-Wording mehr.
 expectNotMatch(
   'characters/ausruestung-cyberware.md',
