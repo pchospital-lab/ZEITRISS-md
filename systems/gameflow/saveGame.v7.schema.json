@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zeitriss.example/saveGame.v7.schema.json",
+  "title": "ZEITRISS Save v7 (kanonischer Export)",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["v", "zr", "campaign", "characters", "economy", "logs"],
+  "properties": {
+    "v": { "type": "integer", "const": 7 },
+    "zr": { "type": "string" },
+    "save_id": { "type": "string" },
+    "parent_save_id": { "type": ["string", "null"] },
+    "merge_id": { "type": ["string", "null"] },
+    "branch_id": { "type": "string" },
+    "location": { "type": "string", "const": "HQ" },
+    "campaign": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["episode", "mission", "px", "px_state"],
+      "properties": {
+        "episode": { "type": "integer" },
+        "mission": { "type": "integer" },
+        "px": { "type": "integer", "minimum": 0, "maximum": 5 },
+        "px_state": { "type": "string", "enum": ["stable", "pending_reset", "consumed"] }
+      }
+    },
+    "characters": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "wallet"],
+        "properties": {
+          "id": { "type": "string" },
+          "wallet": { "type": "number" }
+        }
+      }
+    },
+    "economy": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["hq_pool"],
+      "properties": {
+        "hq_pool": { "type": "number" }
+      }
+    },
+    "logs": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["trace", "notes", "artifact_log", "market", "flags"]
+    },
+    "arc": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["factions", "questions", "hooks"]
+    },
+    "ui": { "type": "object" },
+    "arena": { "type": "object" },
+    "loadout": { "type": "object" },
+    "summaries": { "type": "object", "additionalProperties": true }
+  }
+}

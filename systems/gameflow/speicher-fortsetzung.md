@@ -160,12 +160,13 @@ Savepunkt: Saves aus der City brechen mit
 nicht ins Save; Persistenzanker sind ausschließlich
 `campaign.entry_choice_skipped` und `ui.intro_seen`.
 
-Das versionierte JSON-Schema liegt unter
-`systems/gameflow/saveGame.v6.schema.json`; `load_deep()` validiert Saves gegen
-dieses Schema und bricht mit einem `Save-Schema (saveGame.v6)`-Fehler ab, wenn
-Pflichtcontainer fehlen oder die Typen nicht passen.
-Die Schema-Datei wird nicht in den Wissensspeicher geladen und bleibt primär
-für Loader-/CI-Validierungen bestehen; für KI-Läufe genügt das
+Der kanonische Export folgt ausschließlich dem v7-Template im Masterprompt
+und dem Kompakt-Profil in dieser Datei.
+Ein externes JSON-Schema existiert nur für Runtime-/Loader-Checks außerhalb
+des Wissensspeichers; Altstände dürfen darüber als Legacy-Import geprüft werden
+(`Save-Schema (saveGame.v6)`), werden danach auf den v7-Pfad migriert und nur
+noch als v7 exportiert.
+Für KI-Läufe gilt: keine Repo-Abhängigkeit, maßgeblich ist das
 Klartextprofil unten.
 
 `logs.hud[]` erlaubt Strings **oder** strukturierte Objekte. Sonder-Overlays
@@ -270,7 +271,7 @@ Beim Pruning bleiben die neuesten Einträge erhalten; ältere Detailstände werd
 kompakt in `summaries.summary_last_episode`, `summaries.summary_last_rift` und
 `summaries.summary_active_arcs` verdichtet, statt still verloren zu gehen.
 
-Die JSON-Schema-Datei bleibt für Validierungstools bestehen; Die KI-SL nutzt
+Externe Schema-Dateien dienen nur Tooling/CI; die KI-SL nutzt ausschließlich
 das Klartext-Profil als maßgebliche Struktur.
 
 Der Serializer befüllt `arc` vor dem SaveGuard automatisch mit
