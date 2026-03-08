@@ -2,7 +2,7 @@
   "v": 7,
   "zr": "4.2.6",
   "save_id": "SAVE-MERGE-RIFT-PVP-01",
-  "branch_id": "HOST-HQ-GAMMA",
+  "branch_id": "ANCHOR-HQ-GAMMA",
   "location": "HQ",
   "phase": "core",
   "campaign": {
@@ -66,7 +66,7 @@
       }
     ],
     "notes": [
-      "Nicht-kanonischer Branch-Import: Kampagnenfortschritt bleibt beim Host-Save; nur Charakterdaten wurden übernommen."
+      "Nicht-kanonischer Branch-Import: Kampagnenfortschritt bleibt beim Session-Anker; nur Allowlist-Felder wurden übernommen."
     ]
   },
   "continuity": {
