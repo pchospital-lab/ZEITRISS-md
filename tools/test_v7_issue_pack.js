@@ -14,6 +14,7 @@ function assertBaseV7(save, label){
   assert.ok(Array.isArray(save.characters), `${label}: characters[] fehlt.`);
   assert.ok(save.economy && Number.isFinite(save.economy.hq_pool), `${label}: economy.hq_pool fehlt.`);
   assert.ok(save.campaign && typeof save.campaign.px_state === 'string', `${label}: campaign.px_state fehlt.`);
+  assert.ok(save.logs && save.logs.flags && Array.isArray(save.logs.flags.continuity_conflicts), `${label}: logs.flags.continuity_conflicts[] fehlt.`);
 }
 
 const highLevel = readJson('internal/qa/fixtures/savegame_v7_5er_hq_highlevel.json');

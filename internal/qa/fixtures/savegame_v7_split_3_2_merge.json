@@ -55,7 +55,8 @@
         }
       ],
       "duplicate_branch_detected": false,
-      "duplicate_character_detected": false
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
     }
   },
   "continuity": {

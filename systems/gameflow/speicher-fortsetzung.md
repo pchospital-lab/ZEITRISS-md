@@ -384,11 +384,11 @@ beim Laden zusammengeführt.
 **Lineage & Dedupe (Merge-Schutz):** Jeder v7-Save führt `save_id` als eindeutige
 Import-ID. `parent_save_id` zeigt auf den direkten Vorgänger, `merge_id` markiert
 gezielte Zusammenführungen und `branch_id` beschreibt den Branch-Kontext (z. B.
-`HOST-main`, `RIFT-A`). Bei JSON-Mehrfachimport gilt: doppeltes `save_id` im selben
+`ANCHOR-main`, `RIFT-A`). Bei JSON-Mehrfachimport gilt: doppeltes `save_id` im selben
 Load-Lauf wird als Branch-Duplikat verworfen (`logs.flags.duplicate_branch_detected=true`),
 doppelte `characters[].id` werden als Rejoin-Konflikt markiert
-(`logs.flags.duplicate_character_detected=true`) und als `continuity_conflict`
-transparent geführt, statt stiller Überschreibung. Jeder verworfene oder konflikthafte Import
+(`logs.flags.duplicate_character_detected=true`) und als strukturierte
+`logs.flags.continuity_conflicts[]`-Einträge transparent geführt, statt stiller Überschreibung. Jeder verworfene oder konflikthafte Import
 läuft zusätzlich in `logs.flags.imported_saves[]` ein (mindestens `save_id`,
 `branch_id`, `status`, `reason`).
 
@@ -1117,7 +1117,7 @@ Importmodus. Es gilt folgender Präzedenzgraph (deterministisch, Session-Anker):
    `wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`.
 3. **Charakterdaten:** `characters[]` wird über `id` dedupliziert; pro ID
    gewinnt der neueste persönliche Stand. Divergenzen werden als
-   `continuity_conflict` protokolliert.
+   `logs.flags.continuity_conflicts[]` protokolliert.
 4. **Arena/Resume-Zustand:** Vor HQ-Save immer auf HQ-safe normalisieren
    (`arena.active=false`, `queue_state=idle|completed`, `previous_mode` bereinigt).
 5. **Chronopolis-Markt/City-Logs:** bleiben als Nachweis in `logs.market[]`
@@ -1450,7 +1450,8 @@ Save sichtbar bleibt und Legacy-/Importpfade stabil normalisieren können.
       "chronopolis_unlocked": false,
       "imported_saves": [],
       "duplicate_branch_detected": false,
-      "duplicate_character_detected": false
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
     }
   },
   "summaries": {

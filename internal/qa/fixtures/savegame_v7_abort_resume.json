@@ -46,7 +46,8 @@
         }
       ],
       "duplicate_branch_detected": false,
-      "duplicate_character_detected": false
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
     },
     "notes": [
       "Abort-Branch als nicht-kanonischer Import markiert; Kampagnenblock bleibt Session-Anker-geführt."

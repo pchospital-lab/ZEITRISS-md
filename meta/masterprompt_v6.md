@@ -306,7 +306,8 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
       "chronopolis_unlocked": false,
       "imported_saves": [],
       "duplicate_branch_detected": false,
-      "duplicate_character_detected": false
+      "duplicate_character_detected": false,
+      "continuity_conflicts": []
     }
   },
   "summaries": {
@@ -345,7 +346,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
   - Lineage-Metadaten sind Pflicht: `save_id`, `parent_save_id`, `merge_id`, `branch_id`.
   - Merge-Guard: Bei doppeltem `save_id` im selben Importlauf Merge abbrechen und Hinweis geben (`duplicate_branch_detected=true`).
   - Charakter-Autorität: Pro `characters[].id` gewinnt der neueste Charakterstand persönliche Felder (`lvl`, `xp`, `wallet`, `equipment`, `carry`, `artifact`, Ruf, History).
-    Divergente Doppelstände bleiben als `continuity_conflict` im Trace sichtbar.
+    Divergente Doppelstände werden als strukturierte Einträge in `logs.flags.continuity_conflicts[]` protokolliert.
   - Save-Budget (OpenWebUI): `logs.trace` max 64, `logs.market` max 24,
     `logs.artifact_log` max 32, `logs.notes` max 24,
     `arc.questions` max 18, `arc.hooks` max 18,
@@ -375,7 +376,7 @@ Einsatz-KI "Kodex". Die Spielenden sind ein Chrononaut:innen-Team.
     2) Branch-lokale Fortschritte werden nur über Allowlist importiert
        (`wallet`, `rift_merge`, `arena_resume`, `chronopolis_log`, `abort_marker`).
     3) Charakterdaten (`characters[]`) werden über `id` dedupliziert; pro ID gewinnt
-       der neueste persönliche Stand, divergente Fälle werden als `continuity_conflict` markiert.
+       der neueste persönliche Stand, divergente Fälle werden als strukturierte Einträge in `logs.flags.continuity_conflicts[]` markiert.
     4) Arena/Resume wird HQ-safe normalisiert (`arena.active=false`, `queue_state=idle|completed`).
     5) Chronopolis-Markt/City-Effekte bleiben Log-basiert (`logs.market[]`, `logs.trace[]`).
     6) Debrief-Outputs werden in `logs.notes[]` konsolidiert.
