@@ -104,13 +104,14 @@ Eine kurze Einführung erläutert die Besonderheiten der ringförmigen Metropole
 Jeder Chrononaut besitzt einen Kommunikationsknoten, über den Aufträge,
 Ausrüstung sowie **ITI-Ruf- und Fraktionssignale** verwaltet werden.
 Innerhalb der Stadt richten sich weitere Bereiche und Händlerangebote primär
-nach **ITI-Rang/ITI-Ruf** (formaler Lizenzpfad); **Fraktionsruf** wirkt
-zusätzlich als politisches Signal auf Preise, Zugang und Misstrauen.
+nach **ITI-Ruf** (`reputation.iti`, formaler Lizenzpfad). Der sichtbare
+ITI-Rang ist davon abgeleitet; **Fraktionsruf** wirkt zusätzlich als
+politisches Signal auf Preise, Zugang und Misstrauen.
 Kurze Infobriefe lassen sich direkt ins HUD streamen; sie markieren, welche Fraktion
 indirekt Einfluss nimmt oder Gerüchte streut, ohne formale Treffen in Chronopolis zu erzwingen.
 Weitere Infos zum HUD liefert das Modul
 [Cinematisches HUD-Overlay](../characters/hud-system.md#cinematisches-hud-overlay).
-Bei höherem ITI-Dienstgrad öffnet sich zusätzlich der streng bewachte Kernbereich.
+Ab höherem **ITI-Ruf** öffnet sich zusätzlich der streng bewachte Kernbereich.
 Chronopolis beherbergt Sapiens-Sapiens, N-Typen, T-Stufen und historische Homininen.
 Das ITI rekrutiert aus allen Abstufungen und Bio-Sheaths; auch rivalisierende Gruppen setzen
 auf diese Vielfalt. Sie trägt spürbar zum Chrononautenflair bei.

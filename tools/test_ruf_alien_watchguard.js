@@ -33,6 +33,13 @@ expectIncludes(
 
 
 // Gating-Wording-Drift verhindern: kein Mischbegriff und kein Level-Tier-Header.
+
+expectNotMatch(
+  'gameplay/kampagnenuebersicht.md',
+  /ITI-Rang\s*\/\s*ITI-Ruf/i,
+  'Formale Freigaben sollen nicht als Mischbegriff "ITI-Rang/ITI-Ruf" auftauchen.'
+);
+
 expectNotMatch(
   'characters/charaktererschaffung-grundlagen.md',
   /Dienstgrad\s*\/\s*Ruf/i,

@@ -93,6 +93,13 @@ anschlussfähig dokumentieren.
   Watchguard in `tools/test_ruf_alien_watchguard.js` um entsprechende
   Rückfallmuster erweitert.
 
+- **Durchlauf 67 (2026-03-08):** Restdrift im Chronopolis-Gating in
+  `gameplay/kampagnenuebersicht.md` geschlossen: Mischbegriff
+  `ITI-Rang/ITI-Ruf` entfernt, formales Gating auf `reputation.iti`
+  präzisiert und Kernbereichs-Zugang auf höheren ITI-Ruf gehärtet;
+  Watchguard in `tools/test_ruf_alien_watchguard.js` um das
+  Rückfallmuster `ITI-Rang/ITI-Ruf` erweitert.
+
 ## Verknüpfung
 
 - Fahrplan (Initiallauf): `internal/qa/plans/issue-pack-durchlauf-57-ruf-alien.md`
@@ -117,3 +124,6 @@ anschlussfähig dokumentieren.
 
 - Fahrplan (Gating-Restdrift): `internal/qa/plans/issue-pack-durchlauf-66-ruf-alien-gating-restdrift.md`
 - Log (Gating-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-66-ruf-alien-gating-restdrift.md`
+
+- Fahrplan (Chronopolis-Rufklarheit): `internal/qa/plans/issue-pack-durchlauf-67-ruf-alien-chronopolis-rufklarheit.md`
+- Log (Chronopolis-Rufklarheit): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-67-ruf-alien-chronopolis-rufklarheit.md`
