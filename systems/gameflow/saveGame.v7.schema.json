@@ -48,7 +48,37 @@
     "logs": {
       "type": "object",
       "additionalProperties": true,
-      "required": ["trace", "notes", "artifact_log", "market", "flags"]
+      "required": ["trace", "notes", "artifact_log", "market", "flags"],
+      "properties": {
+        "flags": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "runtime_version": { "type": "string" },
+            "chronopolis_unlocked": { "type": "boolean" },
+            "imported_saves": {
+              "type": "array",
+              "items": { "type": "object", "additionalProperties": true }
+            },
+            "duplicate_branch_detected": { "type": "boolean" },
+            "duplicate_character_detected": { "type": "boolean" },
+            "continuity_conflicts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "char_id": { "type": "string" },
+                  "anchor_save_id": { "type": ["string", "null"] },
+                  "incoming_save_id": { "type": ["string", "null"] },
+                  "resolution": { "type": "string", "enum": ["anchor_kept_echo_imported", "newer_personal_state_applied"] },
+                  "note": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
     },
     "arc": {
       "type": "object",
