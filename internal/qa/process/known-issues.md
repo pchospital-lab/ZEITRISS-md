@@ -73,3 +73,9 @@ prozessualem Bedarf mit Referenz in dieser Datei gespiegelt.
 
 - Fahrplan (Round4 SSOT-Feldnamen-Restdrift): `internal/qa/plans/issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
 - Log (Round4 SSOT-Feldnamen-Restdrift): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-79-round4-ssot-feldnamen-restdrift.md`
+
+
+- **Durchlauf 80 (2026-03-08):** Round-4-Anschlusslauf zur Formatpflege abgeschlossen: Im Abschnitt „Para-Creature-Generator: Rift Casefile Edition" in `gameplay/kreative-generatoren-begegnungen.md` wurden Long-Line-Hotspots in mehrzeilige Listen/Bullets überführt (reine Lesbarkeitsverbesserung ohne Regel- oder SSOT-Änderung); Pflicht-Smoke + Linklint erneut grün.
+
+- Fahrplan (Round4 Formatpflege Long-Lines): `internal/qa/plans/issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`
+- Log (Round4 Formatpflege Long-Lines): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-80-round4-formatpflege-long-lines.md`
