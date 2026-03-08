@@ -2191,6 +2191,9 @@ _Implementations-Package für Code, Art & Content_
 > Die Stadt wird bei jedem Betreten **frisch instanziert** (gelockt auf die Episodenepoche),
 > mit neuen Bewohnern, Händlern und Begegnungen.
 > Die ringförmige Stadt schmiegt sich um das zentrale ITI-Hauptquartier.
+> Die Lauflogik bleibt als **Schlauchroute** gesetzt: Eintritt durch die
+> Eingangsschleuse, einmal um den Ring, Exit über die gegenüberliegende
+> Ausgangsschleuse.
 > **Keine Waffenruhe** — hier passiert alles, ohne Szenencount.
 > **Tod folgt auch in Chronopolis der Core-/Rift-Regel:** kein Sonder-Respawn,
 > kein Traum-Reset. Im Gruppenmodus greift die verpflichtende
@@ -2204,6 +2207,8 @@ _Implementations-Package für Code, Art & Content_
 
 Chronopolis erreichst du nicht wie einen Raum nebenan, sondern über eine
 Schleuse. Der Moment bleibt jedes Mal ein psychologischer Engpass.
+Der Pfad ist bewusst nicht frei verzweigt, sondern als Ring-Schlauch geführt:
+Entry am Pre-City-Hub, Traverse durch den City-Ring, Exit auf der Gegenseite.
 
 #### Eintritt (ITI → Chronopolis)
 

@@ -72,6 +72,12 @@ anschlussfähig dokumentieren.
   `ITI-Ruf-Update` vereinheitlicht und HQ-/Lizenzfreigaben klar als formalen
   `reputation.iti`-Pfad getrennt von Fraktionsruf (politisches Signal)
   dokumentiert.
+- **Durchlauf 64 (2026-03-08):** Chronopolis-Wegführung als
+  Schlauchlevel explizit verankert (`Eingangsschleuse -> Ringlauf ->
+  gegenüberliegende Ausgangsschleuse`) in `core/sl-referenz.md` und
+  `gameplay/kampagnenstruktur.md`; zusätzlich `core/zeitriss-core.md` bei
+  Level-10-Meilenstein auf Verantwortung + Chronopolis-Schlüssel gehärtet
+  und Shop-/Lizenzfreigaben weiter auf `ITI-Ruf + Lizenz-Tier` fixiert.
 
 ## Verknüpfung
 
@@ -89,4 +95,6 @@ anschlussfähig dokumentieren.
 - Log (Greys/Feindbild): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-62-ruf-alien-greys-feindbild.md`
 - Fahrplan (Debrief/HQ-SSOT): `internal/qa/plans/issue-pack-durchlauf-63-ruf-alien-debrief-hq-ssot.md`
 - Log (Debrief/HQ-SSOT): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-63-ruf-alien-debrief-hq-ssot.md`
+- Fahrplan (Chronopolis-Schlauchlevel): `internal/qa/plans/issue-pack-durchlauf-64-ruf-alien-chronopolis-schlauchlevel.md`
+- Log (Chronopolis-Schlauchlevel): `internal/qa/logs/2026-03-08-issue-pack-durchlauf-64-ruf-alien-chronopolis-schlauchlevel.md`
 - Prozessanker: `internal/qa/process/known-issues.md` (ZR-018)
